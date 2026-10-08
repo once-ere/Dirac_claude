@@ -51,7 +51,9 @@ FACTS = {
         "partner has the opposite charge density, current and energy-momentum tensor "
         "(all 36 components, along the canonical deflating history a4 = A H x4), that "
         "the T2 partner has the same ones and the opposite scalar S, that the charge "
-        "obeys its conservation law, and that the spectra of the partners are equal. "
+        "obeys its local conservation law (with a flow through the brane, so the "
+        "total charge of the patch is not constant), and that the spectra of the "
+        "partners are equal. "
         "For the quantum reading Q it reproduces the one-particle samples of the "
         "Revision pairing record (frequencies, eigenspace dimensions, Krein inertia "
         "(4,4), the Krein-neutral imaginary and zero frequencies) and shows that the "
@@ -659,16 +661,21 @@ CELLS = [
     at all sampled times: the energy density is $\rho = -T_{x_4x_4} = mS +
     \frac{\lambda}{2}S^2$; the three kinds of pressure $p_\mu = -g^{\mu\mu}T_{\mu\mu}$
     (3-space, extra times, hidden direction) all equal $\frac{\lambda}{2}S^2$; and the
-    mixed component $T_{x_4x_8}$ vanishes. It also checks the conservation of the
-    charge: the charge density can change in time only by flowing along the hidden
-    direction, $\partial_4J^{x_4} + \frac{1}{\sqrt{|g|}}\partial_8(\sqrt{|g|}J^{x_8}) =
-    0$; for a homogeneous field $J^{x_8} = \tan z\,Q$ with $Q = -i\bar\Psi
-    \gamma^{(x_8)}\Psi$ and $\sqrt{|g|} = \cos z$, so the law reads $\partial_4
-    J^{x_4} = -6HQ$, where $\partial_4J^{x_4} = 2\,\mathrm{Re}(\Psi^\dagger BM\Psi)$
-    follows from the field equation.
+    mixed component $T_{x_4x_8}$ vanishes. It also checks the LOCAL conservation law
+    of the charge: the charge density can change in time only by flowing along the
+    hidden direction, $\partial_4J^{x_4} + \frac{1}{\sqrt{|g|}}\partial_8(\sqrt{|g|}
+    J^{x_8}) = 0$; for a homogeneous field $J^{x_8} = \tan z\,q_8$ with the frame
+    current $q_8 = -i\bar\Psi\gamma^{(x_8)}\Psi$ (a number that does not depend on
+    $x_8$) and $\sqrt{|g|} = \cos z$, so the law reads $\partial_4J^{x_4} = -6Hq_8$,
+    where $\partial_4J^{x_4} = 2\,\mathrm{Re}(\Psi^\dagger BM\Psi)$ follows from the
+    field equation. The flow through the brane $z = \pi/2$ is $\sqrt{|g|}J^{x_8} =
+    \sin z\,q_8 = q_8$ there; the cell prints the range of $q_8$: it is not zero, so
+    the total charge of the patch is NOT constant for this solution (charge flows
+    through the brane), although the local law holds exactly.
     """),
     code(r'''
     rho_ok = p_ok = mixed_ok = flow_ok = True
+    q8_values = []  # the frame current q8 at the sampled times
     for n, (S, J, T) in zip(SAMPLE, data["psi"]):
         geo = geometry_at(times[n], Z0, 1)
         rho_ok = rho_ok and abs(-T[3, 3] - (m * S + 0.5 * lam * S ** 2)) < 1e-12
@@ -677,14 +684,18 @@ CELLS = [
         mixed_ok = mixed_ok and abs(T[3, 7]) < 1e-12 * scale_T
         field = psi[n]
         dJ4 = 2 * (field.conj() @ B @ generator(field, m, lam, 1) @ field).real
-        Q = (-1j * field.conj() @ C @ gamma[8] @ field).real
-        flow_ok = flow_ok and abs(dJ4 + 6 * H * Q) < 1e-12
+        q8 = (-1j * field.conj() @ C @ gamma[8] @ field).real
+        q8_values.append(q8)
+        flow_ok = flow_ok and abs(dJ4 + 6 * H * q8) < 1e-12
     reproduces(rho_ok and p_ok and mixed_ok,
                "rho = m S + (l/2) S^2, all pressures (l/2) S^2, T_x4x8 = 0 (homogeneous)",
                (TH_PY, ["commuting_homogeneous_on_shell_rho_p",
                         "commuting_T_x4x8_homogeneous"]))
-    reproduces(flow_ok, "the charge is conserved: d4 J^x4 = -6 H Q (flow along x8)",
+    reproduces(flow_ok, "local charge conservation: d4 J^x4 = -6 H q8 (flow along x8)",
                (TH_PY, ["commuting_current_conservation"]))
+    say(f"q8 lies between {min(q8_values):.4f} and {max(q8_values):.4f}: the flow "
+        "sin z q8 through the brane z = pi/2 is not zero, so the charge of the "
+        "patch changes in time")
     '''),
     md(r"""
     The next cell draws the pair of T1 in three panels, against the time $x_4$:
@@ -1107,7 +1118,10 @@ CELLS = [
       author's metric with $m = 1$, $H = 0.2$, $\lambda = 0.3$ (illustrative values),
       with constant $S$, oscillating at the frequency $w = \sqrt{(m + \lambda S)^2 -
       9H^2}$, and with the charge flowing along the hidden direction exactly as the
-      conservation law requires.
+      local conservation law requires. The flow through the brane $z = \pi/2$ is not
+      zero, so the total charge of the patch is not constant for this solution; a
+      constant total charge would need a no-flux condition at the brane, which is
+      not derived (OPEN).
     - COMPUTED, theorem T1: the theory with $(-m, -\lambda)$, solved on its own from
       $\Gamma\Psi(0)$, gives $\Gamma\Psi(x_4)$ at all times; its charge density,
       current and all 36 components of $T_{\mu\nu}$ along the deflating history

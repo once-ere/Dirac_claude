@@ -39,6 +39,8 @@ The Wolfram side and the sympy side share no code; the sympy side rebuilds the g
 - **Parameters**: the mass $m$ and the coupling $\lambda$ of the potential $U(S) = \frac{\lambda}{2}S^2$. The theory with the parameters $(m, \lambda)$ and the theory with $(-m, -\lambda)$ are two DIFFERENT theories: their Lagrangians are different functions of the field.
 - **Map**: a rule that turns a field $\Psi$ into a new field $\Psi'$. All maps of this chapter are of the form $\Psi'(x) = M\Psi(x)$ with a constant $16 \times 16$ matrix $M$, possibly combined with a change of the coordinate $x_8$.
 - **Bilinear**: an expression $\Psi^\dagger X\Phi = \sum_{A,B}\Psi_A^*X_{AB}\Phi_B$ with a matrix $X$ of numbers or of ordinary functions; $X$ is its **kernel**.
+- **Signed permutation matrix**: a matrix with exactly one nonzero entry, $+1$ or $-1$, in each row and in each column. Multiplying a column of 16 numbers by it reorders the numbers and changes the signs of some of them. Each of the author's gammas is such a matrix.
+- **Projector**: a matrix $P$ with $PP = P$. It keeps one part of a column and removes the rest; doing it twice changes nothing more. The **chiral projectors** $P_- = \frac12(1 - \Gamma)$ and $P_+ = \frac12(1 + \Gamma)$ keep the components 1 to 8, respectively 9 to 16, and set the other eight to zero.
 - **Dirac adjoint**: the row $\bar\Psi = \Psi^\dagger C$, with the charge matrix $C$ of Chapter 5. The **scalar** is $S = \bar\Psi\Psi = \Psi^\dagger C\Psi$.
 - **Chirality**: the matrix $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\cdots\gamma^{(x_7)}$, the product of all eight gammas in the author's order (the author's T16[8]).
 - **Chiral halves**: the components 1 to 8 of $\Psi$, written $\psi_-$ (where $\Gamma = -1$), and 9 to 16, written $\psi_+$ (where $\Gamma = +1$).
@@ -50,6 +52,9 @@ The Wolfram side and the sympy side share no code; the sympy side rebuilds the g
 - **Isometry**: a change of coordinates that does not change the metric.
 - **Jet**: at one point, the values of the 16 components, of their 16 complex conjugates and of their $8 \times 16 + 8 \times 16$ first derivatives: 288 numbers. A Lagrangian at a point is a polynomial in these 288 numbers.
 - **Negative control**: a computation that must FAIL. It shows that a test can detect a wrong statement.
+- **Junction condition**: an equation that says how the fields and the geometry must match across a surface, here across the brane $z = \pi/2$. **Brane tension**: an energy per unit area carried by such a surface itself (for the brane, per unit of its seven-dimensional area).
+- **Legendre transform**: the rule that turns a Lagrangian into the energy (Hamiltonian) density: for each field, its time derivative times its canonical momentum, summed over the fields, minus the Lagrangian.
+- Words used only in Section 18.28, in the list of what is NOT established: a **vacuum** is a state with no particles, and **vacuum decay** is its change into a state of lower energy; **tunnelling** is a quantum transition through a region that the classical equations forbid, for example through an energy barrier; a **cross-section** is a number, with the units of an area, that measures how likely a collision or a reaction is; a **Bogoliubov coefficient** says how much of the particles of one choice of vacuum the vacuum of another choice contains, and so how many particles a changing background creates; the **wave function of the universe** is a quantum state assigned to a whole universe, its geometry included; a **path integral** computes a quantum amplitude by adding one contribution for every possible history of the fields.
 
 ### 18.3 The stage: the author's metric, its frame and its spin connection
 
@@ -112,7 +117,25 @@ $$
 \omega_a{}^a{}_b = f_a\,\frac{\partial_bf_a}{f_a}\,\frac{1}{f_b} = \frac{\partial_bf_a}{f_b},\qquad \omega_{a,ab} = \eta_{aa}\frac{\partial_bf_a}{f_b} .
 $$
 
-The first equation inserts the line before into the line before that; the second lowers the index $a$ with $\eta_{aa}$. The component with the derivative index $b$ follows in the same way from $\Gamma^a{}_{bb}$: $\omega_{b,ab} = -\eta_{bb}\,\partial_af_b/f_a = -\omega_{b,ba}$, which is the same formula with $a$ and $b$ exchanged and the antisymmetry $\omega_{\mu ab} = -\omega_{\mu ba}$. Components whose three indices are all different contain a Christoffel symbol with three different indices and vanish, and $\omega_\mu{}^a{}_a = f_a(-\partial_\mu f_a/f_a^2 + \partial_\mu f_a/f_a^2) = 0$. So **the only nonzero components are $\omega_{a,ab} = \eta_{aa}\,\partial_bf_a/f_b$ and $\omega_{a,ba} = -\omega_{a,ab}$, for $a \neq b$.**
+The first equation inserts the line before into the line before that; the second lowers the index $a$ with $\eta_{aa}$. Now the component with the derivative index $\mu = b$, line by line:
+
+$$
+\omega_b{}^a{}_b = e^a{}_a\big(\partial_be^a{}_b + \Gamma^a{}_{b\lambda}e^\lambda{}_b\big) = f_a\Big(0 + \Gamma^a{}_{bb}\frac{1}{f_b}\Big) .
+$$
+
+The same two facts as before: $e^a{}_\nu$ keeps only $\nu = a$, $e^a{}_b = 0$ for $a \neq b$, and $e^\lambda{}_b = \delta^\lambda_b/f_b$ keeps only $\lambda = b$.
+
+$$
+\Gamma^a{}_{bb} = -\frac{\partial_a(\eta_{bb}f_b^2)}{2\eta_{aa}f_a^2} = -\frac{2\eta_{bb}f_b\,\partial_af_b}{2\eta_{aa}f_a^2} = -\eta_{aa}\eta_{bb}\,\frac{f_b\,\partial_af_b}{f_a^2} .
+$$
+
+We inserted $g_{bb} = \eta_{bb}f_b^2$ and $g_{aa} = \eta_{aa}f_a^2$ into the second Christoffel formula, used the chain rule, and replaced $1/\eta_{aa}$ by $\eta_{aa}$ (it is $+1$ or $-1$).
+
+$$
+\omega_b{}^a{}_b = f_a\Big(-\eta_{aa}\eta_{bb}\frac{f_b\,\partial_af_b}{f_a^2}\Big)\frac{1}{f_b} = -\eta_{aa}\eta_{bb}\,\frac{\partial_af_b}{f_a},\qquad \omega_{b,ab} = \eta_{aa}\,\omega_b{}^a{}_b = -\eta_{bb}\,\frac{\partial_af_b}{f_a} .
+$$
+
+The first equation inserts the line before and cancels $f_b$ and one $f_a$; the second lowers the index $a$ with $\eta_{aa}$ and uses $\eta_{aa}^2 = 1$. Compare with the formula $\omega_{a,ab} = \eta_{aa}\,\partial_bf_a/f_b$ found first: exchanging the names $a$ and $b$ in it gives $\omega_{b,ba} = \eta_{bb}\,\partial_af_b/f_a$, so $\omega_{b,ab} = -\omega_{b,ba}$, the antisymmetry $\omega_{\mu ab} = -\omega_{\mu ba}$. Components whose three indices are all different contain a Christoffel symbol with three different indices and vanish, and $\omega_\mu{}^a{}_a = f_a(-\partial_\mu f_a/f_a^2 + \partial_\mu f_a/f_a^2) = 0$. So **the only nonzero components are $\omega_{a,ab} = \eta_{aa}\,\partial_bf_a/f_b$ and $\omega_{a,ba} = -\omega_{a,ab}$, for $a \neq b$.**
 
 **The twelve components in the author's metric.** The factors depend only on $x_4$ (through $a_4$) and on $x_8$ (through $z$), and $\partial_8 = 6H\,d/dz$ because $z = 6Hx_8$. Write $a_4' = da_4/dx_4$.
 
@@ -210,7 +233,7 @@ $$
 T_{\mu\nu} = \frac14\big(\bar\Psi\gamma_\mu D_\nu\Psi + \bar\Psi\gamma_\nu D_\mu\Psi - (D_\mu\bar\Psi)\gamma_\nu\Psi - (D_\nu\bar\Psi)\gamma_\mu\Psi\big) - g_{\mu\nu}\frac{\mathcal{L}}{\sqrt{|g|}} ,
 $$
 
-which is minus the tensor of Chapter 9; in this convention the energy density is $\rho = -T_{x_4x_4}$ and the pressure of a direction $\mu \neq x_4$ is $p_\mu = -g^{\mu\mu}T_{\mu\mu}$. The current is a multiple of $\bar\Psi\gamma^\mu\Psi$: the theory record and Notebook 18c use $J^\mu = -i\bar\Psi\gamma^\mu\Psi$, whose time component is the charge density $J^{x_4} = -i\Psi^\dagger C\gamma^{(x_4)}\Psi = \Psi^\dagger B\Psi$, with the charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of a slice $x_4 = \mathrm{const}$; the sympy pairing checker and Notebook 18b use $i\bar\Psi\gamma^\mu\Psi$, the Wolfram checker $\bar\Psi\gamma^\mu\Psi$. Every statement of this chapter about $T$ and $J$ has the form $T' = \pm T$ or $J' = \pm J$; such a statement is unchanged when $T$ or $J$ is multiplied by any fixed number, so the different conventions do not matter.
+which is minus the tensor of Chapter 9; in this convention the energy density is $\rho = -T_{x_4x_4}$ and the pressure of a direction $\mu \neq x_4$ is $p_\mu = -g^{\mu\mu}T_{\mu\mu}$. The current is a multiple of $\bar\Psi\gamma^\mu\Psi$: the theory record and Notebook 18c use $J^\mu = -i\bar\Psi\gamma^\mu\Psi$, whose time component is the charge density $J^{x_4} = -i\Psi^\dagger C\gamma^{(x_4)}\Psi = \Psi^\dagger B\Psi$, with the charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of a slice $x_4 = \mathrm{const}$ (the integral runs over the seven coordinates other than $x_4$, with $x_8$ over the patch; in a formula the letter $Q$ always means this charge, while the plain name Q, without a formula, is the quantum theorem of Section 18.22); the sympy pairing checker and Notebook 18b use $i\bar\Psi\gamma^\mu\Psi$, the Wolfram checker $\bar\Psi\gamma^\mu\Psi$. Every statement of this chapter about $T$ and $J$ has the form $T' = \pm T$ or $J' = \pm J$; such a statement is unchanged when $T$ or $J$ is multiplied by any fixed number, so the different conventions do not matter.
 
 ### 18.5 Four matrix lemmas
 
@@ -354,7 +377,7 @@ Notebook 18a first answers the question that every later step depends on: are th
 
 ### 18.9 Line-by-line walk-through of Notebook 18a
 
-The notebook has 19 code cells, In [1] to In [19]. This section explains every line of every one of them. The words of the notebook's section 3 (matrix, transpose, signed permutation matrix, projector, character, Krein sign) were defined in Sections 18.2 and 18.5.
+The notebook has 19 code cells, In [1] to In [19]. This section explains every line of every one of them. The words of the notebook's section 3 are defined there, and in this chapter as follows: matrix and transpose in the Notation paragraph of Section 18.1 (matrices themselves in Chapter 1); signed permutation matrix, projector, character and Krein sign in Section 18.2; the characters and the Krein signs of the maps again in Lemmas 3 and 4 of Section 18.5.
 
 **In [1], the set-up cell.** Its first part repeats the complete run instructions of Section 18.7 as **comment lines**: every line that starts with `#` is a comment, which Python skips; they are there so that the notebook file carries its own instructions. The code starts below the line THE SET-UP between two lines of `=` signs. This code is the same in every notebook of the book except for the line that names the notebook; it is explained here once, and the walk-throughs of Notebooks 18b and 18c refer back to this explanation. The texts in triple quotes below a `def` line are **docstrings**: they describe the function and do nothing when the code runs.
 
@@ -1330,7 +1353,7 @@ which are the old equations: the first is unchanged because $(-V)(-\psi_-) = V\p
 
 **What the map does to the components.** $\Gamma$ is $-1$ on one irreducible half of Spin(4,4) and $+1$ on the other; the partner differs from $\Psi$ only by the relative sign of its two inequivalent halves (Figure 18a.5). $\Gamma$ is itself an element of Pin(4,4), a product of eight unit vectors.
 
-**T1 and charge conjugation (rule of this book: charge conjugation is a matrix).** Chapter 5 derived the two charge-conjugation matrices of the author's gammas. Every matrix $M$ with $M(\gamma^{(a)})^* = s\,\gamma^{(a)}M$ for all $a$ is a multiple of $1$ when $s = +1$ and a multiple of $\Gamma$ when $s = -1$ (`charge-conjugation-and-u1.json`, checks `intertwiners_same_mass` and `intertwiners_reversed_mass`). This gives two charge-conjugation matrices: $\mathcal{C}_+ = C$, with $\mathcal{C}_+^{-1}\gamma^{(a)}\mathcal{C}_+ = -(\gamma^{(a)})^T$, which keeps the mass and gives the conjugate field $\Psi^c = \mathcal{C}_+\bar\Psi^T = \Psi^*$; and $\mathcal{C}_- = \Gamma C$, with $\mathcal{C}_-^{-1}\gamma^{(a)}\mathcal{C}_- = +(\gamma^{(a)})^T$, which REVERSES the mass and gives $\Psi^c = \mathcal{C}_-\bar\Psi^T = \Gamma\Psi^*$ (checks `charge_conjugation_matrix_plus` and `charge_conjugation_matrix_minus`). Because the author's gammas, $C$ and the spin connection are REAL, plain complex conjugation of a real field does nothing: a real commuting field is its own $\mathcal{C}_+$ conjugate and carries no U(1) charge ($J^\mu = 0$ identically), so complex conjugation alone can never be what exchanges matter and antimatter (checks `representation_real` and `real_fields_charge_conjugation`). For such a real field, $\Psi^* = \Psi$, so the $\mathcal{C}_-$ conjugate $\Gamma\Psi^*$ is exactly the T1 image $\Gamma\Psi$: **on real fields, T1 is the mass-reversing charge conjugation by the matrix $\Gamma$**, and it maps solutions with $(m, \lambda)$ to solutions with $(-m, -\lambda)$ (same check). For complex fields the two maps differ: T1 is linear ($\Psi \to \Gamma\Psi$) and reverses $J$, while the $\mathcal{C}_-$ conjugation is antilinear ($\Psi \to \Gamma\Psi^*$); for commuting components it keeps $J$ (check `bilinears_under_charge_conjugation`). For the quantised field the conjugation that preserves the canonical anticommutator is $\Psi \to \Gamma\Psi^{\dagger T}$, and it too reverses the mass (check `quantum_charge_conjugation_unitary_type`). Chapter 21 uses these facts for matter and antimatter.
+**T1 and charge conjugation (rule of this book: charge conjugation is a matrix).** Chapter 5 derived the two charge-conjugation matrices of the author's gammas. Every matrix $M$ with $M(\gamma^{(a)})^* = s\,\gamma^{(a)}M$ for all $a$ is a multiple of $1$ when $s = +1$ and a multiple of $\Gamma$ when $s = -1$ (`charge-conjugation-and-u1.json`, checks `intertwiners_same_mass` and `intertwiners_reversed_mass`). This gives two charge-conjugation matrices: $\mathcal{C}_+ = C$, with $\mathcal{C}_+^{-1}\gamma^{(a)}\mathcal{C}_+ = -(\gamma^{(a)})^T$, which keeps the mass and gives the conjugate field $\Psi^c = \mathcal{C}_+\bar\Psi^T = \Psi^*$; and $\mathcal{C}_- = \Gamma C$, with $\mathcal{C}_-^{-1}\gamma^{(a)}\mathcal{C}_- = +(\gamma^{(a)})^T$, which REVERSES the mass and gives $\Psi^c = \mathcal{C}_-\bar\Psi^T = \Gamma\Psi^*$ (checks `charge_conjugation_matrix_plus` and `charge_conjugation_matrix_minus`). Because the author's gammas, $C$ and the spin connection are REAL, plain complex conjugation of a REAL field does nothing: a real commuting field is its own $\mathcal{C}_+$ conjugate and carries no U(1) charge ($J^\mu = 0$ identically), so for a real field complex conjugation cannot be what exchanges matter and antimatter (checks `representation_real` and `real_fields_charge_conjugation`). For a COMPLEX field the conjugations are defined by the matrices and act differently: the same-mass conjugation by $\mathcal{C}_+$, whose result happens to be $\Psi^c = \mathcal{C}_+\bar\Psi^T = \Psi^*$, keeps $S$ and REVERSES $J$ for commuting components, $(S, J) \to (S, -J)$; for Grassmann components it gives $(S, J) \to (-S, +J)$ as classical bilinears, and the standard $(S, -J)$ after normal ordering in the quantum theory; the mass-reversing conjugation by $\mathcal{C}_-$, $\Psi^c = \Gamma\Psi^*$, gives $(S, +J)$ for commuting and $(-S, -J)$ for Grassmann components (check `bilinears_under_charge_conjugation`). In every case the charge conjugation is the matrix $\mathcal{C}_+$ or $\mathcal{C}_-$ applied to $\bar\Psi^T$; complex conjugation by itself is not called charge conjugation in this book. For such a real field, $\Psi^* = \Psi$, so the $\mathcal{C}_-$ conjugate $\Gamma\Psi^*$ is exactly the T1 image $\Gamma\Psi$: **on real fields, T1 is the mass-reversing charge conjugation by the matrix $\Gamma$**, and it maps solutions with $(m, \lambda)$ to solutions with $(-m, -\lambda)$ (same check). For complex fields the two maps differ: T1 is linear ($\Psi \to \Gamma\Psi$) and reverses $J$, while the $\mathcal{C}_-$ conjugation is antilinear ($\Psi \to \Gamma\Psi^*$); for commuting components it keeps $J$ (check `bilinears_under_charge_conjugation`). For the quantised field the conjugation that preserves the canonical anticommutator is $\Psi \to \Gamma\Psi^{\dagger T}$, and it too reverses the mass (check `quantum_charge_conjugation_unitary_type`). Chapter 21 uses these facts for matter and antimatter.
 
 ### 18.14 Theorem T2: the mirror pairing
 
@@ -1382,7 +1405,25 @@ $$
 \bar\Psi' = \Psi^\dagger(\gamma^{(n)})^TC = \eta_{nn}\Psi^\dagger\gamma^{(n)}C = \eta_{nn}\Psi^\dagger(-\eta_{nn}C\gamma^{(n)}) = -\bar\Psi\gamma^{(n)} .
 $$
 
-The definition of the adjoint with $(M\Psi)^\dagger = \Psi^\dagger M^T$ for a real $M$; the transpose rule; the relation just derived; $\eta_{nn}^2 = 1$. In the same way, with Step 1, $D'_\mu\bar\Psi' = -(D_\mu\bar\Psi)\gamma^{(n)}$.
+The definition of the adjoint with $(M\Psi)^\dagger = \Psi^\dagger M^T$ for a real $M$; the transpose rule; the relation just derived; $\eta_{nn}^2 = 1$. Now the derivative of the adjoint, with the connection $\Omega'_\mu$ of Step 1:
+
+$$
+D'_\mu\bar\Psi' = \partial_\mu\bar\Psi' - \bar\Psi'\Omega'_\mu = -(\partial_\mu\bar\Psi)\gamma^{(n)} + \bar\Psi\gamma^{(n)}\gamma^{(n)}\Omega_\mu(\gamma^{(n)})^{-1} .
+$$
+
+The definition $D_\mu\bar\Psi = \partial_\mu\bar\Psi - \bar\Psi\Omega_\mu$; then $\bar\Psi' = -\bar\Psi\gamma^{(n)}$ (the constant $\gamma^{(n)}$ comes out of $\partial_\mu$) and $\Omega'_\mu = \gamma^{(n)}\Omega_\mu(\gamma^{(n)})^{-1}$ (Step 1); the two minus signs of the second term multiply to $+1$.
+
+$$
+\bar\Psi\gamma^{(n)}\gamma^{(n)}\Omega_\mu(\gamma^{(n)})^{-1} = \eta_{nn}\,\bar\Psi\Omega_\mu\,\eta_{nn}\gamma^{(n)} = \bar\Psi\Omega_\mu\gamma^{(n)} .
+$$
+
+The Clifford relation $\gamma^{(n)}\gamma^{(n)} = \eta_{nn}$, the inverse $(\gamma^{(n)})^{-1} = \eta_{nn}\gamma^{(n)}$ (Lemma 3, proof of 2), and $\eta_{nn}^2 = 1$.
+
+$$
+D'_\mu\bar\Psi' = -(\partial_\mu\bar\Psi)\gamma^{(n)} + \bar\Psi\Omega_\mu\gamma^{(n)} = -\big(\partial_\mu\bar\Psi - \bar\Psi\Omega_\mu\big)\gamma^{(n)} = -(D_\mu\bar\Psi)\gamma^{(n)} .
+$$
+
+We inserted the line before, took out the common factor $-(\cdots)\gamma^{(n)}$ on the right, and recognised $D_\mu\bar\Psi$.
 
 **Step 3: the gammas of the reflected frame.** $\gamma'^\mu = \sum_ae'^\mu{}_a\gamma^{(a)} = \sum_ae^\mu{}_a(R_n)_{aa}\gamma^{(a)}$. For $a \neq n$, $(R_n)_{aa}\gamma^{(a)}\gamma^{(n)} = \gamma^{(a)}\gamma^{(n)} = -\gamma^{(n)}\gamma^{(a)}$; for $a = n$, $(R_n)_{nn}\gamma^{(n)}\gamma^{(n)} = -\gamma^{(n)}\gamma^{(n)}$. So in both cases $(R_n)_{aa}\gamma^{(a)}\gamma^{(n)} = -\gamma^{(n)}\gamma^{(a)}$, and summing with the coefficients $e^\mu{}_a$:
 
@@ -1396,7 +1437,25 @@ $$
 \bar\Psi'\gamma'^\mu D'_\mu\Psi' = -\bar\Psi\gamma^{(n)}\,\gamma'^\mu\gamma^{(n)}D_\mu\Psi = -\bar\Psi\gamma^{(n)}(-\gamma^{(n)}\gamma^\mu)D_\mu\Psi = \eta_{nn}\,\bar\Psi\gamma^\mu D_\mu\Psi .
 $$
 
-The last step is $\gamma^{(n)}\gamma^{(n)} = \eta_{nn}$. In the same way $(D'_\mu\bar\Psi')\gamma'^\mu\Psi' = \eta_{nn}(D_\mu\bar\Psi)\gamma^\mu\Psi$, so $K' = \eta_{nn}K$. And
+The first step inserts $\bar\Psi' = -\bar\Psi\gamma^{(n)}$ (Step 2), $D'_\mu\Psi' = \gamma^{(n)}D_\mu\Psi$ (Step 1); the second is Step 3; the last step is $\gamma^{(n)}\gamma^{(n)} = \eta_{nn}$ and $(-1)(-1) = 1$. The second half of $K$, line by line:
+
+$$
+(D'_\mu\bar\Psi')\gamma'^\mu\Psi' = -(D_\mu\bar\Psi)\gamma^{(n)}\gamma'^\mu\gamma^{(n)}\Psi .
+$$
+
+We inserted $D'_\mu\bar\Psi' = -(D_\mu\bar\Psi)\gamma^{(n)}$ (Step 2) and $\Psi' = \gamma^{(n)}\Psi$.
+
+$$
+\gamma^{(n)}\gamma'^\mu\gamma^{(n)} = \gamma^{(n)}\big(-\gamma^{(n)}\gamma^\mu\big) = -\eta_{nn}\gamma^\mu .
+$$
+
+Step 3 replaced $\gamma'^\mu\gamma^{(n)}$ by $-\gamma^{(n)}\gamma^\mu$; then $\gamma^{(n)}\gamma^{(n)} = \eta_{nn}$.
+
+$$
+(D'_\mu\bar\Psi')\gamma'^\mu\Psi' = -(D_\mu\bar\Psi)\big(-\eta_{nn}\gamma^\mu\big)\Psi = \eta_{nn}\,(D_\mu\bar\Psi)\gamma^\mu\Psi .
+$$
+
+We inserted the line before; the two minus signs multiply to $+1$. Both halves of $K$ are multiplied by $\eta_{nn}$, so $K' = \eta_{nn}K$. And
 
 $$
 S' = \bar\Psi'\Psi' = -\bar\Psi\gamma^{(n)}\gamma^{(n)}\Psi = -\eta_{nn}S .
@@ -1462,7 +1521,7 @@ The plain mirror fails because the pull-back reverses the hidden leg of the fram
 
 In the author's field only the reflection of $x_8$ is realised by an isometry that maps the patch onto another patch, the mirror across the Z2 brane; the reflections of $x_1, x_2, x_3$ are statements about frames.
 
-**What T2 says and does not say.** T2 pairs a solution with mass $-m$ on the patch with a solution with mass $+m$ on the mirror patch, at the SAME coupling and with EQUAL energy density and charge density: nothing cancels in a T2 pair. The gluing of the two patches at the degenerate brane is an assumption; no junction condition, brane tension or matching of the field across the brane is derived (`pairing-theory.json`, the list `not_established`).
+**What T2 says and does not say.** T2 pairs a solution with mass $-m$ on the patch with a solution with mass $+m$ on the mirror patch, at the SAME coupling and with EQUAL energy density and charge density: nothing cancels in a T2 pair. The gluing of the two patches at the degenerate brane is an assumption; no junction condition (an equation that says how the fields and the geometry must match across the brane), brane tension (an energy per unit area carried by the brane itself) or matching of the field across the brane is derived (`pairing-theory.json`, the list `not_established`).
 
 ### 18.17 Example: Notebook 18b proves T1 and T2 in the author's metric
 
@@ -2627,13 +2686,27 @@ $$
 
 Check: the derivative is $-w\sin(wx_4)\Psi(0) + \cos(wx_4)M\Psi(0)$, and $M\Psi(x_4) = \cos(wx_4)M\Psi(0) + \frac{\sin(wx_4)}{w}M^2\Psi(0)$ is the same, because $M^2 = -w^2$. At $x_4 = 0$ the formula gives $\Psi(0)$. The solution **oscillates** with the frequency $w$. When $V^2 < 9H^2$, cosine and sine become cosh and sinh and the solution **grows** exponentially: inside the window $|m + \lambda S_0| < 3H$ these modes are not oscillations but growth (`python-scope.json`, check `good_sector_x8_independent_modes_without_boundary_condition`; Chapter 8). PROVED: `python-field-theory.json`, check `exact_nonlinear_homogeneous_solution`; `wolfram-field-theory.json`, check `exact_solution_nonlinear_homogeneous_C`. The history $a_4$ does not enter $M$, but it enters the energy-momentum tensor through the vielbein factors $e^{\pm a_4}$ and through the spin connection (Notebook 18c, Figure 18c.3).
 
-**What the theory record says about these solutions.** For homogeneous solutions, on shell, the energy density is $\rho = mS + \frac{\lambda}{2}S^2$, every pressure (3-space, extra times, hidden direction) is $p = \frac{\lambda}{2}S^2$, and the mixed component $T_{x_4x_8}$ vanishes (`python-field-theory.json`, checks `commuting_homogeneous_on_shell_rho_p` and `commuting_T_x4x8_homogeneous`). The charge density $J^{x_4} = \Psi^\dagger B\Psi$ is NOT constant: the conservation law $\partial_4J^{x_4} + \frac{1}{\sqrt{|g|}}\partial_8(\sqrt{|g|}J^{x_8}) = 0$ holds with a flow along the hidden direction. For a homogeneous field $J^{x_8} = -i\bar\Psi\gamma^{(x_8)}\Psi/f_8 = \tan z\,Q$ with $Q = -i\bar\Psi\gamma^{(x_8)}\Psi$, and $\sqrt{|g|}J^{x_8} = \cos z\tan z\,Q = \sin z\,Q$, so
+**What the theory record says about these solutions.** For homogeneous solutions, on shell, the energy density is $\rho = mS + \frac{\lambda}{2}S^2$, every pressure (3-space, extra times, hidden direction) is $p = \frac{\lambda}{2}S^2$, and the mixed component $T_{x_4x_8}$ vanishes (`python-field-theory.json`, checks `commuting_homogeneous_on_shell_rho_p` and `commuting_T_x4x8_homogeneous`). The charge density $J^{x_4} = \Psi^\dagger B\Psi$ is NOT constant: the conservation law $\partial_4J^{x_4} + \frac{1}{\sqrt{|g|}}\partial_8(\sqrt{|g|}J^{x_8}) = 0$ holds with a flow along the hidden direction. For a homogeneous field $J^{x_8} = -i\bar\Psi\gamma^{(x_8)}\Psi/f_8 = \tan z\,q_8$ with the **frame current** $q_8 = -i\bar\Psi\gamma^{(x_8)}\Psi$ (a number that depends on $x_4$ only; it is NOT the charge $Q$), and $\sqrt{|g|}J^{x_8} = \cos z\tan z\,q_8 = \sin z\,q_8$, so
 
 $$
-\frac{1}{\sqrt{|g|}}\partial_8\big(\sqrt{|g|}J^{x_8}\big) = \frac{6H\cos z\,Q}{\cos z} = 6HQ,\qquad \frac{dJ^{x_4}}{dx_4} = -6HQ .
+\frac{1}{\sqrt{|g|}}\partial_8\big(\sqrt{|g|}J^{x_8}\big) = \frac{6H\cos z\,q_8}{\cos z} = 6Hq_8,\qquad \frac{dJ^{x_4}}{dx_4} = -6Hq_8 .
 $$
 
-The derivative $\partial_8 = 6H\,d/dz$ acts only on $\sin z$, because $Q$ does not depend on $x_8$. Notebook 18c checks this law along its solution (`python-field-theory.json`, check `commuting_current_conservation`).
+The derivative $\partial_8 = 6H\,d/dz$ acts only on $\sin z$, because $q_8$ does not depend on $x_8$; the second equation is the conservation law solved for $\partial_4J^{x_4}$. Notebook 18c checks this law along its solution (`python-field-theory.json`, check `commuting_current_conservation`).
+
+**The local law does not make the total charge constant.** The law above is LOCAL: it says that charge can leave a small region only by flowing through its surface. The total charge of the patch is constant only if nothing flows through the boundary of the patch. For a homogeneous field take a box of coordinate volume $V_6$ in the six directions $x_1, x_2, x_3, x_5, x_6, x_7$ (for a homogeneous field the current $J^\mu$ is the same at every point of the slice, so whatever flows in through one face of the box in these directions flows out through the opposite face: these faces add nothing), and the whole patch $0 < z < \pi/2$ in $x_8$. Its charge is
+
+$$
+Q(x_4) = \int\cos z\,J^{x_4}\,d^7x = V_6\,J^{x_4}(x_4)\int_0^{\pi/(12H)}\cos(6Hx_8)\,dx_8 = V_6\,J^{x_4}(x_4)\,\frac{1}{6H} .
+$$
+
+$J^{x_4}$ does not depend on the seven coordinates of the slice, so it comes out of the integral; the integral over the six directions of the box gives $V_6$; the substitution $z = 6Hx_8$, $dx_8 = dz/(6H)$, gives $\frac{1}{6H}\int_0^{\pi/2}\cos z\,dz = \frac{1}{6H}[\sin z]_0^{\pi/2} = \frac{1}{6H}$.
+
+$$
+\frac{dQ}{dx_4} = \frac{V_6}{6H}\,\frac{dJ^{x_4}}{dx_4} = \frac{V_6}{6H}\,(-6Hq_8) = -V_6\,q_8 .
+$$
+
+We differentiated the line before ($V_6$ and $H$ are constants) and inserted the law $dJ^{x_4}/dx_4 = -6Hq_8$. The same result comes from integrating the flow: $\int_0^{\pi/(12H)}\partial_8(\sin z\,q_8)\,dx_8 = [\sin z\,q_8]_{z=0}^{z=\pi/2} = q_8$, because $\sin z = 0$ at the tip $z = 0$ and $\sin z = 1$ at the brane $z = \pi/2$. So the charge of the patch changes at the rate $-V_6q_8$, which is the charge flowing out through the brane. Notebook 18c prints the range of $q_8$ along its solution, from $-0.3454$ to $0.3454$ (Out [10]): it is not zero, and the charge density $J^{x_4}$ of Figure 18c.3 oscillates accordingly. The Revision record states the same boundary term: the flux $\sin z\,u^\dagger M_8v$ "vanishes at the tip z -> 0 but not at the patch end z = pi/2" (`python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux`). The T2 mirror partner has the EQUAL charge density at every time (T2c), so the charge of the mirror patch changes at the same rate, and the two glued patches together change at twice the rate: gluing does not stop the flow. A constant total charge needs a **no-flux condition** at the brane, $\sqrt{|g|}J^{x_8} = 0$ at $z = \pi/2$, that is $q_8 = 0$ for these solutions. No such condition is derived in this book: it would be part of the junction condition at the brane, which is OPEN (Section 18.28, item 7).
 
 **What T1 and T2 predict for this family.** T1: if $\Psi$ solves the equation with $(m, \lambda)$, then $\Gamma\Psi$ solves it with $(-m, -\lambda)$. Directly: $\Gamma$ anticommutes with $\gamma^{(x_4)}$ and commutes with $\gamma^{(x_4)}\gamma^{(x_8)}$, and $S[\Gamma\Psi] = S$, so $\Gamma M_{m,\lambda}\Gamma = +V\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_8)} = M_{-m,-\lambda}$: the partner's generator is the similar matrix $\Gamma M\Gamma$, with the same eigenvalues. T2: on the mirror patch the connection term is $-3H\gamma^{(x_8)}$ (Section 18.16), so the equation there has $M^{\rm mirror} = -V\gamma^{(x_4)} - 3H\gamma^{(x_4)}\gamma^{(x_8)}$; with $S[\gamma^{(x_8)}\Psi] = -S$ and the parameters $(-m, \lambda)$, $V \to -m - \lambda S = -V$, and $\gamma^{(x_8)}M_{m,\lambda}\gamma^{(x_8)} = V\gamma^{(x_4)} - 3H\gamma^{(x_4)}\gamma^{(x_8)}$, which is exactly $M^{\rm mirror}_{-m,\lambda}$. So $\gamma^{(x_8)}\Psi$ solves the mirror equation with $(-m, \lambda)$. (We used $\gamma^{(x_8)}\gamma^{(x_4)}\gamma^{(x_8)} = -\gamma^{(x_4)}$ and $\gamma^{(x_8)}\gamma^{(x_4)}\gamma^{(x_8)}\gamma^{(x_8)} = -\gamma^{(x_4)}\gamma^{(x_8)}$.) Notebook 18c checks both by solving the partner equations independently.
 
@@ -2699,7 +2772,7 @@ $$
 
 We used $\Gamma_{BD} = \Gamma_{DB}$ ($\Gamma$ symmetric) and Lemma 2, $\Gamma B\Gamma = -B$. For the image's own Lagrangian: written in terms of $\chi$, the Lagrangian of the theory is $\mathcal{L}_{m,\lambda}[\Psi] = \mathcal{L}_{m,\lambda}[\Gamma\chi]$; its velocity term is $\frac{i}{2}\sqrt{|g|}\,\chi^\dagger\Gamma B\Gamma\partial_4\chi = \frac{i}{2}\sqrt{|g|}\,\chi^\dagger(-B)\partial_4\chi$, so its velocity kernel is $N = -B$ and the canonical rule gives the anticommutator $N^{-1} = -B$. The two agree.
 
-**Q2.** The image's own Lagrangian, evaluated at $\chi = \Gamma\Psi$, is $\mathcal{L}_{m,\lambda}[\Gamma\Gamma\Psi] = \mathcal{L}_{m,\lambda}[\Psi]$: the same function of the same operators. Its energy density (the Legendre transform) and its Noether densities are therefore the same operators as those of $\Psi$. At the one-particle level: the energy of a plane wave is $\Psi^\dagger\mathcal{E}_m(k)\Psi$ with the **energy kernel** $\mathcal{E}_m(k) = Bh_m(k)$, and the evolution is $i\partial_4\Psi = (\text{anticommutator matrix})(\text{energy kernel})\Psi = B\mathcal{E}_m\Psi = h_m\Psi$. The image's own Lagrangian is $-\mathcal{L}_{-m,-\lambda}[\chi]$, so its anticommutator matrix is $-B$ (Q1) and its energy kernel is $-\mathcal{E}_{-m}$; its evolution generator is
+**Q2.** The image's own Lagrangian, evaluated at $\chi = \Gamma\Psi$, is $\mathcal{L}_{m,\lambda}[\Gamma\Gamma\Psi] = \mathcal{L}_{m,\lambda}[\Psi]$: the same function of the same operators. Its energy density (obtained by the Legendre transform: for each field, its time derivative times its canonical momentum, summed, minus the Lagrangian) and its Noether densities are therefore the same operators as those of $\Psi$. At the one-particle level: the energy of a plane wave is $\Psi^\dagger\mathcal{E}_m(k)\Psi$ with the **energy kernel** $\mathcal{E}_m(k) = Bh_m(k)$, and the evolution is $i\partial_4\Psi = (\text{anticommutator matrix})(\text{energy kernel})\Psi = B\mathcal{E}_m\Psi = h_m\Psi$. The image's own Lagrangian is $-\mathcal{L}_{-m,-\lambda}[\chi]$, so its anticommutator matrix is $-B$ (Q1) and its energy kernel is $-\mathcal{E}_{-m}$; its evolution generator is
 
 $$
 (-B)(-\mathcal{E}_{-m}) = B\mathcal{E}_{-m} = h_{-m} = \Gamma h_m\Gamma ,
@@ -3252,10 +3325,11 @@ reproduces(t1_T < 1e-12 and t1_J < 1e-12 and t1_S < 1e-12,
 
 `SAMPLE` takes every 20th time, $x_4 = 0, 0.2, 0.4, \dots, 20$: 101 times. `data` holds the bilinears of the field with $(m, \lambda)$ and of its T1 partner with $(-m, -\lambda)$ at the same point $z_0$ of the patch. `scale_T` and `scale_J` are the largest absolute entries of $T$ and $J$ of the field over all sampled times; the differences are divided by them, so that the test measures a relative error. `t1_T` is the largest relative entry of $T[\Psi] + T[\Phi]$, `t1_J` that of $J[\Psi] + J[\Phi]$, and `t1_S` the largest difference of the two values of $S$. The check requires all three below $10^{-12}$ and names the sympy checks `T1.metric.commuting.emt` and `T1.metric.commuting.current`. Out [9] shows the PASS line. COMPUTED on an actual solution along the deflating history: the 36 independent components of $T_{\mu\nu}$ (the table is symmetric) and the 8 of $J^\mu$ of the partner are the negatives of those of the field, and $S$ is the same.
 
-**In [10], three facts of the theory record, and the conservation of the charge.**
+**In [10], three facts of the theory record, and the local conservation law of the charge.**
 
 ```python
 rho_ok = p_ok = mixed_ok = flow_ok = True
+q8_values = []  # the frame current q8 at the sampled times
 for n, (S, J, T) in zip(SAMPLE, data["psi"]):
     geo = geometry_at(times[n], Z0, 1)
     rho_ok = rho_ok and abs(-T[3, 3] - (m * S + 0.5 * lam * S ** 2)) < 1e-12
@@ -3264,28 +3338,32 @@ for n, (S, J, T) in zip(SAMPLE, data["psi"]):
     mixed_ok = mixed_ok and abs(T[3, 7]) < 1e-12 * scale_T
     field = psi[n]
     dJ4 = 2 * (field.conj() @ B @ generator(field, m, lam, 1) @ field).real
-    Q = (-1j * field.conj() @ C @ gamma[8] @ field).real
-    flow_ok = flow_ok and abs(dJ4 + 6 * H * Q) < 1e-12
+    q8 = (-1j * field.conj() @ C @ gamma[8] @ field).real
+    q8_values.append(q8)
+    flow_ok = flow_ok and abs(dJ4 + 6 * H * q8) < 1e-12
 ```
 
-The loop runs over the sampled times of the field (`zip` pairs the time indices with the stored bilinears). `T[3, 3]` is $T_{x_4x_4}$ (place 3 is $x_4$), so `-T[3, 3]` is the energy density $\rho$ of the pairing convention, compared with $mS + \frac{\lambda}{2}S^2$. `p` holds the seven pressures $p_\mu = -g^{\mu\mu}T_{\mu\mu} = -T_{\mu\mu}/g_{\mu\mu}$ of $x_1, x_2, x_3$, of the deflating extra times $x_5, x_6, x_7$ and of $x_8$, each compared with $\frac{\lambda}{2}S^2$. `T[3, 7]` is $T_{x_4x_8}$, which must vanish (relative to `scale_T`). Then the conservation law of Section 18.21: `dJ4` is $\partial_4J^{x_4}$, computed from the field equation $\partial_4\Psi = M\Psi$,
+`q8_values` starts as an empty list; the loop appends one number to it at each sampled time. The loop runs over the sampled times of the field (`zip` pairs the time indices with the stored bilinears). `T[3, 3]` is $T_{x_4x_4}$ (place 3 is $x_4$), so `-T[3, 3]` is the energy density $\rho$ of the pairing convention, compared with $mS + \frac{\lambda}{2}S^2$. `p` holds the seven pressures $p_\mu = -g^{\mu\mu}T_{\mu\mu} = -T_{\mu\mu}/g_{\mu\mu}$ of $x_1, x_2, x_3$, of the deflating extra times $x_5, x_6, x_7$ and of $x_8$, each compared with $\frac{\lambda}{2}S^2$. `T[3, 7]` is $T_{x_4x_8}$, which must vanish (relative to `scale_T`). Then the conservation law of Section 18.21: `dJ4` is $\partial_4J^{x_4}$, computed from the field equation $\partial_4\Psi = M\Psi$,
 
 $$
 \frac{d}{dx_4}\big(\Psi^\dagger B\Psi\big) = (M\Psi)^\dagger B\Psi + \Psi^\dagger BM\Psi = 2\,\mathrm{Re}\big(\Psi^\dagger BM\Psi\big) .
 $$
 
-The product rule; then $(M\Psi)^\dagger B\Psi = \Psi^\dagger M^\dagger B\Psi$ is the complex conjugate of $\Psi^\dagger B^\dagger M\Psi = \Psi^\dagger BM\Psi$ ($B$ is Hermitian), and a number plus its complex conjugate is twice its real part. `Q` is $-i\bar\Psi\gamma^{(x_8)}\Psi$, and the law of Section 18.21 requires $\partial_4J^{x_4} = -6HQ$.
+The product rule; then $(M\Psi)^\dagger B\Psi = \Psi^\dagger M^\dagger B\Psi$ is the complex conjugate of $\Psi^\dagger B^\dagger M\Psi = \Psi^\dagger BM\Psi$ ($B$ is Hermitian), and a number plus its complex conjugate is twice its real part. `q8` is the frame current $q_8 = -i\bar\Psi\gamma^{(x_8)}\Psi$ of Section 18.21 (not the charge $Q$), `q8_values.append(q8)` stores it, and the local law of Section 18.21 requires $\partial_4J^{x_4} = -6Hq_8$.
 
 ```python
 reproduces(rho_ok and p_ok and mixed_ok,
            "rho = m S + (l/2) S^2, all pressures (l/2) S^2, T_x4x8 = 0 (homogeneous)",
            (TH_PY, ["commuting_homogeneous_on_shell_rho_p",
                     "commuting_T_x4x8_homogeneous"]))
-reproduces(flow_ok, "the charge is conserved: d4 J^x4 = -6 H Q (flow along x8)",
+reproduces(flow_ok, "local charge conservation: d4 J^x4 = -6 H q8 (flow along x8)",
            (TH_PY, ["commuting_current_conservation"]))
+say(f"q8 lies between {min(q8_values):.4f} and {max(q8_values):.4f}: the flow "
+    "sin z q8 through the brane z = pi/2 is not zero, so the charge of the "
+    "patch changes in time")
 ```
 
-Two checks. The first names two checks of the field-theory report `python-field-theory.json`, one for the energy density and the pressures and one for $T_{x_4x_8}$ of homogeneous solutions; the second names its check of the conservation of the charge. Out [10] shows both PASS lines. With the numbers of Out [4] the energy density is $\rho = mS + \frac{\lambda}{2}S^2 = 0.897319 + 0.15 \times 0.805181 = 1.0181$ and every pressure is $0.15 \times 0.805181 = 0.1208$; Exercise 18.2 continues this computation.
+Two checks and one printed line. The first check names two checks of the field-theory report `python-field-theory.json`, one for the energy density and the pressures and one for $T_{x_4x_8}$ of homogeneous solutions; the second names its check of the LOCAL conservation law of the charge. Out [10] shows both PASS lines. The `say` line prints the smallest and the largest value of $q_8$ over the 101 sampled times (`min` and `max` of the list; `:.4f` writes four decimals): $-0.3454$ and $0.3454$. At the brane $z = \pi/2$ the flow $\sqrt{|g|}J^{x_8} = \sin z\,q_8$ equals $q_8$, so it is not zero, and by Section 18.21 the charge of the patch changes at the rate $-V_6q_8$: the local law holds exactly, but the total charge of the patch is NOT constant for this solution. With the numbers of Out [4] the energy density is $\rho = mS + \frac{\lambda}{2}S^2 = 0.897319 + 0.15 \times 0.805181 = 1.0181$ and every pressure is $0.15 \times 0.805181 = 0.1208$; Exercise 18.2 continues this computation.
 
 **In [11], Figure 18c.3: the T1 pair in numbers.**
 
@@ -3737,14 +3815,14 @@ all_checks_passed()
 
 The seven figure files must exist; the last line is ALL 21 CHECKS PASSED (notebook 18c).
 
-**What Notebook 18c established.** The following results are COMPUTED for one homogeneous solution of the commuting field dirac16complex00, with the illustrative values ($m = 1$, $H = 0.2$, $\lambda = 0.3$, $z_0 = \pi/4$, seed 2026) along the canonical deflating history $a_4 = AHx_4$ ($A = 1$, from the Revision record): the Runge-Kutta solution equals the exact solution of the theory record to $4.3 \times 10^{-9}$ (fourth order measured); the T1 partner, solved on its own, is $\Gamma\Psi$, with opposite charge density, current and energy-momentum tensor at every time, while the wrong partner $(-m, +\lambda)$ is not; the T2 partner on the mirror patch is $\gamma^{(x_8)}\Psi$, with $S$ reversed and EQUAL charge and energy densities; the generators of the field and of both partners have equal spectra; and for plane waves the eight recorded samples of Q are reproduced, the growing waves are Krein-neutral, $\Gamma$ reverses every Krein norm and $\gamma^{(x_8)}$ keeps it. ASSUMED: the mirror patch glued at the degenerate brane, and a fixed gravitational field. NOT shown: any process that creates a universe or a pair. The partners are solutions of OTHER parameter sets, computed from the first one; nothing in these equations makes them appear.
+**What Notebook 18c established.** The following results are COMPUTED for one homogeneous solution of the commuting field dirac16complex00, with the illustrative values ($m = 1$, $H = 0.2$, $\lambda = 0.3$, $z_0 = \pi/4$, seed 2026) along the canonical deflating history $a_4 = AHx_4$ ($A = 1$, from the Revision record): the Runge-Kutta solution equals the exact solution of the theory record to $4.3 \times 10^{-9}$ (fourth order measured); its charge density obeys the local conservation law, with a nonzero flow through the brane, so the charge of the patch is not constant; the T1 partner, solved on its own, is $\Gamma\Psi$, with opposite charge density, current and energy-momentum tensor at every time, while the wrong partner $(-m, +\lambda)$ is not; the T2 partner on the mirror patch is $\gamma^{(x_8)}\Psi$, with $S$ reversed and EQUAL charge and energy densities; the generators of the field and of both partners have equal spectra; and for plane waves the eight recorded samples of Q are reproduced, the growing waves are Krein-neutral, $\Gamma$ reverses every Krein norm and $\gamma^{(x_8)}$ keeps it. ASSUMED: the mirror patch glued at the degenerate brane, and a fixed gravitational field. NOT shown: any process that creates a universe or a pair. The partners are solutions of OTHER parameter sets, computed from the first one; nothing in these equations makes them appear.
 
 ### 18.28 What the pairing theorems do not establish
 
 T1, T2 and Q are exact. Their content is precisely this: explicit invertible maps between the solutions of two theories with different parameters, with stated signs for the Lagrangian, the energy-momentum tensor, the current and the canonical anticommutator. Both Revision verifiers wrote, independently of each other, a list of what these theorems do NOT establish, and a comparison check confirms that the two lists cover the same topics (`python-pairing.json`, check `compare.theory.not_established`; the lists are the entries `not_established` of `pairing-theory.json` and of `python-pairing.json`). Merged, with the reason for each item:
 
-1. **No creation process.** The theorems map solutions to solutions and quantities to quantities. Nothing in these equations produces a universe, a pair of universes, or a change of the number of universes; no transition from "no universe" to "two universes", no initial state, no vacuum decay and no tunnelling process is derived.
-2. **No rate, probability or amplitude.** No transition amplitude, probability, cross-section, rate or Bogoliubov coefficient for creating universes of masses $+m$ and $-m$ is computed or implied; no wave function of the universe and no path integral is part of the theorems.
+1. **No creation process.** The theorems map solutions to solutions and quantities to quantities. Nothing in these equations produces a universe, a pair of universes, or a change of the number of universes; no transition from "no universe" to "two universes", no initial state, no vacuum decay (the change of a state without particles into one of lower energy) and no tunnelling process (a quantum transition through a region that the classical equations forbid) is derived.
+2. **No rate, probability or amplitude.** No transition amplitude, probability, cross-section (a measure, with the units of an area, of how likely a reaction is), rate or Bogoliubov coefficient (the number that says how many particles a changing background creates from a vacuum) for creating universes of masses $+m$ and $-m$ is computed or implied; no wave function of the universe (a quantum state of a whole universe, geometry included) and no path integral (a sum over every possible history of the fields) is part of the theorems.
 3. **No dynamical necessity.** No equation and no conservation law forces the partner to exist. A single universe of mass $+m$ is an equally valid solution without its partner. T1 and T2 are correspondences between the solutions of two parameter sets, not a mechanism.
 4. **T1 is not a symmetry of one theory, and for $\lambda \neq 0$ it is not a pure $+m$ / $-m$ pairing.** It changes the parameters to $(-m, -\lambda)$ and the sign of the action. The pairing $(m, \lambda) \to (-m, \lambda)$ at fixed coupling is T2, at EQUAL, not opposite, energy-momentum.
 5. **The zero total of a T1 pair has a limited meaning.** $T + T' = 0$, $J + J' = 0$ and $Q + Q' = 0$ hold for classical bilinears (a configuration and its image) and as an operator identity within ONE quantum system (Q2). They do not hold for two independently quantised universes, whose generators add without cancelling (Q3).
@@ -3756,7 +3834,7 @@ T1, T2 and Q are exact. Their content is precisely this: explicit invertible map
 
 **The author's hypothesis.** The statement that the big bang CREATES universes in pairs of masses $+m$ and $-m$ is the author's HYPOTHESIS. This chapter proves that the solutions come in partnered families (T1 and T2) and how a quantised partner must be read (Q); it does not prove, and the equations of this book cannot prove, that any universe is created, in pairs or otherwise. Chapter 20 takes up the question "Do universes come in pairs?" and states the hypothesis as a hypothesis.
 
-**Matter and antimatter.** Where this chapter touches matter and antimatter, the exact statements are these. The charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of a slice $x_4 = \mathrm{const}$ is exactly conserved on shell, an exact U(1) symmetry (`charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; Notebook 18c checks the local conservation law along its solution, In [10]); so no net charge can be generated inside one universe. A T1 partner carries the opposite charge, so a T1 pair has total charge zero as classical bilinears (T1d); this is a universe and anti-universe statement about solutions. Such ideas form a class in the published literature; one example is L. Boyle, K. Finn and N. Turok, "CPT-Symmetric Universe", Phys. Rev. Lett. 121, 251301 (2018); it is cited only as an example of the class, and nothing in this chapter is taken from it. On real fields T1 is the mass-reversing charge conjugation by the matrix $\Gamma$ (Section 18.13). The theory as built does NOT solve the matter-antimatter problem. In 1967 Sakharov showed that an excess of matter can grow from an equal start only if three conditions hold: a process that changes the baryon number, a violation of the symmetries C and CP, and a departure from thermal equilibrium (Chapter 21). The theory as built has no baryons, no process that changes the baryon number (its charge is exactly conserved), no violation of CP built in or computed, and no computation of a departure from thermal equilibrium. To solve the problem it would need all of these, and a computed excess of matter that agrees with the measured one. Every scenario in which our universe is one member of such a pair, or in which the pairing explains the excess of matter, is a HYPOTHESIS. Chapter 21 treats matter and antimatter from zero.
+**Matter and antimatter.** Where this chapter touches matter and antimatter, the exact statements are these. PROVED: the theory has an exact U(1) symmetry, and its current obeys the exact LOCAL conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ on shell (`charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; Notebook 18c checks the local law along its solution in In [10], with the frame current $q_8$). The charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of a slice $x_4 = \mathrm{const}$ is constant only if no charge flows through the boundary of the patch, that is through the brane $z = \pi/2$. There the flow $\sqrt{|g|}J^{x_8} = \sin z\,(-i\bar\Psi\gamma^{(x_8)}\Psi)$ does not vanish in general (`python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux`: the boundary term vanishes at the tip $z \to 0$ but not at $z = \pi/2$). The homogeneous solutions of Section 18.21 exchange charge through the brane: their patch charge changes at the rate $-V_6q_8$, and Notebook 18c prints $q_8$ between $-0.3454$ and $0.3454$ (Out [10]; the oscillating charge density of Figure 18c.3); the T2 mirror partner has the equal charge density, so gluing the two patches does not restore a constant total. Hence the statement "no net charge can be generated inside one universe" holds only under a **no-flux condition at the brane**, $\sqrt{|g|}J^{x_8} = 0$ at $z = \pi/2$; that condition is ASSUMED where it is used, and deriving it is OPEN: it belongs to the junction condition at the brane, which is not derived (item 7). A T1 partner carries the opposite charge, so a T1 pair has total charge zero as classical bilinears (T1d); this is a universe and anti-universe statement about solutions. Such ideas form a class in the published literature; one example is L. Boyle, K. Finn and N. Turok, "CPT-Symmetric Universe", Phys. Rev. Lett. 121, 251301 (2018); it is cited only as an example of the class, and nothing in this chapter is taken from it. On real fields T1 is the mass-reversing charge conjugation by the matrix $\Gamma$ (Section 18.13). The theory as built does NOT solve the matter-antimatter problem. In 1967 Sakharov showed that an excess of matter can grow from an equal start only if three conditions hold: a process that changes the baryon number, a violation of the symmetries C and CP, and a departure from thermal equilibrium (Chapter 21). The theory as built has no baryons, no process that changes the baryon number (its U(1) current is conserved locally, and globally under the no-flux condition at the brane), no violation of CP built in or computed, and no computation of a departure from thermal equilibrium. To solve the problem it would need all of these, and a computed excess of matter that agrees with the measured one. Every scenario in which our universe is one member of such a pair, or in which the pairing explains the excess of matter, is a HYPOTHESIS. Chapter 21 treats matter and antimatter from zero.
 
 ### 18.29 What we proved, what we computed, what we assumed
 
@@ -3773,14 +3851,14 @@ T1, T2 and Q are exact. Their content is precisely this: explicit invertible map
 | T1 (T1a to T1d), in every gravitational field taken as a fixed background, both statistics | `wolfram-pairing.json`, the 51 checks of T1; `python-pairing.json`, the 23 checks whose names begin with `T1.`, and `compare.theory.theorem_T1` | 18b, 18c |
 | T2 (T2a to T2d); the author's-field version under the ASSUMED Z2 construction | `wolfram-pairing.json`, the 28 checks of T2; `python-pairing.json`, the 16 checks of T2 and `compare.theory.theorem_T2` | 18b, 18c |
 | Q1 to Q5, for the canonically quantised dirac16complex | `wolfram-pairing.json`, the 12 checks whose names begin with `Q_`; `python-pairing.json`, the 10 checks whose names begin with `Q.`, and `compare.theory.theorem_Q` | 18a, 18c |
-| the homogeneous solutions: $S$ constant, $M^2 = (9H^2 - (m + \lambda S)^2)I_{16}$, the exact formula; $\rho = mS + \frac{\lambda}{2}S^2$, every pressure $\frac{\lambda}{2}S^2$, $T_{x_4x_8} = 0$; the conservation of the charge | `python-field-theory.json`, checks `exact_nonlinear_homogeneous_solution`, `commuting_homogeneous_on_shell_rho_p`, `commuting_T_x4x8_homogeneous` and `commuting_current_conservation`; `wolfram-field-theory.json`, check `exact_solution_nonlinear_homogeneous_C` | 18c |
-| the two charge-conjugation matrices $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$; on real fields T1 is the mass-reversing conjugation by $\Gamma$; the exact U(1) conservation of the charge | `charge-conjugation-and-u1.json`, checks `intertwiners_same_mass`, `intertwiners_reversed_mass`, `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus`, `real_fields_charge_conjugation` and `u1_noether_matrix_identity` | none (Chapters 5 and 21) |
+| the homogeneous solutions: $S$ constant, $M^2 = (9H^2 - (m + \lambda S)^2)I_{16}$, the exact formula; $\rho = mS + \frac{\lambda}{2}S^2$, every pressure $\frac{\lambda}{2}S^2$, $T_{x_4x_8} = 0$; the LOCAL conservation law of the charge, $dJ^{x_4}/dx_4 = -6Hq_8$ with $q_8 = -i\bar\Psi\gamma^{(x_8)}\Psi$ (for these solutions the flow $\sin z\,q_8$ through the brane does not vanish, so the charge of the patch is not constant) | `python-field-theory.json`, checks `exact_nonlinear_homogeneous_solution`, `commuting_homogeneous_on_shell_rho_p`, `commuting_T_x4x8_homogeneous` and `commuting_current_conservation`; `wolfram-field-theory.json`, check `exact_solution_nonlinear_homogeneous_C` | 18c |
+| the two charge-conjugation matrices $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$; on real fields T1 is the mass-reversing conjugation by $\Gamma$; the exact U(1) symmetry and its LOCAL conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ (a constant total charge needs the no-flux condition at the brane, listed under Assumed and Open) | `charge-conjugation-and-u1.json`, checks `intertwiners_same_mass`, `intertwiners_reversed_mass`, `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus`, `real_fields_charge_conjugation` and `u1_noether_matrix_identity` | none (Chapters 5 and 21) |
 
 **Computed.** Numerical results of the notebooks, with their accuracy:
 
 - Notebook 18a: every result is exact whole-number arithmetic, except the illustration of In [7], where $\Gamma$ commutes with a random connection to below $10^{-12}$.
 - Notebook 18b: every result is exact (sympy). The monomial counts, evaluated at one sample point, are 408 (commuting) and 392 (Grassmann) for the Lagrangian, equal to the counts recorded by the Wolfram verifier, and 376 (diagonal) or 64 and 80 (off-diagonal) for the components of $T_{\mu\nu}$; they describe the size of the polynomials and prove nothing.
-- Notebook 18c (illustrative values $m = 1$, $H = 0.2$, $\lambda = 0.3$, $z_0 = \pi/4$, seed 2026; history $A = 1$ from the record): $S = 0.897319$, $m + \lambda S = 1.269196$, $w = 1.118417$; Runge-Kutta errors at $x_4 = 20$ for 250 to 4000 steps from $2.0 \times 10^{-5}$ to $2.6 \times 10^{-10}$, measured orders 4.10, 4.06, 4.03 and 4.01, largest error with 2000 steps $4.3 \times 10^{-9}$ against the exact formula of the record; the T1 partner equals $\Gamma\Psi$ and the T2 partner equals $\gamma^{(x_8)}\Psi$ to below $10^{-12}$ at all 2001 times, while the wrong partner $(-m, +\lambda)$ is off by 1.641; $S$, $J^\mu$ and $T_{\mu\nu}$ of the partners as predicted, to a relative $10^{-12}$ at 101 sampled times; the eight plane-wave samples of the record reproduced (dimensions 8 and 8, Krein inertia (4,4)); the plane-wave spectra of the masses $\pm1$ equal to $10^{-6}$ at 121 momenta (away from $k_5 = 1$); the Krein norms $\pm1$ of the 16 modes of the first sample reversed by $\Gamma$ and kept by $\gamma^{(x_8)}$.
+- Notebook 18c (illustrative values $m = 1$, $H = 0.2$, $\lambda = 0.3$, $z_0 = \pi/4$, seed 2026; history $A = 1$ from the record): $S = 0.897319$, $m + \lambda S = 1.269196$, $w = 1.118417$; Runge-Kutta errors at $x_4 = 20$ for 250 to 4000 steps from $2.0 \times 10^{-5}$ to $2.6 \times 10^{-10}$, measured orders 4.10, 4.06, 4.03 and 4.01, largest error with 2000 steps $4.3 \times 10^{-9}$ against the exact formula of the record; the T1 partner equals $\Gamma\Psi$ and the T2 partner equals $\gamma^{(x_8)}\Psi$ to below $10^{-12}$ at all 2001 times, while the wrong partner $(-m, +\lambda)$ is off by 1.641; $S$, $J^\mu$ and $T_{\mu\nu}$ of the partners as predicted, to a relative $10^{-12}$ at 101 sampled times; the local conservation law $dJ^{x_4}/dx_4 = -6Hq_8$ to $10^{-12}$ at the same times, with the frame current $q_8$ between $-0.3454$ and $0.3454$, so a nonzero flow through the brane; the eight plane-wave samples of the record reproduced (dimensions 8 and 8, Krein inertia (4,4)); the plane-wave spectra of the masses $\pm1$ equal to $10^{-6}$ at 121 momenta (away from $k_5 = 1$); the Krein norms $\pm1$ of the 16 modes of the first sample reversed by $\Gamma$ and kept by $\gamma^{(x_8)}$.
 
 **Assumed.**
 
@@ -3790,6 +3868,7 @@ T1, T2 and Q are exact. Their content is precisely this: explicit invertible map
 - The history $a_4 = AHx_4$ with $A = 1$ used in the figures is the PRESCRIBED BACKGROUND of the Revision Kohn-Sham record (`parameters.json`; `ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`). The theorems themselves hold for every history.
 - The value $3H\gamma^{(x_8)}$ of $\gamma^\mu\Omega_\mu$ belongs to the diagonal vielbein (`python-scope.json`; Chapter 8); none of the theorems depends on it.
 - The illustrative values of Notebook 18c.
+- Wherever a constant total charge of one universe is used (the statement that no net charge can be generated inside one universe): the no-flux condition $\sqrt{|g|}J^{x_8} = 0$ at the brane $z = \pi/2$. It is not derived (see Open).
 
 **Hypothesis.**
 
@@ -3801,6 +3880,7 @@ T1, T2 and Q are exact. Their content is precisely this: explicit invertible map
 - Any creation process, rate or amplitude for universes, which these equations do not contain.
 - The gravitational back-reaction of a pair: the pair as part of the source of the field equations for $a_4$ (C1 treats only the case in which a T1 pair is the complete source).
 - A junction condition at the brane $z = \pi/2$ that would replace the assumed Z2 construction.
+- The no-flux condition $\sqrt{|g|}J^{x_8} = 0$ at the brane, which a constant total charge of one universe needs; the homogeneous solutions of Section 18.21 violate it (Notebook 18c, Out [10]), and no equation of this book imposes it.
 - A positive Hilbert space for the whole quantised field (all momenta, the curved metric), and the fate of the growing extra-time waves.
 
 ### 18.30 Exercises
