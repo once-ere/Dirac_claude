@@ -102,16 +102,19 @@ separate set.
   (the OLD Stage-5 pairing set `scripts/verify_dirac16complex_pairing.wls`) says that this newer set is
   a different one and must not be confused with it.
 * The textbook "Universes in Pairs" that is being written under `Revision/textbook/` (work in
-  progress, not yet verified, on 2026-10-07): the chapter `00-how-to-use-this-book.md` cites
-  "101 of 101 checks passed" from `wolfram-pairing.json`. Notebooks under
-  `Revision/textbook/notebooks/` (each with its Python source in `src/`) read the outputs:
-  `00c_honesty_ledger.ipynb` counts the checks of `wolfram-pairing.json` (101);
-  `10a_krein_spectra.ipynb` reproduces four checks of `wolfram-pairing.json`
+  progress, not yet verified; as found at commit `b8a695d` of 2026-10-07): the chapter
+  `00-how-to-use-this-book.md` names `wolfram-pairing.json` as one of the two independent verifier
+  records of T1, T2 and Q; the chapter `10-canonical-quantisation-krein-space.md` cites the checks
+  `Q_one_particle_flat_dispersion` and `Q_one_particle_maps` of `wolfram-pairing.json` and the data
+  `one_particle_flat` of `pairing-theory.json`. Notebooks under `Revision/textbook/notebooks/` (each
+  with its Python source in `src/`) read the outputs: `00c_honesty_ledger.ipynb` counts the checks of
+  `wolfram-pairing.json`; `10a_krein_spectra.ipynb` reproduces four checks of `wolfram-pairing.json`
   (`Q_one_particle_flat_dispersion`, `Q_one_particle_maps`, `Q_one_particle_Krein_signatures`,
   `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`) and the
   data `one_particle_flat` of `pairing-theory.json`; `10b_canonical_krein.ipynb` reproduces the data
-  `Krein_signs_M_B_Mdagger` of `pairing-theory.json`; the source `src/18a_pairing_matrices.py` reads
-  both files.
+  `Krein_signs_M_B_Mdagger` of `pairing-theory.json`; the sources of the notebooks `10g`, `18a`,
+  `18b`, `18c`, `20a`, `20b`, `20c`, `21b` and `21c` also read `wolfram-pairing.json`,
+  `pairing-theory.json` or both.
 
 ## 2. The files
 
@@ -123,9 +126,9 @@ separate set.
 | `Revision/pairing/reports/wolfram-pairing.json` | OUTPUT, overwritten by every run (every check with its name, verdict `PASS` or `FAIL` and detail; the summary counts) | `4ea0fa709ed595b9279b04f1d45d2dce64b759ef0d60c57d15207bba02352990` | 112 | 40151 |
 | `Revision/pairing/pairing-theory.json` | OUTPUT, overwritten by every run (the theorems T1, T2, Q with hypotheses, statements, proofs, the names of the checks verifying them, data tables, and what is not established) | `aaf104a92a64d7a50ef590207201798ddfe08affbf4df371441eba157517c2ce` | 420 | 22430 |
 
-The hashes are those of the committed files (unchanged from commit `70fab64` up to commit `a4c5eda`
-of 2026-10-07, where they were checked again); a successful run reproduces both outputs byte for
-byte.
+The hashes are those of the committed files (unchanged from commit `70fab64` up to commit `b8a695d`,
+the head of `main` in the evening of 2026-10-07, where they were checked again); a successful run
+reproduces both outputs byte for byte.
 Nothing else is read: no other file of the repository, no network resource, no command-line argument.
 The script finds its package, its input and its output folders relative to its own location, so these
 files must keep their places in the repository.
@@ -136,7 +139,8 @@ files must keep their places in the repository.
 
 * A computer with Windows 10 or 11, macOS or Linux, about 1 GB of free memory (the Wolfram kernel
   used at most 247 MB here), about 1 GB of free disk space for the repository, and a few minutes
-  (2 to 3.4 minutes on the verification machine, depending on how busy it was).
+  (about 2 to 5 minutes on the verification machine, depending on how busy it was; a slower or
+  busier computer can take longer).
 * Git, to download the repository.
 * The Wolfram Engine (free for developers) or Mathematica / Wolfram, with the command-line program
   `wolframscript`. `wolframscript` starts a Wolfram "kernel" (the computing engine) without any
@@ -221,8 +225,8 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-`git clone` creates the folder `Dirac_claude` (at commit `a4c5eda` of 2026-10-07 about 200 MB were
-downloaded and about 690 MB were used on disk; the repository grows over time, so this takes a while)
+`git clone` creates the folder `Dirac_claude` (at commit `b8a695d` of 2026-10-07 about 240 MB were
+downloaded and about 750 MB were used on disk; the repository grows over time, so this takes a while)
 and `cd Dirac_claude` makes it the current folder. This folder is the
 "repository root": it contains the folder `Revision`. Every command below is typed in this folder.
 
@@ -242,9 +246,12 @@ wolframscript -file Revision/pairing/wolfram/verify_pairing.wls; echo "exit code
 
 Type the command on one line and press Enter. For a few seconds nothing is printed while the kernel
 starts and reads the input; then one line per check appears as each check finishes, with pauses of
-several seconds at the heavier checks. The whole run takes about two to three and a half minutes
-(up to 3.4 minutes on the fully loaded verification machine). Do not close the window while it
-runs. Wait for the line `101/101 checks passed; time ... s` and then the line `exit code: 0`.
+several seconds at the heavier checks. The whole run takes a few minutes: on the verification
+machine between about 2 and 4.6 minutes, the longer times while dozens of other Wolfram programs ran
+on it at the same time (section 4.4). These times are examples, not limits: a slower or busier
+computer takes longer. Do not close the window while it runs (an interrupted run leaves temporary
+files behind, section 5). Wait for the line `101/101 checks passed; time ... s` and then the line
+`exit code: 0`.
 
 ### 3.6 If it fails
 
@@ -253,10 +260,10 @@ runs. Wait for the line `101/101 checks passed; time ... s` and then the line `e
 | a message that the command `wolframscript` does not exist. Its wording depends on the terminal: PowerShell 7 prints `wolframscript: The term 'wolframscript' is not recognized as a name of a cmdlet, function, script file, or executable program.`; Windows PowerShell 5.1 prints `wolframscript : The term 'wolframscript' is not recognized as the name of a cmdlet, function, script file, or operable program.`; zsh (the standard shell of the macOS Terminal) prints `zsh: command not found: wolframscript`; bash prints `bash: wolframscript: command not found` (in the standard Ubuntu terminal: `wolframscript: command not found`) | WolframScript is not installed or not on the command path | do section 3.3, then open a NEW terminal window. On macOS with the Wolfram Engine: install `wolframscript.pkg` from the Wolfram Engine disk image (section 3.3, option A, step 2 (b)), or the stand-alone WolframScript installer from https://www.wolfram.com/wolframscript/. On macOS or Linux with Mathematica: install the stand-alone WolframScript (option B) |
 | `Failed to open file at path: ...` | you are not in the repository root, or the path is mistyped | `cd` into the folder `Dirac_claude` that contains the folder `Revision`, and copy the command exactly. NOTE: in this case `wolframscript` still reports exit code 0, so the exit code alone does not prove success; always look for the line `101/101 checks passed` |
 | a request for activation, or a message that the engine is not activated or has no valid licence | the Wolfram Engine has not been activated on this computer | run `wolframscript -activate` (internet needed) and enter your Wolfram ID and password yourself |
-| within the first seconds: `Import::nffil: File ...\algebra\gammas.json not found during Import.` (on macOS and Linux the path is written with `/`), three `Part::partw: Part ... of $Failed[...] does not exist.` messages and `General::stop: Further output of Part::partw will be suppressed during this calculation.`, the line `FAIL  fixture_Clifford_relation  (0. s)`, three `Part::partd: Part specification $Failed[S][[1,1]] is longer than depth of object.` messages (with `[[1,2]]`, `[[1,3]]`) and `General::stop: Further output of Part::partd will be suppressed during this calculation.`, then more `FAIL` lines up to `FAIL  primordial_vielbein`; after that nothing more is printed and the run seems to hang. Wolfram prints all these messages on the normal output (standard output), each after an empty line, not on the error stream | the input `Revision/algebra/gammas.json` is missing (an incomplete download, or only part of the repository was copied) | stop the run with Ctrl+C (if the window does not react, close it); download the repository again with `git clone` (section 3.4) and run again from its root. With the input missing, the run does not end by itself within minutes (the Wolfram kernel keeps computing and its memory grows: 659 MB after 4 minutes on the verification machine), and no output file is written |
+| within the first seconds: `Import::nffil: File ...\algebra\gammas.json not found during Import.` (on macOS and Linux the path is written with `/`), three `Part::partw: Part ... of $Failed[...] does not exist.` messages and `General::stop: Further output of Part::partw will be suppressed during this calculation.`, the line `FAIL  fixture_Clifford_relation  (<seconds> s)` (for example `(0. s)` or `(0.1 s)`), three `Part::partd: Part specification $Failed[S][[1,1]] is longer than depth of object.` messages (with `[[1,2]]`, `[[1,3]]`) and `General::stop: Further output of Part::partd will be suppressed during this calculation.`, then more `FAIL` lines up to `FAIL  primordial_vielbein`; after that nothing more is printed and the run seems to hang. Wolfram prints all these messages on the normal output (standard output), each after an empty line, not on the error stream | the input `Revision/algebra/gammas.json` is missing (an incomplete download, or only part of the repository was copied) | stop the run with Ctrl+C (if the window does not react, close it); download the repository again with `git clone` (section 3.4) and run again from its root. With the input missing, the run does not end by itself within minutes (the Wolfram kernel keeps computing and its memory grows: 659 MB after 4 minutes on the verification machine), and no output file is written. On Windows the stopped run leaves two files whose names start with `tmp_` in the folder `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` (one empty, one with a copy of the printed lines); delete them by hand as described in section 5 |
 | `OpenWrite::noopen: Cannot open ...`, followed by `BinaryWrite::stream` and `Close::stream` messages, just before the last line | an output file or folder cannot be written (a read-only file, or a protected or synchronised folder) | the checks ran, but their result was NOT saved: the old output file stays as it was, and the exit code is still 0 (the script does not test whether its writes succeeded), so these messages are the only sign. Clone the repository into a normal folder of your own (for example your home folder) and run again |
 | any line starting with `FAIL`, a last line `N/101 checks passed` with N smaller than 101, and exit code 1 | a check did not pass (this never happened on the verification machine) | do not edit anything; keep the printed output; open `Revision/pairing/reports/wolfram-pairing.json` in a text editor and search for `"FAIL"` to see the failed check and its detail; restore the committed files (section 5) and report the problem together with the output of `wolframscript -version` and `wolframscript -code '$Version'` |
-| the run takes much longer than a few minutes, without messages | a slow or busy computer (the whole computation runs in one Wolfram kernel) | wait; on the verification machine, with many other jobs running at the same time, it took 2 to 3.4 minutes |
+| the run takes much longer than a few minutes, without messages | a slow or busy computer (the whole computation runs in one Wolfram kernel) | wait; on the verification machine, with many other jobs running at the same time, it took up to 4.6 minutes (section 4.4), and a slower or busier computer can take longer |
 
 ## 4. Expected output
 
@@ -267,7 +274,8 @@ runs. Wait for the line `101/101 checks passed; time ... s` and then the line `e
 `fixture_definitions`, `Gamma_properties`, `C_and_B_basic`, then the T1 and T2 kernels, the fields, T1
 explicitly, T2, Q, and last `theory_file_deterministic`. The seconds differ from run to run and from
 computer to computer, and Wolfram prints them in its own way: a whole number of seconds is printed
-with a trailing dot, for example `(0. s)` (the first four checks in the runs here) or `(137. s)`,
+with a trailing dot, for example `(0. s)` (usually for the first two checks; the next two printed
+`(0. s)`, `(0.1 s)` or `(0.2 s)` in the runs here) or `(137. s)`,
 and some values are printed with many digits, for example `(9.200000000000001 s)` or
 `(4.1000000000000005 s)`. Both are ordinary Wolfram number printing, not an error. The last line is
 
@@ -275,8 +283,10 @@ and some values are printed with many digits, for example `(9.200000000000001 s)
 101/101 checks passed; time <T> s
 ```
 
-with `<T>` the run time measured by the kernel (between 119.62 s and 198.79 s in the eight
-verification runs). No line starts with `FAIL`, and nothing is printed on the error stream.
+with `<T>` the run time measured by the kernel (between 119.62 s and 266.04 s in the eleven
+verification runs of section 6; it may be printed with many digits, for example
+`time 200.98000000000002 s`). These times are examples from one machine, not limits. No line starts
+with `FAIL`, and nothing is printed on the error stream.
 
 ### 4.2 Exit code
 
@@ -346,9 +356,17 @@ two re-verification runs 5 and 6 (section 6), in a fresh clone, took 140.5 s and
 (kernel-measured 136.98 s and 185.03 s), with a kernel peak memory of 246.7 MB and 246.8 MB. The
 two runs 7 and 8 of the re-verification on 2026-10-07 (section 6), in a new fresh clone, while 14
 other Wolfram processes ran and the processor load was 100 %, took 202.5 s and 200.6 s
-(kernel-measured 198.79 s and 194.99 s), with a kernel peak memory of 246.3 MB and 246.0 MB. An
-earlier run on the same machine with less load, recorded in the documents of section 1.3, took about
-80 s.
+(kernel-measured 198.79 s and 194.99 s), with a kernel peak memory of 246.3 MB and 246.0 MB. The
+four runs of the independent review of this file on 2026-10-07 (processor load 100 %, about ten
+other Wolfram kernels) took about 203 s, 214 s, 231 s and 223 s (kernel-measured 195.65 s,
+208.55 s, 226.9 s and 217.70 s). The three runs 9, 10 and 11 of the re-verification after the
+restart in the evening of 2026-10-07 (section 6), in a new fresh clone, with the processor load at
+100 %, took 276.4 s (47 Wolfram processes running on the machine, and four interrupted probe runs
+of section 6 at the same time), 221.5 s (38 Wolfram processes) and about 206 s (15 Wolfram kernels)
+(kernel-measured 266.04 s, 214.82 s and 200.98 s), with a kernel peak memory of 246.1 MB in runs 9
+and 10. The longest run so far therefore took 4.6 minutes; a slower or busier computer can take
+longer. An earlier run on the same machine with less load, recorded in the documents of section 1.3,
+took about 80 s.
 
 ## 5. Side effects
 
@@ -367,8 +385,25 @@ earlier run on the same machine with less load, recorded in the documents of sec
   3.6, `OpenWrite::noopen`), it keeps its old contents.
 * **Files created in the repository:** none. (`git status --porcelain --ignored` printed nothing
   after every verification run, so no new file appeared, not even one that Git ignores.)
-* **Temporary files:** none. Six verification runs (1, 2, 5, 6, 7 and 8 of section 6) were given an
-  empty private temporary folder (`TEMP` and `TMP`), and it was still empty after each run.
+* **Temporary files:** the script itself makes none, but on Windows `wolframscript` writes two
+  temporary files for every run into the folder
+  `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` (that is
+  `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary`), each named `tmp_`
+  followed by ten random letters and digits (for example `tmp_HakwYzqdQq`): an EMPTY file, created as
+  `wolframscript` starts (0.07 to 0.2 s after the start in the runs here), and a file that the
+  Wolfram kernel holds open and that receives a COPY of every line the run prints (with Windows line
+  ends; it is created when the first line is printed, and in run 9 it reached 5961 bytes, exactly the
+  size of the printed output). When the run ends by itself, `wolframscript` deletes both files; this
+  was seen after normal runs (exit code 0), after a probe script ending with exit code 1 and after
+  `Failed to open file at path`. When the run is INTERRUPTED (Ctrl+C, closing the window, or stopping
+  `wolframscript` by force, as PowerShell's `Stop-Process -Force` does), both files STAY there; they
+  hold at most a few kilobytes each and can be deleted by hand when no Wolfram program is running
+  (see "Restoring the committed state" below). The folder is shared by every `wolframscript` run of
+  your user account, so other `tmp_` files in it may belong to other runs. Eight verification runs
+  (1, 2 and 5 to 10 of section 6) were given an empty private temporary folder (`TEMP` and `TMP`),
+  and it was still empty after each run; that check does not cover `WolframScriptTemporary`, which
+  `wolframscript` uses whatever `TEMP` and `TMP` say. Where `wolframscript` keeps such files on
+  macOS and Linux was not checked (no such machine was available).
 * **Processes:** `wolframscript` starts two Wolfram processes, one after the other (named
   `wolfram.exe` on the verification machine; the name depends on the version and the system, for
   example `WolframKernel` on macOS and Linux). First a short-lived licence query,
@@ -387,20 +422,37 @@ earlier run on the same machine with less load, recorded in the documents of sec
   entries were three local connections that the kernel makes to ITSELF while it starts (about 1.8 to
   2.6 s after the start, each lasting about 0.1 to 0.3 s): `127.0.0.1` to `127.0.0.1`, both ends
   owned by the kernel process, the same in every watched run and also in a script that only waits
-  (`Pause[6]`). That is communication inside the kernel, not network access. There was no connection
-  to any other address, no listening socket and no UDP endpoint; nothing at all was seen for
-  `wolframscript` or for the licence query. A socket that exists for less than about 13 ms (the time
-  between two readings) could not be seen this way; the licence query lived 0.12 to 0.42 s, so it was
-  read roughly 13 or more times in each watched run. The earlier runs 1 to 4 had only been polled
-  about once a second, which cannot see the licence query or the short local connections. In run 8
-  of the re-verification (2026-10-07) the TCP and UDP tables were read 243 times in 200 s (about
-  1.2 times per second, a coarse watch on a fully loaded machine) and no entry of `wolframscript` or
-  of its Wolfram processes was seen; such a coarse watch cannot see the short local connections of
-  the kernel start, so it adds nothing to the fine watch of runs 5 and 6 except that no long-lived
-  connection appeared. The
+  (`Pause[6]`). That is communication inside the kernel, not network access. That table reading
+  (the Windows functions `GetExtendedTcpTable` and `GetExtendedUdpTable`) lists listening and
+  connected TCP sockets, but not sockets in the state `Bound` (a local port taken, neither listening
+  nor connected). Run 10 of the re-verification after the restart (2026-10-07) was therefore watched
+  in two ways at once. The same table reading, about 87 times per second (9 ms between readings in
+  the median, 0.11 s at most), again saw exactly three such connections, 3.7 to 4.3 s after the
+  start, each 0.1 to 0.3 s long, all six `Established` ends `127.0.0.1` to `127.0.0.1` and owned by
+  the kernel. PowerShell's `Get-NetTCPConnection` and `Get-NetUDPEndpoint`, which also list `Bound`
+  sockets but are slow (about 1.4 readings per second), caught one of the three connections in one
+  reading: its two `Established` ends (`127.0.0.1:52242` to `127.0.0.1:52243` and back) and, with
+  the same port, an entry `0.0.0.0:52243` in the state `Bound` with no remote address
+  (`0.0.0.0:0`), all three owned by the kernel; the fast table reading had read that connection 21
+  times and never listed the `Bound` entry. The independent review of 2026-10-07 saw the same
+  pattern with `Get-NetTCPConnection` (`0.0.0.0:60041` `Bound`, `127.0.0.1:60041` and
+  `127.0.0.1:60040` `Established`, all owned by the kernel, 3.39 s after the start). A `Bound` entry
+  is a local port that a socket of the kernel holds, not a connection to anything.
+  There was no connection to any other address, no listening socket and no UDP endpoint; nothing at
+  all was seen for `wolframscript` or for the licence query. A socket that exists for less than about
+  13 ms (the time between two readings) could not be seen this way; the licence query lived 0.12 to
+  0.42 s, so it was read roughly 13 or more times in each watched run. The earlier runs 1 to 4 had
+  only been polled about once a second, which cannot see the licence query or the short local
+  connections. In runs 8 and 9 the TCP and UDP tables were read only about once per second (243
+  readings in 200 s and 270 readings in 277 s, a coarse watch on a fully loaded machine) and no
+  entry of `wolframscript` or of its Wolfram processes was seen; such a coarse watch cannot see the
+  short local connections of the kernel start, so it adds nothing to the fine watches of runs 5, 6
+  and 10 except that no long-lived connection appeared. The
   Wolfram product itself contacts Wolfram's servers when you activate it (section 3.3); that is not
   part of this computation and cannot change its results.
-* **Outside the repository:** the script writes nothing. The Wolfram software keeps its own per-user
+* **Outside the repository:** the script itself writes nothing there. `wolframscript` writes the two
+  temporary files described above (on Windows in `WolframScriptTemporary`; deleted again when the
+  run ends by itself, left behind by an interrupted run). The Wolfram software keeps its own per-user
   settings and caches (on Windows under `C:\Users\<you>\AppData\Roaming\Wolfram`), as for any Wolfram
   session.
 * **Restoring the committed state** (for example after a failed or interrupted run), from the
@@ -410,25 +462,44 @@ earlier run on the same machine with less load, recorded in the documents of sec
   git checkout -- Revision/pairing/reports/wolfram-pairing.json Revision/pairing/pairing-theory.json
   ```
 
+  On Windows, after an INTERRUPTED run, also delete the two temporary files it left behind. First
+  end every Wolfram program (every running `wolframscript`, Mathematica, the Wolfram Engine), because
+  the folder is shared by all of them; then, in PowerShell, list the files and delete them:
+
+  ```powershell
+  Get-ChildItem "$env:LOCALAPPDATA\Wolfram\WolframScript\WolframScriptTemporary" -Filter 'tmp_*'
+  Remove-Item "$env:LOCALAPPDATA\Wolfram\WolframScript\WolframScriptTemporary\tmp_*"
+  ```
+
+  (Or type `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` into the address bar of
+  File Explorer and delete the files whose names start with `tmp_`.) After a run that ended by
+  itself there is nothing to delete.
+
 ## 6. Verification record
 
 * **Date:** 2026-10-02 (runs 1 to 6 and the probes); re-verified on 2026-10-07 (runs 7 and 8 and a
   repeated wrong-path and missing-input probe), after the verification workflow had been interrupted
   by a session limit and relaunched: the re-verification re-checked every hash, count and output of
-  this file instead of trusting the earlier record.
+  this file instead of trusting the earlier record. Re-verified again in the evening of 2026-10-07
+  (runs 9 to 11, interrupt probes and socket watches), after a second pause and restart, to check
+  the five findings of an independent review of the 2026-10-07 record; all five were confirmed by
+  new measurements and corrected in this file (see "Fixes made").
 * **Commit verified:** `45d47343ae480df46e06689ed822b8f9a88a8030` (the head of `main` of
   https://github.com/once-ere/Dirac_claude.git when the fresh clone was made). The files of this set,
   its input and its outputs are identical (same sha256) at the later commit
   `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, used for run 3 and for the re-verification after an
   independent review of this file (runs 5 and 6 and the probes below, in a new fresh clone C of that
   commit), and at the commit `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (the head of `main` on
-  2026-10-07), used for runs 7 and 8 in a new fresh clone D; the snapshot commits made after it
-  while this record was being updated (up to `72fc9ff`) changed no file of the set, its input or its
-  outputs (only provenance files). The set's files were last changed in
+  2026-10-07), used for runs 7 and 8 in a new fresh clone D, and at the commit
+  `b8a695d1faa7abe43b4b51eb666f25d250420fb7` (the head of `main`, locally and on GitHub, in the
+  evening of 2026-10-07), used for runs 9 to 11 in a new fresh clone E and for the interrupt probes
+  in a fresh clone F. None of the commits between `a4c5eda` and `b8a695d` changed any of the five
+  files of section 2; the version of this provenance file written on 2026-10-07 was committed in
+  `d806b00` (an earlier partial version in `72fc9ff`). The set's files were last changed in
   commit `70fab64` (2026-10-01). No uncommitted file was copied into the clones: only committed files
   were used.
 * **Environment:** Windows 11 Pro for Workstations 10.0.26200 (build 26200.9457) for runs 1 to 6,
-  reported as 10.0.26300 (build 26300, update revision 9457) for runs 7 and 8; Intel Core Ultra 9
+  reported as 10.0.26300 (build 26300, update revision 9457) for runs 7 to 11; Intel Core Ultra 9
   275HX, 24 logical processors, 191 GB memory; WolframScript 1.14.0, Wolfram 15.0.1 (July 2, 2026),
   Professional licence; Git 2.51.2.windows.1; PowerShell 7.6.6 and Git Bash (bash 5.2.37), plus
   Windows PowerShell 5.1.26100 for the exit-code and command-not-found probes; Ubuntu 24.04.4 under
@@ -446,12 +517,20 @@ earlier run on the same machine with less load, recorded in the documents of sec
   | 6 | clone C again (second run in the same clone), as run 5 | 0 | 101 PASS, 0 FAIL | `101/101 checks passed; time 185.03 s` | 188.8 s | 246.8 MB | empty (0 bytes) |
   | 7 | clone D (commit a4c5eda, new fresh clone of 2026-10-07), started from PowerShell 7 by a watching script (`Start-Process`, standard output and error stream into separate files, an empty private `TEMP`) | 0 | 101 PASS, 0 FAIL | `101/101 checks passed; time 198.79 s` | 202.5 s | 246.3 MB | empty (0 bytes) |
   | 8 | clone D again (second run in the same clone), as run 7 | 0 | 101 PASS, 0 FAIL | `101/101 checks passed; time 194.99 s` | 200.6 s | 246.0 MB | empty (0 bytes) |
+  | 9 | clone E (commit b8a695d, new fresh clone of the evening of 2026-10-07), started from PowerShell 7 by a watching script (`Start-Process`, standard output and error stream into separate files, an empty private `TEMP` and `TMP`, a watch of `WolframScriptTemporary`) | 0 | 101 PASS, 0 FAIL | `101/101 checks passed; time 266.04 s` | 276.4 s | 246.1 MB | empty (0 bytes) |
+  | 10 | clone E again (second run in the same clone), as run 9, with the two socket watches of section 5 | 0 | 101 PASS, 0 FAIL | `101/101 checks passed; time 214.82 s` | 221.5 s | 246.1 MB | empty (0 bytes) |
+  | 11 | clone E again (third run), the exact bash command of section 3.5 (Git Bash), standard output and error stream into separate files | 0 | 101 PASS, 0 FAIL | `101/101 checks passed; time 200.98000000000002 s` | about 206 s | not measured | empty (0 bytes) |
 
   Runs 3 and 4 ran at the same time as each other; run 5 ran at the same time as the missing-input
   run; runs 7 and 8 ran one after the other while 14 other Wolfram processes of other jobs ran on the
-  machine (processor load 100 %). In all eight runs the 101 check names were printed in the same
-  order (the order of the checks in the report), all `PASS`; the standard output of runs 5 to 8 had
-  102 lines, and in runs 7 and 8 it was identical line by line apart from the times in parentheses.
+  machine (processor load 100 %); runs 9, 10 and 11 ran one after the other while 47, 38 and 15
+  Wolfram processes of other jobs ran (processor load 100 %), and run 9 also at the same time as the
+  four interrupt probes below. In all eleven runs the 101 check names were printed in the same
+  order (the order of the checks in the report), all `PASS`; the standard output of runs 5 to 10 had
+  102 lines (run 11: 103, with its `exit code: 0` line), and in runs 7 and 8, and in runs 9 to 11, it
+  was identical line by line apart from the times in parentheses. Those times vary: runs 9 and 11
+  printed `(0. s)`, `(0. s)`, `(0.2 s)`, `(0.2 s)` for the first four checks, run 10 `(0. s)`,
+  `(0. s)`, `(0.1 s)`, `(0.1 s)`.
 * **Byte identity of the outputs** (`yes` = identical byte for byte; compared with `cmp` and sha256):
 
   | comparison | `Revision/pairing/reports/wolfram-pairing.json` | `Revision/pairing/pairing-theory.json` |
@@ -467,13 +546,19 @@ earlier run on the same machine with less load, recorded in the documents of sec
   | run 7 = committed | yes | yes |
   | run 8 = committed | yes | yes |
   | run 7 = run 8 | yes | yes |
+  | run 9 = committed | yes (`git status`) | yes (`git status`) |
+  | run 10 = committed | yes | yes |
+  | run 11 = committed | yes | yes |
+  | run 10 = run 11 | yes | yes |
 
-  `git status --porcelain --ignored` was empty in each clone after each run, and `git status` in
-  clones B, C and D printed `nothing to commit, working tree clean`. After runs 6 and 8 the eighth
+  `git status --porcelain --ignored` was empty in each clone after each run (with the `* -text` rule
+  of the repository's `.gitattributes`, an empty `git status` after a run means that Git found the
+  rewritten files identical byte for byte to the committed ones), and `git status` in clones B, C, D
+  and E printed `nothing to commit, working tree clean`. After runs 6, 8, 10 and 11 the eighth
   line of the report was `  "summary": {"passed": 101, "failed": 0, "total": 101},`, the seventh line
   of the theory file `  "status": "all checks of the report passed",`, and the sha256 of both files
   those of section 2. The checking commands of section 4.3 (`Select-String`, `Get-FileHash`,
-  `git status`) were run in clones B and D and printed the summary line, the status line and the
+  `git status`) were run in clones B, D and E and printed the summary line, the status line and the
   hashes of section 2. The
   macOS and Linux command of section 3.5 was run in Git Bash on Windows (the same bash syntax); no
   macOS or Linux machine was available for this record.
@@ -501,7 +586,28 @@ earlier run on the same machine with less load, recorded in the documents of sec
   on standard output (error stream 0 bytes), the same messages in the same order and 15 `FAIL` lines
   up to `FAIL  primordial_vielbein  (0.8 s)`, its output stopped growing 4.7 s after the start, the
   kernel kept computing (peak working set 255.9 MB) until it was stopped after 60.7 s, and no output
-  file was written.
+  file was written. Interrupt probes in the evening of 2026-10-07 (fresh clone F of commit b8a695d;
+  each run started in its own console window as a student would start it, the folder
+  `WolframScriptTemporary` watched, and every new file in it attributed by its creation time and by
+  the process holding it open): Ctrl+C after 25.7 s, closing the console window after 20 s, and a
+  forced stop of `wolframscript` (`Stop-Process -Force`) after 20 s. In each case `wolframscript` and
+  its kernel exited within 0.11 s, no file under `Revision/` was written, and both temporary files
+  of the run stayed in `WolframScriptTemporary`: the empty one (created 0.07 to 0.18 s after the
+  start) and the copy of the printed output, held open by the run's kernel until it ended (1178, 655
+  and 570 bytes, each beginning `PASS  fixture_Clifford_relation  (0. s)`). A missing-input run (the
+  two set files without `Revision/algebra/gammas.json`) stopped with Ctrl+C after 15 s ended the same
+  way and left its empty file and a 1555-byte copy of its 33 printed lines, beginning with
+  `Import::nffil` and containing `FAIL  fixture_Clifford_relation  (0. s)` (the independent review's
+  missing-input run printed `(0.1 s)` there). A probe script ending with `Exit[1]` and the wrong-path
+  command left nothing: the temporary file of each was deleted when `wolframscript` ended, as were
+  both files of runs 9 and 10 (the empty one created 0.13 to 0.2 s after the start, the output copy
+  held by the kernel and 5961 and 5860 bytes long). The independent review had found the same: two
+  `tmp_` files per run, deleted at the normal end of its run, left behind by its Ctrl+C probe and its
+  missing-input probe; the missing-input probe of the 2026-10-07 re-verification had also left two
+  such files (its record had looked only at `TEMP` and `TMP`). The files left by the probes of this
+  record were deleted afterwards, by name, with `Remove-Item`; the two cleanup commands of section 5
+  were tried, in PowerShell 7 and Windows PowerShell 5.1, on a copy of the folder layout (they
+  removed the `tmp_` files and kept another file).
 * **Process and network probes:** runs 5 and 6, the missing-input run, five probe scripts that only
   wait (`Pause[6]`) and one socket control script (nine watched runs) were watched by a loop that
   listed the `wolfram.exe` processes about 80 to 175 times per second and read the parent and command
@@ -519,7 +625,11 @@ earlier run on the same machine with less load, recorded in the documents of sec
   and was still alive at 2.83 s, the kernel was first seen at 0.53 s; in run 8 the licence query was
   seen once, at 0.37 s, and the kernel first at 4.18 s (that watch loop was slower because it also
   read the socket tables); in both runs the kernel stayed until the end and no Wolfram process was
-  left after `wolframscript` exited.
+  left after `wolframscript` exited. Runs 9 and 10 were watched the same coarse way (about one
+  reading per second): the licence query was seen once (0.02 and 0.03 s after the start), the kernel
+  first at 8.88 s and 3.89 s (the machine was fully loaded) and until the end, with a peak working
+  set of 246.1 MB in both runs; no Wolfram process was left. The two socket watches of run 10 are
+  described in section 5.
 * **Fixes made:** none were needed to the set; no script, package, input or output was changed.
   This provenance file itself was corrected after the independent review: the macOS installation of
   the Wolfram Engine now includes `wolframscript.pkg` (as in Wolfram's own instructions,
@@ -534,10 +644,22 @@ earlier run on the same machine with less load, recorded in the documents of sec
   or read the outputs (section 1.3), the size of the repository download (section 3.4), the run-time
   ranges including runs 7 and 8 (sections 3, 4.1 and 4.4), the longer life of the licence query on
   a fully loaded machine (section 5) and runs 7 and 8 with their byte-identity results (this
-  section).
+  section). In the evening of 2026-10-07 the five findings of the independent review of that
+  version were re-measured (runs 9 to 11 and the probes above) and all five confirmed; again no fix
+  to the set was needed, and this file was corrected: (1) section 5 no longer says "Temporary
+  files: none" but describes the two `tmp_` files that `wolframscript` writes to
+  `WolframScriptTemporary` on Windows, deleted at a normal end and left behind by an interrupted
+  run, with the cleanup commands (section 5, the missing-input row of section 3.6, and the
+  "Outside the repository" item); (2) the run times are given as examples, not limits, with the
+  longest measured run (276.4 s) (sections 3.1, 3.5, 3.6, 4.1 and 4.4, including the review's four
+  runs); (3) the printed times of the first checks and of the missing-input `FAIL` line vary
+  between runs (sections 3.6 and 4.1); (4) the socket entries are described as measured with both
+  tools, including the `Bound` entry that only `Get-NetTCPConnection` lists (section 5); (5) the
+  statements about commits (sections 2 and 6). Sections 1.3 (the textbook as it stands at
+  `b8a695d`) and 3.4 (the size of the clone) were brought up to date at the same time.
 * **Known limitation (not changed):** the script does not test whether writing its two output files
   succeeded, so in a read-only folder it ends with exit code 0 although nothing was saved (section
   3.6 says how to recognise this). This never affects a run in a normal, writable clone.
 * **Open discrepancies:** none. The counts in the citing documents (101 checks, 101 PASS, 0 FAIL;
-  on 2026-10-07 also the textbook chapter `00-how-to-use-this-book.md` and the notebook
-  `00c_honesty_ledger.ipynb`, both work in progress) agree with the reproduced report.
+  at `b8a695d` also the stored output of the notebook `00c_honesty_ledger.ipynb`, work in progress,
+  which prints `101 of 101` for `wolfram-pairing.json`) agree with the reproduced report.

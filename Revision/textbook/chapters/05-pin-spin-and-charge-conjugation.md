@@ -3554,3 +3554,2060 @@ all_checks_passed()
 ```
 
 The last line reads ALL 24 CHECKS PASSED (notebook 05f): one each in In [2] and In [3], three in In [4], one in In [5], two in In [6], one in In [7], two in In [8], one in In [9], three in In [10], one each in In [12] to In [16], three in In [17] and one in In [19]. Six of them reproduce recorded checks (In [2], In [3], the first and the third of In [4], and the last two of In [17]); the other eighteen are the notebook's own computations.
+
+### 5.28 Charge conjugation is a matrix
+
+**The question.** Every known particle has an **antiparticle** with the same mass and the opposite charge; the positron is the antiparticle of the electron. In a field theory the step from a solution to its antiparticle solution is made by a map called **charge conjugation**: it turns every solution of the field equation into another solution whose charge density has the opposite sign. In the usual four-dimensional Dirac theory this map contains a complex conjugation of the components together with a fixed matrix. In the author's theory one fact changes the picture: the eight gammas are real (Section 5.2). Take a **real** field, one whose 16 components are real numbers at every point, so that $\Psi^\ast = \Psi$. On such a field the complex conjugation $\Psi \to \Psi^\ast$ changes nothing at all: it is the identity map. A map that changes nothing cannot exchange matter and antimatter. So whatever charge conjugation is in this theory, it must be made by a **matrix**, and this section finds every matrix that can do the job. The answer (Theorem CC below) is: exactly two, up to a factor, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$. The Revision record that this section follows is the lead check `Revision/lead_checks/charge_conjugation_and_u1.py` with its report `Revision/lead_checks/reports/charge-conjugation-and-u1.json` (12 of 12 checks passed); Notebook 05c reproduces ten of its checks.
+
+**The field equation.** Chapter 7 derives, from the Lagrangian of the Revision record, the field equation of both fields of the author,
+
+$$
+\gamma^\mu D_\mu\Psi = V\Psi, \qquad V = m + U'(S) .
+$$
+
+Here the index $\mu$ runs over the eight coordinates and a repeated index is summed (the **sum convention** of Chapter 1); $\gamma^\mu = e^\mu{}_a\gamma^a$ are the gammas of the curved space, made from the constant gammas $\gamma^a$ with the **vielbein** $e^\mu{}_a$, a set of real factors that Chapter 6 computes from the author's metric; $D_\mu = \partial_\mu + \Omega_\mu$ is the **covariant derivative**, the partial derivative $\partial_\mu$ along the coordinate $\mu$ plus a $16 \times 16$ matrix $\Omega_\mu$, the **spin connection**, which is a combination of the generators $S^{ab}$ with real coefficients (Chapter 6); $m$ is the mass; $U(S)$ is the self-interaction, a function of the scalar $S = \bar\Psi\Psi$, with derivative $U'(S)$; for the record's choice $U = \tfrac\lambda2S^2$ one has $V = m + \lambda S$. Only one property of this equation is needed now: **every matrix in it is real.** The gammas are real (Section 5.2), the vielbein factors are real, the number $V$ is real, and the Revision record checks that every entry of every $\Omega_\mu$ is a real expression (check `spinor_connection_real` of the lead report).
+
+**Definition.** A **charge-conjugation matrix** is a constant $16 \times 16$ matrix $\mathcal{C}$ such that, whenever $\Psi$ solves the field equation, the column
+
+$$
+\Psi^c = \mathcal{C}\,\bar\Psi^T
+$$
+
+solves the field equation of the same form, either with the same $V$ (**same mass**) or with $-V$ (**mass reversed**). Here $\bar\Psi = \Psi^\dagger C$ is the Dirac adjoint of Section 5.4, a row, and $\bar\Psi^T$ is that row turned into a column.
+
+**From the definition to an equation for a matrix, line by line.** First the column $\bar\Psi^T$:
+
+$$
+\bar\Psi^T = (\Psi^\dagger C)^T = C^T(\Psi^\dagger)^T = C\Psi^\ast .
+$$
+
+The first step is the definition of $\bar\Psi$; the second is the rule $(XY)^T = Y^TX^T$; the third uses that the transpose of the row $\Psi^\dagger$ is the column $\Psi^\ast$ of the conjugated components, and $C^T = C$ (property (C2) of Section 5.4). So $\Psi^c = \mathcal{C}C\Psi^\ast$. Write $M = \mathcal{C}C$; then $\Psi^c = M\Psi^\ast$, and since $CC = 1$ (C3), $\mathcal{C} = MC$.
+
+- Step 1 (conjugate the equation). The complex conjugate of a product is the product of the complex conjugates, a real factor is its own conjugate, and the derivative of the conjugate is the conjugate of the derivative (the coordinates are real). So the conjugate of $\gamma^\mu D_\mu\Psi = V\Psi$ is $\gamma^\mu D_\mu\Psi^\ast = V\Psi^\ast$: **the column $\Psi^\ast$ solves the same equation.**
+- Step 2 (multiply by a constant matrix). Multiply from the left by $M$: $M\gamma^\mu D_\mu\Psi^\ast = V\,M\Psi^\ast$; the number $V$ may stand on either side of $M$.
+- Step 3 (the condition on $M$). Suppose that, with one sign $s$ ($+1$ or $-1$) for all eight directions,
+
+$$
+M\gamma^a = s\,\gamma^aM \qquad \text{for } a = x1, \dots, x8 .
+$$
+
+Then $M\gamma^\mu = \sum_a e^\mu{}_aM\gamma^a = s\,\gamma^\mu M$, because the vielbein factors are numbers. $M$ commutes with every product of two gammas: $M\gamma^a\gamma^b = s\,\gamma^aM\gamma^b = s^2\,\gamma^a\gamma^bM = \gamma^a\gamma^bM$ (the condition used twice, then $s^2 = 1$). The spin connection is a combination of the $S^{ab} = \tfrac12\gamma^a\gamma^b$, so $M\Omega_\mu = \Omega_\mu M$; and a constant matrix commutes with a derivative, $M\partial_\mu = \partial_\mu M$. Hence $MD_\mu = D_\mu M$.
+- Step 4 (the new field). With Step 3, $M\gamma^\mu D_\mu\Psi^\ast = s\,\gamma^\mu MD_\mu\Psi^\ast = s\,\gamma^\mu D_\mu(M\Psi^\ast)$. So the equation of Step 2 reads $s\,\gamma^\mu D_\mu(M\Psi^\ast) = V\,(M\Psi^\ast)$. Multiplying by $s$ and using $s^2 = 1$:
+
+$$
+\gamma^\mu D_\mu(M\Psi^\ast) = s\,V\,(M\Psi^\ast) .
+$$
+
+**The new field $M\Psi^\ast$ solves the equation with $V$ when $s = +1$ and with $-V$ when $s = -1$.** Because the gammas are real, $(\gamma^a)^\ast = \gamma^a$, and the condition of Step 3 can be written $M(\gamma^a)^\ast = s\,\gamma^aM$; this is the form that the Revision record solves (it would also be the right form for complex gammas). One more remark about $V = m + \lambda S$, which depends on the field through $S$: Section 5.29 shows that for commuting components both matrices found below give a new field with the same $S$ as $\Psi$. Then $sV = s\,m + s\,\lambda S$, so the new field solves the field equation with the parameters $(m, \lambda)$ when $s = +1$ and $(-m, -\lambda)$ when $s = -1$. For a free field ($\lambda = 0$) only the mass matters.
+
+**Theorem CC (the two charge-conjugation matrices).**
+
+- (a) The solutions $M$ of $M(\gamma^a)^\ast = +\gamma^aM$ for all $a$ are the multiples of $1$; the solutions of $M(\gamma^a)^\ast = -\gamma^aM$ for all $a$ are the multiples of $\Gamma$.
+- (b) Hence there are exactly two charge-conjugation matrices, up to a factor: $\mathcal{C}_+ = C$ (same mass), with $\Psi^c = \mathcal{C}_+\bar\Psi^T = \Psi^\ast$, and $\mathcal{C}_- = \Gamma C$ (mass reversed), with $\Psi^c = \mathcal{C}_-\bar\Psi^T = \Gamma\Psi^\ast$.
+- (c) They obey $\mathcal{C}_+^{-1}\gamma^a\mathcal{C}_+ = -(\gamma^a)^T$ and $\mathcal{C}_-^{-1}\gamma^a\mathcal{C}_- = +(\gamma^a)^T$ for every $a$; both are real and symmetric, and $\mathcal{C}_+\mathcal{C}_+ = \mathcal{C}_-\mathcal{C}_- = 1$.
+
+*Proof of (a).* The gammas are real, so the condition reads $M\gamma^a = s\,\gamma^aM$. For $s = +1$, $M$ commutes with all eight gammas, and by Theorem P of Section 5.13 it is a multiple of $1$. For $s = -1$, $M$ anticommutes with every gamma. Then $\Gamma M$ commutes with every gamma:
+
+$$
+\gamma^a(\Gamma M) = -\Gamma\gamma^aM = -\Gamma(-M\gamma^a) = (\Gamma M)\gamma^a .
+$$
+
+The first step is (X2) of Section 5.5 ($\Gamma$ anticommutes with every gamma); the second is the condition, read as $\gamma^aM = -M\gamma^a$; the third collects the two signs. By Theorem P, $\Gamma M = \lambda 1$ for some number $\lambda$; multiplying from the left by $\Gamma$ and using $\Gamma\Gamma = 1$ (X1) gives $M = \lambda\Gamma$. Conversely, $1$ commutes with every gamma and $\Gamma$ anticommutes with every gamma (X2), so both are solutions. The two solution spaces are therefore one-dimensional, spanned by $1$ and by $\Gamma$.
+
+*Proof of (b).* $\mathcal{C} = MC$ (above). $M = 1$ gives $\mathcal{C}_+ = C$ and $\Psi^c = 1\,\Psi^\ast = \Psi^\ast$; $M = \Gamma$ gives $\mathcal{C}_- = \Gamma C$ and $\Psi^c = \Gamma\Psi^\ast$.
+
+*Proof of (c).* For $\mathcal{C}_+ = C$, with $C^{-1} = C$ (C3), $\mathcal{C}_+^{-1}\gamma^a\mathcal{C}_+ = C\gamma^aC = -(\gamma^a)^T$ by (C5). For $\mathcal{C}_-$, the inverse of a product is the product of the inverses in the reverse order, so $\mathcal{C}_-^{-1} = C^{-1}\Gamma^{-1} = C\Gamma$ by (C3) and (X1). Then
+
+$$
+\mathcal{C}_-^{-1}\gamma^a\mathcal{C}_- = C\Gamma\gamma^a\Gamma C = C(-\gamma^a\Gamma)\Gamma C = -C\gamma^aC = +(\gamma^a)^T .
+$$
+
+The second step is (X2), the third is $\Gamma\Gamma = 1$ (X1), the fourth is (C5). Both matrices are products of real matrices, hence real. Symmetry: $C^T = C$ is (C2); $(\Gamma C)^T = C^T\Gamma^T = C\Gamma = \Gamma C$ by $(XY)^T = Y^TX^T$, (C2), (X6) and (X5). Squares: $CC = 1$ is (C3); $\Gamma C\Gamma C = \Gamma\Gamma CC = 1$ by (X5), (X1) and (C3). $\square$
+
+**The shape of $\mathcal{C}_-$.** $\Gamma = \mathrm{diag}(-1_8, 1_8)$ and $C = \mathrm{diag}(-\sigma, \sigma)$ (Sections 5.4 and 5.5), so $\Gamma C = \mathrm{diag}(\sigma, \sigma)$: multiplying by $\Gamma$ from the left reverses the sign of the rows 1 to 8 (the block rule of Section 5.5). The table of Section 5.6 lists $\Gamma C$ next to $C$.
+
+**The same two matrices from the transposition rules.** Many books define a charge-conjugation matrix by the condition $\mathcal{C}^{-1}\gamma^a\mathcal{C} = \zeta(\gamma^a)^T$ with a sign $\zeta$, that is $\gamma^a\mathcal{C} = \zeta\,\mathcal{C}(\gamma^a)^T$. Solving this directly gives the same two matrices: the solutions $X$ of $\gamma^aX = \zeta X(\gamma^a)^T$ (all $a$) are the multiples of $C$ for $\zeta = -1$ and of $\Gamma C$ for $\zeta = +1$. Proof: (C5) with $C^{-1} = C$ says $(\gamma^a)^T = -C\gamma^aC$, so the equation reads $\gamma^aX = -\zeta XC\gamma^aC$; multiplying from the right by $C$ (and $CC = 1$) gives $\gamma^a(XC) = -\zeta(XC)\gamma^a$. By part (a), $XC = \lambda1$ when $-\zeta = +1$ and $XC = \lambda\Gamma$ when $-\zeta = -1$; multiplying from the right by $C$ gives $X = \lambda C$ or $X = \lambda\Gamma C$.
+
+**What $\mathcal{C}_+$ does to a real field.** For every field $\mathcal{C}_+\bar\Psi^T$ is the column $\Psi^\ast$. For a complex field this column differs from $\Psi$; for a real field it is $\Psi$ itself. So the same-mass charge conjugation leaves every real field unchanged: a real field is its own $\mathcal{C}_+$ conjugate. Section 5.29 shows what this means for the charge, and which real map is not trivial.
+
+**A worked example: the free field along the time.** Take flat space, no self-interaction, and a field that depends only on the time $x4$. The field equation keeps only the term with $\mu = x4$, and in flat space $\gamma^{(x4)}$ is the constant gamma of $x4$:
+
+$$
+\gamma^{(x4)}\frac{d\Psi}{dx4} = m\Psi .
+$$
+
+Multiplying from the left by $-\gamma^{(x4)}$ and using $\gamma^{(x4)}\gamma^{(x4)} = -1$ gives $d\Psi/dx4 = -m\gamma^{(x4)}\Psi$. For any constant column $\Psi_0$ the column
+
+$$
+\Psi(x4) = \cos(m\,x4)\,\Psi_0 - \sin(m\,x4)\,\gamma^{(x4)}\Psi_0
+$$
+
+solves it. Check, line by line: by the chain rule, $d\cos(m\,x4)/dx4 = -m\sin(m\,x4)$ and $d\sin(m\,x4)/dx4 = m\cos(m\,x4)$, so
+
+$$
+\frac{d\Psi}{dx4} = -m\sin(m\,x4)\,\Psi_0 - m\cos(m\,x4)\,\gamma^{(x4)}\Psi_0 ;
+$$
+
+multiplying from the left by $\gamma^{(x4)}$ and using $\gamma^{(x4)}\gamma^{(x4)} = -1$ in the second term,
+
+$$
+\gamma^{(x4)}\frac{d\Psi}{dx4} = -m\sin(m\,x4)\,\gamma^{(x4)}\Psi_0 + m\cos(m\,x4)\,\Psi_0 = m\Psi .
+$$
+
+Now the two conjugates. Since $\cos$, $\sin$ and $\gamma^{(x4)}$ are real,
+
+$$
+\Psi^\ast(x4) = \cos(m\,x4)\,\Psi_0^\ast - \sin(m\,x4)\,\gamma^{(x4)}\Psi_0^\ast :
+$$
+
+the same formula with the starting column $\Psi_0^\ast$, so $\Psi^\ast$ solves the equation with the **same mass** $m$. For the other, put $\Phi_0 = \Gamma\Psi_0^\ast$ and use $\Gamma\gamma^{(x4)} = -\gamma^{(x4)}\Gamma$ (X2):
+
+$$
+\Gamma\Psi^\ast(x4) = \cos(m\,x4)\,\Phi_0 + \sin(m\,x4)\,\gamma^{(x4)}\Phi_0 = \cos(-m\,x4)\,\Phi_0 - \sin(-m\,x4)\,\gamma^{(x4)}\Phi_0 ,
+$$
+
+where the last step uses $\cos(-y) = \cos y$ and $\sin(-y) = -\sin y$. This is the solution formula with $m$ replaced by $-m$: $\Gamma\Psi^\ast$ solves the equation with the **mass reversed**. Notebook 05c checks both statements exactly with sympy, for a general mass $m$, and numerically on 801 time points (figures 3 and 4 of the notebook).
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| the gammas, $C$ and the $S^{ab}$ are real; $B$ is purely imaginary and Hermitian | PROVED | `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, checks `representation_real` and `B_imaginary_hermitian`; Notebook 05c, In [2] |
+| every entry of the spin connection $\Omega_\mu$ is real, so $\gamma^\mu D_\mu$ is a real operator | PROVED in the record | the same report, check `spinor_connection_real` |
+| Theorem CC (a): the solutions of $M(\gamma^a)^\ast = \pm\gamma^aM$ are the multiples of $1$ and of $\Gamma$ | PROVED; the exact solution of the 2048 equations COMPUTED | the same report, checks `intertwiners_same_mass` and `intertwiners_reversed_mass`; Notebook 05c, In [3] and In [4] |
+| Theorem CC (b), (c): $\mathcal{C}_+ = C$, $\mathcal{C}_- = \Gamma C$ and their transposition rules | PROVED | the same report, checks `charge_conjugation_matrix_plus` and `charge_conjugation_matrix_minus`; Notebook 05c, In [5] and In [7] |
+| the transposition equations have only the solutions $C$ and $\Gamma C$ | PROVED; COMPUTED exactly | Notebook 05c, In [5] (its own computation) |
+| the free solution: $\Psi$ and $\Psi^\ast$ solve with $m$, $\Gamma\Psi^\ast$ with $-m$ | PROVED; COMPUTED exactly (sympy) and numerically (residuals below $10^{-12}$) | Notebook 05c, In [8] and In [9] (its own computation) |
+
+### 5.29 The bilinears, the reality conditions and real fields
+
+**Anticommuting numbers.** The components of the field dirac16complex00 are ordinary (complex) numbers, which **commute**: $\Psi_r\Psi_c = \Psi_c\Psi_r$. The components of dirac16complex are **anticommuting** numbers, also called **Grassmann numbers** after the mathematician who introduced them: exchanging two of them in a product costs a sign, $\Psi_r\Psi_c = -\Psi_c\Psi_r$, and in particular $\Psi_r\Psi_r = -\Psi_r\Psi_r$, so $\Psi_r\Psi_r = 0$. Chapter 7 builds them from zero. Here only the exchange rule is used, and the conjugated components $\Psi_r^\ast$ are treated as further anticommuting numbers. Write $\epsilon = +1$ for commuting and $\epsilon = -1$ for anticommuting components: exchanging two components costs the factor $\epsilon$.
+
+**How a bilinear changes, line by line.** For a fixed matrix $K$ the **bilinear** $\Psi^\dagger K\Psi = \sum_{r,c}\Psi_r^\ast K_{rc}\Psi_c$ is a single number. Replace $\Psi$ by $\Psi' = M\Psi^\ast$ with a real matrix $M$.
+
+1. $(\Psi')^\dagger = (M\Psi^\ast)^\dagger = (\Psi^\ast)^\dagger M^\dagger = \Psi^TM^\dagger$, by the rule $(XY)^\dagger = Y^\dagger X^\dagger$ and because conjugating twice gives the number back. So $\Psi'^\dagger K\Psi' = \Psi^TM^\dagger KM\Psi^\ast = \sum_{r,c}\Psi_r\,(M^\dagger KM)_{rc}\,\Psi_c^\ast$.
+2. Exchange the two factors $\Psi_r$ and $\Psi_c^\ast$; this costs the factor $\epsilon$: $\sum_{r,c}\epsilon\,\Psi_c^\ast\,(M^\dagger KM)_{rc}\,\Psi_r$.
+3. Rename the summation letters, $r \leftrightarrow c$: $\sum_{r,c}\Psi_r^\ast\,\epsilon(M^\dagger KM)_{cr}\,\Psi_c = \Psi^\dagger K'\Psi$ with $K' = \epsilon\,(M^\dagger KM)^T$.
+
+So **the bilinear with the matrix $K$ turns into the bilinear with the matrix $K' = \epsilon(M^\dagger KM)^T$.** If $K' = +K$ the bilinear is kept, if $K' = -K$ it is reversed.
+
+**The signs of $S$ and $J$.** The scalar has $K = C$, the currents $K = -iC\gamma^a$ (Section 5.4). The two maps have $M = 1$ ($\mathcal{C}_+$) and $M = \Gamma$ ($\mathcal{C}_-$); both are real and symmetric, so $M^\dagger = M$.
+
+- $\mathcal{C}_+$, scalar: $K' = \epsilon C^T = \epsilon C$ by (C2). So $S \to \epsilon S$.
+- $\mathcal{C}_+$, currents: $(-iC\gamma^a)^T = -i(C\gamma^a)^T = -i(-C\gamma^a) = iC\gamma^a$ by (C4), so $K' = \epsilon\,iC\gamma^a = -\epsilon K$. So $J^a \to -\epsilon J^a$.
+- $\mathcal{C}_-$, scalar: $\Gamma C\Gamma = \Gamma^TC\Gamma = C$ by (X6) and (X7), so $K' = \epsilon C^T = \epsilon C$. So $S \to \epsilon S$.
+- $\mathcal{C}_-$, currents: $\Gamma(-iC\gamma^a)\Gamma = -i\,\Gamma^TC\gamma^a\Gamma = -i(-C\gamma^a) = iC\gamma^a$ by (X6) and (X8), and its transpose is $i(C\gamma^a)^T = -iC\gamma^a = K$ by (C4). So $K' = \epsilon K$ and $J^a \to \epsilon J^a$.
+
+| map | components | $S$ becomes | every $J^a$ becomes |
+| --- | --- | --- | --- |
+| $\mathcal{C}_+$ ($M = 1$) | commuting ($\epsilon = +1$) | $+S$ | $-J^a$ |
+| $\mathcal{C}_+$ ($M = 1$) | anticommuting ($\epsilon = -1$) | $-S$ | $+J^a$ |
+| $\mathcal{C}_-$ ($M = \Gamma$) | commuting ($\epsilon = +1$) | $+S$ | $+J^a$ |
+| $\mathcal{C}_-$ ($M = \Gamma$) | anticommuting ($\epsilon = -1$) | $-S$ | $-J^a$ |
+
+This is the table that the Revision record measured (check `bilinears_under_charge_conjugation`, the part of its detail text after the word measured); Notebook 05c reproduces it exactly. For the anticommuting rows the table is a statement about classical Grassmann components. For the quantised field the question is decided by an operator computation, which Section 5.34 carries out: after normal ordering the quantised field has exactly the signs of the anticommuting rows. (The detail text of the record's check also contains, in parentheses, the remark that normal ordering supplies one more sign for each bilinear; that remark is not part of the measured table, and the computation of Section 5.34 and Notebook 05e does not support it. This is listed as an open point for the owner of the record in Section 5.40.)
+
+**What the table means for the commuting field.** For dirac16complex00, whose components are commuting complex numbers, $\mathcal{C}_+$ keeps the mass and the scalar and reverses every current, in particular the charge density $J^{(x4)} = \Psi^\dagger B\Psi$. So it turns every solution of charge $Q$ into a solution of the same mass and charge $-Q$: it is the antiparticle map of this field. $\mathcal{C}_-$ reverses the mass and keeps the charge. Notebook 05c shows this on the free solution of Section 5.28 with a fixed complex column $\Psi_0$: the solution has $S = -2$ and $J^{(x4)} = -6$ at every time; $\Psi^\ast$ has $S = -2$ and $J^{(x4)} = +6$; $\Gamma\Psi^\ast$ has $S = -2$ and $J^{(x4)} = -6$ (figure 5 of the notebook).
+
+**The reality (Majorana) conditions.** A field equal to its own conjugate obeys $\Psi = M\Psi^\ast$; such a requirement is called a **Majorana** or **reality condition**, after the physicist who first used one. Is it a sensible requirement? Take the complex conjugate of the condition, $\Psi^\ast = M^\ast\Psi$, and put it back into the condition: $\Psi = MM^\ast\Psi$. If $MM^\ast = 1$ this is automatically true, and the condition is called **consistent**; otherwise it forces further conditions on $\Psi$ (possibly $\Psi = 0$). For $M = 1$, $MM^\ast = 1$: the condition $\Psi = \Psi^\ast$ says that the field is real. For $M = \Gamma$, $\Gamma\Gamma^\ast = \Gamma\Gamma = 1$: the condition $\Psi = \Gamma\Psi^\ast$ says, component by component, $\Psi_r = -\Psi_r^\ast$ for $r = 1, \dots, 8$ (where $\Gamma = -1$), so these components are purely imaginary, and $\Psi_r = \Psi_r^\ast$ for $r = 9, \dots, 16$, which are real. Both conditions are consistent (record check `majorana_conditions_consistent`).
+
+**Do they survive the time evolution?** Consistency is a statement about one moment. For the free solution of Section 5.28: if $\Psi_0$ is real, every factor of the solution is real and the field stays real for ever. If instead $\Psi_0 = \Gamma\Psi_0^\ast$, then, using $\Gamma\gamma^{(x4)} = -\gamma^{(x4)}\Gamma$ (X2) and $\Gamma\Psi_0^\ast = \Psi_0$,
+
+$$
+\Gamma\Psi(x4)^\ast = \cos(m\,x4)\,\Gamma\Psi_0^\ast - \sin(m\,x4)\,\Gamma\gamma^{(x4)}\Psi_0^\ast = \cos(m\,x4)\,\Psi_0 + \sin(m\,x4)\,\gamma^{(x4)}\Psi_0 ,
+$$
+
+and subtracting this from $\Psi(x4)$:
+
+$$
+\Psi(x4) - \Gamma\Psi(x4)^\ast = -2\sin(m\,x4)\,\gamma^{(x4)}\Psi_0 .
+$$
+
+Its length is $2|\sin(m\,x4)|$ times the length of $\Psi_0$, because $\gamma^{(x4)}$ is a signed permutation matrix and keeps lengths. So the condition $\Psi = \Gamma\Psi^\ast$ holds at all times only for $m = 0$. This is what "mass reversed" means: a field equal to its own $\mathcal{C}_-$ image would have to solve the equation with $V$ and with $-V$ at the same time (figure 7 of Notebook 05c).
+
+**Real fields.** For a real field with commuting components, three facts hold.
+
+- (F1) **The currents vanish.** $J^a = \Psi^\dagger(-iC\gamma^a)\Psi = -i\,\Psi^TA\Psi$ with $A = C\gamma^a$, which is antisymmetric by (C4). For every real column $u$ and every antisymmetric $A$, $u^TAu = 0$: the number $u^TAu$ equals its own transpose, $u^TAu = (u^TAu)^T = u^TA^Tu = -u^TAu$ (the rule $(XYZ)^T = Z^TY^TX^T$, then $A^T = -A$), and a number equal to minus itself is 0. So a real commuting field carries no current and no charge.
+- (F2) **$\mathcal{C}_+$ acts as the identity.** $\Psi^c = \Psi^\ast = \Psi$: a real field is its own same-mass conjugate.
+- (F3) **The real matrix $\Gamma$ reverses the mass.** The map $\Psi \to \Gamma\Psi$ (no conjugation) takes real fields to real fields. It keeps the scalar, $(\Gamma\Psi)^TC(\Gamma\Psi) = \Psi^T\Gamma^TC\Gamma\Psi = \Psi^TC\Psi$ by (X7), and it reverses every kinetic matrix, $\Gamma^TC\gamma^a\Gamma = -C\gamma^a$ by (X8). In the field equation: $\Gamma$ commutes with $\Omega_\mu$ (an even matrix, (X3)) and with $\partial_\mu$, so $\Gamma D_\mu = D_\mu\Gamma$, and $\Gamma$ anticommutes with every $\gamma^\mu$; hence $\gamma^\mu D_\mu(\Gamma\Psi) = -\Gamma\gamma^\mu D_\mu\Psi = -V\,(\Gamma\Psi)$. With $S(\Gamma\Psi) = S(\Psi)$ and $V = m + \lambda S$, the field $\Gamma\Psi$ solves the field equation with $(m, \lambda) \to (-m, -\lambda)$. This is the pairing theorem T1 of the Revision record, which Chapter 18 proves for the Lagrangian; the same calculation holds for complex fields, where $\Gamma$ also reverses every current.
+
+By Theorem CC, every real matrix that maps real solutions to solutions with $\pm V$ is a multiple of $1$ or of $\Gamma$. So for real fields the only nontrivial matrix map is $\Gamma$, and it reverses the mass. The Revision record states this as: for real fields the matter–antimatter map is the matrix $\Gamma$ together with $m \to -m$ (check `real_fields_charge_conjugation`). A real commuting field has no charge to reverse (F1); what the map exchanges is the sign of the mass.
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| the bilinear rule $K' = \epsilon(M^\dagger KM)^T$ and the sign table of $S$ and $J$ | PROVED; COMPUTED exactly | `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, check `bilinears_under_charge_conjugation` (its measured table); Notebook 05c, In [14] |
+| on the free solution: $S = -2$ for all three fields, $J^{(x4)} = -6$, $+6$, $-6$ | COMPUTED (exact at $x4 = 0$; constant to $10^{-12}$) | Notebook 05c, In [12] (its own computation) |
+| both reality conditions are consistent ($MM^\ast = 1$) | PROVED | the same report, check `majorana_conditions_consistent`; Notebook 05c, In [16] |
+| the real condition is kept in time; $\Psi = \Gamma\Psi^\ast$ is violated by $2|\sin(m\,x4)|$ | PROVED; COMPUTED for $m = 1$, $0.5$, $0$ | Notebook 05c, In [17] (its own computation) |
+| real fields: (F1), (F2), (F3) | PROVED | the same report, check `real_fields_charge_conjugation`; Notebook 05c, In [18] |
+| the parenthetical remark of the record that normal ordering adds a sign | not supported (Section 5.34) | Notebook 05e, In [16] to In [18] |
+
+### 5.30 Example: Notebook 05c computes the charge-conjugation matrices
+
+Notebook 05c turns Sections 5.28 and 5.29 into exact computations on the author's gammas. It reads the gammas from `Revision/algebra/gammas.json` and the lead report `Revision/lead_checks/reports/charge-conjugation-and-u1.json`; it writes the conditions $M(\gamma^a)^\ast = \pm\gamma^aM$ as two systems of 2048 linear equations for the 256 entries of $M$ and solves them exactly, confirming the result with the zero eigenvalues of $A^TA$; it builds $\mathcal{C}_+$ and $\mathcal{C}_-$ and checks their transposition rules, and solves the transposition equations directly; it applies both maps to a complex column and to the free solution along $x4$, exactly with sympy and on 801 time points; it computes $S$ and $J^{(x4)}$ of the three fields and the full sign table for commuting and anticommuting components; it checks the reality conditions and follows them in time; it treats real fields; and it checks which conjugation keeps the anticommutator of the quantised field. Ten of its checks reproduce checks of the lead report. It draws nine figures and ends with the line ALL 20 CHECKS PASSED (notebook 05c).
+
+<!-- NOTEBOOK 05c -->
+
+### 5.33 Line-by-line walk-through of Notebook 05c
+
+The notebook has 21 code cells. In [1] is the set-up cell of Section 5.10 with `NOTEBOOK_ID = "05c"`; its comments repeat the instructions of Section 5.31. As in the earlier walk-throughs, the docstrings of the functions (the texts in triple quotes below a `def` line) are left out of the quotations, and a long caption given to `save_figure` is shortened to `...`; the full caption is printed under the figure in the complete text of the notebook.
+
+**In [2], the gammas, $C$, $\Gamma$, $B$ and the lead report.**
+
+```python
+import contextlib  # lets a block of code print into a text buffer
+import io  # the text buffer io.StringIO
+import sys  # sys.stdout: the channel through which the notebook prints
+
+import numpy as np  # arrays of numbers, matrices and linear algebra
+```
+
+The modules `contextlib`, `io` and `sys` serve the helper `check_reproduces` below; numpy is loaded under its short name `np`.
+
+```python
+fixture = json.loads(repository_file("Revision/algebra/gammas.json")
+                     .read_text(encoding="utf-8"))
+COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
+gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
+I16 = np.eye(16, dtype=np.int64)  # the identity matrix 1
+```
+
+These lines read the record of the gammas exactly as Notebook 05a does (Section 5.10, In [2]): `fixture` is the record, `COORDS` the eight coordinate names, `ETA` the signs $\eta_{aa}$, `gamma` the eight matrices as arrays of whole numbers (so that every product is exact) and `I16` the identity. A statement may run over two lines when the line break stands inside a bracket, as in the first line.
+
+```python
+def product(directions):
+    result = I16
+    for d in directions:
+        result = result @ gamma[d]
+    return result
+```
+
+`product(["x8", "x1"])` multiplies the gammas of the listed directions in the order of the list, starting from the identity; `@` is the matrix product.
+
+```python
+C = product(["x8", "x1", "x2", "x3"])  # the charge matrix (sigma16)
+Gamma = product(["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # the chirality
+B = -1j * (C @ gamma["x4"])  # B = -i C gamma^(x4)
+pairs = [(a, b) for i, a in enumerate(COORDS) for b in COORDS[i + 1:]]
+S_gen = {(a, b): (gamma[a] @ gamma[b] - gamma[b] @ gamma[a]) / 4 for a, b in pairs}
+```
+
+$C$, $\Gamma$ and $B = -iC\gamma^{(x4)}$ are built as in Sections 5.4 to 5.6 (`1j` is Python's imaginary unit $i$). `pairs` lists the 28 planes $(a, b)$ with $a$ before $b$ (`enumerate` gives each name with its position `i`, and `COORDS[i + 1:]` is the list of the names after it), and `S_gen` holds the 28 generators $S^{ab} = \tfrac14(\gamma^a\gamma^b - \gamma^b\gamma^a)$.
+
+```python
+RECORD = "Revision/lead_checks/reports/charge-conjugation-and-u1.json"
+lead = json.loads(repository_file(RECORD).read_text(encoding="utf-8"))
+LEAD = {c["name"]: (c["verdict"].lower(), c["detail"]) for c in lead["checks"]}
+```
+
+`RECORD` is the path of the lead report. `lead` is the whole report read as a dictionary; `lead["checks"]` is its list of checks, and the dictionary comprehension stores each check under its name as the pair (verdict in small letters, detail text).
+
+```python
+def recorded(name):
+    return LEAD[name][0] == "pass"
+
+
+def detail(name):
+    return LEAD[name][1]
+
+
+def check_reproduces(condition, name, record):
+    collected = io.StringIO()
+    with contextlib.redirect_stdout(collected):  # print into the buffer
+        check(condition, name, record=record)  # stops here if the check fails
+    sys.stdout.write(collected.getvalue())  # the PASS and reproduces lines together
+```
+
+`recorded(name)` is true when the lead report holds the check `name` with the verdict pass; `detail(name)` is its detail text (the second element `[1]` of the stored pair). `check_reproduces` is the helper of Notebook 05a (Section 5.10, In [3]): it lets `check` print the PASS line and the line that names the reproduced record into a text buffer and then sends both lines at once.
+
+```python
+passed, total = lead["summary"]["passed"], lead["summary"]["total"]
+say(f"the lead report holds {len(LEAD)} checks; passed: {passed} of {total}")
+is_real = all(not np.iscomplexobj(gamma[x]) for x in COORDS)
+```
+
+The first line reads the two numbers of the report's summary; the printed line says that the report holds 12 checks, all passed. `np.iscomplexobj` is true for an array of complex numbers; `is_real` is true when none of the eight gammas is complex.
+
+```python
+check_reproduces(is_real and np.array_equal(C.T, C) and np.array_equal(C @ C, I16)
+                 and all(np.isrealobj(s) for s in S_gen.values())
+                 and recorded("representation_real"),
+                 "the gammas, C (symmetric, C C = 1) and the S^ab are real",
+                 record=f"{RECORD}, check representation_real")
+check_reproduces(not np.any(B.real) and np.array_equal(B.conj().T, B)
+                 and np.array_equal(B @ B, I16) and recorded("B_imaginary_hermitian"),
+                 "B = -i C gamma^(x4) is purely imaginary and Hermitian, B B = 1",
+                 record=f"{RECORD}, check B_imaginary_hermitian")
+```
+
+The first check: the gammas are real, $C^T = C$, $CC = 1$, and every generator is real (`np.isrealobj`); this is the fact that makes plain complex conjugation do nothing on a real field. The second check: the real part of $B$ is zero everywhere (`not np.any(B.real)`), $B^\dagger = B$ (`B.conj().T` is the conjugate transpose) and $BB = 1$. Both print PASS and the lead check they reproduce.
+
+**In [3], every conjugation matrix, solved exactly.**
+
+```python
+import sympy as sp  # exact algebra
+from sympy.polys.matrices import DomainMatrix  # exact matrices over QQ
+
+
+def conjugation_system(s):
+    blocks = []
+    for x in COORDS:
+        G = np.conj(gamma[x]).astype(np.int64)  # (gamma^a)*, equal to gamma^a
+        blocks.append(np.kron(I16, G.T) - s * np.kron(gamma[x], I16))
+    return np.vstack(blocks)
+```
+
+`conjugation_system(s)` builds the coefficient matrix of the 2048 linear equations $M(\gamma^a)^\ast - s\,\gamma^aM = 0$, $a = x1, \dots, x8$, for the 256 entries of $M$ listed row by row. The rule of Section 5.13 for $LX - XR$ is used with the roles turned around: the entry $(r, c)$ of $MG$ is $\sum_kM_{rk}G_{kc}$, and the coefficient matrix of $M \to MG$ is $\mathrm{kron}(1, G^T)$; the entry $(r, c)$ of $GM$ is $\sum_kG_{rk}M_{kc}$, with the coefficient matrix $\mathrm{kron}(G, 1)$. `np.conj` writes out the complex conjugate although it equals the gamma (the gammas are real), so that the code says exactly what the equation says; `np.vstack` stacks the eight blocks of 256 rows.
+
+```python
+def exact_solutions(A, n=16):
+    null = DomainMatrix.from_list(A.tolist(), sp.QQ).nullspace().to_Matrix()
+    return [np.array(null.row(k).tolist()[0], dtype=float).reshape(n, n)
+            for k in range(null.rows)]
+```
+
+`exact_solutions(A)` returns a basis of all solutions of $Ay = 0$, each turned back into a $16 \times 16$ matrix, as `solution_basis` of Notebook 05b does (Section 5.17, In [3]): sympy's `DomainMatrix` over the rational numbers `QQ` finds the solutions by exact elimination, `nullspace()` returns one solution per row, and `reshape(n, n)` restores the matrix (`n=16` is a **default value**: the argument may be left out).
+
+```python
+def proportional(X, Y):
+    stacked = np.array([X.reshape(-1), Y.reshape(-1)], dtype=float)
+    return bool(X.any() and Y.any() and np.linalg.matrix_rank(stacked) == 1)
+```
+
+`proportional(X, Y)` is true when both matrices are nonzero and one is a number times the other: written as two rows of 256 numbers (`reshape(-1)` lays out all entries in one row), they must have rank 1. `bool(...)` turns the result into a plain true or false.
+
+```python
+A_same, A_reversed = conjugation_system(+1), conjugation_system(-1)
+M_same, M_reversed = exact_solutions(A_same), exact_solutions(A_reversed)
+say(f"s = +1: {A_same.shape[0]} equations, {len(M_same)} independent solution(s)")
+say(f"s = -1: {A_reversed.shape[0]} equations, {len(M_reversed)} independent "
+    f"solution(s)")
+```
+
+The two systems are built and solved. The printed lines report, for each sign, 2048 equations and 1 independent solution.
+
+```python
+check_reproduces(len(M_same) == 1 and proportional(M_same[0], I16)
+                 and "dimension 1" in detail("intertwiners_same_mass")
+                 and recorded("intertwiners_same_mass"),
+                 "M (gamma^a)* = + gamma^a M: one solution, the identity (same mass)",
+                 record=f"{RECORD}, check intertwiners_same_mass")
+check_reproduces(len(M_reversed) == 1 and proportional(M_reversed[0], Gamma)
+                 and "dimension 1" in detail("intertwiners_reversed_mass")
+                 and recorded("intertwiners_reversed_mass"),
+                 "M (gamma^a)* = - gamma^a M: one solution, Gamma (mass reversed)",
+                 record=f"{RECORD}, check intertwiners_reversed_mass")
+```
+
+Theorem CC (a) as two checks: for $s = +1$ exactly one solution, proportional to the identity; for $s = -1$ exactly one, proportional to $\Gamma$. Each also requires that the record's detail text contains the words `dimension 1`, the dimension the record found.
+
+**In [4], the second engine and the picture of the solutions.**
+
+```python
+from matplotlib.colors import LinearSegmentedColormap
+
+SIGNS = LinearSegmentedColormap.from_list("signs", ["#2a78d6", "#f0efec", "#e34948"])
+
+
+def heat_map(ax, matrix, title, row_label=True):
+    image = ax.imshow(matrix, cmap=SIGNS, vmin=-1, vmax=1)
+    ax.set_title(title)
+    ax.set_xticks([0, 3, 7, 11, 15], ["1", "4", "8", "12", "16"])
+    ax.set_yticks([0, 3, 7, 11, 15], ["1", "4", "8", "12", "16"])
+    ax.axhline(7.5, color="black", linewidth=0.8)
+    ax.axvline(7.5, color="black", linewidth=0.8)
+    ax.set_xlabel("column")
+    if row_label:
+        ax.set_ylabel("row")
+    ax.grid(False)
+    return image
+```
+
+The colour map (blue $-1$, light grey $0$, red $+1$) and the heat map of Notebook 05a (Section 5.10, In [6]), here always for a $16 \times 16$ matrix with the two black lines between the halves.
+
+```python
+eigen_same = np.linalg.eigvalsh((A_same.T @ A_same).astype(float))
+eigen_reversed = np.linalg.eigvalsh((A_reversed.T @ A_reversed).astype(float))
+zeros_same = int(np.sum(np.abs(eigen_same) < 1e-9))
+zeros_reversed = int(np.sum(np.abs(eigen_reversed) < 1e-9))
+say(f"zero eigenvalues of A^T A: s = +1: {zeros_same}; s = -1: {zeros_reversed}")
+check(zeros_same == 1 and zeros_reversed == 1,
+      "numerical second engine: exactly one zero eigenvalue for each sign")
+```
+
+The second engine of Section 5.13: the number of solutions of $Ay = 0$ equals the number of zero eigenvalues of the symmetric matrix $A^TA$. `np.linalg.eigvalsh` computes the 256 eigenvalues in floating-point numbers (sorted from small to large), and the eigenvalues below $10^{-9}$ in size are counted. The printed line shows one for each sign, and the check requires it.
+
+```python
+fig, axes = plt.subplots(1, 3, figsize=(13.0, 4.0), width_ratios=[1, 1, 1.3])
+shown_same = M_same[0] / M_same[0][0, 0]  # scaled: entry (1,1) equal to 1
+shown_reversed = M_reversed[0] / M_reversed[0][0, 0] * Gamma[0, 0]  # as in Gamma
+heat_map(axes[0], shown_same, "solution for $s = +1$")
+image = heat_map(axes[1], shown_reversed, "solution for $s = -1$", row_label=False)
+```
+
+A solution is fixed only up to a factor. The solution for $s = +1$ is divided by its entry in row 1, column 1, so that this entry becomes 1, like the identity's; the solution for $s = -1$ is scaled so that this entry equals the one of $\Gamma$, which is $-1$. Both are drawn as heat maps.
+
+```python
+index = np.arange(1, 257)
+axes[2].plot(index, eigen_same, color="#2a78d6", linewidth=2,
+             label="$s = +1$ (same mass)")
+axes[2].plot(index, eigen_reversed, color="#eb6834", linewidth=2, linestyle="--",
+             label="$s = -1$ (mass reversed)")
+axes[2].plot([1], [eigen_same[0]], "o", color="#2a78d6", markersize=9)
+axes[2].plot([1], [eigen_reversed[0]], "o", color="#eb6834", markersize=9)
+axes[2].set_xlabel("number of the eigenvalue (sorted)")
+axes[2].set_ylabel("eigenvalue of $A^T A$")
+axes[2].set_title("one zero eigenvalue for each sign")
+axes[2].legend(loc="lower right")
+fig.colorbar(image, ax=axes[:2], ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
+save_figure(fig, "solution_spaces", ...)
+```
+
+The third picture plots the sorted eigenvalues of the two systems against their numbers 1 to 256, and a large dot on the first (smallest) eigenvalue of each, which is the zero one. The colour bar belongs to the first two pictures (`axes[:2]`). **What figure 05c.1 shows**: on the left the identity (a red diagonal), in the middle $\Gamma$ (blue on the first eight diagonal places, red on the last eight), on the right two staircase curves of eigenvalues that each touch zero exactly once. The student should see that each equation system leaves exactly one free direction: the identity for the same mass, $\Gamma$ for the reversed mass.
+
+**In [5], the two charge-conjugation matrices.**
+
+```python
+calC_plus = (M_same[0] / M_same[0][0, 0]) @ C  # M = 1 (scaled), so calC_+ = C
+calC_minus = Gamma @ C  # M = Gamma, so calC_- = Gamma C
+inverse_plus = np.linalg.inv(calC_plus)
+inverse_minus = np.linalg.inv(calC_minus)
+```
+
+From $\mathcal{C} = MC$: the solution for $s = +1$, scaled to the identity, times $C$ gives $\mathcal{C}_+$; $\Gamma C$ is $\mathcal{C}_-$. `np.linalg.inv` computes the inverse matrices (for these signed permutation matrices the floating-point inverse is exact).
+
+```python
+check_reproduces(np.array_equal(calC_plus, C)
+                 and all(np.array_equal(inverse_plus @ gamma[x] @ calC_plus, -gamma[x].T)
+                         for x in COORDS)
+                 and np.array_equal(calC_plus.T, calC_plus)
+                 and recorded("charge_conjugation_matrix_plus"),
+                 "calC_+ = C: calC_+^-1 gamma^a calC_+ = -(gamma^a)^T, real and "
+                 "symmetric",
+                 record=f"{RECORD}, check charge_conjugation_matrix_plus")
+check_reproduces(all(np.array_equal(inverse_minus @ gamma[x] @ calC_minus, gamma[x].T)
+                     for x in COORDS)
+                 and np.isrealobj(calC_minus)
+                 and np.array_equal(calC_minus.T, calC_minus)
+                 and np.array_equal(calC_minus @ calC_minus, I16)
+                 and recorded("charge_conjugation_matrix_minus"),
+                 "calC_- = Gamma C: calC_-^-1 gamma^a calC_- = +(gamma^a)^T, real",
+                 record=f"{RECORD}, check charge_conjugation_matrix_minus")
+```
+
+Theorem CC (b) and (c): $\mathcal{C}_+ = C$ with $\mathcal{C}_+^{-1}\gamma^a\mathcal{C}_+ = -(\gamma^a)^T$ for all eight directions, symmetric; $\mathcal{C}_-$ with $\mathcal{C}_-^{-1}\gamma^a\mathcal{C}_- = +(\gamma^a)^T$, real, symmetric and with square 1.
+
+```python
+def transposition_system(zeta):
+    return np.vstack([np.kron(gamma[x], I16) - zeta * np.kron(I16, gamma[x])
+                      for x in COORDS])
+
+
+X_minus = exact_solutions(transposition_system(-1))  # should be multiples of C
+X_plus = exact_solutions(transposition_system(+1))  # should be multiples of Gamma C
+say(f"zeta = -1: {len(X_minus)} solution(s); zeta = +1: {len(X_plus)} solution(s)")
+check(len(X_minus) == 1 and proportional(X_minus[0], C)
+      and len(X_plus) == 1 and proportional(X_plus[0], Gamma @ C),
+      "the only solutions of gamma^a X = -X (gamma^a)^T are multiples of C, of "
+      "gamma^a X = +X (gamma^a)^T multiples of Gamma C")
+```
+
+The independent derivation of Section 5.28 ("the same two matrices from the transposition rules"). For $\gamma^aX - \zeta X(\gamma^a)^T = 0$ the coefficient matrix is $\mathrm{kron}(\gamma^a, 1) - \zeta\,\mathrm{kron}(1, ((\gamma^a)^T)^T)$, and $((\gamma^a)^T)^T = \gamma^a$, which is why the second Kronecker factor is the gamma itself. The printed line reports one solution for each sign, and the check confirms that they are proportional to $C$ and to $\Gamma C$.
+
+**In [6], the picture of the three matrices.**
+
+```python
+fig, axes = plt.subplots(1, 3, figsize=(11.0, 4.0))
+heat_map(axes[0], calC_plus, r"$\mathcal{C}_+ = C$")
+heat_map(axes[1], Gamma, r"$\Gamma$", row_label=False)
+image = heat_map(axes[2], calC_minus, r"$\mathcal{C}_- = \Gamma C$",
+                 row_label=False)
+fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
+save_figure(fig, "conjugation_matrices", ...)
+```
+
+Three heat maps and a colour bar. **What figure 05c.2 shows**: $\mathcal{C}_+ = C$ with blue squares in the pattern of $\sigma$ in the top-left block and red ones in the bottom-right block; $\Gamma$, blue then red on the diagonal; and $\mathcal{C}_- = \Gamma C$, red in the pattern of $\sigma$ in both diagonal blocks. The student should see that multiplying by $\Gamma$ only reverses the signs of the rows 1 to 8, and that all three pictures are mirror-symmetric about the diagonal (all three matrices are symmetric).
+
+**In [7], the conjugate fields of a complex column.**
+
+```python
+k = np.arange(16)  # 0, 1, ..., 15
+PSI0 = (k % 4 - 1) + 1j * (k % 3 - 1)  # a fixed complex column with small entries
+say("Psi_0 = " + ", ".join(f"{z.real:+.0f}{z.imag:+.0f}i" for z in PSI0[:8]) + ",")
+say("        " + ", ".join(f"{z.real:+.0f}{z.imag:+.0f}i" for z in PSI0[8:]))
+```
+
+A fixed complex column $\Psi_0$: its component number $k$ (counted from 0) is $(k \bmod 4) - 1 + i\,((k \bmod 3) - 1)$, where `%` gives the remainder of a division. Operations on the array `k` act on all 16 entries at once. The two printed lines list the components in the form $a + bi$ (`:+.0f` writes a number with its sign and no decimals): $-1-1i, +0+0i, +1+1i, +2-1i, \dots$.
+
+```python
+psibar_T = C @ PSI0.conj()  # (Psi^dagger C)^T = C^T Psi* = C Psi*
+check(np.array_equal(calC_plus @ psibar_T, PSI0.conj())
+      and np.array_equal(calC_minus @ psibar_T, Gamma @ PSI0.conj()),
+      "Psi^c = calC_+ Psibar^T = Psi* and Psi^c = calC_- Psibar^T = Gamma Psi*")
+```
+
+$\bar\Psi^T = C\Psi^\ast$ (Section 5.28) is computed for this column, and the check confirms the two formulas $\mathcal{C}_+\bar\Psi^T = \Psi^\ast$ and $\mathcal{C}_-\bar\Psi^T = \Gamma\Psi^\ast$ of Theorem CC (b), entry by entry.
+
+**In [8], which mass each field solves with, exactly.**
+
+```python
+x4, m = sp.symbols("x4 m", real=True)  # the time and the mass, real numbers
+psi0 = sp.Matrix([sp.Integer(int(z.real)) + sp.I * sp.Integer(int(z.imag))
+                  for z in PSI0])
+G4 = sp.Matrix(gamma["x4"].tolist())  # gamma^(x4) as an exact sympy matrix
+GAMMA = sp.Matrix(Gamma.tolist())
+```
+
+`sp.symbols("x4 m", real=True)` makes two sympy symbols, the time and the mass, declared real (so that sympy knows that their conjugates are themselves). `psi0` is $\Psi_0$ with exact whole-number real and imaginary parts (`sp.I` is sympy's $i$); `G4` and `GAMMA` are $\gamma^{(x4)}$ and $\Gamma$ as exact sympy matrices.
+
+```python
+psi = sp.cos(m * x4) * psi0 - sp.sin(m * x4) * G4 * psi0  # the solution
+fields = {"Psi": psi, "Psi* (calC_+)": psi.conjugate(),
+          "Gamma Psi* (calC_-)": GAMMA * psi.conjugate()}
+solves = {}  # (field, mass sign) -> True when the residual is exactly zero
+```
+
+`psi` is the free solution $\Psi(x4) = \cos(m\,x4)\Psi_0 - \sin(m\,x4)\gamma^{(x4)}\Psi_0$ of Section 5.28, as a column of 16 exact expressions. `fields` collects it and its two images, $\Psi^\ast$ (`conjugate()`) and $\Gamma\Psi^\ast$, under readable names.
+
+```python
+for name, phi in fields.items():
+    for sign in (+1, -1):
+        residual = (G4 * phi.diff(x4) - sign * m * phi).applyfunc(sp.expand)
+        solves[(name, sign)] = residual == sp.zeros(16, 1)
+    say(f"{name:20} solves with +m: {solves[(name, 1)]!s:5}  "
+        f"with -m: {solves[(name, -1)]!s:5}")
+```
+
+For each field $\Phi$ and each sign, the **residual** $\gamma^{(x4)}d\Phi/dx4 - (\pm m)\Phi$ is computed (`diff(x4)` differentiates every component); it is zero exactly when $\Phi$ solves the equation with that mass. `applyfunc(sp.expand)` multiplies out every component, and the comparison with the zero column `sp.zeros(16, 1)` is exact. Each printed line shows, for one field, True or False for $+m$ and $-m$ (`!s` writes the value as text, `:5` pads it to five characters).
+
+```python
+expected = {("Psi", 1): True, ("Psi", -1): False,
+            ("Psi* (calC_+)", 1): True, ("Psi* (calC_+)", -1): False,
+            ("Gamma Psi* (calC_-)", 1): False, ("Gamma Psi* (calC_-)", -1): True}
+check(solves == expected,
+      "exactly: Psi and Psi* solve with +m, Gamma Psi* solves with -m")
+```
+
+The prediction of Section 5.28 is written down and compared with the six results: $\Psi$ and $\Psi^\ast$ solve with $+m$ only, $\Gamma\Psi^\ast$ with $-m$ only. The printed lines (True False, True False, False True) agree.
+
+**In [9], the same with numbers on 801 time points.**
+
+```python
+t = np.linspace(0.0, 4.0 * np.pi, 801)  # the time x4 in units of 1/m, m = 1
+g4 = gamma["x4"].astype(float)
+cos_t, sin_t = np.cos(t)[:, None], np.sin(t)[:, None]  # columns for broadcasting
+psi_t = cos_t * PSI0 - sin_t * np.einsum("rc,c->r", g4, PSI0)  # row t: Psi(x4_t)
+dpsi_t = -sin_t * PSI0 - cos_t * np.einsum("rc,c->r", g4, PSI0)  # dPsi/dx4
+```
+
+With $m = 1$ the time is measured in units of $1/m$. `t` holds 801 times from 0 to $4\pi$. `[:, None]` turns a list of 801 numbers into a column of 801 rows, so that `cos_t * PSI0` multiplies each row of 16 components by its own number (numpy's **broadcasting**: an array with one column is repeated along the missing direction). `np.einsum("rc,c->r", g4, PSI0)` is the column $\gamma^{(x4)}\Psi_0$. So `psi_t` has one row per time, the solution at that time, and `dpsi_t` its derivative, $-\sin t\,\Psi_0 - \cos t\,\gamma^{(x4)}\Psi_0$.
+
+```python
+numeric = {"Psi": (psi_t, dpsi_t),
+           "Psi* (calC_+)": (psi_t.conj(), dpsi_t.conj()),
+           "Gamma Psi* (calC_-)": (psi_t.conj() @ Gamma.T, dpsi_t.conj() @ Gamma.T)}
+largest = {}  # (field, sign) -> largest size of the residual over the 801 points
+```
+
+The three fields with their derivatives. For a field stored as rows, multiplying every row by $\Gamma$ is done by `@ Gamma.T`: a row $u^T$ times $\Gamma^T$ is the transpose of the column $\Gamma u$.
+
+```python
+for name, (phi, dphi) in numeric.items():
+    for sign in (+1, -1):
+        residual = np.einsum("rc,tc->tr", g4, dphi) - sign * 1.0 * phi
+        largest[(name, sign)] = float(np.max(np.linalg.norm(residual, axis=1)))
+    shown = {sign: (f"{largest[(name, sign)]:.2f}" if largest[(name, sign)] > 1e-12
+                    else "below 1e-12") for sign in (1, -1)}  # rounding-proof text
+    say(f"{name:20} largest residual with +m: {shown[1]:11}, with -m: {shown[-1]}")
+```
+
+For each field and sign the residual $\gamma^{(x4)}d\Phi/dx4 \mp \Phi$ is computed at all 801 times at once (`"rc,tc->tr"` multiplies $\gamma^{(x4)}$ with the column of every time $t$). `np.linalg.norm(..., axis=1)` is the length of the residual at each time, and the largest one is kept. A tiny residual is printed as the words below 1e-12 rather than as a number, because its last digits depend on the computer. The printed lines show below 1e-12 where the exact computation said True, and 11.83 where it said False.
+
+```python
+check(all((largest[key] < 1e-12) == solves[key] for key in solves),
+      "the numerical residuals agree with the exact result")
+```
+
+The check: a residual below $10^{-12}$ exactly where the exact computation found a solution.
+
+**In [10], the picture of the three fields.**
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.2), sharey=True)
+styles = {"Psi": ("#2a78d6", "-"), "Psi* (calC_+)": ("#eb6834", "--"),
+          "Gamma Psi* (calC_-)": ("#1baf7a", ":")}
+labels = {"Psi": r"$\Psi$", "Psi* (calC_+)": r"$\Psi^c_+ = \Psi^*$",
+          "Gamma Psi* (calC_-)": r"$\Psi^c_- = \Gamma\Psi^*$"}
+```
+
+Two pictures that share the vertical axis (`sharey=True`), and for each field a colour, a line style (solid, dashed, dotted) and a legend label.
+
+```python
+for name, (phi, _) in numeric.items():
+    color, line = styles[name]
+    axes[0].plot(t, phi[:, 0].real, color=color, linestyle=line, linewidth=2,
+                 label=labels[name])
+    axes[1].plot(t, phi[:, 0].imag, color=color, linestyle=line, linewidth=2,
+                 label=labels[name])
+```
+
+For each field, the real part (left) and the imaginary part (right) of its first component (`phi[:, 0]` is column 0 of the rows, that is component 1 at every time) is drawn against the time. The derivative is not needed here, so it gets the throw-away name `_`.
+
+```python
+for ax, part in zip(axes, ["real part", "imaginary part"]):
+    ax.set_xticks([0, np.pi, 2 * np.pi, 3 * np.pi, 4 * np.pi],
+                  ["0", r"$\pi$", r"$2\pi$", r"$3\pi$", r"$4\pi$"])
+    ax.set_xlabel("time $x4$ (in units of $1/m$)")
+    ax.set_title(f"component 1, {part}")
+axes[0].set_ylabel("value of the component")
+axes[1].legend(loc="upper center", bbox_to_anchor=(-0.05, -0.17), ncol=3)
+save_figure(fig, "conjugate_solutions", ...)
+```
+
+Tick marks at multiples of $\pi$, axis labels and titles; one legend with three columns below both pictures. **What figure 05c.3 shows**: on the left the real part of $\Psi^\ast$ (dashed) lies on that of $\Psi$ (solid), and that of $\Gamma\Psi^\ast$ (dotted) is its mirror image; on the right the imaginary part of $\Psi^\ast$ is the mirror image of that of $\Psi$, and that of $\Gamma\Psi^\ast$ lies on it. The reason: $\Psi^\ast$ reverses the imaginary part, and $\Gamma$ (which is $-1$ on the first half) reverses component 1 once more.
+
+**In [11], the table of the largest residuals.**
+
+```python
+from matplotlib.patches import Patch  # a coloured square for a legend
+
+names = list(numeric)
+table = np.array([[largest[(name, 1)], largest[(name, -1)]] for name in names])
+fig, ax = plt.subplots(figsize=(7.0, 3.6))
+solved = table < 1e-12  # True where the field solves the equation
+ax.imshow(np.where(solved, 1.0, 0.0), cmap=LinearSegmentedColormap.from_list(
+    "solve", ["#f0efec", "#2a78d6"]), vmin=0, vmax=1, aspect="auto")
+```
+
+The six largest residuals form a table of three rows (fields) and two columns (masses). `solved` is true where the residual is below $10^{-12}$; `np.where(solved, 1.0, 0.0)` turns it into ones and zeros, drawn blue and grey with a two-colour map made on the spot.
+
+```python
+for r in range(3):
+    for c in range(2):
+        text = "solves" if solved[r, c] else f"no ({table[r, c]:.2f})"
+        ax.text(c, r, text, ha="center", va="center",
+                color="white" if solved[r, c] else "black", fontweight="bold")
+ax.axhline(0.5, color="white", linewidth=2)
+ax.axhline(1.5, color="white", linewidth=2)
+ax.axvline(0.5, color="white", linewidth=2)
+ax.set_xticks([0, 1], ["mass $+m$", "mass $-m$"])
+ax.set_yticks(range(3), [labels[name] for name in names])
+ax.set_title("Largest residual of the field equation on $0 \\leq x4 \\leq 4\\pi$")
+ax.legend(handles=[Patch(color="#2a78d6", label="residual below $10^{-12}$"),
+                   Patch(color="#f0efec", label="residual of order 1")],
+          loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=2)
+ax.grid(False)
+save_figure(fig, "which_mass", ...)
+```
+
+Each square gets the word solves or the word no with the residual; white lines separate the squares; the labels name the masses and the fields; a legend made of two coloured squares (`Patch`) goes below the picture. **What figure 05c.4 shows**: blue squares solves for $\Psi$ and $\Psi^\ast$ under $+m$ and for $\Gamma\Psi^\ast$ under $-m$, grey squares no (11.83) in the other three places: $\mathcal{C}_+$ keeps the mass, $\mathcal{C}_-$ reverses it.
+
+**In [12], the scalar and the charge density of the three fields.**
+
+```python
+bilinears = {}  # field -> (S at every time point, J^(x4) at every time point)
+for name, (phi, _) in numeric.items():
+    S_t = np.einsum("tr,rc,tc->t", phi.conj(), C, phi).real  # Psi^dagger C Psi
+    J_t = np.einsum("tr,rc,tc->t", phi.conj(), B, phi).real  # Psi^dagger B Psi
+    bilinears[name] = (S_t, J_t)
+    say(f"{name:20} S from {S_t.min():+.6f} to {S_t.max():+.6f}; "
+        f"J^(x4) from {J_t.min():+.6f} to {J_t.max():+.6f}")
+```
+
+For commuting components the scalar $S = \Psi^\dagger C\Psi$ and the charge density $J^{(x4)} = \Psi^\dagger B\Psi$ are computed at all 801 times (`"tr,rc,tc->t"` is $\sum_{r,c}\Psi_r^\ast K_{rc}\Psi_c$ for every time). Both are real (Section 5.4), and `.real` drops the imaginary part, which is zero up to rounding. Each printed line shows the smallest and the largest value over the times: $S$ stays at $-2$ for all three fields, $J^{(x4)}$ at $-6$, $+6$ and $-6$. Both are constant. With $d\Psi/dx4 = -m\gamma^{(x4)}\Psi$ and $(\gamma^{(x4)}\Psi)^\dagger = \Psi^\dagger(\gamma^{(x4)})^T$, the product rule gives $dS/dx4 = -m\Psi^\dagger\big((\gamma^{(x4)})^TC + C\gamma^{(x4)}\big)\Psi$, which is 0 because $(\gamma^{(x4)})^T = -\gamma^{(x4)}$ and $\gamma^{(x4)}$ commutes with $C$ (C1); in the same way $dJ^{(x4)}/dx4 = -m\Psi^\dagger\big((\gamma^{(x4)})^TB + B\gamma^{(x4)}\big)\Psi = 0$, because $(\gamma^{(x4)})^TB = iC\gamma^{(x4)}\gamma^{(x4)} = -iC$ and $B\gamma^{(x4)} = -iC\gamma^{(x4)}\gamma^{(x4)} = iC$.
+
+```python
+S_psi, J_psi = bilinears["Psi"][0][0], bilinears["Psi"][1][0]
+report("S of the solution Psi", f"{S_psi:+.6f}")
+report("J^(x4) of the solution Psi", f"{J_psi:+.6f}")
+constant = all(np.ptp(v) < 1e-12 for pair in bilinears.values() for v in pair)
+```
+
+The values of $\Psi$ at the first time point, $x4 = 0$, are printed as two RESULT lines: $S = -2.000000$ and $J^{(x4)} = -6.000000$. `np.ptp` (peak to peak) is the largest minus the smallest value; `constant` is true when it is below $10^{-12}$ for all six lists.
+
+```python
+S_exact = PSI0.conj() @ C @ PSI0
+J_exact = PSI0.conj() @ B @ PSI0
+check(S_exact == -2 and J_exact == -6 and S_psi == -2 and J_psi == -6,
+      "at x4 = 0 exactly: S = -2 and J^(x4) = -6 for the solution Psi")
+```
+
+At $x4 = 0$ the solution is $\Psi_0$, whose real and imaginary parts are whole numbers; $C$ and $B$ have the entries $0$, $\pm1$, $\pm i$; so $\Psi_0^\dagger C\Psi_0$ and $\Psi_0^\dagger B\Psi_0$ are computed exactly (small whole numbers are stored without rounding). The check requires $-2$ and $-6$ exactly, the numbers quoted in the caption of the next figure.
+
+```python
+check(constant and abs(S_psi) > 1 and abs(J_psi) > 1
+      and np.allclose(bilinears["Psi* (calC_+)"][0], S_psi)
+      and np.allclose(bilinears["Psi* (calC_+)"][1], -J_psi)
+      and np.allclose(bilinears["Gamma Psi* (calC_-)"][0], S_psi)
+      and np.allclose(bilinears["Gamma Psi* (calC_-)"][1], J_psi),
+      "commuting components: Psi* keeps S and reverses J; Gamma Psi* keeps S and J")
+```
+
+The commuting rows of the sign table of Section 5.29, on this solution: all values constant, not zero (so that a sign can be seen), $\Psi^\ast$ with the same $S$ and the opposite $J^{(x4)}$, $\Gamma\Psi^\ast$ with the same $S$ and the same $J^{(x4)}$.
+
+**In [13], the bar picture of $S$ and $J$.**
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.2))
+width = 0.26  # the width of one bar
+for j, name in enumerate(names):
+    color, _ = styles[name]
+    values = [bilinears[name][0][0], bilinears[name][1][0]]
+    bars = ax.bar(np.arange(2) + (j - 1) * width, values, width, color=color,
+                  edgecolor="white", linewidth=2, label=labels[name])
+    for bar, v in zip(bars, values):
+        ax.text(bar.get_x() + bar.get_width() / 2, v + (0.3 if v > 0 else -0.7),
+                f"{v:+.0f}", ha="center")
+```
+
+Two groups of three bars: at the position 0 the scalar, at 1 the charge density; the three fields are shifted by $-1$, $0$, $+1$ bar widths. Each bar gets its value written just above (positive) or below (negative) it; `bar.get_x() + bar.get_width() / 2` is the middle of the bar.
+
+```python
+ax.axhline(0.0, color="black", linewidth=0.8)
+ax.set_xticks([0, 1], [r"scalar $S = \Psi^\dagger C\Psi$",
+                       r"charge density $J^{(x4)} = \Psi^\dagger B\Psi$"])
+ax.set_ylabel("value (constant along $x4$)")
+ax.set_ylim(-8, 8)
+ax.set_title("Commuting components: what the two conjugations do to S and J")
+ax.legend(loc="upper left")
+save_figure(fig, "bilinears", ...)
+```
+
+The zero line, the labels of the two groups, the vertical range from $-8$ to $8$, the title and the legend. **What figure 05c.5 shows**: three bars at $-2$ in the left group; in the right group $-6$ (blue, $\Psi$), $+6$ (orange, $\Psi^\ast$) and $-6$ (aqua, $\Gamma\Psi^\ast$). For commuting components $\mathcal{C}_+$ reverses the charge and keeps the mass; $\mathcal{C}_-$ keeps the charge and reverses the mass.
+
+**In [14], the sign table.**
+
+```python
+K_S = C.astype(complex)  # the matrix of the scalar S
+K_J = [-1j * (C @ gamma[x]) for x in COORDS]  # the matrices of the currents J^a
+
+
+def sign_of(M, K, eps):
+    new = eps * (M.conj().T @ K @ M).T
+    return 1 if np.array_equal(new, K) else (-1 if np.array_equal(new, -K) else 0)
+```
+
+The matrices of the scalar and of the eight currents, and `sign_of(M, K, eps)`, which computes $K' = \epsilon(M^\dagger KM)^T$ of Section 5.29 and returns $+1$ if $K' = K$, $-1$ if $K' = -K$, and 0 otherwise. The comparisons are exact, because all entries are $0$, $\pm1$ or $\pm i$.
+
+```python
+measured = {}  # the record's keys, e.g. "plus,eps=1" -> [sign of S, [signs of J]]
+for map_name, M in (("plus", I16), ("minus", Gamma)):
+    for eps in (1, -1):
+        measured[f"{map_name},eps={eps}"] = [
+            sign_of(M, K_S, eps), [sign_of(M, K, eps) for K in K_J]]
+for key, (sign_S, signs_J) in measured.items():
+    say(f"{key:13} S -> {sign_S:+d} S;  J^a -> s J^a with s = "
+        + " ".join(f"{s:+d}" for s in signs_J))
+```
+
+For the two maps ($M = 1$ and $M = \Gamma$) and the two kinds of components the signs are collected under the keys that the record uses, for example `plus,eps=1`. The four printed lines are the four rows of the table of Section 5.29: `plus,eps=1` $+1$ and eight times $-1$; `plus,eps=-1` $-1$ and eight times $+1$; `minus,eps=1` $+1$ and eight times $+1$; `minus,eps=-1` $-1$ and eight times $-1$.
+
+```python
+recorded_table = json.loads(detail("bilinears_under_charge_conjugation")
+                            .split("measured: ", 1)[1])
+check_reproduces(measured == recorded_table
+                 and recorded("bilinears_under_charge_conjugation"),
+                 "the signs of S and J under calC_+ and calC_-, commuting and "
+                 "anticommuting, equal the recorded table",
+                 record=f"{RECORD}, check bilinears_under_charge_conjugation")
+```
+
+The record's detail text ends with the word measured, a colon and the table in JSON form. `split("measured: ", 1)[1]` takes the text after these words, and `json.loads` turns it into a dictionary of the same shape as `measured`. The check requires the two to be equal: the notebook and the record measured the same 36 signs.
+
+**In [15], the picture of the sign table.**
+
+```python
+row_keys = ["plus,eps=1", "plus,eps=-1", "minus,eps=1", "minus,eps=-1"]
+row_names = [r"$\mathcal{C}_+$, commuting", r"$\mathcal{C}_+$, anticommuting",
+             r"$\mathcal{C}_-$, commuting", r"$\mathcal{C}_-$, anticommuting"]
+grid = np.array([[measured[key][0]] + measured[key][1] for key in row_keys])
+fig, ax = plt.subplots(figsize=(10.0, 3.8))
+ax.imshow(grid, cmap=SIGNS, vmin=-1, vmax=1, aspect="auto")
+```
+
+The four rows of signs, each the sign of $S$ followed by the eight signs of the currents (`[a] + list` puts one element in front of a list), form a $4 \times 9$ array, drawn with the colour map of the heat maps.
+
+```python
+for r in range(4):
+    for c in range(9):
+        ax.text(c, r, f"{grid[r, c]:+d}", ha="center", va="center", color="white",
+                fontweight="bold")
+for k in range(1, 4):
+    ax.axhline(k - 0.5, color="white", linewidth=2)
+for k in range(1, 9):
+    ax.axvline(k - 0.5, color="white", linewidth=3 if k == 1 else 2)
+ax.set_xticks(range(9), ["$S$"] + [rf"$J^{{({x})}}$" for x in COORDS])
+ax.set_yticks(range(4), row_names)
+ax.set_title("Sign of each bilinear after the conjugation (red $+1$ kept, blue "
+             "$-1$ reversed)")
+ax.grid(False)
+save_figure(fig, "sign_table", ...)
+```
+
+Each square gets its sign in bold white; white lines separate the squares, with a thicker line between the column $S$ and the currents; the columns are labelled $S$, $J^{(x1)}, \dots, J^{(x8)}$ (the doubled braces of the `rf`-string give single braces) and the rows by map and kind of component. **What figure 05c.6 shows**: the row $\mathcal{C}_+$, commuting is red for $S$ and blue for all currents; the row $\mathcal{C}_-$, commuting is red everywhere; each anticommuting row is the commuting row above it with every colour reversed. The student should see that the exchange of two anticommuting components flips every sign once more.
+
+**In [16], the reality conditions.**
+
+```python
+check_reproduces(np.array_equal(I16 @ np.conj(I16), I16)
+                 and np.array_equal(Gamma @ np.conj(Gamma), I16)
+                 and recorded("majorana_conditions_consistent"),
+                 "M M* = 1 for M = 1 and M = Gamma: both reality conditions are "
+                 "consistent",
+                 record=f"{RECORD}, check majorana_conditions_consistent")
+```
+
+The consistency condition $MM^\ast = 1$ of Section 5.29 for $M = 1$ and $M = \Gamma$.
+
+**In [17], the reality conditions in time.**
+
+```python
+start_real = PSI0.real.astype(complex)  # obeys Psi_0* = Psi_0
+start_gamma = np.concatenate([1j * PSI0.imag[:8], PSI0.real[8:]])  # first half
+start_gamma = start_gamma / np.linalg.norm(start_gamma)  # imaginary, size 1
+start_real = start_real / np.linalg.norm(start_real)  # size 1
+check(np.allclose(start_gamma, Gamma @ start_gamma.conj())
+      and np.allclose(start_real, start_real.conj()),
+      "the two starting columns obey Psi_0 = Gamma Psi_0* and Psi_0 = Psi_0*")
+```
+
+Two starting columns of length 1: the real part of $\Psi_0$, which obeys $\Psi_0 = \Psi_0^\ast$; and a column whose first half is $i$ times the imaginary parts of the first eight components of $\Psi_0$ and whose second half is the real parts of the last eight (`np.concatenate` joins two arrays), which obeys $\Psi_0 = \Gamma\Psi_0^\ast$. Dividing by `np.linalg.norm` (the length) makes the length 1. The check confirms the two conditions.
+
+```python
+def evolve(start, mass):
+    return (np.cos(mass * t)[:, None] * start
+            - np.sin(mass * t)[:, None] * np.einsum("rc,c->r", g4, start))
+```
+
+`evolve(start, mass)` is the free solution with the given starting column and mass at all 801 times, one row per time.
+
+```python
+violation = {}  # (condition, mass) -> size of the violation at every time
+for mass in (1.0, 0.5, 0.0):
+    f_real = evolve(start_real, mass)
+    f_gamma = evolve(start_gamma, mass)
+    violation[("real", mass)] = np.linalg.norm(f_real - f_real.conj(), axis=1)
+    violation[("gamma", mass)] = np.linalg.norm(f_gamma - f_gamma.conj() @ Gamma.T,
+                                                axis=1)
+```
+
+For the masses 1, 0.5 and 0 both solutions are computed, and at each time the length of $\Psi - \Psi^\ast$ (the violation of the real condition) and of $\Psi - \Gamma\Psi^\ast$ (the violation of the other one).
+
+```python
+check(all(np.max(violation[("real", mass)]) < 1e-12 for mass in (1.0, 0.5, 0.0))
+      and np.max(violation[("gamma", 0.0)]) < 1e-12
+      and np.allclose(violation[("gamma", 1.0)], 2 * np.abs(np.sin(t)))
+      and np.allclose(violation[("gamma", 0.5)], 2 * np.abs(np.sin(0.5 * t))),
+      "Psi = Psi* is kept in time; Psi = Gamma Psi* is violated by 2 |sin(m x4)|")
+```
+
+The prediction of Section 5.29: the real condition is never violated; the other is violated by exactly $2|\sin(m\,x4)|$ (the starting column has length 1), which is zero only for $m = 0$.
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.2))
+ax.plot(t, violation[("gamma", 1.0)], color="#eb6834", linewidth=2,
+        label=r"$|\Psi - \Gamma\Psi^*|$, $m = 1$")
+ax.plot(t, violation[("gamma", 0.5)], color="#eda100", linewidth=2, linestyle="--",
+        label=r"$|\Psi - \Gamma\Psi^*|$, $m = 0.5$")
+ax.plot(t, violation[("gamma", 0.0)], color="#4a3aa7", linewidth=3, linestyle="-.",
+        label=r"$|\Psi - \Gamma\Psi^*|$, $m = 0$")
+ax.plot(t, violation[("real", 1.0)], color="#2a78d6", linewidth=2, linestyle=":",
+        label=r"$|\Psi - \Psi^*|$, $m = 1$ (real start)")
+```
+
+Four curves: the violation of $\Psi = \Gamma\Psi^\ast$ for the three masses (solid, dashed, dash-dotted) and that of the real condition for $m = 1$ (dotted).
+
+```python
+ax.set_xticks([0, np.pi, 2 * np.pi, 3 * np.pi, 4 * np.pi],
+              ["0", r"$\pi$", r"$2\pi$", r"$3\pi$", r"$4\pi$"])
+ax.set_xlabel("time $x4$")
+ax.set_ylabel("size of the violation")
+ax.set_ylim(-0.1, 2.4)
+ax.annotate("the dash-dotted and the dotted curve are exactly 0 at all times",
+            (2.5 * np.pi, 0.0), xytext=(2.0 * np.pi, 0.35), ha="center",
+            arrowprops={"arrowstyle": "->", "color": "black"},
+            bbox={"facecolor": "white", "edgecolor": "#52514e"})
+ax.set_title("Which reality condition survives the time evolution")
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=2)
+save_figure(fig, "reality_in_time", ...)
+```
+
+Tick marks, labels, the vertical range, and an **annotation**: a text in a white box with an arrow pointing at the place $(2.5\pi, 0)$, where two curves lie on the axis and would otherwise be hard to see. **What figure 05c.7 shows**: the solid curve $2|\sin x4|$ with arches of height 2, the dashed curve $2|\sin(x4/2)|$ with arches twice as wide, and two curves lying exactly on zero: the real field stays real, and the condition of the mass-reversing conjugation survives only for $m = 0$.
+
+**In [18], real fields.**
+
+```python
+r = sp.Matrix(sp.symbols("r1:17", real=True))  # a general real column
+currents = [sp.expand((-sp.I * r.T * sp.Matrix((C @ gamma[x]).tolist()) * r)[0, 0])
+            for x in COORDS]
+say("J^a of a general real column, a = x1..x8: " + ", ".join(map(str, currents)))
+```
+
+`sp.symbols("r1:17", real=True)` makes the 16 real symbols $r_1, \dots, r_{16}$, and `r` is the column of them: all real columns at once. For each direction the current $J^a = -i\,r^TC\gamma^ar$ is multiplied out (`[0, 0]` takes the single entry of the $1 \times 1$ result). The printed line shows eight zeros: fact (F1) of Section 5.29.
+
+```python
+S_change = sp.expand((GAMMA * r).T * sp.Matrix(C.tolist()) * (GAMMA * r)
+                     - r.T * sp.Matrix(C.tolist()) * r)[0, 0]
+kinetic_reversed = all(np.array_equal(Gamma.T @ C @ gamma[x] @ Gamma,
+                                      -(C @ gamma[x])) for x in COORDS)
+```
+
+`S_change` is $S(\Gamma r) - S(r)$ for the general real column, multiplied out; it must be 0. `kinetic_reversed` checks $\Gamma^TC\gamma^a\Gamma = -C\gamma^a$ for the eight directions, (X8).
+
+```python
+psi0_real = psi0.applyfunc(sp.re)  # the real part of every component of Psi_0
+psi_real = sp.cos(m * x4) * psi0_real - sp.sin(m * x4) * G4 * psi0_real
+image = GAMMA * psi_real  # the real field Gamma Psi
+image_solves_minus = (G4 * image.diff(x4) + m * image).applyfunc(sp.expand) \
+    == sp.zeros(16, 1)
+```
+
+The real free solution that starts at the real part of $\Psi_0$ (`sp.re` is the real part), its image $\Gamma\Psi$, and the exact test whether the image solves the equation with $-m$: the residual $\gamma^{(x4)}d\Phi/dx4 + m\Phi$ must vanish. A backslash at the end of a line continues the statement on the next line.
+
+```python
+check_reproduces(all(c == 0 for c in currents) and S_change == 0 and kinetic_reversed
+                 and psi_real.conjugate() == psi_real and image_solves_minus
+                 and recorded("real_fields_charge_conjugation"),
+                 "real fields: J = 0, calC_+ is the identity, Gamma keeps S, reverses "
+                 "the kinetic matrices and maps a solution with m to one with -m",
+                 record=f"{RECORD}, check real_fields_charge_conjugation")
+```
+
+The three facts (F1) to (F3) of Section 5.29 in one check: the currents vanish, the real solution equals its conjugate (so $\mathcal{C}_+$ acts as the identity on it), $\Gamma$ keeps $S$, reverses the kinetic matrices, and maps the real solution with mass $m$ to a real solution with mass $-m$.
+
+**In [19], the picture of a real field.**
+
+```python
+real_t = evolve(PSI0.real.astype(complex), 1.0).real  # the real solution, m = 1
+gamma_t = real_t @ Gamma.T  # Gamma Psi at every time
+fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.2), sharey=True)
+```
+
+The real solution for $m = 1$ at the 801 times (the starting column is not normalised here), and its image under $\Gamma$; two pictures with a shared vertical axis.
+
+```python
+for ax, comp in zip(axes, [0, 8]):
+    ax.plot(t, real_t[:, comp], color="#2a78d6", linewidth=3,
+            label=r"real solution $\Psi$ (mass $m$)")
+    ax.plot(t, real_t[:, comp], color="#eb6834", linewidth=2, linestyle="--",
+            label=r"$\Psi^c_+ = \Psi^* = \Psi$ (identical)")
+    ax.plot(t, gamma_t[:, comp], color="#1baf7a", linewidth=2, linestyle=":",
+            label=r"$\Gamma\Psi$ (solves with mass $-m$)")
+    ax.set_xticks([0, np.pi, 2 * np.pi, 3 * np.pi, 4 * np.pi],
+                  ["0", r"$\pi$", r"$2\pi$", r"$3\pi$", r"$4\pi$"])
+    ax.set_xlabel("time $x4$ (in units of $1/m$)")
+    half = "first" if comp < 8 else "second"  # components 1-8 or 9-16
+    ax.set_title(f"component {comp + 1} ({half} half)")
+```
+
+For component 1 (left; Python's index 0) and component 9 (right; index 8) three curves are drawn: the real solution (thick, solid), its $\mathcal{C}_+$ image, which is the same curve (dashed on top of it), and its $\Gamma$ image (dotted). The title names the component and its half.
+
+```python
+axes[0].set_ylabel("value of the component")
+axes[1].text(2.0 * np.pi, 0.0, "all three curves coincide:\n"
+             r"$\Gamma = +1$ on the second half", ha="center", va="center",
+             bbox={"facecolor": "white", "edgecolor": "#52514e"})
+axes[1].legend(loc="upper center", bbox_to_anchor=(-0.05, -0.17), ncol=3)
+save_figure(fig, "real_field", ...)
+```
+
+A text box in the right picture explains why only one curve is visible there, and one legend goes below both pictures. **What figure 05c.8 shows**: on the left the dashed curve lies exactly on the solid one, and the dotted curve is their mirror image; on the right all three coincide. For a real field the same-mass conjugation does nothing; the only nontrivial real map is $\Gamma$, which flips the first half and belongs to the mass $-m$.
+
+**In [20], the quantised field.**
+
+```python
+q_plus = I16 @ B.T @ I16.conj().T  # M = 1
+q_minus = Gamma @ B.T @ Gamma.conj().T  # M = Gamma
+say(f"B^T = -B: {np.array_equal(B.T, -B)};  1 B^T 1 = B: "
+    f"{np.array_equal(q_plus, B)};  Gamma B^T Gamma^dagger = B: "
+    f"{np.array_equal(q_minus, B)}")
+```
+
+The test of Section 5.34: a map $\Psi \to M\Psi^{\dagger T}$ of the quantised field keeps the canonical anticommutator exactly when $MB^TM^\dagger = B$. The cell computes $MB^TM^\dagger$ for $M = 1$ and $M = \Gamma$. The printed line shows True for $B^T = -B$, False for $M = 1$ and True for $M = \Gamma$.
+
+```python
+check_reproduces(np.array_equal(q_minus, B) and np.array_equal(q_plus, -B)
+                 and recorded("quantum_charge_conjugation_unitary_type"),
+                 "M B^T M^dagger = B for M = Gamma and = -B for M = 1: the conjugation "
+                 "of the quantised field is Psi -> Gamma Psi^(dagger T), which reverses "
+                 "the mass",
+                 record=f"{RECORD}, check quantum_charge_conjugation_unitary_type")
+```
+
+The check reproduces the record: $\Gamma B^T\Gamma^\dagger = B$, while $M = 1$ gives $-B$.
+
+```python
+fig, axes = plt.subplots(1, 3, figsize=(11.0, 4.0))
+heat_map(axes[0], B.imag, "imaginary part of $B$")
+heat_map(axes[1], q_plus.imag, r"imaginary part of $1\,B^T 1$", row_label=False)
+image = heat_map(axes[2], q_minus.imag, r"imaginary part of $\Gamma B^T\Gamma$",
+                 row_label=False)
+fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
+save_figure(fig, "quantum_b", ...)
+```
+
+Three heat maps of imaginary parts (the real parts are zero). **What figure 05c.9 shows**: the middle picture has every colour of the left one reversed ($B^T = -B$), while the right picture equals the left one: only $\Psi \to \Gamma\Psi^{\dagger T}$ keeps the canonical rule.
+
+**In [21], the last check.**
+
+```python
+FIGURES = ["05c_1_solution_spaces.png", "05c_2_conjugation_matrices.png",
+           "05c_3_conjugate_solutions.png", "05c_4_which_mass.png",
+           "05c_5_bilinears.png", "05c_6_sign_table.png",
+           "05c_7_reality_in_time.png", "05c_8_real_field.png", "05c_9_quantum_b.png"]
+check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in FIGURES),
+      "the nine figure files of notebook 05c exist")
+all_checks_passed()
+```
+
+The nine figure files must exist, and the last line reads ALL 20 CHECKS PASSED (notebook 05c): two checks in In [2], two in In [3], one in In [4], three in In [5], one in In [7], one in In [8], one in In [9], two in In [12], one in In [14], one in In [16], two in In [17], one in In [18], one in In [20] and one in In [21]. Ten of them reproduce checks of the lead report (the two of In [2], the two of In [3], the first two of In [5], and those of In [14], In [16], In [18] and In [20]); the other ten are the notebook's own computations. The two lead checks that the notebook does not repeat are `spinor_connection_real` and `u1_noether_matrix_identity`, which need the curved metric (Chapters 6 and 21).
+
+### 5.34 The quantised field: operators, the indefinite form and normal ordering
+
+The field dirac16complex is **quantised** (Chapter 10 does this in full): its 16 components become operators, and a charge conjugation of the quantised field must be a map of operators that keeps the basic rule of the quantum theory. This section explains the few words of quantum theory that are needed, from zero, and then derives which conjugation survives and what it does to the scalar and to the currents. Notebook 05e computes every statement on an explicit computer model with $2^{16} = 65536$ quantum states.
+
+**Operators, anticommutators, modes.** In quantum theory a **state** is a column of numbers, and an **operator** is a rule that turns a state into another state; here every operator is a (big) matrix acting on columns. Operators are multiplied by doing one after the other, and the order matters. The **anticommutator** of two operators is $\{X, Y\} = XY + YX$. A **fermion mode** is a place that holds zero or one particle. With $n$ modes a basic state is a **pattern** of $n$ occupations, each 0 or 1, so there are $2^n$ patterns; all combinations of them form the **Fock space**. The **annihilation operator** $f_p$ empties mode $p$ (and gives zero if it is empty), and the **creation operator** $f_p^\ast$ fills it (zero if it is full), each with the sign $(-1)^{n_{<p}}$, where $n_{<p}$ is the number of occupied modes below $p$. Example with two modes 0 and 1: write the patterns as $|00\rangle$ (both empty), $|10\rangle$ (mode 0 full), $|01\rangle$ (mode 1 full) and $|11\rangle$ (both full). Then $f_0|11\rangle = |01\rangle$ (no mode below 0), while $f_1|11\rangle = -|10\rangle$ (mode 0 below is full). Because of this sign, operators of different modes **anticommute**; together these rules give the **canonical anticommutation relations**
+
+$$
+\{f_p, f_q^\ast\} = \delta_{pq}, \qquad \{f_p, f_q\} = 0, \qquad \{f_p^\ast, f_q^\ast\} = 0 ,
+$$
+
+where $\delta_{pq}$ is 1 for $p = q$ and 0 otherwise; in particular $f_pf_p = 0$: no mode holds two fermions. Check of one case: $f_0f_1|11\rangle = f_0(-|10\rangle) = -|00\rangle$ and $f_1f_0|11\rangle = f_1|01\rangle = |00\rangle$ (mode 0 is now empty, so no sign); the two add up to zero, $\{f_0, f_1\}|11\rangle = 0$. On the Fock space the ordinary inner product $\langle a|b\rangle = \sum_na_n^\ast b_n$ is **positive**: $\langle a|a\rangle$ is a sum of squared sizes. The **Hilbert adjoint** $X^\ast$ of an operator is the conjugate transpose of its matrix; $f_p^\ast$ is the Hilbert adjoint of $f_p$. For every operator $X$ and every state $\phi$,
+
+$$
+\langle\phi|\{X, X^\ast\}|\phi\rangle = \langle\phi|XX^\ast|\phi\rangle + \langle\phi|X^\ast X|\phi\rangle = |X^\ast\phi|^2 + |X\phi|^2 \geq 0 ,
+$$
+
+because $\langle\phi|XY\phi\rangle = \langle X^\ast\phi|Y\phi\rangle$ (the defining property of the adjoint) and $|v|^2 = \langle v|v\rangle$ is a squared length. **The anticommutator of an operator with its Hilbert adjoint is never negative.**
+
+**The canonical rule of the record.** The Revision record quantises dirac16complex with the canonical anticommutator on a slice of constant time $x4$,
+
+$$
+\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\frac{\delta^7(x - y)}{\cos z} ,
+$$
+
+where $\delta^7$ is the delta function of the seven other coordinates and $\cos z$ the volume factor (formula `quantisation` of `Revision/theory/field-theory.json`; Chapter 10 derives it). For the operators of one single momentum, the record's exact Fock-space example, the delta function and the factor are absent and the rule reads $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$ for $A, C = 1, \dots, 16$.
+
+**Why $\Psi^\dagger$ cannot be the Hilbert adjoint.** Suppose $\Psi^\dagger_A$ were the Hilbert adjoint $\Psi_A^\ast$. Every diagonal entry of $B$ is zero (the table of Section 5.6: row $r$ of $B/i$ never points to column $r$). So the rule would give $\{\Psi_A, \Psi_A^\ast\} = B_{AA} = 0$, and by the inequality above $|\Psi_A^\ast\phi|^2 + |\Psi_A\phi|^2 = 0$ for every state $\phi$; a sum of two squared lengths is zero only when both are, so $\Psi_A\phi = 0$ for every $\phi$: $\Psi_A$ would be the zero operator. But row $A$ of $B$ contains a nonzero entry $B_{AC}$, and the anticommutator of the zero operator with anything is zero, not $B_{AC}$: a contradiction. The record makes the same argument with the column $u$ that has $u_7 = -i/\sqrt2$, $u_{16} = 1/\sqrt2$ and zeros elsewhere, which obeys $Bu = -u$: the operator $X = \sum_Au_A^\ast\Psi_A$ has $\{X, X^\dagger\} = u^\dagger Bu = -1 < 0$, impossible for a Hilbert adjoint (check `no_positive_inner_product` of `Revision/theory/reports/wolfram-field-theory.json`). So the canonical rule needs an **indefinite** inner product, one in which some states have negative squared length; a space with such a product is called a **Krein space** (Chapter 10).
+
+**The record's positive realisation.** The record keeps the positive Fock space and writes $\Psi^\dagger = \chi B$, where $\chi$ is the Hilbert adjoint of $\Psi$. For one momentum without extra-time part (the **good sector**; the record's example has the mass $m = 3$ and the momentum 4 along $x1$) the mode Hamiltonian is the $16 \times 16$ matrix
+
+$$
+h = -im\,\gamma^{(x4)} - 4\,\gamma^{(x4)}\gamma^{(x1)} .
+$$
+
+Both terms are Hermitian ($\gamma^{(x4)}$ is real and antisymmetric, so $-i\gamma^{(x4)}$ is Hermitian; $\gamma^{(x4)}\gamma^{(x1)}$ is real and, by Rule 4 of Section 5.3, symmetric), they anticommute (Rule 1), and each squares to 1 ($(-i\gamma^{(x4)})^2 = -\gamma^{(x4)}\gamma^{(x4)} = 1$; $(\gamma^{(x4)}\gamma^{(x1)})^2 = -\eta_{x4\,x4}\eta_{x1\,x1}1 = 1$). Hence $hh = (m^2 + 4^2)1 = 25\cdot1$, and the eigenvalues of $h$ are $\pm5$: the energy is $E = \sqrt{3^2 + 4^2} = 5$. Let $u_1, \dots, u_8$ be orthonormal eigenvectors with $hu_s = 5u_s$ and $v_1, \dots, v_8$ with $hv_s = -5v_s$; the 16 columns form a matrix $W$ with $W^\dagger W = WW^\dagger = 1$. With eight particle modes $b_s$ and eight antiparticle modes $d_s$ (sixteen modes in all) the field operators are
+
+$$
+\Psi_A = \sum_{s=1}^{8}\big((u_s)_A\,b_s + (v_s)_A\,d_s^\ast\big), \qquad \chi_A = \sum_{s=1}^{8}\big((u_s)_A^\ast\,b_s^\ast + (v_s)_A^\ast\,d_s\big), \qquad \Psi^\dagger_A = \sum_C\chi_CB_{CA} .
+$$
+
+Line by line: by the canonical relations only the pairs $(b_s, b_s^\ast)$ and $(d_s^\ast, d_s)$ have a nonzero anticommutator, equal to 1, so
+
+$$
+\{\Psi_A, \chi_C\} = \sum_s(u_s)_A(u_s)_C^\ast + \sum_s(v_s)_A(v_s)_C^\ast = (WW^\dagger)_{AC} = \delta_{AC} ,
+$$
+
+and then $\{\Psi_A, \Psi^\dagger_C\} = \sum_D\{\Psi_A, \chi_D\}B_{DC} = B_{AC}$: the canonical rule holds. The record also computes the energy $\chi h\Psi$, whose value in the **vacuum** $|0\rangle$ (no mode occupied) is $-8E = -40$ (the eight negative-energy solutions form a filled **sea**), and, after **normal ordering** (the subtraction of the vacuum value, defined below), the energy $+5$ for each of the 16 one-quantum states $b_s^\ast|0\rangle$ and $d_s^\ast|0\rangle$, and the charge $\Psi^\dagger B\Psi$ equal to $+1$ for the eight particles and $-1$ for the eight antiparticles (check `Fock_space_good_sector_example`). Notebook 05e reproduces all of this.
+
+**Which conjugation keeps the rule.** For a real matrix $M$ define the conjugated field $\Psi'_A = \sum_CM_{AC}\Psi^\dagger_C$, the operator form of $M\Psi^\ast$, written $\Psi' = M\Psi^{\dagger T}$. Its canonical conjugate is obtained by conjugating both sides (which conjugates the numbers): $\Psi'^\dagger_A = \sum_CM_{AC}^\ast\Psi_C$. Then, line by line,
+
+$$
+\{\Psi'_A, \Psi'^\dagger_C\} = \sum_{D,E}M_{AD}M_{CE}^\ast\{\Psi^\dagger_D, \Psi_E\} = \sum_{D,E}M_{AD}B_{ED}M_{CE}^\ast = (MB^TM^\dagger)_{AC} .
+$$
+
+The first step expands both operators (numbers come out of an anticommutator); the second uses the canonical rule $\{\Psi^\dagger_D, \Psi_E\} = \{\Psi_E, \Psi^\dagger_D\} = B_{ED}$; the third reads the sum as a matrix product, since $B_{ED} = (B^T)_{DE}$ and $M^\ast_{CE} = (M^\dagger)_{EC}$. **The rule is kept exactly when $MB^TM^\dagger = B$.** Now $B$ is Hermitian and purely imaginary, so $B^T = (B^\dagger)^\ast = B^\ast = -B$. For $M = 1$: $MB^TM^\dagger = B^T = -B$: the rule is broken. For $M = \Gamma$ (real, $\Gamma^\dagger = \Gamma^T = \Gamma$):
+
+$$
+\Gamma B^T\Gamma = -\Gamma B\Gamma = -(-i)\,\Gamma C\gamma^{(x4)}\Gamma = i\,\Gamma^TC\gamma^{(x4)}\Gamma = i(-C\gamma^{(x4)}) = B ,
+$$
+
+by $B^T = -B$, the definition of $B$, (X6) and (X8). **Only $\Psi' = \Gamma\Psi^{\dagger T}$ keeps the canonical rule** (lead check `quantum_charge_conjugation_unitary_type`): the conjugation of the quantised field has the type of $\mathcal{C}_-$.
+
+**The conjugated bilinear, line by line.** Let $X = \Psi^\dagger K\Psi = \sum_{A,C}\Psi^\dagger_AK_{AC}\Psi_C$ and $X' = \Psi'^\dagger K\Psi'$.
+
+1. Insert the definitions: $X' = \sum_{A,C}\sum_{D,E}M^\ast_{AD}\Psi_D\,K_{AC}\,M_{CE}\Psi^\dagger_E = \sum_{D,E}\Psi_D\,K'_{DE}\,\Psi^\dagger_E$ with $K' = M^\dagger KM$ (collect the numbers: $\sum_{A,C}M^\ast_{AD}K_{AC}M_{CE} = (M^\dagger KM)_{DE}$).
+2. Exchange the two operators with the canonical rule, $\Psi_D\Psi^\dagger_E = -\Psi^\dagger_E\Psi_D + B_{DE}$: $X' = -\sum_{D,E}\Psi^\dagger_EK'_{DE}\Psi_D + \sum_{D,E}K'_{DE}B_{DE}$.
+3. Rename $D \leftrightarrow E$ in the first sum, and write the second as a trace ($\sum_{D,E}K'_{DE}(B^T)_{ED} = \mathrm{tr}(K'B^T)$):
+
+$$
+X' = \Psi^\dagger\big(-K'^T\big)\Psi + c, \qquad c = \mathrm{tr}(K'B^T) .
+$$
+
+So the conjugated bilinear is the bilinear with the matrix $-(M^\dagger KM)^T$ plus the number $c$ (times the identity operator). The matrix $-(M^\dagger KM)^T$ is exactly the rule $\epsilon(M^\dagger KM)^T$ of Section 5.29 with $\epsilon = -1$, the rule of classical anticommuting components. When $-(M^\dagger KM)^T = sK$ with a sign $s$, the result is $X' = sX + c$.
+
+**The constant $c$.** For the scalar and the currents $K'$ is $\pm C$ or $\pm iC\gamma^a$, and $B^T = -B = iC\gamma^{(x4)}$. Then $K'B^T$ is a number times $C\,C\gamma^{(x4)} = \gamma^{(x4)}$ or times $C\gamma^aC\gamma^{(x4)} = -(\gamma^a)^T\gamma^{(x4)} = -\eta_{aa}\gamma^a\gamma^{(x4)}$ (by (C3), (C5) and the symmetry pattern). By Rule 5 of Section 5.3 the trace of a product of different gammas is zero, so $c = 0$, except when $\gamma^a\gamma^{(x4)}$ is not a product of different gammas, that is for $a = x4$: the charge density, whose matrix $-iC\gamma^{(x4)}$ is $B$ itself. For $M = 1$, $K' = B$ and $c = \mathrm{tr}(BB^T) = -\mathrm{tr}(BB) = -\mathrm{tr}\,1 = -16$; for $M = \Gamma$, $K' = \Gamma B\Gamma = -B$ and $c = +16$.
+
+**Normal ordering removes $c$ and nothing else.** For an operator $X$ built from two field operators, **normal ordering** is the subtraction of its vacuum value, $:\!X\!: = X - \langle 0|X|0\rangle$ (for products of $b$, $b^\ast$, $d$, $d^\ast$ this is the same as moving every creation operator to the left of every annihilation operator, with a sign for each exchange). From $X' = sX + c$, the vacuum value is $\langle 0|X'|0\rangle = s\langle 0|X|0\rangle + c$, and
+
+$$
+:\!X'\!: = X' - \langle 0|X'|0\rangle = sX + c - s\langle 0|X|0\rangle - c = s\,:\!X\!: .
+$$
+
+The constant cancels and the sign stays. **After normal ordering the quantised bilinears change with the signs of the classical anticommuting components.** The argument uses only the canonical rule and the fact that normal ordering subtracts a number, so it does not depend on the momentum of the example or on the choice of the vacuum. For the allowed map $M = \Gamma$ the anticommuting row of Section 5.29 gives $(S, J) \to (-S, -J)$: every current is reversed, so the normal-ordered charge of every quantum changes sign (particles $+1 \to -1$, antiparticles $-1 \to +1$), and the scalar is reversed, so the mass term $mS$ becomes $(-m)S$: **the conjugation of the quantised field exchanges particles and antiparticles and reverses the mass**, as the Revision record states.
+
+**About a remark in the record.** The detail text of the lead check `bilinears_under_charge_conjugation` adds, in parentheses, that in the quantum theory normal ordering supplies one more sign for each bilinear, which would give $(S, J) \to (S, -J)$ for $\mathcal{C}_+$. That remark is not part of the record's measured table, and the derivation above, which Notebook 05e confirms on the Fock space, does not support it: normal ordering removes the number $c$ and changes no sign. This book follows the computation; the point is listed as open for the owner of the record (Section 5.40).
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| the canonical relations of fermion operators, 2 and 16 modes | COMPUTED exactly (2 modes) and on a random state (16 modes) | Notebook 05e, In [4] and In [6] (its own computation) |
+| $\{\Psi_A, \chi_C\} = \delta_{AC}$, $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$ in the positive realisation | PROVED; COMPUTED on 65536 states | `Revision/theory/reports/wolfram-field-theory.json`, check `Fock_space_good_sector_example`; Notebook 05e, In [8] |
+| the canonical conjugate is not a Hilbert adjoint ($\{X, X^\dagger\} = -1$) | PROVED; COMPUTED | the same report, check `no_positive_inner_product`; Notebook 05e, In [10] |
+| vacuum energy $-8E = -40$, energies $+5$, charges $\pm1$ | COMPUTED (to $10^{-12}$) | the same report, check `Fock_space_good_sector_example`; Notebook 05e, In [12] |
+| $MB^TM^\dagger = B$ for $M = \Gamma$, $= -B$ for $M = 1$ | PROVED; COMPUTED on the Fock space | `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, check `quantum_charge_conjugation_unitary_type`; Notebook 05e, In [14] |
+| $X' = sX + c$ with the anticommuting signs; $c = \mp16$ for the charge density, 0 otherwise | PROVED; COMPUTED on the Fock space | Notebook 05e, In [16] and In [17]; the signs equal the anticommuting rows of the lead check `bilinears_under_charge_conjugation` |
+| $:\!X'\!: = s\,:\!X\!:$; $\Psi \to \Gamma\Psi^{\dagger T}$ reverses the charge of every quantum | PROVED; COMPUTED | Notebook 05e, In [18] and In [19] (its own computation) |
+
+### 5.35 Example: Notebook 05e computes the conjugation of the quantised field
+
+Notebook 05e builds fermion operators from zero, first for two modes as $4 \times 4$ matrices and then for sixteen modes on the Fock space of 65536 patterns, where a state is stored as a list of its nonzero amplitudes. It realises the quantised field of the record's good-sector example ($m = 3$, momentum 4 along $x1$, $E = 5$), checks the canonical rule, shows why the canonical conjugate cannot be a Hilbert adjoint, and reproduces the vacuum energy $-40$, the energies $+5$ and the charges $\pm1$ of the 16 quanta. Then it applies the two conjugations $M = 1$ and $M = \Gamma$ to the operators, measures the anticommutators, computes all nine conjugated bilinears as operators, finds the sign and the constant of $X' = sX + c$, and checks that normal ordering removes the constant and keeps the sign. It reads `Revision/algebra/gammas.json`, `Revision/theory/field-theory.json`, `Revision/theory/reports/wolfram-field-theory.json` and `Revision/lead_checks/reports/charge-conjugation-and-u1.json`. It draws eight figures and ends with the line ALL 18 CHECKS PASSED (notebook 05e).
+
+<!-- NOTEBOOK 05e -->
+
+### 5.38 Line-by-line walk-through of Notebook 05e
+
+The notebook has 20 code cells. In [1] is the set-up cell of Section 5.10 with `NOTEBOOK_ID = "05e"`; its comments repeat the instructions of Section 5.36. Docstrings are left out of the quotations and long captions are shortened to `...`, as before.
+
+**In [2], the gammas, $C$, $\Gamma$, $B$ and the records.**
+
+```python
+import contextlib  # lets a block of code print into a text buffer
+import io  # the text buffer io.StringIO
+import sys  # sys.stdout: the channel through which the notebook prints
+
+import numpy as np  # arrays of numbers, matrices and linear algebra
+
+fixture = json.loads(repository_file("Revision/algebra/gammas.json")
+                     .read_text(encoding="utf-8"))
+COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
+I16 = np.eye(16, dtype=np.int64)  # the identity matrix 1
+```
+
+The modules and the gammas, as in Notebook 05c, In [2] (Section 5.33).
+
+```python
+C = gamma["x8"] @ gamma["x1"] @ gamma["x2"] @ gamma["x3"]  # the charge matrix
+Gamma = I16
+for x in ["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]:
+    Gamma = Gamma @ gamma[x]  # the chirality: the product of all eight gammas
+B = -1j * (C @ gamma["x4"])  # B = -i C gamma^(x4), entries 0, +i, -i
+```
+
+$C$, $\Gamma$ and $B$; the loop multiplies the eight gammas in the author's order, starting from the identity.
+
+```python
+REPORT_FILES = {"lead": "Revision/lead_checks/reports/charge-conjugation-and-u1.json",
+                "wolfram": "Revision/theory/reports/wolfram-field-theory.json"}
+VERDICTS = {}  # (report key, check name) -> (verdict in lower case, detail text)
+for key, path in REPORT_FILES.items():
+    report_data = json.loads(repository_file(path).read_text(encoding="utf-8"))
+    for entry in report_data["checks"]:
+        VERDICTS[(key, entry["name"])] = (entry["verdict"].lower(), entry["detail"])
+```
+
+Two reports are read: the lead report of charge conjugation and the Wolfram report of the field theory, which holds the record's checks of the quantisation. Every check is stored under the pair (report key, check name), as in Notebook 05a (Section 5.10, In [3]).
+
+```python
+def recorded(key, name):
+    return VERDICTS[(key, name)][0] == "pass"
+
+
+def detail(key, name):
+    return VERDICTS[(key, name)][1]
+
+
+def record_of(key, name):
+    return f"{REPORT_FILES[key]}, check {name}"
+
+
+def check_reproduces(condition, name, record):
+    collected = io.StringIO()
+    with contextlib.redirect_stdout(collected):  # print into the buffer
+        check(condition, name, record=record)  # stops here if the check fails
+    sys.stdout.write(collected.getvalue())  # the PASS and reproduces lines together
+```
+
+The four helpers of Notebook 05b (Section 5.17, In [2]): whether a report holds a check with the verdict pass, its detail text, the text printed after reproduces, and the check that prints its two lines in one piece.
+
+```python
+say(f"{len(VERDICTS)} recorded checks were read from the two reports.")
+check(np.array_equal(B.conj().T, B) and np.array_equal(B @ B, I16)
+      and not np.any(np.diag(B)) and np.array_equal(B.T, -B),
+      "B is Hermitian, B B = 1, B^T = -B and every diagonal entry of B is 0")
+```
+
+The printed line reports 96 checks: the 12 of the lead report and the 84 of the Wolfram report. The check confirms the facts about $B$ that Section 5.34 uses: Hermitian, square 1, $B^T = -B$, and a zero diagonal (`np.diag(B)` is the list of the diagonal entries).
+
+**In [3], the rule of the record.**
+
+```python
+theory = json.loads(repository_file("Revision/theory/field-theory.json")
+                    .read_text(encoding="utf-8"))
+formula = next(f for f in theory["formulas"] if f["key"] == "quantisation")["wl"]
+RULE = "{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/Cos[z]"
+POSITIVE = "positive representation chi = Psi^dagger B, {Psi_A, chi_C} = delta_AC"
+say("the record states: " + RULE)
+say("and: " + POSITIVE)
+check(RULE in formula and POSITIVE in formula,
+      "the formula quantisation of Revision/theory/field-theory.json states both rules")
+```
+
+The record `Revision/theory/field-theory.json` holds a list of formulas, each with a key and a text (`"wl"`, written in the notation of the Wolfram Language). `next(f for f in ... if ...)` takes the first formula whose key is `quantisation`. The two sentences that this notebook realises, the canonical rule and its positive representation with $\chi = \Psi^\dagger B$ (equivalently $\Psi^\dagger = \chi B$, because $BB = 1$), are printed, and the check confirms that the record's text contains both, character by character.
+
+**In [4], two modes as $4 \times 4$ matrices.**
+
+```python
+def two_mode_matrix(p, filling):
+    matrix = np.zeros((4, 4), dtype=np.int64)
+    for n in range(4):  # the pattern n: binary digit q = occupation of mode q
+        full = (n >> p) & 1  # the occupation of mode p in the pattern n
+        if full != filling:  # f_p needs a full mode, f_p^* an empty one
+            below = bin(n & ((1 << p) - 1)).count("1")  # occupied modes below p
+            matrix[n ^ (1 << p), n] = (-1) ** below  # ^ flips binary digit p
+    return matrix
+```
+
+The computer stores a pattern of occupations as a whole number $n$ whose **binary digits** are the occupations: digit $q$ (counted from 0, from the right) is the occupation of mode $q$. So for two modes $n = 0, 1, 2, 3$ are $|00\rangle$, $|10\rangle$, $|01\rangle$, $|11\rangle$. The operators on binary digits: shifting $n$ to the right by $p$ places and taking `& 1` (the last binary digit) gives the occupation of mode $p$; `1` shifted to the left by $p$ places is the number with a single 1 in digit $p$, and subtracting 1 from it gives the number with ones in all digits below $p$; `n & (...)` keeps only those digits of $n$; `bin(...)` writes a number in binary digits, and `.count("1")` counts the occupied modes below $p$. The operator `^` (exclusive or) with that single-digit number flips digit $p$. For each pattern $n$ on which the operator acts (`filling=False`: $f_p$, which needs a full mode; `filling=True`: $f_p^\ast$, which needs an empty one), column $n$ of the matrix gets the entry $(-1)^{\text{below}}$ in the row of the new pattern. Columns of patterns on which the operator gives zero stay zero.
+
+```python
+f2 = {p: two_mode_matrix(p, False) for p in (0, 1)}  # f_0, f_1
+f2_star = {p: two_mode_matrix(p, True) for p in (0, 1)}  # f_0^*, f_1^*
+Z4 = np.zeros((4, 4), dtype=np.int64)
+relations_ok = all(
+    np.array_equal(f2[p] @ f2_star[q] + f2_star[q] @ f2[p],
+                   np.eye(4, dtype=np.int64) if p == q else Z4)
+    and np.array_equal(f2[p] @ f2[q] + f2[q] @ f2[p], Z4)
+    and np.array_equal(f2_star[p], f2[p].T)
+    for p in (0, 1) for q in (0, 1))
+```
+
+The four matrices $f_0$, $f_1$, $f_0^\ast$, $f_1^\ast$, and for all four pairs $(p, q)$ the canonical relations $\{f_p, f_q^\ast\} = \delta_{pq}1$ and $\{f_p, f_q\} = 0$, and that $f_p^\ast$ is the transpose of $f_p$ (the matrices are real, so the transpose is the Hilbert adjoint).
+
+```python
+# column 3 of f_1 is the image of the pattern |11>; its entry in row 1 (|10>) is -1
+say(f"f_1 applied to |11>: amplitudes on |00>, |10>, |01>, |11> = "
+    f"{f2[1][:, 3].tolist()}")
+check(relations_ok and all(not np.any(f2[p] @ f2[p]) for p in (0, 1)),
+      "two modes: {f_p, f_q^*} = delta_pq, {f_p, f_q} = 0, f_p f_p = 0, "
+      "f_p^* = f_p^T")
+```
+
+The printed line is column 3 of $f_1$, the image of $|11\rangle$: $[0, -1, 0, 0]$, that is $f_1|11\rangle = -|10\rangle$, the example of Section 5.34. The check adds $f_pf_p = 0$.
+
+**In [5], the picture of the two-mode operators.**
+
+```python
+from matplotlib.colors import LinearSegmentedColormap
+
+SIGNS = LinearSegmentedColormap.from_list("signs", ["#2a78d6", "#f0efec", "#e34948"])
+PATTERNS = ["|00>", "|10>", "|01>", "|11>"]  # the patterns n = 0, 1, 2, 3
+fig, axes = plt.subplots(1, 4, figsize=(13.0, 3.5))
+```
+
+The colour map of the heat maps, the names of the four patterns and a row of four pictures.
+
+```python
+for k, (ax, matrix, title) in enumerate(zip(
+        axes, [f2[0], f2_star[0], f2[1], f2_star[1]],
+        ["$f_0$ (empties mode 0)", "$f_0^*$ (fills mode 0)",
+         "$f_1$ (empties mode 1)", "$f_1^*$ (fills mode 1)"])):
+    image = ax.imshow(matrix, cmap=SIGNS, vmin=-1, vmax=1)
+    for r in range(4):
+        for c in range(4):
+            if matrix[r, c]:
+                ax.text(c, r, f"{matrix[r, c]:+d}", ha="center", va="center",
+                        color="white", fontweight="bold")
+```
+
+For each of the four operators: its matrix as a heat map, and its nonzero entries written in their squares.
+
+```python
+    ax.set_xticks(range(4), PATTERNS)
+    # the row labels only on the first picture (the rows are the same in all four)
+    ax.set_yticks(range(4), PATTERNS if k == 0 else [""] * 4)
+    ax.set_xlabel("from the pattern")
+    if k == 0:
+        ax.set_ylabel("to the pattern")
+    ax.set_title(title)
+    ax.grid(False)
+fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
+save_figure(fig, "two_modes", ...)
+```
+
+The columns are labelled by the pattern acted on, the rows by the resulting pattern (only in the first picture). **What figure 05e.1 shows**: each operator moves one pattern to another, so each picture has two coloured squares; all are red ($+1$) except one blue square in $f_1$ (from $|11\rangle$ to $|10\rangle$) and one in $f_1^\ast$ (from $|10\rangle$ to $|11\rangle$): the sign that makes operators of different modes anticommute.
+
+**In [6], sixteen modes.**
+
+```python
+def sign_below(n, p):
+    return -1 if bin(n & ((1 << p) - 1)).count("1") % 2 else 1
+```
+
+`sign_below(n, p)` is $(-1)$ to the power of the number of occupied modes below $p$ in the pattern $n$: $-1$ when that number is odd (`% 2` is its remainder after division by 2).
+
+```python
+def annihilate(p, state):
+    result = {}
+    for n, amplitude in state.items():
+        if n >> p & 1:  # mode p is full in the pattern n
+            new = n ^ (1 << p)  # the same pattern with mode p emptied
+            result[new] = result.get(new, 0) + sign_below(n, p) * amplitude
+    return result
+
+
+def create(p, state):
+    result = {}
+    for n, amplitude in state.items():
+        if not n >> p & 1:  # mode p is empty in the pattern n
+            new = n | (1 << p)  # the same pattern with mode p filled
+            result[new] = result.get(new, 0) + sign_below(n, p) * amplitude
+    return result
+```
+
+With 16 modes there are 65536 patterns, too many for full matrices; a state is therefore stored as a dictionary `{pattern: amplitude}` that lists only the nonzero amplitudes. `annihilate(p, state)` is $f_p$: for every pattern in which mode $p$ is full it adds the amplitude, times the sign, to the pattern with mode $p$ emptied (`result.get(new, 0)` is the amplitude collected so far, 0 if none). `create(p, state)` is $f_p^\ast$: for every pattern in which mode $p$ is empty it fills the mode (the operator `|`, or, with the single-digit number sets digit $p$ to 1).
+
+```python
+def combine(terms):
+    result = {}
+    for coefficient, state in terms:
+        for n, amplitude in state.items():
+            result[n] = result.get(n, 0) + coefficient * amplitude
+    return result
+
+
+def inner(left, right):
+    return sum(np.conj(a) * right.get(n, 0) for n, a in left.items())
+
+
+def largest(state):
+    return max((abs(a) for a in state.values()), default=0.0)
+```
+
+`combine` adds states with coefficients, $\sum c_j\,\text{state}_j$. `inner(left, right)` is the positive inner product $\sum_n\text{left}_n^\ast\,\text{right}_n$. `largest(state)` is the largest size of an amplitude, 0 for the empty dictionary (the zero state); it measures how far a state is from zero.
+
+```python
+rng = np.random.default_rng(12345)  # random numbers with a fixed seed
+RANDOM_STATE = {int(n): complex(rng.normal(), rng.normal())
+                for n in rng.integers(0, 2 ** 16, size=6)}  # six random patterns
+```
+
+A random test state: six random patterns (whole numbers from 0 to 65535) with random complex amplitudes whose real and imaginary parts come from the normal distribution (the bell curve centred at 0). The fixed seed 12345 makes every run use the same numbers.
+
+```python
+worst = 0.0  # the largest violation of a canonical relation
+for p in range(16):
+    for q in range(16):
+        mixed = combine([(1, annihilate(p, create(q, RANDOM_STATE))),
+                         (1, create(q, annihilate(p, RANDOM_STATE)))])
+        expected = RANDOM_STATE if p == q else {}  # delta_pq times the state
+        worst = max(worst, largest(combine([(1, mixed), (-1, expected)])))
+        same = combine([(1, annihilate(p, annihilate(q, RANDOM_STATE))),
+                        (1, annihilate(q, annihilate(p, RANDOM_STATE)))])
+        worst = max(worst, largest(same))
+say(f"patterns in the random state: {len(RANDOM_STATE)}; pairs tested: 2 x 256")
+check(worst < 1e-12,
+      "sixteen modes: {f_p, f_q^*} = delta_pq and {f_p, f_q} = 0 on a random state")
+```
+
+For all $16 \times 16$ pairs $(p, q)$: $\{f_p, f_q^\ast\}$ applied to the random state minus $\delta_{pq}$ times the state, and $\{f_p, f_q\}$ applied to it; `worst` keeps the largest amplitude left over. The printed line reports 6 patterns and $2 \times 256$ tests; the check requires everything left over to be below $10^{-12}$.
+
+**In [7], the mode Hamiltonian and its eigenvectors.**
+
+```python
+MASS, MOMENTUM = 3, 4  # the record's example: m = 3, momentum 4 along x1
+E = float(np.sqrt(MASS ** 2 + MOMENTUM ** 2))  # the energy, 5
+h = -1j * MASS * gamma["x4"] - MOMENTUM * (gamma["x4"] @ gamma["x1"])
+```
+
+The record's example: $m = 3$, momentum 4 along $x1$, $E = \sqrt{3^2 + 4^2} = 5$, and $h = -im\gamma^{(x4)} - 4\gamma^{(x4)}\gamma^{(x1)}$ (Section 5.34).
+
+```python
+def orthonormal_columns(P):
+    basis = []
+    for column in P.T:
+        v = column.astype(complex)
+        for _ in range(2):  # a second pass removes rounding errors
+            for e in basis:
+                v = v - (e.conj() @ v) * e  # remove the part along e
+        length = np.sqrt((v.conj() @ v).real)
+        if length > 1e-8:  # a new direction: keep it with length 1
+            basis.append(v / length)
+    return np.array(basis).T
+```
+
+The **Gram-Schmidt procedure**: it goes through the columns of a matrix $P$ (the rows of `P.T`), subtracts from each column its parts along the columns already kept ($e^\dagger v$ is the size of the part of $v$ along the unit column $e$), and keeps it, divided by its length, when the length that remains is not zero. The subtraction is done twice, because the first pass leaves rounding errors. The kept columns are orthonormal (of length 1 and perpendicular to each other) and span the same space as the columns of $P$.
+
+```python
+U_plus = orthonormal_columns((np.eye(16) + h / E) / 2)  # u_1..u_8: energy +5
+V_minus = orthonormal_columns((np.eye(16) - h / E) / 2)  # v_1..v_8: energy -5
+W = np.hstack([U_plus, V_minus])  # 16 x 16: the columns u_1..u_8, v_1..v_8
+report("E for m = 3 and momentum 4 along x1", f"{E:.12f}")
+```
+
+Because $hh = E^2\,1$, the matrices $\tfrac12(1 \pm h/E)$ are projectors onto the eigenvectors with the eigenvalues $\pm E$: $h\cdot\tfrac12(1 + h/E) = \tfrac12(h + E\,1) = E\cdot\tfrac12(1 + h/E)$, so every column of the first is an eigenvector with eigenvalue $+E$ (or zero), and in the same way for the second with $-E$. Gram-Schmidt picks eight orthonormal columns from each; `np.hstack` puts them side by side into $W$. The RESULT line prints $E = 5.000000000000$.
+
+```python
+check(np.max(np.abs(h - h.conj().T)) < 1e-15
+      and np.max(np.abs(h @ h - 25 * np.eye(16))) < 1e-13
+      and U_plus.shape == (16, 8) and V_minus.shape == (16, 8)
+      and np.max(np.abs(h @ U_plus - E * U_plus)) < 1e-13
+      and np.max(np.abs(h @ V_minus + E * V_minus)) < 1e-13
+      and np.max(np.abs(W.conj().T @ W - np.eye(16))) < 1e-13
+      and np.max(np.abs(W @ W.conj().T - np.eye(16))) < 1e-13,
+      "h is Hermitian, h h = 25, with 8 + 8 orthonormal complete eigenvectors")
+```
+
+The check: $h$ is Hermitian, $hh = 25\cdot1$, eight columns for each energy, $hu_s = 5u_s$ and $hv_s = -5v_s$, and $W^\dagger W = WW^\dagger = 1$ (orthonormal and complete), each to a small floating-point tolerance.
+
+**In [8], the field operators and the canonical rule.**
+
+```python
+def basic(i, state):
+    p = i % 16  # the mode
+    empties = (i < 16) == (p < 8)  # F_p for p < 8 and F_p^* for p >= 8 empty mode p
+    return annihilate(p, state) if empties else create(p, state)
+```
+
+Every operator used here is a combination of 32 **basic operators** $O_i$: $O_p = F_p$ and $O_{16+p} = F_p^\ast$ for $p = 0, \dots, 15$, where $F_p = b_{p+1} = f_p$ for $p < 8$ (particles) and $F_p = d_{p-7}^\ast = f_p^\ast$ for $p \geq 8$ (antiparticles appear in $\Psi$ through their creation operators), and $F_p^\ast$ is the Hilbert adjoint of $F_p$. `basic(i, state)` applies $O_i$: the mode is $p = i \bmod 16$, and $O_i$ empties mode $p$ exactly when ($i < 16$ and $p < 8$) or ($i \geq 16$ and $p \geq 8$), which is what the comparison of the two truth values `(i < 16) == (p < 8)` says.
+
+```python
+ZEROS = np.zeros((16, 16))
+PSI = np.hstack([W, ZEROS])  # row A: Psi_A = sum_p W_Ap F_p
+CHI = np.hstack([ZEROS, W.conj()])  # row A: chi_A = sum_p conj(W_Ap) F_p^*
+PSI_DAG = B.T @ CHI  # row A: Psi^dagger_A = sum_C chi_C B_CA
+```
+
+An operator $\sum_ic_iO_i$ is stored as the row of its 32 coefficients. The field $\Psi_A = \sum_pW_{Ap}F_p$ (Section 5.34 with the columns of $W$) is row $A$ of `PSI`: the 16 numbers $W_{A,p}$ followed by 16 zeros. Its Hilbert adjoint $\chi_A = \sum_pW^\ast_{Ap}F_p^\ast$ is row $A$ of `CHI`. The canonical conjugate $\Psi^\dagger_A = \sum_C\chi_CB_{CA} = \sum_C(B^T)_{AC}\chi_C$ is row $A$ of $B^T$ times `CHI`.
+
+```python
+def apply(row, state):
+    return combine([(row[i], basic(i, state)) for i in range(32)
+                    if abs(row[i]) > 1e-15])
+
+
+def anticommutator(row1, row2, state):
+    return combine([(1, apply(row1, apply(row2, state))),
+                    (1, apply(row2, apply(row1, state)))])
+```
+
+`apply(row, state)` applies the operator of a row to a state (coefficients below $10^{-15}$ are skipped). `anticommutator(row1, row2, state)` applies $\{X, Y\} = XY + YX$.
+
+```python
+def measured_rule(rows1, rows2, state):
+    norm = inner(state, state).real
+    numbers = np.zeros((16, 16), dtype=complex)
+    rest = 0.0
+    for A in range(16):
+        for C_ in range(16):
+            result = anticommutator(rows1[A], rows2[C_], state)
+            numbers[A, C_] = inner(state, result) / norm
+            rest = max(rest, largest(combine([(1, result),
+                                              (-numbers[A, C_], state)])))
+    return numbers, rest
+```
+
+`measured_rule` measures the 256 anticommutators $\{X_A, Y_C\}$ on a state. Each must be a number times the state; the number is read off as $\langle\phi|\{X, Y\}\phi\rangle/\langle\phi|\phi\rangle$, and `rest` keeps the largest amplitude left over after that number times the state is subtracted (it must be zero). The letter `C_` avoids overwriting the matrix `C`.
+
+```python
+with_chi, rest_chi = measured_rule(PSI, CHI, RANDOM_STATE)
+with_dagger, rest_dagger = measured_rule(PSI, PSI_DAG, RANDOM_STATE)
+psi_psi, rest_pp = measured_rule(PSI, PSI, RANDOM_STATE)
+dag_dag, rest_dd = measured_rule(PSI_DAG, PSI_DAG, RANDOM_STATE)
+all_rest = max(rest_chi, rest_dagger, rest_pp, rest_dd)
+say("every anticommutator is a number times the state (rest below 1e-12): "
+    f"{all_rest < 1e-12}")
+```
+
+Four families of anticommutators are measured on the random state: $\{\Psi_A, \chi_C\}$, $\{\Psi_A, \Psi^\dagger_C\}$, $\{\Psi_A, \Psi_C\}$ and $\{\Psi^\dagger_A, \Psi^\dagger_C\}$. The printed line says True: each is a number times the state.
+
+```python
+check_reproduces(np.max(np.abs(with_chi - np.eye(16))) < 1e-12
+                 and np.max(np.abs(with_dagger - B)) < 1e-12
+                 and np.max(np.abs(psi_psi)) < 1e-12
+                 and np.max(np.abs(dag_dag)) < 1e-12 and all_rest < 1e-12
+                 and recorded("wolfram", "Fock_space_good_sector_example"),
+                 "{Psi_A, chi_C} = delta_AC and {Psi_A, Psi^dagger_C} = B_AC on the "
+                 "positive Fock space; {Psi, Psi} = 0 = {Psi^dagger, Psi^dagger}",
+                 record=record_of("wolfram", "Fock_space_good_sector_example"))
+```
+
+The check: the measured numbers are the identity for $\chi$, the matrix $B$ for $\Psi^\dagger$, and zero for the other two families, exactly as Section 5.34 derived.
+
+**In [9], the picture of the measured rules.**
+
+```python
+def heat_map(ax, matrix, title, row_label=True):
+    image = ax.imshow(matrix, cmap=SIGNS, vmin=-1, vmax=1)
+    ax.set_title(title)
+    ax.set_xticks([0, 3, 7, 11, 15], ["1", "4", "8", "12", "16"])
+    ax.set_yticks([0, 3, 7, 11, 15], ["1", "4", "8", "12", "16"])
+    ax.axhline(7.5, color="black", linewidth=0.8)
+    ax.axvline(7.5, color="black", linewidth=0.8)
+    ax.set_xlabel("column")
+    if row_label:
+        ax.set_ylabel("row")
+    ax.grid(False)
+    return image
+```
+
+The heat map of Notebook 05c, In [4].
+
+```python
+check(np.max(np.abs(with_chi.imag)) < 1e-12 and np.max(np.abs(with_dagger.real))
+      < 1e-12, "the measured numbers are real for chi and imaginary for Psi^dagger")
+fig, axes = plt.subplots(1, 3, figsize=(11.0, 4.0))
+heat_map(axes[0], with_chi.real, r"measured $\{\Psi_A, \chi_C\}$")
+heat_map(axes[1], with_dagger.imag, r"measured $\{\Psi_A, \Psi^\dagger_C\}$ / $i$",
+         row_label=False)
+image = heat_map(axes[2], B.imag, r"the matrix $B$ / $i$", row_label=False)
+fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
+save_figure(fig, "anticommutators", ...)
+```
+
+Before drawing, the check confirms what the pictures show: the numbers for $\chi$ are real and those for $\Psi^\dagger$ purely imaginary, so the real part of the first and the imaginary part of the second say everything. **What figure 05e.2 shows**: on the left the identity (a red diagonal); in the middle and on the right the same pattern of red and blue squares, $B/i$, with an empty diagonal. The realisation obeys the canonical rule.
+
+**In [10], why the canonical conjugate is not the Hilbert adjoint.**
+
+```python
+u = np.zeros(16, dtype=complex)
+u[6], u[15] = -1j / np.sqrt(2), 1 / np.sqrt(2)  # u_7 and u_16 (Python counts from 0)
+X_row = u.conj() @ PSI  # X = sum_A conj(u_A) Psi_A
+X_adjoint = u @ CHI  # X^* = sum_A u_A chi_A (the Hilbert adjoint)
+X_dagger = u @ PSI_DAG  # X^dagger = sum_A u_A Psi^dagger_A (canonical conjugate)
+```
+
+The record's column $u$ ($u_7 = -i/\sqrt2$, $u_{16} = 1/\sqrt2$), the operator $X = \sum_Au_A^\ast\Psi_A$ as a row (a combination of the rows of `PSI`), its Hilbert adjoint $X^\ast = \sum_Au_A\chi_A$ and its canonical conjugate $X^\dagger = \sum_Au_A\Psi^\dagger_A$.
+
+```python
+norm_random = inner(RANDOM_STATE, RANDOM_STATE).real
+with_adjoint = inner(RANDOM_STATE, anticommutator(X_row, X_adjoint,
+                                                  RANDOM_STATE)) / norm_random
+with_canonical = inner(RANDOM_STATE, anticommutator(X_row, X_dagger,
+                                                    RANDOM_STATE)) / norm_random
+eigen_B = np.linalg.eigvalsh(B)  # the 16 eigenvalues of the Hermitian matrix B
+say(f"{{X, X^*}} = {with_adjoint.real:+.6f};  {{X, X^dagger}} = "
+    f"{with_canonical.real:+.6f};  u^dagger B u = {(u.conj() @ B @ u).real:+.6f}")
+```
+
+The two anticommutators are measured on the random state as numbers, and the 16 eigenvalues of $B$ are computed. In an f-string a doubled brace `{{` prints a single brace. The printed line shows $\{X, X^\ast\} = +1.000000$, $\{X, X^\dagger\} = -1.000000$ and $u^\dagger Bu = -1.000000$.
+
+```python
+check_reproduces(np.allclose(B @ u, -u) and abs(u.conj() @ B @ u + 1) < 1e-12
+                 and abs(with_adjoint - 1) < 1e-12 and abs(with_canonical + 1) < 1e-12
+                 and recorded("wolfram", "no_positive_inner_product"),
+                 "{X, X^*} = +1 but {X, X^dagger} = u^dagger B u = -1: the canonical "
+                 "conjugate needs an indefinite (Krein) inner product",
+                 record=record_of("wolfram", "no_positive_inner_product"))
+```
+
+The check: $Bu = -u$, $u^\dagger Bu = -1$, the anticommutator with the Hilbert adjoint is $+1$ (positive, as it must be), and the canonical one is $-1$: the argument of Section 5.34 on the computer.
+
+**In [11], the picture of the indefinite form.**
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.0))
+axes[0].plot(np.arange(1, 17), eigen_B, "o", color="#2a78d6", markersize=8)
+axes[0].axhline(0.0, color="black", linewidth=0.8)
+axes[0].set_xticks([1, 4, 8, 12, 16])
+axes[0].set_xlabel("number of the eigenvalue (sorted)")
+axes[0].set_ylabel("eigenvalue of $B$")
+axes[0].set_title("$B$: eight eigenvalues $-1$, eight $+1$")
+```
+
+The left picture: the 16 sorted eigenvalues of $B$ as dots.
+
+```python
+axes[1].bar([0, 1], [with_adjoint.real, with_canonical.real],
+            color=["#1baf7a", "#eb6834"], edgecolor="white", linewidth=2, width=0.5)
+for x_bar, value in zip([0, 1], [with_adjoint.real, with_canonical.real]):
+    axes[1].text(x_bar, value + (0.08 if value > 0 else -0.16), f"{value:+.0f}",
+                 ha="center")
+axes[1].axhline(0.0, color="black", linewidth=0.8)
+axes[1].set_xticks([0, 1], [r"$\{X, X^*\}$ (Hilbert adjoint)",
+                            r"$\{X, X^\dagger\}$ (canonical)"])
+axes[1].set_ylim(-1.5, 1.5)
+axes[1].set_ylabel("measured number")
+axes[1].set_title("$X = u^\\dagger\\Psi$ with $Bu = -u$")
+save_figure(fig, "why_krein", ...)
+```
+
+The right picture: two bars with their values written beside them. **What figure 05e.3 shows**: on the left eight dots at $-1$ and eight at $+1$, the signature $(8, 8)$ of $B$; on the right a green bar up to $+1$ (the Hilbert adjoint) and an orange bar down to $-1$ (the canonical conjugate). A negative value is impossible for a Hilbert adjoint, which is why the canonical rule needs an indefinite (Krein) inner product.
+
+**In [12], the vacuum, the 16 quanta and the expectation-value rule.**
+
+```python
+VACUUM = {0: 1.0}  # the pattern 0: no particle, no antiparticle
+
+
+def bilinear(L, K, R, state):
+    Q = L.T @ K @ R  # 32 x 32: the coefficient of O_i O_j
+    terms = []
+    for j in range(32):
+        if np.max(np.abs(Q[:, j])) > 1e-15:
+            lowered = basic(j, state)  # O_j applied first
+            if lowered:
+                terms += [(Q[i, j], basic(i, lowered)) for i in range(32)
+                          if abs(Q[i, j]) > 1e-15]
+    return combine(terms)
+```
+
+The vacuum is the pattern 0 with amplitude 1. A bilinear $\sum_{A,C}L_AK_{AC}R_C$ of two operators given by rows $L_A$ and $R_C$ is $\sum_{i,j}Q_{ij}O_iO_j$ with the $32 \times 32$ matrix $Q = L^TKR$ (insert $L_A = \sum_iL_{Ai}O_i$ and $R_C = \sum_jR_{Cj}O_j$). `bilinear(L, K, R, state)` applies it to a state: for each $j$ with a nonzero column of $Q$ it applies $O_j$ first, and if the result is not the zero state (an empty dictionary counts as false), it applies every $O_i$ with its coefficient.
+
+```python
+def vacuum_value(L, K, R):
+    return inner(VACUUM, bilinear(L, K, R, VACUUM))
+
+
+QUANTA = [create(p, VACUUM) for p in range(16)]  # b_s^*|0> (p < 8), d_s^*|0>
+
+
+def normal_ordered_value(L, K, R, state):
+    return inner(state, bilinear(L, K, R, state)) - vacuum_value(L, K, R)
+```
+
+`vacuum_value` is $\langle 0|X|0\rangle$. `QUANTA` lists the 16 one-quantum states: filling mode $p$ of the vacuum gives $b_{p+1}^\ast|0\rangle$ for $p < 8$ and $d_{p-7}^\ast|0\rangle$ for $p \geq 8$. `normal_ordered_value` is $\langle q|X|q\rangle - \langle 0|X|0\rangle$, the value of $:\!X\!:$ in a state $q$ of length 1.
+
+```python
+vacuum_energy = vacuum_value(CHI, h, PSI)
+energies = np.array([normal_ordered_value(CHI, h, PSI, q) for q in QUANTA])
+vacuum_charge = vacuum_value(PSI_DAG, B, PSI)
+charges = np.array([normal_ordered_value(PSI_DAG, B, PSI, q) for q in QUANTA])
+report("vacuum energy <0|chi h Psi|0> (the filled sea)", f"{vacuum_energy.real:.6f}")
+report("vacuum charge <0|Psi^dagger B Psi|0>", f"{vacuum_charge.real:.6f}")
+say("normal-ordered energies of the 16 quanta: "
+    + " ".join(f"{e.real:+.0f}" for e in energies))
+say("normal-ordered charges of the 16 quanta:  "
+    + " ".join(f"{c.real:+.0f}" for c in charges))
+```
+
+The energy operator is $\chi h\Psi$ and the charge operator $\Psi^\dagger B\Psi$ (which equals $\chi BB\Psi = \chi\Psi$). The RESULT lines print the vacuum energy $-40.000000$ ($-8E$, the filled sea) and the vacuum charge $8.000000$; the two printed lists show the normal-ordered energy $+5$ for all 16 quanta, and the charge $+1$ for the eight particles and $-1$ for the eight antiparticles.
+
+```python
+rule_ok = True
+for K_rule in [C, -1j * (C @ gamma["x4"]), -1j * (C @ gamma["x1"])]:
+    values = [normal_ordered_value(PSI_DAG, K_rule, PSI, q) for q in QUANTA]
+    predicted = ([W[:, s].conj() @ B @ K_rule @ W[:, s] for s in range(8)]
+                 + [-(W[:, s].conj() @ B @ K_rule @ W[:, s]) for s in range(8, 16)])
+    rule_ok &= np.max(np.abs(np.array(values) - np.array(predicted))) < 1e-12
+```
+
+The expectation-value rule of the record: $\langle q|:\!\Psi^\dagger K\Psi\!:|q\rangle = u_s^\dagger BKu_s$ for a particle and $-v_s^\dagger BKv_s$ for an antiparticle (`W[:, s]` is column $s$ of $W$), tested for three of the record's matrices: the scalar, the charge density and the current along $x1$. `&=` keeps `rule_ok` true only while every test passes.
+
+```python
+check_reproduces(abs(vacuum_energy + 40) < 1e-12 and np.max(np.abs(energies - 5)) < 1e-12
+                 and abs(vacuum_charge - 8) < 1e-12
+                 and np.max(np.abs(charges - np.array([1] * 8 + [-1] * 8))) < 1e-12
+                 and rule_ok and "-8 E" in detail("wolfram",
+                                                  "Fock_space_good_sector_example"),
+                 "vacuum energy -40, every quantum +5, charges +1 and -1, and the "
+                 "expectation-value rule for M = C, -i C gamma^(x4), -i C gamma^(x1)",
+                 record=record_of("wolfram", "Fock_space_good_sector_example"))
+```
+
+The check collects the numbers and requires that the record's detail text contains `-8 E`, the vacuum energy it states.
+
+**In [13], the picture of the quanta.**
+
+```python
+raw_energies = energies + vacuum_energy  # <q|chi h Psi|q>
+raw_charges = charges + vacuum_charge  # <q|Psi^dagger B Psi|q>
+index = np.arange(1, 17)
+fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.2))
+```
+
+The values in the states before normal ordering are the normal-ordered values plus the vacuum values.
+
+```python
+for ax, raw, ordered, name in [(axes[0], raw_energies, energies, "energy"),
+                               (axes[1], raw_charges, charges, "charge")]:
+    ax.bar(index - 0.2, raw.real, 0.4, color="#9e9c98", label="value in the state")
+    ax.bar(index + 0.2, ordered.real, 0.4, color="#2a78d6",
+           label="after normal ordering")
+    ax.axhline(0.0, color="black", linewidth=0.8)
+    ax.axvline(8.5, color="black", linewidth=0.8, linestyle=":")
+    ax.set_xticks([1, 4, 8, 9, 12, 16])
+    ax.set_xlabel("quantum: 1 to 8 particles, 9 to 16 antiparticles")
+    ax.set_title(f"the {name} of the 16 quanta")
+axes[0].set_ylabel("value")
+handles, names = axes[0].get_legend_handles_labels()  # one legend for both
+fig.legend(handles, names, loc="lower center", bbox_to_anchor=(0.5, -0.1), ncol=2)
+save_figure(fig, "quanta", ...)
+```
+
+For the energy (left) and the charge (right), a grey bar (value in the state) and a blue bar (after normal ordering) for each quantum, and a dotted line between particles and antiparticles; one legend for both pictures (`get_legend_handles_labels` collects the labelled bars of the first picture). **What figure 05e.4 shows**: the grey energy bars at $-35$ ($= -40 + 5$) and the blue ones at $+5$; the grey charge bars at $9$ for particles and $7$ for antiparticles, the blue ones at $+1$ and $-1$. The student should see that the vacuum values are large and that normal ordering subtracts them, leaving the physical numbers.
+
+**In [14], the two conjugations of the operators.**
+
+```python
+MAPS = {"M = 1": I16, "M = Gamma": Gamma}  # the two conjugation matrices
+conjugated = {}  # name -> (rows of Psi', rows of Psi'^dagger)
+measured_conjugated = {}  # name -> the measured {Psi'_A, Psi'^dagger_C}
+```
+
+The two maps of Section 5.34 and two dictionaries for the results.
+
+```python
+for name, M in MAPS.items():
+    rows_prime = M @ PSI_DAG  # Psi'_A = sum_C M_AC Psi^dagger_C
+    rows_prime_dagger = M.conj() @ PSI  # Psi'^dagger_A = sum_C conj(M_AC) Psi_C
+    conjugated[name] = (rows_prime, rows_prime_dagger)
+    numbers, rest = measured_rule(rows_prime, rows_prime_dagger, RANDOM_STATE)
+    measured_conjugated[name] = numbers
+    predicted = M @ B.T @ M.conj().T
+    say(f"{name:9}: measured equals M B^T M^dagger: "
+        f"{np.max(np.abs(numbers - predicted)) < 1e-12 and rest < 1e-12}; "
+        f"it equals +B: {np.max(np.abs(numbers - B)) < 1e-12}; "
+        f"-B: {np.max(np.abs(numbers + B)) < 1e-12}")
+```
+
+For each map the rows of the conjugated field and of its canonical conjugate are formed (a matrix times the rows gives the rows of the combinations), the 256 anticommutators are measured on the random state and compared with the prediction $MB^TM^\dagger$. The two printed lines: for $M = 1$ the measurement equals the prediction and $-B$; for $M = \Gamma$ it equals the prediction and $+B$.
+
+```python
+check_reproduces(np.max(np.abs(measured_conjugated["M = 1"] + B)) < 1e-12
+                 and np.max(np.abs(measured_conjugated["M = Gamma"] - B)) < 1e-12
+                 and recorded("lead", "quantum_charge_conjugation_unitary_type"),
+                 "on the Fock space: Psi' = Psi^(dagger T) gives -B, Psi' = Gamma "
+                 "Psi^(dagger T) gives +B: only M = Gamma keeps the canonical rule",
+                 record=record_of("lead", "quantum_charge_conjugation_unitary_type"))
+```
+
+The check reproduces the lead check on actual operators: only $M = \Gamma$ keeps the canonical rule.
+
+**In [15], the picture of the conjugated rules.**
+
+```python
+fig, axes = plt.subplots(1, 3, figsize=(11.0, 4.0))
+heat_map(axes[0], B.imag, r"$B$ / $i$ (the rule)")
+heat_map(axes[1], measured_conjugated["M = 1"].imag,
+         r"measured, $M = 1$, / $i$", row_label=False)
+image = heat_map(axes[2], measured_conjugated["M = Gamma"].imag,
+                 r"measured, $M = \Gamma$, / $i$", row_label=False)
+fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
+save_figure(fig, "conjugated_rules", ...)
+```
+
+**What figure 05e.5 shows**: the rule $B/i$ on the left; in the middle, measured for $M = 1$, every colour reversed ($-B$); on the right, measured for $M = \Gamma$, the same picture as on the left. Only $\Gamma$ gives a conjugation of the quantised field.
+
+**In [16], the conjugated bilinears: a sign and a constant.**
+
+```python
+K_MATRICES = {"S": C.astype(complex)}  # the scalar S = Psi^dagger C Psi
+for x in COORDS:
+    K_MATRICES[f"J^({x})"] = -1j * (C @ gamma[x])  # the current J^a
+BILINEAR_NAMES = list(K_MATRICES)  # "S", "J^(x1)", ..., "J^(x8)"
+signs, constants = {}, {}  # (map, bilinear) -> s and c
+identity_ok = True
+```
+
+The nine matrices: the scalar and the eight currents, under their names.
+
+```python
+for map_name, M in MAPS.items():
+    rows_prime, rows_prime_dagger = conjugated[map_name]
+    for bname, K in K_MATRICES.items():
+        K_prime = M.conj().T @ K @ M  # K' = M^dagger K M
+        c = np.trace(K_prime @ B.T)  # the predicted constant
+        s = 1 if np.array_equal(-K_prime.T, K) else (
+            -1 if np.array_equal(-K_prime.T, -K) else 0)  # -K'^T = s K
+        X_prime = bilinear(rows_prime_dagger, K, rows_prime, RANDOM_STATE)
+        X = bilinear(PSI_DAG, K, PSI, RANDOM_STATE)
+        difference = combine([(1, X_prime), (-s, X), (-c, RANDOM_STATE)])
+        identity_ok &= s != 0 and largest(difference) < 1e-10
+        signs[(map_name, bname)], constants[(map_name, bname)] = s, c
+```
+
+For each map and each of the nine bilinears: the predicted constant $c = \mathrm{tr}(K'B^T)$ and the predicted sign $s$ with $-K'^T = sK$ (Section 5.34); then the conjugated operator $X' = \Psi'^\dagger K\Psi'$ and the original $X = \Psi^\dagger K\Psi$ are applied to the random state, and the state $X'\phi - sX\phi - c\,\phi$ must vanish. `identity_ok` stays true only if every sign is $\pm1$ and every difference is below $10^{-10}$.
+
+```python
+for map_name in MAPS:
+    say(f"{map_name:9}: s = " + " ".join(f"{signs[(map_name, b)]:+d}"
+                                        for b in BILINEAR_NAMES)
+        + "  (S, J^(x1), ..., J^(x8))")
+    say(f"{'':9}  c = " + " ".join(f"{constants[(map_name, b)].real:+.0f}"
+                                   for b in BILINEAR_NAMES))
+```
+
+Two lines per map: the nine signs and the nine constants (in the second line the empty string, padded to nine characters, prints nine blanks, so that the two lines line up). The printed result: for $M = 1$ the signs $-1$ for $S$ and $+1$ for all eight currents, for $M = \Gamma$ the sign $-1$ for all nine; the constants are 0 except $-16$ ($M = 1$) and $+16$ ($M = \Gamma$) for $J^{(x4)}$.
+
+```python
+lead_detail = detail("lead", "bilinears_under_charge_conjugation")
+recorded_table = json.loads(lead_detail.split("measured: ", 1)[1])
+anticommuting_rows = {"M = 1": recorded_table["plus,eps=-1"],
+                      "M = Gamma": recorded_table["minus,eps=-1"]}
+rows_agree = all([signs[(m_name, "S")], [signs[(m_name, b)] for b in
+                                         BILINEAR_NAMES[1:]]] == row
+                 for m_name, row in anticommuting_rows.items())
+```
+
+The record's measured table is read as in Notebook 05c, In [14]; its two anticommuting rows (keys `plus,eps=-1` and `minus,eps=-1`) are compared with the operator signs, written in the same shape [sign of $S$, list of the eight signs of the currents].
+
+```python
+check(identity_ok, "X' = s X + c holds on the Fock space for all 9 bilinears and both "
+      "maps, with c = tr(K' B^T)")
+check_reproduces(rows_agree and recorded("lead", "bilinears_under_charge_conjugation"),
+                 "the operator signs s equal the measured signs of the anticommuting "
+                 "rows (eps = -1) of the recorded table",
+                 record=record_of("lead", "bilinears_under_charge_conjugation"))
+```
+
+Two checks: the operator identity $X' = sX + c$ (the derivation of Section 5.34, confirmed on the Fock space), and that the operator signs are those of the record's anticommuting rows.
+
+**In [17], the constants and the vacuum values.**
+
+```python
+nonzero = sorted({b for (m_name, b), c in constants.items() if abs(c) > 1e-12})
+check(nonzero == ["J^(x4)"] and abs(constants[("M = 1", "J^(x4)")] + 16) < 1e-12
+      and abs(constants[("M = Gamma", "J^(x4)")] - 16) < 1e-12,
+      "c = 0 except for the charge density J^(x4): c = -16 (M = 1), +16 (M = Gamma)")
+```
+
+The set of bilinears with a nonzero constant (sorted, so that the printed order never changes) must be the charge density alone, with $c = -16$ and $+16$, as Section 5.34 computed.
+
+```python
+vac_original = {b: vacuum_value(PSI_DAG, K, PSI) for b, K in K_MATRICES.items()}
+vac_conjugated = {}  # (map, bilinear) -> <0|X'|0>
+for map_name in MAPS:
+    rows_prime, rows_prime_dagger = conjugated[map_name]
+    for bname, K in K_MATRICES.items():
+        vac_conjugated[(map_name, bname)] = vacuum_value(rows_prime_dagger, K,
+                                                         rows_prime)
+```
+
+The vacuum values $\langle 0|X|0\rangle$ of the nine original bilinears and $\langle 0|X'|0\rangle$ of the 18 conjugated ones.
+
+```python
+# values below 1e-12 are printed as 0 (rounding could otherwise print "-0.00")
+shown = {b: (v.real if abs(v) > 1e-12 else 0.0) for b, v in vac_original.items()}
+say("vacuum values <0|X|0>: " + ", ".join(f"{b} {shown[b]:+.2f}"
+                                         for b in BILINEAR_NAMES))
+check(all(abs(vac_conjugated[key] - signs[key] * vac_original[key[1]]
+              - constants[key]) < 1e-12 for key in vac_conjugated),
+      "<0|X'|0> = s <0|X|0> + c for all 9 bilinears and both maps")
+```
+
+The printed line lists the vacuum values: $S$ $-4.80$, $J^{(x1)}$ $-6.40$, $J^{(x4)}$ $+8.00$ and 0 for the others; the filled sea of the example has a nonzero scalar and a nonzero current along its momentum $x1$. The check: $\langle 0|X'|0\rangle = s\langle 0|X|0\rangle + c$ for all 18 cases (`key[1]` is the name of the bilinear in the pair `key`).
+
+```python
+positions = np.arange(len(BILINEAR_NAMES))
+labels = ["$S$"] + [rf"$J^{{({x})}}$" for x in COORDS]
+fig, axes = plt.subplots(1, 2, figsize=(12.0, 4.2), sharey=True)
+for ax, map_name, title in [(axes[0], "M = 1", r"$\Psi' = \Psi^{\dagger T}$"),
+                            (axes[1], "M = Gamma",
+                             r"$\Psi' = \Gamma\Psi^{\dagger T}$")]:
+    ax.bar(positions - 0.27, [vac_original[b].real for b in BILINEAR_NAMES], 0.27,
+           color="#9e9c98", label=r"$\langle 0|X|0\rangle$")
+    ax.bar(positions, [vac_conjugated[(map_name, b)].real for b in BILINEAR_NAMES],
+           0.27, color="#2a78d6", label=r"$\langle 0|X'|0\rangle$")
+    ax.bar(positions + 0.27, [constants[(map_name, b)].real for b in BILINEAR_NAMES],
+           0.27, color="#eb6834", label="the constant $c$")
+    ax.axhline(0.0, color="black", linewidth=0.8)
+    ax.set_xticks(positions, labels)
+    ax.set_title(title)
+    ax.legend(loc="lower left")
+axes[0].set_ylabel("value")
+save_figure(fig, "vacuum_values", ...)
+```
+
+For each map, three bars per bilinear: the vacuum value before (grey) and after (blue) the conjugation, and the constant $c$ (orange). **What figure 05e.6 shows**: for $M = 1$ the scalar's vacuum value changes from $-4.8$ to $+4.8$, that of $J^{(x1)}$ stays at $-6.4$, and that of $J^{(x4)}$ goes from $8$ to $8 - 16 = -8$; for $M = \Gamma$ all signs flip, and $J^{(x4)}$ goes from $8$ to $-8 + 16 = 8$. The orange bars appear only at $J^{(x4)}$. Normal ordering subtracts each operator's own vacuum value, which removes $c$.
+
+**In [18], after normal ordering.**
+
+```python
+def apply_normal_ordered(L, K, R, state):
+    return combine([(1, bilinear(L, K, R, state)),
+                    (-vacuum_value(L, K, R), state)])
+```
+
+`apply_normal_ordered` applies $:\!X\!: = X - \langle 0|X|0\rangle$ to a state.
+
+```python
+normal_ok = True
+for map_name in MAPS:
+    rows_prime, rows_prime_dagger = conjugated[map_name]
+    for bname, K in K_MATRICES.items():
+        for state in [RANDOM_STATE] + QUANTA:
+            left = apply_normal_ordered(rows_prime_dagger, K, rows_prime, state)
+            right = apply_normal_ordered(PSI_DAG, K, PSI, state)
+            normal_ok &= largest(combine([(1, left),
+                                          (-signs[(map_name, bname)], right)])) < 1e-10
+check(normal_ok, ":X': = s :X: for all 9 bilinears, both maps, on the random state "
+      "and the 16 quanta")
+```
+
+For both maps, all nine bilinears and 17 states (the random state and the 16 quanta) the cell compares $:\!X'\!:$ applied to the state with $s$ times $:\!X\!:$ applied to it. The check: normal ordering removes the constant and keeps the sign, everywhere.
+
+```python
+def classical_sign(M, K, eps):
+    new = eps * (M.conj().T @ K @ M).T
+    return 1 if np.array_equal(new, K) else (-1 if np.array_equal(new, -K) else 0)
+
+
+tables = {"commuting components (classical)": 1,
+          "anticommuting components (classical)": -1}
+grids = {}
+for title, eps in tables.items():
+    grids[title] = np.array([[classical_sign(M, K_MATRICES[b], eps)
+                              for b in BILINEAR_NAMES] for M in MAPS.values()])
+grids["quantised field after normal ordering"] = np.array(
+    [[signs[(m_name, b)] for b in BILINEAR_NAMES] for m_name in MAPS])
+```
+
+`classical_sign` is `sign_of` of Notebook 05c: the classical rule $K' = \epsilon(M^\dagger KM)^T$. Three tables of two rows (the maps) and nine columns (the bilinears) are built: classical commuting, classical anticommuting, and the operator signs of the quantised field.
+
+```python
+check(np.array_equal(grids["quantised field after normal ordering"],
+                     grids["anticommuting components (classical)"])
+      and np.array_equal(grids["commuting components (classical)"],
+                         -grids["anticommuting components (classical)"]),
+      "after normal ordering the quantised field has the signs of the anticommuting "
+      "components; the commuting ones are the opposite")
+```
+
+The check: the quantised table equals the classical anticommuting one, and the commuting one is its opposite.
+
+```python
+fig, axes = plt.subplots(3, 1, figsize=(9.0, 6.6))
+for ax, (title, grid) in zip(axes, grids.items()):
+    ax.imshow(grid, cmap=SIGNS, vmin=-1, vmax=1, aspect="auto")
+    for r in range(2):
+        for c_col in range(9):
+            ax.text(c_col, r, f"{grid[r, c_col]:+d}", ha="center", va="center",
+                    color="white", fontweight="bold")
+    ax.axhline(0.5, color="white", linewidth=2)
+    for k in range(1, 9):
+        ax.axvline(k - 0.5, color="white", linewidth=3 if k == 1 else 2)
+    ax.set_xticks(range(9), labels)
+    ax.set_yticks([0, 1], [r"$\mathcal{C}_+$ type, $M = 1$",
+                           r"$\mathcal{C}_-$ type, $M = \Gamma$"])
+    ax.set_title(title)
+    ax.grid(False)
+fig.tight_layout()
+save_figure(fig, "sign_tables", ...)
+```
+
+Three sign tables, one above the other, drawn as in Notebook 05c, In [15] (`c_col` is used as the column counter, because `c` already names a constant); `fig.tight_layout()` spaces the three pictures so that their labels do not overlap. **What figure 05e.7 shows**: the top table (commuting) has a red $S$ and blue currents for $M = 1$ and is all red for $M = \Gamma$; the middle (anticommuting) and the bottom (quantised field after normal ordering) are equal, each the top table with every colour reversed. Normal ordering adds no sign.
+
+**In [19], the charges of the quanta after the conjugation.**
+
+```python
+K_charge = K_MATRICES["J^(x4)"]  # equal to B
+charge_values = {"original": charges.real}
+for map_name in MAPS:
+    rows_prime, rows_prime_dagger = conjugated[map_name]
+    charge_values[map_name] = np.array(
+        [normal_ordered_value(rows_prime_dagger, K_charge, rows_prime, q).real
+         for q in QUANTA])
+check(np.array_equal(K_charge, B)
+      and np.max(np.abs(charge_values["M = Gamma"] + charges.real)) < 1e-12
+      and np.max(np.abs(charge_values["M = 1"] - charges.real)) < 1e-12,
+      "M = Gamma reverses the normal-ordered charge of every quantum; M = 1 keeps it")
+```
+
+The normal-ordered charge density of the conjugated field, $:\!J'^{(x4)}\!:$, is evaluated in each of the 16 one-quantum states, for both maps. The check: its matrix is $B$; with $M = \Gamma$ (the allowed conjugation) every charge is reversed, particles $+1 \to -1$ and antiparticles $-1 \to +1$; with $M = 1$ (which breaks the canonical rule) every charge stays.
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.2))
+ax.plot(index, charge_values["original"], "o", color="#9e9c98", markersize=12,
+        label=r"$:\!J^{(x4)}\!:$ (the field)")
+ax.plot(index, charge_values["M = 1"], "s", color="#eb6834", markersize=6,
+        label=r"$M = 1$ (breaks the rule)")
+ax.plot(index, charge_values["M = Gamma"], "D", color="#2a78d6", markersize=7,
+        label=r"$M = \Gamma$ (keeps the rule)")
+ax.axhline(0.0, color="black", linewidth=0.8)
+ax.axvline(8.5, color="black", linewidth=0.8, linestyle=":")
+ax.set_xticks([1, 4, 8, 9, 12, 16])
+ax.set_ylim(-1.6, 1.6)
+ax.set_xlabel("quantum: 1 to 8 particles, 9 to 16 antiparticles")
+ax.set_ylabel("normal-ordered charge")
+ax.set_title("The charge of each quantum, and of its conjugates")
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=3)
+save_figure(fig, "conjugated_charges", ...)
+```
+
+Large grey circles for the field, small orange squares (`"s"`) for $M = 1$ and blue diamonds (`"D"`) for $M = \Gamma$. **What figure 05e.8 shows**: the grey circles at $+1$ for quanta 1 to 8 and at $-1$ for 9 to 16; the orange squares sit inside the circles (unchanged); the blue diamonds are at $-1$ for the particles and $+1$ for the antiparticles. The only conjugation that keeps the canonical rule exchanges the charges of particles and antiparticles, and, by In [16], it also reverses the scalar and with it the mass.
+
+**In [20], the last check.**
+
+```python
+FIGURES = ["05e_1_two_modes.png", "05e_2_anticommutators.png", "05e_3_why_krein.png",
+           "05e_4_quanta.png", "05e_5_conjugated_rules.png",
+           "05e_6_vacuum_values.png", "05e_7_sign_tables.png",
+           "05e_8_conjugated_charges.png"]
+check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in FIGURES),
+      "the eight figure files of notebook 05e exist")
+all_checks_passed()
+```
+
+The eight figure files must exist, and the last line reads ALL 18 CHECKS PASSED (notebook 05e): one check each in In [2], In [3], In [4], In [6], In [7], In [8], In [9], In [10], In [12], In [14], In [19] and In [20], and two each in In [16], In [17] and In [18]. Five of them reproduce Revision records (In [8], In [10], In [12], In [14] and the second check of In [16]); the other thirteen are the notebook's own computations.
+
+### 5.39 What the charge-conjugation matrices say, and do not say, about matter and antimatter
+
+The request that this book answers asks for a theory that "solves matter anti-matter mysteries". The matrices of this chapter are the first tools for that question, so this section states exactly what they establish and what they do not. Chapter 21 treats the question in full; Chapters 18 and 20 treat the pairs of universes.
+
+**What this chapter proves (exact maps between solutions).**
+
+- In this theory charge conjugation is a matrix map, and there are exactly two charge-conjugation matrices, $\mathcal{C}_+ = C$ (same mass) and $\mathcal{C}_- = \Gamma C$ (mass reversed) (Theorem CC, Section 5.28).
+- For the commuting complex field dirac16complex00, $\mathcal{C}_+$ maps every solution to a solution with the same mass and the opposite charge density (Section 5.29).
+- For a real commuting field the currents vanish, $\mathcal{C}_+$ does nothing, and the only nontrivial real matrix map is $\Gamma$ with $(m, \lambda) \to (-m, -\lambda)$ (Section 5.29).
+- For the quantised anticommuting field dirac16complex the only conjugation that keeps the canonical anticommutator is $\Psi \to \Gamma\Psi^{\dagger T}$; after normal ordering it reverses the charge of every quantum and reverses the mass (Section 5.34).
+- The map $\Psi \to \Gamma\Psi$ keeps the scalar and reverses every current (Section 5.5, (X7) and (X8)); it carries a solution with the parameters $(m, \lambda)$ to one with $(-m, -\lambda)$ (Section 5.29, (F3); this is the input of the pairing theorem T1, which Chapter 18 proves). So a solution and its $\Gamma$ image carry opposite charges, and the two together have total charge zero.
+- The total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of one solution is conserved (Section 5.6; record check `u1_noether_matrix_identity`, derived in Chapter 21). So no process described by these field equations changes the net charge inside one universe.
+
+All of these are exact statements about **maps between sets of solutions** of the field equations.
+
+**What is not proved, and is not claimed.**
+
+- Nothing in this chapter shows that any universe is **created**, in pairs or otherwise. The maps relate solutions that are both allowed by the equations; they contain no creation process, no rate, no amplitude and no big-bang dynamics (Chapter 20).
+- The theory as built does **not** solve the matter–antimatter problem. The observed universe contains far more matter than antimatter (Chapter 21 explains the measurement from zero). In 1967 Sakharov showed that producing such an excess from a symmetric start needs three things: a process that changes the baryon number (roughly, the number of protons and neutrons minus the number of their antiparticles), a violation of the symmetries C and CP, and a departure from thermal equilibrium (Chapter 21 derives the three conditions). The theory as built has no baryons, no process that changes a charge (the charge $Q$ is conserved), no violation of CP built in or computed, and no computation of a departure from equilibrium. Chapter 21 lists what would have to be added.
+- The idea that a universe and an anti-universe together carry zero charge belongs to a class of ideas in the published literature; one example is L. Boyle, K. Finn and N. Turok, "CPT-Symmetric Universe", Phys. Rev. Lett. 121, 251301 (2018). The pair-level statement above (a solution and its $\Gamma$ image have total charge zero) is a statement of this kind about solutions. Any scenario in which our universe is one member of such a pair, or in which the pairing explains the observed excess of matter, is a **HYPOTHESIS**: nothing in this chapter or in the Revision record derives it.
+
+### 5.40 What we proved, what we computed, what we assumed
+
+**PROVED** (exact; the proof is in this chapter, and where a Revision record holds the fact, the report and check named confirm it independently; the notebooks named confirm it again):
+
+- Six rules for products of different gammas (moving a gamma through a product, the square, the reverse, the transpose, the trace 0, the count of eigenvalues); the properties of $C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$ ((C1) to (C7): symmetric, $CC = 1$, $C\gamma^a$ antisymmetric, $C\gamma^aC^{-1} = -(\gamma^a)^T$, signature $(8, 8)$, $C = \mathrm{diag}(-\sigma, \sigma)$), of the chirality $\Gamma$ ((X1) to (X9), $\Gamma = \mathrm{diag}(-1_8, 1_8)$, $\Gamma^TC\Gamma = C$, $\Gamma^TC\gamma^a\Gamma = -C\gamma^a$) and of $B = -iC\gamma^{(x4)}$ ((B1) to (B5): Hermitian, $BB = 1$, signature $(8, 8)$, commuting with five gammas and anticommuting with the three of the extra times) (Sections 5.3 to 5.6; Notebook 05a; `Revision/algebra/reports/python-algebra.json` and `Revision/algebra/reports/wolfram-algebra.json`, the checks named in the tables of those sections).
+- Theorem P: the 16 components carry an irreducible representation of Pin(4,4), and only the multiples of 1 commute with it; Theorem S: under Spin(4,4) they split into two irreducible, inequivalent halves of 8, and the commutant is spanned by $P_-$ and $P_+$; the same holds for the 28 generators $S^{ab}$ (Section 5.13; Notebook 05b; checks `clifford_products_span_M16`, `pin_commutant_dimension_1`, `even_products_span_M8_plus_M8`, `spin_commutant_dimension_2`, `spin_halves_irreducible`, `spin_halves_inequivalent`, `reflections_exchange_halves`).
+- The so(4,4) rules, the vector rule, the key identity of reflections, the closed formulas of the exponentials, the half angle and $R(2\pi) = -1$, the invariance of the scalar under products of exponentials, the form of $B$ kept by exactly the 21 generators without $x4$, the spinor norm $g^TCg = (-1)^kN(g)\,C$, the double cover (the vector matrix fixes $g$ up to the sign), and determinant $+1$ for every element of Pin(4,4) (Sections 5.12 and 5.18; Notebook 05d; checks `S_lorentz_algebra`, `S_vector_action`, `S_preserves_C_and_commutes_with_Gamma`, `S_preserves_B_only_off_x4`).
+- What the scaled commutators generate: the products of their exponentials form exactly $\mathrm{Spin}_0(4,4)$, the piece of Pin(4,4) joined to 1; Pin(4,4) consists of four pieces, $\mathrm{Spin}_0$, $\mathrm{Spin}_0\gamma^{(x8)}$, $\mathrm{Spin}_0\gamma^{(x4)}$ and $\mathrm{Spin}_0\gamma^{(x8)}\gamma^{(x4)}$; together with $\gamma^{(x8)}$ and $\gamma^{(x4)}$ the exponentials generate all of Pin(4,4) (Section 5.23; Notebook 05f).
+- Theorem CC: exactly two charge-conjugation matrices, $\mathcal{C}_+ = C$ (same mass, $\Psi^c = \Psi^\ast$) and $\mathcal{C}_- = \Gamma C$ (mass reversed, $\Psi^c = \Gamma\Psi^\ast$), with $\mathcal{C}_\pm^{-1}\gamma^a\mathcal{C}_\pm = \mp(\gamma^a)^T$; the sign table of the scalar and the currents for commuting and anticommuting components; both reality conditions consistent, the real one kept in time and the other only for $m = 0$; for real fields $J = 0$, $\mathcal{C}_+$ the identity and $\Gamma$ the nontrivial map with $(m, \lambda) \to (-m, -\lambda)$ (Sections 5.28 and 5.29; Notebook 05c; `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, checks `intertwiners_same_mass`, `intertwiners_reversed_mass`, `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus`, `majorana_conditions_consistent`, `bilinears_under_charge_conjugation` (its measured table), `real_fields_charge_conjugation`).
+- For the quantised field: the canonical conjugate cannot be a Hilbert adjoint; only $\Psi \to \Gamma\Psi^{\dagger T}$ keeps the canonical anticommutator; every conjugated bilinear is $X' = sX + c$ with the sign of the classical anticommuting components and the constant $c = \mathrm{tr}(K'B^T)$; normal ordering removes $c$ and keeps $s$; the allowed conjugation reverses the charge of every quantum and the mass (Section 5.34; Notebook 05e; checks `quantum_charge_conjugation_unitary_type` of the lead report and `no_positive_inner_product` of `Revision/theory/reports/wolfram-field-theory.json`).
+
+**COMPUTED** (floating-point numbers, with the measured accuracy, or exact computations of the notebooks): the quadratic form of $C$ along two paths, $\mp\sin 2t$ to $10^{-14}$ (05a); the exact ranks 256 and 128 of the products of different gammas, the commutant and intertwiner dimensions 1, 2, 1, 1, 0, 0 by exact ranks and again by the zero eigenvalues of $A^TA$, the halving sequence $256, 128, \dots, 1$ and the negative control 4 (05b); the vector matrices and the closed formulas to $10^{-10}$ or better (05d); the sign pattern $(+, +)$ on 200 random products of exponentials (smallest determinant 1.019), the four patterns on 240 random elements, ten paths that never cross the band, the construction of step (I) on 40 random unit vectors and the decomposition of 12 random elements of Pin(4,4), and the spans 128 and 256 by singular values (05f); the exact solution spaces of the 2048 equations for each sign and the residuals of the free solution, below $10^{-12}$ where it solves and 11.83 where it does not, the values $S = -2$ and $J^{(x4)} = -6$, $+6$, $-6$ of the free solution and its images (exact at $x4 = 0$), and the violation $2|\sin(m\,x4)|$ of the condition $\Psi = \Gamma\Psi^\ast$ (05c); on the Fock space of 65536 states, the canonical rule to $10^{-12}$, the vacuum energy $-40$, the energies $+5$ and the charges $\pm1$, the vacuum values $S = -4.80$, $J^{(x1)} = -6.40$, $J^{(x4)} = 8$, the constants $c = \mp16$, and the reversed charges of the 16 quanta (05e). One observation is COMPUTED only and not used: $|\det A| = |\det D|$ for the 240 elements of Notebook 05f.
+
+**ASSUMED**: the author's gammas, built from his formulas for T16 (Chapter 4), his coordinates and his metric (the input of the whole theory); the field equation $\gamma^\mu D_\mu\Psi = V\Psi$ of the Revision record (Chapter 7) and its canonical quantisation (Chapter 10); the theorem of Cartan and Dieudonné (every matrix of O(4,4) is a product of reflections), quoted without proof; three facts of analysis quoted without proof (the power series of the exponential converges for every square matrix; a linear differential equation has only one solution with a given starting value; the intermediate value theorem); and, for Notebook 05e, the scope of the example: one momentum without extra-time part, at one point of space, with the Fock vacuum of that momentum.
+
+**HYPOTHESIS and OPEN**: this chapter derives no creation of universes and no explanation of the matter–antimatter asymmetry; every scenario built on the maps of this chapter is a HYPOTHESIS (Section 5.39). OPEN for the owner of the Revision record: the detail text of the lead check `bilinears_under_charge_conjugation` contains, in parentheses, the remark that normal ordering supplies one more sign for each bilinear, giving $(S, J) \to (S, -J)$ for $\mathcal{C}_+$; the derivation of Section 5.34 and the Fock-space computation of Notebook 05e show that normal ordering removes only a constant, so that the quantised signs are those of the record's own measured anticommuting rows. The remark should be corrected in the record; the book follows the computation.
+
+### 5.41 Exercises
+
+**Exercise 1.** Use only the table of Section 5.6. (a) Read off the entries $C_{1,5}$ and $(\Gamma C)_{1,5}$, and $C_{9,13}$ and $(\Gamma C)_{9,13}$, and explain them with $\Gamma = \mathrm{diag}(-1_8, 1_8)$. (b) Show that $(\Gamma C)_{5,1} = (\Gamma C)_{1,5}$, as the symmetry of $\mathcal{C}_-$ demands. (c) Which entry of $\sigma$ do the entries $(\Gamma C)_{1,5}$ and $(\Gamma C)_{9,13}$ correspond to?
+
+*Answer.* (a) Row 1 of $C$ reads $-5$: $C_{1,5} = -1$. Multiplying by $\Gamma$ from the left multiplies row $r$ by the diagonal entry $\Gamma_{rr}$, which is $-1$ for $r = 1$; so $(\Gamma C)_{1,5} = (-1)(-1) = +1$, and the table indeed shows $+5$ in row 1 of $\Gamma C$. Row 9 of $C$ reads $+13$: $C_{9,13} = +1$; $\Gamma_{99} = +1$, so $(\Gamma C)_{9,13} = +1$, and the table shows $+13$. (b) Row 5 of $\Gamma C$ reads $+1$: $(\Gamma C)_{5,1} = +1 = (\Gamma C)_{1,5}$. (c) $\sigma$ has $1_4$ in its two off-diagonal blocks, so $\sigma_{1,5} = 1$. In $\Gamma C = \mathrm{diag}(\sigma, \sigma)$ the top-left block is $\sigma$ itself, so $(\Gamma C)_{1,5} = \sigma_{1,5} = 1$; the bottom-right block starts at row and column 9, so $(\Gamma C)_{9,13} = \sigma_{1,5} = 1$ as well.
+
+**Exercise 2.** Without a computer, show that $\mathcal{C}_+^{-1}\gamma^{(x4)}\mathcal{C}_+ = +\gamma^{(x4)}$ and $\mathcal{C}_-^{-1}\gamma^{(x4)}\mathcal{C}_- = -\gamma^{(x4)}$, and check that both agree with Theorem CC (c).
+
+*Answer.* By (C1) with $\eta_{x4\,x4} = -1$, $C\gamma^{(x4)} = \gamma^{(x4)}C$. So $\mathcal{C}_+^{-1}\gamma^{(x4)}\mathcal{C}_+ = C\gamma^{(x4)}C = \gamma^{(x4)}CC = \gamma^{(x4)}$, using $CC = 1$ (C3). Theorem CC (c) says it is $-(\gamma^{(x4)})^T$, and indeed $(\gamma^{(x4)})^T = -\gamma^{(x4)}$ (the time-like gammas are antisymmetric), so $-(\gamma^{(x4)})^T = \gamma^{(x4)}$. For $\mathcal{C}_-$: $\mathcal{C}_-^{-1}\gamma^{(x4)}\mathcal{C}_- = C\Gamma\gamma^{(x4)}\Gamma C = -C\gamma^{(x4)}\Gamma\Gamma C = -C\gamma^{(x4)}C = -\gamma^{(x4)}$, by (X2), (X1) and the first part; Theorem CC (c) says $+(\gamma^{(x4)})^T = -\gamma^{(x4)}$. Both agree.
+
+**Exercise 3.** Take $\Psi_0 = e_1$, the column with 1 in row 1 and 0 elsewhere. (a) Using the table of the time-like gammas in Section 5.2, find $\gamma^{(x4)}e_1$ and write the free solution $\Psi(x4)$ of Section 5.28. (b) Write $\Psi^\ast$ and $\Gamma\Psi^\ast$ and say which mass each belongs to. (c) Compute $S = \Psi^TC\Psi$ and $J^{(x4)}$ of $\Psi$ with the table of Section 5.6. What do the answers illustrate?
+
+*Answer.* (a) $\gamma^{(x4)}e_1$ is column 1 of $\gamma^{(x4)}$. The table lists, for each row, the column of its nonzero entry; row 14 of $\gamma^{(x4)}$ reads $+1$, so the only nonzero entry of column 1 is $+1$ in row 14: $\gamma^{(x4)}e_1 = e_{14}$. So $\Psi(x4) = \cos(m\,x4)\,e_1 - \sin(m\,x4)\,e_{14}$. (b) $\Psi$ is real, so $\Psi^\ast = \Psi$: the same-mass conjugate is the field itself (mass $m$). $\Gamma$ is $-1$ in row 1 and $+1$ in row 14, so $\Gamma\Psi^\ast = -\cos(m\,x4)\,e_1 - \sin(m\,x4)\,e_{14}$. With $\Phi_0 = \Gamma e_1 = -e_1$ the solution formula with mass $-m$ gives $\cos(-m\,x4)\Phi_0 - \sin(-m\,x4)\gamma^{(x4)}\Phi_0 = -\cos(m\,x4)\,e_1 + \sin(m\,x4)\,(-e_{14})$, the same column: $\Gamma\Psi^\ast$ belongs to the mass $-m$. (c) $S = \cos^2(m\,x4)\,C_{1,1} - \cos(m\,x4)\sin(m\,x4)\,(C_{1,14} + C_{14,1}) + \sin^2(m\,x4)\,C_{14,14}$. Row 1 of $C$ points to column 5 and row 14 to column 10, so all four entries are 0 and $S = 0$. In the same way row 1 of $B/i$ points to column 10 and row 14 to column 5, so $B_{1,1} = B_{1,14} = B_{14,1} = B_{14,14} = 0$ and $J^{(x4)} = 0$. The example illustrates Section 5.29: a real field carries no charge, $\mathcal{C}_+$ does nothing to it, and the nontrivial real map $\Gamma$ gives a different real solution with the mass reversed.
+
+**Exercise 4.** Take the complex column $\Psi = e_1 + e_5 + i\,e_{10}$. (a) Compute $S = \Psi^\dagger C\Psi$ and $J^{(x4)} = \Psi^\dagger B\Psi$ with the table of Section 5.6. (b) Do the same for $\Psi^\ast$ and for $\Gamma\Psi^\ast$, and compare with the commuting rows of the sign table of Section 5.29.
+
+*Answer.* (a) $S = \sum_{r,c}\Psi_r^\ast C_{rc}\Psi_c$ needs the entries of $C$ between the rows and columns 1, 5, 10. Row 1 of $C$ points to 5 with $-$ ($C_{1,5} = -1$), row 5 to 1 with $-$ ($C_{5,1} = -1$), row 10 to 14 (not among them). So $S = \Psi_1^\ast C_{1,5}\Psi_5 + \Psi_5^\ast C_{5,1}\Psi_1 = (1)(-1)(1) + (1)(-1)(1) = -2$. For $B$: row 1 of $B/i$ points to 10 with $+$ ($B_{1,10} = +i$), row 10 to 1 with $-$ ($B_{10,1} = -i$), row 5 to 14 (not among them). So $J^{(x4)} = \Psi_1^\ast B_{1,10}\Psi_{10} + \Psi_{10}^\ast B_{10,1}\Psi_1 = (1)(i)(i) + (-i)(-i)(1) = -1 - 1 = -2$. (b) $\Psi^\ast = e_1 + e_5 - i\,e_{10}$: $S$ involves only the real components 1 and 5, so $S = -2$; $J^{(x4)} = (1)(i)(-i) + (i)(-i)(1) = 1 + 1 = +2$. $\Gamma\Psi^\ast = -e_1 - e_5 - i\,e_{10}$ ($\Gamma = -1$ in rows 1 and 5, $+1$ in row 10): $S = (-1)(-1)(-1) + (-1)(-1)(-1) = -2$; $J^{(x4)} = (-1)(i)(-i) + (i)(-i)(-1) = -1 - 1 = -2$. So $\mathcal{C}_+$ keeps $S$ and reverses $J^{(x4)}$, and $\mathcal{C}_-$ keeps both: the commuting rows of the table.
+
+**Exercise 5.** For a fixed angle $\alpha$, consider the condition $\Psi = e^{i\alpha}\Psi^\ast$. (a) Show that it is consistent in the sense of Section 5.29. (b) Find all columns that obey it. (c) Why does this not contradict the statement that there are only two charge-conjugation matrices?
+
+*Answer.* (a) Here $M = e^{i\alpha}1$ and $MM^\ast = e^{i\alpha}e^{-i\alpha}1 = 1$: consistent. (b) Write $\Psi = e^{i\alpha/2}u$ with $u = e^{-i\alpha/2}\Psi$. Then $e^{i\alpha}\Psi^\ast = e^{i\alpha}e^{-i\alpha/2}u^\ast = e^{i\alpha/2}u^\ast$, so the condition reads $e^{i\alpha/2}u = e^{i\alpha/2}u^\ast$, that is $u = u^\ast$: the solutions are the columns $e^{i\alpha/2}u$ with $u$ real. (c) Theorem CC finds the matrices up to a factor; $e^{i\alpha}1$ is a multiple of $1$. The condition is the reality condition of $\mathcal{C}_+$ for the field $e^{-i\alpha/2}\Psi$, which differs from $\Psi$ only by a constant phase.
+
+**Exercise 6.** With the sign rule of Section 5.34 compute $f_1^\ast f_0^\ast|00\rangle$ and $f_0^\ast f_1^\ast|00\rangle$ for two modes, and show that $f_0^\ast$ and $f_1^\ast$ anticommute on this state.
+
+*Answer.* $f_0^\ast|00\rangle = |10\rangle$ (no mode below mode 0, sign $+$). Then $f_1^\ast|10\rangle$ fills mode 1; mode 0 below it is full, so the sign is $(-1)^1$: $f_1^\ast|10\rangle = -|11\rangle$. Hence $f_1^\ast f_0^\ast|00\rangle = -|11\rangle$. In the other order, $f_1^\ast|00\rangle = |01\rangle$ (mode 0 below is empty, sign $+$), and $f_0^\ast|01\rangle = |11\rangle$ (no mode below mode 0). Hence $f_0^\ast f_1^\ast|00\rangle = |11\rangle$. The sum is $\{f_0^\ast, f_1^\ast\}|00\rangle = -|11\rangle + |11\rangle = 0$.
+
+**Exercise 7.** (a) Compute the constant $c = \mathrm{tr}(K'B^T)$ of Section 5.34 for the scalar ($K = C$) and the map $M = 1$. (b) Compute it for the charge density ($K = B$) and the map $M = \Gamma$. (c) The vacuum value of the charge density in the example of Notebook 05e is $\langle 0|J^{(x4)}|0\rangle = 8$. What is $\langle 0|J'^{(x4)}|0\rangle$ for $M = \Gamma$, and what is the normal-ordered result?
+
+*Answer.* (a) $K' = C$ and $B^T = -B = iC\gamma^{(x4)}$, so $K'B^T = iCC\gamma^{(x4)} = i\gamma^{(x4)}$ by $CC = 1$, and $c = i\,\mathrm{tr}\,\gamma^{(x4)} = 0$ (Rule 5). (b) $K' = \Gamma B\Gamma = -B$ (Section 5.34), so $K'B^T = -B(-B) = BB = 1$ and $c = \mathrm{tr}\,1 = 16$. (c) For $M = \Gamma$ every sign is $s = -1$, so $\langle 0|J'^{(x4)}|0\rangle = s\langle 0|J^{(x4)}|0\rangle + c = -8 + 16 = 8$. After normal ordering, $:\!J'^{(x4)}\!: = J'^{(x4)} - 8 = (-J^{(x4)} + 16) - 8 = -(J^{(x4)} - 8) = -:\!J^{(x4)}\!:$: the constant is gone and the sign $-1$ stays, so every charge is reversed, as figure 8 of Notebook 05e shows.
+
+**Exercise 8.** (a) Show that $\exp(\pi S^{(x4)(x5)}) = \gamma^{(x4)}\gamma^{(x5)}$. (b) Compute the spinor norm of $g = \gamma^{(x4)}\gamma^{(x5)}$ and check $g^TCg = C$. (c) Do the same for $h = \gamma^{(x1)}\gamma^{(x4)}$ and explain, with Section 5.23, why $h$ is not a product of exponentials although it lies in Spin(4,4).
+
+*Answer.* (a) $x4$ and $x5$ are both time-like, so $\eta_{x4\,x4}\eta_{x5\,x5} = +1$ and the plane is a rotation plane; the closed formula of Section 5.18 gives $\exp(\theta S^{(x4)(x5)}) = \cos\tfrac\theta2\,1 + \sin\tfrac\theta2\,\gamma^{(x4)}\gamma^{(x5)}$, and at $\theta = \pi$, $\cos\tfrac\pi2 = 0$ and $\sin\tfrac\pi2 = 1$. (b) $g$ is a product of $k = 2$ unit vectors $e_{x4}$ and $e_{x5}$ with $\eta(e_{x4}, e_{x4}) = \eta(e_{x5}, e_{x5}) = -1$, so $N(g) = (-1)(-1) = +1$ and $g^TCg = (-1)^2N(g)\,C = C$, as for every product of exponentials. (c) For $h$, $N(h) = \eta(e_{x1}, e_{x1})\,\eta(e_{x4}, e_{x4}) = (+1)(-1) = -1$, so $h^TCh = -C$. Every product of exponentials keeps $C$ (Section 5.18), so $h$ is not one. In the language of Section 5.23: $\Lambda(h)$ reverses $x1$ and $x4$, so its space block has determinant $-1$ and its time block $-1$; the sign pattern is $(-, -)$, the piece $\mathrm{Spin}_0\,\gamma^{(x8)}\gamma^{(x4)}$, while the products of exponentials have the pattern $(+, +)$. Since $h$ has two factors, it is even and lies in Spin(4,4).

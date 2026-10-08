@@ -7,6 +7,18 @@ reads and writes, how a student who has never used Wolfram runs it, what it prin
 changes on the disk, and how it was verified on 2026-10-02. Every instruction needed to run
 the set is in this file.
 
+**Result of the second re-verification (2026-10-07, commit
+`b8a695d1faa7abe43b4b51eb666f25d250420fb7`, Windows 11, Wolfram 15.0.1, WolframScript
+1.14.0).** A review of this file found five inaccuracies (run times stated too narrowly
+for a busy machine, a mixed notation for the author's matrices, an incomplete Linux and
+macOS installation step, an imprecise side effect of a failed run, and the unit of the
+machine's memory); they are corrected (Section 6.5). The set was run three more times
+from fresh clones: with the documented command from PowerShell and from Git Bash, both
+runs printed `check_count=44` and `failed_check_count=0`, exited with code 0 and wrote
+both outputs **byte-identical** to the committed files; a third run in a clone with a
+159-character path reproduced the failure described in Section 3.7, item 3. On the fully
+loaded machine one run took about 13 minutes. Details: Section 6.7.
+
 **Result of the re-verification (2026-10-07, commit
 `a4c5eda1df069a43a55ff8b57148f5de8edd1670`, Windows 11, Wolfram 15.0.1, WolframScript
 1.14.0).** After the verification workflow was interrupted by a session limit, the set was
@@ -147,9 +159,9 @@ it as a matrix:
   author's `sigma16` (input cell 285, `In[370]`, the product
   `T16A[0].T16A[1].T16A[2].T16A[3]`; the author evaluated this cell before cell 286, so
   `sigma16` takes its matrix value once `T16A` is defined), its $\eta$ is the author's
-  `eta4488`, and its
-  projectors $P_-=(1-\gamma^8)/2$ and $P_+=(1+\gamma^8)/2$ are the author's $P_L$ and $P_R$
-  (the JSON stores $2P_L$ and $2P_R$). All five comparisons gave equality (repeated with
+  `eta4488`, and its projectors $P_-=(1-\gamma^8)/2$ and $P_+=(1+\gamma^8)/2$ are the
+  author's $P_L$ and $P_R$ (input cells 323 and 324, `In[404]` and `In[405]`; the JSON
+  stores $2P_L$ and $2P_R$). All five comparisons gave equality (repeated with
   the version of the JSON file at the commit of Section 6.7). The check
   `MA_algebra_basicFacts` of this set confirms, in every run, that the eight matrices are
   real signed permutation matrices that satisfy
@@ -404,24 +416,34 @@ exactly as shown and press Enter after each line.
    yourself (read them first; the free licence is for development, personal projects and
    learning). Without this licence the activation of step 4 fails.
 2. Install it. What you do depends on your operating system:
-   - **Windows:** double-click the downloaded `.exe` file and accept the proposed settings.
-     It installs the Wolfram Engine together with WolframScript.
-   - **macOS:** open the downloaded `.dmg` file and drag the Wolfram Engine into the
-     folder `Applications`, as its window shows; open it once from `Applications`. (The
-     page also shows the Homebrew command `brew install --cask wolfram-engine` as an
-     alternative, for those who use Homebrew.)
+   - **Windows:** if the download is a `.zip` file, extract it first (right-click it,
+     choose "Extract All"); then double-click the installer `setup.exe` (or the downloaded
+     `.exe` file) and accept the proposed settings in the setup window. It installs the
+     Wolfram Engine together with WolframScript. At the end a Command Prompt window may
+     open, run `wolframscript` and ask for your Wolfram ID and password: that is the
+     activation of step 4, done at once.
+   - **macOS:** double-click the downloaded `.dmg` file. In the window that opens, drag
+     `Wolfram Engine.app` onto the folder `Applications`, then double-click the
+     WolframScript installer package (`.pkg`) in the same window and follow its dialog;
+     this installs the command `wolframscript`. Open `Wolfram Engine` once from
+     `Applications`: it asks for your Wolfram ID and password (the activation of step 4).
+     (The page `https://www.wolfram.com/engine/` also shows the Homebrew command
+     `brew install --cask wolfram-engine` as an alternative, for those who use Homebrew.)
    - **Linux:** the download is a shell-script installer whose name ends in `.sh`. In a
      terminal go to the download folder (usually `cd ~/Downloads`) and start it with
      `sudo bash <name of the downloaded file>.sh` (type the name of the file exactly as it
      was downloaded; `ls *.sh` shows it). `sudo` asks for your own Linux password, which you
      type yourself. Press Enter at each question to accept the defaults (the engine goes to
      `/usr/local/Wolfram/WolframEngine/15.0`, the command `wolframscript` to
-     `/usr/local/bin`). On Debian or Ubuntu the page also shows the one-line alternative
+     `/usr/local/bin`). For Debian or Ubuntu the page `https://www.wolfram.com/engine/`
+     also shows the one-line alternative
      `cd /tmp && wget https://wolfr.am/wolfram-engine.deb && sudo apt install ./wolfram-engine.deb`.
 
-   These installation routes are taken from Wolfram's pages (`https://www.wolfram.com/engine/`
-   and the support article `https://support.wolfram.com/46072`, "How do I set up the Wolfram
-   Engine on Linux?", read on 2026-10-07). They were not executed during the verification:
+   These installation routes are taken from Wolfram's pages, read on 2026-10-07:
+   `https://www.wolfram.com/engine/` and the support articles "How do I set up the Wolfram
+   Engine on Windows?" (`https://support.wolfram.com/46069`), "... on macOS?"
+   (`https://support.wolfram.com/46070`) and "... on Linux?"
+   (`https://support.wolfram.com/46072`). They were not executed during the verification:
    the verification machine runs Windows and already had Wolfram 15.0.1 installed, so the
    macOS and Linux steps in particular are untested. If the pages have changed, follow the
    instructions they show for your system.
@@ -442,7 +464,8 @@ exactly as shown and press Enter after each line.
    ```
 
    Enter your Wolfram ID and password when asked. Type them yourself; never put a password
-   into a script or a file.
+   into a script or a file. If the installer of step 2 has already asked for them and
+   accepted them, the engine is activated and you can go on to step 5.
 5. Test the kernel:
 
    ```
@@ -668,10 +691,17 @@ The likely problems, what you see, and what to do:
    lines. A different Wolfram version changes at least the `producer` line of the report,
    which ends with the version number; a changed program or input changes `sourceSha256`
    (compare with Section 2). Restore with the command of Section 5.4.
-9. **The program seems to hang.** The steps `M2: all maps at the Lagrangian level (flat)`
-   and `M2: named maps and the curved field G1` print nothing for about 2 to 2.5 and 3 to
-   3.6 minutes on the verification machine. Wait; the whole run takes about 7 to 10
-   minutes there (Section 4.4). If you stop it with Ctrl+C before the end, no output file is written;
+9. **The program seems to hang.** Three steps print nothing for minutes:
+   `M1: Noether current and identity`, `M2: all maps at the Lagrangian level (flat)` and
+   `M2: named maps and the curved field G1`. How long they take depends on the computer and
+   on how busy it is. On the verification machine they took about 1.5 to 3, 2 to 3.6 and 3
+   to 5 minutes, and the whole run took 7 to 14 minutes (Section 4.4); the longer times
+   were measured while other jobs kept every processor of the machine busy (processor
+   load 100 %, about 20 Wolfram kernels running). Wait. On a slower or busier computer
+   expect longer times. While the program is silent, the Task Manager of Windows shows
+   the Wolfram kernel `wolfram.exe` working on about one processor core (on macOS and
+   Linux the program `top` lists the running processes). If you stop
+   it with Ctrl+C before the end, no output file is written;
    the Wolfram kernel ends as well, and WolframScript's two temporary files stay behind
    (Section 5.2 says where they are; you may delete them).
 10. **Not enough memory.** The Wolfram kernel needs about 3 GB (Section 4.4). Close other
@@ -786,7 +816,7 @@ false or the number of checks is not 44; `2` when the package cannot be loaded, 
 run produced a Wolfram message, or when the JSON text could not be produced. In PowerShell
 `$LASTEXITCODE` and in bash or zsh `echo $?`, typed right after the run, print it. All
 verified runs of Section 6 ended with `0` (except the deliberately long paths of
-Section 6.4).
+Sections 6.4 and 6.7).
 
 ### 4.3 The files written and how to check them
 
@@ -829,9 +859,14 @@ three programs (Section 2.1), the fixture and the two Stage-5 files (Section 2.2
 
 ### 4.4 Run time and memory
 
-On the verification machine (24 logical processors, Windows 11, 191.4 GiB (205.6 GB) of memory, shared
-with other programs: about 20 Wolfram kernels of other verification jobs ran at the same
-time) one run took between 412.8 s and 508.1 s (6.9 to 8.5 minutes): 491.9 to 508.1 s
+The run time depends on the computer and on how busy it is. On the verification machine
+all measured runs took between 412.8 s and 805.0 s (6.9 to 13.4 minutes); the details
+follow.
+
+On 2026-10-02 the verification machine (24 logical processors, Windows 11, 191.4 GiB
+(205.6 GB) of memory, shared with other programs: about 20 Wolfram kernels of other
+verification jobs ran at the same time) needed between 412.8 s and 508.1 s (6.9 to 8.5
+minutes) for one run: 491.9 to 508.1 s
 for runs 1 to 5 of Section 6.2, which ran at the same time as each other, 412.8 s for
 run 6, and 416.6 to 422.9 s for runs 7 to 9, which again ran at the same time as each
 other. The longest steps were `M2: named maps and the curved field G1` (about 3 minutes),
@@ -849,8 +884,22 @@ and 606.7 s (about 10 minutes). The steps took, in run R1:
 151 s, `M1: Noether current and identity` 117 s, `M1: U(1) invariance` 52 s, `M4` 27 s,
 `M3: invariant forms` 18 s, and every other step at most 6 s. The Wolfram kernel reached a
 peak working set of 2.441 and 2.442 GiB, and the largest private memory seen (sampled every
-few seconds) was 2.758 GiB in run R1; `wolframscript` itself used 16 MB. On a
-machine without other jobs expect the shorter times of 2026-10-02.
+few seconds) was 2.758 GiB in run R1; `wolframscript` itself used 16 MB.
+
+Later on 2026-10-07 (Section 6.7; runs R3, R4 and R5 ran at the same time as each other,
+while the processor load of the machine, read during the runs, was 100 % and 19 to 22
+Wolfram kernels, these three included, were running) one run took 759.7 s, 771.9 s and
+767.3 s (12.7 to 12.9 minutes). The steps took, in run R3:
+`M2: named maps and the curved field G1` 273 s,
+`M2: all maps at the Lagrangian level (flat)` 180 s,
+`M1: Noether current and identity` 170 s, `M1: U(1) invariance` 60 s, `M4` 28 s,
+`M3: invariant forms` 16 s, and every other step at most 9 s (runs R4 and R5 within 5 s of
+these). The Wolfram kernel reached a peak working set of 2.440 to 2.455 GiB. An
+independent review of this file, made on the same day on the same busy machine
+(processor load 100 %, 12 to 15 Wolfram kernels), measured 692.7 s to 805.0 s per run
+(11.5 to 13.4 minutes), up to 216 s for the flat step and up to 290 s for the step with
+the curved field G1. On a machine without other jobs expect the shorter times of
+2026-10-02; on a slower or busier machine expect longer ones.
 
 ## 5. Side effects
 
@@ -894,25 +943,33 @@ machine without other jobs expect the shorter times of 2026-10-02.
   `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` (on Windows, for example
   `C:\Users\<your user name>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary`),
   each named `tmp_` followed by 10 random letters and digits:
-  - the first is created when `wolframscript` starts (within 0.1 s) and stays empty
+  - the first is created when `wolframscript` starts (within a fraction of a second:
+    0.05 to 0.21 s after `wolframscript` was started from PowerShell) and stays empty
     (0 bytes);
-  - the second is created about 2.5 to 3 seconds later, when the Wolfram kernel has started,
+  - the second is created a few seconds later, when the Wolfram kernel has started (2.5 to
+    2.8 s after the start on 2026-10-02; 3.9 to 6.8 s on 2026-10-07, when every processor
+    of the machine was busy with other jobs, and up to 8.8 s in a review on the same day),
     and receives a copy of everything the program prints while it runs, with Windows line
     endings: for this set first the progress lines, and at the end the verdict and
     measurement lines. At the end of a successful run it holds all 149 printed lines,
-    43048 bytes for the command of Section 3.6 in PowerShell, byte for byte the printed
-    output (it was compared with the output redirected to a file).
+    43048 bytes for the command of Section 3.6 in PowerShell and 43152 bytes for the
+    command of Sections 3.4 and 3.5, byte for byte the printed output (it was compared
+    with the output redirected to a file).
 
   WolframScript deletes both files when the run ends, also when the program ends with
   exit code 1 or 2 (observed: the files of runs 7 to 9 and D3 of Section 6.2 disappeared
-  within 0.3 s of the end of the run; those of a short test program ending with exit code
-  2 were gone 0.5 s after its end). When `wolframscript` is stopped with Ctrl+C or killed, the two files **stay**
-  (observed with a short test program); they are harmless and may be deleted. Other
-  `tmp_...` files in that folder belong to other WolframScript runs. (On 2026-10-07 the
-  folder was listed during runs R1 and R2 of Section 6.6 as well, but many other
-  WolframScript runs of other jobs used it at the same time, so their files could not be
-  told apart from those of R1 and R2; the description above rests on runs 7 to 9 and D3 of
-  2026-10-02.)
+  within 0.3 s of the end of the run, and those of runs R3 to R5 of Section 6.7, among
+  them the exit code 1 of run R5, at the end of the run as well; those of a short test
+  program ending with exit code 2 were gone 0.5 s after its end). When `wolframscript` is
+  stopped with Ctrl+C or killed during the run, the two files **stay** (observed with a
+  short test program); they are harmless and may be deleted. Other `tmp_...` files in
+  that folder belong to other WolframScript runs. On 2026-10-07, after the work on this
+  repository had been interrupted and its jobs stopped, the folder held 84 such files
+  (created between 15:24 and 20:22, 55 of them empty) left behind by the stopped
+  WolframScript runs of other jobs. During runs R1 and R2 of Section 6.6 many WolframScript
+  runs of other jobs used the folder at the same time, so the files of R1 and R2 could not
+  be told apart; those of runs R3 to R5 of Section 6.7 were identified by their creation
+  times and their contents and behaved exactly as described here.
   Wolfram's own bookkeeping files in the Wolfram user folder (on Windows under
   `%APPDATA%\Wolfram`, for example `Paclets\Configuration\managerData_15.0.1.0.pmd2`) may be
   updated by any kernel start; such updates were seen during the verification, while other
@@ -923,7 +980,10 @@ machine without other jobs expect the shorter times of 2026-10-02.
   computer was seen; in one run the kernel held a connection from `127.0.0.1` to
   `127.0.0.1`, which stays inside the same computer. During runs R1 and R2 of 2026-10-07
   (Section 6.6) the TCP connections of every process of the run were listed repeatedly
-  during the run (at intervals of 7.5 seconds or more): none was seen. (The internet is needed once, before, to activate Wolfram.)
+  during the run (at intervals of 7.5 seconds or more): none was seen. During runs R3 to
+  R5 (Section 6.7) the TCP connections and UDP endpoints of every process of each run were
+  listed 134 to 188 times (on average every 4 to 6 seconds): none was seen. (The internet
+  is needed once, before, to activate Wolfram.)
 
 ### 5.3 Effect on other files of the repository
 
@@ -1152,9 +1212,27 @@ Those documents were not changed by this verification.
   7 are added to the documents that cite this set (Section 1.4).
 - **Re-verification of 2026-10-07 (Section 6.6):** no fix was needed and none was made; no
   file of the set and no committed output was changed.
-- **Open:** the Windows path-length limitation of Section 6.4 (environment, documented).
+- **Corrections of this file after a second review (2026-10-07, verified by runs R3 to R5
+  and the checks of Section 6.7):** (1) the run times are given as depending on the load of
+  the machine, with the measured range of 6.9 to 13.4 minutes per run and up to about 3,
+  3.6 and 5 minutes for the three silent steps, instead of 7 to 10 minutes (Sections 3.7,
+  item 9, and 4.4), and the second temporary file of WolframScript appears a few seconds
+  after the start, up to 8.8 s on a busy machine, instead of 2.5 to 3 s (Section 5.2);
+  (2) the author's matrices are named in the author's own notation, `T16A[a]` for
+  $a=0,\dots,7$ (input cell 286), instead of the mixed `T16A[[a+1]]`, which next to
+  `T16A[8]` invited the misreading `T16A[[8]]` $=\gamma^7$ (Section 1.2); (3) the
+  installation of the Wolfram Engine is described for each operating system, with the
+  command `sudo bash <file>.sh` for the Linux installer and the WolframScript package of
+  the macOS disk image (Section 3.2, step 2); (4) after an exit code 1 both files are
+  rewritten, the report differs from the committed file and the theory file may be
+  byte-identical to it, instead of "the files are still rewritten, then with different
+  content" (Section 5.1); (5) the memory of the machine is 191.4 GiB (205.6 GB), not
+  191 GB (Sections 4.4, 6.1 and 6.6). No file of the set and no committed output was
+  changed.
+- **Open:** the Windows path-length limitation of Section 6.4 (environment, documented;
+  re-tested on 2026-10-07 with a 159-character path, Section 6.7).
 - **Scientific discrepancies:** none. Every check is true and both outputs reproduce the
-  committed bytes (2026-10-02 and again 2026-10-07).
+  committed bytes (2026-10-02 and again twice on 2026-10-07).
 
 ### 6.6 Re-verification after the restart (2026-10-07)
 
@@ -1240,3 +1318,145 @@ outside the clones.
 - **Fixes:** none needed, none made. **Open:** the Windows path-length limitation of
   Section 6.4 (not re-tested; both roots had 147 characters). **Scientific
   discrepancies:** none.
+
+### 6.7 Second re-verification after a review (2026-10-07)
+
+An independent review of this file, made on 2026-10-07 with six further runs from fresh
+clones on the same machine, reported five inaccuracies; they are corrected (Section 6.5).
+Each correction was checked, and the set was run three more times, each time from its own
+fresh clone.
+
+- **Date:** 2026-10-07 (runs between 20:39 and 20:53, Pacific time).
+- **Commit verified:** `b8a695d1faa7abe43b4b51eb666f25d250420fb7` (branch `main` of
+  `https://github.com/once-ere/Dirac_claude.git`, committed 2026-10-07 20:35:01 -07:00;
+  the remote branch pointed to this commit). Between the commit of Section 6.6 and this
+  one, `git diff --name-only a4c5eda1df069a43a55ff8b57148f5de8edd1670 b8a695d1faa7abe43b4b51eb666f25d250420fb7`
+  restricted to the three programs of Section 2.1, the folders
+  `artifacts/dirac16complex/arbitrary-field/`, `artifacts/dirac16complex/kohn-sham/`,
+  `artifacts/dirac16complex/pair-creation/` and `artifacts/dirac16complex/matter-antimatter/`,
+  `.gitattributes`, `.gitignore`, the files of Section 1.4, `Revision/algebra/gammas.json`,
+  `Revision/lead_checks/` and `provenance/dirac_matrices/` printed only five files of
+  `provenance/dirac_matrices/` (the work on the author's matrices, among them
+  `author_notebook_T16.json`), which the set does not read. None of the files the set
+  runs, reads or writes changed. In the clone of run R3 the sha256, line counts and byte
+  counts of Sections 2.1, 2.2 and 2.4 and the list of the 56 plus 33 Kohn-Sham files of
+  Section 2.3 with their sha256 were recomputed before the run: all equal to the values
+  written in this file. No uncommitted file was needed or copied: the three clones were
+  used exactly as cloned.
+- **Machine:** as in Section 6.6 (Windows 11 Pro for Workstations, build 26300.9457, 24
+  logical processors, 191.4 GiB (205.6 GB) of memory: `TotalPhysicalMemory` of
+  `Win32_ComputerSystem` is 205551689728 bytes; `LongPathsEnabled` = 1; Git
+  2.51.2.windows.1 with `core.longpaths` = true). The machine was fully loaded by other
+  jobs: the processor load read during the runs was 100 %, and 19 to 22 Wolfram kernels
+  (R3, R4 and R5 included) were running.
+- **Wolfram:** `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)`, WolframScript
+  1.14.0. **Shells:** PowerShell 7.6.6, Windows PowerShell 5.1.26100.9444, Git Bash with
+  GNU bash 5.2.37. **Python** 3.14.5 with numpy, used only for the comparisons and the
+  unit test; the set itself does not use Python.
+- **Clones:** three fresh clones made at the same time with
+  `git clone https://github.com/once-ere/Dirac_claude.git` (27.5 s, 56.7 s and 57.0 s),
+  with root paths of 143, 143 and 159 characters;
+  `git status --porcelain --ignored --untracked-files=all` printed nothing in each before
+  the runs.
+
+| Run | How it was started (from the repository root) | Root | Exit | Wall time | Checks | Report | Theory |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| R3 | PowerShell 7.6.6 (`Start-Process wolframscript` with exactly the arguments of Section 3.4) | 143 | 0 | 759.7 s | 44 of 44 true | same | same |
+| R4 | Git Bash 5.2.37: a bash script ran the command of Section 3.5 and wrote `$?` to a file (`0`); `pwd -W` gave a 143-character path | 143 | 0 | 771.9 s | 44 of 44 true | same | same |
+| R5 | PowerShell 7.6.6 as run R3, clone with a 159-character root | 159 | 1 | 767.3 s | 43 of 44 true | written, different | same |
+
+The runs were started at 20:39:28, 20:39:38 and 20:39:46 and ran at the same time. A
+monitor examined the process tree of each run on average every 4 to 6 seconds; it
+recorded the exit code, the peak memory, the TCP connections and the UDP endpoints, and
+its wall time runs from the start of the process until it saw the process ended (so it
+may be up to about 5 s too long). Standard output and standard error were redirected to
+files outside the clones.
+
+- **Byte identity:** in runs R3 and R4 the report had the sha256
+  `ad6b91296034a24c14b2ee08c7bfe8da98aaff2db83544897767e498adeaa269` and the theory file
+  `1505a3962938477e5db42f568c0a1afcd21898c4409793178f8311b792638f10`, the values of the
+  committed files (`git show HEAD:<file>`); `cmp` found the outputs of R3 and R4 identical
+  to each other and to the files in the working tree of the repository.
+- **Printed output:** in runs R3 and R4 149 lines, 43152 bytes, with Windows line endings
+  (CR LF; also in the Git Bash run), and an empty standard error: 14 progress lines with
+  the step names of Section 4.1 in order, 44 lines `  <check> = True`, the 44 verdict
+  lines of Section 4.1 (compared line by line: identical), 43 measurement lines (the
+  longest 11569 characters) and the four final lines of Section 4.1, exactly. With the
+  clock times removed, the printed output of R3 and R4 was identical.
+- **Check counts:** `check_count=44` and `failed_check_count=0` in R3 and R4; exit code 0
+  in both.
+- **The path-length failure (Section 3.7, item 3, and Section 6.4), re-tested in run R5:**
+  root of 159 characters, no Wolfram message, every progress step completed, 150 printed
+  lines (43200 bytes), the verdict line `check_MA_M1_ksFixedNetNumberRecorded=false`,
+  `check_count=44`, `failed_check_count=1` and the last line
+  `failed_checks=MA_M1_ksFixedNetNumberRecorded`, exit code 1. Both output files were
+  rewritten (modification times 20:52:30 and 20:52:31): the report has the sha256
+  `d6f62b7a4c6601e4425a6380c0908f9e29f60a2604e35a2a6f737ff79e49ca02`, the same bytes as
+  runs D2 and D3 of 2026-10-02, and differs from the committed report in exactly the two
+  lines `"MA_M1_ksFixedNetNumberRecorded":false` and `"referenceLevelsChecked":165`; the
+  theory file is byte-identical to the committed one.
+  `git status --porcelain --ignored --untracked-files=all` printed exactly
+  ` M artifacts/dirac16complex/matter-antimatter/wolfram-matter-antimatter-report.json`.
+  This is what Section 5.1 now says. The restore command of Section 5.4 then ended with
+  exit code 0, and `git status --porcelain --ignored --untracked-files=all` printed
+  nothing.
+- **Side effects of R3 and R4:** after each run
+  `git status --porcelain --ignored --untracked-files=all` printed nothing in its clone; the
+  two committed outputs had been rewritten with identical bytes (modification times
+  20:52:07 in R3 and 20:52:28 in R4, the end of the run). Each of the three runs started
+  exactly one Wolfram kernel (`wolfram.exe`), whose peak working set was 2.453 GiB (R3),
+  2.455 GiB (R4) and 2.440 GiB (R5); `wolframscript` itself used 16 MB. No TCP connection
+  and no UDP endpoint of any process of the three runs was seen.
+- **Temporary files of WolframScript:** the folder
+  `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` was listed every 0.2 s from
+  before the first start until after the last end. Each run created exactly two `tmp_`
+  files there; they were identified among the files of other jobs by their creation times
+  and contents. Run R3: the empty file 0.07 s and the second file 3.9 s after the start of
+  `wolframscript`; run R4: 0.56 s and 6.8 s after the start of bash (which then started
+  `wolframscript`); run R5: 0.21 s and 6.0 s after the start of `wolframscript`. The first
+  line of each second file was the run's first progress line
+  (`[<time>] algebra and fixture`); its last size was 43152 bytes (R3, R4) and 43200 bytes
+  (R5), the size of the printed output of the run, and the copy of R4's file taken at the
+  end of the run was byte-identical to R4's printed output (the copies of R3 and R5, taken
+  earlier, were exact beginnings of theirs). All six files disappeared at the end of the
+  runs, also for the exit code 1 of R5. The folder also held 84 `tmp_` files left behind
+  by stopped WolframScript runs of other jobs (Section 5.2); they were not touched.
+- **Check commands of Section 4.3** (in the clone of R3 after the run): `Get-FileHash`
+  printed the two hashes of Section 2.4; the PowerShell commands printed
+  `44 of 44 checks true` in PowerShell 7.6.6 and in Windows PowerShell 5.1; the
+  `wolframscript -code` command printed `{44, 44}` (5.4 s).
+- **Dependent test:** `python -m unittest discover -s tests -p "test_d16c_matter_antimatter_publication.py"`
+  in the clone of R3, after the run: 29 tests, OK (0.7 s);
+  `git status --porcelain --ignored --untracked-files=all` still printed nothing afterwards.
+- **Matrices (Section 1.2):** in the clone of R4 the fixture
+  `artifacts/dirac16complex/arbitrary-field/algebra-fixture.json` was compared entry by
+  entry with `provenance/dirac_matrices/author_notebook_T16.json` at this commit (sha256
+  `1ab8ef7589bbe72a5511942da871bb7f6d21b3dbb67cd5a60263f36d1682f9fb`; the file was
+  regenerated by the work on the author's matrices after Section 6.6, which compared with
+  the version `b4bdec86878f11d874e276bd30e3a9ca6ae0d607368dafabd71bde7e8e2de334`). The
+  fixture's $\gamma^a$ equals entry $a$, counting from 0, of the list `T16A` of the JSON
+  file, that is the author's `T16A[a]`, for each $a=0,\dots,7$; the chirality matrix equals
+  the key `T16A_8` (the author's `T16A[8]`) and the product $\gamma^0\gamma^1\cdots\gamma^7$,
+  and differs from entry 7 of the list ($\gamma^7$); $C$ equals `sigma16` and the product
+  `T16A[0].T16A[1].T16A[2].T16A[3]`; $\eta$ equals `eta4488`; the stored $2P_L$ and $2P_R$
+  equal $I-\gamma^8$ and $I+\gamma^8$; and
+  $\gamma^a\gamma^b+\gamma^b\gamma^a=2\eta^{ab}I_{16}$ holds for all $a,b$. The cell table
+  of the JSON file and the extraction program
+  `provenance/dirac_matrices/extract_from_author_notebook.wls` give the input cells 285,
+  286 and 287 with the labels `In[370]`, `In[371]` and `In[372]` and the definitions
+  quoted in Section 1.2. `Revision/algebra/gammas.json` (unchanged, sha256
+  `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01`):
+  $\gamma^{(x_8)}=\gamma^0$, $\gamma^{(x_k)}=\gamma^k$ for $k=1,\dots,7$, its $\Gamma$
+  equals this set's $\gamma^8$, and the two matrices $C$ are equal. The committed report
+  of `Revision/lead_checks/charge_conjugation_and_u1.py` has 12 of 12 checks PASS.
+- **Installation instructions (Section 3.2):** compared on 2026-10-07 with the Wolfram
+  pages named there. The Linux installer is a bash script started with
+  `sudo bash <file>.sh`, with the default folders `/usr/local/Wolfram/WolframEngine/15.0`
+  and `/usr/local/bin`; the macOS disk image holds `Wolfram Engine.app` and a separate
+  WolframScript installer package; the Windows installer is `setup.exe` and installs
+  WolframScript with the engine; the Homebrew and Debian commands are shown on
+  `https://www.wolfram.com/engine/`. These steps were read, not executed: the
+  verification machine runs Windows and already had Wolfram 15.0.1 installed.
+- **Fixes:** none to the set; only this file was corrected (Section 6.5). **Open:** the
+  Windows path-length limitation of Section 6.4 (environment, documented; re-tested in run
+  R5 with the result described there). **Scientific discrepancies:** none.

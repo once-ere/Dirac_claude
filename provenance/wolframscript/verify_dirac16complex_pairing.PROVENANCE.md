@@ -224,9 +224,9 @@ path you give.
   later clone is larger).
 * An internet connection for the installation and for downloading the repository. The run
   itself needs no network.
-* About 5 to 12 minutes of time for one run (Part 4.5 gives the measured times: from
-  about 4 minutes to about 11.5 minutes on the same computer, depending on how busy it
-  was).
+* About 4 to 12 minutes of time for one run (Part 4.5 gives the measured times: from
+  about 4 minutes to about 11.5 minutes on the same computer, depending on how many other
+  programs were running at the same time).
 * The Wolfram Language: either the **free Wolfram Engine for Developers** or an installed
   **Mathematica / Wolfram** desktop product. Both contain the command-line program
   `wolframscript`, which is what you use.
@@ -406,11 +406,12 @@ measurements.) The commands above, without `--`, are the simplest; use them.
 | a request for a Wolfram ID or password, or a message that the kernel could not be started or that no valid licence was found | the engine is not activated (or the activation expired) | run `wolframscript -activate` (Section 3.2) with an internet connection, then run again |
 | within seconds: `Get::noopen: Cannot open ...\wolfram\Dirac16ComplexPairing.wl.`, then `FATAL: module failed to load: ...`, `check_count=0`, `failed_check_count=1`, exit code 1 (this exact output was produced on purpose during both verifications of Part 6, with the package renamed or moved out of the clone) | the package `wolfram/Dirac16ComplexPairing.wl` is missing | make sure the clone is complete: `git status` must print `nothing to commit, working tree clean` (`git status --porcelain` prints nothing); a line `deleted: <file>` names a missing file. Restore it with `git checkout -- <file>` or clone again. In this case the script writes no file, so the two output files are unchanged; but if the folder of the report path did not exist (for example `build/old-pairing/`, and `build/`, with the `build/` variant of Section 3.4 in a fresh clone), the script has already created it, and it stays behind empty; delete it as described at the end of Part 5 |
 | at the start `Get::noopen: Cannot open ...\wolfram\Dirac16ComplexGeometry.wl.`, then very long Wolfram error messages (`Part::pkspec1`, `Part::partw`, `Set::shape`, ..., `General::stop`), many lines `CHECK FAILED: <name>`, after the line `done in <n> s` (just before the list of `check_` lines) `FileHash::noopen`, at the end `check_count=141`, `failed_check_count=29`, exit code 1 (measured in Part 6 with this file moved away: 2.5 to 6.5 minutes, about 820 kB of printed text) | the geometry package `wolfram/Dirac16ComplexGeometry.wl` is missing (a damaged copy gives other error messages and false checks) | `git status` (it shows `deleted: wolfram/Dirac16ComplexGeometry.wl`), then `git checkout -- wolfram/Dirac16ComplexGeometry.wl`. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` |
-| Wolfram error messages that name `algebra-fixture.json` or `kohn-sham-theory.json` (`Import::nffil: File ... not found during Import.` and, after the line `done in <n> s`, `FileHash::noopen: Cannot open ...`), checks `false`, exit code 1. Measured during both verifications of Part 6: without `algebra-fixture.json` one line `CHECK FAILED: PAIR_algebra_fixtureMatches`, `check_count=141`, `failed_check_count=1`; without `kohn-sham-theory.json` a very long line `INTERNAL ERROR: ...`, `check_count=98` (the run stops checking after the step `T3 block maps`, so fewer than 141 checks are listed) and `failed_check_count=4` | an input file of Section 2.2 is missing or changed | `git status`, then `git checkout -- <file>` to restore it; compare its sha256 with Section 2.2. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` (with the `build/` variant of Section 3.4 the failing report went to `build/old-pairing/` instead, and the committed files are unchanged) |
+| Wolfram error messages that name `algebra-fixture.json` or `kohn-sham-theory.json` (`Import::nffil: File ... not found during Import.` and, after the line `done in <n> s`, `FileHash::noopen: Cannot open ...`), checks `false`, exit code 1. Measured in Part 6: without `algebra-fixture.json` the messages `Import::nffil`, two `Table::iterb`, one line `CHECK FAILED: PAIR_algebra_fixtureMatches`, `FileHash::noopen`, `check_count=141`, `failed_check_count=1`; without `kohn-sham-theory.json` the message `Import::nffil`, then three each of `Table::iterb`, `Part::take`, `Part::partw`, `First::nofirst`, `Part::pkspec1` and `Part::partd` and six `General::stop`, four lines `CHECK FAILED: ...` (`PAIR_T3block_basisFromStage4`, `PAIR_T3block_gamma8IsSigma2BetweenPartnerBlocks`, `PAIR_T3block_gamma1IsSigma1InEveryBlock`, `PAIR_internal_noException`), a very long line `INTERNAL ERROR: ...` (88,820 characters), `FileHash::noopen`, `check_count=98` (the run stops checking after the step `T3 block maps`, so fewer than 141 checks are listed) and `failed_check_count=4`; about 1.5 MB of printed text in all | an input file of Section 2.2 is missing or changed | `git status`, then `git checkout -- <file>` to restore it; compare its sha256 with Section 2.2. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` (with the `build/` variant of Section 3.4 the failing report went to `build/old-pairing/` instead, and the committed files are unchanged) |
 | lines `CHECK FAILED: <name>` and `failed_check_count=` larger than 0, exit code 1 | a check is false: either a file was changed or the Wolfram version computes something differently | compare the sha256 of the five files of Sections 2.1-2.2 with the tables; note your `$Version` and the names of the failed checks. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` (not needed with the `build/` variant) |
 | `error: unable to create file ...: Filename too long` during `git clone` (Windows) | the clone folder path is too long | run `git config --global core.longpaths true`, delete the partial clone, clone again into `C:\src` |
 | the run stops with a message about memory, or the computer becomes very slow | not enough free memory | close other programs; Part 4.5 gives the measured peak memory |
-| the report path you typed after `--` was ignored and the committed files were overwritten | WolframScript 1.14 drops `--` and what follows | give the path without `--`; restore with `git checkout -- artifacts/dirac16complex/pair-creation/` (Part 5) |
+| at the end, just before `check_count=...`, the messages `OpenWrite::noopen: Cannot open <path>.`, `BinaryWrite::stream: $Failed is not a string, ...` and `Close::stream: $Failed is not a string, ...` (twice: once for the report, once for `pairing-theory.json`); then `check_count=141`, `failed_check_count=0`, lines `report=` and `theory=` with the path, and **exit code 0**, although neither file exists (measured in Part 6.4 with the report path `README.md/x/wolfram-pairing-report.json`, whose folder cannot be created because `README.md` is a file) | the folder of the report path cannot be created or written (a part of the path is an existing file, the drive is read-only, or you have no permission to write there) | the exit code 0 is **wrong** in this case: the script does not check that its two files were written. Choose a report path in a folder you can write, for example the `build/` variant of Section 3.4, and run again. After any run, check that the two files exist and have the sha256 of Section 4.3 |
+| you pressed Ctrl+C or closed the window during the run | the run was interrupted | nothing in the repository was changed, because the two output files are written only at the very end (Part 5); with the `build/` variant an empty folder `build/old-pairing/` may be left behind. Run again from the start. WolframScript leaves its temporary files behind (Part 5) |
 | everything is true but `git status` shows the two output files as modified | your Wolfram version writes the JSON slightly differently (for example the number formatting), or a source file differs | see Part 4.6; restore the committed files with the command of Part 5 |
 
 ---
@@ -646,6 +647,13 @@ failed_check_count=0
 load: ...`) or when the package does not return a result (`FATAL: D16PairRun did not
 return ...`).
 
+One exception, measured in Part 6.4: the script does not check that it could write its
+two output files. If the folder of the report path cannot be created or written, the
+run prints `OpenWrite::noopen` and related messages just before the verdict lines, but
+still prints `check_count=141` and `failed_check_count=0` and ends with exit code `0`,
+although no file was written (Section 3.5). So an exit code `0` together with the two
+files of Section 4.3, with their sha256, is the complete sign of success.
+
 ### 4.3 The files written and how to check them
 
 | File | Expected size | Expected sha256 |
@@ -712,47 +720,58 @@ root:
 ### 4.5 Run time and memory (measured)
 
 On the verification computer (Intel Core Ultra 9 275HX, 24 logical processors, Windows 11,
-Wolfram 15.0.1). Other jobs were running on the same computer during every run (about a
-dozen other Wolfram kernels on 2026-10-07, about eight on 2026-10-02), so the times are
-upper values; an otherwise idle computer is faster. Runs 3 to 7 of 2026-10-07 ran at the
-same time as each other.
+Wolfram 15.0.1). The run time depends strongly on how busy the computer is: other jobs
+were running on it during every run (about eight other Wolfram kernels on 2026-10-02,
+about a dozen on 2026-10-07), and several runs of a verification were often made at the
+same time. The set was never timed on an otherwise idle computer. Measured over all
+complete runs: from 244.5 s (about 4 minutes) to 677.7 s (about 11.5 minutes).
 
-Runs of 2026-10-07 (Part 6.2) that ran the complete set with every file present:
+Complete runs with every file present (wall clock = from the start of `wolframscript` to
+its end; "together with" names the runs of this table that ran at the same time):
 
-| Run | Shell | Report path | Elapsed (wall clock) | `elapsed_seconds` printed | Kernel peak working set | Kernel largest private memory (sampled) | Kernel processor time |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| 1 | PowerShell 7.6.6 | committed path | 392.9 s | 388 | 449.7 MiB | 671.2 MiB | not recorded |
-| 2 | PowerShell 7.6.6 | committed path | 360.6 s | 355 | 452.9 MiB | 674.0 MiB | 334.5 s (last sample, under 1 s before the end) |
-| 3 | Windows PowerShell 5.1, output into a file with `>` | `build/old-pairing/` | 468.0 s | 458 | not measured | not measured | not measured |
+| Run | Date, Part 6 section | Shell | Report path | Together with | Elapsed (wall clock) | `elapsed_seconds` printed | Kernel peak working set | Kernel largest private memory (sampled) | Kernel processor time (last sample) |
+| --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| A1 | 10-02, 6.3 | PowerShell 7.6.6 | committed path | not recorded | 295.9 s | 292 | 435.6 MiB | 657.5 MiB | not recorded |
+| A2 | 10-02, 6.3 | Git Bash | committed path | not recorded | 321.9 s | 318 | 437.1 MiB | 658.3 MiB | not recorded |
+| A3 | 10-02, 6.3 | PowerShell 7.6.6 | `build/old-pairing/` | not recorded | 317.4 s | 313 | not measured | not measured | not measured |
+| A4 | 10-02, 6.3 | Windows PowerShell 5.1, `>` | `build/old-pairing/` | not recorded | 244.5 s | 240 | not measured | not measured | not measured |
+| B1 | 10-07, 6.2 run 1 | PowerShell 7.6.6 | committed path | other jobs only | 392.9 s | 388 | 449.7 MiB | 671.2 MiB | not recorded |
+| B2 | 10-07, 6.2 run 2 | PowerShell 7.6.6 | committed path | other jobs only | 360.6 s | 355 | 452.9 MiB | 674.0 MiB | 334.5 s |
+| B3 | 10-07, 6.2 run 3 | Windows PowerShell 5.1, `>` | `build/old-pairing/` | three failure tests | 468.0 s | 458 | not measured | not measured | not measured |
+| C1 | 10-07, review (6.4) | PowerShell 7.6.6 | committed path | C2 (and, for about 10 s, the package-missing test) | 657.1 s | 649 | 435.8 MiB | 656.3 MiB | 360.5 s |
+| C2 | 10-07, review (6.4) | Windows PowerShell 5.1, `>` | `build/old-pairing/` | C1 | 677.7 s | 669 | not measured | not measured | not measured |
+| C3 | 10-07, review (6.4) | PowerShell 7.6.6 | `-- build/dashtest/...` | three failure tests | 519.0 s | 510 | not measured | not measured | not measured |
+| D1 | 10-07, 6.4 run a | PowerShell 7.6.6 | committed path | D2 and three failure tests | 513.3 s | 505 | 454.1 MiB | 675.9 MiB | 335.0 s |
+| D2 | 10-07, 6.4 run b | PowerShell 7.6.6 | `-- build/dashtest/...` | D1 and three failure tests | 511.3 s | 503 | 444.8 MiB | 665.7 MiB | 335.1 s |
 
-Duration of the steps in seconds, as printed by runs 1, 2 and 3 of 2026-10-07 and, for
-comparison, by runs 1 to 4 of the first verification of 2026-10-02 (Part 6.3):
+Duration of the steps in seconds, as printed by these runs (`... seconds: <n>`; the step
+`algebra` and the theory export print no duration, so the steps add up to a few seconds
+less than `done in`):
 
-| Step | Run 1 | Run 2 | Run 3 | 10-02 run 1 | 10-02 run 2 | 10-02 run 3 | 10-02 run 4 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `T1generic` | 93 | 74 | 104 | 57 | 69 | 64 | 52 |
-| `T1jets` | 64 | 61 | 67 | 50 | 56 | 52 | 45 |
-| `T1krein` | 2 | 2 | 2 | 2 | 2 | 2 | 1 |
-| `T2frame` | 187 | 177 | 228 | 143 | 150 | 158 | 116 |
-| `T2z2` | 2 | 2 | 3 | 3 | 2 | 2 | 1 |
-| `T1primordial` | 15 | 12 | 19 | 16 | 13 | 13 | 8 |
-| `T3ks_functional` | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| `T3ks_spectra` | 4 | 5 | 5 | 3 | 4 | 3 | 2 |
-| `T3emt` | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| `stat` | 4 | 3 | 4 | 3 | 4 | 3 | 2 |
-| `totals` | 16 | 17 | 22 | 14 | 17 | 16 | 11 |
-| total (`done in`) | 388 | 355 | 458 | 292 | 318 | 313 | 240 |
+| Run | `T1generic` | `T1jets` | `T1krein` | `T2frame` | `T2z2` | `T1primordial` | `T3ks_functional` | `T3ks_spectra` | `T3emt` | `stat` | `totals` | `done in` |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| A1 | 57 | 50 | 2 | 143 | 3 | 16 | 0 | 3 | 1 | 3 | 14 | 292 |
+| A2 | 69 | 56 | 2 | 150 | 2 | 13 | 0 | 4 | 1 | 4 | 17 | 318 |
+| A3 | 64 | 52 | 2 | 158 | 2 | 13 | 0 | 3 | 1 | 3 | 16 | 313 |
+| A4 | 52 | 45 | 1 | 116 | 1 | 8 | 0 | 2 | 1 | 2 | 11 | 240 |
+| B1 | 93 | 64 | 2 | 187 | 2 | 15 | 0 | 4 | 1 | 4 | 16 | 388 |
+| B2 | 74 | 61 | 2 | 177 | 2 | 12 | 0 | 5 | 1 | 3 | 17 | 355 |
+| B3 | 104 | 67 | 2 | 228 | 3 | 19 | 0 | 5 | 1 | 4 | 22 | 458 |
+| C1 | 226 | 108 | 4 | 251 | 2 | 20 | 0 | 7 | 1 | 5 | 22 | 649 |
+| C2 | 228 | 113 | 4 | 265 | 3 | 18 | 0 | 7 | 1 | 5 | 22 | 669 |
+| C3 | 122 | 82 | 3 | 261 | 2 | 14 | 0 | 4 | 1 | 4 | 17 | 510 |
+| D1 | 105 | 96 | 4 | 248 | 3 | 15 | 0 | 6 | 2 | 5 | 21 | 505 |
+| D2 | 105 | 97 | 4 | 247 | 3 | 15 | 0 | 6 | 1 | 5 | 20 | 503 |
 
-The wall-clock times of the first verification were 295.9 s, 321.9 s, 317.4 s and
-244.5 s, with kernel peak working sets of 435.6 and 437.1 MiB and peak private memory of
-657.5 and 658.3 MiB (runs 1 and 2; not measured in runs 3 and 4).
-
-The kernel works essentially on one processor core (in run 2 its processor time was
-334.5 s after about 360 s of elapsed time); the longest steps are `T2 frame reflections`
-(2 to 4 minutes), `T1 generic symbols` and `T1 jets` (about one to 1.5 minutes each). The
-wall-clock time is a few seconds longer than `elapsed_seconds`, because it includes the
-start of the kernel, the loading of the packages and the writing of the files. Expect
-roughly 4 to 8 minutes on a similar computer, and more on a slower one.
+The kernel works essentially on one processor core (in run B2 its processor time was
+334.5 s after about 360 s of elapsed time, in run D1 335.0 s after about 513 s; the rest
+of the time it waited for a free core). The longest steps are `T2 frame reflections`
+(116 to 265 s, about 2 to 4.5 minutes), `T1 generic symbols` (52 to 228 s, about 1 to
+4 minutes) and `T1 jets` (45 to 113 s, about 1 to 2 minutes). The wall-clock time is a
+few seconds longer than `elapsed_seconds`, because it includes the start of the kernel,
+the loading of the packages and the writing of the files. Expect roughly 4 to 12 minutes
+on a similar computer, depending on how busy it is, and more on a slower one. The
+kernel's memory stayed below 700 MiB in every run in which it was measured.
 
 ### 4.6 Other Wolfram versions and other operating systems
 
@@ -785,7 +804,17 @@ real discrepancy: record your `$Version` and the failed names.
   it therefore overwrites the committed files with a failing report; restore them with
   the `git checkout` command at the end of this part. Only the two `FATAL` cases of
   Section 4.2 (the package cannot be loaded, or it returns no result) write no output
-  file: the script stops before it writes anything.
+  file. They can still leave something behind: the script creates the folder of the report
+  path (if it does not exist) before it loads the package, so with the `build/` variant
+  of Section 3.4 in a fresh clone a `FATAL` run leaves the empty folders `build/` and
+  `build/old-pairing/` (measured in Part 6.4; git does not show empty folders). Delete
+  them as described at the end of this part.
+* An **interrupted** run (Ctrl+C, or the window closed, or the process ended) changes
+  nothing in the repository, because the two output files are written only after the
+  last check; it can leave the empty report folder behind, as in the `FATAL` case
+  (measured in Part 6.4 with the `build/` variant: Ctrl+C after about 61 s and ending the
+  `wolframscript` process after about 82 s each left only the empty folder
+  `build/old-pairing/`; the committed files were not touched).
 * With a report path elsewhere (for example the `build/` variant of Section 3.4) the run
   creates the folder of the report if it does not exist (including missing parent
   folders: in a fresh clone, where there is no folder `build/`, it creates both `build/`
@@ -797,11 +826,13 @@ real discrepancy: record your `$Version` and the failed names.
   `build/old-pairing/pairing-theory.json` and
   `build/old-pairing/wolfram-pairing-report.json`.
 * No other file in the repository is created, changed or deleted (verified with
-  `git status --porcelain --untracked-files=all --ignored` after every run of both
+  `git status --porcelain --untracked-files=all --ignored` after every run of the
   verifications of Part 6: after the runs with every file present it listed nothing, or
-  only the two files under `build/old-pairing/` for the `build/` variant; after the
+  only the two files of the report folder for a report path under `build/`; after the
   runs that had a file removed on purpose it listed only that removed file and, except
-  for the `FATAL` case, the two overwritten outputs).
+  for the `FATAL` case, the two overwritten outputs). The only other trace is the empty
+  report folder that a `FATAL` or interrupted run can leave (above), which git does not
+  list.
 
 **Files outside the repository** (observed on Windows; the corresponding folders on macOS
 and Linux were not inspected):
@@ -821,8 +852,23 @@ and Linux were not inspected):
   three seconds later were gone after the run. The first verification (2026-10-02, with
   fewer other jobs) saw two such files per run, an empty one at the start and, about three
   seconds later, the one that collects the printed lines, both deleted at the end of every
-  run in which this was checked, including the failing runs. If a run is interrupted they
-  may be left behind (not tested); they can then be deleted by hand.
+  run in which this was checked, including the failing runs. In the re-check of Part 6.4
+  none of the files left in the folder held the printed output of its five runs that
+  ended by themselves (two complete runs, two failing runs and the run with an unwritable
+  report path).
+* **An interrupted run leaves these temporary files behind** (measured in Part 6.4, three
+  times: after Ctrl+C, and after the `wolframscript` process, or all processes of the
+  run, had been ended). Each time the file that collected the printed lines (51 or 125
+  bytes: the progress lines printed until then) was still in the folder at every later
+  look (the last one 40 s to 11 minutes after the interruption; then these three
+  collecting files were deleted by hand), and so was an empty `tmp_` file created within half a second of
+  the start, which was very probably the run's other file. The folder also held six such files, with the
+  first progress lines of this set, left by interrupted runs of the earlier verifications.
+  They are small and harmless. To remove them, wait until no Wolfram program is running
+  (no `wolframscript.exe` or `wolfram.exe` in the Task Manager), then delete the files
+  named `tmp_...` in that folder (in PowerShell:
+  `Remove-Item "$env:LOCALAPPDATA\Wolfram\WolframScript\WolframScriptTemporary\tmp_*"`).
+  On macOS and Linux this was not tested.
 * WolframScript rewrites its own small settings file
   `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` (238 bytes) at the end of every run
   (seen in runs 1 and 2 of both verifications; on 2026-10-02 only its modification time
@@ -885,24 +931,30 @@ commit them; restore the committed files with the command above.
   checked independently; after the restart the whole record was verified again, from new
   fresh clones, on 2026-10-07 at commit `a4c5eda` (Section 6.2). Every measurable
   statement of Parts 1 to 5 was checked again on 2026-10-07, on Windows; where a
-  statement rests only on the first verification, the text says so. Nothing was run on
-  macOS or Linux in either verification (the instructions for them are not tested).
+  statement rests only on the first verification, the text says so. An independent
+  review of this file then found six statements to correct; each was measured again the
+  same evening at commit `b8a695d` and corrected (Section 6.4). Nothing was run on
+  macOS or Linux in any verification (the instructions for them are not tested).
 * **Result:** the set **executes correctly** as committed. In every run with all files
   present it printed `check_count=141` and `failed_check_count=0`, ended with exit code
   0, and wrote both output files **byte-identical** to the committed files and to each
-  other. No file of the set was changed; no discrepancy, scientific or of execution, is
-  open (the open item of Section 1.1 is one of interpretation, see the end of 6.2).
+  other. No file of the set was changed; no scientific discrepancy is open (the open
+  item of Section 1.1 is one of interpretation, see the end of 6.2). One **execution
+  defect** is open and was not fixed: when the report folder cannot be written, the
+  script still ends with exit code 0 (Sections 3.5, 4.2 and 6.4).
 * The sha256 values of the five files of Sections 2.1 and 2.2 and of the two outputs are
-  the same at both commits (and at the newer heads `8cbd03a` and `ab2842e` of 2026-10-07,
-  at which no file of the set, no input and no output had changed:
-  `git diff --stat a4c5eda ab2842e -- <these seven files>` lists none of them).
+  the same at all these commits (and at the newer heads `8cbd03a` and `ab2842e` of
+  2026-10-07, at which no file of the set, no input and no output had changed:
+  `git diff --stat a4c5eda ab2842e -- <these seven files>` lists none of them; the same
+  holds for `git diff --stat a4c5eda b8a695d`).
 
 ### 6.2 Re-verification of 2026-10-07
 
 * **Commit verified:** `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (2026-10-07 15:17 local
   time), the head of branch `main` of <https://github.com/once-ere/Dirac_claude.git> when
-  the clones were made. The script and the package were last changed in commit `ba7b170`
-  (2026-09-30), the geometry package in `6c0bfad` (2026-09-25), the inputs in `78b4a5f`
+  the clones were made. The script was last changed in commit `4215a8f` (2026-09-30, the
+  commit that created it) and the package in `ba7b170` (2026-09-30), the geometry package
+  in `6c0bfad` (2026-09-25), the inputs in `78b4a5f`
   (`algebra-fixture.json`, 2026-09-25) and `34b9fd4` (`kohn-sham-theory.json`,
   2026-09-25), and the two outputs were last committed in `eac67e6` (2026-09-30). The
   sha256 values, line counts and byte counts of all seven files at this commit are those of
@@ -933,7 +985,7 @@ commit them; restore the committed files with the command above.
   | 3 | 3 | Windows PowerShell 5.1, output into a file with `>` | nothing | `build/old-pairing/wolfram-pairing-report.json` | 0 | 15:32:23 | 468.0 s | `check_count=141`, `failed_check_count=0` |
   | 4 | 4 | Git Bash, output into a file with `>` | `wolfram/Dirac16ComplexPairing.wl` moved out of the clone | `artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json` | 1 | 15:21:47 and 15:35 | 5.3 s (second run) | `Get::noopen`, `FATAL: module failed to load: ...`, `check_count=0`, `failed_check_count=1` |
   | 5 | 5 | PowerShell 7.6.6, output into a file with `>` | `artifacts/dirac16complex/arbitrary-field/algebra-fixture.json` moved away | the same | 1 | 15:32:23 | 469.4 s | `Import::nffil`, `Table::iterb` (twice), `CHECK FAILED: PAIR_algebra_fixtureMatches`, `FileHash::noopen`, `check_count=141`, `failed_check_count=1` |
-  | 6 | 6 | PowerShell 7.6.6, output into a file with `>` | `artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json` moved away | the same | 1 | 15:32:23 | 433.9 s | `Import::nffil`, `INTERNAL ERROR: ...` (one line of 88,820 characters), `FileHash::noopen`, `check_count=98`, `failed_check_count=4` (`PAIR_T3block_basisFromStage4`, `PAIR_T3block_gamma8IsSigma2BetweenPartnerBlocks`, `PAIR_T3block_gamma1IsSigma1InEveryBlock`, `PAIR_internal_noException`); no step after `T3 block maps` was run |
+  | 6 | 6 | PowerShell 7.6.6, output into a file with `>` | `artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json` moved away | the same | 1 | 15:32:23 | 433.9 s | `Import::nffil`, three each of `Table::iterb`, `Part::take`, `Part::partw`, `First::nofirst`, `Part::pkspec1` and `Part::partd`, six `General::stop` (counted again later in this run's output file), four lines `CHECK FAILED: ...`, `INTERNAL ERROR: ...` (one line of 88,820 characters), `FileHash::noopen`, `check_count=98`, `failed_check_count=4` (`PAIR_T3block_basisFromStage4`, `PAIR_T3block_gamma8IsSigma2BetweenPartnerBlocks`, `PAIR_T3block_gamma1IsSigma1InEveryBlock`, `PAIR_internal_noException`); no step after `T3 block maps` was run (1,462,019 bytes of printed text) |
   | 7 | 7 | Git Bash, output into a file with `>` | `wolfram/Dirac16ComplexGeometry.wl` moved away | the same | 1 | 15:32:23 | 280.1 s | `Get::noopen`, Wolfram error messages (`Set::shape`, `Part::pkspec1`, `Part::partw`, `Part::partd`, `Part::take`, `General::stop`), 29 lines `CHECK FAILED: ...`, `FileHash::noopen`, `check_count=141`, `failed_check_count=29` (818,900 bytes of printed text) |
 
   Start times are local time (UTC-7) on 2026-10-07. Runs 1 and 2 are the two runs of the
@@ -993,11 +1045,14 @@ commit them; restore the committed files with the command above.
   restored the committed bytes (sha256 checked); `git status` then printed
   `nothing to commit, working tree clean` and
   `git status --porcelain --untracked-files=all --ignored` printed nothing.
-* **The `--` rule of Section 3.4:** a two-line test script that prints
-  `$ScriptCommandLine` received `{"argtest.wls"}` from
-  `wolframscript -file argtest.wls -- build/x.json` and
-  `{"argtest.wls", "build/x.json"}` from `wolframscript -file argtest.wls build/x.json`:
-  WolframScript 1.14 drops `--` and what follows.
+* **`--` before the report path (Section 3.4):** this verification tested it only with
+  a test script of one line, `Print[ToString[$ScriptCommandLine, InputForm]];`, without
+  the first line `#!/usr/bin/env wolframscript` that the real script has. That test
+  script received `{"argtest.wls"}` from `wolframscript -file argtest.wls -- build/x.json`
+  and `{"argtest.wls", "build/x.json"}` without `--`, and this record concluded wrongly
+  that WolframScript drops `--` and the path for the real script too. The review of
+  Part 6.4 showed that a script with the `#!` first line receives `--` and the path, and
+  that the real script then writes to that path (Part 6.4).
 * **Documents and programs of Section 1.2:** checked with `git grep` in fresh clone 2 at
   the verified commit (the names of the set, of the package and of both outputs, and both
   sha256 values); the cited sections, chapter titles and line numbers were checked in
@@ -1010,7 +1065,9 @@ commit them; restore the committed files with the command above.
   textbook notebooks, the clone size, the verified commit of Section 3.3, the measured run
   times and memory (Part 4.5), the temporary files, processes and network endpoints of
   Part 5, and this record.
-* **Open discrepancies:** none in execution or in the numbers. The open item of
+* **Open discrepancies:** none in the numbers; this verification found none in
+  execution, but the later review found one (the exit code 0 when the report folder
+  cannot be written, Section 6.4). The open item of
   Section 1.1 (the physical wording of `T1krein.imageField` and `T1krein.consequence` in
   `pairing-theory.json`, to be corrected according to `HANDOFF.md` section 0.4 item C) is
   a matter of interpretation; the checks themselves are true, and the committed outputs

@@ -2226,6 +2226,8 @@ The notebook has fourteen code cells. **In [1]** is the set-up cell, identical t
 **In [2], the loop and the reduced map.**
 
 ```python
+import numpy as np  # arrays, matrices and linear algebra
+
 DELTA, T_HOP, U = 2.0, 1.0, 4.0  # site-energy difference, hopping, repulsion
 
 
@@ -2238,7 +2240,7 @@ def loop_pass(n_left, delta=DELTA, t=T_HOP, u=U):
     return 2.0 * vectors[0, 0] ** 2  # two electrons, |c_L|^2 each
 ```
 
-(The cell starts with `import numpy as np`.) The model's numbers $\Delta = 2$, $t = 1$, $U = 4$ are written in one line: Python assigns the three values to the three names in order. `loop_pass` is one pass of the loop: it builds the matrix $h[n_L]$ of Section 13.21, diagonalises it with `eigh` (levels in increasing order, eigenvectors as columns), and returns $2|c_L|^2$, where `vectors[0, 0]` is the L component (row 0) of the lowest eigenvector (column 0). The arguments `delta=DELTA` and so on are **default values**: they are used when the call does not give them, so later cells can call `loop_pass(n, u=2.0)` with another repulsion.
+The cell loads numpy as `np`. The model's numbers $\Delta = 2$, $t = 1$, $U = 4$ are written in one line: Python assigns the three values to the three names in order. `loop_pass` is one pass of the loop: it builds the matrix $h[n_L]$ of Section 13.21, diagonalises it with `eigh` (levels in increasing order, eigenvectors as columns), and returns $2|c_L|^2$, where `vectors[0, 0]` is the L component (row 0) of the lowest eigenvector (column 0). The arguments `delta=DELTA` and so on are **default values**: they are used when the call does not give them, so later cells can call `loop_pass(n, u=2.0)` with another repulsion.
 
 ```python
 def G(x, delta=DELTA, t=T_HOP, u=U):
@@ -2283,9 +2285,46 @@ quotient = (G(x_star + 1e-6) - G(x_star - 1e-6)) / 2e-6
 beta_max, beta_best = 2.0 / (1.0 - g_prime), 1.0 / (1.0 - g_prime)
 ```
 
-The fixed point, the slope there, a central difference quotient $(G(x^* + 10^{-6}) - G(x^* - 10^{-6}))/(2\cdot10^{-6})$ as an independent estimate of the slope, and the largest and the best mixing parameters. The four `report` lines print $n_L^* = 1.326993$, $G' = -1.687961$, $\beta_{max} = 0.744058$ and $\beta_{best} = 0.372029$; the two checks compare the first three with these values (to $10^{-6}$) and the slope formula with the difference quotient.
+The fixed point, the slope there, a central difference quotient $(G(x^* + 10^{-6}) - G(x^* - 10^{-6}))/(2\cdot10^{-6})$ as an independent estimate of the slope, and the largest and the best mixing parameters (two names assigned in one line).
 
-**In [4], the map as a picture.** `n_in` holds 401 input densities from 0 to 2. The cell draws the output $1 + G(n_L - 1)$ against the input as a thick black line, the diagonal $n_L^{out} = n_L$ dashed, and the fixed point as a red dot (`"ro"`), whose value the legend shows; `save_figure` saves Figure 13d.1. The curve crosses the diagonal steeply downwards.
+```python
+report("fixed point n_L* = 1 + x*", f"{1.0 + x_star:.6f}")
+report("slope G'(x*)", f"{g_prime:.6f}")
+report("largest mixing parameter 2/(1 - G')", f"{beta_max:.6f}")
+report("best mixing parameter 1/(1 - G')", f"{beta_best:.6f}")
+check(abs(x_star - 0.326993) < 1e-6 and abs(g_prime + 1.687961) < 1e-6
+      and abs(beta_max - 0.744058) < 1e-6,
+      "x* = 0.326993, G'(x*) = -1.687961, beta_max = 0.744058")
+check(abs(quotient - g_prime) < 1e-6, "the slope formula equals a difference quotient")
+```
+
+The four `report` lines print $n_L^* = 1.326993$, $G' = -1.687961$, $\beta_{max} = 0.744058$ and $\beta_{best} = 0.372029$; the two checks compare the first three with these values (to $10^{-6}$) and the slope formula with the difference quotient (to $10^{-6}$; the central quotient has an error of order $(10^{-6})^2$ times the third derivative, plus rounding).
+
+**In [4], the map as a picture.**
+
+```python
+n_in = np.linspace(0.0, 2.0, 401)
+fig, ax = plt.subplots(figsize=(6.0, 5.0))
+ax.plot(n_in, 1.0 + G(n_in - 1.0), color="black", lw=2.0,
+        label="$n_L^{out} = 1 + G(n_L - 1)$")
+ax.plot(n_in, n_in, "--", color="gray", label="diagonal $n_L^{out} = n_L$")
+ax.plot([1.0 + x_star], [1.0 + x_star], "ro",
+        label=f"fixed point $n_L^* = {1.0 + x_star:.6f}$")
+```
+
+`n_in` holds 401 input densities from 0 to 2. The cell draws the output $1 + G(n_L - 1)$ against the input as a thick black line, the diagonal $n_L^{out} = n_L$ grey and dashed, and the fixed point as a red dot (`"ro"`: r red, o a round marker) at $(n_L^*, n_L^*)$, whose value the legend shows with six decimals.
+
+```python
+ax.set_xlabel("input density on the left site $n_L$")
+ax.set_ylabel("output density $n_L^{out}$")
+ax.set_title("The self-consistency map of the two-site model")
+ax.legend(fontsize=8)
+save_figure(fig, "reduced_map",
+```
+
+Labels, title, legend and `save_figure` for Figure 13d.1.
+
+**What Figure 13d.1 shows.** The map falls from the output $1.95$ at the input $n_L = 0$ to the output $0.29$ at the input $n_L = 2$: the more charge the input puts on the left site, the more the repulsion pushes the output to the right. Where the curve crosses the diagonal, input and output agree: the self-consistent density $1.326993$. The crossing is steep (slope $-1.69$), which is the cause of all the trouble of Section 13.21.
 
 **In [5], plain iteration.**
 
@@ -2362,7 +2401,20 @@ def cobweb(ax, beta, passes):
     ax.set_ylabel("output $n_L^{out}$ and next input")
 ```
 
-A **cobweb diagram** draws an iteration: from the point (input, input) on the diagonal a red segment goes vertically to the curve (the output), and a blue segment goes from there to the point (next input, next input) on the diagonal. The function draws the map and the diagonal, runs the loop, and draws the two segments of every pass, and the fixed point as a black dot. The cell calls it for plain iteration (left panel) and for $\beta = \tfrac12$ (right panel), 12 passes each, and saves Figure 13d.2: on the left the path settles on a square around the fixed point (the cycle), on the right it spirals into it.
+A **cobweb diagram** draws an iteration: from the point (input, input) on the diagonal a red segment goes vertically to the curve (the output), and a blue segment goes from there to the point (next input, next input) on the diagonal. The function draws the map and the diagonal, runs the loop, and draws the two segments of every pass (`[n, n]` and `[n, out]` are the horizontal and the vertical coordinates of the two ends of the red segment), the fixed point as a black dot (`"ko"`), and labels the axes.
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.5))
+cobweb(left, 1.0, 12)
+left.set_title("plain iteration ($\\beta = 1$): sloshing")
+cobweb(right, 0.5, 12)
+right.set_title("linear mixing ($\\beta = 1/2$): converges")
+save_figure(fig, "cobwebs",
+```
+
+The cell calls `cobweb` for plain iteration in the left panel and for $\beta = \tfrac12$ in the right panel, 12 passes each, gives each panel its title, and saves Figure 13d.2.
+
+**What Figure 13d.2 shows.** On the left the path starts at $n_L = 2$, goes down to the output $0.29$, across to the input $0.29$, up to the output $1.92$, and so on: after a few passes it runs around the same rectangle with the corners near $0.36$ and $1.92$, far from the fixed point in the middle; the thick lines are the many passes drawn on top of each other. On the right each blue segment ends on the diagonal at the point halfway between the input and the output, and the path closes in on the fixed point within a few passes, in a spiral, because the error changes its sign at every pass (the factor $-0.344$).
 
 **In [8], error histories and Anderson mixing.**
 
@@ -2419,7 +2471,14 @@ ratio = histories[0.5][11] / histories[0.5][10]  # the ratio of two error sizes
 predicted = 1.0 - 0.5 * (1.0 - g_prime)
 ```
 
-The error histories for $\beta = 1, 0.8, 0.5, 0.2$ and for $\beta_{best}$, and that of Anderson mixing. `ratio` divides the error after pass 11 by the error after pass 10 for $\beta = \tfrac12$, and `predicted` is the factor $1 - \beta(1 - G')$ of Section 13.21. They print as $0.343986$ and $-0.343980$: the size agrees (the sign of the measured ratio is lost because errors are taken as absolute values, and the small difference is the curvature of $G$).
+The error histories for $\beta = 1, 0.8, 0.5, 0.2$ and for $\beta_{best}$, and that of Anderson mixing. `ratio` divides the error after pass 11 by the error after pass 10 for $\beta = \tfrac12$, and `predicted` is the factor $1 - \beta(1 - G')$ of Section 13.21.
+
+```python
+report("measured |error ratio| for beta = 1/2", f"{ratio:.6f}")
+report("predicted factor 1 - beta (1 - G')", f"{predicted:.6f}")
+```
+
+They print as $0.343986$ and $-0.343980$: the size agrees (the sign of the measured ratio is lost because errors are taken as absolute values, and the small difference is the curvature of $G$).
 
 ```python
 check(abs(ratio - abs(predicted)) < 1e-4,
@@ -2432,7 +2491,38 @@ check(len(anderson_errors) < 15 and anderson_errors[-1] < 1e-12,
 
 Three checks: the predicted factor; the failure of $\beta = 1$ and $\beta = 0.8$, both above $\beta_{max}$ (their last errors are still large); and the convergence of Anderson mixing to $10^{-12}$ in fewer than 15 passes.
 
-**In [9], the error histories as a picture.** `ax.semilogy` draws with a logarithmic vertical axis the first 40 errors of each linear mixing, the first 12 of the best one (`np.maximum(..., 1e-16)` replaces an error of exactly 0, which a logarithmic axis cannot show, by $10^{-16}$), and all errors of Anderson mixing (black stars); `ax.set_ylim(1e-15, 10.0)` fixes the vertical range and `bbox_to_anchor` moves the legend a little down. `save_figure` saves Figure 13d.3: straight falling lines are errors that shrink by a fixed factor per pass.
+**In [9], the error histories as a picture.**
+
+```python
+fig, ax = plt.subplots()
+for key, style in ((1.0, "o-"), (0.8, "s-"), (0.5, "^-"), (0.2, "v-")):
+    label = "plain iteration" if key == 1.0 else f"linear, $\\beta = {key}$"
+    ax.semilogy(histories[key][:40], style, ms=3, label=label)
+```
+
+`ax.semilogy` draws with a logarithmic vertical axis; given only one list, it uses the pass numbers $0, 1, 2, \dots$ as horizontal coordinates. For the four linear runs the loop draws the first 40 errors with its own marker (circles, squares, and triangles pointing up and down, each joined by a line); the label is "plain iteration" for $\beta = 1$ and otherwise names $\beta$ (`a if condition else b` chooses).
+
+```python
+best = np.maximum(histories["best"][:12], 1e-16)  # rounding may give exactly 0
+ax.semilogy(best, "D-", ms=3, label=f"linear, best $\\beta = {beta_best:.3f}$")
+ax.semilogy(anderson_errors, "k*-", ms=6,
+            label=f"Anderson, depth {DEPTH}, $\\beta = {BETA_ANDERSON}$")
+```
+
+The first 12 errors of the best linear mixing, with diamonds (`"D-"`); `np.maximum(..., 1e-16)` replaces an error of exactly 0, which a logarithmic axis cannot show, by $10^{-16}$. Then all errors of Anderson mixing as black stars joined by a line (`"k*-"`); the label shows the depth and $\beta$ read from the Revision parameter file.
+
+```python
+ax.set_ylim(1e-15, 10.0)
+ax.set_xlabel("pass number")
+ax.set_ylabel("error $|n_L - n_L^*|$")
+ax.set_title("Error histories of the two-site loop")
+ax.legend(fontsize=7, loc="upper right", bbox_to_anchor=(1.0, 0.86))
+save_figure(fig, "error_histories",
+```
+
+`set_ylim(1e-15, 10.0)` fixes the vertical range from $10^{-15}$ to 10; labels and title; the legend is anchored with its upper right corner at 86 per cent of the height of the panel (`bbox_to_anchor=(1.0, 0.86)`), a little below the top, so that it does not cover the two upper curves. `save_figure` saves Figure 13d.3.
+
+**What Figure 13d.3 shows.** Plain iteration and $\beta = 0.8$ stay between about $0.2$ and 1 for all 40 passes, zig-zagging: they never converge. The runs with $\beta = 0.5$ and $0.2$ are straight falling lines on the logarithmic axis, which means that the error is multiplied by the same factor at every pass ($0.344$ and about $0.46$); the first reaches $10^{-15}$ after about 31 passes, the second is near $10^{-13}$ after 40. The best $\beta = 0.372$ (factor zero for small errors) and Anderson mixing fall much faster, reaching rounding level within about 5 and 9 passes; Anderson mixing achieves this without knowing the slope $G'$ in advance.
 
 **In [10], the convergence factor.**
 
@@ -2441,7 +2531,30 @@ betas = np.linspace(0.0, 1.0, 501)
 factor = np.abs(1.0 - betas * (1.0 - g_prime))
 ```
 
-The size of the factor $|1 - \beta(1 - G')|$ for 501 values of $\beta$ from 0 to 1. The plotting lines draw it, the line 1 (dashed), a green band over $0 < \beta < \beta_{max}$ (`axvspan`, where the loop converges) and a dotted vertical line at $\beta_{best}$; the title shows $\beta_{max}$ with four decimals. `save_figure` saves Figure 13d.4: a V-shaped curve that touches zero at $\beta_{best}$ and crosses 1 at $\beta_{max}$.
+The size of the factor $|1 - \beta(1 - G')|$ for 501 values of $\beta$ from 0 to 1.
+
+```python
+fig, ax = plt.subplots()
+ax.plot(betas, factor, color="black", lw=2.0, label="$|1 - \\beta(1 - G')|$")
+ax.axhline(1.0, color="gray", ls="--")
+ax.axvspan(0.0, beta_max, alpha=0.15, color="green", label="converges")
+ax.axvline(beta_best, color="tab:blue", ls=":",
+           label=f"best $\\beta = {beta_best:.3f}$")
+```
+
+The factor as a thick black line; the grey dashed line at 1; `axvspan(0.0, beta_max, ...)` colours the vertical band $0 < \beta < \beta_{max}$, where the loop converges, in a pale green (`alpha=0.15` makes it 85 per cent transparent); `axvline` draws a dotted vertical line at $\beta_{best}$.
+
+```python
+ax.set_xlabel("mixing parameter $\\beta$")
+ax.set_ylabel("error factor per pass")
+ax.set_title(f"Linear mixing converges for $\\beta < {beta_max:.4f}$")
+ax.legend()
+save_figure(fig, "convergence_factor",
+```
+
+Labels; the title shows $\beta_{max}$ with four decimals ($0.7441$); legend; `save_figure` for Figure 13d.4.
+
+**What Figure 13d.4 shows.** A V-shaped curve: the factor falls from 1 at $\beta = 0$ (no change at all, so no progress) to 0 at $\beta_{best} = 0.372$, rises again, crosses 1 at $\beta_{max} = 0.744$ (the right edge of the green band) and reaches $1.688$ at $\beta = 1$. Every $\beta$ inside the band converges; the closer to $\beta_{best}$, the faster.
 
 **In [11], the long run against $\beta$.**
 
@@ -2458,7 +2571,29 @@ check(np.all(spread[beta_scan < 0.72] < 1e-8) and np.all(spread[beta_scan > 0.77
       "the loop converges below beta = 0.744 and oscillates above it")
 ```
 
-For 99 values of $\beta$ from $0.02$ to 1 the cell runs 600 passes and keeps the last 30 inputs (`history[-30:]`); `tails` becomes a table with one row per $\beta$. The spread of each row (largest minus smallest) is tiny where the loop converged and large where it ends in a cycle. The check requires a spread below $10^{-8}$ for every $\beta < 0.72$ and above $0.05$ for every $\beta > 0.77$ (close to $\beta_{max}$ the convergence or divergence is too slow to decide in 600 passes, so a small gap is left). The plotting lines draw every kept input as a small dot above its $\beta$ (`np.full(len(tail), beta)` repeats $\beta$ 30 times) and a red dashed line at $\beta_{max}$, and save Figure 13d.5: one point per $\beta$ below $\beta_{max}$, two branches above it.
+For 99 values of $\beta$ from $0.02$ to 1 the cell runs 600 passes and keeps the last 30 inputs (`history[-30:]`); `tails` becomes a table with one row per $\beta$. The spread of each row (largest minus smallest) is tiny where the loop converged and large where it ends in a cycle. The check requires a spread below $10^{-8}$ for every $\beta < 0.72$ and above $0.05$ for every $\beta > 0.77$ (close to $\beta_{max}$ the convergence or divergence is too slow to decide in 600 passes, so a small gap is left).
+
+```python
+fig, ax = plt.subplots()
+for beta, tail in zip(beta_scan, tails):
+    ax.plot(np.full(len(tail), beta), tail, "k.", ms=2)
+ax.axvline(beta_max, color="tab:red", ls="--", label=f"$\\beta_{{max}} = "
+           f"{beta_max:.4f}$")
+```
+
+For every $\beta$ the loop draws its 30 kept inputs as small black dots (`"k."`) above it: `np.full(len(tail), beta)` is a list of 30 copies of $\beta$, the horizontal coordinates. A red dashed vertical line marks $\beta_{max}$; its label is made of two f-strings written next to each other (the doubled braces print one brace each, so the label shows $\beta_{max} = 0.7441$).
+
+```python
+ax.set_xlabel("mixing parameter $\\beta$")
+ax.set_ylabel("last 30 inputs $n_L$")
+ax.set_title("Where the loop ends, against $\\beta$")
+ax.legend()
+save_figure(fig, "long_run_diagram",
+```
+
+Labels, title, legend and `save_figure` for Figure 13d.5.
+
+**What Figure 13d.5 shows.** Left of the red line all 30 dots of each $\beta$ lie on one point at $1.327$: the loop has converged. Right of it the dots split into two branches, the two values of the cycle of period 2; just beyond $\beta_{max}$ they are close to $1.327$, and they move apart as $\beta$ grows, to about $0.36$ and $1.92$ at $\beta = 1$ (plain iteration). This splitting of one fixed point into a cycle of period 2 is called a **period-doubling bifurcation**.
 
 **In [12], a weaker repulsion and the threshold.**
 
@@ -2467,7 +2602,18 @@ x2 = fixed_point(u=2.0)
 g2 = slope(x2, u=2.0)
 ```
 
-The fixed point and the slope for $U = 2$; the three `report` lines print $n_L^* = 1.468990$, $G' = -0.688942$ and $\beta_{max} = 1.184174$, and the first check compares them with these values. Then
+The fixed point and the slope for $U = 2$ (the keyword `u=2.0` replaces the default repulsion).
+
+```python
+report("U = 2: n_L*", f"{1.0 + x2:.6f}")
+report("U = 2: G'(x*)", f"{g2:.6f}")
+report("U = 2: beta_max", f"{2.0 / (1.0 - g2):.6f}")
+check(abs(x2 - 0.468990) < 1e-6 and abs(g2 + 0.688942) < 1e-6
+      and abs(2.0 / (1.0 - g2) - 1.184174) < 1e-6,
+      "U = 2: x* = 0.468990, G' = -0.688942, beta_max = 1.184174")
+```
+
+The three `report` lines print $n_L^* = 1.468990$, $G' = -0.688942$ and $\beta_{max} = 1.184174$, and the check compares them with these values (to $10^{-6}$). Then
 
 ```python
 n = 2.0
@@ -2491,11 +2637,49 @@ for _ in range(60):
 U_critical = 0.5 * (low + high)
 ```
 
-$\beta_{max}$ for 76 repulsions from $0.5$ to 8 (for each one the fixed point is found again). Then a bisection in $U$ between 2 (where $\beta_{max} > 1$) and 4 (where it is below 1) finds the repulsion at which $\beta_{max} = 1$, that is $G'(x^*) = -1$: $U = 2.647393$ (printed by `report`). The last check confirms that the slope there is $-1$ to $10^{-9}$.
+$\beta_{max}$ for 76 repulsions from $0.5$ to 8 (for each one the fixed point is found again). Then a bisection in $U$ between 2 (where $\beta_{max} > 1$) and 4 (where it is below 1) finds the repulsion at which $\beta_{max} = 1$, that is $G'(x^*) = -1$ (if $\beta_{max}$ at the middle is still above 1, the threshold lies above the middle, so `low` moves up).
 
-**In [13], the threshold as a picture.** The cell draws $\beta_{max}$ against $U$ (thick black), the line $\beta = 1$ (dashed) and a dotted vertical line at the critical repulsion, and saves Figure 13d.6: the curve falls with $U$ and crosses 1 at $U = 2.647$.
+```python
+report("repulsion where plain iteration stops converging", f"{U_critical:.6f}")
+check(abs(slope(fixed_point(u=U_critical), u=U_critical) + 1.0) < 1e-9,
+      "at this repulsion the slope at the fixed point is exactly -1")
+```
 
-**In [14], the last check.** As In [19] of Notebook 13c: it checks that the six figure files exist and prints ALL 17 CHECKS PASSED (notebook 13d): one check in In [2], two each in In [3], In [5] and In [6], four in In [8], one in In [11], three in In [12] and two in In [14].
+The `report` line prints $U = 2.647393$, and the check confirms that the slope at the fixed point is $-1$ there, to $10^{-9}$.
+
+**In [13], the threshold as a picture.**
+
+```python
+fig, ax = plt.subplots()
+ax.plot(U_scan, beta_limits, color="black", lw=2.0, label="$\\beta_{max}(U)$")
+ax.axhline(1.0, color="gray", ls="--", label="plain iteration, $\\beta = 1$")
+ax.axvline(U_critical, color="tab:red", ls=":",
+           label=f"$U = {U_critical:.3f}$: plain iteration fails beyond")
+ax.set_xlabel("repulsion $U$ (units of $t$)")
+ax.set_ylabel("largest convergent mixing parameter")
+ax.set_title("Stronger repulsion needs gentler mixing")
+ax.legend(fontsize=8)
+save_figure(fig, "threshold_versus_u",
+```
+
+The curve $\beta_{max}(U)$ as a thick black line, the grey dashed line $\beta = 1$ (plain iteration), a red dotted vertical line at the critical repulsion (its label shows $U = 2.647$), labels, title, legend and `save_figure` for Figure 13d.6.
+
+**What Figure 13d.6 shows.** $\beta_{max}$ falls steadily from about $1.8$ at $U = 0.5$ to about $0.42$ at $U = 8$. It crosses the line $\beta = 1$ at $U = 2.647$: for weaker repulsion plain iteration converges (the curve lies above the dashed line), for stronger repulsion it fails, and the mixing step must be smaller the stronger the repulsion.
+
+**In [14], the last check.**
+
+```python
+figure_names = ["reduced_map", "cobwebs", "error_histories", "convergence_factor",
+                "long_run_diagram", "threshold_versus_u"]
+missing = [name for k, name in enumerate(figure_names, 1)
+           if not output_file(f"{FIGURE_FOLDER}/13d_{k}_{name}.png").is_file()]
+check(missing == [], "all six figure files exist")
+check(output_file(f"{FIGURE_FOLDER}/13d_6_threshold_versus_u.png").is_file(),
+      "the figure file 13d_6_threshold_versus_u.png exists")
+all_checks_passed()
+```
+
+The same lines as In [19] of Notebook 13c (Section 13.14), with the six figure names of this notebook. The last line prints ALL 17 CHECKS PASSED (notebook 13d): one check in In [2], two each in In [3], In [5] and In [6], four in In [8], one in In [11], three in In [12] and two in In [14].
 
 ### 13.26 Finite temperature: Mermin's theorem
 
@@ -2714,7 +2898,15 @@ ln_Z = np.log(Z_shifted) - k_values.min() / TEMPERATURE  # undo the shift
 omega_gibbs = grand_potential(rho_gibbs)
 ```
 
-The Gibbs state as a function of $K$: eigenvalues and eigenvectors of $K$, the weights $e^{-k_i/T}$ shifted by the smallest eigenvalue to avoid overflow (Section 13.14 explains the shift), and $\hat\rho_0 = \sum_i(w_i/\sum w)\,u_iu_i^T$. The true $\ln Z$ undoes the shift: $Z = Z_{shifted}\,e^{-k_{min}/T}$, so $\ln Z = \ln Z_{shifted} - k_{min}/T$. The two `report` lines print $\Omega[\hat\rho_0]$ and $-T\ln Z$, both $-3.4716265446$, and the check requires them to agree to $10^{-12}$.
+The Gibbs state as a function of $K$: eigenvalues and eigenvectors of $K$, the weights $e^{-k_i/T}$ shifted by the smallest eigenvalue to avoid overflow (Section 13.14 explains the shift), and $\hat\rho_0 = \sum_i(w_i/\sum w)\,u_iu_i^T$. The true $\ln Z$ undoes the shift: $Z = Z_{shifted}\,e^{-k_{min}/T}$, so $\ln Z = \ln Z_{shifted} - k_{min}/T$. `omega_gibbs` is $\Omega[\hat\rho_0]$, computed with the function above.
+
+```python
+report("Omega of the Gibbs state", f"{omega_gibbs:.10f}")
+report("-T ln Z", f"{-TEMPERATURE * ln_Z:.10f}")
+check(abs(omega_gibbs + TEMPERATURE * ln_Z) < 1e-12, "Omega[Gibbs] = -T ln Z")
+```
+
+The two `report` lines print $\Omega[\hat\rho_0]$ and $-T\ln Z$, both $-3.4716265446$, and the check requires them to agree to $10^{-12}$.
 
 **In [4], 2000 random density operators.**
 
@@ -2755,7 +2947,27 @@ check(np.max(np.abs(gaps - TEMPERATURE * kleins)) < 1e-10,
 
 The smallest excess is $3.878\cdot10^{-6}$ (`:.3e` writes a number with three decimals and a power of ten), still positive. The checks: all 2000 excesses are positive, and each equals $T\,D$ to $10^{-10}$, the identity of the proof in Section 13.26.
 
-**In [5], the histogram.** `np.logspace(np.floor(np.log10(gaps.min())), np.ceil(np.log10(gaps.max())), 40)` makes 40 bin edges equally spaced on a logarithmic scale from the power of ten below the smallest excess to the one above the largest (`np.floor` and `np.ceil` round down and up); `ax.hist` counts the excesses in each bin and draws the counts as bars, and `ax.set_xscale("log")` makes the horizontal axis logarithmic. `save_figure` saves Figure 13e.1.
+**In [5], the histogram.**
+
+```python
+fig, ax = plt.subplots()
+bins = np.logspace(np.floor(np.log10(gaps.min())), np.ceil(np.log10(gaps.max())), 40)
+ax.hist(gaps, bins=bins, color="tab:blue", edgecolor="black", lw=0.5)
+ax.set_xscale("log")
+```
+
+`np.log10` is the logarithm to the base 10; `np.floor` and `np.ceil` round down and up to whole numbers, so the two arguments are the exponents of the powers of ten just below the smallest excess and just above the largest ($-6$ and 1 here). `np.logspace(a, b, 40)` makes 40 numbers from $10^a$ to $10^b$, equally spaced on a logarithmic scale: the edges of the bins (the intervals in which the excesses are counted). `ax.hist` counts the excesses in each bin and draws the counts as blue bars with thin black edges, and `ax.set_xscale("log")` makes the horizontal axis logarithmic.
+
+```python
+ax.set_xlabel("$\\Omega[\\hat\\rho] - \\Omega[\\hat\\rho_0]$ (units of $t$)")
+ax.set_ylabel("number of random states")
+ax.set_title("The Gibbs state has the lowest grand potential")
+save_figure(fig, "gibbs_principle",
+```
+
+Labels (the grand potential is an energy, in units of the hopping $t$), title, and `save_figure` for Figure 13e.1.
+
+**What Figure 13e.1 shows.** Every bar lies to the right of zero (on a logarithmic axis zero itself cannot appear, and no excess is negative): all 2000 random states have a larger grand potential than the Gibbs state. Most excesses are between $0.1t$ and $2t$, from states mixed strongly away from the Gibbs state; a thin tail reaches down to about $4 \cdot 10^{-6}t$, from states with a mixing weight $s$ close to 0. The closer a state is to the Gibbs state, the smaller its excess, but it never becomes negative.
 
 **In [6], independent orbitals.**
 
@@ -2770,7 +2982,16 @@ products = np.array([np.prod([f3[k] if c[k] else 1.0 - f3[k] for k in range(3)])
                      for c in configurations])
 ```
 
-Three orbitals with the energies $-0.5$, $0.2$, $1.0$ at $\mu = 0.1$, $T = 0.4$. The 8 configurations are all triples of zeros and ones (`itertools.product((0, 1), repeat=3)`). For each, `np.dot(levels3 - mu3, c)` is $\sum_a(\epsilon_a - \mu)n_a$, and its exponential, divided by the sum of all eight ($Z$), is the Gibbs weight. `products` multiplies, for each configuration, $f_a$ for the occupied and $1 - f_a$ for the empty orbitals (`x if condition else y` chooses). The loop prints the eight pairs (for example $0.415797$ for the configuration (1, 0, 0)), and the check requires them to agree to $10^{-15}$.
+Three orbitals with the energies $-0.5$, $0.2$, $1.0$ at $\mu = 0.1$, $T = 0.4$. The 8 configurations are all triples of zeros and ones (`itertools.product((0, 1), repeat=3)`). For each, `np.dot(levels3 - mu3, c)` is $\sum_a(\epsilon_a - \mu)n_a$, and its exponential, divided by the sum of all eight ($Z$), is the Gibbs weight. `products` multiplies, for each configuration, $f_a$ for the occupied and $1 - f_a$ for the empty orbitals (`x if condition else y` chooses; `np.prod` multiplies the three factors).
+
+```python
+for c, wgt, prod in zip(configurations, weights, products):
+    say(f"occupations {c}: Gibbs weight {wgt:.6f}, product {prod:.6f}")
+check(np.max(np.abs(weights - products)) < 1e-15,
+      "the Gibbs weights are products of independent Fermi-Dirac probabilities")
+```
+
+The loop prints the eight pairs (for example $0.415797$ and $0.415797$ for the configuration (1, 0, 0), the most likely one: the lowest orbital, $0.6$ below $\mu$, filled, the others empty), and the check requires every weight to equal its product to $10^{-15}$.
 
 **In [7], the Fermi-Dirac function.**
 
@@ -2791,7 +3012,23 @@ check(abs(fermi(0.0, 0.0, 0.3) - 0.5) < 1e-15
       "f(mu) = 1/2 and f(mu + d) = 1 - f(mu - d)")
 ```
 
-The check: $f(\mu) = \tfrac12$, and $f(\mu + d) = 1 - f(\mu - d)$ for 801 values of $d$ (a hole below $\mu$ is as likely as a particle above it; algebraically, $1 - \frac{1}{e^{-x} + 1} = \frac{e^{-x}}{e^{-x} + 1} = \frac{1}{1 + e^{x}}$). The plotting lines draw $f$ for $T = 0.02, 0.1, 0.3, 1.0$ and save Figure 13e.2.
+The check: $f(\mu) = \tfrac12$, and $f(\mu + d) = 1 - f(\mu - d)$ for 801 values of $d$ (a hole below $\mu$ is as likely as a particle above it; algebraically, $1 - \frac{1}{e^{-x} + 1} = \frac{e^{-x}}{e^{-x} + 1} = \frac{1}{1 + e^{x}}$).
+
+```python
+fig, ax = plt.subplots()
+for temperature in (0.02, 0.1, 0.3, 1.0):
+    ax.plot(eps, fermi(eps, 0.0, temperature), label=f"$T = {temperature}$")
+ax.axvline(0.0, color="gray", ls="--", lw=0.8)
+ax.set_xlabel("orbital energy $\\epsilon - \\mu$")
+ax.set_ylabel("occupation $f$")
+ax.set_title("The Fermi-Dirac occupation")
+ax.legend()
+save_figure(fig, "fermi_dirac",
+```
+
+The loop draws $f$ against $\epsilon - \mu$ (with $\mu = 0$) for $T = 0.02$, $0.1$, $0.3$ and 1; a grey dashed vertical line marks $\epsilon = \mu$; labels, title, legend and `save_figure` for Figure 13e.2.
+
+**What Figure 13e.2 shows.** At $T = 0.02$ the curve is practically a step: every orbital below $\mu$ is occupied and every orbital above it empty, the aufbau rule. As $T$ grows, the step is smeared over a width of a few $T$: at $T = 1$ an orbital $2$ below $\mu$ is occupied only with the probability $0.88$. All four curves pass through $\tfrac12$ at $\epsilon = \mu$, and each is point-symmetric about that point (the hole-particle symmetry just checked).
 
 **In [8], the chemical potential and the two-level system.**
 
@@ -2833,7 +3070,20 @@ chemical_potential(two_levels, ones, 1.0, 0.5, widths)
 mu2, f2, E2, S2, F2 = thermodynamics(two_levels, ones, 1.0, 0.5)
 ```
 
-The worked example of Section 13.26: levels 0 and 1, one state each, one particle, $T = \tfrac12$. The first call records the widths of the bisection for the figure of In [10]; the second computes the thermodynamics. The `report` lines print $\mu = 0.5$, $f = 0.731059, 0.268941$ and $E, S, F = 0.268941, 1.164406, -0.313262$, and the two checks compare them with these values.
+The worked example of Section 13.26: levels 0 and 1, one state each, one particle, $T = \tfrac12$. The first call records the widths of the bisection for the figure of In [10] (its result is not stored); the second computes the thermodynamics, and the five returned values are assigned to five names at once.
+
+```python
+report("mu", f"{mu2:.6f}")
+report("f_0, f_1", f"{f2[0]:.6f}, {f2[1]:.6f}")
+report("E, S, F", f"{E2:.6f}, {S2:.6f}, {F2:.6f}")
+check(abs(mu2 - 0.5) < 1e-12 and abs(f2[0] - 0.731059) < 1e-6
+      and abs(f2[1] - 0.268941) < 1e-6,
+      "mu = 1/2, f_0 = 0.731059, f_1 = 0.268941")
+check(abs(E2 - 0.268941) < 1e-6 and abs(S2 - 1.164406) < 1e-6
+      and abs(F2 + 0.313262) < 1e-6, "E = 0.268941, S = 1.164406, F = -0.313262")
+```
+
+The `report` lines print $\mu = 0.500000$, $f_0, f_1 = 0.731059, 0.268941$ and $E, S, F = 0.268941, 1.164406, -0.313262$, and the two checks compare them with the values worked out by hand in Section 13.26 ($\mu$ to $10^{-12}$, the others to $10^{-6}$, the rounding of the six printed decimals).
 
 **In [9], the Revision solver's rule for $\mu$.**
 
@@ -2865,7 +3115,28 @@ dE_dT = (at(0.5 + d)[2] - at(0.5 - d)[2]) / (2 * d)
 T_dS_dT = 0.5 * (at(0.5 + d)[3] - at(0.5 - d)[3]) / (2 * d)
 ```
 
-`at(T)` is the two-level thermodynamics at the temperature $T$; its result is the tuple $(\mu, f, E, S, F)$, so `[2]`, `[3]`, `[4]` are $E$, $S$, $F$. Central difference quotients with the step $10^{-4}$ (with $\mu$ solved again at each temperature) give $dF/dT$, $dE/dT$ and $T\,dS/dT$ at $T = \tfrac12$. The cell prints $dF/dT = -1.164406$ and $C_V = 0.393224$ and checks $dF/dT = -S$ (to $10^{-7}$), $C_V = 0.393224$ and $dE/dT = T\,dS/dT$ (to $10^{-7}$). The plotting lines draw the first 50 widths of the bisection on a logarithmic axis and save Figure 13e.3, and the last check
+`at(T)` is the two-level thermodynamics at the temperature $T$; its result is the tuple $(\mu, f, E, S, F)$, so `[2]`, `[3]`, `[4]` are $E$, $S$, $F$. Central difference quotients with the step $10^{-4}$ (with $\mu$ solved again at each temperature) give $dF/dT$, $dE/dT$ and $T\,dS/dT$ at $T = \tfrac12$ (the factor `0.5` in the third line is $T$).
+
+```python
+report("dF/dT", f"{dF_dT:.6f}")
+report("C_V = dE/dT", f"{dE_dT:.6f}")
+check(abs(dF_dT + S2) < 1e-7, "dF/dT = -S (envelope theorem)")
+check(abs(dE_dT - 0.393224) < 1e-6 and abs(T_dS_dT - dE_dT) < 1e-7,
+      "C_V = dE/dT = T dS/dT = 0.393224")
+```
+
+The cell prints $dF/dT = -1.164406$ and $C_V = 0.393224$ and checks $dF/dT = -S$ (to $10^{-7}$), $C_V = 0.393224$ (the value $2e/(e + 1)^2$ of Section 13.26) and $dE/dT = T\,dS/dT$ (to $10^{-7}$).
+
+```python
+fig, ax = plt.subplots()
+ax.semilogy(range(1, 51), widths[:50], "o-", ms=3)
+ax.set_xlabel("bisection step")
+ax.set_ylabel("width of the interval that contains $\\mu$")
+ax.set_title("Bisection halves the interval at every step")
+save_figure(fig, "bisection",
+```
+
+The first 50 recorded widths against the step numbers 1 to 50 (`range(1, 51)`), on a logarithmic vertical axis; labels, title and `save_figure` for Figure 13e.3. The last check
 
 ```python
 check(all(abs(b / a_ - 0.5) < 1e-12 for a_, b in zip(widths[:40], widths[1:41])),
@@ -2873,6 +3144,8 @@ check(all(abs(b / a_ - 0.5) < 1e-12 for a_, b in zip(widths[:40], widths[1:41]))
 ```
 
 requires every width to be half of the previous one (for the first 40 steps; the name `a_` avoids the name `a` of the operator list).
+
+**What Figure 13e.3 shows.** The starting interval is $[-30, 6]$, 36 wide, so after the first step the width is 18. On the logarithmic axis the points then fall on a straight line, by $\log_{10}2 = 0.30$ per step, to about $3 \cdot 10^{-14}$ after 50 steps: bisection gains one binary digit of $\mu$ at every step, whatever the function, as long as the root is inside the interval.
 
 **In [11], two levels at all temperatures.**
 
@@ -2887,7 +3160,33 @@ check(table[0, 1] < 1e-8 and abs(hot[3] - np.log(4.0)) < 1e-5
 check(np.all(C_V >= 0.0), "the heat capacity is never negative")
 ```
 
-For 150 temperatures from $0.02$ to 3: the table of $E$, $S$, $F$ (`[2:]` keeps the last three entries of the tuple) and $C_V = T\,dS/dT$. The limits: at the lowest temperature $S < 10^{-8}$ (the particle sits in level 0); at $T = 1000$, practically infinite, both occupations are $\tfrac12$, so $S = 2\ln 2 = \ln 4$ and $E = \tfrac12$. The second check: $C_V \ge 0$ everywhere. The plotting lines draw $E$, $TS$ and $F$ (left) and $C_V$ with the worked point (right) and save Figure 13e.4.
+For 150 temperatures from $0.02$ to 3: the table of $E$, $S$, $F$ (`[2:]` keeps the last three entries of the tuple) and $C_V = T\,dS/dT$. The limits: at the lowest temperature $S < 10^{-8}$ (the particle sits in level 0); at $T = 1000$, practically infinite, both occupations are $\tfrac12$, so $S = 2\ln 2 = \ln 4$ and $E = \tfrac12$. The second check: $C_V \ge 0$ everywhere.
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+left.plot(temperatures, table[:, 0], label="energy $E$")
+left.plot(temperatures, temperatures * table[:, 1], label="$T S$")
+left.plot(temperatures, table[:, 2], color="black", label="free energy $F = E - TS$")
+left.set_xlabel("temperature $T$")
+left.set_ylabel("energy (level-spacing units)")
+left.legend(fontsize=8)
+```
+
+`table[:, 0]` is the first column of the table (all rows), the energy; `temperatures * table[:, 1]` multiplies each entropy by its temperature; `table[:, 2]` is the free energy, drawn in black. Labels and legend of the left panel.
+
+```python
+right.plot(temperatures, C_V, color="tab:red")
+right.plot([0.5], [0.393224], "ko", label="$T = 1/2$: $C_V = 0.393224$")
+right.set_xlabel("temperature $T$")
+right.set_ylabel("heat capacity $C_V = dE/dT$")
+right.legend(fontsize=8)
+fig.suptitle("Two levels (0 and 1), one particle")
+save_figure(fig, "two_level_thermo",
+```
+
+The right panel draws $C_V$ in red and the worked value at $T = \tfrac12$ as a black dot; then labels, legend, a title above both panels, and `save_figure` for Figure 13e.4.
+
+**What Figure 13e.4 shows.** On the left, at low temperature $E$, $TS$ and $F$ are all near 0 (the particle sits in the lower level). As $T$ grows, $E$ rises towards $\tfrac12$ (both levels equally occupied), $TS$ grows almost linearly (towards $T\ln4$: the entropy $S_s$ approaches $2\ln2 = \ln4$, the value for two independent orbitals that are each occupied with the probability $\tfrac12$, Exercise 7), and $F = E - TS$ falls ever more steeply, with the slope $-S$. On the right, the heat capacity is practically 0 below $T = 0.05$, rises to a single peak of about $0.88$ near $T = 0.21$, passes through the black dot at $T = \tfrac12$, and decreases slowly towards 0: energy can be absorbed only while the upper level is filling up.
 
 **In [12], a ladder of levels.**
 
@@ -2919,9 +3218,56 @@ C_numeric = np.array([(ladder_at(T + d)[2] - ladder_at(T - d)[2]) / (2 * d)
 C_variance = np.array([variance_heat_capacity(T) for T in T_ladder])
 ```
 
-For 120 temperatures: $\mu$, the heat capacity as a difference quotient of $E$, and the variance formula. The cell prints $\mu = 4.000000$ at $T = 0.05$ and checks it (at low temperature the four lowest levels are full, and by the symmetry of $f$ about $\mu$ the chemical potential lies halfway between the last full level $3.5$ and the first empty one $4.5$), then that the two heat capacities agree to $10^{-5}$ times the larger of 1 and the largest value, and that the variance formula is never negative.
+For 120 temperatures from $0.05$ to 3: $\mu$, the heat capacity as a difference quotient of $E$ (the step `d` $= 10^{-4}$ of In [10]), and the variance formula.
 
-**In [13] and In [14], the ladder as pictures.** In [13] draws the occupations of the twelve lowest levels at $T = 0.05, 0.5, 1, 2$ (the legend shows $\mu$ for each; `marker + "-"` joins a marker letter and a line style into one style string) and saves Figure 13e.5. In [14] draws $\mu(T)$ (left) and the two heat capacities (right; the variance formula at every sixth temperature as black dots, `[::6]`) and saves Figure 13e.6.
+```python
+report("mu at T = 0.05", f"{mus[0]:.6f}")
+check(abs(mus[0] - 4.0) < 1e-6, "at low T, mu lies halfway between 3.5 and 4.5")
+check(np.max(np.abs(C_numeric - C_variance)) < 1e-5 * max(1.0, C_variance.max()),
+      "the heat capacity equals the weighted-variance formula")
+check(np.all(C_variance >= 0.0), "the variance formula is never negative")
+```
+
+The cell prints $\mu = 4.000000$ at $T = 0.05$ and checks it (at low temperature the four lowest levels are full, and by the symmetry of $f$ about $\mu$ the chemical potential lies halfway between the last full level $3.5$ and the first empty one $4.5$), then that the two heat capacities agree to $10^{-5}$ times the larger of 1 and the largest value (`max` of two numbers is the larger), and that the variance formula is never negative.
+
+**In [13], the occupations of the ladder.**
+
+```python
+fig, ax = plt.subplots()
+for T, marker in ((0.05, "o"), (0.5, "s"), (1.0, "^"), (2.0, "v")):
+    mu, f = ladder_at(T)[:2]
+    ax.plot(ladder[:12], f[:12], marker + "-", ms=4,
+            label=f"$T = {T}$, $\\mu = {mu:.3f}$")
+ax.set_xlabel("level $\\epsilon_n = n + 1/2$")
+ax.set_ylabel("occupation $f_n$ of each of the two states")
+ax.set_title("Eight particles in a ladder of levels")
+ax.legend(fontsize=8)
+save_figure(fig, "ladder_occupations",
+```
+
+For $T = 0.05, 0.5, 1, 2$ the loop computes $\mu$ and the occupations (`[:2]` keeps the first two returned values) and draws the occupations of the twelve lowest levels against their energies; `marker + "-"` joins a marker letter and a line style into one style string, and the label shows $T$ and $\mu$ with three decimals. Labels, title, legend and `save_figure` for Figure 13e.5.
+
+**What Figure 13e.5 shows.** At $T = 0.05$ the occupation is 1 for the levels $0.5$ to $3.5$ and 0 above: a perfect step between $3.5$ and $4.5$. At $T = 0.5$ the levels $3.5$ and $4.5$ are partly occupied ($0.73$ and $0.27$). At $T = 1$ and 2 the step is smeared over several levels, and particles reach the levels $8.5$ and beyond. The chemical potential stays at $4.000$ up to $T = 0.5$ and falls to $3.982$ at $T = 1$ and $3.712$ at $T = 2$: the ladder continues upwards but not downwards (no level below $0.5$), so at high temperature the particles spread more to higher levels, and $\mu$ must fall to keep the number at 8.
+
+**In [14], the chemical potential and the heat capacity of the ladder.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+left.plot(T_ladder, mus, color="black")
+left.set_xlabel("temperature $T$")
+left.set_ylabel("chemical potential $\\mu$")
+right.plot(T_ladder, C_numeric, color="tab:red", label="$dE/dT$ (differences)")
+right.plot(T_ladder[::6], C_variance[::6], "ko", ms=3, label="variance formula")
+right.set_xlabel("temperature $T$")
+right.set_ylabel("heat capacity $C_V$")
+right.legend(fontsize=8)
+fig.suptitle("Ladder of levels, eight particles")
+save_figure(fig, "ladder_thermo",
+```
+
+Left: $\mu$ against $T$. Right: the heat capacity from the difference quotient as a red line and from the variance formula at every sixth temperature (`[::6]`) as black dots, so that both can be seen; labels, legend, a common title and `save_figure` for Figure 13e.6.
+
+**What Figure 13e.6 shows.** On the left, $\mu$ stays at 4 up to about $T = 0.5$ and then falls, to about $3.1$ at $T = 3$. On the right, the black dots lie on the red line at every temperature: the difference quotient and the weighted-variance formula agree, and both are positive. The heat capacity is nearly 0 at $T = 0.05$ (a gap of one level spacing separates the full from the empty levels), rises steeply, and approaches 8, one unit per particle, at high temperature, where each particle behaves like a classical oscillator.
 
 **In [15], Janak's theorem and Delta-SCF.**
 
@@ -2964,11 +3310,71 @@ janak_integral = step / 3 * (integrand[0] + integrand[-1]
                              + 4 * integrand[1:-1:2].sum() + 2 * integrand[2:-1:2].sum())
 ```
 
-101 values of the transferred fraction $\tau$; the level difference $\epsilon_L(\tau) - \epsilon_H(\tau)$ at $(f_H, f_L) = (1 - \tau, \tau)$; the gap (its value at $\tau = 0$); the Delta-SCF energy $E(0, 1) - E(1, 0)$; and the integral of the level difference by Simpson's rule (Section 13.15). The `report` lines print $0.8$, $1.0$, $1.0$ and the transition-state value $1.0$ (entry 50 is $\tau = \tfrac12$). The last two checks require these four values and $\Delta_{SCF} - \Delta_{KS} = U$.
+101 values of the transferred fraction $\tau$; the level difference $\epsilon_L(\tau) - \epsilon_H(\tau)$ at $(f_H, f_L) = (1 - \tau, \tau)$ (the function `model_levels` returns the pair $(\epsilon_H, \epsilon_L)$, so `[1]` is $\epsilon_L$ and `[0]` is $\epsilon_H$); the gap (its value at $\tau = 0$); the Delta-SCF energy $E(0, 1) - E(1, 0)$; and the integral of the level difference by Simpson's rule (Section 13.15) on the 101 values.
 
-**In [16], the transfer as a picture.** The left panel draws $E(\tau) - E(0)$, the right panel the level difference with the area under it shaded (`fill_between`), the gap as a square and the transition state as a triangle; `save_figure` saves Figure 13e.7.
+```python
+report("Kohn-Sham gap", f"{gap_KS:.6f}")
+report("Delta-SCF", f"{delta_SCF:.6f}")
+report("integral of eps_L - eps_H over tau", f"{janak_integral:.6f}")
+report("transition state (tau = 1/2)", f"{integrand[50]:.6f}")
+check(abs(gap_KS - 0.8) < 1e-12 and abs(delta_SCF - 1.0) < 1e-12
+      and abs(janak_integral - delta_SCF) < 1e-12 and abs(integrand[50] - 1.0) < 1e-12,
+      "gap 0.8, Delta-SCF 1.0 = the Janak integral = the transition state")
+check(abs(delta_SCF - gap_KS - U_MODEL) < 1e-12, "Delta-SCF - gap = U (relaxation)")
+```
 
-**In [17], the last check.** As In [19] of Notebook 13c: it checks that the seven figure files exist and prints ALL 24 CHECKS PASSED (notebook 13e): one check each in In [2], In [3], In [6], In [7] and In [9], two each in In [4], In [8] and In [11], three each in In [10] and In [12], five in In [15] and two in In [17].
+The `report` lines print $0.800000$, $1.000000$, $1.000000$ and the transition-state value $1.000000$ (entry 50 is $\tau = \tfrac12$). The last two checks require these four values (Simpson's rule is exact here, because the integrand is a straight line) and $\Delta_{SCF} - \Delta_{KS} = U$.
+
+**In [16], the transfer as a picture.**
+
+```python
+energies_tau = np.array([model_energy(1 - t, t) for t in taus])
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+left.plot(taus, energies_tau - energies_tau[0], color="black")
+left.set_xlabel("transferred fraction $\\tau$")
+left.set_ylabel("$E(\\tau) - E(0)$")
+left.set_title("energy along the transfer")
+```
+
+`energies_tau` is the model energy $E(1 - \tau, \tau)$ at every $\tau$; the left panel draws its rise $E(\tau) - E(0)$ in black, with labels and a title.
+
+```python
+right.fill_between(taus, 0.0, integrand, alpha=0.25, label="area = Delta-SCF = 1")
+right.plot(taus, integrand, color="black", label="$\\epsilon_L - \\epsilon_H$")
+right.plot([0.0], [gap_KS], "s", ms=8, label="Kohn-Sham gap 0.8")
+right.plot([0.5], [integrand[50]], "^", ms=8, label="transition state 1.0")
+right.set_ylim(0.0, 1.3)
+right.set_xlabel("transferred fraction $\\tau$")
+right.set_ylabel("level difference")
+right.legend(fontsize=8, loc="lower right")
+```
+
+`right.fill_between(taus, 0.0, integrand, ...)` shades the area between the zero line and the level difference (`alpha=0.25`: light), which by Janak's theorem is the Delta-SCF energy; the level difference itself as a black line; the gap as a large square at $\tau = 0$ and the transition state as a large triangle at $\tau = \tfrac12$; the vertical range from 0 to $1.3$; labels and a legend in the lower right corner.
+
+```python
+fig.suptitle("Janak's theorem and Delta-SCF ($\\epsilon_H^0 = 0$, "
+             "$\\epsilon_L^0 = 1$, $U = 0.2$)")
+save_figure(fig, "janak_delta_scf",
+```
+
+A title above both panels (two strings joined into one) with the parameters of the model, and `save_figure` for Figure 13e.7.
+
+**What Figure 13e.7 shows.** On the left the energy rises from 0 to $1.0$ as one whole particle is moved from H to L, slightly curved upwards, because its slope, the level difference, grows with $\tau$. On the right that slope is the straight line $0.8 + 0.4\tau$ from the gap $0.8$ (square) to $1.2$; the shaded area under it is $1.0$, the Delta-SCF energy, and the value at the midpoint (triangle) is also exactly $1.0$, because the line is straight. The gap underestimates the excitation energy by $U = 0.2$, the orbital relaxation of this model.
+
+**In [17], the last check.**
+
+```python
+figure_names = ["gibbs_principle", "fermi_dirac", "bisection", "two_level_thermo",
+                "ladder_occupations", "ladder_thermo", "janak_delta_scf"]
+missing = [name for k, name in enumerate(figure_names, 1)
+           if not output_file(f"{FIGURE_FOLDER}/13e_{k}_{name}.png").is_file()]
+check(missing == [], "all seven figure files exist")
+check(output_file(f"{FIGURE_FOLDER}/13e_7_janak_delta_scf.png").is_file(),
+      "the figure file 13e_7_janak_delta_scf.png exists")
+all_checks_passed()
+```
+
+The same lines as In [19] of Notebook 13c (Section 13.14), with the seven figure names of this notebook. The last line prints ALL 24 CHECKS PASSED (notebook 13e): one check each in In [2], In [3], In [6], In [7] and In [9], two each in In [4], In [8] and In [11], three each in In [10] and In [12], five in In [15] and two in In [17].
 
 ### 13.32 A complete Kohn-Sham calculation: eight fermions in a trap
 
@@ -3105,7 +3511,33 @@ check(np.allclose(overlaps, np.eye(8), atol=1e-12),
 
 Without interaction the eight lowest grid levels are printed beside the exact levels $n + \tfrac12$: $0.499889$ against $0.5$, ..., $7.487394$ against $7.5$. The first check allows $0.02$ (the difference formula makes errors of order $h^2$, growing with the level). `free_phi[:, :8]` keeps the first eight columns; the matrix of their sums $\sum_k\phi_a(x_k)\phi_b(x_k)\,h$ must be the unit matrix: the orbitals are orthonormal on the grid (second check).
 
-**In [4], the trap and its orbitals as a picture.** `plt.subplots(figsize=(7.0, 4.6))` makes a slightly taller figure. The cell draws the trap in black, and for the six lowest levels a dashed grey horizontal line at the level (`axhline`) and the orbital drawn around it (`free_levels[a] + 0.6 * free_phi[:, a]`: 0.6 times the orbital, shifted up by its level), solid for the four occupied levels and dotted for the two empty ones (`style = "-" if a < 4 else ":"`). The axis limits leave room for the legend in three columns (`ncol=3`). `save_figure` saves Figure 13a.1: orbital $a$ has $a$ zeros.
+**In [4], the trap and its orbitals as a picture.**
+
+```python
+fig, ax = plt.subplots(figsize=(7.0, 4.6))
+ax.plot(x, v, color="black", label="trap $v(x) = x^2/2$")
+for a in range(6):
+    style = "-" if a < 4 else ":"  # occupied: solid; empty: dotted
+    ax.axhline(free_levels[a], color="gray", lw=0.6, ls="--")
+    ax.plot(x, free_levels[a] + 0.6 * free_phi[:, a], style,
+            label=f"orbital {a}" + (" (occupied)" if a < 4 else " (empty)"))
+```
+
+`plt.subplots(figsize=(7.0, 4.6))` makes a figure slightly taller than the standard one. The trap is drawn in black. For each of the six lowest levels the loop chooses a solid line for the four occupied levels and a dotted line for the two empty ones (`style = "-" if a < 4 else ":"`), draws a thin dashed grey horizontal line at the level, and draws the orbital around it: `free_levels[a] + 0.6 * free_phi[:, a]` is 0.6 times the orbital, shifted up by its level, so that each orbital sits on its own energy. The label joins two strings with `+`: the orbital number and either " (occupied)" or " (empty)".
+
+```python
+ax.set_xlim(-5.0, 5.0)
+ax.set_ylim(0.0, 8.4)  # room above the orbitals for the legend
+ax.set_xlabel("position $x$")
+ax.set_ylabel("energy (units of $\\hbar\\omega$)")
+ax.set_title("Levels and orbitals of one particle in the trap (no interaction)")
+ax.legend(fontsize=7, loc="upper center", ncol=3)
+save_figure(fig, "trap_orbitals",
+```
+
+`set_xlim` and `set_ylim` fix the ranges of the axes: positions from $-5$ to 5 and energies from 0 to $8.4$, which leaves room at the top for the legend, written in three columns (`ncol=3`) at the upper centre. Labels, title, and `save_figure` for Figure 13a.1.
+
+**What Figure 13a.1 shows.** The parabola $x^2/2$ and the six levels $0.5, 1.5, \dots, 5.5$, equally spaced by 1. Orbital 0 is a single bump, orbital 1 changes sign once, and in general orbital $a$ has $a$ zeros; each orbital is large where the level lies above the parabola (the region a classical particle of that energy could reach) and dies away quickly outside it. The eight fermions fill the four lowest levels (solid), two per level.
 
 **In [5], the Kohn-Sham map.**
 
@@ -3185,7 +3617,17 @@ BETA_ANDERSON = float(numerics["andersonBeta"])  # the mixing parameter
 TOLERANCE = float(numerics["scfTolerance"])  # the stopping rule
 ```
 
-The cell reads the parameter file of the Revision Kohn-Sham solver and from its part "numerics" the number of remembered passes, $\beta$ and the stopping rule. The printed line and the check confirm 6, $0.4$ and $10^{-11}$ (the file stores the tolerance as the floating-point number nearest to $10^{-11}$, so the check allows a difference below $10^{-24}$).
+The cell reads the parameter file of the Revision Kohn-Sham solver and from its part "numerics" the number of remembered passes, $\beta$ and the stopping rule.
+
+```python
+say(f"Revision solver settings: depth {DEPTH}, beta {BETA_ANDERSON}, "
+    f"tolerance {TOLERANCE:.0e}")
+check(DEPTH == 6 and BETA_ANDERSON == 0.4 and abs(TOLERANCE - 1e-11) < 1e-24,
+      "the Revision solver mixes with depth 6, beta 0.4 and stops at 1e-11 "
+      "(Revision/kohn_sham/results/parameters.json, numerics)")
+```
+
+The printed line (`:.0e` writes a number as a power of ten without decimals) and the check confirm 6, $0.4$ and $10^{-11}$ (the file stores the tolerance as the floating-point number nearest to $10^{-11}$, so the check allows a difference below $10^{-24}$).
 
 **In [8], Anderson mixing.**
 
@@ -3229,7 +3671,33 @@ check(len(anderson_residuals) < len(runs[1.0][1]),
 
 Anderson mixing from $w = 0$ needs 19 passes (last residual $1.8\cdot10^{-12}$). The checks: the three linear-mixing results agree with the Anderson result to $10^{-9}$ (`for beta in runs` goes through the keys of the dictionary), and Anderson needed fewer passes than plain iteration.
 
-**In [9], the residuals as a picture.** `ax.semilogy` draws the residual of every pass against the pass number with a logarithmic vertical axis for the three linear runs (circles, squares, triangles; the legend shows the numbers of passes) and for Anderson mixing (black diamonds), and `axhline(TOLERANCE, ...)` the stopping rule. `save_figure` saves Figure 13a.2.
+**In [9], the residuals as a picture.**
+
+```python
+fig, ax = plt.subplots()
+for beta, style in ((1.0, "o-"), (0.7, "s-"), (0.3, "^-")):
+    name = "plain iteration" if beta == 1.0 else f"linear mixing, beta = {beta}"
+    ax.semilogy(range(1, len(runs[beta][1]) + 1), runs[beta][1], style, ms=3,
+                label=f"{name} ({len(runs[beta][1])} passes)")
+```
+
+For the three linear runs the loop draws the residual of every pass (`runs[beta][1]`, the list of residuals) against the pass numbers $1, 2, \dots$ (`range(1, len(...) + 1)`), on a logarithmic vertical axis, with circles, squares and triangles; the label gives the name of the run and its number of passes.
+
+```python
+ax.semilogy(range(1, len(anderson_residuals) + 1), anderson_residuals, "D-",
+            ms=3, color="black",
+            label=f"Anderson, depth 6, beta 0.4 ({len(anderson_residuals)} passes)")
+ax.axhline(TOLERANCE, color="gray", ls="--", lw=0.8)
+ax.set_xlabel("pass number")
+ax.set_ylabel("residual $\\max_x |w_{out} - w|$")
+ax.set_title("Self-consistency: residual versus pass ($g_c = 2$)")
+ax.legend(fontsize=8)
+save_figure(fig, "scf_convergence",
+```
+
+The residuals of Anderson mixing as black diamonds; a grey dashed horizontal line at the stopping rule $10^{-11}$; labels, title, legend, and `save_figure` for Figure 13a.2.
+
+**What Figure 13a.2 shows.** All four runs start with the residual $1.89$ (the first pass from $w = 0$) and end just below the dashed line. The three linear runs are nearly straight lines on the logarithmic axis: each pass multiplies the residual by about the same factor, smallest for $\beta = 0.7$ (23 passes), larger for plain iteration (40) and largest for $\beta = 0.3$ (73). Anderson mixing falls fastest and reaches the line after 19 passes; its line is not straight, because it changes its estimate of the slope as it learns from the remembered passes.
 
 **In [10], why plain iteration is slow.**
 
@@ -3241,14 +3709,27 @@ for number, n_pass in enumerate(runs[1.0][2][:4], 1):
 ax.plot(x, n_scf, color="black", lw=2.0, label="self-consistent density")
 ```
 
-The self-consistent density, and the densities made by the first four passes of plain iteration (`runs[1.0][2]` is the list of first densities of the run with $\beta = 1$), drawn as thin lines numbered from 1 by `enumerate(..., 1)`. After labelling and `save_figure` (Figure 13a.3) the check
+The self-consistent density, and the densities made by the first four passes of plain iteration (`runs[1.0][2]` is the list of first densities of the run with $\beta = 1$, and `[:4]` keeps four of them), drawn as thin lines numbered from 1 by `enumerate(..., 1)`, and the self-consistent density as a thick black line.
+
+```python
+ax.set_xlim(-5.0, 5.0)
+ax.set_xlabel("position $x$")
+ax.set_ylabel("density $n(x)$ (particles per unit length)")
+ax.set_title("Plain iteration overshoots: the first passes")
+ax.legend(fontsize=8)
+save_figure(fig, "first_iterations",
+```
+
+The range of positions, labels, title, legend and `save_figure` for Figure 13a.3. Then the check
 
 ```python
 check(runs[1.0][2][0].max() > n_scf.max() > runs[1.0][2][1].max(),
       "the first pass is too narrow and the second too wide (overshooting)")
 ```
 
-compares the heights at the centre: the first density, made without repulsion, is higher (narrower) than the solution, and the second is lower (wider): the density swings around the solution.
+compares the largest values of the densities: the first density, made without repulsion, is higher (narrower) than the solution, and the second is lower (wider): the density swings around the solution.
+
+**What Figure 13a.3 shows.** The density of pass 1 (no repulsion yet) is the highest in the middle, up to about $1.89$, and the narrowest. Pass 2, made in the strong repulsion of that narrow density, is the lowest in the middle (about $1.64$) and spreads furthest out. Passes 3 and 4 lie in between, closer and closer to the thick black solution, from alternating sides. All curves cross near $x = \pm2$: the charge sloshes between the centre and the flanks, the same mechanism as in the two-site model of Section 13.21, but here the swings shrink, because the slope of the map is below 1 in size.
 
 **In [11], the converged state.**
 
@@ -3274,7 +3755,40 @@ v_hartree = G_C * n_ks  # v_H = g_c n
 v_exchange = -0.5 * G_C * n_ks  # v_x = -g_c n_up = -g_c n / 2
 ```
 
-The Hartree potential $g_c n$ and the exchange potential $-g_c n/2$ of Section 13.32. The cell draws them with the trap and their sum $v_s$ (thick line), the four occupied levels as dashed lines, and saves Figure 13a.4; the check confirms that $v + v_H + v_x$ equals $v + w_{scf}$ to $10^{-10}$.
+The Hartree potential $g_c n$ and the exchange potential $-g_c n/2$ of Section 13.32, at the self-consistent density.
+
+```python
+fig, ax = plt.subplots()
+ax.plot(x, v, color="black", label="trap $v$")
+ax.plot(x, v_hartree, label="Hartree $v_H = g_c n$")
+ax.plot(x, v_exchange, label="exchange $v_x = -g_c n/2$")
+ax.plot(x, v + v_hartree + v_exchange, lw=2.0, label="Kohn-Sham $v_s$")
+for a in range(N_PER_LABEL):
+    ax.axhline(ks_levels[a], color="gray", ls="--", lw=0.6)
+```
+
+The trap (black), the two potentials, and their sum $v_s = v + v_H + v_x$ as a thick line; the loop draws the four occupied Kohn-Sham levels as thin dashed grey lines.
+
+```python
+ax.set_xlim(-5.0, 5.0)
+ax.set_ylim(-3.0, 9.0)
+ax.set_xlabel("position $x$")
+ax.set_ylabel("potential (units of $\\hbar\\omega$)")
+ax.set_title("The potentials of the self-consistent state ($g_c = 2$)")
+ax.legend(fontsize=8)
+save_figure(fig, "ks_potentials",
+```
+
+The ranges, labels, title, legend and `save_figure` for Figure 13a.4. After the caption,
+
+```python
+check(np.allclose(v + v_hartree + v_exchange, v + w_scf, atol=1e-10),
+      "v + v_H + v_x equals the self-consistent v + w")
+```
+
+checks that $v + v_H + v_x$ equals $v + w_{scf}$ at every point to $10^{-10}$.
+
+**What Figure 13a.4 shows.** The Hartree potential is a broad plateau of about 3 with small bumps (it is twice the density), the exchange potential is the same shape upside down at half the size, and the Kohn-Sham potential $v_s$ (green, thick) is the trap lifted in the middle: its bottom is no longer at 0 but at about $1.6$, and it is flattened over $-2 < x < 2$. The four occupied levels ($2.12$, $3.01$, $3.88$, $4.72$) are pushed up and squeezed together compared with $0.5, 1.5, 2.5, 3.5$ without interaction.
 
 **In [13], the density as a stack of orbitals.**
 
@@ -3285,7 +3799,21 @@ ax.stackplot(x, layers, labels=[f"$2\\phi_{a}^2$" for a in range(N_PER_LABEL)],
              alpha=0.7)
 ```
 
-The four contributions $2\phi_a^2$ of the occupied orbitals; `ax.stackplot` draws them on top of each other as coloured layers (orbital 0 at the bottom; `alpha=0.7` makes them 70 per cent opaque), so that the top edge is the density, which the cell also draws as a black line. (In a Python string a backslash is written twice, so `\\phi` reaches matplotlib as $\phi$.) `save_figure` saves Figure 13a.5.
+The four contributions $2\phi_a^2$ of the occupied orbitals; `ax.stackplot` draws them on top of each other as coloured layers (orbital 0 at the bottom; `alpha=0.7` makes them 70 per cent opaque), so that the top edge is the density. The labels are made by a list comprehension, one per orbital. (In a Python string a backslash is written twice, so the label text reaches matplotlib with one backslash, which draws $\phi$.)
+
+```python
+ax.plot(x, n_ks, color="black", lw=1.5, label="total density $n$")
+ax.set_xlim(-5.0, 5.0)
+ax.set_xlabel("position $x$")
+ax.set_ylabel("density (particles per unit length)")
+ax.set_title("The density as the sum of the occupied orbitals")
+ax.legend(fontsize=8)
+save_figure(fig, "density_orbitals",
+```
+
+The total density as a black line on top of the layers; range, labels, title, legend and `save_figure` for Figure 13a.5.
+
+**What Figure 13a.5 shows.** Orbital 0 contributes one central bump (blue), orbital 1 two bumps beside the centre (orange), orbital 2 three and orbital 3 four (each orbital $a$ has $a$ zeros, so $\phi_a^2$ has $a + 1$ bumps). Stacked, they give the density: about $1.6$ at the centre, two peaks of about $1.71$ near $x = \pm0.57$, two shoulders of about $1.43$ near $x = \pm1.7$, and a steep fall to nearly zero by $|x| = 3.8$. These ripples on top of a smooth profile are the shell structure. Each layer holds two fermions and the whole stack eight.
 
 **In [14], the energy two ways.**
 
@@ -3307,7 +3835,19 @@ E_total = T_s + E_ext + E_H + E_x
 E_double = 2.0 * ks_levels[:N_PER_LABEL].sum() - (E_H + E_x)
 ```
 
-`[2.0] * N_PER_LABEL` is the list $[2, 2, 2, 2]$. The four parts of the energy of Section 13.32, their sum, and the double-counting formula. The loop prints the parts ($6.726297$, $9.521279$, $11.207843$, $-5.603922$; `{label:22}` pads the name to 22 characters), the `report` lines both totals, $21.851498$, and the checks require them to agree to $10^{-9}$ and $E_x = -E_H/2$ to $10^{-12}$ (the rule $-1/g$ with $g = 2$).
+`[2.0] * N_PER_LABEL` is the list $[2, 2, 2, 2]$. The four parts of the energy of Section 13.32, their sum, and the double-counting formula (`ks_levels[:N_PER_LABEL].sum()` adds the four occupied levels).
+
+```python
+for label, value in (("kinetic T_s", T_s), ("external int v n dx", E_ext),
+                     ("Hartree E_H", E_H), ("exchange E_x", E_x)):
+    say(f"{label:22} = {value:.6f}")
+report("total energy E (direct sum)", f"{E_total:.6f}")
+report("total energy E (double counting)", f"{E_double:.6f}")
+check(abs(E_total - E_double) < 1e-9, "the two energy formulas agree")
+check(abs(E_x + 0.5 * E_H) < 1e-12, "E_x = -E_H/2 for two equally occupied labels")
+```
+
+The loop goes through four pairs (name, value) and prints the parts, $6.726297$, $9.521279$, $11.207843$ and $-5.603922$ (`{label:22}` pads the name with blanks to 22 characters, so that the equals signs line up); the `report` lines print both totals, $21.851498$, and the checks require them to agree to $10^{-9}$ and $E_x = -E_H/2$ to $10^{-12}$ (the rule $-1/g$ with $g = 2$).
 
 **In [15], the functional derivative on the grid.**
 
@@ -3324,7 +3864,16 @@ quotient = (interaction_energy(n_ks + epsilon * eta)
 w_ks = 0.5 * G_C * n_ks  # the mean-field potential w = g_c n / 2
 ```
 
-The definition of Section 13.9 tested directly: change the density by $\pm\epsilon\eta$ with the bump $\eta = e^{-(x-1)^2}$ and $\epsilon = 10^{-4}$, and form the central difference quotient of $E_H + E_x$. By the definition it must equal $\int w\,\eta\,dx$ with $w = \delta(E_H + E_x)/\delta n = g_c n/2$. Both print as $2.6845567944$, and the check requires agreement to $10^{-9}$ (because $E_H + E_x$ is a square of $n$, the central quotient is exact up to rounding).
+The definition of Section 13.9 tested directly: change the density by $\pm\epsilon\eta$ with the bump $\eta = e^{-(x-1)^2}$ and $\epsilon = 10^{-4}$, and form the central difference quotient of $E_H + E_x$. By the definition it must equal $\int w\,\eta\,dx$ with $w = \delta(E_H + E_x)/\delta n = g_c n/2$, which is `w_ks`.
+
+```python
+report("difference quotient of E_H + E_x along eta", f"{quotient:.10f}")
+report("integral of w eta dx", f"{integral(w_ks * eta):.10f}")
+check(abs(quotient - integral(w_ks * eta)) < 1e-9,
+      "w = g_c n/2 is the functional derivative of E_H + E_x")
+```
+
+Both print as $2.6845567944$, and the check requires agreement to $10^{-9}$ (because $E_H + E_x$ is a square of $n$, the central quotient is exact up to rounding: the terms of order $\epsilon^2$ cancel between $+\epsilon$ and $-\epsilon$, and there are no higher terms).
 
 **In [16], the stability of equal labels.**
 
@@ -3365,7 +3914,18 @@ w_pair, pair_residuals = anderson(lambda q: labels_map(q, FILLED, FILLED), start
 n_up, n_down = label_densities(w_pair, FILLED, FILLED)[:2]
 ```
 
-Each label has its four lowest orbitals occupied once. The start is strongly separated: $\tanh x$ rises from $-1$ to $1$ across the trap, so adding it to the up potential pushes the up fermions to the left, and subtracting it pushes the down fermions to the right. Anderson mixing then runs on both potentials together (the `lambda` fixes the occupations). It needs 36 passes, and the largest difference between the label densities is $4.9\cdot10^{-12}$; the checks require it to be below $10^{-8}$ and the energy to equal the equal-label energy to $10^{-9}$: the equal-label solution is stable at $g_c = 2$.
+Each label has its four lowest orbitals occupied once. The start is strongly separated: $\tanh x$ rises from $-1$ to $1$ across the trap, so adding it to the up potential pushes the up fermions to the left, and subtracting it pushes the down fermions to the right. Anderson mixing then runs on both potentials together (the `lambda` fixes the occupations), and the label densities of the result are formed.
+
+```python
+say(f"two-label run: {len(pair_residuals)} passes; largest |n_up - n_down| = "
+    f"{np.max(np.abs(n_up - n_down)):.1e}")
+check(np.max(np.abs(n_up - n_down)) < 1e-8,
+      "from a separated start the labels return to equal densities (stable)")
+check(abs(labels_energy(w_pair, FILLED, FILLED) - E_total) < 1e-9,
+      "the two-label run has the same energy as the equal-label solution")
+```
+
+The run needs 36 passes, and the largest difference between the label densities is $4.9\cdot10^{-12}$; the checks require it to be below $10^{-8}$ and the energy to equal the equal-label energy $21.851498$ to $10^{-9}$: from a strongly separated start the loop returns to equal labels, so the equal-label solution is stable at $g_c = 2$. (Stability here means that this loop returns to it from this start; it is a numerical test, not a proof for every start.)
 
 **In [17], the variational principle.**
 
@@ -3383,9 +3943,35 @@ family_energies = np.array([energy_of_orbitals(orbitals(c * n_scf)[1])
 c_best = c_values[np.argmin(family_energies)]
 ```
 
-The energy formula of Section 13.32 for any set of orbitals; for 41 values of $c$ from 0 to 2 the orbitals of the trial potential $v + c\,n_{scf}$ (`orbitals(c * n_scf)[1]`) and their energy; `c_best` the value with the lowest energy. It is $1.00$, and the checks require it to equal $g_c/2$ (to $10^{-9}$) and every member of the family to have an energy at least $E_{KS}$ (to $10^{-10}$).
+The energy formula of Section 13.32 for any set of orbitals; for 41 values of $c$ from 0 to 2 the orbitals of the trial potential $v + c\,n_{scf}$ (`orbitals(c * n_scf)[1]`) and their energy; `c_best` the value with the lowest energy.
 
-**In [18], the family as a picture.** The cell draws $E(c) - E_{KS}$ against $c$ with a dashed vertical line at $c = g_c/2$ and saves Figure 13a.6: a curve that touches zero at $c = 1$, flat there.
+```python
+report("c of the lowest energy in the family", f"{c_best:.2f}")
+check(abs(c_best - 0.5 * G_C) < 1e-9,
+      "the lowest energy of the family is at c = g_c/2 (the self-consistent one)")
+check(np.all(family_energies >= E_total - 1e-10),
+      "no member of the family has a lower energy than the Kohn-Sham state")
+```
+
+`c_best` prints as $1.00$, and the checks require it to equal $g_c/2$ (to $10^{-9}$; the grid of $c$ contains the value 1 exactly) and every member of the family to have an energy at least $E_{KS}$ (to $10^{-10}$).
+
+**In [18], the family as a picture.**
+
+```python
+fig, ax = plt.subplots()
+ax.plot(c_values, family_energies - E_total, "o-", ms=3,
+        label="$E(c) - E_{KS}$")
+ax.axvline(0.5 * G_C, color="gray", ls="--", label="$c = g_c/2$ (self-consistent)")
+ax.set_xlabel("$c$ in the trial potential $v + c\\,n_{scf}$")
+ax.set_ylabel("energy above the Kohn-Sham energy ($\\hbar\\omega$)")
+ax.set_title("Variational principle: a family of trial determinants")
+ax.legend()
+save_figure(fig, "variational_scan",
+```
+
+The energy above the Kohn-Sham energy against $c$, as dots joined by a line; a grey dashed vertical line at $c = g_c/2$; labels, title, legend and `save_figure` for Figure 13a.6.
+
+**What Figure 13a.6 shows.** A curve shaped like a parabola that touches zero at $c = 1$ and is flat there: moving $c$ by $0.05$ away from 1 raises the energy by only about $0.001$, while the ends lie much higher, $0.29$ at $c = 0$ (the orbitals of the bare trap) and $0.72$ at $c = 2$ (the orbitals of the Hartree-like potential $v + g_c n$). A first-order error in the orbitals gives only a second-order error in the energy.
 
 **In [19], Hartree only and Thomas-Fermi.**
 
@@ -3424,7 +4010,15 @@ mu_tf = 0.5 * (low + high)
 n_tf = thomas_fermi(mu_tf)
 ```
 
-Bisection for $\mu$: the number of particles grows with $\mu$; with $\mu = 0$ there are none and with $\mu = 50$ far more than 8. 60 halvings fix $\mu = 5.110729$ (printed by `report`).
+Bisection for $\mu$: the number of particles grows with $\mu$; with $\mu = 0$ there are none and with $\mu = 50$ far more than 8. 60 halvings of the interval of width 50 leave a width of $50/2^{60} \approx 4\cdot10^{-17}$, below the rounding of the computer.
+
+```python
+report("Thomas-Fermi chemical potential mu", f"{mu_tf:.6f}")
+check(abs(integral(n_tf) - N_TOTAL) < 1e-9, "the Thomas-Fermi density holds 8")
+check(abs(integral(n_hartree) - N_TOTAL) < 1e-10, "the Hartree density holds 8")
+```
+
+The cell prints $\mu = 5.110729$ and checks that the Thomas-Fermi and the Hartree densities hold 8 particles.
 
 ```python
 widths = [np.sqrt(integral(x ** 2 * n) / N_TOTAL)
@@ -3435,9 +4029,27 @@ check(widths[0] < widths[1] < widths[2],
       "repulsion widens the cloud, and self-interaction (Hartree) widens it more")
 ```
 
-The checks before these lines require the Thomas-Fermi and the Hartree density to hold 8 particles. The **root-mean-square width** $\sqrt{\int x^2 n\,dx/N}$ measures how far the cloud spreads; `.format(*widths)` puts the three numbers into the three braces of the string. The widths $1.413346$, $1.542829$, $1.659857$ must increase in this order (last check).
+The **root-mean-square width** $\sqrt{\int x^2 n\,dx/N}$ measures how far the cloud spreads; `.format(*widths)` puts the three numbers into the three braces of the string. The widths $1.413346$, $1.542829$, $1.659857$ must increase in this order (last check).
 
-**In [20], four pictures of the same fermions.** The cell draws the densities without interaction (dotted), Hartree only (dashed), Kohn-Sham (thick black) and Thomas-Fermi (dash-dotted) and saves Figure 13a.7: Thomas-Fermi follows the average shape of the Kohn-Sham density but has no shell bumps.
+**In [20], four pictures of the same fermions.**
+
+```python
+fig, ax = plt.subplots()
+ax.plot(x, n_free, ":", label="no interaction")
+ax.plot(x, n_hartree, "--", label="Hartree only (self-interaction)")
+ax.plot(x, n_ks, lw=2.0, color="black", label="Kohn-Sham (Hartree + exchange)")
+ax.plot(x, n_tf, "-.", label="Thomas-Fermi (local kinetic energy)")
+ax.set_xlim(-5.0, 5.0)
+ax.set_xlabel("position $x$")
+ax.set_ylabel("density (particles per unit length)")
+ax.set_title("Four pictures of the same eight fermions ($g_c = 2$)")
+ax.legend(fontsize=8)
+save_figure(fig, "approximations",
+```
+
+The four densities, without interaction (dotted), Hartree only (dashed), Kohn-Sham (thick black) and Thomas-Fermi (dash-dotted); range, labels, title, legend and `save_figure` for Figure 13a.7.
+
+**What Figure 13a.7 shows.** Without interaction the cloud is the narrowest and the highest (peaks of about $1.89$); Kohn-Sham is lower and wider; Hartree only is lower and wider still, because each fermion also pushes against its own density. All three have the bumps of the four occupied orbitals. The Thomas-Fermi density is a smooth dome without bumps, close to the Kohn-Sham density on average, and it ends abruptly at $|x| = \sqrt{2\mu} = 3.20$, where the trap reaches $\mu$ (the orbital densities instead die away gradually beyond that point).
 
 **In [21], switching the interaction on.**
 
@@ -3479,7 +4091,17 @@ E_minus = sum(solve_at(2.0 - delta, w_scf)[1])  # E at g_c = 1.999
 slope = (E_plus - E_minus) / (2.0 * delta)
 ```
 
-The Hellmann-Feynman test: the energies at $g_c = 2.001$ and $1.999$ and their central difference quotient. Both it and $\tfrac14\int n^2$ print as $2.801961$, and the check requires agreement to $10^{-6}$.
+The Hellmann-Feynman test: the energies at $g_c = 2.001$ and $1.999$ (each solved by Anderson mixing from the solution at $g_c = 2$; `sum(...)` adds the three parts) and their central difference quotient.
+
+```python
+report("dE/dg_c at g_c = 2 (difference quotient)", f"{slope:.6f}")
+report("(1/4) int n^2 dx at g_c = 2 (Hellmann-Feynman)",
+       f"{0.25 * integral(n_ks ** 2):.6f}")
+check(abs(slope - 0.25 * integral(n_ks ** 2)) < 1e-6,
+      "Hellmann-Feynman: dE/dg_c = (1/4) int n^2 dx")
+```
+
+Both the quotient and $\tfrac14\int n^2\,dx$ print as $2.801961$, and the check requires agreement to $10^{-6}$ (the quotient has an error of order $\delta^2 = 10^{-6}$ times the third derivative, plus the effect of the loop's tolerance).
 
 **In [22], the energies of the scan.** The cell draws $T_s$, the trap energy, $E_H + E_x$ and the total against $g_c$ and saves Figure 13a.8; its check
 

@@ -388,7 +388,7 @@ The image export has no such option. It always writes the committed path.
 | `FileNotFoundError: [Errno 2] No such file or directory: '...lovelock_nb_inputs.txt'`, exit code 1 | the digest ran before the extraction, or `LOVELOCK_NB_INPUTS` points to a file that does not exist | run the extraction first (part 3.5), with the same `LOVELOCK_NB_INPUTS` setting |
 | `RegisterFormat::interr: An internal error occurred: ImageMetadataTools could not be installed.` | normal with Wolfram 15.0.1 when the kernel cannot download an optional add-on (part 5) | nothing; the PNG is still written correctly. Check the `wrote ...: 28229 bytes` line and `git status` |
 | `ERROR: not a PNG`, exit code 2 | Wolfram's PNG writer returned something that is not a PNG file (never seen; would point to a broken installation) | run `wolframscript -code '$Version'`, reinstall or update Wolfram, and run again |
-| a command stopped before its last line because you pressed Ctrl+C or closed the terminal window (on Windows the stopped `wolframscript` process ended with exit code `-1073741510`, Windows' code for "stopped by Ctrl+C") | the run was interrupted. The Wolfram kernel stops with it (observed), but WolframScript's temporary files stay behind (part 5). A stop during the last second of the image export, while it writes the PNG, could leave the committed PNG incomplete (not observed) | run `git status --porcelain` and restore any file it lists with `git checkout -- <file>` (part 5); then run the three commands of part 3.5 again. The leftover temporary files are harmless; part 5 says how to delete them |
+| a command stopped before its last line because you pressed Ctrl+C or ended it in another way (on Windows the stopped `wolframscript` process ended with exit code `-1073741510`, Windows' code for "stopped by Ctrl+C") | the run was interrupted. The Wolfram kernel stops with it (observed), but WolframScript's temporary files stay behind (part 5). A stop during the last second of the image export, while it writes the PNG, could leave the committed PNG incomplete (not observed) | run `git status --porcelain` and restore any file it lists with `git checkout -- <file>` (part 5); then run the three commands of part 3.5 again. The leftover temporary files are harmless; part 5 says how to delete them |
 | `git status --porcelain` lists `notebook-in68-image.png` | you use another Wolfram version, or the add-on of part 5 was installed and changed the file's bytes | compare the PICTURE instead of the bytes, with the pixel check of part 4.3. Then restore the committed file (part 5) |
 | `git status --porcelain` lists `notebook-input-cells.txt` | another Wolfram version formats InputForm text differently, or the notebook file was changed | see the differences with `git diff -- Revision/gkd_lovelock/results/notebook-input-cells.txt`. Check the notebook's sha256 (part 2.2) and restore with `git checkout` (part 5) |
 
@@ -579,9 +579,9 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
   Both files are deleted when the command ends normally (observed within 0.1 s of the exit). The digest
   (Python) creates no such file.
 
-  An INTERRUPTED command leaves them behind. If a `wolframscript` command is stopped before it ends (Ctrl+C,
-  closing the terminal window, or ending the process in the Task Manager), WolframScript does not delete its
-  temporary files. Observed on 2026-10-07: an image export stopped with Ctrl+C after 7.4 s left both files (the
+  An INTERRUPTED command leaves them behind. If a `wolframscript` command is stopped before it ends (with
+  Ctrl+C, or by ending the process, for example in the Task Manager; closing the terminal window also ends it,
+  but that was not tested separately), WolframScript does not delete its temporary files. Observed on 2026-10-07: an image export stopped with Ctrl+C after 7.4 s left both files (the
   empty one, and the copy of the lines printed so far: `{1372, 435}`, an empty line and the
   `RegisterFormat::interr` message); an image export ended from outside after 7.4 s left both files (the copy
   held `{1372, 435}`); an extraction ended from outside after 2.7 s, while its kernel was still starting, left
@@ -838,8 +838,8 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
   * Interrupted commands (part 5): an extraction ended from outside after 2.7 s, an image export ended from
     outside after 7.4 s, and an image export stopped with Ctrl+C after 7.4 s (a helper process attached to the
     command's own console window and sent the Ctrl+C event). In each case the Wolfram kernel was gone 3 to 5 s
-    later, the files of `WolframScriptTemporary` described in part 5 were left behind, nothing was printed to
-    standard error, and `git status --porcelain --ignored` printed only `!! build/` afterwards. The command
+    later, the files of `WolframScriptTemporary` described in part 5 were left behind, and
+    `git status --porcelain --ignored` printed only `!! build/` afterwards. The command
     stopped with Ctrl+C ended with exit code `-1073741510`. The files these tests left were deleted afterwards.
     The cleanup command of part 5 was run on a copy of that folder structure in a scratch folder (with
     `LOCALAPPDATA` pointed there): it deleted the `tmp_*` files and nothing else.
@@ -851,7 +851,7 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
     alive for up to 2.5 s.
   * Textbook notebook 01c: `git log` in clone 7 shows its three files first committed in `3f0a577`
     (2026-10-02 07:35:37 -0700) and last changed in `1794e64` and `77ed93e` (2026-10-07); its provenance file
-    says `Result of nbkit check: PASSED on 2026-10-07`.
+    records that its `nbkit check` PASSED on 2026-10-07.
 * **Check counts:** the set has no internal pass/fail checks. Expected and found in every run (runs 1 to 13):
   58 input cells written, 58 digest rows, an image of 1372 x 435 pixels, a PNG of 28229 bytes with 117 bytes of
   chunks removed, and 2 of 2 committed outputs byte-identical (and the uncommitted full text byte-identical).
