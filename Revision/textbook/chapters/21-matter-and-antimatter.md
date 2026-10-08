@@ -760,7 +760,7 @@ say(f"lead record: {lead['summary']['passed']} of {lead['summary']['total']} "
     "checks passed")
 ```
 
-`' '.join(list)` joins the strings of a list with blanks between them. In `f"{ETA[x]:+d}"` the format `+d` prints a whole number with its sign. The third line reads the record's summary. Out [2] shows the eight coordinates in the author's order, the signs $+1, +1, +1, -1, -1, -1, -1, +1$, and "lead record: 12 of 12 checks passed".
+A string followed by `.join(list)` joins the strings of the list with that string between them; here the string is one blank. In `f"{ETA[x]:+d}"` the format `+d` prints a whole number with its sign. The third line reads the record's summary. Out [2] shows the eight coordinates in the author's order, the signs $+1, +1, +1, -1, -1, -1, -1, +1$, and "lead record: 12 of 12 checks passed".
 
 **In [3]: the eight real gammas and the Clifford relation.**
 
@@ -3875,7 +3875,7 @@ for path, verdicts, name in USED:
     say(f"record {path.split('/')[-1]}: {name} = {verdicts[name]}")
 ```
 
-The eight record checks the notebook will use, each as a triple (file, its verdicts, check name). The loop prints the file name (`path.split('/')[-1]` is the last part of the path, after the last slash), the check name and its verdict: Out [2] shows eight lines, all PASS.
+The eight record checks the notebook will use, each as a triple (file, its verdicts, check name). The loop prints the file name (`split` cuts the path at every slash, and the index `[-1]` takes the last part), the check name and its verdict: Out [2] shows eight lines, all PASS.
 
 **In [3]: counting conserved numbers.**
 

@@ -632,14 +632,15 @@ CELLS = [
     '''),
     md(r"""
     So far the up and down densities were forced to be equal. Is that solution stable,
-    or would the fermions lower their energy by separating the labels (as the two-site
-    model of the chapter does at strong repulsion)? The next cell lets the two labels
-    have their own potentials: a fermion with label up feels the Hartree potential of
-    everybody minus the exchange with its own label,
+    or would the fermions lower their energy by separating the labels? The next cell
+    lets the two labels have their own potentials: a fermion with label up feels the
+    Hartree potential of everybody minus the exchange with its own label,
     $v_{up} = v + g_c n - g_c n_{up} = v + g_c n_{down}$, and the same with up and down
     exchanged. It starts from a strongly separated guess (up pushed to the left, down to
     the right) and runs Anderson mixing on both potentials together. At $g_c = 2$ the
-    loop must return to equal densities and to the same energy.
+    loop returns to equal densities and to the same energy. This return does NOT yet
+    show that the equal-label solution is stable: the two cells after it show why, and
+    make the test that does.
     """),
     code(r'''
     def label_densities(w_pair, up_occupations, down_occupations):
@@ -673,9 +674,153 @@ CELLS = [
     say(f"two-label run: {len(pair_residuals)} passes; largest |n_up - n_down| = "
         f"{np.max(np.abs(n_up - n_down)):.1e}")
     check(np.max(np.abs(n_up - n_down)) < 1e-8,
-          "from a separated start the labels return to equal densities (stable)")
+          "from a separated start the two-label loop returns to equal densities")
     check(abs(labels_energy(w_pair, FILLED, FILLED) - E_total) < 1e-9,
           "the two-label run has the same energy as the equal-label solution")
+    '''),
+    md(r"""
+    Why the return of the loop proves nothing about stability: the loop stops wherever
+    the potentials that come out equal those that went in, that is at EVERY
+    self-consistent solution. A self-consistent solution makes the energy stationary
+    (no change to first order); a minimum is stationary, but so is a saddle, where
+    some changes raise the energy and others lower it. Anderson mixing only looks for
+    a point where the residual vanishes, and it can land on a saddle. The next cell
+    shows this on the smallest example: two sites L and R joined by the hopping
+    $t = 1$, one fermion with label up and one with label down, and the repulsion
+    $U = 4$ when both sit on the same site. Each label has its own potential
+    $(w_L, w_R)$ on the two sites; its orbital $(c_L, c_R)$ is the eigenvector of the
+    lower level of the $2 \times 2$ matrix with $w_L, w_R$ on the diagonal and $-t$
+    beside it; the energy of the determinant is the hopping energy $-2t\,c_L c_R$ of
+    each orbital plus $U(n_{L,up}\,n_{L,down} + n_{R,up}\,n_{R,down})$; and one pass of
+    the loop gives label up the potential $U n_{down}$ and label down $U n_{up}$,
+    exactly as in the trap. Equal labels, $n = (1/2, 1/2)$ for each label, are
+    self-consistent, with the energy $-2t + U/2 = 0$; but for $U > 2t$ the lowest
+    determinant puts the two labels on different sites, with the energy
+    $-2t^2/U = -0.5$. The cell runs the SAME function `anderson` from a slightly
+    separated start (push 0.5) and from a more strongly separated one (push 1), and
+    computes the energy along the family of separated potentials
+    $U/2 \pm \epsilon\,(-1, 1)$.
+    """),
+    code(r'''
+    T_HOP, U_SITE = 1.0, 4.0  # the hopping t and the on-site repulsion U of two sites
+    left_right = np.array([-1.0, 1.0])  # lowers the potential on L and raises it on R
+
+
+    def site_orbital(w2):
+        """(c_L, c_R): the orbital of the lower level of [[w_L, -t], [-t, w_R]]."""
+        return np.linalg.eigh(np.array([[w2[0], -T_HOP], [-T_HOP, w2[1]]]))[1][:, 0]
+
+
+    def sites_map(q):
+        """One pass on two sites, q = (w_up on L, R, w_down on L, R)."""
+        n_up, n_down = site_orbital(q[:2]) ** 2, site_orbital(q[2:]) ** 2
+        return np.concatenate([U_SITE * n_down, U_SITE * n_up])
+
+
+    def sites_energy(q):
+        """-2t (c_L c_R of up + c_L c_R of down) + U sum_sites n_up n_down."""
+        c_up, c_down = site_orbital(q[:2]), site_orbital(q[2:])
+        return (-2.0 * T_HOP * (c_up[0] * c_up[1] + c_down[0] * c_down[1])
+                + U_SITE * np.sum(c_up ** 2 * c_down ** 2))
+
+
+    def sites_start(size):
+        """The potentials U/2 + size (-1, 1) for label up and U/2 - size (-1, 1)."""
+        return np.concatenate([0.5 * U_SITE + size * left_right,
+                               0.5 * U_SITE - size * left_right])
+
+
+    site_ends = {}
+    for site_push in (0.5, 1.0):
+        q_end, site_residuals = anderson(sites_map, sites_start(site_push))
+        site_ends[site_push] = q_end
+        n_up_sites = site_orbital(q_end[:2]) ** 2
+        energy = np.round(sites_energy(q_end), 9) + 0.0  # + 0.0 turns -0.0 into 0.0
+        say(f"two sites, push {site_push}: {len(site_residuals)} passes, n_up = "
+            f"({n_up_sites[0]:.6f}, {n_up_sites[1]:.6f}), energy {energy:.6f}")
+    site_sizes = np.linspace(0.0, 2.5, 51)  # epsilon = 0, 0.05, ..., 2.5
+    site_family = np.array([sites_energy(sites_start(size)) for size in site_sizes])
+    saddle_up = site_orbital(site_ends[0.5][:2]) ** 2
+    check(np.max(np.abs(saddle_up - 0.5)) < 1e-9
+          and abs(sites_energy(site_ends[0.5]) - (-2.0 * T_HOP + 0.5 * U_SITE)) < 1e-9,
+          "two sites, U = 4t, push 0.5: the loop converges to equal labels, E = -2t + U/2")
+    check(abs(sites_energy(site_ends[1.0]) + 2.0 * T_HOP ** 2 / U_SITE) < 1e-9,
+          "two sites, push 1: the loop converges to separated labels, E = -2t^2/U")
+    check(site_family[1] < site_family[0] - 1e-3,
+          "two sites: separating the labels lowers the energy, so the equal-label "
+          "solution there is a saddle")
+    '''),
+    md(r"""
+    So a converged loop can sit on a saddle, and only the ENERGY tells a minimum from
+    a saddle: at a minimum every small change raises it, at a saddle some change
+    lowers it. The next cell makes this energy test in the trap. It builds
+    label-separating trial potentials $w_{up} = w_{scf} + \epsilon\,s(x)$ and
+    $w_{down} = w_{scf} - \epsilon\,s(x)$ for three shapes $s$: $\tanh x$ (up to the
+    left, down to the right), $x\,e^{-x^2/4}$ (the same, but only near the centre) and
+    $e^{-x^2/2}$ (up pushed outwards, down inwards), and the five sizes
+    $\epsilon = 0.01, 0.05, 0.2, 0.5, 1$. For each it takes the four lowest orbitals of
+    each label in its trial potential and evaluates the energy of this determinant with
+    `labels_energy`, which needs no self-consistency (for a contact interaction this
+    formula is the exact energy of the determinant). Every value must lie above the
+    Kohn-Sham energy; and for small $\epsilon$ the rise must be of second order, so
+    that five times the size gives about 25 times the rise. The cell then draws the
+    energies of the trap and of the two sites against $\epsilon$.
+    """),
+    code(r'''
+    shapes = {"tanh x": np.tanh(x), "x exp(-x^2/4)": x * np.exp(-x ** 2 / 4.0),
+              "exp(-x^2/2)": np.exp(-x ** 2 / 2.0)}
+
+
+    def separation_rise(shape, size):
+        """E of the determinant made from w_scf +- size * shape, minus E_KS."""
+        trial = np.concatenate([w_scf + size * shape, w_scf - size * shape])
+        return labels_energy(trial, FILLED, FILLED) - E_total
+
+
+    sizes = [0.01, 0.05, 0.2, 0.5, 1.0]
+    rises = {name: [separation_rise(shape, size) for size in sizes]
+             for name, shape in shapes.items()}
+    for name, values in rises.items():
+        say(f"{name:14} E - E_KS: " + " ".join(f"{value:.2e}" for value in values))
+    check(all(value > 0.0 for values in rises.values() for value in values),
+          "every label-separating trial determinant in the trap has a higher energy "
+          "than the Kohn-Sham state")
+    check(all(24.0 < values[1] / values[0] < 26.0 for values in rises.values()),
+          "for small separations the energy rises as epsilon^2: in the trap the "
+          "equal-label solution is a minimum along these families, not a saddle")
+    fine_sizes = np.linspace(0.0, 1.0, 41)  # epsilon = 0, 0.025, ..., 1
+    fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+    for (name, shape), style in zip(shapes.items(), ("-", "--", "-.")):
+        left.plot(fine_sizes, [separation_rise(shape, size) for size in fine_sizes],
+                  style, label=f"shape {name}")
+    left.set_xlabel("size $\\epsilon$ of the separation")
+    left.set_ylabel("$E - E_{KS}$ ($\\hbar\\omega$)")
+    left.set_title("Trap, $g_c = 2$: the energy rises (minimum)")
+    left.legend(fontsize=8)
+    right.plot(site_sizes, site_family, color="black", label="energy of the family")
+    right.plot([0.0], [site_family[0]], "o", ms=8,
+               label="loop from push 0.5 (saddle)")
+    size_end = 0.5 * (site_ends[1.0][1] - site_ends[1.0][0])  # (w_R - w_L)/2 of up
+    right.plot([size_end], [sites_energy(site_ends[1.0])], "s", ms=8,
+               label="loop from push 1 (minimum)")
+    right.set_xlabel("size $\\epsilon$ of the separation")
+    right.set_ylabel("$E$ (units of $t$)")
+    right.set_title("Two sites, $U = 4t$: the energy falls (saddle)")
+    right.legend(fontsize=8)
+    save_figure(fig, "label_separation",
+                "The energy test of stability. Left: the trap with eight fermions; "
+                "the energy of the determinant made from the label-separating trial "
+                "potentials $w_{scf} \\pm \\epsilon\\,s(x)$, minus the Kohn-Sham "
+                "energy, for three shapes $s$, against the size $\\epsilon$ (pure "
+                "number); vertical axis in units of $\\hbar\\omega$. Every curve starts "
+                "flat at 0 and rises: along these families the equal-label solution "
+                "is a minimum. Right: two sites with $U = 4t$; the energy of the "
+                "determinant made from the potentials $U/2 \\pm \\epsilon\\,(-1, 1)$, "
+                "in units of $t$, against $\\epsilon$. It falls from the equal-label "
+                "solution (circle, energy 0, where the loop from push 0.5 converged: "
+                "a saddle) to the separated minimum $-2t^2/U = -0.5t$ (square, where "
+                "the loop from push 1 converged). The converged loop could not tell "
+                "the two cases apart; the energy does.")
     '''),
     md(r"""
     ## 11. The variational principle at work

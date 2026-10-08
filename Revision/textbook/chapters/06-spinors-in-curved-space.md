@@ -2267,7 +2267,27 @@ $$
 
 (the $\tan^2z$ terms cancel; $1/\sin^2z = 1 + \cot^2z$, which is $\sin^2 + \cos^2 = 1$ divided by $\sin^2z$). Finally $R^{x8}{}_{x8} = g^{88}R_{88} = \tan^2z\cdot(-6H^2\cot^2z) = -6H^2$. It is negative for every $H > 0$ and every function $a_4$: **the author's metric is never flat.**
 
-**All Ricci components.** The same computation for every component gives the record's values
+**A second component by hand: $R^{x4}{}_{x4} = 6a_4'^2$.** This is the component that carries the deflation, so it is worth the four lines. Put $\sigma = \nu = x4$ in the same four terms. Every $\Gamma^\rho{}_{44}$ vanishes (case (a) of Section 6.3 gives $\partial_4\ln f_4 = 0$ because $f_4 = 1$, and case (c) gives a multiple of $\partial_\rho f_4 = 0$), so the first and the third term vanish:
+
+$$
+\sum_\rho\partial_\rho\Gamma^\rho{}_{44} = 0, \qquad \sum_{\rho,\lambda}\Gamma^\rho{}_{\rho\lambda}\Gamma^\lambda{}_{44} = 0 .
+$$
+
+The contracted symbol is $\sum_\rho\Gamma^\rho{}_{\rho4} = 3a_4' + 3(-a_4') + 0 + \partial_4\ln f_8 = 0$ (three 3-space directions, three extra times, $\Gamma^{x4}{}_{x4x4} = 0$, and $f_8 = \cot z$ does not depend on $x_4$; equivalently $\partial_4\ln\sqrt{\lvert g\rvert} = \partial_4\ln\cos z = 0$, Section 6.9), so the second term vanishes too:
+
+$$
+-\partial_4\sum_\rho\Gamma^\rho{}_{\rho4} = 0 .
+$$
+
+In the fourth term $\Gamma^\rho{}_{4\lambda}$ is nonzero only for $\rho = \lambda$, a 3-space direction ($a_4'$) or an extra time ($-a_4'$): $\Gamma^{x4}{}_{4\lambda} = \partial_\lambda\ln f_4 = 0$, and $\Gamma^{x8}{}_{4\lambda}$ vanishes for every $\lambda$ (it is $\partial_4\ln f_8 = 0$ for $\lambda = x8$ and $\Gamma^{x8}{}_{44} = 0$ for $\lambda = x4$). Each of the six gives its square:
+
+$$
+-\sum_{\rho,\lambda}\Gamma^\rho{}_{4\lambda}\Gamma^\lambda{}_{\rho4} = -\big(3a_4'^2 + 3(-a_4')^2\big) = -6a_4'^2 .
+$$
+
+So $R_{44} = -6a_4'^2$ (the sum of the four terms), and $R^{x4}{}_{x4} = g^{44}R_{44} = (-1)(-6a_4'^2) = 6a_4'^2$. The 3-space directions and the extra times enter with opposite rates $\pm a_4'$, but each enters squared, so here they add instead of cancelling.
+
+**All Ricci components.** Chapter 3 computed all eight diagonal components by hand, from the curvatures of the 28 coordinate planes, in Section 3.25, and showed there that the components off the diagonal vanish. The results are the record's values
 
 $$
 R^{x_i}{}_{x_i} = a_4'' - 6H^2,\qquad R^{x4}{}_{x4} = 6a_4'^2,\qquad R^{x_t}{}_{x_t} = -a_4'' - 6H^2,\qquad R^{x8}{}_{x8} = -6H^2,
@@ -2299,7 +2319,7 @@ An invertible $R$ can change the entries of $F_{\mu\nu}$ but cannot make a nonze
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| the eight Ricci components and $R = 6(a_4'^2 - 7H^2)$ | PROVED ($R^{x8}{}_{x8}$ by hand above) | `field-theory.json`, formulas `ricci_mixed_diagonal`, `ricci_scalar`; `wolfram-field-theory.json`, checks `ricci_mixed_components`, `ricci_scalar` |
+| the eight Ricci components and $R = 6(a_4'^2 - 7H^2)$ | PROVED ($R^{x8}{}_{x8}$ and $R^{x4}{}_{x4}$ by hand above, all eight in Section 3.25) | `field-theory.json`, formulas `ricci_mixed_diagonal`, `ricci_scalar`; `wolfram-field-theory.json`, checks `ricci_mixed_components`, `ricci_scalar` |
 | never flat for $H > 0$: $R^{x8}{}_{x8} = -6H^2$ | PROVED | `wolfram-field-theory.json`, check `never_flat_for_H_positive`; `python-field-theory.json`, check `curvature_nonzero_flat_only_formally` |
 | $\gamma^\mu\Omega_\mu$ contains no $a_4$, while $R^{x4}{}_{x4} = 6a_4'^2$ | PROVED | both scope reports, check `gammaOmega_blind_to_the_deflation` |
 | $F_{\mu\nu} = \frac12R_{ab\mu\nu}S^{ab}$ in all 28 planes | PROVED for this metric (general theorem quoted) | `python-field-theory.json`, check `spinor_curvature_equals_riemann`; `wolfram-field-theory.json`, check `spin_curvature_equals_Riemann` |
@@ -3270,7 +3290,7 @@ $$
 \Omega_\theta = \omega_{\theta01}S^{01} = -\tfrac12\gamma^0\gamma^1, \qquad \Omega^{nb}_\theta = \tfrac12\big(\omega_\theta{}^0{}_1S^{01} + \omega_\theta{}^1{}_0S^{10}\big) = \tfrac12\big(S^{01} - S^{01}\big) = 0 .
 $$
 
-The plane is flat, but the frame is boosted by the rapidity $\theta$ as one moves along $\theta$, and the correct spinor connection records this: $\Omega_\theta = -(\partial_\theta U)U^{-1}$ for the spinor boost $U(\theta) = \cosh\frac\theta2 + \sinh\frac\theta2\,\gamma^0\gamma^1 = \mathrm{diag}(e^{\theta/2}, e^{-\theta/2})$ (since $\partial_\theta U = \frac12\gamma^0\gamma^1U$). The mixed contraction deletes the whole connection. It also violates the divergence form of Section 6.9: with $\sqrt{\lvert g\rvert} = \tau$, $\gamma^\tau = \gamma^0$ and $\gamma^\theta = \gamma^1/\tau$,
+The plane is flat, but the frame is boosted by the rapidity $\theta$ as one moves along $\theta$, and the correct spinor connection records this: $\Omega_\theta = -(\partial_\theta U)U^{-1}$ for the spinor boost $U(\theta) = \cosh\frac\theta2 + \sinh\frac\theta2\,\gamma^0\gamma^1 = \mathrm{diag}(e^{\theta/2}, e^{-\theta/2})$ (since $\partial_\theta U = \frac12\gamma^0\gamma^1U$). As in the polar plane of Section 6.5, the rule $\Omega' = R\,\Omega R^{-1} - (\partial_\theta R)R^{-1}$ of Section 6.15 with $R = U$ makes this $\Omega_\theta$ from the connection 0 of the frame of $t$ and $y$, so $U$ carries that frame into the Milne frame; the inverse boost $U^{-1} = \mathrm{diag}(e^{-\theta/2}, e^{\theta/2})$ removes the connection: $\gamma^0\gamma^1$ commutes with $U$, so $U^{-1}\Omega_\theta U = \Omega_\theta$, and $(\partial_\theta U^{-1})U = -\frac12\gamma^0\gamma^1$, hence $\Omega'_\theta = -\frac12\gamma^0\gamma^1 + \frac12\gamma^0\gamma^1 = 0$. The mixed contraction deletes the whole connection. It also violates the divergence form of Section 6.9: with $\sqrt{\lvert g\rvert} = \tau$, $\gamma^\tau = \gamma^0$ and $\gamma^\theta = \gamma^1/\tau$,
 
 $$
 \frac{1}{2\tau}\Big(\partial_\tau(\tau\gamma^0) + \partial_\theta\big(\tau\cdot\tfrac{\gamma^1}{\tau}\big)\Big) = \frac{\gamma^0}{2\tau}, \qquad \gamma^\theta\Omega_\theta = \frac{\gamma^1}{\tau}\Big(-\tfrac12\gamma^0\gamma^1\Big) = \frac{1}{2\tau}\gamma^0\gamma^1\gamma^1 = \frac{\gamma^0}{2\tau}
@@ -3735,11 +3755,13 @@ The two contractions. `X2` is $\gamma^0\gamma^1$, the boost generator of the pla
 
 ```python
 U = sp.cosh(theta / 2) * I2 + sp.sinh(theta / 2) * X2  # the spinor boost
-check(matrix_is_zero(-U.diff(theta) * U.inv() - milne_Omega[1]),
-      "Milne: Omega_theta = -(dU/dtheta) U^-1, U = cosh(theta/2) + sinh(theta/2) g0 g1")
+removed = U.inv() * milne_Omega[1] * U - U.inv().diff(theta) * U  # frame change U^-1
+check(matrix_is_zero(-U.diff(theta) * U.inv() - milne_Omega[1])
+      and matrix_is_zero(removed),
+      "Milne: Omega_theta = -(dU/dtheta) U^-1 for the spinor boost U; U^-1 removes it")
 ```
 
-The spinor boost $U(\theta) = \cosh\frac\theta2 + \sinh\frac\theta2\,\gamma^0\gamma^1$ and the check $\Omega_\theta = -(\partial_\theta U)U^{-1}$.
+The spinor boost $U(\theta) = \cosh\frac\theta2 + \sinh\frac\theta2\,\gamma^0\gamma^1$. `removed` is the rule $R\,\Omega_\theta R^{-1} - (\partial_\theta R)R^{-1}$ of a change of frame (Section 6.15) with $R = U^{-1}$, whose inverse is $U$. The check requires $\Omega_\theta = -(\partial_\theta U)U^{-1}$ (the same rule with $R = U$ applied to the connection 0 of the frame of $t$ and $y$: $U$ carries that frame into the Milne frame) and `removed` to be zero (the inverse boost $U^{-1}$ removes the connection), as worked by hand in Section 6.23.
 
 ```python
 milne_gup = curved_gammas(milne_e, [g0, g1])  # gamma^tau = g0, gamma^theta = g1/tau
@@ -3818,12 +3840,12 @@ The right panel: for $\theta$ from $-4$ to $4$ the two diagonal entries of the s
 save_figure(fig, "milne_frame_and_spin_boost",
             "The Milne wedge, a flat plane with one time in which the notebook's "
             ...
-            "and unbounded, unlike a spinor rotation.")
+            "$\\theta$: real and unbounded, unlike a spinor rotation.")
 ```
 
 The figure is saved; the cell prints its file name.
 
-**What Figure 06c.2 shows.** On the left, the frame at $\theta = 0$ is upright (time up, space to the right); moving along $\theta$ the blue and orange arrows tilt symmetrically towards the dashed light lines, as in figure 1 of Notebook 06b: the frame is boosted along $\theta$, and the correct spin connection $\omega_{\theta01} = -1$ records this rate, although the plane is flat. On the right, the entries $e^{\pm\theta/2}$ of the spinor boost grow or fall without bound and never return, unlike the spinor rotation of figure 1 of Notebook 06a, which came back after $4\pi$. The mixed contraction would delete this whole connection.
+**What Figure 06c.2 shows.** On the left, the frame at $\theta = 0$ is upright (time up, space to the right); moving along $\theta$ the blue and orange arrows tilt symmetrically towards the dashed light lines, as in figure 1 of Notebook 06b: the frame is boosted along $\theta$, and the correct spin connection $\omega_{\theta01} = -1$ records this rate, although the plane is flat. On the right, the entries $e^{\pm\theta/2}$ of the spinor boost $U(\theta)$, which carries the frame of $t$ and $y$ into the Milne frame (its inverse removes the connection), grow or fall without bound and never return, unlike the spinor rotation of figure 1 of Notebook 06a, which came back after $4\pi$. The mixed contraction would delete this whole connection.
 
 **In [8], the author's metric: the correct and the mixed spinor connection** (Section 6.23).
 
@@ -4353,7 +4375,7 @@ $$
 - The negative control: with inflating extra times the contraction is $3a_4'\gamma^{(x4)} + 3H\gamma^{(x8)}$; the cancellation is caused by the deflation (Section 6.10; Notebook 06a, In [22]; lead report, check `negative_control_inflating_extra_times`).
 - Local spin covariance $\Omega'_\mu = R\Omega_\mu R^{-1} - (\partial_\mu R)R^{-1}$, $\gamma'^\mu = R\gamma^\mu R^{-1}$, $F' = RFR^{-1}$ (Sections 6.15 and 6.17; Notebook 06b, In [12] and In [15]).
 - In the frame boosted with $b = \beta x_4 + b_0$, $\gamma'^\mu\Omega'_\mu = \frac{6H - \beta}{2}(\cosh b\,\gamma^{(x8)} - \sinh b\,\gamma^{(x4)})$, zero for $\beta = 6H$ while $\Omega'_\mu \neq 0$ for $x1, \dots, x7$ (Section 6.16; Notebook 06b, In [8] and In [10]; both scope reports, checks `boosted_frame_gammaOmega_formula`, `boosted_frame_gammaOmega_vanishes`).
-- The Ricci components, $R = 6(a_4'^2 - 7H^2)$, and $R^{x8}{}_{x8} = -6H^2$ (by hand): the metric is never flat; the contraction is blind to the deflation while $R^{x4}{}_{x4} = 6a_4'^2$; $F_{\mu\nu} = \frac12R_{ab\mu\nu}S^{ab}$ in all 28 planes; $F'_{x1x8} \neq 0$ in the boosted frame (Section 6.17, whose table names the field-theory and scope checks of the record that prove the same; Notebook 06b, In [13] and In [15]).
+- The Ricci components (all eight by hand in Section 3.25), $R = 6(a_4'^2 - 7H^2)$, and, by hand in Section 6.17, $R^{x8}{}_{x8} = -6H^2$ and $R^{x4}{}_{x4} = 6a_4'^2$: the metric is never flat, and the contraction is blind to the deflation while the metric is not; $F_{\mu\nu} = \frac12R_{ab\mu\nu}S^{ab}$ in all 28 planes; $F'_{x1x8} \neq 0$ in the boosted frame (Section 6.17, whose table names the field-theory and scope checks of the record that prove the same; Notebook 06b, In [13] and In [15]).
 - The rescaling $\Psi = \sin^{-1/2}(z)\chi$ removes the term; with $U = \frac\lambda2S^2$ it becomes $\lambda S[\chi]/\sin z$ (Section 6.18; Notebook 06b, In [17]; checks `rescaling_removes_the_connection_term`, `rescaled_equation_quadratic_potential`).
 - The mixed contraction equals $\Omega^{ss} - \Omega^{tt}$: it keeps 6, reverses 6 and deletes 16 of the 28 parts; it agrees with the correct one in the polar plane and deletes the whole connection in the Milne wedge (Section 6.23; Notebook 06c, In [4], In [6], In [8]).
 - Only $c = 3H$ makes the hidden-direction operator antisymmetric for the weight $\cos z$, up to the boundary term $[\sin z\,p\,q]$ (Section 6.24; Notebook 06c, In [15]; formula `hidden_direction_hermiticity`; check `good_sector_hermiticity_curved`).

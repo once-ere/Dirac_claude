@@ -260,8 +260,7 @@ In [6]  PASS polar plane (eta = +1, +1): both contractions give Omega_phi = -(i/
 In [6]  PASS Milne: real gammas with (g0)^2 = -1, (g1)^2 = +1, g0 g1 + g1 g0 = 0
 In [6]  PASS Milne: mixed components symmetric (1, 1), lowered antisymmetric (-1, +1)
 In [6]  PASS Milne: Omega_theta = -(1/2) g0 g1, but the notebook's contraction gives 0
-In [6]  PASS Milne: Omega_theta = -(dU/dtheta) U^-1, U = cosh(theta/2) + sinh(theta/2) g0 g1;
-In [6]      U^-1 removes it
+In [6]  PASS Milne: Omega_theta = -(dU/dtheta) U^-1 for the spinor boost U; U^-1 removes it
 In [6]  PASS Milne: gamma^mu Omega_mu = g0/(2 tau) = the divergence form (notebook: 0)
 In [8]  PASS the 12 nonzero lowered components omega_mu ab equal the record
 In [8]       reproduces Revision/theory/field-theory.json, formula omega_nonzero
@@ -362,8 +361,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 12.3 s, peak memory of the kernel process 201 MiB;
-- the check run: 11.9 s, peak memory of the kernel process 202 MiB.
+- the build run: 15.0 s, peak memory of the kernel process 202 MiB;
+- the check run: 17.4 s, peak memory of the kernel process 202 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -375,8 +374,8 @@ Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/06c_mixed_contraction.ipynb`: `3b5d7ee0d1570a47f018869f7a43d8e0594b3a4ba89f86384a4ffd68206755b9`
-- `Revision/textbook/notebooks/src/06c_mixed_contraction.py`: `b0ef881f944a44e28d5476e0d93fe3d0b1463f0d497323683bb73f6118987a4a`
+- `Revision/textbook/notebooks/06c_mixed_contraction.ipynb`: `447a786d6bfa0803b23cde9e6078d8618523ef8dbe35caec9ce8436b0ebce4a9`
+- `Revision/textbook/notebooks/src/06c_mixed_contraction.py`: `49c6be06fbec2f3c7ed36fdaecb7ff830e013c3ae54a1c237f639142b2a91d5d`
 - `Revision/textbook/figures/06c.captions.json`: `e58d9d3b3db44b83deaa3f17a5027a2daeb305274b20f0d950173d069e6a4f60`
 - `Revision/textbook/figures/06c_1_pair_kinds.png`: `666174c2fb9bfd99f9f91ada09b3c560c0dde7d73bbe5c2ae60a6d1dcbf5c413`
 - `Revision/textbook/figures/06c_2_milne_frame_and_spin_boost.png`: `ea1ff1db4749df0f1106d4c6ce7ea9129e85ab2ca958c49d4204dca999e51cc2`
@@ -391,4 +390,4 @@ Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":201.0,"seconds":12.3},"check":{"date":"2026-10-08","files":7,"peak_mb":202.0,"result":"passed","seconds":11.9},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":202.0,"seconds":15.0},"check":{"date":"2026-10-08","files":7,"peak_mb":202.0,"result":"passed","seconds":17.4},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

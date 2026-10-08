@@ -560,8 +560,7 @@ CELLS = [
     removed = U.inv() * milne_Omega[1] * U - U.inv().diff(theta) * U  # frame change U^-1
     check(matrix_is_zero(-U.diff(theta) * U.inv() - milne_Omega[1])
           and matrix_is_zero(removed),
-          "Milne: Omega_theta = -(dU/dtheta) U^-1, U = cosh(theta/2) + sinh(theta/2) g0 g1; "
-          "U^-1 removes it")
+          "Milne: Omega_theta = -(dU/dtheta) U^-1 for the spinor boost U; U^-1 removes it")
     milne_gup = curved_gammas(milne_e, [g0, g1])  # gamma^tau = g0, gamma^theta = g1/tau
     slash_milne = (milne_gup[0] * milne_Omega[0] + milne_gup[1] * milne_Omega[1])
     divergence_milne = ((tau * milne_gup[0]).diff(tau)

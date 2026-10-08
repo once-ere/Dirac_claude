@@ -131,7 +131,15 @@ CELLS = [
     - **Eigenvector, joint eigenvector**: a column $v$ with $Mv = \mu v$ for a
       number $\mu$ (the eigenvalue); a joint eigenvector of several matrices is an
       eigenvector of each of them.
-    - **Witness**: an explicit example that shows that something exists.
+    - **Witness**: an explicit example that proves that something exists.
+    - **Trace** of a square matrix: the sum of its diagonal entries.
+    - **Rank** of a matrix: the number of its independent columns.
+    - **Projector**: a matrix $\Pi$ with $\Pi^2 = \Pi$; it keeps some columns
+      unchanged and sends others to zero, and its trace is the dimension of the
+      space it keeps.
+    - **Sector**: the columns $v$ of one eigenvalue space of $A$ with fixed signs
+      $P_1v = \pm v$, $P_2v = \pm v$, $P_3v = \pm v$ (the matrices $P_k$ are defined
+      in section 8).
     - **Frequency** $\omega$ (the Greek letter omega): the number in the factor
       $e^{-i\omega x_4} = \cos(\omega x_4) - i\sin(\omega x_4)$; a field with this
       factor repeats itself after the time $2\pi/\omega$. It has nothing to do with

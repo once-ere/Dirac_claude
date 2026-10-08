@@ -53,7 +53,11 @@ FACTS = {
         "plane, the components and the curvature scalars versus z and versus the "
         "expansion rate, and the Einstein tensor; along the deflating history "
         "a4 = A H x4 it reproduces the source that the Einstein equations require in "
-        "the Revision record of the field equations of a4."
+        "the Revision record of the field equations of a4. It shows that for the "
+        "planes that contain the time x4 the plane curvature is the relative "
+        "acceleration of neighbouring observers at rest. Every check of a Revision "
+        "report that a PASS line names is opened and asserted to exist and to have "
+        "passed."
     ),
     "records": [
         [CURV, "every non-zero Christoffel symbol, Riemann component, Ricci and Einstein "
@@ -61,9 +65,11 @@ FACTS = {
                "lovelock_gkd"],
         [PYREP, "the independent sympy verification of those components (checks "
                 "rust_christoffels_agree, rust_riemann_agrees, "
-                "rust_ricci_einstein_scalar_agree, mixed_riemann_free_of_warp_and_"
-                "exponential) and its five random test points"],
-        [RUSTREP, "the checks riemann_antisymmetry, riemann_first_bianchi, "
+                "rust_ricci_einstein_scalar_agree, riemann_antisymmetry_and_pair_"
+                "symmetry, mixed_riemann_free_of_warp_and_exponential, L1_equals_2R) "
+                "and its five random test points"],
+        [RUSTREP, "the checks riemann_antisymmetry (with its count of 156 nonzero "
+                  "entries), riemann_first_bianchi, mixed_riemann_free_of_sin_third, "
                   "k1_equals_minus_4_einstein, k1_divergence_free and the numerical test "
                   "point of k1_brute_force_numeric"],
         [LEAD, "the lead checks einstein_x8_independent, einstein_off_diagonal_zero, "
@@ -91,7 +97,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all seven figure files exist",
-        "ALL 39 CHECKS PASSED (notebook 03b)",
+        "ALL 40 CHECKS PASSED (notebook 03b)",
     ],
     "troubleshooting": [
         ["The cells with the Riemann tensor and the negative control run for up to half a "
@@ -120,9 +126,12 @@ CELLS = [
     - computes the **Riemann tensor** $R^a{}_{bcd}$ and its form $R^{ab}{}_{cd}$ with two
       upper indices, finds its 156 non-zero components, checks its symmetries and the
       first Bianchi identity, and compares all 156 with the record;
+    - computes the curvature $\sigma(a, b)$ of each of the 28 coordinate planes and
+      shows that for the planes with the time $x_4$ it is the relative acceleration of
+      two neighbouring observers at rest;
     - computes the **Ricci tensor**, the **Ricci scalar** and the **Einstein tensor**,
-      compares them with the record and the lead's checks, and checks the contracted
-      Bianchi identity $\nabla_\mu G^\mu{}_\nu = 0$;
+      compares them with the record and the lead checks, and checks the contracted
+      Bianchi identity $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$;
     - computes the **Kretschmann scalar** $K = R^{ab}{}_{cd} R^{cd}{}_{ab}$, shows that it
       does not depend on $z$ although single components do, and that it is never zero
       for $H > 0$;
@@ -132,6 +141,8 @@ CELLS = [
       of the field equations of $a_4$ lists for this history;
     - repeats the curvature for a **negative control** in which the extra times inflate
       instead of deflating, and shows what then changes;
+    - opens every Revision report whose check a PASS line names, and stops unless that
+      check is listed there as passed;
     - draws 7 figures and prints a PASS line for every check.
     """),
     md(r"""
@@ -157,9 +168,18 @@ CELLS = [
       is carried around a small closed loop. It is zero everywhere exactly when the space
       is flat.
     - $R^{ab}{}_{cd} = \sum_e g^{be} R^a{}_{ecd}$: the same tensor with the second index
-      raised. For the coordinate plane of $x_a$ and $x_b$, $R^{ab}{}_{ab}$ (no sum) is the
-      **curvature of that plane** (the sectional curvature): positive like a sphere,
-      negative like a saddle.
+      raised. For the coordinate plane of $x_a$ and $x_b$, $\sigma(a, b) =
+      R^{ab}{}_{ab}$ (no sum) is the **curvature of that plane** (the sectional
+      curvature). Only for a plane of two space-like directions does its sign describe
+      a shape: positive curved like a sphere, negative like a saddle. For a plane with
+      a time-like direction the sign is read from free fall: two neighbouring
+      free-fall paths that move along the time-like direction $x_b$, a small proper
+      distance $\xi$ apart along $x_a$, accelerate apart as $d^2\xi/d\tau^2 =
+      +\sigma(a, b)\,\xi$, while on a sphere $d^2\xi/ds^2 = -\sigma\,\xi$: the same sign
+      of $\sigma$ has the opposite effect.
+    - **Lead checks**: short independent Python programs of the Revision record (folder
+      `Revision/lead_checks`), written from scratch by the coordinator of the Revision
+      work (the "lead") without importing any other Revision code.
     - **Ricci tensor** $R^a{}_b = \sum_c R^{ac}{}_{bc}$, **Ricci scalar**
       $R = \sum_a R^a{}_a$, **Einstein tensor** $G^a{}_b = R^a{}_b - \tfrac12
       \delta^a{}_b R$: the averages of the curvature that enter Einstein's field
@@ -176,8 +196,12 @@ CELLS = [
       direction. A later chapter derives these equations; this notebook only reads
       them in a Revision record.
     - **Bianchi identities**: $R^a{}_{bcd} + R^a{}_{cdb} + R^a{}_{dbc} = 0$ (first) and
-      $\nabla_\mu G^\mu{}_\nu = 0$ (contracted): identities that every metric satisfies;
-      checking them checks the computation.
+      $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$ (contracted): identities that every metric
+      satisfies; checking them checks the computation.
+    - **Lovelock scalars and tensors**: curvature quantities built from products of one,
+      two or three Riemann tensors with the generalized Kronecker delta; the first
+      Lovelock scalar is $L_{(1)} = 2R$ and the first Lovelock tensor is
+      $P_{(1)} = -4G$. A later chapter treats them in full.
     - **Finite difference**: the numerical derivative $f'(x) \approx (f(x+h) -
       f(x-h))/(2h)$; its error shrinks like $h^2$.
     - `a4p`, `a4pp`, `a4v`: the names the notebook prints for $a_4'$, $a_4''$ and the
@@ -203,8 +227,8 @@ CELLS = [
     derivatives of the metric, and $a_4''$ appears); the Ricci tensor, the Ricci scalar
     and the Einstein tensor are sums of Riemann components. The Revision record
     computed all of this with an exact Rust program (`lovelock_gkd`); an independent
-    sympy program checked every component, and the lead's own sympy code recomputed the
-    Einstein tensor. This notebook does it once more, in small steps, and compares every
+    sympy program checked every component, and the lead checks recomputed the Einstein
+    tensor with their own sympy code. This notebook does it once more, in small steps, and compares every
     single component.
 
     Nothing here involves the matter fields yet: these are exact properties of the given
@@ -259,7 +283,13 @@ CELLS = [
     eight coordinates, $H > 0$, the unknown function $a_4(x_4)$, and the printing names
     `a4p`, `a4pp`, `a4v` and `z`. The function `plain` rewrites an expression with these
     printing names; the function `symbolic` does the same but keeps $x_8$ (the record
-    writes its components with $x_8$).
+    writes its components with $x_8$). It also names the two reports of the Revision
+    curvature computation and defines the function `record_check(report_file,
+    check_name, detail_part)`, the same as in Notebook 03a: it opens a Revision report,
+    finds the check with that name, and stops the notebook with an error unless the
+    check is there and passed (and, if `detail_part` is given, its detail contains that
+    text). Every PASS line below that names a check of a Revision report calls it
+    first, so that a renamed, missing or failing check in the record is caught.
     """),
     code(r'''
     import itertools  # loops over all index combinations
@@ -272,6 +302,27 @@ CELLS = [
 
     CURVATURE_RECORD = "Revision/gkd_lovelock/results/curvature.json"
     record = json.loads(repository_file(CURVATURE_RECORD).read_text(encoding="utf-8"))
+    PYTHON_REPORT = "Revision/gkd_lovelock/results/python-lovelock-report.json"  # sympy
+    RUST_REPORT = "Revision/gkd_lovelock/results/lovelock-report.json"  # the Rust checks
+
+
+    def record_check(report_file, check_name, detail_part=""):
+        """Return True when the Revision report report_file lists the check check_name
+        as passed (and its detail contains detail_part); otherwise stop the notebook."""
+        checks = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+        checks = checks["checks"]  # a dictionary or a list, depending on the report
+        if isinstance(checks, dict):  # {name: {"passed": true, "detail": ...}}
+            entry = checks.get(check_name, {})
+            passed = entry.get("passed") is True
+        else:  # [{"name": ..., "verdict": "PASS", "detail": ...}, ...]
+            entry = next((e for e in checks if e.get("name") == check_name), {})
+            passed = entry.get("verdict") == "PASS"
+        if not passed or detail_part not in entry.get("detail", ""):
+            raise AssertionError(f"record check failed: {report_file} does not list "
+                                 f"{check_name} as passed")
+        return True
+
+
     x1, x2, x3, x4, x5, x6, x7, x8 = sp.symbols("x1:9", real=True)
     X = [x1, x2, x3, x4, x5, x6, x7, x8]  # the coordinates, counted 0 to 7 in Python
     NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
@@ -433,6 +484,7 @@ CELLS = [
                     for e in record["christoffelNonzero_b_le_c"]}
     check(sorted(record_gamma) == upper_half and len(upper_half) == 25,
           "the same 25 non-zero Christoffel symbols as the record")
+    record_check(PYTHON_REPORT, "rust_christoffels_agree")  # stops if not passed
     check(all(same(Gamma[a][b][c], value) for (a, b, c), value in record_gamma.items()),
           "every Christoffel symbol equals the record exactly",
           record=f"{CURVATURE_RECORD}, christoffelNonzero_b_le_c (and "
@@ -560,12 +612,10 @@ CELLS = [
     for eight step sizes $h$ from $10^{-1}$ to $10^{-8}$.
     """),
     code(r'''
-    RUST_REPORT = "Revision/gkd_lovelock/results/lovelock-report.json"
-    rust_report = json.loads(repository_file(RUST_REPORT).read_text(encoding="utf-8"))
     prime = chr(39)  # the apostrophe (character number 39): the record writes a4 prime so
     point_text = (f"H = 0.23, a4 = 0.17, a4{prime} = 0.61, a4{prime}{prime} = -0.37, "
                   "x8 = 0.41")  # the test point as the record writes it
-    check(point_text in rust_report["checks"]["k1_brute_force_numeric"]["detail"],
+    check(record_check(RUST_REPORT, "k1_brute_force_numeric", point_text),
           "the test point is the one of the brute-force check of the Rust program")
     H_n, a0, a1, a2, x8_n = 0.23, 0.17, 0.61, -0.37, 0.41  # the test point
 
@@ -718,6 +768,7 @@ CELLS = [
     R_mixed = raise_second(R_down, g)  # R^ab_cd
     report("non-zero components R^a_bcd", len(R_down))
     report("non-zero components R^ab_cd", len(R_mixed))
+    record_check(RUST_REPORT, "riemann_antisymmetry", "156 nonzero entries")
     check(len(R_mixed) == 156, "R^ab_cd has 156 non-zero components, as in the record",
           record="Revision/gkd_lovelock/results/lovelock-report.json, check "
                  "riemann_antisymmetry (156 nonzero entries)")
@@ -745,6 +796,7 @@ CELLS = [
                for (a, b, c, d), v in R_mixed.items()}
     pair_symmetric = all(vanishes(v - get(lowered, (c, d, a, b)))
                          for (a, b, c, d), v in lowered.items())
+    record_check(PYTHON_REPORT, "riemann_antisymmetry_and_pair_symmetry")
     check(antisymmetric and pair_symmetric,
           "R^ab_cd is antisymmetric in a, b and in c, d; R_abcd = R_cdab",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
@@ -752,6 +804,7 @@ CELLS = [
     bianchi = [vanishes(get(R_down, (a, b, c, d)) + get(R_down, (a, c, d, b))
                         + get(R_down, (a, d, b, c)))
                for a, b, c, d in itertools.product(range(8), repeat=4)]
+    record_check(RUST_REPORT, "riemann_first_bianchi")
     check(all(bianchi) and len(bianchi) == 4096,
           "the first Bianchi identity holds for all 4096 index lists",
           record="Revision/gkd_lovelock/results/lovelock-report.json, check "
@@ -759,6 +812,8 @@ CELLS = [
     warp_free = all(not symbolic(v).has(a4v) and not any(
         isinstance(p, sp.Pow) and p.base == sp.sin(6 * H * x8) and not p.exp.is_integer
         for p in sp.preorder_traversal(symbolic(v))) for v in R_mixed.values())
+    record_check(RUST_REPORT, "mixed_riemann_free_of_sin_third")
+    record_check(PYTHON_REPORT, "mixed_riemann_free_of_warp_and_exponential")
     check(warp_free, "no R^ab_cd contains sin(z)^(1/3) or e^(a4): the warp cancels",
           record="Revision/gkd_lovelock/results/lovelock-report.json, check "
                  "mixed_riemann_free_of_sin_third, and python-lovelock-report.json, "
@@ -778,6 +833,7 @@ CELLS = [
         record_riemann[key] = from_mathematica(entry["value"])
     check(sorted(record_riemann) == sorted(R_mixed),
           "the same 156 non-zero components R^ab_cd as the record")
+    record_check(PYTHON_REPORT, "rust_riemann_agrees")
     check(all(same(R_mixed[k], v) for k, v in record_riemann.items()),
           "every component R^ab_cd equals the record exactly",
           record=f"{CURVATURE_RECORD}, riemannMixedNonzero (and "
@@ -794,20 +850,38 @@ CELLS = [
     md(r"""
     ## 10. The curvature of every coordinate plane
 
-    For two different coordinates $x_a$ and $x_b$ the number $R^{ab}{}_{ab}$ (no sum) is
-    the curvature of the coordinate plane spanned by them. The next cell computes all
-    28 of them as formulas, prints one plane of each kind, and checks the six
-    formulas: 3-space with 3-space and extra time with extra time $a_4'^2 - H^2$;
-    3-space with an extra time $-(a_4'^2 + H^2)$; 3-space with the time $x_4$
-    $a_4'^2 + a_4''$; the time with an extra time $a_4'^2 - a_4''$; a 3-space or
+    For two different coordinates $x_a$ and $x_b$ the number $\sigma(a, b) =
+    R^{ab}{}_{ab}$ (no sum) is the curvature of the coordinate plane spanned by them.
+    The next cell computes all 28 of them as formulas, prints one plane of each kind,
+    and checks the six formulas: 3-space with 3-space and extra time with extra time
+    $a_4'^2 - H^2$; 3-space with an extra time $-(a_4'^2 + H^2)$; 3-space with the time
+    $x_4$ $a_4'^2 + a_4''$; the time with an extra time $a_4'^2 - a_4''$; a 3-space or
     extra-time direction with the hidden $x_8$ $-H^2$; the time with the hidden $x_8$
-    zero. None depends on $z$ or on the value of $a_4$. Then it draws them as
-    $8 \times 8$ heat maps along the deflating history $a_4 = AHx_4$ ($a_4' = AH$,
-    $a_4'' = 0$, $H = 1$) for the three slopes $A = 0.5$, $1$ (the canonical value of
-    the Revision record) and $2$, all positive, so that in all three the extra times
-    deflate; the diagonal is left empty. The planes inside 3-space and inside the extra
-    times change sign at $A = 1$: $a_4'^2 - H^2 = H^2(A^2 - 1)$ is negative for $A < 1$,
-    zero at $A = 1$ and positive for $A > 1$.
+    zero. None depends on $z$ or on the value of $a_4$.
+
+    What does the sign mean? Only 6 of the 28 planes are spanned by two space-like
+    directions (two of $x_1, x_2, x_3$, or one of them with $x_8$); only for these does
+    a positive value mean curved like a sphere and a negative one like a saddle. The
+    other 22 planes contain a time-like direction, and there the sign is read from
+    free fall. The clearest case: two observers at rest (they fall freely, section 8),
+    a small coordinate distance $\Delta x_a$ apart along a transverse direction $x_a$,
+    are a proper distance $\xi = h_a\,\Delta x_a$ apart, where $h_a$ is the scale factor;
+    the proper time of both is $\tau = x_4$. The cell computes $(d^2\xi/d\tau^2)/\xi =
+    (\partial_4^2 h_a)/h_a$ for $x_a = x_1$ (with $h_1 = e^{a_4}\sin^{1/6}z$) and
+    $x_a = x_5$ (with $h_5 = e^{-a_4}\sin^{1/6}z$) and checks that it is exactly
+    $\sigma(a, x_4)$: $d^2\xi/d\tau^2 = +\sigma(a, x_4)\,\xi$. Along the history
+    $a_4 = AHx_4$ both are $A^2H^2 > 0$: a positive curvature, and yet the 3-space
+    distance grows like $e^{AH\tau}$ (the extra-time distance shrinks like
+    $e^{-AH\tau}$, also with a positive second derivative); on a sphere a positive
+    curvature pulls neighbouring paths together, $d^2\xi/ds^2 = -\sigma\,\xi$.
+
+    Then the cell draws the 28 plane curvatures as $8 \times 8$ heat maps along the
+    deflating history $a_4 = AHx_4$ ($a_4' = AH$, $a_4'' = 0$, $H = 1$) for the three
+    slopes $A = 0.5$, $1$ (the canonical value of the Revision record) and $2$, all
+    positive, so that in all three the extra times deflate; the diagonal is left empty.
+    The planes inside 3-space and inside the extra times change sign at $A = 1$:
+    $a_4'^2 - H^2 = H^2(A^2 - 1)$ is negative for $A < 1$, zero at $A = 1$ and positive
+    for $A > 1$.
     """),
     code(r'''
     plane = {(a, b): plain(sp.S(get(R_mixed, (a, b, a, b))))  # sp.S: 0 as a sympy 0
@@ -820,6 +894,17 @@ CELLS = [
     check(all(sp.expand(plane[key] - formula) == 0 for key, formula in expected.items())
           and all(not v.has(z) and not v.has(a4v) for v in plane.values()),
           "the plane curvatures have the six formulas and do not depend on z or a4")
+    sixth = sp.sin(6 * H * x8) ** sp.Rational(1, 6)  # sin(z)^(1/6)
+    apart = {0: sp.exp(a4) * sixth, 4: sp.exp(-a4) * sixth}  # the scale factors h1, h5
+    growth = {}  # (d^2 xi/d tau^2)/xi for observers at rest apart along x1 or x5
+    for a, h_a in apart.items():  # xi = h_a times a fixed coordinate distance, tau = x4
+        growth[a] = sp.expand(plain(sp.simplify(sp.diff(h_a, x4, 2) / h_a)))
+        say(f"  at rest, apart along {NAMES[a]}: (d^2 xi/d tau^2)/xi = {growth[a]}")
+    check(sp.simplify(apart[0] ** 2 - g[0, 0]) == 0
+          and sp.simplify(apart[4] ** 2 + g[4, 4]) == 0
+          and all(sp.expand(growth[a] - plane[(a, 3)]) == 0 for a in apart),
+          "observers at rest: d^2 xi/d tau^2 = +R^ab_ab xi in the planes (x1, x4) and "
+          "(x5, x4)")
     SLOPES = (0.5, 1.0, 2.0)  # three deflating histories, A > 0
     fig, axes = plt.subplots(1, 3, figsize=(14.0, 4.8))  # wide: room for -1.25
     for ax, slope in zip(axes, SLOPES):

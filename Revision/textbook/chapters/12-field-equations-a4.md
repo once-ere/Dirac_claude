@@ -476,7 +476,7 @@ $$
 
 $$
 \begin{aligned}
-\nabla_\mu T^\mu{}_{x_4} &= \partial_4 T^{x_4}{}_{x_4} + \partial_8 T^{x_8}{}_{x_4} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_4}\Big)T^{x_4}{}_{x_4} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_8}\Big)T^{x_8}{}_{x_4} \
+\nabla_\mu T^\mu{}_{x_4} &= \partial_4 T^{x_4}{}_{x_4} + \partial_8 T^{x_8}{}_{x_4} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_4}\Big)T^{x_4}{}_{x_4} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_8}\Big)T^{x_8}{}_{x_4} \\
 &\quad - \sum_\mu\Gamma^\mu{}_{\mu x_4}T^\mu{}_\mu - \Gamma^{x_8}{}_{x_4x_4}T^{x_4}{}_{x_8} - \Gamma^{x_4}{}_{x_8x_4}T^{x_8}{}_{x_4}
 \end{aligned}
 $$
@@ -499,7 +499,7 @@ $$
 
 $$
 \begin{aligned}
-\nabla_\mu T^\mu{}_{x_8} &= \partial_4 T^{x_4}{}_{x_8} + \partial_8 T^{x_8}{}_{x_8} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_4}\Big)T^{x_4}{}_{x_8} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_8}\Big)T^{x_8}{}_{x_8} \
+\nabla_\mu T^\mu{}_{x_8} &= \partial_4 T^{x_4}{}_{x_8} + \partial_8 T^{x_8}{}_{x_8} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_4}\Big)T^{x_4}{}_{x_8} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_8}\Big)T^{x_8}{}_{x_8} \\
 &\quad - \sum_\mu\Gamma^\mu{}_{\mu x_8}T^\mu{}_\mu - \Gamma^{x_8}{}_{x_4x_8}T^{x_4}{}_{x_8} - \Gamma^{x_4}{}_{x_8x_8}T^{x_8}{}_{x_4}
 \end{aligned}
 $$
@@ -520,7 +520,7 @@ $$
 
 $$
 \begin{aligned}
-&= \partial_8 p_8 + 6H\cot z\,p_8 - 3H\cot z\,(p_3 + p_t) + \partial_4 q_{48} \
+&= \partial_8 p_8 + 6H\cot z\,p_8 - 3H\cot z\,(p_3 + p_t) + \partial_4 q_{48} \\
 &= \partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t) + \partial_4 q_{48}
 \end{aligned}
 $$
