@@ -68,10 +68,11 @@ FACTS = {
          "charge_conjugation_matrix_minus, majorana_conditions_consistent, "
          "bilinears_under_charge_conjugation, real_fields_charge_conjugation)"],
         ["Revision/theory/field-theory.json",
-         "the formula exact_solutions, item (i): the exact solution with U = 0 in the "
-         "author's metric (reproduced and conjugated)"],
+         "the formulas field_equation and exact_solutions, item (i): the field equation "
+         "in the author's metric and its exact solution with U = 0 (read, compared word "
+         "for word, reproduced and conjugated)"],
         ["Revision/theory/reports/python-field-theory.json",
-         "check exact_solution_family_x4_x8 (reproduced)"],
+         "check exact_solution_family_x4_x8 (read and reproduced)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -84,7 +85,7 @@ FACTS = {
     ),
     "final_lines": [
         "PASS the seven figure files of notebook 21a exist",
-        "ALL 26 CHECKS PASSED (notebook 21a)",
+        "ALL 27 CHECKS PASSED (notebook 21a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming a file in the folder `Revision/algebra`, "
@@ -131,8 +132,11 @@ CELLS = [
        and the nontrivial real map is the matrix $\Gamma$ with the mass reversed.
 
     Nine checks reproduce checks of the Revision record
-    `Revision/lead_checks/reports/charge-conjugation-and-u1.json`; two more reproduce
-    the exact solution of the Revision field-theory record. Seven teaching plots.
+    `Revision/lead_checks/reports/charge-conjugation-and-u1.json`; two more read the
+    field equation and its exact solution from the Revision field-theory record
+    `Revision/theory/field-theory.json` and reproduce the check
+    exact_solution_family_x4_x8 of `Revision/theory/reports/python-field-theory.json`.
+    Seven teaching plots.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -623,11 +627,38 @@ CELLS = [
     and $k^2 = 9/4 - 4 = -7/4 < 0$, so $k = i\sqrt7/2$ is imaginary; with
     $\cosh(i\theta) = \cos\theta$ and $\sinh(i\theta)/i = \sin\theta$ the solution
     oscillates: $\cosh(kx_4) = \cos(wx_4)$ and $\sinh(kx_4)/k = \sin(wx_4)/w$ with
-    $w = \sqrt7/2$. Both are real functions, so conjugation acts only on $\chi$. The
-    next cell builds $\Psi$ with sympy for a fixed complex $\chi$ and checks, exactly,
-    that $E_m[\Psi] = 0$ (Revision check exact_solution_family_x4_x8).
+    $w = \sqrt7/2$. Both are real functions, so conjugation acts only on $\chi$.
+
+    The next cell first reads the two formulas from the Revision record (written there
+    in Wolfram notation: `g[x4]` is $\gamma^{(x4)}$, `d4` is $\partial_4$, `al` is
+    $\alpha$, `E^a4[x4]` is $e^{a_4}$) and checks that they are, word for word, the
+    formulas written above, so that any later change of the record is caught. Then it
+    builds $\Psi$ with sympy for a fixed complex $\chi$ and checks, exactly, that
+    $E_m[\Psi] = 0$ (Revision check exact_solution_family_x4_x8).
     """),
     code(r'''
+    THEORY = {f["key"]: f["wl"] for f in json.loads(repository_file(
+        "Revision/theory/field-theory.json").read_text(encoding="utf-8"))["formulas"]}
+    PY_THEORY = {c["name"]: c["verdict"].upper() for c in json.loads(repository_file(
+        "Revision/theory/reports/python-field-theory.json").read_text(
+        encoding="utf-8"))["checks"]}
+    # the left side of the record's field equation, word for word (right side m + U')
+    FIELD_EQUATION_LEFT = (
+        "E^-a4[x4] Sin[z]^(-1/6) (g[x1] d1 + g[x2] d2 + g[x3] d3) Psi + g[x4] d4 Psi"
+        " + E^a4[x4] Sin[z]^(-1/6) (g[x5] d5 + g[x6] d6 + g[x7] d7) Psi"
+        " + Tan[z] g[x8] d8 Psi + 3 H g[x8] Psi")
+    # item (i) of the record's formula exact_solutions, word for word
+    SOLUTION_I = (
+        "(i) U = 0: Psi = Sin[z]^al (Cosh[k x4] + Sinh[k x4]/k M) chi, M = -m g[x4]"
+        " + 3 H (2 al + 1) g[x4].g[x8], k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4)")
+    left, right = THEORY["field_equation"].split(" = ")  # the two sides
+    say("record, exact solution " + SOLUTION_I)
+    check(left == FIELD_EQUATION_LEFT and right.startswith("(m + U")
+          and THEORY["exact_solutions"].startswith(SOLUTION_I + "; "),
+          "the record states the field equation and the exact solution (i) used here",
+          record="Revision/theory/field-theory.json, formulas field_equation and "
+          "exact_solutions")
+
     x4, z = sp.symbols("x4 z", real=True)  # the time x4 and the angle z = 6 H x8
     H, alpha, m = sp.Rational(1, 6), 1, 2  # the parameters chosen above
     b = 3 * H * (2 * alpha + 1)  # b = 3/2
@@ -655,7 +686,8 @@ CELLS = [
     U = sp.cos(w * x4) * sp.eye(16) + sp.sin(w * x4) / w * M_of(m)  # real 16 x 16
     Psi = sp.sin(z) ** alpha * U * chi
     check(E(m, Psi).expand() == sp.zeros(16, 1)
-          and sp.simplify(M_of(m) ** 2 + w ** 2 * sp.eye(16)) == sp.zeros(16, 16),
+          and sp.simplify(M_of(m) ** 2 + w ** 2 * sp.eye(16)) == sp.zeros(16, 16)
+          and PY_THEORY["exact_solution_family_x4_x8"] == "PASS",
           "the record's exact solution solves the field equation (mass m = 2)",
           record="Revision/theory/reports/python-field-theory.json, check "
           "exact_solution_family_x4_x8")
@@ -1049,8 +1081,9 @@ CELLS = [
       the matrix $\Gamma$ with the mass reversed. Plain complex conjugation is never
       the charge conjugation of a real field: charge conjugation is a matrix.
     - Reproduced: nine checks of `Revision/lead_checks/reports/
-      charge-conjugation-and-u1.json` and the check exact_solution_family_x4_x8 of
-      `Revision/theory/reports/python-field-theory.json`.
+      charge-conjugation-and-u1.json`, the formulas field_equation and exact_solutions
+      of `Revision/theory/field-theory.json` (compared word for word) and the check
+      exact_solution_family_x4_x8 of `Revision/theory/reports/python-field-theory.json`.
     """),
 ]
 

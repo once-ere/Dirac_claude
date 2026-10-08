@@ -732,6 +732,7 @@ CELLS = [
     axes[0].set_title("Good sector: real frequencies $\\pm\\sqrt{m^2 + k_1^2}$")
     axes[0].legend(fontsize=7)
     axes[1].set_xlabel("momentum $k_5$ along the extra time $x5$")
+    axes[1].set_ylabel("largest real or imaginary part of the eigenvalues")
     axes[1].set_title("Extra-time momentum: imaginary beyond $|k_5| = |m|$")
     axes[1].legend(fontsize=7)
     save_figure(fig, "dispersion_pm_mass",

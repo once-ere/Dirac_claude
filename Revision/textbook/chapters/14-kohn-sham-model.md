@@ -14,8 +14,8 @@ Chapter 13 taught density functional theory from zero: how the hopeless problem 
 - The splitting of the 16 components into eight independent $2 \times 2$ blocks of two types (Section 14.5), and the chirality matrix $\Gamma$ and the rotations of 3-space on these blocks (Section 14.6).
 - The exact rescaling identity between the instants of the deflating history (Section 14.7).
 - The block equation in real form and its boundary conditions at the brane and at the tip (Section 14.12), the exact free levels at zero 3-momentum (Section 14.13) and the shooting method that finds every level by an integer label (Section 14.14).
-- The brane band that grows out of the zero modes when the 3-momentum is switched on, its exact slope, its redshift along the history, and the closed shells of the free filling (Sections 14.19 to 14.21).
-- The exact local exchange energy of the contact interaction and the Kohn-Sham potentials (Sections 14.26 and 14.27).
+- The brane band that grows out of the zero modes when the 3-momentum is switched on, its exact slope, its redshift along the history, its insensitivity to the tip, and the closed shells of the free filling (Sections 14.19 to 14.21).
+- The exact local exchange energy of the contact interaction, the Kohn-Sham potentials, the exact Fock exchange of the model's states and the state of the eight zero modes (Sections 14.26 and 14.27).
 
 **The four notebooks.**
 
@@ -28,14 +28,13 @@ Chapter 13 taught density functional theory from zero: how the hopeless problem 
 
 None of them needs Rust: Notebooks 14b and 14c write the shooting method of the Revision Rust solver in a few lines of numpy and reproduce the solver's recorded numbers; Chapter 15 runs the Rust solver itself.
 
-**The status of every statement.** As everywhere in this book, every statement carries one of the labels of Chapter 0. In this chapter they are used as follows.
+**The status of every statement.** As everywhere in this book, every statement carries one of the five labels of Chapter 0: PROVED, COMPUTED, ASSUMED, HYPOTHESIS, OPEN. In this chapter they are used as follows.
 
-- PROVED: every identity of Sections 14.2 to 14.7, the boundary-condition facts of Section 14.12, the exact spectra of Section 14.13, the slope formula of Section 14.19 and the exchange formulas of Sections 14.26 and 14.27. Each is verified twice in the Revision record, by sympy in `Revision/kohn_sham/reports/ks-theory-python.json` (58 of 58 checks passed) and by WolframScript in `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 of 46 checks passed), and again by the notebooks of this chapter; the check names are given with each statement.
-- COMPUTED: the numerical levels, slopes and closed shells; each comes with its measured error and the record file it reproduces (the Rust solver's report `Revision/kohn_sham/reports/ks-rust-solver.json`, 42 of 42 checks passed, and its result files).
-- ASSUMED: the good sector (no dependence on the extra times) and the Z2 mirror brane at $y = 0$.
-- CHOSEN: the regular tip condition at the cutoff $y = -L$ (a choice of the numerical model, shown in Section 14.20 not to matter for the low levels).
-- PRESCRIBED BACKGROUND: the deflating history $a_4 = AHx_4$ along which the Kohn-Sham states are computed; it is given, not solved for (Section 14.3).
-- CONVENTION, justification OPEN: counting the zero modes at zero 3-momentum as particle levels (Section 14.21).
+- PROVED: every identity of Sections 14.2 to 14.7, the boundary-condition facts of Section 14.12, the exact spectra of Section 14.13, the counting property of the shooting angle in Section 14.14, the slope formula of Section 14.19 and the exchange formulas of Sections 14.26 and 14.27. Each is verified in the Revision record by sympy in `Revision/kohn_sham/reports/ks-theory-python.json` (in its present state 58 of 58 checks passed), most of them also by WolframScript in `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 of 46 checks passed), and again by the notebooks of this chapter; the check names are given with each statement.
+- COMPUTED: the numerical levels, slopes, shifts and closed shells; each comes with its measured error and the record file it reproduces (the Rust solver's report `Revision/kohn_sham/reports/ks-rust-solver.json`, in its present state 42 of 42 checks passed, and its result files).
+- ASSUMED: the good sector (no dependence on the extra times); the Z2 mirror brane at $y = 0$; the regular tip condition at the cutoff $y = -L$ (a choice of the numerical model; Section 14.20 shows that the brane band at nonzero 3-momentum does not feel it); the deflating history $a_4 = AHx_4$ along which the Kohn-Sham states are computed, which is a **prescribed background**, given and not solved for (Section 14.3); the convention that counts the zero modes at zero 3-momentum as particle levels (Section 14.21).
+- OPEN: the justification of that convention (Section 14.21), and the behaviour of the gas when the history is not slow (the time-dependent problem, Chapter 15 and Chapter 22).
+- HYPOTHESIS: none in this chapter.
 
 **Notation and units.** The author's coordinates are $x_1, \dots, x_8$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which deflate exponentially; $x_8$ is the hidden space direction. The flat frame metric is $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in this order. The gamma matrix of the direction $x_4$ is written $\gamma^{(x_4)}$, and so on; these are the author's eight real $16 \times 16$ matrices of Chapters 4 and 5, read from the record `Revision/algebra/gammas.json`, with the Clifford relation $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}$. The matrices $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, $B = -iC\gamma^{(x_4)}$ and the chirality $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-1_8, 1_8)$ are those of Chapter 5. The three **Pauli matrices**, written row by row, are
 
@@ -99,7 +98,7 @@ $$
 \sqrt{|g|} = (e^{a_4}W)^3\cdot 1\cdot(e^{-a_4}W)^3\cdot 1 = e^{3a_4}e^{-3a_4}W^6 = W^6 = e^{6Hy} .
 $$
 
-Rule: multiply the eight entries of $h$; the powers $e^{3a_4}$ and $e^{-3a_4}$ cancel. In the author's $x_8$ chart the same product is $\sin z\cdot\cot z = \cos z$; the two differ by the factor $dy/dx_8 = \cot z$, as they must. Neither contains $a_4$: while 3-space inflates and the extra times deflate, the volume of the seven directions other than the time stays the same. Toward the tip the factor $W^6$ goes to zero: at $y = -3$ it is $e^{-18}$. Status: PROVED; checks geometry_hidden_coordinate, geometry_sqrt_det and geometry_warped_form of `Revision/kohn_sham/reports/ks-theory-python.json`, and the same names in the Wolfram report.
+Rule: multiply the eight entries of $h$; the powers $e^{3a_4}$ and $e^{-3a_4}$ cancel. In the author's $x_8$ chart the same product is $\sin z\cdot\cot z = \cos z$; the two differ by the factor $dy/dx_8 = \cot z$, as they must. Neither contains $a_4$: while 3-space inflates and the extra times deflate, the volume of the seven directions other than the time stays the same. Toward the tip the factor $W^6$ goes to zero: at $y = -3$ it is $e^{-18}$. Status: PROVED; checks geometry_hidden_coordinate, geometry_sqrt_det and geometry_warped_form of `Revision/kohn_sham/reports/ks-theory-python.json` (the first two also in the Wolfram report `Revision/kohn_sham/reports/ks-theory-wolfram.json`).
 
 **The momentum weight.** A plane wave $e^{ik_1x_1}$ along 3-space has the coordinate momentum $k_1$; the length of a coordinate step is $e^{a_4}W\,dx_1$, so the momentum per unit length, the one a quantum feels, is $k_1/(e^{a_4}W)$. We write
 
@@ -145,7 +144,7 @@ $$
 
 The number $\varepsilon$ is the **level** (the energy of the orbital), and the hidden direction is cut at $y = -L$ ($L = 3$ in the runs). The Kohn-Sham state of the slice fills the lowest particle levels. This is the **adiabatic** picture: if $h$ changes slowly enough along the history, a quantum stays in the level it occupies. The exact evolution conserves the 3-momentum, the block and the brane parity of every orbital (all defined below), so a quantum can only make transitions between levels of the same kind; Chapter 15 measures how slowly $h$ changes. The record states this in `Revision/kohn_sham/ks-theory.json`, section adiabaticity.
 
-**The history is a PRESCRIBED BACKGROUND.** The slices are taken along the history $a_4 = AHx_4$ with $A = 1$, so $a_{4,0} = 0, 0.5, 1, 1.5, 2$ are five instants. This history is prescribed, not solved for: the field equations of $a_4$ (Chapter 12) allow the linear member $a_4 = AHx_4$ only with a source whose three pressures are equal and whose energy density is constant, and the Kohn-Sham states violate these conditions (their sources depend on $x_8$, and $p_3 \ne p_t$). The record `Revision/field_equations_a4/reports/ks-source-conditions.json` proves this in 5 of 5 checks, in particular ks_history_is_a_prescribed_background (Chapter 17 explains it in full). So the Kohn-Sham gas is a **test field** on a given background: it feels the deflating field but does not act back on it.
+**The history is a PRESCRIBED BACKGROUND.** The slices are taken along the history $a_4 = AHx_4$ with $A = 1$, so $a_{4,0} = 0, 0.5, 1, 1.5, 2$ are five instants. This history is prescribed, not solved for: the field equations of $a_4$ (Chapter 12) allow the linear member $a_4 = AHx_4$ only with a source whose three pressures are equal and whose energy density is constant, and the Kohn-Sham states violate these conditions (their sources depend on $x_8$, and $p_3 \ne p_t$). The record `Revision/field_equations_a4/reports/ks-source-conditions.json` proves this with its checks ks_profiles_depend_on_x8, ks_profiles_violate_algebraic_condition and ks_history_is_a_prescribed_background (Chapter 17 explains it in full). So the Kohn-Sham gas is a **test field** on a given background: it feels the deflating field but does not act back on it.
 
 ### 14.4 The spin connection, the term 3H γ(x8) and the factor W^(-3)
 
@@ -738,7 +737,7 @@ right.set_title("the factors of the warped metric")
 right.legend(fontsize=8)
 ```
 
-`semilogy` draws with a **logarithmic vertical axis**: equal distances mean equal factors (each tick is ten times the one below). On such an axis an exponential $e^{cy}$ is a straight line of slope $c$. The three curves are $W$, $W^2$ and $W^6$ with $H = 1$; `"--"` and `":"` draw dashed and dotted lines; `legend` shows the `label` texts in a box.
+`semilogy` draws with a **logarithmic vertical axis**: equal distances mean equal factors (each tick is ten times the one below). On such an axis an exponential $e^{cy}$ is a straight line of slope $c$. The three curves are $W$, $W^2$ and $W^6$ with $H = 1$; the third argument of `semilogy`, a short text called a **format string**, sets the line style: two hyphens draw a dashed line and a colon a dotted one (the plain `plot` lines of this book use the same format strings); `legend` shows the `label` texts in a box.
 
 ```python
 save_figure(fig, "hidden_coordinate",
@@ -1125,12 +1124,19 @@ def blocks_of(Xm):
 expected = [  # (name, matrix, the block form as a function of (j, s2, s3))
     ("gamma^(x8)", g8, lambda j, a, b: s3, "sigma3"),
     ("gamma^(x8) gamma^(x1)", A1, lambda j, a, b: -sp.I * s2m, "-i sigma2"),
-    ...
+    ("gamma^(x8) gamma^(x4)", A4, lambda j, a, b: j * s1, "j sigma1"),
+    ("B", B, lambda j, a, b: j * a * I2, "j s2"),
+    ("C", C, lambda j, a, b: a * s2m, "s2 sigma2"),
+    ("BC = -i gamma^(x4)", B * C, lambda j, a, b: j * s2m, "j sigma2"),
+    ("gamma^(x4) gamma^(x1)", g4 * g1, lambda j, a, b: -j * s3, "-j sigma3"),
+    ("B gamma^(x8)", B * g8, lambda j, a, b: j * a * s3, "j s2 sigma3"),
+    ("J", J, lambda j, a, b: j * I2, "j"),
+    ("K1", K1, lambda j, a, b: sp.I * a * I2, "i s2"),
     ("K2", K2, lambda j, a, b: sp.I * b * I2, "i s3"),
 ]
 ```
 
-A list of eleven entries (nine of them left out here): the name, the matrix, its expected block form and the text to print. A `lambda` is a short nameless function: `lambda j, a, b: j * s1` returns $j\sigma_1$ for the labels $(j, s_2, s_3) = (j, a, b)$. The eleven forms are those of Section 14.5.
+A list of eleven entries, one per line: the name, the matrix, its expected block form and the text to print. A `lambda` is a short nameless function: `lambda j, a, b: j * s1` returns $j\sigma_1$ for the labels $(j, s_2, s_3) = (j, a, b)$; so the name `a` stands for $s_2$ and `b` for $s_3$ inside these lines (they are not the real-form components of Section 14.12). Line by line the expected forms are: $\gamma^{(x_8)} \to \sigma_3$; $A_1 \to -i\sigma_2$; $A_4 \to j\sigma_1$; $B \to js_2$ times the $2 \times 2$ unit matrix `I2`; $C \to s_2\sigma_2$; $BC \to j\sigma_2$; $\gamma^{(x_4)}\gamma^{(x_1)} \to -j\sigma_3$; $B\gamma^{(x_8)} \to js_2\sigma_3$; $J \to j$; $K_1 \to is_2$; $K_2 \to is_3$. These are the eleven forms of Section 14.5; the two not derived there follow from them: $BC = (js_2)(s_2\sigma_2) = j\sigma_2$ because $s_2^2 = 1$, and $B\gamma^{(x_8)} = (js_2)\sigma_3$.
 
 ```python
 all_forms = True

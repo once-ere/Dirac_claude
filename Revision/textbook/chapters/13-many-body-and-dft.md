@@ -615,7 +615,28 @@ for r1, r2 in itertools.product(range(3), repeat=2):  # write every value in
 
 `plt.subplots(1, 2, ...)` makes a figure with two pairs of axes side by side, named `left` and `right`. `imshow` draws a table as a **heat map**: each entry is a coloured square, here red for positive and blue for negative (`cmap="coolwarm"`, the colour scale from $-0.6$ to $0.6$), with row 0 at the bottom (`origin="lower"`). `itertools.product(range(3), repeat=2)` gives all nine pairs $(r_1, r_2)$, and `left.text` writes each value, with its sign and two decimals (`:+.2f`), in the middle of its square.
 
-The following lines set the tick marks 0, 1, 2 (`set_xticks`, `set_yticks`), label the axes and set the title; then `right.imshow(Phi_box, ..., extent=(0, 1, 0, 1))` draws the box determinant over the square $0 \le r_1, r_2 \le 1$, the next line draws the diagonal $r_1 = r_2$ as a thin dashed black line (its style string is the letter k, for black, followed by two hyphens), and `fig.colorbar` adds the colour scale. `save_figure` saves Figure 13c.1 with its caption, and the last lines check that the box determinant is antisymmetric as well:
+```python
+left.set_xticks([0, 1, 2])
+left.set_yticks([0, 1, 2])
+left.set_xlabel("position $r_2$ of fermion 2")
+left.set_ylabel("position $r_1$ of fermion 1")
+left.set_title("three points")
+```
+
+`set_xticks` and `set_yticks` put tick marks only at the three points 0, 1, 2; `set_xlabel`, `set_ylabel` and `set_title` write the axis labels and the title of the left panel. Text between two dollar signs is drawn by matplotlib as a formula, so `$r_2$` appears as $r_2$.
+
+```python
+image = right.imshow(Phi_box, origin="lower", extent=(0, 1, 0, 1),
+                     cmap="coolwarm")
+right.plot([0, 1], [0, 1], "k--", lw=0.8)
+right.set_xlabel("position $r_2$ of fermion 2")
+right.set_ylabel("position $r_1$ of fermion 1")
+right.set_title("two fermions in a box")
+fig.colorbar(image, ax=right, shrink=0.85)
+save_figure(fig, "slater_determinants",
+```
+
+The right panel draws the $101 \times 101$ table `Phi_box` as a heat map; `extent=(0, 1, 0, 1)` stretches it over the square $0 \le r_1, r_2 \le 1$, so that the axes show positions instead of table indices, and without `vmin` and `vmax` the colour scale runs over the table's own range. `right.plot([0, 1], [0, 1], "k--", lw=0.8)` draws the straight line from $(0, 0)$ to $(1, 1)$, the diagonal $r_1 = r_2$: in the style string the letter k means black and the two hyphens a dashed line, and `lw=0.8` is the line width in points. `fig.colorbar(image, ax=right, shrink=0.85)` adds the colour scale of the right panel, 85 per cent as tall as the panel. The call `save_figure(fig, "slater_determinants",` saves Figure 13c.1; the lines that follow it in the cell are the text of the caption, which the book prints under the figure. The last lines check that the box determinant is antisymmetric as well:
 
 ```python
 check(np.allclose(Phi_box, -Phi_box.T, atol=1e-14), "the box determinant is "
@@ -623,6 +644,8 @@ check(np.allclose(Phi_box, -Phi_box.T, atol=1e-14), "the box determinant is "
 ```
 
 (Python joins two strings written next to each other into one.)
+
+**What Figure 13c.1 shows.** On the left, the nine values of the three-point determinant: $+0.50$ in row $r_1 = 0$ at $r_2 = 1, 2$, $-0.50$ in column $r_2 = 0$ at $r_1 = 1, 2$, and 0 everywhere else, in particular on the diagonal. Reflecting the table in its diagonal changes every sign: that is antisymmetry. On the right, the box determinant is positive (red, up to about $+2.2$) where fermion 1 is to the right of fermion 2 ($r_1 > r_2$, above the dashed diagonal), negative (blue) in the mirror-image region, and exactly zero along the diagonal: two fermions with the same label are never found at the same place.
 
 **In [4], creation and annihilation operators as matrices.**
 
@@ -673,7 +696,22 @@ check(np.array_equal(np.diag(number), [bin(s).count("1") for s in range(DIM)]),
 
 `number` is $\hat N = \sum_p a_p^\dagger a_p$. Its diagonal must hold, for every state $s$, the number of ones in the binary form of $s$ (`bin(s)` writes $s$ in binary, `.count("1")` counts its ones).
 
-**In [5], the operator matrices as heat maps.** The loop `for ax, p in zip(axes, (1, 3)):` pairs the two axes with the orbitals 1 and 3 and draws `a_dag[p]` with `imshow` on the colour scale from $-1$ to $1$, with the title "creation operator" and axis labels for the state numbers before (column) and after (row). `fig.colorbar(image, ax=axes, shrink=0.8)` adds one colour scale for both, and `save_figure` saves Figure 13c.2. In the figure every column has at most one entry, $\pm1$: one in the columns of the states in which orbital $p$ is empty.
+**In [5], the operator matrices as heat maps.**
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(9.0, 4.2))
+for ax, p in zip(axes, (1, 3)):
+    image = ax.imshow(a_dag[p], cmap="coolwarm", vmin=-1, vmax=1)
+    ax.set_title(f"creation operator $a_{p}^\\dagger$")
+    ax.set_xlabel("state number before (column)")
+    ax.set_ylabel("state number after (row)")
+fig.colorbar(image, ax=axes, shrink=0.8)
+save_figure(fig, "operator_matrices",
+```
+
+`plt.subplots(1, 2, ...)` makes two panels, kept together in `axes`. `zip(axes, (1, 3))` pairs the first panel with orbital 1 and the second with orbital 3, and the loop draws `a_dag[p]`, the $16 \times 16$ matrix of $a_p^\dagger$, as a heat map with the colour scale fixed from $-1$ (blue) through 0 (grey) to $+1$ (red). Without `origin="lower"`, `imshow` puts row 0 at the top, as a matrix is printed. In the title the f-string puts the value of `p` in place of `{p}`, and the doubled backslash is one backslash in the text, so matplotlib draws $a_1^\dagger$ and $a_3^\dagger$. The axis labels say that a column is the state before the operator acts and a row the state after it. `fig.colorbar(image, ax=axes, shrink=0.8)` draws one colour scale for both panels. `save_figure` saves Figure 13c.2 (the lines after it are the caption).
+
+**What Figure 13c.2 shows.** Every column holds at most one coloured square, so each operator sends a state to exactly one other state or to zero. In the left panel ($a_1^\dagger$) the squares sit in the columns 0, 1, 4, 5, 8, 9, 12, 13, the states in which orbital 1 is empty, and in the rows two higher (bit 1 switched on, which adds $2^1 = 2$ to the state number); the columns 0, 4, 8, 12 (orbital 0 empty) carry $+1$ and the columns 1, 5, 9, 13 (orbital 0 occupied) carry $-1$, the sign $(-1)^{\nu_1}$. In the right panel ($a_3^\dagger$) the columns 0 to 7 go to the rows 8 to 15, with the sign $+1$ or $-1$ according to whether an even or an odd number of the orbitals 0, 1, 2 is occupied. The columns 8 to 15 are empty: there orbital 3 is already occupied, and the Pauli principle gives zero.
 
 **In [6], Wick's theorem for a determinant.**
 
@@ -780,7 +818,35 @@ for label, expect, rho in (("determinant", in_determinant, rho_det),
 
 For the determinant and for the thermal ensemble, `lhs` is the expectation value of ${:}S^2{:}$ computed from the matrices and `rhs` the formula $(\mathrm{Tr}\,V\rho)^2 - \mathrm{Tr}(V\rho V\rho)$ of Section 13.4. The printed values agree to all ten printed decimals, $-1.0717850309$ and $-1.9027816067$, and each check names the Revision check hf_wick_contraction whose identity it reproduces.
 
-**In [9], the density matrices.** The left heat map shows `np.abs(rho_det)`, the sizes of the 16 entries of the determinant's density matrix. On the right, `np.linalg.eigvalsh` computes the eigenvalues of each density matrix, `np.sort(...)[::-1]` sorts them from the largest down, and `right.bar(positions - 0.2, ..., width=0.4)` and `right.bar(positions + 0.2, ...)` draw them as two rows of bars side by side. `save_figure` saves Figure 13c.3, and the check
+**In [9], the density matrices.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+image = left.imshow(np.abs(rho_det), cmap="viridis", vmin=0.0)
+left.set_title("$|\\rho_{qp}|$ of the determinant")
+left.set_xticks(range(M))
+left.set_yticks(range(M))
+left.set_xlabel("$p$")
+left.set_ylabel("$q$")
+fig.colorbar(image, ax=left, shrink=0.85)
+```
+
+The left panel is a heat map of `np.abs(rho_det)`, the sizes $|\rho_{qp}|$ of the 16 complex entries of the determinant's density matrix, on the colour scale viridis (dark blue for small, yellow for large values) starting at 0 (`vmin=0.0`); the column is $p$ and the row is $q$. The tick marks are put at the four orbital numbers (`range(M)` is $0, 1, 2, 3$), and the colour scale is added beside the panel.
+
+```python
+occupations_det = np.sort(np.linalg.eigvalsh(rho_det))[::-1]
+occupations_th = np.sort(np.linalg.eigvalsh(rho_thermal))[::-1]
+positions = np.arange(M)
+right.bar(positions - 0.2, occupations_det, width=0.4, label="determinant")
+right.bar(positions + 0.2, occupations_th, width=0.4, label="thermal, $T = 0.5$")
+right.set_xticks(positions)
+right.set_xlabel("eigenvalue number")
+right.set_ylabel("occupation (eigenvalue of $\\rho$)")
+right.legend()
+save_figure(fig, "density_matrices",
+```
+
+`np.linalg.eigvalsh` computes the eigenvalues of a Hermitian matrix (real numbers, in increasing order); `np.sort(...)[::-1]` sorts them and reverses the order (the slice `[::-1]` steps backwards through an array), so the largest comes first. `positions` is $0, 1, 2, 3$. `right.bar(x, heights, width=0.4, ...)` draws a bar of the given height at each position $x$; shifting the two sets of bars by $\mp0.2$ puts them side by side. The `label` of each set appears in the legend (`right.legend()`). `save_figure` saves Figure 13c.3, and the check
 
 ```python
 check(np.allclose(occupations_det, [1, 1, 0, 0], atol=1e-14)
@@ -789,6 +855,8 @@ check(np.allclose(occupations_det, [1, 1, 0, 0], atol=1e-14)
 ```
 
 requires the eigenvalues to be exactly $1, 1, 0, 0$ for the determinant and the Fermi-Dirac numbers $f_p$ for the ensemble.
+
+**What Figure 13c.3 shows.** On the left, all 16 entries of the determinant's density matrix are nonzero (between about 0.05 and 0.85): in the randomly mixed basis the two occupied orbitals are spread over all four basis orbitals, so $\rho$ does not look like a projector. Its eigenvalues on the right are nevertheless exactly 1, 1, 0, 0 (blue bars): the determinant occupies two orbitals completely and the others not at all. The thermal ensemble (orange bars) has the four Fermi-Dirac numbers, about 0.88, 0.65, 0.31 and 0.08 for the levels $-1$, $-0.3$, $0.4$, $1.2$ at $T = 0.5$: every level is partly occupied, the lower ones more.
 
 **In [10], the energy of a determinant.**
 
@@ -815,7 +883,16 @@ formula = sum(h_one[k, k] for k in (0, 1)) + 0.5 * sum(
     w[k, l, k, l] - w[k, l, l, k] for k in (0, 1) for l in (0, 1))
 ```
 
-`H_many` is the $16 \times 16$ matrix of $\hat H = \sum h_{pq}a_p^\dagger a_q + \tfrac12\sum w_{pqrs}a_p^\dagger a_q^\dagger a_s a_r$. `direct` is the expectation value of $\hat H$ in the determinant of the basis orbitals 0 and 1, and `formula` is $\sum_a h_{aa} + \tfrac12\sum_{a,b}(w_{abab} - w_{abba})$ of Section 13.5. The cell prints both, $-1.5322375649$, and checks that they agree to $10^{-12}$.
+`H_many` is the $16 \times 16$ matrix of $\hat H = \sum h_{pq}a_p^\dagger a_q + \tfrac12\sum w_{pqrs}a_p^\dagger a_q^\dagger a_s a_r$, built in two statements (the one-body part, then the two-body part added to it). `basis_det` is the column of the state $a_0^\dagger a_1^\dagger|0\rangle$; since all matrices here are real, `basis_det @ H_many @ basis_det` (row times matrix times column) is the expectation value `direct` of $\hat H$ in this determinant of the basis orbitals 0 and 1. `formula` is $\sum_a h_{aa} + \tfrac12\sum_{a,b}(w_{abab} - w_{abba})$ of Section 13.5, with the sums over $a, b \in \{0, 1\}$ written as generator expressions.
+
+```python
+say(f"<Phi|H|Phi> = {direct:.10f};  sum h_aa + (1/2) sum (w_abab - w_abba) = "
+    f"{formula:.10f}")
+check(abs(direct - formula) < 1e-12,
+      "the energy of a determinant is one-body + direct - exchange")
+```
+
+The cell prints both numbers with ten decimals, $-1.5322375649$ and $-1.5322375649$, and checks that they agree to $10^{-12}$.
 
 **In [11], the exact two-site model.**
 
@@ -916,7 +993,33 @@ report("U of the largest correlation energy (in size)",
 
 The correlation energy at the entry 8, $U = 8 \cdot 0.25 = 2$, is $-0.236068$. On a fine grid of $U$ beyond $2t$ the cell evaluates $E_0 - E_{HF} = \tfrac12(U - \sqrt{U^2 + 16}) + 2/U$, and `np.argmin` finds the place of its most negative value: the correlation energy is largest in size at $U = 3.335\,t$.
 
-**In [13], the energies.** The left panel draws the restricted energy (dashed), the closed-form unrestricted energy (dash-dotted) and the exact energy (thick black) against $U/t$, with a grey vertical line at $U = 2t$ (`axvline`); the right panel draws the correlation energy with points joined by a line (`"o-"`, `ms=3` sets the size of the points). `fig.subplots_adjust(wspace=0.32)` leaves room between the panels, `fig.suptitle` sets one title above both, and `save_figure` saves Figure 13c.4; its caption puts the computed place of the largest correlation energy into the text with an f-string.
+**In [13], the energies.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+left.plot(U_values, E_rhf, "--", label="restricted HF $-2t + U/2$")
+left.plot(U_values, E_closed, "-.", label="unrestricted HF")
+left.plot(U_values, E_exact, color="black", lw=2.0, label="exact $E_0$")
+left.axvline(2.0, color="gray", lw=0.8)
+left.set_xlabel("repulsion $U/t$")
+left.set_ylabel("ground-state energy ($t$)")
+left.legend(fontsize=8)
+```
+
+`left.plot(x, y, style, label=...)` draws the points $(x, y)$ joined by a line: the restricted energy $-2t + U/2$ dashed (`"--"`), the best determinant's energy in closed form dash-dotted (`"-."`), and the exact energy as a thick black line (`lw=2.0`). `axvline(2.0, ...)` draws a thin grey vertical line at $U = 2t$, where restricted and unrestricted Hartree-Fock separate. The axis labels give the units: $U$ is divided by $t$, and the energies are in units of $t$. `legend(fontsize=8)` lists the three labels in small letters.
+
+```python
+right.plot(U_values, E_c, "o-", ms=3, color="black")
+right.set_xlabel("repulsion $U/t$")
+right.set_ylabel("correlation energy $E_0 - E_{HF}$ ($t$)")
+fig.subplots_adjust(wspace=0.32)  # room between the panels for the axis label
+fig.suptitle("Two electrons on two sites: exact versus Hartree-Fock")
+save_figure(fig, "two_site_energies",
+```
+
+The right panel draws the correlation energy at the 33 values of $U$ as dots joined by a line (`"o-"`; `ms=3` is the size of the dots in points). `fig.subplots_adjust(wspace=0.32)` widens the gap between the panels so that the label of the right vertical axis does not touch the left panel, and `fig.suptitle` writes one title above both panels. `save_figure` saves Figure 13c.4. Its caption is not a fixed text: one of its lines is an f-string with the expression `fine_U[np.argmin(fine_c)]:.1f` in braces, which writes the computed place of the largest correlation energy, rounded to one decimal (3.3), into the caption.
+
+**What Figure 13c.4 shows.** On the left, all three energies start at $-2t$ for $U = 0$ (both electrons in the bonding orbital, no repulsion). The restricted energy rises along the straight line $-2t + U/2$; the best determinant follows it up to $U = 2t$ and then bends away towards 0 as $-2t^2/U$; the exact energy lies below both at every $U > 0$ and also approaches 0 for large $U$. On the right, the correlation energy is zero at $U = 0$, falls to its most negative value, about $-0.337\,t$, near $U = 3.3t$, and then rises slowly towards zero: at large $U$ the electrons sit on different sites anyway, and the unrestricted determinant describes that well.
 
 **In [14], the double occupancy.**
 
@@ -924,7 +1027,21 @@ The correlation energy at the entry 8, $U = 8 \cdot 0.25 = 2$, is $-0.236068$. O
 D_uhf = np.where(U_values <= 2.0, 0.5, 2.0 / U_safe ** 2)
 ```
 
-The unrestricted double occupancy is $\tfrac12(1 + c_\alpha c_\beta)$ with $c_\beta = -c_\alpha$ and $s_\alpha = 2t/U$, that is $\tfrac12(1 - c_\alpha^2) = \tfrac12 s_\alpha^2 = 2t^2/U^2$ for $U > 2t$, and $\tfrac12$ below. The cell draws the three double occupancies against $U/t$ (`np.ones_like(U_values)` is an array of ones of the same length), saves Figure 13c.5 and checks
+The unrestricted double occupancy is $\tfrac12(1 + c_\alpha c_\beta)$ with $c_\beta = -c_\alpha$ and $s_\alpha = 2t/U$, that is $\tfrac12(1 - c_\alpha^2) = \tfrac12 s_\alpha^2 = 2t^2/U^2$ for $U > 2t$, and $\tfrac12$ below (the formula $E(\alpha, \beta)$ of Section 13.7 is $U$ times this number plus the hopping energy).
+
+```python
+fig, ax = plt.subplots()
+ax.plot(U_values, 0.5 * np.ones_like(U_values), "--", label="restricted HF: 1/2")
+ax.plot(U_values, D_uhf, "-.", label="unrestricted HF: $2t^2/U^2$ for $U > 2t$")
+ax.plot(U_values, D_exact, color="black", lw=2.0, label="exact")
+ax.set_xlabel("repulsion $U/t$")
+ax.set_ylabel("double occupancy")
+ax.set_title("How often both electrons sit on the same site")
+ax.legend()
+save_figure(fig, "double_occupancy",
+```
+
+One panel with three curves against $U/t$: the restricted value $\tfrac12$ (`np.ones_like(U_values)` is an array of ones as long as `U_values`, so `0.5 * np.ones_like(U_values)` is the constant $\tfrac12$ at every $U$) dashed, the unrestricted value dash-dotted, and the exact double occupancy as a thick black line; then the axis labels, the title, the legend, and `save_figure` for Figure 13c.5. The cell then checks
 
 ```python
 check(abs(D_exact[8] - 0.276393) < 1e-6 and abs(D_exact[16] - 0.146447) < 1e-6,
@@ -934,6 +1051,8 @@ check(np.all(np.diff(D_exact) < 0), "the exact double occupancy falls as U grows
 
 the two worked values (entries 8 and 16 are $U = 2$ and $U = 4$) and that the exact double occupancy falls at every step of $U$ (`np.diff` gives the differences of neighbouring entries).
 
+**What Figure 13c.5 shows.** All three curves start at $\tfrac12$ for $U = 0$. The exact double occupancy falls smoothly from the start: the exact electrons begin to avoid each other at any repulsion, while each label stays shared equally between the sites. The restricted determinant stays at $\tfrac12$ for every $U$. The unrestricted one stays at $\tfrac12$ up to $U = 2t$, then drops steeply as $2t^2/U^2$, crosses the exact curve near $U = 3.3t$ and lies below it beyond: by breaking the left-right symmetry it overshoots.
+
 **In [15], the Hartree-Fock energy landscape.**
 
 ```python
@@ -941,7 +1060,38 @@ E_map = hf_energy(A, B, 4.0)
 index = np.unravel_index(np.argmin(E_map), E_map.shape)
 ```
 
-`E_map` is $E(\alpha, \beta)$ at $U = 4t$ on the whole grid of angles; `np.argmin` finds the position of its smallest value in the table read as one long list, and `np.unravel_index` turns that position back into a row and a column. `ax.contourf(A, B, E_map, levels=30, cmap="viridis")` draws the landscape with 30 colour bands; the white cross marks the restricted point $\alpha = \beta = \pi/4$ and the two red stars the minimum and its mirror image (the angles exchanged). After `save_figure` (Figure 13c.6) the check requires the smallest value to be $-2t^2/U = -0.5$ (to $10^{-5}$, the grid) and the restricted value to be $-2 + 4/2 = 0$.
+`E_map` is $E(\alpha, \beta)$ at $U = 4t$ on the whole grid of angles; `np.argmin` finds the position of its smallest value in the table read as one long list, and `np.unravel_index` turns that position back into a row and a column, the pair `index`.
+
+```python
+fig, ax = plt.subplots(figsize=(6.0, 5.0))
+contours = ax.contourf(A, B, E_map, levels=30, cmap="viridis")
+fig.colorbar(contours, ax=ax, label="$E(\\alpha, \\beta)$ ($t$)")
+ax.plot([np.pi / 4], [np.pi / 4], "wx", ms=10, label="restricted (saddle)")
+ax.plot([angles[index[0]], angles[index[1]]], [angles[index[1]], angles[index[0]]],
+        "r*", ms=12, label="unrestricted minima")
+```
+
+`ax.contourf(A, B, E_map, levels=30, ...)` colours the plane of the angles $(\alpha, \beta)$ in 30 bands of equal energy (a **contour map**: each band joins the points with nearly the same value), and the colour scale is labelled with the energy and its unit $t$. The style `"wx"` draws a white cross (w white, x cross) at the restricted point $(\pi/4, \pi/4)$, and `"r*"` red stars at the grid minimum $(\alpha, \beta)$ = `(angles[index[0]], angles[index[1]])` and at its mirror image with the two angles exchanged (the two lists hold the horizontal and the vertical coordinates of both points); `ms` sets the marker sizes.
+
+```python
+ax.set_xlabel("$\\alpha$ (up orbital)")
+ax.set_ylabel("$\\beta$ (down orbital)")
+ax.set_title("Hartree-Fock energy landscape at $U = 4t$")
+ax.legend(loc="upper right", fontsize=8)
+save_figure(fig, "hf_landscape",
+```
+
+Axis labels, title, the legend in the upper right corner, and `save_figure` for Figure 13c.6. Then
+
+```python
+check(abs(E_map.min() + 0.5) < 1e-5 and abs(hf_energy(np.pi / 4, np.pi / 4, 4.0)
+                                             - 0.0) < 1e-12,
+      "at U = 4t: minimum -0.5 t, restricted value 0")
+```
+
+requires the smallest value on the grid to be $-2t^2/U = -0.5$ (to $10^{-5}$, the accuracy of the grid of angles) and the restricted value to be $-2 + 4/2 = 0$.
+
+**What Figure 13c.6 shows.** The landscape is lowest (dark) in two basins, around $(\alpha, \beta) \approx (0.26, 1.31)$ and its mirror image $(1.31, 0.26)$, where the energy is $-0.5t$; there $\beta \approx \pi/2 - \alpha$: the up electron sits mostly on one site and the down electron mostly on the other. The restricted point at $(0.785, 0.785)$ lies between the basins on a pass: moving along the line $\beta = \pi/2 - \alpha$ lowers the energy, moving along $\beta = \alpha$ raises it, so it is a saddle with the energy 0. The highest energies (yellow) are in the corners $(0, 0)$ and $(\pi/2, \pi/2)$, where both electrons sit on the same site.
 
 **In [16], the Hohenberg-Kohn map and the exact Kohn-Sham potential.**
 
@@ -983,7 +1133,23 @@ check(np.max(np.abs(delta_s[0.0] - deltas)) < 1e-12,
 
 For every $U$ and every exact density the cell computes $\Delta_s$, puts it back into the non-interacting problem and checks that the exact density comes out (to $10^{-12}$); for $U = 0$ the Kohn-Sham potential must be the true one, $\Delta_s = \Delta$.
 
-**In [17], the density map.** The loop draws $n_L(\Delta)$ for the three repulsions with dotted, dashed and solid lines, `axhline(1.0)` marks the symmetric density, and `save_figure` saves Figure 13c.7. The stronger the repulsion, the flatter the curve.
+**In [17], the density map.**
+
+```python
+fig, ax = plt.subplots()
+for U, style in ((0.0, ":"), (2.0, "--"), (4.0, "-")):
+    ax.plot(deltas, density_maps[U], style, label=f"$U = {U:.0f}t$")
+ax.axhline(1.0, color="gray", lw=0.8)
+ax.set_xlabel("site-energy difference $\\Delta$ ($t$)")
+ax.set_ylabel("exact density on the left site $n_L$")
+ax.set_title("Hohenberg-Kohn on two sites: the potential determines the density")
+ax.legend()
+save_figure(fig, "density_map",
+```
+
+The loop draws $n_L(\Delta)$ for $U = 0$ (dotted, `":"`), $2t$ (dashed) and $4t$ (solid); the label writes $U$ without decimals (`:.0f`). `axhline(1.0, ...)` draws a thin grey horizontal line at $n_L = 1$, the density of the symmetric sites. Then the axis labels with the unit $t$ of $\Delta$, the title, the legend, and `save_figure` for Figure 13c.7.
+
+**What Figure 13c.7 shows.** All three curves pass through $n_L = 1$ at $\Delta = 0$ and rise strictly from left to right, so no horizontal line meets a curve twice: each density belongs to exactly one $\Delta$, which is the Hohenberg-Kohn statement on two sites. Without repulsion the curve is steep, from about $0.11$ to $1.89$ over $-4 \le \Delta \le 4$ (it is $1 + \Delta/\sqrt{\Delta^2 + 4}$); with $U = 4t$ it only reaches about $0.55$ and $1.45$, because the repulsion opposes putting both electrons on the lower site.
 
 **In [18], the mean field and the parts of the exact Kohn-Sham potential.**
 
@@ -1022,7 +1188,46 @@ check(np.all(np.abs(mf_delta_s[nonzero]) > np.abs(delta_s[4.0][nonzero])),
       "U = 4t: the mean field screens less than the exact Kohn-Sham potential")
 ```
 
-`c_part[U][nonzero]` keeps the entries with $\Delta \ne 0$. The checks require the correlation part to have the sign opposite to $\Delta$ (it screens further, like the Hartree-exchange part) and the mean-field potential to be larger in size than the exact Kohn-Sham one (it screens less). The plotting lines draw, on the left, $\Delta_s$ against $\Delta$ for both repulsions with the mean field and the line $\Delta_s = \Delta$; on the right, the screening $\Delta_s - \Delta$ at $U = 4t$ with its two parts. After `save_figure` (Figure 13c.8) the last check requires $|\Delta_s| < |\Delta|$ for every $\Delta \ne 0$: the repulsion screens the potential.
+`c_part[U][nonzero]` keeps the entries with $\Delta \ne 0$. The checks require the correlation part to have the sign opposite to $\Delta$ (it screens further, like the Hartree-exchange part) and the mean-field potential to be larger in size than the exact Kohn-Sham one (it screens less).
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.4))
+left.plot(deltas, deltas, ":", color="gray", label="$\\Delta_s = \\Delta$ ($U = 0$)")
+left.plot(deltas, delta_s[2.0], "--", label="exact Kohn-Sham, $U = 2t$")
+left.plot(deltas, delta_s[4.0], color="black", lw=2.0,
+          label="exact Kohn-Sham, $U = 4t$")
+left.plot(deltas, mf_delta_s, "-.", label="mean field, $U = 4t$")
+left.set_xlabel("true site-energy difference $\\Delta$ ($t$)")
+left.set_ylabel("Kohn-Sham site-energy difference $\\Delta_s$ ($t$)")
+left.set_title("The exact Kohn-Sham potential")
+left.legend(fontsize=8)
+```
+
+The left panel draws, against the true $\Delta$: the grey dotted line $\Delta_s = \Delta$ (the answer without interaction), the exact Kohn-Sham $\Delta_s$ for $U = 2t$ (dashed) and $U = 4t$ (thick black), and the self-consistent mean field for $U = 4t$ (dash-dotted), with axis labels, title and legend.
+
+```python
+right.plot(deltas, delta_s[4.0] - deltas, color="black", lw=2.0,
+           label="total screening $\\Delta_s - \\Delta$")
+right.plot(deltas, hx_part[4.0], "--", label="Hartree-exchange $\\Delta_{Hx}$")
+right.plot(deltas, c_part[4.0], color="tab:red", label="correlation $\\Delta_c$")
+right.axhline(0.0, color="gray", lw=0.8)
+right.set_xlabel("true site-energy difference $\\Delta$ ($t$)")
+right.set_ylabel("parts of $\\Delta_s - \\Delta$ ($t$)")
+right.set_title("Its parts at the exact density, $U = 4t$")
+right.legend(fontsize=8)
+save_figure(fig, "ks_inversion",
+```
+
+The right panel draws, for $U = 4t$, the total screening $\Delta_s - \Delta$ (thick black), the Hartree-exchange part (dashed) and the correlation part (red; `"tab:red"` is the red of matplotlib's standard colours), with a grey zero line, axis labels, title and legend. `save_figure` saves Figure 13c.8, and the last check of the cell
+
+```python
+check(np.all(np.abs(delta_s[4.0][nonzero]) < np.abs(deltas[nonzero])),
+      "the repulsion screens the potential: |Delta_s| < |Delta|")
+```
+
+requires $|\Delta_s| < |\Delta|$ for every $\Delta \ne 0$ at $U = 4t$: the repulsion screens the potential.
+
+**What Figure 13c.8 shows.** On the left, every interacting curve is flatter than the dotted line $\Delta_s = \Delta$: the non-interacting electrons need a smaller site-energy difference than the true one to reproduce the exact density, because the repulsion, which the Kohn-Sham electrons do not have, already pushes against piling up on the lower site. At $\Delta = 4t$ the exact $\Delta_s$ is about $2.3t$ for $U = 2t$ and about $1.0t$ for $U = 4t$; the mean field for $U = 4t$ gives about $1.55t$, between the two: it screens less than the exact potential. On the right, at $U = 4t$, both parts of the screening have the sign opposite to $\Delta$; the correlation part is the larger one for $|\Delta|$ up to about $3.4t$ (at $\Delta = 2t$: $-1.114$ against $-0.588$, the numbers printed by the cell), and the Hartree-exchange part beyond.
 
 **In [19], the last check.**
 
@@ -1239,6 +1444,12 @@ The notebook has 21 code cells. **In [1]** is the set-up cell, identical to In [
 **In [2], the function $F$.**
 
 ```python
+import numpy as np  # arrays, matrices and linear algebra
+```
+
+The cell loads numpy under the short name `np`, as in Notebook 13c.
+
+```python
 def F(s):
     """F(s) = 3 (sin s - s cos s) / s^3, the density matrix of one label over n."""
     s = np.asarray(s, dtype=float)
@@ -1249,7 +1460,7 @@ def F(s):
     return result
 ```
 
-(The cell starts with `import numpy as np`.) `np.asarray(s, dtype=float)` turns the argument, a number or an array, into an array of floating-point numbers. For small $s$ the closed form divides two tiny numbers and loses digits, so the function first fills `result` with the Taylor series of Section 13.15 everywhere, then marks the places where $s \ge 10^{-3}$ (`big` is an array of true and false values), takes those values (`s[big]`) and overwrites the result there with the closed form.
+`np.asarray(s, dtype=float)` turns the argument, a number or an array, into an array of floating-point numbers. For small $s$ the closed form divides two tiny numbers and loses digits, so the function first fills `result` with the Taylor series of Section 13.15 everywhere, then marks the places where $s \ge 10^{-3}$ (`big` is an array of true and false values), takes those values (`s[big]`) and overwrites the result there with the closed form.
 
 ```python
 s_test = 1e-3
@@ -1300,7 +1511,37 @@ check(shrinking and deviations[-1] < 2e-3,
 
 `zip(deviations, deviations[1:])` pairs each difference with the next one; `all(a > b ...)` is true when every difference is larger than the next. The check also requires the largest box to be within $2\cdot10^{-3}$ of $F$. The printed differences are $0.03729$, $0.01218$, $0.00184$ and $0.00083$ for 251, 2103, 17071 and 137059 plane waves.
 
-**In [4], the density matrix as a picture.** `ax.plot(s_grid, F(s_grid), ...)` draws the closed form as a thick black line; the loop draws every third point (`s_grid[::3]`) of the box sums for $m_F = 4$ (circles) and $m_F = 32$ (crosses); `axhline(0.0)` draws the zero line. `save_figure` saves Figure 13b.1; its caption puts the two plane-wave counts into the text with an f-string.
+**In [4], the density matrix as a picture.**
+
+```python
+fig, ax = plt.subplots()
+ax.plot(s_grid, F(s_grid), color="black", lw=2.0,
+        label="continuum $F(k_F R) = 3(\\sin s - s\\cos s)/s^3$")
+```
+
+One panel; the closed form $F$ on the 121 values of $s$ as a thick black line. In the label, `\\sin` reaches matplotlib as `\sin`, which it draws as the function name sin.
+
+```python
+for m_F, marker in ((4, "o"), (32, "x")):
+    N_label, ratio = box_results[m_F]
+    ax.plot(s_grid[::3], ratio[::3], marker, ms=4,
+            label=f"box sum, {N_label} plane waves")
+ax.axhline(0.0, color="gray", lw=0.8)
+```
+
+For the smallest box ($m_F = 4$, circles, style `"o"`) and the largest ($m_F = 32$, crosses, `"x"`) the loop takes the stored count and box sum and draws every third value (`[::3]` takes the entries 0, 3, 6, ...), as markers without a connecting line, so that the black curve stays visible; the label gives the number of plane waves. `axhline(0.0, ...)` draws the zero line.
+
+```python
+ax.set_xlabel("$s = k_F R$ (separation times Fermi wave number)")
+ax.set_ylabel("$\\rho_\\sigma(R) / n_\\sigma$")
+ax.set_title("Density matrix of one label of the uniform gas")
+ax.legend(fontsize=8)
+save_figure(fig, "density_matrix",
+```
+
+Axis labels (both quantities are pure numbers), title, legend and `save_figure` for Figure 13b.1; one line of its caption is an f-string that writes the two plane-wave counts, 251 and 137059, into the caption.
+
+**What Figure 13b.1 shows.** The density matrix of one label starts at 1 for $R = 0$ (there it is the density itself), falls to zero near $k_FR = 4.5$ (the first zero of $\sin s - s\cos s$, where $\tan s = s$), swings to a small negative minimum of about $-0.086$ near $k_FR = 5.76$, and oscillates with a shrinking amplitude. A fermion "remembers" another one of its label only within a distance of a few $1/k_F$. The crosses of the large box lie on the curve; the circles of the small box (251 plane waves) deviate visibly beyond $k_FR \approx 4$, by at most $0.037$.
 
 **In [5], the exchange hole.**
 
@@ -1314,7 +1555,20 @@ for g in (1, 2, 8):
           f"the pair distribution at contact is 1 - 1/g for g = {g}")
 ```
 
-For $g = 1, 2, 8$ the cell computes $g_{pair} = 1 - F^2/g$ of Section 13.15, draws it (in an f-string a doubled brace prints one brace, so the label shows $g_{pair}$), and checks its value at $s = 0$, the first entry `pair[0]`. The remaining lines draw the line 1 (dashed), label the axes and save Figure 13b.2.
+For $g = 1, 2, 8$ the cell computes $g_{pair} = 1 - F^2/g$ of Section 13.15 on 501 values of $s$ from 0 to 10, draws it (in an f-string a doubled brace prints one brace, so the label shows $g_{pair}$, followed by the value $1 - 1/g$ with three decimals), and checks its value at $s = 0$, the first entry `pair[0]`.
+
+```python
+ax.axhline(1.0, color="gray", ls="--", lw=0.8)
+ax.set_xlabel("$k_F R$")
+ax.set_ylabel("pair distribution $g_{pair}(R)$")
+ax.set_title("The exchange hole of the uniform gas")
+ax.legend(fontsize=8)
+save_figure(fig, "exchange_hole",
+```
+
+A grey dashed horizontal line at 1 (`ls="--"` sets the line style), the value without the Pauli principle; axis labels, title, legend, and `save_figure` for Figure 13b.2.
+
+**What Figure 13b.2 shows.** Far from a fermion (beyond about $k_FR = 4$) all three curves are at 1: there the Pauli principle has no effect. Near it they dip to $1 - 1/g$ at contact: to 0 for one label (no second fermion can come close), to $\tfrac12$ for two labels (only the half with the other label can), and to $0.875$ for eight labels. The more labels, the shallower the hole, because a smaller fraction $1/g$ of the other fermions shares the first one's label.
 
 **In [6], contact energies.**
 
@@ -1345,7 +1599,32 @@ check(np.max(np.abs(e_hartree + e_exchange)) == 0.0,
 
 `[1:]` leaves out the first entry, $n = 0$, where the ratio would be $0/0$. Three checks of $e_x/e_H = -1/g$, and one that for $g = 1$ the sum is exactly zero.
 
-**In [7], the energies as pictures.** `plt.subplots(1, 2, ..., sharey=True)` makes two panels with a common vertical axis; for $g = 2$ (left) and $g = 8$ (right) the loop draws $e_H$, $e_x$ and their sum against $n$, and `save_figure` saves Figure 13b.3.
+**In [7], the energies as pictures.**
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.0), sharey=True)
+for ax, g in zip(axes, (2, 8)):
+    e_hartree, e_exchange = contact_energies(densities, g)
+    ax.plot(densities, e_hartree, label="Hartree $e_H = g_c n^2/2$")
+    ax.plot(densities, e_exchange, label=f"exchange $e_x = -e_H/{g}$")
+    ax.plot(densities, e_hartree + e_exchange, color="black", lw=2.0,
+            label="sum $e_H + e_x$")
+```
+
+Two panels with a common vertical axis (`sharey=True`: both use the same scale, so the curves can be compared by eye). For $g = 2$ (left panel) and $g = 8$ (right panel) the loop computes the two energy densities on the 41 densities and draws $e_H$, $e_x$ and, as a thick black line, their sum.
+
+```python
+    ax.axhline(0.0, color="gray", lw=0.8)
+    ax.set_xlabel("density $n$")
+    ax.set_title(f"$g = {g}$ labels")
+    ax.legend(fontsize=8)
+axes[0].set_ylabel("energy per volume (units of $g_c$)")
+save_figure(fig, "contact_energies",
+```
+
+Still inside the loop: the zero line, the horizontal label, a title that names $g$, and a legend for each panel. After the loop, only the left panel (`axes[0]`) gets the vertical label, which the right panel shares; `save_figure` saves Figure 13b.3.
+
+**What Figure 13b.3 shows.** The Hartree energy $n^2/2$ is the same parabola in both panels (it reaches 2 at $n = 2$). The exchange energy mirrors a part of it below zero: half of it for two labels ($-1$ at $n = 2$), one eighth for eight labels ($-0.25$). The sum is therefore half of the Hartree energy for $g = 2$ and seven eighths of it for $g = 8$: the more labels, the larger the fraction of pairs that can meet, and the less exchange removes.
 
 **In [8], a finite range.**
 
@@ -1387,7 +1666,31 @@ check(np.all(np.diff(ratios) < 0.0) and ratios[0] > 0.9999,
 
 `np.logspace(-2, 1, 31)` gives 31 numbers from $10^{-2}$ to $10^1$, equally spaced on a logarithmic scale. The printed lines compare the ratio with $1 - \tfrac35(k_Fa)^2$: they agree at $k_Fa = 0.01$ ($0.999940$) and nearly at $0.1$, and differ at $1$ ($0.588864$ against $0.4$), where the expansion no longer holds. The checks: the small-range formula at $k_Fa = 0.05$, and the ratio falls with every increase of the range and is above $0.9999$ at the smallest one.
 
-**In [9], the ratio as a picture.** `ax.semilogx` draws with a logarithmic horizontal axis; the dashed curve is the small-range formula for the ranges below $0.6$ (`ranges[ranges < 0.6]` keeps those entries). `save_figure` saves Figure 13b.4.
+**In [9], the ratio as a picture.**
+
+```python
+fig, ax = plt.subplots()
+ax.semilogx(ranges, ratios, "o-", ms=3, color="black",
+            label="$e_x(a)/e_x(0)$, Gaussian of range $a$")
+small = ranges[ranges < 0.6]
+ax.semilogx(small, 1.0 - 0.6 * small ** 2, "--",
+            label="small-range formula $1 - (3/5)(k_F a)^2$")
+```
+
+`ax.semilogx` draws like `plot`, but with a logarithmic horizontal axis, on which the 31 ranges from $10^{-2}$ to 10 are equally spaced. The black dots joined by a line are the computed ratios. `ranges[ranges < 0.6]` keeps only the ranges below $0.6$ (an array indexed by an array of true and false values keeps the entries where the value is true), and for them the dashed curve is the small-range formula $1 - \tfrac35(k_Fa)^2$; for larger ranges the formula is meaningless (it becomes negative beyond $k_Fa = 1.29$).
+
+```python
+ax.set_ylim(0.0, 1.05)
+ax.set_xlabel("range times Fermi wave number, $k_F a$")
+ax.set_ylabel("exchange energy relative to contact")
+ax.set_title("A finite-range interaction shrinking to a contact")
+ax.legend(fontsize=8)
+save_figure(fig, "finite_range",
+```
+
+`set_ylim(0.0, 1.05)` fixes the vertical range from 0 to $1.05$; then the labels, the title, the legend and `save_figure` for Figure 13b.4.
+
+**What Figure 13b.4 shows.** For ranges up to about $k_Fa = 0.1$ the ratio is indistinguishable from 1: the interaction acts as a contact, and its exchange energy is the local contact value. Between $0.1$ and 1 the ratio falls, first along the dashed parabola $1 - \tfrac35(k_Fa)^2$, then faster ($0.589$ at $k_Fa = 1$), and for $k_Fa = 10$ it is nearly 0: when the interaction reaches much farther than the exchange hole (size $1/k_F$), only a small part of it acts inside the hole, and the exchange energy almost disappears relative to the contact value.
 
 **In [10], Dirac's exchange.**
 
@@ -1424,7 +1727,31 @@ slope_contact = np.polyfit(np.log(n_values), np.log(contact_per_particle), 1)[0]
 slope_coulomb = np.polyfit(np.log(n_values), np.log(coulomb_per_particle), 1)[0]
 ```
 
-For 41 densities from $10^{-3}$ to 10, the sizes of the exchange energy per particle: $g_c n/4$ for the contact with two labels ($e_x/n = -\tfrac{g_c}{2\cdot2}n$) and $0.738559\,n^{1/3}$ for the Coulomb gas. `np.polyfit(X, Y, 1)` fits the straight line $Y = pX + c$ through the points, and `[0]` takes its slope $p$; with $X = \ln n$ and $Y$ the logarithm of a power $n^p$, the slope is the power. The cell prints the slopes $1.000000$ and $0.333333$, checks them to $10^{-12}$, draws both curves with `ax.loglog` (both axes logarithmic) and saves Figure 13b.5.
+For 41 densities from $10^{-3}$ to 10, the sizes of the exchange energy per particle: $g_c n/4$ for the contact with two labels ($e_x/n = -\tfrac{g_c}{2\cdot2}n$) and $0.738559\,n^{1/3}$ for the Coulomb gas. `np.polyfit(X, Y, 1)` fits the straight line $Y = pX + c$ through the points, and `[0]` takes its slope $p$; with $X = \ln n$ and $Y$ the logarithm of a power $n^p$, the slope is the power.
+
+```python
+say(f"slopes: contact {slope_contact:.6f}, Coulomb {slope_coulomb:.6f}")
+check(abs(slope_contact - 1.0) < 1e-12 and abs(slope_coulomb - 1.0 / 3.0) < 1e-12,
+      "exchange per particle grows like n (contact) and n^(1/3) (Coulomb)")
+```
+
+The cell prints the slopes $1.000000$ and $0.333333$ and checks them to $10^{-12}$ (the points lie exactly on straight lines, so the fit is exact up to rounding).
+
+```python
+fig, ax = plt.subplots()
+ax.loglog(n_values, contact_per_particle, label="contact, $g_c = 1$: $n/4$")
+ax.loglog(n_values, coulomb_per_particle, "--",
+          label="Coulomb (Dirac): $0.7386\\,n^{1/3}$")
+ax.set_xlabel("density $n$")
+ax.set_ylabel("$|e_x|/n$, exchange energy per particle")
+ax.set_title("Exchange per particle: contact versus Coulomb ($g = 2$)")
+ax.legend()
+save_figure(fig, "contact_vs_coulomb",
+```
+
+`ax.loglog` draws with both axes logarithmic: the contact curve solid, the Coulomb curve dashed (in the label, `\\,` is a small space in the formula). Labels, title, legend and `save_figure` for Figure 13b.5.
+
+**What Figure 13b.5 shows.** On logarithmic axes both curves are straight lines: the contact exchange per particle rises with slope 1 (ten times the density gives ten times the exchange per particle), the Coulomb exchange with slope $1/3$. The lines cross where $n/4 = 0.7386\,n^{1/3}$, at $n = (2.954)^{3/2} \approx 5.1$: below that density the Coulomb exchange per particle is the larger one, above it the contact exchange.
 
 **In [12], exact locality for a non-uniform determinant.**
 
@@ -1452,7 +1779,18 @@ fock = -0.5 * h * h * (np.sum(rho_up ** 2 * W) + np.sum(rho_down ** 2 * W))
 local = -0.5 * G_C * h * np.sum(n_up ** 2 + n_down ** 2)
 ```
 
-Five fermions with label up and three with label down. The matrix product of the orbital columns with their transpose is the density matrix of each label, $\rho(x, x') = \sum_a\phi_a(x)\phi_a(x')$, and its diagonal the label density. `fock` is the two-point exchange $-\tfrac12\sum_{x,x'}h^2|\rho_\sigma(x, x')|^2W(x, x')$ summed over the labels (`rho_up ** 2 * W` multiplies entry by entry); `local` is $-\tfrac{g_c}{2}\sum_x h\,(n_\uparrow^2 + n_\downarrow^2)$. Both print as $-19.0000000000$. The checks require the particle numbers $h\sum n_\uparrow = 5$ and $h\sum n_\downarrow = 3$ and the agreement of the two forms to $10^{-12}$.
+Five fermions with label up and three with label down. The matrix product of the orbital columns with their transpose is the density matrix of each label, $\rho(x, x') = \sum_a\phi_a(x)\phi_a(x')$, and its diagonal the label density. `fock` is the two-point exchange $-\tfrac12\sum_{x,x'}h^2|\rho_\sigma(x, x')|^2W(x, x')$ summed over the labels (`rho_up ** 2 * W` multiplies entry by entry); `local` is $-\tfrac{g_c}{2}\sum_x h\,(n_\uparrow^2 + n_\downarrow^2)$.
+
+```python
+report("exchange energy, two-point (Fock) form", f"{fock:.10f}")
+report("exchange energy, local form", f"{local:.10f}")
+check(abs(h * n_up.sum() - 5.0) < 1e-12 and abs(h * n_down.sum() - 3.0) < 1e-12,
+      "the box determinant holds 5 up and 3 down fermions")
+check(abs(fock - local) < 1e-12,
+      "the contact exchange of a non-uniform determinant is exactly local")
+```
+
+Both forms print as $-19.0000000000$ (Exercise 10 derives this number by hand). The checks require the particle numbers $h\sum n_\uparrow = 5$ and $h\sum n_\downarrow = 3$ and the agreement of the two forms to $10^{-12}$. (On the grid the two forms are equal term by term, because $W$ is zero off the diagonal; the check confirms that the code implements both formulas correctly.)
 
 **In [13], label-mixing orbitals.**
 
@@ -1474,9 +1812,63 @@ diagonal = np.einsum("xss->xs", rho_local).real  # n_up(x), n_down(x)
 local_diagonal = -0.5 * G_C * h * np.sum(diagonal ** 2)
 ```
 
-`pair[x, a, b]` is $\sum_s\phi_a^*(x s)\,\phi_b(x s)$, and `exact` is the exact exchange $-\tfrac12\sum_{a,b}w_{abba}$ with $w_{abba} = g_c\sum_x h\,|\sum_s\phi_a^*\phi_b|^2$, which is the integral of Section 13.4 for a label-independent contact (put $w = g_c\,\delta$ into $w_{abba}$ and do the delta integral). `rho_local[x, s, t]` is the local $2 \times 2$ density matrix $\sum_a\phi_a(xs)\phi_a^*(xt)$, and `local_all` the local formula of Section 13.15 with all label pairs. `np.einsum("xss->xs", ...)` takes the diagonal of each $2 \times 2$ matrix (the label densities), and `local_diagonal` the local formula with the diagonal only. The cell prints $-8.7398756465$, $-8.7398756465$ and $-7.5021209026$ and checks that the first two agree to $10^{-10}$ and that the third differs by more than $0.1$.
+`pair[x, a, b]` is $\sum_s\phi_a^*(x s)\,\phi_b(x s)$, and `exact` is the exact exchange $-\tfrac12\sum_{a,b}w_{abba}$ with $w_{abba} = g_c\sum_x h\,|\sum_s\phi_a^*\phi_b|^2$, which is the integral of Section 13.4 for a label-independent contact (put $w = g_c\,\delta$ into $w_{abba}$ and do the delta integral). `rho_local[x, s, t]` is the local $2 \times 2$ density matrix $\sum_a\phi_a(xs)\phi_a^*(xt)$, and `local_all` the local formula of Section 13.15 with all label pairs. `np.einsum("xss->xs", ...)` takes the diagonal of each $2 \times 2$ matrix (the label densities), and `local_diagonal` the local formula with the diagonal only.
 
-**In [14], the two-point function and the local energies.** On the left, `left.imshow(rho_up ** 2, origin="lower", extent=(0, 1, 0, 1), cmap="viridis")` draws $|\rho_\uparrow(x, x')|^2$ of the box determinant as a heat map, and the next line draws the diagonal $x = x'$ as a white dashed line. On the right the cell draws, along the box, the Hartree energy density $\tfrac{g_c}{2}(n_\uparrow + n_\downarrow)^2$, the exchange energy density $-\tfrac{g_c}{2}(n_\uparrow^2 + n_\downarrow^2)$ and their sum; `right.set_ylim(-50.0, 60.0)` leaves room for the legend. After `save_figure` (Figure 13b.6) the check confirms point by point that the sum equals $g_c\,n_\uparrow n_\downarrow$ (Section 13.5).
+```python
+say(f"exact {exact:.10f}; local, all label pairs {local_all:.10f}; "
+    f"local, label diagonal only {local_diagonal:.10f}")
+check(abs(exact - local_all) < 1e-10,
+      "with label-mixing orbitals the exchange is local in the 2 x 2 matrix rho")
+check(abs(exact - local_diagonal) > 0.1,
+      "the label diagonal alone misses the label-mixing exchange")
+```
+
+The cell prints $-8.7398756465$, $-8.7398756465$ and $-7.5021209026$ and checks that the first two agree to $10^{-10}$ and that the third differs from them by more than $0.1$ (it misses $1.2377547439$, the part of the exchange carried by the off-diagonal entries of the local $2 \times 2$ matrix).
+
+**In [14], the two-point function and the local energies.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
+image = left.imshow(rho_up ** 2, origin="lower", extent=(0, 1, 0, 1),
+                    cmap="viridis")
+left.plot([0, 1], [0, 1], "w--", lw=1.0)  # the diagonal x = x'
+left.set_xlabel("$x$")
+left.set_ylabel("$x'$")
+left.set_title("$|\\rho_{up}(x, x')|^2$, 5 up fermions in a box")
+fig.colorbar(image, ax=left, shrink=0.85)
+```
+
+On the left, `rho_up ** 2` (the square of every entry; the entries are real) is $|\rho_\uparrow(x, x')|^2$ of the box determinant, drawn as a heat map over the square $0 < x, x' < 1$; the style `"w--"` draws the diagonal $x = x'$ as a white dashed line; axis labels, title and colour scale follow.
+
+```python
+right.plot(x, 0.5 * G_C * (n_up + n_down) ** 2, label="Hartree $g_c n^2/2$")
+right.plot(x, -0.5 * G_C * (n_up ** 2 + n_down ** 2),
+           label="exchange $-g_c(n_{up}^2 + n_{down}^2)/2$")
+right.plot(x, G_C * n_up * n_down, color="black", lw=2.0,
+           label="sum $g_c\\,n_{up} n_{down}$")
+```
+
+On the right, along the box: the local Hartree energy density $\tfrac{g_c}{2}(n_\uparrow + n_\downarrow)^2$, the local exchange energy density $-\tfrac{g_c}{2}(n_\uparrow^2 + n_\downarrow^2)$, and (thick black) the product $g_c\,n_\uparrow n_\downarrow$, which Section 13.5 showed to be their sum.
+
+```python
+right.set_ylim(-50.0, 60.0)  # room below the curves for the legend
+right.set_xlabel("$x$")
+right.set_ylabel("energy per length (units of $g_c$)")
+right.legend(fontsize=7, loc="lower center")
+save_figure(fig, "local_exchange",
+```
+
+`set_ylim(-50.0, 60.0)` fixes the vertical range so that the legend, placed at the bottom centre (`loc="lower center"`), does not cover the curves; labels and `save_figure` for Figure 13b.6. Then
+
+```python
+check(np.allclose(0.5 * (n_up + n_down) ** 2 - 0.5 * (n_up ** 2 + n_down ** 2),
+                  n_up * n_down, atol=1e-12),
+      "Hartree plus exchange of a contact is g_c n_up n_down at every point")
+```
+
+confirms point by point that the Hartree plus the exchange energy density equals $g_c\,n_\uparrow n_\downarrow$ (here $g_c = 1$).
+
+**What Figure 13b.6 shows.** On the left, $|\rho_\uparrow(x, x')|^2$ is large only near the diagonal, with five bright spots along it (the density of five fermions has five bumps) and faint ripples away from it: the density matrix of a determinant falls off with the distance $|x - x'|$, just as $F(k_FR)$ does in the uniform gas. A contact interaction samples only the diagonal. On the right, the Hartree energy density (up to about 52) and the exchange energy density (down to about $-28$) both follow the bumps of the densities, and their sum, $n_\uparrow n_\downarrow$, is everywhere smaller than the Hartree part: exchange removes, point by point, the energy of the same-label pairs.
 
 **In [15], polarisation.**
 
@@ -1491,7 +1883,14 @@ def energy_polarized(zeta, coupling):
     return kinetic_part + 0.25 * coupling * (1 - zeta ** 2)
 ```
 
-$C_F = 2.871234$ and $\gamma_c = 6.380520$ (printed by the next two `report` lines), and the energy $e(\zeta)$ of Section 13.15 at $n = 1$.
+The constants $C_F = \tfrac{3}{10}(3\pi^2)^{2/3}$ and $\gamma_c = \tfrac23(3\pi^2)^{2/3}$, and the energy $e(\zeta)$ of Section 13.15 at $n = 1$ (so $g_cn^{1/3} = g_c$, the argument `coupling`). The exponent `5 / 3` is written with whole numbers; in Python the division `/` always gives a floating-point number, $1.6666\ldots$.
+
+```python
+report("C_F", f"{C_F:.6f}")
+report("threshold gamma_c = g_c n^(1/3)", f"{gamma_c:.6f}")
+```
+
+They print as $C_F = 2.871234$ and $\gamma_c = 6.380520$.
 
 ```python
 d = 1e-3
@@ -1502,7 +1901,31 @@ check(curvature[0] > 0 > curvature[1],
       "the unpolarized gas becomes unstable at g_c n^(1/3) = (2/3)(3 pi^2)^(2/3)")
 ```
 
-The second difference $(e(d) - 2e(0) + e(-d))/d^2$ approximates $e''(0)$ (Section 13.2). Just below the threshold ($0.99\gamma_c$) it must be positive, just above ($1.01\gamma_c$) negative; `curvature[0] > 0 > curvature[1]` tests both at once. The rest of the cell draws $(e(\zeta) - e(0))/C_F$ against $\zeta$ for $\gamma = 0.5, 1, 1.1, 1.5$ (in units of $\gamma_c$) and saves Figure 13b.7.
+The second difference $(e(d) - 2e(0) + e(-d))/d^2$ approximates $e''(0)$ (Section 13.2). Just below the threshold ($0.99\gamma_c$) it must be positive, just above ($1.01\gamma_c$) negative; `curvature[0] > 0 > curvature[1]` tests both at once.
+
+```python
+zetas = np.linspace(-1.0, 1.0, 401)
+fig, ax = plt.subplots()
+for gamma in (0.5, 1.0, 1.1, 1.5):
+    curve = energy_polarized(zetas, gamma * gamma_c) - energy_polarized(0.0,
+                                                                     gamma * gamma_c)
+    ax.plot(zetas, curve / C_F, label=f"$\\gamma = {gamma}$")
+```
+
+401 polarisations from $-1$ (all fermions down) to $1$ (all up). For the couplings $\gamma = 0.5, 1, 1.1, 1.5$ in units of the threshold ($g_c = \gamma\,\gamma_c$), `curve` is $e(\zeta) - e(0)$ (the statement continues on the next line inside the open parenthesis), and the loop draws it divided by $C_F$, that is in units of $C_Fn^{5/3}$ at $n = 1$.
+
+```python
+ax.axhline(0.0, color="gray", lw=0.8)
+ax.set_xlabel("polarization $\\zeta = (n_{up} - n_{down})/n$")
+ax.set_ylabel("$(e(\\zeta) - e(0)) / (C_F n^{5/3})$")
+ax.set_title("Exchange favours unequal labels at strong contact repulsion")
+ax.legend()
+save_figure(fig, "polarization",
+```
+
+The zero line, axis labels, title, legend and `save_figure` for Figure 13b.7.
+
+**What Figure 13b.7 shows.** For $\gamma = 0.5$ the curve is a bowl with its lowest point at $\zeta = 0$: equal labels are stable. For $\gamma = 1$ it is extremely flat near $\zeta = 0$ (the second derivative vanishes there) and still rises towards $\zeta = \pm1$. For $\gamma = 1.1$ the curve bends down at $\zeta = 0$, has shallow minima near $\zeta = \pm0.9$ and comes back up slightly at $\zeta = \pm1$. For $\gamma = 1.5$ it falls all the way to $\zeta = \pm1$: in this exchange-only picture the gas would rather put every fermion into one label.
 
 **In [16], the gamma matrices, exactly.**
 
@@ -1576,7 +1999,14 @@ vector_coefficient = sp.simplify(sp.diff(e_int, n_sym) / (lam * n_sym))  # -1/16
 filled_ratio = sp.simplify((e_x / e_H).subs(n_sym, S_sym))  # n = S
 ```
 
-`sp.diff(e_int, S_sym)` is $\partial e_{int}/\partial S$; divided by $\lambda S$ it is the coefficient $15/16$ of $M_{eff} - m$; in the same way $\partial e_{int}/\partial n$ divided by $\lambda n$ gives $-1/16$. `.subs(n_sym, S_sym)` replaces $n$ by $S$ in $e_x/e_H$: the ratio of one filled level at rest, $-1/8$. The printed line shows all three.
+`sp.diff(e_int, S_sym)` is $\partial e_{int}/\partial S$; divided by $\lambda S$ it is the coefficient $15/16$ of $M_{eff} - m$; in the same way $\partial e_{int}/\partial n$ divided by $\lambda n$ gives $-1/16$. `.subs(n_sym, S_sym)` replaces $n$ by $S$ in $e_x/e_H$: the ratio of one filled level at rest, $-1/8$.
+
+```python
+say(f"M_eff = m + ({mass_coefficient}) lambda S;  v_v = ({vector_coefficient}) "
+    f"lambda n;  E_x/E_H at n = S: {filled_ratio}")
+```
+
+The printed line shows all three exact fractions: M_eff = m + (15/16) lambda S; v_v = (-1/16) lambda n; E_x/E_H at n = S: -1/8.
 
 ```python
 potentials = theory["exchange"]["kohnShamPotentials"]
@@ -1626,7 +2056,23 @@ check(all(np.count_nonzero(row) == 1 for row in np.vstack([C_numbers, B_imaginar
       "every row of C and of B has exactly one nonzero entry")
 ```
 
-`C.tolist()` gives the rows of the sympy matrix, which numpy turns into floating-point numbers; `sp.im` takes the imaginary part of each entry of $B$. The checks: every real part of $B$ is 0, and every row of $C$ and of $B$ (stacked into one table by `np.vstack`) has exactly one nonzero entry. The rest of the cell draws the two $16 \times 16$ matrices as heat maps (red $+1$, blue $-1$) and saves Figure 13b.8.
+`C.tolist()` gives the rows of the sympy matrix, which numpy turns into floating-point numbers; `sp.im` takes the imaginary part of each entry of $B$. The checks: every real part of $B$ is 0, and every row of $C$ and of $B$ (stacked into one table by `np.vstack`) has exactly one nonzero entry.
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(9.0, 4.2))
+for ax, matrix, title in ((axes[0], C_numbers, "$C$ (real)"),
+                          (axes[1], B_imaginary, "imaginary part of $B$")):
+    image = ax.imshow(matrix, cmap="coolwarm", vmin=-1, vmax=1)
+    ax.set_title(title)
+    ax.set_xlabel("column")
+    ax.set_ylabel("row")
+fig.colorbar(image, ax=axes, shrink=0.8)
+save_figure(fig, "dirac_matrices",
+```
+
+The loop goes through two triples (panel, matrix, title): $C$ in the left panel and the imaginary part of $B$ in the right one, each drawn as a heat map on the fixed scale from $-1$ (blue) to $+1$ (red), with row 0 at the top; one colour scale for both, and `save_figure` for Figure 13b.8.
+
+**What Figure 13b.8 shows.** Each matrix has exactly one coloured square in every row and every column: $C$ and $B$ only exchange and re-sign the 16 components. $C$ pairs the components 0 to 3 with 4 to 7 (entries $-1$) and 8 to 11 with 12 to 15 (entries $+1$); it is symmetric, as its picture is unchanged by a reflection in the main diagonal. The imaginary part of $B$ pairs the first eight components with the last eight, with signs $\pm1$; together with the factor $i$ this makes $B$ Hermitian.
 
 **In [20], the exchange of the 8-fold gas as a picture.**
 
@@ -1636,9 +2082,55 @@ e_H_curve = 0.5 * ratio_values ** 2  # e_H / (lambda n^2)
 e_x_curve = -(1.0 + ratio_values ** 2) / 32.0  # e_x / (lambda n^2)
 ```
 
-Dividing $e_H$ and $e_x$ by $\lambda n^2$ leaves functions of $S/n$ alone: $\tfrac12(S/n)^2$ and $-(1 + (S/n)^2)/32$. The plotting lines draw them and their sum against $S/n$ from 0 to 1, and a red point at $S/n = 1$, where $e_x/(\lambda n^2) = -1/16$. After `save_figure` (Figure 13b.9) the check confirms that the plotted curves give $e_x/e_H = -1/8$ at $S = n$ (the last entries, `[-1]`).
+Dividing $e_H$ and $e_x$ by $\lambda n^2$ leaves functions of $S/n$ alone: $\tfrac12(S/n)^2$ and $-(1 + (S/n)^2)/32$, on 101 values of $S/n$ from 0 to 1.
 
-**In [21], the last check.** As In [19] of Notebook 13c: it checks that the nine figure files exist and prints ALL 34 CHECKS PASSED (notebook 13b): one check in In [2] and In [3] each, three in In [5], four in In [6], two in In [8], In [10], In [12] and In [13] each, one in In [11], In [14] and In [15] each, two in In [16], three in In [17], four in In [18], two in In [19], one in In [20] and two in In [21].
+```python
+fig, ax = plt.subplots()
+ax.plot(ratio_values, e_H_curve, label="Hartree $e_H = \\lambda S^2/2$")
+ax.plot(ratio_values, e_x_curve, label="exchange $e_x = -\\lambda(n^2+S^2)/32$")
+ax.plot(ratio_values, e_H_curve + e_x_curve, color="black", lw=2.0,
+        label="$e_{int} = e_H + e_x$")
+ax.plot([1.0], [-1.0 / 16.0], "o", color="red",
+        label="filled level at rest: $e_x/e_H = -1/8$")
+```
+
+The two curves and their sum (thick black), and one red dot at $S/n = 1$, $e_x/(\lambda n^2) = -2/32 = -1/16$: the filled level at rest.
+
+```python
+ax.axhline(0.0, color="gray", lw=0.8)
+ax.set_xlabel("$S/n$ (scalar density over number density)")
+ax.set_ylabel("energy per volume / $(\\lambda n^2)$")
+ax.set_title("Hartree and exchange of the uniform 8-fold dirac16complex gas")
+ax.legend(fontsize=8)
+save_figure(fig, "dirac_exchange",
+```
+
+The zero line, labels, title, legend and `save_figure` for Figure 13b.9 (the lines after it are the caption). Then
+
+```python
+check(abs(e_x_curve[-1] / e_H_curve[-1] + 1.0 / 8.0) < 1e-15,
+      "the plotted curves give e_x/e_H = -1/8 at S = n")
+```
+
+checks that the plotted curves give $e_x/e_H = -1/8$ at $S = n$ (the last entries, `[-1]`).
+
+**What Figure 13b.9 shows.** The Hartree energy grows from 0 at $S = 0$ to $\tfrac12$ at $S = n$. The exchange energy is never zero: it is $-1/32$ even at $S = 0$, because its $n^2$ term does not depend on $S$, and $-1/16$ at $S = n$ (the red dot). Their sum is slightly negative for small $S/n$ (below $S/n = \sqrt{1/15} \approx 0.26$, where $\tfrac{15}{32}S^2 = \tfrac{1}{32}n^2$) and reaches $7/16$ at $S = n$ (Exercise 9).
+
+**In [21], the last check.**
+
+```python
+figure_names = ["density_matrix", "exchange_hole", "contact_energies",
+                "finite_range", "contact_vs_coulomb", "local_exchange",
+                "polarization", "dirac_matrices", "dirac_exchange"]
+missing = [name for k, name in enumerate(figure_names, 1)
+           if not output_file(f"{FIGURE_FOLDER}/13b_{k}_{name}.png").is_file()]
+check(missing == [], "all nine figure files exist")
+check(output_file(f"{FIGURE_FOLDER}/13b_9_dirac_exchange.png").is_file(),
+      "the figure file 13b_9_dirac_exchange.png exists")
+all_checks_passed()
+```
+
+The same lines as In [19] of Notebook 13c (Section 13.14), with the nine figure names of this notebook. The last line prints ALL 34 CHECKS PASSED (notebook 13b): one check in In [2] and In [3] each, three in In [5], four in In [6], two in In [8], In [10], In [12] and In [13] each, one in In [11], In [14] and In [15] each, two in In [16], three in In [17], four in In [18], two in In [19], one in In [20] and two in In [21].
 
 ### 13.21 Solving the Kohn-Sham equations: iteration and mixing
 

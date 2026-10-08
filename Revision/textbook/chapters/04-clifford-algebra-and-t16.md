@@ -182,10 +182,16 @@ four space-like directions ($x_1, x_2, x_3, x_8$) and four time-like ones ($x_4,
 
 The author's Mathematica notebook numbers the frame directions in its own order, $A = 0, \dots, 7$: $A = 0$ is the hidden direction, $A = 1, 2, 3$ are 3-space, $A = 4$ is the time and $A = 5, 6, 7$ are the extra times, and its matrix of signs is eta4488 $= \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)$ (his input cell In[45]). Translated to the author's coordinates (the coordinate map of the Revision record):
 
-| coordinate | $x_1$ | $x_2$ | $x_3$ | $x_4$ | $x_5$ | $x_6$ | $x_7$ | $x_8$ |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| index $A$ of T16 in the author's notebook | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 0 |
-| sign $\eta$ | $+1$ | $+1$ | $+1$ | $-1$ | $-1$ | $-1$ | $-1$ | $+1$ |
+| coordinate | index $A$ of T16 in the author's notebook | sign $\eta$ |
+| --- | --- | --- |
+| $x_1$ (3-space) | 1 | $+1$ |
+| $x_2$ (3-space) | 2 | $+1$ |
+| $x_3$ (3-space) | 3 | $+1$ |
+| $x_4$ (the time) | 4 | $-1$ |
+| $x_5$ (extra time, deflating) | 5 | $-1$ |
+| $x_6$ (extra time, deflating) | 6 | $-1$ |
+| $x_7$ (extra time, deflating) | 7 | $-1$ |
+| $x_8$ (hidden direction) | 0 | $+1$ |
 
 So $\gamma^{(x_k)} = $ T16[$k$] for $k = 1, \dots, 7$ and $\gamma^{(x_8)} = $ T16[0], and the sign of each coordinate is the entry of eta4488 at its index $A$. Status: ASSUMED (the metric and the coordinate roles are the author's input; the map is the one the Revision record uses and checks: `Revision/algebra/reports/wolfram-algebra.json`, checks `coordinate_map` and `eta_in_author_order`).
 
@@ -294,7 +300,22 @@ $$
 
 Three more properties follow. (i) **Reality**: every entry is $-1$, 0 or $+1$, because the building blocks have only such entries and the construction only places blocks and changes signs (the products $\tau_7$ and $\bar\tau_A$ are products of signed permutation matrices, which are again signed permutation matrices). (ii) Every $\gamma^a$ is a **signed permutation matrix**, hence orthogonal: $(\gamma^a)^T = (\gamma^a)^{-1}$. (iii) The **symmetry pattern** $(\gamma^a)^T = \eta_{aa}\gamma^a$: symmetric for the space-like $x_1, x_2, x_3, x_8$, antisymmetric for the time-like $x_4, \dots, x_7$. Proof of (iii), line by line: $(\gamma^a)^2 = \eta_{aa} I_{16}$ (Clifford relation with $b = a$); multiplying by $\eta_{aa}$ and using $\eta_{aa}^2 = 1$ gives $\gamma^a(\eta_{aa}\gamma^a) = I_{16}$, so $(\gamma^a)^{-1} = \eta_{aa}\gamma^a$; with (ii), $(\gamma^a)^T = (\gamma^a)^{-1} = \eta_{aa}\gamma^a$.
 
-**Status.** PROVED (by hand above, and exactly by the computer in two independent Revision programs): the six blocks are those the author displays (`Revision/algebra/reports/python-algebra.json`, check `notebook_blocks_s4_t4`; `Revision/algebra/reports/wolfram-algebra.json`, check `s4_t4_entries_from_Signature_and_deltas`); their rules (checks `s4_t4_quaternion_algebras`, `s4_self_dual_t4_anti_self_dual`, `blocks_antisymmetric_square_minus_one_commute`); the rules of $\sigma$ and $\tau$ (checks `sigma8_involution`, `tau7_and_sigma_identities`, `tau7_and_product`, `taubar_relations`, `notebook_tau_clifford`); the key rule (checks `tau_taubar_Clifford_relation`, `notebook_tau_taubar_clifford`); the block form and T16[8] (checks `T16_block_form`, `Gamma_diag`, `chirality_diag`, `notebook_product_identity`); the Clifford relation for all 64 pairs (checks `Clifford_relation`, `clifford_relation`, `clifford_relation_sympy`); reality, signed permutations and the symmetry pattern (checks `reality`, `signed_permutation_matrices`, `reality_signed_permutations`, `symmetry_pattern`). Notebook 04a reproduces 30 of these Revision checks (16 of the WolframScript report and 14 of the Python report) and compares all $8 \times 256 = 2048$ entries with both Revision files: none differs.
+**Status.** PROVED, by hand above, and exactly by the computer in two independent Revision programs. The table names, for each statement of this section, the checks that confirm it in the WolframScript report `Revision/algebra/reports/wolfram-algebra.json` and in the Python report `Revision/algebra/reports/python-algebra.json`.
+
+| statement of Section 4.5 | check in wolfram-algebra.json | check in python-algebra.json |
+| --- | --- | --- |
+| the six blocks are those the author displays | `s4_t4_entries_from_Signature_and_deltas` | `notebook_blocks_s4_t4` |
+| the rules of the blocks | `s4_t4_quaternion_algebras`, `s4_self_dual_t4_anti_self_dual` | `blocks_antisymmetric_square_minus_one_commute` |
+| the rules of $\sigma$ and $\tau$ | `sigma8_involution`, `tau7_and_sigma_identities` | `tau7_and_product`, `notebook_sigma_eq_tau1tau2tau3`, `taubar_relations`, `notebook_tau_clifford` |
+| the key rule | `tau_taubar_Clifford_relation` | `notebook_tau_taubar_clifford` |
+| the block form of T16 and T16[8] $= \mathrm{diag}(-I_8, I_8)$ | `T16_block_form`, `Gamma_diag`, `notebook_product_identity` | `chirality_diag` |
+| the coordinate map and the signs $\eta$ | `coordinate_map`, `eta_in_author_order` | `coordinate_map` |
+| the Clifford relation for all 64 pairs | `Clifford_relation` | `clifford_relation`, `clifford_relation_sympy` |
+| reality and signed permutations | `reality`, `signed_permutation_matrices` | `reality_signed_permutations` |
+| the symmetry pattern | `symmetry_pattern` | `symmetry_pattern` |
+| the stored gammas equal the rebuilt ones | `fixture_round_trip` | `fixture_comparison_gammas_json` |
+
+Notebook 04a reproduces every one of these 30 Revision checks (16 of the WolframScript report and 14 of the Python report) and compares all $8 \times 256 = 2048$ entries of the gammas with both Revision files: none differs.
 
 The next three sections hold Notebook 04a: how to run it, its complete text, and the line-by-line walk-through.
 
@@ -302,7 +323,7 @@ The next three sections hold Notebook 04a: how to run it, its complete text, and
 
 ### 4.8 Line-by-line walk-through of Notebook 04a
 
-The notebook has 28 code cells, In [1] to In [28]. This section quotes every line of every one of them, in order, and explains what each line or small group of lines does. Two kinds of lines are text for the reader and are not executed: a **comment** is everything after a `#` sign on a line, and a **docstring** is a text in triple quotes `"""..."""` directly below a `def` line, which says in words what the function does (Python stores it with the function and skips it when the function runs). They are quoted with the code they describe; the explanations below add what they do not already say.
+The notebook has 28 code cells, In [1] to In [28]. This section quotes every line of every one of them, in order, and explains what each line or small group of lines does. Only the long caption texts handed to `save_figure` are shortened to `...` here, because each caption is printed in full under its figure in Section 4.7; every walk-through of this chapter does the same. Two kinds of lines are text for the reader and are not executed: a **comment** is everything after a `#` sign on a line, and a **docstring** is a text in triple quotes `"""..."""` directly below a `def` line, which says in words what the function does (Python stores it with the function and skips it when the function runs). They are quoted with the code they describe; the explanations below add what they do not already say.
 
 **In [1], the set-up cell.** Its first part is the complete run instructions of Section 4.6 again, as **comment lines**: every line that starts with `#` is a comment, which Python skips; they are there so that the notebook file carries its own instructions. The code starts after the second line of `=` signs. This set-up cell is the same in every notebook of the book, except for the line that names the notebook.
 
@@ -1356,7 +1377,7 @@ The next three sections hold Notebook 04b.
 
 ### 4.12 Line-by-line walk-through of Notebook 04b
 
-The notebook has 17 code cells, In [1] to In [17].
+The notebook has 17 code cells, In [1] to In [17]. As in Section 4.8, every line is quoted except the long caption texts handed to `save_figure`, which are shortened to `...`; each caption is printed in full under its figure in Section 4.11.
 
 **In [1], the set-up cell.** It is the set-up cell of Notebook 04a, explained line by line in Section 4.8, with one difference: the line `NOTEBOOK_ID = "04b"` names this notebook, so its figures are numbered 04b.1, 04b.2, ..., and its comment lines hold the run instructions of Section 4.10. It prints one line, Set-up of notebook 04b complete: repository folder found, helpers defined.
 
@@ -1991,7 +2012,7 @@ The next three sections hold Notebook 04c.
 
 ### 4.16 Line-by-line walk-through of Notebook 04c
 
-The notebook has 19 code cells, In [1] to In [19].
+The notebook has 19 code cells, In [1] to In [19]. As in Section 4.8, every line is quoted except the long caption texts handed to `save_figure`, which are shortened to `...`; each caption is printed in full under its figure in Section 4.15.
 
 **In [1], the set-up cell.** It is the set-up cell of Notebook 04a, explained line by line in Section 4.8, except for the line `NOTEBOOK_ID = "04c"` and the run instructions of Section 4.14 in its comment lines. It prints one line.
 
@@ -2777,7 +2798,7 @@ The next three sections hold Notebook 04d.
 
 ### 4.20 Line-by-line walk-through of Notebook 04d
 
-The notebook has 18 code cells, In [1] to In [18].
+The notebook has 18 code cells, In [1] to In [18]. As in Section 4.8, every line is quoted except the long caption texts handed to `save_figure`, which are shortened to `...`; each caption is printed in full under its figure in Section 4.19.
 
 **In [1], the set-up cell.** It is the set-up cell of Notebook 04a, explained line by line in Section 4.8, except for the line `NOTEBOOK_ID = "04d"` and the run instructions of Section 4.18 in its comment lines. It prints one line.
 
@@ -3416,13 +3437,33 @@ The six figure files must exist; the last line reads ALL 18 CHECKS PASSED (noteb
 
 ### 4.21 What we proved, what we computed, what we assumed
 
-**PROVED** (exact; the proof is in this chapter, the computer confirms it with exact arithmetic in the notebook named, and the Revision record checks named confirm it independently):
+**PROVED** (exact; the proof is in this chapter, and the computer confirms it with exact arithmetic in the notebook named):
 
 - The square of a linear expression $\sum_a p_a\gamma^a$ is the quadratic form $\sum_a\eta^{aa}p_a^2$ exactly when the coefficients satisfy the Clifford relation; no ordinary numbers do (Section 4.3; Notebook 04b).
-- The author's formulas give six $4 \times 4$ blocks equal to the six matrices his notebook displays; they are the right (s4) and minus the left (t4) multiplications by the quaternion units, which gives all their rules; the $8 \times 8$ matrices satisfy $\tau_1\tau_2\tau_3 = \tau_4\tau_5\tau_6\tau_7 = \sigma$, $\tau_7 = \mathrm{diag}(-I_4, I_4)$, $\bar\tau_A = -\tau_A$ and the key rule; the sixteen-by-sixteen matrices T16 satisfy the Clifford relation, T16[8] $= \mathrm{diag}(-I_8, I_8)$; renamed with the coordinate map ($\gamma^{(x_8)} = $ T16[0], $\gamma^{(x_k)} = $ T16[$k$]) they satisfy $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}I_{16}$ with $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$, they are real signed permutation matrices, symmetric for $x_1, x_2, x_3, x_8$ and antisymmetric for the time $x_4$ and the deflating extra times $x_5, x_6, x_7$ (Section 4.5; Notebook 04a, which reproduces 30 checks of `Revision/algebra/reports/wolfram-algebra.json` and `Revision/algebra/reports/python-algebra.json`, among them `Clifford_relation`, `clifford_relation`, `reality`, `symmetry_pattern` and `coordinate_map`, and finds all $2 \times 2048$ entries equal to those of `Revision/algebra/gammas.json` and `Revision/algebra/reports/python-gammas.json`).
-- The author's gammas take the square root of the 4+4 quadratic form; plane waves of the flat equation $\sum_a\gamma^{(x_a)}\partial_a\Psi = m\Psi$ obey $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$; without extra-time momentum $h$ is Hermitian, and the record's example has the energies $\pm 5$, eight times each; with a momentum along an extra time the energies become imaginary once $k_5^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$, with the growth rate $\sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$; the record's example $m = 1$, $k_5 = 2$ has $E = \pm i\sqrt3$, eight times each (Section 4.9; Notebook 04b; `Revision/theory/reports/python-field-theory.json`, checks `mode_hamiltonian_B_selfadjoint_dispersion`, `good_sector_spectrum_and_B_sectors` and `extra_time_modes_grow`; `Revision/theory/reports/python-scope.json`, check `extra_time_growth_rates_unbounded`).
-- The 256 products of the gammas multiply by rule R1, square to $\pm I_{16}$ by rule R2, have trace 0 except $I_{16}$, are perpendicular in the trace sense and independent: Cl(4,4) is the set of all real $16 \times 16$ matrices; 136 products are symmetric and 120 antisymmetric; the 128 even ones span the block diagonal matrices and the 128 odd ones the block off-diagonal matrices; eight gamma matrices need at least sixteen components; $S^{ab} = \tfrac14[\gamma^a, \gamma^b] = \tfrac12\gamma^a\gamma^b$, with 12 rotation planes and 16 boost planes (Section 4.13; Notebook 04c; checks `Clifford_basis_spans_full_matrix_algebra`, `clifford_products_span_M16`, `even_subalgebra_dimension`, `even_products_span_M8_plus_M8`, `tau7_and_product`, `S_definition`, `S_half_product`, `S_real_entries_in_half_integers`).
-- A second set of real gammas, built from $P$, $N$ and $G$ with Kronecker products, satisfies the same Clifford relation; the author's gammas are this set with the sixteen components renumbered and some signs flipped, $\gamma^{(x_a)} = Q\hat\gamma^{(x_a)}Q^T$ with a signed permutation $Q$; this change of basis is unique up to a factor; and only the multiples of $I_{16}$ commute with all eight of the author's gammas (Section 4.17; Notebook 04d; `Revision/algebra/reports/python-algebra.json`, check `pin_commutant_dimension_1`, and `Revision/algebra/reports/wolfram-algebra.json`, check `Pin44_irreducible_commutant_dim_1`).
+- The author's formulas give six $4 \times 4$ blocks equal to the six matrices his notebook displays; they are the right (s4) and minus the left (t4) multiplications by the quaternion units, which gives all their rules; the $8 \times 8$ matrices satisfy $\tau_1\tau_2\tau_3 = \tau_4\tau_5\tau_6\tau_7 = \sigma$, $\tau_7 = \mathrm{diag}(-I_4, I_4)$, $\bar\tau_A = -\tau_A$ and the key rule; the sixteen-by-sixteen matrices T16 satisfy the Clifford relation, and T16[8] $= \mathrm{diag}(-I_8, I_8)$; renamed with the coordinate map ($\gamma^{(x_8)} = $ T16[0], $\gamma^{(x_k)} = $ T16[$k$]) they satisfy $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}I_{16}$ with $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$; they are real signed permutation matrices, symmetric for $x_1, x_2, x_3, x_8$ and antisymmetric for the time $x_4$ and the deflating extra times $x_5, x_6, x_7$ (Section 4.5; Notebook 04a).
+- The author's gammas take the square root of the 4+4 quadratic form; plane waves of the flat equation $\sum_a\gamma^{(x_a)}\partial_a\Psi = m\Psi$ obey $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$; without extra-time momentum $h$ is Hermitian, and the record's example has the energies $\pm 5$, eight times each; with a momentum along an extra time the energies become imaginary once $k_5^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$, with the growth rate $\sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$, which has no upper bound; the record's example $m = 1$, $k_5 = 2$ has $E = \pm i\sqrt3$, eight times each (Section 4.9; Notebook 04b).
+- The 256 products of the gammas multiply by rule R1, square to $\pm I_{16}$ by rule R2, have trace 0 except $I_{16}$, are perpendicular in the trace sense and independent: Cl(4,4) is the set of all real $16 \times 16$ matrices; 136 products are symmetric and 120 antisymmetric; the 128 even ones span the block diagonal matrices and the 128 odd ones the block off-diagonal matrices; eight gamma matrices need at least sixteen components; $S^{ab} = \tfrac14[\gamma^a, \gamma^b] = \tfrac12\gamma^a\gamma^b$, with 12 rotation planes and 16 boost planes (Section 4.13; Notebook 04c).
+- A second set of real gammas, built from $P$, $N$ and $G$ with Kronecker products, satisfies the same Clifford relation; the author's gammas are this set with the sixteen components renumbered and some signs flipped, $\gamma^{(x_a)} = Q\hat\gamma^{(x_a)}Q^T$ with a signed permutation $Q$; this change of basis is unique up to a factor; and only the multiples of $I_{16}$ commute with all eight of the author's gammas (Section 4.17; Notebook 04d).
+
+The Revision record confirms these statements independently. The table names the record file and its checks for each of them; the notebook named in the list above reproduces every one of these checks and prints it.
+
+| statement | Revision record file | its checks |
+| --- | --- | --- |
+| the construction of T16 and its rules (Section 4.5) | `Revision/algebra/reports/wolfram-algebra.json` and `Revision/algebra/reports/python-algebra.json` | the 30 checks of the table at the end of Section 4.5 |
+| the stored gammas are the rebuilt ones (Section 4.5) | `Revision/algebra/gammas.json` and `Revision/algebra/reports/python-gammas.json` | all $2 \times 2048$ entries compared, none differs |
+| $h^2$ and the mass shell (Section 4.9) | `Revision/theory/reports/python-field-theory.json` | `mode_hamiltonian_B_selfadjoint_dispersion` |
+| the good-sector example, $\pm 5$ eight times each | `Revision/theory/reports/python-field-theory.json` | `good_sector_spectrum_and_B_sectors` |
+| the growing modes of the example $m = 1$, $k_5 = 2$ | `Revision/theory/reports/python-field-theory.json` | `extra_time_modes_grow` |
+| the growth rate and its missing upper bound | `Revision/theory/reports/python-scope.json` | `extra_time_growth_rates_unbounded` |
+| Cl(4,4) is all real $16 \times 16$ matrices (Section 4.13) | `Revision/algebra/reports/wolfram-algebra.json` | `Clifford_basis_spans_full_matrix_algebra` |
+| the same | `Revision/algebra/reports/python-algebra.json` | `clifford_products_span_M16` |
+| the even products span the block diagonal matrices | `Revision/algebra/reports/wolfram-algebra.json` | `even_subalgebra_dimension` |
+| the same | `Revision/algebra/reports/python-algebra.json` | `even_products_span_M8_plus_M8` |
+| $\tau_1\cdots\tau_7 = I_8$, $\tau_7 = \mathrm{diag}(-I_4, I_4)$ | `Revision/algebra/reports/python-algebra.json` | `tau7_and_product` |
+| $S^{ab} = \tfrac12\gamma^a\gamma^b$, entries $0$ and $\pm\tfrac12$ | `Revision/algebra/reports/wolfram-algebra.json` | `S_half_product`, `S_real_entries_in_half_integers` |
+| the same | `Revision/algebra/reports/python-algebra.json` | `S_definition` |
+| only multiples of $I_{16}$ commute with all gammas (Section 4.17) | `Revision/algebra/reports/wolfram-algebra.json` | `Pin44_irreducible_commutant_dim_1` |
+| the same | `Revision/algebra/reports/python-algebra.json` | `pin_commutant_dimension_1` |
 
 **COMPUTED** (floating-point numbers, with the measured accuracy): the eigenvalues of the $2 \times 2$ roots agree with $\pm\sqrt{p^2 \pm 1}$ to $10^{-12}$; $(\sum_a p_a\gamma^{(x_a)})^2 = \eta(p, p)I_{16}$ for 300 random vectors, every deviation below $10^{-12}$ (the bound that the notebook asserts; the sizes themselves, plotted in figure 4 of Notebook 04b, depend on the computer's numerical library); the sixteen energies of the good-sector example lie within $10^{-12}$ of $\pm 5$, and the smallest singular value of $EI_{16} - h$ equals the distance to $\pm 5$ within $10^{-9}$; the $160 \times 16$ energies with a momentum $k_5$ lie within $10^{-10}$ of $\pm\sqrt{25 - k_5^2}$; the floating-point eigenvalues of the penalty matrix $K$ lie within $10^{-9}$ of $0, 4, \dots, 32$ (Notebooks 04b and 04d). Each of these confirms an exact statement proved above.
 

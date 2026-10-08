@@ -9,7 +9,7 @@ A spinor field $\Psi$ attaches 16 numbers $\Psi_1, \dots, \Psi_{16}$ to every po
 - How do we make a single number out of a spinor, a number that does not change when the eight directions are turned into each other? The answer is the **bilinear** $\Psi^\dagger C\Psi$ with the charge matrix $C$ (Sections 5.4 and 5.18).
 - Which parts of a spinor stay separate under every turning of the directions? The two **chiral halves**, components 1 to 8 and 9 to 16, picked out by the chirality $\Gamma$ (Sections 5.5 and 5.13).
 - What is the **charge density** of a spinor field, the quantity whose total is conserved? It is $\Psi^\dagger B\Psi$ with the matrix $B$ (Section 5.6).
-- What turns matter into antimatter? A **charge-conjugation matrix**. Because the author's gammas are real, plain complex conjugation does nothing to a real field and cannot exchange matter and antimatter; the exchange must be made by a matrix, and there are exactly two such matrices, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$ (Sections 5.1 and 5.1).
+- What turns matter into antimatter? A **charge-conjugation matrix**. Because the author's gammas are real, plain complex conjugation does nothing to a real field and cannot exchange matter and antimatter; the exchange must be made by a matrix, and there are exactly two such matrices, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$ (Sections 5.28 and 5.29). For the quantised field only one conjugation survives, and it reverses the mass (Section 5.34).
 
 Between these questions stands the group theory: the groups Pin(4,4) and Spin(4,4) that act on spinors, the words irreducible and inequivalent, and what the scaled commutators $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$ generate. Everything is introduced from zero: a reader who knows school algebra and the derivative of one-variable functions can follow every line.
 
@@ -62,6 +62,7 @@ Every gamma is a **signed permutation matrix**: in each row exactly one entry is
 | 14 | $+3$ | $+4$ | $-1$ | $+6$ |
 | 15 | $-2$ | $+1$ | $+4$ | $+7$ |
 | 16 | $-1$ | $-2$ | $-3$ | $+8$ |
+
 The four time-like gammas, read in the same way:
 
 | row | $\gamma^{(x4)}$ | $\gamma^{(x5)}$ | $\gamma^{(x6)}$ | $\gamma^{(x7)}$ |
@@ -329,9 +330,9 @@ $$
 Q = \int \cos z\; \Psi^\dagger B\Psi\; d^7x
 $$
 
-does not change in time for every solution of the field equation. Here the integral runs over the seven directions other than the time, $z = 6Hx8$, and $\cos z$ is the volume factor of the author's metric; the status table at the end of this section names the check, and Chapter 21 derives it. Because $B$ has eight positive and eight negative eigenvalues, the charge density can be positive or negative: the field can carry charge of both signs. In the quantum theory $B$ is the matrix of the canonical anticommutator, and its indefinite signature forces an indefinite (Krein) inner product (Section 5.1 and Chapter 10).
+does not change in time for every solution of the field equation. Here the integral runs over the seven directions other than the time, $z = 6Hx8$, and $\cos z$ is the volume factor of the author's metric; the status table at the end of this section names the check, and Chapter 21 derives it. Because $B$ has eight positive and eight negative eigenvalues, the charge density can be positive or negative: the field can carry charge of both signs. In the quantum theory $B$ is the matrix of the canonical anticommutator, and its indefinite signature forces an indefinite (Krein) inner product (Section 5.34 and Chapter 10).
 
-**The matrices $C$, $\Gamma$, $B$ and $\Gamma C$ in one table.** Each is a signed permutation matrix (for $B$, after division by $i$); the table is read like the one of Section 5.2. $C$, $\Gamma$ and $B$ are stored in the record `Revision/algebra/gammas.json`; $\Gamma C$ (the charge-conjugation matrix $\mathcal{C}_-$ of Section 5.1) is $C$ with the signs of rows 1 to 8 reversed, as Notebook 05c computes.
+**The matrices $C$, $\Gamma$, $B$ and $\Gamma C$ in one table.** Each is a signed permutation matrix (for $B$, after division by $i$); the table is read like the one of Section 5.2. $C$, $\Gamma$ and $B$ are stored in the record `Revision/algebra/gammas.json`; $\Gamma C$ (the charge-conjugation matrix $\mathcal{C}_-$ of Section 5.28) is $C$ with the signs of rows 1 to 8 reversed, as Notebook 05c computes.
 
 | row | $C$ | $\Gamma$ | $B/i$ | $\Gamma C$ |
 | --- | --- | --- | --- | --- |

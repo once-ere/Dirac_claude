@@ -13,8 +13,8 @@ It reads or reproduces these Revision records:
 
 - `Revision/algebra/gammas.json`: the author's eight real gamma matrices in the coordinate order x1 to x8, and C, Gamma (read; C and Gamma are recomputed and compared)
 - `Revision/lead_checks/reports/charge-conjugation-and-u1.json`: the lead checks of the charge-conjugation matrices (reproduced: representation_real, B_imaginary_hermitian, intertwiners_same_mass, intertwiners_reversed_mass, charge_conjugation_matrix_plus, charge_conjugation_matrix_minus, majorana_conditions_consistent, bilinears_under_charge_conjugation, real_fields_charge_conjugation)
-- `Revision/theory/field-theory.json`: the formula exact_solutions, item (i): the exact solution with U = 0 in the author's metric (reproduced and conjugated)
-- `Revision/theory/reports/python-field-theory.json`: check exact_solution_family_x4_x8 (reproduced)
+- `Revision/theory/field-theory.json`: the formulas field_equation and exact_solutions, item (i): the field equation in the author's metric and its exact solution with U = 0 (read, compared word for word, reproduced and conjugated)
+- `Revision/theory/reports/python-field-theory.json`: check exact_solution_family_x4_x8 (read and reproduced)
 
 The notebook has 44 cells (24 markdown cells and 20 code cells) in these sections:
 
@@ -33,7 +33,7 @@ The notebook has 44 cells (24 markdown cells and 20 code cells) in these section
 - 13. The Revision record and the figure files
 - 14. What this notebook showed
 
-It prints 26 PASS lines (one per check), 0 RESULT lines (key numbers) and draws 7 figures.
+It prints 27 PASS lines (one per check), 0 RESULT lines (key numbers) and draws 7 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -206,7 +206,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS the seven figure files of notebook 21a exist
-ALL 26 CHECKS PASSED (notebook 21a)
+ALL 27 CHECKS PASSED (notebook 21a)
 ```
 
 and the notebook must show 7 figures below the cells that draw them.
@@ -271,6 +271,9 @@ In [10]  PASS M M* = 1 for M = 1 and M = Gamma: both reality conditions are cons
 In [10]       reproduces Revision/lead_checks/reports/charge-conjugation-and-u1.json, check
 In [10]      majorana_conditions_consistent
 In [10]  PASS the two example fields satisfy Psi = Psi* and Psi = Gamma Psi*
+In [11]  PASS the record states the field equation and the exact solution (i) used here
+In [11]       reproduces Revision/theory/field-theory.json, formulas field_equation and
+In [11]      exact_solutions
 In [11]  PASS the record's exact solution solves the field equation (mass m = 2)
 In [11]       reproduces Revision/theory/reports/python-field-theory.json, check
 In [11]      exact_solution_family_x4_x8
@@ -302,7 +305,7 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS the seven figure files of notebook 21a exist
-ALL 26 CHECKS PASSED (notebook 21a)
+ALL 27 CHECKS PASSED (notebook 21a)
 ```
 
 ### 3.4 Figures
@@ -355,8 +358,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 27.3 s, peak memory of the kernel process 250 MiB;
-- the check run: 14.2 s, peak memory of the kernel process 249 MiB.
+- the build run: 56.3 s, peak memory of the kernel process 250 MiB;
+- the check run: 37.0 s, peak memory of the kernel process 249 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -368,8 +371,8 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/21a_conjugation_matrices.ipynb`: `9239d359dcdbec364ddaec0bf48d777c6f2679c15a7e84fcb1b957b9f50a2161`
-- `Revision/textbook/notebooks/src/21a_conjugation_matrices.py`: `445945a92d5c83a18c6aefa20a50c57becf4dde97df66c9a066f16b08b8ec8fc`
+- `Revision/textbook/notebooks/21a_conjugation_matrices.ipynb`: `48bf4bd2aae09e49bd3b7f98ae41d8a976d87569453b9c5548f99e83e84264a3`
+- `Revision/textbook/notebooks/src/21a_conjugation_matrices.py`: `c68092ce568b6994fb3540d02e55807e602f137506886426db7f5a3a7e5c568d`
 - `Revision/textbook/figures/21a.captions.json`: `b571169f3bf5c744c681a5800e30f5117a895d97896ca1417cdb28b4226b032a`
 - `Revision/textbook/figures/21a_1_eight_gammas.png`: `861a1f7d28a14a2ad4ce200d64e29dde504d3b74d3e1ce52c83c2da623706a14`
 - `Revision/textbook/figures/21a_2_halving_solutions.png`: `a9ec03a30dc7c0608cd678cfbc3e3f0b50ecffda3cfb7670b8a4f8454996f7ca`
@@ -385,4 +388,4 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":250.0,"seconds":27.3},"check":{"date":"2026-10-07","files":8,"peak_mb":249.0,"result":"passed","seconds":14.2},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":250.0,"seconds":56.3},"check":{"date":"2026-10-07","files":8,"peak_mb":249.0,"result":"passed","seconds":37.0},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

@@ -262,7 +262,7 @@ CELLS = [
         "Revision/pairing/reports/python-pairing.json").read_text(
         encoding="utf-8"))["checks"]}
     clauses = THEORY["current"]["wl"].split("; ")  # the statements of the formula
-    say("record formula 'current': " + clauses[0] + "; " + clauses[2])
+    say("record formula current: " + clauses[0] + "; " + clauses[2])
     check(clauses[0] == "J^mu = -i Psibar gamma^mu Psi"
           and clauses[2] == "J^x4 = Psi^dagger B Psi",
           "the record defines J^mu = -i Psibar gamma^mu Psi and J^x4 = Psi^dagger B Psi",
@@ -342,7 +342,9 @@ CELLS = [
        $\Omega_{x_i} = \tfrac12 e^{a_4}\sin^{1/6}z\,(a_4'\gamma^{(xi)}\gamma^{(x4)} +
        H\gamma^{(xi)}\gamma^{(x8)})$ for $i = 1, 2, 3$, $\Omega_{x_t} = -\tfrac12
        e^{-a_4}\sin^{1/6}z\,(a_4'\gamma^{(x4)}\gamma^{(xt)} + H\gamma^{(xt)}
-       \gamma^{(x8)})$ for $t = 5, 6, 7$, and $\Omega_{x_4} = \Omega_{x_8} = 0$;
+       \gamma^{(x8)})$ for $t = 5, 6, 7$, and $\Omega_{x_4} = \Omega_{x_8} = 0$ (the
+       cell also checks that the record's text, in Wolfram notation with `g[x4]` for
+       $\gamma^{(x4)}$, states exactly these pieces);
     3. the contraction $\gamma^\mu\Omega_\mu = \sum_\mu f_\mu^{-1}\gamma^\mu
        \Omega_\mu = 3H\gamma^{(x8)}$ (record formula gammaOmega_total).
     """),
@@ -364,8 +366,16 @@ CELLS = [
                                                        + H * G[mu] * G[7]))
         else:  # x4 and x8
             expected.append(sp.zeros(16, 16))
+    record_text = THEORY["Omega_components"]["wl"]  # the record's statement
+    pieces_of_record = [  # the formula above, piece by piece, in the record's notation
+        "Omega_xi = (1/2) E^a4[x4] Sin[6 H x8]^(1/6) (a4",
+        "g[xi].g[x4] + H g[xi].g[x8]) (i = 1, 2, 3)",
+        "Omega_xt = -(1/2) E^-a4[x4] Sin[6 H x8]^(1/6) (a4",
+        "g[x4].g[xt] + H g[xt].g[x8]) (t = 5, 6, 7)",
+        "Omega_x4 = Omega_x8 = 0"]
     check(all((Omega[mu] - expected[mu]).applyfunc(sp.simplify) == sp.zeros(16, 16)
-              for mu in range(8)),
+              for mu in range(8))
+          and all(piece in record_text for piece in pieces_of_record),
           "Omega_mu equals the record formula Omega_components",
           record="Revision/theory/field-theory.json, formula Omega_components")
     gamma_up = [G[mu] / f_dfl[mu] for mu in range(8)]  # gamma^mu = gamma^a / f_a
@@ -477,7 +487,7 @@ CELLS = [
         ax.bar(range(9), heights, color=colours)
         ax.axhline(0.0, color="black", linewidth=0.8)
         ax.set_xticks(range(9), labels, rotation=30)
-        ax.set_title(title + f"; sum of the eight = {sum(heights[:8]):+.0f}")
+        ax.set_title(title + f"; sum of the eight = {round(sum(heights[:8]))}")
         ax.set_xlabel("direction $\\mu$ of the term")
     axes[0].set_ylabel("coefficient of $C\\gamma^{(x4)}$ in units of $a_4'$")
     save_figure(fig, "volume_balance",
@@ -626,6 +636,8 @@ CELLS = [
     \cos z\,J^{(x8)} = \cos z\tan z\,\Psi^\dagger K_8\Psi = \sin z\,\Psi^\dagger K_8
     \Psi,\quad K_8 = -iC\gamma^{(x8)},$$
     because $\gamma^{x8} = \gamma^{(x8)}/f_8 = \tan z\,\gamma^{(x8)}$. The next cell
+    checks that the record states item (i) word for word as used here (in Wolfram
+    notation, `al` is $\alpha$ and $k^2 = 9H^2(2\alpha + 1)^2 - m^2 = b^2 - m^2$),
     builds $\Psi$, checks the field equation exactly, and checks the local
     conservation law $\partial_4(\cos z\,J^{(x4)}) + \partial_z(\cos z\,J^{(x8)}) = 0$
     exactly ($\partial_8 = \partial_z$ for $H = 1/6$).
@@ -647,8 +659,13 @@ CELLS = [
     tan_z = sp.sin(zz) / sp.cos(zz)
     E = (G[3] * Psi.diff(x4) + 6 * Hn * tan_z * G[7] * Psi.diff(zz)
          + 3 * Hn * G[7] * Psi - m_sol * Psi)  # the field equation, U = 0
-    check(E.expand() == sp.zeros(16, 1) and PY_THEORY["exact_solution_family_x4_x8"]
-          == "PASS", "the record's exact solution solves the field equation (m = 2)",
+    SOLUTION_I = (  # item (i) of the record's formula exact_solutions, word for word
+        "(i) U = 0: Psi = Sin[z]^al (Cosh[k x4] + Sinh[k x4]/k M) chi, M = -m g[x4]"
+        " + 3 H (2 al + 1) g[x4].g[x8], k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4)")
+    check(E.expand() == sp.zeros(16, 1)
+          and THEORY["exact_solutions"]["wl"].startswith(SOLUTION_I + "; ")
+          and PY_THEORY["exact_solution_family_x4_x8"] == "PASS",
+          "the record's exact solution solves the field equation (m = 2)",
           record="Revision/theory/reports/python-field-theory.json, check "
           "exact_solution_family_x4_x8")
     B_s = -sp.I * C_s * G[3]

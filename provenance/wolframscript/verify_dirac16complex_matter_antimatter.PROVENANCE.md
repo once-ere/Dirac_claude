@@ -145,7 +145,9 @@ it as a matrix:
   counting from 0, is `T16A[a]`), its chirality matrix $\gamma^8$ is the author's
   `T16A[8]` (input cell 287, `In[372]`; key `T16A_8` of the JSON file), its $C$ is the
   author's `sigma16` (input cell 285, `In[370]`, the product
-  `T16A[0].T16A[1].T16A[2].T16A[3]`), its $\eta$ is the author's `eta4488`, and its
+  `T16A[0].T16A[1].T16A[2].T16A[3]`; the author evaluated this cell before cell 286, so
+  `sigma16` takes its matrix value once `T16A` is defined), its $\eta$ is the author's
+  `eta4488`, and its
   projectors $P_-=(1-\gamma^8)/2$ and $P_+=(1+\gamma^8)/2$ are the author's $P_L$ and $P_R$
   (the JSON stores $2P_L$ and $2P_R$). All five comparisons gave equality (repeated with
   the version of the JSON file at the commit of Section 6.7). The check
@@ -377,7 +379,7 @@ runs, one of them a copy of the printed output, and deletes them at the end (Sec
 
 - A computer with Windows 10 or 11, macOS or Linux, with at least 3 GB of free
   memory and 2 GB of free disk space (a clone of the repository took about 520 MB on
-  2026-10-02, and 667 MB and later 764 MB on 2026-10-07; the repository grows).
+  2026-10-02, and from 667 MB to 770 MB on 2026-10-07; the repository grows).
 - A **Wolfram Language kernel** with the command-line program **WolframScript**: either
   the free **Wolfram Engine for Developers** or **Mathematica**. The verification of
   Section 6 used Wolfram 15.0.1 with WolframScript 1.14.0.
@@ -506,7 +508,8 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The clone took 15 to 18 seconds on the verification machine. The folder `Dirac_claude` is the
+The clone took 15 to 18 seconds on the verification machine, and up to 57 seconds when
+three clones were made at the same time on the busy machine. The folder `Dirac_claude` is the
 **repository root**; every command below is typed there.
 
 Optionally confirm that the programs are the verified ones. In PowerShell:
@@ -826,7 +829,7 @@ three programs (Section 2.1), the fixture and the two Stage-5 files (Section 2.2
 
 ### 4.4 Run time and memory
 
-On the verification machine (24 logical processors, Windows 11, 191 GB of memory, shared
+On the verification machine (24 logical processors, Windows 11, 191.4 GiB (205.6 GB) of memory, shared
 with other programs: about 20 Wolfram kernels of other verification jobs ran at the same
 time) one run took between 412.8 s and 508.1 s (6.9 to 8.5 minutes): 491.9 to 508.1 s
 for runs 1 to 5 of Section 6.2, which ran at the same time as each other, 412.8 s for

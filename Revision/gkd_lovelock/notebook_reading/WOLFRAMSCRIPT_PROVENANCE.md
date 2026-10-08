@@ -7,7 +7,7 @@ Set: the folder `Revision/gkd_lovelock/notebook_reading/`, which holds two Wolfr
 At a glance (verified on 2026-10-02 at commits `45d47343ae480df46e06689ed822b8f9a88a8030` and
 `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, and verified again on 2026-10-07 at commits
 `a4c5eda1df069a43a55ff8b57148f5de8edd1670`, `8cbd03a02f7771bce9e199f5d48cd41a979f1f06` and
-`5e4654e5a99f5857f7ba332bcdadb1c8ce2c29f2`; Windows 11, Wolfram 15.0.1, WolframScript 1.14.0, Python 3.14.5):
+`b8a695d1faa7abe43b4b51eb666f25d250420fb7`; Windows 11, Wolfram 15.0.1, WolframScript 1.14.0, Python 3.14.5):
 
 * EXECUTES OK: all three scripts end with exit code 0 and write nothing to standard error.
   The extraction prints `input cells written: 58`, the digest prints `58 input cells`, and the image export prints
@@ -16,13 +16,13 @@ At a glance (verified on 2026-10-02 at commits `45d47343ae480df46e06689ed822b8f9
   `Revision/gkd_lovelock/results/notebook-in68-image.png`, were reproduced BYTE FOR BYTE in thirteen runs from
   eight fresh clones: seven runs from four clones on 2026-10-02 (three in the first verification, four more in a
   re-verification after an independent review) and six runs from four more clones on 2026-10-07 (three in a
-  verification after a restart, three more in a re-verification after a second independent review; part 6).
-  After every run `git status` shows no change.
+  verification after a restart, three more in a re-verification after a second independent review and a second
+  restart; part 6). After every run `git status` shows no change.
 * The uncommitted full text `build/lovelock_nb_inputs.txt` was byte-identical in every run.
 * Run time on a shared 24-core machine: on 2026-10-02 extraction 3.5 s and 4.9 s, digest 0.4 s and 0.7 s, image
   export 5.9 s and 6.6 s (runs 1 and 2); on 2026-10-07, while other jobs kept the processor busy (up to 100 %),
-  extraction 3.7 to 8.7 s, digest 0.2 to 0.7 s, image export 9.3 to 11.4 s (runs 8 to 13). The whole set takes
-  about 10 to 25 seconds (part 4.4).
+  extraction 3.7 to 8.3 s, digest 0.2 to 0.7 s, image export 8.7 to 14.4 s (runs 8 to 13). The whole set takes
+  about 10 to 25 seconds, and up to about 40 seconds on a fully loaded machine (part 4.4).
 * No fix was needed and no file of the set was changed. No scientific discrepancy is open. Two notes for
   students (part 5): the image export makes Wolfram 15.0.1 try to fetch an add-on from the internet, and it prints
   the harmless message `RegisterFormat::interr: ... ImageMetadataTools could not be installed.`.
@@ -91,13 +91,14 @@ read from the author's notebook and in what form. Its "verdict" is the counts it
 * `HANDOFF.md`, section 0.4b, which describes the GKD and Lovelock task and the image cell `In[68]`.
 * `Revision/textbook/notebooks/src/01c_generalized_delta.py`, the notebook
   `Revision/textbook/notebooks/01c_generalized_delta.ipynb` built from it, and its
-  `01c_generalized_delta.PROVENANCE.md`. These three files were first committed on 2026-10-02 (commit `3f0a577`,
-  07:35 local time, after this set's verification of that day), in a snapshot of work IN PROGRESS, and were last
-  changed on 2026-10-07; the notebook's own provenance file records that its `nbkit check` PASSED (on 2026-10-07
-  in the version verified here). That notebook belongs to the textbook and is not part of this set; it was not
-  verified here. The notebook READS the digest `notebook-input-cells.txt` and quotes its cells `In[29]:=` (the
-  declaration of the author's metric with the signature (4,4)), `In[32]:=` (the product of two Levi-Civita
-  tensors) and `In[87]:=` (the `kδ` definition). It does not use the PNG.
+  `01c_generalized_delta.PROVENANCE.md`. These three files were added on 2026-10-02, after this set's
+  verification of that day: they were first committed in commit `3f0a577` (07:35 local time), in a snapshot of
+  work IN PROGRESS. They were last changed on 2026-10-07 (commits `1794e64` and `77ed93e`). The notebook's own
+  provenance file records that its `nbkit check` PASSED on 2026-10-07 (as read at commit `b8a695d`), but the
+  notebook has not yet been independently verified. That notebook belongs to the textbook and is not part of
+  this set; it was not run here. The notebook READS the digest `notebook-input-cells.txt` and quotes its cells
+  `In[29]:=` (the declaration of the author's metric with the signature (4,4)), `In[32]:=` (the product of two
+  Levi-Civita tensors) and `In[87]:=` (the `kδ` definition). It does not use the PNG.
 
 ---
 
@@ -162,8 +163,9 @@ You need four things:
 * a copy of the repository.
 
 About 1 GB of free memory is plenty: the Wolfram kernel peaked at about 0.2 GB. You also need about 1 GB of
-disk for the repository (a fresh clone measured 751 MB on 2026-10-07, of which 233 MB is git's own folder
-`.git`; the repository grows as the project grows) and 10 MB for `build/lovelock_nb_inputs.txt`.
+disk for the repository (a fresh clone of commit `b8a695d` measured 757 MB, 757,462,878 bytes, on 2026-10-07,
+of which 237 MB is git's own folder `.git`; the repository grows as the project grows) and 10 MB for
+`build/lovelock_nb_inputs.txt`.
 
 ### 3.1 Install git
 
@@ -315,11 +317,13 @@ that means both committed outputs were rewritten with exactly the committed byte
 What you see (times measured on the verification machine; they are longer on a busy or slower computer):
 
 * the extraction prints NOTHING while it works. Its only `Print` is its last statement, so its one line appears
-  when it has finished, after about 2 to 9 seconds, and the command ends right after it;
+  when it has finished, and the command ends right after it. Measured: the line appeared after 2 to 9 seconds,
+  and after up to 15 seconds while other jobs kept all 24 cores busy;
 * the Python command ends within a second;
-* the image export prints `{1372, 435}` once it has read the notebook (after about 4 to 6 seconds on
-  2026-10-07), then nothing for a few more seconds while it writes the PNG, then its remaining lines, and ends
-  (after about 5 to 12 seconds in all).
+* the image export prints `{1372, 435}` once it has read the notebook (measured: after about 4 to 8 seconds, and
+  after up to 11 seconds on a fully busy machine). Then it prints nothing for a few more seconds (about 4 to 5 s
+  on 2026-10-07) while it turns the picture into a PNG, then prints its remaining lines and ends (measured: 5 to
+  14 seconds in all, and up to 24 seconds on a fully busy machine).
 
 Part 4 shows the exact output.
 
@@ -380,10 +384,11 @@ The image export has no such option. It always writes the committed path.
 | `python` opens the Microsoft Store, or is "not recognized" (Windows) | Python is not installed, or "Add python.exe to PATH" was not ticked | install Python (part 3.3), or use `py -3` in place of `python` |
 | `Failed to open file at path: Revision/gkd_lovelock/notebook_reading/lovelock_extract_nb_inputs.wls` (or `..._export_nb_image.wls`), exit code still `0`; and for the digest a line that begins with the path of Python and continues `can't open file '...lovelock_digest_nb_inputs.py': [Errno 2] No such file or directory` (observed on Windows, started from the subfolder `Revision` of `C:\work\Dirac_claude`; Python writes the path inside the quotes with every backslash doubled: `C:\Python314\python.exe: can't open file 'C:\\work\\Dirac_claude\\Revision\\Revision\\gkd_lovelock\\notebook_reading\\lovelock_digest_nb_inputs.py': [Errno 2] No such file or directory`), exit code `2` | the terminal is not in the repository root (for example you are still in `C:\work`, or in a subfolder such as `Revision`), so the commands of part 3.5, which name the scripts relative to the repository root, do not find the script files. Nothing is run and nothing is written | go to the folder that contains `Revision` and the `.nb` file (part 3.4: `Set-Location C:\work\Dirac_claude` or `cd ~/work/Dirac_claude`) and run again |
 | `Get::noopen: Cannot open ...\Generalized _Kronecker_Delta_4+4.nb.` followed by `input cells written: 0 -> ...`, exit code still 0 | the extraction script WAS found, because it was called by another path (for example its full path), but the terminal was not in the repository root. The script looks for the notebook in the CURRENT folder, does not find it, and writes an EMPTY file `build/lovelock_nb_inputs.txt` in the current folder | go to the repository root (part 3.4) and run the commands exactly as in part 3.5. Delete the stray `build` folder with its empty file that appeared in the wrong folder |
-| `Get::noopen ...`, then `First::nofirst` (twice), `ToExpression::notstrbox`, `ImageDimensions::imginv`, the printed line `ImageDimensions[First[{}]]` (in place of `{1372, 435}`), `RegisterFormat::interr`, `OpenWrite::noopen`, `BinaryWrite::stream`, `Close::stream`, and a misleading `wrote ...` line with a wrong size (observed: `1371 bytes`), exit code still 0 | the image export script was called by another path (for example its full path) while the terminal was not in the repository root; nothing was written | go to the repository root and run again. Never trust the `wrote` line unless it says `28229 bytes` |
+| `Get::noopen ...`, then `First::nofirst`, `ToExpression::notstrbox`, `First::nofirst` again, `ImageDimensions::imginv`, the printed line `ImageDimensions[First[{}]]` (in place of `{1372, 435}`), `RegisterFormat::interr`, `OpenWrite::noopen`, `BinaryWrite::stream`, `Close::stream`, and a misleading `wrote ...` line with a wrong size (observed: `1371 bytes`), exit code still 0 | the image export script was called by another path (for example its full path) while the terminal was not in the repository root; nothing was written | go to the repository root and run again. Never trust the `wrote` line unless it says `28229 bytes` |
 | `FileNotFoundError: [Errno 2] No such file or directory: '...lovelock_nb_inputs.txt'`, exit code 1 | the digest ran before the extraction, or `LOVELOCK_NB_INPUTS` points to a file that does not exist | run the extraction first (part 3.5), with the same `LOVELOCK_NB_INPUTS` setting |
 | `RegisterFormat::interr: An internal error occurred: ImageMetadataTools could not be installed.` | normal with Wolfram 15.0.1 when the kernel cannot download an optional add-on (part 5) | nothing; the PNG is still written correctly. Check the `wrote ...: 28229 bytes` line and `git status` |
 | `ERROR: not a PNG`, exit code 2 | Wolfram's PNG writer returned something that is not a PNG file (never seen; would point to a broken installation) | run `wolframscript -code '$Version'`, reinstall or update Wolfram, and run again |
+| a command stopped before its last line because you pressed Ctrl+C or closed the terminal window (on Windows the stopped `wolframscript` process ended with exit code `-1073741510`, Windows' code for "stopped by Ctrl+C") | the run was interrupted. The Wolfram kernel stops with it (observed), but WolframScript's temporary files stay behind (part 5). A stop during the last second of the image export, while it writes the PNG, could leave the committed PNG incomplete (not observed) | run `git status --porcelain` and restore any file it lists with `git checkout -- <file>` (part 5); then run the three commands of part 3.5 again. The leftover temporary files are harmless; part 5 says how to delete them |
 | `git status --porcelain` lists `notebook-in68-image.png` | you use another Wolfram version, or the add-on of part 5 was installed and changed the file's bytes | compare the PICTURE instead of the bytes, with the pixel check of part 4.3. Then restore the committed file (part 5) |
 | `git status --porcelain` lists `notebook-input-cells.txt` | another Wolfram version formats InputForm text differently, or the notebook file was changed | see the differences with `git diff -- Revision/gkd_lovelock/results/notebook-input-cells.txt`. Check the notebook's sha256 (part 2.2) and restore with `git checkout` (part 5) |
 
@@ -433,7 +438,8 @@ cannot find the digest script itself (terminal not in the repository root), it e
 The two `wolframscript` commands end with `0` even when something is wrong: when the notebook cannot be
 found, and also when `wolframscript` cannot find the SCRIPT file itself (it then prints only
 `Failed to open file at path: ...`). Both cases are in part 3.6. So always check the printed counts, not only
-the exit code.
+the exit code. A `wolframscript` command stopped with Ctrl+C ended, on Windows, with exit code `-1073741510`
+(part 3.6).
 
 ### 4.3 The output files, and how to check them
 
@@ -482,10 +488,12 @@ the exit code.
    Type `$PSVersionTable.PSVersion` to see which PowerShell you have. PowerShell 7.3 changed the way
    arguments with double quotes are passed to programs, which is why the version matters. Use the command for
    YOUR version; the other one fails:
-   * the first command in PowerShell 5.1 or 7.0 to 7.2 prints `Import::chtype`, `ImageData::imginv`,
-     `Hash::invhash: SHA256 is not a valid Hash specification.` and no hash;
+   * the first command in PowerShell 5.1 or 7.0 to 7.2 prints the messages `Import::chtype`,
+     `ImageData::imginv`, `ByteArray::lend: The argument at position 1 in ByteArray[ImageData[$Failed, Byte]] ...`
+     and `Hash::invhash: SHA256 is not a valid Hash specification.`, then the unevaluated line
+     `Hash[ByteArray[ImageData[$Failed, Byte]], SHA256, HexString]`, and no hash (exit code still `0`);
    * the second command in PowerShell 7.3 or newer prints `ToExpression::sntx: Invalid syntax ...` and
-     `$Failed`.
+     `$Failed` (exit code still `0`).
 
    The right command prints `4efe457deb90302eb2cc564798964305a07291bf194715dab8368cbf7c78a198`. It may come
    after the `RegisterFormat::interr` message, because reading a PNG triggers the same add-on lookup. Verified
@@ -515,9 +523,25 @@ longer times of the image export):
 | digest | 0.69 s | 0.70 s | 0.36 s | Python 63.7 MB |
 | image export | 9.28 s | 11.26 s | 10.94 s | Wolfram kernel 210.2 to 210.4 MB; `wolframscript` 16.5 MB; licence query (part 5) 49.7 to 53.6 MB |
 
+Later on 2026-10-07, in the re-verification after the second review (other jobs kept the processor at 88 to
+100 % load):
+
+| script | run 11 (fresh clone) | run 12 (same clone) | run 13 (another fresh clone) | peak memory (working set) |
+| --- | --- | --- | --- | --- |
+| extraction | 5.63 s | 4.92 s | 8.33 s | Wolfram kernel 167.8 to 168.4 MB; licence query (part 5) 49.8 to 67.6 MB |
+| digest | 0.26 s | 0.15 s | 0.33 s | not measured in these runs |
+| image export | 9.70 s | 8.66 s | 14.39 s | Wolfram kernel 210.4 to 210.6 MB; licence query 66.5 to 68.4 MB |
+
+The independent verifier of 2026-10-07 also measured the set while about 14 Wolfram processes of other jobs
+kept all 24 cores at 100 % load: extraction 13.4 s and 14.5 s, image export 21.6 s and 23.7 s. On such a busy
+machine the whole set takes up to about 40 seconds.
+
 The times are wall-clock seconds from start to exit, including the start of the Wolfram kernel. In the
-2026-10-07 table "MB" means 2^20 bytes. The memory of the Wolfram processes was sampled every 0.2 s (2026-10-02)
-or 0.1 s (2026-10-07), over `wolframscript` and every process it started. The digest finishes too quickly for
+2026-10-07 tables "MB" means 2^20 bytes. The memory of the Wolfram processes was sampled every 0.2 s (2026-10-02)
+or 0.1 s (2026-10-07, runs 8 to 10), over `wolframscript` and every process it started; in runs 11 to 13 the
+processes started by `wolframscript` were sampled continuously (a pause of 5 ms between samples, plus the time
+Windows takes to list the processes), and the peak is the larger of Windows' peak working set and the largest
+working set seen in the process listing. The digest finishes too quickly for
 sampling (the 0.1 s samples caught only 12 to 30 MB), so on 2026-10-07 its peak was read by the Python process
 itself at its end: a small wrapper ran the digest (with `--out` to a scratch file) and then asked Windows
 (`GetProcessMemoryInfo`, `PeakWorkingSetSize`). It gave 63.7 MB in each of three runs; the work inside Python
@@ -539,10 +563,12 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
     only `!! build/`. The notebook `Generalized _Kronecker_Delta_4+4.nb` is read, never written. Python writes
     no `__pycache__` folder, because the digest is run as a script and not imported.
 * **Temporary files of WolframScript.** On Windows, each `wolframscript` command creates TWO files
-  `tmp_<10 letters>` in the folder
-  `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary`:
-  * an EMPTY file, within about 0.1 s of the start (observed 0.03 to 0.1 s);
-  * a second file, created once the Wolfram kernel is running (observed 2.2 to 4.6 s after the start), which
+  `tmp_<10 letters or digits>` (for example `tmp_c9bagAcSw2`) in the folder
+  `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary` (in PowerShell
+  `$env:LOCALAPPDATA\Wolfram\WolframScript\WolframScriptTemporary`):
+  * an EMPTY file, within about 0.1 s of the start (observed 0.0 to 0.25 s);
+  * a second file, created once the Wolfram kernel has started and begins to run the script (observed 2.2 to
+    7.9 s after the start, the later times on a busy machine), which
     receives a COPY of everything the command prints. It grows line by line as the lines are printed, and its
     final content was byte-identical to the printed output (218 bytes for the extraction and 386 bytes for the
     export in the verification clone; the size depends on the length of your folder path, which appears in the
@@ -550,8 +576,20 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
     a file. During the image export, the list of open files (Sysinternals `handle`) showed this file held open
     by the Wolfram kernel process (`wolfram.exe`), not by `wolframscript`.
 
-  Both files are deleted when the command ends (observed within 0.1 s of the exit). The digest (Python) creates
-  no such file.
+  Both files are deleted when the command ends normally (observed within 0.1 s of the exit). The digest
+  (Python) creates no such file.
+
+  An INTERRUPTED command leaves them behind. If a `wolframscript` command is stopped before it ends (Ctrl+C,
+  closing the terminal window, or ending the process in the Task Manager), WolframScript does not delete its
+  temporary files. Observed on 2026-10-07: an image export stopped with Ctrl+C after 7.4 s left both files (the
+  empty one, and the copy of the lines printed so far: `{1372, 435}`, an empty line and the
+  `RegisterFormat::interr` message); an image export ended from outside after 7.4 s left both files (the copy
+  held `{1372, 435}`); an extraction ended from outside after 2.7 s, while its kernel was still starting, left
+  the empty file. These files are small and harmless, but they stay in that folder until you delete them (on
+  2026-10-07 the folder on the verification machine held 155 such files while 17 `wolframscript` commands of
+  other jobs were running, so at least 121 of them were left over from earlier commands). How to delete them is
+  under "To restore the committed state" below. The files left by the interruption tests of this verification
+  were deleted afterwards. Where WolframScript keeps its temporary files on macOS and Linux was not checked.
 * **WolframScript's settings file.** On Windows, each `wolframscript` command rewrites
   `C:\Users\<you>\AppData\Roaming\Wolfram\WolframScript\WolframScript.conf` at its start (observed 28 to 68 ms
   after the process started). The content stays the same (238 bytes with the same sha256 before and after on
@@ -575,19 +613,22 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
 * **Processes started.**
   * Each `wolframscript` command starts one Wolfram kernel for the whole run. With Wolfram 15 on Windows the
     kernel is the process `wolfram.exe`; on other versions and systems its name may differ, for example
-    `WolframKernel`. `wolframscript` stops the kernel at the end.
+    `WolframKernel`. `wolframscript` stops the kernel at the end. When the command is stopped with Ctrl+C or
+    ended from outside, the kernel ended with it (checked 3 to 5 s later, on 2026-10-07).
   * Before the kernel, `wolframscript` also starts a second, short-lived process `wolfram.exe -wlbanner -licenseinfo`.
-    That is WolframScript asking about the licence. It lives for about 0.1 to 0.5 s and uses about 50 MB of
-    memory. On 2026-10-02 it was seen only sometimes, because the processes were sampled more slowly. On
-    2026-10-07 it was seen for both commands whose child processes were listed every 0.05 s (one extraction,
-    one image export), and in all three image-export runs sampled every 0.1 s; in the extraction runs sampled
-    every 0.1 s it ended too quickly to be caught.
+    That is WolframScript asking about the licence. It lives for about 0.1 to 0.5 s (up to 2.5 s on a busy
+    machine) and uses about 50 to 70 MB of memory (measured 49.7 to 68.4 MB). On 2026-10-02 it was seen only
+    sometimes, because the processes were sampled more slowly. On 2026-10-07 it was seen for both commands whose
+    child processes were listed every 0.05 s (one extraction, one image export), in all three image-export runs
+    sampled every 0.1 s, and in at least four of the six commands of runs 11 to 13; when it was missed, it had
+    ended before the first sample.
   * No parallel subkernels are started.
   * The digest runs one `python` process.
 * **Network.**
   * The extraction and the digest use no network. The extraction contains no internet function.
     `wolframscript` and its kernel talk to each other over a shared-memory link (the kernel is started with
-    `-linkmode Connect -linkname <5 letters>_shm -mathlink`, and both processes hold the shared-memory section
+    `-linkmode Connect -linkname <5 letters or digits>_shm -mathlink`, for example `x46yy_shm`, and both
+    processes hold the shared-memory section
     of that name); `wolframscript` itself had no network socket at all. The only sockets seen were pairs of
     `127.0.0.1` connections INSIDE the kernel process (both ends owned by the kernel), each with an entry in
     state `Bound` for the same port. No connection to another computer was observed for the extraction.
@@ -625,29 +666,38 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
   * Then remove the folder `build` ONLY if it is now empty:
     * PowerShell: `if (-not (Get-ChildItem build)) { Remove-Item build }`
     * bash: `rmdir build`, which refuses to delete a folder that is not empty.
+  * Only after an INTERRUPTED `wolframscript` command (see "Temporary files of WolframScript" above): first
+    close every Wolfram program (WolframScript commands, Mathematica, Wolfram notebooks) and check that none is
+    left with `Get-Process wolfram, wolframscript -ErrorAction SilentlyContinue` (it must print nothing), then
+    delete the leftover files in Windows PowerShell:
+    `Remove-Item "$env:LOCALAPPDATA\Wolfram\WolframScript\WolframScriptTemporary\tmp_*"`. A normal run leaves
+    nothing there to delete.
 
 ---
 
 ## 6. Verification record
 
 * **Dates:** 2026-10-02 (first verification and its re-verification after an independent review, runs 1 to 7)
-  and 2026-10-07 (verified again after a restart of the verification workflow, runs 8 to 10; see the bullet
-  "Verification of 2026-10-07" below).
+  and 2026-10-07 (verified again after a restart of the verification workflow, runs 8 to 10, and re-verified
+  after a second independent review and a second restart, runs 11 to 13; see the bullets "Verification of
+  2026-10-07" and "Re-verification after the second independent review" below).
 * **Commits verified:**
   * clone 1 at `45d47343ae480df46e06689ed822b8f9a88a8030` (2026-10-02);
   * clones 2, 3 and 4 at `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (2026-10-02);
   * clone 5 at `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (2026-10-07);
-  * clone 6 at `8cbd03a02f7771bce9e199f5d48cd41a979f1f06` (2026-10-07).
+  * clone 6 at `8cbd03a02f7771bce9e199f5d48cd41a979f1f06` (2026-10-07);
+  * clones 7 and 8 at `b8a695d1faa7abe43b4b51eb666f25d250420fb7` (2026-10-07).
 
   Each was `main` of https://github.com/once-ere/Dirac_claude.git at the time of cloning. The three scripts,
-  the notebook and both committed outputs are identical at all four commits (`git diff --stat 45d4734 c2b33cc`
-  and `git diff --stat c2b33cc 8cbd03a` over these six paths are empty; between them only this provenance file
-  was added, in commit `3f0a577`), and their digests are those of part 2. The three scripts and the PNG
+  the notebook and both committed outputs are identical at all five commits (`git diff --stat 45d4734 c2b33cc`,
+  `git diff --stat c2b33cc 8cbd03a` and `git diff --stat 8cbd03a b8a695d` over these six paths are empty;
+  between them only this provenance file was added, in commit `3f0a577`, and later updated), and their digests
+  are those of part 2. The three scripts and the PNG
   `notebook-in68-image.png` were last changed in commit `70fab64`, the digest `notebook-input-cells.txt` in
   commit `ad02ebb`, and the notebook `Generalized _Kronecker_Delta_4+4.nb` in commit `eb03ec8` (all on
   2026-10-01).
 * **Environment:**
-  * Windows 11 Pro for Workstations 10.0.26200 on 2026-10-02 and 10.0.26300 on 2026-10-07, 24 logical cores
+  * Windows 11 Pro for Workstations 10.0.26200 on 2026-10-02 and 10.0.26300 (build 26300.9457) on 2026-10-07, 24 logical cores
     (Intel Core Ultra 9 275HX), 191 GB RAM;
   * WolframScript 1.14.0, Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026), Professional licence
     (`$AllowInternet` was `True` at the start of the 2026-10-07 runs);
@@ -737,7 +787,7 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
     with a missing input ended with `FileNotFoundError` and exit code `1`. These are the rows of part 3.6.
   * Part 5 was checked again where the other jobs running on the machine allowed it. Every `wolframscript`
     command started the licence query `wolfram.exe -wlbanner -licenseinfo` and then one kernel, with the command
-    line of part 5 (`-linkmode Connect -linkname <5 letters>_shm -mathlink`). WolframScript's temporary folder,
+    line of part 5 (`-linkmode Connect -linkname <5 letters or digits>_shm -mathlink`). WolframScript's temporary folder,
     polled every 5 ms, showed for the extraction an empty `tmp_...` file from 0.05 s until the exit (5.41 s) and a
     second one from 4.42 s, 218 bytes at the end (the printed output), deleted at the exit; and for the export
     the same pair (0.06 s and 4.62 s, 386 bytes, both deleted at the exit at 11.31 s). Other `tmp_...` files in
@@ -748,7 +798,61 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
   * Network: see part 5 (re-checked: no paclet installed, the kernel could not connect).
   * The download links of part 3.2 were checked again with `HEAD` requests (nothing downloaded).
   * Peak memory: part 4.4.
-* **Check counts:** the set has no internal pass/fail checks. Expected and found in every run (runs 1 to 10):
+* **Re-verification after the second independent review** (2026-10-07, about 20:37 to 20:55 local time, after
+  a second restart of the verification workflow). An independent verifier reported six inaccuracies in this
+  file (none in the scripts): the disk space of the repository (part 3), the description of what is seen
+  while the commands run (part 3.5), the quoted Windows message of Python (part 3.6), two incomplete lists of
+  messages (parts 3.6 and 4.3), the date and status of the textbook notebook 01c (part 1.2), and the names of
+  the temporary files and links and the memory of the licence query (parts 4.4 and 5). Each was re-checked in
+  two NEW fresh clones of `b8a695d` (clones 7 and 8), into which no file was copied: the working tree had no
+  uncommitted change to any script of the set, to the notebook or to the two outputs. Each command was started
+  from the clone root exactly as in part 3.5, with the time of every printed line recorded.
+
+  | run | clone | exit codes | stderr | printed counts | time (extraction, digest, export) | `notebook-input-cells.txt` | `notebook-in68-image.png` | `build/lovelock_nb_inputs.txt` |
+  | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+  | 11 | 7 (fresh, no `build/`) | 0, 0, 0 | empty | 58; 58; {1372, 435}, 28229 bytes, 117 removed | 5.63 s, 0.26 s, 9.70 s | identical to committed | identical to committed | `52f611d4...276a6` |
+  | 12 | 7 again | 0, 0, 0 | empty | the same | 4.92 s, 0.15 s, 8.66 s | identical to committed and to run 11 | identical to committed and to run 11 | identical to run 11 |
+  | 13 | 8 (fresh) | 0, 0, 0 | empty | the same | 8.33 s, 0.33 s, 14.39 s | identical to committed | identical to committed | identical to run 11 |
+
+  * The printed lines of every command were identical in runs 11 to 13, apart from the clone folder name in the
+    paths. After each run `git status --porcelain --ignored` printed only `!! build/`, and the notebook kept its
+    sha256 `23bb4e0c...b80afb`. The processor was at 88 to 100 % load from other jobs.
+  * Times of the printed lines (runs 11, 12, 13): the extraction's only line at 5.63, 4.70 and 8.33 s (exit at
+    5.63, 4.92 and 8.33 s); the image export's `{1372, 435}` at 4.09, 3.82 and 8.37 s, its
+    `RegisterFormat::interr` message at 8.66, 7.76 and 13.28 s and its `wrote` line at 9.43, 8.44 and 14.39 s.
+  * Disk: the fresh clone 7 (before any run) took 757,462,878 bytes, of which `.git` 236,806,462 bytes.
+  * From the subfolder `Revision` of clone 8, Python printed its `can't open file` message with every backslash
+    of the path doubled (part 3.6), exit code `2`; the two `wolframscript` commands printed
+    `Failed to open file at path: ...`, exit code `0`. The image export called by its full path from an empty
+    folder printed, in this order, `Get::noopen`, `First::nofirst`, `ToExpression::notstrbox`, `First::nofirst`,
+    `ImageDimensions::imginv`, the line `ImageDimensions[First[{}]]`, `RegisterFormat::interr`,
+    `OpenWrite::noopen`, `BinaryWrite::stream`, `Close::stream` and `wrote ...: 1371 bytes`, exit code `0`;
+    the extraction from there printed `Get::noopen` and `input cells written: 0` and left an empty
+    `build/lovelock_nb_inputs.txt` there; the digest with a missing input ended with `FileNotFoundError`, exit
+    code `1`.
+  * The pixel check of part 4.3: the first command in Windows PowerShell 5.1.26100.9444, and in PowerShell 7.6.6
+    with `$PSNativeCommandArgumentPassing = 'Legacy'`, printed `Import::chtype`, `ImageData::imginv`,
+    `ByteArray::lend`, `Hash::invhash` and the line `Hash[ByteArray[ImageData[$Failed, Byte]], SHA256, HexString]`;
+    the first command in PowerShell 7.6.6 and the second in Windows PowerShell 5.1 printed `4efe457d...8a198`;
+    the second in PowerShell 7.6.6 printed `ToExpression::sntx` and `$Failed`. All exit codes were `0`.
+  * Interrupted commands (part 5): an extraction ended from outside after 2.7 s, an image export ended from
+    outside after 7.4 s, and an image export stopped with Ctrl+C after 7.4 s (a helper process attached to the
+    command's own console window and sent the Ctrl+C event). In each case the Wolfram kernel was gone 3 to 5 s
+    later, the files of `WolframScriptTemporary` described in part 5 were left behind, nothing was printed to
+    standard error, and `git status --porcelain --ignored` printed only `!! build/` afterwards. The command
+    stopped with Ctrl+C ended with exit code `-1073741510`. The files these tests left were deleted afterwards.
+    The cleanup command of part 5 was run on a copy of that folder structure in a scratch folder (with
+    `LOCALAPPDATA` pointed there): it deleted the `tmp_*` files and nothing else.
+  * Names seen: temporary files such as `tmp_c9bagAcSw2`, `tmp_331Iy3JK4g` and `tmp_86sYReoVc8`; links
+    `yry4y_shm`, `bzhr5_shm`, `tptqj_shm`, `j672b_shm`, `x46yy_shm` and `sb6s4_shm`. The second temporary file
+    (the copy of the printed lines; 226 bytes for the extraction and 394 bytes for the export in these clones)
+    appeared 3.1 to 7.9 s after the start and was deleted at the exit.
+  * The licence query `wolfram.exe -wlbanner -licenseinfo` peaked at 49.8 to 68.4 MB (part 4.4) and was seen
+    alive for up to 2.5 s.
+  * Textbook notebook 01c: `git log` in clone 7 shows its three files first committed in `3f0a577`
+    (2026-10-02 07:35:37 -0700) and last changed in `1794e64` and `77ed93e` (2026-10-07); its provenance file
+    says `Result of nbkit check: PASSED on 2026-10-07`.
+* **Check counts:** the set has no internal pass/fail checks. Expected and found in every run (runs 1 to 13):
   58 input cells written, 58 digest rows, an image of 1372 x 435 pixels, a PNG of 28229 bytes with 117 bytes of
   chunks removed, and 2 of 2 committed outputs byte-identical (and the uncommitted full text byte-identical).
 * **Fixes made:** none to the set, on 2026-10-02 or on 2026-10-07. The set executed correctly as committed,
@@ -756,7 +860,15 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
   date: the summary at the top, part 1.2 (the textbook notebook `01c_generalized_delta`, which reads the digest),
   part 3.2 (links checked again; the free Engine download is 15.0.0), part 3.3 (Python 3.14.4), part 3.6 (the
   complete list of messages of the image export started from a wrong folder), part 4.4 (times and memory of
-  2026-10-07), part 5 (the licence query process; the re-check of the network behaviour) and part 6. On
+  2026-10-07), part 5 (the licence query process; the re-check of the network behaviour) and part 6. Later on
+  2026-10-07, after the second review, it was corrected again: the summary at the top, part 1.2 (01c added on
+  2026-10-02; its own check passed; not yet independently verified), part 3 (disk space measured on
+  2026-10-07), part 3.5 (what is seen while the commands run, with measured times), part 3.6 (Python doubles the
+  backslashes; the exact order of the export's messages, with the printed line `ImageDimensions[First[{}]]`; a
+  new row for an interrupted command), part 4.2 (the exit code after Ctrl+C), part 4.3 (`ByteArray::lend` and
+  the printed `Hash[...]` line of the wrong pixel-check command), part 4.4 (runs 11 to 13 and the measurements
+  on a fully loaded machine), part 5 (names with digits, the memory and lifetime of the licence query, the
+  temporary files left by an interrupted command and how to delete them) and part 6. On
   2026-10-02 it had been corrected after the review: part 3.2 (download, free
   licence and install steps of the Wolfram Engine 15.0), part 3.5 (cleanup of the optional variant), part 3.6
   (new row for a terminal that is not in the repository root; the `Get::noopen` rows now say when they occur),

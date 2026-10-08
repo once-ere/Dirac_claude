@@ -32,7 +32,7 @@ The notebook has 30 cells (17 markdown cells and 13 code cells) in these section
 - 10. The figure files
 - 11. What this notebook showed
 
-It prints 16 PASS lines (one per check), 0 RESULT lines (key numbers) and draws 6 figures.
+It prints 17 PASS lines (one per check), 0 RESULT lines (key numbers) and draws 6 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -204,7 +204,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS the six figure files of notebook 21c exist
-ALL 16 CHECKS PASSED (notebook 21c)
+ALL 17 CHECKS PASSED (notebook 21c)
 ```
 
 and the notebook must show 6 figures below the cells that draw them.
@@ -242,6 +242,8 @@ Every check prints a PASS line (a check that fails stops the notebook with an As
 
 ```text
 In [2]  PASS eight real 16 x 16 gamma matrices with the Clifford relation, signature (4,4)
+In [2]  PASS the record's anticommutator B_AC delta / cos z and positive representation
+In [2]       reproduces Revision/theory/field-theory.json, formula quantisation
 In [3]  PASS B is purely imaginary, Hermitian, B^2 = 1, trace 0: signature (8,8)
 In [3]       reproduces Revision/lead_checks/reports/charge-conjugation-and-u1.json, check
 In [3]      B_imaginary_hermitian
@@ -283,7 +285,7 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS the six figure files of notebook 21c exist
-ALL 16 CHECKS PASSED (notebook 21c)
+ALL 17 CHECKS PASSED (notebook 21c)
 ```
 
 ### 3.4 Figures
@@ -293,7 +295,7 @@ The notebook shows 6 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/21c_1_krein_matrix.png` (1378 x 622 pixels): The Krein matrix $B = -iC\gamma^{(x4)}$ of the canonical anticommutator. Left: its imaginary part as a heat map (its real part is zero; horizontal axis the column, vertical axis the row, red $+1$, blue $-1$); every row and column has one entry, and the nonzero entries join the two chiral halves. Right: its sixteen eigenvalues in increasing order, eight $-1$ and eight $+1$ (signature (8,8)); because of the eight negative eigenvalues the field adjoint cannot be an ordinary Hilbert adjoint.
 - `Revision/textbook/figures/21c_2_which_conjugation.png` (1020 x 622 pixels): The mismatch $\|M B^T M^\dagger - B\|$ (the size of the failure of the canonical anticommutator) for the conjugations $\Psi \to M\Psi^{\dagger T}$ with $M = \cos t\,1 + \sin t\,\Gamma$; horizontal axis $t/\pi$ from $0$ to $2$, vertical axis the mismatch (pure number). It vanishes only at $t = \pi/2$ and $3\pi/2$, that is for $M = \pm\Gamma$ (red dots); the same-mass choice $M = \pm 1$ (blue squares) gives $-B$ instead of $B$, a mismatch of $\|2B\| = 8$.
 - `Revision/textbook/figures/21c_3_operator_anticommutators.png` (1379 x 461 pixels): The anticommutators $\{X_A, Y^\dagger_C\}$ measured with explicit operators on the 65536 states of 16 fermion modes (imaginary parts; the real parts are zero; horizontal axis $C$, vertical axis $A$, red $+1$, blue $-1$). Left: the field $\Psi$ of the positive representation, which gives the Krein matrix $B$. Middle: the conjugate $\Gamma\Psi^{\dagger T}$, which gives $B$ again, so it is a field of the same quantum theory. Right: the same-mass candidate $\Psi^{\dagger T}$, which gives $-B$ (every colour reversed), so it is not.
-- `Revision/textbook/figures/21c_4_charge_of_states.png` (1034 x 634 pixels): The charge of the basis states of 16 fermion modes, measured by three fields; horizontal axis the number of occupied modes (0 to 16), vertical axis the charge shifted by the constant 8 (pure numbers). The field $\Psi$ counts the occupied modes; the valid conjugate $\Gamma\Psi^{\dagger T}$ counts the empty ones, $Q' = 16 - Q$, so the shifted charge is exactly reversed (particles and holes exchanged); the invalid candidate $\Psi^{\dagger T}$ would give $Q - 16$, not a reversal.
+- `Revision/textbook/figures/21c_4_charge_of_states.png` (1034 x 634 pixels): The charge of the basis states of 16 fermion modes, measured by three fields; horizontal axis the number of occupied modes (0 to 16), vertical axis the charge shifted by a constant (minus 8 for $\Psi$ and $\Gamma\Psi^{\dagger T}$, plus 8 for $\Psi^{\dagger T}$; pure numbers). The field $\Psi$ counts the occupied modes; the valid conjugate $\Gamma\Psi^{\dagger T}$ counts the empty ones, $Q' = 16 - Q$, so the shifted charge is exactly reversed (particles and holes exchanged); the invalid candidate $\Psi^{\dagger T}$ would give $Q - 16$, not a reversal.
 - `Revision/textbook/figures/21c_5_dispersion_pm_mass.png` (1508 x 649 pixels): One-particle frequencies of the flat 4+4 Hamiltonian $h_m(k)$ for $m = +1$ (solid) and $m = -1$ (dashed, on top of the solid lines). Left: versus the momentum $k_1$ along ordinary space; the frequencies $\pm\sqrt{1 + k_1^2}$ are real and the same for both masses. Right: versus the momentum $k_5$ along an extra time; for $|k_5| < 1$ the largest real part is $\sqrt{1 - k_5^2}$, for $|k_5| > 1$ the frequencies are imaginary, $\pm i\sqrt{k_5^2 - 1}$ (green), and the modes grow in time. Horizontal axes the momentum, vertical axes the frequency (pure numbers, units with $m = 1$).
 - `Revision/textbook/figures/21c_6_krein_inertia_scan.png` (1023 x 622 pixels): The Krein inertia of the 8-dimensional eigenspace of the leading eigenvalue of $h_m(k)$, $m = 1$, along the momentum $k_5$ of an extra time: the numbers of positive (circles) and negative (crosses) eigenvalues of the form $u^\dagger Bu$ restricted to it; horizontal axis $k_5$, vertical axis the counts. For $|k_5| < 1$ (real frequency) the inertia is (4,4); in the shaded regions $|k_5| > 1$ the frequency is imaginary, the mode grows, and the form vanishes on the whole eigenspace (Krein-neutral).
 
@@ -305,13 +307,13 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/21c.captions.json` | 3304 | `5688ea1cc46a606c2039cc72651dcee87e3625ba70f1ea0e14913419c1c5f2d2` |
+| `Revision/textbook/figures/21c.captions.json` | 3386 | `677e79617260896fdc9809874f9970c721f1505b0b3bd640da87971a127c50a7` |
 | `Revision/textbook/figures/21c_1_krein_matrix.png` | 46280 | `811d52e53ca74219919d87eda7fa47865c38d1a1203c7bd5434a836cb25fa528` |
 | `Revision/textbook/figures/21c_2_which_conjugation.png` | 63807 | `30fe4f4e81663e08378222fafc03c408b04f842bf0b6f54347add7dfe019204b` |
 | `Revision/textbook/figures/21c_3_operator_anticommutators.png` | 28540 | `f30fd591e0bf88d3a50965f9cbb822771de9acde7fec57baf62dfe2e0ba5879b` |
 | `Revision/textbook/figures/21c_4_charge_of_states.png` | 71693 | `5606d0499917d634f61d7bda3a1abce9420c96525ba2f1171f112f3290206d2e` |
-| `Revision/textbook/figures/21c_5_dispersion_pm_mass.png` | 113205 | `017e329dd3d12f5fe16726a11a5fc335f9f77910ffac6eaec54b1ea8eaaa6a55` |
-| `Revision/textbook/figures/21c_6_krein_inertia_scan.png` | 47389 | `6e1b504da665952e649a65439b97dd54e1f4c49e1a1d0ef7b9c181927df6e9b3` |
+| `Revision/textbook/figures/21c_5_dispersion_pm_mass.png` | 123759 | `1b6b6a5eccd8675a16133c27a9c1f2f1c005c342ffa58af640bae746bf7cb97f` |
+| `Revision/textbook/figures/21c_6_krein_inertia_scan.png` | 49430 | `184a7bf2f3dd3f39de4f44c41590eba4046254f9760c6458655d6623a928ad6f` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/21c_quantum_conjugation.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -334,8 +336,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 30.2 s, peak memory of the kernel process 234 MiB;
-- the check run: 30.5 s, peak memory of the kernel process 234 MiB.
+- the build run: 30.0 s, peak memory of the kernel process 233 MiB;
+- the check run: 54.6 s, peak memory of the kernel process 234 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -347,15 +349,15 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/21c_quantum_conjugation.ipynb`: `fb44741bea6929aa1a7b78c29f4a5e8baef6320d1afc9f045d6c531720c5d588`
-- `Revision/textbook/notebooks/src/21c_quantum_conjugation.py`: `5973c30e16479a1bbf6d43306014b24e91ae7ebc2c9e4da3405c806af9b53f07`
-- `Revision/textbook/figures/21c.captions.json`: `5688ea1cc46a606c2039cc72651dcee87e3625ba70f1ea0e14913419c1c5f2d2`
+- `Revision/textbook/notebooks/21c_quantum_conjugation.ipynb`: `18bab3bb98b4892b8d90da61ba5d5f2bd7280681986a7be85fc5e976dee3f4de`
+- `Revision/textbook/notebooks/src/21c_quantum_conjugation.py`: `b858c1e056d1824f24168cfbec40306d7db30e16c6815a4e3254f7ad77325c39`
+- `Revision/textbook/figures/21c.captions.json`: `677e79617260896fdc9809874f9970c721f1505b0b3bd640da87971a127c50a7`
 - `Revision/textbook/figures/21c_1_krein_matrix.png`: `811d52e53ca74219919d87eda7fa47865c38d1a1203c7bd5434a836cb25fa528`
 - `Revision/textbook/figures/21c_2_which_conjugation.png`: `30fe4f4e81663e08378222fafc03c408b04f842bf0b6f54347add7dfe019204b`
 - `Revision/textbook/figures/21c_3_operator_anticommutators.png`: `f30fd591e0bf88d3a50965f9cbb822771de9acde7fec57baf62dfe2e0ba5879b`
 - `Revision/textbook/figures/21c_4_charge_of_states.png`: `5606d0499917d634f61d7bda3a1abce9420c96525ba2f1171f112f3290206d2e`
-- `Revision/textbook/figures/21c_5_dispersion_pm_mass.png`: `017e329dd3d12f5fe16726a11a5fc335f9f77910ffac6eaec54b1ea8eaaa6a55`
-- `Revision/textbook/figures/21c_6_krein_inertia_scan.png`: `6e1b504da665952e649a65439b97dd54e1f4c49e1a1d0ef7b9c181927df6e9b3`
+- `Revision/textbook/figures/21c_5_dispersion_pm_mass.png`: `1b6b6a5eccd8675a16133c27a9c1f2f1c005c342ffa58af640bae746bf7cb97f`
+- `Revision/textbook/figures/21c_6_krein_inertia_scan.png`: `184a7bf2f3dd3f39de4f44c41590eba4046254f9760c6458655d6623a928ad6f`
 
 ## 7. Verification
 
@@ -363,4 +365,4 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":234.0,"seconds":30.2},"check":{"date":"2026-10-07","files":7,"peak_mb":234.0,"result":"passed","seconds":30.5},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":233.0,"seconds":30.0},"check":{"date":"2026-10-07","files":7,"peak_mb":234.0,"result":"passed","seconds":54.6},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
