@@ -2245,7 +2245,7 @@ After normal ordering a particle has the charge $+1$ and an antiparticle $-1$.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| good sector, one momentum with frozen coefficients: positive Fock space, $\Psi^\dagger = \chi B$, $\{\Psi, \Psi^\dagger\} = B$; vacuum $-8E$; every quantum $+E$; charges $\pm1$ | PROVED (derivation above) and CHECKED for $m = 2$, $k = (1, 2, 0, 4)$, $E = 5$ (vacuum $-40$) and for $m = 3$, $k_1 = 4$, $E = 5$ | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` |
+| good sector, one momentum with frozen coefficients: positive Fock space, $\Psi^\dagger = \chi B$, $\{\Psi, \Psi^\dagger\} = B$; vacuum $-8E$; every quantum $+E$; charges $\pm1$ | PROVED (derivation above) and checked for $m = 2$, $k = (1, 2, 0, 4)$, $E = 5$ (vacuum $-40$) and for $m = 3$, $k_1 = 4$, $E = 5$ | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` |
 | normal ordering (dropping the vacuum value) | ASSUMED | a prescription, as in Dirac's theory |
 | scope: single good-sector momenta, in flat 4+4 space or in the frozen-coefficient model of Section 10.3 (ASSUMED: it leaves out the hidden-direction terms, including the connection term $3H\gamma^{(x_8)}$) | OPEN beyond it | a positive-norm Hilbert space for the whole field in the deflating background, the extra-time sector and the operator theory for $\lambda \neq 0$ beyond the finite model of Section 10.21 are not constructed; in the author's metric the curved good-sector mode operator is Hermitian only up to a boundary term at $z = \pi/2$ (Section 10.27; Revision theory document, section 11) |
 
@@ -2283,8 +2283,8 @@ with the kinetic part ${:}(-\sum_{\mu \neq x_4}\hat K_\mu){:}$ and the potential
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| expectation-value rule $u^\dagger BMu$ (particle), $-v^\dagger BMv$ (antiparticle) | PROVED (above) and CHECKED for a generic matrix and five recorded matrices | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` |
-| $\hat T = {:}T[\hat\Psi, \hat\Psi^\dagger C]{:}$; normal ordering removes the vacuum value $-8E$ per momentum | definition; CHECKED in the exact examples | Revision theory document, section 12; `good_sector_positive_fock_realisation` |
+| expectation-value rule $u^\dagger BMu$ (particle), $-v^\dagger BMv$ (antiparticle) | PROVED (above) and checked for a generic matrix and five recorded matrices | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` |
+| $\hat T = {:}T[\hat\Psi, \hat\Psi^\dagger C]{:}$; normal ordering removes the vacuum value $-8E$ per momentum | definition; the vacuum value PROVED (Section 10.20) and checked in the exact examples | Revision theory document, section 12; `good_sector_positive_fock_realisation` |
 | operator form of the on-shell identity for $\lambda \neq 0$ (at rest also $\hat\rho = {:}mS + U{:}$, $\hat p = {:}SU' - U{:}$) | PROVED (exact, sympy and an exact engine for the anticommutation rules) in the finite model of one good-sector mode set with frozen coefficients only, where, of the tested orderings, it holds if and only if $U$ and $\hat T$ are Wick ordered; OPEN for the field on a whole slice, the curved $x_8$ dependence and the extra-time sector; symmetry and conservation of the quartic operator not verified | `fock-quartic.json`, checks `trace_identity_operator_identity_wick`, `trace_identity_fails_for_every_other_combination` and `homogeneous_rho_p_operator_identities_wick` |
 
 ### 10.22 The commuting field dirac16complex00: an energy unbounded below
@@ -3609,9 +3609,9 @@ $$
 | statement | status | where it is verified |
 | --- | --- | --- |
 | the invariant bilinear forms are $r_-CP_- + r_+CP_+$ | PROVED (from the commutant of Spin(4,4)); COMPUTED in Notebook 10e (two zero eigenvalues, separation from about 7 down to $1.3 \times 10^{-15}$) | `python-algebra.json`, checks `spin_commutant_dimension_2` and `S_preserves_C_and_commutes_with_Gamma`; `wolfram-algebra.json`, check `S_preserves_C` |
-| every invariant charge density satisfies $\Gamma X\Gamma = -X$ and is indefinite | PROVED (above); CHECKED for 40 random densities | Notebook 10e, In [5]; `wolfram-algebra.json`, check `B_signature_8_8` for $X = B$ |
+| every invariant charge density satisfies $\Gamma X\Gamma = -X$ and is indefinite | PROVED (above) and checked for 40 random densities | Notebook 10e, In [5]; `wolfram-algebra.json`, check `B_signature_8_8` for $X = B$ |
 | exactly the 21 generators without $x_4$ are Krein-unitary; defect $iC\gamma^{(x_b)}$ for $S^{(x_4x_b)}$ | PROVED | `wolfram-algebra.json`, check `S_preserves_B_only_off_x4` |
-| the counts 12 (anti-Hermitian), 13 (commuting with $B$), 9 (both) | PROVED (above); CHECKED | Notebook 10e, In [6] |
+| the counts 12 (anti-Hermitian), 13 (commuting with $B$), 9 (both) | PROVED (above) and checked | Notebook 10e, In [6] |
 
 ### 10.35 Example: Notebook 10e computes the invariant forms and the generators
 
