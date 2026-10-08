@@ -1,0 +1,744 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,array}
+\usepackage{fancyvrb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\pdfobjcompresslevel=0
+\pdfinfoomitdate=1
+\pdftrailerid{}
+\pdfsuppressptexinfo=15
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+\setlength{\emergencystretch}{3em}
+\title{Kohn-Sham model of dirac16complex in the author's primordial field with the deflating extra times\\[0.5em]\large The block reduction, the instantaneous ground and first excited states along the prescribed history $a_4 = AHx_4$, Mermin thermodynamics, adiabaticity, the energy-momentum tensor, the rescaling partners and the source conditions, with the verification records and an exact statement of what is computed and what is not}
+\author{dirac16complex project (with Claude Opus 5.5)}
+\date{September 2026}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\begin{abstract}
+This document records the Kohn-Sham (density-functional) model of the fermion field dirac16complex in the author's primordial gravitational field, deliverable 4 of \texttt{Revision\allowbreak{}/SPEC.md} section 10, as computed by the code in \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/}. Exact (two independent verifiers, WolframScript and sympy): in the good sector (no extra-time momentum) the ansatz $\Psi = e^{ik\cdot x}W^{-3}\chi(y,x_4)$ removes the spin-connection term $3H\gamma^8$ and reduces the 16-component equation, for every history $a_4(x_4)$, to eight $2 \times 2$ blocks $h_j = j[-i\sigma_1\,d/dy + M_{\mathrm{eff}}\sigma_2 + \kappa k\sigma_3] + v_v$ in the hidden coordinate $y$, with $\kappa = e^{-Hy-a_4}$; the deflation of the extra times enters the instantaneous problem only through this redshift of the 3-momenta and through the extra-time volume; the exact local exchange of the uniform good-sector gas gives $M_{\mathrm{eff}} = m + \frac{15}{16}\lambda S$ and $v_v = -\lambda n/16$. Computed (a Rust solver, an independent Python reference with a different discretisation, and a cross-check of the full canonical matrix, 31 of 31 checks PASS over 162691 comparisons): the instantaneous ground and first excited states of 75 parameter sets ($N = 8, 136, 688$; five couplings; five slices $a_{4,0}$ of the prescribed history $a_4 = AHx_4$, $A = 1$), 135 Mermin states at three temperatures, the adiabaticity measure ($Q_{\max} \leq 0.09345324$ over the matrix), the Fermi-level crossings (none in the canonical matrix; a demonstration at $N = 696$), the energy-momentum tensor profiles, the exact rescaling partners and the exact-exchange variant. ASSUMED or chosen: the Z2 brane at the patch end, the regular tip at $y = -3$, the filling convention. Not admissible as sources: no recorded Kohn-Sham state satisfies the source conditions of the $a_4$ equations, so the history is a prescribed background without back-reaction. Not done: the time-dependent (non-adiabatic) Kohn-Sham problem, correlation beyond exchange, back-reaction.
+
+\end{abstract}
+
+\section{The task and the answer}
+
+The author asked (2026-10-01, quoted from \texttt{Revision\allowbreak{}/README.\allowbreak{}md}): ``plan and employ a DFT-motivated approximation similar to the one that you already created [...], with a Kohn-Sham fermion-gas thermodynamic effective potential, that employs the DFT ground and first-excited-state computation''. \texttt{Revision\allowbreak{}/SPEC.md} section 7 makes this precise: a Kohn-Sham fermion-gas model of dirac16complex in the good sector with the contact interaction $U = \frac{\lambda}{2}S^2$, the Hartree mean field plus the exact local exchange of the uniform gas, Mermin's finite-temperature functional, the reduction to $2 \times 2$ blocks in the hidden coordinate, the boundary conditions, the ground and first excited states, the thermodynamics, and, because $a_4$ depends on $x_4$, the INSTANTANEOUS (adiabatic) Kohn-Sham states along the history with the extra times deflating, with an adiabaticity measure.
+
+The answer of this record:
+
+\begin{enumerate}
+\item Exact (section 3, section 4): the block reduction, the exchange functional, the boundary conditions, the rescaling identity, the energy-momentum tensor and its conservation laws, the adiabaticity measure. Every formula is in \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/ks-th\allowbreak{}eory.jso\allowbreak{}n} and verified twice, in \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-th\allowbreak{}eory-wol\allowbreak{}fram.jso\allowbreak{}n} (46 of 46 PASS) and independently in \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-th\allowbreak{}eory-pyt\allowbreak{}hon.json} (58 of 58 PASS).
+\item Computed (sections 5 to 10): the instantaneous Kohn-Sham states of the canonical matrix by the Rust solver, independently by the Python reference, and compared state by state on the full matrix.
+\item Not admissible (section 11): the recorded states are not sources of the field equations for $a_4$; the history $a_4 = AHx_4$ is PRESCRIBED.
+\item Open (section 15): the time-dependent Kohn-Sham problem, correlation, back-reaction.
+\end{enumerate}
+
+Every number below is read from the named Revision report or results file (the publication test re-reads them); units: $H = m = 1$, energies, momenta and temperatures in units of $m$, as in \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/param\allowbreak{}eters.js\allowbreak{}on}. Interpretations are labelled.
+
+\section{Setting: the author's field, the good sector and the hidden coordinate}
+
+The coordinates are named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space, inflating with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which DEFLATE exponentially, with the scale factor $e^{-a_4}\sin^{1/6}z$ and $a_4$ increasing (they are never treated as static); $x_8$ is the hidden space direction, $z = 6Hx_8 \in (0,\pi/2)$. The metric of \texttt{Revision\allowbreak{}/SPEC.md} section 1 is
+
+\[
+\begin{aligned}
+ds^2 = {} & e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
+& - e^{-2a_4(x_4)}\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) + \cot^2 z\,dx_8^2 .
+\end{aligned}
+\]
+
+The Kohn-Sham record uses the hidden coordinate $y = \ln(\sin z)/(6H) \in (-\infty, 0]$, with $dy = \cot z\,dx_8$; the patch end $z = \pi/2$ is $y = 0$ (the brane) and the tip $z \to 0$ is $y \to -\infty$. In it the metric is exactly
+
+\[
+ds^2 = e^{2Hy}\big[e^{2a_4}(dx_1^2+dx_2^2+dx_3^2) - e^{-2a_4}(dx_5^2+dx_6^2+dx_7^2)\big] - dx_4^2 + dy^2 ,
+\]
+
+with the warp $W = e^{Hy}$ and $\sqrt{|g|} = e^{6Hy}$ ($= \cos z$ in the author's chart). The 7-volume is independent of $a_4$: the inflation $e^{3a_4}$ of 3-space is compensated exactly by the deflation $e^{-3a_4}$ of the extra times. The canonical spin connection gives $\gamma^\mu\Omega_\mu = 3H\gamma^8$ for every $a_4(x_4)$: the $a_4'$ pieces of the three inflating directions, $+\frac32a_4'\gamma^4$, and of the three deflating directions, $-\frac32a_4'\gamma^4$, cancel.
+
+The good sector: no dependence on $x_5, x_6, x_7$ (zero extra-time momenta), a coordinate 3-torus of side $\ell$ with the momenta $k \in \Delta k\,\mathbb{Z}^3$, $\Delta k = 2\pi/\ell$, and the extra-time coordinate volume $v_t$; $\mathrm{Vol}_7 = \ell^3v_t$. The canonical quantisation of \texttt{Revision\allowbreak{}/SPEC.md} section 6 has a positive Fock realisation in this sector, and the expectation-value rule $\langle\Psi^\dagger M\Psi\rangle = \mathrm{Tr}(M\rho)$, $\rho = \sum_{\mathrm{occ}} f\,uu^\dagger B$, defines the quasi-free (Slater or Mermin) states used here.
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{item} & \textbf{Wolfram records} & \textbf{sympy records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{item} & \textbf{Wolfram records} & \textbf{sympy records} \\
+\midrule
+\endhead
+gammas, $C$, $B$, $\Gamma$ & \texttt{fixture\_\allowbreak{}input}, \texttt{clifford\allowbreak{}\_relatio\allowbreak{}n}, \texttt{C\_B\_Gamm\allowbreak{}a} & \texttt{fixture\_\allowbreak{}input}, \texttt{fixture\_\allowbreak{}python\_e\allowbreak{}quals\_wo\allowbreak{}lfram}, \texttt{clifford\allowbreak{}\_relatio\allowbreak{}n}, \texttt{C\_B\_Gamm\allowbreak{}a}, \texttt{BC\_and\_C\allowbreak{}g4} \\
+hidden coordinate, $\sqrt{\lvert g\rvert}$ & \texttt{geometry\allowbreak{}\_hidden\_\allowbreak{}coordina\allowbreak{}te}, \texttt{geometry\allowbreak{}\_sqrt\_de\allowbreak{}t} & \texttt{geometry\allowbreak{}\_hidden\_\allowbreak{}coordina\allowbreak{}te}, \texttt{geometry\allowbreak{}\_sqrt\_de\allowbreak{}t}, \texttt{geometry\allowbreak{}\_warped\_\allowbreak{}form} \\
+spin connection & \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}compatib\allowbreak{}ility}, \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}slash\_3H}, \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}time\_ter\allowbreak{}ms\_cance\allowbreak{}l}, \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}slash\_3H\allowbreak{}\_x8\_char\allowbreak{}t} & \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}compatib\allowbreak{}ility}, \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}slash\_3H}, \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}time\_ter\allowbreak{}ms\_cance\allowbreak{}l}, \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}time\_ter\allowbreak{}m\_value}, \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}slash\_3H\allowbreak{}\_x8\_char\allowbreak{}t} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{The exact block reduction}
+
+\textbf{Ansatz.} $\Psi = e^{ik\cdot x}W^{-3}\chi(y,x_4)$ gives EXACTLY, for a time-dependent $a_4$,
+
+\[
+\gamma^8\partial_y\chi + \gamma^4\partial_{x_4}\chi + i\kappa\,k\cdot\gamma\,\chi = (M_{\mathrm{eff}} - iv_v\gamma^4)\chi ,\qquad \kappa(y,x_4) = e^{-Hy-a_4(x_4)} ,
+\]
+
+i.e. $i\partial_{x_4}\chi = h(x_4)\chi$ with $h$ Hermitian in $\int dy\,\chi^\dagger\chi$. The factor $W^{-3}$ removes the term $3H\gamma^8$; without it the term survives. At a fixed instant the instantaneous (adiabatic) problem is $h(a_{4,0})\chi = \varepsilon\chi$ with $a_{4,0} = a_4(x_4)$.
+
+\textbf{Blocks.} $J = \gamma^8\gamma^1\gamma^4$ ($J^2 = 1$), $K_1 = \gamma^2\gamma^3$ and $K_2 = \gamma^5\gamma^6$ ($K^2 = -1$) commute with each other and with $\gamma^8$, $\gamma^8\gamma^1$, $\gamma^8\gamma^4$, $B$ and $C$; their joint eigenspaces, labelled $(j, s_2, s_3)$ with $j, s_2, s_3 = \pm1$, are eight rank-2 blocks with an explicit unitary basis $V$ (entries of $2\sqrt2\,V$ in $\{0, \pm1, \pm i\}$). For $k$ along $x_1$ (the spinor rotation commutes with $\gamma^8$, $\gamma^4$, $B$, $C$, so the spectra depend on $|k|$ only), every block of type $j$ carries
+
+\[
+h_j = j\big[-i\sigma_1\,\tfrac{d}{dy} + M_{\mathrm{eff}}(y)\sigma_2 + \kappa(y)k\sigma_3\big] + v_v(y) ,
+\]
+
+equivalently $\chi' = N\chi$ with $N = M_{\mathrm{eff}}\sigma_3 - \kappa k\sigma_2 + ij(\varepsilon - v_v)\sigma_1$; in the real form $\chi = (a, ib)$, $a' = M_{\mathrm{eff}}a - (\kappa k + j(\varepsilon - v_v))b$ and $b' = (j(\varepsilon - v_v) - \kappa k)a - M_{\mathrm{eff}}b$. In the block basis $\gamma^8 = \sigma_3$, $B = js_2$ and $C = s_2\sigma_2$.
+
+\textbf{Symmetries and degeneracies.} $h_{-1} - v = -(h_{+1} - v)$ and $\sigma_3h_j(k)\sigma_3 = h_{-j}(-k)$: the $(j,k)$ and $(-j,-k)$ orbitals are degenerate. On a lattice shell $|k|^2 = \Delta k^2n_2$ with $r_3(n_2)$ vectors every level of $h_j(|k|)$ is $4r_3(n_2)$-fold for each $j$; at $k = 0$ every level is 4-fold per $j$. The chirality $\Gamma$ maps block $(j, s_2, s_3)$ onto $(-j, s_2, s_3)$ with the $2 \times 2$ entry $s_2\sigma_2$, and $\sigma_2h_j(M,k)\sigma_2 = h_{-j}(-M,k)$ with the brane parities exchanged (the ingredient of T3, section 12).
+
+\textbf{Where the deflation enters (exact).} $a_{4,0}$ enters $h_j$ only through $\kappa k = e^{-Hy}(ke^{-a_{4,0}})$: the 3-momenta redshift as $ke^{-a_4}$. Because the good sector has no extra-time momentum, the extra-time scale factor $e^{-a_4}$ enters the instantaneous problem only through the extra-time volume (section 10).
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{item} & \textbf{Wolfram records} & \textbf{sympy records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{item} & \textbf{Wolfram records} & \textbf{sympy records} \\
+\midrule
+\endhead
+ansatz and Hamiltonian & \texttt{ansatz\_r\allowbreak{}emoves\_s\allowbreak{}pin\_conn\allowbreak{}ection}, \texttt{ansatz\_w\allowbreak{}ithout\_W\allowbreak{}3\_term\_s\allowbreak{}urvives}, \texttt{hamilton\allowbreak{}ian\_16\_h\allowbreak{}ermitian} & \texttt{ansatz\_r\allowbreak{}emoves\_s\allowbreak{}pin\_conn\allowbreak{}ection}, \texttt{ansatz\_w\allowbreak{}ithout\_W\allowbreak{}3\_term\_s\allowbreak{}urvives}, \texttt{hamilton\allowbreak{}ian\_16\_h\allowbreak{}ermitian} \\
+blocks & \texttt{blocks\_c\allowbreak{}ommuting\allowbreak{}\_set}, \texttt{blocks\_b\allowbreak{}asis\_uni\allowbreak{}tary}, \texttt{blocks\_f\allowbreak{}orms}, \texttt{blocks\_r\allowbreak{}elation\_\allowbreak{}to\_Gamma}, \texttt{block\_ha\allowbreak{}miltonia\allowbreak{}n}, \texttt{block\_od\allowbreak{}e\_equiva\allowbreak{}lent} & \texttt{blocks\_c\allowbreak{}ommuting\allowbreak{}\_set}, \texttt{blocks\_p\allowbreak{}rojector\allowbreak{}s}, \texttt{blocks\_b\allowbreak{}asis\_uni\allowbreak{}tary}, \texttt{blocks\_f\allowbreak{}orms}, \texttt{blocks\_n\allowbreak{}ot\_every\allowbreak{}thing\_bl\allowbreak{}ock\_diag\allowbreak{}onal}, \texttt{blocks\_r\allowbreak{}elation\_\allowbreak{}to\_Gamma}, \texttt{block\_ha\allowbreak{}miltonia\allowbreak{}n}, \texttt{block\_od\allowbreak{}e\_equiva\allowbreak{}lent} \\
+symmetries & \texttt{block\_ty\allowbreak{}pe\_relat\allowbreak{}ion}, \texttt{block\_Ga\allowbreak{}mma\_map}, \texttt{rotation\allowbreak{}\_invaria\allowbreak{}nce} & \texttt{block\_ty\allowbreak{}pe\_relat\allowbreak{}ion}, \texttt{block\_Ga\allowbreak{}mma\_map}, \texttt{rotation\allowbreak{}\_invaria\allowbreak{}nce} \\
+solver (numerical basis) &  & \texttt{block\_re\allowbreak{}duction\_\allowbreak{}numeric}, \texttt{gamma\_fi\allowbreak{}xture\_nu\allowbreak{}meric} (Rust solver report) \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{The functional: Hartree, exact uniform-gas exchange, Mermin}
+
+\textbf{Exchange (exact for the uniform gas).} The interaction is $U = \frac{\lambda}{2}S^2$, $S = \bar\Psi\Psi$, normal ordered ($\lambda > 0$ repulsive). For a quasi-free state, Wick's theorem gives $\langle :S^2: \rangle = (\mathrm{Tr}\,C\rho)^2 - \mathrm{Tr}(C\rho C\rho)$. For every $p \to -p$ symmetric occupation of the 8-fold good-sector gas, at every temperature, $\rho = (nB + SC)/16$ and
+
+\[
+e_H = \tfrac{\lambda}{2}S^2 ,\qquad e_x = -\tfrac{\lambda}{32}\big(n^2 + S^2\big) ,\qquad
+e_{\mathrm{int}} = \tfrac{15}{32}\lambda S^2 - \tfrac{1}{32}\lambda n^2 ,
+\]
+
+\[
+M_{\mathrm{eff}}(y) = m + \tfrac{15}{16}\lambda S(y) ,\qquad v_v(y) = -\tfrac{\lambda}{16}n(y) ,
+\]
+
+with proper densities; for one filled level at rest $E_x/E_H = -1/8$, and on shell $\langle\mathcal{L}\rangle/\sqrt{|g|} = e_{\mathrm{int}}$. No correlation is included (Hartree plus exchange only). The Rust solver reads the coefficients from \texttt{ks-theor\allowbreak{}y.json} and checks them (\texttt{theory\_i\allowbreak{}nput\_coe\allowbreak{}fficient\allowbreak{}s}: $M_{\mathrm{eff}} = m + 0.9375\lambda S$, $v_v = -0.0625\lambda n$).
+
+\textbf{Exact Fock exchange of the slab (diagnostic and variant).} For closed shells the exact Fock exchange of the Kohn-Sham determinant is also local, $e_x^{\mathrm{exact}} = -\frac{\lambda}{32}(n^2 + S^2 - Q^2 - Y^2)$ with $Q = \langle\Psi^\dagger B\gamma^8\Psi\rangle$ and $Y = 0$; the canonical functional is the uniform-gas one, the difference $\Delta E_x = \frac{\lambda}{32}\,2\mathrm{Vol}_7\int e^{6Hy}Q^2\,dy$ is reported for every state, and the exact-Fock functional is solved as a variant (60 states, \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/exx/e\allowbreak{}xact-foc\allowbreak{}k-varian\allowbreak{}t.csv}).
+
+\textbf{Densities, energy, Mermin.} Per orbital, with $P(y) = e^{-6Hy}/(\ell^3v_t)$: $n_o = P\chi^\dagger\chi$, $s_o = P\chi^\dagger j\sigma_2\chi$, $t_o = P\chi^\dagger j\sigma_3\chi$, $q_o = P\chi^\dagger\sigma_3\chi$. Totals are $\sum w\,g\,f$ times these, $g = 4r_3(n_2)$, $w = 1/2$ (section 5). The Kohn-Sham energy of the doubled system is $E_{KS} = \sum g f\varepsilon - 2\mathrm{Vol}_7\int_{-L}^{0}e^{6Hy}e_{\mathrm{int}}\,dy$; Mermin's occupations are $f = 1/(1 + e^{(\varepsilon-\mu)/T})$ with $\mu$ fixed by $\sum g f = N$, the entropy is $S_{\mathrm{ent}} = -\sum g[f\ln f + (1-f)\ln(1-f)]$, the grand potential (the thermodynamic effective potential) is $\Omega = -T\sum g\ln(1 + e^{-(\varepsilon-\mu)/T}) - 2\mathrm{Vol}_7\int_{-L}^{0}e^{6Hy}e_{\mathrm{int}}\,dy$, and $F = \Omega + \mu N$.
+
+Discrepancy recorded, not hidden: the line ``mu fixed by sum w\_Z2 g f = N'' of \texttt{ks-theor\allowbreak{}y.json} is inconsistent with its own densities, energy and grand potential; the solver and the reference use $\sum g f = N$, and \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/param\allowbreak{}eters.js\allowbreak{}on} records the discrepancy.
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{item} & \textbf{Wolfram records} & \textbf{sympy records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{item} & \textbf{Wolfram records} & \textbf{sympy records} \\
+\midrule
+\endhead
+uniform gas and exchange & \texttt{gas\_mode\allowbreak{}\_project\allowbreak{}or}, \texttt{gas\_angu\allowbreak{}lar\_aver\allowbreak{}age}, \texttt{gas\_dens\allowbreak{}ities}, \texttt{exchange\allowbreak{}\_uniform\allowbreak{}\_gas} & \texttt{gas\_mode\allowbreak{}\_project\allowbreak{}or}, \texttt{gas\_angu\allowbreak{}lar\_aver\allowbreak{}age}, \texttt{gas\_nega\allowbreak{}tive\_ene\allowbreak{}rgy\_mode\allowbreak{}s}, \texttt{gas\_dens\allowbreak{}ities}, \texttt{hf\_wick\_\allowbreak{}contract\allowbreak{}ion}, \texttt{exchange\allowbreak{}\_uniform\allowbreak{}\_gas}, \texttt{filled\_s\allowbreak{}hell\_rat\allowbreak{}io} \\
+Kohn-Sham potentials & \texttt{ks\_poten\allowbreak{}tials}, \texttt{ks\_onshe\allowbreak{}ll\_lagra\allowbreak{}ngian} & \texttt{ks\_poten\allowbreak{}tials}, \texttt{ks\_onshe\allowbreak{}ll\_lagra\allowbreak{}ngian}, \texttt{ks\_theor\allowbreak{}y\_json\_e\allowbreak{}xchange} \\
+exact Fock exchange of the slab & \texttt{exchange\allowbreak{}\_slab\_ex\allowbreak{}act\_fock} & \texttt{exchange\allowbreak{}\_slab\_ex\allowbreak{}act\_fock} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Boundary conditions, filling convention, numerics and parameters}
+
+\textbf{Brane (ASSUMED).} The Z2 mirror (orbifold) at $y = 0$: $\Psi(-y) = \pm\gamma^8\Psi(y)$ with the mirror warp $e^{-H|y|}$; continuity gives $(1 \mp \gamma^8)\chi(0) = 0$, i.e. the even parity $\chi_2(0) = 0$ ($b(0) = 0$) and the odd parity $\chi_1(0) = 0$ ($a(0) = 0$). Both conditions kill the $y$-current and make $h_j$ self-adjoint. The mirror map $P_A$ takes $(M(y), v(y))$ to $(-M(-y), v(-y))$: the doubled problem is $P_A$-symmetric exactly when the mirror copy carries $(-m, +\lambda)$. Both parities are solved and filled together; $N$ is the particle number of the doubled system (universe and Z2 image), the patch holds $N/2$, and $w = 1/2$ per patch.
+
+\textbf{Tip (chosen).} At $y = -L$: $(1 - Q(\theta))\chi(-L) = 0$, $Q(\theta) = \cos\theta\,\sigma_3 + \sin\theta\,\sigma_2$, canonical $\theta = 0$, cutoff $L = 3$. For $k \neq 0$ an orbital is suppressed toward the tip like $\exp(-|k|(\kappa(-L) - \kappa(y))/H)$.
+
+\textbf{Exact $k = 0$ spectra.} For constant $M > 0$, $v = 0$, $\theta = 0$: even parity $\varepsilon = 0$ with the brane zero mode $\chi = (e^{My}, 0)$, and $\varepsilon = \pm\sqrt{M^2 + (n\pi/L)^2}$; odd parity $\varepsilon = \pm\sqrt{M^2 + p^2}$ with $\tan(pL) = -p/M$. The brane band has the slope $d\varepsilon/dk = jc$ at $k = 0$, $c = e^{-a_{4,0}}\frac{2M}{2M-H}\frac{1 - e^{-(2M-H)L}}{1 - e^{-2ML}}$; for $M = H = 1$, $L = 3$: $c = 2/(1 + e^{-3}) = 1.905148253644866$ (record \texttt{brane\_ba\allowbreak{}nd\_slope}).
+
+\textbf{Filling (CONVENTION, justification OPEN).} Particles occupy the positive branch (the levels with $\varepsilon > 0$ of the $\lambda = 0$ problem) and the $k = 0$ brane zero modes, each followed continuously in $\lambda$; the negative branch is the normal-ordered sea and contributes nothing to $N$, $n$, $S$ or the energy-momentum tensor. The excluded thermal sea holes are reported as a diagnostic (section 8).
+
+\textbf{Numerics.} The Rust solver (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/solve\allowbreak{}r}, own crate, no external crates) solves each block by shooting with RK4 on 900 steps, Pruefer counting and a root tolerance of 1e-13, Anderson-mixed SCF to 1e-11. The independent Python reference (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/refer\allowbreak{}ence}) uses a staggered finite-difference discretisation on three grids (300, 600, 1200) with Richardson extrapolation and a stated uncertainty, validated on a fourth grid; its convergence order is two (record \texttt{free\_con\allowbreak{}vergence\allowbreak{}\_order\_t\allowbreak{}wo}).
+
+\textbf{Parameters} (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/param\allowbreak{}eters.js\allowbreak{}on}): $H = m = 1$, $L = 3$, $\Delta k = 0.25$, $v_t = 1$, $\mathrm{Vol}_7 = 15875.21366031351$, tip $\theta = 0$, history $A = 1$, slices $a_{4,0} \in \{0, 0.5, 1, 1.5, 2\}$, temperatures $T \in \{0.01, 0.02, 0.05\}$. Particle numbers: $N = 8$ (the $k = 0$ brane zero modes of both block types), $N = 688$ (the largest closed shell of the free $a_{4,0} = 0$ aufbau whose last level lies below the bulk edge 1.292292828068783) and $N = 136$ (the closed shell nearest $688/4$). Couplings: $\lambda_1$ and $\lambda_2$ keep the first-order mean-field potential below 0.1 and 0.3 (units of $m$) along the whole history:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}@{}}
+\toprule
+\textbf{N} & \textbf{strength per unit lambda} & \textbf{lambda\_1} & \textbf{lambda\_2} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{N} & \textbf{strength per unit lambda} & \textbf{lambda\_1} & \textbf{lambda\_2} \\
+\midrule
+\endhead
+8 & 5.138804 & 0.01946 & 0.05838 \\
+136 & 107.5483 & 0.0009298 & 0.002789 \\
+688 & 541.7126 & 0.0001846 & 0.0005538 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The canonical matrix holds 75 ground states ($3$ values of $N$, the five couplings $0, \pm\lambda_1, \pm\lambda_2$, five slices), each with its first excited state, its $a_4$ neighbours, its rescaling partner and, for $\lambda \neq 0$, its exact-Fock variant, and 135 Mermin states ($\lambda \in \{0, \pm\lambda_1\}$, three temperatures).
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{item} & \textbf{records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{item} & \textbf{records} \\
+\midrule
+\endhead
+boundary conditions (Wolfram and sympy) & \texttt{bc\_mirro\allowbreak{}r\_map\_PA}, \texttt{bc\_mirro\allowbreak{}r\_pariti\allowbreak{}es\_of\_de\allowbreak{}nsities}, \texttt{bc\_brane\allowbreak{}\_parity\_\allowbreak{}conditio\allowbreak{}ns}, \texttt{bc\_self\_\allowbreak{}adjoint\_\allowbreak{}boundary\allowbreak{}\_term}, \texttt{bc\_tip\_f\allowbreak{}amily}, \texttt{bc\_curre\allowbreak{}nt\_conse\allowbreak{}rved\_alo\allowbreak{}ng\_y}, \texttt{bc\_exact\allowbreak{}\_k0\_spec\allowbreak{}tra}, \texttt{bc\_tip\_a\allowbreak{}symptoti\allowbreak{}cs}, \texttt{brane\_ba\allowbreak{}nd\_slope} \\
+free problem (Rust solver) & \texttt{free\_k0\_\allowbreak{}analytic\allowbreak{}\_spectra}, \texttt{free\_zer\allowbreak{}o\_mode\_e\allowbreak{}xact}, \texttt{free\_bra\allowbreak{}ne\_band\_\allowbreak{}slope}, \texttt{free\_blo\allowbreak{}ck\_type\_\allowbreak{}symmetri\allowbreak{}es}, \texttt{free\_par\allowbreak{}ticle\_br\allowbreak{}anch\_lab\allowbreak{}els}, \texttt{free\_tip\allowbreak{}\_angle\_i\allowbreak{}nsensiti\allowbreak{}vity} \\
+free problem and parameters (reference) & \texttt{free\_k0\_\allowbreak{}analytic\allowbreak{}\_spectra}, \texttt{free\_con\allowbreak{}vergence\allowbreak{}\_order\_t\allowbreak{}wo}, \texttt{free\_k0\_\allowbreak{}block\_ty\allowbreak{}pe\_symme\allowbreak{}try}, \texttt{free\_zer\allowbreak{}o\_mode}, \texttt{free\_bra\allowbreak{}ne\_band\_\allowbreak{}slope}, \texttt{free\_par\allowbreak{}ticle\_br\allowbreak{}anch}, \texttt{paramete\allowbreak{}rs\_close\allowbreak{}d\_shells}, \texttt{paramete\allowbreak{}rs\_calib\allowbreak{}ration}, \texttt{richards\allowbreak{}on\_asymp\allowbreak{}totic\_ra\allowbreak{}tio}, \texttt{richards\allowbreak{}on\_uncer\allowbreak{}tainty\_v\allowbreak{}alidated} \\
+parameters (cross-check) & \texttt{problem\_\allowbreak{}definiti\allowbreak{}on\_ident\allowbreak{}ical}, \texttt{paramete\allowbreak{}rs\_parti\allowbreak{}cle\_numb\allowbreak{}ers}, \texttt{paramete\allowbreak{}rs\_coupl\allowbreak{}ings} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Instantaneous ground and first excited states along the prescribed history}
+
+The history is $a_4 = AHx_4$ with $A = 1$ (the exponentially deflating member: the extra-time scale factor is $e^{-Hx_4}\sin^{1/6}z$), PRESCRIBED, not solved for (section 11). At every slice $a_{4,0}$ the ground state is the self-consistent aufbau state of the instantaneous problem; the first excited state is computed three ways: the Kohn-Sham gap $\varepsilon_{\mathrm{LUMO}} - \varepsilon_{\mathrm{HOMO}}$; the ensemble $\Delta$-SCF energy (one particle moved from the highest occupied degenerate group to the lowest empty group, spread uniformly over each group, self-consistent); and the list of the 24 lowest particle-hole excitations (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/excit\allowbreak{}ed/parti\allowbreak{}cle-hole\allowbreak{}/}). Every ground state of the matrix is closed-shell.
+
+Ground and first excited states for $N = 136$ (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/groun\allowbreak{}d/summar\allowbreak{}y.csv} and \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/excit\allowbreak{}ed/summa\allowbreak{}ry.csv}):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}@{}}
+\toprule
+\textbf{lambda} & \textbf{a4,0} & \textbf{E\_KS} & \textbf{KS gap} & \textbf{Delta-SCF} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{lambda} & \textbf{a4,0} & \textbf{E\_KS} & \textbf{KS gap} & \textbf{Delta-SCF} \\
+\midrule
+\endhead
+0 & 0 & 80.28222 & 0.08267377 & 0.08267377 \\
+0 & 1 & 32.38412 & 0.03498894 & 0.03498894 \\
+0 & 2 & 12.44507 & 0.01445687 & 0.01445687 \\
+0.0009298 & 0 & 80.2837 & 0.08267139 & 0.08267139 \\
+0.0009298 & 1 & 32.39295 & 0.03497394 & 0.03497395 \\
+0.0009298 & 2 & 12.44706 & 0.01447131 & 0.01447131 \\
+-0.0009298 & 0 & 80.28074 & 0.08267616 & 0.08267615 \\
+-0.0009298 & 1 & 32.37559 & 0.03500291 & 0.0350029 \\
+-0.0009298 & 2 & 12.44277 & 0.01444421 & 0.01444422 \\
+0.002789 & 0 & 80.28666 & 0.08266659 & 0.0826666 \\
+0.002789 & 1 & 32.41162 & 0.03494039 & 0.03494042 \\
+0.002789 & 2 & 12.449 & 0.01450788 & 0.01450787 \\
+-0.002789 & 0 & 80.27779 & 0.0826809 & 0.0826809 \\
+-0.002789 & 1 & 32.35937 & 0.03502814 & 0.03502812 \\
+-0.002789 & 2 & 12.43783 & 0.01442269 & 0.01442269 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The free Kohn-Sham gap along the history ($\lambda = 0$, \texttt{ground/s\allowbreak{}ummary.c\allowbreak{}sv}):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}@{}}
+\toprule
+\textbf{N} & \textbf{a4,0 = 0} & \textbf{a4,0 = 0.5} & \textbf{a4,0 = 1} & \textbf{a4,0 = 1.5} & \textbf{a4,0 = 2} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{N} & \textbf{a4,0 = 0} & \textbf{a4,0 = 0.5} & \textbf{a4,0 = 1} & \textbf{a4,0 = 1.5} & \textbf{a4,0 = 2} \\
+\midrule
+\endhead
+8 & 0.4307337 & 0.2726449 & 0.1703493 & 0.1050152 & 0.06415941 \\
+136 & 0.08267377 & 0.05383771 & 0.03498894 & 0.0226437 & 0.01445687 \\
+688 & 0.04518029 & 0.03145504 & 0.02048367 & 0.01330982 & 0.008610228 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+Reading (labelled interpretation of these numbers): as the extra times deflate, the 3-momenta redshift as $ke^{-a_{4,0}}$, the brane band flattens (its slope at $k = 0$ is $c$, proportional to $e^{-a_{4,0}}$, section 5), the Kohn-Sham gap falls for every $N$ and $E_{KS}$ falls for $N = 136$ and $688$; for $N = 8$ (the $k = 0$ zero modes, on which $\kappa k = 0$) $E_{KS}$ does not change with $a_{4,0}$. With $\lambda = 0$ the $\Delta$-SCF energy equals the Kohn-Sham gap (worst difference 2.011e-11 over 15 cases, record \texttt{excited\_\allowbreak{}delta\_sc\allowbreak{}f\_free\_e\allowbreak{}quals\_ga\allowbreak{}p}); with interaction the two differ slightly, because the $\Delta$-SCF state relaxes the mean field self-consistently.
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}@{}}
+\toprule
+\textbf{item} & \textbf{Rust solver records} & \textbf{reference records} & \textbf{cross-check records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{item} & \textbf{Rust solver records} & \textbf{reference records} & \textbf{cross-check records} \\
+\midrule
+\endhead
+ground states & \texttt{ground\_r\allowbreak{}uns\_comp\allowbreak{}leted}, \texttt{ground\_s\allowbreak{}cf\_conve\allowbreak{}rged}, \texttt{ground\_c\allowbreak{}losed\_sh\allowbreak{}ell}, \texttt{ground\_w\allowbreak{}indow\_co\allowbreak{}mplete}, \texttt{ground\_N\allowbreak{}\_conserv\allowbreak{}ation}, \texttt{ground\_e\allowbreak{}nergy\_tw\allowbreak{}o\_forms}, \texttt{ground\_o\allowbreak{}rbital\_b\allowbreak{}oundary\_\allowbreak{}conditio\allowbreak{}ns} & \texttt{ground\_s\allowbreak{}cf\_conve\allowbreak{}rged}, \texttt{ground\_g\allowbreak{}rid\_cons\allowbreak{}istency}, \texttt{ground\_c\allowbreak{}losed\_sh\allowbreak{}ell}, \texttt{ground\_w\allowbreak{}indow\_co\allowbreak{}mplete}, \texttt{ground\_N\allowbreak{}\_conserv\allowbreak{}ation}, \texttt{ground\_e\allowbreak{}nergy\_tw\allowbreak{}o\_forms} & \texttt{ground\_o\allowbreak{}ccupatio\allowbreak{}ns\_and\_g\allowbreak{}roups}, \texttt{ground\_e\allowbreak{}nergies}, \texttt{ground\_h\allowbreak{}omo\_lumo\allowbreak{}\_gap}, \texttt{ground\_e\allowbreak{}igenvalu\allowbreak{}es}, \texttt{ground\_p\allowbreak{}rofiles} \\
+first excited state & \texttt{excited\_\allowbreak{}delta\_sc\allowbreak{}f\_free\_e\allowbreak{}quals\_ga\allowbreak{}p}, \texttt{excited\_\allowbreak{}scf\_conv\allowbreak{}erged} & \texttt{excited\_\allowbreak{}delta\_sc\allowbreak{}f\_free\_e\allowbreak{}quals\_ga\allowbreak{}p}, \texttt{excited\_\allowbreak{}particle\allowbreak{}\_hole\_lo\allowbreak{}west\_is\_\allowbreak{}gap} & \texttt{excited\_\allowbreak{}delta\_sc\allowbreak{}f}, \texttt{excited\_\allowbreak{}particle\allowbreak{}\_hole\_li\allowbreak{}sts} \\
+exact-Fock variant & \texttt{exx\_vari\allowbreak{}ant\_scf\_\allowbreak{}converge\allowbreak{}d}, \texttt{exx\_vari\allowbreak{}ant\_y\_co\allowbreak{}nservati\allowbreak{}on} & \texttt{exx\_scf\_\allowbreak{}converge\allowbreak{}d}, \texttt{exx\_N\_co\allowbreak{}nservati\allowbreak{}on}, \texttt{exx\_ener\allowbreak{}gy\_two\_f\allowbreak{}orms}, \texttt{exx\_emt\_\allowbreak{}energy\_i\allowbreak{}ntegral}, \texttt{exx\_y\_co\allowbreak{}nservati\allowbreak{}on\_integ\allowbreak{}rated} & \texttt{exchange\allowbreak{}\_delta\_E\allowbreak{}\_x}, \texttt{exx\_vari\allowbreak{}ant\_scf} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Adiabaticity and Fermi-level crossings}
+
+Exactly (mean field), $i\partial_{x_4}\chi = h(a_4(x_4))\chi$ conserves $k$, the block and the brane parity; transitions occur only between levels of the same $(k, j, \text{block}, \text{parity})$. The measure along $a_4 = AHx_4$ is
+
+\[
+Q_{nm} = AH\,\frac{\lvert\langle n\rvert\partial_ah\lvert m\rangle\rvert}{(\varepsilon_n - \varepsilon_m)^2} = AH\,\frac{\lvert\langle n\vert\partial_am\rangle\rvert}{\lvert\varepsilon_n - \varepsilon_m\rvert},\qquad
+\partial_ah_j = -j\kappa k\sigma_3 + j(\partial_aM_{\mathrm{eff}})\sigma_2 + \partial_av_v ,
+\]
+
+for $n$ occupied and $m$ empty in the same sector; the state is adiabatic if $\max Q_{nm} \ll 1$, and $Q_{nm}^2$ is the leading-order transition probability. The self-consistent derivatives come from the states at $a_{4,0} \pm \delta$, $\pm 2\delta$ ($\delta = 2\times10^{-3}$, Richardson); Hellmann-Feynman, $d\varepsilon_n/da = \langle n\rvert\partial_ah\lvert n\rangle$, is checked in 75 cases (worst 2.609e-9, record \texttt{adiabati\allowbreak{}c\_hellma\allowbreak{}nn\_feynm\allowbreak{}an}).
+
+Results (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/adiab\allowbreak{}atic/adi\allowbreak{}abaticit\allowbreak{}y.csv}): $Q_{\max} = 0$ exactly for $N = 8$ ($\partial_ah$ vanishes on the $k = 0$ sector), and the largest value over the whole matrix is 0.09345324 (state N688\_lamm2\_a00, pair \texttt{11:+1:ev\allowbreak{}en:0 -> \allowbreak{}11:+1:ev\allowbreak{}en:1}: two levels of the same shell, block type and parity). For $\lambda = 0$:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}@{}}
+\toprule
+\textbf{N} & \textbf{a4,0} & \textbf{Q\_max} & \textbf{delta eps of the pair} & \textbf{dE/da4 (EMT)} & \textbf{dE/da4 (differences)} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{N} & \textbf{a4,0} & \textbf{Q\_max} & \textbf{delta eps of the pair} & \textbf{dE/da4 (EMT)} & \textbf{dE/da4 (differences)} \\
+\midrule
+\endhead
+136 & 0 & 0.08514877 & 2.05293 & -71.43976 & -71.43976 \\
+136 & 0.5 & 0.07455997 & 1.888369 & -46.47084 & -46.47084 \\
+136 & 1 & 0.06361841 & 1.745737 & -30.11922 & -30.11922 \\
+136 & 1.5 & 0.05274874 & 1.616341 & -19.33966 & -19.33966 \\
+136 & 2 & 0.03839473 & 1.524416 & -12.18614 & -12.18614 \\
+688 & 0 & 0.09345059 & 2.253405 & -597.9157 & -597.9157 \\
+688 & 0.5 & 0.08526 & 2.055018 & -388.9333 & -388.9333 \\
+688 & 1 & 0.0746905 & 1.890122 & -253.016 & -253.016 \\
+688 & 1.5 & 0.06373822 & 1.747327 & -163.9948 & -163.9948 \\
+688 & 2 & 0.05289328 & 1.617688 & -105.4063 & -105.4063 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The last two columns are the energy change along the history, from the energy-momentum tensor ($dE/da_4 = -6\mathrm{Vol}_7\int e^{6Hy}(p_3 - p_t)\,dy$, section 9) and from finite differences at fixed occupations.
+
+\textbf{Fermi-level crossings.} When levels of different $k$ cross the Fermi level between slices, the instantaneous aufbau ground state differs from the adiabatically continued state, and the solver flags it. No crossing occurs in the canonical matrix: every one of the 15 series of \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/adiab\allowbreak{}atic/his\allowbreak{}tory.jso\allowbreak{}n} has an empty crossing list, and \texttt{adiabati\allowbreak{}c/fermi-\allowbreak{}level-cr\allowbreak{}ossings.\allowbreak{}csv} records no change of the occupied set. A demonstration at $\lambda = 0$ and $N = 696$ (the smallest closed shell of the $a_{4,0} = 0$ aufbau that occupies a level off the even $j = +1$ brane band; \texttt{adiabati\allowbreak{}c/crossi\allowbreak{}ng-demo.\allowbreak{}csv}):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}@{}}
+\toprule
+\textbf{a4,0} & \textbf{occupied set as at a4,0 = 0} & \textbf{open shell} & \textbf{E aufbau} & \textbf{E adiabatically continued} & \textbf{difference} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{a4,0} & \textbf{occupied set as at a4,0 = 0} & \textbf{open shell} & \textbf{E aufbau} & \textbf{E adiabatically continued} & \textbf{difference} \\
+\midrule
+\endhead
+0 & true & false & 690.7796 & 690.7796 & 0 \\
+0.5 & false & true & 444.1946 & 447.8513 & 3.65669 \\
+1 & false & true & 283.7106 & 289.7632 & 6.052645 \\
+1.5 & false & true & 179.4593 & 187.0712 & 7.611827 \\
+2 & false & true & 112.1016 & 120.725 & 8.623384 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+From $a_{4,0} = 0.5$ on, the $k = 0$ odd bulk level is emptied and the $n_2 = 12$ brane-band shell is filled: the instantaneous ground state is not the adiabatically reached state, which lies above it by the last column.
+
+Interpretation (labelled): with $Q_{\max} \leq 0.09345324$ the instantaneous states are self-consistently adiabatic for the same-sector transitions at the rate $A = 1$ in the canonical matrix; this does not solve the time-dependent problem (OPEN), and where Fermi-level crossings occur (the demonstration) the instantaneous ground state is not the state that the evolution reaches.
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{Rust solver records} & \textbf{reference records} & \textbf{cross-check records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Rust solver records} & \textbf{reference records} & \textbf{cross-check records} \\
+\midrule
+\endhead
+\texttt{adiabati\allowbreak{}c\_hellma\allowbreak{}nn\_feynm\allowbreak{}an}, \texttt{adiabati\allowbreak{}c\_crossi\allowbreak{}ng\_flag\_\allowbreak{}demonstr\allowbreak{}ation} & \texttt{adiabati\allowbreak{}c\_hellma\allowbreak{}nn\_feynm\allowbreak{}an\_discr\allowbreak{}ete}, \texttt{crossing\allowbreak{}\_demo\_re\allowbreak{}ference} & \texttt{adiabati\allowbreak{}c\_dE\_da4}, \texttt{adiabati\allowbreak{}c\_Q\_max}, \texttt{crossing\allowbreak{}\_demonst\allowbreak{}ration} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Mermin thermodynamics}
+
+The Mermin states at $T = 0.01, 0.02, 0.05$ solve the self-consistent problem at fixed $N$ with $\mu$ the root of $\sum g f = N$ in a well-conditioned form (thermal particles above and holes below a split of the levels, \texttt{solver/s\allowbreak{}rc/mermi\allowbreak{}n.rs}). The checks: $\Omega$ in its two forms, $-dF/dT = S_{\mathrm{ent}}$, $C_V = T\,dS_{\mathrm{ent}}/dT = dE/dT$ at fixed $N$, and the chemical potential against 40-digit roots on the solver's own final levels (40-digit and 50-digit roots agree to 7.5e-35, record \texttt{root\_pre\allowbreak{}cision\_s\allowbreak{}elf\_chec\allowbreak{}k}). For $N = 136$, $\lambda = 0$ (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/therm\allowbreak{}o/thermo\allowbreak{}dynamics\allowbreak{}.csv}):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.114\linewidth}>{\raggedright\arraybackslash}p{0.114\linewidth}>{\raggedright\arraybackslash}p{0.114\linewidth}>{\raggedright\arraybackslash}p{0.114\linewidth}>{\raggedright\arraybackslash}p{0.114\linewidth}>{\raggedright\arraybackslash}p{0.114\linewidth}>{\raggedright\arraybackslash}p{0.114\linewidth}@{}}
+\toprule
+\textbf{a4,0} & \textbf{T} & \textbf{mu} & \textbf{E} & \textbf{entropy} & \textbf{Omega} & \textbf{sea holes / N} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{a4,0} & \textbf{T} & \textbf{mu} & \textbf{E} & \textbf{entropy} & \textbf{Omega} & \textbf{sea holes / N} \\
+\midrule
+\endhead
+0 & 0.01 & 0.8339283 & 80.34462 & 7.763517 & -33.14726 & 2.1e-56 \\
+0 & 0.02 & 0.8250861 & 80.74027 & 34.38332 & -32.1591 & 9.49e-29 \\
+0 & 0.05 & 0.7941344 & 82.71202 & 91.45989 & -29.86326 & 4.43e-12 \\
+2 & 0.01 & 0.1247136 & 12.99426 & 104.8261 & -5.015053 & 1.29e-09 \\
+2 & 0.02 & 0.1150668 & 14.49922 & 205.4874 & -5.259608 & 4.25e-05 \\
+2 & 0.05 & 0.05801333 & 23.38445 & 464.1395 & -7.712339 & 0.112 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\textbf{Validity of the particle-only ensemble (diagnostic of the CONVENTION).} For every thermal state the number of thermal holes that the excluded sea brane band would carry at the same $\mu$ and $T$ is computed. It exceeds 1\% of $N$ in 15 of 135 states, all at $a_{4,0} \geq 1$; the largest is 30.976 N (record \texttt{thermo\_s\allowbreak{}ea\_hole\_\allowbreak{}diagnost\allowbreak{}ic\_compu\allowbreak{}ted}). There the particle-only Mermin ensemble is outside its range of validity and a thermal treatment of the sea (pairs) would be required; in the table above this is the row $a_{4,0} = 2$, $T = 0.05$ (state N136\_lam0\_a20\_T50).
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{Rust solver records} & \textbf{reference records} & \textbf{cross-check records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Rust solver records} & \textbf{reference records} & \textbf{cross-check records} \\
+\midrule
+\endhead
+\texttt{thermo\_r\allowbreak{}uns\_comp\allowbreak{}leted}, \texttt{thermo\_s\allowbreak{}cf\_conve\allowbreak{}rged}, \texttt{thermo\_N\allowbreak{}\_conserv\allowbreak{}ation}, \texttt{thermo\_g\allowbreak{}rand\_pot\allowbreak{}ential\_t\allowbreak{}wo\_forms}, \texttt{thermo\_e\allowbreak{}ntropy\_i\allowbreak{}dentity}, \texttt{thermo\_C\allowbreak{}V\_identi\allowbreak{}ty}, \texttt{thermo\_w\allowbreak{}indow\_cu\allowbreak{}t}, \texttt{thermo\_w\allowbreak{}indow\_sh\allowbreak{}ells\_bey\allowbreak{}ond}, \texttt{thermo\_m\allowbreak{}u\_well\_c\allowbreak{}ondition\allowbreak{}ed\_root}, \texttt{thermo\_m\allowbreak{}u\_vs\_40d\allowbreak{}igit\_roo\allowbreak{}ts}, \texttt{thermo\_s\allowbreak{}ea\_hole\_\allowbreak{}diagnost\allowbreak{}ic\_compu\allowbreak{}ted} & \texttt{thermo\_s\allowbreak{}cf\_conve\allowbreak{}rged}, \texttt{thermo\_N\allowbreak{}\_conserv\allowbreak{}ation}, \texttt{thermo\_g\allowbreak{}rand\_pot\allowbreak{}ential\_t\allowbreak{}wo\_forms}, \texttt{thermo\_C\allowbreak{}V\_identi\allowbreak{}ty}, \texttt{thermo\_e\allowbreak{}ntropy\_i\allowbreak{}dentity}, \texttt{thermo\_w\allowbreak{}indow\_cu\allowbreak{}t}, \texttt{thermo\_s\allowbreak{}ea\_holes\allowbreak{}\_tail} & \texttt{thermo\_s\allowbreak{}tate\_fun\allowbreak{}ctions}, \texttt{thermo\_d\allowbreak{}erivativ\allowbreak{}es}, \texttt{thermo\_s\allowbreak{}ea\_hole\_\allowbreak{}diagnost\allowbreak{}ic}, \texttt{thermo\_l\allowbreak{}evels}, \texttt{thermo\_m\allowbreak{}u\_high\_p\allowbreak{}recision}, \texttt{thermo\_m\allowbreak{}u\_roundi\allowbreak{}ng\_diagn\allowbreak{}ostic}, \texttt{thermo\_m\allowbreak{}u\_rust\_s\allowbreak{}tated\_bo\allowbreak{}und} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{Mermin-root report} & \textbf{records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Mermin-root report} & \textbf{records} \\
+\midrule
+\endhead
+\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-ru\allowbreak{}st-mermi\allowbreak{}n-roots.\allowbreak{}json} & \texttt{solver\_r\allowbreak{}uns\_comp\allowbreak{}leted}, \texttt{root\_pre\allowbreak{}cision\_s\allowbreak{}elf\_chec\allowbreak{}k}, \texttt{solver\_m\allowbreak{}u\_within\allowbreak{}\_roundin\allowbreak{}g\_bound}, \texttt{single\_r\allowbreak{}eproduce\allowbreak{}s\_commit\allowbreak{}ted\_matr\allowbreak{}ix}, \texttt{fixture\_\allowbreak{}written} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Energy-momentum tensor profiles}
+
+With the sign convention of \texttt{Revision\allowbreak{}/SPEC.md} section 4 ($\rho = -T^{x_4}{}_{x_4}$, $p_\mu = T^\mu{}_\mu$) and $T^\mu{}_\nu = -\langle K^\mu{}_\nu\rangle + \delta^\mu_\nu e_{\mathrm{int}}$, the proper profiles are
+
+\[
+\begin{aligned}
+\rho(y) &= \textstyle\sum w g f\,\varepsilon\,n_o - e_{\mathrm{int}} ,\qquad
+p_3(y) = \textstyle\sum w g f\,\tfrac{\kappa|k|}{3}\,t_o + e_{\mathrm{int}} ,\qquad
+p_t(y) = e_{\mathrm{int}} ,\\
+p_8(y) &= \textstyle\sum w g f\,\big[(\varepsilon - v_v)n_o - M_{\mathrm{eff}}s_o - \kappa|k|\,t_o\big] + e_{\mathrm{int}} ,
+\end{aligned}
+\]
+
+with $T^{x_4}{}_y = 0$ for eigen-orbitals. The extra-time pressure $p_t$ has no kinetic part (good sector). Exact identities, checked for every state: the trace of the kinetic parts is $M_{\mathrm{eff}}S + v_vn$; conservation along the hidden direction, $p_8' + 6Hp_8 = 3H(p_3 + p_t)$; the energy change $\nabla_\mu T^\mu{}_{x_4} = -\partial_{x_4}\rho - 3a_4'(p_3 - p_t)$, i.e. $dE/da_4 = -6\mathrm{Vol}_7\int_{-L}^{0}e^{6Hy}(p_3 - p_t)\,dy$; and $2\mathrm{Vol}_7\int e^{6Hy}\rho\,dy = E_{KS}$. Integrated profiles ($2\mathrm{Vol}_7\int_{-L}^{0}e^{6Hy}X\,dy$, \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/groun\allowbreak{}d/emt-in\allowbreak{}tegrals.\allowbreak{}csv}), $\lambda = 0$:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}@{}}
+\toprule
+\textbf{N} & \textbf{a4,0} & \textbf{int rho} & \textbf{int p3} & \textbf{int p\_t} & \textbf{int p8} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{N} & \textbf{a4,0} & \textbf{int rho} & \textbf{int p3} & \textbf{int p\_t} & \textbf{int p8} \\
+\midrule
+\endhead
+136 & 0 & 80.28222 & 23.81325 & 0 & 35.04349 \\
+136 & 0.5 & 51.24519 & 15.49028 & 0 & 26.62178 \\
+136 & 1 & 32.38412 & 10.03974 & 0 & 19.33023 \\
+136 & 1.5 & 20.20308 & 6.446555 & 0 & 13.173 \\
+136 & 2 & 12.44507 & 4.062048 & 0 & 8.472703 \\
+688 & 0 & 680.4412 & 199.3052 & 0 & 240.5598 \\
+688 & 0.5 & 437.5129 & 129.6444 & 0 & 188.2465 \\
+688 & 1 & 279.4249 & 84.33868 & 0 & 143.2073 \\
+688 & 1.5 & 176.7328 & 54.66494 & 0 & 104.3887 \\
+688 & 2 & 110.3867 & 35.13543 & 0 & 71.5579 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The proper profiles on 151 points $y = -3 + 0.02i$ are in \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/groun\allowbreak{}d/profil\allowbreak{}es/} (one file per state). The energy density varies along the hidden direction in every state with a nonzero tensor (section 11). Equations of state seen by a 3-space observer are not part of this document; they are the work of \texttt{Revision\allowbreak{}/dark\_se\allowbreak{}ctor/dir\allowbreak{}ac16comp\allowbreak{}lex} (its Kohn-Sham history report \texttt{Revision\allowbreak{}/dark\_se\allowbreak{}ctor/dir\allowbreak{}ac16comp\allowbreak{}lex/repo\allowbreak{}rts/ks-h\allowbreak{}istory-r\allowbreak{}un.json}: 5 of 5 PASS).
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}@{}}
+\toprule
+\textbf{item} & \textbf{Wolfram and sympy records} & \textbf{Rust solver records} & \textbf{reference and cross-check records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{item} & \textbf{Wolfram and sympy records} & \textbf{Rust solver records} & \textbf{reference and cross-check records} \\
+\midrule
+\endhead
+tensor and identities & \texttt{emt\_orbi\allowbreak{}tal\_comp\allowbreak{}onents}, \texttt{emt\_trac\allowbreak{}e\_identi\allowbreak{}ty}, \texttt{emt\_y\_co\allowbreak{}nservati\allowbreak{}on\_orbit\allowbreak{}al}, \texttt{emt\_y\_co\allowbreak{}nservati\allowbreak{}on\_selfc\allowbreak{}onsisten\allowbreak{}t}, \texttt{emt\_x4\_c\allowbreak{}omponent} & \texttt{emt\_ener\allowbreak{}gy\_integ\allowbreak{}ral}, \texttt{emt\_trac\allowbreak{}e\_deriva\allowbreak{}tive\_for\allowbreak{}m}, \texttt{emt\_y\_co\allowbreak{}nservati\allowbreak{}on\_integ\allowbreak{}rated}, \texttt{emt\_y\_co\allowbreak{}nservati\allowbreak{}on\_point\allowbreak{}wise}, \texttt{emt\_ener\allowbreak{}gy\_chang\allowbreak{}e\_dE\_da4} & \texttt{emt\_ener\allowbreak{}gy\_integ\allowbreak{}ral}, \texttt{emt\_y\_co\allowbreak{}nservati\allowbreak{}on\_integ\allowbreak{}rated}, \texttt{emt\_ener\allowbreak{}gy\_chang\allowbreak{}e\_dE\_da4}, \texttt{emt\_inte\allowbreak{}grals}, \texttt{emt\_bran\allowbreak{}e\_tip\_va\allowbreak{}lues} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{The rescaling partners}
+
+\textbf{Exact identity.} Because $a_{4,0}$ enters only through $\kappa k = e^{-Hy}(ke^{-a_{4,0}})$,
+
+\[
+\mathrm{KS}(a_{4,0};\,\Delta k, v_t, \lambda, N, T) = \mathrm{KS}(0;\,\Delta k\,e^{-a_{4,0}},\, v_t\,e^{-3a_{4,0}},\, \lambda, N, T)
+\]
+
+for the levels, orbitals, proper densities and energy-momentum profiles. Reading (labelled): the slice $a_{4,0}$ of the deflating history is the slice $0$ with a 3-torus larger by $e^{a_{4,0}}$ in each direction and an extra-time volume smaller by $e^{-3a_{4,0}}$; the proper 7-volume is the same, and the deflation of the extra times is exactly what keeps it so. The 3-momenta redshift while the proper box stays the same.
+
+\textbf{Computed.} Each solver solves the partner independently (60 partners). The worst level difference is 1.478e-13 and the worst relative difference of $E_{KS}$ and of the profiles 3.318e-13 (records \texttt{rescalin\allowbreak{}g\_identi\allowbreak{}ty\_betwe\allowbreak{}en\_slice\allowbreak{}s} and \texttt{rescalin\allowbreak{}g\_identi\allowbreak{}ty\_energ\allowbreak{}y\_profil\allowbreak{}es}). For $N = 136$, $\lambda = \lambda_1$ (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts/resca\allowbreak{}ling/res\allowbreak{}caling.c\allowbreak{}sv}):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}@{}}
+\toprule
+\textbf{a4,0} & \textbf{partner Delta k} & \textbf{partner v\_t} & \textbf{max delta eps} & \textbf{relative delta E} & \textbf{partner E\_KS} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{a4,0} & \textbf{partner Delta k} & \textbf{partner v\_t} & \textbf{max delta eps} & \textbf{relative delta E} & \textbf{partner E\_KS} \\
+\midrule
+\endhead
+0.5 & 0.1516327 & 0.2231302 & 1.478e-13 & 7.099e-14 & 51.24916 \\
+1 & 0.09196986 & 0.04978707 & 1.101e-13 & 1.777e-14 & 32.39295 \\
+1.5 & 0.05578254 & 0.011109 & 8.749e-14 & 0 & 20.21303 \\
+2 & 0.03383382 & 0.002478752 & 7.661e-14 & 0 & 12.44706 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{Wolfram and sympy records} & \textbf{Rust solver records} & \textbf{reference and cross-check records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Wolfram and sympy records} & \textbf{Rust solver records} & \textbf{reference and cross-check records} \\
+\midrule
+\endhead
+\texttt{rescalin\allowbreak{}g\_identi\allowbreak{}ty} & \texttt{free\_res\allowbreak{}caling\_r\allowbreak{}elation\_\allowbreak{}and\_band\allowbreak{}\_monoton\allowbreak{}e}, \texttt{rescalin\allowbreak{}g\_identi\allowbreak{}ty\_betwe\allowbreak{}en\_slice\allowbreak{}s}, \texttt{rescalin\allowbreak{}g\_identi\allowbreak{}ty\_energ\allowbreak{}y\_profil\allowbreak{}es} & \texttt{rescalin\allowbreak{}g\_identi\allowbreak{}ty\_refer\allowbreak{}ence}, \texttt{rescalin\allowbreak{}g\_partne\allowbreak{}rs} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{The recorded states are not admissible sources of the \texorpdfstring{$a_4$}{a\_4} equations}
+
+\texttt{Revision\allowbreak{}/SPEC.md} section 7 names the Kohn-Sham energy-momentum tensor as the source of the field equations for $a_4$. The Einstein-Lovelock equations of the author's metric (\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4}) require of any source: (C1) every component independent of $x_8$; (C2) $p_3 + p_t = 2p_8$ (the algebraic identity $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} = 2E^{x_8}{}_{x_8}$ of the Lovelock tensors); (C3) for the linear member $a_4 = AHx_4 + a_0$: $p_3 = p_t = p_8$ and constant $\rho$. The record \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/ks-s\allowbreak{}ource-co\allowbreak{}nditions\allowbreak{}.json} (5 of 5 PASS) finds:
+
+\begin{enumerate}
+\item Every one of the 70 nonzero ground-state profiles depends on $x_8$: $(\max\rho - \min\rho)/\max|T| \geq 0.0497329$ (record \texttt{ks\_profi\allowbreak{}les\_depe\allowbreak{}nd\_on\_x8}).
+\item $\max_y|p_3 + p_t - 2p_8|/\max|T|$ lies between 2.09192 and 3.99006 (record \texttt{ks\_profi\allowbreak{}les\_viol\allowbreak{}ate\_alge\allowbreak{}braic\_co\allowbreak{}ndition}).
+\item Integrated over the patch, $(\int p_3 + \int p_t)/(2\int p_8)$ differs from 1 for every nonzero state (closest 0.414328); for the history $N = 136$, $\lambda = 0$ it is 0.339767, 0.25969 and 0.239714 at $a_{4,0} = 0, 1, 2$ (record \texttt{ks\_integ\allowbreak{}rals\_vio\allowbreak{}late\_alg\allowbreak{}ebraic\_c\allowbreak{}ondition}): even an $x_8$-averaged source violates C2.
+\item Along the history $\rho$ changes with $a_{4,0}$ and $p_3 \neq p_t$, so C3 fails: the history is a PRESCRIBED background (record \texttt{ks\_histo\allowbreak{}ry\_is\_a\_\allowbreak{}prescrib\allowbreak{}ed\_backg\allowbreak{}round}).
+\item Five states have an identically vanishing tensor (the free $N = 8$ zero modes), a zero source, for which Einstein gravity has no vacuum solution with $H > 0$ (record \texttt{ks\_zero\_\allowbreak{}source\_s\allowbreak{}tates\_li\allowbreak{}sted}).
+\end{enumerate}
+
+The full analysis \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/ks\_s\allowbreak{}ource/re\allowbreak{}ports/ks\allowbreak{}-source-\allowbreak{}a4.json} (23 of 23 PASS) refines this exactly: the states SATISFY the $x_8$ conservation identity, and $p_3 + p_t - 2p_8 = p_{8,y}/(3H)$ on shell, so C2 fails exactly because $p_8$ depends on $x_8$; at least a share 0.583068 of the energy density deviates from its hidden-direction average (L1 measure). Its conclusion: the coupled problem ``metric of \texttt{Revision\allowbreak{}/SPEC.md} section 1 + Kohn-Sham source'' has no solution, and nothing about $a_4$ is derived from it. In a stated approximation (the $x_4$ and $x_1 - x_5$ moments kept, the others dropped, with dropped residuals of order one) the Kohn-Sham source does not start or select the exponential deflation; it modifies a deflation set by the initial data, e.g. $a_4'(2)/a_4'(0) = 1.95362$, 1.1321 and 0.847549 for the source strengths $\sigma_0 = 10$, 1 and $-1$ of the series $N = 136$, $\lambda = 0$ in Einstein gravity, and with $\Lambda = 0$ the deflation halts at $a_4 = 0.149623$ (Einstein), 0.0724197 (Einstein-Gauss-Bonnet) and 0.102772 (cubic Lovelock). These are statements of that approximation, not of the field equations.
+
+Consequence: the Kohn-Sham gas of this record is a test field on the prescribed background $a_4 = AHx_4$ without back-reaction; energies, pressures and equations of state along the history are not consequences of the coupled field equations.
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{report} & \textbf{records} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{report} & \textbf{records} \\
+\midrule
+\endhead
+\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/ks-s\allowbreak{}ource-co\allowbreak{}nditions\allowbreak{}.json} & \texttt{ks\_profi\allowbreak{}les\_depe\allowbreak{}nd\_on\_x8}, \texttt{ks\_profi\allowbreak{}les\_viol\allowbreak{}ate\_alge\allowbreak{}braic\_co\allowbreak{}ndition}, \texttt{ks\_integ\allowbreak{}rals\_vio\allowbreak{}late\_alg\allowbreak{}ebraic\_c\allowbreak{}ondition}, \texttt{ks\_histo\allowbreak{}ry\_is\_a\_\allowbreak{}prescrib\allowbreak{}ed\_backg\allowbreak{}round}, \texttt{ks\_zero\_\allowbreak{}source\_s\allowbreak{}tates\_li\allowbreak{}sted} \\
+\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/ks\_s\allowbreak{}ource/re\allowbreak{}ports/ks\allowbreak{}-source-\allowbreak{}a4.json} & \texttt{A1\_lovel\allowbreak{}ock\_iden\allowbreak{}tity\_x1\_\allowbreak{}plus\_x5\_\allowbreak{}equals\_2\allowbreak{}x8}, \texttt{A6\_x8\_co\allowbreak{}nservati\allowbreak{}on\_in\_y}, \texttt{B0\_wave1\allowbreak{}\_report\_\allowbreak{}verified}, \texttt{B2\_x8\_co\allowbreak{}nservati\allowbreak{}on\_on\_ev\allowbreak{}ery\_prof\allowbreak{}ile}, \texttt{B4\_hidde\allowbreak{}n\_direct\allowbreak{}ion\_mism\allowbreak{}atch}, \texttt{C1\_avera\allowbreak{}ged\_alge\allowbreak{}braic\_co\allowbreak{}ndition\_\allowbreak{}fails}, \texttt{D3\_lambd\allowbreak{}a\_zero\_c\allowbreak{}ases\_hal\allowbreak{}t}, \texttt{D5\_einst\allowbreak{}ein\_sign\allowbreak{}\_of\_the\_\allowbreak{}effect} \\
+Kohn-Sham theory (the record and the label of the history) & \texttt{adiabati\allowbreak{}c\_offdia\allowbreak{}gonal\_id\allowbreak{}entity}, \texttt{ks\_theor\allowbreak{}y\_json\_w\allowbreak{}ritten}, \texttt{ks\_theor\allowbreak{}y\_json\_b\allowbreak{}asis}, \texttt{ks\_theor\allowbreak{}y\_json\_s\allowbreak{}lope}, \texttt{ks\_theor\allowbreak{}y\_json\_h\allowbreak{}istory\_l\allowbreak{}abel} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{The Kohn-Sham-level pairing T3}
+
+The block map of the chirality $\Gamma$, $(\chi, j) \to (\sigma_2\chi, -j)$, with the two brane parities exchanged and the tip angle $\theta \to \pi - \theta$, maps every self-consistent instantaneous Kohn-Sham state with $(m, \lambda, \theta)$ onto one with $(-m, +\lambda, \pi - \theta)$, with equal levels, occupations, Kohn-Sham energies and energy-momentum profiles and $S \to -S$ (ASSUMED Z2 brane, mean-field level). The theorem, its hypotheses and its proof are in \texttt{Revision\allowbreak{}/docs/PA\allowbreak{}IR\_CREAT\allowbreak{}ION\_PROO\allowbreak{}FS.md} section 8, verified by \texttt{Revision\allowbreak{}/pairing\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/wolfr\allowbreak{}am-t3.js\allowbreak{}on} (10 of 10 PASS) and \texttt{Revision\allowbreak{}/pairing\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/pytho\allowbreak{}n-t3.jso\allowbreak{}n} (13 of 13 PASS); its completion record (\texttt{Revision\allowbreak{}/pairing\allowbreak{}/kohn\_sh\allowbreak{}am/t3-co\allowbreak{}mpletion\allowbreak{}.json}) by \texttt{Revision\allowbreak{}/pairing\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/wolfr\allowbreak{}am-t3-co\allowbreak{}mpletion\allowbreak{}.json} (3 of 3 PASS) and \texttt{Revision\allowbreak{}/pairing\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/pytho\allowbreak{}n-t3-com\allowbreak{}pletion.\allowbreak{}json} (7 of 7 PASS). The Rust solver contains a numerical self-test, labelled in its report as NOT a proof of T3: $(m, \lambda, \theta = 0)$ and $(-m, \lambda, \theta = \pi)$, solved independently, agree with opposite $S$ (worst 9.95e-14, tolerance 1e-9; record \texttt{t3\_block\allowbreak{}\_map\_sol\allowbreak{}ver\_self\allowbreak{}test}). T3 does not establish a creation process, a rate or an amplitude.
+
+\section{Verification records}
+
+\subsection{Reports and their counts}
+
+Every check has a name, a verdict and a detail. Counts at the time of writing (the publication test re-reads them):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}@{}}
+\toprule
+\textbf{report} & \textbf{checks} & \textbf{PASS} & \textbf{FAIL} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{report} & \textbf{checks} & \textbf{PASS} & \textbf{FAIL} \\
+\midrule
+\endhead
+\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-th\allowbreak{}eory-wol\allowbreak{}fram.jso\allowbreak{}n} & 46 & 46 & 0 \\
+\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-th\allowbreak{}eory-pyt\allowbreak{}hon.json} & 58 & 58 & 0 \\
+\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-ru\allowbreak{}st-solve\allowbreak{}r.json} & 42 & 42 & 0 \\
+\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-ru\allowbreak{}st-deter\allowbreak{}minism.j\allowbreak{}son} & 14 & 14 & 0 \\
+\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-ru\allowbreak{}st-mermi\allowbreak{}n-roots.\allowbreak{}json} & 5 & 5 & 0 \\
+\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-re\allowbreak{}ference.\allowbreak{}json} & 37 & 37 & 0 \\
+\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-cr\allowbreak{}osscheck\allowbreak{}.json} & 31 & 31 & 0 \\
+\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/ks-s\allowbreak{}ource-co\allowbreak{}nditions\allowbreak{}.json} & 5 & 5 & 0 \\
+\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/ks\_s\allowbreak{}ource/re\allowbreak{}ports/ks\allowbreak{}-source-\allowbreak{}a4.json} & 23 & 23 & 0 \\
+\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/wolf\allowbreak{}ram-a4-r\allowbreak{}eport.js\allowbreak{}on} & 52 & 52 & 0 \\
+\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/pyth\allowbreak{}on-a4-re\allowbreak{}port.jso\allowbreak{}n} & 63 & 63 & 0 \\
+\texttt{Revision\allowbreak{}/pairing\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/wolfr\allowbreak{}am-t3.js\allowbreak{}on} & 10 & 10 & 0 \\
+\texttt{Revision\allowbreak{}/pairing\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/pytho\allowbreak{}n-t3.jso\allowbreak{}n} & 13 & 13 & 0 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{The independent reference and the full cross-check}
+
+The reference shares no code with the Rust solver: different discretisation (staggered finite differences with Richardson extrapolation instead of RK4 shooting), its own SCF, its own parameter derivation (it re-derives the particle numbers and couplings from the stated rules) and its own uncertainty, validated on a fourth grid (record \texttt{richards\allowbreak{}on\_uncer\allowbreak{}tainty\_v\allowbreak{}alidated}). The checker \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/check\allowbreak{}er/cross\allowbreak{}check\_ks\allowbreak{}.py} compares the two on the FULL canonical matrix: 75 ground states, 135 thermal states, 60 exact-Fock-variant states, 60 rescaling partners, 75 particle-hole lists and the 5 slices of the crossing demonstration, 162691 comparisons in all, under a tolerance rule fixed before the comparison,
+
+\[
+\lvert x_{\mathrm{Rust}} - x_{\mathrm{ref}}\rvert \leq 3\,(U_{\mathrm{ref}} + U_{\mathrm{Rust}}) + 10^{-12}\,\mathrm{scale},\qquad
+U_{\mathrm{Rust}} = \tfrac{16}{15}\,\lvert\mathrm{canonical} - \mathrm{refined}\rvert ,
+\]
+
+with $U_{\mathrm{ref}}$ the reference's three-grid Richardson uncertainty and $U_{\mathrm{Rust}}$ measured for every state of the matrix by the refinement measurement, whose script and record are \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/check\allowbreak{}er/measu\allowbreak{}re\_rust\_\allowbreak{}refineme\allowbreak{}nt.py} and \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/check\allowbreak{}er/rust-\allowbreak{}refineme\allowbreak{}nt.json}. All 31 checks of the cross-check pass:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{check} & \textbf{check} & \textbf{check} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{check} & \textbf{check} & \textbf{check} \\
+\midrule
+\endhead
+\texttt{inputs\_a\allowbreak{}ll\_pass} & \texttt{rust\_ref\allowbreak{}inement\_\allowbreak{}applies\_\allowbreak{}to\_matri\allowbreak{}x} & \texttt{rust\_ref\allowbreak{}inement\_\allowbreak{}applies\_\allowbreak{}to\_matri\allowbreak{}x\_exx} \\
+\texttt{problem\_\allowbreak{}definiti\allowbreak{}on\_ident\allowbreak{}ical} & \texttt{paramete\allowbreak{}rs\_parti\allowbreak{}cle\_numb\allowbreak{}ers} & \texttt{paramete\allowbreak{}rs\_coupl\allowbreak{}ings} \\
+\texttt{ground\_o\allowbreak{}ccupatio\allowbreak{}ns\_and\_g\allowbreak{}roups} & \texttt{ground\_e\allowbreak{}nergies} & \texttt{ground\_h\allowbreak{}omo\_lumo\allowbreak{}\_gap} \\
+\texttt{ground\_e\allowbreak{}igenvalu\allowbreak{}es} & \texttt{excited\_\allowbreak{}delta\_sc\allowbreak{}f} & \texttt{excited\_\allowbreak{}particle\allowbreak{}\_hole\_li\allowbreak{}sts} \\
+\texttt{emt\_inte\allowbreak{}grals} & \texttt{emt\_bran\allowbreak{}e\_tip\_va\allowbreak{}lues} & \texttt{ground\_p\allowbreak{}rofiles} \\
+\texttt{exchange\allowbreak{}\_delta\_E\allowbreak{}\_x} & \texttt{adiabati\allowbreak{}c\_dE\_da4} & \texttt{adiabati\allowbreak{}c\_Q\_max} \\
+\texttt{exx\_vari\allowbreak{}ant\_scf} & \texttt{rescalin\allowbreak{}g\_partne\allowbreak{}rs} & \texttt{crossing\allowbreak{}\_demonst\allowbreak{}ration} \\
+\texttt{thermo\_s\allowbreak{}tate\_fun\allowbreak{}ctions} & \texttt{thermo\_d\allowbreak{}erivativ\allowbreak{}es} & \texttt{thermo\_s\allowbreak{}ea\_hole\_\allowbreak{}diagnost\allowbreak{}ic} \\
+\texttt{thermo\_l\allowbreak{}evels} & \texttt{thermo\_m\allowbreak{}u\_high\_p\allowbreak{}recision} & \texttt{thermo\_m\allowbreak{}u\_roundi\allowbreak{}ng\_diagn\allowbreak{}ostic} \\
+\texttt{thermo\_m\allowbreak{}u\_rust\_s\allowbreak{}tated\_bo\allowbreak{}und} & \texttt{referenc\allowbreak{}e\_output\allowbreak{}s\_lf\_onl\allowbreak{}y} & \texttt{referenc\allowbreak{}e\_manife\allowbreak{}st} \\
+\texttt{referenc\allowbreak{}e\_repeat\allowbreak{}\_byte\_id\allowbreak{}entical} &  &  \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{Determinism and the refinement measurement}
+
+The Rust determinism report (14 of 14 PASS): a repeat of the canonical matrix is byte-identical in all 244 result files and in its check report (\texttt{repeat\_b\allowbreak{}yte\_iden\allowbreak{}tical}, \texttt{repeat\_r\allowbreak{}eport\_by\allowbreak{}te\_ident\allowbreak{}ical}, \texttt{outputs\_\allowbreak{}lf\_only}); a run with refined tolerances (900 to 1800 RK4 steps, root tolerance 1e-14, SCF tolerance 1e-12) agrees with the canonical run to 1.901e-12 in $E_{KS}$ (relative), 2.135e-09 in 23724 levels, 2.800e-09 in the profiles, 9.024e-10 in $Q_{\max}$ and $dE/da_4$, 2.489e-10 in the thermodynamics and 5.689e-09 in $C_V$ (\texttt{refined\_\allowbreak{}same\_inp\allowbreak{}uts}, \texttt{refined\_\allowbreak{}free\_spe\allowbreak{}ctra\_con\allowbreak{}vergence\allowbreak{}\_order}, \texttt{refined\_\allowbreak{}ground\_e\allowbreak{}nergies}, \texttt{refined\_\allowbreak{}ground\_h\allowbreak{}omo\_lumo\allowbreak{}\_gap}, \texttt{refined\_\allowbreak{}eigenval\allowbreak{}ues}, \texttt{refined\_\allowbreak{}delta\_sc\allowbreak{}f}, \texttt{refined\_\allowbreak{}profiles}, \texttt{refined\_\allowbreak{}adiabati\allowbreak{}c\_deriva\allowbreak{}tives}, \texttt{refined\_\allowbreak{}thermody\allowbreak{}namics}, \texttt{refined\_\allowbreak{}mermin\_r\allowbreak{}oot\_path}, \texttt{refined\_\allowbreak{}heat\_cap\allowbreak{}acity}).
+
+\subsection{Re-verification for this document}
+
+For this document (2026-10-08) the committed Rust binary was run on the canonical matrix into a scratch directory (\texttt{revision\allowbreak{}\_ks\_solv\allowbreak{}er all -\allowbreak{}-out <sc\allowbreak{}ratch>/r\allowbreak{}erun --r\allowbreak{}eport <s\allowbreak{}cratch>/\allowbreak{}rerun-re\allowbreak{}port.jso\allowbreak{}n}): 42 of 42 checks PASS in 128 s of wall time on a machine shared with other jobs, and all 244 result files and the check report were byte-identical to the committed \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/resul\allowbreak{}ts} and \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-ru\allowbreak{}st-solve\allowbreak{}r.json}. The other reports cited are the files of the working tree; their counts are re-read by the publication test.
+
+\section{Reproduction}
+
+From the repository root, in this order (the Kohn-Sham theory record reads the gammas of \texttt{Revision\allowbreak{}/algebra}; the Rust solver reads \texttt{ks-theor\allowbreak{}y.json}; the Mermin-root tool runs after the canonical matrix; the cross-checker runs after the reference and the refinement measurement; the source-conditions checker reads the Kohn-Sham results and the Kohn-Sham theory checker reads its record; \texttt{<scratch\allowbreak{}>} is any empty directory outside the repository; the backslash is the line continuation of a POSIX shell):
+
+\begin{Verbatim}[fontsize=\small]
+wolframscript -file Revision/algebra/wolfram/verify_algebra.wls
+python Revision/algebra/python/check_algebra.py
+wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
+python Revision/field_equations_a4/python/check_field_equations_a4.py
+wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls
+cargo build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml
+cargo test --release --manifest-path Revision/kohn_sham/solver/Cargo.toml
+Revision/kohn_sham/solver/target/release/revision_ks_solver all \
+    --out Revision/kohn_sham/results \
+    --report Revision/kohn_sham/reports/ks-rust-solver.json
+python Revision/kohn_sham/solver/tools/mermin_roots_mp.py --work <scratch>/mermin-roots
+Revision/kohn_sham/solver/target/release/revision_ks_solver all \
+    --out <scratch>/repeat --report <scratch>/repeat-report.json
+Revision/kohn_sham/solver/target/release/revision_ks_solver all --refined \
+    --out <scratch>/refined --report <scratch>/refined-report.json
+python Revision/kohn_sham/solver/tools/compare_runs.py \
+    --canonical Revision/kohn_sham/results \
+    --canonical-report Revision/kohn_sham/reports/ks-rust-solver.json \
+    --repeat <scratch>/repeat \
+    --repeat-report <scratch>/repeat-report.json --refined <scratch>/refined \
+    --refined-report <scratch>/refined-report.json \
+    --report Revision/kohn_sham/reports/ks-rust-determinism.json
+python Revision/kohn_sham/reference/run_reference.py --jobs 22 \
+    --timing <scratch>/timing.json
+python Revision/kohn_sham/checker/measure_rust_refinement.py \
+    --work <scratch>/rust-single --jobs 22
+python Revision/kohn_sham/checker/crosscheck_ks.py --work <scratch>/cc --jobs 22
+python Revision/field_equations_a4/python/check_ks_source_conditions.py
+python Revision/kohn_sham/theory/check_ks_theory.py
+python Revision/field_equations_a4/ks_source/ks_source_a4.py
+python -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
+wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
+python Revision/pairing/kohn_sham/python/check_t3.py
+python scripts/build_provenance_pdf.py Revision/docs/KOHN_SHAM_DEFLATING_FIELD.md \
+    --developer-layout --specifications Revision/pdf-specifications.json
+python -m unittest Revision/tests/test_kohn_sham_deflating_field_publication.py -v
+\end{Verbatim}
+
+Expected output: every verifier ends with all of its checks passing and writes the report of section 13.1 with the counts given there (the Wolfram Kohn-Sham verifier prints 46/46 checks passed; the Rust solver prints SUCCESS after 42 PASS lines; the cross-checker writes 31 of 31 PASS); every run is deterministic, and a second run gives byte-identical outputs. Run times recorded in the READMEs of the folders (22 threads or processes; longer when the machine is shared): the Wolfram Kohn-Sham verifier about 40 to 85 s and the sympy checker about 75 to 165 s (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/theor\allowbreak{}y/WOLFRA\allowbreak{}MSCRIPT\_\allowbreak{}PROVENAN\allowbreak{}CE.md}); the Rust canonical matrix 78.1 s on an idle machine (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/solve\allowbreak{}r/README\allowbreak{}.md}; 128 s in the re-run of section 13.4), the repeat 178.4 s and the refined run 618.6 s on a shared machine; the reference 578.3 s (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/refer\allowbreak{}ence/REA\allowbreak{}DME.md}); the refinement measurement 31.6 s idle and 85.2 s shared; the cross-checker 588.9 s idle and 721.2 s shared, most of it the repeat of the reference that it runs itself (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/check\allowbreak{}er/READM\allowbreak{}E.md}); the Kohn-Sham source analysis 3 s to about 20 s (\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/ks\_s\allowbreak{}ource/RE\allowbreak{}ADME.md}); the $a_4$ verifiers 43 to 70 s (Wolfram) and 7 to 28 s (sympy) (\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/READ\allowbreak{}ME.md}); the T3 verifiers about 3 s and 1 s (\texttt{Revision\allowbreak{}/docs/PA\allowbreak{}IR\_CREAT\allowbreak{}ION\_PROO\allowbreak{}FS.md} section 9.3).
+
+The PDF build runs the Markdown-to-LaTeX builder twice (with different hash seeds), runs pdflatex three times into each of two fresh directories, requires warning-free logs and byte-identical PDFs, and checks the PDF against its entry \texttt{kohn-sha\allowbreak{}m-deflat\allowbreak{}ing-fiel\allowbreak{}d} in \texttt{Revision\allowbreak{}/pdf-spe\allowbreak{}cificati\allowbreak{}ons.json} (the Revision registry; the registry of the earlier stages is not touched).
+
+\section{What is proved, computed, assumed and not established}
+
+\subsection{Proved (exact, two independent verifiers)}
+
+\begin{enumerate}
+\item The block reduction (section 3): for every history $a_4(x_4)$ the good-sector equation reduces exactly to eight $2 \times 2$ blocks $h_j$ in the hidden coordinate; the spin-connection term $3H\gamma^8$ is removed by $W^{-3}$; the $a_4'$ terms of the inflating and the deflating directions cancel.
+\item The exchange functional (section 4): the exact local exchange of the uniform 8-fold good-sector gas at every temperature, $M_{\mathrm{eff}} = m + \frac{15}{16}\lambda S$, $v_v = -\lambda n/16$; the exact Fock exchange of the closed-shell slab differs by $+\lambda Q^2/32$.
+\item The boundary-value structure (section 5): self-adjointness with current-killing ends, the mirror map and the parities, the exact $k = 0$ spectra, the brane-band slope.
+\item The rescaling identity (section 10), the energy-momentum tensor of the Kohn-Sham states with its trace and conservation identities (section 9), and the adiabaticity identity of the measure (section 7).
+\item T3 (section 12; proved in \texttt{Revision\allowbreak{}/docs/PA\allowbreak{}IR\_CREAT\allowbreak{}ION\_PROO\allowbreak{}FS.md}), under its stated hypotheses.
+\end{enumerate}
+
+\subsection{Computed (numerical, two independent solvers, cross-checked)}
+
+\begin{enumerate}
+\item The instantaneous ground states, first excited states (gap, $\Delta$-SCF, particle-hole lists), Mermin states, energy-momentum profiles, rescaling partners and exact-Fock variants of the canonical matrix (sections 6 to 10), with the Rust solver and the reference agreeing on the full matrix within the stated uncertainty (31 of 31 checks, 162691 comparisons).
+\item The adiabaticity measure ($Q_{\max} \leq 0.09345324$) and the absence of Fermi-level crossings in the canonical matrix; the crossing demonstration at $N = 696$ (section 7).
+\item That the recorded states are not admissible sources of the $a_4$ equations (section 11).
+\end{enumerate}
+
+\subsection{Assumed or chosen}
+
+\begin{enumerate}
+\item The Z2 brane (orbifold) at the patch end $z = \pi/2$ (ASSUMED); the metric is degenerate there and no junction condition is derived.
+\item The regular tip at the cutoff $L = 3$ with $\theta = 0$ (chosen); proper densities near the tip are amplified by $e^{6H|y|}$, so the interacting results depend on $L$.
+\item The filling convention (particles on the positive branch and on the $k = 0$ zero modes; the sea not populated thermally), whose justification is OPEN; the sea-hole diagnostic shows where it fails (15 of 135 thermal states).
+\item The history $a_4 = AHx_4$, $A = 1$, PRESCRIBED, not solved for.
+\item The parameters of section 5 ($N$, $\lambda$, $L$, $\Delta k$, $v_t$, $T$).
+\end{enumerate}
+
+\subsection{Not established}
+
+\begin{enumerate}
+\item The time-dependent (non-adiabatic) Kohn-Sham problem (TDDFT) is OPEN: only instantaneous states are computed; the measure $Q_{\max}$ is a consistency indicator, not a solution of the evolution.
+\item Correlation: the functional is Hartree plus exchange only; no correlation functional is derived or used.
+\item Back-reaction: the Kohn-Sham states are a test field on a prescribed background; no recorded state is an admissible source of the field equations for $a_4$, and no history $a_4(x_4)$ is derived from the Kohn-Sham source.
+\item Equations of state and the dark-sector hypothesis are not part of this document (\texttt{Revision\allowbreak{}/dark\_se\allowbreak{}ctor/dir\allowbreak{}ac16comp\allowbreak{}lex}).
+\item No creation process, rate or amplitude for universes follows from the Kohn-Sham model or from T3.
+\item A thermal treatment of the Dirac sea (pairs) where the particle-only ensemble fails; states beyond the computed range $a_{4,0} \in [0, 2]$; continuum limits $L \to \infty$ and $\Delta k \to 0$.
+\end{enumerate}
+
+\end{document}
