@@ -42,8 +42,9 @@ FACTS = {
     "title": "The three Lovelock tensors of the author's metric, computed with GKD",
     "purpose": (
         "It builds the Revision Rust program lovelock_gkd with cargo inside the "
-        "notebook (about a minute when the program file is missing, about a second when "
-        "it is up to date) and runs it; the program computes exactly the curvature of "
+        "notebook when the program file is missing (a few seconds, up to a minute on a "
+        "slow computer; about a second when it is up to date) and runs it; the program "
+        "computes exactly the curvature of "
         "the author's metric and the three Lovelock tensors of Lovelock's equation "
         "(4.38) in eight dimensions with GKD, and the notebook checks that its four "
         "output files are byte for byte the committed Revision records (the report "
@@ -57,8 +58,9 @@ FACTS = {
         "that the first Lovelock tensor is -4 times the Einstein tensor, the second -8 "
         "times the Gauss-Bonnet tensor, the third scalar 8 times the cubic Lovelock "
         "density, that the traces obey the trace identity and that the fourth tensor "
-        "vanishes; it draws five teaching figures, among them the components of the "
-        "three tensors. The Rust program writes its four output files "
+        "vanishes; it checks again that every check it quotes from the Revision records "
+        "is there with the verdict PASS; it draws five teaching figures, among them the "
+        "components of the three tensors. The Rust program writes its four output files "
         "(curvature.json, lovelock-tensors.json, lovelock-components.md and "
         "lovelock-report.json) into the folder "
         "`Revision/gkd_lovelock/code/target/textbook_11b`, inside the Rust build folder, "
@@ -98,7 +100,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all five figure files of the notebook exist",
-        "ALL 33 CHECKS PASSED (notebook 11b)",
+        "ALL 36 CHECKS PASSED (notebook 11b)",
     ],
     "troubleshooting": [
         ["AssertionError: check failed: the program wrote curvature.json equal to the "
@@ -145,7 +147,9 @@ CELLS = [
       $L_{(3)} = 8 \times$ the cubic Lovelock density; the trace identities; and
       $P_{(4)} = 0$;
     - draws the components of the three normalised Lovelock tensors at one moment of
-      a deflating history.
+      a deflating history;
+    - reads the Revision verification reports once more and checks that every check
+      it quotes from them is there with the verdict PASS.
 
     It draws five figures and takes about one and a half minutes.
     """),
@@ -256,8 +260,11 @@ CELLS = [
 
     The next cell builds the program with cargo, through the helper `rust_program` of the
     set-up cell (it runs `cargo build --release` for the crate
-    `Revision/gkd_lovelock/code`, a few seconds the first time and about a second when
-    the program is up to date) and returns the path of the program file.
+    `Revision/gkd_lovelock/code` and returns the path of the program file). When the
+    program file is missing, cargo compiles it: 4 seconds on the computer that built the
+    book, up to a minute on a slow computer. When the program is up to date, cargo only
+    checks that, in about a second. The crate has no dependencies, so cargo downloads
+    nothing.
     """),
     code(r'''
     program = rust_program("Revision/gkd_lovelock/code/Cargo.toml", "lovelock_gkd")
@@ -885,12 +892,13 @@ CELLS = [
     check(all(agree.values()),
           "all 3 x 64 components of P(1), P(2), P(3) equal the Rust components exactly",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, checks "
-                 "rust_k1/k2/k3_mixed_components_agree")
+                 "rust_k1_mixed_components_agree, rust_k2_mixed_components_agree and "
+                 "rust_k3_mixed_components_agree")
     scalars_agree = all(to_poly(from_mathematica(tensors[f"L{k}"])) == L[k]
                         for k in (1, 2, 3))
     check(scalars_agree, "the scalars L(1), L(2), L(3) equal the Rust scalars exactly",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, checks "
-                 "rust_L1/L2/L3_agrees")
+                 "rust_L1_agrees, rust_L2_agrees and rust_L3_agrees")
     check(all(set(P[k]) == {(h, h) for h in range(8)} for k in (1, 2, 3)),
           "only the 8 diagonal components are nonzero, for k = 1, 2, 3")
     '''),
@@ -1323,6 +1331,74 @@ CELLS = [
           "equal, hidden entry their mean; G = diag(4, 4, 4, 33, 2, 2, 2, 3) H^2")
     '''),
     md(r"""
+    ## 11. The Revision records quoted in this notebook
+
+    This notebook quotes check names and numbers from the Revision records. The four
+    result files of the Rust program were compared in full in section 5 (byte for byte),
+    and its counters in sections 6 and 8. The next cell reads the two verification
+    reports once more and checks the rest of what the text quotes, so that a later
+    change of a record cannot pass unnoticed:
+
+    - every check quoted from the sympy verification `python-lovelock-report.json` and
+      from the Rust report `lovelock-report.json` is present with the verdict PASS;
+    - the sympy verification has 49 checks and the Wolfram verification
+      `wolfram-gkd-report.json` has 29 checks, none of them failed, as section 4 says.
+
+    The function `verdicts(path)` returns, for one report, a dictionary from the name of
+    each check to its verdict. The reports store their checks in one of two forms: a
+    list of entries, each with a `name` and a `verdict`, or a dictionary from the name to
+    an entry whose field `passed` is true or false; the function reads both.
+    """),
+    code(r'''
+    def verdicts(path):
+        """{check name: "PASS" or "FAIL"} of the Revision report at `path`."""
+        data = json.loads(repository_file(path).read_text(encoding="utf-8"))
+        checks = data["checks"]
+        if isinstance(checks, dict):  # name -> {"passed": true or false, ...}
+            return {name: "PASS" if entry["passed"] else "FAIL"
+                    for name, entry in checks.items()}
+        return {entry["name"]: entry["verdict"] for entry in checks}  # a list of entries
+
+
+    QUOTED = {  # report -> the checks that this notebook quotes from it
+        "python-lovelock-report.json": [
+            "rust_riemann_agrees", "rust_k1_mixed_components_agree",
+            "rust_k2_mixed_components_agree", "rust_k3_mixed_components_agree",
+            "rust_L1_agrees", "rust_L2_agrees", "rust_L3_agrees",
+            "k1_unpruned_literal_sum_agrees", "k2_unpruned_literal_sum_agrees",
+            "k1_equals_minus_4_einstein", "L1_equals_2R",
+            "k2_equals_minus_8_gauss_bonnet", "L2_equals_4_gauss_bonnet",
+            "L3_equals_8_cubic_lovelock_density", "normalisation_P1_derived_minus_4",
+            "normalisation_P2_derived_minus_8", "normalisation_L3_cubic_derived"],
+        "lovelock-report.json": [
+            "riemann_antisymmetry", "mixed_riemann_free_of_sin_third",
+            "k1_trace_identity", "k2_trace_identity", "k3_trace_identity",
+            "k4_tensor_vanishes", "k1_brute_force_numeric", "k2_brute_force_numeric"],
+    }
+    for report_name, names in QUOTED.items():
+        found = verdicts(f"{RESULTS}/{report_name}")
+        missing = [name for name in names if found.get(name) != "PASS"]
+        say(f"{report_name}: {len(names)} quoted checks; not there or not PASS: "
+            f"{missing if missing else 'none'}")
+        check(not missing,
+              f"the {len(names)} checks quoted from {report_name} are there and PASS",
+              record=f"{RESULTS}/{report_name}, checks " + ", ".join(names))
+    totals = {}
+    for report_name in ("python-lovelock-report.json", "wolfram-gkd-report.json"):
+        data = json.loads(repository_file(f"{RESULTS}/{report_name}").read_text(
+            encoding="utf-8"))
+        totals[report_name] = (data["checkCount"], data["failedCheckCount"],
+                               data["verdict"])
+        say(f"{report_name}: {data['checkCount']} checks, {data['failedCheckCount']} "
+            f"failed, verdict {data['verdict']}")
+    check(totals == {"python-lovelock-report.json": (49, 0, "SUCCESS"),
+                     "wolfram-gkd-report.json": (29, 0, "SUCCESS")},
+          "the sympy verification has 49 checks and the Wolfram verification 29, none "
+          "failed",
+          record=f"{RESULTS}/python-lovelock-report.json and wolfram-gkd-report.json, "
+                 "checkCount and failedCheckCount")
+    '''),
+    md(r"""
     The last cell checks that all five figure files exist and prints the number of
     checks that passed.
     """),
@@ -1335,7 +1411,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 11. What this notebook showed
+    ## 12. What this notebook showed
 
     - The Revision Rust program `lovelock_gkd`, built here, computed the curvature and
       the three Lovelock tensors of the author's metric, passed its 19 checks (including
@@ -1364,6 +1440,9 @@ CELLS = [
       $-4$ times Einstein's tensor, order 2 is $-8$ times the Gauss-Bonnet tensor, the
       third scalar is 8 times the cubic Lovelock density, and $P_{(4)} = 0$ (PROVED by
       exact computation).
+    - Every check that the notebook quotes from the Revision verifications is present in
+      them with the verdict PASS, and the sympy and Wolfram verifications have 49 and 29
+      checks, none of which failed.
     """),
 ]
 

@@ -161,12 +161,12 @@ def rec(out, name, ok, detail):
 
 
 # ------------------------------------------------------------------ prose records
-# The Wolfram side states 18 of its formula records in prose (field-theory.json).  Two of them, field_equation and
-# adjoint_equation, are PARSED here (parse_dirac_prose).  The other sixteen are compared through the statement
-# quoted verbatim below: the record agrees only if its text is exactly this statement AND the statement is
-# re-derived here (or, where it is the statement of a sympy check, that check passes); a changed Wolfram text
-# therefore shows up as a disagreement and has to be compared anew.  The record quantisation is in addition
-# compared statement by statement (QUANTISATION_STATEMENTS).
+# The Wolfram side states 19 of its 32 formula records in prose (field-theory.json; addFormulaText in
+# verify_field_theory.wls).  Two of them, field_equation and adjoint_equation, are PARSED here (parse_dirac_prose).
+# Sixteen are compared through the statement quoted verbatim below (STATED): the record agrees only if its text is
+# exactly this statement AND the statement is re-derived here (or, where it is the statement of a sympy check, that
+# check passes); a changed Wolfram text therefore shows up as a disagreement and has to be compared anew.  The
+# nineteenth, quantisation, is compared statement by statement (QUANTISATION_STATEMENTS).
 STATED = {
     'Omega_components': (
         "Omega_xi = (1/2) E^a4[x4] Sin[6 H x8]^(1/6) (a4'[x4] g[xi].g[x4] + H g[xi].g[x8]) (i = 1, 2, 3); "

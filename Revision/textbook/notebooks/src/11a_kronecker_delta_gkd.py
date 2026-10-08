@@ -52,10 +52,12 @@ FACTS = {
         "often the values +1, -1 and 0 occur and derives these counts by a formula, "
         "shows why the delta of nine indices in eight dimensions is always zero, and "
         "builds the Revision Rust program lovelock_gkd with cargo inside the notebook "
-        "(about a minute when the program file is missing, about a second when it is "
-        "up to date), runs its GKD self-test (16,777,216 pairs of length 4 compared "
-        "exhaustively; this cell alone takes 7 to 13 minutes) and checks that it"
-        "reproduces the committed Revision record byte for byte; it draws six teaching "
+        "when the program file is missing (a few seconds, up to a minute on a slow "
+        "computer; about a second when it is up to date), runs its GKD self-test "
+        "(16,777,216 pairs of length 4 compared exhaustively; this cell alone takes 7 "
+        "to 13 minutes) and checks that it reproduces the committed Revision record byte "
+        "for byte; it checks again that every check and number it quotes from the "
+        "Revision records is there, with the verdict PASS; it draws six teaching "
         "figures. The Rust program writes its result file gkd-selftest.json into the "
         "folder `Revision/gkd_lovelock/code/target/textbook_11a`, inside the Rust build "
         "folder, which git ignores."
@@ -74,7 +76,11 @@ FACTS = {
          "`gkd_nine_indices_in_eight_dimensions_vanish` are reproduced"],
         ["Revision/gkd_lovelock/results/wolfram-gkd-report.json",
          "the Wolfram verification; its counts of the values +1, -1 and 0 for index "
-         "lists of length 1, 2 and 3 are reproduced"],
+         "lists of length 1, 2 and 3 are reproduced, and its checks "
+         "`gkd_equals_kdelta_exhaustive_length_1` to `_3` must have the verdict PASS"],
+        ["Revision/gkd_lovelock/results/lovelock-report.json",
+         "its counter `gkdCalls` of the order-3 Lovelock sum (495,360 calls of GKD), "
+         "quoted and checked"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [
@@ -89,7 +95,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all six figure files of the notebook exist",
-        "ALL 20 CHECKS PASSED (notebook 11a)",
+        "ALL 24 CHECKS PASSED (notebook 11a)",
     ],
     "troubleshooting": [
         ["The notebook seems to hang at the cell that runs the Rust self-test",
@@ -135,7 +141,9 @@ CELLS = [
       self-test, which compares GKD with the literal determinant on 16,777,216 pairs of
       length 4 and on 200,000 random pairs of each length 5 to 9, and checks that the
       program writes exactly the committed Revision record
-      `Revision/gkd_lovelock/results/gkd-selftest.json`, byte for byte.
+      `Revision/gkd_lovelock/results/gkd-selftest.json`, byte for byte;
+    - reads the Revision records once more and checks that every check and number it
+      quotes from them is there, every quoted check with the verdict PASS.
 
     It draws six figures. The Rust self-test takes 7 to 13 minutes; everything else
     takes about a minute.
@@ -820,10 +828,12 @@ CELLS = [
     written by the same command.
 
     The next cell builds the program with cargo, through the helper `rust_program` of the
-    set-up cell, which runs `cargo build --release` for the crate (about a minute when
-    the program file is missing, about a second when the program is up to date) and
-    returns the path of the program file (`lovelock_gkd.exe` on Windows). The crate has
-    no dependencies, so cargo downloads nothing.
+    set-up cell, which runs `cargo build --release` for the crate and returns the path of
+    the program file (`lovelock_gkd.exe` on Windows). When the program file is missing,
+    cargo compiles it: on the computer that built the book this took 4 seconds; a slow
+    computer may need up to a minute. When the program is up to date, cargo only checks
+    that and needs about a second. The crate has no dependencies, so cargo downloads
+    nothing.
     """),
     code(r'''
     program = rust_program("Revision/gkd_lovelock/code/Cargo.toml", "lovelock_gkd")
@@ -952,6 +962,72 @@ CELLS = [
                 "bottom edge marks them.")
     '''),
     md(r"""
+    ## 11. The Revision records quoted in this notebook
+
+    This notebook quotes check names and numbers from five Revision records. Two of them
+    were already compared in full: the self-test record `gkd-selftest.json` (byte for
+    byte, section 10) and the value counts of `wolfram-gkd-report.json` (section 7). The
+    next cell reads the records once more and checks the rest of what the text quotes,
+    so that a later change of a record cannot pass unnoticed:
+
+    - every check quoted from the sympy verification `python-lovelock-report.json` and
+      from the Wolfram verification `wolfram-gkd-report.json` is present in the record
+      with the verdict PASS;
+    - the record `PROVENANCE_OF_THE_COMPUTATION.md` contains the author's definition as
+      quoted in section 4 (the part after the name k$\delta$, which is written with a
+      Greek letter there);
+    - the counter `gkdCalls` of the order-3 sum in `lovelock-report.json` is 495,360, the
+      number quoted in section 4.
+
+    The function `verdicts(path)` returns, for one report, a dictionary from the name of
+    each check to its verdict. The reports store their checks in one of two forms: a
+    list of entries, each with a `name` and a `verdict`, or a dictionary from the name to
+    an entry whose field `passed` is true or false; the function reads both.
+    """),
+    code(r'''
+    def verdicts(path):
+        """{check name: "PASS" or "FAIL"} of the Revision report at `path`."""
+        data = json.loads(repository_file(path).read_text(encoding="utf-8"))
+        checks = data["checks"]
+        if isinstance(checks, dict):  # name -> {"passed": true or false, ...}
+            return {name: "PASS" if entry["passed"] else "FAIL"
+                    for name, entry in checks.items()}
+        return {entry["name"]: entry["verdict"] for entry in checks}  # a list of entries
+
+
+    RECORDS = "Revision/gkd_lovelock/results"  # the folder of the Revision records
+    QUOTED = {  # report -> the checks that this notebook quotes from it
+        "python-lovelock-report.json": [
+            "gkd_examples", "gkd_literal_equals_cofactor_expansion",
+            "gkd_nine_indices_in_eight_dimensions_vanish"],
+        "wolfram-gkd-report.json": [
+            "gkd_equals_kdelta_exhaustive_length_1",
+            "gkd_equals_kdelta_exhaustive_length_2",
+            "gkd_equals_kdelta_exhaustive_length_3"],
+    }
+    for report_name, names in QUOTED.items():
+        found = verdicts(f"{RECORDS}/{report_name}")
+        for name in names:
+            say(f"{report_name}: {name} {found.get(name, 'MISSING')}")
+        check(all(found.get(name) == "PASS" for name in names),
+              f"the {len(names)} checks quoted from {report_name} are there and PASS",
+              record=f"{RECORDS}/{report_name}, checks " + ", ".join(names))
+    provenance = repository_file(
+        f"{RECORDS}/PROVENANCE_OF_THE_COMPUTATION.md").read_text(encoding="utf-8")
+    definition = ("[lower_, upper_] /; Length[lower] == Length[upper] := "
+                  "Det[Outer[delta, lower, upper]]")  # after the name of the delta
+    check(definition in provenance,
+          "the record quotes the author's definition as section 4 does",
+          record=f"{RECORDS}/PROVENANCE_OF_THE_COMPUTATION.md")
+    order_three = [row for row in json.loads(repository_file(
+        f"{RECORDS}/lovelock-report.json").read_text(encoding="utf-8"))["counters"]
+        if row["k"] == 3][0]
+    report("GKD calls of the order-3 Lovelock sum (record)", order_three["gkdCalls"])
+    check(order_three["gkdCalls"] == 495360,
+          "the order-3 Lovelock sum calls GKD 495360 times, as section 4 says",
+          record=f"{RECORDS}/lovelock-report.json, counters, k = 3, gkdCalls")
+    '''),
+    md(r"""
     The last cell checks that all six figure files exist in the folder
     `Revision/textbook/figures` and prints the number of checks that passed.
     """),
@@ -964,7 +1040,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 11. What this notebook showed
+    ## 12. What this notebook showed
 
     - The author's generalized Kronecker delta, the determinant of the 0/1 matrix
       Outer[delta, lower, upper], is $+1$, $-1$ or $0$: it is zero when a label repeats
@@ -984,6 +1060,10 @@ CELLS = [
       the literal determinant on 16,777,216 pairs of length 4 and 1,000,000 random
       pairs of lengths 5 to 9 without a single disagreement, and wrote the Revision
       record `gkd-selftest.json` again, byte for byte.
+    - Every check and number that the notebook quotes from the Revision records (the
+      sympy and Wolfram verifications, the record of the author's definition and the
+      counter of the order-3 Lovelock sum) is present in them, and every quoted check
+      has the verdict PASS.
     """),
 ]
 

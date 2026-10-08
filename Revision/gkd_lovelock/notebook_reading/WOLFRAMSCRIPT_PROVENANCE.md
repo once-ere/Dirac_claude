@@ -6,22 +6,23 @@ Set: the folder `Revision/gkd_lovelock/notebook_reading/`, which holds two Wolfr
 
 At a glance (verified on 2026-10-02 at commits `45d47343ae480df46e06689ed822b8f9a88a8030` and
 `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, and verified again on 2026-10-07 at commits
-`a4c5eda1df069a43a55ff8b57148f5de8edd1670` and `8cbd03a02f7771bce9e199f5d48cd41a979f1f06`; Windows 11, Wolfram
-15.0.1, WolframScript 1.14.0, Python 3.14.5):
+`a4c5eda1df069a43a55ff8b57148f5de8edd1670`, `8cbd03a02f7771bce9e199f5d48cd41a979f1f06` and
+`5e4654e5a99f5857f7ba332bcdadb1c8ce2c29f2`; Windows 11, Wolfram 15.0.1, WolframScript 1.14.0, Python 3.14.5):
 
 * EXECUTES OK: all three scripts end with exit code 0 and write nothing to standard error.
   The extraction prints `input cells written: 58`, the digest prints `58 input cells`, and the image export prints
   `{1372, 435}` and `28229 bytes (117 bytes of text/time chunks removed)`.
 * Both committed outputs, `Revision/gkd_lovelock/results/notebook-input-cells.txt` and
-  `Revision/gkd_lovelock/results/notebook-in68-image.png`, were reproduced BYTE FOR BYTE in ten runs from six
-  fresh clones: seven runs from four clones on 2026-10-02 (three in the first verification, four more in a
-  re-verification after an independent review) and three runs from two more clones on 2026-10-07 (part 6). After
-  every run `git status` shows no change.
+  `Revision/gkd_lovelock/results/notebook-in68-image.png`, were reproduced BYTE FOR BYTE in thirteen runs from
+  eight fresh clones: seven runs from four clones on 2026-10-02 (three in the first verification, four more in a
+  re-verification after an independent review) and six runs from four more clones on 2026-10-07 (three in a
+  verification after a restart, three more in a re-verification after a second independent review; part 6).
+  After every run `git status` shows no change.
 * The uncommitted full text `build/lovelock_nb_inputs.txt` was byte-identical in every run.
 * Run time on a shared 24-core machine: on 2026-10-02 extraction 3.5 s and 4.9 s, digest 0.4 s and 0.7 s, image
-  export 5.9 s and 6.6 s (runs 1 and 2); on 2026-10-07, while about 18 Wolfram kernels of other jobs were
-  running, extraction 3.7 s and 5.8 s, digest 0.7 s and 0.7 s, image export 9.3 s and 11.3 s (runs 8 and 9). The
-  whole set takes about 10 to 20 seconds (part 4.4).
+  export 5.9 s and 6.6 s (runs 1 and 2); on 2026-10-07, while other jobs kept the processor busy (up to 100 %),
+  extraction 3.7 to 8.7 s, digest 0.2 to 0.7 s, image export 9.3 to 11.4 s (runs 8 to 13). The whole set takes
+  about 10 to 25 seconds (part 4.4).
 * No fix was needed and no file of the set was changed. No scientific discrepancy is open. Two notes for
   students (part 5): the image export makes Wolfram 15.0.1 try to fetch an add-on from the internet, and it prints
   the harmless message `RegisterFormat::interr: ... ImageMetadataTools could not be installed.`.
@@ -90,8 +91,11 @@ read from the author's notebook and in what form. Its "verdict" is the counts it
 * `HANDOFF.md`, section 0.4b, which describes the GKD and Lovelock task and the image cell `In[68]`.
 * `Revision/textbook/notebooks/src/01c_generalized_delta.py`, the notebook
   `Revision/textbook/notebooks/01c_generalized_delta.ipynb` built from it, and its
-  `01c_generalized_delta.PROVENANCE.md` (added after 2026-10-02 and committed as work IN PROGRESS, not yet
-  verified). The notebook READS the digest `notebook-input-cells.txt` and quotes its cells `In[29]:=` (the
+  `01c_generalized_delta.PROVENANCE.md`. These three files were first committed on 2026-10-02 (commit `3f0a577`,
+  07:35 local time, after this set's verification of that day), in a snapshot of work IN PROGRESS, and were last
+  changed on 2026-10-07; the notebook's own provenance file records that its `nbkit check` PASSED (on 2026-10-07
+  in the version verified here). That notebook belongs to the textbook and is not part of this set; it was not
+  verified here. The notebook READS the digest `notebook-input-cells.txt` and quotes its cells `In[29]:=` (the
   declaration of the author's metric with the signature (4,4)), `In[32]:=` (the product of two Levi-Civita
   tensors) and `In[87]:=` (the `kδ` definition). It does not use the PNG.
 
@@ -157,8 +161,9 @@ You need four things:
 * Python 3;
 * a copy of the repository.
 
-About 1 GB of free memory is plenty: the Wolfram kernel peaked at about 0.2 GB. You also need about 520 MB of
-disk for the repository and 10 MB for `build/lovelock_nb_inputs.txt`.
+About 1 GB of free memory is plenty: the Wolfram kernel peaked at about 0.2 GB. You also need about 1 GB of
+disk for the repository (a fresh clone measured 751 MB on 2026-10-07, of which 233 MB is git's own folder
+`.git`; the repository grows as the project grows) and 10 MB for `build/lovelock_nb_inputs.txt`.
 
 ### 3.1 Install git
 
@@ -307,11 +312,14 @@ Forward slashes work on Windows too. The lines `$LASTEXITCODE` and `echo $?` pri
 command before them, and `0` means it succeeded. The last line, `git status --porcelain`, must print NOTHING:
 that means both committed outputs were rewritten with exactly the committed bytes.
 
-What you see:
+What you see (times measured on the verification machine; they are longer on a busy or slower computer):
 
-* each `wolframscript` command is silent for one to three seconds while the Wolfram kernel starts, then prints
-  its lines and ends;
-* the Python command ends at once.
+* the extraction prints NOTHING while it works. Its only `Print` is its last statement, so its one line appears
+  when it has finished, after about 2 to 9 seconds, and the command ends right after it;
+* the Python command ends within a second;
+* the image export prints `{1372, 435}` once it has read the notebook (after about 4 to 6 seconds on
+  2026-10-07), then nothing for a few more seconds while it writes the PNG, then its remaining lines, and ends
+  (after about 5 to 12 seconds in all).
 
 Part 4 shows the exact output.
 
@@ -370,9 +378,9 @@ The image export has no such option. It always writes the committed path.
 | `wolframscript` is "not recognized" / "command not found" | WolframScript is not installed or not on the PATH | install it (part 3.2), then open a NEW terminal. Or call it by its full path, for example `& "C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe" -file ...` in PowerShell |
 | a request to activate, or a licence error | the Wolfram Engine is not activated | run `wolframscript -activate` and sign in with your Wolfram ID |
 | `python` opens the Microsoft Store, or is "not recognized" (Windows) | Python is not installed, or "Add python.exe to PATH" was not ticked | install Python (part 3.3), or use `py -3` in place of `python` |
-| `Failed to open file at path: Revision/gkd_lovelock/notebook_reading/lovelock_extract_nb_inputs.wls` (or `..._export_nb_image.wls`), exit code still `0`; and for the digest a line that begins with the path of Python and continues `can't open file '...lovelock_digest_nb_inputs.py': [Errno 2] No such file or directory` (observed on Windows: `C:\Python314\python.exe: can't open file '...\Revision\gkd_lovelock\notebook_reading\lovelock_digest_nb_inputs.py': [Errno 2] No such file or directory`), exit code `2` | the terminal is not in the repository root (for example you are still in `C:\work`, or in a subfolder such as `Revision`), so the commands of part 3.5, which name the scripts relative to the repository root, do not find the script files. Nothing is run and nothing is written | go to the folder that contains `Revision` and the `.nb` file (part 3.4: `Set-Location C:\work\Dirac_claude` or `cd ~/work/Dirac_claude`) and run again |
+| `Failed to open file at path: Revision/gkd_lovelock/notebook_reading/lovelock_extract_nb_inputs.wls` (or `..._export_nb_image.wls`), exit code still `0`; and for the digest a line that begins with the path of Python and continues `can't open file '...lovelock_digest_nb_inputs.py': [Errno 2] No such file or directory` (observed on Windows, started from the subfolder `Revision` of `C:\work\Dirac_claude`; Python writes the path inside the quotes with every backslash doubled: `C:\Python314\python.exe: can't open file 'C:\\work\\Dirac_claude\\Revision\\Revision\\gkd_lovelock\\notebook_reading\\lovelock_digest_nb_inputs.py': [Errno 2] No such file or directory`), exit code `2` | the terminal is not in the repository root (for example you are still in `C:\work`, or in a subfolder such as `Revision`), so the commands of part 3.5, which name the scripts relative to the repository root, do not find the script files. Nothing is run and nothing is written | go to the folder that contains `Revision` and the `.nb` file (part 3.4: `Set-Location C:\work\Dirac_claude` or `cd ~/work/Dirac_claude`) and run again |
 | `Get::noopen: Cannot open ...\Generalized _Kronecker_Delta_4+4.nb.` followed by `input cells written: 0 -> ...`, exit code still 0 | the extraction script WAS found, because it was called by another path (for example its full path), but the terminal was not in the repository root. The script looks for the notebook in the CURRENT folder, does not find it, and writes an EMPTY file `build/lovelock_nb_inputs.txt` in the current folder | go to the repository root (part 3.4) and run the commands exactly as in part 3.5. Delete the stray `build` folder with its empty file that appeared in the wrong folder |
-| `Get::noopen ...`, then `First::nofirst` (twice), `ToExpression::notstrbox`, `ImageDimensions::imginv`, `RegisterFormat::interr`, `OpenWrite::noopen`, `BinaryWrite::stream`, `Close::stream`, and a misleading `wrote ...` line with a wrong size (observed: `1371 bytes`), exit code still 0 | the image export script was called by another path (for example its full path) while the terminal was not in the repository root; nothing was written | go to the repository root and run again. Never trust the `wrote` line unless it says `28229 bytes` |
+| `Get::noopen ...`, then `First::nofirst` (twice), `ToExpression::notstrbox`, `ImageDimensions::imginv`, the printed line `ImageDimensions[First[{}]]` (in place of `{1372, 435}`), `RegisterFormat::interr`, `OpenWrite::noopen`, `BinaryWrite::stream`, `Close::stream`, and a misleading `wrote ...` line with a wrong size (observed: `1371 bytes`), exit code still 0 | the image export script was called by another path (for example its full path) while the terminal was not in the repository root; nothing was written | go to the repository root and run again. Never trust the `wrote` line unless it says `28229 bytes` |
 | `FileNotFoundError: [Errno 2] No such file or directory: '...lovelock_nb_inputs.txt'`, exit code 1 | the digest ran before the extraction, or `LOVELOCK_NB_INPUTS` points to a file that does not exist | run the extraction first (part 3.5), with the same `LOVELOCK_NB_INPUTS` setting |
 | `RegisterFormat::interr: An internal error occurred: ImageMetadataTools could not be installed.` | normal with Wolfram 15.0.1 when the kernel cannot download an optional add-on (part 5) | nothing; the PNG is still written correctly. Check the `wrote ...: 28229 bytes` line and `git status` |
 | `ERROR: not a PNG`, exit code 2 | Wolfram's PNG writer returned something that is not a PNG file (never seen; would point to a broken installation) | run `wolframscript -code '$Version'`, reinstall or update Wolfram, and run again |

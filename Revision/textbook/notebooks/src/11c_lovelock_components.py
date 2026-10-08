@@ -52,7 +52,9 @@ FACTS = {
         "first derivative, the order of each term) and the two conservation identities, "
         "and plots every component and the three Lovelock scalars along the "
         "exponentially deflating linear history a4 = A H x4 and along an illustrative "
-        "test history; it draws five figures."
+        "test history; it checks again that every check and statement it quotes from "
+        "the Revision records is there, every check with the verdict PASS; it draws "
+        "five figures."
     ),
     "records": [
         ["Revision/gkd_lovelock/results/lovelock-tensors.json",
@@ -65,7 +67,8 @@ FACTS = {
          "`k3_divergence_free`, reproduced by the two conservation identities"],
         ["Revision/field_equations_a4/a4-equations.json",
          "the normalised components E(1), E(2), E(3) in its entry `lovelockTensors` and "
-         "the factor `evolution_F`, reproduced"],
+         "the factor `evolution_F`, reproduced; its statements `conservation_reduced`, "
+         "`algebraic_condition` and `constraint_propagation`, quoted and checked"],
         ["Revision/field_equations_a4/reports/python-a4-report.json",
          "its checks `json_lovelock_components`, `evolution_factorises`, `bianchi_x4` "
          "and `linear_member_vacuum_factor`, reproduced"],
@@ -80,7 +83,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all five figure files of the notebook exist",
-        "ALL 16 CHECKS PASSED (notebook 11c)",
+        "ALL 19 CHECKS PASSED (notebook 11c)",
     ],
     "troubleshooting": [],
 }
@@ -109,7 +112,9 @@ CELLS = [
     - draws the components and the Lovelock scalars along the exponentially deflating
       history $a_4 = A H x_4$, as functions of $A$; and along an illustrative test
       history in which the deflation speeds up, to show where $a_4''$ enters, with a
-      numerical check of the conservation identity along it.
+      numerical check of the conservation identity along it;
+    - reads the Revision records once more and checks that every check and statement
+      it quotes from them is there, every quoted check with the verdict PASS.
 
     It draws five figures and takes about 15 seconds.
     """),
@@ -381,7 +386,7 @@ CELLS = [
                       "(identity I)",
           record="Revision/field_equations_a4/reports/python-a4-report.json, check "
                  "bianchi_x4; Revision/gkd_lovelock/results/lovelock-report.json, checks "
-                 "k1/k2/k3_divergence_free")
+                 "k1_divergence_free, k2_divergence_free and k3_divergence_free")
     factor_ok = all(sp.expand(E[k][3, 3] - E[k][7, 7] - 6 * (A1 ** 2 + H ** 2) * V[k]) == 0
                     for k in (1, 2, 3))
     check(factor_ok, "E^x4_x4 - E^x8_x8 = 6 (a4'^2 + H^2) V_k for k = 1, 2, 3",
@@ -649,6 +654,64 @@ CELLS = [
           "the finite-difference derivative agrees with identity (I) to 1e-4")
     '''),
     md(r"""
+    ## 10. The Revision records quoted in this notebook
+
+    This notebook quotes check names and statements from the Revision records. The
+    components themselves were compared with `lovelock-tensors.json`,
+    `python-lovelock-report.json` and `a4-equations.json` in section 5. The next cell
+    reads the records once more and checks the rest of what the text quotes, so that a
+    later change of a record cannot pass unnoticed:
+
+    - every check quoted from the report `python-a4-report.json` of the field equations
+      of $a_4$ and from the Rust report `lovelock-report.json` is present with the
+      verdict PASS;
+    - the record `a4-equations.json` states the two consequences of the conservation
+      identities quoted in section 4 (its entries `conservation_reduced` and
+      `algebraic_condition`) and the constraint propagation quoted in section 7 (its
+      entry `constraint_propagation`).
+
+    The function `verdicts(path)` returns, for one report, a dictionary from the name of
+    each check to its verdict. The reports store their checks in one of two forms: a
+    list of entries, each with a `name` and a `verdict`, or a dictionary from the name to
+    an entry whose field `passed` is true or false; the function reads both.
+    """),
+    code(r'''
+    def verdicts(path):
+        """{check name: "PASS" or "FAIL"} of the Revision report at `path`."""
+        data = json.loads(repository_file(path).read_text(encoding="utf-8"))
+        checks = data["checks"]
+        if isinstance(checks, dict):  # name -> {"passed": true or false, ...}
+            return {name: "PASS" if entry["passed"] else "FAIL"
+                    for name, entry in checks.items()}
+        return {entry["name"]: entry["verdict"] for entry in checks}  # a list of entries
+
+
+    QUOTED = {  # report -> the checks that this notebook quotes from it
+        "Revision/field_equations_a4/reports/python-a4-report.json": [
+            "json_lovelock_components", "evolution_factorises", "bianchi_x4",
+            "linear_member_vacuum_factor"],
+        "Revision/gkd_lovelock/results/lovelock-report.json": [
+            "k1_divergence_free", "k2_divergence_free", "k3_divergence_free"],
+    }
+    for path, names in QUOTED.items():
+        found = verdicts(path)
+        for name in names:
+            say(f"{path.split('/')[-1]}: {name} {found.get(name, 'MISSING')}")
+        check(all(found.get(name) == "PASS" for name in names),
+              f"the {len(names)} checks quoted from {path.split('/')[-1]} are there and "
+              "PASS", record=f"{path}, checks " + ", ".join(names))
+    general = a4_record["generalSource"]  # a4-equations.json, read in section 5
+    stated = (general["algebraic_condition"]["input"] == "p3 + pt == 2*p8"
+              and "rho' = -3 a4' (p3 - p_t)" in general["conservation_reduced"]
+              and "p3 + p_t = 2 p8" in general["conservation_reduced"]
+              and "d/dx4 (constraint) = 3 a4' (evolution)"
+              in general["constraint_propagation"])
+    check(stated, "a4-equations.json states rho' = -3 a4' (p3 - p_t), p3 + p_t = 2 p8 and "
+                  "the constraint propagation, as quoted",
+          record="Revision/field_equations_a4/a4-equations.json, generalSource: "
+                 "conservation_reduced, algebraic_condition, constraint_propagation")
+    '''),
+    md(r"""
     The last cell checks that all five figure files exist and prints the number of
     checks that passed.
     """),
@@ -661,7 +724,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 10. What this notebook showed
+    ## 11. What this notebook showed
 
     - The normalised Lovelock tensors of the author's metric are diagonal polynomials in
       $H$, $a_4'$ and $a_4''$, for example Einstein's tensor
@@ -681,6 +744,8 @@ CELLS = [
       components remain (time, and all the others), even functions of $A$; the test
       history (an illustration only) shows that $a_4''$ separates the space and
       extra-time components while the hidden one stays halfway between them.
+    - Every check and statement that the notebook quotes from the Revision records is
+      present in them, every quoted check with the verdict PASS.
     """),
 ]
 

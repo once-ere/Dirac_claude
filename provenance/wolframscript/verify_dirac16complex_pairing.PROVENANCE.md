@@ -146,10 +146,10 @@ committed):
 * `scripts/verify_dirac16complex_matter_antimatter.wls` with
   `wolfram/Dirac16ComplexMatterAntimatter.wl`, and
   `scripts/check_dirac16complex_matter_antimatter.py`.
-* The unit tests `tests/test_d16c_stage5_pairing.py` (lines 245-273: it opens both
+* The unit tests `tests/test_d16c_stage5_pairing.py` (lines 245-268: it opens both
   committed outputs, compares them with the independent sympy checker and checks that a
   changed copy is detected) and `tests/test_d16c_stage5_pairs.py` (line 32 names
-  `pairing-theory.json`; lines 283-284 read it).
+  `pairing-theory.json`; lines 283-285 read it).
 * The sha256 values of both outputs are pinned in
   `artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json`,
   `wolfram-matter-antimatter-report.json`, `python-matter-antimatter-report.json`,
@@ -195,7 +195,8 @@ which files produced it.
 ### 2.3 Outputs (written by every run)
 
 With the command of Part 3 the two outputs are written over the committed files, also
-when checks fail (only the two `FATAL` cases of Section 4.2 write nothing):
+when checks fail (only the two `FATAL` cases of Section 4.2 write no file; they can leave
+an empty report folder behind, see Part 5):
 
 | File | Content | Lines | Bytes | sha256 of the committed file |
 | --- | --- | ---: | ---: | --- |
@@ -223,8 +224,9 @@ path you give.
   later clone is larger).
 * An internet connection for the installation and for downloading the repository. The run
   itself needs no network.
-* About 5 to 10 minutes of time for one run (Part 4.5 gives the measured times: 4 to 8
-  minutes).
+* About 5 to 12 minutes of time for one run (Part 4.5 gives the measured times: from
+  about 4 minutes to about 11.5 minutes on the same computer, depending on how busy it
+  was).
 * The Wolfram Language: either the **free Wolfram Engine for Developers** or an installed
   **Mathematica / Wolfram** desktop product. Both contain the command-line program
   `wolframscript`, which is what you use.
@@ -386,8 +388,15 @@ git diff --no-index --stat artifacts/dirac16complex/pair-creation/wolfram-pairin
 git diff --no-index --stat artifacts/dirac16complex/pair-creation/pairing-theory.json build/old-pairing/pairing-theory.json
 ```
 
-**Do not put `--` before the report path.** WolframScript 1.14 drops `--` and everything
-after it; the script then uses its default report path, which is the committed file.
+**About `--` before the report path.** Some instructions for WolframScript put `--`
+between the script and its arguments. For this script that makes no difference:
+`wolframscript -file scripts/verify_dirac16complex_pairing.wls -- build/old-pairing/wolfram-pairing-report.json`
+also writes to the path after `--`, and leaves the committed files untouched. The reason:
+the first line of the script is `#!/usr/bin/env wolframscript`, and for a script that
+starts with such a line WolframScript 1.14 passes `--` on to the script, which removes it.
+(The remark in the script's own header, that WolframScript 1.14 drops `--` and everything
+after it, is true only of a script without such a first line; Section 6.4 records the
+measurements.) The commands above, without `--`, are the simplest; use them.
 
 ### 3.5 If it fails
 
@@ -395,8 +404,8 @@ after it; the script then uses its default report path, which is the committed f
 | --- | --- | --- |
 | `wolframscript : The term 'wolframscript' is not recognized` (PowerShell) or `wolframscript: command not found` (macOS/Linux) | `wolframscript` is not installed or not on the PATH | re-open the terminal after installing; otherwise use the full path of Section 3.2, for example `& "C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe" -file ...` in PowerShell |
 | a request for a Wolfram ID or password, or a message that the kernel could not be started or that no valid licence was found | the engine is not activated (or the activation expired) | run `wolframscript -activate` (Section 3.2) with an internet connection, then run again |
-| within seconds: `Get::noopen: Cannot open ...\wolfram\Dirac16ComplexPairing.wl.`, then `FATAL: module failed to load: ...`, `check_count=0`, `failed_check_count=1`, exit code 1 (this exact output was produced on purpose during both verifications of Part 6, with the package renamed or moved out of the clone) | the package `wolfram/Dirac16ComplexPairing.wl` is missing | make sure the clone is complete: `git status` must print `nothing to commit, working tree clean` (`git status --porcelain` prints nothing); a line `deleted: <file>` names a missing file. Restore it with `git checkout -- <file>` or clone again. In this case the script stops before it writes anything, so the two output files are unchanged |
-| at the start `Get::noopen: Cannot open ...\wolfram\Dirac16ComplexGeometry.wl.`, then very long Wolfram error messages (`Part::pkspec1`, `Part::partw`, `Set::shape`, ..., `General::stop`), many lines `CHECK FAILED: <name>`, after the line `done in <n> s` (just before the list of `check_` lines) `FileHash::noopen`, at the end `check_count=141`, `failed_check_count=29`, exit code 1 (measured during both verifications of Part 6 with this file moved away: 2.5 to 5 minutes, about 820 kB of printed text) | the geometry package `wolfram/Dirac16ComplexGeometry.wl` is missing (a damaged copy gives other error messages and false checks) | `git status` (it shows `deleted: wolfram/Dirac16ComplexGeometry.wl`), then `git checkout -- wolfram/Dirac16ComplexGeometry.wl`. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` |
+| within seconds: `Get::noopen: Cannot open ...\wolfram\Dirac16ComplexPairing.wl.`, then `FATAL: module failed to load: ...`, `check_count=0`, `failed_check_count=1`, exit code 1 (this exact output was produced on purpose during both verifications of Part 6, with the package renamed or moved out of the clone) | the package `wolfram/Dirac16ComplexPairing.wl` is missing | make sure the clone is complete: `git status` must print `nothing to commit, working tree clean` (`git status --porcelain` prints nothing); a line `deleted: <file>` names a missing file. Restore it with `git checkout -- <file>` or clone again. In this case the script writes no file, so the two output files are unchanged; but if the folder of the report path did not exist (for example `build/old-pairing/`, and `build/`, with the `build/` variant of Section 3.4 in a fresh clone), the script has already created it, and it stays behind empty; delete it as described at the end of Part 5 |
+| at the start `Get::noopen: Cannot open ...\wolfram\Dirac16ComplexGeometry.wl.`, then very long Wolfram error messages (`Part::pkspec1`, `Part::partw`, `Set::shape`, ..., `General::stop`), many lines `CHECK FAILED: <name>`, after the line `done in <n> s` (just before the list of `check_` lines) `FileHash::noopen`, at the end `check_count=141`, `failed_check_count=29`, exit code 1 (measured in Part 6 with this file moved away: 2.5 to 6.5 minutes, about 820 kB of printed text) | the geometry package `wolfram/Dirac16ComplexGeometry.wl` is missing (a damaged copy gives other error messages and false checks) | `git status` (it shows `deleted: wolfram/Dirac16ComplexGeometry.wl`), then `git checkout -- wolfram/Dirac16ComplexGeometry.wl`. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` |
 | Wolfram error messages that name `algebra-fixture.json` or `kohn-sham-theory.json` (`Import::nffil: File ... not found during Import.` and, after the line `done in <n> s`, `FileHash::noopen: Cannot open ...`), checks `false`, exit code 1. Measured during both verifications of Part 6: without `algebra-fixture.json` one line `CHECK FAILED: PAIR_algebra_fixtureMatches`, `check_count=141`, `failed_check_count=1`; without `kohn-sham-theory.json` a very long line `INTERNAL ERROR: ...`, `check_count=98` (the run stops checking after the step `T3 block maps`, so fewer than 141 checks are listed) and `failed_check_count=4` | an input file of Section 2.2 is missing or changed | `git status`, then `git checkout -- <file>` to restore it; compare its sha256 with Section 2.2. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` (with the `build/` variant of Section 3.4 the failing report went to `build/old-pairing/` instead, and the committed files are unchanged) |
 | lines `CHECK FAILED: <name>` and `failed_check_count=` larger than 0, exit code 1 | a check is false: either a file was changed or the Wolfram version computes something differently | compare the sha256 of the five files of Sections 2.1-2.2 with the tables; note your `$Version` and the names of the failed checks. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` (not needed with the `build/` variant) |
 | `error: unable to create file ...: Filename too long` during `git clone` (Windows) | the clone folder path is too long | run `git config --global core.longpaths true`, delete the partial clone, clone again into `C:\src` |

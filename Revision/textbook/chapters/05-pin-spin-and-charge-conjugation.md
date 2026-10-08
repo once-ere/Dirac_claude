@@ -2367,7 +2367,7 @@ check(np.allclose(circle[:, 0] ** 2 + circle[:, 1] ** 2, 1.0)
 Column $c$ of a vector matrix (`[:, 0]` is the first column, `[:, 3]` the fourth) is the image of the basic unit vector $e_c$. The cell collects the images of $e_{x1}$ under 121 rotations in $(x1, x2)$, and the images of $e_{x1}$ and of $e_{x4}$ under 121 boosts in $(x1, x4)$. The check confirms that the rotation keeps $v_1^2 + v_2^2 = 1$ and the boost keeps $v_1^2 - v_4^2$, equal to $+1$ for the image of $e_{x1}$ and $-1$ for that of $e_{x4}$.
 
 ```python
-fig, axes = plt.subplots(1, 2, figsize=(11.0, 5.1))
+fig, axes = plt.subplots(1, 2, figsize=(11.0, 5.0))
 axes[0].plot(circle[:, 0], circle[:, 1], color="#2a78d6", linewidth=2)
 axes[0].plot(circle[::15, 0], circle[::15, 1], "o", color="#2a78d6", markersize=8)
 axes[0].set_aspect("equal")
@@ -2950,7 +2950,7 @@ check(series_gap < 1e-10, "the closed formula equals the power series of "
       "exp(theta S^ab) for all 28 planes (difference below 1e-10)")
 factor_ok = True
 for a, b in pairs:
-    for theta in [-2.5, -0.4, 0.9, 2.2, 5.1]:
+    for theta in [-2.5, -0.4, 0.9, 2.2, 5.0]:
         u = second_factor(a, b, theta)
         factor_ok &= (np.allclose(gamma[a] @ gamma_of(u), exponential(a, b, theta),
                                   rtol=0.0, atol=1e-10)

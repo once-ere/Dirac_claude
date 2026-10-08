@@ -139,11 +139,16 @@ it as a matrix:
   `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`, as
   committed in `provenance/dirac_matrices/author_notebook_T16.json` and proved in
   `provenance/dirac matrices.md` (real entries, anticommutation relations, Pin(4,4)): this
-  set's $\gamma^a$ is the author's `T16A[[a+1]]` for $a=0,\dots,7$ (the same index order),
-  its chirality matrix $\gamma^8$ is the author's `T16A[8]`, its $C$ is the author's
-  `sigma16`, its $\eta$ is the author's `eta4488`, and its projectors
-  $P_-=(1-\gamma^8)/2$ and $P_+=(1+\gamma^8)/2$ are the author's $P_L$ and $P_R$ (the
-  JSON stores $2P_L$ and $2P_R$). All five comparisons gave equality. The check
+  set's $\gamma^a$ is the author's `T16A[a]` for $a=0,\dots,7$ (the same index order; the
+  author defines `T16A[0]` to `T16A[7]` in input cell 286 of the notebook, labelled
+  `In[371]`, and the JSON file stores them as the list `T16A`, whose entry number $a$,
+  counting from 0, is `T16A[a]`), its chirality matrix $\gamma^8$ is the author's
+  `T16A[8]` (input cell 287, `In[372]`; key `T16A_8` of the JSON file), its $C$ is the
+  author's `sigma16` (input cell 285, `In[370]`, the product
+  `T16A[0].T16A[1].T16A[2].T16A[3]`), its $\eta$ is the author's `eta4488`, and its
+  projectors $P_-=(1-\gamma^8)/2$ and $P_+=(1+\gamma^8)/2$ are the author's $P_L$ and $P_R$
+  (the JSON stores $2P_L$ and $2P_R$). All five comparisons gave equality (repeated with
+  the version of the JSON file at the commit of Section 6.7). The check
   `MA_algebra_basicFacts` of this set confirms, in every run, that the eight matrices are
   real signed permutation matrices that satisfy
   $\gamma^a\gamma^b+\gamma^b\gamma^a=2\eta^{ab}I_{16}$.
@@ -371,8 +376,8 @@ runs, one of them a copy of the printed output, and deletes them at the end (Sec
 ### 3.1 What you need
 
 - A computer with Windows 10 or 11, macOS or Linux, with at least 3 GB of free
-  memory and 1 GB of free disk space (a clone of the repository took about 520 MB on
-  2026-10-02 and 667 MB on 2026-10-07; the repository grows).
+  memory and 2 GB of free disk space (a clone of the repository took about 520 MB on
+  2026-10-02, and 667 MB and later 764 MB on 2026-10-07; the repository grows).
 - A **Wolfram Language kernel** with the command-line program **WolframScript**: either
   the free **Wolfram Engine for Developers** or **Mathematica**. The verification of
   Section 6 used Wolfram 15.0.1 with WolframScript 1.14.0.
@@ -392,8 +397,32 @@ exactly as shown and press Enter after each line.
 
 1. In a web browser open `https://www.wolfram.com/engine/`, choose your operating system
    and download the installer. The page asks you to sign in with a **Wolfram ID** or to
-   create one (free; an e-mail address and a password).
-2. Run the installer and accept the proposed settings.
+   create one (free; an e-mail address and a password). To get the free licence you sign in
+   at `https://www.wolfram.com/engine/free-license/` and accept Wolfram's terms of use
+   yourself (read them first; the free licence is for development, personal projects and
+   learning). Without this licence the activation of step 4 fails.
+2. Install it. What you do depends on your operating system:
+   - **Windows:** double-click the downloaded `.exe` file and accept the proposed settings.
+     It installs the Wolfram Engine together with WolframScript.
+   - **macOS:** open the downloaded `.dmg` file and drag the Wolfram Engine into the
+     folder `Applications`, as its window shows; open it once from `Applications`. (The
+     page also shows the Homebrew command `brew install --cask wolfram-engine` as an
+     alternative, for those who use Homebrew.)
+   - **Linux:** the download is a shell-script installer whose name ends in `.sh`. In a
+     terminal go to the download folder (usually `cd ~/Downloads`) and start it with
+     `sudo bash <name of the downloaded file>.sh` (type the name of the file exactly as it
+     was downloaded; `ls *.sh` shows it). `sudo` asks for your own Linux password, which you
+     type yourself. Press Enter at each question to accept the defaults (the engine goes to
+     `/usr/local/Wolfram/WolframEngine/15.0`, the command `wolframscript` to
+     `/usr/local/bin`). On Debian or Ubuntu the page also shows the one-line alternative
+     `cd /tmp && wget https://wolfr.am/wolfram-engine.deb && sudo apt install ./wolfram-engine.deb`.
+
+   These installation routes are taken from Wolfram's pages (`https://www.wolfram.com/engine/`
+   and the support article `https://support.wolfram.com/46072`, "How do I set up the Wolfram
+   Engine on Linux?", read on 2026-10-07). They were not executed during the verification:
+   the verification machine runs Windows and already had Wolfram 15.0.1 installed, so the
+   macOS and Linux steps in particular are untested. If the pages have changed, follow the
+   instructions they show for your system.
 3. Open a **new** terminal (an old one does not know the new program yet) and type
 
    ```
@@ -829,7 +858,10 @@ machine without other jobs expect the shorter times of 2026-10-02.
   `artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json`. When
   everything is right the new bytes are the committed bytes (only the modification time of
   the files changes), so `git status --porcelain` prints nothing. If a check fails
-  (exit code 1) the files are still rewritten, then with different content.
+  (exit code 1) both files are still rewritten; the report then differs from the committed
+  one (it records the false check), and the theory file may or may not differ (in the
+  measured exit-1 case of Section 3.7, item 3, only the report differed; the theory file
+  was rewritten with identical bytes).
 - **Created:** with the command of Section 3.6 the folder `build/` (when it does not
   exist; a fresh clone has none, because Git ignores the folder and does not store it), the
   folder `build/ma/` (when it does not exist) and the two files
@@ -931,7 +963,7 @@ clone that was fresh before the run (verified in the clones of runs 7 and D3).
   Their sha256 at the verified commit are those of Sections 2.1 and 2.4. No uncommitted
   file was needed or copied: every clone was used exactly as cloned.
 - **Machine:** Windows 11 Pro for Workstations 10.0.26200 (build 26200), 24 logical
-  processors, 191 GB of memory; Windows long paths enabled (registry value
+  processors, 191.4 GiB (205.6 GB) of memory; Windows long paths enabled (registry value
   `LongPathsEnabled` = 1); Git 2.51.2.windows.1 with `core.longpaths` = true. The machine
   was shared: about 20 Wolfram kernels of other verification jobs ran at the same time.
 - **Wolfram:** `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)`, licence type
@@ -1146,7 +1178,7 @@ measurement.
   file. No uncommitted file was needed or copied: both clones were used exactly as cloned.
 - **Machine:** Windows 11 Pro for Workstations, version 26H2, build 26300.9457 (the
   operating system had been updated since 2026-10-02; Section 6.1 records build 26200), 24 logical
-  processors, 191.4 GB of memory; `LongPathsEnabled` = 1; Git 2.51.2.windows.1 with
+  processors, 191.4 GiB (205.6 GB) of memory; `LongPathsEnabled` = 1; Git 2.51.2.windows.1 with
   `core.longpaths` = true. The machine was shared: 13 to 19 Wolfram kernels (R1 and R2
   included) were running during the runs.
 - **Wolfram:** `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)`, WolframScript

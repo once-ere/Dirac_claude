@@ -86,7 +86,7 @@ FACTS = {
     ),
     "final_lines": [
         "PASS the six figure files of notebook 21c exist",
-        "ALL 18 CHECKS PASSED (notebook 21c)",
+        "ALL 17 CHECKS PASSED (notebook 21c)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming a file in the folder `Revision/algebra`, "
@@ -204,7 +204,9 @@ CELLS = [
     The next cell reads the eight gamma matrices of the Revision record, checks that
     they are eight real $16 \times 16$ matrices with the Clifford relation of
     signature (4,4), builds $C$, the chirality $\Gamma$ and $B = -iC\gamma^{(x4)}$,
-    and reads the Revision records used below.
+    and reads the Revision records used below. It also checks that the record's
+    formula quantisation states the canonical anticommutator and the positive
+    representation exactly as this notebook uses them.
     """),
     code(r'''
     import numpy as np  # numbers, arrays, matrices
@@ -241,7 +243,16 @@ CELLS = [
         "Revision/theory/field-theory.json").read_text(encoding="utf-8"))["formulas"]}
     PAIRING = json.loads(repository_file("Revision/pairing/pairing-theory.json")
                          .read_text(encoding="utf-8"))
-    say("record formula 'quantisation' begins: " + THEORY["quantisation"]["wl"][:170])
+    clauses = THEORY["quantisation"]["wl"].split("; ")  # the statements of the formula
+    rule = next(c for c in clauses if c.startswith("{Psi_A(x), Psi^dagger_C(y)}"))
+    positive = next(c for c in clauses if c.startswith("positive representation"))
+    say("record: " + rule)
+    say("record: " + positive)
+    check(rule.endswith("= B_AC delta^7(x - y)/Cos[z]")
+          and positive == "positive representation chi = Psi^dagger B, "
+          "{Psi_A, chi_C} = delta_AC",
+          "the record's anticommutator B_AC delta / cos z and positive representation",
+          record="Revision/theory/field-theory.json, formula quantisation")
     '''),
     md(r"""
     The next cell checks the properties of $B$ that the derivation used: purely
@@ -546,7 +557,9 @@ CELLS = [
     save_figure(fig, "charge_of_states",
                 "The charge of the basis states of 16 fermion modes, measured by three "
                 "fields; horizontal axis the number of occupied modes (0 to 16), "
-                "vertical axis the charge shifted by the constant 8 (pure numbers). "
+                "vertical axis the charge shifted by a constant (minus 8 for $\\Psi$ "
+                "and $\\Gamma\\Psi^{\\dagger T}$, plus 8 for $\\Psi^{\\dagger T}$; "
+                "pure numbers). "
                 "The field $\\Psi$ counts the occupied modes; the valid conjugate "
                 "$\\Gamma\\Psi^{\\dagger T}$ counts the empty ones, $Q' = 16 - Q$, so "
                 "the shifted charge is exactly reversed (particles and holes "
@@ -656,8 +669,10 @@ CELLS = [
                 and list(inertia_p) == sample["B_inertia_plus_w"]
                 and list(inertia_m) == sample["B_inertia_minus_w"])
         rows_ok &= same
-        say(f"m = {sample['m']:+d}, k = {sample['k']}: w = {w_here:.6f}, dims "
-            f"{dim_p}, {dim_m}, inertia {inertia_p}, {inertia_m}, as recorded: {same}")
+        k_text = ",".join(str(q) for q in sample["k"])
+        say(f"m = {sample['m']:+d}, k = ({k_text}): w = {w_here:.6f}, dims {dim_p} "
+            f"{dim_m}, inertia ({inertia_p[0]},{inertia_p[1]}) "
+            f"({inertia_m[0]},{inertia_m[1]}), same: {same}")
     check(rows_ok and WL_PAIR["Q_one_particle_Krein_signatures"] == "PASS",
           "all eight one-particle samples of the pairing record reproduced",
           record="Revision/pairing/reports/wolfram-pairing.json, check "
@@ -671,6 +686,16 @@ CELLS = [
     negative for $|k_5| > 1$: the frequencies become imaginary, $\pm i\sqrt{k_5^2 -
     1}$, and the modes grow exponentially in time (the ill-posedness of the extra
     times). It checks that the spectra of $+m$ and $-m$ agree at every point.
+
+    One warning about the two points $k_5 = \pm1$ of the scan. There $w = 0$ and
+    $h_m^2 = 0$: every eigenvalue is exactly 0, but $h_m$ itself is not the zero
+    matrix, and such a matrix cannot be brought to diagonal form. For a matrix of this
+    kind the computer's eigenvalues are accurate only to about the square root of the
+    rounding unit, about $10^{-8}$, instead of about $10^{-15}$. The function
+    `spectrum` rounds the eigenvalues to 9 decimals (so that equal values sort in the
+    same order); the cell compares the two spectra to $10^{-8}$ at all other points
+    and checks separately that at $k_5 = \pm1$ all 32 computed eigenvalues are
+    smaller than $10^{-6}$.
     """),
     code(r'''
     def spectrum(mass, k1=0.0, k5=0.0):
@@ -680,11 +705,15 @@ CELLS = [
         return np.sort_complex(np.round(values, 9))
 
 
-    scan = np.linspace(-3.0, 3.0, 241)
+    scan = np.linspace(-3.0, 3.0, 241)  # steps of 0.025; contains k5 = -1 and +1
     spec_k1 = {s: np.array([spectrum(s, k1=q) for q in scan]) for s in (1, -1)}
     spec_k5 = {s: np.array([spectrum(s, k5=q) for q in scan]) for s in (1, -1)}
-    check(np.allclose(spec_k1[1], spec_k1[-1], atol=1e-8)
-          and np.allclose(spec_k5[1], spec_k5[-1], atol=1e-8)
+    exceptional = np.abs(np.abs(scan) - 1.0) < 1e-9  # the two points k5 = -1, +1
+    check(np.allclose(spec_k1[1], spec_k1[-1], rtol=0, atol=1e-8)
+          and np.allclose(spec_k5[1][~exceptional], spec_k5[-1][~exceptional],
+                          rtol=0, atol=1e-8)
+          and np.abs(spec_k5[1][exceptional]).max() < 1e-6
+          and np.abs(spec_k5[-1][exceptional]).max() < 1e-6
           and np.allclose(np.abs(spec_k1[1].real).max(axis=1), np.sqrt(1 + scan ** 2)),
           "scans: identical spectra for m = +1 and m = -1; w = sqrt(1 + k1^2)")
 
@@ -753,8 +782,10 @@ CELLS = [
           "Q_one_particle_complex_and_zero_frequencies_Krein_neutral")
 
     fig, ax = plt.subplots(figsize=(8.0, 4.3))
-    ax.plot(k5_scan, positive, "o", markersize=3, label="positive directions of the form")
-    ax.plot(k5_scan, negative, "x", markersize=4, label="negative directions of the form")
+    ax.plot(k5_scan, positive, "o", markersize=6, markerfacecolor="none",
+            label="positive directions of the form")  # open circles
+    ax.plot(k5_scan, negative, "x", markersize=4,
+            label="negative directions of the form")  # crosses inside the circles
     ax.axvspan(-3, -1, color="#f2d0a9", alpha=0.5, label="imaginary frequency")
     ax.axvspan(1, 3, color="#f2d0a9", alpha=0.5)
     ax.set_xlim(-3, 3)

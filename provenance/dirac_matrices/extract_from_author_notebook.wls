@@ -38,7 +38,11 @@
    Python builder can compare them with the evaluated values entry by entry) and scans all input
    cells for where the matrices are assigned and used (the chain to the Lagrangians).
 
-   Output (deterministic): provenance/dirac_matrices/author_notebook_T16.json
+   Output (deterministic, the same bytes on every operating system: UTF-8, LF line endings, no time
+   stamps): provenance/dirac_matrices/author_notebook_T16.json.  The JSON text is made with ExportString
+   (which gives UTF-8 bytes with LF line endings) and written byte for byte with BinaryWrite, because
+   Export[file, ...] on Windows writes CR LF.  The JSON records $Version (key "wolfram_version"), so a
+   difference caused by another Wolfram version can be recognised.
    Usage (from the repository root):
      wolframscript -file provenance/dirac_matrices/extract_from_author_notebook.wls
 *)
@@ -178,9 +182,19 @@ $xChain = Table[<|"input_cell" -> c, "label" -> $xLabel[c],
 $xCited = Union[$xChainCells, Flatten[Values[$xAssignedIn]], Flatten[Values[$xReferencedIn]],
   $xEnv[[All, 1]], $xPlan[[All, 1]], {248, 288, 298}];
 
+(* the same bytes on every operating system: UTF-8 JSON with LF line endings, written byte for byte *)
+$xWriteJSON[file_String, data_Association] := Module[{s = ExportString[data, "JSON", "Compact" -> 1], st},
+  If[!StringQ[s] || Max[ToCharacterCode[s]] > 255 || MemberQ[ToCharacterCode[s], 13],
+    Print["ERROR: ExportString did not return UTF-8 bytes with LF line endings"]; Exit[1]];
+  st = OpenWrite[file, BinaryFormat -> True];
+  BinaryWrite[st, Append[ToCharacterCode[s], 10]];
+  Close[st]];
+
 $xOut = FileNameJoin[{DirectoryName[$InputFileName], "author_notebook_T16.json"}];
-Export[$xOut, <|
+$xWriteJSON[$xOut, <|
   "source" -> "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb (author notebook, read only)",
+  "producer" -> "provenance/dirac_matrices/extract_from_author_notebook.wls",
+  "wolfram_version" -> $Version,
   "notation" -> <|
     "cells" -> (<|"input_cell" -> #[[1]], "label" -> $xLabel[#[[1]]], "what" -> #[[3]]|> & /@ $xEnv),
     "taubar_head_check" -> <|"input_cell" -> 248, "label" -> $xLabel[248],
@@ -206,5 +220,5 @@ Export[$xOut, <|
   "stored_Out393" -> <|"input_cell" -> 314, "out_label" -> $xOutLabel[$xOut393[[1]]], "true" -> $xClifTrue, "false" -> $xClifFalse|>,
   "scan" -> <|"assigned_in" -> $xAssignedIn, "referenced_in" -> $xReferencedIn, "chain" -> $xChain|>,
   "labels" -> Association[ToString[#] -> $xLabel[#] & /@ $xCited]
-|>, "JSON", "Compact" -> 1];
+|>];
 Print["wrote ", $xOut];

@@ -7,17 +7,17 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It reads the exact components of the three Lovelock tensors of the author's metric from the Revision record, writes the normalised tensors E(1) (the Einstein tensor), E(2) and E(3) as polynomials in H and in the first and second time derivatives of a4, reproduces the components recorded for the field equations of a4, proves with sympy their structure (equal components within ordinary space and within the extra times, a time component without second derivatives, a space minus extra-time difference proportional to the second derivative, a hidden component equal to the mean of the two, evenness in the first derivative, the order of each term) and the two conservation identities, and plots every component and the three Lovelock scalars along the exponentially deflating linear history a4 = A H x4 and along an illustrative test history; it draws five figures.
+It reads the exact components of the three Lovelock tensors of the author's metric from the Revision record, writes the normalised tensors E(1) (the Einstein tensor), E(2) and E(3) as polynomials in H and in the first and second time derivatives of a4, reproduces the components recorded for the field equations of a4, proves with sympy their structure (equal components within ordinary space and within the extra times, a time component without second derivatives, a space minus extra-time difference proportional to the second derivative, a hidden component equal to the mean of the two, evenness in the first derivative, the order of each term) and the two conservation identities, and plots every component and the three Lovelock scalars along the exponentially deflating linear history a4 = A H x4 and along an illustrative test history; it checks again that every check and statement it quotes from the Revision records is there, every check with the verdict PASS; it draws five figures.
 
 It reads or reproduces these Revision records:
 
 - `Revision/gkd_lovelock/results/lovelock-tensors.json`: the exact components of the Lovelock tensors P(k) and the scalars L(k), k = 1, 2, 3, read by the notebook
 - `Revision/gkd_lovelock/results/python-lovelock-report.json`: its list `independentResults` of the nonzero components, reproduced
 - `Revision/gkd_lovelock/results/lovelock-report.json`: its checks `k1_divergence_free`, `k2_divergence_free` and `k3_divergence_free`, reproduced by the two conservation identities
-- `Revision/field_equations_a4/a4-equations.json`: the normalised components E(1), E(2), E(3) in its entry `lovelockTensors` and the factor `evolution_F`, reproduced
+- `Revision/field_equations_a4/a4-equations.json`: the normalised components E(1), E(2), E(3) in its entry `lovelockTensors` and the factor `evolution_F`, reproduced; its statements `conservation_reduced`, `algebraic_condition` and `constraint_propagation`, quoted and checked
 - `Revision/field_equations_a4/reports/python-a4-report.json`: its checks `json_lovelock_components`, `evolution_factorises`, `bianchi_x4` and `linear_member_vacuum_factor`, reproduced
 
-The notebook has 26 cells (15 markdown cells and 11 code cells) in these sections:
+The notebook has 28 cells (16 markdown cells and 12 code cells) in these sections:
 
 - 1. What this notebook computes
 - 2. How to run this notebook
@@ -28,9 +28,10 @@ The notebook has 26 cells (15 markdown cells and 11 code cells) in these section
 - 7. The conservation identity along the time
 - 8. Along the exponentially deflating history $a_4 = A H x_4$
 - 9. An illustrative test history in which the deflation speeds up
-- 10. What this notebook showed
+- 10. The Revision records quoted in this notebook
+- 11. What this notebook showed
 
-It prints 16 PASS lines (one per check), 9 RESULT lines (key numbers) and draws 5 figures.
+It prints 19 PASS lines (one per check), 9 RESULT lines (key numbers) and draws 5 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -38,7 +39,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 11c (The Lovelock tensors along the deflating history: components and identities) is the file `Revision/textbook/notebooks/11c_lovelock_components.ipynb` of the repository Dirac_claude. It reads the exact components of the three Lovelock tensors of the author's metric from the Revision record, writes the normalised tensors E(1) (the Einstein tensor), E(2) and E(3) as polynomials in H and in the first and second time derivatives of a4, reproduces the components recorded for the field equations of a4, proves with sympy their structure (equal components within ordinary space and within the extra times, a time component without second derivatives, a space minus extra-time difference proportional to the second derivative, a hidden component equal to the mean of the two, evenness in the first derivative, the order of each term) and the two conservation identities, and plots every component and the three Lovelock scalars along the exponentially deflating linear history a4 = A H x4 and along an illustrative test history; it draws five figures. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
+Notebook 11c (The Lovelock tensors along the deflating history: components and identities) is the file `Revision/textbook/notebooks/11c_lovelock_components.ipynb` of the repository Dirac_claude. It reads the exact components of the three Lovelock tensors of the author's metric from the Revision record, writes the normalised tensors E(1) (the Einstein tensor), E(2) and E(3) as polynomials in H and in the first and second time derivatives of a4, reproduces the components recorded for the field equations of a4, proves with sympy their structure (equal components within ordinary space and within the extra times, a time component without second derivatives, a space minus extra-time difference proportional to the second derivative, a hidden component equal to the mean of the two, evenness in the first derivative, the order of each term) and the two conservation identities, and plots every component and the three Lovelock scalars along the exponentially deflating linear history a4 = A H x4 and along an illustrative test history; it checks again that every check and statement it quotes from the Revision records is there, every check with the verdict PASS; it draws five figures. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -201,7 +202,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS all five figure files of the notebook exist
-ALL 16 CHECKS PASSED (notebook 11c)
+ALL 19 CHECKS PASSED (notebook 11c)
 ```
 
 and the notebook must show 5 figures below the cells that draw them.
@@ -254,7 +255,7 @@ In [4]  PASS every component is even in a4' and of weight 2k (dimension 1/length
 In [5]  PASS d/dx4 E^x4_x4 = 3 a4' (E^x1_x1 - E^x5_x5) for k = 1, 2, 3 (identity I)
 In [5]       reproduces Revision/field_equations_a4/reports/python-a4-report.json, check
 In [5]      bianchi_x4; Revision/gkd_lovelock/results/lovelock-report.json, checks
-In [5]      k1/k2/k3_divergence_free
+In [5]      k1_divergence_free, k2_divergence_free and k3_divergence_free
 In [5]  PASS E^x4_x4 - E^x8_x8 = 6 (a4'^2 + H^2) V_k for k = 1, 2, 3
 In [5]       reproduces Revision/field_equations_a4/reports/python-a4-report.json, check
 In [5]      linear_member_vacuum_factor
@@ -264,7 +265,18 @@ In [7]      -84, 3360, -40320
 In [8]  PASS the test history has a4' = 1 + tanh/2 > 0 and a4'' = sech^2/2 (H = 1)
 In [9]  PASS along the test history E^x8_x8 is the mean of E^x1_x1 and E^x5_x5 at all 1201 times
 In [10]  PASS the finite-difference derivative agrees with identity (I) to 1e-4
-In [11]  PASS all five figure files of the notebook exist
+In [11]  PASS the 4 checks quoted from python-a4-report.json are there and PASS
+In [11]       reproduces Revision/field_equations_a4/reports/python-a4-report.json, checks
+In [11]      json_lovelock_components, evolution_factorises, bianchi_x4,
+In [11]      linear_member_vacuum_factor
+In [11]  PASS the 3 checks quoted from lovelock-report.json are there and PASS
+In [11]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, checks
+In [11]      k1_divergence_free, k2_divergence_free, k3_divergence_free
+In [11]  PASS a4-equations.json states rho' = -3 a4' (p3 - p_t), p3 + p_t = 2 p8 and the
+In [11]      constraint propagation, as quoted
+In [11]       reproduces Revision/field_equations_a4/a4-equations.json, generalSource:
+In [11]      conservation_reduced, algebraic_condition, constraint_propagation
+In [12]  PASS all five figure files of the notebook exist
 ```
 
 ### 3.2 Key numbers
@@ -290,7 +302,7 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS all five figure files of the notebook exist
-ALL 16 CHECKS PASSED (notebook 11c)
+ALL 19 CHECKS PASSED (notebook 11c)
 ```
 
 ### 3.4 Figures
@@ -339,8 +351,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 12.4 s, peak memory of the kernel process 209 MiB;
-- the check run: 10.9 s, peak memory of the kernel process 209 MiB.
+- the build run: 27.3 s, peak memory of the kernel process 209 MiB;
+- the check run: 24.0 s, peak memory of the kernel process 209 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -352,8 +364,8 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/11c_lovelock_components.ipynb`: `830dd7c0263c6b53e6d70cedeb6a390b2c3a283f973b4023413d78086a0b926a`
-- `Revision/textbook/notebooks/src/11c_lovelock_components.py`: `e89fe0dcae81666d401247030540446326ce971cb91e17b2db921064b37ea957`
+- `Revision/textbook/notebooks/11c_lovelock_components.ipynb`: `d75929f33729af74c7bbfcde6305901fab1b64deb816136021c95965400213ed`
+- `Revision/textbook/notebooks/src/11c_lovelock_components.py`: `21a0c1f63e3c3649c839f4483cf47b86c8fd7184fe6d6a37c1c7c2e2b7aa6bec`
 - `Revision/textbook/figures/11c.captions.json`: `cb2da91c91ad644fc3c0252c7f45aa5c80b7f82b5c46399a6f18f9e2633323a5`
 - `Revision/textbook/figures/11c_1_components_linear_history.png`: `47243448b54c99f6bacb7d718696b30c978eec3d867185775776fa5c0d38a10b`
 - `Revision/textbook/figures/11c_2_lovelock_scalars.png`: `0808f1f1b23864bc8e8970012b67e53f9a1dae1d6a2199dc854513c50b2a215e`
@@ -367,4 +379,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":209.0,"seconds":12.4},"check":{"date":"2026-10-07","files":6,"peak_mb":209.0,"result":"passed","seconds":10.9},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":209.0,"seconds":27.3},"check":{"date":"2026-10-07","files":6,"peak_mb":209.0,"result":"passed","seconds":24.0},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

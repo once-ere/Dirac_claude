@@ -276,7 +276,7 @@ In [11]       reproduces Revision/theory/reports/python-field-theory.json, check
 In [11]      exact_solution_family_x4_x8
 In [12]  PASS Psi* solves the equation with mass +2, Gamma Psi* with mass -2 (exact)
 In [12]  PASS negative controls: Psi* fails with -2, Gamma Psi* fails with +2
-In [13]  PASS numerically: the solutions give |E| below 1e-12, the controls above 0.1
+In [13]  PASS numerically: the solutions give |E| below 1e-12, the controls |E| = 4 |field|
 In [13]  PASS charge density: Psi* has -J^(x4), Gamma Psi* has +J^(x4) at every time
 In [14]  PASS signs of S and J under calC_+ and calC_-, both statistics, equal the record
 In [14]       reproduces Revision/lead_checks/reports/charge-conjugation-and-u1.json, check
@@ -313,7 +313,7 @@ The notebook shows 7 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/21a_2_halving_solutions.png` (984 x 663 pixels): The dimension of the space of $16 \times 16$ matrices $M$ that obey $M(\gamma^a)^\ast = s\,\gamma^a M$ for the first $k$ directions only (computed exactly as $256$ minus the rank of the equations), for $s = +1$ (circles) and $s = -1$ (squares); horizontal axis $k$ with the direction added, vertical axis the dimension on a logarithmic scale. Both sequences are $256/2^k$: every new gamma halves the freedom, and with all eight only one direction is left, the multiples of $1$ ($s = +1$) or of $\Gamma$ ($s = -1$).
 - `Revision/textbook/figures/21a_3_conjugation_matrices.png` (1330 x 453 pixels): Heat maps of the two charge-conjugation matrices and of the chirality that relates them: $\mathcal{C}_+ = C$ (left, the conjugation that keeps the mass), $\Gamma$ (middle) and $\mathcal{C}_- = \Gamma C$ (right, the conjugation that reverses the mass); horizontal axis the column, vertical axis the row, colour the entry (red $+1$, blue $-1$, pale $0$). $C$ and $\Gamma C$ have their entries only in the two diagonal blocks, and they differ only by the sign of the upper half, where $\Gamma = -1$.
 - `Revision/textbook/figures/21a_4_reality_conditions.png` (1403 x 593 pixels): One field satisfying each reality (Majorana) condition, made from the same complex column: left $\Psi = \Psi^\ast$ (every imaginary part is zero), right $\Psi = \Gamma\Psi^\ast$ (components 1 to 8, where $\Gamma = -1$, are purely imaginary; components 9 to 16, where $\Gamma = +1$, are real); horizontal axis the component number, vertical axis the real part (left bar of each pair) and the imaginary part (right bar). Both conditions can be imposed, because $MM^\ast = 1$ for $M = 1$ and for $M = \Gamma$.
-- `Revision/textbook/figures/21a_5_curved_solution_images.png` (1503 x 634 pixels): Charge conjugation acting on an exact solution of the field equation in the author's metric ($H = 1/6$, $\alpha = 1$, mass $m = 2$, valid for every history $a_4$). Left: the charge density $\Psi^\dagger B\Psi$ of $\Psi$ (solid), $\Psi^\ast$ (dashed) and $\Gamma\Psi^\ast$ (dotted, on top of the solid curve) versus the time $x_4$ at $z = \pi/4$ (pure numbers); $\Psi^\ast$ carries the opposite charge density. Right: the size $|E|$ of the left-hand side of the field equation versus $x_4$, logarithmic scale. $\Psi^\ast$ solves the equation with the same mass $+2$ and $\Gamma\Psi^\ast$ the one with the reversed mass $-2$ ($|E|$ at rounding level, about $10^{-16}$), while the exchanged masses fail ($|E|$ of order 1).
+- `Revision/textbook/figures/21a_5_curved_solution_images.png` (1503 x 634 pixels): Charge conjugation acting on an exact solution of the field equation in the author's metric ($H = 1/6$, $\alpha = 1$, mass $m = 2$, valid for every history $a_4$). Left: the charge density $\Psi^\dagger B\Psi$ of $\Psi$ (solid), $\Psi^\ast$ (dashed) and $\Gamma\Psi^\ast$ (dotted, on top of the solid curve) versus the time $x_4$ at $z = \pi/4$ (pure numbers); $\Psi^\ast$ carries the opposite charge density. Right: the size $|E|$ of the left-hand side of the field equation versus $x_4$, logarithmic scale. $\Psi^\ast$ solves the equation with the same mass $+2$ and $\Gamma\Psi^\ast$ the one with the reversed mass $-2$ ($|E|$ at rounding level, about $10^{-16}$), while the exchanged masses fail ($|E|$ equals four times the size of the field, about 10).
 - `Revision/textbook/figures/21a_6_bilinear_signs.png` (1293 x 594 pixels): The sign that each of the 256 bilinears $\bar\Psi\gamma^{a_1}\cdots\gamma^{a_k}\Psi$ acquires under $\Psi \to M\Psi^\ast$ ($M = 1$ for $\mathcal{C}_+$, $M = \Gamma$ for $\mathcal{C}_-$), for commuting and anticommuting components; horizontal axis the degree $k$, rows the four cases, colour and number the sign (red $+1$, blue $-1$). All products of the same degree share one sign. For commuting components $\mathcal{C}_+$ keeps the scalar $S$ ($k = 0$) and reverses the current $J$ ($k = 1$); anticommuting components reverse every sign.
 - `Revision/textbook/figures/21a_7_real_fields.png` (1431 x 627 pixels): Real fields. Left: heat map of the real matrix $C\gamma^{(x4)}$ (horizontal axis the column, vertical axis the row, red $+1$, blue $-1$); it is antisymmetric, so $\Psi^T C\gamma^{(x4)}\Psi = 0$ for every real $\Psi$ and a real field carries no current. Right: the eight kinetic numbers $\Psi^T C\gamma^a\Phi$ of two fixed real columns (left bars) and of their images under the real matrix $\Gamma$ (right bars); horizontal axis the direction $a$, vertical axis the value (pure numbers). Every kinetic number changes sign while $S = \Psi^T C\Psi$ stays: with the mass reversed, $\Gamma$ maps real solutions to real solutions.
 
@@ -325,7 +325,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/21a.captions.json` | 4209 | `541004619a224c7cdd72bd69cea94ff0a2eb381fa8637463bac66dfb07c95483` |
+| `Revision/textbook/figures/21a.captions.json` | 4248 | `b571169f3bf5c744c681a5800e30f5117a895d97896ca1417cdb28b4226b032a` |
 | `Revision/textbook/figures/21a_1_eight_gammas.png` | 66140 | `861a1f7d28a14a2ad4ce200d64e29dde504d3b74d3e1ce52c83c2da623706a14` |
 | `Revision/textbook/figures/21a_2_halving_solutions.png` | 79271 | `a9ec03a30dc7c0608cd678cfbc3e3f0b50ecffda3cfb7670b8a4f8454996f7ca` |
 | `Revision/textbook/figures/21a_3_conjugation_matrices.png` | 31861 | `904ff3b1d7154b71c9a3802870f10d78a554f4f4b95b5afb9d37a4757a75c6ea` |
@@ -355,8 +355,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 38.0 s, peak memory of the kernel process 249 MiB;
-- the check run: 24.5 s, peak memory of the kernel process 249 MiB.
+- the build run: 27.3 s, peak memory of the kernel process 250 MiB;
+- the check run: 14.2 s, peak memory of the kernel process 249 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -368,9 +368,9 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/21a_conjugation_matrices.ipynb`: `672693752317f5a3e8d3b9a3f322dfc684e2ff8d1505406f2365ca172af3ee7e`
-- `Revision/textbook/notebooks/src/21a_conjugation_matrices.py`: `2536b12cd194b63b36fcfbb24bbd7f5e9582071edbcac15f837547a78589ffa0`
-- `Revision/textbook/figures/21a.captions.json`: `541004619a224c7cdd72bd69cea94ff0a2eb381fa8637463bac66dfb07c95483`
+- `Revision/textbook/notebooks/21a_conjugation_matrices.ipynb`: `9239d359dcdbec364ddaec0bf48d777c6f2679c15a7e84fcb1b957b9f50a2161`
+- `Revision/textbook/notebooks/src/21a_conjugation_matrices.py`: `445945a92d5c83a18c6aefa20a50c57becf4dde97df66c9a066f16b08b8ec8fc`
+- `Revision/textbook/figures/21a.captions.json`: `b571169f3bf5c744c681a5800e30f5117a895d97896ca1417cdb28b4226b032a`
 - `Revision/textbook/figures/21a_1_eight_gammas.png`: `861a1f7d28a14a2ad4ce200d64e29dde504d3b74d3e1ce52c83c2da623706a14`
 - `Revision/textbook/figures/21a_2_halving_solutions.png`: `a9ec03a30dc7c0608cd678cfbc3e3f0b50ecffda3cfb7670b8a4f8454996f7ca`
 - `Revision/textbook/figures/21a_3_conjugation_matrices.png`: `904ff3b1d7154b71c9a3802870f10d78a554f4f4b95b5afb9d37a4757a75c6ea`
@@ -385,4 +385,4 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":249.0,"seconds":38.0},"check":{"date":"2026-10-07","files":8,"peak_mb":249.0,"result":"passed","seconds":24.5},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":250.0,"seconds":27.3},"check":{"date":"2026-10-07","files":8,"peak_mb":249.0,"result":"passed","seconds":14.2},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

@@ -6,7 +6,7 @@ Verified on 2026-10-02 at commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, and
 
 ## 1. What this set is and what it computes
 
-**In plain words.** The Stage-3 study of this repository solves the field equation of `dirac16complex` in five model universes, called EXP-1 to EXP-5. `dirac16complex` is a field with 16 complex Grassmann components in eight dimensions: four space-like and four time-like directions. A Rust program, `studies/dirac16complex_cosmology`, does the solving with the CVODE solver and writes its results as CSV and JSON files into `artifacts/dirac16complex/numerics/exp1` to `exp5`; these files are committed. A Mathematica notebook, `notebooks/Dirac16ComplexDarkSector.nb`, checks those committed results independently in the Wolfram Language. A notebook is a text file that holds Wolfram Language code in *cells*; normally you open it in the desktop program Wolfram (formerly Mathematica) and evaluate it there. **This set is the program that evaluates the notebook for you without any window** (that is what "headless" means), decides whether everything passed, and says so in its last printed line and in its exit code. With the free Wolfram Engine, which has no notebook window, this is how you evaluate the notebook.
+**In plain words.** The Stage-3 study of this repository solves the field equation of `dirac16complex` in five model universes, called EXP-1 to EXP-5. `dirac16complex` is a field with 16 complex Grassmann components in eight dimensions: four space-like and four time-like directions. A Rust program, `studies/dirac16complex_cosmology`, does the solving with the CVODE solver and writes its results as CSV and JSON files into `artifacts/dirac16complex/numerics/exp1` to `exp5`; these files are committed. A Mathematica notebook, `notebooks/Dirac16ComplexDarkSector.nb`, checks those committed results independently in the Wolfram Language. A notebook is a text file that holds Wolfram Language code in *cells*; normally you open it in the desktop program Wolfram (formerly Mathematica) and evaluate it there. **This set is the program that evaluates the notebook for you without any window** (that is what "headless" means), decides whether everything passed, and says so in its last printed line and in its exit code. With the free Wolfram Engine, which has no notebook window, this is how you would evaluate the notebook (this record used only the desktop product Wolfram 15.0.1; the free Engine was not tested, Part 3.2).
 
 **What the verifier does, step by step** (read from its 87 lines):
 
@@ -180,11 +180,11 @@ If the folder `artifacts/dirac16complex/numerics/figures/mathematica/` is missin
 
 | What | Why | Tested version |
 | --- | --- | --- |
-| The Wolfram Engine (free) or Wolfram/Mathematica, with WolframScript | evaluates the notebook | Wolfram 15.0.1, WolframScript 1.14.0 |
+| The Wolfram Engine (free) or Wolfram/Mathematica, with WolframScript | evaluates the notebook | Wolfram 15.0.1 (the desktop product, Professional licence; the free Engine was not tested), WolframScript 1.14.0 |
 | Git | downloads the repository and the solver engine, and compares the results with the committed files | 2.51.2.windows.1 |
 | Rust (rustup, cargo) and a C linker | builds the Rust program that cell 24 runs | cargo and rustc 1.91.1 |
 | **About 35 GiB (37 GB) of free memory (RAM)** | the kernel's working set reached 35,246 MiB in cell 17 (Part 4.4) | the verification machine has 191.4 GiB (205.6 GB) |
-| About 640 MB of free disk (1 MB = 1,000,000 bytes) | repository 538 MB (of which 134 MB Git history), solver engine 83 MB, Rust build 16 MB | measured with `du -sb`: 637 MB in all |
+| **About 1 GB of free disk** (1 MB = 1,000,000 bytes; 1 GB = 1,000 MB) | repository 751 MB (of which 233 MB Git history), solver engine 83 MB, Rust build 16 MB. The repository keeps growing with every commit, so leave some room | measured with `du -sb` after the set-up and the build: 637 MB in all at commit `c2b33cc` (2026-10-02), 826 MB at `6be66ce` and 851 MB at `5e4654e` (both 2026-10-07) |
 | An internet connection | only to download Wolfram, Rust, the repository and the solver engine; the run itself needs none | |
 
 You do **not** need Python, Jupyter or a notebook window. Type every command below exactly as shown. A line in a grey box is one command: type it and press Enter.
@@ -193,7 +193,7 @@ You do **not** need Python, Jupyter or a notebook window. Type every command bel
 
 You need two programs. The first is the Wolfram Language *kernel*, the program that does the computing. The second is *WolframScript*, the command `wolframscript`, which runs a script file with the kernel.
 
-**Option 1: the free Wolfram Engine for Developers.**
+**Option 1: the free Wolfram Engine for Developers.** **Not tested for this record.** Every run of this record used the desktop product, Wolfram 15.0.1 with a Professional licence (Option 2). Nobody ran this verifier with the free Wolfram Engine. In particular it was not tested whether the free Engine's licence lets cell 26 start the Wolfram front end (`WolframNB.exe /b /min -server` and its helper kernel, Part 5), which draws the 8 PNG figures. If you use the free Engine and the run fails in cells 26 to 33, the most likely reason is that the front end could not start; report the printed lines.
 
 1. In a web browser, open https://www.wolfram.com/engine/ and download the Wolfram Engine for your operating system. You need a free Wolfram ID (an e-mail address and a password) and the free developer licence offered on that page. Create both when asked, and read the licence terms.
 2. Install it.
@@ -264,7 +264,7 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The clone took 9 seconds on the verification machine. Type every command below in this folder, the *repository root*: the folder that contains `scripts`, `notebooks`, `wolfram` and `studies`. The repository's `.gitattributes` turns off line-end conversion, so every file arrives with exactly the committed bytes, even when Git is set up with `core.autocrlf=true` (as on the verification machine).
+The clone took 9 to 20 seconds on the verification machine. Type every command below in this folder, the *repository root*: the folder that contains `scripts`, `notebooks`, `wolfram` and `studies`. The repository's `.gitattributes` turns off line-end conversion, so every file arrives with exactly the committed bytes, even when Git is set up with `core.autocrlf=true` (as on the verification machine).
 
 **Fetch the pinned solver engine** (83 MB, a few seconds). The Rust program cannot be built without it. Windows, in PowerShell 7:
 
@@ -278,7 +278,7 @@ macOS, Linux, and Git Bash on Windows:
 bash scripts/setup_solver.sh win11
 ```
 
-It must print these three lines (measured: 5.0 to 5.8 s in PowerShell, 4.7 s in Git Bash):
+It must print these three lines (measured: 5.0 to 12.4 s in PowerShell, 4.7 s in Git Bash; the times depend on the network and on how busy the computer is, and the longest one was measured while the processor load was 99 to 100 %):
 
 ```
 solver_platform=win11
@@ -286,11 +286,11 @@ solver_commit=a8fdff459adfe181573d7924b18bffbdf378fdb3
 solver_setup=OK
 ```
 
-If you run the set-up a second time, the engine is already there. The first two lines are the same, the last line is `solver_setup=ALREADY-PRESENT` and the exit code is 0 (measured: 0.3 s in PowerShell, 1.9 s in Git Bash). **This also means success.** If instead the scripts report an error ending in `remove it and rerun`, delete the folder `vendor/rustSolveIt` and run the set-up again. There are two such errors: `vendor/rustSolveIt is an incomplete checkout (an interrupted or failed download)` and `vendor/rustSolveIt is at <commit>, expected <commit>`. The PowerShell script writes `vendor\rustSolveIt` instead. Both errors exit with code 1. (These two errors were read from the scripts, not tested.) To delete the folder, type `Remove-Item -Recurse -Force vendor/rustSolveIt` in PowerShell, or `rm -rf vendor/rustSolveIt` on macOS and Linux.
+If you run the set-up a second time, the engine is already there. The first two lines are the same, the last line is `solver_setup=ALREADY-PRESENT` and the exit code is 0 (measured: 0.3 to 2.1 s in PowerShell, 1.9 s in Git Bash). **This also means success.** If instead the scripts report an error ending in `remove it and rerun`, delete the folder `vendor/rustSolveIt` and run the set-up again. There are two such errors: `vendor/rustSolveIt is an incomplete checkout (an interrupted or failed download)` and `vendor/rustSolveIt is at <commit>, expected <commit>`. The PowerShell script writes `vendor\rustSolveIt` instead. Both errors exit with code 1. (These two errors were read from the scripts, not tested.) To delete the folder, type `Remove-Item -Recurse -Force vendor/rustSolveIt` in PowerShell, or `rm -rf vendor/rustSolveIt` on macOS and Linux.
 
-Use the argument `win11` on every platform; it is the engine that produced the committed results. (For this notebook the choice of engine does not change any number: the notebook runs the program only to print its configuration, cell 24.)
+Use the argument `win11` on every platform; it is the engine that produced the committed results. (For this notebook the choice of engine does not change any number: the notebook runs the program only to print its configuration, cell 24.) The `win11` engine was fetched and built for this record only on Windows 11. The student guide `provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md` (Sections 2.3 and 4.5) records that it was also built and run on Ubuntu 24.04. **Fetching and building it on macOS was not tested**; the guide says that nothing was tested on macOS and that its `macos` engine was not run.
 
-**Build the Rust program** (the same command in every shell; measured 8.6 to 13 s):
+**Build the Rust program** (the same command in every shell; measured 8.6 to 19.6 s, the longer times on a fully loaded computer):
 
 ```
 cargo build --manifest-path studies/dirac16complex_cosmology/Cargo.toml --release
@@ -322,7 +322,7 @@ wolframscript -file scripts/verify_dirac16complex_mathematica_notebook.wls
 echo $?
 ```
 
-The second line prints the exit code, which must be `0`. The run takes 4 to 7 minutes, and up to about 10 minutes when the computer is busy with other work (Part 4.4); during that time nothing is printed; the 8 result lines appear together at the end. Do not close the terminal and do not press Ctrl+C. To time it, type `Measure-Command { wolframscript -file scripts/verify_dirac16complex_mathematica_notebook.wls | Out-Host }` in PowerShell, or put `time ` in front of the command in bash or zsh.
+The second line prints the exit code, which must be `0`. The run takes 4 to 7 minutes, and up to about 10 minutes when the computer is busy with other work (Part 4.4); during that time nothing is printed; the 8 result lines appear together at the end. Do not close the terminal and do not press Ctrl+C. (If you must stop it, Ctrl+C ends WolframScript and the Wolfram kernel; a run stopped before the figures are drawn changes no file of the repository, but it leaves two small temporary files behind, Part 5.) To time it, type `Measure-Command { wolframscript -file scripts/verify_dirac16complex_mathematica_notebook.wls | Out-Host }` in PowerShell, or put `time ` in front of the command in bash or zsh.
 
 **Variants (all tested).**
 
@@ -466,7 +466,7 @@ The 8 PNG files of Part 2.3: the EXP-1 mixed state (density frozen, pressure osc
 
 ### 4.5 Other Wolfram versions and operating systems
 
-Only Wolfram 15.0.1 on Windows 11 was tested. Expected differences elsewhere (not tested):
+Only Wolfram 15.0.1 on Windows 11 was tested, as the desktop product with a Professional licence. The free Wolfram Engine for Developers was not tested, and neither was the front-end PNG export of cell 26 under its licence (Part 3.2). Expected differences elsewhere (not tested):
 
 * `wolframVersion` in the report records the kernel's `$VersionNumber`, so another version changes that value.
 * On macOS and Linux the program has no `.exe`, so `engine.binary` in the report reads `studies/dirac16complex_cosmology/target/release/dirac16complex_cosmology`. The Stage-3 gate ignores this one key for that reason.
@@ -477,10 +477,10 @@ In all these cases, the verdict line decides whether the verification passed. Us
 
 ## 5. Side effects
 
-* **Overwritten in the repository** (every run that reaches cells 26 to 36; Part 2.3): `artifacts/dirac16complex/numerics/mathematica-report.json` and the 8 PNG files in `artifacts/dirac16complex/numerics/figures/mathematica/`. After a successful run on the verification machine they had exactly the committed bytes, so `git status` stayed empty; only their modification times changed. **A failed run can leave a different report behind**: without the built program, the report was rewritten with the verdict `FAILURE` (run C1). A run stopped before cell 26 (for example by lack of memory, run B2, or by Ctrl+C) changes nothing; one stopped between cells 26 and 36 has rewritten some figures but not the report.
+* **Overwritten in the repository** (every run that reaches cells 26 to 36; Part 2.3): `artifacts/dirac16complex/numerics/mathematica-report.json` and the 8 PNG files in `artifacts/dirac16complex/numerics/figures/mathematica/`. After a successful run on the verification machine they had exactly the committed bytes, so `git status` stayed empty; only their modification times changed. **A failed run can leave a different report behind**: without the built program, the report was rewritten with the verdict `FAILURE` (run C1). A run stopped before cell 26 (for example by lack of memory, run B2, or by Ctrl+C) changes nothing in the repository: after run I1, stopped with Ctrl+C after 40 seconds while it evaluated cell 11, `git status --porcelain --untracked-files=all --ignored` printed nothing. It does leave two temporary files outside the repository (below). A run stopped between cells 26 and 36 has rewritten some figures but not the report.
 * **Created in the repository:** nothing by the verifier, except the folder `artifacts/dirac16complex/numerics/figures/mathematica/` if it is missing. After every run, `git status --porcelain --untracked-files=all --ignored` listed only `vendor/rustSolveIt/` and `studies/dirac16complex_cosmology/target/`, which your preparation (Part 3.4) created and which Git ignores (83 MB and 16 MB).
 * **Not touched:** the notebook `notebooks/Dirac16ComplexDarkSector.nb` (the verifier reads it but never saves it), every input of Part 2.2, and the committed Rust results.
-* **Temporary files.** The kernel's temporary folder (`$TemporaryDirectory`, normally `%TEMP%` on Windows) was empty after a run that was given a fresh one (runs B1 and S3). WolframScript keeps the console output it relays in short-lived files `tmp_<10 characters>` in `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\` on Windows; other WolframScript jobs were active at the same time, so these files could not be attributed one by one, and none of the files left there after the runs contained this verifier's output. The Wolfram front end, started for the PNG export, appends 25 lines of start-up information to its log `%LOCALAPPDATA%\Wolfram\Logs\FrontEnd\system.log` (measured for run B1) and updates its cache folder `%LOCALAPPDATA%\Wolfram\FrontEnd\15.0 Caches\`. The modification times of `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` and of the paclet manager's file `%APPDATA%\Wolfram\Paclets\Configuration\managerData_15.0.1.0.pmd2` also changed during the runs; with other Wolfram jobs active, this cannot be attributed to this verifier with certainty. None of these files belongs to the repository. The locations on macOS and Linux were not examined.
+* **Temporary files.** The kernel's temporary folder (`$TemporaryDirectory`, normally `%TEMP%` on Windows) was empty after a run that was given a fresh one (runs B1 and S3). On Windows, WolframScript writes two files named `tmp_<10 characters>` into the folder `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\` for every run: an empty one, created when the run starts, and one that holds a copy of everything the run prints. A run that ends by itself, with `OK` or with `FAILED`, deletes both; none of the files left in that folder after the completed runs of this record contained this verifier's output (other WolframScript jobs were active at the same time, so the files could not be attributed one by one). **An interrupted run leaves both files behind.** Measured on 2026-10-07 (runs I1 and I2, Part 6): a run with `--verbose` that was stopped with Ctrl+C after 40 seconds, and one whose `wolframscript.exe` was ended with `Stop-Process` after 40 seconds, each left an empty file (created 0.15 and 0.22 seconds after the start) and a file of 430 and 432 bytes holding the 10 lines `cell 1 time=...` to `cell 10 time=...` printed so far. These files are not in the repository, are small and do no harm. You may delete them when no WolframScript job is running, in PowerShell with `Remove-Item "$env:LOCALAPPDATA\Wolfram\WolframScript\WolframScriptTemporary\tmp_*"` (the four leftover files of runs I1 and I2 were deleted by name with `Remove-Item`, because other WolframScript jobs were running). The Wolfram front end, started for the PNG export, appends 25 lines of start-up information to its log `%LOCALAPPDATA%\Wolfram\Logs\FrontEnd\system.log` (measured for run B1) and updates its cache folder `%LOCALAPPDATA%\Wolfram\FrontEnd\15.0 Caches\`. The modification times of `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` and of the paclet manager's file `%APPDATA%\Wolfram\Paclets\Configuration\managerData_15.0.1.0.pmd2` also changed during the runs; with other Wolfram jobs active, this cannot be attributed to this verifier with certainty. None of these files belongs to the repository. The locations on macOS and Linux were not examined.
 * **Processes.** One `wolframscript.exe` starts one Wolfram kernel `wolfram.exe` (`-runfirst ... $EvaluationEnvironment="Script" ... -linkmode Connect`). The kernel starts the converter programs `NBImport.exe` and `XML.exe` (the notebook import), the front end `WolframNB.exe /b /min -server` (no visible window) for the first PNG export, and the Rust program once for `print-config` (cell 24, a fraction of a second). All of them end with the run. The kernel counts against the licence's limit on simultaneous kernels. Two more Wolfram processes were seen in the process tree of run S3 (and the second one also in run S2): just before the kernel, WolframScript starts `wolfram.exe -wlbanner -licenseinfo`, a licence query that ended within 2 seconds; and the front end starts its own helper kernel `wolfram -pacletreadonly -sandbox -noinit -pwfile "...\Configuration\Licensing\playerpass" ...` (peak working set 127 MiB), which ended with the run.
 * **Memory:** about 35 GiB at the peak (Part 4.4). Other programs on the computer may be slowed down while it lasts.
 * **Network.** The verifier and the notebook make no network access of their own. On the verification machine, the Wolfram setting `$AllowInternet` (whether Wolfram may use the internet) was `True` when it was checked on 2026-10-02:
@@ -497,7 +497,7 @@ In all these cases, the verdict line decides whether the verification passed. Us
   git checkout -- artifacts/dirac16complex/numerics/mathematica-report.json artifacts/dirac16complex/numerics/figures/mathematica
   ```
 
-  (tested after the failed run C1: the report had its committed sha256 again). To remove the solver engine and the build as well: Windows PowerShell `Remove-Item -Recurse -Force vendor/rustSolveIt, studies/dirac16complex_cosmology/target`; macOS and Linux `rm -rf vendor/rustSolveIt studies/dirac16complex_cosmology/target`.
+  (tested after the failed run C1: the report had its committed sha256 again). To remove the solver engine and the build as well: Windows PowerShell `Remove-Item -Recurse -Force vendor/rustSolveIt, studies/dirac16complex_cosmology/target`; macOS and Linux `rm -rf vendor/rustSolveIt studies/dirac16complex_cosmology/target`. After an interrupted run on Windows, also delete WolframScript's two leftover temporary files when no WolframScript job is running (Temporary files, above).
 
 ## 6. Verification record
 

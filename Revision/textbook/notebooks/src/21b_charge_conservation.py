@@ -84,7 +84,7 @@ FACTS = {
     ),
     "final_lines": [
         "PASS the eight figure files of notebook 21b exist",
-        "ALL 20 CHECKS PASSED (notebook 21b)",
+        "ALL 21 CHECKS PASSED (notebook 21b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming a file in the folder `Revision/algebra`, "
@@ -101,8 +101,9 @@ CELLS = [
 
     The first of Sakharov's three conditions for making more matter than antimatter
     is that some process must **change** the number that counts matter minus
-    antimatter. In this theory the role of that number is played by the **U(1)
-    charge** $Q$ of the field: the Lagrangian does not change when the field is
+    antimatter. The theory of this book contains no baryons; the only number of this
+    kind it has is the **U(1) charge** $Q$ of the field: the Lagrangian does not
+    change when the field is
     multiplied by a constant phase $e^{i\alpha}$, and by Noether's theorem the charge
     of this symmetry cannot change. This notebook checks that statement exactly in
     the author's primordial metric, for **every** history $a_4(x_4)$, in particular
@@ -217,7 +218,8 @@ CELLS = [
     whole-number numpy arrays and as exact sympy matrices), checks that they are eight
     real $16 \times 16$ matrices with the Clifford relation of signature (4,4), builds
     $C$, $\Gamma$, $B$ and the generators $S^{ab}$, and reads the Revision records
-    whose checks this notebook reproduces.
+    whose checks this notebook reproduces. It also checks that the record's formula
+    current defines the current and the charge density exactly as this notebook does.
     """),
     code(r'''
     import numpy as np  # numbers, arrays, matrices
@@ -259,7 +261,12 @@ CELLS = [
     PY_PAIR = {c["name"]: c["verdict"] for c in json.loads(repository_file(
         "Revision/pairing/reports/python-pairing.json").read_text(
         encoding="utf-8"))["checks"]}
-    say("record formula 'current': " + THEORY["current"]["wl"][:150] + " ...")
+    clauses = THEORY["current"]["wl"].split("; ")  # the statements of the formula
+    say("record formula 'current': " + clauses[0] + "; " + clauses[2])
+    check(clauses[0] == "J^mu = -i Psibar gamma^mu Psi"
+          and clauses[2] == "J^x4 = Psi^dagger B Psi",
+          "the record defines J^mu = -i Psibar gamma^mu Psi and J^x4 = Psi^dagger B Psi",
+          record="Revision/theory/field-theory.json, formula current")
     '''),
     md(r"""
     ## 6. The canonical spin connection of the author's metric
@@ -439,8 +446,9 @@ CELLS = [
     lhs_c4, _, _ = coefficients(lhs_ctl, vol_ctl)  # control: the volume-growth term
     lhs_c4_dfl, _, _ = coefficients(lhs, cos_z)  # author's metric: zero
     say(f"control metric: sqrt|g| = {vol_ctl}")
-    for mu in range(8):
-        say(f"{COORDS[mu]}: author {str(dfl[mu][0]):>28} | control {str(ctl[mu][0]):>28}")
+    for mu in range(8):  # the coefficients in units of a4' (sympy divides exactly)
+        say(f"{COORDS[mu]}: author's metric {str(sp.simplify(dfl[mu][0] / a4p)):>2} a4'"
+            f" | control metric {str(sp.simplify(ctl[mu][0] / a4p)):>2} a4'")
     expected_dfl = [a4p] * 3 + [0] + [-a4p] * 3 + [0]  # +a4' space, -a4' extra times
     expected_ctl = [a4p] * 3 + [0] + [a4p] * 3 + [0]  # all six +a4'
     check(all(c[2] for c in dfl + ctl)

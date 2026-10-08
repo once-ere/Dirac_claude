@@ -695,7 +695,10 @@ CELLS = [
     $+J^{(x4)}$. It also computes the size of the left-hand side of the field
     equation, $|E_{\pm2}[\cdot]|$ (the square root of the sum of the squared moduli of
     its 16 components). Where a field solves the equation, $|E|$ is zero up to
-    rounding (about $10^{-15}$); where it does not, $|E|$ is of order 1. The figure
+    rounding (about $10^{-15}$). Where it does not, $|E|$ is far from zero: since
+    $E_{-2}[\Psi^*] = E_{+2}[\Psi^*] + 4\Psi^*$ and the first term vanishes,
+    $|E_{-2}[\Psi^*]| = 4|\Psi^*|$, about 10 here (and in the same way
+    $|E_{+2}[\Gamma\Psi^*]| = 4|\Gamma\Psi^*|$). The cell checks this too. The figure
     shows the charge densities on the left and $|E|$ on a logarithmic scale on the
     right.
     """),
@@ -727,9 +730,11 @@ CELLS = [
     say(f"largest |E| of the two solutions below 1e-12: "
         f"{max(values[0].max(), values[1].max()) < 1e-12}")
     say(f"smallest |E| of the two controls: {min(values[2].min(), values[3].min()):.2f}")
+    field_size = size(Psi_conj)  # |Psi*| = |Gamma Psi*| at every time (Gamma permutes)
     check(max(values[0].max(), values[1].max()) < 1e-12
-          and min(values[2].min(), values[3].min()) > 0.1,
-          "numerically: the solutions give |E| below 1e-12, the controls above 0.1")
+          and np.allclose(values[2], 4 * field_size)
+          and np.allclose(values[3], 4 * field_size),
+          "numerically: the solutions give |E| below 1e-12, the controls |E| = 4 |field|")
 
     B_c = B.astype(complex)  # the charge density is J^(x4) = Psi^dagger B Psi
     density = {}
@@ -766,7 +771,8 @@ CELLS = [
                 "side of the field equation versus $x_4$, logarithmic scale. $\\Psi^\\ast$ "
                 "solves the equation with the same mass $+2$ and $\\Gamma\\Psi^\\ast$ the "
                 "one with the reversed mass $-2$ ($|E|$ at rounding level, about "
-                "$10^{-16}$), while the exchanged masses fail ($|E|$ of order 1).")
+                "$10^{-16}$), while the exchanged masses fail ($|E|$ equals four "
+                "times the size of the field, about 10).")
     '''),
     md(r"""
     ## 11. How the bilinears change: the sign table

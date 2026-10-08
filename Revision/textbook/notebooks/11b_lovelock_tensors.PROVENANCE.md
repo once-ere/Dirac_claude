@@ -7,7 +7,7 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It builds the Revision Rust program lovelock_gkd with cargo inside the notebook (about a minute when the program file is missing, about a second when it is up to date) and runs it; the program computes exactly the curvature of the author's metric and the three Lovelock tensors of Lovelock's equation (4.38) in eight dimensions with GKD, and the notebook checks that its four output files are byte for byte the committed Revision records (the report apart from two floating-point rounding errors, which must stay below 1e-10). Then it recomputes the Riemann tensor with sympy and the three Lovelock tensors and scalars with its own Python GKD sum, compares every component exactly with the records, reproduces the counters of the Rust sums, repeats the sums of orders 1 and 2 literally without skipping any term, derives and checks the expansion of every Lovelock tensor along the column of its free upper label, and checks that the first Lovelock tensor is -4 times the Einstein tensor, the second -8 times the Gauss-Bonnet tensor, the third scalar 8 times the cubic Lovelock density, that the traces obey the trace identity and that the fourth tensor vanishes; it draws five teaching figures, among them the components of the three tensors. The Rust program writes its four output files (curvature.json, lovelock-tensors.json, lovelock-components.md and lovelock-report.json) into the folder `Revision/gkd_lovelock/code/target/textbook_11b`, inside the Rust build folder, which git ignores.
+It builds the Revision Rust program lovelock_gkd with cargo inside the notebook when the program file is missing (a few seconds, up to a minute on a slow computer; about a second when it is up to date) and runs it; the program computes exactly the curvature of the author's metric and the three Lovelock tensors of Lovelock's equation (4.38) in eight dimensions with GKD, and the notebook checks that its four output files are byte for byte the committed Revision records (the report apart from two floating-point rounding errors, which must stay below 1e-10). Then it recomputes the Riemann tensor with sympy and the three Lovelock tensors and scalars with its own Python GKD sum, compares every component exactly with the records, reproduces the counters of the Rust sums, repeats the sums of orders 1 and 2 literally without skipping any term, derives and checks the expansion of every Lovelock tensor along the column of its free upper label, and checks that the first Lovelock tensor is -4 times the Einstein tensor, the second -8 times the Gauss-Bonnet tensor, the third scalar 8 times the cubic Lovelock density, that the traces obey the trace identity and that the fourth tensor vanishes; it checks again that every check it quotes from the Revision records is there with the verdict PASS; it draws five teaching figures, among them the components of the three tensors. The Rust program writes its four output files (curvature.json, lovelock-tensors.json, lovelock-components.md and lovelock-report.json) into the folder `Revision/gkd_lovelock/code/target/textbook_11b`, inside the Rust build folder, which git ignores.
 
 It reads or reproduces these Revision records:
 
@@ -18,7 +18,7 @@ It reads or reproduces these Revision records:
 - `Revision/gkd_lovelock/results/lovelock-report.json`: the 19 checks and the counters of the GKD sums; reproduced byte for byte apart from the two floating-point deviations of its brute-force checks, and the counters recomputed
 - `Revision/gkd_lovelock/results/python-lovelock-report.json`: the independent sympy verification (49 checks); its checks on the Riemann tensor, on the Rust components, on the literal unpruned sums of orders 1 and 2 and on the Einstein, Gauss-Bonnet and cubic identities are reproduced
 
-The notebook has 52 cells (28 markdown cells and 24 code cells) in these sections:
+The notebook has 54 cells (29 markdown cells and 25 code cells) in these sections:
 
 - 1. What this notebook computes
 - 2. How to run this notebook
@@ -30,9 +30,10 @@ The notebook has 52 cells (28 markdown cells and 24 code cells) in these section
 - 8. The three Lovelock tensors with a Python GKD sum
 - 9. Three classical identities, and the traces
 - 10. The components of the three tensors at one moment
-- 11. What this notebook showed
+- 11. The Revision records quoted in this notebook
+- 12. What this notebook showed
 
-It prints 33 PASS lines (one per check), 12 RESULT lines (key numbers) and draws 5 figures.
+It prints 36 PASS lines (one per check), 12 RESULT lines (key numbers) and draws 5 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -40,7 +41,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 11b (The three Lovelock tensors of the author's metric, computed with GKD) is the file `Revision/textbook/notebooks/11b_lovelock_tensors.ipynb` of the repository Dirac_claude. It builds the Revision Rust program lovelock_gkd with cargo inside the notebook (about a minute when the program file is missing, about a second when it is up to date) and runs it; the program computes exactly the curvature of the author's metric and the three Lovelock tensors of Lovelock's equation (4.38) in eight dimensions with GKD, and the notebook checks that its four output files are byte for byte the committed Revision records (the report apart from two floating-point rounding errors, which must stay below 1e-10). Then it recomputes the Riemann tensor with sympy and the three Lovelock tensors and scalars with its own Python GKD sum, compares every component exactly with the records, reproduces the counters of the Rust sums, repeats the sums of orders 1 and 2 literally without skipping any term, derives and checks the expansion of every Lovelock tensor along the column of its free upper label, and checks that the first Lovelock tensor is -4 times the Einstein tensor, the second -8 times the Gauss-Bonnet tensor, the third scalar 8 times the cubic Lovelock density, that the traces obey the trace identity and that the fourth tensor vanishes; it draws five teaching figures, among them the components of the three tensors. The Rust program writes its four output files (curvature.json, lovelock-tensors.json, lovelock-components.md and lovelock-report.json) into the folder `Revision/gkd_lovelock/code/target/textbook_11b`, inside the Rust build folder, which git ignores. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It also needs Rust (the program cargo, version 1.91.1 or newer), because it runs the Rust program lovelock_gkd, which is part of the repository and is built on your computer.
+Notebook 11b (The three Lovelock tensors of the author's metric, computed with GKD) is the file `Revision/textbook/notebooks/11b_lovelock_tensors.ipynb` of the repository Dirac_claude. It builds the Revision Rust program lovelock_gkd with cargo inside the notebook when the program file is missing (a few seconds, up to a minute on a slow computer; about a second when it is up to date) and runs it; the program computes exactly the curvature of the author's metric and the three Lovelock tensors of Lovelock's equation (4.38) in eight dimensions with GKD, and the notebook checks that its four output files are byte for byte the committed Revision records (the report apart from two floating-point rounding errors, which must stay below 1e-10). Then it recomputes the Riemann tensor with sympy and the three Lovelock tensors and scalars with its own Python GKD sum, compares every component exactly with the records, reproduces the counters of the Rust sums, repeats the sums of orders 1 and 2 literally without skipping any term, derives and checks the expansion of every Lovelock tensor along the column of its free upper label, and checks that the first Lovelock tensor is -4 times the Einstein tensor, the second -8 times the Gauss-Bonnet tensor, the third scalar 8 times the cubic Lovelock density, that the traces obey the trace identity and that the fourth tensor vanishes; it checks again that every check it quotes from the Revision records is there with the verdict PASS; it draws five teaching figures, among them the components of the three tensors. The Rust program writes its four output files (curvature.json, lovelock-tensors.json, lovelock-components.md and lovelock-report.json) into the folder `Revision/gkd_lovelock/code/target/textbook_11b`, inside the Rust build folder, which git ignores. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It also needs Rust (the program cargo, version 1.91.1 or newer), because it runs the Rust program lovelock_gkd, which is part of the repository and is built on your computer.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -231,7 +232,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS all five figure files of the notebook exist
-ALL 33 CHECKS PASSED (notebook 11b)
+ALL 36 CHECKS PASSED (notebook 11b)
 ```
 
 and the notebook must show 5 figures below the cells that draw them.
@@ -314,10 +315,11 @@ In [14]  PASS the Python sums reproduce the counters of the Rust sums
 In [14]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, counters k = 1, 2, 3
 In [15]  PASS all 3 x 64 components of P(1), P(2), P(3) equal the Rust components exactly
 In [15]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
-In [15]      rust_k1/k2/k3_mixed_components_agree
+In [15]      rust_k1_mixed_components_agree, rust_k2_mixed_components_agree and
+In [15]      rust_k3_mixed_components_agree
 In [15]  PASS the scalars L(1), L(2), L(3) equal the Rust scalars exactly
 In [15]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
-In [15]      rust_L1/L2/L3_agrees
+In [15]      rust_L1_agrees, rust_L2_agrees and rust_L3_agrees
 In [15]  PASS only the 8 diagonal components are nonzero, for k = 1, 2, 3
 In [16]  PASS the literal sum of order 1, without skipping, gives the same P(1) and L(1)
 In [16]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, check
@@ -349,7 +351,24 @@ In [22]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, che
 In [22]      k3_trace_identity
 In [23]  PASS at a4' = 2H, a4'' = H^2: only diagonal entries, space and extra-time entries equal,
 In [23]      hidden entry their mean; G = diag(4, 4, 4, 33, 2, 2, 2, 3) H^2
-In [24]  PASS all five figure files of the notebook exist
+In [24]  PASS the 17 checks quoted from python-lovelock-report.json are there and PASS
+In [24]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
+In [24]      rust_riemann_agrees, rust_k1_mixed_components_agree, rust_k2_mixed_components_agree,
+In [24]      rust_k3_mixed_components_agree, rust_L1_agrees, rust_L2_agrees, rust_L3_agrees,
+In [24]      k1_unpruned_literal_sum_agrees, k2_unpruned_literal_sum_agrees,
+In [24]      k1_equals_minus_4_einstein, L1_equals_2R, k2_equals_minus_8_gauss_bonnet,
+In [24]      L2_equals_4_gauss_bonnet, L3_equals_8_cubic_lovelock_density,
+In [24]      normalisation_P1_derived_minus_4, normalisation_P2_derived_minus_8,
+In [24]      normalisation_L3_cubic_derived
+In [24]  PASS the 8 checks quoted from lovelock-report.json are there and PASS
+In [24]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, checks
+In [24]      riemann_antisymmetry, mixed_riemann_free_of_sin_third, k1_trace_identity,
+In [24]      k2_trace_identity, k3_trace_identity, k4_tensor_vanishes, k1_brute_force_numeric,
+In [24]      k2_brute_force_numeric
+In [24]  PASS the sympy verification has 49 checks and the Wolfram verification 29, none failed
+In [24]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json and wolfram-
+In [24]      gkd-report.json, checkCount and failedCheckCount
+In [25]  PASS all five figure files of the notebook exist
 ```
 
 ### 3.2 Key numbers
@@ -379,7 +398,7 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS all five figure files of the notebook exist
-ALL 33 CHECKS PASSED (notebook 11b)
+ALL 36 CHECKS PASSED (notebook 11b)
 ```
 
 ### 3.4 Figures
@@ -428,8 +447,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 2 minutes (FACTS: 90 s); nbkit stops a cell after 900 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 77.0 s, peak memory of the kernel process 231 MiB;
-- the check run: 55.3 s, peak memory of the kernel process 232 MiB.
+- the build run: 99.6 s, peak memory of the kernel process 231 MiB;
+- the check run: 95.6 s, peak memory of the kernel process 231 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -441,8 +460,8 @@ Expected run time: about 2 minutes (FACTS: 90 s); nbkit stops a cell after 900 s
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/11b_lovelock_tensors.ipynb`: `3469a6ac6f2ac86e79e1aee8dd23b886dfa2291fada5260a6c8b1fb69f6ab313`
-- `Revision/textbook/notebooks/src/11b_lovelock_tensors.py`: `7eadd28dff41232b64dd5c46df6317d85f48a7d1abe40ce922e91851b7b4a0aa`
+- `Revision/textbook/notebooks/11b_lovelock_tensors.ipynb`: `f02bc710ec0f5e632b20cde030d2d11d71dcc2476249801a5f4f6864806fa1d2`
+- `Revision/textbook/notebooks/src/11b_lovelock_tensors.py`: `b97b6384f6c9a64b24fcade930ad23bf5070353236dd739d9dd76f9d5a6d95db`
 - `Revision/textbook/figures/11b.captions.json`: `9ab514fdea76e9a994f74733c1a1b76a47f4275a0a785c7e06a7651fc7faf9da`
 - `Revision/textbook/figures/11b_1_work_of_the_sums.png`: `025258e33f677caa2c050d355282d05c67acb6be69eec694b11541702de9aead`
 - `Revision/textbook/figures/11b_2_curvature_of_planes.png`: `0203fcb635d1794645a9dbb3246177fe2ef0514e21c8f21fa25f5e211878abf5`
@@ -456,4 +475,4 @@ Expected run time: about 2 minutes (FACTS: 90 s); nbkit stops a cell after 900 s
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":231.0,"seconds":77.0},"check":{"date":"2026-10-07","files":6,"peak_mb":232.0,"result":"passed","seconds":55.3},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":231.0,"seconds":99.6},"check":{"date":"2026-10-07","files":6,"peak_mb":231.0,"result":"passed","seconds":95.6},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
