@@ -5776,7 +5776,7 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 - Normal ordering: a prescription that drops the energy $-8E$ of the filled sea per momentum.
 - Flat 4+4 space, or the frozen-coefficient model of Section 10.3 (the coefficients of one point and one instant, without the two hidden-direction terms of the author's field equation, among them the spin-connection term $3H\gamma^{(x_8)}$; keeping that term breaks $Bh = h^\dagger B$), for the one-particle statements and the Fock spaces; the good sector itself is a restriction imposed by hand (no mechanism that removes the extra-time waves is derived).
 - The deflating history $a_4 = AHx_4$ ($A = H = m = 1$) is a PRESCRIBED BACKGROUND, and the local-frame model of Section 10.39 evaluates the coefficients at one instant and one hidden position (`parameters.json`; `ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`).
-- The Z2 brane condition at $z = \pi/2$ is ASSUMED by the Kohn-Sham record (Chapter 14); the quantisation of this chapter imposes no boundary condition there.
+- The Z2 brane condition at $z = \pi/2$ is ASSUMED by the Kohn-Sham record (Chapter 14); the quantisation of this chapter imposes no boundary condition there. The total charge $Q$ is constant in time only under such an ASSUMED no-flux condition at $z = \pi/2$; what is proved is its local conservation law (Section 10.2).
 
 **Hypothesis.** That the big bang creates universes in pairs of masses $+m$ and $-m$ is the author's HYPOTHESIS; no equation of this chapter describes a creation, in pairs or otherwise (Section 10.45).
 
