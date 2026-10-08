@@ -24,6 +24,16 @@ Expected output: the first command prints `author notebook: 996 input cells`, th
 
 Measured run time: between 4 and 11 s for the first Wolfram command and between 6 and 16 s for the second (each including the kernel start), between 13 and 22 s for the builder and for `--check`, about 6 s for `--survey`, and between 36 and 82 s for the test (wall-clock times on Windows 11 Pro for Workstations, Intel Core Ultra 9 275HX, 24 logical processors, measured while other jobs were running). Side effects: the two Wolfram commands write only `provenance/dirac_matrices/author_notebook_T16.json` and `provenance/dirac_matrices/repository_wolfram_gammas.json`; the builder writes only this file (with `--check` and `--survey` nothing): it imports repository modules without writing bytecode caches, and of the a4 checker it executes only the definitions its representation functions need. The test command may write `tests/__pycache__/` (ignored by git) unless `PYTHONDONTWRITEBYTECODE=1` is set. The notebook and every compared file are only read. Tested with: Wolfram 15.0.1 (recorded by the extractors in both JSON files), WolframScript 1.14.0, Python 3.14.5, sympy 1.14.0, numpy 2.4.6, on Windows 11; the macOS and Linux commands above were not executed for this file (the Python files were checked against the Python 3.10 grammar only). Every check is exact: another Wolfram version could evaluate the notebook cells differently (the recorded version identifies the one used), and another sympy version could fail to simplify one of the symbolic identities; either would show as a FAIL line or as a difference found by `--check`. The builder prints the versions it uses.
 
+**The files of this provenance and their sha256** (computed by the builder when it wrote this file; the repository stores every file byte for byte, `.gitattributes` `* -text`, so a fresh clone has the same digests; `--check` fails when any of these five files no longer matches this table):
+
+| file | role | sha256 |
+| --- | --- | --- |
+| `provenance/dirac_matrices/extract_from_author_notebook.wls` | WolframScript: evaluates the author's input cells, writes author_notebook_T16.json | `8421d9ac741ad842307187d10fce70b5f03114cfe83a736799af31e1f717b20d` |
+| `provenance/dirac_matrices/extract_repository_wolfram_gammas.wls` | WolframScript: loads the repository's Wolfram packages, writes repository_wolfram_gammas.json | `dcf1d5b2234c64f8e89e23a8774406fbf6e5984e20c531deeead4be164f5830a` |
+| `provenance/dirac_matrices/author_notebook_T16.json` | output of the first extractor, input of the builder | `3feb376352093c6da6492ac0f0a88508235a0ba6eb56bab632742bf2b9317cf5` |
+| `provenance/dirac_matrices/repository_wolfram_gammas.json` | output of the second extractor, input of the builder | `8c4d89f2dc368737d7d26458b5656fcf37c1e73e43dde517aef16e6543861d85` |
+| `provenance/dirac_matrices/build_dirac_matrices_md.py` | Python builder: runs the exact checks, writes this file | `220975d9626daa519b20cc0ddf3e37b623d03ad55ea52d957bc5bf8c70c88add` |
+
 ## Source: the author's input cells that were evaluated
 
 | input cell (index among the notebook's 996 Input cells) | CellLabel | defines |

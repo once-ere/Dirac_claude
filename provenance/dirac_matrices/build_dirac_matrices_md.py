@@ -84,6 +84,15 @@ NOTEBOOK = "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovel
 TESTED_WITH = {"Python": "3.14.5", "sympy": "1.14.0", "numpy": "2.4.6", "WolframScript": "1.14.0"}
 # Measured on the machine that produced the committed files (Windows 11 Pro for Workstations, Intel Core Ultra 9 275HX,
 # 24 logical processors), 2026-10-07/08, in the repository and in a fresh clone, while other jobs were running.
+PROVENANCE_FILES = [
+    ("provenance/dirac_matrices/extract_from_author_notebook.wls",
+     "WolframScript: evaluates the author's input cells, writes author_notebook_T16.json"),
+    ("provenance/dirac_matrices/extract_repository_wolfram_gammas.wls",
+     "WolframScript: loads the repository's Wolfram packages, writes repository_wolfram_gammas.json"),
+    ("provenance/dirac_matrices/author_notebook_T16.json", "output of the first extractor, input of the builder"),
+    ("provenance/dirac_matrices/repository_wolfram_gammas.json", "output of the second extractor, input of the builder"),
+    ("provenance/dirac_matrices/build_dirac_matrices_md.py", "Python builder: runs the exact checks, writes this file"),
+]
 MEASURED_RUN_TIMES = ("between 4 and 11 s for the first Wolfram command and between 6 and 16 s for the second (each "
                       "including the kernel start), between 13 and 22 s for the builder and for `--check`, about 6 s for "
                       "`--survey`, and between 36 and 82 s for the test (wall-clock times on Windows 11 Pro for "
@@ -1667,6 +1676,15 @@ def main():
       "version identifies the one used), and another sympy version could fail to simplify one of the symbolic "
       "identities; either would show as a FAIL line or as a difference found by `--check`. The builder prints the "
       "versions it uses.")
+    w("")
+    w("**The files of this provenance and their sha256** (computed by the builder when it wrote this file; the "
+      "repository stores every file byte for byte, `.gitattributes` `* -text`, so a fresh clone has the same "
+      "digests; `--check` fails when any of these five files no longer matches this table):")
+    w("")
+    w("| file | role | sha256 |")
+    w("| --- | --- | --- |")
+    for rel, role in PROVENANCE_FILES:
+        w(f"| `{rel}` | {role} | `{hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()}` |")
     w("")
     w("## Source: the author's input cells that were evaluated")
     w("")
