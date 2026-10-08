@@ -335,7 +335,7 @@
 	},
 	"sourceSha256":{
 		"Revision/gkd_lovelock/verification/LovelockGKDCheck.wl":"2ea70c740c477fd7e89493d068d6f9e00e48e0faf354a9c50f5525560d0655f8",
-		"Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls":"2a3bb5fa612f74d7de7bbc0d47e3b029d9e00a4dccb36d1624329f0b1a23f943"
+		"Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls":"bec6c8c5d25f62061b549a93fb5dc8e66c396cad1cd9bc6f08826129ae965a50"
 	},
 	"checkCount":29,
 	"expectedCheckCount":29,

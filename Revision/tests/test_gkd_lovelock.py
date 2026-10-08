@@ -68,7 +68,7 @@ PINNED = {
     "lovelock-report.json": "5c919ea827a5e6822a7196bb66ead64fa0a3e70f01f35b2bbfb99a65ae028bb8",
     "gkd-selftest.json": "6cd72bd8d5d8d2f7acb4825ed0a975a26aaad343e323b9c96f6d1fc4f294d1dc",
     "python-lovelock-report.json": "a4d6c0d5e2d063ce01611c06a98a4ba9cff0d61616b480b0b5828e2f3eee4d52",
-    "wolfram-gkd-report.json": "de3678170c7d62114f4d8f8e0d8024ec688bb0be3f2f4a870333243851e86bb1",
+    "wolfram-gkd-report.json": "71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189",
 }
 RUST_LOVELOCK_OUTPUTS = ["curvature.json", "lovelock-tensors.json", "lovelock-components.md", "lovelock-report.json"]
 PY_CHECK_COUNT = 49

@@ -11,11 +11,14 @@ input is unchanged; Windows 11, Wolfram 15.0.1, WolframScript 1.14.0, cargo/rust
   standard error.
 * The one output of the default run, `Revision/gkd_lovelock/results/wolfram-gkd-report.json`, was
   reproduced BYTE FOR BYTE in every run: three runs from two fresh clones on 2026-10-02 and three more
-  runs from two new fresh clones on 2026-10-07 (sha256
-  `de3678170c7d62114f4d8f8e0d8024ec688bb0be3f2f4a870333243851e86bb1`), so `git status` shows no change after a run.
+  runs from two new fresh clones on 2026-10-07 (sha256 `de3678170c7d...` for the script as it was then).
+  On 2026-10-08 the script was FIXED (see part 6.3): it no longer reports success when it cannot write
+  its report.  The report records the script's own sha256, so the committed report changed in that one
+  line; its sha256 is now `71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189`, and a run still leaves `git status` empty.
 * Run time (the script's own `time_total`), on a shared 24-core machine: 95.3 s, 100.3 s and 111.9 s on
   2026-10-02; 128.2 s, 135.0 s and 117.3 s on 2026-10-07 (the machine was fully loaded by other jobs).
-* No fix was needed; no discrepancy is open.
+* Fixed on 2026-10-08: an output file that cannot be written now prints one `ERROR: cannot write <path> (...)`
+  line and exits with code 2 (before, the run reported SUCCESS with exit code 0).  No discrepancy is open.
 
 This file is for a student who has never used Wolfram Language, WolframScript or Rust. Every
 instruction needed to run the check is written out below.
@@ -116,7 +119,7 @@ checks that it is the text recorded in `Revision/gkd_lovelock/results/PROVENANCE
 * `Revision/SPEC.md`, section 10: `gkd_lovelock/` "(GKD, Lovelock tensors, done; its verification
   completed)".
 * `Revision/tests/test_gkd_lovelock.py`: pins the sha256 of `wolfram-gkd-report.json`
-  (`de3678170c7d62114f4d8f8e0d8024ec688bb0be3f2f4a870333243851e86bb1`), requires its 29 checks to be PASS, and
+  (`71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189`), requires its 29 checks to be PASS, and
   in its slow test `test_SLOW_wolfram_check_reproduces_the_report` runs this script once (report and export
   directory in a temporary folder) and requires the same sha256.
 * `Revision/textbook/TEXTBOOK_SPEC.md` (the specification of the textbook "Universes in Pairs"),
@@ -148,7 +151,7 @@ has `* -text`, so git never converts line endings); both scripts are pure ASCII 
 
 | file | role | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls` | the script you run (WolframScript); builds and runs the exporter, does the checks, writes the report | `2a3bb5fa612f74d7de7bbc0d47e3b029d9e00a4dccb36d1624329f0b1a23f943` | 567 | 35,856 |
+| `Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls` | the script you run (WolframScript); builds and runs the exporter, does the checks, writes the report | `bec6c8c5d25f62061b549a93fb5dc8e66c396cad1cd9bc6f08826129ae965a50` | 574 | 36,660 |
 | `Revision/gkd_lovelock/verification/LovelockGKDCheck.wl` | the package it loads (context ``LovelockGKDCheck` ``): the verbatim `kδ`, the metric, the curvature, the Lovelock sums, the monomial reader | `2ea70c740c477fd7e89493d068d6f9e00e48e0faf354a9c50f5525560d0655f8` | 213 | 12,919 |
 
 The script finds the package and all its inputs relative to its OWN location
@@ -182,7 +185,7 @@ crate's own `target` folder is NOT used or created.
 
 | output | where | content |
 | --- | --- | --- |
-| the JSON report | the path given as the argument; the documented command writes the committed file `Revision/gkd_lovelock/results/wolfram-gkd-report.json` | 344 lines, 18,135 bytes, UTF-8 (it contains the letter δ), LF line endings, tab indentation, final newline; sha256 `de3678170c7d62114f4d8f8e0d8024ec688bb0be3f2f4a870333243851e86bb1` for the default run |
+| the JSON report | the path given as the argument; the documented command writes the committed file `Revision/gkd_lovelock/results/wolfram-gkd-report.json` | 344 lines, 18,135 bytes, UTF-8 (it contains the letter δ), LF line endings, tab indentation, final newline; sha256 `71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189` for the default run |
 | the exporter crate | `<export directory>/Cargo.toml` and `<export directory>/src/main.rs` (rewritten only when their text changes) | `main.rs` sha256 `b5130177e38adba151c043fd5048f023b2ab6521acc32f620efcc2b8e794a372` (recorded in the report as `exporterMainRsSha256`); `Cargo.toml` contains the absolute path of YOUR clone's crate, so its digest depends on where you cloned |
 | cargo's files | `<export directory>/Cargo.lock`, `<export directory>/target/` | written by `cargo build --release`; after a first build the whole export directory holds 24 files, about 5.3 MB on disk (on Windows; a tool that adds up file sizes, such as PowerShell's `Measure-Object`, shows 6.8 MB, because the exporter's `.exe` and `.pdb` in `target/release` are hard links to the same files in `target/release/deps`). Each later build from a clone in ANOTHER folder adds 7 more files (about 0.66 MB) under `target/`, so the folder grows; delete it to reclaim the space |
 | the GKD values | `<export directory>/gkd-values.bin` | deleted and rewritten on every run; 3,161,984 bytes; sha256 `3ddccfa744b3708bbd3e251852236b0a2d3370e957c67bae8d94168de6d2d695` (recorded in the report as `valuesFileSha256`) |
@@ -202,7 +205,7 @@ Windows.
 You need four things: git, a Wolfram kernel with WolframScript, a Rust toolchain (cargo) with its C
 linker, and a copy of the repository. About 1 GB of free memory is enough for the default run (the
 kernel peaked at about 0.5 GB of working set and 0.7 GB of private memory; the optional `diagonal`
-mode of part 3.5 needs about 2 GB), plus about 600 MB of disk for the repository and 6 MB for the
+mode of part 3.5 needs about 2 GB), plus about 800 MB of disk for the repository (about 520 MB of files and about 250 MB of git history; measured 2026-10-08) and 6 MB for the
 export directory (about 0.7 MB more for each further clone folder you run it from).
 
 ### 3.1 Install git
@@ -359,6 +362,7 @@ LOVELOCK_GKD_K3_UNPRUNED=diagonal wolframscript -file Revision/gkd_lovelock/veri
 | `ERROR: cargo build of the GKD exporter failed`, exit code 2 | cargo is not on the PATH of this terminal, the C linker is missing (`link.exe not found` on Windows, `linker cc not found` on Linux/macOS), or Rust is older than 1.87 (`use of unstable library feature` ... `is_multiple_of`) | check `cargo --version` in the SAME terminal; install the build tools / `xcode-select --install` / `build-essential` (parts 3.1 and 3.3); `rustup update`. To tell the causes apart, look at the lines around the message (all on standard output; the run stops after a few seconds, having written only `Cargo.toml` and `src/main.rs` into the export directory, which is harmless): if cargo is NOT on the PATH, the line just ABOVE the ERROR line reads `RunProcess::pnfd: Program cargo not found. Check Environment["PATH"].` and nothing follows the ERROR line; if cargo is found but the build fails, cargo's own error text (lines starting with `error:`) follows the ERROR line |
 | an error about a path that is too long (Windows) | `LOVELOCK_GKD_EXPORT_DIR` points to a deep folder | unset it, or use a short folder such as `C:\gkdx` |
 | `ERROR: the GKD exporter failed`, exit code 2 | the compiled exporter could not run (for example blocked by antivirus software) | allow the program `lovelock_gkd_export` in the export directory, or delete the export directory and run again |
+| `ERROR: cannot write <path> (...)`, exit code 2 | the report path (or the export directory) is in a folder that cannot be created, is itself a folder, is read-only, or the disk is full | give a writable path (the documented command writes into the repository, which must not be read-only); nothing else is written after this line |
 | `ERROR: missing input ...` or `ERROR: missing package ...`, exit code 2 | the repository is incomplete or you ran a copy of the script outside the repository | run the script that is inside a complete clone (part 3.4) |
 | `ERROR: LOVELOCK_GKD_K3_UNPRUNED must be diagonal or none`, exit code 2 | that variable has another value | remove it (`Remove-Item Env:LOVELOCK_GKD_K3_UNPRUNED` in PowerShell, `unset LOVELOCK_GKD_K3_UNPRUNED` in bash) |
 | a `check_...=false` line, `failed_checks=...` at the end, exit code 1 | an input file differs from the committed one (for example you edited `lovelock-tensors.json`) | `git status` shows the changed files; restore them with `git checkout -- <file>` and run again |
@@ -427,7 +431,8 @@ line `failed_checks=<names>`.
 
 `0` (all 29 checks passed and there are exactly 29). `1` if a check failed or the number of checks is
 not the expected one; `2` on a load, build or input/output error (a line starting with `ERROR:` says
-which).
+which); this includes a report or exporter file that cannot be written (`ERROR: cannot write <path>
+(...)`; since the fix of 2026-10-08 the script never reports success without its report).
 
 ### 4.3 The report, and how to check it
 
@@ -461,8 +466,9 @@ sha256sum Revision/gkd_lovelock/results/wolfram-gkd-report.json       # Linux
 git status --porcelain
 ```
 
-Expected: `SUCCESS 29 0`; the digest `de3678170c7d62114f4d8f8e0d8024ec688bb0be3f2f4a870333243851e86bb1`
-(PowerShell prints it in capitals: `DE3678170C7D62114F4D8F8E0D8024EC688BB0BE3F2F4A870333243851E86BB1`); and
+Expected (PowerShell): `SUCCESS 29 0`. Expected (macOS/Linux): the last five lines of the report end with
+`"checkCount":29`, `"failedCheckCount":0` and `"verdict":"SUCCESS"` (in that order, each on its own line). In both: the digest `71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189`
+(PowerShell prints it in capitals: `71C3F34F2F84662FBED6733379BEA115FFAD460DBAE38F641C692C6824399189`); and
 `git status --porcelain` prints NOTHING (the regenerated report equals the committed one). If you wrote
 the report to a path outside the repository, compare it with the committed file:
 `git diff --no-index -- Revision/gkd_lovelock/results/wolfram-gkd-report.json <your path>` prints
@@ -575,12 +581,16 @@ What a run of the documented command creates, overwrites or starts:
   next run rebuilds it, in a few seconds). The compiled
   `lovelock_gkd_export.exe` is not byte-identical between builds (Windows executables carry
   build-specific data); this does not matter, because the values it writes are identical.
-* **Temporary files of WolframScript:** on Windows, `wolframscript` creates one empty file
-  `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary\tmp_<10 letters>` at the
-  start and removes it at the exit (observed: created at 06:02:03 by run 1, gone after it). Like every
-  start of a Wolfram kernel, the kernel may also update its own settings and caches under the Wolfram
-  user folders (on Windows `C:\Users\<you>\AppData\Roaming\Wolfram` and `...\AppData\Local\Wolfram`); these
-  are outside the repository and not specific to this script.
+* **Temporary files of WolframScript:** on Windows, every run of `wolframscript` creates TWO files in
+  `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary\`: `tmp_<10 letters>`, empty,
+  at the start, and a second `tmp_<10 letters>`, created when the kernel starts, that holds a copy of
+  everything the script prints (about 1.8 KB for a full run of this script).  A normal exit removes both.
+  A run that is interrupted (Ctrl+C, closing the window, a killed process) leaves BOTH behind; they are
+  harmless and can be deleted with
+  `Remove-Item "$env:LOCALAPPDATA\Wolfram\WolframScript\WolframScriptTemporary\tmp_*"` (PowerShell) when no
+  other wolframscript is running.  Like every start of a Wolfram kernel, the kernel may also update its
+  own settings and caches under the Wolfram user folders (on Windows `C:\Users\<you>\AppData\Roaming\Wolfram`
+  and `...\AppData\Local\Wolfram`); these are outside the repository and not specific to this script.
 * **Processes started:** one Wolfram kernel (the process `wolfram.exe` with Wolfram 15 on Windows; on
   other versions and systems its name may differ, for example `WolframKernel`) for the whole run,
   started and stopped by `wolframscript` (on Windows a second, short-lived `wolfram.exe` of about
@@ -604,7 +614,7 @@ What a run of the documented command creates, overwrites or starts:
   `git checkout -- Revision/gkd_lovelock/results/wolfram-gkd-report.json`; to remove the export
   directory: `Remove-Item -Recurse -Force "$env:TEMP\revision_gkd_export"` (PowerShell) or
   `rm -rf "<the folder printed by wolframscript -code '$TemporaryDirectory'>/revision_gkd_export"`
-  (macOS and Linux).
+  (macOS and Linux); after an interrupted run, also delete the WolframScript temporary files named above.
 
 ---
 
@@ -761,10 +771,28 @@ What a run of the documented command creates, overwrites or starts:
     and export directory in a temporary folder, removed by the test afterwards: the scratch `TEMP`
     folder was empty again) and found the pinned sha256 `de3678170c7d...e86bb1`. The clone was still clean.
   * The optional `diagonal` mode (part 4.5, 27 minutes) was not run again: none of its inputs changed.
-* **Fixes made:** none. The set executed correctly as committed; no file of the set was changed.
+* **Fixes made (2026-10-07):** none. The set executed correctly as committed; no file of the set was changed.
 * **Open discrepancies:** none. Note for other installations: the report records the Wolfram version
   in its `producer` line, so byte identity with the committed report holds on Wolfram 15.0.1; on another
   version expect at least that line to differ, and possibly the `InputForm` text of the 24 components
   under `measurements` -> `wolframComponents` (not tested here); all 29 checks must still pass. The
   macOS and Linux commands are the same command line as on Windows, but only Windows was available for
   this verification.
+
+### 6.3 Fix and re-verification of 2026-10-08
+
+* **Defect (found by the independent verifier of 2026-10-08):** the script reported SUCCESS and exited 0
+  even when it could not write its report (the same false-success class as the defect fixed in
+  `scripts/verify_dirac16complex_primordial.wls`, commit b980c80).
+* **Fix:** `writeBytes` now checks that the folder can be created, that the file opens for writing, and
+  that the written file exists with the expected number of bytes; otherwise it prints
+  `ERROR: cannot write <path> (...)` and exits with code 2.  Script sha256 `bec6c8c5d25f62061b549a93fb5dc8e66c396cad1cd9bc6f08826129ae965a50` (574 lines,
+  36,660 bytes; it was `2a3bb5fa612f74d7de7bbc0d47e3b029d9e00a4dccb36d1624329f0b1a23f943`).
+* **Effect on the committed report:** only the line `sourceSha256` -> `verify_lovelock_gkd.wls` changed.
+  New report sha256 `71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189` (344 lines, 18135 bytes).  The pinned digest in
+  `Revision/tests/test_gkd_lovelock.py` was updated.  All 29 checks pass (verdict SUCCESS, exit code 0);
+  `time_total` of the regeneration run 68.4 s on a loaded machine.
+* **Failure path, measured:** a report path below an existing FILE (so its folder cannot be created)
+  gives the single line `ERROR: cannot write ...` and exit code 2; nothing is written.
+* Also corrected in this file on 2026-10-08: the temporary files of WolframScript (two files, and what an
+  interrupted run leaves), the disk space of a clone, the expected output on macOS/Linux, the failure table.
