@@ -699,7 +699,7 @@ Every check has a name, a verdict and a detail. Counts at the time of writing (t
 \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/wolf\allowbreak{}ram-a4-r\allowbreak{}eport.js\allowbreak{}on} & 47 & 47 & 0 \\
 \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/pyth\allowbreak{}on-a4-re\allowbreak{}port.jso\allowbreak{}n} & 61 & 61 & 0 \\
 \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-th\allowbreak{}eory-wol\allowbreak{}fram.jso\allowbreak{}n} & 46 & 46 & 0 \\
-\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-th\allowbreak{}eory-pyt\allowbreak{}hon.json} & 57 & 57 & 0 \\
+\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-th\allowbreak{}eory-pyt\allowbreak{}hon.json} & 58 & 58 & 0 \\
 \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/ks-ru\allowbreak{}st-solve\allowbreak{}r.json} & 42 & 42 & 0 \\
 \bottomrule
 \end{longtable}
@@ -912,7 +912,7 @@ For the first edition (2026-10-01) both pairing verifiers were re-run on a copy 
 
 \section{Reproduction}
 
-From the repository root (the sympy pairing checker reads the Wolfram theory record for its final comparison, so the Wolfram verifier runs first; the PDF command is one command, the backslash is the line continuation of a POSIX shell):
+From the repository root (the sympy pairing checker reads the Wolfram theory record for its final comparison, so the Wolfram verifier runs first; the Kohn-Sham theory checker reads the record written by the Kohn-Sham source-conditions checker, so that one runs before it; the PDF command is one command, the backslash is the line continuation of a POSIX shell):
 
 \begin{Verbatim}[fontsize=\small]
 wolframscript -file Revision/algebra/wolfram/verify_algebra.wls
@@ -924,6 +924,7 @@ python Revision/pairing/python/check_pairing.py
 wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
 python Revision/field_equations_a4/python/check_field_equations_a4.py
 wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls
+python Revision/field_equations_a4/python/check_ks_source_conditions.py
 python Revision/kohn_sham/theory/check_ks_theory.py
 wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
 python Revision/pairing/kohn_sham/python/check_t3.py
