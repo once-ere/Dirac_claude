@@ -2,10 +2,10 @@
 
 The Lovelock tensors of the author's metric with the generalized Kronecker delta (GKD).
 
-* Notebook: `Revision/notebooks/lovelock_gkd.ipynb` (35 cells: 20 markdown, 15 code; 410418 bytes;
-  sha256 `e4066a453826082a0e0d9761b2cff8f0d0af92871551dc121aaebcf40c19cce0`).
+* Notebook: `Revision/notebooks/lovelock_gkd.ipynb` (35 cells: 20 markdown, 15 code; 412223 bytes;
+  sha256 `4b48dba289e5abc40cafd083426a157fe083d25384a33e8dffc6cf6c68189076`).
 * Builder: `Revision/notebooks/src/lovelock_gkd.py`
-  (sha256 `149d1769e1764746255eaf147c46be1ccd7c761f1cc927c4471558168f95c998`).
+  (sha256 `a8992530a389d5dc0307f1d37cf51a453ae913b687a5fa56491be20af45c5fa7`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
@@ -85,7 +85,7 @@ Written: the result files and figures into the output folder `<output>` (the fol
 git), identical in both verified builds and in the `check` runs; the Rust build into `<cargo-target>`
 (the folder named by `REVISION_NB_CARGO_TARGET`, otherwise `revision-nb-lovelock_gkd-` followed by the
 first 12 hexadecimal digits of the sha256 of the path of `<output>`, in the system's temporary
-folder):
+folder; on macOS and Linux created private, section 6):
 
 | file | bytes | sha256 |
 | --- | --- | --- |
@@ -152,9 +152,9 @@ or without `REVISION_NB_CARGO_TARGET`.
 
 ## 5. Measured run time (Windows 11, 2026-10-08)
 
-* Whole notebook, executed by `build_notebooks.py`: 26.8 s (build A) and 30.5 s (build B) of
-  execution, 29.4 s wall time for build A including kernel start; the three `check` runs of section 7
-  25.4 s, 26.0 s and 24.8 s of execution.
+* Whole notebook, executed by `build_notebooks.py` (current version): 24.7 s (build A), 22.8 s
+  (build B) and 21.1 s (`check`) of execution, 26.9 s wall time for build A including kernel start.
+  The previous version took 24.8 s to 30.5 s in its builds and checks (section 7).
 * Inside it: the fresh `cargo build --release` about 3 s; `lovelock --brute-force-k2` 13.6 s as the
   program reports it in a separate run (4.4 s without `--brute-force-k2`); the exhaustive Python GKD
   comparison a few seconds.
@@ -176,12 +176,51 @@ or without `REVISION_NB_CARGO_TARGET`.
   (`build/revision_notebooks/lovelock_gkd-XXXXXXXX/`) and a repository folder longer than 148
   characters (the part of the path below the repository folder is 111 characters), the library file `liblovelock_gkd-<16 hexadecimal digits>.rlib` that the linker must open
   had a path of 260 or more characters, and `check` failed with `LNK1104` (section 7).
+* On macOS and Linux the default `<cargo-target>` is created readable and writable only by the current
+  user (mode 0700), and the notebook raises an error if a folder of that name already exists and is a
+  symbolic link, belongs to another user or can be written by group or others: its name is predictable,
+  a shared temporary folder such as `/tmp` can be written by every user, and the notebook runs the
+  program built there. On Windows the temporary folder (`%TEMP%`) belongs to the user, and the folder is
+  used as it is. A folder named by `REVISION_NB_CARGO_TARGET` is used as given (choose one of your own).
+  The exact code of this check was exercised under WSL Ubuntu 24.04 with Python 3.12.3 (section 7); the
+  notebook itself was executed only on Windows 11.
+* The list of written files at the end of the notebook leaves out `<cargo-target>` and also a folder
+  `<output>/cargo-target` that an earlier version of this notebook (which built there) left in a reused
+  `<output>`.
 * Runs `cargo` (needs the Rust toolchain on PATH) and the built program; no network access during the
   run, no Wolfram Language, no installation.
 
 ## 7. Verification record
 
-* 2026-10-08, the reason for the current version: a review found that `build_notebooks.py check
+* 2026-10-08, the reason for the current version (a review of the previous version, two findings):
+  (1) the final list of written files left out only `<cargo-target>`, so a folder `<output>/cargo-target`
+  left in a reused `<output>` by an earlier version was listed file by file (reproduced by the
+  reviewer); it is now left out as well. (2) On Linux the default `<cargo-target>` lies in the shared
+  `/tmp` under a predictable name, and the notebook runs the program built there; on macOS and Linux
+  the folder is now created private and an existing folder that is not private is refused (section 6).
+  In the notebook only the sources of cell 1 (section 2.6), cell 5 (the folder set-up) and cell 33
+  (the final list) changed; every output is identical to the previous version.
+* 2026-10-08, the private-folder check: the exact code of the builder, run under WSL Ubuntu 24.04 with
+  Python 3.12.3 (scratch script), created a new folder with mode 0700, accepted an existing own folder
+  of mode 0755, refused folders of mode 0777 and 0775, a symbolic link and a folder of another user
+  (`/usr`), and was skipped with `REVISION_NB_CARGO_TARGET` set (21 of 21 cases as expected for the three
+  builders). The notebook itself was not executed on Linux.
+* Current version, all runs with the system's temporary folder set (TMP, TEMP, TMPDIR) to a scratch
+  folder:
+* 2026-10-08, build A: `python Revision/notebooks/tools/build_notebooks.py build lovelock_gkd --out
+  <scratch>/buildA` - executed in 24.7 s, wrote 412223 bytes, audit PASS, sha256
+  `4b48dba289e5abc40cafd083426a157fe083d25384a33e8dffc6cf6c68189076`.
+* 2026-10-08, build B: the same command with `--out <scratch>/buildB` - executed in 22.8 s; the
+  notebook written is byte-identical to build A (same sha256), and the seven files of the two output
+  folders are byte-identical and equal to the table of section 2.
+* 2026-10-08, check: `python Revision/notebooks/tools/build_notebooks.py check lovelock_gkd --out
+  <scratch>/check1` - a third independent execution (21.1 s): `check lovelock_gkd: PASS - the
+  re-executed notebook is byte-identical to Revision/notebooks/lovelock_gkd.ipynb (412223 bytes)`; its
+  seven files equal the table of section 2.
+@STALE@
+* Previous version (notebook sha256 `e4066a453826082a0e0d9761b2cff8f0d0af92871551dc121aaebcf40c19cce0`,
+  410418 bytes), recorded below:
+* 2026-10-08, the reason for the previous version: a review found that `build_notebooks.py check
   lovelock_gkd` failed in a fresh clone whose repository folder had 153 characters (`LINK : fatal error
   LNK1104` on the 264-character path of `liblovelock_gkd-<16 hexadecimal digits>.rlib` under
   `<output>/cargo-target`; the gate step notebooks-check failed). Reproduced here before the change:

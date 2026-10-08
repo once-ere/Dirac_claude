@@ -109,12 +109,12 @@ Read (sha256 at the time of the verified builds):
 | `Revision/dark_sector/dirac16complex/outputs/eos-history.csv` | `1acdf7574ef4d6e1661cb01dc3519f10b721f976a80908ba5b74698f4c93d278` |
 | `Revision/dark_sector/dirac16complex/outputs/eos-summary.json` | `f3fa5775e31dd1b7801fe9d0995e0937a027b51a8b4a2e49dabb6964952a861a` |
 | `Revision/dark_sector/dirac16complex/outputs/effective-formulas.json` | `88727cb7cb7162630f8e72d1c64afe5de1e5058a9d26801cc060aa0b76d70477` |
-| `Revision/dark_sector/dirac16complex/reports/derivation-checks.json` | `8127b0b148c1b6d5ac9f6cc66b3094e7f9b82da35e96ed1330fe8109f9e1a744` |
+| `Revision/dark_sector/dirac16complex/reports/derivation-checks.json` | `4aeefe383a7e320063ad99c34b02cf5e6c153ea17efc0894073d35ac7e788579` |
 | `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` | `8a02a4e35981bdf34389207c24bb4710d6e9c396871981cfe7e6cee8c04d4f71` |
 | `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | `bd887ed06014f6a2114a47f7726dab6d9f0e7907c03838dede5893ec7ecf7639` |
 | `Revision/dark_sector/dirac16complex/reports/independent-checks.json` | `129825058b03c2b698aadd43583e48564d9e34614e4b63c4444ce61658819ea6` |
-| `Revision/dark_sector/dirac16complex00/eos-theory.json` | `6f2efb9889dd76b42b552458c63cda2a63158ee65f38d3471f37f49405152872` |
-| `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `3b317106dfc268ee77afca696f1cff0d50e8e6b5f9360d1d764b73e329356022` |
+| `Revision/dark_sector/dirac16complex00/eos-theory.json` | `47693fc3f09475b9fab55eb28212a579365bb350610fa8c89e74b847bc700793` |
+| `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `d7a540f1d6ef1e0fe5a7e8b9452068072c424cd1e23ee08530a3bff9e92bedf6` |
 | `Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json` | `ce3114a3e7e25d32d5bbca4e9ad5f6c6c087e41c70264dbf8d23a7e50c912f0c` |
 
 Followed but not executed (the notebook reproduces their arithmetic; listed so that a change is noticed):
@@ -128,7 +128,7 @@ Written: the result files and figures into the output folder `<output>` (the fol
 git), identical in both verified builds and in the `check` run (129 files compared); the Rust build into
 `<cargo-target>` (the folder named by `REVISION_NB_CARGO_TARGET`, otherwise
 `revision-nb-dark_sector_hypotheses-` followed by the first 12 hexadecimal digits of the sha256 of the path of
-`<output>`, in the system's temporary folder):
+`<output>`, in the system's temporary folder; on macOS and Linux created private, section 6):
 
 | file | bytes | sha256 |
 | --- | --- | --- |
@@ -219,6 +219,17 @@ No run time and no path of the computer is printed (paths are shown relative to 
   it, it can be deleted by hand. It is placed there, short and outside the repository, because on
   Windows the MSVC linker `link.exe` cannot open a file whose path is longer than 259 characters
   (MAX_PATH; section 7).
+* On macOS and Linux the default `<cargo-target>` is created readable and writable only by the current
+  user (mode 0700), and the notebook raises an error if a folder of that name already exists and is a
+  symbolic link, belongs to another user or can be written by group or others: its name is predictable,
+  a shared temporary folder such as `/tmp` can be written by every user, and the notebook runs the
+  program built there. On Windows the temporary folder (`%TEMP%`) belongs to the user, and the folder is
+  used as it is. A folder named by `REVISION_NB_CARGO_TARGET` is used as given (choose one of your own).
+  The exact code of this check was exercised under WSL Ubuntu 24.04 with Python 3.12.3 (section 7); the
+  notebook itself was executed only on Windows 11.
+* The list of written files at the end of the notebook leaves out `<cargo-target>` and also a folder
+  `<output>/cargo-target` that an earlier version of this notebook (which built there) left in a reused
+  `<output>`.
 * Runs `cargo` (needs the Rust toolchain on PATH) and the built solver (up to eight processes at a time,
   working folder the repository, which the solver only reads); no network access during the run, no
   Wolfram Language, no installation.

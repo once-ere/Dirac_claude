@@ -59,6 +59,14 @@ python -m unittest Revision/tests/test_revision_notebooks.py -v
   (`dark_sector_hypotheses`) or 159 (`kohn_sham_states`) characters (each notebook's provenance file,
   section 7). The printed notebook does not depend on where `<cargo-target>` is (checked for
   `lovelock_gkd` with `REVISION_NB_CARGO_TARGET` set: byte-identical).
+* On macOS and Linux the default `<cargo-target>` is created private (mode 0700), and the notebook stops
+  with an error if a folder of that name already exists and is a symbolic link, belongs to another user
+  or can be written by group or others: the name is predictable, a shared temporary folder such as
+  `/tmp` can be written by every user, and the notebook runs the program built there. On Windows the
+  temporary folder belongs to the user and the folder is used as it is; a folder named by
+  `REVISION_NB_CARGO_TARGET` is used as given. The final list of written files of every notebook leaves
+  out `<cargo-target>` and an old `DIR/cargo-target` left in a reused output folder by an earlier
+  version.
 * `Revision/tests/test_revision_notebooks.py` runs the static checks always and re-executes every
   notebook (the `check` command, in a temporary folder) when `REVISION_NOTEBOOKS_FULL=1`.
 

@@ -250,6 +250,14 @@ build folder). The build folder is kept outside the repository and short on purp
 Rust linker (`link.exe`) cannot open a file whose path is longer than 259 characters (the limit
 MAX_PATH), and a build folder inside a repository placed in a deep folder exceeds it. The notebook
 never deletes this folder; it holds only compiler output and can be deleted by hand after the run.
+On macOS and Linux the notebook creates the default build folder readable and writable only by you
+(mode 0700) and refuses to continue if a folder of that name already exists and is a symbolic link,
+belongs to another user or can be written by group or others: its name is predictable, a shared
+temporary folder such as `/tmp` can be written by every user, and the notebook runs the program built
+there. On Windows the temporary folder belongs to you alone, and the build folder is used as it is. A
+folder named by `REVISION_NB_CARGO_TARGET` is used as given: choose one of your own. A folder
+`<output>/cargo-target` left in a reused output folder by an earlier version of this notebook (which
+built there) is not listed among the written files at the end.
 """
 
 
@@ -259,8 +267,8 @@ def run_instructions(duration: str, where: str) -> str:
 
 
 md(run_instructions(
-    "The whole notebook takes well under a minute (about 15 s on the computer on which it was built, "
-    "including the build of the solver); the 123 solver runs are spread over up to eight parallel "
+    "The whole notebook takes well under a minute (about 15 s to 50 s on the computer on which it was "
+    "built, depending on its load, including the build of the solver); the 123 solver runs are spread over up to eight parallel "
     "processes and take from a few hundredths of a second to about two seconds each.",
     "The 123 result files of the solver go to "
     "`<output>/ks_runs`, the two reproduced tables to `<output>/ks-history-dense-subset.csv` and "
@@ -396,6 +404,7 @@ import json
 import math
 import os
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -446,6 +455,15 @@ for protected in (REPO / "Revision" / "dark_sector", KS / "results", KS / "repor
     if TARGET == protected or protected in TARGET.parents:
         raise RuntimeError("the Rust build folder lies inside the committed record " +
                            protected.relative_to(REPO).as_posix() + ": choose another REVISION_NB_CARGO_TARGET")
+if os.name == "posix" and not os.environ.get("REVISION_NB_CARGO_TARGET"):
+    # The default name is predictable, a shared temporary folder such as /tmp can be written by every user, and
+    # the notebook runs the program built there: create the folder private (mode 0o700) and refuse one that is not.
+    os.makedirs(TARGET, mode=0o700, exist_ok=True)
+    info = os.lstat(TARGET)
+    if not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid() or info.st_mode & 0o022:
+        raise RuntimeError(f"the Rust build folder {TARGET} is not a private folder of the current user (a symbolic "
+                           "link, owned by another user, or writable by group or others): delete it, or set "
+                           "REVISION_NB_CARGO_TARGET to a folder of your own")
 for folder in (OUT, RUN_DIR, FIG_DIR):
     folder.mkdir(parents=True, exist_ok=True)
 
@@ -1585,7 +1603,8 @@ code(r'''
 print(f"checks of this notebook: {len(CHECKS)} passed, 0 failed")
 runs = sorted(RUN_DIR.glob("*.json"))
 print(f"  <output>/ks_runs/*.json: {len(runs)} result files, {sum(p.stat().st_size for p in runs)} bytes")
-for path in sorted(p for p in OUT.rglob("*") if p.is_file() and TARGET not in p.parents and p.parent != RUN_DIR):
+for path in sorted(p for p in OUT.rglob("*") if p.is_file() and TARGET not in p.parents
+                     and "cargo-target" not in p.relative_to(OUT).parts and p.parent != RUN_DIR):
     print(f"  {shown(path):48s} {path.stat().st_size:7d} bytes")
 ''')
 

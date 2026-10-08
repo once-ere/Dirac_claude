@@ -2,10 +2,10 @@
 
 The Kohn-Sham states of dirac16complex in the author's deflating primordial field.
 
-* Notebook: `Revision/notebooks/kohn_sham_states.ipynb` (33 cells: 19 markdown, 14 code; 514141 bytes;
-  sha256 `451587216e92819278076431902f3942bddf752a6bc40ca9f931dd636fee554d`).
+* Notebook: `Revision/notebooks/kohn_sham_states.ipynb` (33 cells: 19 markdown, 14 code; 515946 bytes;
+  sha256 `4c63d360f8dc808afe6f6db60b240bd9bf65a946273470567da97bcd5d06ae71`).
 * Builder: `Revision/notebooks/src/kohn_sham_states.py`
-  (sha256 `cafae389ff99e0dfe11561d2559ed756fea98aa21912ce8792054ee2aa19f600`).
+  (sha256 `f97211bb1e3c5c7059acca21c0f2f8264bfd1d45588d458cc58fb13697f1303a`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
@@ -115,7 +115,7 @@ Written: the result files and figures into the output folder `<output>` (the fol
 git), identical in both verified builds and in the `check` run; the Rust build into
 `<cargo-target>` (the folder named by `REVISION_NB_CARGO_TARGET`, otherwise
 `revision-nb-kohn_sham_states-` followed by the first 12 hexadecimal digits of the sha256 of the path of
-`<output>`, in the system's temporary folder):
+`<output>`, in the system's temporary folder; on macOS and Linux created private, section 6):
 
 | file | bytes | sha256 |
 | --- | --- | --- |
@@ -197,9 +197,10 @@ No run time and no path of the computer is printed (paths are shown relative to 
 
 ## 5. Measured run time (Windows 11, 2026-10-08)
 
-* Whole notebook, executed by `build_notebooks.py`: 21.7 s (build A), 21.7 s (build B) and 28.9 s
-  (`check`) of execution while other work ran on the computer (the first builds of this notebook took
-  12.2 s to 12.5 s), including the fresh `cargo build --release` of the solver into `<cargo-target>`
+* Whole notebook, executed by `build_notebooks.py` (current version): 33.0 s (build A), 26.0 s
+  (build B) and 28.6 s (`check`) of execution while other work ran on the computer (the previous
+  version: 21.7 s to 38.0 s under load, section 7; the first builds of this notebook took 12.2 s to
+  12.5 s), including the fresh `cargo build --release` of the solver into `<cargo-target>`
   and the ten solver runs (each under one second when timed separately: 0.06 s for N = 8, 0.5 s for
   N136_lamp1_a10, 0.9 s for N688_lam0_a20).
 * Not part of the notebook: the canonical matrix of the solver (`revision_ks_solver all`) took 78.1 s
@@ -216,12 +217,51 @@ No run time and no path of the computer is printed (paths are shown relative to 
   it, it can be deleted by hand. It is placed there, short and outside the repository, because on
   Windows the MSVC linker `link.exe` cannot open a file whose path is longer than 259 characters
   (MAX_PATH; section 7).
+* On macOS and Linux the default `<cargo-target>` is created readable and writable only by the current
+  user (mode 0700), and the notebook raises an error if a folder of that name already exists and is a
+  symbolic link, belongs to another user or can be written by group or others: its name is predictable,
+  a shared temporary folder such as `/tmp` can be written by every user, and the notebook runs the
+  program built there. On Windows the temporary folder (`%TEMP%`) belongs to the user, and the folder is
+  used as it is. A folder named by `REVISION_NB_CARGO_TARGET` is used as given (choose one of your own).
+  The exact code of this check was exercised under WSL Ubuntu 24.04 with Python 3.12.3 (section 7); the
+  notebook itself was executed only on Windows 11.
+* The list of written files at the end of the notebook leaves out `<cargo-target>` and also a folder
+  `<output>/cargo-target` that an earlier version of this notebook (which built there) left in a reused
+  `<output>`.
 * Runs `cargo` (needs the Rust toolchain on PATH) and the built solver; no network access during the
   run, no Wolfram Language, no installation.
 
 ## 7. Verification record
 
-* 2026-10-08, the reason for the current version: on Windows the MSVC linker `link.exe` cannot open
+* 2026-10-08, the reason for the current version (a review of the previous version, two findings):
+  (1) the final list of written files left out only `<cargo-target>`, so a folder `<output>/cargo-target`
+  left in a reused `<output>` by an earlier version was listed file by file; it is now left out as
+  well. (2) On Linux the default `<cargo-target>` lies in the shared `/tmp` under a predictable name,
+  and the notebook runs the solver built there; on macOS and Linux the folder is now created private
+  and an existing folder that is not private is refused (section 6). In the notebook only the sources
+  of cell 1 (section 2.6), cell 5 (the folder set-up) and cell 31 (the final list) changed; every
+  output is identical to the previous version.
+* 2026-10-08, the private-folder check: the exact code of the builder, run under WSL Ubuntu 24.04 with
+  Python 3.12.3 (scratch script), created a new folder with mode 0700, accepted an existing own folder
+  of mode 0755, refused folders of mode 0777 and 0775, a symbolic link and a folder of another user
+  (`/usr`), and was skipped with `REVISION_NB_CARGO_TARGET` set (21 of 21 cases as expected for the three
+  builders). The notebook itself was not executed on Linux.
+* Current version, all runs with the system's temporary folder set (TMP, TEMP, TMPDIR) to a scratch
+  folder:
+* 2026-10-08, build A: `python Revision/notebooks/tools/build_notebooks.py build kohn_sham_states --out
+  <scratch>/buildA` - executed in 33.0 s, wrote 515946 bytes, audit PASS, sha256
+  `4c63d360f8dc808afe6f6db60b240bd9bf65a946273470567da97bcd5d06ae71`.
+* 2026-10-08, build B: the same command with `--out <scratch>/buildB` - executed in 26.0 s; the
+  notebook written is byte-identical to build A (same sha256), and the 23 files of the two output
+  folders are byte-identical and equal to the table of section 2.
+* 2026-10-08, check: `python Revision/notebooks/tools/build_notebooks.py check kohn_sham_states --out
+  <scratch>/check1` - a third independent execution (28.6 s): `check kohn_sham_states: PASS - the
+  re-executed notebook is byte-identical to Revision/notebooks/kohn_sham_states.ipynb (515946 bytes)`;
+  its 23 files equal the table of section 2.
+@STALE@
+* Previous version (notebook sha256 `451587216e92819278076431902f3942bddf752a6bc40ca9f931dd636fee554d`,
+  514141 bytes), recorded below:
+* 2026-10-08, the reason for the previous version: on Windows the MSVC linker `link.exe` cannot open
   a file whose path is longer than 259 characters (MAX_PATH). With the former build folder
   `<output>/cargo-target` and the default `<output>` of the tool
   (`build/revision_notebooks/kohn_sham_states-XXXXXXXX/`), the solver program

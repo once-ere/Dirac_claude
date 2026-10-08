@@ -98,6 +98,8 @@ COUNTED_REPORTS = (
     "Revision/algebra/reports/python-algebra.json",
     "Revision/theory/reports/wolfram-field-theory.json",
     "Revision/theory/reports/python-field-theory.json",
+    "Revision/theory/reports/wolfram-scope.json",
+    "Revision/theory/reports/python-scope.json",
     "Revision/field_equations_a4/reports/wolfram-a4-report.json",
     "Revision/field_equations_a4/reports/python-a4-report.json",
     "Revision/field_equations_a4/ks_source/reports/ks-source-a4.json",

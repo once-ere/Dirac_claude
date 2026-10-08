@@ -5,7 +5,7 @@
   "solverVersion": 2,
   "sourceSha256": {
     "scripts/ks_reference_solver.py": "8dbedada523de6df7346921edf6c926058e97fe296ba9c2f24331524b0a60494",
-    "scripts/ks_reference_pairs.py": "4deb4e1e236d82e28c9b2607c84f83a976c21f985c9651581ee38dc310de5a60",
+    "scripts/ks_reference_pairs.py": "c21d435a05be95608cf79ac4f0d8ca1cca49c9d7fd0cfa10a6f2d502f38027db",
     "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
     "artifacts/dirac16complex/pair-creation/pairing-theory.json": "0b2387c9de632510b37dbeaff7e54199d01197c2b576d7aeafe762ab9bff17a2"
   },
@@ -57,7 +57,7 @@
       ]
     },
     "grids": "N0 = 60 (|m| = 1), 120 (|m| = 3), levels N0, 2 N0, 4 N0",
-    "groundState": "T = 0: the direct solution with the Stage-4 smearing ladder; where it collapses or does not converge, continuation in the coupling lambda_hat j/4 from its free densities (mixing x 0.25; STAGE4_SPEC E4.8, the Rust solve_ground); execution guard: energy windows beyond 20 |m| abort the SCF",
+    "groundState": "T = 0: the direct solution with the Stage-4 smearing ladder; where it collapses or does not converge, continuation in the coupling lambda_hat j/4 from its free densities (mixing x 0.25; STAGE4_SPEC E4.8, the Rust solve_ground); execution guard: energy windows beyond 20 |m| abort the SCF; memory guard (STAGE5_SPEC E5.3): runs violating the Rust window premise are not run, lattice tables beyond q = 131072 and spectra beyond 50000 states stop the run",
     "labelScheme": "<field>_m<|m|>_L<L>_N<N>_<lambda>_T<T/|m|>/<universe> (the Rust pairs labels, pairs.rs Config::label and write_universe; 'p' = decimal point)",
     "couplingRule": "lambda_hat of the Stage-4 reference coupling of (|m|, L, N) (artifacts/dirac16complex/kohn-sham/reference/couplings); the same lambda_hat (and lambda = lambda_hat/m^6) in all three universes and for both fields",
     "prescription": "pairing-theory.json T3.numericsPrescription (minusMTransformed, minusMUntransformedControl)"
@@ -118,6 +118,51 @@
   ],
   "quick": false,
   "runs": [
+    {
+      "label": "d16c_m3_L3_N8_lamp1_T0/minusM_control",
+      "converged": false,
+      "failed": "GuardStop('memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 18323712.172051083 > |window floor| = 9.594395102393195')",
+      "guardStopped": {
+        "guard": "windowPremise",
+        "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 18323712.172051083 > |window floor| = 9.594395102393195",
+        "trips": [
+          {
+            "shiftBound": 18323712.172051083,
+            "windowFloor": 9.594395102393195,
+            "holds": false,
+            "gridN": 120,
+            "guard": "windowPremise",
+            "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 18323712.172051083 > |window floor| = 9.594395102393195"
+          }
+        ]
+      },
+      "pairs": {
+        "field": "d16c",
+        "fieldName": "dirac16complex",
+        "universe": "minusM_control",
+        "universeDescription": "-M universe with the untransformed boundary conditions (mass -m, tip bag theta = 0: g(-L) = 0); the control of T3.untransformedBCControl",
+        "statistics": "anticommuting",
+        "statisticsSign": -1,
+        "massSign": -1,
+        "massScale": 3.0,
+        "tip": "g0",
+        "bagAngleTheta": 0.0,
+        "tOverM": 0.0,
+        "partnerLabel": "d16c_m3_L3_N8_lamp1_T0/plusM",
+        "configLabel": "d16c_m3_L3_N8_lamp1_T0",
+        "couplingSource": {
+          "configuration": [
+            3.0,
+            3.0,
+            8.0
+          ],
+          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N8.json",
+          "sha256": "681a0252b05cf6e190a2e032c36ec4557e6ad8cf50efa544f6e7e90cd09e472b"
+        }
+      },
+      "field": "d16c",
+      "universe": "minusM_control"
+    },
     {
       "label": "d16c_m3_L3_N112_lam0_T0/plusM",
       "params": {
@@ -1489,6 +1534,51 @@
       "universe": "minusM"
     },
     {
+      "label": "d16c_m3_L3_N112_lamp1_T0/minusM_control",
+      "converged": false,
+      "failed": "GuardStop('memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546928.0165302131 > |window floor| = 9.594395102393195')",
+      "guardStopped": {
+        "guard": "windowPremise",
+        "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546928.0165302131 > |window floor| = 9.594395102393195",
+        "trips": [
+          {
+            "shiftBound": 546928.0165302131,
+            "windowFloor": 9.594395102393195,
+            "holds": false,
+            "gridN": 120,
+            "guard": "windowPremise",
+            "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546928.0165302131 > |window floor| = 9.594395102393195"
+          }
+        ]
+      },
+      "pairs": {
+        "field": "d16c",
+        "fieldName": "dirac16complex",
+        "universe": "minusM_control",
+        "universeDescription": "-M universe with the untransformed boundary conditions (mass -m, tip bag theta = 0: g(-L) = 0); the control of T3.untransformedBCControl",
+        "statistics": "anticommuting",
+        "statisticsSign": -1,
+        "massSign": -1,
+        "massScale": 3.0,
+        "tip": "g0",
+        "bagAngleTheta": 0.0,
+        "tOverM": 0.0,
+        "partnerLabel": "d16c_m3_L3_N112_lamp1_T0/plusM",
+        "configLabel": "d16c_m3_L3_N112_lamp1_T0",
+        "couplingSource": {
+          "configuration": [
+            3.0,
+            3.0,
+            112.0
+          ],
+          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N112.json",
+          "sha256": "f8518583d1cbbce343ed7e1ffa6e57b894b53130870976811e01d8c7fbd725fe"
+        }
+      },
+      "field": "d16c",
+      "universe": "minusM_control"
+    },
+    {
       "label": "d16c_m3_L3_N112_lamm1_T0/plusM",
       "params": {
         "label": "d16c_m3_L3_N112_lamm1_T0/plusM",
@@ -2043,6 +2133,51 @@
       "universe": "minusM"
     },
     {
+      "label": "d16c_m3_L3_N112_lamm1_T0/minusM_control",
+      "converged": false,
+      "failed": "GuardStop('memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546928.0165302131 > |window floor| = 9.594395102393195')",
+      "guardStopped": {
+        "guard": "windowPremise",
+        "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546928.0165302131 > |window floor| = 9.594395102393195",
+        "trips": [
+          {
+            "shiftBound": 546928.0165302131,
+            "windowFloor": 9.594395102393195,
+            "holds": false,
+            "gridN": 120,
+            "guard": "windowPremise",
+            "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546928.0165302131 > |window floor| = 9.594395102393195"
+          }
+        ]
+      },
+      "pairs": {
+        "field": "d16c",
+        "fieldName": "dirac16complex",
+        "universe": "minusM_control",
+        "universeDescription": "-M universe with the untransformed boundary conditions (mass -m, tip bag theta = 0: g(-L) = 0); the control of T3.untransformedBCControl",
+        "statistics": "anticommuting",
+        "statisticsSign": -1,
+        "massSign": -1,
+        "massScale": 3.0,
+        "tip": "g0",
+        "bagAngleTheta": 0.0,
+        "tOverM": 0.0,
+        "partnerLabel": "d16c_m3_L3_N112_lamm1_T0/plusM",
+        "configLabel": "d16c_m3_L3_N112_lamm1_T0",
+        "couplingSource": {
+          "configuration": [
+            3.0,
+            3.0,
+            112.0
+          ],
+          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N112.json",
+          "sha256": "f8518583d1cbbce343ed7e1ffa6e57b894b53130870976811e01d8c7fbd725fe"
+        }
+      },
+      "field": "d16c",
+      "universe": "minusM_control"
+    },
+    {
       "label": "d16c_m3_L3_N112_lamp2_T0/plusM",
       "params": {
         "label": "d16c_m3_L3_N112_lamp2_T0/plusM",
@@ -2207,140 +2342,21 @@
     },
     {
       "label": "d16c_m3_L3_N112_lamp2_T0/minusM",
-      "params": {
-        "label": "d16c_m3_L3_N112_lamp2_T0/minusM",
-        "m": -3.0,
-        "a4_0": 0.0,
-        "L": 3.0,
-        "lambda_hat": 8526.397026432875,
-        "lambda": 11.69601786890655,
-        "T": 0.0,
-        "N": 112.0,
-        "parity": 0,
-        "tip": "f0",
-        "xc": "quadratic",
-        "sea": "free",
-        "delta_k": 0.75,
-        "ell": 8.377580409572781,
-        "volume": 587.9708763079075,
-        "N0": 120,
-        "levels": 3,
-        "mix_beta": 0.4,
-        "mix_history": 6,
-        "tol": 1e-10,
-        "max_iter": 200,
-        "H": 1.0,
-        "delta_k_over_m": 0.25,
-        "occupationSmearing": 0.0,
-        "exactShells": null,
-        "solverVersion": 2
-      },
       "converged": false,
-      "failed": null,
-      "extrapolated": {
-        "total": -2903.8181825396446,
-        "free": -2903.8181825396446,
-        "entropy": 283.7397067428003,
-        "ksSum": -2148.032069266786,
-        "interaction": 755.7861132728582,
-        "hartree": 59.004610042084934,
-        "exchange": 696.7815032307733,
-        "grand": -755.7861132728585,
-        "scalarCharge": 3.8601674039300184,
-        "nTotal": 112.0,
-        "mu": -19.17885776131059
+      "failed": "RuntimeError(\"memory guard (E5.3) shellTable: lattice-shell table up to q = 371350 (|k| = 457.038) beyond the cap q <= 131072; continuation in the coupling failed as well: {'fraction': 0.25, 'converged': False, 'convergedBy': 'collapse', 'occupationSmearing': 0.0, 'energy': -4978.394892377293}\")",
+      "guardStopped": {
+        "guard": "shellTable",
+        "reason": "memory guard (E5.3) shellTable: lattice-shell table up to q = 371350 (|k| = 457.038) beyond the cap q <= 131072",
+        "trips": [
+          {
+            "need": 371350,
+            "kMax": 457.0382246216479,
+            "cap": 131072,
+            "guard": "shellTable",
+            "reason": "memory guard (E5.3) shellTable: lattice-shell table up to q = 371350 (|k| = 457.038) beyond the cap q <= 131072"
+          }
+        ]
       },
-      "ksGap": 0.0,
-      "homo": "356:-1:+1:0",
-      "lumo": "356:-1:+1:0",
-      "emt": {
-        "w_y": 0.1434124675047354,
-        "w_3": 0.2961515278755691,
-        "w_t": 0.012441780736821515,
-        "w_mean": 0.1527417704774153,
-        "energyFromRho": -2121.635149927849,
-        "braneLocalisedFraction": 0.9999999999999979,
-        "tipLocalisedFraction": 1.5683235469076478e-37,
-        "averages": {
-          "rho": -21.609907550734135,
-          "p_y": -3.0991301643999956,
-          "p_3": -6.399807138399711,
-          "p_t": -0.2688657314892178,
-          "L_s": -0.2688657314892178,
-          "n_p": 1.1407756162809284,
-          "s_p": 0.03931772186755199
-        },
-        "E41_sourcingConditions": {
-          "conditions": "static field (a4' = 0): m S = -36 H^2/kappa and lambda S^2 = 30 H^2/kappa on <S_p> (proper-volume average); together lambda S/m = -5/6 and m S < 0",
-          "sPAvg": 0.03931772186755199,
-          "nPAvg": 1.1407756162809284,
-          "sPMin": -0.306835853783937,
-          "sPMax": 0.6776457197637862,
-          "lambdaSAvgOverM": -0.15328692584252862,
-          "lambdaSOverMRequired": -0.8333333333333334,
-          "kappaFromMassCondition": 305.20588248789977,
-          "kappaFromCouplingCondition": 1659.2298006410824,
-          "met": false,
-          "lambdaHatNeededFirstOrder": 46353.14340284978,
-          "signOfAverageS": 1
-        },
-        "traceIdentityResidual": 1.1546319456101628e-14,
-        "conservationResidualMaxNormalised": [
-          0.4342865411418328
-        ],
-        "rhoRequired_kappa1": -21.0,
-        "pRequired_kappa1": 15.0,
-        "wRequired": -0.7142857142857143,
-        "kappaNeededForRho": 0.9717764849617131,
-        "mismatch": "the proper-volume average of the KS energy density is positive while the static field requires rho_req = -21 H^2/kappa < 0 (p_req = +15 H^2/kappa, w_req = -5/7): this KS state alone cannot be the source for kappa > 0.  This is a statement about the positive-energy KS ground state only (STAGE4_SPEC E4.1: the homogeneous m S < 0 condensate can source the field; see E41_sourcingConditions)"
-      },
-      "orderEstimates": {
-        "total": null,
-        "free": null,
-        "entropy": null,
-        "ksSum": null,
-        "interaction": null,
-        "hartree": null,
-        "exchange": null,
-        "grand": null,
-        "scalarCharge": null,
-        "nTotal": null,
-        "mu": null,
-        "occupiedEigenvalues_median": null,
-        "profile_n_c": null,
-        "profile_s_c": null,
-        "profile_m_eff_out": null,
-        "profile_v_out": null
-      },
-      "branchOverlap": false,
-      "convergedBy": "collapse",
-      "levelsComputed": 1,
-      "particleBottom": -19.17885776131059,
-      "collapseSuspected": true,
-      "exactZeroTemperatureOccupations": true,
-      "couplingScale": {
-        "sRef": 0.6776457197637862,
-        "sRefY": -0.2749999999999999,
-        "nRef": 2.836635776005702,
-        "nRefY": -0.22499999999999964,
-        "strengthPerUnitLambdaHat": 0.0002904859909824186
-      },
-      "heatCapacityFixedSpectrum": null,
-      "thermo": {},
-      "excited": {
-        "ksGap": 0.0,
-        "particleHole": [],
-        "deltaSCF": {
-          "available": false,
-          "reason": "ground state not converged (collapse): no excited state computed"
-        }
-      },
-      "lambdaName": "lamp2",
-      "couplingConfiguration": [
-        3.0,
-        3.0,
-        112.0
-      ],
       "pairs": {
         "field": "d16c",
         "fieldName": "dirac16complex",
@@ -2371,7 +2387,21 @@
     {
       "label": "d16c_m3_L3_N112_lamp2_T0/minusM_control",
       "converged": false,
-      "failed": "RuntimeError('tail: window never exhausted; continuation in the coupling failed as well: {\\'fraction\\': 0.25, \\'converged\\': False, \\'error\\': \"RuntimeError(\\'tail: window never exhausted\\')\"}')",
+      "failed": "GuardStop('memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469280.165302129 > |window floor| = 9.594395102393195')",
+      "guardStopped": {
+        "guard": "windowPremise",
+        "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469280.165302129 > |window floor| = 9.594395102393195",
+        "trips": [
+          {
+            "shiftBound": 5469280.165302129,
+            "windowFloor": 9.594395102393195,
+            "holds": false,
+            "gridN": 120,
+            "guard": "windowPremise",
+            "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469280.165302129 > |window floor| = 9.594395102393195"
+          }
+        ]
+      },
       "pairs": {
         "field": "d16c",
         "fieldName": "dirac16complex",
@@ -2926,7 +2956,21 @@
     {
       "label": "d16c_m3_L3_N112_lamm2_T0/minusM_control",
       "converged": false,
-      "failed": "RuntimeError('energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted; continuation in the coupling failed as well: {\\'fraction\\': 0.25, \\'converged\\': False, \\'error\\': \"RuntimeError(\\'energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted\\')\"}')",
+      "failed": "GuardStop('memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469280.165302129 > |window floor| = 9.594395102393195')",
+      "guardStopped": {
+        "guard": "windowPremise",
+        "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469280.165302129 > |window floor| = 9.594395102393195",
+        "trips": [
+          {
+            "shiftBound": 5469280.165302129,
+            "windowFloor": 9.594395102393195,
+            "holds": false,
+            "gridN": 120,
+            "guard": "windowPremise",
+            "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469280.165302129 > |window floor| = 9.594395102393195"
+          }
+        ]
+      },
       "pairs": {
         "field": "d16c",
         "fieldName": "dirac16complex",
@@ -5450,7 +5494,21 @@
     {
       "label": "d16c00_m3_L3_N112_lamp1_T0/minusM_control",
       "converged": false,
-      "failed": "MemoryError((960, 241), dtype('float64'))",
+      "failed": "GuardStop('memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546952.0517089161 > |window floor| = 9.594395102393195')",
+      "guardStopped": {
+        "guard": "windowPremise",
+        "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546952.0517089161 > |window floor| = 9.594395102393195",
+        "trips": [
+          {
+            "shiftBound": 546952.0517089161,
+            "windowFloor": 9.594395102393195,
+            "holds": false,
+            "gridN": 120,
+            "guard": "windowPremise",
+            "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546952.0517089161 > |window floor| = 9.594395102393195"
+          }
+        ]
+      },
       "pairs": {
         "field": "d16c00",
         "fieldName": "dirac16complex00",
@@ -6037,9 +6095,117 @@
       "universe": "minusM"
     },
     {
+      "label": "d16c00_m3_L3_N112_lamm1_T0/minusM_control",
+      "converged": false,
+      "failed": "GuardStop('memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546952.0517089161 > |window floor| = 9.594395102393195')",
+      "guardStopped": {
+        "guard": "windowPremise",
+        "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546952.0517089161 > |window floor| = 9.594395102393195",
+        "trips": [
+          {
+            "shiftBound": 546952.0517089161,
+            "windowFloor": 9.594395102393195,
+            "holds": false,
+            "gridN": 120,
+            "guard": "windowPremise",
+            "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546952.0517089161 > |window floor| = 9.594395102393195"
+          }
+        ]
+      },
+      "pairs": {
+        "field": "d16c00",
+        "fieldName": "dirac16complex00",
+        "universe": "minusM_control",
+        "universeDescription": "-M universe with the untransformed boundary conditions (mass -m, tip bag theta = 0: g(-L) = 0); the control of T3.untransformedBCControl",
+        "statistics": "commuting",
+        "statisticsSign": 1,
+        "massSign": -1,
+        "massScale": 3.0,
+        "tip": "g0",
+        "bagAngleTheta": 0.0,
+        "tOverM": 0.0,
+        "partnerLabel": "d16c00_m3_L3_N112_lamm1_T0/plusM",
+        "configLabel": "d16c00_m3_L3_N112_lamm1_T0",
+        "couplingSource": {
+          "configuration": [
+            3.0,
+            3.0,
+            112.0
+          ],
+          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N112.json",
+          "sha256": "f8518583d1cbbce343ed7e1ffa6e57b894b53130870976811e01d8c7fbd725fe"
+        }
+      },
+      "field": "d16c00",
+      "universe": "minusM_control"
+    },
+    {
+      "label": "d16c00_m3_L3_N112_lamp2_T0/plusM",
+      "converged": false,
+      "failed": "RuntimeError(\"memory guard (E5.3) spectrumStates: Spectrum beyond 50000 states (window [-40, 45.942], grid N = 120); continuation in the coupling failed as well: {'fraction': 0.25, 'converged': False, 'convergedBy': 'collapse', 'occupationSmearing': 0.0, 'energy': -1678.9425648322626}\")",
+      "guardStopped": {
+        "guard": "spectrumStates",
+        "reason": "memory guard (E5.3) spectrumStates: Spectrum beyond 50000 states (window [-40, 45.942], grid N = 120)",
+        "trips": [
+          {
+            "cap": 50000,
+            "window": [
+              -40.0,
+              45.941961661474124
+            ],
+            "gridN": 120,
+            "guard": "spectrumStates",
+            "reason": "memory guard (E5.3) spectrumStates: Spectrum beyond 50000 states (window [-40, 45.942], grid N = 120)"
+          }
+        ]
+      },
+      "pairs": {
+        "field": "d16c00",
+        "fieldName": "dirac16complex00",
+        "universe": "plusM",
+        "universeDescription": "+M universe: the Stage-4 problem (mass +m, tip bag theta = 0: g(-L) = 0, Rust b(-L) = 0)",
+        "statistics": "commuting",
+        "statisticsSign": 1,
+        "massSign": 1,
+        "massScale": 3.0,
+        "tip": "g0",
+        "bagAngleTheta": 0.0,
+        "tOverM": 0.0,
+        "partnerLabel": "d16c00_m3_L3_N112_lamp2_T0/plusM",
+        "configLabel": "d16c00_m3_L3_N112_lamp2_T0",
+        "couplingSource": {
+          "configuration": [
+            3.0,
+            3.0,
+            112.0
+          ],
+          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N112.json",
+          "sha256": "f8518583d1cbbce343ed7e1ffa6e57b894b53130870976811e01d8c7fbd725fe"
+        }
+      },
+      "field": "d16c00",
+      "universe": "plusM"
+    },
+    {
       "label": "d16c00_m3_L3_N112_lamp2_T0/minusM",
       "converged": false,
-      "failed": "RuntimeError(\"energy window [-64, 68.9019] beyond the cap 20 |m| (window_cap): SCF aborted; continuation in the coupling failed as well: {'fraction': 0.25, 'converged': False, 'convergedBy': 'collapse', 'occupationSmearing': 0.0, 'energy': -1748.149408393984}\")",
+      "failed": "RuntimeError(\"memory guard (E5.3) spectrumStates: Spectrum beyond 50000 states (window [-40, 44.9019], grid N = 120); continuation in the coupling failed as well: {'fraction': 0.25, 'converged': False, 'convergedBy': 'collapse', 'occupationSmearing': 0.0, 'energy': -1748.149408393984}\")",
+      "guardStopped": {
+        "guard": "spectrumStates",
+        "reason": "memory guard (E5.3) spectrumStates: Spectrum beyond 50000 states (window [-40, 44.9019], grid N = 120)",
+        "trips": [
+          {
+            "cap": 50000,
+            "window": [
+              -40.0,
+              44.90185935971952
+            ],
+            "gridN": 120,
+            "guard": "spectrumStates",
+            "reason": "memory guard (E5.3) spectrumStates: Spectrum beyond 50000 states (window [-40, 44.9019], grid N = 120)"
+          }
+        ]
+      },
       "pairs": {
         "field": "d16c00",
         "fieldName": "dirac16complex00",
@@ -6070,7 +6236,21 @@
     {
       "label": "d16c00_m3_L3_N112_lamp2_T0/minusM_control",
       "converged": false,
-      "failed": "RuntimeError('energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted; continuation in the coupling failed as well: {\\'fraction\\': 0.25, \\'converged\\': False, \\'error\\': \"RuntimeError(\\'energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted\\')\"}')",
+      "failed": "GuardStop('memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469520.51708916 > |window floor| = 9.594395102393195')",
+      "guardStopped": {
+        "guard": "windowPremise",
+        "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469520.51708916 > |window floor| = 9.594395102393195",
+        "trips": [
+          {
+            "shiftBound": 5469520.51708916,
+            "windowFloor": 9.594395102393195,
+            "holds": false,
+            "gridN": 120,
+            "guard": "windowPremise",
+            "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469520.51708916 > |window floor| = 9.594395102393195"
+          }
+        ]
+      },
       "pairs": {
         "field": "d16c00",
         "fieldName": "dirac16complex00",
@@ -6101,7 +6281,21 @@
     {
       "label": "d16c00_m3_L3_N112_lamm2_T0/minusM_control",
       "converged": false,
-      "failed": "RuntimeError('tail: window never exhausted; continuation in the coupling failed as well: {\\'fraction\\': 0.25, \\'converged\\': False, \\'error\\': \"RuntimeError(\\'tail: window never exhausted\\')\"}')",
+      "failed": "GuardStop('memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469520.51708916 > |window floor| = 9.594395102393195')",
+      "guardStopped": {
+        "guard": "windowPremise",
+        "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469520.51708916 > |window floor| = 9.594395102393195",
+        "trips": [
+          {
+            "shiftBound": 5469520.51708916,
+            "windowFloor": 9.594395102393195,
+            "holds": false,
+            "gridN": 120,
+            "guard": "windowPremise",
+            "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469520.51708916 > |window floor| = 9.594395102393195"
+          }
+        ]
+      },
       "pairs": {
         "field": "d16c00",
         "fieldName": "dirac16complex00",
@@ -7250,12 +7444,18 @@
     }
   ],
   "failed": [
+    "d16c00_m3_L3_N112_lamm1_T0/minusM_control",
     "d16c00_m3_L3_N112_lamm2_T0/minusM_control",
     "d16c00_m3_L3_N112_lamp1_T0/minusM_control",
     "d16c00_m3_L3_N112_lamp2_T0/minusM",
     "d16c00_m3_L3_N112_lamp2_T0/minusM_control",
+    "d16c00_m3_L3_N112_lamp2_T0/plusM",
+    "d16c_m3_L3_N112_lamm1_T0/minusM_control",
     "d16c_m3_L3_N112_lamm2_T0/minusM_control",
-    "d16c_m3_L3_N112_lamp2_T0/minusM_control"
+    "d16c_m3_L3_N112_lamp1_T0/minusM_control",
+    "d16c_m3_L3_N112_lamp2_T0/minusM",
+    "d16c_m3_L3_N112_lamp2_T0/minusM_control",
+    "d16c_m3_L3_N8_lamp1_T0/minusM_control"
   ],
   "thermoFirstOrder": {
     "rule": "first-order pseudo-potential |lambda_hat| strength_free(T) of an interacting T > 0 point, in units of |m| (strength_free of the lambda = 0 plusM run of the field at that T); STAGE4_SPEC section 4 window edge 1 |m|; points above 10 |m| are not attempted (see ks_reference_pairs.py ATTEMPT_LIMIT)",
@@ -7743,6 +7943,64 @@
     }
   },
   "windowCap": 20.0,
+  "memoryGuard": {
+    "erratum": "STAGE5_SPEC E5.3",
+    "version": 1,
+    "windowPremise": "shift bound max|M_eff - m| + max|v_x| of the first SCF update <= 2.5 |m| + 2 pi/L (the Rust pairs window premise); violated: not run",
+    "shellTableCap": 131072,
+    "stateCap": 50000,
+    "windowCap": 20.0
+  },
+  "guardStopped": {
+    "d16c00_m3_L3_N112_lamm1_T0/minusM_control": {
+      "guard": "windowPremise",
+      "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546952.0517089161 > |window floor| = 9.594395102393195"
+    },
+    "d16c00_m3_L3_N112_lamm2_T0/minusM_control": {
+      "guard": "windowPremise",
+      "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469520.51708916 > |window floor| = 9.594395102393195"
+    },
+    "d16c00_m3_L3_N112_lamp1_T0/minusM_control": {
+      "guard": "windowPremise",
+      "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546952.0517089161 > |window floor| = 9.594395102393195"
+    },
+    "d16c00_m3_L3_N112_lamp2_T0/minusM": {
+      "guard": "spectrumStates",
+      "reason": "memory guard (E5.3) spectrumStates: Spectrum beyond 50000 states (window [-40, 44.9019], grid N = 120)"
+    },
+    "d16c00_m3_L3_N112_lamp2_T0/minusM_control": {
+      "guard": "windowPremise",
+      "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469520.51708916 > |window floor| = 9.594395102393195"
+    },
+    "d16c00_m3_L3_N112_lamp2_T0/plusM": {
+      "guard": "spectrumStates",
+      "reason": "memory guard (E5.3) spectrumStates: Spectrum beyond 50000 states (window [-40, 45.942], grid N = 120)"
+    },
+    "d16c_m3_L3_N112_lamm1_T0/minusM_control": {
+      "guard": "windowPremise",
+      "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546928.0165302131 > |window floor| = 9.594395102393195"
+    },
+    "d16c_m3_L3_N112_lamm2_T0/minusM_control": {
+      "guard": "windowPremise",
+      "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469280.165302129 > |window floor| = 9.594395102393195"
+    },
+    "d16c_m3_L3_N112_lamp1_T0/minusM_control": {
+      "guard": "windowPremise",
+      "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 546928.0165302131 > |window floor| = 9.594395102393195"
+    },
+    "d16c_m3_L3_N112_lamp2_T0/minusM": {
+      "guard": "shellTable",
+      "reason": "memory guard (E5.3) shellTable: lattice-shell table up to q = 371350 (|k| = 457.038) beyond the cap q <= 131072"
+    },
+    "d16c_m3_L3_N112_lamp2_T0/minusM_control": {
+      "guard": "windowPremise",
+      "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 5469280.165302129 > |window floor| = 9.594395102393195"
+    },
+    "d16c_m3_L3_N8_lamp1_T0/minusM_control": {
+      "guard": "windowPremise",
+      "reason": "memory guard (E5.3) windowPremise: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 18323712.172051083 > |window floor| = 9.594395102393195"
+    }
+  },
   "notAttempted": [
     "d16c00_m3_L3_N112_lamm1_T0p1/minusM",
     "d16c00_m3_L3_N112_lamm1_T0p1/minusM_control",
@@ -7770,14 +8028,20 @@
     "d16c_m3_L3_N112_lamp2_T0p1/plusM"
   ],
   "failedControl": [
+    "d16c00_m3_L3_N112_lamm1_T0/minusM_control",
     "d16c00_m3_L3_N112_lamm2_T0/minusM_control",
     "d16c00_m3_L3_N112_lamp1_T0/minusM_control",
     "d16c00_m3_L3_N112_lamp2_T0/minusM_control",
+    "d16c_m3_L3_N112_lamm1_T0/minusM_control",
     "d16c_m3_L3_N112_lamm2_T0/minusM_control",
-    "d16c_m3_L3_N112_lamp2_T0/minusM_control"
+    "d16c_m3_L3_N112_lamp1_T0/minusM_control",
+    "d16c_m3_L3_N112_lamp2_T0/minusM_control",
+    "d16c_m3_L3_N8_lamp1_T0/minusM_control"
   ],
   "failedOther": [
-    "d16c00_m3_L3_N112_lamp2_T0/minusM"
+    "d16c00_m3_L3_N112_lamp2_T0/minusM",
+    "d16c00_m3_L3_N112_lamp2_T0/plusM",
+    "d16c_m3_L3_N112_lamp2_T0/minusM"
   ],
   "notConverged": [
     "d16c00_m3_L3_N112_lamm1_T0p1/minusM",
@@ -7801,7 +8065,6 @@
     "d16c_m3_L3_N112_lamp1_T0p1/minusM",
     "d16c_m3_L3_N112_lamp1_T0p1/minusM_control",
     "d16c_m3_L3_N112_lamp1_T0p1/plusM",
-    "d16c_m3_L3_N112_lamp2_T0/minusM",
     "d16c_m3_L3_N112_lamp2_T0/plusM",
     "d16c_m3_L3_N112_lamp2_T0p1/minusM",
     "d16c_m3_L3_N112_lamp2_T0p1/minusM_control",
@@ -7853,10 +8116,8 @@
     "d16c00_m1_L3_N8_lamp2_T0/minusM",
     "d16c00_m1_L3_N8_lamp2_T0/minusM_control",
     "d16c00_m1_L3_N8_lamp2_T0/plusM",
-    "d16c00_m3_L3_N112_lamm1_T0/minusM_control",
     "d16c00_m3_L3_N112_lamm2_T0/minusM",
     "d16c00_m3_L3_N112_lamm2_T0/plusM",
-    "d16c00_m3_L3_N112_lamp2_T0/plusM",
     "d16c00_m3_L3_N8_lam0_T0/minusM",
     "d16c00_m3_L3_N8_lam0_T0/minusM_control",
     "d16c00_m3_L3_N8_lam0_T0/plusM",
@@ -7917,8 +8178,6 @@
     "d16c_m1_L3_N8_lamp2_T0/minusM",
     "d16c_m1_L3_N8_lamp2_T0/minusM_control",
     "d16c_m1_L3_N8_lamp2_T0/plusM",
-    "d16c_m3_L3_N112_lamm1_T0/minusM_control",
-    "d16c_m3_L3_N112_lamp1_T0/minusM_control",
     "d16c_m3_L3_N8_lam0_T0/minusM",
     "d16c_m3_L3_N8_lam0_T0/minusM_control",
     "d16c_m3_L3_N8_lam0_T0/plusM",
@@ -7929,7 +8188,6 @@
     "d16c_m3_L3_N8_lamm2_T0/minusM_control",
     "d16c_m3_L3_N8_lamm2_T0/plusM",
     "d16c_m3_L3_N8_lamp1_T0/minusM",
-    "d16c_m3_L3_N8_lamp1_T0/minusM_control",
     "d16c_m3_L3_N8_lamp1_T0/plusM",
     "d16c_m3_L3_N8_lamp2_T0/minusM",
     "d16c_m3_L3_N8_lamp2_T0/minusM_control",

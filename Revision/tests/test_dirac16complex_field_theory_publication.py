@@ -222,7 +222,7 @@ PLACEHOLDERS = ["TODO", "TBD", "FIXME", "lorem ipsum", "PLACEHOLDER", "XXX"]
 # Stale or unqualified statements corrected after review (2026-10-08): the documents named exist,
 # the charge is only locally conserved, and nothing past the Lambda = 0 turning point is computed.
 STALE_PHRASES = ["planned and not yet written", "the conserved charge", "re-inflate",
-                 "for every series with 3-momentum"]
+                 "for every series with 3-momentum", "to be confirmed by the theory branch"]
 
 # Hand-written formulas of the document that are compared with field-theory.json below.
 DOCUMENT_FORMULAS = [

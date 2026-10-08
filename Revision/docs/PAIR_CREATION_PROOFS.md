@@ -515,6 +515,8 @@ Every check has a name, a verdict and a detail. Counts at the time of writing (t
 | `Revision/algebra/reports/python-algebra.json` | 35 | 35 | 0 |
 | `Revision/theory/reports/wolfram-field-theory.json` | 84 | 84 | 0 |
 | `Revision/theory/reports/python-field-theory.json` | 70 | 70 | 0 |
+| `Revision/theory/reports/wolfram-scope.json` | 15 | 15 | 0 |
+| `Revision/theory/reports/python-scope.json` | 14 | 14 | 0 |
 | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 52 | 52 | 0 |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | 63 | 63 | 0 |
 | `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` | 23 | 23 | 0 |
