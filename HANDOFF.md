@@ -147,6 +147,23 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4u PENDING LEAD INTEGRATIONS (2026-10-08 ~14:50) - do them in this order, each verified, committed, pushed
+
+1. After phase 3c-rev's fixers: gate steps for Revision/theory/fock_quartic/check_fock_quartic.py (line proposed by its agent:
+   `theory-fock-quartic|10|0|-|.../fock-quartic.json|.../fock-quartic.json|{python} Revision/theory/fock_quartic/check_fock_quartic.py`)
+   and for Revision/kohn_sham/tip_convergence/ (agent running) in BOTH twins; Revision/tests/test_revision_gate.py must pass
+   (it now fails on exactly these two scripts, as designed).
+2. Documents: DIRAC16COMPLEX_FIELD_THEORY sections 12 and 15 + README theory row and canonical-quantisation answer (fock_quartic:
+   the identity holds only with Wick ordering, in the single-mode-set model; texts in the agent report); KOHN_SHAM_DEFLATING_FIELD
+   sections 5, 15.3, 15.4 + README kohn_sham row (tip convergence result); rebuild, register, test pins.
+3. Old Stage 5 (detached since 14:36): reference pairs (--workers 8 --resume, ~4.5 h, 1.6-9.3 h) and Rust pairs canonical ->
+   repeat -> refined (logs/done markers in <scratchpad>/phase3d/stage5-plan/plan/); then the pairs checker, the documents
+   (handoff/workflows/wf_stage5_docs_review.js after telling STAGE5_DOC_OUTLINE about E5.1/E5.2), the gate
+   verify_stage5_pair_creation, the matter-antimatter regeneration and its PROVISIONAL strings, the pairing provenance, HANDOFF C.
+4. Old Stage 4 (detached since 13:22): after stage4_R1/done.txt: R2-R5 + the errata line, in one commit.
+5. Chapter 23 generator (0.4s), 23a rebuilt LAST, phase 3c-book, the two LaTeX warnings, assembly, PDF registration.
+6. Full gate (detached, ~3 h), EXECUTION_PROVENANCE_FULL=1, all suites, two fresh clones, push, notify the user.
+
 ### 0.4t RUNNING AT ~14:40 (2026-10-08)
 
 Phase 3c-rev (wf_632c3899-8ec: whole-Revision review, 5 lenses, 2 skeptics per finding, fixers per area, fix-verifiers);
