@@ -31,7 +31,7 @@ Measured run time: between 4 and 11 s for the first Wolfram command and between 
 | `provenance/dirac_matrices/extract_from_author_notebook.wls` | WolframScript: evaluates the author's input cells, writes author_notebook_T16.json | `8421d9ac741ad842307187d10fce70b5f03114cfe83a736799af31e1f717b20d` |
 | `provenance/dirac_matrices/extract_repository_wolfram_gammas.wls` | WolframScript: loads the repository's Wolfram packages, writes repository_wolfram_gammas.json | `dcf1d5b2234c64f8e89e23a8774406fbf6e5984e20c531deeead4be164f5830a` |
 | `provenance/dirac_matrices/author_notebook_T16.json` | output of the first extractor, input of the builder | `3feb376352093c6da6492ac0f0a88508235a0ba6eb56bab632742bf2b9317cf5` |
-| `provenance/dirac_matrices/repository_wolfram_gammas.json` | output of the second extractor, input of the builder | `8c4d89f2dc368737d7d26458b5656fcf37c1e73e43dde517aef16e6543861d85` |
+| `provenance/dirac_matrices/repository_wolfram_gammas.json` | output of the second extractor, input of the builder | `468b218e33939e097bfc63a32044cf6c3b71f86023405c1f024e8f7ee7975e55` |
 | `provenance/dirac_matrices/build_dirac_matrices_md.py` | Python builder: runs the exact checks, writes this file | `220975d9626daa519b20cc0ddf3e37b623d03ad55ea52d957bc5bf8c70c88add` |
 
 ## Source: the author's input cells that were evaluated
