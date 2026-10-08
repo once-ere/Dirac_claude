@@ -137,6 +137,14 @@ package versions; if the winget source agreements were not yet accepted on this 
 permission.  Reported to the user.  Every workflow script in Revision/workflows/ now carries a rule forbidding the acceptance of any
 agreement/licence/EULA (effective for future launches; the prompts of already-running runs cannot be changed).
 
+### 0.4j RESTARTED 2026-10-07 20:35 (user: "continue, resume, restart --accept-source-agreements. continue all stages and do not stop")
+
+The user approved the winget source agreements that an agent had accepted (the rule that agents never accept agreements stays).
+Restarted from the 0.4i kit in the same session (SP = <session scratchpad>/restart; the a4 prep's partial scratch clone was carried over
+and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_restart wf_148a1d48-af6, dirac_matrices_audit_fix_restart
+wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
+their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
+
 ### 0.4i RESTART KIT - PAUSED 2026-10-07 20:30 BEFORE A SESSION LIMIT
 
 User, 2026-10-07: "pause NOW before session limit; push all and check repo; prepare to restart after a session limit; continue all
