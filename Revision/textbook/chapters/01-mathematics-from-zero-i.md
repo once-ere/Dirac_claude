@@ -21,8 +21,8 @@ with $s = \sin^{1/3} z$ and $z = 6 H x_8$. Here $H$ is a positive constant of th
 | 01a | vectors, matrices, permutations, determinants, the gamma matrices and the metric | Sections 1.18 to 1.25 |
 | 01e | index notation, the summation convention, the frame metric, the Clifford relation | Sections 1.26 to 1.33 |
 | 01g | eigenvalues, eigenvectors, the signature (4,4), Sylvester's law | Sections 1.34 to 1.41 |
-| 01c | the generalized Kronecker delta, its proof, its counts, its contractions | Sections 1.42 to 1.48 |
-| 01d | binary numbers, a pseudo-random generator, the record's tests of the generalized delta reproduced exactly | Sections 1.49 to 1.54 |
+| 01c | the generalized Kronecker delta, its proof, its counts, its contractions | Sections 1.40 to 1.41 |
+| 01d | binary numbers, a pseudo-random generator, the record's tests of the generalized delta reproduced exactly | Sections 1.40 to 1.41 |
 
 Each notebook appears in three parts: a section "How to run Notebook 01x", which gives the complete instructions for running it on Windows, macOS or Linux; a section "Notebook 01x: complete text", which prints every cell, everything it printed and every figure it drew; and a section "Line-by-line walk-through of Notebook 01x", which explains every line of every code cell. The first code cell of every notebook, the **set-up cell**, is the same in all notebooks except for the notebook's name; it is explained line by line once, in Section 1.9, and the later walk-throughs refer back to that explanation.
 

@@ -9,7 +9,7 @@ A spinor field $\Psi$ attaches 16 numbers $\Psi_1, \dots, \Psi_{16}$ to every po
 - How do we make a single number out of a spinor, a number that does not change when the eight directions are turned into each other? The answer is the **bilinear** $\Psi^\dagger C\Psi$ with the charge matrix $C$ (Sections 5.4 and 5.18).
 - Which parts of a spinor stay separate under every turning of the directions? The two **chiral halves**, components 1 to 8 and 9 to 16, picked out by the chirality $\Gamma$ (Sections 5.5 and 5.13).
 - What is the **charge density** of a spinor field, the quantity whose total is conserved? It is $\Psi^\dagger B\Psi$ with the matrix $B$ (Section 5.6).
-- What turns matter into antimatter? A **charge-conjugation matrix**. Because the author's gammas are real, plain complex conjugation does nothing to a real field and cannot exchange matter and antimatter; the exchange must be made by a matrix, and there are exactly two such matrices, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$ (Sections 5.28 and 5.29). For the quantised field only one conjugation survives, and it reverses the mass (Section 5.34).
+- What exchanges particles and antiparticles? A **charge-conjugation matrix**. Because the author's gammas are real, plain complex conjugation does nothing to a real field and cannot exchange anything; the exchange must be made by a matrix, and there are exactly two such matrices, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$ (Sections 5.28 and 5.29). For the quantised field only one conjugation survives, and it reverses the mass (Section 5.34). Section 5.39 states what these exact maps do and do not say about matter and antimatter in the universe.
 
 Between these questions stands the group theory: the groups Pin(4,4) and Spin(4,4) that act on spinors, the words irreducible and inequivalent, and what the scaled commutators $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$ generate. Everything is introduced from zero: a reader who knows school algebra and the derivative of one-variable functions can follow every line.
 
@@ -4864,7 +4864,7 @@ def create(p, state):
     return result
 ```
 
-With 16 modes there are 65536 patterns, too many for full matrices; a state is therefore stored as a dictionary `{pattern: amplitude}` that lists only the nonzero amplitudes. `annihilate(p, state)` is $f_p$: for every pattern in which mode $p$ is full it adds the amplitude, times the sign, to the pattern with mode $p$ emptied (`result.get(new, 0)` is the amplitude collected so far, 0 if none). `create(p, state)` is $f_p^\ast$: for every pattern in which mode $p$ is empty it fills the mode (the operator `|`, or, with the single-digit number sets digit $p$ to 1).
+With 16 modes there are 65536 patterns, too many for full matrices; a state is therefore stored as a dictionary `{pattern: amplitude}` that lists only the nonzero amplitudes. `annihilate(p, state)` is $f_p$: for every pattern in which mode $p$ is full it adds the amplitude, times the sign, to the pattern with mode $p$ emptied (`result.get(new, 0)` is the amplitude collected so far, 0 if none). `create(p, state)` is $f_p^\ast$: for every pattern in which mode $p$ is empty it fills the mode (the operator `|`, the binary or, applied with the single-digit number sets digit $p$ to 1).
 
 ```python
 def combine(terms):

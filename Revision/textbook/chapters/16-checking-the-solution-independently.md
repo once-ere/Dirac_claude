@@ -305,7 +305,7 @@ The other ten checks are preconditions and consistency tests: the three input re
 
 ### 16.9 Example: the reference solver on a subset and the cross-check (Notebook 16a)
 
-Notebook 16a repeats the cross-check for a **subset** of five states: three ground states and two thermal states, four of them chosen because the full cross-check found its largest ratios there, and the fifth (N688_lam0_a00) because it has the most quanta. It runs the reference program of the repository on these states and on the fourth grid, checks that every new number reproduces the committed reference files, shows the convergence and Richardson extrapolation at work, builds and runs the Rust solver with its canonical and its refined numerics, applies the tolerance rule of Section 16.7 to 5140 comparisons, and reproduces 97 rows of the committed comparison table and the worst cases of six classes of the full cross-check. It needs Rust, takes about four minutes on a fast computer, draws seven figures and ends with the line ALL 51 CHECKS PASSED (notebook 16a).
+Notebook 16a repeats the cross-check for a **subset** of five states: three ground states and two thermal states, four of them chosen because the full cross-check found its largest ratios there, and the fifth (N688_lam0_a00) because it has the most quanta. It runs the reference program of the repository on these states and on the fourth grid, checks that every new number reproduces the committed reference files, shows the convergence and Richardson extrapolation at work, builds and runs the Rust solver with its canonical and its refined numerics, applies the tolerance rule (Section 16.7) to 5140 comparisons, and reproduces 97 rows of the committed comparison table and the worst cases of six classes of the full cross-check. It needs Rust, takes about four minutes on a fast computer, draws seven figures and ends with the line ALL 51 CHECKS PASSED (notebook 16a).
 
 <!-- NOTEBOOK 16a -->
 
@@ -1630,3 +1630,1132 @@ all_checks_passed()
 ```
 
 `enumerate(..., start=1)` numbers the seven figure names from 1, and the list comprehension builds their file names, for example `Revision/textbook/figures/16a_1_grid_convergence.png`. The check confirms that each file exists where the notebook writes (`output_file`), and `all_checks_passed()` prints the last line, ALL 51 CHECKS PASSED (notebook 16a): three checks each in In [2], In [5], In [6], In [7], In [15] and In [16], four in In [10], ten in In [13], seven in In [18], two in In [11], and one each in In [3], In [4], In [8], In [12], In [14], In [17], In [19], In [21], In [22] and In [23].
+
+### 16.13 Inside the reference solver I: the free problem and its exact levels
+
+**Why a problem with known answers.** A grid method can be tested best on a problem whose exact answers are known, because then its error can be measured directly instead of estimated. The Kohn-Sham problem has such a special case: no interaction ($\lambda = 0$, so $M = m$ and $v = 0$) and no 3-momentum ($k = 0$). We call it the **free problem at zero momentum**. With $k = 0$ the factor $\kappa$ drops out of the equations of Section 16.3, and so does the slice $a_{4,0}$:
+
+$$
+a' = M a - j\varepsilon\, b, \qquad b' = j\varepsilon\, a - M b ,
+$$
+
+with a constant $M > 0$ (in the numbers $M = m = 1$, $L = 3$). Its exact levels are derived in this section (in the record: `Revision/kohn_sham/ks-theory.json`, boundaryConditions.exactK0Spectra, verified by check bc_exact_k0_spectra of `Revision/kohn_sham/reports/ks-theory-python.json`; status PROVED). Notebook 16b checks the derivation with the symbolic algebra package sympy and uses the levels to measure the errors of the reference's grid.
+
+**Even parity, line by line.** The conditions are $b(-L) = 0$ (tip) and $b(0) = 0$ (brane). Let $\varepsilon \ne 0$; recall $j = \pm1$, so $j^2 = 1$.
+
+$$
+j\,b' = \varepsilon\,a - jM\,b \quad\Longrightarrow\quad a = \frac{j\,(b' + M b)}{\varepsilon}.
+$$
+
+Rule: multiply the second equation by $j$ (using $j^2 = 1$), move $jMb$ to the left side and divide by $\varepsilon$.
+
+$$
+\frac{j\,(b'' + M b')}{\varepsilon} = M\,\frac{j\,(b' + M b)}{\varepsilon} - j\varepsilon\,b .
+$$
+
+Rule: insert this $a$ into the first equation $a' = Ma - j\varepsilon b$; the derivative of $a$ is $j(b'' + Mb')/\varepsilon$ because $M$ and $\varepsilon$ are constants.
+
+$$
+b'' + M b' = M b' + M^2 b - \varepsilon^2 b .
+$$
+
+Rule: multiply both sides by $\varepsilon/j$ (which equals $j\varepsilon$, since $1/j = j$).
+
+$$
+b'' = -\big(\varepsilon^2 - M^2\big)\,b .
+$$
+
+Rule: cancel $Mb'$ on both sides and collect the terms with $b$.
+
+If $\varepsilon^2 > M^2$, write $p^2 = \varepsilon^2 - M^2$ with $p > 0$. The equation $b'' = -p^2 b$ has the solutions $\alpha\sin(p(y + L)) + \beta\cos(p(y + L))$ (differentiate twice to check). The tip condition $b(-L) = 0$ gives $\beta = 0$, and since the equations are linear we may take $\alpha = 1$:
+
+$$
+b = \sin\big(p\,(y + L)\big), \qquad b(0) = \sin(pL) = 0 \quad\Longrightarrow\quad p = \frac{n\pi}{L},\ n = 1, 2, 3, \dots
+$$
+
+Rule: the sine vanishes exactly at the whole multiples of $\pi$. Hence the even levels are
+
+$$
+\varepsilon = \pm\sqrt{M^2 + \Big(\frac{n\pi}{L}\Big)^2}, \qquad n = 1, 2, 3, \dots
+$$
+
+Rule: $\varepsilon^2 = M^2 + p^2$, and both signs of the square root are allowed. (For $\varepsilon^2 \le M^2$ the solutions with $b(-L) = 0$ are $\sinh(q(y + L))$ or $y + L$, which do not vanish again at $y = 0$; so there are no other nonzero levels.) For $M = 1$, $L = 3$ the first one is $\sqrt{1 + (\pi/3)^2} = \sqrt{2.096623} = 1.447972$.
+
+**The zero mode, line by line.** For $\varepsilon = 0$ the two equations no longer mix $a$ and $b$:
+
+$$
+a' = M a, \qquad b' = -M b \quad\Longrightarrow\quad a = A\,e^{My}, \qquad b = B\,e^{-My}.
+$$
+
+Rule: the solution of $f' = cf$ is $f = f(0)\,e^{cy}$ (Chapter 2). The tip condition $b(-L) = B\,e^{ML} = 0$ forces $B = 0$, so $b = 0$ everywhere and the brane condition $b(0) = 0$ holds automatically: $\varepsilon = 0$ is an even level, the **zero mode**, whose orbital $a = A\,e^{My}$ grows towards the brane. Its normalisation $\int_{-L}^{0}(a^2 + b^2)\,dy = 1$ fixes $A$:
+
+$$
+A^2\int_{-L}^{0} e^{2My}\,dy = A^2\,\Big[\frac{e^{2My}}{2M}\Big]_{-L}^{0} = A^2\,\frac{1 - e^{-2ML}}{2M} = 1 \quad\Longrightarrow\quad A = \sqrt{\frac{2M}{1 - e^{-2ML}}}.
+$$
+
+Rule: the antiderivative of $e^{2My}$ is $e^{2My}/(2M)$, evaluated at $0$ and at $-L$; then solve for $A > 0$. For $M = 1$, $L = 3$: $A = \sqrt{2/(1 - e^{-6})} = 1.415970$.
+
+**Odd parity, line by line.** Now the conditions are $b(-L) = 0$ and $a(0) = 0$. The derivation of $b'' = -(\varepsilon^2 - M^2)b$ did not use any brane condition, so again $b = \sin(p(y + L))$ and $a = j(b' + Mb)/\varepsilon$:
+
+$$
+a = \frac{j\,\big(p\cos(p(y + L)) + M\sin(p(y + L))\big)}{\varepsilon}, \qquad a(0) = 0 \iff p\cos(pL) + M\sin(pL) = 0 .
+$$
+
+Rule: differentiate $b$ ($b' = p\cos(p(y + L))$), insert, and set $y = 0$; the factor $j/\varepsilon$ is not zero.
+
+$$
+\tan(pL) = -\frac{p}{M}.
+$$
+
+Rule: divide by $M\cos(pL)$ (which is not zero at a root: if $\cos(pL) = 0$ then $\sin(pL) = \pm1$ and the left side would be $\pm M \ne 0$).
+
+**One root in each interval.** Let $F(p) = M\sin(pL) + p\cos(pL)$ and $l = 0, 1, 2, \dots$. At $pL = (l + \tfrac12)\pi$ we have $\cos = 0$ and $\sin = (-1)^l$, so $F = M(-1)^l$. At $pL = (l + 1)\pi$ we have $\sin = 0$ and $\cos = (-1)^{l+1}$, so $F = p\,(-1)^{l+1}$. The two values have opposite signs, so $F$ has a root $p_l$ between them (a continuous function that changes sign has a zero in between: the intermediate value theorem). There is only one: on that interval $\tan(pL)$ increases from $-\infty$ to 0 while $-p/M$ decreases, so they meet once; and on the intervals $l\pi < pL < (l + \tfrac12)\pi$ there is none, because there $\tan(pL) > 0 > -p/M$. So the odd levels are $\varepsilon = \pm\sqrt{M^2 + p_l^2}$, $l = 0, 1, 2, \dots$, with $p_l$ the root in $((l + \tfrac12)\pi/L, (l + 1)\pi/L)$. For $M = 1$, $L = 3$ the lowest is $1.292292828069$ (Notebook 16b, Out [2]); this is the **bulk edge** of Chapter 15, the lowest level that does not belong to the brane band.
+
+**Ranks.** The levels of one sector (one parity and one block type) are numbered from the lowest **particle** level, which gets the **rank** 0, upwards $1, 2, \dots$ and downwards $-1, -2, \dots$. By the convention of `ks-theory.json` the brane zero modes are particles. So for even parity rank 0 is the zero mode, rank $n \ge 1$ is $+\sqrt{M^2 + (n\pi/L)^2}$ and rank $-n$ its negative; for odd parity rank $r \ge 0$ is $+\sqrt{M^2 + p_r^2}$ and rank $-r - 1$ its negative. Notebook 16b computes the ranks $-3$ to $5$ of both parities (Out [2]); for example the even levels of ranks 1 to 5 are $1.447972$, $2.320881$, $3.296908$, $4.306502$ and $5.330625$.
+
+### 16.14 Inside the reference solver II: the staggered grid and the matrix
+
+**The equations as an eigenvalue problem, line by line.** A matrix method needs the equations in the form "level times orbital equals an operator applied to the orbital".
+
+$$
+\varepsilon\,a = j\,(b' + M b).
+$$
+
+Rule: from the second equation $b' = j\varepsilon a - Mb$, multiply by $j$ and move $jMb$ over (as in Section 16.13).
+
+$$
+\varepsilon\,b = j\,(-a' + M a).
+$$
+
+Rule: from the first equation $a' = Ma - j\varepsilon b$, multiply by $-j$ ($-ja' = -jMa + \varepsilon b$, using $j^2 = 1$) and solve for $\varepsilon b$. (With a 3-momentum and a potential the record's operator is the same with $+jK + v$ added to the first line and $-jK + v$ to the second, $K = \kappa k$: `Revision/kohn_sham/reference/ks_fd.py`, its header.)
+
+**The staggered grid.** Divide $-L \le y \le 0$ into $G$ equal **cells** of width $h = L/G$. The cell ends, the **nodes**, are $y_i = -L + i\,h$ for $i = 0, \dots, G$; the cell centres, the **half nodes**, are $y_{p+1/2} = -L + (p + \tfrac12)\,h$ for $p = 0, \dots, G - 1$. The reference stores $a$ at the half nodes and $b$ at the nodes: $u_p \approx a(y_{p+1/2})$ and $w_i \approx b(y_i)$. At the two end nodes $b$ is zero for even parity ($w_0 = 0$ at the tip and $w_G = 0$ at the brane), so they are not unknowns. The unknowns, in the order of $y$, are
+
+$$
+(u_0,\ w_1,\ u_1,\ w_2,\ \dots,\ w_{G-1},\ u_{G-1}),
+$$
+
+$G$ values of $u$ and $G - 1$ values of $w$, $2G - 1$ in all (Figure 16b.1 draws them for $G = 6$). Such a grid, on which the two components live on alternating points, is called **staggered**. On an ordinary grid, with both components at the same points and the centred difference $(f_{i+1} - f_{i-1})/(2h)$, a zigzag pattern $+1, -1, +1, \dots$ has a difference of zero and produces spurious extra levels (the **doubling** problem of naive discretisations of Dirac-type equations; the record's reference README names it as the reason for the staggering, `Revision/kohn_sham/reference/README.md`). On the staggered grid every difference connects neighbours one half cell apart, and no such pattern escapes.
+
+**Centred differences and averages, line by line.** Let $f$ be a smooth function. Taylor's theorem (Chapter 2) gives
+
+$$
+f\big(y \pm \tfrac h2\big) = f \pm \tfrac h2\,f' + \tfrac{h^2}{8}\,f'' \pm \tfrac{h^3}{48}\,f''' + \tfrac{h^4}{384}\,f'''' \pm \dots ,
+$$
+
+Rule: $f(y + s) = f + sf' + \tfrac{s^2}{2}f'' + \tfrac{s^3}{6}f''' + \tfrac{s^4}{24}f'''' + \dots$ with $s = \pm h/2$, so $\tfrac{s^2}{2} = \tfrac{h^2}{8}$, $\tfrac{s^3}{6} = \pm\tfrac{h^3}{48}$, $\tfrac{s^4}{24} = \tfrac{h^4}{384}$.
+
+$$
+\frac{f(y + \tfrac h2) - f(y - \tfrac h2)}{h} = f' + \frac{h^2}{24}\,f''' + \dots
+$$
+
+Rule: subtract the two expansions; the even terms cancel and the odd terms double ($2\cdot\tfrac h2 = h$, $2\cdot\tfrac{h^3}{48} = \tfrac{h^3}{24}$), then divide by $h$.
+
+$$
+\frac{f(y + \tfrac h2) + f(y - \tfrac h2)}{2} = f + \frac{h^2}{8}\,f'' + \dots
+$$
+
+Rule: add the two expansions; now the odd terms cancel; divide by 2.
+
+So the **centred difference** and the **centred average** of the two neighbours half a cell away are second-order approximations of $f'$ and $f$ at the midpoint, and their errors contain only even powers of $h$ (the next terms are $h^4$, $h^6$, ...). This is where the even-power expansion of Section 16.4 comes from.
+
+**The rows of the matrix, line by line.** Write the first eigenvalue equation at the half node $y_{p+1/2}$, the place where $u_p$ lives; its neighbours of $b$ are $w_p$ and $w_{p+1}$:
+
+$$
+\varepsilon\,u_p = j\Big(\frac{w_{p+1} - w_p}{h} + M\,\frac{w_p + w_{p+1}}{2}\Big) = j\Big(-\frac1h + \frac M2\Big)\,w_p + j\Big(\frac1h + \frac M2\Big)\,w_{p+1}.
+$$
+
+Rule: replace $b'$ by the centred difference and $b$ by the centred average, then collect the coefficients of $w_p$ and $w_{p+1}$. Write the second equation at the node $y_i$, where $w_i$ lives; its neighbours of $a$ are $u_{i-1}$ and $u_i$:
+
+$$
+\varepsilon\,w_i = j\Big(-\frac{u_i - u_{i-1}}{h} + M\,\frac{u_{i-1} + u_i}{2}\Big) = j\Big(\frac1h + \frac M2\Big)\,u_{i-1} + j\Big(-\frac1h + \frac M2\Big)\,u_i .
+$$
+
+Rule: the same replacements for $a'$ and $a$, then collect.
+
+**The matrix is tridiagonal and symmetric.** In the order of the unknowns each row couples only to its two neighbours in the list (a $u$ to the $w$ on either side, a $w$ to the $u$ on either side), so the matrix $T$ of the problem $T z = \varepsilon z$ is **tridiagonal**; at $k = 0$ its diagonal is zero. It is also **symmetric** ($T_{rc} = T_{cr}$): the coefficient of $w_{p+1}$ in the row of $u_p$ is $j(\tfrac1h + \tfrac M2)$, and the coefficient of $u_p$ in the row of $w_{p+1}$ (put $i = p + 1$, so $u_{i-1} = u_p$) is the same number; likewise the coefficient of $w_p$ in the row of $u_p$ and of $u_p$ in the row of $w_p$ (put $i = p$) are both $j(-\tfrac1h + \tfrac M2)$. So the entry between the neighbours number $r$ and $r + 1$ of the list is
+
+$$
+T_{r,r+1} = T_{r+1,r} = \begin{cases} j\,(\tfrac1h + \tfrac M2) & r \text{ even (a } u \text{ followed by a } w), \\ j\,(-\tfrac1h + \tfrac M2) & r \text{ odd (a } w \text{ followed by a } u). \end{cases}
+$$
+
+For $G = 4$ ($h = 0.75$) and $M = 1$ the two values are $1.8333$ and $-0.8333$ (Notebook 16b, Out [4] prints the whole $7\times7$ matrix). Symmetry matters: a real symmetric matrix has only real eigenvalues and an orthonormal set of eigenvectors (the **spectral theorem**, quoted from linear algebra), as the levels of a self-adjoint problem must; and the counting method of Section 16.15 works only for symmetric matrices.
+
+**Odd parity: the rotated frame.** For odd parity the brane condition is $a(0) = 0$, but $a$ lives at half nodes, so no unknown sits at $y = 0$ to be set to zero. The reference rotates the two components before it discretises, so that both conditions become "$b$-type component zero at the ends" again. With the Pauli matrices $\sigma_1 = \begin{pmatrix}0&1\\1&0\end{pmatrix}$, $\sigma_2 = \begin{pmatrix}0&-i\\i&0\end{pmatrix}$, $\sigma_3 = \begin{pmatrix}1&0\\0&-1\end{pmatrix}$ and the complex orbital $\chi = (a, ib)$ of Chapter 14, write $\chi = R\,\psi$ with $\psi = (u, iw)$ and $R = e^{i\phi\sigma_1}$ for an angle $\phi(y)$.
+
+$$
+R = e^{i\phi\sigma_1} = \cos\phi + i\sin\phi\,\sigma_1 .
+$$
+
+Rule: the series $e^{X} = 1 + X + X^2/2 + \dots$ with $X = i\phi\sigma_1$ and $\sigma_1^2 = 1$ splits into the even terms, the series of $\cos\phi$, and the odd terms, $i\sigma_1$ times the series of $\sin\phi$.
+
+$$
+\begin{pmatrix} a \\ ib \end{pmatrix} = \begin{pmatrix} \cos\phi\,u + i\sin\phi\cdot iw \\ \cos\phi\cdot iw + i\sin\phi\,u \end{pmatrix} = \begin{pmatrix} \cos\phi\,u - \sin\phi\,w \\ i\,(\sin\phi\,u + \cos\phi\,w) \end{pmatrix}.
+$$
+
+Rule: $\sigma_1$ exchanges the two components of $(u, iw)$, and $i\cdot i = -1$. So $a = \cos\phi\,u - \sin\phi\,w$ and $b = \sin\phi\,u + \cos\phi\,w$. The reference chooses $\phi = j\,\tfrac{\pi}{2}\,\tfrac{y + L}{L}$: at the tip $\phi = 0$, so $b = w$ and $b(-L) = 0$ means $w(-L) = 0$; at the brane $\phi = j\pi/2$, so $\cos\phi = 0$, $\sin\phi = j$, $a = -j\,w$, and $a(0) = 0$ means $w(0) = 0$. Both conditions are again "$w = 0$ at the ends", and the same staggered grid works.
+
+**The rotated operator, line by line.** The operator of Section 16.3 is $h_j = j[-i\sigma_1\tfrac{d}{dy} + M\sigma_2 + K\sigma_3] + v$, and $h_j\chi = \varepsilon\chi$ becomes $R^{-1}h_jR\,\psi = \varepsilon\psi$, with $R^{-1} = \cos\phi - i\sin\phi\,\sigma_1$.
+
+$$
+R^{-1}\Big(-i\sigma_1\frac{d}{dy}\Big)(R\psi) = -i\sigma_1\big(\psi' + R^{-1}R'\,\psi\big) = -i\sigma_1\psi' - i\sigma_1\cdot i\phi'\sigma_1\,\psi = -i\sigma_1\psi' + \phi'\,\psi .
+$$
+
+Rule: the product rule $(R\psi)' = R'\psi + R\psi'$; $\sigma_1$ commutes with $R$; $R^{-1}R' = i\phi'\sigma_1$ (differentiate $e^{i\phi\sigma_1}$); and $-i\cdot i\cdot\sigma_1^2 = 1$. The derivative of the rotation adds the plain number $\phi'$.
+
+$$
+R^{-1}\sigma_2R = (\cos\phi - i\sin\phi\,\sigma_1)(\cos\phi\,\sigma_2 + \sin\phi\,\sigma_3) = \cos 2\phi\,\sigma_2 + \sin 2\phi\,\sigma_3 .
+$$
+
+Rule: first $\sigma_2R = \cos\phi\,\sigma_2 + i\sin\phi\,\sigma_2\sigma_1 = \cos\phi\,\sigma_2 + \sin\phi\,\sigma_3$ (because $\sigma_2\sigma_1 = -i\sigma_3$); then multiply out with $\sigma_1\sigma_2 = i\sigma_3$, $\sigma_1\sigma_3 = -i\sigma_2$, and use $\cos^2\phi - \sin^2\phi = \cos2\phi$, $2\sin\phi\cos\phi = \sin2\phi$. In the same way $R^{-1}\sigma_3R = \cos2\phi\,\sigma_3 - \sin2\phi\,\sigma_2$ (Notebook 16b checks both with sympy, In [9]).
+
+$$
+R^{-1}(M\sigma_2 + K\sigma_3)R = \big(M\cos2\phi - K\sin2\phi\big)\,\sigma_2 + \big(M\sin2\phi + K\cos2\phi\big)\,\sigma_3 = m_2\,\sigma_2 + k_2\,\sigma_3 .
+$$
+
+Rule: insert the two rotated matrices and collect the coefficients of $\sigma_2$ and $\sigma_3$. So the rotated operator has the same form, $j[-i\sigma_1\tfrac{d}{dy} + \phi' + m_2\sigma_2 + k_2\sigma_3] + v$, with the new mass $m_2$ and momentum term $k_2$. In the matrix, $j(\phi' + k_2) + v$ stands on the diagonal of the $u$ rows and $j(\phi' - k_2) + v$ on the diagonal of the $w$ rows ($\sigma_3$ is $+1$ on the first component and $-1$ on the second), and $M$ in the neighbour entries is replaced by $m_2$, taken at the half node of the pair so that the matrix stays symmetric. For even parity $\phi = 0$, and everything reduces to the matrix above, with $\pm jK + v$ on the diagonal. The reference chooses the angle $j\phi$ for block type $j$ so that the exact symmetry between the two block types at $k = 0$ survives on the grid: their levels agree exactly, to $0$ in the record (`Revision/kohn_sham/reports/ks-reference.json`, check free_k0_block_type_symmetry).
+
+### 16.15 Inside the reference solver III: counting eigenvalues, the zero mode and the brane band
+
+**The pivots, line by line.** How does one find eigenvalue number $i$ of a matrix with thousands of rows without computing all of them? By counting. Let $T$ be tridiagonal with diagonal $d_1, \dots, d_n$ and neighbour entries $o_1, \dots, o_{n-1}$, and let $x$ be a trial number. Write $T - x\,\mathbb{1}$ (where $\mathbb{1}$ is the unit matrix) as a product $L D L^T$, with $L$ having ones on its diagonal and one band below it, and $D$ diagonal with entries $q_1, \dots, q_n$, the **pivots**. For two rows:
+
+$$
+\begin{pmatrix} d_1 - x & o_1 \\ o_1 & d_2 - x \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ \ell & 1 \end{pmatrix}\begin{pmatrix} q_1 & 0 \\ 0 & q_2 \end{pmatrix}\begin{pmatrix} 1 & \ell \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} q_1 & \ell q_1 \\ \ell q_1 & \ell^2 q_1 + q_2 \end{pmatrix}.
+$$
+
+Rule: multiply the three matrices (row times column).
+
+$$
+q_1 = d_1 - x, \qquad \ell = \frac{o_1}{q_1}, \qquad q_2 = d_2 - x - \ell^2 q_1 = d_2 - x - \frac{o_1^2}{q_1}.
+$$
+
+Rule: compare the entries of the two sides, first the top left, then the off-diagonal, then the bottom right. The same comparison, row after row, gives for every $n$
+
+$$
+q_1 = d_1 - x, \qquad q_r = d_r - x - \frac{o_{r-1}^2}{q_{r-1}} \quad (r = 2, \dots, n).
+$$
+
+Rule: each new row of $L D L^T$ involves only the previous pivot, because $T$ has only one band on each side of the diagonal.
+
+**Sylvester's law of inertia and the Sturm count.** A theorem of linear algebra that we quote without proof, **Sylvester's law of inertia**, says: if $A = L D L^T$ with an invertible $L$, then $A$ and $D$ have the same number of negative eigenvalues. The eigenvalues of $D$ are its diagonal entries, the pivots, and the eigenvalues of $T - x\,\mathbb{1}$ are $\varepsilon - x$ for the eigenvalues $\varepsilon$ of $T$. Hence
+
+$$
+c(x) = \text{(number of negative pivots)} = \text{(number of eigenvalues of } T \text{ below } x).
+$$
+
+Rule: $\varepsilon - x < 0$ exactly when $\varepsilon < x$. The function $c(x)$ is the **Sturm count**; it jumps by one at every eigenvalue (Figure 16b.2 draws it as a staircase). If a pivot happens to be exactly zero, the next one would divide by zero; the reference then replaces it by the tiny negative number $-10^{-290}$, which is the same as moving $x$ by a tiny amount. A worked example with three rows is Exercise 4 of Section 16.27.
+
+**Bisection.** To find eigenvalue number $i$ (counting from 0 at the lowest), start with an interval $[lo, hi]$ that contains every eigenvalue. Take the midpoint $mid$. If $c(mid) \le i$, at most $i$ eigenvalues lie below $mid$, so eigenvalue number $i$ lies at or above it: replace $lo$ by $mid$; otherwise replace $hi$ by $mid$. Each step halves the interval and keeps the eigenvalue inside, so no eigenvalue can be missed or counted twice. After $n$ steps an interval of width $W$ has shrunk to $W/2^n$; to reach a width $\tau$ one needs $n \ge \log_2(W/\tau)$ steps.
+
+**The starting interval: Gershgorin's bound, line by line.** Let $Tz = \varepsilon z$ with $z \ne 0$, and let $r$ be the row in which $|z_r|$ is largest.
+
+$$
+(\varepsilon - T_{rr})\,z_r = \sum_{c \ne r} T_{rc}\,z_c .
+$$
+
+Rule: row $r$ of $Tz = \varepsilon z$, with the diagonal term moved to the left.
+
+$$
+|\varepsilon - T_{rr}|\,|z_r| \le \sum_{c \ne r} |T_{rc}|\,|z_c| \le \Big(\sum_{c \ne r} |T_{rc}|\Big)\,|z_r| .
+$$
+
+Rule: the triangle inequality, then $|z_c| \le |z_r|$ for every $c$.
+
+$$
+|\varepsilon - T_{rr}| \le \rho_r = \sum_{c \ne r} |T_{rc}| .
+$$
+
+Rule: divide by $|z_r| > 0$. So every eigenvalue lies within the **radius** $\rho_r$ of some diagonal entry (Gershgorin's theorem), and the interval from $\min(d - \rho) - 1$ to $\max(d + \rho) + 1$ contains them all. For $G = 150$ ($h = 0.02$) the neighbour entries are $50.5$ and $-49.5$, every inner radius is $100$, and the interval is $[-101, 101]$, of width $W = 202$. The notebook stops when the width is below $10^{-14}\max(1, |lo|)$, so for a level near zero $\tau = 10^{-14}$ and $n \ge \log_2(202/10^{-14}) = 54.2$: 55 halvings, the number Notebook 16b prints (Out [5]).
+
+**The exact discrete zero mode, line by line.** At $k = 0$ the grid problem keeps an eigenvalue that is exactly zero. Put $\varepsilon = 0$ and all $w_i = 0$. The rows of the $u$ then read $0 = 0$. The row of $w_i$ demands
+
+$$
+\Big(\frac1h + \frac M2\Big)\,u_{i-1} + \Big(-\frac1h + \frac M2\Big)\,u_i = 0 \quad\Longrightarrow\quad u_i = q\,u_{i-1}, \qquad q = \frac{1 + Mh/2}{1 - Mh/2}.
+$$
+
+Rule: multiply by $h$ and solve for $u_i$. Hence $u_p = q^p\,u_0$: a discrete exponential, with $b = 0$ exactly, as in the continuum. How close is it to $e^{My}$?
+
+$$
+\ln q = \ln\big(1 + \tfrac{Mh}{2}\big) - \ln\big(1 - \tfrac{Mh}{2}\big) = 2\Big(\tfrac{Mh}{2} + \tfrac13\big(\tfrac{Mh}{2}\big)^3 + \dots\Big) = Mh + \frac{(Mh)^3}{12} + \dots
+$$
+
+Rule: the series $\ln(1 + t) = t - \tfrac{t^2}{2} + \tfrac{t^3}{3} - \dots$ with $t = \pm Mh/2$; in the difference the even powers cancel and the odd powers double. So $q^p = e^{p\ln q} = e^{Mph\,(1 + (Mh)^2/12 + \dots)}$: the exponent is $M$ times the distance $ph$ from the first half node, up to a relative error $(Mh)^2/12$, an error of order $h^2$. For $G = 150$ the grid values lie within $6.9\times10^{-5}$ of $A\,e^{My}$ (Notebook 16b, Out [7]). In the record the zero mode's eigenvalue is at most $1.3\times10^{-39}$ and the extrapolated profile agrees with $A\,e^{My}$ to $4.0\times10^{-15}$ (`Revision/kohn_sham/reports/ks-reference.json`, check free_zero_mode).
+
+**The slope of the brane band: Hellmann-Feynman, line by line.** Now switch on a small 3-momentum $k$. The zero mode moves away from zero and becomes the lowest level of the **brane band**, $\varepsilon \approx c\,k$ for small $k$ (Chapter 15). Its slope $c = d\varepsilon/dk$ at $k = 0$ follows from a general fact about symmetric matrices. Let $T(k)z(k) = \varepsilon(k)z(k)$ with $z^Tz = 1$, and write a prime for $d/dk$.
+
+$$
+T'z + Tz' = \varepsilon'z + \varepsilon z' .
+$$
+
+Rule: differentiate both sides with the product rule.
+
+$$
+z^TT'z + z^TTz' = \varepsilon'\,z^Tz + \varepsilon\,z^Tz' .
+$$
+
+Rule: multiply from the left by the row $z^T$.
+
+$$
+z^TT'z + \varepsilon\,z^Tz' = \varepsilon' + \varepsilon\,z^Tz' \quad\Longrightarrow\quad \varepsilon' = z^T\,T'\,z .
+$$
+
+Rule: $z^TT = (T^Tz)^T = (Tz)^T = \varepsilon z^T$ because $T$ is symmetric, and $z^Tz = 1$; then cancel $\varepsilon z^Tz'$. This is the **Hellmann-Feynman theorem** for matrices: the derivative of a level is the expectation value of the derivative of the matrix. For even parity and $j = +1$ the momentum enters only the diagonal, $+\kappa(y)k$ in the $u$ rows and $-\kappa(y)k$ in the $w$ rows, so $T'$ is diagonal with $\pm\kappa$. The zero mode has $w = 0$, and its normalised vector holds $u_p\sqrt h$, so
+
+$$
+c = \sum_p \kappa\big(y_{p+1/2}\big)\,u_p^2\,h \ \longrightarrow\ \int_{-L}^{0}\kappa\,a^2\,dy \quad (h \to 0).
+$$
+
+Rule: only the $u$ entries contribute; the sum is the midpoint rule for the integral. In the continuum, with $a = A\,e^{My}$ and $\kappa = e^{-Hy - a_{4,0}}$:
+
+$$
+c = e^{-a_{4,0}}A^2\int_{-L}^{0}e^{(2M - H)y}\,dy = e^{-a_{4,0}}\,\frac{2M}{1 - e^{-2ML}}\,\frac{1 - e^{-(2M - H)L}}{2M - H}.
+$$
+
+Rule: $\kappa a^2 = e^{-a_{4,0}}A^2e^{-Hy}e^{2My}$; integrate the exponential as for the normalisation; insert $A^2$ from Section 16.13. This is the formula checksNumeric.braneBandSlopeFormula of `Revision/kohn_sham/ks-theory.json` (PROVED: check brane_band_slope of `Revision/kohn_sham/reports/ks-theory-python.json`). For $M = H = 1$, $L = 3$:
+
+$$
+c(0) = \frac{2\,(1 - e^{-3})}{1 - e^{-6}} = \frac{2\cdot0.950213}{0.997521} = 1.905148 .
+$$
+
+Rule: insert the numbers; $e^{-3} = 0.049787$ and $e^{-6} = 0.002479$.
+
+**The meaning of the factor $e^{-a_{4,0}}$.** The weight $\kappa = e^{-Hy - a_{4,0}}$ is one over the 3-space scale factor $e^{a_4}\sin^{1/6}z = e^{a_4 + Hy}$ (because $\sin z = e^{6Hy}$, so $\sin^{1/6}z = e^{Hy}$). Along the history $a_4 = AHx_4$ the 3-space scale factor grows while the three extra times deflate with $e^{-a_4}$ (the 7-volume stays constant), and the energy carried by a 3-momentum is redshifted by $e^{-a_{4,0}}$: the brane band flattens. From slice to slice ($\Delta a_{4,0} = 0.5$) the slope shrinks by the factor $e^{-0.5} = 0.6065$: $1.905148$, $1.155531$, $0.700865$, $0.425096$, $0.257834$. The reference's grid reproduces the formula to $2.6\times10^{-15}$, relative (`Revision/kohn_sham/reports/ks-reference.json`, check free_brane_band_slope).
+
+### 16.16 Example: the reference method by hand (Notebook 16b)
+
+Notebook 16b opens the reference solver and rebuilds its method by hand on the free problem of Section 16.13, where every answer is known: it derives the exact levels and checks them with sympy, draws the staggered grid, builds the matrix and checks it entry by entry against the reference's own function, finds eigenvalues with Sturm counts and bisection, constructs the exact discrete zero mode, treats the odd parity in the rotated frame, measures the convergence on five grids and the effect of one and two Richardson steps, computes the slope of the brane band at the five slices of the history, and finally runs the reference program's own free-field job and checks its six free-field criteria. It needs no Rust, runs in less than a minute, draws seven figures and ends with the line ALL 31 CHECKS PASSED (notebook 16b).
+
+<!-- NOTEBOOK 16b -->
+
+### 16.19 Line-by-line walk-through of Notebook 16b
+
+The notebook has 17 code cells, In [1] to In [17]; the numbers they print are in Section 16.18.
+
+**In [1], the set-up cell.** It is the set-up cell of Notebook 16a, explained line by line in Section 16.12, without the two imports `shutil` and `subprocess` and without the function `rust_program`, because this notebook runs no Rust program. Its comment lines repeat the run instructions of Section 16.17, and its only other difference is the name:
+
+```python
+NOTEBOOK_ID = "16b"  # this notebook: chapter 16, example b
+```
+
+**In [2], the exact levels.**
+
+```python
+import math  # functions of single numbers (sqrt, sin, pi, ...)
+import sys  # the list of folders in which Python looks for modules
+
+import numpy as np  # arrays of numbers
+import sympy as sp  # exact symbolic algebra
+
+PALETTE = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300",
+           "#4a3aa7", "#e34948"]  # the colours of the figures, in a fixed order
+M_VALUE, L_VALUE = 1.0, 3.0  # the mass M = m = 1 and the tip cutoff L = 3
+```
+
+`math` holds functions of single numbers ($\sqrt{\ }$, $\sin$, $\pi$, ...), `sys` the list of module folders, `numpy` arrays, and `sympy`, called `sp`, exact symbolic algebra: it computes with letters and formulas instead of numbers. `PALETTE` is the list of figure colours of Notebook 16a. The last line gives two names at once: `M_VALUE` is the mass $M = m = 1$ and `L_VALUE` the tip cutoff $L = 3$.
+
+```python
+y, p, eps = sp.symbols("y p epsilon", real=True)  # real symbols
+M, L = sp.symbols("M L", positive=True)  # M > 0 and L > 0 (needed by the integral)
+for j_value in (1, -1):
+    j = sp.Integer(j_value)
+    b = sp.sin(p * (y + L))  # the even and odd solution for b
+    a = j * (sp.diff(b, y) + M * b) / eps  # a from the second equation
+    on_shell = {eps: sp.sqrt(M ** 2 + p ** 2)}  # epsilon^2 = M^2 + p^2
+    first = sp.diff(a, y) - (M * a - j * eps * b)  # a' - (M a - j eps b)
+    second = sp.diff(b, y) - (j * eps * a - M * b)  # b' - (j eps a - M b)
+    residuals = [sp.simplify(r.subs(on_shell)) for r in (first, second)]
+    check(residuals == [0, 0],
+          f"sympy: b = sin(p(y+L)), a = j(b' + M b)/eps solve both equations (j = "
+          f"{j_value}) when eps^2 = M^2 + p^2")
+```
+
+`sp.symbols` creates the symbols $y$, $p$, $\varepsilon$ (declared real) and $M$, $L$ (declared positive; the integral below needs $M > 0$). For both block types ($j = 1$ and $j = -1$, made an exact sympy integer by `sp.Integer`) the cell writes the solution of Section 16.13: $b = \sin(p(y + L))$ and $a = j(b' + Mb)/\varepsilon$ (`sp.diff(b, y)` is the derivative $b'$). `on_shell` is a dictionary that replaces $\varepsilon$ by $\sqrt{M^2 + p^2}$. `first` and `second` are the two equations written as "left side minus right side", which must be zero for a solution; `.subs(on_shell)` inserts $\varepsilon$, and `sp.simplify` brings each to its simplest form. The check requires both to be exactly 0: the formulas of Section 16.13 solve both equations whenever $\varepsilon^2 = M^2 + p^2$, for both block types (Out [2], two PASS lines).
+
+```python
+zero_a = sp.exp(M * y)  # the zero mode a = e^{My}, b = 0
+check(sp.simplify(sp.diff(zero_a, y) - M * zero_a) == 0,
+      "sympy: a = e^(My), b = 0 solves the equations with eps = 0")
+norm = sp.integrate(zero_a ** 2, (y, -L, 0))  # int_{-L}^0 e^{2My} dy
+check(sp.simplify(norm - (1 - sp.exp(-2 * M * L)) / (2 * M)) == 0,
+      "sympy: int e^(2My) dy over -L..0 equals (1 - e^(-2ML))/(2M)")
+```
+
+The zero mode: $a = e^{My}$ must satisfy $a' - Ma = 0$, which sympy confirms, and `sp.integrate` computes $\int_{-L}^{0}e^{2My}\,dy$ symbolically, which must equal $(1 - e^{-2ML})/(2M)$, the normalisation integral of Section 16.13.
+
+```python
+def odd_root(l, M=M_VALUE, L=L_VALUE):
+    """The root p_l of p cos(pL) + M sin(pL) = 0 in ((l + 1/2) pi/L, (l + 1) pi/L),
+    by bisection (200 halvings: far below the rounding of a double)."""
+    lo, hi = (l + 0.5) * math.pi / L, (l + 1) * math.pi / L
+    f = lambda q: M * math.sin(q * L) + q * math.cos(q * L)
+    f_lo = f(lo)
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        if (f(mid) > 0) == (f_lo > 0):  # same sign as at lo: the root is above mid
+            lo, f_lo = mid, f(mid)
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+```
+
+`odd_root(l)` finds the root $p_l$ of $F(p) = M\sin(pL) + p\cos(pL)$ in the interval $((l + \tfrac12)\pi/L, (l + 1)\pi/L)$, which Section 16.13 proved to contain exactly one root, by bisection: `f` is $F$ written as a **lambda** (a one-line function); `f_lo` is its value at the left end; each of the 200 steps takes the midpoint and keeps the half in which $F$ changes sign (if $F(mid)$ has the sign of $F(lo)$, the root lies above $mid$). Two hundred halvings shrink the interval far below the spacing of the computer's numbers, so the result is the root to the last digit.
+
+```python
+RANKS = np.arange(-3, 6)  # the ranks -3, ..., 5 of the record
+P_ODD = [odd_root(l) for l in range(12)]
+EXACT_EVEN = np.array([0.0 if r == 0 else
+                       math.copysign(math.sqrt(M_VALUE ** 2
+                                               + (abs(r) * math.pi / L_VALUE) ** 2),
+                                     r) for r in RANKS])
+EXACT_ODD = np.array([math.sqrt(M_VALUE ** 2 + P_ODD[r] ** 2) if r >= 0 else
+                      -math.sqrt(M_VALUE ** 2 + P_ODD[-r - 1] ** 2) for r in RANKS])
+print("rank    even level      odd level")
+for r, e, o in zip(RANKS, EXACT_EVEN, EXACT_ODD):
+    print(f"{r:4d}  {e:+.12f}  {o:+.12f}")
+check(all(abs(math.tan(q * L_VALUE) + q / M_VALUE) < 1e-9 for q in P_ODD),
+      "the twelve odd roots satisfy tan(pL) = -p/M")
+```
+
+`RANKS` is the array of the ranks $-3$ to $5$, `P_ODD` the first twelve odd roots. `EXACT_EVEN` holds the even levels by rank: 0 for rank 0, and $\sqrt{M^2 + (|r|\pi/L)^2}$ with the sign of the rank (`math.copysign(x, r)` gives $x$ the sign of $r$). `EXACT_ODD` holds the odd levels: $+\sqrt{M^2 + p_r^2}$ for $r \ge 0$ and $-\sqrt{M^2 + p_{-r-1}^2}$ for negative ranks (rank $-1$ belongs to $p_0$). The table of Out [2] prints both with twelve decimals and a sign (`:+.12f`); for example the even level of rank 1 is $+1.447971930402$ and the odd level of rank 0 is $+1.292292828069$. The check confirms that every odd root satisfies $\tan(pL) = -p/M$ to $10^{-9}$.
+
+**In [3], the staggered grid as a picture (Figure 16b.1).**
+
+```python
+G_SHOW = 6
+h_show = L_VALUE / G_SHOW
+nodes = -L_VALUE + h_show * np.arange(G_SHOW + 1)  # y_0, ..., y_G
+halves = -L_VALUE + h_show * (np.arange(G_SHOW) + 0.5)  # y_{1/2}, ..., y_{G-1/2}
+fig, ax = plt.subplots(figsize=(9.0, 3.0))
+ax.axhline(0.0, color="k", lw=1.0)
+ax.plot(halves, np.zeros(G_SHOW), "o", color=PALETTE[0], ms=10,
+        label="$u_p \\approx a(y_{p+1/2})$ (half nodes)")
+ax.plot(nodes[1:-1], np.zeros(G_SHOW - 1), "s", color=PALETTE[1], ms=9,
+        label="$w_i \\approx b(y_i)$ (inner nodes)")
+ax.plot(nodes[[0, -1]], [0.0, 0.0], "s", color=PALETTE[1], ms=9, mfc="white",
+        label="$w_0 = w_G = 0$ (tip and brane, even parity)")
+```
+
+For $G = 6$ cells, `h_show` is the cell width $0.5$, `nodes` the seven cell ends $y_0, \dots, y_6$ and `halves` the six cell centres (`np.arange(n)` is the array $0, 1, \dots, n - 1$, and adding $0.5$ moves to the centres). A wide, low figure is made; `axhline` draws the $y$ axis as a horizontal line. The half nodes are drawn as blue circles (the values $u_p$), the inner nodes as orange squares (`nodes[1:-1]` leaves out the first and the last; the values $w_i$), and the two end nodes as open squares (`mfc="white"`), because there $b = 0$ is known and is not an unknown. Each label explains its marker.
+
+```python
+for p_index, yp in enumerate(halves):
+    ax.annotate(f"$u_{p_index}$", (yp, 0.0), (yp, 0.25), ha="center", fontsize=9)
+for i_index, yi in enumerate(nodes):
+    ax.annotate(f"$w_{i_index}$", (yi, 0.0), (yi, -0.35), ha="center", fontsize=9)
+ax.annotate("tip $y = -L$", (nodes[0], 0.0), (nodes[0], 0.55), ha="center")
+ax.annotate("brane $y = 0$", (nodes[-1], 0.0), (nodes[-1], 0.55), ha="center")
+ax.annotate("", (nodes[1], -0.75), (nodes[0], -0.75),
+            arrowprops={"arrowstyle": "<->"})
+ax.text(0.5 * (nodes[0] + nodes[1]), -0.95, "$h = L/G$", ha="center")
+ax.set_ylim(-1.2, 0.9)
+ax.set_xlim(-L_VALUE - 0.3, 0.3)
+ax.set_yticks([])
+ax.set_xlabel("hidden coordinate $y$")
+ax.legend(fontsize=8, loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=3)
+```
+
+`annotate(text, point, text_position)` writes a text near a point: the names $u_0, \dots, u_5$ above the circles and $w_0, \dots, w_6$ below the nodes, and the words tip and brane above the two ends. An empty annotation with `arrowprops` draws a double arrow over the first cell, labelled $h = L/G$. The axes are set (no ticks on the vertical axis, `set_yticks([])`) and the legend is placed above the plot (`bbox_to_anchor` gives its position relative to the axes, `ncol=3` makes three columns).
+
+```python
+save_figure(fig, "staggered_grid",
+            "The staggered grid of the reference solver for $G = 6$ cells of width "
+            "$h = L/G = 0.5$ on the hidden coordinate $-3 \\le y \\le 0$: the first "
+            "orbital component $a$ is stored at the cell centres (circles, $u_p$), "
+            "the second component $b$ at the inner cell ends (squares, $w_i$); at the "
+            "tip and at the brane $b$ is zero (open squares) and is not an unknown. "
+            "The $2G - 1 = 11$ unknowns alternate $u_0, w_1, u_1, \\dots, u_5$.")
+```
+
+`save_figure` saves Figure 16b.1. What the student should see: along the hidden coordinate from the tip at $-3$ to the brane at $0$, circles and squares alternate; the $2G - 1 = 11$ unknowns are, in order, $u_0, w_1, u_1, \dots, w_5, u_5$; every circle has a square on each side, so every difference of Section 16.14 connects neighbours half a cell apart.
+
+**In [4], from the differential equation to a matrix.**
+
+```python
+sys.dont_write_bytecode = True  # do not write a __pycache__ folder into the record
+sys.path.insert(0, str(repository_file("Revision/kohn_sham/reference")))
+import ks_fd as K  # noqa: E402  the reference solver's module (Revision code)
+```
+
+As in Notebook 16a (Section 16.12, In [3]): no translated files are written into the record, the reference folder is added to the module search list, and the reference solver's module `ks_fd.py` is imported under the name `K`.
+
+```python
+def even_matrix(G, j=1.0, M=M_VALUE, L=L_VALUE):
+    """Diagonal d (2G - 1 numbers) and off-diagonal o (2G - 2 numbers) of T for
+    even parity, k = 0, constant M."""
+    h = L / G
+    d = np.zeros(2 * G - 1)  # the diagonal is zero at k = 0
+    r = np.arange(2 * G - 2)  # the number of the first of two neighbours
+    o = np.where(r % 2 == 0, j * (1.0 / h + M / 2.0), j * (-1.0 / h + M / 2.0))
+    return d, o
+```
+
+`even_matrix(G)` builds the tridiagonal matrix of Section 16.14 for even parity, $k = 0$ and constant $M$ in its compact form: the diagonal `d` ($2G - 1$ zeros, `np.zeros`) and the neighbour entries `o` ($2G - 2$ numbers). `r` numbers the pairs of neighbours; `r % 2` is the remainder of $r$ divided by 2, so `r % 2 == 0` is true for even $r$, and `np.where(condition, x, y)` takes $j(\tfrac1h + \tfrac M2)$ where it is true and $j(-\tfrac1h + \tfrac M2)$ where it is false: exactly the entries $T_{r,r+1}$ derived in Section 16.14.
+
+```python
+d4, o4 = even_matrix(4)
+T4 = np.diag(d4) + np.diag(o4, 1) + np.diag(o4, -1)  # the full 7 x 7 matrix
+print("T for G = 4 (h = 0.75), even parity, j = +1:")
+for row in T4:
+    print("  " + " ".join(f"{x:+7.3f}" for x in row))
+```
+
+For $G = 4$ the full matrix is assembled: `np.diag(d4)` puts the diagonal into a square matrix, and `np.diag(o4, 1)` and `np.diag(o4, -1)` put the neighbour entries one place above and one place below it. The loop prints the $7\times7$ matrix row by row, each entry with sign and three decimals in seven places (`:+7.3f`); Out [4] shows the alternating entries $+1.833$ and $-0.833$ next to the zero diagonal.
+
+```python
+for G in (4, 300):
+    d, o = even_matrix(G)
+    phys = K.Phys(m=M_VALUE, L=L_VALUE, H=1.0)  # the reference's parameters
+    grid = K.Grid(phys, G)
+    sector = K.Sectors([(0, 1, 1, 0)])  # (n2 = 0, r3 = 1, j = +1, even)
+    alpha, beta = K.sector_arrays(grid, phys, sector, np.full(grid.n, M_VALUE),
+                                  np.zeros(grid.n))
+    check(np.array_equal(alpha[:, 0], d) and np.array_equal(beta[:, 0], o),
+          f"G = {G}: our matrix equals the reference's (ks_fd.sector_arrays), "
+          "entry by entry")
+check(np.array_equal(T4, T4.T), "the matrix is symmetric")
+```
+
+For $G = 4$ and $G = 300$ the cell builds the same matrix with the reference's own function: `K.Phys` holds the reference's parameters ($m = 1$, $L = 3$, $H = 1$), `K.Grid` its grid, and `K.Sectors` a list of sectors, here one, $(n_2 = 0, r_3 = 1, j = +1, \text{even})$. `K.sector_arrays` returns the diagonals `alpha` and the neighbour entries `beta` of every sector's matrix (one column per sector), for the effective mass $M = 1$ at every position (`np.full(n, value)` is an array of $n$ equal values) and the potential $v = 0$. The check requires our arrays to be **exactly** equal to the reference's (`np.array_equal`), entry by entry; the last check confirms that the $7\times7$ matrix equals its transpose `T4.T` (rows and columns exchanged), that is, that it is symmetric.
+
+**In [5], eigenvalues by counting: the Sturm count and bisection.**
+
+```python
+def sturm_count(d, o, x):
+    """Number of eigenvalues below x of the tridiagonal matrix (d, o), for every
+    entry of the array x."""
+    x = np.asarray(x, dtype=float)
+    o2 = o * o
+    q = d[0] - x  # the first pivot
+    q = np.where(np.abs(q) < 1e-290, -1e-290, q)  # never divide by an exact zero
+    count = (q < 0).astype(int)
+    for r in range(1, len(d)):
+        q = d[r] - x - o2[r - 1] / q  # the next pivot
+        q = np.where(np.abs(q) < 1e-290, -1e-290, q)
+        count += q < 0
+    return count
+```
+
+`sturm_count(d, o, x)` is the pivot recursion of Section 16.15 for every entry of the array `x` at once. `np.asarray(x, dtype=float)` makes sure `x` is an array of numbers, and `o2` holds the squares $o_r^2$. `q` starts as the first pivot $d_1 - x$; `np.where` replaces a pivot whose size is below $10^{-290}$ by $-10^{-290}$ (never divide by an exact zero); `count` starts as 1 where the pivot is negative and 0 elsewhere (`.astype(int)` turns truth values into the numbers 1 and 0). The loop computes each next pivot $q_r = d_r - x - o_{r-1}^2/q_{r-1}$ and adds 1 to the count wherever it is negative (`count += q < 0` adds the truth values as numbers). The returned count is the number of eigenvalues below each $x$.
+
+```python
+def bisection(d, o, index, rel_tol=1e-14):
+    """Eigenvalues number index (an array of integers, 0 = the lowest) of (d, o)."""
+    index = np.asarray(index)
+    radius = np.zeros_like(d)
+    radius[:-1] += np.abs(o)
+    radius[1:] += np.abs(o)
+    lo = np.full(len(index), np.min(d - radius) - 1.0)  # Gershgorin: below all
+    hi = np.full(len(index), np.max(d + radius) + 1.0)  # Gershgorin: above all
+    steps = 0
+    while np.any(hi - lo > rel_tol * np.maximum(1.0, np.abs(lo))):
+        mid = 0.5 * (lo + hi)
+        above = sturm_count(d, o, mid) <= index  # True: the eigenvalue is above mid
+        lo = np.where(above, mid, lo)
+        hi = np.where(above, hi, mid)
+        steps += 1
+    return 0.5 * (lo + hi), steps
+```
+
+`bisection(d, o, index)` finds the eigenvalues with the numbers in the array `index` (0 is the lowest), all at once. `radius` is Gershgorin's radius of every row: each row gets the size of the neighbour entry on its right (`radius[:-1] += ...`, all rows but the last) and on its left (`radius[1:] += ...`, all rows but the first). `lo` and `hi` start one unit beyond Gershgorin's bounds, so every eigenvalue lies inside (Section 16.15). The `while` loop runs as long as some interval is wider than $10^{-14}\max(1, |lo|)$ (`np.any` is true if any entry is true). In each step `above` is true where at most `index` eigenvalues lie below the midpoint, that is, where the wanted eigenvalue lies at or above it; there `lo` moves up to the midpoint, elsewhere `hi` moves down. `steps` counts the halvings. The function returns the midpoints of the final intervals and the number of steps.
+
+```python
+d150, o150 = even_matrix(150)
+T150 = np.diag(d150) + np.diag(o150, 1) + np.diag(o150, -1)
+all_eigs = np.linalg.eigvalsh(T150)  # every eigenvalue, sorted
+test_x = np.linspace(-6.0, 6.0, 241) + 0.0123  # 241 test points, none at a level
+counts_ok = np.array_equal(sturm_count(d150, o150, test_x),
+                           np.searchsorted(all_eigs, test_x))
+first_particle = int(sturm_count(d150, o150, np.array([-1e-9]))[0])
+found, steps = bisection(d150, o150, first_particle + RANKS)
+```
+
+For $G = 150$ the full matrix `T150` ($299\times299$) is assembled, and `np.linalg.eigvalsh` computes all its eigenvalues with a standard routine for symmetric matrices, sorted. `test_x` holds 241 trial values between $-6$ and $6$, shifted by $0.0123$ so that none falls on a level. `counts_ok` compares our Sturm counts with the number of eigenvalues below each trial value found by `np.searchsorted` (it tells where each `x` would be inserted into the sorted list, which is exactly that number). `first_particle` is the Sturm count at $-10^{-9}$, the number of eigenvalues below zero: the zero mode, the lowest particle level (rank 0), has this number. Bisection then finds the nine levels of ranks $-3$ to $5$.
+
+```python
+say(f"G = 150: {len(all_eigs)} eigenvalues; {first_particle} lie below -1e-9, so the "
+    f"lowest particle level (rank 0) is eigenvalue number {first_particle}")
+say(f"bisection: {steps} halvings; largest difference from eigvalsh "
+    f"{np.max(np.abs(found - all_eigs[first_particle + RANKS])):.1e}")
+check(counts_ok, "the Sturm count equals the number of eigvalsh eigenvalues below x "
+                 "at 241 test points")
+check(np.max(np.abs(found - all_eigs[first_particle + RANKS])) < 1e-12,
+      "bisection with Sturm counts finds the same nine levels as eigvalsh")
+```
+
+Out [5]: 299 eigenvalues, 149 of them below $-10^{-9}$, so the zero mode is eigenvalue number 149; bisection needed 55 halvings (the number estimated in Section 16.15) and agrees with the standard routine to $3.8\times10^{-14}$. The two checks require the Sturm counts to agree at all 241 trial values and the nine bisection levels to agree with `eigvalsh` to $10^{-12}$.
+
+**In [6], the Sturm staircase (Figure 16b.2).**
+
+```python
+d30, o30 = even_matrix(30)
+xs = np.linspace(-4.5, 4.5, 3601)  # a fine set of x values
+stairs = sturm_count(d30, o30, xs)
+eigs30 = np.linalg.eigvalsh(np.diag(d30) + np.diag(o30, 1) + np.diag(o30, -1))
+fig, ax = plt.subplots(figsize=(8.0, 4.6))
+ax.step(xs, stairs, where="post", color=PALETTE[0], lw=1.6,
+        label="Sturm count $c(x)$, $G = 30$")
+shown = eigs30[np.abs(eigs30) < 4.5]
+ax.plot(shown, np.searchsorted(eigs30, shown) + 0.5, "o", color=PALETTE[1], ms=5,
+        label="eigenvalues of the matrix")
+```
+
+For a coarse grid, $G = 30$ (59 eigenvalues), `xs` holds 3601 values of $x$ between $-4.5$ and $4.5$, `stairs` the Sturm count at each, and `eigs30` all eigenvalues. `ax.step(..., where="post")` draws the count as a staircase whose value changes just after each $x$. `shown` keeps the eigenvalues inside the window (`np.abs(eigs30) < 4.5` is a mask), and each is drawn as a circle half-way up its step (`searchsorted` gives the count below it, plus $0.5$).
+
+```python
+exact_lines = [0.0] + [s * math.sqrt(1.0 + (n * math.pi / 3.0) ** 2)
+                       for n in range(1, 5) for s in (1, -1)]
+for k, e in enumerate(sorted(exact_lines)):
+    ax.axvline(e, color="k", lw=0.8, ls="--",
+               label="exact levels (even parity)" if k == 0 else None)
+ax.set_xlabel("$x$ (units of $m$)")
+ax.set_ylabel("number of eigenvalues below $x$")
+ax.set_title("Counting eigenvalues: the Sturm staircase")
+ax.legend(fontsize=8, loc="upper left")
+save_figure(fig, "sturm_staircase",
+            "The Sturm count $c(x)$, the number of eigenvalues below $x$ of the "
+            "even-parity matrix with $G = 30$ cells ($M = 1$, $L = 3$, $k = 0$), "
+            "against $x$ in units of $m$. The count rises by one at each eigenvalue "
+            "(circles, from a standard eigenvalue routine); the dashed lines are the "
+            "exact levels $0$ and $\\pm\\sqrt{1 + (n\\pi/3)^2}$. Bisection finds "
+            "eigenvalue number $i$ by asking only how many eigenvalues lie below a "
+            "trial value.")
+```
+
+`exact_lines` holds the exact even levels of Section 16.13 in the window: 0 and $\pm\sqrt{1 + (n\pi/3)^2}$ for $n = 1$ to 4 (a list comprehension with two `for` parts makes both signs for each $n$). Each is drawn as a dashed vertical line, and only the first gets a legend label (`label=... if k == 0 else None`). After the axis labels, title and legend, `save_figure` saves Figure 16b.2. What the student should see: the staircase rises by exactly one at each eigenvalue; near zero the eigenvalues of the coarse matrix sit on the dashed exact levels (the zero mode exactly), while the outermost ones, at about $\pm4.3$, are visibly shifted from them, because their orbitals oscillate on the scale of a few cells and the grid error is larger.
+
+```python
+check(int(sturm_count(d30, o30, np.array([4.5]))[0]
+          - sturm_count(d30, o30, np.array([-4.5]))[0]) == len(shown),
+      "the staircase rises by one for each eigenvalue in the window")
+```
+
+The check: the count at $4.5$ minus the count at $-4.5$ equals the number of eigenvalues in the window.
+
+**In [7], the exact discrete zero mode and an orbital.**
+
+```python
+def zero_mode(G, M=M_VALUE, L=L_VALUE):
+    """The exact discrete zero mode: u_p = exp(p ln q), normalised so that
+    sum u^2 h = 1; returns (half nodes y, u)."""
+    h = L / G
+    log_q = np.log1p(M * h / 2.0) - np.log1p(-M * h / 2.0)  # ln q, accurately
+    u = np.exp(np.arange(G) * log_q)
+    u /= math.sqrt(np.sum(u * u) * h)
+    return -L + (np.arange(G) + 0.5) * h, u
+```
+
+`zero_mode(G)` builds the discrete zero mode of Section 16.15 as $u_p = e^{p\ln q}$. `np.log1p(t)` computes $\ln(1 + t)$ accurately also for small $t$, so `log_q` is $\ln(1 + Mh/2) - \ln(1 - Mh/2) = \ln q$ without first forming $q$: computing $q$ and then $q^p$ would multiply the rounding error of $q$ (about $10^{-16}$) by $p$, up to $10^{-13}$ for $p = 1200$. The vector is normalised so that $\sum u_p^2h = 1$ (`u /= x` divides every entry by $x$), the discrete form of $\int a^2\,dy = 1$. The function returns the half nodes and the values.
+
+```python
+y_half, u0 = zero_mode(150)
+z = np.zeros(2 * 150 - 1)
+z[0::2] = u0  # the u entries; every w entry stays 0
+residual = np.max(np.abs(T150 @ z)) / np.max(np.abs(z))
+A = math.sqrt(2.0 * M_VALUE / (1.0 - math.exp(-2.0 * M_VALUE * L_VALUE)))
+shape_error = np.max(np.abs(u0 - A * np.exp(M_VALUE * y_half)))
+say(f"discrete zero mode, G = 150: |T z| / |z| = {residual:.1e}; largest distance "
+    f"from A e^(My) at the half nodes {shape_error:.2e} (A = {A:.6f})")
+check(residual < 1e-12, "the discrete zero mode is an exact eigenvector with "
+                        "eigenvalue 0 (to rounding), with b = 0")
+check(shape_error < 1e-3, "the discrete zero mode follows A e^(My) to order h^2")
+```
+
+For $G = 150$ the zero mode is placed into a vector `z` of length 299: the $u$ entries at the even positions (`z[0::2]` takes every second entry from the first) and zeros at the $w$ positions. `T150 @ z` is the product of the matrix with the vector (`@` is matrix multiplication), and `residual` is its largest entry relative to the largest entry of `z`; it must vanish if $z$ is an eigenvector with eigenvalue 0. `A` is the continuum normalisation of Section 16.13 and `shape_error` the largest distance of the grid values from $A\,e^{My}$ at the half nodes. Out [7]: residual $1.5\times10^{-14}$ (rounding), distance $6.93\times10^{-5}$, $A = 1.415970$. The two checks require the residual below $10^{-12}$ and the distance below $10^{-3}$ (second order: with $h = 0.02$, $h^2 = 4\times10^{-4}$).
+
+```python
+values, vectors = np.linalg.eigh(T150)
+level = first_particle + 1  # rank 1
+vec = vectors[:, level] / math.sqrt(L_VALUE / 150)  # u and w with sum (u^2+w^2) h = 1
+vec *= np.sign(vec[-1])  # fix the overall sign: u at the brane positive
+u1, w1 = vec[0::2], vec[1::2]
+y_node = -L_VALUE + np.arange(1, 150) * (L_VALUE / 150)
+p1 = math.pi / L_VALUE
+e1 = math.sqrt(M_VALUE ** 2 + p1 ** 2)
+b_exact = lambda yy: np.sin(p1 * (yy + L_VALUE))
+a_exact = lambda yy: (p1 * np.cos(p1 * (yy + L_VALUE))
+                      + M_VALUE * np.sin(p1 * (yy + L_VALUE))) / e1
+norm_exact = math.sqrt(L_VALUE)  # int (a^2 + b^2) dy = L for these a and b
+scale = np.sign(a_exact(np.array([y_half[-1]]))[0]) / norm_exact
+```
+
+`np.linalg.eigh` returns all eigenvalues and eigenvectors (one per column) of `T150`. `level` is the number of the level of rank 1, one above the zero mode. Its eigenvector has length 1; dividing by $\sqrt h$ turns it into grid values $u_p$, $w_i$ with $\sum(u^2 + w^2)h = 1$, and multiplying by the sign of its last entry makes $u$ at the brane positive (an eigenvector is fixed only up to its sign). `u1` and `w1` are its $u$ and $w$ entries, `y_node` the 149 inner nodes. The exact orbital of rank 1 is $b = \sin(p_1(y + L))$ and $a = (p_1\cos(p_1(y + L)) + M\sin(p_1(y + L)))/\varepsilon_1$ with $p_1 = \pi/L$ (Section 16.13, $j = 1$); its integral $\int(a^2 + b^2)\,dy$ equals $L$, so `scale` divides by $\sqrt L$ and gives the exact orbital the sign of the grid's.
+
+```python
+say(f"level of rank 1: eigenvalue {values[level]:.10f}, exact {e1:.10f}")
+check(np.max(np.abs(u1 - scale * a_exact(y_half))) < 1e-3
+      and np.max(np.abs(w1 - scale * b_exact(y_node))) < 1e-3,
+      "the eigenvector of rank 1 follows the exact orbital (a, b) to order h^2")
+```
+
+Out [7] prints the eigenvalue $1.4479202214$ next to the exact level $1.4479719304$ (the grid error $5.2\times10^{-5}$ is of order $h^2$), and the check requires the grid values of both components within $10^{-3}$ of the exact functions.
+
+**In [8], the orbitals as a picture (Figure 16b.3).**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+fine = np.linspace(-L_VALUE, 0.0, 400)
+left.plot(fine, A * np.exp(M_VALUE * fine), color="k", lw=1.2,
+          label="exact $a = A\\,e^{My}$")
+left.plot(y_half[::5], u0[::5], "o", color=PALETTE[0], ms=5,
+          label="grid $u_p$, $G = 150$")
+left.axhline(0.0, color=PALETTE[1], lw=2.0, label="$b = 0$ (exactly)")
+left.set_xlabel("$y$")
+left.set_ylabel("orbital component")
+left.set_title("zero mode, $\\varepsilon = 0$")
+left.legend(fontsize=8)
+```
+
+The left panel draws the exact zero mode $A\,e^{My}$ as a black line on 400 points, the grid values $u_p$ at every fifth half node as circles, and the line $b = 0$ in orange.
+
+```python
+right.plot(fine, scale * a_exact(fine), color="k", lw=1.2, label="exact $a$")
+right.plot(fine, scale * b_exact(fine), color="k", lw=1.2, ls="--",
+           label="exact $b$")
+right.plot(y_half[::5], u1[::5], "o", color=PALETTE[0], ms=5, label="grid $u_p$")
+right.plot(y_node[::5], w1[::5], "s", color=PALETTE[1], ms=5, label="grid $w_i$")
+right.set_xlabel("$y$")
+right.set_title(f"rank 1, $\\varepsilon = {e1:.4f}$")
+right.legend(fontsize=8)
+fig.tight_layout()
+```
+
+The right panel draws the exact $a$ (solid) and $b$ (dashed) of rank 1 and the grid values $u_p$ (circles) and $w_i$ (squares), every fifth point; its title shows the level.
+
+```python
+save_figure(fig, "orbitals",
+            "Orbitals of the free problem at zero 3-momentum ($M = 1$, $L = 3$), "
+            "normalised to $\\int (a^2 + b^2)\\,dy = 1$, against the hidden coordinate "
+            "$y$ (tip $-3$, brane $0$). Left: the zero mode, $a = A e^{My}$ with "
+            "$A = \\sqrt{2M/(1 - e^{-2ML})}$ and $b = 0$, localised at the brane; the "
+            "circles are the exact discrete zero mode $u_p = q^p u_0$ of the grid "
+            "with $G = 150$. Right: the even level of rank 1, "
+            "$\\varepsilon = \\sqrt{1 + (\\pi/3)^2}$: its $b$ vanishes at the tip "
+            "and at the brane, and the grid values lie on the exact curves.")
+```
+
+`save_figure` saves Figure 16b.3. What the student should see: on the left, the zero mode rises from $0.07$ at the tip to $1.42$ at the brane, an orbital bound to the brane, with $b$ exactly zero; on the right, the orbital of rank 1, whose $b$ vanishes at both ends (the even boundary conditions) while $a$ does not; in both panels the grid points lie on the exact curves.
+
+**In [9], odd parity in the rotated frame.**
+
+```python
+phi = sp.symbols("phi", real=True)
+s1 = sp.Matrix([[0, 1], [1, 0]])  # the Pauli matrices
+s2 = sp.Matrix([[0, -sp.I], [sp.I, 0]])
+s3 = sp.Matrix([[1, 0], [0, -1]])
+rot = sp.cos(phi) * sp.eye(2) + sp.I * sp.sin(phi) * s1  # e^{i phi sigma1}
+back = sp.cos(phi) * sp.eye(2) - sp.I * sp.sin(phi) * s1  # e^{-i phi sigma1}
+ok2 = sp.simplify(back * s2 * rot - (sp.cos(2 * phi) * s2 + sp.sin(2 * phi) * s3))
+ok3 = sp.simplify(back * s3 * rot - (sp.cos(2 * phi) * s3 - sp.sin(2 * phi) * s2))
+check(ok2 == sp.zeros(2, 2) and ok3 == sp.zeros(2, 2),
+      "sympy: the rotation turns sigma2 into cos(2 phi) sigma2 + sin(2 phi) sigma3 "
+      "and sigma3 into cos(2 phi) sigma3 - sin(2 phi) sigma2")
+```
+
+The Pauli matrices are written as sympy matrices, `rot` is $R = \cos\phi + i\sin\phi\,\sigma_1$ and `back` its inverse $R^{-1} = \cos\phi - i\sin\phi\,\sigma_1$ (`sp.eye(2)` is the $2\times2$ unit matrix and `sp.I` the imaginary unit). `ok2` and `ok3` are $R^{-1}\sigma_2R - (\cos2\phi\,\sigma_2 + \sin2\phi\,\sigma_3)$ and $R^{-1}\sigma_3R - (\cos2\phi\,\sigma_3 - \sin2\phi\,\sigma_2)$, simplified; the check requires both to be the zero matrix: the two rotation rules of Section 16.14.
+
+```python
+def sector_matrix(G, odd, j=1.0, k=0.0, a4=0.0, M=M_VALUE, L=L_VALUE, H=1.0):
+    """Diagonal and off-diagonal of T for one sector: parity (odd True/False),
+    block type j, 3-momentum k, slice a4; constant M, v = 0."""
+    h = L / G
+    r = np.arange(2 * G - 1)  # the position of each unknown in the list
+    y_r = -L + (r + 1) * h / 2.0  # its y (half node for even r, node for odd r)
+    is_u = r % 2 == 0
+    K_r = np.exp(-H * y_r - a4) * k  # K = kappa k
+    angle = j * 0.5 * math.pi * (y_r + L) / L if odd else np.zeros_like(y_r)
+    dangle = j * math.pi / (2.0 * L) if odd else 0.0  # phi'
+    m2 = M * np.cos(2 * angle) - K_r * np.sin(2 * angle)
+    k2 = M * np.sin(2 * angle) + K_r * np.cos(2 * angle)
+    d = np.where(is_u, j * (dangle + k2), j * (dangle - k2))
+    pair = np.arange(2 * G - 2)  # the pair (r, r + 1)
+    u_of_pair = np.where(pair % 2 == 0, pair, pair + 1)  # its half node
+    sign = np.where(pair % 2 == 0, 1.0, -1.0)  # +1/h (u then w), -1/h (w then u)
+    o = j * (sign / h + 0.5 * m2[u_of_pair])
+    return d, o
+```
+
+`sector_matrix` builds the matrix of any sector, both parities, any block type $j$, 3-momentum $k$ and slice $a_{4,0}$, for constant $M$ and $v = 0$. `r` numbers the $2G - 1$ unknowns and `y_r` gives each its position: the unknown number $r$ lies at $-L + (r + 1)h/2$, a half node for even $r$ and a node for odd $r$; `is_u` marks the $u$ unknowns. `K_r` is $K = \kappa k$ at each position. For odd parity `angle` is $\phi = j\,\tfrac{\pi}{2}\,\tfrac{y + L}{L}$ and `dangle` its derivative $\phi' = j\pi/(2L)$; for even parity both are zero. `m2` and `k2` are $m_2 = M\cos2\phi - K\sin2\phi$ and $k_2 = M\sin2\phi + K\cos2\phi$. The diagonal is $j(\phi' + k_2)$ in the $u$ rows and $j(\phi' - k_2)$ in the $w$ rows. For the neighbour entries, `pair` numbers the pairs $(r, r + 1)$, `u_of_pair` is the position of the $u$ in each pair (the first for even $r$, the second for odd $r$), and `sign` gives $+1/h$ for a $u$ followed by a $w$ and $-1/h$ for a $w$ followed by a $u$; the entry is $j(\pm\tfrac1h + \tfrac12m_2)$ with $m_2$ at the half node of the pair. These are the formulas of Section 16.14.
+
+```python
+agree = []
+for odd in (False, True):
+    for j_value in (1.0, -1.0):
+        for n2, r3, k_value in ((0, 1, 0.0), (4, 6, 0.5)):  # |k| = 0.25 sqrt(n2)
+            phys = K.Phys(m=M_VALUE, L=L_VALUE, H=1.0)
+            grid = K.Grid(phys, 300)
+            sector = K.Sectors([(n2, r3, j_value, int(odd))])
+            alpha, beta = K.sector_arrays(grid, phys, sector,
+                                          np.full(grid.n, M_VALUE), np.zeros(grid.n))
+            d, o = sector_matrix(300, odd, j=j_value, k=k_value)
+            agree.append(max(np.max(np.abs(alpha[:, 0] - d)),
+                             np.max(np.abs(beta[:, 0] - o))))
+say(f"largest difference from ks_fd.sector_arrays over 8 sectors: {max(agree):.1e}")
+check(max(agree) <= 1e-12,
+      "sector_matrix equals the reference's matrices for both parities, both block "
+      "types, k = 0 and k = 0.5")
+```
+
+The loops compare `sector_matrix` with the reference's `K.sector_arrays` for both parities (`int(odd)` is 1 for odd), both block types, and two momenta: $k = 0$ (shell $n_2 = 0$) and the shell $n_2 = 4$ with $r_3(4) = 6$ points, where $|k| = 0.25\sqrt4 = 0.5$. `agree` collects the largest difference of each of the 8 comparisons. Out [9]: the largest is $0.0$; the check requires at most $10^{-12}$.
+
+**In [10], the matrices as heat maps (Figure 16b.4).**
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.6))
+for ax, odd, title in ((axes[0], False, "even parity"), (axes[1], True, "odd parity")):
+    d, o = sector_matrix(8, odd)
+    T = np.diag(d) + np.diag(o, 1) + np.diag(o, -1)
+    image = ax.imshow(T, cmap="RdBu_r", vmin=-3.5, vmax=3.5)
+    ax.set_title(f"$T$, {title}, $G = 8$")
+    ax.set_xticks(range(0, 15, 2))  # whole numbers: rows and columns 0 to 14
+    ax.set_yticks(range(0, 15, 2))
+    ax.set_xlabel("column $c$")
+    ax.set_ylabel("row $r$")
+fig.colorbar(image, ax=axes, shrink=0.85, label="entry $T_{rc}$ (units of $m$)")
+```
+
+For $G = 8$ ($15$ unknowns, $h = 0.375$) the even and the odd matrix are assembled and drawn as **heat maps**: `imshow` paints entry $T_{rc}$ as a coloured square in row $r$ and column $c$, with the colour scale `"RdBu_r"` from blue (negative) through white (zero) to red (positive), fixed between $-3.5$ and $3.5$ so that both panels use the same colours. The ticks are placed at the even numbers 0 to 14, and `fig.colorbar` adds one colour scale for both panels.
+
+```python
+save_figure(fig, "matrix_heat_maps",
+            "The reference matrices $T$ for $G = 8$ cells ($h = 0.375$, $M = 1$, "
+            "$L = 3$, $j = +1$, $k = 0$) as heat maps, entry $T_{rc}$ in units of $m$ "
+            "by colour (blue negative, red positive, white zero). Left, even parity: "
+            "only the two neighbouring diagonals are filled, alternating "
+            "$1/h + M/2 = 3.17$ and $-1/h + M/2 = -2.17$. Right, odd parity in the "
+            "rotated frame: the diagonal carries $\\phi' \\pm M\\sin 2\\phi$ and the "
+            "off-diagonal entries carry $M\\cos 2\\phi$, which changes sign along $y$.")
+```
+
+`save_figure` saves Figure 16b.4. What the student should see: both matrices are filled only on the two diagonals next to the main diagonal (tridiagonal), and each is its own mirror image across the main diagonal (symmetric). In the even matrix the main diagonal is white (zero) and the neighbour entries alternate between red, $1/h + M/2 = 3.17$, and blue, $-1/h + M/2 = -2.17$. In the odd matrix the rotation puts $\phi' \pm M\sin2\phi$ on the main diagonal, and the neighbour entries carry $M\cos2\phi$, which changes sign along $y$ (from $+M$ at the tip to $-M$ at the brane), so the colours of the pairs change from the top left to the bottom right.
+
+**In [11], five grids and Richardson extrapolation.**
+
+```python
+GRIDS = (150, 300, 600, 1200, 2400)
+EXACT = np.concatenate([EXACT_EVEN, EXACT_ODD])  # 18 levels: even, then odd
+LEVELS = {}  # G -> the 18 levels on that grid
+for G in GRIDS:
+    found = []
+    for odd in (False, True):
+        d, o = sector_matrix(G, odd)
+        lowest_particle = int(sturm_count(d, o, np.array([-1e-9]))[0])
+        values_g, _ = bisection(d, o, lowest_particle + RANKS)
+        found.append(values_g)
+    LEVELS[G] = np.concatenate(found)
+    say(f"G = {G:4d}: largest |level - exact| = "
+        f"{np.max(np.abs(LEVELS[G] - EXACT)):.3e}")
+```
+
+`GRIDS` holds the five grids $G = 150$ to $2400$ and `EXACT` the 18 exact levels (nine even, then nine odd; `np.concatenate` joins arrays). For each grid and each parity the matrix is built, the zero-mode number is found by a Sturm count at $-10^{-9}$, and bisection finds the nine levels of ranks $-3$ to $5$; the 18 levels are kept in `LEVELS`, and the largest distance from the exact levels is printed. Out [11]: $2.607\times10^{-3}$ for $G = 150$, then $6.518\times10^{-4}$, $1.629\times10^{-4}$, $4.074\times10^{-5}$ and $1.018\times10^{-5}$: each halving of $h$ divides the error by 4, as second order demands. This cell takes about ten seconds; the largest matrix has 4799 rows.
+
+```python
+def richardson(x1, x2, x3):
+    """Three-grid Richardson value and uncertainty, as in the reference program."""
+    r_fine, r_coarse = (4.0 * x3 - x2) / 3.0, (4.0 * x2 - x1) / 3.0
+    R = (16.0 * r_fine - r_coarse) / 15.0
+    return R, np.abs(R - r_fine) + 2e-12 * np.maximum(1.0, np.abs(R))
+```
+
+`richardson` is the reference's three-grid extrapolation of Section 16.5, now for whole arrays at once (`np.abs` and `np.maximum` work entry by entry).
+
+```python
+R18, U18 = richardson(LEVELS[300], LEVELS[600], LEVELS[1200])
+record = json.loads(repository_file(
+    "Revision/kohn_sham/reference/results/free-checks.json").read_text(encoding="utf-8"))
+rows = [r for r in record["analytic"]["rows"]
+        if float(r[0]) == 1.0 and float(r[1]) == 3.0 and r[3] == 1]
+order = [(par, rank) for par in ("even", "odd") for rank in RANKS]
+check([(r[2], r[4]) for r in rows] == order, "the record has our 18 rows in our order")
+dev_R = max(abs(float(r[5]) - R18[i]) for i, r in enumerate(rows))
+dev_U = max(abs(float(r[6]) - U18[i]) for i, r in enumerate(rows))
+dev_1200 = max(abs(float(r[9]) - (LEVELS[1200][i] - EXACT[i]))
+               for i, r in enumerate(rows))
+say(f"against the record: R differs by at most {dev_R:.1e}, U by {dev_U:.1e}, "
+    f"G = 1200 minus exact by {dev_1200:.1e}")
+say(f"Richardson value minus exact: at most {np.max(np.abs(R18 - EXACT)):.1e} "
+    f"(single grid G = 1200: {np.max(np.abs(LEVELS[1200] - EXACT)):.1e})")
+check(dev_R < 1e-12 and dev_U < 1e-12 and dev_1200 < 1e-12,
+      "our levels, R and U reproduce the 18 rows of the record",
+      record="Revision/kohn_sham/reference/results/free-checks.json, analytic rows")
+check(np.max(np.abs(R18 - EXACT)) <= 1e-11,
+      "the Richardson values equal the exact levels to 1e-11",
+      record="Revision/kohn_sham/reports/ks-reference.json, check "
+             "free_k0_analytic_spectra")
+```
+
+`R18` and `U18` are the Richardson values and uncertainties of the 18 levels from $G = 300$, $600$, $1200$. `record` is the committed file `free-checks.json`; `rows` keeps its rows with $m = 1$, $L = 3$ and $j = +1$ (each row lists $m$, $L$, parity, $j$, rank, $R$, $U$, the exact level, $R$ minus exact, and the $G = 1200$ value minus exact). The first check confirms that these are our 18 rows in our order (`order` lists the pairs (parity, rank)). `dev_R`, `dev_U` and `dev_1200` are the largest differences between the record and our $R$, our $U$ and our $G = 1200$ errors. Out [11]: $8.9\times10^{-15}$, $1.3\times10^{-15}$ and $6.2\times10^{-15}$, so the second check (all below $10^{-12}$) reproduces the record. The Richardson values lie within $1.2\times10^{-14}$ of the exact levels, while the best single grid $G = 1200$ is $4.1\times10^{-5}$ away: two Richardson steps gain about nine digits. The third check requires $10^{-11}$, the criterion of the reference's check free_k0_analytic_spectra.
+
+**In [12], the Richardson ladder (Figure 16b.5).**
+
+```python
+hs = np.array([L_VALUE / G for G in GRIDS])
+picks = [("even", 1), ("odd", 0), ("even", 5)]
+fig, ax = plt.subplots(figsize=(8.0, 6.4))
+for colour, (par, rank) in zip(PALETTE, picks):
+    i = order.index((par, rank))
+    single = np.array([abs(LEVELS[G][i] - EXACT[i]) for G in GRIDS])
+    one = np.array([abs((4.0 * LEVELS[GRIDS[g + 1]][i] - LEVELS[GRIDS[g]][i]) / 3.0
+                        - EXACT[i]) for g in range(4)])
+    two = np.array([abs(richardson(LEVELS[GRIDS[g]][i], LEVELS[GRIDS[g + 1]][i],
+                                   LEVELS[GRIDS[g + 2]][i])[0] - EXACT[i])
+                    for g in range(3)])
+    label = f"{par} rank {rank} ($\\varepsilon = {EXACT[i]:.3f}$)"
+    ax.loglog(hs, single, "o-", color=colour, lw=1.4, label=f"{label}: single grid")
+    ax.loglog(hs[:4], one, "s--", color=colour, lw=1.2, label="one step")
+    ax.loglog(hs[:3], np.maximum(two, 1e-16), "^:", color=colour, lw=1.2,
+              label="two steps")
+```
+
+`hs` holds the five cell widths. For three levels (even rank 1, odd rank 0 and even rank 5; `order.index` finds a level's position), the cell computes three error series against the exact level: `single`, the five single grids; `one`, the four one-step values $(4x(h/2) - x(h))/3$ of neighbouring pairs; and `two`, the three three-grid values of neighbouring triples. Each series is drawn on logarithmic axes in the level's colour: circles with solid lines, squares with dashed lines, triangles with dotted lines (`"^:"`); zero errors are raised to $10^{-16}$.
+
+```python
+ax.axhline(1e-14, color="k", lw=0.8, ls="-.", label="rounding floor $10^{-14}$")
+ax.set_xlabel("cell width $h$ of the coarsest grid used (units of $1/H$)")
+ax.set_ylabel("distance from the exact level (units of $m$)")
+ax.set_title("The Richardson ladder: slopes 2, 4 and then rounding")
+ax.set_ylim(1e-16, 1e-1)
+ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
+ax.set_xticks(hs)  # tick labels only at the five cell widths
+ax.set_xticklabels([f"{t:g}" for t in hs])
+ax.legend(fontsize=7, ncol=3, loc="upper center", bbox_to_anchor=(0.5, -0.13))
+```
+
+The dash-dotted line at $10^{-14}$ marks the rounding floor. The axes, the tick labels at the five cell widths (as in Notebook 16a, In [8]) and a legend in three columns below the plot (`bbox_to_anchor=(0.5, -0.13)` places it under the axes) complete the figure.
+
+```python
+save_figure(fig, "convergence_ladder",
+            "Distance of the computed level from the exact level, in units of $m$, "
+            "against the cell width $h = 3/G$ for $G = 150$ to $2400$, logarithmic "
+            "axes, for three levels of the free problem: circles, single grids "
+            "(slope 2, error proportional to $h^2$); squares, one Richardson step "
+            "$(4x(h/2) - x(h))/3$ (slope 4); triangles, the three-grid value of the "
+            "reference (two steps), already at the rounding floor near $10^{-14}$. "
+            "The high level of rank 5 has the largest errors, because its orbital "
+            "varies fastest from cell to cell.")
+```
+
+`save_figure` saves Figure 16b.5. What the student should see: the single-grid errors fall along straight lines of slope 2 (a factor 4 per halving), the one-step errors along lines of slope 4 (a factor 16), and the two-step errors reach the rounding floor of about $10^{-14}$ at once, for the two lower levels already on the coarsest triple and for the level of rank 5 from the second triple on; there they scatter instead of falling further, because at the floor rounding, not the grid, sets the error. The high level of rank 5 has the largest errors in every series, because its orbital varies fastest from cell to cell.
+
+**In [13], every ratio tends to 4 (Figure 16b.6).**
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.4))
+worst = {}
+for colour, (g1, g2, g3) in zip(PALETTE, ((150, 300, 600), (300, 600, 1200),
+                                          (600, 1200, 2400))):
+    d1, d2 = LEVELS[g1] - LEVELS[g2], LEVELS[g2] - LEVELS[g3]
+    keep = (np.abs(d1) > 1e-10) & (np.abs(d2) > 1e-10)  # not the zero modes
+    ratio = d1[keep] / d2[keep]
+    worst[(g1, g2, g3)] = float(np.max(np.abs(ratio - 4.0)))
+    ax.plot(EXACT[keep], ratio, "o", color=colour, ms=6,
+            label=f"grids {g1}, {g2}, {g3}: largest $|$ratio $- 4|$ = "
+                  f"{worst[(g1, g2, g3)]:.1e}")
+ax.axhline(4.0, color="k", lw=1.0)
+ax.set_xlabel("exact level $\\varepsilon$ (units of $m$)")
+ax.set_ylabel("$(x(G) - x(2G))/(x(2G) - x(4G))$")
+ax.set_title("Second-order convergence: every ratio tends to 4")
+ax.legend(fontsize=8)
+```
+
+For three triples of grids the convergence ratio of Section 16.4 is computed for all 18 levels; `keep` leaves out the two zero modes, whose differences are below $10^{-10}$ because they are exact on every grid. `worst` keeps each triple's largest distance from 4, and the ratios are drawn against the exact level energies, one colour per triple, with the line 4.
+
+```python
+save_figure(fig, "error_ratios",
+            "The convergence ratio $(x(G) - x(2G))/(x(2G) - x(4G))$ of the 16 nonzero "
+            "levels of ranks $-3$ to $5$ (both parities, $M = 1$, $L = 3$, $k = 0$) "
+            "against the exact level in units of $m$, for three triples of grids. A "
+            "ratio of 4 means an error proportional to $h^2$; the ratios approach 4 "
+            "as the grids get finer, fastest for the low levels. The two zero modes "
+            "are exact on every grid and have no ratio.")
+say("largest |ratio - 4| per triple: " + ", ".join(
+    f"{k}: {v:.2e}" for k, v in worst.items()))
+check(worst[(300, 600, 1200)] <= 0.01
+      and worst[(600, 1200, 2400)] < worst[(300, 600, 1200)],
+      "the ratios lie within 0.01 of 4 and approach 4 on finer grids",
+      record="Revision/kohn_sham/reports/ks-reference.json, check "
+             "free_convergence_order_two")
+```
+
+`save_figure` saves Figure 16b.6, and the printed line (Out [13]) gives the largest distances from 4: $6.57\times10^{-4}$, $1.64\times10^{-4}$ and $4.10\times10^{-5}$ for the triples $(150, 300, 600)$, $(300, 600, 1200)$ and $(600, 1200, 2400)$, each four times smaller than the one before, as the correction $\tfrac{15}{16}\tfrac{d}{c}h^2$ of Section 16.4 predicts. What the student should see: the 16 ratios of each triple lie close to 4, the finer triples closer, and the high levels deviate most. The check requires the middle triple within $0.01$ of 4 (the reference's criterion free_convergence_order_two asks for $[3.99, 4.01]$) and the finest triple closer still.
+
+**In [14], the brane band along the deflating history.**
+
+```python
+SLICES = (0.0, 0.5, 1.0, 1.5, 2.0)
+
+def slope_formula(a4, M=M_VALUE, H=1.0, L=L_VALUE):
+    """c = e^(-a4) (2M/(1 - e^(-2ML))) (1 - e^(-(2M - H)L))/(2M - H)."""
+    return (math.exp(-a4) * 2.0 * M / (1.0 - math.exp(-2.0 * M * L))
+            * (1.0 - math.exp(-(2.0 * M - H) * L)) / (2.0 * M - H))
+```
+
+`SLICES` are the five slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$, and `slope_formula` is the slope $c(a_{4,0})$ derived in Section 16.15.
+
+```python
+per_grid = {}
+for G in (300, 600, 1200):
+    yh, u = zero_mode(G)
+    weight = u * u * (L_VALUE / G)  # u_p^2 h, summing to 1
+    per_grid[G] = np.array([np.sum(np.exp(-yh - a4) * weight) for a4 in SLICES])
+R_slope, U_slope = richardson(per_grid[300], per_grid[600], per_grid[1200])
+```
+
+For the grids $300$, $600$, $1200$ the discrete zero mode is built; `weight` holds $u_p^2h$, which adds up to 1; and the slope at each slice is $\sum\kappa(y_{p+1/2})\,u_p^2\,h$ with $\kappa = e^{-y - a_{4,0}}$ ($H = 1$), the discrete Hellmann-Feynman formula of Section 16.15. Richardson extrapolation over the three grids gives `R_slope`.
+
+```python
+formula = np.array([slope_formula(a4) for a4 in SLICES])
+theory = json.loads(repository_file("Revision/kohn_sham/ks-theory.json").read_text(
+    encoding="utf-8"))
+stated = float(theory["checksNumeric"]["braneBandSlope_M1_H1_L3_a0"])
+rec_rows = record["brane_band_slope"]["rows"]
+print("a4,0   slope (grid, Richardson)   formula            record")
+for i, a4 in enumerate(SLICES):
+    print(f"{a4:4.1f}   {R_slope[i]:.15f}      {formula[i]:.15f}  "
+          f"{float(rec_rows[i][1]):.15f}")
+```
+
+`formula` holds the exact slopes. `theory` is the committed theory file `ks-theory.json`, and `stated` its number checksNumeric.braneBandSlope_M1_H1_L3_a0, the slope at $a_{4,0} = 0$ written in the file. `rec_rows` are the rows of the record's entry brane_band_slope. The table of Out [14] prints, for each slice, the grid value, the formula and the record with fifteen decimals; at $a_{4,0} = 0$ the three agree to fourteen decimals, $1.90514825364486$, and at $a_{4,0} = 2$ all three read $0.257833778514766$.
+
+```python
+rel_formula = np.max(np.abs(R_slope - formula) / formula)
+rel_record = max(abs(float(r[1]) - R_slope[i]) / formula[i]
+                 for i, r in enumerate(rec_rows))
+say(f"largest relative difference: from the formula {rel_formula:.1e}, from the "
+    f"record {rel_record:.1e}")
+print("stated in ks-theory.json (checksNumeric): c at a4,0 = 0 is "
+      + theory["checksNumeric"]["braneBandSlope_M1_H1_L3_a0"])
+check(rel_formula <= 1e-11 and abs(slope_formula(0.0) - stated) <= 1e-15 * stated,
+      "the grid slope equals c e^(-a4,0) of ks-theory.json at the five slices",
+      record="Revision/kohn_sham/reports/ks-reference.json, check "
+             "free_brane_band_slope")
+check(rel_record <= 1e-13, "our slopes reproduce the record's brane_band_slope rows",
+      record="Revision/kohn_sham/reference/results/free-checks.json, brane_band_slope")
+check(np.allclose(R_slope[1:] / R_slope[:-1], math.exp(-0.5), rtol=1e-12, atol=0),
+      "from slice to slice the slope shrinks by exactly e^(-0.5)")
+```
+
+`rel_formula` and `rel_record` are the largest relative differences from the formula and from the record: $3.8\times10^{-16}$ and $2.6\times10^{-15}$ (Out [14]). The line printed next shows the number written in `ks-theory.json`. The first check requires the grid slope to equal the formula to $10^{-11}$ and the formula at $a_{4,0} = 0$ to equal the stated number to $10^{-15}$, the reference's criterion free_brane_band_slope; the second reproduces the record's rows; the third confirms that from slice to slice the slope shrinks by exactly $e^{-0.5}$ (`np.allclose` with a relative tolerance $10^{-12}$; `R_slope[1:] / R_slope[:-1]` divides each slope by the one before).
+
+**In [15], the brane band as a picture (Figure 16b.7).**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
+a_fine = np.linspace(0.0, 2.0, 100)
+left.semilogy(a_fine, [slope_formula(a) for a in a_fine], color="k", lw=1.2,
+              label="formula $c\\,e^{-a_{4,0}}$")
+left.semilogy(SLICES, R_slope, "o", color=PALETTE[0], ms=8,
+              label="grid, three-grid Richardson value")
+left.set_xlabel("slice $a_{4,0}$ (3-space inflates, extra times deflate)")
+left.set_ylabel("brane-band slope $d\\varepsilon/dk$ at $k = 0$")
+left.set_title("The brane band flattens as $e^{-a_{4,0}}$")
+left.legend(fontsize=8)
+```
+
+The left panel draws the formula $c\,e^{-a_{4,0}}$ on 100 slices as a black line and the five Richardson values as circles, on a logarithmic vertical axis, where a function $e^{-a}$ is a straight line.
+
+```python
+hs3 = np.array([L_VALUE / G for G in (300, 600, 1200)])
+right.loglog(hs3, [abs(per_grid[G][0] - formula[0]) for G in (300, 600, 1200)],
+             "o-", color=PALETTE[1], lw=1.5, ms=7,
+             label="single grid, $a_{4,0} = 0$")
+right.loglog(hs3, abs(per_grid[300][0] - formula[0]) / 3.0 * (hs3 / hs3[0]) ** 2,
+             "k--", lw=0.9, label="slope 2 (drawn a factor 3 lower)")
+right.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
+right.set_xticks(hs3)  # tick labels only at the three cell widths
+right.set_xticklabels([f"{t:g}" for t in hs3])
+right.set_xlabel("cell width $h$")
+right.set_ylabel("$|c(G) - c|$")
+right.set_title("grid error of the slope")
+right.legend(fontsize=8)
+fig.tight_layout()
+```
+
+The right panel draws, for $a_{4,0} = 0$, the distance of the single-grid slopes from the exact slope against the cell width, with a dashed line of slope 2 drawn a factor 3 lower, and tick labels at the three cell widths.
+
+```python
+save_figure(fig, "brane_band_slope",
+            "The slope $d\\varepsilon/dk$ at $k = 0$ of the brane band (even parity, "
+            "$j = +1$, $M = H = 1$, $L = 3$). Left: against the slice $a_{4,0}$ of the "
+            "history, logarithmic vertical axis; the Richardson values of the grid "
+            "(circles) lie on the formula of ks-theory.json, $c(0)\\,e^{-a_{4,0}}$ "
+            "with $c(0) = 1.90515$: the 3-momentum is redshifted as 3-space inflates "
+            "while the three extra times deflate. Right: the single-grid values at "
+            "$a_{4,0} = 0$ approach the exact slope with an error proportional to "
+            "$h^2$ (parallel to the dashed line of slope 2).")
+```
+
+`save_figure` saves Figure 16b.7. What the student should see: on the left, the five circles lie exactly on a straight line falling by a factor $e^{-2} = 0.135$ from $1.905$ to $0.258$: the brane band flattens as 3-space inflates and the extra times deflate, because the 3-momentum is redshifted; on the right, the grid error of the slope falls with slope 2, from about $1.3\times10^{-5}$ to $8\times10^{-7}$.
+
+**In [16], the reference program's own free-field job.**
+
+```python
+import run_reference as RR  # noqa: E402  the reference program (Revision code)
+
+CO = RR.theory_coefficients()  # coefficients read and checked from ks-theory.json
+free = RR.jsonable(RR.free_checks_job(CO)["data"])
+committed = repository_file(
+    "Revision/kohn_sham/reference/results/free-checks.json").read_text(encoding="utf-8")
+text = json.dumps(free, indent=1, ensure_ascii=True) + "\n"  # as the program writes
+say(f"the new free-field result is identical to the record byte for byte: "
+    f"{text == committed}")
+```
+
+The reference program is imported (as in Notebook 16a), and its job `free_checks_job` is run: it computes the exact-level comparison for three choices of $(M, L)$, both block types and both parities on five grids, the zero mode, the brane-band slope and the split of every sector into particle and sea levels (about ten seconds). Its result is written as text exactly as the program writes the file and compared with the committed file; Out [16] says that the two are identical byte for byte.
+
+```python
+same = json.loads(text) == json.loads(committed)
+if not same:  # another computer may round the last digits differently
+    old = json.loads(committed)["analytic"]
+    same = all(abs(float(a[5]) - float(b[5])) < 1e-12
+               for a, b in zip(free["analytic"]["rows"], old["rows"]))
+check(same, "the reference's free-field job reproduces free-checks.json",
+      record="Revision/kohn_sham/reference/results/free-checks.json")
+```
+
+If the texts were not identical (another computer may round the last digits differently), `same` would still accept the result when the decoded contents are equal or the Richardson values of all rows agree to $10^{-12}$. The check requires this.
+
+```python
+an, zm = free["analytic"], free["zero_mode"]
+bb, pb = free["brane_band_slope"], free["particle_branch"]
+criteria = {
+    "free_k0_analytic_spectra": an["max_error_richardson"] <= 1e-11,
+    "free_convergence_order_two": 3.99 <= an["ratio_min"] and an["ratio_max"] <= 4.01,
+    "free_k0_block_type_symmetry": an["jsym_max"] <= 1e-13
+    and zm["jsym_profile"] <= 1e-13,
+    "free_zero_mode": zm["max_abs_eps"] <= 1e-13 and zm["max_w_over_u"] <= 1e-12
+    and zm["profile_richardson_max_error"] <= 1e-9,
+    "free_brane_band_slope": bb["max_rel"] <= 1e-11
+    and bb["formula_vs_theory_number"] <= 1e-15,
+    "free_particle_branch": pb["violations"] == 0
+    and pb["closest_to_zero_away_from_zero_modes"] > 1e-3,
+}
+```
+
+`an`, `zm`, `bb` and `pb` are the four parts of the result. `criteria` is a dictionary from the names of the six free-field checks of the reference report to their conditions, with exactly the thresholds of the reference program: the Richardson levels within $10^{-11}$ of the exact ones; all convergence ratios in $[3.99, 4.01]$; the two block types' spectra and zero-mode profiles equal to $10^{-13}$; the zero mode's eigenvalue below $10^{-13}$, its $w$ entries below $10^{-12}$ of its $u$ entries and its extrapolated profile within $10^{-9}$ of $A\,e^{My}$; the slope within $10^{-11}$ (relative) of the formula, and the formula equal to the stated number; and no level on the wrong side of zero, with no level within $10^{-3}$ of zero apart from the zero modes.
+
+```python
+say(f"max error of the Richardson values {an['max_error_richardson']:.1e}; ratios "
+    f"{an['ratio_min']:.5f} to {an['ratio_max']:.5f}; zero mode |eps| <= "
+    f"{zm['max_abs_eps']:.1e}; slope {bb['max_rel']:.1e} relative")
+report = json.loads(repository_file(
+    "Revision/kohn_sham/reports/ks-reference.json").read_text(encoding="utf-8"))
+verdicts = {c["name"]: c["verdict"] for c in report["checks"]}
+for name, ok in criteria.items():
+    check(ok and verdicts[name] == "PASS", f"{name} holds for the new run",
+          record=f"Revision/kohn_sham/reports/ks-reference.json, check {name}")
+```
+
+The printed line (Out [16]) gives the largest error of the Richardson levels ($2.8\times10^{-14}$, over all three $(M, L)$), the range of the ratios ($3.99977$ to $4.00019$), the size of the zero mode's eigenvalue ($1.3\times10^{-39}$) and the slope's relative error ($2.6\times10^{-15}$); these are the numbers of the reference report. The report's verdicts are read into a dictionary, and the loop makes one check per criterion: it must hold for the new run and the report's verdict must be PASS. Six PASS lines follow, each naming the check of `Revision/kohn_sham/reports/ks-reference.json` that it reproduces.
+
+**In [17], the last check.**
+
+```python
+figure_files = [f"{FIGURE_FOLDER}/16b_{k}_{name}.png" for k, name in enumerate(
+    ["staggered_grid", "sturm_staircase", "orbitals", "matrix_heat_maps",
+     "convergence_ladder", "error_ratios", "brane_band_slope"], start=1)]
+check(all(output_file(f).is_file() for f in figure_files),
+      "every figure file of this notebook exists")
+all_checks_passed()
+```
+
+As In [23] of Notebook 16a, for the seven figures; it prints ALL 31 CHECKS PASSED (notebook 16b): five checks in In [2], three each in In [4], In [7], In [11] and In [14], two each in In [5] and In [9], seven in In [16], and one each in In [6], In [13] and In [17].

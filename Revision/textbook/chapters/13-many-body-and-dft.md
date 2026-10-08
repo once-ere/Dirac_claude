@@ -447,7 +447,7 @@ Notebook 13c turns Sections 13.3 to 13.10 into numbers that can be checked: the 
 
 The notebook has nineteen code cells, In [1] to In [19]. This section explains every line of every one of them. Each code cell is preceded in the notebook by a text cell that says what it does; the numbers it prints are in Section 13.13.
 
-**In [1], the set-up cell.** It is the same in every notebook of the book except for the notebook's name; the notebooks 13b, 13d, 13e and 13a of this chapter have exactly this cell with their own name, and their walk-throughs refer back to this paragraph. Its first part repeats the complete run instructions of Section 13.12 as **comment lines**: every line that starts with `#` is skipped by Python, and the lines are there so that the notebook file carries its own instructions. The code starts after the line of `=` signs.
+**In [1], the set-up cell.** Apart from its comment lines and the notebook's name, it is the same in every notebook of the book; the notebooks 13b, 13d, 13e and 13a of this chapter have exactly this code with their own name, and their walk-throughs refer back to this paragraph. Its first part repeats the complete run instructions of Section 13.12 as **comment lines**: every line that starts with `#` is skipped by Python, and the lines are there so that the notebook file carries its own instructions. The code starts after the comment line THE SET-UP, which stands between two lines of `=` signs; the comment lines inside the code (which say, for example, why `REPO` is never printed) are left out below, because the text explains the same things.
 
 ```python
 import json  # reads and writes JSON files (text files that hold names and numbers)
@@ -3083,7 +3083,7 @@ check(abs(E2 - 0.268941) < 1e-6 and abs(S2 - 1.164406) < 1e-6
       and abs(F2 + 0.313262) < 1e-6, "E = 0.268941, S = 1.164406, F = -0.313262")
 ```
 
-The `report` lines print $\mu = 0.500000$, $f_0, f_1 = 0.731059, 0.268941$ and $E, S, F = 0.268941, 1.164406, -0.313262$, and the two checks compare them with the values worked out by hand in Section 13.26 ($\mu$ to $10^{-12}$, the others to $10^{-6}$, the rounding of the six printed decimals).
+The `report` lines print $\mu = 0.500000$, the occupations $f_0 = 0.731059$ and $f_1 = 0.268941$, and $E = 0.268941$, $S = 1.164406$ and $F = -0.313262$, and the two checks compare them with the values worked out by hand in Section 13.26 ($\mu$ to $10^{-12}$, the others to $10^{-6}$, the rounding of the six printed decimals).
 
 **In [9], the Revision solver's rule for $\mu$.**
 
@@ -4241,7 +4241,7 @@ This section says which ideas of the chapter the Kohn-Sham model of dirac16compl
 - **No correlation.** The dirac16complex functional has no correlation term ("correlation: none (Hartree plus exchange only)" in `Revision/kohn_sham/ks-theory.json`), and for the non-uniform Kohn-Sham determinants its uniform-gas exchange differs from the exact local Fock exchange by $+\tfrac{\lambda}{32}Q^2$ (Section 13.16). These are the approximations of the model.
 - **No density-functional theorem is claimed for the field.** The Hohenberg-Kohn and Mermin theorems of Sections 13.8 and 13.26 were proved for particles with a positive inner product and a Hamiltonian bounded from below. For the quantised dirac16complex field with its indefinite Krein form (Chapter 10) the book does not prove such a theorem; the model of Chapter 14 is used as a self-consistent mean-field (exchange-only) model, and whether an exact density functional exists for this field is OPEN.
 - **Which levels are filled.** Particles occupy the positive branch of the levels and the brane zero modes; this filling is a CONVENTION of the record, and its justification is OPEN (`Revision/kohn_sham/ks-theory.json`, thermodynamics, fillingConvention).
-- **The background.** The history $a_4 = AHx_4$ along which the instantaneous (adiabatic) Kohn-Sham states are computed is a PRESCRIBED BACKGROUND: the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`, checks ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8, all PASS). The time-dependent (non-adiabatic) problem is OPEN, and the mirror at the end of the hidden direction (the Z2 brane) is ASSUMED.
+- **The background.** The history $a_4 = AHx_4$ along which the instantaneous (adiabatic) Kohn-Sham states are computed is a PRESCRIBED BACKGROUND: the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`; the checks are named in Section 13.38). The time-dependent (non-adiabatic) problem is OPEN, and the mirror at the end of the hidden direction (the Z2 brane) is ASSUMED.
 
 **The pairs.** Chapter 19 uses these Kohn-Sham states for theorem T3: the Kohn-Sham universes of mass $+M$ and $-M$, with the transformed boundary conditions, have equal energies and energy-momentum tensors (PROVED: `Revision/pairing/kohn_sham/reports/python-t3.json` and, independently, `wolfram-t3.json` in the same folder; every check of both reports is PASS). T3 is an exact map between two sets of solutions. It does not prove that any universe is created, in pairs or otherwise: no creation process, rate or amplitude follows from these equations, and nothing in this chapter changes that.
 
@@ -4281,6 +4281,8 @@ This section says which ideas of the chapter the Kohn-Sham model of dirac16compl
 - for the dirac16complex model (Section 13.37): the Z2 mirror, and the history of $a_4$ as a prescribed background.
 
 **HYPOTHESIS:** none is used in this chapter. **OPEN:** an exact density functional for the quantised dirac16complex field, the justification of its filling convention, and its time-dependent (non-adiabatic) problem (Section 13.37).
+
+**Where the background status is recorded.** That the history $a_4 = AHx_4$ is a prescribed background, not a solution of the $a_4$ field equations with the Kohn-Sham source, is recorded in the Revision report `Revision/field_equations_a4/reports/ks-source-conditions.json` by its checks ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8, each with the verdict PASS.
 
 ### 13.39 Exercises
 

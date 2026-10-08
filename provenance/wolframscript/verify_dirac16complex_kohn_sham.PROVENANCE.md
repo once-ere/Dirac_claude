@@ -486,7 +486,7 @@ In the repository root (the same command in PowerShell, macOS and Linux):
 git checkout -- artifacts/dirac16complex/kohn-sham/wolfram-kohn-sham-report.json artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json
 ```
 
-and, if you used Section 3.8 (or a run stopped with `FATAL` while writing under `build/`), delete the scratch output:
+and, if you used Section 3.8 (or a run with a report path under `build/` stopped with `FATAL` or was interrupted), delete the scratch output:
 
 - if `build/` did not exist before the run (as in a freshly downloaded repository): `Remove-Item -Recurse -Force build` (PowerShell) or `rm -rf build` (macOS, Linux);
 - if `build/` existed before and holds files of other programs: `Remove-Item -Recurse -Force build/kohn-sham-check` (PowerShell) or `rm -rf build/kohn-sham-check` (macOS, Linux).

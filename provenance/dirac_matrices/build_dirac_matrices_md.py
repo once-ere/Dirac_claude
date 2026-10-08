@@ -1130,7 +1130,7 @@ def main():
         sq_T, sq_abs, mix = mul(G[5], G[5]), mul(absG[5], absG[5]), anti(G[5], absG[5])
         Y1 = add(anti(G[5], absG[6]), anti(absG[5], G[6]))
         Y2 = anti(absG[5], absG[6])
-        witness = [(i, j) for i in range(N) for j in range(N) if Y1[i][j] != 0 and Y2[i][j] == 0]
+        witness = [(i, j) for i in range(N) for j in range(N) if Y1[i][j] != 0 and abs(Y1[i][j]) >= abs(Y2[i][j])]
         useT16_ok = (all(v is True for v in flags.values()) and "cosh(a4) gamma^j - sinh(a4) |gamma^j|" in form
                      and eq(sq_T, scal(-1, I)) and eq(sq_abs, I) and is_zero(mix) and is_zero(anti(G[5], G[6]))
                      and len(witness) > 0)
@@ -1141,8 +1141,9 @@ def main():
               "here exactly with the author's T16A (s = sin(6 H x0), the notebook's hidden coordinate): T16A[5]^2 = -I16, "
               "|T16A[5]|^2 = I16 and {T16A[5], |T16A[5]|} = 0, so (gamma'^{x5})^2 = s^(-1/3) (sinh^2 a4 - cosh^2 a4) I16 = "
               "-s^(-1/3) I16, whereas the curved Clifford relation needs g^{x5 x5} I16 = -s^(-1/3) e^(2 a4) I16; and "
-              "{gamma'^{x5}, gamma'^{x6}} = s^(-1/3) (-cosh a4 sinh a4 Y1 + sinh^2 a4 Y2) with Y1 = {T5, |T6|} + {|T5|, T6}, "
-              f"Y2 = {{|T5|, |T6|}}: Y1 has {nnz(Y1)} nonzero entries, {len(witness)} of them where Y2 = 0, so it is "
+              "{gamma'^{x5}, gamma'^{x6}} = s^(-1/3) sinh a4 (-cosh a4 Y1 + sinh a4 Y2) (since {T5, T6} = 0) with "
+              f"Y1 = {{T5, |T6|}} + {{|T5|, T6}}, Y2 = {{|T5|, |T6|}}: Y1 has {nnz(Y1)} nonzero entries, at {len(witness)} of them "
+              "|Y1| >= |Y2|, and there cosh a4 |Y1| > |sinh a4| |Y2| because cosh a4 > |sinh a4|, so the anticommutator is "
               "nonzero for every a4 != 0. These derived coordinate matrices of the author are not a Clifford set for "
               "x5..x7; the eight flat matrices T16A are not affected")
 

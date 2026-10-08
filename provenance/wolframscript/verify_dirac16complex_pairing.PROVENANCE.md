@@ -727,9 +727,11 @@ same time. The set was never timed on an otherwise idle computer. Measured over 
 complete runs: from 244.5 s (about 4 minutes) to 677.7 s (about 11.5 minutes).
 
 Complete runs with every file present (wall clock = from the start of `wolframscript` to
-its end; "together with" names the runs of this table that ran at the same time):
+its end; "together with" names the other runs of the same verification that ran at the
+same time; the printed seconds are those of the line `done in <n> s`, which in every run
+where both were recorded equals `elapsed_seconds`):
 
-| Run | Date, Part 6 section | Shell | Report path | Together with | Elapsed (wall clock) | `elapsed_seconds` printed | Kernel peak working set | Kernel largest private memory (sampled) | Kernel processor time (last sample) |
+| Run | Date, Part 6 section | Shell | Report path | Together with | Elapsed (wall clock) | Seconds printed (`done in`) | Kernel peak working set | Kernel largest private memory (sampled) | Kernel processor time (last sample) |
 | --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | A1 | 10-02, 6.3 | PowerShell 7.6.6 | committed path | not recorded | 295.9 s | 292 | 435.6 MiB | 657.5 MiB | not recorded |
 | A2 | 10-02, 6.3 | Git Bash | committed path | not recorded | 321.9 s | 318 | 437.1 MiB | 658.3 MiB | not recorded |
@@ -812,9 +814,10 @@ real discrepancy: record your `$Version` and the failed names.
 * An **interrupted** run (Ctrl+C, or the window closed, or the process ended) changes
   nothing in the repository, because the two output files are written only after the
   last check; it can leave the empty report folder behind, as in the `FATAL` case
-  (measured in Part 6.4 with the `build/` variant: Ctrl+C after about 61 s and ending the
-  `wolframscript` process after about 82 s each left only the empty folder
-  `build/old-pairing/`; the committed files were not touched).
+  (measured three times in Part 6.4 with the `build/` variant: Ctrl+C after about 61 s,
+  ending the `wolframscript` process after about 82 s, and ending every process of the
+  run after about 2 minutes each left only the empty folder `build/old-pairing/`; the
+  committed files were not touched).
 * With a report path elsewhere (for example the `build/` variant of Section 3.4) the run
   creates the folder of the report if it does not exist (including missing parent
   folders: in a fresh clone, where there is no folder `build/`, it creates both `build/`
@@ -861,13 +864,13 @@ and Linux were not inspected):
   run, had been ended). Each time the file that collected the printed lines (51 or 125
   bytes: the progress lines printed until then) was still in the folder at every later
   look (the last one 40 s to 11 minutes after the interruption; then these three
-  collecting files were deleted by hand), and so was an empty `tmp_` file created within half a second of
-  the start, which was very probably the run's other file. The folder also held six such files, with the
-  first progress lines of this set, left by earlier runs of this set that had been
-  interrupted.
-  They are small and harmless. To remove them, wait until no Wolfram program is running
-  (no `wolframscript.exe` or `wolfram.exe` in the Task Manager), then delete the files
-  named `tmp_...` in that folder (in PowerShell:
+  collecting files were deleted by hand), and so was an empty `tmp_` file created within
+  half a second of the start, which was very probably the run's other file. The folder
+  also held six such files, with the first progress lines of this set, left by earlier
+  runs of this set that had been interrupted. They are small and harmless. To remove
+  them, wait until no Wolfram program is running (no `wolframscript.exe` or `wolfram.exe`
+  in the Task Manager), then delete the files named `tmp_...` in that folder (in
+  PowerShell:
   `Remove-Item "$env:LOCALAPPDATA\Wolfram\WolframScript\WolframScriptTemporary\tmp_*"`).
   On macOS and Linux this was not tested.
 * WolframScript rewrites its own small settings file
@@ -1213,7 +1216,9 @@ commit them; restore the committed files with the command above.
   c, d, e and g, which ended by themselves, no file of the folder contained their output.
   Six files with the first progress lines of this set, created at 17:01 and between 20:14
   and 20:16 on 2026-10-07 by earlier runs of this set that had been interrupted, were
-  found in the folder and left there.
+  found in the folder and left there. The removal command of Part 5 was only tried with
+  the added option `-WhatIf` (it listed the `tmp_` files it would delete and deleted
+  nothing), because other jobs were using the folder at the time.
 * **Processes and memory:** every run started one kernel (`wolfram.exe -runfirst ...
   -linkmode Connect -linkname ... -mathlink`); the short licence query
   `wolfram.exe -wlbanner -licenseinfo` was also seen in runs a, b, c, d and g (the process
