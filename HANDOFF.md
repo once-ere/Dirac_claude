@@ -167,6 +167,17 @@ shared tool fix (run_instructions.py troubleshooting: `python -m jupyter` fails 
 "normal ordering supplies one more sign" is contradicted by the proof of textbook section 5.34 and Notebook 05e; correct the
 record, then chapter 05/05c/05e/21 and 00c); the whole-Revision review; the book review; re-assembly, PDF registration;
 fresh-clone verification; push; notify the user.
+UPDATE 07:50: committed and verified since: chapters 01-09, 03, 12 (lead re-check: nbkit check of every notebook + check_chapter),
+dark_sector/dirac16complex (dd20166), ks_source + dark_sector/dirac16complex00 (26c0424), the index + its test + the rev-a4 record
+(4122f2f), nb-kohn-sham record (d2dd531).  Phase 2b-1 launched (wf_6cda14c3-c49: doc-kohn-sham, doc-dark-sector, fix:16, fix:17,
+stage4-diagnose); phase 2b-2 (Revision/workflows/completion/completion_phase_2b2.js: doc-updates + Revision/README, revnb-ks-dark,
+gate, prov-t3, review/fix 19) waits for the T3 agent and the first Revision notebook.  MORE FOLLOW-UPS for phase 2c: (1) lead-check
+record charge_conjugation_and_u1.py also: u1_noether_matrix_identity detail says Q is conserved without the boundary-flux caveat
+(chapter 10 and DIRAC16COMPLEX_FIELD_THEORY section 11 say conservation needs a condition at z = pi/2); (2) a4 verifier failure
+paths (rev-a4 record part 6.5: a missing lovelock-tensors.json gives FAIL checks instead of an ERROR line; a4-equations.json is
+written before the report) - fix, then re-verify the record; (3) notebook 00c asserts the list of 27 Revision reports: update it
+once all wave-2 reports are final, rebuild 00c; (4) run EXECUTION_PROVENANCE_FULL=1 tests/test_execution_provenance.py when no
+agent writes in the tree.
 
 ### 0.4m COMPLETION RUN 2026-10-08 (user: "continue and complete the stages that are still open")
 
