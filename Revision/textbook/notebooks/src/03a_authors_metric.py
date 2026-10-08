@@ -76,11 +76,17 @@ FACTS = {
         "ALL 29 CHECKS PASSED (notebook 03a)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for curvature.json or parameters.json",
-         "the notebook reads these two Revision records of the repository, so the folder "
-         "Revision of your copy is incomplete. Restore it with the following command in "
-         "the repository folder (or clone the repository again) and run the notebook "
-         "again:",
+        ["\"FileNotFoundError\" for curvature.json, python-lovelock-report.json, "
+         "emt-divergence-and-spin-connection.json, parameters.json or ks-theory.json",
+         "the notebook reads these five Revision records of the repository, so the "
+         "folder Revision of your copy is incomplete. Restore it with the following "
+         "command in the repository folder (or clone the repository again) and run the "
+         "notebook again:",
+         ["git checkout -- Revision"]],
+        ["\"AssertionError: record check failed\"",
+         "a Revision report no longer lists a check that the notebook relies on as "
+         "passed, so your copy of the folder Revision differs from the one the book was "
+         "built with. Restore it with the same command and run the notebook again:",
          ["git checkout -- Revision"]],
     ],
 }
@@ -157,6 +163,10 @@ CELLS = [
       direction, in which the warp factor is $W = e^{Hy}$ (section 13).
     - **Prescribed background**: a metric that is given and not solved for from field
       equations.
+    - **Lead checks**: short independent Python programs of the Revision record (folder
+      `Revision/lead_checks`), written from scratch by the coordinator of the Revision
+      work (the "lead") without importing any other Revision code; each writes a report
+      with a list of named checks and their verdicts.
     - **sympy**: the Python package for exact algebra with symbols; **numpy**: arrays of
       numbers; **matplotlib**: plots.
     """),
@@ -244,12 +254,39 @@ CELLS = [
     rows, each row a list of eight entries), `exp^(...)` means $e$ to the power
     $(...)$, `Sin[...]` and `Cot[...]` are the sine and the cotangent, `a4[x4]` is the
     value of the function $a_4$ at $x_4$, and a blank between two factors means times.
+
+    The cell also defines the function `record_check(report_file, check_name,
+    detail_part)`. Some PASS lines below say that a result reproduces a named check of
+    a Revision report (a JSON file with a list or a dictionary `checks`, each check with
+    its name, its verdict and a detail text). `record_check` opens the report, finds the
+    check with that name and stops the notebook with an error unless the check is there
+    and passed (and, if `detail_part` is given, its detail contains that text). Every
+    PASS line that names a check of a Revision report calls it first, so that a renamed,
+    missing or failing check in the record is caught.
     """),
     code(r'''
     import numpy as np  # arrays of numbers
     import sympy as sp  # exact algebra with symbols
     from sympy.parsing.sympy_parser import (implicit_multiplication, parse_expr,
                                             standard_transformations)
+
+
+    def record_check(report_file, check_name, detail_part=""):
+        """Return True when the Revision report report_file lists the check check_name
+        as passed (and its detail contains detail_part); otherwise stop the notebook."""
+        checks = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+        checks = checks["checks"]  # a dictionary or a list, depending on the report
+        if isinstance(checks, dict):  # {name: {"passed": true, "detail": ...}}
+            entry = checks.get(check_name, {})
+            passed = entry.get("passed") is True
+        else:  # [{"name": ..., "verdict": "PASS", "detail": ...}, ...]
+            entry = next((e for e in checks if e.get("name") == check_name), {})
+            passed = entry.get("verdict") == "PASS"
+        if not passed or detail_part not in entry.get("detail", ""):
+            raise AssertionError(f"record check failed: {report_file} does not list "
+                                 f"{check_name} as passed")
+        return True
+
 
     CURVATURE_RECORD = "Revision/gkd_lovelock/results/curvature.json"
     record = json.loads(repository_file(CURVATURE_RECORD).read_text(encoding="utf-8"))
@@ -371,6 +408,8 @@ CELLS = [
     code(r'''
     det_g = g.det()  # the product of the diagonal entries; sympy cancels exp(6 a4)
     say(f"det g = {plain(det_g)}")
+    record_check("Revision/gkd_lovelock/results/python-lovelock-report.json",
+                 "sqrt_abs_det_g", "det g = cos^2(6 H x8) exactly")  # stops if not
     check(sp.simplify(det_g - sp.cos(6 * H * x8) ** 2) == 0,
           "det g = cos(z)^2: the function a4 drops out",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, "
@@ -529,10 +568,11 @@ CELLS = [
         + [sp.cot(6 * H * x8)]
     for k in range(8):
         say(f"  h[x{k + 1}] = {plain(h[k])}")
+    LEAD_EMT = "Revision/lead_checks/reports/emt-divergence-and-spin-connection.json"
+    record_check(LEAD_EMT, "vielbein_reproduces_metric")  # stops if not passed
     check(all(sp.simplify(int(ETA[k]) * h[k] ** 2 - g[k, k]) == 0 for k in range(8)),
           "eta times h squared reproduces every diagonal entry of the metric",
-          record="Revision/lead_checks/reports/emt-divergence-and-spin-connection.json, "
-                 "check vielbein_reproduces_metric")
+          record=f"{LEAD_EMT}, check vielbein_reproduces_metric")
     '''),
     md(r"""
     ## 9. The expansion rate of each direction
@@ -808,7 +848,10 @@ CELLS = [
 
     The next cell prints four statements of the record
     `Revision/kohn_sham/ks-theory.json` (read in section 10): the definition of $y$, the
-    line element, the warp factor and the volume factor. Then it checks them with sympy.
+    line element, the warp factor and the volume factor. Then it checks them with sympy;
+    the checks of the warp factor and of the volume factor also require that the record
+    still writes them as `W(y) = e^{Hy}` and as a text that starts with
+    `e^{6Hy} (= cos z`.
     To write the metric in the coordinate $y$ it uses the inverse relation
     $x_8 = \arcsin(e^{6Hy})/(6H)$: the seven entries $g_{11}, \dots, g_{77}$ only need
     $\sin z = e^{6Hy}$ put in, and the hidden entry becomes
@@ -821,10 +864,10 @@ CELLS = [
     y_of_x8 = sp.log(sp.sin(6 * H * x8)) / (6 * H)  # y = ln(sin z)/(6H)
     dy_dx8 = sp.diff(y_of_x8, x8)  # the chain rule, done by sympy
     say(f"dy/dx8 = {plain(dy_dx8)}")
+    record_check(LEAD_EMT, "ks_coordinate_jacobian")  # stops if not passed
     check(sp.simplify(dy_dx8 - sp.cot(6 * H * x8)) == 0,
           "dy/dx8 = cot z",
-          record="Revision/lead_checks/reports/emt-divergence-and-spin-connection.json, "
-                 "check ks_coordinate_jacobian")
+          record=f"{LEAD_EMT}, check ks_coordinate_jacobian")
     check(sp.simplify(dy_dx8 ** 2 - g[7, 7]) == 0,
           "dy^2 = g88 dx8^2: y measures proper distance along x8")
     check(sp.simplify(sp.exp(H * y_of_x8) - sixth) == 0,
@@ -839,11 +882,13 @@ CELLS = [
                        + [-W ** 2 * sp.exp(-2 * a4)] * 3 + [1]))  # the warped form
     for k in (0, 3, 4, 7):
         say(f"  in the coordinate y: g[{k + 1}, {k + 1}] = {plain(g_y[k, k])}")
-    check((g_y - warped).applyfunc(sp.simplify) == sp.zeros(8, 8),
+    check((g_y - warped).applyfunc(sp.simplify) == sp.zeros(8, 8)
+          and geometry["warp"] == "W(y) = e^{Hy}",
           "in the coordinate y the metric is the warped form with W = e^(H y)",
           record="Revision/kohn_sham/ks-theory.json, geometry.lineElement and "
                  "geometry.warp")
-    check(sp.simplify(g_y.det() - sp.exp(12 * H * y)) == 0,
+    check(sp.simplify(g_y.det() - sp.exp(12 * H * y)) == 0
+          and geometry["sqrtDetG"].startswith("e^{6Hy} (= cos z"),
           "in the coordinate y the volume factor sqrt|det g| is e^(6 H y) = sin z",
           record="Revision/kohn_sham/ks-theory.json, geometry.sqrtDetG")
     distance_to_end = -y_of_x8  # proper distance from the point to the patch end

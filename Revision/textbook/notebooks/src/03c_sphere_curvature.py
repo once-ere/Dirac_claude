@@ -116,7 +116,7 @@ CELLS = [
       possible curve. **Great circle**: a circle on the sphere whose centre is the
       centre of the sphere (the equator, the meridians, and all their rotations).
     - **Riemann tensor** $R^a{}_{bcd}$ (the MTW convention of the Revision records),
-      **Gaussian curvature** $R^{\theta\varphi}{}_{\theta\varphi}$ of a surface,
+      **Gaussian curvature** $\sigma = R^{\theta\varphi}{}_{\theta\varphi}$ of a surface,
       **Ricci scalar** $R$, **Kretschmann scalar** $K$: the measures of curvature.
     - **Holonomy** (turning angle): the angle by which a parallel-transported vector is
       turned after going once around a closed curve.
@@ -669,16 +669,18 @@ CELLS = [
     a\cos(s/a)\,\Delta\varphi$ after the length $s$ ($\theta = \pi/2 - s/a$): they
     approach each other and meet at the pole, $s = \pi a/2$. In general the distance
     $\xi(s)$ between two neighbouring geodesics obeys the **geodesic deviation
-    equation** $d^2\xi/ds^2 = -\kappa\,\xi$ with the Gaussian curvature $\kappa =
-    R^{\theta\varphi}{}_{\theta\varphi} = 1/a^2$ computed in section 7. The next cell
+    equation** $d^2\xi/ds^2 = -\sigma\,\xi$ with the Gaussian curvature $\sigma =
+    R^{\theta\varphi}{}_{\theta\varphi} = 1/a^2$ computed in section 7 (this sign rule
+    holds for geodesics and distances measured with ordinary positive lengths, as on a
+    surface: a positive curvature brings neighbouring geodesics together). The next cell
     solves this equation with RK4 from $\xi = 1$, $d\xi/ds = 0$ (in units of the starting
     distance, $a = 1$), compares it with the exact distance of two meridians
     $\Delta\varphi = 10^{-3}$ apart (the length of the straight chord between them,
     divided by its starting value), and draws both together with the flat plane.
     """),
     code(r'''
-    kappa = float(sphere_mixed[(0, 1, 0, 1)].subs(a, 1))  # the Gaussian curvature, a = 1
-    s_values, deviation_states = rk4(lambda s, y: np.array([y[1], -kappa * y[0]]),
+    sigma = float(sphere_mixed[(0, 1, 0, 1)].subs(a, 1))  # the Gaussian curvature, a = 1
+    s_values, deviation_states = rk4(lambda s, y: np.array([y[1], -sigma * y[0]]),
                                      np.array([1.0, 0.0]), 0.0, np.pi / 2, 1000)
     d_phi = 1e-3  # the angle between the two meridians
     chord = np.array([np.linalg.norm(point(np.pi / 2 - s, 0.0) - point(np.pi / 2 - s, d_phi))
@@ -704,8 +706,8 @@ CELLS = [
                 "them in units of the radius $a$: two meridians of the unit sphere "
                 "$\\Delta\\varphi = 10^{-3}$ apart that leave the equator northwards "
                 "(thick blue line, exact), the solution of the geodesic deviation "
-                "equation $\\xi^{\\prime\\prime} = -\\kappa\\,\\xi$ with the Gaussian "
-                "curvature $\\kappa = 1/a^2$ computed from the Riemann tensor (dashed "
+                "equation $\\xi^{\\prime\\prime} = -\\sigma\\,\\xi$ with the Gaussian "
+                "curvature $\\sigma = 1/a^2$ computed from the Riemann tensor (dashed "
                 "red, RK4), and the flat plane (dotted). On the sphere the distance "
                 "shrinks like $\\cos(s/a)$ and becomes zero at the pole, "
                 "$s = \\pi a/2$; on the plane it stays constant.")

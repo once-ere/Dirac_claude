@@ -4,7 +4,7 @@ Gravity, in Einstein's theory, is not a force that acts inside space and time: i
 
 ### 3.1 What this chapter is for
 
-Every later chapter of the book lives in the author's eight-dimensional spacetime. The spinor fields of Chapters 4 to 10 need its vielbein (the scale factors of Section 3.7); the energy-momentum tensor of Chapter 9 needs its Christoffel symbols (Section 3.23); the field equations of the metric function $a_4$ in Chapter 12 need its Einstein tensor (Section 3.25); the Kohn-Sham model of Chapters 14 to 17 is written in the hidden coordinate $y$ of Section 3.9. This chapter derives all of these from the metric itself, and it ends with what the metric does to a body that moves freely in it (Section 3.31).
+Every later chapter of the book lives in the author's eight-dimensional spacetime. The spinor fields of Chapters 4 to 10 need its vielbein (the scale factors of Section 3.7); the energy-momentum tensor of Chapter 9 needs its Christoffel symbols (Section 3.23); the field equations of the metric function $a_4$ in Chapter 12 need its Einstein tensor (Section 3.25); the Kohn-Sham model of Chapters 14 to 17 (**Kohn-Sham**: an approximation of density functional theory that replaces many interacting particles by independent particles, each moving in one common effective potential; Chapter 13 teaches it from zero) is written in the hidden coordinate $y$ of Section 3.9. This chapter derives all of these from the metric itself, and it ends with what the metric does to a body that moves freely in it (Section 3.31).
 
 The author's metric is the following diagonal $8 \times 8$ matrix, in the order of the author's coordinates $x_1, \dots, x_8$ (Section 3.5 reads it exactly as the author typed it):
 
@@ -23,7 +23,7 @@ The four notebooks of the chapter are:
 | --- | --- | --- |
 | 03a | reads the metric exactly as the author typed it; determinant, signature (4,4), vielbein, expansion rates, the deflating history, proper volumes, the hidden coordinate $y$ and the warped form; 7 figures, 29 checks | `Revision/gkd_lovelock/results/curvature.json`, `python-lovelock-report.json`, `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, `Revision/kohn_sham/results/parameters.json`, `Revision/kohn_sham/ks-theory.json` |
 | 03c | curvature where it can be pictured: the flat plane in polar coordinates and the sphere; parallel transport, geodesics, geodesic deviation, all with RK4; 5 figures, 16 checks | none (exact formulas only) |
-| 03b | all Christoffel symbols, Riemann, Ricci and Einstein components and the Kretschmann scalar of the author's metric, exactly; finite differences; the curvature along the deflating history; the source Einstein's equations would require; a negative control; 7 figures, 39 checks | `curvature.json`, `python-lovelock-report.json`, `lovelock-report.json` (all three in `Revision/gkd_lovelock/results/`), `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, `Revision/field_equations_a4/a4-equations.json`, `Revision/field_equations_a4/reports/python-a4-report.json` |
+| 03b | all Christoffel symbols, Riemann, Ricci and Einstein components and the Kretschmann scalar of the author's metric, exactly; finite differences; the curvature along the deflating history; the source Einstein's equations would require; a negative control; 7 figures, 40 checks | `curvature.json`, `python-lovelock-report.json`, `lovelock-report.json` (all three in `Revision/gkd_lovelock/results/`), `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, `Revision/field_equations_a4/a4-equations.json`, `Revision/field_equations_a4/reports/python-a4-report.json` |
 | 03d | free fall in the author's metric: conserved momenta, redshift in 3-space, blueshift along the extra times, the push along the hidden direction, the turning point in $x_4$; RK4 paths with the record's Christoffel symbols; 5 figures, 23 checks | `curvature.json`, `parameters.json`, `ks-theory.json`, `Revision/theory/reports/python-scope.json` |
 
 Every statement of the chapter carries one of the five labels of Chapter 0. **PROVED** means derived exactly here, line by line, and confirmed by an exact check of a notebook; where the Revision record proves the same, the record file and its check are named. **COMPUTED** means a number obtained numerically by a notebook, with its measured accuracy. **ASSUMED** marks two kinds of statements: standard theorems that we quote without proof (each is named where it is used), and the physical inputs: that the history of the metric function is $a_4 = AHx_4$, which the Revision record itself calls a PRESCRIBED BACKGROUND (Section 3.8), and that the bodies of Section 3.31 are test particles, too small to change the metric. One question is **OPEN** (Section 3.31): whether wave packets of the fields follow the free-fall paths computed here. No HYPOTHESIS enters this chapter. Nothing in this chapter concerns pairs of universes, their creation, or matter and antimatter; those questions belong to Chapters 18 to 21, which also state precisely what is and what is not proved about them.
@@ -195,7 +195,7 @@ $$
 
 This is PROVED here and in the Revision record (`Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`; `curvature.json` stores $\sqrt{|\det g|}$ as `Sin[6*H*x8]*Cot[6*H*x8]` under the name `sqrtAbsDetG`); Notebook 03a reproduces both (In [7]). The function $a_4$ has dropped out in the fourth line: the factor $e^{6a_4}$ of the three inflating 3-space directions and the factor $e^{-6a_4}$ of the three deflating extra times cancel.
 
-**The volume of a slice of constant time.** The eight-dimensional "volume" mixes lengths and durations. The meaningful volume is that of a slice $x_4 = \mathrm{const}$, a seven-dimensional space with the coordinates $x_1, x_2, x_3, x_5, x_6, x_7, x_8$. Its volume factor is the product of the seven scale factors other than that of $x_4$, which is $\sqrt{|g_{44}|} = 1$; so it equals $\sqrt{|\det g|} = \cos z$. It does not depend on $x_4$: **the proper 7-volume of a region with fixed coordinate ranges does not change in time** (PROVED; Notebook 03a, In [17]).
+**The volume of a slice of constant time.** The time $x_4$ is the time in which everything in this book evolves (it is the time shown by the clocks of observers at rest, Section 3.23). The natural volume is therefore that of a slice $x_4 = \mathrm{const}$, the whole space at one instant of $x_4$: a seven-dimensional space with the coordinates $x_1, x_2, x_3, x_5, x_6, x_7, x_8$. This 7-volume still mixes kinds of steps: four of its edges are lengths (along $x_1, x_2, x_3, x_8$) and three are durations (along the extra times $x_5, x_6, x_7$, which are time-like, Section 3.4), and its volume factor multiplies all seven proper sizes. Its volume factor is the product of the seven scale factors other than that of $x_4$, which is $\sqrt{|g_{44}|} = 1$; so it equals $\sqrt{|\det g|} = \cos z$. It does not depend on $x_4$: **the proper 7-volume of a region with fixed coordinate ranges does not change in time** (PROVED; Notebook 03a, In [17]).
 
 **Three partial volumes.** Take a box with the coordinate edges $\Delta x_1 = \Delta x_2 = \Delta x_3 = 1$ (small enough that $z$ hardly changes along it, or at one value of $z$). Its proper 3-volume in 3-space is
 
@@ -235,7 +235,7 @@ $$
 g_{\mu\nu} = \sum_{a,b} e^a{}_\mu\,\eta_{ab}\,e^b{}_\nu .
 $$
 
-For a diagonal metric the diagonal vielbein $e^a{}_\mu = h_\mu\,\delta^a{}_\mu$ (no sum) does this: the double sum keeps only $a = b = \mu = \nu$ and gives $\eta_{\mu\mu} h_\mu^2 = g_{\mu\mu}$. The spinor fields of the book need exactly this frame (Chapter 6). PROVED here; the lead's independent check `vielbein_reproduces_metric` of `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json` checks the same, and Notebook 03a reproduces it (In [11]).
+For a diagonal metric the diagonal vielbein $e^a{}_\mu = h_\mu\,\delta^a{}_\mu$ (no sum) does this: the double sum keeps only $a = b = \mu = \nu$ and gives $\eta_{\mu\mu} h_\mu^2 = g_{\mu\mu}$. The spinor fields of the book need exactly this frame (Chapter 6). PROVED here. The Revision record also contains the **lead checks**: short, independent Python programs in the folder `Revision/lead_checks`, written from scratch by the coordinator of the Revision work (the "lead") without using any other Revision code, each of which writes a report listing its named checks and their verdicts. The lead's check `vielbein_reproduces_metric` of `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json` checks the same, and Notebook 03a reproduces it (In [11]).
 
 **The rate of expansion.** A coordinate interval $\Delta x_a$ has the proper length $L = h_a\,\Delta x_a$. The fraction by which it grows per unit of time is
 
@@ -537,6 +537,39 @@ from sympy.parsing.sympy_parser import (implicit_multiplication, parse_expr,
 numpy (short name `np`) works with **arrays**, lists of numbers on which arithmetic acts entry by entry; sympy (short name `sp`) does exact algebra with symbols. `parse_expr` turns a text such as `"2*x + 1"` into a sympy expression; `standard_transformations` and `implicit_multiplication` are reading rules for it (explained at In [5]).
 
 ```python
+def record_check(report_file, check_name, detail_part=""):
+    checks = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+    checks = checks["checks"]  # a dictionary or a list, depending on the report
+```
+
+Several PASS lines of this notebook say that a result reproduces a named check of a Revision report. A **report** is a JSON file in which a program of the Revision record lists the checks it ran, each with its name, its verdict and a short detail text. The function `record_check` makes sure that such a check really exists and passed; without it, a PASS line could name a check that has since been renamed, removed or failed. Its three **parameters** (the names in brackets, which receive the values given in a call) are the report file, the name of the check and an optional piece of text `detail_part`; `=""` makes the empty text its default, used when a call gives only two values. (Its docstring, a description in triple quotes under the `def` line, is not printed here; In [1] explained docstrings.) The first line reads the report into a dictionary, as for the record above; the second keeps only its entry `"checks"`. The reports of the Revision record store their checks in one of two ways, and the function accepts both.
+
+```python
+    if isinstance(checks, dict):  # {name: {"passed": true, "detail": ...}}
+        entry = checks.get(check_name, {})
+        passed = entry.get("passed") is True
+```
+
+`isinstance(checks, dict)` is true when the checks form a dictionary whose keys are the check names (the Rust program writes them so). Then `checks.get(check_name, {})` is the entry of that name, or an empty dictionary `{}` if there is none, and the check counts as passed only if the entry's `"passed"` is exactly `True` (`is True` compares with the value `True` itself). For a missing entry, `entry.get("passed")` gives `None`, which is not `True`.
+
+```python
+    else:  # [{"name": ..., "verdict": "PASS", "detail": ...}, ...]
+        entry = next((e for e in checks if e.get("name") == check_name), {})
+        passed = entry.get("verdict") == "PASS"
+```
+
+Otherwise the checks form a list of dictionaries, each with its own `"name"` (the Python programs and the lead checks write them so). `(e for e in checks if ...)` runs through the list and keeps the entries with the wanted name; `next(..., {})` takes the first of them, or `{}` if there is none. The check counts as passed only if its `"verdict"` is the text `"PASS"`.
+
+```python
+    if not passed or detail_part not in entry.get("detail", ""):
+        raise AssertionError(f"record check failed: {report_file} does not list "
+                             f"{check_name} as passed")
+    return True
+```
+
+If the check did not pass, or its detail text does not contain `detail_part`, `raise AssertionError(...)` stops the notebook with an error message that names the report and the check (every text contains the empty text, so without a `detail_part` only the verdict matters). Otherwise the function returns `True`. It prints nothing, so it adds no PASS line and does not change the number of checks; it only guarantees that each record line printed under a PASS line names a check that exists and passed. Notebook 03b uses the same function.
+
+```python
 CURVATURE_RECORD = "Revision/gkd_lovelock/results/curvature.json"
 record = json.loads(repository_file(CURVATURE_RECORD).read_text(encoding="utf-8"))
 author_text = record["metricAsGiven"]  # the metric exactly as the author typed it
@@ -650,13 +683,15 @@ check(len(agree) == 8 and all(agree),
 ```python
 det_g = g.det()  # the product of the diagonal entries; sympy cancels exp(6 a4)
 say(f"det g = {plain(det_g)}")
+record_check("Revision/gkd_lovelock/results/python-lovelock-report.json",
+             "sqrt_abs_det_g", "det g = cos^2(6 H x8) exactly")  # stops if not
 check(sp.simplify(det_g - sp.cos(6 * H * x8) ** 2) == 0,
       "det g = cos(z)^2: the function a4 drops out",
       record="Revision/gkd_lovelock/results/python-lovelock-report.json, "
              "check sqrt_abs_det_g")
 ```
 
-`g.det()` is the determinant. It prints as `sin(z)**2*cot(z)**2`, the fourth line of the derivation of Section 3.6, and the check confirms that it equals $\cos^2 z$. The function $a_4$ is gone. The two strings of the `record=` argument are written next to each other, which Python joins into one string.
+`g.det()` is the determinant. It prints as `sin(z)**2*cot(z)**2`, the fourth line of the derivation of Section 3.6. `record_check` (In [3]) then confirms that the independent verification of the record lists its check `sqrt_abs_det_g` as passed and that the detail of that check contains the text `det g = cos^2(6 H x8) exactly`; otherwise the notebook stops here. The check confirms that our determinant equals $\cos^2 z$. The function $a_4$ is gone. The two strings of the `record=` argument are written next to each other, which Python joins into one string.
 
 ```python
 volume_factor = sp.cos(6 * H * x8)  # sqrt|det g| on the patch, where cos z > 0
@@ -826,13 +861,14 @@ h = [sp.exp(a4) * sixth] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * sixth] * 3 \
 ```python
 for k in range(8):
     say(f"  h[x{k + 1}] = {plain(h[k])}")
+LEAD_EMT = "Revision/lead_checks/reports/emt-divergence-and-spin-connection.json"
+record_check(LEAD_EMT, "vielbein_reproduces_metric")  # stops if not passed
 check(all(sp.simplify(int(ETA[k]) * h[k] ** 2 - g[k, k]) == 0 for k in range(8)),
       "eta times h squared reproduces every diagonal entry of the metric",
-      record="Revision/lead_checks/reports/emt-divergence-and-spin-connection.json, "
-             "check vielbein_reproduces_metric")
+      record=f"{LEAD_EMT}, check vielbein_reproduces_metric")
 ```
 
-The loop prints the eight scale factors (the output lists them; `exp(a4v)*sin(z)**(1/6)` is $e^{a_4}\sin^{1/6}z$). The check is $\eta_{kk}h_k^2 = g_{kk}$ for all eight $k$, the diagonal vielbein reproducing the metric, as in the lead's check.
+The loop prints the eight scale factors (the output lists them; `exp(a4v)*sin(z)**(1/6)` is $e^{a_4}\sin^{1/6}z$). `LEAD_EMT` names the report of one of the lead checks (Section 3.7 says what the lead checks are), and `record_check` (In [3]) stops the notebook unless that report lists its check `vielbein_reproduces_metric` as passed. The check is $\eta_{kk}h_k^2 = g_{kk}$ for all eight $k$, the diagonal vielbein reproducing the metric, as in the lead's check.
 
 **In [12], the expansion rates.**
 
@@ -1088,17 +1124,17 @@ Four statements of the record `ks-theory.json` are printed: the definition of $y
 y_of_x8 = sp.log(sp.sin(6 * H * x8)) / (6 * H)  # y = ln(sin z)/(6H)
 dy_dx8 = sp.diff(y_of_x8, x8)  # the chain rule, done by sympy
 say(f"dy/dx8 = {plain(dy_dx8)}")
+record_check(LEAD_EMT, "ks_coordinate_jacobian")  # stops if not passed
 check(sp.simplify(dy_dx8 - sp.cot(6 * H * x8)) == 0,
       "dy/dx8 = cot z",
-      record="Revision/lead_checks/reports/emt-divergence-and-spin-connection.json, "
-             "check ks_coordinate_jacobian")
+      record=f"{LEAD_EMT}, check ks_coordinate_jacobian")
 check(sp.simplify(dy_dx8 ** 2 - g[7, 7]) == 0,
       "dy^2 = g88 dx8^2: y measures proper distance along x8")
 check(sp.simplify(sp.exp(H * y_of_x8) - sixth) == 0,
       "the warp factor W = sin(z)^(1/6) equals e^(H y)")
 ```
 
-$y$ as a function of $x_8$ and its derivative, which prints as `cos(z)/sin(z)`. Three checks: $dy/dx_8 = \cot z$ (the lead's check), $(dy/dx_8)^2 = g_{88}$, and $e^{Hy} = \sin^{1/6}z$.
+$y$ as a function of $x_8$ and its derivative, which prints as `cos(z)/sin(z)`. `record_check` (In [3]) stops the notebook unless the lead's report `LEAD_EMT` (named in In [11]) lists its check `ks_coordinate_jacobian` as passed. Three checks: $dy/dx_8 = \cot z$ (the lead's check), $(dy/dx_8)^2 = g_{88}$, and $e^{Hy} = \sin^{1/6}z$.
 
 ```python
 y = sp.symbols("y", real=True)  # the hidden coordinate as a symbol of its own
@@ -1116,16 +1152,18 @@ warped = sp.diag(*([W ** 2 * sp.exp(2 * a4)] * 3 + [-1]
                    + [-W ** 2 * sp.exp(-2 * a4)] * 3 + [1]))  # the warped form
 for k in (0, 3, 4, 7):
     say(f"  in the coordinate y: g[{k + 1}, {k + 1}] = {plain(g_y[k, k])}")
-check((g_y - warped).applyfunc(sp.simplify) == sp.zeros(8, 8),
+check((g_y - warped).applyfunc(sp.simplify) == sp.zeros(8, 8)
+      and geometry["warp"] == "W(y) = e^{Hy}",
       "in the coordinate y the metric is the warped form with W = e^(H y)",
       record="Revision/kohn_sham/ks-theory.json, geometry.lineElement and "
              "geometry.warp")
 ```
 
-`warped` is the warped form of Section 3.9 typed from the record, with $W = e^{Hy}$. Four entries of the transformed metric are printed: $e^{2a_4}e^{2Hy}$, $-1$, $-e^{-2a_4}e^{2Hy}$ and $1$. The check requires the transformed metric to equal the warped form entry by entry.
+`warped` is the warped form of Section 3.9 typed from the record, with $W = e^{Hy}$. Four entries of the transformed metric are printed: $e^{2a_4}e^{2Hy}$, $-1$, $-e^{-2a_4}e^{2Hy}$ and $1$. The check requires the transformed metric to equal the warped form entry by entry, and (after `and`) the record's statement of the warp factor to be still exactly the text `W(y) = e^{Hy}`, so that a change of the record would be caught.
 
 ```python
-check(sp.simplify(g_y.det() - sp.exp(12 * H * y)) == 0,
+check(sp.simplify(g_y.det() - sp.exp(12 * H * y)) == 0
+      and geometry["sqrtDetG"].startswith("e^{6Hy} (= cos z"),
       "in the coordinate y the volume factor sqrt|det g| is e^(6 H y) = sin z",
       record="Revision/kohn_sham/ks-theory.json, geometry.sqrtDetG")
 distance_to_end = -y_of_x8  # proper distance from the point to the patch end
@@ -1133,7 +1171,7 @@ check(sp.limit(distance_to_end, x8, 0, "+") == sp.oo,
       "the tip z -> 0 lies at an infinite proper distance (y -> minus infinity)")
 ```
 
-The determinant in $y$ is $e^{12Hy}$, so the volume factor is $e^{6Hy}$ (the record's statement). Since $y$ measures proper distance and the patch end is $y = 0$, the proper distance from a point to the patch end is $-y$; `sp.limit(f, x8, 0, "+")` is the limit as $x_8$ tends to $0$ from above, and `sp.oo` is infinity: the tip is infinitely far away.
+The determinant in $y$ is $e^{12Hy}$, so the volume factor is $e^{6Hy}$; the check also requires the record's statement of the volume factor to start with the text `e^{6Hy} (= cos z` (`startswith`). Since $y$ measures proper distance and the patch end is $y = 0$, the proper distance from a point to the patch end is $-y$; `sp.limit(f, x8, 0, "+")` is the limit as $x_8$ tends to $0$ from above, and `sp.oo` is infinity: the tip is infinitely far away.
 
 **In [20], the tip cut-off and the coordinate $y$ in pictures.**
 
@@ -1320,7 +1358,43 @@ $$
 \nabla_b W_a = \partial_b W_a - \sum_c \Gamma^c{}_{ba}\,W_c .
 $$
 
-A tensor with several indices gets one term $+\Gamma$ for every upper index and one term $-\Gamma$ for every lower index (apply the same argument to products of vectors and covectors). For the metric:
+**Tensors with two indices.** Again we require the product rule. Take first a product $T^a{}_b = V^aW_b$ of a vector and a covector (a tensor with one upper and one lower index, Section 3.14):
+
+$$
+\nabla_c\bigl(V^aW_b\bigr) = \bigl(\nabla_c V^a\bigr)W_b + V^a\,\nabla_c W_b
+$$
+
+(the product rule, required)
+
+$$
+= \Bigl(\partial_c V^a + \sum_e \Gamma^a{}_{ce}V^e\Bigr)W_b + V^a\Bigl(\partial_c W_b - \sum_e \Gamma^e{}_{cb}W_e\Bigr)
+$$
+
+(the two formulas just proved, with the letters $b, c$ of the vector formula renamed $c, e$ and the letters $b, a, c$ of the covector formula renamed $c, b, e$)
+
+$$
+= \partial_c\bigl(V^aW_b\bigr) + \sum_e \Gamma^a{}_{ce}\,\bigl(V^eW_b\bigr) - \sum_e \Gamma^e{}_{cb}\,\bigl(V^aW_e\bigr)
+$$
+
+(the ordinary product rule $\partial_c(V^aW_b) = (\partial_cV^a)W_b + V^a\,\partial_cW_b$ collects the two terms without $\Gamma$; in the other two terms the factors are regrouped). In the notation $T^a{}_b = V^aW_b$, so that $V^eW_b = T^e{}_b$ and $V^aW_e = T^a{}_e$, this reads
+
+$$
+\nabla_c T^a{}_b = \partial_c T^a{}_b + \sum_e \Gamma^a{}_{ce}\,T^e{}_b - \sum_e \Gamma^e{}_{cb}\,T^a{}_e .
+$$
+
+The same three steps for a product $T_{ab} = W_aU_b$ of two covectors give
+
+$$
+\nabla_c\bigl(W_aU_b\bigr) = \bigl(\nabla_c W_a\bigr)U_b + W_a\,\nabla_c U_b = \partial_c\bigl(W_aU_b\bigr) - \sum_e \Gamma^e{}_{ca}\,\bigl(W_eU_b\bigr) - \sum_e \Gamma^e{}_{cb}\,\bigl(W_aU_e\bigr)
+$$
+
+(the product rule; the covector formula twice; the ordinary product rule collects the terms without $\Gamma$). Every tensor with two indices is a sum of such products. For example, let $E_{(d)}$ be the vector field with the components $\delta^a{}_d$ (the unit step along $x_d$) and $\theta^{(f)}$ the covector field with the components $\delta^f{}_b$; then
+
+$$
+T^a{}_b = \sum_{d,f} T^d{}_f\,\delta^a{}_d\,\delta^f{}_b = \sum_{d,f} \bigl(T^d{}_f\,E_{(d)}\bigr)^a\,\bigl(\theta^{(f)}\bigr)_b
+$$
+
+(in the double sum only $d = a$ and $f = b$ give a non-zero product of deltas), a sum of products (64 of them in eight dimensions) of a vector (the field $E_{(d)}$ multiplied by the function $T^d{}_f$) and a covector. Both sides of the formula for $\nabla_c T^a{}_b$ are sums of terms each containing $T$ once, so the formula holds for a sum of products when it holds for each product; it therefore holds for every such tensor, and in the same way the formula for two lower indices holds for every tensor with two lower indices. With more indices the same steps, with more factors, give the general rule: **one term $+\sum_e\Gamma$ for every upper index and one term $-\sum_e\Gamma$ for every lower index**. For the metric (two lower indices):
 
 $$
 \nabla_c\, g_{ab} = \partial_c\, g_{ab} - \sum_e \Gamma^e{}_{ca}\,g_{eb} - \sum_e \Gamma^e{}_{cb}\,g_{ae} .
@@ -1548,10 +1622,16 @@ $$
 which for a diagonal metric is $g^{bb}R^a{}_{bcd}$ (no sum). By (S1) and (S3) it is antisymmetric in $a, b$ and in $c, d$; with all indices down, for a diagonal metric, $R_{abcd} = g_{aa}g_{bb}R^{ab}{}_{cd}$ (no sum). For two different coordinates $x_a$ and $x_b$ the number
 
 $$
-K(a, b) = R^{ab}{}_{ab} \quad\text{(no sum)}
+\sigma(a, b) = R^{ab}{}_{ab} \quad\text{(no sum)}
 $$
 
-is the **curvature of the coordinate plane** of $x_a$ and $x_b$ (its **sectional curvature**): positive for a plane curved like a sphere, negative for one curved like a saddle, zero for a flat one. By the two antisymmetries, $R^{ba}{}_{ba} = R^{ab}{}_{ab}$ and $R^{ab}{}_{ba} = R^{ba}{}_{ab} = -R^{ab}{}_{ab}$.
+is the **curvature of the coordinate plane** of $x_a$ and $x_b$ (its **sectional curvature**; "plane" means here the plane of the two directions $x_a$ and $x_b$ at one point). We write it with the Greek letter $\sigma$ (sigma), because the letter $K$ is kept for the Kretschmann scalar below. What its sign means depends on the kind of directions:
+
+- **Two space-like directions.** Then every step in the plane has a positive squared length, as on an ordinary surface, and $\sigma(a, b)$ is read like the curvature of a surface: positive for a plane curved like a sphere, negative for one curved like a saddle, zero for a flat one. Section 3.18 makes this precise: geodesics that start parallel in such a plane approach each other when $\sigma > 0$ and separate when $\sigma < 0$.
+- **One space-like and one time-like direction.** There is no shape of this kind to picture. The sign is read from free fall instead: for two neighbouring free-fall paths that run along the time-like direction, the positive sign means that they accelerate APART, the opposite of the sphere. Section 3.18 states the rule and Section 3.24 verifies it by hand in the author's metric.
+- **Two time-like directions.** Every step in the plane has a negative squared length. Replace $g$ by $-g$: the Christoffel symbols do not change (both factors of $\tfrac12 g^{ad}(\partial g + \partial g - \partial g)$ change sign), so $R^a{}_{bcd}$ does not change, but every $g^{bb}$ changes sign, so $\sigma(a, b) = g^{bb}R^a{}_{bab}$ (diagonal metric) changes sign. With $-g$ the plane has positive squared lengths, so its shape is that of the curvature $-\sigma(a, b)$: here a negative $\sigma$ means curved like a sphere, the reverse of the first case. The free-fall reading of the second case still holds, because free-fall paths along a time-like direction are involved.
+
+By the two antisymmetries, $R^{ba}{}_{ba} = R^{ab}{}_{ab}$ and $R^{ab}{}_{ba} = R^{ba}{}_{ab} = -R^{ab}{}_{ab}$.
 
 **Contractions.** The **Ricci tensor**, the **Ricci scalar**, the **Einstein tensor** and the **Kretschmann scalar** are
 
@@ -1562,18 +1642,18 @@ $$
 $R$ and $K$ have every index contracted: they are invariants, the same in every system of coordinates (Section 3.14). The Einstein tensor is the combination that enters Einstein's field equations (Section 3.26). Two consequences for the diagonal entries are used again and again:
 
 $$
-R^a{}_a = \sum_c R^{ac}{}_{ac} = \sum_{c \ne a} K(a, c)
+R^a{}_a = \sum_c R^{ac}{}_{ac} = \sum_{c \ne a} \sigma(a, c)
 $$
 
 (the definition with $b = a$; the term $c = a$ is $R^{aa}{}_{aa} = 0$ by the antisymmetry in the upper pair): **each diagonal entry of the Ricci tensor is the sum of the curvatures of the $n - 1$ coordinate planes that contain that direction**; and
 
 $$
-R = \sum_a\sum_{c \ne a} K(a, c) = 2\sum_{a < c} K(a, c)
+R = \sum_a\sum_{c \ne a} \sigma(a, c) = 2\sum_{a < c} \sigma(a, c)
 $$
 
-(every plane is counted twice, once as $(a, c)$ and once as $(c, a)$, with $K(c, a) = K(a, c)$).
+(every plane is counted twice, once as $(a, c)$ and once as $(c, a)$, with $\sigma(c, a) = \sigma(a, c)$).
 
-**A surface.** A space of two dimensions has a single coordinate plane, and its curvature $K(1, 2)$ is the **Gaussian curvature**. Then $R^1{}_1 = R^2{}_2 = K(1, 2)$ and $R = 2K(1, 2)$. The non-zero components $R^{ab}{}_{cd}$ are the four $R^{12}{}_{12} = R^{21}{}_{21} = K(1, 2)$ and $R^{12}{}_{21} = R^{21}{}_{12} = -K(1, 2)$, so the Kretschmann scalar is $K = 4K(1, 2)^2$ (each of the four products $R^{ab}{}_{cd}R^{cd}{}_{ab}$ is $K(1,2)^2$).
+**A surface.** A space of two dimensions has a single coordinate plane, and its curvature $\sigma(1, 2)$ is the **Gaussian curvature**. Then $R^1{}_1 = R^2{}_2 = \sigma(1, 2)$ and $R = 2\sigma(1, 2)$. The non-zero components $R^{ab}{}_{cd}$ are the four $R^{12}{}_{12} = R^{21}{}_{21} = \sigma(1, 2)$ and $R^{12}{}_{21} = R^{21}{}_{12} = -\sigma(1, 2)$, so the Kretschmann scalar is $K = 4\sigma(1, 2)^2$ (each of the four products $R^{ab}{}_{cd}R^{cd}{}_{ab}$ is $\sigma(1,2)^2$).
 
 ### 3.18 The curvature of the plane and of the sphere, by hand; geodesic deviation
 
@@ -1612,7 +1692,7 @@ $$
 ($\sin\theta\cos\theta\cot\theta = \cos^2\theta$). Raising the second index,
 
 $$
-K(\theta, \varphi) = R^{\theta\varphi}{}_{\theta\varphi} = g^{\varphi\varphi}R^\theta{}_{\varphi\theta\varphi} = \frac{\sin^2\theta}{a^2\sin^2\theta} = \frac{1}{a^2}
+\sigma(\theta, \varphi) = R^{\theta\varphi}{}_{\theta\varphi} = g^{\varphi\varphi}R^\theta{}_{\varphi\theta\varphi} = \frac{\sin^2\theta}{a^2\sin^2\theta} = \frac{1}{a^2}
 $$
 
 (Section 3.17; $g^{\varphi\varphi} = 1/(a^2\sin^2\theta)$). The Gaussian curvature of the sphere is $1/a^2$ at every point: a small sphere is strongly curved, a large one weakly. By Section 3.17, $R^\theta{}_\theta = R^\varphi{}_\varphi = 1/a^2$, the Ricci scalar is $R = 2/a^2$, and the Kretschmann scalar is $K = 4/a^4$. All PROVED here and computed exactly by Notebook 03c (In [7]). With Section 3.16: the turning angle $2\pi(1 - \cos\theta_0)$ of a vector carried around a circle of latitude is the enclosed area $2\pi a^2(1 - \cos\theta_0)$ times the Gaussian curvature $1/a^2$.
@@ -1629,7 +1709,7 @@ $$
 \frac{d^2\xi}{ds^2} = -\frac{1}{a^2}\,a\cos\Bigl(\frac sa\Bigr)\Delta\varphi = -\frac{1}{a^2}\,\xi
 $$
 
-(the chain rule: each derivative of $\cos(s/a)$ brings a factor $1/a$ and turns $\cos$ into $-\sin$ and $\sin$ into $\cos$). The distance shrinks, and it is zero at $s = \pi a/2$: the meridians meet at the pole. In general the distance $\xi(s)$ between two neighbouring geodesics of a surface obeys the **geodesic deviation equation** $d^2\xi/ds^2 = -\kappa\,\xi$ with the Gaussian curvature $\kappa$ (a standard theorem, quoted, ASSUMED; on the sphere we have just verified it, with $\kappa = 1/a^2$). Positive curvature focuses neighbouring geodesics, negative curvature drives them apart, zero curvature does neither. Notebook 03c solves the equation with RK4 and finds it equal to the exact distance of two meridians within $8.0 \times 10^{-14}$ (In [13]).
+(the chain rule: each derivative of $\cos(s/a)$ brings a factor $1/a$ and turns $\cos$ into $-\sin$ and $\sin$ into $\cos$). The distance shrinks, and it is zero at $s = \pi a/2$: the meridians meet at the pole. In general the distance $\xi(s)$ between two neighbouring geodesics of a surface obeys the **geodesic deviation equation** $d^2\xi/ds^2 = -\sigma\,\xi$ with the Gaussian curvature $\sigma = \sigma(1, 2)$ of Section 3.17 (a standard theorem, quoted, ASSUMED; on the sphere we have just verified it, with $\sigma = 1/a^2$). On a surface, where all lengths are positive, positive curvature focuses neighbouring geodesics, negative curvature drives them apart, zero curvature does neither. In a spacetime the same theorem also covers free-fall paths that run along a time-like direction (the paths of observers, with their proper time $\tau$ in place of the length $s$), and for them the sign is reversed: if two such paths are a small proper distance $\xi$ apart along the other direction of a coordinate plane with the curvature $\sigma$, then $d^2\xi/d\tau^2 = +\sigma\,\xi$ (quoted, ASSUMED in general; the reversal comes from the negative squared length of a time-like step). There a positive curvature drives the paths apart. Section 3.24 verifies this by hand for the observers at rest in the author's metric. Notebook 03c solves the equation with RK4 and finds it equal to the exact distance of two meridians within $8.0 \times 10^{-14}$ (In [13]).
 
 ### 3.19 Example: curvature where it can be pictured
 
@@ -2181,12 +2261,12 @@ The figure is saved; the check requires each geodesic to come back to its start 
 **In [13], Figure 03c.5: geodesic deviation.**
 
 ```python
-kappa = float(sphere_mixed[(0, 1, 0, 1)].subs(a, 1))  # the Gaussian curvature, a = 1
-s_values, deviation_states = rk4(lambda s, y: np.array([y[1], -kappa * y[0]]),
+sigma = float(sphere_mixed[(0, 1, 0, 1)].subs(a, 1))  # the Gaussian curvature, a = 1
+s_values, deviation_states = rk4(lambda s, y: np.array([y[1], -sigma * y[0]]),
                                  np.array([1.0, 0.0]), 0.0, np.pi / 2, 1000)
 ```
 
-The Gaussian curvature computed in In [7], $1/a^2$, with $a = 1$, as a floating-point number. The deviation equation $\xi'' = -\kappa\xi$ of Section 3.18 as two first-order equations for $(\xi, \xi')$; `lambda s, y: ...` is a short function without a name that returns $(\xi', -\kappa\xi)$. RK4 solves it from $\xi = 1$, $\xi' = 0$ (start parallel, distance 1) over the length $\pi/2$ in 1000 steps.
+`sigma` is the Gaussian curvature $\sigma$ computed in In [7], $1/a^2$, with $a = 1$, as a floating-point number. The deviation equation $\xi'' = -\sigma\xi$ of Section 3.18 as two first-order equations for $(\xi, \xi')$; `lambda s, y: ...` is a short function without a name that returns $(\xi', -\sigma\xi)$. RK4 solves it from $\xi = 1$, $\xi' = 0$ (start parallel, distance 1) over the length $\pi/2$ in 1000 steps.
 
 ```python
 d_phi = 1e-3  # the angle between the two meridians
@@ -2318,7 +2398,7 @@ This is exactly the list `christoffelNonzero_b_le_c` of the record `Revision/gkd
 
 ### 3.24 The curvature of the author's metric, by hand
 
-**The curvature of every coordinate plane.** For a diagonal metric, Section 3.17 gives $K(a, b) = R^{ab}{}_{ab} = g^{bb}R^a{}_{bab}$ (no sum), with
+**The curvature of every coordinate plane.** For a diagonal metric, Section 3.17 gives $\sigma(a, b) = R^{ab}{}_{ab} = g^{bb}R^a{}_{bab}$ (no sum), with
 
 $$
 R^a{}_{bab} = \partial_a\Gamma^a{}_{bb} - \partial_b\Gamma^a{}_{ba} + \sum_e\bigl(\Gamma^a{}_{ae}\Gamma^e{}_{bb} - \Gamma^a{}_{be}\Gamma^e{}_{ba}\bigr)
@@ -2332,7 +2412,7 @@ $$
 R^i{}_{i'ii'} = 0 - 0 + \Gamma^i{}_{i4}\Gamma^4{}_{i'i'} + \Gamma^i{}_{i8}\Gamma^8{}_{i'i'} - 0 = a_4'\cdot a_4'h_{i'}^2 + H\cot z\cdot\bigl(-H\tan z\,h_{i'}^2\bigr) = (a_4'^2 - H^2)\,h_{i'}^2
 $$
 
-($\Gamma^i{}_{i'i'} = \Gamma^i{}_{i'i} = 0$ because $i' \ne i$; in $\sum_e\Gamma^i{}_{ie}\Gamma^e{}_{i'i'}$ only $e = x_4$ and $e = x_8$ survive; every $\Gamma^i{}_{i'e}$ is zero; $\cot z\tan z = 1$), so $K(i, i') = g^{i'i'}(a_4'^2 - H^2)h_{i'}^2 = a_4'^2 - H^2$ (with $g^{i'i'} = 1/h_{i'}^2$).
+($\Gamma^i{}_{i'i'} = \Gamma^i{}_{i'i} = 0$ because $i' \ne i$; in $\sum_e\Gamma^i{}_{ie}\Gamma^e{}_{i'i'}$ only $e = x_4$ and $e = x_8$ survive; every $\Gamma^i{}_{i'e}$ is zero; $\cot z\tan z = 1$), so $\sigma(i, i') = g^{i'i'}(a_4'^2 - H^2)h_{i'}^2 = a_4'^2 - H^2$ (with $g^{i'i'} = 1/h_{i'}^2$).
 
 (2) Two different extra times $j$ and $j'$ (3 planes):
 
@@ -2340,7 +2420,7 @@ $$
 R^j{}_{j'jj'} = \Gamma^j{}_{j4}\Gamma^4{}_{j'j'} + \Gamma^j{}_{j8}\Gamma^8{}_{j'j'} = (-a_4')\cdot a_4'h_{j'}^2 + H\cot z\cdot H\tan z\,h_{j'}^2 = (H^2 - a_4'^2)\,h_{j'}^2
 $$
 
-($\Gamma^j{}_{j'j'} = \Gamma^j{}_{j'j} = 0$ because $j' \ne j$, so both derivative terms vanish; in $\sum_e\Gamma^j{}_{je}\Gamma^e{}_{j'j'}$ only $e = x_4$ and $e = x_8$ survive; every $\Gamma^j{}_{j'e}$ is zero; $\cot z\tan z = 1$), so $K(j, j') = g^{j'j'}(H^2 - a_4'^2)h_{j'}^2 = a_4'^2 - H^2$ (with $g^{j'j'} = -1/h_{j'}^2$).
+($\Gamma^j{}_{j'j'} = \Gamma^j{}_{j'j} = 0$ because $j' \ne j$, so both derivative terms vanish; in $\sum_e\Gamma^j{}_{je}\Gamma^e{}_{j'j'}$ only $e = x_4$ and $e = x_8$ survive; every $\Gamma^j{}_{j'e}$ is zero; $\cot z\tan z = 1$), so $\sigma(j, j') = g^{j'j'}(H^2 - a_4'^2)h_{j'}^2 = a_4'^2 - H^2$ (with $g^{j'j'} = -1/h_{j'}^2$).
 
 (3) A 3-space direction $i$ and an extra time $j$ (9 planes):
 
@@ -2348,7 +2428,7 @@ $$
 R^i{}_{jij} = \Gamma^i{}_{i4}\Gamma^4{}_{jj} + \Gamma^i{}_{i8}\Gamma^8{}_{jj} = a_4'\cdot a_4'h_j^2 + H\cot z\cdot H\tan z\,h_j^2 = (a_4'^2 + H^2)\,h_j^2 ,
 $$
 
-($\Gamma^i{}_{jj} = \Gamma^i{}_{ji} = 0$, so both derivative terms vanish; in $\sum_e\Gamma^i{}_{ie}\Gamma^e{}_{jj}$ only $e = x_4$ and $e = x_8$ survive; every $\Gamma^i{}_{je}$ is zero; $\cot z\tan z = 1$), so $K(i, j) = g^{jj}(a_4'^2 + H^2)h_j^2 = -(a_4'^2 + H^2)$ (with $g^{jj} = -1/h_j^2$).
+($\Gamma^i{}_{jj} = \Gamma^i{}_{ji} = 0$, so both derivative terms vanish; in $\sum_e\Gamma^i{}_{ie}\Gamma^e{}_{jj}$ only $e = x_4$ and $e = x_8$ survive; every $\Gamma^i{}_{je}$ is zero; $\cot z\tan z = 1$), so $\sigma(i, j) = g^{jj}(a_4'^2 + H^2)h_j^2 = -(a_4'^2 + H^2)$ (with $g^{jj} = -1/h_j^2$).
 
 (4) A 3-space direction $i$ and the time $x_4$ (3 planes):
 
@@ -2356,7 +2436,7 @@ $$
 R^i{}_{4i4} = \partial_i\Gamma^i{}_{44} - \partial_4\Gamma^i{}_{4i} + \sum_e\Gamma^i{}_{ie}\Gamma^e{}_{44} - \sum_e\Gamma^i{}_{4e}\Gamma^e{}_{4i} = 0 - a_4'' + 0 - (a_4')^2
 $$
 
-($\partial_i$ gives zero; $\partial_4 a_4' = a_4''$; every $\Gamma^e{}_{44}$ is zero, Section 3.23; in the last sum only $e = i$ survives), so $K(i, 4) = g^{44}\bigl(-a_4'' - a_4'^2\bigr) = a_4'^2 + a_4''$ (with $g^{44} = -1$).
+($\partial_i$ gives zero; $\partial_4 a_4' = a_4''$; every $\Gamma^e{}_{44}$ is zero, Section 3.23; in the last sum only $e = i$ survives), so $\sigma(i, 4) = g^{44}\bigl(-a_4'' - a_4'^2\bigr) = a_4'^2 + a_4''$ (with $g^{44} = -1$).
 
 (5) An extra time $j$ and the time $x_4$ (3 planes):
 
@@ -2364,7 +2444,7 @@ $$
 R^j{}_{4j4} = -\partial_4\Gamma^j{}_{4j} - (\Gamma^j{}_{4j})^2 = -\partial_4(-a_4') - (-a_4')^2 = a_4'' - a_4'^2
 $$
 
-(the formula with $a = j$, $b = x_4$: $\partial_j\Gamma^j{}_{44} = 0$; every $\Gamma^e{}_{44}$ is zero; in the last sum only $e = j$ survives; $\partial_4(-a_4') = -a_4''$), so $K(j, 4) = g^{44}(a_4'' - a_4'^2) = a_4'^2 - a_4''$ (with $g^{44} = -1$).
+(the formula with $a = j$, $b = x_4$: $\partial_j\Gamma^j{}_{44} = 0$; every $\Gamma^e{}_{44}$ is zero; in the last sum only $e = j$ survives; $\partial_4(-a_4') = -a_4''$), so $\sigma(j, 4) = g^{44}(a_4'' - a_4'^2) = a_4'^2 - a_4''$ (with $g^{44} = -1$).
 
 (6) A transverse direction $k$ and the hidden direction $x_8$ (6 planes):
 
@@ -2384,7 +2464,7 @@ $$
 = -H^2\cot^2 z
 $$
 
-($1 + \cot^2 z = (\sin^2 z + \cos^2 z)/\sin^2 z = 1/\sin^2 z$, so the first two terms cancel). Hence $K(k, 8) = g^{88}(-H^2\cot^2 z) = \tan^2 z\cdot(-H^2\cot^2 z) = -H^2$.
+($1 + \cot^2 z = (\sin^2 z + \cos^2 z)/\sin^2 z = 1/\sin^2 z$, so the first two terms cancel). Hence $\sigma(k, 8) = g^{88}(-H^2\cot^2 z) = \tan^2 z\cdot(-H^2\cot^2 z) = -H^2$.
 
 (7) The time $x_4$ and the hidden direction $x_8$ (1 plane):
 
@@ -2392,11 +2472,11 @@ $$
 R^4{}_{848} = \partial_4\Gamma^4{}_{88} - \partial_8\Gamma^4{}_{84} + \sum_e\Gamma^4{}_{4e}\Gamma^e{}_{88} - \sum_e\Gamma^4{}_{8e}\Gamma^e{}_{84} = 0
 $$
 
-(the only non-zero symbols with upper index $x_4$ are $\Gamma^4{}_{kk}$, and none of $\Gamma^4{}_{88}$, $\Gamma^4{}_{84}$, $\Gamma^4{}_{4e}$, $\Gamma^4{}_{8e}$ is of that form), so $K(4, 8) = 0$: this plane is flat.
+(the only non-zero symbols with upper index $x_4$ are $\Gamma^4{}_{kk}$, and none of $\Gamma^4{}_{88}$, $\Gamma^4{}_{84}$, $\Gamma^4{}_{4e}$, $\Gamma^4{}_{8e}$ is of that form), so $\sigma(4, 8) = 0$: this plane is flat.
 
 **The table of the plane curvatures** (PROVED; Notebook 03b computes all 28 and finds these six formulas, In [16]):
 
-| plane | how many | curvature $K(a, b) = R^{ab}{}_{ab}$ |
+| plane | how many | curvature $\sigma(a, b) = R^{ab}{}_{ab}$ |
 | --- | --- | --- |
 | two 3-space directions | 3 | $a_4'^2 - H^2$ |
 | two extra times | 3 | $a_4'^2 - H^2$ |
@@ -2406,9 +2486,29 @@ $$
 | a transverse direction and the hidden $x_8$ | 6 | $-H^2$ |
 | the time $x_4$ and the hidden $x_8$ | 1 | $0$ |
 
-None depends on $z$ or on the value of $a_4$; only $H$, the rate $a_4'$ and $a_4''$ appear. Along the history $a_4 = AHx_4$ ($a_4' = AH$, $a_4'' = 0$) the planes inside 3-space and inside the extra times have $H^2(A^2 - 1)$: negative (saddle-like) for $A < 1$, zero for the canonical $A = 1$, positive for $A > 1$. The planes that mix 3-space and the extra times are always saddle-like, $-H^2(A^2 + 1)$.
+None depends on $z$ or on the value of $a_4$; only $H$, the rate $a_4'$ and $a_4''$ appear. Along the history $a_4 = AHx_4$ ($a_4' = AH$, $a_4'' = 0$) the planes inside 3-space and inside the extra times have $H^2(A^2 - 1)$: negative for $A < 1$, zero for the canonical $A = 1$, positive for $A > 1$. The planes that mix 3-space and the extra times have $-H^2(A^2 + 1)$, negative for every $A$.
 
-**The components that are not plane curvatures.** Each plane with $K \ne 0$ gives four non-zero components, $R^{ab}{}_{ab} = R^{ba}{}_{ba} = K(a, b)$ and $R^{ab}{}_{ba} = R^{ba}{}_{ab} = -K(a, b)$ (Section 3.17): $27 \times 4 = 108$ components. The other non-zero components connect the planes $(x_4, x_k)$ and $(x_8, x_k)$. First
+**What the signs mean.** By Section 3.17 the sign of $\sigma(a, b)$ describes a shape only in the 6 planes of two space-like directions: the 3 planes inside 3-space ($a_4'^2 - H^2$; along the history saddle-like for $A < 1$, flat for $A = 1$, sphere-like for $A > 1$) and the 3 planes of a 3-space direction with $x_8$ ($-H^2$, saddle-like). In the 6 planes of two time-like directions (inside the extra times, and an extra time with $x_4$) the shape reading is reversed: there a positive $\sigma$ would mean saddle-like. The other 16 planes contain one space-like and one time-like direction; for them, and for every plane that contains $x_4$, the sign is read from free fall, $d^2\xi/d\tau^2 = +\sigma\,\xi$ (Section 3.18). We now verify this rule by hand where it can be seen most simply: for the observers at rest of Section 3.23, which fall freely along $x_4$ with the proper time $\tau = x_4$. Take two of them that differ only by a small coordinate distance $\Delta x_1$ along $x_1$. Their proper distance is
+
+$$
+\xi = h_1\,\Delta x_1 = e^{a_4}\sin^{1/6}z\;\Delta x_1
+$$
+
+(Section 3.7; $\Delta x_1$ and $z$ do not change along the two paths). Differentiate twice with respect to $\tau = x_4$:
+
+$$
+\frac{d\xi}{d\tau} = a_4'\,e^{a_4}\sin^{1/6}z\;\Delta x_1, \qquad \frac{d^2\xi}{d\tau^2} = \bigl(a_4'' + a_4'^2\bigr)\,e^{a_4}\sin^{1/6}z\;\Delta x_1 = \bigl(a_4'^2 + a_4''\bigr)\,\xi
+$$
+
+(the chain rule, $d e^{a_4}/dx_4 = a_4'e^{a_4}$; then the product rule for $a_4'\cdot e^{a_4}$). The factor is exactly $\sigma(x_1, x_4) = a_4'^2 + a_4''$ of case (4): $d^2\xi/d\tau^2 = +\sigma\,\xi$. For two observers at rest a distance $\Delta x_5$ apart along the extra time $x_5$, $\xi = e^{-a_4}\sin^{1/6}z\,\Delta x_5$, and the same two steps give
+
+$$
+\frac{d^2\xi}{d\tau^2} = \bigl(-a_4'' + a_4'^2\bigr)\,e^{-a_4}\sin^{1/6}z\;\Delta x_5 = \bigl(a_4'^2 - a_4''\bigr)\,\xi
+$$
+
+(now $de^{-a_4}/dx_4 = -a_4'e^{-a_4}$, and the derivative of $-a_4'e^{-a_4}$ is $-a_4''e^{-a_4} + a_4'^2e^{-a_4}$), which is $\sigma(x_5, x_4)$ of case (5). For two observers a distance $\Delta x_8$ apart along $x_8$, $\xi = \cot z\,\Delta x_8$ does not change in time, $d^2\xi/d\tau^2 = 0$, in agreement with the flat plane of case (7). All three PROVED; Notebook 03b checks the first two exactly (In [16]). Along the history both $\sigma(x_1, x_4)$ and $\sigma(x_5, x_4)$ equal $A^2H^2 > 0$: a positive curvature, and yet the 3-space distance grows like $e^{AH\tau}$ and the extra-time distance $e^{-AH\tau}$ falls ever more slowly, both with a positive second derivative. On the sphere of Section 3.18 a positive curvature pulls neighbouring geodesics together; here it drives them apart.
+
+**The components that are not plane curvatures.** Each plane with $\sigma \ne 0$ gives four non-zero components, $R^{ab}{}_{ab} = R^{ba}{}_{ba} = \sigma(a, b)$ and $R^{ab}{}_{ba} = R^{ba}{}_{ab} = -\sigma(a, b)$ (Section 3.17): $27 \times 4 = 108$ components. The other non-zero components connect the planes $(x_4, x_k)$ and $(x_8, x_k)$. First
 
 $$
 R^4{}_{k8k} = \partial_8\Gamma^4{}_{kk} - \partial_k\Gamma^4{}_{k8} + \sum_e\Gamma^4{}_{8e}\Gamma^e{}_{kk} - \sum_e\Gamma^4{}_{ke}\Gamma^e{}_{k8} = \partial_8\Gamma^4{}_{kk} - \Gamma^4{}_{kk}\Gamma^k{}_{k8}
@@ -2495,10 +2595,10 @@ $$
 
 (record check `no_vacuum_for_H_positive`), a fact used in Section 3.26.
 
-**The Kretschmann scalar.** In $K = \sum R^{ab}{}_{cd}R^{cd}{}_{ab}$ each component is multiplied by its partner with the two pairs exchanged. The four components of a plane are their own partners or each other's, and each of the four products is $K(a, b)^2$ (Section 3.17), so the planes contribute $4\sum_{\text{planes}}K(a, b)^2$. Each of the 48 other components is paired with one of the other kind, for example $R^{4i}{}_{8i}R^{8i}{}_{4i} = (Ha_4'\cot z)(-Ha_4'\tan z) = -H^2a_4'^2$; the sign changes of the antisymmetries act on both factors, and for an extra time both factors change sign, so all 48 products equal $-H^2a_4'^2$. The sum over the planes is
+**The Kretschmann scalar.** In $K = \sum_{a,b,c,d} R^{ab}{}_{cd}R^{cd}{}_{ab}$ each component is multiplied by its partner with the two pairs exchanged. The four components of a plane are their own partners or each other's, and each of the four products is $\sigma(a, b)^2$ (Section 3.17), so the planes contribute $4\sum_{\text{planes}}\sigma(a, b)^2$. Each of the 48 other components is paired with one of the other kind, for example $R^{4i}{}_{8i}R^{8i}{}_{4i} = (Ha_4'\cot z)(-Ha_4'\tan z) = -H^2a_4'^2$; the sign changes of the antisymmetries act on both factors, and for an extra time both factors change sign, so all 48 products equal $-H^2a_4'^2$. The sum over the planes is
 
 $$
-\sum K^2 = 6(a_4'^2 - H^2)^2 + 9(a_4'^2 + H^2)^2 + 3(a_4'^2 + a_4'')^2 + 3(a_4'^2 - a_4'')^2 + 6H^4
+\sum_{\text{planes}}\sigma(a, b)^2 = 6(a_4'^2 - H^2)^2 + 9(a_4'^2 + H^2)^2 + 3(a_4'^2 + a_4'')^2 + 3(a_4'^2 - a_4'')^2 + 6H^4
 $$
 
 (the table of Section 3.24)
@@ -2521,31 +2621,34 @@ $$
 
 (expand: $7a_4'^4 - 2H^2a_4'^2 + H^4/7$, and $H^4/7 + 48H^4/7 = 7H^4$), so $K \ge \frac{576}{7}H^4 > 0$ for every history: **the author's metric is curved everywhere, for every function $a_4(x_4)$ and every $H > 0$** (PROVED; Notebook 03b checks the formula and computes $K$ a second time from the 156 components of the record, In [22]). Along the history $a_4 = AHx_4$: $R = 6H^2(A^2 - 7)$ and $K = 12H^4(7A^4 - 2A^2 + 7)$; for the canonical $A = 1$, $R = -36H^2$ and $K = 144H^4$.
 
-**The contracted Bianchi identity.** For every metric the Einstein tensor has zero divergence, $\nabla_\mu G^\mu{}_\nu = 0$ (a standard theorem, the **contracted Bianchi identity**; quoted, ASSUMED in general). For the author's metric we prove it directly. By the rule of Section 3.15 (one $+\Gamma$ for the upper index, one $-\Gamma$ for the lower one, then the upper index contracted with the derivative),
+**The contracted Bianchi identity.** For every metric the Einstein tensor has zero **divergence**, $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$ for each $\nu$ (the divergence is the covariant derivative with its index $\mu$ set equal to the upper index of $G$ and summed; a standard theorem, the **contracted Bianchi identity**; quoted, ASSUMED in general). For the author's metric we prove it directly. By the rule of Section 3.15 (one $+\Gamma$ for the upper index, one $-\Gamma$ for the lower one, then the upper index contracted with the derivative),
 
 $$
-\nabla_\mu G^\mu{}_\nu = \sum_\mu\partial_\mu G^\mu{}_\nu + \sum_{\mu,\lambda}\Gamma^\mu{}_{\mu\lambda}G^\lambda{}_\nu - \sum_{\mu,\lambda}\Gamma^\lambda{}_{\mu\nu}G^\mu{}_\lambda .
+\sum_\mu \nabla_\mu G^\mu{}_\nu = \sum_\mu\partial_\mu G^\mu{}_\nu + \sum_{\mu,\lambda}\Gamma^\mu{}_{\mu\lambda}G^\lambda{}_\nu - \sum_{\mu,\lambda}\Gamma^\lambda{}_{\mu\nu}G^\mu{}_\lambda .
 $$
 
 For a diagonal $G$ the first sum keeps $\mu = \nu$, the second $\lambda = \nu$ and the third $\lambda = \mu$:
 
 $$
-\nabla_\mu G^\mu{}_\nu = \partial_\nu G^\nu{}_\nu + \sum_\mu\Gamma^\mu{}_{\mu\nu}\bigl(G^\nu{}_\nu - G^\mu{}_\mu\bigr) \quad\text{(no sum over } \nu).
+\sum_\mu \nabla_\mu G^\mu{}_\nu = \partial_\nu G^\nu{}_\nu + \sum_\mu\Gamma^\mu{}_{\mu\nu}\bigl(G^\nu{}_\nu - G^\mu{}_\mu\bigr) \quad\text{(no sum over } \nu).
 $$
 
 For $\nu = x_4$: $\partial_4 G^4{}_4 = \partial_4(3a_4'^2 + 21H^2) = 6a_4'a_4''$ (the chain rule), and the sum has $\Gamma^i{}_{i4} = a_4'$ and $\Gamma^j{}_{j4} = -a_4'$:
 
 $$
-\nabla_\mu G^\mu{}_4 = 6a_4'a_4'' + 3a_4'\bigl(G^4{}_4 - G^i{}_i\bigr) - 3a_4'\bigl(G^4{}_4 - G^j{}_j\bigr) = 6a_4'a_4'' + 3a_4'\bigl(G^j{}_j - G^i{}_i\bigr) = 6a_4'a_4'' + 3a_4'(-2a_4'') = 0 .
+\begin{aligned}
+\sum_\mu \nabla_\mu G^\mu{}_4 &= 6a_4'a_4'' + 3a_4'\bigl(G^4{}_4 - G^i{}_i\bigr) - 3a_4'\bigl(G^4{}_4 - G^j{}_j\bigr)\\
+&= 6a_4'a_4'' + 3a_4'\bigl(G^j{}_j - G^i{}_i\bigr) = 6a_4'a_4'' + 3a_4'(-2a_4'') = 0 .
+\end{aligned}
 $$
 
 For $\nu = x_8$: $\partial_8 G^8{}_8 = 0$, and the sum has $\Gamma^k{}_{k8} = H\cot z$ for the six transverse $k$ (the term $\mu = x_8$ has the factor $G^8{}_8 - G^8{}_8 = 0$):
 
 $$
-\nabla_\mu G^\mu{}_8 = H\cot z\bigl[3(G^8{}_8 - G^i{}_i) + 3(G^8{}_8 - G^j{}_j)\bigr] = H\cot z\bigl[3(-a_4'') + 3a_4''\bigr] = 0 .
+\sum_\mu \nabla_\mu G^\mu{}_8 = H\cot z\bigl[3(G^8{}_8 - G^i{}_i) + 3(G^8{}_8 - G^j{}_j)\bigr] = H\cot z\bigl[3(-a_4'') + 3a_4''\bigr] = 0 .
 $$
 
-For $\nu$ a transverse direction: $\partial_\nu G^\nu{}_\nu = 0$ and every $\Gamma^\mu{}_{\mu\nu}$ is zero (case (b) of Section 3.15 gives $\partial_\nu\ln h_\mu = 0$). So $\nabla_\mu G^\mu{}_\nu = 0$ for all eight $\nu$ and every $a_4(x_4)$ (PROVED; Notebook 03b, In [21]; record `Revision/gkd_lovelock/results/lovelock-report.json`, checks `k1_equals_minus_4_einstein` and `k1_divergence_free`). The same computation for an energy-momentum tensor $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ gives $\nabla_\mu T^\mu{}_4 = -\partial_4\rho - 3a_4'(p_3 - p_t)$: energy flows between 3-space and the extra times when their pressures differ (record `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, check `divergence_x4_component`; Chapter 9 derives and uses it).
+For $\nu$ a transverse direction: $\partial_\nu G^\nu{}_\nu = 0$ and every $\Gamma^\mu{}_{\mu\nu}$ is zero (case (b) of Section 3.15 gives $\partial_\nu\ln h_\mu = 0$). So $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$ for all eight $\nu$ and every $a_4(x_4)$ (PROVED; Notebook 03b, In [21]; record `Revision/gkd_lovelock/results/lovelock-report.json`, checks `k1_equals_minus_4_einstein` and `k1_divergence_free`). The same computation for an energy-momentum tensor $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ gives $\sum_\mu \nabla_\mu T^\mu{}_4 = -\partial_4\rho - 3a_4'(p_3 - p_t)$: energy flows between 3-space and the extra times when their pressures differ (record `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, check `divergence_x4_component`; Chapter 9 derives and uses it).
 
 ### 3.26 What Einstein's equations would ask of the source
 
@@ -2555,7 +2658,7 @@ $$
 G^\mu{}_\nu + \Lambda\,\delta^\mu{}_\nu = \kappa\,T^\mu{}_\nu ,
 $$
 
-with a positive constant $\kappa$ (the strength of gravity), a constant $\Lambda$ (the **cosmological constant**) and the **energy-momentum tensor** $T^\mu{}_\nu$ of the matter, whose diagonal for the sources of this book is $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$: the **energy density** $\rho$ and the **pressures** $p_3$ of 3-space, $p_t$ of the extra times and $p_8$ of the hidden direction (record `Revision/field_equations_a4/a4-equations.json`, key `conventions.source`). We take this form of the equations as given here (ASSUMED in this chapter); Chapter 9 derives $T$ for the fields of the book, and Chapter 12 derives the equations, together with their higher-order Lovelock companions, and solves them. The contracted Bianchi identity of Section 3.25 is the reason why the left side must be the Einstein tensor: its divergence is zero for every metric, as the conservation of energy and momentum demands of the right side.
+with a positive constant $\kappa$ (the strength of gravity), a constant $\Lambda$ (the **cosmological constant**) and the **energy-momentum tensor** $T^\mu{}_\nu$ of the matter, whose diagonal for the sources of this book is $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$: the **energy density** $\rho$ and the **pressures** $p_3$ of 3-space, $p_t$ of the extra times and $p_8$ of the hidden direction (record `Revision/field_equations_a4/a4-equations.json`, key `conventions.source`). We take this form of the equations as given here (ASSUMED in this chapter); Chapter 9 derives $T$ for the fields of the book, and Chapter 12 derives the equations, together with their higher-order Lovelock companions, and solves them. (The **Lovelock tensors** are curvature tensors built from products of one, two or three Riemann tensors with the generalized Kronecker delta of Chapter 1; the first of them is a multiple of the Einstein tensor, $P_{(1)} = -4G$, and the other two vanish identically in four dimensions; Chapters 11 and 12 treat them in full.) Why does the left side have this form? The conservation of energy and momentum demands that the right side has zero divergence, $\sum_\mu \nabla_\mu T^\mu{}_\nu = 0$, so the left side must have zero divergence for every metric. The contracted Bianchi identity of Section 3.25 shows that the Einstein tensor has this property, and $\Lambda\,\delta^\mu{}_\nu$ has it too (its covariant derivative is zero, by the rule of Section 3.15 with constant entries, because the $+\Gamma$ and the $-\Gamma$ term cancel). The Einstein tensor is the simplest curvature tensor with zero divergence, but not the only one: in eight dimensions the second and the third Lovelock tensors also have zero divergence for every metric (record `Revision/gkd_lovelock/results/lovelock-report.json`, checks `k2_divergence_free` and `k3_divergence_free`), and the field equations of the Revision record use all three, $\sum_{k=1}^{3}\alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu{}_\nu = \kappa\,T^\mu{}_\nu$ with $E_{(1)} = G$ (record `Revision/field_equations_a4/a4-equations.json`, key `conventions.fieldEquations`). This chapter uses only the simplest case, Einstein's equations ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$).
 
 **The equations for the author's metric.** With the Einstein tensor of Section 3.25 the four independent components are
 
@@ -2583,7 +2686,7 @@ $$
 
 ### 3.27 Example: the curvature of the author's metric
 
-Notebook 03b does Sections 3.23 to 3.26 by computer algebra, for a general function $a_4(x_4)$. It reads the metric exactly as the author typed it; computes all 512 Christoffel symbols with the formula of Section 3.15 and compares the 25 non-zero ones with the record; draws them; checks them a second way by finite differences at the test point of the record's brute-force check; checks that observers at rest fall freely; computes the 156 non-zero Riemann components, checks their symmetries and the first Bianchi identity and compares every one with the record; computes the 28 plane curvatures, the Ricci tensor, the Ricci scalar and the Einstein tensor and compares them with the record and with the lead's checks; compares 310 components with the record numerically with 30 digits at the record's five test points; checks the contracted Bianchi identity; computes the Kretschmann scalar; evaluates everything along the deflating history; reproduces the source of Section 3.26 from the record; and repeats the curvature for the negative control with inflating extra times. It needs no Rust, runs in about 1 minute (the cells with the Riemann tensor and the negative control take up to half a minute each) and ends with the line ALL 39 CHECKS PASSED (notebook 03b).
+Notebook 03b does Sections 3.23 to 3.26 by computer algebra, for a general function $a_4(x_4)$. It reads the metric exactly as the author typed it; computes all 512 Christoffel symbols with the formula of Section 3.15 and compares the 25 non-zero ones with the record; draws them; checks them a second way by finite differences at the test point of the record's brute-force check; checks that observers at rest fall freely; computes the 156 non-zero Riemann components, checks their symmetries and the first Bianchi identity and compares every one with the record; computes the 28 plane curvatures, the Ricci tensor, the Ricci scalar and the Einstein tensor and compares them with the record and with the lead's checks; compares 310 components with the record numerically with 30 digits at the record's five test points; checks the contracted Bianchi identity; computes the Kretschmann scalar; evaluates everything along the deflating history; reproduces the source of Section 3.26 from the record; and repeats the curvature for the negative control with inflating extra times. It needs no Rust, runs in about 1 minute (the cells with the Riemann tensor and the negative control take up to half a minute each) and ends with the line ALL 40 CHECKS PASSED (notebook 03b).
 
 <!-- NOTEBOOK 03b -->
 
@@ -2671,7 +2774,7 @@ g = sp.Matrix(parse_expr(text, local_dict=metric_names, transformations=(
     standard_transformations + (implicit_multiplication,))))
 ```
 
-The same translation of the author's Mathematica text as in Notebook 03a (Section 3.13, In [5]), with two replacements per line: `exp^` becomes `E^`, `a4[x4]` becomes `a4`, the square brackets of the sine and the cotangent become round ones, the braces of lists become square brackets and `^` becomes `**`. The dictionary `metric_names` says what each name means, and `parse_expr` with implicit multiplication reads the text; `sp.Matrix` makes the exact $8 \times 8$ matrix `g`.
+The same translation of the author's Mathematica text as in Notebook 03a (Section 3.13, In [5]), with two or three replacements per line, seven in all: `exp^` becomes `E^`, `a4[x4]` becomes `a4`, the square brackets of the sine and the cotangent become round ones, the braces of lists become square brackets and `^` becomes `**`. The dictionary `metric_names` says what each name means, and `parse_expr` with implicit multiplication reads the text; `sp.Matrix` makes the exact $8 \times 8$ matrix `g`.
 
 ```python
 for k in range(8):
@@ -3197,7 +3300,7 @@ for (a, b), formula in expected.items():
     say(f"  plane ({NAMES[a]}, {NAMES[b]}): R^ab_ab = {plane[(a, b)]}")
 ```
 
-`plane` holds the curvature $K(a, b) = R^{ab}{}_{ab}$ of all 56 ordered pairs of different coordinates (`sp.S` turns the Python number 0 into a sympy zero, which understands `.has` below). `expected` lists one plane of each of the seven kinds of Section 3.24 (two for the transverse-hidden kind) with its formula; the loop prints them.
+`plane` holds the curvature $\sigma(a, b) = R^{ab}{}_{ab}$ of all 56 ordered pairs of different coordinates (`sp.S` turns the Python number 0 into a sympy zero, which understands `.has` below). `expected` lists one plane of each of the seven kinds of Section 3.24 (two for the transverse-hidden kind) with its formula; the loop prints them.
 
 ```python
 check(all(sp.expand(plane[key] - formula) == 0 for key, formula in expected.items())
@@ -3206,6 +3309,27 @@ check(all(sp.expand(plane[key] - formula) == 0 for key, formula in expected.item
 ```
 
 The check: the printed planes have the formulas of Section 3.24 (`sp.expand` multiplies out, so equal polynomials give a zero difference), and no plane curvature depends on $z$ or on the value of $a_4$.
+
+```python
+sixth = sp.sin(6 * H * x8) ** sp.Rational(1, 6)  # sin(z)^(1/6)
+apart = {0: sp.exp(a4) * sixth, 4: sp.exp(-a4) * sixth}  # the scale factors h1, h5
+growth = {}  # (d^2 xi/d tau^2)/xi for observers at rest apart along x1 or x5
+for a, h_a in apart.items():  # xi = h_a times a fixed coordinate distance, tau = x4
+    growth[a] = sp.expand(plain(sp.simplify(sp.diff(h_a, x4, 2) / h_a)))
+    say(f"  at rest, apart along {NAMES[a]}: (d^2 xi/d tau^2)/xi = {growth[a]}")
+```
+
+The meaning of the sign, computed (Section 3.24, "What the signs mean"). `apart` holds the scale factors $h_1 = e^{a_4}\sin^{1/6}z$ and $h_5 = e^{-a_4}\sin^{1/6}z$ of $x_1$ and $x_5$, with the function $a_4(x_4)$ itself, so that sympy can differentiate it. Two observers at rest a fixed coordinate distance apart along $x_a$ are the proper distance $\xi = h_a\,\Delta x_a$ apart, and their proper time is $\tau = x_4$; so $(d^2\xi/d\tau^2)/\xi = (\partial_4^2 h_a)/h_a$, which `sp.diff(h_a, x4, 2) / h_a` computes (the second derivative with respect to $x_4$, divided by $h_a$). `plain` writes the result with `a4p` and `a4pp`. The output shows `a4p**2 + a4pp` for $x_1$ and `a4p**2 - a4pp` for $x_5$.
+
+```python
+check(sp.simplify(apart[0] ** 2 - g[0, 0]) == 0
+      and sp.simplify(apart[4] ** 2 + g[4, 4]) == 0
+      and all(sp.expand(growth[a] - plane[(a, 3)]) == 0 for a in apart),
+      "observers at rest: d^2 xi/d tau^2 = +R^ab_ab xi in the planes (x1, x4) and "
+      "(x5, x4)")
+```
+
+The check has three parts: the two scale factors are the right ones ($h_1^2 = g_{11}$ and $h_5^2 = -g_{55}$), and for both directions $(d^2\xi/d\tau^2)/\xi$ equals the plane curvature `plane[(a, 3)]` $= \sigma(x_a, x_4)$ (position 3 is $x_4$). So $d^2\xi/d\tau^2 = +\sigma\,\xi$: a positive curvature of a plane with the time drives observers at rest apart, the opposite of the sphere.
 
 ```python
 SLOPES = (0.5, 1.0, 2.0)  # three deflating histories, A > 0
@@ -3233,7 +3357,7 @@ The value written into each square (`:g` writes a number without needless digits
 
 ```python
 save_figure(fig, "plane_curvatures",
-            "The curvature $R^{ab}{}_{ab}$ (no sum) of the coordinate plane of "
+            "The curvature $\\sigma(a, b) = R^{ab}{}_{ab}$ (no sum) of the plane of "
 ...
 check([float(plane[(0, 1)].subs({a4p: s, H: 1})) for s in SLOPES] == [-0.75, 0.0, 3.0],
       "the planes inside 3-space: -0.75, 0 and 3 for A = 0.5, 1 and 2")
@@ -3241,7 +3365,7 @@ check([float(plane[(0, 1)].subs({a4p: s, H: 1})) for s in SLOPES] == [-0.75, 0.0
 
 The figure is saved; the check confirms $a_4'^2 - H^2 = -0.75$, $0$, $3$ for the three slopes.
 
-**What Figure 03b.4 shows.** Three symmetric tables. The blocks inside 3-space and inside the extra times change from pale blue ($-0.75$ at $A = 0.5$) through grey ($0$ at $A = 1$) to red ($3$ at $A = 2$). The blocks that mix 3-space with the extra times are always blue and deepen: $-1.25$, $-2$, $-5$. The row and column of $x_4$ are red, $A^2$: $0.25$, $1$, $4$. The row and column of $x_8$ are $-1$ everywhere, except the flat plane of $x_4$ and $x_8$, which is $0$.
+**What Figure 03b.4 shows.** Three symmetric tables. The blocks inside 3-space and inside the extra times change from pale blue ($-0.75$ at $A = 0.5$) through grey ($0$ at $A = 1$) to red ($3$ at $A = 2$). The blocks that mix 3-space with the extra times are always blue and deepen: $-1.25$, $-2$, $-5$. The row and column of $x_4$ are red, $A^2$: $0.25$, $1$, $4$. The row and column of $x_8$ are $-1$ everywhere, except the flat plane of $x_4$ and $x_8$, which is $0$. The colours give signs, not shapes: only the squares of two of $x_1, x_2, x_3$ and those of one of them with $x_8$ belong to planes of two space-like directions, where red means curved like a sphere and blue like a saddle (so the 3-space planes are saddle-like at $A = 0.5$ and sphere-like at $A = 2$). In the planes of two extra times the shape reading is reversed, and the red row and column of $x_4$ mean, by In [16]'s check, that observers at rest drift apart ever faster along 3-space and that their extra-time separation shrinks ever more slowly (Section 3.24).
 
 **In [17], Ricci, Ricci scalar and Einstein tensor.**
 
@@ -3277,13 +3401,14 @@ einstein_ok = all(same(G[i, j], from_mathematica(
     record["einsteinMixed"][f"{NAMES[i]},{NAMES[j]}"]["mathematica"]))
     for i in range(8) for j in range(8))
 scalar_ok = same(R_scalar, from_mathematica(record["ricciScalar"]))
+record_check(PYTHON_REPORT, "rust_ricci_einstein_scalar_agree")  # stops if not
 check(ricci_ok and einstein_ok and scalar_ok,
       "all 64 Ricci, all 64 Einstein components and R equal the record",
       record=f"{CURVATURE_RECORD}, ricciMixed, einsteinMixed, ricciScalar (and "
              "python-lovelock-report.json, check rust_ricci_einstein_scalar_agree)")
 ```
 
-The record stores each of the 64 components under a key such as `"x1,x4"`, with its Mathematica text under `"mathematica"`. All 64 Ricci and all 64 Einstein components and the scalar are compared exactly, in one check.
+The record stores each of the 64 components under a key such as `"x1,x4"`, with its Mathematica text under `"mathematica"`. `record_check` (In [3]) stops the notebook unless the independent verification of the record (`PYTHON_REPORT`, named in In [3]) lists its check `rust_ricci_einstein_scalar_agree` as passed. All 64 Ricci and all 64 Einstein components and the scalar are compared exactly, in one check.
 
 **In [18], the first Lovelock scalar of the record of the field equations.**
 
@@ -3297,18 +3422,19 @@ L1_detail, L1_verdict = L1_entry["detail"], L1_entry["verdict"]
 say(f"record: {L1_detail} ({L1_verdict})")
 ```
 
-The sympy verification of the record of the field equations of $a_4$ is read. Its checks form a list; `next(...)` takes the first entry whose name is `L1_equals_gkd_branch`. The output prints its text and verdict: $L_{(1)} = -84H^2 + 12\,ad1^2$ (PASS), where `ad1` is the record's name for $a_4'$. $L_{(1)}$ is the first Lovelock scalar of Chapter 11.
+The sympy verification of the record of the field equations of $a_4$ is read. Its checks form a list; `next(...)` takes the first entry whose name is `L1_equals_gkd_branch`. The output prints its text and verdict: $L_{(1)} = -84H^2 + 12\,ad1^2$ (PASS), where `ad1` is the record's name for $a_4'$. $L_{(1)}$ is the first **Lovelock scalar**: the Revision record builds the field equations from three curvature scalars $L_{(1)}, L_{(2)}, L_{(3)}$, made from products of one, two or three Riemann tensors with the generalized Kronecker delta of Chapter 1, and the first of them is exactly twice the Ricci scalar, $L_{(1)} = 2R$ (Chapter 11 treats all three).
 
 ```python
 L1_text = L1_detail.split("=")[1]  # the text after the equals sign
 L1_record = parse_expr(L1_text, local_dict={"H": H, "ad1": a4p})
+record_check(PYTHON_REPORT, "L1_equals_2R", "L_(1) = 2 R exactly")  # stops if not
 check(L1_verdict == "PASS" and sp.expand(L1_record - 2 * plain(R_scalar)) == 0,
       "the first Lovelock scalar of the record is twice our Ricci scalar",
       record=f"{A4_REPORT}, check L1_equals_gkd_branch (with "
              "python-lovelock-report.json, check L1_equals_2R)")
 ```
 
-The text after the equals sign is read as a sympy expression, with `ad1` meaning $a_4'$. The check: the record marks the check as passed, and $L_{(1)} = 2R$ with our $R$ ($2(6a_4'^2 - 42H^2) = 12a_4'^2 - 84H^2$).
+The text after the equals sign is read as a sympy expression, with `ad1` meaning $a_4'$. `record_check` stops the notebook unless the independent verification of the curvature record lists its check `L1_equals_2R` as passed with the detail `L_(1) = 2 R exactly`. The check: the record marks the check `L1_equals_gkd_branch` as passed, and $L_{(1)} = 2R$ with our $R$ ($2(6a_4'^2 - 42H^2) = 12a_4'^2 - 84H^2$).
 
 **In [19], all 310 components at five test points with 30 digits.**
 
@@ -3358,9 +3484,12 @@ for mine, theirs in pairs:
         ours, recorded = f_mine(*point), f_record(*point)
         largest = max(largest, abs(ours - recorded) / max(1, abs(recorded)))
         evaluations += 1
+for name in ("rust_christoffels_agree", "rust_riemann_agrees",
+             "rust_ricci_einstein_scalar_agree"):
+    record_check(PYTHON_REPORT, name)  # stops unless the check passed
 ```
 
-For each pair, both expressions become functions that compute with mpmath's 30 digits (`"mpmath"` instead of `"numpy"`); at each of the five points both are evaluated, and the relative difference $|\mathrm{ours} - \mathrm{record}|/\max(1, |\mathrm{record}|)$ updates the largest one so far (`max(1, ...)` avoids dividing by a tiny number when a value is close to zero).
+For each pair, both expressions become functions that compute with mpmath's 30 digits (`"mpmath"` instead of `"numpy"`); at each of the five points both are evaluated, and the relative difference $|\mathrm{ours} - \mathrm{record}|/\max(1, |\mathrm{record}|)$ updates the largest one so far (`max(1, ...)` avoids dividing by a tiny number when a value is close to zero). The last loop runs `record_check` for the three checks that the PASS line below names: the notebook stops unless the independent verification lists all three as passed.
 
 ```python
 report("components compared numerically", len(pairs))
@@ -3379,6 +3508,9 @@ Three RESULT lines: 310 components, 1550 evaluations, and the largest relative d
 
 ```python
 LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"
+for name in ("einstein_off_diagonal_zero", "einstein_x8_independent",
+             "einstein_isotropy", "no_vacuum_for_H_positive"):
+    record_check(LEAD, name)  # stops unless the lead check passed
 check(all(G[i, j] == 0 for i in range(8) for j in range(8) if i != j),
       "the Einstein tensor is diagonal",
       record=f"{LEAD}, check einstein_off_diagonal_zero")
@@ -3390,7 +3522,7 @@ check(G[0, 0] == G[1, 1] == G[2, 2] and G[4, 4] == G[5, 5] == G[6, 6],
       record=f"{LEAD}, check einstein_isotropy")
 ```
 
-Three checks of Section 3.25, each naming the check of the lead's independent report: no entry off the diagonal, no dependence on $x_8$, equal 3-space entries and equal extra-time entries.
+`LEAD` names the report of the lead check of the field equations (the lead checks are explained in Section 3.7). The loop runs `record_check` (In [3]) for the four checks of that report that this cell's PASS lines name; the notebook stops unless the report lists each of them as passed. Then three checks of Section 3.25, each naming the check of the lead's independent report: no entry off the diagonal, no dependence on $x_8$, equal 3-space entries and equal extra-time entries.
 
 ```python
 gap = sp.simplify(symbolic(G[3, 3] - G[7, 7]))
@@ -3411,13 +3543,15 @@ for nu in range(8):
         + sum(Gamma[mu][mu][lam] * G[lam, nu] for mu in range(8) for lam in range(8)) \
         - sum(Gamma[lam][mu][nu] * G[mu, lam] for mu in range(8) for lam in range(8))
     divergence.append(vanishes(value))
+record_check(RUST_REPORT, "k1_equals_minus_4_einstein")  # stops if not passed
+record_check(RUST_REPORT, "k1_divergence_free")
 check(all(divergence),
       "the contracted Bianchi identity: the divergence of G vanishes",
       record="Revision/gkd_lovelock/results/lovelock-report.json, checks "
              "k1_equals_minus_4_einstein and k1_divergence_free")
 ```
 
-For each $\nu$ the three sums of the divergence formula of Section 3.25 are computed with the function $a_4(x_4)$ itself (so that sympy can differentiate $a_4''$ into $a_4'''$; the backslashes continue the statement), and the list `divergence` records whether each simplifies to zero. The check requires all eight. The record's Rust program checked the same for its tensor $P_{(1)} = -4G$ (Chapter 11).
+For each $\nu$ the three sums of the divergence formula of Section 3.25 are computed with the function $a_4(x_4)$ itself (so that sympy can differentiate $a_4''$ into $a_4'''$; the backslashes continue the statement), and the list `divergence` records whether each simplifies to zero. The check requires all eight. The record's Rust program checked the same for its tensor $P_{(1)} = -4G$, the first Lovelock tensor (Section 3.26; Chapter 11): the two calls of `record_check` stop the notebook unless the Rust report (`RUST_REPORT`, named in In [3]) lists its checks `k1_equals_minus_4_einstein` ($P_{(1)} = -4G$) and `k1_divergence_free` (the divergence of $P_{(1)}$ is zero) as passed.
 
 **In [22], the Kretschmann scalar.**
 
@@ -3687,6 +3821,7 @@ say(f"record: kappa (rho + p) = {sp.factor(kappa * sum_record)}")
 `source` reads the Mathematica text (key `"input"`) of an entry as a sympy expression. The three texts are read and printed multiplied by $\kappa$: $\kappa\rho = -3A^2H^2 - 21H^2 - \Lambda$, $\kappa p = -3A^2H^2 + 15H^2 + \Lambda$, $\kappa(\rho + p) = -6H^2(A^2 + 1)$.
 
 ```python
+record_check(A4_REPORT, "json_linear_member")  # stops if not passed
 check(sp.expand(kappa * rho_record - (-G_A[3] - Lam)) == 0,
       "kappa rho of the record equals -G^x4_x4 - Lambda",
       record=f"{A4_EQUATIONS}, linearMember.rhoEinstein (and "
@@ -3699,7 +3834,7 @@ check(sp.expand(kappa * sum_record - (G_A[0] - G_A[3])) == 0,
       record=f"{A4_EQUATIONS}, linearMember.rhoPlusPEinstein")
 ```
 
-Three checks, the three lines of Section 3.26: $\kappa\rho = -G^{x_4}{}_{x_4} - \Lambda$; $\kappa p = G^{x_1}{}_{x_1} + \Lambda = G^{x_5}{}_{x_5} + \Lambda = G^{x_8}{}_{x_8} + \Lambda$; and $\kappa(\rho + p) = G^{x_1}{}_{x_1} - G^{x_4}{}_{x_4}$.
+`record_check` (In [3]) stops the notebook unless the sympy verification of the record of the field equations (`A4_REPORT`, named in In [18]) lists its check `json_linear_member` as passed: that check confirmed that the entries of `linearMember` agree with its own computation. Then three checks, the three lines of Section 3.26: $\kappa\rho = -G^{x_4}{}_{x_4} - \Lambda$; $\kappa p = G^{x_1}{}_{x_1} + \Lambda = G^{x_5}{}_{x_5} + \Lambda = G^{x_8}{}_{x_8} + \Lambda$; and $\kappa(\rho + p) = G^{x_1}{}_{x_1} - G^{x_4}{}_{x_4}$.
 
 **In [27], the negative control.**
 
@@ -3739,7 +3874,7 @@ check(all(path.is_file() for path in files), "all seven figure files exist")
 all_checks_passed()
 ```
 
-The seven figure files must exist; the last line prints ALL 39 CHECKS PASSED (notebook 03b). The 39 checks are: 1 in In [4], 1 in In [6], 2 in In [7], 1 each in In [8] and In [9], 2 in In [10], 1 in In [11], 2 in In [12], 1 in In [13], 3 in In [14], 2 each in In [15] and In [16], 1 each in In [17], In [18] and In [19], 4 in In [20], 1 in In [21], 3 in In [22], 1 in In [23], 2 in In [24], 1 in In [25], 3 in In [26], and 1 each in In [27] and In [28].
+The seven figure files must exist; the last line prints ALL 40 CHECKS PASSED (notebook 03b). The 40 checks are: 1 in In [4], 1 in In [6], 2 in In [7], 1 each in In [8] and In [9], 2 in In [10], 1 in In [11], 2 in In [12], 1 in In [13], 3 in In [14], 2 in In [15], 3 in In [16], 1 each in In [17], In [18] and In [19], 4 in In [20], 1 in In [21], 3 in In [22], 1 in In [23], 2 in In [24], 1 in In [25], 3 in In [26], and 1 each in In [27] and In [28].
 
 ### 3.31 Free fall in the author's metric
 
@@ -3782,7 +3917,7 @@ $$
 \hat u^i = p_i\,e^{-Hy - a_4}, \qquad \hat u^j = -p_j\,e^{a_4 - Hy} .
 $$
 
-At a fixed height $y$, along a deflating history ($a_4$ increasing), the frame velocity in 3-space falls like $e^{-a_4}$: motion in 3-space is **redshifted**, because 3-space inflates and stretches it out. The frame velocity along an extra time grows like $e^{a_4}$: motion along the extra times is **blueshifted**, because they deflate. The factor $e^{-Hy - a_4}$ is exactly the **momentum weight** $\kappa(y, x_4) = e^{-Hy - a_4(x_4)}$ that the Revision Kohn-Sham record uses to turn a conserved 3-space momentum into the momentum seen at height $y$ and time $x_4$ (`Revision/kohn_sham/ks-theory.json`, key `geometry.kappa`; PROVED here; Notebook 03d, In [5]).
+At a fixed height $y$, along a deflating history ($a_4$ increasing), the frame velocity in 3-space falls like $e^{-a_4}$: motion in 3-space is **redshifted**, because 3-space inflates and stretches it out. The frame velocity along an extra time grows like $e^{a_4}$: motion along the extra times is **blueshifted**, because they deflate. The factor $e^{-Hy - a_4}$ is exactly the **momentum weight** $\kappa(y, x_4) = e^{-Hy - a_4(x_4)}$ (the Revision record's name for it; this $\kappa(y, x_4)$, always written in this chapter with its two arguments, is a function and has nothing to do with the constant $\kappa$ of Einstein's equations in Section 3.26) that the Revision Kohn-Sham record uses to turn a conserved 3-space momentum into the momentum seen at height $y$ and time $x_4$ (`Revision/kohn_sham/ks-theory.json`, key `geometry.kappa`; PROVED here; Notebook 03d, In [5]).
 
 **The push along the hidden direction.** Write $S = \sum_i(\hat u^i)^2$ and $E = \sum_j(\hat u^j)^2$ for the squared frame velocities in 3-space and along the extra times. The frame velocity along the hidden direction is $\hat u^8 = h_8u^8 = \cot z\,u^8$, and it equals $dy/d\tau$, because $dy/d\tau = (dy/dx_8)(dx_8/d\tau) = \cot z\,u^8$ (Section 3.9). Its rate of change, line by line:
 
@@ -3848,7 +3983,7 @@ The Revision scope report finds exactly this expression for the squared frequenc
 
 ### 3.32 Example: free fall in the author's metric
 
-Notebook 03d reads the 25 Christoffel symbols of the record, builds the geodesic equations, and proves with sympy, for a general $a_4(x_4)$, the conservation of the six momenta and of $g(u, u)$, the momentum weight $\kappa$ of the Kohn-Sham record, the push law, the slowing of $x_4$, the formula for $(u^4)^2$, and its identity with the quadratic form of the record's plane-wave check. Then it integrates five paths with RK4 along the history of the record, checks every exact law on the computed paths, finds the turning point of the particle that moves along an extra time, measures the order of RK4, and draws five figures. It needs no Rust, runs in about 50 seconds and ends with the line ALL 23 CHECKS PASSED (notebook 03d).
+Notebook 03d reads the 25 Christoffel symbols of the record, builds the geodesic equations, and proves with sympy, for a general $a_4(x_4)$, the conservation of the six momenta and of $g(u, u)$, the momentum weight $\kappa(y, x_4)$ of the Kohn-Sham record, the push law, the slowing of $x_4$, the formula for $(u^4)^2$, and its identity with the quadratic form of the record's plane-wave check. Then it integrates five paths with RK4 along the history of the record, checks every exact law on the computed paths, finds the turning point of the particle that moves along an extra time, measures the order of RK4, and draws five figures. It needs no Rust, runs in about 50 seconds and ends with the line ALL 23 CHECKS PASSED (notebook 03d).
 
 <!-- NOTEBOOK 03d -->
 
@@ -3994,7 +4129,7 @@ check(sp.simplify(1 / h[4] - sp.exp(a4 - H * y_of_x8)) == 0,
       "1/h5 = e^(a4 - H y): the frame velocity along an extra time grows with a4")
 ```
 
-Two checks of Section 3.31: $1/h_1 = \kappa$, so $\hat u^1 = p_1/h_1 = p_1\kappa$; and $1/h_5 = e^{a_4 - Hy}$, so $\hat u^5 = -p_5e^{a_4 - Hy}$.
+Two checks of Section 3.31: $1/h_1 = \kappa(y, x_4)$, so $\hat u^1 = p_1/h_1 = p_1\kappa(y, x_4)$; and $1/h_5 = e^{a_4 - Hy}$, so $\hat u^5 = -p_5e^{a_4 - Hy}$.
 
 **In [6], the push, the slowing, and $(u^4)^2$ (exact).**
 
@@ -4193,7 +4328,7 @@ For each starting frame velocity along $x_1$ the path from $\tau = 0$ to $3$ in 
           "p1 kappa, u4 falls")
 ```
 
-One check per particle with five conditions: $p_1$ constant within a relative $10^{-9}$; $g(u, u) = -1$ within $10^{-9}$; the frame velocity equals $p_1\kappa$ within $10^{-9}$; $u^4$ decreases at every step (`np.diff` gives the differences of successive values); the particle stays inside the patch ($y < 0$).
+One check per particle with five conditions: $p_1$ constant within a relative $10^{-9}$; $g(u, u) = -1$ within $10^{-9}$; the frame velocity equals $p_1\kappa(y, x_4)$ within $10^{-9}$; $u^4$ decreases at every step (`np.diff` gives the differences of successive values); the particle stays inside the patch ($y < 0$).
 
 ```python
 states, frame_rows, y_values, lengths, p1 = space_paths[1.0]
@@ -4297,7 +4432,7 @@ check(frame_t[n_turn - 1, 4] > 0.2 * math.exp(extra[n_turn - 1, 3]),
 
 A dashed line at the largest $x_4$, the logarithmic axis, labels and legend; the figure is saved (its caption contains the turning point $x_4 = 1.486$ through an f-string). The check: just before the turning point, $\hat u^5$ exceeds the pure blueshift.
 
-**What Figure 03d.1 shows.** Left: on the logarithmic axis the three frame velocities fall almost like straight lines of slope $-1$, the redshift $e^{-a_4}$; they fall a little faster than the dotted lines, most visibly for the fastest particle, because the particles rise towards the patch end where the warp factor $e^{Hy}$ is larger and $\kappa = e^{-Hy - a_4}$ smaller. Right: the frame velocity along $x_5$ grows from $0.2$, first like the pure blueshift $0.2e^{a_4}$, then faster, because the particle sinks towards the tip where $e^{-Hy}$ is larger; at the dashed line it reaches its turning point.
+**What Figure 03d.1 shows.** Left: on the logarithmic axis the three frame velocities fall almost like straight lines of slope $-1$, the redshift $e^{-a_4}$; they fall a little faster than the dotted lines, most visibly for the fastest particle, because the particles rise towards the patch end where the warp factor $e^{Hy}$ is larger and $\kappa(y, x_4) = e^{-Hy - a_4}$ smaller. Right: the frame velocity along $x_5$ grows from $0.2$, first like the pure blueshift $0.2e^{a_4}$, then faster, because the particle sinks towards the tip where $e^{-Hy}$ is larger; at the dashed line it reaches its turning point.
 
 **In [13], Figure 03d.2: the $x_4$ velocity and the time $x_4$.**
 
@@ -4549,15 +4684,15 @@ The five figure files must exist; the last line prints ALL 23 CHECKS PASSED (not
 - for the author's metric: the signature (4,4) at every point of the patch and for every $a_4$; $\det g = \cos^2 z$ and $\sqrt{|\det g|} = \cos z$, without $a_4$ (record `python-lovelock-report.json`, check `sqrt_abs_det_g`; `curvature.json`, key `sqrtAbsDetG`); the constant 7-volume density and the 7-volume $1/(6H)$ of the patch per unit transverse coordinate volume; $V_3V_t = \sin z$ (Sections 3.5 and 3.6);
 - the scale factors and the diagonal vielbein (lead check `vielbein_reproduces_metric`); the expansion rates $+a_4'$ of 3-space and $-a_4'$ of the extra times; the transverse product $\sin z$ (Section 3.7);
 - the hidden coordinate $y$: $dy = \cot z\,dx_8$ (lead check `ks_coordinate_jacobian`), $W = \sin^{1/6}z = e^{Hy}$, the warped form and the volume factor $e^{6Hy}$ of the record `ks-theory.json`; the tip at infinite proper distance; the fraction $e^{-6HL}$ beyond the tip cut-off (Section 3.9);
-- the transformation rules of vectors, covectors and the metric; the invariance of contractions (Section 3.14); the covariant derivative of covectors and of the metric; the Christoffel formula as the only connection without torsion that is compatible with the metric; the four cases for a diagonal metric; the contracted symbol $\sum_a\Gamma^a{}_{ab} = \partial_b\ln\sqrt{|\det g|}$ (Section 3.15);
+- the transformation rules of vectors, covectors and the metric; the invariance of contractions (Section 3.14); the covariant derivative of covectors and of tensors with two indices (one $+\Gamma$ term for every upper index, one $-\Gamma$ term for every lower index), in particular of the metric; the Christoffel formula as the only connection without torsion that is compatible with the metric; the four cases for a diagonal metric; the contracted symbol $\sum_a\Gamma^a{}_{ab} = \partial_b\ln\sqrt{|\det g|}$ (Section 3.15);
 - along a geodesic the squared speed is constant, and a coordinate absent from a diagonal metric has a conserved momentum; the geodesic equations of the sphere; the equator is a geodesic and other circles of latitude are not; parallel transport around a circle of latitude turns a vector by $2\pi(1 - \cos\theta_0)$, the enclosed area divided by $a^2$ (Section 3.16);
 - the commutator of covariant derivatives is the Riemann tensor (MTW convention); its antisymmetry in the last two indices and the first Bianchi identity; each diagonal entry of the Ricci tensor is the sum of the curvatures of the coordinate planes through that direction (Section 3.17);
 - the plane is flat; the sphere has the Gaussian curvature $1/a^2$, $R = 2/a^2$, $K = 4/a^4$; two meridians approach as $a\cos(s/a)\Delta\varphi$ (Section 3.18);
 - the 37 non-zero Christoffel symbols of the author's metric (25 with $b \le c$, record `curvature.json`, key `christoffelNonzero_b_le_c`); observers at rest fall freely with proper time $x_4$ (Section 3.23);
-- the curvatures of the 28 coordinate planes; the 156 non-zero components $R^{ab}{}_{cd}$ (record `lovelock-report.json`, check `riemann_antisymmetry`); their frame values are constants (Section 3.24);
+- the curvatures $\sigma(a, b)$ of the 28 coordinate planes, and what their signs mean (a shape only for two space-like directions, reversed for two time-like ones); for two observers at rest $d^2\xi/d\tau^2 = \sigma(x_1, x_4)\,\xi$ along 3-space and $\sigma(x_5, x_4)\,\xi$ along an extra time; the 156 non-zero components $R^{ab}{}_{cd}$ (record `lovelock-report.json`, check `riemann_antisymmetry`); their frame values are constants (Section 3.24);
 - $R^a{}_a$, $R = 6a_4'^2 - 42H^2$ and the Einstein tensor (record `curvature.json`, keys `ricciMixed`, `ricciScalar`, `einsteinMixed`); the Ricci and Einstein tensors are diagonal because the three inflating and the three deflating directions cancel (with inflating extra times they would not be); $G^4{}_4 - G^8{}_8 = 6(a_4'^2 + H^2) > 0$; $K = 12(7H^4 - 2H^2a_4'^2 + 7a_4'^4 + 2a_4''^2) \ge 576H^4/7 > 0$, so the metric is curved for every history; the contracted Bianchi identity for every $a_4(x_4)$ (record `lovelock-report.json`, checks `k1_equals_minus_4_einstein`, `k1_divergence_free`) (Section 3.25);
 - within Einstein's equations: no empty spacetime has this metric; $\kappa(\rho + p_8) = -6(a_4'^2 + H^2) < 0$; along $a_4 = AHx_4$ the required source $\kappa\rho = -3H^2(7 + A^2) - \Lambda$, $\kappa p = 3H^2(5 - A^2) + \Lambda$, $\kappa(\rho + p) = -6H^2(A^2 + 1) < 0$ (record `a4-equations.json`, keys `einstein` and `linearMember`) (Section 3.26);
-- in free fall: the six momenta and $g(u, u)$ are conserved; $\hat u^i = p_ie^{-Hy - a_4}$ (the momentum weight $\kappa$ of `ks-theory.json`) and $\hat u^j = -p_je^{a_4 - Hy}$, so 3-space motion is redshifted and extra-time motion blueshifted; $d^2y/d\tau^2 = H(S - E)$; $du^4/d\tau = -a_4'(S + E)$; $(u^4)^2 = 1 + S - E + (\hat u^8)^2$, which times $m^2$ is the quadratic form of the record's check `extra_time_growth_rates_unbounded`; without extra-time motion a particle never turns in $x_4$ (Section 3.31).
+- in free fall: the six momenta and $g(u, u)$ are conserved; $\hat u^i = p_ie^{-Hy - a_4}$ (the momentum weight $\kappa(y, x_4)$ of `ks-theory.json`) and $\hat u^j = -p_je^{a_4 - Hy}$, so 3-space motion is redshifted and extra-time motion blueshifted; $d^2y/d\tau^2 = H(S - E)$; $du^4/d\tau = -a_4'(S + E)$; $(u^4)^2 = 1 + S - E + (\hat u^8)^2$, which times $m^2$ is the quadratic form of the record's check `extra_time_growth_rates_unbounded`; without extra-time motion a particle never turns in $x_4$ (Section 3.31).
 
 **COMPUTED by the notebooks** (each number in the cell named; where a Revision record is reproduced, its file and key or check):
 
@@ -4568,7 +4703,7 @@ The five figure files must exist; the last line prints ALL 23 CHECKS PASSED (not
 
 **ASSUMED** (used, not derived here):
 
-- standard theorems quoted without proof: Sylvester's law of inertia (Section 3.4); the volume factor of a metric that is not diagonal (not needed); that the Christoffel symbols of two systems of coordinates describe the same covariant derivative (Section 3.15); that a space with zero Riemann tensor has constant metrics locally (Section 3.17); the symmetries (S3) and (S4) and the contracted Bianchi identity for a general metric (Sections 3.17 and 3.25; for the author's metric all three are checked or proved); the uniqueness of solutions of ordinary differential equations (Section 3.16); the geodesic deviation equation of a general surface (Section 3.18);
+- standard theorems quoted without proof: Sylvester's law of inertia (Section 3.4); the volume factor of a metric that is not diagonal (not needed); that the Christoffel symbols of two systems of coordinates describe the same covariant derivative (Section 3.15); that a space with zero Riemann tensor has constant metrics locally (Section 3.17); the symmetries (S3) and (S4) and the contracted Bianchi identity for a general metric (Sections 3.17 and 3.25; for the author's metric all three are checked or proved); the uniqueness of solutions of ordinary differential equations (Section 3.16); the geodesic deviation equation of a general surface, and its form $d^2\xi/d\tau^2 = +\sigma\,\xi$ for free-fall paths along a time-like direction (Section 3.18; for the observers at rest in the author's metric it is proved in Section 3.24);
 - from physics: that a body in free fall moves on a time-like geodesic, and that the bodies of Section 3.31 are test particles; the form of Einstein's field equations and the null energy condition as the mark of ordinary matter (Section 3.26; derived and discussed in Chapters 9 and 12);
 - the history $a_4 = AHx_4$ with $A = 1$ and $H = 1$, used for every picture and every number along the history: a PRESCRIBED BACKGROUND, not a solution of the field equations with a source of this book (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyStatus`; `Revision/field_equations_a4/reports/ks-source-conditions.json`). Every formula written with a general $a_4(x_4)$ is exact without it.
 
@@ -4604,7 +4739,7 @@ $$
 
 **Exercise 5.** Show that the Einstein tensor of every surface (two dimensions) is zero.
 
-*Answer.* By Section 3.17 a surface has $R^1{}_1 = R^2{}_2 = K(1, 2)$ and $R = 2K(1, 2)$. The off-diagonal entries vanish: $R^1{}_2 = \sum_c R^{1c}{}_{2c} = R^{11}{}_{21} + R^{12}{}_{22} = 0$ (antisymmetry in the upper pair and in the lower pair). So $G^1{}_1 = K(1, 2) - \tfrac12\cdot 2K(1, 2) = 0$, likewise $G^2{}_2 = 0$, and $G^1{}_2 = G^2{}_1 = 0$. For the sphere, $1/a^2 - \tfrac12\cdot 2/a^2 = 0$. In two dimensions the Einstein tensor says nothing about the curvature; this is why gravity needs more dimensions.
+*Answer.* By Section 3.17 a surface has $R^1{}_1 = R^2{}_2 = \sigma(1, 2)$ and $R = 2\sigma(1, 2)$. The off-diagonal entries vanish: $R^1{}_2 = \sum_c R^{1c}{}_{2c} = R^{11}{}_{21} + R^{12}{}_{22} = 0$ (antisymmetry in the upper pair and in the lower pair). So $G^1{}_1 = \sigma(1, 2) - \tfrac12\cdot 2\sigma(1, 2) = 0$, likewise $G^2{}_2 = 0$, and $G^1{}_2 = G^2{}_1 = 0$. For the sphere, $1/a^2 - \tfrac12\cdot 2/a^2 = 0$. In two dimensions the Einstein tensor says nothing about the curvature; this is why gravity needs more dimensions.
 
 **Exercise 6.** For the canonical history $A = 1$ and $\Lambda = 0$, find $\kappa\rho$, $\kappa p$ and the ratio $w = p/\rho$ that Einstein's equations require. Which $\Lambda$ would make $\rho = 0$, and what is then $\kappa p$?
 

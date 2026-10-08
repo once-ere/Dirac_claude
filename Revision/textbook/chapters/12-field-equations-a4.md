@@ -1174,7 +1174,8 @@ ax.set_xlabel("$a_4'/H$")
 ax.set_ylabel("component of $G^\\mu{}_\\nu$ (units of $H^2$)")
 ax.set_title("The Einstein tensor of the author's metric")
 ax.legend(fontsize=8)
-save_figure(fig, "einstein_components", ...)
+save_figure(fig, "einstein_components",
+            ...)
 ```
 
 Axis labels, title, legend, and `save_figure` with the caption printed in the notebook text. **What the figure shows.** The time component is a parabola that opens upwards and never falls below $21H^2$; the hidden component opens downwards. The two dashed curves lie a distance $H^2$ above and below the black one: only the difference of the 3-space and the extra-time components feels $a_4''$, which is why the evolution equation of Section 12.9 is their difference.
@@ -1210,11 +1211,12 @@ Three small examples are printed: 1, $-1$ and 0. Then a list of nine indices mad
 ```python
 tz = sp.symbols("tz", positive=True)  # tz = tan z = 1/cot z
 GENERATORS = (H, ad1, ad2, cz, tz)
+# xreplace replaces exactly the expression 1/cz by tz and leaves cz itself alone:
 FACTORS = [(key, sp.Poly(value.xreplace({1 / cz: tz}), *GENERATORS))
            for key, value in ordered.items()]  # the 39 components as polynomials
 ```
 
-To multiply thousands of products quickly, each of the 39 components is stored as a sympy **polynomial** (`sp.Poly`) in the five generators $H$, $a_4'$, $a_4''$, $\cot z$ and a new symbol $t = \tan z$: `value.xreplace({1 / cz: tz})` replaces exactly the expression $1/\cot z$ by $t$ (the comment line in the notebook says so), so that no division is left. `FACTORS` is the list of pairs (index list, polynomial).
+To multiply thousands of products quickly, each of the 39 components is stored as a sympy **polynomial** (`sp.Poly`) in the five generators $H$, $a_4'$, $a_4''$, $\cot z$ and a new symbol $t = \tan z$, listed in `GENERATORS`. The comment line says what the next line does: `value.xreplace({1 / cz: tz})` replaces exactly the expression $1/\cot z$ by $t$ and leaves every $\cot z$ itself unchanged, so that no division is left and the component is a polynomial. `FACTORS` is the list of pairs (index list, polynomial).
 
 ```python
 def lovelock(k):
@@ -1467,7 +1469,8 @@ Each diagonal value is written into its cell: as a whole number (`:.0f`) when it
     ax.set_title(f"$E_{{({k})}}{{}}^h{{}}_j$")
 fig.suptitle("The three Lovelock tensors at $H=1$, $a_4'=0.6$, $a_4''=0.3$ "
              "(row $h$, column $j$)")
-save_figure(fig, "lovelock_heat_maps", ...)
+save_figure(fig, "lovelock_heat_maps",
+            ...)
 ```
 
 Ticks labelled $x_1$ to $x_8$, no grid, a title per panel (in an f-string a doubled brace prints one brace, so the title is the mathematics $E_{(k)}{}^h{}_j$), a title for the whole figure, and `save_figure`. **What the figure shows.** All three tensors are diagonal with only four different values, one each for 3-space, the time, the extra times and the hidden direction: the structure that reduces the 64 field equations to four.
@@ -1620,7 +1623,8 @@ ax.set_xlabel("$a_4'/H$")
 ax.set_ylabel("$F(a_4')/2$")
 ax.set_title("The factor $F$ of the evolution equation $a_4''F = \\kappa(p_3-p_t)$")
 ax.legend(fontsize=8)
-save_figure(fig, "evolution_factor", ...)
+save_figure(fig, "evolution_factor",
+            ...)
 ```
 
 Labels, title, legend and `save_figure`. **What the figure shows.** In Einstein gravity $F/2 = 1$ everywhere. With a positive Gauss-Bonnet coupling $F$ falls like a downward parabola and crosses zero at the black dots, sooner for larger $\alpha_2$; beyond the dots the evolution equation changes sign, and at the dots it cannot be solved for $a_4''$ (Notebook 12c, section 12 of the notebook, integrates into such a point). The third-order coupling adds a positive $(a_4')^4$ term that lifts the curve again.
@@ -1728,7 +1732,8 @@ ax.set_xlabel("$a_4'/H$")
 ax.set_ylabel("$\\Lambda/H^2$")
 ax.set_title("Einstein gravity: the vacuum equations have no common solution")
 ax.legend(fontsize=8, loc="upper center")  # the empty area above the curves
-save_figure(fig, "no_vacuum_gap", ...)
+save_figure(fig, "no_vacuum_gap",
+            ...)
 ```
 
 Labels, title, the legend placed in the empty upper middle, and `save_figure`. **What the figure shows.** The two curves never meet: the lower one is never above $-21H^2$, the upper one never below $-15H^2$. Their vertical distance, $6(a_4')^2 + 6H^2$, is at its smallest, $6H^2$, at $a_4' = 0$; it is exactly $-\kappa(\rho + p_8)$, the violation of the null energy condition.
@@ -1976,7 +1981,8 @@ ax.set_xlabel("slope $A$ of $a_4 = AHx_4 + a_0$")
 ax.set_ylabel("required source (units of $H^2/\\kappa$)")
 ax.set_title("Einstein gravity, $\\Lambda = 0$: the source of the linear member")
 ax.legend(fontsize=8, loc="lower center")
-save_figure(fig, "einstein_source", ...)
+save_figure(fig, "einstein_source",
+            ...)
 ```
 
 `ax.text(x, y, text, ...)` writes a text at the point $(x, y)$ of the plot; the two texts name the halves. Labels, title, legend and `save_figure` as before. **What the figure shows.** Every curve is symmetric about $A = 0$: the deflating half is the mirror image of the inflating half. The energy density is a downward parabola that never rises above $-21H^2/\kappa$; the pressure is positive for $|A| < \sqrt5$; their sum lies below zero everywhere.
@@ -2014,7 +2020,8 @@ ax.set_xlabel("slope $A$")
 ax.set_ylabel("$\\Lambda/H^2$")
 ax.set_title("Einstein gravity: the signs of the required $\\rho$ and $p$")
 ax.legend(fontsize=8, loc="upper center")
-save_figure(fig, "source_regions", ...)
+save_figure(fig, "source_regions",
+            ...)
 ```
 
 Three texts name the regions; `set_xlim` and `set_ylim` fix the ranges of the axes. **What the figure shows.** Below the solid curve the energy density is positive, but there the pressure is negative and $w < -1$. Above the dashed curve the pressure is positive and the energy density negative. In the band between both are negative. No colour stands for "both positive", and since the two curves never touch, no point is a vacuum.
@@ -2050,7 +2057,8 @@ ax.set_xlabel("slope $A$")
 ax.set_ylabel("$w = p/\\rho$")
 ax.set_title("Einstein gravity: where $\\rho > 0$ the source has $w < -1$")
 ax.legend(fontsize=8)
-save_figure(fig, "phantom_w", ...)
+save_figure(fig, "phantom_w",
+            ...)
 ```
 
 The line $w = -1$, the range of the vertical axis, labels, legend and `save_figure`. **What the figure shows.** Each curve is drawn only for slopes small enough that $\kappa\rho > H^2$ (for $\Lambda = -30H^2$ the energy density is positive for $|A| < \sqrt3$, from $21 + 3A^2 < 30$), and each lies entirely below $w = -1$: a positive energy density of the author's metric is always phantom.
@@ -2091,7 +2099,8 @@ for ax, name in ((left, "\\kappa\\rho/H^2"), (right, "\\kappa p/H^2")):
     ax.legend(fontsize=8)
 left.set_title("energy density, $\\Lambda = 0$")
 right.set_title("pressure, $\\Lambda = 0$")
-save_figure(fig, "gauss_bonnet_source", ...)
+save_figure(fig, "gauss_bonnet_source",
+            ...)
 ```
 
 The same zero line, labels and legend for both panels, then titles and `save_figure`.
@@ -2150,7 +2159,8 @@ ax.set_xlabel("slope $A$")
 ax.set_ylabel("$\\alpha_2 H^2$")
 ax.set_title("Einstein-Gauss-Bonnet: the sign of $V$ and the vacuum curve")
 ax.legend(fontsize=8, loc="upper right")
-save_figure(fig, "null_energy_map", ...)
+save_figure(fig, "null_energy_map",
+            ...)
 ```
 
 Texts naming the two regions (NEC is the null energy condition), labels and `save_figure`. **What the figure shows.** Below the curve $V > 0$ and the required source violates the null energy condition, as in Einstein gravity; above it a sufficiently large Gauss-Bonnet coupling allows a source that satisfies it. On the curve itself a vacuum is possible; the curve reaches $A = 0$ at $\alpha_2H^2 = 1/40$.
@@ -2194,7 +2204,8 @@ right.plot(g_curve, lam_vac_f(g_curve))
 right.set_xlabel("$\\alpha_2 H^2$")
 right.set_ylabel("$\\Lambda/H^2$ of the vacuum")
 fig.suptitle("Einstein-Gauss-Bonnet gravity: the vacuum linear members")
-save_figure(fig, "gauss_bonnet_vacuum", ...)
+save_figure(fig, "gauss_bonnet_vacuum",
+            ...)
 ```
 
 The two branches $\pm A$ of the vacuum slope on the left and the vacuum's cosmological constant on the right, for $\alpha_2H^2$ from 0.004 to $1/40$. **What the figure shows.** The smaller the Gauss-Bonnet coupling, the faster the vacuum deflates (or inflates) the extra times; at $1/40$ the vacuum is static with $\Lambda = -10.5H^2$.
@@ -2223,7 +2234,8 @@ ax.set_xlabel("$\\alpha_2 H^2$")
 ax.set_ylabel("$\\alpha_3 H^4$")
 ax.set_title("Third-order Lovelock gravity: the vacuum lines $V = 0$")
 ax.legend(fontsize=8)
-save_figure(fig, "third_order_vacua", ...)
+save_figure(fig, "third_order_vacua",
+            ...)
 ```
 
 The lines for $A = 0, 1, 2, 3$ (each serves $\pm A$). **What the figure shows.** Each line crosses the axis $\alpha_3 = 0$ at the Gauss-Bonnet vacuum of that slope; with a positive $\alpha_3$ a vacuum exists at larger $\alpha_2$.
@@ -2322,7 +2334,8 @@ ax.set_xlabel("self-coupling $\\lambda$ (units $H = \\kappa = 1$)")
 ax.set_ylabel("$A^2$ required by the condensate")
 ax.set_title("A dirac16complex00 condensate as the source, Einstein, $\\Lambda=0$")
 ax.legend(fontsize=8)
-save_figure(fig, "condensate_slope", ...)
+save_figure(fig, "condensate_slope",
+            ...)
 ```
 
 `ax.annotate(text, point, text_position, ...)` writes a text with an arrow to a point. **What the figure shows.** Both lines fall linearly, $A^2 = 5 - 216\lambda/m^2$, the line of the light mass $m = 5$ much faster; a real slope exists only while $A^2 \ge 0$, that is $\lambda \le 5m^2/216$.
@@ -2601,7 +2614,8 @@ right.set_xlabel("time $x_4$ (units $1/H$)")
 right.set_ylabel("scale factor")
 right.set_title("$A = 1$: the scale factors")
 right.legend(fontsize=8)
-save_figure(fig, "linear_member", ...)
+save_figure(fig, "linear_member",
+            ...)
 ```
 
 `semilogy` draws with a logarithmic vertical axis, on which an exponential is a straight line. **What the figure shows.** On the left three straight lines of slopes 2, 1 and $-1$. On the right $e^{a_4}$ rises and $e^{-a_4}$ falls along straight lines of equal and opposite slope, and the product of their cubes is the flat line 1.
@@ -2696,7 +2710,8 @@ axes[1, 1].legend(fontsize=8)
 for ax in axes[1]:
     ax.set_xlabel("time $x_4$ (units $1/H$)")
 fig.tight_layout()
-save_figure(fig, "stress_pulse", ...)
+save_figure(fig, "stress_pulse",
+            ...)
 ```
 
 The bottom right panel draws both scale factors on a logarithmic axis; `axes[1]` is the bottom row, whose panels get the label of the time axis; `fig.tight_layout()` spaces the panels so that labels do not overlap. **What the figure shows.** The rate climbs from 1 to 2 while the pulse acts and stays there; $a_4$ bends from slope 1 to slope 2; on the logarithmic axis $e^{-a_4}$ falls along a straight line that becomes twice as steep after the pulse: the extra times deflate at every time.
@@ -2749,7 +2764,8 @@ right.semilogy(x4_pulse, np.maximum(mismatch, 1e-16))  # exact zeros at 1e-16
 right.set_xlabel("time $x_4$ (units $1/H$)")
 right.set_ylabel("$|\\kappa\\rho$ conserved $-$ $\\kappa\\rho$ constraint$|$")
 right.set_title("conservation agrees with the constraint")
-save_figure(fig, "required_source", ...)
+save_figure(fig, "required_source",
+            ...)
 ```
 
 The four source curves on the left; the mismatch on a logarithmic axis on the right, where a value of exactly zero (whose logarithm does not exist) is drawn at $10^{-16}$ by `np.maximum`. The caption, passed to `save_figure`, contains the measured mismatch written by `as_power_of_ten`. **What the figure shows.** Outside the pulse all three pressures coincide; during it $p_3$ and $p_t$ split symmetrically about $p_8$, and $\rho$ falls from $-24$ to $-33$. The mismatch stays at the level of the RK4 error.
@@ -2808,7 +2824,8 @@ right.set_xlabel("time $x_4$ (units $1/H$)")
 right.set_ylabel("extra-time scale factor $e^{-a_4}$")
 right.set_title("the extra times keep deflating")
 right.legend(fontsize=8)
-save_figure(fig, "damped_deflation", ...)
+save_figure(fig, "damped_deflation",
+            ...)
 ```
 
 Labels and `save_figure`. **What the figure shows.** Each rate falls from 2 towards 1, faster for larger $\eta$. On the logarithmic axis each scale factor starts along the steeper black line and ends parallel to the flatter one: the deflation slows down but never stops.
@@ -2854,7 +2871,8 @@ ax.set_xlabel("step size $h$ (units $1/H$)")
 ax.set_ylabel("absolute error")
 ax.set_title("RK4 on the relaxing history: fourth-order convergence")
 ax.legend(fontsize=8)
-save_figure(fig, "rk4_convergence", ...)
+save_figure(fig, "rk4_convergence",
+            ...)
 ```
 
 `loglog` uses logarithmic scales on both axes, where $Ch^4$ is a straight line of slope 4. The reference line passes through the last measured point. The ticks of the horizontal axis are put at the five step sizes; `NullFormatter` removes the labels of the small extra ticks that a logarithmic axis would add. **What the figure shows.** The five points lie on the reference line: the method is of fourth order.
@@ -2929,7 +2947,7 @@ for alpha2, (x4, y, x_star) in breakdown.items():
                label=f"$\\alpha_2H^2 = {alpha2}$")
 ```
 
-The Einstein rate and $F = 2$ in black. For each Gauss-Bonnet history the rate is drawn; `plot` returns a list of drawn lines, and `[0]` takes the line, whose colour `get_color()` is reused for a dashed vertical line at $x_4^{\star}$ (`axvline`) and for the curve of $F$ on the right.
+The Einstein rate and $F = 2$ in black. `F_of(y_einstein[:, 1], *EINSTEIN)` is already an array with one value 2 per time, because the formula of $F$ still contains the rate in terms multiplied by the couplings $\alpha_2 = \alpha_3 = 0$; multiplying by `np.ones_like(x_einstein)`, an array of ones of the same length, is only a safeguard, as in Notebook 12a, In [24] (Section 12.16): a formula with no rate left in it would give the single number 2. For each Gauss-Bonnet history the rate is drawn; `plot` returns a list of drawn lines, and `[0]` takes the line, whose colour `get_color()` is reused for a dashed vertical line at $x_4^{\star}$ (`axvline`) and for the curve of $F$ on the right.
 
 ```python
 left.set_xlabel("time $x_4$ (units $1/H$)")
@@ -2941,7 +2959,8 @@ right.set_xlabel("time $x_4$ (units $1/H$)")
 right.set_ylabel("$F(a_4')$")
 right.set_title("$F$ along the history")
 right.legend(fontsize=8)
-save_figure(fig, "gauss_bonnet_breakdown", ...)
+save_figure(fig, "gauss_bonnet_breakdown",
+            ...)
 ```
 
 **What the figure shows.** In Einstein gravity the rate rises along a straight line for ever. With the Gauss-Bonnet coupling it bends upwards ever more steeply and reaches the dashed line, the predicted $x_4^{\star}$, where $F$ (right) drops to zero: the evolution equation breaks down at a finite time.
@@ -3037,7 +3056,18 @@ reproduces(all(item is not None and item.group(1) == f"{ratio[name]:.6g}"
 
 The record's tolerance is read from its text "relative 1e-06" (`split()` cuts the text at the spaces, `[-1]` takes the last part). The first check requires a ratio for every nonzero state, that even the closest one differs from 1 by more than the tolerance, and that the record names the same closest state with the same six digits (`\S+` matches characters that are not spaces, `\w+` letters, digits and underscores). The second check finds in the record's text, for each state of the history, the number after its name and a colon (`\S+?` takes as few characters as possible, up to the comma or space that `[,\s]` matches) and requires it to be exactly our number printed with six digits; `zip` walks through the two lists side by side. A change of the Kohn-Sham record, or of its checker, that moved any of these numbers would stop the notebook here.
 
-**In [17], the last check.** The same pattern as In [15] of Notebook 12b (Section 12.20): the six figure files must exist, and the last line is ALL 30 CHECKS PASSED (notebook 12c): 1 check in In [3], 1 in In [4], 4 in In [5], 3 in In [7], 3 in In [9], 6 in In [10], 1 in In [12], 4 in In [13], 1 in In [14], 1 in In [15], 4 in In [16] and 1 in In [17].
+**In [17], the last check.**
+
+```python
+figure_names = ["linear_member", "stress_pulse", "required_source",
+                "damped_deflation", "rk4_convergence", "gauss_bonnet_breakdown"]
+paths = [output_file(f"{FIGURE_FOLDER}/12c_{k}_{name}.png")
+         for k, name in enumerate(figure_names, 1)]
+check(all(path.is_file() for path in paths), "all six figure files exist")
+all_checks_passed()
+```
+
+The same pattern as In [15] of Notebook 12b (Section 12.20): `figure_names` lists the short names of the six figures in the order in which they were drawn, `enumerate(figure_names, 1)` numbers them from 1, which gives the six file names `12c_1_linear_member.png` to `12c_6_gauss_bonnet_breakdown.png`, and `output_file` gives the path where each was written. `path.is_file()` is true when the file exists, and `all` requires this of every one of the six. `all_checks_passed()` prints the last line, ALL 30 CHECKS PASSED (notebook 12c): 1 check in In [3], 1 in In [4], 4 in In [5], 3 in In [7], 3 in In [9], 6 in In [10], 1 in In [12], 4 in In [13], 1 in In [14], 1 in In [15], 4 in In [16] and 1 in In [17].
 
 ### 12.26 A condensate of dirac16complex00 as an exact source
 
@@ -3418,7 +3448,8 @@ say(f"largest deviation of a numerical eigenvalue from +-i w: {worst:.0e}")
 say(f"eigenvalues near +i w, for each of the six masses: {upper}")
 check(worst < 1e-9 and upper == [8] * 6,
       "the 16 eigenvalues of A are +i w and -i w, eight of each (six masses)")
-save_figure(fig, "condensate_frequency", ...)
+save_figure(fig, "condensate_frequency",
+            ...)
 ```
 
 An empty plot with a label gives the dots one legend entry; red squares mark $M = \pm5$, $w = 4$. The largest deviation, $10^{-14}$, and the six counts, all 8, are printed; the check requires a deviation below $10^{-9}$ and the count 8 at every mass (`[8] * 6` is the list of six eights), so eight eigenvalues are near $+iw$ and the other eight near $-iw$. **What the figure shows.** All dots lie on the curve $w = \sqrt{M^2 - 9H^2}$; each dot stands for all 16 eigenvalues of its mass, because the absolute value of the imaginary part does not distinguish $+iw$ from $-iw$. Inside the grey band there is no oscillation, so the examples use $M = \pm5H$.
@@ -3547,7 +3578,8 @@ ax.set_ylabel("value of the bilinear")
 ax.set_title("The 56 three-gamma bilinears of the condensate $\\Phi_0(1)$, "
              "$M = -5H$")
 ax.legend(fontsize=8)
-save_figure(fig, "three_gamma_bilinears", ...)
+save_figure(fig, "three_gamma_bilinears",
+            ...)
 ```
 
 Axis, tick labels turned by 90 degrees, titles and `save_figure`. **What the figure shows.** Every red cross sits on zero; only eight blue bars rise, at triples without $x_4$ and $x_8$, which no field equation constrains.
@@ -3680,13 +3712,14 @@ The first condition solved for $S$ and the second for $m$; $\lambda$ then follow
 m_left = np.linspace(-10.0, -0.01, 1000)  # M/H < 0
 m_right = np.linspace(0.01, 10.0, 1000)  # M/H > 0
 fig, ax = plt.subplots(figsize=(7.0, 5.2))
+# grey: kappa M S > -6, where A^2 = -kappa M S/6 - 1 would be negative
 ax.fill_between(m_left, -12.0, np.minimum(-6.0 / m_left, 12.0), color="grey",
                 alpha=0.25, linewidth=0.0)
 ax.fill_between(m_right, np.maximum(-6.0 / m_right, -12.0), 12.0, color="grey",
                 alpha=0.25, linewidth=0.0, label="no real slope $A$")
 ```
 
-Masses on either side of zero (the hyperbolas are not defined at $M = 0$). A real slope needs $\kappa MS \le -6$ (units $H = 1$). For $M < 0$ this means $\kappa S \ge -6/M$, so the region below the curve $\kappa S = -6/M$ is shaded grey; for $M > 0$ it means $\kappa S \le -6/M$, so the region above is shaded. `np.minimum` and `np.maximum` keep the curves inside the plotted range $\pm12$.
+Masses on either side of zero (the hyperbolas are not defined at $M = 0$); `figsize=(7.0, 5.2)` makes the figure 7 inches wide and 5.2 high. The comment line states the rule for the grey region: the first condition of Section 12.26, $\kappa MS = -6(A^2 + 1)$ (units $H = 1$), solved for the slope gives $A^2 = -\kappa MS/6 - 1$, and this is negative, so that no real $A$ exists, exactly when $\kappa MS > -6$. A real slope therefore needs $\kappa MS \le -6$. For $M < 0$ this means $\kappa S \ge -6/M$, so the region below the curve $\kappa S = -6/M$ is shaded grey; for $M > 0$ it means $\kappa S \le -6/M$, so the region above is shaded. `np.minimum` and `np.maximum` keep the curves inside the plotted range $\pm12$.
 
 ```python
 ax.axvspan(-3.0, 3.0, facecolor="none", edgecolor="black", hatch="//",
@@ -3711,7 +3744,8 @@ ax.set_xlabel("effective mass $M/H$")
 ax.set_ylabel("$\\kappa S$ (units $H = 1$)")
 ax.set_title("Which condensates can drive a linear member (Einstein gravity)")
 ax.legend(fontsize=7.5, loc="lower left")
-save_figure(fig, "allowed_sources", ...)
+save_figure(fig, "allowed_sources",
+            ...)
 ```
 
 The three examples are marked. **What the figure shows.** Allowed condensates lie in the upper left and lower right quarters, where $S$ and $M$ have opposite signs and outside the grey; the red circle lies on the hyperbola $A^2 = 1$ and the green square on $A^2 = 5$.
@@ -3864,7 +3898,8 @@ Three heat maps with one common scale (left side, right side, difference), drawn
     ax.set_title(title, fontsize=9)
 fig.suptitle("Example 3 ($A = 1$, $\\Lambda = -30H^2$): the Einstein equations hold "
              "component by component")
-save_figure(fig, "tensor_equality", ...)
+save_figure(fig, "tensor_equality",
+            ...)
 ```
 
 **What the figure shows.** The two tables are identical: $-6$ at $x_4$ (minus the energy density 6) and $-18$ at the seven other diagonal places, white everywhere else; the difference is white throughout.
@@ -3919,7 +3954,8 @@ right.set_xlabel("time $x_4$ (units $1/H$)")
 right.set_ylabel("scale factor")
 right.set_title("3-space inflates, the extra times deflate")
 right.legend(fontsize=8)
-save_figure(fig, "solution_in_time", ...)
+save_figure(fig, "solution_in_time",
+            ...)
 ```
 
 The scale factors of examples 1 and 2 on a logarithmic axis. **What the figure shows.** The components oscillate with the period $2\pi/4 \approx 1.57$ while $S$ stays flat; the extra-time scale factor falls along straight lines of slope $-1$ (example 1) and $-\sqrt5$ (example 2): exponential deflation, driven by the condensate.
@@ -3971,12 +4007,24 @@ left.set_title("the condensate's parameters ($A = 1$, $M = -5H$)")
 right.set_title("the source it provides")
 left.legend(fontsize=8)
 right.legend(fontsize=8)
-save_figure(fig, "family_in_lambda", ...)
+save_figure(fig, "family_in_lambda",
+            ...)
 ```
 
 The green band $\Lambda < -24$ in both panels, the zero lines, and black markers for the two examples. **What the figure shows.** Along the family $\rho + p = -12$ never changes; the energy density becomes positive only in the green band, and there $p < -\rho$: $w < -1$.
 
-**In [20], the last check.** As in In [15] of Notebook 12b: the six figure files must exist, and the last line is ALL 40 CHECKS PASSED (notebook 12d): 1 check in In [2], 2 in In [3], 1 in In [4], 4 in In [5], 3 in In [6], 1 in In [7], 3 in In [8], 2 in In [9], 2 in In [10], 2 in In [11], 1 in In [12], 2 in In [13], 9 in In [15], 3 in In [16], 1 in In [17], 1 in In [18], 1 in In [19] and 1 in In [20].
+**In [20], the last check.**
+
+```python
+figure_names = ["condensate_frequency", "three_gamma_bilinears", "allowed_sources",
+                "tensor_equality", "solution_in_time", "family_in_lambda"]
+paths = [output_file(f"{FIGURE_FOLDER}/12d_{k}_{name}.png")
+         for k, name in enumerate(figure_names, 1)]
+check(all(path.is_file() for path in paths), "all six figure files exist")
+all_checks_passed()
+```
+
+As in In [15] of Notebook 12b (Section 12.20): `figure_names` lists the short names of the six figures in the order in which they were drawn, `enumerate(figure_names, 1)` numbers them from 1, which gives the six file names `12d_1_condensate_frequency.png` to `12d_6_family_in_lambda.png`, and `output_file` gives the path where each was written. `path.is_file()` is true when the file exists, and `all` requires this of every one of the six. `all_checks_passed()` prints the last line, ALL 40 CHECKS PASSED (notebook 12d): 1 check in In [2], 2 in In [3], 1 in In [4], 4 in In [5], 3 in In [6], 1 in In [7], 3 in In [8], 2 in In [9], 2 in In [10], 2 in In [11], 1 in In [12], 2 in In [13], 9 in In [15], 3 in In [16], 1 in In [17], 1 in In [18], 1 in In [19] and 1 in In [20].
 
 ### 12.31 What we proved, what we computed, what we assumed
 

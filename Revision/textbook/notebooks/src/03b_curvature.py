@@ -873,7 +873,12 @@ CELLS = [
     $a_4 = AHx_4$ both are $A^2H^2 > 0$: a positive curvature, and yet the 3-space
     distance grows like $e^{AH\tau}$ (the extra-time distance shrinks like
     $e^{-AH\tau}$, also with a positive second derivative); on a sphere a positive
-    curvature pulls neighbouring paths together, $d^2\xi/ds^2 = -\sigma\,\xi$.
+    curvature pulls neighbouring paths together, $d^2\xi/ds^2 = -\sigma\,\xi$. For the
+    6 planes of two time-like directions (two extra times, or an extra time and $x_4$)
+    even the shape reading is reversed: if $g$ is replaced by $-g$, the Christoffel
+    symbols and $R^a{}_{bcd}$ do not change but every $g^{bb}$ changes sign, so
+    $\sigma(a, b)$ changes sign; with $-g$ such a plane has positive squared lengths,
+    and its shape is that of the curvature $-\sigma(a, b)$.
 
     Then the cell draws the 28 plane curvatures as $8 \times 8$ heat maps along the
     deflating history $a_4 = AHx_4$ ($a_4' = AH$, $a_4'' = 0$, $H = 1$) for the three
@@ -920,19 +925,20 @@ CELLS = [
         ax.set_title(f"$A = {slope:g}$")
     fig.colorbar(image, ax=axes, shrink=0.85, label="curvature (unit $H^2$)")
     save_figure(fig, "plane_curvatures",
-                "The curvature $R^{ab}{}_{ab}$ (no sum) of the coordinate plane of "
-                "$x_a$ (row) and $x_b$ (column), in units of $H^2$, along the deflating "
-                "history $a_4 = AHx_4$ ($a_4^{\\prime} = AH$, "
-                "$a_4^{\\prime\\prime} = 0$, $H = 1$) for $A = 0.5$ (left), $A = 1$ "
-                "(middle, the canonical history of the Revision record) and $A = 2$ "
-                "(right); red positive (curved like a sphere), blue negative (curved "
-                "like a saddle), grey zero, diagonal empty. The planes inside 3-space "
-                "and inside the extra times have $a_4^{\\prime 2} - H^2$ ($-0.75$, $0$, "
-                "$3$: the sign changes at $A = 1$); a 3-space direction with an extra "
-                "time $-(a_4^{\\prime 2} + H^2)$ ($-1.25$, $-2$, $-5$); the planes with "
-                "the time $x_4$ $a_4^{\\prime 2} \\pm a_4^{\\prime\\prime}$ ($0.25$, "
-                "$1$, $4$), except the plane of $x_4$ and $x_8$, which is flat; every "
-                "other plane with the hidden $x_8$ has $-H^2 = -1$ for every $A$.")
+                "The curvature $\\sigma(a, b) = R^{ab}{}_{ab}$ (no sum) of the plane of "
+                "$x_a$ (row) and $x_b$ (column), unit $H^2$, along the history "
+                "$a_4 = AHx_4$ ($a_4^{\\prime\\prime} = 0$, $H = 1$) for $A = 0.5$, "
+                "$1$ (canonical) and $2$ (left to right); red positive, blue negative, "
+                "grey zero. Only for two space-like directions (two of $x_1, x_2, x_3$, "
+                "or one of them with $x_8$) does red mean curved like a sphere and blue "
+                "like a saddle; with the time $x_4$ a positive value means that "
+                "observers at rest accelerate apart, $d^2\\xi/d\\tau^2 = +\\sigma\\xi$. "
+                "Inside 3-space and inside the extra times $a_4^{\\prime 2} - H^2$ "
+                "($-0.75$, $0$, $3$); 3-space with an extra time "
+                "$-(a_4^{\\prime 2} + H^2)$ ($-1.25$, $-2$, $-5$); with $x_4$ "
+                "$a_4^{\\prime 2} \\pm a_4^{\\prime\\prime}$ ($0.25$, $1$, $4$), but the "
+                "plane of $x_4$ and $x_8$ is flat; the other planes with $x_8$ have "
+                "$-H^2 = -1$.")
     check([float(plane[(0, 1)].subs({a4p: s, H: 1})) for s in SLOPES] == [-0.75, 0.0, 3.0],
           "the planes inside 3-space: -0.75, 0 and 3 for A = 0.5, 1 and 2")
     '''),
@@ -942,7 +948,9 @@ CELLS = [
     The next cell contracts the Riemann tensor: $R^a{}_b = \sum_c R^{ac}{}_{bc}$, then
     $R = \sum_a R^a{}_a$ and $G^a{}_b = R^a{}_b - \tfrac12 \delta^a{}_b R$. It prints the
     diagonal and compares all 64 components of each tensor and the scalar with the
-    record (`ricciMixed`, `ricciScalar`, `einsteinMixed`).
+    record (`ricciMixed`, `ricciScalar`, `einsteinMixed`), after confirming with
+    `record_check` that the independent verification of the record passed its check
+    `rust_ricci_einstein_scalar_agree`.
     """),
     code(r'''
     def ricci(mixed_table, n):
@@ -968,6 +976,7 @@ CELLS = [
         record["einsteinMixed"][f"{NAMES[i]},{NAMES[j]}"]["mathematica"]))
         for i in range(8) for j in range(8))
     scalar_ok = same(R_scalar, from_mathematica(record["ricciScalar"]))
+    record_check(PYTHON_REPORT, "rust_ricci_einstein_scalar_agree")  # stops if not
     check(ricci_ok and einstein_ok and scalar_ok,
           "all 64 Ricci, all 64 Einstein components and R equal the record",
           record=f"{CURVATURE_RECORD}, ricciMixed, einsteinMixed, ricciScalar (and "
@@ -984,7 +993,8 @@ CELLS = [
     `Revision/field_equations_a4/reports/python-a4-report.json`, prints $L_{(1)}$ in its
     check `L1_equals_gkd_branch`, with the name `ad1` for $a_4'$. The next cell reads
     this text, checks that the record marks the check as passed, turns the text after
-    the equals sign into a sympy expression, and checks $L_{(1)} = 2R$ with our $R$.
+    the equals sign into a sympy expression, confirms with `record_check` that the
+    check `L1_equals_2R` passed, and checks $L_{(1)} = 2R$ with our $R$.
     """),
     code(r'''
     A4_REPORT = "Revision/field_equations_a4/reports/python-a4-report.json"
@@ -996,6 +1006,7 @@ CELLS = [
     say(f"record: {L1_detail} ({L1_verdict})")
     L1_text = L1_detail.split("=")[1]  # the text after the equals sign
     L1_record = parse_expr(L1_text, local_dict={"H": H, "ad1": a4p})
+    record_check(PYTHON_REPORT, "L1_equals_2R", "L_(1) = 2 R exactly")  # stops if not
     check(L1_verdict == "PASS" and sp.expand(L1_record - 2 * plain(R_scalar)) == 0,
           "the first Lovelock scalar of the record is twice our Ricci scalar",
           record=f"{A4_REPORT}, check L1_equals_gkd_branch (with "
@@ -1011,7 +1022,10 @@ CELLS = [
     scalar) and our component with the same indices at these five points, with
     **30 significant digits** (the package mpmath; `sp.lambdify(..., "mpmath")` turns an
     expression into an mpmath function), and reports the largest relative difference
-    $|{\rm ours} - {\rm record}| / \max(1, |{\rm record}|)$.
+    $|{\rm ours} - {\rm record}| / \max(1, |{\rm record}|)$. Before it reports, it
+    confirms with `record_check` that the three exact comparisons of that verification
+    (`rust_christoffels_agree`, `rust_riemann_agrees`,
+    `rust_ricci_einstein_scalar_agree`) passed.
     """),
     code(r'''
     PYTHON_REPORT = "Revision/gkd_lovelock/results/python-lovelock-report.json"
@@ -1046,6 +1060,9 @@ CELLS = [
             ours, recorded = f_mine(*point), f_record(*point)
             largest = max(largest, abs(ours - recorded) / max(1, abs(recorded)))
             evaluations += 1
+    for name in ("rust_christoffels_agree", "rust_riemann_agrees",
+                 "rust_ricci_einstein_scalar_agree"):
+        record_check(PYTHON_REPORT, name)  # stops unless the check passed
     report("components compared numerically", len(pairs))
     report("evaluations at the five test points", evaluations)
     report("largest relative difference (30 digits)", mpmath.nstr(largest, 3))
@@ -1058,15 +1075,20 @@ CELLS = [
     md(r"""
     The lead's independent check of the field equations
     (`Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`) states four
-    properties of the Einstein tensor; the next cell checks them on our result: $G$ is
-    diagonal (in particular $G^{x_4}{}_{x_8} = 0$), no component depends on $x_8$, the
-    three 3-space components are equal and the three extra-time components are equal,
+    properties of the Einstein tensor. The next cell first confirms with `record_check`
+    that the lead's report lists the four checks as passed, then checks the four
+    properties on our result: $G$ is diagonal (in particular $G^{x_4}{}_{x_8} = 0$), no
+    component depends on $x_8$, the three 3-space components are equal and the three
+    extra-time components are equal,
     and $G^{x_4}{}_{x_4} - G^{x_8}{}_{x_8} = 6(a_4'^2 + H^2)$, which is positive for
     $H > 0$ (a later chapter uses this to show that for $H > 0$ no empty spacetime, not
     even one with a cosmological constant, has this metric: some matter is needed).
     """),
     code(r'''
     LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"
+    for name in ("einstein_off_diagonal_zero", "einstein_x8_independent",
+                 "einstein_isotropy", "no_vacuum_for_H_positive"):
+        record_check(LEAD, name)  # stops unless the lead check passed
     check(all(G[i, j] == 0 for i in range(8) for j in range(8) if i != j),
           "the Einstein tensor is diagonal",
           record=f"{LEAD}, check einstein_off_diagonal_zero")
@@ -1084,14 +1106,16 @@ CELLS = [
     '''),
     md(r"""
     Every Einstein tensor satisfies the **contracted Bianchi identity**
-    $\nabla_\mu G^\mu{}_\nu = 0$, where for a tensor with one upper and one lower index
-    $\nabla_\mu G^\mu{}_\nu = \sum_\mu \partial_\mu G^\mu{}_\nu + \sum_{\mu,\lambda}
-    \Gamma^\mu{}_{\mu\lambda} G^\lambda{}_\nu - \sum_{\mu,\lambda} \Gamma^\lambda{}_{\mu\nu}
-    G^\mu{}_\lambda$. It is the reason why the energy of the matter that sources the
-    metric must be conserved. The next cell computes the eight components with the
-    function $a_4(x_4)$ (so that sympy can differentiate $a_4''$ and produce $a_4'''$)
-    and checks that each simplifies to zero. The Rust program checked the same for its
-    tensor $P_{(1)} = -4G$.
+    $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$, where for a tensor with one upper and one
+    lower index $\sum_\mu \nabla_\mu G^\mu{}_\nu = \sum_\mu \partial_\mu G^\mu{}_\nu +
+    \sum_{\mu,\lambda} \Gamma^\mu{}_{\mu\lambda} G^\lambda{}_\nu - \sum_{\mu,\lambda}
+    \Gamma^\lambda{}_{\mu\nu} G^\mu{}_\lambda$. Within Einstein's equations it makes the
+    energy and momentum of the matter that sources the metric conserved. The next cell
+    computes the eight components with the function $a_4(x_4)$ (so that sympy can
+    differentiate $a_4''$ and produce $a_4'''$) and checks that each simplifies to zero.
+    The Rust program checked the same for its tensor $P_{(1)} = -4G$ (its checks
+    `k1_equals_minus_4_einstein` and `k1_divergence_free`, which the cell confirms with
+    `record_check`).
     """),
     code(r'''
     divergence = []
@@ -1100,6 +1124,8 @@ CELLS = [
             + sum(Gamma[mu][mu][lam] * G[lam, nu] for mu in range(8) for lam in range(8)) \
             - sum(Gamma[lam][mu][nu] * G[mu, lam] for mu in range(8) for lam in range(8))
         divergence.append(vanishes(value))
+    record_check(RUST_REPORT, "k1_equals_minus_4_einstein")  # stops if not passed
+    record_check(RUST_REPORT, "k1_divergence_free")
     check(all(divergence),
           "the contracted Bianchi identity: the divergence of G vanishes",
           record="Revision/gkd_lovelock/results/lovelock-report.json, checks "
@@ -1344,8 +1370,10 @@ CELLS = [
     (`Revision/field_equations_a4/a4-equations.json`, entry `linearMember`) lists this
     required source in its texts `rhoEinstein` ($\rho$), `pEinstein` ($p$) and
     `rhoPlusPEinstein` ($\rho + p$), written with `AA` for $A$ and `Lam` for $\Lambda$.
-    The next cell reads the three texts, turns them into sympy expressions and checks
-    them against our Einstein tensor. The sum $\kappa(\rho + p) = -6(A^2 + 1)H^2$ is
+    The next cell reads the three texts, turns them into sympy expressions, confirms
+    with `record_check` that the sympy verification of that record
+    (`python-a4-report.json`, check `json_linear_member`) passed, and checks the three
+    texts against our Einstein tensor. The sum $\kappa(\rho + p) = -6(A^2 + 1)H^2$ is
     negative for every $A$. Ordinary matter (dust, radiation, a gas) has
     $\rho + p \ge 0$ (the **null energy condition**), so within Einstein's equations
     the source that this history requires is not ordinary matter; a later chapter
@@ -1372,6 +1400,7 @@ CELLS = [
     say(f"record: kappa rho       = {sp.expand(kappa * rho_record)}")
     say(f"record: kappa p         = {sp.expand(kappa * p_record)}")
     say(f"record: kappa (rho + p) = {sp.factor(kappa * sum_record)}")
+    record_check(A4_REPORT, "json_linear_member")  # stops if not passed
     check(sp.expand(kappa * rho_record - (-G_A[3] - Lam)) == 0,
           "kappa rho of the record equals -G^x4_x4 - Lambda",
           record=f"{A4_EQUATIONS}, linearMember.rhoEinstein (and "
