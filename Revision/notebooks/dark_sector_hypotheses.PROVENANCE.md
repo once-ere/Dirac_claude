@@ -66,7 +66,7 @@ at every slice; no static or frozen extra times are used.
    construction; the M4 parameters s = 264037/403037, Omega_q = 57963/264037 re-derived from the two tangent
    conditions; the M5 crossing of w = -1 bracketed in exact arithmetic between a = 0.77909966357 and
    0.77909966377 (recorded 0.77909966367) with R > 0.3203, caused by its ghost-like component (positive
-   components never cross); the Unite line crosses -1 at a = 461/600; the four models re-evaluated in floating
+   components of real frequency do not cross on 0 < a <= 1, before every turning point a_*); the Unite line crosses -1 at a = 461/600; the four models re-evaluated in floating
    point at a = 1/3, 1/2, 3/4, 1 agree with the recorded `w_at` values to 4.64e-12.
 10. Reads the six committed dark-sector reports and asserts their counts exactly as their JSON files give them:
     `dirac16complex/reports/derivation-checks.json` 30/30, `ks-history-run.json` 5/5, `eos-checks.json` 13/13,
