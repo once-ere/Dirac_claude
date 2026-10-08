@@ -1,0 +1,306 @@
+{
+ "brane": {
+  "head": "**Brane**",
+  "definition": "a boundary surface of spacetime; in this book the end $z = \\pi/2$ of the hidden direction (in the hidden coordinate $y = \\ln(\\sin z)/(6H)$ the end $y = 0$), where the author's coordinate patch ends and $g_{88} = \\cot^2 z = 0$. In the ASSUMED Z2 construction the patch $0 < z < \\pi/2$ is glued there to its mirror patch $\\pi/2 < z < \\pi$."
+ },
+ "z2 brane": {
+  "head": "**Z2 brane** (Z2 mirror brane)",
+  "definition": "the brane $z = \\pi/2$ together with the ASSUMED Z2 construction: the patch is glued there to a mirror copy of itself (the map $z \\to \\pi - z$; Z2 is the group of two elements, doing nothing and reflecting), and the mirror fixes a boundary condition for the field at that surface (the even or the odd brane parity). It is ASSUMED, not derived; the junction condition at the brane is OPEN.",
+  "sections": [
+   "8.31",
+   "14.17",
+   "18.2",
+   "20.2"
+  ]
+ },
+ "principal part": {
+  "head": "**Principal part**",
+  "definition": "of a system of first-order partial differential equations at a point: the derivative terms alone, with their coefficients taken at that point. For the field equation with $U = 0$ it is the mode matrix without the mass term, with the frame momenta of that point."
+ },
+ "lax mizohata theorem": {
+  "head": "**Lax-Mizohata theorem**",
+  "definition": "a standard theorem of the theory of partial differential equations (P. D. Lax, 1957; S. Mizohata, 1961), quoted in this book without proof and therefore ASSUMED: if the initial-value problem of a linear system of first-order equations with smooth coefficients is well posed near a point, then at that point the frequencies of its principal part are real for every real momentum."
+ },
+ "signed permutation matrix": {
+  "head": "**Signed permutation matrix**",
+  "definition": "a square matrix with exactly one nonzero entry in every row and in every column, that entry being $+1$ or $-1$. Acting on a column it puts the components into a new order and changes some of their signs. Every gamma matrix of the author, and the matrix $C$, is one."
+ },
+ "projector": {
+  "head": "**Projector**",
+  "definition": "a matrix $P$ with $PP = P$. It maps every column into one subspace, its range, and leaves the columns of that range unchanged; its eigenvalues are 0 or 1, so its trace is the number of eigenvalues 1."
+ },
+ "vacuum": {
+  "head": "**Vacuum**",
+  "definition": "in quantum theory, the state with no particles: every mode empty, written $|0\\rangle$. In gravity (Section 20.2), a solution of the vacuum equations, the field equations of gravity with zero source."
+ },
+ "false vacuum": {
+  "head": "**False vacuum**",
+  "definition": "a state that has the lowest energy only among its neighbouring states; vacuum decay is its quantum transition into a state of still lower energy."
+ },
+ "barrier": {
+  "head": "**Barrier**",
+  "definition": "a region that the classical equations forbid, for example a region of too high energy; tunnelling is a quantum transition through it, with a small but nonzero probability."
+ },
+ "cross section": {
+  "head": "**Cross-section**",
+  "definition": "a number, with the units of an area, that measures how likely a collision or a reaction is. No cross-section for the creation of universes is computed or implied in this book."
+ },
+ "wave function of the universe": {
+  "head": "**Wave function of the universe**",
+  "definition": "in quantum cosmology, a quantum state assigned to a whole universe, its geometry included: a function of the few numbers that describe the whole geometry, such as a scale factor. It must obey the Wheeler-DeWitt equation. None is formulated for this 8-dimensional theory."
+ },
+ "path integral": {
+  "head": "**Path integral**",
+  "definition": "a way to compute a quantum amplitude by adding one contribution for every possible history of the fields. It is named in the list of what is NOT established (Section 18.28) and not used."
+ },
+ "frame current": {
+  "head": "**Frame current** $q_8$",
+  "definition": "for a homogeneous field, the number $q_8 = -i\\bar\\Psi\\gamma^{(x_8)}\\Psi$, which depends on $x_4$ only; the hidden-direction charge current is $J^{x_8} = \\tan z\\,q_8$, so the flux through the brane is $\\sqrt{|g|}J^{x_8} = \\sin z\\,q_8$. It is NOT the charge $Q$."
+ },
+ "no flux condition at the brane": {
+  "head": "**No-flux condition at the brane**",
+  "definition": "the condition $\\sqrt{|g|}J^{x_8} = 0$ at $z = \\pi/2$ (for the homogeneous solutions, $q_8 = 0$): no charge flows out through the brane. Only under it is the total charge of a universe constant. It is ASSUMED wherever it is used, not derived; it holds for some exact solutions and fails for others (Notebook 18c), and whether the junction condition at the brane implies it is OPEN."
+ },
+ "no flux condition": {
+  "head": "**No-flux condition**",
+  "definition": "the condition that no charge flows through the edge $z = \\pi/2$ of the hidden direction (the brane). The local conservation law is proved at every point with $0 < z < \\pi/2$; the no-flux condition is ASSUMED, not derived, and only under it is the total charge of a universe constant. Exact solutions exist through whose edge charge does flow, so that their total charge changes."
+ },
+ "wheeler dewitt equation": {
+  "head": "**Wheeler-DeWitt equation**",
+  "definition": "the equation that the wave function of the universe must obey in quantum cosmology: the analogue, for a geometry, of the Schroedinger equation of a particle. It needs a boundary condition to fix its solution. It is named in this book, not used."
+ },
+ "no boundary proposal": {
+  "head": "**No-boundary proposal**",
+  "definition": "a proposed boundary condition (J. B. Hartle and S. W. Hawking) that picks one solution of the Wheeler-DeWitt equation. It is named in Chapter 22, not used, and is not formulated for this 8-dimensional theory."
+ },
+ "tunnelling proposal": {
+  "head": "**Tunnelling proposal**",
+  "definition": "a proposed boundary condition (A. Vilenkin) that picks one solution of the Wheeler-DeWitt equation, in which a universe appears by tunnelling. It is named in Chapter 22, not used, and is not formulated for this 8-dimensional theory."
+ },
+ "quantum cosmology": {
+  "head": "**Quantum cosmology**",
+  "definition": "a quantum theory in which a few numbers that describe the whole geometry, such as a scale factor, are quantum variables; its wave function (the wave function of the universe) is a function of these numbers and obeys the Wheeler-DeWitt equation. It is named in Chapter 22, not used."
+ },
+ "deep dive": {
+  "head": "**Deep dive**",
+  "definition": "the way this book is written: every notion is defined, in plain words, before it is used; every derivation is written out line by line, each line followed by the rule that produced it from the line before; every worked example is a complete Jupyter notebook, printed in full, with the complete instructions for running it just before it and the explanation of every line of its code just after it; every number in the text names the notebook cell that computes it and, where it reproduces the Revision record, the record file and the check."
+ },
+ "completion": {
+  "head": "**Completion** (of theorem T3)",
+  "definition": "the completion record of T3 (2026-10-08). An adversarial verification found no error in the statement or the proof of T3, but gaps in its verification; the completion record closes the three exact ones: the Kohn-Sham coefficients read from the record in both engines (Section 19.8), the filling convention carried onto the partner (Section 19.9), and statement S6, the 16-component expectation rule (Section 19.10). Its Wolfram report passes 3 of 3 checks and its Python report 7 of 7."
+ },
+ "divergence form": {
+  "head": "**Divergence form**",
+  "definition": "the theory record writes the term $\\gamma^\\mu\\Omega_\\mu$ as a sum of derivatives: it equals $1/(2\\sqrt{|g|})$ times the sum over $\\mu$ of $\\partial_\\mu(\\sqrt{|g|}\\,\\gamma^{(\\mu)}/f_\\mu)$, computed on both patches; the coefficient of $\\gamma^{(\\mu)}$ is $\\partial_\\mu(\\sqrt{|g|}/f_\\mu)/(2\\sqrt{|g|})$."
+ },
+ "energy kernel": {
+  "head": "**Energy kernel**",
+  "definition": "at the one-particle level the energy of a plane wave is $\\Psi^\\dagger\\mathcal{E}_m(k)\\Psi$ with the energy kernel $\\mathcal{E}_m(k) = Bh_m(k)$; the evolution is $i\\partial_4\\Psi$ = (anticommutator matrix) times (energy kernel) times $\\Psi$, that is $i\\partial_4\\Psi = B\\mathcal{E}_m\\Psi = h_m\\Psi$."
+ },
+ "flat 4+4 space": {
+  "head": "**Flat 4+4 space**",
+  "definition": "space-time with the constant metric $\\eta$, whose diagonal entries are $+1$, $+1$, $+1$, $-1$, $-1$, $-1$, $-1$, $+1$ in the order $x_1, \\dots, x_8$: no gravity, no inflation, no deflation."
+ },
+ "geodesic": {
+  "head": "**Geodesic**",
+  "definition": "a curve whose velocity is parallel transported along itself: the straightest possible curve. Its equation is $d^2x^a/ds^2 + \\sum_{b,c}\\Gamma^a{}_{bc}\\,(dx^b/ds)(dx^c/ds) = 0$."
+ },
+ "hidden position": {
+  "head": "**Hidden position** $y$",
+  "definition": "the coordinate $y = \\ln(\\sin z)/(6H)$ by which the Kohn-Sham record measures the hidden direction, so that $\\sin^{1/6}z = e^{Hy}$. The patch end $z = \\pi/2$ is $y = 0$, and $y < 0$ lies towards the tip."
+ },
+ "hyperbolic cosine": {
+  "head": "**Hyperbolic cosine**",
+  "definition": "the function $\\cosh\\varphi = (e^{\\varphi} + e^{-\\varphi})/2$."
+ },
+ "hyperbolic sine": {
+  "head": "**Hyperbolic sine**",
+  "definition": "the function $\\sinh\\varphi = (e^{\\varphi} - e^{-\\varphi})/2$."
+ },
+ "positive branch": {
+  "head": "**Positive branch**",
+  "definition": "the levels whose value without interaction ($\\lambda = 0$) at the same slice is positive. By the filling convention of the Kohn-Sham record, particles occupy the positive branch together with the zero modes at $k = 0$ (the levels $\\varepsilon = 0$ of the free problem); the levels of the negative branch form the normal-ordered sea and are never occupied, not even at a temperature."
+ },
+ "powershell 7": {
+  "head": "**PowerShell 7**",
+  "definition": "on Windows, the program PowerShell 7 (the command `pwsh`), downloaded from the address aka.ms/powershell, which runs the PowerShell twin of the gate; Git for Windows also brings bash, so the bash form of the gate works there too."
+ },
+ "product of different gammas": {
+  "head": "**Product of different gammas**",
+  "definition": "a product $P = \\gamma^{a_1}\\gamma^{a_2}\\cdots\\gamma^{a_k}$ of $k$ gammas of $k$ different directions $a_1, \\dots, a_k$; the number $k$ is its degree."
+ },
+ "signs of the directions": {
+  "head": "**The signs of the directions**",
+  "definition": "the table $\\eta$ whose diagonal entries are $+1$, $+1$, $+1$, $-1$, $-1$, $-1$, $-1$, $+1$ in the order $x_1, \\ldots, x_8$: the directions $x_1, x_2, x_3, x_8$ are space-like and $x_4, x_5, x_6, x_7$ time-like; the signature is (4,4)."
+ },
+ "statistics": {
+  "head": "**Statistics**",
+  "definition": "whether the components of a field commute (the field dirac16complex00) or anticommute (the field dirac16complex, whose components are Grassmann numbers)."
+ },
+ "proved": {
+  "head": "**PROVED**",
+  "definition": "a status label: the statement is exact. The book gives the complete proof and, where the Revision record contains an exact computer check of the statement, names it: the report file that the verifier wrote and the name of the check in it. A statement is proved by an exact computation of every case, by an exact symbolic computation that holds for every value of its symbols, or by a general derivation in the book (Section 0.3).",
+  "sections": [
+   "0.3"
+  ]
+ },
+ "computed": {
+  "head": "**COMPUTED**",
+  "definition": "a status label: the statement is a number from a numerical (floating-point) computation, given with its measured uncertainty and the file that holds it.",
+  "sections": [
+   "0.3"
+  ]
+ },
+ "assumed": {
+  "head": "**ASSUMED**",
+  "definition": "a status label: the statement is used but not derived; it is a starting point of the book (a convention, a physical input or an approximation), and everything that depends on it says so. Example: the Z2 mirror at the edge of the hidden direction.",
+  "sections": [
+   "0.3"
+  ]
+ },
+ "hypothesis": {
+  "head": "**HYPOTHESIS**",
+  "definition": "a status label: an idea, such as a proposed mechanism or scenario, that is stated and examined but that this book does not establish. Example: the author's Hypothesis P, that the big bang creates universes of masses $+M$ and $-M$ in pairs (Section 20.3).",
+  "sections": [
+   "0.3",
+   "20.3"
+  ]
+ },
+ "open": {
+  "head": "**OPEN**",
+  "definition": "a status label: a question that neither the Revision record nor this book answers; it is not settled. Example: whether the big bang creates universes in pairs is, as a question of this book, OPEN: it is not proved.",
+  "sections": [
+   "0.3"
+  ]
+ },
+ "not computed": {
+  "head": "**NOT COMPUTED**",
+  "definition": "a label used next to the five status labels in Chapters 20 and 21: no computation of the quantity exists in the Revision record or in this book (for example the rate of a process that violates C or CP).",
+  "sections": [
+   "20.23",
+   "21.1",
+   "21.2",
+   "21.4",
+   "21.31",
+   "21.36",
+   "21.38"
+  ]
+ },
+ "extra time": {
+  "head": "**Extra times** $x_5$, $x_6$, $x_7$",
+  "definition": "the three time-like directions of the author's space-time besides the time $x_4$. They are time-like like $x_4$, and they deflate exponentially: lengths along them carry the scale factor $e^{-a_4}\\sin^{1/6}z$, which shrinks while $a_4$ grows, whereas ordinary space, with the scale factor $e^{a_4}\\sin^{1/6}z$, inflates.",
+  "sections": []
+ },
+ "u(1) charge": {
+  "head": "**U(1) charge** $Q$",
+  "definition": "the number that belongs to the phase symmetry $\\Psi \\to e^{i\\alpha}\\Psi$ of the field, $Q = \\int\\cos z\\,\\Psi^\\dagger B\\Psi\\,d^7x$ (the integral over the seven directions other than $x_4$); it is the only number of the theory that could play the role of matter minus antimatter. It obeys an exact LOCAL conservation law, $\\sum_\\mu\\partial_\\mu(\\cos z\\,J^\\mu) = 0$ for every solution of the field equation: the charge of a region changes only by what flows through its boundary (PROVED; lead check `u1_noether_matrix_identity`). The TOTAL charge of a universe is constant only if no charge flows through the brane $z = \\pi/2$; this no-flux condition is ASSUMED, not derived (OPEN), and Section 21.18 shows an exact solution whose charge changes by exactly what flows out through the brane.",
+  "sections": [
+   "21.7",
+   "21.16",
+   "21.17",
+   "21.18"
+  ]
+ },
+ "universe": {
+  "head": "**Universe** (of mass $m$)",
+  "definition": "a solution of the field equation with the mass parameter $m$ of the field's Lagrangian, in the author's gravitational field. The sign of $m$ alone does not say which of two physically different kinds of universe one has: theorem T2 shows that the image of a solution with $(-m, \\lambda)$ under the reflection of one space-like frame direction is a solution with $(m, \\lambda)$ with the same energy-momentum tensor. Section 20.12 builds one example, a solution of the commuting field dirac16complex00 that is by itself the complete source of the author's metric.",
+  "sections": [
+   "20.3"
+  ]
+ },
+ "sakharov's three conditions": {
+  "head": "**Sakharov's three conditions**",
+  "definition": "the three ingredients that, as A. D. Sakharov showed in 1967, any process must contain that makes more matter than antimatter from a start with equal amounts: (1) some process changes the baryon number; (2) C and CP are violated; (3) these processes happen out of thermal equilibrium. In the theory of this book the only number of this kind is the U(1) charge; Section 21.31 applies the three conditions to the theory as built.",
+  "sections": [
+   "21.5",
+   "21.31",
+   "21.35"
+  ]
+ },
+ "corollary": {
+  "head": "**Corollary**",
+  "definition": "a statement that follows from a theorem in a few lines; corollary C1 of Chapter 20 is an example.",
+  "sections": [
+   "20.2",
+   "20.10"
+  ]
+ },
+ "lemma": {
+  "head": "**Lemma**",
+  "definition": "a proved statement that is a step towards others (Notebook 20c). Compare Proposition and Schur's lemma.",
+  "sections": [
+   "20.20"
+  ]
+ },
+ "proposition": {
+  "head": "**Proposition**",
+  "definition": "a proved statement (Notebook 20c); a lemma is a proposition that serves as a step towards others.",
+  "sections": [
+   "20.20"
+  ]
+ },
+ "spin(4,3": {
+  "head": "**Spin(4,3)**",
+  "definition": "the spin group of the seven slice directions $x_1, x_2, x_3, x_5, x_6, x_7, x_8$ (every direction except the time $x_4$: four space-like, three time-like). In Chapter 10 it is generated by the 21 generators $S^{ab}$ whose pair of directions does not contain $x_4$; exactly these 21 generators are Krein-unitary.",
+  "sections": [
+   "10.34",
+   "10.37"
+  ]
+ },
+ "spin(4,4": {
+  "head": "**Spin(4,4)**",
+  "definition": "the subgroup of Pin(4,4) (see that entry) made of the products $\\gamma(u_1)\\cdots\\gamma(u_k)$ of an EVEN number $k$ of unit vectors. Under it the 16 components split into two inequivalent halves of 8 (PROVED, Section 5.13), while under Pin(4,4) they are irreducible.",
+  "sections": [
+   "5.13"
+  ]
+ },
+ "symmetric (belinfante) energy momentum tensor": {
+  "head": "**Symmetric (Belinfante) energy-momentum tensor**",
+  "definition": "the symmetric part $\\frac12(T_{\\rm var}^{\\nu\\rho} + T_{\\rm var}^{\\rho\\nu})$ of the variation tensor $T_{\\rm var}$ (the energy-momentum tensor obtained by changing the metric in the action), named after the physicist F. J. Belinfante, who showed how to make the energy-momentum tensor of a spinor field symmetric. The record proves its formula for every configuration, solution or not (PROVED; check `T_symmetric_part_Belinfante_C`).",
+  "sections": []
+ },
+ "equation of state": {
+  "head": "**Equation of state** $w = p/\\rho$",
+  "definition": "pressure divided by energy density. With different pressures along different directions there is one such ratio for each: $w_3 = p_3/\\rho$ (3-space), $w_t = p_t/\\rho$ (the extra times) and $w_8 = p_8/\\rho$ (the hidden direction); these are the equations of state of Section 9.4.",
+  "sections": [
+   "9.4"
+  ]
+ },
+ "cubic lovelock density": {
+  "head": "**Cubic Lovelock density** $L_{(3)}$",
+  "definition": "the third Lovelock scalar, of third order in the curvature: $L_{(3)} = 8(2T_1 + 8T_2 + 24T_3 + 3T_4 + 24T_5 + 16T_6 - 12T_7 + T_8)$, where $T_1, \\dots, T_8$ are the eight cubic invariants made of three factors of the Riemann tensor, the Ricci tensor and the Ricci scalar (each written out in that section).",
+  "sections": []
+ },
+ "kohn sham gap": {
+  "head": "**Kohn-Sham gap** $\\Delta_{KS}$",
+  "definition": "the smallest cost of moving one particle from an occupied Kohn-Sham orbital to an empty one, $\\Delta_{KS} = \\epsilon_{LUMO} - \\epsilon_{HOMO}$ (lowest unoccupied minus highest occupied level). In an interacting system the levels move when the occupations change, so $\\Delta_{KS}$ is only a first estimate of the lowest excitation energy.",
+  "sections": []
+ },
+ "adiabaticity": {
+  "head": "**Adiabaticity**",
+  "definition": "how well an evolution is adiabatic, that is so slow that every particle stays in its instantaneous level. It is measured by the adiabaticity measure $Q_{max}$ (see that entry): a small $Q_{max}$ means that the slow-change approximation holds.",
+  "sections": [
+   "22.2"
+  ]
+ },
+ "record": {
+  "head": "**Record**",
+  "definition": "short for the Revision record (see that entry): the committed files of the folder Revision, from which every formula and number of the book comes. A record file is one of them, for example a report whose numbers a notebook reproduces.",
+  "sections": []
+ },
+ "control": {
+  "head": "**Control**",
+  "definition": "a comparison case computed with the same method as the case under test; a negative control (see that entry) is one in which the effect must NOT occur. In Chapter 19 the control C is the universe of mass $-M$ with the UNtransformed tip, and the wrong partner D the one with the reversed coupling.",
+  "sections": []
+ },
+ "sum convention": {
+  "head": "**Sum convention**",
+  "definition": "the summation convention (see that entry). Chapter 12 writes every sum with $\\sum$ or in words, except in the definitions of Section 12.7 and in the formulas quoted from the record, where an index that appears once up and once down is summed over its eight values; \"no sum\" marks the exceptions.",
+  "sections": []
+ },
+ "junction condition": {
+  "head": "**Junction condition**",
+  "definition": "an equation that says how the fields and the geometry must match across a surface, here across the brane $z = \\pi/2$. The junction conditions at the brane are not derived in this book: the Z2 mirror continuation is ASSUMED, and deriving the conditions is an open problem (OPEN, Section 22.15).",
+  "sections": []
+ }
+}

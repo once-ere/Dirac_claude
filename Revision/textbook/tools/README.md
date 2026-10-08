@@ -359,3 +359,19 @@ Then `python Revision/textbook/notebooks/src/02z_square_numbers.py build --date 
 --scratch DIR`, and in chapter 02 the marker line, followed by the section
 `### 2.M Line-by-line walk-through of Notebook 02z`. The working pilot of the whole chain is
 Notebook 00a (`notebooks/src/00a_check_installation.py`) and chapter 00.
+
+## chapter23/ - regenerating chapter 23
+
+Chapter 23 ("Reproducing everything") is generated, not written by hand: `generate_chapter.py` renders `ch23.template.md`
+(+ `fills.json`) with the code cells and the printed numbers of the stored Notebook 23a and its data files
+(`Revision/textbook/data/23a_*.csv`), and `extract.py`, `group.py`, `build.py` and `splice.py` rebuild its glossary from the
+definitions of every chapter and the notebooks' "words used" sections (`exclude.txt`, `manual.json`).  Edit the TEMPLATE, never
+the chapter above its glossary.  Commands (repository root):
+
+```text
+python Revision/textbook/tools/chapter23/run_all.py --check   # byte-for-byte comparison, writes nothing in the chapter
+python Revision/textbook/tools/chapter23/run_all.py           # rewrite the chapter
+```
+
+Notebook 23a reads the recorded check of every other notebook, so it is rebuilt LAST (after every other notebook), then
+`run_all.py`, then `check_chapter.py` on chapter 23.  Intermediate files go to `build/chapter23/` (git-ignored).
