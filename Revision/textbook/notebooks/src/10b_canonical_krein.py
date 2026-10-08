@@ -69,14 +69,33 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the figure file 10b_5_krein_signs.png exists",
-        "ALL 24 CHECKS PASSED (notebook 10b)",
+        "ALL 25 CHECKS PASSED (notebook 10b)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for gammas.json, pairing-theory.json or "
-         "charge-conjugation-and-u1.json",
-         "the notebook reads three files of the repository; it must be opened inside "
-         "the folder Revision/textbook/notebooks of a complete copy of the repository. "
-         "Clone the repository again and open the notebook there."],
+        ["\"FileNotFoundError\" for a file below the folder Revision",
+         "the notebook reads files of the Revision record: the data it starts from and "
+         "the report files whose checks it reproduces (each cited check must still "
+         "exist there with the verdict PASS). It must be opened inside the folder "
+         "Revision/textbook/notebooks of a complete copy of the repository (a notebook "
+         "copied alone to another folder cannot find them). Clone the repository again "
+         "and open the notebook there."],
+        ["\"AssertionError: the cited record check is missing or not PASS\"",
+         "a report file of the Revision record no longer holds the check that the "
+         "notebook names, or holds it with another verdict: the copy of the repository "
+         "is incomplete or was changed. Clone the repository again and open the "
+         "notebook there."],
+        ["\"Jupyter command `jupyter-lab` not found\" or \"Jupyter command "
+         "`jupyter-nbconvert` not found\" after a command that starts with "
+         "`python -m jupyter`",
+         "that form still has to find the programs jupyter-lab and jupyter-nbconvert in "
+         "the folders where the terminal looks for programs, and it did not find them "
+         "there. Do Step 4 and type `jupyter` again. Or start the two "
+         "programs through Python itself, in the folder of the notebook: the first "
+         "command below does what `jupyter lab` does in Step 5, the second what "
+         "`jupyter nbconvert` does in Step 6.",
+         ["python -m jupyterlab 10b_canonical_krein.ipynb",
+          "python -m nbconvert --to notebook --execute --inplace "
+          "10b_canonical_krein.ipynb"]],
     ],
 }
 
@@ -205,11 +224,17 @@ CELLS = [
     repeats the rule $iK^{-1} = B/\cos z$ with sympy, keeping $\cos z$ as a positive
     symbol `c`.
 
-    It also defines `check_record(condition, name, record)`, which does exactly what
+    It also defines `check_record(condition, name, record)`, which does what
     `check(condition, name, record=record)` of the set-up cell does but prints the PASS
     line and the line naming the reproduced Revision record in one piece (Jupyter
     sends printed text to the screen in pieces whose boundaries depend on timing;
     printing them in one piece keeps the stored output the same in every run).
+    Before it checks anything, `check_record` asks the helper `record_says_pass` whether
+    the cited record still says PASS: for a record name of the form
+    `<report file>, check <check name>` it opens that report (each file once, kept in
+    the dictionary `REPORT_CHECKS`) and stops the notebook with an error unless a check
+    of that name exists there with the verdict PASS; a record name without `, check `
+    names a data entry that the notebook reads and compares itself.
     """),
     code(r'''
     import contextlib  # lets a block of code print into a text buffer
@@ -220,8 +245,24 @@ CELLS = [
     import sympy as sp  # exact algebra with symbols
 
 
+    REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+    def record_says_pass(record):
+        """True if the cited report check exists today with the verdict PASS."""
+        path, separator, check_name = record.partition(", check ")
+        if not separator:  # a data entry of a record file that the notebook reads itself
+            return True
+        if path not in REPORT_CHECKS:
+            checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+            REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+        return REPORT_CHECKS[path].get(check_name) == "PASS"
+
+
     def check_record(condition, name, record):
         """check(condition, name, record=record), printed in one piece."""
+        if not record_says_pass(record):  # the cited check must exist and say PASS
+            raise AssertionError("the cited record check is missing or not PASS: " + record)
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
             check(condition, name, record=record)
@@ -577,7 +618,8 @@ CELLS = [
     E = np.diag(epsilon)
     gram_ok = np.max(np.abs(U.conj().T @ B @ U - E)) < 1e-14  # U^dagger B U = E
     complete_ok = np.max(np.abs(U @ E @ U.conj().T - B)) < 1e-14  # U E U^dagger = B
-    report("ordinary length of the boosted mode 1", f"{np.linalg.norm(U[:, 0]) ** 2:.6f}")
+    report("squared ordinary length of the boosted mode 1",
+           f"{np.linalg.norm(U[:, 0]) ** 2:.6f}")
     check(gram_ok and complete_ok,
           "Krein-orthonormal modes: U^dagger B U = E and U E U^dagger = B")
 
@@ -759,7 +801,9 @@ CELLS = [
     conjugation of the quantised field that preserves $\{\Psi, \Psi^\dagger\} = B\delta$
     is $\Psi \to \Gamma\Psi^{\dagger T}$, and since $\Gamma$ anticommutes with every
     gamma it maps the field of mass $m$ to the field of mass $-m$. The next cell checks
-    all of this.
+    all of this. It also counts the checks of the lead-check report
+    `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, which `check_record`
+    has just read into `REPORT_CHECKS`: there are 12, all with the verdict PASS.
     """),
     code(r'''
     pairing = json.loads(repository_file("Revision/pairing/pairing-theory.json")
@@ -802,6 +846,13 @@ CELLS = [
                  "Psi -> Gamma Psi^(dagger T) keeps B; with M = I one gets -B",
                  record="Revision/lead_checks/reports/charge-conjugation-and-u1.json, "
                         "check quantum_charge_conjugation_unitary_type")
+    lead_file = "Revision/lead_checks/reports/charge-conjugation-and-u1.json"
+    lead_verdicts = list(REPORT_CHECKS[lead_file].values())  # read by check_record
+    passed = lead_verdicts.count("PASS")
+    report("checks of charge-conjugation-and-u1.json with the verdict PASS",
+           f"{passed} of {len(lead_verdicts)}")
+    check(lead_verdicts == ["PASS"] * 12,
+          "the lead-check report charge-conjugation-and-u1.json holds 12 checks, all PASS")
     mass_reversed = all(np.array_equal(Gamma @ gamma[a] @ Gamma, -gamma[a])
                         for a in range(1, 9))
     check(mass_reversed, "Gamma anticommutes with every gamma: the conjugation reverses m")

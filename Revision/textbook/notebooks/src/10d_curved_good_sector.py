@@ -62,10 +62,30 @@ FACTS = {
         "ALL 16 CHECKS PASSED (notebook 10d)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for gammas.json",
-         "the notebook reads one file of the repository; it must be opened inside the "
-         "folder Revision/textbook/notebooks of a complete copy of the repository. Clone "
-         "the repository again and open the notebook there."],
+        ["\"FileNotFoundError\" for a file below the folder Revision",
+         "the notebook reads files of the Revision record: the data it starts from and "
+         "the report files whose checks it reproduces (each cited check must still "
+         "exist there with the verdict PASS). It must be opened inside the folder "
+         "Revision/textbook/notebooks of a complete copy of the repository (a notebook "
+         "copied alone to another folder cannot find them). Clone the repository again "
+         "and open the notebook there."],
+        ["\"AssertionError: the cited record check is missing or not PASS\"",
+         "a report file of the Revision record no longer holds the check that the "
+         "notebook names, or holds it with another verdict: the copy of the repository "
+         "is incomplete or was changed. Clone the repository again and open the "
+         "notebook there."],
+        ["\"Jupyter command `jupyter-lab` not found\" or \"Jupyter command "
+         "`jupyter-nbconvert` not found\" after a command that starts with "
+         "`python -m jupyter`",
+         "that form still has to find the programs jupyter-lab and jupyter-nbconvert in "
+         "the folders where the terminal looks for programs, and it did not find them "
+         "there. Do Step 4 and type `jupyter` again. Or start the two "
+         "programs through Python itself, in the folder of the notebook: the first "
+         "command below does what `jupyter lab` does in Step 5, the second what "
+         "`jupyter nbconvert` does in Step 6.",
+         ["python -m jupyterlab 10d_curved_good_sector.ipynb",
+          "python -m nbconvert --to notebook --execute --inplace "
+          "10d_curved_good_sector.ipynb"]],
     ],
 }
 
@@ -187,14 +207,15 @@ CELLS = [
     matrices, defines the symbols $m$, $H$ (positive) and $x_8$, the expression
     $z = 6Hx_8$, and the matrices $M_8$, $A$ and $D$ of Section 4. It also defines
     `check_record` (the PASS line and the line of the reproduced Revision record are
-    printed in one piece, so that the stored output is the same in every run) and the
-    colours. Then it checks the matrix facts of Section 4 exactly:
-    $M_8^\dagger = -M_8$, $\cos z\,D = \sin z\,M_8$ and $\cos z\,(A - A^\dagger) =
-    \partial_8(\sin z)\,M_8$, and in addition that $B$ commutes with $\gamma^{(x_4)}$ and
-    $\gamma^{(x_8)}$. The last fact gives the Krein version: $B$ then commutes with $A$,
-    $A^\dagger$, $D$ and $M_8$, so the same steps with $u^\dagger B$ in place of
-    $u^\dagger$ give $\cos z\,[u^\dagger B(hv) - (hu)^\dagger Bv] = \partial_8(\sin z\,
-    u^\dagger BM_8v)$.
+    printed in one piece, so that the stored output is the same in every run; before
+    that it confirms with the helper `record_says_pass` that the cited report check
+    still exists with the verdict PASS) and the colours. Then it checks the matrix
+    facts of Section 4 exactly: $M_8^\dagger = -M_8$, $\cos z\,D = \sin z\,M_8$ and
+    $\cos z\,(A - A^\dagger) = \partial_8(\sin z)\,M_8$, and in addition that $B$
+    commutes with $\gamma^{(x_4)}$ and $\gamma^{(x_8)}$. The last fact gives the Krein
+    version: $B$ then commutes with $A$, $A^\dagger$, $D$ and $M_8$, so the same steps
+    with $u^\dagger B$ in place of $u^\dagger$ give $\cos z\,[u^\dagger B(hv) -
+    (hu)^\dagger Bv] = \partial_8(\sin z\,u^\dagger BM_8v)$.
     """),
     code(r'''
     import contextlib  # lets a block of code print into a text buffer
@@ -205,8 +226,24 @@ CELLS = [
     import sympy as sp  # exact algebra with symbols
 
 
+    REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+    def record_says_pass(record):
+        """True if the cited report check exists today with the verdict PASS."""
+        path, separator, check_name = record.partition(", check ")
+        if not separator:  # a data entry of a record file that the notebook reads itself
+            return True
+        if path not in REPORT_CHECKS:
+            checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+            REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+        return REPORT_CHECKS[path].get(check_name) == "PASS"
+
+
     def check_record(condition, name, record):
         """check(condition, name, record=record), printed in one piece."""
+        if not record_says_pass(record):  # the cited check must exist and say PASS
+            raise AssertionError("the cited record check is missing or not PASS: " + record)
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
             check(condition, name, record=record)
@@ -526,7 +563,7 @@ CELLS = [
     Section 4 (with $\partial_8\Psi = 0$).
 
     Then it follows, for $m = H = 1$ ($k = 2\sqrt2$) and a column $\chi$ with
-    $B\chi = \chi$, the ordinary length $\Psi^\dagger\Psi$ and the Krein charge
+    $B\chi = \chi$, the ordinary squared length $\Psi^\dagger\Psi$ and the Krein charge
     $Q(x_4) = \int\cos z\,\Psi^\dagger B\Psi\,dx_8 = \Psi^\dagger B\Psi/(6H)$. By
     Section 6 (with $u = v = \Psi$ and $\partial_8\Psi = 0$) the charge changes at the
     rate of the flux through the patch end:
@@ -573,11 +610,11 @@ CELLS = [
     check(relative < 1e-5, "the Krein charge changes by the flux through z = pi/2")
     growth = np.polyfit(x4_values[1500:], np.log(lengths[1500:]), 1)[0]
     report("late slope of ln(Psi^dagger Psi)", f"{growth:.4f} (2 k = {2 * k_number:.4f})")
-    check(abs(growth - 2 * k_number) < 0.05, "the ordinary length grows like exp(2 k x4)")
+    check(abs(growth - 2 * k_number) < 0.05, "the squared length grows like exp(2 k x4)")
     '''),
     md(r"""
-    The next cell draws the result: the logarithm of the ordinary length (left) and the
-    Krein charge together with the flux added up over time (right).
+    The next cell draws the result: the logarithm of the ordinary squared length
+    (left) and the Krein charge together with the flux added up over time (right).
     """),
     code(r'''
     fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.2))
@@ -587,7 +624,7 @@ CELLS = [
                  - 2 * k_number * x4_values[-1], "--", color=GREY, linewidth=1,
                  label="slope $2k = 4\\sqrt{2}$")
     axes[0].set_xlabel("time $x_4$ (units of $1/H$)")
-    axes[0].set_ylabel("$\\ln$ of the ordinary length")
+    axes[0].set_ylabel("$\\ln$ of the squared length $\\Psi^\\dagger\\Psi$")
     axes[0].set_title("the wave grows")
     axes[0].legend()
     axes[1].plot(x4_values, charges, color=ORANGE, linewidth=3,
@@ -602,7 +639,7 @@ CELLS = [
                 "The exact good-sector solution $\\Psi(x_4) = (\\cosh kx_4 + \\sinh(kx_4)"
                 "/k\\,M)\\chi$, independent of $x_8$, for $m = H = 1$ ($k = 2\\sqrt{2}$) "
                 "and a column $\\chi$ with $B\\chi = \\chi$; horizontal axes: the time "
-                "$x_4$ in units of $1/H$. Left: the logarithm of its ordinary length "
+                "$x_4$ in units of $1/H$. Left: the logarithm of its squared length "
                 "grows with the slope $2k$ (grey dashed line). Right: its Krein charge "
                 "$Q = \\int\\cos z\\,\\Psi^\\dagger B\\Psi\\,dx_8$ (orange) is not "
                 "constant; it equals its starting value plus the flux through the "

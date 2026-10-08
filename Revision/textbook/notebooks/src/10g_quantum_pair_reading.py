@@ -71,13 +71,32 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the figure file 10g_5_two_universe_states.png exists",
-        "ALL 29 CHECKS PASSED (notebook 10g)",
+        "ALL 30 CHECKS PASSED (notebook 10g)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for gammas.json or pairing-theory.json",
-         "the notebook reads two files of the repository; it must be opened inside the "
-         "folder Revision/textbook/notebooks of a complete copy of the repository. Clone "
-         "the repository again and open the notebook there."],
+        ["\"FileNotFoundError\" for a file below the folder Revision",
+         "the notebook reads files of the Revision record: the data it starts from and "
+         "the report files whose checks it reproduces (each cited check must still "
+         "exist there with the verdict PASS). It must be opened inside the folder "
+         "Revision/textbook/notebooks of a complete copy of the repository (a notebook "
+         "copied alone to another folder cannot find them). Clone the repository again "
+         "and open the notebook there."],
+        ["\"AssertionError: the cited record check is missing or not PASS\"",
+         "a report file of the Revision record no longer holds the check that the "
+         "notebook names, or holds it with another verdict: the copy of the repository "
+         "is incomplete or was changed. Clone the repository again and open the "
+         "notebook there."],
+        ["\"Jupyter command `jupyter-lab` not found\" or \"Jupyter command "
+         "`jupyter-nbconvert` not found\" after a command that starts with "
+         "`python -m jupyter`",
+         "that form still has to find the programs jupyter-lab and jupyter-nbconvert in "
+         "the folders where the terminal looks for programs, and it did not find them "
+         "there. Do Step 4 and type `jupyter` again. Or start the two "
+         "programs through Python itself, in the folder of the notebook: the first "
+         "command below does what `jupyter lab` does in Step 5, the second what "
+         "`jupyter nbconvert` does in Step 6.",
+         ["python -m jupyterlab 10g_quantum_pair_reading.ipynb",
+          "python -m nbconvert --execute --inplace 10g_quantum_pair_reading.ipynb"]],
     ],
 }
 
@@ -158,8 +177,10 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    Everything is at one point with frozen coefficients (flat 4+4 space), $U = 0$, and
-    with the conventions of the earlier notebooks of this chapter: $C =
+    Everything is at one point of flat 4+4 space (the same equations hold in the
+    frozen-coefficient model, an ASSUMPTION that leaves out the hidden-direction terms
+    of the author's field equation), $U = 0$, and with the conventions of the earlier
+    notebooks of this chapter: $C =
     \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, $B = -iC\gamma^{(x_4)}$,
     $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8,
     I_8)$, real, symmetric, $\Gamma^2 = I_{16}$.
@@ -238,12 +259,23 @@ CELLS = [
     whole numbers and the imaginary unit `1j`), checks the sign rules of Section 4, and
     reads the theorem entry Q of the Revision pairing record
     `Revision/pairing/pairing-theory.json`: its hypothesis and its five statements.
+    Finally it reads the check `compare.theory.theorem_Q` of the sympy pairing report
+    `Revision/pairing/reports/python-pairing.json`, in which the two verification
+    engines are compared: it says that the 12 Wolfram verifications of theorem Q are
+    confirmed by 10 sympy checks, and names them; the cell confirms these numbers and
+    that each of the 10 named checks exists with the verdict PASS.
 
     It also defines `check_record(condition, name, record)`: it does what
     `check(condition, name, record=record)` of the set-up cell does, but prints the PASS
     line and the line naming the reproduced Revision record in one piece (Jupyter
     sends printed text to the screen in pieces whose boundaries depend on timing;
     printing them in one piece keeps the stored output the same in every run).
+    Before it checks anything, `check_record` asks the helper `record_says_pass` whether
+    the cited record still says PASS: for a record name of the form
+    `<report file>, check <check name>` it opens that report (each file once, kept in
+    the dictionary `REPORT_CHECKS`) and stops the notebook with an error unless a check
+    of that name exists there with the verdict PASS; a record name without `, check `
+    names a data entry that the notebook reads and compares itself.
     """),
     code(r'''
     import contextlib  # lets a block of code print into a text buffer
@@ -256,8 +288,24 @@ CELLS = [
     from matplotlib.colors import LinearSegmentedColormap  # colour scales
 
 
+    REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+    def record_says_pass(record):
+        """True if the cited report check exists today with the verdict PASS."""
+        path, separator, check_name = record.partition(", check ")
+        if not separator:  # a data entry of a record file that the notebook reads itself
+            return True
+        if path not in REPORT_CHECKS:
+            checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+            REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+        return REPORT_CHECKS[path].get(check_name) == "PASS"
+
+
     def check_record(condition, name, record):
         """check(condition, name, record=record), printed in one piece."""
+        if not record_says_pass(record):  # the cited check must exist and say PASS
+            raise AssertionError("the cited record check is missing or not PASS: " + record)
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
             check(condition, name, record=record)
@@ -292,6 +340,21 @@ CELLS = [
     for number, statement in enumerate(theorem_Q["statement"], 1):
         say(f"Q{number}: {statement[:70]} ...")  # the first 70 characters of each
     check(len(theorem_Q["statement"]) == 5, "the record states five quantum statements")
+
+    compare_file = "Revision/pairing/reports/python-pairing.json"
+    compare_checks = json.loads(repository_file(compare_file).read_text(
+        encoding="utf-8"))["checks"]
+    detail = next(c["detail"] for c in compare_checks
+                  if c["name"] == "compare.theory.theorem_Q")
+    confirming = detail.split("all PASS: ")[1].split(", ")  # the sympy checks named
+    say("compare.theory.theorem_Q: " + detail.split(" is independently")[0])
+    say(f"confirmed by {len(confirming)} sympy checks: {confirming[0]}, ...")
+    check_record("5 statements, 12 Wolfram verifications" in detail
+                 and "confirmed by 10 sympy checks" in detail and len(confirming) == 10
+                 and all(record_says_pass(f"{compare_file}, check {name}")
+                         for name in confirming),
+                 "theorem Q: 10 sympy checks, all PASS, confirm 12 Wolfram verifications",
+                 record=f"{compare_file}, check compare.theory.theorem_Q")
     '''),
     md(r"""
     The next cell computes the Krein metrics carried by the two images,

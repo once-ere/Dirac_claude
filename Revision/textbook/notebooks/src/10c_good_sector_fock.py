@@ -64,10 +64,30 @@ FACTS = {
         "ALL 14 CHECKS PASSED (notebook 10c)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for gammas.json",
-         "the notebook reads one file of the repository; it must be opened inside the "
-         "folder Revision/textbook/notebooks of a complete copy of the repository. Clone "
-         "the repository again and open the notebook there."],
+        ["\"FileNotFoundError\" for a file below the folder Revision",
+         "the notebook reads files of the Revision record: the data it starts from and "
+         "the report files whose checks it reproduces (each cited check must still "
+         "exist there with the verdict PASS). It must be opened inside the folder "
+         "Revision/textbook/notebooks of a complete copy of the repository (a notebook "
+         "copied alone to another folder cannot find them). Clone the repository again "
+         "and open the notebook there."],
+        ["\"AssertionError: the cited record check is missing or not PASS\"",
+         "a report file of the Revision record no longer holds the check that the "
+         "notebook names, or holds it with another verdict: the copy of the repository "
+         "is incomplete or was changed. Clone the repository again and open the "
+         "notebook there."],
+        ["\"Jupyter command `jupyter-lab` not found\" or \"Jupyter command "
+         "`jupyter-nbconvert` not found\" after a command that starts with "
+         "`python -m jupyter`",
+         "that form still has to find the programs jupyter-lab and jupyter-nbconvert in "
+         "the folders where the terminal looks for programs, and it did not find them "
+         "there. Do Step 4 and type `jupyter` again. Or start the two "
+         "programs through Python itself, in the folder of the notebook: the first "
+         "command below does what `jupyter lab` does in Step 5, the second what "
+         "`jupyter nbconvert` does in Step 6.",
+         ["python -m jupyterlab 10c_good_sector_fock.ipynb",
+          "python -m nbconvert --to notebook --execute --inplace "
+          "10c_good_sector_fock.ipynb"]],
     ],
 }
 
@@ -178,6 +198,12 @@ CELLS = [
     $h$ of a good-sector momentum and the helper `check_record` (the PASS line and the
     line of the reproduced Revision record are printed in one piece, so that the stored
     output is the same in every run), and the colours of the figures.
+    Before it checks anything, `check_record` asks the helper `record_says_pass` whether
+    the cited record still says PASS: for a record name of the form
+    `<report file>, check <check name>` it opens that report (each file once, kept in
+    the dictionary `REPORT_CHECKS`) and stops the notebook with an error unless a check
+    of that name exists there with the verdict PASS; a record name without `, check `
+    names a data entry that the notebook reads and compares itself.
     """),
     code(r'''
     import contextlib  # lets a block of code print into a text buffer
@@ -187,8 +213,24 @@ CELLS = [
     import numpy as np  # numbers, arrays and matrices
 
 
+    REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+    def record_says_pass(record):
+        """True if the cited report check exists today with the verdict PASS."""
+        path, separator, check_name = record.partition(", check ")
+        if not separator:  # a data entry of a record file that the notebook reads itself
+            return True
+        if path not in REPORT_CHECKS:
+            checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+            REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+        return REPORT_CHECKS[path].get(check_name) == "PASS"
+
+
     def check_record(condition, name, record):
         """check(condition, name, record=record), printed in one piece."""
+        if not record_says_pass(record):  # the cited check must exist and say PASS
+            raise AssertionError("the cited record check is missing or not PASS: " + record)
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
             check(condition, name, record=record)

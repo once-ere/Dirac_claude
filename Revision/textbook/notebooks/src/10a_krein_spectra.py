@@ -73,11 +73,30 @@ FACTS = {
         "ALL 28 CHECKS PASSED (notebook 10a)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for gammas.json or pairing-theory.json",
-         "the notebook reads two files of the repository; it must be opened inside the "
-         "folder Revision/textbook/notebooks of a complete copy of the repository (a "
-         "notebook copied alone to another folder cannot find them). Clone the "
-         "repository again and open the notebook there."],
+        ["\"FileNotFoundError\" for a file below the folder Revision",
+         "the notebook reads files of the Revision record: the data it starts from and "
+         "the report files whose checks it reproduces (each cited check must still "
+         "exist there with the verdict PASS). It must be opened inside the folder "
+         "Revision/textbook/notebooks of a complete copy of the repository (a notebook "
+         "copied alone to another folder cannot find them). Clone the repository again "
+         "and open the notebook there."],
+        ["\"AssertionError: the cited record check is missing or not PASS\"",
+         "a report file of the Revision record no longer holds the check that the "
+         "notebook names, or holds it with another verdict: the copy of the repository "
+         "is incomplete or was changed. Clone the repository again and open the "
+         "notebook there."],
+        ["\"Jupyter command `jupyter-lab` not found\" or \"Jupyter command "
+         "`jupyter-nbconvert` not found\" after a command that starts with "
+         "`python -m jupyter`",
+         "that form still has to find the programs jupyter-lab and jupyter-nbconvert in "
+         "the folders where the terminal looks for programs, and it did not find them "
+         "there. Do Step 4 and type `jupyter` again. Or start the two "
+         "programs through Python itself, in the folder of the notebook: the first "
+         "command below does what `jupyter lab` does in Step 5, the second what "
+         "`jupyter nbconvert` does in Step 6.",
+         ["python -m jupyterlab 10a_krein_spectra.ipynb",
+          "python -m nbconvert --to notebook --execute --inplace "
+          "10a_krein_spectra.ipynb"]],
     ],
 }
 
@@ -87,8 +106,9 @@ CELLS = [
 
     This notebook studies ONE wave of the field dirac16complex at a time: a plane wave
     with fixed momenta along the seven directions of a slice $x_4 = $ const, in flat
-    4+4 space (or, which is the same thing at one point, with the coefficients of the
-    field equation frozen there). It
+    4+4 space (or in the frozen-coefficient model of the author's universe, which has
+    the same equation but is an ASSUMPTION; section 4 says exactly what it leaves out).
+    It
 
     - builds, from the author's gamma matrices, the matrix $B = -iC\gamma^{(x_4)}$ that
       appears in the charge density $\Psi^\dagger B \Psi$ and later in the canonical
@@ -158,8 +178,8 @@ CELLS = [
     for $x_4, \dots, x_7$.
 
     **From the field equation to the mode Hamiltonian, line by line.** With $U = 0$ and
-    without gravity (flat 4+4 space, or the coefficients frozen at one point) the
-    field equation of dirac16complex is
+    without gravity (flat 4+4 space, or the frozen-coefficient model described below)
+    the field equation of dirac16complex is
 
     $$\gamma^{(x_4)}\partial_4\Psi + \sum_{a \neq 4}\gamma^{(x_a)}\partial_a\Psi = m\Psi .$$
 
@@ -194,12 +214,19 @@ CELLS = [
     with the coordinate momentum $q_a$ therefore has the frame momentum $k_a = q_a/f_a$:
     along 3-space $k_a = q_ae^{-a_4}\sin^{-1/6}z$ shrinks as 3-space inflates, and along
     an extra time $k_a = q_ae^{a_4}\sin^{-1/6}z$ GROWS as the extra times deflate
-    ($a_4$ increasing). "Frozen coefficients" means only that these factors are
-    evaluated at one time $x_4$ and one hidden position, so that the wave equation of
-    that instant has constant coefficients. The extra times are not static: the
-    notebook "The Krein structure along the deflating history" of this chapter follows
-    the frame momenta, and everything this notebook computes, along the deflating
-    history.
+    ($a_4$ increasing). The *frozen-coefficient model* evaluates these factors at one
+    time $x_4$ and one hidden position, so that the wave equation of that instant has
+    constant coefficients, AND it leaves out the two terms of the hidden direction that
+    the author's field equation also contains: the derivative $\tan z\,
+    \gamma^{(x_8)}\partial_8\Psi$ with its coefficient that changes along $x_8$, and the
+    spin-connection term $3H\gamma^{(x_8)}\Psi$ (Revision theory record, formula
+    `field_equation`). The model is therefore an ASSUMPTION. Kept in the equation, the
+    connection term would add $3iH\gamma^{(x_4)}\gamma^{(x_8)}$ to the matrix $h$ above;
+    that matrix commutes with $B$ and is anti-Hermitian, so it would spoil the identity
+    $Bh = h^\dagger B$ that this notebook proves, and the frequencies could become
+    complex. The extra times are not static: the notebook "The Krein structure along the
+    deflating history" of this chapter follows the frame momenta, and everything this
+    notebook computes, along the deflating history.
 
     **The Krein form is conserved.** The charge density of the field is
     $\Psi^\dagger B\Psi$ with $B = -iC\gamma^{(x_4)}$, $C = \gamma^{(x_8)}\gamma^{(x_1)}
@@ -211,8 +238,8 @@ CELLS = [
     i\,u^\dagger(h^\dagger B - B h)u ,$$
 
     which is zero for every $u$ exactly when $B h = h^\dagger B$. The notebook proves
-    this identity. The ordinary length $u^\dagger u$, on the other hand, is conserved
-    only when $h$ is Hermitian.
+    this identity. The ordinary squared length $u^\dagger u$, on the other hand, is
+    conserved only when $h$ is Hermitian.
 
     **Krein inertia.** Because $h^2 = w^2 I_{16}$, for $w \neq 0$ the two matrices
     $P_\pm = \frac12(I_{16} \pm h/w)$ are projectors onto the eigenspaces of $\pm w$
@@ -230,14 +257,21 @@ CELLS = [
     `gamma[1]`, ..., `gamma[8]` so that `gamma[a]` is $\gamma^{(x_a)}$, and checks the
     64 Clifford relations exactly (whole numbers, no rounding).
 
-    It also defines `check_record(condition, name, record)`. It does exactly what
+    It also defines `check_record(condition, name, record)`. It does what
     `check(condition, name, record=record)` of the set-up cell does (stop with an error
     if the condition is false, otherwise print the PASS line and the line naming the
     Revision record that the check reproduces), but it first collects the two printed
     lines and then prints them in one piece. Jupyter sends printed text to the screen
     in pieces whose boundaries depend on timing; printing the two lines in one piece
     keeps them together in every run, so that the stored output of the notebook is the
-    same every time.
+    same every time. Before it checks anything, `check_record` asks the helper
+    `record_says_pass(record)` whether the cited record still says what the notebook
+    claims: a record name of the form `<report file>, check <check name>` names a check
+    of a Revision report, and the helper opens that report (each file only once, kept
+    in the dictionary `REPORT_CHECKS`) and answers True only if a check of that name
+    exists there with the verdict PASS. If not, the notebook stops with an error
+    instead of printing an outdated claim. A record name without `, check ` names a data
+    entry of a file that the notebook reads and compares itself.
     """),
     code(r'''
     import contextlib  # lets a block of code print into a text buffer
@@ -248,8 +282,24 @@ CELLS = [
     import sympy as sp  # exact algebra with symbols
 
 
+    REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+    def record_says_pass(record):
+        """True if the cited report check exists today with the verdict PASS."""
+        path, separator, check_name = record.partition(", check ")
+        if not separator:  # a data entry of a record file that the notebook reads itself
+            return True
+        if path not in REPORT_CHECKS:
+            checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+            REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+        return REPORT_CHECKS[path].get(check_name) == "PASS"
+
+
     def check_record(condition, name, record):
         """check(condition, name, record=record), printed in one piece."""
+        if not record_says_pass(record):  # the cited check must exist and say PASS
+            raise AssertionError("the cited record check is missing or not PASS: " + record)
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
             check(condition, name, record=record)
@@ -978,7 +1028,8 @@ CELLS = [
       $u^\dagger B u$ (the charge) of every wave is conserved, also of a growing one;
       $h$ is Hermitian and commutes with $B$ exactly in the good sector.
     - PROVED (steps (i) and (ii) exactly, step (iii) by continuity; flat 4+4 space or
-      frozen coefficients): every eigenspace of a REAL frequency has Krein inertia
+      in the frozen-coefficient model, an ASSUMPTION): every eigenspace of a REAL
+      frequency has Krein inertia
       $(4, 4)$; every eigenspace of an imaginary
       frequency, and the range of $h$ at zero frequency, is Krein-neutral. So the
       positive and negative charges are mixed half and half at every real frequency;
@@ -989,9 +1040,11 @@ CELLS = [
     - REPRODUCED: the properties of $B$ (signature $(8, 8)$), the eight recorded
       samples of the pairing record, the recorded Krein inertia and neutrality samples,
       and the good-sector split $+5$ (4 times), $-5$ (4 times) on $B = +1$.
-    - These are statements about one-particle waves in flat 4+4 space or with frozen
-      coefficients. How a positive quantum state space is built from them (and where
-      that is possible) is the subject of the next notebooks of this chapter.
+    - These are statements about one-particle waves in flat 4+4 space or in the
+      frozen-coefficient model, which leaves out the hidden-direction terms of the
+      author's field equation (an ASSUMPTION). How a positive quantum state space is
+      built from them (and where that is possible) is the subject of the next notebooks
+      of this chapter.
     """),
 ]
 

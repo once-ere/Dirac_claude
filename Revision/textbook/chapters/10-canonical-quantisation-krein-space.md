@@ -23,12 +23,12 @@ The chapter closes with "What we proved, what we computed, what we assumed" (Sec
 | notebook | what it computes | checks | figures |
 | --- | --- | --- | --- |
 | 10a | one-particle spectra and Krein inertia | 28 | 6 |
-| 10b | the canonical rule on a Fock space; the Krein space | 24 | 5 |
+| 10b | the canonical rule on a Fock space; the Krein space | 25 | 5 |
 | 10c | the positive Fock space of one good-sector momentum | 14 | 5 |
 | 10d | the curved good sector along the hidden direction | 16 | 5 |
 | 10e | invariant forms and Krein-unitary generators | 15 | 5 |
 | 10f | the Krein structure along the deflating history | 19 | 5 |
-| 10g | the quantum reading of the pairing | 29 | 5 |
+| 10g | the quantum reading of the pairing | 30 | 5 |
 
 **Notation.** The author's coordinates are written $x_1, \dots, x_8$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates (scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which are time-like and DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}\sin^{1/6}z$ with $a_4$ increasing); $x_8$ is the hidden space direction, with $z = 6Hx_8$ between 0 and $\pi/2$ and $H > 0$ the author's constant. The flat frame metric is $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order $x_1, \dots, x_8$. The gamma matrices are the author's eight real $16 \times 16$ matrices; the one of the direction $x_a$ is written $\gamma^{(x_a)}$, and they obey the Clifford relation $\gamma^{(x_a)}\gamma^{(x_b)} + \gamma^{(x_b)}\gamma^{(x_a)} = 2\eta_{ab}I_{16}$ (Chapter 4), where $I_{16}$ is the $16 \times 16$ identity matrix and $\eta_{ab}$ is $\eta_{aa}$ for $a = b$ and 0 otherwise. So a space-like gamma ($x_1, x_2, x_3, x_8$) squares to $+I_{16}$, a time-like one ($x_4, \dots, x_7$) to $-I_{16}$, and two different gammas anticommute. Chapter 5 built from them the charge matrix $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ (the author's sigma16), the chirality $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$ and the matrix $B = -iC\gamma^{(x_4)}$. For a matrix $M$, $M^T$ is its transpose, $M^*$ the matrix of the complex conjugate entries and $M^\dagger = (M^T)^*$ its conjugate transpose; for a column $u$, $u^\dagger$ is the row of the conjugated entries. The letter $m$ is the mass. The words used for the status of a statement are those of the whole book: PROVED (exact, with the verifying record and check), COMPUTED (a numerical result with its accuracy), ASSUMED, HYPOTHESIS and OPEN.
 
@@ -58,7 +58,7 @@ $$
 J^{(x_4)} = -i\Psi^\dagger C\gamma^{(x_4)}\Psi = \Psi^\dagger B\Psi,\qquad B = -iC\gamma^{(x_4)} .
 $$
 
-The Revision record proves that the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ does not change in time when the field equation holds (`charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; `wolfram-field-theory.json`, check `charge_density_is_Krein_form_G`). For two columns $u$ and $v$ of 16 complex numbers the number $u^\dagger Bv$ is called their **Krein form**, and $u^\dagger Bu$ the **Krein norm** of $u$ (a name, not a length: it can be negative).
+The Revision record proves the **local conservation law** $\partial_\mu(\cos z\,J^\mu) = 0$ (summed over the eight directions $\mu$, as in Chapter 1) for every solution of the field equation (`charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`), and that $J^{(x_4)}$ is the density of the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$, the integral over a slice $x_4 = $ const (`wolfram-field-theory.json`, check `charge_density_is_Krein_form_G`). A local law does not by itself make $Q$ constant. Write it as $\partial_4(\cos z\,J^{(x_4)}) = -\sum_{a \neq 4}\partial_a(\cos z\,J^{(x_a)})$ and integrate over the slice: the left side gives $dQ/dx_4$, and each term on the right is the integral of a derivative along one direction, which by the fundamental theorem of calculus equals the difference of the values at the two ends of that direction. So $Q$ changes by exactly the charge that flows out through the boundary of the slice, and it is constant only when this **flux** vanishes. In flat space it vanishes for fields that die away at large distances. In the author's patch the boundary includes the patch end $z = \pi/2$, and there the flux vanishes only under a boundary condition that the quantisation of the Revision record does not impose: OPEN (Revision theory document, section 11). Sections 10.27 and 10.28 show an exact solution whose charge $Q$ grows from $1/6$ to 454.007. For two columns $u$ and $v$ of 16 complex numbers the number $u^\dagger Bv$ is called their **Krein form**, and $u^\dagger Bu$ the **Krein norm** of $u$ (a name, not a length: it can be negative).
 
 **Five properties of B, derived line by line.** We use only the Clifford relation, the reality of the gammas, $C^T = C$, $CC = I_{16}$ and $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$ (Chapter 5).
 
@@ -117,11 +117,12 @@ So the Krein norm $u^\dagger Bu$ is a real number for every column (because $B$ 
 | --- | --- | --- |
 | $B$ purely imaginary, Hermitian, $BB = I_{16}$, $\mathrm{tr}\,B = 0$, signature (8,8) | PROVED | `python-field-theory.json`, check `B_properties`; `wolfram-algebra.json`, check `B_signature_8_8` |
 | $B$ commutes with the gammas of $x_1, x_2, x_3, x_4, x_8$, anticommutes with those of $x_5, x_6, x_7$ | PROVED | `python-algebra.json`, check `B_gamma_relations` |
-| the charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ is conserved | PROVED | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity` |
+| the local conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ on shell; $J^{(x_4)} = \Psi^\dagger B\Psi$ | PROVED | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; `wolfram-field-theory.json`, check `charge_density_is_Krein_form_G` |
+| the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ is constant in time | OPEN (true when the flux through the boundary vanishes; at $z = \pi/2$ no boundary condition is imposed, Sections 10.27 and 10.28) | Revision theory document, section 11 |
 
 ### 10.3 One plane wave: the mode Hamiltonian
 
-We first study one wave of the field at a time, as a classical wave, before any quantisation. Take $U = 0$ (no self-interaction) and flat 4+4 space. Flat space is not the author's universe, but the author's field equation, written at one point and one instant with its coefficients evaluated there ("frozen coefficients"), has the same form with the derivatives divided by scale factors; the end of this section says how. The field equation is (Chapter 7)
+We first study one wave of the field at a time, as a classical wave, before any quantisation. Take $U = 0$ (no self-interaction) and flat 4+4 space. Flat space is not the author's universe. The end of this section defines the **frozen-coefficient model** of the author's universe, which has the same equation with the derivatives divided by scale factors; it is an ASSUMPTION, because it also leaves out two terms of the author's field equation. The field equation in flat space is (Chapter 7)
 
 $$
 \gamma^{(x_4)}\partial_4\Psi + \sum_{a \neq 4}\gamma^{(x_a)}\partial_a\Psi = m\Psi ,
@@ -155,7 +156,15 @@ $$
 
 The $16 \times 16$ matrix $h$ is the **mode Hamiltonian** of the wave. The equation $i\,du/dx_4 = hu$ has the form of the Schrödinger equation of quantum mechanics; its solutions with $u(x_4) = u_0e^{-iwx_4}$ are the eigenvectors $hu_0 = wu_0$, and the eigenvalue $w$ is the **frequency** of the wave. A real $w$ means oscillation; an imaginary $w = i\kappa$ means $e^{-iwx_4} = e^{\kappa x_4}$, growth.
 
-**Frame momenta and the deflating extra times.** In the author's metric each derivative of the field equation is divided by the scale factor $f_a$ of its direction (Chapter 6): $f_a = e^{a_4}\sin^{1/6}z$ for $x_1, x_2, x_3$, $f_4 = 1$, $f_a = e^{-a_4}\sin^{1/6}z$ for $x_5, x_6, x_7$ and $f_8 = \cot z$ (record `Revision/theory/field-theory.json`, formula `vielbein_diagonal`). A wave $e^{iq_ax_a}$ with the **coordinate momentum** $q_a$ therefore enters the equation with the **frame momentum** $k_a = q_a/f_a$. Along 3-space $k_a = q_ae^{-a_4}\sin^{-1/6}z$ shrinks as 3-space inflates; along an extra time $k_a = q_ae^{a_4}\sin^{-1/6}z$ GROWS as the extra times deflate. "Frozen coefficients" means only that these factors are evaluated at one instant and one hidden position; the extra times are never treated as static. Section 10.39 and Notebook 10f follow the frame momenta along the deflating history.
+**Frame momenta and the deflating extra times.** In the author's metric each derivative of the field equation is divided by the scale factor $f_a$ of its direction (Chapter 6): $f_a = e^{a_4}\sin^{1/6}z$ for $x_1, x_2, x_3$, $f_4 = 1$, $f_a = e^{-a_4}\sin^{1/6}z$ for $x_5, x_6, x_7$ and $f_8 = \cot z$ (record `Revision/theory/field-theory.json`, formula `vielbein_diagonal`). A wave $e^{iq_ax_a}$ with the **coordinate momentum** $q_a$ therefore enters the equation with the **frame momentum** $k_a = q_a/f_a$. Along 3-space $k_a = q_ae^{-a_4}\sin^{-1/6}z$ shrinks as 3-space inflates; along an extra time $k_a = q_ae^{a_4}\sin^{-1/6}z$ GROWS as the extra times deflate.
+
+**The frozen-coefficient model, and what it leaves out.** The model evaluates the scale factors at one instant and one hidden position, so that the equation of that instant has constant coefficients and the plane waves above solve it with the frame momenta $k_a$; the extra times are never treated as static (Section 10.39 and Notebook 10f follow the frame momenta along the deflating history). But the author's field equation also contains two terms of the hidden direction (Section 10.27; record `Revision/theory/field-theory.json`, formula `field_equation`): the derivative $\tan z\,\gamma^{(x_8)}\partial_8\Psi$, whose coefficient changes along $x_8$, and the spin-connection term $3H\gamma^{(x_8)}\Psi$ (Chapter 6). The model leaves both out, so it is an ASSUMPTION, an approximation whose error this chapter does not estimate. The connection term matters. Kept in the equation, it adds to $h$ the matrix $h_c = 3iH\gamma^{(x_4)}\gamma^{(x_8)}$ (multiply $3H\gamma^{(x_8)}\Psi$ by $\gamma^{(x_4)}$ and by $i$, as in Steps 1 to 4). The real matrix $\gamma^{(x_4)}\gamma^{(x_8)}$ is symmetric (Chapter 5: $(\gamma^{(x_8)})^T = \gamma^{(x_8)}$ and $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$), $(\gamma^{(x_4)}\gamma^{(x_8)})^T = (\gamma^{(x_8)})^T(\gamma^{(x_4)})^T = \gamma^{(x_8)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_8)}$, so $h_c^\dagger = -h_c$; and $h_c$ commutes with $B$, because $\gamma^{(x_4)}$ and $\gamma^{(x_8)}$ do (Section 10.2). Section 10.4 proves $Bh = h^\dagger B$ for the flat $h$; for $h + h_c$ this becomes
+
+$$
+B(h + h_c) - (h + h_c)^\dagger B = (Bh - h^\dagger B) + Bh_c + h_cB = 2Bh_c = 6iH\,B\gamma^{(x_4)}\gamma^{(x_8)} \neq 0 ,
+$$
+
+by $h_c^\dagger = -h_c$ and $h_cB = Bh_c$; the right side is not zero because $B$, $\gamma^{(x_4)}$ and $\gamma^{(x_8)}$ are invertible. So with the connection term the Krein form of a single wave is no longer conserved, Theorem 10.1 below does not apply, and the frequencies can be complex: Section 10.28 finds $\pm2\sqrt2\,i$ for the waves that do not depend on $x_8$ at $m = H = 1$. Everything in Sections 10.4 to 10.6 and 10.20 holds exactly in flat 4+4 space and in the frozen-coefficient model; Sections 10.27 and 10.28 show what the terms of the hidden direction change.
 
 ### 10.4 The square of h, the Krein form, and three kinds of waves
 
@@ -214,7 +223,7 @@ $$
 \frac{d}{dx_4}\big(u^\dagger Bu\big) = \frac{du^\dagger}{dx_4}Bu + u^\dagger B\frac{du}{dx_4} = iu^\dagger h^\dagger Bu - iu^\dagger Bhu = i\,u^\dagger\big(h^\dagger B - Bh\big)u = 0 .
 $$
 
-The last step is $h^\dagger B = Bh$. The Krein norm of every wave is constant in time, also when the wave grows; the ordinary length $u^\dagger u$ changes by $d(u^\dagger u)/dx_4 = iu^\dagger(h^\dagger - h)u = -2iu^\dagger h_Au$, which vanishes in the good sector only.
+The last step is $h^\dagger B = Bh$. The Krein norm of every wave is constant in time, also when the wave grows; the ordinary squared length $u^\dagger u$ changes by $d(u^\dagger u)/dx_4 = iu^\dagger(h^\dagger - h)u = -2iu^\dagger h_Au$, which vanishes in the good sector only.
 
 **Three kinds of waves.** Because $h^2 = w^2I_{16}$, the exponential series of the solution collapses. The solution is $u(x_4) = e^{-ihx_4}u(0)$ with $e^{X} = I_{16} + X + X^2/2! + \dots$; the even powers of $-ihx_4$ are $(-1)^jw^{2j}x_4^{2j}I_{16}$ and the odd powers are $-i(-1)^jw^{2j}x_4^{2j+1}h$, so
 
@@ -249,7 +258,7 @@ Then $P_\pm P_\pm = \frac14(I_{16} \pm 2h/w + h^2/w^2) = \frac14(2I_{16} \pm 2h/
 
 **Krein inertia.** Choose a basis $v_1, \dots, v_d$ of a subspace and form the **Gram matrix** $G_{ij} = v_i^\dagger Bv_j$. It is Hermitian; its numbers of positive, negative and zero eigenvalues do not depend on the basis chosen (a fact of linear algebra called Sylvester's law of inertia), and they form the **Krein inertia** $(p, n, z)$ of the subspace. It says how many independent waves of the subspace carry positive, negative and zero Krein norm. A subspace on which $u^\dagger Bv = 0$ for all its members has inertia $(0, 0, d)$ and is called **Krein-neutral**.
 
-**Theorem 10.1 (Krein inertia of one-particle waves).** In flat 4+4 space (or with frozen coefficients), for every real frequency, $w^2 > 0$, with or without extra-time momentum, each of the two eigenspaces of $h$ has dimension 8 and Krein inertia (4,4). For every imaginary frequency both eigenspaces are Krein-neutral, and for $w = 0$ the range of $h$ is Krein-neutral.
+**Theorem 10.1 (Krein inertia of one-particle waves).** In flat 4+4 space (or in the frozen-coefficient model of Section 10.3, an ASSUMPTION that leaves out the connection term), for every real frequency, $w^2 > 0$, with or without extra-time momentum, each of the two eigenspaces of $h$ has dimension 8 and Krein inertia (4,4). For every imaginary frequency both eigenspaces are Krein-neutral, and for $w = 0$ the range of $h$ is Krein-neutral.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
@@ -264,7 +273,7 @@ $$
 
 The first step multiplies each projector by $2w$; the second multiplies out. By $h^\dagger B = Bh$ the two middle terms cancel, and $h^\dagger Bh = Bhh = w^2B$, so the right side is $w^2B - w^2B = 0$. A wave of frequency $+w$ and one of $-w$ have zero mixed Krein form. In the same way $P_+^\dagger BP_+ = BP_+$. Because $B$ is invertible and the two eigenspaces together span all 16 directions, $B$ cannot vanish on either eigenspace: if a column $u$ of the $+w$ eigenspace had $u^\dagger Bv = 0$ for all $v$ in that eigenspace, it would also have it for all $v$ in the other (step (i)), hence for all columns, so $Bu = 0$ and $u = BBu = 0$. Such a form is called **nondegenerate** on the eigenspace: its Gram matrix has no zero eigenvalue.
 
-*Step (ii): in the good sector the inertia is (4,4).* There $Bh = hB$, so $B$ commutes with $P_\pm$ and maps each eigenspace into itself. The trace of $BP_+$ is the sum of the eigenvalues of $B$ on the $+w$ eigenspace; each is $+1$ or $-1$ (because $BB = I_{16}$), and there are eight of them (because $\mathrm{tr}\,P_+ = \frac12(16 + \mathrm{tr}\,h/w) = 8$). Now
+*Step (ii): in the good sector the inertia is (4,4).* There $Bh = hB$, so $B$ commutes with $P_\pm$ and maps each eigenspace into itself. In the good sector $h$ is also Hermitian (Section 10.4), so $P_+$ is Hermitian, and its range, the $+w$ eigenspace, has dimension $\mathrm{tr}\,P_+ = \frac12(16 + \mathrm{tr}\,h/w) = 8$ (the trace of a projector is the dimension of its range; $\mathrm{tr}\,h = 0$ because $h$ is a combination of $\gamma^{(x_4)}$ and of products of two different gammas, which have trace 0 by the argument given below for $Bh$). Choose an orthonormal basis $v_1, \dots, v_8$ of this eigenspace ($v_i^\dagger v_j$ is 1 for $i = j$ and 0 otherwise); then $P_+ = \sum_iv_iv_i^\dagger$. Because $Bv_j$ lies in the same eigenspace, $Bv_j = \sum_iv_i\,(v_i^\dagger Bv_j) = \sum_iv_iG_{ij}$: the Gram matrix $G_{ij} = v_i^\dagger Bv_j$ of the Krein form in this basis is exactly the matrix of $B$ restricted to the eigenspace. So its eight eigenvalues are eigenvalues of $B$, each $+1$ or $-1$ (because $BB = I_{16}$), and the Krein inertia counts how many are $+1$ and how many $-1$. Their sum is the trace of the Gram matrix, $\sum_iv_i^\dagger Bv_i = \mathrm{tr}(B\sum_iv_iv_i^\dagger) = \mathrm{tr}(BP_+)$, by $\mathrm{tr}(XY) = \mathrm{tr}(YX)$ for the column $v_i$ and the row $v_i^\dagger B$. Now
 
 $$
 \mathrm{tr}(BP_\pm) = \tfrac12\,\mathrm{tr}\,B \pm \tfrac{1}{2w}\,\mathrm{tr}(Bh) = 0 ,
@@ -312,7 +321,7 @@ Notebook 10a reads the author's gammas from the record `Revision/algebra/gammas.
 
 The notebook has 18 code cells, In [1] to In [18]. This section explains every line of each of them. Python, the language of the notebooks, is read from top to bottom; a line that starts with `#` is a **comment** for the reader, which Python skips, and the text after `#` on a line of code is a comment too. Where a cell defines a function, the **docstring** (the text in triple quotes below the `def` line, which only describes the function) is left out of the quotations; it is printed in Section 10.9.
 
-**In [1], the set-up cell.** This cell is the same in every notebook of the book; only the line that sets `NOTEBOOK_ID` differs. Its first 236 lines are comments: they repeat, word for word, the run instructions of Section 10.8 (Python skips them; they are there so that the notebook carries its own instructions), and end with the heading THE SET-UP between two lines of `=` signs. The code starts below that heading.
+**In [1], the set-up cell.** This cell is the same in every notebook of the book; only the line that sets `NOTEBOOK_ID` differs. Its first 250 lines are comments: they repeat, word for word, the run instructions of Section 10.8 (Python skips them; they are there so that the notebook carries its own instructions), and end with the heading THE SET-UP between two lines of `=` signs. The code starts below that heading.
 
 ```python
 import json  # reads and writes JSON files (text files that hold names and numbers)
@@ -468,14 +477,32 @@ import sympy as sp  # exact algebra with symbols
 Three more modules of Python are loaded, and the two mathematical packages of the book: numpy (short name `np`) computes with arrays of numbers, sympy (short name `sp`) computes exactly with symbols.
 
 ```python
+REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+def record_says_pass(record):
+    path, separator, check_name = record.partition(", check ")
+    if not separator:  # a data entry of a record file that the notebook reads itself
+        return True
+    if path not in REPORT_CHECKS:
+        checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+        REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+    return REPORT_CHECKS[path].get(check_name) == "PASS"
+```
+
+`REPORT_CHECKS` starts as an empty dictionary; it will hold, for every report file that the notebook cites, the verdicts of the report's checks, stored under the check names. `record_says_pass(record)` answers one question: does the cited record still say what the notebook claims? A record name such as `"Revision/theory/reports/python-field-theory.json, check B_properties"` is a file name and a check name joined by the text `, check `. `record.partition(", check ")` cuts the record name at the first occurrence of that text into three pieces: the part before it (`path`), the text itself (`separator`) and the part after it (`check_name`). If the text does not occur, `separator` is empty and the record names a data entry of a file, such as `"Revision/algebra/gammas.json, entry B"`, which the notebook reads and compares itself; the answer is then True. Otherwise the report file is read, once: `json.loads(...)["checks"]` is the list of its checks, each a dictionary with the keys `name`, `verdict` and `detail`, and the dictionary comprehension stores every verdict under its check name in capital letters (`.upper()`; some reports write `pass` in small letters). The answer is True only if a check of that name exists and its verdict is `PASS`; `.get` gives `None` for a missing name, and `None == "PASS"` is False.
+
+```python
 def check_record(condition, name, record):
+    if not record_says_pass(record):  # the cited check must exist and say PASS
+        raise AssertionError("the cited record check is missing or not PASS: " + record)
     buffer = io.StringIO()
     with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
         check(condition, name, record=record)
     sys.stdout.write(buffer.getvalue())  # one single piece of output
 ```
 
-`check_record` does what `check(condition, name, record=record)` does, but prints the PASS line and the reproduces line in one piece. `io.StringIO()` is a **text buffer**, a piece of memory that collects printed text. Inside the `with` block everything that is printed goes into the buffer instead of the screen; `check` prints its two lines there (or stops the notebook if the condition is false). Then `sys.stdout.write` sends the collected text to the screen at once. Jupyter delivers printed text in pieces whose boundaries depend on timing; printing the two lines as one piece keeps the stored output of the notebook the same in every run.
+`check_record` first asks `record_says_pass`. If the answer is False, `raise AssertionError(...)` stops the notebook with an error message that names the record, in the same way as a failed check: the notebook never prints that it reproduces a record check that has been renamed, removed or turned to FAIL. Otherwise `check_record` does what `check(condition, name, record=record)` does, but prints the PASS line and the reproduces line in one piece. `io.StringIO()` is a **text buffer**, a piece of memory that collects printed text. Inside the `with` block everything that is printed goes into the buffer instead of the screen; `check` prints its two lines there (or stops the notebook if the condition is false). Then `sys.stdout.write` sends the collected text to the screen at once. Jupyter delivers printed text in pieces whose boundaries depend on timing; printing the two lines as one piece keeps the stored output of the notebook the same in every run.
 
 ```python
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
@@ -586,7 +613,8 @@ draw_matrix(axes[0], gamma[4], "$\\gamma^{(x_4)}$ (real, antisymmetric)")
 draw_matrix(axes[1], C, "$C$ (real, symmetric)")
 image = draw_matrix(axes[2], B.imag, "imaginary part of $B = -iC\\gamma^{(x_4)}$")
 fig.colorbar(image, ax=list(axes), shrink=0.8, label="entry")
-save_figure(fig, "gamma4_c_and_b", ...)
+save_figure(fig, "gamma4_c_and_b",
+...)
 ```
 
 (The caption text, the third argument of `save_figure`, is shortened here to three dots; it is printed in full under the figure in Section 10.9.) `plt.subplots(1, 3, ...)` makes a figure with one row of three drawing areas, 11 by 4 inches. The titles are written in LaTeX, the mathematical notation of the book; inside a Python string a backslash is written twice. `fig.colorbar` adds the colour bar on the right, shared by the three maps. Figure 1 of Notebook 10a shows the result: in each of the three heat maps every row and every column has exactly one coloured square; $C$ is the same after reflection in the diagonal, while $\gamma^{(x_4)}$ and the imaginary part of $B$ change colour under that reflection. This is the picture of the table of $B$ in Section 10.2.
@@ -713,7 +741,8 @@ ax.set_xlabel("momentum $k_5$ along the extra time $x_5$")
 ax.set_ylabel("$w^2 = m^2 + k_s^2 - k_5^2$")
 ax.set_title("The squared frequency of a plane wave, $m = 1$")
 ax.legend(title="space-like momentum")
-save_figure(fig, "frequency_squared", ...)
+save_figure(fig, "frequency_squared",
+...)
 ```
 
 `axhline` draws a horizontal line at height 0; `ax.text` writes a text at a point of the plot; the labels name the axes; `ax.legend` lists the three curves with their labels. Figure 2 of Notebook 10a shows three downward parabolas, one for each $k_s$, each crossing zero at its dot: above the grey line the wave oscillates, below it the wave grows. A larger space-like momentum moves the crossing to the right, but every curve crosses: a large enough extra-time momentum always wins.
@@ -763,7 +792,8 @@ for ax, what in ((axes[0], "real part"), (axes[1], "imaginary part")):
     ax.set_ylabel(f"{what} of the eigenvalues of $h$")
 axes[0].set_title("oscillation: real frequencies $\\pm w$")
 axes[1].set_title("growth: imaginary frequencies $\\pm i\\kappa$")
-save_figure(fig, "eigenvalue_flow", ...)
+save_figure(fig, "eigenvalue_flow",
+...)
 ```
 
 `np.array(real_parts)` is a table with one row per $k_5$ and 16 columns; `plot` draws each column as a curve. `sharex=True` gives both panels the same horizontal axis, and `axvline` draws a dotted vertical line at $k_5 = 1$. Figure 3 of Notebook 10a shows the real parts $\pm\sqrt{1 - k_5^2}$ closing in to 0 at $k_5 = 1$ and staying 0 afterwards, while the imaginary parts are 0 before and open up as $\pm\sqrt{k_5^2 - 1}$ afterwards: oscillation turns into growth. Each curve carries eight eigenvalues on top of each other.
@@ -993,7 +1023,8 @@ ax.set_yticks(range(0, 9))
 ax.set_ylim(0.0, 10.5)  # room for the legend above the bars
 ax.set_title("Krein inertia of one eigenspace across the threshold")
 ax.legend(loc="upper center", ncol=3, fontsize=8)
-save_figure(fig, "krein_inertia_scan", ...)
+save_figure(fig, "krein_inertia_scan",
+...)
 ```
 
 The dotted line marks the threshold; the vertical axis is labelled 0 to 8 and extended to 10.5 to leave room for the legend, which is written in three columns at the top. Figure 4 of Notebook 10a shows bars that are half blue and half orange left of the threshold and entirely green right of it: the waves of real frequency mix the two signs of charge four and four, the growing waves carry no charge.
@@ -1028,7 +1059,8 @@ for ax, (m_value, k, title) in zip(axes, cases):
     say(f"case {len(block_sizes)}: largest entry in the diagonal blocks "
         f"{diagonal_blocks:.3f}; off-diagonal blocks below 1e-12: {off_blocks < 1e-12}")
 fig.colorbar(image, ax=list(axes), shrink=0.8, label="size of the entry")
-save_figure(fig, "krein_gram_matrices", ...)
+save_figure(fig, "krein_gram_matrices",
+...)
 ```
 
 `gram[:8, :8]` is the upper left $8 \times 8$ block (rows and columns 1 to 8), `gram[8:, 8:]` the lower right one, and the two others are the off-diagonal blocks. The printed lines show, for the first two cases, diagonal blocks with entries up to 0.894 and 0.866 and empty off-diagonal blocks (`True`), and for the third case empty diagonal blocks (`0.000`) and filled off-diagonal blocks (`False`). Figure 5 of Notebook 10a shows exactly this: for a real frequency the two eigenspaces are Krein-orthogonal (step (i)); for an imaginary frequency each eigenspace is neutral, and a growing wave has a nonzero Krein form only with a decaying one.
@@ -1121,7 +1153,8 @@ axes[1].plot(mass_values, np.array(mass_spectra)[:, [0, 15]], color=GREEN,
 axes[1].set_xlabel("mass $m$ (with $k_1 = 1$)")
 axes[1].set_ylabel("eigenvalues $\\pm\\sqrt{m^2 + k_1^2}$ of $h$")
 axes[1].set_title("the spectrum is even in $m$")
-save_figure(fig, "plus_minus_mass_spectra", ...)
+save_figure(fig, "plus_minus_mass_spectra",
+...)
 ```
 
 Figure 6 of Notebook 10a shows on the left the circles of $m = -2$ sitting exactly on the lines of $m = +2$, and on the right the eigenvalues $\pm\sqrt{m^2 + 1}$ against the mass: curves that are mirror images in the vertical axis $m = 0$. The one-particle spectra of the universes of masses $+m$ and $-m$ are identical, not opposite.
@@ -1272,7 +1305,19 @@ $$
 iK^{-1} = i\cdot\frac{1}{i\cos z}\,B^{-1} = \frac{B}{\cos z} .
 $$
 
-Components at different points of a slice anticommute, which the seven-dimensional delta function $\delta^7(x - y)$ expresses. So the **canonical anticommutator** of dirac16complex on a slice $x_4 = $ const is
+**From one point to the whole slice.** So far the slice was a single point. To pass to the whole slice, divide it into many small cells, each with the coordinate volume $\Delta V$ (the product of its seven coordinate widths), and keep one value $\Psi(x)$ of the field per cell $x$. The Lagrangian of the slice is then the sum over the cells of $\Delta V$ times the density, so the time-derivative term of the cell $x$ is $\Psi(x)^\dagger(K\Delta V)\,\partial_4\Psi(x)$, with $K = i\cos z\,B$ at the position of that cell; this term couples no two different cells (the derivatives along the slice, which do couple neighbouring cells, sit in $h'$). The rule just derived holds for any number of components: take as the components all 16 components of all cells. Their time-derivative kernel is block diagonal, with one block $K\Delta V$ per cell, so its inverse is block diagonal with the blocks $(K\Delta V)^{-1}$, and the rule $A = iK^{-1}$ gives
+
+$$
+\{\Psi_A(x), \Psi^\dagger_C(y)\} = i\,(K\Delta V)^{-1}_{AC}\,\delta_{xy} = B_{AC}\,\frac{\delta_{xy}}{\cos z\,\Delta V} ,
+$$
+
+where $\delta_{xy}$ is 1 for the same cell and 0 for two different cells: components of different cells anticommute. The second step is $iK^{-1} = B/\cos z$ from above, divided by $\Delta V$. As the cells shrink, $\delta_{xy}/\Delta V$ becomes the seven-dimensional **delta function** $\delta^7(x - y)$. It is defined by what it does in an integral: it is zero for $x \neq y$, and for every smooth function $f$ on the slice
+
+$$
+\int f(y)\,\delta^7(x - y)\,d^7y = f(x) ,
+$$
+
+just as the sum over the cells $\sum_y\Delta V\,f(y)\,\delta_{xy}/\Delta V = f(x)$ picks out the cell $x$. It is not an ordinary function (no ordinary function is zero everywhere but at one point and still has the integral 1) but a rule for integrals, and in the theory it only appears inside such integrals. So the **canonical anticommutator** of dirac16complex on a slice $x_4 = $ const is
 
 $$
 \{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\frac{\delta^7(x - y)}{\cos z} .
@@ -1293,6 +1338,8 @@ Bh' = -im\,C\gamma^{(x_4)}C - \sum_{a \neq 4}k_a\,C\gamma^{(x_4)}C\gamma^{(x_a)}
 $$
 
 The first step multiplies out ($(-i)(-i) = -1$); the second moves $C$ through $\gamma^{(x_4)}$ (they commute, (B1) of Section 10.2) and uses $CC = I_{16}$; the result is the mode Hamiltonian $h$ of Section 10.3. With $A = B$ the Heisenberg equation is $\partial_4\Psi = -iBh'\Psi = -ih\Psi$, that is $i\,\partial_4\Psi = h\Psi$: the quantum field obeys the classical wave equation of the field.
+
+**Why anticommutators.** The rule uses anticommutators because dirac16complex is a fermion field by the author's definition: its components are anticommuting numbers. In ordinary 3+1 dimensional physics this choice is not free: the **spin-statistics theorem** of quantum field theory shows that, if the energy is to be bounded below and measurements at two points that no signal can connect are not to disturb each other, fields of half-integer spin (such as the electron's) must be quantised with anticommutators and fields of whole-number spin with commutators. No such theorem is proved for signature (4,4); here the anticommutator is an ASSUMPTION, part of the definition of the field.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
@@ -1353,7 +1400,7 @@ $$
 \{\Psi_A, \Psi^\dagger_C\} = \sum_{n,n'}(u_n)_A(u_{n'})_C^*\{b_n, b_{n'}^\dagger\} = \sum_n\epsilon_n(u_n)_A(u_n)_C^* = (UEU^\dagger)_{AC} = B_{AC} :
 $$
 
-the same canonical rule. The simplest choice takes 8 eigenvectors of $B$ with eigenvalue $+1$ ($\epsilon = +1$) and 8 with eigenvalue $-1$ ($\epsilon = -1$). A **Krein boost** of a pair, $u_1' = \cosh t\,u_1 + \sinh t\,u_9$ and $u_9' = \sinh t\,u_1 + \cosh t\,u_9$ (with $Bu_1 = u_1$, $Bu_9 = -u_9$, both of length 1 and orthogonal), keeps the Krein norms, because $\cosh^2t - \sinh^2t = 1$, and keeps the two modes Krein-orthogonal, because $\cosh t\,\sinh t - \sinh t\,\cosh t = 0$; but it changes the ordinary length to $\cosh^2t + \sinh^2t$. The record uses $\cosh t = \frac54$, $\sinh t = \frac34$ ($\frac{25}{16} - \frac{9}{16} = 1$), so the boosted mode has the ordinary squared length $\frac{25}{16} + \frac{9}{16} = \frac{34}{16} = 2.125$.
+the same canonical rule. The simplest choice takes 8 eigenvectors of $B$ with eigenvalue $+1$ ($\epsilon = +1$) and 8 with eigenvalue $-1$ ($\epsilon = -1$). A **Krein boost** of a pair, $u_1' = \cosh t\,u_1 + \sinh t\,u_9$ and $u_9' = \sinh t\,u_1 + \cosh t\,u_9$ (with $Bu_1 = u_1$, $Bu_9 = -u_9$, both of length 1 and orthogonal), keeps the Krein norms, because $\cosh^2t - \sinh^2t = 1$, and keeps the two modes Krein-orthogonal, because $\cosh t\,\sinh t - \sinh t\,\cosh t = 0$; but it changes the ordinary squared length to $\cosh^2t + \sinh^2t$. The record uses $\cosh t = \frac54$, $\sinh t = \frac34$ ($\frac{25}{16} - \frac{9}{16} = 1$), so the boosted mode has the ordinary squared length $\frac{25}{16} + \frac{9}{16} = \frac{34}{16} = 2.125$.
 
 **The expectation-value rule, line by line.** In the one-mode state $b_n^\dagger|0\rangle$ (with $b_{n'}|0\rangle = 0$ for all $n'$) the observable $\Psi^\dagger M\Psi = \sum_{k,k'}(u_k^\dagger Mu_{k'})\,b_k^\dagger b_{k'}$ has the vacuum value
 
@@ -1418,7 +1465,7 @@ So the conjugation of the quantised field that preserves $\{\Psi, \Psi^\dagger\}
 
 ### 10.16 Example: Notebook 10b builds the canonical rule on a Fock space
 
-Notebook 10b repeats the derivation of $iK^{-1} = B/\cos z$ exactly with sympy, builds the fermionic Fock space of Section 10.11 in a few lines of Python, realises on it the canonical rule $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$ with $\Psi^\dagger = \chi B$ (Section 10.14), checks that the Heisenberg equation gives the classical wave equation (Section 10.12), checks Theorem 10.2 on the recorded column and makes the positivity visible for 300 random states, builds the Krein-Fock realisation with a Krein-boosted pair and checks the expectation-value rule for 60 random matrices, and reproduces the 17 signs of Section 10.15 and the conjugation $\Psi \to \Gamma\Psi^{\dagger T}$. It draws five figures and ends with the line ALL 24 CHECKS PASSED (notebook 10b).
+Notebook 10b repeats the derivation of $iK^{-1} = B/\cos z$ exactly with sympy, builds the fermionic Fock space of Section 10.11 in a few lines of Python, realises on it the canonical rule $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$ with $\Psi^\dagger = \chi B$ (Section 10.14), checks that the Heisenberg equation gives the classical wave equation (Section 10.12), checks Theorem 10.2 on the recorded column and makes the positivity visible for 300 random states, builds the Krein-Fock realisation with a Krein-boosted pair and checks the expectation-value rule for 60 random matrices, and reproduces the 17 signs of Section 10.15 and the conjugation $\Psi \to \Gamma\Psi^{\dagger T}$. It draws five figures and ends with the line ALL 25 CHECKS PASSED (notebook 10b).
 
 <!-- NOTEBOOK 10b -->
 
@@ -1426,7 +1473,7 @@ Notebook 10b repeats the derivation of $iK^{-1} = B/\cos z$ exactly with sympy, 
 
 The notebook has 12 code cells, In [1] to In [12]. As in Section 10.10, the docstrings of the functions (the text in triple quotes under a `def` line) are left out of the quotations; they are printed in Section 10.18.
 
-**In [1], the set-up cell.** Its first 236 lines are comments that repeat the run instructions of Section 10.17. The code below the heading THE SET-UP is word for word the code of In [1] of Notebook 10a, explained line by line in Section 10.10, except for one line, `NOTEBOOK_ID = "10b"  # this notebook: chapter 10, example b`. It defines `REPO`, `OUTPUT_ROOT`, `repository_file`, `output_file`, `say`, `save_figure`, `check`, `report` and `all_checks_passed`, and prints the single line `Set-up of notebook 10b complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 251 lines are comments that repeat the run instructions of Section 10.17. The code below the heading THE SET-UP is word for word the code of In [1] of Notebook 10a, explained line by line in Section 10.10, except for one line, `NOTEBOOK_ID = "10b"  # this notebook: chapter 10, example b`. It defines `REPO`, `OUTPUT_ROOT`, `repository_file`, `output_file`, `say`, `save_figure`, `check`, `report` and `all_checks_passed`, and prints the single line `Set-up of notebook 10b complete: repository folder found, helpers defined.`
 
 **In [2], the time-derivative kernel and the canonical rule.**
 
@@ -1442,14 +1489,32 @@ import sympy as sp  # exact algebra with symbols
 The same imports as In [2] of Notebook 10a: three modules of Python for printing into a buffer, numpy for numbers and sympy for exact algebra.
 
 ```python
+REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+def record_says_pass(record):
+    path, separator, check_name = record.partition(", check ")
+    if not separator:  # a data entry of a record file that the notebook reads itself
+        return True
+    if path not in REPORT_CHECKS:
+        checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+        REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+    return REPORT_CHECKS[path].get(check_name) == "PASS"
+```
+
+`REPORT_CHECKS` and `record_says_pass` are those of In [2] of Notebook 10a (Section 10.10): for a record name `<report file>, check <check name>` the function reads the report once and answers True only if a check of that name exists there with the verdict PASS; for a data entry of a file that the notebook reads itself it answers True.
+
+```python
 def check_record(condition, name, record):
+    if not record_says_pass(record):  # the cited check must exist and say PASS
+        raise AssertionError("the cited record check is missing or not PASS: " + record)
     buffer = io.StringIO()
     with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
         check(condition, name, record=record)
     sys.stdout.write(buffer.getvalue())  # one single piece of output
 ```
 
-`check_record` is the function of In [2] of Notebook 10a (Section 10.10): it runs `check(condition, name, record=record)`, collects the PASS line and the line naming the reproduced Revision record in a text buffer, and prints both in one piece, so that the stored output is the same in every run.
+`check_record` is the function of In [2] of Notebook 10a (Section 10.10): it stops the notebook with an error if the cited record check is missing or not PASS; otherwise it runs `check(condition, name, record=record)`, collects the PASS line and the line naming the reproduced Revision record in a text buffer, and prints both in one piece, so that the stored output is the same in every run.
 
 ```python
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
@@ -1661,7 +1726,7 @@ report("u^dagger u and u^dagger B u", f"{(u.conj() @ u).real:.12f} and "
        f"{krein_norm_u:.12f}")
 ```
 
-`np.zeros(16, dtype=complex)` is a column of 16 complex zeros; entries 7 and 16 (positions 6 and 15) are set to $-i/\sqrt2$ and $1/\sqrt2$, the column of the proof of Theorem 10.2. The RESULT line prints its ordinary length $u^\dagger u = 1.000000000000$ and its Krein norm $u^\dagger Bu = -1.000000000000$.
+`np.zeros(16, dtype=complex)` is a column of 16 complex zeros; entries 7 and 16 (positions 6 and 15) are set to $-i/\sqrt2$ and $1/\sqrt2$, the column of the proof of Theorem 10.2. The RESULT line prints its ordinary squared length $u^\dagger u = 1.000000000000$ and its Krein norm $u^\dagger Bu = -1.000000000000$.
 
 ```python
 def X(state):  # X = sum_A conj(u_A) Psi_A
@@ -1752,7 +1817,8 @@ ax.set_xlabel("$x = \\|X\\phi\\|^2$")
 ax.set_ylabel("$y = \\|X^*\\phi\\|^2$")
 ax.set_title("Squared lengths are never negative")
 ax.legend(loc="lower left")
-save_figure(fig, "positivity", ...)
+save_figure(fig, "positivity",
+...)
 ```
 
 The ranges of both axes are fixed so that the negative quarter, where the dashed line runs, is visible. Figure 1 of Notebook 10b shows all 300 dots on the grey line, inside the quarter where both squared lengths are positive, and the orange dashed line far away in the region of negative values that no state can reach: this is Theorem 10.2 in one picture.
@@ -1765,7 +1831,8 @@ ax.axvline(0.0, color="#52514e", linewidth=1)
 ax.set_xlabel("Krein norm $v^\\dagger B v$ of a random column with $v^\\dagger v = 1$")
 ax.set_ylabel("number of columns (of 5000)")
 ax.set_title("The Krein form is indefinite: both signs occur")
-save_figure(fig, "krein_norms_random", ...)
+save_figure(fig, "krein_norms_random",
+...)
 ```
 
 The second picture is a **histogram**: `ax.hist` divides the interval from $-1$ to 1 into 50 equal bins and draws one bar per bin, as tall as the number of Krein norms that fall into it. Figure 2 of Notebook 10b shows a bell-shaped distribution centred at 0 and symmetric: every random unit column has the ordinary length 1, but its Krein norm is positive about as often as negative, and usually small, because a random column mixes the eight directions of positive and the eight of negative charge.
@@ -1810,7 +1877,8 @@ The Krein boost of Section 10.14 with $\cosh t = \frac54$, $\sinh t = \frac34$ r
 ```python
 gram_ok = np.max(np.abs(U.conj().T @ B @ U - E)) < 1e-14  # U^dagger B U = E
 complete_ok = np.max(np.abs(U @ E @ U.conj().T - B)) < 1e-14  # U E U^dagger = B
-report("ordinary length of the boosted mode 1", f"{np.linalg.norm(U[:, 0]) ** 2:.6f}")
+report("squared ordinary length of the boosted mode 1",
+       f"{np.linalg.norm(U[:, 0]) ** 2:.6f}")
 check(gram_ok and complete_ok,
       "Krein-orthonormal modes: U^dagger B U = E and U E U^dagger = B")
 ```
@@ -1946,7 +2014,8 @@ ax.set_xlabel("coefficient $a$ of $u_1$")
 ax.set_ylabel("coefficient $b$ of $u_9$")
 ax.set_title("Ordinary length versus Krein norm in one plane")
 ax.legend(loc="lower left", fontsize=8)
-save_figure(fig, "krein_plane", ...)
+save_figure(fig, "krein_plane",
+...)
 ```
 
 `set_aspect("equal")` gives both axes the same scale, so that the circle looks round. Figure 3 of Notebook 10b shows the boosted modes outside the unit circle (their ordinary length is larger than 1) but exactly on the hyperbolas of Krein norm $+1$ and $-1$: a Krein boost keeps the Krein norms and changes the ordinary lengths, as a Lorentz boost keeps $t^2 - x^2$ and changes $t$ and $x$.
@@ -1963,7 +2032,8 @@ ax.set_xlabel("value of the formula (real part)")
 ax.set_ylabel("value computed on the Fock space (real part)")
 ax.set_title("The boosted mode: which formula is right?")
 ax.legend(loc="upper left", fontsize=8)
-save_figure(fig, "expectation_rule", ...)
+save_figure(fig, "expectation_rule",
+...)
 ```
 
 The second picture plots, for the boosted mode and the 60 random matrices, the Fock-space value (vertical) against the rule (green dots) and against $u^\dagger BMu$ (orange crosses), with the grey diagonal from a little below the smallest to a little above the largest value. Figure 4 of Notebook 10b shows the green dots exactly on the diagonal and the orange crosses scattered around it: the rule of the record is right, the form $u^\dagger BMu$ is right only for modes that are eigenvectors of $B$.
@@ -2035,12 +2105,24 @@ check_record(np.array_equal(conjugation_gamma, B)
 The conjugations of the quantised field, $\Psi \to M\Psi^{\dagger T}$, change the canonical matrix into $MB^TM^\dagger$ (Section 10.15). The cell checks $B^T = -B$, then $\Gamma B^T\Gamma^\dagger = +B$ and $I_{16}B^TI_{16} = -B$, and reproduces the lead check `quantum_charge_conjugation_unitary_type`.
 
 ```python
+lead_file = "Revision/lead_checks/reports/charge-conjugation-and-u1.json"
+lead_verdicts = list(REPORT_CHECKS[lead_file].values())  # read by check_record
+passed = lead_verdicts.count("PASS")
+report("checks of charge-conjugation-and-u1.json with the verdict PASS",
+       f"{passed} of {len(lead_verdicts)}")
+check(lead_verdicts == ["PASS"] * 12,
+      "the lead-check report charge-conjugation-and-u1.json holds 12 checks, all PASS")
+```
+
+The previous `check_record` has just read the lead-check report into the dictionary `REPORT_CHECKS` of In [2]. `REPORT_CHECKS[lead_file].values()` are the verdicts of all its checks, and `list(...)` makes a list of them; `lead_verdicts.count("PASS")` counts the entries equal to `PASS`. The RESULT line prints `12 of 12`, and the check confirms that the report holds exactly 12 checks, all with the verdict PASS (`["PASS"] * 12` is the list of twelve such entries): the number of checks that the table of records in Section 10.1 gives for this report.
+
+```python
 mass_reversed = all(np.array_equal(Gamma @ gamma[a] @ Gamma, -gamma[a])
                     for a in range(1, 9))
 check(mass_reversed, "Gamma anticommutes with every gamma: the conjugation reverses m")
 ```
 
-$\Gamma\gamma^{(x_a)}\Gamma = -\gamma^{(x_a)}$ for all eight gammas, which is the reason why $\Gamma\Psi^*$ obeys the equation of mass $-m$ (Section 10.15). The cell prints six PASS lines.
+$\Gamma\gamma^{(x_a)}\Gamma = -\gamma^{(x_a)}$ for all eight gammas, which is the reason why $\Gamma\Psi^*$ obeys the equation of mass $-m$ (Section 10.15). The cell prints seven PASS lines.
 
 **In [11], the signs as a bar chart.**
 
@@ -2076,7 +2158,8 @@ axes[1].axhline(0, color="#52514e", linewidth=1)
 axes[1].set_ylim(-1.4, 1.4)
 axes[1].set_yticks([-1, 0, 1])
 axes[1].set_title("$\\Psi \\to M\\Psi^{\\dagger T}$")
-save_figure(fig, "krein_signs", ...)
+save_figure(fig, "krein_signs",
+...)
 ```
 
 The right panel draws the two conjugations, with the signs just checked in In [10]. Figure 5 of Notebook 10b shows five orange bars among the gammas and reflections ($\Gamma$, $\gamma^{(x_5)}$ to $\gamma^{(x_7)}$ and five reflections) and, on the right, the orange bar of $M = I$ next to the blue bar of $M = \Gamma$: only the conjugation $\Psi \to \Gamma\Psi^{\dagger T}$, which reverses the mass, keeps the canonical rule.
@@ -2092,7 +2175,7 @@ for name in ("10b_1_positivity.png", "10b_2_krein_norms_random.png",
 all_checks_passed()
 ```
 
-The loop checks that each of the five figure files exists, and the last line prints ALL 24 CHECKS PASSED (notebook 10b): the five figure checks and the 19 checks of the cells before (3 in In [2], 1 in In [3], 3 in In [4], 1 in In [5], 2 in In [6], 2 in In [7], 1 in In [8] and 6 in In [10]).
+The loop checks that each of the five figure files exists, and the last line prints ALL 25 CHECKS PASSED (notebook 10b): the five figure checks and the 20 checks of the cells before (3 in In [2], 1 in In [3], 3 in In [4], 1 in In [5], 2 in In [6], 2 in In [7], 1 in In [8] and 7 in In [10]).
 
 ### 10.20 The good sector: a positive Fock space for one momentum
 
@@ -2164,7 +2247,7 @@ After normal ordering a particle has the charge $+1$ and an antiparticle $-1$.
 | --- | --- | --- |
 | good sector, one momentum: positive Fock space, $\Psi^\dagger = \chi B$, $\{\Psi, \Psi^\dagger\} = B$; vacuum $-8E$; every quantum $+E$; charges $\pm1$ | PROVED (derivation above) and CHECKED for $m = 2$, $k = (1, 2, 0, 4)$, $E = 5$ (vacuum $-40$) and for $m = 3$, $k_1 = 4$, $E = 5$ | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` |
 | normal ordering (dropping the vacuum value) | ASSUMED | a prescription, as in Dirac's theory |
-| scope: single good-sector momenta, frozen coefficients | OPEN beyond it | a positive Hilbert space for the whole field, the extra-time sector and $\lambda \neq 0$ are not constructed (Revision theory document, section 11) |
+| scope: single good-sector momenta, in flat 4+4 space or in the frozen-coefficient model of Section 10.3 (ASSUMED: it leaves out the hidden-direction terms, including the connection term $3H\gamma^{(x_8)}$) | OPEN beyond it | a positive Hilbert space for the whole field, the extra-time sector and $\lambda \neq 0$ are not constructed (Revision theory document, section 11) |
 
 ### 10.21 The expectation-value rule and the energy-momentum tensor operator
 
@@ -2229,7 +2312,7 @@ Notebook 10c builds the good-sector waves of the recorded momentum $m = 2$, $k =
 
 The notebook has 12 code cells, In [1] to In [12]; docstrings are left out of the quotations (they are printed in Section 10.25).
 
-**In [1], the set-up cell.** Its first 236 lines are comments that repeat the run instructions of Section 10.24. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10c"  # this notebook: chapter 10, example c`. It prints `Set-up of notebook 10c complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 252 lines are comments that repeat the run instructions of Section 10.24. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10c"  # this notebook: chapter 10, example c`. It prints `Set-up of notebook 10c complete: repository folder found, helpers defined.`
 
 **In [2], the gammas, B and the mode Hamiltonian.**
 
@@ -2241,14 +2324,29 @@ import sys  # the screen output, sys.stdout
 import numpy as np  # numbers, arrays and matrices
 
 
+REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+def record_says_pass(record):
+    path, separator, check_name = record.partition(", check ")
+    if not separator:  # a data entry of a record file that the notebook reads itself
+        return True
+    if path not in REPORT_CHECKS:
+        checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+        REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+    return REPORT_CHECKS[path].get(check_name) == "PASS"
+
+
 def check_record(condition, name, record):
+    if not record_says_pass(record):  # the cited check must exist and say PASS
+        raise AssertionError("the cited record check is missing or not PASS: " + record)
     buffer = io.StringIO()
     with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
         check(condition, name, record=record)
     sys.stdout.write(buffer.getvalue())  # one single piece of output
 ```
 
-The imports and the function `check_record` of In [2] of Notebook 10a (Section 10.10): `check_record` prints the PASS line and the line naming the reproduced record in one piece. This notebook needs no sympy.
+The imports and the functions `record_says_pass` and `check_record` of In [2] of Notebook 10a (Section 10.10): `check_record` stops the notebook if the cited report check is missing or not PASS (the question that `record_says_pass` answers, reading each report file once into `REPORT_CHECKS`), and otherwise prints the PASS line and the line naming the reproduced record in one piece. This notebook needs no sympy.
 
 ```python
 BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
@@ -2516,7 +2614,8 @@ ax.set_xlabel("value of the formula (real part)")
 ax.set_ylabel("normal-ordered value on the Fock space (real part)")
 ax.set_title("The expectation-value rule in the good sector")
 ax.legend(loc="upper left", fontsize=8)
-save_figure(fig, "expectation_rule", ...)
+save_figure(fig, "expectation_rule",
+...)
 ```
 
 The Fock-space values (vertical) are drawn against the formulas (horizontal): blue dots for particles, open orange squares for antiparticles, and the grey diagonal. Figure 1 of Notebook 10c shows all 200 points on the diagonal: the expectation-value rule of the Revision record holds in the good sector.
@@ -2642,7 +2741,8 @@ ax.set_ylabel("normal-ordered energy of one quantum")
 ax.set_ylim(-6.5, 6.5)
 ax.set_title("quantum: both quanta have energy $+E$")
 ax.legend(loc="lower right", fontsize=8)
-save_figure(fig, "dirac_sea", ...)
+save_figure(fig, "dirac_sea",
+...)
 ```
 
 The right panel draws the normal-ordered energies of a particle and of an antiparticle, both $+E$, so the dashed orange curve lies on the blue one. Figure 2 of Notebook 10c shows on the left two classical branches, one of them negative and filled, and on the right only positive energies: quantisation with normal ordering turns the negative classical branch into antiparticles of positive energy.
@@ -2670,7 +2770,8 @@ ax.set_ylabel("number of quanta $N_b + N_d$ (energy $= 5(N_b + N_d)$)")
 ax.set_title("The 65536 states of one momentum, $E = 5$")
 ax.grid(False)
 fig.colorbar(image, ax=ax, label="$\\log_{10}$ of the number of states")
-save_figure(fig, "fock_spectrum", ...)
+save_figure(fig, "fock_spectrum",
+...)
 ```
 
 Two arrows label the vacuum and the largest group, 4900 states with 8 quanta and charge 0. Figure 3 of Notebook 10c shows a diamond of filled squares: one state at the bottom (the vacuum), 16 in the row above, the largest numbers in the middle, and nothing below the vacuum: no state has negative energy.
@@ -2750,7 +2851,8 @@ axes[1].axhline(0.0, color=GREY, linewidth=1)
 axes[1].set_xticks(range(1, 17, 3))
 axes[1].set_xlabel("quantum (1 to 8 particles, 9 to 16 antiparticles)")
 axes[1].set_title("quantised fermion: every quantum $+5$")
-save_figure(fig, "commuting_energy", ...)
+save_figure(fig, "commuting_energy",
+...)
 ```
 
 The right panel draws the normal-ordered energies of the 16 one-quantum states of In [5], blue for particles and green for antiparticles. Figure 4 of Notebook 10c shows four bars of $+5$ and four of $-5$ on the left, and sixteen bars of $+5$ on the right: the same momentum, a positive energy for every quantum of the quantised fermion field, energies of both signs for the classical commuting field.
@@ -2783,7 +2885,8 @@ ax.set_xlabel("energy density $\\rho = E\\,u^\\dagger B u$ of a commuting wave "
               "($|c| = 1$)")
 ax.set_ylabel("number of waves (of 4000)")
 ax.set_title("dirac16complex00: positive frequency, energy of both signs")
-save_figure(fig, "energy_density_spread", ...)
+save_figure(fig, "energy_density_spread",
+...)
 ```
 
 A histogram with 40 bins between $-5$ and 5. Figure 5 of Notebook 10c shows a distribution symmetric about 0: about half of the positive-frequency waves of the commuting field have a negative energy density, and multiplying a wave by a number $c$ multiplies its energy by $|c|^2$, so the classical energy is unbounded below.
@@ -2915,7 +3018,7 @@ $$
 \Psi(x_4) = e^{Mx_4}\chi = \Big(\cosh(kx_4)\,I_{16} + \frac{\sinh(kx_4)}{k}\,M\Big)\chi
 $$
 
-for any constant column $\chi$, by the power series of $\cosh$ and $\sinh$. Check: $\partial_4\Psi = (k\sinh(kx_4)\,I_{16} + \cosh(kx_4)\,M)\chi$, while $M\Psi = (\cosh(kx_4)\,M + \frac{\sinh(kx_4)}{k}MM)\chi = (\cosh(kx_4)\,M + k\sinh(kx_4)\,I_{16})\chi$: equal. This is the member $\alpha = 0$ of the exact family of the Revision theory record (`python-field-theory.json`, check `exact_solution_family_x4_x8`). For large $x_4$ both $\cosh$ and $\sinh$ grow like $\frac12e^{kx_4}$, so the ordinary length $\Psi^\dagger\Psi$ grows like $e^{2kx_4}$.
+for any constant column $\chi$, by the power series of $\cosh$ and $\sinh$. Check: $\partial_4\Psi = (k\sinh(kx_4)\,I_{16} + \cosh(kx_4)\,M)\chi$, while $M\Psi = (\cosh(kx_4)\,M + \frac{\sinh(kx_4)}{k}MM)\chi = (\cosh(kx_4)\,M + k\sinh(kx_4)\,I_{16})\chi$: equal. This is the member $\alpha = 0$ of the exact family of the Revision theory record (`python-field-theory.json`, check `exact_solution_family_x4_x8`). For large $x_4$ both $\cosh$ and $\sinh$ grow like $\frac12e^{kx_4}$, so the ordinary squared length $\Psi^\dagger\Psi$ grows like $e^{2kx_4}$.
 
 **Where the Krein charge goes, line by line.** The Krein charge of this wave is $Q(x_4) = \int\cos z\,\Psi^\dagger B\Psi\,dx_8 = \Psi^\dagger B\Psi/(6H)$, because $\Psi$ does not depend on $x_8$. Its rate of change: from $\partial_4\Psi = -ih\Psi$ and $\partial_4\Psi^\dagger = i(h\Psi)^\dagger$,
 
@@ -2951,7 +3054,7 @@ Notebook 10d proves the four matrix facts (D1) to (D4) and the boundary-term ide
 
 The notebook has 10 code cells, In [1] to In [10]; docstrings are left out of the quotations (they are printed in Section 10.31).
 
-**In [1], the set-up cell.** Its first 235 lines are comments that repeat the run instructions of Section 10.30. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10d"  # this notebook: chapter 10, example d`. It prints `Set-up of notebook 10d complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 251 lines are comments that repeat the run instructions of Section 10.30. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10d"  # this notebook: chapter 10, example d`. It prints `Set-up of notebook 10d complete: repository folder found, helpers defined.`
 
 **In [2], the matrices of the hidden direction.**
 
@@ -2964,14 +3067,29 @@ import numpy as np  # numbers, arrays and matrices
 import sympy as sp  # exact algebra with symbols
 
 
+REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+def record_says_pass(record):
+    path, separator, check_name = record.partition(", check ")
+    if not separator:  # a data entry of a record file that the notebook reads itself
+        return True
+    if path not in REPORT_CHECKS:
+        checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+        REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+    return REPORT_CHECKS[path].get(check_name) == "PASS"
+
+
 def check_record(condition, name, record):
+    if not record_says_pass(record):  # the cited check must exist and say PASS
+        raise AssertionError("the cited record check is missing or not PASS: " + record)
     buffer = io.StringIO()
     with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
         check(condition, name, record=record)
     sys.stdout.write(buffer.getvalue())  # one single piece of output
 ```
 
-The imports and `check_record` of In [2] of Notebook 10a (Section 10.10).
+The imports and the helpers `REPORT_CHECKS`, `record_says_pass` and `check_record` of In [2] of Notebook 10a (Section 10.10): a cited report check must still exist with the verdict PASS, and the PASS line and the line naming the record are printed in one piece.
 
 ```python
 BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
@@ -3135,7 +3253,8 @@ ax.set_ylabel("value")
 ax.set_ylim(-0.05, 1.25)
 ax.set_title("The hidden direction: volume and boundary flux")
 ax.legend(loc="center left")
-save_figure(fig, "volume_and_flux", ...)
+save_figure(fig, "volume_and_flux",
+...)
 ```
 
 Two arrows explain the two dots. Figure 1 of Notebook 10d shows the volume falling from 1 to 0 and the bracket factor rising from 0 to 1: the volume vanishes at the patch end, but the boundary bracket does not, so a flux can pass through $z = \pi/2$.
@@ -3175,7 +3294,8 @@ ax.set_xlabel("$z = 6 H x_8$ ($m = H = 1$)")
 ax.set_ylabel("imaginary part")
 ax.set_title("The spin-connection term makes the defect a pure boundary term")
 ax.legend(fontsize=8)
-save_figure(fig, "symmetry_defect", ...)
+save_figure(fig, "symmetry_defect",
+...)
 ```
 
 The three curves against $z = 6x_8$. Figure 2 of Notebook 10d shows the green dashed curve exactly on the thick blue one, and the orange curve away from both: with the spin-connection term the defect is a derivative, whose integral is the flux at the ends; without it the remainder $-6H\cos z\,u^\dagger M_8u$ of Section 10.27 separates the curves.
@@ -3256,7 +3376,8 @@ ax.set_ylabel("imaginary part (units of $H$)")
 ax.set_aspect("equal")
 ax.set_title("Frequencies of the $x_8$-independent waves, $m$ from 0 to 5")
 ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1.0), fontsize=8)  # outside
-save_figure(fig, "frequency_paths", ...)
+save_figure(fig, "frequency_paths",
+...)
 ```
 
 Equal scales on both axes; `bbox_to_anchor` places the legend outside the drawing, to its right. Figure 3 of Notebook 10d shows the eigenvalues coming down the imaginary axis from $\pm3i$ (at $m = 0$) to 0 (at $m = 3$) and then moving out along the real axis: growth for $m < 3H$, oscillation for $m > 3H$.
@@ -3273,7 +3394,8 @@ ax.set_xlabel("mass $m$ in units of $H$")
 ax.set_ylabel("growth rate $\\kappa$ (units of $H$)")
 ax.set_title("Without a boundary condition: growth for $m < 3H$")
 ax.legend()
-save_figure(fig, "growth_rate", ...)
+save_figure(fig, "growth_rate",
+...)
 ```
 
 The growth rate $\kappa = \sqrt{9 - m^2}$ for $m < 3$ and 0 beyond (`np.maximum(..., 0.0)` replaces the negative values under the root by 0), with the recorded point $\kappa = 2\sqrt2 \approx 2.83$ at $m = 1$. Figure 4 of Notebook 10d shows the curve falling from 3 at $m = 0$ to 0 at $m = 3$ (a quarter of the circle $\kappa^2 + m^2 = 9$, drawn with unequal scales on the two axes): without a boundary condition at $z = \pi/2$, every mass below $3H$ gives growing waves of finite norm.
@@ -3325,7 +3447,7 @@ for t in x4_values:
 lengths, charges, fluxes = map(np.array, (lengths, charges, fluxes))
 ```
 
-At each time the loop computes $\Psi(x_4)$, its ordinary length $\Psi^\dagger\Psi$, its Krein charge $Q = \Psi^\dagger B\Psi/(6H)$ and the flux $\Psi^\dagger B\gamma^{(x_4)}\gamma^{(x_8)}\Psi$, the rate $dQ/dx_4$ of Section 10.28. `map(np.array, ...)` turns each of the three lists into an array.
+At each time the loop computes $\Psi(x_4)$, its ordinary squared length $\Psi^\dagger\Psi$, its Krein charge $Q = \Psi^\dagger B\Psi/(6H)$ and the flux $\Psi^\dagger B\gamma^{(x_4)}\gamma^{(x_8)}\Psi$, the rate $dQ/dx_4$ of Section 10.28. `map(np.array, ...)` turns each of the three lists into an array.
 
 ```python
 step = x4_values[1] - x4_values[0]
@@ -3343,10 +3465,10 @@ The flux is added up over time by the **trapezoidal rule**: on each step the are
 ```python
 growth = np.polyfit(x4_values[1500:], np.log(lengths[1500:]), 1)[0]
 report("late slope of ln(Psi^dagger Psi)", f"{growth:.4f} (2 k = {2 * k_number:.4f})")
-check(abs(growth - 2 * k_number) < 0.05, "the ordinary length grows like exp(2 k x4)")
+check(abs(growth - 2 * k_number) < 0.05, "the squared length grows like exp(2 k x4)")
 ```
 
-`np.polyfit(x, y, 1)` fits the straight line $y = ax + b$ through the points by least squares and returns $(a, b)$; `[0]` takes the slope. The fit uses the second half of the times (from index 1500, $x_4 = 0.75$, on) and the logarithm of the length. The printed slope is 5.6600, close to $2k = 5.6569$ (the length contains $\cosh$ and $\sinh$, not a pure exponential, so the slope only approaches $2k$), and the check allows a difference of 0.05. The cell prints three PASS lines.
+`np.polyfit(x, y, 1)` fits the straight line $y = ax + b$ through the points by least squares and returns $(a, b)$; `[0]` takes the slope. The fit uses the second half of the times (from index 1500, $x_4 = 0.75$, on) and the logarithm of the squared length $\Psi^\dagger\Psi$ (the list `lengths` holds these squared lengths). The printed slope is 5.6600, close to $2k = 5.6569$ (the squared length contains $\cosh$ and $\sinh$, not a pure exponential, so the slope only approaches $2k$), and the check allows a difference of 0.05. The cell prints three PASS lines.
 
 **In [9], the growing wave and its charge in a picture.**
 
@@ -3358,7 +3480,7 @@ axes[0].plot(x4_values, 2 * k_number * x4_values + np.log(lengths[-1])
              - 2 * k_number * x4_values[-1], "--", color=GREY, linewidth=1,
              label="slope $2k = 4\\sqrt{2}$")
 axes[0].set_xlabel("time $x_4$ (units of $1/H$)")
-axes[0].set_ylabel("$\\ln$ of the ordinary length")
+axes[0].set_ylabel("$\\ln$ of the squared length $\\Psi^\\dagger\\Psi$")
 axes[0].set_title("the wave grows")
 axes[0].legend()
 ```
@@ -3374,10 +3496,11 @@ axes[1].set_xlabel("time $x_4$ (units of $1/H$)")
 axes[1].set_ylabel("Krein charge (units of $1/H$)")
 axes[1].set_title("not conserved: it changes by the flux")
 axes[1].legend()
-save_figure(fig, "krein_leak", ...)
+save_figure(fig, "krein_leak",
+...)
 ```
 
-The right panel draws the Krein charge and its starting value plus the added flux. Figure 5 of Notebook 10d shows the logarithm of the length rising along a straight line, and the charge rising from $1/6$ to several hundred, with the green dashed curve exactly on the orange one: without a boundary condition at $z = \pi/2$ the Krein charge of the curved good sector is not conserved; it changes by exactly what passes through the patch end.
+The right panel draws the Krein charge and its starting value plus the added flux. Figure 5 of Notebook 10d shows the logarithm of the squared length rising along a straight line, and the charge rising from $1/6$ to several hundred, with the green dashed curve exactly on the orange one: without a boundary condition at $z = \pi/2$ the Krein charge of the curved good sector is not conserved; it changes by exactly what passes through the patch end.
 
 **In [10], the last check.**
 
@@ -3442,7 +3565,7 @@ $$
 X(\Gamma v) = -\Gamma Xv = -\lambda\,\Gamma v :
 $$
 
-$\Gamma$ carries every eigenvector of $X$ with eigenvalue $\lambda$ to one with eigenvalue $-\lambda$, and back. So the eigenvalues of $X$ come in pairs $\lambda, -\lambda$ of equal multiplicity, and the density $\Psi^\dagger X\Psi$ takes both signs unless $X = 0$. The canonical choice $c = -i$, $G = C$ gives $Y = -iC\gamma^{(x_4)} = B$, which is already Hermitian, so $X = B$ with eigenvalues $\pm1$, eight each. **In signature (4,4) no invariant charge density is positive**: the indefinite charge of dirac16complex is not an accident of the choice $B$. (In ordinary 3+1 dimensions the analogous density $\psi^\dagger\psi$ is positive; the difference is the pairing $\lambda \to -\lambda$ produced by the chirality, which anticommutes with the time gamma.)
+$\Gamma$ carries every eigenvector of $X$ with eigenvalue $\lambda$ to one with eigenvalue $-\lambda$, and back. So the eigenvalues of $X$ come in pairs $\lambda, -\lambda$ of equal multiplicity, and the density $\Psi^\dagger X\Psi$ takes both signs unless $X = 0$. The canonical choice $c = -i$, $G = C$ gives $Y = -iC\gamma^{(x_4)} = B$, which is already Hermitian, so $X = B$ with eigenvalues $\pm1$, eight each. **In signature (4,4) no invariant charge density is positive**: the indefinite charge of dirac16complex is not an accident of the choice $B$. (In ordinary 3+1 dimensions the time gamma also anticommutes with the chirality $\gamma_5$, so that fact alone is not the difference. The difference is the invariant form. In 3+1 dimensions it is $G = \gamma^0$, a single gamma, which anticommutes with $\gamma_5$; so the density matrix $G\gamma^0 = \gamma^0\gamma^0 = I_4$ commutes with $\gamma_5$, the argument above gives no pairing, and the density $\psi^\dagger\psi$ is positive. In (4,4) the invariant forms $r_-CP_- + r_+CP_+$ are built from $C$, a product of four gammas, and commute with $\Gamma$, while $\gamma^{(x_4)}$ anticommutes with it; this is what produces the pairing $\lambda \to -\lambda$.)
 
 ### 10.34 The symmetries that keep the canonical rule
 
@@ -3471,7 +3594,7 @@ So $S^{ab}$ is anti-Hermitian when $\eta_{aa}\eta_{bb} = +1$ (both directions sp
 - rotations that commute with $B$: the 6 among $x_1, x_2, x_3, x_8$ and the 3 among $x_5, x_6, x_7$; the 3 rotations $S^{(x_4x_t)}$, $t = 5, 6, 7$, anticommute and fail;
 - boosts that anticommute with $B$: one direction among $x_1, x_2, x_3, x_8$ and one among $x_5, x_6, x_7$, $4 \times 3 = 12$; the 4 boosts $S^{(x_ax_4)}$, $a = 1, 2, 3, 8$, commute and fail.
 
-So exactly $9 + 12 = 21$ generators are Krein-unitary: precisely the $\binom72 = 21$ pairs that do not contain $x_4$. They generate **Spin(4,3)**, the spin group of the seven slice directions (four space-like, three time-like). For the 7 generators with $x_4$ written first, $S^{(x_4x_b)} = \frac12\gamma^{(x_4)}\gamma^{(x_b)}$, the condition fails by $S^\dagger B + BS = 2BS = -iC\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_b)} = iC\gamma^{(x_b)}$ (in both cases the left side equals $2BS$, because either $S^\dagger = S$ and $SB = BS$, or $S^\dagger = -S$ and $SB = -BS$; then $\gamma^{(x_4)}\gamma^{(x_4)} = -I_{16}$). Of the 21, the 9 rotations are also unitary; the 12 boosts mixing a space direction with an extra time keep the canonical rule but change the ordinary length. The canonical structure singles out the time $x_4$, as $\psi^\dagger\psi$ does in ordinary Dirac theory: a transformation that turns $x_4$ into another direction also changes the slices $x_4 = $ const on which the field is quantised.
+So exactly $9 + 12 = 21$ generators are Krein-unitary: precisely the $\binom72 = 21$ pairs that do not contain $x_4$. They generate **Spin(4,3)**, the spin group of the seven slice directions (four space-like, three time-like). For the 7 generators with $x_4$ written first, $S^{(x_4x_b)} = \frac12\gamma^{(x_4)}\gamma^{(x_b)}$, the condition fails by $S^\dagger B + BS = 2BS = -iC\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_b)} = iC\gamma^{(x_b)}$ (in both cases the left side equals $2BS$, because either $S^\dagger = S$ and $SB = BS$, or $S^\dagger = -S$ and $SB = -BS$; then $\gamma^{(x_4)}\gamma^{(x_4)} = -I_{16}$). Of the 21, the 9 rotations are also unitary; the 12 boosts mixing a space direction with an extra time keep the canonical rule but change the ordinary squared length (and so the length). The canonical structure singles out the time $x_4$, as $\psi^\dagger\psi$ does in ordinary Dirac theory: a transformation that turns $x_4$ into another direction also changes the slices $x_4 = $ const on which the field is quantised.
 
 **Finite rotations and boosts.** For $a \neq b$, $(\gamma^{(x_a)}\gamma^{(x_b)})^2 = -\gamma^{(x_a)}\gamma^{(x_a)}\gamma^{(x_b)}\gamma^{(x_b)} = -\eta_{aa}\eta_{bb}I_{16}$, so $(S^{ab})^2 = -\frac14\eta_{aa}\eta_{bb}I_{16}$. As in Section 10.4 the exponential series collapses:
 
@@ -3479,7 +3602,7 @@ $$
 \exp(\theta S^{ab}) = \cos\tfrac\theta2\,I_{16} + 2\sin\tfrac\theta2\,S^{ab}\ \text{(rotation)},\qquad \exp(\theta S^{ab}) = \cosh\tfrac\theta2\,I_{16} + 2\sinh\tfrac\theta2\,S^{ab}\ \text{(boost)} .
 $$
 
-(For a rotation write $S = \frac12J$ with $JJ = -I_{16}$; the even powers of $\theta S$ give the cosine series of $\theta/2$ and the odd ones $J$ times the sine series. For a boost $JJ = +I_{16}$ and the hyperbolic functions appear.) Example: a column $u$ with $Bu = u$ and $u^\dagger u = 1$, boosted by $S^{(x_1x_5)}$ (Hermitian, Krein-unitary). Since $R$ is Hermitian, $R^\dagger R = RR = \exp(2\theta S) = \cosh\theta\,I_{16} + 2\sinh\theta\,S$, and $u^\dagger Su = 0$ (because $S$ anticommutes with $B$: $u^\dagger Su = u^\dagger SBu = -u^\dagger BSu = -(Bu)^\dagger Su = -u^\dagger Su$); so the ordinary length becomes $\cosh\theta$, while the Krein norm stays 1.
+(For a rotation write $S = \frac12J$ with $JJ = -I_{16}$; the even powers of $\theta S$ give the cosine series of $\theta/2$ and the odd ones $J$ times the sine series. For a boost $JJ = +I_{16}$ and the hyperbolic functions appear.) Example: a column $u$ with $Bu = u$ and $u^\dagger u = 1$, boosted by $S^{(x_1x_5)}$ (Hermitian, Krein-unitary). Since $R$ is Hermitian, $R^\dagger R = RR = \exp(2\theta S) = \cosh\theta\,I_{16} + 2\sinh\theta\,S$, and $u^\dagger Su = 0$ (because $S$ anticommutes with $B$: $u^\dagger Su = u^\dagger SBu = -u^\dagger BSu = -(Bu)^\dagger Su = -u^\dagger Su$); so the ordinary squared length $(Ru)^\dagger(Ru) = u^\dagger R^\dagger Ru$ becomes $\cosh\theta$, while the Krein norm stays 1.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
@@ -3498,7 +3621,7 @@ Notebook 10e builds the 28 generators, solves the $28 \times 256$ linear equatio
 
 The notebook has 10 code cells, In [1] to In [10]; docstrings are left out of the quotations (they are printed in Section 10.37).
 
-**In [1], the set-up cell.** Its first 233 lines are comments that repeat the run instructions of Section 10.36. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10e"  # this notebook: chapter 10, example e`. It prints `Set-up of notebook 10e complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 249 lines are comments that repeat the run instructions of Section 10.36. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10e"  # this notebook: chapter 10, example e`. It prints `Set-up of notebook 10e complete: repository folder found, helpers defined.`
 
 **In [2], the gammas, the generators and the chiral projectors.**
 
@@ -3512,14 +3635,29 @@ import numpy as np  # numbers, arrays and matrices
 from matplotlib.colors import LinearSegmentedColormap, ListedColormap  # colours
 
 
+REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+def record_says_pass(record):
+    path, separator, check_name = record.partition(", check ")
+    if not separator:  # a data entry of a record file that the notebook reads itself
+        return True
+    if path not in REPORT_CHECKS:
+        checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+        REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+    return REPORT_CHECKS[path].get(check_name) == "PASS"
+
+
 def check_record(condition, name, record):
+    if not record_says_pass(record):  # the cited check must exist and say PASS
+        raise AssertionError("the cited record check is missing or not PASS: " + record)
     buffer = io.StringIO()
     with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
         check(condition, name, record=record)
     sys.stdout.write(buffer.getvalue())  # one single piece of output
 ```
 
-The imports of In [2] of Notebook 10a, and in addition `itertools`, a module of Python that lists combinations, and two kinds of colour scales of matplotlib. `check_record` is the function of Section 10.10.
+The imports of In [2] of Notebook 10a, and in addition `itertools`, a module of Python that lists combinations, and two kinds of colour scales of matplotlib. `REPORT_CHECKS`, `record_says_pass` and `check_record` are the helpers of Section 10.10 (a cited report check must still exist with the verdict PASS; the two printed lines come in one piece).
 
 ```python
 BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
@@ -3625,7 +3763,8 @@ for ax, (label, G) in zip(axes, forms.items()):
     ax.grid(False)
     ax.set_title(titles[label])
 fig.colorbar(image, ax=list(axes), shrink=0.8, label="entry")
-save_figure(fig, "invariant_forms", ...)
+save_figure(fig, "invariant_forms",
+...)
 ```
 
 The two forms as heat maps, with the steps of the function `draw_matrix` of Notebook 10a written out (rows and columns labelled from 1 at every third one, no grid). Figure 1 of Notebook 10e shows $CP_-$ filled only in the upper left $8 \times 8$ block and $CP_+$ only in the lower right one, each block with one red or blue square per row and column; together they make $C$.
@@ -3637,7 +3776,8 @@ ax.axhline(1e-9, color=GREY, linestyle=":", linewidth=1)
 ax.set_xlabel("number of the eigenvalue (sorted)")
 ax.set_ylabel("eigenvalue of $M^TM$ (log scale)")
 ax.set_title("Two zero eigenvalues: two invariant forms")
-save_figure(fig, "singular_values", ...)
+save_figure(fig, "singular_values",
+...)
 ```
 
 `ax.semilogy` draws with a logarithmic vertical axis; values below $10^{-18}$ (the zeros, which rounding may even make slightly negative) are drawn at $10^{-18}$. The dotted line marks the threshold $10^{-9}$. Figure 2 of Notebook 10e shows two points far down at the rounding level and all 254 others at about 7 or higher: two invariant forms.
@@ -3696,7 +3836,8 @@ ax.axhline(0.0, color=GREY, linewidth=1)
 ax.set_xlabel("random invariant density (1 to 40), and the canonical $B$ (42)")
 ax.set_ylabel("eigenvalues of the density matrix $X$")
 ax.set_title("Every invariant charge density is indefinite")
-save_figure(fig, "density_eigenvalues", ...)
+save_figure(fig, "density_eigenvalues",
+...)
 ```
 
 `enumerate(spectra, 1)` numbers the samples from 1. Each sample is drawn as 16 short horizontal marks (the marker `"_"`) at its eigenvalues, above its number; the colours alternate between blue and green, and $B$ is drawn in orange at position 42. Figure 3 of Notebook 10e shows for every sample marks above and below the grey zero line in mirror-image positions: eigenvalues in pairs $\pm\lambda$, eight of each sign, as Section 10.33 proved.
@@ -3784,7 +3925,8 @@ ax.legend(loc="lower left", fontsize=8)
 ax.set_xlabel("second direction $b$")
 ax.set_ylabel("first direction $a$")
 ax.set_title("The 28 generators $S^{ab}$ and the canonical anticommutator")
-save_figure(fig, "generator_types", ...)
+save_figure(fig, "generator_types",
+...)
 ```
 
 Empty plots with square markers create the three legend entries, placed in the empty lower left corner. Figure 4 of Notebook 10e shows the column and the row of $x_4$ orange (the 7 generators that break the canonical rule), blue rotations among $x_1, x_2, x_3$ and $x_8$ and among $x_5, x_6, x_7$, and green boosts between those two groups.
@@ -3832,7 +3974,7 @@ for pair in ((1, 2), (1, 5), (1, 4)):
     curves[pair] = (np.array(lengths), np.array(kreins))
 ```
 
-A column $u$ with $Bu = u$ and length 1 (so its Krein norm is 1) is transformed by the rotation $S^{(x_1x_2)}$, the boost $S^{(x_1x_5)}$ and the boost $S^{(x_1x_4)}$ for 241 values of $\theta$ from $-3$ to 3, and its ordinary length and Krein norm are stored. `spin_transformation(*pair, theta)` passes the two numbers of the pair as the first two arguments.
+A column $u$ with $Bu = u$ and length 1 (so its Krein norm is 1) is transformed by the rotation $S^{(x_1x_2)}$, the boost $S^{(x_1x_5)}$ and the boost $S^{(x_1x_4)}$ for 241 values of $\theta$ from $-3$ to 3, and its ordinary squared length and its Krein norm are stored. `spin_transformation(*pair, theta)` passes the two numbers of the pair as the first two arguments.
 
 ```python
 kept = {pair: np.max(np.abs(curves[pair][1] - 1)) < 1e-12 for pair in curves}
@@ -3859,17 +4001,18 @@ for pair, (colour, style, label) in styles.items():
                  label=label)
 ```
 
-Each transformation gets a colour, a line style (solid, dashed, dotted) and a label; the left panel draws the ordinary lengths, the right panel the Krein norms.
+Each transformation gets a colour, a line style (solid, dashed, dotted) and a label; the left panel draws the ordinary squared lengths $(Ru)^\dagger(Ru)$, the right panel the Krein norms.
 
 ```python
-axes[0].set_ylabel("ordinary length $(Ru)^\\dagger(Ru)$")
+axes[0].set_ylabel("squared length $(Ru)^\\dagger(Ru)$")
 axes[1].set_ylabel("Krein norm $(Ru)^\\dagger B (Ru)$")
 for ax in axes:
     ax.set_xlabel("angle or rapidity $\\theta$")
     ax.legend(fontsize=8)
 axes[0].set_title("unitary: only the rotation keeps the length")
 axes[1].set_title("Krein-unitary: the rotation and the $x_1x_5$ boost")
-save_figure(fig, "finite_transformations", ...)
+save_figure(fig, "finite_transformations",
+...)
 ```
 
 Figure 5 of Notebook 10e shows on the left the rotation flat at 1 while both boosts rise ($\cosh\theta$ for the $x_1x_5$ boost, Section 10.34), and on the right the rotation and the $x_1x_5$ boost flat at 1 while the $x_1x_4$ boost moves away: a boost between a space direction and an extra time keeps the canonical rule, a boost that involves the time $x_4$ does not.
@@ -3998,7 +4141,7 @@ Notebook 10f reads the history and the scale factors from the Revision records, 
 
 The notebook has 13 code cells, In [1] to In [13]; docstrings are left out of the quotations (they are printed in Section 10.42).
 
-**In [1], the set-up cell.** Its first 240 lines are comments that repeat the run instructions of Section 10.41. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10f"  # this notebook: chapter 10, example f`. It prints `Set-up of notebook 10f complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 255 lines are comments that repeat the run instructions of Section 10.41. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10f"  # this notebook: chapter 10, example f`. It prints `Set-up of notebook 10f complete: repository folder found, helpers defined.`
 
 **In [2], the deflating history of the Revision record.**
 
@@ -4011,7 +4154,22 @@ import numpy as np  # numbers, arrays and matrices
 import sympy as sp  # exact algebra with symbols
 
 
+REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+def record_says_pass(record):
+    path, separator, check_name = record.partition(", check ")
+    if not separator:  # a data entry of a record file that the notebook reads itself
+        return True
+    if path not in REPORT_CHECKS:
+        checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+        REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+    return REPORT_CHECKS[path].get(check_name) == "PASS"
+
+
 def check_record(condition, name, record):
+    if not record_says_pass(record):  # the cited check must exist and say PASS
+        raise AssertionError("the cited record check is missing or not PASS: " + record)
     buffer = io.StringIO()
     with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
         check(condition, name, record=record)
@@ -4021,7 +4179,7 @@ def check_record(condition, name, record):
 BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
 ```
 
-The imports, the function `check_record` of Section 10.10, and the four colours.
+The imports, the helpers `REPORT_CHECKS`, `record_says_pass` and `check_record` of Section 10.10 (a cited report check must still exist with the verdict PASS; the two printed lines come in one piece), and the four colours.
 
 ```python
 parameters = json.loads(repository_file(
@@ -4220,7 +4378,8 @@ for ax in axes:
 axes[0].set_ylabel("size (units of $m$)")
 axes[0].set_title("anti-Hermitian part $h_A$: size $k_5 = q_5e^{a_4}$")
 axes[1].set_title("mixing of the $B$ sectors: size of $Bh - hB$")
-save_figure(fig, "hermiticity_defect", ...)
+save_figure(fig, "hermiticity_defect",
+...)
 ```
 
 Logarithmic vertical axes (`set_yscale("log")`), on which an exponential is a straight line, and a dotted line at the mass. Figure 1 of Notebook 10f shows three parallel straight lines in each panel with the dots on them: the departure from Hermiticity and the mixing of the two sectors of $B$ grow like $e^{a_4}$, crossing the level of the mass sooner for larger $q_5$.
@@ -4323,7 +4482,8 @@ for ax, what in ((axes[0], "real part"), (axes[1], "imaginary part")):
     ax.set_ylabel(f"{what} of the eigenvalues (units of $m$)")
 axes[0].set_title("oscillation before the onset")
 axes[1].set_title("growth after the onset")
-save_figure(fig, "eigenvalues_along_history", ...)
+save_figure(fig, "eigenvalues_along_history",
+...)
 ```
 
 The real parts (left) and imaginary parts (right) against the time, with a dotted line at the onset. Figure 2 of Notebook 10f shows the real frequencies $\pm w(x_4)$ closing in to 0 at $x_4^\ast = 2.996$ and the imaginary parts opening up after it, growing further as the extra-time frame momentum keeps growing: the picture of Figure 3 of Notebook 10a, now produced by the deflation itself.
@@ -4407,7 +4567,8 @@ ax.set_yticks(range(0, 9))
 ax.set_ylim(0.0, 10.5)  # room for the legend above the bars
 ax.set_title("Krein inertia of one wave along the deflating history")
 ax.legend(loc="upper center", ncol=3, fontsize=8)
-save_figure(fig, "inertia_along_history", ...)
+save_figure(fig, "inertia_along_history",
+...)
 ```
 
 Figure 3 of Notebook 10f shows half-blue, half-orange bars up to the onset time 2.996 and green bars after it: the deflation of the extra times moves the wave from the kind with inertia $(4, 4)$ to the Krein-neutral kind at a definite time.
@@ -4477,7 +4638,8 @@ ax.set_ylabel("$\\log_{10}$ of the extra-time momentum $q_5$")
 ax.set_title("Which waves still oscillate? ($q_1 = 0.5$, $y = 0$)")
 ax.legend(loc="lower left", fontsize=8)  # the lower left corner is all blue
 ax.grid(False)
-save_figure(fig, "onset_map", ...)
+save_figure(fig, "onset_map",
+...)
 ```
 
 Green dashed lines mark the times $x_4 = a_{4,0}/(AH)$ of the five slices of the Kohn-Sham record; the two texts (with a line break written as a backslash and n) name the two regions. Figure 4 of Notebook 10f shows the blue region shrinking towards small $q_5$ as time goes on, bounded by the grey onset curve, which is nearly a straight line on this logarithmic scale (for small $q_5$, $x_4^\ast \approx \ln(1/q_5)$): the band of oscillating extra-time waves shrinks exponentially, and only the good sector $q_5 = 0$ stays blue for ever.
@@ -4554,7 +4716,8 @@ axes[1].set_title("the instantaneous vacuum")
 for ax in axes:
     ax.set_xlabel("time $x_4$ (units of $1/m$)")
     ax.legend(fontsize=8)
-save_figure(fig, "good_sector_energies", ...)
+save_figure(fig, "good_sector_energies",
+...)
 ```
 
 Dotted lines at the limits $m$ and $-8m$. Figure 5 of Notebook 10f shows the four energy curves falling towards the mass as 3-space inflates (larger $q_1$ fall from higher), with the dots on them, and the sea values rising towards $-8m$: in the good sector every quantum has a positive energy at every time, and the inertia stays $(4, 4)$.
@@ -4644,7 +4807,13 @@ $$
 H_m[\Psi] = \chi^\dagger\Gamma h'_m\Gamma\chi = -\chi^\dagger h'_{-m}\chi = -H_{-m}[\Gamma\Psi],\qquad Q[\Psi] = \chi^\dagger\Gamma B\Gamma\chi = -Q[\Gamma\Psi] .
 $$
 
-The energy and the charge of the field are MINUS the energy and the charge that the mass $-m$ theory assigns to the image: $T \to -T$ and $J \to -J$ of T1 are identities between operators of ONE quantum system. The image is not a second universe with negative energy; it is the first universe written in other variables. Its motion agrees: with the metric $-B$ and the generator density $-h'_m$ the image evolves by $(-B)(-h'_m) = Bh'_m = h_m$, the dynamics of mass $m$; equivalently $\Gamma(Bh'_{-m})\Gamma = (\Gamma B\Gamma)(\Gamma h'_{-m}\Gamma) = (-B)(-h'_m) = Bh'_m$ (insert $\Gamma\Gamma = I_{16}$ between the factors). In terms of the image field, $i\,\partial_4(\Gamma\Psi) = \Gamma h_m\Psi = (\Gamma h_m\Gamma)(\Gamma\Psi) = h_{-m}\Gamma\Psi$: the image obeys the wave equation of mass $-m$ and is moved by the SAME energy operator $H_m[\Psi]$.
+The energy and the charge of the field are MINUS the energy and the charge that the mass $-m$ theory assigns to the image: $T \to -T$ and $J \to -J$ of T1 are identities between operators of ONE quantum system. The image is not a second universe with negative energy; it is the first universe written in other variables. Its motion agrees. In its own variable $\chi = \Gamma\Psi$ the image has the metric $-B$ (Q1) and, by the display above ($H_m[\Psi] = -\chi^\dagger h'_{-m}\chi$), the generator density $-h'_{-m}$; its one-particle generator is the product of the two, as in Section 10.12, so it evolves by
+
+$$
+(-B)(-h'_{-m}) = Bh'_{-m} = h_{-m} ,
+$$
+
+the wave equation of mass $-m$. Written back in the variable $\Psi = \Gamma\chi$, the same motion is $\Gamma h_{-m}\Gamma = (\Gamma B\Gamma)(\Gamma h'_{-m}\Gamma) = (-B)(-h'_m) = Bh'_m = h_m$ (insert $\Gamma\Gamma = I_{16}$ between the factors; $\Gamma h'_{-m}\Gamma = -h'_m$ is the identity $\Gamma h'_m\Gamma = -h'_{-m}$ with $m$ replaced by $-m$): the dynamics of $\Psi$ itself. The Revision record states the same identity in the other direction, for the image of a field of mass $-m$: that image carries the metric $-B$ and the generator density $-h'_m$ and evolves by $(-B)(-h'_m) = Bh'_m = h_m$, the dynamics of mass $m$ (`python-pairing.json`, check `Q.image_generators_same_dynamics`). In terms of the image field, $i\,\partial_4(\Gamma\Psi) = \Gamma h_m\Psi = (\Gamma h_m\Gamma)(\Gamma\Psi) = h_{-m}\Gamma\Psi$: the image obeys the wave equation of mass $-m$ and is moved by the SAME energy operator $H_m[\Psi]$.
 
 **(Q3) An independent universe of mass $-m$, and no cancellation.** An independently quantised universe of mass $-m$ is a NEW field $\Psi_2$ with its own Lagrangian $\mathcal{L}_{-m}[\Psi_2]$. The mass does not enter the time-derivative kernel, so its kernel is $+B$ and $\{\Psi_2, \Psi_2^\dagger\} = +B$; being independent of the first universe $\Psi_1$, it anticommutes with it: $\{\Psi_{2A}, \Psi^\dagger_{1C}\} = 0$ and $\{\Psi_{2A}, \Psi_{1C}\} = 0$. The image $\Gamma\Psi_1$ fails both requirements: it carries $-B$, not $+B$, and $\{(\Gamma\Psi_1)_A, \Psi^\dagger_{1C}\} = \sum_D\Gamma_{AD}B_{DC} = (\Gamma B)_{AC}$, a matrix of rank 16 (it is invertible), not 0. So no identification $\Psi_2 = \Gamma\Psi_1$ exists. The same holds for the other images built from $\Psi_1$: the mirror image $\gamma^{(x_8)}\Psi_1$ has the right rule $+B$ but $\{\gamma^{(x_8)}\Psi_1, \Psi_1^\dagger\} = \gamma^{(x_8)}B \neq 0$, and the conjugate field $\Psi^c = \Gamma\Psi_1^{\dagger T}$ has $+B$ (Section 10.15) but $\{\Psi^c_A, \Psi_{1C}\} = \sum_D\Gamma_{AD}B_{CD} = (\Gamma B^T)_{AC} = -(\Gamma B)_{AC} \neq 0$. A second universe must live on a larger state space. There the total energy is $H_1 + H_2$, the generators ADD ($P_{\mathrm{total}} = P_1 \otimes 1 + 1 \otimes P_2$ on the product space), and the T1 identity relates operators of universe 1 only; it gives no relation $P_2 = -P_1$. The one-particle generator of the two universes is the block matrix $\mathrm{diag}(Bh'_m, Bh'_{-m})$. At zero momentum $Bh'_{\pm m} = \pm mBC$, and
 
@@ -4678,8 +4847,8 @@ The author asked to prove that universes of masses $+m$ and $-m$ are created in 
 
 **What is NOT established** (the Revision record lists the same points, written independently by the two verification engines: `python-pairing.json`, check `compare.theory.not_established`):
 
-1. No creation process. Nothing in these equations produces a universe, a pair of universes or a change of the number of universes; no transition from "no universe" to "two universes", no initial state, no vacuum decay and no tunnelling process is derived.
-2. No rate, probability or amplitude. No transition amplitude, probability, rate or Bogoliubov coefficient for creating universes of masses $+m$ and $-m$ is computed or implied; no wave function of the universe is part of these statements.
+1. No creation process. Nothing in these equations produces a universe, a pair of universes or a change of the number of universes; no transition from "no universe" to "two universes", no initial state, no vacuum decay (the transition of a state of lowest energy into another state of still lower energy) and no tunnelling process (a quantum transition through a barrier that the classical motion cannot cross) is derived.
+2. No rate, probability or amplitude. No transition amplitude, probability, rate or Bogoliubov coefficient for creating universes of masses $+m$ and $-m$ is computed or implied (when the background changes in time, a **Bogoliubov coefficient** measures how much of a wave of negative frequency at a later time is contained in a wave of positive frequency at an earlier time; its square counts the quanta that the change creates). No wave function of the universe (in quantum cosmology, a quantum state of the geometry of the whole universe, from which probabilities for universes are computed) is part of these statements.
 3. No dynamical necessity. No equation and no conservation law forces the partner to exist: a single universe of mass $+m$ is an equally valid solution without its partner.
 4. No cancellation between two universes. The vanishing of the total energy-momentum and charge of a T1 pair holds for classical bilinears and, as Q2 shows, as an operator identity within ONE quantum system. For two independently quantised universes the generators ADD; a pair of total charge 0 has the positive energy $2E$ (Section 10.44).
 5. No positive quantum theory of the whole field. The canonical rule forces a Krein space (Theorem 10.2); in flat 4+4 space every real-frequency eigenspace has Krein inertia $(4, 4)$; a positive Fock space exists for single good-sector momenta only; the extra-time sector grows and becomes Krein-neutral along the deflating history (Section 10.39); the curved good sector needs a boundary condition at $z = \pi/2$ that the quantisation record does not impose (Section 10.27).
@@ -4690,7 +4859,7 @@ The author asked to prove that universes of masses $+m$ and $-m$ are created in 
 
 ### 10.46 Example: Notebook 10g checks the quantum reading of the pairing
 
-Notebook 10g proves the Lagrangian identity $\mathcal{L}_m[\Gamma\chi] = -\mathcal{L}_{-m}[\chi]$ for symbolic field components and computes the three time-derivative kernels $B$, $-B$ and $+B$ (Q1, Q3); checks on a Fock space that the image carries $-B$ and the mirror image $+B$ (Q1, Q5); checks $H_m[\Psi] = -H_{-m}[\Gamma\Psi]$ and $Q[\Psi] = -Q[\Gamma\Psi]$ as operator identities on 150 random states and that the image obeys the wave equation of mass $-m$ under the same energy operator (Q2); tests three candidates for an independent universe (Q3); builds two independently quantised universes on 32 fermion modes, computes their block generator, and counts all $2^{32}$ states of one good-sector momentum in both universes (Q3). It draws five figures and ends with the line ALL 29 CHECKS PASSED (notebook 10g).
+Notebook 10g proves the Lagrangian identity $\mathcal{L}_m[\Gamma\chi] = -\mathcal{L}_{-m}[\chi]$ for symbolic field components and computes the three time-derivative kernels $B$, $-B$ and $+B$ (Q1, Q3); checks on a Fock space that the image carries $-B$ and the mirror image $+B$ (Q1, Q5); checks $H_m[\Psi] = -H_{-m}[\Gamma\Psi]$ and $Q[\Psi] = -Q[\Gamma\Psi]$ as operator identities on 150 random states and that the image obeys the wave equation of mass $-m$ under the same energy operator (Q2); tests three candidates for an independent universe (Q3); builds two independently quantised universes on 32 fermion modes, computes their block generator, and counts all $2^{32}$ states of one good-sector momentum in both universes (Q3). It draws five figures and ends with the line ALL 30 CHECKS PASSED (notebook 10g).
 
 <!-- NOTEBOOK 10g -->
 
@@ -4698,7 +4867,7 @@ Notebook 10g proves the Lagrangian identity $\mathcal{L}_m[\Gamma\chi] = -\mathc
 
 The notebook has 13 code cells, In [1] to In [13]; docstrings are left out of the quotations (they are printed in Section 10.48).
 
-**In [1], the set-up cell.** Its first 240 lines are comments that repeat the run instructions of Section 10.47. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10g"  # this notebook: chapter 10, example g`. It prints `Set-up of notebook 10g complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 255 lines are comments that repeat the run instructions of Section 10.47. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10g"  # this notebook: chapter 10, example g`. It prints `Set-up of notebook 10g complete: repository folder found, helpers defined.`
 
 **In [2], the matrices and the statements of the record.**
 
@@ -4713,14 +4882,29 @@ import sympy as sp  # exact algebra with symbols
 from matplotlib.colors import LinearSegmentedColormap  # colour scales
 
 
+REPORT_CHECKS = {}  # report file -> {check name: verdict}; each file is read once
+
+
+def record_says_pass(record):
+    path, separator, check_name = record.partition(", check ")
+    if not separator:  # a data entry of a record file that the notebook reads itself
+        return True
+    if path not in REPORT_CHECKS:
+        checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+        REPORT_CHECKS[path] = {c["name"]: c["verdict"].upper() for c in checks}
+    return REPORT_CHECKS[path].get(check_name) == "PASS"
+
+
 def check_record(condition, name, record):
+    if not record_says_pass(record):  # the cited check must exist and say PASS
+        raise AssertionError("the cited record check is missing or not PASS: " + record)
     buffer = io.StringIO()
     with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
         check(condition, name, record=record)
     sys.stdout.write(buffer.getvalue())  # one single piece of output
 ```
 
-The imports of the earlier notebooks (with the binomial coefficient `comb` of Notebook 10c and the colour scales of Notebook 10a) and the function `check_record` of Section 10.10.
+The imports of the earlier notebooks (with the binomial coefficient `comb` of Notebook 10c and the colour scales of Notebook 10a) and the helpers `REPORT_CHECKS`, `record_says_pass` and `check_record` of Section 10.10 (a cited report check must still exist with the verdict PASS; the two printed lines come in one piece).
 
 ```python
 BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
@@ -4766,7 +4950,26 @@ for number, statement in enumerate(theorem_Q["statement"], 1):
 check(len(theorem_Q["statement"]) == 5, "the record states five quantum statements")
 ```
 
-The pairing record holds a list of theorems; `next(...)` finds the one whose identifier is `Q`. The cell prints its name, `quantum-level reading`, the number of its hypotheses (1) and of its statements (5), and the first 70 characters of each statement (`statement[:70]`): Q1 about the Krein metric $-B$ of the image, Q2 about the image's own generators, Q3 about an independently quantised universe, Q4 about the one-particle Hamiltonians, Q5 about the mirror image. The check confirms the five statements. Two PASS lines in the cell.
+The pairing record holds a list of theorems; `next(...)` finds the one whose identifier is `Q`. The cell prints its name, `quantum-level reading`, the number of its hypotheses (1) and of its statements (5), and the first 70 characters of each statement (`statement[:70]`): Q1 about the Krein metric $-B$ of the image, Q2 about the image's own generators, Q3 about an independently quantised universe, Q4 about the one-particle Hamiltonians, Q5 about the mirror image. The check confirms the five statements.
+
+```python
+compare_file = "Revision/pairing/reports/python-pairing.json"
+compare_checks = json.loads(repository_file(compare_file).read_text(
+    encoding="utf-8"))["checks"]
+detail = next(c["detail"] for c in compare_checks
+              if c["name"] == "compare.theory.theorem_Q")
+confirming = detail.split("all PASS: ")[1].split(", ")  # the sympy checks named
+say("compare.theory.theorem_Q: " + detail.split(" is independently")[0])
+say(f"confirmed by {len(confirming)} sympy checks: {confirming[0]}, ...")
+check_record("5 statements, 12 Wolfram verifications" in detail
+             and "confirmed by 10 sympy checks" in detail and len(confirming) == 10
+             and all(record_says_pass(f"{compare_file}, check {name}")
+                     for name in confirming),
+             "theorem Q: 10 sympy checks, all PASS, confirm 12 Wolfram verifications",
+             record=f"{compare_file}, check compare.theory.theorem_Q")
+```
+
+The sympy pairing report `python-pairing.json` holds, besides its own checks, checks that compare its results with those of the Wolfram report; `compare.theory.theorem_Q` is the one for theorem Q. The cell reads the report and takes the detail text of that check (`next(...)` returns the first matching entry). The text ends with `all PASS: ` and the names of the confirming sympy checks separated by commas: `detail.split("all PASS: ")[1]` is the part after `all PASS: `, and `.split(", ")` cuts it into the list `confirming` of the names. The two `say` lines print the first part of the detail text, `Wolfram theorem Q (quantum-level reading; 5 statements, 12 Wolfram verifications)`, and the number 10 with the first name, `Q.canonical_anticommutator`. The check confirms that the text states 5 statements, 12 Wolfram verifications and 10 sympy checks, that it names exactly 10 checks, and, with `record_says_pass` of In [2], that each of the 10 exists in the report with the verdict PASS; `check_record` itself also confirms the verdict of `compare.theory.theorem_Q`. These are the numbers that the table of Section 10.44 quotes. Three PASS lines in the cell.
 
 **In [3], the Krein metrics of the two images.**
 
@@ -4821,7 +5024,8 @@ draw_matrix(axes[1], image_metric.imag,
 image = draw_matrix(axes[2], mirror_metric.imag,
                     "mirror $\\gamma^{(x_8)}\\Psi$: $+B$")
 fig.colorbar(image, ax=list(axes), shrink=0.8, label="imaginary part of the entry")
-save_figure(fig, "krein_metrics", ...)
+save_figure(fig, "krein_metrics",
+...)
 ```
 
 The three matrices are purely imaginary; their imaginary parts are drawn. Figure 1 of Notebook 10g shows the middle picture as the left one with every red and blue square exchanged ($-B$), and the right picture equal to the left one ($+B$).
@@ -5127,7 +5331,7 @@ check_record(same and energy_rule,
                     "Q.image_generators_same_dynamics")
 ```
 
-The identities of Q2, exactly for all masses and momenta: $(-B)(-h'_m) = \Gamma(Bh'_{-m})\Gamma = Bh'_m$ and $\Gamma h'_m\Gamma = -h'_{-m}$. The check reproduces the sympy record check `Q.image_generators_same_dynamics`.
+The identities of Q2, exactly for all masses and momenta, in the direction in which the record states them: `own_data` is the generator of the image of a field of mass $-m$, which carries the metric $-B$ and the energy matrix $-h'_m$ (the comment of the line says so), and `by_map` is the generator $Bh'_{-m}$ of that field carried over by $\Gamma$. The check confirms $(-B)(-h'_m) = \Gamma(Bh'_{-m})\Gamma = Bh'_m$, and $\Gamma h'_m\Gamma = -h'_{-m}$. Since $m$ is a symbol, replacing $m$ by $-m$ gives the direction of Section 10.44: the image of the field of mass $m$ evolves by $(-B)(-h'_{-m}) = Bh'_{-m} = h_{-m}$. The check reproduces the sympy record check `Q.image_generators_same_dynamics`.
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.4))
@@ -5151,7 +5355,8 @@ for ax, x_col, y_col, colour, what, x_label, y_label in panels:
     ax.legend(fontsize=8)
 axes[0].set_title("$T \\to -T$ inside one system")
 axes[1].set_title("$J \\to -J$ inside one system")
-save_figure(fig, "one_system", ...)
+save_figure(fig, "one_system",
+...)
 ```
 
 Each state is a dot at (value of the field, value given to the image), and the grey line is $y = -x$. Figure 2 of Notebook 10g shows all 150 dots exactly on the line $y = -x$ in both panels: the reversal of the energy and of the charge under T1 is an identity between operators of ONE quantum system, not a statement about a second universe.
@@ -5250,7 +5455,8 @@ for ax in axes:
     ax.axhline(15.5, color=GREY, linewidth=1)  # the border between the two halves
     ax.axvline(15.5, color=GREY, linewidth=1)
 fig.colorbar(image, ax=list(axes), shrink=0.75, label="imaginary part of the entry")
-save_figure(fig, "anticommutator_blocks", ...)
+save_figure(fig, "anticommutator_blocks",
+...)
 ```
 
 The two $32 \times 32$ matrices as heat maps, with grey lines between the halves. Figure 3 of Notebook 10g shows on the left two copies of $B$ on the diagonal and empty off-diagonal blocks (two independent universes), and on the right a lower right block $-B$ and full off-diagonal blocks (a field and its image are one system).
@@ -5308,7 +5514,8 @@ for ax in axes:
     ax.axhline(0.0, color=GREY, linewidth=1)
     ax.set_xlabel("mass $m$ of universe 1 (universe 2 has $-m$)")
 axes[0].set_ylabel("eigenvalues of diag$(Bh'_m, Bh'_{-m})$")
-save_figure(fig, "block_generator", ...)
+save_figure(fig, "block_generator",
+...)
 ```
 
 The smallest and the largest eigenvalue (columns 0 and 31; each carries 16) against the mass. Figure 4 of Notebook 10g shows on the left the two straight lines $\pm m$, crossing only at $m = 0$, and on the right the two branches $\pm\sqrt{m^2 + 2.25}$, which never reach 0: the generators of the two universes add, and nothing in them cancels.
@@ -5508,7 +5715,8 @@ ax.set_ylabel("number of quanta (total energy $= 5 \\times$ quanta)")
 ax.set_title("Two universes, one momentum: $2^{32}$ states")
 ax.grid(False)
 fig.colorbar(image, ax=ax, label="$\\log_{10}$ of the number of states")
-save_figure(fig, "two_universe_states", ...)
+save_figure(fig, "two_universe_states",
+...)
 ```
 
 The heat map of In [9] of Notebook 10c, now for two universes: the logarithm of the counts, white for empty squares, with arrows at the vacuum and at the pairs of total charge 0. Figure 5 of Notebook 10g shows a diamond of states from charge $-16$ to 16 and up to 32 quanta, with a single state at energy 0 and nothing below it: two independently quantised universes of masses $+m$ and $-m$ have energies that add; nothing cancels.
@@ -5524,7 +5732,7 @@ for name in ("10g_1_krein_metrics.png", "10g_2_one_system.png",
 all_checks_passed()
 ```
 
-The five figure files exist, and the last line prints ALL 29 CHECKS PASSED (notebook 10g): the five figure checks and the 24 checks of the cells before (2 in In [2], 3 each in In [3], In [4], In [8], In [11] and In [12], 1 each in In [5], In [7] and In [9], and 2 each in In [6] and In [10]).
+The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (notebook 10g): the five figure checks and the 25 checks of the cells before (3 in In [2], 3 each in In [3], In [4], In [8], In [11] and In [12], 1 each in In [5], In [7] and In [9], and 2 each in In [6] and In [10]).
 
 ### 10.50 What we proved, what we computed, what we assumed
 
@@ -5533,7 +5741,7 @@ The five figure files exist, and the last line prints ALL 29 CHECKS PASSED (note
 | statement | where it is verified | notebook |
 | --- | --- | --- |
 | $B = -iC\gamma^{(x_4)}$ is purely imaginary and Hermitian, $BB = I_{16}$, $\mathrm{tr}\,B = 0$, signature (8,8); it commutes with the gammas of $x_1, x_2, x_3, x_4, x_8$ and anticommutes with those of $x_5, x_6, x_7$ | `python-field-theory.json`, check `B_properties`; `wolfram-algebra.json`, check `B_signature_8_8`; `python-algebra.json`, check `B_gamma_relations` | 10a, 10e |
-| the charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ is conserved on shell and is an indefinite (Krein) form | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; `wolfram-field-theory.json`, check `charge_density_is_Krein_form_G` | none |
+| the local conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ on shell; the charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ is an indefinite (Krein) form (it is constant in time only when the flux through the boundary vanishes, which at $z = \pi/2$ is OPEN) | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; `wolfram-field-theory.json`, check `charge_density_is_Krein_form_G` | none |
 | one plane wave: $hh = w^2I_{16}$, $Bh = h^\dagger B$ (the Krein form is conserved, also by growing waves); $h$ Hermitian and $[B, h] = 0$ exactly in the good sector | `wolfram-pairing.json`, check `Q_one_particle_flat_dispersion`; `python-field-theory.json`, checks `mode_hamiltonian_B_selfadjoint_dispersion` and `good_sector_spectrum_and_B_sectors`; `wolfram-field-theory.json`, checks `mode_hamiltonian_good_sector` and `mode_hamiltonian_Krein_selfadjoint` | 10a |
 | waves with $w^2 < 0$ grow, with rates that have no upper bound | `python-field-theory.json`, check `extra_time_modes_grow`; `python-scope.json`, check `extra_time_growth_rates_unbounded` | 10a, 10f |
 | Theorem 10.1: Krein inertia (4,4) of every real-frequency eigenspace; Krein-neutral eigenspaces at imaginary and zero frequency | `wolfram-pairing.json`, checks `Q_one_particle_Krein_inertia_real_frequencies` and `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`; `python-pairing.json`, checks `Q.one_particle_Krein_inertia_proof` and `Q.one_particle_complex_frequency_Krein_neutral` | 10a, 10f |
@@ -5563,7 +5771,7 @@ The five figure files exist, and the last line prints ALL 29 CHECKS PASSED (note
 
 - Anticommutators (not commutators) for dirac16complex: part of its definition as a fermion field; no spin-statistics theorem for signature (4,4) is proved.
 - Normal ordering: a prescription that drops the energy $-8E$ of the filled sea per momentum.
-- Flat 4+4 space, or frozen coefficients at one point, for the one-particle statements and the Fock spaces; the good sector itself is a restriction imposed by hand (no mechanism that removes the extra-time waves is derived).
+- Flat 4+4 space, or the frozen-coefficient model of Section 10.3 (the coefficients of one point and one instant, without the two hidden-direction terms of the author's field equation, among them the spin-connection term $3H\gamma^{(x_8)}$; keeping that term breaks $Bh = h^\dagger B$), for the one-particle statements and the Fock spaces; the good sector itself is a restriction imposed by hand (no mechanism that removes the extra-time waves is derived).
 - The deflating history $a_4 = AHx_4$ ($A = H = m = 1$) is a PRESCRIBED BACKGROUND, and the local-frame model of Section 10.39 evaluates the coefficients at one instant and one hidden position (`parameters.json`; `ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`).
 - The Z2 brane condition at $z = \pi/2$ is ASSUMED by the Kohn-Sham record (Chapter 14); the quantisation of this chapter imposes no boundary condition there.
 
