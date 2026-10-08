@@ -376,6 +376,13 @@ CELLS = [
     the crossings, every target is crossed once, and the levels alternate between
     even and odd. Away from the levels the curve rises with slope about $L = 3$,
     because $\theta' = \varepsilon - M\sin 2\theta$ is $\varepsilon$ on average.
+
+    Inside the *mass gap* $|\varepsilon| \le M$ the equation
+    $a'' = (M^2 - \varepsilon^2)\, a$ has no oscillating solutions, and the only
+    level there is the zero mode. The cell checks this for the three cases
+    $(M, L)$ of the table: $\Phi(-M)$ and $\Phi(+M)$ both lie between $-\pi/2$ and
+    $\pi/2$, so the increasing staircase crosses no target except $0$ while
+    $|\varepsilon| \le M$.
     """),
     code(r'''
     eps_grid = np.linspace(-6.0, 7.0, 651)
@@ -383,6 +390,14 @@ CELLS = [
     Phi_grid = np.array([s[0] for s in shots])
     slope_grid = np.array([s[1] for s in shots])  # dPhi/deps by the formula
     check(np.all(np.diff(Phi_grid) > 0), "Phi(eps) increases on the whole grid")
+    gap_ends = []  # Phi at eps = -M and eps = +M for the three cases of the table
+    for M, L in sorted({(float(r["m"]), float(r["L"])) for r in ROWS}):
+        G = round(G_CANONICAL * L / 3.0)  # the record's step h = 1/300
+        gap_ends += [shoot(-M, M, L, G)[0], shoot(M, M, L, G)[0]]
+    report("largest |Phi(-M)|, |Phi(+M)| in units of pi (three cases)",
+           f"{max(abs(p) for p in gap_ends) / math.pi:.4f}")
+    check(max(abs(p) for p in gap_ends) < math.pi / 2,
+          "for |eps| <= M the staircase crosses no target but 0: only the zero mode")
 
 
     def target(parity, label):
@@ -946,24 +961,30 @@ CELLS = [
     check(all(3.8 < q < 4.2 for q in orders), "the level errors fall like h^4")
     '''),
     md(r"""
-    **Why the error grows with the level.** Far above the mass, $\theta' \approx
-    \varepsilon$: the point $(a, b)$ turns at the rate $\varepsilon$. One RK4 step
-    multiplies a turning point by $R(i\omega)$ with $\omega = \varepsilon h$ (the
-    amplification factor of the test equation $y' = i\varepsilon y$), whose angle
-    is a little SMALLER than the exact $\omega$. The next cell lets sympy expand the
-    angle of $R(i\omega)$: it is $\omega - \omega^5/120 + \dots$ After $G = L/h$
-    steps the end angle lags by about $L\, \varepsilon^5 h^4/120$; since $\Phi$
-    grows by about $L$ per unit of energy, the computed level comes out too high by
+    **Why the error grows with the level.** Far from the mass, $\theta' \approx
+    \varepsilon$: the point $(a, b)$ turns at the rate $\varepsilon$ (forwards for
+    $\varepsilon > 0$, backwards for $\varepsilon < 0$). One RK4 step multiplies a
+    turning point by $R(i\omega)$ with $\omega = \varepsilon h$ (the amplification
+    factor of the test equation $y' = i\varepsilon y$), whose angle is a little
+    SMALLER IN SIZE than the exact $\omega$. The next cell lets sympy expand the
+    angle of $R(i\omega)$: it is $\omega - \omega^5/120 + \dots$ (for $\omega < 0$
+    too, because the angle of $R(-i|\omega|)$ is minus that of $R(i|\omega|)$).
+    After $G = L/h$ steps the computed end angle differs by about
+    $-L\, \varepsilon^5 h^4/120$ from the exact one: it is too small for
+    $\varepsilon > 0$ and too large for $\varepsilon < 0$. Since $\Phi$ grows by
+    about $L$ per unit of energy, the computed level must move AWAY FROM ZERO by
 
     $$\delta\varepsilon \approx \frac{\varepsilon^5 h^4}{120}, \qquad
-    \frac{\delta\varepsilon}{\varepsilon} \approx \frac{(h\varepsilon)^4}{120} .$$
+    \frac{\delta\varepsilon}{\varepsilon} \approx \frac{(h\varepsilon)^4}{120}$$
 
-    The figure draws the relative error $\delta\varepsilon/\varepsilon$ of all 51
-    nonzero levels of the record (the record's column `difference`) against
-    $h|\varepsilon|$ with $h = 1/300$, with our own differences on top, and this
-    prediction as a line. Close to the mass the point does not turn uniformly
-    ($\theta' = \varepsilon - M \sin 2\theta$), and the error is smaller than the
-    prediction; far above it the points approach the line.
+    to make up for it ($\varepsilon^5$ has the sign of $\varepsilon$): positive
+    levels come out too high, negative levels too low, both too large in size.
+    The cell checks this sign in the record's column `difference`. The figure draws
+    the relative error $|\delta\varepsilon/\varepsilon|$ of all 51 nonzero levels
+    of the record against $h|\varepsilon|$ with $h = 1/300$, with our own
+    differences on top, and this prediction as a line. Close to the mass the point
+    does not turn uniformly ($\theta' = \varepsilon - M \sin 2\theta$), and the
+    error is smaller than the prediction; far from it the points approach the line.
     """),
     code(r'''
     w = sp.symbols("omega", positive=True)  # the angle turned in one step, eps h
@@ -1004,7 +1025,7 @@ CELLS = [
                 "$L = 2$) and $M = 2$ (orange); crosses: this notebook's shooting, "
                 "which falls on the record's points. Dashed: the prediction "
                 "$(h\\varepsilon)^4/120$ from the phase lag of one RK4 step; the "
-                "levels far above the mass approach it, those near the mass lie "
+                "levels far from the mass approach it, those near the mass lie "
                 "below it.")
     ratio = (record_diff / eps_abs) / (x_values ** 4 / 120)
     report("error / prediction for the levels above 7 m",
@@ -1016,6 +1037,14 @@ CELLS = [
     check(np.max(np.abs(record_diff - our_diff)) < 1e-12,
           "our differences equal the record's column difference within 1e-12",
           record=f"{TABLE}, column difference")
+    signed = np.array([float(ROWS[i]["difference"]) for i in nonzero])  # with sign
+    levels = np.array([analytic_record[i] for i in nonzero])
+    report("computed too high (levels > 0), too low (levels < 0)",
+           f"{np.sum((levels > 0) & (signed > 0))} of {np.sum(levels > 0)}, "
+           f"{np.sum((levels < 0) & (signed < 0))} of {np.sum(levels < 0)}")
+    check(np.all(np.sign(signed) == np.sign(levels)),
+          "every computed level lies farther from 0 than the exact one (sign of eps^5)",
+          record=f"{TABLE}, columns difference and eps_analytic")
     '''),
     md(r"""
     ## 15. The last check
@@ -1056,9 +1085,12 @@ CELLS = [
       $4m$) and $5.05 \times 10^{-8}$ (all levels from $4m$ up to $8.75m$; the
       check's text says "below $7m$") quoted by the program's check
       free_k0_analytic_spectra.
-    - The level errors fall like $h^4$; for levels far above the mass the relative
-      error is close to $(h\varepsilon)^4/120$, the phase lag of RK4. The canonical
-      step $h = 1/300$ gives errors below $10^{-9}$ for $|\varepsilon| < 4m$.
+    - The level errors fall like $h^4$; for levels far from the mass the relative
+      error is close to $(h\varepsilon)^4/120$, the phase lag of RK4, and every
+      computed level lies farther from zero than the exact one (too high above
+      zero, too low below it). The canonical step $h = 1/300$ gives errors below
+      $10^{-9}$ for $|\varepsilon| < 4m$.
+    - Inside the mass gap $|\varepsilon| \le M$ the only level is the zero mode.
     - What this notebook does not show: the physics of these equations (where they
       come from, the meaning of the levels, the interacting case); the brane
       conditions rest on the ASSUMED mirror symmetry and the tip condition is a

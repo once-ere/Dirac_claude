@@ -68,17 +68,29 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all five figure files exist",
-        "ALL 55 CHECKS PASSED (notebook 12a)",
+        "ALL 59 CHECKS PASSED (notebook 12a)",
     ],
     "troubleshooting": [
-        ["The cell that computes the Lovelock tensors runs for more than a minute",
-         "it adds about five thousand products of curvature components in pure Python; "
-         "on a slow computer this takes up to a minute. Wait until the PASS lines "
-         "appear below the cell."],
+        ["The cell of section 10, which computes the three Lovelock tensors, runs for a "
+         "minute or more",
+         "it adds about five thousand products of curvature components in pure Python, "
+         "which takes a few seconds on a fast computer and can take a few minutes on a "
+         "slow one. The cell is not stuck: wait until the PASS lines appear below it."],
         ["\"FileNotFoundError\" naming a file below the folder Revision",
          "the notebook reads the Revision records of the repository. Run it inside the "
          "folder Revision/textbook/notebooks of a complete copy of the repository made "
          "with git clone, not on a copy of the notebook file alone."],
+        ["\"Jupyter command `jupyter-nbconvert` not found\" or \"Jupyter command "
+         "`jupyter-lab` not found\" after typing `python -m jupyter`",
+         "the program jupyter starts its parts nbconvert and lab as separate programs, "
+         "which it looks for in the folders of the search path PATH, and the folder that "
+         "holds them is not on it. Start the two parts as Python modules instead, with "
+         "the environment active (Step 4) and in the folder Revision/textbook/notebooks "
+         "(Step 5): the first command below opens the notebook in JupyterLab, the second "
+         "runs it headless",
+         ["python -m jupyterlab 12a_a4_field_equations.ipynb",
+          "python -m nbconvert --to notebook --execute --inplace "
+          "12a_a4_field_equations.ipynb"]],
     ],
 }
 
@@ -193,7 +205,11 @@ CELLS = [
     a check that passes only when this notebook's own result holds AND the record
     lists the named check with the verdict PASS. `reproduces` collects its two printed
     lines (PASS and reproduces) in a text buffer and prints them with one call, so
-    that they always stay together in the output.
+    that they always stay together in the output. Finally the cell prints, for each of
+    the four reports, how many of its checks passed, and checks that every one did:
+    a record with a failed check stops the notebook here. The numbers of checks are
+    printed, not fixed in advance, because a record may gain checks when it is
+    extended.
     """),
     code(r'''
     import contextlib  # redirect_stdout: send printed lines into a buffer
@@ -235,6 +251,8 @@ CELLS = [
         verdicts = [entry["verdict"] for entry in read_json(report_file)["checks"]]
         passed = verdicts.count("PASS")  # how many checks of the record passed
         say(f"{report_file}: {passed} of {len(verdicts)} checks PASS")
+        check(len(verdicts) > 0 and passed == len(verdicts),
+              f"every check of the record {Path(report_file).name} passed")
     '''),
     md(r"""
     ## 6. The metric in sympy

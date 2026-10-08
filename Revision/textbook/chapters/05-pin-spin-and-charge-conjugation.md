@@ -8,8 +8,8 @@ A spinor field $\Psi$ attaches 16 numbers $\Psi_1, \dots, \Psi_{16}$ to every po
 
 - How do we make a single number out of a spinor, a number that does not change when the eight directions are turned into each other? The answer is the **bilinear** $\Psi^\dagger C\Psi$ with the charge matrix $C$ (Sections 5.4 and 5.18).
 - Which parts of a spinor stay separate under every turning of the directions? The two **chiral halves**, components 1 to 8 and 9 to 16, picked out by the chirality $\Gamma$ (Sections 5.5 and 5.13).
-- What is the **charge density** of a spinor field, the quantity whose total is conserved? It is $\Psi^\dagger B\Psi$ with the matrix $B$ (Section 5.6).
-- What exchanges particles and antiparticles? A **charge-conjugation matrix**. Because the author's gammas are real, plain complex conjugation does nothing to a real field and cannot exchange anything; the exchange must be made by a matrix, and there are exactly two such matrices, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$ (Sections 5.28 and 5.29). For the quantised field only one conjugation survives, and it reverses the mass (Section 5.34). Section 5.39 states what these exact maps do and do not say about matter and antimatter in the universe.
+- What is the **charge density** of a spinor field, the quantity whose total stays constant in time when no charge flows in or out through the edges of space? It is $\Psi^\dagger B\Psi$ with the matrix $B$ (Section 5.6).
+- What exchanges particles and antiparticles? A **charge-conjugation matrix**. Because the author's gammas are real, plain complex conjugation does nothing to a real field and cannot exchange anything; the exchange must be made by a matrix. Section 5.28 defines a charge-conjugation matrix by a condition that it must obey together with every gamma, and proves that there are exactly two such matrices, up to a factor, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$ (Sections 5.28 and 5.29). For the quantised field only one of the two, up to a phase factor, keeps the basic rule of the quantum theory, and it reverses the mass (Section 5.34). Section 5.39 states what these exact maps do and do not say about matter and antimatter in the universe.
 
 Between these questions stands the group theory: the groups Pin(4,4) and Spin(4,4) that act on spinors, the words irreducible and inequivalent, and what the scaled commutators $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$ generate. Everything is introduced from zero: a reader who knows school algebra and the derivative of one-variable functions can follow every line.
 
@@ -324,13 +324,19 @@ $$
 J^{(x4)} = \Psi^\dagger(-iC\gamma^{(x4)})\Psi = \Psi^\dagger B\Psi ,
 $$
 
-the **charge density** of the field. The Revision record proves that the total charge
+the **charge density** of the field. The Revision record proves a **local conservation law**: for every solution of the field equation,
 
 $$
-Q = \int \cos z\; \Psi^\dagger B\Psi\; d^7x
+\sum_{\mu} \partial_\mu\big(\cos z\; J^\mu\big) = 0 \qquad \text{at every point},
 $$
 
-does not change in time for every solution of the field equation. Here the integral runs over the seven directions other than the time, $z = 6Hx8$, and $\cos z$ is the volume factor of the author's metric; the status table at the end of this section names the check, and Chapter 21 derives it. Because $B$ has eight positive and eight negative eigenvalues, the charge density can be positive or negative: the field can carry charge of both signs. In the quantum theory $B$ is the matrix of the canonical anticommutator, and its indefinite signature forces an indefinite (Krein) inner product (Section 5.34 and Chapter 10).
+where $\partial_\mu$ is the partial derivative along the coordinate $\mu$ (the sum runs over $x1, \dots, x8$), $z = 6Hx8$, $\cos z$ is the volume factor of the author's metric, and $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ is the current built with the gammas $\gamma^\mu$ of the curved space (Section 5.28 and Chapter 6; for the time $\gamma^{x4} = \gamma^{(x4)}$, because $g_{44} = -1$, so $J^{x4} = \Psi^\dagger B\Psi$). The **total charge** is the integral of the charge density over the seven directions other than the time,
+
+$$
+Q = \int \cos z\; \Psi^\dagger B\Psi\; d^7x .
+$$
+
+Line by line: the derivative of $Q$ with respect to the time $x4$ is the integral of $\partial_{x4}(\cos z\,J^{x4})$; by the local law this equals minus the integral of the seven other terms $\partial_\mu(\cos z\,J^\mu)$, $\mu \neq x4$; and the integral of a derivative along one direction is the difference of the values at the two ends of that direction (the fundamental theorem of calculus). So $dQ/dx4$ equals minus the **flux** of the current through the boundary of the seven other directions. Hence $Q$ does not change in time **for every solution whose current flux through that boundary vanishes**, for example a field that vanishes fast enough there. The condition is needed: the local law alone does not make the flux zero. The seven directions are the unbounded directions of 3-space and of the extra times and the hidden interval $0 < z < \pi/2$, at whose end $z \to 0$ the metric is singular ($g_{88} = \cot^2 z$ grows without bound). The status table at the end of this section names the check; Chapter 21 derives the identity and the boundary terms. Because $B$ has eight positive and eight negative eigenvalues, the charge density can be positive or negative: the field can carry charge of both signs. In the quantum theory $B$ is the matrix of the canonical anticommutator, and its indefinite signature forces an indefinite (Krein) inner product (Section 5.34 and Chapter 10).
 
 **The matrices $C$, $\Gamma$, $B$ and $\Gamma C$ in one table.** Each is a signed permutation matrix (for $B$, after division by $i$); the table is read like the one of Section 5.2. $C$, $\Gamma$ and $B$ are stored in the record `Revision/algebra/gammas.json`; $\Gamma C$ (the charge-conjugation matrix $\mathcal{C}_-$ of Section 5.28) is $C$ with the signs of rows 1 to 8 reversed, as Notebook 05c computes.
 

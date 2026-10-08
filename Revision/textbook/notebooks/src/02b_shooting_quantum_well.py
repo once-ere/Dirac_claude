@@ -758,7 +758,7 @@ CELLS = [
         h_grid = STATES[m][4]  # the grid spacing a/200
         whole_line.append(abs(simpson(product, h_grid)))  # from x = -3 to x = 3
         left_half.append(abs(simpson(product[:middle + 1], h_grid)))  # -3 to 0
-    report("different parity: largest |integral over -3 ... 3|, smallest |left half|",
+    report("different parity: largest |whole integral|, smallest |left half|",
            f"{max(whole_line):.1e}, {min(left_half):.2f}")
     check(max(whole_line) < 1e-12 < 0.01 < min(left_half),
           "different parity: the two halves cancel, the whole integral is 0")

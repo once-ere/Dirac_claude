@@ -259,6 +259,12 @@ CELLS = [
     perpendicular to the level curve: the direction along the level curve,
     $(-\partial f/\partial y, \partial f/\partial x)$, has zero dot product with the
     gradient, and moving a small step along it changes $f$ only in second order.
+    A second check confirms that the gradient points uphill: a small step of length
+    $10^{-4}$ along the unit arrow $\nabla f/|\nabla f|$, where
+    $|\nabla f| = \sqrt{(\partial f/\partial x)^2 + (\partial f/\partial y)^2}$ is
+    the length of the gradient, raises $f$ by about $10^{-4}\,|\nabla f|$ (the
+    steepest slope), and such a step raises $f$ at every one of the 120 arrows of
+    the figure.
     """),
     code(r'''
     F = sp.lambdify((x, y), f, "numpy")  # f as a numpy function

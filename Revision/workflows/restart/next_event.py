@@ -9,6 +9,8 @@ import os
 import sys
 import time
 
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 W = sys.argv[2] if len(sys.argv) > 2 else os.environ["WORKFLOW_JOURNALS"]  # the session's subagents/workflows folder
 STATE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "next_event_state.json")
 MAX = float(sys.argv[1]) if len(sys.argv) > 1 else 540

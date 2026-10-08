@@ -4,7 +4,7 @@ The field equations of this book contain eight real $16 \times 16$ matrices, the
 
 ### 4.1 Why matrices, and why sixteen components
 
-The length of an arrow in the plane with the components $p$ and $q$ is $\sqrt{p^2 + q^2}$ (Pythagoras). A square root is an awkward object in an equation: it is not linear, and it cannot be differentiated term by term. In 1928 Paul Dirac looked for an equation for the electron that contains only first derivatives and whose square is the relation $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2$ between the energy $E$, the mass $m$ and the momentum $(k_1, k_2, k_3)$ of a particle in special relativity. He found that a sum of squares can be written as the square of a **linear** expression, provided that its coefficients are matrices that **anticommute**: $\alpha\beta = -\beta\alpha$. Such matrices are called gamma matrices, and the rule they obey is the **Clifford relation**. Dirac needed four of them, for the time and the three directions of space, and the smallest ones are $4 \times 4$; that is why Dirac's electron field has four components.
+The length of an arrow in the plane with the components $p$ and $q$ is $\sqrt{p^2 + q^2}$ (Pythagoras). A square root is an awkward object in an equation: it is not linear, and it cannot be differentiated term by term. A **linear expression** in some variables $p, q, \dots$ is a sum of the variables, each multiplied by a fixed number (or, below, a fixed matrix), its **coefficient**: $\alpha p + \beta q$ is linear, while $p^2$, $pq$ and $\sqrt{p^2 + q^2}$ are not. A **quadratic form** is, in this book, a sum of the squares of the variables, each with a fixed sign $+$ or $-$: $p^2 + q^2$ and $p^2 - q^2$ are quadratic forms. In 1928 Paul Dirac looked for an equation for the electron that contains only first derivatives and whose square is the relation $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2$ between the energy $E$, the mass $m$ and the momentum $(k_1, k_2, k_3)$ of a particle in special relativity; its right-hand side is a quadratic form in $m, k_1, k_2, k_3$. He found that a quadratic form can be written as the square of a linear expression, provided that its coefficients are matrices that **anticommute**: $\alpha\beta = -\beta\alpha$. Such matrices are called gamma matrices, and the rule they obey is the **Clifford relation**. Dirac needed four of them, for the time and the three directions of space, and the smallest ones are $4 \times 4$; that is why Dirac's electron field has four components.
 
 The author's space-time has eight directions: the three directions $x_1, x_2, x_3$ of ordinary space, the time $x_4$, three **extra times** $x_5, x_6, x_7$, which deflate exponentially in the author's metric, and a hidden space direction $x_8$. Eight directions need eight gamma matrices, and Section 4.13 proves that eight such matrices must have at least $16 \times 16$ entries. This is why the fields dirac16complex and dirac16complex00 of this book have exactly sixteen components. The author's gamma matrices are **real**: every entry is $-1$, $0$ or $+1$. Later chapters use this fact (Chapter 5 and Chapter 7); this chapter only proves it.
 
@@ -49,6 +49,14 @@ $$
 
 The **identity matrix** $I_n$ has 1 on the diagonal and 0 elsewhere, so $I_n M = M I_n = M$. A number $c$ times a matrix multiplies every entry by $c$; $c I_n$ is called a **multiple of the identity**. The **Kronecker delta** $\delta_{ij}$ is 1 if $i = j$ and 0 otherwise, so $(I_n)_{ij} = \delta_{ij}$.
 
+**Linear maps are matrices.** A rule $f$ that turns every column $u$ of $n$ numbers into a column $f(u)$ of $n$ numbers is called a **map**; it is **linear** if $f(u + v) = f(u) + f(v)$ and $f(cu) = c\,f(u)$ for all columns $u$, $v$ and all numbers $c$. A matrix $M$ gives a linear map, the one that sends $u$ to $Mu$, because every entry $(Mu)_i = \sum_j M_{ij} u_j$ is a linear expression in the entries of $u$. Conversely, every linear map is a matrix. Proof, line by line, with the **unit columns** $e_1, \dots, e_n$ ($e_j$ has 1 in place $j$ and 0 elsewhere):
+
+1. $u = \sum_j u_j e_j$ — in place $i$ the right side is $\sum_j u_j \delta_{ij} = u_i$.
+2. $f(u) = \sum_j u_j\, f(e_j)$ — the two rules of a linear map, used for each term of line 1.
+3. $f(u)_i = \sum_j f(e_j)_i\, u_j = (Mu)_i$ with $M_{ij} = f(e_j)_i$ — entry $i$ of line 2, and the definition of the product of a matrix and a column.
+
+So $f$ is the matrix $M$ whose column $j$ is the column $f(e_j)$: **the images of the unit columns are the columns of the matrix**. A **linear combination** of matrices (or of columns) is a sum of them, each multiplied by a number.
+
 **Commutator and anticommutator.** For two matrices $A$ and $B$,
 
 $$
@@ -70,6 +78,14 @@ $M$ is **symmetric** if $M^T = M$ and **antisymmetric** if $M^T = -M$. An antisy
 
 **Signed permutation matrices.** A **signed permutation matrix** has exactly one nonzero entry in every row and in every column, and that entry is $+1$ or $-1$. Acting on a column it puts the components into a new order and changes some of their signs. We describe such a matrix by the **code** of each row: the code $+5$ in row 2 means that the only nonzero entry of row 2 is $+1$ in column 5, so $(Mu)_2 = +u_5$; the code $-0$ means $-u_0$. Every signed permutation matrix is orthogonal. Proof: $(M^T M)_{ij} = \sum_k (M^T)_{ik} M_{kj} = \sum_k M_{ki} M_{kj}$ (definitions of product and transpose). For $i \neq j$ no row $k$ has nonzero entries in both columns $i$ and $j$ (a row has only one nonzero entry), so every term is 0. For $i = j$ exactly one row $k$ has a nonzero entry in column $i$, and it contributes $(\pm 1)^2 = 1$. So $M^T M = I_n$.
 
+**Products and transposes of signed permutation matrices are again signed permutation matrices.** The transpose exchanges rows and columns, so it still has exactly one entry $\pm 1$ in every row and every column. For a product $AB$ of two signed permutation matrices, line by line:
+
+1. $(AB)_{il} = \sum_k A_{ik} B_{kl} = A_{ij} B_{jl}$ for every $l$, where $j$ is the one column in which row $i$ of $A$ is nonzero — definition of the product; all other terms contain a zero $A_{ik}$.
+2. So row $i$ of $AB$ is $A_{ij} = \pm 1$ times row $j$ of $B$, which has exactly one entry $\pm 1$ — line 1.
+3. In the same way $(AB)_{il} = A_{ik} B_{kl}$ for every $i$, where $k$ is the one row in which column $l$ of $B$ is nonzero, so column $l$ of $AB$ is $\pm 1$ times column $k$ of $A$, which has exactly one entry $\pm 1$.
+
+So $AB$ has exactly one entry $\pm 1$ in every row and every column.
+
 **Block matrices.** A $16 \times 16$ matrix can be cut into four $8 \times 8$ **blocks** (upper left, upper right, lower left, lower right), and an $8 \times 8$ matrix into four $4 \times 4$ blocks. Block matrices multiply like $2 \times 2$ matrices whose entries are matrices, keeping the order of the factors:
 
 $$
@@ -82,7 +98,7 @@ $$
 \begin{pmatrix} A & B \\ C & D \end{pmatrix}^T = \begin{pmatrix} A^T & C^T \\ B^T & D^T \end{pmatrix} .
 $$
 
-A matrix whose two off-diagonal blocks are zero is **block diagonal**; one whose two diagonal blocks are zero is **block off-diagonal**. By the block rule, the product of two block off-diagonal matrices is block diagonal, and the product of a block diagonal and a block off-diagonal matrix is block off-diagonal.
+A matrix whose two off-diagonal blocks are zero is **block diagonal**; one whose two diagonal blocks are zero is **block off-diagonal**. By the block rule, the product of two block off-diagonal matrices is block diagonal, and the product of a block diagonal and a block off-diagonal matrix is block off-diagonal. A block diagonal or block off-diagonal matrix whose two nonzero blocks are signed permutation matrices is itself a signed permutation matrix: each of its rows runs through exactly one nonzero block, where it has exactly one entry $\pm 1$, and so does each of its columns.
 
 **The trace.** The trace $\mathrm{tr}\, M$ is the sum of the diagonal entries. It has the **cyclic property** $\mathrm{tr}(AB) = \mathrm{tr}(BA)$. Proof: $\mathrm{tr}(AB) = \sum_i \sum_k A_{ik} B_{ki}$ (definitions), and exchanging the order of the two finite sums and of the two numbers in each term gives $\sum_k \sum_i B_{ki} A_{ik} = \mathrm{tr}(BA)$.
 
@@ -231,7 +247,7 @@ $$
 
 *The blocks are antisymmetric.* Exchanging $p$ and $q$ exchanges two entries of the list $(h, p, q, 4)$, which flips its permutation sign (Section 4.2): $Q_a[h]_{qp} = -Q_a[h]_{pq}$. Exchanging $p$ and $q$ in $Q_b$ turns $\delta_{p4}\delta_{qh} - \delta_{ph}\delta_{q4}$ into $\delta_{q4}\delta_{ph} - \delta_{qh}\delta_{p4}$, which is minus the original: $Q_b[h]_{qp} = -Q_b[h]_{pq}$. A sum or difference of antisymmetric matrices is antisymmetric, so s4[$h$] and t4[$h$] are antisymmetric.
 
-*The blocks are quaternion multiplications.* A **quaternion** is $q = q_4 + q_1\mathbf{i} + q_2\mathbf{j} + q_3\mathbf{k}$ with four real numbers; we store it as the list $(q_1, q_2, q_3, q_4)$, the real part last, to match the blocks. Quaternions are multiplied with Hamilton's rules $\mathbf{i}^2 = \mathbf{j}^2 = \mathbf{k}^2 = -1$, $\mathbf{ij} = \mathbf{k} = -\mathbf{ji}$, $\mathbf{jk} = \mathbf{i} = -\mathbf{kj}$, $\mathbf{ki} = \mathbf{j} = -\mathbf{ik}$, and their multiplication is associative. For a fixed quaternion $u$ the **right multiplication** $R_u$ maps $q$ to $q\,u$ and the **left multiplication** $L_u$ maps $q$ to $u\,q$; both are linear, so each is a $4 \times 4$ matrix, whose column $p$ holds the components of $e_p u$ (or $u e_p$), where $e_1 = \mathbf{i}$, $e_2 = \mathbf{j}$, $e_3 = \mathbf{k}$, $e_4 = 1$. Example: the columns of $R_{\mathbf{i}}$ are the components of $\mathbf{i}\mathbf{i} = -1$, $\mathbf{j}\mathbf{i} = -\mathbf{k}$, $\mathbf{k}\mathbf{i} = \mathbf{j}$ and $1\,\mathbf{i} = \mathbf{i}$, that is $(0, 0, 0, -1)$, $(0, 0, -1, 0)$, $(0, 1, 0, 0)$ and $(1, 0, 0, 0)$; these are exactly the four columns of s4[1] above. In the same way (Notebook 04a checks all six):
+*The blocks are quaternion multiplications.* A **quaternion** is $q = q_4 + q_1\mathbf{i} + q_2\mathbf{j} + q_3\mathbf{k}$ with four real numbers; we store it as the list $(q_1, q_2, q_3, q_4)$, the real part last, to match the blocks. Quaternions are multiplied with Hamilton's rules $\mathbf{i}^2 = \mathbf{j}^2 = \mathbf{k}^2 = -1$, $\mathbf{ij} = \mathbf{k} = -\mathbf{ji}$, $\mathbf{jk} = \mathbf{i} = -\mathbf{kj}$, $\mathbf{ki} = \mathbf{j} = -\mathbf{ik}$, and their multiplication is associative. For a fixed quaternion $u$ the **right multiplication** $R_u$ maps $q$ to $q\,u$ and the **left multiplication** $L_u$ maps $q$ to $u\,q$. Both are linear maps of the stored lists of four numbers: a product of quaternions is multiplied out term by term, so $(q + q')\,u = q\,u + q'\,u$ and $(cq)\,u = c\,(q\,u)$ for every real number $c$, and in the same way for $L_u$. By the rule "linear maps are matrices" of Section 4.2, each is therefore a $4 \times 4$ matrix whose column $p$ holds the components of the image of the unit column $e_p$, where $e_1 = \mathbf{i}$, $e_2 = \mathbf{j}$, $e_3 = \mathbf{k}$, $e_4 = 1$ are stored as the four unit columns $(1, 0, 0, 0)$, $(0, 1, 0, 0)$, $(0, 0, 1, 0)$, $(0, 0, 0, 1)$: column $p$ of $R_u$ holds the components of $e_p u$, column $p$ of $L_u$ those of $u e_p$. Example: the columns of $R_{\mathbf{i}}$ are the components of $\mathbf{i}\mathbf{i} = -1$, $\mathbf{j}\mathbf{i} = -\mathbf{k}$, $\mathbf{k}\mathbf{i} = \mathbf{j}$ and $1\,\mathbf{i} = \mathbf{i}$, that is $(0, 0, 0, -1)$, $(0, 0, -1, 0)$, $(0, 1, 0, 0)$ and $(1, 0, 0, 0)$; these are exactly the four columns of s4[1] above. In the same way (Notebook 04a checks all six):
 
 $$
 \mathrm{s4}[h] = R_{u_h}, \qquad \mathrm{t4}[h] = -L_{u_h}, \qquad u_1 = \mathbf{i},\ u_2 = \mathbf{j},\ u_3 = \mathbf{k} .
@@ -298,7 +314,15 @@ $$
 \gamma^{a}\gamma^{b} + \gamma^{b}\gamma^{a} = 2\eta^{ab} I_{16} \qquad (a, b = x_1, \dots, x_8).
 $$
 
-Three more properties follow. (i) **Reality**: every entry is $-1$, 0 or $+1$, because the building blocks have only such entries and the construction only places blocks and changes signs (the products $\tau_7$ and $\bar\tau_A$ are products of signed permutation matrices, which are again signed permutation matrices). (ii) Every $\gamma^a$ is a **signed permutation matrix**, hence orthogonal: $(\gamma^a)^T = (\gamma^a)^{-1}$. (iii) The **symmetry pattern** $(\gamma^a)^T = \eta_{aa}\gamma^a$: symmetric for the space-like $x_1, x_2, x_3, x_8$, antisymmetric for the time-like $x_4, \dots, x_7$. Proof of (iii), line by line: $(\gamma^a)^2 = \eta_{aa} I_{16}$ (Clifford relation with $b = a$); multiplying by $\eta_{aa}$ and using $\eta_{aa}^2 = 1$ gives $\gamma^a(\eta_{aa}\gamma^a) = I_{16}$, so $(\gamma^a)^{-1} = \eta_{aa}\gamma^a$; with (ii), $(\gamma^a)^T = (\gamma^a)^{-1} = \eta_{aa}\gamma^a$.
+Three more properties follow. (i) Every $\gamma^a$ is a **signed permutation matrix**, hence orthogonal: $(\gamma^a)^T = (\gamma^a)^{-1}$. Proof, line by line, with the rules of Section 4.2:
+
+1. s4[$h$], t4[$h$], $-$t4[$h$] and $I_4$ are signed permutation matrices — read off from the six matrices of Step 1: each has exactly one entry $\pm 1$ in every row and every column.
+2. $\sigma$, $\tau_0 = I_8$ and $\tau_1, \dots, \tau_6$ are signed permutation matrices — each is block diagonal or block off-diagonal with two blocks from line 1.
+3. $\tau_7 = \tau_1\tau_2\cdots\tau_6$ is one — a product of signed permutation matrices.
+4. $\bar\tau_0 = I_8$ and $\bar\tau_A = \sigma\,\tau_A^T\,\sigma$ are ones — a transpose and products of signed permutation matrices.
+5. T16[$A$] is one — it is block off-diagonal with the two blocks $\bar\tau_A$ and $\tau_A$ of lines 2 to 4.
+
+Renaming T16[$A$] as $\gamma^{(x_a)}$ changes no entry, so every $\gamma^a$ is a signed permutation matrix, and Section 4.2 showed that such a matrix is orthogonal. (ii) **Reality**: every entry of every $\gamma^a$ is $-1$, 0 or $+1$, by (i). (iii) The **symmetry pattern** $(\gamma^a)^T = \eta_{aa}\gamma^a$: symmetric for the space-like $x_1, x_2, x_3, x_8$, antisymmetric for the time-like $x_4, \dots, x_7$. Proof of (iii), line by line: $(\gamma^a)^2 = \eta_{aa} I_{16}$ (Clifford relation with $b = a$); multiplying by $\eta_{aa}$ and using $\eta_{aa}^2 = 1$ gives $\gamma^a(\eta_{aa}\gamma^a) = I_{16}$, so $(\gamma^a)^{-1} = \eta_{aa}\gamma^a$; with (i), $(\gamma^a)^T = (\gamma^a)^{-1} = \eta_{aa}\gamma^a$.
 
 **Status.** PROVED, by hand above, and exactly by the computer in two independent Revision programs. The table names, for each statement of this section, the checks that confirm it in the WolframScript report `Revision/algebra/reports/wolfram-algebra.json` and in the Python report `Revision/algebra/reports/python-algebra.json`.
 
@@ -1326,7 +1350,7 @@ $$
 
 for all numbers $p_1, \dots, p_8$: the author's eight matrices take the square root of the quadratic form of his space-time, with a plus sign for 3-space and the hidden direction and a minus sign for the time and the three extra times. (Status: PROVED; Notebook 04b confirms it with sympy for all values of the $p_a$, and with floating-point numbers for 300 random vectors.) This section uses the rule to find what the field equation says about waves, and what a momentum along an extra time does.
 
-**Complex numbers and the conjugate transpose.** A **complex number** is $x + iy$ with real $x, y$ and $i^2 = -1$; its **complex conjugate** is $x - iy$. The **conjugate transpose** $M^\dagger$ of a matrix transposes it and conjugates every entry. A matrix is **Hermitian** if $M^\dagger = M$; a real symmetric matrix is Hermitian. An **eigenvalue** of $M$ is a number $\lambda$ for which a nonzero column $u$ (an **eigenvector**) has $Mu = \lambda u$. A Hermitian matrix has only real eigenvalues. Proof: from $Mu = \lambda u$ follows $u^\dagger M u = \lambda\, u^\dagger u$ (multiply from the left by the row $u^\dagger$); the number $u^\dagger M u$ equals its own complex conjugate, because its conjugate is $u^\dagger M^\dagger u = u^\dagger M u$, so it is real; and $u^\dagger u = \sum_i \lvert u_i \rvert^2$ is real and positive; so $\lambda$ is a real number divided by a positive one. We also quote one fact of linear algebra without proof: for a Hermitian matrix the trace equals the sum of the eigenvalues, each counted as often as it occurs (its **multiplicity**). Finally, the **smallest singular value** of a square matrix $M$ is the smallest length of $Mu$ over all columns $u$ of length 1; it is 0 exactly when some nonzero $u$ has $Mu = 0$. numpy computes it, and Notebook 04b uses it to locate the energies at which waves exist.
+**Complex numbers and the conjugate transpose.** A **complex number** is $x + iy$ with real $x, y$ and $i^2 = -1$; its **complex conjugate** is $x - iy$. The **conjugate transpose** $M^\dagger$ of a matrix transposes it and conjugates every entry. A matrix is **Hermitian** if $M^\dagger = M$; a real symmetric matrix is Hermitian. An **eigenvalue** of $M$ is a number $\lambda$ for which a nonzero column $u$ (an **eigenvector**) has $Mu = \lambda u$. A Hermitian matrix has only real eigenvalues. Proof: from $Mu = \lambda u$ follows $u^\dagger M u = \lambda\, u^\dagger u$ (multiply from the left by the row $u^\dagger$); the number $u^\dagger M u$ equals its own complex conjugate, because its conjugate is $u^\dagger M^\dagger u = u^\dagger M u$, so it is real; and $u^\dagger u = \sum_i \lvert u_i \rvert^2$ is real and positive; so $\lambda$ is a real number divided by a positive one. We also use a fact that Section 1.34 proved for **every** square matrix, Hermitian or not: an $n \times n$ matrix $M$ has $n$ eigenvalues, the $n$ roots of its **characteristic polynomial** $\det(M - \lambda I_n)$, where a root that occurs several times is counted as often as it occurs (its **multiplicity**); and the sum of these $n$ eigenvalues is the trace of $M$. (The proof there compares two ways of writing the characteristic polynomial; it rests on the fundamental theorem of algebra, which Chapter 1 assumes.) Finally, the **smallest singular value** of a square matrix $M$ is the smallest length of $Mu$ over all columns $u$ of length 1; it is 0 exactly when some nonzero $u$ has $Mu = 0$. numpy computes it, and Notebook 04b uses it to locate the energies at which waves exist.
 
 **The model: flat 4+4 space.** The full field equation of the theory, $\gamma^\mu D_\mu\Psi = (m + U'(S))\Psi$, is derived in Chapter 7; it contains the frame factors of Section 4.4, the gravitational correction in $D_\mu$, and a self-interaction $U'(S)$. This section studies the simplest equation with the same algebra,
 
@@ -2658,7 +2682,7 @@ for r, c_ in itertools.product(range(7), repeat=2):
     ax = axes[r, c_]
     a, b = r, c_ + 1  # row: first factor x_(a+1); column: second factor x_(b+1)
     if b <= a:
-        ax.axis("off")  # no panel on or below the diagonal
+        ax.axis("off")  # no panel below the diagonal of the grid (c_ < r)
         continue
     ax.imshow(two[(a, b)], cmap=three, norm=three_norm)
     ax.set_xticks([])
@@ -2669,7 +2693,7 @@ for r, c_ in itertools.product(range(7), repeat=2):
     ax.set_title(f"$x_{a + 1}\\,x_{b + 1}$", fontsize=8)
 ```
 
-Panel $(r, c)$ shows the product of the directions $a = r$ and $b = c + 1$ (rows $x_1$ to $x_7$, columns $x_2$ to $x_8$). The panels on and below the diagonal ($b \le a$) are switched off, and `continue` jumps to the next panel. Each remaining panel shows $\gamma^a\gamma^b$ as a heat map without tick marks; its four border lines (`spines`) get the colour of its plane, two points wide, and its title names the two directions.
+Panel $(r, c)$ shows the product of the directions $a = r$ and $b = c + 1$ (rows $x_1$ to $x_7$, columns $x_2$ to $x_8$). The panels on the diagonal of the grid ($c = r$, that is $b = a + 1$) show the neighbouring pairs $x_1x_2, x_2x_3, \dots, x_7x_8$. The panels below the diagonal ($c < r$, that is $b \le a$) would repeat a pair or pair a direction with itself; they are switched off, and `continue` jumps to the next panel. Each remaining panel shows $\gamma^a\gamma^b$ as a heat map without tick marks; its four border lines (`spines`) get the colour of its plane, two points wide, and its title names the two directions.
 
 ```python
 key = [Patch(facecolor="white", edgecolor=FRAME[-1], linewidth=2,
@@ -3483,7 +3507,7 @@ The Revision record confirms these statements independently. The table names the
 
 **Exercise 3.** How many of the 56 products of degree 3 square to $+I_{16}$, and how many to $-I_{16}$? Compare with figure 3 of Notebook 04c.
 
-*Answer.* By rule R2 with $k = 3$, $\gamma_A^2 = (-1)^{3}\prod_{a \in A}\eta^{aa}\,I_{16} = -\prod_{a \in A}\eta^{aa}\,I_{16}$. This is $+I_{16}$ exactly when the product of the three signs is $-1$, that is when $A$ contains an odd number of time-like directions. One time-like and two space-like directions: $\binom41\binom42 = 4 \cdot 6 = 24$ sets; three time-like: $\binom43 = 4$ sets. So $24 + 4 = 28$ products square to $+I_{16}$ and $56 - 28 = 28$ to $-I_{16}$, the two equal bars at degree 3 in the figure.
+*Answer.* By rule R2 with $k = 3$, $\gamma_A^2 = (-1)^{3}\prod_{a \in A}\eta^{aa}\,I_{16} = -\prod_{a \in A}\eta^{aa}\,I_{16}$. This is $+I_{16}$ exactly when the product of the three signs is $-1$, that is when $A$ contains an odd number of time-like directions. One time-like and two space-like directions: $\binom41\binom42 = 4 \cdot 6 = 24$ sets; three time-like: $\binom43 = 4$ sets. So $24 + 4 = 28$ products square to $+I_{16}$ and $56 - 28 = 28$ to $-I_{16}$: the two equal parts (28 red and 28 blue) of the stacked bar at degree 3 in the figure.
 
 **Exercise 4.** Compute the $4 \times 4$ matrix $P \otimes N$ with the index formula, and its square in two ways: with the mixed-product rule, and by following row 0 in the code notation.
 
