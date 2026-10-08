@@ -698,6 +698,34 @@ class QuotedNumbers(unittest.TestCase):
                 self.assertLess(abs(first_order), abs(canonical))
         self.assertQuoted("the same $N = 8$ states have $\\lvert E\\rvert \\leq 2.04 \\times 10^{-13}$")
         self.assertQuoted("still leaves $E < 0$, of smaller magnitude")
+        self.assertIn(self.exact_fock_slices_statement(rows), self.text)
+
+    def exact_fock_slices_statement(self, rows):
+        """The slices of the exact-Fock N = 8 rows and the equality of E across them, as section 4.7 states them."""
+        slices = sorted({float(row["a4"]) for row in rows})
+        self.assertEqual(slices, [0.0, 0.5, 1.0, 1.5, 2.0])
+        tags = sorted({row["lambda_tag"] for row in rows})
+        self.assertEqual(tags, ["lamm1", "lamm2", "lamp1", "lamp2"])
+        for tag in tags:
+            energies = [row["E_exact_fock_scf"] for row in rows if row["lambda_tag"] == tag]
+            self.assertEqual(len(energies), len(slices), tag)
+            self.assertEqual(len(set(energies)), 1, f"{tag}: E_exact_fock_scf differs between the slices")
+        listed = ", ".join(f"{a:g}" for a in slices)
+        return f"(computed at the canonical slices $a_4 = {listed}$, with the same $E$ at each)"
+
+    def test_exact_fock_slices_detect_a_change(self):
+        # negative controls: a changed slice list in the text, and a changed E at one slice in the data, are detected
+        with open(EXACT_FOCK, encoding="utf-8", newline="") as handle:
+            rows = [row for row in csv.DictReader(handle) if row["N"] == "8"]
+        statement = self.exact_fock_slices_statement(rows)
+        self.assertNotIn(statement, self.text.replace("$a_4 = 0, 0.5, 1, 1.5, 2$", "$a_4 = 0, 1, 2$"))
+        changed = [dict(row) for row in rows]
+        changed[1]["E_exact_fock_scf"] = "-8.125852314700990e-14"
+        with self.assertRaises(AssertionError):
+            self.exact_fock_slices_statement(changed)
+        dropped = [row for row in rows if float(row["a4"]) != 1.5]
+        with self.assertRaises(AssertionError):
+            self.exact_fock_slices_statement(dropped)
 
     def test_ks_source_conditions(self):
         data = load_json(KS_SOURCE)

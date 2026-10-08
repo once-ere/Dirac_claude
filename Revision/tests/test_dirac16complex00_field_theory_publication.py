@@ -30,11 +30,13 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import re
 import subprocess
 import sys
 import unittest
+from fractions import Fraction
 from pathlib import Path
 
 REVISION = Path(__file__).resolve().parents[1]
@@ -498,6 +500,33 @@ class TestKeyStatements(unittest.TestCase):
         ):
             self.assertIn(in_report, derive)
             self.assertIn(in_document, markdown_text())
+
+    @staticmethod
+    def turning_points_statement(models) -> str:
+        """The turning points a_* of M3 and M4 as section 10 quotes them, from eos-theory.json."""
+        m3 = models["M3_positive_extra_time_mode"]["turning_point_a_star"]
+        exact = Fraction(m3["exact"].removeprefix("sqrt(").removesuffix(")"))
+        if abs(math.sqrt(exact) - float(m3["decimal"])) >= 1e-11:
+            raise AssertionError(f"M3 turning point: decimal and exact value differ: {m3}")
+        m4 = float(models["M4_condensate_plus_extra_time_mode"]["turning_point_a_star"])
+        return f"(M3: $a_* = {float(m3['decimal']):.4f}$, M4: $a_* = {m4:.4f}$)"
+
+    def test_turning_points_from_the_record(self):
+        models = load_json(REVISION / "dark_sector/dirac16complex00/eos-theory.json")["models"]
+        self.assertIn(self.turning_points_statement(models), markdown_text())
+
+    def test_turning_points_detect_a_change(self):
+        # negative controls: a changed turning point in the record or in the text is detected
+        models = load_json(REVISION / "dark_sector/dirac16complex00/eos-theory.json")["models"]
+        statement = self.turning_points_statement(models)
+        self.assertNotIn(statement, markdown_text().replace("M4: $a_* = 1.2355$", "M4: $a_* = 1.2356$"))
+        self.assertNotIn(statement, markdown_text().replace("M3: $a_* = 1.8434$", "M3: $a_* = 1.8433$"))
+        models["M4_condensate_plus_extra_time_mode"]["turning_point_a_star"] = "1.23559235933"
+        self.assertNotIn(self.turning_points_statement(models), markdown_text())
+        models["M3_positive_extra_time_mode"]["turning_point_a_star"] = {"decimal": "1.84348860113",
+                                                                         "exact": "sqrt(1417/417)"}
+        with self.assertRaises(AssertionError):
+            self.turning_points_statement(models)
 
 
 @unittest.skipUnless(os.environ.get("REVISION_PDF_REBUILD") == "1", "set REVISION_PDF_REBUILD=1 to rebuild the PDF in verify mode")

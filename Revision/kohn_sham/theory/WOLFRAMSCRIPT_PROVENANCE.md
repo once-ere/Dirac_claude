@@ -159,7 +159,7 @@ input file is missing or an output file cannot be written (section 3.7 describes
 On 2026-10-08 lines 21 and 22 were changed so that the two folders are normalised with `ExpandFileName`
 (section 6.5); the table gives that version. The version before (sha256
 `4ce71aaa2c8efd78c8e1508ab72a3223383e21900805c4a34e55a3d5f7deb50d`, 463 lines, 41295 bytes) is the one
-verified in sections 6.1 to 6.3; both write the same bytes.
+verified in sections 6.1 (second pass) to 6.3; both write the same bytes.
 
 The companion was extended on 2026-10-07, outside this verification, by commit
 `3d22bc54a15cbfbc1fc38a4860bc2b1a8f0613f1` (a WIP snapshot of another workflow): it gained one check,
