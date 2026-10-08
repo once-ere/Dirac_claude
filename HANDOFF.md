@@ -163,6 +163,12 @@ their journals into Revision/workflows/state_restart/ with merge_state.py (add t
 4. Old Stage 4 (detached since 13:22): after stage4_R1/done.txt: R2-R5 + the errata line, in one commit.
 5. Chapter 23 generator (0.4s), 23a rebuilt LAST, phase 3c-book, the two LaTeX warnings, assembly, PDF registration.
 6. Full gate (detached, ~3 h), EXECUTION_PROVENANCE_FULL=1, all suites, two fresh clones, push, notify the user.
+7. Added 15:00: (a) Revision/kohn_sham/tip_convergence/tip-convergence.json used the key 'result' (23a crashed with KeyError
+   'verdict'): its agent was asked to switch to 'verdict' + summary; (b) 21d builder line ~175 words list: 'the conserved number
+   of the phase symmetry' -> local law + ASSUMED no-flux total (wording in the refix:23 report); (c) the book edition must be
+   re-registered with --date "October 2026" (Section 23.7 quotes the verify command); (d) the glossary regeneration kit is in
+   <scratchpad>/phase3b/refix-23/ (extract.py, group.py, build.py, splice.py, manual.json): move it into
+   Revision/textbook/tools/chapter23/ together with the chapter generator, with repository-relative paths.
 
 ### 0.4t RUNNING AT ~14:40 (2026-10-08)
 
