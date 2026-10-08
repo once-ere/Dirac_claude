@@ -364,11 +364,24 @@ class ContentTests(GuideTestCase):
             for line in block:
                 paths.update(word for word in re.split(r"[\s\"]+", line) if pattern.match(word))
         generated = ("DIRAC16COMPLEX_STUDENT_GUIDE",)
+        # A program built by the guide's own build step (Section 5.1) lives in the crate's git-ignored target/ folder, so
+        # it cannot exist in a fresh clone before that step: instead of its existence, check that the crate exists, that
+        # the guide builds it in its own folder, and that the path is an ignored build output.
+        built = re.compile(r"^studies/([A-Za-z0-9_]+)/target/release/")
         checked = 0
         for path in sorted(paths):
             if "expN" in path or path.endswith("/") and not (REPOSITORY_ROOT / path).is_dir():
                 continue
             if any(name in path for name in generated) and not (REPOSITORY_ROOT / path).exists():
+                continue
+            crate = built.match(path)
+            if crate and not (REPOSITORY_ROOT / path).exists():
+                with self.subTest(path=path, built_by_the_guide=True):
+                    self.assertTrue((REPOSITORY_ROOT / "studies" / crate.group(1) / "Cargo.toml").is_file(), path)
+                    self.assertIn(f"cd studies/{crate.group(1)}\ncargo build --release\n", text, path)
+                    ignored = subprocess.run(["git", "check-ignore", "-q", path], cwd=REPOSITORY_ROOT)
+                    self.assertEqual(ignored.returncode, 0, f"{path} is not an ignored build output")
+                    checked += 1
                 continue
             with self.subTest(path=path):
                 self.assertTrue((REPOSITORY_ROOT / path).exists(), path)
