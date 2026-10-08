@@ -87,8 +87,10 @@ CELLS = [
     $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$ (at one point) forces an indefinite inner
     product when $\Psi^\dagger$ is read as the Hilbert adjoint. The Revision record shows
     that in the *good sector* (waves that do not depend on the extra times $x_5, x_6,
-    x_7$) a POSITIVE quantum state space exists for each momentum. This notebook builds
-    it, for one momentum at a time, and checks every recorded number:
+    x_7$) a POSITIVE quantum state space exists for each single momentum with frozen
+    coefficients (flat-frame plane waves, in which the deflation of the extra times does
+    not enter). This notebook builds it, for one momentum at a time, and checks every
+    recorded number:
 
     - the mode Hamiltonian $h$ of a good-sector momentum is Hermitian, with eigenvalues
       $+E$ and $-E$ (eight each), $E = \sqrt{m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2}$;
@@ -124,7 +126,10 @@ CELLS = [
       definition dropping the constant that the reordering produces (here $-8E$ for the
       energy). The normal-ordered value of an operator $X$ in a state is its value minus
       the vacuum value.
-    - **Charge**: the conserved U(1) charge $Q = \Psi^\dagger B\Psi$ of the field.
+    - **Charge**: the U(1) charge $Q = \Psi^\dagger B\Psi$ of the field (its density, an
+      indefinite form). Its local conservation law is proved; the total over a slice is
+      constant only if no charge flows through the boundary, which at $z = \pi/2$ is an
+      ASSUMED no-flux condition that the Revision record does not impose.
     - **Expectation value**: $\langle\phi|X|\phi\rangle$ in a normalised state $\phi$.
     - **Fock space, pattern, vacuum, $f_p$, $f_p^*$**: as in the previous notebook of
       this chapter: a basis state is a pattern of occupations of 16 fermion modes,
@@ -796,8 +801,10 @@ CELLS = [
       ("semi-classical") field, and the Revision record does not quantise it.
     - SCOPE: the positive Fock space is built for single good-sector momenta with frozen
       coefficients (flat space). A positive-norm Hilbert space for the whole field, the
-      extra-time sector with its growing waves, and the interacting theory ($\lambda
-      \neq 0$) are not constructed; the next notebook shows what happens in the curved
+      extra-time sector with its growing waves, and the interacting operator theory
+      ($\lambda \neq 0$) beyond a finite model of one good-sector mode set (in which the
+      energy-momentum tensor operator obeys the on-shell identity with Wick ordering
+      only) are not constructed; the next notebook shows what happens in the curved
       good sector of the author's metric without a boundary condition at $z = \pi/2$.
     """),
 ]

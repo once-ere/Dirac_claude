@@ -314,7 +314,7 @@ The notebook shows 8 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/21d_4_rate_model_histories.png` (1062 x 858 pixels): The rate model of decays out of equilibrium for three decay rates $K$. Top: the number $n$ of heavy pairs (coloured) and the equilibrium value $n_{eq} = e^{-t}$ (thin black), logarithmic scale. Bottom: the asymmetry $a/\epsilon$. Horizontal axis the time in units of the cooling time (pure numbers). Slow decays ($K = 0.1$) happen late, far from equilibrium, when nothing erases their product: almost the whole $\epsilon$ survives. Fast decays ($K = 30$) keep $n$ close to $n_{eq}$, and the inverse decays erase almost everything.
 - `Revision/textbook/figures/21d_5_washout_efficiency.png` (994 x 638 pixels): The efficiency $\eta(K) = a(\infty)/\epsilon$ of the rate model: the fraction of the asymmetry made by the decays that survives, versus the decay rate $K$, both on logarithmic scales (pure numbers). Solid: the closed form with the incomplete gamma function; dots: the RK4 integrations; dotted: the limit $1/(K - 1)$. Slow decays (out of equilibrium) keep almost all of it; the closer the decays are to equilibrium (large $K$), the less survives: condition 3.
 - `Revision/textbook/figures/21d_6_lagrangian_maps.png` (1126 x 595 pixels): The Lagrangian density of the Revision record for the commuting field at one point of the author's metric ($H = 1/6$, $z = 0.7$, $a_4 = 0.4$, $a_4' = 0.25$, $m = 0.7$, $\lambda = 0.3$, a fixed field value and fixed first derivatives): for $\Psi$ and its same-mass conjugate $\Psi^\ast$ (blue, equal), for the images $\Gamma\Psi$ and $\Gamma\Psi^\ast$ (red) and for minus the Lagrangian of the reversed mass and coupling (grey); vertical axis the value (pure numbers). The red bars equal the grey one: $\Gamma$ maps the theory with $(m, \lambda)$ to the theory with $(-m, -\lambda)$.
-- `Revision/textbook/figures/21d_7_majorana_terms.png` (1611 x 615 pixels): Left and middle: heat maps of the only two matrices $M$ for which a Majorana-type term $\Psi^T M\Psi$ is invariant under the rotations and boosts of Spin(4,4), $C$ and $C\Gamma$ (horizontal axis the column, vertical axis the row, red $+1$, blue $-1$); both are symmetric, so the term vanishes for anticommuting components. Right: the change of the phase of $\Psi^T C\Psi$ (solid) and of $\Psi^\dagger C\Psi$ (dashed) for a commuting field under $\Psi \to e^{i\alpha}\Psi$, versus $\alpha$ (radians): the Majorana-type term turns twice as fast, it carries U(1) charge 2 and would break the charge conservation.
+- `Revision/textbook/figures/21d_7_majorana_terms.png` (1611 x 615 pixels): Left and middle: heat maps of the only two matrices $M$ for which a Majorana-type term $\Psi^T M\Psi$ is invariant under the rotations and boosts of Spin(4,4), $C$ and $C\Gamma$ (horizontal axis the column, vertical axis the row, red $+1$, blue $-1$); both are symmetric, so the term vanishes for anticommuting components. Right: the change of the phase of $\Psi^T C\Psi$ (solid) and of $\Psi^\dagger C\Psi$ (dashed) for a commuting field under $\Psi \to e^{i\alpha}\Psi$, versus $\alpha$ (radians): the Majorana-type term turns twice as fast, it carries U(1) charge 2 and would break the U(1) symmetry and with it the local conservation law of the charge.
 - `Revision/textbook/figures/21d_8_scorecard.png` (1541 x 777 pixels): The scorecard of the theory as built against Sakharov's three conditions, with the status of each row and the Revision record check it rests on (each status is set by the notebook only when the record holds that check with the verdict PASS). Condition 1 fails for every process inside the patch (the local U(1) law holds for every history $a_4$), so there conditions 2 and 3 cannot help; the total charge of a universe is constant only under the no-flux condition at the brane $z = \pi/2$, which is ASSUMED; condition 2 also fails for the commuting field (its same-mass conjugation is exact) and is not computed for the quantised field; the pair-level statement of theorem T1 is exact but creates nothing. The theory does not solve the matter-antimatter problem.
 
 ## 4. Side effects
@@ -325,7 +325,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/21d.captions.json` | 4798 | `44d7c1d07edf4dc3f21797f2430c49a69b8427c498437761a8c39dcad2c3a0ed` |
+| `Revision/textbook/figures/21d.captions.json` | 4845 | `b98b4580548d7f3921d3bdb43016b33801c2104878e37057f561bedb44fa04d8` |
 | `Revision/textbook/figures/21d_1_bookkeeping.png` | 51123 | `cac413a03ab8f0ad0e5a35cc1a8633df264ca3d1cd00d046a81d1139bc451cef` |
 | `Revision/textbook/figures/21d_2_decay_asymmetry.png` | 107049 | `f2c1aa3f7f015fa2434202adebf99cf94d4250da73b9d918480b212d5cdc1e79` |
 | `Revision/textbook/figures/21d_3_equilibrium_occupations.png` | 71891 | `8dae73afa52e137837131f4809f8f60c6facc0ab7acc96a599dd426d315bef5e` |
@@ -356,8 +356,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 12.0 s, peak memory of the kernel process 410 MiB;
-- the check run: 17.4 s, peak memory of the kernel process 410 MiB.
+- the build run: 15.6 s, peak memory of the kernel process 410 MiB;
+- the check run: 14.1 s, peak memory of the kernel process 410 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -369,9 +369,9 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/21d_sakharov_scorecard.ipynb`: `fac3002ddca97ea10fc7a7e3965f5df7d1c701e653f9ae8a7e17153da5ea9c67`
-- `Revision/textbook/notebooks/src/21d_sakharov_scorecard.py`: `41932fec14eec1c49c855ba74d4f1e872c793daef670eb74e0c2bdd932b90948`
-- `Revision/textbook/figures/21d.captions.json`: `44d7c1d07edf4dc3f21797f2430c49a69b8427c498437761a8c39dcad2c3a0ed`
+- `Revision/textbook/notebooks/21d_sakharov_scorecard.ipynb`: `7f69ae04df5623428da20167205eb87cc1595f3ab643db2c9f11a706807ac552`
+- `Revision/textbook/notebooks/src/21d_sakharov_scorecard.py`: `03da849940068514dfe308cb0ab1ec0c405889c7ce8f03aa693bb3d83a805807`
+- `Revision/textbook/figures/21d.captions.json`: `b98b4580548d7f3921d3bdb43016b33801c2104878e37057f561bedb44fa04d8`
 - `Revision/textbook/figures/21d_1_bookkeeping.png`: `cac413a03ab8f0ad0e5a35cc1a8633df264ca3d1cd00d046a81d1139bc451cef`
 - `Revision/textbook/figures/21d_2_decay_asymmetry.png`: `f2c1aa3f7f015fa2434202adebf99cf94d4250da73b9d918480b212d5cdc1e79`
 - `Revision/textbook/figures/21d_3_equilibrium_occupations.png`: `8dae73afa52e137837131f4809f8f60c6facc0ab7acc96a599dd426d315bef5e`
@@ -387,4 +387,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":410.0,"seconds":12.0},"check":{"date":"2026-10-08","files":9,"peak_mb":410.0,"result":"passed","seconds":17.4},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":410.0,"seconds":15.6},"check":{"date":"2026-10-08","files":9,"peak_mb":410.0,"result":"passed","seconds":14.1},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

@@ -923,7 +923,8 @@ CELLS = [
       MATRIX map $\Psi \to \Gamma\Psi^{\dagger T}$, which reverses the mass; the map
       with $M = I$ would reverse the sign of the rule.
     - NOT shown here: a positive state space for the whole field. The next notebook
-      builds the positive Fock space of the good sector, one momentum at a time.
+      builds the positive Fock space of the good sector, one momentum at a time, with
+      frozen coefficients.
     """),
 ]
 

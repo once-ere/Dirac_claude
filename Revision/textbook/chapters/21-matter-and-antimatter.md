@@ -451,7 +451,7 @@ If $K' = +K$ the bilinear is kept; if $K' = -K$ it is reversed.
 | $\mathcal{C}_-$ ($M = \Gamma$) | commuting ($\epsilon = +1$) | $+S$ | $+J^a$ |
 | $\mathcal{C}_-$ ($M = \Gamma$) | anticommuting ($\epsilon = -1$) | $-S$ | $-J^a$ |
 
-This is the table that the Revision record measured (lead check `bilinears_under_charge_conjugation`; Notebook 21a, In [14], compares with the record's own table). For the commuting field dirac16complex00, $\mathcal{C}_+$ keeps the mass and the scalar and reverses every current, in particular the charge density: it is the antiparticle map of this field. $\mathcal{C}_-$ reverses the mass and keeps the charge. The anticommuting rows are statements about classical Grassmann components; the quantised field is decided by the operator computation of Section 21.26. (The record's detail text adds in parentheses that normal ordering supplies one more sign for each bilinear in the quantum theory. Section 21.26 finds, with explicit operators, that the same-mass candidate counts the charge $Q - 16$, the charge shifted and not reversed; so that remark is not supported for the charge, in agreement with the operator computation of Chapter 5. This is listed as OPEN for the owner of the record in Section 21.38.)
+This is the table that the Revision record measured (lead check `bilinears_under_charge_conjugation`; Notebook 21a, In [14], compares with the record's own table). For the commuting field dirac16complex00, $\mathcal{C}_+$ keeps the mass and the scalar and reverses every current, in particular the charge density: it is the antiparticle map of this field. $\mathcal{C}_-$ reverses the mass and keeps the charge. The anticommuting rows are statements about classical Grassmann components; the quantised field is decided by the operator computation of Section 21.26. (The record's detail text adds in parentheses that normal ordering adds no sign: it subtracts the vacuum value, a number, so a bilinear that changes as $X \to sX + c$ has the normal-ordered form changing as $:\!X\!: \to s\,:\!X\!:$; the record makes no Fock-space computation for this. Its earlier remark that normal ordering supplies one more sign was withdrawn on 2026-10-08. Section 21.26 confirms the corrected text for the charge with explicit operators: the same-mass candidate counts the charge $Q - 16$, the charge shifted by a constant and not reversed, in agreement with the operator computation of Section 5.34.)
 
 *A check with numbers* (Notebook 21a, In [17]): for one fixed complex column $\Psi$ the notebook finds $S = +6.0205$ and $J^{(x4)} = +6.4970$; for $\Psi^\ast$, $S = +6.0205$ and $J^{(x4)} = -6.4970$; for $\Gamma\Psi^\ast$, $S = +6.0205$ and $J^{(x4)} = +6.4970$.
 
@@ -2962,7 +2962,7 @@ $$
 Q' = 16 - Q .
 $$
 
-The valid conjugate counts the **empty** modes. Up to the constant 16, which does not change any difference of charges, it **reverses the charge**: $Q' - 8 = -(Q - 8)$. Particles and holes are exchanged. The same four lines with $M = 1$ (no factors $\Gamma$, so no sign in line 2) give $Q'' = \sum_{A,C}B_{AC}\Psi_A\Psi^\dagger_C = -16 + Q$: the invalid same-mass candidate would not even reverse the charge, it would shift it. Notebook 21c checks these three operator identities on a random state of the 16 modes (In [8], figure 21c.4). This operator result is the quantum counterpart of the anticommuting rows of the table of Section 21.10: the valid conjugation reverses the charge and the mass; the same-mass candidate keeps the charge (up to a shift). It does not support the parenthetical remark of the record's check `bilinears_under_charge_conjugation` that normal ordering would give the same-mass candidate the standard sign (Section 21.10).
+The valid conjugate counts the **empty** modes. Up to the constant 16, which does not change any difference of charges, it **reverses the charge**: $Q' - 8 = -(Q - 8)$. Particles and holes are exchanged. The same four lines with $M = 1$ (no factors $\Gamma$, so no sign in line 2) give $Q'' = \sum_{A,C}B_{AC}\Psi_A\Psi^\dagger_C = -16 + Q$: the invalid same-mass candidate would not even reverse the charge, it would shift it. Notebook 21c checks these three operator identities on a random state of the 16 modes (In [8], figure 21c.4). This operator result is the quantum counterpart of the anticommuting rows of the table of Section 21.10: the valid conjugation reverses the charge and the mass; the same-mass candidate keeps the charge (up to a shift). Normal ordering subtracts the vacuum value ($Q = N = 0$ in the empty state, so $Q'$ has the vacuum value 16 and $Q''$ the value $-16$) and gives $:\!Q'\!: = -Q$ and $:\!Q''\!: = Q$: it adds no sign, as the corrected detail text of the record's check `bilinears_under_charge_conjugation` states (Section 21.10).
 
 **The mass is reversed, the spectra are equal.** In flat 4+4 space ($H = 0$, $a_4$ constant) a plane wave $u\,e^{ik\cdot x}$, with the momenta $k_a$ along the seven directions other than the time, evolves by $i\,\partial_4u = h_m(k)u$ with the **one-particle Hamiltonian** of the record
 
@@ -4646,8 +4646,8 @@ save_figure(fig, "majorana_terms",
             "the phase of $\\Psi^T C\\Psi$ (solid) and of $\\Psi^\\dagger C\\Psi$ "
             "(dashed) for a commuting field under $\\Psi \\to e^{i\\alpha}\\Psi$, "
             "versus $\\alpha$ (radians): the Majorana-type term turns twice as "
-            "fast, it carries U(1) charge 2 and would break the charge "
-            "conservation.")
+            "fast, it carries U(1) charge 2 and would break the U(1) symmetry "
+            "and with it the local conservation law of the charge.")
 ```
 
 Figure 21d.7. **What the figure shows.** Left and middle: two block-diagonal patterns, each its own mirror image across the diagonal (symmetric). Right: a straight line of slope 2, reaching $2\pi$ at $\alpha = \pi$, and a flat dashed line at zero.
@@ -4866,7 +4866,7 @@ A published example of the class of universe/anti-universe ideas is the CPT-symm
 | our universe is one member of a pair; the U(1) charge is the baryon number | HYPOTHESIS | Section 21.37 |
 | a creation process, rate or amplitude for universes, in pairs or otherwise | not derived by any equation of the record | Chapter 20; `Revision/docs/PAIR_CREATION_PROOFS.md`, its section 11.2 |
 | a regularised quantum theory in signature (4,4); anomalies of the U(1) symmetry | OPEN | not constructed in the record |
-| the record's parenthetical remark that normal ordering gives the same-mass candidate the standard signs | OPEN (not supported by the operator computation of Section 21.26) | lead check `bilinears_under_charge_conjugation`, its detail text; Notebook 21c, In [8] |
+| normal ordering adds no sign: $:\!Q'\!: = -Q$, $:\!Q''\!: = Q$ (the same-mass candidate keeps the charge) | PROVED (Section 21.26); COMPUTED with explicit operators; the record's detail text states the same since its correction of 2026-10-08 (no Fock-space computation there) | lead check `bilinears_under_charge_conjugation`, its detail text; Notebook 21c, In [8] |
 
 **In one sentence.** In this theory charge conjugation is a matrix, the charge obeys an exact local conservation law while the extra times deflate (its total is constant only under the ASSUMED no-flux condition at the brane), a solution and its chirality partner carry opposite charges, and nothing in the theory as built can make more matter than antimatter.
 

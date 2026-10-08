@@ -7,7 +7,7 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It finds the 39 verifier reports of the Revision record, counts their checks and confirms that none has the verdict FAIL (all are PASS except five comparisons with the author's outputs that are NOT-AVAILABLE), compares the counts with the summaries of the reports and with the numbers quoted elsewhere in the record, assigns every report to its row of the honesty ledger with the labels PROVED, COMPUTED, ASSUMED, HYPOTHESIS and OPEN, prints what the pairing record itself says is not established, compares 24 recorded sha256 fingerprints with the files of today, and draws four teaching plots.
+It finds the 41 verifier reports of the Revision record, counts their checks and confirms that none has the verdict FAIL (all are PASS except five comparisons with the author's outputs that are NOT-AVAILABLE), compares the counts with the summaries of the reports and with the numbers quoted elsewhere in the record, assigns every report to its row of the honesty ledger with the labels PROVED, COMPUTED, ASSUMED, HYPOTHESIS and OPEN, prints what the pairing record itself says is not established, compares 24 recorded sha256 fingerprints with the files of today, and draws four teaching plots.
 
 It reads or reproduces these Revision records:
 
@@ -17,6 +17,7 @@ It reads or reproduces these Revision records:
 - `Revision/theory/reports/python-field-theory.json`: a verifier report: its checks are counted and compared with its own summary
 - `Revision/theory/reports/wolfram-scope.json`: a verifier report: its checks are counted and compared with its own summary
 - `Revision/theory/reports/python-scope.json`: a verifier report: its checks are counted and compared with its own summary
+- `Revision/theory/fock_quartic/reports/fock-quartic.json`: a verifier report: its checks are counted and compared with its own summary
 - `Revision/field_equations_a4/reports/wolfram-a4-report.json`: a verifier report: its checks are counted and compared with its own summary
 - `Revision/field_equations_a4/reports/python-a4-report.json`: a verifier report: its checks are counted and compared with its own summary
 - `Revision/field_equations_a4/reports/ks-source-conditions.json`: a verifier report: its checks are counted and compared with its own summary
@@ -33,6 +34,7 @@ It reads or reproduces these Revision records:
 - `Revision/kohn_sham/reports/ks-rust-mermin-roots.json`: a verifier report: its checks are counted and compared with its own summary
 - `Revision/kohn_sham/reports/ks-reference.json`: a verifier report: its checks are counted and compared with its own summary
 - `Revision/kohn_sham/reports/ks-crosscheck.json`: a verifier report: its checks are counted and compared with its own summary
+- `Revision/kohn_sham/tip_convergence/tip-convergence.json`: a verifier report: its checks are counted and compared with its own summary
 - `Revision/dark_sector/dirac16complex/reports/derivation-checks.json`: a verifier report: its checks are counted and compared with its own summary
 - `Revision/dark_sector/dirac16complex/reports/ks-history-run.json`: a verifier report: its checks are counted and compared with its own summary
 - `Revision/dark_sector/dirac16complex/reports/eos-checks.json`: a verifier report: its checks are counted and compared with its own summary
@@ -68,7 +70,7 @@ The notebook has 32 cells (18 markdown cells and 14 code cells) in these section
 - 4. The physical and mathematical situation
 - 5. One report, opened by hand
 - 6. Three layouts of a report, one counting function
-- 7. All 39 reports of the Revision record
+- 7. All 41 reports of the Revision record
 - 8. Two independent engines
 - 9. The honesty ledger
 - 10. Fingerprints
@@ -83,7 +85,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 00c (The honesty ledger: reading and checking the Revision record) is the file `Revision/textbook/notebooks/00c_honesty_ledger.ipynb` of the repository Dirac_claude. It finds the 39 verifier reports of the Revision record, counts their checks and confirms that none has the verdict FAIL (all are PASS except five comparisons with the author's outputs that are NOT-AVAILABLE), compares the counts with the summaries of the reports and with the numbers quoted elsewhere in the record, assigns every report to its row of the honesty ledger with the labels PROVED, COMPUTED, ASSUMED, HYPOTHESIS and OPEN, prints what the pairing record itself says is not established, compares 24 recorded sha256 fingerprints with the files of today, and draws four teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
+Notebook 00c (The honesty ledger: reading and checking the Revision record) is the file `Revision/textbook/notebooks/00c_honesty_ledger.ipynb` of the repository Dirac_claude. It finds the 41 verifier reports of the Revision record, counts their checks and confirms that none has the verdict FAIL (all are PASS except five comparisons with the author's outputs that are NOT-AVAILABLE), compares the counts with the summaries of the reports and with the numbers quoted elsewhere in the record, assigns every report to its row of the honesty ledger with the labels PROVED, COMPUTED, ASSUMED, HYPOTHESIS and OPEN, prints what the pairing record itself says is not established, compares 24 recorded sha256 fingerprints with the files of today, and draws four teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -302,17 +304,17 @@ In [3]      real_fields_charge_conjugation
 In [3]  PASS the report proves the local law and does not establish a constant total charge
 In [3]       reproduces Revision/lead_checks/reports/charge-conjugation-and-u1.json, check
 In [3]      u1_noether_matrix_identity
-In [5]  PASS the search finds exactly the 39 reports of the list
-In [5]  PASS no check FAILS: 1203 PASS, 5 NOT-AVAILABLE, 1208 in all
+In [5]  PASS the search finds exactly the 41 reports of the list
+In [5]  PASS no check FAILS: 1231 PASS, 5 NOT-AVAILABLE, 1236 in all
 In [5]  PASS each report states the same totals that we counted
-In [6]  PASS the 37 counts quoted in the README equal ours
+In [6]  PASS the 39 counts quoted in the README equal ours
 In [6]       reproduces Revision/README.md, the table of the folders
 In [6]  PASS the cross-check quotes the counts 37, 42, 14 that we counted
 In [6]       reproduces Revision/kohn_sham/reports/ks-crosscheck.json, check inputs_all_pass
 In [6]  PASS the dark-sector summary quotes the 13 checks of eos-checks.json that we counted
 In [6]       reproduces Revision/dark_sector/dirac16complex/outputs/eos-summary.json, key checks
 In [8]  PASS each of the nine subjects has a Wolfram and a Python verifier
-In [9]  PASS every one of the 39 reports belongs to exactly one row
+In [9]  PASS every one of the 41 reports belongs to exactly one row
 In [9]  PASS OPEN and HYPOTHESIS rows have a note and no report; the others have reports
 In [9]  PASS only row 7 has checks that are not PASS: its 5 NOT-AVAILABLE comparisons
 In [9]  PASS the ledger: 11 PROVED, 3 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 3 OPEN rows
@@ -332,16 +334,16 @@ The key numbers are printed as RESULT lines:
 
 ```text
 In [2]  RESULT checks with the verdict PASS, counted = 12 of 12
-In [5]  RESULT verifier reports found in the folder Revision = 39
-In [5]  RESULT reports = 39
-In [5]  RESULT checks in all reports = 1208
-In [5]  RESULT checks with the verdict PASS = 1203
+In [5]  RESULT verifier reports found in the folder Revision = 41
+In [5]  RESULT reports = 41
+In [5]  RESULT checks in all reports = 1236
+In [5]  RESULT checks with the verdict PASS = 1231
 In [5]  RESULT checks done with the engine Wolfram = 385
-In [5]  RESULT checks done with the engine Python = 716
+In [5]  RESULT checks done with the engine Python = 744
 In [5]  RESULT checks done with the engine Rust = 70
 In [5]  RESULT checks done with the engine lead = 37
 In [5]  RESULT checks with the verdict NOT-AVAILABLE = 5
-In [6]  RESULT counts quoted in the README table = 37
+In [6]  RESULT counts quoted in the README table = 39
 In [8]  RESULT checks of the Wolfram verifiers of the nine subjects = 385
 In [8]  RESULT checks of the Python verifiers of the nine subjects = 375
 In [12]  RESULT characters of the sentence = 115
@@ -362,7 +364,7 @@ ALL 18 CHECKS PASSED (notebook 00c)
 
 The notebook shows 4 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
-- `Revision/textbook/figures/00c_1_checks_by_report.png` (1257 x 1211 pixels): The number of checks in each of the 39 verifier reports of the Revision record (horizontal axis, a count; one bar per report, named on the vertical axis and grouped by folder: algebra, theory, field equations for $a_4$, GKD and Lovelock with the comparison with the author's outputs, Kohn-Sham, dark sector, pairing, lead checks). The colour gives the engine: blue Wolfram Language, orange Python, aqua Rust, yellow the lead's independent Python checks. Of the 1208 checks (385 Wolfram Language, 716 Python, 70 Rust and 37 lead checks) 1203 have the verdict PASS and 5 the verdict NOT-AVAILABLE (comparisons with values that the author's notebook does not store); none FAILS. The largest report is wolfram-pairing.json with 101 checks.
+- `Revision/textbook/figures/00c_1_checks_by_report.png` (1257 x 1269 pixels): The number of checks in each of the 41 verifier reports of the Revision record (horizontal axis, a count; one bar per report, named on the vertical axis and grouped by folder: algebra, theory, field equations for $a_4$, GKD and Lovelock with the comparison with the author's outputs, Kohn-Sham, dark sector, pairing, lead checks). The colour gives the engine: blue Wolfram Language, orange Python, aqua Rust, yellow the lead's independent Python checks. Of the 1236 checks (385 Wolfram Language, 744 Python, 70 Rust and 37 lead checks) 1231 have the verdict PASS and 5 the verdict NOT-AVAILABLE (comparisons with values that the author's notebook does not store); none FAILS. The largest report is wolfram-pairing.json with 101 checks.
 - `Revision/textbook/figures/00c_2_two_verifiers.png` (1214 x 773 pixels): For each of nine subjects of the Revision record (vertical axis), the number of checks of its Wolfram Language verifier (blue, upper bar) and of its independent Python verifier (orange, lower bar); horizontal axis a count. The two verifiers share no code; each also checks statements that the other does not, so the numbers differ. Together they hold 385 Wolfram and 375 Python checks, all PASS.
 - `Revision/textbook/figures/00c_3_ledger.png` (1036 x 1165 pixels): The honesty ledger of the book at a glance: one row per main statement (written above its bar), the length of its bar the number of checks in the reports that verify it (horizontal axis, a count), the colour its label: blue PROVED, orange COMPUTED, aqua ASSUMED. Every check is PASS except five NOT-AVAILABLE comparisons of row 7. The ASSUMED row has 28 checks, which show why the Kohn-Sham history of $a_4$ must be assumed. The last five rows have no bar, because no check of the record establishes them: two hypotheses (a time-varying dark sector, investigated in row 15 but not established; a partner universe of opposite charge) and three open questions (a constant total charge of one universe, which needs an assumed condition at the brane; the creation of universes in pairs, not proved; what produces the excess of matter over antimatter, which the theory as built does not produce).
 - `Revision/textbook/figures/00c_4_fingerprints.png` (913 x 611 pixels): How much a sha256 fingerprint changes when one character of a text changes: for each of the 115 characters of one sentence, the character was replaced by the next one and the number of the 64 hexadecimal characters of the fingerprint that changed was counted; horizontal axis that number (0 to 64), vertical axis how many of the 115 altered sentences gave it. Every change altered between 54 and 64 of the 64 characters, on average 60.03, as for a random string (dotted line at 60): none of the 115 one-character changes left the fingerprint nearly the same.
@@ -375,10 +377,10 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/00c.captions.json` | 2705 | `b32c742d773d9a6a3ed8637dff3601b063a172078a6e55c70b55bc042f068b55` |
-| `Revision/textbook/figures/00c_1_checks_by_report.png` | 150243 | `d20e3d6466d8bbd551bcc08f108cc3a4151d12b0359b460ab1098202395304a1` |
+| `Revision/textbook/figures/00c.captions.json` | 2705 | `c4f29baef7a829608081655ef49d40073e7b0de3c619746722f70236d2b6ccd6` |
+| `Revision/textbook/figures/00c_1_checks_by_report.png` | 156556 | `626bfdecb79c60572b920a31224ef74a09940dff80355b52a66c8c22f47ea2a9` |
 | `Revision/textbook/figures/00c_2_two_verifiers.png` | 70230 | `612d0c153841b9726ad49d976bb8f053259b851dd90ca8024193cb55e472ccdf` |
-| `Revision/textbook/figures/00c_3_ledger.png` | 217106 | `293a98922b6bb26a0d9fbd014b1fb73f72a4b22213f5781a66170ee90d54abe4` |
+| `Revision/textbook/figures/00c_3_ledger.png` | 216641 | `1c97df55bbbdfa8bc7346f43e71ff98f3af52fb72b6777ed8e23a150a323e067` |
 | `Revision/textbook/figures/00c_4_fingerprints.png` | 48872 | `7baa35a0d8de0ec7bae6aac8259d8bcd35e1101eafc78adaa867c031dc58c564` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/00c_honesty_ledger.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -402,8 +404,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 4.0 s, peak memory of the kernel process 147 MiB;
-- the check run: 3.9 s, peak memory of the kernel process 147 MiB.
+- the build run: 8.6 s, peak memory of the kernel process 151 MiB;
+- the check run: 7.8 s, peak memory of the kernel process 152 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -415,12 +417,12 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `1b8450c6f365083f27cd02937762f9fabe52c7c5d2eb1acb45d848d8d1688c7e`
-- `Revision/textbook/notebooks/src/00c_honesty_ledger.py`: `a62839b497f38f5acabfcc420c7563a8e07a0d8472837648db9f625dec78b083`
-- `Revision/textbook/figures/00c.captions.json`: `b32c742d773d9a6a3ed8637dff3601b063a172078a6e55c70b55bc042f068b55`
-- `Revision/textbook/figures/00c_1_checks_by_report.png`: `d20e3d6466d8bbd551bcc08f108cc3a4151d12b0359b460ab1098202395304a1`
+- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `800691571a6c9010bd39c046545ad3b258ffd95c09773012e4ee49f6c40e73af`
+- `Revision/textbook/notebooks/src/00c_honesty_ledger.py`: `f0186911d0ea0f0427052d864f5984897ae7657177504408bd8bf97faac42c4d`
+- `Revision/textbook/figures/00c.captions.json`: `c4f29baef7a829608081655ef49d40073e7b0de3c619746722f70236d2b6ccd6`
+- `Revision/textbook/figures/00c_1_checks_by_report.png`: `626bfdecb79c60572b920a31224ef74a09940dff80355b52a66c8c22f47ea2a9`
 - `Revision/textbook/figures/00c_2_two_verifiers.png`: `612d0c153841b9726ad49d976bb8f053259b851dd90ca8024193cb55e472ccdf`
-- `Revision/textbook/figures/00c_3_ledger.png`: `293a98922b6bb26a0d9fbd014b1fb73f72a4b22213f5781a66170ee90d54abe4`
+- `Revision/textbook/figures/00c_3_ledger.png`: `1c97df55bbbdfa8bc7346f43e71ff98f3af52fb72b6777ed8e23a150a323e067`
 - `Revision/textbook/figures/00c_4_fingerprints.png`: `7baa35a0d8de0ec7bae6aac8259d8bcd35e1101eafc78adaa867c031dc58c564`
 
 ## 7. Verification
@@ -429,4 +431,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 5 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":147.0,"seconds":4.0},"check":{"date":"2026-10-08","files":5,"peak_mb":147.0,"result":"passed","seconds":3.9},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":151.0,"seconds":8.6},"check":{"date":"2026-10-08","files":5,"peak_mb":152.0,"result":"passed","seconds":7.8},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

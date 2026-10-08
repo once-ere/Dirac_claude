@@ -674,7 +674,7 @@ CELLS = [
     # The report with the most checks, and its number of checks.
     largest = max((path for path, _ in REPORTS), key=lambda path: counted[path][1])
     longest = counted[largest][1]
-    fig, ax = plt.subplots(figsize=(7.6, 9.4))
+    fig, ax = plt.subplots(figsize=(7.6, 9.9))
     rows = np.arange(len(REPORTS))[::-1]  # the first report at the top
     for row, (path, engine) in zip(rows, REPORTS):
         total = counted[path][1]
@@ -798,18 +798,20 @@ CELLS = [
     although it has 28 checks: those checks show that the computed Kohn-Sham states
     cannot be the source of that history in the field equations, so the history has
     to be assumed (a *prescribed background*). Three rows with reports have a note as
-    well. Row 2: the energy-momentum tensor (EMT) operator of dirac16complex with a
-    self-coupling $\lambda \neq 0$ is checked by one Python program only in a finite
-    model (one set of 16 modes); for the field on a whole slice of space it is not
-    proved. Row 7, the comparison of the Revision's curvature with the values that the
-    author stored in his own notebook: five of its comparisons could not be made
-    (NOT-AVAILABLE). Row 9: the Kohn-Sham states are computed with the far end of the
-    hidden direction cut off at $L = 3$; a study of larger $L$ (its seventh report)
-    finds that the limit of large $L$ is not established for every state.
+    well. Row 2: for a self-coupling $\lambda \neq 0$ the operator form of the
+    energy-momentum tensor (EMT) of dirac16complex is proved only in a finite model
+    (one set of 16 modes, checked by one Python program, its third report); for the
+    field on a whole slice of space the record assumes it and does not prove it. Row 7,
+    the comparison of the Revision's curvature with the values that the author stored
+    in his own notebook: five of its comparisons could not be made (NOT-AVAILABLE).
+    Row 9: the Kohn-Sham states are computed with the far end of the hidden direction
+    cut off at $L = 3$; a study of larger $L$ (its sixth report) finds that the limit
+    of large $L$ is not established for every state.
 
     Rows 13 and 15 are labelled COMPUTED as well, because they rest on numerical
-    computations. Row 13: the theorem T3 is proved (row 12) and, in addition, demonstrated on
-    computed Kohn-Sham states of mass $+M$ and $-M$; a demonstration is not a proof.
+    computations. Row 13: the theorem T3 is proved (row 12) and, in addition,
+    demonstrated on computed Kohn-Sham states of mass $+M$ and $-M$; a demonstration
+    is not a proof.
     Row 15: the author's dark-sector hypotheses were investigated; the investigation
     derives exact identities, but its results, the equations of state that each field
     can give, are computed numbers under stated assumptions about the observer. It
@@ -1167,7 +1169,7 @@ CELLS = [
     md(r"""
     ## 12. What this notebook showed
 
-    - A search of the whole folder Revision finds 39 verifier reports, the 39 of our
+    - A search of the whole folder Revision finds 41 verifier reports, the 41 of our
       list. No check has the verdict FAIL: every check is PASS except five
       comparisons with values that the author's own notebook does not store, whose
       verdict is NOT-AVAILABLE; section 7 prints how many checks there are, in all and
