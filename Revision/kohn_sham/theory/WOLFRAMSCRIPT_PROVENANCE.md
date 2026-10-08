@@ -917,7 +917,7 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
   commits. No uncommitted file was copied into any clone: the execution fix of section 6.1 is committed
   (since commit `3f0a577`), and the script, the package, the companion, the two inputs and the three outputs
   had exactly the sha256 values, line counts and byte counts that section 2 gave at that time (measured in
-  clone B; for the script that is the version before section 6.5, sha256 `4ce71aaa...d50d`, see section 2.1).
+  clone B; for the script that is the version before section 6.5, sha256 `4ce71aaa...b50d`, see section 2.1).
 * Environment: Windows 11 Pro for Workstations 10.0.26300 (`ver`: 10.0.26300.9457), Intel Core Ultra 9
   275HX (24 cores), 191 GB memory; WolframScript 1.14.0 with Wolfram 15.0.1 for Microsoft Windows (64-bit)
   (July 2, 2026), Professional licence; Python 3.14.5 (system installation `C:\Python314`) with numpy
@@ -1000,7 +1000,7 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
   `https://github.com/once-ere/Dirac_claude.git` into an empty folder. No uncommitted file was copied into
   any clone. The script, the package, the companion, the inputs and the outputs had exactly the sha256
   values, line counts and byte counts that section 2 gave at that time (measured in clone F1; for the script
-  that is the version before section 6.5, sha256 `4ce71aaa...d50d`, see section 2.1).
+  that is the version before section 6.5, sha256 `4ce71aaa...b50d`, see section 2.1).
 * Environment: Windows 11 Pro for Workstations 10.0.26300, Intel Core Ultra 9 275HX (24 cores), 191 GB
   memory; WolframScript 1.14.0 with Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026),
   Professional licence; Python 3.14.5 (system installation `C:\Python314`); a private environment made
