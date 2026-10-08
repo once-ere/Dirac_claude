@@ -160,7 +160,7 @@ ORDER (each step: lead re-check -> commit -> push):
    wording from tb-charge.
 2. When NO textbook agent runs any more: `python Revision/workflows/completion/tools_patch.py`;
    `python Revision/workflows/completion/remove_local_jupyter_workarounds.py <the 22 builders that contain python -m jupyterlab>`;
-   add FACTS work_folders to 15a, 15b, 15d (and 16a if it writes into a target folder); then rebuild EVERY notebook
+   `python Revision/workflows/completion/add_work_folders.py` (11a, 11b, 15a, 15b, 15d, 19a); then rebuild EVERY notebook
    (nbkit build --date 2026-10-08, then nbkit check) in the background, 4-6 at a time; all 89 (+22b, 23a later) must pass.
 3. Launch phase 3b (`completion_phase_3b.js`): chapter 23 + glossary + index (23a), 00c, chapter 05, LOVELOCK_GKD sync.
 4. Launch phase 3c (`completion_phase_3c.js`): the two whole reviews with skeptics, fixers, fix-verifiers.
