@@ -23,8 +23,9 @@ three extra times, which DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}\sin^{1/6}
   self-consistent solution saturates instead: for $N = 8$, $\lambda = \pm\lambda_1$, $E_{KS}$ goes from
   $\mp 9.868\times10^{-4}$ ($L = 3$) to $\mp 3.0046\times10^{-3}$ (converged, ratio $e^{-3}$ per $\Delta L = 0.5$,
   i.e. rate $6H$); the recorded value is one third of the large-$L$ value. The self-consistent iteration of the
-  solver FAILS at larger $L$ for 13 of the 19 interacting states studied (from $L = 5$ for $N = 8$, from
-  $L = 3.5$ or $4.5$ for $N = 688$, $a_{4,0} = 0$). For 6 of these 13 the converged $L$ values still give a
+  solver FAILS at larger $L$ for 13 of the 19 interacting states studied (from $L = 5$ for five $N = 8$ states,
+  from $L = 5.5$ or $6$ for three $N = 136$ states and the thermal state, from $L = 3.5$, $4.5$ or $6$ for four
+  $N = 688$ states). For 6 of these 13 the converged $L$ values still give a
   geometric tail (the $N = 8$ states and N136_lamp1_a10); for the other 7 the limit of $E_{KS}$ is not established
   here (6 NOT CONVERGED, 1 with fewer than three converged $L$ values; `tip-convergence-extrapolation.csv`).
 * **The recorded calibration rule has no non-trivial limit:** applied at each $L$ it gives $\lambda_1(L)$ falling like
@@ -139,7 +140,7 @@ so the large-$L$ ground state of $N = 688$ at $a_{4,0} = 0$ is a different state
 
 | state | quantity | x(3) | x_inf (U) or last value | status |
 | --- | --- | --- | --- | --- |
-| N8, $\mp\lambda_1$, every slice | E_KS | $\pm$9.868426191e-4 | $\pm$3.004585e-3 (4e-10, from N8_lamm1_a20, the only N = 8 state converged to L = 6) | geometric tail, ratio 0.0498 = $e^{-3}$ per 0.5 |
+| N8, $\mp\lambda_1$, every slice | E_KS | $\pm$9.868426191e-4 | $\pm$3.004585e-3 (4e-10, from N8_lamm1_a20, the only interacting N = 8 state converged to L = 6) | geometric tail, ratio 0.0498 = $e^{-3}$ per 0.5 |
 | N8, $\mp\lambda_1$ | HOMO (zero-mode level) | $\pm$2.455627e-4 | $\pm$5.635198e-4 (1e-11) | converged from L = 5 (N8_lamm1_a20) |
 | N8_lamm1_a20 | int_p8 / rho at the brane | 8.891377e-3 / 1.239022e-7 | 2.563318e-2 / 2.841360e-7 | geometric / from 4.5 |
 | N8, other 5 states | all | as above to L = 4.5 | - | SCF fails from L = 5 |
@@ -148,7 +149,7 @@ so the large-$L$ ground state of $N = 688$ at $a_{4,0} = 0$ is a different state
 | N136_lamp1_a10 | E_KS | 32.39294915 | 32.43858901 (2e-7) | geometric tail, SCF fails at 6 |
 | N136_lamm1_a10 / a20 | E_KS | 32.37558803 / 12.44277143 | 32.41664773 (1e-8) / 12.57291983 (2e-8) | geometric tail |
 | N136_lamp1_a20 | E_KS | 12.44705959 | 12.67784588 at L = 5.5 (last abs difference 3.3e-6) | NOT CONVERGED by the rule (sign change), SCF fails at 6 |
-| N688_lamp1_a00 / lamm1_a00 | all | 680.4447576 / 680.4377369 | - | NOT ESTABLISHED: SCF fails at L = 3.5 / 4.5 |
+| N688_lamp1_a00 / lamm1_a00 | all / E_KS | 680.4447576 / 680.4377369 | - | NOT ESTABLISHED (lamp1: fewer than 3 converged L values, SCF fails at L = 3.5) / NOT CONVERGED (lamm1: ratio 0.777, SCF fails at L = 4.5) |
 | N688_lamm1_a10 / a20 | E_KS | 279.4031322 / 110.3316612 | 279.4539972 (6e-8) / 110.8271605 (9e-8) | geometric tail |
 | N688_lamp1_a10 / a20 | E_KS | 279.4468466 / 110.445655 | 279.4994743 / 111.2234102 at L = 5.5 (last abs differences 1.5e-5 / 1.7e-5) | NOT CONVERGED by the rule (non-monotone), SCF fails at 6 |
 | N136_lamp1_a10_T20 | E / mu / S | 33.31968443 / 0.3246593 / 86.554007 | 33.36692481 / 0.3247489683 / 86.70277822 at L = 5 | NOT CONVERGED, SCF fails from 5.5 |
@@ -156,8 +157,9 @@ so the large-$L$ ground state of $N = 688$ at $a_{4,0} = 0$ is a different state
 * The interaction shift itself grows with $L$ at $a_{4,0} = 2$: $E_{KS}(\pm\lambda_1) - E_{KS}(0)$ of N136_a20 is
   $+2.0\times10^{-3}$ / $-2.3\times10^{-3}$ at $L = 3$, and $+5.6\times10^{-2}$ ($L = 5.5$) / $-4.9\times10^{-2}$
   ($L \to \infty$): the recorded $L = 3$ interaction effects at the late slice are 21-28 times smaller than at large $L$.
-* The $\pm\lambda$ partners of $N = 8$ are exact negatives of each other at every $L$ where both converge
-  ($E_{KS}$, HOMO to all printed digits).
+* The $\pm\lambda$ partners of $N = 8$ are negatives of each other to $1.1\times10^{-12}$ relative in $E_{KS}$ and
+  $4.7\times10^{-13}$ in HOMO at every $L$ where both converge (fixed protocol, step $h = 1/300$: 12 pairs, 11 of
+  them exact negatives; in the recalibrated protocol exact negatives in 21 of 21 pairs; `tip-convergence-table.csv`).
 * SCF failures (13 of 19 interacting states at some $L$; none in the recalibrated protocol): "potentials left the
   physical range" in the direct iteration and in the coupling continuation (the free start has the first-order tip
   potential, $10^2$-$10^4$ m at $L \ge 5$), and for N688_lamp1_a00 at $L = 3.5$ "SCF not converged in 400
@@ -230,10 +232,11 @@ Established (numerically, two solvers at two $L$, controls byte for byte):
   saturated zero-mode interaction.
 
 NOT established:
-* any $L \to \infty$ value for N688_lam0_a00 (algebraic, the occupied set keeps changing), for the interacting
-  states whose SCF fails or whose differences change sign (N8 except via the $\lambda \to -\lambda$ partner and
-  the a20 window; N136_lamp1_a00, N136_lamp1_a20, N688 at $a_{4,0} = 0$, N688_lamp1_a10/a20, the thermal
-  N136_lamp1_a10_T20);
+* any $L \to \infty$ value for N688_lam0_a00 (algebraic, the occupied set keeps changing), and for the 7
+  interacting states whose $E_{KS}$ differences do not meet the geometric-tail rule before the SCF fails
+  (N136_lamp1_a00, N136_lamp1_a20, N688_lamp1_a00 and N688_lamm1_a00 at $a_{4,0} = 0$, N688_lamp1_a10/a20, the
+  thermal N136_lamp1_a10_T20; `tip-convergence-extrapolation.csv`); the other 6 states whose SCF fails (the five
+  $N = 8$ states and N136_lamp1_a10) have a geometric tail before the failure;
 * whether self-consistent states exist where the solver's iteration fails;
 * $\lambda_2$ states, the slices 0.5 and 1.5, $T = 0.01$ and the other thermal states, the excited states and
   the adiabaticity measure at $L \ne 3$ (not computed); $L > 6$ (not computed; RK4 at fixed $h$ would leave its
