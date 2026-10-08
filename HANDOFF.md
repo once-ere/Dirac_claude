@@ -147,6 +147,16 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4t RUNNING AT ~14:40 (2026-10-08)
+
+Phase 3c-rev (wf_632c3899-8ec: whole-Revision review, 5 lenses, 2 skeptics per finding, fixers per area, fix-verifiers);
+phase 3b-2 (wf_b0dab77f-75b: chapter 23 glossary done, verifier found 12, re-fix running); agents: stage5-plan (old Stage 5:
+Krein correction applied, pairs-checker per-member uncertainty, numerics measured, completion plan), ks-tip-convergence (new
+Revision/kohn_sham/tip_convergence/: L = 3..6 series, extrapolation; SPEC 7 'regular tip'), fock-quartic (new
+Revision/theory/fock_quartic/: the EMT operator identity for lambda != 0 in a finite Fock space; SPEC 4); the detached Stage-4
+reference rerun.  Still to launch: phase 3c-book (after chapter 23 is final).  Final steps: section 0.4p step 5 plus the
+chapter-23 generator (0.4s), the full gate (about 3 h, detached), EXECUTION_PROVENANCE_FULL=1, two fresh clones, notify.
+
 ### 0.4s CHAPTER 23 NOTES (2026-10-08 ~14:45)
 
 Chapter 23 and Notebook 23a written (tb-23; glossary agent and verifier running).  (1) 23a reads every other notebook's
