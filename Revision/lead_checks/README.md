@@ -48,7 +48,10 @@ calC_- = Gamma C (calC_-^-1 gamma^a calC_- = +(gamma^a)^T; mass reversed; Psi^c 
 real field is its own conjugate); the nontrivial real matrix map is Gamma with (m, lambda) -> (-m, -lambda), which
 reverses J and the kinetic term (theorem T1).  The bilinears' signs for commuting and Grassmann components are
 exact matrix identities; the U(1) Noether identity in the author's metric is reduced exactly to a 16 x 16 matrix
-identity and verified, so the charge Q = Int cos z Psi^dagger B Psi d^7x is conserved on shell.  For the QUANTISED Grassmann field the
+identity and verified, so the LOCAL law d_mu(cos z J^mu) = 0 holds on shell; the total charge Q = Int cos z Psi^dagger B Psi d^7x
+of a slice is constant only if no charge flows through its boundary, and at the brane z = pi/2 the flow is not zero in general
+(constancy of Q is not established).  The quantised bilinears keep the classical anticommuting signs: normal ordering subtracts
+a number and adds no sign (an earlier version of the detail text said the opposite; corrected 2026-10-08).  For the QUANTISED Grassmann field the
 conjugation that preserves the canonical anticommutator {Psi, Psi^dagger} = B delta is Psi -> Gamma Psi^{dagger T}
 (M B^T M^dagger = B holds for M = Gamma and fails, = -B, for M = 1): it reverses the mass.
 

@@ -43,7 +43,7 @@
   {
    "name": "bilinears_under_charge_conjugation",
    "verdict": "PASS",
-   "detail": "S -> sS S, J^a -> sJ J^a under Psi -> M Psi*: calC_+ commuting (S, J) -> (S, -J); calC_+ Grassmann (S, J) -> (-S, +J) classically (in the quantum theory normal ordering supplies one more sign for each bilinear, giving the standard (S, J) -> (S, -J)); calC_- commuting (S, J) -> (S, +J); calC_- Grassmann (S, J) -> (-S, -J); measured: {\"plus,eps=1\": [1, [-1, -1, -1, -1, -1, -1, -1, -1]], \"plus,eps=-1\": [-1, [1, 1, 1, 1, 1, 1, 1, 1]], \"minus,eps=1\": [1, [1, 1, 1, 1, 1, 1, 1, 1]], \"minus,eps=-1\": [-1, [-1, -1, -1, -1, -1, -1, -1, -1]]}"
+   "detail": "S -> sS S, J^a -> sJ J^a under Psi -> M Psi*: calC_+ commuting (S, J) -> (S, -J); calC_+ Grassmann (S, J) -> (-S, +J) classically (normal ordering adds no sign: it subtracts the vacuum value, a number, so X -> s X + c gives :X: -> s :X:; no Fock-space computation is made here); calC_- commuting (S, J) -> (S, +J); calC_- Grassmann (S, J) -> (-S, -J); measured: {\"plus,eps=1\": [1, [-1, -1, -1, -1, -1, -1, -1, -1]], \"plus,eps=-1\": [-1, [1, 1, 1, 1, 1, 1, 1, 1]], \"minus,eps=1\": [1, [1, 1, 1, 1, 1, 1, 1, 1]], \"minus,eps=-1\": [-1, [-1, -1, -1, -1, -1, -1, -1, -1]]}"
   },
   {
    "name": "quantum_charge_conjugation_unitary_type",
@@ -63,7 +63,7 @@
   {
    "name": "u1_noether_matrix_identity",
    "verdict": "PASS",
-   "detail": "d_mu(cos z J^mu) = Psi^dagger [d_mu(cos z K^mu)] Psi + cos z [(d Psi)^dagger K^mu Psi + Psi^dagger K^mu d Psi], K^mu = -i C gamma^mu; -i cos z (Psi^dagger C E - E^dagger C Psi) gives the same derivative terms (i (gamma^mu)^T C = -i C gamma^mu, gamma and Omega real), the V terms cancel (V real), and the remaining terms agree iff sum_mu d_mu(cos z C gamma^mu) = cos z sum_mu (C gamma^mu Omega_mu - Omega_mu^T (gamma^mu)^T C): verified exactly for general a4(x4); on shell the charge Q = Int cos z Psi^dagger B Psi d^7x is conserved"
+   "detail": "d_mu(cos z J^mu) = Psi^dagger [d_mu(cos z K^mu)] Psi + cos z [(d Psi)^dagger K^mu Psi + Psi^dagger K^mu d Psi], K^mu = -i C gamma^mu; -i cos z (Psi^dagger C E - E^dagger C Psi) gives the same derivative terms (i (gamma^mu)^T C = -i C gamma^mu, gamma and Omega real), the V terms cancel (V real), and the remaining terms agree iff sum_mu d_mu(cos z C gamma^mu) = cos z sum_mu (C gamma^mu Omega_mu - Omega_mu^T (gamma^mu)^T C): verified exactly for general a4(x4); on shell the LOCAL law d_mu(cos z J^mu) = 0 holds; the total charge Q = Int cos z Psi^dagger B Psi d^7x of a slice is constant only if no charge flows through its boundary (at the brane z = pi/2 the flow is not zero in general): constancy of Q is NOT established by this check"
   }
  ]
 }

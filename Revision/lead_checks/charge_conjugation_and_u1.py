@@ -26,8 +26,9 @@ Checks:
  4. action on the bilinears, as exact matrix identities for commuting (eps = +1) and Grassmann (eps = -1)
     components: under Psi -> M Psi*, S and J^a transform with the effective matrices eps (M^dagger K M)^T, K = the
     matrix of the bilinear: calC_+ keeps m and S and reverses J for commuting components (J^c = -J), while for
-    Grassmann components S^c = -S and J^c = +J classically (normal ordering in the quantum theory supplies one more
-    sign for each, giving the standard S^c = S, J^c = -J); calC_- reverses the mass term (s = -1).
+    Grassmann components S^c = -S and J^c = +J classically; calC_- reverses the mass term (s = -1).  Normal ordering
+    adds no sign: it subtracts the vacuum value, a number, so X -> s X + c becomes :X: -> s :X: (the quantised
+    bilinears keep the signs of the classical anticommuting components; no Fock-space computation is made here).
  4b. the QUANTISED Grassmann field: Psi -> M Psi^{dagger T} preserves {Psi, Psi^dagger} = B delta iff
     M B^T M^dagger = B: true for M = Gamma, false (= -B) for M = 1.
  5. REAL fields: for real commuting components J^a = 0 identically (C gamma^a is antisymmetric) and calC_+ acts
@@ -39,7 +40,9 @@ Checks:
     d_mu(cos z J^mu) = -i cos z (Psi^dagger C E - E^dagger C Psi), E = (gamma^mu D_mu - V) Psi, reduces exactly
     (derivation in the detail string) to the 16 x 16 matrix identity
     sum_mu d_mu(cos z C gamma^mu) = cos z sum_mu (C gamma^mu Omega_mu - Omega_mu^T (gamma^mu)^T C),
-    verified exactly; on shell Q = Int cos z Psi^dagger B Psi d^7x is conserved.
+    verified exactly; on shell the LOCAL law d_mu(cos z J^mu) = 0 holds.  The total charge Q = Int cos z Psi^dagger B
+    Psi d^7x of a slice is constant only if no charge flows through the boundary of the slice; at the brane z = pi/2
+    the flow is not zero in general, so the constancy of Q is NOT established here.
 
 Usage (from the repository root):  python Revision/lead_checks/charge_conjugation_and_u1.py
 Output (deterministic, LF): Revision/lead_checks/reports/charge-conjugation-and-u1.json
@@ -165,7 +168,7 @@ ok4 = (res[('plus', 1)] == (1, [-1] * 8) and res[('plus', -1)] == (-1, [1] * 8)
        and res[('minus', 1)] == (1, [1] * 8) and res[('minus', -1)] == (-1, [-1] * 8))
 check('bilinears_under_charge_conjugation', ok4,
       'S -> sS S, J^a -> sJ J^a under Psi -> M Psi*: calC_+ commuting (S, J) -> (S, -J); calC_+ Grassmann (S, J) -> (-S, +J) '
-      'classically (in the quantum theory normal ordering supplies one more sign for each bilinear, giving the standard (S, J) -> (S, -J)); calC_- commuting (S, J) -> (S, +J); '
+      'classically (normal ordering adds no sign: it subtracts the vacuum value, a number, so X -> s X + c gives :X: -> s :X:; no Fock-space computation is made here); calC_- commuting (S, J) -> (S, +J); '
       'calC_- Grassmann (S, J) -> (-S, -J); measured: ' + json.dumps({f'{k[0]},eps={k[1]}': v for k, v in res.items()}))
 
 # ---- 4b. the quantised Grassmann field: which conjugation preserves the canonical anticommutator ----
@@ -228,7 +231,7 @@ check('u1_noether_matrix_identity', (lhs - rhs).applyfunc(sp.simplify) == sp.zer
       'd_mu(cos z J^mu) = Psi^dagger [d_mu(cos z K^mu)] Psi + cos z [(d Psi)^dagger K^mu Psi + Psi^dagger K^mu d Psi], K^mu = -i C gamma^mu; '
       '-i cos z (Psi^dagger C E - E^dagger C Psi) gives the same derivative terms (i (gamma^mu)^T C = -i C gamma^mu, gamma and Omega real), '
       'the V terms cancel (V real), and the remaining terms agree iff sum_mu d_mu(cos z C gamma^mu) = cos z sum_mu (C gamma^mu Omega_mu '
-      '- Omega_mu^T (gamma^mu)^T C): verified exactly for general a4(x4); on shell the charge Q = Int cos z Psi^dagger B Psi d^7x is conserved')
+      '- Omega_mu^T (gamma^mu)^T C): verified exactly for general a4(x4); on shell the LOCAL law d_mu(cos z J^mu) = 0 holds; the total charge Q = Int cos z Psi^dagger B Psi d^7x of a slice is constant only if no charge flows through its boundary (at the brane z = pi/2 the flow is not zero in general): constancy of Q is NOT established by this check')
 
 report = {
     'producer': 'Revision/lead_checks/charge_conjugation_and_u1.py (lead, independent; no Revision code imported)',
