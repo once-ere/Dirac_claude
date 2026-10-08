@@ -1,0 +1,258 @@
+{
+  "params": {
+    "label": "d16c00_m3_L3_N8_lamp2_T0/minusM",
+    "m": -3.0,
+    "a4_0": 0.0,
+    "L": 3.0,
+    "lambda_hat": 428630.75895679544,
+    "lambda": 587.9708627665233,
+    "T": 0.0,
+    "N": 8.0,
+    "parity": 0,
+    "tip": "f0",
+    "xc": "quadratic",
+    "sea": "free",
+    "delta_k": 0.75,
+    "ell": 8.377580409572781,
+    "volume": 587.9708763079075,
+    "N0": 120,
+    "levels": 3,
+    "mix_beta": 0.4,
+    "mix_history": 6,
+    "tol": 1e-10,
+    "max_iter": 200,
+    "H": 1.0,
+    "delta_k_over_m": 0.25,
+    "occupationSmearing": 0.0,
+    "exactShells": null,
+    "solverVersion": 2,
+    "statistics": "commuting",
+    "statisticsSign": 1
+  },
+  "mode": "zero",
+  "converged": false,
+  "levels": [
+    {
+      "N": 120,
+      "h": 0.025,
+      "iterations": 11,
+      "converged": false,
+      "residualN": 1.5861891196211881,
+      "residualS": 1.0021270407256233,
+      "residualD": 1.5861891196211881,
+      "residualPotential": 1261.2326934413616,
+      "convergedBy": "collapse",
+      "mu": -24.595423611449235,
+      "seaTop": null,
+      "particleBottom": -24.595423611449235,
+      "branchOverlap": false,
+      "energies": {
+        "ksSum": -196.76338889159388,
+        "nTotal": 8.0,
+        "interaction": 12.455841942564987,
+        "hartree": 118.60844254473812,
+        "exchange": -106.15260060217314,
+        "doubleCounting": 24.911683885129975,
+        "total": -209.21923083415885,
+        "entropy": 42.157514393780666,
+        "free": -209.21923083415885,
+        "grand": -12.455841942564973,
+        "scalarCharge": 0.7868875618665385,
+        "maxLambdaSOverM": 89.38944653796035,
+        "meanLambdaSOverM": 5.759233736091133
+      },
+      "states": 6973,
+      "shellsExact": 300,
+      "shellsInterpolated": 814,
+      "tail": {
+        "kMin": 14.150971698084906,
+        "kMax": 75.01383446733905,
+        "levels": 18,
+        "nodes": 32,
+        "shellsInterpolated": 814,
+        "testShells": 6,
+        "maxEpsInterpolationError": 5.313086132741759,
+        "maxDensityInterpolationError": 15.39267202370589
+      }
+    }
+  ],
+  "extrapolated": {
+    "total": -209.21923083415885,
+    "free": -209.21923083415885,
+    "entropy": 42.157514393780666,
+    "ksSum": -196.76338889159388,
+    "interaction": 12.455841942564987,
+    "hartree": 118.60844254473812,
+    "exchange": -106.15260060217314,
+    "grand": -12.455841942564973,
+    "scalarCharge": 0.7868875618665385,
+    "nTotal": 8.0,
+    "mu": -24.595423611449235
+  },
+  "orderEstimates": {
+    "total": null,
+    "free": null,
+    "entropy": null,
+    "ksSum": null,
+    "interaction": null,
+    "hartree": null,
+    "exchange": null,
+    "grand": null,
+    "scalarCharge": null,
+    "nTotal": null,
+    "mu": null,
+    "occupiedEigenvalues_median": null,
+    "profile_n_c": null,
+    "profile_s_c": null,
+    "profile_m_eff_out": null,
+    "profile_v_out": null
+  },
+  "homo": "356:-1:+1:0",
+  "lumo": "356:-1:+1:0",
+  "ksGap": 0.0,
+  "emt": {
+    "w_y": 0.6448128529936251,
+    "w_3": -0.4080834925419659,
+    "w_t": -0.5245779209706244,
+    "w_mean": -0.3075959125063065,
+    "energyFromRho": -413.87095292946276,
+    "braneLocalisedFraction": 0.9999998585539627,
+    "tipLocalisedFraction": 3.04509812284985e-35,
+    "averages": {
+      "rho": -4.2154811731150295,
+      "p_y": -2.718196441977216,
+      "p_3": 1.720268279869685,
+      "p_t": 2.2113483496834907,
+      "L_s": 2.2113483496834907,
+      "n_p": 0.08148397259149501,
+      "s_p": 0.00801484056546516
+    },
+    "E41_sourcingConditions": {
+      "conditions": "static field (a4' = 0): m S = -36 H^2/kappa and lambda S^2 = 30 H^2/kappa on <S_p> (proper-volume average); together lambda S/m = -5/6 and m S < 0",
+      "sPAvg": 0.00801484056546516,
+      "nPAvg": 0.08148397259149501,
+      "sPMin": -0.1892664778799559,
+      "sPMax": 0.4560912055269101,
+      "lambdaSAvgOverM": -1.5708309074042264,
+      "lambdaSOverMRequired": -0.8333333333333334,
+      "kappaFromMassCondition": 1497.222546348126,
+      "kappaFromCouplingCondition": 794.2837446150622,
+      "met": false,
+      "lambdaHatNeededFirstOrder": 227390.67422662163,
+      "signOfAverageS": 1
+    },
+    "traceIdentityResidual": 2.842170943040401e-14,
+    "conservationResidualMaxNormalised": [
+      1.2736955988697276
+    ],
+    "rhoRequired_kappa1": -21.0,
+    "pRequired_kappa1": 15.0,
+    "wRequired": -0.7142857142857143,
+    "kappaNeededForRho": 4.981637715269892,
+    "mismatch": "the proper-volume average of the KS energy density is positive while the static field requires rho_req = -21 H^2/kappa < 0 (p_req = +15 H^2/kappa, w_req = -5/7): this KS state alone cannot be the source for kappa > 0.  This is a statement about the positive-energy KS ground state only (STAGE4_SPEC E4.1: the homogeneous m S < 0 condensate can source the field; see E41_sourcingConditions)"
+  },
+  "couplingScale": {
+    "sRef": 0.4560912055269101,
+    "sRefY": -0.6499999999999999,
+    "nRef": 1.51434102688176,
+    "nRefY": -0.5999999999999996,
+    "strengthPerUnitLambdaHat": 0.00019551234804822965
+  },
+  "heatCapacityFixedSpectrum": null,
+  "rustWindowTruncation": null,
+  "exactZeroTemperatureOccupations": true,
+  "smearingAttempts": [],
+  "solverVersion": 2,
+  "continuation": {
+    "steps": 4,
+    "mixFactor": 0.25,
+    "directConvergedBy": "collapse",
+    "fractions": [
+      {
+        "fraction": 0.25,
+        "converged": false,
+        "error": "GuardStop('memory guard (E5.3) spectrumStates: Spectrum beyond 50000 states (window [-40, 39.0472], grid N = 240)')"
+      }
+    ],
+    "used": false
+  },
+  "spectrumCsv": {
+    "band": null,
+    "rows": 6973,
+    "levelsMatchedOnAllGrids": 6973,
+    "note": "all levels"
+  },
+  "files": [
+    "profiles.csv",
+    "run.json",
+    "scf-history-level0.csv",
+    "spectrum.csv"
+  ],
+  "excited": {
+    "ksGap": 0.0,
+    "particleHole": [],
+    "deltaSCF": {
+      "available": false,
+      "reason": "ground state not converged (collapse): no excited state computed"
+    }
+  },
+  "tasks": [
+    "excited"
+  ],
+  "lambdaName": "lamp2",
+  "couplingConfiguration": [
+    3.0,
+    3.0,
+    8.0
+  ],
+  "pairs": {
+    "field": "d16c00",
+    "fieldName": "dirac16complex00",
+    "universe": "minusM",
+    "universeDescription": "-M universe with the transformed boundary conditions (mass -m, the same lambda and statistics, tip bag theta = pi: f(-L) = 0, Rust a(-L) = 0, both parity sectors)",
+    "statistics": "commuting",
+    "statisticsSign": 1,
+    "massSign": -1,
+    "massScale": 3.0,
+    "tip": "f0",
+    "bagAngleTheta": 3.141592653589793,
+    "tOverM": 0.0,
+    "partnerLabel": "d16c00_m3_L3_N8_lamp2_T0/plusM",
+    "configLabel": "d16c00_m3_L3_N8_lamp2_T0",
+    "couplingSource": {
+      "configuration": [
+        3.0,
+        3.0,
+        8.0
+      ],
+      "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N8.json",
+      "sha256": "681a0252b05cf6e190a2e032c36ec4557e6ad8cf50efa544f6e7e90cd09e472b"
+    }
+  },
+  "memoryGuard": {
+    "erratum": "STAGE5_SPEC E5.3",
+    "version": 1,
+    "windowPremise": "shift bound max|M_eff - m| + max|v_x| of the first SCF update <= 2.5 |m| + 2 pi/L (the Rust pairs window premise); violated: not run",
+    "shellTableCap": 131072,
+    "stateCap": 50000,
+    "windowCap": 20.0,
+    "windowPremiseValues": {
+      "shiftBound": 3.2110888334573744,
+      "windowFloor": 9.594395102393195,
+      "holds": true,
+      "gridN": 120
+    },
+    "trips": [
+      {
+        "cap": 50000,
+        "window": [
+          -40.0,
+          39.04719755119658
+        ],
+        "gridN": 240,
+        "guard": "spectrumStates",
+        "reason": "memory guard (E5.3) spectrumStates: Spectrum beyond 50000 states (window [-40, 39.0472], grid N = 240)"
+      }
+    ]
+  }
+}
