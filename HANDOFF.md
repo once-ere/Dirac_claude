@@ -147,6 +147,19 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4r OLD STAGES 4 AND 5 (2026-10-08 ~14:30; user: complete every open stage)
+
+Old Stage 4: both root fixes and the checker follow-up committed (7baaf9e, 4ecfec5; tests 46/46; negative controls verified by
+the lead).  REMAINING: the reference rerun m1_L3_N1016_lamm2_T0 (E4.14 b) runs DETACHED since 13:22 (scratchpad stage4_R1:
+run_R1.cmd, run.log, done.txt when finished; ~4.5 h); then R2-R5 of notebooks/dirac16complex_kohn_sham.PROVENANCE.md section 6.6
+(install the run in artifacts/dirac16complex/kohn-sham/reference/, ks_reference_solver.py --resume --skip-self-tests, the checker
+with the preserved trees <scratchpad>/stage4_keep/{repeat,refined}, notebook builder -> route B -> route A -> audit, tests), with
+the errata line of provenance/ERRATA_FIRST_EDITION_TEXTBOOK.md updated to the new counts in the same commit.
+Old Stage 5 (HANDOFF item C): a planning agent (stage5-plan) applies the required Krein-reading correction (T1krein) at the root,
+fixes the same per-member grid-uncertainty flaw in scripts/check_dirac16complex_pairs.py, measures the pending numerics and
+returns the completion plan (numerics detached; checker; documents DIRAC16COMPLEX00_FIELD_THEORY and DIRAC16COMPLEX_PAIR_CREATION;
+gate verify_stage5_pair_creation; matter-antimatter PROVISIONAL strings).
+
 ### 0.4q STATE 2026-10-08 ~14:40 (phase 3a nearly done; step 2 running)
 
 Phase 3a results, each re-checked by the lead and committed: doc-updates (three wave-1 documents + README, six publication
