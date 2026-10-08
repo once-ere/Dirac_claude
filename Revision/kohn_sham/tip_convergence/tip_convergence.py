@@ -78,7 +78,10 @@ CRIT = {
     "noise_floor_rel": 1e-11,
     "reference_factor": 10.0,
     "reference_floor_rel": 1e-9,
-    "ratio_not_converging": 0.9,
+    # geometric extrapolation only if the LAST TWO ratios of successive differences (step 0.5 in L) lie in (0, 0.5):
+    # an algebraic tail d ~ L^-p gives ratios (L/(L + 0.5))^p > 0.5 at L >= 5 for every p < 8, so it is rejected
+    # (revised from 0.9 after the first run, see README.md History)
+    "ratio_max_geometric": 0.5,
     "exp_fit_max_log_residual": math.log(2.0),
 }
 
@@ -200,7 +203,7 @@ def run_single(spec, binary: Path, outdir: Path):
         cmd += ["--T", repr(spec["T"])]
     env = dict(os.environ, KS_TIP_L=repr(spec["L"]), KS_RK4_STEPS=str(spec["G"]))
     r = subprocess.run(cmd, cwd=str(REPO), env=env, capture_output=True, text=True)
-    rec = {"rc": r.returncode, "json": js, "profiles": pr}
+    rec = {"rc": r.returncode, "json_path": js, "profiles_path": pr}
     if not js.exists():
         err = [ln for ln in r.stderr.splitlines() if ln.startswith("error")]
         rec["status"] = "scf_failed"
@@ -243,7 +246,21 @@ def parse_single(js: Path, pr: Path, spec):
     o["max_abs_v_v"] = float(np.max(np.abs(col["v_v"])))
     o["max_abs_Meff_minus_m"] = float(np.max(np.abs(col["M_eff"] - 1.0)))
     o["strength_sampled"] = float(np.max(np.maximum(15.0 / 16.0 * np.abs(col["S"]), np.abs(col["n"]) / 16.0)))
+    o["strength"] = max(continuous_max(col["y"], 15.0 / 16.0 * np.abs(col["S"])), continuous_max(col["y"], np.abs(col["n"]) / 16.0))
     return o
+
+
+def continuous_max(y, f):
+    """maximum of a smooth profile sampled on the 151 report points: the largest sample, refined by the
+    quartic through the 5 nearest samples (maximised on the two adjacent intervals); an end-point maximum is
+    taken as it is (as the reference solver does for the coupling strength)"""
+    i = int(np.argmax(f))
+    if i == 0 or i == len(f) - 1:
+        return float(f[i])
+    lo = min(max(i - 2, 0), len(f) - 5)
+    c = np.polyfit(y[lo:lo + 5] - y[i], f[lo:lo + 5], 4)
+    t = np.linspace(y[i - 1] - y[i], y[i + 1] - y[i], 2001)
+    return float(max(f[i], np.max(np.polyval(c, t))))
 
 
 def run_pool(specs, binary, outdir, jobs):
@@ -401,9 +418,12 @@ def analyse_series(Ls, x, xh):
     else:
         d1, d2 = diffs[-2]["diff"], diffs[-1]["diff"]
         r = d2 / d1 if d1 != 0 else float("inf")
+        rs = [diffs[i + 1]["diff"] / diffs[i]["diff"] if diffs[i]["diff"] != 0 else float("inf")
+              for i in range(max(0, len(diffs) - 3), len(diffs) - 1)]
         res["last_ratio"] = r
-        if not (0.0 < r < CRIT["ratio_not_converging"]):
-            res["verdict"] = (f"NOT CONVERGED: last ratio of successive differences {r:.3g} "
+        res["last_ratios"] = rs
+        if not all(0.0 < q < CRIT["ratio_max_geometric"] for q in rs):
+            res["verdict"] = (f"NOT CONVERGED: last ratios of successive differences {', '.join(f'{q:.3g}' for q in rs)} "
                               f"(|d| at L = {ok[-2]}..{ok[-1]}: {abs(d2):.3e})")
         else:
             tail = d2 * r / (1.0 - r)
@@ -442,6 +462,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--work", required=True, help="scratch directory (patched copy, raw runs)")
     ap.add_argument("--jobs", type=int, default=8, help="worker processes (default 8)")
+    ap.add_argument("--debug-skip-control-matrix", action="store_true",
+                    help="development only: skip the full-matrix control (its check then FAILS as not run)")
     a = ap.parse_args()
     work = Path(a.work).resolve()
     work.mkdir(parents=True, exist_ok=True)
@@ -461,7 +483,9 @@ def main():
     if ctl.exists():
         shutil.rmtree(ctl)
     env = dict(os.environ, KS_TIP_L="3", KS_RK4_STEPS="900")
-    r = subprocess.run([str(binp), "all", "--root", str(REPO), "--out", str(ctl), "--report",
+    if a.debug_skip_control_matrix:
+        ctl.mkdir(parents=True)
+    r = subprocess.CompletedProcess([], 99, "", "") if a.debug_skip_control_matrix else subprocess.run([str(binp), "all", "--root", str(REPO), "--out", str(ctl), "--report",
                         str(work / "control_all-report.json"), "--threads", str(jobs)],
                        cwd=str(REPO), env=env, capture_output=True, text=True)
     man = json.loads((RESULTS / "manifest.json").read_text(encoding="utf-8"))
@@ -491,8 +515,8 @@ def main():
     rc = run_pool(s3, BIN_COMMITTED, raw / "control_committed", jobs)
     rp = run_pool(s3, binp, raw / "control_patched", jobs)
     nbad = [s["id"] for s, x, y in zip(s3, rc, rp)
-            if x["status"] != y["status"] or x["json"].read_bytes() != y["json"].read_bytes()
-            or x["profiles"].read_bytes() != y["profiles"].read_bytes()]
+            if x["status"] != y["status"] or x["json_path"].read_bytes() != y["json_path"].read_bytes()
+            or x["profiles_path"].read_bytes() != y["profiles_path"].read_bytes()]
     check("control_single_byte_identical",
           "every `single` run of this study at L = 3 (G = 900): the committed binary and the patched copy write "
           "byte-identical JSON records and profiles", not nbad,
@@ -547,12 +571,13 @@ def main():
     res_cal = run_pool(calspecs, binp, raw / "calibration", jobs)
     strength = {}
     for s, x in zip(calspecs, res_cal):
-        strength.setdefault((s["L"], s["N"]), []).append(x["strength_sampled"])
+        strength.setdefault((s["L"], s["N"]), []).append(x["strength"])
     lam1_L = {k: round_sig(0.1 / max(v), 4) for k, v in strength.items()}
     badcal = [N for N in N_VALUES if lam1_L[(3.0, N)] != lam1[N]]
     rels = {N: abs(max(strength[(3.0, N)]) - cal[N]["strength"]) / cal[N]["strength"] for N in N_VALUES}
     check("calibration_rule_reproduced_at_L3",
-          "the record's calibration rule evaluated on the 151-point profiles of the free ground states (5 slices) gives, "
+          "the record's calibration rule evaluated on the free ground states (5 slices; the maximum over y of the 151-point "
+          "profiles refined by local quartic interpolation, see continuous_max) gives, "
           "at L = 3, exactly the recorded lambda_1 (4 significant digits) for N = 8, 136, 688",
           not badcal, f"lambda_1(L=3) = {[lam1_L[(3.0, N)] for N in N_VALUES]}, recorded {[lam1[N] for N in N_VALUES]}; "
           f"relative difference of the strengths {', '.join(f'N={N}: {rels[N]:.1e}' for N in N_VALUES)}")
@@ -803,19 +828,24 @@ def make_figures(rep, allspecs, res_fixed, recspecs, res_rec):
         lam = rows[0]["lambda"]
         law = [abs(-(2.0 * lam / rep_vol7(rep)) * math.exp(2 * L) / (1 - math.exp(-2 * L))) for L in Lf]
         axs[0].semilogy(Lf, law, color=cols[tag], lw=1, ls="--", label=f"|first-order law| {tag}")
-        pts = [(r["L"], abs(r["E_KS"])) for r in rows if r["E_KS"] is not None and r["status"] == "ok"]
-        axs[0].semilogy([p[0] for p in pts], [p[1] for p in pts], "o", color=cols[tag], label=f"|E_KS| solved {tag}")
-        bad = [r["L"] for r in rows if r["status"] != "ok"]
-        for b in bad:
-            axs[0].axvline(b, color=cols[tag], ls=":", lw=0.8)
         tp = [abs(lam) / 16.0 * 8.0 / (rep_vol7(rep) * (1 - math.exp(-2 * L))) * math.exp(4 * L) for L in Lf]
         axs[1].semilogy(Lf, tp, color=cols[tag], lw=1, ls="--", label=f"first-order |v_v(-L)| {tag}")
-        pts = [(r["L"], r["max_abs_v_v"]) for r in rows if r["max_abs_v_v"] is not None and r["status"] == "ok"]
-        axs[1].semilogy([p[0] for p in pts], [p[1] for p in pts], "o", color=cols[tag], label=f"self-consistent max|v_v| {tag}")
-    axs[0].set_title("N = 8, a4 = 0, fixed lambda_1: energy vs tip cutoff", fontsize=9)
-    axs[0].set_xlabel("L")
+        for a4 in SLICES_RUN:
+            sid = state_id(8, tag, a4)
+            sel = [(s["L"], x_) for s, x_ in zip(allspecs, res_fixed) if s["id"] == sid and s["refine"] == 1]
+            ok_ = [(L, x_) for L, x_ in sel if x_["status"] == "ok"]
+            off = {0.0: -0.06, 1.0: 0.0, 2.0: 0.06}[a4] * (1 if tag == "lamp1" else -1) * 0.5
+            axs[0].semilogy([L + off for L, _ in ok_], [abs(x_["E_KS"]) for _, x_ in ok_], mk[a4], color=cols[tag], ms=5,
+                            label=f"|E_KS| solved {tag} a4={a4:g}")
+            axs[1].semilogy([L + off for L, _ in ok_], [x_["max_abs_v_v"] for _, x_ in ok_], mk[a4], color=cols[tag], ms=5,
+                            label=f"self-consistent max|v_v| {tag} a4={a4:g}")
+            for L, x_ in sel:
+                if x_["status"] != "ok":
+                    axs[0].plot([L + off], [2e-4], "x", color=cols[tag], ms=6)
+    axs[0].set_title("N = 8 (brane zero modes), fixed lambda_1: |E_KS| vs tip cutoff" + chr(10) + "(x at the bottom: SCF fails at that L)", fontsize=9)
+    axs[0].set_xlabel("L (points shifted slightly per slice)")
     axs[0].set_ylabel("|E_KS| [m]")
-    axs[1].set_title("tip potential grows like e^{4L} (dotted: SCF fails)", fontsize=9)
+    axs[1].set_title("tip potential: first order grows like e^{4L}, self-consistent saturates", fontsize=9)
     axs[1].set_xlabel("L")
     axs[1].set_ylabel("[m]")
     for ax in axs:

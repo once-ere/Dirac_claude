@@ -4,10 +4,10 @@
   "solver": "scripts/ks_reference_solver.py",
   "solverVersion": 2,
   "sourceSha256": {
-    "scripts/ks_reference_solver.py": "e392e1ed5bbc588c33bc736acdcc67c33c6e2e7ed54619a3723e328edb2c95cc",
-    "scripts/ks_reference_pairs.py": "4ecea5dc00225a89da0d02b1d16f53df699d4509b23b8639959f92f606c4ddb7",
+    "scripts/ks_reference_solver.py": "8dbedada523de6df7346921edf6c926058e97fe296ba9c2f24331524b0a60494",
+    "scripts/ks_reference_pairs.py": "4deb4e1e236d82e28c9b2607c84f83a976c21f985c9651581ee38dc310de5a60",
     "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
-    "artifacts/dirac16complex/pair-creation/pairing-theory.json": "5a267bd696391b131134577ccdcf7766b83f96f3eb32b9b8de60c9175b1ebf6a"
+    "artifacts/dirac16complex/pair-creation/pairing-theory.json": "0b2387c9de632510b37dbeaff7e54199d01197c2b576d7aeafe762ab9bff17a2"
   },
   "matrix": {
     "fields": {
@@ -57,6 +57,7 @@
       ]
     },
     "grids": "N0 = 60 (|m| = 1), 120 (|m| = 3), levels N0, 2 N0, 4 N0",
+    "groundState": "T = 0: the direct solution with the Stage-4 smearing ladder; where it collapses or does not converge, continuation in the coupling lambda_hat j/4 from its free densities (mixing x 0.25; STAGE4_SPEC E4.8, the Rust solve_ground); execution guard: energy windows beyond 20 |m| abort the SCF",
     "labelScheme": "<field>_m<|m|>_L<L>_N<N>_<lambda>_T<T/|m|>/<universe> (the Rust pairs labels, pairs.rs Config::label and write_universe; 'p' = decimal point)",
     "couplingRule": "lambda_hat of the Stage-4 reference coupling of (|m|, L, N) (artifacts/dirac16complex/kohn-sham/reference/couplings); the same lambda_hat (and lambda = lambda_hat/m^6) in all three universes and for both fields",
     "prescription": "pairing-theory.json T3.numericsPrescription (minusMTransformed, minusMUntransformedControl)"
@@ -2042,37 +2043,6 @@
       "universe": "minusM"
     },
     {
-      "label": "d16c_m3_L3_N112_lamm1_T0/minusM_control",
-      "converged": false,
-      "failed": "RuntimeError('energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted')",
-      "pairs": {
-        "field": "d16c",
-        "fieldName": "dirac16complex",
-        "universe": "minusM_control",
-        "universeDescription": "-M universe with the untransformed boundary conditions (mass -m, tip bag theta = 0: g(-L) = 0); the control of T3.untransformedBCControl",
-        "statistics": "anticommuting",
-        "statisticsSign": -1,
-        "massSign": -1,
-        "massScale": 3.0,
-        "tip": "g0",
-        "bagAngleTheta": 0.0,
-        "tOverM": 0.0,
-        "partnerLabel": "d16c_m3_L3_N112_lamm1_T0/plusM",
-        "configLabel": "d16c_m3_L3_N112_lamm1_T0",
-        "couplingSource": {
-          "configuration": [
-            3.0,
-            3.0,
-            112.0
-          ],
-          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N112.json",
-          "sha256": "f8518583d1cbbce343ed7e1ffa6e57b894b53130870976811e01d8c7fbd725fe"
-        }
-      },
-      "field": "d16c",
-      "universe": "minusM_control"
-    },
-    {
       "label": "d16c_m3_L3_N112_lamp2_T0/plusM",
       "params": {
         "label": "d16c_m3_L3_N112_lamp2_T0/plusM",
@@ -2236,172 +2206,9 @@
       "universe": "plusM"
     },
     {
-      "label": "d16c_m3_L3_N112_lamp2_T0/minusM",
-      "params": {
-        "label": "d16c_m3_L3_N112_lamp2_T0/minusM",
-        "m": -3.0,
-        "a4_0": 0.0,
-        "L": 3.0,
-        "lambda_hat": 8526.397026432875,
-        "lambda": 11.69601786890655,
-        "T": 0.0,
-        "N": 112.0,
-        "parity": 0,
-        "tip": "f0",
-        "xc": "quadratic",
-        "sea": "free",
-        "delta_k": 0.75,
-        "ell": 8.377580409572781,
-        "volume": 587.9708763079075,
-        "N0": 120,
-        "levels": 3,
-        "mix_beta": 0.4,
-        "mix_history": 6,
-        "tol": 1e-10,
-        "max_iter": 200,
-        "H": 1.0,
-        "delta_k_over_m": 0.25,
-        "occupationSmearing": 0.0,
-        "exactShells": null,
-        "solverVersion": 2
-      },
-      "converged": false,
-      "failed": null,
-      "extrapolated": {
-        "total": -2903.8181825396446,
-        "free": -2903.8181825396446,
-        "entropy": 283.7397067428003,
-        "ksSum": -2148.032069266786,
-        "interaction": 755.7861132728582,
-        "hartree": 59.004610042084934,
-        "exchange": 696.7815032307733,
-        "grand": -755.7861132728585,
-        "scalarCharge": 3.8601674039300184,
-        "nTotal": 112.0,
-        "mu": -19.17885776131059
-      },
-      "ksGap": 0.0,
-      "homo": "356:-1:+1:0",
-      "lumo": "356:-1:+1:0",
-      "emt": {
-        "w_y": 0.1434124675047354,
-        "w_3": 0.2961515278755691,
-        "w_t": 0.012441780736821515,
-        "w_mean": 0.1527417704774153,
-        "energyFromRho": -2121.635149927849,
-        "braneLocalisedFraction": 0.9999999999999979,
-        "tipLocalisedFraction": 1.5683235469076478e-37,
-        "averages": {
-          "rho": -21.609907550734135,
-          "p_y": -3.0991301643999956,
-          "p_3": -6.399807138399711,
-          "p_t": -0.2688657314892178,
-          "L_s": -0.2688657314892178,
-          "n_p": 1.1407756162809284,
-          "s_p": 0.03931772186755199
-        },
-        "E41_sourcingConditions": {
-          "conditions": "static field (a4' = 0): m S = -36 H^2/kappa and lambda S^2 = 30 H^2/kappa on <S_p> (proper-volume average); together lambda S/m = -5/6 and m S < 0",
-          "sPAvg": 0.03931772186755199,
-          "nPAvg": 1.1407756162809284,
-          "sPMin": -0.306835853783937,
-          "sPMax": 0.6776457197637862,
-          "lambdaSAvgOverM": -0.15328692584252862,
-          "lambdaSOverMRequired": -0.8333333333333334,
-          "kappaFromMassCondition": 305.20588248789977,
-          "kappaFromCouplingCondition": 1659.2298006410824,
-          "met": false,
-          "lambdaHatNeededFirstOrder": 46353.14340284978,
-          "signOfAverageS": 1
-        },
-        "traceIdentityResidual": 1.1546319456101628e-14,
-        "conservationResidualMaxNormalised": [
-          0.4342865411418328
-        ],
-        "rhoRequired_kappa1": -21.0,
-        "pRequired_kappa1": 15.0,
-        "wRequired": -0.7142857142857143,
-        "kappaNeededForRho": 0.9717764849617131,
-        "mismatch": "the proper-volume average of the KS energy density is positive while the static field requires rho_req = -21 H^2/kappa < 0 (p_req = +15 H^2/kappa, w_req = -5/7): this KS state alone cannot be the source for kappa > 0.  This is a statement about the positive-energy KS ground state only (STAGE4_SPEC E4.1: the homogeneous m S < 0 condensate can source the field; see E41_sourcingConditions)"
-      },
-      "orderEstimates": {
-        "total": null,
-        "free": null,
-        "entropy": null,
-        "ksSum": null,
-        "interaction": null,
-        "hartree": null,
-        "exchange": null,
-        "grand": null,
-        "scalarCharge": null,
-        "nTotal": null,
-        "mu": null,
-        "occupiedEigenvalues_median": null,
-        "profile_n_c": null,
-        "profile_s_c": null,
-        "profile_m_eff_out": null,
-        "profile_v_out": null
-      },
-      "branchOverlap": false,
-      "convergedBy": "collapse",
-      "levelsComputed": 1,
-      "particleBottom": -19.17885776131059,
-      "collapseSuspected": true,
-      "exactZeroTemperatureOccupations": true,
-      "couplingScale": {
-        "sRef": 0.6776457197637862,
-        "sRefY": -0.2749999999999999,
-        "nRef": 2.836635776005702,
-        "nRefY": -0.22499999999999964,
-        "strengthPerUnitLambdaHat": 0.0002904859909824186
-      },
-      "heatCapacityFixedSpectrum": null,
-      "thermo": {},
-      "excited": {
-        "ksGap": 0.0,
-        "particleHole": [],
-        "deltaSCF": {
-          "available": false,
-          "reason": "ground state not converged (collapse): no excited state computed"
-        }
-      },
-      "lambdaName": "lamp2",
-      "couplingConfiguration": [
-        3.0,
-        3.0,
-        112.0
-      ],
-      "pairs": {
-        "field": "d16c",
-        "fieldName": "dirac16complex",
-        "universe": "minusM",
-        "universeDescription": "-M universe with the transformed boundary conditions (mass -m, the same lambda and statistics, tip bag theta = pi: f(-L) = 0, Rust a(-L) = 0, both parity sectors)",
-        "statistics": "anticommuting",
-        "statisticsSign": -1,
-        "massSign": -1,
-        "massScale": 3.0,
-        "tip": "f0",
-        "bagAngleTheta": 3.141592653589793,
-        "tOverM": 0.0,
-        "partnerLabel": "d16c_m3_L3_N112_lamp2_T0/plusM",
-        "configLabel": "d16c_m3_L3_N112_lamp2_T0",
-        "couplingSource": {
-          "configuration": [
-            3.0,
-            3.0,
-            112.0
-          ],
-          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N112.json",
-          "sha256": "f8518583d1cbbce343ed7e1ffa6e57b894b53130870976811e01d8c7fbd725fe"
-        }
-      },
-      "field": "d16c",
-      "universe": "minusM"
-    },
-    {
       "label": "d16c_m3_L3_N112_lamp2_T0/minusM_control",
       "converged": false,
-      "failed": "RuntimeError('tail: window never exhausted')",
+      "failed": "RuntimeError('tail: window never exhausted; continuation in the coupling failed as well: {\\'fraction\\': 0.25, \\'converged\\': False, \\'error\\': \"RuntimeError(\\'tail: window never exhausted\\')\"}')",
       "pairs": {
         "field": "d16c",
         "fieldName": "dirac16complex",
@@ -2432,7 +2239,7 @@
     {
       "label": "d16c_m3_L3_N112_lamm2_T0/minusM_control",
       "converged": false,
-      "failed": "RuntimeError('energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted')",
+      "failed": "RuntimeError('energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted; continuation in the coupling failed as well: {\\'fraction\\': 0.25, \\'converged\\': False, \\'error\\': \"RuntimeError(\\'energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted\\')\"}')",
       "pairs": {
         "field": "d16c",
         "fieldName": "dirac16complex",
@@ -4675,99 +4482,6 @@
       "universe": "plusM"
     },
     {
-      "label": "d16c00_m3_L3_N112_lamp1_T0/minusM_control",
-      "converged": false,
-      "failed": "RuntimeError('energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted')",
-      "pairs": {
-        "field": "d16c00",
-        "fieldName": "dirac16complex00",
-        "universe": "minusM_control",
-        "universeDescription": "-M universe with the untransformed boundary conditions (mass -m, tip bag theta = 0: g(-L) = 0); the control of T3.untransformedBCControl",
-        "statistics": "commuting",
-        "statisticsSign": 1,
-        "massSign": -1,
-        "massScale": 3.0,
-        "tip": "g0",
-        "bagAngleTheta": 0.0,
-        "tOverM": 0.0,
-        "partnerLabel": "d16c00_m3_L3_N112_lamp1_T0/plusM",
-        "configLabel": "d16c00_m3_L3_N112_lamp1_T0",
-        "couplingSource": {
-          "configuration": [
-            3.0,
-            3.0,
-            112.0
-          ],
-          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N112.json",
-          "sha256": "f8518583d1cbbce343ed7e1ffa6e57b894b53130870976811e01d8c7fbd725fe"
-        }
-      },
-      "field": "d16c00",
-      "universe": "minusM_control"
-    },
-    {
-      "label": "d16c00_m3_L3_N112_lamp2_T0/minusM",
-      "converged": false,
-      "failed": "RuntimeError('energy window [-64, 68.9019] beyond the cap 20 |m| (window_cap): SCF aborted')",
-      "pairs": {
-        "field": "d16c00",
-        "fieldName": "dirac16complex00",
-        "universe": "minusM",
-        "universeDescription": "-M universe with the transformed boundary conditions (mass -m, the same lambda and statistics, tip bag theta = pi: f(-L) = 0, Rust a(-L) = 0, both parity sectors)",
-        "statistics": "commuting",
-        "statisticsSign": 1,
-        "massSign": -1,
-        "massScale": 3.0,
-        "tip": "f0",
-        "bagAngleTheta": 3.141592653589793,
-        "tOverM": 0.0,
-        "partnerLabel": "d16c00_m3_L3_N112_lamp2_T0/plusM",
-        "configLabel": "d16c00_m3_L3_N112_lamp2_T0",
-        "couplingSource": {
-          "configuration": [
-            3.0,
-            3.0,
-            112.0
-          ],
-          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N112.json",
-          "sha256": "f8518583d1cbbce343ed7e1ffa6e57b894b53130870976811e01d8c7fbd725fe"
-        }
-      },
-      "field": "d16c00",
-      "universe": "minusM"
-    },
-    {
-      "label": "d16c00_m3_L3_N112_lamp2_T0/minusM_control",
-      "converged": false,
-      "failed": "RuntimeError('energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted')",
-      "pairs": {
-        "field": "d16c00",
-        "fieldName": "dirac16complex00",
-        "universe": "minusM_control",
-        "universeDescription": "-M universe with the untransformed boundary conditions (mass -m, tip bag theta = 0: g(-L) = 0); the control of T3.untransformedBCControl",
-        "statistics": "commuting",
-        "statisticsSign": 1,
-        "massSign": -1,
-        "massScale": 3.0,
-        "tip": "g0",
-        "bagAngleTheta": 0.0,
-        "tOverM": 0.0,
-        "partnerLabel": "d16c00_m3_L3_N112_lamp2_T0/plusM",
-        "configLabel": "d16c00_m3_L3_N112_lamp2_T0",
-        "couplingSource": {
-          "configuration": [
-            3.0,
-            3.0,
-            112.0
-          ],
-          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N112.json",
-          "sha256": "f8518583d1cbbce343ed7e1ffa6e57b894b53130870976811e01d8c7fbd725fe"
-        }
-      },
-      "field": "d16c00",
-      "universe": "minusM_control"
-    },
-    {
       "label": "d16c00_m3_L3_N112_lam0_T0p1/plusM",
       "params": {
         "label": "d16c00_m3_L3_N112_lam0_T0p1/plusM",
@@ -5888,10 +5602,6 @@
     }
   ],
   "failed": [
-    "d16c00_m3_L3_N112_lamp1_T0/minusM_control",
-    "d16c00_m3_L3_N112_lamp2_T0/minusM",
-    "d16c00_m3_L3_N112_lamp2_T0/minusM_control",
-    "d16c_m3_L3_N112_lamm1_T0/minusM_control",
     "d16c_m3_L3_N112_lamm2_T0/minusM_control",
     "d16c_m3_L3_N112_lamp2_T0/minusM_control"
   ],
@@ -6408,15 +6118,10 @@
     "d16c_m3_L3_N112_lamp2_T0p1/plusM"
   ],
   "failedControl": [
-    "d16c00_m3_L3_N112_lamp1_T0/minusM_control",
-    "d16c00_m3_L3_N112_lamp2_T0/minusM_control",
-    "d16c_m3_L3_N112_lamm1_T0/minusM_control",
     "d16c_m3_L3_N112_lamm2_T0/minusM_control",
     "d16c_m3_L3_N112_lamp2_T0/minusM_control"
   ],
-  "failedOther": [
-    "d16c00_m3_L3_N112_lamp2_T0/minusM"
-  ],
+  "failedOther": [],
   "notConverged": [
     "d16c00_m3_L3_N112_lamm1_T0p1/minusM",
     "d16c00_m3_L3_N112_lamm1_T0p1/minusM_control",
@@ -6439,7 +6144,6 @@
     "d16c_m3_L3_N112_lamp1_T0p1/minusM",
     "d16c_m3_L3_N112_lamp1_T0p1/minusM_control",
     "d16c_m3_L3_N112_lamp1_T0p1/plusM",
-    "d16c_m3_L3_N112_lamp2_T0/minusM",
     "d16c_m3_L3_N112_lamp2_T0/plusM",
     "d16c_m3_L3_N112_lamp2_T0p1/minusM",
     "d16c_m3_L3_N112_lamp2_T0p1/minusM_control",
@@ -6498,6 +6202,9 @@
     "d16c00_m3_L3_N112_lamm2_T0/minusM_control",
     "d16c00_m3_L3_N112_lamm2_T0/plusM",
     "d16c00_m3_L3_N112_lamp1_T0/minusM",
+    "d16c00_m3_L3_N112_lamp1_T0/minusM_control",
+    "d16c00_m3_L3_N112_lamp2_T0/minusM",
+    "d16c00_m3_L3_N112_lamp2_T0/minusM_control",
     "d16c00_m3_L3_N112_lamp2_T0/plusM",
     "d16c00_m3_L3_N8_lam0_T0/minusM",
     "d16c00_m3_L3_N8_lam0_T0/minusM_control",
@@ -6559,9 +6266,11 @@
     "d16c_m1_L3_N8_lamp2_T0/minusM",
     "d16c_m1_L3_N8_lamp2_T0/minusM_control",
     "d16c_m1_L3_N8_lamp2_T0/plusM",
+    "d16c_m3_L3_N112_lamm1_T0/minusM_control",
     "d16c_m3_L3_N112_lamm2_T0/minusM",
     "d16c_m3_L3_N112_lamm2_T0/plusM",
     "d16c_m3_L3_N112_lamp1_T0/minusM_control",
+    "d16c_m3_L3_N112_lamp2_T0/minusM",
     "d16c_m3_L3_N8_lam0_T0/minusM",
     "d16c_m3_L3_N8_lam0_T0/minusM_control",
     "d16c_m3_L3_N8_lam0_T0/plusM",
