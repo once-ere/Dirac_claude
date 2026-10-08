@@ -14,6 +14,7 @@ import contextlib
 import importlib.util
 import io
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -23,10 +24,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BUILDER = ROOT / "provenance" / "dirac_matrices" / "build_dirac_matrices_md.py"
 MD = ROOT / "provenance" / "dirac matrices.md"
-N_CHECKS = 65
+# The number of checks when this test was written.  Checks may be added (for example the a4 engine's comparison
+# basis once the engine uses the author's T16), never silently dropped: the committed file must list at least these.
+MIN_CHECKS = 66
 # 8 Dirac matrices + sigma16 and T16A[8] + 28 pairwise products + the 256-product listing
 # + 7 projection blocks (P_L, P_R, Q_+, Q_-, Im B, Im Pi_+, Im Pi_-)
 N_TEXT_BLOCKS = 8 + 2 + 28 + 1 + 7
+
+
+def n_checks_in_file():
+    """The number of rows of the proofs table of the committed file."""
+    text = MD.read_text(encoding="utf-8")
+    proofs = text.split("## The proofs (every check, exact)", 1)[1].split("\n### ", 1)[0]
+    return len(re.findall(r"^\| \d+ \| `", proofs, flags=re.M))
 
 
 def load_builder():
@@ -56,7 +66,9 @@ class DiracMatricesProvenance(unittest.TestCase):
         run = subprocess.run([sys.executable, str(BUILDER), "--check"], cwd=ROOT,
                              capture_output=True, text=True, timeout=900)
         self.assertEqual(run.returncode, 0, run.stdout + run.stderr)
-        self.assertIn(f"{N_CHECKS} of {N_CHECKS} checks pass", run.stdout)
+        n = n_checks_in_file()
+        self.assertGreaterEqual(n, MIN_CHECKS)
+        self.assertIn(f"{n} of {n} checks pass", run.stdout)
         self.assertIn("is up to date", run.stdout)
         self.assertNotIn("FAIL", run.stdout)
 

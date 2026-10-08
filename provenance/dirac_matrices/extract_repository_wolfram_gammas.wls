@@ -25,7 +25,9 @@
    the comparison basis FEGammaFrameComparison when the engine defines one (null otherwise), and four
    exact tests that FEC, FESab, FEGammaCoord and FEOmega are built from FEGammaFrame.  Nothing about the
    engine is assumed here: the builder decides from these matrices whether they are the author's.
-   The key "packages_loaded" lists the packages in the order they were loaded.
+   The key "packages_loaded" lists the packages in the order they were loaded, and "input_sha256" the sha256 of
+   every package and of the two fixtures they may read (Revision/algebra/gammas.json, algebra-fixture.json): the
+   builder compares them with the current files and reports a FAIL when this extraction is out of date.
 
    Rational matrices are written multiplied by 4 (S) or 2 (projectors) so every entry is an integer;
    the complex matrix B is written as its real and imaginary parts.
@@ -86,11 +88,16 @@ $yWriteJSON[file_String, data_Association] := Module[{s = ExportString[data, "JS
   BinaryWrite[st, Append[ToCharacterCode[s], 10]];
   Close[st]];
 
+(* the sha256 of every file read here, so the builder can tell when this extraction is out of date *)
+$yInputs = Join[$yLoaded, {"Revision/algebra/gammas.json", "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json"}];
+$yHashes = Association[# -> FileHash[FileNameJoin[Prepend[FileNameSplit[#], $yRoot]], "SHA256", All, "HexString"] & /@ $yInputs];
+
 $yOut = FileNameJoin[{DirectoryName[$InputFileName], "repository_wolfram_gammas.json"}];
 $yWriteJSON[$yOut, <|
   "producer" -> "provenance/dirac_matrices/extract_repository_wolfram_gammas.wls",
   "wolfram_version" -> $Version,
   "packages_loaded" -> $yLoaded,
+  "input_sha256" -> $yHashes,
   "Revision/field_equations_a4/wolfram/FieldEquationsA4.wl" -> $yFE,
   "Revision/algebra/wolfram/RevisionAlgebra.wl" -> <|
     "frame" -> "coordinates x1..x8 (gamma, eta, S); notebook frame A = 0..8 (T16, tau, taubar)",

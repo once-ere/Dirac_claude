@@ -615,7 +615,22 @@ def main():
     def eta_(a, b):
         return eta8[a][b]
 
-    # ---- 0. the author's notebook: environment, order, stored outputs
+    # ---- 0. the two extractions are current, the author's notebook: environment, order, stored outputs
+    with group("extractions_current"):
+        def sha256_of(rel):
+            return hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()
+        nb_sha = sha256_of(NOTEBOOK)
+        inputs = wl["input_sha256"]
+        stale = [rel for rel, h in inputs.items() if not (ROOT / rel).is_file() or sha256_of(rel) != h]
+        check("extractions_current",
+              nbd["notebook_sha256"] == nb_sha and not stale and set(wl["packages_loaded"]) <= set(inputs),
+              f"the author's notebook on disk has the sha256 that extract_from_author_notebook.wls recorded ({nb_sha[:16]}...), "
+              f"and the {len(inputs)} files that extract_repository_wolfram_gammas.wls read (its {len(wl['packages_loaded'])} "
+              "packages, Revision/algebra/gammas.json and algebra-fixture.json) are unchanged since that extraction, so the "
+              "two JSON files describe the current repository"
+              + (f"; CHANGED since the extraction: {stale}: re-run extract_repository_wolfram_gammas.wls" if stale else "")
+              + ("" if nbd["notebook_sha256"] == nb_sha else "; the notebook differs from the extraction: re-run "
+                 "extract_from_author_notebook.wls"))
     with group("notebook"):
         check("eta4488_diagonal_4_4",
               eta == [1, 1, 1, 1, -1, -1, -1, -1] and all(eta8[A][B] == 0 for A in IDX for B in IDX if A != B),
@@ -1625,7 +1640,10 @@ def main():
       "lines and no traceback) and `--survey`, and prints `OK`. If any check fails, the builder prints "
       "`FAIL <name>: <detail>` for each failed check (an error inside a group of checks becomes one FAIL line of that "
       "group and the other groups still run), does not write this file and exits with code 1. The JSON files are written "
-      "byte for byte (UTF-8, LF line endings) on every operating system, so they reproduce exactly.")
+      "byte for byte (UTF-8, LF line endings) on every operating system, so they reproduce exactly. They record the sha256 "
+      "of the notebook and of every file the second command reads; when one of those files changes (for example when the "
+      "a4 engine is switched to the author's T16), `extractions_current` fails until the first two commands are re-run, "
+      "and the third then records the new state.")
     w("")
     w(f"Measured run time: {MEASURED_RUN_TIMES}. Side effects: the two Wolfram commands write only "
       "`provenance/dirac_matrices/author_notebook_T16.json` and `provenance/dirac_matrices/repository_wolfram_gammas.json`; "

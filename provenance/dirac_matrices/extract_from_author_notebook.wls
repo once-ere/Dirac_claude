@@ -42,7 +42,8 @@
    stamps): provenance/dirac_matrices/author_notebook_T16.json.  The JSON text is made with ExportString
    (which gives UTF-8 bytes with LF line endings) and written byte for byte with BinaryWrite, because
    Export[file, ...] on Windows writes CR LF.  The JSON records $Version (key "wolfram_version"), so a
-   difference caused by another Wolfram version can be recognised.
+   difference caused by another Wolfram version can be recognised, and the sha256 of the notebook (key
+   "notebook_sha256"), which the builder compares with the notebook on disk.
    Usage (from the repository root):
      wolframscript -file provenance/dirac_matrices/extract_from_author_notebook.wls
 *)
@@ -195,6 +196,7 @@ $xWriteJSON[$xOut, <|
   "source" -> "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb (author notebook, read only)",
   "producer" -> "provenance/dirac_matrices/extract_from_author_notebook.wls",
   "wolfram_version" -> $Version,
+  "notebook_sha256" -> FileHash[$xNbFile, "SHA256", All, "HexString"],
   "notation" -> <|
     "cells" -> (<|"input_cell" -> #[[1]], "label" -> $xLabel[#[[1]]], "what" -> #[[3]]|> & /@ $xEnv),
     "taubar_head_check" -> <|"input_cell" -> 248, "label" -> $xLabel[248],

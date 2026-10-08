@@ -269,7 +269,7 @@ $$
 3\,(2.096 + 0.1214)\times10^{-12} + 10^{-12}\cdot1 = 6.652\times10^{-12} + 1.000\times10^{-12} = 7.652\times10^{-12},
 $$
 
-Rule: insert the numbers; the scale is $\max(1, 0.00286) = 1$. The ratio is $1.264\times10^{-13}/7.652\times10^{-12} = 0.0165$: the two programs agree to less than a sixtieth of what the rule allows.
+Rule: insert the numbers; the scale is $\max(1, 0.00286) = 1$. The ratio is $1.264\times10^{-13}/7.652\times10^{-12} = 0.0165$: the two programs agree to less than a sixtieth of what the rule allows. (The notebook works with the unrounded uncertainties, $U_{ref} = 2.0955\times10^{-12}$ and $U_{Rust} = 1.2145\times10^{-13}$, and therefore prints the tolerance $7.651\times10^{-12}$; the last digit differs only because the four-digit inputs above are rounded. The ratio is $0.0165$ either way.)
 
 ### 16.8 What the full cross-check found
 
@@ -898,7 +898,7 @@ save_figure(fig, "uncertainty_validated",
             "tip, where the densities are largest.")
 ```
 
-The loop writes "exactly 0" next to every class whose ratio is exactly zero (here only the integral of $p_3$). After the axis label and the title, `save_figure` saves Figure 16a.2. The caption is an f-string that inserts the largest ratio, `{{-8}}` writing a literal pair of braces. What the student should see: every bar ends left of the line 1; the energies, the integrals and the levels end far to the left (ratios between about $10^{-4}$ and $3\times10^{-3}$); only the values at the tip and the profiles, which include the tip, come within a factor of about 2 of the line, the largest ($p_8$ at the tip, $0.787$) within a factor of 1.3. The tip, where the densities are largest, is where the grids work hardest.
+The loop writes "exactly 0" next to every class whose ratio is exactly zero (here only the integral of $p_3$). After the axis label and the title, `save_figure` saves Figure 16a.2. The caption is an f-string that inserts the largest ratio, `{{-8}}` writing a literal pair of braces. What the student should see: every bar ends left of the line 1. The energies, the integrals and the levels end far to the left (ratios between about $10^{-4}$ and $3\times10^{-3}$, and exactly 0 for the integral of $p_3$), and the two values at the brane even further left (about $2\times10^{-6}$). Only the two values at the tip ($\rho$: $0.438$, $p_8$: $0.787$) and four of the five profiles, which include the tip as their first point ($n$: $0.661$, $\rho$: $0.438$, $p_3$: $0.437$, $p_8$: $0.787$; for $\rho$ and $p_8$ the largest ratio is the tip value itself), come within a factor of about 2 of the line; the profile of $S$ stays at $0.022$. The largest ratio ($p_8$ at the tip, $0.787$) is within a factor of 1.3 of the line. The tip, where the densities are largest, is where the grids work hardest. (All these ratios are printed in Out [7].)
 
 **In [10], every level converges like $h^2$ (Figure 16a.3).**
 
@@ -1551,7 +1551,7 @@ say(f"{above} of {total} drawn comparisons have U_Rust > U_ref")
 check(total > 500, "the uncertainty budget has more than 500 comparisons")
 ```
 
-`save_figure` saves Figure 16a.6, and the printed line (Out [21]) says that 547 of the 602 drawn comparisons have $U_{Rust} > U_{ref}$. What the student should see: most points lie above the diagonal, so in most comparisons the measured Rust uncertainty is the larger part of the tolerance. The reference uncertainties of the levels lie between their floor $2\cdot10^{-12}$ and about $10^{-10}$, while the Rust level uncertainties form horizontal rows, one value per state (the largest level difference of the state, Section 16.6). The reference, with its three grids and two Richardson steps, is usually the more accurate program, and the tolerance is set mainly by the Rust solver. The check requires more than 500 drawn comparisons.
+`save_figure` saves Figure 16a.6, and the printed line (Out [21]) says that 547 of the 602 drawn comparisons have $U_{Rust} > U_{ref}$. What the student should see: most points lie above the diagonal, so in most comparisons the measured Rust uncertainty is the larger part of the tolerance. The reference uncertainties of the levels lie between their floor $2\cdot10^{-12}$ and about $4\times10^{-10}$ (the largest, $3.5\times10^{-10}$, belongs to a high level of N688_lam0_a00; `Revision/kohn_sham/reference/results/ground/N688_lam0_a00.json`), while the Rust level uncertainties form horizontal rows, one value per state (the largest level difference of the state, Section 16.6). The reference, with its three grids and two Richardson steps, is usually the more accurate program, and the tolerance is set mainly by the Rust solver. The check requires more than 500 drawn comparisons.
 
 **In [22], all comparisons by class (Figure 16a.7).**
 
@@ -2542,7 +2542,7 @@ worst = {}
 for colour, (g1, g2, g3) in zip(PALETTE, ((150, 300, 600), (300, 600, 1200),
                                           (600, 1200, 2400))):
     d1, d2 = LEVELS[g1] - LEVELS[g2], LEVELS[g2] - LEVELS[g3]
-    keep = (np.abs(d1) > 1e-10) & (np.abs(d2) > 1e-10)  # not the zero modes
+    keep = (np.abs(d1) > 1e-10) & (np.abs(d2) > 1e-10)  # not the zero mode
     ratio = d1[keep] / d2[keep]
     worst[(g1, g2, g3)] = float(np.max(np.abs(ratio - 4.0)))
     ax.plot(EXACT[keep], ratio, "o", color=colour, ms=6,
@@ -2555,26 +2555,27 @@ ax.set_title("Second-order convergence: every ratio tends to 4")
 ax.legend(fontsize=8)
 ```
 
-For three triples of grids the convergence ratio of Section 16.4 is computed for all 18 levels; `keep` leaves out the two zero modes, whose differences are below $10^{-10}$ because they are exact on every grid. `worst` keeps each triple's largest distance from 4, and the ratios are drawn against the exact level energies, one colour per triple, with the line 4.
+For three triples of grids the convergence ratio of Section 16.4 is computed for all 18 levels; `keep` leaves out the one level whose differences are below $10^{-10}$, the zero mode (even parity, rank 0), which is exact on every grid, so 17 ratios remain per triple (the odd parity has no zero mode: its rank 0 is the bulk edge $1.2923$). `worst` keeps each triple's largest distance from 4, and the ratios are drawn against the exact level energies, one colour per triple, with the line 4.
 
 ```python
 save_figure(fig, "error_ratios",
-            "The convergence ratio $(x(G) - x(2G))/(x(2G) - x(4G))$ of the 16 nonzero "
+            "The convergence ratio $(x(G) - x(2G))/(x(2G) - x(4G))$ of the 17 nonzero "
             "levels of ranks $-3$ to $5$ (both parities, $M = 1$, $L = 3$, $k = 0$) "
             "against the exact level in units of $m$, for three triples of grids. A "
             "ratio of 4 means an error proportional to $h^2$; the ratios approach 4 "
-            "as the grids get finer, fastest for the low levels. The two zero modes "
-            "are exact on every grid and have no ratio.")
+            "as the grids get finer, fastest for the low levels. The zero mode (even "
+            "parity, rank 0) is exact on every grid and has no ratio.")
 say("largest |ratio - 4| per triple: " + ", ".join(
     f"{k}: {v:.2e}" for k, v in worst.items()))
 check(worst[(300, 600, 1200)] <= 0.01
-      and worst[(600, 1200, 2400)] < worst[(300, 600, 1200)],
+      and worst[(600, 1200, 2400)] < worst[(300, 600, 1200)]
+      and int(np.sum(keep)) == 17,  # 18 levels minus the one zero mode
       "the ratios lie within 0.01 of 4 and approach 4 on finer grids",
       record="Revision/kohn_sham/reports/ks-reference.json, check "
              "free_convergence_order_two")
 ```
 
-`save_figure` saves Figure 16b.6, and the printed line (Out [13]) gives the largest distances from 4: $6.57\times10^{-4}$, $1.64\times10^{-4}$ and $4.10\times10^{-5}$ for the triples $(150, 300, 600)$, $(300, 600, 1200)$ and $(600, 1200, 2400)$, each four times smaller than the one before, as the correction $\tfrac{15}{16}\tfrac{d}{c}h^2$ of Section 16.4 predicts. What the student should see: the 16 ratios of each triple lie close to 4, the finer triples closer, and the high levels deviate most. The check requires the middle triple within $0.01$ of 4 (the reference's criterion `free_convergence_order_two` asks for $[3.99, 4.01]$) and the finest triple closer still.
+`save_figure` saves Figure 16b.6, and the printed line (Out [13]) gives the largest distances from 4: $6.57\times10^{-4}$, $1.64\times10^{-4}$ and $4.10\times10^{-5}$ for the triples $(150, 300, 600)$, $(300, 600, 1200)$ and $(600, 1200, 2400)$, each four times smaller than the one before, as the correction $\tfrac{15}{16}\tfrac{d}{c}h^2$ of Section 16.4 predicts. What the student should see: the 17 ratios of each triple lie close to 4, the finer triples closer, and the high levels deviate most. The check requires the middle triple within $0.01$ of 4 (the reference's criterion `free_convergence_order_two` asks for $[3.99, 4.01]$), the finest triple closer still, and exactly 17 kept levels (`np.sum(keep)` counts the true entries of the mask of the last triple; `int` makes it a whole number), so that only the zero mode was left out.
 
 **In [14], the brane band along the deflating history.**
 
@@ -3837,7 +3838,7 @@ Quoted, not proved here: Sylvester's law of inertia and the spectral theorem for
 
 **Exercise 2 (the worst comparison).** The worst comparison of the whole cross-check is the energy density at the tip of N8_lamm2_a00: Rust gives $-10.1822650611886$, the reference $-10.182265056614$, and the tolerance is $9.238\times10^{-9}$ (`Revision/kohn_sham/reports/ks-crosscheck.json`, check emt_brane_tip_values). Compute the difference and the ratio, and the sum $U_{ref} + U_{Rust}$ of the two uncertainties.
 
-*Answer.* $|x_{Rust} - x_{ref}| = 10.1822650611886 - 10.182265056614 = 4.5746\times10^{-9}$. The ratio is $4.5746\times10^{-9}/9.238\times10^{-9} = 0.495$, the largest ratio of the record. The tolerance is $3(U_{ref} + U_{Rust}) + 10^{-12}\max(1, 10.18)$, so $U_{ref} + U_{Rust} = (9.238\times10^{-9} - 1.018\times10^{-11})/3 = 3.076\times10^{-9}$. The difference is about $1.5$ times this sum. Since the difference of two numbers can exceed the sum of their errors only if at least one error exceeds its uncertainty (Section 16.7), at least one of the two estimates is too small at the tip, by a factor of up to about $1.5$. The factor 3 of the rule absorbs this, which is why it is there. Only the comparisons at and near the tip (the classes emt_brane_tip_values and ground_profiles, both with the largest ratio $0.495$) have ratios above $\tfrac13$, where the factor 3 is needed at all.
+*Answer.* $|x_{Rust} - x_{ref}| = 10.1822650611886 - 10.182265056614 = 4.5746\times10^{-9}$. The ratio is $4.5746\times10^{-9}/9.238\times10^{-9} = 0.495$, the largest ratio of the record. The tolerance is $3(U_{ref} + U_{Rust}) + 10^{-12}\max(1, 10.18)$, so $U_{ref} + U_{Rust} = (9.238\times10^{-9} - 1.018\times10^{-11})/3 = 3.076\times10^{-9}$. The difference is about $1.5$ times this sum. Since the difference of two numbers can exceed the sum of their errors only if at least one error exceeds its uncertainty (Section 16.7), at least one of the two estimates is too small at the tip, by a factor of up to about $1.5$. The factor 3 of the rule absorbs this, which is why it is there. In the whole cross-check only two classes have a largest ratio above $\tfrac13$, where the factor 3 is needed at all: emt_brane_tip_values and ground_profiles, both with $0.495$ at this tip value; the next largest class maximum is $0.324$ (ground_eigenvalues; the table of Section 16.8).
 
 **Exercise 3 (the factor for a method of order $p$).** A method has the error $x(h) = X + c\,h^p + \dots$. It is run with the step $h$ (result $x_c$) and with $h/2$ (result $x_r$). Show that the error of $x_c$ is $\tfrac{2^p}{2^p - 1}(x_c - x_r)$, and evaluate the factor for $p = 2$ and $p = 4$. Use it to compute $U_{Rust}$ for $E_{KS}$ of N688_lam0_a00, where Notebook 16a measures $|x_c - x_r| = 7.529\times10^{-10}$.
 

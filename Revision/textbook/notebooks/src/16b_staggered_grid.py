@@ -821,7 +821,7 @@ CELLS = [
     for colour, (g1, g2, g3) in zip(PALETTE, ((150, 300, 600), (300, 600, 1200),
                                               (600, 1200, 2400))):
         d1, d2 = LEVELS[g1] - LEVELS[g2], LEVELS[g2] - LEVELS[g3]
-        keep = (np.abs(d1) > 1e-10) & (np.abs(d2) > 1e-10)  # not the zero modes
+        keep = (np.abs(d1) > 1e-10) & (np.abs(d2) > 1e-10)  # not the zero mode
         ratio = d1[keep] / d2[keep]
         worst[(g1, g2, g3)] = float(np.max(np.abs(ratio - 4.0)))
         ax.plot(EXACT[keep], ratio, "o", color=colour, ms=6,
@@ -833,16 +833,17 @@ CELLS = [
     ax.set_title("Second-order convergence: every ratio tends to 4")
     ax.legend(fontsize=8)
     save_figure(fig, "error_ratios",
-                "The convergence ratio $(x(G) - x(2G))/(x(2G) - x(4G))$ of the 16 nonzero "
+                "The convergence ratio $(x(G) - x(2G))/(x(2G) - x(4G))$ of the 17 nonzero "
                 "levels of ranks $-3$ to $5$ (both parities, $M = 1$, $L = 3$, $k = 0$) "
                 "against the exact level in units of $m$, for three triples of grids. A "
                 "ratio of 4 means an error proportional to $h^2$; the ratios approach 4 "
-                "as the grids get finer, fastest for the low levels. The two zero modes "
-                "are exact on every grid and have no ratio.")
+                "as the grids get finer, fastest for the low levels. The zero mode (even "
+                "parity, rank 0) is exact on every grid and has no ratio.")
     say("largest |ratio - 4| per triple: " + ", ".join(
         f"{k}: {v:.2e}" for k, v in worst.items()))
     check(worst[(300, 600, 1200)] <= 0.01
-          and worst[(600, 1200, 2400)] < worst[(300, 600, 1200)],
+          and worst[(600, 1200, 2400)] < worst[(300, 600, 1200)]
+          and int(np.sum(keep)) == 17,  # 18 levels minus the one zero mode
           "the ratios lie within 0.01 of 4 and approach 4 on finer grids",
           record="Revision/kohn_sham/reports/ks-reference.json, check "
                  "free_convergence_order_two")

@@ -49,6 +49,7 @@ Each word is defined in plain terms here; the later sections make each definitio
 - **Linear member**: the history $a_4 = AHx_4 + a_0$ with constants $A$ (the **slope**) and $a_0$. For $A > 0$ the extra-time scale factor $e^{-a_4}$ shrinks exponentially. The history of the Kohn-Sham computations is $A = 1$, $a_0 = 0$.
 - **Slice**: one instant of the history, labelled by the value $a_{4,0}$ of $a_4$ there; the Kohn-Sham states were computed at the five slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$.
 - **Kohn-Sham state**: a many-quantum state of dirac16complex computed with the Kohn-Sham method (Chapters 13 to 15). A recorded state is named like `N136_lamm2_a20`: particle number $N = 136$, coupling $\lambda = -\lambda_2$ (`lamm2`; `lamm1` is $-\lambda_1$, `lam0` is $\lambda = 0$, `lamp1` is $+\lambda_1$, `lamp2` is $+\lambda_2$), slice $a_{4,0} = 2.0$ (`a20`).
+- Words of the Kohn-Sham method used again here (Chapters 13 to 15 define them in full): an **orbital** is the wave of one quantum, and an **eigen-orbital** one that solves the Kohn-Sham equation with a definite energy; the **Fermi level** is the energy that separates the occupied orbitals from the empty ones; a state is **self-consistent** when the potentials computed from its own density are the potentials its orbitals were computed with; the **good sector** is the set of orbitals that do not depend on the extra times $x_5, x_6, x_7$; the **Z2 mirror** is the ASSUMED rule that the hidden direction on the other side of the brane is a mirror copy of the computed side.
 - **Profile**: a component of the source as a function of $y$, stored at 151 points. **Proper density**: an amount per unit of proper volume, the volume that rulers measure.
 - **max|T|**: the largest absolute value of $\rho$, $p_3$, $p_t$ and $p_8$ of a state over the whole patch. We divide by it to compare states of very different size.
 - **Integral over the patch** $\int X$: the total amount of a density $X$ in the computed region, $2\,\mathrm{Vol}_7\int_{-3}^{0}e^{6Hy}X\,dy$ (Section 17.7). **Weighted mean** $\bar X$: the integral divided by the proper volume of the patch.
@@ -154,7 +155,7 @@ $$
 
 ### 17.4 Condition C1: a source must not depend on x8
 
-**The argument.** Read the left-hand side of each equation of Section 17.3. It is built from $a_4'(x_4)$, $a_4''(x_4)$, the constant $H$ and the constants $\alpha_k$ and $\Lambda$; it contains no $x_8$, not even through $\cot z$ or $\sin z$. (The metric itself depends on $x_8$ through $z$; these components of the Lovelock tensors, with one index up and one down, do not. PROVED: Wolfram report, checks `P1_structure`, `P2_structure`, `P3_structure`, which state that each tensor is diagonal and free of $x_8$; reproduced in Notebook 17a, In [4].) Now take the hidden equation at two points with the same time $x_4$ and two different hidden coordinates $x_8$ and $\tilde x_8$:
+**The argument.** Read the left-hand side of each equation of Section 17.3. It is built from $a_4'(x_4)$, $a_4''(x_4)$, the constant $H$ and the constants $\alpha_k$ and $\Lambda$; it contains no $x_8$, not even through $\cot z$ or $\sin z$. (The metric itself depends on $x_8$ through $z$; these components of the Lovelock tensors, with one index up and one down, do not. PROVED: Wolfram report, checks `P1_structure`, `P2_structure`, `P3_structure`, which state that each tensor $P_{(k)}$ is diagonal and free of $x_8$; the record defines $E_{(k)} = -P_{(k)}/2^{k+1}$, a constant multiple, so the same holds for $E_{(k)}$ (record `a4-equations.json`, key `conventions.lovelock`); reproduced in Notebook 17a, In [4].) Now take the hidden equation at two points with the same time $x_4$ and two different hidden coordinates $x_8$ and $\tilde x_8$:
 
 $$
 \kappa\,p_8(x_4, x_8) = \mathcal P(x_4) + \Lambda = \kappa\,p_8(x_4, \tilde x_8)
@@ -308,7 +309,7 @@ Note how fast the weight $e^{6Hy}$ falls toward the tip: at $y = -L = -3$ (with 
 
 ### 17.8 Example: the three conditions tested on 75 recorded states
 
-The first notebook derives the three conditions from the Lovelock components stored in the record, with exact computer algebra; reads the 75 recorded states; and reproduces every number of the five checks of `Revision/field_equations_a4/reports/ks-source-conditions.json`. It prints 16 PASS lines and draws seven figures: the hidden coordinate and the energy profiles; a heat map of the spread of $\rho$ (C1); the violation profiles and a heat map of their size (C2); three points of one state as bars; the averaged ratio $R$; and the integrals along the history (C3). It runs in about 15 to 25 seconds and needs no Rust.
+The first notebook derives the three conditions from the Lovelock components stored in the record, with exact computer algebra; reads the 75 recorded states; and reproduces every number of the five checks of `Revision/field_equations_a4/reports/ks-source-conditions.json`. It prints 16 PASS lines and draws seven figures: the hidden coordinate and the energy profiles; a heat map of the spread of $\rho$ (C1); the violation profiles and a heat map of their size (C2); three points of one state as bars; the averaged ratio $R$; and the integrals along the history (C3). It runs in about 15 seconds on a typical laptop and needs no Rust.
 
 <!-- NOTEBOOK 17a -->
 
@@ -732,12 +733,19 @@ fig.tight_layout()
 ```python
 save_figure(fig, "rho_profiles",
             "Left: the hidden coordinate $y = \\ln(\\sin z)/(6H)$ against $z = 6Hx_8$ "
-            ...
+            "(logarithmic axis, $H = 1$); the shaded band is the computed patch from "
+            "the tip cutoff $y = -3$ to the brane $y = 0$, which covers $z$ from "
+            f"${z_tip / 1e-8:.1f} \\times 10^{{-8}}$ to $\\pi/2$. Right: the energy "
+            "density $\\rho(y)$ of the Kohn-Sham state $N = 136$, $\\lambda = 0$ "
+            "divided by the largest component of the state, at the five slices "
+            "$a_{4,0} = 0$ to $2$ (logarithmic vertical axis). The largest value of "
             f"$\\rho$ is {min(falls):.0f} to ${tex_number(max(falls))}$ times its "
-            ...)
+            "smallest "
+            "value, depending on the slice, while condition C1 of the field "
+            "equations demands a horizontal line such as the dotted one.")
 ```
 
-(The caption text is shown here shortened by the three dots; the complete text is in the notebook above. It is written as several strings next to each other, and Python joins strings written next to each other into one.) `save_figure` saves the figure and records the caption, into which the f-strings write the computed numbers: `z_tip / 1e-8` with one decimal gives 1.5, `min(falls)` with no decimals gives 319, and `tex_number(max(falls))` gives $1.1 \times 10^{5}$. Output: figure 17a.1 and the line Figure 17a.1 saved as Revision/textbook/figures/17a_1_rho_profiles.png.
+`save_figure` saves the figure and records the caption. The caption is written as twelve strings next to each other, one per line inside the round brackets; Python joins strings written next to each other into one string, so the twelve lines make one caption. Most of them are plain strings. Two start with `f` and contain computed numbers in braces: `z_tip / 1e-8` written with one decimal (`:.1f`) gives 1.5, so the text reads $1.5 \times 10^{-8}$ (the doubled braces `{{-8}}` print one pair of braces, which the book's mathematics needs); `min(falls)` with no decimals (`:.0f`) gives 319, and `tex_number(max(falls))` gives $1.1 \times 10^{5}$. The backslashes are doubled because a single backslash in a Python string starts a special character. Output: figure 17a.1 and the line Figure 17a.1 saved as Revision/textbook/figures/17a_1_rho_profiles.png.
 
 **What figure 17a.1 shows.** Left: the curve $y(z)$ is a straight line on the logarithmic $z$ axis, because $y = \ln(\sin z)/6 \approx \ln(z)/6$ for small $z$; the shaded patch $-3 \le y \le 0$ covers $z$ from $1.5 \times 10^{-8}$ to $\pi/2$, almost the whole hidden direction. Right: the energy density of the five states $N = 136$, $\lambda = 0$ on a logarithmic axis. Near the tip it is about a tenth of max|T|; toward the brane it falls by two to five powers of ten, the more the later the slice (the largest value is 319 to $1.1 \times 10^5$ times the smallest). Condition C1 demands a horizontal line such as the dotted example. The student should see at a glance that C1 fails, and by a huge margin.
 
@@ -855,11 +863,24 @@ fig, ax = plt.subplots(figsize=(6.4, 6.0))
 image = draw_table(ax, state_table(spread), LogNorm(0.04, 1.0), ".3f")
 fig.colorbar(image, ax=ax, label="spread of $\\rho$ / max|T| (C1 needs 0)")
 ax.set_title("Condition C1: dependence on the hidden direction")
-save_figure(fig, "c1_map",
-            ...)
 ```
 
-A single panel; the spread table is drawn with a logarithmic colour scale from 0.04 to 1 and three decimals in each square; a **colour bar** beside it translates colours into values. The caption (shortened here) inserts the smallest spread with four decimals, 0.0497, the state written by `describe`, and the $N = 8$ text. Output: figure 17a.2 and its saved line.
+A single panel; the spread table is drawn with a logarithmic colour scale from 0.04 to 1 and three decimals in each square; a **colour bar** beside it translates colours into values; the title names the condition.
+
+```python
+save_figure(fig, "c1_map",
+            "The spread $(\\max_y \\rho - \\min_y \\rho)/\\max|T|$ of the energy "
+            "density along the hidden coordinate for all 75 recorded Kohn-Sham "
+            "ground states: rows are the particle numbers $N = 8, 136, 688$ with "
+            "the five couplings, columns the slices $a_{4,0}$ (logarithmic colour "
+            "scale, pure numbers). "
+            "Condition C1 needs $0$ in every cell; the smallest value is "
+            f"${spread[smallest]:.4f}$ ({describe(smallest)}), and the $N = 8$ "
+            f"states, made of brane zero modes, {n8_text}, almost the whole "
+            "size of the tensor. Grey cells: the five states with no source at all.")
+```
+
+The caption, joined from its strings as in In [6], inserts three computed pieces: the smallest spread with four decimals (`:.4f`), 0.0497; the state written by `describe`, ($N = 136$, $\lambda = -\lambda_2$, $a_{4,0} = 2$); and the $N = 8$ text, "all have the spread $0.995$". Output: figure 17a.2 and its saved line.
 
 **What figure 17a.2 shows.** Rows: $N = 8, 136, 688$, each with the couplings $-\lambda_2$ to $+\lambda_2$; columns: the five slices; colour and number: the spread of $\rho$ divided by max|T| (a pure number). C1 needs 0 in every square. The $N = 8$ rows are yellow, 0.995 everywhere: their energy density varies by almost the whole size of their tensor. The $N = 136$ and $N = 688$ rows lie between 0.05 and 0.42, largest at the first slice. The grey row, $N = 8$ with $\lambda = 0$, has no source at all. No square is close to 0.
 
@@ -930,14 +951,19 @@ Two panels that share their vertical axis (`sharey=True`), one per particle numb
 
 ```python
 save_figure(fig, "violation_profiles",
-            ...
+            "The violation profiles $V(y) = p_3 + p_t - 2p_8$ of the Kohn-Sham ground "
+            "states with $\\lambda = 0$, divided by the largest component of each "
+            "state, for $N = 136$ (left) and $N = 688$ (right) at the five slices "
+            "$a_{4,0}$ (horizontal axis: the hidden coordinate $y$; vertical axis "
+            "symmetric logarithmic, linear between $-10^{-7}$ and $10^{-7}$). "
+            "Condition C2 of the field equations demands the dashed line $V = 0$; "
             f"instead $|V|$ is {min(at_tip):.2f} to {max(at_tip):.2f} times max|T| "
-            ...
+            "at the tip, every profile changes sign exactly once, and at the brane "
             f"$|V|$/max|T| is still between ${tex_number(min(at_brane))}$ and "
             f"${tex_number(max(at_brane))}$, small but not zero.")
 ```
 
-The caption inserts the range of $|V|/\max|T|$ at the tip, 2.36 to 2.37, and at the brane, $7.1 \times 10^{-7}$ to $4.0 \times 10^{-3}$. Output: figure 17a.3 and its saved line.
+The caption, joined from its strings as in In [6], inserts the range of $|V|/\max|T|$ at the tip with two decimals, 2.36 to 2.37, and at the brane in powers of ten, $7.1 \times 10^{-7}$ to $4.0 \times 10^{-3}$. Output: figure 17a.3 and its saved line.
 
 **What figure 17a.3 shows.** Horizontal axis: $y$ from the tip cutoff to the brane (units of $1/H$); vertical axis: $V/\max|T|$, a pure number, on the symmetric logarithmic scale. Every profile starts at the tip with $V$ about 2.4 times max|T| and positive, drops steeply through zero once, near $y \approx -2.2$ (for the first slice at $y \approx -2.05$ when $N = 136$ and $y \approx -1.75$ when $N = 688$), stays negative, and rises toward zero at the brane without reaching it. C2 demands the red dashed line. Section 17.14 will explain the single change of sign: $V$ is the slope of $p_8$, and $p_8$ has one maximum.
 
@@ -951,12 +977,16 @@ image = draw_table(ax, state_table(size), Normalize(2.0, 4.0), ".3f")
 fig.colorbar(image, ax=ax, label="max$|p_3 + p_t - 2p_8|$ / max|T| (C2 needs 0)")
 ax.set_title("Condition C2: $p_3 + p_t = 2p_8$ point by point")
 save_figure(fig, "c2_map",
-            ...
+            "The size $\\max_y|p_3 + p_t - 2p_8|/\\max|T|$ of the violation of "
+            "condition C2 for all 75 recorded Kohn-Sham ground states (rows: particle "
+            "number and coupling; columns: the slice $a_{4,0}$; linear colour scale, "
+            "pure numbers). C2 needs $0$; every nonzero state violates it by "
             f"${size[low]:.2f}$ to ${size[high]:.2f}$ times its largest component. "
-            ...)
+            "The $N = 8$ states, made of brane zero modes, have the same value at "
+            "every slice; grey cells: no source.")
 ```
 
-The same heat map as In [8], now of `size` with a linear colour scale (`Normalize`) from 2 to 4; the caption inserts the range 2.09 to 3.99. Output: figure 17a.4 and its saved line.
+`Normalize` is imported first (a `from ... import` line may stand anywhere in a cell). The same heat map as In [8], now of `size` with a linear colour scale (`Normalize`) from 2 to 4, with its colour bar and title; the caption, joined from its strings as in In [6], inserts the range with two decimals, 2.09 to 3.99. Output: figure 17a.4 and its saved line.
 
 **What figure 17a.4 shows.** The same rows and columns as figure 17a.2; colour and number: $\max_y|V|/\max|T|$, a pure number. C2 needs 0. The $N = 8$ rows show 3.990 in every square (the same state at every slice, In [18]); the $N = 136$ and $N = 688$ rows lie between 2.09 and 2.50. Every nonzero state violates C2 by more than twice its own largest component.
 
@@ -1032,11 +1062,23 @@ fig.tight_layout()
 tip, middle, brane = rows
 factors = [2.0 * r["p8"] / (r["p3"] + r["p_t"]) for r in (middle, brane)]
 tip_left, tip_right = tip["p3"] + tip["p_t"], 2.0 * tip["p8"]  # the two sides
-save_figure(fig, "three_points",
-            ...)
 ```
 
-`suptitle` writes a title over the whole figure. `tip, middle, brane = rows` gives the three dictionaries names. `factors` holds $2p_8/(p_3 + p_t)$ at the middle and at the brane, and `tip_left`, `tip_right` the two sides at the tip; the caption inserts them: 158.3 against $-863.5$, 2.58 and 4.82. Output: figure 17a.5 and its saved line.
+`suptitle` writes a title over the whole figure. `tip, middle, brane = rows` gives the three dictionaries names. `factors` holds $2p_8/(p_3 + p_t)$ at the middle and at the brane, and `tip_left`, `tip_right` the two sides at the tip.
+
+```python
+save_figure(fig, "three_points",
+            "The two sides of condition C2, $p_3 + p_t$ (blue) and $2p_8$ (orange), "
+            "of the Kohn-Sham state $N = 136$, $\\lambda = 0$, $a_{4,0} = 1$ at the "
+            "tip $y = -3$, in the middle $y = -1.5$ and at the brane $y = 0$ "
+            "(vertical axes: proper pressure in units of $m^8$, each panel with its "
+            "own scale). C2 demands equal bars; near the tip the two sides even have "
+            f"opposite signs (${tip_left:.1f}$ against "
+            f"${tip_right:.1f}$), in the middle $2p_8$ is {factors[0]:.2f} "
+            f"times $p_3 + p_t$ and at the brane {factors[1]:.2f} times.")
+```
+
+The caption, joined from its strings as in In [6], inserts the two sides at the tip with one decimal, 158.3 against $-863.5$, and the two factors with two decimals, 2.58 and 4.82. Output: figure 17a.5 and its saved line.
 
 **What figure 17a.5 shows.** Three panels for the tip, the middle and the brane of the state $N = 136$, $\lambda = 0$, $a_{4,0} = 1$; vertical axes: pressure in units of $m^8$, each with its own scale. C2 demands two bars of equal height in each panel. At the tip the two sides do not even have the same sign; in the middle $2p_8$ is 2.58 times $p_3 + p_t$ (since $1.286648/0.498835 = 2.579$); at the brane it is 4.82 times. Exercise 2 repeats this arithmetic.
 
@@ -1121,13 +1163,27 @@ ax.legend(fontsize=7, ncol=2, loc="center right")
 near = max(max(ratio[f"N{n}_lam{tag}_{s}"] for tag, _ in TAGS)
            - min(ratio[f"N{n}_lam{tag}_{s}"] for tag, _ in TAGS)
            for n in (136, 688) for s in SLICES)  # spread over the couplings
-save_figure(fig, "integrated_ratio",
-            ...)
 ```
 
-Axis labels, the vertical range 0 to 1.1, a legend in two columns. `near` is, over the ten combinations of $N \in \{136, 688\}$ and a slice, the largest difference between the five couplings' ratios; the caption reports it (0.0045) together with the range 0.107 to 0.414. Output: figure 17a.6 and its saved line.
+Axis labels, the vertical range 0 to 1.1, a legend in two columns. `near` is, over the ten combinations of $N \in \{136, 688\}$ and a slice, the largest difference between the five couplings' ratios (the inner `max(...) - min(...)` is the difference for one combination, the outer `max` the largest of the ten).
 
-**What figure 17a.6 shows.** Horizontal axis: the slice $a_{4,0}$; vertical axis: $R$, a pure number. A source averaged over $x_8$ would need the red dashed line at 1. The $N = 8$ states lie flat at about 0.107; the $N = 136$ states fall from 0.34 to 0.24 and the $N = 688$ states from 0.41 to 0.25 along the history; the five couplings of each $N$ lie on top of each other. All points are far below 1. Section 17.15 explains why: $R$ is the value of $p_8$ at the brane divided by its mean.
+```python
+save_figure(fig, "integrated_ratio",
+            "The ratio $(\\int p_3 + \\int p_t)/(2\\int p_8)$ of the pressures "
+            "integrated over the patch with the proper-volume weight, for every "
+            "nonzero recorded Kohn-Sham state, against the slice $a_{4,0}$ "
+            "(colours: particle number; line styles and markers: coupling; pure "
+            "numbers). A source averaged over $x_8$ would need the value $1$ (red "
+            "dashed line); the states lie between "
+            f"${min(ratio.values()):.3f}$ and ${max(ratio.values()):.3f}$, so even "
+            "the average violates condition C2. For $N = 136$ and $N = 688$ the "
+            "five couplings give almost the same ratio (they differ by at most "
+            f"${near:.4f}$ at one slice), so their lines lie on top of each other.")
+```
+
+The caption, joined from its strings as in In [6], inserts the range of the ratios with three decimals, 0.107 to 0.414, and `near` with four decimals, 0.0045. Output: figure 17a.6 and its saved line.
+
+**What figure 17a.6 shows.** Horizontal axis: the slice $a_{4,0}$; vertical axis: $R$, a pure number. A source averaged over $x_8$ would need the red dashed line at 1. The $N = 8$ states lie flat between 0.107 and 0.110 (the same value at every slice; the four nonzero couplings differ slightly); the $N = 136$ states fall from 0.34 to 0.24 and the $N = 688$ states from 0.41 to 0.25 along the history; the five couplings of each of these two $N$ lie on top of each other. All points are far below 1. Section 17.15 explains why: $R$ is the value of $p_8$ at the brane divided by its mean.
 
 **In [16], condition C3 along the history.**
 
@@ -1201,11 +1257,25 @@ fig.tight_layout()
 ```python
 drop = [integral(f"N{n}_lam0_a00", "int_rho") / integral(f"N{n}_lam0_a20", "int_rho")
         for n in (136, 688)]
-save_figure(fig, "history_integrals",
-            ...)
 ```
 
-`drop` is the factor by which the energy falls from the first to the last slice: $80.2822/12.4451 = 6.45$ for $N = 136$ and $680.441/110.387 = 6.16$ for $N = 688$; the caption inserts both. Output: figure 17a.7 and its saved line.
+`drop` is the factor by which the energy falls from the first to the last slice: $80.2822/12.4451 = 6.45$ for $N = 136$ and $680.441/110.387 = 6.16$ for $N = 688$.
+
+```python
+save_figure(fig, "history_integrals",
+            "The energy density and the three pressures of the Kohn-Sham states with "
+            "$\\lambda = 0$, integrated over the patch with the proper-volume weight, "
+            "at the five slices of the history $a_4 = Hx_4$ (left $N = 136$, right "
+            "$N = 688$; vertical axis in units of $m$ with $H = 1$; along the "
+            "history 3-space inflates as $e^{a_4}$ and the extra times deflate as "
+            "$e^{-a_4}$). The linear member "
+            "needs a constant $\\rho$ and equal pressures (condition C3); instead "
+            f"$\\int\\rho$ falls by a factor of {drop[0]:.2f} ($N = 136$) and "
+            f"{drop[1]:.2f} ($N = 688$) from $a_{{4,0}} = 0$ to $2$, $\\int p_3$ stays "
+            "above $\\int p_t = 0$, and $\\int p_8$ is different again.")
+```
+
+The caption, joined from its strings as in In [6], inserts both factors with two decimals. In the f-string the subscript is written `a_{{4,0}}`, because inside an f-string a single brace would start a computed piece; the doubled braces print as one pair. Output: figure 17a.7 and its saved line.
 
 **What figure 17a.7 shows.** Horizontal axis: the slice $a_{4,0}$ of the history $a_4 = Hx_4$ (3-space inflates as $e^{a_4}$, the extra times deflate as $e^{-a_4}$); vertical axis: the integrals over the patch in units of $m$. C3 needs a horizontal blue line ($\int\rho$ constant) and the three pressure lines on top of each other. Instead $\int\rho$ falls by a factor of about 6 over the history, $\int p_3$ (orange) lies well above $\int p_t = 0$ (green, on the axis: without interaction the extra times carry no pressure), and $\int p_8$ (purple) is different again. Section 17.16 shows that the fall of the energy is exactly the work done by the unbalanced pressure, $\int p_3 > \int p_t$.
 
@@ -1314,7 +1384,7 @@ $$
 
 (rule: the Bianchi identity makes every term on the left zero). Since $\kappa \ne 0$: **every source of the field equations is conserved**, $\nabla_\mu T^\mu{}_\nu = 0$. Conservation is NECESSARY.
 
-**The Kohn-Sham states are conserved.** A field that obeys its own field equation in a given metric has a conserved energy-momentum tensor (Chapter 9: this follows from the invariance of the action under a change of coordinates). For the Kohn-Sham states the record proves the conservation law of the hidden direction for every self-consistent state (`Revision/kohn_sham/reports/ks-theory-python.json`, check `emt_y_conservation_selfconsistent`) and the energy-change law of the time direction (the same report, check `emt_x4_component`), and the Rust solver checks both on its own fine grid of points (`Revision/kohn_sham/reports/ks-rust-solver.json`, checks `emt_y_conservation_pointwise`, `emt_y_conservation_integrated` and `emt_energy_change_dE_da4`).
+**The Kohn-Sham states are conserved.** A field that obeys its own field equation in a given metric has a conserved energy-momentum tensor (Section 9.9: it is the Noether identity, which follows from the invariance of the action under a change of coordinates). For the Kohn-Sham states the record proves the conservation law of the hidden direction for every self-consistent state (`Revision/kohn_sham/reports/ks-theory-python.json`, check `emt_y_conservation_selfconsistent`) and the energy-change law of the time direction (the same report, check `emt_x4_component`), and the Rust solver checks both on its own fine grid of points (`Revision/kohn_sham/reports/ks-rust-solver.json`, checks `emt_y_conservation_pointwise`, `emt_y_conservation_integrated` and `emt_energy_change_dE_da4`).
 
 **So conservation is not SUFFICIENT.** The states are conserved and still fail. The next four sections show precisely what the field equations of the author's metric demand beyond conservation, and why the Kohn-Sham states cannot give it.
 
@@ -1360,7 +1430,7 @@ $$
 
 (rule: $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$ and the chain rule $\partial_\nu(f_\mu^2) = 2f_\mu\,\partial_\nu f_\mu$; cancel $2\eta_{\mu\mu}f_\mu$; the derivative of $\ln f$ is $f'/f$).
 
-**The divergence of a diagonal tensor.** Let $T^\mu{}_\nu$ be diagonal ($T^\mu{}_\nu = 0$ for $\mu \ne \nu$). In the three sums of the divergence only the terms with a diagonal entry survive: in the first only $\mu = \nu$; in the second only $\lambda = \nu$; in the third only $\lambda = \mu$. So
+**The divergence of a diagonal tensor.** (Section 9.9 derived this formula for every diagonal metric and applied it in the coordinate $x_8$; here we apply it in the coordinate $y$, and we repeat the short derivation so that this section can be read on its own.) Let $T^\mu{}_\nu$ be diagonal ($T^\mu{}_\nu = 0$ for $\mu \ne \nu$). In the three sums of the divergence only the terms with a diagonal entry survive: in the first only $\mu = \nu$; in the second only $\lambda = \nu$; in the third only $\lambda = \mu$. So
 
 $$
 \nabla_\mu T^\mu{}_\nu = \partial_\nu T^\nu{}_\nu + \sum_\mu\Gamma^\mu{}_{\mu\nu}\,T^\nu{}_\nu - \sum_\mu\Gamma^\mu{}_{\mu\nu}\,T^\mu{}_\mu
@@ -1548,7 +1618,7 @@ $$
 \rho' = -3a_4'\,(p_3 - p_t)
 $$
 
-(the prime is $d/dx_4$). In words: while 3-space inflates ($a_4' > 0$), a 3-space pressure $p_3$ takes energy out of the source, and while the extra times deflate, an extra-time pressure $p_t$ puts energy in. The volume of the seven directions other than the time is constant (the factors $e^{3a_4}$ and $e^{-3a_4}$ cancel), so, unlike a gas in an ordinary expanding universe, there is no term with $\rho$ itself: only the difference of the two pressures moves the energy. This is the first law of thermodynamics, "change of energy equals minus pressure times change of volume", applied to the two families of directions (an interpretation of the PROVED identity; Chapter 9 works it out).
+(the prime is $d/dx_4$). In words: while 3-space inflates ($a_4' > 0$), a 3-space pressure $p_3$ takes energy out of the source, and while the extra times deflate, an extra-time pressure $p_t$ puts energy in. The volume of the seven directions other than the time is constant (the factors $e^{3a_4}$ and $e^{-3a_4}$ cancel), so, unlike a gas in an ordinary expanding universe, there is no term with $\rho$ itself: only the difference of the two pressures moves the energy. This is the first law of thermodynamics, "change of energy equals minus pressure times change of volume", applied to the two families of directions (an interpretation of the PROVED identity; Section 9.10 works it out).
 
 **For the Kohn-Sham gas** the record states the integrated version (`Revision/kohn_sham/ks-theory.json`, key `emt.energyChange`): the energy $E = \int\rho$ of the state changes as
 
@@ -1568,7 +1638,7 @@ $$
 \frac{dE}{da_{4,0}} = -3\Big(\int p_3 - \int p_t\Big) .
 $$
 
-(Solver check `emt_energy_change_dE_da4`: the derivative that the solver computes from extra self-consistent states at $a_4 \pm \delta$ and $a_4 \pm 2\delta$ around each slice, with $\delta = 0.002$ and fixed occupations, agrees with the right-hand side to a relative difference of at most $1.505 \times 10^{-10}$ in all 75 cases.) For $\lambda = 0$, $\int p_t = 0$ and $\int p_3 > 0$, so the energy must FALL along the history. For $N = 136$ at the first slice the rate is $-3 \times 23.8133 = -71.44$ (units of $m$ per unit of $a_{4,0}$). Over the whole history the energy falls from $80.2822$ to $12.4451$; Simpson's rule applied to the five recorded rates reproduces the change $-67.8372$ to a relative error of $2.1 \times 10^{-4}$, and for all ten series that change, to at most $2.2 \times 10^{-4}$ (COMPUTED; Notebook 17b, In [18]; Exercise 7).
+(Solver check `emt_energy_change_dE_da4` of the report named in Section 17.12: the derivative that the solver computes from extra self-consistent states at $a_4 \pm \delta$ and $a_4 \pm 2\delta$ around each slice, with $\delta = 0.002$ and fixed occupations, agrees with the right-hand side in all 75 cases; the difference, divided by the larger of the sum of the absolute orbital energies and $m$, is at most $1.505 \times 10^{-10}$.) For $\lambda = 0$, $\int p_t = 0$ and $\int p_3 > 0$, so the energy must FALL along the history. For $N = 136$ at the first slice the rate is $-3 \times 23.8133 = -71.44$ (units of $m$ per unit of $a_{4,0}$). Over the whole history the energy falls from $80.2822$ to $12.4451$; Simpson's rule applied to the five recorded rates reproduces the change $-67.8372$ to a relative error of $2.1 \times 10^{-4}$, and for all ten series that change, to at most $2.2 \times 10^{-4}$ (COMPUTED; Notebook 17b, In [18]; Exercise 7).
 
 **The constraint propagates.** Write the constraint and the evolution equation of Section 17.3 as two expressions that must vanish:
 
@@ -1628,7 +1698,7 @@ The Kohn-Sham source is CONSERVED but NOT ADMISSIBLE.
 
 ### 17.17 Example: conserved but not admissible
 
-The second notebook makes Sections 17.12 to 17.16 concrete. It first checks that the Kohn-Sham source rests on the author's eight real $16 \times 16$ gamma matrices, the very file that the Rust solver read; then it derives with sympy the covariant divergence of a general source in the author's metric, in the coordinate $x_8$ and in the coordinate $y$, and compares it with the two Revision records; it proves $V = p_8'/(3H)$ and $d\mathcal C/dx_4 = 3a_4'\mathcal E$; and it tests the identities on the 75 recorded states, point by point with a convergence study, integrated over the patch, and along the deflating history. It prints 16 PASS lines and draws five figures. It runs in about 20 to 30 seconds and needs no Rust.
+The second notebook makes Sections 17.12 to 17.16 concrete. It first checks that the Kohn-Sham source rests on the author's eight real $16 \times 16$ gamma matrices, the very file that the Rust solver read; then it derives with sympy the covariant divergence of a general source in the author's metric, in the coordinate $x_8$ and in the coordinate $y$, and compares it with the two Revision records; it proves $V = p_8'/(3H)$ and $d\mathcal C/dx_4 = 3a_4'\mathcal E$; and it tests the identities on the 75 recorded states, point by point with a convergence study, integrated over the patch, and along the deflating history. It prints 16 PASS lines and draws five figures. It runs in about 20 seconds on a typical laptop and needs no Rust.
 
 <!-- NOTEBOOK 17b -->
 
@@ -1792,11 +1862,24 @@ A figure of two rows of four panels; `axes.flat` walks through the eight panels 
     ax.grid(False)  # no grid lines over the entries
 fig.colorbar(image, ax=axes, shrink=0.75, label="matrix entry", ticks=[-1, 0, 1])
 nonzero_count = int(sum(np.count_nonzero(matrix) for matrix in gamma))
-save_figure(fig, "eight_gammas",
-            ...)
 ```
 
-Only the first and the last row and column are numbered (Python counts from 0, the book from 1); one colour bar serves all eight panels (`ax=axes`, shrunk to 75 per cent). `nonzero_count` counts the nonzero entries of all eight matrices, 128, which the caption quotes. Output: figure 17b.1 and its saved line.
+Only the first and the last row and column are numbered (Python counts from 0, the book from 1); one colour bar serves all eight panels (`ax=axes`, shrunk to 75 per cent). `nonzero_count` counts the nonzero entries of all eight matrices: `np.count_nonzero` counts them in one matrix, and `sum` adds the eight counts.
+
+```python
+save_figure(fig, "eight_gammas",
+            "The author's eight real $16 \\times 16$ gamma matrices "
+            "$\\gamma^{(x_1)}$ to $\\gamma^{(x_8)}$ as heat maps (rows 1 to 16 down, "
+            "columns 1 to 16 across; red $+1$, blue $-1$, white $0$). Each row and "
+            "each column holds exactly one nonzero entry, so the eight matrices "
+            f"have {nonzero_count} nonzero entries in all; the squares are $+1$ "
+            "for the space-like directions $x_1, x_2, x_3, x_8$ and $-1$ for the "
+            "time $x_4$ and the deflating extra times $x_5, x_6, x_7$. These are "
+            "the matrices with which the Kohn-Sham source of this chapter was "
+            "computed.")
+```
+
+The caption is joined from its strings, as in Notebook 17a, In [6]; its one computed piece is `nonzero_count`, $8 \times 16 = 128$. Output: figure 17b.1 and its saved line.
 
 **What figure 17b.1 shows.** Eight $16 \times 16$ tables, rows 1 to 16 downwards and columns 1 to 16 across, entries coloured red ($+1$), blue ($-1$) or white ($0$). Every panel has exactly 16 coloured squares, one in each row and each column; the patterns and the signs differ from matrix to matrix (some lie along the diagonal from the lower left to the upper right, others in two blocks away from the diagonal). The squares are $+1$ for the space-like directions $x_1, x_2, x_3, x_8$ and $-1$ for the time $x_4$ and the deflating extra times $x_5, x_6, x_7$. The student should see that these are honest real matrices of whole numbers, the same that the Kohn-Sham source was computed with.
 
@@ -2132,7 +2215,7 @@ check(len(nonzero) == 70 and residual[worst] < 1e-3,
       "V = (dp8/dy)/(3H) on every state to 1e-3 of max|T| (fourth-order differences)")
 ```
 
-Output: 70 states, $h = 0.02$, the largest difference $1.05 \times 10^{-4}$ of max|T| (state `N8_lamm1_a00`), and the PASS line. (COMPUTED; the bound $10^{-3}$ was fixed before the run. The solver, on its own much finer grid, checks the same law to a relative residual of at most $1.951 \times 10^{-8}$: check `emt_y_conservation_pointwise`.)
+The third `report` passes the state's name in brackets as its third argument, the place of the unit, so that it is printed after the number. `:.2e` writes a number with two decimals in the computer's power-of-ten form, `1.05e-04` for $1.05 \times 10^{-4}$. Output: 70 states, $h = 0.02$, the largest difference $1.05 \times 10^{-4}$ of max|T| (state `N8_lamm1_a00`), and the PASS line. (COMPUTED; the bound $10^{-3}$ was fixed before the run. The solver, on its own grid of 900 steps of $3/900 = 1/300$ (six times finer than the stored grid of 150 steps of $0.02$), checks the same law with fourth-order differences to a relative residual of at most $1.951 \times 10^{-8}$: `Revision/kohn_sham/reports/ks-rust-solver.json`, check `emt_y_conservation_pointwise`; the number of steps is the record `Revision/kohn_sham/results/parameters.json`, key `numerics.rk4Steps`.)
 
 **In [12], the identity drawn (figure 2).**
 
@@ -2175,11 +2258,27 @@ The right panel draws, for the slice $a_{4,0} = 1$, the violation $V$ as a blue 
 ```python
 p8_range = [float(np.max(np.abs(profiles[s]["p8"])) / np.min(np.abs(profiles[s]["p8"])))
             for s in history136]  # how far p8 is from flat, per slice
-save_figure(fig, "slope_identity",
-            ...)
 ```
 
-`p8_range` holds, per slice, the largest $|p_8|$ divided by the smallest; the caption quotes the range 2933 to $2.3 \times 10^{6}$. Output: figure 17b.2 and its saved line.
+`p8_range` holds, per slice, the largest $|p_8|$ divided by the smallest.
+
+```python
+save_figure(fig, "slope_identity",
+            "Left: the hidden-direction pressure $p_8(y)$ of the Kohn-Sham states "
+            "$N = 136$, $\\lambda = 0$ at the five slices $a_{4,0} = 0$ to $2$, "
+            "divided by the largest component of each state (horizontal axis: the "
+            "hidden coordinate $y$; vertical axis symmetric logarithmic, linear "
+            "between $-10^{-6}$ and $10^{-6}$); the largest $|p_8|$ is "
+            f"{min(p8_range):.0f} to ${tex_number(max(p8_range))}$ times the "
+            "smallest, while "
+            "condition C2 of a conserved source demands a flat $p_8$. Right: for "
+            "$a_{4,0} = 1$ the violation $V = p_3 + p_t - 2p_8$ (blue line) and the "
+            "slope $p_8'(y)/(3H)$ from fourth-order differences (orange dots) lie "
+            "on top of each other, as the conservation law demands; the dashed "
+            "line is the value $0$ that C2 needs.")
+```
+
+The caption, joined from its strings, inserts the range of `p8_range`: the smallest with no decimals, 2933, and the largest in powers of ten, $2.3 \times 10^{6}$. The prime in the text $p_8'(y)$ is an ordinary character of a string written in double quotation marks. Output: figure 17b.2 and its saved line.
 
 **What figure 17b.2 shows.** Left: horizontal axis $y$ (units of $1/H$), vertical axis $p_8/\max|T|$ (a pure number, symmetric logarithmic). At the tip $p_8$ is negative and as large as max|T| (the $-10^0$ at the lower left); it rises steeply, crosses zero between $y \approx -2.6$ and $y \approx -2.35$, reaches a maximum and falls toward the brane by several powers of ten. For C2, by Section 17.14, every curve would have to be horizontal. Right: the blue line $V$ and the orange dots $p_8'/(3H)$ lie on top of each other along the whole patch, positive on the tip side of the maximum of $p_8$ and negative on the brane side: the student sees the identity $V = p_8'/(3H)$ at work, and why $V$ changes sign once.
 
@@ -2229,11 +2328,24 @@ ax.loglog(STEPS * h, reference, "k--", lw=1.0, label="slope 4 (reference)")
 ax.set_xlabel("step of the difference $s h$ (units of $1/H$)")
 ax.set_ylabel("max $|p_8'/(3H) - V|$ / max|T|")
 ax.legend(fontsize=7)
-save_figure(fig, "difference_order",
-            ...)
 ```
 
-`ax.loglog` draws with both axes logarithmic; `"o-"` means circles joined by lines. The black dashed reference line (the format string is the letter k, for black, and two hyphens, for dashes) starts at the first point of one state and grows like the fourth power of the step. The caption quotes the range of the fitted orders, 4.02 to 4.08. Output: figure 17b.3 and its saved line.
+`ax.loglog` draws with both axes logarithmic; `"o-"` means circles joined by lines, and each state's legend entry carries its fitted order. The black dashed reference line (the format string is the letter k, for black, and two hyphens, for dashes) starts at the first point of the state `N136_lam0_a10` and grows like the fourth power of the step: `STEPS / STEPS[0]` is the step relative to the smallest one, and `** 4.0` raises it to the fourth power.
+
+```python
+save_figure(fig, "difference_order",
+            "The difference between $p_8'(y)/(3H)$, computed with fourth-order "
+            "differences of step $sh$ ($h = 0.02$, $s = 1, 2, 3, 5, 6$), and the "
+            "violation $V = p_3 + p_t - 2p_8$, at the four points $y = -2.4$, "
+            "$-1.8$, $-1.2$, $-0.6$, divided by the largest component of the state, "
+            "for five recorded Kohn-Sham states (logarithmic axes; the step in units "
+            "of $1/H$). The fitted slopes lie between "
+            f"{min(orders.values()):.2f} and {max(orders.values()):.2f}, the order "
+            "4 of the differences: the small differences are errors of the finite "
+            "differences, and the conservation law itself holds.")
+```
+
+The caption, joined from its strings, inserts the smallest and the largest fitted order with two decimals, 4.02 and 4.08. Output: figure 17b.3 and its saved line.
 
 **What figure 17b.3 shows.** Horizontal axis: the step $sh$ from 0.02 to 0.12 (units of $1/H$); vertical axis: the largest difference divided by max|T| (pure number); both logarithmic. Five straight lines, parallel to the dashed reference of slope 4: the differences are pure errors of the finite differences, and the conservation law itself holds for the recorded states.
 
@@ -2340,13 +2452,28 @@ ax.legend(fontsize=8, loc="upper left")
 negative = sorted(sid for sid in nonzero if mean_p8[sid] < 0)  # mean of p8 < 0
 say("states with a negative mean of p8: " + ", ".join(negative))
 expected = sorted(sid for sid in nonzero if sid.startswith("N8_lamp"))
+```
+
+The red dashed diagonal is where the brane value equals the mean, the averaged C2. The cell prints the states with a negative mean, and `expected` lists the ten $N = 8$ states with $\lambda > 0$ (their names start with `N8_lamp`).
+
+```python
 save_figure(fig, "brane_and_mean",
-            ...)
+            "The hidden-direction pressure $p_8$ at the brane against its weighted "
+            "mean over the patch, for the 70 recorded Kohn-Sham states with a "
+            "nonzero source (logarithmic axes, units of $m^8$; colours: particle "
+            "number; open rings: the $N = 8$ states with $\\lambda > 0$, whose "
+            "$p_8$ is negative; they enclose the points of their partners with "
+            "$-\\lambda$, which have the same $|p_8|$, and the 20 nonzero $N = 8$ "
+            "states, equal at every slice, fall on only two places). By "
+            "the integrated conservation law the averaged condition C2 holds only "
+            "on the dashed diagonal; every state lies below it, with ratios "
+            f"between {min(ratio.values()):.3f} and {max(ratio.values()):.3f}: "
+            "$p_8$ at the brane is much smaller than its mean.")
 check(negative == expected and all(0.0 < ratio[sid] < 1.0 for sid in nonzero),
       "every state lies below the diagonal; p8 < 0 only for N = 8, lambda > 0")
 ```
 
-The red dashed diagonal is where the brane value equals the mean, the averaged C2. The cell prints the states with a negative mean, which are expected to be exactly the ten $N = 8$ states with $\lambda > 0$; the check confirms this and that every ratio lies strictly between 0 and 1. Output: the list `N8_lamp1_a00` to `N8_lamp2_a20`, figure 17b.4 with its saved line, and then the PASS line (the check comes after the figure).
+The caption, joined from its strings, inserts the range of the ratios with three decimals, 0.107 to 0.414. The check confirms that the states with a negative mean are exactly the expected ten, and that every ratio lies strictly between 0 and 1 (Python allows the chained comparison `0.0 < r < 1.0`). Output: the list `N8_lamp1_a00` to `N8_lamp2_a20`, figure 17b.4 with its saved line, and then the PASS line (the check comes after the figure).
 
 **What figure 17b.4 shows.** Both axes logarithmic, in units of $m^8$. The averaged C2 would put every point on the dashed diagonal. All 70 points lie below it: the brane value of $p_8$ is between about a tenth and four tenths of its mean, the ratios 0.107 to 0.414 of Notebook 17a. The blue ($N = 136$) and orange ($N = 688$) points form two short chains, one point per slice (the couplings overlap); the 20 nonzero $N = 8$ states, equal at every slice, fall on only two places, where the filled points of $-\lambda_1$ and $-\lambda_2$ sit inside the rings of $+\lambda_1$ and $+\lambda_2$ (same size, opposite sign).
 
@@ -2438,7 +2565,7 @@ reproduces(no_crossing and largest < 1e-3 and frozen,
            KS_RUST, ["emt_energy_change_dE_da4"])
 ```
 
-Output: for $N = 136$, $\lambda = 0$: $E(0) = 80.2822$, $E(2) = 12.4451$, change $-67.8372$, relative Simpson error $2.1 \times 10^{-4}$; for $N = 688$: $680.441$, $110.387$, $-570.055$, $2.2 \times 10^{-4}$; the largest relative error of the ten moving series, $2.2 \times 10^{-4}$; and the PASS line, which also requires the solver's check `emt_energy_change_dE_da4` (the same law with tiny steps of $a_4$) to be PASS. (COMPUTED. The remaining error is that of Simpson's rule with only five slices, not of the law: the solver checks the law to $1.5 \times 10^{-10}$.)
+Output: for $N = 136$, $\lambda = 0$: $E(0) = 80.2822$, $E(2) = 12.4451$, change $-67.8372$, relative Simpson error $2.1 \times 10^{-4}$; for $N = 688$: $680.441$, $110.387$, $-570.055$, $2.2 \times 10^{-4}$; the largest relative error of the ten moving series, $2.2 \times 10^{-4}$; and the PASS line, which also requires the solver's check `emt_energy_change_dE_da4` (the same law with tiny steps of $a_4$) to be PASS. (COMPUTED. The remaining error is that of Simpson's rule with only five slices, not of the law: the solver checks the law with steps of $0.002$ in $a_4$ to $1.5 \times 10^{-10}$, measured as in Section 17.16.)
 
 **In [19], the energy along the history (figure 5).**
 
@@ -2483,11 +2610,28 @@ The right panel draws one bar per moving series: its relative Simpson error time
 
 ```python
 fall = [energies[(n, "lam0")][0] / energies[(n, "lam0")][-1] for n in (136, 688)]
-save_figure(fig, "energy_exchange",
-            ...)
 ```
 
-`fall` is the factor by which the energy falls, 6.45 and 6.16, which the caption quotes with the largest error. Output: figure 17b.5 and its saved line.
+`fall` is the factor by which the energy falls from the first to the last slice, for $N = 136$ and $N = 688$.
+
+```python
+save_figure(fig, "energy_exchange",
+            "Left: the total energy $E = \\int\\rho$ of the Kohn-Sham states with "
+            "$\\lambda = 0$ along the history $a_4 = Hx_4$, divided by its value at "
+            "$a_{4,0} = 0$ (circles $N = 136$, squares $N = 688$; pure numbers), "
+            "the values predicted from $E(0)$ by integrating "
+            "$dE/da_4 = -3(\\int p_3 - \\int p_t)$ with Simpson's rule (crosses), "
+            "and the constant energy that condition C3 of the linear member needs "
+            f"(dashed). The energy falls by factors of {fall[0]:.2f} and "
+            f"{fall[1]:.2f}: as 3-space inflates and the extra times deflate, the "
+            "gas with $p_3 > p_t = 0$ gives up energy. Right: the relative error of "
+            "Simpson's rule for $E(2) - E(0)$ in all ten moving series, in units of "
+            f"$10^{{-4}}$ (largest ${tex_number(largest)}$): the energy-change law "
+            "holds to "
+            "the accuracy of the five slices.")
+```
+
+The caption, joined from its strings, inserts the two factors with two decimals, 6.45 and 6.16, and the largest relative Simpson error of In [18] in powers of ten, $2.2 \times 10^{-4}$ (`$10^{{-4}}$` in an f-string prints as $10^{-4}$). Output: figure 17b.5 and its saved line.
 
 **What figure 17b.5 shows.** Left: horizontal axis the slice $a_{4,0}$; vertical axis $E/E(0)$, a pure number. The recorded energies of $N = 136$ and $N = 688$ fall to about 0.4 at $a_{4,0} = 1$ and to about 0.16 at $a_{4,0} = 2$, and the crosses predicted from $E(0)$ by the energy-change law sit on them; C3 would need the dashed line at 1. As 3-space inflates and the extra times deflate, the gas, with $p_t = 0$ and $\int p_3 > 0$ (the caption's short form is $p_3 > p_t = 0$), gives up energy, exactly as conservation demands. Right: the relative Simpson errors of the ten moving series, between about 1.9 and 2.2 in units of $10^{-4}$: the energy-change law holds to the accuracy that five slices allow.
 
@@ -2518,7 +2662,7 @@ As In [20] of Notebook 17a, for the five figures. Output: PASS every figure file
 **What this chapter does NOT say.**
 
 - It does not say that the author's metric cannot be a solution of the field equations. Chapter 12 shows what source the linear member requires, and builds exact examples with a condensate of the commuting field dirac16complex00, whose pressures are equal and do not depend on $x_8$ (a computation of the book, Section 12.26).
-- It does not say that no state of dirac16complex can be an admissible source. Only the 75 recorded Kohn-Sham states are tested. The record of the $a_4$ equations states what such a state would need (equal expectation values of the 3-space and extra-time kinetic terms, $p_3 + p_t = 2p_8$, independence of $x_8$, vanishing off-diagonal components) and that no such state is constructed in the Revision record (key `fields.dirac16complex.evolution`). This is OPEN.
+- It does not say that no state of dirac16complex can be an admissible source. Only the 75 recorded Kohn-Sham states are tested. The record of the $a_4$ equations states what such a state would need: $p_3 + p_t = 2p_8$, every expectation value independent of $x_8$, and every off-diagonal expectation value zero (keys `fields.dirac16complex.kohnSham` and `fields.dirac16complex.offDiagonal`); for the linear member, in addition, equal expectation values of the 3-space and the extra-time kinetic terms (key `fields.dirac16complex.homogeneousSingleMode`). It also states that no state with unequal kinetic terms that meets the other conditions, and so would drive $a_4''$, is constructed in the Revision record (key `fields.dirac16complex.evolution`); and the many-quantum states of dirac16complex that the Revision record does construct, the Kohn-Sham states, fail the conditions (this chapter). Whether an admissible state exists is OPEN.
 - It does not say what metric the Kohn-Sham gas would produce. That needs back-reaction, which nobody has computed. It is OPEN.
 - It says nothing about the creation of universes, about pairs of universes of masses $+m$ and $-m$, or about matter and antimatter. Those questions are treated, with the precise statement of what is proved and what is not, in Chapters 18 to 21.
 
@@ -2594,7 +2738,7 @@ As In [20] of Notebook 17a, for the five figures. Output: PASS every figure file
 
 **Exercise 7 (Simpson's rule along the history).** The record's table gives, for $N = 136$, $\lambda = 0$ at $a_{4,0} = 0, 0.5, 1, 1.5, 2$: $\int p_3 = 23.8133$, $15.4903$, $10.0397$, $6.44655$, $4.06205$ and $\int p_t = 0$; and $E(0) = 80.2822$, $E(2) = 12.4451$. (a) Compute the five rates $dE/da_{4,0}$. (b) Integrate them with Simpson's rule from 0 to 2 and compare with $E(2) - E(0)$. (c) Do the same with the trapezoidal rule, $h[\tfrac12f_0 + f_1 + f_2 + f_3 + \tfrac12f_4]$, and compare.
 
-*Answer.* (a) $dE/da_{4,0} = -3\int p_3$: $-71.4399$, $-46.4709$, $-30.1191$, $-19.33965$, $-12.18615$. (b) $\tfrac{0.5}{3}[-71.4399 + 4(-46.4709) + 2(-30.1191) + 4(-19.33965) - 12.18615] = \tfrac16(-71.4399 - 185.8836 - 60.2382 - 77.3586 - 12.18615) = \tfrac16(-407.10645) = -67.8511$. The recorded change is $12.4451 - 80.2822 = -67.8371$. The difference is $0.0140$, a relative error of $0.0140/67.837 = 2.1 \times 10^{-4}$, the value of Notebook 17b, In [18]. (c) $0.5[-35.71995 - 46.4709 - 30.1191 - 19.33965 - 6.093075] = 0.5 \times (-137.7427) = -68.8713$, a relative error of $1.034/67.837 = 1.5 \times 10^{-2}$, about seventy times larger: Simpson's rule, of order 4, is far better than the trapezoidal rule, of order 2, with the same five values.
+*Answer.* (a) $dE/da_{4,0} = -3\int p_3$: $-71.4399$, $-46.4709$, $-30.1191$, $-19.33965$, $-12.18615$. (b) $\tfrac{0.5}{3}[-71.4399 + 4(-46.4709) + 2(-30.1191) + 4(-19.33965) - 12.18615] = \tfrac16(-71.4399 - 185.8836 - 60.2382 - 77.3586 - 12.18615) = \tfrac16(-407.10645) = -67.8511$. The recorded change is $12.4451 - 80.2822 = -67.8371$ (Notebook 17b prints $-67.8372$, because it subtracts the unrounded numbers of the table). The difference is $0.0140$, a relative error of $0.0140/67.837 = 2.1 \times 10^{-4}$, the value of Notebook 17b, In [18]. (c) $0.5[-35.71995 - 46.4709 - 30.1191 - 19.33965 - 6.093075] = 0.5 \times (-137.7427) = -68.8713$, a relative error of $1.034/67.837 = 1.5 \times 10^{-2}$, about seventy times larger: Simpson's rule, of order 4, is far better than the trapezoidal rule, of order 2, with the same five values.
 
 **Exercise 8 (the order of the finite differences).** For the state `N136_lam0_a10` Notebook 17b, In [13], found the difference $4.6 \times 10^{-7}$ of max|T| at the step $0.02$. Predict the differences at the steps $0.04$, $0.06$ and $0.10$ if the error is of order 4, and compare with the printed values $7.5 \times 10^{-6}$, $3.8 \times 10^{-5}$ and $3.0 \times 10^{-4}$.
 
