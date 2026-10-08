@@ -493,6 +493,73 @@ class QuotedNumbers(unittest.TestCase):
         self.assertIn(in_source, source_text, in_source)
         self.assertIn(in_source if in_document is None else in_document, self.text, in_document or in_source)
 
+    def test_tip_convergence_numbers(self, text=None):
+        """The numbers of the tip-cutoff study quoted in sections 5, 15.2-15.4 and the abstract, re-derived from
+        Revision/kohn_sham/tip_convergence/ (tip-convergence.json and its two CSV files)."""
+        text = self.text if text is None else text
+        tip = KS / "tip_convergence"
+        record = load_json(tip / "tip-convergence.json")
+        with (tip / "tip-convergence-extrapolation.csv").open(encoding="utf-8", newline="") as handle:
+            extra = {(r["protocol"], r["id"], r["quantity"]): r for r in csv.DictReader(handle)}
+        with (tip / "tip-convergence-table.csv").open(encoding="utf-8", newline="") as handle:
+            table = {(r["id"], float(r["L"])): r for r in csv.DictReader(handle)
+                     if r["protocol"] == "fixed" and r["status"] == "ok"
+                     and int(r["G"]) == round(300 * float(r["L"]))}
+
+        def fixed(state, quantity, key):
+            return float(extra[("fixed", state, quantity)][key])
+
+        def e_ks(state, length):
+            return float(table[(state, length)]["E_KS"])
+
+        lam = record["couplings"]["recalibrated_lambda1_of_L"]
+        l6 = "6.000000000000000e+00"
+        expected = [
+            f"{fixed('N136_lam0_a20', 'E_KS', 'value_L3'):.5f} against the extrapolated "
+            f"{fixed('N136_lam0_a20', 'E_KS', 'extrapolated_Linf'):.5f}",
+            f"{fixed('N136_lam0_a20', 'int_p8', 'value_L3'):.5f} against "
+            f"{fixed('N136_lam0_a20', 'int_p8', 'extrapolated_Linf'):.5f}",
+            rf"\mp {fixed('N8_lamm1_a00', 'E_KS', 'value_L3') * 1e4:.3f}\times10^{{-4}}$ at $L = 3$",
+            rf"\mp {fixed('N8_lamm1_a20', 'E_KS', 'extrapolated_Linf') * 1e3:.4f}\times10^{{-3}}$ at large $L$",
+            rf"\mp {fixed('N8_lamm1_a00', 'E_KS', 'extrapolated_Linf') * 1e3:.3f}\times10^{{-3}}$ from $L \leq 4.5$",
+            f"{record['k0Spectrum']['bulkEdge_odd_l0_of_L'][l6]:.4f} at $L = 6$",
+            f"its KS gap {float(table[('N688_lam0_a00', 3.0)]['KS_gap']):.4f} closes",
+        ]
+        for n, exponent in (("8", 7), ("136", 7), ("688", 11)):
+            expected.append(rf"${lam[n][l6] * 10 ** exponent:.1f}\times10^{{-{exponent}}}$ ($N = {n}$")
+        interacting = [r for (protocol, state, quantity), r in extra.items()
+                       if protocol == "fixed" and quantity == "E_KS" and "lam0" not in state]
+        failing = [r for r in interacting if r["first_failed_L"]]
+        open_limit = [r for r in interacting if not r["verdict"].startswith("converg")]
+        self.assertTrue(all(r["first_failed_L"] for r in open_limit))
+        expected += [f"for {len(open_limit)} of the {len(interacting)} interacting states studied",
+                     f"for {len(failing)} of the {len(interacting)} interacting states studied"]
+        free = [r for (protocol, state, quantity), r in extra.items()
+                if protocol == "fixed" and "lam0" in state and state != "N688_lam0_a00"
+                and r["extrapolated_Linf"] and float(r["extrapolated_Linf"]) != 0]
+
+        def worst(quantity):
+            return max(abs(float(r["value_L3"]) / float(r["extrapolated_Linf"]) - 1)
+                       for r in free if r["quantity"] == quantity)
+
+        expected += [f"low by up to {100 * worst('E_KS'):.1f}% in $E_{{KS}}$ and {100 * worst('int_p8'):.0f}% in",
+                     f"lie within {100 * worst('E_KS'):.1f}% ($E_{{KS}}$) and {100 * worst('int_p8'):.0f}% "
+                     f"(the $p_8$ integral)"]
+        plus = ((e_ks("N136_lamp1_a20", 5.5) - e_ks("N136_lam0_a20", 5.5))
+                / (e_ks("N136_lamp1_a20", 3.0) - e_ks("N136_lam0_a20", 3.0)))
+        minus = ((fixed("N136_lamm1_a20", "E_KS", "extrapolated_Linf")
+                  - fixed("N136_lam0_a20", "E_KS", "extrapolated_Linf"))
+                 / (e_ks("N136_lamm1_a20", 3.0) - e_ks("N136_lam0_a20", 3.0)))
+        expected.append(rf"about {plus:.0f} ($+\lambda_1$, value at $L = 5.5$) and {minus:.0f} "
+                        rf"($-\lambda_1$, extrapolated)")
+        for statement in expected:
+            self.assertIn(statement, text, statement)
+
+    def test_tip_convergence_numbers_detect_a_changed_value(self):
+        # negative control: one quoted number of the study changed in a copy of the text must be detected
+        with self.assertRaises(AssertionError):
+            self.test_tip_convergence_numbers(self.text.replace("12.44507", "12.44508"))
+
     def test_theory_record(self):
         theory = load_json(KS_THEORY)
         potentials = theory["exchange"]["kohnShamPotentials"]

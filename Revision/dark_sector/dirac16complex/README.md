@@ -60,11 +60,15 @@ The Rust solver binary is built with `cargo build --release --manifest-path Revi
   w0 = x/(3(1+x)), wa = 2x/(3(1+x)^2) > 0, x = k^2/M^2); a massless one has X/E = 1/3.
 * Phantom: w_eff(C) < -1 (or w_eff(A) < 0) iff X/E < 0, which needs P_t > P3 with E > 0 (no real-frequency mode
   supplies it) or E < 0 together with X > 0 (check `phantom_condition` verifies the identity w_eff(C) + 1 = X/E,
-  not the origin of a negative E). Negative E is not specific to a negative-norm (Krein) sector: in the good
-  sector the interacting N = 8, lambda > 0 Kohn-Sham states have E < 0 with X = 0 exactly, from the interaction
-  energy of the canonical uniform-gas exchange functional (E = 0 at lambda = 0; in the exact-Fock variant,
-  `Revision/kohn_sham/results/exx/exact-fock-variant.csv`, the N = 8 states have |E| <= 2.04e-13); for free modes
-  E < 0 needs a negative Krein charge, outside the positive good-sector realisation (OPEN).
+  not the origin of a negative E). Negative E is not specific to a negative-norm (Krein) sector in the canonical
+  Kohn-Sham record: there the interacting N = 8, lambda > 0 good-sector states have E < 0 with X = 0 exactly,
+  from the interaction energy of the canonical uniform-gas exchange functional (E = 0 at lambda = 0). With the
+  exact Fock exchange solved self-consistently (the exact-Fock variant,
+  `Revision/kohn_sham/results/exx/exact-fock-variant.csv`, at the canonical slices) the same states have
+  |E| <= 2.04e-13; the exact exchange evaluated to first order on the canonical orbitals still leaves E < 0, of
+  smaller magnitude. This negative E is therefore a property of the approximate functional; good-sector states
+  with E < 0 are not established beyond it. For free modes E < 0 needs a negative Krein charge, outside the
+  positive good-sector realisation (OPEN).
 * Expansion-inferred w of an observer who reads a(t) = e^{a4(x4)} with 4-dimensional Friedmann equations:
   w_exp = -1 - (2/3) a4''/a4'^2; Einstein case -1 - kappa (p3 - p_t)/(3 a4'^2); **on the linear history
   a4 = A H x4 (the history of the Kohn-Sham record and the only one the condensate allows) w_exp = -1 exactly.**

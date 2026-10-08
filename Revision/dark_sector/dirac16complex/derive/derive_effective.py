@@ -289,11 +289,14 @@ check("phantom_condition", zero(weff["C_per_unit_proper_7_volume"] + 1 - Xs / Es
       "(an extra-time pressure exceeding the 3-space pressure), which no real-frequency mode supplies "
       "(flat_mode_X_nonnegative); otherwise E < 0 together with X > 0. This check verifies the identity "
       "w_eff(C) + 1 = X/E, not the origin of a negative E. Negative E is not specific to a negative-norm (Krein) "
-      "sector: in the good sector the interacting N = 8, lambda > 0 Kohn-Sham states have E < 0 with X = 0 exactly, "
-      "from the interaction energy of the canonical uniform-gas exchange functional (E = 0 at lambda = 0; in the "
-      "exact-Fock variant, Revision/kohn_sham/results/exx/exact-fock-variant.csv, the N = 8 states have "
-      "|E| <= 2.04e-13); for free modes E < 0 needs a negative Krein charge, outside the positive good-sector "
-      "realisation (OPEN)")
+      "sector in the canonical Kohn-Sham record: there the interacting N = 8, lambda > 0 good-sector states have "
+      "E < 0 with X = 0 exactly, from the interaction energy of the canonical uniform-gas exchange functional "
+      "(E = 0 at lambda = 0). With the exact Fock exchange solved self-consistently (the exact-Fock variant, "
+      "Revision/kohn_sham/results/exx/exact-fock-variant.csv, at the canonical slices) the same states have "
+      "|E| <= 2.04e-13; the exact exchange to first order on the canonical orbitals still leaves E < 0, of smaller "
+      "magnitude. This negative E is therefore a property of the approximate functional; good-sector states with "
+      "E < 0 are not established beyond it. For free modes E < 0 needs a negative Krein charge, outside the "
+      "positive good-sector realisation (OPEN)")
 
 formulas = {
     "description": "Exact effective formulas of the dark-sector analysis of dirac16complex (SPEC sections 8, 11), "

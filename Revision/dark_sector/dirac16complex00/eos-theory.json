@@ -1,7 +1,7 @@
 {
   "condensate": {
     "CPL": "wa = 0 in all three definitions (no time dependence)",
-    "einstein": "rho + p = -6 (1 + A^2) H^2/kappa: kappa rho > 0 (e.g. kappa > 0 and rho > 0) gives w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (constant), kappa rho < 0 gives w > -1; on the linear member the x4 constraint 3 a4'^2 + 21 H^2 + Lambda = -kappa rho gives kappa rho = -(3 A^2 + 21) H^2 - Lambda, so the ratio is phantom exactly when Lambda < -(21 + 3 A^2) H^2 (Lambda = 0: w = (A^2 - 5)/(A^2 + 7) > -1); with alpha2, alpha3 the bracket can change sign",
+    "einstein": "rho + p = -6 (1 + A^2) H^2/kappa: kappa rho > 0 (kappa > 0 with rho > 0 needs Lambda < -(21 + 3 A^2) H^2, below) gives w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (constant), kappa rho < 0 gives w > -1; on the linear member the x4 constraint 3 a4'^2 + 21 H^2 + Lambda = -kappa rho gives kappa rho = -(3 A^2 + 21) H^2 - Lambda, so the ratio is phantom exactly when Lambda < -(21 + 3 A^2) H^2 (Lambda = 0: w = (A^2 - 5)/(A^2 + 7) > -1); with alpha2, alpha3 the bracket can change sign",
     "expansion_inferred_w": "Einstein, backreacted homogeneous source: w_tot = -1 - kappa (p3 - p_t)/(3 a4'^2); for the condensate p3 = p_t: a4 linear, w_tot = -1 exactly (constant 3-space Hubble rate A H)",
     "linear_member_rho_plus_p": "kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)], a4' = A H",
     "p": "p3 = p_t = p8 = lambda S^2/2 (constant)",

@@ -80,8 +80,8 @@ observer. It agrees with p3/rho only when no energy is exchanged with the extra 
 - For a condensate that is a self-consistent source of the linear member (A = a4'/H):
   kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)].
   - In Einstein gravity, rho + p = -6 (1 + A^2) H^2/kappa, so the ratio is the constant
-    w = -1 - 6 (1 + A^2) H^2/(kappa rho). It is phantom (w < -1) exactly when kappa rho > 0 (e.g. kappa > 0
-    and rho > 0) and w > -1 for kappa rho < 0. On the linear member the x4 constraint
+    w = -1 - 6 (1 + A^2) H^2/(kappa rho). It is phantom (w < -1) exactly when kappa rho > 0 (kappa > 0 with
+    rho > 0 needs Lambda < -(21 + 3 A^2) H^2, see below) and w > -1 for kappa rho < 0. On the linear member the x4 constraint
     3 a4'^2 + 21 H^2 + Lambda = -kappa rho gives kappa rho = -(3 A^2 + 21) H^2 - Lambda, so the ratio is
     phantom exactly when Lambda < -(21 + 3 A^2) H^2; for Lambda = 0 it is w = (A^2 - 5)/(A^2 + 7) > -1.
   - In Einstein gravity the observer's Hubble rate from the expansion gives
@@ -136,10 +136,11 @@ Notes on the table:
 - **M4:** the turning point is at a_* = 1.235.
 - **crosses -1?** is the crossing search of the record on a ∈ [1/3, 1] (for M4 also the minimum of w over
   a = 1/300, ..., 1, `M4_never_phantom`); it says nothing about a > 1. Past the turning point a_* of an
-  extra-time mode (M3: 1.8434, M4: 1.2355) the frequency of that mode is imaginary, the theorem of section 2
+  extra-time mode (M3: 1.8434, M4: 1.2355, M5: 1.3271) the frequency of that mode is imaginary, the theorem of section 2
   does not apply and w ≥ -1 is not established.
-- **M5:** s = 0.5678 and Omega_c = 0.7053. Without its ghost component M5 does not cross -1
-  (`M5_without_ghost_no_crossing`).
+- **M5:** s = 0.5678 and Omega_c = 0.7053; its turning point is at a_* = 1.3271. Without its ghost component
+  M5 does not cross -1 on a ∈ [1/3, 1] (`M5_without_ghost_no_crossing`), nor, by the theorem of section 2,
+  before a_*; past a_* this is not established.
 
 **Independent second implementation (B).** B integrates the 16-component field equation of the local model
 with the author's T16. It uses the exact Krein-preserving exponential midpoint step, with

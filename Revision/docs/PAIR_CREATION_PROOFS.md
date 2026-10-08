@@ -642,6 +642,8 @@ wolframscript -file Revision/algebra/wolfram/verify_algebra.wls
 python Revision/algebra/python/check_algebra.py
 wolframscript -file Revision/theory/wolfram/verify_field_theory.wls
 python Revision/theory/python/check_field_theory.py
+wolframscript -file Revision/theory/wolfram/verify_scope.wls
+python Revision/theory/python/check_scope.py
 wolframscript -file Revision/pairing/wolfram/verify_pairing.wls
 python Revision/pairing/python/check_pairing.py
 wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
