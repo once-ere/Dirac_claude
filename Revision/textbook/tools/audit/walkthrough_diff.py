@@ -17,12 +17,15 @@ if start < 0:
 end = text.find("Line-by-line walk-through of Notebook", start + 10)
 section = text[start:end if end > 0 else len(text)]
 blocks = [(m.start(), m.group(1)) for m in re.finditer(r"```python\n(.*?)```", section, re.S)]
-heads = [(m.start(), int(m.group(1)), m.group(0)) for m in re.finditer(r"\*\*In \[(\d+)\][^*]*\*\*", section)]
+# a heading may contain a code span with a "*" in it (e.g. `xorshift64*`): skip over code spans
+heads = [(m.start(), int(m.group(1)), m.group(0))
+         for m in re.finditer(r"\*\*In \[(\d+)\](?:`[^`]*`|[^*`])*\*\*", section)]
 nb = json.load(open(nb_path, encoding="utf-8"))
 cells = [(c.get("execution_count"), "".join(c["source"])) for c in nb["cells"] if c["cell_type"] == "code"]
 
 
-DOCSTRING = re.compile(r'^[ \t]*(?:"""|\'\'\').*?(?:"""|\'\'\')[ \t]*\n', re.S | re.M)
+# a docstring together with ONE blank line after it (a quote that omits the docstring omits that blank line too)
+DOCSTRING = re.compile(r'^[ \t]*(?:"""|\'\'\').*?(?:"""|\'\'\')[ \t]*\n(?:[ \t]*\n)?', re.S | re.M)
 
 
 def norm(s):
@@ -63,6 +66,20 @@ for pos, b in blocks:
     count = cells[hits[0]][0]
     if head and head[1] != count:
         print(f"HEADING   {head[2]!r} but the quoted code is in cell In [{count}]: {nb_.splitlines()[0][:70]!r}")
+# A cell may be explained by reference: "**In [k], ...** ... word for word In [j] of Notebook NNx". Accept it only when that
+# cell of that notebook (in the same folder) has exactly the same code, so a cell that drifted from its model is reported.
+for m in re.finditer(r"\*\*In \[(\d+)\][^\n]*?[Ww]ord for word,? In \[(\d+)\] of Notebook (\d\d[a-z])", section):
+    k, j, other = int(m.group(1)), int(m.group(2)), m.group(3)
+    import glob
+    import os
+    found = glob.glob(os.path.join(os.path.dirname(nb_path) or ".", f"{other}_*.ipynb"))
+    if not found:
+        continue
+    ocells = {c.get("execution_count"): "".join(c["source"]) for c in json.load(open(found[0], encoding="utf-8"))["cells"]
+              if c["cell_type"] == "code"}
+    for i, (count, src) in enumerate(cells):
+        if count == k and j in ocells and norm(ocells[j]) == norm(src):
+            used.add(i)
 for i, (count, src) in enumerate(cells):
     if i not in used and src.strip():
         first = [l for l in src.splitlines() if l.strip() and not l.lstrip().startswith("#")][:1]
