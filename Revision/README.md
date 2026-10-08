@@ -96,9 +96,11 @@ anew by code in this folder. The binding plan is [`SPEC.md`](SPEC.md).
   The energy-momentum tensor operator for lambda != 0 (U = (lambda/2) S^2) was checked after the work in a
   finite fermionic Fock model of one good-sector plane-wave mode set with frozen coefficients
   (`theory/fock_quartic/`, one Python/sympy checker, 21/21): its on-shell identity
-  sum_mu <:K_mu:> = <:(m + U')S:>, and with it rho = m S + U and p = S U' - U, holds there as an exact
-  operator identity if and only if the potential and the tensor are Wick (normal) ordered; with the other
-  orderings tested it fails already in expectation values. Nothing is proved for the field on a whole slice,
+  sum_mu <:K_mu:> = <:(m + U')S:> holds there, on both mode sets of the model (the rest frame k = 0 and one
+  set with k != 0), as an exact operator identity if and only if the potential and the tensor are Wick
+  (normal) ordered; rho = m S + U and p = S U' - U are proved as Wick-ordered operator identities only on the
+  rest-frame mode set (k = 0, the homogeneous sector); with the other orderings tested the identity fails
+  already in expectation values. Nothing is proved for the field on a whole slice,
   for the curved x8 dependence or for the extra-time sector, and symmetry and conservation of the quartic
   operator are not verified.
 * "PROVE that Universes ... are created in pairs": the pairing theorems T1, T2 (both fields), the quantum
