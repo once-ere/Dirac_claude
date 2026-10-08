@@ -180,7 +180,11 @@ $$
 The record adds two more (`ks-theory.json`, densities.perOrbital): the density of the 3-momentum current along $\mathbf k$, $t_o = P\,\chi^\dagger j\sigma_3\chi = j\,q_o$, and the current along $y$, $c_o = P\,\chi^\dagger j\sigma_1\chi$. In the real form $\chi = (a, ib)$ they are simple: $\sigma_2\chi = (-i\cdot ib,\ ia) = (b, ia)$ and $\chi^\dagger = (a, -ib)$, so
 
 $$
-\chi^\dagger\chi = a^2 + b^2, \qquad \chi^\dagger\sigma_2\chi = ab + (-ib)(ia) = 2ab, \qquad \chi^\dagger\sigma_3\chi = a^2 - b^2, \qquad \chi^\dagger\sigma_1\chi = a(ib) + (-ib)a = 0 .
+\chi^\dagger\chi = a^2 + b^2, \qquad \chi^\dagger\sigma_2\chi = ab + (-ib)(ia) = 2ab,
+$$
+
+$$
+\chi^\dagger\sigma_3\chi = a^2 - b^2, \qquad \chi^\dagger\sigma_1\chi = a(ib) + (-ib)a = 0 .
 $$
 
 Rule: multiply out, with $i\cdot i = -1$. So $c_o = 0$ for every orbital of real form: no current flows along the hidden direction.
@@ -360,7 +364,10 @@ which is the first equation of the original, $da/dy$. Rule: insert $A = b$, $\ma
 **The tip.** Line by line:
 
 $$
-\sigma_2Q(\theta)\sigma_2 = \cos\theta\,\sigma_2\sigma_3\sigma_2 + \sin\theta\,\sigma_2\sigma_2\sigma_2 = -\cos\theta\,\sigma_3 + \sin\theta\,\sigma_2 = \cos(\pi - \theta)\,\sigma_3 + \sin(\pi - \theta)\,\sigma_2 = Q(\pi - \theta) .
+\begin{aligned}
+\sigma_2Q(\theta)\sigma_2 &= \cos\theta\,\sigma_2\sigma_3\sigma_2 + \sin\theta\,\sigma_2\sigma_2\sigma_2 = -\cos\theta\,\sigma_3 + \sin\theta\,\sigma_2 \\
+&= \cos(\pi - \theta)\,\sigma_3 + \sin(\pi - \theta)\,\sigma_2 = Q(\pi - \theta) .
+\end{aligned}
 $$
 
 Rule: the conjugation rules of Section 19.6; then $\cos(\pi - \theta) = -\cos\theta$ and $\sin(\pi - \theta) = \sin\theta$. Therefore
@@ -402,7 +409,11 @@ s_o \to P(\sigma_2\chi)^\dagger(-j)\sigma_2(\sigma_2\chi) = -jP\chi^\dagger\sigm
 $$
 
 $$
-t_o \to -jP\chi^\dagger\sigma_2\sigma_3\sigma_2\chi = -jP\chi^\dagger(-\sigma_3)\chi = +t_o, \qquad q_o \to P\chi^\dagger\sigma_2\sigma_3\sigma_2\chi = -q_o, \qquad c_o \to -jP\chi^\dagger\sigma_2\sigma_1\sigma_2\chi = +c_o .
+t_o \to -jP\chi^\dagger\sigma_2\sigma_3\sigma_2\chi = -jP\chi^\dagger(-\sigma_3)\chi = +t_o ,
+$$
+
+$$
+q_o \to P\chi^\dagger\sigma_2\sigma_3\sigma_2\chi = -q_o, \qquad c_o \to -jP\chi^\dagger\sigma_2\sigma_1\sigma_2\chi = +c_o .
 $$
 
 Rule: $(\sigma_2\chi)^\dagger = \chi^\dagger\sigma_2$; $\sigma_2^2 = \mathbf 1$; $\sigma_2\sigma_3\sigma_2 = -\sigma_3$, $\sigma_2\sigma_1\sigma_2 = -\sigma_1$; the factor $P$ is the same because the map acts at the same point. In the real form it is even simpler: $(a, b, j) \to (b, a, -j)$ turns $a^2 + b^2$ into $b^2 + a^2$ (no change), $2jab$ into $2(-j)ba$ (sign change) and $a^2 - b^2$ into $b^2 - a^2$ (sign change). Status: PROVED; checks T3_orbital_densities and T3.orbital_densities (for arbitrary complex $\chi$ and both $j$).
@@ -428,7 +439,11 @@ $$
 Rule: insert $\lambda' = \lambda$, and add $\frac{15}{16}\lambda S$ to both sides. Check, line by line, that $(m', \lambda') = (-m, +\lambda)$ works:
 
 $$
-M'_{\rm eff} = -m + \frac{15}{16}\lambda(-S) = -\Big(m + \frac{15}{16}\lambda S\Big) = -M_{\rm eff}, \qquad v'_v = -\frac{\lambda n}{16} = v_v, \qquad e_{\rm int}(n, -S) = \frac{15}{32}\lambda(-S)^2 - \frac{1}{32}\lambda n^2 = e_{\rm int}(n, S) .
+M'_{\rm eff} = -m + \frac{15}{16}\lambda(-S) = -\Big(m + \frac{15}{16}\lambda S\Big) = -M_{\rm eff}, \qquad v'_v = -\frac{\lambda n}{16} = v_v,
+$$
+
+$$
+e_{\rm int}(n, -S) = \frac{15}{32}\lambda(-S)^2 - \frac{1}{32}\lambda n^2 = e_{\rm int}(n, S) .
 $$
 
 Rule: take $-1$ out of the bracket; $(-S)^2 = S^2$. **The coupling keeps its sign; only the bare mass is reversed.** With the parameter change of T1, $(m', \lambda') = (-m, -\lambda)$, the mean field comes out wrong:
@@ -464,7 +479,7 @@ Applying the map twice gives back A, because $\sigma_2^2 = \mathbf 1$ and $(-(-m
 - $p_t = e_{\rm int}$: unchanged.
 - $p_8 = \sum wgf[(\varepsilon - v_v)n_o - M_{\rm eff}s_o - \kappa|k|t_o] + e_{\rm int}$: the only term with odd factors is $M_{\rm eff}s_o$, and it becomes $(-M_{\rm eff})(-s_o) = M_{\rm eff}s_o$, a product of two odd factors; $p_8(y)$ is unchanged.
 
-So the four profiles are equal at every point $y$, while $S(y)$, $Q(y)$ and $M_{\rm eff}(y)$ change sign and $n(y)$, $t(y)$, $v_v(y)$, $e_{\rm int}(y)$ do not. The Kohn-Sham gap (the lowest empty level minus the highest occupied level) is a difference of two levels and is the same as well. Status: PROVED; checks T3_energies_and_emt_profiles_equal of `wolfram-t3.json` and T3.energies_and_emt_profiles_equal of `python-t3.json`; the sympy check takes three general occupied orbitals of both block types with arbitrary complex $\chi$, levels, occupations, degeneracies and momenta, and also verifies the control: with $(-m, -\lambda)$ the energy density differs.
+So the four profiles are equal at every point $y$, while $S(y)$, $Q(y)$ and $M_{\rm eff}(y)$ change sign and $n(y)$, $t(y)$, $v_v(y)$, $e_{\rm int}(y)$ do not. The Kohn-Sham gap (the lowest empty level minus the highest occupied level) is a difference of two levels and is the same as well. Status: PROVED; checks `T3_energies_and_emt_profiles_equal` of `wolfram-t3.json` and `T3.energies_and_emt_profiles_equal` of `python-t3.json`; the sympy check takes three general occupied orbitals of both block types with arbitrary complex $\chi$, levels, occupations, degeneracies and momenta, and also verifies the control: with $(-m, -\lambda)$ the energy density differs.
 
 ### 19.10 Theorem T3: the statement, its hypotheses and its records
 
@@ -489,13 +504,13 @@ So the four profiles are equal at every point $y$, while $S(y)$, $Q(y)$ and $M_{
 
 | step | what it shows | `wolfram-t3.json` | `python-t3.json` |
 | --- | --- | --- | --- |
-| 1 | $\sigma_2h_j(M)\sigma_2 = h_{-j}(-M)$, also for $N$ | T3_block_hamiltonian_map, T3_ode_map | T3.block_hamiltonian_map, T3.ode_map |
-| 2 | tip $\theta \to \pi - \theta$; parities exchanged; current and norm kept | T3_tip_condition_map, T3_brane_parities_exchanged | T3.tip_condition_map, T3.brane_parities_exchanged |
-| 3 | $n, t$ even, $S, Q$ odd; the mean field closes for $(-m, +\lambda)$ only | T3_orbital_densities, T3_mean_field_map | T3.orbital_densities, T3.mean_field_map |
-| 4 | equal energies and profiles | T3_energies_and_emt_profiles_equal | T3.energies_and_emt_profiles_equal |
-| confirmations | exact $k = 0$ spectra; $\Gamma$ is the block map; the mirror copy | T3_exact_k0_spectra, T3_Gamma_is_the_block_map, T3_z2_mirror_copy_carries_minus_m_plus_lambda | T3.exact_k0_spectra, T3.Gamma_is_the_block_map, T3.z2_mirror_copy_carries_minus_m_plus_lambda |
-| comparison | the sympy side confirms the Wolfram theorem record and its list of limits | | compare.t3_theory.theorem, compare.t3_theory.not_established |
-| numbers | the Rust solver's self-test (a confirmation, not a proof) | | T3.rust_selftest_numerical_confirmation |
+| 1 | $\sigma_2h_j(M)\sigma_2 = h_{-j}(-M)$, also for $N$ | `T3_block_hamiltonian_map`, `T3_ode_map` | `T3.block_hamiltonian_map`, `T3.ode_map` |
+| 2 | tip $\theta \to \pi - \theta$; parities exchanged; current and norm kept | `T3_tip_condition_map`, `T3_brane_parities_exchanged` | `T3.tip_condition_map`, `T3.brane_parities_exchanged` |
+| 3 | $n, t$ even, $S, Q$ odd; the mean field closes for $(-m, +\lambda)$ only | `T3_orbital_densities`, `T3_mean_field_map` | `T3.orbital_densities`, `T3.mean_field_map` |
+| 4 | equal energies and profiles | `T3_energies_and_emt_profiles_equal` | `T3.energies_and_emt_profiles_equal` |
+| confirmations | exact $k = 0$ spectra; $\Gamma$ is the block map; the mirror copy | `T3_exact_k0_spectra`, `T3_Gamma_is_the_block_map`, `T3_z2_mirror_copy_carries_minus_m_plus_lambda` | `T3.exact_k0_spectra`, `T3.Gamma_is_the_block_map`, `T3.z2_mirror_copy_carries_minus_m_plus_lambda` |
+| comparison | the sympy side confirms the Wolfram theorem record and its list of limits | none | `compare.t3_theory.theorem`, `compare.t3_theory.not_established` |
+| numbers | the Rust solver's self-test (a confirmation, not a proof) | none | `T3.rust_selftest_numerical_confirmation` |
 
 So `wolfram-t3.json` has 10 checks and `python-t3.json` 13 (the ten counterparts, the two comparisons and the numerical confirmation). The record `Revision/docs/PAIR_CREATION_PROOFS.md` (its section 8) collects the same proof.
 
@@ -520,11 +535,17 @@ The classical scalar density is unchanged under $\Gamma$ (`Revision/pairing/repo
 **The mirror copy inside the Z2 orbifold.** The brane condition of Section 19.3 comes from the ASSUMED Z2 construction: the patch $-L \le y \le 0$ is glued at $y = 0$ to its mirror image $0 \le y \le L$. On the doubled interval the record uses the reflection $P_A$: $\chi(y) \to \phi(y) = \sigma_3\chi(-y)$. Write $h(M, \kappa, v) = -i\sigma_1\frac{d}{dy} + M\sigma_2 + \kappa k\sigma_3 + v$ (the type $j$ is a common factor and plays no role here). Line by line, with $\frac{d\phi}{dy}(y) = -\sigma_3\chi'(-y)$ (chain rule):
 
 $$
-h\big(-M(-y), \kappa(-y), v(-y)\big)\phi = i\sigma_1\sigma_3\chi'(-y) - M(-y)\sigma_2\sigma_3\chi(-y) + \kappa(-y)k\,\sigma_3\sigma_3\chi(-y) + v(-y)\sigma_3\chi(-y) ,
+\begin{aligned}
+h\big(-M(-y), \kappa(-y), v(-y)\big)\phi &= i\sigma_1\sigma_3\chi'(-y) - M(-y)\sigma_2\sigma_3\chi(-y) \\
+&\quad + \kappa(-y)k\,\sigma_3\sigma_3\chi(-y) + v(-y)\sigma_3\chi(-y) ,
+\end{aligned}
 $$
 
 $$
-\sigma_3\big(h(M, \kappa, v)\chi\big)(-y) = -i\sigma_3\sigma_1\chi'(-y) + M(-y)\sigma_3\sigma_2\chi(-y) + \kappa(-y)k\,\sigma_3\sigma_3\chi(-y) + v(-y)\sigma_3\chi(-y) .
+\begin{aligned}
+\sigma_3\big(h(M, \kappa, v)\chi\big)(-y) &= -i\sigma_3\sigma_1\chi'(-y) + M(-y)\sigma_3\sigma_2\chi(-y) \\
+&\quad + \kappa(-y)k\,\sigma_3\sigma_3\chi(-y) + v(-y)\sigma_3\chi(-y) .
+\end{aligned}
 $$
 
 Rule: insert $\phi$ in the first line; multiply $h\chi$ at the point $-y$ by $\sigma_3$ in the second. The two lines are equal term by term, because $\sigma_1\sigma_3 = -\sigma_3\sigma_1$ and $\sigma_2\sigma_3 = -\sigma_3\sigma_2$. So $P_A$ maps an orbital of the mass function $M(y)$ onto an orbital of the mass function $-M(-y)$, with the potential $v(-y)$ (check bc_mirror_map_PA of the Kohn-Sham theory reports). The doubled problem has one mass function on the whole interval, so it is symmetric under $P_A$ exactly when $M_{\rm eff}(y) = -M_{\rm eff}(-y)$: the mass is **odd** across the brane. Under $\sigma_3$, $n_o$ is unchanged and $s_o$ changes sign ($\sigma_3\sigma_2\sigma_3 = -\sigma_2$), so on the mirror side $n(y) = n(-y)$ and $S(y) = -S(-y)$. If the mirror side has the parameters $(\tilde m, \tilde\lambda)$, its mass at a point $y > 0$ is, line by line,
@@ -623,7 +644,7 @@ Notebook 19b repeats Sections 19.5 to 19.12 with the computer, as far as possibl
 
 The notebook has 21 code cells, In [1] to In [21]. This section explains every line of every one of them, in order; the numbers that the cells print are in Section 19.15 under the labels Out [k]. In the notebook each code cell is preceded by a text cell that says what the cell does.
 
-**In [1], the set-up cell.** It is the same in every notebook of the book except for the notebook's name; in notebooks that run a Rust program it has two more imports and one more function (the walk-through of Notebook 19a in Section 19.21 explains them). Its first 237 lines repeat the complete run instructions of Section 19.14 as **comment lines**: Python skips every line that starts with `#`; they are there so that the notebook file carries its own instructions. A line of dashes ends the instructions, and two lines of `=` signs around the title THE SET-UP mark where the code begins.
+**In [1], the set-up cell.** It is the same in every notebook of the book except for the notebook's name; in notebooks that run a Rust program it has two more imports and one more function (the walk-through of Notebook 19a in Section 19.21 explains them). Its first 236 lines repeat the complete run instructions of Section 19.14 as **comment lines**: Python skips every line that starts with `#`; they are there so that the notebook file carries its own instructions. Line 237, a line of dashes, ends the instructions, and two lines of `=` signs around the title THE SET-UP mark where the code begins.
 
 ```python
 import json  # reads and writes JSON files (text files that hold names and numbers)
@@ -1675,7 +1696,7 @@ Notebook 19a checks the eight gammas and the block map of $\Gamma$ again, builds
 
 The notebook has 27 code cells, In [1] to In [27]; the numbers they print are in Section 19.20 under the labels Out [k].
 
-**In [1], the set-up cell.** Its first 297 lines are the complete run instructions of Section 19.19 as comment lines. The code after the title THE SET-UP is the set-up code of Notebook 19b, explained line by line in Section 19.16, with three differences: the name is `NOTEBOOK_ID = "19a"`, and, because this notebook runs a Rust program, the imports contain two more lines and the cell defines one more function.
+**In [1], the set-up cell.** Its first 296 lines are the complete run instructions of Section 19.19 as comment lines, followed by a line of dashes. The code after the title THE SET-UP is the set-up code of Notebook 19b, explained line by line in Section 19.16, with three differences: the name is `NOTEBOOK_ID = "19a"`, and, because this notebook runs a Rust program, the imports contain two more lines and the cell defines one more function.
 
 ```python
 import shutil  # finds the program cargo
@@ -2669,7 +2690,7 @@ for tag, lam, margin in COUPLINGS:
         f"C {E_C:.6f}  D {E_D:.10f}")
 ```
 
-For every coupling: A must be the record's state of that tag (N136_lamm2_a10 to N136_lamp2_a10); B must equal A in energy and levels; D at $\lambda$ must equal A at $-\lambda$ (`ok_mirror`), because D $= (-m, -\lambda, \pi)$ is the T3 partner of $(m, -\lambda, 0)$; and D must differ from A by more than $10^{-4}$ unless $\lambda = 0$ (`ok_wrong`; at $\lambda = 0$, D and B are the same problem). The loop prints the four energies (Out [23]):
+For every coupling, four things are tested. The truth value `ok_record`: A is the record's state of that tag, one of N136_lamm2_a10 to N136_lamp2_a10. The truth value `ok_partner`: B equals A in energy and levels. The truth value `ok_mirror`: D at $\lambda$ equals A at $-\lambda$, because D $= (-m, -\lambda, \pi)$ is the T3 partner of $(m, -\lambda, 0)$. The truth value `ok_wrong`: D differs from A by more than $10^{-4}$ unless $\lambda = 0$ (at $\lambda = 0$, D and B are the same problem). The loop prints the four energies (Out [23]):
 
 | $\lambda$ | A and B | C | D |
 | --- | --- | --- | --- |
