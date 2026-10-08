@@ -176,6 +176,17 @@ test for Revision/, README step counts.  Detached: Stage-4 R1, Stage-5 reference
    (handoff/workflows/wf_stage5_docs_review.js after telling STAGE5_DOC_OUTLINE about E5.1/E5.2), the gate
    verify_stage5_pair_creation, the matter-antimatter regeneration and its PROVISIONAL strings, the pairing provenance, HANDOFF C.
 4. Old Stage 4 (detached since 13:22): after stage4_R1/done.txt: R2-R5 + the errata line, in one commit.
+   R2: replace artifacts/dirac16complex/kohn-sham/reference/m1_L3_N1016_lamm2_T0 with <scratchpad>/stage4_R1/out/<that label>,
+   then `python scripts/ks_reference_solver.py --resume --skip-self-tests` (summary; ~13 s).  R3: `python
+   scripts/check_dirac16complex_kohn_sham.py --repeat <scratchpad>/stage4_keep/repeat --refined <scratchpad>/stage4_keep/refined`
+   (~180 s; writes python-check-report.json).  R4: `python notebooks/run_notebook.py notebooks/dirac16complex_kohn_sham.ipynb`
+   (route B; rewrites the 14 figures), `python -m nbconvert --to notebook --execute notebooks/dirac16complex_kohn_sham.ipynb
+   --output-dir build/nbconvert` (route A), `python notebooks/check_dirac16complex_kohn_sham_notebook.py
+   notebooks/dirac16complex_kohn_sham.ipynb --also build/nbconvert/dirac16complex_kohn_sham.ipynb --report
+   artifacts/dirac16complex/kohn-sham/notebook-report.json`.  R5: `python -m unittest discover -s tests -p
+   'test_d16c_kohn_sham*.py' -v` + tests/test_d16c_textbook_publication.py; then the PROVENANCE 6.6 passages and the errata line
+   of provenance/ERRATA_FIRST_EDITION_TEXTBOOK.md (the first-edition textbook itself stays unmodified).  Expected reference
+   deltaSCF about 0.04361951 (to be confirmed by the run).
 5. Chapter 23 generator (0.4s), 23a rebuilt LAST, phase 3c-book, the two LaTeX warnings, assembly, PDF registration.
 6. Full gate (detached, ~3 h), EXECUTION_PROVENANCE_FULL=1, all suites, two fresh clones, push, notify the user.
 7. Added 15:00: (a) Revision/kohn_sham/tip_convergence/tip-convergence.json used the key 'result' (23a crashed with KeyError
