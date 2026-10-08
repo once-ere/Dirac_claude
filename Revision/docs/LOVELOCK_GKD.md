@@ -350,19 +350,77 @@ with 4096401 determinant calls in all and 29030 distinct 0/1 matrices determined
 
 Scope. The sympy checker reads only the metric (typed in from the task text) and, for the comparison, `curvature.json` and `lovelock-tensors.json`; it never reads the author's notebook. Its literal $\delta$ is compared with an independent cofactor expansion on all 266304 pairs of lengths 1 to 3 and 7500 random pairs of lengths 4 to 8. The negative controls (a coefficient increased by 1, a wrong power of $\sin^{1/3}z$, a wrong power of $e^{a_4}$, an added $10^{-30}H^4$) are each detected by each of its three comparison methods.
 
-## 8. The comparison with the author's notebook
+## 8. The comparison with the author's notebooks
 
-What was read is recorded in `PROVENANCE_OF_THE_COMPUTATION.md`, written before any comparison, and in the provenance file `WOLFRAMSCRIPT_PROVENANCE.md` of the folder `Revision/gkd_lovelock/notebook_reading/`: only the 58 INPUT cells of `Generalized _Kronecker_Delta_4+4.nb` (sha256 `23bb4e0c70943e766d9b081a3a399ef29664889aad088041329ce2e065b80afb`), converted to text without evaluation; the committed digest `notebook-input-cells.txt` gives, for each, its label, its length and its first 160 characters. The definition of `kδ` was taken from the cell `In[87]` and Lovelock's equation from the picture in the cell `In[101]` (1372 x 435 pixels). No output cell, no file `Generalized_Kronecker_Delta.txt` and no other Mathematica file of the author was opened; the metric was taken from the author's message.
+### 8.1 What was read for the computation
 
-What the notebook computes, as far as its input cells show (a reading of the digest, labelled as such): it sets up the xAct packages, an 8-dimensional manifold and a metric of signature (4,4) (`In[29]`); it builds the generalized delta in a second way, as contracted products of two Levi-Civita tensors divided by $(8 - p)!$ (`delta11`, `delta22`, `delta33`, `delta55`); it defines `kδ` (`In[87]`) and evaluates it for 3, 5 and 7 index pairs (`kδ33`, `kδ55`, `kδ77`); it compares the two constructions (`In[102]`, `In[105]`, `In[108]`); and it contains the picture of (4.38). Its answers are in the output cells, which were not read.
+What was read is recorded in `PROVENANCE_OF_THE_COMPUTATION.md`, written before any comparison, and in the provenance file `WOLFRAMSCRIPT_PROVENANCE.md` of the folder `Revision/gkd_lovelock/notebook_reading/`: only the 58 INPUT cells of `Generalized _Kronecker_Delta_4+4.nb` (sha256 `23bb4e0c70943e766d9b081a3a399ef29664889aad088041329ce2e065b80afb`), converted to text without evaluation; the committed digest `notebook-input-cells.txt` gives, for each, its label, its length and its first 160 characters. The definition of `kδ` was taken from the cell `In[87]` and Lovelock's equation from the picture in the cell `In[101]` (1372 x 435 pixels). For the computation no output cell, no file `Generalized_Kronecker_Delta.txt` and no other Mathematica file of the author was opened; the metric was taken from the author's message.
 
-The comparison that was made:
+What the notebook computes, as far as its input cells show (a reading of the digest, labelled as such): it sets up the xAct packages, an 8-dimensional manifold and a metric of signature (4,4) (`In[29]`); it builds the generalized delta in a second way, as contracted products of two Levi-Civita tensors divided by $(8 - p)!$ (`delta11`, `delta22`, `delta33`, `delta55`); it defines `kδ` (`In[87]`) and evaluates it for 3, 5 and 7 index pairs (`kδ33`, `kδ55`, `kδ77`); it compares the two constructions (`In[102]`, `In[105]`, `In[108]`); and it contains the picture of (4.38). Its answers are in its output cells, which were not read for the computation; section 8.2 compares no output of this notebook either.
+
+The checks against the author's definitions, made with the computation:
 
 - The definition: `definition_is_the_authors_verbatim` shows that the definition evaluated by the Wolfram check is the author's text, character for character.
 - The function: GKD equals the author's `kδ` on every pair of lists of length 1 to 3, on 20000 random pairs of each length 4 to 7 (Wolfram), and equals the literal determinant on every pair of length 1 to 4 and 200000 random pairs of each length 5 to 9 (Rust self-test), as the theorem of section 3.2 requires.
 - The equation: the tensors are those of (4.38) as shown in the notebook's picture, with the conventions of section 4.2.
 
-The comparison that was NOT made: `PROVENANCE_OF_THE_COMPUTATION.md` announces a comparison with the author's own answers in a later commit; no file under `Revision/` records it. Whether the Lovelock tensors of this record agree with any tensors computed in the author's notebooks is therefore not established (section 12).
+### 8.2 The comparison with the author's stored outputs (2026-10-08)
+
+`PROVENANCE_OF_THE_COMPUTATION.md` announces that the comparison with the author's own answers is done afterwards, in a separate, later commit; that comparison is recorded in `Revision/gkd_lovelock/comparison/`: its `README.md`, the read-only extractor `extract_author_curvature_outputs.wls` with its output `author-curvature-outputs.json`, and the program `compare_with_author.py` with its report `author-comparison-report.json`. Its files were first committed on 2026-10-08, after the results of this record (commit 3e81eeb, 2026-10-01). By its README it changes no file of `Revision/gkd_lovelock/results/`, `Revision/gkd_lovelock/code/`, `Revision/gkd_lovelock/verification/` or `Revision/gkd_lovelock/notebook_reading/`.
+
+What was read. The author's notebook `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb` in the repository root (sha256 `5ee5cb2a95146136ee65636a4aef174f303b6c41da130d2c57e4684f9c8ff69f`), read only: `Get` of the file gives the inert notebook expression, and the stored output boxes are converted with `ToExpression[boxes, StandardForm, HoldComplete]`, so nothing is evaluated and no input cell is run. Of its 2127 cells (996 Input, 805 Output) the comparison uses these:
+
+| cell | what it is |
+| --- | --- |
+| `In[79]`, `In[82]` | the definition of the author's metric `MatrixMetric44`, in which `a4` is a function of the argument $Hx_4$ |
+| `In[214]` | the definition of `rt[g]`: inverse metric, Christoffel symbols, Riemann tensor, Ricci tensor, Ricci scalar and Einstein tensor |
+| `Out[235]` | `gtry = MatrixMetric44`, the stored 8 x 8 metric |
+| `In[238]` | `rt[gtry]`, which assigns `RS` and `EinsteinG`; its output is suppressed |
+| `Out[245]` | `MatrixMetric44` printed again (a control: identical to `Out[235]`) |
+| `Out[535]` | the stored Ricci scalar `RS` |
+| `Out[536]` | the stored Einstein tensor `EinsteinG`, both indices down (8 x 8) |
+
+That `Out[535]` and `Out[536]` are the values returned by `rt[gtry]` at `In[238]` is an inference from the file, labelled as such: among all input cells only `In[238]` assigns the global symbols `RS` and `EinsteinG`. The notebook was not re-run; its outputs are taken as stored.
+
+The mapping (a definition stated before the comparison, not a fit). The author's array position 1 is the hidden direction `x0`, with $g_{00} = \cot^2(6Hx_0)$, and positions 2 to 8 are `x1` to `x7`. The author's `x0` becomes $x_8$ of this record and the author's `xk` becomes $x_k$ for $k = 1, \dots, 7$; tensor components are permuted accordingly. The author's `a4` is a function of the argument $Hx_4$, this record's of $x_4$: $a_4(x_4) := a_4^{\mathrm{author}}(Hx_4)$, so by the chain rule $(a_4^{\mathrm{author}})^{(n)}(Hx_4) = H^{-n}a_4^{(n)}(x_4)$ for $n = 0, 1, 2$; the program checks that no other argument of `a4` occurs in the author's outputs. $H$ is the same constant on both sides. The mapping is checked on the metric first; only then are the curvature outputs compared.
+
+The conventions and normalisations (each stated and applied, none fitted). The author's `rt[g]` uses the Christoffel symbols, the Riemann tensor and the Ricci tensor of section 2.2, and $G = \mathrm{Ric} - \frac12 g\,R$ with both indices down. The Ricci scalar is compared with no factor. The author's Einstein tensor is raised with the author's own (mapped) inverse metric, $G^\mu{}_\nu = g^{\mu s}G_{s\nu}$, with no other factor. For $k = 1$, section 4.3 gives $P_{(1)} = -4G$ and $L_{(1)} = 2R$, so `P1_mixed_up_h_down_j` is compared with $-4$ times the author's $G^\mu{}_\nu$ and `L1` with 2 times the author's Ricci scalar.
+
+The result. A check is PASS only when the difference, reduced exactly with sympy, is 0; NOT-AVAILABLE means that the author's files hold nothing to compare with (it is not a failure):
+
+| check | what is compared | verdict |
+| --- | --- | --- |
+| `author-json-matches-notebook` | the notebook read by the extractor is the notebook of the working tree (sha256) | PASS |
+| `author-metric-outputs-agree` | `Out[235]` and `Out[245]` are identical | PASS |
+| `revision-metric-spec-vs-curvature-json` | the metric of `Revision/SPEC.md` section 1 equals `metricDiagonal`, 64 components | PASS |
+| `metric-mapping-author-Out235-vs-revision` | the author's metric `Out[235]`, mapped, equals this record's, 64 components | PASS |
+| `ricci-scalar-author-Out535-vs-curvature-json` | the author's Ricci scalar `Out[535]` equals `ricciScalar` | PASS |
+| `einstein-mixed-<h>,<j>` | each of the 64 components of `Out[536]`, mapped and raised, equals `einsteinMixed` (64 checks) | PASS |
+| `lovelock-P1-vs-minus4-author-EinsteinG` | `P1_mixed_up_h_down_j` equals $-4$ times the author's $G^\mu{}_\nu$, 64 components | PASS |
+| `lovelock-L1-vs-2-author-RS` | `L1` equals 2 times the author's Ricci scalar | PASS |
+| `control-mapping-without-chain-rule-is-detected` | the mapping without the factor $H^{-n}$ leaves a nonzero difference | PASS |
+| `control-einstein-without-index-raising-is-detected` | the author's $G_{x_1x_1}$ compared without raising the index leaves a nonzero difference | PASS |
+| `lovelock-k2-P2-and-L2` | $P_{(2)}$ and $L_{(2)}$ | NOT-AVAILABLE |
+| `lovelock-k3-P3-and-L3` | $P_{(3)}$ and $L_{(3)}$ | NOT-AVAILABLE |
+| `christoffel-components` | the Christoffel symbols | NOT-AVAILABLE |
+| `riemann-components` | the Riemann tensor | NOT-AVAILABLE |
+| `ricci-tensor-components` | the Ricci tensor | NOT-AVAILABLE |
+
+In all, the report `author-comparison-report.json` has 78 checks: 73 PASS, 0 FAIL, 5 NOT-AVAILABLE. Two examples of what was compared, as the report gives them: the author's stored Ricci scalar is `6*H^2*(-7 + Derivative[1][a4][H*x4]^2)`, which the mapping turns into $6(a_4')^2 - 42H^2$, the value $R$ of section 6.1; the author's stored $G_{x_4x_4}$ becomes $-3H^2\big(7 + (a_4')^2/H^2\big)$, and raised with $g^{x_4x_4} = -1$ it is $3(a_4')^2 + 21H^2 = G^{x_4}{}_{x_4}$. The controls show that the comparison is not vacuous: without the chain-rule factor the difference of the Ricci scalars is $6(H^2 - 1)(a_4')^2$, and without the index raising the difference of the $x_1x_1$ components is nonzero; both are detected.
+
+Why five objects are NOT-AVAILABLE. The Christoffel symbols, the Riemann tensor and the Ricci tensor are computed by `rt[gtry]`, but `In[238]` ends with a semicolon, so no value of them is stored there, and no other stored output of their values was taken. For the Lovelock tensors the box strings of every cell of the main notebook and of `Generalized _Kronecker_Delta_4+4.nb` were scanned for the word Lovelock (in any case) and for box strings equal to one of the tokens `P2`, `P3`, `P4`, `LovelockP`, `kd` and `kδ`. In the main notebook 20 cells contain the word; the 4 Output cells among them hold only strings (file names), and none of its cells contains one of the tokens. In the Kronecker-delta notebook 3 cells contain the word, none of them an Output cell, and the cells with the token `kδ` are Input and Text cells. No stored output of $P_{(2)}$, $P_{(3)}$, $L_{(2)}$ or $L_{(3)}$ was found.
+
+Re-run for this document (2026-10-08, into a scratch directory, the committed files untouched): the extractor reproduced `author-curvature-outputs.json` byte for byte (one run, 6 s of wall time including the start of the kernel), and `compare_with_author.py` reproduced `author-comparison-report.json` byte for byte in four runs (two of them timed: 0.85 s and 0.92 s); the report has the sha256 `ed830d8cee677c14b08eabb34863e38844d0a5009587263c71ba444fcdb3c02c`. These run times were measured while writing this document; no report records them.
+
+### 8.3 What the comparison does not establish
+
+- Nothing about $k = 2$ and $k = 3$: the tensors $P_{(2)}$ (Gauss-Bonnet) and $P_{(3)}$ and the scalars $L_{(2)}$ and $L_{(3)}$ of this record are compared with no output of the author, because the files read contain none. Agreement with the author's own Lovelock tensors of order $k = 2$ and $k = 3$ is therefore not established.
+- The $k = 1$ comparison carries no information beyond the Einstein-tensor comparison together with this record's own identity $P_{(1)} = -4G$ (`k1_equals_minus_4_einstein`).
+- The Christoffel symbols, the Riemann tensor and the Ricci tensor are not compared: no stored output of them was taken.
+- The agreement is one between two computations of the same objects for this one metric on the patch $0 < z < \pi/2$; it is not an independent check of conventions beyond those stated above.
+- The author's outputs are taken as stored; the notebook was not re-run, and that the stored values come from `In[238]` is the inference stated above.
+- The keyword scan finds the Lovelock tensors by name; a value stored under an unrelated name would not be found by it. Only the two notebooks of the author in the repository were read; the main notebook's text says that the Einstein-Lovelock tensors are calculated in other notebooks of the author, and none of those was read (the repository holds none of them).
+- Nothing about field equations, sources, solutions or physical interpretation.
 
 ## 9. How the field equations for $a_4$ use the Lovelock tensors
 
@@ -402,6 +460,12 @@ Every check has a name, a verdict and a detail. Counts at the time of writing, a
 | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 52 | 52 | 0 |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | 63 | 63 | 0 |
 
+The report of the comparison with the author (section 8.2) has a third verdict, NOT-AVAILABLE, for objects of which the author's files hold no stored output; it is not a failure:
+
+| report | checks | PASS | FAIL | NOT-AVAILABLE |
+| --- | --- | --- | --- | --- |
+| `Revision/gkd_lovelock/comparison/author-comparison-report.json` | 78 | 73 | 0 | 5 |
+
 The Rust report stores each check with `"passed": true` instead of a verdict; its 19 checks are counted as PASS. The GKD self-test `Revision/gkd_lovelock/results/gkd-selftest.json` has no list of checks; its nine comparisons (section 3.3) all have 0 mismatches and its verdict is `SUCCESS`. The test file `Revision/tests/test_gkd_lovelock.py` pins the sha256 of the seven result files of the computation and its verifications (`curvature.json`, `lovelock-tensors.json`, `lovelock-components.md`, `lovelock-report.json`, `gkd-selftest.json`, `python-lovelock-report.json`, `wolfram-gkd-report.json`), requires every check to pass, and, in its slow tests, re-runs the Rust program, the sympy checker and the Wolfram check and requires byte-identical outputs.
 
 Re-verification for this document (2026-10-08, on the shared machine of the provenance files; written to a scratch directory, the committed files untouched): `lovelock_gkd lovelock --brute-force-k2` gave 19 of 19 checks in 18.9 s and four files byte-identical to the committed ones; the sympy checker gave 49 of 49 checks in 40.3 s and a report byte-identical to the committed one. These two run times are measurements made while writing this document; they are not recorded in a report.
@@ -426,13 +490,16 @@ wolframscript -file \
 python Revision/gkd_lovelock/notebook_reading/lovelock_digest_nb_inputs.py
 wolframscript -file \
     Revision/gkd_lovelock/notebook_reading/lovelock_export_nb_image.wls
+wolframscript -file \
+    Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls
+python Revision/gkd_lovelock/comparison/compare_with_author.py
 python -m unittest Revision/tests/test_gkd_lovelock.py -v
 python scripts/build_provenance_pdf.py Revision/docs/LOVELOCK_GKD.md \
     --developer-layout --specifications Revision/pdf-specifications.json
 python -m unittest Revision/tests/test_lovelock_gkd_publication.py -v
 ```
 
-On Windows the binary is `lovelock_gkd.exe`. Each of the commands that write into `Revision/gkd_lovelock/results` overwrites a committed file with a byte-identical one; to leave the committed files untouched, give another output directory or report path and compare. The Wolfram check builds its exporter in `<$TemporaryDirectory>/revision_gkd_export` (or in `$LOVELOCK_GKD_EXPORT_DIR`); run only one copy at a time with the default directory. The notebook-reading commands need the author's notebook in the repository root and write the uncommitted text `build/lovelock_nb_inputs.txt`.
+On Windows the binary is `lovelock_gkd.exe`. Each of the commands that write into `Revision/gkd_lovelock/results` overwrites a committed file with a byte-identical one; to leave the committed files untouched, give another output directory or report path and compare. The Wolfram check builds its exporter in `<$TemporaryDirectory>/revision_gkd_export` (or in `$LOVELOCK_GKD_EXPORT_DIR`); run only one copy at a time with the default directory. The notebook-reading commands need the author's notebook in the repository root and write the uncommitted text `build/lovelock_nb_inputs.txt`. The extractor needs both notebooks of the author in the repository root and the comparison the main one, `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`, whose sha256 it checks; the extractor writes `author-curvature-outputs.json` (or the file named by the environment variable `AUTHOR_CURVATURE_OUTPUTS`), and the comparison writes `author-comparison-report.json` (or the file given with `--output`). The gate `Revision/verify_revision.sh` and its PowerShell twin run them as the steps `gkd-author-extract` and `gkd-author-compare`.
 
 ### 11.2 Expected output
 
@@ -441,6 +508,7 @@ On Windows the binary is `lovelock_gkd.exe`. Each of the commands that write int
 - The sympy checker: 49 lines `[PASS] <name>` in six groups, then `total ... s; 49 checks, 0 failed; verdict SUCCESS`; exit code 0.
 - The Wolfram check: ten `time_<step>=<seconds>` lines, the 29 lines `check_<name>=true`, then `check_count=29`, `failed_check_count=0`, `time_total=<seconds>` and `report=<path>`; exit code 0 (1 if a check fails, 2 on a load, build or input/output error).
 - The notebook reading: `input cells written: 58`, `58 input cells`, `{1372, 435}` and `28229 bytes (117 bytes of text/time chunks removed)`, with both committed outputs reproduced byte for byte.
+- The comparison with the author: the extractor prints `cells: 2127`, `inputs parsed: 8/8` and `outputs parsed: 4/4`, then the output dimensions and the keyword-scan counts; the comparison prints `checks: 78; PASS 73, FAIL 0, NOT-AVAILABLE 5`; both exit with code 0 and reproduce their committed outputs byte for byte.
 
 ### 11.3 Run times
 
@@ -450,6 +518,7 @@ From the provenance files (shared 24-core machine, Windows 11):
 - The notebook reading, from the provenance file `WOLFRAMSCRIPT_PROVENANCE.md` in `Revision/gkd_lovelock/notebook_reading/`: the whole set takes about 10 to 25 seconds, and up to about 40 seconds on a fully loaded machine.
 - The GKD self-test with `--exhaustive-max 4`: several minutes (`Revision/tests/test_gkd_lovelock.py`, which runs it only when `LOVELOCK_GKD_SELFTEST=1`).
 - The Rust `lovelock` run and the sympy checker: no run time is recorded in a provenance file; see the measurement of section 10 (18.9 s and 40.3 s).
+- The comparison with the author, from section 7 of the README of `Revision/gkd_lovelock/comparison/`: the extractor 4.4 to 6.0 s (seven runs), the comparison 0.7 to 0.9 s; see also the measurement of section 8.2.
 
 ### 11.4 The PDF
 
@@ -463,12 +532,13 @@ The PDF build runs the Markdown-to-LaTeX builder twice (with different hash seed
 2. For the author's metric on $0 < z < \pi/2$, with the conventions of sections 2.2 and 4.2: the 25 nonzero Christoffel symbols, the 156 nonzero $R^{ab}{}_{cd}$, the Ricci and Einstein tensors and the Lovelock tensors $P_{(k)}$, $A_{(k)}$ and scalars $L_{(k)}$, $k = 1, 2, 3$, exactly as listed in section 6 and in `lovelock-tensors.json`; three programs that share no code for the sums agree on every component.
 3. $P_{(1)} = -4G$, $P_{(2)} = -8\mathcal{H}$ (Gauss-Bonnet), $L_{(1)} = 2R$, $L_{(2)} = 4\,GB$, $L_{(3)} = 8(2T_1 + \dots + T_8)$; the trace identities; $\nabla_hP_{(k)}{}^h{}_j = 0$; the symmetry of $A_{(k)}$; $P_{(4)} = 0$ in eight dimensions.
 4. The structure: diagonal, free of $\sin^{1/3}z$, $e^{a_4}$ and $x_8$, with $x_1 = x_2 = x_3$ and $x_5 = x_6 = x_7$, and with $a_4''$ entering the 3-space and extra-time components with opposite signs.
+5. Agreement with the author's stored outputs (section 8.2): under the mapping stated before the comparison, the author's metric `Out[235]`, Ricci scalar `Out[535]` and all 64 components of the Einstein tensor `Out[536]` (raised with the author's own metric) equal those of this record exactly, and hence $P_{(1)}$ and $L_{(1)}$ equal $-4$ times the author's Einstein tensor and 2 times the author's Ricci scalar; of the 78 checks 73 pass, none fails and 5 are NOT-AVAILABLE.
 
 ### 12.2 Not established
 
 1. No solution: this record gives the left-hand sides of the field equations only. Which $a_4$ and which sources solve them is not part of it (section 9).
 2. The domain: only the patch $0 < z < \pi/2$, where $\sqrt{|g|} = \cos z$. Nothing is computed at the brane $z = \pi/2$, where $g_{88} = \cot^2z = 0$ and $\det g = 0$, or on a mirror patch.
-3. No comparison with the author's answers: the output cells of the author's notebook were never read, and the announced comparison is not recorded in `Revision/` (section 8). Agreement with the author's own Lovelock tensors is therefore not established.
+3. No comparison for $k = 2$ and $k = 3$: the author's files that were read hold no stored output of $P_{(2)}$, $P_{(3)}$, $L_{(2)}$ or $L_{(3)}$, nor of the Christoffel symbols, the Riemann tensor or the Ricci tensor (section 8.2). Agreement with the author's own Lovelock tensors of order $k = 2$ and $k = 3$ is therefore not established. The notebooks in which, by the main notebook's text, the author calculates the Einstein-Lovelock tensors were not read; the limits of the comparison that was made are listed in section 8.3.
 4. For $k = 3$ the tensor $P_{(3)}$ is verified by three independent recomputations, the trace, the divergence and the symmetry, and the scalar $L_{(3)}$ against the classical cubic density; it is not compared with an independent closed formula for the third-order Lovelock tensor. $E_{(k)} = -P_{(k)}/2^{k+1}$ is a normalisation convention, which equals the Einstein tensor for $k = 1$ and the Gauss-Bonnet tensor for $k = 2$.
 5. The unpruned sums are exact for $k = 1, 2$ (sympy) and numerical at one point (Rust); for $k = 3$ the skipped terms are confirmed by a random sample (sympy) and by the theorem of section 3.2; the Wolfram no-skip run of the diagonal $k = 3$ components is recorded in its provenance file only, and its report is not committed.
 6. Only Wolfram Language 15.0.1 and the toolchains named in the provenance files were used.

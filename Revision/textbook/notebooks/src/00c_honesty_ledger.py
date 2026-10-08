@@ -334,10 +334,17 @@ CELLS = [
     which reverses the mass is $\mathcal{C}_- = \Gamma C$; that for a real commuting
     field the charge current is zero and $\mathcal{C}_+$ acts as the identity, while
     the real matrix $\Gamma$ with the mass reversed maps solutions to solutions; and
-    that the charge $Q$ is exactly conserved. (These statements are derived from zero
-    later in the book.) The detail of the last check is long; the cell prints only its
-    last part, the part after the last semicolon, which states the result. The check
-    of the cell confirms that the details contain these statements word for word.
+    that the charge obeys a *local* conservation law: on every solution
+    $\partial_\mu(\cos z\, J^\mu) = 0$, so no charge is made or destroyed at any point.
+    The same detail says what this check does NOT establish: the total charge $Q$ of a
+    slice of space is constant only if no charge flows through its edge, the brane at
+    $z = \pi/2$, where the flow is not zero in general. (These statements are derived
+    from zero later in the book; the book labels the constancy of the total charge
+    OPEN.) The detail of the last check is long; the cell prints only its last two
+    parts, after the second-to-last semicolon, which state the result and its limit.
+    The details are long texts; `say` breaks each into lines of at most 89
+    characters. The two checks of the cell confirm that the details contain these
+    statements word for word.
     """),
     code(r'''
     details = {entry["name"]: entry["detail"] for entry in cc["checks"]}  # name -> detail
@@ -346,10 +353,11 @@ CELLS = [
                    "u1_noether_matrix_identity"):
         detail = details[wanted]
         if wanted == "u1_noether_matrix_identity":
-            # This detail is long; its last part, after the last "; ", is the result.
-            detail = detail.rsplit("; ", 1)[-1]
+            # This detail is long; its last two parts, after the second-to-last "; ",
+            # state the result and its limit.
+            detail = "; ".join(detail.split("; ")[-2:])
         say(f"{wanted}:")
-        say("    " + detail)
+        say("    " + detail)  # say breaks it into lines of at most 89 characters
 
     R5_WORDS = [  # (check, words that its detail must contain)
         ("representation_real", "plain complex conjugation is the identity"),
@@ -366,6 +374,14 @@ CELLS = [
                      "real field",
                      f"{CC_REPORT}, checks charge_conjugation_matrix_plus, "
                      "charge_conjugation_matrix_minus and real_fields_charge_conjugation")
+    U1_WORDS = ["on shell the LOCAL law d_mu(cos z J^mu) = 0 holds",
+                "is constant only if no charge flows through its boundary",
+                "constancy of Q is NOT established by this check"]
+    check_reproduces(all(words in details["u1_noether_matrix_identity"]
+                         for words in U1_WORDS),
+                     "the report proves the local law and does not establish a "
+                     "constant total charge",
+                     f"{CC_REPORT}, check u1_noether_matrix_identity")
     '''),
     md(r"""
     ## 6. Three layouts of a report, one counting function
@@ -381,9 +397,10 @@ CELLS = [
       `results`, one per test, each with the number of `mismatches` (wrong values).
 
     The reports also state their own totals in different words (`summary`, `counts`,
-    `checkCount`). The next cell defines `count_checks`, which counts the passed checks
-    in all three layouts, and `stated_summary`, which reads the totals that a report
-    states about itself. It shows one report of each layout.
+    `checkCount`), and two of them as a text, such as "49/49 checks pass". The next
+    cell defines `count_checks`, which counts the passed checks in all three layouts,
+    and `stated_summary`, which reads the totals that a report states about itself.
+    It shows one report of each layout.
     """),
     code(r'''
     def count_checks(data):
@@ -401,9 +418,12 @@ CELLS = [
     def stated_summary(data):
         """(passed, total) as the report states them itself; None if it states none."""
         summary = data.get("summary")
-        if isinstance(summary, dict):  # {"passed": n, "total": n} or {"pass", "checks"}
-            return (summary.get("passed", summary.get("pass")),
-                    summary.get("total", summary.get("checks")))
+        if isinstance(summary, dict):  # {"passed": n, "total": n} and similar names
+            passed = summary.get("passed", summary.get("pass", summary.get("PASS")))
+            return passed, summary.get("total", summary.get("checks"))
+        if isinstance(summary, str):  # a text such as "49/49 checks pass"
+            passed, total = re.fullmatch(r"(\d+)/(\d+) checks pass", summary).groups()
+            return int(passed), int(total)
         counts = data.get("counts")
         if isinstance(counts, dict) and "pass" in counts:  # {"pass", "fail", "pending"}
             return counts["pass"], counts["pass"] + counts["fail"] + counts["pending"]
@@ -424,22 +444,35 @@ CELLS = [
         say(f"    counted {passed} of {total}; stated {stated_summary(data)}")
     '''),
     md(r"""
-    ## 7. All 27 reports of the Revision record
+    ## 7. All 39 reports of the Revision record
 
     The next cell first searches the whole folder Revision for reports: JSON files
-    that hold a key `checks`, or, like the GKD self-test, a list `results` whose
-    entries count `mismatches`. It skips three kinds of folders that are not part of
-    the record: the folder Revision/textbook of this book, the folder
+    whose key `checks` holds the checks themselves (a list of checks, or a dictionary
+    whose every entry is a check, that is, a dictionary itself), or, like the GKD
+    self-test, a list `results` whose entries count `mismatches`. One JSON file has a
+    key `checks` that holds only two numbers, the totals of another report: the
+    summary file Revision/dark_sector/dirac16complex/outputs/eos-summary.json. It is
+    not a report, and the search prints its name; the cell after the next compares its
+    two numbers with our count. The search skips three kinds of folders that are not
+    part of the record: the folder Revision/textbook of this book, the folder
     Revision/workflows (the records of the programs that organised the work, rewritten
     while they run; the Revision record says itself that no result depends on them),
-    and the build folders `target` of the Rust programs. It then lists the 27 verifier
-    reports of the Revision record, grouped by folder, each with its engine, counts the
-    checks of each with `count_checks`, and prints a table and the totals per engine.
-    Three checks follow:
+    and the build folders `target` of the Rust programs. The cell then lists the 39
+    verifier reports of the Revision record, grouped by folder, each with its engine
+    (the language of the program that wrote the report), counts the checks of each with
+    `count_checks`, and prints a table and the totals per engine.
 
-    1. the search finds exactly the 27 reports of the list: no report of the record is
+    One report has checks whose verdict is neither PASS nor FAIL: the comparison of
+    the Revision's curvature with the outputs that the author stored in his own
+    Mathematica notebook, Revision/gkd_lovelock/comparison/author-comparison-report.json.
+    For five quantities the author's notebook holds no stored value (they are
+    computed there but not printed), so there is nothing to compare; their verdict is
+    NOT-AVAILABLE. Three checks follow:
+
+    1. the search finds exactly the 39 reports of the list: no report of the record is
        left out of the count (and so out of the ledger below);
-    2. every check of the 27 reports has the verdict PASS;
+    2. no check of the 39 reports has the verdict FAIL: every check is PASS, except
+       the five NOT-AVAILABLE comparisons of that one report;
     3. for every report that states its own totals, our count equals them (the
        self-test of layout C states only its verdict, SUCCESS, which is checked
        instead).
@@ -456,21 +489,29 @@ CELLS = [
         data = json.loads(path.read_text(encoding="utf-8"))
         if not isinstance(data, dict):
             return False
+        checks = data.get("checks")
+        listed = isinstance(checks, list) or (  # a list of checks, or a dictionary
+            isinstance(checks, dict)  # whose every entry is a check (a dictionary)
+            and all(isinstance(entry, dict) for entry in checks.values()))
         results = data.get("results")
         self_test = (isinstance(results, list) and len(results) > 0
                      and isinstance(results[0], dict) and "mismatches" in results[0])
-        return "checks" in data or self_test
+        return listed or self_test
 
 
     SKIPPED = ("Revision/textbook/", "Revision/workflows/")  # folders that hold no report
     found_reports = []  # every report found in the folder Revision, as a relative path
+    not_reports = []  # JSON files with a key "checks" that holds no checks
     for path in sorted(repository_file("Revision").rglob("*.json")):
         relative = path.relative_to(REPO).as_posix()  # e.g. "Revision/algebra/..."
         if relative.startswith(SKIPPED) or "/target/" in relative:
             continue  # the book, the workflow records and the Rust build folders
         if is_report(path):
             found_reports.append(relative)
+        elif "checks" in read_report(relative):
+            not_reports.append(relative)
     report("verifier reports found in the folder Revision", len(found_reports))
+    say("a key checks, but no checks in it: " + ", ".join(not_reports))
 
     REPORTS = [  # (report, engine)
         @@REPORTS@@
@@ -479,25 +520,35 @@ CELLS = [
           f"the search finds exactly the {len(REPORTS)} reports of the list")
     counted = {}  # report -> (passed, total)
     header = "report (in the folder Revision)"
-    say(f"{header:59} engine   passed of all")
+    say(f"{header:69} engine  pass of all")
     for path, engine in REPORTS:
         data = read_report(path)
         counted[path] = count_checks(data)
         passed, total = counted[path]
         short = path.removeprefix("Revision/")
-        say(f"{short:59} {engine:8} {passed:6d} of {total:3d}")
+        say(f"{short:69} {engine:7} {passed:4d} of {total:3d}")
     all_checks = sum(total for _, total in counted.values())
     all_passed = sum(passed for passed, _ in counted.values())
     report("reports", len(REPORTS))
     report("checks in all reports", all_checks)
+    report("checks with the verdict PASS", all_passed)
     engine_totals = {}  # engine -> the number of its checks
     for engine in ("Wolfram", "Python", "Rust", "lead"):
         engine_totals[engine] = sum(counted[path][1] for path, e in REPORTS
                                     if e == engine)
         report(f"checks done with the engine {engine}", engine_totals[engine])
 
-    check(all_passed == all_checks and sum(engine_totals.values()) == all_checks,
-          f"all {all_checks} checks of the {len(REPORTS)} reports have the verdict PASS")
+    COMPARISON = "Revision/gkd_lovelock/comparison/author-comparison-report.json"
+    not_pass = [path for path, _ in REPORTS if counted[path][0] != counted[path][1]]
+    other_verdicts = [entry["verdict"] for entry in read_report(COMPARISON)["checks"]
+                      if entry["verdict"] != "PASS"]  # the verdicts that are not PASS
+    not_available = other_verdicts.count("NOT-AVAILABLE")
+    report("checks with the verdict NOT-AVAILABLE", not_available)
+    check(not_pass == [COMPARISON] and len(other_verdicts) == not_available == 5
+          and all_passed + not_available == all_checks
+          and sum(engine_totals.values()) == all_checks,
+          f"no check FAILS: {all_passed} PASS, {not_available} NOT-AVAILABLE, "
+          f"{all_checks} in all")
     disagree = []  # reports whose own summary differs from our count
     for path, _ in REPORTS:
         data = read_report(path)
@@ -509,17 +560,20 @@ CELLS = [
     check(disagree == [], "each report states the same totals that we counted")
     '''.replace("@@REPORTS@@", "\n        ".join(REPORT_LINES))),
     md(r"""
-    The next cell compares our counts with two other places of the record that quote
+    The next cell compares our counts with three other places of the record that quote
     them. First, the table of the file Revision/README.md (its lines that start with
-    a vertical bar and a folder name) prints 16 of the counts as "19/19", "49/49" and
-    so on. The cell finds them in the order in which they stand there and compares
-    them with our counts of the reports that the table names in that order. The
-    function `re.findall` of the module `re` finds every piece of a text that matches
-    a *pattern*: in the pattern `(\d+)/(\d+)`, `\d+` means one or more digits, and the
-    brackets mark the two numbers to return. Second, the Kohn-Sham cross-check
-    quotes, in the detail of its check `inputs_all_pass`, the counts of the three
-    reports it read ("37/37 PASS" and so on), found with the pattern
-    `(\d+)/(\d+) PASS`.
+    a vertical bar and a folder name) prints 37 counts as "19/19", "49/49" and so on;
+    the counts of the reports on the Lovelock tensors stand there twice, in the row
+    of their folder and in the row of the documents. The cell finds the counts in the
+    order in which they stand there and compares them with our counts of the reports
+    that the table names in that order. The function `re.findall` of the module `re`
+    finds every piece of a text that matches a *pattern*: in the pattern
+    `(\d+)/(\d+)`, `\d+` means one or more digits, and the brackets mark the two
+    numbers to return. Second, the Kohn-Sham cross-check quotes, in the detail of its
+    check `inputs_all_pass`, the counts of the three reports it read ("37/37 PASS" and
+    so on), found with the pattern `(\d+)/(\d+) PASS`. Third, the dark-sector summary
+    file that the search set aside quotes, under its key `checks`, the totals of the
+    report eos-checks.json.
     """),
     code(r'''
     R = "Revision/"
@@ -536,10 +590,31 @@ CELLS = [
         R + "field_equations_a4/reports/wolfram-a4-report.json",  # row field_equations_a4/
         R + "field_equations_a4/reports/python-a4-report.json",
         R + "field_equations_a4/reports/ks-source-conditions.json",
+        R + "field_equations_a4/ks_source/reports/ks-source-a4.json",
+        R + "kohn_sham/reports/ks-theory-wolfram.json",  # row kohn_sham/
+        R + "kohn_sham/reports/ks-theory-python.json",
+        R + "kohn_sham/reports/ks-rust-solver.json",
+        R + "kohn_sham/reports/ks-rust-determinism.json",
+        R + "kohn_sham/reports/ks-rust-mermin-roots.json",
+        R + "kohn_sham/reports/ks-reference.json",
+        R + "kohn_sham/reports/ks-crosscheck.json",
+        R + "dark_sector/dirac16complex/reports/derivation-checks.json",  # dark_sector/
+        R + "dark_sector/dirac16complex/reports/ks-history-run.json",
+        R + "dark_sector/dirac16complex/reports/eos-checks.json",
+        R + "dark_sector/dirac16complex/reports/independent-checks.json",
+        R + "dark_sector/dirac16complex00/reports/python-derive-eos.json",
+        R + "dark_sector/dirac16complex00/reports/python-independent-numerics.json",
         R + "pairing/reports/wolfram-pairing.json",  # row pairing/
         R + "pairing/reports/python-pairing.json",
         R + "pairing/kohn_sham/reports/wolfram-t3.json",
         R + "pairing/kohn_sham/reports/python-t3.json",
+        R + "pairing/kohn_sham/reports/wolfram-t3-completion.json",
+        R + "pairing/kohn_sham/reports/python-t3-completion.json",
+        R + "pairing/kohn_sham/reports/t3-rust-demo.json",
+        R + "pairing/kohn_sham/reports/t3-reference-demo.json",
+        R + "gkd_lovelock/results/lovelock-report.json",  # row docs/: LOVELOCK_GKD
+        R + "gkd_lovelock/results/wolfram-gkd-report.json",
+        R + "gkd_lovelock/results/python-lovelock-report.json",
     ]
     readme_lines = repository_file("Revision/README.md").read_text(
         encoding="utf-8").split("\n")
@@ -563,11 +638,22 @@ CELLS = [
     check_reproduces([(int(p), int(t)) for p, t in quoted] == ours,
                      f"the cross-check quotes the counts {numbers} that we counted",
                      f"{CROSS}, check inputs_all_pass")
+
+    SUMMARY = "Revision/dark_sector/dirac16complex/outputs/eos-summary.json"
+    EOS = "Revision/dark_sector/dirac16complex/reports/eos-checks.json"
+    summary_numbers = read_report(SUMMARY)["checks"]  # a dictionary of two numbers
+    say(f"the dark-sector summary quotes: {summary_numbers}")
+    quoted_eos = (summary_numbers["pass"], summary_numbers["total"])
+    check_reproduces(not_reports == [SUMMARY] and quoted_eos == counted[EOS],
+                     f"the dark-sector summary quotes the {counted[EOS][1]} checks of "
+                     "eos-checks.json that we counted",
+                     f"{SUMMARY}, key checks")
     '''),
     md(r"""
     The next cell draws the number of checks of every report as a horizontal bar,
     coloured by the engine that did the computation, with the number written at the
-    end of each bar.
+    end of each bar. The bar of the comparison with the author's outputs counts all
+    its 78 checks, the five NOT-AVAILABLE ones included.
     """),
     code(r'''
     from matplotlib.patches import Patch  # a coloured square for the legend
@@ -580,7 +666,7 @@ CELLS = [
     # The report with the most checks, and its number of checks.
     largest = max((path for path, _ in REPORTS), key=lambda path: counted[path][1])
     longest = counted[largest][1]
-    fig, ax = plt.subplots(figsize=(6.4, 7.8))
+    fig, ax = plt.subplots(figsize=(7.6, 9.4))
     rows = np.arange(len(REPORTS))[::-1]  # the first report at the top
     for row, (path, engine) in zip(rows, REPORTS):
         total = counted[path][1]
@@ -588,10 +674,10 @@ CELLS = [
         ax.text(total + 0.015 * longest, row, str(total), va="center", fontsize=9)
     # The name of each report without its folder and without the ending .json:
     names = [path.rsplit("/", 1)[1].removesuffix(".json") for path, _ in REPORTS]
-    ax.set_yticks(rows, labels=names, fontsize=9)
+    ax.set_yticks(rows, labels=names, fontsize=8.5)
     ax.set_xlim(0, 1.12 * longest)  # room for the longest bar and its number
     ax.grid(False, axis="y")  # vertical grid lines only
-    ax.set_xlabel("number of checks in the report (every one has the verdict PASS)")
+    ax.set_xlabel("number of checks in the report (none has the verdict FAIL)")
     ax.set_title(f"The {len(REPORTS)} verifier reports of the Revision record: "
                  f"{all_checks} checks")
     ax.legend(handles=[Patch(color=ENGINE_COLOURS[e], label=ENGINE_NAMES[e])
@@ -602,19 +688,22 @@ CELLS = [
     totals_text = (f"{n_wolfram} Wolfram Language, {n_python} Python, {n_rust} Rust "
                    f"and {n_lead} lead checks")
     save_figure(fig, "checks_by_report",
-                r"The number of checks in each of the 27 verifier reports of the "
-                r"Revision record (horizontal axis, a count; one bar per report, "
+                f"The number of checks in each of the {len(REPORTS)} verifier reports "
+                r"of the Revision record (horizontal axis, a count; one bar per report, "
                 r"named on the vertical axis and grouped by folder: algebra, theory, "
-                r"field equations for $a_4$, GKD and Lovelock, Kohn-Sham, pairing, "
-                r"lead checks). The colour gives the engine: blue Wolfram Language, "
-                r"orange Python, aqua Rust, yellow the lead's independent Python "
-                f"checks. All {all_checks} checks ({totals_text}) have the verdict "
-                f"PASS; the largest report is {largest_name} with {longest} checks.")
+                r"field equations for $a_4$, GKD and Lovelock with the comparison with "
+                r"the author's outputs, Kohn-Sham, dark sector, pairing, lead checks). "
+                r"The colour gives the engine: blue Wolfram Language, orange Python, "
+                r"aqua Rust, yellow the lead's independent Python checks. Of the "
+                f"{all_checks} checks ({totals_text}) {all_passed} have the verdict "
+                f"PASS and {not_available} the verdict NOT-AVAILABLE (comparisons with "
+                r"values that the author's notebook does not store); none FAILS. The "
+                f"largest report is {largest_name} with {longest} checks.")
     '''),
     md(r"""
     ## 8. Two independent engines
 
-    For eight subjects the Revision record has two independent verifiers, one in
+    For nine subjects the Revision record has two independent verifiers, one in
     Wolfram Language and one in Python. The next cell draws, for each subject, the
     number of checks of the two verifiers side by side. The two verifiers do not
     check exactly the same list of statements (each also checks things the other does
@@ -639,6 +728,8 @@ CELLS = [
          "pairing/reports/python-pairing.json"),
         ("pairing theorem T3", "pairing/kohn_sham/reports/wolfram-t3.json",
          "pairing/kohn_sham/reports/python-t3.json"),
+        ("the completion of T3", "pairing/kohn_sham/reports/wolfram-t3-completion.json",
+         "pairing/kohn_sham/reports/python-t3-completion.json"),
     ]
     say("subject                              Wolfram  Python")
     wolfram_numbers, python_numbers = [], []
@@ -647,8 +738,8 @@ CELLS = [
         python_numbers.append(counted["Revision/" + python][1])
         say(f"{subject:36} {wolfram_numbers[-1]:7d} {python_numbers[-1]:7d}")
 
-    widest = max(wolfram_numbers + python_numbers)  # the longest of the 16 bars
-    fig, ax = plt.subplots(figsize=(7.0, 5.0))
+    widest = max(wolfram_numbers + python_numbers)  # the longest of the 18 bars
+    fig, ax = plt.subplots(figsize=(7.0, 5.6))
     rows = np.arange(len(SUBJECTS))[::-1]
     height = 0.38  # two bars in each row
     ax.barh(rows + height / 2, wolfram_numbers, height, color="#2a78d6",
@@ -662,55 +753,74 @@ CELLS = [
     ax.set_xlim(0, 1.12 * widest)  # room for the longest bar and its number
     ax.grid(False, axis="y")
     ax.set_xlabel("number of checks (every one has the verdict PASS)")
-    ax.set_title("Eight subjects, each checked by two independent verifiers")
+    ax.set_title("Nine subjects, each checked by two independent verifiers")
     ax.legend(loc="lower right")
     save_figure(fig, "two_verifiers",
-                r"For each of eight subjects of the Revision record (vertical axis), "
+                r"For each of nine subjects of the Revision record (vertical axis), "
                 r"the number of checks of its Wolfram Language verifier (blue, upper "
                 r"bar) and of its independent Python verifier (orange, lower bar); "
                 r"horizontal axis a count. The two verifiers share no code; each also "
                 r"checks statements that the other does not, so the numbers differ. "
                 f"Together they hold {sum(wolfram_numbers)} Wolfram and "
                 f"{sum(python_numbers)} Python checks, all PASS.")
-    report("checks of the Wolfram verifiers of the eight subjects", sum(wolfram_numbers))
-    report("checks of the Python verifiers of the eight subjects", sum(python_numbers))
+    report("checks of the Wolfram verifiers of the nine subjects", sum(wolfram_numbers))
+    report("checks of the Python verifiers of the nine subjects", sum(python_numbers))
     check(all(w > 0 and p > 0 for w, p in zip(wolfram_numbers, python_numbers)),
-          "each of the eight subjects has a Wolfram and a Python verifier")
+          "each of the nine subjects has a Wolfram and a Python verifier")
     '''),
     md(r"""
     ## 9. The honesty ledger
 
-    The next cell writes the ledger: sixteen rows, each with a statement of the book,
-    its label, a short note and the reports that verify it. Every one of the 27
-    reports belongs to exactly one row. The four rows labelled HYPOTHESIS or OPEN have
-    no report: nothing in the record establishes them, and their notes say why. Two
-    rows of PROVED theorems name an assumption in their statement: the pairing
-    theorems T2 and T3 hold with the Z2 mirror (a choice of boundary condition)
-    ASSUMED. The row of the Kohn-Sham history of $a_4$ is labelled ASSUMED although it
-    has five checks: those checks show that the computed Kohn-Sham states cannot be
-    the source of that history in the field equations, so the history has to be
-    assumed (a *prescribed background*).
+    The next cell writes the ledger: twenty rows, each with a statement of the book,
+    its label, a short note where one is needed, and the reports that verify it. Every
+    one of the 39 reports belongs to exactly one row. The five rows labelled HYPOTHESIS
+    or OPEN have no report: nothing in the record establishes them, and their notes
+    say why. Two rows of PROVED theorems name an assumption in their statement: the
+    pairing theorems T2 and T3 hold with the Z2 mirror (a choice of boundary
+    condition) ASSUMED. The row of the Kohn-Sham history of $a_4$ is labelled ASSUMED
+    although it has 28 checks: those checks show that the computed Kohn-Sham states
+    cannot be the source of that history in the field equations, so the history has
+    to be assumed (a *prescribed background*). Row 7, the comparison of the Revision's
+    curvature with the values that the author stored in his own notebook, has a note
+    as well: five of its comparisons could not be made (NOT-AVAILABLE).
 
-    Two rows concern pairs of universes and matter and antimatter, and their words
-    are chosen with care. PROVED (rows 10 and 11) are exact maps between the solutions
+    Two rows are labelled COMPUTED because they rest on numerical computations.
+    Row 13: the theorem T3 is proved (row 12) and, in addition, demonstrated on
+    computed Kohn-Sham states of mass $+M$ and $-M$; a demonstration is not a proof.
+    Row 15: the author's dark-sector hypotheses were investigated; the investigation
+    derives exact identities, but its results, the equations of state that each field
+    can give, are computed numbers under stated assumptions about the observer. It
+    states what each field can and cannot produce; it does not establish the
+    hypotheses (row 16, HYPOTHESIS).
+
+    Several rows concern pairs of universes and matter and antimatter, and their words
+    are chosen with care. PROVED (rows 11 and 12) are exact maps between the solutions
     of mass $+m$ and those of mass $-m$; the map T1 also reverses the charge, so a
     solution and its image carry opposite charges. That our universe actually has
-    such a partner is a HYPOTHESIS (row 14: an idea of the universe and anti-universe
-    kind, not a result). That the big bang creates universes in pairs is not proved:
-    no creation process, rate or amplitude follows from the equations (row 15, OPEN).
-    The theory as built has no baryons (the particles of ordinary matter such as the
-    proton), no process that changes their number and no violation of the CP symmetry
-    (the exchange of particles and antiparticles combined with a mirror reflection; it
-    must be violated for matter to win over antimatter), so it does not produce the
-    excess of matter over antimatter that we observe. What does produce it is a
-    question that neither the record nor the book answers (row 16, OPEN).
+    such a partner is a HYPOTHESIS (row 17: an idea of the universe and anti-universe
+    kind, not a result). PROVED (row 14) is the local conservation law of the charge:
+    no charge is made or destroyed at any point. That the total charge of one universe
+    stays constant is OPEN (row 18): it holds only if no charge flows through the
+    brane at $z = \pi/2$, a no-flux condition that is ASSUMED, not derived, and that
+    fails on the exact homogeneous solutions found later in the book. That the big
+    bang creates universes in pairs is not proved: no creation process, rate or
+    amplitude follows from the equations (row 19, OPEN). The theory as built has no
+    baryons (the particles of ordinary matter such as the proton), no process that
+    changes their number and no violation of the CP symmetry (the exchange of
+    particles and antiparticles combined with a mirror reflection; it must be violated
+    for matter to win over antimatter), so it does not produce the excess of matter
+    over antimatter that we observe. What does produce it is a question that neither
+    the record nor the book answers (row 20, OPEN).
 
-    The cell prints the ledger and the notes of the rows without a report, checks that
-    every report is used exactly once, that every row with a report has only passed
-    checks, and counts the labels.
+    The cell prints the ledger and the notes, and checks that every report is used
+    exactly once; that the HYPOTHESIS and OPEN rows have a note and no report, and
+    every other row has reports; that only row 7 has checks that are not PASS, its
+    five NOT-AVAILABLE comparisons; and it counts the labels.
     """),
     code(r'''
     R = "Revision/"
+    K = R + "pairing/kohn_sham/reports/"  # the folder of the T3 reports
+    D = R + "dark_sector/"  # the folder of the dark-sector reports
     LEDGER = [  # (statement, label, note, the reports that verify it)
         ("the gammas, C, Gamma, B; Pin(4,4) and Spin(4,4)", "PROVED", "",
          [R + "algebra/reports/wolfram-algebra.json",
@@ -732,6 +842,9 @@ CELLS = [
           R + "gkd_lovelock/results/gkd-selftest.json",
           R + "gkd_lovelock/results/wolfram-gkd-report.json",
           R + "gkd_lovelock/results/python-lovelock-report.json"]),
+        ("the curvature agrees with the author's stored outputs", "PROVED",
+         "5 of 78 comparisons NOT-AVAILABLE: the author's notebook stores no value",
+         [R + "gkd_lovelock/comparison/author-comparison-report.json"]),
         ("Kohn-Sham theory: blocks, rescaling, exchange", "PROVED", "",
          [R + "kohn_sham/reports/ks-theory-wolfram.json",
           R + "kohn_sham/reports/ks-theory-python.json"]),
@@ -742,46 +855,67 @@ CELLS = [
           R + "kohn_sham/reports/ks-rust-determinism.json",
           R + "kohn_sham/reports/ks-rust-mermin-roots.json"]),
         ("the Kohn-Sham history of a4 is a prescribed background", "ASSUMED", "",
-         [R + "field_equations_a4/reports/ks-source-conditions.json"]),
+         [R + "field_equations_a4/reports/ks-source-conditions.json",
+          R + "field_equations_a4/ks_source/reports/ks-source-a4.json"]),
         ("pairing T1, T2 (Z2 mirror ASSUMED) and Q", "PROVED", "",
          [R + "pairing/reports/wolfram-pairing.json",
           R + "pairing/reports/python-pairing.json"]),
-        ("T3 (Z2 mirror ASSUMED): Kohn-Sham +M and -M", "PROVED", "",
-         [R + "pairing/kohn_sham/reports/wolfram-t3.json",
-          R + "pairing/kohn_sham/reports/python-t3.json"]),
-        ("charge conjugation C, Gamma C; U(1) charge", "PROVED", "",
+        ("T3 and its completion (Z2 mirror ASSUMED): +M and -M", "PROVED", "",
+         [K + "wolfram-t3.json", K + "python-t3.json",
+          K + "wolfram-t3-completion.json", K + "python-t3-completion.json"]),
+        ("T3 shown on computed Kohn-Sham states (not a proof)", "COMPUTED", "",
+         [K + "t3-rust-demo.json", K + "t3-reference-demo.json"]),
+        ("charge conjugation C, Gamma C; the local U(1) law", "PROVED", "",
          [R + "lead_checks/reports/charge-conjugation-and-u1.json"]),
+        ("the dark-sector investigation: what each field gives", "COMPUTED", "",
+         [D + "dirac16complex/reports/derivation-checks.json",
+          D + "dirac16complex/reports/ks-history-run.json",
+          D + "dirac16complex/reports/eos-checks.json",
+          D + "dirac16complex/reports/independent-checks.json",
+          D + "dirac16complex00/reports/python-derive-eos.json",
+          D + "dirac16complex00/reports/python-independent-numerics.json"]),
         ("a time-varying dark sector from the fields", "HYPOTHESIS",
-         "to be investigated; no result yet", []),
+         "investigated (row 15): results stated, not established", []),
         ("our universe has a partner of opposite charge", "HYPOTHESIS",
          "the T1 maps exist; that a partner exists is not shown", []),
+        ("the total charge Q of one universe is constant", "OPEN",
+         "holds only with no flux through the brane (ASSUMED, not derived)", []),
         ("the big bang creates universes in pairs", "OPEN",
          "not proved: no creation process, rate or amplitude", []),
         ("what produces the excess of matter over antimatter", "OPEN",
          "the theory as built does not produce it", []),
     ]
     say("row label       passed of all  statement")
-    row_totals = []
+    row_passed, row_totals = [], []
     for number, (statement, label, note, paths) in enumerate(LEDGER, 1):
         passed = sum(counted[path][0] for path in paths)
         total = sum(counted[path][1] for path in paths)
+        row_passed.append(passed)
         row_totals.append(total)
         say(f"{number:3d} {label:10} {passed:7d} of {total:3d}  {statement}")
-    say("The notes of the rows without a report:")
+    say("The notes of the rows:")
     for number, (statement, label, note, paths) in enumerate(LEDGER, 1):
-        if note:  # only the HYPOTHESIS and OPEN rows have a note
+        if note:  # the HYPOTHESIS and OPEN rows, and row 7
             say(f"{number:3d} {label:10} {note}")
     used = sorted(path for _, _, _, paths in LEDGER for path in paths)
     check(used == sorted(path for path, _ in REPORTS),
-          "every one of the 27 reports belongs to exactly one row of the ledger")
-    check(all((label in ("HYPOTHESIS", "OPEN")) == (paths == []) == (note != "")
-              and all(counted[p][0] == counted[p][1] for p in paths)
-              for _, label, note, paths in LEDGER),
-          "rows with a report have only PASS checks; OPEN and HYPOTHESIS rows have none")
+          f"every one of the {len(REPORTS)} reports belongs to exactly one row")
+    check(all((label in ("HYPOTHESIS", "OPEN")) == (paths == [] and note != "")
+              for _, label, note, paths in LEDGER)
+          and all(paths != [] for _, label, _, paths in LEDGER
+                  if label not in ("HYPOTHESIS", "OPEN")),
+          "OPEN and HYPOTHESIS rows have a note and no report; the others have reports")
+    not_all_pass = [number for number, passed, total
+                    in zip(range(1, len(LEDGER) + 1), row_passed, row_totals)
+                    if passed != total]  # the rows with a check that is not PASS
+    check(not_all_pass == [7] and row_totals[6] - row_passed[6] == not_available
+          and "NOT-AVAILABLE" in LEDGER[6][2],
+          f"only row 7 has checks that are not PASS: its {not_available} "
+          "NOT-AVAILABLE comparisons")
     labels = [label for _, label, _, _ in LEDGER]
     check([labels.count(name) for name in
-           ("PROVED", "COMPUTED", "ASSUMED", "HYPOTHESIS", "OPEN")] == [10, 1, 1, 2, 2],
-          "the ledger: 10 PROVED, 1 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 2 OPEN rows")
+           ("PROVED", "COMPUTED", "ASSUMED", "HYPOTHESIS", "OPEN")] == [11, 3, 1, 2, 3],
+          "the ledger: 11 PROVED, 3 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 3 OPEN rows")
     '''),
     md(r"""
     The next cell draws the ledger: one bar per row, with the row's number and
@@ -792,17 +926,20 @@ CELLS = [
     code(r'''
     LABEL_COLOURS = {"PROVED": "#2a78d6", "COMPUTED": "#eb6834", "ASSUMED": "#1baf7a"}
     widest = max(row_totals)  # the row with the most checks
-    fig, ax = plt.subplots(figsize=(7.6, 8.0))
+    fig, ax = plt.subplots(figsize=(8.6, 9.4))
     rows = np.arange(len(LEDGER))[::-1]  # the first row of the ledger at the top
-    for number, row, (statement, label, note, paths), total in zip(
-            range(1, len(LEDGER) + 1), rows, LEDGER, row_totals):
+    for number, row, (statement, label, note, paths), passed, total in zip(
+            range(1, len(LEDGER) + 1), rows, LEDGER, row_passed, row_totals):
         # The statement is written just above its bar (va="bottom": the text starts
         # at the given height and extends upwards).
         ax.text(0, row + 0.26, f"{number}. {statement}", va="bottom", fontsize=9.5)
         if total > 0:
             ax.barh(row, total, height=0.42, color=LABEL_COLOURS[label])
-            ax.text(total + 0.012 * widest, row, f"{total} checks: {label}",
-                    va="center", fontsize=9)
+            if passed == total:
+                after = f"{total} checks: {label}"
+            else:  # row 7: say how many checks are NOT-AVAILABLE
+                after = f"{passed} PASS, {total - passed} NOT-AVAILABLE: {label}"
+            ax.text(total + 0.012 * widest, row, after, va="center", fontsize=9)
         else:  # no report: the label and the note, in grey
             ax.text(0, row, f"{label}: {note}", va="center", fontsize=9,
                     color="#52514e")
@@ -810,7 +947,7 @@ CELLS = [
     ax.set_xlim(0, 1.39 * widest)  # room for the longest bar and the text after it
     ax.set_ylim(-0.6, len(LEDGER) - 0.1)
     ax.grid(False, axis="y")
-    ax.set_xlabel("number of checks in the reports of the row (all PASS)")
+    ax.set_xlabel("number of checks in the reports of the row (none FAILS)")
     ax.set_title("The honesty ledger at a glance")
     ax.legend(handles=[Patch(color=colour, label=label_name)
                        for label_name, colour in LABEL_COLOURS.items()],
@@ -819,14 +956,17 @@ CELLS = [
                 r"The honesty ledger of the book at a glance: one row per main "
                 r"statement (written above its bar), the length of its bar the number of "
                 r"checks in the reports that verify it (horizontal axis, a count), the "
-                r"colour its label: blue PROVED, orange COMPUTED, aqua ASSUMED. The "
-                r"ASSUMED row has five checks, which show why the Kohn-Sham history of "
-                r"$a_4$ must be assumed. The last four rows have no bar, because no "
-                r"check of the record establishes them: two hypotheses (a time-varying "
-                r"dark sector, and a partner universe of opposite charge) and two open "
-                r"questions (whether the big bang creates universes in pairs, which is "
-                r"not proved, and what produces the excess of matter over antimatter, "
-                r"which the theory as built does not produce).")
+                r"colour its label: blue PROVED, orange COMPUTED, aqua ASSUMED. Every "
+                r"check is PASS except five NOT-AVAILABLE comparisons of row 7. The "
+                f"ASSUMED row has {row_totals[9]} checks, which show why the Kohn-Sham "
+                r"history of $a_4$ must be assumed. The last five rows have no bar, "
+                r"because no check of the record establishes them: two hypotheses (a "
+                r"time-varying dark sector, investigated in row 15 but not established; "
+                r"a partner universe of opposite charge) and three open questions (a "
+                r"constant total charge of one universe, which needs an assumed "
+                r"condition at the brane; the creation of universes in pairs, not "
+                r"proved; what produces the excess of matter "
+                r"over antimatter, which the theory as built does not produce).")
     '''),
     md(r"""
     The pairing record states in its own words what the pairing theorems do NOT
@@ -998,20 +1138,25 @@ CELLS = [
     md(r"""
     ## 12. What this notebook showed
 
-    - A search of the whole folder Revision finds 27 verifier reports, the 27 of our
-      list. Every one of their checks has the verdict PASS; section 7 prints how many
-      there are, in all and per engine (Wolfram Language, Python, Rust and the lead's
-      independent Python checks).
+    - A search of the whole folder Revision finds 39 verifier reports, the 39 of our
+      list. No check has the verdict FAIL: every check is PASS except five
+      comparisons with values that the author's own notebook does not store, whose
+      verdict is NOT-AVAILABLE; section 7 prints how many checks there are, in all and
+      per engine (Wolfram Language, Python, Rust and the lead's independent Python
+      checks).
     - Each report states the same totals that we counted, and the counts quoted in
-      the file Revision/README.md and in the Kohn-Sham cross-check are the same as
-      well.
-    - Eight subjects are checked by two independent verifiers, one in Wolfram Language
+      the file Revision/README.md, in the Kohn-Sham cross-check and in the
+      dark-sector summary file are the same as well.
+    - Nine subjects are checked by two independent verifiers, one in Wolfram Language
       and one in Python.
-    - Every report belongs to exactly one row of the honesty ledger. Twelve rows have
-      reports (ten PROVED, one COMPUTED, one ASSUMED). Two rows are HYPOTHESIS (a
-      time-varying dark sector; a partner universe of opposite charge) and two are
-      OPEN: whether the big bang creates universes in pairs (not proved), and what
-      produces the excess of matter over antimatter (the theory as built does not
+    - Every report belongs to exactly one row of the honesty ledger. Fifteen rows have
+      reports (eleven PROVED, three COMPUTED, one ASSUMED). The charge obeys a local
+      conservation law (PROVED); that the total charge of one universe stays constant
+      is OPEN, because it needs an assumed condition at the brane. Two rows are
+      HYPOTHESIS (a time-varying dark sector, investigated but not established; a
+      partner universe of opposite charge) and three are OPEN: the constancy of the
+      total charge, whether the big bang creates universes in pairs (not proved), and
+      what produces the excess of matter over antimatter (the theory as built does not
       produce it). The pairing record itself lists twelve things it does not
       establish, the first being any creation process.
     - Each of the 115 one-character changes of a sentence changed more than half of

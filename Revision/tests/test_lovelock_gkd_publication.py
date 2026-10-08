@@ -4,8 +4,8 @@
 The document records the generalized Kronecker delta GKD (pure Rust) and the Lovelock tensors
 P_(k), A_(k), L_(k), k = 1, 2, 3, of Lovelock's equation (4.38) for the author's primordial metric
 (Revision/gkd_lovelock), their independent verifications (Wolfram, sympy), the comparison with the
-author's notebook, their use by Revision/field_equations_a4, and what is not established
-(Revision/SPEC.md section 10, document 6).  It is built and registered with
+author's notebooks (Revision/gkd_lovelock/comparison), their use by Revision/field_equations_a4, and
+what is not established (Revision/SPEC.md section 10, document 6).  It is built and registered with
 
     python scripts/build_provenance_pdf.py Revision/docs/LOVELOCK_GKD.md \
         --developer-layout --specifications Revision/pdf-specifications.json [--register]
@@ -32,6 +32,13 @@ What is tested
     constants, the identity P^x1 + P^x5 = 2 P^x8, the factor F(a4') of the evolution equation and the
     E_(k) of Revision/field_equations_a4/a4-equations.json; the run times are those of the provenance
     files;
+  * the comparison with the author's stored outputs (section 8.2): the counts, the verdict of every
+    check in the result table, the mapping, the two worked examples, the controls, the cells used, the
+    keyword-scan counts, the notebook and report sha256, the gate steps and the README run times are
+    read from Revision/gkd_lovelock/comparison/ (author-comparison-report.json,
+    author-curvature-outputs.json, README.md); compare_with_author.py is re-run into a temporary
+    directory and must reproduce the committed report byte for byte (about 1 s; skipped when the
+    author's notebook is not in the repository root);
   * OPTIONAL (only when REVISION_PDF_REBUILD=1; needs pdflatex, about a minute): the PDF is rebuilt
     in verify mode and must match the registry.
 
@@ -92,6 +99,14 @@ GKD_TEST = REVISION / "tests" / "test_gkd_lovelock.py"
 A4_EQUATIONS = REVISION / "field_equations_a4" / "a4-equations.json"
 A4_WOLFRAM = REVISION / "field_equations_a4" / "reports" / "wolfram-a4-report.json"
 A4_PYTHON = REVISION / "field_equations_a4" / "reports" / "python-a4-report.json"
+COMPARISON = GKD / "comparison"
+COMPARISON_README = COMPARISON / "README.md"
+COMPARISON_REPORT = COMPARISON / "author-comparison-report.json"
+AUTHOR_OUTPUTS = COMPARISON / "author-curvature-outputs.json"
+COMPARE_PROGRAM = COMPARISON / "compare_with_author.py"
+EXTRACTOR = COMPARISON / "extract_author_curvature_outputs.wls"
+AUTHOR_NOTEBOOK = ROOT / "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb"
+GATES = (REVISION / "verify_revision.sh", REVISION / "verify_revision.ps1")
 
 # The reports of the count table (section 10), in the order of the table.
 COUNTED_REPORTS = (
@@ -117,7 +132,7 @@ SECTIONS = (
     "## 5. How the code computes them",
     "## 6. Results",
     "## 7. Independent verifications",
-    "## 8. The comparison with the author's notebook",
+    "## 8. The comparison with the author's notebooks",
     "## 9. How the field equations for $a_4$ use the Lovelock tensors",
     "## 10. Verification records",
     "## 11. Reproduction",
@@ -131,20 +146,33 @@ KEY_STATEMENTS = (
     "so $k = 1, 2, 3$ is the complete series in eight dimensions",
     "GKD is NOT re-implemented in Wolfram Language",
     "It shares no code with the Rust crate",
-    "Its answers are in the output cells, which were not read.",
-    "no file under `Revision/` records it",
-    "Agreement with the author's own Lovelock tensors is therefore not established.",
+    "Its answers are in its output cells, which were not read for the computation",
+    "that comparison is recorded in `Revision/gkd_lovelock/comparison/`",
+    "Agreement with the author's own Lovelock tensors of order $k = 2$ and $k = 3$ is therefore not established.",
+    "### 8.1 What was read for the computation",
+    "### 8.2 The comparison with the author's stored outputs (2026-10-08)",
+    "### 8.3 What the comparison does not establish",
+    "The mapping (a definition stated before the comparison, not a fit).",
+    "is an inference from the file, labelled as such",
+    "The notebook was not re-run; its outputs are taken as stored.",
+    "NOT-AVAILABLE means that the author's files hold nothing to compare with (it is not a failure)",
+    "The $k = 1$ comparison carries no information beyond the Einstein-tensor comparison together with "
+    "this record's own identity $P_{(1)} = -4G$",
+    "a value stored under an unrelated name would not be found by it",
+    "Nothing about field equations, sources, solutions or physical interpretation.",
     "1. No solution: this record gives the left-hand sides of the field equations only.",
     "2. The domain: only the patch $0 < z < \\pi/2$",
-    "3. No comparison with the author's answers:",
+    "3. No comparison for $k = 2$ and $k = 3$:",
     "These two run times are measurements made while writing this document; they are not recorded in a report.",
     "(a reading of the digest, labelled as such)",
 )
 FORBIDDEN = (
-    r"\boutput cells? (?:of the author's notebook )?(?:were|was|has been|have been) (?:read|opened|used)\b",
-    r"\bconfirm(?:s|ed)? the author's (?:own )?(?:answers|results|tensors)\b",
+    r"\bthe computation (?:read|used|opened) (?:the |an? )?(?:stored )?outputs?\b",
+    r"\bconfirm(?:s|ed)? the author's (?:own )?(?:answers|results|tensors|Lovelock tensors)\b",
     r"\b(?:solutions?|a4) (?:of the field equations )?(?:is|are|was|were) (?:proved|derived|established) (?:here|in this (?:record|document))",
-    r"\bthe comparison with the author's (?:own )?answers (?:was|is|has been) (?:made|done|completed)\b",
+    r"\bagreement with the author's (?:own )?(?:Lovelock|Gauss-Bonnet|cubic)[^.]*?\bis (?:now )?established\b",
+    r"\$k = [23]\$[^.]*\bagree(?:s|d)? with (?:the author|those of the author)",
+    r"\boutput cells? of `?Generalized _Kronecker_Delta_4\+4\.nb`? (?:were|was|has been|have been) (?:read|opened|used|compared)\b",
 )
 FILE_SUFFIXES = (".json", ".py", ".wls", ".wl", ".md", ".tex", ".pdf", ".rs", ".csv", ".toml", ".txt", ".png", ".nb", ".exe")
 # Other identifiers the document cites in code spans, with the file that must contain each.
@@ -162,6 +190,22 @@ OTHER_IDENTIFIERS = {
     "delta33": NB_DIGEST,
     "delta55": NB_DIGEST,
     "time_total": WOLFRAM_PROVENANCE,
+    # section 8.2 (the comparison with the author's stored outputs)
+    "Get": COMPARISON_README,
+    "MatrixMetric44": AUTHOR_OUTPUTS,
+    "RS": AUTHOR_OUTPUTS,
+    "EinsteinG": AUTHOR_OUTPUTS,
+    "a4": AUTHOR_OUTPUTS,
+    "x0": AUTHOR_OUTPUTS,
+    "x1": COMPARISON_README,
+    "x7": COMPARISON_README,
+    "xk": COMPARISON_README,
+    "P2": EXTRACTOR,
+    "P3": EXTRACTOR,
+    "P4": EXTRACTOR,
+    "LovelockP": EXTRACTOR,
+    "kd": EXTRACTOR,
+    "AUTHOR_CURVATURE_OUTPUTS": EXTRACTOR,
 }
 COMPONENTS = ("x1,x1", "x4,x4", "x5,x5", "x8,x8")
 A1, A2, H = sp.symbols("A1 A2 H")
@@ -351,10 +395,12 @@ class Content(unittest.TestCase):
     def test_negative_controls(self):
         """The content checks are not vacuous: tampered statements are detected."""
         tampered = (
-            "The output cells of the author's notebook were read.",
+            "The computation used the stored outputs of the author's notebook.",
             "This confirms the author's tensors.",
             "Solutions of the field equations are derived here.",
-            "The comparison with the author's answers was made.",
+            "Agreement with the author's own Lovelock tensors is established.",
+            "The tensors for $k = 2$ agree with the author.",
+            "The output cells of `Generalized _Kronecker_Delta_4+4.nb` were compared.",
         )
         self.assertEqual(len(tampered), len(FORBIDDEN))
         for pattern, sentence in zip(FORBIDDEN, tampered):
