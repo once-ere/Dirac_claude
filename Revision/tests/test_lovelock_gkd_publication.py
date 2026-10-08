@@ -1,0 +1,688 @@
+#!/usr/bin/env python3
+"""Publication test for Revision/docs/LOVELOCK_GKD.{md,tex,pdf}.
+
+The document records the generalized Kronecker delta GKD (pure Rust) and the Lovelock tensors
+P_(k), A_(k), L_(k), k = 1, 2, 3, of Lovelock's equation (4.38) for the author's primordial metric
+(Revision/gkd_lovelock), their independent verifications (Wolfram, sympy), the comparison with the
+author's notebook, their use by Revision/field_equations_a4, and what is not established
+(Revision/SPEC.md section 10, document 6).  It is built and registered with
+
+    python scripts/build_provenance_pdf.py Revision/docs/LOVELOCK_GKD.md \
+        --developer-layout --specifications Revision/pdf-specifications.json [--register]
+
+Run from the repository root:
+    python -m unittest Revision/tests/test_lovelock_gkd_publication.py -v
+
+What is tested
+  * the committed .tex is exactly the builder's output for the committed .md (same options as the
+    build command above), both files are UTF-8 with LF line endings, and their sha256 are pinned;
+  * the PDF is registered in the Revision registry Revision/pdf-specifications.json (edition
+    lovelock-gkd: path, page count and sha256 of the committed PDF) and NOT in the registry of the
+    earlier stages (provenance/pdf-specifications.json); the PDF is structurally sound;
+  * title, subtitle and section headings; the last section is "What is established and what is not";
+  * key statements are present and overclaims are absent (with negative controls);
+  * every identifier the document cites is a PASS check of a Revision report, a key of a JSON file
+    of the record, a function or type of the Rust crate (`file.rs::name`), or one of a short list of
+    other names that are checked where they come from; every check of the three reports of
+    Revision/gkd_lovelock/results is listed;
+  * the report-count table and the quoted check counts equal the JSON files;
+  * every quoted number is read from its JSON report: the GKD self-test, the Rust, sympy and Wolfram
+    counters, the brute-force deviations, the Christoffel and Riemann data, the Ricci and Einstein
+    tensors, every listed component of P_(1), P_(2), P_(3), the scalars L_(k), the normalisation
+    constants, the identity P^x1 + P^x5 = 2 P^x8, the factor F(a4') of the evolution equation and the
+    E_(k) of Revision/field_equations_a4/a4-equations.json; the run times are those of the provenance
+    files;
+  * OPTIONAL (only when REVISION_PDF_REBUILD=1; needs pdflatex, about a minute): the PDF is rebuilt
+    in verify mode and must match the registry.
+
+After an intended edit of the document: rebuild in verify mode until warning-free, register it
+(--register), and update MARKDOWN_SHA256 and TEX_SHA256 below.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import re
+import subprocess
+import sys
+import unittest
+from pathlib import Path
+
+import sympy as sp
+
+REVISION = Path(__file__).resolve().parents[1]
+ROOT = REVISION.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts import build_dissertation_tex as builder  # noqa: E402
+from scripts import check_dissertation_pdf  # noqa: E402
+from scripts import check_provenance_pdf  # noqa: E402
+
+DOCS = REVISION / "docs"
+MARKDOWN = DOCS / "LOVELOCK_GKD.md"
+TEX = DOCS / "LOVELOCK_GKD.tex"
+PDF = DOCS / "LOVELOCK_GKD.pdf"
+EDITION = "lovelock-gkd"
+REGISTRY = REVISION / "pdf-specifications.json"
+OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
+REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
+
+MARKDOWN_SHA256 = "e1b3f49ac8222975cc98e591380b753990e3b5a3e6a6f24a73cc2b726620a324"
+TEX_SHA256 = "4318263e956bf5a326a7881e67f605ae5f67f59c9961a30080c761c1fa07b2bf"
+
+GKD = REVISION / "gkd_lovelock"
+RESULTS = GKD / "results"
+CRATE_SRC = GKD / "code" / "src"
+CURVATURE = RESULTS / "curvature.json"
+TENSORS = RESULTS / "lovelock-tensors.json"
+RUST_REPORT = RESULTS / "lovelock-report.json"
+SELFTEST = RESULTS / "gkd-selftest.json"
+PYTHON_REPORT = RESULTS / "python-lovelock-report.json"
+WOLFRAM_REPORT = RESULTS / "wolfram-gkd-report.json"
+PROVENANCE = RESULTS / "PROVENANCE_OF_THE_COMPUTATION.md"
+NB_DIGEST = RESULTS / "notebook-input-cells.txt"
+WOLFRAM_PROVENANCE = GKD / "verification" / "WOLFRAMSCRIPT_PROVENANCE.md"
+NB_PROVENANCE = GKD / "notebook_reading" / "WOLFRAMSCRIPT_PROVENANCE.md"
+CHECKER = GKD / "verification" / "check_lovelock_gkd.py"
+WOLFRAM_PACKAGE = GKD / "verification" / "LovelockGKDCheck.wl"
+GKD_TEST = REVISION / "tests" / "test_gkd_lovelock.py"
+A4_EQUATIONS = REVISION / "field_equations_a4" / "a4-equations.json"
+A4_WOLFRAM = REVISION / "field_equations_a4" / "reports" / "wolfram-a4-report.json"
+A4_PYTHON = REVISION / "field_equations_a4" / "reports" / "python-a4-report.json"
+
+# The reports of the count table (section 10), in the order of the table.
+COUNTED_REPORTS = (
+    "Revision/gkd_lovelock/results/lovelock-report.json",
+    "Revision/gkd_lovelock/results/wolfram-gkd-report.json",
+    "Revision/gkd_lovelock/results/python-lovelock-report.json",
+    "Revision/field_equations_a4/reports/wolfram-a4-report.json",
+    "Revision/field_equations_a4/reports/python-a4-report.json",
+)
+# Every report whose check names the document may cite.
+CITABLE_REPORTS = (RUST_REPORT, WOLFRAM_REPORT, PYTHON_REPORT, A4_WOLFRAM, A4_PYTHON)
+# JSON files whose keys the document may cite.
+KEYED_FILES = (CURVATURE, TENSORS, RUST_REPORT, SELFTEST, PYTHON_REPORT, WOLFRAM_REPORT, A4_EQUATIONS)
+
+TITLE = "The generalized Kronecker delta and the Lovelock tensors of the author's primordial metric"
+SUBTITLE_START = "GKD, the pure-Rust generalized Kronecker delta, and the exact Lovelock tensors of order k = 1, 2, 3"
+SECTIONS = (
+    "## Abstract",
+    "## 1. The task and the result",
+    "## 2. Setting and conventions",
+    "## 3. The generalized Kronecker delta",
+    "## 4. The Lovelock tensors",
+    "## 5. How the code computes them",
+    "## 6. Results",
+    "## 7. Independent verifications",
+    "## 8. The comparison with the author's notebook",
+    "## 9. How the field equations for $a_4$ use the Lovelock tensors",
+    "## 10. Verification records",
+    "## 11. Reproduction",
+    "## 12. What is established and what is not",
+)
+KEY_STATEMENTS = (
+    "which DEFLATE exponentially with the scale factor $e^{-a_4}\\sin^{1/6}z$ as $a_4(x_4)$ increases (they are never treated as static)",
+    "kδ[lower_, upper_] /; Length[lower] == Length[upper] := Det[Outer[delta, lower, upper]]",
+    "**Theorem (GKD).**",
+    "E_{(k)}{}^h{}_j = -\\frac{P_{(k)}{}^h{}_j}{2^{k+1}},\\qquad E_{(1)} = G",
+    "so $k = 1, 2, 3$ is the complete series in eight dimensions",
+    "GKD is NOT re-implemented in Wolfram Language",
+    "It shares no code with the Rust crate",
+    "Its answers are in the output cells, which were not read.",
+    "no file under `Revision/` records it",
+    "Agreement with the author's own Lovelock tensors is therefore not established.",
+    "1. No solution: this record gives the left-hand sides of the field equations only.",
+    "2. The domain: only the patch $0 < z < \\pi/2$",
+    "3. No comparison with the author's answers:",
+    "These two run times are measurements made while writing this document; they are not recorded in a report.",
+    "(a reading of the digest, labelled as such)",
+)
+FORBIDDEN = (
+    r"\boutput cells? (?:of the author's notebook )?(?:were|was|has been|have been) (?:read|opened|used)\b",
+    r"\bconfirm(?:s|ed)? the author's (?:own )?(?:answers|results|tensors)\b",
+    r"\b(?:solutions?|a4) (?:of the field equations )?(?:is|are|was|were) (?:proved|derived|established) (?:here|in this (?:record|document))",
+    r"\bthe comparison with the author's (?:own )?answers (?:was|is|has been) (?:made|done|completed)\b",
+)
+FILE_SUFFIXES = (".json", ".py", ".wls", ".wl", ".md", ".tex", ".pdf", ".rs", ".csv", ".toml", ".txt", ".png", ".nb", ".exe")
+# Other identifiers the document cites in code spans, with the file that must contain each.
+OTHER_IDENTIFIERS = {
+    "SUCCESS": RUST_REPORT,
+    "canon": CHECKER,
+    "D": WOLFRAM_REPORT,
+    "Inverse": WOLFRAM_REPORT,
+    "Simplify": WOLFRAM_REPORT,
+    "FullSimplify": WOLFRAM_REPORT,
+    "lovelock_gkd": GKD / "code" / "Cargo.toml",
+    "i128": CRATE_SRC / "rational.rs",
+    "delta11": NB_DIGEST,
+    "delta22": NB_DIGEST,
+    "delta33": NB_DIGEST,
+    "delta55": NB_DIGEST,
+    "time_total": WOLFRAM_PROVENANCE,
+}
+COMPONENTS = ("x1,x1", "x4,x4", "x5,x5", "x8,x8")
+A1, A2, H = sp.symbols("A1 A2 H")
+ALPHA = sp.symbols("alpha1 alpha2 alpha3")
+
+
+def sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def load_json(path: Path) -> dict:
+    with open(path, encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def markdown_text() -> str:
+    return MARKDOWN.read_text(encoding="utf-8")
+
+
+def code_spans(text: str) -> list[str]:
+    """Inline code spans outside fenced code blocks."""
+    spans = []
+    in_code = False
+    for line in text.split("\n"):
+        if line.strip().startswith("```"):
+            in_code = not in_code
+            continue
+        if not in_code:
+            spans.extend(re.findall(r"`([^`]+)`", line))
+    return spans
+
+
+def cited_identifiers(text: str) -> list[str]:
+    return [span for span in code_spans(text)
+            if not span.endswith(FILE_SUFFIXES) and re.fullmatch(r"[A-Za-z][A-Za-z0-9_.*]*", span)]
+
+
+def rust_references(text: str) -> list[tuple[str, str]]:
+    refs = []
+    for span in code_spans(text):
+        match = re.fullmatch(r"([a-z_]+\.rs)::([A-Za-z_][A-Za-z0-9_]*)", span)
+        if match:
+            refs.append((match.group(1), match.group(2)))
+    return refs
+
+
+def checks_of(path: Path) -> list[tuple[str, str]]:
+    """(name, verdict) of every check; the Rust report stores {name: {passed, detail}}."""
+    checks = load_json(path)["checks"]
+    if isinstance(checks, dict):
+        return [(name, "PASS" if entry["passed"] is True else "FAIL") for name, entry in checks.items()]
+    return [(check["name"], str(check["verdict"]).upper()) for check in checks]
+
+
+def report_verdicts() -> dict[str, list[str]]:
+    verdicts: dict[str, list[str]] = {}
+    for path in CITABLE_REPORTS:
+        for name, verdict in checks_of(path):
+            verdicts.setdefault(name, []).append(verdict)
+    return verdicts
+
+
+def json_keys(value, keys: set[str]) -> set[str]:
+    if isinstance(value, dict):
+        for key, item in value.items():
+            keys.add(key)
+            json_keys(item, keys)
+    elif isinstance(value, list):
+        for item in value:
+            json_keys(item, keys)
+    return keys
+
+
+def count_report(path: Path) -> tuple[int, int, int]:
+    verdicts = [verdict for _, verdict in checks_of(path)]
+    return len(verdicts), verdicts.count("PASS"), verdicts.count("FAIL")
+
+
+def detail_of(path: Path, name: str) -> str:
+    checks = load_json(path)["checks"]
+    if isinstance(checks, dict):
+        return checks[name]["detail"]
+    for check in checks:
+        if check["name"] == name:
+            return check["detail"]
+    raise KeyError(f"{name} not in {path}")
+
+
+def from_mathematica(text: str) -> sp.Expr:
+    """The Mathematica text of a curvature or Lovelock component (no warp factors) as sympy."""
+    text = text.replace("Derivative[2][a4][x4]", "A2").replace("Derivative[1][a4][x4]", "A1")
+    text = text.replace("^", "**")
+    return sp.sympify(text, locals={"A1": A1, "A2": A2, "H": H})
+
+
+def from_ad(text: str) -> sp.Expr:
+    """An expression of the field-equations branch (ad1 = a4', ad2 = a4'')."""
+    text = text.replace("^", "**")
+    names = {"ad1": A1, "ad2": A2, "H": H, "alpha1": ALPHA[0], "alpha2": ALPHA[1], "alpha3": ALPHA[2]}
+    return sp.sympify(text, locals=names)
+
+
+def normalise_math(text: str) -> str:
+    """Remove the line-breaking marks of aligned displays and all white space."""
+    return re.sub(r"\s+", "", text.replace("\\\\", "").replace("&\\quad", "").replace("&", ""))
+
+
+class MarkdownAndTex(unittest.TestCase):
+    def test_tex_is_builder_output(self):
+        expected = builder.convert(
+            markdown_text(),
+            strip_heading_numbers=True,
+            developer_layout=True,
+            image_root=ROOT,
+        )
+        self.assertEqual(TEX.read_text(encoding="utf-8"), expected)
+
+    def test_utf8_lf_and_pinned_sha256(self):
+        for path in (MARKDOWN, TEX):
+            data = path.read_bytes()
+            data.decode("utf-8")
+            self.assertNotIn(b"\r", data, path.name)
+            self.assertNotIn(b"\t", data, path.name)
+        self.assertEqual(sha256_file(MARKDOWN), MARKDOWN_SHA256)
+        self.assertEqual(sha256_file(TEX), TEX_SHA256)
+
+
+class RegisteredPdf(unittest.TestCase):
+    def test_registered_in_the_revision_registry(self):
+        registry = check_provenance_pdf.load_specifications(REGISTRY)
+        self.assertIn(EDITION, registry)
+        entry = registry[EDITION]
+        pdf_bytes = PDF.read_bytes()
+        self.assertEqual(entry["path"], "Revision/docs/LOVELOCK_GKD.pdf")
+        self.assertEqual(entry["sha256"], hashlib.sha256(pdf_bytes).hexdigest())
+        self.assertEqual(entry["pages"], len(check_dissertation_pdf.PAGE_PATTERN.findall(pdf_bytes)))
+
+    def test_not_in_the_registry_of_the_earlier_stages(self):
+        if OLD_REGISTRY.exists():
+            self.assertNotIn(EDITION, json.loads(OLD_REGISTRY.read_text(encoding="utf-8")))
+
+    def test_pdf_structure(self):
+        pdf_bytes = PDF.read_bytes()
+        self.assertTrue(pdf_bytes.startswith(b"%PDF-"))
+        self.assertTrue(pdf_bytes.rstrip().endswith(b"%%EOF"))
+        self.assertEqual(check_dissertation_pdf.parse_media_boxes(pdf_bytes), [(0.0, 0.0, 612.0, 792.0)])
+
+    @unittest.skipUnless(REBUILD, "set REVISION_PDF_REBUILD=1 to rebuild the PDF in verify mode")
+    def test_rebuild_in_verify_mode(self):
+        completed = subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "build_provenance_pdf.py"),
+             str(MARKDOWN.relative_to(ROOT)), "--developer-layout",
+             "--specifications", str(REGISTRY.relative_to(ROOT))],
+            cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False, timeout=1800)
+        output = completed.stdout.decode("utf-8", "replace")
+        self.assertEqual(completed.returncode, 0, output[-3000:])
+        self.assertIn("check_logWarningFree=true", output)
+        self.assertIn("provenance_pdf=OK", output)
+
+
+class Content(unittest.TestCase):
+    def setUp(self):
+        self.text = markdown_text()
+
+    def test_title_subtitle_sections(self):
+        lines = self.text.split("\n")
+        self.assertEqual(lines[0], "# " + TITLE)
+        self.assertTrue(lines[2].startswith("## " + SUBTITLE_START))
+        positions = []
+        for heading in SECTIONS:
+            self.assertIn("\n" + heading + "\n", self.text, heading)
+            positions.append(self.text.index("\n" + heading + "\n"))
+        self.assertEqual(positions, sorted(positions))
+        level2 = [line for line in lines if line.startswith("## ")]
+        self.assertEqual(level2[-1], "## 12. What is established and what is not")
+        self.assertIn("\\section{What is established and what is not}", TEX.read_text(encoding="utf-8"))
+
+    def test_key_statements(self):
+        for statement in KEY_STATEMENTS:
+            self.assertIn(statement, self.text, statement)
+
+    def test_no_overclaims(self):
+        for pattern in FORBIDDEN:
+            self.assertIsNone(re.search(pattern, self.text, re.IGNORECASE), pattern)
+        self.assertNotRegex(self.text, r"\bproved\b")  # nothing is called proved except the GKD theorem's QED
+
+    def test_negative_controls(self):
+        """The content checks are not vacuous: tampered statements are detected."""
+        tampered = (
+            "The output cells of the author's notebook were read.",
+            "This confirms the author's tensors.",
+            "Solutions of the field equations are derived here.",
+            "The comparison with the author's answers was made.",
+        )
+        self.assertEqual(len(tampered), len(FORBIDDEN))
+        for pattern, sentence in zip(FORBIDDEN, tampered):
+            self.assertIsNotNone(re.search(pattern, sentence, re.IGNORECASE), pattern)
+        self.assertNotIn("k1_equals_minus_4_einstei", report_verdicts())
+        total, passed, failed = count_report(WOLFRAM_REPORT)
+        wrong_row = f"| `Revision/gkd_lovelock/results/wolfram-gkd-report.json` | {total + 1} | {passed} | {failed} |"
+        self.assertNotIn(wrong_row, self.text)
+        p3 = load_json(TENSORS)["P3_mixed_up_h_down_j"]["x8,x8"]["latex"].replace("1152", "1153")
+        self.assertNotIn(normalise_math(p3), normalise_math(self.text))
+
+    def test_no_material_of_the_earlier_stages(self):
+        for marker in ("artifacts/", "provenance/", "studies/", "notebooks/", "dirac-main", "vendor/"):
+            self.assertNotIn(marker, self.text, marker)
+
+    def test_cited_identifiers_exist(self):
+        verdicts = report_verdicts()
+        keys: set[str] = set()
+        for path in KEYED_FILES:
+            json_keys(load_json(path), keys)
+        cited = cited_identifiers(self.text)
+        self.assertGreater(len(cited), 150)
+        for name in cited:
+            if name in verdicts:
+                self.assertTrue(all(v == "PASS" for v in verdicts[name]), name)
+            elif name in keys:
+                continue
+            else:
+                self.assertIn(name, OTHER_IDENTIFIERS, name)
+                self.assertIn(name, OTHER_IDENTIFIERS[name].read_text(encoding="utf-8"), name)
+
+    def test_rust_references_exist(self):
+        refs = rust_references(self.text)
+        self.assertGreater(len(refs), 20)
+        for file_name, name in refs:
+            source = (CRATE_SRC / file_name).read_text(encoding="utf-8")
+            self.assertRegex(source, rf"\b(?:fn|struct)\s+{re.escape(name)}\b", f"{file_name}::{name}")
+
+    def test_every_check_of_the_three_reports_is_listed(self):
+        cited = set(cited_identifiers(self.text))
+        for path, count in ((RUST_REPORT, 19), (WOLFRAM_REPORT, 29), (PYTHON_REPORT, 49)):
+            names = [name for name, _ in checks_of(path)]
+            self.assertEqual(len(names), count, path.name)
+            for name in names:
+                self.assertIn(name, cited, f"{name} of {path.name}")
+
+    def test_report_count_table_and_quoted_counts(self):
+        for relative in COUNTED_REPORTS:
+            total, passed, failed = count_report(ROOT / relative)
+            row = f"| `{relative}` | {total} | {passed} | {failed} |"
+            self.assertIn(row, self.text, row)
+            self.assertEqual((passed, failed), (total, 0), relative)
+        for path in (RUST_REPORT, WOLFRAM_REPORT, PYTHON_REPORT):
+            data = load_json(path)
+            self.assertEqual(data["failedCheckCount"], 0)
+            self.assertEqual(data["verdict"], "SUCCESS")
+            self.assertIn(f'`"checkCount": {data["checkCount"]}`', self.text, path.name)
+            self.assertEqual(data["checkCount"], len(data["checks"]))
+        self.assertEqual(load_json(WOLFRAM_REPORT)["expectedCheckCount"], 29)
+        self.assertIn('`"expectedCheckCount": 29`', self.text)
+        self.assertIn("19 of 19", self.text)
+        self.assertIn("29 of 29", self.text)
+        self.assertIn("49 of 49", self.text)
+
+
+class QuotedData(unittest.TestCase):
+    def setUp(self):
+        self.text = markdown_text()
+        self.flat = normalise_math(self.text)
+        self.tensors = load_json(TENSORS)
+        self.curvature = load_json(CURVATURE)
+
+    def test_gkd_selftest_table(self):
+        data = load_json(SELFTEST)
+        self.assertEqual(data["verdict"], "SUCCESS")
+        self.assertEqual([row["p"] for row in data["results"]], list(range(1, 10)))
+        for row in data["results"]:
+            self.assertEqual(row["mismatches"], 0)
+            nonzero = f" {row['nonzero']} " if row["mode"] == "random" else " "
+            line = f"| {row['p']} | {row['mode']} | {row['pairs']} |{nonzero}| 0 |"
+            self.assertIn(line, self.text, line)
+        self.assertEqual(data["results"][3]["pairs"], 16777216)
+        self.assertIn("16,777,216", self.text)
+        self.assertIn("200,000", self.text)
+        self.assertEqual(data["definition"],
+                         "kδ[lower_, upper_] /; Length[lower] == Length[upper] := Det[Outer[delta, lower, upper]]")
+        self.assertEqual(load_json(RUST_REPORT)["gkdSelfCheck"], {"length3Pair": 1, "transposition": -1})
+
+    def test_rust_counters_and_brute_force(self):
+        report = load_json(RUST_REPORT)
+        for row in report["counters"]:
+            line = (f"| {row['k']} | {row['leaves']} | {row['gkdCalls']} | {row['gkdNonzero']} | "
+                    f"{row['scalarGkdCalls']} | {row['nonzeroComponents']} |")
+            self.assertIn(line, self.text, line)
+        for name, lists, deviation in (("k1_brute_force_numeric", "262144", "1.40e-15"),
+                                       ("k2_brute_force_numeric", "1073741824", "4.41e-14")):
+            detail = detail_of(RUST_REPORT, name)
+            for number in (lists, deviation, "H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, x8 = 0.41"):
+                self.assertIn(number, detail, name)
+            self.assertIn(f"{lists} index lists", self.text)
+            self.assertIn(deviation, self.text)
+        self.assertIn("$H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$, $x_8 = 0.41$", self.text)
+        self.assertIn("all 4096 index lists", detail_of(RUST_REPORT, "riemann_first_bianchi"))
+        self.assertIn("for all 4096 index lists", self.text)
+
+    def test_sympy_counters_and_numbers(self):
+        report = load_json(PYTHON_REPORT)
+        counters = report["counters"]
+        for row in counters["lovelockSums"]:
+            line = (f"| {row['k']} | {row['products']} | {row['kdeltaCalls']} | {row['kdeltaNonzero']} | "
+                    f"{row['distinctMultisets']} |")
+            self.assertIn(line, self.text, line)
+        self.assertIn(f"with {counters['kdeltaCallsTotal']} determinant calls in all and "
+                      f"{counters['distinctOuterMatricesDeterminedBySympy']} distinct 0/1 matrices", self.text)
+        self.assertEqual(len(report["randomPoints"]), 5)
+        pairs = (
+            ("k1_unpruned_literal_sum_agrees", "10140 kdelta calls", "(10140 calls)"),
+            ("k2_unpruned_literal_sum_agrees", "1581840 kdelta calls", "(1581840 calls)"),
+            ("k3_pruned_terms_vanish_literally", "20000 random", "20000 random terms"),
+            ("k3_pruned_terms_vanish_literally", "19900 have a repeated index", "19900 of them"),
+            ("k4_terms_vanish_literally", "300 random", "300 random 9-index lists"),
+            ("gkd_literal_equals_cofactor_expansion", "266304 pairs", "266304 pairs"),
+            ("gkd_literal_equals_cofactor_expansion", "7500 random pairs of length 4..8", "7500 random pairs of lengths 4 to 8"),
+            ("normalisation_L3_cubic_derived", "c = [16, 64, 192, 24, 192, 128, -96, 8] = 8 x [2, 8, 24, 3, 24, 16, -12, 1]",
+             "c = [16, 64, 192, 24, 192, 128, -96, 8] = 8 x [2, 8, 24, 3, 24, 16, -12, 1]"),
+            ("normalisation_L3_cubic_derived", "rank 8", "rank 8"),
+            ("normalisation_P1_derived_minus_4", "[-4]", "the single value $-4$ in $d = 4$"),
+            ("normalisation_P2_derived_minus_8", "[-8]", "the single value $-8$ in $d = 5$"),
+            ("L3_equals_8_cubic_lovelock_density", "8 (2 T1 + 8 T2 + 24 T3 + 3 T4 + 24 T5 + 16 T6 - 12 T7 + T8)",
+             "8(2T_1 + 8T_2 + 24T_3 + 3T_4 + 24T_5 + 16T_6 - 12T_7 + T_8)"),
+            ("rust_k3_mixed_components_agree", "60 digits", "60 digits at 5 random rational points"),
+        )
+        for name, in_report, in_document in pairs:
+            self.assertIn(in_report, detail_of(PYTHON_REPORT, name), name)
+            self.assertIn(in_document, self.text, in_document)
+
+    def test_wolfram_numbers(self):
+        report = load_json(WOLFRAM_REPORT)
+        self.assertIn("Wolfram Language 15.0.1", report["producer"])
+        self.assertIn("Wolfram Language 15.0.1", self.text)
+        comparison = report["measurements"]["gkdComparison"]
+        self.assertEqual(sum(row["pairs"] for row in comparison), 346304)
+        self.assertTrue(all(row["mismatches"] == 0 for row in comparison))
+        self.assertEqual([row["pairs"] for row in comparison], [64, 4096, 262144, 20000, 20000, 20000, 20000])
+        flips = ", ".join(str(row["mismatchesAgainstMinusGKD"]) for row in comparison)
+        self.assertIn(f"({flips} pairs for lengths 1 to 7)", self.text)
+        self.assertEqual(report["gkdValuesSource"]["valuesFileBytes"], 3161984)
+        self.assertIn("values file of 3161984 bytes", self.text)
+        self.assertIn("346304 pairs", self.text)
+        use = " ".join(report["verbatimKDeltaUse"])
+        for number in ("9984", "1557504", "1128960"):
+            self.assertIn(number, use)
+        self.assertIn("(9984 and 1557504 calls)", self.text)
+        self.assertIn("(1128960 calls)", self.text)
+        rust = {row["k"]: row["gkdNonzero"] for row in load_json(RUST_REPORT)["counters"]}
+        for k in (1, 2, 3):
+            self.assertIn(f"number of nonzero kδ terms here: {rust[k]}",
+                          detail_of(WOLFRAM_REPORT, f"k{k}_nonzero_kdelta_terms_equal_rust_counter"))
+        self.assertIn(f"{rust[1]}, {rust[2]} and {rust[3]}, equal the Rust counters", self.text)
+        self.assertIn("156 nonzero entries", detail_of(WOLFRAM_REPORT, "riemann_mixed_equals_rust_curvature"))
+
+    def test_curvature(self):
+        christoffels = self.curvature["christoffelNonzero_b_le_c"]
+        self.assertEqual(len(christoffels), 25)
+        self.assertIn("lists 25 nonzero Christoffel symbols", self.text)
+        riemann = self.curvature["riemannMixedNonzero"]
+        self.assertEqual(len(riemann), 156)
+        self.assertIn("has 156 nonzero entries", self.text)
+        space, extra = {"x1", "x2", "x3"}, {"x5", "x6", "x7"}
+        expected = {
+            "same": A1**2 - H**2, "mixed": -A1**2 - H**2, "i4": A2 + A1**2, "4t": -A2 + A1**2, "8": -H**2,
+        }
+        for entry in riemann:
+            (a, b), (c, d) = entry["up"], entry["down"]
+            if (a, b) != (c, d):
+                continue
+            value = from_mathematica(entry["value"]) if "Cot" not in entry["value"] else None
+            pair = {a, b}
+            if pair <= space or pair <= extra:
+                self.assertEqual(sp.expand(value - expected["same"]), 0, entry)
+            elif len(pair & space) == 1 and len(pair & extra) == 1:
+                self.assertEqual(sp.expand(value - expected["mixed"]), 0, entry)
+            elif "x4" in pair and pair & space:
+                self.assertEqual(sp.expand(value - expected["i4"]), 0, entry)
+            elif "x4" in pair and pair & extra:
+                self.assertEqual(sp.expand(value - expected["4t"]), 0, entry)
+            elif "x8" in pair:
+                self.assertEqual(sp.expand(value - expected["8"]), 0, entry)
+        self.assertFalse(any(set(e["up"]) == {"x4", "x8"} for e in riemann))
+        for line in ("| $R^{x_ix_t}{}_{x_ix_t}$ | $-(a_4')^2 - H^2$ |", "| $R^{x_ix_4}{}_{x_ix_4}$ | $a_4'' + (a_4')^2$ |",
+                     "| $R^{x_4x_t}{}_{x_4x_t}$ | $-a_4'' + (a_4')^2$ |",
+                     "| $R^{x_ix_8}{}_{x_ix_8}$ and $R^{x_tx_8}{}_{x_tx_8}$ | $-H^2$ |"):
+            self.assertIn(line, self.text, line)
+        cot = [e for e in riemann if "Cot" in e["value"]]
+        self.assertEqual(len(cot), 156 - sum(1 for e in riemann if "Cot" not in e["value"]))
+        values = {e["value"] for e in cot}
+        self.assertEqual(values, {"H*Derivative[1][a4][x4]*Cot[6*H*x8]", "-H*Derivative[1][a4][x4]*Cot[6*H*x8]",
+                                  "H*Derivative[1][a4][x4]*Cot[6*H*x8]^(-1)", "-H*Derivative[1][a4][x4]*Cot[6*H*x8]^(-1)"})
+        self.assertEqual(from_mathematica(self.curvature["ricciScalar"]), 6*A1**2 - 42*H**2)
+        self.assertIn("$R = 6(a_4')^2 - 42H^2$", self.text)
+        ricci = {"x1,x1": A2 - 6*H**2, "x4,x4": 6*A1**2, "x5,x5": -A2 - 6*H**2, "x8,x8": -6*H**2}
+        einstein = {"x1,x1": A2 - 3*A1**2 + 15*H**2, "x4,x4": 3*A1**2 + 21*H**2,
+                    "x5,x5": -A2 - 3*A1**2 + 15*H**2, "x8,x8": -3*A1**2 + 15*H**2}
+        for key in COMPONENTS:
+            self.assertEqual(sp.expand(from_mathematica(self.curvature["ricciMixed"][key]["mathematica"]) - ricci[key]), 0)
+            self.assertEqual(sp.expand(from_mathematica(self.curvature["einsteinMixed"][key]["mathematica"]) - einstein[key]), 0)
+        for text in ("$R^{x_i}{}_{x_i} = a_4'' - 6H^2$", "$R^{x_4}{}_{x_4} = 6(a_4')^2$", "$R^{x_t}{}_{x_t} = -a_4'' - 6H^2$",
+                     "$R^{x_8}{}_{x_8} = -6H^2$"):
+            self.assertIn(text, self.text, text)
+        for text in ("G^{x_i}{}_{x_i} = a_4'' - 3(a_4')^2 + 15H^2", "G^{x_4}{}_{x_4} = 3(a_4')^2 + 21H^2",
+                     "G^{x_t}{}_{x_t} = -a_4'' - 3(a_4')^2 + 15H^2", "G^{x_8}{}_{x_8} = -3(a_4')^2 + 15H^2"):
+            self.assertIn(text, self.text, text)
+        self.assertEqual(self.curvature["sqrtAbsDetG"], "Sin[6*H*x8]*Cot[6*H*x8]")
+        self.assertEqual(self.curvature["metricDiagonal"][3], "-1")
+
+    def test_every_listed_lovelock_component(self):
+        for k in (1, 2, 3):
+            tensor = self.tensors[f"P{k}_mixed_up_h_down_j"]
+            for key, entry in tensor.items():
+                h, j = key.split(",")
+                if h != j:
+                    self.assertEqual(entry["mathematica"], "0", key)
+            for a, b in (("x2,x2", "x1,x1"), ("x3,x3", "x1,x1"), ("x6,x6", "x5,x5"), ("x7,x7", "x5,x5")):
+                self.assertEqual(tensor[a]["mathematica"], tensor[b]["mathematica"])
+            for key in COMPONENTS:
+                latex = tensor[key]["latex"]
+                index = key.split(",")[0][1]
+                head = f"P_{{({k})}}{{}}^{{x_{index}}}{{}}_{{x_{index}}}&="
+                self.assertIn(normalise_math(head + latex), self.flat, f"P_({k}) {key}")
+        self.assertIn("all 56 off-diagonal components of each tensor vanish", self.text)
+
+    def test_lovelock_scalars(self):
+        expected = {
+            "L1": (12*A1**2 - 84*H**2, r"L_{(1)} &= 12\,(a_4')^{2} - 84\,H^{2}"),
+            "L2": (-96*A1**4 - 2112*H**2*A1**2 + 3360*H**4,
+                   r"L_{(2)} &= -96\,(a_4')^{4} - 2112\,H^{2}\,(a_4')^{2} + 3360\,H^{4}"),
+            "L3": (1152*A1**6 + 31104*H**2*A1**4 + 100224*H**4*A1**2 - 40320*H**6,
+                   r"L_{(3)} &= 1152\,(a_4')^{6} + 31104\,H^{2}\,(a_4')^{4} + 100224\,H^{4}\,(a_4')^{2} - 40320\,H^{6}"),
+        }
+        for key, (value, latex) in expected.items():
+            self.assertEqual(sp.expand(from_mathematica(self.tensors[key]) - value), 0, key)
+            self.assertIn(latex, self.text, key)
+        for k in (1, 2, 3):
+            tensor = self.tensors[f"P{k}_mixed_up_h_down_j"]
+            trace = sum(from_mathematica(tensor[f"x{i},x{i}"]["mathematica"]) for i in range(1, 9))
+            self.assertEqual(sp.expand(trace - (8 - 2*k)*from_mathematica(self.tensors[f"L{k}"])), 0, k)
+        self.assertEqual(self.tensors["k4"], "identically zero (GKD of 9 indices in 8 dimensions)")
+        self.assertIn("“identically zero (GKD of 9 indices in 8 dimensions)”", self.text)
+
+    def test_identity_and_einstein_relation(self):
+        for k in (1, 2, 3):
+            p = {key: from_mathematica(self.tensors[f"P{k}_mixed_up_h_down_j"][key]["mathematica"]) for key in COMPONENTS}
+            self.assertEqual(sp.expand(p["x1,x1"] + p["x5,x5"] - 2*p["x8,x8"]), 0, k)
+            self.assertFalse(p["x4,x4"].has(A2) or p["x8,x8"].has(A2), k)
+            self.assertEqual(sp.expand(p["x1,x1"].coeff(A2) + p["x5,x5"].coeff(A2)), 0, k)
+        for key in COMPONENTS:
+            p1 = from_mathematica(self.tensors["P1_mixed_up_h_down_j"][key]["mathematica"])
+            g = from_mathematica(self.curvature["einsteinMixed"][key]["mathematica"])
+            self.assertEqual(sp.expand(p1 + 4*g), 0, key)
+        self.assertIn("$P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} = 2P_{(k)}^{x_8}{}_{x_8}$", self.text)
+        a1x4 = self.tensors["A1_contravariant_l_h"]["x4,x4"]["latex"]
+        self.assertIn(f"$A_{{(1)}}{{}}^{{x_4x_4}} = {a1x4}$", self.text)
+
+    def test_field_equations_use(self):
+        """E_(k) of a4-equations.json = -P_(k)/2^(k+1) of this record; the factor F(a4')."""
+        lovelock = load_json(A4_EQUATIONS)["lovelockTensors"]
+        f_value = 0
+        for k in (1, 2, 3):
+            tensor = self.tensors[f"P{k}_mixed_up_h_down_j"]
+            for key in COMPONENTS:
+                e_k = from_ad(lovelock[f"E{k}"][key.replace(",", "")]["input"])
+                p_k = from_mathematica(tensor[key]["mathematica"])
+                self.assertEqual(sp.expand(e_k + p_k / 2**(k + 1)), 0, f"E{k} {key}")
+            difference = -(from_mathematica(tensor["x1,x1"]["mathematica"])
+                           - from_mathematica(tensor["x5,x5"]["mathematica"])) / 2**(k + 1)
+            f_value += ALPHA[k - 1] * sp.cancel(difference / A2)
+        a1, a2, a3 = ALPHA
+        document_f = (2*a1 - 48*a2*A1**2 - 80*a2*H**2 + 720*a3*A1**4 + 864*a3*A1**2*H**2 + 720*a3*H**4)
+        self.assertEqual(sp.expand(f_value - document_f), 0)
+        self.assertIn(r"F(a_4') = 2\alpha_1 - 48\alpha_2(a_4')^2 - 80\alpha_2H^2 + 720\alpha_3(a_4')^4 "
+                      r"+ 864\alpha_3(a_4')^2H^2 + 720\alpha_3H^4", self.text)
+        detail = detail_of(A4_WOLFRAM, "evolution_factorises_a4pp_times_F")
+        reported = from_ad(detail.split("F = ", 1)[1])
+        self.assertEqual(sp.expand(reported - document_f), 0)
+        for name in ("P1_direct_equals_gkd_branch_monomials", "P2_direct_equals_gkd_branch_monomials",
+                     "P3_direct_equals_gkd_branch_monomials"):
+            self.assertIn("Revision/gkd_lovelock/results/lovelock-tensors.json", detail_of(A4_WOLFRAM, name))
+        self.assertIn("x4-x8", detail_of(A4_PYTHON, "other_components_vanish"))
+
+    def test_notebook_reading(self):
+        provenance = PROVENANCE.read_text(encoding="utf-8")
+        sha = "23bb4e0c70943e766d9b081a3a399ef29664889aad088041329ce2e065b80afb"
+        self.assertIn(sha, provenance)
+        self.assertIn(sha, self.text)
+        self.assertIn("The comparison with the author's own answers is done afterwards", provenance)
+        digest = NB_DIGEST.read_text(encoding="utf-8")
+        for label in ("In[29]:=", "In[87]:=", "In[101]:=", "In[102]:=", "In[105]:=", "In[108]:="):
+            self.assertIn(label, digest)
+        for name in ("kδ33", "kδ55", "kδ77"):
+            self.assertIn(name, digest)
+            self.assertIn(f"`{name}`", self.text)
+        self.assertIn("DefMetric[{4, 4, 0}", digest)
+        nb_provenance = NB_PROVENANCE.read_text(encoding="utf-8")
+        self.assertIn("input cells written: 58", nb_provenance)
+        self.assertIn("(1372 x 435 pixels)", nb_provenance)
+        self.assertIn("58 INPUT cells", self.text)
+        self.assertIn("(1372 x 435 pixels)", self.text)
+        self.assertIn("`definition_is_the_authors_verbatim`", self.text)
+
+    def test_run_times_from_the_provenance_files(self):
+        wolfram = WOLFRAM_PROVENANCE.read_text(encoding="utf-8")
+        for in_provenance, in_document in (
+            ("| `time_total` | 68.4 |", "`time_total` 68.4 s"),
+            ("`time_total` was 68-135 s (seven runs)", "68-135 s over seven runs"),
+            ("the k = 2 step took 26-43 s and the k = 3 step 35-77 s", "took 26-43 s and the $k = 3$ sum 35-77 s"),
+            ("`time_total=1637.7`", "took 1637.7 s"),
+            ("working set 480.7 / 485.5 / 486.2 MB", "about 486 MB working set"),
+        ):
+            self.assertIn(in_provenance, wolfram, in_provenance)
+            self.assertIn(in_document, self.text, in_document)
+        notebook = re.sub(r"\s+", " ", NB_PROVENANCE.read_text(encoding="utf-8"))
+        phrase = "The whole set takes about 10 to 25 seconds, and up to about 40 seconds on a fully loaded machine"
+        self.assertIn(phrase, notebook)
+        self.assertIn("the whole set takes about 10 to 25 seconds, and up to about 40 seconds on a fully loaded machine",
+                      self.text)
+        self.assertIn("several minutes", GKD_TEST.read_text(encoding="utf-8"))
+        self.assertIn("several minutes (`Revision/tests/test_gkd_lovelock.py`", self.text)
+
+
+if __name__ == "__main__":
+    unittest.main()

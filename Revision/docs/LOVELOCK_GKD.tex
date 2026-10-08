@@ -1,0 +1,640 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,array}
+\usepackage{fancyvrb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\DeclareUnicodeCharacter{03B4}{\ensuremath{\delta}}
+\pdfobjcompresslevel=0
+\pdfinfoomitdate=1
+\pdftrailerid{}
+\pdfsuppressptexinfo=15
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+\setlength{\emergencystretch}{3em}
+\title{The generalized Kronecker delta and the Lovelock tensors of the author's primordial metric\\[0.5em]\large GKD, the pure-Rust generalized Kronecker delta, and the exact Lovelock tensors of order k = 1, 2, 3 of Lovelock's equation (4.38) for the 4+4 metric with deflating extra times, with their independent verifications and an exact statement of what they establish}
+\author{dirac16complex project (with Claude Opus 5.5)}
+\date{September 2026}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\begin{abstract}
+This document records the computation of \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock}: the generalized Kronecker delta of the author's notebook, re-implemented in pure Rust as the function GKD, and the three nonzero Lovelock tensors $P_{(1)}$, $P_{(2)}$, $P_{(3)}$ of Lovelock's equation (4.38) for the author's primordial metric of signature (4,4), in which the three extra times $x_5, x_6, x_7$ deflate as $e^{-a_4(x_4)}$ while 3-space inflates as $e^{a_4(x_4)}$. Every component of $P_{(k)}$ is an exact polynomial in $H$, $a_4'$ and $a_4''$; the tensors are diagonal, free of the warp factor $\sin^{1/3}z$, of $e^{a_4}$ and of $x_8$, with equal components in the three 3-space directions and in the three extra-time directions, and $P_{(4)} = 0$ identically in eight dimensions. The Rust program checks 19 identities (19 of 19 pass); GKD equals the author's determinant on all 16,777,216 pairs of index lists of length 4 and on 200,000 pseudo-random pairs of each length 5 to 9. Two independent verifications agree with every component: a Wolfram Language check that evaluates the author's definition verbatim (29 of 29 checks pass) and a sympy checker that shares no code with the Rust program (49 of 49 checks pass). The field equations for $a_4$ use these tensors with the normalisation $E_{(k)} = -P_{(k)}/2^{k+1}$, $E_{(1)} = G$. Not established here: any solution of the field equations, anything at or beyond the brane $z = \pi/2$, and a comparison with the answers in the output cells of the author's notebook, which were never read.
+
+\end{abstract}
+
+\section{The task and the result}
+
+The author's test (2026-10-01, \texttt{Revision\allowbreak{}/README.\allowbreak{}md} and \texttt{Revision\allowbreak{}/SPEC.md} sections 5 and 10): refactor the author's Wolfram Language definition of the generalized Kronecker delta into a pure-Rust function GKD, use it to compute, with provenance, the three nonzero Lovelock tensors of Lovelock's equation (4.38) for the author's 8 x 8 metric, write every component, and do the work without reading the author's answers. The result, in one paragraph each:
+
+\begin{enumerate}
+\item GKD (section 3). For index lists of equal length, GKD returns the determinant of the author's 0/1 matrix without computing a determinant: it is the sign of the permutation that maps the lower list onto the upper list, or 0. The equality with the author's definition is a theorem (section 3.2), confirmed exhaustively and on random samples by three programs.
+\item The Lovelock tensors (sections 4 to 6). $P_{(k)}{}^h{}_j$, $A_{(k)}{}^{lh}$ and $L_{(k)}$ for $k = 1, 2, 3$ are computed exactly from the metric alone, with every term of the sums weighted by an explicit call of GKD. Their nonzero components are listed in section 6.3.
+\item The verifications (sections 7 and 10). The Rust program, the Wolfram check and the sympy checker agree exactly on every one of the 64 components of each tensor; every check of the three reports has the verdict PASS.
+\item The use (section 9). The field equations for $a_4$ of \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4} recompute the three tensors in both of their verifiers and compare them with the file of this record.
+\end{enumerate}
+
+Every formula and number below is taken from the Revision files named with it; nothing is taken from the earlier stages of the repository. Interpretations are labelled as such.
+
+\section{Setting and conventions}
+
+\subsection{The author's metric and coordinates}
+
+The coordinates are named as the author names them; arrays index them $0, \dots, 7$. $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, time-like, which DEFLATE exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$ as $a_4(x_4)$ increases (they are never treated as static); $x_8$ is the hidden space direction with $z = 6Hx_8 \in (0,\pi/2)$; $H > 0$ is the author's constant and $a_4' = da_4/dx_4$. The metric of \texttt{Revision\allowbreak{}/SPEC.md} section 1, as the Rust program stores it (\texttt{metricDi\allowbreak{}agonal} of \texttt{curvatur\allowbreak{}e.json}), is
+
+\[
+\begin{aligned}
+g = \mathrm{diag}\big(& e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ -1, \\
+& -e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ \cot^2 z\big),
+\end{aligned}
+\]
+
+of signature (4,4): space-like $x_1, x_2, x_3, x_8$, time-like $x_4, x_5, x_6, x_7$. Its determinant is $\det g = \cos^2 z$, so $\sqrt{|g|} = \cos z$ on $0 < z < \pi/2$; the Rust program writes it as $\sin z\cot z$ (\texttt{sqrtAbsD\allowbreak{}etG}). The 7-volume factor $e^{3a_4}e^{-3a_4} = 1$ shows that the inflation of 3-space is compensated by the deflation of the extra times.
+
+\subsection{Curvature conventions}
+
+Stated in \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/co\allowbreak{}de/src/g\allowbreak{}eometry.\allowbreak{}rs} and used by all three programs:
+
+\begin{itemize}
+\item Christoffel symbols $\Gamma^a{}_{bc} = \frac12 g^{ad}(\partial_b g_{dc} + \partial_c g_{db} - \partial_d g_{bc})$.
+\item Riemann tensor (Misner-Thorne-Wheeler) $R^a{}_{bcd} = \partial_c\Gamma^a{}_{bd} - \partial_d\Gamma^a{}_{bc} + \Gamma^a{}_{ce}\Gamma^e{}_{bd} - \Gamma^a{}_{de}\Gamma^e{}_{bc}$; a round 2-sphere of radius $r$ has $R^{12}{}_{12} = +1/r^2$.
+\item $R^{ab}{}_{cd} = g^{be}R^a{}_{ecd}$; Ricci $R_{bd} = R^a{}_{bad}$, so $R^h{}_j = R^{ha}{}_{ja}$; $R = R^{ab}{}_{ab}$; Einstein $G^h{}_j = R^h{}_j - \frac12\delta^h_jR$.
+\end{itemize}
+
+\section{The generalized Kronecker delta}
+
+\subsection{The author's definition}
+
+The cell stored as \texttt{\detokenize{In[87]}} in the author's notebook \texttt{Generali\allowbreak{}zed \_Kro\allowbreak{}necker\_D\allowbreak{}elta\_4+4\allowbreak{}.nb} (the author's \texttt{\detokenize{In[54]}}) defines
+
+\begin{Verbatim}[fontsize=\small]
+kδ[lower_, upper_] /; Length[lower] == Length[upper] := Det[Outer[delta, lower, upper]]
+\end{Verbatim}
+
+For lists $l = (l_1, \dots, l_p)$ and $u = (u_1, \dots, u_p)$ the matrix \texttt{Outer[de\allowbreak{}lta, low\allowbreak{}er, uppe\allowbreak{}r]} has the entries $M_{ij} = \delta(l_i, u_j)$ (1 if $l_i = u_j$, otherwise 0), and
+
+\[
+\delta^{u_1\cdots u_p}_{l_1\cdots l_p} = \det\big[\delta(l_i, u_j)\big]_{i,j=1}^{p} .
+\]
+
+For lists of different length the definition does not apply and the expression stays unevaluated. Because $\det M = \det M^T$, exchanging the two lists does not change the value.
+
+\subsection{GKD and the proof that it equals the definition}
+
+\textbf{Theorem (GKD).} For lists of equal length $p$, $\det M = 0$ if two lower indices are equal, if two upper indices are equal, or if some lower index is not among the upper indices; otherwise $\det M = \mathrm{sign}(\sigma)$, where $\sigma$ is the permutation with $l_i = u_{\sigma(i)}$.
+
+Proof (the comment of \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/co\allowbreak{}de/src/g\allowbreak{}kd.rs}). (a) Two equal lower indices give two equal rows of $M$, so $\det M = 0$. (b) Two equal upper indices give two equal columns, so $\det M = 0$. (c) A lower index $l_i$ that is not among the upper indices gives a zero row $i$, so $\det M = 0$. (d) Otherwise both lists consist of $p$ distinct indices and every $l_i$ equals exactly one $u_{\sigma(i)}$; $M$ has a single 1 in each row $i$, in column $\sigma(i)$, so it is the permutation matrix of $\sigma$, and in the Leibniz formula only the term of $\sigma$ survives: $\det M = \mathrm{sign}(\sigma)$. QED.
+
+\texttt{gkd.rs::\allowbreak{}GKD} implements cases (a) to (d) with a position table and counts the inversions of $\sigma$: $O(p^2)$ integer operations ($p \le 64$) instead of a $p \times p$ determinant. With more than eight indices over eight values two indices of a list are always equal (pigeonhole), so GKD is 0. \texttt{gkd.rs::\allowbreak{}kdelta\_d\allowbreak{}et} is a literal transcription of the definition (the Leibniz determinant of the 0/1 matrix, permutations by Heap's algorithm) used only to test GKD.
+
+\subsection{The self-test of GKD}
+
+\texttt{lovelock\allowbreak{}\_gkd gkd\allowbreak{}-selftes\allowbreak{}t --exha\allowbreak{}ustive-m\allowbreak{}ax 4} compares GKD with \texttt{gkd.rs::\allowbreak{}kdelta\_d\allowbreak{}et} on every pair of index lists of length 1 to 4 over the eight labels and on 200,000 pseudo-random pairs (xorshift64*, half of them permutations of each other) of each length 5 to 9. The report \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/re\allowbreak{}sults/gk\allowbreak{}d-selfte\allowbreak{}st.json} has the verdict \texttt{\detokenize{SUCCESS}}:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}@{}}
+\toprule
+\textbf{length $p$} & \textbf{mode} & \textbf{pairs} & \textbf{nonzero values} & \textbf{mismatches} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{length $p$} & \textbf{mode} & \textbf{pairs} & \textbf{nonzero values} & \textbf{mismatches} \\
+\midrule
+\endhead
+1 & exhaustive & 64 &  & 0 \\
+2 & exhaustive & 4096 &  & 0 \\
+3 & exhaustive & 262144 &  & 0 \\
+4 & exhaustive & 16777216 &  & 0 \\
+5 & random & 200000 & 20538 & 0 \\
+6 & random & 200000 & 7812 & 0 \\
+7 & random & 200000 & 1949 & 0 \\
+8 & random & 200000 & 244 & 0 \\
+9 & random & 200000 & 0 & 0 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+At length 9 (nine indices over eight values) no pair has a nonzero value, as the pigeonhole argument requires. The Lovelock program records two values of GKD itself (\texttt{gkdSelfC\allowbreak{}heck} of \texttt{lovelock\allowbreak{}-report.\allowbreak{}json}): $+1$ for a 3-cycle (\texttt{length3P\allowbreak{}air}) and $-1$ for a transposition (\texttt{transpos\allowbreak{}ition}).
+
+\section{The Lovelock tensors}
+
+\subsection{Lovelock's equation (4.38)}
+
+The cell stored as \texttt{\detokenize{In[101]}} in the author's notebook (the author's \texttt{\detokenize{In[68]}}) is a picture of Lovelock's equation (4.38) (Lovelock and Rund), rendered to \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/re\allowbreak{}sults/no\allowbreak{}tebook-i\allowbreak{}n68-imag\allowbreak{}e.png} and read from that picture. In $n$ dimensions, with arbitrary constants $\alpha_{(k)}$ and $\lambda$ and $m = n/2$ for even $n$,
+
+\[
+A^{lh} = \sqrt{g}\sum_{k=1}^{m-1}\alpha_{(k)}\,g^{jl}\,\delta^{hh_1\cdots h_{2k}}_{jj_1\cdots j_{2k}}\,R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}} + \lambda\sqrt{g}\,g^{lh} .
+\]
+
+For the author's metric $n = 8$ and $m = 4$, so the sum runs over $k = 1, 2, 3$; $\sqrt{g}$ means $\sqrt{|\det g|} = \cos z$ (section 2.1).
+
+\subsection{Definitions and index conventions of this record}
+
+For $k = 1, 2, 3$ (\texttt{lovelock\allowbreak{}-tensors\allowbreak{}.json}, key \texttt{definiti\allowbreak{}on}):
+
+\[
+\begin{aligned}
+P_{(k)}{}^h{}_j &= \delta^{hh_1\cdots h_{2k}}_{jj_1\cdots j_{2k}}\,R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}} \\
+&= \sum \mathrm{GKD}\big([j,j_1,\dots,j_{2k}],[h,h_1,\dots,h_{2k}]\big)\prod_{i=1}^{k}R^{j_{2i-1}j_{2i}}{}_{h_{2i-1}h_{2i}} ,\\
+L_{(k)} &= \delta^{h_1\cdots h_{2k}}_{j_1\cdots j_{2k}}\,R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}} ,\\
+A_{(k)}{}^{lh} &= \sqrt{|g|}\,g^{jl}\,P_{(k)}{}^h{}_j ,
+\end{aligned}
+\]
+
+summed over all repeated indices. Conventions, stated once:
+
+\begin{itemize}
+\item The lower list of GKD is $[j, j_1, \dots, j_{2k}]$ (the lower indices of $\delta$, which carry the UPPER index pairs of the curvature factors) and the upper list is $[h, h_1, \dots, h_{2k}]$; in the code (\texttt{lovelock\allowbreak{}.rs::dfs}) the upper pair $a, b$ of a factor $R^{ab}{}_{cd}$ joins the lower row of $\delta$ and the lower pair $c, d$ joins the upper row. The field-equations branch writes the lists in the other order; by section 3.1 the value is the same.
+\item $P_{(k)}$ is stored with its first index up and its second down (\texttt{P1\_mixed\allowbreak{}\_up\_h\_do\allowbreak{}wn\_j}, \texttt{P2\_mixed\allowbreak{}\_up\_h\_do\allowbreak{}wn\_j}, \texttt{P3\_mixed\allowbreak{}\_up\_h\_do\allowbreak{}wn\_j}); $A_{(k)}$ with both indices up (\texttt{A1\_contr\allowbreak{}avariant\allowbreak{}\_l\_h}, \texttt{A2\_contr\allowbreak{}avariant\allowbreak{}\_l\_h}, \texttt{A3\_contr\allowbreak{}avariant\allowbreak{}\_l\_h}). For the diagonal metric $A_{(k)}{}^{lh} = \cos z\;g^{ll}\,P_{(k)}{}^h{}_l$.
+\item In this notation equation (4.38) reads $A^{lh} = \sum_{k=1}^{3}\alpha_{(k)}A_{(k)}{}^{lh} + \lambda\sqrt{|g|}\,g^{lh}$.
+\end{itemize}
+
+\subsection{Normalisations}
+
+$P_{(k)}$ carries the normalisation of the $\delta$ sum. The usual normalised Lovelock tensors are (\texttt{lovelock\allowbreak{}-tensors\allowbreak{}.json}, key \texttt{normalis\allowbreak{}ationNot\allowbreak{}e}; \texttt{lovelock\allowbreak{}.rs::usu\allowbreak{}al\_norma\allowbreak{}lisation})
+
+\[
+E_{(k)}{}^h{}_j = -\frac{P_{(k)}{}^h{}_j}{2^{k+1}},\qquad E_{(1)} = G ,
+\]
+
+with the following exact relations, derived in the docstring of \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/ve\allowbreak{}rificati\allowbreak{}on/check\allowbreak{}\_loveloc\allowbreak{}k\_gkd.py} by the Laplace expansion of the determinant, $P_{(k)}{}^h{}_j = \delta^h_jL_{(k)} - 2k\,\delta^{h_1\cdots h_{2k}}_{jj_2\cdots j_{2k}}R^{hj_2}{}_{h_1h_2}\cdots$, and verified for this metric:
+
+\begin{itemize}
+\item $k = 1$: $P_{(1)} = 2R\,\delta - 4\,\mathrm{Ric} = -4G$ and $L_{(1)} = 2R$ (\texttt{k1\_equal\allowbreak{}s\_minus\_\allowbreak{}4\_einste\allowbreak{}in}, \texttt{L1\_equal\allowbreak{}s\_2R}).
+\item $k = 2$: $P_{(2)} = -8\mathcal{H}$, with the Gauss-Bonnet (Lanczos) tensor $\mathcal{H}^h{}_j = 2(RR^h{}_j - 2R^h{}_aR^a{}_j - 2R^{ha}{}_{jb}R^b{}_a + R^{habc}R_{jabc}) - \frac12\delta^h_j(R^2 - 4R_{ab}R^{ab} + R_{abcd}R^{abcd})$, and $L_{(2)} = 4(R^2 - 4R^a{}_bR^b{}_a + R^{ab}{}_{cd}R^{cd}{}_{ab})$ (\texttt{k2\_equal\allowbreak{}s\_minus\_\allowbreak{}8\_gauss\_\allowbreak{}bonnet}, \texttt{L2\_equal\allowbreak{}s\_4\_gaus\allowbreak{}s\_bonnet}, \texttt{gauss\_bo\allowbreak{}nnet\_ind\allowbreak{}ex\_place\allowbreak{}ment}).
+\item $k = 3$: $L_{(3)} = 8(2T_1 + 8T_2 + 24T_3 + 3T_4 + 24T_5 + 16T_6 - 12T_7 + T_8)$ with the cubic invariants $T_1 = R^{ab}{}_{cd}R^{cd}{}_{ef}R^{ef}{}_{ab}$, $T_2 = R^{ab}{}_{cd}R^{ce}{}_{bf}R^{df}{}_{ae}$, $T_3 = R^{ab}{}_{cd}R^{cd}{}_{be}R^e{}_a$, $T_4 = R\,R^{ab}{}_{cd}R^{cd}{}_{ab}$, $T_5 = R^{ab}{}_{cd}R^c{}_aR^d{}_b$, $T_6 = R^a{}_bR^b{}_cR^c{}_a$, $T_7 = R\,R^a{}_bR^b{}_a$ and $T_8 = R^3$ (\texttt{L3\_equal\allowbreak{}s\_8\_cubi\allowbreak{}c\_lovelo\allowbreak{}ck\_densi\allowbreak{}ty}).
+\item The constants are also derived, not only assumed: from literal $\delta$ sums on random algebraic curvature tensors, $P_{(1)}/G$ takes the single value $-4$ in $d = 4$, $P_{(2)}/\mathcal{H}$ the single value $-8$ in $d = 5$, and in $d = 6$ the 9 x 8 system of nine random tensors has rank 8 with the unique solution c = [16, 64, 192, 24, 192, 128, -96, 8] = 8 x [2, 8, 24, 3, 24, 16, -12, 1] (\texttt{normalis\allowbreak{}ation\_P1\allowbreak{}\_derived\allowbreak{}\_minus\_4}, \texttt{normalis\allowbreak{}ation\_P2\allowbreak{}\_derived\allowbreak{}\_minus\_8}, \texttt{normalis\allowbreak{}ation\_L3\allowbreak{}\_cubic\_d\allowbreak{}erived}).
+\item Trace identity: $\sum_hP_{(k)}{}^h{}_h = (n - 2k)L_{(k)} = (8 - 2k)L_{(k)}$.
+\end{itemize}
+
+\subsection{Why the series stops at k = 3}
+
+$P_{(4)}$ would need $\delta$ with $2\cdot4 + 1 = 9$ upper and 9 lower indices over eight values: two indices of each list are equal, so every term vanishes and $P_{(4)} = 0$ identically (\texttt{k4\_tenso\allowbreak{}r\_vanish\allowbreak{}es}, \texttt{k4\_terms\allowbreak{}\_vanish\_\allowbreak{}literall\allowbreak{}y}, \texttt{gkd\_nine\allowbreak{}\_indices\allowbreak{}\_in\_eigh\allowbreak{}t\_dimens\allowbreak{}ions\_van\allowbreak{}ish}; \texttt{lovelock\allowbreak{}-tensors\allowbreak{}.json} key \texttt{\detokenize{k4}}: ``identically zero (GKD of 9 indices in 8 dimensions)''). Equation (4.38) stops at $k = m - 1 = 3$, so $k = 1, 2, 3$ is the complete series in eight dimensions.
+
+\section{How the code computes them}
+
+\subsection{The crate}
+
+\texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/co\allowbreak{}de} is the Rust crate \texttt{lovelock\allowbreak{}\_gkd} (edition 2021, no dependencies, its own empty workspace). Its modules:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{file} & \textbf{function or type} & \textbf{what it does} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{file} & \textbf{function or type} & \textbf{what it does} \\
+\midrule
+\endhead
+\texttt{\detokenize{gkd.rs}} & \texttt{gkd.rs::\allowbreak{}GKD} & the generalized Kronecker delta by cases (a) to (d) of section 3.2 \\
+\texttt{\detokenize{gkd.rs}} & \texttt{gkd.rs::\allowbreak{}kdelta\_d\allowbreak{}et}, \texttt{gkd.rs::\allowbreak{}compare\_\allowbreak{}exhausti\allowbreak{}ve}, \texttt{gkd.rs::\allowbreak{}compare\_\allowbreak{}random} & the literal Leibniz determinant and the two self-test loops \\
+\texttt{rational\allowbreak{}.rs} & \texttt{rational\allowbreak{}.rs::Rat\allowbreak{}ional} & exact rationals on \texttt{\detokenize{i128}}; every operation that would overflow stops with a message \\
+\texttt{\detokenize{poly.rs}} & \texttt{poly.rs:\allowbreak{}:Poly}, \texttt{poly.rs:\allowbreak{}:d} & exact Laurent polynomials with rational coefficients in $H$, $a_4'$ to $a_4''''$, $E = e^{a_4}$, $S = \sin^{1/3}z$, $C = \cot z$, with the exact derivatives in $x_4$ and $x_8$ \\
+\texttt{geometry\allowbreak{}.rs} & \texttt{geometry\allowbreak{}.rs::met\allowbreak{}ric\_diag\allowbreak{}onal}, \texttt{geometry\allowbreak{}.rs::Geo\allowbreak{}metry} & the metric, its inverse, $\sqrt{\lvert g\rvert} = S^3C$, the Christoffel symbols, $R^a{}_{bcd}$, $R^{ab}{}_{cd}$, Ricci and $R$ \\
+\texttt{geometry\allowbreak{}.rs} & \texttt{geometry\allowbreak{}.rs::non\allowbreak{}zero\_mix\allowbreak{}ed}, \texttt{geometry\allowbreak{}.rs::ein\allowbreak{}stein\_mi\allowbreak{}xed} & the list of nonzero $R^{ab}{}_{cd}$; the Einstein tensor from the Ricci tensor \\
+\texttt{lovelock\allowbreak{}.rs} & \texttt{lovelock\allowbreak{}.rs::lov\allowbreak{}elock\_mi\allowbreak{}xed}, \texttt{lovelock\allowbreak{}.rs::lov\allowbreak{}elock\_sc\allowbreak{}alar}, \texttt{lovelock\allowbreak{}.rs::dfs} & $P_{(k)}{}^h{}_j$ and $L_{(k)}$ by a depth-first search over the nonzero curvature entries \\
+\texttt{lovelock\allowbreak{}.rs} & \texttt{lovelock\allowbreak{}.rs::lov\allowbreak{}elock\_co\allowbreak{}ntravari\allowbreak{}ant}, \texttt{lovelock\allowbreak{}.rs::div\allowbreak{}ergence} & $A_{(k)}{}^{lh}$; the covariant divergence $\nabla_hP^h{}_j$ \\
+\texttt{lovelock\allowbreak{}.rs} & \texttt{lovelock\allowbreak{}.rs::bru\allowbreak{}te\_force\allowbreak{}\_numeric}, \texttt{lovelock\allowbreak{}.rs::usu\allowbreak{}al\_norma\allowbreak{}lisation} & the unpruned literal sum at a numerical point; the factor $-1/2^{k+1}$ \\
+\texttt{output.r\allowbreak{}s} & \texttt{output.r\allowbreak{}s::tenso\allowbreak{}r\_json}, \texttt{output.r\allowbreak{}s::monom\allowbreak{}ials\_jso\allowbreak{}n}, \texttt{output.r\allowbreak{}s::tenso\allowbreak{}r\_markdo\allowbreak{}wn} & deterministic JSON and Markdown writers \\
+\texttt{\detokenize{main.rs}} & \texttt{main.rs:\allowbreak{}:gkd\_sel\allowbreak{}ftest}, \texttt{main.rs:\allowbreak{}:run\_lov\allowbreak{}elock}, \texttt{main.rs:\allowbreak{}:print\_c\allowbreak{}onfig} & the command line \texttt{gkd-self\allowbreak{}test}, \texttt{\detokenize{lovelock}}, \texttt{print-co\allowbreak{}nfig} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The symbols $S$ and $C$ satisfy $S^6(1 + C^2) = 1$, so the representation of \texttt{\detokenize{poly.rs}} is not canonical in general; $S$ cancels identically in every mixed tensor the program prints, every zero test is done on mixed tensors, and the independent checkers use a canonical form (section 7.2).
+
+\subsection{The enumeration}
+
+For each pair $(h, j)$, \texttt{lovelock\allowbreak{}.rs::dfs} chooses $k$ ordered nonzero entries $R^{ab}{}_{cd}$ one after another and appends $a, b$ to the lower list and $c, d$ to the upper list. A branch is cut when an index would repeat within a list (GKD is 0 by cases (a) and (b)); at a leaf the two index SETS must be equal (otherwise GKD is 0 by case (c)), and only then is GKD called; a nonzero value multiplies the product of the chosen entries. A vanishing curvature factor gives a vanishing term, so only the nonzero entries are enumerated. The counters of \texttt{lovelock\allowbreak{}-report.\allowbreak{}json}:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}@{}}
+\toprule
+\textbf{$k$} & \textbf{leaves} & \textbf{GKD calls} & \textbf{nonzero GKD values} & \textbf{GKD calls for $L_{(k)}$} & \textbf{nonzero components of $P_{(k)}$} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{$k$} & \textbf{leaves} & \textbf{GKD calls} & \textbf{nonzero GKD values} & \textbf{GKD calls for $L_{(k)}$} & \textbf{nonzero components of $P_{(k)}$} \\
+\midrule
+\endhead
+1 & 5616 & 696 & 696 & 108 & 8 \\
+2 & 176640 & 32640 & 32640 & 7200 & 8 \\
+3 & 1128960 & 495360 & 495360 & 213120 & 8 \\
+4 & 0 & 0 & 0 & 1105920 & 0 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The pruning is checked, not assumed: \texttt{lovelock\allowbreak{}.rs::bru\allowbreak{}te\_force\allowbreak{}\_numeric} evaluates the completely unpruned literal sum, every index list sent to GKD, at the point $H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$, $x_8 = 0.41$: 262144 index lists for $k = 1$ (maximal relative deviation from the exact $P_{(1)}$ 1.40e-15) and 1073741824 index lists for $k = 2$ (maximal relative deviation from the exact $P_{(2)}$ 4.41e-14) (\texttt{k1\_brute\allowbreak{}\_force\_n\allowbreak{}umeric}, \texttt{k2\_brute\allowbreak{}\_force\_n\allowbreak{}umeric}). The two independent checkers repeat the unpruned sums exactly (section 7).
+
+\section{Results}
+
+\subsection{Christoffel symbols and curvature}
+
+\texttt{curvatur\allowbreak{}e.json} lists 25 nonzero Christoffel symbols $\Gamma^a{}_{bc}$ with $b \le c$. With $i = 1, 2, 3$ (3-space) and $t = 5, 6, 7$ (extra times):
+
+\[
+\begin{aligned}
+&\Gamma^{x_i}{}_{x_ix_4} = a_4',\quad \Gamma^{x_t}{}_{x_4x_t} = -a_4',\quad \Gamma^{x_i}{}_{x_ix_8} = \Gamma^{x_t}{}_{x_tx_8} = H\cot z,\\
+&\Gamma^{x_4}{}_{x_ix_i} = a_4'e^{2a_4}\sin^{1/3}z,\quad \Gamma^{x_4}{}_{x_tx_t} = a_4'e^{-2a_4}\sin^{1/3}z,\\
+&\Gamma^{x_8}{}_{x_ix_i} = -He^{2a_4}\sin^{1/3}z\,\tan z,\quad \Gamma^{x_8}{}_{x_tx_t} = He^{-2a_4}\sin^{1/3}z\,\tan z,\\
+&\Gamma^{x_8}{}_{x_8x_8} = -6H\tan z - 6H\cot z .
+\end{aligned}
+\]
+
+The mixed Riemann tensor $R^{ab}{}_{cd}$ has 156 nonzero entries. Up to the antisymmetry in each index pair they are, with $i \ne i'$ in 3-space and $t \ne t'$ among the extra times:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{entry} & \textbf{value} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{entry} & \textbf{value} \\
+\midrule
+\endhead
+$R^{x_ix_{i'}}{}_{x_ix_{i'}}$ and $R^{x_tx_{t'}}{}_{x_tx_{t'}}$ & $(a_4')^2 - H^2$ \\
+$R^{x_ix_t}{}_{x_ix_t}$ & $-(a_4')^2 - H^2$ \\
+$R^{x_ix_4}{}_{x_ix_4}$ & $a_4'' + (a_4')^2$ \\
+$R^{x_4x_t}{}_{x_4x_t}$ & $-a_4'' + (a_4')^2$ \\
+$R^{x_ix_8}{}_{x_ix_8}$ and $R^{x_tx_8}{}_{x_tx_8}$ & $-H^2$ \\
+$R^{x_ix_4}{}_{x_ix_8}$ and $R^{x_4x_t}{}_{x_tx_8}$ & $Ha_4'\cot z$ \\
+$R^{x_ix_8}{}_{x_ix_4}$ and $R^{x_tx_8}{}_{x_4x_t}$ & $-Ha_4'\tan z$ \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+$R^{x_4x_8}{}_{x_4x_8} = 0$. Every $R^{ab}{}_{cd}$ is free of $\sin^{1/3}z$ and of $e^{a_4}$ (\texttt{mixed\_ri\allowbreak{}emann\_fr\allowbreak{}ee\_of\_si\allowbreak{}n\_third}, \texttt{mixed\_ri\allowbreak{}emann\_fr\allowbreak{}ee\_of\_wa\allowbreak{}rp\_and\_e\allowbreak{}xponenti\allowbreak{}al}). The deflation enters through $a_4'$ and $a_4''$ with the opposite sign of the inflating directions: the sectional curvature of the plane $(x_i, x_4)$ is $a_4'' + (a_4')^2$ and that of $(x_4, x_t)$ is $-a_4'' + (a_4')^2$.
+
+The mixed Ricci tensor is diagonal, $R^{x_i}{}_{x_i} = a_4'' - 6H^2$, $R^{x_4}{}_{x_4} = 6(a_4')^2$, $R^{x_t}{}_{x_t} = -a_4'' - 6H^2$, $R^{x_8}{}_{x_8} = -6H^2$; the Ricci scalar is $R = 6(a_4')^2 - 42H^2$ (\texttt{ricciSca\allowbreak{}lar}), and the Einstein tensor is
+
+\[
+\begin{aligned}
+&G^{x_i}{}_{x_i} = a_4'' - 3(a_4')^2 + 15H^2,\quad G^{x_4}{}_{x_4} = 3(a_4')^2 + 21H^2,\\
+&G^{x_t}{}_{x_t} = -a_4'' - 3(a_4')^2 + 15H^2,\quad G^{x_8}{}_{x_8} = -3(a_4')^2 + 15H^2 .
+\end{aligned}
+\]
+
+\subsection{The Lovelock scalars}
+
+From \texttt{lovelock\allowbreak{}-tensors\allowbreak{}.json} (keys \texttt{\detokenize{L1}}, \texttt{\detokenize{L2}}, \texttt{\detokenize{L3}}):
+
+\[
+\begin{aligned}
+L_{(1)} &= 12\,(a_4')^{2} - 84\,H^{2} ,\\
+L_{(2)} &= -96\,(a_4')^{4} - 2112\,H^{2}\,(a_4')^{2} + 3360\,H^{4} ,\\
+L_{(3)} &= 1152\,(a_4')^{6} + 31104\,H^{2}\,(a_4')^{4} + 100224\,H^{4}\,(a_4')^{2} - 40320\,H^{6} .
+\end{aligned}
+\]
+
+\subsection{The Lovelock tensors}
+
+Every $P_{(k)}{}^h{}_j$ is diagonal: all 56 off-diagonal components of each tensor vanish, including $x_4$-$x_8$. The diagonal satisfies $x_1 = x_2 = x_3$ and $x_5 = x_6 = x_7$, so four components per order are independent. The formulas below are the LaTeX texts of \texttt{lovelock\allowbreak{}-tensors\allowbreak{}.json}, unchanged.
+
+$k = 1$:
+
+\[
+\begin{aligned}
+P_{(1)}{}^{x_1}{}_{x_1} &= -4\,a_4'' + 12\,(a_4')^{2} - 60\,H^{2} \\
+P_{(1)}{}^{x_4}{}_{x_4} &= -12\,(a_4')^{2} - 84\,H^{2} \\
+P_{(1)}{}^{x_5}{}_{x_5} &= 4\,a_4'' + 12\,(a_4')^{2} - 60\,H^{2} \\
+P_{(1)}{}^{x_8}{}_{x_8} &= 12\,(a_4')^{2} - 60\,H^{2}
+\end{aligned}
+\]
+
+$k = 2$:
+
+\[
+\begin{aligned}
+P_{(2)}{}^{x_1}{}_{x_1} &= 192\,(a_4')^{2}\,a_4'' - 96\,(a_4')^{4} + 320\,H^{2}\,a_4'' \\
+&\quad - 1344\,H^{2}\,(a_4')^{2} + 1440\,H^{4} \\
+P_{(2)}{}^{x_4}{}_{x_4} &= 288\,(a_4')^{4} + 960\,H^{2}\,(a_4')^{2} + 3360\,H^{4} \\
+P_{(2)}{}^{x_5}{}_{x_5} &= -192\,(a_4')^{2}\,a_4'' - 96\,(a_4')^{4} - 320\,H^{2}\,a_4'' \\
+&\quad - 1344\,H^{2}\,(a_4')^{2} + 1440\,H^{4} \\
+P_{(2)}{}^{x_8}{}_{x_8} &= -96\,(a_4')^{4} - 1344\,H^{2}\,(a_4')^{2} + 1440\,H^{4}
+\end{aligned}
+\]
+
+$k = 3$:
+
+\[
+\begin{aligned}
+P_{(3)}{}^{x_1}{}_{x_1} &= -5760\,(a_4')^{4}\,a_4'' + 1152\,(a_4')^{6} - 6912\,H^{2}\,(a_4')^{2}\,a_4'' + 10368\,H^{2}\,(a_4')^{4} \\
+&\quad - 5760\,H^{4}\,a_4'' + 31104\,H^{4}\,(a_4')^{2} - 5760\,H^{6} \\
+P_{(3)}{}^{x_4}{}_{x_4} &= -5760\,(a_4')^{6} - 10368\,H^{2}\,(a_4')^{4} - 17280\,H^{4}\,(a_4')^{2} - 40320\,H^{6} \\
+P_{(3)}{}^{x_5}{}_{x_5} &= 5760\,(a_4')^{4}\,a_4'' + 1152\,(a_4')^{6} + 6912\,H^{2}\,(a_4')^{2}\,a_4'' + 10368\,H^{2}\,(a_4')^{4} \\
+&\quad + 5760\,H^{4}\,a_4'' + 31104\,H^{4}\,(a_4')^{2} - 5760\,H^{6} \\
+P_{(3)}{}^{x_8}{}_{x_8} &= 1152\,(a_4')^{6} + 10368\,H^{2}\,(a_4')^{4} + 31104\,H^{4}\,(a_4')^{2} - 5760\,H^{6}
+\end{aligned}
+\]
+
+Remarks, each an exact property of the listed components:
+
+\begin{itemize}
+\item $P_{(1)} = -4G$ component by component (compare section 6.1).
+\item Of the metric function only the derivatives $a_4'$ and $a_4''$ occur, not $a_4$ itself; $a_4''$ occurs only in the 3-space and extra-time components, with opposite signs (the inflating and the deflating directions), and never in the $x_4$ and $x_8$ components.
+\item $P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} = 2P_{(k)}^{x_8}{}_{x_8}$ for $k = 1, 2, 3$ (read off the lists above).
+\item The contravariant densities are $A_{(k)}{}^{ll} = \cos z\;g^{ll}\,P_{(k)}{}^l{}_l$, with $g^{x_ix_i} = e^{-2a_4}\sin^{-1/3}z$, $g^{x_4x_4} = -1$, $g^{x_tx_t} = -e^{2a_4}\sin^{-1/3}z$ and $g^{x_8x_8} = \tan^2z$; for example the file gives $A_{(1)}{}^{x_4x_4} = 12\,(a_4')^{2}\,\sin(6Hx_8)\,\cot(6Hx_8) + 84\,H^{2}\,\sin(6Hx_8)\,\cot(6Hx_8)$. All 64 components of each $A_{(k)}$, each with its exact monomial list, are in \texttt{lovelock\allowbreak{}-tensors\allowbreak{}.json}; all 384 components of $P_{(k)}$ and $A_{(k)}$ are also written out in \texttt{lovelock\allowbreak{}-compone\allowbreak{}nts.md}.
+\end{itemize}
+
+\subsection{The checks of the Rust program}
+
+\texttt{lovelock\allowbreak{}\_gkd lov\allowbreak{}elock --\allowbreak{}brute-fo\allowbreak{}rce-k2} writes \texttt{curvatur\allowbreak{}e.json}, \texttt{lovelock\allowbreak{}-tensors\allowbreak{}.json}, \texttt{lovelock\allowbreak{}-compone\allowbreak{}nts.md} and \texttt{lovelock\allowbreak{}-report.\allowbreak{}json}. The report gives \texttt{"checkCo\allowbreak{}unt": 19}, \texttt{"failedC\allowbreak{}heckCoun\allowbreak{}t": 0} and \texttt{"verdict\allowbreak{}": "SUCC\allowbreak{}ESS"}; every one of its 19 checks has \texttt{"passed"\allowbreak{}: true}:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{check} & \textbf{check} & \textbf{check} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{check} & \textbf{check} & \textbf{check} \\
+\midrule
+\endhead
+\texttt{riemann\_\allowbreak{}antisymm\allowbreak{}etry} & \texttt{riemann\_\allowbreak{}first\_bi\allowbreak{}anchi} & \texttt{mixed\_ri\allowbreak{}emann\_fr\allowbreak{}ee\_of\_si\allowbreak{}n\_third} \\
+\texttt{k1\_equal\allowbreak{}s\_minus\_\allowbreak{}4\_einste\allowbreak{}in} & \texttt{k1\_trace\allowbreak{}\_identit\allowbreak{}y} & \texttt{k1\_diver\allowbreak{}gence\_fr\allowbreak{}ee} \\
+\texttt{k1\_symme\allowbreak{}tric} & \texttt{k1\_free\_\allowbreak{}of\_sin\_t\allowbreak{}hird} & \texttt{k2\_trace\allowbreak{}\_identit\allowbreak{}y} \\
+\texttt{k2\_diver\allowbreak{}gence\_fr\allowbreak{}ee} & \texttt{k2\_symme\allowbreak{}tric} & \texttt{k2\_free\_\allowbreak{}of\_sin\_t\allowbreak{}hird} \\
+\texttt{k3\_trace\allowbreak{}\_identit\allowbreak{}y} & \texttt{k3\_diver\allowbreak{}gence\_fr\allowbreak{}ee} & \texttt{k3\_symme\allowbreak{}tric} \\
+\texttt{k3\_free\_\allowbreak{}of\_sin\_t\allowbreak{}hird} & \texttt{k4\_tenso\allowbreak{}r\_vanish\allowbreak{}es} & \texttt{k1\_brute\allowbreak{}\_force\_n\allowbreak{}umeric} \\
+\texttt{k2\_brute\allowbreak{}\_force\_n\allowbreak{}umeric} &  &  \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+They are mathematical identities, not comparisons with the author's numbers: the antisymmetries and the first Bianchi identity of $R^{ab}{}_{cd}$ for all 4096 index lists, $P_{(1)} = -4G$ by an independent route, the trace identities, $\nabla_hP_{(k)}{}^h{}_j = 0$ for every $j$, the symmetry of $g_{hh}P_{(k)}{}^h{}_j$ (so $A_{(k)}{}^{lh} = A_{(k)}{}^{hl}$), the absence of the warp factor, $P_{(4)} = 0$ and the unpruned numerical sums. Two runs give byte-identical files (\texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/re\allowbreak{}sults/PR\allowbreak{}OVENANCE\allowbreak{}\_OF\_THE\_\allowbreak{}COMPUTAT\allowbreak{}ION.md}).
+
+\section{Independent verifications}
+
+\subsection{The Wolfram check (29 checks)}
+
+\texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/ve\allowbreak{}rificati\allowbreak{}on/verif\allowbreak{}y\_lovelo\allowbreak{}ck\_gkd.w\allowbreak{}ls} with the package \texttt{Lovelock\allowbreak{}GKDCheck\allowbreak{}.wl} writes \texttt{wolfram-\allowbreak{}gkd-repo\allowbreak{}rt.json}: \texttt{"checkCo\allowbreak{}unt": 29}, \texttt{"expecte\allowbreak{}dCheckCo\allowbreak{}unt": 29}, \texttt{"failedC\allowbreak{}heckCoun\allowbreak{}t": 0}, \texttt{"verdict\allowbreak{}": "SUCC\allowbreak{}ESS"}, producer Wolfram Language 15.0.1. What it does:
+
+\begin{itemize}
+\item The author's definition, re-typed verbatim, is the kernel's definition of \texttt{kδ} (compared with the text recorded in \texttt{PROVENAN\allowbreak{}CE\_OF\_TH\allowbreak{}E\_COMPUT\allowbreak{}ATION.md}), with \texttt{delta[a\_\allowbreak{}Integer,\allowbreak{} b\_Integ\allowbreak{}er] := K\allowbreak{}ronecker\allowbreak{}Delta[a,\allowbreak{} b]}; unequal lengths stay unevaluated.
+\item GKD is NOT re-implemented in Wolfram Language: a small exporter compiled with cargo against the unchanged crate writes the values of the Rust function GKD for 346304 pairs (all 64, 4096 and 262144 pairs of lengths 1, 2, 3 and 20000 pseudo-random pairs of each length 4 to 7; values file of 3161984 bytes), and the verbatim \texttt{kδ} is evaluated on every pair: 0 mismatches. The negative control against $-$GKD reports a mismatch at exactly every pair where GKD is nonzero (8, 112, 2016, 10022, 10005, 10002, 10000 pairs for lengths 1 to 7).
+\item The curvature is recomputed from the metric with \texttt{\detokenize{D}}, \texttt{\detokenize{Inverse}} and \texttt{\detokenize{Simplify}} (156 nonzero $R^{ab}{}_{cd}$, the same as \texttt{curvatur\allowbreak{}e.json}), and $\det g = \cos^2 z$.
+\item The Lovelock tensors are recomputed with the verbatim \texttt{kδ}: for $k = 1$ and $k = 2$ every $k$-tuple of the 156 nonzero entries for each of the 64 components (9984 and 1557504 calls), for $k = 3$ every list left after skipping lists with a repeated label in a row (1128960 calls). \texttt{FullSimp\allowbreak{}lify} of the difference with the Rust tensors is 0 for all 64 components of each $P_{(k)}$ and $A_{(k)}$. The numbers of nonzero \texttt{kδ} terms, 696, 32640 and 495360, equal the Rust counters. A tampered $P_{(2)}$ component and a tampered $A_{(3)}$ component are flagged, and only those.
+\end{itemize}
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{check} & \textbf{check} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{check} & \textbf{check} \\
+\midrule
+\endhead
+\texttt{definiti\allowbreak{}on\_is\_th\allowbreak{}e\_author\allowbreak{}s\_verbat\allowbreak{}im} & \texttt{definiti\allowbreak{}on\_unequ\allowbreak{}al\_lengt\allowbreak{}hs\_stay\_\allowbreak{}unevalua\allowbreak{}ted} \\
+\texttt{gkd\_valu\allowbreak{}es\_file\_\allowbreak{}layout} & \texttt{gkd\_equa\allowbreak{}ls\_kdelt\allowbreak{}a\_exhaus\allowbreak{}tive\_len\allowbreak{}gth\_1} \\
+\texttt{gkd\_equa\allowbreak{}ls\_kdelt\allowbreak{}a\_exhaus\allowbreak{}tive\_len\allowbreak{}gth\_2} & \texttt{gkd\_equa\allowbreak{}ls\_kdelt\allowbreak{}a\_exhaus\allowbreak{}tive\_len\allowbreak{}gth\_3} \\
+\texttt{gkd\_equa\allowbreak{}ls\_kdelt\allowbreak{}a\_random\allowbreak{}\_length\_\allowbreak{}4} & \texttt{gkd\_equa\allowbreak{}ls\_kdelt\allowbreak{}a\_random\allowbreak{}\_length\_\allowbreak{}5} \\
+\texttt{gkd\_equa\allowbreak{}ls\_kdelt\allowbreak{}a\_random\allowbreak{}\_length\_\allowbreak{}6} & \texttt{gkd\_equa\allowbreak{}ls\_kdelt\allowbreak{}a\_random\allowbreak{}\_length\_\allowbreak{}7} \\
+\texttt{negative\allowbreak{}\_control\allowbreak{}\_gkd\_com\allowbreak{}parison\_\allowbreak{}detects\_\allowbreak{}a\_sign\_f\allowbreak{}lip} & \texttt{riemann\_\allowbreak{}mixed\_eq\allowbreak{}uals\_rus\allowbreak{}t\_curvat\allowbreak{}ure} \\
+\texttt{sqrt\_det\allowbreak{}\_g\_is\_co\allowbreak{}s} & \texttt{lovelock\allowbreak{}\_kdelta\_\allowbreak{}values\_a\allowbreak{}re\_integ\allowbreak{}ers} \\
+\texttt{k1\_P\_equ\allowbreak{}als\_rust\allowbreak{}\_all\_64\_\allowbreak{}componen\allowbreak{}ts} & \texttt{k1\_A\_equ\allowbreak{}als\_rust\allowbreak{}\_all\_64\_\allowbreak{}componen\allowbreak{}ts} \\
+\texttt{k2\_P\_equ\allowbreak{}als\_rust\allowbreak{}\_all\_64\_\allowbreak{}componen\allowbreak{}ts} & \texttt{k2\_A\_equ\allowbreak{}als\_rust\allowbreak{}\_all\_64\_\allowbreak{}componen\allowbreak{}ts} \\
+\texttt{k3\_P\_equ\allowbreak{}als\_rust\allowbreak{}\_all\_64\_\allowbreak{}componen\allowbreak{}ts} & \texttt{k3\_A\_equ\allowbreak{}als\_rust\allowbreak{}\_all\_64\_\allowbreak{}componen\allowbreak{}ts} \\
+\texttt{negative\allowbreak{}\_control\allowbreak{}\_tensor\_\allowbreak{}comparis\allowbreak{}on\_detec\allowbreak{}ts\_a\_cha\allowbreak{}nge} & \texttt{k1\_equal\allowbreak{}s\_minus\_\allowbreak{}4\_einste\allowbreak{}in} \\
+\texttt{k1\_trace\allowbreak{}\_equals\_\allowbreak{}6\_L1} & \texttt{k2\_trace\allowbreak{}\_equals\_\allowbreak{}4\_L2} \\
+\texttt{k3\_trace\allowbreak{}\_equals\_\allowbreak{}2\_L3} & \texttt{k1\_nonze\allowbreak{}ro\_kdelt\allowbreak{}a\_terms\_\allowbreak{}equal\_ru\allowbreak{}st\_count\allowbreak{}er} \\
+\texttt{k2\_nonze\allowbreak{}ro\_kdelt\allowbreak{}a\_terms\_\allowbreak{}equal\_ru\allowbreak{}st\_count\allowbreak{}er} & \texttt{k3\_nonze\allowbreak{}ro\_kdelt\allowbreak{}a\_terms\_\allowbreak{}equal\_ru\allowbreak{}st\_count\allowbreak{}er} \\
+\texttt{rust\_jso\allowbreak{}n\_text\_e\allowbreak{}quals\_it\allowbreak{}s\_monomi\allowbreak{}als} &  \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+Scope. The Wolfram check is independent of the Rust code in its definition of $\delta$ (the author's verbatim text), its curvature and its Lovelock sums; it uses the Rust program for the GKD values it compares and for the tensors it compares with. Its default run skips, for $k = 3$, lists with a repeated label in a row (their determinant is 0 because two rows or columns are equal); an optional mode recomputes the eight diagonal $k = 3$ components with no skip at all, and its single recorded run passed 30 of 30 checks (\texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/ve\allowbreak{}rificati\allowbreak{}on/WOLFR\allowbreak{}AMSCRIPT\allowbreak{}\_PROVENA\allowbreak{}NCE.md}, part 4.5); that report is not committed. Only Wolfram 15.0.1 was used.
+
+\subsection{The sympy checker (49 checks)}
+
+The sympy checker is the file \texttt{check\_lo\allowbreak{}velock\_g\allowbreak{}kd.py} in the folder \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/ve\allowbreak{}rificati\allowbreak{}on/}. Its report \texttt{python-l\allowbreak{}ovelock-\allowbreak{}report.j\allowbreak{}son} gives \texttt{"checkCo\allowbreak{}unt": 49}, \texttt{"failedC\allowbreak{}heckCoun\allowbreak{}t": 0} and \texttt{"verdict\allowbreak{}": "SUCC\allowbreak{}ESS"}. It shares no code with the Rust crate: the geometry is sympy's own differentiation, $\delta$ is the author's definition evaluated with sympy's determinant (memoised by the 0/1 matrix), and the sums are organised breadth-first (all $k$-fold products with pairwise different lower and pairwise different upper indices, then completed by every admissible $h$ and $j$, one literal call of the determinant per term). Its counters:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}@{}}
+\toprule
+\textbf{$k$} & \textbf{products} & \textbf{determinant calls} & \textbf{nonzero values} & \textbf{distinct multisets} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{$k$} & \textbf{products} & \textbf{determinant calls} & \textbf{nonzero values} & \textbf{distinct multisets} \\
+\midrule
+\endhead
+1 & 156 & 5772 & 804 & 156 \\
+2 & 11040 & 187680 & 39840 & 5520 \\
+3 & 282240 & 1411200 & 708480 & 47040 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+with 4096401 determinant calls in all and 29030 distinct 0/1 matrices determined by sympy. The skipped terms are checked as well: the completely unpruned literal sums for $k = 1$ (10140 calls) and $k = 2$ (1581840 calls) agree exactly with the pruned sums; 20000 random terms of the unpruned $k = 3$ sum, 19900 of them with a repeated index, give 0 whenever skipped; 300 random 9-index lists give 0. The comparison with the Rust output is exact three times over: by an exact canonical form (\texttt{\detokenize{canon}}, which uses $s^6(1 + c^2) = 1$ to reach a unique form, so a zero difference is a proof of equality), by plain sympy simplification, and numerically with 60 digits at 5 random rational points.
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{check} & \textbf{check} & \textbf{check} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{check} & \textbf{check} & \textbf{check} \\
+\midrule
+\endhead
+\texttt{gkd\_lite\allowbreak{}ral\_equa\allowbreak{}ls\_cofac\allowbreak{}tor\_expa\allowbreak{}nsion} & \texttt{gkd\_exam\allowbreak{}ples} & \texttt{gkd\_nine\allowbreak{}\_indices\allowbreak{}\_in\_eigh\allowbreak{}t\_dimens\allowbreak{}ions\_van\allowbreak{}ish} \\
+\texttt{normalis\allowbreak{}ation\_P1\allowbreak{}\_derived\allowbreak{}\_minus\_4} & \texttt{normalis\allowbreak{}ation\_P2\allowbreak{}\_derived\allowbreak{}\_minus\_8} & \texttt{normalis\allowbreak{}ation\_L3\allowbreak{}\_cubic\_d\allowbreak{}erived} \\
+\texttt{metric\_i\allowbreak{}nverse} & \texttt{sqrt\_abs\allowbreak{}\_det\_g} & \texttt{christof\allowbreak{}fel\_symm\allowbreak{}etric} \\
+\texttt{riemann\_\allowbreak{}first\_bi\allowbreak{}anchi} & \texttt{mixed\_ri\allowbreak{}emann\_fr\allowbreak{}ee\_of\_wa\allowbreak{}rp\_and\_e\allowbreak{}xponenti\allowbreak{}al} & \texttt{riemann\_\allowbreak{}antisymm\allowbreak{}etry\_and\allowbreak{}\_pair\_sy\allowbreak{}mmetry} \\
+\texttt{k1\_unpru\allowbreak{}ned\_lite\allowbreak{}ral\_sum\_\allowbreak{}agrees} & \texttt{k2\_unpru\allowbreak{}ned\_lite\allowbreak{}ral\_sum\_\allowbreak{}agrees} & \texttt{k3\_prune\allowbreak{}d\_terms\_\allowbreak{}vanish\_l\allowbreak{}iterally} \\
+\texttt{k4\_terms\allowbreak{}\_vanish\_\allowbreak{}literall\allowbreak{}y} & \texttt{k1\_equal\allowbreak{}s\_minus\_\allowbreak{}4\_einste\allowbreak{}in} & \texttt{L1\_equal\allowbreak{}s\_2R} \\
+\texttt{k2\_equal\allowbreak{}s\_minus\_\allowbreak{}8\_gauss\_\allowbreak{}bonnet} & \texttt{L2\_equal\allowbreak{}s\_4\_gaus\allowbreak{}s\_bonnet} & \texttt{gauss\_bo\allowbreak{}nnet\_ind\allowbreak{}ex\_place\allowbreak{}ment} \\
+\texttt{L3\_equal\allowbreak{}s\_8\_cubi\allowbreak{}c\_lovelo\allowbreak{}ck\_densi\allowbreak{}ty} & \texttt{k1\_trace\allowbreak{}\_identit\allowbreak{}y} & \texttt{k2\_trace\allowbreak{}\_identit\allowbreak{}y} \\
+\texttt{k3\_trace\allowbreak{}\_identit\allowbreak{}y} & \texttt{k1\_diver\allowbreak{}gence\_fr\allowbreak{}ee} & \texttt{k1\_symme\allowbreak{}tric} \\
+\texttt{k1\_free\_\allowbreak{}of\_warp} & \texttt{k2\_diver\allowbreak{}gence\_fr\allowbreak{}ee} & \texttt{k2\_symme\allowbreak{}tric} \\
+\texttt{k2\_free\_\allowbreak{}of\_warp} & \texttt{k3\_diver\allowbreak{}gence\_fr\allowbreak{}ee} & \texttt{k3\_symme\allowbreak{}tric} \\
+\texttt{k3\_free\_\allowbreak{}of\_warp} & \texttt{rust\_k1\_\allowbreak{}mixed\_co\allowbreak{}mponents\allowbreak{}\_agree} & \texttt{rust\_k1\_\allowbreak{}contrava\allowbreak{}riant\_co\allowbreak{}mponents\allowbreak{}\_agree} \\
+\texttt{rust\_L1\_\allowbreak{}agrees} & \texttt{rust\_k2\_\allowbreak{}mixed\_co\allowbreak{}mponents\allowbreak{}\_agree} & \texttt{rust\_k2\_\allowbreak{}contrava\allowbreak{}riant\_co\allowbreak{}mponents\allowbreak{}\_agree} \\
+\texttt{rust\_L2\_\allowbreak{}agrees} & \texttt{rust\_k3\_\allowbreak{}mixed\_co\allowbreak{}mponents\allowbreak{}\_agree} & \texttt{rust\_k3\_\allowbreak{}contrava\allowbreak{}riant\_co\allowbreak{}mponents\allowbreak{}\_agree} \\
+\texttt{rust\_L3\_\allowbreak{}agrees} & \texttt{negative\allowbreak{}\_control\allowbreak{}s\_detect\allowbreak{}ed} & \texttt{rust\_met\allowbreak{}ric\_and\_\allowbreak{}sqrt\_g\_a\allowbreak{}gree} \\
+\texttt{rust\_chr\allowbreak{}istoffel\allowbreak{}s\_agree} & \texttt{rust\_rie\allowbreak{}mann\_agr\allowbreak{}ees} & \texttt{rust\_ric\allowbreak{}ci\_einst\allowbreak{}ein\_scal\allowbreak{}ar\_agree} \\
+\texttt{rust\_tex\allowbreak{}t\_matche\allowbreak{}s\_monomi\allowbreak{}als} &  &  \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+Scope. The sympy checker reads only the metric (typed in from the task text) and, for the comparison, \texttt{curvatur\allowbreak{}e.json} and \texttt{lovelock\allowbreak{}-tensors\allowbreak{}.json}; it never reads the author's notebook. Its literal $\delta$ is compared with an independent cofactor expansion on all 266304 pairs of lengths 1 to 3 and 7500 random pairs of lengths 4 to 8. The negative controls (a coefficient increased by 1, a wrong power of $\sin^{1/3}z$, a wrong power of $e^{a_4}$, an added $10^{-30}H^4$) are each detected by each of its three comparison methods.
+
+\section{The comparison with the author's notebook}
+
+What was read is recorded in \texttt{PROVENAN\allowbreak{}CE\_OF\_TH\allowbreak{}E\_COMPUT\allowbreak{}ATION.md}, written before any comparison, and in the provenance file \texttt{WOLFRAMS\allowbreak{}CRIPT\_PR\allowbreak{}OVENANCE\allowbreak{}.md} of the folder \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/no\allowbreak{}tebook\_r\allowbreak{}eading/}: only the 58 INPUT cells of \texttt{Generali\allowbreak{}zed \_Kro\allowbreak{}necker\_D\allowbreak{}elta\_4+4\allowbreak{}.nb} (sha256 \texttt{23bb4e0c\allowbreak{}70943e76\allowbreak{}6d9b081a\allowbreak{}3a399ef2\allowbreak{}9664889a\allowbreak{}ad088041\allowbreak{}329ce2e0\allowbreak{}65b80afb}), converted to text without evaluation; the committed digest \texttt{notebook\allowbreak{}-input-c\allowbreak{}ells.txt} gives, for each, its label, its length and its first 160 characters. The definition of \texttt{kδ} was taken from the cell \texttt{\detokenize{In[87]}} and Lovelock's equation from the picture in the cell \texttt{\detokenize{In[101]}} (1372 x 435 pixels). No output cell, no file \texttt{Generali\allowbreak{}zed\_Kron\allowbreak{}ecker\_De\allowbreak{}lta.txt} and no other Mathematica file of the author was opened; the metric was taken from the author's message.
+
+What the notebook computes, as far as its input cells show (a reading of the digest, labelled as such): it sets up the xAct packages, an 8-dimensional manifold and a metric of signature (4,4) (\texttt{\detokenize{In[29]}}); it builds the generalized delta in a second way, as contracted products of two Levi-Civita tensors divided by $(8 - p)!$ (\texttt{\detokenize{delta11}}, \texttt{\detokenize{delta22}}, \texttt{\detokenize{delta33}}, \texttt{\detokenize{delta55}}); it defines \texttt{kδ} (\texttt{\detokenize{In[87]}}) and evaluates it for 3, 5 and 7 index pairs (\texttt{kδ33}, \texttt{kδ55}, \texttt{kδ77}); it compares the two constructions (\texttt{\detokenize{In[102]}}, \texttt{\detokenize{In[105]}}, \texttt{\detokenize{In[108]}}); and it contains the picture of (4.38). Its answers are in the output cells, which were not read.
+
+The comparison that was made:
+
+\begin{itemize}
+\item The definition: \texttt{definiti\allowbreak{}on\_is\_th\allowbreak{}e\_author\allowbreak{}s\_verbat\allowbreak{}im} shows that the definition evaluated by the Wolfram check is the author's text, character for character.
+\item The function: GKD equals the author's \texttt{kδ} on every pair of lists of length 1 to 3, on 20000 random pairs of each length 4 to 7 (Wolfram), and equals the literal determinant on every pair of length 1 to 4 and 200000 random pairs of each length 5 to 9 (Rust self-test), as the theorem of section 3.2 requires.
+\item The equation: the tensors are those of (4.38) as shown in the notebook's picture, with the conventions of section 4.2.
+\end{itemize}
+
+The comparison that was NOT made: \texttt{PROVENAN\allowbreak{}CE\_OF\_TH\allowbreak{}E\_COMPUT\allowbreak{}ATION.md} announces a comparison with the author's own answers in a later commit; no file under \texttt{Revision\allowbreak{}/} records it. Whether the Lovelock tensors of this record agree with any tensors computed in the author's notebooks is therefore not established (section 12).
+
+\section{How the field equations for \texorpdfstring{$a_4$}{a\_4} use the Lovelock tensors}
+
+\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4} writes the Einstein-Lovelock equations of \texttt{Revision\allowbreak{}/SPEC.md} section 5 for the author's metric,
+
+\[
+\sum_{k=1}^{3}\alpha_k\,E_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu_\nu = \kappa\,T^\mu{}_\nu,\qquad E_{(k)} = -\frac{P_{(k)}}{2^{k+1}},\qquad E_{(1)} = G ,
+\]
+
+with $\alpha_1 = 1$ for Einstein gravity ($\alpha_2 = \alpha_3 = 0$). Both of its verifiers recompute the three tensors with their own GKD (Wolfram: as the determinant of the delta matrix; sympy: as the permutation sign) and compare all 64 components of each with the exact monomial lists of \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/re\allowbreak{}sults/lo\allowbreak{}velock-t\allowbreak{}ensors.j\allowbreak{}son}:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{step} & \textbf{Wolfram records (\texttt{wolfram-\allowbreak{}a4-repor\allowbreak{}t.json})} & \textbf{sympy records (\texttt{python-a\allowbreak{}4-report\allowbreak{}.json})} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{step} & \textbf{Wolfram records (\texttt{wolfram-\allowbreak{}a4-repor\allowbreak{}t.json})} & \textbf{sympy records (\texttt{python-a\allowbreak{}4-report\allowbreak{}.json})} \\
+\midrule
+\endhead
+$P_{(k)}$ equal to this record & \texttt{P1\_direc\allowbreak{}t\_equals\allowbreak{}\_gkd\_bra\allowbreak{}nch\_mono\allowbreak{}mials}, \texttt{P2\_direc\allowbreak{}t\_equals\allowbreak{}\_gkd\_bra\allowbreak{}nch\_mono\allowbreak{}mials}, \texttt{P3\_direc\allowbreak{}t\_equals\allowbreak{}\_gkd\_bra\allowbreak{}nch\_mono\allowbreak{}mials} & \texttt{P1\_equal\allowbreak{}s\_gkd\_br\allowbreak{}anch\_mon\allowbreak{}omials}, \texttt{P2\_equal\allowbreak{}s\_gkd\_br\allowbreak{}anch\_mon\allowbreak{}omials}, \texttt{P3\_equal\allowbreak{}s\_gkd\_br\allowbreak{}anch\_mon\allowbreak{}omials} \\
+$L_{(k)}$ equal to this record & \texttt{L1\_direc\allowbreak{}t\_equals\allowbreak{}\_gkd\_bra\allowbreak{}nch}, \texttt{L2\_direc\allowbreak{}t\_equals\allowbreak{}\_gkd\_bra\allowbreak{}nch}, \texttt{L3\_direc\allowbreak{}t\_equals\allowbreak{}\_gkd\_bra\allowbreak{}nch} & \texttt{L1\_equal\allowbreak{}s\_gkd\_br\allowbreak{}anch}, \texttt{L2\_equal\allowbreak{}s\_gkd\_br\allowbreak{}anch}, \texttt{L3\_equal\allowbreak{}s\_gkd\_br\allowbreak{}anch} \\
+$P_{(1)} = -4G$, traces & \texttt{P1\_direc\allowbreak{}t\_equals\allowbreak{}\_minus\_4\allowbreak{}\_Einstei\allowbreak{}n}, \texttt{P1\_trace\allowbreak{}\_identit\allowbreak{}y}, \texttt{P2\_trace\allowbreak{}\_identit\allowbreak{}y}, \texttt{P3\_trace\allowbreak{}\_identit\allowbreak{}y} & \texttt{P1\_equal\allowbreak{}s\_minus\_\allowbreak{}4\_Einste\allowbreak{}in}, \texttt{P1\_trace\allowbreak{}\_identit\allowbreak{}y}, \texttt{P2\_trace\allowbreak{}\_identit\allowbreak{}y}, \texttt{P3\_trace\allowbreak{}\_identit\allowbreak{}y} \\
+structure, $P_{(4)} = 0$ & \texttt{P1\_struc\allowbreak{}ture}, \texttt{P2\_struc\allowbreak{}ture}, \texttt{P3\_struc\allowbreak{}ture}, \texttt{independ\allowbreak{}ent\_comp\allowbreak{}onents}, \texttt{P4\_vanis\allowbreak{}hes\_pige\allowbreak{}onhole} & \texttt{P1\_struc\allowbreak{}ture}, \texttt{P2\_struc\allowbreak{}ture}, \texttt{P3\_struc\allowbreak{}ture}, \texttt{other\_co\allowbreak{}mponents\allowbreak{}\_vanish} \\
+divergence of $E_{(k)}$; the $E_{(k)}$ of \texttt{a4-equat\allowbreak{}ions.jso\allowbreak{}n} & \texttt{E1\_diver\allowbreak{}gence\_fr\allowbreak{}ee}, \texttt{E2\_diver\allowbreak{}gence\_fr\allowbreak{}ee}, \texttt{E3\_diver\allowbreak{}gence\_fr\allowbreak{}ee} & \texttt{E1\_diver\allowbreak{}gence\_fr\allowbreak{}ee}, \texttt{E2\_diver\allowbreak{}gence\_fr\allowbreak{}ee}, \texttt{E3\_diver\allowbreak{}gence\_fr\allowbreak{}ee}, \texttt{json\_lov\allowbreak{}elock\_co\allowbreak{}mponents} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+What follows from the tensors of this record (taken from those reports, not derived here): the independent components are $x_1 = x_2 = x_3$, $x_4$, $x_5 = x_6 = x_7$, $x_8$ and the pair $x_4$-$x_8$, whose left-hand side is 0; the evolution equation, the 3-space minus extra-time combination, factorises as $a_4''\,F(a_4') = \kappa(p_3 - p_t)$ with
+
+\[
+F(a_4') = 2\alpha_1 - 48\alpha_2(a_4')^2 - 80\alpha_2H^2 + 720\alpha_3(a_4')^4 + 864\alpha_3(a_4')^2H^2 + 720\alpha_3H^4
+\]
+
+(Wolfram record \texttt{evolutio\allowbreak{}n\_factor\allowbreak{}ises\_a4p\allowbreak{}p\_times\_\allowbreak{}F}, sympy record \texttt{evolutio\allowbreak{}n\_factor\allowbreak{}ises}). The identity $P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} = 2P_{(k)}^{x_8}{}_{x_8}$ of section 6.3 becomes the source condition $p_3 + p_t = 2p_8$ (\texttt{algebrai\allowbreak{}c\_identi\allowbreak{}ty\_x1\_pl\allowbreak{}us\_x5\_mi\allowbreak{}nus\_2x8}, \texttt{algebrai\allowbreak{}c\_identi\allowbreak{}ty}). The solutions of these equations and their sources are the subject of the field-theory documents \texttt{Revision\allowbreak{}/docs/DI\allowbreak{}RAC16COM\allowbreak{}PLEX\_FIE\allowbreak{}LD\_THEOR\allowbreak{}Y.md} and \texttt{Revision\allowbreak{}/docs/DI\allowbreak{}RAC16COM\allowbreak{}PLEX00\_F\allowbreak{}IELD\_THE\allowbreak{}ORY.md}, not of this one.
+
+\section{Verification records}
+
+Every check has a name, a verdict and a detail. Counts at the time of writing, as the JSON files give them (the publication test re-reads them):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}@{}}
+\toprule
+\textbf{report} & \textbf{checks} & \textbf{PASS} & \textbf{FAIL} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{report} & \textbf{checks} & \textbf{PASS} & \textbf{FAIL} \\
+\midrule
+\endhead
+\texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/re\allowbreak{}sults/lo\allowbreak{}velock-r\allowbreak{}eport.js\allowbreak{}on} & 19 & 19 & 0 \\
+\texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/re\allowbreak{}sults/wo\allowbreak{}lfram-gk\allowbreak{}d-report\allowbreak{}.json} & 29 & 29 & 0 \\
+\texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/re\allowbreak{}sults/py\allowbreak{}thon-lov\allowbreak{}elock-re\allowbreak{}port.jso\allowbreak{}n} & 49 & 49 & 0 \\
+\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/wolf\allowbreak{}ram-a4-r\allowbreak{}eport.js\allowbreak{}on} & 52 & 52 & 0 \\
+\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/pyth\allowbreak{}on-a4-re\allowbreak{}port.jso\allowbreak{}n} & 63 & 63 & 0 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The Rust report stores each check with \texttt{"passed"\allowbreak{}: true} instead of a verdict; its 19 checks are counted as PASS. The GKD self-test \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/re\allowbreak{}sults/gk\allowbreak{}d-selfte\allowbreak{}st.json} has no list of checks; its nine comparisons (section 3.3) all have 0 mismatches and its verdict is \texttt{\detokenize{SUCCESS}}. The test file \texttt{Revision\allowbreak{}/tests/t\allowbreak{}est\_gkd\_\allowbreak{}lovelock\allowbreak{}.py} pins the sha256 of the seven result files of the computation and its verifications (\texttt{curvatur\allowbreak{}e.json}, \texttt{lovelock\allowbreak{}-tensors\allowbreak{}.json}, \texttt{lovelock\allowbreak{}-compone\allowbreak{}nts.md}, \texttt{lovelock\allowbreak{}-report.\allowbreak{}json}, \texttt{gkd-self\allowbreak{}test.jso\allowbreak{}n}, \texttt{python-l\allowbreak{}ovelock-\allowbreak{}report.j\allowbreak{}son}, \texttt{wolfram-\allowbreak{}gkd-repo\allowbreak{}rt.json}), requires every check to pass, and, in its slow tests, re-runs the Rust program, the sympy checker and the Wolfram check and requires byte-identical outputs.
+
+Re-verification for this document (2026-10-08, on the shared machine of the provenance files; written to a scratch directory, the committed files untouched): \texttt{lovelock\allowbreak{}\_gkd lov\allowbreak{}elock --\allowbreak{}brute-fo\allowbreak{}rce-k2} gave 19 of 19 checks in 18.9 s and four files byte-identical to the committed ones; the sympy checker gave 49 of 49 checks in 40.3 s and a report byte-identical to the committed one. These two run times are measurements made while writing this document; they are not recorded in a report.
+
+\section{Reproduction}
+
+\subsection{Commands}
+
+From the repository root (Rust 1.87 or newer, Python 3 with sympy and numpy, Wolfram Language with WolframScript). A backslash at the end of a line is the line continuation of a POSIX shell; in PowerShell write such a command on one line:
+
+\begin{Verbatim}[fontsize=\small]
+cargo build --release --manifest-path Revision/gkd_lovelock/code/Cargo.toml
+Revision/gkd_lovelock/code/target/release/lovelock_gkd gkd-selftest \
+    --exhaustive-max 4 --output Revision/gkd_lovelock/results
+Revision/gkd_lovelock/code/target/release/lovelock_gkd lovelock \
+    --output Revision/gkd_lovelock/results --brute-force-k2
+python Revision/gkd_lovelock/verification/check_lovelock_gkd.py
+wolframscript -file Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls \
+    Revision/gkd_lovelock/results/wolfram-gkd-report.json
+wolframscript -file \
+    Revision/gkd_lovelock/notebook_reading/lovelock_extract_nb_inputs.wls
+python Revision/gkd_lovelock/notebook_reading/lovelock_digest_nb_inputs.py
+wolframscript -file \
+    Revision/gkd_lovelock/notebook_reading/lovelock_export_nb_image.wls
+python -m unittest Revision/tests/test_gkd_lovelock.py -v
+python scripts/build_provenance_pdf.py Revision/docs/LOVELOCK_GKD.md \
+    --developer-layout --specifications Revision/pdf-specifications.json
+python -m unittest Revision/tests/test_lovelock_gkd_publication.py -v
+\end{Verbatim}
+
+On Windows the binary is \texttt{lovelock\allowbreak{}\_gkd.exe}. Each of the commands that write into \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/re\allowbreak{}sults} overwrites a committed file with a byte-identical one; to leave the committed files untouched, give another output directory or report path and compare. The Wolfram check builds its exporter in \texttt{<\$Tempor\allowbreak{}aryDirec\allowbreak{}tory>/re\allowbreak{}vision\_g\allowbreak{}kd\_expor\allowbreak{}t} (or in \texttt{\$LOVELOC\allowbreak{}K\_GKD\_EX\allowbreak{}PORT\_DIR}); run only one copy at a time with the default directory. The notebook-reading commands need the author's notebook in the repository root and write the uncommitted text \texttt{build/lo\allowbreak{}velock\_n\allowbreak{}b\_inputs\allowbreak{}.txt}.
+
+\subsection{Expected output}
+
+\begin{itemize}
+\item \texttt{gkd-self\allowbreak{}test}: nine lines starting with \texttt{PASS - G\allowbreak{}KD vs li\allowbreak{}teral}, then \texttt{gkd-self\allowbreak{}test: SU\allowbreak{}CCESS (.\allowbreak{}..)}; the file \texttt{gkd-self\allowbreak{}test.jso\allowbreak{}n} with the table of section 3.3.
+\item \texttt{\detokenize{lovelock}}: the 19 check lines starting with \texttt{\detokenize{PASS - }}, three lines starting with \texttt{\detokenize{info - }} (the scalar $L_{(4)}$ and the times of the two unpruned sums), the counter lines of section 5.2, then \texttt{check\_co\allowbreak{}unt=19}, \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=0} and \texttt{lovelock\allowbreak{}: SUCCES\allowbreak{}S (...)}; exit code 0.
+\item The sympy checker: 49 lines \texttt{[PASS] <\allowbreak{}name>} in six groups, then \texttt{total ..\allowbreak{}. s; 49 \allowbreak{}checks, \allowbreak{}0 failed\allowbreak{}; verdic\allowbreak{}t SUCCES\allowbreak{}S}; exit code 0.
+\item The Wolfram check: ten \texttt{time\_<st\allowbreak{}ep>=<sec\allowbreak{}onds>} lines, the 29 lines \texttt{check\_<n\allowbreak{}ame>=tru\allowbreak{}e}, then \texttt{check\_co\allowbreak{}unt=29}, \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=0}, \texttt{time\_tot\allowbreak{}al=<seco\allowbreak{}nds>} and \texttt{report=<\allowbreak{}path>}; exit code 0 (1 if a check fails, 2 on a load, build or input/output error).
+\item The notebook reading: \texttt{input ce\allowbreak{}lls writ\allowbreak{}ten: 58}, \texttt{58 input\allowbreak{} cells}, \texttt{\{1372, 4\allowbreak{}35\}} and \texttt{28229 by\allowbreak{}tes (117\allowbreak{} bytes o\allowbreak{}f text/t\allowbreak{}ime chun\allowbreak{}ks remov\allowbreak{}ed)}, with both committed outputs reproduced byte for byte.
+\end{itemize}
+
+\subsection{Run times}
+
+From the provenance files (shared 24-core machine, Windows 11):
+
+\begin{itemize}
+\item The Wolfram check, from part 4.4 of the provenance file \texttt{WOLFRAMS\allowbreak{}CRIPT\_PR\allowbreak{}OVENANCE\allowbreak{}.md} in \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/ve\allowbreak{}rificati\allowbreak{}on/}: \texttt{time\_tot\allowbreak{}al} 68.4 s in the run of 2026-10-08 that regenerated the committed report, 68-135 s over seven runs; the $k = 2$ sum took 26-43 s and the $k = 3$ sum 35-77 s over eight runs; peak memory of the kernel about 486 MB working set. The optional no-skip mode for $k = 3$ took 1637.7 s (part 4.5).
+\item The notebook reading, from the provenance file \texttt{WOLFRAMS\allowbreak{}CRIPT\_PR\allowbreak{}OVENANCE\allowbreak{}.md} in \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock/no\allowbreak{}tebook\_r\allowbreak{}eading/}: the whole set takes about 10 to 25 seconds, and up to about 40 seconds on a fully loaded machine.
+\item The GKD self-test with \texttt{--exhaus\allowbreak{}tive-max\allowbreak{} 4}: several minutes (\texttt{Revision\allowbreak{}/tests/t\allowbreak{}est\_gkd\_\allowbreak{}lovelock\allowbreak{}.py}, which runs it only when \texttt{LOVELOCK\allowbreak{}\_GKD\_SEL\allowbreak{}FTEST=1}).
+\item The Rust \texttt{\detokenize{lovelock}} run and the sympy checker: no run time is recorded in a provenance file; see the measurement of section 10 (18.9 s and 40.3 s).
+\end{itemize}
+
+\subsection{The PDF}
+
+The PDF build runs the Markdown-to-LaTeX builder twice (with different hash seeds), runs pdflatex three times into each of two fresh directories, requires warning-free logs and byte-identical PDFs, and checks the PDF against its entry \texttt{lovelock\allowbreak{}-gkd} in \texttt{Revision\allowbreak{}/pdf-spe\allowbreak{}cificati\allowbreak{}ons.json} (the Revision registry; the registry of the earlier stages is not touched).
+
+\section{What is established and what is not}
+
+\subsection{Established}
+
+\begin{enumerate}
+\item GKD equals the author's definition \texttt{kδ} for all index lists of equal length (theorem of section 3.2, with its proof); confirmed exhaustively up to length 4 (Rust) and length 3 (Wolfram, sympy) and on pseudo-random samples up to length 9.
+\item For the author's metric on $0 < z < \pi/2$, with the conventions of sections 2.2 and 4.2: the 25 nonzero Christoffel symbols, the 156 nonzero $R^{ab}{}_{cd}$, the Ricci and Einstein tensors and the Lovelock tensors $P_{(k)}$, $A_{(k)}$ and scalars $L_{(k)}$, $k = 1, 2, 3$, exactly as listed in section 6 and in \texttt{lovelock\allowbreak{}-tensors\allowbreak{}.json}; three programs that share no code for the sums agree on every component.
+\item $P_{(1)} = -4G$, $P_{(2)} = -8\mathcal{H}$ (Gauss-Bonnet), $L_{(1)} = 2R$, $L_{(2)} = 4\,GB$, $L_{(3)} = 8(2T_1 + \dots + T_8)$; the trace identities; $\nabla_hP_{(k)}{}^h{}_j = 0$; the symmetry of $A_{(k)}$; $P_{(4)} = 0$ in eight dimensions.
+\item The structure: diagonal, free of $\sin^{1/3}z$, $e^{a_4}$ and $x_8$, with $x_1 = x_2 = x_3$ and $x_5 = x_6 = x_7$, and with $a_4''$ entering the 3-space and extra-time components with opposite signs.
+\end{enumerate}
+
+\subsection{Not established}
+
+\begin{enumerate}
+\item No solution: this record gives the left-hand sides of the field equations only. Which $a_4$ and which sources solve them is not part of it (section 9).
+\item The domain: only the patch $0 < z < \pi/2$, where $\sqrt{|g|} = \cos z$. Nothing is computed at the brane $z = \pi/2$, where $g_{88} = \cot^2z = 0$ and $\det g = 0$, or on a mirror patch.
+\item No comparison with the author's answers: the output cells of the author's notebook were never read, and the announced comparison is not recorded in \texttt{Revision\allowbreak{}/} (section 8). Agreement with the author's own Lovelock tensors is therefore not established.
+\item For $k = 3$ the tensor $P_{(3)}$ is verified by three independent recomputations, the trace, the divergence and the symmetry, and the scalar $L_{(3)}$ against the classical cubic density; it is not compared with an independent closed formula for the third-order Lovelock tensor. $E_{(k)} = -P_{(k)}/2^{k+1}$ is a normalisation convention, which equals the Einstein tensor for $k = 1$ and the Gauss-Bonnet tensor for $k = 2$.
+\item The unpruned sums are exact for $k = 1, 2$ (sympy) and numerical at one point (Rust); for $k = 3$ the skipped terms are confirmed by a random sample (sympy) and by the theorem of section 3.2; the Wolfram no-skip run of the diagonal $k = 3$ components is recorded in its provenance file only, and its report is not committed.
+\item Only Wolfram Language 15.0.1 and the toolchains named in the provenance files were used.
+\item No physical interpretation is attached to the components here; in particular nothing is said about the sign of an energy or about the stability of a solution.
+\end{enumerate}
+
+\end{document}

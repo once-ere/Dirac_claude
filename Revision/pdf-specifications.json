@@ -9,6 +9,11 @@
     "pages": 36,
     "sha256": "dfc4bc52c5119c835b1fee1680de4eda1188e2a711924016465c0622a6645384"
   },
+  "lovelock-gkd": {
+    "path": "Revision/docs/LOVELOCK_GKD.pdf",
+    "pages": 20,
+    "sha256": "f6b08d14d869a87afad85e3fcd3f6ac329e335ed5e83ef23a6875bcafc7b7261"
+  },
   "pair-creation-proofs": {
     "path": "Revision/docs/PAIR_CREATION_PROOFS.pdf",
     "pages": 29,
