@@ -66,7 +66,7 @@ FACTS = {
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [{"manifest": "Revision/kohn_sham/solver/Cargo.toml",
                     "binaries": ["revision_ks_solver"], "build_minutes": 1}],
-    "expected_seconds": 240,
+    "expected_seconds": 600,
     "timeout_seconds": 1800,
     "files_written": ["Revision/textbook/figures/15a.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
@@ -78,8 +78,9 @@ FACTS = {
         ["The cell that runs the canonical matrix shows the label with the star for "
          "several minutes",
          "this is normal. The solver computes 210 states and uses up to 22 processor "
-         "cores; on a computer with 4 cores it needs about 10 minutes. Wait until the "
-         "label shows a number."],
+         "cores; on the computer that built the notebook (22 cores) the whole notebook "
+         "takes two to four minutes, and on a computer with 4 cores it can need up to "
+         "about 10 minutes. Wait until the label shows a number."],
         ["An AssertionError names one of the comparisons with the record",
          "the notebook prints the largest difference just above the error. Differences "
          "far below the tolerance are rounding effects of another computer; a larger "
@@ -114,10 +115,10 @@ CELLS = [
       self-consistent potentials, the convergence of the self-consistent loop and the
       particle-hole excitations.
 
-    The run takes about two to three minutes on a computer with many processor cores
-    (longer on a laptop). Everything it writes outside the folder of the figures goes
-    into the Rust build folder `Revision/kohn_sham/solver/target/textbook_15a`, which
-    git ignores.
+    The run takes two to four minutes on a computer with many processor cores
+    (up to about ten minutes on a laptop). Everything it writes outside the folder of
+    the figures goes into the Rust build folder
+    `Revision/kohn_sham/solver/target/textbook_15a`, which git ignores.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -243,7 +244,8 @@ CELLS = [
     run is removed first (the solver refuses to write into a folder without its
     manifest). The solver prints one line per check on its error stream and `SUCCESS` as
     its last line on its output stream; the cell counts those lines. This cell takes two
-    to three minutes (up to ten on a laptop).
+    to three minutes on a computer with many cores (up to about ten minutes on a
+    laptop).
     """),
     code(r'''
     RUN_FOLDER = REPO / "Revision/kohn_sham/solver/target/textbook_15a"  # git ignores it
@@ -756,7 +758,7 @@ CELLS = [
     The file `ground/runs.json` records for every ground state the residual of each
     iteration of the self-consistent loop. The next cell draws it for the strongest
     couplings $\pm\lambda_2$ at the last slice $a_{4,0} = 2$ (the hardest cases), with
-    the tolerance $10^{-11}$ as a dashed line, and checks that all 75 ground states
+    the tolerance $10^{-11}$ as a dotted line, and checks that all 75 ground states
     converged directly (path `direct`: no fallback was needed) with a final residual at
     or below the tolerance (zero for $\lambda = 0$, where one iteration suffices).
     """),

@@ -80,7 +80,12 @@ FACTS = {
         "PASS every figure file of this notebook exists",
         "ALL 15 CHECKS PASSED (notebook 15d)",
     ],
-    "troubleshooting": [],
+    "troubleshooting": [
+        ["You want the disk space of the solver output back",
+         "the folder `Revision/kohn_sham/solver/target/textbook_15d` holds only "
+         "the raw output of the last run (40 files, about 0.6 MB), which git "
+         "ignores; delete it at any time, the notebook writes it again."],
+    ],
 }
 
 CELLS = [

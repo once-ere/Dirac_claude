@@ -166,15 +166,30 @@ CELLS = [
 
     $$\theta' = j(\varepsilon - v) - \kappa k \cos 2\theta - M \sin 2\theta .$$
 
-    At the tip $\theta(-L) = 0$ (because $b = 0$ there). The derivative of $\theta'$ with
-    respect to $\varepsilon$ is $j$, so $j\theta$ grows faster for a larger
-    $\varepsilon$: the **phase function** $\Phi(\varepsilon) = j\,\theta(0)$ increases
-    strictly with $\varepsilon$ (the solver's documentation gives the exact formula
-    $d\theta(0)/d\varepsilon = j\int r^2 dy / r(0)^2$). It also runs from $-\infty$ to
-    $+\infty$: for large $|\varepsilon|$ the term $j(\varepsilon - v)$ dominates
-    $\theta'$, so $\Phi(\varepsilon) \approx \varepsilon L$. Even parity, $b(0) = 0$, means
-    $\theta(0)$ is a whole multiple of $\pi$; odd parity, $a(0) = 0$, means
-    $\theta(0) = \pi/2 + $ a multiple of $\pi$. Because $\Phi$ increases strictly, each
+    At the tip $\theta(-L) = 0$ (because $b = 0$ there). Write $\psi = j\theta$.
+    Multiplying the angle equation by $j$ and using $j^2 = 1$,
+    $\cos(2j\psi) = \cos 2\psi$ and $\sin(2j\psi) = j\sin 2\psi$ gives
+
+    $$\psi' = \varepsilon + G(y, \psi), \qquad
+    G(y, \psi) = -v - j\kappa k \cos 2\psi - M \sin 2\psi ,$$
+
+    and $G$ does not contain $\varepsilon$. The **phase function**
+    $\Phi(\varepsilon) = j\,\theta(0) = \psi(0)$ increases strictly with $\varepsilon$,
+    by a comparison of two energies $\varepsilon_1 < \varepsilon_2$: let $\psi_1$,
+    $\psi_2$ be their angles (both 0 at the tip) and $D = \psi_2 - \psi_1$. At the tip
+    $D = 0$ and $D' = \varepsilon_2 - \varepsilon_1 > 0$, so $D > 0$ just after the tip.
+    If $D$ came back to 0 at a first point $y_1$, it would arrive there from positive
+    values, so $D'(y_1) \le 0$; but at $y_1$ the two angles are equal, the two $G$ terms
+    cancel and $D'(y_1) = \varepsilon_2 - \varepsilon_1 > 0$. This contradiction shows
+    $D(0) > 0$, that is $\Phi(\varepsilon_2) > \Phi(\varepsilon_1)$. (The exact
+    derivative $d\Phi/d\varepsilon = \int r^2 dy / r(0)^2 > 0$, which section 6 uses
+    for Newton's method, says the same.) $\Phi$ also runs from $-\infty$ to $+\infty$:
+    if $|v|$, $\kappa k$ and $|M|$ are at most $C_0$ on the interval, then
+    $|G| \le 3C_0$, and integrating $\psi'$ over the length $L$ gives
+    $(\varepsilon - 3C_0)L \le \Phi(\varepsilon) \le (\varepsilon + 3C_0)L$, so
+    $\Phi(\varepsilon) \approx \varepsilon L$ for large $|\varepsilon|$. Even parity,
+    $b(0) = 0$, means $\theta(0)$ is a whole multiple of $\pi$; odd parity, $a(0) = 0$,
+    means $\theta(0) = \pi/2 + $ a multiple of $\pi$. Because $\Phi$ increases strictly, each
     target $l\pi$ (even) or $\pi/2 + l\pi$ (odd) is reached at exactly one energy: **every
     level has its own whole number $l$, and no level can be missed** (the oscillation
     theorem).
@@ -479,7 +494,8 @@ CELLS = [
                 worst_record = max(worst_record, abs(found - recorded[(parity, label)][0]))
     report("largest |shooting - exact| for |eps| < 4", f"{worst_exact:.2e}")
     report("largest |this notebook - solver record|", f"{worst_record:.2e}")
-    check(worst_exact < 5e-9, "the shooting levels equal the exact levels within 5e-9",
+    check(worst_exact < 5e-9,
+          "the shooting levels equal the exact levels within 5e-9 for |eps| < 4",
           record="Revision/kohn_sham/reports/ks-rust-solver.json, check "
                  "free_k0_analytic_spectra")
     check(worst_record < 1e-12, "the levels equal the solver's levels within 1e-12",
@@ -619,7 +635,13 @@ CELLS = [
     function of $k$: the two exact symmetries of the block Hamiltonian (Revision record
     ks-theory.json, blockEquation.typeRelation), $\sigma_3 h_j(k) \sigma_3 = h_{-j}(-k)$
     and $h_{-1} = -h_{+1}$ (for $v = 0$), give together that $-\varepsilon$ is a level
-    of $h_{+1}(-k)$ whenever $\varepsilon$ is a level of $h_{+1}(k)$. So
+    of $h_{+1}(-k)$ whenever $\varepsilon$ is a level of $h_{+1}(k)$. The labels go
+    along: the first map changes the signs of $b$ and $j$, so $\Phi = j\theta(0)$ and
+    every label stay the same; the second keeps $(a, b)$ and changes the signs of $j$
+    and $\varepsilon$, so $\Phi \to -\Phi$ and the even label $l$ goes to $-l$
+    (Revision/kohn_sham/reports/ks-rust-solver.json, check
+    free_block_type_symmetries). The band, the even label 0, therefore goes to the
+    even label 0: $\varepsilon(-k) = -\varepsilon(k)$ for the band itself. So
     $\varepsilon(k) = c k - d k^3 + \dots$ and $s(k) = c - d k^2 + \dots$: the error of
     $s$ grows fourfold when $k$ doubles, and the **Richardson extrapolation**
     $\tfrac{1}{3}(4 s(k) - s(2k))$ removes it (the $k^2$ terms cancel:
@@ -954,11 +976,11 @@ CELLS = [
 
     - The Pruefer angle turns the search for levels into counting: the phase function
       $\Phi(\varepsilon)$ increases strictly, every level is the crossing with one target
-      $l\pi$ or $\pi/2 + l\pi$, and no level can be missed (PROVED by the monotonicity
+      $l\pi$ or $\pi/2 + l\pi$, and no level can be missed (PROVED by the comparison
       argument of section 4; COMPUTED here for the free spectrum).
     - RK4 shooting on the solver's grid reproduces the exact free levels (within
-      $5 \times 10^{-9}$), the solver's own numbers (within $10^{-12}$) and the fourth
-      order of the method (error ratio 16).
+      $5 \times 10^{-9}$ for $|\varepsilon| < 4$), the solver's own numbers (within
+      $10^{-12}$) and the fourth order of the method (error ratio 16).
     - The brane band has the slope $c\,e^{-a_{4,0}}$ with $c = 1.9051482536$, and the
       slice enters only through $k e^{-a_{4,0}}$ (the rescaling identity): along the
       deflating history every momentum is redshifted.

@@ -76,7 +76,7 @@ FACTS = {
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [{"manifest": "Revision/kohn_sham/solver/Cargo.toml",
                     "binaries": ["revision_ks_solver"], "build_minutes": 1}],
-    "expected_seconds": 25,
+    "expected_seconds": 30,
     "timeout_seconds": 600,
     "files_written": ["Revision/textbook/figures/15b.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
@@ -84,7 +84,12 @@ FACTS = {
         "PASS every figure file of this notebook exists",
         "ALL 18 CHECKS PASSED (notebook 15b)",
     ],
-    "troubleshooting": [],
+    "troubleshooting": [
+        ["You want the disk space of the solver output back",
+         "the folder `Revision/kohn_sham/solver/target/textbook_15b` holds only "
+         "the raw output of the last run (21 files, about 0.9 MB), which git "
+         "ignores; delete it at any time, the notebook writes it again."],
+    ],
 }
 
 CELLS = [

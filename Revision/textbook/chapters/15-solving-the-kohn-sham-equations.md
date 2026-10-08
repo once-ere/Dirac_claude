@@ -19,15 +19,15 @@ Chapter 14 turned the Kohn-Sham problem of the field dirac16complex in the autho
 - Thermodynamics: the gas at a temperature, the chemical potential and why it must be computed in a special way (Sections 15.26 to 15.30, Notebook 15d).
 - What we proved, what we computed, what we assumed (Section 15.31), and seven exercises with complete worked answers (Section 15.32).
 
-**The five notebooks.** The run times are those measured on the computer that built the book (one execution of the notebook by the checking tool; a laptop may need two or three times as long).
+**The five notebooks.** The run times are the two measured executions of each notebook, the build run and the check run, that section 4.5 of its provenance file `Revision/textbook/notebooks/<name>.PROVENANCE.md` records; they were measured on the computer that built the book, where the solver used 22 threads, while other programs ran at the same time, which explains the spread. A laptop may need two or three times as long, and Notebook 15a, whose solver divides its work over all cores, up to about ten minutes.
 
 | notebook | what it computes | Rust, PASS lines, figures, run time |
 | --- | --- | --- |
-| 15e | the solver's method by hand: shooting, Pruefer label, Newton, RK4 order, brane band, self-consistency for $N = 8$ | no Rust; 18 PASS lines; 6 figures; 14 s |
-| 15a | the whole canonical matrix with the Rust solver, compared with the record | Rust; 25 PASS lines; 8 figures; 186 s |
-| 15b | the energy-momentum profiles, the conservation law along $y$, the energy change along the history | Rust; 18 PASS lines; 7 figures; 16 s |
-| 15c | the adiabaticity measure, Hellmann-Feynman, a Fermi-level crossing | no Rust; 12 PASS lines; 6 figures; 9 s |
-| 15d | thermodynamics: chemical potential, free energy, entropy, heat capacity | Rust; 15 PASS lines; 7 figures; 19 s |
+| 15e | the solver's method by hand: shooting, Pruefer label, Newton, RK4 order, brane band, self-consistency for $N = 8$ | no Rust; 18 PASS lines; 6 figures; 11 to 12 s |
+| 15a | the whole canonical matrix with the Rust solver, compared with the record | Rust; 25 PASS lines; 8 figures; 164 to 232 s |
+| 15b | the energy-momentum profiles, the conservation law along $y$, the energy change along the history | Rust; 18 PASS lines; 7 figures; 23 to 29 s |
+| 15c | the adiabaticity measure, Hellmann-Feynman, a Fermi-level crossing | no Rust; 12 PASS lines; 6 figures; 10 to 15 s |
+| 15d | thermodynamics: chemical potential, free energy, entropy, heat capacity | Rust; 15 PASS lines; 7 figures; 36 s |
 
 The notebooks are placed in the order in which the ideas are needed: 15e first, because it teaches the method that the Rust solver uses in the others.
 
@@ -101,7 +101,7 @@ $$
 8 + 4\,(32 + 24 + 24 + 0 + 12 + 30 + 24 + 24) = 8 + 4\cdot170 = 688 .
 $$
 
-Rule: the sum $6 + 12 + 8 + 6 = 32$ of the first four shells plus the seven new shells. $N = 688$ is the largest closed shell whose highest level lies below the **bulk edge** $1.2922928$, the lowest level that is not on the brane band (the odd level at $k = 0$; parameters.json, particleNumbers.bulkEdge); $N = 136$ is the closed shell nearest to $688/4 = 172$ (Exercise 1 checks this).
+Rule: the sum $6 + 12 + 8 + 6 = 32$ of the first four shells plus the seven new shells. $N = 688$ is the largest closed shell whose highest level lies below the **bulk edge** $1.2922928$, the lowest level that is not on the brane band (the odd level at $k = 0$; parameters.json, particleNumbers.bulkEdge); $N = 136$ is the closed shell nearest to $688/4 = 172$ (Exercise 1 checks this). The record calls 688 $N_{large}$ and 136 $N_{mid}$ (parameters.json, particleNumbers.N_large and particleNumbers.N_mid, with the rule in particleNumbers.rule).
 
 **The couplings.** The coupling $\lambda$ is a constant of the theory, the same at every slice. For each $N$ the record chooses two values so that the interaction is a moderate perturbation along the whole history (parameters.json, couplingCalibration). In the free ground states of that $N$ at all five slices it takes the largest value over $y$ of $\max\big(\tfrac{15}{16}|S|, \tfrac{1}{16}n\big)$, the size of the mean-field potentials per unit $\lambda$ (called the **strength**), and sets $\lambda_1 = 0.1/\text{strength}$ and $\lambda_2 = 0.3/\text{strength}$, rounded to four significant digits; then the first-order potentials stay below $0.1\,m$ and $0.3\,m$. For $N = 8$ the strength is $5.138804$, so $\lambda_1 = 0.1/5.138804 = 0.019460$, rounded $0.01946$, and $\lambda_2 = 0.05838$. For $N = 136$ and $688$ the strengths are $107.548$ and $541.713$, so $\lambda_1 = 0.0009298$ and $0.0001846$, $\lambda_2 = 0.002789$ and $0.0005538$. The strength of $N = 136$ grows from $5.226$ at the first slice to $107.548$ at the last, that of $N = 688$ from $5.226$ to $541.713$ (parameters.json, strengthPerLambdaAtSlices): along the history the brane-band orbitals spread toward the tip, where the factor $P = e^{-6Hy}/\mathrm{Vol}_7$ is large. A calibration at the first slice alone would make the late states strongly coupled; this is why the whole history is used. The sign of $\lambda$ decides the kind of interaction: $\lambda > 0$ is repulsive, $\lambda < 0$ attractive. The run names use the tags `lam0`, `lamp1`, `lamm1`, `lamp2`, `lamm2` for $\lambda = 0, +\lambda_1, -\lambda_1, +\lambda_2, -\lambda_2$.
 
@@ -189,13 +189,27 @@ $$
 a'' = Ma' - \varepsilon^2 a + M(Ma - a') = (M^2 - \varepsilon^2)\,a .
 $$
 
-Rule: the first block equation says $j\varepsilon b = Ma - a'$. The same steps give $b'' = (M^2 - \varepsilon^2)b$. For $\varepsilon^2 > M^2$ put $p = \sqrt{\varepsilon^2 - M^2}$; then $b'' = -p^2b$, and the tip condition $b(-L) = 0$ leaves $b = B\sin\big(p(y + L)\big)$. Even parity, $b(0) = 0$: $\sin(pL) = 0$, so $p = n\pi/L$ and
+Rule: the first block equation says $j\varepsilon b = Ma - a'$. The same two steps for $b$, line by line:
+
+$$
+b'' = j\varepsilon a' - Mb' = j\varepsilon(Ma - j\varepsilon b) - Mb' = j\varepsilon M a - \varepsilon^2 b - Mb' .
+$$
+
+Rule: differentiate the second block equation (with $k = 0$, $v = 0$) and insert the first; $j^2 = 1$.
+
+$$
+b'' = M(b' + Mb) - \varepsilon^2 b - Mb' = (M^2 - \varepsilon^2)\,b .
+$$
+
+Rule: the second block equation says $j\varepsilon a = b' + Mb$. For $\varepsilon \ne 0$ this relation gives $a$ from $b$, so an orbital that is not zero everywhere has a $b$ that is not zero everywhere; the cases $\varepsilon \ne 0$ are sorted by the sign of $M^2 - \varepsilon^2$. For $\varepsilon^2 > M^2$ put $p = \sqrt{\varepsilon^2 - M^2}$; then $b'' = -p^2b$, and the tip condition $b(-L) = 0$ leaves $b = B\sin\big(p(y + L)\big)$ with $B \ne 0$. Even parity, $b(0) = 0$: $\sin(pL) = 0$, so $p = n\pi/L$ and
 
 $$
 \varepsilon = \pm\sqrt{M^2 + (n\pi/L)^2}, \qquad n = 1, 2, \dots
 $$
 
-Odd parity, $a(0) = 0$: the second block equation gives $j\varepsilon a = b' + Mb$, so $a(0) = 0$ means $b'(0) + Mb(0) = 0$, that is $Bp\cos(pL) + MB\sin(pL) = 0$, or $\tan(pL) = -p/M$. Finally $\varepsilon = 0$: the equations become $a' = Ma$, $b' = -Mb$, so $b = 0$ (from $b(-L) = 0$) and $a = Ce^{My}$: the **zero mode**, which satisfies the even brane condition. Normalising, $\int_{-L}^{0}C^2e^{2My}dy = C^2(1 - e^{-2ML})/(2M) = 1$ gives $C = \sqrt{2M/(1 - e^{-2ML})}$. For $M = 1$, $L = 3$: the first even levels are $\pm\sqrt{1 + (\pi/3)^2} = \pm1.4479719$, and the first odd level is $\pm1.2922928$, the bulk edge of Section 15.2. Notebook 15e reproduces all of them by shooting (Out [6]).
+Odd parity, $a(0) = 0$: the second block equation gives $j\varepsilon a = b' + Mb$, so $a(0) = 0$ means $b'(0) + Mb(0) = 0$, that is $Bp\cos(pL) + MB\sin(pL) = 0$, or $\tan(pL) = -p/M$.
+
+Inside the gap, $0 < \varepsilon^2 < M^2$, put $q = \sqrt{M^2 - \varepsilon^2} > 0$; then $b'' = q^2b$. The functions $\cosh x = (e^x + e^{-x})/2$ and $\sinh x = (e^x - e^{-x})/2$ are each the derivative of the other, so $\cosh\big(q(y + L)\big)$ and $\sinh\big(q(y + L)\big)$ solve $b'' = q^2b$, every solution is a combination of the two, and the tip condition $b(-L) = 0$ (where $\cosh 0 = 1$, $\sinh 0 = 0$) leaves $b = B\sinh\big(q(y + L)\big)$ with $B \ne 0$. Even parity needs $b(0) = B\sinh(qL) = 0$, impossible because $\sinh x > 0$ for $x > 0$. Odd parity needs $b'(0) + Mb(0) = B\big(q\cosh(qL) + M\sinh(qL)\big) = 0$, impossible because both terms in the bracket are positive. At the edge, $\varepsilon^2 = M^2$, the equation is $b'' = 0$ and the tip condition leaves $b = B(y + L)$; even parity needs $BL = 0$ and odd parity $b'(0) + Mb(0) = B(1 + ML) = 0$, both impossible for $B \ne 0$. So **no level lies in $0 < |\varepsilon| \le M$**: the only level inside the gap is the zero mode. Finally $\varepsilon = 0$: the equations become $a' = Ma$, $b' = -Mb$, so $b = 0$ (from $b(-L) = 0$) and $a = Ce^{My}$: the **zero mode**, which satisfies the even brane condition. Normalising, $\int_{-L}^{0}C^2e^{2My}dy = C^2(1 - e^{-2ML})/(2M) = 1$ gives $C = \sqrt{2M/(1 - e^{-2ML})}$. For $M = 1$, $L = 3$: the first even levels are $\pm\sqrt{1 + (\pi/3)^2} = \pm1.4479719$, and the first odd level is $\pm1.2922928$, the bulk edge of Section 15.2. Notebook 15e reproduces all of them by shooting (Out [6]).
 
 **Newton's method inside a bracket.** To solve $\Phi(\varepsilon) = t_l$ the solver uses Newton's method, $\varepsilon \to \varepsilon - (\Phi(\varepsilon) - t_l)/\Phi'(\varepsilon)$, with the derivative from the formula above. Newton's method converges very fast near the root but can jump far away from a poor guess, so it is **safeguarded**: from a guess the solver first walks with doubling steps (up if $\Phi < t_l$, down otherwise) until $\Phi - t_l$ changes sign; the last two points form a **bracket** $[lo, hi]$ that contains the root, because $\Phi$ is continuous. Then it takes Newton steps, and replaces a Newton step by **bisection** (the midpoint of the bracket) whenever the Newton step would leave the bracket or the previous step did not halve $|\Phi - t_l|$; after each step the bracket shrinks to the side where the sign changes. It stops when the bracket is shorter than the tolerance $10^{-13}\,m$ or when a Newton step moved the energy by less than that (Newton's method approaches a root from one side, so the bracket itself need not shrink). The levels are therefore found to about $10^{-13}\,m$ for a given grid.
 
@@ -326,7 +340,7 @@ This is PROVED for the mapped state; that the loop started from the free state f
 
 ### 15.6 Example: the solver's method by hand (Notebook 15e)
 
-Notebook 15e writes the method of Sections 15.3 to 15.5 in plain Python, exactly as the Rust solver does it (`Revision/kohn_sham/solver/src/shoot.rs` and `scf.rs`), and reproduces numbers of the record: the grid and Simpson's rule; one shooting integration with the Pruefer angle; the phase function and the levels it labels (Figure 15e.1); Newton's method inside a bracket, the exact levels at $k = 0$ and the solver's own levels; the orbitals with Hermite midpoints (Figure 15e.2); the order 4 of RK4 (Figure 15e.3); the brane band, its slope and the rescaling identity (Figure 15e.4); the self-consistent loop with Anderson mixing for $N = 8$, compared with linear mixing (Figure 15e.5); the four couplings and the symmetry $E(-\lambda) = -E(\lambda)$; and the self-consistent potentials (Figure 15e.6). It needs no Rust, runs in about half a minute, and ends with ALL 18 CHECKS PASSED (notebook 15e).
+Notebook 15e writes the method of Sections 15.3 to 15.5 in plain Python, exactly as the Rust solver does it (`Revision/kohn_sham/solver/src/shoot.rs` and `scf.rs`), and reproduces numbers of the record: the grid and Simpson's rule; one shooting integration with the Pruefer angle; the phase function and the levels it labels (Figure 15e.1); Newton's method inside a bracket, the exact levels at $k = 0$ and the solver's own levels; the orbitals with Hermite midpoints (Figure 15e.2); the order 4 of RK4 (Figure 15e.3); the brane band, its slope and the rescaling identity (Figure 15e.4); the self-consistent loop with Anderson mixing for $N = 8$, compared with linear mixing (Figure 15e.5); the four couplings and the symmetry $E(-\lambda) = -E(\lambda)$; and the self-consistent potentials (Figure 15e.6). It needs no Rust, runs in less than half a minute, and ends with ALL 18 CHECKS PASSED (notebook 15e).
 
 What to look for: in Figure 15e.1 the steadily rising curve and the places where it crosses the horizontal lines (each crossing is one level, and none can be skipped); in Figure 15e.3 the straight lines of slope 4; in Figure 15e.4 the three band curves that are copies of each other with the momentum axis stretched; in Figure 15e.5 the blue dots, which fall on average about tenfold per iteration, and the black crosses of the Rust solver on top of them.
 
@@ -334,7 +348,7 @@ What to look for: in Figure 15e.1 the steadily rising curve and the places where
 
 ### 15.9 Line-by-line walk-through of Notebook 15e
 
-The notebook has 15 code cells, In [1] to In [15]. This section explains every line of every one of them, in order: a line or a small group of lines is quoted, then explained. Docstrings (the texts in triple quotes under a `def` line, which say what a function does) and some comment lines are left out of the quotations, and long caption strings in calls of `save_figure` are shortened to their first words followed by three dots; the complete cells are printed in Section 15.8. Every code cell is preceded in the notebook by a text cell that says what it does.
+The notebook has 15 code cells, In [1] to In [15]. This section explains every line of every one of them, in order: a line or a small group of lines is quoted, then explained. Docstrings (the texts in triple quotes under a `def` line, which say what a function does) and some comment lines are left out of the quotations, and long caption strings in calls of `save_figure` are shortened: the quotation shows the first line of the call and the first line of the caption, and then a line `...)` that stands for the rest of the caption and the closing parenthesis; the complete cells are printed in Section 15.8. Every code cell is preceded in the notebook by a text cell that says what it does.
 
 **In [1], the set-up cell.** Every line that starts with `#` is a **comment**, which Python skips. The first part of the cell, down to the lines of `-` and `=` signs, is the complete run instructions of Section 15.7 again, as comments, so that the notebook file carries its own instructions. The code starts after the heading THE SET-UP; it computes no physics and is the same in every notebook of the book, except for the line that names the notebook (the notebooks that run a Rust program add two imports and one function, explained in Section 15.14). The other walk-throughs of this chapter refer back to this paragraph.
 
@@ -379,7 +393,7 @@ REPO = find_repository_root()
 OUTPUT_ROOT = Path(os.environ.get("TEXTBOOK_OUTPUT_ROOT", str(REPO)))
 ```
 
-The first line calls the function and names its result `REPO`. It is never printed, because it differs from computer to computer, while the printed output of a notebook must not. The second line chooses where files are written. `os.environ` holds the **environment variables** of the program (named texts that it receives from the computer); `.get(name, default)` returns the value of `TEXTBOOK_OUTPUT_ROOT` if it is set and the default `str(REPO)` (the repository folder as a string) otherwise. When you run the notebook the variable is not set, so the files go into the repository; the book's checking tool sets it to a scratch folder, so that a check never changes the repository.
+The first line calls the function and names its result `REPO`. It is never printed, because it differs from computer to computer, while the printed output of a notebook must not. The second line chooses where files are written. `os.environ` holds the **environment variables** of the program (named texts that it receives from the computer); `.get(name, default)` returns the value of `TEXTBOOK_OUTPUT_ROOT` if it is set and the default `str(REPO)` (the repository folder as a string) otherwise. When you run the notebook the variable is not set, so the files go into the repository; the book's checking tool sets it to a scratch folder, so that a check never changes a file that git tracks. (Notebook 15e writes nothing else. The notebooks 15a, 15b and 15d, which run the Rust solver, also write the solver's raw output into the folders `Revision/kohn_sham/solver/target/textbook_15a`, `textbook_15b` and `textbook_15d` next to it, about 5.9 MB, 0.9 MB and 0.6 MB; git ignores these folders, and they are written during a check too.)
 
 ```python
 def repository_file(relative):
@@ -619,7 +633,9 @@ ax.set_ylabel("$\\Phi(\\varepsilon) / \\pi$")
 ax.set_title("The phase function counts the levels")
 ax.set_ylim(-3.2, 3.2)
 ax.legend(fontsize=8, loc="upper left")
-save_figure(fig, "phase_function", "The phase function ...")
+save_figure(fig, "phase_function",
+            "The phase function $\\Phi(\\varepsilon)/\\pi$ (vertical axis) of the "
+...)
 check(bool(np.all(np.diff(phase) > 0.0)), "Phi increases strictly at all 400 steps")
 ```
 
@@ -769,14 +785,15 @@ For both parities and the labels $-3$ to $5$ the cell computes the exact level, 
 ```python
 report("largest |shooting - exact| for |eps| < 4", f"{worst_exact:.2e}")
 report("largest |this notebook - solver record|", f"{worst_record:.2e}")
-check(worst_exact < 5e-9, "the shooting levels equal the exact levels within 5e-9",
+check(worst_exact < 5e-9,
+      "the shooting levels equal the exact levels within 5e-9 for |eps| < 4",
       record="Revision/kohn_sham/reports/ks-rust-solver.json, check "
              "free_k0_analytic_spectra")
 check(worst_record < 1e-12, "the levels equal the solver's levels within 1e-12",
       record=f"{RECORD_FREE}, column eps_numeric")
 ```
 
-Out [6] shows the table. The differences grow with the energy, from $10^{-13}$ near $\pm1.3$ to $4 \times 10^{-9}$ at the even label 5 ($\varepsilon = 5.33$): the error of RK4 grows like $(h\varepsilon)^4$, because a higher level oscillates faster. The largest difference for $|\varepsilon| < 4$ is $7.23 \times 10^{-10}$, the value of the record's check free_k0_analytic_spectra, and the largest difference to the solver's own numbers is $7.99 \times 10^{-15}$: the Python code and the Rust program do the same arithmetic in a slightly different order. Both checks pass. The even label 0 is printed as $-0.0000000000000$, a difference of $-1.4 \times 10^{-19}$ from the exact zero, left by Newton's method.
+Out [6] shows the table. The differences grow with the energy, from $10^{-13}$ near $\pm1.3$ to $6.7 \times 10^{-9}$ at the odd label 5 ($\varepsilon = 5.90$): the error of RK4 grows like $(h\varepsilon)^4$, because a higher level oscillates faster. The largest difference for $|\varepsilon| < 4$ is $7.23 \times 10^{-10}$, the value of the record's check free_k0_analytic_spectra. The first check therefore tests the tolerance $5 \times 10^{-9}$ only for $|\varepsilon| < 4$, as the record does, and its PASS line says so (the check name is written on its own line of the call because the call would otherwise be longer than a line of the page); for $4 \le |\varepsilon| < 7$ the record allows $3 \times 10^{-7}$, far above the $6.7 \times 10^{-9}$ of the table. The largest difference to the solver's own numbers is $7.99 \times 10^{-15}$: the Python code and the Rust program do the same arithmetic in a slightly different order. Both checks pass. The even label 0 is printed as $-0.0000000000000$, a difference of $-1.4 \times 10^{-19}$ from the exact zero, left by Newton's method.
 
 **In [7], orbitals with Hermite midpoints.**
 
@@ -836,7 +853,9 @@ for ax, (a, b, title) in zip(axes, [
     ax.set_xlabel("hidden coordinate $y$")
 axes[0].set_ylabel("orbital (normalised)")
 axes[0].legend()
-save_figure(fig, "orbitals", "Three normalised orbitals ...")
+save_figure(fig, "orbitals",
+            "Three normalised orbitals of the free block $j = +1$ (components $a$, "
+...)
 ```
 
 `plt.subplots(1, 3, ...)` makes one row of three drawing areas (`axes`), which share the vertical axis (`sharey=True`); `layout="constrained"` spaces them so that no labels overlap. `zip` pairs each drawing area with one triple (the two components and a title), and the loop draws $a$ solid and $b$ dashed against $y$. The first panel gets the vertical label and the legend, and `save_figure` saves Figure 15e.2. The student should see that the zero mode is $e^{y}$ and sits at the brane with $b = 0$ everywhere, that the bulk orbital fills the whole interval, and that the band orbital is again bound to the brane; every $b$ vanishes at both ends.
@@ -898,7 +917,9 @@ ax.set_xlabel("step $h$ (units of $1/m$)")
 ax.set_ylabel("|shooting level - exact level| (units of $m$)")
 ax.set_title("RK4: halving the step divides the error by 16")
 ax.legend()
-save_figure(fig, "rk4_convergence", "Error of two shooting levels ...")
+save_figure(fig, "rk4_convergence",
+            "Error of two shooting levels (vertical axis, logarithmic, units of $m$) "
+...)
 middle = sorted(ratios)[len(ratios) // 2]
 report("median error ratio for halving the step", f"{middle:.2f}")
 check(15.0 < middle < 17.0, "the error ratio is 16 within 1 (fourth order)",
@@ -956,7 +977,9 @@ ax.set_xlabel("3-momentum $k$ (units of $m$)")
 ax.set_ylabel("brane-band level $\\varepsilon$ (units of $m$)")
 ax.set_title("The brane band redshifts along the history")
 ax.legend()
-save_figure(fig, "brane_band", "The brane-band level ...")
+save_figure(fig, "brane_band",
+            "The brane-band level $\\varepsilon(k)$ (vertical axis, units of $m$) "
+...)
 rescale = max(abs(band(k, a4) - band(k * math.exp(-a4), 0.0))
               for k in (0.25, 1.0, 2.5) for a4 in (0.5, 1.0, 2.0))
 ```
@@ -1145,7 +1168,9 @@ ax.set_xlabel("iteration")
 ax.set_ylabel("residual (units of $m$)")
 ax.set_title("Self-consistent loop for $N = 8$, $\\lambda = +\\lambda_1$")
 ax.legend(fontsize=8)
-save_figure(fig, "scf_mixing", "Residual of the self-consistent loop ...")
+save_figure(fig, "scf_mixing",
+            "Residual of the self-consistent loop (vertical axis, logarithmic, units "
+...)
 report("iterations: Anderson / linear", f"{len(history)} / {len(history_lin)}")
 report("|E(linear) - E(Anderson)|", f"{abs(energy_lin - energy):.1e}")
 check(abs(energy_lin - energy) < 1e-12 and len(history_lin) > 2 * len(history),
@@ -1217,7 +1242,9 @@ right.set_xlabel("hidden coordinate $y$")
 right.set_ylabel("$v(y)$ (units of $m$)")
 right.set_title("Potential")
 right.legend()
-save_figure(fig, "n8_potentials", "The self-consistent mass shift ...")
+save_figure(fig, "n8_potentials",
+            "The self-consistent mass shift $M(y) - m$ (left) and potential $v(y)$ "
+...)
 ```
 
 The axis labels and titles, and `save_figure` for Figure 15e.6. The student should see the potential $v = -\lambda n/16$ grow toward the tip roughly like $e^{-4y}$: the zero mode is $e^{y}$, so its coordinate density is $e^{2y}$, and dividing by the proper volume factor $e^{6y}$ gives $e^{-4y}$. The mass shift is smaller, because the scalar density of the zero modes vanishes without interaction ($b = 0$) and is created only by the interaction itself.
@@ -1266,11 +1293,11 @@ Notebook 15e showed the method on the smallest state. The Revision record comput
 
 **How the record checks itself.** Three reports belong to the solver. `Revision/kohn_sham/reports/ks-rust-solver.json` holds the 42 checks of the run itself, all PASS: the theory input, the free spectra (exact levels, zero mode, band slope, block symmetries, labels, tip angle, rescaling), every state (convergence, particle number, boundary conditions, the two energy forms, the energy-momentum identities, closed shells, completeness of the label sets), the derivatives along the history, the excited states, the exact-Fock variant, the thermodynamics and the chemical potential. `Revision/kohn_sham/reports/ks-rust-determinism.json` (14 checks, all PASS) compares a second run with the canonical one (all 244 files, the 243 result files and the manifest, byte-identical; check repeat_byte_identical) and a **refined run** with twice the RK4 steps and ten times smaller tolerances, against tolerances fixed before the comparison ($10^{-8}$ for levels, energies and thermodynamics, $10^{-6}$ for profiles and derived quantities): for example $E_{KS}$ agrees to $1.9 \times 10^{-12}$ relative (check refined_ground_energies) and 23724 levels agree label by label to $2.1 \times 10^{-9}\,m$ (check refined_eigenvalues). `Revision/kohn_sham/reports/ks-rust-mermin-roots.json` compares every chemical potential with a 40-digit root (Section 15.26). An independent cross-check by a second program written in Python is the subject of Chapter 16.
 
-**Threads.** The solver distributes independent states over the processor cores (at most 22 threads) and merges the results in a fixed order, so the number of threads does not change any output byte. The record's run of the canonical matrix took 78.1 s on an idle machine with 22 threads (`Revision/kohn_sham/solver/README.md`, Timings); Notebook 15a took 186 s on the machine that built the book while other programs were running.
+**Threads.** The solver distributes independent states over the processor cores (at most 22 threads) and merges the results in a fixed order, so the number of threads does not change any output byte. The record's run of the canonical matrix took 78.1 s on an idle machine with 22 threads (`Revision/kohn_sham/solver/README.md`, Timings); the whole Notebook 15a took 164 s and 232 s in its two recorded runs on the machine that built the book, while other programs were running (section 4.5 of `Revision/textbook/notebooks/15a_canonical_matrix.PROVENANCE.md`).
 
 ### 15.11 Example: running the canonical matrix (Notebook 15a)
 
-Notebook 15a builds the solver with cargo on the student's computer, runs `revision_ks_solver all` into a folder that git ignores, and checks the new run against the committed record in three ways: the solver's own 42 checks must all pass and match the record's list; the new run must write the same 243 result files (and on the computer that built the book they are byte-identical); and the key numbers must agree within the tolerances that the record fixed in advance. Then it reads the new results and draws eight figures: the levels of $N = 136$ along the history (Figure 15a.1), the gaps (Figure 15a.2), the orbital relaxation of Delta-SCF (Figure 15a.3), the total energies and the interaction shifts (Figure 15a.4), the densities (Figure 15a.5), the self-consistent potentials (Figure 15a.6), the convergence of the self-consistent loop (Figure 15a.7) and the particle-hole excitations (Figure 15a.8). It needs Rust (the run instructions below explain how to install it), takes two to four minutes on a computer with many cores and up to ten on a laptop, and ends with ALL 25 CHECKS PASSED (notebook 15a).
+Notebook 15a builds the solver with cargo on the student's computer, runs `revision_ks_solver all` into a folder that git ignores, and checks the new run against the committed record in three ways: the solver's own 42 checks must all pass and match the record's list; the new run must write the same 243 result files (and on the computer that built the book they are byte-identical); and the key numbers must agree within the tolerances that the record fixed in advance. Then it reads the new results and draws eight figures: the levels of $N = 136$ along the history (Figure 15a.1), the gaps (Figure 15a.2), the orbital relaxation of Delta-SCF (Figure 15a.3), the total energies and the interaction shifts (Figure 15a.4), the densities (Figure 15a.5), the self-consistent potentials (Figure 15a.6), the convergence of the self-consistent loop (Figure 15a.7) and the particle-hole excitations (Figure 15a.8). It needs Rust (the run instructions below explain how to install it), takes two to four minutes on a computer with many cores and up to about ten minutes on a laptop, and ends with ALL 25 CHECKS PASSED (notebook 15a).
 
 What to look for: in Figure 15a.1 the blue brane-band levels that fall from slice to slice while the black levels at $k = 0$ stay flat; in Figure 15a.2 the gaps that fall almost, but not quite, like the dashed lines $e^{-a_{4,0}}$; in Figure 15a.5 that the particles sit near the brane although the proper density is largest at the tip.
 
@@ -1278,7 +1305,7 @@ What to look for: in Figure 15a.1 the blue brane-band levels that fall from slic
 
 ### 15.14 Line-by-line walk-through of Notebook 15a
 
-The notebook has 16 code cells, In [1] to In [16]. As in Section 15.9, docstrings are left out of the quotations, and long caption strings in calls of `save_figure` are shortened to their first words followed by three dots; the complete cells are printed in Section 15.13.
+The notebook has 16 code cells, In [1] to In [16]. As in Section 15.9, docstrings are left out of the quotations, and long caption strings in calls of `save_figure` are shortened: the quotation shows the first line of the call and the first line of the caption, and then a line `...)` that stands for the rest of the caption and the closing parenthesis; the complete cells are printed in Section 15.13.
 
 **In [1], the set-up cell.** It is the set-up cell of Notebook 15e (explained line by line in Section 15.9), with three differences: the comment lines at the top hold the run instructions of this notebook (Section 15.12), the line `NOTEBOOK_ID = "15a"` names it, and, because this notebook runs a Rust program, it has two more imports and one more function:
 
@@ -1563,7 +1590,9 @@ ax.set_xlabel("slice $a_{4,0}$ of the history")
 ax.set_ylabel("level $\\varepsilon$ (units of $m$)")
 ax.set_title("Kohn-Sham levels of $N = 136$, $\\lambda = 0$, along the history")
 ax.legend(fontsize=8, loc="center right")
-save_figure(fig, "levels_history", "Kohn-Sham levels ...")
+save_figure(fig, "levels_history",
+            "Kohn-Sham levels $\\varepsilon$ (vertical axis, units of $m$) of the "
+...)
 ```
 
 `a_fine` holds 101 slices from 0 to 2; the dashed orange curve is the small-$k$ law $c\,k\,e^{-a_{4,0}}$ for the first shell. The empty plots make the legend entries, and the remaining lines set the range, labels and title and save Figure 15a.1.
@@ -1595,7 +1624,9 @@ ax.set_xlabel("slice $a_{4,0}$ of the history")
 ax.set_ylabel("Kohn-Sham gap $\\Delta_{KS}$ (units of $m$)")
 ax.set_title("The gap closes along the history (dashed: $\\propto e^{-a_{4,0}}$)")
 ax.legend()
-save_figure(fig, "gaps_history", "Kohn-Sham gap ...")
+save_figure(fig, "gaps_history",
+            "Kohn-Sham gap $\\Delta_{KS}$ (vertical axis, logarithmic, units of $m$) "
+...)
 ```
 
 For each particle number the gaps at the five slices are drawn as dots joined by lines, with a dashed curve $\Delta(0)\,e^{-a_{4,0}}$ through the first point; `set_yscale("log")` makes the vertical axis logarithmic, on which $e^{-a_{4,0}}$ is a straight line. This is Figure 15a.2.
@@ -1639,7 +1670,9 @@ Three panels, one per particle number; in each, the relaxation $\Delta_{SCF} - \
 largest_id = max(excited, key=lambda i: abs(float(excited[i]["delta_SCF_minus_gap"])))
 largest_relax = abs(float(excited[largest_id]["delta_SCF_minus_gap"]))
 mantissa, power = f"{largest_relax:.1e}".split("e")  # e.g. "5.5", "-04"
-save_figure(fig, "delta_scf", "Orbital relaxation ...")
+save_figure(fig, "delta_scf",
+            "Orbital relaxation: the Delta-SCF excitation energy minus the Kohn-Sham "
+...)
 report("largest |Delta-SCF - gap| over the 75 states",
        f"{largest_relax:.3e} ({largest_id})")
 check(largest_id == "N688_lamp2_a00",
@@ -1680,7 +1713,9 @@ right.set_xlabel("slice $a_{4,0}$")
 right.set_ylabel("$E_{KS}(\\lambda) - E_{KS}(0)$ (units of $m$)")
 right.set_title("Interaction energy shift, $N = 136$")
 right.legend(fontsize=8)
-save_figure(fig, "energy_history", "Left: the Kohn-Sham energy ...")
+save_figure(fig, "energy_history",
+            "Left: the Kohn-Sham energy $E_{KS}$ (vertical axis, logarithmic, units "
+...)
 ```
 
 The right panel draws, for $N = 136$, the change $E_{KS}(\lambda) - E_{KS}(0)$ of the four couplings at the five slices, and keeps the largest size of these changes in `largest_shift` (the list `[largest_shift] + [...]` joins the old largest value with the new sizes). `e136` are the free energies of $N = 136$; the caption of Figure 15a.4 prints their smallest and largest value and `largest_shift`.
@@ -1751,7 +1786,9 @@ right.set_xlabel("hidden coordinate $y$")
 right.set_ylabel("particles per unit $y$")
 right.set_title("$2\\,\\mathrm{Vol}_7\\, e^{6Hy} n(y)$, area $= N$")
 right.legend()
-save_figure(fig, "densities", "Left: the proper number density ...")
+save_figure(fig, "densities",
+            "Left: the proper number density $n(y)$ (vertical axis, logarithmic, "
+...)
 report("particle number from the profiles at a4,0 = 0, 1, 2",
        ", ".join(f"{c:.6f}" for c in counts))
 check(max(abs(c - 136.0) for c in counts) < 1e-5,
@@ -1789,7 +1826,9 @@ m_max = [float(ground[state_id(136, "lamp2", a4)]["max_abs_Meff_minus_m"])
          for a4 in SLICES]  # the solver's largest |M - m| at each slice
 v_max = [float(ground[state_id(136, "lamp2", a4)]["max_abs_v_v"]) for a4 in SLICES]
 peak = int(np.argmax(m_max))  # the slice where |M - m| is largest
-save_figure(fig, "potentials", "The self-consistent mass shift ...")
+save_figure(fig, "potentials",
+            "The self-consistent mass shift $M(y) - m$ (left) and potential $v(y)$ "
+...)
 ```
 
 `m_max` and `v_max` are the recorded largest $|M - m|$ and $|v|$ at the five slices, and `np.argmax` gives the position of the largest entry of `m_max`. The caption of Figure 15a.6 prints these numbers.
@@ -1835,7 +1874,9 @@ ax.set_xlabel("iteration")
 ax.set_ylabel("residual: largest change of the potential (units of $m$)")
 ax.set_title("Anderson mixing, $a_{4,0} = 2$, couplings $\\pm\\lambda_2$")
 ax.legend(fontsize=8, ncol=2)
-save_figure(fig, "scf_convergence", "Convergence of the self-consistent loop ...")
+save_figure(fig, "scf_convergence",
+            "Convergence of the self-consistent loop with Anderson mixing: the "
+...)
 direct = all(run["path"] == "direct" for run in runs)
 final = max(run["scfHistory_iteration_residual_E"][-1][1] for run in runs)
 longest = max(run["iterations"] for run in runs)
@@ -1892,7 +1933,9 @@ ax.set_xlabel("slice $a_{4,0}$ of the history")
 ax.set_ylabel("excitation energy $\\Delta\\varepsilon$ (units of $m$)")
 ax.set_title("Particle-hole excitations of $N = 136$, $\\lambda = 0$")
 ax.legend(fontsize=8, loc="lower left")
-save_figure(fig, "particle_hole", "The lowest particle-hole excitation energies ...")
+save_figure(fig, "particle_hole",
+            "The lowest particle-hole excitation energies (vertical axis, "
+...)
 ```
 
 A legend entry, the axes and `save_figure` for Figure 15a.8.
@@ -1939,7 +1982,19 @@ check(count >= len(lists) and inside == 0,
 
 The three checks pass. The meaning of the third: the exact evolution along the history keeps the momentum, the block type and the parity of every orbital (Section 15.21), so the motion of the background alone cannot create any of the 1610 excitations; it can only cause jumps inside a sector, and the jump with the largest $Q$ costs between $1.488\,m$ and $2.253\,m$.
 
-**In [16], the last check.** The same as In [15] of Notebook 15e (Section 15.9) with the eight figure names of this notebook; it prints PASS every figure file of this notebook exists and ALL 25 CHECKS PASSED (notebook 15a).
+**In [16], the last check.**
+
+```python
+NAMES = ["levels_history", "gaps_history", "delta_scf", "energy_history",
+         "densities", "potentials", "scf_convergence",
+         "particle_hole"]  # the figures, in order
+missing = [name for number, name in enumerate(NAMES, start=1)
+           if not output_file(f"{FIGURE_FOLDER}/15a_{number}_{name}.png").is_file()]
+check(missing == [], "every figure file of this notebook exists")
+all_checks_passed()
+```
+
+The same as In [15] of Notebook 15e (Section 15.9), with the eight figure names of this notebook in order (the comment says so) and the file names `15a_<number>_<name>.png`: `enumerate(NAMES, start=1)` pairs each name with its number, the list comprehension collects the names whose file does not exist, the check requires that list to be empty, and `all_checks_passed()` prints the last line. The cell prints PASS every figure file of this notebook exists and ALL 25 CHECKS PASSED (notebook 15a).
 
 ### 15.15 What the canonical matrix shows
 
@@ -2197,7 +2252,9 @@ ax.set_xlabel("hidden coordinate $y$ (tip at $-3$, brane at $0$)")
 ax.set_ylabel("proper density (units of $m^8$)")
 ax.set_title("Energy density and pressures, $N = 136$, $\\lambda = 0$, $a_{4,0} = 1$")
 ax.legend()
-save_figure(fig, "proper_emt", "The energy density $\\rho$ and the pressures ...")
+save_figure(fig, "proper_emt",
+            "The energy density $\\rho$ and the pressures $p_3$, $p_t$, $p_8$ of the "
+...)
 report("p_t without interaction: largest |p_t|", float(np.max(np.abs(prof["p_t"]))))
 check(float(np.max(np.abs(prof["p_t"]))) == 0.0, "p_t = e_int = 0 when lambda = 0")
 ```
@@ -2241,7 +2298,9 @@ ax.set_xlabel("hidden coordinate $y$")
 ax.set_ylabel("$2\\,\\mathrm{Vol}_7\\, e^{6Hy} \\times$ component (units of $m$)")
 ax.set_title("The integrands: energy and pressures per unit $y$")
 ax.legend()
-save_figure(fig, "coordinate_emt", "The energy density and the pressures ...")
+save_figure(fig, "coordinate_emt",
+            "The energy density and the pressures of the state $N = 136$, "
+...)
 row = emt_rows["N136_lam0_a10"]
 rel = lambda a, b: abs(a - b) / max(abs(b), 1e-300)
 worst_int = max(rel(integrals[c], float(row[f"int_{c}"])) for c in ("rho", "p3", "p8"))
@@ -2312,7 +2371,9 @@ ax2.set_xlabel("hidden coordinate $y$")
 ax2.set_ylabel("|left - right| / largest value")
 ax2.set_title("Relative residual on the 151 points")
 ax2.legend()
-save_figure(fig, "y_conservation", "Left: the two sides of the conservation law ...")
+save_figure(fig, "y_conservation",
+            "Left: the two sides of the conservation law along the hidden "
+...)
 report("largest pointwise residual / integrated residual",
        f"{float(np.max(residual)):.1e} / {integrated:.1e}")
 check(float(np.max(residual)) < 1e-4 and integrated < 1e-6,
@@ -2395,7 +2456,9 @@ ax.set_xlabel("slice $a_{4,0}$ of the history")
 ax.set_ylabel("$E_{KS}$ (units of $m$)")
 ax.set_title("$N = 136$, $\\lambda = 0$: the pressures give the slope of the energy")
 ax.legend()
-save_figure(fig, "energy_slopes", "The Kohn-Sham energy $E_{KS}$ of $N = 136$ ...")
+save_figure(fig, "energy_slopes",
+            "The Kohn-Sham energy $E_{KS}$ of $N = 136$ without interaction "
+...)
 report("E(2) - E(0) / integral of the slopes", f"{change:.6f} / {work:.6f}")
 check(rel(work, change) < 1e-5,
       "the integrated slope equals E(2) - E(0) within 1e-5 (relative)",
@@ -2441,7 +2504,9 @@ ax.set_xlabel("slice $a_{4,0}$ of the history")
 ax.set_ylabel("ratio of integrals")
 ax.set_title("Integrated pressures over integrated energy, $\\lambda = 0$")
 ax.legend(fontsize=8)
-save_figure(fig, "integrated_ratios", "The integrated 3-space pressure ...")
+save_figure(fig, "integrated_ratios",
+            "The integrated 3-space pressure (blue) and hidden-direction pressure "
+...)
 report("int p3 / int rho of N = 136 at a4,0 = 0, 1, 2",
        ", ".join(f"{ratio3[i]:.4f}" for i in (0, 8, 16)))
 report("int p8 / int rho of N = 136 at a4,0 = 0, 1, 2",
@@ -2475,7 +2540,9 @@ ax.set_xlabel("hidden coordinate $y$")
 ax.set_ylabel("$2\\,\\mathrm{Vol}_7 e^{6Hy}\\rho / E_{KS}$ (units of $m$)")
 ax.set_title("The energy spreads toward the tip along the history")
 ax.legend()
-save_figure(fig, "energy_spreading", "The energy per unit $y$ ...")
+save_figure(fig, "energy_spreading",
+            "The energy per unit $y$ divided by the total energy, "
+...)
 report("mean position <y> of the energy at the five slices",
        ", ".join(f"{m:.4f}" for m in means))
 check(all(means[i + 1] < means[i] for i in range(4)),
@@ -2506,7 +2573,9 @@ ax.set_xlabel("hidden coordinate $y$")
 ax.set_ylabel("proper energy density (units of $m^8$)")
 ax.set_title("Interaction energy density, $N = 136$, $+\\lambda_2$, $a_{4,0} = 2$")
 ax.legend()
-save_figure(fig, "interaction_terms", "The interaction energy density ...")
+save_figure(fig, "interaction_terms",
+            "The interaction energy density $e_{int}$, which is also the extra-time "
+...)
 sum_error = float(np.max(np.abs(hartree + exchange - sp["e_int"]))) / float(
     np.max(np.abs(sp["e_int"])))
 _, _, residual2, integrated2 = conservation(sp)
@@ -2575,7 +2644,7 @@ for example in examples:
     i = int(np.argmin(np.abs(y - y0)))  # the profile point at this y
     mine = [float(prof["rho"][i]), float(prof["p3"][i]), float(prof["p_t"][i]),
             float(prof["p8"][i]), float(c2[i])]
-    say(f"{y[i] + 0.0:5.1f}  {mine[0]:10.6g}  {mine[1]:10.6g}"
+    say(f"{y[i] + 0.0:5.1f}  {mine[0]:10.6g}  {mine[1]:10.6g}"  # + 0.0 turns -0 into 0
         f"  {mine[2] + 0.0:7.3g}  {mine[3]:10.6g}  {mine[4]:15.6g}")
     for a, b in zip(mine, values):  # 6 significant digits: relative 5e-6
         worst_example = max(worst_example, abs(a - b) / max(abs(b), 1e-300)
@@ -2625,7 +2694,18 @@ check(history[-1]["rho"] < 0.2 * history[0]["rho"]
 
 The three checks: C1 and C2 fail for this profile (the variation is more than 1 per cent, and $p_3 + p_t - 2p_8$ is nonzero at the tip, the middle point and the brane; `c2[[0, len(c2) // 2, -1]]` picks these three entries), and the record's three examples are reproduced to six digits; C2 fails after integration at all 17 slices (the ratio differs from 1 by more than 0.5) and the record's three ratios are reproduced; C3 fails ($\int\rho$ falls to less than a fifth, and $\int p_3$ is more than a quarter of $\int\rho$ while $\int p_t = 0$). Out [12] prints the table: at the tip $\rho = 43.07$, $p_3 = 158.3$, $p_8 = -431.7$ and $p_3 + p_t - 2p_8 = 1021.7$; the C1 measure $0.0998$; the C2 ratios $0.339767$, $0.259690$, $0.239714$; and $\int\rho = 80.2822$ and $12.4451$.
 
-**In [13], the last check.** As in Notebook 15e with the seven figure names of this notebook; it prints ALL 18 CHECKS PASSED (notebook 15b).
+**In [13], the last check.**
+
+```python
+NAMES = ["proper_emt", "coordinate_emt", "y_conservation", "energy_slopes",
+         "integrated_ratios", "energy_spreading", "interaction_terms"]
+missing = [name for number, name in enumerate(NAMES, start=1)
+           if not output_file(f"{FIGURE_FOLDER}/15b_{number}_{name}.png").is_file()]
+check(missing == [], "every figure file of this notebook exists")
+all_checks_passed()
+```
+
+As in Notebook 15e (Section 15.9, In [15]), with the seven figure names of this notebook in order and the file names `15b_<number>_<name>.png`: the names whose file does not exist are collected, the check requires that list to be empty, and `all_checks_passed()` prints the last line, ALL 18 CHECKS PASSED (notebook 15b).
 
 ### 15.21 Adiabaticity: does the gas follow the moving background?
 
@@ -2695,7 +2775,7 @@ because for $\chi = (a, ib)$ the product $\chi_n^\dagger\sigma_3\chi_m$ is $a_na
 
 ### 15.22 Example: the adiabaticity measure (Notebook 15c)
 
-Notebook 15c needs no Rust. It defines the solver's shooting method for the free problem in Python, solves again all 270 levels of the occupied sectors of the free states $N = 136$ and $N = 688$ at the five slices, and computes $Q_{nm}$ for every allowed pair. It draws the two orbitals of the pair with the largest $Q$ and the integrand of their matrix element (Figure 15c.1), every $Q$ against the shell (Figure 15c.2), $Q_{max}$ of the whole matrix along the history (Figure 15c.3), the Hellmann-Feynman theorem (Figure 15c.4), the Fermi-level crossing of $N = 696$ (Figure 15c.5) and a heat map of $Q_{max}$ (Figure 15c.6). It takes about ten seconds and ends with ALL 12 CHECKS PASSED (notebook 15c).
+Notebook 15c needs no Rust. It defines the solver's shooting method for the free problem in Python, solves again all 270 levels of the occupied sectors of the free states $N = 136$ and $N = 688$ at the five slices, and computes $Q_{nm}$ for every allowed pair. It draws the two orbitals of the pair with the largest $Q$ and the integrand of their matrix element (Figure 15c.1), every $Q$ against the shell (Figure 15c.2), $Q_{max}$ of the whole matrix along the history (Figure 15c.3), the Hellmann-Feynman theorem (Figure 15c.4), the Fermi-level crossing of $N = 696$ (Figure 15c.5) and a heat map of $Q_{max}$ (Figure 15c.6). It takes about 15 seconds and ends with ALL 12 CHECKS PASSED (notebook 15c).
 
 What to look for: in Figure 15c.1 that the band orbital sits at the brane while the bulk orbital fills the interval, so that their overlap is small; in Figure 15c.2 that all points lie below 0.1; in Figure 15c.5 how quickly the band level crosses the fixed bulk level.
 
@@ -2964,7 +3044,9 @@ right.fill_between(Y, integrand, color=PALETTE[2], alpha=0.25)
 right.set_xlabel("hidden coordinate $y$")
 right.set_ylabel("$\\kappa k\\,(a_n a_m - b_n b_m)$ (units of $m^2$)")
 right.set_title("Integrand of the matrix element")
-save_figure(fig, "transition_orbitals", "Left: the orbitals ...")
+save_figure(fig, "transition_orbitals",
+            "Left: the orbitals (components $a$ solid, $b$ dashed; vertical axis, "
+...)
 element = abs(da_h(k, 1, 0.0, band[4], bulk[4]))
 report("|<band| d_a h |bulk>| and Q for N = 136, a4,0 = 0",
        f"{element:.13f}, {element / (band[0] - bulk[0]) ** 2:.13f}")
@@ -3053,7 +3135,9 @@ ax.set_xlabel("shell $n_2$ of the sector ($k = 0.25\\sqrt{n_2}$)")
 ax.set_ylabel("$Q_{nm}$ (pure number)")
 ax.set_title("Every allowed transition at $a_{4,0} = 0$, $\\lambda = 0$")
 ax.legend(fontsize=8)
-save_figure(fig, "q_by_pair", "The adiabaticity measure $Q_{nm}$ ...")
+save_figure(fig, "q_by_pair",
+            "The adiabaticity measure $Q_{nm}$ (vertical axis, logarithmic, pure "
+...)
 largest = max(q for values in pairs.values() for q, _, _ in values)
 report("largest Q of all free pairs (10 states)", f"{largest:.5f}")
 check(largest < 0.1, "every Q of the free states is below 0.1")
@@ -3093,7 +3177,9 @@ right.set_yscale("log")
 right.set_xlabel("slice $a_{4,0}$")
 right.set_ylabel("$Q_{max}^2$")
 right.set_title("Transition probability estimate")
-save_figure(fig, "q_history", "Left: the largest adiabaticity measure ...")
+save_figure(fig, "q_history",
+            "Left: the largest adiabaticity measure $Q_{max}$ (vertical axis, "
+...)
 ```
 
 The values recomputed in this notebook for $\lambda = 0$ are drawn as black crosses (`mew` is the width of the cross lines), then the legend, axes and Figure 15c.3.
@@ -3159,7 +3245,9 @@ ax.set_xlabel("3-momentum $k$ of the shell (units of $m$)")
 ax.set_ylabel("$d\\varepsilon/da_4$ (units of $m$)")
 ax.set_title("Hellmann-Feynman: $N = 688$, $\\lambda = 0$, $a_{4,0} = 1$")
 ax.legend()
-save_figure(fig, "hellmann_feynman", "The derivative ...")
+save_figure(fig, "hellmann_feynman",
+            "The derivative $d\\varepsilon/da_4$ of the eleven occupied brane-band "
+...)
 report("largest |finite difference - matrix element|", f"{hf_dev:.1e}")
 report("dE/da4 of N688_lam0_a10: Hellmann-Feynman / record",
        f"{de_da:.10f} / {recorded:.10f}")
@@ -3230,7 +3318,9 @@ right.set_xlabel("slice $a_{4,0}$")
 right.set_ylabel("$E_{continued} - E_{aufbau}$ (units of $m$)")
 right.set_title("Energy above the instantaneous ground state")
 right.legend(fontsize=8)
-save_figure(fig, "fermi_crossing", "The Fermi-level crossing ...")
+save_figure(fig, "fermi_crossing",
+            "The Fermi-level crossing of the demonstration state $N = 696$ without "
+...)
 ```
 
 The right panel: the recorded energy differences (black dots) and this notebook's (blue crosses) at the five slices; then Figure 15c.5.
@@ -3281,7 +3371,9 @@ for i in range(table.shape[0]):
 ax.set_xlabel("slice $a_{4,0}$")
 ax.set_title("$Q_{max}$ of the 75 ground states (record)")
 fig.colorbar(image, ax=ax, label="$Q_{max}$")
-save_figure(fig, "q_map", "Heat map of the largest adiabaticity measure ...")
+save_figure(fig, "q_map",
+            "Heat map of the largest adiabaticity measure $Q_{max}$ of the 75 ground "
+...)
 with open(repository_file("Revision/kohn_sham/results/adiabatic/"
                           "fermi-level-crossings.csv"), newline="",
           encoding="utf-8") as handle:
@@ -3296,7 +3388,18 @@ check(len(crossings) == 60 and changed == 0,
 
 A colour scale, Figure 15c.6, and the check that none of the 60 rows of the record's crossing table (15 series, four steps between neighbouring slices) reports a change of the occupied set (Out [10]: 60 / 0).
 
-**In [11], the last check.** As in Notebook 15e with the six figure names of this notebook; it prints ALL 12 CHECKS PASSED (notebook 15c).
+**In [11], the last check.**
+
+```python
+NAMES = ["transition_orbitals", "q_by_pair", "q_history", "hellmann_feynman",
+         "fermi_crossing", "q_map"]
+missing = [name for number, name in enumerate(NAMES, start=1)
+           if not output_file(f"{FIGURE_FOLDER}/15c_{number}_{name}.png").is_file()]
+check(missing == [], "every figure file of this notebook exists")
+all_checks_passed()
+```
+
+As in Notebook 15e (Section 15.9, In [15]), with the six figure names of this notebook in order and the file names `15c_<number>_<name>.png`: the names whose file does not exist are collected, the check requires that list to be empty, and `all_checks_passed()` prints the last line, ALL 12 CHECKS PASSED (notebook 15c).
 
 ### 15.26 The gas at a temperature
 
@@ -3514,11 +3617,13 @@ def functions_of_state(eps, deg, mu, t):
 `functions_of_state` computes the functions of state of a free state in double precision, in forms that never overflow. `small` is $e^{-|x|}$, at most 1; `f_abs` is $f(|x|) = e^{-|x|}/(1 + e^{-|x|})$; `np.where(condition, a, b)` takes $a$ where the condition holds and $b$ elsewhere, so `f` is $f(x)$ ($f(|x|)$ for $x > 0$ and $1 - f(|x|)$ otherwise). The energy is $\sum gf\varepsilon$ (no interaction).
 
 ```python
+    # -[f ln f + (1-f) ln(1-f)] = ln(1 + e^{-|x|}) + |x| f(|x|)
     entropy = float(np.sum(g * (np.log1p(small) + np.abs(x) * f_abs)))
+    # ln(1 + e^{-x}) = max(-x, 0) + ln(1 + e^{-|x|})
     omega = -t * float(np.sum(g * (np.maximum(-x, 0.0) + np.log1p(small))))
 ```
 
-The entropy of one level is $-[f\ln f + (1 - f)\ln(1 - f)] = \ln(1 + e^{-|x|}) + |x|\,f(|x|)$. (For $x \ge 0$: $\ln f = -x - \ln(1 + e^{-x})$ and $\ln(1 - f) = -\ln(1 + e^{-x})$; inserting, the two logarithms add to $\ln(1 + e^{-x})$ and the rest is $xf$; for $x < 0$ the roles of $f$ and $1 - f$ exchange.) `np.log1p(s)` is $\ln(1 + s)$, accurate also for tiny $s$. The grand potential uses $\ln(1 + e^{-x}) = \max(-x, 0) + \ln(1 + e^{-|x|})$.
+The two comment lines state the formulas that the next lines use. The entropy of one level is $-[f\ln f + (1 - f)\ln(1 - f)] = \ln(1 + e^{-|x|}) + |x|\,f(|x|)$. (For $x \ge 0$: $\ln f = -x - \ln(1 + e^{-x})$ and $\ln(1 - f) = -\ln(1 + e^{-x})$; inserting, the two logarithms add to $\ln(1 + e^{-x})$ and the rest is $xf$; for $x < 0$ the roles of $f$ and $1 - f$ exchange.) `np.log1p(s)` is $\ln(1 + s)$, accurate also for tiny $s$. The grand potential uses $\ln(1 + e^{-x}) = \max(-x, 0) + \ln(1 + e^{-|x|})$.
 
 ```python
     w = g * f_abs * (1.0 - f_abs)  # g f (1 - f), the same for x and -x
@@ -3643,7 +3748,9 @@ if zero_at:  # where the double-precision count says "exactly N particles"
            f"at least {miss:.1e} m")
 else:  # (on another computer the rounding steps may fall differently)
     where = "is never exactly zero at the sampled points"
-save_figure(fig, "root_conditioning", "The particle-number condition ...")
+save_figure(fig, "root_conditioning",
+            "The particle-number condition $\\sum g f - N$ (vertical axis, of size "
+...)
 ```
 
 `zero_at` collects the sampled values of $\mu$ at which the double-precision count is exactly zero; `miss` is the smallest distance of such a point from the true root. The caption of Figure 15d.1 is completed with a sentence that depends on what was found (on another computer the rounding steps may fall differently). Out [4] reports that these zeros miss the true root by at least $3.0 \times 10^{-10}\,m$.
@@ -3708,7 +3815,9 @@ ax.set_xlabel("temperature $T$ (units of $m$)")
 ax.set_ylabel("chemical potential $\\mu$ (units of $m$)")
 ax.set_title("$N = 8$, $\\lambda = 0$: the chemical potential")
 ax.legend(fontsize=8)
-save_figure(fig, "chemical_potential", "The chemical potential ...")
+save_figure(fig, "chemical_potential",
+            "The chemical potential $\\mu$ (vertical axis, units of $m$) of the free "
+...)
 ```
 
 $\mu(T)$ at the three slices (`curve8[a4][:, 0]` is the first column of the array), the record's values as open circles, and the two-level formula dashed; then Figure 15d.2.
@@ -3752,7 +3861,9 @@ left.legend(fontsize=8)
 right.set_xlabel("temperature $T$")
 right.set_ylabel("entropy $S$")
 right.set_title("Entropy (circles: record)")
-save_figure(fig, "free_energy_entropy", "Left: the free energy ...")
+save_figure(fig, "free_energy_entropy",
+            "Left: the free energy measured from the ground-state energy, "
+...)
 ```
 
 Where the record has thermal states (slices 0, 1, 2), its values are drawn as open circles; then the labels and Figure 15d.3.
@@ -3808,7 +3919,9 @@ for ax, n in ((left, 8), (right, 136)):
     ax.set_title(f"Heat capacity, $N = {n}$, $\\lambda = 0$")
     ax.legend(fontsize=8)
 left.set_ylabel("$C_V$ (pure number)")
-save_figure(fig, "heat_capacity", "The heat capacity ...")
+save_figure(fig, "heat_capacity",
+            "The heat capacity $C_V = dE/dT$ (vertical axis, logarithmic, pure "
+...)
 positive = all(bool(np.all(v[:, 4] > 0)) for v in list(curve8.values())
                + list(curve136.values()))
 check(positive, "C_V > 0 at every temperature and slice")
@@ -3839,7 +3952,9 @@ ax.set_xlabel("level $\\varepsilon$ (units of $m$)")
 ax.set_ylabel("occupation $f$")
 ax.set_title("$N = 136$, $a_{4,0} = 1$: Fermi-Dirac occupations (dotted: $\\mu$)")
 ax.legend()
-save_figure(fig, "occupations", "The occupation $f$ of the levels ...")
+save_figure(fig, "occupations",
+            "The occupation $f$ of the levels of the free state $N = 136$ at "
+...)
 report("sum g f at the three temperatures", ", ".join(f"{s:.12f}" for s in sums))
 check(max(abs(s - 136.0) for s in sums) < 1e-9, "the occupations add up to N = 136",
       record="Revision/kohn_sham/reports/ks-rust-solver.json, check "
@@ -3909,7 +4024,9 @@ ax.set_title("Diagnostic of the filling convention ($\\lambda = 0$)")
 ax.legend(fontsize=7, ncol=2, loc="lower right")
 smallest = min(v for v in plotted if v > 0.0)  # the smallest nonzero value
 powers = int(math.log10(max(plotted) / smallest))  # whole powers of ten spanned
-save_figure(fig, "sea_holes", "The number of thermal holes ...")
+save_figure(fig, "sea_holes",
+            "The number of thermal holes that the excluded sea brane band would "
+...)
 ```
 
 This notebook's three values as black crosses (`list(mine)` is the list of the slices, the keys of the dictionary), the 1 per cent line, the axes, and the number of whole powers of ten between the smallest and the largest value, which the caption of Figure 15d.6 prints.
@@ -3952,7 +4069,9 @@ ax.set_ylabel("$F(\\lambda) - F(0)$ (units of $m$)")
 ax.set_title("Effect of the interaction on the free energy, $a_{4,0} = 0$")
 ax.legend(fontsize=8, ncol=2)
 up = by_series[(688, "lamp1")]  # N = 688, +lambda_1, at T = 0.01, 0.02, 0.05
-save_figure(fig, "interaction_free_energy", "The change of the free energy ...")
+save_figure(fig, "interaction_free_energy",
+            "The change of the free energy caused by the couplings $+\\lambda_1$ "
+...)
 ```
 
 A symmetric logarithmic axis (linear between $-10^{-4}$ and $10^{-4}$), the zero line, labels, and Figure 15d.7, whose caption prints the values of `up`, $0.0033$ and $0.0045\,m$ at $T = 0.01$ and $0.05$.
@@ -3973,7 +4092,18 @@ check(raises and lowers8,
 
 Out [10]: the largest change is $0.0046\,m$; repulsion raises $F$ for $N = 136$ and $688$ and lowers it for $N = 8$, whose zero modes have no scalar density without interaction, so that to first order only the exchange term $-\tfrac{1}{32}\lambda n^2$ acts (Section 15.5 gives the exact symmetry at $T = 0$).
 
-**In [11], the last check.** As in Notebook 15e with the seven figure names of this notebook; it prints ALL 15 CHECKS PASSED (notebook 15d).
+**In [11], the last check.**
+
+```python
+NAMES = ["root_conditioning", "chemical_potential", "free_energy_entropy",
+         "heat_capacity", "occupations", "sea_holes", "interaction_free_energy"]
+missing = [name for number, name in enumerate(NAMES, start=1)
+           if not output_file(f"{FIGURE_FOLDER}/15d_{number}_{name}.png").is_file()]
+check(missing == [], "every figure file of this notebook exists")
+all_checks_passed()
+```
+
+As in Notebook 15e (Section 15.9, In [15]), with the seven figure names of this notebook in order and the file names `15d_<number>_<name>.png`: the names whose file does not exist are collected, the check requires that list to be empty, and `all_checks_passed()` prints the last line, ALL 15 CHECKS PASSED (notebook 15d).
 
 ### 15.31 What we proved, what we computed, what we assumed
 
