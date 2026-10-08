@@ -175,6 +175,16 @@ FIXED 2026-10-08 after the handover note (verified):
 * Book PDF registered warning-free (c55c6cd) after the root cause of the 637 overfull boxes (four-digit page numbers
   in the contents) was fixed by the opt-in builder option --wide-page-numbers (e35bce6).
 
+* Textbook notebooks 13a/03b fixed and rebuilt, chapter 13's walk-through aligned with Notebook 13a (5041c5b); all 89
+  notebooks pass nbkit check; book re-assembled.
+FOLLOW-UP (textbook quality, not covered by any test): the walk-throughs quote notebook code by hand, and several
+  builders were changed by interrupted chapter fixers after their chapters were written.  CONFIRMED drift: chapter 03 quotes
+  an older version of Notebook 03b's In [3] (no PYTHON_REPORT/RUST_REPORT lines) and further cells.  The scratch audit tool
+  Revision/textbook/tools/audit/walkthrough_diff.py (+ walkthrough_all.py) compares quoted blocks with the notebook cells;
+  it knows three deliberate conventions (captions shortened with '...)', docstrings omitted, the generated set-up cell) but
+  its section detection is NOT reliable (it can pick up a mention of a walk-through as the section start), so its counts
+  are an upper bound, not a list of defects.  A careful pass per chapter is needed.
+
 NOT DONE / IN PROGRESS (partial edits are committed and UNVERIFIED)
 * Execution provenance: rev-gkd-verification - its verifier found a MAJOR false-success defect (verify_lovelock_gkd.wls exits 0 /
   SUCCESS when it cannot write the report) and wrong temp-file text; NOT fixed.  nb-kohn-sham - verified (9 minor), not fixed; the
