@@ -253,3 +253,31 @@ the byte-identity checks above.
   the +M one (by energy rank of the mapped levels), not the rank against a free spectrum
   computed with the wrong conventions.  Fix it at the root in both solvers and test it on
   lambda = 0 (n_c(-M) = n_c(+M), s_c(-M) = -s_c(+M) node by node).
+
+## 9. Errata (2026-10-08, stage5-plan)
+
+* E5.1 (quantum reading of the T1 corollary; matter-antimatter review finding F1, confirmed by
+  MA_M4_imageFieldFockModel and provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md section 7.3).  The
+  COROLLARY of §5 T1 is a statement about classical fields (commuting c-number fields, or two
+  independent classical fields in the correlated configuration Psi_- = gamma^8 Psi_+).  For the
+  quantum field the identities H[Psi_-; -m] = -H[Psi; m], Q[Psi_-] = -Q[Psi] and
+  :T[gamma^8 Psi; -m, -lambda]: = -:T[Psi; m, lambda]: hold as operator identities, but the image
+  field (anticommutator -B) is the same quantum system: [Psi_-, H[Psi_-; -m]] = -h(-m) Psi_-,
+  [Psi_-, Q[Psi_-]] = -Psi_-, so its own x4-generator, charge and metric EMT are +H_+, +Q_+, +T_+, and
+  the values -|eps|, -1 per quantum are those of the L_{-m,-lambda} formulas.  At the quantum level
+  no reading gives a cancellation between two independent, consistently quantised universes.
+  Corrected at the root in wolfram/Dirac16ComplexPairing.wl (T1krein.imageField / consequence,
+  T1.kreinMetric, T1.corollaryPair statement / hypotheses / meaning, T3.theoremImageRule,
+  T3.pairTotalsKS.kreinImagePair, numericsPrescription.pairTotalsToReport, notProved,
+  notebookHypothesis) and scripts/check_dirac16complex_pairing.py (statements); the existing checks
+  PAIR_T1krein_imageOperatorIdentities and S5_T1krein_imageOperatorIdentities now also verify the
+  four commutators above (check names and counts unchanged: 141 and 172).  The Krein-image pair
+  totals of T3/T4 (E = 0, charge 0, T = 0) stay exact identities; their reading is X + (-X) = 0.
+* E5.2 (Rust y-grid uncertainty in scripts/check_dirac16complex_pairs.py, as STAGE4_SPEC E4.12 and
+  E4.14).  Every member of a Rust y-grid refinement family is compared with the reference, each with
+  its OWN grid-error term (check_dirac16complex_kohn_sham.member_grid_errors): the coarsest member
+  |X_1 - X_0|, a finer member only |X_k - X_(k-1)| / (r^p - 1), p measured per quantity from three
+  grids of equal ratio, otherwise the scheme's smallest order 2 (reason recorded).  Before, the finer
+  members were not compared and the 301-point member got the largest difference to any partner.
+  Tests: tests/test_d16c_stage5_pairs.py CheckerGridUncertaintyTests (negative control: a planted
+  deviation of the finer member is detected).

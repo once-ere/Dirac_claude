@@ -370,6 +370,133 @@ class CheckerHelperTests(unittest.TestCase):
         self.assertEqual(CP.UNIVERSE_SHORT["minusM_control"], "control")
 
 
+class _GridView:
+    """A synthetic Rust or reference universe for the Rust-vs-reference comparison: one level, T = 0, the
+    given scalars (no profiles, no EMT averages)."""
+    solver = "rust"
+    KEY = ("d16c", "plus", 1.0, 8.0, "lamp1", 0.0)
+
+    def __init__(self, scalars, grid_points=301, label="d16c_m1_L3_N8_lamp1_T0/plusM"):
+        self.key, self.label, self.grid_points = self.KEY, label, grid_points
+        self.dir = "%s@%d" % (label, grid_points)
+        self.m, self.ms, self.N, self.T = 1.0, 1.0, 8.0, 0.0
+        self.lambda_hat = 0.01
+        self.run = type("Run", (), {"lambda_hat": 0.01})()
+        self._scalars = scalars
+
+    def converged(self):
+        return True
+
+    def converged_by(self):
+        return "tolerance"
+
+    def scalar(self, name):
+        return self._scalars.get(name)
+
+    def profile(self, name):
+        return np.full(3, self.m) if name == "M_eff" else np.zeros(3)
+
+    def doc(self):
+        return {}
+
+    def level_groups(self):
+        return {(0, 1, 1): [{"eps": 0.5, "branch": 1, "f": 1.0}]}
+
+    def smearing(self):
+        return False
+
+    def y(self):
+        return None
+
+    def emt(self, name):
+        return None
+
+
+class CheckerGridUncertaintyTests(unittest.TestCase):
+    """STAGE4_SPEC E4.12/E4.14 in the pairs checker (rust_grid_uncertainty): every member of a Rust y-grid
+    refinement family is compared with the reference with its OWN grid-error term: the 301-point member
+    |X(601) - X(301)|, the finer member only |X(601) - X(301)| / (2^p - 1) (p measured from three grids,
+    otherwise the scheme's smallest order 2)."""
+
+    @staticmethod
+    def family(values):
+        views = [_GridView({"E": -1e-3, "mu": mu}, grid_points=n) for n, mu in values]
+        return views, [(v.grid_points, v) for v in views]
+
+    def test_two_grids_design_order(self):
+        (coarse, fine), fam = self.family([(301, 0.5), (601, 0.5 + 3e-6)])
+        gc, gf = CP.rust_grid_uncertainty(coarse, fam), CP.rust_grid_uncertainty(fine, fam)
+        self.assertEqual((gc["gridPoints"], gf["gridPoints"]), (301, 601))
+        self.assertAlmostEqual(gc["values"]["mu"], 3e-6, delta=1e-15)
+        self.assertAlmostEqual(gf["values"]["mu"], 1e-6, delta=1e-15)
+        self.assertEqual(gc["orderSource"]["mu"], "coarsest")
+        self.assertEqual(gf["orderSource"]["mu"], "design")
+        self.assertEqual(gf["orders"]["mu"], CP.C4.RUST_GRID_DESIGN_ORDER)
+        self.assertEqual(gf["designOrder"], 2.0)
+        self.assertIn("smallest order", gf["designOrderReason"])
+        self.assertNotIn("designOrder", gc)
+        self.assertEqual(CP.rust_grid_uncertainty(coarse, fam[:1]), {})      # no partner: no term
+
+    def test_three_grids_measured_order(self):
+        # differences 8e-6 and 1e-6 at ratio 2: p = 3 measured, finer members get diff / 7
+        (g0, g1, g2), fam = self.family([(301, 0.5), (601, 0.5 + 8e-6), (1201, 0.5 + 9e-6)])
+        u = [CP.rust_grid_uncertainty(v, fam) for v in (g0, g1, g2)]
+        self.assertAlmostEqual(u[0]["values"]["mu"], 8e-6, delta=1e-15)
+        self.assertAlmostEqual(u[1]["values"]["mu"], 8e-6 / 7.0, delta=1e-12)
+        self.assertAlmostEqual(u[2]["values"]["mu"], 1e-6 / 7.0, delta=1e-12)
+        for k in (1, 2):
+            self.assertEqual(u[k]["orderSource"]["mu"], "measured")
+            self.assertAlmostEqual(u[k]["orders"]["mu"], 3.0, delta=1e-9)
+            # E is the same on all grids (vanishing difference): its order falls back to the design order,
+            # with the reason recorded
+            self.assertEqual(u[k]["orderSource"]["E"], "design")
+            self.assertEqual(u[k]["values"]["E"], 0.0)
+            self.assertIn("vanishing difference", u[k]["designOrderReason"])
+
+    def compare(self, mu_301, mu_601, mu_ref=0.5):
+        coarse = _GridView({"E": -1e-3, "mu": mu_301})
+        fine = _GridView({"E": -1e-3, "mu": mu_601}, grid_points=601)
+        ref = _GridView({"E": -1e-3, "mu": mu_ref})
+        reg = CP.Registry()
+        CP.check_rust_vs_reference(reg, {coarse.key: coarse}, {ref.key: ref}, {coarse.key: [fine]})
+        return reg
+
+    def test_both_members_compared_with_their_own_terms(self):
+        # the 301-point member is off by 3e-6, the 601-point member agrees: the coarse member's own term
+        # |mu(601) - mu(301)| = 3e-6 covers it
+        reg = self.compare(0.5 + 3e-6, 0.5)
+        self.assertTrue(reg.checks["rust_vs_reference_muAndGap"], reg.measurements)
+        self.assertEqual(reg.measurements["rustVsReferenceCompared"], 2)
+        fine = reg.comparisons["rust_vs_reference_d16c_m1_L3_N8_lamp1_T0_plusM_g601"]["detail"]
+        coarse = reg.comparisons["rust_vs_reference_d16c_m1_L3_N8_lamp1_T0_plusM"]["detail"]
+        self.assertAlmostEqual(coarse["rustGridUncertainty"]["values"]["mu"], 3e-6, delta=1e-15)
+        self.assertAlmostEqual(fine["rustGridUncertainty"]["values"]["mu"], 1e-6, delta=1e-15)
+
+    def test_negative_control_planted_deviation_of_the_finer_member(self):
+        # the 301-point member agrees with the reference, the 601-point member is off by 4.5e-6: its own term
+        # is 4.5e-6 / 3 = 1.5e-6, its tolerance 1e-6 + 1.5e-6 = 2.5e-6 < 4.5e-6, so it is detected; the old rule
+        # (the full difference for every member: 1e-6 + 4.5e-6) would have accepted it, and the old checker did
+        # not compare the finer member at all
+        shift = 4.5e-6
+        reg = self.compare(0.5, 0.5 + shift)
+        self.assertFalse(reg.checks["rust_vs_reference_muAndGap"])
+        detail = reg.measurements["rust_vs_reference_muAndGap_detail"]
+        self.assertIn("plusM_g601:mu", detail)
+        fine = reg.comparisons["rust_vs_reference_d16c_m1_L3_N8_lamp1_T0_plusM_g601"]["detail"]
+        self.assertAlmostEqual(fine["mu"]["deviation"], shift, delta=1e-12)
+        self.assertLess(fine["mu"]["tolerance"], shift)
+        self.assertGreater(1e-6 + shift, shift)                                     # the old tolerance
+        coarse = reg.comparisons["rust_vs_reference_d16c_m1_L3_N8_lamp1_T0_plusM"]["detail"]
+        self.assertLess(coarse["mu"]["deviation"], 1e-15)
+
+    def test_no_partner_fixed_tolerance(self):
+        coarse = _GridView({"E": -1e-3, "mu": 0.5 + 3e-6})
+        ref = _GridView({"E": -1e-3, "mu": 0.5})
+        reg = CP.Registry()
+        CP.check_rust_vs_reference(reg, {coarse.key: coarse}, {ref.key: ref}, {})
+        self.assertFalse(reg.checks["rust_vs_reference_muAndGap"])
+
+
 class CheckerRobustnessTests(unittest.TestCase):
     """End to end on a tiny synthetic reference tree (coarse grids), with the Rust outputs absent:
     the pairing and control comparisons run, the Rust comparisons are recorded as not run."""

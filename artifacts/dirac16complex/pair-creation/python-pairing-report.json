@@ -726,7 +726,7 @@
         1
       ],
       "imageAnticommutatorMinusB": "{Psi_-, Psi_-^K} = gamma^8 B P gamma^8 = -B P_- (P_- = gamma^8 P gamma^8): the image carries the Krein metric -B, i.e. it is canonically a field of -L_{-m,-lam}",
-      "imageOperatorIdentities": "H[Psi_-; -m] = Psi_-^K B h(-m) Psi_- = -H[Psi; m], Q_- = -Q, S_- = S as Fock operators; normal ordering commutes with the map (:H_-: = -:H_+:)",
+      "imageOperatorIdentities": "H[Psi_-; -m] = Psi_-^K B h(-m) Psi_- = -H[Psi; m], Q_- = -Q, S_- = S as Fock operators; normal ordering commutes with the map (:H_-: = -:H_+:); the image field's own generators: [Psi_-, H[Psi_-; -m]] = -h(-m) Psi_-, [Psi_-, Q[Psi_-]] = -Psi_- while i d_4 Psi_- = [Psi_-, H_+] = h(-m) Psi_-, so its x4-generator is -H[Psi_-; -m] = +H_+ and its U(1) generator -Q[Psi_-] = +Q_+ (the same quantum system as Psi in other variables)",
       "imageExpectationValues": {
         "(+ universe, image)": {
           "particle0": {
@@ -858,7 +858,7 @@
             ]
           }
         },
-        "statement": "every quantum of the image has energy -|eps| and the opposite charge; particle values u_-^dagger (-B) M u_-, u_- = gamma^8 u"
+        "statement": "the L_{-m,-lam} formulas H[Psi_-; -m] and Q[Psi_-] give every quantum of the image the energy -|eps| and the opposite charge; particle values u_-^dagger (-B) M u_-, u_- = gamma^8 u. These are minus the image field's own x4-generator and charge (imageOperatorIdentities), not the energy and charge of a second universe"
       },
       "minusMModes": "w_n = gamma^8 u_n: h(-m) w_n = eps_n w_n (same eps), B w_n = -beta_n w_n",
       "independentCARPlusB": "the independently quantised -m field has {Psi', Psi'^K} = +B P_w (its own positive J = B structure)",
@@ -1885,7 +1885,7 @@
         "negativeControl": "the ordinary KS problem with -lam (and the mapped densities) does NOT map"
       },
       "sigma1FunctionalInvariant": "sigma1 route (gamma^1: same j, k -> -k): E[sigma1 chi; -m, -k] = E[chi; m, k] (closed shells {k, -k})",
-      "imageRuleEnergyOdd": "Krein image (metric -B, -lam): n -> -n, S -> S, E -> -E, and the image orbitals sigma2 chi solve the KS equations of (-m, -lam) with the image densities",
+      "imageRuleEnergyOdd": "Krein image (metric -B, -lam): n -> -n, S -> S, E -> -E (the (-m, -lam) formulas evaluated on the image, T1krein), and the image orbitals sigma2 chi solve the KS equations of (-m, -lam) with the image densities",
       "occupationsAndTemperature": "f_FD(eps; mu, T) = f_FD(-eps; -mu, -T); the Mermin stationarity eps - mu + T ln(f/(1-f)) = 0 maps onto itself for (-eps, -mu, -T): the image is a stationary state of F_- at temperature -T, F_-(-T) = -F_+(T)",
       "zeroModePlusM": "+M, even parity chi_2(0) = 0, bag theta = 0 (chi_2(-L) = 0): chi = (e^{My}, 0), eps = 0",
       "zeroModeImage": "image sigma2 chi = (0, i e^{My}) solves the -M block (-j) with chi_1 = 0 at y = 0 and y = -L (odd parity, theta = pi)",
@@ -1933,7 +1933,7 @@
         "statement": "gamma^8 X_{mu nu}(-m, -M_eff) gamma^8 = -X_{mu nu}(m, M_eff)"
       },
       "standardRulePlusT": "(gamma^8 chi)^dagger B X(-m, -M_eff) (gamma^8 chi) = chi^dagger B X(m, M_eff) chi: T -> +T (gamma^8 B gamma^8 = -B)",
-      "imageRuleMinusT": "with the Krein metric -B of the image: T -> -T",
+      "imageRuleMinusT": "with the Krein metric -B of the image: T -> -T (the (-m, -lam) formula; relative to the image's own canonical structure its source is +T, T1krein)",
       "stage4CrossCheck": {
         "orbitalEMT": {
           "rho = T_44": {
@@ -2411,7 +2411,7 @@
       },
       "ksKreinImagePair": {
         "totals": "Krein image (metric -B, -lam): n_pair = 0 (charge 0), rho_pair = p_pair = 0 pointwise, S_pair = 2 S_+",
-        "note": "the image values are the negatives of the standard-rule values of the mapped orbital"
+        "note": "the image values are the negatives of the standard-rule values of the mapped orbital: the totals are the identity X + (-X) = 0 for one state in two sets of variables (T1krein), not a cancellation between two universes"
       }
     },
     "S5_pairingAgreesWithWolfram": {
@@ -2656,7 +2656,7 @@
     }
   },
   "sourceSha256": {
-    "scripts/check_dirac16complex_pairing.py": "aca4e5a32fece02e1ae90aae7b36ae6f69323892adcbf9e65e541fcd1d58ad39",
+    "scripts/check_dirac16complex_pairing.py": "98af8c93833de0526f015c834290158964cce988bb5a8b6c858a910d217365c9",
     "scripts/check_dirac16complex_kohn_sham_theory.py": "b03957b29e4c6f86b8f3da5704cb6bf429eabbfbc60cf250dae38aa9223d548e",
     "scripts/d16c_geometry_sympy.py": "4f7eca4cf247354650ed9beb0b9c46530d14c9965f095979ea5ee24651af9f25",
     "scripts/grassmann_algebra.py": "dfce851d3dc7ab82202a62d414cc259644a64a101f08e9ba80ed747faa8bc24c"
@@ -2664,7 +2664,7 @@
   "inputSha256": {
     "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
     "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json": "5b150b36e13b903c32b86e8debbaeda48798e0beb0bc6a216e416d2671f4e01a",
-    "artifacts/dirac16complex/pair-creation/pairing-theory.json": "5a267bd696391b131134577ccdcf7766b83f96f3eb32b9b8de60c9175b1ebf6a",
-    "artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json": "735534de950c7fb0327370c33caa275cf805aa91a41dee903e4eaec7a6fa0de8"
+    "artifacts/dirac16complex/pair-creation/pairing-theory.json": "0b2387c9de632510b37dbeaff7e54199d01197c2b576d7aeafe762ab9bff17a2",
+    "artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json": "85c84b87f1c25a7ac380a28f4c6c878c322c01aa93aadb92467dd801f210d9e2"
   }
 }

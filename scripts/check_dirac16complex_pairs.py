@@ -156,7 +156,12 @@ is_num = C4.is_num
 
 
 def rel_path(path):
-    return os.path.relpath(path, REPO).replace(os.sep, "/")
+    """Repository-relative path with '/'; a path on another drive (Windows: a temporary directory on C: with
+    the repository on D:) has no relative form and is kept absolute."""
+    try:
+        return os.path.relpath(path, REPO).replace(os.sep, "/")
+    except ValueError:
+        return os.path.abspath(path).replace(os.sep, "/")
 
 
 class Registry:
@@ -892,7 +897,9 @@ def check_totals(reg, groups, kind):
         return totals
     worst.report(reg, "totals_%s_" % kind, {
         "mirrorEnergyIsTwiceE": "mirror pair (plus + minus): E_pair = 2 E_+, F_pair = 2 F_+",
-        "kreinImageEnergyZero": "Krein-image pair (plus - minus): E = F = 0",
+        "kreinImageEnergyZero": "Krein-image pair (plus - minus): E = F = 0 (the identity X + (-X) = 0 of the "
+                                "(-m, -lambda) formulas on the same state, pairing-theory.json T1krein.consequence; "
+                                "not a cancellation between two universes)",
         "mirrorChargeTwoN": "mirror pair: charge 2N", "kreinImageChargeZero": "Krein-image pair: charge 0",
         "mirrorScalarZero": "mirror pair: total scalar charge 0",
         "kreinImageScalarTwiceS": "Krein-image pair: total scalar charge 2 S_+",
