@@ -2177,7 +2177,7 @@ M2 line by line, with $r = k^2/m^2$ and $q = 0$: $\varepsilon = (r/a^2)/(3(1 + r
 
 The resulting CPL numbers under C (tangent; least-squares fit over $1/2 \le a \le 1$; the constant-$w$ proxy, the mean of $w(a)$ over that range; records `M2_tangent_exact` to `M5_without_ghost_no_crossing` of `python-derive-eos.json`; Notebook 22b, In [8] and Figure 22b.5):
 
-| model | tangent $w_0$ | tangent $w_a$ | fit $w_0$ | fit $w_a$ | proxy | crosses $-1$? |
+| model | tangent $w_0$ | tangent $w_a$ | fit $w_0$ | fit $w_a$ | proxy | crosses $-1$ on $1/3 \le a \le 1$? |
 | --- | --- | --- | --- | --- | --- | --- |
 | M1 | $-1$ | 0 | $-1$ | 0 | $-1$ | no |
 | M2 | $-0.861$ | $+0.162074$ | $-0.8655$ | 0.2173 | $-0.8112$ | no |
@@ -2185,8 +2185,10 @@ The resulting CPL numbers under C (tangent; least-squares fit over $1/2 \le a \l
 | M4 | $-0.861$ | $-0.600$ | $-0.8832$ | $-0.2203$ | $-0.9383$ | no |
 | M5 | $-0.8396$ | $-1.0399$ | $-0.861$ | $-0.600$ | $-1.011$ | at $a = 0.7791$ |
 
-- M4: $s = 0.6551$, $\Omega_q = 0.2195$. Its $w$ never crosses $-1$: the smallest $w_{\rm eff}(C)$ over $a = 1/300, \dots, 1$ is $-0.999999214228$ (check `M4_never_phantom`). The phantom past $w_0 + w_a = -1.461$ belongs to the straight CPL line, not to the model. Its extra-time mode reaches its turning point at $a_{\rm turn} = 1.2355$ and then grows without bound. Under B or in the ratio, M4 is not dark energy ($w \ge 0$).
-- M5: $s = 0.5678$, $\Omega_q = 0.5947$, condensate share $0.7053$; its $w$ crosses $-1$ at $a = 0.7791$ (the observed line at 0.7683), and without its ghost-like part it does not cross at all (checks `M5_crosses_minus_1`, `M5_without_ghost_no_crossing`). INTERPRETATION, as in the record: because $s$ and $\Omega_q$ were chosen so that the fit equals the observed line, a crossing close to the line's crossing is expected and is not an independent agreement.
+The last column is the record's search for a crossing on $1/3 \le a \le 1$; it says nothing about $a > 1$. Past the turning point $a_{\rm turn}$ of an extra-time mode (M3: 1.8434, M4: 1.2355, M5: 1.3271) the frequency of that mode is imaginary and the theorem above does not apply.
+
+- M4: $s = 0.6551$, $\Omega_q = 0.2195$. Its $w$ does not cross $-1$ on $1/300 \le a \le 1$: the smallest $w_{\rm eff}(C)$ over $a = 1/300, \dots, 1$ is $-0.999999214228$ (check `M4_never_phantom`); by the theorem above, $w_{\rm eff}(C) \ge -1$ holds up to the turning point of its extra-time mode. The phantom past $w_0 + w_a = -1.461$ belongs to the straight CPL line, not to the model. Its extra-time mode reaches its turning point at $a_{\rm turn} = 1.2355$ and then grows without bound; past $a_{\rm turn}$ its frequency is imaginary, the theorem above does not apply, and $w \ge -1$ is not established there. Under B or in the ratio, M4 is not dark energy ($w \ge 0$).
+- M5: $s = 0.5678$, $\Omega_q = 0.5947$, condensate share $0.7053$; its $w$ crosses $-1$ at $a = 0.7791$ (the observed line at 0.7683), and without its ghost-like part it does not cross on $1/3 \le a \le 1$, nor before the turning point $a_{\rm turn} = 1.3271$ of its extra-time mode; past that point this is not established (checks `M5_crosses_minus_1`, `M5_without_ghost_no_crossing`). INTERPRETATION, as in the record: because $s$ and $\Omega_q$ were chosen so that the fit equals the observed line, a crossing close to the line's crossing is expected and is not an independent agreement.
 - Implementation B rebuilds M2 to M5 from solutions of the full 16-component field equation with the author's gammas and agrees with A to within 0.00083082726 in every tangent, fit and proxy; it finds the M5 crossing at $a = 0.77905405$ (check `B_vs_A_M5_crossing` of `python-independent-numerics.json`).
 
 **The constant-$w$ proxy is not the supernova fit.** Applied to the observed CPL line itself, the mean of $w(a)$ is $-1.011$ over $1/2 \le a \le 1$ and $-1.061$ over $1/3 \le a \le 1$ (check `unite_line_fit_proxy`), not $-0.764$: the supernova constant-$w$ fit weights the data, which no part of the record computes.
