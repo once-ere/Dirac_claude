@@ -217,7 +217,12 @@ or without `REVISION_NB_CARGO_TARGET`.
   <scratch>/check1` - a third independent execution (21.1 s): `check lovelock_gkd: PASS - the
   re-executed notebook is byte-identical to Revision/notebooks/lovelock_gkd.ipynb (412223 bytes)`; its
   seven files equal the table of section 2.
-@STALE@
+* 2026-10-08, reused output folder with an old-layout build folder: `python -m nbconvert --to notebook
+  --execute Revision/notebooks/lovelock_gkd.ipynb --output-dir <scratch>` with `REVISION_NB_OUT=<scratch>/out`,
+  where `<scratch>/out/cargo-target/release/deps/old.rlib` and `<scratch>/out/cargo-target/release/old.d`
+  existed beforehand (the reviewer's reproduction) - exit status 0, no error or stderr output in the
+  executed notebook, `checks of this notebook: 40 passed, 0 failed`, and the final list holds only the
+  seven files of section 2, no `cargo-target` path (31.0 s wall time including nbconvert start).
 * Previous version (notebook sha256 `e4066a453826082a0e0d9761b2cff8f0d0af92871551dc121aaebcf40c19cce0`,
   410418 bytes), recorded below:
 * 2026-10-08, the reason for the previous version: a review found that `build_notebooks.py check

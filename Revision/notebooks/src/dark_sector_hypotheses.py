@@ -268,8 +268,8 @@ def run_instructions(duration: str, where: str) -> str:
 
 md(run_instructions(
     "The whole notebook takes well under a minute (about 15 s to 50 s on the computer on which it was "
-    "built, depending on its load, including the build of the solver); the 123 solver runs are spread over up to eight parallel "
-    "processes and take from a few hundredths of a second to about two seconds each.",
+    "built, depending on its load, including the build of the solver); the 123 solver runs are spread "
+    "over up to eight parallel processes and take from a few hundredths of a second to about two seconds each.",
     "The 123 result files of the solver go to "
     "`<output>/ks_runs`, the two reproduced tables to `<output>/ks-history-dense-subset.csv` and "
     "`<output>/eos-history-subset.csv`, the figures to `<output>/figures`. The committed records "
@@ -1305,7 +1305,7 @@ check("M4_parameters_and_tangent_exact", (cc - 2) / (cc - 1) == s4 == Fraction(2
 ''')
 
 md(r"""
-### 12.1 Does any model cross $w = -1$? M2 to M4 not before their turning points; M5 at $a = 0.779$, because of its ghost-like part
+### 12.1 Does any model cross $w = -1$? M2 never, M3 and M4 not before their turning points; M5 at $a = 0.779$, because of its ghost-like part
 
 With positive-energy components of real frequency only, $w_\mathrm{eff}(N2) = -1 + \sum\varepsilon_i\rho_i/\sum\rho_i \ge -1$
 at every $a$ at which these conditions hold (all $\varepsilon_i \ge 0$, $\rho_i \ge 0$). M2 ($q = 0$) has a

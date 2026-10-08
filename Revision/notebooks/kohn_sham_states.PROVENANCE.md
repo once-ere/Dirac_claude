@@ -258,7 +258,12 @@ No run time and no path of the computer is printed (paths are shown relative to 
   <scratch>/check1` - a third independent execution (28.6 s): `check kohn_sham_states: PASS - the
   re-executed notebook is byte-identical to Revision/notebooks/kohn_sham_states.ipynb (515946 bytes)`;
   its 23 files equal the table of section 2.
-@STALE@
+* 2026-10-08, reused output folder with an old-layout build folder: `python -m nbconvert --to notebook
+  --execute Revision/notebooks/kohn_sham_states.ipynb --output-dir <scratch>` with `REVISION_NB_OUT=<scratch>/out`,
+  where `<scratch>/out/cargo-target/release/deps/old.rlib` and `<scratch>/out/cargo-target/release/old.d`
+  existed beforehand (the reviewer's reproduction) - exit status 0, no error or stderr output in the
+  executed notebook, `checks of this notebook: 24 passed, 0 failed`, and the final list holds only the
+  23 files of section 2, no `cargo-target` path (34.5 s wall time including nbconvert start).
 * Previous version (notebook sha256 `451587216e92819278076431902f3942bddf752a6bc40ca9f931dd636fee554d`,
   514141 bytes), recorded below:
 * 2026-10-08, the reason for the previous version: on Windows the MSVC linker `link.exe` cannot open

@@ -236,7 +236,33 @@ No run time and no path of the computer is printed (paths are shown relative to 
 
 ## 7. Verification record
 
-* 2026-10-08, the reason for the current version: on Windows the MSVC linker `link.exe` cannot open
+* 2026-10-08, the reason for the current version (reviews of the previous version): (1) the final list
+  of written files left out only `<cargo-target>`, so a folder `<output>/cargo-target` left in a reused
+  `<output>` by an earlier version was listed file by file; it is now left out as well. (2) On Linux
+  the default `<cargo-target>` lies in the shared `/tmp` under a predictable name, and the notebook
+  runs the solver built there; on macOS and Linux the folder is now created private and an existing
+  folder that is not private is refused (section 6). (3) The markdown of section 12.1 said that M2, M3
+  and M4 never cross -1 at any a; it now says that the bound w >= -1 holds for M3 and M4 only before the
+  turning point a_* of their extra-time mode (M3 1.8434, M4 1.2355; for M4 checked on a in [1/300, 1]),
+  as `Revision/docs/DARK_SECTOR_HYPOTHESES.md` does. (4) The run-time sentence of section 2.4 now gives
+  about 15 s to 50 s instead of about 15 s. In the notebook only the sources of cell 1 (section 2),
+  cell 5 (the folder set-up), cell 32 (section 12.1) and cell 45 (the final list) changed; every output
+  is identical to the previous version. Three inputs of section 2 have new sha256 values because their
+  producers were re-run with qualified check texts only (`derivation-checks.json`: detail of
+  `phantom_condition`; `eos-theory.json` and `python-derive-eos.json`: the M3/M4 turning-point and
+  charge-conservation wording); every count and number the notebook reads from them is unchanged.
+* 2026-10-08, the private-folder check: the exact code of the builder, run under WSL Ubuntu 24.04 with
+  Python 3.12.3 (scratch script), created a new folder with mode 0700, accepted an existing own folder
+  of mode 0755, refused folders of mode 0777 and 0775, a symbolic link and a folder of another user
+  (`/usr`), and was skipped with `REVISION_NB_CARGO_TARGET` set (21 of 21 cases as expected for the three
+  builders). The notebook itself was not executed on Linux.
+* Current version, all runs with the system's temporary folder set (TMP, TEMP, TMPDIR) to a scratch
+  folder:
+@CURRENT@
+@STALE@
+* Previous version (notebook sha256 `fadca750e38b16dcfa3f7687e52f8e0882639d09f49267c2429df722c86e8429`,
+  455344 bytes), recorded below:
+* 2026-10-08, the reason for the previous version: on Windows the MSVC linker `link.exe` cannot open
   a file whose path is longer than 259 characters (MAX_PATH). With the former build folder
   `<output>/cargo-target` and the default `<output>` of the tool
   (`build/revision_notebooks/dark_sector_hypotheses-XXXXXXXX/`), the solver program
