@@ -1320,7 +1320,7 @@ CELLS = [
     fig, ax = plt.subplots(figsize=(6.4, 4.4))
     for sigma0, colour in STRENGTHS:
         values = np.array([rate_squared(a, sigma0) for a in grid])
-        keep = values >= 0.0  # a4'^2 cannot be negative: a4 turns back there
+        keep = values >= 0.0  # a4'^2 cannot be negative: the curve ends at the turning point
         label = ("$\\Lambda = 0$ ($\\sigma_0 = -24$)" if sigma0 == -24
                  else f"$\\sigma_0 = {sigma0}$")
         x_values, rates = grid[keep], np.sqrt(values[keep])

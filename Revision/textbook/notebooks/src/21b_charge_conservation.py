@@ -877,8 +877,11 @@ CELLS = [
     $a_4 = AHx_4$ (here $A = 1$, $H = 1/6$, chosen only for the picture): ordinary
     space grows as $e^{a_4}$, the extra times shrink as $e^{-a_4}$, the volume factor
     $e^{3a_4}e^{-3a_4} = 1$ stays; and below, the charge of the stationary (zero-flux)
-    solution, which stays constant. The conservation law was verified for a general
-    $a_4(x_4)$, so any other history gives the same constant charge.
+    solution, which stays constant. Any other history gives the same constant charge:
+    the stationary solution does not depend on $x1, x2, x3, x5, x6, x7$, so it solves
+    the field equation for every history $a_4$ (Section 9; record check
+    exact_solution_family_x4_x8), and its charge density
+    $\cos z\sin^2z\,\chi_0^\dagger B\chi_0$ contains no $a_4$.
     """),
     code(r'''
     a4_vals = times / 6.0  # a4 = A H x4 with A = 1, H = 1/6
@@ -906,8 +909,9 @@ CELLS = [
                 "volume factor of a slice, stays $1$ (logarithmic vertical scale). "
                 "Bottom: the charge $Q$ of the stationary exact solution versus $x_4$; "
                 "it does not change while space inflates and the extra times deflate. "
-                "The U(1) identity was verified for every history $a_4$, so the "
-                "constancy does not depend on this choice.")
+                "The stationary solution solves the field equation for every "
+                "history $a_4$ and its charge density contains no $a_4$, so the "
+                "constant does not depend on this choice.")
     '''),
     md(r"""
     ## 11. The charge density can be negative

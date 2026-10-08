@@ -1810,7 +1810,7 @@ $$
 Q_0 = -\frac{1424}{1875} - \frac{13\sqrt7}{1500} = -0.782397
 $$
 
-(In [12], exact). It stays the same while the extra times deflate (figure 21b.6), and since the conservation law holds for every $a_4$, any other history gives the same constant.
+(In [12], exact). It stays the same while the extra times deflate (figure 21b.6), and any other history gives the same constant: $\Psi_0$ does not depend on $x_1, x_2, x_3, x_5, x_6, x_7$, so it solves the field equation for every history $a_4$ (Section 21.11, step 4; record check `exact_solution_family_x4_x8`), and its charge density $\cos z\sin^2z\,\chi_0^\dagger B\chi_0$ contains no $a_4$ (not even in the volume factor $\cos z$, because the deflation of the extra times compensates the inflation of space, Section 21.17). (The conservation law alone would not give this: a law that holds for every $a_4$ does not by itself make its constant independent of $a_4$.)
 
 **The charge density can be negative.** $J^{(x4)} = \Psi^\dagger B\Psi$ is a quadratic expression with the matrix $B$, which has eight eigenvalues $+1$ and eight $-1$ ($B$ is Hermitian, $B^2 = 1$ and its trace is 0; lead check `B_imaginary_hermitian` and record check `B_properties`). Writing $\Psi = \sum_jc_jv_j$ in orthonormal eigenvectors $v_j$ of $B$ gives $\Psi^\dagger B\Psi = \sum_{B = +1}\lvert c_j\rvert^2 - \sum_{B = -1}\lvert c_j\rvert^2$, which can have either sign; divided by $\Psi^\dagger\Psi = \sum\lvert c_j\rvert^2$ it lies between $-1$ and $+1$. *A worked example in flat space* ($H = 0$, $a_4$ constant). The field equation along the time is $\gamma^{(x4)}\partial_4\Psi = m\Psi$. A **rest state** $\Psi = u\,e^{-imx_4}$ with $-i\gamma^{(x4)}u = u$ solves it: $\gamma^{(x4)}\partial_4\Psi = \gamma^{(x4)}(-im)u\,e^{-imx_4} = m(-i\gamma^{(x4)}u)e^{-imx_4} = m\Psi$. It has the positive frequency $m$. Since $C$ commutes with $\gamma^{(x4)}$ ((R3): $x_4$ is time-like) and $B = C(-i\gamma^{(x4)})$, $B$ commutes with $-i\gamma^{(x4)}$ and maps the 8-dimensional space of such $u$ into itself; there it has four eigenvalues $+1$ (eigenvector $u_+$) and four $-1$ (eigenvector $u_-$), as the notebook computes. For $u = \tfrac35u_+ + \tfrac45u_-$ (length 1, since $\tfrac{9}{25} + \tfrac{16}{25} = 1$) the charge density is $\tfrac{9}{25}(+1) + \tfrac{16}{25}(-1) = -\tfrac{7}{25}$: a positive-frequency field with a **negative** charge density (Notebook 21b, In [16]; figure 21b.7 shows that for 20000 random columns the normalised density takes both signs about equally often, a fraction 0.504 negative). The sign of the charge of a single field is therefore not fixed by the sign of its frequency; Chapter 10 explains what this means after quantisation (the Krein space).
 
@@ -2704,8 +2704,9 @@ save_figure(fig, "charge_through_deflation",
             "volume factor of a slice, stays $1$ (logarithmic vertical scale). "
             "Bottom: the charge $Q$ of the stationary exact solution versus $x_4$; "
             "it does not change while space inflates and the extra times deflate. "
-            "The U(1) identity was verified for every history $a_4$, so the "
-            "constancy does not depend on this choice.")
+            "The stationary solution solves the field equation for every "
+            "history $a_4$ and its charge density contains no $a_4$, so the "
+            "constant does not depend on this choice.")
 ```
 
 Figure 21b.6. **What the figure shows.** Top: two straight lines on the logarithmic scale, one rising and one falling at the same rate, and a flat dotted line at 1 between them. Bottom: a flat line at $-0.782$: the charge is untouched by the deflation.
@@ -4859,7 +4860,7 @@ A published example of the class of universe/anti-universe ideas is the CPT-symm
 | one-particle spectra of $\pm m$ identical; inertia (4,4) at real, Krein-neutral at imaginary frequencies | PROVED | Wolfram pairing report, `Q_one_particle_maps`, `Q_one_particle_Krein_signatures`, `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`; Notebook 21c, In [9] to In [12] |
 | the same-mass conjugation is an exact symmetry of the commuting field | PROVED (Section 21.31); COMPUTED at a point | `Revision/theory/reports/wolfram-field-theory.json`, `L_real_C`; Notebook 21d, In [14] |
 | invariant Majorana-type matrices: exactly $C$ and $C\Gamma$; none for anticommuting components | PROVED | `Revision/algebra/reports/python-algebra.json`, `spin_commutant_dimension_2`; Notebook 21d, In [16] |
-| the total charge of a universe is constant (no flux through the brane $z = \pi/2$) | ASSUMED (not derived; it fails on the exact solutions of Sections 18.21 and 21.18; OPEN) | Notebook 21b, In [12]; Notebook 18c |
+| the total charge of a universe is constant (no flux through the brane $z = \pi/2$) | ASSUMED (not derived; it fails on the exact solution of Section 21.18 with the general column $\chi$ and on the solution of Notebook 18c in Section 18.21, although the stationary solution of Section 21.18 has zero flux; OPEN) | Notebook 21b, In [12]; Notebook 18c |
 | Sakharov condition 1 | FAILS inside the patch (PROVED); for the total charge FAILS under the ASSUMED no-flux condition | lead check `u1_noether_matrix_identity`; Notebook 21d, In [13] |
 | Sakharov condition 2 (C and CP violation) | dirac16complex00: FAILS (PROVED: $\mathcal{C}_+$ exact, Proposition 2); dirac16complex: NOT COMPUTED (no rates; only the mass-reversing conjugation) | lead checks `representation_real`, `spinor_connection_real`, `bilinears_under_charge_conjugation`, `quantum_charge_conjugation_unitary_type`; Notebook 21d, In [14], In [18] |
 | Sakharov condition 3 (departure from equilibrium) | NOT COMPUTED | `Revision/field_equations_a4/reports/ks-source-conditions.json`, `ks_history_is_a_prescribed_background` |

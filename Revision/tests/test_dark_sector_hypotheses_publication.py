@@ -69,8 +69,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "4f50847e649efe849cb331e48ad0fb17e58641a4163536ae009003e57e48c6c8"
-TEX_SHA256 = "7e52e2b92c49cbb1a9f7e6f57047cfa96495d5def730a5ba009ae10aa8d2bbf4"
+MARKDOWN_SHA256 = "c64462637409b67d2e38ef2731d06ce53bb4417595f9d9596bc9e9440a555cc4"
+TEX_SHA256 = "659a3134e348a68ba090cb6ef74ad220cd75fedd3d51b8c8a09c605ddfdaf08a"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"
@@ -143,7 +143,7 @@ KEY_STATEMENTS = (
     "The history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND",
     "both CHOSEN to solve tangent $= (-0.861, -0.60)$",
     "the M4 tangent and the M5 fit equal the Unite pair by construction",
-    "Without its ghost component M5 does not cross $-1$.",
+    "Without its ghost component M5 does not cross $-1$ on $a \in [1/3, 1]$ (`M5_without_ghost_no_crossing`) nor,",
     "a crossing close to the line's crossing is expected and is not an independent agreement",
     "NOT FOUND in the computed states",
     "Positive-energy extra-time momentum does NOT supply it",
@@ -607,6 +607,10 @@ class QuotedNumbers(unittest.TestCase):
                           f"condensate fraction $\\Omega_c = {fixed(float(p['Omega_c']), 4)}$")
         self.assertQuoted(f"the crossing of $-1$ is at $a = {crossing}$ (Unite line: 0.7683)")
         self.assertQuoted(f"its turning point is at $a_* = {fixed(float(m5['turning_point_a_star']), 4)}$")
+        # without the ghost: no crossing on the checked range [1/3, 1]; before a_* by the WKB theorem; past a_* open
+        self.assertIn("has no crossing in [1/3, 1]", check_detail(DERIVE_EOS, "M5_without_ghost_no_crossing"))
+        self.assertQuoted(f"nor, by section 4.7 (within the WKB model), before its turning point "
+                          f"$a_* = {fixed(float(m5['turning_point_a_star']), 4)}$; past $a_*$ this is not established.")
         self.assertQuoted("$G = 3/10$ of the total at $a = 1$")
         for name in ("M2_positive_good_sector_gas", "M3_positive_extra_time_mode",
                      "M4_condensate_plus_extra_time_mode"):

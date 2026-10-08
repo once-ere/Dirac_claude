@@ -321,7 +321,7 @@ Notebook 10a reads the author's gammas from the record `Revision/algebra/gammas.
 
 The notebook has 18 code cells, In [1] to In [18]. This section explains every line of each of them. Python, the language of the notebooks, is read from top to bottom; a line that starts with `#` is a **comment** for the reader, which Python skips, and the text after `#` on a line of code is a comment too. Where a cell defines a function, the **docstring** (the text in triple quotes below the `def` line, which only describes the function) is left out of the quotations; it is printed in Section 10.9.
 
-**In [1], the set-up cell.** This cell is the same in every notebook of the book; only the line that sets `NOTEBOOK_ID` differs. Its first 250 lines are comments: they repeat, word for word, the run instructions of Section 10.8 (Python skips them; they are there so that the notebook carries its own instructions), and end with the heading THE SET-UP between two lines of `=` signs. The code starts below that heading.
+**In [1], the set-up cell.** Its first 247 lines are comments: they repeat, word for word, the run instructions of Section 10.8 (Python skips them; they are there so that the notebook carries its own instructions, so this comment block is different in every notebook), and end with the heading THE SET-UP between two lines of `=` signs. The code starts below that heading. The code is the same in all seven notebooks of this chapter, except for the line that sets `NOTEBOOK_ID` (the notebooks of the book that run a Rust program define one more helper, `rust_program`, which this chapter does not need).
 
 ```python
 import json  # reads and writes JSON files (text files that hold names and numbers)
@@ -1473,7 +1473,7 @@ Notebook 10b repeats the derivation of $iK^{-1} = B/\cos z$ exactly with sympy, 
 
 The notebook has 12 code cells, In [1] to In [12]. As in Section 10.10, the docstrings of the functions (the text in triple quotes under a `def` line) are left out of the quotations; they are printed in Section 10.18.
 
-**In [1], the set-up cell.** Its first 251 lines are comments that repeat the run instructions of Section 10.17. The code below the heading THE SET-UP is word for word the code of In [1] of Notebook 10a, explained line by line in Section 10.10, except for one line, `NOTEBOOK_ID = "10b"  # this notebook: chapter 10, example b`. It defines `REPO`, `OUTPUT_ROOT`, `repository_file`, `output_file`, `say`, `save_figure`, `check`, `report` and `all_checks_passed`, and prints the single line `Set-up of notebook 10b complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 248 lines are comments that repeat the run instructions of Section 10.17. The code below the heading THE SET-UP is word for word the code of In [1] of Notebook 10a, explained line by line in Section 10.10, except for one line, `NOTEBOOK_ID = "10b"  # this notebook: chapter 10, example b`. It defines `REPO`, `OUTPUT_ROOT`, `repository_file`, `output_file`, `say`, `save_figure`, `check`, `report` and `all_checks_passed`, and prints the single line `Set-up of notebook 10b complete: repository folder found, helpers defined.`
 
 **In [2], the time-derivative kernel and the canonical rule.**
 
@@ -2314,7 +2314,7 @@ Notebook 10c builds the good-sector waves of the recorded momentum $m = 2$, $k =
 
 The notebook has 12 code cells, In [1] to In [12]; docstrings are left out of the quotations (they are printed in Section 10.25).
 
-**In [1], the set-up cell.** Its first 252 lines are comments that repeat the run instructions of Section 10.24. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10c"  # this notebook: chapter 10, example c`. It prints `Set-up of notebook 10c complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 249 lines are comments that repeat the run instructions of Section 10.24. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10c"  # this notebook: chapter 10, example c`. It prints `Set-up of notebook 10c complete: repository folder found, helpers defined.`
 
 **In [2], the gammas, B and the mode Hamiltonian.**
 
@@ -3056,7 +3056,7 @@ Notebook 10d proves the four matrix facts (D1) to (D4) and the boundary-term ide
 
 The notebook has 10 code cells, In [1] to In [10]; docstrings are left out of the quotations (they are printed in Section 10.31).
 
-**In [1], the set-up cell.** Its first 251 lines are comments that repeat the run instructions of Section 10.30. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10d"  # this notebook: chapter 10, example d`. It prints `Set-up of notebook 10d complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 248 lines are comments that repeat the run instructions of Section 10.30. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10d"  # this notebook: chapter 10, example d`. It prints `Set-up of notebook 10d complete: repository folder found, helpers defined.`
 
 **In [2], the matrices of the hidden direction.**
 
@@ -3623,7 +3623,7 @@ Notebook 10e builds the 28 generators, solves the $28 \times 256$ linear equatio
 
 The notebook has 10 code cells, In [1] to In [10]; docstrings are left out of the quotations (they are printed in Section 10.37).
 
-**In [1], the set-up cell.** Its first 249 lines are comments that repeat the run instructions of Section 10.36. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10e"  # this notebook: chapter 10, example e`. It prints `Set-up of notebook 10e complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 246 lines are comments that repeat the run instructions of Section 10.36. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10e"  # this notebook: chapter 10, example e`. It prints `Set-up of notebook 10e complete: repository folder found, helpers defined.`
 
 **In [2], the gammas, the generators and the chiral projectors.**
 
@@ -4143,7 +4143,7 @@ Notebook 10f reads the history and the scale factors from the Revision records, 
 
 The notebook has 13 code cells, In [1] to In [13]; docstrings are left out of the quotations (they are printed in Section 10.42).
 
-**In [1], the set-up cell.** Its first 255 lines are comments that repeat the run instructions of Section 10.41. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10f"  # this notebook: chapter 10, example f`. It prints `Set-up of notebook 10f complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 252 lines are comments that repeat the run instructions of Section 10.41. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10f"  # this notebook: chapter 10, example f`. It prints `Set-up of notebook 10f complete: repository folder found, helpers defined.`
 
 **In [2], the deflating history of the Revision record.**
 
@@ -4869,7 +4869,7 @@ Notebook 10g proves the Lagrangian identity $\mathcal{L}_m[\Gamma\chi] = -\mathc
 
 The notebook has 13 code cells, In [1] to In [13]; docstrings are left out of the quotations (they are printed in Section 10.48).
 
-**In [1], the set-up cell.** Its first 255 lines are comments that repeat the run instructions of Section 10.47. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10g"  # this notebook: chapter 10, example g`. It prints `Set-up of notebook 10g complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 252 lines are comments that repeat the run instructions of Section 10.47. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10g"  # this notebook: chapter 10, example g`. It prints `Set-up of notebook 10g complete: repository folder found, helpers defined.`
 
 **In [2], the matrices and the statements of the record.**
 

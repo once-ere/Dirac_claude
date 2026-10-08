@@ -208,7 +208,9 @@ CELLS = [
 
     **Both fields.** The same formulas hold for the anticommuting field
     dirac16complex, whose bilinears are even elements of a Grassmann algebra (the
-    record verifies them in its checks ending in `_G`). After quantisation the record
+    record verifies them, for example in the checks `T_diagonal_components_G`,
+    `EMT_trace_G` and `kinetic_sum_on_shell_G` of
+    `Revision/theory/reports/wolfram-field-theory.json`). After quantisation the record
     defines the tensor as a normal-ordered operator; the positive space of quantum
     states this needs is constructed only for single good-sector momenta (waves that
     do not depend on the extra times) with frozen coefficients, and for

@@ -2,7 +2,7 @@
   "dark-sector-hypotheses": {
     "path": "Revision/docs/DARK_SECTOR_HYPOTHESES.pdf",
     "pages": 24,
-    "sha256": "199340777964e6528ae38e11519afaf9a6638bf9f6484340586796fbd29413c5"
+    "sha256": "db27aa94d892a078b8f3fb4ff3eee930cec93771afee4f953be320d11f85872d"
   },
   "dirac16complex-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.pdf",
@@ -12,12 +12,12 @@
   "dirac16complex00-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.pdf",
     "pages": 37,
-    "sha256": "5efec3d4038a8557b02864d4d5c571fc7578e8a34d50ec7e8f2982138f496168"
+    "sha256": "d90dd192cd3ef5060eb69c2c4575226504b6b68fa4918c4f1fe9c801c4bb7698"
   },
   "kohn-sham-deflating-field": {
     "path": "Revision/docs/KOHN_SHAM_DEFLATING_FIELD.pdf",
     "pages": 22,
-    "sha256": "d6751c9447708de839ce178cc6dd02b07cbc6920aef23c1d10e97ec21f38656a"
+    "sha256": "a2ec27ebd8cfc82107291aa5a19e8ecb05d63b6c52053c899b749cc82aa2b943"
   },
   "lovelock-gkd": {
     "path": "Revision/docs/LOVELOCK_GKD.pdf",
