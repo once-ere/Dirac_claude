@@ -33,12 +33,12 @@
    the complex matrix B is written as its real and imaginary parts.
 
    Output (deterministic, the same bytes on every operating system: UTF-8, LF line endings, no time
-   stamps; $Version is recorded): provenance/dirac_matrices/repository_wolfram_gammas.json
+   stamps; the Wolfram version number and release are recorded, without the platform string): provenance/dirac_matrices/repository_wolfram_gammas.json
    Usage (from the repository root):
      wolframscript -file provenance/dirac_matrices/extract_repository_wolfram_gammas.wls
 *)
 
-$yRoot = FileNameJoin[{DirectoryName[$InputFileName], "..", ".."}];
+$yRoot = ParentDirectory[DirectoryName[$InputFileName], 2];  (* no '..' segments: shorter paths *)
 $yLoaded = {};
 $yGet[rel_] := Module[{f = FileNameJoin[Prepend[FileNameSplit[rel], $yRoot]]},
   If[!FileExistsQ[f], Print["ERROR: package not found: ", rel]; Exit[1]];
@@ -95,7 +95,7 @@ $yHashes = Association[# -> FileHash[FileNameJoin[Prepend[FileNameSplit[#], $yRo
 $yOut = FileNameJoin[{DirectoryName[$InputFileName], "repository_wolfram_gammas.json"}];
 $yWriteJSON[$yOut, <|
   "producer" -> "provenance/dirac_matrices/extract_repository_wolfram_gammas.wls",
-  "wolfram_version" -> $Version,
+  "wolfram_version" -> StringRiffle[ToString /@ {IntegerPart[$VersionNumber], Round[10 FractionalPart[$VersionNumber]], $ReleaseNumber}, "."],  (* no platform string *)
   "packages_loaded" -> $yLoaded,
   "input_sha256" -> $yHashes,
   "Revision/field_equations_a4/wolfram/FieldEquationsA4.wl" -> $yFE,

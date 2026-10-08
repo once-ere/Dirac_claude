@@ -1,6 +1,6 @@
 {
 	"producer":"provenance\/dirac_matrices\/extract_repository_wolfram_gammas.wls",
-	"wolfram_version":"15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)",
+	"wolfram_version":"15.0.1",
 	"packages_loaded":[
 		"Revision\/field_equations_a4\/wolfram\/FieldEquationsA4.wl",
 		"Revision\/algebra\/wolfram\/RevisionAlgebra.wl",
