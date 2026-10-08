@@ -201,16 +201,35 @@ E4.13 The reference grids of the smeared run m1_L3_N1016_lamm2_T0 are N0 = 120 (
      ground energies equal to 1e-12); the exact and 1e-4 m attempts are skipped because they
      fail at every grid and cost hours at N0 = 120.
 E4.14 (2026-10-08) Two causes of the last cross-check failure, fixed in the code.
-     (a) Eigenvalue tolerance: like E4.12 for the scalars, the tolerance of every level of a
-     run with a Rust _g601 partner (and of the scf run whose levels.csv is byte-identical to
-     that partner's base run: the same ground state) includes the measured Rust y-grid change
-     |eps(601) - eps(301)| OF THAT LEVEL (check_dirac16complex_kohn_sham.py
-     rust_level_grid_uncertainties; tests CheckerLevelUncertaintyTests).  Measured on
-     m1_L3_N1016_lamm2_T0: the deep k = 0 pairs at -1.0537 and -0.9884 deviate from the N0 = 120
-     reference by 2.195e-6 (301 points), 1.83e-7 (601) and 2.6e-8 (1201), order 3.27, so the
-     Rust levels converge to the reference; |601 - 301| <= 2.01e-6.  The check
-     canonical_eigenvalues went from ratio 2.08 (63 checks, 1 failed) to 0.716 (63 checks,
-     0 failed).
+     (a) Eigenvalue tolerance, per member: a Rust grid-refinement family is the run of a base
+     label (301 points) and the runs of the same subcommand with the label suffix _g<n>
+     (check_dirac16complex_kohn_sham.py rust_grid_families).  The tolerance of every level of a
+     member includes that member's OWN estimated y-grid error OF THAT LEVEL, and only its own
+     (member_grid_errors, rust_level_grid_uncertainties): for the 301-point member
+     U = |eps(601) - eps(301)|; for the 601-point member U = |eps(601) - eps(301)| / (2^p - 1),
+     the Richardson estimate of the error of the finer grid, with the order p MEASURED per level
+     from three grids (301/601/1201) when the family has them, otherwise the design order p = 2
+     of the Rust scheme (RUST_GRID_DESIGN_ORDER: the potentials are natural cubic splines,
+     O(h^4) inside but O(h^2) within O(h) of the ends; the smallest order is the conservative
+     choice), so U(601) = |eps(601) - eps(301)| / 3; never larger than the 301-point member's U.
+     A run of another subcommand with the same label whose levels.csv is byte-identical to a
+     member's (the scf run of an excited family: the same ground state) gets that member's U.
+     E4.12 follows the same rule for E_0, mu, the gap, Delta-SCF and the lowest particle-hole
+     energy (rust_grid_uncertainties).  In the first version of this rule (also 2026-10-08) the
+     601-point member got the 301-point member's U through the reference label (fixed after an
+     independent verification; tests CheckerLevelUncertaintyTests, among them the negative control that a
+     601-point deviation of 4.5e-6 beyond its own tolerance is detected, and GridUncertaintyTests).
+     Measured on m1_L3_N1016_lamm2_T0: the deep k = 0 pairs at -1.0537 and -0.9884 deviate from
+     the N0 = 120 reference by 2.195e-6 (301 points), 1.83e-7 (601) and 2.6e-8 (1201), so the
+     Rust levels converge to the reference; |601 - 301| <= 2.01e-6.  A scratch run with the
+     1201-point excited run measured p per level from 1.88 to 5.2 (median 3.6) for the 142 levels
+     whose |601 - 301| exceeds 1e-9 m; |eps(1201) - eps(601)| < |eps(601) - eps(301)| / 3 for all
+     142.  The check canonical_eigenvalues went from ratio 2.08 (63 checks, 1 failed) to 0.716
+     (63 checks, 0 failed; checker 3fb1bb5f...): ratio 0.716 for the 301-point members
+     excited/ and scf/m1_L3_N1016_lamm2_T0 (deviation 2.195e-6, tolerance 3.066e-6), 0.106 for
+     excited/m1_L3_N1016_lamm2_T0_g601 (own U <= 6.71e-7; 0.060 with the old rule), 0.0205 for
+     scf/m1_L3_N112_lamp1_T0, its _g601 member and its excited, thermo and emt runs;
+     canonical_deltaSCF of the _g601 member 0.453 (0.307 with the old rule).
      (b) Reference Delta-SCF: for Fermi-Dirac occupations (T = 0 smearing or T > 0),
      ks_reference_solver.delta_scf builds the constrained occupations of EVERY grid level from
      that level's own ground state, as the Rust scf.rs delta_scf (each Rust run is one grid;

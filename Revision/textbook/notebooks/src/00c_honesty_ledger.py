@@ -928,7 +928,7 @@ CELLS = [
     code(r'''
     LABEL_COLOURS = {"PROVED": "#2a78d6", "COMPUTED": "#eb6834", "ASSUMED": "#1baf7a"}
     widest = max(row_totals)  # the row with the most checks
-    fig, ax = plt.subplots(figsize=(8.6, 9.4))
+    fig, ax = plt.subplots(figsize=(8.6, 9.0))
     rows = np.arange(len(LEDGER))[::-1]  # the first row of the ledger at the top
     for number, row, (statement, label, note, paths), passed, total in zip(
             range(1, len(LEDGER) + 1), rows, LEDGER, row_passed, row_totals):

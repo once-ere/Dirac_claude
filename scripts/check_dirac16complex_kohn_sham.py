@@ -173,8 +173,9 @@ RUST_BASE_GRID_POINTS = 301
 # error (here 1/3 of the measured change).  Measured on 2026-10-08 (excited m1_L3_N1016_lamm2_T0 at 301,
 # 601 and 1201 points, the 142 levels whose 301 -> 601 change exceeds 1e-9 m): p from 1.88 to 5.2, median
 # 3.6; the four levels below 2 (p 1.88-1.89: deep k = 0 levels at eps = -4.18 m and -3.75 m) have a
-# Richardson estimate at most 11% above |X(601) - X(301)| / 3 (8.8e-8 m against 7.9e-8 m), and for all 142
-# the measured |eps(1201) - eps(601)| stays below |eps(601) - eps(301)| / 3 (largest ratio 0.81).
+# Richardson estimate up to 11.4% above |X(601) - X(301)| / 3 (largest absolute excess 8.9e-9 m: 8.80e-8 m
+# against 7.91e-8 m, 0.2% of those levels' fixed tolerance of about 4e-6 m), and for all 142 the measured
+# |eps(1201) - eps(601)| stays below |eps(601) - eps(301)| / 3 (largest ratio 0.81).
 RUST_GRID_DESIGN_ORDER = 2.0
 
 

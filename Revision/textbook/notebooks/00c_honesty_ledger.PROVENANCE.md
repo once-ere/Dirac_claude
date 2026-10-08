@@ -364,7 +364,7 @@ The notebook shows 4 figures, each below the cell that draws it, and saves each 
 
 - `Revision/textbook/figures/00c_1_checks_by_report.png` (1257 x 1211 pixels): The number of checks in each of the 39 verifier reports of the Revision record (horizontal axis, a count; one bar per report, named on the vertical axis and grouped by folder: algebra, theory, field equations for $a_4$, GKD and Lovelock with the comparison with the author's outputs, Kohn-Sham, dark sector, pairing, lead checks). The colour gives the engine: blue Wolfram Language, orange Python, aqua Rust, yellow the lead's independent Python checks. Of the 1208 checks (385 Wolfram Language, 716 Python, 70 Rust and 37 lead checks) 1203 have the verdict PASS and 5 the verdict NOT-AVAILABLE (comparisons with values that the author's notebook does not store); none FAILS. The largest report is wolfram-pairing.json with 101 checks.
 - `Revision/textbook/figures/00c_2_two_verifiers.png` (1214 x 773 pixels): For each of nine subjects of the Revision record (vertical axis), the number of checks of its Wolfram Language verifier (blue, upper bar) and of its independent Python verifier (orange, lower bar); horizontal axis a count. The two verifiers share no code; each also checks statements that the other does not, so the numbers differ. Together they hold 385 Wolfram and 375 Python checks, all PASS.
-- `Revision/textbook/figures/00c_3_ledger.png` (1036 x 1211 pixels): The honesty ledger of the book at a glance: one row per main statement (written above its bar), the length of its bar the number of checks in the reports that verify it (horizontal axis, a count), the colour its label: blue PROVED, orange COMPUTED, aqua ASSUMED. Every check is PASS except five NOT-AVAILABLE comparisons of row 7. The ASSUMED row has 28 checks, which show why the Kohn-Sham history of $a_4$ must be assumed. The last five rows have no bar, because no check of the record establishes them: two hypotheses (a time-varying dark sector, investigated in row 15 but not established; a partner universe of opposite charge) and three open questions (a constant total charge of one universe, which needs an assumed condition at the brane; the creation of universes in pairs, not proved; what produces the excess of matter over antimatter, which the theory as built does not produce).
+- `Revision/textbook/figures/00c_3_ledger.png` (1036 x 1165 pixels): The honesty ledger of the book at a glance: one row per main statement (written above its bar), the length of its bar the number of checks in the reports that verify it (horizontal axis, a count), the colour its label: blue PROVED, orange COMPUTED, aqua ASSUMED. Every check is PASS except five NOT-AVAILABLE comparisons of row 7. The ASSUMED row has 28 checks, which show why the Kohn-Sham history of $a_4$ must be assumed. The last five rows have no bar, because no check of the record establishes them: two hypotheses (a time-varying dark sector, investigated in row 15 but not established; a partner universe of opposite charge) and three open questions (a constant total charge of one universe, which needs an assumed condition at the brane; the creation of universes in pairs, not proved; what produces the excess of matter over antimatter, which the theory as built does not produce).
 - `Revision/textbook/figures/00c_4_fingerprints.png` (913 x 611 pixels): How much a sha256 fingerprint changes when one character of a text changes: for each of the 115 characters of one sentence, the character was replaced by the next one and the number of the 64 hexadecimal characters of the fingerprint that changed was counted; horizontal axis that number (0 to 64), vertical axis how many of the 115 altered sentences gave it. Every change altered between 54 and 64 of the 64 characters, on average 60.03, as for a random string (dotted line at 60): none of the 115 one-character changes left the fingerprint nearly the same.
 
 ## 4. Side effects
@@ -378,7 +378,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/00c.captions.json` | 2705 | `b32c742d773d9a6a3ed8637dff3601b063a172078a6e55c70b55bc042f068b55` |
 | `Revision/textbook/figures/00c_1_checks_by_report.png` | 150243 | `d20e3d6466d8bbd551bcc08f108cc3a4151d12b0359b460ab1098202395304a1` |
 | `Revision/textbook/figures/00c_2_two_verifiers.png` | 70230 | `612d0c153841b9726ad49d976bb8f053259b851dd90ca8024193cb55e472ccdf` |
-| `Revision/textbook/figures/00c_3_ledger.png` | 215716 | `98c10c2286e400c42007054190fe3abbd5534040194ff1f01088376a2c7afc78` |
+| `Revision/textbook/figures/00c_3_ledger.png` | 215142 | `ec4606348c28a1f8759f2840f76ba1a312f1dceb8ef2f1bb70094fd4fe7174fa` |
 | `Revision/textbook/figures/00c_4_fingerprints.png` | 48872 | `7baa35a0d8de0ec7bae6aac8259d8bcd35e1101eafc78adaa867c031dc58c564` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/00c_honesty_ledger.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -415,12 +415,12 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `325893f529f84f7c57b2145e3769e7ede5474ba5f8d75121c335f55ab3a42b7b`
-- `Revision/textbook/notebooks/src/00c_honesty_ledger.py`: `cc379e7114cc2ea9e84d496c4c3faf9820e537d5515913b7bd1450c0f15e25af`
+- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `c0ac105e0c538c3e83c1716e7562a80c9031c80d85a997c402924721aff7b41b`
+- `Revision/textbook/notebooks/src/00c_honesty_ledger.py`: `f6d7d9a7327f23e6a2b753e8eb8e2af549d5dfbb5217a672646d513606883b74`
 - `Revision/textbook/figures/00c.captions.json`: `b32c742d773d9a6a3ed8637dff3601b063a172078a6e55c70b55bc042f068b55`
 - `Revision/textbook/figures/00c_1_checks_by_report.png`: `d20e3d6466d8bbd551bcc08f108cc3a4151d12b0359b460ab1098202395304a1`
 - `Revision/textbook/figures/00c_2_two_verifiers.png`: `612d0c153841b9726ad49d976bb8f053259b851dd90ca8024193cb55e472ccdf`
-- `Revision/textbook/figures/00c_3_ledger.png`: `98c10c2286e400c42007054190fe3abbd5534040194ff1f01088376a2c7afc78`
+- `Revision/textbook/figures/00c_3_ledger.png`: `ec4606348c28a1f8759f2840f76ba1a312f1dceb8ef2f1bb70094fd4fe7174fa`
 - `Revision/textbook/figures/00c_4_fingerprints.png`: `7baa35a0d8de0ec7bae6aac8259d8bcd35e1101eafc78adaa867c031dc58c564`
 
 ## 7. Verification
