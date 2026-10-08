@@ -1014,7 +1014,7 @@ check(np.all(np.diff(space_map, axis=1) > 0) and np.all(np.diff(extra_map, axis=
 
 `np.diff(..., axis=1)` is the difference between neighbouring columns, that is between successive times. The check: at every $z$, the 3-space map increases and the extra-time map decreases from each time to the next.
 
-**What Figure 03a.5 shows.** Left: from left to right the colour turns from grey to deeper and deeper red: 3-space grows at every height $z$. The black line is the factor $1$; left of it, near the tip, the small warp makes the factor smaller than $1$ although $a_4 > 0$. Right: the colour deepens to blue from left to right: the extra times shrink at every $z$, fastest where the warp is small as well.
+**What Figure 03a.5 shows.** Left: from left to right the colour turns from grey to deeper and deeper red: 3-space grows at every height $z$. The black line is the factor $1$; left of it, near the tip, the small warp makes the factor smaller than $1$ although $a_4 > 0$. Right: the colour deepens to blue from left to right: the extra times shrink at every $z$ at the same rate, and their scale factor is smallest near the tip, where the small warp makes it smaller still.
 
 **In [17], proper volumes** (Section 3.6).
 

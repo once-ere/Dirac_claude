@@ -49,7 +49,10 @@ Each squares to the $2 \times 2$ unit matrix, two different ones anticommute, an
 **The metric.** The author's primordial field is the diagonal metric whose entries, in the order $x_1, \dots, x_8$, are
 
 $$
-g = \mathrm{diag}\big(e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ -1,\ -e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ \cot^2 z\big),
+\begin{aligned}
+g = \mathrm{diag}\big(&e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ -1,\\
+&-e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ \cot^2 z\big),
+\end{aligned}
 $$
 
 with $z = 6Hx_8$ between $0$ and $\pi/2$, the author's constant $H > 0$, and a function $a_4(x_4)$ of the time. A **scale factor** is the number by which a coordinate step must be multiplied to give a length: along $x_1$ a step $dx_1$ has the length $e^{a_4}\sin^{1/6}z\,dx_1$ (the square root of the entry). When $a_4$ grows with the time, the 3-space factor $e^{a_4}$ grows (3-space **inflates**) and the extra-time factor $e^{-a_4}$ shrinks exponentially (the extra times **deflate**). The history used in this book is $a_4 = AHx_4$ with $A = 1$ (Section 14.3).
@@ -198,7 +201,7 @@ $$
 \sum_\mu\gamma^\mu\Omega_\mu = 3\cdot\tfrac12 a_4'\gamma^{(x_4)} - 3\cdot\tfrac12 a_4'\gamma^{(x_4)} + 6\cdot\tfrac12 H\gamma^{(x_8)} = 3H\gamma^{(x_8)} .
 $$
 
-Rule: three inflating directions, three deflating directions, six warped directions. **The time-direction pieces of the three inflating directions, $+\tfrac32 a_4'\gamma^{(x_4)}$, and of the three deflating extra times, $-\tfrac32 a_4'\gamma^{(x_4)}$, cancel exactly**, for every history; what survives comes from the warp. Status: PROVED; checks spin_connection_compatibility (the curved gammas are covariantly constant, the proof that this is the right connection), spin_connection_slash_3H, spin_connection_time_terms_cancel and spin_connection_time_term_value of `Revision/kohn_sham/reports/ks-theory-python.json` (the first three also in the Wolfram report). Notebook 14a recomputes all of it with sympy and draws the eight contributions (its figure 3). That the surviving term $3H\gamma^{(x_8)}$ belongs to the diagonal vielbein, and can be removed by a change of frame or of the field, is the scope correction of Chapter 8.
+Rule: three inflating directions, three deflating directions, six warped directions. **The time-direction pieces of the three inflating directions, $+\tfrac32 a_4'\gamma^{(x_4)}$, and of the three deflating extra times, $-\tfrac32 a_4'\gamma^{(x_4)}$, cancel exactly**, for every history; what survives comes from the warp. Status: PROVED; checks `spin_connection_compatibility` (the curved gammas are covariantly constant, the proof that this is the right connection), `spin_connection_slash_3H`, `spin_connection_time_terms_cancel` and `spin_connection_time_term_value` of `Revision/kohn_sham/reports/ks-theory-python.json` (the first three also in the Wolfram report). Notebook 14a recomputes all of it with sympy and draws the eight contributions (its figure 3). That the surviving term $3H\gamma^{(x_8)}$ belongs to the diagonal vielbein, and can be removed by a change of frame or of the field, is the scope correction of Chapter 8.
 
 **Step 6: the factor $W^{-3}$ removes it.** Insert the ansatz $\Psi = e^{i\mathbf k\cdot\mathbf x}W^{-3}\chi(y, x_4)$ into $\gamma^\mu D_\mu\Psi = \sum_\mu\gamma^\mu\partial_\mu\Psi + 3H\gamma^{(x_8)}\Psi$, term by term.
 
@@ -263,7 +266,11 @@ $$
 By Rule 1, $J$ ($p = 3$) commutes with its own three factors and anticommutes with the five other gammas; $K_1$ ($p = 2$) anticommutes with $\gamma^{(x_2)}$, $\gamma^{(x_3)}$ and commutes with the six others; $K_2$ anticommutes with $\gamma^{(x_5)}$, $\gamma^{(x_6)}$ and commutes with the others. A product of gammas commutes with $J$ when it contains an even number of factors that anticommute with $J$. Therefore all three commute with $A_0, A_1, A_4$ (built from $\gamma^{(x_8)}, \gamma^{(x_1)}, \gamma^{(x_4)}$), with $C$ (for $J$ the two anticommuting factors $\gamma^{(x_2)}, \gamma^{(x_3)}$ give two signs, which cancel), with $B = -iC\gamma^{(x_4)}$, and with each other. By Rule 2:
 
 $$
-J^2 = (-1)^3\,\eta_{88}\eta_{11}\eta_{44} = (-1)(1)(1)(-1) = +1, \qquad K_1^2 = (-1)^1\eta_{22}\eta_{33} = -1, \qquad K_2^2 = (-1)^1\eta_{55}\eta_{66} = -1 .
+J^2 = (-1)^3\,\eta_{88}\eta_{11}\eta_{44} = (-1)(1)(1)(-1) = +1,
+$$
+
+$$
+K_1^2 = (-1)^1\eta_{22}\eta_{33} = -1, \qquad K_2^2 = (-1)^1\eta_{55}\eta_{66} = -1 .
 $$
 
 So $J$ has the eigenvalues $j = \pm1$, and $K_1$, $K_2$ have the eigenvalues $is_2$, $is_3$ with $s_2, s_3 = \pm1$ (if $Xu = cu$ for a column $u \ne 0$ and $X^2 = 1$, then $u = X^2u = c^2u$, so $c^2 = 1$; with $X^2 = -1$ the same step gives $c^2 = -1$). Status: PROVED; check blocks_commuting_set.
@@ -1038,7 +1045,7 @@ check(commute and J * J == I16 and K1 * K1 == -I16 and K2 * K2 == -I16
       record=f"{PY_REPORT}, check blocks_commuting_set")
 ```
 
-The matrices of Section 14.5; `commute` tests the 24 commutators of $J, K_1, K_2$ with $A_0, A_1, A_4, B, C, J, K_1, K_2$; the check adds the three squares.
+The matrices of Section 14.5; `commute` tests the 24 commutators of each of $J$, $K_1$, $K_2$ with each of $A_0$, $A_1$, $A_4$, $B$, $C$, $J$, $K_1$, $K_2$; the check adds the three squares.
 
 ```python
 labels = [(j, s2, s3) for j in (1, -1) for s2 in (1, -1) for s3 in (1, -1)]
@@ -3728,7 +3735,7 @@ check(pair_ok and sphere == [0, 0, 0] and record_check("gas_angular_average"),
       record=f"{PY_REPORT}, check gas_angular_average")
 ```
 
-The same for an average over all directions of $\mathbf p$: a direction on the sphere is $(\sin\vartheta\cos\varphi, \sin\vartheta\sin\varphi, \cos\vartheta)$ with the two angles $\vartheta$ and $\varphi$; the average of a function over the sphere is its integral with the area element $\sin\vartheta\,d\varphi\,d\vartheta$ divided by the area $4\pi$. All three components average to 0 (printed in Out [4]), so the part of $G_{\mathbf p}B$ linear in $\mathbf p$ averages away too.
+The same for an average over all directions of $\mathbf p$: a direction on the sphere has the three components $\sin\vartheta\cos\varphi$, $\sin\vartheta\sin\varphi$ and $\cos\vartheta$, with the two angles $\vartheta$ and $\varphi$; the average of a function over the sphere is its integral with the area element $\sin\vartheta\,d\varphi\,d\vartheta$ divided by the area $4\pi$. All three components average to 0 (printed in Out [4]), so the part of $G_{\mathbf p}B$ linear in $\mathbf p$ averages away too.
 
 ```python
 h_0 = M * (-sp.I * g4)  # the p-independent part of h_p
@@ -4173,33 +4180,33 @@ The four figure files must exist; the last line prints ALL 16 CHECKS PASSED (not
 
 | statement | section | record checks | notebook |
 | --- | --- | --- | --- |
-| the hidden coordinate, the warped form, the volume factor $e^{6Hy}$ without $a_4$ | 14.2 | geometry_hidden_coordinate and geometry_sqrt_det (both), geometry_warped_form | 14a |
-| $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ along every history; the pieces of the inflating and the deflating directions cancel | 14.4 | spin_connection_compatibility, spin_connection_slash_3H, spin_connection_time_terms_cancel (both), spin_connection_time_term_value | 14a |
-| the factor $W^{-3}$ removes the spin connection; the Hamiltonian is Hermitian | 14.4 | ansatz_removes_spin_connection, ansatz_without_W3_term_survives, hamiltonian_16_hermitian (both) | 14a |
-| eight blocks of two components, two block types, the block forms and the block Hamiltonian | 14.5 | blocks_commuting_set, blocks_basis_unitary, blocks_forms, block_hamiltonian, block_ode_equivalent, block_type_relation (both), blocks_projectors, blocks_not_everything_block_diagonal | 14a |
-| the chirality matrix $\Gamma$ pairs the block types and reverses the mass | 14.6 | blocks_relation_to_Gamma, block_Gamma_map (both) | 14a |
-| the levels depend only on the length of the 3-momentum | 14.6 | rotation_invariance (both) | 14a |
-| the exact rescaling identity between the slices | 14.7 | rescaling_identity (both) | 14a, 14c |
-| the real form, the boundary term, the mirror map and the parities, the tip family, the constant current, the suppression at the tip | 14.12 | bc_mirror_map_PA, bc_mirror_parities_of_densities, bc_brane_parity_conditions, bc_self_adjoint_boundary_term, bc_tip_family, bc_current_conserved_along_y, bc_tip_asymptotics (all both) | 14b |
-| the exact free levels at zero 3-momentum, the zero mode and the gap | 14.13 | bc_exact_k0_spectra (both) | 14b |
+| the hidden coordinate, the warped form, the volume factor $e^{6Hy}$ without $a_4$ | 14.2 | `geometry_hidden_coordinate` and `geometry_sqrt_det` (both), `geometry_warped_form` | 14a |
+| $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ along every history; the pieces of the inflating and the deflating directions cancel | 14.4 | `spin_connection_compatibility`, `spin_connection_slash_3H`, `spin_connection_time_terms_cancel` (both), `spin_connection_time_term_value` | 14a |
+| the factor $W^{-3}$ removes the spin connection; the Hamiltonian is Hermitian | 14.4 | `ansatz_removes_spin_connection`, `ansatz_without_W3_term_survives`, `hamiltonian_16_hermitian` (both) | 14a |
+| eight blocks of two components, two block types, the block forms and the block Hamiltonian | 14.5 | `blocks_commuting_set`, `blocks_basis_unitary`, `blocks_forms`, `block_hamiltonian`, `block_ode_equivalent`, `block_type_relation` (both), `blocks_projectors`, `blocks_not_everything_block_diagonal` | 14a |
+| the chirality matrix $\Gamma$ pairs the block types and reverses the mass | 14.6 | `blocks_relation_to_Gamma`, `block_Gamma_map` (both) | 14a |
+| the levels depend only on the length of the 3-momentum | 14.6 | `rotation_invariance` (both) | 14a |
+| the exact rescaling identity between the slices | 14.7 | `rescaling_identity` (both) | 14a, 14c |
+| the real form, the boundary term, the mirror map and the parities, the tip family, the constant current, the suppression at the tip | 14.12 | `bc_mirror_map_PA`, `bc_mirror_parities_of_densities`, `bc_brane_parity_conditions`, `bc_self_adjoint_boundary_term`, `bc_tip_family`, `bc_current_conserved_along_y`, `bc_tip_asymptotics` (all both) | 14b |
+| the exact free levels at zero 3-momentum, the zero mode and the gap | 14.13 | `bc_exact_k0_spectra` (both) | 14b |
 | the equation of the Pruefer angle; the shooting function grows with the energy; one level per label | 14.14 | derived in Section 14.14 | 14b |
-| the slope of the brane band; the band is odd in $k$ | 14.19 | brane_band_slope (both) | 14c |
-| $h_{\mathbf p}^2 = E^2$; $\rho = (nB + SC)/16$; Wick's rule; the exact local exchange; the ratio $-1/8$ | 14.26 | gas_mode_projector, gas_angular_average, gas_densities, exchange_uniform_gas (both), gas_negative_energy_modes, hf_wick_contraction, filled_shell_ratio | 14d |
-| the Kohn-Sham potentials; the Lagrangian on shell | 14.27 | ks_potentials, ks_onshell_lagrangian (both) | 14d |
-| the exact Fock exchange of the closed-shell states and the term $+\tfrac{\lambda}{32}Q^2$ that the functional omits | 14.27 | exchange_slab_exact_fock (both) | 14d |
+| the slope of the brane band; the band is odd in $k$ | 14.19 | `brane_band_slope` (both) | 14c |
+| $h_{\mathbf p}^2 = E^2$; $\rho = (nB + SC)/16$; Wick's rule; the exact local exchange; the ratio $-1/8$ | 14.26 | `gas_mode_projector`, `gas_angular_average`, `gas_densities`, `exchange_uniform_gas` (both), `gas_negative_energy_modes`, `hf_wick_contraction`, `filled_shell_ratio` | 14d |
+| the Kohn-Sham potentials; the Lagrangian on shell | 14.27 | `ks_potentials`, `ks_onshell_lagrangian` (both) | 14d |
+| the exact Fock exchange of the closed-shell states and the term $+\tfrac{\lambda}{32}Q^2$ that the functional omits | 14.27 | `exchange_slab_exact_fock` (both) | 14d |
 
 **COMPUTED** (numerical, with the record that holds the numbers and their measured accuracy):
 
 | result | record | accuracy | notebook |
 | --- | --- | --- | --- |
-| the 54 free levels at $k = 0$ by RK4 shooting | `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`; check free_k0_analytic_spectra of `Revision/kohn_sham/reports/ks-rust-solver.json` | within $5\times10^{-9}$ below $4m$, $3.2\times10^{-7}$ above | 14b |
-| fourth-order convergence | check refined_free_spectra_convergence_order of `Revision/kohn_sham/reports/ks-rust-determinism.json` | median error ratio 16.00 over 39 levels | 14b |
+| the 54 free levels at $k = 0$ by RK4 shooting | `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`; check `free_k0_analytic_spectra` of `Revision/kohn_sham/reports/ks-rust-solver.json` | within $5\times10^{-9}$ below $4m$, $3.2\times10^{-7}$ above | 14b |
+| fourth-order convergence | check `refined_free_spectra_convergence_order` of `Revision/kohn_sham/reports/ks-rust-determinism.json` | median error ratio 16.00 over 39 levels | 14b |
 | the brane band and three other levels for $k$ from 0 to 4 | `Revision/kohn_sham/results/spectrum/brane-band.csv` | reproduced to $10^{-11}$ | 14c |
-| the numerical slope $c\,e^{-a_{4,0}}$ at five slices | `brane-band-slope.csv` in the same folder; check free_brane_band_slope | $1.87\times10^{-12}$ relative | 14c |
-| the rescaling identity solved as two separate problems | `Revision/kohn_sham/results/rescaling/rescaling.csv`; checks rescaling_identity_between_slices and rescaling_identity_energy_profiles | levels to $1.5\times10^{-13}$, energies and profiles to $3.3\times10^{-13}$ | 14a (the partner parameters) |
+| the numerical slope $c\,e^{-a_{4,0}}$ at five slices | `brane-band-slope.csv` in the same folder; check `free_brane_band_slope` | $1.87\times10^{-12}$ relative | 14c |
+| the rescaling identity solved as two separate problems | `Revision/kohn_sham/results/rescaling/rescaling.csv`; checks `rescaling_identity_between_slices` and `rescaling_identity_energy_profiles` | levels to $1.5\times10^{-13}$, energies and profiles to $3.3\times10^{-13}$ | 14a (the partner parameters) |
 | the gap of the free $N = 8$ state, $0.4307$ to $0.0642\,m$ along the history | `closed-shells.csv` (spectrum folder) | reproduced to $10^{-11}$ | 14c |
-| the band does not feel the tip for $k \ne 0$ | `tip-angle.csv` (spectrum folder); check free_tip_angle_insensitivity | shifts below the suppression factor | 14c |
-| the particle labels, the closed shells, the bulk edge and $N = 8, 136, 688$ | check free_particle_branch_labels; `closed-shells.csv`; `Revision/kohn_sham/results/parameters.json` | exact agreement of the shells; energies to $10^{-11}$ | 14c |
+| the band does not feel the tip for $k \ne 0$ | `tip-angle.csv` (spectrum folder); check `free_tip_angle_insensitivity` | shifts below the suppression factor | 14c |
+| the particle labels, the closed shells, the bulk edge and $N = 8, 136, 688$ | check `free_particle_branch_labels`; `closed-shells.csv`; `Revision/kohn_sham/results/parameters.json` | exact agreement of the shells; energies to $10^{-11}$ | 14c |
 | the state $N = 8$: $n_{\max} = 82.2208638894$, $\lambda_1 = 0.01946$, $\lambda_2 = 0.05838$, exact-Fock energy 0 | `Revision/kohn_sham/results/ground/summary.csv`; `parameters.json`; `Revision/kohn_sham/results/exx/exact-fock-variant.csv` | $10^{-9}$ relative; energies below $10^{-12}$ | 14d |
 
 **ASSUMED** (starting points that this chapter does not derive):

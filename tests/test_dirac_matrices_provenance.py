@@ -1,24 +1,52 @@
 """The provenance file `provenance/dirac matrices.md` is correct and up to date.
 
-Run from the repository root:
+Run from the repository root (`python3` instead of `python` on macOS and Linux outside a virtual environment):
     python -m unittest discover -s tests -p "test_dirac_matrices_provenance.py" -v
-Runs provenance/dirac_matrices/build_dirac_matrices_md.py --check (every exact check on the author's
-eight real 16 x 16 Dirac matrices and on every other copy of them in the repository, then a comparison
-with the committed Markdown); writes nothing.
+Runs provenance/dirac_matrices/build_dirac_matrices_md.py --check (every exact check on the author's eight real
+16 x 16 Dirac matrices and on every gamma source of the repository, then a byte-for-byte comparison with the
+committed Markdown), checks that the comparison is byte-exact, that wrong matrices give FAIL lines and no
+traceback (on a corrupted copy of the extracted JSON in a temporary folder), and that the survey of the files
+that name a gamma source is printed only.  Writes nothing in the repository (the test runner itself may write
+tests/__pycache__/ unless PYTHONDONTWRITEBYTECODE=1).
 """
 
+import contextlib
+import importlib.util
+import io
+import json
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILDER = ROOT / "provenance" / "dirac_matrices" / "build_dirac_matrices_md.py"
 MD = ROOT / "provenance" / "dirac matrices.md"
-N_CHECKS = 58
+N_CHECKS = 65
 # 8 Dirac matrices + sigma16 and T16A[8] + 28 pairwise products + the 256-product listing
 # + 7 projection blocks (P_L, P_R, Q_+, Q_-, Im B, Im Pi_+, Im Pi_-)
 N_TEXT_BLOCKS = 8 + 2 + 28 + 1 + 7
+
+
+def load_builder():
+    """A fresh copy of the builder module (its own check registry); importing it runs nothing."""
+    spec = importlib.util.spec_from_file_location("build_dirac_matrices_md_under_test", BUILDER)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def run_main(module, *args):
+    """module.main() with the given arguments; returns (exit code, printed text)."""
+    out, argv = io.StringIO(), sys.argv
+    sys.argv = [str(BUILDER), *args]
+    try:
+        with contextlib.redirect_stdout(out):
+            code = module.main()
+    finally:
+        sys.argv = argv
+    return code, out.getvalue()
 
 
 class DiracMatricesProvenance(unittest.TestCase):
@@ -28,6 +56,39 @@ class DiracMatricesProvenance(unittest.TestCase):
         self.assertEqual(run.returncode, 0, run.stdout + run.stderr)
         self.assertIn(f"{N_CHECKS} of {N_CHECKS} checks pass", run.stdout)
         self.assertIn("is up to date", run.stdout)
+        self.assertNotIn("FAIL", run.stdout)
+
+    def test_check_compares_bytes(self):
+        builder = load_builder()
+        text = MD.read_bytes().decode("utf-8")
+        with tempfile.TemporaryDirectory() as tmp:
+            copy = Path(tmp) / "copy.md"
+            copy.write_bytes(text.encode("utf-8"))
+            self.assertTrue(builder.same_bytes(copy, text))
+            copy.write_bytes(text.replace("\n", "\r\n").encode("utf-8"))
+            self.assertFalse(builder.same_bytes(copy, text), "CRLF line endings must make --check fail")
+            self.assertFalse(builder.same_bytes(Path(tmp) / "missing.md", text))
+
+    def test_wrong_matrices_give_fail_lines_and_no_traceback(self):
+        builder = load_builder()
+        data = json.loads(builder.NB_JSON.read_text(encoding="utf-8"))
+        row = data["T16A"][1][0]
+        j = next(k for k, x in enumerate(row) if x)
+        row[j] = 2  # Gamma_1 is then neither Clifford nor a signed permutation
+        with tempfile.TemporaryDirectory() as tmp:
+            bad = Path(tmp) / "author_notebook_T16.json"
+            bad.write_text(json.dumps(data), encoding="utf-8")
+            builder.NB_JSON = bad
+            builder.OUT = Path(tmp) / "never written.md"
+            code, text = run_main(builder)
+            self.assertFalse(builder.OUT.exists())
+        self.assertEqual(code, 1, text)
+        self.assertIn("FAIL clifford_anticommutation:", text)
+        self.assertIn("FAIL real_integer_entries:", text)
+        self.assertIn("checks FAILED", text)
+        self.assertNotIn("Traceback", text)
+        # the later groups still ran and reported
+        self.assertIn("FAIL fixture_Revision_algebra_gammas_json", text)
 
     def test_matrices_come_from_the_author_notebook_in_the_authors_order(self):
         text = MD.read_text(encoding="utf-8")
@@ -42,15 +103,27 @@ class DiracMatricesProvenance(unittest.TestCase):
     def test_document_does_not_depend_on_a_directory_listing(self):
         text = MD.read_text(encoding="utf-8")
         self.assertNotIn("Files that read `gammas.json` (", text)
-        run = subprocess.run([sys.executable, str(BUILDER), "--list-consumers"], cwd=ROOT,
+        run = subprocess.run([sys.executable, str(BUILDER), "--survey"], cwd=ROOT,
                              capture_output=True, text=True, timeout=300)
         self.assertEqual(run.returncode, 0, run.stdout + run.stderr)
-        self.assertIn("mention gammas.json", run.stdout)
+        self.assertIn("files that mention gammas.json (", run.stdout)
+        self.assertIn("Printed only", run.stdout)
 
     def test_scaled_commutators_claim_is_not_overstated(self):
         text = MD.read_text(encoding="utf-8")
         self.assertIn("generate exactly the identity component Spin_0(4,4), not all of Pin(4,4)", text)
         self.assertNotIn("(A < B): the scaled commutators", text)
+
+    def test_answer_states_the_measured_truth_about_the_a4_engine(self):
+        text = MD.read_text(encoding="utf-8")
+        answer = text.split("## Answer in one paragraph", 1)[1].split("## How to reproduce", 1)[0]
+        followed = "**Instruction followed: yes.**" in answer
+        partly = "**Instruction followed: not completely.**" in answer
+        self.assertTrue(followed != partly, "exactly one verdict")
+        self.assertIn("FieldEquationsA4.wl", answer)
+        if partly:
+            self.assertIn("NOT the author's T16", answer)
+            self.assertIn("Revision/SPEC.md section 2", answer)
 
 
 if __name__ == "__main__":

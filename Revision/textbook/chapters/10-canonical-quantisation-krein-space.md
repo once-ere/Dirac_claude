@@ -5271,7 +5271,7 @@ check_record(block_eigenvalues == {m: 16, -m: 16},
                     "Q.no_cancellation_independent_universes")
 ```
 
-At zero momentum (every momentum letter replaced by 0) the exact block generator $\mathrm{diag}(Bh'_m, Bh'_{-m})$ is assembled from its two $16 \times 16$ blocks by the function `sp.diag`. The method `eigenvals` returns its exact eigenvalues, each with its multiplicity. The printed line shows $+m$ 16 times and $-m$ 16 times, 2 different values, as Section 10.44 derived; the check reproduces the record check `Q.no_cancellation_independent_universes`.
+At zero momentum (every momentum letter replaced by 0) the function `sp.diag` assembles the exact block generator $\mathrm{diag}(Bh'_m, Bh'_{-m})$ from its two $16 \times 16$ blocks, and the method `eigenvals` returns its exact eigenvalues, each with its multiplicity. The printed line shows $+m$ 16 times and $-m$ 16 times (2 different values), as Section 10.44 derived. The check reproduces the record check `Q.no_cancellation_independent_universes` of the sympy pairing report.
 
 ```python
 def block_numbers(mass, k1):

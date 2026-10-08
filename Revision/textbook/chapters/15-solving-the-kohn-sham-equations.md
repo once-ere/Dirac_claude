@@ -1937,7 +1937,7 @@ check(count >= len(lists) and inside == 0,
       record=f"{RECORD_RESULTS}/excited/particle-hole, column same_sector")
 ```
 
-The three checks pass. The meaning of the third: the exact evolution along the history keeps the momentum, the block type and the parity of every orbital (Section 15.21), so the motion of the background alone cannot create any of the 1610 excitations; it can only cause jumps inside a sector, and those cost at least $1.488\,m$.
+The three checks pass. The meaning of the third: the exact evolution along the history keeps the momentum, the block type and the parity of every orbital (Section 15.21), so the motion of the background alone cannot create any of the 1610 excitations; it can only cause jumps inside a sector, and the jump with the largest $Q$ costs between $1.488\,m$ and $2.253\,m$.
 
 **In [16], the last check.** The same as In [15] of Notebook 15e (Section 15.9) with the eight figure names of this notebook; it prints PASS every figure file of this notebook exists and ALL 25 CHECKS PASSED (notebook 15a).
 
@@ -2637,7 +2637,7 @@ $$
 i\,\frac{\partial\chi}{\partial x_4} = h\big(a_4(x_4)\big)\,\chi, \qquad h_j = j\Big[-i\sigma_1\frac{d}{dy} + M\sigma_2 + \kappa k\sigma_3\Big] + v, \qquad \kappa = e^{-Hy - a_4(x_4)} .
 $$
 
-At every instant $h$ acts within one block, at one 3-momentum, and keeps the brane condition; so the evolution never moves a particle to another momentum, block type or parity. **Transitions are possible only inside a sector**, between the levels of one $(n_2, j, \text{parity})$. Notebook 15a showed that all low-lying excitations of the gas change the sector (Section 15.15); the in-sector jumps cost much more, at least $1.488\,m$.
+At every instant $h$ acts within one block, at one 3-momentum, and keeps the brane condition; so the evolution never moves a particle to another momentum, block type or parity. **Transitions are possible only inside a sector**, between the levels of one $(n_2, j, \text{parity})$. Notebook 15a showed that each of the lowest particle-hole excitations of the gas (up to 24 per state, 1610 in all) changes the sector (Section 15.15); the in-sector jumps are much more expensive: the one with the largest $Q$ costs between $1.488\,m$ and $2.253\,m$ in the 50 states that have one (all but the 25 states with $N = 8$).
 
 **Where the measure $Q$ comes from, line by line.** Expand the evolving orbital in the instantaneous orbitals $\phi_m$, with $h\,\phi_m = \varepsilon_m\phi_m$ at every instant, as $\chi = \sum_m c_m(x_4)\,e^{-i\theta_m}\phi_m$ with the phases $\theta_m = \int^{x_4}\varepsilon_m\,dx_4$; a dot means $d/dx_4$.
 

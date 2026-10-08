@@ -185,7 +185,19 @@ $$
 \text{average of }E - E(t_0) = \tfrac12E''\cdot(\text{average of }s^2) = -(\text{average of }s^2) .
 $$
 
-With $s = wu$, where $u$ runs from $-1$ to $1$, the average of $s^2$ is $w^2$ times $c = \int_{-1}^1u^2\cos^2(\pi u/2)\,du\big/\int_{-1}^1\cos^2(\pi u/2)\,du$. Using $\cos^2(\pi u/2) = \tfrac12(1 + \cos\pi u)$ (the double-angle formula): the denominator is $\int_{-1}^1\tfrac12(1 + \cos\pi u)\,du = 1$ (the cosine integrates to $[\sin\pi u/\pi]_{-1}^1 = 0$). The numerator is $\tfrac12\int_{-1}^1u^2\,du + \tfrac12\int_{-1}^1u^2\cos\pi u\,du = \tfrac13 + \tfrac12\cdot\big(-\tfrac{4}{\pi^2}\big)$, where the last integral follows from two integrations by parts ($\int_{-1}^1u^2\cos\pi u\,du = -\tfrac{2}{\pi}\int_{-1}^1u\sin\pi u\,du = -\tfrac{2}{\pi}\cdot\tfrac{2}{\pi}$). So
+With $s = wu$, where $u$ runs from $-1$ to $1$, the average of $s^2$ is $w^2$ times the number
+
+$$
+c = \frac{\int_{-1}^1u^2\cos^2(\pi u/2)\,du}{\int_{-1}^1\cos^2(\pi u/2)\,du} .
+$$
+
+Using $\cos^2(\pi u/2) = \tfrac12(1 + \cos\pi u)$ (the double-angle formula), the denominator is $\int_{-1}^1\tfrac12(1 + \cos\pi u)\,du = 1$ (the cosine integrates to $[\sin\pi u/\pi]_{-1}^1 = 0$). The numerator is
+
+$$
+\tfrac12\int_{-1}^1u^2\,du + \tfrac12\int_{-1}^1u^2\cos\pi u\,du = \tfrac13 + \tfrac12\cdot\Big(-\frac{4}{\pi^2}\Big) ,
+$$
+
+where the last integral follows from two integrations by parts: $\int_{-1}^1u^2\cos\pi u\,du = -\tfrac{2}{\pi}\int_{-1}^1u\sin\pi u\,du$ and $\int_{-1}^1u\sin\pi u\,du = \tfrac{2}{\pi}$. So
 
 $$
 \text{average of }E - E(t_0) = -\Big(\frac13 - \frac{2}{\pi^2}\Big)w^2 = -0.130691\,w^2 ,
@@ -2297,7 +2309,7 @@ $$
 \sqrt{|g|} = f_1f_2f_3\cdot f_4\cdot f_5f_6f_7\cdot f_8 = e^{3a_4}\sin^{1/2}z\cdot1\cdot e^{-3a_4}\sin^{1/2}z\cdot\frac{\cos z}{\sin z} = \cos z
 $$
 
-(insert the factors; $e^{3a_4}e^{-3a_4} = 1$; $\sin^{1/2}z\sin^{1/2}z = \sin z$ cancels against $1/\sin z$). It does not depend on the time: the inflation $e^{3a_4}$ of 3-space and the deflation $e^{-3a_4}$ of the extra times compensate exactly (PROVED; `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`; `Revision/theory/reports/wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z`).
+(insert the factors; $e^{3a_4}e^{-3a_4} = 1$; $\sin^{1/2}z\sin^{1/2}z = \sin z$ cancels against $1/\sin z$). It does not depend on the time: the inflation $e^{3a_4}$ of 3-space and the deflation $e^{-3a_4}$ of the extra times compensate exactly (PROVED; Notebook 07b, In [4]; the table at the end of this section names the Revision checks of this and the following statements).
 
 **Exact bookkeeping with five symbols.** Notebook 07b writes every coefficient with the symbols $E = e^{a_4}$, $s = \sin^{1/6}z$, $c = \cos z$, $A_1 = a_4'$, $A_2 = a_4''$, $A_3 = a_4'''$, and $H$, $m$, $\lambda$ (a prime is $d/dx_4$). Then $f_{1,2,3} = Es$, $f_{5,6,7} = s/E$ and $f_8 = c/s^6$ (because $\sin z = s^6$). Their derivatives follow from the chain rule: $\partial_4E = EA_1$; $\partial_8s = \tfrac16\sin^{-5/6}z\cdot\cos z\cdot6H = Hc/s^5$ (the power rule, the derivative $\cos z$ of $\sin z$, then $dz/dx_8 = 6H$); $\partial_8c = -\sin z\cdot6H = -6Hs^6$; nothing depends on $x_1, x_2, x_3, x_5, x_6, x_7$. Because $\cos^2z + \sin^2z = 1$, the symbols obey $c^2 = 1 - s^{12}$; replacing $c^2$ by $1 - s^{12}$ decides exactly whether an expression is zero.
 
@@ -2309,7 +2321,7 @@ $$
 \Gamma^\lambda{}_{\mu\nu} = \frac{1}{2g_{\lambda\lambda}}\big(\delta_{\lambda\nu}\,\partial_\mu g_{\lambda\lambda} + \delta_{\lambda\mu}\,\partial_\nu g_{\lambda\lambda} - \delta_{\mu\nu}\,\partial_\lambda g_{\mu\mu}\big) .
 $$
 
-Four examples, each in one line. $\Gamma^{x_1}{}_{x_1x_4} = \partial_4g_{11}/(2g_{11}) = \partial_4(E^2s^2)/(2E^2s^2) = 2E^2A_1s^2/(2E^2s^2) = a_4'$: 3-space stretches at the rate $a_4'$. $\Gamma^{x_5}{}_{x_4x_5} = \partial_4g_{55}/(2g_{55})$ with $g_{55} = -s^2/E^2$, and $\partial_4(-s^2E^{-2}) = 2s^2E^{-2}A_1$, so $\Gamma^{x_5}{}_{x_4x_5} = 2s^2E^{-2}A_1/(-2s^2E^{-2}) = -a_4'$: the extra times shrink at the same rate. $\Gamma^{x_1}{}_{x_1x_8} = \partial_8(E^2s^2)/(2E^2s^2) = \partial_8s/s = Hc/s^6 = H\cot z$. $\Gamma^{x_8}{}_{x_8x_8} = \tfrac12\partial_8\ln g_{88}$ with $g_{88} = c^2/s^{12}$, so $\tfrac12\big(2\partial_8c/c - 12\,\partial_8s/s\big) = -6Hs^6/c - 6Hc/s^6 = -6H(s^{12} + c^2)/(cs^6) = -6H/(\sin z\cos z)$. The metric has 25 independent nonzero Christoffel symbols (COMPUTED exactly by Notebook 07b, In [7]; `python-field-theory.json`, check `christoffel_symmetric_metric_compatible`, and the formula record `Revision/theory/field-theory.json`, key `christoffel_nonzero`).
+Four examples, each in one line. $\Gamma^{x_1}{}_{x_1x_4} = \partial_4g_{11}/(2g_{11}) = \partial_4(E^2s^2)/(2E^2s^2) = 2E^2A_1s^2/(2E^2s^2) = a_4'$: 3-space stretches at the rate $a_4'$. $\Gamma^{x_5}{}_{x_4x_5} = \partial_4g_{55}/(2g_{55})$ with $g_{55} = -s^2/E^2$, and $\partial_4(-s^2E^{-2}) = 2s^2E^{-2}A_1$, so $\Gamma^{x_5}{}_{x_4x_5} = 2s^2E^{-2}A_1/(-2s^2E^{-2}) = -a_4'$: the extra times shrink at the same rate. $\Gamma^{x_1}{}_{x_1x_8} = \partial_8(E^2s^2)/(2E^2s^2) = \partial_8s/s = Hc/s^6 = H\cot z$. $\Gamma^{x_8}{}_{x_8x_8} = \tfrac12\partial_8\ln g_{88}$ with $g_{88} = c^2/s^{12}$, so $\tfrac12\big(2\partial_8c/c - 12\,\partial_8s/s\big) = -6Hs^6/c - 6Hc/s^6 = -6H(s^{12} + c^2)/(cs^6) = -6H/(\sin z\cos z)$. The metric has 25 independent nonzero Christoffel symbols (COMPUTED exactly by Notebook 07b, In [7], and compared there with the formula record `Revision/theory/field-theory.json`).
 
 **Why a spinor needs a connection.** The 16 components of a spinor are measured in the local frame. Because the frame turns from point to point (that is what the Christoffel symbols describe), the plain derivative $\partial_\mu\Psi$ compares components measured in two different frames, and an equation built from it would depend on the arbitrary choice of frames. The **canonical spin connection** $\omega_\mu{}^a{}_b$ records how the frame turns; it is fixed by the **vielbein postulate** $\partial_\mu e^a{}_\nu - \Gamma^\lambda{}_{\mu\nu}e^a{}_\lambda + \omega_\mu{}^a{}_b\,e^b{}_\nu = 0$ (the frame is carried along consistently with the metric). For the diagonal frame its solution is
 
@@ -2317,10 +2329,13 @@ $$
 \omega_\mu{}^a{}_b = f_a\Big(\delta_{ab}\,\partial_\mu\frac{1}{f_b} + \frac{\Gamma^a{}_{\mu b}}{f_b}\Big),\qquad \omega_{\mu ab} = \eta_{aa}\,\omega_\mu{}^a{}_b ,
 $$
 
-and the lowered $\omega_{\mu ab}$ is antisymmetric in $a, b$. For $a \neq b$ it is $\eta_{aa}f_a\Gamma^a{}_{\mu b}/f_b$. Two examples: $\omega_{x_1(x_1)(x_4)} = (+1)\cdot Es\cdot a_4'/1 = a_4'e^{a_4}\sin^{1/6}z$, and $\omega_{x_5(x_4)(x_5)} = (-1)\cdot1\cdot\Gamma^{x_4}{}_{x_5x_5}/f_5$ with $\Gamma^{x_4}{}_{x_5x_5} = -\partial_4g_{55}/(2g_{44}) = s^2A_1/E^2$, which gives $-(s^2A_1/E^2)/(s/E) = -a_4'e^{-a_4}\sin^{1/6}z$. Exactly 12 components with $a < b$ are nonzero (COMPUTED exactly by Notebook 07b, In [8]; `wolfram-field-theory.json`, check `omega_components`; `python-field-theory.json`, check `vielbein_postulate`):
+and the lowered $\omega_{\mu ab}$ is antisymmetric in $a, b$. For $a \neq b$ it is $\eta_{aa}f_a\Gamma^a{}_{\mu b}/f_b$. Two examples: $\omega_{x_1(x_1)(x_4)} = (+1)\cdot Es\cdot a_4'/1 = a_4'e^{a_4}\sin^{1/6}z$, and $\omega_{x_5(x_4)(x_5)} = (-1)\cdot1\cdot\Gamma^{x_4}{}_{x_5x_5}/f_5$ with $\Gamma^{x_4}{}_{x_5x_5} = -\partial_4g_{55}/(2g_{44}) = s^2A_1/E^2$, which gives $-(s^2A_1/E^2)/(s/E) = -a_4'e^{-a_4}\sin^{1/6}z$. Exactly 12 components with $a < b$ are nonzero (COMPUTED exactly by Notebook 07b, In [8]):
 
 $$
-\omega_{x_i(x_i)(x_4)} = a_4'e^{a_4}\sin^{1/6}z,\quad \omega_{x_i(x_i)(x_8)} = He^{a_4}\sin^{1/6}z,\quad \omega_{x_t(x_4)(x_t)} = -a_4'e^{-a_4}\sin^{1/6}z,\quad \omega_{x_t(x_t)(x_8)} = -He^{-a_4}\sin^{1/6}z ,
+\begin{aligned}
+\omega_{x_i(x_i)(x_4)} &= a_4'e^{a_4}\sin^{1/6}z, & \omega_{x_i(x_i)(x_8)} &= He^{a_4}\sin^{1/6}z, \\
+\omega_{x_t(x_4)(x_t)} &= -a_4'e^{-a_4}\sin^{1/6}z, & \omega_{x_t(x_t)(x_8)} &= -He^{-a_4}\sin^{1/6}z ,
+\end{aligned}
 $$
 
 for $i = 1, 2, 3$ and $t = 5, 6, 7$. Each is $a_4'$ or $H$ times a factor that never vanishes for $0 < z < \pi/2$.
@@ -2340,7 +2355,10 @@ $$
 In the author's metric $\Omega_{x_4} = \Omega_{x_8} = 0$, and for $i = 1, 2, 3$ and $t = 5, 6, 7$:
 
 $$
-\Omega_{x_i} = \tfrac12e^{a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(x_i)}\gamma^{(x_4)} + H\gamma^{(x_i)}\gamma^{(x_8)}\big),\qquad \Omega_{x_t} = -\tfrac12e^{-a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(x_4)}\gamma^{(x_t)} + H\gamma^{(x_t)}\gamma^{(x_8)}\big) .
+\begin{aligned}
+\Omega_{x_i} &= \tfrac12e^{a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(x_i)}\gamma^{(x_4)} + H\gamma^{(x_i)}\gamma^{(x_8)}\big), \\
+\Omega_{x_t} &= -\tfrac12e^{-a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(x_4)}\gamma^{(x_t)} + H\gamma^{(x_t)}\gamma^{(x_8)}\big) .
+\end{aligned}
 $$
 
 **The term $\gamma^\mu\Omega_\mu$, direction by direction.** The field equation will contain the matrix $\gamma^\mu\Omega_\mu$ (summed over $\mu$). For an inflating direction $x_i$:
@@ -2352,7 +2370,10 @@ $$
 (the frame factors cancel; then $\gamma^{(x_i)}\gamma^{(x_i)} = \eta_{ii} = +1$). For a deflating extra time $x_t$:
 
 $$
-\gamma^{x_t}\Omega_{x_t} = \frac{\gamma^{(x_t)}}{e^{-a_4}\sin^{1/6}z}\cdot\Big(-\tfrac12e^{-a_4}\sin^{1/6}z\Big)\big(a_4'\gamma^{(x_4)}\gamma^{(x_t)} + H\gamma^{(x_t)}\gamma^{(x_8)}\big) = -\tfrac12\big(a_4'\gamma^{(x_t)}\gamma^{(x_4)}\gamma^{(x_t)} + H\gamma^{(x_t)}\gamma^{(x_t)}\gamma^{(x_8)}\big)
+\begin{aligned}
+\gamma^{x_t}\Omega_{x_t} &= \frac{\gamma^{(x_t)}}{e^{-a_4}\sin^{1/6}z}\cdot\Big(-\tfrac12e^{-a_4}\sin^{1/6}z\Big)\big(a_4'\gamma^{(x_4)}\gamma^{(x_t)} + H\gamma^{(x_t)}\gamma^{(x_8)}\big) \\
+&= -\tfrac12\big(a_4'\gamma^{(x_t)}\gamma^{(x_4)}\gamma^{(x_t)} + H\gamma^{(x_t)}\gamma^{(x_t)}\gamma^{(x_8)}\big)
+\end{aligned}
 $$
 
 (the frame factors cancel), and $\gamma^{(x_t)}\gamma^{(x_4)}\gamma^{(x_t)} = -\gamma^{(x_4)}\gamma^{(x_t)}\gamma^{(x_t)} = -\gamma^{(x_4)}\cdot(-1) = \gamma^{(x_4)}$ (exchange two different gammas, then $\gamma^{(x_t)}\gamma^{(x_t)} = \eta_{tt} = -1$), and $\gamma^{(x_t)}\gamma^{(x_t)}\gamma^{(x_8)} = -\gamma^{(x_8)}$; so
@@ -2367,15 +2388,25 @@ $$
 \gamma^\mu\Omega_\mu = 3\cdot\tfrac12a_4'\gamma^{(x_4)} - 3\cdot\tfrac12a_4'\gamma^{(x_4)} + 6\cdot\tfrac12H\gamma^{(x_8)} = 3H\gamma^{(x_8)} .
 $$
 
-The time-direction terms of the three inflating directions and the three deflating extra times cancel exactly, because 3-space inflates at the rate at which the extra times deflate; the hidden-direction terms of all six directions add up. The result does not contain $a_4$ at all, for every function $a_4(x_4)$ (PROVED; Notebook 07b, In [9], Figure 07b.2; `python-field-theory.json`, checks `gamma_mu_Omega_mu_equals_3H_gamma_x8` and `time_terms_cancel_hidden_term_survives`; `wolfram-field-theory.json`, checks `gammaOmega_equals_3H_gamma_x8` and `gammaOmega_x4_terms_cancel`).
+The time-direction terms of the three inflating directions and the three deflating extra times cancel exactly, because 3-space inflates at the rate at which the extra times deflate; the hidden-direction terms of all six directions add up. The result does not contain $a_4$ at all, for every function $a_4(x_4)$ (PROVED; Notebook 07b, In [9], Figure 07b.2).
 
-**Two more facts about $\Omega_\mu$.** (i) For each direction separately, $\gamma^\mu$ and $\Omega_\mu$ anticommute: $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu = 0$ (no sum). The reason: $\Omega_\mu$ contains only products $\gamma^{(\mu)}\gamma^{(b)}$ that share the index $\mu$ with $\gamma^{(\mu)}$, and $\gamma^{(\mu)}\gamma^{(\mu)}\gamma^{(b)} = \eta_{\mu\mu}\gamma^{(b)}$ while $\gamma^{(\mu)}\gamma^{(b)}\gamma^{(\mu)} = -\gamma^{(\mu)}\gamma^{(\mu)}\gamma^{(b)} = -\eta_{\mu\mu}\gamma^{(b)}$; the two add to 0 (`python-field-theory.json`, check `anticommutator_gamma_Omega_vanishes`). (ii) The same matrix is a derivative of the volume factor and the coordinate gammas:
+**Two more facts about $\Omega_\mu$.** (i) For each direction separately, $\gamma^\mu$ and $\Omega_\mu$ anticommute: $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu = 0$ (no sum). The reason: $\Omega_\mu$ contains only products $\gamma^{(\mu)}\gamma^{(b)}$ that share the index $\mu$ with $\gamma^{(\mu)}$, and $\gamma^{(\mu)}\gamma^{(\mu)}\gamma^{(b)} = \eta_{\mu\mu}\gamma^{(b)}$ while $\gamma^{(\mu)}\gamma^{(b)}\gamma^{(\mu)} = -\gamma^{(\mu)}\gamma^{(\mu)}\gamma^{(b)} = -\eta_{\mu\mu}\gamma^{(b)}$; the two add to 0. (ii) The same matrix is a derivative of the volume factor and the coordinate gammas:
 
 $$
 \frac{1}{2\sqrt{|g|}}\,\partial_\mu\big(\sqrt{|g|}\,\gamma^\mu\big) = \frac{1}{2\cos z}\,\partial_8\Big(\cos z\cdot\frac{\sin z}{\cos z}\Big)\gamma^{(x_8)} = \frac{6H\cos z}{2\cos z}\,\gamma^{(x_8)} = 3H\gamma^{(x_8)} = \gamma^\mu\Omega_\mu .
 $$
 
-The first equality: $\sqrt{|g|}\gamma^\mu = \cos z\,\gamma^{(\mu)}/f_\mu$ depends only on $x_4$ and $x_8$; for $\mu = x_4$ it is $\cos z\,\gamma^{(x_4)}$, which does not depend on $x_4$, so only $\mu = x_8$ contributes, with $1/f_8 = \tan z = \sin z/\cos z$. The second: $\cos z\cdot\sin z/\cos z = \sin z$, whose derivative along $x_8$ is $6H\cos z$. The third cancels $\cos z$. So $\partial_\mu(\sqrt{|g|}\gamma^\mu) = 2\sqrt{|g|}\,\gamma^\mu\Omega_\mu$ in this metric (PROVED; Notebook 07b, In [11]; `python-field-theory.json`, check `divergence_of_sqrtg_gamma`). Both facts are used in the next three sections.
+The first equality: $\sqrt{|g|}\gamma^\mu = \cos z\,\gamma^{(\mu)}/f_\mu$ depends only on $x_4$ and $x_8$; for $\mu = x_4$ it is $\cos z\,\gamma^{(x_4)}$, which does not depend on $x_4$, so only $\mu = x_8$ contributes, with $1/f_8 = \tan z = \sin z/\cos z$. The second: $\cos z\cdot\sin z/\cos z = \sin z$, whose derivative along $x_8$ is $6H\cos z$. The third cancels $\cos z$. So $\partial_\mu(\sqrt{|g|}\gamma^\mu) = 2\sqrt{|g|}\,\gamma^\mu\Omega_\mu$ in this metric (PROVED; Notebook 07b, In [11]). Both facts are used in the next three sections.
+
+**Where the statements of this section are verified.** The reports are named by their file names; the theory reports lie in the folder `Revision/theory/reports`, the formula record is `Revision/theory/field-theory.json`.
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| $\sqrt{\lvert g\rvert} = \cos z$ | PROVED; Notebook 07b, In [4] | `python-field-theory.json`, check `sqrt_det_g_equals_cos_z`; `wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z` |
+| 25 independent nonzero Christoffel symbols | COMPUTED exactly; In [7] | `python-field-theory.json`, check `christoffel_symmetric_metric_compatible`; formula record, key `christoffel_nonzero` |
+| the vielbein postulate; the 12 nonzero components of $\omega_{\mu ab}$ | COMPUTED exactly; In [8] | `python-field-theory.json`, check `vielbein_postulate`; `wolfram-field-theory.json`, check `omega_components`; formula record, key `omega_nonzero` |
+| $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$; the time terms cancel, the hidden terms add | PROVED; In [9] | `python-field-theory.json`, checks `gamma_mu_Omega_mu_equals_3H_gamma_x8` and `time_terms_cancel_hidden_term_survives`; `wolfram-field-theory.json`, checks `gammaOmega_equals_3H_gamma_x8` and `gammaOmega_x4_terms_cancel` |
+| $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu = 0$ for each $\mu$; $\partial_\mu(\sqrt{\lvert g\rvert}\gamma^\mu) = 2\sqrt{\lvert g\rvert}\gamma^\mu\Omega_\mu$ | PROVED; In [11] | `python-field-theory.json`, checks `anticommutator_gamma_Omega_vanishes` and `divergence_of_sqrtg_gamma` |
 
 ### 7.19 The two fields and their common Lagrangian
 
@@ -2500,7 +2531,7 @@ $$
 
 This is the **field equation** of both fields (for a general potential, $m + U'(S)$ in place of $m + \lambda S$). The spin connection, which was absent from $\mathcal{L}$, is present in it: Step 4 brought it back through $\partial_\mu(\sqrt{|g|}\gamma^\mu)$.
 
-**Grassmann components.** For dirac16complex the LEFT derivative with respect to $\chi_A$ is used (Section 7.11). In every term of $\mathcal{L}$ the factor $\chi$ (or $\partial_\mu\chi$) stands on the far left, so moving it there costs no sign, and $S$ is even, so the chain rule of Step 1 holds unchanged. Steps 1 to 6 go through word for word: the field equation is the same for both statistics (PROVED; Notebook 07b, In [16], with the control that the comparison with $m$ replaced by $-m$ fails; `python-field-theory.json`, checks `grassmann_euler_lagrange_psibar_variation` and `commuting_euler_lagrange_psibar_variation`; Wolfram `EL_Psibar_G` and `EL_Psibar_C`).
+**Grassmann components.** For dirac16complex the LEFT derivative with respect to $\chi_A$ is used (Section 7.11). In every term of $\mathcal{L}$ the factor $\chi$ (or $\partial_\mu\chi$) stands on the far left, so moving it there costs no sign, and $S$ is even, so the chain rule of Step 1 holds unchanged. Steps 1 to 6 go through word for word: the field equation is the same for both statistics (PROVED; Notebook 07b, In [16], with the control that the comparison with $m$ replaced by $-m$ fails).
 
 **The adjoint equation.** Varying $\Psi$ instead (for Grassmann components with RIGHT derivatives, because $\Psi$ stands on the far right) gives in the same way
 
@@ -2520,7 +2551,15 @@ $$
 = -(D_\mu\Psi)^\dagger C\gamma^\mu - V\bar\Psi = -(D_\mu\bar\Psi)\gamma^\mu - V\bar\Psi
 $$
 
-($(\gamma^\mu)^TC = -C\gamma^\mu$, because $C\gamma^\mu$ is antisymmetric and $C$ symmetric; then $(D_\mu\Psi)^\dagger C = D_\mu\bar\Psi$ as in Section 7.20). So $\mathcal{E}^\dagger C = -\big[(D_\mu\bar\Psi)\gamma^\mu + V\bar\Psi\big]$: the residual of the adjoint equation is minus the Dirac conjugate of the residual of the field equation. One equation holds exactly when the other does, and the two form one system (PROVED; Notebook 07b, In [16]; checks `grassmann_euler_lagrange_psi_variation`, `grassmann_adjoint_equation_is_conjugate` and their commuting twins).
+($(\gamma^\mu)^TC = -C\gamma^\mu$, because $C\gamma^\mu$ is antisymmetric and $C$ symmetric; then $(D_\mu\Psi)^\dagger C = D_\mu\bar\Psi$ as in Section 7.20). So $\mathcal{E}^\dagger C = -\big[(D_\mu\bar\Psi)\gamma^\mu + V\bar\Psi\big]$: the residual of the adjoint equation is minus the Dirac conjugate of the residual of the field equation. One equation holds exactly when the other does, and the two form one system (PROVED; Notebook 07b, In [16]).
+
+**Where the statements of this section are verified** (in the folder `Revision/theory/reports`; the sympy names start with `grassmann_` or `commuting_` for the two statistics, the Wolfram names end in `_G` or `_C`):
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| varying $\Psi^\dagger$ gives $\gamma^\mu D_\mu\Psi = (m + \lambda S)\Psi$, both statistics | PROVED; Notebook 07b, In [16] | `python-field-theory.json`, checks `grassmann_euler_lagrange_psibar_variation` and `commuting_euler_lagrange_psibar_variation`; `wolfram-field-theory.json`, checks `EL_Psibar_G` and `EL_Psibar_C` |
+| varying $\Psi$ gives the adjoint equation | PROVED; In [16] | `python-field-theory.json`, checks `grassmann_euler_lagrange_psi_variation` and `commuting_euler_lagrange_psi_variation`; `wolfram-field-theory.json`, checks `EL_Psi_G` and `EL_Psi_C` |
+| the adjoint equation is the Dirac conjugate of the field equation | PROVED; In [16] | `python-field-theory.json`, checks `grassmann_adjoint_equation_is_conjugate` and `commuting_adjoint_equation_is_conjugate`; `wolfram-field-theory.json`, checks `adjoint_equation_is_Dirac_conjugate_G` and `adjoint_equation_is_Dirac_conjugate_C` |
 
 ### 7.22 The equations in the author's metric: explicit, block and evolution forms
 
@@ -2584,14 +2623,34 @@ $$
 \gamma^\mu\Omega_\mu\Psi = 3H\gamma^{(x_8)}\Psi \neq 0 .
 $$
 
-*Proof.* The difference is $\gamma^\mu(D_\mu - \partial_\mu)\Psi = \gamma^\mu\Omega_\mu\Psi$ by the definition of $D_\mu$, and $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ by Section 7.18. The matrix $\gamma^{(x_8)}$ is a signed permutation matrix with $(\gamma^{(x_8)})^2 = 1$, so every component of $\gamma^{(x_8)}\Psi$ is $\pm$ a component of $\Psi$, and $3H\gamma^{(x_8)}\Psi = 0$ forces $\Psi = 0$ when $H > 0$. $\square$ (PROVED; Notebook 07b, In [20], checks the difference in all 16 components for both statistics; Wolfram checks `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00`.) Moreover, $\Omega_\mu$ vanishes for all $\mu$ only if $a_4' = 0$ AND $H = 0$, because each of its 12 nonzero components is $a_4'$ or $H$ times a factor that never vanishes; $H = 0$ is not a member of the author's family (it is a degenerate limit in which $g_{11}$ and $g_{55}$ go to 0 and $g_{88}$ to infinity), and the metric is curved for every $H > 0$, since $R^{x_8}{}_{x_8} = -6H^2$ (`python-field-theory.json`, check `nontriviality_Omega_zero_iff_flat`; Wolfram checks `Omega_vanishes_iff_a4prime_and_H_vanish`, `degenerate_at_H_0` and `never_flat_for_H_positive`).
+*Proof.* The difference is $\gamma^\mu(D_\mu - \partial_\mu)\Psi = \gamma^\mu\Omega_\mu\Psi$ by the definition of $D_\mu$, and $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ by Section 7.18. The matrix $\gamma^{(x_8)}$ is a signed permutation matrix with $(\gamma^{(x_8)})^2 = 1$, so every component of $\gamma^{(x_8)}\Psi$ is $\pm$ a component of $\Psi$, and $3H\gamma^{(x_8)}\Psi = 0$ forces $\Psi = 0$ when $H > 0$. $\square$ (PROVED; Notebook 07b, In [20], checks the difference in all 16 components for both statistics.) Moreover, $\Omega_\mu$ vanishes for all $\mu$ only if $a_4' = 0$ AND $H = 0$, because each of its 12 nonzero components is $a_4'$ or $H$ times a factor that never vanishes; $H = 0$ is not a member of the author's family (it is a degenerate limit in which $g_{11}$ and $g_{55}$ go to 0 and $g_{88}$ to infinity), and the metric is curved for every $H > 0$, since $R^{x_8}{}_{x_8} = -6H^2$ (the checks are listed in the table at the end of this section).
 
 **The exact scope of the theorem.** The value $3H\gamma^{(x_8)}$ belongs to the diagonal frame and to the field variables $\Psi$; read without these hypotheses the theorem would overstate [1] and [2]. The Revision record states, and its scope reports verify exactly:
 
-- In another frame of the same metric, boosted in the $(x_4, x_8)$ plane with the rapidity $6Hx_4 + b_0$, the term $\gamma^\mu\Omega_\mu$ vanishes identically (`Revision/theory/reports/wolfram-scope.json` and `python-scope.json`, check `boosted_frame_gammaOmega_vanishes`).
-- Within the diagonal frame the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it. Line by line: only the $x_8$ term of the Dirac operator acts on the factor $\sin^{-1/2}z$, so $\gamma^\mu D_\mu\Psi = \sin^{-1/2}z\,\gamma^\mu D_\mu\chi + \tan z\,\gamma^{(x_8)}\big(\partial_8\sin^{-1/2}z\big)\chi$ (the product rule); $\partial_8\sin^{-1/2}z = -\tfrac12\sin^{-3/2}z\cos z\cdot6H$, so the last term is $\frac{\sin z}{\cos z}\cdot\big(-3H\sin^{-3/2}z\cos z\big)\gamma^{(x_8)}\chi = -3H\sin^{-1/2}z\,\gamma^{(x_8)}\chi$; and $\gamma^\mu D_\mu\chi = \gamma^\mu\partial_\mu\chi + 3H\gamma^{(x_8)}\chi$. The two $3H$ terms cancel: $\gamma^\mu D_\mu\Psi = \sin^{-1/2}z\,\gamma^\mu\partial_\mu\chi$. For $U = 0$ the equation for $\chi$ has no spin-connection term; for $U = \frac{\lambda}{2}S^2$ the term becomes the $x_8$-dependent coupling $\lambda S[\chi]/\sin z$ (checks `rescaling_removes_the_connection_term` and `rescaled_equation_quadratic_potential`).
-- The deflation contributes nothing to $\gamma^\mu\Omega_\mu$: $a_4$ enters the field equation only through the frame factors $e^{\mp a_4}\sin^{-1/6}z$ of the derivative terms (check `gammaOmega_blind_to_the_deflation`). And since the connection drops out of $\mathcal{L}$ (Section 7.20), the Euler-Lagrange equations are those of the connection-free symmetric Lagrangian; $3H\gamma^{(x_8)} = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$ is its volume-and-frame term (check `connection_free_lagrangian_same_equations`).
-- What is frame-independent: $\Omega_\mu$ itself vanishes in no frame, because its curvature is the Riemann tensor of the metric, which is not zero (`wolfram-scope.json`, check `boosted_frame_curvature_nonzero`; `wolfram-field-theory.json`, check `spin_curvature_equals_Riemann`); and the frame factors enter every derivative term. In this qualified sense [1] and [2] hold; Chapter 8 discusses the frame dependence further.
+- In another frame of the same metric, boosted in the $(x_4, x_8)$ plane with the rapidity $6Hx_4 + b_0$, the term $\gamma^\mu\Omega_\mu$ vanishes identically.
+- Within the diagonal frame the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it (derived below).
+- The deflation contributes nothing to $\gamma^\mu\Omega_\mu$: $a_4$ enters the field equation only through the frame factors $e^{\mp a_4}\sin^{-1/6}z$ of the derivative terms. And since the connection drops out of $\mathcal{L}$ (Section 7.20), the Euler-Lagrange equations are those of the connection-free symmetric Lagrangian; $3H\gamma^{(x_8)} = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$ is its volume-and-frame term.
+- What is frame-independent: $\Omega_\mu$ itself vanishes in no frame, because its curvature is the Riemann tensor of the metric, which is not zero; and the frame factors enter every derivative term. In this qualified sense [1] and [2] hold; Chapter 8 discusses the frame dependence further.
+
+**The rescaling, line by line.** Put $\Psi = \sin^{-1/2}z\,\chi$. Only the $x_8$ term of the Dirac operator acts on the factor $\sin^{-1/2}z$, so by the product rule
+
+$$
+\gamma^\mu D_\mu\Psi = \sin^{-1/2}z\,\gamma^\mu D_\mu\chi + \tan z\,\gamma^{(x_8)}\big(\partial_8\sin^{-1/2}z\big)\chi .
+$$
+
+The derivative is $\partial_8\sin^{-1/2}z = -\tfrac12\sin^{-3/2}z\cos z\cdot6H$ (the power rule and the chain rule with $dz/dx_8 = 6H$), so the last term is
+
+$$
+\frac{\sin z}{\cos z}\cdot\big(-3H\sin^{-3/2}z\cos z\big)\gamma^{(x_8)}\chi = -3H\sin^{-1/2}z\,\gamma^{(x_8)}\chi .
+$$
+
+And $\gamma^\mu D_\mu\chi = \gamma^\mu\partial_\mu\chi + 3H\gamma^{(x_8)}\chi$. The two $3H$ terms cancel:
+
+$$
+\gamma^\mu D_\mu\Psi = \sin^{-1/2}z\,\gamma^\mu\partial_\mu\chi .
+$$
+
+For $U = 0$ the equation for $\chi$ therefore has no spin-connection term. For $U = \frac{\lambda}{2}S^2$ the scalar density is $S[\Psi] = S[\chi]/\sin z$ (the factor is real), and the term becomes the $x_8$-dependent coupling $\lambda S[\chi]/\sin z$ in $\gamma^\mu\partial_\mu\chi = (m + \lambda S[\chi]/\sin z)\chi$.
 
 **An exact family of solutions.** Look for solutions that depend only on the time $x_4$ and the hidden direction $x_8$, of the form $\Psi = \sin^\alpha z\,P(x_4)\,\chi_0$ with a constant column $\chi_0$, a number $\alpha$ and a $16\times16$ matrix function $P$. Take $\lambda = 0$. Line by line:
 
@@ -2623,12 +2682,25 @@ $$
 P(x_4) = \cosh(kx_4) + \frac{\sinh(kx_4)}{k}M
 $$
 
-solves $P' = MP$ with $P(0) = 1$: $P' = k\sinh(kx_4) + \cosh(kx_4)M$ and $MP = \cosh(kx_4)M + \frac{\sinh(kx_4)}{k}k^2$, the same. Moreover $M^TC + CM = 0$ (from $(\gamma^{(x_4)})^TC = -C\gamma^{(x_4)}$ and $\gamma^{(x_4)}C = C\gamma^{(x_4)}$, $\gamma^{(x_8)}C = -C\gamma^{(x_8)}$), which gives $\frac{d}{dx_4}(P^TCP) = P^T(M^TC + CM)P = 0$, so $P^TCP = C$ and the scalar density $S = \sin^{2\alpha}z\,\chi_0^\dagger C\chi_0$ does not change with $x_4$ ($P$ is real) (PROVED; Notebook 07b, In [21]; `python-field-theory.json`, check `exact_solution_family_x4_x8`). Two members, with the illustration values $H = 1$, $m = 2$, $\chi_0 = e_1 + e_5$ (components 1 and 5 equal to 1):
+solves $P' = MP$ with $P(0) = 1$: $P' = k\sinh(kx_4) + \cosh(kx_4)M$ and $MP = \cosh(kx_4)M + \frac{\sinh(kx_4)}{k}k^2$, the same. Moreover $M^TC + CM = 0$ (from $(\gamma^{(x_4)})^TC = -C\gamma^{(x_4)}$ and $\gamma^{(x_4)}C = C\gamma^{(x_4)}$, $\gamma^{(x_8)}C = -C\gamma^{(x_8)}$), which gives $\frac{d}{dx_4}(P^TCP) = P^T(M^TC + CM)P = 0$, so $P^TCP = C$ and the scalar density $S = \sin^{2\alpha}z\,\chi_0^\dagger C\chi_0$ does not change with $x_4$ ($P$ is real) (PROVED; Notebook 07b, In [21]). Two members, with the illustration values $H = 1$, $m = 2$, $\chi_0 = e_1 + e_5$ (components 1 and 5 equal to 1):
 
-- $\alpha = 0$: $k^2 = 9 - 4 = 5$, and $P$ grows like $e^{\sqrt5x_4}$. This is an $x_8$-independent growing mode, which exists without a boundary condition at $z = \pi/2$ whenever $m^2 < 9H^2$ (`python-scope.json`, check `good_sector_x8_independent_modes_without_boundary_condition`). Its scalar density is $\chi_0^TC\chi_0 = 2C_{1,5} = -2$.
+- $\alpha = 0$: $k^2 = 9 - 4 = 5$, and $P$ grows like $e^{\sqrt5x_4}$. This is an $x_8$-independent growing mode, which exists without a boundary condition at $z = \pi/2$ whenever $m^2 < 9H^2$ (the scope record, table below). Its scalar density is $\chi_0^TC\chi_0 = 2C_{1,5} = -2$.
 - $\alpha = -\tfrac12$: $2\alpha + 1 = 0$, $M = -m\gamma^{(x_4)}$, $k^2 = -m^2 = -4$, so $\cosh(kx_4) = \cos2x_4$ and $\sinh(kx_4)/k = \sin(2x_4)/2$: the solution oscillates. This is the rescaling $\Psi = \sin^{-1/2}z\,\chi$ above, in which the $3H$ term disappears. Its scalar density at $z = \pi/4$ is $-2/\sin z = -2\sqrt2 = -2.828427$.
 
 Notebook 07b evaluates both members at $z = \pi/4$ for $x_4$ from 0 to 2 and finds $S = -2.000000$ and $-2.828427$, constant along $x_4$ (In [22], Figure 07b.5; COMPUTED). Put into the equation WITHOUT the term $3H\gamma^{(x_8)}\Psi$, the growing solution leaves the residual $3H\gamma^{(x_8)}\Psi$, whose largest component is $3H$ times the largest component of $\Psi$ (In [24], Figure 07b.6): the gravitational term is needed for the solution. These solutions are test points; at them the pressures vanish, so they are a weak test of the energy-momentum tensor, whose conservation is proved in general in Chapter 9.
+
+**Where the statements of this section are verified** (the reports in the folder `Revision/theory/reports`):
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| the gravitational term $3H\gamma^{(x_8)}\Psi$ of the field equation is nonzero, both statistics | PROVED; Notebook 07b, In [20] | `wolfram-field-theory.json`, checks `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00` |
+| $\Omega_\mu = 0$ only for $a_4' = 0$ and $H = 0$; $H = 0$ degenerate; curved for every $H > 0$ | PROVED | `python-field-theory.json`, check `nontriviality_Omega_zero_iff_flat`; `wolfram-field-theory.json`, checks `Omega_vanishes_iff_a4prime_and_H_vanish`, `degenerate_at_H_0` and `never_flat_for_H_positive` |
+| the boosted frame removes $\gamma^\mu\Omega_\mu$ | PROVED (quoted) | `wolfram-scope.json` and `python-scope.json`, check `boosted_frame_gammaOmega_vanishes` |
+| the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it; the coupling $\lambda S[\chi]/\sin z$ | PROVED here | scope reports, checks `rescaling_removes_the_connection_term` and `rescaled_equation_quadratic_potential` |
+| $\gamma^\mu\Omega_\mu$ does not see the deflation; the equations are those of the connection-free Lagrangian | PROVED (quoted) | scope reports, checks `gammaOmega_blind_to_the_deflation` and `connection_free_lagrangian_same_equations` |
+| $\Omega_\mu$ vanishes in no frame | PROVED (quoted) | `wolfram-scope.json`, check `boosted_frame_curvature_nonzero`; `wolfram-field-theory.json`, check `spin_curvature_equals_Riemann` |
+| the exact family of solutions, $M^2 = k^2$, $M^TC + CM = 0$ | PROVED; In [21] | `python-field-theory.json`, check `exact_solution_family_x4_x8` |
+| growing $x_8$-independent modes without a boundary condition at $z = \pi/2$ when $m^2 < 9H^2$ | PROVED (quoted); In [21] | `python-scope.json`, check `good_sector_x8_independent_modes_without_boundary_condition` |
 
 ### 7.24 Example: Notebook 07b derives the field equations in the author's metric
 
@@ -3779,7 +3851,7 @@ $$
 \sqrt{|g|}\,\Theta^TC\gamma^\mu D_\mu\Theta = \tfrac12\partial_\mu\big(\sqrt{|g|}\,\Theta^TC\gamma^\mu\Theta\big) - \tfrac12\Theta^TC\Big(\partial_\mu\big(\sqrt{|g|}\gamma^\mu\big) - \sqrt{|g|}\,[\gamma^\mu, \Omega_\mu]\Big)\Theta .
 $$
 
-The last bracket is zero: in the author's metric $[\gamma^\mu, \Omega_\mu] = 2\gamma^\mu\Omega_\mu$ (they anticommute) and $\partial_\mu(\sqrt{|g|}\gamma^\mu) = 2\sqrt{|g|}\gamma^\mu\Omega_\mu$ (Section 7.18); in a general metric this is the covariant constancy of the gammas (`wolfram-field-theory.json`, check `gamma_covariantly_constant`). So $L_g$ is the total derivative of $\tfrac12\sqrt{|g|}\,\Theta^TC\gamma^\mu\Theta$, and by Section 7.4 all its Euler-Lagrange expressions vanish identically: no field equation at all (PROVED; Notebook 07c computes it in the author's metric, In [5] and In [6]: $L_g$ has 136 monomials, it equals its total-derivative form exactly, and 0 of its 16 Euler-Lagrange expressions are nonzero; `python-field-theory.json`, check `negative_control_majorana_grassmann_total_derivative`; `wolfram-field-theory.json`, check `Majorana_Lg_total_derivative_grassmann`).
+The last bracket is zero: in the author's metric $[\gamma^\mu, \Omega_\mu] = 2\gamma^\mu\Omega_\mu$ (they anticommute) and $\partial_\mu(\sqrt{|g|}\gamma^\mu) = 2\sqrt{|g|}\gamma^\mu\Omega_\mu$ (Section 7.18); in a general metric this is the covariant constancy of the gammas (Wolfram check `gamma_covariantly_constant`). So $L_g$ is the total derivative of $\tfrac12\sqrt{|g|}\,\Theta^TC\gamma^\mu\Theta$, and by Section 7.4 all its Euler-Lagrange expressions vanish identically: no field equation at all (PROVED; Notebook 07c computes it in the author's metric, In [5] and In [6]: $L_g$ has 136 monomials, it equals its total-derivative form exactly, and 0 of its 16 Euler-Lagrange expressions are nonzero; the Revision checks are listed in the table at the end of this section).
 
 This is the **negative control** of the Revision record: a test designed to show what does NOT work. It is the reason why the Revision Lagrangian of dirac16complex is written for a complex field with $\bar\Psi = \Psi^\dagger C$ (Section 7.19), and Section 7.13 showed the same mechanism with two components.
 
@@ -3800,6 +3872,13 @@ $$
 the author's $L_g$ with a mass term and the interaction. Its Euler-Lagrange expressions are $2\sqrt{|g|}\,\big(C(\gamma^\mu D_\mu\Phi - (m + \lambda S)\Phi)\big)_A$ (the kinetic part as just computed; $\partial(\Phi^TC\Phi)/\partial\Phi_A = 2(C\Phi)_A$ because $C$ is symmetric): a real commuting field obeys the same field equation as the complex one (PROVED; Notebook 07c, In [12]). Because the gammas, $C$ and the spinor connection are real (`Revision/lead_checks/reports/charge-conjugation-and-u1.json`, checks `representation_real` and `spinor_connection_real`), the operator $\gamma^\mu D_\mu$ is real, the complex conjugate of a solution is again a solution, and real fields are a consistent restriction of dirac16complex00.
 
 **A real field carries no charge.** The phase change $\Psi \to e^{i\alpha}\Psi$ leaves the Lagrangian unchanged (every term contains as many factors of $\Psi^\dagger$ as of $\Psi$), and the conserved quantity that belongs to it is the **current** $J^\mu = -i\bar\Psi\gamma^\mu\Psi$, whose time component $J^{x_4} = \Psi^\dagger B\Psi$, with $B = -iC\gamma^{(x_4)}$, is the **charge density** (Chapter 5; Chapter 21 proves its conservation). For a real commuting field $J^\mu = -i\Phi^TC\gamma^\mu\Phi = 0$ identically, because $C\gamma^\mu$ is antisymmetric (Section 7.12): a real field has no charge (PROVED; Notebook 07c, In [11]; `charge-conjugation-and-u1.json`, check `real_fields_charge_conjugation`).
+
+**Where the negative control is verified** (the theory reports in the folder `Revision/theory/reports`):
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| $L_g$ of a real Grassmann field is a total derivative: no field equation; $\Theta^TC\Theta = 0$ | PROVED; Notebook 07c, In [5] and In [6] | `python-field-theory.json`, check `negative_control_majorana_grassmann_total_derivative`; `wolfram-field-theory.json`, check `Majorana_Lg_total_derivative_grassmann` |
+| $L_g$ of a real commuting field gives $2\sqrt{\lvert g\rvert}\,C\gamma^\mu D_\mu\Phi$ in 16 of 16 components | PROVED; In [7] | `python-field-theory.json`, check `negative_control_majorana_commuting_contrast`; `wolfram-field-theory.json`, check `Majorana_Lg_commuting_control` |
 
 ### 7.29 Charge conjugation is a matrix
 
@@ -4229,7 +4308,14 @@ For real Grassmann and real commuting components: `theta` is the column of the 1
     report(f"{name}: nonzero Euler-Lagrange expressions", f"{nonzero} of 16")
 ```
 
-The 16 Euler-Lagrange expressions with left derivatives, stored with the other pieces in the dictionary `results`; the mass-type term $\Theta^TC\Theta$ is stored too. The two `report` lines print the number of monomials of $L_g$ and how many Euler-Lagrange expressions are not zero. **Out [5]:** `RESULT grassmann: monomials of Lg = 136`, `RESULT grassmann: nonzero Euler-Lagrange expressions = 0 of 16`, `RESULT commuting: monomials of Lg = 128` and `RESULT commuting: nonzero Euler-Lagrange expressions = 16 of 16`.
+The 16 Euler-Lagrange expressions with left derivatives, stored with the other pieces in the dictionary `results`; the mass-type term $\Theta^TC\Theta$ is stored too. The two `report` lines print the number of monomials of $L_g$ and how many Euler-Lagrange expressions are not zero. **Out [5]:** four lines,
+
+```text
+RESULT grassmann: monomials of Lg = 136
+RESULT grassmann: nonzero Euler-Lagrange expressions = 0 of 16
+RESULT commuting: monomials of Lg = 128
+RESULT commuting: nonzero Euler-Lagrange expressions = 16 of 16
+```
 
 **In [6]: the anticommuting case against the record.**
 
@@ -4580,18 +4666,32 @@ The four figure files are checked and the last line printed. **Out [15]:** `PASS
 
 ### 7.34 What we proved, what we computed, what we assumed
 
-**PROVED in this chapter** (each derivation written out line by line; each is also confirmed by a check of a notebook, and where the Revision record contains it, by the named check of the named report):
+**PROVED in this chapter** (each derivation written out line by line; each is also confirmed by a check of a notebook, and where the Revision record contains it, by the check of the Revision record named in the table after this list):
 
 - the principle of stationary action gives the Euler-Lagrange equation $\partial L/\partial q - \frac{d}{dt}\partial L/\partial\dot q = 0$ (Line 1 by the chain rule, Line 2 by integration by parts, Line 3 because the shapes vanish at the ends, and the fundamental lemma); for the oscillator the action of a varied path is $S_0 + S_1\epsilon + S_2\epsilon^2$ with $S_2$ independent of the path, $S_2 = \frac{T}{4}(\frac{\pi^2}{T^2} - \omega^2)$ for the slowest shape, so the true path is a minimum for $T < \pi/\omega$ and a saddle beyond; the error of a bump average of a quadratic $E$ is $-(\tfrac13 - \tfrac{2}{\pi^2})w^2$; the derivative of the grid action is $h$ times the grid Euler-Lagrange expression; $dH/dt = -\dot q E$; a total derivative changes no equation; a complex variable and its conjugate may be varied as if independent, $E_{\psi^*} = (E_{q_0} + iE_{q_1})/\sqrt2$ (Sections 7.2 to 7.4);
-- the Euler-Lagrange expression of a field has one derivative term per coordinate; along a space direction a plane wave oscillates with $\omega^2 = m^2 + k^2$, along an extra time it grows with the rate $\kappa = \sqrt{k^2 - m^2}$ for $k > m$; $(\sum_ak_a\gamma^{(a)})^2 = \sum_a\eta^{aa}k_a^2\,I_{16}$, so the 16-component field has the same growth rate, which reproduces `Revision/theory/reports/python-scope.json`, check `extra_time_growth_rates_unbounded`, and `python-field-theory.json`, check `clifford_relations` (Section 7.5);
-- the rules of Grassmann numbers: $\theta_i^2 = 0$; the sign of a reordering; $2^n$ monomials, $\binom{n}{k}$ of degree $k$; $YX = (-1)^{kl}XY$; the conjugation reverses products; $\partial_R F = -\partial_L F$ for even $F$; $(\Psi^\dagger M\Psi)^* = \Psi^\dagger M^\dagger\Psi$ for both statistics; a real Grassmann column keeps only the antisymmetric part of a matrix and a real commuting column only the symmetric part; $S^k$ has $\binom{16}{k}$ monomials with coefficients $\pm k!$ and $S^{17} = 0$; in the two-generator test algebra $S^3 = 0$; a first-order kinetic term of real Grassmann fields with an antisymmetric matrix is a total derivative (Sections 7.10 to 7.13; `wolfram-field-theory.json`, check `grassmann_algebra_structure`; `python-field-theory.json`, checks `superalgebra_axioms` and `C_properties`);
-- $\sqrt{|g|} = \cos z$, independent of the time; $\gamma^{x_i}\Omega_{x_i} = \tfrac12(a_4'\gamma^{(x_4)} + H\gamma^{(x_8)})$ for 3-space and $\gamma^{x_t}\Omega_{x_t} = \tfrac12(-a_4'\gamma^{(x_4)} + H\gamma^{(x_8)})$ for the extra times, so $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)} = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$: the time terms cancel because the extra times deflate; $\{\gamma^\mu, \Omega_\mu\} = 0$ for each $\mu$ (Section 7.18; `python-field-theory.json`, checks `sqrt_det_g_equals_cos_z`, `gamma_mu_Omega_mu_equals_3H_gamma_x8`, `time_terms_cancel_hidden_term_survives`, `anticommutator_gamma_Omega_vanishes`, `divergence_of_sqrtg_gamma`);
-- the Lagrangian of both fields is real; it differs from the unsymmetrised form by the total divergence $\tfrac12\partial_\mu(\sqrt{|g|}\bar\Psi\gamma^\mu\Psi)$; in the author's metric the spin connection drops out of it (Section 7.20; checks `grassmann_lagrangian_real`, `commuting_lagrangian_real`, `grassmann_total_divergence_relation`, `commuting_total_divergence_relation`, `L_spin_connection_drops_out_G`, `L_spin_connection_drops_out_C`);
-- its Euler-Lagrange equations are, for both statistics, $\gamma^\mu D_\mu\Psi = (m + \lambda S)\Psi$ and the Dirac-conjugate equation $(D_\mu\bar\Psi)\gamma^\mu = -(m + \lambda S)\bar\Psi$; written out in the author's metric they have the frame factors $e^{\mp a_4}\sin^{-1/6}z$, $1$, $\tan z$ and the term $3H\gamma^{(x_8)}\Psi$; they have a chiral block form and an evolution form with non-characteristic slices $x_4 = $ const (Sections 7.21 and 7.22; checks `grassmann_euler_lagrange_psibar_variation`, `grassmann_euler_lagrange_psi_variation`, `grassmann_adjoint_equation_is_conjugate` and their commuting twins, `Dirac_operator_explicit_G`, `Dirac_operator_explicit_C`, `block_form`, `evolution_form_G`, `evolution_form_C`; formula record `Revision/theory/field-theory.json`, keys `field_equation_components` and `field_equation_blocks`);
-- non-triviality [1] and [2] in the diagonal frame: the gravitational term $3H\gamma^{(x_8)}\Psi$ is nonzero for every $\Psi \neq 0$ and every $H > 0$, and $\Omega_\mu$ vanishes only for $a_4' = 0$ and $H = 0$; with the exact scope that the value of the term depends on the frame and on the variables (the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it, derived here), while $\Omega_\mu$ vanishes in no frame (Section 7.23; checks `nontriviality_1_dirac16complex`, `nontriviality_2_dirac16complex00`, `nontriviality_Omega_zero_iff_flat`, and in the scope reports `boosted_frame_gammaOmega_vanishes`, `rescaling_removes_the_connection_term`, `gammaOmega_blind_to_the_deflation`, `connection_free_lagrangian_same_equations`, `boosted_frame_curvature_nonzero`);
-- the exact family $\Psi = \sin^\alpha z\,(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ with $M^2 = k^2 = 9H^2(2\alpha + 1)^2 - m^2$ and constant $S$ solves the field equation for every $a_4$ when $\lambda = 0$ (Section 7.23; check `exact_solution_family_x4_x8`);
-- the author's Majorana-type Lagrangian is a total derivative for real Grassmann fields (no field equation) and gives $2\sqrt{|g|}C\gamma^\mu D_\mu\Phi$ for real commuting fields; the Revision Lagrangian of a real commuting field gives the same field equation as the complex one, and its current vanishes (Section 7.28; checks `negative_control_majorana_grassmann_total_derivative`, `negative_control_majorana_commuting_contrast`, `Majorana_Lg_total_derivative_grassmann`, `Majorana_Lg_commuting_control`, and `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, check `real_fields_charge_conjugation`);
-- charge conjugation is a MATRIX: every matrix $M$ with $M\gamma^{(a)} = s\gamma^{(a)}M$ for all $a$ is a multiple of $1$ ($s = +1$) or of $\Gamma$ ($s = -1$), because the 256 products of gammas are an orthogonal basis and only $1$ and $\Gamma$ commute or anticommute with all eight; hence $\mathcal{C}_+ = C$ with $\mathcal{C}_+^{-1}\gamma^{(a)}\mathcal{C}_+ = -(\gamma^{(a)})^T$ and $\mathcal{C}_- = \Gamma C$ with $\mathcal{C}_-^{-1}\gamma^{(a)}\mathcal{C}_- = +(\gamma^{(a)})^T$; both reality conditions are consistent; for a real field $\mathcal{C}_+$ is the identity and the nontrivial real map is $\Gamma$, with $\mathcal{L}_{m,\lambda}[\Gamma\Phi] = -\mathcal{L}_{-m,-\lambda}[\Phi]$; the signs of $S$ and $J$ under the two conjugations for both statistics (Section 7.29; `charge-conjugation-and-u1.json`, checks `representation_real`, `spinor_connection_real`, `intertwiners_same_mass`, `intertwiners_reversed_mass`, `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus`, `majorana_conditions_consistent`, `real_fields_charge_conjugation`, `bilinears_under_charge_conjugation`).
+- the Euler-Lagrange expression of a field has one derivative term per coordinate; along a space direction a plane wave oscillates with $\omega^2 = m^2 + k^2$, along an extra time it grows with the rate $\kappa = \sqrt{k^2 - m^2}$ for $k > m$; $(\sum_ak_a\gamma^{(a)})^2 = \sum_a\eta^{aa}k_a^2\,I_{16}$, so the 16-component field has the same growth rate as the record (Section 7.5);
+- the rules of Grassmann numbers: $\theta_i^2 = 0$; the sign of a reordering; $2^n$ monomials, $\binom{n}{k}$ of degree $k$; $YX = (-1)^{kl}XY$; the conjugation reverses products; $\partial_R F = -\partial_L F$ for even $F$; $(\Psi^\dagger M\Psi)^* = \Psi^\dagger M^\dagger\Psi$ for both statistics; a real Grassmann column keeps only the antisymmetric part of a matrix and a real commuting column only the symmetric part; $S^k$ has $\binom{16}{k}$ monomials with coefficients $\pm k!$ and $S^{17} = 0$; in the two-generator test algebra $S^3 = 0$; a first-order kinetic term of real Grassmann fields with an antisymmetric matrix is a total derivative (Sections 7.10 to 7.13);
+- $\sqrt{|g|} = \cos z$, independent of the time; $\gamma^{x_i}\Omega_{x_i} = \tfrac12(a_4'\gamma^{(x_4)} + H\gamma^{(x_8)})$ for 3-space and $\gamma^{x_t}\Omega_{x_t} = \tfrac12(-a_4'\gamma^{(x_4)} + H\gamma^{(x_8)})$ for the extra times, so $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)} = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$: the time terms cancel because the extra times deflate; $\{\gamma^\mu, \Omega_\mu\} = 0$ for each $\mu$ (Section 7.18);
+- the Lagrangian of both fields is real; it differs from the unsymmetrised form by the total divergence $\tfrac12\partial_\mu(\sqrt{|g|}\bar\Psi\gamma^\mu\Psi)$; in the author's metric the spin connection drops out of it (Section 7.20);
+- its Euler-Lagrange equations are, for both statistics, $\gamma^\mu D_\mu\Psi = (m + \lambda S)\Psi$ and the Dirac-conjugate equation $(D_\mu\bar\Psi)\gamma^\mu = -(m + \lambda S)\bar\Psi$; written out in the author's metric they have the frame factors $e^{\mp a_4}\sin^{-1/6}z$, $1$, $\tan z$ and the term $3H\gamma^{(x_8)}\Psi$; they have a chiral block form and an evolution form with non-characteristic slices $x_4 = $ const (Sections 7.21 and 7.22);
+- non-triviality [1] and [2] in the diagonal frame: the gravitational term $3H\gamma^{(x_8)}\Psi$ is nonzero for every $\Psi \neq 0$ and every $H > 0$, and $\Omega_\mu$ vanishes only for $a_4' = 0$ and $H = 0$; with the exact scope that the value of the term depends on the frame and on the variables (the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it, derived here), while $\Omega_\mu$ vanishes in no frame (Section 7.23);
+- the exact family $\Psi = \sin^\alpha z\,(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ with $M^2 = k^2 = 9H^2(2\alpha + 1)^2 - m^2$ and constant $S$ solves the field equation for every $a_4$ when $\lambda = 0$ (Section 7.23);
+- the author's Majorana-type Lagrangian is a total derivative for real Grassmann fields (no field equation) and gives $2\sqrt{|g|}C\gamma^\mu D_\mu\Phi$ for real commuting fields; the Revision Lagrangian of a real commuting field gives the same field equation as the complex one, and its current vanishes (Section 7.28);
+- charge conjugation is a MATRIX: every matrix $M$ with $M\gamma^{(a)} = s\gamma^{(a)}M$ for all $a$ is a multiple of $1$ ($s = +1$) or of $\Gamma$ ($s = -1$), because the 256 products of gammas are an orthogonal basis and only $1$ and $\Gamma$ commute or anticommute with all eight; hence $\mathcal{C}_+ = C$ with $\mathcal{C}_+^{-1}\gamma^{(a)}\mathcal{C}_+ = -(\gamma^{(a)})^T$ and $\mathcal{C}_- = \Gamma C$ with $\mathcal{C}_-^{-1}\gamma^{(a)}\mathcal{C}_- = +(\gamma^{(a)})^T$; both reality conditions are consistent; for a real field $\mathcal{C}_+$ is the identity and the nontrivial real map is $\Gamma$, with $\mathcal{L}_{m,\lambda}[\Gamma\Phi] = -\mathcal{L}_{-m,-\lambda}[\Phi]$; the signs of $S$ and $J$ under the two conjugations for both statistics (Section 7.29).
+
+The checks of the Revision record that state the same results (the theory reports lie in the folder `Revision/theory/reports`, the lead's report is `Revision/lead_checks/reports/charge-conjugation-and-u1.json`):
+
+| result | sections | Revision checks |
+| --- | --- | --- |
+| the Clifford square and the unbounded extra-time growth rate | 7.5 | `python-field-theory.json`, check `clifford_relations`; `python-scope.json`, check `extra_time_growth_rates_unbounded` |
+| the Grassmann rules and the matrix $C$ | 7.10 to 7.13 | `wolfram-field-theory.json`, check `grassmann_algebra_structure`; `python-field-theory.json`, checks `superalgebra_axioms` and `C_properties` |
+| the geometry and $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ | 7.18 | the table at the end of Section 7.18 |
+| reality, total divergence, connection absent from $\mathcal{L}$ | 7.20 | `python-field-theory.json`, checks `grassmann_lagrangian_real`, `commuting_lagrangian_real`, `grassmann_total_divergence_relation` and `commuting_total_divergence_relation`; `wolfram-field-theory.json`, checks `L_spin_connection_drops_out_G` and `L_spin_connection_drops_out_C` |
+| the Euler-Lagrange equations and the adjoint equation | 7.21 | the table at the end of Section 7.21 |
+| explicit, block and evolution forms | 7.22 | `wolfram-field-theory.json`, checks `Dirac_operator_explicit_G`, `Dirac_operator_explicit_C`, `block_form`, `evolution_form_G` and `evolution_form_C`; formula record `Revision/theory/field-theory.json`, keys `field_equation_components` and `field_equation_blocks` |
+| non-triviality, its scope, the exact family | 7.23 | the table at the end of Section 7.23 |
+| the Majorana-type negative control; $J = 0$ for real fields | 7.28 | the table in Section 7.28; lead check `real_fields_charge_conjugation` |
+| the charge-conjugation matrices and the sign table | 7.29 | lead checks `representation_real`, `spinor_connection_real`, `intertwiners_same_mass`, `intertwiners_reversed_mass`, `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus`, `majorana_conditions_consistent`, `real_fields_charge_conjugation` and `bilinears_under_charge_conjugation` |
 
 **COMPUTED by the notebooks** (each number in the cell named; exact unless an uncertainty is given):
 
@@ -4640,7 +4740,22 @@ The four figure files are checked and the last line printed. **Out [15]:** `PASS
 
 **Exercise 7.** Suppose the extra times INFLATED like 3-space, with the scale factor $e^{a_4}\sin^{1/6}z$ (that is $g_{55} = -e^{2a_4}\sin^{1/3}z$). Compute $\gamma^{x_5}\Omega_{x_5}$ and $\gamma^\mu\Omega_\mu$. What does this show about the author's metric?
 
-*Answer.* Now $f_5 = Es$ and $g_{55} = -E^2s^2$. The Christoffel symbol $\Gamma^{x_4}{}_{x_5x_5} = -\partial_4g_{55}/(2g_{44}) = -(-2E^2s^2A_1)/(-2) = -E^2s^2A_1$, so $\omega_{x_5(x_4)(x_5)} = \eta_{44}f_4\Gamma^{x_4}{}_{x_5x_5}/f_5 = -(-E^2s^2A_1)/(Es) = EsA_1$, and the $a_4'$ part of $\Omega_{x_5}$ is $EsA_1S^{(x_4)(x_5)} = \tfrac12EsA_1\gamma^{(x_4)}\gamma^{(x_5)}$. Then $\gamma^{x_5}\Omega_{x_5}$ contains $\frac{\gamma^{(x_5)}}{Es}\cdot\tfrac12EsA_1\gamma^{(x_4)}\gamma^{(x_5)} = \tfrac12A_1\gamma^{(x_5)}\gamma^{(x_4)}\gamma^{(x_5)} = \tfrac12A_1\gamma^{(x_4)}$ (as in Section 7.18, $\gamma^{(x_5)}\gamma^{(x_4)}\gamma^{(x_5)} = \gamma^{(x_4)}$). The $H$ part is unchanged ($\tfrac12H\gamma^{(x_8)}$, because the warp $\sin^{1/6}z$ is the same). So each of the six directions now contributes $+\tfrac12a_4'\gamma^{(x_4)}$, and $\gamma^\mu\Omega_\mu = 3a_4'\gamma^{(x_4)} + 3H\gamma^{(x_8)}$. The cancellation of the time terms in the author's metric is due to the DEFLATION of the extra times. (This is the negative control of the lead's independent check, `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, check `negative_control_inflating_extra_times`.)
+*Answer.* Now $f_5 = Es$ and $g_{55} = -E^2s^2$, so $\partial_4g_{55} = -2E^2s^2A_1$. The Christoffel symbol and the connection component are
+
+$$
+\begin{aligned}
+\Gamma^{x_4}{}_{x_5x_5} &= -\frac{\partial_4g_{55}}{2g_{44}} = -\frac{-2E^2s^2A_1}{-2} = -E^2s^2A_1, \\
+\omega_{x_5(x_4)(x_5)} &= \frac{\eta_{44}f_4\,\Gamma^{x_4}{}_{x_5x_5}}{f_5} = \frac{E^2s^2A_1}{Es} = EsA_1 ,
+\end{aligned}
+$$
+
+so the $a_4'$ part of $\Omega_{x_5}$ is $EsA_1S^{(x_4)(x_5)} = \tfrac12EsA_1\gamma^{(x_4)}\gamma^{(x_5)}$, and the $a_4'$ part of $\gamma^{x_5}\Omega_{x_5}$ is
+
+$$
+\frac{\gamma^{(x_5)}}{Es}\cdot\tfrac12EsA_1\gamma^{(x_4)}\gamma^{(x_5)} = \tfrac12A_1\gamma^{(x_5)}\gamma^{(x_4)}\gamma^{(x_5)} = \tfrac12A_1\gamma^{(x_4)}
+$$
+
+(as in Section 7.18, $\gamma^{(x_5)}\gamma^{(x_4)}\gamma^{(x_5)} = \gamma^{(x_4)}$). The $H$ part is unchanged, $\tfrac12H\gamma^{(x_8)}$, because the warp $\sin^{1/6}z$ is the same. So each of the six directions now contributes $+\tfrac12a_4'\gamma^{(x_4)}$, and $\gamma^\mu\Omega_\mu = 3a_4'\gamma^{(x_4)} + 3H\gamma^{(x_8)}$. The cancellation of the time terms in the author's metric is due to the DEFLATION of the extra times. This is the negative control of the lead's independent check `negative_control_inflating_extra_times` in the report `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`.
 
 **Exercise 8.** In flat space with $m = 2$, a plane wave of the 16-component field has the frame momenta $k_8 = 1$ along the hidden direction and $k_7 = 3$ along an extra time, all others zero. Does it oscillate or grow, and at what rate?
 

@@ -410,6 +410,11 @@ def signed_perm(m):
     return " ".join(s.rjust(3) for s in out)
 
 
+def md_cell(text):
+    """Text for one Markdown table cell: a literal | is escaped, never replaced (|x| stays readable)."""
+    return str(text).replace("|", "\\|").replace("\n", " ")
+
+
 def cells_text(cells, labels):
     return ", ".join(f"{c} ({labels.get(str(c), '?')})" for c in cells)
 
@@ -1556,8 +1561,9 @@ def main():
       "La[], Lj[] and the field equations eLa through sigma16, SAB and the curved matrices T16alpha = e_A^alpha T16A "
       "(traced below); P_L and P_R enter only the author's checks; the author's derived coordinate matrices for the extra "
       "times (useT16, input cell 822) are not a Clifford set (cited from the earlier-stage primordial verifier and "
-      "re-evaluated here); this concerns those derived matrices, not the eight matrices, and the Revision calculations "
-      f"do not use them. The {len(sources)} gamma sources of the repository in the table below were loaded or "
+      "re-evaluated here); this concerns those derived matrices, not the eight matrices; Revision/SPEC.md section 3 "
+      "builds the coordinate matrices as gamma^mu = e^mu_a gamma^a from the frame matrices instead (checked here for the "
+      f"a4 engine). The {len(sources)} gamma sources of the repository in the table below were loaded or "
       f"constructed when this file was generated and compared: {by_cls['equal']} are equal to the author's matrices "
       "entry by entry (coordinate map x8 -> Gamma_0, x1..x3 -> Gamma_1..3, x4 -> Gamma_4, x5..x7 -> Gamma_5..7), "
       f"{by_cls['reads']} reads the compared fixture, and {by_cls['equivalent']} are different bases with an exact "
@@ -1669,7 +1675,7 @@ def main():
     w("| # | check | result | what is proved |")
     w("|---|---|---|---|")
     for i, (name, ok_, detail) in enumerate(CHECKS, 1):
-        w(f"| {i} | `{name}` | {'PASS' if ok_ else 'FAIL'} | {detail.replace('|', '/')} |")
+        w(f"| {i} | `{name}` | {'PASS' if ok_ else 'FAIL'} | {md_cell(detail)} |")
     w("")
     w("### What the scaled commutators generate, and what generates Pin(4,4) (argument)")
     w("")
@@ -1858,7 +1864,7 @@ def main():
     for c in sorted(chain):
         ch = chain[c]
         w(f"| {c} | {ch['label']} | {', '.join(ch['assigns']) or '-'} | {', '.join(ch['refs'])} | "
-          f"{CHAIN_ROLE[c].replace('|', '/')} |")
+          f"{md_cell(CHAIN_ROLE[c])} |")
     w("")
     w(f"P_L and P_R are used only in input cells {cells_text(sorted(set(ref['P_L'] + ref['P_R'])), labels)}: their "
       f"definitions and the author's check. The named T16A[8] appears only in input cells "
@@ -1867,13 +1873,14 @@ def main():
     w("")
     w("**The author's derived coordinate matrices for the extra times.** La[] and Lj[] use useT16 (input cell 822), the "
       "curved matrices after the author's substitution of his metric. The earlier-stage primordial verifier reconstructed "
-      "useT16 for x5, x6, x7 from the author's stored field equations and recorded that it is not a Clifford set "
+      "useT16 for x5, x6, x7 from the author's stored field equations and recorded that it is not a Clifford set; "
+      "the same verifier evaluated the literal cell in Wolfram 15.0.1 and found a wrong factor for x5, x6, x7 as well "
       f"(`author_useT16_extra_times`; cited from `{PRIM_REPORT}`, the consequences re-evaluated here exactly with the "
       "author's T16A): (gamma'^{x5})^2 lacks the factor e^(2 a4) that the Clifford relation needs, and gamma'^{x5} does "
       "not anticommute with gamma'^{x6} for a4 != 0. This concerns the author's derived matrices, not the eight matrices "
-      "T16A. The Revision calculations do not use useT16: Revision/SPEC.md section 3 builds the coordinate matrices as "
-      "gamma^mu = e^mu_a gamma^a from the frame matrices; for the a4 engine this is checked by the extraction "
-      "(GammaCoord_from_gamma, `Revision_a4_engine_wolfram`).")
+      "T16A. Revision/SPEC.md section 3 builds the coordinate matrices as gamma^mu = e^mu_a gamma^a from the frame "
+      "matrices instead; for the a4 engine this is checked by the extraction (GammaCoord_from_gamma, "
+      "`Revision_a4_engine_wolfram`).")
     w("")
     w("## Every gamma source in the repository, compared now")
     w("")
@@ -1889,8 +1896,8 @@ def main():
     w("| check | source | kind | read by (examples) | compared | coordinate map | result |")
     w("|---|---|---|---|---|---|---|")
     for src in sources:
-        w(f"| `{src['name']}` | `{src['source']}` | {src['kind']} | {src['readers']} | "
-          f"{src['compared'].replace('|', '/')} | {src['cmap']} | {src['result']} |".replace("\n", " "))
+        w(f"| `{src['name']}` | `{src['source']}` | {md_cell(src['kind'])} | {md_cell(src['readers'])} | "
+          f"{md_cell(src['compared'])} | {md_cell(src['cmap'])} | {md_cell(src['result'])} |")
     w("")
     w("## Calculations that use these matrices")
     w("")
