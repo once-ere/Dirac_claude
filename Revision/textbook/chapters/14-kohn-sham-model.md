@@ -2734,7 +2734,7 @@ Only the brane band of the blocks $j = +1$ appears on the shells $n^2 \ge 1$ in 
 
 ### 14.22 Example: Notebook 14c, the brane band
 
-Notebook 14c does Sections 14.19 to 14.21 with the computer, with the shooting method of Notebook 14b (now also for nonzero 3-momenta and any slice). It computes the brane band and three other levels for $k$ from 0 to 4 and compares 324 levels with the Rust record; it derives the slope formula with sympy, checks the integral of Section 14.19 on the numerical zero mode, measures the slope by Richardson extrapolation at the five slices and for two other cutoffs; it checks the rescaling identity for 45 levels and the gap of the state $N = 8$ at the five slices; it checks the two block-type symmetries; it measures the effect of the tip condition; and it builds the lattice shells, the particle labels, the closed shells at the slices 0 and 0.5 and the particle numbers of the Revision runs, all against the Rust records. It draws six figures and needs no Rust. It runs in about 90 seconds (the cells of its sections 8 to 11 integrate the equation for hundreds of energies at once, 72 times over, and take 5 to 20 seconds each), and its last line is ALL 15 CHECKS PASSED (notebook 14c).
+Notebook 14c does Sections 14.19 to 14.21 with the computer, with the shooting method of Notebook 14b (now also for nonzero 3-momenta and any slice). It computes the brane band and three other levels for $k$ from 0 to 4 and compares 324 levels with the Rust record; it derives the slope formula with sympy, checks the integral of Section 14.19 on the numerical zero mode, measures the slope by Richardson extrapolation at the five slices and for two other cutoffs; it checks the rescaling identity for 45 levels and the gap of the state $N = 8$ at the five slices; it checks the two block-type symmetries; it measures the effect of the tip angle at the cutoff $L = 3$; and it builds the lattice shells, the particle labels, the closed shells at the slices 0 and 0.5 and the particle numbers of the Revision runs, all against the Rust records. It draws six figures and needs no Rust. It runs in about 90 seconds (the cells of its sections 8 to 11 integrate the equation for hundreds of energies at once, 72 times over, and take 5 to 20 seconds each), and its last line is ALL 15 CHECKS PASSED (notebook 14c).
 
 <!-- NOTEBOOK 14c -->
 
@@ -3240,7 +3240,7 @@ save_figure(fig, "block_type_mirror",
 
 Five curves in each panel, the zero line, labels and titles (a loop over the two panels sets what they share). **What figure 14c.4 shows.** Left ($j = +1$): the label 0 curve starts at 0 and rises (the brane band); labels 1 and 2 start at $1.448$ and $2.321$ and rise; labels $-1$ and $-2$ are their mirror images below zero. Right ($j = -1$): the same picture turned upside down: the label 0 curve falls from 0 (the sea partner of the band).
 
-**In [11], the tip condition.**
+**In [11], the tip angle.**
 
 ```python
 tip_rows = read_csv(f"{SPECTRUM}/tip-angle.csv")
