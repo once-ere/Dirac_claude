@@ -347,7 +347,8 @@ the most recent command. Optional, to measure the run time: in PowerShell
    $out | Where-Object { $_ -notmatch '^PASS  ' }
    ```
 
-   macOS and Linux (the output is saved in your home folder, outside the repository):
+   macOS and Linux (the output is saved in the file `~/verify_algebra_run.txt` in your home folder,
+   outside the repository; delete it afterwards with `rm ~/verify_algebra_run.txt`, section 5.2):
 
    ```bash
    wolframscript -file Revision/algebra/wolfram/verify_algebra.wls > ~/verify_algebra_run.txt; echo "exit code: $?"
@@ -388,8 +389,21 @@ the most recent command. Optional, to measure the run time: in PowerShell
 
 ### 3.7 What to do if it fails
 
-* `wolframscript : The term 'wolframscript' is not recognized ...` (PowerShell) or
-  `wolframscript: command not found` (macOS, Linux): WolframScript is not installed or not on the PATH.
+* A message that the command `wolframscript` does not exist. Its exact wording depends on the shell
+  (all four forms were observed during the verification, the zsh form with zsh on Linux, section 6.5):
+  * Windows PowerShell (version 5.1):
+    `wolframscript : The term 'wolframscript' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, ...`
+    (one message, wrapped over two or more screen lines), then a line beginning with `At line:1` and four
+    further lines (the command, a `~~~` underline, `CategoryInfo` and `FullyQualifiedErrorId`);
+  * PowerShell 7 (no space before the colon, other words):
+    `wolframscript: The term 'wolframscript' is not recognized as a name of a cmdlet, function, script file, or executable program.`
+    followed by the line `Check the spelling of the name, or if a path was included, verify that the path is correct and try again.`;
+  * Linux (bash): `wolframscript: command not found` (Ubuntu, whose command-not-found helper prints it)
+    or `bash: wolframscript: command not found` (bash without that helper);
+  * macOS (zsh, the default shell of Terminal): `zsh: command not found: wolframscript`.
+
+  In PowerShell `$LASTEXITCODE` then prints nothing in a new window (or the exit code of an earlier
+  program); in bash and zsh the exit code is `127`. WolframScript is not installed or not on the PATH.
   Install it (section 3.3, option C) and open a NEW terminal. On Windows you can also run it by its full
   path: `& "C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe" -file Revision/algebra/wolfram/verify_algebra.wls`.
 * A request to activate, or a message that the kernel is not activated or the licence is invalid: run
@@ -530,10 +544,11 @@ other jobs were running on the same machine during the measurements.
   4.76, 4.79, 4.39, 4.39, 4.07, 4.97, 5.55, 5.24 and 4.38 s; an independent verifier measured 4.40 to
   7.45 s; the re-verification of 2026-10-07 (12 to 13 Wolfram kernels of other jobs running at the
   same time) measured 5.98, 5.60, 7.25, 6.65, 6.80, 6.99, 7.40 and 6.34 s under the monitors of
-  section 6.4, 8.19 s with `Measure-Command` and 6.88 s with `time` in Git Bash. Overall: 4.07 to
-  8.19 s.
+  section 6.4, 8.19 s with `Measure-Command` and 6.88 s with `time` in Git Bash, and the check of
+  section 6.5 (13 `wolfram.exe` processes of other jobs running when its second run started) measured
+  8.43 s in Git Bash and 8.91 s with `Measure-Command`. Overall: 4.07 to 8.91 s.
 * The script's own time (the number printed after `time`): 1.6 to 2.07 s in the first verification, 1.43
-  to 1.71 s in the re-verification, 1.45 to 3.78 s in the independent verifier's runs, 1.81 to 2.6 s on
+  to 1.71 s in the re-verification, 1.45 to 3.78 s in the independent verifier's runs, 1.81 to 2.88 s on
   2026-10-07. Overall: 1.43 to 3.78 s.
 * Memory: the Wolfram kernel process peaked at 395.7 to 398.3 MiB (working set) in the nine runs whose
   monitor read the kernel's peak working set until the end of the run (five on 2026-10-02, four on
@@ -589,6 +604,12 @@ other jobs were running on the same machine during the measurements.
 * `wolframscript` re-saves its settings file (`%APPDATA%\Wolfram\WolframScript\WolframScript.conf` on
   Windows): its modification time changed during the runs, its content did not (same sha256 before and
   after).
+* A file in your home folder, only if you use the macOS/Linux checking commands of section 3.6 item 1:
+  they leave `~/verify_algebra_run.txt`, a copy of the 46 printed lines (about 1.4 KB; 1384 bytes on the
+  verification machine, where the lines end in CR LF), and every later use of those commands overwrites
+  it. Delete it with `rm ~/verify_algebra_run.txt`. Apart from this file, the commands of sections 3.5 and
+  3.6 write nothing outside the repository: the PowerShell form of section 3.6 keeps the output in the
+  variable `$out` until the window is closed, and `Measure-Command` and `time` only print.
 * Network: none. While the script ran, the only network endpoints owned by `wolframscript` and its kernel
   were short-lived TCP connections of the kernel with itself on the loopback address `127.0.0.1` (both
   ends belong to the kernel). One to three such connections per run were seen; in the two runs where
@@ -626,11 +647,13 @@ instead. Afterwards `git status --porcelain` prints nothing.
 
 * Date: 2026-10-02 (first verification, then a re-verification after an independent review on the same
   day, sections 6.1 to 6.3), and 2026-10-07 (a further re-verification after the verification workflow
-  was interrupted by a session limit and restarted, section 6.4).
-* Commits verified: `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` on 2026-10-02 (sections 6.1 and 6.2) and
+  was interrupted by a session limit and restarted, section 6.4, and a check of the corrections made
+  after a second review, section 6.5).
+* Commits verified: `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` on 2026-10-02 (sections 6.1 and 6.2),
   `a4c5eda1df069a43a55ff8b57148f5de8edd1670` on 2026-10-07 (section 6.4; the fix of section 6.3 is
-  committed there). The commit, environment and files of 2026-10-07 are listed in section 6.4; the two
-  items below describe 2026-10-02.
+  committed there) and `b980c803830541395603016613b2a48b454ca872` on 2026-10-07 (section 6.5). The
+  commits, environment and files of 2026-10-07 are listed in sections 6.4 and 6.5; the two items below
+  describe 2026-10-02.
 * Commit verified on 2026-10-02: `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (branch `main` of
   `https://github.com/once-ere/Dirac_claude.git`). The most recent commit that changed a file of this set
   is `9ea68d4ec75ebb3e74e33ea6a63248e2689541a5` (2026-10-01 12:55:44 -0700; driver, fixture and report);
@@ -878,3 +901,41 @@ instead. Afterwards `git status --porcelain` prints nothing.
 * Fixes made on 2026-10-07: none (no execution defect was found). Open discrepancies: none. 45 of 45
   checks pass, the exit code is 0, and both outputs are byte-identical to the committed files in every
   run.
+
+### 6.5 Check of the corrections after the second review (2026-10-07, commit `b980c80`)
+
+* Why: a second independent review found that section 3.7 quoted only the Windows PowerShell 5.1 form of
+  the "not recognized" message (PowerShell 7, offered in section 3.2 and used for the verification,
+  prints other words), and that section 5.2 did not list the file `~/verify_algebra_run.txt` that the
+  macOS/Linux commands of section 3.6 leave in the home folder. Both findings were confirmed and corrected
+  (sections 3.6, 3.7 and 5.2; section 4.4 received the two new times). No script, package or output
+  changed.
+* Commit: `b980c803830541395603016613b2a48b454ca872` (branch `main` of
+  `https://github.com/once-ere/Dirac_claude.git`), one fresh clone, nothing copied into it. The four
+  files of sections 2.1 and 2.3 had exactly the sha256 values given there. The text of this file as
+  re-verified in section 6.4 had been committed in `d806b00`; `git diff --stat a4c5eda b980c80 -- Revision/algebra`
+  lists only this file. Environment as in section 6.4.
+* The messages of section 3.7, with the folder of WolframScript removed from `PATH`: Windows PowerShell
+  5.1.26100.9444 printed
+  `wolframscript : The term 'wolframscript' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, ...`
+  (wrapped), a line `At line:1 char:...` and four further lines; PowerShell 7.6.6 printed
+  `wolframscript: The term 'wolframscript' is not recognized as a name of a cmdlet, function, script file, or executable program.`
+  and the line `Check the spelling of the name, or if a path was included, verify that the path is correct and try again.`;
+  in both, `$LASTEXITCODE` was empty in a new session. In Ubuntu 24.04 (Windows Subsystem for Linux), in
+  a pseudo-terminal, interactive bash 5.2.21 printed `wolframscript: command not found` with the system
+  start-up file (Ubuntu's package `command-not-found` 23.04.0 is installed) and
+  `bash: wolframscript: command not found` without it (`bash --norc -i`), and interactive zsh 5.9 printed
+  `zsh: command not found: wolframscript`; the exit code was 127 in all three. zsh was not run on a Mac.
+* The checking commands of section 3.6 item 1, in the fresh clone:
+
+  | run | shell and form | exit code | lines printed | the single line that is not `PASS` | wall time |
+  | --- | --- | --- | --- | --- | --- |
+  | 1 | Git Bash, the macOS/Linux form typed as printed, `HOME` pointed to an empty scratch folder | 0 | 46 | `45/45 checks passed; time 2.67 s` | 8.43 s |
+  | 2 | PowerShell 7.6.6, the PowerShell form inside `Measure-Command` (13 `wolfram.exe` processes of other jobs running at its start) | 0 | 46 | `45/45 checks passed; time 2.88 s` | 8.91 s |
+
+  After run 1 the home folder held exactly one file, `verify_algebra_run.txt`: 1384 bytes, 46 lines,
+  46 CR bytes (Windows line endings); `rm ~/verify_algebra_run.txt` removed it and left the folder empty.
+  After each run `gammas.json` and `wolfram-algebra.json` had the sha256 values of section 2.3 and
+  `git status --porcelain --ignored` printed nothing; after run 2 the command of item 2 printed
+  `Revision\algebra\reports\wolfram-algebra.json:7:  "summary": {"passed": 45, "failed": 0, "total": 45},`.
+* Fixes made: none (no execution defect). Open discrepancies: none.

@@ -1,6 +1,6 @@
 # Provenance of the WolframScript set `verify_dirac16complex_kohn_sham` (old Stage 4: the exact Kohn-Sham theory)
 
-This file is written for a student who has never used Wolfram software. It explains one program of this repository: what it computes, which files it reads and writes, how to install everything it needs and run it on Windows, macOS or Linux, what it prints, what it changes on your computer, and how it was tested on 2026-10-02 and tested again from a fresh download on 2026-10-07. Everything you need is in this file; you do not have to open any other file to run the program.
+This file is written for a student who has never used Wolfram software. It explains one program of this repository: what it computes, which files it reads and writes, how to install everything it needs and run it on Windows, macOS or Linux, what it prints, what it changes on your computer, and how it was tested on 2026-10-02 and tested again from fresh downloads on 2026-10-07. Everything you need is in this file; you do not have to open any other file to run the program.
 
 Contents:
 
@@ -18,7 +18,7 @@ Contents:
 The set consists of two plain-text files written in the Wolfram Language (the language of Mathematica and of the free Wolfram Engine):
 
 - `scripts/verify_dirac16complex_kohn_sham.wls` is the **script**: the program you start. A `.wls` file is a WolframScript script.
-- `wolfram/Dirac16ComplexKohnSham.wl` is the **package**: a library of Wolfram Language functions. The script loads it and calls its main entry point `D16KSRun`, which runs every check. The package exports two more public functions, `D16KSGammas` (the eight 16 x 16 gamma matrices) and `D16KSBlockBasis` (the exact block basis); this script does not call them, but the Mathematica notebook builder `scripts/build_dirac16complex_ks_mathematica_notebook.wls` does.
+- `wolfram/Dirac16ComplexKohnSham.wl` is the **package**: a library of Wolfram Language functions. The script loads it and calls its main entry point `D16KSRun`, which runs every check. The package exports two more public functions, `D16KSGammas` (the eight 16 x 16 gamma matrices) and `D16KSBlockBasis` (the exact block basis, which exists only after `D16KSRun` has run, because the run computes it; called before, it returns an unevaluated symbol); this script does not call them, but the Mathematica notebook builder `scripts/build_dirac16complex_ks_mathematica_notebook.wls` does.
 
 Together they are the exact (symbolic) part of "Stage 4" of the earlier `dirac16complex` work: the Kohn-Sham treatment (a density-functional, "DFT"-type approximation) of the interacting 16-component Dirac field `dirac16complex` in the **static** primordial gravitational field (the member of the primordial family in which the function a4 is a constant), written in the hidden-space coordinate y = ln(sin z)/(6H), which runs over (-infinity, 0].
 
@@ -62,9 +62,9 @@ The Jupyter notebook `notebooks/dirac16complex_kohn_sham.ipynb` (with its own pr
 
 ### 1.5 The Dirac matrices it uses
 
-The eight 16 x 16 gamma (Dirac) matrices gamma^0, ..., gamma^7 that the package builds (package lines 98 to 114, function `D16KSGammas`) are **real**: every entry is -1, 0 or +1. They are the author's eight real Dirac matrices `T16A[0]`, ..., `T16A[7]` of the notebook `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`, which are displayed and proved (real, Cl(4,4) anticommutation relations, Pin(4,4)) in `provenance/dirac matrices.md`. Two of the set's own checks concern them: `KS_fixture_gammasMatchCommittedFixture` (the rebuilt matrices equal, entry by entry, the committed matrices of `algebra-fixture.json`) and `KS_fixture_cliffordAndC` ({gamma^a, gamma^b} = 2 eta^ab times the 16 x 16 identity, eta = diag(+1, +1, +1, +1, -1, -1, -1, -1), and C = gamma^0 gamma^1 gamma^2 gamma^3). On 2026-10-07 an additional check, run outside the repository on the fresh download (Section 6.2), confirmed 11 of 11 statements: the package returns eight 16 x 16 matrices; their entries are in {-1, 0, 1}; each equals its complex conjugate (real); they equal entry by entry the author's `T16A[0..7]` stored in `provenance/dirac_matrices/author_notebook_T16.json` and the `gamma` matrices of `algebra-fixture.json`; they satisfy all 64 anticommutation relations; the author's metric `eta4488` is diag(+1, +1, +1, +1, -1, -1, -1, -1); the author's `sigma16` equals gamma^0 gamma^1 gamma^2 gamma^3 and the author's `T16A[8]` equals gamma^0 ... gamma^7; the 28 scaled commutators [gamma^a, gamma^b]/4 (a < b) are linearly independent (the 28 generators of spin(4,4), the Lie algebra of Pin(4,4)).
+The eight 16 x 16 gamma (Dirac) matrices gamma^0, ..., gamma^7 that the package builds (in package lines 98 to 113, as the list `gamL`) and returns (function `D16KSGammas`, defined in package line 124) are **real**: every entry is -1, 0 or +1. They are the author's eight real Dirac matrices `T16A[0]`, ..., `T16A[7]` of the notebook `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`, which are displayed and proved (real, Cl(4,4) anticommutation relations, Pin(4,4)) in `provenance/dirac matrices.md`. Two of the set's own checks concern them: `KS_fixture_gammasMatchCommittedFixture` (the rebuilt matrices equal, entry by entry, the committed matrices of `algebra-fixture.json`) and `KS_fixture_cliffordAndC` ({gamma^a, gamma^b} = 2 eta^ab times the 16 x 16 identity, eta = diag(+1, +1, +1, +1, -1, -1, -1, -1), and C = gamma^0 gamma^1 gamma^2 gamma^3). On 2026-10-07 an additional check, run outside the repository on the fresh download (Section 6.2), confirmed 11 of 11 statements: the package returns eight 16 x 16 matrices; their entries are in {-1, 0, 1}; each equals its complex conjugate (real); they equal entry by entry the author's `T16A[0..7]` stored in `provenance/dirac_matrices/author_notebook_T16.json` and the `gamma` matrices of `algebra-fixture.json`; they satisfy all 64 anticommutation relations; the author's metric `eta4488` is diag(+1, +1, +1, +1, -1, -1, -1, -1); the author's `sigma16` equals gamma^0 gamma^1 gamma^2 gamma^3 and the author's `T16A[8]` equals gamma^0 ... gamma^7; the 28 scaled commutators [gamma^a, gamma^b]/4 (a < b) are linearly independent (the 28 generators of spin(4,4), the Lie algebra of Pin(4,4)). Later the same day, on each of two further fresh downloads (Section 6.3), the check was repeated with two more statements about the block basis (its entries and its unitarity, next paragraph): 13 of 13 true.
 
-The name `dirac16complex` refers to the **field**, not to the matrices: the field Psi has 16 complex components, and the set builds complex matrices from the real gamma matrices, for example B = -i C gamma^4 (purely imaginary; confirmed by the same additional check), the block basis with entries 0, +-1, +-i, and the factors e^{-i eps x4} e^{i k x1} of the ansatz.
+The name `dirac16complex` refers to the **field**, not to the matrices: the field Psi has 16 complex components, and the set builds complex matrices from the real gamma matrices, for example B = -i C gamma^4 (purely imaginary; confirmed by the same additional check), the unitary block basis returned by `D16KSBlockBasis` (package line 285), whose entries are 0, +-1 and +-i divided by 2 sqrt(2) (the package's own description, package line 65; confirmed by the repeated check of Section 6.3: 2 sqrt(2) times the basis has exactly the entries -1, 0, +1, -i, +i, and the basis is unitary), and the factors e^{-i eps x4} e^{i k x1} of the ansatz.
 
 ## 2. Its files
 
@@ -101,7 +101,8 @@ Both outputs are UTF-8 JSON with LF line endings and contain no date, no time an
 ### 3.1 What you need
 
 - A 64-bit computer with Windows 10 or 11, macOS, or Linux.
-- About 1 GB of free disk space (the repository is about 130 MB to download and about 520 MB on disk after the download) and about 1 GB of free memory (the Wolfram kernel used at most about 300 MB in the test).
+- At least 2 GB of free disk space for the repository, in addition to the space that the Wolfram installation of Section 3.4 needs (its installer tells you how much). The repository keeps growing: on 2026-10-07 a fresh download transferred about 225 MB (Git reported `size-pack: 222.84 MiB`) and the downloaded folder took about 710 MB on disk, against about 130 MB and 520 MB a few days earlier.
+- About 1 GB of free memory (the Wolfram kernel used at most about 300 MB in the test).
 - An internet connection for the installation and for the download of the repository. The script itself does not use the network.
 - Two programs: **Git** (to download the repository) and **WolframScript with a Wolfram kernel** (to run the script). You do not need Python, Rust or a Jupyter installation for this set.
 
@@ -113,7 +114,7 @@ A terminal is a window in which you type commands. Type each command exactly as 
 - **macOS:** open Finder, then Applications, then Utilities, then Terminal.
 - **Linux:** open your distribution's terminal program (for example "Terminal" in Ubuntu).
 
-The macOS and Linux commands below (from Section 3.5 on) are ordinary POSIX shell commands; they were tested in the Bash of Git for Windows on the verification machine (Section 6, runs 11, 15, 20 and 21), not on a Mac or on a Linux computer.
+The macOS and Linux commands below (from Section 3.5 on) are ordinary POSIX shell commands; they were tested in the Bash of Git for Windows on the verification machine (Section 6, runs 11, 15, 20, 21, 25, 28 and 29), not on a Mac or on a Linux computer.
 
 ### 3.3 Install Git
 
@@ -163,7 +164,7 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The first command downloads the repository into a new folder `Dirac_claude` (about 130 MB; 8 to 31 seconds on the test machine; while it works it prints `Cloning into 'Dirac_claude'...` and progress lines). The second command enters that folder. This folder is the **repository root**: every command below must be typed there. (If the folder already exists from an earlier download, `git clone` refuses with `fatal: destination path 'Dirac_claude' already exists and is not an empty directory.`; then type `cd Dirac_claude` and `git pull` to update it, which prints `Already up to date.` when nothing has changed.)
+The first command downloads the repository into a new folder `Dirac_claude` (about 225 MB on 2026-10-07, and growing; 8 to 40 seconds on the test machine; while it works it prints `Cloning into 'Dirac_claude'...` and progress lines). The second command enters that folder. This folder is the **repository root**: every command below must be typed there. (If the folder already exists from an earlier download, `git clone` refuses with `fatal: destination path 'Dirac_claude' already exists and is not an empty directory.`; then type `cd Dirac_claude` and `git pull` to update it, which prints `Already up to date.` when nothing has changed.)
 
 ### 3.7 Run the script
 
@@ -183,7 +184,7 @@ wolframscript -file scripts/verify_dirac16complex_kohn_sham.wls artifacts/dirac1
 echo $?
 ```
 
-The first line runs the script (13 to 22 seconds on the test machine; the program prints 155 lines, Section 4.1). The second line prints the exit code of the run, which must be `0`. Forward slashes `/` in the paths work on Windows too. Do not type `--` before the report path (see the problem table in Section 3.10).
+The first line runs the script and prints 155 lines (Section 4.1). How long it takes depends on how busy your computer is: on the test machine a run took about 13 seconds when the machine was otherwise idle and 20 to 44 seconds when all its processors were busy with other programs (Section 4.4). These are typical values, not limits: a slower run is not a sign of an error, and the progress lines (Section 4.1) show that the program is working. What decides success are the final lines (Section 3.9). The second line prints the exit code of the run, which must be `0`. Forward slashes `/` in the paths work on Windows too. Do not type `--` before the report path (see the problem table in Section 3.10).
 
 The command `wolframscript -file scripts/verify_dirac16complex_kohn_sham.wls` without the report path does exactly the same, because the path above is the default.
 
@@ -239,7 +240,7 @@ You can also count the passed checks inside the report. Each check is one line o
 
 | What you see | Cause | What to do |
 |---|---|---|
-| `wolframscript : The term 'wolframscript' is not recognized ...` (PowerShell) or `wolframscript: command not found` (macOS, Linux) | WolframScript is not installed, or the terminal was opened before the installation | Open a new terminal. If it still fails, install WolframScript by itself (Section 3.4, option A, step 4). |
+| The terminal says it does not know the command `wolframscript`. Windows PowerShell 5.1 prints `wolframscript : The term 'wolframscript' is not recognized as the name of a cmdlet, ...`; PowerShell 7 prints `wolframscript: The term 'wolframscript' is not recognized as a name of a cmdlet, ...`; Linux with Bash prints `bash: wolframscript: command not found` (some distributions print only `wolframscript: command not found` or suggest packages); macOS, whose standard terminal shell is zsh, prints `zsh: command not found: wolframscript` | WolframScript is not installed, or the terminal was opened before the installation | Open a new terminal. If it still fails, install WolframScript by itself (Section 3.4, option A, step 4). |
 | `wolframscript -activate` refuses your Wolfram ID and password, or says that no licence or no entitlement was found for it | Your Wolfram ID has no Wolfram Engine licence yet: the "Get your license" step was skipped | Do Section 3.4, option A, step 2: open https://www.wolfram.com/engine/free-license/, click "Get your license", sign in with the same Wolfram ID and accept the terms of use. Then type `wolframscript -activate` again. |
 | WolframScript asks for a Wolfram ID and password, or reports that the engine is not activated or that no licence is available | The kernel was never activated, the activation expired, or too many Wolfram kernels are running at once | Type `wolframscript -activate` and enter your Wolfram ID and password (if this is refused, see the previous row). Close other Mathematica or Wolfram sessions and try again. |
 | `Failed to open file at path: scripts/verify_dirac16complex_kohn_sham.wls` (and the exit code is **0**, although nothing ran) | The terminal is not in the repository root | Type `cd` followed by the path of the `Dirac_claude` folder and run again. WolframScript returns exit code 0 here, so always check the `check_count` lines, not only the exit code. |
@@ -248,14 +249,14 @@ You can also count the passed checks inside the report. Each check is one line o
 | One or more lines `CHECK FAILED: <name>` and `check_<name>=false`, `failed_check_count` larger than 0, exit code 1 | An input file differs from the committed one, or your Wolfram version computes something differently | Do not edit the checks. Run `git status` to see whether an input was changed and compare the SHA-256 values of Sections 2.1 and 2.2. With unchanged inputs, note your Wolfram version (`wolframscript -code '$Version'`) and the failing check names; the test was made with version 15.0.1. |
 | `INTERNAL ERROR: ...` and `check_KS_internal_noException=false` | An exact simplification did not reach the expected form (for example with a much older Wolfram version) | As in the previous row. |
 | Error messages about `FileHash`, `RawJSON` or `ExportString` | A very old Wolfram version | Install a current Wolfram Engine (Section 3.4). |
-| `git status --porcelain` lists `artifacts/dirac16complex/kohn-sham/wolfram-kohn-sham-report.json` or `kohn-sham-theory.json` | The run produced different bytes | See which lines differ with `git diff artifacts/dirac16complex/kohn-sham/`. Restore the committed files with the command of Section 5.6. |
+| `git status --porcelain` lists `artifacts/dirac16complex/kohn-sham/wolfram-kohn-sham-report.json` or `kohn-sham-theory.json` | The run produced different bytes | See which lines differ with `git diff artifacts/dirac16complex/kohn-sham/`. Restore the committed files with the command of Section 5.6. If the only differing lines are the three lines under `sourceSha256` (the fingerprints of the script, the package and the fixture) in each file, then those three files differ from the committed bytes, most often because they were given Windows line endings (CR LF), for example by an editor; `git status` then lists them as changed too. Restore them with `git checkout -- scripts/verify_dirac16complex_kohn_sham.wls wolfram/Dirac16ComplexKohnSham.wl artifacts/dirac16complex/arbitrary-field/algebra-fixture.json` and run again (Section 6.3 shows this case). |
 | You typed `--` before the report path | The script's header warns that some WolframScript versions drop `--` and everything after it; the report would then go to the default path | Type the command without `--`. (With WolframScript 1.14.0 on the test machine the `--` arrived and the script removed it, so the report went to the given path.) |
 
 ## 4. The expected output
 
 ### 4.1 What is printed
 
-The program prints exactly 155 lines (on Windows the lines end with CR LF). First come nine progress lines, each beginning with the time of day in the form `[hh:mm:ss]`; then the 125 check lines; then the 16 measurement lines; then five summary lines. Below is the complete output of the test run; the times of day are replaced by `[hh:mm:ss]`, the durations by `N`, and the folder of your repository by `<repository root>` (on Windows the printed paths use backslashes `\`). The durations were 9 to 16 seconds on the test machine.
+The program prints exactly 155 lines (on Windows the lines end with CR LF). First come nine progress lines, each beginning with the time of day in the form `[hh:mm:ss]`; then the 125 check lines; then the 16 measurement lines; then five summary lines. Below is the complete output of the test run; the times of day are replaced by `[hh:mm:ss]`, the durations by `N`, and the folder of your repository by `<repository root>` (on Windows the printed paths use backslashes `\`). The duration `N` (the computation itself, without the start of the kernel) was 9 to 16 seconds on the test machine when it was nearly idle and up to 36 seconds when all its processors were busy with other programs; these are typical values, not limits (Section 4.4).
 
 ```
 [hh:mm:ss] fixture
@@ -435,7 +436,11 @@ Nothing else is written by the script, apart from the missing folders of the rep
 
 ### 4.4 Run time
 
-On the test machine (24 logical processors, Windows 11, Wolfram 15.0.1) one run took 12.7 to 21.8 seconds from the start of `wolframscript` to its end (measured with a stopwatch around the command), of which 9 to 16 seconds were the computation itself (the `elapsed_seconds` line) and the rest the start of the kernel. Other Wolfram programs were running on the same machine at the same time (on 2026-10-07 about 28 Wolfram processes of other programs), which explains the spread: on 2026-10-02 the runs took 12.7 to 18.2 seconds, on 2026-10-07 18.9 to 21.8 seconds. In run 1 of Section 6 the largest parts were KS_reduction (about 3 seconds) and KS_geometry, KS_exchange and KS_emt (about 2 seconds each); in run 18 (2026-10-07) KS_reduction took about 6 seconds, KS_geometry and KS_exchange about 3 to 4 seconds each and KS_emt about 2 seconds, as the times of day of the progress lines show. The Wolfram kernel process needed at most 296 MB of memory (peak working set: 296 MB in runs 1 and 2, 295.7 and 295.8 MB in runs 18 and 19), WolframScript itself 16 to 17 MB.
+The run time depends on how busy the computer is, so the figures below are typical values, not limits: a slower run is not a sign of an error. On the test machine (24 logical processors, Windows 11, Wolfram 15.0.1) one run took, from the start of `wolframscript` to its end (measured with a stopwatch around the command), about 13 seconds when the machine was nearly idle and up to 44 seconds when it was fully loaded; the computation itself (the `elapsed_seconds` line) took 9 to 36 seconds and the rest was the start of the kernel. Other programs were running on the same machine at the same time, which explains the spread:
+
+- 2026-10-02 (Section 6.1): 12.7 to 18.2 seconds (`elapsed_seconds` 9 to 14).
+- 2026-10-07, first check (Section 6.2, about 28 Wolfram processes of other programs running): 18.9 to 21.8 seconds (`elapsed_seconds` 12 to 16).
+- 2026-10-07, after the independent review (Section 6.3, the processor load at 100 % with other programs, among them 13 to 17 other Wolfram kernels): 21.3 to 43.6 seconds (`elapsed_seconds` 15 to 36). The independent review itself, on the same day, measured 20.7 to 24.5 seconds (`elapsed_seconds` 15 to 18) for the commands of Sections 3.7 and 3.8, and `elapsed_seconds=21` for a run in a folder holding only the three files of Section 2. In run 1 of Section 6 the largest parts were KS_reduction (about 3 seconds) and KS_geometry, KS_exchange and KS_emt (about 2 seconds each); in run 18 (2026-10-07) KS_reduction took about 6 seconds, KS_geometry and KS_exchange about 3 to 4 seconds each and KS_emt about 2 seconds, as the times of day of the progress lines show. The Wolfram kernel process needed at most 296 MB of memory (peak working set: 296 MB in runs 1 and 2, 295.7 and 295.8 MB in runs 18 and 19), WolframScript itself 16 to 17 MB.
 
 ## 5. Side effects
 
@@ -479,7 +484,7 @@ Check: `git status --porcelain --ignored` prints nothing, and in a freshly downl
 
 ## 6. Verification record
 
-The set was verified twice: first on 2026-10-02 (Section 6.1, runs 1 to 17), then again on 2026-10-07 from a new fresh download after the work was interrupted and resumed (Section 6.2, runs 18 to 22). Both verifications gave the same result: the set executes correctly and reproduces both committed outputs byte for byte.
+The set was verified three times: first on 2026-10-02 (Section 6.1, runs 1 to 17), then again on 2026-10-07 from a new fresh download after the work was interrupted and resumed (Section 6.2, runs 18 to 23), and once more on 2026-10-07 from two further fresh downloads after an independent review of this file (Section 6.3, runs 24 to 29). All three verifications gave the same result: the set executes correctly and reproduces both committed outputs byte for byte.
 
 ### 6.1 First verification (2026-10-02)
 

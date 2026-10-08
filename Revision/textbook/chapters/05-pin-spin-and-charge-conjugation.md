@@ -6,7 +6,7 @@ Chapter 4 built the author's eight real gamma matrices, one $16 \times 16$ matri
 
 A spinor field $\Psi$ attaches 16 numbers $\Psi_1, \dots, \Psi_{16}$ to every point of spacetime. Its field equation (Chapter 7) multiplies $\Psi$ by the gamma matrices. Four further questions must be answered before the equation can be used, and each needs one of the matrices of this chapter.
 
-- How do we make a single number out of a spinor, a number that does not change when the eight directions are turned into each other? The answer is the **bilinear** $\Psi^\dagger C\Psi$ with the charge matrix $C$ (Sections 5.4 and 5.1).
+- How do we make a single number out of a spinor, a number that does not change when the eight directions are turned into each other? The answer is the **bilinear** $\Psi^\dagger C\Psi$ with the charge matrix $C$ (Sections 5.4 and 5.18).
 - Which parts of a spinor stay separate under every turning of the directions? The two **chiral halves**, components 1 to 8 and 9 to 16, picked out by the chirality $\Gamma$ (Sections 5.5 and 5.13).
 - What is the **charge density** of a spinor field, the quantity whose total is conserved? It is $\Psi^\dagger B\Psi$ with the matrix $B$ (Section 5.6).
 - What turns matter into antimatter? A **charge-conjugation matrix**. Because the author's gammas are real, plain complex conjugation does nothing to a real field and cannot exchange matter and antimatter; the exchange must be made by a matrix, and there are exactly two such matrices, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$ (Sections 5.1 and 5.1).
@@ -171,7 +171,7 @@ $$
 S = \bar\Psi\Psi = \Psi^\dagger C\Psi = \sum_{r,c}\Psi_r^{\ast} C_{rc}\Psi_c .
 $$
 
-Section 5.1 proves that $S$ does not change when the directions are turned by any element of Spin(4,4); this is why $C$, and not the identity matrix, stands between $\Psi^\dagger$ and $\Psi$. Here are its properties, each derived from Section 5.3.
+Section 5.18 proves that $S$ does not change when the directions are turned by any element of Spin(4,4); this is why $C$, and not the identity matrix, stands between $\Psi^\dagger$ and $\Psi$. Here are its properties, each derived from Section 5.3.
 
 **(C1) How C moves past a gamma: $C\gamma^a = -\eta_{aa}\gamma^aC$.** $C$ is a product of $k = 4$ different gammas. If $a$ is space-like, $\gamma^a$ is one of its factors, and Rule 1 gives $\gamma^aC = (-1)^{3}C\gamma^a = -C\gamma^a$. If $a$ is time-like, it is not a factor, and Rule 1 gives $\gamma^aC = (-1)^4C\gamma^a = C\gamma^a$. Both cases read $\gamma^aC = -\eta_{aa}C\gamma^a$. Multiplying this by $-\eta_{aa}$ and using $\eta_{aa}\eta_{aa} = 1$ gives the claim. So $C$ anticommutes with the four space-like gammas and commutes with the four time-like ones.
 
@@ -1219,7 +1219,7 @@ $$
 \Lambda(g) = R_{u_1}R_{u_2}\cdots R_{u_k} ,
 $$
 
-a product of $k$ reflections. It lies in O(4,4), with $\det\Lambda(g) = (-1)^k$: the even elements, those of Spin(4,4), have vector matrices in SO(4,4). The matrix $\Lambda(g)$ says how $g$ moves the eight directions; it is called the **vector matrix** of $g$. Section 5.1 shows that $g$ and $-g$ have the same vector matrix and that these are the only two (the **double cover**).
+a product of $k$ reflections. It lies in O(4,4), with $\det\Lambda(g) = (-1)^k$: the even elements, those of Spin(4,4), have vector matrices in SO(4,4). The matrix $\Lambda(g)$ says how $g$ moves the eight directions; it is called the **vector matrix** of $g$. Section 5.18 shows that $g$ and $-g$ have the same vector matrix and that these are the only two (the **double cover**).
 
 **The generators.** For two directions $a$ and $b$ the **scaled commutator**
 
@@ -1287,7 +1287,7 @@ Proof, step by step.
 - Step 2: every even product is block diagonal (the block rule of Section 5.5), and the 128 even products are linearly independent (exact rank 128). The block-diagonal matrices $\mathrm{diag}(X, Y)$ form a space of dimension $64 + 64 = 128$. So the even products span exactly all block-diagonal matrices.
 - Step 3: Lemma 4 of Section 5.11 gives all four claims.
 
-**The same with the 28 generators.** The Revision record and Notebook 05b also compute the commutant of the 28 generators $S^{ab}$: dimension 2, spanned by $P_-$ and $P_+$; on each half the commutant of the 28 blocks has dimension 1; and the equations for an intertwiner between the halves have only the solution 0. A matrix commutes with every exponential $\exp(\theta S^{ab})$ (Section 5.1) exactly when it commutes with every $S^{ab}$ (take the derivative at $\theta = 0$ in one direction; in the other, a matrix that commutes with $S$ commutes with every power of $S$ and hence with the power series of the exponential). So these numbers show that the conclusions of Theorem S hold already for the part of Spin(4,4) made of products of exponentials, which Section 5.1 calls $\mathrm{Spin}_0(4,4)$.
+**The same with the 28 generators.** The Revision record and Notebook 05b also compute the commutant of the 28 generators $S^{ab}$: dimension 2, spanned by $P_-$ and $P_+$; on each half the commutant of the 28 blocks has dimension 1; and the equations for an intertwiner between the halves have only the solution 0. A matrix commutes with every exponential $\exp(\theta S^{ab})$ (Section 5.18) exactly when it commutes with every $S^{ab}$ (take the derivative at $\theta = 0$ in one direction; in the other, a matrix that commutes with $S$ commutes with every power of $S$ and hence with the power series of the exponential). So these numbers show that the conclusions of Theorem S hold already for the part of Spin(4,4) made of products of exponentials, which Section 5.1 calls $\mathrm{Spin}_0(4,4)$.
 
 **Why Pin(4,4) sees one block of 16.** Every gamma is an odd element of Pin(4,4), and every gamma exchanges the two halves (Section 5.5). So neither half is invariant under Pin(4,4): the two inequivalent halves of Spin(4,4) are joined by the reflections into one irreducible representation of Pin(4,4).
 
@@ -1860,3 +1860,727 @@ all_checks_passed()
 ```
 
 The five figure files must exist, and the last line reads ALL 17 CHECKS PASSED (notebook 05b): one check each in In [2], In [3], In [4], In [7], In [8], In [9], In [11], In [14], In [16] and In [17], two each in In [5] and In [10], and three in In [15]. Ten of them reproduce recorded checks; the other seven (in In [3], In [4], In [8], In [9], In [14], the control in In [15], and In [17]) are the notebook's own computations.
+
+### 5.18 Spin transformations: rotations, boosts and the double cover
+
+A **spin transformation** is a $16 \times 16$ matrix $R$ that acts on the components, $\Psi \to R\Psi$, and at the same time turns the eight directions into each other. This section builds them from the generators and proves how they act.
+
+**The commutation rules of so(4,4).** The **commutator** of two matrices is $[M, N] = MN - NM$. For commutators the **product rule** $[A, BC] = [A, B]C + B[A, C]$ holds, because both sides are $ABC - BCA$ (on the right, $ABC - BAC + BAC - BCA$). For $c \neq d$, $S^{cd} = \tfrac12\gamma^c\gamma^d$, and the product rule with the vector rule of Section 5.12 gives
+
+$$
+[S^{ab}, \gamma^c\gamma^d] = (\eta^{bc}\gamma^a - \eta^{ac}\gamma^b)\gamma^d + \gamma^c(\eta^{bd}\gamma^a - \eta^{ad}\gamma^b) .
+$$
+
+Each product of two gammas is $\gamma^x\gamma^y = \tfrac12[\gamma^x, \gamma^y] + \tfrac12\{\gamma^x, \gamma^y\} = 2S^{xy} + \eta^{xy}1$ (the Clifford relation for the second part). Inserting this, the four number terms $\eta^{bc}\eta^{ad} - \eta^{ac}\eta^{bd} + \eta^{bd}\eta^{ca} - \eta^{ad}\eta^{cb}$ cancel in pairs, and with $S^{ca} = -S^{ac}$, $S^{cb} = -S^{bc}$ and a division by 2:
+
+$$
+[S^{ab}, S^{cd}] = \eta^{bc}S^{ad} - \eta^{ac}S^{bd} - \eta^{bd}S^{ac} + \eta^{ad}S^{bc} .
+$$
+
+These are the commutation rules of the **Lie algebra so(4,4)**, the algebra of infinitesimal turnings of the 4+4 directions. The Revision record checks them for all $28 \times 28 = 784$ pairs of generators.
+
+**The exponential of a matrix.** For a square matrix $M$ the **exponential** is the power series
+
+$$
+\exp(M) = 1 + M + \tfrac12M^2 + \tfrac16M^3 + \dots = \sum_{k \ge 0}\frac{M^k}{k!} ,
+$$
+
+the same series as for $e^x$; it converges for every square matrix (a fact of analysis, quoted here without proof). Fix a plane $(a, b)$ with $a \neq b$ and put $J = \gamma^a\gamma^b = 2S^{ab}$, so that $\theta S^{ab} = \tfrac\theta2J$. Then
+
+$$
+JJ = \gamma^a\gamma^b\gamma^a\gamma^b = -\gamma^a\gamma^a\gamma^b\gamma^b = -\eta_{aa}\eta_{bb}\,1 ,
+$$
+
+where the second step exchanges the two middle factors (they anticommute) and the third is the Clifford relation twice.
+
+- **Rotation** ($\eta_{aa}\eta_{bb} = +1$): $JJ = -1$, so $J^{2n} = (-1)^n$ and $J^{2n+1} = (-1)^nJ$. Splitting the series into even and odd powers and using the power series of cosine and sine, $\exp(\tfrac\theta2J) = \cos\tfrac\theta2\;1 + \sin\tfrac\theta2\;J$.
+- **Boost** ($\eta_{aa}\eta_{bb} = -1$): $JJ = +1$, every power has the sign $+$, and the series of $\cosh x = \tfrac12(e^x + e^{-x})$ and $\sinh x = \tfrac12(e^x - e^{-x})$ give $\exp(\tfrac\theta2J) = \cosh\tfrac\theta2\;1 + \sinh\tfrac\theta2\;J$.
+
+In both cases the inverse is $\exp(-\theta S^{ab})$: $(c1 + sJ)(c1 - sJ) = c^2 - s^2JJ$, which is $\cos^2 + \sin^2 = 1$ for a rotation and $\cosh^2 - \sinh^2 = 1$ for a boost (from the definitions, $\cosh^2x - \sinh^2x = \tfrac14[(e^{2x} + 2 + e^{-2x}) - (e^{2x} - 2 + e^{-2x})] = 1$). The number $\theta$ is called the **angle** of a rotation and the **rapidity** of a boost.
+
+**How a rotation moves the directions: the half angle.** Take the rotation in the plane $(x1, x2)$: $R = c1 + sJ$ with $J = \gamma^{(x1)}\gamma^{(x2)}$, $c = \cos\tfrac\theta2$, $s = \sin\tfrac\theta2$. By Rule 1, $J$ anticommutes with $\gamma^{(x1)}$ and $\gamma^{(x2)}$ (a factor of a product of two: sign $(-1)^1$) and commutes with the other six gammas. Line by line:
+
+$$
+R\gamma^{(x1)} = \gamma^{(x1)}(c1 - sJ) = \gamma^{(x1)}R^{-1}, \qquad \text{so} \qquad R\gamma^{(x1)}R^{-1} = \gamma^{(x1)}(c1 - sJ)^2 .
+$$
+
+The first step moves $\gamma^{(x1)}$ to the left through $J$ (a sign); the second multiplies from the right by $R^{-1} = c1 - sJ$. Now
+
+$$
+(c1 - sJ)^2 = c^2 - 2csJ + s^2JJ = (c^2 - s^2)1 - 2cs\,J = \cos\theta\,1 - \sin\theta\,J ,
+$$
+
+by $JJ = -1$ and the double-angle formulas $\cos^2\tfrac\theta2 - \sin^2\tfrac\theta2 = \cos\theta$ and $2\sin\tfrac\theta2\cos\tfrac\theta2 = \sin\theta$. With $\gamma^{(x1)}J = \gamma^{(x1)}\gamma^{(x1)}\gamma^{(x2)} = \gamma^{(x2)}$:
+
+$$
+R\gamma^{(x1)}R^{-1} = \cos\theta\,\gamma^{(x1)} - \sin\theta\,\gamma^{(x2)} .
+$$
+
+In the same way $R\gamma^{(x2)}R^{-1} = \gamma^{(x2)}(\cos\theta\,1 - \sin\theta\,J) = \cos\theta\,\gamma^{(x2)} + \sin\theta\,\gamma^{(x1)}$ (because $\gamma^{(x2)}\gamma^{(x1)}\gamma^{(x2)} = -\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x2)} = -\gamma^{(x1)}$), and $R\gamma^cR^{-1} = \gamma^c$ for the other six directions. So conjugation by $R$ turns the directions $x1$ and $x2$ by the **full** angle $\theta$, while $R$ itself contains only the **half** angle $\theta/2$. At $\theta = 2\pi$ the directions are back where they started, but
+
+$$
+R(2\pi) = \cos\pi\;1 + \sin\pi\;J = -1 .
+$$
+
+A turn by $2\pi$ multiplies every spinor by $-1$; only a turn by $4\pi$ gives $R = +1$. This is the defining property of spinors.
+
+**How a boost moves the directions.** For the boost in the plane $(x1, x4)$, $J = \gamma^{(x1)}\gamma^{(x4)}$ with $JJ = +1$, $c = \cosh\tfrac\theta2$ and $s = \sinh\tfrac\theta2$. The same steps give $R\gamma^{(x1)}R^{-1} = \gamma^{(x1)}(c1 - sJ)^2$ with $(c1 - sJ)^2 = (c^2 + s^2)1 - 2cs\,J = \cosh\theta\,1 - \sinh\theta\,J$; here $\cosh^2x + \sinh^2x = \cosh 2x$ and $2\sinh x\cosh x = \sinh 2x$ follow from the definitions by multiplying out, as above. Hence
+
+$$
+R\gamma^{(x1)}R^{-1} = \cosh\theta\,\gamma^{(x1)} - \sinh\theta\,\gamma^{(x4)}, \qquad R\gamma^{(x4)}R^{-1} = \cosh\theta\,\gamma^{(x4)} - \sinh\theta\,\gamma^{(x1)} .
+$$
+
+The pair of directions $(x1, x4)$ is mixed by a hyperbolic turn, which keeps $v_1^2 - v_4^2$ because $\cosh^2\theta - \sinh^2\theta = 1$, and never comes back.
+
+**Reading off the vector matrix with traces.** For an even $R$ write $R\gamma^cR^{-1} = \sum_d\Lambda_{dc}\gamma^d$ (Section 5.12). Since $\mathrm{tr}(\gamma^d\gamma^e) = 16\,\eta^{de}$ (for $d \neq e$ by Rule 5 with $k = 2$; for $d = e$ it is the trace of $\eta_{dd}1$), multiplying by $\gamma^d$ and taking the trace leaves one term:
+
+$$
+\Lambda_{dc} = \eta_{dd}\,\mathrm{tr}\big(\gamma^dR\gamma^cR^{-1}\big)/16 .
+$$
+
+Notebook 05d computes vector matrices this way.
+
+**The double cover.** Since $\Lambda(-g) = \Lambda(g)$ (the two signs cancel in $g\gamma^cg^{-1}$), every vector matrix belongs to at least two spinor matrices, $g$ and $-g$. There are no others. Proof: if $\Lambda(g) = \Lambda(h)$, then $k = gh^{-1}$ has $\Lambda(k) = \Lambda(g)\Lambda(h)^{-1} = 1$, that is $\alpha(k)\gamma^ck^{-1} = \gamma^c$ for every $c$. If $k$ is even, $k\gamma^c = \gamma^ck$: $k$ commutes with every gamma, so $k = \lambda1$ by Theorem P of Section 5.13; and by the spinor norm below, $k^TCk = \pm C$, so $\lambda^2 = \pm1$, and since $k$ is a real matrix, $\lambda = \pm1$. If $k$ were odd, $k\gamma^c = -\gamma^ck$ for every $c$; then $\Gamma k$ commutes with every gamma (moving $\gamma^c$ through $\Gamma k$ costs two signs), so $\Gamma k = \lambda1$ and $k = \lambda\Gamma$, an even matrix, which is impossible for an odd element (Section 5.12). So $h = \pm g$. Status: PROVED. That every matrix of O(4,4) is the vector matrix of some element of Pin(4,4) is the theorem of Cartan and Dieudonné (every such matrix is a product of reflections), which this book quotes without proof (ASSUMED). With it, Pin(4,4) is a **double cover** of O(4,4) and Spin(4,4) of SO(4,4).
+
+**The forms that are kept.** Two bilinears matter: $\Psi^\dagger C\Psi$ (the scalar) and $\Psi^\dagger B\Psi$ (the charge density).
+
+First, for every generator, $(S^{ab})^TC + CS^{ab} = 0$. Proof for $a \neq b$: by Rule 4, $(S^{ab})^T = \tfrac12\eta_{aa}\eta_{bb}\gamma^b\gamma^a = -\tfrac12\eta_{aa}\eta_{bb}\gamma^a\gamma^b$, and by (C1) used twice, $\gamma^a\gamma^bC = \eta_{aa}\eta_{bb}C\gamma^a\gamma^b$. So $(S^{ab})^TC = -\tfrac12(\eta_{aa}\eta_{bb})^2C\gamma^a\gamma^b = -CS^{ab}$. For $R = \exp(\theta S^{ab})$ the transpose is $\exp(\theta(S^{ab})^T)$ (transpose every power), and $(S^T)^kC = C(-S)^k$ (move $C$ to the left one factor at a time), so
+
+$$
+R^TC = C\exp(-\theta S^{ab}) = CR^{-1}, \qquad R^TCR = C .
+$$
+
+Products of exponentials keep it too: if $R_1^TCR_1 = C$ and $R_2^TCR_2 = C$, then $(R_1R_2)^TC(R_1R_2) = R_2^T(R_1^TCR_1)R_2 = C$. Since $R$ is real, $(R\Psi)^\dagger C(R\Psi) = \Psi^\dagger R^TCR\Psi = \Psi^\dagger C\Psi$: **the scalar $S$ is invariant** under every product of exponentials.
+
+Second, $B = -iC\gamma^{(x4)}$. For a generator that does not involve $x4$ ($a, b \neq x4$), $(S^{ab})^\dagger B + BS^{ab} = 0$; for the seven generators $S^{(x4)b}$, $(S^{(x4)b})^\dagger B + BS^{(x4)b} = iC\gamma^b \neq 0$. Proof of the second statement (the first is similar): with $S = \tfrac12\gamma^{(x4)}\gamma^b$ ($S$ is real, so $S^\dagger = S^T$),
+
+$$
+BS = -\tfrac{i}2C\gamma^{(x4)}\gamma^{(x4)}\gamma^b = \tfrac{i}2C\gamma^b, \qquad S^TB = -\tfrac{i}2\eta_{bb}\gamma^{(x4)}\gamma^bC\gamma^{(x4)} = \tfrac{i}2C\gamma^{(x4)}\gamma^b\gamma^{(x4)} = \tfrac{i}2C\gamma^b ,
+$$
+
+where the first uses $\gamma^{(x4)}\gamma^{(x4)} = -1$; the second uses Rule 4 for $S^T$, then (C1) to move $C$ to the front (sign $-\eta_{bb}$ for $\gamma^b$, $+1$ for $\gamma^{(x4)}$), then $\gamma^b\gamma^{(x4)} = -\gamma^{(x4)}\gamma^b$ and $\gamma^{(x4)}\gamma^{(x4)} = -1$. The sum is $iC\gamma^b$. So the charge density $\Psi^\dagger B\Psi$ is kept only by the transformations that leave the time $x4$ alone. This is what one expects: the charge density is the time component of the current $J^a$, and a boost that mixes the time $x4$ with another direction mixes it with the other components, as the charge density of special relativity does.
+
+**The spinor norm.** For $g = \gamma(u_1)\cdots\gamma(u_k)$ in Pin(4,4) put $N(g) = \eta(u_1, u_1)\cdots\eta(u_k, u_k) = \pm1$. Then
+
+$$
+g^TCg = (-1)^k\,N(g)\,C .
+$$
+
+Proof: from (C5), $(\gamma^a)^T = -C\gamma^aC$, so $(\gamma^a)^TC = -C\gamma^a$ and, by linearity, $\gamma(u)^TC = -C\gamma(u)$. Hence $\gamma(u)^TC\gamma(u) = -C\gamma(u)\gamma(u) = -\eta(u, u)\,C$. In $g^TCg = \gamma(u_k)^T\cdots\gamma(u_1)^T\,C\,\gamma(u_1)\cdots\gamma(u_k)$ apply this to the innermost pair, then to the next, and so on: each factor contributes $-\eta(u_j, u_j)$. Consequence: a product of exponentials has $g^TCg = +C$, but $g = \gamma^{(x1)}\gamma^{(x4)}$, an element of Spin(4,4) with $k = 2$ and $N = (+1)(-1) = -1$, has $g^TCg = -C$. **So Spin(4,4) contains elements that are not products of exponentials.** Section 5.1 finds all of them.
+
+**Determinant 1.** Every gamma has determinant $+1$ as a $16 \times 16$ matrix (Section 5.3, Rule 6), and so has every product of gammas, every $\gamma(u)$ of a unit vector (its square is $\pm1$ and its trace 0) and every element of Pin(4,4). So the words determinant 1 in the author's statement about Spin(4,4) refer to the vector matrix $\Lambda$ in O(4,4), never to the spinor matrix itself.
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| the so(4,4) rules for all 784 pairs of generators | PROVED | `python-algebra.json`, check `S_lorentz_algebra`; `wolfram-algebra.json`, check `S_Lorentz_algebra` |
+| $(S^{ab})^TC + CS^{ab} = 0$ and $[\Gamma, S^{ab}] = 0$ | PROVED | `python-algebra.json`, check `S_preserves_C_and_commutes_with_Gamma`; `wolfram-algebra.json`, checks `S_preserves_C` and `S_commutes_with_Gamma` |
+| $B$ kept exactly by the 21 generators without $x4$; $iC\gamma^b$ for $S^{(x4)b}$ | PROVED | `wolfram-algebra.json`, check `S_preserves_B_only_off_x4` |
+| closed formulas, half angles, $R(2\pi) = -1$, the spinor norm, the double cover (kernel $\pm1$), determinants $+1$ | PROVED above; COMPUTED in Notebook 05d | Notebook 05d (its own computation, to $10^{-10}$ or better; the determinants exactly) |
+| every matrix of O(4,4) is a vector matrix (Cartan and Dieudonné) | ASSUMED (quoted theorem) | not computed in this book |
+
+### 5.19 Example: Notebook 05d computes spin transformations
+
+Notebook 05d builds the 28 generators, repeats the recorded so(4,4) rules (784 pairs), the vector rule (512 triples) and the invariance of $C$, sorts the 28 planes into 12 rotations and 16 boosts, compares the power series of the exponential with the closed formulas, computes the vector matrices by the trace formula, shows the half angle and the sign $-1$ after a turn by $2\pi$, follows a unit vector around a circle and along hyperbolas, measures which transformations keep the forms of $C$ and $B$, and checks the reflections, the spinor norm, the double cover and the determinants. It draws six figures and ends with ALL 20 CHECKS PASSED (notebook 05d).
+
+<!-- NOTEBOOK 05d -->
+
+### 5.22 Line-by-line walk-through of Notebook 05d
+
+The notebook has 17 code cells. In [1] is the set-up cell of Section 5.10 with `NOTEBOOK_ID = "05d"`; its comments repeat the instructions of Section 5.20.
+
+**In [2], the gammas, C, Γ, B and the recorded checks.**
+
+```python
+import contextlib  # lets a block of code print into a text buffer
+import io  # the text buffer io.StringIO
+import sys  # sys.stdout: the channel through which the notebook prints
+
+import numpy as np  # arrays of numbers, matrices and linear algebra
+
+fixture = json.loads(repository_file("Revision/algebra/gammas.json")
+                     .read_text(encoding="utf-8"))
+COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
+ETA_MATRIX = np.diag([float(ETA[x]) for x in COORDS])  # the 8 x 8 metric eta
+gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
+I16 = np.eye(16, dtype=np.int64)
+```
+
+As in Notebook 05a, the record of the gammas is read. New is `ETA_MATRIX`, the $8 \times 8$ diagonal matrix $\eta$ with floating-point entries (`np.diag` of the list of the eight signs), used for the metric product of vectors below.
+
+```python
+C = gamma["x8"] @ gamma["x1"] @ gamma["x2"] @ gamma["x3"]  # the charge matrix
+Gamma = I16
+for x in ["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]:
+    Gamma = Gamma @ gamma[x]  # the chirality, the product of all eight gammas
+B = -1j * (C @ gamma["x4"])  # B = -i C gamma^(x4)
+```
+
+$C$, $\Gamma$ and $B$ are built as in Sections 5.4 to 5.6; the loop multiplies the eight gammas in the author's order, starting from the identity.
+
+```python
+REPORT_FILES = {"python": "Revision/algebra/reports/python-algebra.json",
+                "wolfram": "Revision/algebra/reports/wolfram-algebra.json"}
+VERDICTS = {}  # (report key, check name) -> (verdict in lower case, detail text)
+for key, path in REPORT_FILES.items():
+    report_data = json.loads(repository_file(path).read_text(encoding="utf-8"))
+    for entry in report_data["checks"]:
+        VERDICTS[(key, entry["name"])] = (entry["verdict"].lower(), entry["detail"])
+
+
+def recorded(key, name):
+    return VERDICTS[(key, name)][0] == "pass"
+
+
+def record_of(key, name):
+    return f"{REPORT_FILES[key]}, check {name}"
+
+
+def check_reproduces(condition, name, record):
+    collected = io.StringIO()
+    with contextlib.redirect_stdout(collected):  # print into the buffer
+        check(condition, name, record=record)  # stops here if the check fails
+    sys.stdout.write(collected.getvalue())  # the PASS and reproduces lines together
+```
+
+The two reports and the helpers `recorded`, `record_of` and `check_reproduces`, exactly as in Notebook 05a (Section 5.10, In [3]).
+
+```python
+def eta(a, b):
+    return ETA[a] if a == b else 0
+
+
+check_reproduces(all(np.array_equal(gamma[a] @ gamma[b] + gamma[b] @ gamma[a],
+                                    2 * eta(a, b) * I16) for a in COORDS for b in COORDS)
+                 and recorded("python", "clifford_relation"),
+                 "{gamma^a, gamma^b} = 2 eta^ab 1 for all 64 pairs",
+                 record=record_of("python", "clifford_relation"))
+```
+
+`eta(a, b)` is $\eta^{ab}$: $\eta_{aa}$ for equal directions and 0 otherwise. The check is the Clifford relation for all 64 pairs.
+
+**In [3], the generators and their rules.**
+
+```python
+S = {(a, b): (gamma[a] @ gamma[b] - gamma[b] @ gamma[a]) / 4.0
+     for a in COORDS for b in COORDS}  # all 64 ordered pairs
+pairs = [(a, b) for i, a in enumerate(COORDS) for b in COORDS[i + 1:]]  # 28 pairs
+
+
+def commutator(m, n):
+    return m @ n - n @ m
+```
+
+`S` holds $S^{ab}$ for all 64 ordered pairs (including $S^{aa} = 0$), as floating-point arrays with the entries $0$ and $\pm\tfrac12$. Every sum and product below involves only halves and quarters, which the computer stores exactly (they are sums of powers of 2), so comparisons with `np.array_equal` are exact. `pairs` lists the 28 planes, and `commutator` is $[m, n] = mn - nm$.
+
+```python
+definition_ok = all(np.array_equal(S[(a, b)], -S[(b, a)]) for a in COORDS
+                    for b in COORDS) and all(
+    np.array_equal(S[(a, b)], gamma[a] @ gamma[b] / 2.0) for a, b in pairs)
+check_reproduces(len(pairs) == 28 and definition_ok
+                 and recorded("python", "S_definition"),
+                 "S^ab = -S^ba and S^ab = (1/2) gamma^a gamma^b: 28 independent "
+                 "generators",
+                 record=record_of("python", "S_definition"))
+```
+
+The check confirms $S^{ab} = -S^{ba}$ for all 64 pairs and $S^{ab} = \tfrac12\gamma^a\gamma^b$ for the 28 planes.
+
+```python
+algebra_failures = 0
+for a, b in pairs:
+    for c, d in pairs:
+        right = (eta(b, c) * S[(a, d)] - eta(a, c) * S[(b, d)]
+                 - eta(b, d) * S[(a, c)] + eta(a, d) * S[(b, c)])
+        if not np.array_equal(commutator(S[(a, b)], S[(c, d)]), right):
+            algebra_failures += 1
+say(f"so(4,4) rules tested for {len(pairs) ** 2} pairs; failures {algebra_failures}")
+check_reproduces(algebra_failures == 0 and recorded("python", "S_lorentz_algebra")
+                 and recorded("wolfram", "S_Lorentz_algebra"),
+                 "[S^ab, S^cd] = eta^bc S^ad - eta^ac S^bd - eta^bd S^ac + eta^ad S^bc",
+                 record=record_of("python", "S_lorentz_algebra"))
+```
+
+For each of the $28 \times 28 = 784$ pairs of planes the right side of the so(4,4) rule is assembled and compared with the commutator; failures are counted. The printed line reports 784 pairs and 0 failures.
+
+```python
+vector_failures = sum(
+    not np.array_equal(commutator(S[(a, b)], gamma[c]),
+                       eta(b, c) * gamma[a] - eta(a, c) * gamma[b])
+    for a in COORDS for b in COORDS for c in COORDS)
+say(f"vector rule tested for 512 triples; failures {vector_failures}")
+check_reproduces(vector_failures == 0 and recorded("python", "S_vector_action")
+                 and recorded("wolfram", "S_gamma_commutator"),
+                 "[S^ab, gamma^c] = eta^bc gamma^a - eta^ac gamma^b for all 512 triples",
+                 record=record_of("python", "S_vector_action"))
+```
+
+The vector rule of Section 5.12 is tested for all $8 \times 8 \times 8 = 512$ triples; `sum` of true and false values counts the true ones (a failure counts 1). The printed line reports 0 failures.
+
+**In [4], the invariances of the generators.**
+
+```python
+check_reproduces(all(not ((S[k].T @ C + C @ S[k]).any()) for k in S)
+                 and all(not commutator(Gamma, S[k]).any() for k in S)
+                 and recorded("python", "S_preserves_C_and_commutes_with_Gamma"),
+                 "(S^ab)^T C + C S^ab = 0 and [Gamma, S^ab] = 0 for all a, b",
+                 record=record_of("python", "S_preserves_C_and_commutes_with_Gamma"))
+```
+
+For all 64 keys `k` of `S` the cell checks $(S^{ab})^TC + CS^{ab} = 0$ (so the scalar does not change to first order) and $[\Gamma, S^{ab}] = 0$ (so the halves are kept).
+
+**In [5], rotations and boosts.**
+
+```python
+kind = {}  # (a, b) -> +1 for a rotation, -1 for a boost
+squares_ok = True
+for a, b in pairs:
+    J = gamma[a] @ gamma[b]
+    squares_ok &= np.array_equal(J @ J, -ETA[a] * ETA[b] * I16)
+    kind[(a, b)] = ETA[a] * ETA[b]
+rotations = [p for p in pairs if kind[p] == 1]
+boosts = [p for p in pairs if kind[p] == -1]
+say(f"rotations: {len(rotations)}; boosts: {len(boosts)}")
+say("rotation planes: " + " ".join(f"({a},{b})" for a, b in rotations))
+check(squares_ok and len(rotations) == 12 and len(boosts) == 16,
+      "(gamma^a gamma^b)^2 = -eta_aa eta_bb: 12 rotation planes and 16 boost planes")
+```
+
+For each plane $J = \gamma^a\gamma^b$ is squared and compared with $-\eta_{aa}\eta_{bb}1$; the plane is a rotation when $\eta_{aa}\eta_{bb} = +1$ and a boost otherwise. The printed lines show 12 rotations and 16 boosts and list the rotation planes: the six inside $\{x1, x2, x3, x8\}$ and the six inside $\{x4, x5, x6, x7\}$.
+
+```python
+from matplotlib.colors import LinearSegmentedColormap
+
+SIGNS = LinearSegmentedColormap.from_list("signs", ["#2a78d6", "#f0efec", "#e34948"])
+table = np.zeros((8, 8))
+for (a, b), value in kind.items():
+    i, j = COORDS.index(a), COORDS.index(b)
+    table[i, j] = table[j, i] = value  # the same plane in both orders
+fig, ax = plt.subplots(figsize=(6.4, 5.6))
+ax.imshow(table, cmap=SIGNS, vmin=-1, vmax=1)
+for i in range(8):
+    for j in range(8):
+        word = "" if i == j else ("rot" if table[i, j] == 1 else "boost")
+        ax.text(j, i, word, ha="center", va="center", color="white", fontsize=8,
+                fontweight="bold")
+for k in range(1, 8):
+    ax.axhline(k - 0.5, color="white", linewidth=2)
+    ax.axvline(k - 0.5, color="white", linewidth=2)
+ax.set_xticks(range(8), COORDS)
+ax.set_yticks(range(8), COORDS)
+ax.set_title("The 28 planes: rotations (red) and boosts (blue)")
+ax.grid(False)
+save_figure(fig, "plane_types", ...)
+```
+
+The kinds are written into an $8 \times 8$ table, each plane in both orders (`COORDS.index(a)` is the position of a name in the list; `x = y = value` sets both entries). The table is drawn with the colour map of the heat maps (red $+1$, blue $-1$, grey 0 on the diagonal), with the word rot or boost in each square and white gaps between the squares. `05d_1_plane_types.png` shows two red $4 \times 4$ squares of rotations, for $\{x1, x2, x3, x8\}$ and for the four times, and blue boosts wherever a space-like direction meets a time-like one.
+
+**In [6], the exponential two ways.**
+
+```python
+def exp_series(M, terms=80):
+    result = np.eye(M.shape[0])
+    term = np.eye(M.shape[0])
+    for k in range(1, terms):
+        term = term @ M / k  # M^k / k! from M^(k-1) / (k-1)!
+        result = result + term
+    return result
+```
+
+`exp_series` sums the power series of the exponential up to the term $M^{79}/79!$. Each term is computed from the previous one by multiplying by $M$ and dividing by $k$, because $M^k/k! = (M^{k-1}/(k-1)!)\,M/k$.
+
+```python
+def spin_transformation(a, b, theta):
+    J = (gamma[a] @ gamma[b]).astype(float)  # J = 2 S^ab
+    if ETA[a] * ETA[b] == 1:  # J J = -1: a rotation
+        return np.cos(theta / 2) * np.eye(16) + np.sin(theta / 2) * J
+    return np.cosh(theta / 2) * np.eye(16) + np.sinh(theta / 2) * J  # a boost
+```
+
+`spin_transformation(a, b, theta)` is the closed formula of Section 5.18: $\cos\tfrac\theta2\,1 + \sin\tfrac\theta2\,J$ for a rotation and $\cosh\tfrac\theta2\,1 + \sinh\tfrac\theta2\,J$ for a boost.
+
+```python
+tests = [(("x1", "x2"), [0.3, 1.0, 2.5, 2 * np.pi, 4 * np.pi]),
+         (("x4", "x5"), [0.3, 1.0, 2.5, 2 * np.pi, 4 * np.pi]),
+         (("x1", "x4"), [-1.5, 0.3, 1.0, 2.5]),
+         (("x5", "x8"), [-1.5, 0.3, 1.0, 2.5])]
+largest_difference = 0.0
+for (a, b), angles in tests:
+    for theta in angles:
+        difference = np.max(np.abs(exp_series(theta * S[(a, b)])
+                                   - spin_transformation(a, b, theta)))
+        largest_difference = max(largest_difference, difference)
+    name = "rotation" if kind[(a, b)] == 1 else "boost"
+    say(f"plane ({a},{b}), a {name}: series and closed formula compared at "
+        f"{len(angles)} values")
+check(largest_difference < 1e-10,
+      "the power series of exp(theta S^ab) equals the closed formula with half "
+      "angles (difference below 1e-10)")
+```
+
+Two rotations (one of them in the plane of two times) and two boosts are tested at several angles or rapidities; for each, the largest difference of any entry between the series and the closed formula is kept in `largest_difference`. Four lines are printed, and the check requires the largest difference to be below $10^{-10}$ (the series is summed in floating-point numbers, and at $4\pi$ its terms first grow large before they shrink).
+
+**In [7], the vector matrix and the sign after $2\pi$.**
+
+```python
+def vector_matrix(R):
+    R_inverse = np.linalg.inv(R)
+    Lam = np.zeros((8, 8))
+    for j, c in enumerate(COORDS):
+        moved = R @ gamma[c] @ R_inverse  # where the direction c is moved to
+        for i, d in enumerate(COORDS):
+            Lam[i, j] = ETA[d] * np.trace(gamma[d] @ moved) / 16.0
+    return Lam
+```
+
+`vector_matrix(R)` computes $\Lambda$ by the trace formula of Section 5.18: for each direction $c$ it forms $R\gamma^cR^{-1}$ (`np.linalg.inv` is the inverse matrix) and fills column $c$ with $\eta_{dd}\,\mathrm{tr}(\gamma^dR\gamma^cR^{-1})/16$ for each row $d$.
+
+```python
+def rebuilds(R, Lam):
+    R_inverse = np.linalg.inv(R)
+    return all(np.allclose(sum(Lam[i, j] * gamma[d] for i, d in enumerate(COORDS)),
+                           R @ gamma[c] @ R_inverse, atol=1e-12)
+               for j, c in enumerate(COORDS))
+```
+
+`rebuilds` checks that $\sum_d\Lambda_{dc}\gamma^d$ really equals $R\gamma^cR^{-1}$ for every $c$, that is, that the moved gamma is a combination of gammas with the coefficients read off. `np.allclose(x, y, atol=1e-12)` is true when every entry of `x` differs from that of `y` by at most about $10^{-12}$.
+
+```python
+rotation_ok = True
+for theta in np.linspace(0.0, 2 * np.pi, 9):
+    R = spin_transformation("x1", "x2", theta)
+    Lam = vector_matrix(R)
+    expected = np.eye(8)  # the rotation by theta in the (x1, x2) block
+    expected[0, 0] = expected[1, 1] = np.cos(theta)
+    expected[0, 1], expected[1, 0] = np.sin(theta), -np.sin(theta)
+    rotation_ok &= (rebuilds(R, Lam) and np.allclose(Lam, expected, atol=1e-12)
+                    and np.allclose(Lam.T @ ETA_MATRIX @ Lam, ETA_MATRIX)
+                    and abs(np.linalg.det(Lam) - 1.0) < 1e-12)
+check(rotation_ok,
+      "R = exp(theta S^(x1 x2)) turns the directions x1, x2 by the full angle "
+      "theta; Lambda lies in SO(4,4)")
+```
+
+For nine angles from 0 to $2\pi$ the cell computes the rotation in the plane $(x1, x2)$ and its vector matrix, and compares it with the prediction of Section 5.18: the identity except for the block of $x1$ and $x2$, which holds $\cos\theta$ on the diagonal, $\sin\theta$ in row $x1$, column $x2$, and $-\sin\theta$ in row $x2$, column $x1$. It also checks $\Lambda^T\eta\Lambda = \eta$ and $\det\Lambda = 1$ (`np.linalg.det`): $\Lambda$ lies in SO(4,4).
+
+```python
+R_2pi, R_4pi = spin_transformation("x1", "x2", 2 * np.pi), spin_transformation(
+    "x1", "x2", 4 * np.pi)
+# Rounding leaves differences of about 1e-16, which differ between computers, so
+# the cell prints only whether they are below 1e-12.
+small_2pi = np.max(np.abs(R_2pi + np.eye(16))) < 1e-12
+small_4pi = np.max(np.abs(R_4pi - np.eye(16))) < 1e-12
+say(f"every entry of R(2 pi) + 1 is below 1e-12: {small_2pi}; "
+    f"every entry of R(4 pi) - 1 is below 1e-12: {small_4pi}")
+check(np.allclose(R_2pi, -np.eye(16), atol=1e-12)
+      and np.allclose(R_4pi, np.eye(16), atol=1e-12)
+      and np.allclose(vector_matrix(R_2pi), np.eye(8), atol=1e-12),
+      "a rotation by 2 pi gives R = -1 on spinors but Lambda = 1 on vectors; by 4 pi, R "
+      "= +1")
+```
+
+$R(2\pi)$ and $R(4\pi)$ are computed; $\sin\pi$ is not exactly 0 in floating-point numbers, so the cell prints only whether the entries of $R(2\pi) + 1$ and $R(4\pi) - 1$ are below $10^{-12}$ (both True). The check is the double cover: $R(2\pi) = -1$ while its vector matrix is the identity, and $R(4\pi) = +1$.
+
+**In [8], the picture of the half angles.**
+
+```python
+angles = np.linspace(0.0, 4 * np.pi, 241)
+rapidities = np.linspace(-3.0, 3.0, 241)
+vec_rot = [vector_matrix(spin_transformation("x1", "x2", th))[0, 0] for th in angles]
+spin_rot = [np.trace(spin_transformation("x1", "x2", th)) / 16 for th in angles]
+vec_boost = [vector_matrix(spin_transformation("x1", "x4", th))[0, 0]
+             for th in rapidities]
+spin_boost = [np.trace(spin_transformation("x1", "x4", th)) / 16 for th in rapidities]
+check(np.allclose(vec_rot, np.cos(angles)) and np.allclose(spin_rot, np.cos(angles / 2))
+      and np.allclose(vec_boost, np.cosh(rapidities))
+      and np.allclose(spin_boost, np.cosh(rapidities / 2)),
+      "vectors move with cos(theta), cosh(theta); spinors with the half angle")
+```
+
+For 241 angles from 0 to $4\pi$ (rotation in $(x1, x2)$) and 241 rapidities from $-3$ to $3$ (boost in $(x1, x4)$), the cell computes the vector entry $\Lambda_{x1,x1}$ and the spinor quantity $\mathrm{tr}\,R/16$; since $\mathrm{tr}\,J = 0$ (Rule 5), $\mathrm{tr}\,R/16$ is $\cos\tfrac\theta2$ or $\cosh\tfrac\theta2$. The check compares the four lists with $\cos\theta$, $\cos\tfrac\theta2$, $\cosh\theta$ and $\cosh\tfrac\theta2$.
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.4))
+axes[0].plot(angles, vec_rot, color="#2a78d6", linewidth=2,
+             label=r"vector: $\Lambda_{x1,x1} = \cos\theta$")
+axes[0].plot(angles, spin_rot, color="#eb6834", linewidth=2, linestyle="--",
+             label=r"spinor: $\mathrm{tr}\,R/16 = \cos(\theta/2)$")
+axes[0].plot([2 * np.pi, 2 * np.pi], [1.0, -1.0], "o", color="black", markersize=7,
+             label=r"at $2\pi$: vector back at $1$, spinor at $-1$")
+axes[0].set_xticks([0, np.pi, 2 * np.pi, 3 * np.pi, 4 * np.pi],
+                   ["0", r"$\pi$", r"$2\pi$", r"$3\pi$", r"$4\pi$"])
+axes[0].set_xlabel(r"rotation angle $\theta$ in the plane $(x1, x2)$")
+axes[0].set_ylabel("value")
+axes[0].set_title("A rotation: the spinor needs $4\\pi$ to come back")
+axes[0].legend(loc="upper center", bbox_to_anchor=(0.5, -0.17))
+axes[1].plot(rapidities, vec_boost, color="#2a78d6", linewidth=2,
+             label=r"vector: $\Lambda_{x1,x1} = \cosh\theta$")
+axes[1].plot(rapidities, spin_boost, color="#eb6834", linewidth=2, linestyle="--",
+             label=r"spinor: $\mathrm{tr}\,R/16 = \cosh(\theta/2)$")
+axes[1].set_xlabel(r"rapidity $\theta$ in the plane $(x1, x4)$")
+axes[1].set_title("A boost: never periodic;\nthe spinor grows half as fast")
+axes[1].legend(loc="upper center", bbox_to_anchor=(0.5, -0.17))
+save_figure(fig, "half_angles", ...)
+```
+
+Two pictures: on the left the two rotation curves and two black dots at $\theta = 2\pi$ (the vector entry at 1, the spinor quantity at $-1$); on the right the two boost curves. The tick marks of the left horizontal axis are at multiples of $\pi$; `"\n"` in a title starts a new line; both legends go below their pictures. In `05d_2_half_angles.png` the solid cosine completes two periods over $4\pi$ while the dashed one completes one: the spinor needs $4\pi$ to come back.
+
+**In [9], the rotation matrices.**
+
+```python
+fig, axes = plt.subplots(1, 4, figsize=(13.0, 3.9))
+for k, (ax, th, label) in enumerate(zip(
+        axes, [0.0, np.pi, 2 * np.pi, 4 * np.pi], ["0", r"\pi", r"2\pi", r"4\pi"])):
+    image = ax.imshow(spin_transformation("x1", "x2", th), cmap=SIGNS, vmin=-1,
+                      vmax=1)
+    ax.set_title(rf"$R(\theta)$ at $\theta = {label}$")
+    ax.set_xticks([0, 7, 15], ["1", "8", "16"])
+    ax.set_yticks([0, 7, 15], ["1", "8", "16"])
+    ax.set_xlabel("column")
+    if k == 0:
+        ax.set_ylabel("row")
+    ax.grid(False)
+fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
+check(np.allclose(spin_transformation("x1", "x2", np.pi),
+                  gamma["x1"] @ gamma["x2"], atol=1e-12),
+      "R(pi) = gamma^(x1) gamma^(x2) for the rotation in the plane (x1, x2)")
+save_figure(fig, "rotation_matrices", ...)
+```
+
+The loop draws $R(\theta)$ at $\theta = 0$, $\pi$, $2\pi$ and $4\pi$ as heat maps (the `zip` runs through the four axes, the four angles and their labels together). The check confirms $R(\pi) = \gamma^{(x1)}\gamma^{(x2)}$ (because $\cos\tfrac\pi2 = 0$ and $\sin\tfrac\pi2 = 1$). In `05d_3_rotation_matrices.png` the first picture is the identity (red diagonal), the second the signed permutation $\gamma^{(x1)}\gamma^{(x2)}$, the third minus the identity (blue diagonal) and the fourth the identity again.
+
+**In [10], circles and hyperbolas.**
+
+```python
+circle = np.array([vector_matrix(spin_transformation("x1", "x2", th))[:, 0]
+                   for th in np.linspace(0.0, 2 * np.pi, 121)])  # images of e_x1
+hyper_space = np.array([vector_matrix(spin_transformation("x1", "x4", th))[:, 0]
+                        for th in np.linspace(-2.0, 2.0, 121)])  # images of e_x1
+hyper_time = np.array([vector_matrix(spin_transformation("x1", "x4", th))[:, 3]
+                       for th in np.linspace(-2.0, 2.0, 121)])  # images of e_x4
+check(np.allclose(circle[:, 0] ** 2 + circle[:, 1] ** 2, 1.0)
+      and np.allclose(hyper_space[:, 0] ** 2 - hyper_space[:, 3] ** 2, 1.0)
+      and np.allclose(hyper_time[:, 0] ** 2 - hyper_time[:, 3] ** 2, -1.0),
+      "rotations keep v1^2 + v2^2, boosts keep v1^2 - v4^2")
+```
+
+Column $c$ of a vector matrix (`[:, 0]` is the first column, `[:, 3]` the fourth) is the image of the basic unit vector $e_c$. The cell collects the images of $e_{x1}$ under 121 rotations in $(x1, x2)$, and the images of $e_{x1}$ and of $e_{x4}$ under 121 boosts in $(x1, x4)$. The check confirms that the rotation keeps $v_1^2 + v_2^2 = 1$ and the boost keeps $v_1^2 - v_4^2$, equal to $+1$ for the image of $e_{x1}$ and $-1$ for that of $e_{x4}$.
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(11.0, 5.1))
+axes[0].plot(circle[:, 0], circle[:, 1], color="#2a78d6", linewidth=2)
+axes[0].plot(circle[::15, 0], circle[::15, 1], "o", color="#2a78d6", markersize=8)
+axes[0].set_aspect("equal")
+axes[0].set_xlabel("$v_1$ (component along $x1$)")
+axes[0].set_ylabel("$v_2$ (component along $x2$)")
+axes[0].set_title("rotation in $(x1, x2)$: a circle")
+axes[1].plot(hyper_space[:, 0], hyper_space[:, 3], color="#2a78d6", linewidth=2,
+             label=r"image of $e_{x1}$: $v_1^2 - v_4^2 = 1$")
+axes[1].plot(hyper_time[:, 0], hyper_time[:, 3], color="#eb6834", linewidth=2,
+             label=r"image of $e_{x4}$: $v_1^2 - v_4^2 = -1$")
+axes[1].plot([-4, 4], [-4, 4], ":", color="black", linewidth=1,
+             label="null lines $v_4 = \\pm v_1$")
+axes[1].plot([-4, 4], [4, -4], ":", color="black", linewidth=1)
+axes[1].set_xlim(-4, 4)
+axes[1].set_ylim(-4, 4)
+axes[1].set_aspect("equal")
+axes[1].set_xlabel("$v_1$ (component along $x1$)")
+axes[1].set_ylabel("$v_4$ (component along the time $x4$)")
+axes[1].set_title("boost in $(x1, x4)$: hyperbolas")
+axes[1].legend(loc="upper center", bbox_to_anchor=(0.5, -0.14))
+save_figure(fig, "orbits", ...)
+```
+
+The left picture draws the circle and a dot every 15 steps (`[::15]` takes every fifteenth row, that is every $\pi/4$); `set_aspect("equal")` gives both axes the same scale, so that a circle looks round. The right picture draws the two hyperbola branches and the two dotted **null lines** $v_4 = \pm v_1$, on which $v_1^2 - v_4^2 = 0$. In `05d_4_orbits.png` neither hyperbola crosses the null lines: a boost never turns a space-like vector into a time-like one.
+
+**In [11], which generators keep the form of B.**
+
+```python
+keep_B = [p for p in pairs if not (S[p].T @ B + B @ S[p]).any()]
+break_B = [p for p in pairs if p not in keep_B]
+rule_x4 = all(np.array_equal(S[("x4", b)].T @ B + B @ S[("x4", b)],
+                             1j * (C @ gamma[b])) for b in COORDS if b != "x4")
+say(f"generators with S^T B + B S = 0: {len(keep_B)}; the others: "
+    + " ".join(f"({a},{b})" for a, b in break_B))
+check_reproduces(len(keep_B) == 21 and all("x4" in p for p in break_B) and rule_x4
+                 and recorded("wolfram", "S_preserves_B_only_off_x4"),
+                 "S^dagger B + B S = 0 exactly for the 21 generators without x4; for "
+                 "S^(x4 b) it equals i C gamma^b",
+                 record=record_of("wolfram", "S_preserves_B_only_off_x4"))
+```
+
+`keep_B` lists the planes whose generator obeys $S^TB + BS = 0$ ($S$ is real, so $S^T = S^\dagger$); `break_B` the others. `rule_x4` checks the formula $iC\gamma^b$ of Section 5.18 for the seven generators $S^{(x4)b}$. The printed line shows 21 planes that keep $B$ and the seven planes with $x4$. (`"x4" in p` is true when the pair `p` contains the name `x4`.)
+
+```python
+finite_C = max(np.max(np.abs(spin_transformation(a, b, 0.7).T @ C
+                             @ spin_transformation(a, b, 0.7) - C)) for a, b in pairs)
+finite_B = {p: np.max(np.abs(spin_transformation(*p, 0.7).T @ B
+                             @ spin_transformation(*p, 0.7) - B)) for p in pairs}
+check(finite_C < 1e-12 and all((finite_B[p] < 1e-12) == (p in keep_B) for p in pairs),
+      "at theta = 0.7: R^T C R = C for all 28 planes; R^T B R = B exactly for the 21 "
+      "planes without x4")
+```
+
+For finite transformations at $\theta = 0.7$ the cell computes the largest entry of $R^TCR - C$ over all 28 planes and of $R^TBR - B$ for each plane (`spin_transformation(*p, 0.7)` unpacks the pair `p` into the two arguments `a` and `b`). The check: the form of $C$ is kept for all planes, that of $B$ exactly for the 21 planes without $x4$.
+
+**In [12], the picture of the forms.**
+
+```python
+thetas = np.linspace(-3.0, 3.0, 241)
+planes = [("x1", "x2"), ("x5", "x6"), ("x1", "x4"), ("x4", "x5")]
+colors = ["#2a78d6", "#1baf7a", "#eb6834", "#4a3aa7"]
+lines = ["-", "--", "-", "-."]
+change_B = {p: [np.max(np.abs(spin_transformation(*p, th).T @ B
+                              @ spin_transformation(*p, th) - B)) for th in thetas]
+            for p in planes}
+change_C = max(np.max(np.abs(spin_transformation(*p, th).T @ C
+                             @ spin_transformation(*p, th) - C))
+               for p in planes for th in thetas)
+shown = "below 1e-12" if change_C < 1e-12 else f"{change_C:.2e}"
+say(f"largest change of the form of C over the four planes and all angles: {shown}")
+```
+
+For four planes (two rotations without $x4$, a boost and a rotation with $x4$) and 241 values of $\theta$ the cell computes how much the form of $B$ changes; for the form of $C$ only the largest change over everything is kept and printed (below $10^{-12}$; the cell prints the words instead of a number because the last digits of rounding differ between computers).
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.4))
+for p, color, line in zip(planes, colors, lines):
+    name = "rotation" if kind[p] == 1 else "boost"
+    ax.plot(thetas, change_B[p], color=color, linestyle=line, linewidth=2,
+            label=f"form of $B$, {name} in $({p[0]}, {p[1]})$")
+ax.plot(thetas, np.zeros_like(thetas), ":", color="black", linewidth=2,
+        label="form of $C$, all four planes")
+ax.set_xlabel(r"angle or rapidity $\theta$")
+ax.set_ylabel("largest entry of the change")
+ax.set_title(r"$R^T C R - C$ is always 0; $R^T B R - B$ only away from $x4$")
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.15), ncol=2)
+save_figure(fig, "invariant_forms", ...)
+```
+
+One curve per plane for the form of $B$, and a dotted line at zero for the form of $C$. In `05d_5_invariant_forms.png` the two rotations without $x4$ lie on the horizontal axis (no change), while the boost in $(x1, x4)$ and the rotation in $(x4, x5)$ rise away from $\theta = 0$.
+
+**In [13], reflections.**
+
+```python
+def gamma_of(v):
+    return sum(v[i] * gamma[x].astype(float) for i, x in enumerate(COORDS))
+
+
+def metric_product(u, v):
+    return float(u @ ETA_MATRIX @ v)
+
+
+def reflection(u):
+    return np.eye(8) - 2.0 * np.outer(u, u @ ETA_MATRIX) / metric_product(u, u)
+```
+
+`gamma_of(v)` is $\gamma(v) = \sum_a v_a\gamma^a$; `metric_product(u, v)` is $\eta(u, v) = u^T\eta v$; `reflection(u)` is the $8 \times 8$ matrix of $R_u$: since $R_uv = v - 2u\,(u^T\eta v)/\eta(u, u)$, its matrix is $1 - 2\,u\,(\eta u)^T/\eta(u, u)$, and `np.outer(u, u @ ETA_MATRIX)` is the column $u$ times the row $u^T\eta$.
+
+```python
+e = np.eye(8)  # e[i] is the unit vector along COORDS[i]
+tilted = np.cosh(0.5) * e[0] + np.sinh(0.5) * e[3]
+v = np.arange(1, 9) / 10.0
+reflections_ok = True
+for u in (e[0], e[3], tilted):
+    gu = gamma_of(u)
+    left = -gu @ gamma_of(v) @ np.linalg.inv(gu)
+    Ru = reflection(u)
+    reflections_ok &= (np.allclose(left, gamma_of(Ru @ v), atol=1e-12)
+                       and abs(np.linalg.det(Ru) + 1.0) < 1e-12
+                       and np.allclose(Ru.T @ ETA_MATRIX @ Ru, ETA_MATRIX))
+    say(f"eta(u, u) = {metric_product(u, u):+.6f}: reflection checked")
+check(reflections_ok,
+      "-gamma(u) gamma(v) gamma(u)^-1 = gamma(R_u v); det R_u = -1; R_u keeps eta")
+```
+
+Three unit vectors are tested: $e_{x1}$ (space-like), $e_{x4}$ (time-like) and the tilted $\cosh(0.5)\,e_{x1} + \sinh(0.5)\,e_{x4}$ (with $\eta = \cosh^2 - \sinh^2 = 1$), each with the fixed vector $v = (0.1, 0.2, \dots, 0.8)$. For each, the key identity of Section 5.12, $\det R_u = -1$ and $R_u^T\eta R_u = \eta$ are checked, and $\eta(u, u)$ is printed: $+1$, $-1$, $+1$.
+
+**In [14], the spinor norm, $\Lambda(\Gamma)$ and the double cover.**
+
+```python
+elements = [("gamma^(x1)", [e[0]]), ("gamma^(x4)", [e[3]]),
+            ("gamma^(x1) gamma^(x4)", [e[0], e[3]]),
+            ("gamma(tilted) gamma^(x5)", [tilted, e[4]]),
+            ("Gamma", [e[7]] + [e[i] for i in range(7)])]
+norm_ok = True
+for name, factors in elements:
+    g = np.eye(16)
+    for u in factors:
+        g = g @ gamma_of(u)
+    k = len(factors)
+    N = int(round(np.prod([metric_product(u, u) for u in factors])))
+    predicted = (-1) ** k * N
+    norm_ok &= np.allclose(g.T @ C @ g, predicted * C, atol=1e-12)
+    say(f"{name:26} k = {k}, N(g) = {N:+d}: g^T C g = {predicted:+d} C")
+check(norm_ok, "g^T C g = (-1)^k N(g) C for all five elements")
+```
+
+Five elements of Pin(4,4) are given by their unit-vector factors (for $\Gamma$: $e_{x8}$ followed by $e_{x1}, \dots, e_{x7}$). For each, the product $g$, the number of factors $k$ and the spinor norm $N(g)$ (the product of the $\eta(u, u)$, rounded to a whole number) are computed, and $g^TCg$ is compared with $(-1)^kN(g)\,C$. The printed table shows in particular $g^TCg = -C$ for $\gamma^{(x1)}\gamma^{(x4)}$ and for $\gamma(\text{tilted})\gamma^{(x5)}$: two even elements that are not products of exponentials.
+
+```python
+check(np.allclose(vector_matrix(Gamma.astype(float)), -np.eye(8), atol=1e-12),
+      "Gamma moves every direction to its opposite: Lambda(Gamma) = -1 (det +1)")
+cover_ok = all(
+    np.allclose(spin_transformation("x1", "x2", th + 2 * np.pi),
+                -spin_transformation("x1", "x2", th), atol=1e-12)
+    and np.allclose(vector_matrix(spin_transformation("x1", "x2", th + 2 * np.pi)),
+                    vector_matrix(spin_transformation("x1", "x2", th)), atol=1e-12)
+    for th in np.linspace(0.0, 2 * np.pi, 7))
+check(cover_ok, "R(theta + 2 pi) = -R(theta), and both move the vectors in the "
+      "same way: two spinor matrices for every vector matrix")
+```
+
+$\Gamma$ is even, and its vector matrix is $-1_8$: by (X2), $\Gamma\gamma^c\Gamma^{-1} = -\gamma^c$. Then, for seven angles, $R(\theta + 2\pi) = -R(\theta)$ and the two have the same vector matrix.
+
+**In [15], the determinants of the gammas.**
+
+```python
+import sympy as sp  # exact algebra
+
+determinants = {x: sp.Matrix(gamma[x].tolist()).det() for x in COORDS}
+say("det gamma^(x) = " + ", ".join(f"{x}: {determinants[x]}" for x in COORDS))
+check(all(d == 1 for d in determinants.values()),
+      "every gamma matrix has determinant +1 as a 16 x 16 matrix")
+```
+
+sympy computes the eight determinants exactly. The printed line shows 1 for every direction, as Rule 6 predicts.
+
+**In [16], four vector matrices as pictures.**
+
+```python
+pictures = [(vector_matrix(spin_transformation("x1", "x2", np.pi / 3)),
+             r"rotation, $\theta = \pi/3$, $(x1, x2)$"),
+            (vector_matrix(spin_transformation("x1", "x4", 1.0)),
+             r"boost, $\theta = 1$, $(x1, x4)$"),
+            (reflection(e[0]), r"reflection $R_u$, $u = e_{x1}$"),
+            (vector_matrix(Gamma.astype(float)), r"$\Lambda(\Gamma) = -1_8$")]
+fig, axes = plt.subplots(1, 4, figsize=(14.0, 4.0))
+for k, (ax, (matrix, title)) in enumerate(zip(axes, pictures)):
+    image = ax.imshow(matrix, cmap=SIGNS, vmin=-1.6, vmax=1.6)
+    for i in range(8):
+        for j in range(8):
+            if abs(matrix[i, j]) > 1e-12:  # write the nonzero entries
+                ax.text(j, i, f"{matrix[i, j]:.2f}", ha="center", va="center",
+                        fontsize=6)
+    ax.set_xticks(range(8), COORDS, fontsize=7)
+    ax.set_yticks(range(8), COORDS, fontsize=7)
+    ax.set_title(title, fontsize=9)
+    ax.grid(False)
+fig.colorbar(image, ax=axes, shrink=0.8, label="matrix entry")
+save_figure(fig, "vector_matrices", ...)
+```
+
+Four $8 \times 8$ matrices are drawn with the colour scale from $-1.6$ to $1.6$ (a boost has entries $\cosh 1 \approx 1.54$), and each nonzero entry is written in its square with two decimals (`:.2f`). In `05d_6_vector_matrices.png` the rotation has $0.50$ and $\pm0.87$ ($\cos$ and $\sin$ of $\pi/3$) in the $(x1, x2)$ block, the boost $1.54$ and $-1.18$ ($\cosh 1$ and $-\sinh 1$) in the $(x1, x4)$ block, the reflection one $-1$ at $x1$, and $\Lambda(\Gamma)$ is $-1$ on the whole diagonal.
+
+**In [17], the last check.**
+
+```python
+FIGURES = ["05d_1_plane_types.png", "05d_2_half_angles.png",
+           "05d_3_rotation_matrices.png", "05d_4_orbits.png",
+           "05d_5_invariant_forms.png", "05d_6_vector_matrices.png"]
+check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in FIGURES),
+      "the six figure files of notebook 05d exist")
+all_checks_passed()
+```
+
+The six figure files must exist, and the last line reads ALL 20 CHECKS PASSED (notebook 05d): one in In [2], three in In [3], one in In [4], In [5] and In [6] each, two in In [7], one each in In [8], In [9] and In [10], two in In [11], one in In [13], three in In [14], one in In [15] and one in In [17]. Six of them (In [2], the three of In [3], In [4] and the first of In [11]) reproduce recorded checks; the other fourteen are the notebook's own computations.

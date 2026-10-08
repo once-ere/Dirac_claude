@@ -771,7 +771,9 @@ CELLS = [
     axes[0].set_xlabel("time $x_4$")
     axes[0].set_ylabel("charge, flux (pure numbers)")
     axes[0].set_title("General solution: charge flows through the brane")
-    axes[0].legend(fontsize=8)
+    top = 1.9 * np.abs(np.real(g_f(times))).max()  # room for the legend above
+    axes[0].set_ylim(-1.2 * np.abs(np.real(g_f(times))).max(), top)
+    axes[0].legend(fontsize=8, loc="upper right")
     Q0_value = float(Q0)
     axes[1].plot(times, np.full_like(times, Q0_value), linewidth=2,
                  label="$Q$ of $\\Psi$ (mass $+2$)")
@@ -781,7 +783,8 @@ CELLS = [
                  label="total charge of the pair")
     axes[1].set_xlabel("time $x_4$")
     axes[1].set_title("Zero flux: the charge is constant")
-    axes[1].legend(fontsize=8)
+    axes[1].set_ylim(-1.3 * abs(Q0_value), 2.2 * abs(Q0_value))  # legend fits on top
+    axes[1].legend(fontsize=8, loc="upper right")
     check(np.max(np.abs(Q_vals - rhs_vals)) < 1e-12,
           "numerically: Q(x4) and Q(0) minus the integrated flux agree to 1e-12")
     save_figure(fig, "charge_balance",
@@ -858,7 +861,8 @@ CELLS = [
     axes[0].legend(fontsize=8)
     axes[1].plot(times, np.full_like(times, Q0_value), linewidth=2,
                  label="charge $Q$ of the stationary solution")
-    axes[1].set_ylim(0.0, 1.5 * Q0_value)
+    axes[1].set_ylim(-1.5 * abs(Q0_value), 1.5 * abs(Q0_value))
+    axes[1].axhline(0.0, color="black", linewidth=0.8)
     axes[1].set_xlabel("time $x_4$")
     axes[1].set_ylabel("charge $Q$")
     axes[1].legend(fontsize=8)
@@ -973,8 +977,8 @@ CELLS = [
     idx = np.arange(5)
     ax.bar(idx - 0.25, [c[0] for c in charges], width=0.25, label="$Q$ of $\\Psi$")
     ax.bar(idx, [c[1] for c in charges], width=0.25, label="$Q$ of $\\Gamma\\Psi$")
-    ax.bar(idx + 0.25, [c[0] + c[1] for c in charges], width=0.25, color="black",
-           label="total of the pair")
+    ax.plot(idx + 0.25, [c[0] + c[1] for c in charges], "D", color="black",
+            label="total of the pair (zero)")
     ax.axhline(0.0, color="black", linewidth=0.8)
     ax.set_xticks(idx, [f"column {k + 1}" for k in idx])
     ax.set_ylabel("charge $Q$ at $x_4 = 0$")
@@ -984,8 +988,8 @@ CELLS = [
                 "Pair-level charge bookkeeping for five random columns $\\chi$ in the "
                 "exact solution of the author's metric: the charge $Q$ of $\\Psi$ "
                 "(left bar of each group), of its chirality partner $\\Gamma\\Psi$, a "
-                "solution with the mass reversed (middle bar), and their total (black "
-                "bar, zero); horizontal axis the column, vertical axis the charge at "
+                "solution with the mass reversed (right bar), and their total (black "
+                "diamond, zero); horizontal axis the column, vertical axis the charge at "
                 "$x_4 = 0$ per unit of the other six coordinates (pure numbers). The "
                 "charges of single universes can have either sign and any size; only "
                 "the pair adds to zero.")

@@ -217,7 +217,10 @@ The first line inserts the two expectation values of Section 13.4; the second ca
 **Direct and exchange in space.** Writing out the integrals and using $\sum_{a\in O}\phi_a(r)\phi_a^*(r') = \rho(r, r')$ (the density matrix in space, whose diagonal is the density $n$):
 
 $$
-E_H = \tfrac12\sum_{a,b} w_{abab} = \tfrac12\int\!\!\int n(r)\,w(r,r')\,n(r')\,dr\,dr', \qquad E_x = -\tfrac12\sum_{a,b} w_{abba} = -\tfrac12\int\!\!\int |\rho(r,r')|^2\,w(r,r')\,dr\,dr' .
+\begin{aligned}
+E_H &= \tfrac12\sum_{a,b} w_{abab} = \tfrac12\int\!\!\int n(r)\,w(r,r')\,n(r')\,dr\,dr' ,\\
+E_x &= -\tfrac12\sum_{a,b} w_{abba} = -\tfrac12\int\!\!\int |\rho(r,r')|^2\,w(r,r')\,dr\,dr' .
+\end{aligned}
 $$
 
 $E_H$ is the **Hartree energy**: the classical energy of the cloud $n$ with itself. $E_x$ is the **exchange energy** (the Fock term); it has no classical analogue, it comes from the antisymmetry of $\Phi$, and for a repulsive $w$ it lowers the energy. Three remarks. (1) **No self-interaction.** In $E_H$ the terms $a = b$ describe a particle repelling its own cloud, which is unphysical; in $E_x$ the terms $a = b$ are the same numbers with a minus sign, so they cancel. (2) **Exchange acts only between equal labels.** If every orbital has a definite label, $\rho(x\sigma, x'\sigma') = 0$ for $\sigma \ne \sigma'$, so for a label-independent $w$ the exchange term couples only particles with the same label. (3) **Double counting.** Adding orbital energies counts every pair twice (Section 13.6).
@@ -395,7 +398,10 @@ which **defines** the **exchange-correlation energy** $E_{xc} = F - T_s - E_H$. 
 **The equations.** Minimise $E[n] = T_s[n] + \int v\,n\,dx + E_H[n] + E_{xc}[n]$ by varying the orbitals of the determinant, with Lagrange multipliers $\epsilon_a$ for their normalisation. Since $n = \sum_a|\phi_a|^2$, a change of $\phi_a^*$ at the point $x$ changes $n$ at $x$ by $\phi_a(x)$ times that change; so every density functional $G[n]$ contributes $(\delta G/\delta n)\,\phi_a$ (chain rule), and the kinetic term contributes $-\tfrac12\,\phi_a''$. Setting the derivative to zero gives the **Kohn-Sham equations**
 
 $$
-\Big[-\frac12\,\frac{d^2}{dx^2} + v_s(x)\Big]\phi_a = \epsilon_a\,\phi_a, \qquad v_s = v + v_H + v_{xc}, \qquad v_{xc}(x) = \frac{\delta E_{xc}}{\delta n(x)}, \qquad n(x) = \sum_{a\in O}|\phi_a(x)|^2 ,
+\begin{aligned}
+&\Big[-\frac12\,\frac{d^2}{dx^2} + v_s(x)\Big]\phi_a = \epsilon_a\,\phi_a, \qquad n(x) = \sum_{a\in O}|\phi_a(x)|^2 ,\\
+&v_s = v + v_H + v_{xc}, \qquad v_{xc}(x) = \frac{\delta E_{xc}}{\delta n(x)} ,
+\end{aligned}
 $$
 
 with the $N$ lowest orbitals occupied. The **Kohn-Sham potential** $v_s$ is local: a multiplication by a function, simpler than the Fock operator. If $E_{xc}$ were known exactly, these one-particle equations would give the exact ground-state density and energy of the interacting system.
@@ -1034,102 +1040,2082 @@ all_checks_passed()
 
 `enumerate(figure_names, 1)` pairs each name with its number $k = 1, 2, \dots$; the list comprehension collects the names whose file `13c_k_name.png` does not exist, and the first check requires that list to be empty. The second check names the last figure file, and `all_checks_passed()` prints ALL 33 CHECKS PASSED (notebook 13c): three checks in In [2], one in In [3], two in In [4], three in In [6], one in In [7], two in In [8], one each in In [9] and In [10], two in In [11], three in In [12], two in In [14], one in In [15], five in In [16], four in In [18] and two in In [19].
 
-### 13.15 Placeholder 15
+### 13.15 The uniform gas, the local density approximation and exact local exchange
 
-Text.
+To use the Kohn-Sham equations we need an approximation for $E_{xc}[n]$. The oldest one borrows it from the only many-body system whose properties are known accurately: the **uniform gas**, infinitely many particles spread with the same density everywhere. This section computes, in three dimensions, its density matrix, its kinetic energy and its exchange energy, and shows why the exchange of a contact interaction is special.
 
-### 13.16 Placeholder 16
+**Spherical coordinates.** The integrals below are done in spherical coordinates: a point $\mathbf r = (x, y, z)$ is given by its distance $r$ from the origin, the angle $\theta$ from the $z$ axis and the angle $\phi$ around it, $x = r\sin\theta\cos\phi$, $y = r\sin\theta\sin\phi$, $z = r\cos\theta$. A small box with the edges $dr$, $r\,d\theta$ and $r\sin\theta\,d\phi$ has the volume $d^3r = r^2\sin\theta\,dr\,d\theta\,d\phi$. With $u = \cos\theta$ (so $du = -\sin\theta\,d\theta$, and $\theta$ from 0 to $\pi$ is $u$ from 1 to $-1$),
 
-Text.
+$$
+\int f\,d^3r = \int_0^\infty r^2\,dr\int_{-1}^{1}du\int_0^{2\pi}d\phi\ f ,
+$$
 
-### 13.17 Placeholder 17
+and for a function of $r$ alone this is $4\pi\int_0^\infty r^2 f\,dr$. The same holds for integrals over a wave vector $\mathbf k$, with $k = |\mathbf k|$ in place of $r$, and the axis may point in any direction.
 
-Text.
+**Plane waves in a box.** Put the gas in a cube of side $\ell$ and volume $V = \ell^3$ whose opposite faces are glued together (a **periodic box**). The orbitals of a free particle are the **plane waves** $e^{i\mathbf k\cdot\mathbf r}/\sqrt V$ with the kinetic energy $\tfrac12 k^2$, and periodicity allows only $\mathbf k = (2\pi/\ell)\,\mathbf m$ with three integers $\mathbf m = (m_x, m_y, m_z)$. Each allowed $\mathbf k$ occupies a little cube of volume $(2\pi/\ell)^3 = (2\pi)^3/V$, so for a large box a sum over the allowed vectors becomes an integral, $\sum_{\mathbf k} \to V\int d^3k/(2\pi)^3$.
 
-### 13.18 Placeholder 18
+**The Fermi sphere.** The non-interacting ground state fills all $\mathbf k$ with $|\mathbf k| < k_F$ (the **Fermi wave number**), once for each of the $g$ labels. Counting, line by line:
 
-Text.
+$$
+N_\sigma = V\,\frac{\tfrac43\pi k_F^3}{(2\pi)^3}, \qquad n_\sigma = \frac{N_\sigma}{V} = \frac{k_F^3}{6\pi^2}, \qquad n = g\,n_\sigma = \frac{g\,k_F^3}{6\pi^2} .
+$$
 
-### 13.19 Placeholder 19
+The first is the number of occupied plane waves of one label (the volume of the sphere divided by the volume per $\mathbf k$); the second divides by $V$ and simplifies $\tfrac43\pi/(8\pi^3) = 1/(6\pi^2)$; the third adds the $g$ labels. The kinetic energy per volume is $g\int_{k<k_F}\frac{d^3k}{(2\pi)^3}\frac{k^2}{2} = \frac{g}{2\pi^2}\cdot\frac{k_F^5}{10}$ (spherical coordinates: $4\pi\int_0^{k_F}k^2\cdot\tfrac{k^2}{2}\,dk/(8\pi^3)$). For $g = 2$, eliminating $k_F = (3\pi^2 n)^{1/3}$,
 
-Text.
+$$
+e_{kin}(n) = C_F\,n^{5/3}, \qquad C_F = \tfrac{3}{10}\,(3\pi^2)^{2/3} = 2.871234 .
+$$
 
-### 13.20 Placeholder 20
+The **Thomas-Fermi** model (1927) took the kinetic energy of every system to be $\int e_{kin}(n(\mathbf r))\,d^3r$, as if each small piece of it were a piece of uniform gas. It is too crude; the Kohn-Sham scheme keeps the kinetic energy exact through $T_s$ and approximates only $E_{xc}$. Notebook 13a (Section 13.32) compares a Thomas-Fermi density with a Kohn-Sham density.
 
-Text.
+**The density matrix of one label, line by line.** For one label the density matrix of the filled sphere is $\rho_\sigma(\mathbf r, \mathbf r') = \sum_{|\mathbf k|<k_F}\frac{e^{i\mathbf k\cdot\mathbf r}}{\sqrt V}\frac{e^{-i\mathbf k\cdot\mathbf r'}}{\sqrt V}$, a function of the separation $\mathbf R = \mathbf r - \mathbf r'$ only. For a large box, with $R = |\mathbf R|$ and spherical coordinates around $\mathbf R$ (so $\mathbf k\cdot\mathbf R = kRu$):
 
-### 13.21 Placeholder 21
+$$
+\begin{aligned}
+\rho_\sigma(R) &= \int_{k<k_F}\frac{d^3k}{(2\pi)^3}\,e^{i\mathbf k\cdot\mathbf R}
+= \frac{1}{(2\pi)^3}\int_0^{k_F}k^2\,dk\int_{-1}^{1}du\int_0^{2\pi}d\phi\ e^{ikRu} \\
+&= \frac{2\pi}{(2\pi)^3}\int_0^{k_F}k^2\,\frac{e^{ikR} - e^{-ikR}}{ikR}\,dk
+= \frac{1}{2\pi^2 R}\int_0^{k_F}k\,\sin(kR)\,dk \\
+&= \frac{1}{2\pi^2 R}\Big[\frac{\sin(kR)}{R^2} - \frac{k\cos(kR)}{R}\Big]_0^{k_F}
+= \frac{\sin(k_F R) - k_F R\cos(k_F R)}{2\pi^2 R^3} .
+\end{aligned}
+$$
 
-Text.
+The first step replaces the sum by the integral; the second writes it in spherical coordinates; the third does the $\phi$ integral ($2\pi$) and the $u$ integral (the antiderivative of $e^{ikRu}$ in $u$ is $e^{ikRu}/(ikR)$); the fourth uses $e^{i\alpha} - e^{-i\alpha} = 2i\sin\alpha$ and simplifies; the fifth integrates by parts ($\int k\sin(kR)\,dk = -k\cos(kR)/R + \int\cos(kR)/R\,dk$); the sixth inserts the limits and collects. Dividing by $n_\sigma = k_F^3/(6\pi^2)$ and writing $s = k_F R$:
 
-### 13.22 Placeholder 22
+$$
+\frac{\rho_\sigma(R)}{n_\sigma} = F(k_F R), \qquad F(s) = \frac{3\,(\sin s - s\cos s)}{s^3} .
+$$
 
-Text.
+Near $s = 0$ the Taylor series $\sin s = s - s^3/6 + s^5/120 - s^7/5040$ and $s\cos s = s - s^3/2 + s^5/24 - s^7/720$ give $\sin s - s\cos s = s^3/3 - s^5/30 + s^7/840$, so $F(s) = 1 - s^2/10 + s^4/280 + \dots$, and $F(0) = 1$: at zero separation the density matrix is the density. Notebook 13b (In [3], Figure 13b.1) compares $F$ with the sums over the plane waves of finite boxes: along the $x$ axis only $m_x$ matters, the sine parts of $m_x$ and $-m_x$ cancel, and $\rho_\sigma(R)/n_\sigma = \frac{1}{N_\sigma}\sum_{m_x}c(m_x)\cos(2\pi m_x R/\ell)$, where $c(m_x)$ counts the occupied lattice points with this $m_x$; the difference from $F$ shrinks from $0.037$ to $0.0008$ as the box grows from 251 to 137059 plane waves.
 
-### 13.23 Placeholder 23
+**The exchange hole.** By Wick's theorem (Section 13.4) the probability density of finding one fermion at $\mathbf r$ and another at $\mathbf r'$ is $n(\mathbf r)n(\mathbf r') - \sum_\sigma|\rho_\sigma(\mathbf r, \mathbf r')|^2$ (the second term is the exchange term of the four-operator formula; only equal labels contribute). With $g$ equally occupied labels, $n_\sigma = n/g$, and divided by $n^2$:
 
-Text.
+$$
+g_{pair}(R) = 1 - \frac{g\,n_\sigma^2F(k_F R)^2}{n^2} = 1 - \frac{1}{g}\,F(k_F R)^2 .
+$$
 
-### 13.24 Placeholder 24
+At $R = 0$ it is $1 - 1/g$: a second fermion with the same label is never found at the same point, one with another label as often as without the Pauli principle. This dip is the **exchange hole** (Figure 13b.2); its size is about $1/k_F$.
 
-Text.
+**Contact interaction in the uniform gas.** With $w = g_c\,\delta(\mathbf r - \mathbf r')$, Section 13.5 gives per volume $e_H = \tfrac{g_c}{2}n^2$ and $e_x = -\tfrac{g_c}{2}\sum_\sigma n_\sigma^2 = -\tfrac{g_c}{2g}n^2$, so
 
-### 13.25 Placeholder 25
+$$
+e_H + e_x = \frac{g_c}{2}\,n^2\Big(1 - \frac{1}{g}\Big) = \frac{g_c}{2}\,n^2\,g_{pair}(0) :
+$$
 
-Text.
+the interaction counts only the pairs that can meet, those of different labels (Figure 13b.3).
 
-### 13.26 Placeholder 26
+**A finite range shrinking to a contact, line by line.** Replace the contact by a Gaussian of range $a$ with the same total strength, $w_a(R) = g_c\,(2\pi a^2)^{-3/2}e^{-R^2/(2a^2)}$, whose integral over all space is $g_c$. Its Hartree energy is still $\tfrac{g_c}{2}n^2$ (for a uniform density only the integral of $w$ enters), but its exchange energy per volume is $e_x(a) = -\tfrac12\sum_\sigma n_\sigma^2\int w_a(R)\,F(k_F R)^2\,d^3R$ (Section 13.5 with $\rho_\sigma = n_\sigma F$). Hence
 
-Text.
+$$
+\frac{e_x(a)}{e_x(0)} = \frac{1}{g_c}\int w_a(R)\,F(k_F R)^2\,d^3R = \frac{1}{g_c}\int_0^\infty 4\pi R^2\,w_a(R)\,F(k_F R)^2\,dR .
+$$
 
-### 13.27 Placeholder 27
+For a small range only small $R$ matter, where $F(s)^2 = (1 - s^2/10 + \dots)^2 = 1 - s^2/5 + \dots$:
 
-Text.
+$$
+\frac{e_x(a)}{e_x(0)} \approx \frac{1}{g_c}\int w_a\Big(1 - \frac{k_F^2R^2}{5}\Big)d^3R = 1 - \frac{k_F^2}{5g_c}\int w_a\,R^2\,d^3R = 1 - \frac{k_F^2}{5}\cdot 3a^2 = 1 - \frac35\,(k_F a)^2 .
+$$
 
-### 13.28 Placeholder 28
+The first step inserts the expansion; the second uses $\int w_a\,d^3R = g_c$; the third uses $\int w_a R^2\,d^3R = 3a^2g_c$ (the Gaussian has the variance $a^2$ along each of the three axes, and $R^2 = x^2 + y^2 + z^2$). So the exchange energy of a finite-range interaction approaches the contact value when the range is much smaller than the size $1/k_F$ of the exchange hole (Notebook 13b, In [8], Figure 13b.4).
 
-Text.
+**For comparison: the Coulomb interaction.** For electrons ($g = 2$, $w = 1/R$ in atomic units) the same formula gives
 
-### 13.29 Placeholder 29
+$$
+e_x = -\tfrac12\cdot 2\,n_\sigma^2\int_0^\infty 4\pi R^2\,\frac{F(k_F R)^2}{R}\,dR = -\frac{4\pi n_\sigma^2}{k_F^2}\int_0^\infty s\,F(s)^2\,ds ,
+$$
 
-Text.
+by substituting $s = k_F R$. The integral is $9/4$: COMPUTED by Notebook 13b (In [10]) to $10^{-7}$ with Simpson's rule up to $s = 4000$ plus the tail beyond (for large $s$, $F \approx -3\cos s/s^2$, so the integrand is about $9\cos^2 s/s^3$, whose average $\cos^2 = \tfrac12$ gives the tail $9/(4\cdot 4000^2)$); it can also be evaluated exactly by Fourier transforms, which this book does not need. With $n_\sigma = n/2$ and $k_F = (3\pi^2 n)^{1/3}$ this is **Dirac's exchange energy** (1930),
 
-### 13.30 Placeholder 30
+$$
+e_x(n) = -\frac34\Big(\frac{3}{\pi}\Big)^{1/3}n^{4/3} = -0.738559\,n^{4/3} .
+$$
 
-Text.
+It is a function of the local density because the gas is uniform; the contact exchange $-\tfrac{g_c}{4}n^2$ ($g = 2$) is a function of the local density because the interaction has no range (Figure 13b.5 compares the two per particle: slopes 1 and 1/3 on logarithmic axes).
 
-### 13.31 Placeholder 31
+**Simpson's rule.** Several notebooks of this chapter integrate with **Simpson's rule**. On three equally spaced points $-h, 0, h$ it integrates the parabola $a + bx + cx^2$ through the three values exactly: $\int_{-h}^{h}(a + bx + cx^2)\,dx = 2ah + \tfrac23 ch^3$; the values give $f(0) = a$ and $f(h) + f(-h) = 2a + 2ch^2$, so $ch^2 = \tfrac12(f(h) + f(-h)) - a$, and inserting, $\int = 2ah + \tfrac{h}{3}(f(h) + f(-h)) - \tfrac23 ah = \tfrac{h}{3}\big[f(-h) + 4f(0) + f(h)\big]$. Adding such panels over an even number of intervals gives $\tfrac{h}{3}[f_0 + 4f_1 + 2f_2 + 4f_3 + \dots + 4f_{K-1} + f_K]$: the end values once, the odd ones four times, the inner even ones twice. (It is even exact for cubic polynomials, because the term $x^3$ integrates to zero on a symmetric panel.)
 
-Text.
+**The local density approximation.** A real density varies in space. The **local density approximation** (LDA) treats each small volume as a piece of uniform gas with the local density:
 
-### 13.32 Placeholder 32
+$$
+E_{xc}^{LDA}[n] = \int e_{xc}\big(n(\mathbf r)\big)\,d^3r, \qquad v_{xc}^{LDA}(\mathbf r) = \frac{de_{xc}}{dn}\Big|_{n(\mathbf r)}
+$$
 
-Text.
+(example (ii) of Section 13.9). For electrons its exchange part is Dirac's formula, $v_x = -(3/\pi)^{1/3}n^{1/3}$; its correlation part is taken from numerical simulations of the uniform gas, which we quote as a fact of the literature and do not use in this book. The LDA is exact for a uniform density and an approximation for every other one.
 
-### 13.33 Placeholder 33
+**For a contact interaction exchange needs no approximation.** Put $w = g_c\,\delta(\mathbf r - \mathbf r')$ (independent of the labels) into the exchange integral of Section 13.5 for ANY determinant or non-interacting ensemble:
 
-Text.
+$$
+E_x = -\frac{g_c}{2}\int\sum_{\sigma,\sigma'}\big|\rho(\mathbf r\sigma, \mathbf r\sigma')\big|^2\,d^3r .
+$$
 
-### 13.34 Placeholder 34
+This is exactly local: it needs only the $g \times g$ matrix $\rho(\mathbf r\sigma, \mathbf r\sigma')$ at each point. For orbitals of definite label the off-diagonal entries vanish and $E_x = -\tfrac{g_c}{2}\int\sum_\sigma n_\sigma^2\,d^3r$; evaluated with all the label densities it is exact, evaluated with the total density alone as $-\tfrac{g_c}{2g}\int n^2$ it is exact only when all labels are equally occupied. Notebook 13b checks this for a non-uniform determinant in a box (In [12]: the two-point Fock form and the local form both give $-19.0000000000$) and for orbitals that mix the labels (In [13]: the local form needs the whole $2 \times 2$ matrix; its diagonal alone misses $1.24$ of the $8.74$). An "exchange-only" local functional of this kind is the Hartree-Fock energy written as a density functional; what it leaves out is correlation.
 
-Text.
+**Exchange favours unequal labels, line by line.** In this exchange-only picture a gas with two labels can lower its interaction energy by occupying the labels unequally, at the price of kinetic energy. With the **polarisation** $\zeta = (n_\uparrow - n_\downarrow)/n$, so $n_\uparrow = \tfrac{n}{2}(1 + \zeta)$ and $n_\downarrow = \tfrac{n}{2}(1 - \zeta)$: one label alone ($g = 1$) has the kinetic energy $\tfrac{3}{10}(6\pi^2)^{2/3}n_\sigma^{5/3}$ per volume (the formula above with $g = 1$), and the contact interaction gives $g_c\,n_\uparrow n_\downarrow$ (Section 13.5). Adding,
 
-### 13.35 Placeholder 35
+$$
+e(\zeta) = C_F\,n^{5/3}\,\frac{(1 + \zeta)^{5/3} + (1 - \zeta)^{5/3}}{2} + \frac{g_c}{4}\,n^2\,(1 - \zeta^2) ,
+$$
 
-Text.
+where the kinetic part was rewritten with $\tfrac{3}{10}(6\pi^2)^{2/3}(\tfrac{n}{2})^{5/3} = \tfrac12 C_F n^{5/3}$ (because $6^{2/3}\,2^{-5/3} = 3^{2/3}\,2^{2/3}\,2^{-5/3} = 3^{2/3}/2$) and $n_\uparrow n_\downarrow = \tfrac{n^2}{4}(1 - \zeta^2)$. Differentiating twice at $\zeta = 0$: $\frac{d^2}{d\zeta^2}(1 \pm \zeta)^{5/3} = \tfrac53\cdot\tfrac23(1\pm\zeta)^{-1/3} = \tfrac{10}{9}$ at $\zeta = 0$, so
 
-### 13.36 Placeholder 36
+$$
+e''(0) = \frac{10}{9}\,C_F\,n^{5/3} - \frac{g_c}{2}\,n^2 ,
+$$
 
-Text.
+which is negative (the unpolarised gas is unstable) exactly when $g_c\,n^{1/3} > \gamma_c = \tfrac{20}{9}C_F = \tfrac23(3\pi^2)^{2/3} = 6.380520$. This is a property of the exchange-only functional; correlation, left out here, weakens it (Notebook 13b, In [15], Figure 13b.7).
 
-### 13.37 Placeholder 37
+### 13.16 The exchange of the 16-component field dirac16complex
 
-Text.
+This section carries Section 13.15 over to the field of this book. In this section and in Section 13.37, $\Psi$ is the dirac16complex field and $x_1, \dots, x_8$ are the author's coordinates: $x_1, x_2, x_3$ ordinary space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times, which deflate exponentially, and $x_8$ the hidden direction.
 
-### 13.38 Placeholder 38
+**The matrices.** The author's gamma matrices $\gamma^{(x1)}, \dots, \gamma^{(x8)}$ are eight REAL $16 \times 16$ matrices (entries $0$ and $\pm1$) with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}\,1$, $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order $x_1, \dots, x_8$ (Chapter 4 builds them; `Revision/algebra/reports/wolfram-algebra.json`, checks reality and Clifford_relation, 45 of 45 checks passed). So each space-like gamma squares to $+1$, $\gamma^{(x4)}$ squares to $-1$, and two different gammas anticommute. From them,
 
-Text.
+$$
+C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}, \qquad B = -i\,C\,\gamma^{(x4)} .
+$$
 
-### 13.39 Placeholder 39
+$C$ is real and symmetric (Revision check C_real_symmetric); $B$ is the indefinite (Krein) form of Chapter 10, with the number density $n = \langle\Psi^\dagger B\Psi\rangle$. Four facts, line by line. (a) $C^2 = 1$: in $C^2 = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$ move the second $\gamma^{(x8)}$ to the left past three gammas (sign $(-1)^3$) and use $(\gamma^{(x8)})^2 = 1$; then move the second $\gamma^{(x1)}$ past two (sign $+1$), then the second $\gamma^{(x2)}$ past one (sign $-1$); the signs multiply to $(-1)(+1)(-1) = +1$ and every square is $+1$. (b) $\gamma^{(x4)}$ commutes with $C$: moving it through the four factors of $C$ costs four sign changes, $(-1)^4 = 1$. (c) $B^2 = 1$: $B^2 = (-i)^2\,C\gamma^{(x4)}C\gamma^{(x4)} = -\,C\,C\,\gamma^{(x4)}\gamma^{(x4)} = -(+1)(-1) = 1$, by (b), (a) and $(\gamma^{(x4)})^2 = -1$. (d) $CBC = -i\,C\,C\,\gamma^{(x4)}C = -i\,\gamma^{(x4)}C = -i\,C\gamma^{(x4)} = B$ by (a) and (b); and $\mathrm{Tr}(BC) = -i\,\mathrm{Tr}(C\gamma^{(x4)}C) = -i\,\mathrm{Tr}(\gamma^{(x4)}C^2) = -i\,\mathrm{Tr}\,\gamma^{(x4)} = 0$, using that a trace does not change when the first factor is moved to the end, and that the trace of a single gamma vanishes ($\mathrm{Tr}\,\gamma^{(x4)} = \mathrm{Tr}(\gamma^{(x4)}\gamma^{(x1)}\gamma^{(x1)}) = -\mathrm{Tr}(\gamma^{(x1)}\gamma^{(x4)}\gamma^{(x1)}) = -\mathrm{Tr}(\gamma^{(x4)}\gamma^{(x1)}\gamma^{(x1)}) = -\mathrm{Tr}\,\gamma^{(x4)}$). Finally $\mathrm{Tr}\,1 = 16$.
 
-Text.
+**The interaction and Wick's theorem.** The Kohn-Sham model of Chapter 14 has the contact interaction $U(S) = \tfrac{\lambda}{2}S^2$ with the scalar density $S = \bar\Psi\Psi = \Psi^\dagger C\,\Psi$ (normal ordered, $\lambda > 0$ repulsive). Its expectation values follow the rule $\langle\Psi^\dagger M\Psi\rangle = \mathrm{Tr}(M\rho)$ with a local $16 \times 16$ one-body matrix $\rho$ (Chapter 10), and the identity of Section 13.4 with the vertex $V = C$ gives, per unit volume,
+
+$$
+e_H = \frac{\lambda}{2}\,(\mathrm{Tr}\,C\rho)^2, \qquad e_x = -\frac{\lambda}{2}\,\mathrm{Tr}(C\rho\,C\rho) .
+$$
+
+(For $g$ ordinary labels the vertex is the unit matrix and $\rho = (n/g)\,1$, which gives back $e_x = -\tfrac{g_c}{2}\,g\,(n/g)^2 = -\tfrac{g_c}{2g}n^2$.)
+
+**The uniform good-sector gas, line by line.** For the uniform gas of the good sector (no extra-time momentum, Chapter 14), with any occupation that is symmetric under $\mathbf p \to -\mathbf p$ and at any temperature, the Revision record finds $\rho = (nB + SC)/16$ (`Revision/kohn_sham/ks-theory.json`, exchange.uniformGas; Chapter 14 derives it). First the densities come back:
+
+$$
+\mathrm{Tr}(B\rho) = \frac{n\,\mathrm{Tr}\,B^2 + S\,\mathrm{Tr}\,BC}{16} = \frac{16n + 0}{16} = n, \qquad \mathrm{Tr}(C\rho) = \frac{n\,\mathrm{Tr}\,CB + S\,\mathrm{Tr}\,C^2}{16} = S ,
+$$
+
+by linearity of the trace, $B^2 = C^2 = 1$ and $\mathrm{Tr}(BC) = \mathrm{Tr}(CB) = 0$. Then the exchange trace:
+
+$$
+\begin{aligned}
+\mathrm{Tr}(C\rho\,C\rho) &= \frac{1}{256}\,\mathrm{Tr}\big[C(nB + SC)\,C(nB + SC)\big] \\
+&= \frac{1}{256}\big[n^2\,\mathrm{Tr}(CBCB) + nS\,\mathrm{Tr}(CBCC) + Sn\,\mathrm{Tr}(CCCB) + S^2\,\mathrm{Tr}(CCCC)\big] \\
+&= \frac{1}{256}\big[n^2\,\mathrm{Tr}(B^2) + nS\,\mathrm{Tr}(CB) + Sn\,\mathrm{Tr}(CB) + S^2\,\mathrm{Tr}\,1\big] \\
+&= \frac{16\,n^2 + 16\,S^2}{256} = \frac{n^2 + S^2}{16} .
+\end{aligned}
+$$
+
+The first line inserts $\rho$; the second multiplies out (four terms); the third uses $CBC = B$ in the first term and $C^2 = 1$ in the others; the fourth uses $\mathrm{Tr}\,B^2 = \mathrm{Tr}\,1 = 16$ and $\mathrm{Tr}(CB) = 0$. Hence
+
+$$
+e_H = \frac{\lambda}{2}\,S^2, \qquad e_x = -\frac{\lambda}{32}\,\big(n^2 + S^2\big) .
+$$
+
+**The Kohn-Sham potentials.** The interaction energy per volume is $e_{int} = e_H + e_x = \tfrac{15}{32}\lambda S^2 - \tfrac{1}{32}\lambda n^2$. As in example (ii) of Section 13.9, the functional derivatives of $\int e_{int}$ are ordinary derivatives of $e_{int}$: with respect to $S$ it shifts the mass, with respect to $n$ it is a potential,
+
+$$
+M_{eff} = m + \frac{\partial e_{int}}{\partial S} = m + \frac{15}{16}\,\lambda S, \qquad v_v = \frac{\partial e_{int}}{\partial n} = -\frac{1}{16}\,\lambda n .
+$$
+
+For one filled 8-fold level at rest, $n = S$, the ratio is $e_x/e_H = -\tfrac{\lambda}{32}\cdot 2S^2\big/\tfrac{\lambda}{2}S^2 = -\tfrac18$: the rule $E_x = -E_H/g$ of Section 13.5 with $g = 8$, the number of good-sector states per momentum.
+
+**Status.** PROVED in the Revision record: `Revision/kohn_sham/reports/ks-theory-python.json`, checks exchange_uniform_gas, ks_potentials and filled_shell_ratio (58 of 58 checks passed), and independently `Revision/kohn_sham/reports/ks-theory-wolfram.json`, checks exchange_uniform_gas and ks_potentials (46 of 46); the Revision Kohn-Sham solver uses exactly these coefficients (`Revision/kohn_sham/results/parameters.json`, theoryInputs). Notebook 13b reproduces all of them exactly from the gamma matrices. **What is approximate.** The record's functional is Hartree plus this uniform-gas exchange, with no correlation term. For the Kohn-Sham determinants of Chapter 14, which are not uniform, the exact Fock exchange is still local but differs from the uniform-gas form by $+\tfrac{\lambda}{32}Q^2$, where $Q$ is a further density (exactFockSlab in `Revision/kohn_sham/ks-theory.json`, labelled DIAGNOSTIC there; the solver reports this difference). Using the uniform-gas exchange and leaving out correlation is therefore the approximation of the dirac16complex Kohn-Sham model, as the omission of correlation is the approximation of the toy models of this chapter.
+
+### 13.17 Example: exchange of a contact interaction
+
+Notebook 13b computes everything of Sections 13.15 and 13.16: the density matrix of one label of the uniform gas from its closed form and from box sums, the exchange hole for 1, 2 and 8 labels, the contact energies and the rule $E_x = -E_H/g$, the approach of a Gaussian interaction to the contact limit, Dirac's Coulomb exchange for comparison, the exactness of the local formula for any determinant (also with label-mixing orbitals), the polarisation instability, and finally, exactly with fractions, the exchange of the 16-component field from the Revision gamma matrices, reproducing three checks of the Revision record. It ends with ALL 34 CHECKS PASSED (notebook 13b) and draws nine figures.
+
+<!-- NOTEBOOK 13b -->
+
+### 13.20 Line-by-line walk-through of Notebook 13b
+
+The notebook has 21 code cells. **In [1]** is the set-up cell, identical to In [1] of Notebook 13c (explained line by line in Section 13.14) except that its name is `"13b"` and its comment lines hold the instructions of Section 13.18.
+
+**In [2], the function $F$.**
+
+```python
+def F(s):
+    """F(s) = 3 (sin s - s cos s) / s^3, the density matrix of one label over n."""
+    s = np.asarray(s, dtype=float)
+    result = 1.0 - s ** 2 / 10.0 + s ** 4 / 280.0  # the Taylor series near 0
+    big = s >= 1e-3  # where the closed form is accurate
+    sb = s[big]
+    result[big] = 3.0 * (np.sin(sb) - sb * np.cos(sb)) / sb ** 3
+    return result
+```
+
+(The cell starts with `import numpy as np`.) `np.asarray(s, dtype=float)` turns the argument, a number or an array, into an array of floating-point numbers. For small $s$ the closed form divides two tiny numbers and loses digits, so the function first fills `result` with the Taylor series of Section 13.15 everywhere, then marks the places where $s \ge 10^{-3}$ (`big` is an array of true and false values), takes those values (`s[big]`) and overwrites the result there with the closed form.
+
+```python
+s_test = 1e-3
+closed = 3.0 * (np.sin(s_test) - s_test * np.cos(s_test)) / s_test ** 3
+series = 1.0 - s_test ** 2 / 10.0 + s_test ** 4 / 280.0
+say(f"at s = 0.001: closed form {closed:.12f}, series {series:.12f}")
+check(abs(closed - series) < 1e-8,
+      "the closed form and the series agree at s = 0.001 (to about 9 digits)")
+```
+
+At the switching point both forms are computed and printed with 12 decimals: $0.999999899944$ and $0.999999900000$. They differ by $6\cdot10^{-11}$: the closed form has already lost several digits to rounding (the exact value is $1 - 10^{-7} + 3.6\cdot10^{-15}$), which is why the series is used below this point.
+
+**In [3], box sums.**
+
+```python
+s_grid = np.linspace(0.0, 12.0, 121)  # s = k_F R from 0 to 12
+box_results = {}
+for m_F in (4, 8, 16, 32):
+    m = np.arange(-m_F, m_F + 1)  # the possible integers m_x, m_y, m_z
+    my, mz = np.meshgrid(m, m, indexing="ij")  # all pairs (m_y, m_z)
+    q = my ** 2 + mz ** 2
+    counts = np.array([np.count_nonzero(q < m_F ** 2 - mx ** 2) for mx in m])
+    N_label = int(counts.sum())  # occupied plane waves of one label
+```
+
+For spheres of radius $m_F = 4, 8, 16, 32$ lattice steps: `np.arange(-m_F, m_F + 1)` is the list of integers from $-m_F$ to $m_F$; `np.meshgrid` makes all pairs $(m_y, m_z)$, and `q` their $m_y^2 + m_z^2$. For each $m_x$, `np.count_nonzero(q < m_F ** 2 - mx ** 2)` counts the pairs with $m_x^2 + m_y^2 + m_z^2 < m_F^2$: the number $c(m_x)$ of occupied plane waves with this $m_x$. Their sum is $N_\sigma$.
+
+```python
+    kF_ell = 2.0 * np.pi * (3.0 * N_label / (4.0 * np.pi)) ** (1.0 / 3.0)
+    R_over_ell = s_grid / kF_ell  # the separations R / ell for these s
+    ratio = np.array([np.sum(counts * np.cos(2.0 * np.pi * m * r))
+                      for r in R_over_ell]) / N_label
+    box_results[m_F] = (N_label, ratio)
+    deviation = np.max(np.abs(ratio - F(s_grid)))
+    say(f"m_F = {m_F:2d}: {N_label:6d} plane waves; largest difference from "
+        f"F = {deviation:.5f}")
+```
+
+The Fermi wave number is defined by the count, $N_\sigma = \tfrac43\pi(k_F\ell/2\pi)^3$, solved for $k_F\ell$. For each $s$ the separation is $R/\ell = s/(k_F\ell)$, and `ratio` is the box sum $\frac{1}{N_\sigma}\sum_{m_x}c(m_x)\cos(2\pi m_x R/\ell)$ of Section 13.15. The cell stores the result and prints the largest difference from $F$ on the grid of $s$.
+
+```python
+deviations = [np.max(np.abs(box_results[m_F][1] - F(s_grid)))
+              for m_F in (4, 8, 16, 32)]
+shrinking = all(a > b for a, b in zip(deviations, deviations[1:]))
+check(shrinking and deviations[-1] < 2e-3,
+      "the box sums approach the closed form F as the box holds more particles")
+```
+
+`zip(deviations, deviations[1:])` pairs each difference with the next one; `all(a > b ...)` is true when every difference is larger than the next. The check also requires the largest box to be within $2\cdot10^{-3}$ of $F$. The printed differences are $0.03729$, $0.01218$, $0.00184$ and $0.00083$ for 251, 2103, 17071 and 137059 plane waves.
+
+**In [4], the density matrix as a picture.** `ax.plot(s_grid, F(s_grid), ...)` draws the closed form as a thick black line; the loop draws every third point (`s_grid[::3]`) of the box sums for $m_F = 4$ (circles) and $m_F = 32$ (crosses); `axhline(0.0)` draws the zero line. `save_figure` saves Figure 13b.1; its caption puts the two plane-wave counts into the text with an f-string.
+
+**In [5], the exchange hole.**
+
+```python
+s_fine = np.linspace(0.0, 10.0, 501)
+fig, ax = plt.subplots()
+for g in (1, 2, 8):
+    pair = 1.0 - F(s_fine) ** 2 / g  # the pair distribution
+    ax.plot(s_fine, pair, label=f"$g = {g}$ labels: $g_{{pair}}(0) = {1 - 1 / g:.3f}$")
+    check(abs(pair[0] - (1.0 - 1.0 / g)) < 1e-15,
+          f"the pair distribution at contact is 1 - 1/g for g = {g}")
+```
+
+For $g = 1, 2, 8$ the cell computes $g_{pair} = 1 - F^2/g$ of Section 13.15, draws it (in an f-string a doubled brace prints one brace, so the label shows $g_{pair}$), and checks its value at $s = 0$, the first entry `pair[0]`. The remaining lines draw the line 1 (dashed), label the axes and save Figure 13b.2.
+
+**In [6], contact energies.**
+
+```python
+G_C = 1.0  # the strength of the contact interaction
+densities = np.linspace(0.0, 2.0, 41)  # n from 0 to 2 (particles per volume)
+
+
+def contact_energies(n, g):
+    """(e_H, e_x) per volume for g equally occupied labels: n_sigma = n / g."""
+    e_hartree = 0.5 * G_C * n ** 2
+    e_exchange = -0.5 * G_C * g * (n / g) ** 2  # -(g_c/2) sum over g labels
+    return e_hartree, e_exchange
+```
+
+The function returns $e_H = \tfrac{g_c}{2}n^2$ and $e_x = -\tfrac{g_c}{2}\sum_\sigma n_\sigma^2$ with the $g$ equal label densities $n/g$, for 41 densities from 0 to 2.
+
+```python
+for g in (1, 2, 8):
+    e_hartree, e_exchange = contact_energies(densities, g)
+    ratio = e_exchange[1:] / e_hartree[1:]  # skip n = 0 (0/0)
+    check(np.allclose(ratio, -1.0 / g, rtol=0, atol=1e-15),
+          f"e_x = -e_H/g for g = {g}")
+e_hartree, e_exchange = contact_energies(densities, 1)
+check(np.max(np.abs(e_hartree + e_exchange)) == 0.0,
+      "for a single label the contact interaction cancels exactly")
+```
+
+`[1:]` leaves out the first entry, $n = 0$, where the ratio would be $0/0$. Three checks of $e_x/e_H = -1/g$, and one that for $g = 1$ the sum is exactly zero.
+
+**In [7], the energies as pictures.** `plt.subplots(1, 2, ..., sharey=True)` makes two panels with a common vertical axis; for $g = 2$ (left) and $g = 8$ (right) the loop draws $e_H$, $e_x$ and their sum against $n$, and `save_figure` saves Figure 13b.3.
+
+**In [8], a finite range.**
+
+```python
+def simpson(values, step):
+    """Simpson's rule for equally spaced values (an odd number of them)."""
+    return step / 3.0 * (values[0] + values[-1] + 4.0 * values[1:-1:2].sum()
+                         + 2.0 * values[2:-1:2].sum())
+```
+
+Simpson's rule of Section 13.15: `values[1:-1:2]` are the entries 1, 3, 5, ... (every second one, starting at 1, without the last), weighted 4; `values[2:-1:2]` are the inner even entries 2, 4, ..., weighted 2; the two ends are weighted 1.
+
+```python
+s_int = np.linspace(0.0, 80.0, 400001)  # s = k_F R; the Gaussian is tiny beyond
+ds = s_int[1] - s_int[0]
+F2 = F(s_int) ** 2
+
+
+def exchange_ratio(kF_a):
+    """e_x(a) / e_x(0) for the Gaussian of range a (k_F a given)."""
+    norm = (2.0 * np.pi * kF_a ** 2) ** -1.5  # makes the integral of w_a equal g_c
+    gauss = norm * np.exp(-s_int ** 2 / (2.0 * kF_a ** 2))
+    return simpson(4.0 * np.pi * s_int ** 2 * gauss * F2, ds)
+```
+
+The integral of Section 13.15 is written in the variable $s = k_F R$, so lengths are measured in units of $1/k_F$ and the range enters only as $k_F a$: the ratio is $\int_0^\infty 4\pi s^2\,(2\pi(k_Fa)^2)^{-3/2}e^{-s^2/(2(k_Fa)^2)}F(s)^2\,ds$, integrated by Simpson's rule on 400001 points from 0 to 80 (spacing $0.0002$; beyond 80 the Gaussian is negligible for the ranges used).
+
+```python
+ranges = np.logspace(-2, 1, 31)  # k_F a from 0.01 to 10
+ratios = np.array([exchange_ratio(r) for r in ranges])
+for r in (0.01, 0.1, 1.0):
+    say(f"k_F a = {r:5.2f}: e_x(a)/e_x(0) = {exchange_ratio(r):.6f}, "
+        f"small-a formula {1.0 - 0.6 * r ** 2:.6f}")
+check(abs(exchange_ratio(0.05) - (1.0 - 0.6 * 0.05 ** 2)) < 1e-5,
+      "for small range the ratio is 1 - (3/5)(k_F a)^2")
+check(np.all(np.diff(ratios) < 0.0) and ratios[0] > 0.9999,
+      "the exchange energy grows towards the contact value as the range shrinks")
+```
+
+`np.logspace(-2, 1, 31)` gives 31 numbers from $10^{-2}$ to $10^1$, equally spaced on a logarithmic scale. The printed lines compare the ratio with $1 - \tfrac35(k_Fa)^2$: they agree at $k_Fa = 0.01$ ($0.999940$) and nearly at $0.1$, and differ at $1$ ($0.588864$ against $0.4$), where the expansion no longer holds. The checks: the small-range formula at $k_Fa = 0.05$, and the ratio falls with every increase of the range and is above $0.9999$ at the smallest one.
+
+**In [9], the ratio as a picture.** `ax.semilogx` draws with a logarithmic horizontal axis; the dashed curve is the small-range formula for the ranges below $0.6$ (`ranges[ranges < 0.6]` keeps those entries). `save_figure` saves Figure 13b.4.
+
+**In [10], Dirac's exchange.**
+
+```python
+S_MAX = 4000.0
+s_long = np.linspace(0.0, S_MAX, 4000001)
+integral_9_4 = simpson(s_long * F(s_long) ** 2, s_long[1] - s_long[0])
+integral_9_4 += 9.0 / (4.0 * S_MAX ** 2)  # the tail beyond S_MAX
+report("integral of s F(s)^2 from 0 to infinity", f"{integral_9_4:.8f}")
+check(abs(integral_9_4 - 2.25) < 1e-7, "the Coulomb exchange integral is 9/4")
+```
+
+$\int_0^{4000}sF(s)^2\,ds$ by Simpson's rule on 4000001 points (spacing $0.001$), plus the tail $9/(4\cdot4000^2)$ of Section 13.15 (`+=` adds to the variable). The result prints as $2.25000000$ and the check requires it to be within $10^{-7}$ of $9/4$.
+
+```python
+dirac = 0.75 * (3.0 / np.pi) ** (1.0 / 3.0)  # e_x = -dirac n^(4/3)
+n_test = 0.3
+kF_test = (3.0 * np.pi ** 2 * n_test) ** (1.0 / 3.0)  # g = 2
+e_x_coulomb = -4.0 * np.pi * (n_test / 2) ** 2 / kF_test ** 2 * integral_9_4
+report("Dirac's constant (3/4)(3/pi)^(1/3)", f"{dirac:.6f}")
+check(abs(e_x_coulomb + dirac * n_test ** (4.0 / 3.0)) < 1e-8,
+      "the Coulomb exchange of the electron gas is -(3/4)(3/pi)^(1/3) n^(4/3)")
+```
+
+Dirac's constant is $0.738559$. At the density $n = 0.3$ the cell evaluates $e_x = -4\pi n_\sigma^2\,I/k_F^2$ with $n_\sigma = n/2$ and the computed integral $I$, and checks that it equals $-0.738559\,n^{4/3}$.
+
+**In [11], exchange per particle.**
+
+```python
+n_values = np.logspace(-3, 1, 41)
+contact_per_particle = 0.25 * G_C * n_values  # |e_x / n| for the contact, g = 2
+coulomb_per_particle = dirac * n_values ** (1.0 / 3.0)  # |e_x / n|, Coulomb
+slope_contact = np.polyfit(np.log(n_values), np.log(contact_per_particle), 1)[0]
+slope_coulomb = np.polyfit(np.log(n_values), np.log(coulomb_per_particle), 1)[0]
+```
+
+For 41 densities from $10^{-3}$ to 10, the sizes of the exchange energy per particle: $g_c n/4$ for the contact with two labels ($e_x/n = -\tfrac{g_c}{2\cdot2}n$) and $0.738559\,n^{1/3}$ for the Coulomb gas. `np.polyfit(X, Y, 1)` fits the straight line $Y = pX + c$ through the points, and `[0]` takes its slope $p$; with $X = \ln n$ and $Y$ the logarithm of a power $n^p$, the slope is the power. The cell prints the slopes $1.000000$ and $0.333333$, checks them to $10^{-12}$, draws both curves with `ax.loglog` (both axes logarithmic) and saves Figure 13b.5.
+
+**In [12], exact locality for a non-uniform determinant.**
+
+```python
+P = 99  # interior grid points of the box 0 < x < 1
+h = 1.0 / (P + 1)
+x = h * np.arange(1, P + 1)
+W = G_C * np.eye(P) / h  # the contact interaction on the grid
+
+
+def box_orbitals(count):
+    """The lowest box orbitals sqrt(2) sin(m pi x), m = 1..count, as columns."""
+    return np.array([np.sqrt(2.0) * np.sin(m * np.pi * x)
+                     for m in range(1, count + 1)]).T
+```
+
+A line $0 < x < 1$ with 99 grid points, spacing $h = 1/100$. On the grid the delta function is the unit matrix divided by $h$ (a sum over the grid times $h$ then gives back $g_c$). `box_orbitals(count)` returns the lowest orbitals of a particle in the box as the columns of a matrix (`.T` transposes the list of rows).
+
+```python
+phi_up, phi_down = box_orbitals(5), box_orbitals(3)
+rho_up = phi_up @ phi_up.T  # rho_up(x, x') = sum_a phi_a(x) phi_a(x')
+rho_down = phi_down @ phi_down.T
+n_up, n_down = np.diag(rho_up), np.diag(rho_down)  # the label densities
+fock = -0.5 * h * h * (np.sum(rho_up ** 2 * W) + np.sum(rho_down ** 2 * W))
+local = -0.5 * G_C * h * np.sum(n_up ** 2 + n_down ** 2)
+```
+
+Five fermions with label up and three with label down. The matrix product of the orbital columns with their transpose is the density matrix of each label, $\rho(x, x') = \sum_a\phi_a(x)\phi_a(x')$, and its diagonal the label density. `fock` is the two-point exchange $-\tfrac12\sum_{x,x'}h^2|\rho_\sigma(x, x')|^2W(x, x')$ summed over the labels (`rho_up ** 2 * W` multiplies entry by entry); `local` is $-\tfrac{g_c}{2}\sum_x h\,(n_\uparrow^2 + n_\downarrow^2)$. Both print as $-19.0000000000$. The checks require the particle numbers $h\sum n_\uparrow = 5$ and $h\sum n_\downarrow = 3$ and the agreement of the two forms to $10^{-12}$.
+
+**In [13], label-mixing orbitals.**
+
+```python
+rng = np.random.default_rng(12345)  # a fixed seed: the same numbers every run
+raw = rng.normal(size=(2 * P, 5)) + 1j * rng.normal(size=(2 * P, 5))
+q_matrix = np.linalg.qr(raw)[0]  # five orthonormal columns of length 2P
+spinor = (q_matrix / np.sqrt(h)).reshape(P, 2, 5)  # [point, label, orbital]
+```
+
+Five random orthonormal complex columns of length $2 \times 99$ (the QR factorisation of a random matrix with a fixed seed), divided by $\sqrt h$ so that $\sum|\phi|^2h = 1$. `.reshape(P, 2, 5)` reads each column as 99 pairs of numbers: `spinor[x, s, a]` is the value of orbital $a$ at the point $x$ with the label $s$. Each orbital now has an up part and a down part.
+
+```python
+pair = np.einsum("xsa,xsb->xab", spinor.conj(), spinor)
+exact = -0.5 * G_C * h * np.sum(np.abs(pair) ** 2)
+rho_local = np.einsum("xsa,xta->xst", spinor, spinor.conj())
+local_all = -0.5 * G_C * h * np.sum(np.abs(rho_local) ** 2)
+diagonal = np.einsum("xss->xs", rho_local).real  # n_up(x), n_down(x)
+local_diagonal = -0.5 * G_C * h * np.sum(diagonal ** 2)
+```
+
+`pair[x, a, b]` is $\sum_s\phi_a^*(x s)\,\phi_b(x s)$, and `exact` is the exact exchange $-\tfrac12\sum_{a,b}w_{abba}$ with $w_{abba} = g_c\sum_x h\,|\sum_s\phi_a^*\phi_b|^2$, which is the integral of Section 13.4 for a label-independent contact (put $w = g_c\,\delta$ into $w_{abba}$ and do the delta integral). `rho_local[x, s, t]` is the local $2 \times 2$ density matrix $\sum_a\phi_a(xs)\phi_a^*(xt)$, and `local_all` the local formula of Section 13.15 with all label pairs. `np.einsum("xss->xs", ...)` takes the diagonal of each $2 \times 2$ matrix (the label densities), and `local_diagonal` the local formula with the diagonal only. The cell prints $-8.7398756465$, $-8.7398756465$ and $-7.5021209026$ and checks that the first two agree to $10^{-10}$ and that the third differs by more than $0.1$.
+
+**In [14], the two-point function and the local energies.** On the left, `left.imshow(rho_up ** 2, origin="lower", extent=(0, 1, 0, 1), cmap="viridis")` draws $|\rho_\uparrow(x, x')|^2$ of the box determinant as a heat map, and the next line draws the diagonal $x = x'$ as a white dashed line. On the right the cell draws, along the box, the Hartree energy density $\tfrac{g_c}{2}(n_\uparrow + n_\downarrow)^2$, the exchange energy density $-\tfrac{g_c}{2}(n_\uparrow^2 + n_\downarrow^2)$ and their sum; `right.set_ylim(-50.0, 60.0)` leaves room for the legend. After `save_figure` (Figure 13b.6) the check confirms point by point that the sum equals $g_c\,n_\uparrow n_\downarrow$ (Section 13.5).
+
+**In [15], polarisation.**
+
+```python
+C_F = 0.3 * (3.0 * np.pi ** 2) ** (2.0 / 3.0)
+gamma_c = (2.0 / 3.0) * (3.0 * np.pi ** 2) ** (2.0 / 3.0)
+
+
+def energy_polarized(zeta, coupling):
+    """e(zeta) at n = 1 for g_c = coupling (exchange-only picture)."""
+    kinetic_part = C_F * ((1 + zeta) ** (5 / 3) + (1 - zeta) ** (5 / 3)) / 2
+    return kinetic_part + 0.25 * coupling * (1 - zeta ** 2)
+```
+
+$C_F = 2.871234$ and $\gamma_c = 6.380520$ (printed by the next two `report` lines), and the energy $e(\zeta)$ of Section 13.15 at $n = 1$.
+
+```python
+d = 1e-3
+curvature = [(energy_polarized(d, c) - 2 * energy_polarized(0.0, c)
+              + energy_polarized(-d, c)) / d ** 2
+             for c in (0.99 * gamma_c, 1.01 * gamma_c)]
+check(curvature[0] > 0 > curvature[1],
+      "the unpolarized gas becomes unstable at g_c n^(1/3) = (2/3)(3 pi^2)^(2/3)")
+```
+
+The second difference $(e(d) - 2e(0) + e(-d))/d^2$ approximates $e''(0)$ (Section 13.2). Just below the threshold ($0.99\gamma_c$) it must be positive, just above ($1.01\gamma_c$) negative; `curvature[0] > 0 > curvature[1]` tests both at once. The rest of the cell draws $(e(\zeta) - e(0))/C_F$ against $\zeta$ for $\gamma = 0.5, 1, 1.1, 1.5$ (in units of $\gamma_c$) and saves Figure 13b.7.
+
+**In [16], the gamma matrices, exactly.**
+
+```python
+import sympy as sp  # exact algebra with fractions and symbols
+
+gamma_record = json.loads(repository_file("Revision/algebra/gammas.json")
+                          .read_text(encoding="utf-8"))
+
+
+def exact_matrix(rows):
+    """A sympy matrix of exact fractions from the record's rows of numbers."""
+    return sp.Matrix([[sp.Rational(str(entry)) for entry in row] for row in rows])
+```
+
+`sympy` computes with exact fractions and symbols. The Revision record `Revision/algebra/gammas.json` is read as text (`read_text`) and turned into Python lists and dictionaries by `json.loads`. `exact_matrix` turns a list of rows of numbers into a sympy matrix of exact fractions: `str(entry)` writes each number as text and `sp.Rational` reads that text as a fraction, so no rounding can occur.
+
+```python
+gamma = [exact_matrix(rows) for rows in gamma_record["gamma"]]  # x1 .. x8
+C = gamma[7] * gamma[0] * gamma[1] * gamma[2]  # C = g(x8) g(x1) g(x2) g(x3)
+B = -sp.I * C * gamma[3]  # B = -i C g(x4)
+B_record = (exact_matrix(gamma_record["B"]["re"])
+            + sp.I * exact_matrix(gamma_record["B"]["im"]))
+check(C == exact_matrix(gamma_record["C"]) and B == B_record,
+      "C and B built from the gammas equal the matrices of the record")
+check(C * C == sp.eye(16) and B * B == sp.eye(16) and C == C.T,
+      "C is symmetric with C^2 = 1, and B^2 = 1")
+```
+
+The record lists the eight gammas in the order $x_1, \dots, x_8$, so `gamma[7]` is $\gamma^{(x8)}$ and `gamma[3]` is $\gamma^{(x4)}$; for sympy matrices `*` is the matrix product and `sp.I` is $i$. The first check compares $C$ and $B$ with the matrices stored in the same record ($B$ is stored as its real and imaginary parts); the second checks exactly the facts $C^2 = 1$, $B^2 = 1$ and $C$ symmetric (`C.T` is the transpose) of Section 13.16.
+
+**In [17], the exchange of the uniform gas, exactly.**
+
+```python
+n_sym, S_sym, lam = sp.symbols("n S lambda", real=True)
+rho = (n_sym * B + S_sym * C) / 16
+check(sp.simplify((B * rho).trace() - n_sym) == 0
+      and sp.simplify((C * rho).trace() - S_sym) == 0,
+      "Tr(B rho) = n and Tr(C rho) = S")
+e_H = sp.expand(lam / 2 * (C * rho).trace() ** 2)
+e_x = sp.expand(-lam / 2 * (C * rho * C * rho).trace())
+say(f"e_H = {e_H}")
+say(f"e_x = {e_x}")
+```
+
+Three real symbols $n$, $S$, $\lambda$; the matrix $\rho = (nB + SC)/16$; the check that the densities come back ($\mathrm{Tr}\,B\rho = n$, $\mathrm{Tr}\,C\rho = S$; `.trace()` is the trace and `sp.simplify` brings the difference to its simplest form, which must be 0). `e_H` and `e_x` are the Hartree and exchange formulas of Section 13.16, multiplied out by `sp.expand`; they print as `S**2*lambda/2` and `-S**2*lambda/32 - lambda*n**2/32`.
+
+```python
+theory = json.loads(repository_file("Revision/kohn_sham/ks-theory.json")
+                    .read_text(encoding="utf-8"))
+gas = theory["exchange"]["uniformGas"]
+coefficient_n2 = sp.Rational(gas["coefficient_n2"])  # "-1/32" in the record
+coefficient_S2 = sp.Rational(gas["coefficient_S2"])
+check(e_H == lam * S_sym ** 2 / 2, "the Hartree energy is (lambda/2) S^2")
+recorded = lam * (coefficient_n2 * n_sym ** 2 + coefficient_S2 * S_sym ** 2)
+check(sp.expand(e_x - recorded) == 0
+      and coefficient_n2 == coefficient_S2 == sp.Rational(-1, 32),
+      "e_x = -(lambda/32)(n^2 + S^2)",
+      record="Revision/kohn_sham/reports/ks-theory-python.json, check "
+             "exchange_uniform_gas")
+```
+
+The cell reads the Revision Kohn-Sham theory record and its two exchange coefficients, stored as the texts "-1/32", which `sp.Rational` reads as exact fractions. The checks: the Hartree energy is $\tfrac{\lambda}{2}S^2$, and the exchange energy computed here equals the recorded one, with both coefficients $-1/32$; the PASS line names the Revision check exchange_uniform_gas that it reproduces.
+
+**In [18], the potentials and the solver's numbers.**
+
+```python
+e_int = e_H + e_x
+mass_coefficient = sp.simplify(sp.diff(e_int, S_sym) / (lam * S_sym))  # 15/16
+vector_coefficient = sp.simplify(sp.diff(e_int, n_sym) / (lam * n_sym))  # -1/16
+filled_ratio = sp.simplify((e_x / e_H).subs(n_sym, S_sym))  # n = S
+```
+
+`sp.diff(e_int, S_sym)` is $\partial e_{int}/\partial S$; divided by $\lambda S$ it is the coefficient $15/16$ of $M_{eff} - m$; in the same way $\partial e_{int}/\partial n$ divided by $\lambda n$ gives $-1/16$. `.subs(n_sym, S_sym)` replaces $n$ by $S$ in $e_x/e_H$: the ratio of one filled level at rest, $-1/8$. The printed line shows all three.
+
+```python
+potentials = theory["exchange"]["kohnShamPotentials"]
+check(mass_coefficient == sp.Rational(potentials["Meff_coefficient_of_lambda_S"])
+      == sp.Rational(15, 16)
+      and vector_coefficient == sp.Rational(potentials["vv_coefficient_of_lambda_n"])
+      == sp.Rational(-1, 16),
+      "M_eff = m + (15/16) lambda S and v_v = -(1/16) lambda n",
+      record="Revision/kohn_sham/reports/ks-theory-python.json, check ks_potentials")
+check(filled_ratio == sp.Rational(-1, 8),
+      "one filled 8-fold level at rest: E_x/E_H = -1/8",
+      record="Revision/kohn_sham/reports/ks-theory-python.json, check "
+             "filled_shell_ratio")
+```
+
+The coefficients are compared with the record's texts "15/16" and "-1/16" (a chain `a == b == c` means `a == b and b == c`), and the ratio with $-1/8$; the PASS lines name the Revision checks ks_potentials and filled_shell_ratio.
+
+```python
+solver = json.loads(repository_file("Revision/kohn_sham/results/parameters.json")
+                    .read_text(encoding="utf-8"))["theoryInputs"]
+check(solver["exchangeCoefficientN2"] == solver["exchangeCoefficientS2"] == -1 / 32
+      and solver["MeffCoefficientOfLambdaS"] == 15 / 16
+      and solver["vvCoefficientOfLambdaN"] == -1 / 16,
+      "the Revision solver uses exactly these coefficients (parameters.json)")
+```
+
+The Revision solver's parameter file stores the coefficients it uses as floating-point numbers. The fractions $-1/32$, $15/16$ and $-1/16$ have denominators that are powers of 2, so they are stored exactly in binary, and the comparison with `==` is exact.
+
+```python
+report_checks = {c["name"]: c["verdict"] for c in json.loads(repository_file(
+    "Revision/kohn_sham/reports/ks-theory-python.json").read_text(
+    encoding="utf-8"))["checks"]}
+check(all(report_checks[name] == "PASS" for name in
+          ("exchange_uniform_gas", "ks_potentials", "filled_shell_ratio")),
+      "the three Revision checks are recorded as PASS")
+```
+
+The last check reads the Revision report itself, makes a dictionary from check name to verdict, and requires the three checks reproduced above to be recorded as PASS.
+
+**In [19], the matrices as pictures.**
+
+```python
+C_numbers = np.array(C.tolist(), dtype=float)
+B_imaginary = np.array([[float(sp.im(entry)) for entry in row] for row in B.tolist()])
+check(all(sp.re(entry) == 0 for entry in B), "B is purely imaginary")
+check(all(np.count_nonzero(row) == 1 for row in np.vstack([C_numbers, B_imaginary])),
+      "every row of C and of B has exactly one nonzero entry")
+```
+
+`C.tolist()` gives the rows of the sympy matrix, which numpy turns into floating-point numbers; `sp.im` takes the imaginary part of each entry of $B$. The checks: every real part of $B$ is 0, and every row of $C$ and of $B$ (stacked into one table by `np.vstack`) has exactly one nonzero entry. The rest of the cell draws the two $16 \times 16$ matrices as heat maps (red $+1$, blue $-1$) and saves Figure 13b.8.
+
+**In [20], the exchange of the 8-fold gas as a picture.**
+
+```python
+ratio_values = np.linspace(0.0, 1.0, 101)  # S / n
+e_H_curve = 0.5 * ratio_values ** 2  # e_H / (lambda n^2)
+e_x_curve = -(1.0 + ratio_values ** 2) / 32.0  # e_x / (lambda n^2)
+```
+
+Dividing $e_H$ and $e_x$ by $\lambda n^2$ leaves functions of $S/n$ alone: $\tfrac12(S/n)^2$ and $-(1 + (S/n)^2)/32$. The plotting lines draw them and their sum against $S/n$ from 0 to 1, and a red point at $S/n = 1$, where $e_x/(\lambda n^2) = -1/16$. After `save_figure` (Figure 13b.9) the check confirms that the plotted curves give $e_x/e_H = -1/8$ at $S = n$ (the last entries, `[-1]`).
+
+**In [21], the last check.** As In [19] of Notebook 13c: it checks that the nine figure files exist and prints ALL 34 CHECKS PASSED (notebook 13b): one check in In [2] and In [3] each, three in In [5], four in In [6], two in In [8], In [10], In [12] and In [13] each, one in In [11], In [14] and In [15] each, two in In [16], three in In [17], four in In [18], two in In [19], one in In [20] and two in In [21].
+
+### 13.21 Solving the Kohn-Sham equations: iteration and mixing
+
+The loop of Section 13.10 is a map from an input density (or potential) to an output density, $n_{out} = G[n_{in}]$, and the self-consistent solution is a **fixed point** of this map, $G[n] = n$. The simplest loop, "the output becomes the next input" (**plain iteration**), often fails. This section shows why with a model small enough to follow by hand, and how the remedies work.
+
+**The model.** Two sites L and R with the site energies $-\Delta/2$ and $+\Delta/2$, the hopping $t$ and the on-site repulsion $U$, and two electrons with opposite labels in the lowest orbital. In the mean field each electron feels $U$ times the density of the OTHER label on its site (the contact rule of Section 13.5: exchange removes the same-label half); with two electrons in the same orbital each label has the density $n_L/2$ on L and $n_R/2$ on R. So the one-electron Hamiltonian and the output density are
+
+$$
+h[n_L] = \begin{pmatrix} -\tfrac{\Delta}{2} + \tfrac{U}{2}n_L & -t \\ -t & \tfrac{\Delta}{2} + \tfrac{U}{2}n_R \end{pmatrix}, \qquad n_R = 2 - n_L, \qquad n_L^{out} = 2\,|c_L|^2 ,
+$$
+
+where $(c_L, c_R)$ is the normalised lowest eigenvector of $h[n_L]$.
+
+**The lowest eigenvector of a real symmetric $2 \times 2$ matrix, in four steps.** Take $\begin{pmatrix} a & -t\\ -t & b\end{pmatrix}$ with $t > 0$, and write $\delta = b - a$ and $D = \sqrt{\delta^2 + 4t^2}$. (1) The eigenvalues solve $(a - \epsilon)(b - \epsilon) - t^2 = \epsilon^2 - (a + b)\epsilon + ab - t^2 = 0$, so $\epsilon = \tfrac12(a + b) \pm \tfrac12\sqrt{(a + b)^2 - 4ab + 4t^2} = \tfrac12(a + b) \pm \tfrac12 D$, because $(a + b)^2 - 4ab = (b - a)^2$; the lowest is $\epsilon = \tfrac12(a + b) - \tfrac12 D$. (2) The first row of $(h - \epsilon)c = 0$ reads $(a - \epsilon)c_L - t\,c_R = 0$; since $a - \epsilon = \tfrac12(a - b) + \tfrac12 D = \tfrac12(D - \delta)$, the ratio of the components is $r = c_R/c_L = (D - \delta)/(2t)$. (3) From $D^2 - \delta^2 = 4t^2$, that is $4t^2 = (D - \delta)(D + \delta)$, we get $r^2 = (D - \delta)^2/\big((D - \delta)(D + \delta)\big) = (D - \delta)/(D + \delta)$. (4) The normalisation $|c_L|^2(1 + r^2) = 1$ gives
+
+$$
+|c_L|^2 = \frac{1}{1 + r^2} = \frac{D + \delta}{2D} = \frac12\Big(1 + \frac{b - a}{\sqrt{(b - a)^2 + 4t^2}}\Big) .
+$$
+
+**The reduced map.** Here, line by line,
+
+$$
+\begin{aligned}
+b - a &= \Big(\tfrac{\Delta}{2} + \tfrac{U}{2}(2 - n_L)\Big) - \Big(-\tfrac{\Delta}{2} + \tfrac{U}{2}n_L\Big) = \Delta + U(1 - n_L) ,\\
+n_L^{out} - 1 &= 2|c_L|^2 - 1 = \frac{b - a}{\sqrt{(b - a)^2 + 4t^2}} .
+\end{aligned}
+$$
+
+The first line subtracts the two diagonal entries and collects; the second inserts the result of step (4). With $x = n_L - 1$ (the excess of charge on L) we have $b - a = \Delta - Ux$, and the whole loop becomes one function of one number:
+
+$$
+x_{out} = G(x) = \frac{\Delta - Ux}{\sqrt{(\Delta - Ux)^2 + 4t^2}} .
+$$
+
+**Numbers.** Take $\Delta = 2$, $t = 1$, $U = 4$ (energies in units of $t$) and the start $n_L = 2$ (both electrons on the low site). Plain iteration gives (Notebook 13d, In [5])
+
+| step | 0 | 1 | 2 | 3 | 4 | 5 |
+| --- | --- | --- | --- | --- | --- | --- |
+| $n_L$ in | 2.000000 | 0.292893 | 1.923880 | 0.353344 | 1.916644 | 0.359836 |
+| $n_L$ out | 0.292893 | 1.923880 | 0.353344 | 1.916644 | 0.359836 | 1.915809 |
+
+and continues to jump between about $0.3607$ and $1.9157$ forever: when the electrons sit on L, the repulsion pushes them to R, and when they sit on R, it pushes them back. This is called **charge sloshing**. **Linear mixing** feeds back only a fraction $\beta$ of the change, $n_L \leftarrow (1 - \beta)\,n_L + \beta\,n_L^{out}$ (so $\beta = 1$ is plain iteration). With $\beta = \tfrac12$ (Notebook 13d, In [6]):
+
+| step | 0 | 1 | 2 | 3 | 4 | 5 |
+| --- | --- | --- | --- | --- | --- | --- |
+| $n_L$ in | 2.000000 | 1.146447 | 1.361898 | 1.314066 | 1.331307 | 1.325494 |
+| $n_L$ out | 0.292893 | 1.577350 | 1.266234 | 1.348548 | 1.319682 | 1.329519 |
+
+The iteration converges to the self-consistent value $n_L^* = 1.326993$; input and output agree to $10^{-6}$ from step 13 on.
+
+**Why, line by line.** Near the fixed point $x^*$ write $x = x^* + e$ with a small error $e$. To first order (the tangent line), $G(x^* + e) = x^* + G'(x^*)\,e$. One step of linear mixing then gives
+
+$$
+x^* + e_{new} = (1 - \beta)(x^* + e) + \beta\,\big(x^* + G'(x^*)\,e\big) \quad\Longrightarrow\quad e_{new} = \big[1 - \beta\,(1 - G'(x^*))\big]\,e ,
+$$
+
+where the left equation is the mixing rule with the tangent line inserted, and the right one subtracts $x^* = (1 - \beta)x^* + \beta x^*$ from both sides and collects the terms with $e$. So every step multiplies the error by the **convergence factor** $1 - \beta(1 - G')$, and the loop converges (for small errors) exactly when this number lies between $-1$ and $1$. The slope follows from the chain rule: with $u = \Delta - Ux$, $G = u\,(u^2 + 4t^2)^{-1/2}$ has $dG/du = (u^2 + 4t^2)^{-1/2} - u^2(u^2 + 4t^2)^{-3/2} = 4t^2(u^2 + 4t^2)^{-3/2}$, and $du/dx = -U$, so
+
+$$
+G'(x) = -\frac{4Ut^2}{\big((\Delta - Ux)^2 + 4t^2\big)^{3/2}} .
+$$
+
+Since $G' < 0$, the number $1 - G'$ is larger than 1, and the condition $-1 < 1 - \beta(1 - G') < 1$ reads $0 < \beta(1 - G') < 2$, that is
+
+$$
+0 < \beta < \beta_{max} = \frac{2}{1 - G'(x^*)} .
+$$
+
+With the numbers above, $x^* = 0.326993$ and $G'(x^*) = -1.687961$ (found by bisection in Notebook 13d, In [3]), so $\beta_{max} = 0.744058$. Plain iteration ($\beta = 1$) multiplies the error by $1 - 2.687961 = -1.688$: the error grows and changes its sign at every step, which is the sloshing, until the curvature of $G$ (left out by the tangent line) stops the growth on a cycle of period 2. With $\beta = \tfrac12$ the factor is $-0.344$, and the error shrinks by about a factor 3 per step, as the table shows. The choice $\beta = 1/(1 - G') = 0.372029$ makes the factor zero. The stronger the repulsion, the steeper $G$ and the smaller the step the loop may take: for $U = 2$, $G' = -0.688942$ and $\beta_{max} = 1.184174$, so even plain iteration converges, and plain iteration stops converging at the repulsion where $G'(x^*) = -1$, which Notebook 13d (In [12]) finds to be $U = 2.647393$ for $\Delta = 2$, $t = 1$. All these numbers are COMPUTED by Notebook 13d; the linear analysis that explains them is PROVED above for small errors.
+
+**Anderson mixing.** For densities with many components the best $\beta$ differs from direction to direction, and it is not known in advance. **Anderson mixing** remembers the last few inputs $w^{(i)}$ and their residuals $R^{(i)} = G[w^{(i)}] - w^{(i)}$, finds numbers $c_i$ with $\sum_i c_i = 1$ that make the combined residual $\sum_i c_i R^{(i)}$ as small as possible, and takes as the next input $\sum_i c_i\,(w^{(i)} + \beta R^{(i)})$. The condition $\sum_i c_i = 1$ is built in by writing $c_i = \theta_i$ for the older passes and $c_{last} = 1 - \sum_i\theta_i$; then
+
+$$
+\sum_i c_i R^{(i)} = R^{(last)} + \sum_i \theta_i\,\big(R^{(i)} - R^{(last)}\big) ,
+$$
+
+which is smallest (in the sense of the sum of the squares of its entries) for the **least-squares** solution $\theta$ of $\sum_i\theta_i(R^{(i)} - R^{(last)}) \approx -R^{(last)}$, a standard problem of linear algebra that numpy's `lstsq` solves. For one variable and two remembered passes the combined residual can be made exactly zero, and the next input is the point where the straight line through the two last (input, residual) pairs crosses zero: the **secant method**, which estimates the slope of $G$ from the history. Anderson mixing is therefore a cheap substitute for Newton's method, and it needs no tuning of $\beta$.
+
+**The Revision solver.** The Revision Kohn-Sham solver of the dirac16complex field (Chapter 15) uses Anderson mixing with these settings, recorded in `Revision/kohn_sham/results/parameters.json` (numerics): it remembers 6 passes (andersonDepth), uses $\beta = 0.4$ (andersonBeta), and stops when the largest difference between the potentials that come out and those that went in is at most $10^{-11}$ (scfTolerance), with at most 400 passes. What it mixes is the list of its potentials at every grid point of the hidden direction (the mass shift $M_{eff} - m$, the potential $v_v$, and a third potential used only by one variant). It solves the same least-squares problem in an equivalent form (with a Lagrange multiplier for $\sum_i c_i = 1$) and adds two safeguards: a tiny number ($10^{-12}$ times the largest diagonal entry) on the diagonal of its equations, which keeps them solvable, and a restart of the remembered passes whenever the residual grows to more than ten times the best one so far (`Revision/kohn_sham/solver/src/scf.rs`). Notebooks 13d and 13a read these settings from the parameter file and use them in their own small loops.
+
+**Level crossings and smearing.** With whole-number occupations (aufbau), the output density jumps whenever two levels near the highest occupied one exchange their order during the iteration; if they cross back and forth, the loop never settles, whatever $\beta$ is. The remedy replaces the whole-number occupations by smooth Fermi-Dirac occupations (Section 13.26); the converged object is then an ensemble with fractional occupations near the highest level, not a single determinant.
+
+### 13.22 Example: charge sloshing
+
+Notebook 13d computes everything of Section 13.21 for the two-site model: it checks the reduced map against a direct diagonalisation, reproduces the two tables, finds the fixed point, the slope and the largest mixing parameter, compares the error histories of plain iteration, linear mixing and Anderson mixing with the Revision solver's settings (read from the parameter file), maps the long-run behaviour against $\beta$ and the threshold against $U$. Its numbers are COMPUTED and exact up to rounding; the model shows the mechanism and is not a physical system of the book. It ends with ALL 17 CHECKS PASSED (notebook 13d) and draws six figures.
+
+<!-- NOTEBOOK 13d -->
+
+### 13.25 Line-by-line walk-through of Notebook 13d
+
+The notebook has fourteen code cells. **In [1]** is the set-up cell, identical to In [1] of Notebook 13c (Section 13.14) except for the name `"13d"` and its comment lines, which hold the instructions of Section 13.23.
+
+**In [2], the loop and the reduced map.**
+
+```python
+DELTA, T_HOP, U = 2.0, 1.0, 4.0  # site-energy difference, hopping, repulsion
+
+
+def loop_pass(n_left, delta=DELTA, t=T_HOP, u=U):
+    """One pass: the output density n_L of the lowest orbital of h[n_L]."""
+    n_right = 2.0 - n_left
+    h = np.array([[-delta / 2 + u * n_left / 2, -t],
+                  [-t, delta / 2 + u * n_right / 2]])
+    values, vectors = np.linalg.eigh(h)  # levels in increasing order
+    return 2.0 * vectors[0, 0] ** 2  # two electrons, |c_L|^2 each
+```
+
+(The cell starts with `import numpy as np`.) The model's numbers $\Delta = 2$, $t = 1$, $U = 4$ are written in one line: Python assigns the three values to the three names in order. `loop_pass` is one pass of the loop: it builds the matrix $h[n_L]$ of Section 13.21, diagonalises it with `eigh` (levels in increasing order, eigenvectors as columns), and returns $2|c_L|^2$, where `vectors[0, 0]` is the L component (row 0) of the lowest eigenvector (column 0). The arguments `delta=DELTA` and so on are **default values**: they are used when the call does not give them, so later cells can call `loop_pass(n, u=2.0)` with another repulsion.
+
+```python
+def G(x, delta=DELTA, t=T_HOP, u=U):
+    """The reduced map x_out = G(x), x = n_L - 1."""
+    shift = delta - u * x
+    return shift / np.sqrt(shift ** 2 + 4.0 * t * t)
+
+
+inputs = np.linspace(0.0, 2.0, 41)
+worst = max(abs(loop_pass(n) - 1.0 - G(n - 1.0)) for n in inputs)
+check(worst < 1e-12, "the 2 x 2 diagonalisation and the reduced map G agree")
+```
+
+`G` is the closed form of Section 13.21. For 41 inputs from 0 to 2 the cell compares $n_L^{out} - 1$ from the diagonalisation with $G(n_L - 1)$ and checks that the largest difference is below $10^{-12}$: the four-step derivation is confirmed.
+
+**In [3], the fixed point and the slope.**
+
+```python
+def fixed_point(delta=DELTA, t=T_HOP, u=U):
+    """x* with G(x*) = x*, by bisection on [-1, 1] (x - G(x) increases)."""
+    low, high = -1.0, 1.0
+    for _ in range(80):
+        middle = 0.5 * (low + high)
+        if middle - G(middle, delta, t, u) > 0.0:
+            high = middle
+        else:
+            low = middle
+    return 0.5 * (low + high)
+
+
+def slope(x, delta=DELTA, t=T_HOP, u=U):
+    """G'(x) = -4 U t^2 / ((Delta - U x)^2 + 4 t^2)^(3/2)."""
+    return -4.0 * u * t * t / ((delta - u * x) ** 2 + 4.0 * t * t) ** 1.5
+```
+
+`fixed_point` finds $x^*$ by bisection: $x - G(x)$ increases with $x$ (because $G$ decreases), is negative at $x = -1$ and positive at $x = 1$; at each of 80 steps the cell evaluates it at the middle of the interval and keeps the half in which the sign changes. After 80 halvings the interval is far below the rounding of the computer. `slope` is the formula for $G'$ of Section 13.21.
+
+```python
+x_star = fixed_point()
+g_prime = slope(x_star)
+quotient = (G(x_star + 1e-6) - G(x_star - 1e-6)) / 2e-6
+beta_max, beta_best = 2.0 / (1.0 - g_prime), 1.0 / (1.0 - g_prime)
+```
+
+The fixed point, the slope there, a central difference quotient $(G(x^* + 10^{-6}) - G(x^* - 10^{-6}))/(2\cdot10^{-6})$ as an independent estimate of the slope, and the largest and the best mixing parameters. The four `report` lines print $n_L^* = 1.326993$, $G' = -1.687961$, $\beta_{max} = 0.744058$ and $\beta_{best} = 0.372029$; the two checks compare the first three with these values (to $10^{-6}$) and the slope formula with the difference quotient.
+
+**In [4], the map as a picture.** `n_in` holds 401 input densities from 0 to 2. The cell draws the output $1 + G(n_L - 1)$ against the input as a thick black line, the diagonal $n_L^{out} = n_L$ dashed, and the fixed point as a red dot (`"ro"`), whose value the legend shows; `save_figure` saves Figure 13d.1. The curve crosses the diagonal steeply downwards.
+
+**In [5], plain iteration.**
+
+```python
+def iterate(beta, start=2.0, passes=6):
+    """Inputs and outputs of the loop with linear mixing (beta = 1: plain)."""
+    n, history = start, []
+    for _ in range(passes):
+        out = loop_pass(n)
+        history.append((n, out))
+        n = (1.0 - beta) * n + beta * out
+    return history, n
+```
+
+`iterate` runs the loop with linear mixing: at each pass it computes the output, stores the pair (input, output) in the list `history` (a pair in parentheses is a **tuple**), and forms the next input $(1 - \beta)n + \beta\,n^{out}$. It returns the history and the next input.
+
+```python
+plain, _ = iterate(1.0)
+say("step   n_L in     n_L out")
+for step, (n, out) in enumerate(plain):
+    say(f"{step:4d}   {n:.6f}   {out:.6f}")
+expected_in = [2.000000, 0.292893, 1.923880, 0.353344, 1.916644, 0.359836]
+check(all(abs(n - e) < 1e-6 for (n, _), e in zip(plain, expected_in)),
+      "plain iteration reproduces the table 2.000000, 0.292893, 1.923880, ...")
+```
+
+Six passes of plain iteration ($\beta = 1$); the name `_` receives the second returned value, which is not needed. The loop prints the table of Section 13.21 (`{step:4d}` writes the step number in four places, `{n:.6f}` the density with six decimals), and the check compares the inputs with the six values of that table.
+
+```python
+_, late = iterate(1.0, passes=2000)
+cycle = sorted([late, loop_pass(late)])
+say(f"after 2000 passes the input alternates between {cycle[0]:.4f} and "
+    f"{cycle[1]:.4f}")
+check(abs(loop_pass(loop_pass(late)) - late) < 1e-10 and cycle[1] - cycle[0] > 1.5,
+      "plain iteration ends in a cycle of period 2 (about 0.3607 and 1.9157)")
+```
+
+After 2000 passes, `late` is the next input; with its output it forms the two values of the cycle, sorted. The check requires that two passes return to the same value (a cycle of period 2, to $10^{-10}$) and that the two values are more than $1.5$ apart: the charge keeps jumping between the sites.
+
+**In [6], linear mixing with $\beta = 1/2$.**
+
+```python
+mixed, _ = iterate(0.5)
+say("step   n_L in     n_L out")
+for step, (n, out) in enumerate(mixed):
+    say(f"{step:4d}   {n:.6f}   {out:.6f}")
+expected_in = [2.000000, 1.146447, 1.361898, 1.314066, 1.331307, 1.325494]
+check(all(abs(n - e) < 1e-6 for (n, _), e in zip(mixed, expected_in)),
+      "linear mixing with beta = 1/2 reproduces the table 2.000000, 1.146447, ...")
+long_history, _ = iterate(0.5, passes=40)
+agree = next(step for step, (n, out) in enumerate(long_history)
+             if abs(n - out) < 1e-6)
+report("passes until input and output agree to 1e-6 (beta = 1/2)", agree)
+check(agree == 13 and abs(long_history[-1][0] - 1.326993) < 1e-6,
+      "beta = 1/2 converges to 1.326993; input and output agree after 13 passes")
+```
+
+The same for $\beta = \tfrac12$: the second table of Section 13.21 and its check. Then 40 passes; `next(...)` returns the first step number whose input and output agree to $10^{-6}$, which is 13; the last check also requires the last input (`long_history[-1][0]`, the first element of the last pair) to be $1.326993$.
+
+**In [7], cobweb diagrams.**
+
+```python
+def cobweb(ax, beta, passes):
+    """Draw the cobweb of the loop with mixing beta on the axes ax."""
+    ax.plot(n_in, 1.0 + G(n_in - 1.0), color="black", lw=1.5)
+    ax.plot(n_in, n_in, "--", color="gray", lw=0.8)
+    history, _ = iterate(beta, passes=passes)
+    for n, out in history:
+        n_next = (1.0 - beta) * n + beta * out
+        ax.plot([n, n], [n, out], color="tab:red", lw=0.8)  # up to the curve
+        ax.plot([n, n_next], [out, n_next], color="tab:blue", lw=0.8)  # across
+    ax.plot([1.0 + x_star], [1.0 + x_star], "ko")
+    ax.set_xlabel("input $n_L$")
+    ax.set_ylabel("output $n_L^{out}$ and next input")
+```
+
+A **cobweb diagram** draws an iteration: from the point (input, input) on the diagonal a red segment goes vertically to the curve (the output), and a blue segment goes from there to the point (next input, next input) on the diagonal. The function draws the map and the diagonal, runs the loop, and draws the two segments of every pass, and the fixed point as a black dot. The cell calls it for plain iteration (left panel) and for $\beta = \tfrac12$ (right panel), 12 passes each, and saves Figure 13d.2: on the left the path settles on a square around the fixed point (the cycle), on the right it spirals into it.
+
+**In [8], error histories and Anderson mixing.**
+
+```python
+parameters = json.loads(repository_file(
+    "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
+DEPTH = int(parameters["numerics"]["andersonDepth"])  # passes remembered
+BETA_ANDERSON = float(parameters["numerics"]["andersonBeta"])  # mixing parameter
+check(DEPTH == 6 and BETA_ANDERSON == 0.4,
+      "the Revision solver mixes with depth 6 and beta 0.4 "
+      "(Revision/kohn_sham/results/parameters.json, numerics)")
+```
+
+The cell reads the parameter file of the Revision solver and takes from its part "numerics" the number of remembered passes and $\beta$; `int` and `float` make a whole number and a floating-point number of them. The check confirms the values 6 and $0.4$.
+
+```python
+def errors_linear(beta, passes=60):
+    """|n_L - n_L*| of the inputs of linear mixing."""
+    history, _ = iterate(beta, passes=passes)
+    return np.array([abs(n - 1.0 - x_star) for n, _ in history])
+```
+
+The distance of every input of 60 passes of linear mixing from the fixed point $n_L^* = 1 + x^*$.
+
+```python
+def errors_anderson(beta=BETA_ANDERSON, depth=DEPTH, passes=60, tolerance=1e-14):
+    """|n_L - n_L*| of the inputs of Anderson mixing (one variable)."""
+    n, inputs, residuals, errors = 2.0, [], [], []
+    for _ in range(passes):
+        errors.append(abs(n - 1.0 - x_star))
+        residual = loop_pass(n) - n
+        if abs(residual) < tolerance:
+            break
+        inputs, residuals = (inputs + [n])[-depth:], (residuals + [residual])[-depth:]
+        if len(inputs) == 1:
+            n = n + beta * residual
+            continue
+        last = residuals[-1]
+        differences = np.array([[r - last for r in residuals[:-1]]])  # 1 row
+        theta = np.linalg.lstsq(differences, -np.array([last]), rcond=None)[0]
+        c = np.append(theta, 1.0 - theta.sum())
+        n = float(sum(ci * (ni + beta * ri)
+                      for ci, ni, ri in zip(c, inputs, residuals)))
+    return np.array(errors)
+```
+
+Anderson mixing of Section 13.21 for one variable. Each pass records the error, computes the residual $R = n^{out} - n$ and stops (`break` leaves the loop) when it is below $10^{-14}$. `(inputs + [n])[-depth:]` appends the new input and keeps the last `depth` entries (a negative index counts from the end). In the first pass there is no history, so the step is linear mixing; `continue` goes on to the next pass. Otherwise `differences` is the table with one row of the differences $R^{(i)} - R^{(last)}$, `np.linalg.lstsq` solves the least-squares problem for $\theta$ (with one equation and several unknowns it returns the solution with the smallest $\sum\theta_i^2$), `np.append` adds $c_{last} = 1 - \sum\theta_i$, and the next input is $\sum_i c_i(n^{(i)} + \beta R^{(i)})$.
+
+```python
+histories = {beta: errors_linear(beta) for beta in (1.0, 0.8, 0.5, 0.2)}
+histories["best"] = errors_linear(beta_best)
+anderson_errors = errors_anderson()
+ratio = histories[0.5][11] / histories[0.5][10]  # the ratio of two error sizes
+predicted = 1.0 - 0.5 * (1.0 - g_prime)
+```
+
+The error histories for $\beta = 1, 0.8, 0.5, 0.2$ and for $\beta_{best}$, and that of Anderson mixing. `ratio` divides the error after pass 11 by the error after pass 10 for $\beta = \tfrac12$, and `predicted` is the factor $1 - \beta(1 - G')$ of Section 13.21. They print as $0.343986$ and $-0.343980$: the size agrees (the sign of the measured ratio is lost because errors are taken as absolute values, and the small difference is the curvature of $G$).
+
+```python
+check(abs(ratio - abs(predicted)) < 1e-4,
+      "the error shrinks by the predicted factor |1 - beta(1 - G')| = 0.344")
+check(histories[1.0][-1] > 0.5 and histories[0.8][-1] > 0.1,
+      "beta = 1 and beta = 0.8 (above 0.744) do not converge")
+check(len(anderson_errors) < 15 and anderson_errors[-1] < 1e-12,
+      "Anderson mixing converges to 1e-12 in fewer than 15 passes")
+```
+
+Three checks: the predicted factor; the failure of $\beta = 1$ and $\beta = 0.8$, both above $\beta_{max}$ (their last errors are still large); and the convergence of Anderson mixing to $10^{-12}$ in fewer than 15 passes.
+
+**In [9], the error histories as a picture.** `ax.semilogy` draws with a logarithmic vertical axis the first 40 errors of each linear mixing, the first 12 of the best one (`np.maximum(..., 1e-16)` replaces an error of exactly 0, which a logarithmic axis cannot show, by $10^{-16}$), and all errors of Anderson mixing (black stars); `ax.set_ylim(1e-15, 10.0)` fixes the vertical range and `bbox_to_anchor` moves the legend a little down. `save_figure` saves Figure 13d.3: straight falling lines are errors that shrink by a fixed factor per pass.
+
+**In [10], the convergence factor.**
+
+```python
+betas = np.linspace(0.0, 1.0, 501)
+factor = np.abs(1.0 - betas * (1.0 - g_prime))
+```
+
+The size of the factor $|1 - \beta(1 - G')|$ for 501 values of $\beta$ from 0 to 1. The plotting lines draw it, the line 1 (dashed), a green band over $0 < \beta < \beta_{max}$ (`axvspan`, where the loop converges) and a dotted vertical line at $\beta_{best}$; the title shows $\beta_{max}$ with four decimals. `save_figure` saves Figure 13d.4: a V-shaped curve that touches zero at $\beta_{best}$ and crosses 1 at $\beta_{max}$.
+
+**In [11], the long run against $\beta$.**
+
+```python
+beta_scan = np.linspace(0.02, 1.0, 99)
+tails = []
+for beta in beta_scan:
+    history, _ = iterate(beta, passes=600)
+    tails.append([n for n, _ in history[-30:]])
+tails = np.array(tails)
+spread = tails.max(axis=1) - tails.min(axis=1)
+check(np.all(spread[beta_scan < 0.72] < 1e-8) and np.all(spread[beta_scan > 0.77]
+                                                        > 0.05),
+      "the loop converges below beta = 0.744 and oscillates above it")
+```
+
+For 99 values of $\beta$ from $0.02$ to 1 the cell runs 600 passes and keeps the last 30 inputs (`history[-30:]`); `tails` becomes a table with one row per $\beta$. The spread of each row (largest minus smallest) is tiny where the loop converged and large where it ends in a cycle. The check requires a spread below $10^{-8}$ for every $\beta < 0.72$ and above $0.05$ for every $\beta > 0.77$ (close to $\beta_{max}$ the convergence or divergence is too slow to decide in 600 passes, so a small gap is left). The plotting lines draw every kept input as a small dot above its $\beta$ (`np.full(len(tail), beta)` repeats $\beta$ 30 times) and a red dashed line at $\beta_{max}$, and save Figure 13d.5: one point per $\beta$ below $\beta_{max}$, two branches above it.
+
+**In [12], a weaker repulsion and the threshold.**
+
+```python
+x2 = fixed_point(u=2.0)
+g2 = slope(x2, u=2.0)
+```
+
+The fixed point and the slope for $U = 2$; the three `report` lines print $n_L^* = 1.468990$, $G' = -0.688942$ and $\beta_{max} = 1.184174$, and the first check compares them with these values. Then
+
+```python
+n = 2.0
+for _ in range(200):  # plain iteration with U = 2
+    n = loop_pass(n, u=2.0)
+check(abs(n - 1.0 - x2) < 1e-10, "U = 2: plain iteration converges")
+```
+
+runs 200 passes of plain iteration at $U = 2$ and checks that they reach the fixed point to $10^{-10}$.
+
+```python
+U_scan = np.linspace(0.5, 8.0, 76)
+beta_limits = np.array([2.0 / (1.0 - slope(fixed_point(u=u), u=u)) for u in U_scan])
+low, high = 2.0, 4.0  # beta_max(2) > 1 > beta_max(4)
+for _ in range(60):
+    middle = 0.5 * (low + high)
+    if 2.0 / (1.0 - slope(fixed_point(u=middle), u=middle)) > 1.0:
+        low = middle
+    else:
+        high = middle
+U_critical = 0.5 * (low + high)
+```
+
+$\beta_{max}$ for 76 repulsions from $0.5$ to 8 (for each one the fixed point is found again). Then a bisection in $U$ between 2 (where $\beta_{max} > 1$) and 4 (where it is below 1) finds the repulsion at which $\beta_{max} = 1$, that is $G'(x^*) = -1$: $U = 2.647393$ (printed by `report`). The last check confirms that the slope there is $-1$ to $10^{-9}$.
+
+**In [13], the threshold as a picture.** The cell draws $\beta_{max}$ against $U$ (thick black), the line $\beta = 1$ (dashed) and a dotted vertical line at the critical repulsion, and saves Figure 13d.6: the curve falls with $U$ and crosses 1 at $U = 2.647$.
+
+**In [14], the last check.** As In [19] of Notebook 13c: it checks that the six figure files exist and prints ALL 17 CHECKS PASSED (notebook 13d): one check in In [2], two each in In [3], In [5] and In [6], four in In [8], one in In [11], three in In [12] and two in In [14].
+
+### 13.26 Finite temperature: Mermin's theorem
+
+So far the system was in its ground state. At a temperature $T > 0$ it is in a statistical mixture of states. (Boltzmann's constant is 1, so a temperature is an energy.)
+
+**Density operators.** A mixture in which the state $\Psi_k$ occurs with the probability $w_k \ge 0$ ($\sum_k w_k = 1$) is described by the **density operator** $\hat\rho = \sum_k w_k\,|\Psi_k\rangle\langle\Psi_k|$, where $|\Psi\rangle\langle\Psi|$ is the operator that maps a state $\chi$ to $\Psi\,\langle\Psi|\chi\rangle$ (on a grid: the column $\Psi$ times the conjugated row $\Psi^\dagger$). It is Hermitian, $\langle\chi|\hat\rho\chi\rangle = \sum_k w_k|\langle\Psi_k|\chi\rangle|^2 \ge 0$ for every state, and $\mathrm{Tr}\,\hat\rho = \sum_k w_k = 1$ for normalised $\Psi_k$; so its eigenvalues $p_i$ lie between 0 and 1 and add up to 1. The expectation value of an observable is $\mathrm{Tr}(\hat\rho A)$. A **function of a Hermitian matrix** $A = \sum_i a_i\,u_iu_i^\dagger$ (eigenvalues $a_i$, orthonormal eigenvectors $u_i$) is defined through its eigenvalues, $f(A) = \sum_i f(a_i)\,u_iu_i^\dagger$; for $f = \exp$ this agrees with the power series, because $A^m = \sum_i a_i^m u_iu_i^\dagger$. The **entropy** is
+
+$$
+S = -\mathrm{Tr}(\hat\rho\ln\hat\rho) = -\sum_i p_i\ln p_i \;\ge 0 ,
+$$
+
+with the rule $0\ln0 = 0$ (the limit of $p\ln p$ as $p \to 0$); every term is $\ge 0$ because $\ln p_i \le 0$. When the particle number is fixed only on average by a **chemical potential** $\mu$, the equilibrium state at the temperature $T$ minimises the **grand potential**
+
+$$
+\Omega[\hat\rho] = \mathrm{Tr}\big[\hat\rho\,(\hat H - \mu\hat N)\big] - T\,S[\hat\rho] .
+$$
+
+**Theorem (Gibbs principle).** In a finite-dimensional state space $\Omega$ has exactly one minimiser, the **Gibbs state** $\hat\rho_0 = e^{-(\hat H - \mu\hat N)/T}/Z$ with $Z = \mathrm{Tr}\,e^{-(\hat H - \mu\hat N)/T}$, and $\Omega[\hat\rho_0] = -T\ln Z$.
+
+**Proof, line by line.** Taking the logarithm of $\hat\rho_0$ (a function of the Hermitian matrix $\hat H - \mu\hat N$),
+
+$$
+\ln\hat\rho_0 = -\frac{\hat H - \mu\hat N}{T} - \ln Z \quad\Longrightarrow\quad \hat H - \mu\hat N = -T\ln\hat\rho_0 - T\ln Z .
+$$
+
+Inserting this into $\Omega$ and using $\mathrm{Tr}\,\hat\rho = 1$:
+
+$$
+\Omega[\hat\rho] = -T\,\mathrm{Tr}(\hat\rho\ln\hat\rho_0) - T\ln Z + T\,\mathrm{Tr}(\hat\rho\ln\hat\rho) = -T\ln Z + T\,D, \qquad D = \mathrm{Tr}\big[\hat\rho\,(\ln\hat\rho - \ln\hat\rho_0)\big] .
+$$
+
+For $\hat\rho = \hat\rho_0$ the number $D$ is 0, so $\Omega[\hat\rho_0] = -T\ln Z$. It remains to show **Klein's inequality** $D \ge 0$ for two density operators, with $D = 0$ only when they are equal. Write $\hat\rho = \sum_i p_i|i\rangle\langle i|$ and $\hat\rho_0 = \sum_j q_j|j\rangle\langle j|$ with orthonormal eigenvectors (all $q_j > 0$). Then
+
+$$
+\begin{aligned}
+D &= \sum_i p_i\ln p_i - \sum_{i,j}p_i\,|\langle i|j\rangle|^2\ln q_j = \sum_{i,j}|\langle i|j\rangle|^2\,p_i\,(\ln p_i - \ln q_j) \\
+&\ge \sum_{i,j}|\langle i|j\rangle|^2\,(p_i - q_j) = \sum_i p_i - \sum_j q_j = 1 - 1 = 0 .
+\end{aligned}
+$$
+
+The first step evaluates the two traces in the eigenvectors of $\hat\rho$ (and expands $|i\rangle$ in the eigenvectors of $\hat\rho_0$ for the second); the second inserts $\sum_j|\langle i|j\rangle|^2 = 1$ (completeness) in the first sum; the inequality uses $a\ln a - a\ln b \ge a - b$ for $a \ge 0$, $b > 0$, which is $\ln y \le y - 1$ with $y = b/a$, multiplied by $-a$ (for $a = 0$ it reads $0 \ge -b$); the last steps use completeness once more and the traces 1. The inequality $\ln y \le y - 1$ holds because $y - 1 - \ln y$ has the derivative $1 - 1/y$, negative for $y < 1$ and positive for $y > 1$, so its smallest value is 0 at $y = 1$, and only there. Hence $D = 0$ forces $p_i = q_j$ whenever $\langle i|j\rangle \ne 0$, which makes $\hat\rho$ and $\hat\rho_0$ act in the same way on every $|j\rangle$: $\hat\rho = \hat\rho_0$. $\square$
+
+Notebook 13e (In [3] and In [4]) builds the Gibbs state of the two-site model, checks $\Omega[\hat\rho_0] = -T\ln Z$, and finds for 2000 random density operators that $\Omega$ is always larger, with $\Omega - \Omega[\hat\rho_0] = T\,D$ to $10^{-10}$ (Figure 13e.1).
+
+**Mermin's theorem (1965).** Replace the variational principle of Section 13.8 by the Gibbs principle: the proof of the Hohenberg-Kohn theorem then goes through word for word, with the strict inequality $\Omega[\hat\rho_0'] > \Omega[\hat\rho_0]$ for two different Gibbs states in place of $\langle\Psi'|\hat H\Psi'\rangle > E_0$. At a fixed $T$ and $\mu$ the equilibrium density determines the external potential, and there is a universal functional of the density whose minimum gives $\Omega$. This is the foundation of DFT at a temperature.
+
+**Non-interacting fermions: independent orbitals, line by line.** For non-interacting fermions with orbital energies $\epsilon_a$, $\hat H - \mu\hat N = \sum_a(\epsilon_a - \mu)\,\hat n_a$, and every occupation-number state $|n_0 n_1 \cdots\rangle$ is an eigenstate with the eigenvalue $\sum_a(\epsilon_a - \mu)n_a$. Its Gibbs weight is
+
+$$
+\frac{e^{-\sum_a(\epsilon_a - \mu)n_a/T}}{Z} = \prod_a\frac{e^{-(\epsilon_a - \mu)n_a/T}}{1 + e^{-(\epsilon_a - \mu)/T}}, \qquad Z = \prod_a\big(1 + e^{-(\epsilon_a - \mu)/T}\big) ,
+$$
+
+because the exponential of a sum is the product of the exponentials, and the sum over all choices $n_a \in \{0, 1\}$ of a product of factors, one per orbital, is the product of the sums of each factor over $n_a = 0, 1$. So the configuration $\{n_a\}$ has the probability $\prod_a p_a(n_a)$ with
+
+$$
+p_a(1) = \frac{e^{-(\epsilon_a - \mu)/T}}{1 + e^{-(\epsilon_a - \mu)/T}} = \frac{1}{e^{(\epsilon_a - \mu)/T} + 1} = f_a, \qquad p_a(0) = 1 - f_a :
+$$
+
+each orbital is an independent two-state system, occupied with the **Fermi-Dirac** probability $f_a$ (the second step multiplies numerator and denominator by $e^{(\epsilon_a - \mu)/T}$). Because the logarithm of a product is a sum, the entropy of independent orbitals is the sum of their entropies,
+
+$$
+S_s = -\sum_a\big[f_a\ln f_a + (1 - f_a)\ln(1 - f_a)\big] .
+$$
+
+Notebook 13e (In [6]) checks the product form on three orbitals: the eight Gibbs weights equal the eight products to $10^{-15}$.
+
+**The Mermin-Kohn-Sham functional.** The non-interacting reference system at $T > 0$ is an ensemble of orbitals $\phi_a$ with occupations $f_a \in [0, 1]$, density $n = \sum_a f_a|\phi_a|^2$ and entropy $S_s$. Mermin's Kohn-Sham functional is the free energy
+
+$$
+F = \sum_a f_a\Big\langle\phi_a\Big|-\frac12\frac{d^2}{dx^2}\Big|\phi_a\Big\rangle - T\,S_s + \int v\,n\,dx + E_H[n] + F_{xc}[n] ,
+$$
+
+with a temperature-dependent exchange-correlation part $F_{xc}$. Making $F$ stationary with respect to the orbitals gives the Kohn-Sham equations of Section 13.10 unchanged. Making it stationary with respect to the occupations under the condition $\sum_a f_a = N$ (multiplier $\mu$), line by line:
+
+$$
+\begin{aligned}
+\frac{\partial}{\partial f_a}\Big[F - \mu\Big(\sum_b f_b - N\Big)\Big] &= \epsilon_a + T\ln\frac{f_a}{1 - f_a} - \mu = 0 ,\\
+\ln\frac{f_a}{1 - f_a} = -\frac{\epsilon_a - \mu}{T} \quad&\Longrightarrow\quad f_a = \frac{1}{e^{(\epsilon_a - \mu)/T} + 1} .
+\end{aligned}
+$$
+
+The first line uses that the energy terms change with $f_a$ by $\langle\phi_a|-\tfrac12 d^2/dx^2|\phi_a\rangle + \int(v + v_H + v_{xc})|\phi_a|^2 = \epsilon_a$ (the chain rule through $n$), and that $\frac{d}{df}[f\ln f + (1 - f)\ln(1 - f)] = \ln f + 1 - \ln(1 - f) - 1 = \ln\frac{f}{1 - f}$; the second solves for $f_a$ (take the exponential of both sides and solve $f/(1 - f) = e^{-(\epsilon - \mu)/T}$). So the occupations are the Fermi-Dirac numbers. As $T \to 0$, $f_a \to 1$ below $\mu$ and $f_a \to 0$ above it: the aufbau rule (Figure 13e.2).
+
+**Finding $\mu$.** The particle number $\sum_a g_a f_a$ ($g_a$: the number of states of level $a$) increases strictly with $\mu$, because each $f_a$ does; so exactly one $\mu$ gives $\sum_a g_a f_a = N$, and **bisection** finds it: start with an interval that surely contains $\mu$, look at its middle, keep the half in which the particle number crosses $N$, and repeat; every step halves the interval (Figure 13e.3). The Revision Kohn-Sham solver fixes $\mu$ by the same condition, written in a form that loses no digits when $N$ is large: it splits the levels at a dividing point and balances the thermally excited particles above it against the holes below it, counting a hole with $f(-x) = 1 - f(x)$ computed without a subtraction, and finds the root of this balance in a logarithmic form (named LogBalance) by Newton steps safeguarded by bisection (`Revision/kohn_sham/results/parameters.json`, conventions merminRoot and numerics merminRoot).
+
+**A form of the entropy without $\ln 0$, line by line.** With $x = (\epsilon - \mu)/T$, $f = 1/(e^x + 1)$ and $1 - f = e^x/(e^x + 1)$:
+
+$$
+\begin{aligned}
+-\ln f &= \ln(1 + e^x), \qquad -\ln(1 - f) = \ln(1 + e^x) - x = \ln(1 + e^{-x}) ,\\
+s(x) &= -f\ln f - (1 - f)\ln(1 - f) = f\ln(1 + e^x) + (1 - f)\ln(1 + e^{-x}) .
+\end{aligned}
+$$
+
+For $x \ge 0$ write $\ln(1 + e^x) = x + \ln(1 + e^{-x})$; then $s = f\,x + f\ln(1 + e^{-x}) + (1 - f)\ln(1 + e^{-x}) = \ln(1 + e^{-x}) + x\,f(x)$. Since $s(-x) = s(x)$ (exchanging $f$ and $1 - f$), for every $x$: $s = \ln(1 + e^{-|x|}) + |x|\,f(|x|)$, a form in which no logarithm of 0 and no overflow can occur. Notebook 13e uses it.
+
+**Thermodynamics, line by line.** At fixed $N$ the energy is $E = \sum_a g_a f_a\epsilon_a$ and the free energy $F = E - TS_s$, both functions of $T$ through the occupations and $\mu$. (i) **$dF/dT = -S_s$** (the **envelope theorem**). $F$ depends on $T$ explicitly (the factor $T$ in $-TS_s$) and through the occupations:
+
+$$
+\frac{dF}{dT} = \frac{\partial F}{\partial T}\Big|_{f} + \sum_a\frac{\partial F}{\partial f_a}\,\frac{df_a}{dT} = -S_s + \mu\sum_a g_a\,\frac{df_a}{dT} = -S_s + \mu\,\frac{dN}{dT} = -S_s .
+$$
+
+The first step is the chain rule; the second uses the stationarity condition $\partial F/\partial f_a = g_a\mu$ found above (for a level with $g_a$ states); the third recognises the derivative of $N = \sum_a g_a f_a$; the fourth uses that $N$ is fixed. (ii) **$C_V = T\,dS_s/dT$**: the **heat capacity** $C_V = dE/dT = d(F + TS_s)/dT = -S_s + S_s + T\,dS_s/dT$. (iii) **The variance formula.** With $f = 1/(e^x + 1)$, $df/dx = -f(1 - f)$, and $x = (\epsilon - \mu)/T$ changes with $T$ by $dx/dT = -(\epsilon - \mu)/T^2 - \mu'/T$ ($\mu' = d\mu/dT$). So, with $w_a = g_a f_a(1 - f_a)$,
+
+$$
+\begin{aligned}
+g_a\frac{df_a}{dT} &= w_a\Big[\frac{\epsilon_a - \mu}{T^2} + \frac{\mu'}{T}\Big] ,\qquad
+0 = \frac{dN}{dT} = \sum_a w_a\Big[\frac{\epsilon_a - \mu}{T^2} + \frac{\mu'}{T}\Big] \;\Rightarrow\; \frac{\mu'}{T} = -\frac{\sum_a w_a(\epsilon_a - \mu)}{T^2\sum_a w_a} ,\\
+C_V &= \sum_a\epsilon_a\,g_a\frac{df_a}{dT} = \sum_a(\epsilon_a - \mu)\,g_a\frac{df_a}{dT} = \frac{1}{T^2}\Big[\sum_a w_a(\epsilon_a - \mu)^2 - \frac{\big(\sum_a w_a(\epsilon_a - \mu)\big)^2}{\sum_a w_a}\Big] .
+\end{aligned}
+$$
+
+The first line is the chain rule and the condition of fixed $N$, solved for $\mu'$; in the second line the second step subtracts $\mu\sum_a g_a\,df_a/dT = \mu\,dN/dT = 0$, and the third inserts the first line and $\mu'$. The bracket is $\sum_a w_a$ times the **weighted variance** of the numbers $\epsilon_a - \mu$ with the weights $w_a$, which is never negative (it equals $\sum_a w_a(\epsilon_a - \bar\epsilon)^2$ with the weighted mean $\bar\epsilon$, a sum of non-negative terms). Hence **$C_V \ge 0$**.
+
+**Worked example: two levels, one particle.** Levels $\epsilon_0 = 0$ and $\epsilon_1 = 1$ (one state each), one particle, $T = \tfrac12$, no interaction. By symmetry $\mu = \tfrac12$: then $f_0 + f_1 = \frac{1}{e^{-1} + 1} + \frac{1}{e^{1} + 1} = 1$ (the two fractions add to 1, as one sees by multiplying the first by $e/e$). So $f_0 = 1/(e^{-1} + 1) = 0.731059$, $f_1 = 0.268941$, $E = f_1\epsilon_1 = 0.268941$, $S_s = 1.164406$ (each level contributes $0.582203$), and $F = E - TS_s = 0.268941 - 0.582203 = -0.313262$. Since $\mu = \tfrac12$ at every temperature, $E(T) = 1/(e^{1/(2T)} + 1)$ and $C_V = dE/dT = \frac{e^{1/(2T)}}{(e^{1/(2T)} + 1)^2}\cdot\frac{1}{2T^2}$, which at $T = \tfrac12$ is $2e/(e + 1)^2 = 0.393224$. Notebook 13e (In [8] and In [10]) computes all these numbers and checks $dF/dT = -S_s$ by a difference quotient.
+
+### 13.27 Excited states: the Kohn-Sham gap, Janak's theorem and Delta-SCF
+
+The ground-state theory says nothing directly about excited states. Three quantities are used in practice, and the Revision Kohn-Sham solver reports all three for dirac16complex.
+
+**Particle-hole excitations and the Kohn-Sham gap.** In a non-interacting system, moving one particle from an occupied orbital $i$ (it leaves a **hole**) to an empty orbital $a$ (a **particle**) costs exactly $\epsilon_a - \epsilon_i$, because the levels do not depend on the occupations. The smallest such cost is the **Kohn-Sham gap**
+
+$$
+\Delta_{KS} = \epsilon_{LUMO} - \epsilon_{HOMO} ,
+$$
+
+where HOMO is the highest occupied orbital and LUMO the lowest unoccupied orbital (names taken over from chemistry). In the interacting system the Kohn-Sham levels move when the occupations change, so $\Delta_{KS}$ is only a first estimate of the lowest excitation energy.
+
+**Janak's theorem.** Let the energy $E(\{f\})$ be evaluated with orbitals that are self-consistent for the given occupations. Then
+
+$$
+\frac{\partial E}{\partial f_a} = \epsilon_a .
+$$
+
+**Proof.** $E = \sum_b f_b\langle\phi_b|-\tfrac12 d^2/dx^2|\phi_b\rangle + E_{pot}[n]$, where $E_{pot}$ collects $\int v\,n$, $E_H$ and $E_{xc}$, and $n = \sum_b f_b|\phi_b|^2$. $E$ depends on $f_a$ explicitly and through the orbitals. The explicit derivative is $\langle\phi_a|-\tfrac12 d^2/dx^2|\phi_a\rangle + \int(\delta E_{pot}/\delta n)|\phi_a|^2 = \langle\phi_a|h_s\phi_a\rangle = \epsilon_a$, with the Kohn-Sham Hamiltonian $h_s$. The change through the orbitals is $\sum_b f_b\big(\langle d\phi_b|h_s\phi_b\rangle + \langle h_s\phi_b|d\phi_b\rangle\big) = \sum_b f_b\,\epsilon_b\,d\langle\phi_b|\phi_b\rangle = 0$, because the Kohn-Sham equations $h_s\phi_b = \epsilon_b\phi_b$ hold and the orbitals stay normalised ($\langle\phi_b|\phi_b\rangle = 1$ does not change). $\square$
+
+**Delta-SCF.** The **Delta-SCF** method computes an excited state as a second self-consistent solution in which the occupations are fixed by hand: one particle is taken out of the HOMO and put into the LUMO, and the Kohn-Sham loop is run again with these occupations. The excitation energy is the difference of the two energies, $\Delta_{SCF} = E_1 - E_0$. Janak's theorem connects it with the gap: move the particle gradually, $f_{HOMO} = 1 - \tau$ and $f_{LUMO} = \tau$; then by the chain rule $dE/d\tau = \partial E/\partial f_{LUMO} - \partial E/\partial f_{HOMO} = \epsilon_{LUMO}(\tau) - \epsilon_{HOMO}(\tau)$, and integrating from $\tau = 0$ to $1$,
+
+$$
+\Delta_{SCF} = \int_0^1\big[\epsilon_{LUMO}(\tau) - \epsilon_{HOMO}(\tau)\big]\,d\tau .
+$$
+
+At $\tau = 0$ the integrand is $\Delta_{KS}$; the difference $\Delta_{SCF} - \Delta_{KS}$ measures how much the levels move when the particle is transferred (the **orbital relaxation**). The midpoint value $\epsilon_{LUMO}(\tfrac12) - \epsilon_{HOMO}(\tfrac12)$ (Slater's **transition state**) is a good estimate of the integral when the integrand is nearly a straight line in $\tau$. Janak's theorem and the integral formula are PROVED; that the Delta-SCF state approximates a true excited state of the interacting system is an ASSUMPTION of the method. The Revision solver uses an **ensemble** form: one particle is moved from the highest occupied group of equal levels to the lowest empty group, spread evenly over each group, which keeps the symmetries of its reduction (`Revision/kohn_sham/results/parameters.json`, conventions deltaScf).
+
+**Toy example.** Take the model energy $E(f_H, f_L) = \epsilon_H^0 f_H + \epsilon_L^0 f_L + \tfrac{U}{2}(f_H^2 + f_L^2)$ with $\epsilon_H^0 = 0$, $\epsilon_L^0 = 1$, $U = 0.2$ (the last term plays the role of a self-interaction of each orbital). Janak's theorem gives the levels $\epsilon_H = \partial E/\partial f_H = Uf_H$ and $\epsilon_L = 1 + Uf_L$. In the ground state $(f_H, f_L) = (1, 0)$: $E_0 = 0.1$, $\epsilon_H = 0.2$, $\epsilon_L = 1$, so $\Delta_{KS} = 0.8$. In the Delta-SCF state $(0, 1)$: $E_1 = 1 + 0.1 = 1.1$, so $\Delta_{SCF} = 1.0$. The integral formula reproduces it: $\int_0^1[1 + U\tau - U(1 - \tau)]\,d\tau = \int_0^1(0.8 + 0.4\tau)\,d\tau = 0.8 + 0.2 = 1$. Here the relaxation raises the excitation energy by $U = 0.2$ above the gap, and the transition state is exact because the integrand is a straight line. (In the trap of Notebook 13a, Section 13.32, the relaxation lowers it instead: its sign depends on the system.)
+
+### 13.28 Example: Mermin thermodynamics and Delta-SCF
+
+Notebook 13e checks every exact statement of Sections 13.26 and 13.27 with numbers: the Gibbs principle and Klein's inequality on the 16 states of the two-site model with 2000 random density operators, the independence of the orbitals of non-interacting fermions, the Fermi-Dirac function, the bisection for $\mu$ (and the rule by which the Revision solver fixes $\mu$, read from its parameter file), the thermodynamics of two levels (the worked numbers $0.731059$, $1.164406$, $-0.313262$, $0.393224$) and of a ladder of levels, and Janak's theorem with the Delta-SCF integral on the toy model energy. Its statements are PROVED above; its numbers are toy numbers (no Revision number is reproduced). It ends with ALL 24 CHECKS PASSED (notebook 13e) and draws seven figures.
+
+<!-- NOTEBOOK 13e -->
+
+### 13.31 Line-by-line walk-through of Notebook 13e
+
+The notebook has seventeen code cells. **In [1]** is the set-up cell, identical to In [1] of Notebook 13c (Section 13.14) except for the name `"13e"` and its comment lines, which hold the instructions of Section 13.29.
+
+**In [2], the two-site model in Fock space.**
+
+```python
+import itertools  # loops over combinations
+
+import numpy as np  # arrays, matrices and linear algebra
+
+M, DIM = 4, 16  # four orbitals, sixteen occupation-number states
+a = []  # annihilation operators
+for p in range(M):
+    matrix = np.zeros((DIM, DIM))
+    for state in range(DIM):
+        if (state >> p) & 1:  # orbital p is occupied in this state
+            nu = sum((state >> q) & 1 for q in range(p))  # occupied before p
+            matrix[state ^ (1 << p), state] = (-1) ** nu
+    a.append(matrix)
+a_dag = [matrix.T for matrix in a]
+n_op = [a_dag[p] @ a[p] for p in range(M)]
+N_op = sum(n_op)  # the particle-number operator
+```
+
+The same construction of the $16 \times 16$ operator matrices as in In [4] of Notebook 13c (Section 13.14 explains every line), with the bit test written directly instead of through a function `bit`. `n_op` are the occupation operators and `N_op` the number operator $\hat N$.
+
+```python
+H = -(a_dag[0] @ a[1] + a_dag[1] @ a[0] + a_dag[2] @ a[3] + a_dag[3] @ a[2]) \
+    + 2.0 * (n_op[0] @ n_op[2] + n_op[1] @ n_op[3])  # t = 1, U = 2
+check(np.allclose(H, H.T) and np.allclose(H @ N_op, N_op @ H),
+      "H is symmetric and conserves the particle number")
+```
+
+The two-site Hamiltonian with $t = 1$, $U = 2$ on all 16 states (all particle numbers from 0 to 4). The check: $H$ is symmetric (real Hermitian) and commutes with $\hat N$ ($H\hat N = \hat N H$), so it never changes the particle number.
+
+**In [3], the Gibbs state.**
+
+```python
+MU, TEMPERATURE = 1.0, 0.5
+K = H - MU * N_op  # H - mu N
+
+
+def entropy(rho):
+    """S = -sum p ln p over the eigenvalues p of rho (0 ln 0 = 0)."""
+    p = np.clip(np.linalg.eigvalsh(rho), 0.0, None)
+    p = p[p > 1e-300]
+    return float(-np.sum(p * np.log(p)))
+
+
+def grand_potential(rho):
+    """Omega = Tr[rho (H - mu N)] - T S."""
+    return float(np.trace(rho @ K).real) - TEMPERATURE * entropy(rho)
+```
+
+$\mu = 1$, $T = 0.5$ and $K = \hat H - \mu\hat N$. `entropy` computes $-\sum_i p_i\ln p_i$ from the eigenvalues of a density operator: `np.clip(..., 0.0, None)` replaces tiny negative rounding errors by 0, and `p[p > 1e-300]` drops the zeros (the rule $0\ln0 = 0$). `grand_potential` is $\Omega = \mathrm{Tr}(\hat\rho K) - TS$.
+
+```python
+k_values, k_vectors = np.linalg.eigh(K)
+boltzmann = np.exp(-(k_values - k_values.min()) / TEMPERATURE)  # shifted weights
+Z_shifted = boltzmann.sum()
+rho_gibbs = (k_vectors * (boltzmann / Z_shifted)) @ k_vectors.T
+ln_Z = np.log(Z_shifted) - k_values.min() / TEMPERATURE  # undo the shift
+omega_gibbs = grand_potential(rho_gibbs)
+```
+
+The Gibbs state as a function of $K$: eigenvalues and eigenvectors of $K$, the weights $e^{-k_i/T}$ shifted by the smallest eigenvalue to avoid overflow (Section 13.14 explains the shift), and $\hat\rho_0 = \sum_i(w_i/\sum w)\,u_iu_i^T$. The true $\ln Z$ undoes the shift: $Z = Z_{shifted}\,e^{-k_{min}/T}$, so $\ln Z = \ln Z_{shifted} - k_{min}/T$. The two `report` lines print $\Omega[\hat\rho_0]$ and $-T\ln Z$, both $-3.4716265446$, and the check requires them to agree to $10^{-12}$.
+
+**In [4], 2000 random density operators.**
+
+```python
+ln_rho_gibbs = (k_vectors * (-k_values / TEMPERATURE - ln_Z)) @ k_vectors.T
+
+
+def matrix_log(rho):
+    """ln rho through the eigenvalues (all positive here)."""
+    values, vectors = np.linalg.eigh(rho)
+    return (vectors * np.log(values)) @ vectors.conj().T
+```
+
+$\ln\hat\rho_0 = -K/T - \ln Z$, built from the eigenvectors of $K$; `matrix_log` is the logarithm of a Hermitian matrix with positive eigenvalues, through its eigenvalues (Section 13.26).
+
+```python
+rng = np.random.default_rng(12345)  # fixed seed: the same numbers every run
+gaps, kleins = [], []
+for _ in range(2000):
+    A = rng.normal(size=(DIM, DIM)) + 1j * rng.normal(size=(DIM, DIM))
+    random_rho = A @ A.conj().T
+    random_rho /= np.trace(random_rho).real
+    s = rng.uniform(0.0, 1.0)  # how far from the Gibbs state
+    rho = (1.0 - s) * rho_gibbs + s * random_rho
+    gaps.append(grand_potential(rho) - omega_gibbs)
+    kleins.append(np.trace(rho @ (matrix_log(rho) - ln_rho_gibbs)).real)
+gaps, kleins = np.array(gaps), np.array(kleins)
+```
+
+For a random complex matrix $A$, the matrix $AA^\dagger$ is Hermitian with non-negative eigenvalues ($\langle\chi|AA^\dagger\chi\rangle = |A^\dagger\chi|^2 \ge 0$); divided by its trace (`/=` divides the variable in place) it is a density operator. Mixed with the Gibbs state with a random weight $s$ between 0 and 1 (`rng.uniform`), it gives states near and far from the minimum. For each, `gaps` stores $\Omega - \Omega_0$ and `kleins` Klein's $D$.
+
+```python
+say(f"smallest Omega - Omega_0 among 2000 states: {gaps.min():.3e}")
+check(np.all(gaps > 0.0), "every random density operator has Omega > Omega[Gibbs]")
+check(np.max(np.abs(gaps - TEMPERATURE * kleins)) < 1e-10,
+      "Omega - Omega[Gibbs] = T D with Klein's D (identity)")
+```
+
+The smallest excess is $3.878\cdot10^{-6}$ (`:.3e` writes a number with three decimals and a power of ten), still positive. The checks: all 2000 excesses are positive, and each equals $T\,D$ to $10^{-10}$, the identity of the proof in Section 13.26.
+
+**In [5], the histogram.** `np.logspace(np.floor(np.log10(gaps.min())), np.ceil(np.log10(gaps.max())), 40)` makes 40 bin edges equally spaced on a logarithmic scale from the power of ten below the smallest excess to the one above the largest (`np.floor` and `np.ceil` round down and up); `ax.hist` counts the excesses in each bin and draws the counts as bars, and `ax.set_xscale("log")` makes the horizontal axis logarithmic. `save_figure` saves Figure 13e.1.
+
+**In [6], independent orbitals.**
+
+```python
+levels3 = np.array([-0.5, 0.2, 1.0])
+mu3, T3 = 0.1, 0.4
+configurations = list(itertools.product((0, 1), repeat=3))
+weights = np.array([np.exp(-np.dot(levels3 - mu3, c) / T3) for c in configurations])
+weights /= weights.sum()  # divide by Z
+f3 = 1.0 / (np.exp((levels3 - mu3) / T3) + 1.0)
+products = np.array([np.prod([f3[k] if c[k] else 1.0 - f3[k] for k in range(3)])
+                     for c in configurations])
+```
+
+Three orbitals with the energies $-0.5$, $0.2$, $1.0$ at $\mu = 0.1$, $T = 0.4$. The 8 configurations are all triples of zeros and ones (`itertools.product((0, 1), repeat=3)`). For each, `np.dot(levels3 - mu3, c)` is $\sum_a(\epsilon_a - \mu)n_a$, and its exponential, divided by the sum of all eight ($Z$), is the Gibbs weight. `products` multiplies, for each configuration, $f_a$ for the occupied and $1 - f_a$ for the empty orbitals (`x if condition else y` chooses). The loop prints the eight pairs (for example $0.415797$ for the configuration (1, 0, 0)), and the check requires them to agree to $10^{-15}$.
+
+**In [7], the Fermi-Dirac function.**
+
+```python
+def fermi(energy, mu, temperature):
+    """The Fermi-Dirac occupation 1 / (exp(x) + 1), x = (energy - mu)/T, written
+    as exp(-ln(1 + e^x)) so that no overflow can occur."""
+    x = (np.asarray(energy, dtype=float) - mu) / temperature
+    return np.exp(-np.logaddexp(0.0, x))
+```
+
+$e^x$ exceeds the largest number the computer can store (about $10^{308}$) for $x > 709$. Since $1/(e^x + 1) = e^{-\ln(1 + e^x)}$, the function uses numpy's `logaddexp(0, x)` $= \ln(e^0 + e^x)$, which is computed without overflow for every $x$.
+
+```python
+eps = np.linspace(-2.0, 2.0, 801)
+check(abs(fermi(0.0, 0.0, 0.3) - 0.5) < 1e-15
+      and np.allclose(fermi(eps, 0.0, 0.3), 1.0 - fermi(-eps, 0.0, 0.3), atol=1e-15),
+      "f(mu) = 1/2 and f(mu + d) = 1 - f(mu - d)")
+```
+
+The check: $f(\mu) = \tfrac12$, and $f(\mu + d) = 1 - f(\mu - d)$ for 801 values of $d$ (a hole below $\mu$ is as likely as a particle above it; algebraically, $1 - \frac{1}{e^{-x} + 1} = \frac{e^{-x}}{e^{-x} + 1} = \frac{1}{1 + e^{x}}$). The plotting lines draw $f$ for $T = 0.02, 0.1, 0.3, 1.0$ and save Figure 13e.2.
+
+**In [8], the chemical potential and the two-level system.**
+
+```python
+def chemical_potential(levels, degeneracies, N, temperature, history=None):
+    """mu with sum g f = N, by bisection (the sum increases with mu)."""
+    low, high = levels.min() - 50.0 * temperature - 5.0, levels.max() + 5.0
+    for _ in range(100):
+        middle = 0.5 * (low + high)
+        if np.sum(degeneracies * fermi(levels, middle, temperature)) < N:
+            low = middle  # too few particles: mu must rise
+        else:
+            high = middle
+        if history is not None:
+            history.append(high - low)
+    return 0.5 * (low + high)
+```
+
+Bisection for $\mu$ (Section 13.26). The starting interval surely contains $\mu$: at its lower end every occupation is below $e^{-50}$, so the levels hold fewer than $N$ particles; at its upper end, 5 above the highest level, they hold almost all their states, more than $N$ when $N$ is less than the number of states. 100 halvings follow; if a list `history` is given, the width of the interval after each step is appended to it.
+
+```python
+def thermodynamics(levels, degeneracies, N, temperature):
+    """mu, occupations, E, S, F of non-interacting levels at fixed N."""
+    mu = chemical_potential(levels, degeneracies, N, temperature)
+    f = fermi(levels, mu, temperature)
+    x = np.abs(levels - mu) / temperature
+    s_level = np.logaddexp(0.0, -x) + x * fermi(x, 0.0, 1.0)  # entropy of a state
+    S = np.sum(degeneracies * s_level)
+    E = np.sum(degeneracies * f * levels)
+    return mu, f, E, S, E - temperature * S
+```
+
+For given levels, degeneracies $g_a$, particle number and temperature: $\mu$, the occupations, the entropy of one state in the form $\ln(1 + e^{-|x|}) + |x|f(|x|)$ of Section 13.26 (`fermi(x, 0.0, 1.0)` is $1/(e^x + 1)$), $S = \sum_a g_a s_a$, $E = \sum_a g_a f_a\epsilon_a$ and $F = E - TS$.
+
+```python
+two_levels, ones = np.array([0.0, 1.0]), np.array([1.0, 1.0])
+widths = []
+chemical_potential(two_levels, ones, 1.0, 0.5, widths)
+mu2, f2, E2, S2, F2 = thermodynamics(two_levels, ones, 1.0, 0.5)
+```
+
+The worked example of Section 13.26: levels 0 and 1, one state each, one particle, $T = \tfrac12$. The first call records the widths of the bisection for the figure of In [10]; the second computes the thermodynamics. The `report` lines print $\mu = 0.5$, $f = 0.731059, 0.268941$ and $E, S, F = 0.268941, 1.164406, -0.313262$, and the two checks compare them with these values.
+
+**In [9], the Revision solver's rule for $\mu$.**
+
+```python
+parameters = json.loads(repository_file(
+    "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
+root_rule = parameters["conventions"]["merminRoot"]  # a sentence of the record
+root_form = parameters["numerics"]["merminRoot"]  # the name of the canonical form
+say(f"Revision solver: canonical root form {root_form}")
+check(root_rule.startswith("mu from sum g f = N")
+      and "holes below a split of the levels" in root_rule
+      and root_form == "LogBalance",
+      "the Revision solver fixes mu by sum g f = N, balancing particles and holes "
+      "(Revision/kohn_sham/results/parameters.json, conventions merminRoot)")
+```
+
+The cell reads two entries of the solver's parameter file: the sentence that describes the rule (`conventions`) and the name of the form it uses (`numerics`). The check requires the sentence to start with "mu from sum g f = N" and to contain the words about particles and holes, and the form to be LogBalance (Section 13.26).
+
+**In [10], derivatives with respect to $T$, and the bisection history.**
+
+```python
+def at(temperature, levels=two_levels, degeneracies=ones, N=1.0):
+    return thermodynamics(levels, degeneracies, N, temperature)
+
+
+d = 1e-4
+dF_dT = (at(0.5 + d)[4] - at(0.5 - d)[4]) / (2 * d)
+dE_dT = (at(0.5 + d)[2] - at(0.5 - d)[2]) / (2 * d)
+T_dS_dT = 0.5 * (at(0.5 + d)[3] - at(0.5 - d)[3]) / (2 * d)
+```
+
+`at(T)` is the two-level thermodynamics at the temperature $T$; its result is the tuple $(\mu, f, E, S, F)$, so `[2]`, `[3]`, `[4]` are $E$, $S$, $F$. Central difference quotients with the step $10^{-4}$ (with $\mu$ solved again at each temperature) give $dF/dT$, $dE/dT$ and $T\,dS/dT$ at $T = \tfrac12$. The cell prints $dF/dT = -1.164406$ and $C_V = 0.393224$ and checks $dF/dT = -S$ (to $10^{-7}$), $C_V = 0.393224$ and $dE/dT = T\,dS/dT$ (to $10^{-7}$). The plotting lines draw the first 50 widths of the bisection on a logarithmic axis and save Figure 13e.3, and the last check
+
+```python
+check(all(abs(b / a_ - 0.5) < 1e-12 for a_, b in zip(widths[:40], widths[1:41])),
+      "every bisection step halves the interval")
+```
+
+requires every width to be half of the previous one (for the first 40 steps; the name `a_` avoids the name `a` of the operator list).
+
+**In [11], two levels at all temperatures.**
+
+```python
+temperatures = np.linspace(0.02, 3.0, 150)
+table = np.array([at(T)[2:] for T in temperatures])  # columns E, S, F
+C_V = np.array([T * (at(T + d)[3] - at(T - d)[3]) / (2 * d) for T in temperatures])
+hot = at(1000.0)
+check(table[0, 1] < 1e-8 and abs(hot[3] - np.log(4.0)) < 1e-5
+      and abs(hot[2] - 0.5) < 1e-3, "S -> 0 for T -> 0; S -> ln 4, E -> 1/2 for T "
+      "-> infinity")
+check(np.all(C_V >= 0.0), "the heat capacity is never negative")
+```
+
+For 150 temperatures from $0.02$ to 3: the table of $E$, $S$, $F$ (`[2:]` keeps the last three entries of the tuple) and $C_V = T\,dS/dT$. The limits: at the lowest temperature $S < 10^{-8}$ (the particle sits in level 0); at $T = 1000$, practically infinite, both occupations are $\tfrac12$, so $S = 2\ln 2 = \ln 4$ and $E = \tfrac12$. The second check: $C_V \ge 0$ everywhere. The plotting lines draw $E$, $TS$ and $F$ (left) and $C_V$ with the worked point (right) and save Figure 13e.4.
+
+**In [12], a ladder of levels.**
+
+```python
+ladder = np.arange(60) + 0.5
+twos = 2.0 * np.ones(60)
+N_LADDER = 8.0
+
+
+def ladder_at(T):
+    return thermodynamics(ladder, twos, N_LADDER, T)
+
+
+def variance_heat_capacity(T):
+    """C_V = [sum w x^2 - (sum w x)^2 / sum w] / T^2, x = eps - mu, w = g f (1 - f)."""
+    mu, f = ladder_at(T)[:2]
+    w = twos * f * (1.0 - f)
+    x = ladder - mu
+    return (np.sum(w * x * x) - np.sum(w * x) ** 2 / np.sum(w)) / T ** 2
+```
+
+The levels $n + \tfrac12$, $n = 0, \dots, 59$, two states each, eight particles: the trap of Notebook 13a without interaction. `variance_heat_capacity` is the variance formula of Section 13.26.
+
+```python
+T_ladder = np.linspace(0.05, 3.0, 120)
+mus = np.array([ladder_at(T)[0] for T in T_ladder])
+C_numeric = np.array([(ladder_at(T + d)[2] - ladder_at(T - d)[2]) / (2 * d)
+                      for T in T_ladder])
+C_variance = np.array([variance_heat_capacity(T) for T in T_ladder])
+```
+
+For 120 temperatures: $\mu$, the heat capacity as a difference quotient of $E$, and the variance formula. The cell prints $\mu = 4.000000$ at $T = 0.05$ and checks it (at low temperature the four lowest levels are full, and by the symmetry of $f$ about $\mu$ the chemical potential lies halfway between the last full level $3.5$ and the first empty one $4.5$), then that the two heat capacities agree to $10^{-5}$ times the larger of 1 and the largest value, and that the variance formula is never negative.
+
+**In [13] and In [14], the ladder as pictures.** In [13] draws the occupations of the twelve lowest levels at $T = 0.05, 0.5, 1, 2$ (the legend shows $\mu$ for each; `marker + "-"` joins a marker letter and a line style into one style string) and saves Figure 13e.5. In [14] draws $\mu(T)$ (left) and the two heat capacities (right; the variance formula at every sixth temperature as black dots, `[::6]`) and saves Figure 13e.6.
+
+**In [15], Janak's theorem and Delta-SCF.**
+
+```python
+EPS_H0, EPS_L0, U_MODEL = 0.0, 1.0, 0.2
+
+
+def model_energy(f_H, f_L):
+    return EPS_H0 * f_H + EPS_L0 * f_L + 0.5 * U_MODEL * (f_H ** 2 + f_L ** 2)
+
+
+def model_levels(f_H, f_L):
+    """Janak: eps_a = dE/df_a = eps_a^0 + U f_a."""
+    return EPS_H0 + U_MODEL * f_H, EPS_L0 + U_MODEL * f_L
+```
+
+The model energy of Section 13.27 and its levels.
+
+```python
+h_step = 1e-6
+for f_H, f_L in ((1.0, 0.0), (0.5, 0.5), (0.3, 0.9)):
+    dE_dfH = (model_energy(f_H + h_step, f_L) - model_energy(f_H - h_step, f_L)) \
+        / (2 * h_step)
+    dE_dfL = (model_energy(f_H, f_L + h_step) - model_energy(f_H, f_L - h_step)) \
+        / (2 * h_step)
+    check(np.allclose((dE_dfH, dE_dfL), model_levels(f_H, f_L), atol=1e-9),
+          f"Janak: dE/df_a = eps_a at (f_H, f_L) = ({f_H}, {f_L})")
+```
+
+At three pairs of occupations the derivatives of the energy are computed as central difference quotients and compared with the levels (three checks).
+
+```python
+taus = np.linspace(0.0, 1.0, 101)
+integrand = np.array([model_levels(1 - t, t)[1] - model_levels(1 - t, t)[0]
+                      for t in taus])
+gap_KS = integrand[0]
+delta_SCF = model_energy(0.0, 1.0) - model_energy(1.0, 0.0)
+step = taus[1] - taus[0]
+janak_integral = step / 3 * (integrand[0] + integrand[-1]
+                             + 4 * integrand[1:-1:2].sum() + 2 * integrand[2:-1:2].sum())
+```
+
+101 values of the transferred fraction $\tau$; the level difference $\epsilon_L(\tau) - \epsilon_H(\tau)$ at $(f_H, f_L) = (1 - \tau, \tau)$; the gap (its value at $\tau = 0$); the Delta-SCF energy $E(0, 1) - E(1, 0)$; and the integral of the level difference by Simpson's rule (Section 13.15). The `report` lines print $0.8$, $1.0$, $1.0$ and the transition-state value $1.0$ (entry 50 is $\tau = \tfrac12$). The last two checks require these four values and $\Delta_{SCF} - \Delta_{KS} = U$.
+
+**In [16], the transfer as a picture.** The left panel draws $E(\tau) - E(0)$, the right panel the level difference with the area under it shaded (`fill_between`), the gap as a square and the transition state as a triangle; `save_figure` saves Figure 13e.7.
+
+**In [17], the last check.** As In [19] of Notebook 13c: it checks that the seven figure files exist and prints ALL 24 CHECKS PASSED (notebook 13e): one check each in In [2], In [3], In [6], In [7] and In [9], two each in In [4], In [8] and In [11], three each in In [10] and In [12], five in In [15] and two in In [17].
+
+### 13.32 A complete Kohn-Sham calculation: eight fermions in a trap
+
+This section puts every piece of the chapter together in one small but complete Kohn-Sham calculation, the example of Notebook 13a. It is a teaching model: its numbers are COMPUTED by the notebook and belong to no physical system of the book. (Its letter $x$ is the position on a line, not a spacetime coordinate.)
+
+**The model.** $N = 8$ identical fermions on a line, four with the label up and four with the label down, in the **harmonic trap** $v(x) = x^2/2$, with the contact repulsion $w(x, x') = g_c\,\delta(x - x')$ of strength $g_c = 2$. Units: $\hbar = m = \omega = 1$, where $\omega$ is the angular frequency of the trap; energies are in units of $\hbar\omega$ and lengths in units of $\sqrt{\hbar/(m\omega)}$. Without interaction a particle in the trap has the levels $\tfrac12, \tfrac32, \tfrac52, \dots$, and the ground state of the eight fermions fills the four lowest levels with two fermions each: $E = 2(\tfrac12 + \tfrac32 + \tfrac52 + \tfrac72) = 16$.
+
+**The energy functional.** With the four lowest orbitals $\phi_0, \dots, \phi_3$ each occupied by one up and one down fermion, the density is $n = 2\sum_{a=0}^{3}\phi_a^2$ with $n_\uparrow = n_\downarrow = n/2$, and the energy of the determinant is (Section 13.5)
+
+$$
+E = T_s + \int v\,n\,dx + E_H + E_x, \qquad E_H = \frac{g_c}{2}\int n^2\,dx, \qquad E_x = -\frac{g_c}{2}\int\big(n_\uparrow^2 + n_\downarrow^2\big)dx = -\frac{g_c}{4}\int n^2\,dx ,
+$$
+
+with $T_s = 2\sum_{a=0}^{3}\int\phi_a\,(-\tfrac12\phi_a'')\,dx$. For a contact interaction the exchange of a determinant is exactly this local formula (Section 13.5); the correlation energy is left out. So this is an **exchange-only** Kohn-Sham scheme, which for a contact interaction is the same as the Hartree-Fock approximation: an approximation to the true ground state, whose error is the correlation energy (Section 13.7 showed how large it can be on two sites).
+
+**The Kohn-Sham potential, line by line.** The functional derivatives are
+
+$$
+\frac{\delta E_H}{\delta n} = g_c\,n, \qquad \frac{\delta E_x}{\delta n_\uparrow} = -g_c\,n_\uparrow = -\frac{g_c}{2}\,n ,
+$$
+
+by example (i) of Section 13.9 (for $E_x$ applied to the up density, with the down density held fixed). A fermion with label up therefore feels
+
+$$
+v_s = v + g_c\,n - \frac{g_c}{2}\,n = v + w, \qquad w = \frac{g_c}{2}\,n ,
+$$
+
+the Hartree push of everybody minus the exchange with its own label, and the same holds for label down. $w$ is the **mean-field potential**. A solution of the Kohn-Sham equations is a $w$ for which the orbitals of $v + w$ give back $w_{out} = g_c n/2 = w$; the **residual** of one pass is $r = \max_x|w_{out}(x) - w(x)|$, and the loop stops when $r \le 10^{-11}$, the stopping rule of the Revision solver (Section 13.21).
+
+**The energy, two ways, line by line.** Multiply the Kohn-Sham equation of orbital $a$ by $\phi_a$, integrate and sum with the occupation 2:
+
+$$
+\begin{aligned}
+2\sum_{a=0}^{3}\epsilon_a &= T_s + \int v_s\,n\,dx = T_s + \int v\,n\,dx + \frac{g_c}{2}\int n^2\,dx ,\\
+E &= T_s + \int v\,n\,dx + \frac{g_c}{4}\int n^2\,dx = 2\sum_{a=0}^{3}\epsilon_a - \frac{g_c}{4}\int n^2\,dx = 2\sum_{a=0}^{3}\epsilon_a - (E_H + E_x) .
+\end{aligned}
+$$
+
+The first line is the computation of Section 13.10 with $v_s = v + g_c n/2$; the second writes $E_H + E_x = \tfrac{g_c}{4}\int n^2$ and subtracts the first line. This **double-counting formula** gives the same energy as the direct sum of the four parts, which the notebook checks.
+
+**Stability of the equal-label solution.** So far the up and down densities were forced to be equal. Would the fermions lower their energy by separating the labels, as on two sites at strong repulsion (Section 13.7)? Let each label have its own potential: a fermion with label up feels $v + g_c n - g_c n_\uparrow = v + g_c n_\downarrow$, and one with label down $v + g_c n_\uparrow$, and the energy is $E = T_s + \int v\,n + g_c\int n_\uparrow n_\downarrow$ (Section 13.5). Started from a strongly separated guess, the loop for the two potentials together must return to equal densities if the equal-label solution is stable.
+
+**The variational principle at work.** The Kohn-Sham equations make the energy stationary in the orbitals, and for the ground state the stationary point is a minimum. A one-parameter test: for each number $c$, take the four lowest orbitals of the trial potential $v + c\,n_{scf}$ ($n_{scf}$ the self-consistent density) and evaluate the same energy formula with them. At $c = g_c/2 = 1$ these are the self-consistent orbitals; the energy must be smallest there, and near the minimum the curve is flat (a small error in the orbitals makes only a second-order error in the energy).
+
+**Three simpler pictures.** (a) **No interaction**: $w = 0$. (b) **Hartree only**: drop the exchange, $v_s = v + g_c n$; every fermion is then also repelled by its own density (the self-interaction of Section 13.5). (c) **Thomas-Fermi**: the kinetic energy of each small piece of the line is that of a uniform gas with the local density. For a uniform gas on a line with two labels, the plane waves with $|k| < k_F$ are filled, two per wave number, and in a box of length $\ell$ the wave numbers are spaced by $2\pi/\ell$; line by line:
+
+$$
+\begin{aligned}
+N &= 2\cdot\frac{2k_F}{2\pi/\ell} = \frac{2k_F\,\ell}{\pi} \quad\Longrightarrow\quad n = \frac{2k_F}{\pi} ,\\
+\frac{E_{kin}}{\ell} &= 2\int_{-k_F}^{k_F}\frac{dk}{2\pi}\,\frac{k^2}{2} = \frac{1}{2\pi}\cdot\frac{2k_F^3}{3} = \frac{k_F^3}{3\pi} = \frac{\pi^2\,n^3}{24} .
+\end{aligned}
+$$
+
+The first line counts the occupied wave numbers (the interval of length $2k_F$ divided by the spacing, times two labels) and divides by $\ell$; the second sums $k^2/2$ over them per unit length (a sum over wave numbers becomes $\ell\int dk/(2\pi)$), integrates ($\int_{-k_F}^{k_F}k^2\,dk = 2k_F^3/3$), and inserts $k_F = \pi n/2$. Minimising $\int[\pi^2 n^3/24 + v\,n + \tfrac{g_c}{4}n^2]\,dx$ at fixed $\int n\,dx = N$ with the multiplier $\mu$ (Section 13.9) gives, where $n > 0$,
+
+$$
+\frac{\pi^2}{8}\,n^2 + \frac{g_c}{2}\,n = \mu - v(x) \quad\Longrightarrow\quad n = \frac{-b + \sqrt{b^2 + 4a\,(\mu - v)}}{2a}, \qquad a = \frac{\pi^2}{8},\ b = \frac{g_c}{2} ,
+$$
+
+the positive root of a quadratic equation at each point, and $n = 0$ where $v > \mu$; $\mu$ is found by bisection so that the density holds 8 particles. Thomas-Fermi uses no orbitals, so it cannot show the four bumps of the Kohn-Sham density (its **shell structure**).
+
+**The Hellmann-Feynman theorem.** How does the energy change with the strength $g_c$? The Kohn-Sham energy is $E(g_c) = \mathcal E[\phi^*(g_c); g_c]$, the functional evaluated at its stationary orbitals $\phi^*$. By the chain rule, $dE/dg_c = \partial\mathcal E/\partial g_c + \sum(\text{derivative with respect to the orbitals})\cdot d\phi^*/dg_c$, and the second part vanishes because $\mathcal E$ is stationary in the orbitals (with their normalisation kept), exactly as in the envelope theorem of Section 13.26. Only the explicit dependence remains, $E_H + E_x = \tfrac{g_c}{4}\int n^2$:
+
+$$
+\frac{dE}{dg_c} = \frac14\int n^2\,dx .
+$$
+
+**The virial theorem at $g_c = 0$.** For a particle in the harmonic trap the kinetic and the trap energy of every level are equal. Line by line, for a normalised stationary state $\phi$: the stretched states $\phi_\lambda(x) = \sqrt\lambda\,\phi(\lambda x)$ are normalised, their kinetic energy is $\lambda^2 T$ and their trap energy $V/\lambda^2$ (substitute $y = \lambda x$ in the integrals), so $E(\lambda) = \lambda^2 T + V/\lambda^2$. A stationary state makes the energy stationary under every change of the state, in particular under stretching, so $dE/d\lambda = 2\lambda T - 2V/\lambda^3 = 0$ at $\lambda = 1$, that is $T = V$. At $g_c = 0$ the kinetic and the trap energy of the eight fermions are therefore equal, $8$ each.
+
+**The first excited state.** The Kohn-Sham gap is $\epsilon_4 - \epsilon_3$ of the ground state. The Delta-SCF energy moves one up fermion from orbital 3 (HOMO) to orbital 4 (LUMO) and solves the loop again (Section 13.27). By Janak's theorem it equals the integral of $\epsilon_4(\tau) - \epsilon_3(\tau)$ over the moved fraction $\tau$ from 0 to 1, which the notebook computes with Simpson's rule on nine values of $\tau$.
+
+**What the notebook finds (COMPUTED, Notebook 13a).** The grid (200 points in $-6 < x < 6$) reproduces the levels $n + \tfrac12$ of the trap to $0.013$ (error of order $h^2$, Section 13.2). Plain iteration needs 40 passes, linear mixing with $\beta = 0.7$ needs 23 and with $\beta = 0.3$ needs 73, Anderson mixing with the Revision settings 19; all reach the same potential to $10^{-9}$ (Figure 13a.2), and plain iteration overshoots: the first density is too narrow, the second too wide (Figure 13a.3). The Kohn-Sham levels are $2.119598$, $3.006214$, $3.877952$, $4.723945$ (occupied) and $5.496606$ (LUMO). The energy is $E = 21.851498$ by both formulas, made of $T_s = 6.726297$, $\int v\,n = 9.521279$, $E_H = 11.207843$ and $E_x = -5.603922 = -E_H/2$. The equal-label solution is stable. In the trial family the lowest energy is at $c = 1.00$ (Figure 13a.6). The root-mean-square widths of the cloud are $1.413346$ (no interaction), $1.542829$ (Kohn-Sham) and $1.659857$ (Hartree only): the repulsion spreads the cloud, and the self-interaction of Hartree spreads it too much (Figure 13a.7). $dE/dg_c = 2.801961$ both as a difference quotient and as $\tfrac14\int n^2$. The Kohn-Sham gap is $0.772662$, the Delta-SCF energy $0.714594$ (equal to the Janak integral), and the transition-state estimate $0.712784$: here the orbital relaxation lowers the excitation energy.
+
+### 13.33 Example: the one-dimensional Kohn-Sham toy
+
+Notebook 13a carries out the calculation of Section 13.32 from the first line to the last: the grid and its check against the exact levels of the trap; the Kohn-Sham map; plain iteration, linear mixing and Anderson mixing with exactly the settings of the Revision Kohn-Sham solver, read from its parameter file (its only link to the Revision record); the converged state with its potentials and density; the energy two ways and the functional-derivative test; the stability of the equal-label solution; the variational principle; the Hartree and Thomas-Fermi comparisons; the switching-on of the interaction with the Hellmann-Feynman theorem; and the first excited state by Delta-SCF with Janak's theorem. It ends with ALL 31 CHECKS PASSED (notebook 13a) and draws nine figures.
+
+<!-- NOTEBOOK 13a -->
+
+### 13.36 Line-by-line walk-through of Notebook 13a
+
+The notebook has 25 code cells. **In [1]** is the set-up cell, identical to In [1] of Notebook 13c (Section 13.14) except for the name `"13a"` and its comment lines, which hold the instructions of Section 13.34.
+
+**In [2], the grid and the kinetic-energy matrix.**
+
+```python
+import numpy as np  # arrays of numbers, matrices and linear algebra
+
+L_HALF = 6.0  # the grid covers -6 < x < 6
+M = 200  # the number of interior grid points
+h = 2.0 * L_HALF / (M + 1)  # the grid spacing 12/201
+x = -L_HALF + h * np.arange(1, M + 1)  # the grid points x_k, k = 1, ..., 200
+v = 0.5 * x ** 2  # the harmonic trap v(x) = x^2/2 at every point
+```
+
+The interval from $-6$ to $6$ is cut into 201 equal steps of length $h = 12/201 = 0.059701$; the 200 inner points are the grid (`np.arange(1, M + 1)` is $1, \dots, 200$), and the orbitals vanish at the two ends $x = \pm6$ (hard walls; the occupied orbitals are negligibly small there anyway). `v` is the trap at every grid point.
+
+```python
+T = (np.diag(np.full(M, 1.0 / h ** 2))
+     + np.diag(np.full(M - 1, -0.5 / h ** 2), 1)
+     + np.diag(np.full(M - 1, -0.5 / h ** 2), -1))
+say(f"grid: {M} points, spacing h = {h:.6f}")
+check(np.allclose(T, T.T), "the kinetic-energy matrix is symmetric")
+```
+
+`np.full(M, value)` is a list of $M$ equal values and `np.diag(list, k)` the matrix with this list on the diagonal shifted by $k$ places ($k = 1$ above, $k = -1$ below the main diagonal). So `T` is the matrix of $-\tfrac12\,d^2/dx^2$ of Section 13.2: $1/h^2$ on the diagonal and $-1/(2h^2)$ beside it. The check confirms that it is symmetric, hence Hermitian.
+
+**In [3], the levels and orbitals of one particle.**
+
+```python
+def orbitals(w):
+    """Levels (increasing) and orbitals (columns, int phi^2 dx = 1) of T + v + w."""
+    levels, vectors = np.linalg.eigh(T + np.diag(v + w))
+    phi = vectors / np.sqrt(h)  # normalise to sum phi^2 h = 1
+    for a in range(M):  # fix the sign of every orbital
+        first = np.argmax(np.abs(phi[:, a]) > 1e-3 * np.abs(phi[:, a]).max())
+        phi[:, a] *= np.sign(phi[first, a])
+    return levels, phi
+```
+
+`orbitals(w)` diagonalises the Kohn-Sham Hamiltonian on the grid, the matrix $T + \mathrm{diag}(v + w)$ for a mean-field potential $w$, and returns its 200 levels in increasing order and the orbitals as the columns of a matrix. numpy returns eigenvectors with $\sum_k u_k^2 = 1$; dividing by $\sqrt h$ makes $\sum_k\phi_k^2\,h = 1$, the grid form of $\int\phi^2\,dx = 1$. An eigenvector is fixed only up to its sign, so the loop makes the first clearly nonzero value of each orbital (counted from the left) positive: the comparison gives a list of true and false values, `np.argmax` returns the place of its first true value, and multiplying the column by the sign of the value there (`*=`, `np.sign`) makes that value positive. So every run draws the same pictures.
+
+```python
+free_levels, free_phi = orbitals(np.zeros(M))  # no interaction: w = 0
+exact_levels = np.arange(8) + 0.5  # 1/2, 3/2, ..., 15/2
+for a in range(8):
+    say(f"level {a}: grid {free_levels[a]:.6f}   exact {exact_levels[a]:.1f}")
+check(np.max(np.abs(free_levels[:8] - exact_levels)) < 0.02,
+      "the grid reproduces the levels n + 1/2 of the trap within 0.02")
+overlaps = free_phi[:, :8].T @ free_phi[:, :8] * h  # sum_k phi_a phi_b h
+check(np.allclose(overlaps, np.eye(8), atol=1e-12),
+      "the orbitals are orthonormal on the grid")
+```
+
+Without interaction the eight lowest grid levels are printed beside the exact levels $n + \tfrac12$: $0.499889$ against $0.5$, ..., $7.487394$ against $7.5$. The first check allows $0.02$ (the difference formula makes errors of order $h^2$, growing with the level). `free_phi[:, :8]` keeps the first eight columns; the matrix of their sums $\sum_k\phi_a(x_k)\phi_b(x_k)\,h$ must be the unit matrix: the orbitals are orthonormal on the grid (second check).
+
+**In [4], the trap and its orbitals as a picture.** `plt.subplots(figsize=(7.0, 4.6))` makes a slightly taller figure. The cell draws the trap in black, and for the six lowest levels a dashed grey horizontal line at the level (`axhline`) and the orbital drawn around it (`free_levels[a] + 0.6 * free_phi[:, a]`: 0.6 times the orbital, shifted up by its level), solid for the four occupied levels and dotted for the two empty ones (`style = "-" if a < 4 else ":"`). The axis limits leave room for the legend in three columns (`ncol=3`). `save_figure` saves Figure 13a.1: orbital $a$ has $a$ zeros.
+
+**In [5], the Kohn-Sham map.**
+
+```python
+G_C = 2.0  # the strength g_c of the contact repulsion
+N_PER_LABEL = 4  # four fermions with label up and four with label down
+N_TOTAL = 2 * N_PER_LABEL
+
+
+def integral(f):
+    """The integral of f over the line, as the sum of f_k h."""
+    return float(np.sum(f) * h)
+
+
+def density(phi):
+    """n(x) = 2 (phi_0^2 + phi_1^2 + phi_2^2 + phi_3^2): two fermions per orbital."""
+    return 2.0 * np.sum(phi[:, :N_PER_LABEL] ** 2, axis=1)
+
+
+def ks_map(w):
+    """One pass of the loop: the mean-field potential g_c n / 2 made from w."""
+    levels, phi = orbitals(w)
+    return 0.5 * G_C * density(phi)
+```
+
+The model's numbers; `integral(f)` approximates $\int f\,dx$ by $\sum_k f_k h$ (accurate here because the functions vanish at the walls); `density(phi)` adds the squares of the four lowest orbitals along each row (`axis=1`) and doubles them; `ks_map(w)` is one pass of the loop of Section 13.32, $w \to$ orbitals $\to n \to w_{out} = g_c n/2$.
+
+```python
+w_first = ks_map(np.zeros(M))  # one pass, starting from no interaction
+report("largest value of the first mean-field potential", f"{w_first.max():.6f}")
+check(abs(integral(2.0 * w_first / G_C) - N_TOTAL) < 1e-10,
+      "the density of one pass holds exactly 8 particles")
+```
+
+One pass from $w = 0$ gives a mean-field potential with the largest value $1.887848$; its density $n = 2w/g_c$ must hold 8 particles.
+
+**In [6], plain iteration and linear mixing.**
+
+```python
+def linear_mixing(beta, tolerance=1e-11, max_passes=150):
+    """Linear mixing w <- w + beta (w_out - w), starting from w = 0."""
+    w = np.zeros(M)
+    residuals, first_densities = [], []
+    for _ in range(max_passes):
+        w_out = ks_map(w)
+        residuals.append(np.max(np.abs(w_out - w)))  # the residual r
+        if len(first_densities) < 5:
+            first_densities.append(2.0 * w_out / G_C)  # n = 2 w_out / g_c
+        if residuals[-1] <= tolerance:
+            break
+        w = w + beta * (w_out - w)
+    return w, residuals, first_densities
+```
+
+Linear mixing of Section 13.21 for the potential: start at $w = 0$; in each pass compute $w_{out}$, record the residual $\max_x|w_{out} - w|$, keep the densities of the first five passes for the figure of In [10], stop when the residual is at most $10^{-11}$, otherwise mix. The function returns the last $w$, the residuals and the first densities.
+
+```python
+runs = {}
+for beta in (1.0, 0.7, 0.3):
+    runs[beta] = linear_mixing(beta)
+    say(f"beta = {beta}: {len(runs[beta][1])} passes, last residual "
+        f"{runs[beta][1][-1]:.1e}")
+check(all(run[1][-1] <= 1e-11 for run in runs.values()),
+      "plain iteration and linear mixing with beta = 0.7 and 0.3 all converge")
+```
+
+Three runs, stored in the dictionary `runs` under their $\beta$: 40 passes for plain iteration, 23 for $\beta = 0.7$, 73 for $\beta = 0.3$. The check requires every last residual to be at most $10^{-11}$. (Unlike the two-site model of Section 13.21, plain iteration converges here, slowly.)
+
+**In [7], the settings of the Revision solver.**
+
+```python
+parameters = json.loads(repository_file(
+    "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
+numerics = parameters["numerics"]  # the numerical settings of the Revision solver
+DEPTH = int(numerics["andersonDepth"])  # how many earlier passes are remembered
+BETA_ANDERSON = float(numerics["andersonBeta"])  # the mixing parameter
+TOLERANCE = float(numerics["scfTolerance"])  # the stopping rule
+```
+
+The cell reads the parameter file of the Revision Kohn-Sham solver and from its part "numerics" the number of remembered passes, $\beta$ and the stopping rule. The printed line and the check confirm 6, $0.4$ and $10^{-11}$ (the file stores the tolerance as the floating-point number nearest to $10^{-11}$, so the check allows a difference below $10^{-24}$).
+
+**In [8], Anderson mixing.**
+
+```python
+def anderson(step, w0, beta=BETA_ANDERSON, depth=DEPTH, tolerance=TOLERANCE,
+             max_passes=400):
+    """Anderson mixing for the fixed point step(w) = w, starting from w0."""
+    w = np.array(w0, dtype=float)
+    inputs, residual_vectors, residuals = [], [], []
+    for _ in range(max_passes):
+        residual = step(w) - w  # R = w_out - w
+        residuals.append(np.max(np.abs(residual)))
+        if residuals[-1] <= tolerance:
+            return w, residuals
+        inputs = (inputs + [w.copy()])[-depth:]  # keep the last `depth` passes
+        residual_vectors = (residual_vectors + [residual])[-depth:]
+        if len(inputs) == 1:
+            w = w + beta * residual  # the first pass: linear mixing
+            continue
+        last_r = residual_vectors[-1]
+        differences = np.array([r - last_r for r in residual_vectors[:-1]]).T
+        theta = np.linalg.lstsq(differences, -last_r, rcond=None)[0]
+        c = np.append(theta, 1.0 - theta.sum())  # the c_i; they add up to 1
+        w = sum(ci * (wi + beta * ri)
+                for ci, wi, ri in zip(c, inputs, residual_vectors))
+    raise RuntimeError("Anderson mixing did not converge")
+```
+
+Anderson mixing of Section 13.21 for any map `step` (here `ks_map`; below also maps of two potentials at once and maps with another strength). Each pass computes the residual vector $R = w_{out} - w$ and its largest entry, and returns when that is at most the tolerance. The last `depth` inputs and residual vectors are kept (`w.copy()` stores a copy, so later changes of `w` do not change the stored input). The first pass is linear mixing. Afterwards `differences` is the matrix whose columns are $R^{(i)} - R^{(last)}$ (200 rows, one per grid point), `np.linalg.lstsq` gives the least-squares $\theta$ of $\sum_i\theta_i(R^{(i)} - R^{(last)}) \approx -R^{(last)}$, `c` appends $1 - \sum_i\theta_i$, and the next input is $\sum_i c_i(w^{(i)} + \beta R^{(i)})$. If 400 passes are not enough, the function stops the notebook with an error.
+
+```python
+w_scf, anderson_residuals = anderson(ks_map, np.zeros(M))
+say(f"Anderson mixing: {len(anderson_residuals)} passes, last residual "
+    f"{anderson_residuals[-1]:.1e}")
+differences = [np.max(np.abs(runs[beta][0] - w_scf)) for beta in runs]
+check(max(differences) < 1e-9,
+      "all four routes reach the same self-consistent potential (within 1e-9)")
+check(len(anderson_residuals) < len(runs[1.0][1]),
+      "Anderson mixing needs fewer passes than plain iteration")
+```
+
+Anderson mixing from $w = 0$ needs 19 passes (last residual $1.8\cdot10^{-12}$). The checks: the three linear-mixing results agree with the Anderson result to $10^{-9}$ (`for beta in runs` goes through the keys of the dictionary), and Anderson needed fewer passes than plain iteration.
+
+**In [9], the residuals as a picture.** `ax.semilogy` draws the residual of every pass against the pass number with a logarithmic vertical axis for the three linear runs (circles, squares, triangles; the legend shows the numbers of passes) and for Anderson mixing (black diamonds), and `axhline(TOLERANCE, ...)` the stopping rule. `save_figure` saves Figure 13a.2.
+
+**In [10], why plain iteration is slow.**
+
+```python
+n_scf = 2.0 * w_scf / G_C  # the self-consistent density n = 2 w / g_c
+fig, ax = plt.subplots()
+for number, n_pass in enumerate(runs[1.0][2][:4], 1):
+    ax.plot(x, n_pass, lw=1.0, label=f"density made by pass {number}")
+ax.plot(x, n_scf, color="black", lw=2.0, label="self-consistent density")
+```
+
+The self-consistent density, and the densities made by the first four passes of plain iteration (`runs[1.0][2]` is the list of first densities of the run with $\beta = 1$), drawn as thin lines numbered from 1 by `enumerate(..., 1)`. After labelling and `save_figure` (Figure 13a.3) the check
+
+```python
+check(runs[1.0][2][0].max() > n_scf.max() > runs[1.0][2][1].max(),
+      "the first pass is too narrow and the second too wide (overshooting)")
+```
+
+compares the heights at the centre: the first density, made without repulsion, is higher (narrower) than the solution, and the second is lower (wider): the density swings around the solution.
+
+**In [11], the converged state.**
+
+```python
+ks_levels, ks_phi = orbitals(w_scf)
+n_ks = density(ks_phi)
+for a in range(6):
+    status = "occupied by 2" if a < N_PER_LABEL else "empty"
+    say(f"Kohn-Sham level {a}: {ks_levels[a]:.6f} ({status})")
+report("Kohn-Sham HOMO level", f"{ks_levels[3]:.6f}")
+report("Kohn-Sham LUMO level", f"{ks_levels[4]:.6f}")
+check(abs(integral(n_ks) - N_TOTAL) < 1e-10, "the density integrates to N = 8")
+check(np.max(np.abs(n_ks - n_scf)) < 1e-10,
+      "the density of the final orbitals reproduces the input density")
+```
+
+The orbitals of the self-consistent potential, their density, the six lowest levels with their occupation, and the HOMO and LUMO levels ($4.723945$ and $5.496606$). The checks: the density holds 8 particles, and the orbitals of $v + w_{scf}$ give back the density $2w_{scf}/g_c$ that made $w_{scf}$: self-consistency, to $10^{-10}$.
+
+**In [12], the potentials.**
+
+```python
+v_hartree = G_C * n_ks  # v_H = g_c n
+v_exchange = -0.5 * G_C * n_ks  # v_x = -g_c n_up = -g_c n / 2
+```
+
+The Hartree potential $g_c n$ and the exchange potential $-g_c n/2$ of Section 13.32. The cell draws them with the trap and their sum $v_s$ (thick line), the four occupied levels as dashed lines, and saves Figure 13a.4; the check confirms that $v + v_H + v_x$ equals $v + w_{scf}$ to $10^{-10}$.
+
+**In [13], the density as a stack of orbitals.**
+
+```python
+fig, ax = plt.subplots()
+layers = [2.0 * ks_phi[:, a] ** 2 for a in range(N_PER_LABEL)]
+ax.stackplot(x, layers, labels=[f"$2\\phi_{a}^2$" for a in range(N_PER_LABEL)],
+             alpha=0.7)
+```
+
+The four contributions $2\phi_a^2$ of the occupied orbitals; `ax.stackplot` draws them on top of each other as coloured layers (orbital 0 at the bottom; `alpha=0.7` makes them 70 per cent opaque), so that the top edge is the density, which the cell also draws as a black line. (In a Python string a backslash is written twice, so `\\phi` reaches matplotlib as $\phi$.) `save_figure` saves Figure 13a.5.
+
+**In [14], the energy two ways.**
+
+```python
+def kinetic(phi, occupations):
+    """T_s = sum_a f_a int phi_a (-1/2 phi_a'') dx with the occupations f_a."""
+    return sum(f * float(phi[:, a] @ (T @ phi[:, a])) * h
+               for a, f in enumerate(occupations))
+```
+
+The kinetic energy $T_s = \sum_a f_a\int\phi_a(-\tfrac12\phi_a'')\,dx$, on the grid $\sum_a f_a\,(\phi_a\cdot T\phi_a)\,h$, for any list of occupations.
+
+```python
+T_s = kinetic(ks_phi, [2.0] * N_PER_LABEL)
+E_ext = integral(v * n_ks)
+E_H = 0.5 * G_C * integral(n_ks ** 2)
+E_x = -0.25 * G_C * integral(n_ks ** 2)
+E_total = T_s + E_ext + E_H + E_x
+E_double = 2.0 * ks_levels[:N_PER_LABEL].sum() - (E_H + E_x)
+```
+
+`[2.0] * N_PER_LABEL` is the list $[2, 2, 2, 2]$. The four parts of the energy of Section 13.32, their sum, and the double-counting formula. The loop prints the parts ($6.726297$, $9.521279$, $11.207843$, $-5.603922$; `{label:22}` pads the name to 22 characters), the `report` lines both totals, $21.851498$, and the checks require them to agree to $10^{-9}$ and $E_x = -E_H/2$ to $10^{-12}$ (the rule $-1/g$ with $g = 2$).
+
+**In [15], the functional derivative on the grid.**
+
+```python
+def interaction_energy(n):
+    """E_H + E_x = (g_c/4) int n^2 dx for two equally occupied labels."""
+    return 0.25 * G_C * integral(n ** 2)
+
+
+eta = np.exp(-(x - 1.0) ** 2)  # a fixed change of shape, off the centre of the trap
+epsilon = 1e-4  # the size of the change
+quotient = (interaction_energy(n_ks + epsilon * eta)
+            - interaction_energy(n_ks - epsilon * eta)) / (2.0 * epsilon)
+w_ks = 0.5 * G_C * n_ks  # the mean-field potential w = g_c n / 2
+```
+
+The definition of Section 13.9 tested directly: change the density by $\pm\epsilon\eta$ with the bump $\eta = e^{-(x-1)^2}$ and $\epsilon = 10^{-4}$, and form the central difference quotient of $E_H + E_x$. By the definition it must equal $\int w\,\eta\,dx$ with $w = \delta(E_H + E_x)/\delta n = g_c n/2$. Both print as $2.6845567944$, and the check requires agreement to $10^{-9}$ (because $E_H + E_x$ is a square of $n$, the central quotient is exact up to rounding).
+
+**In [16], the stability of equal labels.**
+
+```python
+def label_densities(w_pair, up_occupations, down_occupations):
+    """The densities n_up, n_down and the levels for the pair of potentials."""
+    up_levels, up_phi = orbitals(w_pair[:M])  # w_up: the first M numbers
+    down_levels, down_phi = orbitals(w_pair[M:])  # w_down: the last M numbers
+    n_up = (up_phi[:, :len(up_occupations)] ** 2) @ np.array(up_occupations)
+    n_down = (down_phi[:, :len(down_occupations)] ** 2) @ np.array(down_occupations)
+    return n_up, n_down, up_levels, up_phi, down_levels, down_phi
+```
+
+The two potentials are stored in one list of $2M = 400$ numbers: the first 200 for label up, the last 200 for label down (`w_pair[:M]`, `w_pair[M:]`). For each label the function solves the orbitals and forms the density with any occupations: the matrix of squared orbitals times the list of occupations is $\sum_a f_a\phi_a^2$ at every point.
+
+```python
+def labels_map(w_pair, up_occupations, down_occupations):
+    """One pass for two labels: w_up = g_c n_down and w_down = g_c n_up."""
+    n_up, n_down = label_densities(w_pair, up_occupations, down_occupations)[:2]
+    return np.concatenate([G_C * n_down, G_C * n_up])
+
+
+def labels_energy(w_pair, up_occupations, down_occupations):
+    """E = T_s + int v n + g_c int n_up n_down (E_H + E_x for two labels)."""
+    n_up, n_down, _, up_phi, _, down_phi = label_densities(
+        w_pair, up_occupations, down_occupations)
+    return (kinetic(up_phi, up_occupations) + kinetic(down_phi, down_occupations)
+            + integral(v * (n_up + n_down)) + G_C * integral(n_up * n_down))
+```
+
+One pass of the two-label loop: the potential of label up is $g_c n_\downarrow$ and that of label down $g_c n_\uparrow$ (Section 13.32), joined into one list by `np.concatenate`. `labels_energy` is $E = T_s + \int v\,n + g_c\int n_\uparrow n_\downarrow$.
+
+```python
+FILLED = [1.0] * N_PER_LABEL  # the four lowest orbitals of each label occupied
+push = 1.0 * np.tanh(x)  # pushes up-fermions to the left, down-fermions to the right
+start = np.concatenate([w_scf + push, w_scf - push])
+w_pair, pair_residuals = anderson(lambda q: labels_map(q, FILLED, FILLED), start)
+n_up, n_down = label_densities(w_pair, FILLED, FILLED)[:2]
+```
+
+Each label has its four lowest orbitals occupied once. The start is strongly separated: $\tanh x$ rises from $-1$ to $1$ across the trap, so adding it to the up potential pushes the up fermions to the left, and subtracting it pushes the down fermions to the right. Anderson mixing then runs on both potentials together (the `lambda` fixes the occupations). It needs 36 passes, and the largest difference between the label densities is $4.9\cdot10^{-12}$; the checks require it to be below $10^{-8}$ and the energy to equal the equal-label energy to $10^{-9}$: the equal-label solution is stable at $g_c = 2$.
+
+**In [17], the variational principle.**
+
+```python
+def energy_of_orbitals(phi):
+    """E = T_s + int v n dx + (g_c/4) int n^2 dx for 2 fermions in orbitals 0..3."""
+    n = density(phi)
+    return (kinetic(phi, [2.0] * N_PER_LABEL) + integral(v * n)
+            + 0.25 * G_C * integral(n ** 2))
+
+
+c_values = np.linspace(0.0, 2.0, 41)  # c = 0, 0.05, ..., 2
+family_energies = np.array([energy_of_orbitals(orbitals(c * n_scf)[1])
+                            for c in c_values])
+c_best = c_values[np.argmin(family_energies)]
+```
+
+The energy formula of Section 13.32 for any set of orbitals; for 41 values of $c$ from 0 to 2 the orbitals of the trial potential $v + c\,n_{scf}$ (`orbitals(c * n_scf)[1]`) and their energy; `c_best` the value with the lowest energy. It is $1.00$, and the checks require it to equal $g_c/2$ (to $10^{-9}$) and every member of the family to have an energy at least $E_{KS}$ (to $10^{-10}$).
+
+**In [18], the family as a picture.** The cell draws $E(c) - E_{KS}$ against $c$ with a dashed vertical line at $c = g_c/2$ and saves Figure 13a.6: a curve that touches zero at $c = 1$, flat there.
+
+**In [19], Hartree only and Thomas-Fermi.**
+
+```python
+def hartree_map(w):
+    """One pass of the Hartree approximation: w_out = g_c n (no exchange)."""
+    return G_C * density(orbitals(w)[1])
+
+
+w_hartree, hartree_residuals = anderson(hartree_map, np.zeros(M))
+n_hartree = density(orbitals(w_hartree)[1])
+n_free = density(free_phi)  # no interaction at all
+```
+
+The Hartree approximation has the mean-field potential $g_c n$ instead of $g_c n/2$; Anderson mixing solves it, and `n_hartree` is its density. `n_free` is the density without interaction.
+
+```python
+def thomas_fermi(mu):
+    """The Thomas-Fermi density: the positive root of a n^2 + b n = mu - v."""
+    a, b = np.pi ** 2 / 8.0, 0.5 * G_C
+    room = np.maximum(mu - v, 0.0)  # zero where the trap is higher than mu
+    return (-b + np.sqrt(b * b + 4.0 * a * room)) / (2.0 * a)
+```
+
+The Thomas-Fermi density of Section 13.32: `np.maximum(mu - v, 0.0)` replaces $\mu - v$ by 0 where the trap is higher than $\mu$, which makes the root 0 there.
+
+```python
+low, high = 0.0, 50.0  # mu lies between these two numbers
+for _ in range(60):  # bisection: halve the interval 60 times
+    middle = 0.5 * (low + high)
+    if integral(thomas_fermi(middle)) < N_TOTAL:
+        low = middle  # too few particles: mu must be larger
+    else:
+        high = middle
+mu_tf = 0.5 * (low + high)
+n_tf = thomas_fermi(mu_tf)
+```
+
+Bisection for $\mu$: the number of particles grows with $\mu$; with $\mu = 0$ there are none and with $\mu = 50$ far more than 8. 60 halvings fix $\mu = 5.110729$ (printed by `report`).
+
+```python
+widths = [np.sqrt(integral(x ** 2 * n) / N_TOTAL)
+          for n in (n_free, n_ks, n_hartree)]
+say("root-mean-square widths: free {:.6f}, Kohn-Sham {:.6f}, Hartree {:.6f}"
+    .format(*widths))
+check(widths[0] < widths[1] < widths[2],
+      "repulsion widens the cloud, and self-interaction (Hartree) widens it more")
+```
+
+The checks before these lines require the Thomas-Fermi and the Hartree density to hold 8 particles. The **root-mean-square width** $\sqrt{\int x^2 n\,dx/N}$ measures how far the cloud spreads; `.format(*widths)` puts the three numbers into the three braces of the string. The widths $1.413346$, $1.542829$, $1.659857$ must increase in this order (last check).
+
+**In [20], four pictures of the same fermions.** The cell draws the densities without interaction (dotted), Hartree only (dashed), Kohn-Sham (thick black) and Thomas-Fermi (dash-dotted) and saves Figure 13a.7: Thomas-Fermi follows the average shape of the Kohn-Sham density but has no shell bumps.
+
+**In [21], switching the interaction on.**
+
+```python
+def solve_at(strength, start):
+    """The self-consistent w and the three energies (T_s, int v n dx, E_H + E_x)
+    at the coupling strength, starting the loop from the potential start."""
+
+    def strength_map(w):  # the Kohn-Sham map with this strength instead of G_C
+        return 0.5 * strength * density(orbitals(w)[1])
+
+    w, _ = anderson(strength_map, start)
+    phi = orbitals(w)[1]
+    n = density(phi)
+    parts = (kinetic(phi, [2.0] * N_PER_LABEL), integral(v * n),
+             0.25 * strength * integral(n ** 2))
+    return w, parts
+```
+
+`solve_at` solves the model for any strength: the inner function `strength_map` is the Kohn-Sham map with that strength, Anderson mixing solves it from the given start, and the function returns the potential and the three parts $T_s$, $\int v\,n$ and $E_H + E_x$.
+
+```python
+strengths = np.linspace(0.0, 2.0, 9)  # g_c = 0, 0.25, ..., 2
+scan, w_start = [], np.zeros(M)
+for strength in strengths:
+    w_start, parts = solve_at(strength, w_start)  # start from the last solution
+    scan.append(parts)
+scan = np.array(scan)  # one row per strength; columns: T_s, int v n, E_H + E_x
+say(f"E at g_c = 0: {scan[0].sum():.6f}; at g_c = 2: {scan[-1].sum():.6f}")
+check(abs(scan[-1].sum() - E_total) < 1e-9, "the scan ends at the same E as above")
+```
+
+Nine strengths from 0 to 2, each solved starting from the solution of the previous strength (a good start saves passes). The energy is $15.990192$ at $g_c = 0$ (the grid's version of 16) and $21.851498$ at $g_c = 2$, the same as before (check).
+
+```python
+delta = 1e-3
+E_plus = sum(solve_at(2.0 + delta, w_scf)[1])  # E at g_c = 2.001
+E_minus = sum(solve_at(2.0 - delta, w_scf)[1])  # E at g_c = 1.999
+slope = (E_plus - E_minus) / (2.0 * delta)
+```
+
+The Hellmann-Feynman test: the energies at $g_c = 2.001$ and $1.999$ and their central difference quotient. Both it and $\tfrac14\int n^2$ print as $2.801961$, and the check requires agreement to $10^{-6}$.
+
+**In [22], the energies of the scan.** The cell draws $T_s$, the trap energy, $E_H + E_x$ and the total against $g_c$ and saves Figure 13a.8; its check
+
+```python
+check(abs(scan[0].sum() - 16.0) < 0.05 and abs(scan[0, 0] - scan[0, 1]) < 0.05,
+      "at g_c = 0: E = 16 and T_s equals the trap energy (virial theorem)")
+```
+
+requires, at $g_c = 0$ (row 0 of the scan), the total 16 and equal kinetic and trap energies (the virial theorem of Section 13.32), both to $0.05$, the accuracy of the grid.
+
+**In [23], the first excited state.**
+
+```python
+taus = np.linspace(0.0, 1.0, 9)
+gaps, energies, w_pair = [], [], np.concatenate([w_scf, w_scf])
+for tau in taus:
+    up = [1.0, 1.0, 1.0, 1.0 - tau, tau]  # orbitals 0..4 of label up
+    w_pair, _ = anderson(lambda q: labels_map(q, up, FILLED), w_pair)
+    up_levels = label_densities(w_pair, up, FILLED)[2]
+    gaps.append(up_levels[4] - up_levels[3])  # eps_4(tau) - eps_3(tau)
+    energies.append(labels_energy(w_pair, up, FILLED))
+gaps, energies = np.array(gaps), np.array(energies)
+n_excited = sum(label_densities(w_pair, up, FILLED)[:2])  # tau = 1: n_up + n_down
+```
+
+Nine values of the moved fraction $\tau = 0, \tfrac18, \dots, 1$. For each, label up has the occupations $1, 1, 1, 1 - \tau, \tau$ in its orbitals 0 to 4 and label down its four lowest orbitals full; the two-label loop is solved by Anderson mixing, starting from the previous solution, and the level difference $\epsilon_4 - \epsilon_3$ of label up and the energy are stored. After the loop `n_excited` is the total density at $\tau = 1$, the Delta-SCF excited state.
+
+```python
+step = taus[1] - taus[0]
+simpson = step / 3.0 * (gaps[0] + gaps[-1] + 4.0 * gaps[1:-1:2].sum()
+                        + 2.0 * gaps[2:-1:2].sum())
+delta_scf = energies[-1] - energies[0]
+```
+
+Simpson's rule (Section 13.15) on the nine level differences, and the Delta-SCF energy $E(1) - E(0)$. The `report` lines print the gap $0.772662$, the Delta-SCF energy $0.714594$, the Janak integral $0.714594$ and the transition state $0.712784$ (entry 4 is $\tau = \tfrac12$). The four checks: $\tau = 0$ is the ground state; the level difference at $\tau = 0$ is the Kohn-Sham gap of In [11]; the Janak integral equals the Delta-SCF energy to $10^{-6}$; and the Delta-SCF energy is below the gap here.
+
+**In [24], the excited state as a picture.** On the left, `left.fill_between(taus, 0.0, gaps, alpha=0.25, ...)` shades the area under the level difference, which is the Delta-SCF energy by Janak's theorem; the curve, the gap (square), the transition state (triangle) and the Delta-SCF energy (dashed line) are marked. On the right the cell draws the ground-state and the excited density. `save_figure` saves Figure 13a.9.
+
+**In [25], the last check.** As In [19] of Notebook 13c, for the nine figures; it prints ALL 31 CHECKS PASSED (notebook 13a): one check each in In [2], In [5], In [6], In [7], In [10], In [12], In [15] and In [22], two each in In [3], In [8], In [11], In [14], In [16], In [17], In [21] and In [25], three in In [19] and four in In [23].
+
+### 13.37 From the toy models to dirac16complex
+
+This section says which ideas of the chapter the Kohn-Sham model of dirac16complex (Chapters 14 to 16) uses, and what is different there. As in Section 13.16, $x_1, x_2, x_3$ are the directions of ordinary space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times, which deflate exponentially (scale factor $e^{-a_4}\sin^{1/6}z$ while ordinary space inflates with $e^{a_4}\sin^{1/6}z$), and $x_8$ the hidden direction, $z = 6Hx_8$, with the author's constant $H > 0$.
+
+**What carries over.**
+
+- **The Kohn-Sham scheme and self-consistency.** The model is a Kohn-Sham fermion gas of dirac16complex quanta in the good sector (no momentum along the extra times), in which the 16-component equation reduces to $2 \times 2$ blocks in the hidden coordinate (Chapter 14). Its levels and orbitals are found self-consistently, with Anderson mixing of the potentials at every grid point of the hidden direction (depth 6, $\beta = 0.4$, stopping rule $10^{-11}$ on the largest residual; Section 13.21 and `Revision/kohn_sham/results/parameters.json`, numerics).
+- **The interaction and its exchange.** The contact interaction $\tfrac{\lambda}{2}S^2$ with the vertex $C$, treated as Hartree plus the exact local exchange of the uniform 8-fold gas: $e_x = -\tfrac{\lambda}{32}(n^2 + S^2)$, $M_{eff} = m + \tfrac{15}{16}\lambda S$, $v_v = -\tfrac{1}{16}\lambda n$ (Section 13.16; PROVED in `Revision/kohn_sham/reports/ks-theory-python.json`, checks exchange_uniform_gas, ks_potentials, filled_shell_ratio).
+- **Mermin's occupations.** At the temperatures $T = 0.01$, $0.02$ and $0.05$ (in units of the mass $m$) the occupations are Fermi-Dirac numbers with $\mu$ fixed by $\sum g f = N$, solved in the LogBalance form (Section 13.26; parameters.json, conventions merminRoot).
+- **Excited states.** The Kohn-Sham gap and the particle-hole excitations of Section 13.27, and Delta-SCF in its ensemble form over groups of equal levels (parameters.json, conventions deltaScf).
+- **Densities through the Krein form.** The number density is $n = \mathrm{Tr}(B\rho)$ with the indefinite form $B = -iC\gamma^{(x4)}$ of Chapter 10, and the scalar density is $S = \mathrm{Tr}(C\rho)$.
+
+**What is different, and its status.**
+
+- **No correlation.** The dirac16complex functional has no correlation term ("correlation: none (Hartree plus exchange only)" in `Revision/kohn_sham/ks-theory.json`), and for the non-uniform Kohn-Sham determinants its uniform-gas exchange differs from the exact local Fock exchange by $+\tfrac{\lambda}{32}Q^2$ (Section 13.16). These are the approximations of the model.
+- **No density-functional theorem is claimed for the field.** The Hohenberg-Kohn and Mermin theorems of Sections 13.8 and 13.26 were proved for particles with a positive inner product and a Hamiltonian bounded from below. For the quantised dirac16complex field with its indefinite Krein form (Chapter 10) the book does not prove such a theorem; the model of Chapter 14 is used as a self-consistent mean-field (exchange-only) model, and whether an exact density functional exists for this field is OPEN.
+- **Which levels are filled.** Particles occupy the positive branch of the levels and the brane zero modes; this filling is a CONVENTION of the record, and its justification is OPEN (`Revision/kohn_sham/ks-theory.json`, thermodynamics, fillingConvention).
+- **The background.** The history $a_4 = AHx_4$ along which the instantaneous (adiabatic) Kohn-Sham states are computed is a PRESCRIBED BACKGROUND: the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`, 5 of 5 checks passed). The time-dependent (non-adiabatic) problem is OPEN, and the mirror at the end of the hidden direction (the Z2 brane) is ASSUMED.
+
+**The pairs.** Chapter 19 uses these Kohn-Sham states for theorem T3: the Kohn-Sham universes of mass $+M$ and $-M$, with the transformed boundary conditions, have equal energies and energy-momentum tensors (PROVED: `Revision/pairing/kohn_sham/reports/python-t3.json`, 13 of 13 checks passed, and `wolfram-t3.json` in the same folder, 10 of 10). T3 is an exact map between two sets of solutions. It does not prove that any universe is created, in pairs or otherwise: no creation process, rate or amplitude follows from these equations, and nothing in this chapter changes that.
+
+### 13.38 What we proved, what we computed, what we assumed
+
+**PROVED** (exact derivations in this chapter, each checked numerically by a notebook; the Revision checks are named where the record holds the statement):
+
+- One particle: the eigenvalues of a Hermitian operator are real and its eigenvectors for different eigenvalues orthogonal; the variational principle (Section 13.2).
+- Many fermions: the Pauli principle; Slater determinants are antisymmetric, normalised, vanish for equal orbitals, and have the density $\sum_a|\phi_a|^2$ (Section 13.3; Notebook 13c, In [2]).
+- Second quantisation: the anticommutation relations; Wick's theorem for a determinant and a thermal ensemble of non-interacting fermions, in every basis; $\langle{:}S^2{:}\rangle = (\mathrm{Tr}\,V\rho)^2 - \mathrm{Tr}(V\rho V\rho)$ (Section 13.4; Revision check hf_wick_contraction of `Revision/kohn_sham/reports/ks-theory-python.json`; Notebook 13c, In [4] to In [8]).
+- The energy of a determinant, direct minus exchange; the cancellation of the self-interaction; the exact locality of contact exchange and $E_x = -E_H/g$ for equally occupied labels (Sections 13.5 and 13.15; Notebook 13c, In [10]; Notebook 13b, In [6], In [12], In [13]).
+- The Lagrange-multiplier rule and the meaning of the multiplier; the Hartree-Fock equations, the double-counting formula and Koopmans' theorem (Section 13.6).
+- The two-site model: $E_0 = \tfrac12(U - \sqrt{U^2 + 16t^2})$ and the best determinant ($-2t + U/2$ for $U \le 2t$, $-2t^2/U$ beyond) (Section 13.7; Notebook 13c, In [11], In [12]).
+- The Hohenberg-Kohn theorem and the constrained-search variational principle; functional derivatives; the Kohn-Sham equations and their total energy; the exact Kohn-Sham potential of two sites (Sections 13.8 to 13.10; Notebook 13c, In [16]).
+- The uniform gas: $n = gk_F^3/(6\pi^2)$, $C_F$, the density matrix $F(k_FR)$, the exchange hole $1 - F^2/g$, the small-range law $1 - \tfrac35(k_Fa)^2$, Dirac's formula given the integral $9/4$, and the polarisation threshold $\tfrac23(3\pi^2)^{2/3}$ (Section 13.15; Notebook 13b).
+- The exchange of the 16-component field: $e_x = -\tfrac{\lambda}{32}(n^2 + S^2)$, $M_{eff} = m + \tfrac{15}{16}\lambda S$, $v_v = -\tfrac{1}{16}\lambda n$, the ratio $-1/8$ (Section 13.16; `Revision/kohn_sham/reports/ks-theory-python.json`, checks exchange_uniform_gas, ks_potentials and filled_shell_ratio, 58 of 58 passed; `ks-theory-wolfram.json` in the same folder, 46 of 46; reproduced exactly by Notebook 13b, In [17], In [18]).
+- Mixing: the reduced map of the two-site loop, the convergence factor $1 - \beta(1 - G')$ and the condition $0 < \beta < 2/(1 - G')$ for small errors, the least-squares form of Anderson mixing (Section 13.21).
+- Temperature: the Gibbs principle with Klein's inequality; Mermin's theorem by the same argument; the independence of the orbitals of non-interacting fermions; the Fermi-Dirac occupations; $dF/dT = -S$, $C_V = T\,dS/dT$, the variance formula and $C_V \ge 0$ (Section 13.26; Notebook 13e).
+- Excited states: Janak's theorem and the Delta-SCF integral formula (Section 13.27; Notebooks 13e and 13a).
+- The trap model: its Kohn-Sham potential $v + g_cn/2$, the double-counting formula, the one-dimensional Thomas-Fermi equation, the Hellmann-Feynman theorem and the virial theorem (Section 13.32).
+
+**COMPUTED** (numbers of the executed notebooks `Revision/textbook/notebooks/13a_kohn_sham_1d_toy.ipynb` to `13e_mermin_delta_scf.ipynb`; the uncertainty is the tolerance of the check that confirms each number):
+
+- Notebook 13c: the two-site numbers $E_0 = -1.236068\,t$, double occupancy $0.276393$ and correlation energy $-0.236068\,t$ at $U = 2t$ (closed forms to $10^{-12}$), the largest correlation energy at $U = 3.335\,t$, and the split of the exact Kohn-Sham screening at $U = 4t$, $\Delta = 2t$ into $-0.588239$ (Hartree-exchange) and $-1.114408$ (correlation).
+- Notebook 13b: box sums within $0.00083$ of $F$ for 137059 plane waves; $\int_0^\infty sF^2\,ds = 9/4$ to $10^{-7}$; the box exchange $-19.0000000000$ in two forms (to $10^{-12}$); the label-mixing exchange $-8.7398756465$ (to $10^{-10}$).
+- Notebook 13d: $n_L^* = 1.326993$, $G' = -1.687961$, $\beta_{max} = 0.744058$ (to $10^{-6}$), the cycle $0.3607$/$1.9157$, convergence in 13 passes at $\beta = \tfrac12$, the threshold $U = 2.647393$.
+- Notebook 13e: no state among 2000 has a lower grand potential than the Gibbs state (smallest excess $3.9\cdot10^{-6}$); the two-level numbers $0.731059$, $1.164406$, $-0.313262$, $0.393224$ (to $10^{-6}$); the ladder's $\mu = 4$ at low temperature.
+- Notebook 13a: the trap model at $g_c = 2$: $E = 21.851498$ (two formulas agree to $10^{-9}$), the Kohn-Sham gap $0.772662$, the Delta-SCF energy $0.714594$ (Janak integral to $10^{-6}$), the widths, and the Hellmann-Feynman slope $2.801961$ (to $10^{-6}$); and the Revision solver's mixing settings, read and checked from `Revision/kohn_sham/results/parameters.json`.
+
+**ASSUMED:**
+
+- that the particles are fermions (for dirac16complex: the choice of Grassmann components, Chapter 7);
+- for the Hohenberg-Kohn theorem: a non-degenerate ground state, a wave function that does not vanish on a whole region, and that the constrained minima exist; for the Kohn-Sham scheme: non-interacting $v$-representability;
+- for the Lagrange rule: the implicit function theorem (used without proof); for the Gibbs principle: a finite number of states;
+- that a Delta-SCF state approximates a true excited state;
+- the approximations: no correlation in the toy models (they are Hartree-Fock models); in the dirac16complex functional, the uniform-gas exchange and no correlation (Sections 13.16 and 13.37);
+- for the dirac16complex model (Section 13.37): the Z2 mirror, and the history of $a_4$ as a prescribed background.
+
+**HYPOTHESIS:** none is used in this chapter. **OPEN:** an exact density functional for the quantised dirac16complex field, the justification of its filling convention, and its time-dependent (non-adiabatic) problem (Section 13.37).
+
+### 13.39 Exercises
+
+**Exercise 1.** In the three-point example of Section 13.3, compute $\Phi(2, 1)$, $\Phi(1, 0)$ and $\Phi(1, 1)$, and show from the definition that the two-particle determinant vanishes when $\phi_a = \phi_b$.
+
+*Answer.* With $\phi_0 = (1, 0, 0)$ and $\phi_1 = (0, 1, 1)/\sqrt2$: $\Phi(2, 1) = [\phi_0(2)\phi_1(1) - \phi_1(2)\phi_0(1)]/\sqrt2 = [0\cdot\tfrac{1}{\sqrt2} - \tfrac{1}{\sqrt2}\cdot 0]/\sqrt2 = 0$. $\Phi(1, 0) = [\phi_0(1)\phi_1(0) - \phi_1(1)\phi_0(0)]/\sqrt2 = [0\cdot 0 - \tfrac{1}{\sqrt2}\cdot 1]/\sqrt2 = -\tfrac12$, as the table of Notebook 13c (In [2]) shows. $\Phi(1, 1) = [\phi_0(1)\phi_1(1) - \phi_1(1)\phi_0(1)]/\sqrt2 = 0$, because the two products are equal. If $\phi_a = \phi_b = \phi$, then $\Phi(r_1, r_2) = [\phi(r_1)\phi(r_2) - \phi(r_1)\phi(r_2)]/\sqrt2 = 0$ for all arguments.
+
+**Exercise 2.** Using only the anticommutation relations of Section 13.4, show that $\hat n_p^2 = \hat n_p$, and conclude that $\hat n_p$ has only the eigenvalues 0 and 1.
+
+*Answer.* $\hat n_p^2 = a_p^\dagger a_p a_p^\dagger a_p$. The relation $\{a_p, a_p^\dagger\} = 1$ gives $a_p a_p^\dagger = 1 - a_p^\dagger a_p$, so $\hat n_p^2 = a_p^\dagger(1 - a_p^\dagger a_p)a_p = a_p^\dagger a_p - a_p^\dagger a_p^\dagger a_p a_p$. The relation $\{a_p^\dagger, a_p^\dagger\} = 0$ says $2a_p^\dagger a_p^\dagger = 0$, so the last term vanishes and $\hat n_p^2 = \hat n_p$. If $\hat n_p u = \nu u$ with $u \ne 0$, then $\nu^2 u = \hat n_p^2 u = \hat n_p u = \nu u$, so $\nu^2 = \nu$, that is $\nu = 0$ or $\nu = 1$.
+
+**Exercise 3.** For the three-point example, write the density matrix $\rho = \phi_0\phi_0^T + \phi_1\phi_1^T$ as a $3 \times 3$ matrix and check $\rho^2 = \rho$ and $\mathrm{Tr}\,\rho = 2$.
+
+*Answer.* $\phi_0\phi_0^T$ has a single 1 in the top left corner; $\phi_1\phi_1^T$ has the entries $\tfrac12$ in the lower right $2 \times 2$ block. So $\rho = \begin{pmatrix} 1 & 0 & 0\\ 0 & \tfrac12 & \tfrac12\\ 0 & \tfrac12 & \tfrac12\end{pmatrix}$. Squaring, the corner gives $1\cdot 1 = 1$, and the block $\begin{pmatrix}\tfrac12 & \tfrac12\\ \tfrac12 & \tfrac12\end{pmatrix}^2$ has every entry $\tfrac14 + \tfrac14 = \tfrac12$, so $\rho^2 = \rho$. The trace is $1 + \tfrac12 + \tfrac12 = 2$, the number of particles, and the diagonal $(1, \tfrac12, \tfrac12)$ is the density of Section 13.3.
+
+**Exercise 4.** Solve the two-site model of Section 13.7 for $t = 1$, $U = 4$: the exact energy, the Hartree-Fock energy, the correlation energy, and the exact double occupancy.
+
+*Answer.* $E_0 = \tfrac12(4 - \sqrt{16 + 16}) = 2 - 2\sqrt2 = -0.828427$. Since $U > 2t$, the best determinant is unrestricted, $E_{HF} = -2t^2/U = -0.5$. The correlation energy is $E_0 - E_{HF} = -0.328427$. The ground state lies in the $2 \times 2$ problem $\begin{pmatrix} U & -2t\\ -2t & 0\end{pmatrix}$ on $(D, S)$; its first row gives $(U - E_0)\,d - 2t\,s = 0$, so $s = (U - E_0)\,d/(2t) = (4 + 0.828427)\,d/2 = 2.414214\,d$. The normalisation $d^2(1 + 2.414214^2) = 1$ gives $d^2 = 1/6.828427 = 0.146447$. The double occupancy is the weight of the states LL and RR, which here is $d^2 = 0.146447$, the value of Notebook 13c (In [11]); the restricted determinant would give $\tfrac12$.
+
+**Exercise 5.** Fermions with two labels and a contact interaction of strength $g_c = 1$ have the label densities $n_\uparrow = 0.3$ and $n_\downarrow = 0.1$ at a point. Compute the Hartree and the exchange energy densities and check that their sum is $g_c\,n_\uparrow n_\downarrow$.
+
+*Answer.* $n = 0.4$, so $e_H = \tfrac{g_c}{2}n^2 = 0.5\cdot0.16 = 0.08$ and $e_x = -\tfrac{g_c}{2}(n_\uparrow^2 + n_\downarrow^2) = -0.5\cdot(0.09 + 0.01) = -0.05$. The sum is $0.03 = 0.3\cdot0.1 = n_\uparrow n_\downarrow$. With unequal labels the exchange is not $-e_H/2 = -0.04$: the rule $-1/g$ needs equally occupied labels.
+
+**Exercise 6.** Repeat the mixing analysis of Section 13.21 for $\Delta = 2$, $t = 1$, $U = 2$: check that $x^* = 0.468990$ is the fixed point, compute $G'(x^*)$ and $\beta_{max}$, and decide whether plain iteration converges.
+
+*Answer.* $\Delta - Ux^* = 2 - 0.937980 = 1.062020$, and $\sqrt{1.062020^2 + 4} = \sqrt{5.127886} = 2.264484$, so $G(x^*) = 1.062020/2.264484 = 0.468990 = x^*$. Then $G'(x^*) = -4\cdot2\cdot1/5.127886^{3/2} = -8/(5.127886\cdot2.264484) = -8/11.612 = -0.688942$, and $\beta_{max} = 2/(1 + 0.688942) = 1.184174$. Since $1 < \beta_{max}$, plain iteration converges: its factor $1 - (1 + 0.688942) = -0.688942$ has a size below 1, so the error shrinks by about $0.69$ per pass while changing its sign (the density still swings, but the swings die out). These are the numbers of Notebook 13d (In [12]).
+
+**Exercise 7.** For the two-level example of Section 13.26 (levels 0 and 1, one particle), find the limits of $f_0$, $E$ and $S_s$ as $T \to 0$ and as $T \to \infty$.
+
+*Answer.* By symmetry $\mu = \tfrac12$ at every $T$, so $f_0 = 1/(e^{-1/(2T)} + 1)$ and $f_1 = 1 - f_0$. As $T \to 0$, $e^{-1/(2T)} \to 0$: $f_0 \to 1$, $f_1 \to 0$, $E = f_1 \to 0$, and $S_s \to 0$, because $f\ln f$ and $(1 - f)\ln(1 - f)$ tend to 0 when $f$ tends to 0 or 1. As $T \to \infty$, $e^{-1/(2T)} \to 1$: $f_0, f_1 \to \tfrac12$, $E \to \tfrac12$, and each level contributes $-2\cdot\tfrac12\ln\tfrac12 = \ln2$, so $S_s \to 2\ln2 = \ln4$. Notebook 13e (In [11]) checks both limits.
+
+**Exercise 8.** For the model energy $E = \epsilon_H^0 f_H + \epsilon_L^0 f_L + \tfrac{U}{2}(f_H^2 + f_L^2)$ with any $\epsilon_H^0 < \epsilon_L^0$ and $U < \epsilon_L^0 - \epsilon_H^0$, show that $\Delta_{SCF} - \Delta_{KS} = U$.
+
+*Answer.* By Janak's theorem the levels are $\epsilon_H = \epsilon_H^0 + Uf_H$ and $\epsilon_L = \epsilon_L^0 + Uf_L$. In the ground state $(1, 0)$ (the lower orbital filled; the condition on $U$ keeps $\epsilon_H < \epsilon_L$ there), $\Delta_{KS} = \epsilon_L^0 - (\epsilon_H^0 + U)$. The energies are $E(1, 0) = \epsilon_H^0 + \tfrac{U}{2}$ and $E(0, 1) = \epsilon_L^0 + \tfrac{U}{2}$, so $\Delta_{SCF} = \epsilon_L^0 - \epsilon_H^0$, and $\Delta_{SCF} - \Delta_{KS} = U$.
+
+**Exercise 9.** For the uniform 8-fold gas of dirac16complex (Section 13.16), compute $e_x/e_H$ when $S = n/2$, and the interaction energy $e_{int}$ when $S = n$.
+
+*Answer.* With $S = n/2$: $e_x = -\tfrac{\lambda}{32}(n^2 + \tfrac{n^2}{4}) = -\tfrac{5}{128}\lambda n^2$ and $e_H = \tfrac{\lambda}{2}\cdot\tfrac{n^2}{4} = \tfrac{1}{8}\lambda n^2$, so $e_x/e_H = -\tfrac{5}{128}\cdot 8 = -\tfrac{5}{16}$: exchange removes a larger fraction of the Hartree energy than for a filled level at rest ($-\tfrac18$). With $S = n$: $e_{int} = \tfrac{15}{32}\lambda n^2 - \tfrac{1}{32}\lambda n^2 = \tfrac{7}{16}\lambda n^2$, which is $e_H + e_x = \tfrac12\lambda n^2 - \tfrac{1}{16}\lambda n^2$: in Figure 13b.9 the black curve ends at $7/16 = 0.4375$ at $S/n = 1$.
+
+**Exercise 10.** Notebook 13b (In [12]) finds the exchange energy $-19$ for five up and three down fermions in the box $0 < x < 1$ with $g_c = 1$. Derive this number: show that the density $n_N = \sum_{m=1}^{N}2\sin^2(m\pi x)$ of $N$ fermions with one label has $\int_0^1 n_N^2\,dx = N^2 + N/2$.
+
+*Answer.* $\int_0^1 n_N^2\,dx = 4\sum_{m,m'}\int_0^1\sin^2(m\pi x)\sin^2(m'\pi x)\,dx$. With $\sin^2 A = \tfrac12(1 - \cos2A)$, the product is $\tfrac14[1 - \cos2A - \cos2B + \cos2A\cos2B]$. Over $0 < x < 1$, $\int\cos(2m\pi x)\,dx = 0$ for $m \ge 1$, and $\int\cos(2m\pi x)\cos(2m'\pi x)\,dx = \tfrac12$ if $m = m'$ and 0 otherwise. So each integral is $\tfrac14 + \tfrac18[m = m']$, and $\int n_N^2 = 4\big[N^2\cdot\tfrac14 + N\cdot\tfrac18\big] = N^2 + \tfrac{N}{2}$. Then $E_x = -\tfrac{g_c}{2}\big(\int n_\uparrow^2 + \int n_\downarrow^2\big) = -\tfrac12\big[(25 + 2.5) + (9 + 1.5)\big] = -\tfrac12\cdot 38 = -19$.
