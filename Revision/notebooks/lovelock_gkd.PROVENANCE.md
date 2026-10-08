@@ -223,6 +223,10 @@ or without `REVISION_NB_CARGO_TARGET`.
   existed beforehand (the reviewer's reproduction) - exit status 0, no error or stderr output in the
   executed notebook, `checks of this notebook: 40 passed, 0 failed`, and the final list holds only the
   seven files of section 2, no `cargo-target` path (31.0 s wall time including nbconvert start).
+* 2026-10-08, tests of the current version: `python -m unittest Revision/tests/test_revision_notebooks.py -v`
+  - 9 static tests OK, 2 skipped; with `REVISION_NOTEBOOKS_FULL=1` - 11 tests OK in 91.7 s (the installed
+  versions equal the pins; `check` of all three notebooks in temporary folders is byte-identical);
+  `build_notebooks.py audit` PASS (0 problems) for all three notebooks.
 * Previous version (notebook sha256 `e4066a453826082a0e0d9761b2cff8f0d0af92871551dc121aaebcf40c19cce0`,
   410418 bytes), recorded below:
 * 2026-10-08, the reason for the previous version: a review found that `build_notebooks.py check

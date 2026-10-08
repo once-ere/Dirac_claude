@@ -113,8 +113,8 @@ Read (sha256 at the time of the verified builds):
 | `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` | `8a02a4e35981bdf34389207c24bb4710d6e9c396871981cfe7e6cee8c04d4f71` |
 | `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | `bd887ed06014f6a2114a47f7726dab6d9f0e7907c03838dede5893ec7ecf7639` |
 | `Revision/dark_sector/dirac16complex/reports/independent-checks.json` | `129825058b03c2b698aadd43583e48564d9e34614e4b63c4444ce61658819ea6` |
-| `Revision/dark_sector/dirac16complex00/eos-theory.json` | `47693fc3f09475b9fab55eb28212a579365bb350610fa8c89e74b847bc700793` |
-| `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `d7a540f1d6ef1e0fe5a7e8b9452068072c424cd1e23ee08530a3bff9e92bedf6` |
+| `Revision/dark_sector/dirac16complex00/eos-theory.json` | `d8e5c02eae6dc71ca08049118925700b899e72eef572b224ae4fe51d1bba8190` |
+| `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `1c3d233dd26a1172f72f1413a2325ae5cb2ea01b1424f2891cb6ac9ff0019986` |
 | `Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json` | `ce3114a3e7e25d32d5bbca4e9ad5f6c6c087e41c70264dbf8d23a7e50c912f0c` |
 
 Followed but not executed (the notebook reproduces their arithmetic; listed so that a change is noticed):
@@ -250,8 +250,8 @@ No run time and no path of the computer is printed (paths are shown relative to 
   cell 5 (the folder set-up), cell 32 (section 12.1) and cell 45 (the final list) changed; every output
   is identical to the previous version. Three inputs of section 2 have new sha256 values because their
   producers were re-run with qualified check texts only (`derivation-checks.json`: detail of
-  `phantom_condition`; `eos-theory.json` and `python-derive-eos.json`: the M3/M4 turning-point and
-  charge-conservation wording); every count and number the notebook reads from them is unchanged.
+  `phantom_condition`; `eos-theory.json` and `python-derive-eos.json`: the M3/M4 turning-point, charge-conservation and
+  Einstein linear-member wording); every count and number the notebook reads from them is unchanged.
 * 2026-10-08, the private-folder check: the exact code of the builder, run under WSL Ubuntu 24.04 with
   Python 3.12.3 (scratch script), created a new folder with mode 0700, accepted an existing own folder
   of mode 0755, refused folders of mode 0777 and 0775, a symbolic link and a folder of another user
@@ -282,6 +282,10 @@ No run time and no path of the computer is printed (paths are shown relative to 
   stderr output in the executed notebook, `checks of this notebook: 40 passed, 0 failed`, and the final
   list holds only the summary line of the 123 solver files and the six files of section 2, no
   `cargo-target` path (38.1 s wall time including nbconvert start).
+* 2026-10-08, tests of the current version: `python -m unittest Revision/tests/test_revision_notebooks.py -v`
+  - 9 static tests OK, 2 skipped; with `REVISION_NOTEBOOKS_FULL=1` - 11 tests OK in 91.7 s (the installed
+  versions equal the pins; `check` of all three notebooks in temporary folders is byte-identical);
+  `build_notebooks.py audit` PASS (0 problems) for all three notebooks.
 * Previous version (notebook sha256 `fadca750e38b16dcfa3f7687e52f8e0882639d09f49267c2429df722c86e8429`,
   455344 bytes), recorded below:
 * 2026-10-08, the reason for the previous version: on Windows the MSVC linker `link.exe` cannot open

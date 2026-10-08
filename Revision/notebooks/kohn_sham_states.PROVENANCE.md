@@ -264,6 +264,10 @@ No run time and no path of the computer is printed (paths are shown relative to 
   existed beforehand (the reviewer's reproduction) - exit status 0, no error or stderr output in the
   executed notebook, `checks of this notebook: 24 passed, 0 failed`, and the final list holds only the
   23 files of section 2, no `cargo-target` path (34.5 s wall time including nbconvert start).
+* 2026-10-08, tests of the current version: `python -m unittest Revision/tests/test_revision_notebooks.py -v`
+  - 9 static tests OK, 2 skipped; with `REVISION_NOTEBOOKS_FULL=1` - 11 tests OK in 91.7 s (the installed
+  versions equal the pins; `check` of all three notebooks in temporary folders is byte-identical);
+  `build_notebooks.py audit` PASS (0 problems) for all three notebooks.
 * Previous version (notebook sha256 `451587216e92819278076431902f3942bddf752a6bc40ca9f931dd636fee554d`,
   514141 bytes), recorded below:
 * 2026-10-08, the reason for the previous version: on Windows the MSVC linker `link.exe` cannot open

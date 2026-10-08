@@ -7,7 +7,7 @@
   "dirac16complex-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.pdf",
     "pages": 33,
-    "sha256": "eca75c18ee08dbca9dabb2e26bf95fb0c27d1b93fa4aae75da2167ab6456d11a"
+    "sha256": "51a291cdc48bc067f6e23fe97fecf1c599d4d22895ed1e0440e7031231b753af"
   },
   "dirac16complex00-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.pdf",
@@ -17,7 +17,7 @@
   "kohn-sham-deflating-field": {
     "path": "Revision/docs/KOHN_SHAM_DEFLATING_FIELD.pdf",
     "pages": 22,
-    "sha256": "4fff6c108ec7c0eb51fdd1e3a97213c22c551ca73ec1803219ea7c4dc66d4bea"
+    "sha256": "6c414a545d15621769c306947cd57ce5d8be58f130b33bc8715a00261e28eaa1"
   },
   "lovelock-gkd": {
     "path": "Revision/docs/LOVELOCK_GKD.pdf",
@@ -27,7 +27,7 @@
   "pair-creation-proofs": {
     "path": "Revision/docs/PAIR_CREATION_PROOFS.pdf",
     "pages": 33,
-    "sha256": "5321a96aaa22ca8cb0944c575a139d0e81a2c4d6ee4187e3b56f75f9ca65a176"
+    "sha256": "c0bb6b39fcb723e4073994b97a814d48b891f321e986ecd31ba2736cdecb3dc3"
   },
   "universes-in-pairs-textbook": {
     "path": "Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.pdf",

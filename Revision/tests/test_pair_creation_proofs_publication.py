@@ -65,8 +65,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "f0afa9193f210b228f7976846f76388696044b328ac7a42e9a47b01dfddffc68"
-TEX_SHA256 = "a5641fcfb8a9477989ddcbf8addd474436fa20d4e064c65ee1068f257d191d2b"
+MARKDOWN_SHA256 = "328035f8f26e46a85cd5d54d4d9d6100bd41ce45ab9576529cc31e8be3ceaeb9"
+TEX_SHA256 = "cce03185396779cf72f3d5098c90c12f57dbfbc5565aaa1cc7a2a7cbe5b7a748"
 
 PAIRING_THEORY = REVISION / "pairing" / "pairing-theory.json"
 WOLFRAM_PAIRING = REVISION / "pairing" / "reports" / "wolfram-pairing.json"
