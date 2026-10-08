@@ -61,10 +61,18 @@ for wf in os.listdir(W):
 chapters = ["00", "01", "02", "03", "05", "06", "07", "08", "09", "10", "12", "13"]
 findings = {nn: res.get(f"review:{nn}", {}).get("findings", []) for nn in chapters}
 os.makedirs(f"{SP}/phase1", exist_ok=True)
+
+
+def dump_json(obj, path):
+    """Write obj as indented JSON with LF line endings on every platform (Revision/SPEC.md section 0)."""
+    with open(path, "w", encoding="utf-8", newline="\n") as handle:
+        json.dump(obj, handle, indent=1)
+
+
 for nn in chapters:
-    json.dump(findings[nn], open(f"{SP}/phase1/review_{nn}.json", "w", encoding="utf-8"), indent=1)
-json.dump(res.get("verify:nb-kohn-sham", {}).get("findings", []), open(f"{SP}/phase1/verify_nb-kohn-sham.json", "w", encoding="utf-8"), indent=1)
-json.dump(res.get("verify:rev-a4", {}).get("findings", []), open(f"{SP}/phase1/verify_rev-a4.json", "w", encoding="utf-8"), indent=1)
+    dump_json(findings[nn], f"{SP}/phase1/review_{nn}.json")
+dump_json(res.get("verify:nb-kohn-sham", {}).get("findings", []), f"{SP}/phase1/verify_nb-kohn-sham.json")
+dump_json(res.get("verify:rev-a4", {}).get("findings", []), f"{SP}/phase1/verify_rev-a4.json")
 
 BOUND = ("BOUNDED TASK (user, 2026-10-08: no hours-long agent jobs): work in small verified steps; after every step append one line to "
          f"{SP}/phase1/<your label>.progress.md (what is done, what is verified, what remains). Aim to finish within about 45 minutes "
