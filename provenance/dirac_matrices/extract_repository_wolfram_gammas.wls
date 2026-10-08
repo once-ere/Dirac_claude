@@ -36,9 +36,10 @@
 *)
 
 $yRoot = FileNameJoin[{DirectoryName[$InputFileName], "..", ".."}];
+$yLoaded = {};
 $yGet[rel_] := Module[{f = FileNameJoin[Prepend[FileNameSplit[rel], $yRoot]]},
   If[!FileExistsQ[f], Print["ERROR: package not found: ", rel]; Exit[1]];
-  Get[f]; Print["loaded ", rel]];
+  Get[f]; AppendTo[$yLoaded, rel]; Print["loaded ", rel]];
 $yInt[m_] := If[AllTrue[Flatten[{m}], IntegerQ], m, Print["ERROR: non-integer matrix"]; Exit[1]];
 $yIntOrNull[m_] := If[m === Null, Null, $yInt[m]];
 
@@ -88,6 +89,7 @@ $yOut = FileNameJoin[{DirectoryName[$InputFileName], "repository_wolfram_gammas.
 $yWriteJSON[$yOut, <|
   "producer" -> "provenance/dirac_matrices/extract_repository_wolfram_gammas.wls",
   "wolfram_version" -> $Version,
+  "packages_loaded" -> $yLoaded,
   "Revision/field_equations_a4/wolfram/FieldEquationsA4.wl" -> $yFE,
   "Revision/algebra/wolfram/RevisionAlgebra.wl" -> <|
     "frame" -> "coordinates x1..x8 (gamma, eta, S); notebook frame A = 0..8 (T16, tau, taubar)",

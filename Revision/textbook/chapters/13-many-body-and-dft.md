@@ -623,7 +623,7 @@ left.set_ylabel("position $r_1$ of fermion 1")
 left.set_title("three points")
 ```
 
-`set_xticks` and `set_yticks` put tick marks only at the three points 0, 1, 2; `set_xlabel`, `set_ylabel` and `set_title` write the axis labels and the title of the left panel. Text between two dollar signs is drawn by matplotlib as a formula, so `$r_2$` appears as $r_2$.
+`set_xticks` and `set_yticks` put tick marks only at the three points 0, 1, 2; `set_xlabel`, `set_ylabel` and `set_title` write the axis labels and the title of the left panel. Text between two dollar signs is drawn by matplotlib as a formula, so the text r_2 between dollar signs in the label appears as $r_2$.
 
 ```python
 image = right.imshow(Phi_box, origin="lower", extent=(0, 1, 0, 1),
@@ -636,7 +636,7 @@ fig.colorbar(image, ax=right, shrink=0.85)
 save_figure(fig, "slater_determinants",
 ```
 
-The right panel draws the $101 \times 101$ table `Phi_box` as a heat map; `extent=(0, 1, 0, 1)` stretches it over the square $0 \le r_1, r_2 \le 1$, so that the axes show positions instead of table indices, and without `vmin` and `vmax` the colour scale runs over the table's own range. `right.plot([0, 1], [0, 1], "k--", lw=0.8)` draws the straight line from $(0, 0)$ to $(1, 1)$, the diagonal $r_1 = r_2$: in the style string the letter k means black and the two hyphens a dashed line, and `lw=0.8` is the line width in points. `fig.colorbar(image, ax=right, shrink=0.85)` adds the colour scale of the right panel, 85 per cent as tall as the panel. The call `save_figure(fig, "slater_determinants",` saves Figure 13c.1; the lines that follow it in the cell are the text of the caption, which the book prints under the figure. The last lines check that the box determinant is antisymmetric as well:
+The right panel draws the $101 \times 101$ table `Phi_box` as a heat map; `extent=(0, 1, 0, 1)` stretches it over the square $0 \le r_1, r_2 \le 1$, so that the axes show positions instead of table indices, and without `vmin` and `vmax` the colour scale runs over the table's own range. The line with `right.plot([0, 1], [0, 1], ...)` draws the straight line from $(0, 0)$ to $(1, 1)$, the diagonal $r_1 = r_2$: in its style string the letter k means black and the two hyphens that follow it a dashed line, and `lw=0.8` is the line width in points. `fig.colorbar(image, ax=right, shrink=0.85)` adds the colour scale of the right panel, 85 per cent as tall as the panel. The call `save_figure(fig, "slater_determinants",` saves Figure 13c.1; the lines that follow it in the cell are the text of the caption, which the book prints under the figure. The last lines check that the box determinant is antisymmetric as well:
 
 ```python
 check(np.allclose(Phi_box, -Phi_box.T, atol=1e-14), "the box determinant is "
@@ -1006,7 +1006,7 @@ left.set_ylabel("ground-state energy ($t$)")
 left.legend(fontsize=8)
 ```
 
-`left.plot(x, y, style, label=...)` draws the points $(x, y)$ joined by a line: the restricted energy $-2t + U/2$ dashed (`"--"`), the best determinant's energy in closed form dash-dotted (`"-."`), and the exact energy as a thick black line (`lw=2.0`). `axvline(2.0, ...)` draws a thin grey vertical line at $U = 2t$, where restricted and unrestricted Hartree-Fock separate. The axis labels give the units: $U$ is divided by $t$, and the energies are in units of $t$. `legend(fontsize=8)` lists the three labels in small letters.
+`left.plot(x, y, style, label=...)` draws the points $(x, y)$ joined by a line: the restricted energy $-2t + U/2$ dashed (the style string of two hyphens), the best determinant's energy in closed form dash-dotted (`"-."`), and the exact energy as a thick black line (`lw=2.0`). `axvline(2.0, ...)` draws a thin grey vertical line at $U = 2t$, where restricted and unrestricted Hartree-Fock separate. The axis labels give the units: $U$ is divided by $t$, and the energies are in units of $t$. `legend(fontsize=8)` lists the three labels in small letters.
 
 ```python
 right.plot(U_values, E_c, "o-", ms=3, color="black")
@@ -1429,7 +1429,7 @@ For one filled 8-fold level at rest, $n = S$, the ratio is $e_x/e_H = -\tfrac{\l
 | `Revision/kohn_sham/reports/ks-theory-wolfram.json` | exchange_uniform_gas, ks_potentials | PASS |
 | `Revision/kohn_sham/results/parameters.json` | theoryInputs: the coefficients $-1/32$, $15/16$, $-1/16$ | used by the solver |
 
-Notebook 13b reproduces all of them exactly from the gamma matrices. **What is approximate.** The record's functional is Hartree plus this uniform-gas exchange, with no correlation term. For the Kohn-Sham determinants of Chapter 14, which are not uniform, the exact Fock exchange is still local but differs from the uniform-gas form by $+\tfrac{\lambda}{32}Q^2$, where $Q$ is a further density (exactFockSlab in `Revision/kohn_sham/ks-theory.json`, labelled DIAGNOSTIC there; the solver reports this difference). Using the uniform-gas exchange and leaving out correlation is therefore the approximation of the dirac16complex Kohn-Sham model, as the omission of correlation is the approximation of the toy models of this chapter.
+Notebook 13b reproduces all of them exactly from the gamma matrices. **What is approximate.** The record's functional is Hartree plus this uniform-gas exchange, with no correlation term. For the Kohn-Sham determinants of Chapter 14, which are not uniform, the exact Fock exchange of a closed shell is still local but differs from the uniform-gas form by $+\tfrac{\lambda}{32}Q^2$ per volume, where $Q$ is a further density (exactFockSlab in `Revision/kohn_sham/ks-theory.json`, labelled DIAGNOSTIC there; check exchange_slab_exact_fock of `Revision/kohn_sham/reports/ks-theory-python.json`, PASS; the solver reports this difference in the column deltaE_x_exact_fock_diag of `Revision/kohn_sham/results/exx/exact-fock-variant.csv`). Using the uniform-gas exchange and leaving out correlation is therefore the approximation of the dirac16complex Kohn-Sham model, as the omission of correlation is the approximation of the toy models of this chapter.
 
 ### 13.17 Example: exchange of a contact interaction
 
@@ -1566,7 +1566,7 @@ ax.legend(fontsize=8)
 save_figure(fig, "exchange_hole",
 ```
 
-A grey dashed horizontal line at 1 (`ls="--"` sets the line style), the value without the Pauli principle; axis labels, title, legend, and `save_figure` for Figure 13b.2.
+A grey dashed horizontal line at 1 (the keyword `ls`, short for line style, set to two hyphens, makes it dashed), the value without the Pauli principle; axis labels, title, legend, and `save_figure` for Figure 13b.2.
 
 **What Figure 13b.2 shows.** Far from a fermion (beyond about $k_FR = 4$) all three curves are at 1: there the Pauli principle has no effect. Near it they dip to $1 - 1/g$ at contact: to 0 for one label (no second fermion can come close), to $\tfrac12$ for two labels (only the half with the other label can), and to $0.875$ for eight labels. The more labels, the shallower the hole, because a smaller fraction $1/g$ of the other fermions shares the first one's label.
 
@@ -1838,7 +1838,7 @@ left.set_title("$|\\rho_{up}(x, x')|^2$, 5 up fermions in a box")
 fig.colorbar(image, ax=left, shrink=0.85)
 ```
 
-On the left, `rho_up ** 2` (the square of every entry; the entries are real) is $|\rho_\uparrow(x, x')|^2$ of the box determinant, drawn as a heat map over the square $0 < x, x' < 1$; the style `"w--"` draws the diagonal $x = x'$ as a white dashed line; axis labels, title and colour scale follow.
+On the left, `rho_up ** 2` (the square of every entry; the entries are real) is $|\rho_\uparrow(x, x')|^2$ of the box determinant, drawn as a heat map over the square $0 < x, x' < 1$; the style string (the letter w, for white, and two hyphens) draws the diagonal $x = x'$ as a white dashed line; axis labels, title and colour scale follow.
 
 ```python
 right.plot(x, 0.5 * G_C * (n_up + n_down) ** 2, label="Hartree $g_c n^2/2$")
@@ -4103,7 +4103,23 @@ check(abs(slope - 0.25 * integral(n_ks ** 2)) < 1e-6,
 
 Both the quotient and $\tfrac14\int n^2\,dx$ print as $2.801961$, and the check requires agreement to $10^{-6}$ (the quotient has an error of order $\delta^2 = 10^{-6}$ times the third derivative, plus the effect of the loop's tolerance).
 
-**In [22], the energies of the scan.** The cell draws $T_s$, the trap energy, $E_H + E_x$ and the total against $g_c$ and saves Figure 13a.8; its check
+**In [22], the energies of the scan.**
+
+```python
+fig, ax = plt.subplots()
+ax.plot(strengths, scan[:, 0], "o-", ms=4, label="kinetic $T_s$")
+ax.plot(strengths, scan[:, 1], "s-", ms=4, label="trap $\\int v\\,n\\,dx$")
+ax.plot(strengths, scan[:, 2], "^-", ms=4, label="interaction $E_H + E_x$")
+ax.plot(strengths, scan.sum(axis=1), "D-", ms=4, color="black",
+        label="total $E$")
+ax.set_xlabel("strength $g_c$ of the contact repulsion")
+ax.set_ylabel("energy (units of $\\hbar\\omega$)")
+ax.set_title("Switching the repulsion on")
+ax.legend(fontsize=8)
+save_figure(fig, "coupling_scan",
+```
+
+The three columns of the table `scan` against the nine strengths, with different markers, and their sum along each row (`scan.sum(axis=1)`) as the black total; labels, title, legend and `save_figure` for Figure 13a.8. After the caption, the check
 
 ```python
 check(abs(scan[0].sum() - 16.0) < 0.05 and abs(scan[0, 0] - scan[0, 1]) < 0.05,
@@ -4111,6 +4127,8 @@ check(abs(scan[0].sum() - 16.0) < 0.05 and abs(scan[0, 0] - scan[0, 1]) < 0.05,
 ```
 
 requires, at $g_c = 0$ (row 0 of the scan), the total 16 and equal kinetic and trap energies (the virial theorem of Section 13.32), both to $0.05$, the accuracy of the grid.
+
+**What Figure 13a.8 shows.** At $g_c = 0$ the kinetic and the trap energy are both 8 and the total is 16 (the grid gives $15.99$). As the repulsion is switched on, the interaction energy grows almost linearly to $5.60$; the cloud spreads, so the trap energy rises (to $9.52$) and the kinetic energy falls (to $6.73$): wider orbitals curve less. The total rises to $21.85$ along a curve that bends slightly downwards: by the Hellmann-Feynman theorem its slope is $\tfrac14\int n^2\,dx$, which is $3.07$ at $g_c = 0$ (with the density without interaction) and $2.80$ at $g_c = 2$, because the spreading cloud has a smaller $\int n^2\,dx$.
 
 **In [23], the first excited state.**
 
@@ -4136,11 +4154,75 @@ simpson = step / 3.0 * (gaps[0] + gaps[-1] + 4.0 * gaps[1:-1:2].sum()
 delta_scf = energies[-1] - energies[0]
 ```
 
-Simpson's rule (Section 13.15) on the nine level differences, and the Delta-SCF energy $E(1) - E(0)$. The `report` lines print the gap $0.772662$, the Delta-SCF energy $0.714594$, the Janak integral $0.714594$ and the transition state $0.712784$ (entry 4 is $\tau = \tfrac12$). The four checks: $\tau = 0$ is the ground state; the level difference at $\tau = 0$ is the Kohn-Sham gap of In [11]; the Janak integral equals the Delta-SCF energy to $10^{-6}$; and the Delta-SCF energy is below the gap here.
+Simpson's rule (Section 13.15) on the nine level differences (the name `simpson` is here a number, not a function), and the Delta-SCF energy $E(1) - E(0)$.
 
-**In [24], the excited state as a picture.** On the left, `left.fill_between(taus, 0.0, gaps, alpha=0.25, ...)` shades the area under the level difference, which is the Delta-SCF energy by Janak's theorem; the curve, the gap (square), the transition state (triangle) and the Delta-SCF energy (dashed line) are marked. On the right the cell draws the ground-state and the excited density. `save_figure` saves Figure 13a.9.
+```python
+report("Kohn-Sham gap (LUMO - HOMO)", f"{gaps[0]:.6f}")
+report("Delta-SCF excitation energy E(1) - E(0)", f"{delta_scf:.6f}")
+report("Janak integral of eps_4 - eps_3 (Simpson)", f"{simpson:.6f}")
+report("transition state eps_4 - eps_3 at tau = 1/2", f"{gaps[4]:.6f}")
+check(abs(energies[0] - E_total) < 1e-9, "tau = 0 is the ground state")
+check(abs(gaps[0] - (ks_levels[4] - ks_levels[3])) < 1e-9,
+      "at tau = 0 the level difference is the Kohn-Sham gap")
+check(abs(simpson - delta_scf) < 1e-6,
+      "Janak's theorem: the integral of eps_4 - eps_3 equals Delta-SCF")
+check(delta_scf < gaps[0], "orbital relaxation lowers the excitation energy here")
+```
 
-**In [25], the last check.** As In [19] of Notebook 13c, for the nine figures; it prints ALL 31 CHECKS PASSED (notebook 13a): one check each in In [2], In [5], In [6], In [7], In [10], In [12], In [15] and In [22], two each in In [3], In [8], In [11], In [14], In [16], In [17], In [21] and In [25], three in In [19] and four in In [23].
+The `report` lines print the gap $0.772662$, the Delta-SCF energy $0.714594$, the Janak integral $0.714594$ and the transition state $0.712784$ (entry 4 is $\tau = \tfrac12$). The four checks: $\tau = 0$ is the ground state; the level difference at $\tau = 0$ is the Kohn-Sham gap of In [11] ($5.496606 - 4.723945$); the Janak integral equals the Delta-SCF energy to $10^{-6}$; and the Delta-SCF energy is below the gap here.
+
+**In [24], the excited state as a picture.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+left.fill_between(taus, 0.0, gaps, alpha=0.25, label="area = Delta-SCF")
+left.plot(taus, gaps, "o-", color="black", label="$\\epsilon_4 - \\epsilon_3$")
+left.plot([0.0], [gaps[0]], "s", ms=8, label=f"Kohn-Sham gap {gaps[0]:.4f}")
+left.plot([0.5], [gaps[4]], "^", ms=8, label=f"transition state {gaps[4]:.4f}")
+left.axhline(delta_scf, color="gray", ls="--", label=f"Delta-SCF {delta_scf:.4f}")
+```
+
+On the left, `left.fill_between(taus, 0.0, gaps, alpha=0.25, ...)` shades the area between zero and the level difference, which is the Delta-SCF energy by Janak's theorem; the level difference itself as black dots joined by a line; the gap as a large square at $\tau = 0$, the transition state as a large triangle at $\tau = \tfrac12$, and the Delta-SCF energy as a grey dashed horizontal line, each with its value in the legend (four decimals).
+
+```python
+left.set_ylim(0.0, 1.0)
+left.set_xlabel("fraction $\\tau$ of the moved fermion")
+left.set_ylabel("level difference ($\\hbar\\omega$)")
+left.legend(fontsize=7, loc="lower left")
+```
+
+The vertical range from 0 to 1, labels, and the legend in the lower left corner, inside the shaded area.
+
+```python
+right.plot(x, n_ks, color="black", label="ground state")
+right.plot(x, n_excited, "--", label="excited (Delta-SCF)")
+right.set_xlim(-5.0, 5.0)
+right.set_xlabel("position $x$")
+right.set_ylabel("density (particles per unit length)")
+right.legend(fontsize=8)
+fig.suptitle("The first excited state by Delta-SCF ($g_c = 2$)")
+save_figure(fig, "delta_scf",
+```
+
+On the right the ground-state density (black) and the density of the Delta-SCF excited state (dashed); range, labels, legend, a common title, and `save_figure` for Figure 13a.9.
+
+**What Figure 13a.9 shows.** On the left the level difference falls almost linearly from the gap $0.7727$ at $\tau = 0$ to about $0.66$ at $\tau = 1$: as the up fermion moves into orbital 4, the levels rearrange so that the two orbitals come closer. The shaded area, $0.7146$, is the Delta-SCF energy (dashed line); it is smaller than the gap, and the midpoint value $0.7128$ (triangle) is close to it, because the curve is nearly straight. On the right the excited density differs from the ground-state density mainly in the middle: the ground state has two peaks beside a dip at $x = 0$, the excited state a peak at $x = 0$ and shoulders beside it (orbital 4 has its largest value at the centre, orbital 3 a zero there), and slightly more density in the outer flanks.
+
+**In [25], the last check.**
+
+```python
+figure_names = ["trap_orbitals", "scf_convergence", "first_iterations",
+                "ks_potentials", "density_orbitals", "variational_scan",
+                "approximations", "coupling_scan", "delta_scf"]
+missing = [name for k, name in enumerate(figure_names, 1)
+           if not output_file(f"{FIGURE_FOLDER}/13a_{k}_{name}.png").is_file()]
+check(missing == [], "all nine figure files exist")
+check(output_file(f"{FIGURE_FOLDER}/13a_9_delta_scf.png").is_file(),
+      "the figure file 13a_9_delta_scf.png exists")
+all_checks_passed()
+```
+
+The same lines as In [19] of Notebook 13c (Section 13.14), with the nine figure names of this notebook. The last line prints ALL 31 CHECKS PASSED (notebook 13a): one check each in In [2], In [5], In [6], In [7], In [10], In [12], In [15] and In [22], two each in In [3], In [8], In [11], In [14], In [16], In [17], In [21] and In [25], three in In [19] and four in In [23].
 
 ### 13.37 From the toy models to dirac16complex
 
@@ -4159,7 +4241,7 @@ This section says which ideas of the chapter the Kohn-Sham model of dirac16compl
 - **No correlation.** The dirac16complex functional has no correlation term ("correlation: none (Hartree plus exchange only)" in `Revision/kohn_sham/ks-theory.json`), and for the non-uniform Kohn-Sham determinants its uniform-gas exchange differs from the exact local Fock exchange by $+\tfrac{\lambda}{32}Q^2$ (Section 13.16). These are the approximations of the model.
 - **No density-functional theorem is claimed for the field.** The Hohenberg-Kohn and Mermin theorems of Sections 13.8 and 13.26 were proved for particles with a positive inner product and a Hamiltonian bounded from below. For the quantised dirac16complex field with its indefinite Krein form (Chapter 10) the book does not prove such a theorem; the model of Chapter 14 is used as a self-consistent mean-field (exchange-only) model, and whether an exact density functional exists for this field is OPEN.
 - **Which levels are filled.** Particles occupy the positive branch of the levels and the brane zero modes; this filling is a CONVENTION of the record, and its justification is OPEN (`Revision/kohn_sham/ks-theory.json`, thermodynamics, fillingConvention).
-- **The background.** The history $a_4 = AHx_4$ along which the instantaneous (adiabatic) Kohn-Sham states are computed is a PRESCRIBED BACKGROUND: the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`). The time-dependent (non-adiabatic) problem is OPEN, and the mirror at the end of the hidden direction (the Z2 brane) is ASSUMED.
+- **The background.** The history $a_4 = AHx_4$ along which the instantaneous (adiabatic) Kohn-Sham states are computed is a PRESCRIBED BACKGROUND: the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`, checks ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8, all PASS). The time-dependent (non-adiabatic) problem is OPEN, and the mirror at the end of the hidden direction (the Z2 brane) is ASSUMED.
 
 **The pairs.** Chapter 19 uses these Kohn-Sham states for theorem T3: the Kohn-Sham universes of mass $+M$ and $-M$, with the transformed boundary conditions, have equal energies and energy-momentum tensors (PROVED: `Revision/pairing/kohn_sham/reports/python-t3.json` and, independently, `wolfram-t3.json` in the same folder; every check of both reports is PASS). T3 is an exact map between two sets of solutions. It does not prove that any universe is created, in pairs or otherwise: no creation process, rate or amplitude follows from these equations, and nothing in this chapter changes that.
 

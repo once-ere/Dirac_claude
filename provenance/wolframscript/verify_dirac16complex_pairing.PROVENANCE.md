@@ -853,9 +853,9 @@ and Linux were not inspected):
   fewer other jobs) saw two such files per run, an empty one at the start and, about three
   seconds later, the one that collects the printed lines, both deleted at the end of every
   run in which this was checked, including the failing runs. In the re-check of Part 6.4
-  none of the files left in the folder held the printed output of its five runs that
-  ended by themselves (two complete runs, two failing runs and the run with an unwritable
-  report path).
+  none of the files left in the folder held the printed output of its six runs that
+  ended by themselves (two complete runs, three failing runs and the run with an
+  unwritable report path).
 * **An interrupted run leaves these temporary files behind** (measured in Part 6.4, three
   times: after Ctrl+C, and after the `wolframscript` process, or all processes of the
   run, had been ended). Each time the file that collected the printed lines (51 or 125
@@ -863,7 +863,8 @@ and Linux were not inspected):
   look (the last one 40 s to 11 minutes after the interruption; then these three
   collecting files were deleted by hand), and so was an empty `tmp_` file created within half a second of
   the start, which was very probably the run's other file. The folder also held six such files, with the
-  first progress lines of this set, left by interrupted runs of the earlier verifications.
+  first progress lines of this set, left by earlier runs of this set that had been
+  interrupted.
   They are small and harmless. To remove them, wait until no Wolfram program is running
   (no `wolframscript.exe` or `wolfram.exe` in the Task Manager), then delete the files
   named `tmp_...` in that folder (in PowerShell:
@@ -1103,3 +1104,125 @@ commit them; restore the committed files with the command above.
   (clone size, `git status` wording, the empty `build/` folder, the outputs overwritten by
   a failing run, the documents and tests of Section 1.2, output redirection in Windows
   PowerShell 5.1).
+
+### 6.4 Re-check of the review findings (2026-10-07, evening)
+
+* **Why:** an independent reviewer ran the set again on the afternoon of 2026-10-07
+  (runs C1 to C3 of Part 4.5, and the four failure tests) and found six statements of
+  this file wrong or incomplete. Each finding was measured again from 20:36 to 20:57 local
+  time (UTC-7) and the file was corrected. The findings and their outcome:
+  1. *The `--` rule* (the file said three times that WolframScript 1.14 drops `--` and
+     the report path after it, so that the committed files are overwritten): **confirmed
+     wrong and corrected** (Sections 3.4, 3.5, 6.2). A test script whose first line is
+     `#!/usr/bin/env wolframscript`, followed by `Print[ToString[$ScriptCommandLine, InputForm]];`,
+     received `{"shebang.wls", "--", "build/x.json"}` from
+     `wolframscript -file shebang.wls -- build/x.json`; the same script without the first
+     line received `{"noshebang.wls"}`; without `--` both received the path (measured in
+     PowerShell 7.6.6, Windows PowerShell 5.1 and Git Bash). The real script has that first
+     line and removes `--` itself: run b below wrote both outputs to `build/dashtest/`,
+     byte-identical to the committed files, and did not touch the committed files (their
+     modification time stayed that of the clone; `git status` printed
+     `nothing to commit, working tree clean`). The remark in the script's own header
+     (lines 9 to 11) is therefore inaccurate for this script. It was not changed, because
+     any change of the script changes its sha256, which both outputs record
+     (`sourceSha256`).
+  2. *The run times* (presented as upper values; 4 to 8 minutes): **confirmed and
+     corrected** (Sections 3.1 and 4.5, which now list every timed run).
+  3. *The commit of the last change of the script* (the file said `ba7b170`): **confirmed
+     and corrected** (Section 6.2): `git log -1 -- scripts/verify_dirac16complex_pairing.wls`
+     gives `4215a8f` (2026-09-30 08:44:01 -0700), the commit that created the script;
+     `ba7b170` (09:02:49) is the last change of the package.
+  4. *A `FATAL` run leaves the empty report folder*: **confirmed and corrected**
+     (Sections 2.3, 3.5 and Part 5); run c below.
+  5. *The messages printed when an input file is missing* (incomplete): **confirmed and
+     corrected** (Section 3.5 and the run-6 row of Section 6.2); runs d and e below, and
+     the same counts in the output file of run 6 of Section 6.2.
+  6. *Two line ranges of Section 1.2* (`tests/test_d16c_stage5_pairing.py` lines 245-273,
+     `tests/test_d16c_stage5_pairs.py` lines 283-284): **confirmed and corrected** to
+     245-268 (line 245 starts `test_agreement_with_committed_exports`, line 268 is the
+     last line of `test_tampered_export_is_detected`, line 270 starts a test that reads
+     another file) and 283-285 (`if os.path.exists(THEORY):`, `open`, `json.load`).
+* **Commit and clones:** seven fresh clones (`git clone https://github.com/once-ere/Dirac_claude.git`)
+  of commit `b8a695d1faa7abe43b4b51eb666f25d250420fb7`, the head of `main` at 20:36,
+  in a scratch folder (the clone folders have paths of 167 characters); nothing was copied
+  into them. At this commit the seven files of Part 2 have exactly the sha256 values,
+  line counts and byte counts of Part 2 (`sha256sum`, `wc -l -c`; none contains a
+  carriage return), and `git diff --stat a4c5eda b8a695d -- <these seven files>` lists
+  none of them. Size of a fresh clone: 757,462,878 bytes, of which `.git` is 236,806,462
+  bytes. The eight files that contain the sha256 of an output (Section 1.2) are the same
+  at this commit (`git grep`).
+* **Environment:** as in Section 6.2 (Windows 11 Pro for Workstations 10.0.26300,
+  24 logical processors; WolframScript 1.14.0; Wolfram 15.0.1; PowerShell 7.6.6;
+  Windows PowerShell 5.1.26100.9444; Git Bash 5.2.37 with git 2.51.2.windows.1). Runs a,
+  b, d, e and g were started within 9 seconds of each other (20:38:34 to 20:38:43) and ran
+  together; Wolfram kernels of other jobs ran at the same time (seven `wolfram.exe`
+  processes were counted at 20:49, after these five runs had ended).
+* **Runs** (the command is `wolframscript -file scripts/verify_dirac16complex_pairing.wls`
+  followed by what the column "Arguments" shows; runs a to g and f1 were started by
+  PowerShell 7.6.6 with the printed lines and the error stream collected through pipes,
+  runs f2 and f3 through `cmd /c ... > file` in a console window of their own):
+
+  | Run | Clone | Changed before the run | Arguments | Exit code | Elapsed | Printed result |
+  | --- | --- | --- | --- | ---: | ---: | --- |
+  | a | a | nothing | `artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json` | 0 | 513.3 s | `check_count=141`, `failed_check_count=0` (`elapsed_seconds=505`) |
+  | b | b | nothing | `-- build/dashtest/wolfram-pairing-report.json` | 0 | 511.3 s | `check_count=141`, `failed_check_count=0` (`elapsed_seconds=503`), `report=` and `theory=` in `build\dashtest\` |
+  | c | c | `wolfram/Dirac16ComplexPairing.wl` moved out of the clone | `build/old-pairing/wolfram-pairing-report.json` | 1 | 6.5 s | `Get::noopen`, `FATAL: module failed to load: ...`, `check_count=0`, `failed_check_count=1` |
+  | d | d | `artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json` moved out | the committed report path | 1 | 478.6 s | `Import::nffil`; three each of `Table::iterb`, `Part::take`, `Part::partw`, `First::nofirst`, `Part::pkspec1`, `Part::partd`; six `General::stop`; the four `CHECK FAILED` lines of Section 3.5; `INTERNAL ERROR: ...` (88,820 characters); `FileHash::noopen`; `check_count=98`, `failed_check_count=4`; 1,462,115 bytes of printed text |
+  | e | e | `artifacts/dirac16complex/arbitrary-field/algebra-fixture.json` moved out | the committed report path | 1 | 506.9 s | `Import::nffil`, two `Table::iterb`, `CHECK FAILED: PAIR_algebra_fixtureMatches`, `FileHash::noopen`, `check_count=141`, `failed_check_count=1` |
+  | g | g | nothing | `README.md/x/wolfram-pairing-report.json` (its folder cannot be created, because `README.md` is a file) | **0** | 503.4 s | the 26 progress lines, then twice `OpenWrite::noopen: Cannot open <path>.`, `BinaryWrite::stream: $Failed is not a string, SocketObject, InputStream[ ] or OutputStream[ ].` and `Close::stream: ...`, then the 141 check lines (all `true`), the 19 measurement lines, `check_count=141`, `failed_check_count=0`, `elapsed_seconds=495` and the `report=`/`theory=` lines; neither file exists |
+  | f1 | f | nothing | `build/old-pairing/wolfram-pairing-report.json`; the `wolframscript` process was ended after about 82 s | - | - | the first two progress lines |
+  | f2 | f | nothing | the same; an attempt to send Ctrl+C failed, so every process of the run was ended after about 2 minutes | - | - | the first four progress lines |
+  | f3 | f | nothing | the same; Ctrl+C sent to the window after about 61 s | -1073741510 (`cmd`: ended by Ctrl+C) | - | the first two progress lines, then `Interrupt>` and `^C` |
+
+* **Byte identity:** the outputs of runs a (committed path) and b (`build/dashtest/`)
+  are byte-identical to the committed files (sha256 `735534de...0de8` and
+  `5a267bd6...bf6a`) and to each other (`cmp`). After run a,
+  `git status --porcelain --untracked-files=all --ignored` printed nothing; after run b
+  it listed only `build/dashtest/pairing-theory.json` and
+  `build/dashtest/wolfram-pairing-report.json` (ignored). The printed output of runs a
+  and b is identical to the block of Section 4.1 after the placeholders (191 lines each,
+  every line ending in CR LF; compared by a program), and their 141 check lines and 19
+  measurement lines are identical to each other. The error stream was empty in every run.
+* **Failure tests:** run c left the empty folders `build/` and `build/old-pairing/`;
+  `git status --porcelain --untracked-files=all --ignored` listed only the moved package,
+  and both committed outputs kept their sha256; after the package was moved back (sha256
+  checked) and `build/` deleted, the clone was clean. Runs d and e overwrote both
+  committed outputs with failing reports (98 checks with 4 false; 141 checks with 1
+  false); `git checkout -- <the moved file>` and the `git checkout` command of Part 5
+  restored the committed bytes (sha256 checked), and `git status` printed
+  `nothing to commit, working tree clean`.
+* **Open execution defect (not fixed):** run g shows that the script does not check
+  that it could write its two files: `OpenWrite` fails, the following `BinaryWrite` and
+  `Close` fail too, and the script still prints `failed_check_count=0` and ends with exit
+  code 0. A fix (stop with an error and exit code 1 when a write fails) would change the
+  script, hence its sha256 recorded in both outputs (`sourceSha256`), hence both committed
+  outputs, whose sha256 values are pinned in eight other files of other sets and
+  publications (Section 1.2). It is therefore left to the project, and Sections 3.5 and
+  4.2 tell the student how to recognise the case. The clone of run g was unchanged
+  afterwards (`git status --porcelain --untracked-files=all --ignored` printed nothing).
+* **Interruptions (f1 to f3):** the kernel ended within one second after `wolframscript`
+  had been ended (f1), and every process of run f3 had ended within a few seconds after
+  Ctrl+C.
+  Each interruption left only the empty folder `build/old-pairing/` in the clone (deleted
+  afterwards; the clone was then clean) and left WolframScript's temporary files in
+  `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\` (Part 5): the file that
+  had collected the printed lines (51, 125 and 51 bytes, compared byte for byte with the
+  captured progress lines) and an empty file created within half a second of the start.
+  The three collecting files were deleted by hand after these checks; the three empty
+  files were left, because they could not be attributed with certainty. After runs a, b,
+  c, d, e and g, which ended by themselves, no file of the folder contained their output.
+  Six files with the first progress lines of this set, created at 17:01 and between 20:14
+  and 20:16 on 2026-10-07 by earlier runs of this set that had been interrupted, were
+  found in the folder and left there.
+* **Processes and memory:** every run started one kernel (`wolfram.exe -runfirst ...
+  -linkmode Connect -linkname ... -mathlink`); the short licence query
+  `wolfram.exe -wlbanner -licenseinfo` was also seen in runs a, b, c, d and g (the process
+  list was read once a second). Runs a, b, e and g: kernel peak working set 435.8 to
+  454.1 MiB, largest sampled private memory 656.1 to 675.9 MiB, processor time about
+  319 to 335 s; run d, which stops early, 368.9 and 590.1 MiB.
+* **Fixes made:** none to the set (no file of the set, no input and no committed output
+  was changed). This provenance file was corrected: Sections 1.2, 2.3, 3.1, 3.4, 3.5
+  (the `--` row removed; rows for an unwritable report folder and for an interrupted run
+  added; the input-file row completed), 4.2, 4.5, Part 5 (the empty report folder, the
+  interrupted run, the temporary files left by an interrupted run), 6.1, 6.2 and this
+  section.

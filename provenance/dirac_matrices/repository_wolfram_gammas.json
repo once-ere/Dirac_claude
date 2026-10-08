@@ -1,6 +1,17 @@
 {
 	"producer":"provenance\/dirac_matrices\/extract_repository_wolfram_gammas.wls",
 	"wolfram_version":"15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)",
+	"packages_loaded":[
+		"Revision\/field_equations_a4\/wolfram\/FieldEquationsA4.wl",
+		"Revision\/algebra\/wolfram\/RevisionAlgebra.wl",
+		"wolfram\/Dirac16ComplexAlgebra.wl",
+		"wolfram\/Dirac16ComplexGeometry.wl",
+		"wolfram\/Dirac16ComplexPrimordial.wl",
+		"wolfram\/Dirac16ComplexKohnSham.wl",
+		"wolfram\/Dirac16ComplexPairing.wl",
+		"wolfram\/Dirac16ComplexMatterAntimatter.wl",
+		"wolfram\/Dirac16Complex00.wl"
+	],
 	"Revision\/field_equations_a4\/wolfram\/FieldEquationsA4.wl":{
 		"frame":"coordinates x1..x8",
 		"symbols":"FEGammaFrame, FEC, FESab, FEGammaCoord, FEOmega, FEGammaFrameComparison, FECComparison",
