@@ -775,8 +775,9 @@ CELLS = [
     save_figure(fig, "growth_and_deflation",
                 "The factors $e^{a_4}$ (red), which multiply the lengths along the three "
                 "space directions, and $e^{-a_4}$ (blue), which multiply the lengths "
-                "along the three extra times, for $a_4$ from 0 to 4 (the warp factor "
-                "$\\sin^{1/6} z$ is left out); horizontal axis $a_4$, vertical axis "
+                "along the three extra times, for $a_4$ from 0 to 4 (the factor "
+                "$\\sin^{1/6} z$, which depends on the hidden coordinate $x_8$, is "
+                "left out); horizontal axis $a_4$, vertical axis "
                 "the factor (a pure number), ordinary on the left and logarithmic on "
                 "the right. The dots mark $a_4 = 0, \\ln 2, 2\\ln 2, \\dots$, where "
                 "$e^{a_4}$ doubles and $e^{-a_4}$ halves. On the logarithmic axis both "

@@ -974,8 +974,11 @@ CELLS = [
     Because half of the eigenvalues of $B$ are negative, the charge
     $\Psi^\dagger B \Psi$ can be positive or negative: the record calls it an
     indefinite form, and for the quantised field it leads to an indefinite
-    (Krein) state space. The next cell checks the four properties exactly with
-    sympy and with numpy (`eigh` also works for Hermitian matrices; its
+    (Krein) state space: a space of states whose product of two states, built with
+    $B$ as in $\Psi^\dagger B \Psi$, takes the place of the dot product, so that a
+    state can have a negative "squared length" (the dot product of an ordinary
+    vector with itself is never negative). The next cell checks the four properties
+    exactly with sympy and with numpy (`eigh` also works for Hermitian matrices; its
     eigenvectors are perpendicular in the sense $u^\dagger w = 0$).
     """),
     code(r'''

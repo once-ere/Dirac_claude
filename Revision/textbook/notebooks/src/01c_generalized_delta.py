@@ -67,8 +67,8 @@ FACTS = {
          "gkd_equals_kdelta_exhaustive_length_1 to 3 and the trace checks "
          "k1_trace_equals_6_L1 to k3_trace_equals_2_L3 (reproduced or explained)"],
         ["Revision/gkd_lovelock/results/python-lovelock-report.json",
-         "checks gkd_examples, gkd_literal_equals_cofactor_expansion (its exhaustive "
-         "part) and gkd_nine_indices_in_eight_dimensions_vanish (reproduced)"],
+         "checks gkd_examples and gkd_nine_indices_in_eight_dimensions_vanish "
+         "(reproduced)"],
         ["Revision/gkd_lovelock/results/gkd-selftest.json",
          "the exhaustive comparisons for the lengths 1 to 4 (reproduced)"],
         ["Revision/gkd_lovelock/results/lovelock-report.json",
@@ -525,8 +525,10 @@ CELLS = [
     $+1$, $-1$ and $0$. The next cell does the same with plain Python loops: for every
     pair it computes the literal determinant and the fast rule, counts disagreements
     and tallies the values. Then it compares the tallies with the record's
-    `measurements` (the field `gkdComparison` of wolfram-gkd-report.json). It keeps
-    every value in an array for the next section. This cell takes several seconds.
+    `measurements` (the field `gkdComparison` of wolfram-gkd-report.json), and its
+    number of disagreements, 0, with the record's three exhaustive checks, which also
+    report 0 mismatches. It keeps every value in an array for the next section. This
+    cell takes several seconds.
     """),
     code(r'''
     comparison = wolfram_report["measurements"]["gkdComparison"]  # one entry per length
@@ -556,10 +558,13 @@ CELLS = [
               record="Revision/gkd_lovelock/results/wolfram-gkd-report.json, check "
                      f"gkd_equals_kdelta_exhaustive_length_{p}")
     report("pairs of length 1, 2, 3 compared", total_pairs)
-    check(total_pairs == 266304 and mismatches == 0,
+    exhaustive = [wolfram_checks[f"gkd_equals_kdelta_exhaustive_length_{p}"]
+                  for p in (1, 2, 3)]  # the record's three exhaustive comparisons
+    check(total_pairs == 266304 and mismatches == 0 and all(
+          c["verdict"] == "PASS" and "(0 mismatches;" in c["detail"] for c in exhaustive),
           "literal determinant = fast rule for all 266304 pairs of length 1, 2, 3",
-          record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
-                 "gkd_literal_equals_cofactor_expansion (its exhaustive part)")
+          record="Revision/gkd_lovelock/results/wolfram-gkd-report.json, checks "
+                 "gkd_equals_kdelta_exhaustive_length_1 to 3 (0 mismatches)")
     '''),
     md(r"""
     ## 11. All 16,777,216 pairs of length 4

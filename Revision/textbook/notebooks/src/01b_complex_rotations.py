@@ -125,7 +125,8 @@ CELLS = [
 
     The fields of the author's theory have 16 *complex* components at every point of
     spacetime (for the field dirac16complex they are complex anticommuting quantities,
-    for dirac16complex00 ordinary complex numbers), and a wave that oscillates in the
+    for which $ab = -ba$ instead of $ab = ba$; for dirac16complex00 they are ordinary
+    complex numbers), and a wave that oscillates in the
     time $x_4$ is written with factors like $e^{-i\varepsilon x_4}$. The author's
     gamma matrices, on the other hand, are *real*. This notebook shows
     how the two fit together: a real $2 \times 2$ matrix $J$ with $J^2 = -I$ behaves
@@ -538,10 +539,10 @@ CELLS = [
     $e^{-i\alpha}$: conjugation turns a rotation into the opposite rotation.
 
     This simple fact matters later in the course: the author's gamma matrices are
-    real, and for real quantities conjugation does nothing at all. An operation that
-    is meant to change a real field must therefore be built from a *matrix*. The
-    next cell checks the four statements with numpy (`.conj()` conjugates every
-    entry of an array).
+    real, and for real quantities conjugation does nothing at all. So a conjugation
+    that is meant to change a real field cannot be plain complex conjugation: it
+    must act through a *matrix* on the field's components. The next cell checks the
+    four statements with numpy (`.conj()` conjugates every entry of an array).
     """),
     code(r'''
     v_real = np.array([0.5, -2.0, 3.0])  # a list of real numbers

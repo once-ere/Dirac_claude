@@ -2350,7 +2350,7 @@ check(all(present), f"all {len(names)} figure files of notebook 02b exist")
 all_checks_passed()
 ```
 
-The 15 checks are: 1 in In [3], 1 in In [4], 3 in In [5], 1 in In [6], 1 in In [7], 2 in In [8], 1 in In [9], 2 in In [10], 2 in In [11] and 1 in In [12].
+The 16 checks are: 1 in In [3], 1 in In [4], 3 in In [5], 1 in In [6], 1 in In [7], 2 in In [8], 1 in In [9], 3 in In [10], 2 in In [11] and 1 in In [12].
 
 ### 2.18 Functions of several variables and partial derivatives
 
