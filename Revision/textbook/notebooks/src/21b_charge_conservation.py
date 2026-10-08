@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Builder of Notebook 21b, "U(1) charge conservation and the pair-level charge
-bookkeeping" (textbook "Universes in Pairs", chapter 21: matter and antimatter).
+"""Builder of Notebook 21b, "Local U(1) charge conservation, the brane flux and the
+pair-level charge bookkeeping" (textbook "Universes in Pairs", chapter 21: matter and
+antimatter).
 
 The notebook Revision/textbook/notebooks/21b_charge_conservation.ipynb is BUILT from this
 file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
@@ -41,7 +42,8 @@ FIGURES = [
 FACTS = {
     "id": "21b",
     "name": "21b_charge_conservation",
-    "title": "U(1) charge conservation and the pair-level charge bookkeeping",
+    "title": ("Local U(1) charge conservation, the brane flux and the pair-level "
+              "charge bookkeeping"),
     "purpose": (
         "It builds the canonical spin connection of the author's metric for a general "
         "history a4(x4) with sympy, checks that it is real, reduces the U(1) Noether "
@@ -106,8 +108,9 @@ CELLS = [
     change when the field is
     multiplied by a constant phase $e^{i\alpha}$, and by Noether's theorem the charge
     of this symmetry obeys a **local** conservation law: no process creates or
-    destroys it at any point, and the charge of a region changes only by what flows
-    through its boundary. This notebook checks that law exactly in
+    destroys it at any point of the patch $0 < z < \pi/2$ (off the brane), and the
+    charge of a region changes only by what flows through its boundary. This
+    notebook checks that law exactly in
     the author's primordial metric, for **every** history $a_4(x_4)$, in particular
     the one in which ordinary space inflates and the three extra times deflate
     exponentially. It
@@ -142,8 +145,10 @@ CELLS = [
       **global U(1) transformation** (U(1) is the name of the group of these phases).
     - **Symmetry, Noether's theorem**: when the Lagrangian does not change under a
       continuous transformation, there is a **current** $J^\mu$ whose divergence
-      vanishes on every solution; its time component integrated over space is the
-      **charge** $Q$, and it does not change in time.
+      vanishes on every solution (a **local** conservation law); its time component
+      integrated over space is the **charge** $Q$, which changes only by what flows
+      through the boundary of the region (it is constant when nothing flows
+      through it).
     - **Current** $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ (eight components, $\mu = x1,
       \dots, x8$), with $\bar\Psi = \Psi^\dagger C$ and the curved gammas
       $\gamma^\mu = e^\mu{}_a\gamma^a$; its time component is the **charge density**
@@ -1062,7 +1067,8 @@ CELLS = [
       equation with the mass reversed and carries exactly the opposite current, so
       the total charge of a pair is zero as classical bilinears.
     - Consequence for Sakharov's first condition: no process of this theory creates
-      or destroys U(1) charge at any point (the local law). The charge of a universe
+      or destroys U(1) charge at any point of the patch $0 < z < \pi/2$, off the
+      brane (the local law). The charge of a universe
       changes only by what flows through its boundary, and the first solution of
       this notebook shows that charge does flow through the brane $z = \pi/2$. Only
       under a no-flux condition at the brane, which is ASSUMED and not derived
