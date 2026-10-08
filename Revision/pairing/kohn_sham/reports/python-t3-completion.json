@@ -1,0 +1,49 @@
+{
+  "report": "Revision/pairing/kohn_sham/reports/python-t3-completion.json",
+  "producer": "Revision/pairing/kohn_sham/python/check_t3_completion.py",
+  "spec": "Revision/SPEC.md section 9, theorem T3 (the Kohn-Sham level): completion",
+  "independence": "sympy only; no code shared with Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls",
+  "background": "T3 holds slice by slice; the history a4 = A H x4 of the numerical demonstrations (extra times x5, x6, x7 deflating) is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; Revision/field_equations_a4/reports/ks-source-conditions.json)",
+  "counts": {
+    "pass": 7,
+    "fail": 0,
+    "pending": 0
+  },
+  "checks": [
+    {
+      "name": "T3C.mean_field_coefficients_from_ks_theory",
+      "verdict": "PASS",
+      "detail": "read from ks-theory.json exchange.kohnShamPotentials: M_eff = m + 15/16 lambda S, v_v = -1/16 lambda n, e_int = (15/32) lambda S^2 - (1/32) lambda n^2; M_eff - m = d e_int/dS, v_v = d e_int/dn; M_eff[-m, +lambda, -S] = -M_eff[m, lambda, S], e_int even in S, v_v free of S; control: (-m, -lambda) does not give -M_eff"
+    },
+    {
+      "name": "T3C.filling_convention_mapped",
+      "verdict": "PASS",
+      "detail": "the filling CONVENTION (H5: positive lambda = 0 branch plus the k = 0 brane zero modes, followed continuously in lambda) is carried onto the image: sigma2 h_j(m + (15/16) lambda' S) = h_(-j)(-(m + (15/16) lambda' S)) sigma2 for every lambda' and any S(y) (both j), so eps > 0 at lambda = 0 is kept and the map commutes with the continuation; the zero mode (e^(M y), 0) of (M, j, even, theta = 0) maps to (0, i e^(M y)), a zero mode of h_(-j)(-M) with odd parity (a(0) = 0) and the transformed tip theta = pi (a(-L) = 0), brane-localised (|chi|^2 = e^(2 M y)); control: it violates the untransformed tip"
+    },
+    {
+      "name": "T3C.krein_rule_16_component",
+      "verdict": "PASS",
+      "detail": "gammas.json gamma^(x1..x8), B, C, Gamma and the expectation rule rho = sum f u u^dagger B (ks-theory.json exchange.expectationRule): Gamma^2 = 1, Gamma B Gamma = -B, Gamma C Gamma = C, Gamma gamma^a Gamma = -gamma^a, Gamma S^ab Gamma = S^ab; (Gamma u)(Gamma u)^dagger B = -Gamma (u u^dagger B) Gamma for a general u, so <X>' = -Tr(Gamma X Gamma rho): n = <B> even, S = <C> and Q = <B gamma^(x8)> odd, the kinetic bilinears C gamma^a and C gamma^a S^bc (8 + 512) even: with (m, lambda) -> (-m, +lambda) every component of the 16-component energy-momentum tensor and the current are unchanged (S6)"
+    },
+    {
+      "name": "T3C.t3_reports_pass",
+      "verdict": "PASS",
+      "detail": "theorem T3 itself: reports/wolfram-t3.json 10/10 PASS, reports/python-t3.json 13/13 PASS, t3-theory.json status 'all checks of the report passed' with the 10 Wolfram check names; the completion adds to T3 and changes none of its files"
+    },
+    {
+      "name": "T3C.rust_demo_numerical_demonstration",
+      "verdict": "PASS",
+      "detail": "Revision/pairing/kohn_sham/reports/t3-rust-demo.json (210 states): 7/7 checks PASS, including t3_equal_ground_states, t3_equal_thermal_states, negative_control_untransformed_tip, negative_control_lambda_sign, plus_reproduces_canonical_matrix, history_is_a_prescribed_background; the slices belong to the PRESCRIBED BACKGROUND history a4 = A H x4; a numerical demonstration of T3 (+M universe (m, lambda, tip 0) = -M universe (-m, +lambda, tip pi), the untransformed tip as negative control), not a proof"
+    },
+    {
+      "name": "T3C.reference_demo_numerical_demonstration",
+      "verdict": "PASS",
+      "detail": "Revision/pairing/kohn_sham/reports/t3-reference-demo.json (18 states): 7/7 checks PASS, including image_frame_theta_pi, t3_equal_ground_states, t3_equal_thermal_states, negative_control_untransformed_tip, reference_image_equals_rust_image, history_is_a_prescribed_background; the slices belong to the PRESCRIBED BACKGROUND history a4 = A H x4; a numerical demonstration of T3 (+M universe (m, lambda, tip 0) = -M universe (-m, +lambda, tip pi), the untransformed tip as negative control), not a proof"
+    },
+    {
+      "name": "compare.t3_completion",
+      "verdict": "PASS",
+      "detail": "the Wolfram completion record Revision/pairing/kohn_sham/t3-completion.json (status 'all checks of the report passed', 3/3 checks of reports/wolfram-t3-completion.json) states S6 and the PRESCRIBED BACKGROUND; each Wolfram check has an independent passing sympy counterpart here: T3C_mean_field_coefficients_from_ks_theory <-> T3C.mean_field_coefficients_from_ks_theory, T3C_filling_convention_mapped <-> T3C.filling_convention_mapped, T3C_krein_rule_16_component <-> T3C.krein_rule_16_component; its list of what is not established covers: creation process, prescribed background, assumed, convention, independently quantised, not as a proof"
+    }
+  ]
+}

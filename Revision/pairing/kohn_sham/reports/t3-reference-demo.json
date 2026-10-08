@@ -1,0 +1,63 @@
+{
+  "report": "Revision/pairing/kohn_sham/reports/t3-reference-demo.json",
+  "producer": "Revision/pairing/kohn_sham/numerics/t3_reference_demo.py",
+  "spec": "Revision/SPEC.md section 9, theorem T3 (the Kohn-Sham level): numerical demonstration with the independent Revision reference solver (a demonstration, not part of the proof)",
+  "method": "Revision/kohn_sham/reference/ks_fd.py (read only) for plus (m, lambda, tip 0) and control (-m, +lambda, tip 0); for the image (-m, +lambda, tip pi) the reference's rotated frame with the tip end rotated by pi/2 (phi(-L) = j pi/2), supplied here; Richardson over G = 300, 600, 1200 (run_reference.rich3)",
+  "background": "slices of the PRESCRIBED BACKGROUND history a4 = A H x4 (A = 1; x5, x6, x7 deflating as e^{-a4}); the Kohn-Sham states violate the a4 source conditions (Revision/field_equations_a4/reports/ks-source-conditions.json)",
+  "inputs": {
+    "Revision/kohn_sham/ks-theory.json": "1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3",
+    "Revision/kohn_sham/reference/ks_fd.py": "c82cb2e1ee58d60be23000115d9dbd06b3a26204fc1865e04450a26e81417a29",
+    "Revision/kohn_sham/reference/run_reference.py": "7d3ef535875e5f035fd0d5e6a66d88485e007f98e8c2893373f5c0c26280c058",
+    "Revision/kohn_sham/results/parameters.json": "f35216c2bee5b0dc21db6343e640c89f0aebcefab0c6dd6efcec618e0bfae993",
+    "Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv": "be5534dabc8f23489a8d42d6367d096041013f5b8cff999bed2221bf74172457"
+  },
+  "tolerances": {
+    "t3_equality": 1e-09,
+    "control_minimum_deviation": 1e-06,
+    "reference_vs_rust": 1e-08
+  },
+  "states": 18,
+  "table": "Revision/pairing/kohn_sham/numerics/results/t3-reference-states.csv",
+  "summary": {
+    "checks": 7,
+    "pass": 7,
+    "fail": 0
+  },
+  "checks": [
+    {
+      "name": "image_frame_theta_pi",
+      "verdict": "PASS",
+      "detail": "the rotated frame with a general tip end: for theta = 0 it gives the reference's sector matrices bit for bit (identical, 340 sectors, non-constant M(y), v(y)); for the image problem (-M, tip theta = pi) on G = 300, 600, 1200 (Richardson) the k = 0 levels equal the exact image spectra (odd parity: eps = 0 and sqrt(M^2 + (n pi/L)^2); even parity: tan(pL) = -p/M, the spectra of (M, theta = 0) with the parities exchanged) for (M, L) = (1, 3), (2, 3): max |difference| 2.80e-14 (tolerance 1e-9)"
+    },
+    {
+      "name": "all_members_converged",
+      "verdict": "PASS",
+      "detail": "18 states x 3 members (plus, image, control), each on G = 300, 600, 1200: SCF residual <= 9.71e-13 (tolerance 1e-12 of the reference), the same label set on every grid, and the key sets of plus and image equal after the map (n2, j, parity, rank) -> (n2, -j, other parity, rank)"
+    },
+    {
+      "name": "t3_equal_ground_states",
+      "verdict": "PASS",
+      "detail": "13 ground states (N = 8: lam0, lamp2, lamm2 x a4,0 = 0, 1, 2; N = 136: lamp2, lamm2 x a4,0 = 0, 2), Richardson values: levels by key (eps, occupation, degeneracy), E_KS, E_band, E_int, the EMT integrals (rho, p3, p_t, p8, n), N, HOMO, LUMO, KS gap, the profiles n, v_v, e_int, rho, p3, p_t, p8 (equal) and S, Q, M_eff (opposite sign) of the image (-m, +lambda, tip pi) equal those of the plus state: worst 2.043e-14 (N136_lamp2_a20), tolerance 1e-09. On a single grid the levels of the two members differ by up to 2.23e-04: the image's rotated frame is not the discrete image of the plus frame, so the two discretisations differ at O(h^2), and the equality appears in the extrapolated (continuum) values"
+    },
+    {
+      "name": "t3_equal_thermal_states",
+      "verdict": "PASS",
+      "detail": "5 Mermin states (N = 8, lamp1 x a4,0 = 0, 2 x T = 0.01, 0.05; N = 136, lamp1, a4,0 = 2, T = 0.05): levels and occupations, mu, entropy, E_KS, Omega = -T sum g ln(1 + e^(-(eps - mu)/T)) - E_int, F = Omega + mu N, EMT integrals and profiles (S, Q, M_eff with opposite sign): worst 3.038e-14 (N8_lamp1_a00_T50), tolerance 1e-09"
+    },
+    {
+      "name": "negative_control_untransformed_tip",
+      "verdict": "PASS",
+      "detail": "control (-m, +lambda) with the UNtransformed tip theta = 0, solved by the unchanged reference, in all 18 states: the density profile alone, max_y |n_control - n_plus| / max_y |n_plus|, is at least 5.296e+00 (N8_lamm2_a00); the combined measure (that, the sorted (eps, degeneracy) list, E_KS, EMT integrals) at least 7.200e+01 (N8_lamp1_a00_T10); required > 1e-06, where the reference found a self-consistent control state; states where it found none (SCF not converging, which separates them from the converged image as well; it does not show that no such state exists): N8_lamm2_a10, N8_lamm2_a20, N136_lamm2_a20"
+    },
+    {
+      "name": "reference_image_equals_rust_image",
+      "verdict": "PASS",
+      "detail": "the -M universe (-m, +lambda, tip pi) solved by the two independent solvers: reference (finite differences, Richardson) against the Rust solver (shooting, RK4; numerics/results/t3-rust-states.csv) in 18 of 18 states: E_KS, the EMT integrals and (thermal) mu and Omega agree to 1.255e-11 (N136_lamp2_a00), tolerance 1e-08"
+    },
+    {
+      "name": "history_is_a_prescribed_background",
+      "verdict": "PASS",
+      "detail": "the slices belong to the history a4 = A H x4 (extra times deflating as e^{-a4}); ks-theory.json adiabaticity.historyStatus: 'PRESCRIBED BACKGROUND: the history a4 = A H x4 is prescribed, not solved for. The a4 equations of SPEC section 5 allow t...' (Revision/field_equations_a4/reports/ks-source-conditions.json: the Kohn-Sham states are not admissible sources); T3 holds slice by slice"
+    }
+  ]
+}

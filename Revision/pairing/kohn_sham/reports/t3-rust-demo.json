@@ -1,0 +1,69 @@
+{
+  "report": "Revision/pairing/kohn_sham/reports/t3-rust-demo.json",
+  "producer": "Revision/pairing/kohn_sham/numerics/t3_rust_demo.py",
+  "spec": "Revision/SPEC.md section 9, theorem T3 (the Kohn-Sham level): numerical demonstration with the Revision Rust Kohn-Sham solver (a demonstration, not part of the proof)",
+  "members": {
+    "plus": "(m, lambda), tip theta = 0 (canonical boundary conditions)",
+    "image": "(-m, +lambda), tip theta = pi (the T3 image, transformed tip; brane parities exchanged by the map)",
+    "control": "(-m, +lambda), tip theta = 0 (UNtransformed boundary condition: negative control)"
+  },
+  "background": "slices a4,0 in {0, 0.5, 1, 1.5, 2} of the PRESCRIBED BACKGROUND history a4 = A H x4 (A = 1; x5, x6, x7 deflating as e^{-a4}); the Kohn-Sham states violate the a4 source conditions (Revision/field_equations_a4/reports/ks-source-conditions.json): a test field without back-reaction",
+  "inputs": {
+    "Revision/kohn_sham/ks-theory.json": "1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3",
+    "Revision/kohn_sham/results/parameters.json": "f35216c2bee5b0dc21db6343e640c89f0aebcefab0c6dd6efcec618e0bfae993",
+    "Revision/kohn_sham/results/ground/summary.csv": "6a4b93a78def3b7db4e91907411c5727293e04024a7bdd11a9e59c6c1acee235",
+    "Revision/kohn_sham/results/thermo/thermodynamics.csv": "420b7482dd8dd3552fb63bb23da2eacb18a12048f33ce5fd25894622f1063200",
+    "Revision/field_equations_a4/reports/ks-source-conditions.json": "0597509efe64e0686dcf3cc916121317aacca01c6e73d902edc16f434287361e",
+    "solver sources (Revision/kohn_sham/solver: src/*.rs, Cargo.toml, Cargo.lock), sha256 of the concatenation": "dc3fb22f433276bedf22988df3d1f01d7fbcc7bc43bc9e385fb1cd8824863b25"
+  },
+  "tolerances": {
+    "t3_equality": 1e-09,
+    "control_minimum_deviation": 1e-06,
+    "canonical_reproduction": 1e-09
+  },
+  "states": 210,
+  "table": "Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv",
+  "summary": {
+    "checks": 7,
+    "pass": 7,
+    "fail": 0
+  },
+  "checks": [
+    {
+      "name": "history_is_a_prescribed_background",
+      "verdict": "PASS",
+      "detail": "the slices a4,0 = [0.0, 0.5, 1.0, 1.5, 2.0] of the history a4 = A H x4 (A = 1.0; extra times x5, x6, x7 deflating as e^{-a4}) are a PRESCRIBED BACKGROUND: ks-theory.json adiabaticity.historyStatus begins 'PRESCRIBED BACKGROUND:'; Revision/field_equations_a4/reports/ks-source-conditions.json (5/5 checks) concludes: No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source of the author's metric: C1 and C2 fail for every nonzero state (C2 also after integration over x8), and the Kohn-Sham history uses the linear member as a prescribed background, without back-reaction. T3 is a statement slice by slice and does not use the history"
+    },
+    {
+      "name": "plus_and_image_runs_converged",
+      "verdict": "PASS",
+      "detail": "210 states (75 ground, 135 thermal) x members plus (m = 1.0, theta = 0) and image (m = -1.0, theta = pi): every `single` run converged (exit 0, SCF residual <= its tolerance)"
+    },
+    {
+      "name": "plus_reproduces_canonical_matrix",
+      "verdict": "PASS",
+      "detail": "the plus members (m, lambda, theta = 0) solved by `single` reproduce the committed canonical matrix (Revision/kohn_sham/results/ground/summary.csv E_KS; thermo/thermodynamics.csv E, mu, Omega_direct, entropy): worst deviation 2.538e-10 (N8_lam0_a20_T50), tolerance 1e-09"
+    },
+    {
+      "name": "t3_equal_ground_states",
+      "verdict": "PASS",
+      "detail": "75 T = 0 aufbau ground states, N = [8.0, 136.0, 688.0] x lambda tags ['lam0', 'lamp1', 'lamm1', 'lamp2', 'lamm2'] x the 5 slices: the image (-m, +lambda, tip pi) equals the plus state (m, lambda, tip 0) as T3 states: levels label by label with the sector map (n2, j, parity) -> (n2, -j, other parity) (eps, degeneracy, occupation), E_KS, E_band, E_int, mu, entropy, N, the EMT integrals 2 Vol_7 int e^(6Hy)(rho, p3, p_t, p8, n) dy, Omega = -T sum g ln(1 + e^(-(eps - mu)/T)) - E_int and F = Omega + mu N (thermal), HOMO, LUMO and KS gap (T = 0), the even profiles n, v_v, e_int, rho, p3, p_t, p8 pointwise, and the odd profiles S, Q, M_eff with opposite sign (relative to each profile's maximum); worst deviation 2.179e-13, tolerance 1e-09; per quantity (worst, state): homo_lumo_gap 8.30e-14 (N688_lamm1_a00), levels_deg 0.00e+00 (N8_lam0_a00), levels_eps 1.58e-13 (N136_lamm1_a20), levels_f 0.00e+00 (N8_lam0_a00), omega_F 0.00e+00 (N8_lam0_a00), profiles_even 1.94e-13 (N688_lamm2_a05), profiles_odd 2.22e-14 (N136_lamp2_a15), scalars 2.18e-13 (N136_lamp2_a15), worst 2.18e-13 (N136_lamp2_a15)"
+    },
+    {
+      "name": "t3_equal_thermal_states",
+      "verdict": "PASS",
+      "detail": "135 Mermin states, N = [8.0, 136.0, 688.0] x ['lam0', 'lamp1', 'lamm1'] x the 5 slices x T = [0.01, 0.02, 0.05]: the image (-m, +lambda, tip pi) equals the plus state (m, lambda, tip 0) as T3 states: levels label by label with the sector map (n2, j, parity) -> (n2, -j, other parity) (eps, degeneracy, occupation), E_KS, E_band, E_int, mu, entropy, N, the EMT integrals 2 Vol_7 int e^(6Hy)(rho, p3, p_t, p8, n) dy, Omega = -T sum g ln(1 + e^(-(eps - mu)/T)) - E_int and F = Omega + mu N (thermal), HOMO, LUMO and KS gap (T = 0), the even profiles n, v_v, e_int, rho, p3, p_t, p8 pointwise, and the odd profiles S, Q, M_eff with opposite sign (relative to each profile's maximum); worst deviation 3.877e-12, tolerance 1e-09; per quantity (worst, state): homo_lumo_gap 0.00e+00 (N8_lam0_a00_T10), levels_deg 0.00e+00 (N8_lam0_a00_T10), levels_eps 1.58e-13 (N136_lamm1_a10_T50), levels_f 8.72e-13 (N136_lamm1_a20_T20), omega_F 2.85e-13 (N136_lamm1_a05_T10), profiles_even 3.88e-12 (N688_lamm1_a00_T20), profiles_odd 1.05e-12 (N8_lamp1_a20_T20), scalars 2.45e-12 (N136_lamm1_a05_T10), worst 3.88e-12 (N688_lamm1_a00_T20)"
+    },
+    {
+      "name": "negative_control_untransformed_tip",
+      "verdict": "PASS",
+      "detail": "control (-m, +lambda) with the UNtransformed tip theta = 0 (b(-L) = 0) in all 210 states: it is not the T3 image. The density profile alone, max_y |n_control - n_plus| / max_y |n_plus|, is at least 4.750e+00 (N8_lamm1_a15) in every state with a control state (with -m and the untransformed tip the k = 0 zero modes (e^(-m y), 0) are localised at the tip instead of the brane); the combined measure (max of that, the globally sorted (eps, degeneracy) list, E_KS and the EMT integrals) is at least 7.200e+01 (N8_lamm1_a00_T10; its level part 7.200e+01 is dominated by the shifted degeneracies, its scalar part is 4.4e-16 in N8_lam0_a00, where E_KS and the EMT integrals vanish for both); required > 1e-06, in the 196 states where the solver found a self-consistent control state; in 14 states (N8_lamm1_a10, N8_lamm2_a05, N8_lamm2_a10, N8_lamm2_a15, N8_lamm2_a20, N136_lamm1_a15, N136_lamm2_a15, N136_lamm2_a20, N688_lamm1_a20, N688_lamm2_a15, N8_lamm1_a00_T20, N8_lamm1_a05_T10, N8_lamm1_a10_T10, N8_lamm1_a10_T20) the solver found none (SCF diverging, also in its coupling continuation; reason of the first: exit 1: error: direct: SCF diverging at iteration 70 (residual 8.429008787015489e2, best 7.898698729764037e-1); continuation at 0.25: SCF not converged in 800 iterations (last residual 1.0419118898605), which separates them from the converged T3 image as well (it does not show that no such state exists)"
+    },
+    {
+      "name": "negative_control_lambda_sign",
+      "verdict": "PASS",
+      "detail": "control with the T1 parameter map (-m, -lambda, tip pi) (the image member of the opposite coupling tag) against the plus state (m, +lambda) in all 150 states with lambda != 0: smallest deviation 1.210e-02 (N136_lamp1_a00_T20), required > 1e-06: the Kohn-Sham partner carries +lambda, not -lambda"
+    }
+  ],
+  "not_established": "A numerical demonstration on the canonical matrix, not a proof (the proof is exact: t3-theory.json). Instantaneous (adiabatic) states on a prescribed background; ASSUMED Z2 brane; filling CONVENTION of ks-theory.json; no creation process, rate or amplitude."
+}
