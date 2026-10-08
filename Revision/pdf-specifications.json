@@ -13,5 +13,10 @@
     "path": "Revision/docs/PAIR_CREATION_PROOFS.pdf",
     "pages": 29,
     "sha256": "bffe097b985cfa6692a75e99db4dc092ce7ca77d85cbb17355bdec2a025a651d"
+  },
+  "universes-in-pairs-textbook": {
+    "path": "Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.pdf",
+    "pages": 6069,
+    "sha256": "3aecdfe6f79fe7f27c730a9559becf753876a6e6b473f71c36af94e4ebbbafbe"
   }
 }

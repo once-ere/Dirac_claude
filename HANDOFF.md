@@ -179,9 +179,10 @@ NOT DONE / IN PROGRESS (partial edits are committed and UNVERIFIED)
   prepared workflow for the Revision part: Revision/workflows/restart/a4_apply_sync.js (too large as one run - split it).
 * Textbook "Universes in Pairs": ASSEMBLED 2026-10-08 (Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.md, assemble_textbook.py 13/13
   checks, chapters 00-23, 89 notebooks, 556 figures; chapter 23 is a marked PLACEHOLDER).  PDF: Revision/textbook/UNIVERSES_IN_PAIRS_
-  TEXTBOOK.pdf, 6068 pages, 53.7 MB, two independent builds byte-identical (sha256 039411580b2c...), committed as a DRAFT and NOT
-  registered: scripts/build_provenance_pdf.py --register refused it because of 637 'Overfull \hbox' warnings (mostly two-column
-  longtables p{0.400\linewidth}+p{0.400\linewidth} about 4.9 pt too wide) - fix the table widths in the builder, rebuild, register.
+  TEXTBOOK.pdf, 6069 pages, REGISTERED as edition universes-in-pairs-textbook (sha256 3aecdfe6f79f...), warning-free, two
+  independent builds byte-identical.  The 637 Overfull-hbox warnings of the first build were all table-of-contents entries on
+  pages >= 1000 (four-digit page numbers in LaTeX's 1.55em box); fixed by the opt-in builder option --wide-page-numbers
+  (e35bce6), which changes no other document.  Build command: TEXTBOOK_SPEC section 4.
   Every chapter's notebooks are built (00-22); chapter texts exist for 00-22 (chapter 21's text WAS written, 4891 lines, by the
   interrupted writer - not yet reviewed); adversarial reviews done for 00-10 and 12-16 with findings (several major: overclaims in 08, 10, 14; physics wording
   in 03, 05, 09, 13; numbers not asserted in 12; figure caption in 16); only chapter 04's fixer finished.  The six-lens book review and the book fix were NOT done.  Revision/tests/test_universes_in_pairs_textbook.py fails.
