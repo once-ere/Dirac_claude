@@ -61,6 +61,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import contextlib
 import hashlib
 import json
 import math
@@ -72,6 +73,7 @@ import traceback
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import ks_reference_solver as KS  # noqa: E402  (sets the BLAS thread variables before numpy loads)
+import numpy as np  # noqa: E402
 
 REPO = KS.REPO
 ART = os.path.join(REPO, "artifacts", "dirac16complex", "pair-creation")
@@ -115,6 +117,37 @@ ATTEMPT_LIMIT = 10.0
 # execution guard of every pairs run (ks_reference_solver.Params.window_cap): an SCF whose energy window would
 # reach beyond WINDOW_CAP |m| aborts instead of widening further (it cannot change the numbers of a run)
 WINDOW_CAP = 20.0
+# Memory guard (STAGE5_SPEC erratum E5.3, 2026-10-08).  The window cap did not bound the memory: on 2026-10-08
+# two pairs workers committed 167 GB and 123 GB (the machine's commit limit, 326 GB, was reached and an unrelated
+# run died with MemoryError).  Measured cause: the untransformed controls (minusM_control, lambda != 0) start
+# from free densities with zero modes at the tip, where the proper-density factor is e^{6HL}; the first SCF
+# update shifts the potentials by max|M_eff - m| + max|v_x| = 38 ... 1.9e8 (|m| = 1 and 3), the Chebyshev tail
+# of the first Spectrum (window [-4, 4.59]) then searches the lattice up to |k| ~ 3.5e4 and requests the lattice
+# table up to q = 2^31: ks_reference_solver.lattice_shells allocates a (92681 x 92681) int64 array (68.7 GB,
+# reproduced under a 16 GB job limit: MemoryError((92681, 92681), int64) in the first iteration of
+# d16c_m3_L3_N112_lamp1_T0/minusM_control).  The state count itself is cheap: 106056 states of the window
+# [-40, 40.6] at N = 120 cost 185 MB (exact level 24 (N + 1) + ~600 bytes, tail level ~300 bytes).  Three
+# deterministic guards (none depends on the machine; each stops a run with a recorded reason):
+#   1. WINDOW PREMISE (the Rust pairs rule, studies/dirac16complex_kohn_sham `pairs`): before the run, the shift
+#      bound max|M_eff - m| + max|v_x| of the first SCF update (the potentials of the free densities on the
+#      coarsest grid, exactly the scf() start) must not exceed the Rust window floor 2.5 |m| + 2 pi/L
+#      (4.594 at |m| = 1, 9.594 at |m| = 3).  Measured over the whole T = 0 matrix: every plusM / minusM run
+#      holds it (largest shift 3.87 at |m| = 3, lambda_hat_2; 1.60 at |m| = 1), every lambda != 0 control
+#      violates it (38.4 ... 1.9e8), as in the Rust log (40.3 ... 2.0e7, the same decisions);
+#   2. SHELL_TABLE_CAP: no lattice table beyond q = 2^17 (|k| <= 90.5 |m|); the windows allowed by WINDOW_CAP
+#      need q <= 16 (2 WINDOW_CAP + 2)^2 = 28224 for their exact shells, the free windows of the whole matrix
+#      need q <= 6276 (measured), the converged Stage-5 runs no more;
+#   3. STATE_CAP: no Spectrum with more than 50000 states (the run's spectrum list refuses the 50001st level);
+#      measured: the converged runs hold <= 1157 states per SCF spectrum (T = 0: <= 102), the free-window
+#      spectra of the matrix <= 7980; 50000 states cost <= 50000 (24 x 481 + 600) bytes = 0.61 GB at N = 480.
+# The guards 2 and 3 replace, for the duration of one pairs run only, ks_reference_solver.shells_up_to_k and
+# ks_reference_solver.Spectrum by pass-through versions that call the originals with the same arguments (the
+# solver file, pinned by the Stage-4 records, is unchanged); below their bounds the results are the original
+# objects, so a run that stays within them (every converged run so far) is reproduced bit for bit.  A tripped
+# guard raises GuardStop (a RuntimeError, so the solver's continuation fallback treats it as the window cap).
+SHELL_TABLE_CAP = 1 << 17
+STATE_CAP = 50000
+GUARD_VERSION = 1
 # the T = 0 ground state is the branch reached by continuation in the coupling from lambda = 0 where the direct
 # solution fails (STAGE4_SPEC E4.8; the Rust pairs universes use scf::solve_ground with CONTINUATION_STEPS = 4
 # and the mixing reduced by FALLBACK_MIX_FACTOR = 0.25): ks_reference_solver.Params.continuation_steps
@@ -209,7 +242,110 @@ def pairs_record(spec, coupling):
             "couplingSource": {k: coupling[k] for k in ("configuration", "source", "sha256")}}
 
 
+class GuardStop(RuntimeError):
+    """A deterministic stop of the memory guard (E5.3); `record` says which guard and why."""
+
+    def __init__(self, record):
+        super().__init__(record["reason"])
+        self.record = record
+
+
+_GUARD_TRIPS = []          # the guard records of the run in progress (one run per process at a time)
+_ORIGINAL_SHELLS_UP_TO_K = KS.shells_up_to_k
+_ORIGINAL_SPECTRUM = KS.Spectrum
+
+
+def _trip(guard, reason, **detail):
+    record = dict(detail, guard=guard, reason="memory guard (E5.3) %s: %s" % (guard, reason))
+    _GUARD_TRIPS.append(record)
+    return GuardStop(record)
+
+
+def guarded_shells_up_to_k(k_max, delta_k):
+    """KS.shells_up_to_k with the lattice-table bound SHELL_TABLE_CAP (the same need as the original)."""
+    need = int((k_max / delta_k) ** 2) + 1
+    if need > SHELL_TABLE_CAP:
+        raise _trip("shellTable", "lattice-shell table up to q = %d (|k| = %.6g) beyond the cap q <= %d"
+                    % (need, k_max, SHELL_TABLE_CAP), need=need, kMax=k_max, cap=SHELL_TABLE_CAP)
+    return _ORIGINAL_SHELLS_UP_TO_K(k_max, delta_k)
+
+
+class CappedStates(list):
+    """The state list of a guarded Spectrum: refuses to grow beyond STATE_CAP levels."""
+
+    def append(self, item):
+        if len(self) >= STATE_CAP:
+            raise _trip("spectrumStates", "Spectrum beyond %d states (window [%g, %g], grid N = %d)"
+                        % (STATE_CAP, self.window[0], self.window[1], self.grid_n),
+                        cap=STATE_CAP, window=list(self.window), gridN=self.grid_n)
+        list.append(self, item)
+
+
+class GuardedSpectrum(_ORIGINAL_SPECTRUM):
+    """KS.Spectrum whose state list is a CappedStates (the computation is the original one)."""
+
+    def compute(self):
+        self.states = CappedStates()
+        self.states.window = (self.eps_lo, self.eps_hi)
+        self.states.grid_n = self.grid.N
+        super().compute()
+
+
+@contextlib.contextmanager
+def memory_guard():
+    """Install the guards 2 and 3 (see SHELL_TABLE_CAP, STATE_CAP) for one run and restore the solver after it;
+    yields the list of the guard records of the run."""
+    saved = (KS.shells_up_to_k, KS.Spectrum)
+    del _GUARD_TRIPS[:]
+    KS.shells_up_to_k, KS.Spectrum = guarded_shells_up_to_k, GuardedSpectrum
+    try:
+        yield _GUARD_TRIPS
+    finally:
+        KS.shells_up_to_k, KS.Spectrum = saved
+
+
+def window_floor(params):
+    """The Rust pairs window floor 2.5 |m| + 2 pi/L."""
+    return 2.5 * params.mass_scale + 2.0 * math.pi / params.L
+
+
+def window_premise(params):
+    """Guard 1: the shift bound max|M_eff - m| + max|v_x| of the first SCF update (the potentials of the
+    densities that ks_reference_solver.scf starts from on the coarsest grid: the free T = 0 filling, or at
+    T > 0 the free thermal filling of the first window) against the Rust window floor."""
+    grid = KS.Grid(params.L, params.N0)
+    mu, spec = KS.free_window(params, grid)
+    if params.occupation_temperature() > 0.0:
+        lo, hi = KS.window_for(params, mu, mu)
+        spec = KS.Spectrum(params, grid, np.full(grid.N + 1, params.m), np.zeros(grid.N + 1), lo, hi)
+        KS.occupy(spec, params, "thermal")
+    n_c, s_c = KS.densities(spec.states, params, grid)
+    m_eff, v, _, _ = KS.potentials(params, grid, n_c, s_c)
+    shift = float(np.max(np.abs(m_eff - params.m)) + np.max(np.abs(v)))
+    floor = window_floor(params)
+    return {"shiftBound": shift, "windowFloor": floor, "holds": bool(shift <= floor), "gridN": grid.N}
+
+
+def guard_description():
+    return {"erratum": "STAGE5_SPEC E5.3", "version": GUARD_VERSION,
+            "windowPremise": "shift bound max|M_eff - m| + max|v_x| of the first SCF update <= 2.5 |m| + 2 pi/L "
+                             "(the Rust pairs window premise); violated: not run",
+            "shellTableCap": SHELL_TABLE_CAP, "stateCap": STATE_CAP, "windowCap": WINDOW_CAP}
+
+
 def execute_pair_run(spec, coupling, output_root, log):
+    """One pairs run under the memory guard (E5.3)."""
+    with memory_guard() as trips:
+        lambda_hat = lambda_hat_of(spec["lambda"], coupling)
+        premise = window_premise(params_of(spec, lambda_hat))
+        if not premise["holds"]:
+            raise _trip("windowPremise", "not run: the first SCF update violates the window premise of the "
+                        "solver: shift bound max|M_eff - m| + max|v_x| = %r > |window floor| = %r"
+                        % (premise["shiftBound"], premise["windowFloor"]), **premise)
+        return _execute_pair_run(spec, coupling, output_root, log, premise, trips)
+
+
+def _execute_pair_run(spec, coupling, output_root, log, premise, trips):
     """One pairs run: SectorRun (T = 0, with the excited tasks) or thermo_point
     (T > 0), written with KS.write_run in the Stage-4 reference formats."""
     lambda_hat = lambda_hat_of(spec["lambda"], coupling)
@@ -247,6 +383,9 @@ def execute_pair_run(spec, coupling, output_root, log):
     extra["lambdaName"] = spec["lambda"]
     extra["couplingConfiguration"] = spec["coupling"]
     extra["pairs"] = pairs_record(spec, coupling)
+    # the guard stamp (E5.3): written by the guarded driver; trips = guards tripped inside a fallback that the
+    # run survived (e.g. a direct attempt stopped, the continuation completed), empty for a run within the bounds
+    extra["memoryGuard"] = dict(guard_description(), windowPremiseValues=premise, trips=list(trips))
     doc = KS.write_run(run, os.path.join(output_root, spec["label"]), extra)
     log("  -> %s: E0 = %.12f  mu = %.10f  converged = %s  gap = %s  (%.0f s)"
         % (spec["label"], run.scalars["total"], run.scalars["mu"], run.converged, run.gap, time.time() - t0))
@@ -262,8 +401,13 @@ def execute_pair_worker(spec, coupling, output_root):
         return execute_pair_run(spec, coupling, output_root, log)
     except Exception as error:  # noqa: BLE001
         log("FAILED: %r\n%s" % (error, traceback.format_exc()))
-        return {"params": {"label": label}, "failed": repr(error), "converged": False,
-                "pairs": pairs_record(spec, coupling)}
+        doc = {"params": {"label": label}, "failed": repr(error), "converged": False,
+               "pairs": pairs_record(spec, coupling)}
+        if _GUARD_TRIPS:
+            # stopped by the memory guard (E5.3): the first trip is the cause (a continuation fallback may add more)
+            doc["guardStopped"] = {"guard": _GUARD_TRIPS[0]["guard"], "reason": _GUARD_TRIPS[0]["reason"],
+                                   "trips": list(_GUARD_TRIPS)}
+        return doc
 
 
 MATCH_KEYS = ("m", "a4_0", "L", "lambda_hat", "T", "N", "parity", "tip", "xc", "sea", "delta_k", "ell", "N0",
@@ -283,6 +427,13 @@ def run_matches(doc, spec, coupling):
             return False
         if (doc.get("pairs") or {}).get("universe") != spec["universe"]:
             return False
+        if not doc.get("memoryGuard"):
+            # written by the unguarded driver (before E5.3): kept only if converged within the guard bounds (the
+            # guard cannot change such a run, see STATE_CAP); an unconverged record is recomputed under the guard
+            if not doc.get("converged"):
+                return False
+            if any((lv.get("states") or 0) > STATE_CAP for lv in doc.get("levels") or []):
+                return False
         if doc.get("converged"):
             return bool(same)
         # not converged: kept only if the continuation fallback was tried (interacting T = 0) or does not apply
@@ -298,6 +449,8 @@ def summary_record(doc, spec):
                "firstOrder": doc.get("firstOrder")}
     elif doc.get("failed"):
         rec = {"label": spec["label"], "converged": False, "failed": doc.get("failed")}
+        if doc.get("guardStopped"):
+            rec["guardStopped"] = doc["guardStopped"]
     else:
         rec = KS.summary_record(doc)
     rec["pairs"] = doc.get("pairs")
@@ -369,7 +522,10 @@ def matrix_description(quick, thermo_n, fields, universes):
             "groundState": "T = 0: the direct solution with the Stage-4 smearing ladder; where it collapses or does "
                            "not converge, continuation in the coupling lambda_hat j/%d from its free densities (mixing "
                            "x %g; STAGE4_SPEC E4.8, the Rust solve_ground); execution guard: energy windows beyond %g "
-                           "|m| abort the SCF" % (CONTINUATION_STEPS, CONTINUATION_MIX_FACTOR, WINDOW_CAP),
+                           "|m| abort the SCF; memory guard (STAGE5_SPEC E5.3): runs violating the Rust window "
+                           "premise are not run, lattice tables beyond q = %d and spectra beyond %d states stop the "
+                           "run" % (CONTINUATION_STEPS, CONTINUATION_MIX_FACTOR, WINDOW_CAP, SHELL_TABLE_CAP,
+                                    STATE_CAP),
             "labelScheme": "<field>_m<|m|>_L<L>_N<N>_<lambda>_T<T/|m|>/<universe> (the Rust pairs labels, "
                            "pairs.rs Config::label and write_universe; 'p' = decimal point)",
             "couplingRule": "lambda_hat of the Stage-4 reference coupling of (|m|, L, N) (" + rel_path(STAGE4_COUPLINGS)
@@ -476,6 +632,9 @@ def main(argv=None):
                                                                                        ATTEMPT_LIMIT),
                                        "points": first}
         summary["windowCap"] = WINDOW_CAP
+        summary["memoryGuard"] = guard_description()
+        summary["guardStopped"] = {lab: {"guard": d["guardStopped"]["guard"], "reason": d["guardStopped"]["reason"]}
+                                   for lab, d in sorted(docs.items()) if d.get("guardStopped")}
         summary["notAttempted"] = sorted(lab for lab, d in docs.items() if d.get("notAttempted"))
         summary["failedControl"] = [lab for lab in summary["failed"] if by_label[lab]["universe"] == "minusM_control"]
         summary["failedOther"] = [lab for lab in summary["failed"] if lab not in summary["failedControl"]]

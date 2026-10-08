@@ -281,3 +281,57 @@ the byte-identity checks above.
   members were not compared and the 301-point member got the largest difference to any partner.
   Tests: tests/test_d16c_stage5_pairs.py CheckerGridUncertaintyTests (negative control: a planted
   deviation of the finer member is detected).
+* E5.3 (memory guard of the reference pairs runs, scripts/ks_reference_pairs.py; 2026-10-08).
+  What happened: the relaunched T4 reference pairs run (8 workers, --resume, 14:36) had two workers
+  at 167 GB and 123 GB of private memory at 15:11; the machine's commit charge reached 324.9 of
+  326.4 GB, an unrelated old-Stage-4 reference run died with numpy MemoryError, and the job was
+  killed.  The outcome of a run (d16c00_m3_L3_N112_lamp1_T0/minusM_control ended
+  'MemoryError((960, 241), float64)') depended on the machine's memory.  Measured cause (scratch
+  probes under a 16 GB job-object limit): the untransformed controls with lambda != 0 start from
+  free densities with zero modes at the tip, where the proper-density factor is e^{6HL}; the first
+  SCF update shifts the potentials by max|M_eff - m| + max|v_x| = 38.4 ... 1.9e8; the Chebyshev
+  tail of the FIRST Spectrum (window [-4, 4.59]) then searches the lattice up to |k| ~ 3.5e4 and
+  requests the lattice-shell table up to q = 2^31, for which ks_reference_solver.lattice_shells
+  allocates a (92681 x 92681) int64 array (68.7 GB): MemoryError((92681, 92681), int64) in the first
+  iteration of d16c_m3_L3_N112_lamp1_T0/minusM_control.  The number of states is not the cause
+  (106056 states of the window [-40, 40.6] at N = 120: 185 MB; an exact level costs
+  24 (N + 1) + ~600 bytes, an interpolated one ~300 bytes); WINDOW_CAP = 20 |m| does not bound the
+  tail's momentum range.
+  The guard (deterministic: each bound is a fixed number, a stop is a recorded reason, nothing
+  depends on the machine): (1) WINDOW PREMISE, the Rust pairs rule: before a run the driver computes
+  the potentials of the first SCF update (the free densities on the coarsest grid, exactly the
+  scf() start; at T > 0 the free thermal filling) and does not run it if max|M_eff - m| + max|v_x|
+  > 2.5 |m| + 2 pi/L (4.594 at |m| = 1, 9.594 at |m| = 3); (2) SHELL_TABLE_CAP: no lattice table
+  beyond q = 2^17 (|k| <= 90.5 |m|; the windows allowed by WINDOW_CAP need q <= 28224); (3)
+  STATE_CAP: no Spectrum beyond 50000 states.  (2) and (3) replace, for one pairs run only,
+  ks_reference_solver.shells_up_to_k and ks_reference_solver.Spectrum by pass-through versions that
+  call the originals with the same arguments (the solver file, sha256 8dbedada...0494 pinned by the
+  Stage-4 records, is unchanged; the guard is restored after each run).  A tripped guard raises
+  GuardStop (a RuntimeError, so the continuation fallback of E4.8 treats it as the window cap); a run
+  that ends failed is recorded with "guardStopped" {guard, reason, trips} in
+  reference-pairs-summary.json ("guardStopped" map, "memoryGuard" bounds); every run.json written
+  by the guarded driver carries "memoryGuard" (bounds, the premise values, trips).
+  Why it cannot change a converged number: below the bounds the guarded functions return the
+  original objects computed from the same arguments (tests: MemoryGuardTests, a guarded Spectrum is
+  bit-identical; the solver module is restored after a run), so a run whose premise holds and whose
+  every lattice table and spectrum stay within the bounds follows the identical path.  Every run
+  completed so far does: the 22 converged runs (|m| = 3, N = 112) hold <= 1157 states per SCF
+  spectrum (T = 0: <= 93) and use no tail beyond the exact shells; the free-window spectra of the
+  whole matrix hold <= 7980 states and need q <= 6276 (census of all 138 (field, |m|, N, universe,
+  lambda) first updates); the premise holds for every plusM / minusM run of the matrix (largest
+  shift 1.68 at |m| = 1, 4.27 at |m| = 3: d16c00 lambda_hat_2) and for every lambda = 0 control
+  (shift 0), and fails for every lambda != 0 control (>= 38.4 at |m| = 1, >= 5.5e5 at |m| = 3),
+  the same decisions as the Rust log (40.3 ... 2.0e7).
+  Affected runs: NOT RUN by the premise in both solvers (Rust 'error not run', reference failed
+  with the reason 'not run: the first SCF update violates the window premise ...', counted in
+  failedControl): the 32 T = 0 controls with lambda != 0 and the 8 |m| = 1, T = 0.1 |m| controls
+  with lambda != 0 (the |m| = 3, T = 0.3 interacting points stay "not attempted" by ATTEMPT_LIMIT).
+  Earlier unguarded outcomes of these controls (window cap, 'tail: window never exhausted',
+  MemoryError, killed) are superseded.  Possibly stopped by (2)/(3) (non-control runs whose SCF runs
+  away, |m| = 3, N = 112, lambda_hat_2): d16c_m3_..._lamp2_T0/plusM and /minusM (unguarded: converged
+  = False, 'collapse at level 0', E0 = -2459065.4 and -2903.8 with 31422 / 40784 states and, for
+  minusM, a tail need q = 371350 > 2^17), d16c00_m3_..._lamp2_T0/plusM (unguarded: 94873 states,
+  killed) and /minusM (unguarded: window cap after 14286 states).  Their collapsed energies are not
+  results (no converged state exists there); --resume recomputes every unconverged record written
+  without the "memoryGuard" stamp, so their records are the guarded driver's (a guard stop, or the
+  same collapse record if no bound is reached), and their outcome is reported as recorded.

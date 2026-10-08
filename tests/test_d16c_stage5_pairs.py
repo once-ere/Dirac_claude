@@ -274,6 +274,105 @@ class RunnerTests(unittest.TestCase):
         K.check_window_cap(K.Params(m=1.0), -1e9, 1e9)                          # default: no cap
 
 
+class MemoryGuardTests(unittest.TestCase):
+    """STAGE5_SPEC E5.3: the deterministic memory guard of the pairs driver (window premise, lattice-table
+    cap, spectrum state cap); pass-through below the bounds, a recorded stop above them."""
+
+    def quick_spec(self, label):
+        return [s for s in RP.pair_specs(quick=True) if s["label"] == label][0]
+
+    def test_bounds_and_solver_untouched(self):
+        self.assertEqual((RP.SHELL_TABLE_CAP, RP.STATE_CAP), (1 << 17, 50000))
+        # the windows allowed by the window cap fit the table cap: q <= 16 (2 WINDOW_CAP + 2)^2
+        self.assertGreater(RP.SHELL_TABLE_CAP, 16 * (2 * RP.WINDOW_CAP + 2) ** 2)
+        self.assertIs(K.Spectrum, RP._ORIGINAL_SPECTRUM)
+        self.assertIs(K.shells_up_to_k, RP._ORIGINAL_SHELLS_UP_TO_K)
+
+    def test_guard_is_scoped_and_restored(self):
+        with self.assertRaises(RP.GuardStop):
+            with RP.memory_guard():
+                self.assertIs(K.Spectrum, RP.GuardedSpectrum)
+                K.shells_up_to_k(1e6, 0.25)
+        self.assertIs(K.Spectrum, RP._ORIGINAL_SPECTRUM)
+        self.assertIs(K.shells_up_to_k, RP._ORIGINAL_SHELLS_UP_TO_K)
+
+    def test_shell_table_pass_through_and_stop(self):
+        k_ok = 0.25 * math.sqrt(RP.SHELL_TABLE_CAP - 2)
+        self.assertEqual(RP.guarded_shells_up_to_k(k_ok, 0.25), K.shells_up_to_k(k_ok, 0.25))
+        with RP.memory_guard() as trips:
+            with self.assertRaises(RP.GuardStop) as ctx:
+                K.shells_up_to_k(3.5e4, 0.75)            # the 2026-10-08 request (q ~ 2^31) is refused
+            self.assertEqual(trips[0]["guard"], "shellTable")
+        self.assertIn("memory guard (E5.3) shellTable", str(ctx.exception))
+
+    def test_guarded_spectrum_is_bit_identical(self):
+        p = K.Params(m=-1.0, L=3.0, N=8.0, parity=0, tip="f0", lambda_hat=0.0, N0=20, levels=1)
+        grid = K.Grid(p.L, 20)
+        y = grid.y
+        m_eff, v = p.m + 0.3 * np.exp(y), 0.2 * np.exp(2.0 * y)
+        ref = K.Spectrum(p, grid, m_eff, v, -3.0, 5.0)
+        with RP.memory_guard() as trips:
+            got = K.Spectrum(p, grid, m_eff, v, -3.0, 5.0)
+        self.assertEqual(trips, [])
+        self.assertIsInstance(got, RP.GuardedSpectrum)
+        self.assertEqual([s.key() for s in got.states], [s.key() for s in ref.states])
+        self.assertEqual([s.eps for s in got.states], [s.eps for s in ref.states])
+        for a, b in zip(got.states, ref.states):
+            self.assertTrue(np.array_equal(a.profile("n"), b.profile("n")))
+
+    def test_negative_control_state_cap(self):
+        # a run beyond the bound fails with the guard's reason (and writes nothing)
+        spec = self.quick_spec("d16c_m1_L3_N8_lam0_T0/plusM")
+        saved = RP.STATE_CAP
+        RP.STATE_CAP = 10
+        try:
+            with tempfile.TemporaryDirectory() as out, contextlib.redirect_stdout(io.StringIO()):
+                doc = RP.execute_pair_worker(spec, {"configuration": [1.0, 3.0, 8.0], "source": "x", "sha256": "y"},
+                                             out)
+                self.assertFalse(os.path.exists(os.path.join(out, spec["label"], "run.json")))
+        finally:
+            RP.STATE_CAP = saved
+        self.assertIn("memory guard (E5.3) spectrumStates: Spectrum beyond 10 states", doc["failed"])
+        self.assertEqual(doc["guardStopped"]["guard"], "spectrumStates")
+        rec = RP.summary_record(doc, spec)
+        self.assertEqual(rec["guardStopped"]["guard"], "spectrumStates")
+
+    def test_window_premise_matches_the_rust_rule(self):
+        path = os.path.join(RP.STAGE4_COUPLINGS, "coupling-m1_L3_N8.json")
+        if not os.path.exists(path):
+            self.skipTest("Stage-4 reference couplings absent")
+        c = RP.coupling_record(1.0, 3.0, 8.0)
+        plus = self.quick_spec("d16c_m1_L3_N8_lamp1_T0/plusM")
+        control = self.quick_spec("d16c_m1_L3_N8_lamp1_T0/minusM_control")
+        lam0 = self.quick_spec("d16c_m1_L3_N8_lam0_T0/minusM_control")
+        with RP.memory_guard():
+            ok = RP.window_premise(RP.params_of(plus, RP.lambda_hat_of("lamp1", c)))
+            bad = RP.window_premise(RP.params_of(control, RP.lambda_hat_of("lamp1", c)))
+            free = RP.window_premise(RP.params_of(lam0, 0.0))
+        self.assertAlmostEqual(ok["windowFloor"], 2.5 + 2.0 * math.pi / 3.0, places=12)   # Rust: 4.594395102393195
+        self.assertTrue(ok["holds"] and free["holds"])
+        self.assertEqual(free["shiftBound"], 0.0)
+        self.assertFalse(bad["holds"])
+        self.assertGreater(bad["shiftBound"], 5.0 * bad["windowFloor"])     # Rust (canonical grid): 40.3
+        with tempfile.TemporaryDirectory() as out, contextlib.redirect_stdout(io.StringIO()):
+            doc = RP.execute_pair_worker(control, c, out)
+            self.assertFalse(os.path.exists(os.path.join(out, control["label"], "run.json")))
+        self.assertIn("not run: the first SCF update violates the window premise", doc["failed"])
+        self.assertEqual(doc["guardStopped"]["guard"], "windowPremise")
+
+    def test_resume_recomputes_unguarded_unconverged_records(self):
+        spec = [s for s in RP.pair_specs() if s["label"] == "d16c_m3_L3_N112_lamp2_T0/plusM"][0]
+        coupling = {"lambdaHat1": 852.6, "lambdaHat2": 8526.0}
+        params = RP.params_of(spec, RP.lambda_hat_of("lamp2", coupling)).to_dict()
+        base = {"params": params, "excited": {}, "pairs": {"universe": "plusM"}, "continuation": {"used": False},
+                "levels": [{"states": 3510}]}
+        self.assertFalse(RP.run_matches(dict(base, converged=False), spec, coupling))      # unguarded: rerun
+        self.assertTrue(RP.run_matches(dict(base, converged=False, memoryGuard={"version": 1}), spec, coupling))
+        self.assertTrue(RP.run_matches(dict(base, converged=True), spec, coupling))        # converged, in bounds
+        self.assertFalse(RP.run_matches(dict(base, converged=True, levels=[{"states": RP.STATE_CAP + 1}]),
+                                        spec, coupling))
+
+
 class ClosedFormTests(unittest.TestCase):
     def test_splitting_constants(self):
         cp, cc = CP.c_paired(1.0, 3.0), CP.c_control(1.0, 3.0)
