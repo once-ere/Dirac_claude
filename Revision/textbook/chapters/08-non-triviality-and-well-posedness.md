@@ -217,7 +217,7 @@ $$
 \gamma^\mu\Omega_\mu = 3H\gamma^{(8)}
 $$
 
-for every history $a_4(x_4)$, every $H > 0$ and every point (PROVED; `python-field-theory.json`, checks `time_terms_cancel_hidden_term_survives` and `gamma_mu_Omega_mu_equals_3H_gamma_x8`; `wolfram-field-theory.json`, checks `gammaOmega_x4_terms_cancel` and `gammaOmega_equals_3H_gamma_x8`). The cancellation happens because 3-space inflates at exactly the rate at which the extra times deflate: the same balance makes the volume factor $\cos z$ independent of the time. Exercise 2 of Section 8.39 shows what would happen if the extra times inflated too.
+for every history $a_4(x_4)$, every $H > 0$ and every point. This is PROVED, and the Revision record proves it twice: the sympy report `python-field-theory.json` has the checks `time_terms_cancel_hidden_term_survives` and `gamma_mu_Omega_mu_equals_3H_gamma_x8`, and the independent Wolfram report `wolfram-field-theory.json` has the checks `gammaOmega_x4_terms_cancel` and `gammaOmega_equals_3H_gamma_x8`. The cancellation happens because 3-space inflates at exactly the rate at which the extra times deflate: the same balance makes the volume factor $\cos z$ independent of the time. Exercise 2 of Section 8.39 shows what would happen if the extra times inflated too.
 
 **The divergence form.** The same matrix has a second, shorter formula. The rule $\Gamma^\mu{}_{\mu\nu} = \partial_\nu\ln f_\mu$ of Section 8.4, summed over $\mu$, gives $\sum_\mu\Gamma^\mu{}_{\mu\nu} = \partial_\nu\ln(f_1\cdots f_8) = \partial_\nu\ln\sqrt{|g|}$. Now sum the covariant constancy of Section 8.4 over $\mu = \nu$:
 
@@ -245,7 +245,7 @@ For the author's metric only $\mu = x_8$ contributes: $\sqrt{|g|}\gamma^{x_8} = 
 2. If $a_4' \neq 0$, the six components of the form $a_4'\times$(factor) are not zero; if $H \neq 0$, the six of the form $H\times$(factor) are not zero.
 3. Therefore $\Omega_\mu = 0$ for every $\mu$ if and only if $a_4' = 0$ and $H = 0$.
 
-The case $H = 0$ is the formal flat limit; it is not a member of the author's family (Section 8.2). For every metric of the family the canonical spin connection is therefore not zero (PROVED; `python-field-theory.json`, check `nontriviality_Omega_zero_iff_flat`, and `wolfram-field-theory.json`, check `Omega_vanishes_iff_a4prime_and_H_vanish`).
+The case $H = 0$ is the formal flat limit; it is not a member of the author's family (Section 8.2). For every metric of the family the canonical spin connection is therefore not zero. This is PROVED; in the Revision record it is the check `nontriviality_Omega_zero_iff_flat` of the sympy report `python-field-theory.json` and the check `Omega_vanishes_iff_a4prime_and_H_vanish` of the Wolfram report `wolfram-field-theory.json`.
 
 **The term is not zero for any field that is not zero.** Suppose $3H\gamma^{(8)}\Psi = 0$ at some point. Multiply from the left by $\gamma^{(8)}/(3H)$ (allowed, since $H > 0$): $\gamma^{(8)}\gamma^{(8)}\Psi = 0$, and $(\gamma^{(8)})^2 = I_{16}$ gives $\Psi = 0$. So in the diagonal frame the gravitational term $3H\gamma^{(8)}\Psi$ is nonzero wherever the field is nonzero (PROVED; `wolfram-field-theory.json`, checks `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00`).
 
@@ -893,7 +893,7 @@ check_record([sp.simplify(c4 / a4_prime) for c4 in coefficient_4]
              f"the six hidden-direction terms add to {hidden_sum} gamma^(x8)")
 ```
 
-The coefficients are divided by $a_4'$ and by $H$ and compared with the exact lists $(\frac12, \frac12, \frac12, 0, -\frac12, -\frac12, -\frac12, 0)$ and $(\frac12, \frac12, \frac12, 0, \frac12, \frac12, \frac12, 0)$; the record's check must contain the printed partial sums.
+The coefficients of $\gamma^{(4)}$ are divided by $a_4'$ and must be exactly $\frac12$ for $x_1, x_2, x_3$, then $0$ for $x_4$, $-\frac12$ for $x_5, x_6, x_7$ and $0$ for $x_8$; the coefficients of $\gamma^{(8)}$ are divided by $H$ and must be $\frac12$ for the same six directions and $0$ for $x_4$ and $x_8$. The record's check must contain the printed partial sums.
 
 ```python
 total = sum(per_direction, sp.zeros(16, 16))
@@ -1056,7 +1056,7 @@ left.set_title("Pieces of the connection")
 left.legend(fontsize=7)
 ```
 
-`zip` pairs each (label, expression) with a line style (solid `"-"` or dashed `"--"`). Each component is evaluated along the history at the 201 times; `np.abs` takes the size, and multiplying by `np.ones_like(times)` (an array of ones) makes sure that an expression that happens to be constant is still drawn as a full curve. The vertical axis is logarithmic (`set_yscale("log")`), so an exponential is a straight line.
+`zip` pairs each (label, expression) with a line style: one minus sign in quotes for a solid line, two minus signs for a dashed one. Each component is evaluated along the history at the 201 times; `np.abs` takes the size, and multiplying by `np.ones_like(times)` (an array of ones) makes sure that an expression that happens to be constant is still drawn as a full curve. The vertical axis is logarithmic (`set_yscale("log")`), so an exponential is a straight line.
 
 ```python
 inflating = along_history(sum(coefficient_4[:3]))(times) * np.ones_like(times)
@@ -2783,7 +2783,8 @@ with any real exponent $\alpha$ and any constant column $\chi_0$. We derive it l
 $$
 \begin{aligned}
 M^2 &= m^2(\gamma^{(4)})^2 - mc\big((\gamma^{(4)})^2\gamma^{(8)} + \gamma^{(4)}\gamma^{(8)}\gamma^{(4)}\big) + c^2\gamma^{(4)}\gamma^{(8)}\gamma^{(4)}\gamma^{(8)} \\
-&= -m^2 - mc\big(-\gamma^{(8)} + \gamma^{(8)}\big) - c^2(\gamma^{(4)})^2(\gamma^{(8)})^2 = (c^2 - m^2)\,I_{16} = k^2I_{16}, \qquad k^2 = 9H^2(2\alpha + 1)^2 - m^2 .
+&= -m^2 - mc\big(-\gamma^{(8)} + \gamma^{(8)}\big) - c^2(\gamma^{(4)})^2(\gamma^{(8)})^2 \\
+&= (c^2 - m^2)\,I_{16} = k^2I_{16}, \qquad k^2 = 9H^2(2\alpha + 1)^2 - m^2 .
 \end{aligned}
 $$
 
@@ -2801,7 +2802,7 @@ The first line collects the two $\gamma^{(8)}$ terms ($6H\alpha + 3H = 3H(2\alph
 
 **Which members grow.** A member grows like $e^{kx_4}$ when $k^2 > 0$, that is when $3H|2\alpha + 1| > m$, and oscillates when $k^2 < 0$. The member $\alpha = -\frac12$ has $c = 0$, $M = -m\gamma^{(4)}$ without any $H$, and $k^2 = -m^2$: it oscillates with the frequency $m$. It is the rescaled field of Section 8.30, $\Psi = \sin^{-1/2}z\,\chi$ with $\chi$ independent of $x_8$ (PROVED; `python-scope.json`, check `rescaled_equation_quadratic_potential`, whose detail states this member). The member $\alpha = 0$, the fields that do not depend on $x_8$, has $k^2 = 9H^2 - m^2$ and grows exactly when $m < 3H$.
 
-**Which members have a finite norm.** The norm along the hidden direction is $\int_0^{\pi/(12H)}\cos z\,\sin^{2\alpha}z\,dx_8$ times a function of $x_4$ (the upper limit is the patch end, $z = 6Hx_8 = \pi/2$). Substituting $s = \sin z$, $ds = 6H\cos z\,dx_8$, line by line:
+**Which members have a finite norm.** The norm of a member along the hidden direction is a function of $x_4$ times the integral of $\cos z\,\sin^{2\alpha}z$ over $x_8$ from the tip to the patch end (where $z = 6Hx_8 = \pi/2$, that is $x_8 = \pi/(12H)$). We substitute $s = \sin z$, so that $ds = 6H\cos z\,dx_8$. Line by line:
 
 $$
 \int_0^{\pi/(12H)}\cos z\,\sin^{2\alpha}z\,dx_8 = \frac{1}{6H}\int_0^1 s^{2\alpha}\,ds = \frac{1}{6H}\Big[\frac{s^{2\alpha+1}}{2\alpha + 1}\Big]_0^1 = \frac{1}{6H(2\alpha + 1)} \quad (2\alpha + 1 > 0).
@@ -3406,7 +3407,15 @@ Five checks that the figure files exist, and the last line. The 23 checks come f
 
 ### 8.37 The exact scope of non-triviality and of the evolution, in one table
 
-Every statement of the chapter in one place. The record files are `python-field-theory.json`, `wolfram-field-theory.json`, `python-scope.json` and `wolfram-scope.json` in `Revision/theory/reports/`, and `python-pairing.json` in `Revision/pairing/reports/`.
+Every statement of the chapter in one place. The last column names the Revision check, the short name of its report file in brackets, and the notebook that reproduces it. The report files are these:
+
+```text
+Revision/theory/reports/python-field-theory.json     (python-field-theory)
+Revision/theory/reports/wolfram-field-theory.json    (wolfram-field-theory)
+Revision/theory/reports/python-scope.json            (python-scope)
+Revision/theory/reports/wolfram-scope.json           (wolfram-scope)
+Revision/pairing/reports/python-pairing.json         (python-pairing)
+```
 
 | statement | status | Revision check; notebook |
 | --- | --- | --- |

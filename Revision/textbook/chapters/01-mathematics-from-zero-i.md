@@ -21,8 +21,10 @@ with $s = \sin^{1/3} z$ and $z = 6 H x_8$. Here $H$ is a positive constant of th
 | 01a | vectors, matrices, permutations, determinants, the gamma matrices and the metric | Sections 1.18 to 1.25 |
 | 01e | index notation, the summation convention, the frame metric, the Clifford relation | Sections 1.26 to 1.33 |
 | 01g | eigenvalues, eigenvectors, the signature (4,4), Sylvester's law | Sections 1.34 to 1.41 |
-| 01c | the generalized Kronecker delta, its proof, its counts, its contractions | Sections 1.40 to 1.41 |
-| 01d | binary numbers, a pseudo-random generator, the record's tests of the generalized delta reproduced exactly | Sections 1.40 to 1.41 |
+| 01c | the generalized Kronecker delta, its proof, its counts, its contractions | Sections 1.42 to 1.48 |
+| 01d | binary numbers, a pseudo-random generator, the record's tests of the generalized delta reproduced exactly | Sections 1.49 to 1.54 |
+
+The letters were given to the notebooks when they were made; the chapter takes them in the order in which the ideas build on each other, so that every notion is introduced before a notebook uses it.
 
 Each notebook appears in three parts: a section "How to run Notebook 01x", which gives the complete instructions for running it on Windows, macOS or Linux; a section "Notebook 01x: complete text", which prints every cell, everything it printed and every figure it drew; and a section "Line-by-line walk-through of Notebook 01x", which explains every line of every code cell. The first code cell of every notebook, the **set-up cell**, is the same in all notebooks except for the notebook's name; it is explained line by line once, in Section 1.9, and the later walk-throughs refer back to that explanation.
 
@@ -2068,9 +2070,13 @@ $$
 
 1. $\det(MN) = \det M\,\det N$. For $2 \times 2$ matrices this is a direct computation (PROVED): with $M$ of rows $(a, b), (c, d)$ and $N$ of rows $(e, f), (g, h)$, $MN$ has the rows $(ae + bg, af + bh)$ and $(ce + dg, cf + dh)$, and
 $$
-\det(MN) = (ae + bg)(cf + dh) - (af + bh)(ce + dg) = aecf + aedh + bgcf + bgdh - afce - afdg - bhce - bhdg
+\det(MN) = (ae + bg)(cf + dh) - (af + bh)(ce + dg)
 $$
-(the $2 \times 2$ formula; multiply out), in which $aecf$ cancels $afce$ and $bgdh$ cancels $bhdg$, leaving $adeh + bcfg - adfg - bceh = ad(eh - fg) - bc(eh - fg) = (ad - bc)(eh - fg)$ (re-order the factors; take out the common factors). For every $n$ the rule is a standard theorem of algebra, ASSUMED here; Notebook 01a, In [11], checks it exactly for two $4 \times 4$ matrices.
+(the $2 \times 2$ formula)
+$$
+= aecf + aedh + bgcf + bgdh - afce - afdg - bhce - bhdg
+$$
+(multiply out), in which $aecf$ cancels $afce$ and $bgdh$ cancels $bhdg$, leaving $adeh + bcfg - adfg - bceh = ad(eh - fg) - bc(eh - fg) = (ad - bc)(eh - fg)$ (re-order the factors; take out the common factors). For every $n$ the rule is a standard theorem of algebra, ASSUMED here; Notebook 01a, In [11], checks it exactly for two $4 \times 4$ matrices.
 2. $\det(M^T) = \det M$ (PROVED). The term of $\sigma$ in $\det M^T$ is $\mathrm{sign}(\sigma)\prod_i (M^T)_{i\sigma(i)} = \mathrm{sign}(\sigma)\prod_i M_{\sigma(i)i}$. Re-ordering the factors by their row $j = \sigma(i)$ writes the product as $\prod_j M_{j\sigma^{-1}(j)}$, the term of $\sigma^{-1}$ in $\det M$, and $\mathrm{sign}(\sigma^{-1}) = \mathrm{sign}(\sigma)$ (Section 1.19). As $\sigma$ runs through all permutations, so does $\sigma^{-1}$, so the two sums have the same terms.
 3. Exchanging two rows changes the sign (PROVED). Let $M'$ be $M$ with the rows $r$ and $s$ exchanged. The term of $\sigma$ in $\det M'$ has the factors $M'_{r\sigma(r)} = M_{s\sigma(r)}$ and $M'_{s\sigma(s)} = M_{r\sigma(s)}$, so its product of entries is that of the permutation $\tau$ that equals $\sigma$ with the entries at the places $r$ and $s$ exchanged; and $\mathrm{sign}(\tau) = -\mathrm{sign}(\sigma)$ (the theorem of Section 1.19). As $\sigma$ runs through all permutations so does $\tau$, so every term of $\det M$ appears in $\det M'$ with the opposite sign: $\det M' = -\det M$.
 4. A matrix with two equal rows has determinant 0 (PROVED): exchanging the two equal rows changes nothing, yet by rule 3 it changes the sign, so $D = -D$, and $D = 0$.
@@ -2907,7 +2913,7 @@ $$
 \gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}I\qquad(a, b = x_1, \dots, x_8),
 $$
 
-the **Clifford relation** (record `Revision/algebra/reports/python-algebra.json`, check `clifford_relation`; Chapter 4 derives it). With two free indices it stands for $8 \cdot 8 = 64$ matrix equations. For $a = b$ it says $(\gamma^a)^2 = \eta^{aa}I$, $+I$ for a space-like and $-I$ for a time-like direction (Section 1.21). For $a \neq b$ it says $\{\gamma^a, \gamma^b\} = 0$: different gamma matrices anticommute, and their commutator is $[\gamma^a, \gamma^b] = \gamma^a\gamma^b - \gamma^b\gamma^a = 2\gamma^a\gamma^b$. The product of two signed permutation matrices is again a signed permutation matrix (each row of the product picks one row of the second factor, with a sign), so this commutator has exactly 16 nonzero entries, $\pm 2$.
+the **Clifford relation**. Chapter 4 derives it, and the Revision record checks it in the check `clifford_relation` of its report `Revision/algebra/reports/python-algebra.json`. With two free indices it stands for $8 \cdot 8 = 64$ matrix equations. For $a = b$ it says $(\gamma^a)^2 = \eta^{aa}I$, $+I$ for a space-like and $-I$ for a time-like direction (Section 1.21). For $a \neq b$ it says $\{\gamma^a, \gamma^b\} = 0$: different gamma matrices anticommute, and their commutator is $[\gamma^a, \gamma^b] = \gamma^a\gamma^b - \gamma^b\gamma^a = 2\gamma^a\gamma^b$. The product of two signed permutation matrices is again a signed permutation matrix (each row of the product picks one row of the second factor, with a sign), so this commutator has exactly 16 nonzero entries, $\pm 2$.
 
 **Symmetric and antisymmetric gamma matrices (PROVED).** A real matrix $O$ with $O^TO = I$ is called **orthogonal**; then $O^T = O^{-1}$. Every signed permutation matrix is orthogonal: the entry $(j, k)$ of $O^TO$ is $\sum_i O_{ij}O_{ik}$, the "dot product" of the columns $j$ and $k$; for $j = k$ it is the square of the one nonzero entry $\pm 1$ of the column, which is 1; for $j \neq k$ the nonzero entries of the two columns lie in different rows (a row holds only one nonzero entry), so every product $O_{ij}O_{ik}$ is 0. For a gamma matrix, $(\gamma^a)^2 = \eta^{aa}I$ says $\gamma^a(\eta^{aa}\gamma^a) = I$ (multiply by the number $\eta^{aa} = \pm 1$, whose square is 1), so $(\gamma^a)^{-1} = \eta^{aa}\gamma^a$. Together:
 
@@ -3759,10 +3765,16 @@ $$
 **What the example means (PROVED).** Take the vectors of length 1, $x = (\cos t, \sin t)$, which run around the unit circle as the angle $t$ runs from 0 to $2\pi$. Their images are $Mx = (2\cos t + \sin t, \cos t + 2\sin t)$, with the squared length
 
 $$
-(2\cos t + \sin t)^2 + (\cos t + 2\sin t)^2 = 4\cos^2 t + 4\cos t\sin t + \sin^2 t + \cos^2 t + 4\cos t\sin t + 4\sin^2 t = 5 + 8\cos t\sin t = 5 + 4\sin 2t
+(2\cos t + \sin t)^2 + (\cos t + 2\sin t)^2 = 4\cos^2 t + 4\cos t\sin t + \sin^2 t + \cos^2 t + 4\cos t\sin t + 4\sin^2 t
 $$
 
-(multiply out both squares; collect, with $\cos^2 t + \sin^2 t = 1$; the double-angle formula $2\sin t\cos t = \sin 2t$ of school trigonometry, ASSUMED). It is largest, $5 + 4 = 9$, where $\sin 2t = 1$, at $t = \pi/4$, the direction $(1, 1)/\sqrt 2$; and smallest, $5 - 4 = 1$, at $t = -\pi/4$, the direction $(1, -1)/\sqrt 2$. So the unit circle becomes an **ellipse** whose longest and shortest half-axes have the lengths $\sqrt 9 = 3$ and $\sqrt 1 = 1$, the two eigenvalues, and lie along the two eigenvectors (Figure 01g.1).
+(multiply out both squares with $(u + v)^2 = u^2 + 2uv + v^2$),
+
+$$
+= 5\cos^2 t + 5\sin^2 t + 8\cos t\sin t = 5 + 8\cos t\sin t = 5 + 4\sin 2t
+$$
+
+(collect; $\cos^2 t + \sin^2 t = 1$; the double-angle formula $2\sin t\cos t = \sin 2t$ of school trigonometry, ASSUMED). It is largest, $5 + 4 = 9$, where $\sin 2t = 1$, at $t = \pi/4$, the direction $(1, 1)/\sqrt 2$; and smallest, $5 - 4 = 1$, at $t = -\pi/4$, the direction $(1, -1)/\sqrt 2$. So the unit circle becomes an **ellipse** whose longest and shortest half-axes have the lengths $\sqrt 9 = 3$ and $\sqrt 1 = 1$, the two eigenvalues, and lie along the two eigenvectors (Figure 01g.1).
 
 **The chain matrix of size 3 (PROVED).** The $3 \times 3$ **chain matrix** $T_3$ has 2 on the diagonal, $-1$ just above and just below it, and 0 elsewhere. With the six-term formula of Section 1.20 (the entries $a_{11} = a_{22} = a_{33} = 2 - \lambda$, $a_{12} = a_{21} = a_{23} = a_{32} = -1$, $a_{13} = a_{31} = 0$):
 
@@ -3891,7 +3903,7 @@ $$
 - $B^2 = I$, so, as for the gamma matrices, every eigenvalue has $\lambda^2 = 1$: $\lambda = \pm 1$.
 - $\mathrm{tr}\,B = 0$, so $+1$ and $-1$ occur 8 times each: the signature (8,8), and the characteristic polynomial is $(\lambda - 1)^8(\lambda + 1)^8$.
 
-The record checks these properties in `Revision/algebra/reports/python-algebra.json`, check `B_hermitian_involution_signature`, and in `Revision/theory/reports/python-field-theory.json`, check `B_properties`; Notebook 01g, In [16], reproduces them exactly from the record's matrices (PROVED by exact computation; Figure 01g.8). Because half of the eigenvalues of $B$ are negative, the charge $\Psi^\dagger B\Psi$ can be positive or negative: the record calls it an **indefinite** form, and its quantisation entry reads "B Hermitian, B^2 = 1, signature (8,8): indefinite (Krein) state space". Chapter 10 explains what this means for the quantised field.
+The record checks these properties twice: in its algebra report `Revision/algebra/reports/python-algebra.json`, in the check named `B_hermitian_involution_signature`, and in its theory report `Revision/theory/reports/python-field-theory.json`, in the check named `B_properties`. Notebook 01g, In [16], reproduces them exactly from the record's matrices (PROVED by exact computation; Figure 01g.8). Because half of the eigenvalues of $B$ are negative, the charge $\Psi^\dagger B\Psi$ can be positive or negative: the record calls it an **indefinite** form, and its quantisation entry reads "B Hermitian, B^2 = 1, signature (8,8): indefinite (Krein) state space". Chapter 10 explains what this means for the quantised field.
 
 **Power iteration (PROVED).** A computer does not find eigenvalues as the roots of $\det(M - \lambda I)$ (that polynomial is very sensitive to rounding for large matrices); it transforms the matrix step by step. The simplest such method is **power iteration**. Write a starting vector as a sum of eigenvectors, $x_0 = c_1u_1 + c_2u_2 + \cdots$, with $|\lambda_1| > |\lambda_2| \geq \cdots$ and $c_1 \neq 0$. Multiplying by $M$ $k$ times gives
 
@@ -4661,7 +4673,12 @@ say(f"B: real part zero {real_part_zero}, trace {B.trace()}, characteristic "
     f"polynomial {poly_B}")
 ```
 
-The factored characteristic polynomial of $B$, and whether its real part is the zero matrix. Output: `B: real part zero True, trace 0, characteristic polynomial (lambda - 1)**8*(lambda + 1)**8`.
+The factored characteristic polynomial of $B$, and whether its real part is the zero matrix. Output:
+
+```text
+B: real part zero True, trace 0, characteristic polynomial (lambda - 1)**8*(lambda +
+    1)**8
+```
 
 ```python
 check(B.H == B and B * B == sp.eye(16) and B.trace() == 0
@@ -4802,7 +4819,7 @@ save_figure(fig, "power_iteration",
             ...)
 ```
 
-What Figure 01g.9 shows: the red dots ($M$) fall fast, by the factor $1/3$ per step, along their straight line until they reach the rounding level of floating-point numbers, about $10^{-16}$; the blue dots ($T_3$) fall more slowly, by 0.586 per step, along theirs.
+What Figure 01g.9 shows: the red dots ($M$) fall fast, by the factor $1/3$ per step, along their straight line until, after about 33 steps, they reach the rounding level of floating-point numbers; from there on the distance jumps between about $10^{-16}$ and exactly 0 (drawn at the bottom). The blue dots ($T_3$) fall more slowly, by 0.586 per step, along their line, down to about $10^{-9}$ after 40 steps.
 
 **In [19], the last check.**
 
@@ -4817,3 +4834,1961 @@ all_checks_passed()
 ```
 
 The nine file names are built from their numbers and names (`enumerate(..., start=1)` numbers the list from 1). The last line is ALL 30 CHECKS PASSED (notebook 01g). The 30 checks are: 4 in In [2], 1 in In [3], 2 in In [4], 2 in In [5], 5 in In [6], 3 in In [8], 2 in In [10], 2 in In [11], 2 in In [13], 2 in In [14], 3 in In [16], 1 in In [18] and 1 in In [19].
+
+### 1.42 The generalized Kronecker delta: the author's definition and its four cases
+
+**Why it matters.** In eight dimensions the field equations of gravity that the author's theory uses are the **Lovelock equations** (Chapters 11 and 12). Every one of their terms carries a weight, a number $+1$, $-1$ or 0, given by one combinatorial tool: the **generalized Kronecker delta**. The Revision record computes these weights with a fast program called GKD; this section defines the tool exactly as the author did and proves the rule that GKD uses.
+
+**Words.** A **label** is a name of a coordinate, here one of $x_1, \dots, x_8$; the computer often numbers them $0, \dots, 7$. Only the question "are two labels equal?" matters below, so the choice of names changes no result. An **index list** is an ordered list of labels, such as $(x_1, x_3, x_3)$; its **length** is the number of its entries (here 3). The ordinary **Kronecker delta** of two labels, $\delta(a, b)$, is 1 if they are equal and 0 otherwise (Section 1.26 wrote it $\delta^a{}_b$).
+
+**The author's definition.** The author defined the generalized delta in his Mathematica notebook, in the input cell stored in the file as In[87] (his In[54]); the Revision record quotes the cell verbatim in `Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md` and lists it in `Revision/gkd_lovelock/results/notebook-input-cells.txt`. In Mathematica's plain-text spelling (`\[Delta]` is the Greek letter $\delta$):
+
+```text
+k\[Delta][lower_, upper_] /; Length[lower] == Length[upper] :=
+    Det[Outer[delta, lower, upper]]
+```
+
+In words: for a lower list $(l_1, \dots, l_p)$ and an upper list $(u_1, \dots, u_p)$ of the same length $p$ (the condition after `/;`; for lists of different lengths the definition does not apply and Mathematica leaves the expression unevaluated), build the $p \times p$ matrix whose entry in row $i$ and column $j$ is $\delta(l_i, u_j)$ (`Outer[delta, lower, upper]`), and take its determinant (`Det`). The book writes
+
+$$
+\delta^{u_1 \dots u_p}_{l_1 \dots l_p} = \det\big[\delta(l_i, u_j)\big]_{i, j = 1, \dots, p} .
+$$
+
+For one index this is the ordinary Kronecker delta: the $1 \times 1$ matrix $(\delta(l_1, u_1))$ has this number as its determinant. For two indices the $2 \times 2$ determinant gives (PROVED)
+
+$$
+\delta^{u_1u_2}_{l_1l_2} = \det\begin{pmatrix}\delta(l_1, u_1) & \delta(l_1, u_2) \\ \delta(l_2, u_1) & \delta(l_2, u_2)\end{pmatrix} = \delta(l_1, u_1)\,\delta(l_2, u_2) - \delta(l_1, u_2)\,\delta(l_2, u_1)
+$$
+
+(the definition with $p = 2$; the formula $ad - bc$).
+
+**Theorem: the four cases (PROVED).** Let $M_{ij} = \delta(l_i, u_j)$.
+
+- (a) If two lower labels are equal, $l_i = l_k$ with $i \neq k$, then the rows $i$ and $k$ of $M$ are equal, so $\det M = 0$ (rule 4 of Section 1.20).
+- (b) If two upper labels are equal, two columns of $M$ are equal; the transpose $M^T$ then has two equal rows, so $\det M = \det M^T = 0$ (rules 2 and 4).
+- (c) If some lower label $l_i$ is not among the upper labels, row $i$ of $M$ consists of zeros; every term of the Leibniz formula contains one entry of that row, so $\det M = 0$.
+- (d) Otherwise the lower labels are $p$ different labels, all among the upper labels, which are $p$ different labels as well; so both lists hold the same $p$ labels, and the lower list is a re-ordering of the upper one. Each $l_i$ equals exactly one upper label $u_{\sigma(i)}$, and $\sigma$ is a permutation of $1, \dots, p$. Row $i$ of $M$ has its only 1 in column $\sigma(i)$: $M$ is the permutation matrix of $\sigma$, and $\det M = \mathrm{sign}(\sigma)$ (Section 1.20, rule (b) of the three special matrices).
+
+So the generalized delta is 0 when a label is repeated or missing, and otherwise the sign of the permutation that turns the upper list into the lower one. The Revision program GKD (the Rust file `Revision/gkd_lovelock/code/src/gkd.rs`) computes it in exactly this way, without building a matrix: it costs about $p^2$ comparisons (to count the inversions of $\sigma$) instead of the $p!$ terms of the Leibniz formula. The file states this proof in its opening comment, and its tests compare GKD with a literal determinant.
+
+**Examples (PROVED).** For the lists of length 3 over the labels $x_1, x_2, x_3$:
+
+| lower list | upper list | case | value |
+| --- | --- | --- | --- |
+| $(x_1, x_2, x_3)$ | $(x_1, x_2, x_3)$ | (d), $\sigma = (1, 2, 3)$, no inversion | $+1$ |
+| $(x_1, x_2, x_3)$ | $(x_2, x_3, x_1)$ | (d), $\sigma = (3, 1, 2)$, two inversions | $+1$ |
+| $(x_1, x_2, x_3)$ | $(x_1, x_3, x_2)$ | (d), $\sigma = (1, 3, 2)$, one inversion | $-1$ |
+| $(x_1, x_1, x_3)$ | $(x_1, x_2, x_3)$ | (a), a repeated lower label | 0 |
+| $(x_1, x_2, x_4)$ | $(x_1, x_2, x_3)$ | (c), $x_4$ missing above | 0 |
+
+(In the second row, $l_1 = x_1$ is the third upper label, so $\sigma(1) = 3$; $l_2 = x_2$ is the first, $\sigma(2) = 1$; $l_3 = x_3$ is the second, $\sigma(3) = 2$; the inversions of $(3, 1, 2)$ are the pairs $(3, 1)$ and $(3, 2)$.) The record lists five examples with the labels 1 to 4 in `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `gkd_examples`: $\delta^{12}_{12} = 1$, $\delta^{21}_{12} = -1$, $\delta^{11}_{11} = 0$, $\delta^{231}_{123} = 1$, $\delta^{124}_{123} = 0$ (written there as `kdelta[{1,2},{2,1}] = -1` and so on, lower list first); two more with the labels 0 to 2, and the refusal of lists of different lengths, in `Revision/gkd_lovelock/results/wolfram-gkd-report.json`, check `definition_unequal_lengths_stay_unevaluated`; and the two values that the Rust program prints for itself, $+1$ for the lists $(0, 1, 2)$, $(1, 2, 0)$ and $-1$ for $(0, 1)$, $(1, 0)$, in `Revision/gkd_lovelock/results/lovelock-report.json`, field `gkdSelfCheck`. Notebook 01c, In [6], reproduces all of them with both the literal determinant and the fast rule (Figure 01c.1 draws the five matrices of the table).
+
+### 1.43 Counting the values; nine indices in eight dimensions
+
+**Two indices (PROVED).** With two indices over the eight labels there are $8^2 = 64$ lower lists and 64 upper lists, so $64 \cdot 64 = 4096$ values. A value is not 0 only in case (d): the upper list holds two different labels (there are $8 \cdot 7 = 56$ such lists: 8 choices for the first label, 7 for the second), and the lower list is the same list (value $+1$) or its reverse (value $-1$). So there are 56 values $+1$, 56 values $-1$ and $4096 - 112 = 3984$ zeros (Figure 01c.2).
+
+**The number of nonzero values (PROVED).** In general, with $n$ labels and lists of length $p \leq n$: there are $n(n - 1)\cdots(n - p + 1) = n!/(n - p)!$ upper lists of $p$ different labels (a **falling factorial**: $n$ choices for the first label, $n - 1$ for the second, and so on), and $p!$ re-orderings of each, so
+
+$$
+N_{\neq 0}(n, p) = \frac{n!}{(n - p)!}\; p!\qquad(p \leq n),\qquad N_{\neq 0}(n, p) = 0\qquad(p > n).
+$$
+
+For $p \geq 2$ half of the re-orderings are even (Section 1.19), so $+1$ and $-1$ occur equally often; for $p = 1$ every nonzero value is $+1$. For $n = 8$:
+
+| length $p$ | all pairs $8^{2p}$ | value $+1$ | value $-1$ | value 0 |
+| --- | --- | --- | --- | --- |
+| 1 | 64 | 8 | 0 | 56 |
+| 2 | 4096 | 56 | 56 | 3984 |
+| 3 | 262144 | 1008 | 1008 | 260128 |
+| 4 | 16777216 | 20160 | 20160 | 16736896 |
+
+(for $p = 3$: $8 \cdot 7 \cdot 6 = 336$ lists times $3! = 6$ re-orderings is 2016, half of it 1008; for $p = 4$: $8 \cdot 7 \cdot 6 \cdot 5 = 1680$ times $4! = 24$ is 40320, half of it 20160; the zeros are the rest). The Revision record compared GKD with the author's definition for every pair of lengths 1, 2 and 3, 266,304 pairs in all, and recorded these counts in `Revision/gkd_lovelock/results/wolfram-gkd-report.json`, field `measurements`, entry `gkdComparison`, with the checks `gkd_equals_kdelta_exhaustive_length_1` to `_3`; its Rust self-test compared all 16,777,216 pairs of length 4 (`Revision/gkd_lovelock/results/gkd-selftest.json`). Notebook 01c, In [8] and In [10], repeats both comparisons, every pair, and gets the same counts and no disagreement (COMPUTED, and the counts PROVED by the formula). The nonzero values become rare as $p$ grows: their fraction $N_{\neq 0}(8, p)/8^{2p}$ falls from $1/8$ at $p = 1$ to $8!\cdot 8!/8^{16} \approx 5.8 \times 10^{-6}$ at $p = 8$ (Figures 01c.3 and 01c.4).
+
+**A shortcut for the sign (PROVED, with rule 1 of Section 1.20 for general $n$, which is ASSUMED).** When the lower list $L$ is a re-ordering of the upper list $U$ of $p$ different labels, both are re-orderings of the same sorted list $s_1 < s_2 < \dots < s_p$. Let $P_L$ be the matrix with the entries $(P_L)_{ik} = \delta(l_i, s_k)$ and $P_U$ the one with $(P_U)_{jk} = \delta(u_j, s_k)$; both are permutation matrices. Then
+
+$$
+(P_LP_U^T)_{ij} = \sum_k\delta(l_i, s_k)\,\delta(u_j, s_k) = \delta(l_i, u_j) = M_{ij}
+$$
+
+(the matrix product with the transpose; the sum has one nonzero term, the $k$ with $s_k = l_i$, and that term is 1 exactly when $u_j = s_k = l_i$), so $\det M = \det P_L\,\det P_U^T = \det P_L\,\det P_U$ (rules 1 and 2). The permutation of $P_L$ sends place $i$ to the place of $l_i$ in the sorted list, and two places $i < j$ are an inversion of it exactly when $l_i > l_j$; so $\det P_L$ is the sign counted by the inversions of the list $L$ itself, $\mathrm{sign}(L)$, and
+
+$$
+\delta^{U}_{L} = \mathrm{sign}(L)\,\mathrm{sign}(U) .
+$$
+
+This lets numpy compute millions of values at once (Notebook 01c, In [9]).
+
+**Nine indices in eight dimensions (PROVED).** A list of 9 labels taken from only 8 must repeat a label, by the **pigeonhole principle**: if more than $n$ objects are put into $n$ boxes, some box gets at least two of them. So case (a) applies and the value is 0, for every one of the $8^{18}$ pairs of lists of length 9. In the Lovelock tensors of the theory the generalized delta appears with $2k + 1$ indices, $k = 1, 2, 3, \dots$; the term $k = 4$ would need 9 indices, so it vanishes identically, and the Lovelock sum of an eight-dimensional spacetime stops at $k = 3$. The record checks this in `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `gkd_nine_indices_in_eight_dimensions_vanish`, and `Revision/gkd_lovelock/results/lovelock-report.json`, check `k4_tensor_vanishes`. With 8 labels a nonzero value is still possible: the list $(x_1, \dots, x_8)$ against its reverse has $8 \cdot 7/2 = 28$ inversions (every one of the $\binom{8}{2} = 28$ pairs is in the wrong order), an even number, so the value is $+1$.
+
+### 1.44 Contracting one index; the Lovelock trace factors; the Levi-Civita symbol
+
+**The contraction identity (PROVED).** Take two lists $A = (a_1, \dots, a_{p-1})$ and $B = (b_1, \dots, b_{p-1})$, append the same label $c$ to both, and add over all $n$ values of $c$. Then
+
+$$
+\sum_c\delta^{a_1\dots a_{p-1}c}_{b_1\dots b_{p-1}c} = (n - p + 1)\,\delta^{a_1\dots a_{p-1}}_{b_1\dots b_{p-1}} .
+$$
+
+*Proof by cases.* (i) If $A$ or $B$ repeats a label, every extended list repeats it too: every term is 0 by case (a) or (b), and so is the right side. (ii) If $A$ and $B$ consist of different labels but do not hold the same labels, then for each $c$: if $c$ is a label of $A$ or of $B$, an extended list repeats it (term 0); if not, the extended lists hold the labels of $A$ plus $c$ and those of $B$ plus $c$, which still differ (term 0 by case (c)). The right side is 0 as well. (iii) If $B$ is a re-ordering $\sigma$ of $A$: for the $p - 1$ values of $c$ that are labels of $A$, the extended lists repeat $c$ (term 0); for each of the other $n - (p - 1)$ values, the extended lists are re-ordered by $\sigma$ with $c$ left at the last place, and that permutation has the same inversions as $\sigma$ (the last place is in the right order with every other place), so each such term equals $\mathrm{sign}(\sigma)$. Together: $(n - p + 1)\,\mathrm{sign}(\sigma)$, which is the right side. For $p = 1$ the lists $A$ and $B$ are empty, and the delta of two empty lists is 1 (the determinant of the empty matrix: the Leibniz formula has one term, the empty product, which is 1); the identity then says $\sum_c\delta^c_c = n$, which is $\delta^a{}_a = 8$ of Section 1.26.
+
+**The factors of the Lovelock trace identities (PROVED).** The Lovelock tensors of order $k$ are built as
+
+$$
+P_{(k)}{}^h{}_j = \delta^{h h_1\dots h_{2k}}_{j j_1\dots j_{2k}}\,R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}},\qquad L_{(k)} = \delta^{h_1\dots h_{2k}}_{j_1\dots j_{2k}}\,R^{j_1j_2}{}_{h_1h_2}\cdots
+$$
+
+(summation convention over all repeated indices; $R$ is the curvature of spacetime, whose meaning Chapter 3 explains; here only the generalized delta matters). The delta in $P_{(k)}$ has $p = 2k + 1$ indices. The **trace** $\sum_h P_{(k)}{}^h{}_h$ sets $j = h$ and sums: it contracts the first upper index with the first lower one. Moving these two indices from the front to the end of both lists re-orders the rows and the columns of the matrix $M$ by the same permutation, which multiplies the determinant by its sign twice, that is, not at all (rule 3 of Section 1.20 applied once per exchange, to rows and to columns alike). So the contraction identity applies with $n = 8$ and $p = 2k + 1$:
+
+$$
+\sum_h P_{(k)}{}^h{}_h = (8 - (2k + 1) + 1)\,L_{(k)} = (8 - 2k)\,L_{(k)} ,
+$$
+
+with the factors 6, 4 and 2 for $k = 1, 2, 3$. These are exactly the factors of the record's trace identities: `Revision/gkd_lovelock/results/lovelock-report.json`, checks `k1_trace_identity` to `k3_trace_identity` (their texts read `sum_h P_(1)^h_h = (8 - 2) L_(1)` and so on), and `Revision/gkd_lovelock/results/wolfram-gkd-report.json`, checks `k1_trace_equals_6_L1`, `k2_trace_equals_4_L2`, `k3_trace_equals_2_L3`. Notebook 01c, In [14] and In [15], finds the factor $n - p + 1$ for $n = 8$ and every $p = 1$ to 8, and for $n = 4$ and every $p = 1$ to 4 (COMPUTED; Figure 01c.5).
+
+**The Levi-Civita symbol (PROVED).** The **Levi-Civita symbol** of $n$ labels is the generalized delta with the upper list $(0, 1, \dots, n - 1)$, all labels in their natural order:
+
+$$
+\varepsilon_{i_1\dots i_n} = \delta^{0\,1\,\dots\,n-1}_{i_1\dots i_n} ,
+$$
+
+by case (d) the sign of the list $(i_1, \dots, i_n)$ if it is a re-ordering of all $n$ labels, and 0 otherwise. For three labels: $\varepsilon_{012} = \varepsilon_{120} = \varepsilon_{201} = +1$, $\varepsilon_{021} = \varepsilon_{102} = \varepsilon_{210} = -1$, and 0 for every list with a repeated label (Figure 01c.6). The product of two of them, summed over their last $n - p$ indices, is
+
+$$
+\sum_{c_{p+1},\dots,c_n}\varepsilon_{a_1\dots a_pc_{p+1}\dots c_n}\,\varepsilon_{b_1\dots b_pc_{p+1}\dots c_n} = (n - p)!\;\delta^{b_1\dots b_p}_{a_1\dots a_p} .
+$$
+
+*Proof.* For full lists ($p = n$), both sides are the product of the signs of the two lists, or 0: by the sign shortcut of Section 1.43, $\delta^{B}_{A} = \mathrm{sign}(A)\,\mathrm{sign}(B) = \varepsilon_A\varepsilon_B$ when both are re-orderings of all labels, and both sides are 0 otherwise. Then contract the last index $n - p$ times with the contraction identity: the first contraction (of a delta with $n$ indices) gives the factor $n - n + 1 = 1$, the next $2$, and the last (of a delta with $p + 1$ indices) $n - p$; the product of the factors is $1 \cdot 2 \cdots (n - p) = (n - p)!$.
+
+**The author's second route.** The author's notebook builds the generalized delta also from two Levi-Civita tensors, in the input cell In[32] (`delta11 = Simplify[(epsilong[-a, -f, ...] epsilong[b, f, ...])/(8 - 1)!]`): the formula above with $n = 8$, $p = 1$ and the divisor $7!$. In his notation the second $\varepsilon$ carries upper indices, raised with the metric, and the minus signs mark lower indices. For the frame metric $\eta$, raising all eight indices of $\varepsilon$ multiplies each nonzero entry by the product of the eight diagonal entries of $\eta^{-1}$ (each label occurs exactly once in a nonzero entry), that is by $\det\eta = (+1)^4(-1)^4 = +1$ (PROVED). The author's `epsilong` is the Levi-Civita tensor of a metric $g$ that he declares in the cell In[29] with `DefMetric[{4, 4, 0}, ...]`: four positive, four negative and no zero eigenvalues, the signature (4,4). For such a tensor the same step gives the sign of $\det g$ (a fact of tensor calculus, ASSUMED here), which is $(-1)^4 = +1$ as for $\eta$ (and for the author's metric of the Revision record, $\det g = \cos^2 z > 0$, Section 1.21). In four-dimensional spacetime, with one $-1$, the same step would give the factor $-1$. So in the signature (4,4) the author's second route gives the generalized delta with no extra sign; Notebook 01c, In [17], checks this: for all 64 pairs $(a, b)$ the sums are $5040 = 7!$ for $a = b$ and 0 otherwise, the $8 \times 8$ identity $\delta^b{}_a$ after the division by $7!$ (COMPUTED).
+
+### 1.45 Example: the generalized Kronecker delta
+
+Notebook 01c puts Sections 1.42 to 1.44 to work. It reads the author's definition and the cells of his notebook from the Revision record; writes the definition in Python literally, as a Leibniz determinant of the matrix `Outer`, and again as the fast rule of GKD; reproduces every example of the record; computes all 4096 values with two indices; compares the literal determinant with the fast rule for every one of the 266,304 pairs of lengths 1 to 3 and the 16,777,216 pairs of length 4, and compares the counts with the record; checks the counting formula and the vanishing with nine indices; finds the contraction factors $n - p + 1$ and the factors 6, 4, 2 of the record's Lovelock trace identities; and checks the Levi-Civita product formula and the author's second route. It ends with the line ALL 28 CHECKS PASSED (notebook 01c).
+
+<!-- NOTEBOOK 01c -->
+
+### 1.48 Line-by-line walk-through of Notebook 01c
+
+The notebook has nineteen code cells, In [1] to In [19]. As in Section 1.9, a quoted line `...)` stands for the remaining lines of a figure caption, which Section 1.47 prints in full under its figure.
+
+**In [1], the set-up cell.** Its comment lines are the run instructions of Section 1.46; its code is the set-up code explained in Section 1.9, with `NOTEBOOK_ID = "01c"`. It prints Set-up of notebook 01c complete: repository folder found, helpers defined.
+
+**In [2], the author's definition, read from the record.**
+
+```python
+import itertools  # all lists of labels, all permutations
+import json  # reads the JSON reports of the Revision record
+import math  # factorials
+import re  # finds patterns in texts
+
+import numpy as np  # arrays: many index lists at once
+```
+
+The modules. `re` (part of Python) finds **patterns** in texts: a pattern, a **regular expression**, describes a piece of text with placeholders, for example `\d+` for "one or more digits" and `(...)` for a part to be taken out.
+
+```python
+DELTA = "\u03b4"  # the Greek letter delta, written with its code
+definition = ("k" + DELTA + "[lower_, upper_] /; Length[lower] == Length[upper] := "
+              "Det[Outer[delta, lower, upper]]")
+provenance_path = repository_file("Revision/gkd_lovelock/results/"
+                                  "PROVENANCE_OF_THE_COMPUTATION.md")
+provenance = provenance_path.read_text(encoding="utf-8")
+check(definition in provenance, "the record holds the author's definition verbatim",
+      record="Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md")
+```
+
+The notebook is written in plain ASCII, so the Greek letter $\delta$ is typed by its code, `\u03b4`. `definition` is the author's definition as one string (two strings next to each other are joined). The record's provenance file is read, and `definition in provenance` asks whether the string occurs in it, letter for letter.
+
+```python
+input_cells = repository_file("Revision/gkd_lovelock/results/"
+                              "notebook-input-cells.txt").read_text(encoding="utf-8")
+found = {}
+for line in input_cells.splitlines():
+    for label in ("In[87]:=", "In[32]:=", "In[29]:="):
+        if line.startswith(label):
+            found[label] = re.search(r"HoldForm\[(.*)\]", line).group(1)
+```
+
+The record's list of the author's input cells has one line per cell, starting with the label stored in the file. For the three labels of interest, the pattern `HoldForm\[(.*)\]` takes out the text between `HoldForm[` and the last `]` of the line (`.*` means "any characters"; the backslash makes the bracket an ordinary character), and `.group(1)` is the part in round brackets.
+
+```python
+for label in ("In[87]:=", "In[32]:=", "In[29]:="):
+    plain_text = found[label].replace(DELTA, "\\[Delta]")  # Mathematica's spelling
+    say(f"author's cell {label} {plain_text}")
+metric_cell = found["In[29]:="]  # kept for section 15 (the declaration of g)
+```
+
+The three cells are printed, with $\delta$ written in Mathematica's spelling `\[Delta]`: the definition (In[87]), the first cell of the second route (In[32]) and the declaration of the metric (In[29]), which is kept for In [17].
+
+```python
+check("Det[Outer[delta, lower, upper]]" in found["In[87]:="] and
+      "epsilong" in found["In[32]:="] and "(8 - 1)!" in found["In[32]:="],
+      "the author's notebook defines the delta as a determinant (In[87]) and "
+      "also uses a product of two Levi-Civita tensors (In[32])",
+      record="Revision/gkd_lovelock/results/notebook-input-cells.txt")
+```
+
+The check confirms what the three printed cells show. The cell prints two PASS lines, each with the record it reproduces.
+
+**In [3], the generalized delta, literally.**
+
+```python
+def kronecker(a, b):
+    """The ordinary Kronecker delta of two labels: 1 if they are equal, else 0."""
+    return 1 if a == b else 0
+
+
+def outer_matrix(lower, upper):
+    """Outer[delta, lower, upper]: row i, column j is kronecker(lower[i], upper[j])"""
+    return [[kronecker(l_label, u_label) for u_label in upper] for l_label in lower]
+```
+
+The ordinary Kronecker delta, and the matrix `Outer` as a list of rows: one row for each lower label, one entry for each upper label.
+
+```python
+def inversions(order):
+    """The number of pairs of places i < j whose entries stand in the wrong order."""
+    return sum(1 for i in range(len(order)) for j in range(i + 1, len(order))
+               if order[i] > order[j])
+
+
+def sign(order):
+    """+1 for an even number of inversions, -1 for an odd number."""
+    return 1 if inversions(order) % 2 == 0 else -1
+```
+
+Inversions and sign, as in Notebook 01a, In [6] (Section 1.25).
+
+```python
+SIGNED = {}  # size n -> list of (permutation, its sign), computed once per size
+
+
+def signed_permutations(n):
+    if n not in SIGNED:
+        SIGNED[n] = [(order, sign(order)) for order in itertools.permutations(range(n))]
+    return SIGNED[n]
+```
+
+The permutations of $n$ objects with their signs are needed millions of times; they are computed once for each size and kept in the dictionary `SIGNED` (`if n not in SIGNED` is true only the first time).
+
+```python
+def leibniz_det(rows):
+    """The Leibniz determinant of a square matrix given as a list of rows."""
+    total = 0
+    for order, order_sign in signed_permutations(len(rows)):
+        term = order_sign
+        for i, column in enumerate(order):
+            term *= rows[i][column]
+            if term == 0:  # one factor 0 makes the whole term 0: stop early
+                break
+        total += term
+    return total
+```
+
+The Leibniz formula as in Notebook 01a, with one saving: as soon as a factor 0 makes a term 0, the inner loop stops (`break`), because the rest of the product cannot change it.
+
+```python
+def kdelta_literal(lower, upper):
+    """The author's k-delta: Det[Outer[delta, lower, upper]] for equal lengths."""
+    if len(lower) != len(upper):
+        raise ValueError("the two index lists must have the same length")
+    return leibniz_det(outer_matrix(lower, upper))
+```
+
+The author's definition, word for word: lists of different lengths are refused (Python stops with a `ValueError`, the counterpart of Mathematica leaving the expression unevaluated); otherwise the determinant of `Outer`.
+
+```python
+def signed(value):
+    """A value +1, -1 or 0 as the text "+1", "-1" or "0"."""
+    return f"{value:+d}" if value else "0"
+
+
+same = kdelta_literal(("x1",), ("x1",))  # lists of length 1: ("x1",) has one entry
+different = kdelta_literal(("x1",), ("x2",))
+say(f"one index: delta(x1, x1) = {same}, delta(x1, x2) = {different}")
+check(same == 1 and different == 0,
+      "for one index the generalized delta is the ordinary Kronecker delta")
+```
+
+A helper that writes a value with its sign (0 without one). Then the case of one index with the labels written as the strings "x1" and "x2" (`("x1",)` is a tuple with one entry; the comma makes it a tuple). Output: one index: delta(x1, x1) = 1, delta(x1, x2) = 0, and the PASS line.
+
+**In [4], the five matrices of the table.**
+
+```python
+examples = [(("x1", "x2", "x3"), ("x1", "x2", "x3"), "same lists"),
+            (("x1", "x2", "x3"), ("x2", "x3", "x1"), "cyclic turn"),
+            (("x1", "x2", "x3"), ("x1", "x3", "x2"), "one exchange"),
+            (("x1", "x1", "x3"), ("x1", "x2", "x3"), "repeated lower"),
+            (("x1", "x2", "x4"), ("x1", "x2", "x3"), "x4 missing above")]
+fig, axes = plt.subplots(1, 5, figsize=(12.0, 3.4))
+```
+
+The five pairs of lists of the table of Section 1.42, each with a short description, and five panels.
+
+```python
+for ax, (lower, upper, what) in zip(axes, examples):
+    matrix = np.array(outer_matrix(lower, upper))
+    ax.imshow(matrix, cmap="Greys", vmin=0, vmax=1.4)
+    ax.grid(False)
+    ax.set_xticks(range(3), [f"${u[0]}_{u[1]}$" for u in upper])  # "x1" -> x_1
+    ax.set_yticks(range(3), [f"${l_label[0]}_{l_label[1]}$" for l_label in lower])
+    ax.set_xlabel("upper list")
+    ax.set_title(f"{what}: det = {signed(kdelta_literal(lower, upper))}", fontsize=9)
+```
+
+For each pair the matrix `Outer` is drawn in grey (dark for 1, white for 0); the labels "x1" are written as $x_1$ (the first character, an underscore for the subscript, the second character); the title gives the determinant.
+
+```python
+axes[0].set_ylabel("lower list")
+fig.tight_layout()
+save_figure(fig, "outer_matrices",
+            "The matrix Outer of ordinary Kronecker deltas for five pairs of index "
+            ...)
+values = [kdelta_literal(lower, upper) for lower, upper, _ in examples]
+check(values == [1, 1, -1, 0, 0], "the five pictured examples give +1, +1, -1, 0, 0")
+```
+
+What Figure 01c.1 shows: the identity matrix ($+1$); a permutation matrix of a cyclic turn ($+1$); one with two rows exchanged ($-1$); two equal rows (0); a white row of zeros (0). The check compares the five values with the table. One PASS line.
+
+**In [5], the fast rule of the program GKD.**
+
+```python
+def gkd_rule(lower, upper):
+    """The program GKD of Revision/gkd_lovelock/code/src/gkd.rs, in Python."""
+    if len(lower) != len(upper):
+        raise ValueError("the two index lists must have the same length")
+    place = {}  # upper label -> its place 0, 1, ..., p-1
+    for j, u_label in enumerate(upper):
+        if u_label in place:  # case (b): a repeated upper label
+            return 0
+        place[u_label] = j
+```
+
+The four cases of Section 1.42 as a program, in the order of the Rust function GKD. First every upper label is entered in the dictionary `place` with its place; meeting a label that is already there is case (b), and the function returns 0.
+
+```python
+    sigma = []  # sigma[i] = the place of lower[i] among the upper labels
+    for l_label in lower:
+        if l_label not in place:  # case (c): a lower label missing above
+            return 0
+        if place[l_label] in sigma:  # case (a): a repeated lower label
+            return 0
+        sigma.append(place[l_label])
+    return sign(sigma)  # case (d): the sign of the permutation sigma
+```
+
+Then, for every lower label, its place among the upper labels is looked up: a missing label is case (c); a place that was taken already means a repeated lower label, case (a). The places form the permutation $\sigma$, and its sign is the value, case (d). No matrix is built.
+
+```python
+check(all(gkd_rule(lower, upper) == kdelta_literal(lower, upper)
+          for lower, upper, _ in examples),
+      "the fast rule gives the literal values for the five examples")
+renamed = {f"x{k}": f"x{k % 8 + 1}" for k in range(1, 9)}  # x1->x2, ..., x8->x1
+two_lists = list(itertools.product([f"x{k}" for k in range(1, 9)], repeat=2))
+check(all(gkd_rule(lo, up) == gkd_rule(tuple(renamed[a] for a in lo),
+                                       tuple(renamed[b] for b in up))
+          for lo in two_lists for up in two_lists),
+      "renaming the labels changes no value (all 4096 pairs of length 2)")
+```
+
+The fast rule agrees with the literal determinant on the five examples. Then the labels are renamed, $x_k$ to $x_{k+1}$ and $x_8$ to $x_1$ (`k % 8 + 1`), and all $64 \cdot 64 = 4096$ pairs of lists of length 2 (`itertools.product(..., repeat=2)` gives all lists of two labels) must keep their values: only "equal or different" matters. Two PASS lines.
+
+**In [6], the examples of the record.**
+
+```python
+def read_report(name):
+    """A JSON report of Revision/gkd_lovelock/results as a Python dictionary."""
+    path = repository_file(f"Revision/gkd_lovelock/results/{name}")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def lists_from_text(text):
+    """"1,2,3" -> (1, 2, 3)"""
+    return tuple(int(part) for part in text.replace(" ", "").split(","))
+```
+
+A helper that reads a report of the record, and one that turns a text such as 1,2,3 into the tuple of whole numbers (blanks removed, cut at the commas).
+
+```python
+python_report = read_report("python-lovelock-report.json")
+python_checks = {c["name"]: c for c in python_report["checks"]}
+pattern = r"kdelta\[\{([\d,]+)\},\{([\d,]+)\}\] = (-?\d+)"
+record_examples = re.findall(pattern, python_checks["gkd_examples"]["detail"])
+```
+
+The record's report, its checks as a dictionary by name, and a pattern that matches texts like `kdelta[{1,2},{2,1}] = -1`: the backslashes make the brackets and braces ordinary characters, `([\d,]+)` takes out a run of digits and commas (a list), and `(-?\d+)` a whole number with an optional minus sign. `re.findall` returns all matches in the detail text of the check `gkd_examples`, each as the three parts.
+
+```python
+for lower_text, upper_text, value in record_examples:
+    lower, upper = lists_from_text(lower_text), lists_from_text(upper_text)
+    say(f"lower {lower}, upper {upper}: record {signed(int(value))}, literal "
+        f"{signed(kdelta_literal(lower, upper))}, rule {signed(gkd_rule(lower, upper))}")
+```
+
+Each of the five examples is printed with the record's value, the literal determinant and the fast rule: lower (1, 2), upper (2, 1): record -1, literal -1, rule -1, and so on.
+
+```python
+check(len(record_examples) == 5 and all(
+    kdelta_literal(lists_from_text(lo), lists_from_text(up)) == int(v) ==
+    gkd_rule(lists_from_text(lo), lists_from_text(up)) for lo, up, v in record_examples),
+    "the five examples of the record", record="Revision/gkd_lovelock/results/"
+    "python-lovelock-report.json, check gkd_examples")
+```
+
+All five agree, three ways; this reproduces the record's check `gkd_examples`.
+
+```python
+wolfram_report = read_report("wolfram-gkd-report.json")
+wolfram_checks = {c["name"]: c for c in wolfram_report["checks"]}
+detail = wolfram_checks["definition_unequal_lengths_stay_unevaluated"]["detail"]
+wolfram_pattern = "k" + DELTA + r"\[\{([\d, ]+)\}, \{([\d, ]+)\}\] = ([+-]?\d+)"
+wolfram_examples = re.findall(wolfram_pattern, detail)
+```
+
+The Wolfram report writes its examples with the Greek letter and blanks, as in `[{0, 1}, {1, 0}] = -1` after $k\delta$; the pattern is adapted accordingly, and finds the two examples with a value (the third list pair of the detail, of unequal lengths, has none).
+
+```python
+try:
+    kdelta_literal((0,), (0, 1))
+    refused = False
+except ValueError:  # lists of different lengths are refused
+    refused = True
+check(refused and len(wolfram_examples) == 2 and all(
+    kdelta_literal(lists_from_text(lo), lists_from_text(up)) == int(v)
+    for lo, up, v in wolfram_examples),
+    "lists of different lengths are refused; the two Wolfram examples",
+    record="Revision/gkd_lovelock/results/wolfram-gkd-report.json, check "
+    "definition_unequal_lengths_stay_unevaluated")
+```
+
+`try: ... except ValueError:` runs the first block and, if it stops with a `ValueError`, runs the second block instead of stopping the notebook: lists of the lengths 1 and 2 must be refused. Then the two examples with values; this reproduces the record's check.
+
+```python
+self_check = read_report("lovelock-report.json")["gkdSelfCheck"]
+length3_pair, transposition = self_check["length3Pair"], self_check["transposition"]
+say(f"lovelock-report.json gkdSelfCheck: length3Pair = {length3_pair}, "
+    f"transposition = {transposition}")
+check(self_check["length3Pair"] == gkd_rule((0, 1, 2), (1, 2, 0)) and
+      self_check["transposition"] == gkd_rule((0, 1), (1, 0)),
+      "the two values printed by the Rust program",
+      record="Revision/gkd_lovelock/results/lovelock-report.json, gkdSelfCheck")
+```
+
+The two values that the Rust program wrote into its report: length3Pair = 1 and transposition = -1, equal to the fast rule for the lists $(0, 1, 2)$, $(1, 2, 0)$ and $(0, 1)$, $(1, 0)$. The cell prints three PASS lines.
+
+**In [7], the 4096 values with two indices.**
+
+```python
+pairs = list(itertools.product(range(8), repeat=2))  # (0, 0), (0, 1), ..., (7, 7)
+table = np.array([[gkd_rule(lo, up) for up in pairs] for lo in pairs])  # 64 x 64
+two_term_ok = all(
+    gkd_rule(lo, up) == kronecker(lo[0], up[0]) * kronecker(lo[1], up[1])
+    - kronecker(lo[0], up[1]) * kronecker(lo[1], up[0])
+    for lo in pairs for up in pairs)
+check(two_term_ok, "the two-term formula holds for all 4096 pairs of length 2")
+```
+
+From here on the labels are the numbers 0 to 7, the computer's names for $x_1$ to $x_8$. All 64 lists of length 2; the $64 \times 64$ table of values (row: the lower list, column: the upper list); and the two-term formula of Section 1.42 for every entry.
+
+```python
+say(f"values +1: {(table == 1).sum()}, values -1: {(table == -1).sum()}, "
+    f"zeros: {(table == 0).sum()}")
+check((table == 1).sum() == 56 and (table == -1).sum() == 56,
+      "56 values +1 and 56 values -1 among the 4096")
+```
+
+The counts: values +1: 56, values -1: 56, zeros: 3984, as derived in Section 1.43.
+
+```python
+fig, ax = plt.subplots(figsize=(6.6, 6.2))
+image = ax.imshow(table, cmap="RdBu_r", vmin=-1, vmax=1, interpolation="nearest")
+ax.grid(False)
+ticks = [8 * k for k in range(8)]  # the first pair of each block of 8
+ax.set_xticks(ticks, [f"$(x_{k + 1}, x_1)$" for k in range(8)], rotation=90,
+              fontsize=7)
+ax.set_yticks(ticks, [f"$(x_{k + 1}, x_1)$" for k in range(8)], fontsize=7)
+ax.set_xlabel("upper list $(u_1, u_2)$")
+ax.set_ylabel("lower list $(l_1, l_2)$")
+ax.set_title("all 4096 values of the two-index delta")
+fig.colorbar(image, ax=ax, shrink=0.8, ticks=[-1, 0, 1])
+save_figure(fig, "two_index_table",
+            "All 4096 values of the generalized delta with two indices over the "
+            ...)
+```
+
+The table as a heat map (`interpolation="nearest"` keeps every entry a sharp square). The lists run in the order $(x_1, x_1), (x_1, x_2), \dots, (x_8, x_8)$; a tick marks the first list of each block of eight, labelled $(x_{k+1}, x_1)$, rotated by 90 degrees below the picture. What Figure 01c.2 shows: 56 red dots on the diagonal (equal lists of two different labels), with 8 white gaps where a list repeats its label, and 56 blue dots where the upper list is the reverse of the lower one. The cell prints two PASS lines.
+
+**In [8], every pair of length 1, 2 and 3, with plain loops.**
+
+```python
+comparison = wolfram_report["measurements"]["gkdComparison"]  # one entry per length
+recorded = {entry["p"]: entry for entry in comparison}
+plain_values = {}  # length p -> array of all values, lower lists in the outer loop
+tallies = {}
+total_pairs = 0
+mismatches = 0
+```
+
+The record's table `gkdComparison` (one entry per length, with the counts of $+1$, $-1$ and 0), made into a dictionary by length; containers for the values, the counts (**tallies**), the number of pairs and of disagreements.
+
+```python
+for p in (1, 2, 3):
+    lists = list(itertools.product(range(8), repeat=p))
+    values = []
+    for lower in lists:
+        for upper in lists:
+            fast = gkd_rule(lower, upper)
+            mismatches += fast != kdelta_literal(lower, upper)
+            values.append(fast)
+    plain_values[p] = np.array(values)
+    total_pairs += len(values)
+```
+
+For $p = 1, 2, 3$: all $8^p$ lists, and for every pair the fast rule and the literal determinant; `mismatches += fast != ...` adds 1 when the two differ (True counts as 1). The values are kept, lower lists in the outer loop, for In [9].
+
+```python
+    tally = {v: int((plain_values[p] == v).sum()) for v in (1, -1, 0)}
+    tallies[p] = tally
+    in_record = (recorded[p]["plusOne"], recorded[p]["minusOne"], recorded[p]["zero"])
+    here = (tally[1], tally[-1], tally[0])
+    say(f"length {p}: {len(values)} pairs")
+    say(f"    counts of (+1, -1, 0): here {here}, record {in_record}")
+    check(here == in_record,
+          f"length {p}: the counts of +1, -1 and 0 equal the record",
+          record="Revision/gkd_lovelock/results/wolfram-gkd-report.json, check "
+                 f"gkd_equals_kdelta_exhaustive_length_{p}")
+```
+
+The counts of the three values, compared with the record's: for length 3 the output reads here (1008, 1008, 260128), record (1008, 1008, 260128). Each length gives a PASS line that reproduces the record's check of that length.
+
+```python
+report("pairs of length 1, 2, 3 compared", total_pairs)
+check(total_pairs == 266304 and mismatches == 0,
+      "literal determinant = fast rule for all 266304 pairs of length 1, 2, 3",
+      record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
+             "gkd_literal_equals_cofactor_expansion (its exhaustive part)")
+```
+
+The RESULT line 266304 ($64 + 4096 + 262144$) and the check: no disagreement. The record's sympy verifier made the same exhaustive comparison with another determinant program (its check `gkd_literal_equals_cofactor_expansion`). The cell takes several seconds and prints four PASS lines.
+
+**In [9], many pairs at once.**
+
+```python
+def all_lists(p):
+    """Every index list of length p over the labels 0 ... 7, one per row."""
+    return np.array(list(itertools.product(range(8), repeat=p)), dtype=np.int8)
+```
+
+All $8^p$ lists of length $p$ as the rows of a numpy array of small whole numbers (`np.int8`: one byte each, enough for 0 to 7).
+
+```python
+def literal_many(lowers, uppers):
+    """The author's definition for many pairs at once (exact whole numbers)."""
+    p = lowers.shape[1]
+    outer = lowers[:, :, None] == uppers[:, None, :]  # shape (pairs, p, p)
+    values = np.zeros(len(lowers), dtype=np.int64)
+    rows = np.arange(p)
+    for order, order_sign in signed_permutations(p):
+        # True where the entries (i, order[i]) of the matrix are all 1
+        values += order_sign * outer[:, rows, list(order)].all(axis=1)
+    return values
+```
+
+The literal determinant for a whole block of pairs: row $r$ of `lowers` and of `uppers` is one pair. `lowers[:, :, None] == uppers[:, None, :]` compares every lower label with every upper label of the same pair at once (numpy **broadcasting**: the inserted axes of length 1 are stretched to match), giving one matrix `Outer` of True and False per pair. For each permutation, `outer[:, rows, list(order)]` picks the entries $(i, \sigma(i))$ of every matrix, `.all(axis=1)` is true when they are all 1 (then the term is $\pm 1$, otherwise 0), and the term's sign is added. This is the Leibniz formula, done for all pairs together.
+
+```python
+def rule_many(lowers, uppers):
+    """The fast rule for many pairs at once."""
+    p = lowers.shape[1]
+    upper_sorted = np.sort(uppers, axis=1)
+    upper_distinct = (np.diff(upper_sorted, axis=1) != 0).all(axis=1)
+    same_labels = (np.sort(lowers, axis=1) == upper_sorted).all(axis=1)
+```
+
+The fast rule for a block, with the sign shortcut of Section 1.43. Sorting each upper list, `upper_distinct` is true when no two neighbours of the sorted list are equal (no repeated upper label), and `same_labels` is true when the sorted lower list equals the sorted upper list (the two lists hold the same labels).
+
+```python
+    first, second = np.triu_indices(p, 1)  # all pairs of places first < second
+    inversions_lower = (lowers[:, first] > lowers[:, second]).sum(axis=1)
+    inversions_upper = (uppers[:, first] > uppers[:, second]).sum(axis=1)
+    signs = np.where((inversions_lower + inversions_upper) % 2 == 0, 1, -1)
+    return np.where(upper_distinct & same_labels, signs, 0)
+```
+
+`np.triu_indices(p, 1)` lists all pairs of places $i < j$; the inversions of each lower and each upper list are counted, and $\mathrm{sign}(L)\,\mathrm{sign}(U)$ is $+1$ when their total is even. `np.where(condition, a, b)` takes `a` where the condition holds and `b` elsewhere: the sign where the lists hold the same different labels, 0 otherwise (with distinct upper labels and the same sorted labels, the lower labels are distinct as well, so cases (a), (b) and (c) all give 0).
+
+```python
+agree = True
+for p in (1, 2, 3):
+    lists = all_lists(p)
+    lowers = np.repeat(lists, len(lists), axis=0)  # each lower list 8^p times
+    uppers = np.tile(lists, (len(lists), 1))  # all upper lists, again and again
+    agree &= bool((literal_many(lowers, uppers) == plain_values[p]).all())
+    agree &= bool((rule_many(lowers, uppers) == plain_values[p]).all())
+check(agree, "the block functions agree with the plain ones on all pairs of "
+      "length 1, 2, 3")
+```
+
+Before the new functions are trusted, they must give the plain values of In [8] for all 266,304 pairs. `np.repeat` repeats each lower list $8^p$ times and `np.tile` repeats the whole list of upper lists $8^p$ times, which together produce every pair in the order of In [8] (lower lists in the outer loop). One PASS line.
+
+**In [10], all 16,777,216 pairs of length 4.**
+
+```python
+selftest = read_report("gkd-selftest.json")
+recorded_selftest = {entry["p"]: entry for entry in selftest["results"]}
+lists4 = all_lists(4)  # 4096 lists
+tally4 = {1: 0, -1: 0, 0: 0}
+mismatches4 = 0
+```
+
+The record's self-test report, by length; the 4096 lists of length 4; counters.
+
+```python
+for start in range(0, 4096, 256):
+    lowers = np.repeat(lists4[start:start + 256], 4096, axis=0)
+    uppers = np.tile(lists4, (256, 1))
+    literal = literal_many(lowers, uppers)
+    fast = rule_many(lowers, uppers)
+    mismatches4 += int((literal != fast).sum())
+    for v in (1, -1, 0):
+        tally4[v] += int((fast == v).sum())
+tallies[4] = tally4
+pairs4 = sum(tally4.values())
+```
+
+The $4096 \cdot 4096 = 16{,}777{,}216$ pairs in 16 blocks: each block takes 256 lower lists (`start` runs 0, 256, ..., 3840), each paired with all 4096 upper lists, 1,048,576 pairs per block, few enough to fit in memory. For each block the literal determinant and the fast rule are compared and the values tallied.
+
+```python
+say(f"length 4: {pairs4} pairs; +1: {tally4[1]}, -1: {tally4[-1]}, 0: {tally4[0]}; "
+    f"mismatches {mismatches4}")
+report("length 4, counts of the values +1, -1, 0",
+       f"{tally4[1]}, {tally4[-1]}, {tally4[0]}")
+for p in (1, 2, 3, 4):
+    mode, pairs_p, wrong = (recorded_selftest[p]["mode"], recorded_selftest[p]["pairs"],
+                            recorded_selftest[p]["mismatches"])
+    say(f"record gkd-selftest.json, length {p}: {mode}, {pairs_p} pairs, {wrong} "
+        "mismatches")
+```
+
+Output: length 4: 16777216 pairs; +1: 20160, -1: 20160, 0: 16736896; mismatches 0, the RESULT line, and four lines of the record's self-test: exhaustive, 64, 4096, 262144 and 16777216 pairs, 0 mismatches each.
+
+```python
+check(pairs4 == recorded_selftest[4]["pairs"] == 16777216 and
+      mismatches4 == recorded_selftest[4]["mismatches"] == 0,
+      "all 16777216 pairs of length 4: literal determinant = fast rule",
+      record="Revision/gkd_lovelock/results/gkd-selftest.json, length 4 "
+             "(exhaustive)")
+check(all(recorded_selftest[p]["pairs"] == 8 ** (2 * p) and
+          recorded_selftest[p]["mismatches"] == 0 for p in (1, 2, 3)),
+      "the record's exhaustive self-tests of length 1, 2, 3 cover 8^(2p) pairs "
+      "with no mismatch, as found in section 10",
+      record="Revision/gkd_lovelock/results/gkd-selftest.json, lengths 1 to 3")
+```
+
+Two PASS lines: the length-4 comparison of the record is reproduced, and the record's lengths 1 to 3 cover every pair ($8^{2p}$) with no mismatch, as In [8] found (section 10 of the notebook). The cell takes 10 to 30 seconds (COMPUTED).
+
+**In [11], the counts as a picture.**
+
+```python
+fig, ax = plt.subplots(figsize=(7.5, 4.4))
+lengths = np.arange(1, 5)
+for shift, value, color, name in [(-0.27, 1, "tab:red", "value +1"),
+                                  (0.0, -1, "tab:blue", "value -1"),
+                                  (0.27, 0, "0.6", "value 0")]:
+    counts = [max(tallies[p][value], 0.8) for p in lengths]  # 0.8 marks a count 0
+    ax.bar(lengths + shift, counts, width=0.25, color=color, label=name)
+    for x, count in zip(lengths + shift, counts):
+        ax.text(x, count * 1.25, f"{count:.0f}" if count >= 1 else "0",
+                ha="center", fontsize=7, rotation=90)
+```
+
+Three bars per length: the counts of $+1$, $-1$ and 0. A logarithmic axis cannot show 0, so a count 0 is drawn as 0.8, a short stub, and labelled "0"; every bar carries its count above it, written vertically (`rotation=90`).
+
+```python
+ax.set_yscale("log")
+ax.set_ylim(0.5, 2e9)
+ax.set_xticks(lengths)
+ax.set_xlabel("length $p$ of the two index lists")
+ax.set_ylabel("number of pairs (logarithmic scale)")
+ax.set_title("Values of the generalized delta over 8 labels")
+ax.legend(loc="upper left");
+save_figure(fig, "value_counts",
+            "The number of pairs of index lists of length $p = 1$ to 4 over the "
+            ...)
+```
+
+What Figure 01c.3 shows: the grey bars (zeros) tower over the others, more so with every length; the red and blue bars are equal from $p = 2$ on.
+
+**In [12], the counting formula.**
+
+```python
+def nonzero_count(n, p):
+    """The number of pairs of index lists of length p over n labels with value +-1."""
+    return math.perm(n, p) * math.factorial(p) if p <= n else 0
+```
+
+The formula of Section 1.43: `math.perm(n, p)` is the falling factorial $n!/(n - p)!$.
+
+```python
+formula_ok = tallies[1][1] == 8 and tallies[1][-1] == 0
+for p in (2, 3, 4):
+    formula_ok &= tallies[p][1] == tallies[p][-1] == nonzero_count(8, p) // 2
+check(formula_ok, "the counting formula n!/(n-p)! p! gives the counts of lengths 1 to 4")
+```
+
+The formula against the counts of In [8] and In [10]: 8 values $+1$ and none $-1$ for $p = 1$; half of $N_{\neq 0}$ each for $p = 2, 3, 4$.
+
+```python
+for p in range(1, 10):
+    total = 8 ** (2 * p)
+    say(f"p = {p}: {total:20d} pairs, {nonzero_count(8, p):11d} not zero, "
+        f"fraction {nonzero_count(8, p) / total:.3e}")
+```
+
+The table for $p = 1$ to 9: the number of pairs, of nonzero values and their fraction. It ends with p = 8: 281474976710656 pairs, 1625702400 not zero, fraction 5.776e-06, and p = 9: 0 not zero.
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.3))
+lengths = np.arange(1, 9)
+left.semilogy(lengths, [8.0 ** (2 * p) for p in lengths], "s-",
+              label="all pairs $8^{2p}$")
+left.semilogy(lengths, [nonzero_count(8, p) for p in lengths], "o-",
+              label="pairs with value $\\pm 1$")
+left.set_xlabel("length $p$")
+left.set_ylabel("number of pairs (logarithmic scale)")
+left.set_title("for $p = 9$ no pair is left")
+left.legend()
+```
+
+On the left both numbers for $p = 1$ to 8 on a logarithmic axis.
+
+```python
+right.semilogy(lengths, [nonzero_count(8, p) / 8.0 ** (2 * p) for p in lengths], "o-",
+               color="tab:purple")
+right.set_xlabel("length $p$")
+right.set_ylabel("fraction of pairs with value $\\pm 1$")
+right.set_title("the nonzero values become rare")
+fig.tight_layout()
+# The fraction for p = 8 written as "5.8 \times 10^{-6}" for the caption:
+mantissa, exponent = f"{nonzero_count(8, 8) / 8 ** 16:.1e}".split("e")
+save_figure(fig, "nonzero_fraction",
+            "Left: the number of all pairs of index lists of length $p$ over 8 "
+            ...)
+```
+
+On the right their ratio. As in Notebook 01a, In [13], the fraction for $p = 8$ is split into mantissa and exponent for the caption. What Figure 01c.4 shows: the number of all pairs grows along a straight line on the logarithmic axis, the number of nonzero ones much more slowly, and the fraction falls steadily. The cell prints one PASS line and the table.
+
+**In [13], nine indices in eight dimensions.**
+
+```python
+generator = np.random.default_rng(12345)
+nine_all_zero = True
+for sample in range(600):
+    upper = tuple(int(x) for x in generator.integers(0, 8, size=9))
+    if sample % 2 == 0:  # an arbitrary lower list
+        lower = tuple(int(x) for x in generator.integers(0, 8, size=9))
+    else:  # a re-ordering of the upper list
+        lower = tuple(int(x) for x in generator.permutation(np.array(upper)))
+```
+
+600 random pairs of lists of 9 labels (seed 12345): for even samples an arbitrary lower list, for odd ones a re-ordering of the upper list (`generator.permutation` returns the entries in a random order), the hardest case for the rule.
+
+```python
+    determinant = np.linalg.det(np.array(outer_matrix(lower, upper), dtype=float))
+    nine_all_zero &= gkd_rule(lower, upper) == 0 and abs(determinant) < 1e-9
+check(nine_all_zero, "600 pairs of lists of 9 labels from 8: every value is 0",
+      record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
+             "gkd_nine_indices_in_eight_dimensions_vanish (with our own random lists)")
+```
+
+The literal determinant of the $9 \times 9$ matrix is computed by numpy's elimination (the Leibniz formula would have $9! = 362{,}880$ terms); both it and the fast rule must be 0, as the pigeonhole principle says. The record made the same test with its own random lists.
+
+```python
+eight = tuple(range(8))
+reverse = eight[::-1]  # (7, 6, ..., 0)
+say(f"8 labels against their reverse: {inversions(reverse)} inversions, value "
+    f"{gkd_rule(eight, reverse):+d}")
+check(gkd_rule(eight, reverse) == 1 and inversions(reverse) == 28,
+      "with 8 labels a nonzero value is possible (the reverse order has 28 "
+      "inversions, value +1)")
+```
+
+`[::-1]` reverses a list. Output: 8 labels against their reverse: 28 inversions, value +1. The cell prints two PASS lines.
+
+**In [14], contracting one index.**
+
+```python
+def contraction_factors(n, p, pairs_of_lists):
+    """The set of the ratios sum_c delta(A + c, B + c) / delta(A, B) over the pairs
+    with delta(A, B) != 0; returns None if some pair breaks the identity."""
+    found_factors = set()
+    for lower, upper in pairs_of_lists:
+        total = sum(gkd_rule(lower + (c,), upper + (c,)) for c in range(n))
+        base = gkd_rule(lower, upper)
+```
+
+For each pair of lists $A$ (lower) and $B$ (upper) of length $p - 1$: `total` is the sum over the $n$ labels $c$ of the delta of the extended lists (`lower + (c,)` appends $c$ to a tuple), and `base` is the delta of $A$ and $B$.
+
+```python
+        if base == 0:
+            if total != 0:
+                return None
+        else:
+            found_factors.add(total // base)
+            if total != (n - p + 1) * base:
+                return None
+    return found_factors
+```
+
+If the base is 0 the sum must be 0 too; otherwise the ratio is recorded and must be $n - p + 1$. A broken pair makes the function return `None` (Python's "nothing"); otherwise it returns the set of ratios found, which must contain one number.
+
+```python
+factors = {}  # (n, p) -> the factor found
+for n in (4, 8):
+    for p in range(1, n + 1):
+        q = p - 1  # the length of the lists A and B
+        if (n == 8 and p <= 3) or n == 4:  # every pair of lists, plain loops
+            lists = list(itertools.product(range(n), repeat=q))
+            pairs_q = [(lo, up) for lo in lists for up in lists]
+```
+
+For $n = 4$ and $n = 8$ and every $p$: when there are few lists ($n = 8$ with $p \leq 3$, or $n = 4$), every pair of lists of length $q = p - 1$ is tested with plain loops. (For $p = 1$ the only list is the empty tuple, whose delta with itself is 1.)
+
+```python
+        elif n == 8 and p == 4:  # every pair, with the block function
+            lists = all_lists(3)
+            lowers = np.repeat(lists, len(lists), axis=0)
+            uppers = np.tile(lists, (len(lists), 1))
+            base = rule_many(lowers, uppers)  # delta(A, B) for all 262144 pairs
+            total = sum(rule_many(np.column_stack([lowers, np.full(len(lowers), c)]),
+                                  np.column_stack([uppers, np.full(len(uppers), c)]))
+                        for c in range(8))  # the sum over c, for all pairs at once
+```
+
+For $n = 8$, $p = 4$ all $512 \cdot 512 = 262{,}144$ pairs of lists of length 3 are handled with the block function of In [9]: `np.column_stack` appends a column holding the label $c$ to every list (`np.full(len(lowers), c)` is that column), and the sum over $c$ is taken for all pairs at once.
+
+```python
+            nonzero = base != 0
+            ratios = np.unique(total[nonzero] // base[nonzero])  # base is +1 or -1
+            identity_holds = (bool((total[~nonzero] == 0).all()) and len(ratios) == 1
+                              and bool((total == (n - p + 1) * base).all()))
+            factors[(n, p)] = int(ratios[0]) if identity_holds else None
+            continue
+```
+
+The same tests as in `contraction_factors`, on arrays: where the base is 0 the sum must be 0 (`~` turns True into False and back), the ratios must be one number, and the identity must hold everywhere. `continue` skips the rest of the loop body for this $p$.
+
+```python
+        else:  # random pairs: half re-orderings of different labels, half arbitrary
+            pairs_q = []
+            for sample in range(4000):
+                if sample % 2 == 0:
+                    upper = tuple(int(x) for x in generator.permutation(n)[:q])
+                    lower = tuple(int(x) for x in generator.permutation(np.array(upper)))
+                else:
+                    upper = tuple(int(x) for x in generator.integers(0, n, size=q))
+                    lower = tuple(int(x) for x in generator.integers(0, n, size=q))
+                pairs_q.append((lower, upper))
+        found = contraction_factors(n, p, pairs_q)
+        factors[(n, p)] = found.pop() if found and len(found) == 1 else None
+```
+
+For $n = 8$ and $p = 5$ to 8 there are too many pairs, so 4000 random ones are tested: half of them with $q$ different labels (the first $q$ entries of a random order of all $n$ labels) and a re-ordering of them, where the value is not 0; half arbitrary. Then the function of above is applied, and the one factor found is stored (`found.pop()` takes the element out of the set; `if found and len(found) == 1` guards against `None` and against several factors).
+
+```python
+say("factors found for n = 8, p = 1 ... 8: "
+    + ", ".join(str(factors[(8, p)]) for p in range(1, 9)))
+say("factors found for n = 4, p = 1 ... 4: "
+    + ", ".join(str(factors[(4, p)]) for p in range(1, 5)))
+report("contraction factors for 8 labels, p = 1 to 8",
+       ", ".join(str(factors[(8, p)]) for p in range(1, 9)))
+check(all(factors[(n, p)] == n - p + 1 for n in (4, 8) for p in range(1, n + 1)),
+      "contracting one index multiplies by n - p + 1 (n = 4 and 8, every p)")
+```
+
+Output: the factors 8, 7, 6, 5, 4, 3, 2, 1 for $n = 8$ and 4, 3, 2, 1 for $n = 4$, the RESULT line, and the PASS line of the contraction identity of Section 1.44.
+
+**In [15], the factors of the record's trace identities.**
+
+```python
+trace_checks = [c for c in wolfram_report["checks"]
+                if re.fullmatch(r"k\d_trace_equals_\d_L\d", c["name"])]
+named = {}
+for c in trace_checks:
+    name, verdict = c["name"], c["verdict"]
+    k_text, factor_text = re.fullmatch(r"k(\d)_trace_equals_(\d)_L\d", name).groups()
+    k = int(k_text)
+    named[k] = int(factor_text)
+```
+
+The Wolfram report names its trace checks after their factors, for example `k1_trace_equals_6_L1`. `re.fullmatch` requires the whole name to fit the pattern; the second pattern takes out the order $k$ and the factor, and `named` maps $k$ to the factor in the name.
+
+```python
+    say(f"record check {name}: {verdict}; factor for k = {k}: {factor_text}; "
+        f"found here for p = {2 * k + 1}: {factors[(8, 2 * k + 1)]}")
+check(named == {1: 6, 2: 4, 3: 2} and
+      all(factors[(8, 2 * k + 1)] == named[k] for k in (1, 2, 3)) and
+      all(c["verdict"] == "PASS" for c in trace_checks),
+      "the factors 8 - 2k = 6, 4, 2 of the Lovelock trace identities",
+      record="Revision/gkd_lovelock/results/wolfram-gkd-report.json, checks "
+             "k1_trace_equals_6_L1, k2_trace_equals_4_L2, k3_trace_equals_2_L3")
+```
+
+For each check the line printed compares the factor in its name with the factor found in In [14] for $p = 2k + 1$: 6 for $p = 3$, 4 for $p = 5$, 2 for $p = 7$. The check reproduces the three record checks. One PASS line.
+
+**In [16], the contraction factors as a picture.**
+
+```python
+fig, ax = plt.subplots(figsize=(7.2, 4.4))
+for n, marker, color in ((8, "o", "tab:blue"), (4, "s", "tab:orange")):
+    p_values = np.arange(1, n + 1)
+    ax.plot(p_values, n - p_values + 1, "-", color=color, lw=1,
+            label=f"$n - p + 1$ for $n = {n}$")
+    ax.plot(p_values, [factors[(n, p)] for p in p_values], marker, color=color,
+            ms=8, fillstyle="none", label=f"factors found, $n = {n}$")
+```
+
+For $n = 8$ and $n = 4$: the line $n - p + 1$ and the factors found, as open circles or open squares.
+
+```python
+for k in (1, 2, 3):
+    ax.annotate(f"$k = {k}$: $8 - 2k = {8 - 2 * k}$", xy=(2 * k + 1, 8 - 2 * k),
+                xytext=(2 * k + 1.3, 8 - 2 * k + 1.3), fontsize=9,
+                arrowprops={"arrowstyle": "->", "color": "black"})
+ax.set_xlabel("number $p$ of indices before the contraction")
+ax.set_ylabel("factor")
+ax.set_title("Contracting one index of the generalized delta")
+ax.legend(loc="upper right", fontsize=8);
+save_figure(fig, "contraction_factor",
+            "The factor by which contracting one upper with one lower index "
+            ...)
+```
+
+Three arrows mark the Lovelock values. What Figure 01c.5 shows: all symbols on their straight lines, and the arrows at $p = 3, 5, 7$ on the line of $n = 8$ with the factors 6, 4, 2.
+
+**In [17], the Levi-Civita symbol and the author's second route.**
+
+```python
+def levi_civita(indices, n):
+    """epsilon_(indices): the generalized delta with the upper list 0, 1, ..., n-1."""
+    return gkd_rule(tuple(indices), tuple(range(n)))
+```
+
+The Levi-Civita symbol as defined in Section 1.44.
+
+```python
+eta = json.loads(repository_file("Revision/algebra/gammas.json")
+                 .read_text(encoding="utf-8"))["eta"]
+say(f"diagonal of eta (x1 ... x8) from the record: {eta}; det eta = {math.prod(eta)}")
+check(math.prod(eta) == 1, "det eta = +1: raising all 8 indices of epsilon gives no "
+      "extra sign in the signature (4,4)")
+```
+
+$\eta$ from the record; its determinant is the product of its diagonal, `math.prod(eta)`, which is 1. Output: the diagonal and det eta = 1, then the PASS line.
+
+```python
+# (4, 4, 0): 4 positive, 4 negative, 0 zero eigenvalues; sign of det g = (-1)^4
+signature = re.search(r"DefMetric\[\{(\d), (\d), (\d)\}", metric_cell)
+positive, negative, zero = (int(part) for part in signature.groups())
+say(f"the author's metric g: {positive} positive, {negative} negative, {zero} zero "
+    f"eigenvalues; sign of det g = (-1)^{negative} = {(-1) ** negative:+d}")
+check((positive, negative, zero) == (4, 4, 0) and (-1) ** negative == 1,
+      "the author's notebook declares its metric with the signature (4,4), so the "
+      "product of two Levi-Civita tensors has the sign +1",
+      record="Revision/gkd_lovelock/results/notebook-input-cells.txt, In[29]")
+```
+
+From the author's cell In[29], kept in In [2], the pattern takes out the three numbers of `DefMetric[{4, 4, 0}`; `.groups()` returns them as texts, and they are made whole numbers. The sign of $\det g$ is $(-1)^4 = +1$. One PASS line, reproducing the record's cell.
+
+```python
+formula_ok = True
+for p in range(0, 5):  # n = 4, every length p of the lists a and b
+    lists = list(itertools.product(range(4), repeat=p))
+    for a in lists:
+        for b in lists:
+            total = sum(levi_civita(a + c, 4) * levi_civita(b + c, 4)
+                        for c in itertools.product(range(4), repeat=4 - p))
+            formula_ok &= total == math.factorial(4 - p) * gkd_rule(a, b)
+check(formula_ok, "n = 4: sum of epsilon epsilon = (n - p)! delta for p = 0 to 4, "
+      "all lists")
+```
+
+The product formula of Section 1.44 for $n = 4$ and every $p = 0$ to 4: for every pair of lists $a$, $b$ of length $p$, the sum over all lists $c$ of length $4 - p$ of $\varepsilon_{ac}\varepsilon_{bc}$ must be $(4 - p)!\,\delta^b_a$.
+
+```python
+route_sums = np.zeros((8, 8), dtype=np.int64)
+for a in range(8):
+    others = [label for label in range(8) if label != a]
+    for b in range(8):
+        # Only lists c of 7 different labels other than a give a nonzero first factor.
+        route_sums[a, b] = sum(levi_civita((a,) + c, 8) * levi_civita((b,) + c, 8)
+                               for c in itertools.permutations(others))
+author_route = route_sums // math.factorial(7)  # divide by 7! = 5040
+```
+
+The author's route In[32] for $n = 8$ and $p = 1$. Summing over all $8^7$ lists $c$ would be slow, but the first factor $\varepsilon_{ac_2\dots c_8}$ is 0 unless $c$ consists of the 7 labels other than $a$ in some order; so the sum runs only over the $7! = 5040$ re-orderings of these labels (`itertools.permutations(others)`). Then the sums are divided by $7!$.
+
+```python
+say(f"the sums for a = b are {sorted(set(np.diag(route_sums).tolist()))}, "
+    f"for a different from b {sorted(set(route_sums[~np.eye(8, dtype=bool)].tolist()))}")
+check((route_sums == math.factorial(7) * np.eye(8, dtype=np.int64)).all(),
+      "the author's route In[32]: sum of epsilon epsilon / 7! = delta^b_a, the "
+      "8 x 8 identity")
+```
+
+The different values found on the diagonal and off it are printed (`set` keeps each value once; `~np.eye(8, dtype=bool)` selects the entries off the diagonal): [5040] and [0]. The check: the sums are $7!$ times the identity. The cell prints four PASS lines.
+
+**In [18], the Levi-Civita symbol as a picture.**
+
+```python
+fig, axes = plt.subplots(1, 4, figsize=(12.0, 3.5),
+                         gridspec_kw={"width_ratios": [1, 1, 1, 1.5]})
+names3 = ["$x_1$", "$x_2$", "$x_3$"]
+for first in range(3):
+    ax = axes[first]
+    slice_values = np.array([[levi_civita((first, j, k), 3) for k in range(3)]
+                             for j in range(3)])
+    ax.imshow(slice_values, cmap="RdBu_r", vmin=-1, vmax=1)
+    ax.grid(False)
+```
+
+Four panels, the last wider. In the first three the Levi-Civita symbol of three labels is drawn as three $3 \times 3$ heat maps, one for each first index (row $j$, column $k$).
+
+```python
+    for j in range(3):
+        for k in range(3):
+            ax.text(k, j, signed(int(slice_values[j, k])), ha="center", va="center",
+                    color="white" if slice_values[j, k] else "black")
+    ax.set_xticks(range(3), names3)
+    ax.set_yticks(range(3), names3)
+    ax.set_title(f"$\\varepsilon$ with first index $x_{first + 1}$", fontsize=9)
+```
+
+Every square carries its value, white on the coloured squares; labels and a title.
+
+```python
+image = axes[3].imshow(author_route, cmap="RdBu_r", vmin=-1, vmax=1)
+axes[3].grid(False)
+eight_names = [f"$x_{k}$" for k in range(1, 9)]
+axes[3].set_xticks(range(8), eight_names, fontsize=7)
+axes[3].set_yticks(range(8), eight_names, fontsize=7)
+axes[3].set_xlabel("$b$")
+axes[3].set_ylabel("$a$")
+axes[3].set_title("$\\sum \\varepsilon\\varepsilon / 7!$ in 8 dimensions", fontsize=9)
+fig.tight_layout()
+save_figure(fig, "levi_civita",
+            "Left three panels: the Levi-Civita symbol $\\varepsilon_{ijk}$ of the "
+            ...)
+```
+
+The fourth panel shows the result of the author's route. What Figure 01c.6 shows: in each of the first three panels two nonzero squares, one red and one blue, six in all, the signs of the six orderings; on the right the $8 \times 8$ identity matrix.
+
+**In [19], the last check.**
+
+```python
+figure_names = ["01c_1_outer_matrices.png", "01c_2_two_index_table.png",
+                "01c_3_value_counts.png", "01c_4_nonzero_fraction.png",
+                "01c_5_contraction_factor.png", "01c_6_levi_civita.png"]
+check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_names),
+      "all 6 figure files of this notebook exist")
+all_checks_passed()
+```
+
+The last line is ALL 28 CHECKS PASSED (notebook 01c). The 28 checks are: 2 in In [2], 1 in In [3], 1 in In [4], 2 in In [5], 3 in In [6], 2 in In [7], 4 in In [8], 1 in In [9], 2 in In [10], 1 in In [12], 2 in In [13], 1 in In [14], 1 in In [15], 4 in In [17] and 1 in In [19].
+
+### 1.49 Binary numbers, bit operations and a pseudo-random generator
+
+**Why this section.** The Revision record tested its program GKD twice (Section 1.43): a Rust self-test compared GKD with the author's determinant on millions of pairs of index lists, and a Wolfram check received the GKD values of 346,304 pairs from a small Rust program, the **exporter**, and compared them with the author's own definition in Mathematica. Many of these lists were drawn by a **pseudo-random generator**: a fixed formula that turns a number, its **state**, into a new state and an output, again and again; the outputs look random, but they are completely fixed by the first state, the **seed**. Because the formula and the seeds are recorded, the lists can be made again, exactly, and every number of the record can be checked. To do that we need the binary numbers in which the generator computes.
+
+**Binary numbers (PROVED).** Our numbers are written in base 10: each digit counts a power of 10. In **binary** (base 2) there are only the digits 0 and 1, and each digit, a **bit**, counts a power of 2: the last digit counts $2^0 = 1$, the one before $2^1 = 2$, then $4, 8, 16, \dots$. The binary digits of a whole number come from repeated division by 2, the remainder method of long division (Section 1.2): for 2026,
+
+$$
+2026 = 2\cdot 1013 + 0,\quad 1013 = 2\cdot 506 + 1,\quad 506 = 2\cdot 253 + 0,\quad 253 = 2\cdot 126 + 1,\quad 126 = 2\cdot 63 + 0,
+$$
+
+$$
+63 = 2\cdot 31 + 1,\quad 31 = 2\cdot 15 + 1,\quad 15 = 2\cdot 7 + 1,\quad 7 = 2\cdot 3 + 1,\quad 3 = 2\cdot 1 + 1,\quad 1 = 2\cdot 0 + 1,
+$$
+
+and the remainders, read from the last to the first, are the binary digits: $2026 = 11111101010$ in binary, 11 binary digits. Check: $1024 + 512 + 256 + 128 + 64 + 32 + 8 + 2 = 2026$ (the powers of 2 at the places of the digits 1). A computer stores whole numbers as a fixed number of bits; 64 bits hold the numbers 0 to $2^{64} - 1 = 18446744073709551615$.
+
+**Bytes and negative numbers.** A **byte** is 8 bits, a whole number from 0 to 255. A **signed byte** uses the same 8 bits for the numbers $-128$ to 127: a negative number $-m$ is stored as $256 - m$ (the **two's complement**). So $-1$ is stored as 255, the eight bits 11111111. The exporter writes the GKD values $+1$, 0, $-1$ as the bytes 1, 0, 255.
+
+**Hexadecimal.** Long binary numbers are written more compactly in base 16, **hexadecimal**, with the sixteen digits 0 to 9 and A to F (worth 10 to 15). One hexadecimal digit is exactly 4 bits (16 = $2^4$). Python writes such a number with the prefix `0x`, for example `0xFF` $= 15 \cdot 16 + 15 = 255$.
+
+**The four bit operations (PROVED).** The generator uses four operations on the bits of a whole number $x \geq 0$:
+
+- **Shift right** by $k$ places (Python writes it with the operator made of two greater-than signs): the last $k$ bits are dropped. This is whole-number division by $2^k$: writing $x = 2^k q + r$ with $0 \leq r < 2^k$, the last $k$ bits of $x$ are the bits of $r$, and the bits before them are those of $q$.
+- **Shift left** by $k$ places (two less-than signs): $k$ zero bits are appended, which multiplies by $2^k$ (every bit moves to a place worth $2^k$ times more).
+- **Keeping 64 bits** (`x & MASK`, with `MASK` $= 2^{64} - 1$, sixty-four ones; `&` keeps a bit where both numbers have a 1): the remainder of $x$ divided by $2^{64}$. The Rust programs compute with 64-bit numbers, so every result is cut to 64 bits in this way.
+- **Exclusive or** (XOR, `x ^ y`): the two numbers are compared bit by bit, and a result bit is 1 when exactly one of the two bits is 1. Applying the same exclusive or twice gives back the number: for single bits, $(a \oplus b) \oplus b = a$ in all four cases ($b = 0$ changes nothing twice; $b = 1$ flips the bit twice), so it holds bit by bit. That is why an XOR step loses nothing.
+
+For the 8-bit number $x = 182$ = 10110110: shifted right by 2 it is 101101 = 45, and indeed $182 = 4 \cdot 45 + 2$; shifted left by 3 it is 10110110000 = 1456 $= 182 \cdot 8$; keeping its last 8 bits gives 10110000 = 176, and indeed $1456 = 5 \cdot 256 + 176$; and 182 XOR 11110000 flips the first four of the eight bits: 01000110 = 70.
+
+**The generator `xorshift64*`.** The Revision programs (the function `compare_random` of `Revision/gkd_lovelock/code/src/gkd.rs` and the exporter of the Wolfram check) use the generator called `xorshift64*` (shift, exclusive or, 64 bits, and a final multiplication, the star). Its state $x$ is a 64-bit number, and one step reads, in Rust:
+
+```text
+x ^= x >> 12;        x XOR (x shifted right by 12)
+x ^= x << 25;        x XOR (x shifted left by 25, cut to 64 bits)
+x ^= x >> 27;        x XOR (x shifted right by 27): the new state
+output = x * 0x2545F4914F6CDD1D   (cut to 64 bits)
+```
+
+(`^=` means "replace by the exclusive or with"). A label from 0 to $n - 1$ is the remainder of the output after division by $n$; the notebook calls this `below(n)`. The exporter starts, for the lists of length $p$, from the seed `0x243F6A8885A308D3` XOR $p$; these sixteen hexadecimal digits are the first digits of $\pi$ after the point, written in base 16 ($\pi = 3.243F6A88\dots$ in hexadecimal), a number that nobody chose to make a test pass. The Rust self-test starts from (`0x2545F4914F6CDD1D` XOR $p$) OR 1, where OR 1 sets the last bit to 1. To put a list into a random order the programs use the **Fisher-Yates shuffle**: for $i$ from the last place down to the second, exchange the entry at place $i$ with the entry at a random place from 0 to $i$.
+
+**A test is not a proof.** A pseudo-random sample, however large, is evidence, not a proof; the proof that GKD equals the author's determinant is the four-case argument of Section 1.42. What the regenerated lists show is something else, just as important for a record: its numbers are exactly reproducible.
+
+### 1.50 Fingerprints, the exporter's file and the birthday problem
+
+**The sha256 fingerprint.** A **sha256 fingerprint** is a 64-digit hexadecimal number computed from the bytes of a file by the method SHA-256. Two different files have different fingerprints for all practical purposes (a property of the method, ASSUMED here), so equal fingerprints mean equal files, byte for byte; and changing a single bit of a file changes its fingerprint completely. The Revision record keeps the fingerprints of the files it used.
+
+**The exporter's file (PROVED by arithmetic).** The exporter writes, for every pair of index lists, one record of signed bytes: the length $p$, the $p$ lower labels, the $p$ upper labels and the GKD value, $2p + 2$ bytes in all. It writes every pair of the lengths 1, 2 and 3, and 20,000 pseudo-random pairs of each length 4 to 7. So the file has
+
+$$
+64\cdot 4 + 4096\cdot 6 + 262144\cdot 8 + 20000\,(10 + 12 + 14 + 16) = 256 + 24576 + 2097152 + 1040000 = 3161984
+$$
+
+bytes (the number of pairs of each length times its record size; multiply out and add). The record states the same size and the file's fingerprint in `Revision/gkd_lovelock/results/wolfram-gkd-report.json`, field `gkdValuesSource`. Notebook 01d, In [8], regenerates all 3,161,984 bytes from the seeds and the recorded source code and finds the recorded fingerprint, `3ddccfa744b3708b` followed by 48 more digits (COMPUTED). It then reproduces every number of the record's table `gkdComparison` (In [9]): for the lengths 1 to 7 the numbers of pairs (64, 4096, 262144 and 20,000 four times; 346,304 in all), the counts of $+1$, $-1$ and 0, no mismatch between GKD and the author's determinant, and the result of a **negative control**: the same comparison against $-$GKD, a test that must fail, fails exactly at the nonzero values, which shows that the comparison can fail.
+
+**The self-test for the lengths 5 to 9.** The record's file `Revision/gkd_lovelock/results/gkd-selftest.json` gives, for 200,000 pseudo-random pairs of each length 5 to 9, the numbers of nonzero values, 20538, 7812, 1949, 244 and 0, and no mismatch. Notebook 01d, In [11], regenerates the 1,000,000 pairs and gets exactly these numbers (COMPUTED).
+
+**The birthday problem (PROVED).** Why these numbers? In the self-test an even sample takes $p$ upper labels with `below(8)` and a re-ordering of them as the lower list; its value is not zero exactly when its $p$ upper labels are all different. Labels drawn one after the other, each with 8 equally likely values, are all different with the probability
+
+$$
+P(p) = \frac{8}{8}\cdot\frac{7}{8}\cdots\frac{8 - p + 1}{8} = \frac{8!/(8 - p)!}{8^p}
+$$
+
+(the first label may be anything; the second must avoid it, 7 of 8 values; the third must avoid both, 6 of 8; and so on; independent chances multiply, a rule of probability ASSUMED here). This is the **birthday problem**: the chance that $p$ people have $p$ different birthdays, with 8 "days" instead of 365. For $p = 9$ it is 0, because $8 - 9 + 1 = 0$ (the pigeonhole principle again). An odd sample draws two arbitrary lists; it is nonzero with the probability $q(p) = N_{\neq 0}(8, p)/8^{2p}$ of Section 1.43. For $N$ tries that each succeed with probability $q$, the number of successes is about $Nq$, its **expected value**, typically within one **standard deviation** $\sqrt{Nq(1 - q)}$ of it (ASSUMED from probability theory). With 100,000 even and 100,000 odd samples the expected number of nonzero values is $100000\,P(p) + 100000\,q(p)$; for $p = 5$:
+
+$$
+100000\cdot\frac{8\cdot 7\cdot 6\cdot 5\cdot 4}{8^5} + 100000\cdot\frac{806400}{8^{10}} = 100000\cdot\frac{6720}{32768} + 75.1 = 20507.8 + 75.1 = 20582.9
+$$
+
+($8^5 = 32768$; $N_{\neq 0}(8, 5) = 6720 \cdot 5! = 806400$ and $8^{10} = 1073741824$), with a standard deviation of about 128; the recorded 20538 lies $0.35$ standard deviations below it. Notebook 01d, In [12], makes this comparison for every length 5 to 9 and for the odd samples of the Wolfram check, all within 4 standard deviations (COMPUTED). The classic birthday problem says that among 23 people two share a birthday more often than not: $P_{365}(22) = 0.5243$ and $P_{365}(23) = 0.4927$ (COMPUTED; Figure 01d.6).
+
+### 1.51 Example: reproducing the record's tests of the generalized delta
+
+Notebook 01d puts Sections 1.49 and 1.50 to work. It writes 2026 in binary and shows how a byte stores $-1$; applies the four bit operations; writes the generator `xorshift64*` in Python, follows its bits through one step and draws its output; checks that its labels come out about equally often; regenerates the 3,161,984 bytes that the exporter gave the Wolfram check and confirms their size and fingerprint; reproduces every number of the record's table `gkdComparison` and of the Rust self-test for the lengths 5 to 9; and explains the counts with the birthday problem. It ends with the line ALL 19 CHECKS PASSED (notebook 01d).
+
+<!-- NOTEBOOK 01d -->
+
+### 1.54 Line-by-line walk-through of Notebook 01d
+
+The notebook has fourteen code cells, In [1] to In [14]. As in Section 1.9, a quoted line `...)` stands for the remaining lines of a figure caption, which Section 1.53 prints in full under its figure.
+
+**In [1], the set-up cell.** Its comment lines are the run instructions of Section 1.52; its code is the set-up code explained in Section 1.9, with `NOTEBOOK_ID = "01d"`. It prints Set-up of notebook 01d complete: repository folder found, helpers defined.
+
+**In [2], binary numbers and bytes.**
+
+```python
+import hashlib  # the sha256 fingerprint
+import itertools  # all index lists of a given length
+import json  # reads the JSON reports of the record
+import math  # factorials and falling factorials
+
+import mpmath  # numbers with many digits
+import numpy as np  # arrays
+```
+
+`hashlib` (part of Python) computes fingerprints such as sha256; the other modules as before.
+
+```python
+number = 2026
+bits = format(number, "b")  # the binary digits, a text of 0s and 1s
+say(f"{number} in binary: {bits} ({len(bits)} binary digits)")
+# The last digit counts 2^0, the one before 2^1, ...: reversed() starts at the end.
+by_places = sum(int(digit) * 2 ** place for place, digit in enumerate(reversed(bits)))
+check(by_places == number == int(bits, 2), "the binary digits of 2026 give back 2026")
+```
+
+`format(number, "b")` writes a whole number in binary. `reversed(bits)` runs through the digits from the last one, and `enumerate` numbers them 0, 1, 2, ..., so the sum adds each digit times its power of 2. `int(bits, 2)` reads a text of binary digits back as a number. Output: 2026 in binary: 11111101010 (11 binary digits), and the PASS line.
+
+```python
+say(f"the largest number that 64 bits can hold: 2^64 - 1 = {2 ** 64 - 1}")
+stored = (-1) & 0xFF  # the 8 bits that a signed byte uses for -1
+read_back = int.from_bytes(bytes([stored]), "big", signed=True)
+stored_bits = format(stored, "08b")  # 8 binary digits, zeros in front
+say(f"-1 in a signed byte: {stored} = {stored_bits}, read back as {read_back}")
+check(stored == 255 and read_back == -1, "a signed byte stores -1 as 255 = 11111111")
+```
+
+The largest 64-bit number is printed. Python's whole numbers have no fixed number of bits, and `(-1) & 0xFF` keeps the last 8 bits of $-1$ as a computer stores it, which gives 255. `bytes([stored])` makes a one-byte sequence, and `int.from_bytes(..., "big", signed=True)` reads it back as a signed byte ("big" names the order of the bytes, which does not matter for one byte). `format(stored, "08b")` writes 8 binary digits with zeros in front. Output: -1 in a signed byte: 255 = 11111111, read back as -1. The cell prints two PASS lines.
+
+**In [3], counting in binary, as a picture.**
+
+```python
+numbers = np.arange(32)
+bit_rows = np.array([(numbers >> k) & 1 for k in range(4, -1, -1)])  # 2^4 ... 2^0
+fig, ax = plt.subplots(figsize=(11.0, 2.8))
+ax.imshow(bit_rows, cmap="Greys", vmin=0, vmax=1.3, aspect="auto")
+ax.grid(False)
+```
+
+For the numbers 0 to 31, bit number $k$ is the number shifted right by $k$ places, keeping only its last bit (`& 1`); the rows are made for $k = 4, 3, 2, 1, 0$ (`range(4, -1, -1)` counts down), so the bit worth $2^4$ is on top. The table is drawn in grey, dark for 1.
+
+```python
+ax.set_xticks(range(32), [str(k) for k in range(32)], fontsize=7)
+ax.set_yticks(range(5), [f"$2^{k}$" for k in range(4, -1, -1)])
+ax.set_xlabel("the number")
+ax.set_ylabel("bit")
+ax.set_title("The numbers 0 to 31 in binary (dark = 1)")
+save_figure(fig, "binary_counting",
+            "The numbers 0 to 31 (columns) written in binary: each row is one bit, "
+            ...)
+```
+
+What Figure 01d.1 shows: the bottom row alternates with every number, the row above every two numbers, the next every four: binary counting.
+
+**In [4], the bit operations.**
+
+```python
+def binary(value, width=8):
+    """value in binary with at least width digits (zeros in front)."""
+    return format(value, "b").zfill(width)
+```
+
+`zfill(width)` adds zeros in front up to the given width.
+
+```python
+x = 182
+say(f"x                 = {binary(x)} = {x}")
+say(f"x >> 2            = {binary(x >> 2)} = {x >> 2} = {x} // 4")
+say(f"x << 3            = {binary(x << 3, 11)} = {x << 3} = {x} * 8")
+say(f"(x << 3) & 0xFF   = {binary((x << 3) & 0xFF)} = {(x << 3) & 0xFF} "
+    f"= {x << 3} % 256")
+say(f"x ^ 0b11110000    = {binary(x ^ 0b11110000)} = {x ^ 0b11110000}")
+```
+
+The example of Section 1.49, printed with the bits of every result (`0b11110000` is Python's spelling of a binary number). The output is
+
+```text
+x                 = 10110110 = 182
+x >> 2            = 00101101 = 45 = 182 // 4
+x << 3            = 10110110000 = 1456 = 182 * 8
+(x << 3) & 0xFF   = 10110000 = 176 = 1456 % 256
+x ^ 0b11110000    = 01000110 = 70
+```
+
+```python
+MASK = 2 ** 64 - 1  # 64 ones: "& MASK" keeps the last 64 bits
+generator = np.random.default_rng(12345)
+rules_hold = True
+for _ in range(1000):
+    a = int(generator.integers(0, 2 ** 63)) * 2 + int(generator.integers(0, 2))
+    b = int(generator.integers(0, 2 ** 63)) * 2 + int(generator.integers(0, 2))
+    k = int(generator.integers(1, 64))
+```
+
+The mask of 64 ones, and 1000 random 64-bit numbers `a` and `b` (numpy draws whole numbers below $2^{63}$, so a 64-bit number is made as twice such a number plus a random last bit) and a random shift $k$ from 1 to 63 (seed 12345, numpy's generator, not the generator of the record).
+
+```python
+    rules_hold &= (a >> k) == a // 2 ** k
+    rules_hold &= ((a << k) & MASK) == (a * 2 ** k) % 2 ** 64
+    rules_hold &= ((a ^ b) ^ b) == a
+check(rules_hold, "shift = division or multiplication by 2^k, & MASK = remainder "
+      "modulo 2^64, and XOR twice gives back the number (1000 random 64-bit numbers)")
+```
+
+The three rules of Section 1.49: a right shift is whole-number division, a left shift cut to 64 bits is multiplication taken modulo $2^{64}$, and an exclusive or done twice is undone. One PASS line.
+
+**In [5], the generator `xorshift64*`.**
+
+```python
+MULTIPLIER = 0x2545F4914F6CDD1D  # the constant of xorshift64*
+EXPORTER_SEED = 0x243F6A8885A308D3  # the first 16 hexadecimal digits of pi
+SELFTEST_SEED = 0x2545F4914F6CDD1D  # the Rust self-test uses the same constant
+```
+
+The three constants of the record's programs, in hexadecimal.
+
+```python
+class XorShift64Star:
+    """The pseudo-random generator of the Revision programs."""
+
+    def __init__(self, seed):
+        self.state = seed
+```
+
+A **class** is a recipe for objects that carry their own data: `XorShift64Star(seed)` makes a generator object, and the function `__init__` (run when the object is made) stores the seed as its state `self.state`.
+
+```python
+    def below(self, n):
+        """One step of the generator; returns its output modulo n (0 ... n-1)."""
+        x = self.state
+        x ^= x >> 12
+        x ^= (x << 25) & MASK
+        x ^= x >> 27
+        self.state = x
+        return ((x * MULTIPLIER) & MASK) % n
+```
+
+One step of the generator, exactly as in the Rust code of Section 1.49: the three shift-and-XOR steps (the left shift cut to 64 bits), the new state stored, and the output, the state times the constant cut to 64 bits, reduced modulo $n$. Called with $n = 2^{64}$ it returns the whole output.
+
+```python
+say(f"MULTIPLIER = {MULTIPLIER} (decimal), EXPORTER_SEED = {EXPORTER_SEED} (decimal)")
+mpmath.mp.dps = 40  # 40 significant digits are plenty for 16 hexadecimal digits
+# frac(pi) = 0.14159...; times 16^16 shifts 16 hexadecimal digits before the point
+pi_hex = int(mpmath.floor(mpmath.frac(mpmath.pi) * 16 ** 16))
+say(f"the first 16 hexadecimal digits of pi after the point: {pi_hex:016X}")
+check(pi_hex == EXPORTER_SEED, "the exporter's seed is made of the hexadecimal "
+      "digits of pi")
+```
+
+The constants in decimal. Then the digits of $\pi$: `mpmath.frac` is the part after the point, $0.14159\dots$; multiplying by $16^{16}$ moves sixteen hexadecimal digits before the point (as multiplying by $10^{16}$ moves sixteen decimal digits), and `mpmath.floor` drops the rest. `{pi_hex:016X}` prints the number with 16 hexadecimal digits in capitals: 243F6A8885A308D3, the exporter's seed.
+
+```python
+first = XorShift64Star(EXPORTER_SEED ^ 4)
+again = XorShift64Star(EXPORTER_SEED ^ 4)
+other = XorShift64Star(EXPORTER_SEED ^ 5)
+numbers_first = [first.below(2 ** 64) for _ in range(1000)]
+check(numbers_first == [again.below(2 ** 64) for _ in range(1000)] and
+      numbers_first != [other.below(2 ** 64) for _ in range(1000)],
+      "the same seed gives the same 1000 outputs, another seed other outputs")
+```
+
+Two generators with the same seed (the exporter's seed for length 4) and one with another seed: the first two give the same 1000 outputs, the third different ones. The cell prints two PASS lines.
+
+**In [6], one step, bit by bit.**
+
+```python
+def bit_row(value):
+    """The 64 bits of value, highest first, as a list of 0s and 1s."""
+    return [(value >> k) & 1 for k in range(63, -1, -1)]
+```
+
+The 64 bits of a number, from the bit worth $2^{63}$ down to the bit worth 1.
+
+```python
+state = EXPORTER_SEED ^ 4
+after_1 = state ^ (state >> 12)
+after_2 = after_1 ^ ((after_1 << 25) & MASK)
+after_3 = after_2 ^ (after_2 >> 27)  # the new state
+output = (after_3 * MULTIPLIER) & MASK
+check(XorShift64Star(state).below(2 ** 64) == output,
+      "the class gives the output computed step by step")
+```
+
+The step written out with a name for every intermediate number, starting from the exporter's seed for length 4; the class must give the same output. One PASS line.
+
+```python
+fig, ax = plt.subplots(figsize=(11.0, 2.9))
+ax.imshow([bit_row(v) for v in (state, after_1, after_2, after_3, output)],
+          cmap="Greys", vmin=0, vmax=1.3, aspect="auto")
+ax.grid(False)
+ax.set_yticks(range(5), ["seed", "x ^= x >> 12", "x ^= x << 25", "x ^= x >> 27",
+                         "output"])
+ax.set_xticks(range(0, 64, 8), [str(63 - k) for k in range(0, 64, 8)])
+ax.set_xlabel("bit number (63 = the bit worth $2^{63}$, 0 = the bit worth $2^0$)")
+ax.set_title("One step of the generator xorshift64*")
+save_figure(fig, "generator_step",
+            "The 64 bits (dark = 1) of the exporter's seed for length 4 (top row) "
+            ...)
+```
+
+The five numbers as five rows of 64 squares, each row labelled with its step; the columns are labelled with the bit number (column 0 holds bit 63). What Figure 01d.2 shows: each shift-and-XOR step leaves some bits untouched and changes the others. The first step cannot change the 12 highest bits (the shifted copy has zeros there), the second the 25 lowest bits, the third the 27 highest bits; compare the rows column by column. The multiplication then mixes all the bits, and the output row shows no trace of the seed.
+
+**In [7], do the outputs look random?**
+
+```python
+stream = XorShift64Star(EXPORTER_SEED ^ 4)
+outputs = [stream.below(2 ** 64) for _ in range(64)]
+fig, ax = plt.subplots(figsize=(7.2, 7.0))
+ax.imshow([bit_row(v) for v in outputs], cmap="Greys", vmin=0, vmax=1.3)
+ax.grid(False)
+# column 0 holds the bit worth 2^63, column 63 the bit worth 2^0: label by bit number
+ax.set_xticks(range(0, 64, 8), [str(63 - k) for k in range(0, 64, 8)])
+ax.set_xlabel("bit number (63 = the bit worth $2^{63}$, 0 = the bit worth $2^0$)")
+ax.set_ylabel("output number")
+ax.set_title("The bits of the first 64 outputs")
+save_figure(fig, "generator_bits",
+            "The 64 bits (columns, dark = 1, the highest bit on the left) of the "
+            ...)
+```
+
+The first 64 outputs of the generator, one row of 64 bits each. What Figure 01d.3 shows: a square of dark and light squares without any row, column or diagonal pattern.
+
+```python
+stream = XorShift64Star(EXPORTER_SEED ^ 4)
+labels_drawn = np.array([stream.below(8) for _ in range(160000)])
+label_counts = np.bincount(labels_drawn, minlength=8)  # how often 0, 1, ..., 7
+spread = math.sqrt(160000 * (1 / 8) * (7 / 8))  # the standard deviation
+say(f"counts of the labels 0 ... 7: {label_counts.tolist()}")
+say(f"largest distance from 20000: {int(np.max(np.abs(label_counts - 20000)))}, "
+    f"standard deviation {spread:.1f}")
+check(bool(np.all(np.abs(label_counts - 20000) < 5 * spread)),
+      "every label comes out within 5 standard deviations of 20000 times")
+```
+
+A new generator with the same seed draws 160,000 labels with `below(8)`; `np.bincount` counts how often each label 0 to 7 occurs. Each should occur about $160000/8 = 20000$ times, with the standard deviation $\sqrt{160000\cdot\frac18\cdot\frac78} \approx 132.3$. Output:
+
+```text
+counts of the labels 0 ... 7: [20002, 20179, 20098, 19871, 20045, 19959, 20036, 19810]
+largest distance from 20000: 190, standard deviation 132.3
+```
+
+The check requires every count within 5 standard deviations of 20000. A single count of a fair source lies further away with a probability of about 0.6 in a million, so with eight counts a fair source fails with a probability of about 5 in a million.
+
+```python
+fig, ax = plt.subplots(figsize=(7.0, 4.0))
+ax.axhspan(20000 - spread, 20000 + spread, color="0.75", alpha=0.6, zorder=3,
+           label="one standard deviation")  # drawn over the bars, see-through
+ax.bar(range(8), label_counts, color="tab:blue", zorder=2, label="counted")
+ax.axhline(20000, color="black", lw=1, zorder=4, label="expected 20000")
+ax.set_ylim(19000, 20800)
+ax.set_xticks(range(8), [f"label {k}" for k in range(8)], fontsize=8)
+ax.set_ylabel("number of times")
+ax.set_title("160,000 labels drawn with below(8)")
+ax.legend(loc="upper center", ncol=3, fontsize=8);  # above the bars, not on them
+save_figure(fig, "label_histogram",
+            "How often each label 0 to 7 came out in 160,000 calls of below(8) of "
+            ...)
+```
+
+The counts as blue bars, a see-through grey band of one standard deviation around 20,000 (`axhspan`; `zorder` decides what is drawn over what: the band over the bars, the black line over the band), and the expected number. The vertical axis starts at 19,000 to make the small differences visible. What Figure 01d.4 shows: the eight bars scatter around 20,000, most of them within or near the grey band. The cell prints one PASS line and two figure lines.
+
+**In [8], the exporter's file, regenerated.**
+
+```python
+def inversions(order):
+    """The number of pairs of places i < j whose entries stand in the wrong order."""
+    return sum(1 for i in range(len(order)) for j in range(i + 1, len(order))
+               if order[i] > order[j])
+```
+
+Inversions, as in Notebook 01a.
+
+```python
+def gkd_rule(lower, upper):
+    """The program GKD (Revision/gkd_lovelock/code/src/gkd.rs) in Python."""
+    place = {}
+    for j, u_label in enumerate(upper):
+        if u_label in place:  # a repeated upper label: two equal columns
+            return 0
+        place[u_label] = j
+    sigma = []
+    for l_label in lower:
+        if l_label not in place or place[l_label] in sigma:  # missing or repeated
+            return 0
+        sigma.append(place[l_label])
+    return 1 if inversions(sigma) % 2 == 0 else -1  # the sign of the permutation
+```
+
+The fast rule of Notebook 01c, In [5] (Section 1.48), in a shorter form: the cases (c) and (a) are tested in one condition (`or`), and the sign is computed directly.
+
+```python
+values_bytes = bytearray()  # the regenerated file, byte by byte
+pairs_of = {p: ([], []) for p in range(1, 8)}  # p -> (lower lists, upper lists)
+for p in (1, 2, 3):  # every pair, in the order of Tuples[Range[0, 7], 2 p]
+    for digits in itertools.product(range(8), repeat=2 * p):
+        pairs_of[p][0].append(list(digits[:p]))
+        pairs_of[p][1].append(list(digits[p:]))
+```
+
+A `bytearray` is a list of bytes that can grow. For each length a pair of lists collects the lower and the upper lists. For $p = 1, 2, 3$ the exporter writes every pair in the order of Mathematica's `Tuples[Range[0, 7], 2 p]`, all lists of $2p$ labels in dictionary order, which is the order of `itertools.product(range(8), repeat=2 * p)`; the first $p$ labels are the lower list (`digits[:p]`), the last $p$ the upper list.
+
+```python
+for p in (4, 5, 6, 7):  # 20000 pseudo-random pairs each
+    rng = XorShift64Star(EXPORTER_SEED ^ p)
+    for sample in range(20000):
+        if sample % 2 == 0:  # p different labels and a re-ordering of them
+            labels = list(range(8))
+            for i in range(p):
+                j = i + rng.below(8 - i)
+                labels[i], labels[j] = labels[j], labels[i]
+            upper = labels[:p]
+```
+
+For $p = 4$ to 7, a generator with the exporter's seed for that length and 20,000 samples. An even sample takes $p$ different labels: for $i = 0$ to $p - 1$ it exchanges place $i$ of the list $0, \dots, 7$ with a random place from $i$ to 7 (`i + rng.below(8 - i)`), the first $p$ steps of a shuffle; the first $p$ entries are the upper list.
+
+```python
+            lower = list(upper)
+            for i in range(p - 1, 0, -1):
+                j = rng.below(i + 1)
+                lower[i], lower[j] = lower[j], lower[i]
+        else:  # two arbitrary lists, the upper one drawn first
+            upper = [rng.below(8) for _ in range(p)]
+            lower = [rng.below(8) for _ in range(p)]
+        pairs_of[p][0].append(lower)
+        pairs_of[p][1].append(upper)
+```
+
+Its lower list is a copy re-ordered by a Fisher-Yates shuffle (for $i$ from $p - 1$ down to 1, exchange place $i$ with a random place from 0 to $i$). An odd sample draws $p$ upper labels and then $p$ lower labels with `below(8)`. The order of the calls of the generator matters: it is that of the exporter's source code, which the record keeps as text inside the Wolfram check script `Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls`.
+
+```python
+gkd_values = {}  # p -> array of the GKD values, in the order of the file
+for p in range(1, 8):
+    values_p = []
+    for lower, upper in zip(*pairs_of[p]):
+        value = gkd_rule(lower, upper)
+        values_p.append(value)
+        values_bytes.append(p)
+        values_bytes.extend(lower)
+        values_bytes.extend(upper)
+        values_bytes.append(value & 0xFF)  # -1 is stored as 255
+    gkd_values[p] = np.array(values_p)
+```
+
+For every pair, in the order of the file, the GKD value and the record of $2p + 2$ bytes: the length, the lower labels, the upper labels (`extend` appends several bytes) and the value as a signed byte (`value & 0xFF` turns $-1$ into 255). `zip(*pairs_of[p])` pairs the lower and the upper lists.
+
+```python
+wolfram_path = repository_file("Revision/gkd_lovelock/results/wolfram-gkd-report.json")
+wolfram = json.loads(wolfram_path.read_text(encoding="utf-8"))
+source = wolfram["gkdValuesSource"]
+fingerprint = hashlib.sha256(bytes(values_bytes)).hexdigest()
+record_bytes, record_sha256 = source["valuesFileBytes"], source["valuesFileSha256"]
+say(f"bytes regenerated {len(values_bytes)}, in the record {record_bytes}")
+say(f"sha256 regenerated:   {fingerprint}")
+report("regenerated GKD values (bytes)", len(values_bytes))
+report("their sha256, first 16 digits", fingerprint[:16])
+say(f"sha256 in the record: {record_sha256}")
+```
+
+The Wolfram report and its field `gkdValuesSource`; the fingerprint of the regenerated bytes (`hexdigest` writes it in hexadecimal); the size and fingerprint stated in the record. The output prints both sizes, 3161984, and both fingerprints, which are the same 64 digits:
+
+```text
+sha256 regenerated:   3ddccfa744b3708bbd3e251852236b0a2d3370e957c67bae8d94168de6d2d695
+sha256 in the record: 3ddccfa744b3708bbd3e251852236b0a2d3370e957c67bae8d94168de6d2d695
+```
+
+```python
+check(len(values_bytes) == source["valuesFileBytes"] and
+      fingerprint == source["valuesFileSha256"],
+      "the regenerated values have the size and the sha256 fingerprint of the record",
+      record="Revision/gkd_lovelock/results/wolfram-gkd-report.json, gkdValuesSource")
+changed = bytearray(values_bytes)
+changed[1000] ^= 1  # change one bit of one byte
+say("after changing one bit of byte 1000:")
+say(f"sha256 of the changed: {hashlib.sha256(bytes(changed)).hexdigest()}")
+```
+
+The check reproduces the record's size and fingerprint: every one of the 3,161,984 bytes is the same. To show how sensitive a fingerprint is, a copy with one bit of byte 1000 flipped gets a completely different fingerprint, beginning 4463b17c1baf0a3e.
+
+```python
+layout = [len(pairs_of[p][0]) for p in range(1, 8)]
+wolfram_checks = {c["name"]: c for c in wolfram["checks"]}
+check(layout == [64, 4096, 262144, 20000, 20000, 20000, 20000] and
+      wolfram_checks["gkd_values_file_layout"]["verdict"] == "PASS",
+      "the layout: 64, 4096, 262144 pairs of length 1, 2, 3 and 20000 of each "
+      "length 4 to 7", record="Revision/gkd_lovelock/results/"
+      "wolfram-gkd-report.json, check gkd_values_file_layout")
+```
+
+The numbers of pairs per length, compared with the layout that the record's check `gkd_values_file_layout` states. The cell prints two PASS lines.
+
+**In [9], the counts of the Wolfram check.**
+
+```python
+SIGNED = {}  # size n -> list of (permutation, sign)
+
+
+def signed_permutations(n):
+    if n not in SIGNED:
+        SIGNED[n] = [(order, 1 if inversions(order) % 2 == 0 else -1)
+                     for order in itertools.permutations(range(n))]
+    return SIGNED[n]
+```
+
+The permutations with their signs, kept once per size, as in Notebook 01c, In [3].
+
+```python
+def literal_many(lowers, uppers):
+    """Det[Outer[delta, lower, upper]] for many pairs at once (Leibniz formula)."""
+    p = lowers.shape[1]
+    outer = lowers[:, :, None] == uppers[:, None, :]  # shape (pairs, p, p)
+    values = np.zeros(len(lowers), dtype=np.int64)
+    rows = np.arange(p)
+    for order, order_sign in signed_permutations(p):
+        values += order_sign * outer[:, rows, list(order)].all(axis=1)
+    return values
+```
+
+The literal determinant for many pairs at once, as in Notebook 01c, In [9] (Section 1.48); for $p = 7$ the Leibniz formula has $7! = 5040$ terms.
+
+```python
+measured = []
+for p in range(1, 8):
+    lowers = np.array(pairs_of[p][0], dtype=np.int8)
+    uppers = np.array(pairs_of[p][1], dtype=np.int8)
+    determinant = literal_many(lowers, uppers)
+    values_p = gkd_values[p]
+    row = {"p": p, "pairs": len(values_p),
+           "mismatches": int((determinant != values_p).sum()),
+           "plusOne": int((values_p == 1).sum()),
+           "minusOne": int((values_p == -1).sum()),
+           "zero": int((values_p == 0).sum()),
+           "mismatchesAgainstMinusGKD": int((determinant != -values_p).sum())}
+```
+
+For each length the author's determinant of all pairs and a row of the table with the same keys as the record's `gkdComparison`: the number of pairs, the mismatches between the determinant and GKD, the counts of $+1$, $-1$ and 0, and the mismatches against $-$GKD (the negative control).
+
+```python
+    if p >= 4:  # the even samples are the re-orderings
+        row["permutationSamplesNonzero"] = int((values_p[0::2] != 0).sum())
+    measured.append(row)
+    # format(**row) fills the names in braces with the entries of the dictionary
+    say("p = {p}: pairs {pairs:6d}, mismatches {mismatches}, +1 {plusOne:4d}, "
+        "-1 {minusOne:4d}, 0 {zero:6d}, against -GKD "
+        "{mismatchesAgainstMinusGKD:5d}".format(**row))
+```
+
+For $p \geq 4$ the record also counts the nonzero values among the even samples (`values_p[0::2]` takes every second entry, starting with the first), all 10,000 by construction. A text with names in braces is filled from the dictionary by `.format(**row)` (the two stars hand the entries of the dictionary over by name). The output:
+
+```text
+p = 1: pairs     64, mismatches 0, +1    8, -1    0, 0     56, against -GKD     8
+p = 2: pairs   4096, mismatches 0, +1   56, -1   56, 0   3984, against -GKD   112
+p = 3: pairs 262144, mismatches 0, +1 1008, -1 1008, 0 260128, against -GKD  2016
+p = 4: pairs  20000, mismatches 0, +1 4998, -1 5024, 0   9978, against -GKD 10022
+p = 5: pairs  20000, mismatches 0, +1 5024, -1 4981, 0   9995, against -GKD 10005
+p = 6: pairs  20000, mismatches 0, +1 4882, -1 5120, 0   9998, against -GKD 10002
+p = 7: pairs  20000, mismatches 0, +1 4935, -1 5065, 0  10000, against -GKD 10000
+```
+
+```python
+recorded = wolfram["measurements"]["gkdComparison"]
+check(measured == recorded, "every number of the record's gkdComparison table is "
+      "reproduced (lengths 1 to 7)",
+      record="Revision/gkd_lovelock/results/wolfram-gkd-report.json, measurements "
+             "gkdComparison; checks gkd_equals_kdelta_exhaustive_length_1 to 3 and "
+             "gkd_equals_kdelta_random_length_4 to 7")
+```
+
+The whole table, every key of every row, must equal the record's (two lists of dictionaries are equal when all their entries are). This reproduces the record's table and its seven comparison checks.
+
+```python
+check(all(r["mismatches"] == 0 for r in measured),
+      "the author's determinant equals GKD on all 346304 pairs")
+check(all(r["mismatchesAgainstMinusGKD"] == r["plusOne"] + r["minusOne"] > 0
+          for r in measured),
+      "negative control: compared with -GKD, the test fails exactly at the "
+      "nonzero values", record="Revision/gkd_lovelock/results/wolfram-gkd-report"
+      ".json, check negative_control_gkd_comparison_detects_a_sign_flip")
+```
+
+No mismatch on all 346,304 pairs; and the negative control fails exactly as often as there are nonzero values, and at least once for each length, which reproduces the record's check of the negative control. The cell prints three PASS lines.
+
+**In [10], the counts as a picture.**
+
+```python
+fig, ax = plt.subplots(figsize=(9.0, 4.6))
+lengths = np.arange(1, 8)
+for shift, key, color, name in [(-0.27, "plusOne", "tab:red", "value +1"),
+                                (0.0, "minusOne", "tab:blue", "value -1"),
+                                (0.27, "zero", "0.6", "value 0")]:
+    heights = [max(row[key], 0.8) for row in measured]  # 0.8 marks a count 0
+    ax.bar(lengths + shift, heights, width=0.25, color=color, label=name)
+    ax.plot(lengths + shift, [max(row[key], 0.8) for row in recorded], "kx", ms=7)
+ax.plot([], [], "kx", label="the record's numbers")  # an entry for the legend only
+```
+
+For each length three bars, the reproduced counts of $+1$, $-1$ and 0 (a count 0 drawn as a stub, as in Notebook 01c), and on top of each bar a black cross at the record's number.
+
+```python
+ax.set_yscale("log")
+ax.set_ylim(0.5, 1e6)
+ax.set_xticks(lengths)
+ax.set_xlabel("length $p$ of the index lists")
+ax.set_ylabel("number of pairs (logarithmic scale)")
+ax.set_title("The pairs of the Wolfram check: reproduced and recorded")
+ax.legend(loc="upper right", ncol=2, fontsize=8);
+save_figure(fig, "record_counts",
+            "The number of pairs of index lists with the GKD value $+1$ (red), "
+            ...)
+```
+
+What Figure 01d.5 shows: every cross sits exactly on the top of its bar. For the lengths 1 to 3 the zeros dominate, as counted in Section 1.43; for the lengths 4 to 7 the bars of $+1$ and $-1$ are about 5,000 each and the bar of 0 about 10,000, because half of the samples are re-orderings (value $\pm 1$) and almost all of the other half give 0. For $p = 1$ the blue bar is a stub: no value $-1$.
+
+**In [11], the Rust self-test for the lengths 5 to 9.**
+
+```python
+def rule_many(lowers, uppers):
+    """GKD for many pairs at once: 0, or sign(lower list) times sign(upper list)."""
+    p = lowers.shape[1]
+    upper_sorted = np.sort(uppers, axis=1)
+    upper_distinct = (np.diff(upper_sorted, axis=1) != 0).all(axis=1)
+    same_labels = (np.sort(lowers, axis=1) == upper_sorted).all(axis=1)
+    first, second = np.triu_indices(p, 1)  # all pairs of places first < second
+    parity = ((lowers[:, first] > lowers[:, second]).sum(axis=1)
+              + (uppers[:, first] > uppers[:, second]).sum(axis=1)) % 2
+    return np.where(upper_distinct & same_labels, np.where(parity == 0, 1, -1), 0)
+```
+
+The fast rule for many pairs with the sign shortcut of Section 1.43, as in Notebook 01c, In [9], with the parity of the total number of inversions computed in one line.
+
+```python
+check(all((rule_many(np.array(pairs_of[p][0], dtype=np.int8),
+                     np.array(pairs_of[p][1], dtype=np.int8)) == gkd_values[p]).all()
+          for p in range(1, 8)),
+      "rule_many equals the plain GKD rule on all 346304 pairs of the exporter")
+```
+
+Before it is used, `rule_many` must give the plain values of In [8] on all 346,304 pairs.
+
+```python
+selftest = json.loads(repository_file("Revision/gkd_lovelock/results/"
+                                      "gkd-selftest.json").read_text(encoding="utf-8"))
+recorded_random = {e["p"]: e for e in selftest["results"] if e["mode"] == "random"}
+selftest_rows = {}
+whole_numbers = True
+```
+
+The self-test report; its random entries (lengths 5 to 9) by length.
+
+```python
+for p in (5, 6, 7, 8, 9):
+    rng = XorShift64Star((SELFTEST_SEED ^ p) | 1)
+    lowers, uppers = [], []
+    for sample in range(200000):
+        upper = [rng.below(8) for _ in range(p)]
+        if sample % 2 == 0:  # a re-ordering of the upper list
+            lower = list(upper)
+            for i in range(p - 1, 0, -1):
+                j = rng.below(i + 1)
+                lower[i], lower[j] = lower[j], lower[i]
+        else:  # an arbitrary lower list
+            lower = [rng.below(8) for _ in range(p)]
+        lowers.append(lower)
+        uppers.append(upper)
+```
+
+The self-test's samples, as the function `compare_random` of `gkd.rs` draws them: the generator starts at (seed XOR $p$) OR 1 (`|` is Python's OR); every sample draws $p$ upper labels with `below(8)`; an even sample re-orders them by a Fisher-Yates shuffle, an odd sample draws $p$ more labels. (Unlike the exporter, the upper labels of an even sample may repeat; then the value is 0.)
+
+```python
+    lowers = np.array(lowers, dtype=np.int8)
+    uppers = np.array(uppers, dtype=np.int8)
+    values_p = rule_many(lowers, uppers)
+    determinants = np.concatenate([  # numpy's elimination, in 4 blocks of 50000
+        np.linalg.det((lowers[s:s + 50000, :, None]
+                       == uppers[s:s + 50000, None, :]).astype(float))
+        for s in range(0, 200000, 50000)])
+    rounded = np.rint(determinants)  # the nearest whole numbers
+    whole_numbers &= bool(np.all(np.abs(determinants - rounded) < 1e-6))
+```
+
+GKD for all 200,000 pairs at once, and the determinant of every matrix `Outer` by numpy's elimination (`np.linalg.det` accepts a stack of matrices), in four blocks of 50,000 to save memory; the Leibniz formula would have $9! = 362{,}880$ terms per matrix. The floating-point determinants are rounded to whole numbers, and each must lie within $10^{-6}$ of its whole number.
+
+```python
+    selftest_rows[p] = {"pairs": len(values_p), "nonzero": int((values_p != 0).sum()),
+                        "mismatches": int((rounded != values_p).sum()),
+                        "even": int((values_p[0::2] != 0).sum()),
+                        "odd": int((values_p[1::2] != 0).sum())}
+    say("p = {p}: {pairs} pairs, nonzero {nonzero:5d}, mismatches {mismatches}"
+        .format(p=p, **selftest_rows[p]))
+    say("       the record: nonzero {nonzero:5d}, mismatches {mismatches}"
+        .format(**recorded_random[p]))
+```
+
+For each length: the number of pairs, of nonzero values, of mismatches with the determinant, and of nonzero values among the even and among the odd samples; then a line with these numbers and a line with the record's. The output shows for $p = 5$ to 9 the nonzero counts 20538, 7812, 1949, 244, 0, each equal to the record's, and no mismatch.
+
+```python
+report("nonzero values of the self-test, p = 5 to 9",
+       ", ".join(str(selftest_rows[p]["nonzero"]) for p in (5, 6, 7, 8, 9)))
+check(whole_numbers, "every numpy determinant is a whole number up to 1e-6")
+check(all(selftest_rows[p][key] == recorded_random[p][key]
+          for p in (5, 6, 7, 8, 9) for key in ("pairs", "nonzero", "mismatches")),
+      "the self-test for the lengths 5 to 9: the same numbers of pairs, nonzero "
+      "values and mismatches", record="Revision/gkd_lovelock/results/"
+      "gkd-selftest.json, lengths 5 to 9 (random)")
+```
+
+The RESULT line with the five counts, and the checks: whole-number determinants, and the record's numbers of pairs, nonzero values and mismatches reproduced exactly. The cell takes 10 to 30 seconds and prints three PASS lines.
+
+**In [12], the birthday problem.**
+
+```python
+def all_different(p, days=8):
+    """The probability that p labels drawn at random from days are all different."""
+    return math.perm(days, p) / days ** p
+
+
+def odd_probability(p):
+    """The probability that an arbitrary pair of lists of length p is nonzero."""
+    return math.perm(8, p) * math.factorial(p) / 8 ** (2 * p)
+```
+
+$P(p) = (n!/(n - p)!)/n^p$ for $n$ "days" (8 unless given), and $q(p) = N_{\neq 0}(8, p)/8^{2p}$, the formulas of Section 1.50.
+
+```python
+selftest_ok = True
+for p in (5, 6, 7, 8, 9):
+    big_p, small_q = all_different(p), odd_probability(p)
+    expected = 100000 * big_p + 100000 * small_q
+    spread = math.sqrt(100000 * big_p * (1 - big_p) + 100000 * small_q * (1 - small_q))
+    found = recorded_random[p]["nonzero"]
+    even, odd = selftest_rows[p]["even"], selftest_rows[p]["odd"]
+    say(f"self-test p = {p}: recorded {found:5d}, expected {expected:8.1f}, "
+        f"sd {spread:5.1f}; even samples {even}, odd {odd}")
+    selftest_ok &= (abs(found - expected) < 4 * spread) if p < 9 else found == 0
+check(selftest_ok, "the recorded nonzero counts of the self-test lie within 4 "
+      "standard deviations of the birthday-problem expectation (0 exactly for p = 9)")
+```
+
+For each length the expected number of nonzero values and its standard deviation (the two kinds of samples are independent, so their variances, the squares of the standard deviations, add), compared with the record's count; for $p = 9$ the count must be exactly 0. The output:
+
+```text
+self-test p = 5: recorded 20538, expected  20582.9, sd 128.0; even samples 20461, odd 77
+self-test p = 6: recorded  7812, expected   7711.6, sd  84.4; even samples 7788, odd 24
+self-test p = 7: recorded  1949, expected   1927.2, sd  43.5; even samples 1944, odd 5
+self-test p = 8: recorded   244, expected    240.9, sd  15.5; even samples 243, odd 1
+self-test p = 9: recorded     0, expected      0.0, sd   0.0; even samples 0, odd 0
+```
+
+```python
+wolfram_ok = True
+for row in recorded:
+    p = row["p"]
+    if p < 4:
+        continue
+    odd_nonzero = row["plusOne"] + row["minusOne"] - row["permutationSamplesNonzero"]
+    expected = 10000 * odd_probability(p)
+    spread = math.sqrt(10000 * odd_probability(p) * (1 - odd_probability(p)))
+    say(f"Wolfram check p = {p}: nonzero odd samples {odd_nonzero:2d}, expected "
+        f"{expected:5.2f}, sd {spread:4.2f}")
+    wolfram_ok &= abs(odd_nonzero - expected) < 4 * spread
+check(wolfram_ok, "the nonzero odd samples of the Wolfram check lie within 4 "
+      "standard deviations of their expectation")
+```
+
+The same for the odd samples of the Wolfram check (10,000 per length 4 to 7): the nonzero values minus those of the even samples, compared with $10000\,q(p)$. Output: 22 against 24.03 (standard deviation 4.90), 5 against 7.51, 2 against 2.11 and 0 against 0.46.
+
+```python
+say(f"birthday problem: 22 people {all_different(22, 365):.4f}, 23 people "
+    f"{all_different(23, 365):.4f} all different")
+check(all_different(22, 365) > 0.5 > all_different(23, 365),
+      "23 is the smallest group in which a shared birthday is more likely than not")
+```
+
+The classic case: 22 people have different birthdays with the probability 0.5243, 23 people with 0.4927. Since $P(p)$ only falls as $p$ grows (each new factor is below 1), 23 is the smallest group in which a shared birthday is more likely than not. The cell prints three PASS lines.
+
+**In [13], the two birthday problems as a picture.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.3))
+p_values = np.arange(1, 10)
+left.plot(p_values, [all_different(int(p)) for p in p_values], "o-", color="tab:blue",
+          label="$P(p) = (8!/(8-p)!)/8^p$")
+left.plot([5, 6, 7, 8, 9], [selftest_rows[p]["even"] / 100000 for p in (5, 6, 7, 8, 9)],
+          "x", color="tab:red", ms=10, mew=2,
+          label="self-test: nonzero fraction of the even samples")
+left.set_xlabel("number $p$ of labels drawn from 8")
+left.set_ylabel("probability that all are different")
+left.set_title("8 labels")
+left.legend(fontsize=8)
+```
+
+On the left $P(p)$ for $p = 1$ to 9, and as red crosses the fractions of nonzero values among the 100,000 even samples of the self-test (`mew=2`: crosses drawn with thick strokes).
+
+```python
+people = np.arange(1, 61)
+right.plot(people, [all_different(int(k), 365) for k in people], color="tab:green")
+right.axhline(0.5, color="black", lw=0.8)
+right.axvline(23, color="black", ls=":", lw=1)
+right.text(24, 0.8, "23 people", fontsize=9)
+right.set_xlabel("number of people")
+right.set_ylabel("probability of all different birthdays")
+right.set_title("365 days")
+fig.tight_layout()
+save_figure(fig, "birthday_problem",
+            "Left: the probability $P(p)$ that $p$ labels drawn at random from 8 "
+            ...)
+```
+
+On the right the classic case for 1 to 60 people, the line one half and a dotted line at 23 people. What Figure 01d.6 shows: the red crosses lie on the blue curve, which reaches 0 at $p = 9$; the green curve falls below one half at 23 people.
+
+**In [14], the last check.**
+
+```python
+figure_names = ["01d_1_binary_counting.png", "01d_2_generator_step.png",
+                "01d_3_generator_bits.png", "01d_4_label_histogram.png",
+                "01d_5_record_counts.png", "01d_6_birthday_problem.png"]
+check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_names),
+      "all 6 figure files of this notebook exist")
+all_checks_passed()
+```
+
+The last line is ALL 19 CHECKS PASSED (notebook 01d). The 19 checks are: 2 in In [2], 1 in In [4], 2 in In [5], 1 in In [6], 1 in In [7], 2 in In [8], 3 in In [9], 3 in In [11], 3 in In [12] and 1 in In [14].
+
+### 1.55 What we proved, what we computed, what we assumed
+
+**PROVED in this chapter** (by school algebra and the definitions, every derivation written out line by line; every one is also confirmed by a check of a notebook):
+
+- numbers (Sections 1.2 to 1.5): the decimal digits of a fraction $p/q$ end or repeat a block of at most $q - 1$ digits; the formula that turns repeating digits back into a fraction; the digits of $p/q$ in lowest terms end exactly when $q = 2^a5^b$; $\sqrt 2$ is not a fraction; the fractions made by $p' = p + 2q$, $q' = p + q$ have $p^2 - 2q^2 = \pm 1$ and the error $|p/q - \sqrt 2| \approx 0.35355/q^2$; the step from a floating-point number $x$ to the next is $2^{e - 53}$, between $\varepsilon x/2$ and $\varepsilon x$; $1 - \cos x = 2\sin^2(x/2)$; $\ln(xy) = \ln x + \ln y$; $e - (1 + 1/n)^n \approx e/(2n)$; the length factors $e^{a_4}\sin^{1/6}z$, 1, $e^{-a_4}\sin^{1/6}z$ and $\cot z$ of the author's metric and their product $\cos z$ for every $a_4$;
+- complex numbers (Sections 1.10 to 1.13): the product rule, $(zw)^* = z^*w^*$, $zz^* = |z|^2$, $|zw| = |z|\,|w|$; Euler's formula and the error bound $e^\theta\theta^{N+1}/(N + 1)!$ of its partial sums; the law of exponents $e^{i\alpha}e^{i\beta} = e^{i(\alpha + \beta)}$; multiplication by $re^{i\alpha}$ turns by $\alpha$ and stretches by $r$; $M(z)M(w) = M(zw)$, $J^2 = -I$, $\det M(z) = |z|^2$, $R(\alpha)R(\beta) = R(\alpha + \beta)$, $\det R = 1$, $R^TR = I$; the roots of unity add up to 0; conjugation leaves real numbers unchanged; $\cosh^2 - \sinh^2 = 1$ and the addition theorems of $\cosh$ and $\sinh$; a boost keeps $-t^2 + x^2$, adds rapidities and stretches the light-like directions by $e^{\pm\varphi}$; $e^{-i\varepsilon t}$ has modulus 1 for a real and grows or decays like $e^{\gamma t}$ for an imaginary frequency $\varepsilon = i\gamma$;
+- matrices and determinants (Sections 1.18 to 1.21): $(AB)v = A(Bv)$, associativity, $(AB)^T = B^TA^T$, $\mathrm{tr}(AB) = \mathrm{tr}(BA)$; an exchange of two entries flips the sign of a permutation, half of the permutations are even, and a permutation and its inverse have the same sign; the determinants of diagonal, permutation, signed permutation and triangular matrices; the rules 2 to 6 of determinants for every size and rule 1 for $2 \times 2$ matrices; the inverse of a $2 \times 2$ matrix; the signed area of the image of the unit square is $\det M$; $\det\gamma^a = \pm 1$ for the gamma matrices; $\det g = \cos^2 z$ and $\sqrt{|\det g|} = \sin z\cot z = \cos z$ for the author's metric, for every $a_4$: the growth of space and the exponential deflation of the extra times cancel;
+- index notation (Sections 1.26 to 1.29): the rules of the Kronecker delta, $\delta^a{}_a = 8$; $\eta^{ab}\eta_{bc} = \delta^a{}_c$; lowering changes the signs of the four time-like components; the squared lengths of the examples; in the signature (4,4) exactly half of all random vectors are space-like (with one assumed fact of probability); $S_{ab}A^{ab} = 0$ and its consequence for squared expressions; signed permutation matrices are orthogonal; $(\gamma^a)^T = \eta_{aa}\gamma^a$; $\gamma^a\gamma_a = 8I$, $\gamma^a\gamma^b\gamma_a = -6\gamma^b$, $\mathrm{tr}(\gamma^a\gamma^b) = 16\eta^{ab}$, all from the Clifford relation; the line element $ds^2 = \epsilon^2(6s\sinh(2a_4) - 1 + \cot^2 z)$ of the step $dx^\mu = \epsilon$ and the place $a_4^{\ast}(z)$ where it changes from time-like to space-like;
+- eigenvalues (Sections 1.34 to 1.37): the eigenvalues add up to the trace and multiply to the determinant; the eigenvalues and eigenvectors of the $2 \times 2$ example and the ellipse with half-axes 3 and 1; the eigenvalues $2 - 2\cos(k\pi/(n + 1))$ and the sine-wave eigenvectors of the chain matrix; $e^{\pm i\alpha}$ for rotations and $e^{\pm\varphi}$ for boosts; complex eigenvalues of real matrices come in conjugate pairs; symmetric and Hermitian matrices have real eigenvalues, and eigenvectors with different eigenvalues are perpendicular; the quadratic form in the eigenvector coordinates; Sylvester's law of inertia (with one assumed fact of linear algebra); the signature (4,4) of $\eta$ and of the author's metric for every $a_4$ and $z$; the eigenvalues $\pm 1$ or $\pm i$ of the gamma matrices, eight times each; $\gamma(v)^2 = Q(v)I$, and $\gamma(v)$ is nilpotent but not zero for a light-like $v$; $B$ is Hermitian exactly when its imaginary part is antisymmetric; the factor $|\lambda_2/\lambda_1|$ of power iteration;
+- the generalized Kronecker delta (Sections 1.42 to 1.44): the four cases, so the fast rule of the program GKD equals the author's determinant for every pair of index lists; the two-index formula and the counts 56, 56, 3984; the number $n!/(n - p)!\cdot p!$ of nonzero values; the sign shortcut $\delta^U_L = \mathrm{sign}(L)\,\mathrm{sign}(U)$ (with rule 1 assumed); the vanishing with nine indices in eight dimensions, so the Lovelock sum stops at $k = 3$; the contraction identity with the factor $n - p + 1$ and the factors $8 - 2k = 6, 4, 2$ of the Lovelock trace identities; the Levi-Civita product formula with $(n - p)!$; $\det\eta = +1$;
+- binary numbers and the record's tests (Sections 1.49 and 1.50): a right shift is whole-number division by $2^k$, a left shift multiplication by $2^k$, an exclusive or done twice is undone; the exporter's file has 3,161,984 bytes; the birthday probability $P(p) = (8!/(8 - p)!)/8^p$ (with the assumed rule that independent chances multiply).
+
+**COMPUTED by the notebooks** (each number in the cell named; where a Revision record is reproduced, the record file and its key or check):
+
+- Notebook 01f: the periods of $1/q$ for $q = 2$ to 300, 23 denominators with the full period $q - 1$ (In [4]); the error $1.84 \times 10^{-9}$ of $19601/13860$ and the limit 0.353553 of the error times $q^2$ (In [5]); $\sqrt 2$ between two fractions $2^{-60}$ apart (In [6]); $0.1$ stored as $3602879701896397/2^{55}$, $\varepsilon = 2^{-52}$ and the step formula at 2301 numbers (In [7]); the largest relative errors $4.4 \times 10^{-16}$ and $1.0$ of the two formulas for $(1 - \cos x)/x^2$ (In [9]); $e/(2n)$ within 1 per cent and the floating-point error $e - 1$ at $n = 10^{16}$ (In [12]); $\ln 1000 = 6.9078$ (In [12]); the length factors and their product (In [11]; reproduces `Revision/gkd_lovelock/results/curvature.json`, key `sqrtAbsDetG`, and `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`).
+- Notebook 01b: the error $4.1 \times 10^{-14}$ of 21 terms of the series of $e^{2i}$ (In [5]); the factor $\theta/(N + 2)$ within 10 per cent (In [6]); $e^{i\pi} = -1$ with a leftover imaginary part of size $1.0 \times 10^{-51}$ at 50 digits (In [7]); the rotations, roots of unity, boosts and waves in numbers (In [8] to In [14]). It reads no record.
+- Notebook 01a: the determinants 2, 15, $-35$, $-24$, 730, 15445, 60109 of seven random matrices, three ways (In [10]); $\det M = -192$, $\det N = 128$, $\det(MN) = -24576$ (In [11]); the signed areas of 1000 random matrices (In [12]); $16! = 20922789888000$ (In [13]); the eight gamma matrices are signed permutation matrices with determinant 1 whose squares are $\pm I$ (In [14], In [15]; reproduces `Revision/algebra/reports/python-algebra.json`, checks `reality_signed_permutations` and `clifford_relation`); $\det g = \cos^2 z$ exactly and at 900 points to $3.1 \times 10^{-15}$ (In [17], In [18]; reproduces `Revision/gkd_lovelock/results/curvature.json`, key `sqrtAbsDetG`, and `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`).
+- Notebook 01e: $\eta$ from the record (In [3]; reproduces `python-algebra.json`, check `coordinate_map`); the fractions 0.5031 and 0.8177 of space-like random vectors in the signatures (4,4) and (3,1) (In [6]); all 64 Clifford relations and the symmetry pattern (In [10]; reproduces the checks `clifford_relation` and `symmetry_pattern` of the same report); the three contractions (In [12]); the metric and its inverse (In [14]; reproduces `curvature.json`, key `metricDiagonal`, and `python-lovelock-report.json`, check `metric_inverse`); the sign of $ds^2$ on a grid of $301 \times 300$ points (In [15]).
+- Notebook 01g: the eigenvalues of $T_{10}$ within $8.9 \times 10^{-16}$ of the formula (In [5]); 200 random $5 \times 5$ matrices with conjugate pairs (In [6]); 300 random symmetric matrices with real eigenvalues, and 67.7 per cent complex eigenvalues of 300 non-symmetric ones (In [8]); Sylvester's law for 2000 random coordinate changes, eigenvalue sizes $1.2 \times 10^{-8}$ to 37.1 (In [10]; reproduces `python-algebra.json`, check `coordinate_map`); the signature (4,4) of the author's metric at 3050 grid points and the product $\cos^2 z$ (In [11]; reproduces `python-lovelock-report.json`, check `sqrt_abs_det_g`); the eigenvalues of the gamma matrices (In [13]; the checks `clifford_relation` and `symmetry_pattern`); $\gamma(v)^2 = Q(v)I$ for 104 vectors (In [14]); the signature (8,8) of $B$ (In [16]; reproduces `python-algebra.json`, check `B_hermitian_involution_signature`, and `Revision/theory/reports/python-field-theory.json`, check `B_properties`); the power-iteration factors 0.333333 and 0.585786 to 0.585789 (In [18]).
+- Notebook 01c, first part: the author's definition, verbatim as in the record's file `PROVENANCE_OF_THE_COMPUTATION.md`, and his cells In[87], In[32] and In[29] as listed in the record's file `notebook-input-cells.txt` (In [2]; both files lie in the folder `Revision/gkd_lovelock/results`, as do the reports named below); the record's examples (In [6]; reproduces the check `gkd_examples` of `python-lovelock-report.json`, the check `definition_unequal_lengths_stay_unevaluated` of `wolfram-gkd-report.json` and the field `gkdSelfCheck` of `lovelock-report.json`).
+- Notebook 01c, second part: the literal determinant equals the fast rule on all 266,304 pairs of the lengths 1 to 3, with the record's counts (In [8]; reproduces the checks `gkd_equals_kdelta_exhaustive_length_1`, `_length_2` and `_length_3` of `wolfram-gkd-report.json` and the check `gkd_literal_equals_cofactor_expansion` of `python-lovelock-report.json`), and on all 16,777,216 pairs of length 4 (In [10]; reproduces `gkd-selftest.json`).
+- Notebook 01c, third part: 600 pairs of nine-index lists, all 0 (In [13]; the record's check `gkd_nine_indices_in_eight_dimensions_vanish`); the contraction factors 8 to 1 and 4 to 1 (In [14]); the trace factors 6, 4, 2 (In [15]; reproduces the checks `k1_trace_equals_6_L1`, `k2_trace_equals_4_L2` and `k3_trace_equals_2_L3` of `wolfram-gkd-report.json`); the author's second route, $7!\,\delta^b_a$ (In [17]; with the declaration (4, 4, 0) of the author's cell In[29]).
+- Notebook 01d: the 3,161,984 regenerated bytes and their sha256 fingerprint (In [8]; reproduces `wolfram-gkd-report.json`, field `gkdValuesSource`, and check `gkd_values_file_layout`); every number of the table `gkdComparison` and the negative control (In [9]; reproduces `wolfram-gkd-report.json`, field `measurements`, and its checks `gkd_equals_kdelta_exhaustive_length_1` to `_3`, `gkd_equals_kdelta_random_length_4` to `_7` and `negative_control_gkd_comparison_detects_a_sign_flip`); the self-test counts 20538, 7812, 1949, 244, 0 (In [11]; reproduces `gkd-selftest.json`, lengths 5 to 9); all of them within 4 standard deviations of the birthday-problem expectation, and the 23 people of the classic problem (In [12]).
+
+**ASSUMED** (used, not derived here):
+
+- school algebra and trigonometry: the laws of powers; $\cos^2 + \sin^2 = 1$, the addition theorems, the double-angle formula; the formula for the roots of a quadratic; every point at distance 1 from the origin is $(\cos\theta, \sin\theta)$; Pythagoras; the uniqueness of the factorisation into primes;
+- calculus: the series of $e^x$, $\cos$, $\sin$ and $\ln(1 + u)$ (Chapter 2 derives Taylor's theorem); the triangle inequality for complex numbers;
+- linear algebra: $\det(MN) = \det M\,\det N$ for matrices larger than $2 \times 2$; a square matrix can be undone exactly when its determinant is not 0, and $(M - \lambda I)v = 0$ has a solution $v \neq 0$ when $\det(M - \lambda I) = 0$; the fundamental theorem of algebra; the spectral theorem; more than $n$ vectors with $n$ components are linearly dependent; the shoelace formula for signed areas;
+- probability: a continuous random quantity takes one exact value with probability 0; independent chances multiply; the expected value $Nq$ and the standard deviation $\sqrt{Nq(1 - q)}$ of a count; the fraction $1/2 + 1/\pi$ for the signature (3,1);
+- the property of SHA-256 that different files have different fingerprints for all practical purposes;
+- tensor calculus: raising all indices of the Levi-Civita tensor of a metric multiplies it by the sign of $\det g$ (Chapter 11);
+- taken from the Revision record and derived in later chapters: the gamma matrices, the Clifford relation and the matrices $C$ and $B$ (Chapters 4 and 5; here read from `Revision/algebra/gammas.json` and checked); the meaning of $B$ as the charge density (Chapters 7 and 10); the curvature and the Lovelock tensors (Chapters 3 and 11);
+- the author's metric itself, the starting point of the theory. Nothing in this chapter depends on the form of the function $a_4(x_4)$: every statement holds for every value of $a_4$.
+
+**HYPOTHESIS and OPEN.** No hypothesis enters this chapter, and it leaves no question open. It says nothing about pair creation or about matter and antimatter.
+
+### 1.56 Exercises
+
+**Exercise 1.** Find the decimal digits of $3/11$ by long division, state the period, and turn the repeating digits back into the fraction with the formula of Section 1.2.
+
+*Answer.* Start with the remainder 3. $30 = 2\cdot 11 + 8$: digit 2, remainder 8. $80 = 7\cdot 11 + 3$: digit 7, remainder 3, the remainder we started with. So $3/11 = 0.(27)$ with the period 2. Back: the block is $C = 27$ with $m = 2$ digits, so $x = C/(10^m - 1) = 27/99$, and dividing numerator and denominator by their greatest common divisor 9 gives $3/11$.
+
+**Exercise 2.** (a) Which of the numbers $0.75$ and $0.2$ does a computer store exactly, and why? (b) How large is the step from $x = 10^6$ to the next floating-point number, and what is the step divided by $x$? Compare with $\varepsilon/2$ and $\varepsilon$.
+
+*Answer.* (a) $0.75 = 3/4$ has the denominator $2^2$, a power of 2, so it is stored exactly; $0.2 = 1/5$ has the prime factor 5 in its denominator, so its binary digits do not end (Section 1.4) and it is rounded. (b) $2^{19} = 524288 < 10^6 < 2^{20} = 1048576$, so $10^6 = f\cdot 2^{20}$ with $f = 10^6/2^{20} \approx 0.954$, which lies between $\tfrac12$ and 1; the step is $2^{20 - 53} = 2^{-33} \approx 1.164 \times 10^{-10}$. Divided by $10^6$ it is $1.164 \times 10^{-16}$, which lies between $\varepsilon/2 \approx 1.110 \times 10^{-16}$ and $\varepsilon \approx 2.220 \times 10^{-16}$, as Section 1.4 proved.
+
+**Exercise 3.** (a) Compute $(2 + i)(1 - 3i)$. (b) Write $1/(3 + 4i)$ as real part plus $i$ times imaginary part, and give $|3 + 4i|$. (c) For the complex frequency $\varepsilon = 2 - 0.5i$, what is the size $|e^{-i\varepsilon t}|$ of the wave, and does it grow or decay?
+
+*Answer.* (a) $(2 + i)(1 - 3i) = 2 - 6i + i - 3i^2 = 2 - 5i + 3 = 5 - 5i$ (multiply out; $i^2 = -1$). (b) $\dfrac{1}{3 + 4i} = \dfrac{3 - 4i}{(3 + 4i)(3 - 4i)} = \dfrac{3 - 4i}{9 + 16} = \dfrac{3}{25} - \dfrac{4}{25}i$, and $|3 + 4i| = \sqrt{9 + 16} = 5$. (c) $-i\varepsilon t = -i(2 - 0.5i)t = -2it + 0.5i^2t = -2it - 0.5t$, so $e^{-i\varepsilon t} = e^{-0.5t}e^{-2it}$ (Section 1.13); since $|e^{-2it}| = 1$, the size is $e^{-0.5t}$: the wave oscillates and decays.
+
+**Exercise 4.** For the matrices $A$ with rows $(1, 2), (0, 1)$ and $B$ with rows $(0, 1), (1, 0)$ compute $AB$, $BA$, the commutator $[A, B]$, the anticommutator $\{A, B\}$, the traces of $AB$ and $BA$, and $\det A$, $\det B$, $\det(AB)$.
+
+*Answer.* Row times column: $AB$ has the rows $(1\cdot 0 + 2\cdot 1, 1\cdot 1 + 2\cdot 0) = (2, 1)$ and $(0 + 1, 0 + 0) = (1, 0)$; $BA$ has the rows $(0\cdot 1 + 1\cdot 0, 0\cdot 2 + 1\cdot 1) = (0, 1)$ and $(1, 2)$. So $[A, B] = AB - BA$ has the rows $(2, 0)$ and $(0, -2)$, and $\{A, B\} = AB + BA$ has the rows $(2, 2)$ and $(2, 2)$. Both traces are 2 (Section 1.18 proved that they must be equal). $\det A = 1\cdot 1 - 2\cdot 0 = 1$, $\det B = 0 - 1 = -1$, $\det(AB) = 2\cdot 0 - 1\cdot 1 = -1 = \det A\,\det B$ (rule 1).
+
+**Exercise 5.** (a) Find the inversions and the sign of the permutation $(2, 0, 3, 1)$. (b) Compute the determinant of the matrix with the rows $(2, 1, 0)$, $(0, 1, 3)$, $(1, 0, 1)$ with the six-term formula of Section 1.20.
+
+*Answer.* (a) The pairs of entries in the wrong order are $(2, 0)$, $(2, 1)$ and $(3, 1)$: three inversions, an odd number, so the sign is $-1$. (b) With $A_{11} = 2$, $A_{12} = 1$, $A_{13} = 0$, $A_{21} = 0$, $A_{22} = 1$, $A_{23} = 3$, $A_{31} = 1$, $A_{32} = 0$, $A_{33} = 1$: $A_{11}A_{22}A_{33} = 2$, $A_{12}A_{23}A_{31} = 3$, $A_{13}A_{21}A_{32} = 0$, $A_{12}A_{21}A_{33} = 0$, $A_{11}A_{23}A_{32} = 0$, $A_{13}A_{22}A_{31} = 0$, so $\det = 2 + 3 + 0 - 0 - 0 - 0 = 5$.
+
+**Exercise 6.** With the frame metric $\eta$ of the author's spacetime (Section 1.27): (a) for $v = (1, 0, 0, 0, 1, 0, 0, 0)$ (components $v^1 = v^5 = 1$) compute $Q(v)$ and the lowered components $v_a$; (b) for $w = (0, 0, 0, 1, 1, 0, 0, 0)$ compute $Q(w)$; (c) for $u = (1, 1, 1, 1, 1, 0, 0, 1)$ compute $Q(u)$. Classify each vector. (d) Write $\delta^a{}_b\,\delta^b{}_c$ for $a = c = 4$ as an explicit sum and evaluate it.
+
+*Answer.* (a) $Q(v) = (v^1)^2 - (v^5)^2 = 1 - 1 = 0$: light-like; $v_a = \eta_{aa}v^a = (1, 0, 0, 0, -1, 0, 0, 0)$, because $x_5$ is time-like. (b) $Q(w) = -(w^4)^2 - (w^5)^2 = -2$: time-like. (c) $Q(u) = 1 + 1 + 1 - 1 - 1 + 1 = 2$ (the components along $x_1, x_2, x_3, x_8$ count $+1$, those along $x_4, x_5$ count $-1$): space-like. (d) $\sum_{b=1}^{8}\delta^4{}_b\,\delta^b{}_4$; only $b = 4$ contributes, giving $1\cdot 1 = 1 = \delta^4{}_4$.
+
+**Exercise 7.** (a) Check that $\sum_a\sum_b S_{ab}A_{ab} = 0$ for $S$ with the rows $(1, 4), (4, 0)$ and $A$ with the rows $(0, -3), (3, 0)$. (b) Show, with the Clifford relation of the record's gamma matrices, that $\gamma^{(x_1)}\gamma^{(x_4)}\gamma^{(x_1)} = -\gamma^{(x_4)}$.
+
+*Answer.* (a) The four terms are $1\cdot 0 + 4\cdot(-3) + 4\cdot 3 + 0\cdot 0 = 0$: the terms $(1, 2)$ and $(2, 1)$ cancel, the diagonal terms are 0 (Section 1.28). (b) $\gamma^{(x_1)}\gamma^{(x_4)} = -\gamma^{(x_4)}\gamma^{(x_1)}$ (different gamma matrices anticommute), so $\gamma^{(x_1)}\gamma^{(x_4)}\gamma^{(x_1)} = -\gamma^{(x_4)}\gamma^{(x_1)}\gamma^{(x_1)} = -\gamma^{(x_4)}(\gamma^{(x_1)})^2 = -\gamma^{(x_4)}I = -\gamma^{(x_4)}$ (associativity; $(\gamma^{(x_1)})^2 = \eta_{11}I = +I$ for the space-like $x_1$).
+
+**Exercise 8.** Let $A$ have the rows $(2, 1 - i)$ and $(1 + i, 3)$. (a) Show that $A$ is Hermitian. (b) Find its characteristic polynomial and its eigenvalues. (c) Find an eigenvector for each eigenvalue and check that the two are perpendicular ($w^\dagger v = 0$).
+
+*Answer.* (a) The transpose has the rows $(2, 1 + i)$ and $(1 - i, 3)$; conjugating every entry gives back $A$, so $A^\dagger = A$. (b) $\det(A - \lambda I) = (2 - \lambda)(3 - \lambda) - (1 - i)(1 + i) = \lambda^2 - 5\lambda + 6 - 2 = \lambda^2 - 5\lambda + 4 = (\lambda - 1)(\lambda - 4)$, using $(1 - i)(1 + i) = 1 - i^2 = 2$; the eigenvalues 1 and 4 are real, as Theorem 1 of Section 1.36 requires. (c) For 4: the first row of $(A - 4I)v = 0$ reads $-2v_1 + (1 - i)v_2 = 0$; with $v_2 = 2$, $v = (1 - i, 2)$ (second row: $(1 + i)(1 - i) - 2 = 2 - 2 = 0$). For 1: $v_1 + (1 - i)v_2 = 0$; with $v_2 = 1$, $w = (-1 + i, 1)$ (second row: $(1 + i)(-1 + i) + 2 = (i^2 - 1) + 2 = 0$). Then $w^\dagger v = (-1 - i)(1 - i) + 1\cdot 2 = (-1 + i - i + i^2) + 2 = -2 + 2 = 0$.
+
+**Exercise 9.** Take the author's metric at $a_4 = 0$ and $z = \pi/4$. (a) Write its eight diagonal entries with $s = \sin^{1/3}(\pi/4)$. (b) Compute the product of the eight entries and compare it with $\cos^2(\pi/4)$. (c) What is its signature, and what happens to its three extra-time entries when $a_4$ grows to $\ln 2$?
+
+*Answer.* (a) $\sin(\pi/4) = \cos(\pi/4) = \sqrt 2/2$ and $\cot(\pi/4) = 1$, so the entries are $s, s, s, -1, -s, -s, -s, 1$ with $s = (\sqrt 2/2)^{1/3} = 2^{-1/6} \approx 0.8909$ (since $\sqrt 2/2 = 2^{-1/2}$ and $(2^{-1/2})^{1/3} = 2^{-1/6}$). (b) The product is $s^3\cdot(-1)\cdot(-s)^3\cdot 1 = s^6 = (2^{-1/6})^6 = 2^{-1} = \tfrac12$, and $\cos^2(\pi/4) = (\sqrt 2/2)^2 = \tfrac12$: equal, as Section 1.21 proved. (c) Four positive entries ($s$ three times and 1) and four negative ones: the signature (4,4). At $a_4 = \ln 2$ the extra-time entries $-e^{-2a_4}s$ are multiplied by $e^{-2\ln 2} = \tfrac14$ (and the space entries by 4): they shrink towards 0 but keep their sign, so the signature stays (4,4) (Section 1.36).
+
+**Exercise 10.** (a) Compute $\delta^{x_2x_3x_1x_4}_{x_1x_2x_3x_4}$ (lower list $(x_1, x_2, x_3, x_4)$, upper list $(x_2, x_3, x_1, x_4)$) with the four cases of Section 1.42. (b) Compute $\delta^{x_1x_2x_3x_4}_{x_1x_2x_3x_5}$. (c) How many of the $8^{10}$ pairs of index lists of length 5 over the eight labels have a nonzero value, and how many of them are $+1$?
+
+*Answer.* (a) No label repeats, and both lists hold $x_1, \dots, x_4$: case (d). The lower labels stand at the places 3, 1, 2, 4 of the upper list ($x_1$ is the third upper label, $x_2$ the first, $x_3$ the second, $x_4$ the fourth), so $\sigma = (3, 1, 2, 4)$, with the inversions $(3, 1)$ and $(3, 2)$: even, value $+1$. (b) The lower label $x_5$ is not among the upper labels: case (c), value 0. (c) $N_{\neq 0}(8, 5) = 8\cdot 7\cdot 6\cdot 5\cdot 4\cdot 5! = 6720\cdot 120 = 806400$, of which half, 403200, are $+1$ (Section 1.43).
+
+**Exercise 11.** Use the contraction identity of Section 1.44 twice to compute $\sum_c\sum_d\delta^{acd}_{bcd}$ in eight dimensions, and check the result by counting the nonzero terms.
+
+*Answer.* First contract $d$ in the delta with $p = 3$ indices: $\sum_d\delta^{acd}_{bcd} = (8 - 3 + 1)\,\delta^{ac}_{bc} = 6\,\delta^{ac}_{bc}$. Then contract $c$ in the delta with $p = 2$ indices: $\sum_c\delta^{ac}_{bc} = (8 - 2 + 1)\,\delta^a_b = 7\,\delta^a_b$. Together $\sum_c\sum_d\delta^{acd}_{bcd} = 42\,\delta^a_b$. Check by counting: for $a \neq b$ every term is 0 (case (c): $a$ is missing from the lower list or appears twice in an extended list). For $a = b$ the term is $+1$ exactly when $c$ and $d$ differ from $a$ and from each other (equal lists of three different labels) and 0 otherwise; there are $7$ choices for $c$ and then $6$ for $d$, so the sum is $7 \cdot 6 = 42$.
+
+**Exercise 12.** (a) In the record's self-test of length 4, what is the probability that the 4 upper labels of a sample, drawn with `below(8)`, are all different? (b) About how many of 100,000 such samples have four different labels? (c) Why can no sample of length 9 have a nonzero value?
+
+*Answer.* (a) $P(4) = \frac88\cdot\frac78\cdot\frac68\cdot\frac58 = \frac{1680}{4096} \approx 0.4102$ (Section 1.50). (b) About $100000 \cdot 0.4102 \approx 41{,}000$ (the expected value $NP$). (c) Nine labels taken from eight must repeat one (the pigeonhole principle), so case (a) or (b) of Section 1.42 applies and the value is 0; this is why the record's count for $p = 9$ is exactly 0.

@@ -19,11 +19,9 @@ Chapter 15 solved the Kohn-Sham equations of the field dirac16complex in the aut
 
 **The three notebooks.**
 
-| notebook | what it computes | Rust | PASS lines | figures |
-| --- | --- | --- | --- | --- |
-| 16a | the reference solver on a subset of five states, the Rust solver with canonical and refined numerics, the tolerance rule on 5140 comparisons | yes | 51 | 7 |
-| 16b | the method of the reference solver by hand on the free problem: exact levels, staggered grid, matrix, Sturm counts, bisection, zero mode, Richardson, brane-band slope | no | 31 | 7 |
-| 16c | the chemical potential with 40 digits, the rounding staircase of the direct sum, the faulty value of the first cross-check reproduced, the repair, the rounding bounds for 45 states | no | 26 | 6 |
+- Notebook 16a (needs Rust; 51 checks, 7 figures): the reference solver on a subset of five states, the Rust solver with its canonical and its refined numerics, and the tolerance rule on 5140 comparisons.
+- Notebook 16b (no Rust; 31 checks, 7 figures): the method of the reference solver by hand on the free problem: the exact levels, the staggered grid, the matrix, Sturm counts and bisection, the zero mode, Richardson extrapolation, the brane-band slope.
+- Notebook 16c (no Rust; 26 checks, 6 figures): the chemical potential with 40 digits, the rounding staircase of the direct sum, the faulty value of the first cross-check reproduced, the repair, and the rounding bounds of 45 states.
 
 Notebook 16a is placed first because it shows the whole check at work; 16b then opens the reference solver and 16c the chemical potential.
 
@@ -263,7 +261,7 @@ $$
 
 Rule: subtract the exact $F = E - TS$ from the computed one, then apply the triangle inequality as above. In the same way the grand potential $\Omega = F - \mu N$ gets $U_\Omega = U_F + N\,U_\mu$. The derivative of the energy along the history has the energy-momentum form $dE/da_4 = -6\,\mathrm{Vol}_7\int e^{6Hy}(p_3 - p_t)\,dy = -3\,(I_3 - I_t)$, where $I_3$ and $I_t$ are the integrals $2\,\mathrm{Vol}_7\int e^{6Hy}p_3\,dy$ and $2\,\mathrm{Vol}_7\int e^{6Hy}p_t\,dy$ that the solvers report; hence its uncertainty is $3\,(U_{I_3} + U_{I_t})$. The exchange difference $\Delta E_x = \tfrac{\lambda}{32}\,2\,\mathrm{Vol}_7\int e^{6Hy}Q^2\,dy$ is quadratic in the profile $Q$, and a relative change $\delta$ of $Q$ changes $Q^2$ by the relative amount $(1 + \delta)^2 - 1 = 2\delta + \delta^2 \approx 2\delta$; hence its uncertainty is twice the relative uncertainty of $Q$ times $|\Delta E_x|$.
 
-**A floor for difference quotients.** The heat capacity is also computed as $dE/dT$, a **difference quotient**: energies at the temperatures $T \pm dT$ (and $T \pm 2dT$) are subtracted and divided by multiples of $dT = 0.01\,T$. Each energy comes from a self-consistent calculation that stops when its residual is below a tolerance, so each energy carries a small noise of about $N$ times that tolerance, and dividing by $dT$ magnifies the noise to about $N\times\text{tolerance}/dT$. The cross-check adds this floor for each solver: $N\cdot10^{-13}/dT$ for the Rust solver (its root tolerance) and $N\cdot10^{-12}/dT$ for the reference (its self-consistency tolerance).
+**A floor for difference quotients.** The heat capacity is also computed as $dE/dT$, a **difference quotient**: energies at the temperatures $T \pm dT$ (and $T \pm 2dT$) are subtracted and divided by multiples of $dT = 0.01\,T$. Each energy is a sum over $N$ occupied states of levels that are computed only to a tolerance (the Rust solver finds each level to its root tolerance $10^{-13}$; the reference stops its self-consistency at $10^{-12}$), so each energy carries a small noise of up to about $N$ times that tolerance, and dividing by $dT$ magnifies the noise to about $N\times\text{tolerance}/dT$. The cross-check adds this floor for each solver: $N\cdot10^{-13}/dT$ for the Rust solver and $N\cdot10^{-12}/dT$ for the reference (in its own report each solver uses the same floor for its identity $C_V = dE/dT$). For $N = 8$ and $T = 0.05$, where $dT = 5\times10^{-4}$, the two floors are $1.6\times10^{-9}$ and $1.6\times10^{-8}$.
 
 **A worked comparison.** Notebook 16a (In [14]) shows every piece of one comparison, the Kohn-Sham energy of N8_lamm2_a00. Rust gives $0.002862652173608389$ and the reference $0.002862652173734779$, a difference of $1.264\times10^{-13}$. The uncertainties are $U_{ref} = 2.096\times10^{-12}$ and $U_{Rust} = 1.214\times10^{-13}$. The tolerance is
 
@@ -1321,7 +1319,7 @@ The derivative $dE/da_4$ in its energy-momentum form, with the uncertainty $3(U_
                 top["delta_eps"], top["U_delta_eps"], 2.0 * U["levels"])
 ```
 
-When $Q_{max}$ is not zero (it is zero for the states with $N = 8$, where no matrix element connects an occupied and an empty level of the same sector), the maximising pair of levels must be the same in both solvers. The Rust table writes the pair as `hole -> particle`; `.split("->")` cuts the text at the arrow and `.strip()` removes the blanks. The printed lines (Out [16]) show $Q_{max} = 0.0934505917$ for N688_lam0_a00 and $0.0421562349$ for N136_lamp2_a20, with the same pairs in both solvers; the check requires this. Then the matrix element and the level spacing of the pair are compared.
+When $Q_{max}$ is not zero (it is zero in both solvers for the states with $N = 8$: their eight quanta sit at zero 3-momentum, where the slice $a_{4,0}$ does not enter the equations, so every matrix element of the derivative along the history vanishes; `Revision/kohn_sham/reports/ks-crosscheck.json`, check `adiabatic_Q_max`), the maximising pair of levels must be the same in both solvers. The Rust table writes the pair as `hole -> particle`; `.split("->")` cuts the text at the arrow and `.strip()` removes the blanks. The printed lines (Out [16]) show $Q_{max} = 0.0934505917$ for N688_lam0_a00 and $0.0421562349$ for N136_lamp2_a20, with the same pairs in both solvers; the check requires this. Then the matrix element and the level spacing of the pair are compared.
 
 ```python
 ground_rows = [r for r in ROWS if r[1].split()[0] in GROUND_IDS]

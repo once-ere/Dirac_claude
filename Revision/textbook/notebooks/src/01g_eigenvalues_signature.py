@@ -81,8 +81,8 @@ FACTS = {
         "ALL 30 CHECKS PASSED (notebook 01g)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for a file below Revision/algebra, Revision/theory or "
-         "Revision/gkd_lovelock",
+        ["\"FileNotFoundError\" for a file below Revision/gkd_lovelock, Revision/algebra "
+         "or Revision/theory",
          "the notebook reads Revision records of the repository; your copy of the "
          "repository is incomplete. Download it again with git clone and open the "
          "notebook inside the new copy."],

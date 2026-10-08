@@ -65,7 +65,10 @@ Each word is defined in plain terms here; the later sections make each definitio
 **The metric.** The author's metric is diagonal; in the order $x_1, \dots, x_8$ its entries are
 
 $$
-g = \mathrm{diag}\big(e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ -1,\ -e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ \cot^2 z\big),
+\begin{aligned}
+g = \mathrm{diag}\big(&e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ -1, \\
+&-e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ \cot^2 z\big),
+\end{aligned}
 $$
 
 with $z = 6Hx_8$ and one free function $a_4(x_4)$. The 3-space scale factor is $e^{a_4}\sin^{1/6}z$ and the extra-time scale factor $e^{-a_4}\sin^{1/6}z$: when $a_4$ grows, 3-space inflates and the extra times deflate.
@@ -173,7 +176,7 @@ $$
 \frac{dy}{dx_8} = \frac{1}{6H}\cdot\frac{\cos z}{\sin z}\cdot 6H = \cot z ,
 $$
 
-(rule: the derivative of $\ln u$ is $u'/u$, the derivative of $\sin z$ is $\cos z$, and $dz/dx_8 = 6H$) and $\cot z > 0$ for $0 < z < \pi/2$. So $y$ grows strictly with $x_8$: every value of $y$ belongs to exactly one value of $x_8$. A function that takes different values at two values of $y$ takes different values at the two corresponding values of $x_8$. "Depends on $y$" and "depends on $x_8$" are the same statement.
+(rule: the chain rule; the derivative of $\ln u$ is $1/u$ times the derivative of $u$, the derivative of $\sin z$ is $\cos z$, and $dz/dx_8 = 6H$) and $\cot z > 0$ for $0 < z < \pi/2$. So $y$ grows strictly with $x_8$: every value of $y$ belongs to exactly one value of $x_8$. A function that takes different values at two values of $y$ takes different values at the two corresponding values of $x_8$. "Depends on $y$" and "depends on $x_8$" are the same statement.
 
 **How the record measures it.** For a state with a nonzero source the record computes the **spread** of the energy density,
 
@@ -273,7 +276,7 @@ That makes $3 \times 5 \times 5 = 75$ states.
 
 **Why the profiles can be compared with the field equations directly.** The field equations use $T^\mu{}_\nu$ with one index up and one down. In the frame of rulers (the diagonal vielbein of Chapter 6) a component is $T^a{}_b = e^a{}_\mu\,e_b{}^\nu\,T^\mu{}_\nu$, and for a diagonal vielbein a diagonal component picks up one factor and its inverse: $T^a{}_a = T^\mu{}_\mu$ (no sum). So the proper densities of the profiles are exactly the $\rho$, $p_3$, $p_t$, $p_8$ of the field equations.
 
-**The Kohn-Sham source in words.** The record `Revision/kohn_sham/ks-theory.json` (key `emt`) gives the four components as sums over the occupied orbitals. Two facts matter here. First, $p_t = e_{\rm int}$, the interaction energy density: in the good sector no orbital moves along the extra times, so there is no extra-time kinetic pressure; for $\lambda = 0$ the interaction vanishes and $p_t = 0$ exactly. Second, $p_3$ is the kinetic pressure of the motion along 3-space plus $e_{\rm int}$, so a gas of moving quanta has $p_3 > 0$. The mixed component, there written $T^{x_4}{}_y$, vanishes for every eigen-orbital (key `emt.offDiagonal`), so the Kohn-Sham states meet the part $q_{48} = q_{84} = 0$ of C1. The question is the dependence on $x_8$, and conditions C2 and C3.
+**The Kohn-Sham source in words.** The record `Revision/kohn_sham/ks-theory.json` (key `emt`) gives the four components as sums over the occupied orbitals. Two facts matter here. First, $p_t = e_{\rm int}$, the interaction energy density: in the good sector no orbital moves along the extra times, so there is no extra-time kinetic pressure; for $\lambda = 0$ the interaction vanishes and $p_t = 0$ exactly. Second, $p_3$ is the kinetic pressure of the motion along 3-space plus $e_{\rm int}$, so for a gas whose quanta move along 3-space $p_3$ is in general not zero; for the recorded states with $\lambda = 0$ its integral over the patch is positive at every slice (Notebook 17a, In [16] and figure 7). The mixed component, there written $T^{x_4}{}_y$, vanishes for every eigen-orbital (key `emt.offDiagonal`), so the Kohn-Sham states meet the part $q_{48} = q_{84} = 0$ of C1. The question is the dependence on $x_8$, and conditions C2 and C3.
 
 **The integral over the patch.** A small region of the hidden direction between $y$ and $y + dy$, times the coordinate box of 3-space and of the extra times, has the proper 7-volume
 
@@ -708,7 +711,7 @@ left.set_title("$y = \\ln(\\sin z)/(6H)$, $H = 1$")
 left.legend(loc="lower right", fontsize=8)
 ```
 
-`plt.subplots(1, 2, ...)` makes a figure with one row of two panels (called **axes** in matplotlib), 9.0 by 3.8 inches; the two panels are named `left` and `right`. The left panel draws $y = \ln(\sin z)/6$ (with $H = 1$) against $z$; `lw` is the line width. `axvspan` shades the vertical band from the tip cutoff to $\pi/2$, the computed patch, with 15 per cent opacity; `axhline` draws a dashed (`ls="--"`) grey horizontal line at $y = -3$. `set_xscale("log")` makes the horizontal axis logarithmic. The labels and the title are written with `$...$`, which matplotlib prints as mathematics (a backslash is written twice inside a Python string). `legend` shows the label of the shaded band.
+`plt.subplots(1, 2, ...)` makes a figure with one row of two panels (called **axes** in matplotlib), 9.0 by 3.8 inches; the two panels are named `left` and `right`. The left panel draws $y = \ln(\sin z)/6$ (with $H = 1$) against $z$; `lw` is the line width. `axvspan` shades the vertical band from the tip cutoff to $\pi/2$, the computed patch, with 15 per cent opacity; `axhline` draws a dashed grey horizontal line (the line style `ls` given as two hyphens) at $y = -3$. `set_xscale("log")` makes the horizontal axis logarithmic. The labels and the title are written with `$...$`, which matplotlib prints as mathematics (a backslash is written twice inside a Python string). `legend` shows the label of the shaded band.
 
 ```python
 for shade, sid, a40 in zip(SHADES, history136, SLICES.values()):
@@ -1204,7 +1207,7 @@ save_figure(fig, "history_integrals",
 
 `drop` is the factor by which the energy falls from the first to the last slice: $80.2822/12.4451 = 6.45$ for $N = 136$ and $680.441/110.387 = 6.16$ for $N = 688$; the caption inserts both. Output: figure 17a.7 and its saved line.
 
-**What figure 17a.7 shows.** Horizontal axis: the slice $a_{4,0}$ of the history $a_4 = Hx_4$ (3-space inflates as $e^{a_4}$, the extra times deflate as $e^{-a_4}$); vertical axis: the integrals over the patch in units of $m$. C3 needs a horizontal blue line ($\int\rho$ constant) and the three pressure lines on top of each other. Instead $\int\rho$ falls by a factor of about 6 over the history, $\int p_3$ (orange) lies well above $\int p_t = 0$ (green, on the axis: without interaction the extra times carry no pressure), and $\int p_8$ (purple) is different again. Section 17.16 shows that the fall of the energy is exactly the work done by $p_3 > p_t$.
+**What figure 17a.7 shows.** Horizontal axis: the slice $a_{4,0}$ of the history $a_4 = Hx_4$ (3-space inflates as $e^{a_4}$, the extra times deflate as $e^{-a_4}$); vertical axis: the integrals over the patch in units of $m$. C3 needs a horizontal blue line ($\int\rho$ constant) and the three pressure lines on top of each other. Instead $\int\rho$ falls by a factor of about 6 over the history, $\int p_3$ (orange) lies well above $\int p_t = 0$ (green, on the axis: without interaction the extra times carry no pressure), and $\int p_8$ (purple) is different again. Section 17.16 shows that the fall of the energy is exactly the work done by the unbalanced pressure, $\int p_3 > \int p_t$.
 
 **In [18], the states N = 8.**
 
@@ -1565,7 +1568,7 @@ $$
 \frac{dE}{da_{4,0}} = -3\Big(\int p_3 - \int p_t\Big) .
 $$
 
-(Solver check `emt_energy_change_dE_da4`: the derivative computed by the solver from neighbouring slices agrees with the right-hand side to a relative difference of at most $1.505 \times 10^{-10}$.) For $\lambda = 0$, $\int p_t = 0$ and $\int p_3 > 0$, so the energy must FALL along the history. For $N = 136$ at the first slice the rate is $-3 \times 23.8133 = -71.44$ (units of $m$ per unit of $a_{4,0}$). Over the whole history the energy falls from $80.2822$ to $12.4451$; Simpson's rule applied to the five recorded rates reproduces the change $-67.8372$ to a relative error of $2.1 \times 10^{-4}$, and for all ten series that change, to at most $2.2 \times 10^{-4}$ (COMPUTED; Notebook 17b, In [18]; Exercise 7).
+(Solver check `emt_energy_change_dE_da4`: the derivative that the solver computes from extra self-consistent states at $a_4 \pm \delta$ and $a_4 \pm 2\delta$ around each slice, with $\delta = 0.002$ and fixed occupations, agrees with the right-hand side to a relative difference of at most $1.505 \times 10^{-10}$ in all 75 cases.) For $\lambda = 0$, $\int p_t = 0$ and $\int p_3 > 0$, so the energy must FALL along the history. For $N = 136$ at the first slice the rate is $-3 \times 23.8133 = -71.44$ (units of $m$ per unit of $a_{4,0}$). Over the whole history the energy falls from $80.2822$ to $12.4451$; Simpson's rule applied to the five recorded rates reproduces the change $-67.8372$ to a relative error of $2.1 \times 10^{-4}$, and for all ten series that change, to at most $2.2 \times 10^{-4}$ (COMPUTED; Notebook 17b, In [18]; Exercise 7).
 
 **The constraint propagates.** Write the constraint and the evolution equation of Section 17.3 as two expressions that must vanish:
 
@@ -1611,7 +1614,7 @@ $$
 \frac{d\mathcal C}{dx_4} = -3AH\kappa\,(p_3 - p_t) .
 $$
 
-A conserved source with $p_3 \ne p_t$ therefore makes the constraint drift: even if it held at one instant, it would fail at the next. The constraint of the linear member can hold at all times only if $p_3 = p_t$; then $\rho' = 0$ and, with C2, $p_8 = p_3$. For a conserved source, C3 is exactly "$p_3 = p_t$, and $p_8$ flat at the common value". The Kohn-Sham gas at $\lambda = 0$ has $p_3 > 0 = p_t$: its energy falls along the history, which the linear member forbids.
+A conserved source with $p_3 \ne p_t$ therefore makes the constraint drift: even if it held at one instant, it would fail at the next. The constraint of the linear member can hold at all times only if $p_3 = p_t$; then $\rho' = 0$ and, with C2, $p_8 = p_3$. For a conserved source along the linear member, C3 therefore reduces to the single demand $p_3 = p_t$: the constant $\rho$ then follows from conservation, and $p_8 = p_3$ from C2. The Kohn-Sham gas at $\lambda = 0$ has $p_t = 0$ and $\int p_3 > 0$: its energy falls along the history, which the linear member forbids.
 
 **Summary of Sections 17.12 to 17.16.** For a conserved diagonal source in the author's metric:
 
@@ -1619,7 +1622,7 @@ A conserved source with $p_3 \ne p_t$ therefore makes the constraint drift: even
 | --- | --- | --- | --- |
 | C1 | no component depends on $x_8$ | $\rho$, $p_3$, $p_t$ flat; $p_8$ flat is C2 | fail: profiles vary by powers of ten |
 | C2 | $p_3 + p_t = 2p_8$ | $p_8$ flat | fail: $V = p_8'/(3H)$ is large |
-| C3 | $p_3 = p_t = p_8$, $\rho$ constant | $p_3 = p_t$ (then $\rho$ constant, $p_8 = p_3$) | fail: $p_3 > p_t$, $E$ falls by a factor of about 6 |
+| C3 | $p_3 = p_t = p_8$, $\rho$ constant | $p_3 = p_t$ (then $\rho$ constant, $p_8 = p_3$) | fail: $\int p_3 > \int p_t$, $E$ falls by a factor of about 6 |
 
 The Kohn-Sham source is CONSERVED but NOT ADMISSIBLE.
 
@@ -1704,7 +1707,7 @@ for report_file in REPORTS:
 check(every_pass, "every check of the six Revision reports used here is PASS")
 ```
 
-For each of the six reports the cell collects the verdicts, counts the PASS among them (`.count`), keeps `every_pass` true only if all passed, and prints the file name (`split("/")[-1]`, the part after the last slash) with the count. Output: six RESULT lines and PASS every check of the six Revision reports used here is PASS. In the stored output the reports `python-algebra.json`, `python-a4-report.json`, `wolfram-a4-report.json`, `ks-source-conditions.json`, `ks-theory-python.json` and `ks-rust-solver.json` had 35, 61, 47, 5, 58 and 42 checks, all PASS. The notebook does not require these counts: a report may gain checks when the record is extended, and the check asks only that every check of every report passes.
+For each of the six reports the cell collects the verdicts, counts the PASS among them (`.count`), keeps `every_pass` true only if all passed, and prints the file name (`split("/")[-1]`, the part after the last slash) with the count. Output: six RESULT lines, one per report, each of the form "name of the report = $n$ of $n$ checks PASS", and the line PASS every check of the six Revision reports used here is PASS. The numbers $n$ are the numbers of checks that the reports held when the notebook was executed; they are printed in the notebook text above. The notebook does not require particular counts, because a report may gain checks when the Revision record is extended: the check asks only that every check of every report passes.
 
 **In [3], the eight gamma matrices are real signed permutation matrices.**
 
@@ -2230,7 +2233,7 @@ save_figure(fig, "difference_order",
             ...)
 ```
 
-`ax.loglog` draws with both axes logarithmic; `"o-"` means circles joined by lines. The black dashed reference line (`"k--"`) starts at the first point of one state and grows like the fourth power of the step. The caption quotes the range of the fitted orders, 4.02 to 4.08. Output: figure 17b.3 and its saved line.
+`ax.loglog` draws with both axes logarithmic; `"o-"` means circles joined by lines. The black dashed reference line (the format string is the letter k, for black, and two hyphens, for dashes) starts at the first point of one state and grows like the fourth power of the step. The caption quotes the range of the fitted orders, 4.02 to 4.08. Output: figure 17b.3 and its saved line.
 
 **What figure 17b.3 shows.** Horizontal axis: the step $sh$ from 0.02 to 0.12 (units of $1/H$); vertical axis: the largest difference divided by max|T| (pure number); both logarithmic. Five straight lines, parallel to the dashed reference of slope 4: the differences are pure errors of the finite differences, and the conservation law itself holds for the recorded states.
 
@@ -2486,7 +2489,7 @@ save_figure(fig, "energy_exchange",
 
 `fall` is the factor by which the energy falls, 6.45 and 6.16, which the caption quotes with the largest error. Output: figure 17b.5 and its saved line.
 
-**What figure 17b.5 shows.** Left: horizontal axis the slice $a_{4,0}$; vertical axis $E/E(0)$, a pure number. The recorded energies of $N = 136$ and $N = 688$ fall to about 0.4 at $a_{4,0} = 1$ and to about 0.16 at $a_{4,0} = 2$, and the crosses predicted from $E(0)$ by the energy-change law sit on them; C3 would need the dashed line at 1. As 3-space inflates and the extra times deflate, the gas, with $p_3 > p_t = 0$, gives up energy, exactly as conservation demands. Right: the relative Simpson errors of the ten moving series, between about 1.9 and 2.2 in units of $10^{-4}$: the energy-change law holds to the accuracy that five slices allow.
+**What figure 17b.5 shows.** Left: horizontal axis the slice $a_{4,0}$; vertical axis $E/E(0)$, a pure number. The recorded energies of $N = 136$ and $N = 688$ fall to about 0.4 at $a_{4,0} = 1$ and to about 0.16 at $a_{4,0} = 2$, and the crosses predicted from $E(0)$ by the energy-change law sit on them; C3 would need the dashed line at 1. As 3-space inflates and the extra times deflate, the gas, with $p_t = 0$ and $\int p_3 > 0$ (the caption's short form is $p_3 > p_t = 0$), gives up energy, exactly as conservation demands. Right: the relative Simpson errors of the ten moving series, between about 1.9 and 2.2 in units of $10^{-4}$: the energy-change law holds to the accuracy that five slices allow.
 
 **In [20], the last check.**
 
@@ -2506,7 +2509,7 @@ As In [20] of Notebook 17a, for the five figures. Output: PASS every figure file
 
 ### 17.21 What a prescribed background is, and what remains open
 
-**What the record establishes.** In the words of the record `Revision/field_equations_a4/reports/ks-source-conditions.json`: no Kohn-Sham state recorded in `Revision/kohn_sham` is an admissible source of the author's metric; C1 and C2 fail for every nonzero state (C2 also after integration over $x_8$), and the Kohn-Sham history uses the linear member as a prescribed background, without back-reaction. The record of the $a_4$ equations says the same (`Revision/field_equations_a4/a4-equations.json`, key `fields.dirac16complex.kohnSham`), and so does the Kohn-Sham theory record (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyStatus`). Sections 17.12 to 17.16 add the reason: the Kohn-Sham source is conserved, as every source must be, but its hidden pressure is far from flat and its 3-space pressure exceeds its extra-time pressure, and for a conserved source these are exactly the failures of C2 and C3.
+**What the record establishes.** In the words of the record `Revision/field_equations_a4/reports/ks-source-conditions.json`: no Kohn-Sham state recorded in `Revision/kohn_sham` is an admissible source of the author's metric; C1 and C2 fail for every nonzero state (C2 also after integration over $x_8$), and the Kohn-Sham history uses the linear member as a prescribed background, without back-reaction. The record of the $a_4$ equations says the same (`Revision/field_equations_a4/a4-equations.json`, key `fields.dirac16complex.kohnSham`), and so does the Kohn-Sham theory record (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyStatus`). Sections 17.12 to 17.16 add the reason: the Kohn-Sham source is conserved, as every source must be, but its hidden pressure is far from flat and its 3-space pressure is not balanced by an equal extra-time pressure ($\int p_3 > \int p_t$ along the history), and for a conserved source these are exactly the failures of C2 and C3.
 
 **What "prescribed background" means.** A prescribed background is a metric chosen by hand, in which matter is placed and studied while its own gravity is ignored. The matter is then a **test field**, and the effect it would have on the metric, its **back-reaction**, is left out. This is a common and useful approximation in physics, much like computing the motion of a cork on a river whose flow is given: the cork follows the flow, and nobody asks how the cork changes the river. Quantum fields in a given expanding universe are usually studied this way. The approximation is good when the matter is too dilute to change the metric noticeably; whether that holds here cannot be decided without the back-reaction itself.
 
@@ -2542,13 +2545,13 @@ As In [20] of Notebook 17a, for the five figures. Output: PASS every figure file
 
 | result | measured value | record and check | notebook |
 | --- | --- | --- | --- |
-| every nonzero state depends on $x_8$ | spread of $\rho$ at least 0.0497329 of max|T| | `ks-source-conditions.json`: `ks_profiles_depend_on_x8` | 17a, In [7] |
-| C2 fails point by point | $\max|V|/\max|T|$ from 2.09192 to 3.99006 | `ks_profiles_violate_algebraic_condition` | 17a, In [9], In [12] |
+| every nonzero state depends on $x_8$ | spread of $\rho$ at least 0.0497329 of $\max\lvert T\rvert$ | `ks-source-conditions.json`: `ks_profiles_depend_on_x8` | 17a, In [7] |
+| C2 fails point by point | $\max\lvert V\rvert/\max\lvert T\rvert$ from 2.09192 to 3.99006 | `ks_profiles_violate_algebraic_condition` | 17a, In [9], In [12] |
 | C2 fails after integration over $x_8$ | $R$ from 0.1072 to 0.4143 (closest to 1: 0.414328) | `ks_integrals_violate_algebraic_condition` | 17a, In [14] |
 | C3 fails along the history | $\int\rho$ falls by factors 6.45 and 6.16; $\int p_3 > \int p_t = 0$ | `ks_history_is_a_prescribed_background` | 17a, In [16], In [17] |
 | five states have no source at all | $N = 8$, $\lambda = 0$, all slices | `ks_zero_source_states_listed` | 17a, In [19] |
 | the source rests on the author's real gammas | Clifford deviation exactly 0; sha256 prefix 95d8cbdd0682fd30 | `python-algebra.json`: `reality_signed_permutations`, `clifford_relation`; `ks-rust-solver.json`: `gamma_fixture_numeric` | 17b, In [3], In [4] |
-| $V = p_8'/(3H)$ on the stored grid | at most $1.05 \times 10^{-4}$ of max|T|; fitted order 4.02 to 4.08 | (the book's own test) | 17b, In [11], In [13] |
+| $V = p_8'/(3H)$ on the stored grid | at most $1.05 \times 10^{-4}$ of $\max\lvert T\rvert$; fitted order 4.02 to 4.08 | (the book's own test) | 17b, In [11], In [13] |
 | the integrated conservation law | relative difference at most $1.421 \times 10^{-11}$ | `ks-rust-solver.json`: `emt_y_conservation_integrated` | 17b, In [14] |
 | $R$ equals the brane value of $p_8$ over its mean | agreement to $1.4 \times 10^{-11}$ | `ks_integrals_violate_algebraic_condition` | 17b, In [15] |
 | the energy-change law along the history | Simpson's rule to at most $2.2 \times 10^{-4}$ | `ks-rust-solver.json`: `emt_energy_change_dE_da4` | 17b, In [18] |
