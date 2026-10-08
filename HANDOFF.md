@@ -137,6 +137,44 @@ package versions; if the winget source agreements were not yet accepted on this 
 permission.  Reported to the user.  Every workflow script in Revision/workflows/ now carries a rule forbidding the acceptance of any
 agreement/licence/EULA (effective for future launches; the prompts of already-running runs cannot be changed).
 
+### 0.4i RESTART KIT - PAUSED 2026-10-07 20:30 BEFORE A SESSION LIMIT
+
+User, 2026-10-07: "pause NOW before session limit; push all and check repo; prepare to restart after a session limit; continue all
+stages and do not stop".
+
+State at the pause: ALL workflows were stopped (TaskStop) and every agent process was killed and checked (0 Wolfram, Python or Rust
+processes left).  Everything is committed and pushed.  `.claude/ALLOW_STOP` exists: delete it on restart so that the Stop hook
+works again.  The finished results of every run are in `Revision/workflows/state_restart/state_<family>.json` (families textbook,
+execution_provenance, dirac_audit, wave_1b_2, a4_prep), plus `audit_confirmed.json` (the 23 skeptic-confirmed audit findings).
+Agents stopped mid-task left partial, committed, UNVERIFIED edits; the restart scripts tell their agents to inspect and finish them.
+
+RESTART (same conversation or a new session).  Do these steps in one go, then never end the turn while stages run.
+1. `cd D:/Developer/github/Dirac_claude && git pull && rm -f .claude/ALLOW_STOP`
+2. Copy `Revision/workflows/restart/*.js` and `Revision/workflows/restart/next_event.py` to the session scratchpad <SP>, and set SP
+   in every .js file: `for f in <SP>/*.js; do sed -i "s|<SCRATCHPAD OF THE RUNNING SESSION>|<SP>|" "$f"; done` (keep ROOT; LF).
+3. Launch with the Workflow tool (scriptPath = the <SP> copy), all five at once:
+   a. `textbook_restart.js`: notebooks of chapters 11 and 21; writers of every chapter except 02 and 12; reviewers and fixers of all
+      chapters; assembly; the six-lens book review with skeptics; book fix; fix verifier.
+   b. `execution_provenance_restart.js`: fixers of the 13 verified-but-unfixed sets, the runner of nb-kohn-sham, the verifiers of
+      handoff-probes, old-nb-verify-ks, rev-gkd-verification and rev-theory; rev-a4's fix stays HELD (step 4); then index and test.
+   c. `dirac_matrices_audit_fix_restart.js`: one fixer for all 23 confirmed findings, then a fresh-clone verifier.
+   d. `revision_wave_1b_restart_then_2.js` (it loads <SP>/revision_wave_1b_restart.js and <SP>/revision_wave_2.js): wave 1b from
+      theory-reconcile on (the Mermin fix and the wave-1 fix verifier are done), then wave 2.
+   e. `a4_author_gammas_prep.js`: the a4 author-T16 patch in a scratch clone, reviewed and verified, written to
+      <SP>/a4prep/a4_author_gammas.patch.
+4. LEAD ACTIONS while they run.  When (e) is verified: apply the patch to the repository, re-run both a4 engines
+   (a4-equations.json must stay byte-identical), commit; then run one agent to update
+   Revision/field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md (the held rev-a4 fix, including its verifier findings under key
+   verify:rev-a4 in state_execution_provenance.json); regenerate `provenance/dirac matrices.md` with its builder; re-check textbook
+   chapters 12 and 17 against the new a4 report counts.  Then the CROSS-WORKFLOW SYNC OBLIGATIONS recorded below (pair-creation
+   count 57 -> 58; textbook notebooks that read changed Kohn-Sham outputs; provenance hashes).
+5. Stay in the turn: `python <SP>/next_event.py 540 <session dir>/subagents/workflows` blocks until any agent finishes and prints
+   its result; act on each result; commit and push a snapshot about every 15 minutes (the Stop hook does not run while the turn
+   continues).
+6. After another session limit: do NOT rely on resumeFromRunId for pipelined workflows (on 2026-10-07 it re-ran finished agents).
+   Merge the journals into new state files with `Revision/workflows/restart/merge_state.py` (pre-resume results of resumed runs,
+   all results of continuation runs; edit its run-id table) and regenerate the restart scripts with `make_restart_scripts.py`.
+
 ### 0.4h STATE 2026-10-07 20:15 (after the second session limit)
 
 The session hit its usage limit at about 19:50 (reset 20:00 PDT); every running workflow lost its unfinished agents.  Resuming with
