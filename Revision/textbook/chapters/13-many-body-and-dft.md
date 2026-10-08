@@ -117,13 +117,34 @@ $$
 
 The first line multiplies out $|u - v|^2 = |u|^2 + |v|^2 - 2\,\mathrm{Re}(u^* v)$; the second integrates each factor separately (the integral of a product of a function of $r_1$ and a function of $r_2$ is the product of the integrals), uses the normalisation of $\phi_a$ and $\phi_b$, and uses their orthogonality, $\langle\phi_a|\phi_b\rangle = 0$.
 
-**$N$ particles.** For $N$ orthonormal orbitals $\phi_1, \dots, \phi_N$ the **Slater determinant** is $\Phi = \det[\phi_a(r_i)]/\sqrt{N!}$, the determinant of the $N \times N$ table whose row $i$ holds the values of all orbitals at the position of particle $i$. The same three properties hold, by the same rules of determinants: exchanging two particles exchanges two rows (antisymmetry); two equal orbitals make two columns equal ($\Phi = 0$); and $\Phi$ is normalised. Its density is the sum of the orbital densities,
+**$N$ particles, line by line.** For $N$ orthonormal orbitals $\phi_1, \dots, \phi_N$ the **Slater determinant** is $\Phi = \det[\phi_a(r_i)]/\sqrt{N!}$, the determinant of the $N \times N$ table whose row $i$ holds the values of all orbitals at the position (and label) $r_i$ of particle $i$: the entry in row $i$ and column $a$ is $\phi_a(r_i)$. The Leibniz formula of Section 1.20 writes it as a sum over the $N!$ permutations $\sigma$ of $1, \dots, N$, each term taking from row $i$ the entry in column $\sigma(i)$:
 
 $$
-n(r) = \sum_{a=1}^{N}|\phi_a(r)|^2 .
+\Phi(r_1, \dots, r_N) = \frac{1}{\sqrt{N!}}\sum_{\sigma}\mathrm{sign}(\sigma)\,\phi_{\sigma(1)}(r_1)\,\phi_{\sigma(2)}(r_2)\cdots\phi_{\sigma(N)}(r_N) .
 $$
 
-For two particles this follows from the definition of $n$: $n(r) = 2\int|\Phi(r, r_2)|^2\,dr_2 = |\phi_a(r)|^2\cdot 1 + |\phi_b(r)|^2\cdot 1 - 2\,\mathrm{Re}[\phi_a^*(r)\phi_b(r)\langle\phi_b|\phi_a\rangle] = |\phi_a(r)|^2 + |\phi_b(r)|^2$ (multiply out as above, integrate over $r_2$ only, use orthonormality). A Slater determinant is the state of $N$ **independent** fermions; a general antisymmetric state is a sum of many determinants. Kohn-Sham theory (Section 13.10) rests on the fact that a single determinant can nevertheless carry the exact density.
+For $N = 2$ the two permutations give back the formula above. Three properties follow from the rules of determinants of Section 1.20. (i) **Antisymmetry**: exchanging the particles $i$ and $j$ exchanges the rows $i$ and $j$ of the table, which changes the sign of the determinant (rule 3). (ii) **Pauli**: if two orbitals are equal, $\phi_a = \phi_b$ with $a \ne b$, the columns $a$ and $b$ of the table are equal; the transposed table then has two equal rows, so its determinant is 0 (rule 4), and the determinant of the table is the same number (rule 2): $\Phi = 0$. (iii) **The norm.** Here and below $\int dr$ means the integral over the position together with the sum over the label, and $\int d^Nr$ the same for all $N$ particles. Writing $|\Phi|^2 = \Phi^*\Phi$ with one Leibniz sum over $\sigma$ for $\Phi^*$ and another over $\tau$ for $\Phi$:
+
+$$
+\begin{aligned}
+\int |\Phi|^2\,d^Nr &= \frac{1}{N!}\sum_{\sigma}\sum_{\tau}\mathrm{sign}(\sigma)\,\mathrm{sign}(\tau)\int\prod_{i=1}^{N}\phi_{\sigma(i)}^*(r_i)\,\phi_{\tau(i)}(r_i)\,d^Nr \\
+&= \frac{1}{N!}\sum_{\sigma}\sum_{\tau}\mathrm{sign}(\sigma)\,\mathrm{sign}(\tau)\prod_{i=1}^{N}\langle\phi_{\sigma(i)}|\phi_{\tau(i)}\rangle \\
+&= \frac{1}{N!}\sum_{\sigma}\sum_{\tau}\mathrm{sign}(\sigma)\,\mathrm{sign}(\tau)\prod_{i=1}^{N}\delta_{\sigma(i)\tau(i)} \\
+&= \frac{1}{N!}\sum_{\sigma}\mathrm{sign}(\sigma)^2 = \frac{N!}{N!} = 1 .
+\end{aligned}
+$$
+
+The first line multiplies the two sums term by term (the complex conjugate of a product is the product of the conjugates, and the signs are real) and collects the two factors that belong to particle $i$; the second integrates each particle's variable separately (the integral of a product of functions of different variables is the product of the integrals), and each factor is an inner product of two orbitals; the third uses orthonormality; the fourth notes that the product of the Kronecker deltas is 1 exactly when $\tau(i) = \sigma(i)$ for every $i$, that is $\tau = \sigma$, and 0 otherwise, so only the $N!$ terms with $\tau = \sigma$ survive, each with $\mathrm{sign}(\sigma)^2 = 1$. (iv) **The density.** By the definition of the density, with the variable of particle 1 set to $r$ and the other $N - 1$ variables integrated, the same steps give
+
+$$
+\begin{aligned}
+n(r) &= N\int|\Phi(r, r_2, \dots, r_N)|^2\,dr_2\cdots dr_N
+= \frac{N}{N!}\sum_{\sigma}\sum_{\tau}\mathrm{sign}(\sigma)\,\mathrm{sign}(\tau)\,\phi_{\sigma(1)}^*(r)\,\phi_{\tau(1)}(r)\prod_{i=2}^{N}\delta_{\sigma(i)\tau(i)} \\
+&= \frac{1}{(N-1)!}\sum_{\sigma}|\phi_{\sigma(1)}(r)|^2 = \frac{1}{(N-1)!}\sum_{a=1}^{N}(N-1)!\,|\phi_a(r)|^2 = \sum_{a=1}^{N}|\phi_a(r)|^2 .
+\end{aligned}
+$$
+
+The first line inserts the two Leibniz sums and integrates over $r_2, \dots, r_N$ as in the norm; the factor of particle 1 is not integrated. In the second line, the deltas for $i = 2, \dots, N$ force $\tau(i) = \sigma(i)$ for these places, and then also $\tau(1) = \sigma(1)$, because a permutation uses every number once and only one number is left for place 1; so again only $\tau = \sigma$ survives, with $\mathrm{sign}(\sigma)^2 = 1$, and $N/N! = 1/(N-1)!$. Next, the permutations with $\sigma(1) = a$ are the $(N-1)!$ orderings of the other $N - 1$ numbers on the places $2, \dots, N$, so each orbital $a$ appears $(N-1)!$ times; the factorials cancel. So **the density of a Slater determinant is the sum of the orbital densities** (here $n(r)$ is the density at the position and label $r$; summed over the label it is the density $n(x)$ defined above, so $\int n\,dr = N$ by the norm of each orbital). For two particles the same computation reads $n(r) = 2\int|\Phi(r, r_2)|^2\,dr_2 = |\phi_a(r)|^2\cdot 1 + |\phi_b(r)|^2\cdot 1 - 2\,\mathrm{Re}[\phi_a^*(r)\phi_b(r)\langle\phi_b|\phi_a\rangle] = |\phi_a(r)|^2 + |\phi_b(r)|^2$ (multiply out as above, integrate over $r_2$ only, use orthonormality). A Slater determinant is the state of $N$ **independent** fermions; a general antisymmetric state is a sum of many determinants. Kohn-Sham theory (Section 13.10) rests on the fact that a single determinant can nevertheless carry the exact density.
 
 **Worked example (Notebook 13c, In [2]).** Let space be three points $r = 0, 1, 2$ (no label), with the orthonormal orbitals $\phi_0 = (1, 0, 0)$ and $\phi_1 = (0, 1, 1)/\sqrt2$. Then $\Phi(0, 1) = [\phi_0(0)\phi_1(1) - \phi_1(0)\phi_0(1)]/\sqrt2 = [1\cdot\tfrac{1}{\sqrt2} - 0]/\sqrt2 = \tfrac12$, and $\Phi(1, 2) = [0\cdot\tfrac{1}{\sqrt2} - \tfrac{1}{\sqrt2}\cdot 0]/\sqrt2 = 0$. The nine values are $\pm\tfrac12$ (four of them) and 0 (five of them, among them the three diagonal values), so $\sum|\Phi|^2 = 4\cdot\tfrac14 = 1$, and the density is $n(r) = 2\sum_{r_2}|\Phi(r, r_2)|^2 = (1, \tfrac12, \tfrac12) = \phi_0^2 + \phi_1^2$. Figure 13c.1 draws this table and a determinant of two fermions in a box.
 
@@ -199,7 +220,7 @@ $$
 \end{aligned}
 $$
 
-The first line uses the linearity of expectation values; the second is Wick's four-operator formula with the indices renamed (its $q, s, r$ are here $r, s, q$); the third splits the first product into two independent sums and reorders the factors of the second; the fourth recognises the sums as traces of matrix products ($\mathrm{Tr}\,AB = \sum_{p,q}A_{pq}B_{qp}$). The first term is a **Hartree** (direct) term, the second an **exchange** term. PROVED here, and recorded in the Revision record as the check hf_wick_contraction of `Revision/kohn_sham/reports/ks-theory-python.json` (brute force on a two-mode state); Notebook 13c (In [8]) checks it on four orbitals with a random Hermitian vertex.
+The first line uses the linearity of expectation values; the second is Wick's four-operator formula with the indices renamed (its $q, s, r$ are here $r, s, q$); the third splits the first product into two independent sums and reorders the factors of the second; the fourth recognises the sums as traces of matrix products ($\mathrm{Tr}\,AB = \sum_{p,q}A_{pq}B_{qp}$). The first term is a **Hartree** (direct) term, the second an **exchange** term. PROVED here, and recorded in the Revision record as the check hf_wick_contraction of `Revision/kohn_sham/reports/ks-theory-python.json` (brute force on a two-mode state; Notebook 13b, In [21], checks that its verdict is PASS); Notebook 13c (In [8]) checks it on four orbitals with a random Hermitian vertex.
 
 ### 13.5 The energy of a determinant: direct and exchange terms
 
@@ -255,13 +276,70 @@ $$
 
 where the first equality is the condition for a minimum, the second inserts the split gradient, and the third uses the perpendicularity of $r$. So every $r_i = 0$: **at a constrained minimum, $\partial f/\partial y_i = \lambda\,\partial c/\partial y_i$ for every $i$**. The number $\lambda$ is a **Lagrange multiplier**; with several conditions one takes one multiplier for each. (That a first-order step can be completed to a step that keeps the condition exactly is the implicit function theorem of analysis, used here without proof.) Differentiating the minimum value $f^*(c_0)$ by the chain rule shows that $df^*/dc_0 = \lambda$: the multiplier is the rate at which the constrained minimum changes with the condition.
 
-**The Hartree-Fock equations.** A complex orbital $\phi = u + iv$ has two real parts; varying $\phi$ and $\phi^*$ as if they were independent is equivalent, because $u$ and $v$ are recovered from them. Add multipliers $\Lambda_{ba}$ for the conditions $\langle\phi_a|\phi_b\rangle = \delta_{ab}$ and set the derivative of $\sum_a h_{aa} + \tfrac12\sum_{a,b}(w_{abab} - w_{abba}) - \sum_{a,b}\Lambda_{ba}(\langle\phi_a|\phi_b\rangle - \delta_{ab})$ with respect to $\phi_a^*(r)$ to zero. Orbital $a$ appears in the first and in the second slot of $w_{abab}$ and $w_{abba}$; because $w(r, r') = w(r', r)$ the two contributions are equal, which cancels the $\tfrac12$. The result is
+**The Hartree-Fock equations, line by line.** The unknowns are the $N$ occupied orbitals $\phi_1, \dots, \phi_N$; in this paragraph every sum over $b$ and $c$ runs over them, and $\int dr$ includes the sum over the label. The energy to be minimised is (Section 13.5)
+
+$$
+E = \sum_c h_{cc} + \tfrac12\sum_{c,b}\big(w_{cbcb} - w_{cbbc}\big), \qquad h_{cc} = \int\phi_c^*(r)\,(h\phi_c)(r)\,dr ,
+$$
+
+with, by the definition of $w_{pqrs}$ in Section 13.4,
+
+$$
+\begin{aligned}
+w_{cbcb} &= \int\!\!\int\phi_c^*(r)\,\phi_b^*(r')\,w(r, r')\,\phi_c(r)\,\phi_b(r')\,dr\,dr' ,\\
+w_{cbbc} &= \int\!\!\int\phi_c^*(r)\,\phi_b^*(r')\,w(r, r')\,\phi_b(r)\,\phi_c(r')\,dr\,dr' .
+\end{aligned}
+$$
+
+*The side conditions and their multipliers.* The conditions are $\langle\phi_c|\phi_b\rangle = \delta_{cb}$. Since $\langle\phi_b|\phi_c\rangle = \langle\phi_c|\phi_b\rangle^*$, the independent real conditions are $\langle\phi_c|\phi_c\rangle = 1$ and, for $c < b$, $\mathrm{Re}\,X = 0$ and $\mathrm{Im}\,X = 0$ with $X = \langle\phi_c|\phi_b\rangle$. Give each a real multiplier, $\lambda_c$ and $\alpha$, $\beta$. With $\mathrm{Re}\,X = (X + X^*)/2$ and $\mathrm{Im}\,X = (X - X^*)/(2i)$ one has $\alpha\,\mathrm{Re}\,X + \beta\,\mathrm{Im}\,X = \Lambda_{bc}X + \Lambda_{bc}^*X^*$ with $\Lambda_{bc} = (\alpha - i\beta)/2$; so, putting $\Lambda_{cc} = \lambda_c$ and $\Lambda_{cb} = \Lambda_{bc}^*$, the multipliers form a **Hermitian** matrix $\Lambda$, and the function to be made stationary is
+
+$$
+\mathcal L = E - \sum_{c,b}\Lambda_{bc}\big(\langle\phi_c|\phi_b\rangle - \delta_{cb}\big) .
+$$
+
+$\mathcal L$ is real for any orbitals, orthonormal or not. In $E$, $h_{cc}$ is real because $h$ is Hermitian; $w_{cbcb} = \int\!\!\int|\phi_c(r)|^2\,w(r, r')\,|\phi_b(r')|^2\,dr\,dr'$ is real because the interaction $w$ is real; and $w_{cbbc}$ equals its own complex conjugate after the integration variables are renamed ($r \leftrightarrow r'$), because $w$ is real and symmetric, $w(r', r) = w(r, r')$, as every interaction of this chapter. The complex conjugate of the multiplier sum is $\sum_{c,b}\Lambda_{bc}^*\langle\phi_b|\phi_c\rangle = \sum_{c,b}\Lambda_{cb}\langle\phi_b|\phi_c\rangle$, the same sum with the names $b$ and $c$ exchanged. By the Lagrange rule above, at a constrained minimum $\partial\mathcal L/\partial y_i = 0$ for every real variable $y_i$ (here: the real and imaginary parts of the orbital values; on a grid these are finitely many numbers), so the first-order change of $\mathcal L$ vanishes for **every** small change of the orbitals.
+
+*Changing one orbital.* Change $\phi_a$ by $\varepsilon\zeta$, where $\zeta$ is any function and $\varepsilon$ a small real number; then $\phi_a^*$ changes by $\varepsilon\zeta^*$. Each term of $\mathcal L$ is a sum of products in which $\phi_a$ and $\phi_a^*$ appear as factors, so to first order in $\varepsilon$ the change of $\mathcal L$ is $\varepsilon(A + B)$ with $A = \int\zeta^*(r)\,G_a(r)\,dr$, where $G_a$ collects what multiplies the change of $\phi_a^*$, and $B = \int\zeta(r)\,K_a(r)\,dr$, where $K_a$ collects what multiplies the change of $\phi_a$. Since $\mathcal L$ is real for every $\zeta$, $A + B$ is real; with $i\zeta$ in place of $\zeta$, $A$ becomes $-iA$ and $B$ becomes $iB$, so $i(B - A)$ is real as well. Writing $A = a_1 + ia_2$ and $B = b_1 + ib_2$, the first statement says $a_2 + b_2 = 0$ and the second $b_1 - a_1 = 0$: $B = A^*$, and the change is $\varepsilon(A + A^*) = 2\varepsilon\,\mathrm{Re}\int\zeta^*G_a\,dr$. It must vanish for every $\zeta$; for $\zeta = G_a$ it is $2\varepsilon\int|G_a|^2\,dr$, which vanishes only if $G_a(r) = 0$ at every point. So **the minimum requires $G_a = 0$, and $G_a$ is found by changing $\phi_a^*$ alone** while $\phi_a$ and all other orbitals are kept fixed. (This is the precise meaning of "varying $\phi^*$ as if it were independent of $\phi$". Section 13.9 calls $G_a(r)$ the **functional derivative** of $\mathcal L$ with respect to $\phi_a^*(r)$; here it was found directly as the coefficient of the first-order change.)
+
+*The four parts of $G_a$.* Replace $\phi_a^*$ by $\phi_a^* + \varepsilon\zeta^*$ and keep everything else. The one-body part:
+
+$$
+\delta\Big(\sum_c h_{cc}\Big) = \varepsilon\int\zeta^*(r)\,(h\phi_a)(r)\,dr ,
+$$
+
+because only the term $c = a$ contains $\phi_a^*$, as its first factor. The direct part:
+
+$$
+\begin{aligned}
+\delta\Big(\tfrac12\sum_{c,b}w_{cbcb}\Big) &= \tfrac{\varepsilon}{2}\sum_b\int\!\!\int\zeta^*(r)\,\phi_b^*(r')\,w(r, r')\,\phi_a(r)\,\phi_b(r')\,dr\,dr' \\
+&\quad + \tfrac{\varepsilon}{2}\sum_c\int\!\!\int\phi_c^*(r)\,\zeta^*(r')\,w(r, r')\,\phi_c(r)\,\phi_a(r')\,dr\,dr' \\
+&= \tfrac{\varepsilon}{2}\int\zeta^*(r)\,v_H(r)\,\phi_a(r)\,dr + \tfrac{\varepsilon}{2}\int\zeta^*(r)\,v_H(r)\,\phi_a(r)\,dr = \varepsilon\int\zeta^*(r)\,v_H(r)\,\phi_a(r)\,dr .
+\end{aligned}
+$$
+
+The first line collects the terms with $c = a$, where $\phi_a^*$ is the first factor (variable $r$), and the second those with $b = a$, where it is the second factor (variable $r'$); the term $c = b = a$ contains $\phi_a^*$ twice and contributes to both lines, one change each, as the product rule says. In the third line, the first part uses $\sum_b\phi_b^*(r')\phi_b(r') = n(r')$ and the **Hartree potential** $v_H(r) = \int w(r, r')\,n(r')\,dr'$; the second part becomes the same after renaming the two integration variables ($r \leftrightarrow r'$) and using $w(r', r) = w(r, r')$. The two halves add up: the factor $\tfrac12$ is cancelled. The exchange part, in the same way:
+
+$$
+\begin{aligned}
+\delta\Big(-\tfrac12\sum_{c,b}w_{cbbc}\Big) &= -\tfrac{\varepsilon}{2}\sum_b\int\!\!\int\zeta^*(r)\,\phi_b^*(r')\,w(r, r')\,\phi_b(r)\,\phi_a(r')\,dr\,dr' \\
+&\quad - \tfrac{\varepsilon}{2}\sum_c\int\!\!\int\phi_c^*(r)\,\zeta^*(r')\,w(r, r')\,\phi_a(r)\,\phi_c(r')\,dr\,dr' \\
+&= -\varepsilon\int\zeta^*(r)\Big[\int\rho(r, r')\,w(r, r')\,\phi_a(r')\,dr'\Big]dr .
+\end{aligned}
+$$
+
+The first two lines are again the terms $c = a$ and $b = a$; in the first, $\sum_b\phi_b(r)\phi_b^*(r') = \rho(r, r')$ is the density matrix in space (Section 13.5); the second becomes the same after renaming $r \leftrightarrow r'$ and using the symmetry of $w$, and the two halves add up. The multiplier part:
+
+$$
+\delta\Big(-\sum_{c,b}\Lambda_{bc}\,\langle\phi_c|\phi_b\rangle\Big) = -\varepsilon\sum_b\Lambda_{ba}\int\zeta^*(r)\,\phi_b(r)\,dr ,
+$$
+
+because $\langle\phi_c|\phi_b\rangle = \int\phi_c^*\phi_b\,dr$ contains $\phi_a^*$ only for $c = a$, and the numbers $\delta_{cb}$ do not change. Adding the four parts, $G_a(r) = (h\phi_a)(r) + v_H(r)\,\phi_a(r) - \int\rho(r, r')\,w(r, r')\,\phi_a(r')\,dr' - \sum_b\Lambda_{ba}\,\phi_b(r)$, and $G_a = 0$ is
 
 $$
 \hat F\phi_a = \sum_b \Lambda_{ba}\,\phi_b, \qquad (\hat F\phi)(r) = h\phi(r) + v_H(r)\,\phi(r) - \int\rho(r, r')\,w(r, r')\,\phi(r')\,dr' ,
 $$
 
-with the **Hartree potential** $v_H(r) = \int w(r, r')\,n(r')\,dr'$. $\hat F$ is the **Fock operator**. It depends on the occupied orbitals only through $\rho$, which does not change when the occupied orbitals are mixed among themselves by a unitary matrix; such a mixing can make the Hermitian matrix $\Lambda$ diagonal, which gives the **canonical Hartree-Fock equations** $\hat F\phi_a = \epsilon_a\phi_a$. They look like one-particle equations, but $\hat F$ contains the unknown orbitals: they are **nonlinear** and are solved by iteration, starting from a guess and repeating until nothing changes any more (**self-consistency**, Section 13.21). For the ground state one occupies the $N$ orbitals with the lowest $\epsilon_a$ (the **aufbau** rule, German for "building up"). The older **Hartree approximation** keeps $v_H$ and drops the exchange integral, and with it the cancellation of the self-interaction.
+with the Hartree potential $v_H(r) = \int w(r, r')\,n(r')\,dr'$ found above. $\hat F$ is the **Fock operator**. It depends on the occupied orbitals only through $\rho$, which does not change when the occupied orbitals are mixed among themselves by a unitary matrix; such a mixing can make the Hermitian matrix $\Lambda$ diagonal, which gives the **canonical Hartree-Fock equations** $\hat F\phi_a = \epsilon_a\phi_a$. They look like one-particle equations, but $\hat F$ contains the unknown orbitals: they are **nonlinear** and are solved by iteration, starting from a guess and repeating until nothing changes any more (**self-consistency**, Section 13.21). For the ground state one occupies the $N$ orbitals with the lowest $\epsilon_a$ (the **aufbau** rule, German for "building up"). The older **Hartree approximation** keeps $v_H$ and drops the exchange integral, and with it the cancellation of the self-interaction.
 
 **Double counting.** Summing the orbital energies over the occupied orbitals,
 
@@ -479,6 +557,9 @@ def find_repository_root():
 
 ```python
 REPO = find_repository_root()
+# Every file is WRITTEN below OUTPUT_ROOT.  OUTPUT_ROOT is the repository folder unless
+# the environment variable TEXTBOOK_OUTPUT_ROOT names another folder; the book's
+# checking tool sets it, so that a check run writes into a scratch folder instead.
 OUTPUT_ROOT = Path(os.environ.get("TEXTBOOK_OUTPUT_ROOT", str(REPO)))
 
 
@@ -496,7 +577,7 @@ def say(text):
     print(textwrap.fill(str(text), width=89, subsequent_indent="    "))
 ```
 
-`REPO` is the repository folder; it is never printed, because it differs from computer to computer while the printed output of a notebook must be the same everywhere. `os.environ.get(name, default)` reads an **environment variable** (a named text that a program receives from the computer) or returns the default; when you run the notebook the variable is not set, so `OUTPUT_ROOT` is the repository, and the book's checking tool sets it to a scratch folder so that a check never changes the repository. `repository_file` gives the full path of a repository file for reading (a Revision record); `output_file` gives the full path at which to write a file, after creating its folder (`mkdir` with `parents=True` makes missing parent folders too, and `exist_ok=True` makes it do nothing if the folder exists). `say` prints a text in lines of at most 89 characters (the width of a page of the book); continuation lines start with four blanks.
+`REPO` is the repository folder; it is never printed, because it differs from computer to computer while the printed output of a notebook must be the same everywhere. `os.environ.get(name, default)` reads an **environment variable** (a named text that a program receives from the computer) or returns the default; when you run the notebook the variable is not set, so `OUTPUT_ROOT` is the repository, and the book's checking tool sets it to a scratch folder so that a check never changes the repository; the three comment lines before it (they start with `#` and are not executed) say the same. `repository_file` gives the full path of a repository file for reading (a Revision record); `output_file` gives the full path at which to write a file, after creating its folder (`mkdir` with `parents=True` makes missing parent folders too, and `exist_ok=True` makes it do nothing if the folder exists). `say` prints a text in lines of at most 89 characters (the width of a page of the book); continuation lines start with four blanks.
 
 ```python
 matplotlib.rcdefaults()  # ignore personal matplotlib settings: same figures everywhere
@@ -507,16 +588,21 @@ FIGURE_FOLDER = "Revision/textbook/figures"  # where the figures are saved
 CAPTION_FILE = f"{FIGURE_FOLDER}/{NOTEBOOK_ID}.captions.json"  # their captions
 FIGURE_NUMBERS = {}  # figure name -> its number k (file name <id>_<k>_<name>.png)
 CAPTIONS = {}  # figure file name -> caption, written to CAPTION_FILE after every figure
+# Start with an empty captions file ({} is an empty JSON dictionary); save_figure fills
+# it.  newline="\n" writes the same line ends on Windows, macOS and Linux.
 output_file(CAPTION_FILE).write_text("{}\n", encoding="utf-8", newline="\n")
 ```
 
-`matplotlib.rcdefaults()` returns to the built-in plotting settings, so that the figures are the same on every computer, and `plt.rcParams.update` sets the figure size (7.0 by 4.2 inches), the letter size (10 points) and a faint grid. The braces `{...}` make a **dictionary**: pairs of a key and a value. A string that starts with `f` is an **f-string**: every name in braces is replaced by its value, so `CAPTION_FILE` is `"Revision/textbook/figures/13c.captions.json"`. The last line writes an empty dictionary `{}` into the captions file; `newline="\n"` stores the same line end on every operating system.
+`matplotlib.rcdefaults()` returns to the built-in plotting settings, so that the figures are the same on every computer, and `plt.rcParams.update` sets the figure size (7.0 by 4.2 inches), the letter size (10 points) and a faint grid. The braces `{...}` make a **dictionary**: pairs of a key and a value. A string that starts with `f` is an **f-string**: every name in braces is replaced by its value, so `CAPTION_FILE` is `"Revision/textbook/figures/13c.captions.json"`. The last line, after two comment lines that describe it, writes an empty dictionary `{}` into the captions file; `newline="\n"` stores the same line end on every operating system.
 
 ```python
 def save_figure(fig, name, caption):
     number = FIGURE_NUMBERS.setdefault(name, len(FIGURE_NUMBERS) + 1)
     file_name = f"{NOTEBOOK_ID}_{number}_{name}.png"
     relative = f"{FIGURE_FOLDER}/{file_name}"
+    # dpi=150: 150 dots per inch.  bbox_inches="tight": cut away the empty margin.
+    # metadata={"Software": None}: no program name is stored in the PNG file, so that
+    # every run writes exactly the same bytes.
     fig.savefig(output_file(relative), dpi=150, bbox_inches="tight",
                 metadata={"Software": None})
     plt.close(fig)  # forget the figure, so that Jupyter does not draw it a second time
@@ -529,7 +615,7 @@ def save_figure(fig, name, caption):
     say(f"Figure {NOTEBOOK_ID}.{number} saved as {relative}")
 ```
 
-`save_figure` (shown without its docstring and comment lines) numbers the figures 1, 2, 3, ... in the order in which they are saved (`setdefault` returns the number already stored for this name, or stores one more than the count so far), saves the figure as a PNG file with 150 dots per inch, cut to its content (`bbox_inches="tight"`) and without the program's name in the file (so that two runs write the same bytes), closes it, records its caption in the captions file (`json.dumps` turns the dictionary into JSON text), shows the saved picture below the cell, and prints where it was saved.
+`save_figure` (shown without its docstring; its three comment lines explain the options of `savefig`) numbers the figures 1, 2, 3, ... in the order in which they are saved (`setdefault` returns the number already stored for this name, or stores one more than the count so far), saves the figure as a PNG file with 150 dots per inch, cut to its content (`bbox_inches="tight"`) and without the program's name in the file (so that two runs write the same bytes), closes it, records its caption in the captions file (`json.dumps` turns the dictionary into JSON text), shows the saved picture below the cell, and prints where it was saved.
 
 ```python
 PASSED = []  # the names of the checks that passed, in order
@@ -580,7 +666,7 @@ for r1 in range(3):
 density_3 = 2.0 * np.sum(Phi ** 2, axis=1)  # n(r) = N sum_r2 |Phi(r, r2)|^2
 ```
 
-The loop prints the three rows of the table. `"... %d ... %s" % (r1, text)` puts the number `r1` in place of `%d` and the text in place of `%s`; `np.array2string` writes a row with 6 digits after the point, showing $-0$ as $0$. `Phi ** 2` squares every entry, and `np.sum(..., axis=1)` adds along each row (over $r_2$); times $N = 2$ this is the density $n(r)$ of Section 13.3.
+The loop prints the three rows of the table. `"... %d ... %s" % (r1, text)` puts the number `r1` in place of `%d` and the text in place of `%s`; `np.array2string` writes a row as text with 6 digits after the point (`precision=6`, and `floatmode="fixed"` always prints all six), and `suppress_small=True` prints numbers that are very close to zero as zeros instead of in powers-of-ten notation. `Phi ** 2` squares every entry, and `np.sum(..., axis=1)` adds along each row (over $r_2$); times $N = 2$ this is the density $n(r)$ of Section 13.3.
 
 ```python
 check(abs(Phi[0, 1] - 0.5) < 1e-15 and abs(Phi[1, 2]) < 1e-15,
@@ -856,7 +942,7 @@ check(np.allclose(occupations_det, [1, 1, 0, 0], atol=1e-14)
 
 requires the eigenvalues to be exactly $1, 1, 0, 0$ for the determinant and the Fermi-Dirac numbers $f_p$ for the ensemble.
 
-**What Figure 13c.3 shows.** On the left, all 16 entries of the determinant's density matrix are nonzero (between about 0.05 and 0.85): in the randomly mixed basis the two occupied orbitals are spread over all four basis orbitals, so $\rho$ does not look like a projector. Its eigenvalues on the right are nevertheless exactly 1, 1, 0, 0 (blue bars): the determinant occupies two orbitals completely and the others not at all. The thermal ensemble (orange bars) has the four Fermi-Dirac numbers, about 0.88, 0.65, 0.31 and 0.08 for the levels $-1$, $-0.3$, $0.4$, $1.2$ at $T = 0.5$: every level is partly occupied, the lower ones more.
+**What Figure 13c.3 shows.** On the left, all 16 entries of the determinant's density matrix are nonzero (between about 0.08 and 0.85): in the randomly mixed basis the two occupied orbitals are spread over all four basis orbitals, so $\rho$ does not look like a projector. Its eigenvalues on the right are nevertheless exactly 1, 1, 0, 0 (blue bars): the determinant occupies two orbitals completely and the others not at all. The thermal ensemble (orange bars) has the four Fermi-Dirac numbers, about 0.88, 0.65, 0.31 and 0.08 for the levels $-1$, $-0.3$, $0.4$, $1.2$ at $T = 0.5$: every level is partly occupied, the lower ones more.
 
 **In [10], the energy of a determinant.**
 
@@ -1374,13 +1460,13 @@ which is negative (the unpolarised gas is unstable) exactly when $g_c\,n^{1/3} >
 
 This section carries Section 13.15 over to the field of this book. In this section and in Section 13.37, $\Psi$ is the dirac16complex field and $x_1, \dots, x_8$ are the author's coordinates: $x_1, x_2, x_3$ ordinary space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times, which deflate exponentially, and $x_8$ the hidden direction.
 
-**The matrices.** The author's gamma matrices $\gamma^{(x1)}, \dots, \gamma^{(x8)}$ are eight REAL $16 \times 16$ matrices (entries $0$ and $\pm1$) with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}\,1$, $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order $x_1, \dots, x_8$ (Chapter 4 builds them; `Revision/algebra/reports/wolfram-algebra.json`, checks reality and Clifford_relation, both PASS). So each space-like gamma squares to $+1$, $\gamma^{(x4)}$ squares to $-1$, and two different gammas anticommute. From them,
+**The matrices.** The author's gamma matrices $\gamma^{(x1)}, \dots, \gamma^{(x8)}$ are eight REAL $16 \times 16$ matrices (entries $0$ and $\pm1$) with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}\,1$, $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order $x_1, \dots, x_8$ (Chapter 4 builds them; `Revision/algebra/reports/wolfram-algebra.json`, checks reality and Clifford_relation, both PASS, as Notebook 13b checks in In [21]). So each space-like gamma squares to $+1$, $\gamma^{(x4)}$ squares to $-1$, and two different gammas anticommute. From them,
 
 $$
 C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}, \qquad B = -i\,C\,\gamma^{(x4)} .
 $$
 
-$C$ is real and symmetric (Revision check C_real_symmetric); $B$ is the indefinite (Krein) form of Chapter 10, with the number density $n = \langle\Psi^\dagger B\Psi\rangle$. Four facts, line by line. (a) $C^2 = 1$: in $C^2 = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$ move the second $\gamma^{(x8)}$ to the left past three gammas (sign $(-1)^3$) and use $(\gamma^{(x8)})^2 = 1$; then move the second $\gamma^{(x1)}$ past two (sign $+1$), then the second $\gamma^{(x2)}$ past one (sign $-1$); the signs multiply to $(-1)(+1)(-1) = +1$ and every square is $+1$. (b) $\gamma^{(x4)}$ commutes with $C$: moving it through the four factors of $C$ costs four sign changes, $(-1)^4 = 1$. (c) $B^2 = 1$: $B^2 = (-i)^2\,C\gamma^{(x4)}C\gamma^{(x4)} = -\,C\,C\,\gamma^{(x4)}\gamma^{(x4)} = -(+1)(-1) = 1$, by (b), (a) and $(\gamma^{(x4)})^2 = -1$. (d) $CBC = -i\,C\,C\,\gamma^{(x4)}C = -i\,\gamma^{(x4)}C = -i\,C\gamma^{(x4)} = B$ by (a) and (b); and $\mathrm{Tr}(BC) = -i\,\mathrm{Tr}(C\gamma^{(x4)}C) = -i\,\mathrm{Tr}(\gamma^{(x4)}C^2) = -i\,\mathrm{Tr}\,\gamma^{(x4)} = 0$, using that a trace does not change when the first factor is moved to the end, and that the trace of a single gamma vanishes ($\mathrm{Tr}\,\gamma^{(x4)} = \mathrm{Tr}(\gamma^{(x4)}\gamma^{(x1)}\gamma^{(x1)}) = -\mathrm{Tr}(\gamma^{(x1)}\gamma^{(x4)}\gamma^{(x1)}) = -\mathrm{Tr}(\gamma^{(x4)}\gamma^{(x1)}\gamma^{(x1)}) = -\mathrm{Tr}\,\gamma^{(x4)}$). Finally $\mathrm{Tr}\,1 = 16$.
+$C$ is real and symmetric (check C_real_symmetric of the same report, PASS); $B$ is the indefinite (Krein) form of Chapter 10, with the number density $n = \langle\Psi^\dagger B\Psi\rangle$. Four facts, line by line. (a) $C^2 = 1$: in $C^2 = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$ move the second $\gamma^{(x8)}$ to the left past three gammas (sign $(-1)^3$) and use $(\gamma^{(x8)})^2 = 1$; then move the second $\gamma^{(x1)}$ past two (sign $+1$), then the second $\gamma^{(x2)}$ past one (sign $-1$); the signs multiply to $(-1)(+1)(-1) = +1$ and every square is $+1$. (b) $\gamma^{(x4)}$ commutes with $C$: moving it through the four factors of $C$ costs four sign changes, $(-1)^4 = 1$. (c) $B^2 = 1$: $B^2 = (-i)^2\,C\gamma^{(x4)}C\gamma^{(x4)} = -\,C\,C\,\gamma^{(x4)}\gamma^{(x4)} = -(+1)(-1) = 1$, by (b), (a) and $(\gamma^{(x4)})^2 = -1$. (d) $CBC = -i\,C\,C\,\gamma^{(x4)}C = -i\,\gamma^{(x4)}C = -i\,C\gamma^{(x4)} = B$ by (a) and (b); and $\mathrm{Tr}(BC) = -i\,\mathrm{Tr}(C\gamma^{(x4)}C) = -i\,\mathrm{Tr}(\gamma^{(x4)}C^2) = -i\,\mathrm{Tr}\,\gamma^{(x4)} = 0$, using that a trace does not change when the first factor is moved to the end, and that the trace of a single gamma vanishes ($\mathrm{Tr}\,\gamma^{(x4)} = \mathrm{Tr}(\gamma^{(x4)}\gamma^{(x1)}\gamma^{(x1)}) = -\mathrm{Tr}(\gamma^{(x1)}\gamma^{(x4)}\gamma^{(x1)}) = -\mathrm{Tr}(\gamma^{(x4)}\gamma^{(x1)}\gamma^{(x1)}) = -\mathrm{Tr}\,\gamma^{(x4)}$). Finally $\mathrm{Tr}\,1 = 16$.
 
 **The interaction and Wick's theorem.** The Kohn-Sham model of Chapter 14 has the contact interaction $U(S) = \tfrac{\lambda}{2}S^2$ with the scalar density $S = \bar\Psi\Psi = \Psi^\dagger C\,\Psi$ (normal ordered, $\lambda > 0$ repulsive). Its expectation values follow the rule $\langle\Psi^\dagger M\Psi\rangle = \mathrm{Tr}(M\rho)$ with a local $16 \times 16$ one-body matrix $\rho$ (Chapter 10), and the identity of Section 13.4 with the vertex $V = C$ gives, per unit volume,
 
@@ -1429,11 +1515,11 @@ For one filled 8-fold level at rest, $n = S$, the ratio is $e_x/e_H = -\tfrac{\l
 | `Revision/kohn_sham/reports/ks-theory-wolfram.json` | exchange_uniform_gas, ks_potentials | PASS |
 | `Revision/kohn_sham/results/parameters.json` | theoryInputs: the coefficients $-1/32$, $15/16$, $-1/16$ | used by the solver |
 
-Notebook 13b reproduces all of them exactly from the gamma matrices. **What is approximate.** The record's functional is Hartree plus this uniform-gas exchange, with no correlation term. For the Kohn-Sham determinants of Chapter 14, which are not uniform, the exact Fock exchange of a closed shell is still local but differs from the uniform-gas form by $+\tfrac{\lambda}{32}Q^2$ per volume, where $Q$ is a further density (exactFockSlab in `Revision/kohn_sham/ks-theory.json`, labelled DIAGNOSTIC there; check exchange_slab_exact_fock of `Revision/kohn_sham/reports/ks-theory-python.json`, PASS; the solver reports this difference in the column deltaE_x_exact_fock_diag of `Revision/kohn_sham/results/exx/exact-fock-variant.csv`). Using the uniform-gas exchange and leaving out correlation is therefore the approximation of the dirac16complex Kohn-Sham model, as the omission of correlation is the approximation of the toy models of this chapter.
+Notebook 13b reproduces all of them exactly from the gamma matrices. **What is approximate.** The record's functional is Hartree plus this uniform-gas exchange, with no correlation term. For the Kohn-Sham determinants of Chapter 14, which are not uniform, the exact Fock exchange of a closed shell is still local but differs from the uniform-gas form by $+\tfrac{\lambda}{32}Q^2$ per volume, where $Q$ is a further density (exactFockSlab in `Revision/kohn_sham/ks-theory.json`, labelled DIAGNOSTIC there; check exchange_slab_exact_fock of `Revision/kohn_sham/reports/ks-theory-python.json`, PASS; the solver reports this difference in the column deltaE_x_exact_fock_diag of `Revision/kohn_sham/results/exx/exact-fock-variant.csv`). Using the uniform-gas exchange and leaving out correlation is therefore the approximation of the dirac16complex Kohn-Sham model, as the omission of correlation is the approximation of the toy models of this chapter. Notebook 13b reads every record entry quoted in this section and checks it (In [17] and In [18] for the formulas and the three sympy checks; In [21] for the algebra checks, the Wolfram checks, exchange_slab_exact_fock in both reports, the DIAGNOSTIC entry with its $+\tfrac{\lambda}{32}Q^2$, the missing correlation term and the column of the table), so that a change of the record would stop the notebook.
 
 ### 13.17 Example: exchange of a contact interaction
 
-Notebook 13b computes everything of Sections 13.15 and 13.16: the density matrix of one label of the uniform gas from its closed form and from box sums, the exchange hole for 1, 2 and 8 labels, the contact energies and the rule $E_x = -E_H/g$, the approach of a Gaussian interaction to the contact limit, Dirac's Coulomb exchange for comparison, the exactness of the local formula for any determinant (also with label-mixing orbitals), the polarisation instability, and finally, exactly with fractions, the exchange of the 16-component field from the Revision gamma matrices, reproducing three checks of the Revision record. It ends with ALL 34 CHECKS PASSED (notebook 13b) and draws nine figures.
+Notebook 13b computes everything of Sections 13.15 and 13.16: the density matrix of one label of the uniform gas from its closed form and from box sums, the exchange hole for 1, 2 and 8 labels, the contact energies and the rule $E_x = -E_H/g$, the approach of a Gaussian interaction to the contact limit, Dirac's Coulomb exchange for comparison, the exactness of the local formula for any determinant (also with label-mixing orbitals), the polarisation instability, and, exactly with fractions, the exchange of the 16-component field from the Revision gamma matrices, reproducing three checks of the Revision record; finally it reads and checks the further record entries that Sections 13.16, 13.37 and 13.38 quote (the independent Wolfram verification, the exact-exchange diagnostic, the temperatures, the filling convention, the prescribed background and theorem T3). It ends with ALL 44 CHECKS PASSED (notebook 13b) and draws nine figures.
 
 <!-- NOTEBOOK 13b -->
 
@@ -1804,15 +1890,17 @@ spinor = (q_matrix / np.sqrt(h)).reshape(P, 2, 5)  # [point, label, orbital]
 Five random orthonormal complex columns of length $2 \times 99$ (the QR factorisation of a random matrix with a fixed seed), divided by $\sqrt h$ so that $\sum|\phi|^2h = 1$. `.reshape(P, 2, 5)` reads each column as 99 pairs of numbers: `spinor[x, s, a]` is the value of orbital $a$ at the point $x$ with the label $s$. Each orbital now has an up part and a down part.
 
 ```python
+# pair[x, a, b] = sum over the label of phi_a*(x, label) phi_b(x, label)
 pair = np.einsum("xsa,xsb->xab", spinor.conj(), spinor)
 exact = -0.5 * G_C * h * np.sum(np.abs(pair) ** 2)
+# rho[x, s, t] = sum_a phi_a(x, s) phi_a*(x, t): the local 2 x 2 density matrix
 rho_local = np.einsum("xsa,xta->xst", spinor, spinor.conj())
 local_all = -0.5 * G_C * h * np.sum(np.abs(rho_local) ** 2)
 diagonal = np.einsum("xss->xs", rho_local).real  # n_up(x), n_down(x)
 local_diagonal = -0.5 * G_C * h * np.sum(diagonal ** 2)
 ```
 
-`pair[x, a, b]` is $\sum_s\phi_a^*(x s)\,\phi_b(x s)$, and `exact` is the exact exchange $-\tfrac12\sum_{a,b}w_{abba}$ with $w_{abba} = g_c\sum_x h\,|\sum_s\phi_a^*\phi_b|^2$, which is the integral of Section 13.4 for a label-independent contact (put $w = g_c\,\delta$ into $w_{abba}$ and do the delta integral). `rho_local[x, s, t]` is the local $2 \times 2$ density matrix $\sum_a\phi_a(xs)\phi_a^*(xt)$, and `local_all` the local formula of Section 13.15 with all label pairs. `np.einsum("xss->xs", ...)` takes the diagonal of each $2 \times 2$ matrix (the label densities), and `local_diagonal` the local formula with the diagonal only.
+The two comment lines (they start with `#` and are not executed) state in formulas what the line below each of them computes. `pair[x, a, b]` is $\sum_s\phi_a^*(x s)\,\phi_b(x s)$, and `exact` is the exact exchange $-\tfrac12\sum_{a,b}w_{abba}$ with $w_{abba} = g_c\sum_x h\,|\sum_s\phi_a^*\phi_b|^2$, which is the integral of Section 13.4 for a label-independent contact (put $w = g_c\,\delta$ into $w_{abba}$ and do the delta integral). `rho_local[x, s, t]` is the local $2 \times 2$ density matrix $\sum_a\phi_a(xs)\phi_a^*(xt)$, and `local_all` the local formula of Section 13.15 with all label pairs. `np.einsum("xss->xs", ...)` takes the diagonal of each $2 \times 2$ matrix (the label densities), and `local_diagonal` the local formula with the diagonal only.
 
 ```python
 say(f"exact {exact:.10f}; local, all label pairs {local_all:.10f}; "
@@ -2116,7 +2204,124 @@ checks that the plotted curves give $e_x/e_H = -1/8$ at $S = n$ (the last entrie
 
 **What Figure 13b.9 shows.** The Hartree energy grows from 0 at $S = 0$ to $\tfrac12$ at $S = n$. The exchange energy is never zero: it is $-1/32$ even at $S = 0$, because its $n^2$ term does not depend on $S$, and $-1/16$ at $S = n$ (the red dot). Their sum is slightly negative for small $S/n$ (below $S/n = \sqrt{1/15} \approx 0.26$, where $\tfrac{15}{32}S^2 = \tfrac{1}{32}n^2$) and reaches $7/16$ at $S = n$ (Exercise 9).
 
-**In [21], the last check.**
+**In [21], what the record says about the exchange formulas.**
+
+```python
+def verdicts(path):
+    """The verdict of every check of a Revision report, by the name of the check."""
+    checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+    return {entry["name"]: entry["verdict"] for entry in checks}
+```
+
+A **report** of the Revision record is a JSON file with a list `"checks"`; each entry has a `"name"` and a `"verdict"` (PASS or FAIL). The function `verdicts(path)` reads the report at the repository path `path` (with `repository_file` and `json.loads`, as in In [16]) and returns a dictionary from each check name to its verdict, built by a dictionary comprehension `{key: value for entry in checks}`.
+
+```python
+ALGEBRA = "Revision/algebra/reports/wolfram-algebra.json"
+KS_WOLFRAM = "Revision/kohn_sham/reports/ks-theory-wolfram.json"
+KS_PYTHON = "Revision/kohn_sham/reports/ks-theory-python.json"
+algebra = verdicts(ALGEBRA)
+check(all(algebra[name] == "PASS"
+          for name in ("reality", "Clifford_relation", "C_real_symmetric")),
+      f"{ALGEBRA}: reality, Clifford_relation and C_real_symmetric are PASS")
+```
+
+The three names in capitals are the paths of three reports: the Wolfram verification of the algebra of the gamma matrices, and the Wolfram and the sympy verifications of the Kohn-Sham theory. The first check requires the algebra checks reality (the gammas are real), Clifford_relation ($\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}$) and C_real_symmetric to be PASS: the facts on which Section 13.16 builds. `all(...)` is true when the condition holds for every name in the tuple; the `f"..."` string puts the path into the name of the check, so the PASS line names the record file.
+
+```python
+ks_wolfram, ks_python = verdicts(KS_WOLFRAM), verdicts(KS_PYTHON)
+check(all(ks_wolfram[name] == "PASS" for name in
+          ("exchange_uniform_gas", "ks_potentials", "exchange_slab_exact_fock")),
+      f"{KS_WOLFRAM}: exchange_uniform_gas, ks_potentials and "
+      "exchange_slab_exact_fock are PASS")
+check(ks_python["exchange_slab_exact_fock"] == "PASS"
+      and ks_python["hf_wick_contraction"] == "PASS",
+      f"{KS_PYTHON}: exchange_slab_exact_fock and hf_wick_contraction are PASS")
+```
+
+The first line reads both Kohn-Sham reports (a comma on each side assigns two values at once). The Wolfram program, independent of the sympy one, must have the checks exchange_uniform_gas and ks_potentials (the formulas that In [17] and In [18] recomputed) and exchange_slab_exact_fock (the exact exchange of the non-uniform states, below) as PASS; the sympy program must have exchange_slab_exact_fock and hf_wick_contraction (the rule $\langle{:}S^2{:}\rangle = (\mathrm{Tr}\,V\rho)^2 - \mathrm{Tr}(V\rho V\rho)$ of Section 13.4) as PASS.
+
+```python
+slab = theory["exchange"]["exactFockSlab"]  # the exact exchange of the KS states
+correlation = theory["exchange"]["kohnShamPotentials"]["correlation"]
+solver_file = json.loads(repository_file("Revision/kohn_sham/results/parameters.json")
+                         .read_text(encoding="utf-8"))
+conventions = solver_file["conventions"]  # the conventions of the Revision solver
+status_word = slab["status"].split(":")[0]  # the word before the first colon
+say(f"exactFockSlab status: {status_word}; correlation: {correlation}")
+```
+
+`theory` is the theory file `Revision/kohn_sham/ks-theory.json`, read in In [17]. `slab` is its entry exactFockSlab, the exact Fock exchange of the Kohn-Sham states, and `correlation` the text of its entry correlation. `solver_file` is the whole parameter file of the Revision solver (In [18] kept only its part theoryInputs), and `conventions` its part conventions. `.split(":")[0]` cuts the status text at its colons and keeps the first piece. The cell prints exactFockSlab status: DIAGNOSTIC; correlation: none (Hartree plus exchange only).
+
+```python
+check(slab["status"].startswith("DIAGNOSTIC")
+      and "Delta E_x = +(lambda/32) int sqrt|g| Q^2" in slab["status"]
+      and "+lambda Q^2/32" in conventions["exactExchange"]
+      and correlation == "none (Hartree plus exchange only)",
+      "ks-theory.json: the exact Fock exchange differs by +(lambda/32) Q^2 "
+      "(DIAGNOSTIC; also in parameters.json); no correlation term")
+```
+
+`text.startswith(word)` is true when the text begins with the word, and `piece in text` when the piece occurs in it. The check requires four statements of the record that Section 13.16 quotes: the status of the exact exchange is DIAGNOSTIC; the theory file states that the uniform-gas exchange omits $+\tfrac{\lambda}{32}\int\sqrt{|g|}\,Q^2$; the solver's convention exactExchange states the same difference $+\lambda Q^2/32$; and the functional has no correlation term.
+
+```python
+table = repository_file("Revision/kohn_sham/results/exx/exact-fock-variant.csv")
+columns = table.read_text(encoding="utf-8").splitlines()[0].split(",")
+check("deltaE_x_exact_fock_diag" in columns,
+      "exact-fock-variant.csv has the column deltaE_x_exact_fock_diag")
+```
+
+The solver's table of the exact-exchange variant is a CSV file (comma-separated values: one line per row, the entries separated by commas). `.splitlines()[0]` is its first line, the header, and `.split(",")` cuts it into the column names; the check requires the column deltaE_x_exact_fock_diag, in which the solver reports the difference.
+
+**In [22], how the dirac16complex model must be read.**
+
+```python
+temperatures = solver_file["physics"]["temperatures"]
+say(f"temperatures of the Revision solver: {temperatures}")
+check(temperatures == [0.01, 0.02, 0.05]
+      and "ensemble Delta-SCF" in conventions["deltaScf"],
+      "parameters.json: T = 0.01, 0.02, 0.05 and the ensemble Delta-SCF (deltaScf)")
+```
+
+The solver's temperatures (in units of the mass $m$) are printed, temperatures of the Revision solver: [0.01, 0.02, 0.05], and compared with the list that Section 13.37 quotes (two lists are equal, `==`, when they have the same entries in the same order); the convention deltaScf must describe the ensemble Delta-SCF of Section 13.27.
+
+```python
+filling = theory["thermodynamics"]["fillingConvention"]
+check(filling.startswith("CONVENTION") and "its justification is OPEN" in filling
+      and conventions["history"].startswith("PRESCRIBED BACKGROUND"),
+      "the filling is a CONVENTION whose justification is OPEN (ks-theory.json); "
+      "the history is a PRESCRIBED BACKGROUND (parameters.json)")
+```
+
+The theory file's fillingConvention must call the filling of the levels a CONVENTION whose justification is OPEN, and the solver's convention history must begin with PRESCRIBED BACKGROUND: the two status words of Section 13.37.
+
+```python
+SOURCE = "Revision/field_equations_a4/reports/ks-source-conditions.json"
+source = verdicts(SOURCE)
+check(all(source[name] == "PASS" for name in
+          ("ks_history_is_a_prescribed_background",
+           "ks_profiles_violate_algebraic_condition", "ks_profiles_depend_on_x8")),
+      f"{SOURCE}: ks_history_is_a_prescribed_background, "
+      "ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8 are PASS")
+```
+
+The report on the source conditions of the $a_4$ field equations must have the three checks named in Section 13.38 as PASS: the history is a prescribed background, the Kohn-Sham profiles violate the algebraic condition $p_3 + p_t = 2p_8$, and they depend on the hidden coordinate $x_8$.
+
+```python
+T3_CHECKS = ("block_hamiltonian_map", "ode_map", "tip_condition_map",
+             "brane_parities_exchanged", "orbital_densities", "mean_field_map",
+             "energies_and_emt_profiles_equal", "exact_k0_spectra",
+             "Gamma_is_the_block_map", "z2_mirror_copy_carries_minus_m_plus_lambda")
+t3_python = verdicts("Revision/pairing/kohn_sham/reports/python-t3.json")
+t3_wolfram = verdicts("Revision/pairing/kohn_sham/reports/wolfram-t3.json")
+check(all(t3_python["T3." + name] == "PASS" for name in T3_CHECKS),
+      "theorem T3: ten checks of python-t3.json (T3.<name>) are PASS")
+check(all(t3_wolfram["T3_" + name] == "PASS" for name in T3_CHECKS),
+      "theorem T3: the same ten checks of wolfram-t3.json (T3_<name>) are PASS")
+```
+
+`T3_CHECKS` lists ten checks of theorem T3 that are present in both of its reports: the maps of the block Hamiltonian, of its equation (ode_map), of the tip condition and of the brane parities, the orbital densities, the mean field, the equality of the energies and energy-momentum profiles, the exact spectra at zero momentum, the matrix $\Gamma$ as the block map, and the mirror copy. The Python report names them with the prefix `T3.` and the Wolfram report with `T3_`; `+` joins two strings. Both checks require all ten to be PASS. The cell names these ten checks instead of requiring every check of the two reports, because further checks may be added to the reports of T3; a renamed or failed check of the theorem itself stops the notebook.
+
+**In [23], the last check.**
 
 ```python
 figure_names = ["density_matrix", "exchange_hole", "contact_energies",
@@ -2130,7 +2335,7 @@ check(output_file(f"{FIGURE_FOLDER}/13b_9_dirac_exchange.png").is_file(),
 all_checks_passed()
 ```
 
-The same lines as In [19] of Notebook 13c (Section 13.14), with the nine figure names of this notebook. The last line prints ALL 34 CHECKS PASSED (notebook 13b): one check in In [2] and In [3] each, three in In [5], four in In [6], two in In [8], In [10], In [12] and In [13] each, one in In [11], In [14] and In [15] each, two in In [16], three in In [17], four in In [18], two in In [19], one in In [20] and two in In [21].
+The same lines as In [19] of Notebook 13c (Section 13.14), with the nine figure names of this notebook. The last line prints ALL 44 CHECKS PASSED (notebook 13b): one check in In [2] and In [3] each, three in In [5], four in In [6], two in In [8], In [10], In [12] and In [13] each, one in In [11], In [14] and In [15] each, two in In [16], three in In [17], four in In [18], two in In [19], one in In [20], five in In [21], five in In [22] and two in In [23].
 
 ### 13.21 Solving the Kohn-Sham equations: iteration and mixing
 
@@ -2724,7 +2929,45 @@ The first step evaluates the two traces in the eigenvectors of $\hat\rho$ (and e
 
 Notebook 13e (In [3] and In [4]) builds the Gibbs state of the two-site model, checks $\Omega[\hat\rho_0] = -T\ln Z$, and finds for 2000 random density operators that $\Omega$ is always larger, with $\Omega - \Omega[\hat\rho_0] = T\,D$ to $10^{-10}$ (Figure 13e.1).
 
-**Mermin's theorem (1965).** Replace the variational principle of Section 13.8 by the Gibbs principle: the proof of the Hohenberg-Kohn theorem then goes through word for word, with the strict inequality $\Omega[\hat\rho_0'] > \Omega[\hat\rho_0]$ for two different Gibbs states in place of $\langle\Psi'|\hat H\Psi'\rangle > E_0$. At a fixed $T$ and $\mu$ the equilibrium density determines the external potential, and there is a universal functional of the density whose minimum gives $\Omega$. This is the foundation of DFT at a temperature.
+**Mermin's theorem (1965), line by line.** Fix the temperature $T > 0$, the chemical potential $\mu$ and the interaction $\hat W$, and work, as in the Gibbs principle, in a finite-dimensional state space that holds every particle number (for example fermions on the points of a grid, with $0, 1, 2, \dots$ particles). For an external potential $v$ write $\hat H_v = \hat T + \hat W + \hat V$, its grand potential $\Omega_v[\hat\rho] = \mathrm{Tr}[\hat\rho\,(\hat H_v - \mu\hat N)] - T\,S[\hat\rho]$, its Gibbs state $\hat\rho_v$, and $n_v$ for the density of $\hat\rho_v$, the **equilibrium density**. The density of a mixture $\hat\rho = \sum_k w_k|\Psi_k\rangle\langle\Psi_k|$ is $n_{\hat\rho} = \sum_k w_k\,n_k$, where $n_k$ is the density of $\Psi_k$, and
+
+$$
+\mathrm{Tr}(\hat\rho\,\hat V) = \sum_k w_k\,\langle\Psi_k|\hat V\Psi_k\rangle = \sum_k w_k\int v\,n_k\,dx = \int v\,n_{\hat\rho}\,dx .
+$$
+
+The first step uses that the trace of $|\Psi\rangle\langle\Psi|\hat V$ (on a grid: the column $\Psi$ times the row $\Psi^\dagger\hat V$) is the number $\langle\Psi|\hat V\Psi\rangle$; the second is the rule of Section 13.3 that an external energy needs only the density, applied to each $\Psi_k$; the third exchanges the sum and the integral. With $v = 1$ the operator $\hat V$ is $\hat N$, so also $\mathrm{Tr}(\hat\rho\,\hat N) = \int n_{\hat\rho}\,dx$.
+
+**Theorem (Mermin).** If $v$ and $v'$ differ at some point, then $n_v \ne n_{v'}$: at a fixed $T$ and $\mu$ the equilibrium density determines the external potential.
+
+**Proof.** *Step 1: the two Gibbs states differ.* Suppose $\hat\rho_v = \hat\rho_{v'}$. Then their logarithms are equal, and by the first line of the proof of the Gibbs principle, $-(\hat H_v - \mu\hat N)/T - \ln Z = -(\hat H_{v'} - \mu\hat N)/T - \ln Z'$; multiplying by $-T$ and cancelling $\hat T + \hat W - \mu\hat N$ on both sides, $\hat V - \hat V' = T\,(\ln Z' - \ln Z)\cdot 1 = c\cdot 1$, a number $c$ times the unit operator. Applied to the state with no particle, $\hat V - \hat V'$ gives 0 (with no particle there is no potential energy), so $c = 0$. Applied to the state with one particle at the grid point $x_k$, it gives $v(x_k) - v'(x_k)$ times that state, so $v(x_k) = v'(x_k)$ at every point, against the assumption. Hence $\hat\rho_v \ne \hat\rho_{v'}$. *Step 2: two strict inequalities.* Since $\hat H_v - \mu\hat N = (\hat H_{v'} - \mu\hat N) + (\hat V - \hat V')$ and the entropy does not depend on the potential, the rule above gives, for every density operator, $\Omega_v[\hat\rho] = \Omega_{v'}[\hat\rho] + \int(v - v')\,n_{\hat\rho}\,dx$. Therefore
+
+$$
+\Omega_v[\hat\rho_v] < \Omega_v[\hat\rho_{v'}] = \Omega_{v'}[\hat\rho_{v'}] + \int(v - v')\,n_{v'}\,dx .
+$$
+
+The first step is the Gibbs principle: $\hat\rho_v$ is the only minimiser of $\Omega_v$, and $\hat\rho_{v'}$ is a different density operator (step 1), so its grand potential is strictly larger; the second step is the identity just stated, with $\hat\rho = \hat\rho_{v'}$. Exchanging the roles of $v$ and $v'$ gives in the same way
+
+$$
+\Omega_{v'}[\hat\rho_{v'}] < \Omega_{v'}[\hat\rho_v] = \Omega_v[\hat\rho_v] + \int(v' - v)\,n_v\,dx .
+$$
+
+*Step 3: the contradiction.* Suppose $n_v = n_{v'}$. Adding the two inequalities, the two integrals cancel, and $\Omega_v[\hat\rho_v] + \Omega_{v'}[\hat\rho_{v'}] < \Omega_v[\hat\rho_v] + \Omega_{v'}[\hat\rho_{v'}]$, which is false. Hence $n_v \ne n_{v'}$. $\square$
+
+Two differences from the Hohenberg-Kohn theorem: no non-degeneracy and no non-vanishing wave function is needed, because the Gibbs state is always the only minimiser and step 1 uses only the states with zero and one particle; and the potential is determined completely, not only up to a constant, because at a fixed $\mu$ a constant added to $v$ changes the equilibrium state (it acts like a change of $\mu$).
+
+**The universal functional at a temperature.** For every density $n$ of some density operator define, as in the constrained search of Section 13.8,
+
+$$
+F_T[n] = \min_{\hat\rho \to n}\Big(\mathrm{Tr}\big[\hat\rho\,(\hat T + \hat W)\big] - T\,S[\hat\rho]\Big) ,
+$$
+
+the smallest value among all density operators with the density $n$ (we ASSUME, as there, that the minimum is attained). It depends on $T$ but not on $v$ or $\mu$. Then
+
+$$
+\Omega_v[\hat\rho_v] = \min_n\Big(F_T[n] + \int(v - \mu)\,n\,dx\Big) .
+$$
+
+Proof: by the Gibbs principle the left side is the minimum of $\Omega_v$ over all density operators. Organise the minimisation in two steps, first over the $\hat\rho$ with a given density $n$, then over $n$. For all these $\hat\rho$ the part $\mathrm{Tr}[\hat\rho\,(\hat V - \mu\hat N)] = \int(v - \mu)\,n\,dx$ is the same (the rule above, and its case $v = 1$), so the inner minimum is $F_T[n] + \int(v - \mu)\,n\,dx$; the outer minimum over $n$ is then the minimum over all $\hat\rho$. $\square$ This is the foundation of DFT at a temperature.
 
 **Non-interacting fermions: independent orbitals, line by line.** For non-interacting fermions with orbital energies $\epsilon_a$, $\hat H - \mu\hat N = \sum_a(\epsilon_a - \mu)\,\hat n_a$, and every occupation-number state $|n_0 n_1 \cdots\rangle$ is an eigenstate with the eigenvalue $\sum_a(\epsilon_a - \mu)n_a$. Its Gibbs weight is
 
@@ -3446,11 +3689,11 @@ $$
 
 **The first excited state.** The Kohn-Sham gap is $\epsilon_4 - \epsilon_3$ of the ground state. The Delta-SCF energy moves one up fermion from orbital 3 (HOMO) to orbital 4 (LUMO) and solves the loop again (Section 13.27). By Janak's theorem it equals the integral of $\epsilon_4(\tau) - \epsilon_3(\tau)$ over the moved fraction $\tau$ from 0 to 1, which the notebook computes with Simpson's rule on nine values of $\tau$.
 
-**What the notebook finds (COMPUTED, Notebook 13a).** The grid (200 points in $-6 < x < 6$) reproduces the levels $n + \tfrac12$ of the trap to $0.013$ (In [3]; an error of order $h^2$, Section 13.2). Plain iteration needs 40 passes, linear mixing with $\beta = 0.7$ needs 23 and with $\beta = 0.3$ needs 73 (In [6]), Anderson mixing with the Revision settings 19 (In [8]); all reach the same potential to $10^{-9}$ (Figure 13a.2), and plain iteration overshoots: the first density is too narrow, the second too wide (In [10], Figure 13a.3). The Kohn-Sham levels are $2.119598$, $3.006214$, $3.877952$, $4.723945$ (occupied) and $5.496606$ (LUMO) (In [11]). The energy is $E = 21.851498$ by both formulas, made of $T_s = 6.726297$, $\int v\,n = 9.521279$, $E_H = 11.207843$ and $E_x = -5.603922 = -E_H/2$ (In [14]). From a strongly separated start the two-label loop returns to equal labels (In [16]); the energy test shows that along three label-separating families the equal-label solution is a minimum, while on two sites with $U = 4t$ the loop converges to a saddle (In [17], In [18], Figure 13a.6). In the trial family the lowest energy is at $c = 1.00$ (In [19], Figure 13a.7). The root-mean-square widths of the cloud are $1.413346$ (no interaction), $1.542829$ (Kohn-Sham) and $1.659857$ (Hartree only): the repulsion spreads the cloud, and the self-interaction of Hartree spreads it too much (In [21], Figure 13a.8). $dE/dg_c = 2.801961$ both as a difference quotient and as $\tfrac14\int n^2$ (In [23]). The Kohn-Sham gap is $0.772662$, the Delta-SCF energy $0.714594$ (equal to the Janak integral), and the transition-state estimate $0.712784$ (In [25]): here the orbital relaxation lowers the excitation energy.
+**What the notebook finds (COMPUTED, Notebook 13a).** The grid (200 points in $-6 < x < 6$) reproduces the levels $n + \tfrac12$ of the trap to $0.013$ (In [3]; an error of order $h^2$, Section 13.2); all numbers below are those of this grid model, exact for it up to the stopping rule of the loop, and they differ from the continuum model by an error of the same size, about $10^{-2}$ (at $g_c = 0$ the grid energy is $15.990192$ instead of $16$, In [23]). Plain iteration needs 40 passes, linear mixing with $\beta = 0.7$ needs 23 and with $\beta = 0.3$ needs 73 (In [6]), Anderson mixing with the Revision settings 19 (In [8]); all reach the same potential to $10^{-9}$ (Figure 13a.2), and plain iteration overshoots: the first density is too narrow, the second too wide (In [10], Figure 13a.3). The Kohn-Sham levels are $2.119598$, $3.006214$, $3.877952$, $4.723945$ (occupied) and $5.496606$ (LUMO) (In [11]). The energy is $E = 21.851498$ by both formulas, made of $T_s = 6.726297$, $\int v\,n = 9.521279$, $E_H = 11.207843$ and $E_x = -5.603922 = -E_H/2$ (In [14]). From a strongly separated start the two-label loop returns to equal labels (In [16]); the energy test shows that along three label-separating families the equal-label solution is a minimum, while on two sites with $U = 4t$ the loop converges to a saddle (In [17], In [18], Figure 13a.6). In the trial family the lowest energy is at $c = 1.00$ (In [19], Figure 13a.7). The root-mean-square widths of the cloud are $1.413346$ (no interaction), $1.542829$ (Kohn-Sham) and $1.659857$ (Hartree only): the repulsion spreads the cloud, and the self-interaction of Hartree spreads it too much (In [21], Figure 13a.8). $dE/dg_c = 2.801961$ both as a difference quotient and as $\tfrac14\int n^2$ (In [23]). The Kohn-Sham gap is $0.772662$, the Delta-SCF energy $0.714594$ (equal to the Janak integral), and the transition-state estimate $0.712784$ (In [25]): here the orbital relaxation lowers the excitation energy.
 
 ### 13.33 Example: the one-dimensional Kohn-Sham toy
 
-Notebook 13a carries out the calculation of Section 13.32 from the first line to the last: the grid and its check against the exact levels of the trap; the Kohn-Sham map; plain iteration, linear mixing and Anderson mixing with exactly the settings of the Revision Kohn-Sham solver, read from its parameter file (its only link to the Revision record); the converged state with its potentials and density; the energy two ways and the functional-derivative test; the stability of the equal-label solution; the variational principle; the Hartree and Thomas-Fermi comparisons; the switching-on of the interaction with the Hellmann-Feynman theorem; and the first excited state by Delta-SCF with Janak's theorem. It ends with ALL 31 CHECKS PASSED (notebook 13a) and draws nine figures.
+Notebook 13a carries out the calculation of Section 13.32 from the first line to the last: the grid and its check against the exact levels of the trap; the Kohn-Sham map; plain iteration, linear mixing and Anderson mixing with exactly the settings of the Revision Kohn-Sham solver, read from its parameter file (its only link to the Revision record); the converged state with its potentials and density; the energy two ways and the functional-derivative test; the stability of the equal-label solution; the variational principle; the Hartree and Thomas-Fermi comparisons; the switching-on of the interaction with the Hellmann-Feynman theorem; and the first excited state by Delta-SCF with Janak's theorem. It ends with ALL 36 CHECKS PASSED (notebook 13a) and draws ten figures.
 
 <!-- NOTEBOOK 13a -->
 
@@ -3473,6 +3716,7 @@ v = 0.5 * x ** 2  # the harmonic trap v(x) = x^2/2 at every point
 The interval from $-6$ to $6$ is cut into 201 equal steps of length $h = 12/201 = 0.059701$; the 200 inner points are the grid (`np.arange(1, M + 1)` is $1, \dots, 200$), and the orbitals vanish at the two ends $x = \pm6$ (hard walls; the occupied orbitals are negligibly small there anyway). `v` is the trap at every grid point.
 
 ```python
+# The kinetic-energy matrix: 1/h^2 on the diagonal, -1/(2 h^2) beside it.
 T = (np.diag(np.full(M, 1.0 / h ** 2))
      + np.diag(np.full(M - 1, -0.5 / h ** 2), 1)
      + np.diag(np.full(M - 1, -0.5 / h ** 2), -1))
@@ -3480,7 +3724,7 @@ say(f"grid: {M} points, spacing h = {h:.6f}")
 check(np.allclose(T, T.T), "the kinetic-energy matrix is symmetric")
 ```
 
-`np.full(M, value)` is a list of $M$ equal values and `np.diag(list, k)` the matrix with this list on the diagonal shifted by $k$ places ($k = 1$ above, $k = -1$ below the main diagonal). So `T` is the matrix of $-\tfrac12\,d^2/dx^2$ of Section 13.2: $1/h^2$ on the diagonal and $-1/(2h^2)$ beside it. The check confirms that it is symmetric, hence Hermitian.
+The first line is a comment (it starts with `#` and is not executed) that names the matrix built below. `np.full(M, value)` is a list of $M$ equal values and `np.diag(list, k)` the matrix with this list on the diagonal shifted by $k$ places ($k = 1$ above, $k = -1$ below the main diagonal). So `T` is the matrix of $-\tfrac12\,d^2/dx^2$ of Section 13.2: $1/h^2$ on the diagonal and $-1/(2h^2)$ beside it. The check confirms that it is symmetric, hence Hermitian.
 
 **In [3], the levels and orbitals of one particle.**
 
@@ -4406,44 +4650,44 @@ This section says which ideas of the chapter the Kohn-Sham model of dirac16compl
 
 - **The Kohn-Sham scheme and self-consistency.** The model is a Kohn-Sham fermion gas of dirac16complex quanta in the good sector (no momentum along the extra times), in which the 16-component equation reduces to $2 \times 2$ blocks in the hidden coordinate (Chapter 14). Its levels and orbitals are found self-consistently, with Anderson mixing of the potentials at every grid point of the hidden direction (depth 6, $\beta = 0.4$, stopping rule $10^{-11}$ on the largest residual; Section 13.21 and `Revision/kohn_sham/results/parameters.json`, numerics).
 - **The interaction and its exchange.** The contact interaction $\tfrac{\lambda}{2}S^2$ with the vertex $C$, treated as Hartree plus the exact local exchange of the uniform 8-fold gas: $e_x = -\tfrac{\lambda}{32}(n^2 + S^2)$, $M_{eff} = m + \tfrac{15}{16}\lambda S$, $v_v = -\tfrac{1}{16}\lambda n$ (Section 13.16; PROVED in `Revision/kohn_sham/reports/ks-theory-python.json`, checks exchange_uniform_gas, ks_potentials, filled_shell_ratio).
-- **Mermin's occupations.** At the temperatures $T = 0.01$, $0.02$ and $0.05$ (in units of the mass $m$) the occupations are Fermi-Dirac numbers with $\mu$ fixed by $\sum g f = N$, solved in the LogBalance form (Section 13.26; parameters.json, conventions merminRoot).
-- **Excited states.** The Kohn-Sham gap and the particle-hole excitations of Section 13.27, and Delta-SCF in its ensemble form over groups of equal levels (parameters.json, conventions deltaScf).
+- **Mermin's occupations.** At the temperatures $T = 0.01$, $0.02$ and $0.05$ (in units of the mass $m$; parameters.json, physics temperatures, checked by Notebook 13b, In [22]) the occupations are Fermi-Dirac numbers with $\mu$ fixed by $\sum g f = N$, solved in the LogBalance form (Section 13.26; parameters.json, conventions merminRoot).
+- **Excited states.** The Kohn-Sham gap and the particle-hole excitations of Section 13.27, and Delta-SCF in its ensemble form over groups of equal levels (parameters.json, conventions deltaScf; Notebook 13b, In [22]).
 - **Densities through the Krein form.** The number density is $n = \mathrm{Tr}(B\rho)$ with the indefinite form $B = -iC\gamma^{(x4)}$ of Chapter 10, and the scalar density is $S = \mathrm{Tr}(C\rho)$.
 
 **What is different, and its status.**
 
 - **No correlation.** The dirac16complex functional has no correlation term ("correlation: none (Hartree plus exchange only)" in `Revision/kohn_sham/ks-theory.json`), and for the non-uniform Kohn-Sham determinants its uniform-gas exchange differs from the exact local Fock exchange by $+\tfrac{\lambda}{32}Q^2$ (Section 13.16). These are the approximations of the model.
 - **No density-functional theorem is claimed for the field.** The Hohenberg-Kohn and Mermin theorems of Sections 13.8 and 13.26 were proved for particles with a positive inner product and a Hamiltonian bounded from below. For the quantised dirac16complex field with its indefinite Krein form (Chapter 10) the book does not prove such a theorem; the model of Chapter 14 is used as a self-consistent mean-field (exchange-only) model, and whether an exact density functional exists for this field is OPEN.
-- **Which levels are filled.** Particles occupy the positive branch of the levels and the brane zero modes; this filling is a CONVENTION of the record, and its justification is OPEN (`Revision/kohn_sham/ks-theory.json`, thermodynamics, fillingConvention).
-- **The background.** The history $a_4 = AHx_4$ along which the instantaneous (adiabatic) Kohn-Sham states are computed is a PRESCRIBED BACKGROUND: the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`; the checks are named in Section 13.38). The time-dependent (non-adiabatic) problem is OPEN, and the mirror at the end of the hidden direction (the Z2 brane) is ASSUMED.
+- **Which levels are filled.** Particles occupy the positive branch of the levels and the brane zero modes; this filling is a CONVENTION of the record, and its justification is OPEN (`Revision/kohn_sham/ks-theory.json`, thermodynamics, fillingConvention; Notebook 13b, In [22]).
+- **The background.** The history $a_4 = AHx_4$ along which the instantaneous (adiabatic) Kohn-Sham states are computed is a PRESCRIBED BACKGROUND: the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`; the checks are named in Section 13.38 and checked by Notebook 13b, In [22]). The time-dependent (non-adiabatic) problem is OPEN, and the mirror at the end of the hidden direction (the Z2 brane) is ASSUMED.
 
-**The pairs.** Chapter 19 uses these Kohn-Sham states for theorem T3: the Kohn-Sham universes of mass $+M$ and $-M$, with the transformed boundary conditions, have equal energies and energy-momentum tensors (PROVED: `Revision/pairing/kohn_sham/reports/python-t3.json` and, independently, `wolfram-t3.json` in the same folder; every check of both reports is PASS). T3 is an exact map between two sets of solutions. It does not prove that any universe is created, in pairs or otherwise: no creation process, rate or amplitude follows from these equations, and nothing in this chapter changes that.
+**The pairs.** Chapter 19 uses these Kohn-Sham states for theorem T3: the Kohn-Sham universes of mass $+M$ and $-M$, with the transformed boundary conditions, have equal energies and energy-momentum tensors (PROVED: `Revision/pairing/kohn_sham/reports/python-t3.json` and, independently, `wolfram-t3.json` in the same folder; ten checks of the theorem that are present in both reports, among them the equality of the energies and of the energy-momentum profiles, are PASS in both, as Notebook 13b checks in In [22]). T3 is an exact map between two sets of solutions. It does not prove that any universe is created, in pairs or otherwise: no creation process, rate or amplitude follows from these equations, and nothing in this chapter changes that.
 
 ### 13.38 What we proved, what we computed, what we assumed
 
 **PROVED** (exact derivations in this chapter, each checked numerically by a notebook; the Revision checks are named where the record holds the statement):
 
 - One particle: the eigenvalues of a Hermitian operator are real and its eigenvectors for different eigenvalues orthogonal; the variational principle (Section 13.2).
-- Many fermions: the Pauli principle; Slater determinants are antisymmetric, normalised, vanish for equal orbitals, and have the density $\sum_a|\phi_a|^2$ (Section 13.3; Notebook 13c, In [2]).
-- Second quantisation: the anticommutation relations; Wick's theorem for a determinant and a thermal ensemble of non-interacting fermions, in every basis; $\langle{:}S^2{:}\rangle = (\mathrm{Tr}\,V\rho)^2 - \mathrm{Tr}(V\rho V\rho)$ (Section 13.4; Revision check hf_wick_contraction of `Revision/kohn_sham/reports/ks-theory-python.json`; Notebook 13c, In [4] to In [8]).
+- Many fermions: the Pauli principle; Slater determinants of $N$ particles are antisymmetric, normalised, vanish for equal orbitals, and have the density $\sum_a|\phi_a|^2$ (Section 13.3, from the Leibniz formula; Notebook 13c, In [2], for $N = 2$).
+- Second quantisation: the anticommutation relations; Wick's theorem for a determinant and a thermal ensemble of non-interacting fermions, in every basis; $\langle{:}S^2{:}\rangle = (\mathrm{Tr}\,V\rho)^2 - \mathrm{Tr}(V\rho V\rho)$ (Section 13.4; Revision check hf_wick_contraction of `Revision/kohn_sham/reports/ks-theory-python.json`, its verdict checked by Notebook 13b, In [21]; Notebook 13c, In [4] to In [8]).
 - The energy of a determinant, direct minus exchange; the cancellation of the self-interaction; the exact locality of contact exchange and $E_x = -E_H/g$ for equally occupied labels (Sections 13.5 and 13.15; Notebook 13c, In [10]; Notebook 13b, In [6], In [12], In [13]).
-- The Lagrange-multiplier rule and the meaning of the multiplier; the Hartree-Fock equations, the double-counting formula and Koopmans' theorem (Section 13.6).
+- The Lagrange-multiplier rule and the meaning of the multiplier; the Hartree-Fock equations (the variation written out term by term, with the Hermitian multiplier matrix), the double-counting formula and Koopmans' theorem (Section 13.6).
 - The two-site model: $E_0 = \tfrac12(U - \sqrt{U^2 + 16t^2})$ and the best determinant ($-2t + U/2$ for $U \le 2t$, $-2t^2/U$ beyond) (Section 13.7; Notebook 13c, In [11], In [12]).
 - The Hohenberg-Kohn theorem and the constrained-search variational principle; functional derivatives; the Kohn-Sham equations and their total energy; the exact Kohn-Sham potential of two sites (Sections 13.8 to 13.10; Notebook 13c, In [16]).
 - The uniform gas: $n = gk_F^3/(6\pi^2)$, $C_F$, the density matrix $F(k_FR)$, the exchange hole $1 - F^2/g$, the small-range law $1 - \tfrac35(k_Fa)^2$, Dirac's formula given the integral $9/4$, and the polarisation threshold $\tfrac23(3\pi^2)^{2/3}$ (Section 13.15; Notebook 13b).
-- The exchange of the 16-component field: $e_x = -\tfrac{\lambda}{32}(n^2 + S^2)$, $M_{eff} = m + \tfrac{15}{16}\lambda S$, $v_v = -\tfrac{1}{16}\lambda n$, the ratio $-1/8$ (Section 13.16; `Revision/kohn_sham/reports/ks-theory-python.json`, checks exchange_uniform_gas, ks_potentials and filled_shell_ratio; independently `ks-theory-wolfram.json` in the same folder, checks exchange_uniform_gas and ks_potentials; reproduced exactly by Notebook 13b, In [17], In [18]).
+- The exchange of the 16-component field: $e_x = -\tfrac{\lambda}{32}(n^2 + S^2)$, $M_{eff} = m + \tfrac{15}{16}\lambda S$, $v_v = -\tfrac{1}{16}\lambda n$, the ratio $-1/8$ (Section 13.16; `Revision/kohn_sham/reports/ks-theory-python.json`, checks exchange_uniform_gas, ks_potentials and filled_shell_ratio; independently `ks-theory-wolfram.json` in the same folder, checks exchange_uniform_gas and ks_potentials; reproduced exactly by Notebook 13b, In [17], In [18], which with In [21] also checks the verdicts of both programs).
 - Mixing: the reduced map of the two-site loop, the convergence factor $1 - \beta(1 - G')$ and the condition $0 < \beta < 2/(1 - G')$ for small errors, the least-squares form of Anderson mixing (Section 13.21).
-- Temperature: the Gibbs principle with Klein's inequality; Mermin's theorem by the same argument; the independence of the orbitals of non-interacting fermions; the Fermi-Dirac occupations; $dF/dT = -S$, $C_V = T\,dS/dT$, the variance formula and $C_V \ge 0$ (Section 13.26; Notebook 13e).
+- Temperature: the Gibbs principle with Klein's inequality; Mermin's theorem and the universal functional at a temperature (both written out in Section 13.26); the independence of the orbitals of non-interacting fermions; the Fermi-Dirac occupations; $dF/dT = -S$, $C_V = T\,dS/dT$, the variance formula and $C_V \ge 0$ (Section 13.26; Notebook 13e).
 - Excited states: Janak's theorem and the Delta-SCF integral formula (Section 13.27; Notebooks 13e and 13a).
 - The trap model: its Kohn-Sham potential $v + g_cn/2$, the double-counting formula, the one-dimensional Thomas-Fermi equation, the Hellmann-Feynman theorem and the virial theorem (Section 13.32).
 
-**COMPUTED** (numbers printed by the five executed notebooks of the chapter, which are stored in the folder `Revision/textbook/notebooks`; the uncertainty of each number is the tolerance of the check that confirms it):
+**COMPUTED** (numbers printed by the five executed notebooks of the chapter, which are stored in the folder `Revision/textbook/notebooks`). Each number is given with its uncertainty, which is of one of two kinds. The finite models of Notebooks 13b to 13e are solved exactly up to rounding; for them the brackets give the tolerance to which a check confirms the printed digits, or say how the number was located. The trap of Notebook 13a is solved on a grid of 200 points: its numbers are exact for this grid model up to the stopping rule $10^{-11}$ of the loop (the brackets give the checks), but they differ from the numbers of the continuum model of Section 13.32 by the error of the grid, about $10^{-2}$, which the notebook measures twice: the grid levels of the trap miss the exact levels $n + \tfrac12$ by up to $0.013$ (In [3]), and the energy at $g_c = 0$ is $15.990192$ instead of the exact $16$, a difference of $0.0098$ (In [23]). As numbers of the continuum model, the six-decimal values of Notebook 13a are therefore good to about two decimals.
 
-- Notebook 13c: the two-site numbers $E_0 = -1.236068\,t$, double occupancy $0.276393$ and correlation energy $-0.236068\,t$ at $U = 2t$ (closed forms to $10^{-12}$), the largest correlation energy at $U = 3.335\,t$, and the split of the exact Kohn-Sham screening at $U = 4t$, $\Delta = 2t$ into $-0.588239$ (Hartree-exchange) and $-1.114408$ (correlation).
-- Notebook 13b: box sums within $0.00083$ of $F$ for 137059 plane waves; $\int_0^\infty sF^2\,ds = 9/4$ to $10^{-7}$; the box exchange $-19.0000000000$ in two forms (to $10^{-12}$); the label-mixing exchange $-8.7398756465$ (to $10^{-10}$).
-- Notebook 13d: $n_L^* = 1.326993$, $G' = -1.687961$, $\beta_{max} = 0.744058$ (to $10^{-6}$), the cycle $0.3607$/$1.9157$, convergence in 13 passes at $\beta = \tfrac12$, the threshold $U = 2.647393$.
-- Notebook 13e: no state among 2000 has a lower grand potential than the Gibbs state (smallest excess $3.9\cdot10^{-6}$); the two-level numbers $0.731059$, $1.164406$, $-0.313262$, $0.393224$ (to $10^{-6}$); the ladder's $\mu = 4$ at low temperature.
-- Notebook 13a: the trap model at $g_c = 2$: $E = 21.851498$ (two formulas agree to $10^{-9}$), the Kohn-Sham gap $0.772662$, the Delta-SCF energy $0.714594$ (Janak integral to $10^{-6}$), the widths, and the Hellmann-Feynman slope $2.801961$ (to $10^{-6}$); and the Revision solver's mixing settings, read and checked from `Revision/kohn_sham/results/parameters.json`.
+- Notebook 13c: the two-site numbers $E_0 = -1.236068\,t$ and correlation energy $-0.236068\,t$ at $U = 2t$ (the eigenvalue agrees with the closed form to $10^{-12}$; In [11], In [12]) and the double occupancy $0.276393$ (to $10^{-6}$; In [14]); the place of the largest correlation energy, $U = 3.335\,t$ (the closed form evaluated on a grid of step $10^{-4}$ in $U$ and printed to three decimals, so uncertain by $5\cdot10^{-4}$; no check; In [12]); and the split of the exact Kohn-Sham screening at $U = 4t$, $\Delta = 2t$ into $-0.588239$ (Hartree-exchange) and $-1.114408$ (correlation) (the inverted site energies reproduce the exact densities to $10^{-12}$, In [16]; printed to six decimals, In [18]).
+- Notebook 13b: box sums within $0.00083$ of $F$ for 137059 plane waves (a measured difference; In [3]); $\int_0^\infty sF^2\,ds = 9/4$ to $10^{-7}$ (In [10]); the box exchange $-19.0000000000$ in two forms (they agree to $10^{-12}$, and equal the exact $-19$ of Exercise 10; In [12]); the label-mixing exchange $-8.7398756465$ (two forms agree to $10^{-10}$; In [13]).
+- Notebook 13d: $n_L^* = 1.326993$, $G' = -1.687961$, $\beta_{max} = 0.744058$ (to $10^{-6}$; In [3]), the cycle $0.3607$/$1.9157$ (two passes return to the same value to $10^{-10}$; printed to four decimals; In [5]), convergence in 13 passes at $\beta = \tfrac12$ (a count; In [6]), and the threshold $U = 2.647393$ (found by 60 halvings of an interval; there the slope is $-1$ to $10^{-9}$; In [12]).
+- Notebook 13e: no state among 2000 has a lower grand potential than the Gibbs state (the smallest excess, $3.9\cdot10^{-6}$, is a measured value for these random states; In [4]); the two-level numbers $0.731059$, $1.164406$, $-0.313262$, $0.393224$ (to $10^{-6}$; In [8], In [10]); the ladder's $\mu = 4$ at $T = 0.05$ (to $10^{-6}$; In [12]).
+- Notebook 13a (numbers of the grid model; its distance from the continuum model is about $10^{-2}$, as said above): $E = 21.851498$ at $g_c = 2$ (the two formulas agree to $10^{-9}$; In [14]), the Kohn-Sham gap $0.772662$ (the level difference at $\tau = 0$ agrees with it to $10^{-9}$; In [25]), the Delta-SCF energy $0.714594$ (the Janak integral agrees to $10^{-6}$; In [25]), the widths $1.413346$, $1.542829$ and $1.659857$ (printed to six decimals; only their order is checked; In [21]) and the Hellmann-Feynman slope $2.801961$ (the two ways agree to $10^{-6}$; In [23]); and the Revision solver's mixing settings, read and checked exactly from `Revision/kohn_sham/results/parameters.json` (In [7]).
 
 **ASSUMED:**
 
@@ -4456,7 +4700,7 @@ This section says which ideas of the chapter the Kohn-Sham model of dirac16compl
 
 **HYPOTHESIS:** none is used in this chapter. **OPEN:** an exact density functional for the quantised dirac16complex field, the justification of its filling convention, and its time-dependent (non-adiabatic) problem (Section 13.37).
 
-**Where the background status is recorded.** That the history $a_4 = AHx_4$ is a prescribed background, not a solution of the $a_4$ field equations with the Kohn-Sham source, is recorded in the Revision report `Revision/field_equations_a4/reports/ks-source-conditions.json` by its checks ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8, each with the verdict PASS.
+**Where the background status is recorded.** That the history $a_4 = AHx_4$ is a prescribed background, not a solution of the $a_4$ field equations with the Kohn-Sham source, is recorded in the Revision report `Revision/field_equations_a4/reports/ks-source-conditions.json` by its checks ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8, each with the verdict PASS (Notebook 13b, In [22], reads the report and checks the three verdicts).
 
 ### 13.39 Exercises
 

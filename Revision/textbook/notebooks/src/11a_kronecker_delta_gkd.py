@@ -71,13 +71,16 @@ FACTS = {
         ["Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md",
          "the author's definition of the generalized Kronecker delta, quoted from it"],
         ["Revision/gkd_lovelock/results/python-lovelock-report.json",
-         "the independent sympy verification; its checks `gkd_examples`, "
-         "`gkd_literal_equals_cofactor_expansion` and "
-         "`gkd_nine_indices_in_eight_dimensions_vanish` are reproduced"],
+         "the independent sympy verification; its checks `gkd_examples` and "
+         "`gkd_nine_indices_in_eight_dimensions_vanish` are reproduced, and its check "
+         "`gkd_literal_equals_cofactor_expansion` (the literal determinant equals an "
+         "independent cofactor expansion; GKD is not part of it) must have the verdict "
+         "PASS"],
         ["Revision/gkd_lovelock/results/wolfram-gkd-report.json",
-         "the Wolfram verification; its counts of the values +1, -1 and 0 for index "
-         "lists of length 1, 2 and 3 are reproduced, and its checks "
-         "`gkd_equals_kdelta_exhaustive_length_1` to `_3` must have the verdict PASS"],
+         "the Wolfram verification; its checks `gkd_equals_kdelta_exhaustive_length_1` "
+         "to `_3` (GKD equals the literal determinant on all 266,304 pairs of index "
+         "lists of length 1, 2 and 3) and its counts of the values +1, -1 and 0 for "
+         "these lengths are reproduced"],
         ["Revision/gkd_lovelock/results/lovelock-report.json",
          "its counter `gkdCalls` of the order-3 Lovelock sum (495,360 calls of GKD), "
          "quoted and checked"],
@@ -510,7 +513,10 @@ CELLS = [
     $p$, that is $64 + 4096 + 262144 = 266304$ pairs. `itertools.product(range(8),
     repeat=p)` produces all $8^p$ lists of length $p$ with entries $0, \dots, 7$. The
     cell counts how often each value occurs and prints, for each $p$, the number of
-    pairs and the counts of $+1$, $-1$ and $0$. It takes a few seconds.
+    pairs and the counts of $+1$, $-1$ and $0$. It takes a few seconds. At the end it
+    reads the Revision's Wolfram verification `wolfram-gkd-report.json`, whose checks
+    `gkd_equals_kdelta_exhaustive_length_1` to `_3` compared GKD with the literal
+    determinant on the same 266,304 pairs, and requires that they found no difference.
     """),
     code(r'''
     COUNTS = {}  # p -> {+1: count, -1: count, 0: count}
@@ -530,16 +536,19 @@ CELLS = [
     report("pairs compared (all pairs of lengths 1, 2 and 3)", compared)
     report("pairs where GKD and the determinant differ", mismatches)
     report("different 0/1 matrices whose determinant sympy computed", len(DETERMINANTS))
-    python_record = json.loads(repository_file(
-        "Revision/gkd_lovelock/results/python-lovelock-report.json").read_text(
+    wolfram_record = json.loads(repository_file(
+        "Revision/gkd_lovelock/results/wolfram-gkd-report.json").read_text(
             encoding="utf-8"))
-    entry = [c for c in python_record["checks"]
-             if c["name"] == "gkd_literal_equals_cofactor_expansion"][0]
-    check(mismatches == 0 and compared == 266304 and entry["verdict"] == "PASS"
-          and "266304 pairs" in entry["detail"],
+    entries = [c for c in wolfram_record["checks"]
+               if c["name"].startswith("gkd_equals_kdelta_exhaustive_length_")]
+    recorded_pairs = sum(int(re.search(r"all (\d+) pairs", e["detail"]).group(1))
+                         for e in entries)  # the numbers of pairs the record names
+    check(mismatches == 0 and compared == 266304 and len(entries) == 3
+          and all(e["verdict"] == "PASS" and "(0 mismatches;" in e["detail"]
+                  for e in entries) and recorded_pairs == 266304,
           "GKD equals the literal determinant for all 266304 pairs of lengths 1 to 3",
-          record="Revision/gkd_lovelock/results/python-lovelock-report.json, "
-                 "check gkd_literal_equals_cofactor_expansion")
+          record="Revision/gkd_lovelock/results/wolfram-gkd-report.json, checks "
+                 "gkd_equals_kdelta_exhaustive_length_1 to _3")
     '''),
     md(r"""
     The next cell compares these counts with two things: the formula of section 4,
@@ -1017,14 +1026,16 @@ CELLS = [
     definition = ("[lower_, upper_] /; Length[lower] == Length[upper] := "
                   "Det[Outer[delta, lower, upper]]")  # after the name of the delta
     check(definition in provenance,
-          "the record quotes the author's definition as section 4 does",
+          "the record quotes the author's definition as section 4 of this notebook "
+          "does",
           record=f"{RECORDS}/PROVENANCE_OF_THE_COMPUTATION.md")
     order_three = [row for row in json.loads(repository_file(
         f"{RECORDS}/lovelock-report.json").read_text(encoding="utf-8"))["counters"]
         if row["k"] == 3][0]
     report("GKD calls of the order-3 Lovelock sum (record)", order_three["gkdCalls"])
     check(order_three["gkdCalls"] == 495360,
-          "the order-3 Lovelock sum calls GKD 495360 times, as section 4 says",
+          "the order-3 Lovelock sum calls GKD 495360 times, as section 4 of this "
+          "notebook says",
           record=f"{RECORDS}/lovelock-report.json, counters, k = 3, gkdCalls")
     '''),
     md(r"""

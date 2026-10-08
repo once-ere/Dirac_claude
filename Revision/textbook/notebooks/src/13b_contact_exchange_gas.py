@@ -43,7 +43,10 @@ FACTS = {
         "favours; finally it reproduces, from the Revision gamma matrices, the exchange "
         "energy of the uniform 8-fold gas of dirac16complex recorded in the Revision "
         "Kohn-Sham theory (coefficients -1/32, potentials 15/16 and -1/16, filled-shell "
-        "ratio -1/8), and draws nine teaching plots."
+        "ratio -1/8), checks the entries of the Revision record that state the status "
+        "of the dirac16complex Kohn-Sham model (the independent Wolfram verification, "
+        "the exact-exchange diagnostic, the temperatures, the filling convention, the "
+        "prescribed background and theorem T3), and draws nine teaching plots."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
@@ -52,13 +55,34 @@ FACTS = {
         ["Revision/kohn_sham/ks-theory.json",
          "the exchange of the uniform 8-fold good-sector gas: e_x = -(lambda/32) "
          "(n^2 + S^2), the potentials 15/16 and -1/16 and the filled-shell ratio -1/8, "
-         "which the notebook reproduces"],
+         "which the notebook reproduces; the exact-exchange diagnostic exactFockSlab, "
+         "the correlation entry and the filling convention, which it checks"],
         ["Revision/kohn_sham/reports/ks-theory-python.json",
          "the checks exchange_uniform_gas, ks_potentials and filled_shell_ratio of the "
          "independent sympy verification, which the notebook reproduces"],
         ["Revision/kohn_sham/results/parameters.json",
          "the exchange and potential coefficients used by the Revision Kohn-Sham solver "
-         "(theoryInputs), which the notebook compares with its own"],
+         "(theoryInputs), which the notebook compares with its own; the temperatures, "
+         "the Delta-SCF, exact-exchange and history conventions, which it checks"],
+        ["Revision/algebra/reports/wolfram-algebra.json",
+         "the checks reality, Clifford_relation and C_real_symmetric of the Wolfram "
+         "verification of the gamma matrices, whose verdicts the notebook checks"],
+        ["Revision/kohn_sham/reports/ks-theory-wolfram.json",
+         "the checks exchange_uniform_gas, ks_potentials and exchange_slab_exact_fock "
+         "of the independent Wolfram verification, whose verdicts the notebook checks"],
+        ["Revision/kohn_sham/results/exx/exact-fock-variant.csv",
+         "the table in which the Revision solver reports the exact-exchange difference "
+         "(column deltaE_x_exact_fock_diag), whose header the notebook checks"],
+        ["Revision/field_equations_a4/reports/ks-source-conditions.json",
+         "the checks that the Kohn-Sham states violate the source conditions of the a4 "
+         "equations (the history is a prescribed background), whose verdicts the "
+         "notebook checks"],
+        ["Revision/pairing/kohn_sham/reports/python-t3.json",
+         "the Python verification of theorem T3, all of whose verdicts the notebook "
+         "checks"],
+        ["Revision/pairing/kohn_sham/reports/wolfram-t3.json",
+         "the Wolfram verification of theorem T3, all of whose verdicts the notebook "
+         "checks"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -70,7 +94,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the figure file 13b_9_dirac_exchange.png exists",
-        "ALL 34 CHECKS PASSED (notebook 13b)",
+        "ALL 44 CHECKS PASSED (notebook 13b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for `gammas.json` or `ks-theory.json`",
@@ -107,6 +131,8 @@ CELLS = [
     - reproduces, from the Revision gamma matrices, the exchange energy of the uniform
       gas of the 16-component field dirac16complex that the Revision Kohn-Sham solver
       uses;
+    - reads and checks the entries of the Revision record that say on what these
+      formulas rest and how the Kohn-Sham model of dirac16complex must be read;
     - draws nine teaching plots.
     """),
     md(r"""
@@ -179,11 +205,20 @@ CELLS = [
 
     $$F(s) = \frac{3\,(\sin s - s\cos s)}{s^3}, \qquad F(0) = 1 .$$
 
-    **Status.** Everything in sections 5 to 11 is exact mathematics of the free Fermi gas
-    (PROVED: the formulas above follow from the definitions; this notebook checks them
-    numerically). Section 11 describes the exchange-only (Hartree-Fock) energy, not the
-    exact one. The last part reproduces numbers of the Revision record (COMPUTED there
-    with sympy, recomputed here exactly).
+    **Status.** The formulas above are exact mathematics of the free Fermi gas (PROVED:
+    they follow from the definitions). Sections 5 to 11 check them with numbers. Where
+    a closed form is compared with another exact form (sections 6, 7 and 10, the
+    slopes of section 9 and the curvature of section 11) the agreement is to rounding.
+    Where a sum or an integral is evaluated numerically, the result is COMPUTED with a
+    measured accuracy: the box sums of section 5 approach the closed form as the box
+    grows (the differences are printed), the finite-range ratio of section 8 follows
+    the small-range formula to $10^{-5}$ at $k_F a = 0.05$, and Simpson's rule gives
+    Dirac's integral $9/4$ of section 9 to $10^{-7}$. Section 11 describes the
+    exchange-only (Hartree-Fock) energy, not the exact one. Section 12 recomputes
+    exactly, with fractions, formulas that the Revision record PROVES with exact sympy
+    checks (exchange_uniform_gas, ks_potentials and filled_shell_ratio of its report
+    ks-theory-python.json) and independently with Wolfram; section 13 reads further
+    entries of the record and checks them.
     """),
     md(r"""
     ## 5. The density matrix of one label of the uniform gas
@@ -837,7 +872,127 @@ CELLS = [
           "the plotted curves give e_x/e_H = -1/8 at S = n")
     '''),
     md(r"""
-    ## 13. The last check
+    ## 13. What the Revision record says about the dirac16complex model
+
+    Section 12 recomputed the exchange formulas of the Revision record from the gamma
+    matrices. The record also states on what these formulas rest, how good they are,
+    and how the Kohn-Sham model of dirac16complex that uses them must be read. The
+    next two cells read these entries and check each of them, so that a change of the
+    record stops this notebook with a failed check. A **report** of the record is a
+    file that lists checks, each with a name and a verdict (PASS or FAIL). The first
+    cell checks:
+
+    - the algebra report of the Wolfram verification: the checks reality (the gamma
+      matrices are real), Clifford_relation
+      ($\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}$) and C_real_symmetric are PASS;
+    - the Wolfram verification of the Kohn-Sham theory, a second program independent
+      of the sympy one: the checks exchange_uniform_gas and ks_potentials (the formulas
+      of section 12) and exchange_slab_exact_fock are PASS;
+    - the sympy verification: the checks exchange_slab_exact_fock and
+      hf_wick_contraction (the rule of Wick's theorem that section 12 used) are PASS;
+    - what is approximate: for the non-uniform Kohn-Sham states the exact (Fock)
+      exchange is still local but differs from the uniform-gas formula by
+      $+\frac{\lambda}{32}Q^2$ per volume, where $Q$ is a further density; the theory
+      file labels this entry DIAGNOSTIC, the solver's parameter file states the same
+      difference, and the solver reports it in the column deltaE_x_exact_fock_diag of
+      its table exact-fock-variant.csv; and the functional has no correlation term.
+    """),
+    code(r'''
+    def verdicts(path):
+        """The verdict of every check of a Revision report, by the name of the check."""
+        checks = json.loads(repository_file(path).read_text(encoding="utf-8"))["checks"]
+        return {entry["name"]: entry["verdict"] for entry in checks}
+
+
+    ALGEBRA = "Revision/algebra/reports/wolfram-algebra.json"
+    KS_WOLFRAM = "Revision/kohn_sham/reports/ks-theory-wolfram.json"
+    KS_PYTHON = "Revision/kohn_sham/reports/ks-theory-python.json"
+    algebra = verdicts(ALGEBRA)
+    check(all(algebra[name] == "PASS"
+              for name in ("reality", "Clifford_relation", "C_real_symmetric")),
+          f"{ALGEBRA}: reality, Clifford_relation and C_real_symmetric are PASS")
+    ks_wolfram, ks_python = verdicts(KS_WOLFRAM), verdicts(KS_PYTHON)
+    check(all(ks_wolfram[name] == "PASS" for name in
+              ("exchange_uniform_gas", "ks_potentials", "exchange_slab_exact_fock")),
+          f"{KS_WOLFRAM}: exchange_uniform_gas, ks_potentials and "
+          "exchange_slab_exact_fock are PASS")
+    check(ks_python["exchange_slab_exact_fock"] == "PASS"
+          and ks_python["hf_wick_contraction"] == "PASS",
+          f"{KS_PYTHON}: exchange_slab_exact_fock and hf_wick_contraction are PASS")
+    slab = theory["exchange"]["exactFockSlab"]  # the exact exchange of the KS states
+    correlation = theory["exchange"]["kohnShamPotentials"]["correlation"]
+    solver_file = json.loads(repository_file("Revision/kohn_sham/results/parameters.json")
+                             .read_text(encoding="utf-8"))
+    conventions = solver_file["conventions"]  # the conventions of the Revision solver
+    status_word = slab["status"].split(":")[0]  # the word before the first colon
+    say(f"exactFockSlab status: {status_word}; correlation: {correlation}")
+    check(slab["status"].startswith("DIAGNOSTIC")
+          and "Delta E_x = +(lambda/32) int sqrt|g| Q^2" in slab["status"]
+          and "+lambda Q^2/32" in conventions["exactExchange"]
+          and correlation == "none (Hartree plus exchange only)",
+          "ks-theory.json: the exact Fock exchange differs by +(lambda/32) Q^2 "
+          "(DIAGNOSTIC; also in parameters.json); no correlation term")
+    table = repository_file("Revision/kohn_sham/results/exx/exact-fock-variant.csv")
+    columns = table.read_text(encoding="utf-8").splitlines()[0].split(",")
+    check("deltaE_x_exact_fock_diag" in columns,
+          "exact-fock-variant.csv has the column deltaE_x_exact_fock_diag")
+    '''),
+    md(r"""
+    The second cell checks how the Kohn-Sham model of dirac16complex must be read:
+
+    - the solver's parameter file: the temperatures $T = 0.01$, $0.02$ and $0.05$ (in
+      units of the mass $m$), and the first excited state by an ensemble Delta-SCF
+      (one particle moved from the highest occupied group of equal levels to the
+      lowest empty group, spread evenly over each group);
+    - which levels the particles fill is a CONVENTION of the theory file whose
+      justification is OPEN, and the history $a_4 = AHx_4$ along which the states are
+      computed is a PRESCRIBED BACKGROUND (the parameter file says so);
+    - the report on the source conditions of the $a_4$ field equations: the checks
+      ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition
+      (the Kohn-Sham states violate the condition $p_3 + p_t = 2p_8$ that the $a_4$
+      equations put on their source) and ks_profiles_depend_on_x8 (their profiles
+      depend on the hidden coordinate $x_8$) are PASS;
+    - the pairing theorem T3 (the Kohn-Sham universes of mass $+M$ and $-M$ have equal
+      energies and energy-momentum tensors) is checked by two independent programs, a
+      Python one and a Wolfram one; ten checks of the theorem that are present in
+      both reports (the maps of the block Hamiltonian, of its equation, of the tip condition
+      and of the brane parities, the orbital densities, the mean field, the equality
+      of the energies and energy-momentum profiles, the exact spectra at zero
+      momentum, the matrix $\Gamma$ as the block map, and the mirror copy) are PASS in
+      both. T3 is an exact map between two sets of solutions; it does not show that
+      any universe is created.
+    """),
+    code(r'''
+    temperatures = solver_file["physics"]["temperatures"]
+    say(f"temperatures of the Revision solver: {temperatures}")
+    check(temperatures == [0.01, 0.02, 0.05]
+          and "ensemble Delta-SCF" in conventions["deltaScf"],
+          "parameters.json: T = 0.01, 0.02, 0.05 and the ensemble Delta-SCF (deltaScf)")
+    filling = theory["thermodynamics"]["fillingConvention"]
+    check(filling.startswith("CONVENTION") and "its justification is OPEN" in filling
+          and conventions["history"].startswith("PRESCRIBED BACKGROUND"),
+          "the filling is a CONVENTION whose justification is OPEN (ks-theory.json); "
+          "the history is a PRESCRIBED BACKGROUND (parameters.json)")
+    SOURCE = "Revision/field_equations_a4/reports/ks-source-conditions.json"
+    source = verdicts(SOURCE)
+    check(all(source[name] == "PASS" for name in
+              ("ks_history_is_a_prescribed_background",
+               "ks_profiles_violate_algebraic_condition", "ks_profiles_depend_on_x8")),
+          f"{SOURCE}: ks_history_is_a_prescribed_background, "
+          "ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8 are PASS")
+    T3_CHECKS = ("block_hamiltonian_map", "ode_map", "tip_condition_map",
+                 "brane_parities_exchanged", "orbital_densities", "mean_field_map",
+                 "energies_and_emt_profiles_equal", "exact_k0_spectra",
+                 "Gamma_is_the_block_map", "z2_mirror_copy_carries_minus_m_plus_lambda")
+    t3_python = verdicts("Revision/pairing/kohn_sham/reports/python-t3.json")
+    t3_wolfram = verdicts("Revision/pairing/kohn_sham/reports/wolfram-t3.json")
+    check(all(t3_python["T3." + name] == "PASS" for name in T3_CHECKS),
+          "theorem T3: ten checks of python-t3.json (T3.<name>) are PASS")
+    check(all(t3_wolfram["T3_" + name] == "PASS" for name in T3_CHECKS),
+          "theorem T3: the same ten checks of wolfram-t3.json (T3_<name>) are PASS")
+    '''),
+    md(r"""
+    ## 14. The last check
 
     The last cell checks that all nine figure files exist and prints the number of
     checks that passed.
@@ -854,7 +1009,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 14. What this notebook showed
+    ## 15. What this notebook showed
 
     - The density matrix of one label of the uniform gas is $n_\sigma F(k_F R)$ with
       $F(s) = 3(\sin s - s\cos s)/s^3$; finite boxes approach it as they grow.
@@ -874,6 +1029,12 @@ CELLS = [
       $v_v = -\frac{1}{16}\lambda n$ and the filled-shell ratio $-1/8$: exactly the
       numbers of the Revision Kohn-Sham theory and of its solver (REPRODUCED here from
       the gamma matrices).
+    - The Revision record verifies these formulas with two independent programs and
+      states their limits: the exact Fock exchange of the non-uniform Kohn-Sham states
+      differs by $+\frac{\lambda}{32}Q^2$ (a DIAGNOSTIC of the record), there is no
+      correlation term, the filling of the levels is a CONVENTION, and the history
+      $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND; ten checks of theorem T3 are PASS
+      in both of its reports (CHECKED here by reading the record).
     """),
 ]
 

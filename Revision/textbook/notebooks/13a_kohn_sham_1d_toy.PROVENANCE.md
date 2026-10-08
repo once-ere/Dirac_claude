@@ -7,7 +7,7 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It solves the Kohn-Sham equations of eight fermions with two labels in a one-dimensional harmonic trap with a contact repulsion (Hartree plus the exact local exchange of this interaction, no correlation) on a grid, by plain iteration, by linear mixing and by Anderson mixing with the settings of the Revision Kohn-Sham solver; it checks the particle number, the two energy formulas, that the mean-field potential is the functional derivative of the interaction energy, the variational principle, the stability of the equal-label solution and the Hellmann-Feynman theorem, compares the result with the Hartree and the Thomas-Fermi approximations, computes the first excited state by Delta-SCF and checks Janak's theorem, and draws nine teaching plots.
+It solves the Kohn-Sham equations of eight fermions with two labels in a one-dimensional harmonic trap with a contact repulsion (Hartree plus the exact local exchange of this interaction, no correlation) on a grid, by plain iteration, by linear mixing and by Anderson mixing with the settings of the Revision Kohn-Sham solver; it checks the particle number, the two energy formulas, that the mean-field potential is the functional derivative of the interaction energy, the variational principle, the stability of the equal-label solution and the Hellmann-Feynman theorem, compares the result with the Hartree and the Thomas-Fermi approximations, computes the first excited state by Delta-SCF and checks Janak's theorem, and draws ten teaching plots.
 
 It reads or reproduces these Revision records:
 
@@ -40,7 +40,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 13a (A one-dimensional Kohn-Sham toy with self-consistency) is the file `Revision/textbook/notebooks/13a_kohn_sham_1d_toy.ipynb` of the repository Dirac_claude. It solves the Kohn-Sham equations of eight fermions with two labels in a one-dimensional harmonic trap with a contact repulsion (Hartree plus the exact local exchange of this interaction, no correlation) on a grid, by plain iteration, by linear mixing and by Anderson mixing with the settings of the Revision Kohn-Sham solver; it checks the particle number, the two energy formulas, that the mean-field potential is the functional derivative of the interaction energy, the variational principle, the stability of the equal-label solution and the Hellmann-Feynman theorem, compares the result with the Hartree and the Thomas-Fermi approximations, computes the first excited state by Delta-SCF and checks Janak's theorem, and draws nine teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
+Notebook 13a (A one-dimensional Kohn-Sham toy with self-consistency) is the file `Revision/textbook/notebooks/13a_kohn_sham_1d_toy.ipynb` of the repository Dirac_claude. It solves the Kohn-Sham equations of eight fermions with two labels in a one-dimensional harmonic trap with a contact repulsion (Hartree plus the exact local exchange of this interaction, no correlation) on a grid, by plain iteration, by linear mixing and by Anderson mixing with the settings of the Revision Kohn-Sham solver; it checks the particle number, the two energy formulas, that the mean-field potential is the functional derivative of the interaction energy, the variational principle, the stability of the equal-label solution and the Hellmann-Feynman theorem, compares the result with the Hartree and the Thomas-Fermi approximations, computes the first excited state by Delta-SCF and checks Janak's theorem, and draws ten teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -373,8 +373,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 10.1 s, peak memory of the kernel process 167 MiB;
-- the check run: 9.4 s, peak memory of the kernel process 167 MiB.
+- the build run: 58.0 s, peak memory of the kernel process 167 MiB;
+- the check run: 43.0 s, peak memory of the kernel process 167 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -386,8 +386,8 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/13a_kohn_sham_1d_toy.ipynb`: `1b2fd80c06f486b68f7c662e08ad19622cbdee93fa02d90db335ed683a64e0de`
-- `Revision/textbook/notebooks/src/13a_kohn_sham_1d_toy.py`: `3e21e729bebe5b6d694ca5861ba53d7f32bcfdd295b62b4a643682656a21a17d`
+- `Revision/textbook/notebooks/13a_kohn_sham_1d_toy.ipynb`: `2c4657beefd271e1e667778a7cee765ca67f358d9153edfd43fd606d97eaf27d`
+- `Revision/textbook/notebooks/src/13a_kohn_sham_1d_toy.py`: `b26cd7a1de2bf2f90c89a697b7728dcb5a1500d931f97cfa6a52a74adfb50e69`
 - `Revision/textbook/figures/13a.captions.json`: `2fffcd820d161c012a3f602612eaba9b33d207e23f68fc0672d84d7719c75f84`
 - `Revision/textbook/figures/13a_1_trap_orbitals.png`: `42a20b39974b16079b64f40ed2d66b68aba7a716992333b81ebafea03c90eff7`
 - `Revision/textbook/figures/13a_2_scf_convergence.png`: `a56934d01eaa60948720eb3a2a5dc7f692585f9fafaa07c75deced97d2cd0f29`
@@ -406,4 +406,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 11 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":167.0,"seconds":10.1},"check":{"date":"2026-10-08","files":11,"peak_mb":167.0,"result":"passed","seconds":9.4},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":167.0,"seconds":58.0},"check":{"date":"2026-10-08","files":11,"peak_mb":167.0,"result":"passed","seconds":43.0},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

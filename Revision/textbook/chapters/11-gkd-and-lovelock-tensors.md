@@ -30,6 +30,7 @@ Each word is defined in plain terms here; the later sections make the definition
 - **Christoffel symbol** $\Gamma^a{}_{bc}$, **Riemann tensor** $R^a{}_{bcd}$ and $R^{ab}{}_{cd} = g^{bb}R^a{}_{bcd}$, **plane curvature** $K(a, b) = R^{ab}{}_{ab}$ (no sum), **Ricci tensor** $R^h{}_j = \sum_c R^{hc}{}_{jc}$, **Ricci scalar** $R = \sum_h R^h{}_h$, **Einstein tensor** $G^h{}_j = R^h{}_j - \frac12\delta^h_jR$: Chapter 3 (Sections 3.15 and 3.17) defines them.
 - **Summed label**: in this chapter a label that appears once up and once down inside one term is summed over its eight values, unless "no sum" is said; the free labels $h$ and $j$ are never summed.
 - **Lovelock tensor** $P_{(k)}{}^h{}_j$ of **order** $k$ and **Lovelock scalar** $L_{(k)}$: the sums of Section 11.11. **Normalised Lovelock tensor** $E_{(k)} = -P_{(k)}/2^{k+1}$; $E_{(1)}$ is the Einstein tensor. **Gauss-Bonnet tensor**: the classical name of the order-2 Lovelock tensor. **Density** $A_{(k)}{}^{lh} = \sqrt{|\det g|}\,g^{ll}P_{(k)}{}^h{}_l$: the form in which formula (4.38) is written.
+- **Euler density**: in a space of even dimension $n = 2m$, the Lovelock scalar of order $m$ (in eight dimensions $L_{(4)}$). For a closed space (finite, without an edge) with a positive-definite metric its integral is a constant times the **Euler characteristic**, a whole number fixed by the shape of the space that does not change when the metric is deformed (Section 11.11; a classical theorem, quoted: ASSUMED).
 - **Component**: one number of a tensor, such as $E^{x_1}{}_{x_1}$; a **diagonal** component has $h = j$.
 - **Leaf**, **pruning** (skipping): a complete combination of $k$ curvature entries in the computer's search; pruning means leaving out combinations known to give zero.
 - **Divergence** $\nabla_h P^h{}_j$: the curved-space form of "change plus outflow"; zero divergence means **conservation**.
@@ -218,7 +219,7 @@ Notebook 11a puts Sections 11.3 and 11.4 to work. It writes the author's definit
 
 The notebook has 17 code cells, In [1] to In [17]. This section explains every line of every one of them, in order: a line or a small group of lines is quoted, then explained. A line that starts with `#`, and the part of a line after `#`, is a **comment**, which Python skips; it is there for the reader. Inside a function the text in triple quotes below the `def` line is its **docstring**, a description that Python stores but does not run; to keep the quotations short, docstrings are left out of them where the explanation repeats them, and a long figure caption passed to `save_figure` is shortened to `...` (the full caption is printed under the figure in Section 11.8). Because Notebook 11a is the first notebook of this chapter, its set-up cell is explained here in full; the walk-throughs of Notebooks 11b and 11c refer back to this explanation.
 
-**In [1], the set-up cell.** Its first part, down to the heading THE SET-UP between two lines of `=` signs, consists of comment lines that repeat the complete run instructions of Section 11.7, so that the notebook file carries its own instructions. The code below the heading computes no physics; it is the same in every notebook of the book except for the line that names the notebook (and, in notebooks without Rust, the three Rust lines explained at the end).
+**In [1], the set-up cell.** Its first part, down to the heading THE SET-UP between two lines of `=` signs, consists of comment lines that repeat the complete run instructions of Section 11.7, so that the notebook file carries its own instructions. The code below the heading computes no physics; it is the same in every notebook of the book except for the line that names the notebook and, in notebooks without Rust, the two lines `import shutil` and `import subprocess` and the helper `rust_program`, which such notebooks lack (all three are explained below, the helper at the end).
 
 ```python
 import json  # reads and writes JSON files (text files that hold names and numbers)
@@ -298,10 +299,12 @@ FIGURE_FOLDER = "Revision/textbook/figures"  # where the figures are saved
 CAPTION_FILE = f"{FIGURE_FOLDER}/{NOTEBOOK_ID}.captions.json"  # their captions
 FIGURE_NUMBERS = {}  # figure name -> its number k (file name <id>_<k>_<name>.png)
 CAPTIONS = {}  # figure file name -> caption, written to CAPTION_FILE after every figure
+# Start with an empty captions file ({} is an empty JSON dictionary); save_figure fills
+# it.  newline="\n" writes the same line ends on Windows, macOS and Linux.
 output_file(CAPTION_FILE).write_text("{}\n", encoding="utf-8", newline="\n")
 ```
 
-A string that starts with `f` is an **f-string**: a name in braces is replaced by its value, so `CAPTION_FILE` is `"Revision/textbook/figures/11a.captions.json"`. `FIGURE_NUMBERS` and `CAPTIONS` start as empty dictionaries. The last line writes an empty JSON dictionary and a line end into the captions file; `encoding="utf-8"` fixes how letters are stored as bytes and `newline="\n"` stores the same line end on every system.
+A string that starts with `f` is an **f-string**: a name in braces is replaced by its value, so `CAPTION_FILE` is `"Revision/textbook/figures/11a.captions.json"`. `FIGURE_NUMBERS` and `CAPTIONS` start as empty dictionaries. The two comment lines explain the last line, which writes an empty JSON dictionary and a line end into the captions file; `encoding="utf-8"` fixes how letters are stored as bytes and `newline="\n"` stores the same line end on every system.
 
 ```python
 def save_figure(fig, name, caption):
@@ -655,24 +658,32 @@ report("different 0/1 matrices whose determinant sympy computed", len(DETERMINAN
 Three RESULT lines: $64 + 4096 + 262144 = 266304$ pairs compared, 0 disagreements, and 145 different 0/1 matrices for which sympy had to compute a determinant; all other pairs reused a stored one.
 
 ```python
-python_record = json.loads(repository_file(
-    "Revision/gkd_lovelock/results/python-lovelock-report.json").read_text(
+wolfram_record = json.loads(repository_file(
+    "Revision/gkd_lovelock/results/wolfram-gkd-report.json").read_text(
         encoding="utf-8"))
-entry = [c for c in python_record["checks"]
-         if c["name"] == "gkd_literal_equals_cofactor_expansion"][0]
+entries = [c for c in wolfram_record["checks"]
+           if c["name"].startswith("gkd_equals_kdelta_exhaustive_length_")]
 ```
 
-The Revision's sympy report is read: `read_text` reads the file as text and `json.loads` turns the JSON text into Python lists and dictionaries. Its checks form a list of entries; the comprehension keeps the entry whose name is `gkd_literal_equals_cofactor_expansion`, and `[0]` takes the first (and only) one.
+The Revision's Wolfram report is read: `read_text` reads the file as text and `json.loads` turns the JSON text into Python lists and dictionaries. Its checks form a list of entries; the comprehension keeps the entries whose names begin with `gkd_equals_kdelta_exhaustive_length_` (`startswith` tests how a text begins). There are three of them, for the lengths 1, 2 and 3; in each, the Revision's Wolfram verification compared the values of the Rust function GKD (written out by a small Rust program that calls it) with the author's literal determinant, evaluated by Wolfram, on every pair of lists of that length.
 
 ```python
-check(mismatches == 0 and compared == 266304 and entry["verdict"] == "PASS"
-      and "266304 pairs" in entry["detail"],
-      "GKD equals the literal determinant for all 266304 pairs of lengths 1 to 3",
-      record="Revision/gkd_lovelock/results/python-lovelock-report.json, "
-             "check gkd_literal_equals_cofactor_expansion")
+recorded_pairs = sum(int(re.search(r"all (\d+) pairs", e["detail"]).group(1))
+                     for e in entries)  # the numbers of pairs the record names
 ```
 
-The check requires no disagreement among the 266,304 pairs, and that the record's own check has the verdict PASS and speaks of the same 266304 pairs (`in` tests whether one text occurs inside another). Sixth PASS line.
+Each entry's `detail` text names its number of pairs, as in "all 4096 pairs of index lists of length 2". The regular expression `all (\d+) pairs` finds this phrase (`\d+` is one or more digits, and the brackets mark the part to keep), `.group(1)` is the kept text and `int` turns it into a whole number; `sum` adds the three numbers: $64 + 4096 + 262144$.
+
+```python
+check(mismatches == 0 and compared == 266304 and len(entries) == 3
+      and all(e["verdict"] == "PASS" and "(0 mismatches;" in e["detail"]
+              for e in entries) and recorded_pairs == 266304,
+      "GKD equals the literal determinant for all 266304 pairs of lengths 1 to 3",
+      record="Revision/gkd_lovelock/results/wolfram-gkd-report.json, checks "
+             "gkd_equals_kdelta_exhaustive_length_1 to _3")
+```
+
+The check requires no disagreement among the notebook's own 266,304 pairs, and that the record's three checks are there, have the verdict PASS, report 0 mismatches and together speak of the same 266,304 pairs (`in` tests whether one text occurs inside another). Sixth PASS line. (The Revision's sympy report `python-lovelock-report.json` also has a check on these 266,304 pairs, `gkd_literal_equals_cofactor_expansion`, but it compares something else: the literal determinant with a second, independent way of computing a determinant, the cofactor expansion (Laplace's rule, proved in Section 11.13: the determinant is the sum of the entries of one row, each times the smaller determinant left when its row and column are removed, with alternating signs). It confirms the determinant side, not GKD, and is therefore not the record of this check; In [16] only confirms that it is there and passed.)
 
 **In [7], the counts against the formula and the Wolfram record.**
 
@@ -1161,11 +1172,12 @@ provenance = repository_file(
 definition = ("[lower_, upper_] /; Length[lower] == Length[upper] := "
               "Det[Outer[delta, lower, upper]]")  # after the name of the delta
 check(definition in provenance,
-      "the record quotes the author's definition as section 4 does",
+      "the record quotes the author's definition as section 4 of this notebook "
+      "does",
       record=f"{RECORDS}/PROVENANCE_OF_THE_COMPUTATION.md")
 ```
 
-The record of the author's definition is read, and the check requires the definition, from the bracket after its name on, to occur in it exactly as the notebook quotes it (the name itself is written with a Greek letter in the record). Twenty-second PASS line.
+The record of the author's definition is read, and the check requires the definition, from the bracket after its name on, to occur in it exactly as the notebook quotes it in its own section 4 (the name itself is written with a Greek letter in the record). Two strings written one after the other inside brackets are joined into one by Python. Twenty-second PASS line.
 
 ```python
 order_three = [row for row in json.loads(repository_file(
@@ -1173,7 +1185,8 @@ order_three = [row for row in json.loads(repository_file(
     if row["k"] == 3][0]
 report("GKD calls of the order-3 Lovelock sum (record)", order_three["gkdCalls"])
 check(order_three["gkdCalls"] == 495360,
-      "the order-3 Lovelock sum calls GKD 495360 times, as section 4 says",
+      "the order-3 Lovelock sum calls GKD 495360 times, as section 4 of this "
+      "notebook says",
       record=f"{RECORDS}/lovelock-report.json, counters, k = 3, gkdCalls")
 ```
 
@@ -1307,7 +1320,7 @@ $$
 
 the lower list first, as in the author's `kδ[lower, upper]`. The matrix of the exchanged lists, with the entries $\delta(u_i, l_j)$, is the transpose of $M$, and a matrix and its transpose have the same determinant (rule 2 of Section 1.20); so exchanging the two lists does not change the value. The record of the field equations writes them in the other order (`Revision/field_equations_a4/a4-equations.json`, key `conventions`, entry `lovelock`).
 
-**Which orders exist (PROVED).** The delta of order $k$ has $2k + 1$ labels in each list. In eight dimensions ($m = 4$) the sum runs over $k = 1, 2, 3$, and the order $k = 4$, with nine labels, vanishes identically by the pigeonhole principle (Section 11.4; record check `k4_tensor_vanishes`). So there are exactly three Lovelock tensors in eight dimensions. The scalar $L_{(4)}$, with eight labels per list, does not vanish: it is the **Euler density** of eight dimensions, and only its tensor $P_{(4)}$ is zero. For the author's metric the program prints it (Notebook 11b, In [3]):
+**Which orders exist (PROVED).** The delta of order $k$ has $2k + 1$ labels in each list. In eight dimensions ($m = 4$) the sum runs over $k = 1, 2, 3$, and the order $k = 4$, with nine labels, vanishes identically by the pigeonhole principle (Section 11.4; record check `k4_tensor_vanishes`). So there are exactly three Lovelock tensors in eight dimensions. The scalar $L_{(4)}$, with eight labels per list, does not vanish: it is the **Euler density** of eight dimensions, and only its tensor $P_{(4)}$ is zero. The name comes from a classical theorem that this book quotes and does not prove (ASSUMED): in a space of even dimension $n = 2m$ the Lovelock scalar of order $m$ is called the Euler density, because for a **closed** space (finite and without an edge, like the surface of a ball) with a positive-definite metric (every squared length positive, unlike the author's metric) its integral over the whole space, with the volume factor $\sqrt{|\det g|}$, is a constant times the **Euler characteristic**: a whole number that depends only on the shape of the space (2 for the surface of a ball, 0 for the surface of a ring) and does not change when the metric is deformed (the Chern-Gauss-Bonnet theorem). A quantity whose integral does not change when the metric changes gives no field equation; this agrees with $P_{(4)} = 0$, which the pigeonhole principle proved above for every metric. For the author's metric the program prints it (Notebook 11b, In [3]):
 
 $$
 L_{(4)} = -663552\,H^2a_4'^6 - 442368\,H^4a_4'^4 - 663552\,H^6a_4'^2 .
@@ -1543,7 +1556,7 @@ with the eight cubic invariants $T_1 = R^{ab}{}_{cd}R^{cd}{}_{ef}R^{ef}{}_{ab}$,
 
 ### 11.16 Example: the three Lovelock tensors computed twice
 
-Notebook 11b computes the three Lovelock tensors of the author's metric in two independent ways and checks Sections 11.10 to 11.15. It builds and runs the Revision Rust program `lovelock_gkd`, which computes everything exactly from the metric alone, runs its 19 checks and writes four files; the notebook compares the four files with the committed Revision records byte for byte. Then it recomputes the Riemann tensor with sympy and compares all 156 nonzero components with the record; draws the plane curvatures, the whole Riemann tensor and the cancelling mixed terms; recomputes the three tensors and scalars with its own Python GKD sum and its own exact arithmetic, reproduces every counter of the Rust sums and all $3 \times 64$ components; repeats the sums of orders 1 and 2 literally; checks the expansion of Section 11.13, the identities $P_{(1)} = -4G$, $P_{(2)} = -8\mathcal{H}$, the cubic density, the trace identities and $P_{(4)} = 0$; draws the components of $E_{(1)}, E_{(2)}, E_{(3)}$ at one moment of a deflating history; and checks that every check it quotes from the records is there. It needs Rust and takes one and a half to two minutes (99.6 seconds when it was built, 95.6 seconds in its verification run; provenance file `Revision/textbook/notebooks/11b_lovelock_tensors.PROVENANCE.md`). It prints 36 PASS lines, draws five figures and ends with the line ALL 36 CHECKS PASSED (notebook 11b).
+Notebook 11b computes the three Lovelock tensors of the author's metric in two independent ways and checks Sections 11.10 to 11.15. It builds and runs the Revision Rust program `lovelock_gkd`, which computes everything exactly from the metric alone, runs its 19 checks and writes four files; the notebook compares three of the four files with the committed Revision records byte for byte, and the fourth, the report `lovelock-report.json`, apart from its two floating-point numbers (the rounding errors measured by its two brute-force checks, whose last digits may depend on the computer). Then it recomputes the Riemann tensor with sympy and compares all 156 nonzero components with the record; draws the plane curvatures, the whole Riemann tensor and the cancelling mixed terms; recomputes the three tensors and scalars with its own Python GKD sum and its own exact arithmetic, reproduces every counter of the Rust sums and all $3 \times 64$ components; repeats the sums of orders 1 and 2 literally; checks the expansion of Section 11.13, the identities $P_{(1)} = -4G$, $P_{(2)} = -8\mathcal{H}$, the cubic density, the trace identities and $P_{(4)} = 0$; draws the components of $E_{(1)}, E_{(2)}, E_{(3)}$ at one moment of a deflating history; and checks that every check it quotes from the records is there. It needs Rust and takes one and a half to two minutes (99.6 seconds when it was built, 95.6 seconds in its verification run; provenance file `Revision/textbook/notebooks/11b_lovelock_tensors.PROVENANCE.md`). It prints 36 PASS lines, draws five figures and ends with the line ALL 36 CHECKS PASSED (notebook 11b).
 
 <!-- NOTEBOOK 11b -->
 
@@ -2656,7 +2669,7 @@ check(diagonal_ok and list(np.diag(tables[1])) == [4, 4, 4, 33, 2, 2, 2, 3],
 
 The three diagonals are printed: $E_{(1)}$: 4, 4, 4, 33, 2, 2, 2, 3; $E_{(2)}$: 548, 548, 548, $-1476$, 820, 820, 820, 684; $E_{(3)}$: $-14544$ (three times), 40248, $-30240$ (three times), $-22392$. With the Einstein tensor of Section 11.10 and $a_4' = 2H$, $a_4'' = H^2$: $G^{x_1}{}_{x_1} = -12 + 1 + 15 = 4$, $G^{x_4}{}_{x_4} = 12 + 21 = 33$, $G^{x_5}{}_{x_5} = -12 - 1 + 15 = 2$, $G^{x_8}{}_{x_8} = 15 - 12 = 3$, in units of $H^2$, which the check confirms. Thirty-second PASS line.
 
-*What Figure 11b.5 shows.* Three $8 \times 8$ tables in units of $H^2$, $H^4$ and $H^6$, each filled only on its diagonal. In each table the first three diagonal squares are equal (3-space), the squares 5 to 7 are equal (extra times), and the last square (hidden direction) lies exactly halfway between them: $(4 + 2)/2 = 3$, $(548 + 820)/2 = 684$, $(-14544 - 30240)/2 = -22392$. The time square $x_4$ stands apart, with the opposite sign in all three tables. Section 11.21 proves these patterns for every history.
+*What Figure 11b.5 shows.* Three $8 \times 8$ tables in units of $H^2$, $H^4$ and $H^6$, each filled only on its diagonal. In each table the first three diagonal squares are equal (3-space), the squares 5 to 7 are equal (extra times), and the last square (hidden direction) lies exactly halfway between them: $(4 + 2)/2 = 3$, $(548 + 820)/2 = 684$, $(-14544 - 30240)/2 = -22392$. The time square $x_4$ stands apart: in $E_{(1)}$ it is much larger than the others (33 against 2 to 4, all positive); in $E_{(2)}$ and $E_{(3)}$ it has the opposite sign to all the others ($-1476$ against positive entries, $+40248$ against negative ones). Section 11.21 proves these patterns for every history.
 
 **In [24], the quoted records once more.**
 
@@ -2783,7 +2796,7 @@ $$
 
 ### 11.21 Their structure: equal directions, constraint, evolution factor, mean, sign and weight
 
-The components have a clear structure, which Chapter 12 uses at every step. We prove each part by hand from the curvature table of Section 11.10 and from the rule GKD; Notebook 11c confirms every part with exact algebra (In [4]).
+The components have a clear structure, which Chapter 12 uses at every step. We prove each part by hand from the curvature table of Section 11.10 and from the rule GKD; Notebook 11c confirms every part with exact algebra (In [2] for part (a), In [4] for parts (b) to (h)).
 
 **Three tools.** (i) **Relabelling.** If a bijection $\tau$ of the eight labels is applied to every label of both lists of a generalized delta, its matrix does not change, because $\delta(\tau l_i, \tau u_j) = \delta(l_i, u_j)$ ($\tau$ maps equal labels to equal labels and different labels to different labels); so $\delta^{\tau U}_{\tau L} = \delta^U_L$. And because $\tau$ runs through all labels exactly once, a sum over all values of the summed labels is unchanged when every summed label is replaced by its image. (ii) **The label 4 and the acceleration.** Every curvature entry that contains $a_4''$ is a plane entry of a plane $(k, x_4)$, so it carries the label $x_4$ in its upper pair and in its lower pair (Section 11.10). (iii) **The labels 4 and 8 in the mixed entries.** Every mixed entry, such as $R^{x_4k}{}_{x_8k}$ or $R^{x_8k}{}_{x_4k}$, has the label $x_4$ in one of its pairs and $x_8$ in the other; a plane entry has the same two labels in both pairs.
 
@@ -2894,7 +2907,7 @@ $$
 \frac{\partial E^{x_4}{}_{x_4}}{\partial a_4'}\,a_4'' = 3a_4'\,a_4''\,F_k\qquad\Longrightarrow\qquad\frac{\partial E^{x_4}{}_{x_4}}{\partial a_4'} = 3a_4'\,F_k(a_4')
 $$
 
-(identity (I) with Section 11.21 (e); both sides are polynomials that agree for every $a_4''$, so the factors of $a_4''$ agree). For $k = 2$: $\partial(-36a_4'^4 - 120a_4'^2H^2 - 420H^4)/\partial a_4' = -144a_4'^3 - 240a_4'H^2 = 3a_4'\cdot(-48a_4'^2 - 80H^2) = 3a_4'F_2$. The derivative of the constraint is $3a_4'$ times the evolution factor: this is the **constraint propagation** of the record (`a4-equations.json`, key `generalSource`, entry `constraint_propagation`; `python-a4-report.json`, check `bianchi_x4`). Notebook 11c checks (I) exactly for $k = 1, 2, 3$ (In [5]), and (II) both exactly (In [4]) and numerically along a test history (In [9] and In [10]).
+(identity (I) with Section 11.21 (e); both sides are polynomials that agree for every $a_4''$, so the factors of $a_4''$ agree). For $k = 2$: $\partial(-36a_4'^4 - 120a_4'^2H^2 - 420H^4)/\partial a_4' = -144a_4'^3 - 240a_4'H^2 = 3a_4'\cdot(-48a_4'^2 - 80H^2) = 3a_4'F_2$. The derivative of the constraint is $3a_4'$ times the evolution factor: this is the **constraint propagation** of the record (`a4-equations.json`, key `generalSource`, entry `constraint_propagation`; `python-a4-report.json`, check `bianchi_x4`). Notebook 11c checks (I) exactly for $k = 1, 2, 3$ (In [5]), and (II) both exactly (In [4]) and numerically along a test history (In [9]); In [10] checks (I) numerically as well, along the same history.
 
 **What they mean in the field equations (a preview of Chapter 12).** In $\sum_k\alpha_kE_{(k)} + \Lambda\delta = \kappa T$, with $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$, identity (I) becomes the conservation of energy $\rho' = -3a_4'(p_3 - p_t)$ (energy flows between 3-space and the extra times when their pressures differ), and identity (II) becomes the condition $p_3 + p_t = 2p_8$ on the pressures (record `a4-equations.json`, key `generalSource`, entries `conservation_reduced` and `algebraic_condition`; Notebook 11c, In [11], checks that the record states both).
 
@@ -3501,7 +3514,7 @@ The five figure files must exist (nineteenth PASS line), and the last line is AL
 
 **PROVED in this chapter by derivations written out line by line** (each confirmed by a check of a notebook and, where named, of a Revision record):
 
-- **The generalized Kronecker delta** (Sections 11.3 and 11.4): the author's determinant $\det[\delta(l_i, u_j)]$ is 0 when a label repeats in either list or a lower label is missing above, and otherwise the sign of the permutation that carries the lower list into the upper list; so the rule GKD of the Revision program is exactly the author's definition (Notebook 11a, In [2] to In [6]; record `Revision/gkd_lovelock/results/python-lovelock-report.json`, checks `gkd_examples` and `gkd_literal_equals_cofactor_expansion`). The number of nonzero values $8!/(8 - p)!\cdot p!$, half of them $+1$ and half $-1$ for $p \ge 2$, with the counts 8; 56 and 56; 1008 and 1008; 20160 and 20160 for $p = 1$ to 4 (In [6], In [7], In [9]; record `wolfram-gkd-report.json`, entry `gkdComparison`). Every delta with nine or more labels vanishes in eight dimensions (pigeonhole), so $P_{(4)} = 0$ and Lovelock's sum stops at order 3 (In [10]; record `lovelock-report.json`, check `k4_tensor_vanishes`). The rule needs $p(p - 1)/2$ comparisons instead of the $p!$ products of the determinant. The birthday probability $r_p = 8!/((8 - p)!\,8^p)$ of a nonzero rearranged random pair (with the assumed rules of probability).
+- **The generalized Kronecker delta** (Sections 11.3 and 11.4): the author's determinant $\det[\delta(l_i, u_j)]$ is 0 when a label repeats in either list or a lower label is missing above, and otherwise the sign of the permutation that carries the lower list into the upper list; so the rule GKD of the Revision program is exactly the author's definition (Notebook 11a, In [2] to In [6]; records `Revision/gkd_lovelock/results/wolfram-gkd-report.json`, checks `gkd_equals_kdelta_exhaustive_length_1` to `_length_3`, which compare the Rust function GKD with the literal determinant, and `gkd-selftest.json`; the literal determinant itself is checked in `python-lovelock-report.json`, checks `gkd_examples` and `gkd_literal_equals_cofactor_expansion`, the second of which compares it with an independent cofactor expansion). The number of nonzero values $8!/(8 - p)!\cdot p!$, half of them $+1$ and half $-1$ for $p \ge 2$, with the counts 8; 56 and 56; 1008 and 1008; 20160 and 20160 for $p = 1$ to 4 (In [6], In [7], In [9]; record `wolfram-gkd-report.json`, entry `gkdComparison`). Every delta with nine or more labels vanishes in eight dimensions (pigeonhole), so $P_{(4)} = 0$ and Lovelock's sum stops at order 3 (In [10]; record `lovelock-report.json`, check `k4_tensor_vanishes`). The rule needs $p(p - 1)/2$ comparisons instead of the $p!$ products of the determinant. The birthday probability $r_p = 8!/((8 - p)!\,8^p)$ of a nonzero rearranged random pair (with the assumed rules of probability).
 - **The author's second route** (Section 11.5): a determinant identity for the Levi-Civita symbol; raising all labels of the Levi-Civita tensor of a metric gives the factor $\sqrt{|\det g|}/\det g$, so the product of two Levi-Civita tensors is the sign of $\det g$ times the product of two symbols; for the author's metric $\det g = \cos^2z > 0$ (record `python-lovelock-report.json`, check `sqrt_abs_det_g`), the sign is $+1$, and the author's second route gives the generalized delta without an extra sign.
 - **The curvature that the sums use** (Section 11.10): the mixed components $R^{x_4k}{}_{x_8k} = \sigma_kHa_4'\cot z$ carry the sign $\sigma_k = \pm 1$ of inflation or deflation, not of the space-like or time-like character, and $R^{x_4}{}_{x_8} = 0$ because three inflating and three deflating directions cancel; every nonzero $R^{ab}{}_{cd}$ has the weight 2.
 - **Laplace's rule** for determinants of every size, and **the expansion of every Lovelock tensor** along the column of its free upper label, $P_{(k)} = \delta\,L_{(k)} - 2k\,Y_{(k)}$ (Section 11.13; Notebook 11b, In [21]).
@@ -3512,7 +3525,7 @@ The five figure files must exist (nineteenth PASS line), and the last line is AL
 
 **PROVED by exact computation** (no rounding; by the Revision's programs, recomputed by the notebooks):
 
-- GKD equals the author's determinant for every one of the 266,304 pairs of lengths 1 to 3 (Notebook 11a, In [6]; the sympy report, check `gkd_literal_equals_cofactor_expansion`; the Wolfram report, checks `gkd_equals_kdelta_exhaustive_length_1` to `_length_3`) and for every one of the 16,777,216 pairs of length 4 (the Rust self-test, rerun in Notebook 11a, In [14], which writes the record `gkd-selftest.json` again byte for byte).
+- GKD equals the author's determinant for every one of the 266,304 pairs of lengths 1 to 3 (Notebook 11a, In [6]; the Wolfram report, checks `gkd_equals_kdelta_exhaustive_length_1` to `_length_3`, and the Rust self-test record `gkd-selftest.json`, whose exhaustive part also covers these lengths; on the same pairs the sympy report's check `gkd_literal_equals_cofactor_expansion` confirms the determinant side: the literal determinant equals an independent cofactor expansion) and for every one of the 16,777,216 pairs of length 4 (the Rust self-test, rerun in Notebook 11a, In [14], which writes the record `gkd-selftest.json` again byte for byte).
 - The 25 nonzero Christoffel symbols, the 156 nonzero components $R^{ab}{}_{cd}$ and the Ricci scalar $R = 6a_4'^2 - 42H^2$ (Notebook 11b, In [6] to In [8]; records `curvature.json` and `python-lovelock-report.json`, check `rust_riemann_agrees`).
 - All $3 \times 64$ components of $P_{(1)}, P_{(2)}, P_{(3)}$ and the scalars $L_{(1)}, L_{(2)}, L_{(3)}$, computed by the Rust program and again by the notebook's own GKD sum (Notebook 11b, In [3], In [4], In [14], In [15]; record `lovelock-tensors.json`, written again byte for byte; `python-lovelock-report.json`, checks `rust_k1_mixed_components_agree` to `rust_k3_mixed_components_agree` and `rust_L1_agrees` to `rust_L3_agrees`); the counters of the sums, 696, 32,640 and 495,360 GKD calls (In [14]; record `lovelock-report.json`, field `counters`); the literal sums of orders 1 and 2 without any skipping, with 10,140 and 1,581,840 GKD calls (In [16]; checks `k1_unpruned_literal_sum_agrees` and `k2_unpruned_literal_sum_agrees`); the cubic identity $L_{(3)} = 8(2T_1 + 8T_2 + \dots + T_8)$ for the author's metric (In [20]; check `L3_equals_8_cubic_lovelock_density`); zero divergence and symmetry of all three tensors (record `lovelock-report.json`, checks `k1_divergence_free` to `k3_symmetric`); the 19 checks of the Rust program, the 49 of the sympy verification and the 29 of the Wolfram verification, none failed (In [3] and In [24]).
 - The components $E_{(1)}, E_{(2)}, E_{(3)}$ of Section 11.20 equal those recorded for the field equations of $a_4$ (Notebook 11c, In [3]; `Revision/field_equations_a4/reports/python-a4-report.json`, check `json_lovelock_components`).
@@ -3529,6 +3542,7 @@ The five figure files must exist (nineteenth PASS line), and the last line is AL
 
 - The author's metric, as given in the Revision record, and the curvature convention of Misner, Thorne and Wheeler (Chapter 3).
 - Lovelock's theorem in general: for every metric the tensors $P_{(k)}$ are divergence-free and symmetric, and they are the only such tensors built from the metric and its first and second derivatives (D. Lovelock, J. Math. Phys. 12, 498 (1971)). For the author's metric divergence and symmetry are not assumed but PROVED by exact computation.
+- The Chern-Gauss-Bonnet theorem (a classical result), quoted in Section 11.11 only to explain the name Euler density of $L_{(4)}$; nothing in this chapter depends on it, and $P_{(4)} = 0$ is proved there by the pigeonhole principle.
 - The general formula of the cubic Lovelock density (a classical result): the record derived its coefficients from literal sums on random curvature tensors, and checked the identity exactly for the author's metric; we do not derive it by hand.
 - The tensor rule for a change of coordinates (Section 3.14), used for the time reversal and the relabelling; the rules of determinants of Section 1.20 (rule 1 for matrices larger than $2 \times 2$ is a standard theorem); that two polynomials that agree for all values of their variables have the same coefficients; the rules of probability used for the random tests (independent chances multiply; the expectation and the standard deviation of a count).
 
@@ -3608,7 +3622,7 @@ $$
 
 **Exercise 9.** Show that $L_{(3)}$ has exactly one positive zero on the linear history, and locate it between two decimals.
 
-*Answer.* With $u = A^2$ and $H = 1$, $L_{(3)} = 1152u^3 + 31104u^2 + 100224u - 40320 = 1152\,f(u)$ with $f(u) = u^3 + 27u^2 + 87u - 35$ (divide by 1152: $31104/1152 = 27$, $100224/1152 = 87$, $40320/1152 = 35$). For $u > 0$ the derivative $f'(u) = 3u^2 + 54u + 87$ is positive, so $f$ increases; $f(0) = -35 < 0$ and $f(1) = 1 + 27 + 87 - 35 = 80 > 0$, so $f$ has exactly one zero for $u > 0$, between 0 and 1. Further, $f(0.3612) = 0.04712 + 3.52255 + 31.42440 - 35 = -0.0059$ and $f(0.3613) = 0.04716 + 3.52450 + 31.43310 - 35 = +0.0048$, so the zero lies between $u = 0.3612$ and $0.3613$, and $A = \sqrt u$ between 0.60100 and 0.60108, in agreement with $A = 0.6010$ of Notebook 11c (In [7]).
+*Answer.* With $u = A^2$ and $H = 1$, $L_{(3)} = 1152u^3 + 31104u^2 + 100224u - 40320 = 1152\,f(u)$ with $f(u) = u^3 + 27u^2 + 87u - 35$ (divide by 1152: $31104/1152 = 27$, $100224/1152 = 87$, $40320/1152 = 35$). For $u > 0$ the derivative $f'(u) = 3u^2 + 54u + 87$ is positive, so $f$ increases; $f(0) = -35 < 0$ and $f(1) = 1 + 27 + 87 - 35 = 80 > 0$, so $f$ has exactly one zero for $u > 0$, between 0 and 1. Further, $f(0.3612) = 0.04712 + 3.52257 + 31.42440 - 35 = -0.0059$ and $f(0.3613) = 0.04716 + 3.52452 + 31.43310 - 35 = +0.0048$, so the zero lies between $u = 0.3612$ and $0.3613$, and $A = \sqrt u$ between $\sqrt{0.3612} \approx 0.60100$ and $\sqrt{0.3613} \approx 0.60108$, in agreement with $A = 0.6010$ of Notebook 11c (In [7]).
 
 **Exercise 10.** (a) In two dimensions with the metric $g = \mathrm{diag}(1, -1)$ (one space-like, one time-like direction), compute $\varepsilon_{12}\varepsilon^{12}$ with the rule of Section 11.5. (b) The same with $g = \mathrm{diag}(-1, -1)$. (c) What decides the sign, and what is it for the author's metric?
 

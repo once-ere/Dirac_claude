@@ -682,8 +682,9 @@ CELLS = [
                 "directions (red) give $+H a_4^{\\prime} \\cot z$ each, the three extra "
                 "times (blue) $-H a_4^{\\prime} \\cot z$ each, and the time direction "
                 "itself (grey) gives 0. Three inflating and three deflating directions "
-                "cancel exactly, so Einstein's tensor and, as section 8 shows, all three "
-                "Lovelock tensors have no $x_4$-$x_8$ component.")
+                "cancel exactly, so Einstein's tensor and, as section 8 of this "
+                "notebook shows, all three Lovelock tensors have no $x_4$-$x_8$ "
+                "component.")
     check(total == 0 and sp.expand(mixing[0] - H * A1 * C) == 0,
           "the seven terms of R^x4_x8 are +H a4' cot z (three times), -H a4' cot z (three "
           "times) and 0, and cancel exactly")

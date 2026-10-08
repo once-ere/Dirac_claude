@@ -44,7 +44,7 @@ FACTS = {
         "equal-label solution "
         "and the Hellmann-Feynman theorem, compares the result with the Hartree and the "
         "Thomas-Fermi approximations, computes the first excited state by Delta-SCF and "
-        "checks Janak's theorem, and draws nine teaching plots."
+        "checks Janak's theorem, and draws ten teaching plots."
     ),
     "records": [
         ["Revision/kohn_sham/results/parameters.json",
@@ -91,8 +91,9 @@ CELLS = [
       mixing with exactly the settings that the Revision Kohn-Sham solver of the
       dirac16complex field uses (read from its parameter file);
     - checks the particle number, computes the total energy in two different ways and
-      checks that they agree, and checks that the solution with equal up and down
-      densities is stable;
+      checks that they agree, and tests with the energy whether the solution with equal
+      up and down densities is stable (a converged loop alone cannot tell a minimum from
+      a saddle, as two sites show);
     - shows the variational principle at work: every other set of orbitals of a family
       gives a higher energy;
     - compares the Kohn-Sham density with three simpler pictures: no interaction, the
@@ -101,7 +102,7 @@ CELLS = [
     - switches the interaction on step by step and checks the Hellmann-Feynman theorem;
     - computes the first excited state by the Delta-SCF method and checks Janak's
       theorem;
-    - draws nine teaching plots.
+    - draws ten teaching plots.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -1137,7 +1138,10 @@ CELLS = [
       $10^{-11}$) is the fastest without any tuning.
     - The direct energy and the double-counting formula agree; $E_x = -E_H/2$ for two
       equally occupied labels; the mean-field potential $g_c n/2$ is the functional
-      derivative of $E_H + E_x$; the equal-label solution is stable at $g_c = 2$.
+      derivative of $E_H + E_x$. A converged two-label loop cannot tell a minimum
+      from a saddle (on two sites with $U = 4t$ it converges to a saddle); the energy
+      test shows that at $g_c = 2$ the equal-label solution in the trap is a minimum
+      along three families of label-separating changes.
     - Among a family of trial determinants the self-consistent one has the lowest
       energy, and the energy is flat there (variational principle); the derivative of
       the energy with respect to $g_c$ is $\tfrac14\int n^2\,dx$ (Hellmann-Feynman).
