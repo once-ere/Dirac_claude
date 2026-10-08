@@ -704,8 +704,9 @@ CELLS = [
 
     The radius $\sqrt{x^2 + v^2} = \sqrt{2E}$ of the midpoint method grows only to
     $\sqrt{1.0004^{50}} = 1.010$ in 50 steps, too little to be seen on the whole
-    circle. The right panel therefore zooms in on the last steps, where crosses mark
-    the exact solution at the same times. There a second error shows: each step
+    circle. The right panel therefore zooms in on the last three points, at
+    $t = 9.6$, $9.8$ and $10$, where crosses mark the exact solution at the same
+    times. There a second error shows: each step
     turns the point by a slightly wrong angle. With $w = x + i v$, one step
     multiplies $w$ by $R(-ih)$, whose angle is $-\arg R(ih)$ (the angle of a complex
     number is called its *argument*, $\arg$), while the exact factor $e^{-ih}$ turns
@@ -730,9 +731,9 @@ CELLS = [
         whole.plot(portraits[name][:, 0], portraits[name][:, 1], color=COLORS[name],
                    marker=MARKERS[name], ms=3, lw=0.9,
                    label=f"{LABELS[name]}, $h = 0.2$, 50 steps")
-    for name in ("midpoint", "rk4"):  # right panel: Euler is far outside this window
-        zoom.plot(portraits[name][:, 0], portraits[name][:, 1], color=COLORS[name],
-                  marker=MARKERS[name], ms=7, lw=0.9, label=LABELS[name])
+    for name in ("midpoint", "rk4"):  # right panel: the last three points only
+        zoom.plot(portraits[name][48:, 0], portraits[name][48:, 1], ls="none",
+                  color=COLORS[name], marker=MARKERS[name], ms=8, label=LABELS[name])
     for ax in (whole, zoom):  # the exact circle, dashed, drawn on top (zorder 5)
         ax.plot(np.cos(angle), -np.sin(angle), "--", color=COLORS["exact"], lw=0.9,
                 zorder=5, label="exact circle $x^2 + v^2 = 1$")
@@ -740,14 +741,14 @@ CELLS = [
         ax.set_xlabel("position $x$")
         ax.set_ylabel("velocity $v$")
     whole.plot([1.0], [0.0], "o", color=COLORS["exact"], ms=6, zorder=6)  # the start
-    zoom.plot(np.cos(t_n), -np.sin(t_n), "x", color=COLORS["exact"], ms=8, zorder=6,
-              label="exact solution at $t = 0.2\\, n$")
-    zoom.set_xlim(-1.06, -0.66)  # a window round the last two steps, t = 9.8 and 10
-    zoom.set_ylim(0.26, 0.66)
+    zoom.plot(np.cos(t_n[48:]), -np.sin(t_n[48:]), "x", color=COLORS["exact"], ms=9,
+              zorder=6, label="exact solution, same times")
+    zoom.set_xlim(-1.12, -0.74)  # a window round the points at t = 9.6, 9.8 and 10
+    zoom.set_ylim(0.12, 0.66)
     whole.set_title("Phase portrait of $d^2x/dt^2 = -x$ up to $t = 10$")
-    zoom.set_title("Zoom on the last two steps")
+    zoom.set_title("Zoom: the points at $t = 9.6$, $9.8$, $10$")
     whole.legend(loc="lower left", fontsize=8)
-    zoom.legend(loc="lower right", fontsize=8)
+    zoom.legend(loc="upper left", fontsize=8)
     save_figure(fig, "phase_portrait",
                 "Phase portrait of the oscillator $d^2x/dt^2 = -x$ started at $x = 1$, "
                 "$v = 0$ (black dot): the velocity $v$ against the position $x$ "
@@ -756,9 +757,10 @@ CELLS = [
                 "Left: Euler (squares) spirals outwards, because every step "
                 "multiplies the energy by $1 + h^2$; the midpoint method (triangles) "
                 "and RK4 (circles) stay close to the circle. Right: a zoom on the "
-                "last two steps; the crosses are the exact solution at the same "
-                "times. RK4 sits on them; the midpoint method has run ahead along "
-                "the circle and lies slightly outside it (radius 1.010).")
+                "last three points, at $t = 9.6$, $9.8$ and $10$; the crosses are "
+                "the exact solution at these times. RK4 sits on them; the midpoint "
+                "method has run ahead along the circle (by 0.066 rad at $t = 10$) "
+                "and lies slightly outside it (radius 1.010).")
     for name in METHODS:
         energy = 0.5 * (portraits[name][:, 0] ** 2 + portraits[name][:, 1] ** 2)
         factor = float(ENERGY_FACTOR[name].subs(hs, sp.Rational(1, 5)))  # at h = 0.2

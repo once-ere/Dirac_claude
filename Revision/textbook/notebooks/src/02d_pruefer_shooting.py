@@ -81,9 +81,19 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 8 figure files of notebook 02d exist",
-        "ALL 17 CHECKS PASSED (notebook 02d)",
+        "ALL 19 CHECKS PASSED (notebook 02d)",
     ],
-    "troubleshooting": [],
+    "troubleshooting": [
+        ["\"Jupyter command `jupyter-nbconvert` not found\" after typing `python -m "
+         "jupyter nbconvert` (the folder that holds the Jupyter programs is not on the "
+         "search path of the computer)",
+         "start the two programs as Python modules instead. With the environment "
+         "active, in the folder Revision/textbook/notebooks, type the first line "
+         "below to run the notebook headless, or the second line to open it in "
+         "JupyterLab",
+         ["python -m nbconvert --execute --inplace 02d_pruefer_shooting.ipynb",
+          "python -m jupyterlab 02d_pruefer_shooting.ipynb"]],
+    ],
 }
 
 CELLS = [

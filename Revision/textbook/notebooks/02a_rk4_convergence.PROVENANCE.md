@@ -325,7 +325,7 @@ The notebook shows 8 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/02a_3_convergence_loglog.png` (950 x 707 pixels): The error at the end time $t = 1$ of problem A, $y' = -y$, for the Euler method (squares), the midpoint method (triangles) and RK4 (circles), against the step size $h$ from $1/2$ down to $1/4096$, on logarithmic axes (each tick a power of ten; time in arbitrary units, the error a pure number). The dashed grey lines have the slopes 1, 2 and 4. The points lie on straight lines parallel to them: the error is $C h^p$ with the orders $p = 1, 2, 4$. The RK4 points bend away at the bottom left, where rounding errors take over.
 - `Revision/textbook/figures/02a_4_error_ratios.png` (933 x 617 pixels): The factor by which the error of problem A at $t = 1$ shrinks when the step is halved, against the number of steps $N$ of the finer run (logarithmic horizontal axis; the ratio is a pure number). The ratios approach 2 for Euler (squares), 4 for the midpoint method (triangles) and 16 for RK4 (circles), the values $2^p$ for the orders $p = 1, 2, 4$ (dashed grey lines). RK4 is drawn only up to $N = 512$; beyond, its error is rounding noise.
 - `Revision/textbook/figures/02a_5_rounding_floor.png` (950 x 615 pixels): The error of RK4 for problem A at $t = 1$ against the step size $h$ from $1/2$ to $1/262144$, on logarithmic axes (time in arbitrary units, the error a pure number). Circles: measured. Dashed grey: the truncation error $C h^4$. Dotted black: the pessimistic bound $N \epsilon\, e^{-1}$, reached only if all $N$ rounding errors of relative size $\epsilon = 2^{-52}$ had their largest size and the same sign. Coming from the right, the error falls with slope 4 down to about $10^{-16}$; for smaller steps it grows again, but slowly and hundreds to thousands of times below the dotted bound, because the rounding errors partly cancel.
-- `Revision/textbook/figures/02a_6_phase_portrait.png` (1287 x 654 pixels): Phase portrait of the oscillator $d^2x/dt^2 = -x$ started at $x = 1$, $v = 0$ (black dot): the velocity $v$ against the position $x$ (arbitrary units), computed with the step $h = 0.2$ up to $t = 10$. The exact solution runs clockwise round the dashed unit circle. Left: Euler (squares) spirals outwards, because every step multiplies the energy by $1 + h^2$; the midpoint method (triangles) and RK4 (circles) stay close to the circle. Right: a zoom on the last two steps; the crosses are the exact solution at the same times. RK4 sits on them; the midpoint method has run ahead along the circle and lies slightly outside it (radius 1.010).
+- `Revision/textbook/figures/02a_6_phase_portrait.png` (1242 x 726 pixels): Phase portrait of the oscillator $d^2x/dt^2 = -x$ started at $x = 1$, $v = 0$ (black dot): the velocity $v$ against the position $x$ (arbitrary units), computed with the step $h = 0.2$ up to $t = 10$. The exact solution runs clockwise round the dashed unit circle. Left: Euler (squares) spirals outwards, because every step multiplies the energy by $1 + h^2$; the midpoint method (triangles) and RK4 (circles) stay close to the circle. Right: a zoom on the last three points, at $t = 9.6$, $9.8$ and $10$; the crosses are the exact solution at these times. RK4 sits on them; the midpoint method has run ahead along the circle (by 0.066 rad at $t = 10$) and lies slightly outside it (radius 1.010).
 - `Revision/textbook/figures/02a_7_energy_drift.png` (936 x 611 pixels): The relative error of the oscillator energy, $|E_n/E_0 - 1|$, on a logarithmic vertical axis, against the time $t$ from 0 to 100 (arbitrary units), for the step $h = 0.2$ (500 steps). Euler: the energy grows by the factor $1.04$ per step and is $3 \times 10^{8}$ times too large at the end. Midpoint: it grows by the factor $1.0004$ per step (22 percent after 500 steps). RK4: it shrinks by the fraction $8.8 \times 10^{-7}$ per step, a relative error below $5 \times 10^{-4}$ at the end. The Euler line is straight (the same factor at every step); the other two curves bend over, because their small errors grow in proportion to the number of steps.
 - `Revision/textbook/figures/02a_8_richardson.png` (830 x 754 pixels): Richardson's error estimate $(Y_h - Y_{h/2})/15$ of RK4 for problem A at $t = 1$ (vertical axis) against the true error of the finer run (horizontal axis), both pure numbers on logarithmic axes; each point is labelled with the number of steps $N$ of the coarse run, the finer run has $2N$. The points lie on the dashed diagonal: the estimate, made without knowing the exact answer, is the error itself to within 10 percent once the coarse run has $N \geq 8$ steps.
 
@@ -337,13 +337,13 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/02a.captions.json` | 4761 | `ae77ab823c0840a4ecec9fb89b299bd4d33550b5379b151e546c94c67b0bac3c` |
+| `Revision/textbook/figures/02a.captions.json` | 4818 | `8ac63c62bce1a0dc0e0d78eec3f1c99e461ca113ca7fe3095e3de35517ec509e` |
 | `Revision/textbook/figures/02a_1_scale_factors.png` | 91837 | `b947de90de181ff9dbda2105e0b920430cd8efe13ff40e2a8a5ca076f72eea6a` |
 | `Revision/textbook/figures/02a_2_scale_factor_product.png` | 87514 | `50b3851efc03e5328f85a06d0e4825a9acad04c72e75d2f8fdf3fb4ee333868b` |
 | `Revision/textbook/figures/02a_3_convergence_loglog.png` | 87128 | `e4afea4faa33c5e62c3115049aa5864f03892fd1c0ffe08173a2afe7711a1d74` |
 | `Revision/textbook/figures/02a_4_error_ratios.png` | 52106 | `14a09749bcf5e87a3ad7d79f2608ee291942ed54215c88c4822b9cc69154db6e` |
 | `Revision/textbook/figures/02a_5_rounding_floor.png` | 67172 | `9f17877c9367027440249281d71bba1a766b54af4232dc6dab1890b51e22464c` |
-| `Revision/textbook/figures/02a_6_phase_portrait.png` | 130435 | `fbcf25d49ba545f9b72c36b938ad1d2d476285beb9904a1767871561645daf8f` |
+| `Revision/textbook/figures/02a_6_phase_portrait.png` | 111220 | `cfe64739805e65e4b70b40947a663f54443cf8c2d423cbffeda16adf1479e624` |
 | `Revision/textbook/figures/02a_7_energy_drift.png` | 52262 | `759b295a7865bc7b33b9eac37e0a8dc0f23f3bf1a430299c01ffc3855b2ff0fa` |
 | `Revision/textbook/figures/02a_8_richardson.png` | 58044 | `b2f4450931615314f39e45e05a64f6d4aba215963138da5401436544e0295069` |
 
@@ -368,8 +368,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.2 s, peak memory of the kernel process 212 MiB;
-- the check run: 4.5 s, peak memory of the kernel process 215 MiB.
+- the build run: 5.5 s, peak memory of the kernel process 213 MiB;
+- the check run: 4.8 s, peak memory of the kernel process 212 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -381,15 +381,15 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/02a_rk4_convergence.ipynb`: `7282ec2d34faa4b4ee012b8e32699da3af83d016707243f0ec77ef0be08fb403`
-- `Revision/textbook/notebooks/src/02a_rk4_convergence.py`: `ba7f9aa3b759ecef159b22a299cf976e36c05c015054cf27a4255f0db6e0a099`
-- `Revision/textbook/figures/02a.captions.json`: `ae77ab823c0840a4ecec9fb89b299bd4d33550b5379b151e546c94c67b0bac3c`
+- `Revision/textbook/notebooks/02a_rk4_convergence.ipynb`: `bc5a2fe15a951b9de79722cf1f383e268905ed0351fcbbfe412204c1e5b5c510`
+- `Revision/textbook/notebooks/src/02a_rk4_convergence.py`: `09fe7dee549eab3c6baf878c9d546549a7763f93f8fbe6fc1e6981bfa19422e0`
+- `Revision/textbook/figures/02a.captions.json`: `8ac63c62bce1a0dc0e0d78eec3f1c99e461ca113ca7fe3095e3de35517ec509e`
 - `Revision/textbook/figures/02a_1_scale_factors.png`: `b947de90de181ff9dbda2105e0b920430cd8efe13ff40e2a8a5ca076f72eea6a`
 - `Revision/textbook/figures/02a_2_scale_factor_product.png`: `50b3851efc03e5328f85a06d0e4825a9acad04c72e75d2f8fdf3fb4ee333868b`
 - `Revision/textbook/figures/02a_3_convergence_loglog.png`: `e4afea4faa33c5e62c3115049aa5864f03892fd1c0ffe08173a2afe7711a1d74`
 - `Revision/textbook/figures/02a_4_error_ratios.png`: `14a09749bcf5e87a3ad7d79f2608ee291942ed54215c88c4822b9cc69154db6e`
 - `Revision/textbook/figures/02a_5_rounding_floor.png`: `9f17877c9367027440249281d71bba1a766b54af4232dc6dab1890b51e22464c`
-- `Revision/textbook/figures/02a_6_phase_portrait.png`: `fbcf25d49ba545f9b72c36b938ad1d2d476285beb9904a1767871561645daf8f`
+- `Revision/textbook/figures/02a_6_phase_portrait.png`: `cfe64739805e65e4b70b40947a663f54443cf8c2d423cbffeda16adf1479e624`
 - `Revision/textbook/figures/02a_7_energy_drift.png`: `759b295a7865bc7b33b9eac37e0a8dc0f23f3bf1a430299c01ffc3855b2ff0fa`
 - `Revision/textbook/figures/02a_8_richardson.png`: `b2f4450931615314f39e45e05a64f6d4aba215963138da5401436544e0295069`
 
@@ -399,4 +399,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":212.0,"seconds":5.2},"check":{"date":"2026-10-08","files":9,"peak_mb":215.0,"result":"passed","seconds":4.5},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":213.0,"seconds":5.5},"check":{"date":"2026-10-08","files":9,"peak_mb":212.0,"result":"passed","seconds":4.8},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

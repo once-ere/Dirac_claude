@@ -67,9 +67,19 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 6 figure files of notebook 02c exist",
-        "ALL 16 CHECKS PASSED (notebook 02c)",
+        "ALL 17 CHECKS PASSED (notebook 02c)",
     ],
-    "troubleshooting": [],
+    "troubleshooting": [
+        ["\"Jupyter command `jupyter-nbconvert` not found\" after typing `python -m "
+         "jupyter nbconvert` (the folder that holds the Jupyter programs is not on the "
+         "search path of the computer)",
+         "start the two programs as Python modules instead. With the environment "
+         "active, in the folder Revision/textbook/notebooks, type the first line "
+         "below to run the notebook headless, or the second line to open it in "
+         "JupyterLab",
+         ["python -m nbconvert --execute --inplace 02c_partial_derivatives.ipynb",
+          "python -m jupyterlab 02c_partial_derivatives.ipynb"]],
+    ],
 }
 
 CELLS = [
@@ -283,6 +293,16 @@ CELLS = [
     report("change of f along the level curve for a step of 1e-4", f"{change:.2e}")
     check(abs(gx * tangent[0] + gy * tangent[1]) < 1e-15 and abs(change) < 1e-7,
           "the gradient is perpendicular to the level curve")
+
+    length = math.hypot(gx, gy)  # the length |grad f| of the gradient arrow
+    rise = F(X0 + step * gx / length, Y0 + step * gy / length) - F(X0, Y0)
+    report("rise of f per unit length along the gradient, |grad f|",
+           f"{rise / step:.6f}, {length:.6f}")
+    gxq, gyq = FX(xq, yq), FY(xq, yq)  # the arrows of the figure
+    lengths = np.hypot(gxq, gyq)
+    rises = F(xq + step * gxq / lengths, yq + step * gyq / lengths) - F(xq, yq)
+    check(abs(rise / step / length - 1) < 1e-3 and np.all(rises > 0),
+          "the gradient points uphill: f rises at the rate |grad f| along it")
     '''),
     md(r"""
     The second figure shows what a partial derivative IS: the slope of a slice. On

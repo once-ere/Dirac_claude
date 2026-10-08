@@ -12,10 +12,14 @@ by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/04b_square_roots.py
 
 Sources (Revision records): Revision/algebra/gammas.json (the author's gammas in the order
-x1..x8) and Revision/theory/reports/python-field-theory.json (checks
-mode_hamiltonian_B_selfadjoint_dispersion and good_sector_spectrum_and_B_sectors: the
-plane-wave relation h^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16 and
-its exact example m = 2, k = (1, 2, 0, k8 = 4), E = +-5).
+x1..x8, and the matrix B), Revision/theory/reports/python-field-theory.json (checks
+mode_hamiltonian_B_selfadjoint_dispersion, good_sector_spectrum_and_B_sectors and
+extra_time_modes_grow: the plane-wave relation
+h^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16, the full-space spectrum
+"8 each", the exact example m = 2, k = (1, 2, 0, k8 = 4) with E = +5 and -5 four times
+each in the sector B = +1, and the example m = 1, k5 = 2) and
+Revision/theory/reports/python-scope.json (check extra_time_growth_rates_unbounded). The
+notebook asserts the words of these records, so a changed record fails the check.
 """
 
 import sys
@@ -40,16 +44,20 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's eight gamma matrices in the order x1 to x8 (read)"],
+         "the author's eight gamma matrices in the order x1 to x8, and the matrix B "
+         "(read; B is rebuilt from the gammas and compared)"],
         ["Revision/theory/reports/python-field-theory.json",
          "checks mode_hamiltonian_B_selfadjoint_dispersion (the formula for h squared), "
-         "good_sector_spectrum_and_B_sectors (its exact example with energies plus "
-         "and minus 5, eight each) and extra_time_modes_grow (the exact example with "
-         "mass 1 and extra-time momentum 2, energies plus and minus i times the square "
-         "root of 3), reproduced"],
+         "good_sector_spectrum_and_B_sectors (h is Hermitian with energies plus and "
+         "minus 5, eight each, on all 16 components; B commutes with h; the exact "
+         "example in the sector B = +1, energies plus and minus 5, four each) and "
+         "extra_time_modes_grow (the exact example with mass 1 and extra-time "
+         "momentum 2, energies plus and minus i times the square root of 3), "
+         "reproduced, with their words asserted"],
         ["Revision/theory/reports/python-scope.json",
-         "check extra_time_growth_rates_unbounded (the growth rate of a wave with "
-         "momentum along an extra time), reproduced"],
+         "check extra_time_growth_rates_unbounded (the formula for h squared and the "
+         "growth rate of a wave with momentum along an extra time), reproduced, with "
+         "its words asserted"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -66,7 +74,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all six figure files exist",
-        "ALL 17 CHECKS PASSED (notebook 04b)",
+        "ALL 19 CHECKS PASSED (notebook 04b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for `Revision/algebra/gammas.json` or "
@@ -826,7 +834,8 @@ CELLS = [
     scope_detail = scope_entry.get("detail", "") if scope_passed else ""
     K = sp.symbols("K", positive=True)  # a momentum K along the extra time x5
     rate = sp.sqrt(-dispersion.subs({k[4]: K, k[5]: 0, k[6]: 0}))  # Im E if E^2 < 0
-    say(f"h^2 = ({dispersion}) I16; growth rate for k5 = K: Im E = {rate}")
+    say(f"h^2 = ({dispersion}) I16")
+    say(f"growth rate for k5 = K: Im E = {rate}")
     scope_ok = (f"h_k^2 = ({dispersion}) I16" in scope_detail
                 and f"Im E = {rate}" in scope_detail
                 and "no upper bound" in scope_detail)  # the record's words

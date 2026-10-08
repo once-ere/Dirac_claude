@@ -61,9 +61,19 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 8 figure files of notebook 02b exist",
-        "ALL 15 CHECKS PASSED (notebook 02b)",
+        "ALL 16 CHECKS PASSED (notebook 02b)",
     ],
-    "troubleshooting": [],
+    "troubleshooting": [
+        ["\"Jupyter command `jupyter-nbconvert` not found\" after typing `python -m "
+         "jupyter nbconvert` (the folder that holds the Jupyter programs is not on the "
+         "search path of the computer)",
+         "start the two programs as Python modules instead. With the environment "
+         "active, in the folder Revision/textbook/notebooks, type the first line "
+         "below to run the notebook headless, or the second line to open it in "
+         "JupyterLab",
+         ["python -m nbconvert --execute --inplace 02b_shooting_quantum_well.ipynb",
+          "python -m jupyterlab 02b_shooting_quantum_well.ipynb"]],
+    ],
 }
 
 CELLS = [
@@ -181,7 +191,10 @@ CELLS = [
 
     These equations have no formula for $z$, but mpmath solves them to any number
     of digits. The well has one bound state for each interval of length $\pi/2$
-    that $z$ can use, $\lceil z_0/(\pi/2) \rceil = \lceil 3.49 \rceil = 4$ states.
+    that begins below $z_0$. The intervals begin at $0$, $\pi/2 = 1.571$,
+    $\pi = 3.142$, $3\pi/2 = 4.712$, $2\pi = 6.283$, ...; with $z_0 = 5.477$
+    (so $z_0/(\pi/2) = 3.49$) the first four begin below $z_0$ and the fifth does
+    not, so the well has 4 bound states.
 
     **The connection to this book.** The Kohn-Sham equations of the book are solved
     in the same way: two first-order equations in the hidden coordinate are shot
@@ -656,6 +669,10 @@ CELLS = [
     left and the right half cancel and its integral is exactly zero; for two states
     of the same parity the cell computes the integral (twice the left half: Simpson
     inside, the exact tail $u_m(-a) u_n(-a)/(\kappa_m + \kappa_n)$ outside).
+    Finally the cell tests the cancellation for the four pairs of different parity
+    numerically: it integrates $u_m u_n$ with Simpson's rule over the whole drawn
+    range $-3 \le x \le 3$, and over the left half $-3 \le x \le 0$ alone. The
+    whole integral must vanish, although the half does not.
     """),
     code(r'''
     def simpson(values, h):
@@ -733,6 +750,18 @@ CELLS = [
            f"{np.max(np.abs(gram - np.eye(4))):.1e}")
     check(np.max(np.abs(gram - np.eye(4))) < 1e-8,
           "the wave functions are normalised and orthogonal within 1e-8")
+
+    middle = len(STATES[0][0]) // 2  # the position of x = 0 in the grid -3 ... 3
+    whole_line, left_half = [], []
+    for m, n in [(0, 1), (0, 3), (1, 2), (2, 3)]:  # the pairs of different parity
+        product = STATES[m][1] * STATES[n][1]  # u_m u_n on the grid
+        h_grid = STATES[m][4]  # the grid spacing a/200
+        whole_line.append(abs(simpson(product, h_grid)))  # from x = -3 to x = 3
+        left_half.append(abs(simpson(product[:middle + 1], h_grid)))  # -3 to 0
+    report("different parity: largest |integral over -3 ... 3|, smallest |left half|",
+           f"{max(whole_line):.1e}, {min(left_half):.2f}")
+    check(max(whole_line) < 1e-12 < 0.01 < min(left_half),
+          "different parity: the two halves cancel, the whole integral is 0")
     '''),
     md(r"""
     ## 12. The order of the computed energies

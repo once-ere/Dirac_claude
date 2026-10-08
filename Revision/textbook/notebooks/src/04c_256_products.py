@@ -845,7 +845,8 @@ CELLS = [
     md(r"""
     The next cell draws the 28 products as a triangular table of heat maps: the panel
     in row $x_a$ and column $x_b$ shows $\gamma^a\gamma^b$ (rows $x_1$ to $x_7$, columns
-    $x_2$ to $x_8$; the panels on and below the diagonal stay empty). A black frame
+    $x_2$ to $x_8$; the panels on the diagonal of the grid show $x_1x_2, x_2x_3, \dots,
+    x_7x_8$, and the panels below it stay empty). A black frame
     marks a rotation plane (square $-I_{16}$), a green frame a boost plane (square
     $+I_{16}$).
     """),
@@ -858,7 +859,7 @@ CELLS = [
         ax = axes[r, c_]
         a, b = r, c_ + 1  # row: first factor x_(a+1); column: second factor x_(b+1)
         if b <= a:
-            ax.axis("off")  # no panel on or below the diagonal
+            ax.axis("off")  # no panel below the diagonal of the grid (c_ < r)
             continue
         ax.imshow(two[(a, b)], cmap=three, norm=three_norm)
         ax.set_xticks([])

@@ -214,9 +214,10 @@ CELLS = [
     the zero matrix. All matrices of this notebook hold whole numbers (numpy's type
     `int64`); sums and products of whole numbers are computed exactly, without any
     rounding, so every check below is exact. The check at the end tests the permutation
-    sign on four lists whose signs were worked out by hand in the words section:
-    (1, 2, 3, 4) has no inversion, (2, 1, 3, 4) one, (2, 3, 1, 4) two, and (1, 1, 3, 4)
-    repeats a number.
+    sign on four lists whose inversions are counted here by hand: (1, 2, 3, 4) has no
+    inversion, so its sign is $+1$; (2, 1, 3, 4) has one, the pair (2, 1), sign $-1$;
+    (2, 3, 1, 4) has two, the pairs (2, 1) and (3, 1), sign $+1$; and (1, 1, 3, 4)
+    repeats a number, sign 0.
     """),
     code(r'''
     import itertools  # loops over all pairs (or triples, ...) of indices
