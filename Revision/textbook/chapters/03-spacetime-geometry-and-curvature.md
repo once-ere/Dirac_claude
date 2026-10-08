@@ -2612,6 +2612,25 @@ The packages: `itertools` for loops over indices (Section 3.22), `mpmath` for nu
 ```python
 CURVATURE_RECORD = "Revision/gkd_lovelock/results/curvature.json"
 record = json.loads(repository_file(CURVATURE_RECORD).read_text(encoding="utf-8"))
+PYTHON_REPORT = "Revision/gkd_lovelock/results/python-lovelock-report.json"  # sympy
+RUST_REPORT = "Revision/gkd_lovelock/results/lovelock-report.json"  # the Rust checks
+
+
+def record_check(report_file, check_name, detail_part=""):
+    checks = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+    checks = checks["checks"]  # a dictionary or a list, depending on the report
+    if isinstance(checks, dict):  # {name: {"passed": true, "detail": ...}}
+        entry = checks.get(check_name, {})
+        passed = entry.get("passed") is True
+    else:  # [{"name": ..., "verdict": "PASS", "detail": ...}, ...]
+        entry = next((e for e in checks if e.get("name") == check_name), {})
+        passed = entry.get("verdict") == "PASS"
+    if not passed or detail_part not in entry.get("detail", ""):
+        raise AssertionError(f"record check failed: {report_file} does not list "
+                             f"{check_name} as passed")
+    return True
+
+
 x1, x2, x3, x4, x5, x6, x7, x8 = sp.symbols("x1:9", real=True)
 X = [x1, x2, x3, x4, x5, x6, x7, x8]  # the coordinates, counted 0 to 7 in Python
 NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
@@ -2621,7 +2640,7 @@ a4p, a4pp, a4v = sp.symbols("a4p a4pp a4v", real=True)  # a4 prime, a4 two prime
 z = sp.symbols("z", positive=True)  # z = 6 H x8, for printing
 ```
 
-The record of the Rust program `lovelock_gkd` is read into the dictionary `record`. Then the eight coordinates, their list `X` and their printed names `NAMES`; the constant $H > 0$; the unknown function $a_4(x_4)$; and four plain symbols for printing: `a4p` for $a_4'$, `a4pp` for $a_4''$, `a4v` for the value of $a_4$, and `z` for $6Hx_8$.
+The record of the Rust program `lovelock_gkd` is read into the dictionary `record`. `PYTHON_REPORT` and `RUST_REPORT` are the names of two further Revision reports: the report of the independent sympy checker and the report of the Rust program's own checks. The function `record_check` reads such a report and requires that it lists the check `check_name` as passed. The reports come in two layouts: in one, `checks` is a dictionary from each check name to an entry with the key `passed`; in the other, it is a list of entries, each with a `name` and a `verdict`. `isinstance(checks, dict)` asks which layout this report has; `checks.get(check_name, {})` gives the entry or an empty dictionary when the name is missing, and `next(..., {})` finds the entry with that name in the list (or the empty dictionary). The entry must say passed (the value `True`, or the verdict `"PASS"`), and, when `detail_part` is given, its `detail` text must contain that piece; otherwise `raise AssertionError(...)` stops the notebook with a message that names the report and the check. So whenever this notebook says that a number agrees with a Revision record, it also confirms, from the record itself, that the record's own check of that number passed. Then the eight coordinates, their list `X` and their printed names `NAMES`; the constant $H > 0$; the unknown function $a_4(x_4)$; and four plain symbols for printing: `a4p` for $a_4'$, `a4pp` for $a_4''$, `a4v` for the value of $a_4$, and `z` for $6Hx_8$.
 
 ```python
 def symbolic(expression):
@@ -2773,11 +2792,14 @@ record_gamma = {(NAMES.index(e["a"]), NAMES.index(e["b"]), NAMES.index(e["c"])):
                 for e in record["christoffelNonzero_b_le_c"]}
 check(sorted(record_gamma) == upper_half and len(upper_half) == 25,
       "the same 25 non-zero Christoffel symbols as the record")
+record_check(PYTHON_REPORT, "rust_christoffels_agree")  # stops if not passed
 check(all(same(Gamma[a][b][c], value) for (a, b, c), value in record_gamma.items()),
       "every Christoffel symbol equals the record exactly",
       record=f"{CURVATURE_RECORD}, christoffelNonzero_b_le_c (and "
              "python-lovelock-report.json, check rust_christoffels_agree)")
 ```
+
+The line `record_check(PYTHON_REPORT, "rust_christoffels_agree")` confirms that the sympy checker of the Revision record found every Christoffel symbol of the Rust program correct; the notebook stops there if that check had not passed.
 
 `record_gamma` is a dictionary built from the record's list: the key is the index list (`NAMES.index("x4")` is 3, the position of a name in the list) and the value is the translated symbol. The first check requires the record and the notebook to name the same 25 index lists (`sorted` turns the keys into an ordered list); the second requires every value to agree exactly. The PASS line names the record and its independent verification.
 
@@ -2895,17 +2917,15 @@ A logarithmic vertical axis, labels, title, the range of the axis and the legend
 **In [10], a second check by finite differences.**
 
 ```python
-RUST_REPORT = "Revision/gkd_lovelock/results/lovelock-report.json"
-rust_report = json.loads(repository_file(RUST_REPORT).read_text(encoding="utf-8"))
 prime = chr(39)  # the apostrophe (character number 39): the record writes a4 prime so
 point_text = (f"H = 0.23, a4 = 0.17, a4{prime} = 0.61, a4{prime}{prime} = -0.37, "
               "x8 = 0.41")  # the test point as the record writes it
-check(point_text in rust_report["checks"]["k1_brute_force_numeric"]["detail"],
+check(record_check(RUST_REPORT, "k1_brute_force_numeric", point_text),
       "the test point is the one of the brute-force check of the Rust program")
 H_n, a0, a1, a2, x8_n = 0.23, 0.17, 0.61, -0.37, 0.41  # the test point
 ```
 
-The report of the Rust program is read. Its check `k1_brute_force_numeric` names its test point in a text that writes $H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$ and $x_8 = 0.41$, with one apostrophe for each prime (the line `point_text` builds exactly this text). `chr(39)` is the character number 39, the apostrophe, and the f-string puts it after `a4` once for $a_4'$ and twice for $a_4''$ (the comment at the end of the line says so; the book prints a straight apostrophe in code as a curly one, and the character number makes plain which character is meant). The check confirms that the record contains exactly this text. The five numbers are then named.
+The Rust program's check `k1_brute_force_numeric` names its test point in a text that writes $H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$ and $x_8 = 0.41$, with one apostrophe for each prime (the line `point_text` builds exactly this text). `chr(39)` is the character number 39, the apostrophe, and the f-string puts it after `a4` once for $a_4'$ and twice for $a_4''$ (the comment at the end of the line says so; the book prints a straight apostrophe in code as a curly one, and the character number makes plain which character is meant). `record_check(RUST_REPORT, "k1_brute_force_numeric", point_text)` (In [3]) confirms that this check of the record passed and that its detail contains exactly this text; `check` prints the PASS line. The five numbers are then named.
 
 ```python
 def metric_numbers(x):
@@ -3061,10 +3081,13 @@ R_down = riemann(Gamma, X)  # R^a_bcd
 R_mixed = raise_second(R_down, g)  # R^ab_cd
 report("non-zero components R^a_bcd", len(R_down))
 report("non-zero components R^ab_cd", len(R_mixed))
+record_check(RUST_REPORT, "riemann_antisymmetry", "156 nonzero entries")
 check(len(R_mixed) == 156, "R^ab_cd has 156 non-zero components, as in the record",
       record="Revision/gkd_lovelock/results/lovelock-report.json, check "
              "riemann_antisymmetry (156 nonzero entries)")
 ```
+
+`record_check(RUST_REPORT, "riemann_antisymmetry", "156 nonzero entries")` confirms that the Rust program's own check passed and that its detail text reports the same 156 non-zero components.
 
 The two forms of the tensor for the author's metric; both have 156 non-zero components (two RESULT lines), the number found by hand in Section 3.24 and by the Rust program. This cell takes a few seconds.
 
@@ -3087,11 +3110,14 @@ lowered = {(a, b, c, d): g[a, a] * g[b, b] * v
            for (a, b, c, d), v in R_mixed.items()}
 pair_symmetric = all(vanishes(v - get(lowered, (c, d, a, b)))
                      for (a, b, c, d), v in lowered.items())
+record_check(PYTHON_REPORT, "riemann_antisymmetry_and_pair_symmetry")
 check(antisymmetric and pair_symmetric,
       "R^ab_cd is antisymmetric in a, b and in c, d; R_abcd = R_cdab",
       record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
              "riemann_antisymmetry_and_pair_symmetry")
 ```
+
+`record_check(PYTHON_REPORT, "riemann_antisymmetry_and_pair_symmetry")` confirms that the sympy checker's check of the same symmetries passed.
 
 All indices lowered, $R_{abcd} = g_{aa}g_{bb}R^{ab}{}_{cd}$ (Section 3.17), and the pair symmetry $R_{abcd} = R_{cdab}$ (S4) checked for every component. One check for both, naming the record's check.
 
@@ -3099,11 +3125,14 @@ All indices lowered, $R_{abcd} = g_{aa}g_{bb}R^{ab}{}_{cd}$ (Section 3.17), and 
 bianchi = [vanishes(get(R_down, (a, b, c, d)) + get(R_down, (a, c, d, b))
                     + get(R_down, (a, d, b, c)))
            for a, b, c, d in itertools.product(range(8), repeat=4)]
+record_check(RUST_REPORT, "riemann_first_bianchi")
 check(all(bianchi) and len(bianchi) == 4096,
       "the first Bianchi identity holds for all 4096 index lists",
       record="Revision/gkd_lovelock/results/lovelock-report.json, check "
              "riemann_first_bianchi")
 ```
+
+`record_check(RUST_REPORT, "riemann_first_bianchi")` confirms that the Rust program's check of the same identity passed.
 
 The first Bianchi identity (S2) for all $8^4 = 4096$ index lists.
 
@@ -3111,11 +3140,15 @@ The first Bianchi identity (S2) for all $8^4 = 4096$ index lists.
 warp_free = all(not symbolic(v).has(a4v) and not any(
     isinstance(p, sp.Pow) and p.base == sp.sin(6 * H * x8) and not p.exp.is_integer
     for p in sp.preorder_traversal(symbolic(v))) for v in R_mixed.values())
+record_check(RUST_REPORT, "mixed_riemann_free_of_sin_third")
+record_check(PYTHON_REPORT, "mixed_riemann_free_of_warp_and_exponential")
 check(warp_free, "no R^ab_cd contains sin(z)^(1/3) or e^(a4): the warp cancels",
       record="Revision/gkd_lovelock/results/lovelock-report.json, check "
              "mixed_riemann_free_of_sin_third, and python-lovelock-report.json, "
              "check mixed_riemann_free_of_warp_and_exponential")
 ```
+
+The two `record_check` lines confirm that both records' checks of the same two properties passed: the Rust program's `mixed_riemann_free_of_sin_third` and the sympy checker's `mixed_riemann_free_of_warp_and_exponential`.
 
 `sp.preorder_traversal` walks through every piece of an expression (its sums, products, powers and their parts). The condition says: no component contains the value $a_4$ (only its derivatives), and no piece is a power of $\sin z$ with an exponent that is not a whole number (`p.base` and `p.exp` are the base and the exponent of a power `p`; `isinstance(p, sp.Pow)` asks whether `p` is a power). So the warp $\sin^{1/3}z$ and the exponentials $e^{\pm 2a_4}$ of the metric entries cancel in every $R^{ab}{}_{cd}$, as found by hand in Section 3.24.
 
@@ -3128,11 +3161,14 @@ for entry in record["riemannMixedNonzero"]:
     record_riemann[key] = from_mathematica(entry["value"])
 check(sorted(record_riemann) == sorted(R_mixed),
       "the same 156 non-zero components R^ab_cd as the record")
+record_check(PYTHON_REPORT, "rust_riemann_agrees")
 check(all(same(R_mixed[k], v) for k, v in record_riemann.items()),
       "every component R^ab_cd equals the record exactly",
       record=f"{CURVATURE_RECORD}, riemannMixedNonzero (and "
              "python-lovelock-report.json, check rust_riemann_agrees)")
 ```
+
+`record_check(PYTHON_REPORT, "rust_riemann_agrees")` confirms that the sympy checker of the Revision record found all 156 components of the Rust program correct.
 
 Each entry of the record's list `riemannMixedNonzero` has the upper indices `up`, the lower indices `down` and the value; `entry["up"] + entry["down"]` joins the two lists of names, and `tuple(...)` turns their positions into a key. Two checks: the same 156 index lists, and every value equal exactly.
 
