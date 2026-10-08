@@ -147,6 +147,20 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4q STATE 2026-10-08 ~14:40 (phase 3a nearly done; step 2 running)
+
+Phase 3a results, each re-checked by the lead and committed: doc-updates (three wave-1 documents + README, six publication
+tests OK with REVISION_PDF_REBUILD=1); prov-t3 (verify_t3.wls fixed at the root, provenance for both T3 scripts; lead negative
+test FAILs as it must); lovelock-compare (Revision/gkd_lovelock/comparison: author's metric, Ricci scalar and Einstein tensor
+agree exactly, 73 PASS / 0 FAIL / 5 NOT-AVAILABLE; no author output for k = 2, 3); revnb kohn_sham_states (check PASS);
+chapters 16, 17, 19, 22 (fix, adversarial verify, re-fix; lead: nbkit check + check_chapter OK); tb-charge + refix-charge
+(only the local U(1) law is proved; TEXTBOOK_SPEC R3 updated); the gate verify_revision.{sh,ps1} (--fast OK with bash and
+pwsh; README section).  Index 26 rows, test 11/11.  Still running: stage4-fix (old Stage 4: reference delta_scf fix +
+measured grid uncertainty in the level tolerance; gauntlet 60/60 in scratch so far).
+Step 2 RUNNING since ~14:20: tool patch + workaround removal + work_folders applied (uncommitted until the rebuild ends);
+`rebuild_all_notebooks.py <scratchpad>/bulk` over all builders except 00c.  Next: walkthrough_all audit, commit, then phase 3b
+(completion_phase_3b.js: revnb-dark, tb-21d, tb-23 + glossary, tb-00c, tb-05, rev-lovelock-sync), then 3c, then step 5.
+
 ### 0.4p RUN ORDER AFTER THE PAUSE (2026-10-08 ~10:20; user: "continue")
 
 Running: phase 3a (wf_ad05323f-033, `Revision/workflows/completion/completion_phase_3a.js`, 11 chains).  Done meanwhile by the
