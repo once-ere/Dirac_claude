@@ -157,7 +157,7 @@ chapters 16, 17, 19, 22 (fix, adversarial verify, re-fix; lead: nbkit check + ch
 (only the local U(1) law is proved; TEXTBOOK_SPEC R3 updated); the gate verify_revision.{sh,ps1} (--fast OK with bash and
 pwsh; README section).  Index 26 rows, test 11/11.  Still running: stage4-fix (old Stage 4: reference delta_scf fix +
 measured grid uncertainty in the level tolerance; gauntlet 60/60 in scratch so far).
-Step 2 RUNNING since ~14:20: tool patch + workaround removal + work_folders applied (uncommitted until the rebuild ends);
+Step 2 DONE (13:55): 89 of 89 notebooks (all but 00c) rebuilt with the patched tools and passed the independent `nbkit check --record`; walkthrough_all over 90 notebooks: 0 drift (audit tool fixed, 13e6113). The old Stage-4 reference re-run (E4.14 b) runs detached since 13:22 (scratchpad stage4_R1; expected ~4.5 h); a stage4-followup agent fixes the verifier's findings (per-member level uncertainty, relative paths). Phase 3b-1 (wf_aa3d04bc-99e) running; 3b-2 launched after this. Earlier note - step 2 was: tool patch + workaround removal + work_folders applied (uncommitted until the rebuild ends);
 `rebuild_all_notebooks.py <scratchpad>/bulk` over all builders except 00c.  Next: walkthrough_all audit, commit, then phase 3b
 (completion_phase_3b.js: revnb-dark, tb-21d, tb-23 + glossary, tb-00c, tb-05, rev-lovelock-sync), then 3c, then step 5.
 
