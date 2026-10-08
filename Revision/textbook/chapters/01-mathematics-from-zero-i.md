@@ -2068,20 +2068,29 @@ $$
 
 **The six rules of determinants.** Write $M$ for an $n \times n$ matrix.
 
-1. $\det(MN) = \det M\,\det N$. For $2 \times 2$ matrices this is a direct computation (PROVED): with $M$ of rows $(a, b), (c, d)$ and $N$ of rows $(e, f), (g, h)$, $MN$ has the rows $(ae + bg, af + bh)$ and $(ce + dg, cf + dh)$, and
+**Rule 1.** $\det(MN) = \det M\,\det N$. For $2 \times 2$ matrices this is a direct computation (PROVED): with $M$ of rows $(a, b), (c, d)$ and $N$ of rows $(e, f), (g, h)$, $MN$ has the rows $(ae + bg, af + bh)$ and $(ce + dg, cf + dh)$, and
+
 $$
 \det(MN) = (ae + bg)(cf + dh) - (af + bh)(ce + dg)
 $$
-(the $2 \times 2$ formula)
+
+(the $2 \times 2$ formula),
+
 $$
 = aecf + aedh + bgcf + bgdh - afce - afdg - bhce - bhdg
 $$
+
 (multiply out), in which $aecf$ cancels $afce$ and $bgdh$ cancels $bhdg$, leaving $adeh + bcfg - adfg - bceh = ad(eh - fg) - bc(eh - fg) = (ad - bc)(eh - fg)$ (re-order the factors; take out the common factors). For every $n$ the rule is a standard theorem of algebra, ASSUMED here; Notebook 01a, In [11], checks it exactly for two $4 \times 4$ matrices.
-2. $\det(M^T) = \det M$ (PROVED). The term of $\sigma$ in $\det M^T$ is $\mathrm{sign}(\sigma)\prod_i (M^T)_{i\sigma(i)} = \mathrm{sign}(\sigma)\prod_i M_{\sigma(i)i}$. Re-ordering the factors by their row $j = \sigma(i)$ writes the product as $\prod_j M_{j\sigma^{-1}(j)}$, the term of $\sigma^{-1}$ in $\det M$, and $\mathrm{sign}(\sigma^{-1}) = \mathrm{sign}(\sigma)$ (Section 1.19). As $\sigma$ runs through all permutations, so does $\sigma^{-1}$, so the two sums have the same terms.
-3. Exchanging two rows changes the sign (PROVED). Let $M'$ be $M$ with the rows $r$ and $s$ exchanged. The term of $\sigma$ in $\det M'$ has the factors $M'_{r\sigma(r)} = M_{s\sigma(r)}$ and $M'_{s\sigma(s)} = M_{r\sigma(s)}$, so its product of entries is that of the permutation $\tau$ that equals $\sigma$ with the entries at the places $r$ and $s$ exchanged; and $\mathrm{sign}(\tau) = -\mathrm{sign}(\sigma)$ (the theorem of Section 1.19). As $\sigma$ runs through all permutations so does $\tau$, so every term of $\det M$ appears in $\det M'$ with the opposite sign: $\det M' = -\det M$.
-4. A matrix with two equal rows has determinant 0 (PROVED): exchanging the two equal rows changes nothing, yet by rule 3 it changes the sign, so $D = -D$, and $D = 0$.
-5. Multiplying one row by a number $c$ multiplies the determinant by $c$ (PROVED): every term contains exactly one entry of that row, so every term is multiplied by $c$.
-6. Adding $c$ times row $s$ to row $r$ (with $s \neq r$) does not change the determinant (PROVED). Every term contains exactly one entry of row $r$, which is now $M_{r\sigma(r)} + c\,M_{s\sigma(r)}$; multiplying out, the determinant splits into $\det M$ plus $c$ times the determinant of $M$ with row $r$ replaced by row $s$; that matrix has two equal rows, so the second part is 0 by rule 4.
+
+**Rule 2.** $\det(M^T) = \det M$ (PROVED). The term of $\sigma$ in $\det M^T$ is $\mathrm{sign}(\sigma)\prod_i (M^T)_{i\sigma(i)} = \mathrm{sign}(\sigma)\prod_i M_{\sigma(i)i}$. Re-ordering the factors by their row $j = \sigma(i)$ writes the product as $\prod_j M_{j\sigma^{-1}(j)}$, the term of $\sigma^{-1}$ in $\det M$, and $\mathrm{sign}(\sigma^{-1}) = \mathrm{sign}(\sigma)$ (Section 1.19). As $\sigma$ runs through all permutations, so does $\sigma^{-1}$, so the two sums have the same terms.
+
+**Rule 3.** Exchanging two rows changes the sign (PROVED). Let $M'$ be $M$ with the rows $r$ and $s$ exchanged. The term of $\sigma$ in $\det M'$ has the factors $M'_{r\sigma(r)} = M_{s\sigma(r)}$ and $M'_{s\sigma(s)} = M_{r\sigma(s)}$, so its product of entries is that of the permutation $\tau$ that equals $\sigma$ with the entries at the places $r$ and $s$ exchanged; and $\mathrm{sign}(\tau) = -\mathrm{sign}(\sigma)$ (the theorem of Section 1.19). As $\sigma$ runs through all permutations so does $\tau$, so every term of $\det M$ appears in $\det M'$ with the opposite sign: $\det M' = -\det M$.
+
+**Rule 4.** A matrix with two equal rows has determinant 0 (PROVED): exchanging the two equal rows changes nothing, yet by rule 3 it changes the sign, so $D = -D$, and $D = 0$.
+
+**Rule 5.** Multiplying one row by a number $c$ multiplies the determinant by $c$ (PROVED): every term contains exactly one entry of that row, so every term is multiplied by $c$.
+
+**Rule 6.** Adding $c$ times row $s$ to row $r$ (with $s \neq r$) does not change the determinant (PROVED). Every term contains exactly one entry of row $r$, which is now $M_{r\sigma(r)} + c\,M_{s\sigma(r)}$; multiplying out, the determinant splits into $\det M$ plus $c$ times the determinant of $M$ with row $r$ replaced by row $s$; that matrix has two equal rows, so the second part is 0 by rule 4.
 
 **Determinants and inverses.** A square matrix $M$ is **invertible** if there is a matrix $M^{-1}$ with $MM^{-1} = M^{-1}M = I$; then the equation $Mv = w$ can be undone, $v = M^{-1}w$. For a $2 \times 2$ matrix with $ad - bc \neq 0$ the inverse is
 

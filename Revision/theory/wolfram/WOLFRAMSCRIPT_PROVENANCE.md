@@ -7,7 +7,9 @@ at commit `a4c5eda1df069a43a55ff8b57148f5de8edd1670`. Every run of both scripts 
 (84 of 84 and 15 of 15 checks PASS), and every output file was byte-identical to the committed file and
 between the two runs. One execution defect was fixed on 2026-10-02 (an output file that cannot be written
 is now reported with exit code 2 instead of being ignored; section 6.6); the fix is part of commit
-`a4c5eda`. Unless stated otherwise, the measured values in this file are those of 2026-10-07.
+`a4c5eda`. Unless stated otherwise, the measured values in this file are those of 2026-10-07. On
+2026-10-08 three statements of the text (sections 1.4 and 3.7) were corrected after an independent review;
+no file of the set, its input or its outputs changed (section 6.6).
 
 ## 1. What this set is and what it computes
 
@@ -101,11 +103,28 @@ holds only up to boundary terms, and what the indefinite structures imply.
   check to exist with verdict PASS and every quoted count to match.
 * `Revision/lead_checks/charge_conjugation_and_u1.py` takes its conventions from the keys `Lagrangian`,
   `current` and `quantisation` of `Revision/theory/field-theory.json`.
-* `provenance/dirac matrices.md` lists the three files of this set among the calculations that use the
-  author's eight real 16 x 16 Dirac matrices (through `Revision/algebra/gammas.json`).
-* The textbook notebooks of `Revision/textbook/notebooks/` (work in progress at the time of this record):
-  18 notebooks and their sources in `Revision/textbook/notebooks/src/` (from `00b_eight_directions` to
-  `10f_krein_along_history`) quote checks and formulas of the three output files.
+* `provenance/dirac matrices.md` (the record of the author's eight real 16 x 16 Dirac matrices) names
+  `Revision/theory` among the users of `Revision/algebra/gammas.json`, the input of this set: row
+  `fixture_Revision_algebra_gammas_json` of its table under the heading "Every gamma source in the
+  repository, compared now" (state of commit `97236d2`, 2026-10-08; that file was still being revised at
+  the time). Its earlier versions (for example at commit `af2c688`) listed the three files of this set by
+  name; that list was removed in commit `389bcda`.
+* The textbook notebooks of `Revision/textbook/notebooks/` (work in progress; the list grows while the
+  textbook is written) read or quote checks and formulas of the three output files. At commit `97236d2`
+  (2026-10-08) these are 25 notebooks, from `00b_eight_directions` to `21d_sakharov_scorecard`, and their
+  25 sources in `Revision/textbook/notebooks/src/` (at commit `af2c688`: 20 notebooks, from
+  `00b_eight_directions` to `10f_krein_along_history`). To list the notebooks of your copy, run from the
+  repository root (section 3.4), in Windows PowerShell (one line; it prints one file name per notebook):
+
+  ```powershell
+  Select-String -CaseSensitive -List -Pattern 'wolfram-field-theory\.json|theory/field-theory\.json|wolfram-scope\.json' -Path Revision/textbook/notebooks/*.ipynb | ForEach-Object Filename
+  ```
+
+  and on macOS and Linux (it prints one path per notebook):
+
+  ```bash
+  grep -l -E 'wolfram-field-theory\.json|theory/field-theory\.json|wolfram-scope\.json' Revision/textbook/notebooks/*.ipynb
+  ```
 
 ## 2. Files
 
@@ -372,8 +391,14 @@ shown, then `TotalSeconds`; `$LASTEXITCODE` afterwards still gives the exit code
 
 ### 3.7 What to do if it fails
 
-* `wolframscript : The term 'wolframscript' is not recognized ...` (PowerShell) or
-  `wolframscript: command not found` (macOS, Linux): WolframScript is not installed or not on the PATH.
+* A message containing `The term 'wolframscript' is not recognized` (PowerShell; the rest of the message
+  differs between versions: Windows PowerShell 5.1 prints `wolframscript : The term 'wolframscript' is not
+  recognized as the name of a cmdlet, function, script file, or operable program.` and PowerShell 7 prints
+  `wolframscript: The term 'wolframscript' is not recognized as a name of a cmdlet, function, script file,
+  or executable program.`, both followed by further lines) or a message containing `command not found`
+  (macOS and Linux: `zsh: command not found: wolframscript` in zsh, the standard shell of macOS;
+  `bash: wolframscript: command not found` or `wolframscript: command not found` in bash): WolframScript
+  is not installed or not on the PATH.
   Install it (section 3.3, option C) and open a NEW terminal. On Windows you can also run it by its full
   path: `& "C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe" -file Revision/theory/wolfram/verify_scope.wls`.
 * A request to activate, or a message that the kernel is not activated or the licence is invalid, BEFORE
@@ -724,7 +749,10 @@ The second command must then print nothing. To restore the input as well, add
   file of the set, its input or its outputs (other workflows changed the sympy side
   `Revision/theory/python/` in that time, which reads these outputs but is not part of this set). The files of the set were last changed in commits `3f0a577`
   (`verify_field_theory.wls`), `daeb5ba` (`verify_scope.wls`) and `2c61fb0` (the package), the input in
-  `9ea68d4`, the outputs in `a9a1b70` (field theory) and `70fab64` (scope).
+  `9ea68d4`, the outputs in `a9a1b70` (field theory) and `70fab64` (scope). On 2026-10-08, in a fresh
+  clone at commit `97236d2fa7b61147e49e8a4d01cf4456c4acd56f` (the branch `main` at that time), the sha256
+  values of the three files of section 2.1, the input of section 2.2 and the three outputs of section 2.3
+  were again exactly those of the tables.
 * Clones on 2026-10-07: two fresh clones made with `git clone https://github.com/once-ere/Dirac_claude.git`
   (runs 1 and 2) and two further fresh clones for the experiments of section 6.4. No uncommitted file was
   copied into them: the set, its input and its outputs were committed and unchanged in the working tree.
@@ -860,6 +888,19 @@ experiments.
   run or output byte changed: the outputs of the fixed script are byte-identical to the committed files
   (section 6.3), and the failure case now ends with exit code 2 (section 6.4).
 * No fix was made on 2026-10-07; no file of the set was changed.
+* Corrections of this file on 2026-10-08 (after an independent review; no file of the set, its input or
+  its outputs changed, so no script was run again): (1) section 1.4 said that `provenance/dirac
+  matrices.md` lists the three files of this set; that list was removed from it in commit `389bcda`, and
+  the bullet now cites what the file contains at commit `97236d2`. (2) Section 1.4 counted 18 textbook
+  notebooks, the count at commit `a4c5eda` only; the bullet now gives the counts at `af2c688` (20) and at
+  `97236d2` (25, measured in the fresh clone with both listing commands, which gave the same 25 notebooks
+  in PowerShell 7.6.6, Windows PowerShell 5.1.26100 and Git Bash) and the commands to list the current
+  set. (3) Section 3.7 quoted only the Windows PowerShell 5.1 wording of the "not recognized" error; it now
+  names the common part and both wordings, measured with a nonexistent command name in Windows PowerShell
+  5.1.26100 and PowerShell 7.6.6, and the "command not found" wordings of zsh 5.9 (`zsh:1: command not
+  found: <name>` when run with `zsh -c`; without the `1:` in an interactive terminal) and bash 5.2.21
+  (`bash: <name>: command not found`; Ubuntu's standard settings print `<name>: command not found`),
+  measured on Ubuntu 24.04 under WSL; macOS itself was not tested.
 * Open discrepancies: none. Every check passes and every output reproduces byte for byte.
 * Observations recorded for students (not defects of this set): WolframScript returns exit code 0 when it
   cannot open the script file; WolframScript occasionally printed `The product exited because an error

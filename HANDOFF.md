@@ -145,6 +145,28 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4k A4 AUTHOR-T16 PATCH READY (2026-10-08 04:40; implementer of wf_e7ec46e7-1bf; its reviewers/verifier still running)
+
+Patch <SP>/restart/a4prep/a4_author_gammas.patch (896 lines, sha256 7af48ee9..., 7 files under Revision/field_equations_a4/):
+both engines take the author's T16 from gammas.json as the primary representation (strict reading; ERROR + exit 1 for every
+malformed-fixture case, a missing package, an unwritable output); Cl(1,1)^(x)4 / own_rep kept only as labelled comparison
+representations with exact intertwiner checks (dim 1; K^T K = 2 I16 resp. 8 I16; K C = C_T16 K) and the representation-independence
+check.  a4-equations.json BYTE-IDENTICAL.  Wolfram 47 -> 52 checks, Python 61 -> 63, all pass, none removed.
+APPLY it only together with ALL downstream updates, in one sync workflow, after the textbook chapter stages of 09, 12, 17 are done:
+ (1) Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md (+tex/pdf): witness S = 51200, 28800, 51200 in the author's T16 (204800, 115200,
+     204800 was the Cl(1,1)^4 normalisation; |v|^2 = 200 vs 400; w = {4,3,4} and S != 0 unchanged); index line 823: wolfram-a4 52,
+     python-a4 63; Revision/tests/test_dirac16complex00_field_theory_publication.py line 476.
+ (2) Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md line 17 (+tex line 47): 'Wolfram: 52 of 52; sympy: 63 of 63'.
+ (3) Revision/docs/PAIR_CREATION_PROOFS.md lines 489-490 (52, 63) and line 492 (KS theory 58); section 10 run order.
+     Rebuild + re-register each PDF (Revision/pdf-specifications.json), re-pin MARKDOWN_SHA256/TEX_SHA256 in the three tests.
+ (4) Textbook: chapter 12 line ~757 (63 and 52); chapter 09 near line 2786 + notebook 09c (witness S; common factor 40000 instead of
+     160000); 17b PROVENANCE counts; rebuild and nbkit --check every notebook that reads the a4 reports (00b, 00c, 02c, 03b, 09a, 09c,
+     12a-12d, 17a, 17b, ...).
+ (5) Revision/field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md (the HELD rev-a4 fix: new hashes, 52 checks, ERROR exits, run
+     times 43-70 s, plus its verifier findings under verify:rev-a4 in state_execution_provenance.json).
+ (6) Regenerate provenance/dirac matrices.md with its builder (the a4 engine then uses the author's T16).
+ Open, out of scope of the patch: check_field_equations_a4.py ends with a traceback (not an ERROR line) when a report cannot be written.
+
 ### 0.4i RESTART KIT - PAUSED 2026-10-07 20:30 BEFORE A SESSION LIMIT
 
 User, 2026-10-07: "pause NOW before session limit; push all and check repo; prepare to restart after a session limit; continue all

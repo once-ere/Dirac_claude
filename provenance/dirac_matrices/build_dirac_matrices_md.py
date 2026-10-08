@@ -62,7 +62,6 @@ import importlib.util  # noqa: E402
 import itertools  # noqa: E402
 import json  # noqa: E402
 import math  # noqa: E402
-import os  # noqa: E402
 import platform  # noqa: E402
 import re  # noqa: E402
 import subprocess  # noqa: E402
@@ -83,11 +82,12 @@ NOTEBOOK = "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovel
 # The versions with which the committed files were produced (the Wolfram version is also recorded by the
 # extractors in the two JSON files).  The run prints the versions it actually uses.
 TESTED_WITH = {"Python": "3.14.5", "sympy": "1.14.0", "numpy": "2.4.6", "WolframScript": "1.14.0"}
-# Measured on the machine that produced the committed files (Windows 11 Pro for Workstations, Intel Core
-# Ultra 9 275HX, 24 threads), 2026-10-07, in a fresh clone; wall-clock times.
-MEASURED_RUN_TIMES = ("about 10 s for the first Wolfram command and about 16 s for the second (each including the "
-                      "kernel start), and about 35 s for the Python command (the same for `--check`); the test "
-                      "takes about 70 s")
+# Measured on the machine that produced the committed files (Windows 11 Pro for Workstations, Intel Core Ultra 9 275HX,
+# 24 logical processors), 2026-10-07/08, in the repository and in a fresh clone, while other jobs were running.
+MEASURED_RUN_TIMES = ("between 4 and 11 s for the first Wolfram command and between 6 and 16 s for the second (each "
+                      "including the kernel start), between 13 and 22 s for the builder and for `--check`, about 6 s for "
+                      "`--survey`, and between 39 and 48 s for the test (wall-clock times on Windows 11 Pro for "
+                      "Workstations, Intel Core Ultra 9 275HX, 24 logical processors, measured while other jobs were running)")
 
 N = 16
 IDX = range(8)
@@ -437,15 +437,28 @@ def extract_definitions(path, names):
     namespace and the sorted list of executed top-level names."""
     src = (ROOT / path).read_text(encoding="utf-8")
     tree = ast.parse(src)
+
+    def walk_scope(node):
+        """ast.walk without entering nested function, class or lambda bodies."""
+        todo = list(ast.iter_child_nodes(node))
+        while todo:
+            n = todo.pop()
+            yield n
+            if not isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Lambda)):
+                todo.extend(ast.iter_child_nodes(n))
+
     defs = {}
     for node in tree.body:
         if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
             defs[node.name] = node
-        elif isinstance(node, (ast.Assign, ast.AnnAssign)):
-            for t in (node.targets if isinstance(node, ast.Assign) else [node.target]):
-                for n in ast.walk(t):
-                    if isinstance(n, ast.Name):
-                        defs[n.id] = node
+        elif isinstance(node, (ast.Assign, ast.AnnAssign, ast.Try, ast.If, ast.With)):
+            # an assignment, or a try / if / with block (e.g. `try: FIXTURE = load(...) except ...: sys.exit(1)`):
+            # the whole statement defines every name stored in it
+            for n in walk_scope(node):
+                if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Store):
+                    defs[n.id] = node
+                elif isinstance(n, (ast.FunctionDef, ast.ClassDef)):
+                    defs[n.name] = node
         elif isinstance(node, (ast.Import, ast.ImportFrom)):
             for a in node.names:
                 defs[(a.asname or a.name).split(".")[0]] = node
@@ -467,7 +480,10 @@ def extract_definitions(path, names):
         stack.extend(free_names(defs[nm]))
     chosen = [n for n in tree.body if any(defs.get(k) is n for k in needed)]
     ns = {"__file__": str(ROOT / path), "__name__": "extracted_definitions"}
-    exec(compile(ast.Module(body=chosen, type_ignores=[]), str(ROOT / path), "exec"), ns)  # noqa: S102
+    try:
+        exec(compile(ast.Module(body=chosen, type_ignores=[]), str(ROOT / path), "exec"), ns)  # noqa: S102
+    except SystemExit as exc:  # e.g. the file's own strict input check stops: report it, never exit the builder
+        raise RuntimeError(f"the executed definitions of {path} called sys.exit({exc.code})") from None
     return ns, sorted(needed)
 
 
