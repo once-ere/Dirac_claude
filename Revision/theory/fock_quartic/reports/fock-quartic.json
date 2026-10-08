@@ -1,0 +1,419 @@
+{
+ "report": "Revision/theory/fock_quartic/reports/fock-quartic.json",
+ "producer": "Revision/theory/fock_quartic/check_fock_quartic.py (sympy + own exact CAR engine, Gaussian rationals)",
+ "spec": "Revision/SPEC.md sections 3, 4, 6, 7 (dirac16complex, V = m + lam S, U = (lam/2) S^2; normal-ordered energy-momentum tensor operator; homogeneous rho = m S + U, p = S U' - U)",
+ "inputs": [
+  "Revision/algebra/gammas.json"
+ ],
+ "question": "lam != 0: does <:sum_mu K_mu:> = <:(m + U'(S)) S:> (and rho = m S + U, p = S U' - U) hold as an operator identity, only on solutions of the operator field equation, or only in expectation values?",
+ "construction": {
+  "field": "Psi(x) = e^{i k.x} U a (V = 1), U unitary from the eigenvectors of h_k, a_j = b_j (j < 8), d_(j-8)^+ (j >= 8); Psi^dagger = chi B (positive realisation of the record); {psi_A, Psi^dagger_C} = B_AC",
+  "mode_sets": {
+   "M0": "k = 0, symbolic m > 0 (homogeneous)",
+   "M1": "m = 3, k = (4,0,0,0), E = 5"
+  },
+  "hamiltonian": "H = :chi h psi: + U_W (the x4-generator; for W = wick it equals the integrated normal-ordered energy density)",
+  "kinetic_terms": "K_4 = (1/2)(Psibar gamma^(x4) d4 Psi - d4 Psibar gamma^(x4) Psi) with d4 Psi = i[H, Psi], K_a = i k_a Psibar gamma^a Psi (a != x4)",
+  "lhs_definitions": {
+   "N1": "the operator sum K_mu minus its vacuum value",
+   "N2": "Wick (normal-ordered) product of Psibar (resp. d4 Psibar) and the normal-ordered operator d4 Psi (resp. Psi): no contractions between the two factors"
+  },
+  "rhs_definitions": {
+   "R1": ":(m + U'(S)) S: = m :S: + lam :S S: (Wick ordering of the classical expression)",
+   "R2": "m :S: + lam :S:^2"
+  },
+  "orderings": {
+   "plain": "U = (lam/2) S.S (operator square of S = Psibar Psi, the classical expression with the field operators)",
+   "nsq": "U = (lam/2) :S:.:S: (square of the normal-ordered density)",
+   "wick": "U = (lam/2) :S S: (Wick/normal ordering of the classical S^2)",
+   "field": "U = (lam/2) beta_AB beta_CD Psi^+_A Psi^+_C Psi_D Psi_B (all Psi^+ left of all Psi)"
+  }
+ },
+ "summary": {
+  "checks": 21,
+  "pass": 21,
+  "fail": 0
+ },
+ "checks": [
+  {
+   "name": "fixture_B_C_beta",
+   "section": "A. construction",
+   "verdict": "PASS",
+   "detail": "Revision/algebra/gammas.json: {gamma^a, gamma^b} = 2 eta^ab, B = -i C gamma^(x4), B^dagger = B, B^2 = 1, C gamma^(x4) C = gamma^(x4), B C = beta = -i gamma^(x4) Hermitian with beta^2 = 1; hence Psibar = Psi^dagger C = chi B C = chi beta, S = Psibar Psi = chi beta psi, Psibar gamma^(x4) = i chi"
+  },
+  {
+   "name": "car_engine_selftest",
+   "section": "A. construction",
+   "verdict": "PASS",
+   "detail": "own exact CAR engine (normal-ordered monomials f^+..f^+ f..f of 16 modes, Gaussian-rational coefficients, the parameters m and lam as exponents): {f_i, f_j^+} = delta_ij and {f_i, f_j} = 0 for all 16 x 16 pairs; products agree with the independent Jordan-Wigner action on occupation states; associativity and (XY)^+ = Y^+ X^+ on test elements. The normal-ordered basis is faithful on the 2^16-dimensional Fock space: an operator is zero iff it vanishes on every state"
+  },
+  {
+   "name": "mode_set_M0",
+   "section": "A. construction",
+   "verdict": "PASS",
+   "detail": "M0: rest frame k = 0, symbolic m > 0, h = m beta, energies +-m: columns u_j = (1 + sgn h/E)(1 + sgn beta) e_A / sqrt(nsq), nsq = 8 (one A per pair of beta's signed permutation; sgn = + for 8 modes, - for 8): U^dagger U = U U^dagger = 1 exactly, U^dagger h U = diag(E x8, -E x8); with psi = U a, a_j = b_j (j < 8), d_(j-8)^+ (j >= 8): {a_i, a_j^+} = delta_ij, {a_i, a_j} = 0 (engine), hence {psi_A, chi_C} = delta_AC and {psi_A, Psi^dagger_C} = (U U^dagger B)_AC = B_AC with Psi^dagger = chi B: the canonical anticommutator of the record (delta^7 replaced by its projection on the mode set, V = 1). Only Gaussian-rational matrices U^dagger M U enter (no square roots)"
+  },
+  {
+   "name": "psibar_gamma4_is_i_chi_M0",
+   "section": "A. construction",
+   "verdict": "PASS",
+   "detail": "U^dagger (B C gamma^(x4)) U = i 1 exactly, i.e. Psibar gamma^(x4) = i chi, so K_4 = (1/2)(Psibar gamma^(x4) d4 Psi - d4 Psibar gamma^(x4) Psi) = (i/2)(chi d4 psi - d4 chi psi) (computed below from the matrices, not from this simplification)"
+  },
+  {
+   "name": "mode_set_M1",
+   "section": "A. construction",
+   "verdict": "PASS",
+   "detail": "M1: m = 3, k = (4, 0, 0, 0) along x1, h = 3 beta + 4 alpha^(x1), energies +-5 (the record's Wolfram example): columns u_j = (1 + sgn h/E)(1 + sgn beta) e_A / sqrt(nsq), nsq = 32/5 (one A per pair of beta's signed permutation; sgn = + for 8 modes, - for 8): U^dagger U = U U^dagger = 1 exactly, U^dagger h U = diag(E x8, -E x8); with psi = U a, a_j = b_j (j < 8), d_(j-8)^+ (j >= 8): {a_i, a_j^+} = delta_ij, {a_i, a_j} = 0 (engine), hence {psi_A, chi_C} = delta_AC and {psi_A, Psi^dagger_C} = (U U^dagger B)_AC = B_AC with Psi^dagger = chi B: the canonical anticommutator of the record (delta^7 replaced by its projection on the mode set, V = 1). Only Gaussian-rational matrices U^dagger M U enter (no square roots)"
+  },
+  {
+   "name": "psibar_gamma4_is_i_chi_M1",
+   "section": "A. construction",
+   "verdict": "PASS",
+   "detail": "U^dagger (B C gamma^(x4)) U = i 1 exactly, i.e. Psibar gamma^(x4) = i chi, so K_4 = (1/2)(Psibar gamma^(x4) d4 Psi - d4 Psibar gamma^(x4) Psi) = (i/2)(chi d4 psi - d4 chi psi) (computed below from the matrices, not from this simplification)"
+  },
+  {
+   "name": "control_record_Fock_example",
+   "section": "B. control lam = 0",
+   "verdict": "PASS",
+   "detail": "reproduces Fock_space_good_sector_example (Wolfram) / good_sector_positive_fock_realisation (sympy) exactly on M1 (m = 3, k1 = 4, E = 5): vacuum value of chi h psi = -40 = -8E (the filled sea); normal-ordered energy +5 for b_0^+|0> AND for d_0^+|0>; charge :chi psi: = +1 and -1; expectation-value rule <:Psi^dagger M Psi:> = u^dagger B M u (particle) and -v^dagger B M v (antiparticle) for M = C, -i C gamma^(x4), -i C gamma^(x1), C gamma^(x2) gamma^(x3) and the record's dense integer matrix"
+  },
+  {
+   "name": "control_trace_identity_lam0",
+   "section": "B. control lam = 0",
+   "verdict": "PASS",
+   "detail": "lam = 0 (the record's case): with H = :chi h psi: the Heisenberg field solves the free field equation and the kinetic-sum identity holds as an OPERATOR identity on the whole Fock space: M0: d4 a_j = i[:H0:, a_j] = -i e_j a_j (free field equation), sum_mu K_mu = m S exactly (including the constant), :sum K_mu: = m :S: (vacuum subtraction and Wick product agree); M1: d4 a_j = i[:H0:, a_j] = -i e_j a_j (free field equation), sum_mu K_mu = m S exactly (including the constant), :sum K_mu: = m :S: (vacuum subtraction and Wick product agree)"
+  },
+  {
+   "name": "control_homogeneous_lam0",
+   "section": "B. control lam = 0",
+   "verdict": "PASS",
+   "detail": "M0 (homogeneous), lam = 0: K_(a != x4) = 0, rho = :H: = m :S:, p = :K_4: - m :S: = 0 = S U' - U: operator identities"
+  },
+  {
+   "name": "orderings_of_S2_M0",
+   "section": "C. lam != 0",
+   "verdict": "PASS",
+   "detail": "M0: the four operator orderings of S^2 differ by one-body operators and constants only: field-ordered Psi^+Psi^+PsiPsi = S.S - Q exactly (Q = chi psi); :S:.:S: - :SS: = (1) b0^+ b0 + (1) b1^+ b1 + (1) b2^+ b2 + (1) b3^+ b3 + (1) b4^+ b4 + (1) b5^+ b5 + (1) b6^+ b6 + (1) b7^+ b7 + (1) d0^+ d0 + (1) d1^+ d1 + (1) d2^+ d2 + (1) d3^+ d3 + (1) d4^+ d4 + (1) d5^+ d5 + (1) d6^+ d6 + (1) d7^+ d7; S.S - :SS: = (64) + (-15) b0^+ b0 + (-15) b1^+ b1 + (-15) b2^+ b2 + (-15) b3^+ b3 + (-15) b4^+ b4 + (-15) b5^+ b5 + (-15) b6^+ b6 + (-15) b7^+ b7 + (-15) d0^+ d0 + (-15) d1^+ d1 + (-15) d2^+ d2 + (-15) d3^+ d3 + (-15) d4^+ d4 + (-15) d5^+ d5 + (-15) d6^+ d6 + (-15) d7^+ d7"
+  },
+  {
+   "name": "orderings_of_S2_M1",
+   "section": "C. lam != 0",
+   "verdict": "PASS",
+   "detail": "M1: the four operator orderings of S^2 differ by one-body operators and constants only: field-ordered Psi^+Psi^+PsiPsi = S.S - Q exactly (Q = chi psi); :S:.:S: - :SS: = (128/25) + (24/25) b0 d2 + (-24/25) b1 d3 + (24/25) b2 d0 + (-24/25) b3 d1 + (-24/25) b4 d6 + (24/25) b5 d7 + (-24/25) b6 d4 + (24/25) b7 d5 + (-7/25) b0^+ b0 + (-24/25) b0^+ d2^+ + (-7/25) b1^+ b1 + (24/25) b1^+ d3^+ + (-7/25) b2^+ b2 + (-24/25) b2^+ d0^+ + (-7/25) b3^+ b3 + (24/25) b3^+ d1^+ + (-7/25) b4^+ b4 + (24/25) b4^+ d6^+ + (-7/25) b5^+ b5 + (-24/25) b5^+ d7^+ + (-7/25) b6^+ b6 + (24/25) b6^+ d4^+ + (-7/25) b7^+ b7 + (-24/25) b7^+ d5^+ + (-7/25) d0^+ d0 + (-7/25) d1^+ d1 + (-7/25) d2^+ d2 + (-7/25) d3^+ d3 + (-7/25) d4^+ d4 + (-7/25) d5^+ d5 + (-7/25) d6^+ d6 + (-7/25) d7^+ d7; S.S - :SS: = (704/25) + (-168/25) b0 d2 + (168/25) b1 d3 + (-168/25) b2 d0 + (168/25) b3 d1 + (168/25) b4 d6 + (-168/25) b5 d7 + (168/25) b6 d4 + (-168/25) b7 d5 + (-151/25) b0^+ b0 + (168/25) b0^+ d2^+ + (-151/25) b1^+ b1 + (-168/25) b1^+ d3^+ + (-151/25) b2^+ b2 + (168/25) b2^+ d0^+ + (-151/25) b3^+ b3 + (-168/25) b3^+ d1^+ + (-151/25) b4^+ b4 + (-168/25) b4^+ d6^+ + (-151/25) b5^+ b5 + (168/25) b5^+ d7^+ + (-151/25) b6^+ b6 + (-168/25) b6^+ d4^+ + (-151/25) b7^+ b7 + (168/25) b7^+ d5^+ + (-151/25) d0^+ d0 + (-151/25) d1^+ d1 + (-151/25) d2^+ d2 + (-151/25) d3^+ d3 + (-151/25) d4^+ d4 + (-151/25) d5^+ d5 + (-151/25) d6^+ d6 + (-151/25) d7^+ d7"
+  },
+  {
+   "name": "heisenberg_field_equation_ordering",
+   "section": "C. lam != 0",
+   "verdict": "PASS",
+   "detail": "for H = :chi h psi: + U_W (W one of the four orderings; H self-adjoint, d4 chi = i[H, chi] = (d4 psi)^+), the Heisenberg field d4 psi = i[H, psi] satisfies EXACTLY ONE of seven tested orderings of the operator field equation d4 psi = -i h psi - lam gamma^(x4) O(S, psi) [i.e. gamma^mu d_mu Psi = m Psi + lam O(S, Psi)], on both mode sets: U = (lam/2) S.S -> O = (1/2){S, psi}; U = (lam/2):S:.:S: -> O = (1/2){:S:, psi}; U = (lam/2):SS: -> O = :S psi: (the Wick-ordered classical U'(S) Psi); field ordering -> O = S psi (candidates: S psi, psi S, (1/2){S,psi}, :S psi:, :S: psi, psi :S:, (1/2){:S:,psi})"
+  },
+  {
+   "name": "kinetic_sum_operator_theorem",
+   "section": "C. lam != 0",
+   "verdict": "PASS",
+   "detail": "for every ordering W and both mode sets, with K_mu from the Heisenberg field (operator products, no ordering prescription): sum_mu K_mu = m S + lam S.S - (lam/2) Q + D_W + c_W 1 EXACTLY, where D_W = U_W - (lam/2) S.S is the one-body-plus-constant difference of the chosen potential from the operator square and c_W a c-number (c_W = M0/plain: 0; M0/nsq: (-32*lam); M0/wick: (-28*lam); M0/field: 0; M1/plain: 0; M1/nsq: (-288*lam/25); M1/wick: (-252*lam/25); M1/field: 0; '0' means none). So the plain operator sum_mu K_mu equals (m + U'(S)) S = m S + lam S.S only up to the one-body operator D_W - (lam/2) Q; for the field ordering D_W = -(lam/2) Q and sum K = m S + 2 U_W"
+  },
+  {
+   "name": "trace_identity_operator_identity_wick",
+   "section": "C. lam != 0",
+   "verdict": "PASS",
+   "detail": "THE POSITIVE RESULT: with the Wick-ordered potential U = (lam/2):S S: in the Hamiltonian H = :chi h psi: + (lam/2) :S S: (which is the integrated normal-ordered energy density, V = 1) and with K_mu defined as the Wick (normal-ordered) product of Psibar and the Heisenberg derivative d4 Psi = i[H, Psi], :sum_mu K_mu: = :(m + U'(S)) S: = m :S: + lam :S S: holds EXACTLY as an operator identity on the whole Fock space (every state, both mode sets, symbolic lam; M0 also symbolic m); verified also: H = :(-sum_(a != x4) K_a + m S + U):, the generator of x4-translations is the integrated normal-ordered energy density. Stated on the slice x4 = 0 where the canonical relations and the normal ordering are defined (conjugation by e^{iH x4} transports it to other x4 with the normal ordering transported accordingly)"
+  },
+  {
+   "name": "trace_identity_fails_for_every_other_combination",
+   "section": "C. lam != 0",
+   "verdict": "PASS",
+   "detail": "all 30 other combinations (2 mode sets x 4 orderings x LHS {N1 = Heisenberg operator minus its vacuum value, N2 = Wick product}} x RHS {R1 = m:S: + lam:SS:, R2 = m:S: + lam:S:^2}, minus the Wick/N2/R1 case) violate the identity by a NONZERO operator that is one-body (plus possibly a constant) and linear in lam; the exact differences are listed in results"
+  },
+  {
+   "name": "expectation_classes_M0",
+   "section": "C. lam != 0",
+   "verdict": "PASS",
+   "detail": "M0 (homogeneous): every failing difference is lam (alpha N_b + beta N_d) with N_b = sum b^+b, N_d = sum d^+d and alpha, beta nonzero of the SAME sign, so <Delta> = 0 for lam != 0 only in the vacuum of the mode set (where both sides vanish): outside the Wick/N2 definition the identity does not even hold in expectation values for any state with a quantum present; differences: {\"field/N1-R1\": \"lam*(-16*N_b + -14*N_d)\", \"field/N1-R2\": \"lam*(-17*N_b + -15*N_d)\", \"field/N2-R1\": \"lam*(-8*N_b + -7*N_d)\", \"field/N2-R2\": \"lam*(-9*N_b + -8*N_d)\", \"nsq/N1-R1\": \"lam*(-15/2*N_b + -13/2*N_d)\", \"nsq/N1-R2\": \"lam*(-17/2*N_b + -15/2*N_d)\", \"nsq/N2-R1\": \"lam*(1/2*N_b + 1/2*N_d)\", \"nsq/N2-R2\": \"lam*(-1/2*N_b + -1/2*N_d)\", \"plain/N1-R1\": \"lam*(-31/2*N_b + -29/2*N_d)\", \"plain/N1-R2\": \"lam*(-33/2*N_b + -31/2*N_d)\", \"plain/N2-R1\": \"lam*(-15/2*N_b + -15/2*N_d)\", \"plain/N2-R2\": \"lam*(-17/2*N_b + -17/2*N_d)\", \"wick/N1-R1\": \"lam*(-8*N_b + -7*N_d)\", \"wick/N1-R2\": \"lam*(-9*N_b + -8*N_d)\", \"wick/N2-R2\": \"lam*(-1*N_b + -1*N_d)\"}"
+  },
+  {
+   "name": "expectation_values_M1",
+   "section": "C. lam != 0",
+   "verdict": "PASS",
+   "detail": "M1 (k1 = 4): every failing difference has a nonzero expectation value in b_0^+|0> or d_0^+|0> (it also contains pair terms b^+ d^+, b d); expectation values (vacuum, b0, d0): {\"field/N1-R1\": {\"b0\": \"-176*lam/25\", \"d0\": \"-126*lam/25\", \"vacuum\": \"0\"}, \"field/N1-R2\": {\"b0\": \"-297*lam/25\", \"d0\": \"-247*lam/25\", \"vacuum\": \"-128*lam/25\"}, \"field/N2-R1\": {\"b0\": \"-88*lam/25\", \"d0\": \"-63*lam/25\", \"vacuum\": \"0\"}, \"field/N2-R2\": {\"b0\": \"-209*lam/25\", \"d0\": \"-184*lam/25\", \"vacuum\": \"-128*lam/25\"}, \"nsq/N1-R1\": {\"b0\": \"-183*lam/50\", \"d0\": \"-133*lam/50\", \"vacuum\": \"0\"}, \"nsq/N1-R2\": {\"b0\": \"-17*lam/2\", \"d0\": \"-15*lam/2\", \"vacuum\": \"-128*lam/25\"}, \"nsq/N2-R1\": {\"b0\": \"-7*lam/50\", \"d0\": \"-7*lam/50\", \"vacuum\": \"0\"}, \"nsq/N2-R2\": {\"b0\": \"-249*lam/50\", \"d0\": \"-249*lam/50\", \"vacuum\": \"-128*lam/25\"}, \"plain/N1-R1\": {\"b0\": \"-327*lam/50\", \"d0\": \"-277*lam/50\", \"vacuum\": \"0\"}, \"plain/N1-R2\": {\"b0\": \"-569*lam/50\", \"d0\": \"-519*lam/50\", \"vacuum\": \"-128*lam/25\"}, \"plain/N2-R1\": {\"b0\": \"-151*lam/50\", \"d0\": \"-151*lam/50\", \"vacuum\": \"0\"}, \"plain/N2-R2\": {\"b0\": \"-393*lam/50\", \"d0\": \"-393*lam/50\", \"vacuum\": \"-128*lam/25\"}, \"wick/N1-R1\": {\"b0\": \"-88*lam/25\", \"d0\": \"-63*lam/25\", \"vacuum\": \"0\"}, \"wick/N1-R2\": {\"b0\": \"-209*lam/25\", \"d0\": \"-184*lam/25\", \"vacuum\": \"-128*lam/25\"}, \"wick/N2-R2\": {\"b0\": \"-121*lam/25\", \"d0\": \"-121*lam/25\", \"vacuum\": \"-128*lam/25\"}}"
+  },
+  {
+   "name": "homogeneous_rho_p_operator_identities_wick",
+   "section": "D. homogeneous rho and p (M0, k = 0)",
+   "verdict": "PASS",
+   "detail": "M0 (k = 0, the homogeneous sector), Wick ordering, K_mu as Wick products with the Heisenberg derivative: K_(a != x4) = 0 identically; rho = -T^x4_x4 = :H: = m :S: + (lam/2) :S S: = :m S + U(S): and p_mu = T^mu_mu = :K_4: - :m S + U: = (lam/2) :S S: = :S U'(S) - U(S): for every mu != x4 (p3 = p_t = p8): EXACT operator identities on the whole Fock space; [H, S] = 0 (S is conserved, the analogue of the classical S = S0); :S: = N_b + N_d =: n and :S S: = n^2 - n (operator identities)"
+  },
+  {
+   "name": "homogeneous_expectation_values_are_not_U_of_expectation",
+   "section": "D. homogeneous rho and p (M0, k = 0)",
+   "verdict": "PASS",
+   "detail": "M0, Wick: on occupation states with n quanta rho = m n + (lam/2) n(n - 1), p = (lam/2) n(n - 1), so <:U(S):> = (lam/2) n(n - 1) != U(<:S:>) = (lam/2) n^2 (one quantum: p = 0, w = 0, not lam/(2m + lam)); the classical formulas hold for the normal-ordered OPERATORS, not with S replaced by its expectation value: {\"(|0> + b0^+ d0^+|0>)/sqrt2\": {\"<:S:>\": \"1\", \"<:SS:>\": \"1\", \"p\": \"lam/2\", \"p - (lam/2)<:S:>^2\": \"0\", \"rho\": \"lam/2 + m\", \"rho - (m<:S:> + (lam/2)<:S:>^2)\": \"0\"}, \"b0\": {\"<:S:>\": \"1\", \"<:SS:>\": \"0\", \"p\": \"0\", \"p - (lam/2)<:S:>^2\": \"-lam/2\", \"rho\": \"m\", \"rho - (m<:S:> + (lam/2)<:S:>^2)\": \"-lam/2\"}, \"b0 b1 d0\": {\"<:S:>\": \"3\", \"<:SS:>\": \"6\", \"p\": \"3*lam\", \"p - (lam/2)<:S:>^2\": \"-3*lam/2\", \"rho\": \"3*lam + 3*m\", \"rho - (m<:S:> + (lam/2)<:S:>^2)\": \"-3*lam/2\"}, \"b0 d0\": {\"<:S:>\": \"2\", \"<:SS:>\": \"2\", \"p\": \"lam\", \"p - (lam/2)<:S:>^2\": \"-lam\", \"rho\": \"lam + 2*m\", \"rho - (m<:S:> + (lam/2)<:S:>^2)\": \"-lam\"}, \"vacuum\": {\"<:S:>\": \"0\", \"<:SS:>\": \"0\", \"p\": \"0\", \"p - (lam/2)<:S:>^2\": \"0\", \"rho\": \"0\", \"rho - (m<:S:> + (lam/2)<:S:>^2)\": \"0\"}}"
+  },
+  {
+   "name": "homogeneous_p_vacuum_subtraction_fails",
+   "section": "D. homogeneous rho and p (M0, k = 0)",
+   "verdict": "PASS",
+   "detail": "M0, Wick potential but p defined from the Heisenberg K_4 by vacuum subtraction only (N1): p = (lam/2):S S: - lam (8 N_b + 7 N_d), i.e. p != S U' - U on every state with a quantum present; the extra term is the contraction of Psibar with the sea in Psibar gamma^(x4) d4 Psi (8 = the number of negative-energy modes of the mode set)"
+  },
+  {
+   "name": "negative_control_free_dynamics",
+   "section": "E. negative control",
+   "verdict": "PASS",
+   "detail": "if d4 Psi is NOT the solution of the interacting operator field equation (free Heisenberg dynamics H = :chi h psi:, while the right-hand side keeps U' = lam S), the checker finds :sum K: - :(m + U')S: = -lam :S S: != 0 on both mode sets: the identity is a statement about solutions of the operator field equation, not an algebraic identity for arbitrary d4 Psi"
+  }
+ ],
+ "results": {
+  "M0": {
+   "mode_set": "M0",
+   "orderings": {
+    "plain": {
+     "U": "U = (lam/2) S.S (operator square of S = Psibar Psi, the classical expression with the field operators)",
+     "H_selfadjoint_and_d4chi_is_adjoint": true,
+     "operator_field_equation_ordering": [
+      "(1/2){S, psi}"
+     ],
+     "theorem_residual_constant": "0",
+     "theorem_holds": true,
+     "comparisons": {
+      "N1 vacuum-subtracted operator | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-31*lam/2) b0^+ b0 + (-31*lam/2) b1^+ b1 + (-31*lam/2) b2^+ b2 + (-31*lam/2) b3^+ b3 + (-31*lam/2) b4^+ b4 + (-31*lam/2) b5^+ b5 + (-31*lam/2) b6^+ b6 + (-31*lam/2) b7^+ b7 + (-29*lam/2) d0^+ d0 + (-29*lam/2) d1^+ d1 + (-29*lam/2) d2^+ d2 + (-29*lam/2) d3^+ d3 + (-29*lam/2) d4^+ d4 + (-29*lam/2) d5^+ d5 + (-29*lam/2) d6^+ d6 + (-29*lam/2) d7^+ d7"
+      },
+      "N1 vacuum-subtracted operator | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-33*lam/2) b0^+ b0 + (-33*lam/2) b1^+ b1 + (-33*lam/2) b2^+ b2 + (-33*lam/2) b3^+ b3 + (-33*lam/2) b4^+ b4 + (-33*lam/2) b5^+ b5 + (-33*lam/2) b6^+ b6 + (-33*lam/2) b7^+ b7 + (-31*lam/2) d0^+ d0 + (-31*lam/2) d1^+ d1 + (-31*lam/2) d2^+ d2 + (-31*lam/2) d3^+ d3 + (-31*lam/2) d4^+ d4 + (-31*lam/2) d5^+ d5 + (-31*lam/2) d6^+ d6 + (-31*lam/2) d7^+ d7"
+      },
+      "N2 Wick product | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-15*lam/2) b0^+ b0 + (-15*lam/2) b1^+ b1 + (-15*lam/2) b2^+ b2 + (-15*lam/2) b3^+ b3 + (-15*lam/2) b4^+ b4 + (-15*lam/2) b5^+ b5 + (-15*lam/2) b6^+ b6 + (-15*lam/2) b7^+ b7 + (-15*lam/2) d0^+ d0 + (-15*lam/2) d1^+ d1 + (-15*lam/2) d2^+ d2 + (-15*lam/2) d3^+ d3 + (-15*lam/2) d4^+ d4 + (-15*lam/2) d5^+ d5 + (-15*lam/2) d6^+ d6 + (-15*lam/2) d7^+ d7"
+      },
+      "N2 Wick product | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-17*lam/2) b0^+ b0 + (-17*lam/2) b1^+ b1 + (-17*lam/2) b2^+ b2 + (-17*lam/2) b3^+ b3 + (-17*lam/2) b4^+ b4 + (-17*lam/2) b5^+ b5 + (-17*lam/2) b6^+ b6 + (-17*lam/2) b7^+ b7 + (-17*lam/2) d0^+ d0 + (-17*lam/2) d1^+ d1 + (-17*lam/2) d2^+ d2 + (-17*lam/2) d3^+ d3 + (-17*lam/2) d4^+ d4 + (-17*lam/2) d5^+ d5 + (-17*lam/2) d6^+ d6 + (-17*lam/2) d7^+ d7"
+      }
+     }
+    },
+    "nsq": {
+     "U": "U = (lam/2) :S:.:S: (square of the normal-ordered density)",
+     "H_selfadjoint_and_d4chi_is_adjoint": true,
+     "operator_field_equation_ordering": [
+      "(1/2){:S:, psi}"
+     ],
+     "theorem_residual_constant": "(-32*lam)",
+     "theorem_holds": true,
+     "comparisons": {
+      "N1 vacuum-subtracted operator | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-15*lam/2) b0^+ b0 + (-15*lam/2) b1^+ b1 + (-15*lam/2) b2^+ b2 + (-15*lam/2) b3^+ b3 + (-15*lam/2) b4^+ b4 + (-15*lam/2) b5^+ b5 + (-15*lam/2) b6^+ b6 + (-15*lam/2) b7^+ b7 + (-13*lam/2) d0^+ d0 + (-13*lam/2) d1^+ d1 + (-13*lam/2) d2^+ d2 + (-13*lam/2) d3^+ d3 + (-13*lam/2) d4^+ d4 + (-13*lam/2) d5^+ d5 + (-13*lam/2) d6^+ d6 + (-13*lam/2) d7^+ d7"
+      },
+      "N1 vacuum-subtracted operator | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-17*lam/2) b0^+ b0 + (-17*lam/2) b1^+ b1 + (-17*lam/2) b2^+ b2 + (-17*lam/2) b3^+ b3 + (-17*lam/2) b4^+ b4 + (-17*lam/2) b5^+ b5 + (-17*lam/2) b6^+ b6 + (-17*lam/2) b7^+ b7 + (-15*lam/2) d0^+ d0 + (-15*lam/2) d1^+ d1 + (-15*lam/2) d2^+ d2 + (-15*lam/2) d3^+ d3 + (-15*lam/2) d4^+ d4 + (-15*lam/2) d5^+ d5 + (-15*lam/2) d6^+ d6 + (-15*lam/2) d7^+ d7"
+      },
+      "N2 Wick product | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(lam/2) b0^+ b0 + (lam/2) b1^+ b1 + (lam/2) b2^+ b2 + (lam/2) b3^+ b3 + (lam/2) b4^+ b4 + (lam/2) b5^+ b5 + (lam/2) b6^+ b6 + (lam/2) b7^+ b7 + (lam/2) d0^+ d0 + (lam/2) d1^+ d1 + (lam/2) d2^+ d2 + (lam/2) d3^+ d3 + (lam/2) d4^+ d4 + (lam/2) d5^+ d5 + (lam/2) d6^+ d6 + (lam/2) d7^+ d7"
+      },
+      "N2 Wick product | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-lam/2) b0^+ b0 + (-lam/2) b1^+ b1 + (-lam/2) b2^+ b2 + (-lam/2) b3^+ b3 + (-lam/2) b4^+ b4 + (-lam/2) b5^+ b5 + (-lam/2) b6^+ b6 + (-lam/2) b7^+ b7 + (-lam/2) d0^+ d0 + (-lam/2) d1^+ d1 + (-lam/2) d2^+ d2 + (-lam/2) d3^+ d3 + (-lam/2) d4^+ d4 + (-lam/2) d5^+ d5 + (-lam/2) d6^+ d6 + (-lam/2) d7^+ d7"
+      }
+     }
+    },
+    "wick": {
+     "U": "U = (lam/2) :S S: (Wick/normal ordering of the classical S^2)",
+     "H_selfadjoint_and_d4chi_is_adjoint": true,
+     "operator_field_equation_ordering": [
+      ":S psi: (Wick)"
+     ],
+     "theorem_residual_constant": "(-28*lam)",
+     "theorem_holds": true,
+     "comparisons": {
+      "N1 vacuum-subtracted operator | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-8*lam) b0^+ b0 + (-8*lam) b1^+ b1 + (-8*lam) b2^+ b2 + (-8*lam) b3^+ b3 + (-8*lam) b4^+ b4 + (-8*lam) b5^+ b5 + (-8*lam) b6^+ b6 + (-8*lam) b7^+ b7 + (-7*lam) d0^+ d0 + (-7*lam) d1^+ d1 + (-7*lam) d2^+ d2 + (-7*lam) d3^+ d3 + (-7*lam) d4^+ d4 + (-7*lam) d5^+ d5 + (-7*lam) d6^+ d6 + (-7*lam) d7^+ d7"
+      },
+      "N1 vacuum-subtracted operator | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-9*lam) b0^+ b0 + (-9*lam) b1^+ b1 + (-9*lam) b2^+ b2 + (-9*lam) b3^+ b3 + (-9*lam) b4^+ b4 + (-9*lam) b5^+ b5 + (-9*lam) b6^+ b6 + (-9*lam) b7^+ b7 + (-8*lam) d0^+ d0 + (-8*lam) d1^+ d1 + (-8*lam) d2^+ d2 + (-8*lam) d3^+ d3 + (-8*lam) d4^+ d4 + (-8*lam) d5^+ d5 + (-8*lam) d6^+ d6 + (-8*lam) d7^+ d7"
+      },
+      "N2 Wick product | R1 m:S: + lam:SS:": {
+       "zero": true,
+       "difference": "0"
+      },
+      "N2 Wick product | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-lam) b0^+ b0 + (-lam) b1^+ b1 + (-lam) b2^+ b2 + (-lam) b3^+ b3 + (-lam) b4^+ b4 + (-lam) b5^+ b5 + (-lam) b6^+ b6 + (-lam) b7^+ b7 + (-lam) d0^+ d0 + (-lam) d1^+ d1 + (-lam) d2^+ d2 + (-lam) d3^+ d3 + (-lam) d4^+ d4 + (-lam) d5^+ d5 + (-lam) d6^+ d6 + (-lam) d7^+ d7"
+      }
+     }
+    },
+    "field": {
+     "U": "U = (lam/2) beta_AB beta_CD Psi^+_A Psi^+_C Psi_D Psi_B (all Psi^+ left of all Psi)",
+     "H_selfadjoint_and_d4chi_is_adjoint": true,
+     "operator_field_equation_ordering": [
+      "S psi"
+     ],
+     "theorem_residual_constant": "0",
+     "theorem_holds": true,
+     "comparisons": {
+      "N1 vacuum-subtracted operator | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-16*lam) b0^+ b0 + (-16*lam) b1^+ b1 + (-16*lam) b2^+ b2 + (-16*lam) b3^+ b3 + (-16*lam) b4^+ b4 + (-16*lam) b5^+ b5 + (-16*lam) b6^+ b6 + (-16*lam) b7^+ b7 + (-14*lam) d0^+ d0 + (-14*lam) d1^+ d1 + (-14*lam) d2^+ d2 + (-14*lam) d3^+ d3 + (-14*lam) d4^+ d4 + (-14*lam) d5^+ d5 + (-14*lam) d6^+ d6 + (-14*lam) d7^+ d7"
+      },
+      "N1 vacuum-subtracted operator | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-17*lam) b0^+ b0 + (-17*lam) b1^+ b1 + (-17*lam) b2^+ b2 + (-17*lam) b3^+ b3 + (-17*lam) b4^+ b4 + (-17*lam) b5^+ b5 + (-17*lam) b6^+ b6 + (-17*lam) b7^+ b7 + (-15*lam) d0^+ d0 + (-15*lam) d1^+ d1 + (-15*lam) d2^+ d2 + (-15*lam) d3^+ d3 + (-15*lam) d4^+ d4 + (-15*lam) d5^+ d5 + (-15*lam) d6^+ d6 + (-15*lam) d7^+ d7"
+      },
+      "N2 Wick product | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-8*lam) b0^+ b0 + (-8*lam) b1^+ b1 + (-8*lam) b2^+ b2 + (-8*lam) b3^+ b3 + (-8*lam) b4^+ b4 + (-8*lam) b5^+ b5 + (-8*lam) b6^+ b6 + (-8*lam) b7^+ b7 + (-7*lam) d0^+ d0 + (-7*lam) d1^+ d1 + (-7*lam) d2^+ d2 + (-7*lam) d3^+ d3 + (-7*lam) d4^+ d4 + (-7*lam) d5^+ d5 + (-7*lam) d6^+ d6 + (-7*lam) d7^+ d7"
+      },
+      "N2 Wick product | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-9*lam) b0^+ b0 + (-9*lam) b1^+ b1 + (-9*lam) b2^+ b2 + (-9*lam) b3^+ b3 + (-9*lam) b4^+ b4 + (-9*lam) b5^+ b5 + (-9*lam) b6^+ b6 + (-9*lam) b7^+ b7 + (-8*lam) d0^+ d0 + (-8*lam) d1^+ d1 + (-8*lam) d2^+ d2 + (-8*lam) d3^+ d3 + (-8*lam) d4^+ d4 + (-8*lam) d5^+ d5 + (-8*lam) d6^+ d6 + (-8*lam) d7^+ d7"
+      }
+     }
+    }
+   },
+   "ordering_relations": {
+    "field = S.S - Q": true,
+    "nsq - wick (one-body + const)": "(1) b0^+ b0 + (1) b1^+ b1 + (1) b2^+ b2 + (1) b3^+ b3 + (1) b4^+ b4 + (1) b5^+ b5 + (1) b6^+ b6 + (1) b7^+ b7 + (1) d0^+ d0 + (1) d1^+ d1 + (1) d2^+ d2 + (1) d3^+ d3 + (1) d4^+ d4 + (1) d5^+ d5 + (1) d6^+ d6 + (1) d7^+ d7",
+    "plain - wick (one-body + const)": "(64) + (-15) b0^+ b0 + (-15) b1^+ b1 + (-15) b2^+ b2 + (-15) b3^+ b3 + (-15) b4^+ b4 + (-15) b5^+ b5 + (-15) b6^+ b6 + (-15) b7^+ b7 + (-15) d0^+ d0 + (-15) d1^+ d1 + (-15) d2^+ d2 + (-15) d3^+ d3 + (-15) d4^+ d4 + (-15) d5^+ d5 + (-15) d6^+ d6 + (-15) d7^+ d7"
+   },
+   "free_heisenberg_equation": true
+  },
+  "M1": {
+   "mode_set": "M1",
+   "orderings": {
+    "plain": {
+     "U": "U = (lam/2) S.S (operator square of S = Psibar Psi, the classical expression with the field operators)",
+     "H_selfadjoint_and_d4chi_is_adjoint": true,
+     "operator_field_equation_ordering": [
+      "(1/2){S, psi}"
+     ],
+     "theorem_residual_constant": "0",
+     "theorem_holds": true,
+     "comparisons": {
+      "N1 vacuum-subtracted operator | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-168*lam/25) b0 d2 + (168*lam/25) b1 d3 + (-168*lam/25) b2 d0 + (168*lam/25) b3 d1 + (168*lam/25) b4 d6 + (-168*lam/25) b5 d7 + (168*lam/25) b6 d4 + (-168*lam/25) b7 d5 + (-327*lam/50) b0^+ b0 + (168*lam/25) b0^+ d2^+ + (-327*lam/50) b1^+ b1 + (-168*lam/25) b1^+ d3^+ + (-327*lam/50) b2^+ b2 + (168*lam/25) b2^+ d0^+ + (-327*lam/50) b3^+ b3 + (-168*lam/25) b3^+ d1^+ + (-327*lam/50) b4^+ b4 + (-168*lam/25) b4^+ d6^+ + (-327*lam/50) b5^+ b5 + (168*lam/25) b5^+ d7^+ + (-327*lam/50) b6^+ b6 + (-168*lam/25) b6^+ d4^+ + (-327*lam/50) b7^+ b7 + (168*lam/25) b7^+ d5^+ + (-277*lam/50) d0^+ d0 + (-277*lam/50) d1^+ d1 + (-277*lam/50) d2^+ d2 + (-277*lam/50) d3^+ d3 + (-277*lam/50) d4^+ d4 + (-277*lam/50) d5^+ d5 + (-277*lam/50) d6^+ d6 + (-277*lam/50) d7^+ d7"
+      },
+      "N1 vacuum-subtracted operator | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-128*lam/25) + (-192*lam/25) b0 d2 + (192*lam/25) b1 d3 + (-192*lam/25) b2 d0 + (192*lam/25) b3 d1 + (192*lam/25) b4 d6 + (-192*lam/25) b5 d7 + (192*lam/25) b6 d4 + (-192*lam/25) b7 d5 + (-313*lam/50) b0^+ b0 + (192*lam/25) b0^+ d2^+ + (-313*lam/50) b1^+ b1 + (-192*lam/25) b1^+ d3^+ + (-313*lam/50) b2^+ b2 + (192*lam/25) b2^+ d0^+ + (-313*lam/50) b3^+ b3 + (-192*lam/25) b3^+ d1^+ + (-313*lam/50) b4^+ b4 + (-192*lam/25) b4^+ d6^+ + (-313*lam/50) b5^+ b5 + (192*lam/25) b5^+ d7^+ + (-313*lam/50) b6^+ b6 + (-192*lam/25) b6^+ d4^+ + (-313*lam/50) b7^+ b7 + (192*lam/25) b7^+ d5^+ + (-263*lam/50) d0^+ d0 + (-263*lam/50) d1^+ d1 + (-263*lam/50) d2^+ d2 + (-263*lam/50) d3^+ d3 + (-263*lam/50) d4^+ d4 + (-263*lam/50) d5^+ d5 + (-263*lam/50) d6^+ d6 + (-263*lam/50) d7^+ d7"
+      },
+      "N2 Wick product | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-84*lam/25) b0 d2 + (84*lam/25) b1 d3 + (-84*lam/25) b2 d0 + (84*lam/25) b3 d1 + (84*lam/25) b4 d6 + (-84*lam/25) b5 d7 + (84*lam/25) b6 d4 + (-84*lam/25) b7 d5 + (-151*lam/50) b0^+ b0 + (84*lam/25) b0^+ d2^+ + (-151*lam/50) b1^+ b1 + (-84*lam/25) b1^+ d3^+ + (-151*lam/50) b2^+ b2 + (84*lam/25) b2^+ d0^+ + (-151*lam/50) b3^+ b3 + (-84*lam/25) b3^+ d1^+ + (-151*lam/50) b4^+ b4 + (-84*lam/25) b4^+ d6^+ + (-151*lam/50) b5^+ b5 + (84*lam/25) b5^+ d7^+ + (-151*lam/50) b6^+ b6 + (-84*lam/25) b6^+ d4^+ + (-151*lam/50) b7^+ b7 + (84*lam/25) b7^+ d5^+ + (-151*lam/50) d0^+ d0 + (-151*lam/50) d1^+ d1 + (-151*lam/50) d2^+ d2 + (-151*lam/50) d3^+ d3 + (-151*lam/50) d4^+ d4 + (-151*lam/50) d5^+ d5 + (-151*lam/50) d6^+ d6 + (-151*lam/50) d7^+ d7"
+      },
+      "N2 Wick product | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-128*lam/25) + (-108*lam/25) b0 d2 + (108*lam/25) b1 d3 + (-108*lam/25) b2 d0 + (108*lam/25) b3 d1 + (108*lam/25) b4 d6 + (-108*lam/25) b5 d7 + (108*lam/25) b6 d4 + (-108*lam/25) b7 d5 + (-137*lam/50) b0^+ b0 + (108*lam/25) b0^+ d2^+ + (-137*lam/50) b1^+ b1 + (-108*lam/25) b1^+ d3^+ + (-137*lam/50) b2^+ b2 + (108*lam/25) b2^+ d0^+ + (-137*lam/50) b3^+ b3 + (-108*lam/25) b3^+ d1^+ + (-137*lam/50) b4^+ b4 + (-108*lam/25) b4^+ d6^+ + (-137*lam/50) b5^+ b5 + (108*lam/25) b5^+ d7^+ + (-137*lam/50) b6^+ b6 + (-108*lam/25) b6^+ d4^+ + (-137*lam/50) b7^+ b7 + (108*lam/25) b7^+ d5^+ + (-137*lam/50) d0^+ d0 + (-137*lam/50) d1^+ d1 + (-137*lam/50) d2^+ d2 + (-137*lam/50) d3^+ d3 + (-137*lam/50) d4^+ d4 + (-137*lam/50) d5^+ d5 + (-137*lam/50) d6^+ d6 + (-137*lam/50) d7^+ d7"
+      }
+     }
+    },
+    "nsq": {
+     "U": "U = (lam/2) :S:.:S: (square of the normal-ordered density)",
+     "H_selfadjoint_and_d4chi_is_adjoint": true,
+     "operator_field_equation_ordering": [
+      "(1/2){:S:, psi}"
+     ],
+     "theorem_residual_constant": "(-288*lam/25)",
+     "theorem_holds": true,
+     "comparisons": {
+      "N1 vacuum-subtracted operator | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-72*lam/25) b0 d2 + (72*lam/25) b1 d3 + (-72*lam/25) b2 d0 + (72*lam/25) b3 d1 + (72*lam/25) b4 d6 + (-72*lam/25) b5 d7 + (72*lam/25) b6 d4 + (-72*lam/25) b7 d5 + (-183*lam/50) b0^+ b0 + (72*lam/25) b0^+ d2^+ + (-183*lam/50) b1^+ b1 + (-72*lam/25) b1^+ d3^+ + (-183*lam/50) b2^+ b2 + (72*lam/25) b2^+ d0^+ + (-183*lam/50) b3^+ b3 + (-72*lam/25) b3^+ d1^+ + (-183*lam/50) b4^+ b4 + (-72*lam/25) b4^+ d6^+ + (-183*lam/50) b5^+ b5 + (72*lam/25) b5^+ d7^+ + (-183*lam/50) b6^+ b6 + (-72*lam/25) b6^+ d4^+ + (-183*lam/50) b7^+ b7 + (72*lam/25) b7^+ d5^+ + (-133*lam/50) d0^+ d0 + (-133*lam/50) d1^+ d1 + (-133*lam/50) d2^+ d2 + (-133*lam/50) d3^+ d3 + (-133*lam/50) d4^+ d4 + (-133*lam/50) d5^+ d5 + (-133*lam/50) d6^+ d6 + (-133*lam/50) d7^+ d7"
+      },
+      "N1 vacuum-subtracted operator | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-128*lam/25) + (-96*lam/25) b0 d2 + (96*lam/25) b1 d3 + (-96*lam/25) b2 d0 + (96*lam/25) b3 d1 + (96*lam/25) b4 d6 + (-96*lam/25) b5 d7 + (96*lam/25) b6 d4 + (-96*lam/25) b7 d5 + (-169*lam/50) b0^+ b0 + (96*lam/25) b0^+ d2^+ + (-169*lam/50) b1^+ b1 + (-96*lam/25) b1^+ d3^+ + (-169*lam/50) b2^+ b2 + (96*lam/25) b2^+ d0^+ + (-169*lam/50) b3^+ b3 + (-96*lam/25) b3^+ d1^+ + (-169*lam/50) b4^+ b4 + (-96*lam/25) b4^+ d6^+ + (-169*lam/50) b5^+ b5 + (96*lam/25) b5^+ d7^+ + (-169*lam/50) b6^+ b6 + (-96*lam/25) b6^+ d4^+ + (-169*lam/50) b7^+ b7 + (96*lam/25) b7^+ d5^+ + (-119*lam/50) d0^+ d0 + (-119*lam/50) d1^+ d1 + (-119*lam/50) d2^+ d2 + (-119*lam/50) d3^+ d3 + (-119*lam/50) d4^+ d4 + (-119*lam/50) d5^+ d5 + (-119*lam/50) d6^+ d6 + (-119*lam/50) d7^+ d7"
+      },
+      "N2 Wick product | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(12*lam/25) b0 d2 + (-12*lam/25) b1 d3 + (12*lam/25) b2 d0 + (-12*lam/25) b3 d1 + (-12*lam/25) b4 d6 + (12*lam/25) b5 d7 + (-12*lam/25) b6 d4 + (12*lam/25) b7 d5 + (-7*lam/50) b0^+ b0 + (-12*lam/25) b0^+ d2^+ + (-7*lam/50) b1^+ b1 + (12*lam/25) b1^+ d3^+ + (-7*lam/50) b2^+ b2 + (-12*lam/25) b2^+ d0^+ + (-7*lam/50) b3^+ b3 + (12*lam/25) b3^+ d1^+ + (-7*lam/50) b4^+ b4 + (12*lam/25) b4^+ d6^+ + (-7*lam/50) b5^+ b5 + (-12*lam/25) b5^+ d7^+ + (-7*lam/50) b6^+ b6 + (12*lam/25) b6^+ d4^+ + (-7*lam/50) b7^+ b7 + (-12*lam/25) b7^+ d5^+ + (-7*lam/50) d0^+ d0 + (-7*lam/50) d1^+ d1 + (-7*lam/50) d2^+ d2 + (-7*lam/50) d3^+ d3 + (-7*lam/50) d4^+ d4 + (-7*lam/50) d5^+ d5 + (-7*lam/50) d6^+ d6 + (-7*lam/50) d7^+ d7"
+      },
+      "N2 Wick product | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-128*lam/25) + (-12*lam/25) b0 d2 + (12*lam/25) b1 d3 + (-12*lam/25) b2 d0 + (12*lam/25) b3 d1 + (12*lam/25) b4 d6 + (-12*lam/25) b5 d7 + (12*lam/25) b6 d4 + (-12*lam/25) b7 d5 + (7*lam/50) b0^+ b0 + (12*lam/25) b0^+ d2^+ + (7*lam/50) b1^+ b1 + (-12*lam/25) b1^+ d3^+ + (7*lam/50) b2^+ b2 + (12*lam/25) b2^+ d0^+ + (7*lam/50) b3^+ b3 + (-12*lam/25) b3^+ d1^+ + (7*lam/50) b4^+ b4 + (-12*lam/25) b4^+ d6^+ + (7*lam/50) b5^+ b5 + (12*lam/25) b5^+ d7^+ + (7*lam/50) b6^+ b6 + (-12*lam/25) b6^+ d4^+ + (7*lam/50) b7^+ b7 + (12*lam/25) b7^+ d5^+ + (7*lam/50) d0^+ d0 + (7*lam/50) d1^+ d1 + (7*lam/50) d2^+ d2 + (7*lam/50) d3^+ d3 + (7*lam/50) d4^+ d4 + (7*lam/50) d5^+ d5 + (7*lam/50) d6^+ d6 + (7*lam/50) d7^+ d7"
+      }
+     }
+    },
+    "wick": {
+     "U": "U = (lam/2) :S S: (Wick/normal ordering of the classical S^2)",
+     "H_selfadjoint_and_d4chi_is_adjoint": true,
+     "operator_field_equation_ordering": [
+      ":S psi: (Wick)"
+     ],
+     "theorem_residual_constant": "(-252*lam/25)",
+     "theorem_holds": true,
+     "comparisons": {
+      "N1 vacuum-subtracted operator | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-84*lam/25) b0 d2 + (84*lam/25) b1 d3 + (-84*lam/25) b2 d0 + (84*lam/25) b3 d1 + (84*lam/25) b4 d6 + (-84*lam/25) b5 d7 + (84*lam/25) b6 d4 + (-84*lam/25) b7 d5 + (-88*lam/25) b0^+ b0 + (84*lam/25) b0^+ d2^+ + (-88*lam/25) b1^+ b1 + (-84*lam/25) b1^+ d3^+ + (-88*lam/25) b2^+ b2 + (84*lam/25) b2^+ d0^+ + (-88*lam/25) b3^+ b3 + (-84*lam/25) b3^+ d1^+ + (-88*lam/25) b4^+ b4 + (-84*lam/25) b4^+ d6^+ + (-88*lam/25) b5^+ b5 + (84*lam/25) b5^+ d7^+ + (-88*lam/25) b6^+ b6 + (-84*lam/25) b6^+ d4^+ + (-88*lam/25) b7^+ b7 + (84*lam/25) b7^+ d5^+ + (-63*lam/25) d0^+ d0 + (-63*lam/25) d1^+ d1 + (-63*lam/25) d2^+ d2 + (-63*lam/25) d3^+ d3 + (-63*lam/25) d4^+ d4 + (-63*lam/25) d5^+ d5 + (-63*lam/25) d6^+ d6 + (-63*lam/25) d7^+ d7"
+      },
+      "N1 vacuum-subtracted operator | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-128*lam/25) + (-108*lam/25) b0 d2 + (108*lam/25) b1 d3 + (-108*lam/25) b2 d0 + (108*lam/25) b3 d1 + (108*lam/25) b4 d6 + (-108*lam/25) b5 d7 + (108*lam/25) b6 d4 + (-108*lam/25) b7 d5 + (-81*lam/25) b0^+ b0 + (108*lam/25) b0^+ d2^+ + (-81*lam/25) b1^+ b1 + (-108*lam/25) b1^+ d3^+ + (-81*lam/25) b2^+ b2 + (108*lam/25) b2^+ d0^+ + (-81*lam/25) b3^+ b3 + (-108*lam/25) b3^+ d1^+ + (-81*lam/25) b4^+ b4 + (-108*lam/25) b4^+ d6^+ + (-81*lam/25) b5^+ b5 + (108*lam/25) b5^+ d7^+ + (-81*lam/25) b6^+ b6 + (-108*lam/25) b6^+ d4^+ + (-81*lam/25) b7^+ b7 + (108*lam/25) b7^+ d5^+ + (-56*lam/25) d0^+ d0 + (-56*lam/25) d1^+ d1 + (-56*lam/25) d2^+ d2 + (-56*lam/25) d3^+ d3 + (-56*lam/25) d4^+ d4 + (-56*lam/25) d5^+ d5 + (-56*lam/25) d6^+ d6 + (-56*lam/25) d7^+ d7"
+      },
+      "N2 Wick product | R1 m:S: + lam:SS:": {
+       "zero": true,
+       "difference": "0"
+      },
+      "N2 Wick product | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-128*lam/25) + (-24*lam/25) b0 d2 + (24*lam/25) b1 d3 + (-24*lam/25) b2 d0 + (24*lam/25) b3 d1 + (24*lam/25) b4 d6 + (-24*lam/25) b5 d7 + (24*lam/25) b6 d4 + (-24*lam/25) b7 d5 + (7*lam/25) b0^+ b0 + (24*lam/25) b0^+ d2^+ + (7*lam/25) b1^+ b1 + (-24*lam/25) b1^+ d3^+ + (7*lam/25) b2^+ b2 + (24*lam/25) b2^+ d0^+ + (7*lam/25) b3^+ b3 + (-24*lam/25) b3^+ d1^+ + (7*lam/25) b4^+ b4 + (-24*lam/25) b4^+ d6^+ + (7*lam/25) b5^+ b5 + (24*lam/25) b5^+ d7^+ + (7*lam/25) b6^+ b6 + (-24*lam/25) b6^+ d4^+ + (7*lam/25) b7^+ b7 + (24*lam/25) b7^+ d5^+ + (7*lam/25) d0^+ d0 + (7*lam/25) d1^+ d1 + (7*lam/25) d2^+ d2 + (7*lam/25) d3^+ d3 + (7*lam/25) d4^+ d4 + (7*lam/25) d5^+ d5 + (7*lam/25) d6^+ d6 + (7*lam/25) d7^+ d7"
+      }
+     }
+    },
+    "field": {
+     "U": "U = (lam/2) beta_AB beta_CD Psi^+_A Psi^+_C Psi_D Psi_B (all Psi^+ left of all Psi)",
+     "H_selfadjoint_and_d4chi_is_adjoint": true,
+     "operator_field_equation_ordering": [
+      "S psi"
+     ],
+     "theorem_residual_constant": "0",
+     "theorem_holds": true,
+     "comparisons": {
+      "N1 vacuum-subtracted operator | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-168*lam/25) b0 d2 + (168*lam/25) b1 d3 + (-168*lam/25) b2 d0 + (168*lam/25) b3 d1 + (168*lam/25) b4 d6 + (-168*lam/25) b5 d7 + (168*lam/25) b6 d4 + (-168*lam/25) b7 d5 + (-176*lam/25) b0^+ b0 + (168*lam/25) b0^+ d2^+ + (-176*lam/25) b1^+ b1 + (-168*lam/25) b1^+ d3^+ + (-176*lam/25) b2^+ b2 + (168*lam/25) b2^+ d0^+ + (-176*lam/25) b3^+ b3 + (-168*lam/25) b3^+ d1^+ + (-176*lam/25) b4^+ b4 + (-168*lam/25) b4^+ d6^+ + (-176*lam/25) b5^+ b5 + (168*lam/25) b5^+ d7^+ + (-176*lam/25) b6^+ b6 + (-168*lam/25) b6^+ d4^+ + (-176*lam/25) b7^+ b7 + (168*lam/25) b7^+ d5^+ + (-126*lam/25) d0^+ d0 + (-126*lam/25) d1^+ d1 + (-126*lam/25) d2^+ d2 + (-126*lam/25) d3^+ d3 + (-126*lam/25) d4^+ d4 + (-126*lam/25) d5^+ d5 + (-126*lam/25) d6^+ d6 + (-126*lam/25) d7^+ d7"
+      },
+      "N1 vacuum-subtracted operator | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-128*lam/25) + (-192*lam/25) b0 d2 + (192*lam/25) b1 d3 + (-192*lam/25) b2 d0 + (192*lam/25) b3 d1 + (192*lam/25) b4 d6 + (-192*lam/25) b5 d7 + (192*lam/25) b6 d4 + (-192*lam/25) b7 d5 + (-169*lam/25) b0^+ b0 + (192*lam/25) b0^+ d2^+ + (-169*lam/25) b1^+ b1 + (-192*lam/25) b1^+ d3^+ + (-169*lam/25) b2^+ b2 + (192*lam/25) b2^+ d0^+ + (-169*lam/25) b3^+ b3 + (-192*lam/25) b3^+ d1^+ + (-169*lam/25) b4^+ b4 + (-192*lam/25) b4^+ d6^+ + (-169*lam/25) b5^+ b5 + (192*lam/25) b5^+ d7^+ + (-169*lam/25) b6^+ b6 + (-192*lam/25) b6^+ d4^+ + (-169*lam/25) b7^+ b7 + (192*lam/25) b7^+ d5^+ + (-119*lam/25) d0^+ d0 + (-119*lam/25) d1^+ d1 + (-119*lam/25) d2^+ d2 + (-119*lam/25) d3^+ d3 + (-119*lam/25) d4^+ d4 + (-119*lam/25) d5^+ d5 + (-119*lam/25) d6^+ d6 + (-119*lam/25) d7^+ d7"
+      },
+      "N2 Wick product | R1 m:S: + lam:SS:": {
+       "zero": false,
+       "difference": "(-84*lam/25) b0 d2 + (84*lam/25) b1 d3 + (-84*lam/25) b2 d0 + (84*lam/25) b3 d1 + (84*lam/25) b4 d6 + (-84*lam/25) b5 d7 + (84*lam/25) b6 d4 + (-84*lam/25) b7 d5 + (-88*lam/25) b0^+ b0 + (84*lam/25) b0^+ d2^+ + (-88*lam/25) b1^+ b1 + (-84*lam/25) b1^+ d3^+ + (-88*lam/25) b2^+ b2 + (84*lam/25) b2^+ d0^+ + (-88*lam/25) b3^+ b3 + (-84*lam/25) b3^+ d1^+ + (-88*lam/25) b4^+ b4 + (-84*lam/25) b4^+ d6^+ + (-88*lam/25) b5^+ b5 + (84*lam/25) b5^+ d7^+ + (-88*lam/25) b6^+ b6 + (-84*lam/25) b6^+ d4^+ + (-88*lam/25) b7^+ b7 + (84*lam/25) b7^+ d5^+ + (-63*lam/25) d0^+ d0 + (-63*lam/25) d1^+ d1 + (-63*lam/25) d2^+ d2 + (-63*lam/25) d3^+ d3 + (-63*lam/25) d4^+ d4 + (-63*lam/25) d5^+ d5 + (-63*lam/25) d6^+ d6 + (-63*lam/25) d7^+ d7"
+      },
+      "N2 Wick product | R2 m:S: + lam:S:^2": {
+       "zero": false,
+       "difference": "(-128*lam/25) + (-108*lam/25) b0 d2 + (108*lam/25) b1 d3 + (-108*lam/25) b2 d0 + (108*lam/25) b3 d1 + (108*lam/25) b4 d6 + (-108*lam/25) b5 d7 + (108*lam/25) b6 d4 + (-108*lam/25) b7 d5 + (-81*lam/25) b0^+ b0 + (108*lam/25) b0^+ d2^+ + (-81*lam/25) b1^+ b1 + (-108*lam/25) b1^+ d3^+ + (-81*lam/25) b2^+ b2 + (108*lam/25) b2^+ d0^+ + (-81*lam/25) b3^+ b3 + (-108*lam/25) b3^+ d1^+ + (-81*lam/25) b4^+ b4 + (-108*lam/25) b4^+ d6^+ + (-81*lam/25) b5^+ b5 + (108*lam/25) b5^+ d7^+ + (-81*lam/25) b6^+ b6 + (-108*lam/25) b6^+ d4^+ + (-81*lam/25) b7^+ b7 + (108*lam/25) b7^+ d5^+ + (-56*lam/25) d0^+ d0 + (-56*lam/25) d1^+ d1 + (-56*lam/25) d2^+ d2 + (-56*lam/25) d3^+ d3 + (-56*lam/25) d4^+ d4 + (-56*lam/25) d5^+ d5 + (-56*lam/25) d6^+ d6 + (-56*lam/25) d7^+ d7"
+      }
+     }
+    }
+   },
+   "ordering_relations": {
+    "field = S.S - Q": true,
+    "nsq - wick (one-body + const)": "(128/25) + (24/25) b0 d2 + (-24/25) b1 d3 + (24/25) b2 d0 + (-24/25) b3 d1 + (-24/25) b4 d6 + (24/25) b5 d7 + (-24/25) b6 d4 + (24/25) b7 d5 + (-7/25) b0^+ b0 + (-24/25) b0^+ d2^+ + (-7/25) b1^+ b1 + (24/25) b1^+ d3^+ + (-7/25) b2^+ b2 + (-24/25) b2^+ d0^+ + (-7/25) b3^+ b3 + (24/25) b3^+ d1^+ + (-7/25) b4^+ b4 + (24/25) b4^+ d6^+ + (-7/25) b5^+ b5 + (-24/25) b5^+ d7^+ + (-7/25) b6^+ b6 + (24/25) b6^+ d4^+ + (-7/25) b7^+ b7 + (-24/25) b7^+ d5^+ + (-7/25) d0^+ d0 + (-7/25) d1^+ d1 + (-7/25) d2^+ d2 + (-7/25) d3^+ d3 + (-7/25) d4^+ d4 + (-7/25) d5^+ d5 + (-7/25) d6^+ d6 + (-7/25) d7^+ d7",
+    "plain - wick (one-body + const)": "(704/25) + (-168/25) b0 d2 + (168/25) b1 d3 + (-168/25) b2 d0 + (168/25) b3 d1 + (168/25) b4 d6 + (-168/25) b5 d7 + (168/25) b6 d4 + (-168/25) b7 d5 + (-151/25) b0^+ b0 + (168/25) b0^+ d2^+ + (-151/25) b1^+ b1 + (-168/25) b1^+ d3^+ + (-151/25) b2^+ b2 + (168/25) b2^+ d0^+ + (-151/25) b3^+ b3 + (-168/25) b3^+ d1^+ + (-151/25) b4^+ b4 + (-168/25) b4^+ d6^+ + (-151/25) b5^+ b5 + (168/25) b5^+ d7^+ + (-151/25) b6^+ b6 + (-168/25) b6^+ d4^+ + (-151/25) b7^+ b7 + (168/25) b7^+ d5^+ + (-151/25) d0^+ d0 + (-151/25) d1^+ d1 + (-151/25) d2^+ d2 + (-151/25) d3^+ d3 + (-151/25) d4^+ d4 + (-151/25) d5^+ d5 + (-151/25) d6^+ d6 + (-151/25) d7^+ d7"
+   },
+   "free_heisenberg_equation": true
+  }
+ },
+ "conclusion": {
+  "proved_in_the_model": [
+   "Wick ordering: with H = :chi h psi: + (lam/2):S S: the Heisenberg field obeys the Wick-ordered operator field equation gamma^mu d_mu Psi = :(m + lam S) Psi: exactly, and with K_mu defined as Wick products :sum_mu K_mu: = :(m + U'(S)) S: is an operator identity on the whole Fock space (all states; slice x4 = 0)",
+   "homogeneous (k = 0): rho = :m S + U(S): and p3 = p_t = p8 = :S U' - U: = (lam/2):S S: as operator identities in the same (Wick) sense",
+   "for every ordering: sum_mu K_mu = m S + lam S.S - (lam/2) Q + (U_W - (lam/2) S.S) + const (exact operator theorem with the plain operator products)"
+  ],
+  "fails": [
+   "the same identity with K_mu taken as the plain Heisenberg operator minus its vacuum value (N1), for every ordering of U: off by a nonzero one-body operator (k = 0, Wick U: -lam (8 N_b + 7 N_d))",
+   "with U ordered as S.S, :S:.:S: or Psi^+Psi^+PsiPsi and K_mu as Wick products, and with the right-hand side m:S: + lam :S:^2: off by nonzero one-body operators; at k = 0 the expectation value vanishes only in the vacuum",
+   "<:U(S):> = U(<:S:>): false (one quantum at k = 0: p = 0 versus lam/2)",
+   "the identity for arbitrary d4 Psi (negative control): it needs the interacting operator field equation"
+  ],
+  "scope": "one good-sector plane-wave mode set with frozen coefficients (flat frame, V = 1, 16 modes, 2^16 states); not the field on a whole slice, not the curved x8 dependence, not the extra-time sector; the one-body discrepancies scale with the number of sea modes (8 here) and would diverge in the continuum (remark, not computed)"
+ }
+}
