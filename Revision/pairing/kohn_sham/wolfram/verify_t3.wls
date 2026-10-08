@@ -11,13 +11,18 @@
 
    The Kohn-Sham problem is the one recorded in Revision/kohn_sham/ks-theory.json (block equation, functional,
    densities, energy-momentum tensor, boundary conditions); this script re-derives every step of the proof by
-   exact symbolic computation and reads ks-theory.json only for the block basis V (to tie the 2 x 2 block map to
-   the 16-component chirality Gamma of Revision/algebra/gammas.json).  Written anew; no code shared with the
-   sympy checker Revision/pairing/kohn_sham/python/check_t3.py or with the Kohn-Sham verifiers.
+   exact symbolic computation and reads ks-theory.json for the Kohn-Sham potentials (exchange.kohnShamPotentials:
+   the coefficients of M_eff, v_v and e_int, with a consistency check, check T3_mean_field_map) and for the block
+   basis V (to tie the 2 x 2 block map to the 16-component chirality Gamma of Revision/algebra/gammas.json).
+   Written anew; no code shared with the sympy checker Revision/pairing/kohn_sham/python/check_t3.py or with the
+   Kohn-Sham verifiers.
 
    Writes (deterministic, LF): Revision/pairing/kohn_sham/t3-theory.json and
    Revision/pairing/kohn_sham/reports/wolfram-t3.json.
    Usage: wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls      Exit 0 iff all checks pass.
+   A missing or unreadable input (ks-theory.json, gammas.json, or Kohn-Sham potentials that are not exact numbers)
+   stops the run before the first check with a line "ERROR  ..." and exit code 1 (nothing is written); an output
+   file that cannot be written stops the run with "ERROR  cannot write ..." and exit code 1.
 
    Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially
    DEFLATING extra times; x8 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L).
@@ -31,6 +36,31 @@ checks = {};
 addCheck[name_String, ok_, detail_String] := (
   AppendTo[checks, <|"name" -> name, "verdict" -> If[TrueQ[ok], "PASS", "FAIL"], "detail" -> detail|>];
   Print[If[TrueQ[ok], "PASS  ", "FAIL  "], name]);
+
+(* inputs (read only): a missing or unreadable input stops the run here, before any check, and nothing is written *)
+readInput[p_String] := Module[{r},
+  If[! FileExistsQ[p], Print["ERROR  input file not found: ", p]; Exit[1]];
+  r = Quiet[Import[p, "RawJSON"]];
+  If[! AssociationQ[r], Print["ERROR  input file is not a JSON object: ", p]; Exit[1]];
+  r];
+ksPath = FileNameJoin[{$revDir, "kohn_sham", "ks-theory.json"}];
+ks = readInput[ksPath];
+fx = readInput[FileNameJoin[{$revDir, "algebra", "gammas.json"}]];
+(* the Kohn-Sham potentials of hypothesis H2, READ from ks-theory.json exchange.kohnShamPotentials: the coefficients
+   of M_eff = m + cMeff lambda S and v_v = cVv lambda n, and e_int = cES lambda S^2 + cEn lambda n^2 parsed from the
+   stated formula; they are compared with H2 and with each other in check T3_mean_field_map *)
+pots = Lookup[Lookup[ks, "exchange", <||>], "kohnShamPotentials", <||>];
+exactNum[s_String] := Module[{e = Quiet[ToExpression[s]]}, If[MatchQ[e, _Integer | _Rational], e, $Failed]];
+exactNum[_] := $Failed;
+cMeff = exactNum[Lookup[pots, "Meff_coefficient_of_lambda_S", None]];
+cVv = exactNum[Lookup[pots, "vv_coefficient_of_lambda_n", None]];
+eIntText = Lookup[pots, "e_int", None];
+eCoef = If[StringQ[eIntText],
+  StringCases[eIntText, "(" ~~ p : (DigitCharacter .. ~~ "/" ~~ DigitCharacter ..) ~~ ") lambda S^2 - (" ~~
+    q : (DigitCharacter .. ~~ "/" ~~ DigitCharacter ..) ~~ ") lambda n^2" :> {exactNum[p], -exactNum[q]}, 1], {}];
+{cES, cEn} = If[Length[eCoef] == 1, eCoef[[1]], {$Failed, $Failed}];
+If[! AllTrue[{cMeff, cVv, cES, cEn}, MatchQ[#, _Integer | _Rational] &],
+  Print["ERROR  cannot read the Kohn-Sham potentials (exchange.kohnShamPotentials: Meff_coefficient_of_lambda_S, vv_coefficient_of_lambda_n, e_int) as exact numbers from ", ksPath]; Exit[1]];
 
 s1 = {{0, 1}, {1, 0}}; s2 = {{0, -I}, {I, 0}}; s3 = {{1, 0}, {0, -1}}; id2 = IdentityMatrix[2]; z2 = {{0, 0}, {0, 0}};
 zeroQ[e_] := TrueQ[Simplify[ComplexExpand[e]] == 0];
@@ -74,11 +104,20 @@ addCheck["T3_orbital_densities",
   Simplify[dI - {1, -1, 1, -1, 1} dO] === {0, 0, 0, 0, 0} && Simplify[dI2 - {1, -1, 1, -1, 1} dO2] === {0, 0, 0, 0, 0},
   "per orbital (ks-theory.json densities.perOrbital): n_o = chi^dagger chi, s_o = chi^dagger j sigma2 chi, t_o = chi^dagger j sigma3 chi (current along k-hat), q_o = chi^dagger sigma3 chi, c_o = chi^dagger j sigma1 chi; under (chi, j) -> (sigma2 chi, -j) at the same k: n_o -> n_o, s_o -> -s_o, t_o -> t_o, q_o -> -q_o, c_o -> c_o (exact for arbitrary complex chi, both j); hence n(y) and t(y) are even, S(y) and Q(y) odd under the map"];
 
-meff[mm_, ll_, ss_] := mm + 15/16 ll ss; vvf[ll_, nn_] := -ll nn/16; eint[ll_, nn_, ss_] := 15/32 ll ss^2 - 1/32 ll nn^2;
+(* the potentials read from ks-theory.json (top of the script); v_v also as a function of (m, lambda, n, S): d e_int/dn *)
+meff[mm_, ll_, ss_] := mm + cMeff ll ss; vvf[ll_, nn_] := cVv ll nn; eint[ll_, nn_, ss_] := cES ll ss^2 + cEn ll nn^2;
+vvAll[mm_, ll_, nn_, ss_] := Module[{nE, sE}, D[eint[ll, nE, sE], nE] /. {nE -> nn, sE -> ss}];
+mfH2 = {cMeff, cVv, cES, cEn} === {15/16, -1/16, 15/32, -1/32};
+mfConsistent = Simplify[D[eint[lam, n, S], S] - (meff[m, lam, S] - m)] === 0 && Simplify[D[eint[lam, n, S], n] - vvf[lam, n]] === 0 &&
+  Simplify[vvAll[m, lam, n, S] - vvf[lam, n]] === 0;
+mfMap = Simplify[meff[-m, lam, -S] + meff[m, lam, S]] === 0 && Simplify[vvAll[-m, lam, n, -S] - vvAll[m, lam, n, S]] === 0 &&
+  Simplify[eint[lam, n, -S] - eint[lam, n, S]] === 0;
+mfControl = Simplify[meff[-m, -lam, -S] + meff[m, lam, S]] =!= 0 && Simplify[vvAll[-m, -lam, n, -S] - vvAll[m, lam, n, S]] =!= 0;
 addCheck["T3_mean_field_map",
-  Simplify[meff[-m, lam, -S] + meff[m, lam, S]] === 0 && vvf[lam, n] === vvf[lam, n] && Simplify[eint[lam, n, -S] - eint[lam, n, S]] === 0 &&
-  Simplify[meff[-m, -lam, -S] + meff[m, lam, S]] =!= 0,
-  "Kohn-Sham potentials of ks-theory.json exchange.kohnShamPotentials (Hartree plus the exact uniform-gas exchange): M_eff = m + (15/16) lambda S, v_v = -lambda n/16, e_int = (15/32) lambda S^2 - (1/32) lambda n^2. With S -> -S and n -> n: M_eff[-m, +lambda, -S] = -M_eff[m, lambda, S], v_v unchanged, e_int unchanged. So the self-consistency loop commutes with the map exactly when the image carries (-m, +lambda) - with (-m, -lambda) it does not (control)"];
+  mfH2 && mfConsistent && mfMap && mfControl,
+  "Kohn-Sham potentials READ from ks-theory.json exchange.kohnShamPotentials (Hartree plus the exact uniform-gas exchange): M_eff = m + c_M lambda S, v_v = c_v lambda n, e_int = c_S lambda S^2 + c_n lambda n^2 with c_M = " <>
+  ToString[cMeff, InputForm] <> " (Meff_coefficient_of_lambda_S), c_v = " <> ToString[cVv, InputForm] <> " (vv_coefficient_of_lambda_n), c_S = " <>
+  ToString[cES, InputForm] <> " and c_n = " <> ToString[cEn, InputForm] <> " (parsed from the stated formula e_int). Consistency: these are the values of hypothesis H2 (15/16, -1/16, 15/32, -1/32), M_eff - m = d e_int/dS and v_v = d e_int/dn. Map (S -> -S, n -> n), with v_v written as the function v_v(m, lambda, n, S) = d e_int/dn: M_eff[-m, +lambda, -S] = -M_eff[m, lambda, S], v_v(-m, +lambda, n, -S) = v_v(m, lambda, n, S), e_int[lambda, n, -S] = e_int[lambda, n, S]. So the self-consistency loop commutes with the map exactly when the image carries (-m, +lambda) - with (-m, -lambda) M_eff is not mapped to -M_eff and v_v(-m, -lambda, n, -S) differs from v_v(m, lambda, n, S) (control)"];
 
 (* energies and EMT profiles: two orbitals of opposite block type with general data, then the map *)
 orbit[o_] := <|"j" -> If[o == 1, 1, -1], "chi" -> {ar[o] + I br[o], cr[o] + I dr[o]}, "eps" -> ep[o], "f" -> fo[o], "g" -> go[o], "k" -> kk[o]|>;
@@ -117,8 +156,6 @@ addCheck["T3_exact_k0_spectra",
   "k = 0, v = 0, constant M (ks-theory.json boundaryConditions.exactK0Spectra): with chi(y) = exp(N y) chi(0), N = M sigma3 + i j eps sigma1, N^2 = (M^2 - eps^2) I, the characteristic function of (M, j, even parity, theta = 0) is minus that of (-M, -j, odd parity, theta = Pi), and that of (M, j, odd, theta = 0) equals that of (-M, -j, even, theta = Pi), identically in eps, M, L (both j): the two problems have the same spectrum level by level (even: eps = 0 and eps^2 = M^2 + (n Pi/L)^2; odd: tan(p L) = -p/M). The zero mode (E^(M y), 0) goes to (0, i E^(M y)), the zero mode of the image problem. Control: the image with the UNtransformed tip theta = 0 has a different characteristic function (Cosh[p L] + M Sinh[p L]/p type), i.e. a different spectrum"];
 
 (* the 16-component chirality Gamma is this block map (block basis V of ks-theory.json) *)
-ks = Import[FileNameJoin[{$revDir, "kohn_sham", "ks-theory.json"}], "RawJSON"];
-fx = Import[FileNameJoin[{$revDir, "algebra", "gammas.json"}], "RawJSON"];
 num[x_String] := ToExpression[x]; num[x_] := x;
 dec[x_Association] := Map[num, x["re"], {2}] + I Map[num, x["im"], {2}];
 dec[x_List] := Map[num, x, {2}];
@@ -189,7 +226,10 @@ theory = <|
     "Not a statement about two independently quantised universes; the pairing is between Kohn-Sham problems with (m, lambda) and (-m, +lambda), not (-m, -lambda).",
     "No back-reaction: the Kohn-Sham energy-momentum tensor is not a source that satisfies the a4 equations of SPEC section 5 (it depends on x8), see Revision/field_equations_a4/reports/ks-source-conditions.json."}|>;
 theoryText = toJ[theory, ""] <> "\n";
-writeLF[path_, text_String] := Module[{st = OpenWrite[path, BinaryFormat -> True]}, BinaryWrite[st, ToCharacterCode[text, "UTF-8"]]; Close[st]];
+writeLF[path_, text_String] := Module[{st = Quiet[OpenWrite[path, BinaryFormat -> True]]},
+  If[Head[st] =!= OutputStream, Print["ERROR  cannot write ", path]; Exit[1]];
+  If[BinaryWrite[st, ToCharacterCode[text, "UTF-8"]] === $Failed, Close[st]; Print["ERROR  cannot write ", path]; Exit[1]];
+  Close[st]];
 If[! DirectoryQ[FileNameJoin[{$t3Dir, "reports"}]], CreateDirectory[FileNameJoin[{$t3Dir, "reports"}]]];
 writeLF[FileNameJoin[{$t3Dir, "t3-theory.json"}], theoryText];
 report = StringJoin[

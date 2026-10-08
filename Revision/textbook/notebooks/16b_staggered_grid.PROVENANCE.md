@@ -324,8 +324,8 @@ The notebook shows 7 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/16b_1_staggered_grid.png` (1076 x 480 pixels): The staggered grid of the reference solver for $G = 6$ cells of width $h = L/G = 0.5$ on the hidden coordinate $-3 \le y \le 0$: the first orbital component $a$ is stored at the cell centres (circles, $u_p$), the second component $b$ at the inner cell ends (squares, $w_i$); at the tip and at the brane $b$ is zero (open squares) and is not an unknown. The $2G - 1 = 11$ unknowns alternate $u_0, w_1, u_1, \dots, u_5$.
 - `Revision/textbook/figures/16b_2_sturm_staircase.png` (1029 x 657 pixels): The Sturm count $c(x)$, the number of eigenvalues below $x$ of the even-parity matrix with $G = 30$ cells ($M = 1$, $L = 3$, $k = 0$), against $x$ in units of $m$. The count rises by one at each eigenvalue (circles, from a standard eigenvalue routine); the dashed lines are the exact levels $0$ and $\pm\sqrt{1 + (n\pi/3)^2}$. Bisection finds eigenvalue number $i$ by asking only how many eigenvalues lie below a trial value.
 - `Revision/textbook/figures/16b_3_orbitals.png` (1484 x 584 pixels): Orbitals of the free problem at zero 3-momentum ($M = 1$, $L = 3$), normalised to $\int (a^2 + b^2)\,dy = 1$, against the hidden coordinate $y$ (tip $-3$, brane $0$). Left: the zero mode, $a = A e^{My}$ with $A = \sqrt{2M/(1 - e^{-2ML})}$ and $b = 0$, localised at the brane; the circles are the exact discrete zero mode $u_p = q^p u_0$ of the grid with $G = 150$. Right: the even level of rank 1, $\varepsilon = \sqrt{1 + (\pi/3)^2}$: its $b$ vanishes at the tip and at the brane, and the grid values lie on the exact curves.
-- `Revision/textbook/figures/16b_4_matrix_heat_maps.png` (1185 x 548 pixels): The reference matrices $T$ for $G = 8$ cells ($h = 0.375$, $M = 1$, $L = 3$, $j = +1$, $k = 0$) as heat maps, entry $T_{rc}$ in units of $m$ by colour (blue negative, red positive, white zero). Left, even parity: only the two neighbouring diagonals are filled, alternating $1/h + M/2 = 3.17$ and $-1/h + M/2 = -2.17$. Right, odd parity in the rotated frame: the diagonal carries $\phi' \pm M\sin 2\phi$ and the off-diagonal entries carry $M\cos 2\phi$, which changes sign along $y$.
-- `Revision/textbook/figures/16b_5_convergence_ladder.png` (1062 x 998 pixels): Distance of the computed level from the exact level, in units of $m$, against the cell width $h = 3/G$ for $G = 150$ to $2400$, logarithmic axes, for three levels of the free problem: circles, single grids (slope 2, error proportional to $h^2$); squares, one Richardson step $(4x(h/2) - x(h))/3$ (slope 4); triangles, the three-grid value of the reference (two steps), already at the rounding floor near $10^{-14}$. The high level of rank 5 has the largest errors, because its orbital varies fastest from cell to cell.
+- `Revision/textbook/figures/16b_4_matrix_heat_maps.png` (1185 x 548 pixels): The reference matrices $T$ for $G = 8$ cells ($h = 0.375$, $M = 1$, $L = 3$, $j = +1$, $k = 0$) as heat maps, entry $T_{rc}$ in units of $m$ by colour (blue negative, red positive, white zero). Left, even parity: only the two neighbouring diagonals are filled, alternating $1/h + M/2 = 3.17$ and $-1/h + M/2 = -2.17$. Right, odd parity in the rotated frame: the diagonal carries $\phi' \pm M\sin 2\phi$ and the off-diagonal entries are $\pm 1/h + \tfrac12 M\cos 2\phi$; $M\cos 2\phi$ goes from $+M$ at the tip to $-M$ at the brane, so the red entries fall from 3.17 to 2.17 and the blue ones from -2.17 to -3.17, without a change of sign.
+- `Revision/textbook/figures/16b_5_convergence_ladder.png` (1062 x 998 pixels): Distance of the computed level from the exact level, in units of $m$, against the cell width $h = 3/G$ for $G = 150$ to $2400$, logarithmic axes, for three levels of the free problem: circles, single grids (slope 2, error proportional to $h^2$); squares, one Richardson step $(4x(h/2) - x(h))/3$ (slope 4); triangles, the three-grid value of the reference (two steps), at the rounding floor near $10^{-14}$ on the coarsest triple for the two lower levels and from the second triple on for rank 5. The high level of rank 5 has the largest errors, because its orbital varies fastest from cell to cell.
 - `Revision/textbook/figures/16b_6_error_ratios.png` (1093 x 634 pixels): The convergence ratio $(x(G) - x(2G))/(x(2G) - x(4G))$ of the 17 nonzero levels of ranks $-3$ to $5$ (both parities, $M = 1$, $L = 3$, $k = 0$) against the exact level in units of $m$, for three triples of grids. A ratio of 4 means an error proportional to $h^2$; the ratios approach 4 as the grids get finer, fastest for the low levels. The zero mode (even parity, rank 0) is exact on every grid and has no ratio.
 - `Revision/textbook/figures/16b_7_brane_band_slope.png` (1484 x 613 pixels): The slope $d\varepsilon/dk$ at $k = 0$ of the brane band (even parity, $j = +1$, $M = H = 1$, $L = 3$). Left: against the slice $a_{4,0}$ of the history, logarithmic vertical axis; the Richardson values of the grid (circles) lie on the formula of ks-theory.json, $c(0)\,e^{-a_{4,0}}$ with $c(0) = 1.90515$: the 3-momentum is redshifted as 3-space inflates while the three extra times deflate. Right: the single-grid values at $a_{4,0} = 0$ approach the exact slope with an error proportional to $h^2$ (parallel to the dashed line of slope 2).
 
@@ -337,7 +337,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/16b.captions.json` | 3580 | `f19742aadaf40eb7cabe1592e8290659099996f4c86135754ce069fcfb921051` |
+| `Revision/textbook/figures/16b.captions.json` | 3821 | `57cf4123ac6af10e53ab0ac52b8b202a84456206be232bff27c0d2b785505b54` |
 | `Revision/textbook/figures/16b_1_staggered_grid.png` | 34703 | `73ed676122bbc50d1fd80d75aed924b8591e6e31d97a9040d51472b413ccb8a9` |
 | `Revision/textbook/figures/16b_2_sturm_staircase.png` | 50091 | `e4679b09ea63ddb84b3f0ea7d1bf8b9f724b5fde87615e98bfaa9e2595dccff4` |
 | `Revision/textbook/figures/16b_3_orbitals.png` | 76768 | `49fc8bac89f82ff7f7e5d62bd25bc239070e121140d5910fabe0343ea2f0a1ed` |
@@ -367,8 +367,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 18.2 s, peak memory of the kernel process 216 MiB;
-- the check run: 17.3 s, peak memory of the kernel process 215 MiB.
+- the build run: 15.0 s, peak memory of the kernel process 214 MiB;
+- the check run: 15.2 s, peak memory of the kernel process 215 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -380,9 +380,9 @@ Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/16b_staggered_grid.ipynb`: `538e848ea775618c39e2492bbc5fd6a0fe0aa71c01c4fd401b82f03493d9843e`
-- `Revision/textbook/notebooks/src/16b_staggered_grid.py`: `e4113737e67e7bc7074d8f1636f0078ec2c9c24a19c63a9a1b8ca3e094399edc`
-- `Revision/textbook/figures/16b.captions.json`: `f19742aadaf40eb7cabe1592e8290659099996f4c86135754ce069fcfb921051`
+- `Revision/textbook/notebooks/16b_staggered_grid.ipynb`: `a2bcba73be9dee4aaf2ce76a36157af01a985ffad138c5ad47ba3ba46113ceb9`
+- `Revision/textbook/notebooks/src/16b_staggered_grid.py`: `8a80321a205e3d8169ceedbe6da5386d95aca087e76be4cbed476dee644ee38e`
+- `Revision/textbook/figures/16b.captions.json`: `57cf4123ac6af10e53ab0ac52b8b202a84456206be232bff27c0d2b785505b54`
 - `Revision/textbook/figures/16b_1_staggered_grid.png`: `73ed676122bbc50d1fd80d75aed924b8591e6e31d97a9040d51472b413ccb8a9`
 - `Revision/textbook/figures/16b_2_sturm_staircase.png`: `e4679b09ea63ddb84b3f0ea7d1bf8b9f724b5fde87615e98bfaa9e2595dccff4`
 - `Revision/textbook/figures/16b_3_orbitals.png`: `49fc8bac89f82ff7f7e5d62bd25bc239070e121140d5910fabe0343ea2f0a1ed`
@@ -397,4 +397,4 @@ Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":216.0,"seconds":18.2},"check":{"date":"2026-10-08","files":8,"peak_mb":215.0,"result":"passed","seconds":17.3},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":214.0,"seconds":15.0},"check":{"date":"2026-10-08","files":8,"peak_mb":215.0,"result":"passed","seconds":15.2},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

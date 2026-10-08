@@ -158,7 +158,7 @@ CELLS = [
     - **Gap**: an energy interval without levels. When the gap is much larger than $T$
       the state is in the **activated regime**: very few particles are thermally lifted
       across it.
-    - **Thermal holes** $H = \sum_{\varepsilon_i < \mu} g_i\,(1 - f(x_i))$ (missing
+    - **Thermal holes** $H_{th} = \sum_{\varepsilon_i < \mu} g_i\,(1 - f(x_i))$ (missing
       particles below $\mu$) and **thermal particles**
       $P = \sum_{\varepsilon_i > \mu} g_i\,f(x_i)$ (particles above $\mu$).
     - **Newton's method** and **bisection**: two ways to find a root, explained where
@@ -618,10 +618,10 @@ CELLS = [
       $W(\mu) = \Big(\sum_{below} g_i - N\Big) - \sum_{below} g_i\,f(-x_i)
       + \sum_{above} g_i\,f(x_i)$.
     - The first bracket is a sum of whole numbers, which doubles add exactly. The second
-      sum is $H$, the thermal holes, and the third is $P$, the thermal particles; both
+      sum is $H_{th}$, the thermal holes, and the third is $P$, the thermal particles; both
       are sums of small positive numbers, each computed with a relative error of about
       $10^{-16}$. Near the root $W$ is small and is known to about $10^{-16}$ of the size
-      of $H$ and $P$ (here $6\times10^{-9}$), instead of $10^{-16}$ of $N = 8$.
+      of $H_{th}$ and $P$ (here $6\times10^{-9}$), instead of $10^{-16}$ of $N = 8$.
 
     The value is the same as before (it is an exact rewriting); only the rounding is
     different. The next cell runs bisection on both forms with the Rust levels, starting
@@ -740,9 +740,9 @@ CELLS = [
       times the size of the numbers. For the direct sum the numbers are the
       occupations, of total size $N$, so $|\delta R| \lesssim n\,\epsilon_{mach} N$ and
       $|\mu - \mu_{root}| \lesssim n\,\epsilon_{mach} N / N'$.
-    - For the well-conditioned form the numbers are $H$, $P$ and the whole number
+    - For the well-conditioned form the numbers are $H_{th}$, $P$ and the whole number
       $d = N - \sum_{below} g$ (zero at the root of this state), so $N$ is replaced by
-      $P + H + |d|$.
+      $P + H_{th} + |d|$.
 
     The Rust solver's documentation (file `solver/src/mermin.rs`) states the complete
     bounds, with generous constants. Besides the summation they count the rounding of
@@ -750,13 +750,14 @@ CELLS = [
     $\langle|\varepsilon - \mu|\rangle$), the logarithms of the degeneracies and a few
     constants (the term with $T$), the returned double (the term with $|\mu|$), and, for
     the well-conditioned form, the logarithms with which the solver balances the two
-    sides $A = P + d_-$ and $B = H + d_+$ ($d_\pm = \max(\pm d, 0)$; at the root $A = B$):
+    sides $A = P + d_-$ and $B = H_{th} + d_+$ ($d_\pm = \max(\pm d, 0)$; at the root
+    $A = B$):
     $$B_{direct} = \epsilon_{mach}\Big[(n + 2)\,\frac{N}{N'} + 3\,\langle|\varepsilon
     - \mu|\rangle + T(\ln g_{max} + 3) + 2|\mu|\Big],$$
-    $$B_{well} = \epsilon_{mach}\Big[(n + 2 + L)\,\frac{P + H + |d|}{N'} + 3\,
-    \langle|\varepsilon - \mu|\rangle + T(\ln g_{max} + 3) + 2|\mu|\Big],$$
+    $$B_{well} = \epsilon_{mach}\Big[(n + 2 + \Lambda)\,\frac{P + H_{th} + |d|}{N'}
+    + 3\,\langle|\varepsilon - \mu|\rangle + T(\ln g_{max} + 3) + 2|\mu|\Big],$$
     where $n$ is the number of levels, $g_{max}$ the largest degeneracy,
-    $L = \max(|\ln A|, |\ln B|)$, and $\langle\cdot\rangle$ the average weighted with
+    $\Lambda = \max(|\ln A|, |\ln B|)$, and $\langle\cdot\rangle$ the average weighted with
     $g f(1 - f)$. The next cell evaluates both at the root and compares them with the
     entry of this state in the Rust solver's 40-digit report `ks-rust-mermin-roots.json`
     (which prints 4 digits).
@@ -764,7 +765,7 @@ CELLS = [
     code(r'''
     def rounding_bounds(eps, g, N, T, mu):
         """dN/dmu, the bound of the direct sum and the bound of the well-conditioned form
-        at mu (the formulas of solver/src/mermin.rs), and P, H, d."""
+        at mu (the formulas of solver/src/mermin.rs), and P, H_th, d."""
         x = (eps - mu) / T
         f_plus, f_minus = K.fermi(x), K.fermi(-x)  # f(x) and 1 - f(x) = f(-x)
         weight = g * f_plus * f_minus  # g f (1 - f): how strongly a level reacts to mu
@@ -772,7 +773,7 @@ CELLS = [
         mean_distance = float(np.sum(weight * np.abs(eps - mu)) / np.sum(weight))
         below = x < 0.0
         particles = float(np.sum(g[~below] * f_plus[~below]))  # P
-        holes = float(np.sum(g[below] * f_minus[below]))  # H
+        holes = float(np.sum(g[below] * f_minus[below]))  # H_th
         d = N - float(np.sum(g[below]))  # a whole number
         n = len(eps)
         big_l = max(abs(math.log(particles + max(-d, 0.0))),  # |ln A|
@@ -782,15 +783,15 @@ CELLS = [
         direct = EPS_MACH * (n + 2) * N / slope + common
         well = EPS_MACH * (n + 2 + big_l) * (particles + holes + abs(d)) / slope + common
         return {"slope": slope, "direct": direct, "well": well, "P": particles,
-                "H": holes, "d": d, "n": n, "L": big_l}
+                "H_th": holes, "d": d, "n": n, "Lambda": big_l}
 
 
     MERMIN_REPORT = read_json(f"{KS}/reports/ks-rust-mermin-roots.json")
     RECORD = {s["id"]: s for s in MERMIN_REPORT["states"]}
     b = rounding_bounds(eps_r, g_r, 8.0, 0.01, mu_star)
     rec = RECORD[STATE]
-    say(f"n = {b['n']} levels; P = {b['P']:.6e}, H = {b['H']:.6e}, d = {b['d']:.0f}, "
-        f"L = {b['L']:.3f}; dN/dmu = {b['slope']:.6e} (record {rec['dN_dmu']})")
+    say(f"n = {b['n']} levels; P = {b['P']:.6e}, H_th = {b['H_th']:.6e}, d = {b['d']:.0f}, "
+        f"Lambda = {b['Lambda']:.3f}; dN/dmu = {b['slope']:.6e} (record {rec['dN_dmu']})")
     say(f"B_direct = {b['direct']:.4e} (record {rec['boundDirectCount']}); B_well = "
         f"{b['well']:.4e} (record {rec['boundWellConditioned']})")
     one_step = EPS_MACH * 8.0 / b["slope"]  # one rounding of size eps_mach N, as mu
@@ -1111,7 +1112,7 @@ CELLS = [
       that is exactly zero on an interval about $10^{-9}$ wide; bisection on it returns
       the recorded faulty value $0.2100104489071649$ of the first cross-check in all the
       digits the record prints.
-    - The exact rewriting $W = (\sum_{below} g - N) - H + P$ is computed with relative
+    - The exact rewriting $W = (\sum_{below} g - N) - H_{th} + P$ is computed with relative
       precision; bisection on it gives the root to $10^{-16}$, the committed repaired
       values of both solvers.
     - The rounding bounds of the Rust documentation predict both errors

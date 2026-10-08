@@ -17,8 +17,8 @@ of the canonical matrix (three ground states, two thermal states) and for the fo
 validation of one state, checks that the new results reproduce the committed reference
 record, shows the convergence of the grids and the Richardson extrapolation, builds the
 Revision Rust solver and runs its `single` command with the canonical and the refined
-numerics (raw outputs in the git-ignored folder
-Revision/kohn_sham/solver/target/textbook_16a), applies the tolerance rule of
+numerics (raw outputs in a temporary folder outside the repository, removed after
+the runs), applies the tolerance rule of
 Revision/kohn_sham/checker/crosscheck_ks.py to every comparison of the cross-check classes
 it repeats, and reproduces the corresponding rows and worst cases of
 Revision/kohn_sham/reports/ks-crosscheck.json and ks-crosscheck-table.csv.
@@ -55,8 +55,8 @@ FACTS = {
         "refined numerics to measure its uncertainty, applies the tolerance rule of the "
         "cross-check to 5140 comparisons, and reproduces the corresponding rows and "
         "worst cases of the committed cross-check report. The raw outputs of the Rust "
-        "program go into the folder `Revision/kohn_sham/solver/target/textbook_16a`, "
-        "which git ignores."
+        "program go into a temporary folder of the operating system (outside the "
+        "repository), which the notebook deletes as soon as it has read them."
     ),
     "records": [
         ["Revision/kohn_sham/reference/run_reference.py",
@@ -76,7 +76,7 @@ FACTS = {
          "the measured differences between the canonical and the refined Rust runs, "
          "which the new Rust runs must reproduce"],
         ["Revision/kohn_sham/reports/ks-crosscheck.json",
-         "the 29 checks of the cross-check, its tolerance rule and its worst cases"],
+         "the 31 checks of the cross-check, its tolerance rule and its worst cases"],
         ["Revision/kohn_sham/reports/ks-crosscheck-table.csv",
          "every scalar comparison of the cross-check with both values, both "
          "uncertainties, the tolerance and the ratio"],
@@ -86,7 +86,7 @@ FACTS = {
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [{"manifest": "Revision/kohn_sham/solver/Cargo.toml",
                     "binaries": ["revision_ks_solver"], "build_minutes": 1}],
-    "expected_seconds": 270,
+    "expected_seconds": 600,
     "timeout_seconds": 1800,
     "files_written": ["Revision/textbook/figures/16a.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
@@ -98,7 +98,7 @@ FACTS = {
         ["The cell that runs the reference solver on the three ground states shows the "
          "label with the star for two minutes or longer",
          "this is normal. The state N136_lamp2_a20 alone takes about two minutes on a "
-         "fast computer and up to ten minutes on a laptop, because the reference solves "
+         "fast computer and up to five minutes on a laptop, because the reference solves "
          "354 levels on three grids, each with its excited state and four neighbouring "
          "slices. Wait until the label shows a number."],
         ["A line reports that a re-run is not identical byte for byte, but the PASS line "
@@ -116,10 +116,6 @@ FACTS = {
          "the program revision_ks_solver is still running in another window or "
          "terminal, and Windows does not let cargo replace a running program. Wait "
          "until that run has finished (or close it), then run the cell again."],
-        ["You want the disk space of the Rust outputs back",
-         "the folder `Revision/kohn_sham/solver/target/textbook_16a` holds only the raw "
-         "output of the last run (about 1 MB, ignored by git); delete it at any time, "
-         "the notebook writes it again."],
     ],
 }
 
@@ -153,7 +149,8 @@ CELLS = [
 
     Four of the five states were chosen because the full cross-check of all 210 states
     found its largest differences in them; the fifth (N688_lam0_a00) has the largest
-    number of particles. The run takes about four minutes on a fast computer.
+    number of particles. The run takes three to five minutes on a fast computer and
+    about ten minutes on a typical laptop.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -247,7 +244,7 @@ CELLS = [
     for profile points. The **ratio** is the left side divided by the right side.
 
     **The subset.** The committed cross-check compared all 210 states (75 ground, 135
-    thermal) and passed all 29 checks. This notebook recomputes five of them:
+    thermal) and passed all 31 checks. This notebook recomputes five of them:
 
     | state | $N$ | $\lambda$ | $a_{4,0}$ | $T$ | why it is in the subset |
     | --- | --- | --- | --- | --- | --- |
@@ -270,12 +267,16 @@ CELLS = [
     temperatures, and the fingerprint of the theory file both programs read) and the
     six couplings that each solver derived on its own from the same rule. This repeats
     the cross-check's checks `problem_definition_identical` and (for the couplings)
-    `parameters_couplings`.
+    `parameters_couplings`. It also prints the sizes of the two checks that the
+    cross-check gained on 2026-10-08: `thermo_levels` (every level of every thermal
+    state, label by label) and `thermo_mu_rust_stated_bound` (the Rust solver's stated
+    rounding bound of $\mu$, tested against roots computed with 40 digits).
     """),
     code(r'''
     import csv  # reads tables stored as CSV files (comma-separated values)
     import re  # finds patterns in text (used to read numbers out of report sentences)
     import sys  # the list of folders in which Python looks for modules
+    import tempfile  # makes temporary folders outside the repository
 
     import numpy as np  # arrays of numbers
 
@@ -305,8 +306,12 @@ CELLS = [
         counts[label] = (summary["pass"], summary["checks"])
         say(f"{label}: {summary['pass']} of {summary['checks']} checks PASS")
     check(counts == {"reference solver": (37, 37), "Rust solver": (42, 42),
-                     "cross-check": (29, 29)},
-          "the three committed reports pass every check (37, 42 and 29)")
+                     "cross-check": (31, 31)},
+          "the three committed reports pass every check (37, 42 and 31)")
+    CROSS = {c["name"]: c["detail"] for c in REPORTS["cross-check"]["checks"]}
+    for name in ["thermo_levels", "thermo_mu_rust_stated_bound"]:  # the two newest
+        size = re.search(r"(\d+) comparisons", CROSS[name]).group(1)  # a number in text
+        say(f"cross-check {name}: {size} comparisons, PASS")
 
     RUST_PARAMS = read_json(f"{KS}/results/parameters.json")  # the Rust solver's
     REF_PARAMS = read_json(f"{KS}/reference/results/parameters.json")  # the reference's
@@ -745,9 +750,11 @@ CELLS = [
                 "Distance from 4 of the convergence ratio $(x(300) - x(600))/(x(600) - "
                 "x(1200))$ of every level of the three ground states, against the "
                 "level energy in units of $m$ (vertical axis logarithmic). A ratio of 4 "
-                "means an error proportional to $h^2$. Low levels have ratios within a "
-                "few millionths of 4; higher levels, whose orbitals oscillate faster, "
-                "deviate more because the $h^4$ term is larger, but even the worst "
+                "means an error proportional to $h^2$. Most levels lie between "
+                "$10^{-5}$ and $3\\times10^{-4}$ from 4, with no trend in the energy; "
+                "the levels nearest $\\varepsilon = 0$ deviate by $5\\times10^{-4}$ to "
+                "$7\\times10^{-4}$. The largest deviations belong to a group of levels "
+                "of N136_lamp2_a20 between $\\varepsilon = 1.2$ and $2.1$; even the worst "
                 f"level, at {worst_level:.4f}, stays below the limit 0.05 that the "
                 "reference applies to the median.")
     check(worst_level < 0.05, "every single level has a ratio within 0.05 of 4")
@@ -783,14 +790,14 @@ CELLS = [
     the temperature for thermal states, and the **margin**, which decides how many levels
     above the Fermi level are kept ($0.25 + 2\sigma$ at $T = 0$, $0.2 + 2\sigma$ at
     $T > 0$). Each run writes a JSON file (energies, levels, integrals) and a CSV file
-    (the profiles) into the folder `Revision/kohn_sham/solver/target/textbook_16a`,
-    which git ignores; the cell reads them back. It prints each command without the two
-    output-file options (their folder differs from computer to computer).
+    (the profiles) into a new **temporary folder** of the operating system, outside the
+    repository; the cell reads them back and then deletes the folder, so the runs leave
+    no file behind. It prints each command without the two output-file options (their
+    folder differs from run to run).
     """),
     code(r'''
     SOLVER = rust_program(f"{KS}/solver/Cargo.toml", "revision_ks_solver")
-    RUN_FOLDER = REPO / f"{KS}/solver/target/textbook_16a"  # git ignores target folders
-    RUN_FOLDER.mkdir(parents=True, exist_ok=True)
+    RUN_FOLDER = Path(tempfile.mkdtemp(prefix="textbook_16a_"))  # a new, empty folder
 
 
     def run_single(sid, refined):
@@ -826,6 +833,7 @@ CELLS = [
             results, profiles, arguments = run_single(sid, refined)
             RUST[(sid, "refined" if refined else "canonical")] = (results, profiles)
         say("revision_ks_solver " + " ".join(arguments))  # the refined command
+    shutil.rmtree(RUN_FOLDER)  # delete the temporary folder and the raw outputs in it
     check(len(RUST) == 10, "ten Rust runs (five states, two numerics) completed")
     '''),
     md(r"""

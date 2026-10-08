@@ -103,8 +103,8 @@ CELLS = [
     sides do not depend on the hidden coordinate $x_8$ and obey one algebraic identity.
     So every admissible source must satisfy three conditions:
 
-    - **C1**: no component of the source depends on $x_8$ (and the mixed component
-      $q_{48}$ is zero);
+    - **C1**: no component of the source depends on $x_8$ (and the mixed components
+      $q_{48}$ and $q_{84}$ are zero);
     - **C2**: $p_3 + p_t = 2p_8$ (3-space pressure plus extra-time pressure equals
       twice the hidden-direction pressure);
     - **C3**: for the linear member $a_4 = AHx_4 + a_0$ (the history used by the
@@ -139,8 +139,8 @@ CELLS = [
     - **Energy-momentum tensor** $T^\mu{}_\nu$: an $8 \times 8$ table at each point
       that says how much energy and momentum matter has and how they flow. For our
       sources it is diagonal: $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t,
-      p_8)$ in the order $x_1, \dots, x_8$, plus a possible mixed entry $q_{48}$ (row
-      $x_4$, column $x_8$).
+      p_8)$ in the order $x_1, \dots, x_8$, plus possible mixed entries $q_{48}$ (row
+      $x_4$, column $x_8$) and $q_{84}$ (row $x_8$, column $x_4$).
     - **Energy density** $\rho$ and **pressures** $p_3$ (each direction of 3-space),
       $p_t$ (each extra time), $p_8$ (the hidden direction).
     - **Source**: the matter whose $T$ stands on the right-hand side of the field
@@ -306,8 +306,8 @@ CELLS = [
     Lovelock orders.
 
     - C1: every component contains only the symbols $a_4'$, $a_4''$, $H$ (no $x_8$,
-      not even through $\cot z$), and the mixed $x_4x_8$ component is zero, so the
-      source must have $q_{48} = 0$.
+      not even through $\cot z$), and the mixed $x_4x_8$ and $x_8x_4$ components are
+      zero, so the source must have $q_{48} = q_{84} = 0$.
     - C2: $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_8}{}_{x_8}$ expands to zero.
     - C3: with $a_4'' = 0$ the $x_1$, $x_5$, $x_8$ components are equal, and the
       $x_4$ component contains $a_4'$ and $H$ only (constant when $a_4' = AH$).
@@ -340,9 +340,9 @@ CELLS = [
     parameters of the computations. For every state it computes max|T|, the largest
     absolute value of the four components, and sorts the states into those with a
     nonzero tensor and those with $T = 0$ everywhere (no source at all). It also prints
-    what the Kohn-Sham theory record says about the mixed component $q_{48}$ (there
-    written $T^{x_4}{}_y$): it vanishes for every eigen-orbital, so the Kohn-Sham states
-    meet the part $q_{48} = 0$ of C1; the question is the $x_8$ dependence.
+    what the Kohn-Sham theory record says about the mixed components (there written
+    $T^{x_4}{}_y$): they vanish for every eigen-orbital, so the Kohn-Sham states meet
+    the part $q_{48} = q_{84} = 0$ of C1; the question is the $x_8$ dependence.
     """),
     code(r'''
     COLUMNS = ("rho", "p3", "p_t", "p8")  # the four diagonal components of the source
@@ -939,8 +939,9 @@ CELLS = [
       conserved, and for a conserved source C2 says exactly that $p_8$ does not
       change along $x_8$, while C3 says exactly that no energy is exchanged with the
       inflating 3-space and the deflating extra times ($p_3 = p_t$). The Kohn-Sham
-      states are conserved, but their $p_8$ varies strongly along $x_8$ and their
-      $p_3$ exceeds $p_t$.
+      states obey the conservation law of the hidden direction at every point, and
+      the energy law of the time direction only for the total energy of the patch;
+      their $p_8$ varies strongly along $x_8$ and their $p_3$ exceeds $p_t$.
     - NOT shown: that no state of dirac16complex could ever be a source of the
       author's metric, or what metric the Kohn-Sham gas would produce with
       back-reaction (OPEN).

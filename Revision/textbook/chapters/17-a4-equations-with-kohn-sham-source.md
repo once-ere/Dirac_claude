@@ -13,24 +13,25 @@ Chapters 14 to 16 computed the Kohn-Sham states of the field dirac16complex in t
 - The field equations of $a_4$ and the most general source they allow (Section 17.3).
 - The three **source conditions**: no dependence on the hidden coordinate $x_8$ (C1, Section 17.4), the algebraic condition $p_3 + p_t = 2p_8$ (C2, Section 17.5), and, for the linear history $a_4 = AHx_4 + a_0$, equal pressures and a constant energy density (C3, Section 17.6).
 - What the 75 recorded Kohn-Sham states are and which numbers of them we use (Section 17.7); then Notebook 17a, which evaluates C1, C2 and C3 on all of them (Sections 17.8 to 17.11).
-- Why the states fail: every source of the field equations must be conserved (Section 17.12); the conservation law in the hidden coordinate $y$ (Section 17.13); for a conserved source C2 says exactly that the hidden pressure $p_8$ is flat (Section 17.14); the integrated form and the averaged ratio (Section 17.15); the energy exchange along the history and the propagation of the constraint, which turn C3 into $p_3 = p_t$ (Section 17.16); then Notebook 17b (Sections 17.17 to 17.20).
-- What "prescribed background" means, and what remains open (Section 17.21); the summary of statuses (Section 17.22); exercises with complete answers (Section 17.23).
+- Why the states fail: every source of the field equations must be conserved, and what the Kohn-Sham states conserve (Section 17.12); the conservation law in the hidden coordinate $y$ (Section 17.13); for a conserved source C2 says exactly that the hidden pressure $p_8$ is flat (Section 17.14); the integrated form and the averaged ratio (Section 17.15); the energy exchange along the history and the propagation of the constraint, which turn C3 into $p_3 = p_t$ (Section 17.16).
+- The field equations averaged over the hidden direction: the moment equations, which of them can hold together, their first integral, and what can and cannot be integrated with the Kohn-Sham source, within a stated approximation (Section 17.17); then Notebook 17b (Sections 17.18 to 17.21).
+- What "prescribed background" means, and what remains open (Section 17.22); the summary of statuses (Section 17.23); exercises with complete answers (Section 17.24).
 
 **The two notebooks.**
 
 | notebook | what it computes | PASS lines | figures |
 | --- | --- | --- | --- |
 | 17a | the three source conditions derived from the record, evaluated on the 75 recorded Kohn-Sham states | 16 | 7 |
-| 17b | the conservation law in the author's metric; why a conserved source fails C2 and C3 | 16 | 5 |
+| 17b | the conservation law in the author's metric; why a conserved source fails C2 and C3; the averaged equations and their first integral | 20 | 6 |
 
 Neither needs Rust: both read the stored results of the Revision Rust solver and the Revision reports, and compute everything else with numpy and sympy.
 
 **The status of every statement.** As everywhere in this book, every statement carries one of five labels: PROVED (exact, with the verifier file and check name), COMPUTED (numerical, with its measured error), ASSUMED, HYPOTHESIS, OPEN. In this chapter:
 
-- PROVED: the three source conditions (Sections 17.4 to 17.6), the conservation law and its consequences (Sections 17.12 to 17.16), and the absence of a solution without matter in Einstein gravity.
+- PROVED: the three source conditions (Sections 17.4 to 17.6), the conservation law and its consequences (Sections 17.12 to 17.16), the moment equations and their first integral (Section 17.17), and the absence of a solution without matter in Einstein gravity.
 - COMPUTED: every statement about the 75 recorded states (Notebooks 17a and 17b), each with the record file it reproduces.
-- ASSUMED: the history $a_4 = Hx_4$ on which the Kohn-Sham states were computed (it is the prescribed background); the good sector, the Z2 mirror at the brane and the tip cutoff of the Kohn-Sham model (Chapter 14).
-- OPEN: what metric the Kohn-Sham gas would produce with back-reaction, and whether any state of dirac16complex is an admissible source of the author's metric (Section 17.21).
+- ASSUMED: the history $a_4 = Hx_4$ on which the Kohn-Sham states were computed (it is the prescribed background); the good sector, the Z2 mirror at the brane and the tip cutoff of the Kohn-Sham model (Chapter 14); in Section 17.17, the approximation that keeps only two of the averaged field equations (it is stated there with its error).
+- OPEN: what metric the Kohn-Sham gas would produce with back-reaction, and whether any state of dirac16complex is an admissible source of the author's metric (Section 17.22).
 - HYPOTHESIS: none in this chapter.
 
 **Honesty about what this chapter is not.** Nothing in this chapter concerns the creation of universes, pairs of universes, or matter and antimatter. In particular the sign changes that appear in it (a pressure that changes sign along the hidden direction, the states with couplings $+\lambda$ and $-\lambda$ in figure 4 of Notebook 17b) are properties of particular recorded states; they are not the pairing theorems of Chapters 18 to 20.
@@ -50,6 +51,9 @@ Each word is defined in plain terms here; the later sections make each definitio
 - **Slice**: one instant of the history, labelled by the value $a_{4,0}$ of $a_4$ there; the Kohn-Sham states were computed at the five slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$.
 - **Kohn-Sham state**: a many-quantum state of dirac16complex computed with the Kohn-Sham method (Chapters 13 to 15). A recorded state is named like `N136_lamm2_a20`: particle number $N = 136$, coupling $\lambda = -\lambda_2$ (`lamm2`; `lamm1` is $-\lambda_1$, `lam0` is $\lambda = 0$, `lamp1` is $+\lambda_1$, `lamp2` is $+\lambda_2$), slice $a_{4,0} = 2.0$ (`a20`).
 - Words of the Kohn-Sham method used again here (Chapters 13 to 15 define them in full): an **orbital** is the wave of one quantum, and an **eigen-orbital** one that solves the Kohn-Sham equation with a definite energy; the **Fermi level** is the energy that separates the occupied orbitals from the empty ones; a state is **self-consistent** when the potentials computed from its own density are the potentials its orbitals were computed with; the **good sector** is the set of orbitals that do not depend on the extra times $x_5, x_6, x_7$; the **Z2 mirror** is the ASSUMED rule that the hidden direction continues beyond the brane as a mirror image of the computed patch, with the field there fixed by the field on the computed side (Chapter 14 states the rule; record `Revision/kohn_sham/ks-theory.json`, key `boundaryConditions.brane`).
+- More words of the Kohn-Sham computations: a **shell** is a group of orbitals with the same energy, and a **closed shell** is a particle number $N$ that fills every orbital up to some energy completely and none above it (so the ground state is unique); the **first-order mean-field potential** is the potential that one quantum feels from the others when the interaction is counted once, to first order in the coupling $\lambda$, with the density of the free gas; **fixed occupations** means that the same orbitals stay filled when $a_4$ is changed a little, even if their energies move.
+- **Least squares**: the straight line through a set of points that makes the sum of the squared vertical distances of the points from the line as small as possible.
+- **Moment** of a field equation: the equation multiplied by the volume weight $e^{6Hy}$ and integrated over the patch; it involves the source only through its weighted means $\bar\rho$, $\bar p_3$, $\bar p_t$, $\bar p_8$. **First integral**: an equation with only first derivatives that every solution of a second-order equation obeys. **Cubic Hermite interpolation**: between two tabulated points, the cubic polynomial with the given values and the given slopes at both ends. **Turning point**: the value of $a_4$ where $a_4'$ reaches 0. **Branch point**: a value of $a_4'$ where $F(a_4') = 0$, so that the evolution equation cannot be solved for $a_4''$.
 - **Profile**: a component of the source as a function of $y$, stored at 151 points. **Proper density**: an amount per unit of proper volume, the volume that rulers measure.
 - **max|T|**: the largest absolute value of $\rho$, $p_3$, $p_t$ and $p_8$ of a state over the whole patch. We divide by it to compare states of very different size.
 - **Integral over the patch** $\int X$: the total amount of a density $X$ in the computed region, $2\,\mathrm{Vol}_7\int_{-3}^{0}e^{6Hy}X\,dy$ (Section 17.7). **Weighted mean** $\bar X$: the integral divided by the proper volume of the patch.
@@ -265,10 +269,10 @@ $$
 
 ### 17.7 The recorded Kohn-Sham states as a candidate source
 
-**What was computed.** The Revision Rust solver (Chapter 15) computed, at each slice $a_{4,0}$ of the history $a_4 = Hx_4$, the self-consistent Kohn-Sham ground state of $N$ quanta of dirac16complex in the author's metric with $a_4$ frozen at $a_{4,0}$. It used the good sector (no dependence on the extra times), the Z2 mirror at the brane and the tip cutoff at $y = -3$, all ASSUMED (Chapter 14). The recorded states are all combinations of
+**What was computed.** The Revision Rust solver (Chapter 15) computed, at each slice $a_{4,0}$ of the history $a_4 = Hx_4$, the self-consistent Kohn-Sham ground state of $N$ quanta of dirac16complex in the author's metric with $a_4$ held at its slice value $a_{4,0}$ (the stationary-slice, adiabatic ansatz of Chapter 14; between the slices the extra times keep deflating). It used the good sector (no dependence on the extra times), the Z2 mirror at the brane and the tip cutoff at $y = -3$, all ASSUMED (Chapter 14). The recorded states are all combinations of
 
 - three particle numbers: $N = 8$ (the eight brane zero modes, the levels of zero 3-momentum and zero energy) and the closed shells $N = 136$ and $N = 688$ (record `Revision/kohn_sham/results/parameters.json`, key `particleNumbers`);
-- five couplings: $\lambda = 0$, $\pm\lambda_1$ and $\pm\lambda_2$, chosen for each $N$ so that the first-order mean-field potential stays below $0.1\,m$ and $0.3\,m$ along the whole history (the same file, key `couplingCalibration`; for $N = 8$, for example, $\lambda_1 = 0.01946$ and $\lambda_2 = 0.05838$);
+- five couplings: $\lambda = 0$, $\pm\lambda_1$ and $\pm\lambda_2$, chosen for each $N$ so that the largest first-order mean-field potential along the whole history is about $0.1\,m$ and $0.3\,m$ (the same file, key `couplingCalibration`; $\lambda$ is rounded to four digits, so the recorded values lie very slightly above: for $N = 8$, $\lambda_1 = 0.01946$ and $\lambda_2 = 0.05838$ give $0.1000011\,m$ and $0.3000034\,m$);
 - five slices: $a_{4,0} = 0, 0.5, 1, 1.5, 2$.
 
 That makes $3 \times 5 \times 5 = 75$ states.
@@ -1183,7 +1187,7 @@ save_figure(fig, "integrated_ratio",
 
 The caption, joined from its strings as in In [6], inserts the range of the ratios with three decimals, 0.107 to 0.414, and `near` with four decimals, 0.0045. Output: figure 17a.6 and its saved line.
 
-**What figure 17a.6 shows.** Horizontal axis: the slice $a_{4,0}$; vertical axis: $R$, a pure number. A source averaged over $x_8$ would need the red dashed line at 1. The $N = 8$ states lie flat between 0.107 and 0.110 (the same value at every slice; the four nonzero couplings differ slightly); the $N = 136$ states fall from 0.34 to 0.24 and the $N = 688$ states from 0.41 to 0.25 along the history; the five couplings of each of these two $N$ lie on top of each other. All points are far below 1. Section 17.15 explains why: $R$ is the value of $p_8$ at the brane divided by its mean.
+**What figure 17a.6 shows.** Horizontal axis: the slice $a_{4,0}$; vertical axis: $R$, a pure number. A source averaged over $x_8$ would need the red dashed line at 1. The $N = 8$ states lie flat between 0.107 and 0.110 (the same value at every slice; the four nonzero couplings differ slightly); the $N = 136$ states fall from 0.34 to 0.24 and the $N = 688$ states from 0.41 to 0.25 along the history; the five couplings of each of these two $N$ lie on top of each other. All points are far below 1. Section 17.15 explains why: by the integrated conservation law, $R = b_8/\bar p_8$ exactly, where $b_8 = [p_8(0) - e^{-6HL}p_8(-L)]/(1 - e^{-6HL})$ is the brane value of $p_8$ with a tip term; for $N = 136$ and $688$ the tip term supplies at most a few per cent of $R$, for $N = 8$ about a third.
 
 **In [16], condition C3 along the history.**
 
@@ -1384,9 +1388,12 @@ $$
 
 (rule: the Bianchi identity makes every term on the left zero). Since $\kappa \ne 0$: **every source of the field equations is conserved**, $\nabla_\mu T^\mu{}_\nu = 0$. Conservation is NECESSARY.
 
-**The Kohn-Sham states are conserved.** A field that obeys its own field equation in a given metric has a conserved energy-momentum tensor (Section 9.9: it is the Noether identity, which follows from the invariance of the action under a change of coordinates). For the Kohn-Sham states the record proves the conservation law of the hidden direction for every self-consistent state (`Revision/kohn_sham/reports/ks-theory-python.json`, check `emt_y_conservation_selfconsistent`) and the energy-change law of the time direction (the same report, check `emt_x4_component`), and the Rust solver checks both on its own fine grid of points (`Revision/kohn_sham/reports/ks-rust-solver.json`, checks `emt_y_conservation_pointwise`, `emt_y_conservation_integrated` and `emt_energy_change_dE_da4`).
+**What the Kohn-Sham states conserve.** A field that obeys its own TIME-DEPENDENT field equation in a given metric has a conserved energy-momentum tensor (Section 9.9: it is the Noether identity, which follows from the invariance of the action under a change of coordinates). The Kohn-Sham states are not such solutions: each one solves the instantaneous problem of one slice (the stationary-slice ansatz of Chapter 14), so the Noether argument does not apply to them, and the record proves exactly this much:
 
-**So conservation is not SUFFICIENT.** The states are conserved and still fail. The next four sections show precisely what the field equations of the author's metric demand beyond conservation, and why the Kohn-Sham states cannot give it.
+- along the hidden direction they are conserved at every point (the $y$ law of Section 17.13, for every self-consistent state: `Revision/kohn_sham/reports/ks-theory-python.json`, check `emt_y_conservation_selfconsistent`; the Rust solver checks it on its grid of points and integrated over the patch: `Revision/kohn_sham/reports/ks-rust-solver.json`, checks `emt_y_conservation_pointwise` and `emt_y_conservation_integrated`);
+- in the time direction only the TOTAL energy of the patch obeys the energy-change law (the same theory report, check `emt_x4_component`, which states the law for the energy of the 7-volume; the solver compares the derivative of that energy with respect to $a_4$, computed by finite differences in $a_4$, with the law: check `emt_energy_change_dE_da4`). Point by point the time law fails: the instantaneous states carry no energy flux along the hidden direction (their mixed component vanishes), so nothing moves energy from one value of $y$ to another, and the energy at a given $y$ changes along the history differently from what the pressures there demand (Section 17.16 shows the numbers).
+
+**So conservation is not SUFFICIENT.** Even a source that obeyed every conservation law could fail the field equations, and the Kohn-Sham states, which obey the hidden law everywhere and the time law for their total energy, do fail. The next four sections show precisely what the field equations of the author's metric demand beyond conservation, and why the Kohn-Sham states cannot give it.
 
 ### 17.13 The conservation law in the coordinate y
 
@@ -1582,7 +1589,7 @@ $$
 2\,\mathrm{Vol}_7\big[p_8(0) - e^{-6HL}p_8(-L)\big] = 3H\Big(\int p_3 + \int p_t\Big) .
 $$
 
-(PROVED from the $y$ law. COMPUTED on the 70 nonzero states with the brane values, tip values and integrals of the record's table: the two sides agree to a relative difference of at most $1.421 \times 10^{-11}$; the solver's own column `ycons_integrated_rel` gives at most $1.422 \times 10^{-11}$, the value of the solver check `emt_y_conservation_integrated`; Notebook 17b, In [14].)
+(PROVED from the $y$ law. COMPUTED on the 70 nonzero states with the brane values, tip values and integrals of the record's table: the two sides agree to a relative difference of at most $1.421 \times 10^{-11}$; the solver's own relative difference of the same two sides, column `ycons_integrated_rel` (computed from its unrounded numbers and divided by the largest of the terms involved), is at most $1.422 \times 10^{-11}$, the value of the solver check `emt_y_conservation_integrated`; Notebook 17b, In [14].)
 
 **Why the averaged ratio is not 1.** The averaged form of C2 asks for $R = (\int p_3 + \int p_t)/(2\int p_8) = 1$. By the definition of the weighted mean (Section 17.7),
 
@@ -1602,13 +1609,15 @@ $$
 = \frac{p_8(0) - e^{-6HL}\,p_8(-L)}{(1 - e^{-6HL})\,\bar p_8}
 $$
 
-(rule: cancel $2\,\mathrm{Vol}_7$; $\frac{1/(3H)}{2/(6H)} = \frac{6H}{6H} = 1$). With $e^{-6HL} = e^{-18} \approx 1.5 \times 10^{-8}$ the tip terms are small (though not negligible in every case, because near the tip $|p_8|$ is very much larger than at the brane; the notebook keeps them), and
+(rule: cancel $2\,\mathrm{Vol}_7$; $\frac{1/(3H)}{2/(6H)} = \frac{6H}{6H} = 1$). We call the numerator, divided by $1 - e^{-6HL}$, the **boundary value** of $p_8$,
 
 $$
-R \approx \frac{p_8(\text{brane})}{\bar p_8} .
+b_8 = \frac{p_8(0) - e^{-6HL}\,p_8(-L)}{1 - e^{-6HL}}, \qquad R = \frac{b_8}{\bar p_8} \quad\text{exactly.}
 $$
 
-The averaged C2 asks that the hidden pressure at the brane equal its weighted mean. That is true for a flat $p_8$ and false for the Kohn-Sham states: the weight $e^{6Hy}$ puts almost all of the mean in the last stretch before the brane (at $y = -1$ the weight is already $e^{-6} \approx 0.0025$), and there the Kohn-Sham $p_8$ falls toward the brane, so its brane value lies below its mean. The exact formula reproduces every ratio of Notebook 17a to a relative difference of $1.4 \times 10^{-11}$ (Notebook 17b, In [15]); Exercise 5 computes one by hand.
+The averaged C2 asks that the boundary value of the hidden pressure equal its weighted mean. That is true for a flat $p_8$ and false for the Kohn-Sham states: the weight $e^{6Hy}$ puts almost all of the mean in the last stretch before the brane (at $y = -1$ the weight is already $e^{-6} \approx 0.0025$), and there the Kohn-Sham $p_8$ falls toward the brane, so its boundary value lies below its mean.
+
+**Is the tip term small?** The factor $e^{-6HL} = e^{-18} \approx 1.5 \times 10^{-8}$ is tiny, but near the tip $|p_8|$ is enormous, so the answer depends on the state. Notebook 17b, In [15], measures the share $1 - p_8(0)/b_8$ of $R$ that the tip term supplies: from $4.1 \times 10^{-5}$ to $0.039$ for $N = 136$, from $5.3 \times 10^{-6}$ to $0.025$ for $N = 688$, but $0.31$ to $0.33$ for the 20 nonzero $N = 8$ states. So $R \approx p_8(\text{brane})/\bar p_8$ is a fair description of the states with 3-momentum and a poor one for the brane zero modes: for `N8_lamm1_a00` the brane value alone gives $0.0737$, the tip term adds $0.0362$, and $R = 0.1100$. The exact formula reproduces every ratio of Notebook 17a to a relative difference of $1.4 \times 10^{-11}$ (Notebook 17b, In [15]); Exercise 5 computes one by hand.
 
 ### 17.16 The time direction: energy exchange and the propagation of the constraint
 
@@ -1620,7 +1629,7 @@ $$
 
 (the prime is $d/dx_4$). In words: while 3-space inflates ($a_4' > 0$), a 3-space pressure $p_3$ takes energy out of the source, and while the extra times deflate, an extra-time pressure $p_t$ puts energy in. The volume of the seven directions other than the time is constant (the factors $e^{3a_4}$ and $e^{-3a_4}$ cancel), so, unlike a gas in an ordinary expanding universe, there is no term with $\rho$ itself: only the difference of the two pressures moves the energy. This is the first law of thermodynamics, "change of energy equals minus pressure times change of volume", applied to the two families of directions (an interpretation of the PROVED identity; Section 9.10 works it out).
 
-**For the Kohn-Sham gas** the record states the integrated version (`Revision/kohn_sham/ks-theory.json`, key `emt.energyChange`): the energy $E = \int\rho$ of the state changes as
+**For the Kohn-Sham gas** the record states only the integrated version (`Revision/kohn_sham/ks-theory.json`, key `emt.energyChange`): the energy $E = \int\rho$ of the state changes as
 
 $$
 \frac{dE}{dx_4} = -3a_4'\Big(\int p_3 - \int p_t\Big) .
@@ -1639,6 +1648,8 @@ $$
 $$
 
 (Solver check `emt_energy_change_dE_da4` of the report named in Section 17.12: the derivative that the solver computes from extra self-consistent states at $a_4 \pm \delta$ and $a_4 \pm 2\delta$ around each slice, with $\delta = 0.002$ and fixed occupations, agrees with the right-hand side in all 75 cases; the difference, divided by the larger of the sum of the absolute orbital energies and $m$, is at most $1.505 \times 10^{-10}$.) For $\lambda = 0$, $\int p_t = 0$ and $\int p_3 > 0$, so the energy must FALL along the history. For $N = 136$ at the first slice the rate is $-3 \times 23.8133 = -71.44$ (units of $m$ per unit of $a_{4,0}$). Over the whole history the energy falls from $80.2822$ to $12.4451$; Simpson's rule applied to the five recorded rates reproduces the change $-67.8372$ to a relative error of $2.1 \times 10^{-4}$, and for all ten series that change, to at most $2.2 \times 10^{-4}$ (COMPUTED; Notebook 17b, In [18]; Exercise 7).
+
+**Point by point the time law fails.** Notebook 17b, In [20], tests $\partial\rho/\partial a_4 = -3(p_3 - p_t)$ at every grid point of the slice $a_{4,0} = 1$, with a fourth-order difference in $a_4$ over the five slices. For $N = 136$, $\lambda = 0$ it finds at the tip $\partial\rho/\partial a_4 = 82.97$ against $-3(p_3 - p_t) = -474.8$ (opposite signs: the energy density near the tip GROWS along the history while its pressure says it should fall), in the middle ($y = -1.5$) $-0.4505$ against $-1.497$, and at the brane $-0.002068$ against $-0.001174$. In all ten series with 3-momentum the ratio of the two sides at the tip is negative ($-0.327$ to $-0.106$), while the two sides integrated over the patch with the weight $e^{6Hy}$ agree to $1.3 \times 10^{-3}$, the accuracy of a difference with step $0.5$ (COMPUTED). The reason is the one given in Section 17.12: an instantaneous state has no energy flux $q_{84}$ along $y$, so the energy of each layer of the patch cannot be balanced by flow into its neighbours; only the total is balanced. A genuinely time-dependent state of the gas would need such a flux, $q_{84} \ne 0$, and C1 forbids it: a further reason why the history is only a prescribed background.
 
 **The constraint propagates.** Write the constraint and the evolution equation of Section 17.3 as two expressions that must vanish:
 
@@ -1694,19 +1705,112 @@ A conserved source with $p_3 \ne p_t$ therefore makes the constraint drift: even
 | C2 | $p_3 + p_t = 2p_8$ | $p_8$ flat | fail: $V = p_8'/(3H)$ is large |
 | C3 | $p_3 = p_t = p_8$, $\rho$ constant | $p_3 = p_t$ (then $\rho$ constant, $p_8 = p_3$) | fail: $\int p_3 > \int p_t$, $E$ falls by a factor of about 6 |
 
-The Kohn-Sham source is CONSERVED but NOT ADMISSIBLE.
+The Kohn-Sham source is conserved along the hidden direction at every point ($y$ law), and in the time direction only for the total energy of the patch ($dE/dx_4$ law); it is NOT ADMISSIBLE.
 
-### 17.17 Example: conserved but not admissible
+### 17.17 The equations averaged over the hidden direction: what can and cannot be integrated
 
-The second notebook makes Sections 17.12 to 17.16 concrete. It first checks that the Kohn-Sham source rests on the author's eight real $16 \times 16$ gamma matrices, the very file that the Rust solver read; then it derives with sympy the covariant divergence of a general source in the author's metric, in the coordinate $x_8$ and in the coordinate $y$, and compares it with the two Revision records; it proves $V = p_8'/(3H)$ and $d\mathcal C/dx_4 = 3a_4'\mathcal E$; and it tests the identities on the 75 recorded states, point by point with a convergence study, integrated over the patch, and along the deflating history. It prints 16 PASS lines and draws five figures. It runs in about 20 seconds on a typical laptop and needs no Rust.
+Sections 17.4 to 17.16 show that the field equations of the author's metric cannot hold, point by point, with any recorded Kohn-Sham state as the source. The Revision record `Revision/field_equations_a4/ks_source/` (script `ks_source_a4.py`, report `reports/ks-source-a4.json` with 23 checks, all PASS) asks the next questions. How far is the source from one that does not depend on $x_8$? Which weaker, averaged equations can it satisfy? And what do those averaged equations say about $a_4(x_4)$, in particular about the exponential deflation of the extra times? This section derives the answers; Notebook 17b, In [20] to In [23], reproduces the numbers it needs.
+
+**The $x_8$ identity once more.** The record proves for every Lovelock order $k$ that $E_{(k)}{}^{x_1}{}_{x_1} + E_{(k)}{}^{x_5}{}_{x_5} - 2E_{(k)}{}^{x_8}{}_{x_8} = 0$ (check `A1_lovelock_identity_x1_plus_x5_equals_2x8`; it is the identity behind C2 in Section 17.5), and that the $y$ law of Section 17.13 gives, for a source that obeys it, $p_3 + p_t - 2p_8 = p_8'(y)/(3H)$ exactly (check `A6_x8_conservation_in_y`; it is Section 17.14). The record then evaluates the $y$ law on all 70 nonzero profiles with fourth-order differences and finds it satisfied to $6.63404 \times 10^{-5}$ of the largest term (check `B2_x8_conservation_on_every_profile`). This refines the wording of the first record `ks-source-conditions.json` (check `B0_wave1_report_verified`): the recorded states do NOT violate the conservation identity of the hidden direction; what they violate is $p_3 + p_t = 2p_8$, which is that identity combined with the independence of $x_8$ (PROVED and COMPUTED, as stated).
+
+**How far from an $x_8$-independent source? The projection mismatch.** Among all functions that do not depend on $y$, which one is closest to a profile $X(y)$? Measure the distance with the volume weight, $D(c) = \int_{-L}^{0}e^{6Hy}\,(X - c)^2\,dy$ for a constant $c$. Its derivative with respect to $c$ is
+
+$$
+\frac{dD}{dc} = -2\int_{-L}^{0}e^{6Hy}\,(X - c)\,dy
+$$
+
+(rule: differentiate under the integral sign; the derivative of $(X - c)^2$ with respect to $c$ is $-2(X - c)$), and it vanishes when
+
+$$
+\int_{-L}^{0}e^{6Hy}X\,dy = c\int_{-L}^{0}e^{6Hy}\,dy, \qquad c = \frac{\int_{-L}^{0}e^{6Hy}X\,dy}{\int_{-L}^{0}e^{6Hy}\,dy} = \bar X
+$$
+
+(rule: split the integral, take the constant $c$ out, divide by the positive number $\int e^{6Hy}dy$). So the closest flat profile is the weighted mean $\bar X$ of Section 17.7; it is called the **orthogonal projection** of $X$ on the flat functions. The record measures the remaining part in two ways: $\mu_1 = \int e^{6Hy}|X - \bar X|\,dy/\int e^{6Hy}|X|\,dy$ (the **L1 measure**) and $\mu = \sqrt{D(\bar X)/D(0)}$ (the **L2 measure**); both are 0 for a flat profile. Over the 70 nonzero states the energy density has $\mu_1$ between $0.583068$ and $0.763572$ and $\mu$ between $0.754082$ and $1$ (check `B4_hidden_direction_mismatch`; the record prefers the L1 measure, because the L2 measure is dominated by the large values near the tip and so depends more on the tip cutoff). At least about 58 per cent of the energy density deviates from its average: the source is not close to an $x_8$-independent one (COMPUTED).
+
+**The moment equations.** Take any one of the field equations of Section 17.3, say the constraint $e_{44} + \Lambda = -\kappa\rho$, multiply it by $e^{6Hy}$ and integrate over the patch:
+
+$$
+\int_{-L}^{0}e^{6Hy}\,(e_{44} + \Lambda)\,dy = -\kappa\int_{-L}^{0}e^{6Hy}\rho\,dy
+$$
+
+(rule: the same operation on both sides keeps an equation true)
+
+$$
+(e_{44} + \Lambda)\,W = -\kappa\,\bar\rho\,W, \qquad W = \int_{-L}^{0}e^{6Hy}\,dy = \frac{1 - e^{-6HL}}{6H}
+$$
+
+(rule: the left side does not depend on $y$ and comes out of the integral; on the right, the integral is $W\bar\rho$ by the definition of the weighted mean)
+
+$$
+e_{44} + \Lambda = -\kappa\,\bar\rho
+$$
+
+(rule: divide by $W > 0$). Each field equation gives in this way its **moment**: the same equation with every component of the source replaced by its weighted mean. Every exact solution would satisfy all of them, so they are NECESSARY conditions, weaker than the field equations themselves (PROVED: it is one line of algebra). The combination $x_1 + x_5 - 2x_8$ of the moments reads $0 = \kappa(\bar p_3 + \bar p_t - 2\bar p_8)$, the averaged C2. The record measures its failure by the relative defect $|\bar p_3 + \bar p_t - 2\bar p_8|/(|\bar p_3| + |\bar p_t| + 2|\bar p_8|)$, which lies between $0.414086$ (`N688_lamm2_a00`) and $0.806379$ over the 70 nonzero states (check `C1_averaged_algebraic_condition_fails`; reproduced in Notebook 17b, In [21]). No choice of $\kappa \ne 0$ satisfies all the moments: even after averaging, the Kohn-Sham source is not admissible (COMPUTED).
+
+**Which moments can hold together.** Write $P(X) = \sum_k\alpha_kE_{(k)}{}^{x_4}{}_{x_4}$ evaluated at $a_4'^2 = X$ (the $x_4$ components contain $a_4'$ only through its square, Section 17.3). In Einstein gravity $P(X) = 3X + 21H^2$. The record proves $3F(a_4') = 2\,dP/dX$ at $X = a_4'^2$ for all couplings (check `A3_F_equals_two_thirds_dP_dX`; in Einstein gravity $3 \times 2 = 2 \times 3$), the fact $de_{44}/da' = 3a'F$ of Section 17.16 in another form. The averaged source obeys the averaged energy relation $d\bar\rho/da_4 = -3(\bar p_3 - \bar p_t)$, because the time law holds for the total energy of the patch (check `C2_averaged_energy_relation`: the solver's derivative agrees with it to $1.53537 \times 10^{-10}$, Simpson's rule over the slices to $2.70425 \times 10^{-4}$, and there are no Fermi-level crossings along the history). Then the derivation of Section 17.16 goes through with the averages:
+
+$$
+\frac{d}{dx_4}\Big[P(a_4'^2) + \Lambda + \kappa\bar\rho(a_4)\Big] = 3a_4'\Big[a_4''F(a_4') - \kappa(\bar p_3 - \bar p_t)\Big]
+$$
+
+(PROVED: check `A4_constraint_propagation_with_averaged_source`). So the $x_4$ moment (the constraint) and the $x_1 - x_5$ moment (the evolution equation) are consistent with each other. The $x_8$ moment is not. In Einstein gravity the $x_4$ and $x_8$ moments read
+
+$$
+3a_4'^2 + 21H^2 + \Lambda = -\kappa\bar\rho, \qquad 15H^2 - 3a_4'^2 + \Lambda = \kappa\bar p_8 ;
+$$
+
+adding them gives
+
+$$
+36H^2 + 2\Lambda = \kappa(\bar p_8 - \bar\rho)
+$$
+
+(rule: add the two equations side by side and move $-\kappa\bar\rho$ to the right; $3a_4'^2 - 3a_4'^2 = 0$, $21H^2 + 15H^2 = 36H^2$). The left side is a constant, so $\bar p_8 - \bar\rho$ would have to stay constant along the history. In the ten series with 3-momentum it changes by $0.909317$ to $0.915045$ of its largest value (check `C3_x8_moment_inconsistent_with_history`): every set of moments that contains the $x_8$ moment is inconsistent for them (COMPUTED). For the $N = 8$ states the averages do not change along the history, but their averaged C2 still fails.
+
+**The approximation, stated.** The record therefore keeps the consistent pair, the $x_4$ moment and the $x_1 - x_5$ moment, and drops the $x_8$ moment and the $x_1 + x_5 - 2x_8$ moment. This is an APPROXIMATION (ASSUMED), and its error is not small: the dropped averaged C2 fails by the defects $0.41$ to $0.81$ quoted above, and the dropped $x_8$ moment, evaluated along the solved histories, fails by $0.109607$ to $1.87301$ of the largest term of that equation (check `D7_dropped_x8_moment_residual_and_adiabaticity`). Everything below holds only within this approximation, for the $T = 0$ instantaneous states at the computed slices $0 \le a_4 \le 2$.
+
+**The first integral.** For $a_4' \ne 0$ the pair is equivalent to the single first-order equation $P(a_4'^2) + \Lambda = -\kappa\bar\rho(a_4)$ (the bracket of the identity above is constant, and the constraint makes the constant zero). In Einstein gravity, with the initial rate $a_4'(0) = H$ (the rate of the history on which the states were computed) and the **source strength** $\sigma_0 = \kappa\bar\rho(0)/H^2$, the constraint at $a_4 = 0$ fixes $\Lambda$:
+
+$$
+3H^2 + 21H^2 + \Lambda = -\sigma_0H^2 \quad\Longrightarrow\quad \Lambda = -24H^2 - \sigma_0H^2
+$$
+
+(rule: insert $a_4' = H$ and $\kappa\bar\rho(0) = \sigma_0H^2$; move the numbers to the right). Insert this $\Lambda$ into the constraint at a later $a_4$:
+
+$$
+3a_4'^2 + 21H^2 - 24H^2 - \sigma_0H^2 = -\kappa\bar\rho(a_4) = -\sigma_0H^2\,\frac{\bar\rho(a_4)}{\bar\rho(0)}
+$$
+
+(rule: $\kappa = \sigma_0H^2/\bar\rho(0)$ by the definition of $\sigma_0$)
+
+$$
+\Big(\frac{a_4'}{H}\Big)^2 = 1 + \frac{\sigma_0}{3}\Big(1 - \frac{\bar\rho(a_4)}{\bar\rho(0)}\Big)
+$$
+
+(rule: move $-3H^2 - \sigma_0H^2$ to the right, divide by $3H^2$). (PROVED; the record reproduces it at every slice of every Einstein case to $1.6946 \times 10^{-15}$, check `D2_einstein_first_integral`.) The gas changes $a_4'^2$ only through the fraction of its averaged energy density that it has lost; for $N = 136$, $\lambda = 0$ that fraction is $1 - \bar\rho(2)/\bar\rho(0) = 0.845$ at $a_4 = 2$, so $a_4'^2$ changes by at most $0.281661\,|\sigma_0|H^2$ over the computed range (check `D5_einstein_sign_of_the_effect`).
+
+**What can be integrated, and what it gives.** The record integrates the pair for three theories of gravity (Einstein, $\alpha_1 = 1$; Einstein-Gauss-Bonnet, $\alpha_2H^2 = 1/80$; a cubic Lovelock case, $\alpha_2H^2 = 1/80$, $\alpha_3H^4 = 1/4000$), five series of states and seven parameter choices ($\sigma_0 = \pm 10, \pm 1, \pm 1/10$, and $\Lambda = 0$), by two methods: the first integral, and a fourth-order Runge-Kutta integration of the evolution equation with a separately interpolated source. The two agree to $5.49953 \times 10^{-4}$ (check `D1_two_integration_methods_agree`). Between the slices $\bar\rho$ is taken from the cubic Hermite interpolant with the exact slopes $-3(\bar p_3 - \bar p_t)$. The results (COMPUTED, within the approximation):
+
+- For $N = 136$, $\lambda = 0$ in Einstein gravity, $a_4'(2)/a_4'(0) = 1.95362$ for $\sigma_0 = 10$, $1.1321$ for $\sigma_0 = 1$ and $0.847549$ for $\sigma_0 = -1$. A positive $\kappa\bar\rho$ speeds the deflation of the extra times up; a negative one slows it down (Notebook 17b, In [22], reproduces these three numbers from the first integral; figure 17b.6).
+- With $\Lambda = 0$ the constraint at $a_4 = 0$ needs $\sigma_0 = -24$ in Einstein gravity ($\sigma_0 < 0$ in all three theories), and the deflation HALTS: $a_4'$ reaches 0 at the turning point $a_4 = 0.149623$ (Einstein), $0.0724197$ (Einstein-Gauss-Bonnet), $0.102772$ (cubic), after which $a_4$ decreases and the extra times re-inflate (check `D3_lambda_zero_cases_halt`; Notebook 17b, In [22], finds the Einstein value, and $0.397998$ for $\sigma_0 = -10$, by bisection).
+- In Einstein-Gauss-Bonnet gravity $F = 1 - \tfrac35 a_4'^2/H^2$ vanishes at $a_4'^2 = \tfrac53H^2$ (check `D0_gravity_branches`; in Einstein gravity $F = 2$ and in the cubic case $F > 0$ never vanish). For $\sigma_0 > 0$ the first integral drives $a_4'^2$ up to this **branch point**, where the evolution equation cannot be solved for $a_4''$: for $N = 136$, $\lambda = 0$ at $a_4 = 0.249607$ ($\sigma_0 = 1$) and $0.0226924$ ($\sigma_0 = 10$) (check `D6_branch_points_only_for_egb`).
+- For the $N = 8$ states the averages do not change with $a_4$ and $\bar p_3 = \bar p_t$, so the evolution equation gives $a_4'' = 0$: exactly the linear member $a_4 = A_0Hx_4 + a_0$, with the rate $A_0$ chosen initially and $\Lambda$ absorbing $\kappa\bar\rho$ (check `D4_constant_source_gives_linear_member`); their averaged C2 still fails.
+
+**What cannot be integrated, or was not computed.** The full coupled problem, the author's metric with the Kohn-Sham source, has no solution at all (C1 fails), so nothing about $a_4$ is DERIVED from it (PROVED, Sections 17.4 to 17.14). The $x_8$ moment cannot be kept (shown above). Not computed (OPEN): the source beyond $a_4 = 2$, where no Kohn-Sham states exist (the record states only a CONDITIONAL: if $\bar\rho$ tended to 0 there, Einstein gravity would give $a_4'^2 \to (-\Lambda - 21H^2)/3$, a late-time exponential deflation at a rate set by $\Lambda$ and $H$ alone); thermal states (only the $T = 0$ ground states are used); the time-dependent, non-adiabatic problem; and a source with the profile the equations require, or a metric with $x_8$-dependent warp functions that could carry the Kohn-Sham profile.
+
+**So, does the dirac16complex source drive the exponential deflation of the extra times?** Exactly: the question has no solution to examine, because no recorded Kohn-Sham state is an admissible source. Within the stated approximation: no. The equations are unchanged under $x_4 \to -x_4$, because $F$ and $P$ contain $a_4'$ only through even powers (check `A3_F_equals_two_thirds_dP_dX`); that reversal turns deflation of the extra times into inflation, so the sign of the rate and its size are initial data, and $\Lambda$ is fixed by them through the constraint. The gas only modifies a deflation that is already there, by a bounded amount set by the energy it loses; with $\Lambda = 0$ it even stops it. Exponential deflation at a constant rate is allowed (the $N = 8$ states give exactly the linear member) but not selected. This is the answer of the record `Revision/field_equations_a4/ks_source/README.md`, reproduced here step by step.
+
+### 17.18 Example: the conservation laws, the averaged equations, and why the states fail
+
+The second notebook makes Sections 17.12 to 17.17 concrete. It first checks that the Kohn-Sham source rests on the author's eight real $16 \times 16$ gamma matrices, the very file that the Rust solver read; then it derives with sympy the covariant divergence of a general source in the author's metric, in the coordinate $x_8$ and in the coordinate $y$, and compares it with the two Revision records; it proves $V = p_8'/(3H)$ and $d\mathcal C/dx_4 = 3a_4'\mathcal E$; and it tests the identities on the 75 recorded states, point by point with a convergence study, integrated over the patch, and along the deflating history, where it also shows that the time law fails point by point; finally it computes the hidden-direction averages, the defect of the averaged C2 and the first integral of the averaged equations of Einstein gravity, and reproduces the record's rates and turning points. It prints 20 PASS lines and draws six figures. It runs in about 20 seconds on a typical laptop and needs no Rust.
 
 <!-- NOTEBOOK 17b -->
 
-### 17.20 Line-by-line walk-through of Notebook 17b
+### 17.21 Line-by-line walk-through of Notebook 17b
 
-The notebook has 20 code cells, In [1] to In [20]. As in Section 17.11, every line or small group of lines is quoted and explained, and each figure is described after the cell that draws it.
+The notebook has 24 code cells, In [1] to In [24]. As in Section 17.11, every line or small group of lines is quoted and explained, and each figure is described after the cell that draws it.
 
-**In [1], the set-up cell.** It is the set-up cell of Notebook 17a, word for word, except for two things: the comment lines at the top hold the run instructions of Notebook 17b (Section 17.18), and the line `NOTEBOOK_ID = "17b"` names this notebook. Every line is explained in Section 17.11 under In [1]. The cell prints its one line, Set-up of notebook 17b complete: repository folder found, helpers defined.
+**In [1], the set-up cell.** It is the set-up cell of Notebook 17a, word for word, except for two things: the comment lines at the top hold the run instructions of Notebook 17b (Section 17.19), and the line `NOTEBOOK_ID = "17b"` names this notebook. Every line is explained in Section 17.11 under In [1]. The cell prints its one line, Set-up of notebook 17b complete: repository folder found, helpers defined.
 
 **In [2], the Revision records and the helpers.**
 
@@ -1727,13 +1831,14 @@ EQUATIONS = "Revision/field_equations_a4/a4-equations.json"  # the a4 equations
 PY_A4 = "Revision/field_equations_a4/reports/python-a4-report.json"  # sympy
 WL_A4 = "Revision/field_equations_a4/reports/wolfram-a4-report.json"  # Wolfram
 SOURCE_REPORT = "Revision/field_equations_a4/reports/ks-source-conditions.json"
+KS_SOURCE = "Revision/field_equations_a4/ks_source/reports/ks-source-a4.json"
 KS_THEORY = "Revision/kohn_sham/ks-theory.json"  # the Kohn-Sham theory record
 KS_PY = "Revision/kohn_sham/reports/ks-theory-python.json"  # its sympy checks
 KS_RUST = "Revision/kohn_sham/reports/ks-rust-solver.json"  # the solver checks
 GROUND = "Revision/kohn_sham/results/ground"  # the 75 Kohn-Sham ground states
 ```
 
-Ten names for the Revision records used below: the author's gamma matrices and the report of their checks; the record of the $a_4$ equations and its two reports; the record on the Kohn-Sham source conditions; the Kohn-Sham theory record, its sympy report and the report of the Rust solver; and the folder of the recorded states.
+Eleven names for the Revision records used below: the author's gamma matrices and the report of their checks; the record of the $a_4$ equations and its two reports; the record on the Kohn-Sham source conditions; the report of the $a_4$ equations with the Kohn-Sham source (Section 17.17); the Kohn-Sham theory record, its sympy report and the report of the Rust solver; and the folder of the recorded states.
 
 ```python
 def read_json(relative):
@@ -1766,7 +1871,7 @@ def tex_number(value, digits=2):
 The four helpers of Notebook 17a (Section 17.11, In [2]), with one change in `reproduces`: `.get("verdict", "")` returns an empty string when an entry has no verdict, and `.upper()` turns the verdict into capital letters, because the report of the algebra writes its verdicts as `pass` while the other reports write `PASS`.
 
 ```python
-REPORTS = [ALGEBRA, PY_A4, WL_A4, SOURCE_REPORT, KS_PY, KS_RUST]
+REPORTS = [ALGEBRA, PY_A4, WL_A4, SOURCE_REPORT, KS_SOURCE, KS_PY, KS_RUST]
 every_pass = True
 for report_file in REPORTS:
     verdicts = [entry["verdict"].upper()
@@ -1774,10 +1879,10 @@ for report_file in REPORTS:
     passed = verdicts.count("PASS")  # how many checks of this report passed
     every_pass = every_pass and passed == len(verdicts)
     report(report_file.split("/")[-1], f"{passed} of {len(verdicts)} checks PASS")
-check(every_pass, "every check of the six Revision reports used here is PASS")
+check(every_pass, "every check of the seven Revision reports used here is PASS")
 ```
 
-For each of the six reports the cell collects the verdicts, counts the PASS among them (`.count`), keeps `every_pass` true only if all passed, and prints the file name (`split("/")[-1]`, the part after the last slash) with the count. Output: six RESULT lines, one per report, each of the form "name of the report = $n$ of $n$ checks PASS", and the line PASS every check of the six Revision reports used here is PASS. The numbers $n$ are the numbers of checks that the reports held when the notebook was executed; they are printed in the notebook text above. The notebook does not require particular counts, because a report may gain checks when the Revision record is extended: the check asks only that every check of every report passes.
+For each of the seven reports the cell collects the verdicts, counts the PASS among them (`.count`), keeps `every_pass` true only if all passed, and prints the file name (`split("/")[-1]`, the part after the last slash) with the count. Output: seven RESULT lines, one per report, each of the form "name of the report = $n$ of $n$ checks PASS", and the line PASS every check of the seven Revision reports used here is PASS. The numbers $n$ are the numbers of checks that the reports held when the notebook was executed; they are printed in the notebook text above. The notebook does not require particular counts, because a report may gain checks when the Revision record is extended: the check asks only that every check of every report passes.
 
 **In [3], the eight gamma matrices are real signed permutation matrices.**
 
@@ -2379,7 +2484,7 @@ solver = record_entry(KS_RUST, "emt_y_conservation_integrated")["detail"]
 say("the solver record: " + solver)
 ```
 
-The table also has a column `ycons_integrated_rel`, the same relative difference computed by the solver from its unrounded numbers; its largest value is $1.422 \times 10^{-11}$, also at `N8_lamm2_a00`. The text of the solver's check `emt_y_conservation_integrated` is printed: 75 cases, worst value $1.422 \times 10^{-11}$ (`N8_lamp2_a00`), tolerance $10^{-7}$, no failures.
+The table also has a column `ycons_integrated_rel`: the solver's own relative difference of the same two sides, computed from its unrounded internal numbers and divided by the largest of the terms involved (the integral, the boundary term, the tip term and the size of the cancelling terms), not by the right side alone as our number is; so the two are close cousins, not the same quantity by definition. Its largest value is $1.422 \times 10^{-11}$, also at `N8_lamm2_a00`, against our $1.421 \times 10^{-11}$. The text of the solver's check `emt_y_conservation_integrated` is printed: 75 cases, worst value $1.422 \times 10^{-11}$ (`N8_lamp2_a00`), tolerance $10^{-7}$, no failures.
 
 ```python
 named = solver.split("worst value ")[1].split("(")[1].split(")")[0]  # its state
@@ -2401,28 +2506,35 @@ mean_p8 = {sid: number(sid, "int_p8") / (2 * VOL7 * (1 - tip_weight) / (6 * H_va
            for sid in nonzero}  # the weighted mean of p8
 ratio = {sid: (number(sid, "int_p3") + number(sid, "int_p_t"))
          / (2 * number(sid, "int_p8")) for sid in nonzero}  # as in Notebook 17a
-from_brane = {sid: (number(sid, "p8_brane") - tip_weight * number(sid, "p8_tip"))
-              / ((1 - tip_weight) * mean_p8[sid]) for sid in nonzero}
+boundary = {sid: (number(sid, "p8_brane") - tip_weight * number(sid, "p8_tip"))
+            / (1 - tip_weight) for sid in nonzero}  # the boundary value b8
+from_brane = {sid: boundary[sid] / mean_p8[sid] for sid in nonzero}  # R = b8/mean
+brane_only = {sid: number(sid, "p8_brane") / mean_p8[sid] for sid in nonzero}
+tip_share = {sid: 1.0 - brane_only[sid] / from_brane[sid] for sid in nonzero}
 ```
 
-Three dictionaries: the weighted mean $\bar p_8$ of Section 17.7; the ratio $R$ as Notebook 17a computed it; and $R$ computed the other way, from the brane and tip values and the mean, with the formula of Section 17.15.
+Six dictionaries: the weighted mean $\bar p_8$ of Section 17.7; the ratio $R$ as Notebook 17a computed it; the boundary value $b_8 = [p_8(0) - e^{-6HL}p_8(-L)]/(1 - e^{-6HL})$ of Section 17.15; $R$ computed the other way, $b_8/\bar p_8$; the ratio that the brane value alone would give, $p_8(0)/\bar p_8$; and the share of $R$ that the tip term supplies, $1 - p_8(0)/b_8$ (the quotient of the last two ratios, subtracted from 1).
 
 ```python
 agreement = max(abs(from_brane[sid] / ratio[sid] - 1.0) for sid in nonzero)
 closest = min(ratio, key=lambda sid: abs(ratio[sid] - 1.0))
 report("largest relative difference of the two forms of R", f"{agreement:.1e}")
 report("R closest to 1", f"{ratio[closest]:.6g} ({closest})")
+for n in (8, 136, 688):
+    shares = [tip_share[sid] for sid in nonzero if sid.startswith(f"N{n}_")]
+    report(f"share of R from the tip term, N = {n}",
+           f"{min(shares):.2g} to {max(shares):.2g}")
 detail = record_entry(SOURCE_REPORT, "ks_integrals_violate_algebraic_condition")[
     "detail"]
 reproduces(agreement < 1e-9
            and f"(closest to 1: {ratio[closest]:.6g} at {closest})" in detail,
-           "R = p8(brane) / mean of p8 (up to e^(-6HL)) for all 70 states",
+           "R = b8 / mean of p8 (b8: brane value with the tip term), 70 states",
            SOURCE_REPORT, ["ks_integrals_violate_algebraic_condition"])
 ```
 
-`agreement` is the largest relative difference of the two forms of $R$ over all nonzero states. Output: $1.4 \times 10^{-11}$; the ratio closest to 1 is again 0.414328 (`N688_lamm2_a00`), the record's number; and the PASS line. (COMPUTED.)
+`agreement` is the largest relative difference of the two forms of $R$ over all nonzero states. The loop collects, for each particle number, the tip shares of its states (`startswith` tests the beginning of the name) and prints the smallest and the largest with two significant digits (`.2g`). Output: $1.4 \times 10^{-11}$; the ratio closest to 1 is again 0.414328 (`N688_lamm2_a00`), the record's number; the tip shares, $0.31$ to $0.33$ for $N = 8$, $4.1 \times 10^{-5}$ to $0.039$ for $N = 136$ and $5.3 \times 10^{-6}$ to $0.025$ for $N = 688$; and the PASS line. (COMPUTED. So the tip term matters little for the states with 3-momentum but supplies about a third of $R$ for the brane zero modes $N = 8$, Section 17.15.)
 
-**In [16], the brane value against the mean (figure 4).**
+**In [16], the boundary value against the mean (figure 4).**
 
 ```python
 N_COLOURS = {8: "#1baf7a", 136: "#2a78d6", 688: "#eb6834"}
@@ -2434,48 +2546,42 @@ for n, colour in N_COLOURS.items():
         if not ids:
             continue
         ax.loglog([abs(mean_p8[sid]) for sid in ids],
-                  [abs(number(sid, "p8_brane")) for sid in ids], "o",
+                  [abs(boundary[sid]) for sid in ids], "o",
                   ms=5 if positive else 10,  # rings around the mirror states
                   color=colour, mfc=colour if positive else "none",
-                  label=f"$N = {n}$" + ("" if positive else ", $p_8 < 0$"))
+                  label=f"$N = {n}$" + ("" if positive else ", mean $< 0$"))
 ```
 
-For each particle number and each sign of $\bar p_8$, the states of that kind are collected (`startswith` tests the beginning of the name; `(mean > 0) == positive` selects one sign); an empty group is skipped. The points are drawn on logarithmic axes, which need positive numbers, so absolute values are used: horizontal $|\bar p_8|$, vertical $|p_8|$ at the brane. States with a positive mean get small filled circles; states with a negative mean get larger rings (`mfc`, the marker face colour, is `"none"`, so only the outline is drawn).
+For each particle number and each sign of $\bar p_8$, the states of that kind are collected (`(mean > 0) == positive` selects one sign); an empty group is skipped. The points are drawn on logarithmic axes, which need positive numbers, so absolute values are used: horizontal $|\bar p_8|$, vertical the boundary value $|b_8|$ of In [15]. Their ratio is exactly $R$. States with a positive mean get small filled circles; states with a negative mean get larger rings (`mfc`, the marker face colour, is `"none"`, so only the outline is drawn).
 
 ```python
 line = np.array([1e-7, 1.0])  # the range of the diagonal
 ax.loglog(line, line, "--", color="#e34948", lw=1.2,
-          label="averaged C2: brane value = mean")
+          label="averaged C2: boundary value = mean")
 ax.set_xlabel("weighted mean $|\\bar p_8|$ (units of $m^8$)")
-ax.set_ylabel("$|p_8|$ at the brane $y = 0$ (units of $m^8$)")
+ax.set_ylabel("boundary value $|b_8|$ (units of $m^8$)")
 ax.legend(fontsize=8, loc="upper left")
 negative = sorted(sid for sid in nonzero if mean_p8[sid] < 0)  # mean of p8 < 0
 say("states with a negative mean of p8: " + ", ".join(negative))
 expected = sorted(sid for sid in nonzero if sid.startswith("N8_lamp"))
 ```
 
-The red dashed diagonal is where the brane value equals the mean, the averaged C2. The cell prints the states with a negative mean, and `expected` lists the ten $N = 8$ states with $\lambda > 0$ (their names start with `N8_lamp`).
+The red dashed diagonal is where the boundary value equals the mean, the averaged C2 ($R = 1$). The cell prints the states with a negative mean, and `expected` lists the ten $N = 8$ states with $\lambda > 0$ (their names start with `N8_lamp`).
 
 ```python
+plotted = {sid: boundary[sid] / mean_p8[sid] for sid in nonzero}  # = R
 save_figure(fig, "brane_and_mean",
-            "The hidden-direction pressure $p_8$ at the brane against its weighted "
-            "mean over the patch, for the 70 recorded Kohn-Sham states with a "
-            "nonzero source (logarithmic axes, units of $m^8$; colours: particle "
-            "number; open rings: the $N = 8$ states with $\\lambda > 0$, whose "
-            "$p_8$ is negative; they enclose the points of their partners with "
-            "$-\\lambda$, which have the same $|p_8|$, and the 20 nonzero $N = 8$ "
-            "states, equal at every slice, fall on only two places). By "
-            "the integrated conservation law the averaged condition C2 holds only "
-            "on the dashed diagonal; every state lies below it, with ratios "
-            f"between {min(ratio.values()):.3f} and {max(ratio.values()):.3f}: "
-            "$p_8$ at the brane is much smaller than its mean.")
-check(negative == expected and all(0.0 < ratio[sid] < 1.0 for sid in nonzero),
-      "every state lies below the diagonal; p8 < 0 only for N = 8, lambda > 0")
+            "The boundary value $b_8 = (p_8(0) - e^{-6HL}p_8(-L))/(1 - e^{-6HL})$ "
+            "of the hidden-direction pressure against its weighted mean, for the "
+            ...)
+check(negative == expected and all(0.0 < plotted[sid] < 1.0 for sid in nonzero),
+      "every point lies below the diagonal; mean of p8 < 0 only for N = 8, "
+      "lambda > 0")
 ```
 
-The caption, joined from its strings, inserts the range of the ratios with three decimals, 0.107 to 0.414. The check confirms that the states with a negative mean are exactly the expected ten, and that every ratio lies strictly between 0 and 1 (Python allows the chained comparison `0.0 < r < 1.0`). Output: the list `N8_lamp1_a00` to `N8_lamp2_a20`, figure 17b.4 with its saved line, and then the PASS line (the check comes after the figure).
+`plotted` holds the ratio of the vertical to the horizontal value of every point, $b_8/\bar p_8$, which is $R$. The caption is quoted shortened (it is printed in full under the figure); joined from its strings, it inserts the range of the plotted ratios with three decimals, 0.107 to 0.414, and the range that the brane value alone would give, 0.074 to 0.414 (`min` and `max` of the dictionaries `plotted` and `brane_only`). The check confirms that the states with a negative mean are exactly the expected ten, and that every plotted ratio lies strictly between 0 and 1 (Python allows the chained comparison `0.0 < r < 1.0`). Output: the list `N8_lamp1_a00` to `N8_lamp2_a20`, figure 17b.4 with its saved line, and then the PASS line (the check comes after the figure).
 
-**What figure 17b.4 shows.** Both axes logarithmic, in units of $m^8$. The averaged C2 would put every point on the dashed diagonal. All 70 points lie below it: the brane value of $p_8$ is between about a tenth and four tenths of its mean, the ratios 0.107 to 0.414 of Notebook 17a. The blue ($N = 136$) and orange ($N = 688$) points form two short chains, one point per slice (the couplings overlap); the 20 nonzero $N = 8$ states, equal at every slice, fall on only two places, where the filled points of $-\lambda_1$ and $-\lambda_2$ sit inside the rings of $+\lambda_1$ and $+\lambda_2$ (same size, opposite sign).
+**What figure 17b.4 shows.** Both axes logarithmic, in units of $m^8$. The averaged C2 would put every point on the dashed diagonal. All 70 points lie below it: the boundary value of $p_8$ is between about a tenth and four tenths of its mean, the ratios $R$ = 0.107 to 0.414 of Notebook 17a. For the $N = 136$ and $N = 688$ states the boundary value is practically the brane value; for the $N = 8$ states the brane value alone would be only 0.074 of the mean, and the tip term raises the ratio to about 0.11 (near the tip $p_8$ has the sign opposite to its mean, so $-e^{-6HL}p_8(-L)$ has the sign of the mean). The blue ($N = 136$) and orange ($N = 688$) points form two short chains, one point per slice (the couplings overlap); the 20 nonzero $N = 8$ states, equal at every slice, fall on only two places, where the filled points of $-\lambda_1$ and $-\lambda_2$ sit inside the rings of $+\lambda_1$ and $+\lambda_2$ (same size, opposite sign: for $+\lambda$ the mean and the brane value of $p_8$ are negative, while $p_8$ at the tip is positive).
 
 **In [17], the constraint propagates.**
 
@@ -2548,11 +2654,11 @@ For each of the 15 series: the energies $E = \int\rho$ at the five slices; the r
 ```python
 moving = [key for key in simpson_error if key[0] != 8]
 largest = max(simpson_error[key] for key in moving)
-frozen = all(np.all(energies[(8, tag)] == energies[(8, tag)][0])
-             and np.all(drives[(8, tag)] == 0.0) for tag in TAGS)
+unchanged = all(np.all(energies[(8, tag)] == energies[(8, tag)][0])
+                and np.all(drives[(8, tag)] == 0.0) for tag in TAGS)
 ```
 
-The ten series with $N = 136$ or $688$ move; `largest` is their largest relative error. `frozen` confirms that every $N = 8$ series has the same energy at every slice and zero rate (their $p_3 = p_t$, Notebook 17a, In [18]).
+The ten series with $N = 136$ or $688$ move; `largest` is their largest relative error. `unchanged` confirms that every $N = 8$ series has the same energy at every slice and zero rate (their $p_3 = p_t$, Notebook 17a, In [18]).
 
 ```python
 for n in (136, 688):
@@ -2560,7 +2666,7 @@ for n in (136, 688):
     say(f"N = {n}, lambda = 0: E(0) = {E[0]:.6g}, E(2) = {E[-1]:.6g}, "
         f"change {E[-1] - E[0]:.6g}, relative Simpson error {error:.1e}")
 report("largest relative Simpson error, N = 136 and 688", f"{largest:.1e}")
-reproduces(no_crossing and largest < 1e-3 and frozen,
+reproduces(no_crossing and largest < 1e-3 and unchanged,
            "E(2) - E(0) = integral of -3 (int p3 - int p_t) along the history",
            KS_RUST, ["emt_energy_change_dE_da4"])
 ```
@@ -2633,13 +2739,255 @@ save_figure(fig, "energy_exchange",
 
 The caption, joined from its strings, inserts the two factors with two decimals, 6.45 and 6.16, and the largest relative Simpson error of In [18] in powers of ten, $2.2 \times 10^{-4}$ (`$10^{{-4}}$` in an f-string prints as $10^{-4}$). Output: figure 17b.5 and its saved line.
 
-**What figure 17b.5 shows.** Left: horizontal axis the slice $a_{4,0}$; vertical axis $E/E(0)$, a pure number. The recorded energies of $N = 136$ and $N = 688$ fall to about 0.4 at $a_{4,0} = 1$ and to about 0.16 at $a_{4,0} = 2$, and the crosses predicted from $E(0)$ by the energy-change law sit on them; C3 would need the dashed line at 1. As 3-space inflates and the extra times deflate, the gas, with $p_t = 0$ and $\int p_3 > 0$ (the caption's short form is $p_3 > p_t = 0$), gives up energy, exactly as conservation demands. Right: the relative Simpson errors of the ten moving series, between about 1.9 and 2.2 in units of $10^{-4}$: the energy-change law holds to the accuracy that five slices allow.
+**What figure 17b.5 shows.** Left: horizontal axis the slice $a_{4,0}$; vertical axis $E/E(0)$, a pure number. The recorded energies of $N = 136$ and $N = 688$ fall to about 0.4 at $a_{4,0} = 1$ and to about 0.16 at $a_{4,0} = 2$, and the crosses predicted from $E(0)$ by the energy-change law sit on them; C3 would need the dashed line at 1. As 3-space inflates and the extra times deflate, the gas, with $p_t = 0$ and $\int p_3 > 0$ (the caption's short form is $p_3 > p_t = 0$), gives up energy, exactly as the energy law of the patch demands. Right: the relative Simpson errors of the ten moving series, between about 1.9 and 2.2 in units of $10^{-4}$: the energy-change law holds to the accuracy that five slices allow.
 
-**In [20], the last check.**
+**In [20], the time law tested point by point.**
+
+```python
+def change_with_a4(n, tag):
+    """d rho / d a4 at the slice a4,0 = 1 at every y (fourth order, step 0.5)."""
+    v = [profiles[f"N{n}_{tag}_{s}"]["rho"] for s in SLICES]  # rho at 5 slices
+    return (v[0] - 8 * v[1] + 8 * v[3] - v[4]) / (12 * 0.5)
+```
+
+`change_with_a4` collects, for one series, the five profiles of $\rho$ at the slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$ (each an array of 151 values, one per grid point $y$) and applies the fourth-order difference of Section 17.2 in the variable $a_4$, centred on the middle slice $a_{4,0} = 1$ with the step $0.5$: $[f(0) - 8f(0.5) + 8f(1.5) - f(2)]/(12 \times 0.5)$. Because the arrays are subtracted element by element, the result is $\partial\rho/\partial a_4$ at every grid point at once.
+
+```python
+weight = np.exp(6 * H_value * y)  # the volume weight e^(6Hy) on the grid
+
+
+def patch_integral(values):
+    """Simpson's rule for the integral of e^(6Hy) times values over the patch."""
+    f = weight * values
+    return h / 3 * (f[0] + f[-1] + 4 * f[1:-1:2].sum() + 2 * f[2:-1:2].sum())
+```
+
+`weight` is $e^{6Hy}$ at the 151 grid points. `patch_integral` is Simpson's rule on the grid of step $h = 0.02$ (150 intervals, an even number): the two end values once, the values at odd positions (`f[1:-1:2]`, every second value from index 1 to the last but one) four times, the values at even inner positions (`f[2:-1:2]`) twice, all times $h/3$.
+
+```python
+tip_ratio, integral_gap = {}, {}
+for n, tag in moving:
+    middle = profiles[f"N{n}_{tag}_a10"]  # the slice a4,0 = 1
+    left_side = change_with_a4(n, tag)  # d rho / d a4 at every y
+    right_side = -3 * (middle["p3"] - middle["p_t"])  # what the law needs there
+    tip_ratio[(n, tag)] = float(left_side[0] / right_side[0])  # at y = -3
+    integral_gap[(n, tag)] = float(abs(patch_integral(left_side)
+                                       / patch_integral(right_side) - 1.0))
+```
+
+For each of the ten moving series of In [18] (`moving`, $N = 136$ and $688$): the left side $\partial\rho/\partial a_4$ and the right side $-3(p_3 - p_t)$ of the pointwise law at the slice $a_{4,0} = 1$ (along the history $a_4' = H = 1$, so $\partial\rho/\partial x_4 = \partial\rho/\partial a_4$). `tip_ratio` stores their ratio at the first grid point, the tip $y = -3$ (index 0); `integral_gap` stores the relative difference of the two sides after both are integrated over the patch with the weight $e^{6Hy}$, which is the law for the energy of the patch.
+
+```python
+slice_one = profiles["N136_lam0_a10"]
+rate136 = change_with_a4(136, "lam0")
+for index, place in ((0, "-3 (tip)"), (75, "-1.5"), (150, "0 (brane)")):
+    needed = -3 * (slice_one["p3"][index] - slice_one["p_t"][index])
+    say(f"N = 136, lambda = 0, a4,0 = 1, y = {place}: d rho/d a4 = "
+        f"{rate136[index]:.4g}, -3 (p3 - p_t) = {needed:.4g}")
+```
+
+For the canonical state $N = 136$, $\lambda = 0$, the two sides are printed at three grid points: index 0 ($y = -3$), 75 ($y = -3 + 75 \times 0.02 = -1.5$) and 150 ($y = 0$), with four significant digits (`.4g`). Output: at the tip $82.97$ against $-474.8$; in the middle $-0.4505$ against $-1.497$; at the brane $-0.002068$ against $-0.001174$.
+
+```python
+report("ratio of the two sides at the tip, 10 series",
+       f"{min(tip_ratio.values()):.3f} to {max(tip_ratio.values()):.3f}")
+report("largest relative difference of the two patch integrals",
+       f"{max(integral_gap.values()):.1e}")
+reproduces(all(r < 0.0 for r in tip_ratio.values())
+           and max(integral_gap.values()) < 5e-3,
+           "the x4 law fails point by point, holds for the energy of the patch",
+           KS_PY, ["emt_x4_component"])
+```
+
+Output: the tip ratios lie between $-0.327$ and $-0.106$ (negative in every series: the two sides have opposite signs), and the patch integrals agree to $1.3 \times 10^{-3}$. The check passes when every tip ratio is negative and the integrals agree to better than $5 \times 10^{-3}$ (the accuracy that a difference with the step $0.5$ allows), and the theory report's check `emt_x4_component`, which states the law for the energy of the 7-volume, is PASS. (COMPUTED; Section 17.16 explains the result.)
+
+**In [21], the hidden-direction averages and the averaged C2.**
+
+```python
+MOMENTS = "Revision/field_equations_a4/ks_source/results/ks-source-moments.csv"
+W = (1 - tip_weight) / (6 * H_value)  # the integral of e^(6Hy) over the patch
+
+
+def mean(sid, column):
+    """The weighted average of a column, from the record's integral."""
+    return number(sid, f"int_{column}") / (2 * VOL7 * W)
+```
+
+`MOMENTS` names the record's table of hidden-direction averages (one row per state). `W` is $\int_{-L}^{0}e^{6Hy}dy = (1 - e^{-6HL})/(6H)$ of Section 17.17. `mean` turns a column `int_X` of the table of integrals into the weighted mean $\bar X = \int X/(2\,\mathrm{Vol}_7W)$ of Section 17.7.
+
+```python
+with repository_file(MOMENTS).open(encoding="utf-8", newline="") as handle:
+    moments = {row["id"]: row for row in csv.DictReader(handle)}
+agree = max(abs(mean(sid, "rho") / float(moments[sid]["rho_bar"]) - 1.0)
+            for sid in nonzero)
+```
+
+The record's table is read into a dictionary by state name, as the table of integrals was in In [11]. `agree` is the largest relative difference between our $\bar\rho$ and the record's column `rho_bar` over the 70 nonzero states (the record computes its averages with Simpson's rule on the profiles, we from the solver's integrals, so they agree only to the accuracy of that rule).
+
+```python
+defect = {}
+for sid in nonzero:
+    p3b, ptb, p8b = (mean(sid, column) for column in ("p3", "p_t", "p8"))
+    defect[sid] = abs(p3b + ptb - 2 * p8b) / (abs(p3b) + abs(ptb) + 2 * abs(p8b))
+low, high = min(defect, key=defect.get), max(defect, key=defect.get)
+```
+
+For each state the three averaged pressures are computed (the parentheses make a **generator**, which produces the three values one after the other, and the three names receive them in order), and the relative defect of the averaged C2 of Section 17.17 is stored. `low` and `high` are the states with the smallest and the largest defect.
+
+```python
+report("largest relative difference of rho_bar from the record", f"{agree:.1e}")
+report("defect of the averaged C2",
+       f"{defect[low]:.6g} ({low}) to {defect[high]:.6g}")
+detail = record_entry(KS_SOURCE, "C1_averaged_algebraic_condition_fails")["detail"]
+reproduces(agree < 1e-6
+           and f"[{defect[low]:.6g} ({low}), {defect[high]:.6g}]" in detail,
+           "the averaged C2 fails by a defect of order 1 in all 70 states",
+           KS_SOURCE, ["C1_averaged_algebraic_condition_fails"])
+```
+
+Output: $\bar\rho$ agrees with the record to $6.7 \times 10^{-8}$; the defect runs from $0.414086$ (`N688_lamm2_a00`) to $0.806379$. The check passes when the averages agree to $10^{-6}$ and the text of the record's check contains exactly this range, written as the record writes it, `[0.414086 (N688_lamm2_a00), 0.806379]`. (COMPUTED.)
+
+**In [22], the first integral and the turning points.**
+
+```python
+CASES = "Revision/field_equations_a4/ks_source/results/ks-source-a4-cases.csv"
+series = "N136_lam0"  # the canonical series
+ids = [f"{series}_{s}" for s in SLICES]  # its five states
+rho_bar = np.array([mean(sid, "rho") for sid in ids])
+rho_slope = np.array([-3 * (mean(sid, "p3") - mean(sid, "p_t")) for sid in ids])
+```
+
+`CASES` names the record's table of integrated histories. For the series $N = 136$, $\lambda = 0$ the cell collects $\bar\rho$ at the five slices and its slope $d\bar\rho/da_4 = -3(\bar p_3 - \bar p_t)$ there (the averaged energy relation of Section 17.17).
+
+```python
+def rho_between(a):
+    """rho_bar(a4) between the slices: cubic Hermite with the exact slopes."""
+    k = min(int(a / 0.5), 3)  # the interval [0.5 k, 0.5 k + 0.5] that holds a
+    t = (a - 0.5 * k) / 0.5  # the position inside it, from 0 to 1
+    return ((2 * t**3 - 3 * t**2 + 1) * rho_bar[k]
+            + (t**3 - 2 * t**2 + t) * 0.5 * rho_slope[k]
+            + (-2 * t**3 + 3 * t**2) * rho_bar[k + 1]
+            + (t**3 - t**2) * 0.5 * rho_slope[k + 1])
+```
+
+`rho_between` is the cubic Hermite interpolant. `int(a / 0.5)` is the number of the interval of length 0.5 that contains $a$ (`min(..., 3)` keeps $a = 2$ in the last interval), and `t` runs from 0 at its left end to 1 at its right end. The four cubic polynomials in `t` are the standard Hermite weights: at $t = 0$ they are $1, 0, 0, 0$ and at $t = 1$ they are $0, 0, 1, 0$, so the curve passes through both tabulated values; their derivatives are chosen so that the slope of the curve (with respect to $a$, hence the factor $0.5$, the interval length) equals the given slopes at both ends. `t**3` is $t^3$.
+
+```python
+def rate_squared(a, sigma0):
+    """(a4'/H)^2 at a4 = a from the Einstein first integral, a4'(0) = H."""
+    return 1.0 + sigma0 / 3.0 * (1.0 - rho_between(a) / rho_bar[0])
+```
+
+The first integral of Section 17.17, $(a_4'/H)^2 = 1 + (\sigma_0/3)(1 - \bar\rho(a_4)/\bar\rho(0))$.
+
+```python
+def turning_point(sigma0):
+    """The a4 in [0, 0.5] where (a4'/H)^2 reaches 0, by bisection."""
+    low_end, high_end = 0.0, 0.5
+    for _ in range(60):  # each step halves the interval
+        centre = (low_end + high_end) / 2
+        if rate_squared(centre, sigma0) > 0.0:
+            low_end = centre
+        else:
+            high_end = centre
+    return low_end
+```
+
+**Bisection**: start with an interval whose left end has $(a_4'/H)^2 > 0$ and whose right end has $(a_4'/H)^2 < 0$; test the centre and keep the half in which the sign still changes. After 60 halvings the interval is $0.5/2^{60} \approx 4 \times 10^{-19}$ long, far below the precision of the numbers. (`_` is the name Python programmers give a loop variable that is not used.)
+
+```python
+with repository_file(CASES).open(encoding="utf-8", newline="") as handle:
+    cases = {(row["gravity"], row["series"], row["case"]): row
+             for row in csv.DictReader(handle)}
+rate_gap, turn_gap, halts = 0.0, 0.0, {}
+```
+
+The record's table is read into a dictionary whose key is the triple (gravity, series, case), for example `("einstein", "N136_lam0", "sigma0 = 1")`. Two numbers will hold the largest relative differences from the record, and `halts` the turning points.
+
+```python
+for sigma0 in (10, 1, -1):
+    ours = rate_squared(2.0, sigma0) ** 0.5  # a4'/H at a4 = 2
+    theirs = float(cases[("einstein", series, f"sigma0 = {sigma0}")]["rate_a20"])
+    rate_gap = max(rate_gap, abs(ours / theirs - 1.0))
+    say(f"sigma0 = {sigma0:3d}: a4'/H at a4 = 2 is {ours:.6g} (record {theirs:.6g})")
+```
+
+For $\sigma_0 = 10, 1, -1$ the rate at $a_4 = 2$ (`** 0.5` is the square root) is compared with the record's column `rate_a20`, the rate $a_4'/H$ at the slice $a_4 = 2$ (`{sigma0:3d}` prints the integer in a field of three characters, so the lines line up). Output: $1.95362$, $1.1321$ and $0.847549$, each equal to the record's value.
+
+```python
+for sigma0, case in ((-10, "sigma0 = -10"), (-24, "Lambda = 0")):
+    halts[sigma0] = turning_point(sigma0)
+    theirs = float(cases[("einstein", series, case)]["a4_end"])
+    turn_gap = max(turn_gap, abs(halts[sigma0] / theirs - 1.0))
+    say(f"{case}: the deflation halts at a4 = {halts[sigma0]:.6g} "
+        f"(record {theirs:.6g})")
+```
+
+For $\sigma_0 = -10$ and for $\Lambda = 0$ (which needs $\sigma_0 = -24$, Section 17.17) the turning point is found and compared with the record's column `a4_end`, where the record's integration stopped. Output: $0.397998$ and $0.149623$, equal to the record's values.
+
+```python
+reproduces(rate_gap < 1e-8, "Einstein first integral: a4'/H at a4 = 2 as recorded",
+           KS_SOURCE, ["D2_einstein_first_integral"])
+reproduces(turn_gap < 1e-6, "turning points for sigma0 = -10 and Lambda = 0",
+           KS_SOURCE, ["D3_lambda_zero_cases_halt"])
+```
+
+Two checks: the rates agree with the record to $10^{-8}$ and the turning points to $10^{-6}$ (relative), and the record's checks `D2_einstein_first_integral` and `D3_lambda_zero_cases_halt` are PASS. Output: two PASS lines. (COMPUTED, within the ASSUMED approximation of Section 17.17. The agreement is not a test of the physics of the approximation, only of its arithmetic: the notebook and the record use the same first integral and the same interpolant.)
+
+**In [23], the first integral drawn (figure 6).**
+
+```python
+grid = np.linspace(0.0, 2.0, 401)  # a4 from 0 to 2 in steps of 0.005
+STRENGTHS = [(10, "#eb6834"), (1, "#f2a541"), (-1, "#5598e7"), (-10, "#1c5cab"),
+             (-24, "#104281")]  # sigma0 and its colour
+fig, ax = plt.subplots(figsize=(6.4, 4.4))
+```
+
+`np.linspace(0.0, 2.0, 401)` gives 401 equally spaced values of $a_4$ from 0 to 2; `STRENGTHS` pairs each source strength with a colour (warm for $\sigma_0 > 0$, blue for $\sigma_0 < 0$).
+
+```python
+for sigma0, colour in STRENGTHS:
+    values = np.array([rate_squared(a, sigma0) for a in grid])
+    keep = values >= 0.0  # a4'^2 cannot be negative: a4 turns back there
+    label = ("$\\Lambda = 0$ ($\\sigma_0 = -24$)" if sigma0 == -24
+             else f"$\\sigma_0 = {sigma0}$")
+    x_values, rates = grid[keep], np.sqrt(values[keep])
+    if sigma0 in halts:  # end the curve exactly at its turning point
+        x_values, rates = np.append(x_values, halts[sigma0]), np.append(rates, 0.0)
+    ax.plot(x_values, rates, color=colour, lw=1.8, label=label)
+```
+
+For each strength the cell computes $(a_4'/H)^2$ on the grid and keeps only the points where it is not negative (`keep` is an array of True and False; `grid[keep]` picks the values where it is True): beyond a turning point $a_4$ would decrease again, which this picture of $a_4'$ against an increasing $a_4$ does not show. The label is written in LaTeX. For the two strengths with a turning point the point $(a_4^*, 0)$ is appended (`np.append`), so that the curve ends exactly there; then the curve of $a_4'/H$ (the square root) is drawn.
+
+```python
+ax.plot(list(halts.values()), [0.0, 0.0], "kx", ms=8, mew=1.6,
+        label="turning points ($a_4' = 0$)")
+ax.axhline(1.0, color="#e34948", ls="--", lw=1.2,
+           label="linear member $a_4 = Hx_4$")
+ax.set_xlabel("$a_4$ (the extra times scale as $e^{-a_4}$)")
+ax.set_ylabel("$a_4'/H$")
+ax.legend(fontsize=7, loc="upper left")
+end_rates = {s: rate_squared(2.0, s) ** 0.5 for s in (10, 1, -1)}
+```
+
+Black crosses mark the two turning points; the red dashed line is the constant rate of the history $a_4 = Hx_4$; then the axis labels and the legend. `end_rates` holds the rates at $a_4 = 2$ for the caption.
+
+```python
+save_figure(fig, "first_integral",
+            "The rate $a_4'/H$ of the deflation of the extra times against $a_4$ "
+            "(pure numbers), from the first integral of the averaged $a_4$ "
+            ...)
+```
+
+The caption, quoted shortened (it is printed in full under the figure), inserts the rates $1.954$, $1.132$ and $0.848$ and the turning points $0.398$ and $0.150$ with three decimals. Output: figure 17b.6 and its saved line.
+
+**What figure 17b.6 shows.** Horizontal axis: $a_4$ from 0 to 2 (pure number; the extra-time scale factor is proportional to $e^{-a_4}$); vertical axis: $a_4'/H$ (pure number). All five curves start at 1, the chosen initial rate. With $\sigma_0 = 10$ the rate grows to $1.954$ at $a_4 = 2$, with $\sigma_0 = 1$ to $1.132$, with $\sigma_0 = -1$ it falls to $0.848$; the curves flatten toward the right because the gas has already given up most of its averaged energy there (only the lost fraction enters the first integral). With $\sigma_0 = -10$ and with $\Lambda = 0$ the rate drops steeply to 0 at $a_4 = 0.398$ and $0.150$ (crosses): the deflation halts and the extra times would then re-inflate. None of the curves is selected by the equations: the starting value 1 is a choice, and the dashed line, the history on which the Kohn-Sham states were computed, is a solution of the approximate equations only for a source that does not change, like the $N = 8$ states. (COMPUTED within the ASSUMED approximation of Section 17.17.)
+
+**In [24], the last check.**
 
 ```python
 figure_names = ["eight_gammas", "slope_identity", "difference_order",
-                "brane_and_mean", "energy_exchange"]
+                "brane_and_mean", "energy_exchange", "first_integral"]
 paths = [output_file(f"{FIGURE_FOLDER}/17b_{k}_{name}.png")
          for k, name in enumerate(figure_names, 1)]
 check(all(path.is_file() for path in paths),
@@ -2647,13 +2995,13 @@ check(all(path.is_file() for path in paths),
 all_checks_passed()
 ```
 
-As In [20] of Notebook 17a, for the five figures. Output: PASS every figure file of this notebook exists and ALL 16 CHECKS PASSED (notebook 17b).
+As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file of this notebook exists and ALL 20 CHECKS PASSED (notebook 17b).
 
-**The count.** The 16 PASS lines are: one each in In [2] and In [3], two in In [4], one each in In [6], In [8], In [9], In [10], In [11], In [13], In [14], In [15], In [16], In [17], In [18] and In [20]. Ten of them reproduce a Revision record and name it.
+**The count.** The 20 PASS lines are: one each in In [2] and In [3], two in In [4], one each in In [6], In [8], In [9], In [10], In [11], In [13], In [14], In [15], In [16], In [17], In [18], In [20] and In [21], two in In [22], and one in In [24]. Fourteen of them reproduce a Revision record and name it.
 
-### 17.21 What a prescribed background is, and what remains open
+### 17.22 What a prescribed background is, and what remains open
 
-**What the record establishes.** In the words of the record `Revision/field_equations_a4/reports/ks-source-conditions.json`: no Kohn-Sham state recorded in `Revision/kohn_sham` is an admissible source of the author's metric; C1 and C2 fail for every nonzero state (C2 also after integration over $x_8$), and the Kohn-Sham history uses the linear member as a prescribed background, without back-reaction. The record of the $a_4$ equations says the same (`Revision/field_equations_a4/a4-equations.json`, key `fields.dirac16complex.kohnSham`), and so does the Kohn-Sham theory record (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyStatus`). Sections 17.12 to 17.16 add the reason: the Kohn-Sham source is conserved, as every source must be, but its hidden pressure is far from flat and its 3-space pressure is not balanced by an equal extra-time pressure ($\int p_3 > \int p_t$ along the history), and for a conserved source these are exactly the failures of C2 and C3.
+**What the record establishes.** In the words of the record `Revision/field_equations_a4/reports/ks-source-conditions.json`: no Kohn-Sham state recorded in `Revision/kohn_sham` is an admissible source of the author's metric; C1 and C2 fail for every nonzero state (C2 also after integration over $x_8$), and the Kohn-Sham history uses the linear member as a prescribed background, without back-reaction. The record of the $a_4$ equations says the same (`Revision/field_equations_a4/a4-equations.json`, key `fields.dirac16complex.kohnSham`), and so does the Kohn-Sham theory record (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyStatus`). Sections 17.12 to 17.16 add the reason: the Kohn-Sham source is conserved along the hidden direction at every point, and in the time direction for the total energy of the patch (not point by point); but its hidden pressure is far from flat and its 3-space pressure is not balanced by an equal extra-time pressure ($\int p_3 > \int p_t$ along the history), and for a conserved source these are exactly the failures of C2 and C3. Section 17.17 adds that averaging over the hidden direction does not rescue it: the averaged C2 still fails, and the averaged equations can be integrated only after two of them are dropped, an approximation whose error is of order 1.
 
 **What "prescribed background" means.** A prescribed background is a metric chosen by hand, in which matter is placed and studied while its own gravity is ignored. The matter is then a **test field**, and the effect it would have on the metric, its **back-reaction**, is left out. This is a common and useful approximation in physics, much like computing the motion of a cork on a river whose flow is given: the cork follows the flow, and nobody asks how the cork changes the river. Quantum fields in a given expanding universe are usually studied this way. The approximation is good when the matter is too dilute to change the metric noticeably; whether that holds here cannot be decided without the back-reaction itself.
 
@@ -2668,7 +3016,7 @@ As In [20] of Notebook 17a, for the five figures. Output: PASS every figure file
 
 **What back-reaction would require.** By C1, a source that depends on $x_8$ cannot sit on the right-hand side of the field equations of a metric whose left-hand side does not depend on $x_8$. A self-consistent treatment therefore needs a metric with more freedom: functions of both the time $x_4$ and the hidden coordinate (for example separate warp factors for 3-space and for the extra times that depend on $y$), the Kohn-Sham equations in that metric, and the field equations, all solved together. Beyond that, the Kohn-Sham states themselves are instantaneous (adiabatic) states; the time-dependent problem along the history is also OPEN. Chapter 22 describes how a student could attack both.
 
-### 17.22 What we proved, what we computed, what we assumed
+### 17.23 What we proved, what we computed, what we assumed
 
 **PROVED** (exact; each with the record file and check, and the notebook cell that reproduces it):
 
@@ -2682,8 +3030,9 @@ As In [20] of Notebook 17a, for the five figures. Output: PASS every figure file
 | the conservation law in the coordinates $x_8$ and $y$ | `python-a4-report.json`: `conservation_components`, `json_conservation`; `ks-theory-python.json`: `emt_y_conservation_selfconsistent`, `emt_x4_component` | 17b, In [7] to In [9] |
 | for a conserved source $p_3 + p_t - 2p_8 = p_8'(y)/(3H)$ | derived in Section 17.14 | 17b, In [10] |
 | $d\mathcal C/dx_4 = 3a_4'\,\mathcal E$ for all couplings; along the linear member $-3AH\kappa(p_3 - p_t)$ | `wolfram-a4-report.json`: `constraint_propagation_bianchi`; `python-a4-report.json`: `bianchi_x4` | 17b, In [17] |
+| the moment equations; $3F = 2\,dP/dX$; the constraint propagates with the averaged source; the Einstein first integral | `ks-source-a4.json`: `A1_lovelock_identity_x1_plus_x5_equals_2x8`, `A3_F_equals_two_thirds_dP_dX`, `A4_constraint_propagation_with_averaged_source`, `A6_x8_conservation_in_y`, `D2_einstein_first_integral` | (Section 17.17); 17b, In [22] |
 
-(The report files lie in `Revision/field_equations_a4/reports/` and `Revision/kohn_sham/reports/`.)
+(The report files lie in `Revision/field_equations_a4/reports/`, `Revision/field_equations_a4/ks_source/reports/` and `Revision/kohn_sham/reports/`.)
 
 **COMPUTED** (numerical, on the 75 recorded Kohn-Sham states; each reproduces the record named):
 
@@ -2697,20 +3046,24 @@ As In [20] of Notebook 17a, for the five figures. Output: PASS every figure file
 | the source rests on the author's real gammas | Clifford deviation exactly 0; sha256 prefix 95d8cbdd0682fd30 | `python-algebra.json`: `reality_signed_permutations`, `clifford_relation`; `ks-rust-solver.json`: `gamma_fixture_numeric` | 17b, In [3], In [4] |
 | $V = p_8'/(3H)$ on the stored grid | at most $1.05 \times 10^{-4}$ of $\max\lvert T\rvert$; fitted order 4.02 to 4.08 | (the book's own test) | 17b, In [11], In [13] |
 | the integrated conservation law | relative difference at most $1.421 \times 10^{-11}$ | `ks-rust-solver.json`: `emt_y_conservation_integrated` | 17b, In [14] |
-| $R$ equals the brane value of $p_8$ over its mean | agreement to $1.4 \times 10^{-11}$ | `ks_integrals_violate_algebraic_condition` | 17b, In [15] |
-| the energy-change law along the history | Simpson's rule to at most $2.2 \times 10^{-4}$ | `ks-rust-solver.json`: `emt_energy_change_dE_da4` | 17b, In [18] |
+| $R$ equals the boundary value $b_8$ of $p_8$ over its mean | agreement to $1.4 \times 10^{-11}$; tip share $0.31$ to $0.33$ for $N = 8$, at most $0.039$ otherwise | `ks_integrals_violate_algebraic_condition` | 17b, In [15] |
+| the energy-change law of the patch along the history | Simpson's rule to at most $2.2 \times 10^{-4}$ | `ks-rust-solver.json`: `emt_energy_change_dE_da4` | 17b, In [18] |
+| the time law fails point by point | tip ratio of the two sides $-0.327$ to $-0.106$; patch integrals agree to $1.3 \times 10^{-3}$ | `ks-theory-python.json`: `emt_x4_component` | 17b, In [20] |
+| the averaged C2 fails | defect $0.414086$ to $0.806379$ | `ks-source-a4.json`: `C1_averaged_algebraic_condition_fails` | 17b, In [21] |
+| first integral, Einstein, $N = 136$, $\lambda = 0$ (within the approximation) | $a_4'(2)/H = 1.95362$, $1.1321$, $0.847549$ for $\sigma_0 = 10, 1, -1$; halts at $a_4 = 0.397998$ ($\sigma_0 = -10$) and $0.149623$ ($\Lambda = 0$) | `ks-source-a4.json`: `D2_einstein_first_integral`, `D3_lambda_zero_cases_halt` | 17b, In [22] |
 
 **ASSUMED.**
 
 - The history $a_4 = Hx_4$ ($A = 1$) on which the Kohn-Sham states were computed: it is a PRESCRIBED BACKGROUND, chosen and not solved for (this chapter shows that it is not a solution with the Kohn-Sham source).
 - The ingredients of the Kohn-Sham model (Chapter 14): the good sector without extra-time dependence, the Z2 mirror at the brane, the tip cutoff $y = -3$, the box of 3-space and the chosen particle numbers and couplings.
+- In Section 17.17 only: the truncation of the averaged equations to the $x_4$ moment and the $x_1 - x_5$ moment (an approximation whose error, the dropped residuals, is of order 1), the initial rate $a_4'(0) = H$, and the interpolation of $\bar\rho$ between the slices.
 - The overall sign convention $\sigma_T = +1$ of the source (record `a4-equations.json`, key `fields.emtConvention`). It does not affect C1, C2 or C3, which do not change when every component of $T$ changes sign.
 
 **HYPOTHESIS.** None in this chapter.
 
-**OPEN.** What metric the Kohn-Sham gas would produce with back-reaction; whether any state of dirac16complex is an admissible source of the author's metric; the time-dependent (non-adiabatic) evolution of the gas along the history.
+**OPEN.** What metric the Kohn-Sham gas would produce with back-reaction; whether any state of dirac16complex is an admissible source of the author's metric; the time-dependent (non-adiabatic) evolution of the gas along the history; the source beyond $a_4 = 2$ and at nonzero temperature.
 
-### 17.23 Exercises
+### 17.24 Exercises
 
 **Exercise 1 (the pattern of the Lovelock components).** The record stores $E_{(2)}{}^{x_1}{}_{x_1} = 12a'^4 - 24a'^2a'' + 168a'^2H^2 - 40a''H^2 - 180H^4$, $E_{(2)}{}^{x_5}{}_{x_5} = 12a'^4 + 24a'^2a'' + 168a'^2H^2 + 40a''H^2 - 180H^4$ and $E_{(2)}{}^{x_8}{}_{x_8} = 12a'^4 + 168a'^2H^2 - 180H^4$. (a) Show that they have the form $P_2 + a''Q_2$, $P_2 - a''Q_2$, $P_2$, and find $P_2$ and $Q_2$. (b) Verify C2 for $k = 2$. (c) Find the Gauss-Bonnet part of $F$.
 
@@ -2742,7 +3095,7 @@ As In [20] of Notebook 17a, for the five figures. Output: PASS every figure file
 
 **Exercise 8 (the order of the finite differences).** For the state `N136_lam0_a10` Notebook 17b, In [13], found the difference $4.6 \times 10^{-7}$ of max|T| at the step $0.02$. Predict the differences at the steps $0.04$, $0.06$ and $0.10$ if the error is of order 4, and compare with the printed values $7.5 \times 10^{-6}$, $3.8 \times 10^{-5}$ and $3.0 \times 10^{-4}$.
 
-*Answer.* An error of order 4 is $C\delta^4$, so doubling the step multiplies it by $2^4 = 16$: $16 \times 4.6 \times 10^{-7} = 7.4 \times 10^{-6}$. Tripling: $3^4 = 81$, $81 \times 4.6 \times 10^{-7} = 3.7 \times 10^{-5}$. Five times: $5^4 = 625$, $625 \times 4.6 \times 10^{-7} = 2.9 \times 10^{-4}$. All three agree with the printed values to within the rounding of the first one (the printed $4.6 \times 10^{-7}$ has only two digits). A failure of the conservation law would show up as a floor below which the differences stop falling; there is none.
+*Answer.* An error of order 4 is $C\delta^4$, so doubling the step multiplies it by $2^4 = 16$: $16 \times 4.6 \times 10^{-7} = 7.4 \times 10^{-6}$. Tripling: $3^4 = 81$, $81 \times 4.6 \times 10^{-7} = 3.7 \times 10^{-5}$. Five times: $5^4 = 625$, $625 \times 4.6 \times 10^{-7} = 2.9 \times 10^{-4}$. The predictions agree with the printed values to within a few per cent, and the printed values are a little larger, more so for the larger steps (for the step $0.10$ the measured value is about 5 per cent above the prediction; the rounding of $4.6 \times 10^{-7}$ cannot explain that, since every number that rounds to it gives at most $2.91 \times 10^{-4}$). The excess is the next term of the error: a fourth-order difference has the error $C\delta^4 + D\delta^6 + \dots$, and the term $D\delta^6$, small beside $C\delta^4$ for small $\delta$, grows faster with the step. That is why the fitted order is $4.04$ and not exactly $4.00$. A failure of the conservation law would show up as a floor below which the differences stop falling; there is none.
 
 **Exercise 9 (the constraint in Einstein gravity).** In Einstein gravity $\mathcal C = 3a_4'^2 + 21H^2 + \Lambda + \kappa\rho$ and $\mathcal E = 2a_4'' - \kappa(p_3 - p_t)$. (a) Show by hand that $d\mathcal C/dx_4 = 3a_4'\,\mathcal E$ for a source that obeys $\rho' = -3a_4'(p_3 - p_t)$. (b) For the linear member with $A = 1$ and the Kohn-Sham gas at $\lambda = 0$, what is the sign of $d\mathcal C/dx_4$, and what does it mean?
 

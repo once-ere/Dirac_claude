@@ -199,6 +199,17 @@ CELLS = [
     $\varepsilon = \pm\sqrt{M^2 + p_l^2}$. These are the formulas of `ks-theory.json`,
     entry `boundaryConditions.exactK0Spectra`.
 
+    **Odd parity has no level with $\varepsilon^2 \le M^2$**, so all its levels have
+    $|\varepsilon| > M$:
+    - $\varepsilon = 0$: as for the zero mode, $a = A\,e^{My}$ and $b = 0$; then
+      $a(0) = A = 0$, so only the trivial solution $a = b = 0$ is left: no zero mode.
+    - $0 < \varepsilon^2 < M^2$: now $b'' = q^2 b$ with $q^2 = M^2 - \varepsilon^2 > 0$,
+      and the solution with $b(-L) = 0$ is $b = \sinh(q\,(y+L))$; then
+      $a(0) = j\,(q\cosh(qL) + M\sinh(qL))/\varepsilon$, which is not 0, because both
+      terms in the bracket are positive.
+    - $\varepsilon^2 = M^2$: now $b'' = 0$, so $b = y + L$, and
+      $a(0) = j\,(1 + ML)/\varepsilon$, again not 0.
+
     **Ranks.** The levels of a sector are counted from the lowest **particle** level
     (rank 0): for even parity that is the zero mode (by the convention of
     `ks-theory.json`, the brane zero modes are particles), then $n = 1, 2, \dots$ are
@@ -390,7 +401,8 @@ CELLS = [
     $$q_1 = d_1 - x, \qquad q_r = d_r - x - \frac{o_{r-1}^2}{q_{r-1}}
     \quad (r = 2, \dots, n).$$
     They are the numbers that appear on the diagonal when $T - x\,\mathbb{1}$ is written
-    as $L D L^T$ ($L$ with ones on the diagonal, $D$ diagonal), by elimination row after
+    as $\mathcal{L} D \mathcal{L}^T$ ($\mathcal{L}$ with ones on the diagonal, $D$
+    diagonal; a script letter, because $L$ is the length 3), by elimination row after
     row. **Sylvester's law of inertia** (a theorem of linear algebra that we quote, not
     prove) says that $T - x\,\mathbb{1}$ and $D$ have the same number of negative
     eigenvalues; the eigenvalues of $T - x\,\mathbb{1}$ are $\varepsilon - x$; so the
@@ -706,7 +718,10 @@ CELLS = [
                 "only the two neighbouring diagonals are filled, alternating "
                 "$1/h + M/2 = 3.17$ and $-1/h + M/2 = -2.17$. Right, odd parity in the "
                 "rotated frame: the diagonal carries $\\phi' \\pm M\\sin 2\\phi$ and the "
-                "off-diagonal entries carry $M\\cos 2\\phi$, which changes sign along $y$.")
+                "off-diagonal entries are $\\pm 1/h + \\tfrac12 M\\cos 2\\phi$; "
+                "$M\\cos 2\\phi$ goes from $+M$ at the tip to $-M$ at the brane, so "
+                "the red entries fall from 3.17 to 2.17 and the blue ones from -2.17 "
+                "to -3.17, without a change of sign.")
     '''),
     md(r"""
     ## 11. Five grids: second order, and Richardson removes the error
@@ -770,7 +785,8 @@ CELLS = [
     orbital oscillates fastest). For each, against the cell width $h$: the error of the
     single grids (slope 2), of one Richardson step from two neighbouring grids (slope 4),
     and of the three-grid value (two steps), which reaches the rounding floor of about
-    $10^{-14}$ already on the coarsest triple.
+    $10^{-14}$ on the coarsest triple for the two lower levels and from the second
+    triple on for the level of rank 5.
     """),
     code(r'''
     hs = np.array([L_VALUE / G for G in GRIDS])
@@ -804,7 +820,9 @@ CELLS = [
                 "axes, for three levels of the free problem: circles, single grids "
                 "(slope 2, error proportional to $h^2$); squares, one Richardson step "
                 "$(4x(h/2) - x(h))/3$ (slope 4); triangles, the three-grid value of the "
-                "reference (two steps), already at the rounding floor near $10^{-14}$. "
+                "reference (two steps), at the rounding floor near $10^{-14}$ on the "
+                "coarsest triple for the two lower levels and from the second triple on "
+                "for rank 5. "
                 "The high level of rank 5 has the largest errors, because its orbital "
                 "varies fastest from cell to cell.")
     '''),
