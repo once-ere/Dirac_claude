@@ -511,10 +511,10 @@ the report shows the failure count.
 ### 4.4 Run time and memory
 
 On the verification machine (Windows 11, 24 logical cores), 2026-10-08, quiet (0 to 2 Wolfram processes of
-other jobs): `verify_t3.wls` 2.97 to 3.92 s wall-clock time per run (printed time 0.4 to 0.5 s; the
+other jobs): `verify_t3.wls` 2.96 to 3.92 s wall-clock time per run (printed time 0.4 to 0.5 s; the
 negative-test runs of section 6.5, which stop earlier or fail a check, 2.4 to 4.7 s);
-`verify_t3_completion.wls` 3.01 to 3.44 s; `check_t3.py` 1.11 to 1.15 s; `check_t3_completion.py` 0.72 to
-0.74 s. The exact list is in section 6.5. Earlier measurements of `verify_t3.wls` (sections 6.1 to 6.4, the
+`verify_t3_completion.wls` 3.01 to 3.44 s; `check_t3.py` 1.11 to 1.36 s; `check_t3_completion.py` 0.72 to
+0.81 s. The exact list is in section 6.5. Earlier measurements of `verify_t3.wls` (sections 6.1 to 6.4, the
 version before the fix, which does the same computation): about 2 to 8 seconds, typically 3 to 5, and on a
 heavily loaded machine (10 to 26 Wolfram processes of other jobs) up to about 14 seconds with printed times up
 to 7.2 s.
@@ -983,6 +983,53 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
 - Kill tests (scratch trees; the C# program killed `wolframscript` after 1.0 s and 2.3 s for `verify_t3.wls`
   and after 2.3 s for the completion): exit code -1; the kernel was not alive 2 s later; no output file was
   written; the empty `tmp_*` file of each run remained (three files of 0 bytes, deleted by hand afterwards).
+- Two fresh clones (`git clone https://github.com/once-ere/Dirac_claude.git` into empty scratch folders, 22.5 s
+  and 21.8 s), both at `fe2d80c18f56a901359f395a1bd6867a7bb128b6`, the remote `main` at that time. The fixed
+  `verify_t3.wls` and this file were not yet committed, so both were copied into each clone (the only
+  uncommitted files copied in); at `fe2d80c` the committed `verify_t3.wls` is the unfinished first edit
+  (`ab196c6d...`) and the committed `wolfram-t3.json` its report (sha256
+  `8a7a55681fec6f226216467b02cad3dfda1ac876f1d2a7fdc0f210645e3ad029`), so in the clones `wolfram-t3.json` was
+  compared with section 2.3 (and with the working-tree file that is to be committed), all other outputs with
+  the committed files.
+  - Clone 1, PowerShell 7.6.6, sections 3.5 and 3.6 literally: the 11 lines of section 4.1
+    (`10/10 checks passed; time 0.4 s`), `0`, 2.96 s; the 4 lines of the completion, `0`, 3.06 s; the two
+    `.summary` commands printed one table with the columns `passed failed total` and the rows `10 0 10` and
+    `3 0 3` (typed one by one, each prints its own table); `git status --porcelain` printed
+    ` M Revision/pairing/kohn_sham/reports/wolfram-t3.json` and the two copied files, `git diff --exit-code --stat`
+    named the same three files, `3 files changed, ...`, exit code 1 (the exception of section 3.6 step 2);
+    `Get-FileHash` gave the four sha256 of section 2.3 (in capital letters). Then `python` (the machine's
+    Python, not a new private environment) `check_t3.py` (`pass 13 fail 0`, exit 0, 1.36 s) and
+    `check_t3_completion.py` (7 `PASS` lines, `pass 7 fail 0`, exit 0, 0.81 s), both reports byte-identical to
+    the committed ones; second runs of both scripts (3.37 s, 3.27 s; exit 0; 11 and 4 lines). The sha256 of
+    every file outside `.git` (3374 files) before the copy and after all runs: no file added or removed; changed
+    only the two copied files and `wolfram-t3.json` (now `b0903ca4...f7c6`); `git status --porcelain --ignored`
+    showed only those three files.
+  - Clone 2, Git Bash, the macOS/Linux commands of sections 3.5 and 3.6 literally: `10/10 checks passed; time
+    0.4 s`, `0`, `3/3 checks passed`, `0` (wall times not measured); the `grep` printed exactly the two lines of
+    section 3.6; `git status --porcelain` and `git diff --exit-code --stat` as in clone 1 (exit code 1);
+    `sha256sum` gave the four sha256 of section 2.3 (Git Bash prints `*` before each file name). Then Command
+    Prompt (cmd.exe), the commands of sections 3.5 and 3.6 literally (`echo %ERRORLEVEL%`, `findstr`,
+    `certutil`): `10/10 checks passed; time 0.4 s`, `0`, `3/3 checks passed`, `0`; `findstr` printed the two
+    summary lines with backslashes in the file names; `certutil` printed the four sha256 of section 2.3 in the
+    form section 3.6 describes. The checkers with the machine's Python: `pass 13 fail 0` (1.27 s) and
+    `pass 7 fail 0` (0.77 s), exit 0, reports byte-identical; `git status --porcelain --ignored` as in clone 1.
+  - After these clone runs, automatic work-in-progress snapshot commits of the repository (`e27e154`,
+    `40cf474`, the remote `main` at the end of this verification) committed the fixed `verify_t3.wls`, its
+    report and a draft of this file without these clone results. At `40cf474` (`git show`, not a new clone)
+    both scripts, both inputs, the four outputs and the two sympy reports have exactly the sha256 of section 2,
+    so in a fresh clone of `40cf474` the runs are expected to leave `git status --porcelain` empty (not tested
+    in a clone of `40cf474`).
+  - Not repeated on 2026-10-08: the private-environment steps of section 3.8 (`pip install` downloads files;
+    verified for `check_t3.py` on 2026-10-02, sections 6.1 and 6.2), the socket monitoring and the system
+    temporary folder (sections 6.1 to 6.3), Linux and macOS.
 - Fixes made: `verify_t3.wls` (check 6, the `ERROR` exits of section 4.2, the header comment); its report
   `wolfram-t3.json` (detail of check 6); this file (extended to the whole set). No other file of the set was
   changed; `t3-theory.json`, `verify_t3_completion.wls` and its outputs are unchanged.
+- Check counts: `verify_t3.wls` 10 of 10 PASS and `verify_t3_completion.wls` 3 of 3 PASS in every run with the
+  committed inputs (repository 2 + 2 monitored + 2 unmonitored runs, clones 3 + 3 runs); the sympy checkers 13
+  of 13 and 7 of 7.
+- Open discrepancies: none in the set. Two texts outside it describe `verify_t3.wls` as it was before this fix
+  (they are correct as history but no longer describe the current script): the completion's check detail and
+  its record (`verify_t3_completion.wls` lines 12-13, 51 and 107, hence `t3-completion.json` gap 1 and
+  `wolfram-t3-completion.json`), see section 1.4. Not verified: macOS, Linux with Wolfram, Wolfram versions
+  other than 15.0.1.
