@@ -17,7 +17,7 @@
   "kohn-sham-deflating-field": {
     "path": "Revision/docs/KOHN_SHAM_DEFLATING_FIELD.pdf",
     "pages": 22,
-    "sha256": "50b8a074cc751247bab9a36d601e488bd83b53089aef2c6ff78d1575d561bd43"
+    "sha256": "d6751c9447708de839ce178cc6dd02b07cbc6920aef23c1d10e97ec21f38656a"
   },
   "lovelock-gkd": {
     "path": "Revision/docs/LOVELOCK_GKD.pdf",
@@ -27,7 +27,7 @@
   "pair-creation-proofs": {
     "path": "Revision/docs/PAIR_CREATION_PROOFS.pdf",
     "pages": 33,
-    "sha256": "c0bb6b39fcb723e4073994b97a814d48b891f321e986ecd31ba2736cdecb3dc3"
+    "sha256": "bd9139290e354389cbe287f241f87849b23d2b7cc8f0fc3a35da12a499b1c4bb"
   },
   "universes-in-pairs-textbook": {
     "path": "Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.pdf",
