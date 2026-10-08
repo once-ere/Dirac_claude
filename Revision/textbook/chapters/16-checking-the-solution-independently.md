@@ -1196,7 +1196,7 @@ def rank_key(n2, j, parity, rank):
     return f"{int(n2)}:{'+1' if int(j) > 0 else '-1'}:{parity}:{int(rank)}"
 ```
 
-`rank_key` writes the key of a level as a text such as `1:-1:even:2`: the shell $n_2$, the block type with its sign, the parity and the rank (Chapter 15: the rank counts the levels of a sector from the lowest particle level).
+`rank_key` writes the key of a level as a text such as `1:-1:even:2`: the shell $n_2$, the block type with its sign, the parity and the **rank**. The rank numbers the levels of one sector from its lowest particle level, which gets rank 0, upwards $1, 2, \dots$ and downwards $-1, -2, \dots$; for the Rust solver it is the Pruefer label $l$ of Chapter 15 minus $l_{min}$, the label of the lowest particle level of the sector, and the reference solver counts its levels in the same way (Section 16.13 works out the ranks of the free problem).
 
 ```python
 U_DSCF = RK4_FACTOR * WIDE["refined_delta_scf"]  # matrix-wide Delta-SCF uncertainty

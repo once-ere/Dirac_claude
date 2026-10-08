@@ -622,15 +622,19 @@ def main():
         nb_sha = sha256_of(NOTEBOOK)
         inputs = wl["input_sha256"]
         stale = [rel for rel, h in inputs.items() if not (ROOT / rel).is_file() or sha256_of(rel) != h]
-        check("extractions_current",
-              nbd["notebook_sha256"] == nb_sha and not stale and set(wl["packages_loaded"]) <= set(inputs),
-              f"the author's notebook on disk has the sha256 that extract_from_author_notebook.wls recorded ({nb_sha[:16]}...), "
-              f"and the {len(inputs)} files that extract_repository_wolfram_gammas.wls read (its {len(wl['packages_loaded'])} "
-              "packages, Revision/algebra/gammas.json and algebra-fixture.json) are unchanged since that extraction, so the "
-              "two JSON files describe the current repository"
-              + (f"; CHANGED since the extraction: {stale}: re-run extract_repository_wolfram_gammas.wls" if stale else "")
-              + ("" if nbd["notebook_sha256"] == nb_sha else "; the notebook differs from the extraction: re-run "
-                 "extract_from_author_notebook.wls"))
+        nb_ok = nbd["notebook_sha256"] == nb_sha
+        current = nb_ok and not stale and set(wl["packages_loaded"]) <= set(inputs)
+        if current:
+            detail = (f"the author's notebook on disk has the sha256 that extract_from_author_notebook.wls recorded "
+                      f"({nb_sha[:16]}...), and the {len(inputs)} files that extract_repository_wolfram_gammas.wls read (its "
+                      f"{len(wl['packages_loaded'])} packages, Revision/algebra/gammas.json and algebra-fixture.json) are "
+                      "unchanged since that extraction, so the two JSON files describe the current repository")
+        else:
+            detail = ("the extracted JSON files are OUT OF DATE"
+                      + ("" if nb_ok else ": the notebook differs from the one extract_from_author_notebook.wls read "
+                         "(re-run it)")
+                      + (f": changed since extract_repository_wolfram_gammas.wls ran: {stale} (re-run it)" if stale else ""))
+        check("extractions_current", current, detail)
     with group("notebook"):
         check("eta4488_diagonal_4_4",
               eta == [1, 1, 1, 1, -1, -1, -1, -1] and all(eta8[A][B] == 0 for A in IDX for B in IDX if A != B),
@@ -1653,8 +1657,11 @@ def main():
       "notebook and every compared file are only read. Tested with: Wolfram " + wl_version + " (recorded by the extractors "
       "in both JSON files), WolframScript " + TESTED_WITH["WolframScript"] + ", Python " + TESTED_WITH["Python"]
       + ", sympy " + TESTED_WITH["sympy"] + ", numpy " + TESTED_WITH["numpy"] + ", on Windows 11; the macOS and Linux "
-      "commands above were not executed for this file. Every check is exact, so another version can only change the "
-      "result if it evaluates the notebook cells differently; the builder prints the versions it uses.")
+      "commands above were not executed for this file (the Python files were checked against the Python 3.10 grammar "
+      "only). Every check is exact: another Wolfram version could evaluate the notebook cells differently (the recorded "
+      "version identifies the one used), and another sympy version could fail to simplify one of the symbolic "
+      "identities; either would show as a FAIL line or as a difference found by `--check`. The builder prints the "
+      "versions it uses.")
     w("")
     w("## Source: the author's input cells that were evaluated")
     w("")
