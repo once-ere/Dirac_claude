@@ -147,6 +147,17 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4x PREPARED WORKFLOWS (2026-10-08 ~15:35)
+
+- handoff/workflows/wf_stage5_docs_review_v2.js: old Stage 5 documents A and B, the Stage-5 gate, 4 review lenses, 2 skeptics
+  per finding, fixer(s) and a fix-verifier; errata E5.1-E5.3 binding; registry lock; consistency with the Revision record.
+  Launch after the guarded reference pairs, the Rust pairs (canonical, repeat, refined) and the pairs checker are done; set SP.
+- Revision/workflows/completion/completion_phase_3c_book_v2.js: sweep of the chapters affected by the final Revision record
+  (args.sweep / args.failing; prepared args: <scratchpad>/sweep/args.json for chapters 00, 09, 10, 14, 15, 16, 17, 21, 22;
+  fill args.failing from the nbkit check pass <scratchpad>/vc_sweep*/summary.txt), then the 5 book lenses, skeptics, fixers in
+  size-bounded parts (the 60000-character cut of v1 dropped findings in phase 3c-rev) and verifiers.  Launch after the Revision
+  record is final (phase 3c-rev2/rev3 verifiers, the lead's KS/FT document items).  23a and chapter 23 stay with the lead.
+
 ### 0.4w STATE AND ORDER 2026-10-08 ~15:35
 
 Done since 0.4v: tip_convergence committed (a8eb09d) and re-run by the lead byte-identically; gate 65 steps + 'Failed to open
