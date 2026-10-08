@@ -379,7 +379,7 @@ Notebook 05a reads the eight gammas from the record `Revision/algebra/gammas.jso
 
 ### 5.10 Line-by-line walk-through of Notebook 05a
 
-The notebook has 23 code cells, In [1] to In [23]. This section explains every line of every one of them. The words used are those of the notebook's section 3 (matrix, product, transpose, eigenvalue, signature, heat map and so on), which Sections 5.2 to 5.6 defined.
+The notebook has 23 code cells, In [1] to In [23]. This section explains every line of every one of them. The words used are those of the notebook's section 3 (matrix, product, transpose, eigenvalue, signature, heat map and so on), which Sections 5.2 to 5.6 defined. When a cell gives a long caption to `save_figure`, the quotation replaces the caption, or the rest of it, by a line `...)`; the full caption is printed under the figure in the complete text of the notebook (Section 5.9). The docstrings of the functions (explained under In [1] below) are left out of all quotations.
 
 **In [1], the set-up cell.** It is the same in every notebook of the book; only the line that sets `NOTEBOOK_ID` differs. Its first part repeats the complete run instructions of Section 5.8 as comment lines: every line that starts with `#` is a **comment**, which Python skips. The code starts after the line THE SET-UP between two lines of `=` signs. (The function definitions in the cell also carry **docstrings**, texts in triple quotes below the `def` line that say what the function does; they are left out of the quotations here.)
 
@@ -416,11 +416,16 @@ def find_repository_root():
 `def` defines a **function**, a named piece of code that runs when it is called. `Path.cwd()` is the folder in which the notebook runs, and `.resolve()` writes it as a complete address. `here.parents` lists the parent folder, its parent and so on; `[here, *here.parents]` is the list that starts with `here` and continues with all of them. The `for` loop takes the folders one after the other; `/` joins a folder and a name into a longer path, and `.is_file()` is true when that file exists. The first folder that holds `Revision/textbook/requirements.txt` is the repository, and `return` hands it back. If there is none, `raise` stops the notebook with a `FileNotFoundError` whose message says what to do.
 
 ```python
+# The repository folder.  It is never printed: it differs from computer to computer,
+# and the printed output of a notebook must not.
 REPO = find_repository_root()
+# Every file is WRITTEN below OUTPUT_ROOT.  OUTPUT_ROOT is the repository folder unless
+# the environment variable TEXTBOOK_OUTPUT_ROOT names another folder; the book's
+# checking tool sets it, so that a check run writes into a scratch folder instead.
 OUTPUT_ROOT = Path(os.environ.get("TEXTBOOK_OUTPUT_ROOT", str(REPO)))
 ```
 
-The first line calls the function and names its result `REPO`; it is never printed, because it differs from computer to computer while the printed output of a notebook must not. The second line chooses the folder below which files are written. `os.environ` holds the **environment variables** (named texts that a program receives from the computer); `.get(name, default)` returns the value of `TEXTBOOK_OUTPUT_ROOT` if it is set and the repository folder otherwise. When you run the notebook the variable is not set; the book's checking tool sets it to a scratch folder, so that a check never changes the repository.
+The comment lines say in short what the two code lines do. The first code line calls the function and names its result `REPO`; it is never printed, because it differs from computer to computer while the printed output of a notebook must not. The second line chooses the folder below which files are written. `os.environ` holds the **environment variables** (named texts that a program receives from the computer); `.get(name, default)` returns the value of `TEXTBOOK_OUTPUT_ROOT` if it is set and the repository folder otherwise. When you run the notebook the variable is not set; the book's checking tool sets it to a scratch folder, so that a check never changes the repository.
 
 ```python
 def repository_file(relative):
@@ -455,6 +460,8 @@ FIGURE_FOLDER = "Revision/textbook/figures"  # where the figures are saved
 CAPTION_FILE = f"{FIGURE_FOLDER}/{NOTEBOOK_ID}.captions.json"  # their captions
 FIGURE_NUMBERS = {}  # figure name -> its number k (file name <id>_<k>_<name>.png)
 CAPTIONS = {}  # figure file name -> caption, written to CAPTION_FILE after every figure
+# Start with an empty captions file ({} is an empty JSON dictionary); save_figure fills
+# it.  newline="\n" writes the same line ends on Windows, macOS and Linux.
 output_file(CAPTION_FILE).write_text("{}\n", encoding="utf-8", newline="\n")
 ```
 
@@ -465,6 +472,9 @@ def save_figure(fig, name, caption):
     number = FIGURE_NUMBERS.setdefault(name, len(FIGURE_NUMBERS) + 1)
     file_name = f"{NOTEBOOK_ID}_{number}_{name}.png"
     relative = f"{FIGURE_FOLDER}/{file_name}"
+    # dpi=150: 150 dots per inch.  bbox_inches="tight": cut away the empty margin.
+    # metadata={"Software": None}: no program name is stored in the PNG file, so that
+    # every run writes exactly the same bytes.
     fig.savefig(output_file(relative), dpi=150, bbox_inches="tight",
                 metadata={"Software": None})
     plt.close(fig)  # forget the figure, so that Jupyter does not draw it a second time
@@ -523,11 +533,12 @@ ETA = dict(zip(COORDS, fixture["eta"]))  # eta_aa: +1 space-like, -1 time-like
 numpy is loaded under the short name `np`. `read_text` reads the record file as text and `json.loads` turns the text into Python objects: `fixture` is a dictionary whose keys are the names stored in the record. `fixture["coordinates"]` is the list `["x1", ..., "x8"]`. `zip` pairs each coordinate name with its entry of the list `fixture["eta"]`, and `dict` makes a dictionary of the pairs, so `ETA["x4"]` is $-1$.
 
 ```python
+# gamma["x1"], ..., gamma["x8"]: the eight 16 x 16 matrices of whole numbers
 gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
 I16 = np.eye(16, dtype=np.int64)  # the 16 x 16 identity matrix, written 1 in the text
 ```
 
-A **dictionary comprehension** `{x: ... for x, m in ...}` builds a dictionary in one line: for each pair of a name `x` and a stored matrix `m` (a list of 16 rows of 16 whole numbers) it stores `np.array(m, dtype=np.int64)`, the same matrix as a numpy array of 64-bit whole numbers. With whole numbers every product below is exact: nothing is rounded. `np.eye(16)` is the identity matrix.
+The comment line names what the next line builds. A **dictionary comprehension** `{x: ... for x, m in ...}` builds a dictionary in one line: for each pair of a name `x` and a stored matrix `m` (a list of 16 rows of 16 whole numbers) it stores `np.array(m, dtype=np.int64)`, the same matrix as a numpy array of 64-bit whole numbers. With whole numbers every product below is exact: nothing is rounded. `np.eye(16)` is the identity matrix.
 
 ```python
 for x in COORDS:
@@ -861,7 +872,8 @@ ax.set_ylabel("value of the quadratic form")
 ax.set_title("The form of $C$ takes both signs; the ordinary length does not")
 # the legend goes below the picture, where it hides no curve
 ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=1)
-save_figure(fig, "c_form_signs", ...)
+save_figure(fig, "c_form_signs",
+            ...)
 ```
 
 The tick marks of the horizontal axis are placed at multiples of $\pi/4$ and labelled in radians; the axes and the picture get their labels and title. `ax.legend` draws the box that names the curves; `bbox_to_anchor=(0.5, -0.17)` puts its top centre below the picture, where it hides no curve. The figure, `05a_2_c_form_signs.png`, shows the solid curve $-\sin 2t$ going down to $-1$, the dashed curve $+\sin 2t$ going up to $+1$, and the dotted line at 1: the form of $C$ takes both signs on unit columns, the ordinary length does not.
@@ -946,7 +958,8 @@ heat_map(axes[2], P_plus, r"$P_+ = (1 + \Gamma)/2$", row_label=False)
 image = heat_map(axes[3], gamma["x1"], r"$\gamma^{(x1)}$ for comparison",
                  row_label=False)
 fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
-save_figure(fig, "chirality", ...)
+save_figure(fig, "chirality",
+            ...)
 ```
 
 Four heat maps in one row and a colour bar, saved as `05a_3_chirality.png`. In the figure, $\Gamma$ is blue on the first eight diagonal places and red on the last eight; $P_-$ and $P_+$ are red on the diagonal of one half; $\gamma^{(x1)}$ has its coloured squares only in the two off-diagonal blocks.
@@ -1028,7 +1041,8 @@ heat_map(axes[1], C @ gamma["x4"], r"$C\gamma^{(x4)}$ (antisymmetric)",
 image = heat_map(axes[2], B.imag, r"imaginary part of $B = -iC\gamma^{(x4)}$",
                  row_label=False)
 fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
-save_figure(fig, "b_matrix", ...)
+save_figure(fig, "b_matrix",
+            ...)
 ```
 
 Three heat maps: $\gamma^{(x4)}$, $C\gamma^{(x4)}$ and the imaginary part of $B$ (`B.imag`), which is $-C\gamma^{(x4)}$. In `05a_4_b_matrix.png` every picture changes colour when it is mirrored about its diagonal: all three are antisymmetric, and $B$, being $i$ times an antisymmetric real matrix, is Hermitian.
@@ -1089,7 +1103,8 @@ ax.set_yticks(range(len(names)), labels)
 ax.set_xlabel("eigenvalue")
 ax.set_title("How many times each eigenvalue occurs (16 in each row)")
 ax.grid(False)
-save_figure(fig, "spectra", ...)
+save_figure(fig, "spectra",
+            ...)
 ```
 
 `ax.text(c, r, ...)` writes each count in the middle of its square (`ha` and `va` centre it horizontally and vertically), in white on blue and in black on grey. The column labels are the four eigenvalues; the row labels are made by an `rf`-string, raw and formatted at once, in which a doubled brace `{{` stands for a single brace in the result, so that `$\gamma^{(x1)}$` and so on come out. The figure `05a_5_spectra.png` shows blue squares with 8 in the columns $+1$ and $-1$ for the space-like gammas, $C$, $\Gamma$ and $B$, and in the columns $+i$ and $-i$ for the time-like gammas.
@@ -1124,7 +1139,8 @@ ax.set_yticks(range(3), ["$C$", r"$\Gamma$", "$B$"])
 ax.set_title(r"Sign $s$ in $M\gamma^a = s\,\gamma^a M$ (red $+1$ commute, "
              r"blue $-1$ anticommute)")
 ax.grid(False)
-save_figure(fig, "commutation_signs", ...)
+save_figure(fig, "commutation_signs",
+            ...)
 ```
 
 The drawing works as in In [21], with the colour map of the heat maps: red squares $+1$ (commute), blue squares $-1$ (anticommute), each with its sign written in bold white. In `05a_6_commutation_signs.png` the row $C$ is blue for $x1$, $x2$, $x3$, $x8$ and red for $x4$ to $x7$; the row $\Gamma$ is blue everywhere; the row $B$ is blue only for the extra times $x5$, $x6$, $x7$.
@@ -1318,7 +1334,7 @@ Notebook 05b turns every statement of Section 5.13 into a system of linear equat
 
 ### 5.17 Line-by-line walk-through of Notebook 05b
 
-The notebook has 17 code cells. In [1] is the set-up cell, word for word the one of Notebook 05a explained in Section 5.10, except the line `NOTEBOOK_ID = "05b"  # this notebook: chapter 05, example b`; its comment lines repeat the instructions of Section 5.15.
+The notebook has 17 code cells. In [1] is the set-up cell, word for word the one of Notebook 05a explained in Section 5.10, except the line `NOTEBOOK_ID = "05b"  # this notebook: chapter 05, example b`; its comment lines repeat the instructions of Section 5.15. As in Section 5.10, the docstrings of the functions (the texts in triple quotes below a `def` line) are left out of the quotations, and a long caption given to `save_figure` is replaced by a line `...)`; the full caption is printed under the figure in the complete text of the notebook.
 
 **In [2], the gammas and the recorded checks.**
 
@@ -1541,7 +1557,8 @@ axes[1].set_xlabel("number of products added (degrees 0 to $k$)")
 axes[1].set_ylabel("rank")
 axes[1].set_title("The rank grows by one for every product")
 axes[1].legend(loc="upper left")
-save_figure(fig, "clifford_products", ...)
+save_figure(fig, "clifford_products",
+            ...)
 ```
 
 `np.cumsum` adds up the counts: 1, 9, 37, 93, 163, 219, 247, 255, 256 products after the degrees 0 to $k$. The right picture plots the cumulative ranks against these numbers (`"o-"` draws dots joined by lines) and the dotted line rank = number of products. In `05b_1_clifford_products.png` the dots lie exactly on the dotted line.
@@ -1711,7 +1728,8 @@ for ax, eig, zeros, title in [
     ax.set_title(f"$A^T A$ for the {title}")
     ax.legend(loc="lower right")
 axes[0].set_ylabel("eigenvalue of $A^T A$")
-save_figure(fig, "system_eigenvalues", ...)
+save_figure(fig, "system_eigenvalues",
+            ...)
 ```
 
 The loop draws the same kind of picture for the two systems: the sorted eigenvalues against their numbers 1 to 256 (`np.arange(1, 257)`), and orange dots on the first `zeros` of them, the zero eigenvalues. In `05b_2_system_eigenvalues.png` the left curve climbs in the steps 0, 4, 8, ..., 32 with one dot at 0; the right curve has two dots at 0.
@@ -1730,7 +1748,8 @@ ax.set_xticks(range(9), ["none"] + COORDS)
 ax.set_xlabel("gammas imposed, in the order x1, x2, ..., x8 (the last one named)")
 ax.set_ylabel("dimension of the commutant")
 ax.set_title("Each further gamma halves the commutant")
-save_figure(fig, "commutant_halving", ...)
+save_figure(fig, "commutant_halving",
+            ...)
 ```
 
 The nine dimensions are drawn against the number of gammas imposed; `annotate` writes each value next to its dot, shifted by 8 and 4 points. `set_yscale("log", base=2)` makes the vertical axis logarithmic with base 2, so that each halving is a step of the same size and the dots lie on a straight line. In `05b_3_commutant_halving.png` the line descends evenly from 256 to 1.
@@ -1770,7 +1789,8 @@ for k, (ax, (matrix, title)) in enumerate(zip(axes, pictures)):
         ax.set_ylabel("row")
     ax.grid(False)
 fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
-save_figure(fig, "spin_commutant", ...)
+save_figure(fig, "spin_commutant",
+            ...)
 ```
 
 The colour map of Notebook 05a is made again. `pictures` pairs the four matrices with their titles; in an ordinary string a backslash must be doubled, so `"\\mathrm"` gives `\mathrm`. The loop draws each as a heat map with the half lines (`enumerate` gives the number `k` of each picture, so that only the first gets the word row). `05b_4_spin_commutant.png` shows four diagonal matrices, each grey or red, constant on each half.
@@ -1851,7 +1871,8 @@ ax.set_title("Commutants and intertwiners")
 legend_squares = [Patch(color="#2a78d6", label="the author's spinor (computed)"),
                   Patch(color="#eb6834", label="negative control (artificial)")]
 ax.legend(handles=legend_squares, loc="upper right")
-save_figure(fig, "dimensions", ...)
+save_figure(fig, "dimensions",
+            ...)
 ```
 
 The seven computed dimensions are drawn as horizontal bars (`barh`), six blue and the control orange. `[::-1]` reverses the array of positions, so that the first label stands at the top; each value is written just right of its bar. `05b_5_dimensions.png` shows the bars 1, 2, 1, 1, 0, 0 and the orange bar 4.
@@ -2034,7 +2055,7 @@ Notebook 05d builds the 28 generators, repeats the recorded so(4,4) rules (784 p
 
 ### 5.22 Line-by-line walk-through of Notebook 05d
 
-The notebook has 17 code cells. In [1] is the set-up cell of Section 5.10 with `NOTEBOOK_ID = "05d"`; its comments repeat the instructions of Section 5.20.
+The notebook has 17 code cells. In [1] is the set-up cell of Section 5.10 with `NOTEBOOK_ID = "05d"`; its comments repeat the instructions of Section 5.20. Docstrings are left out of the quotations and long captions are replaced by a line `...)`, as in Section 5.10.
 
 **In [2], the gammas, C, Γ, B and the recorded checks.**
 
@@ -2218,7 +2239,8 @@ ax.set_xticks(range(8), COORDS)
 ax.set_yticks(range(8), COORDS)
 ax.set_title("The 28 planes: rotations (red) and boosts (blue)")
 ax.grid(False)
-save_figure(fig, "plane_types", ...)
+save_figure(fig, "plane_types",
+            ...)
 ```
 
 The kinds are written into an $8 \times 8$ table, each plane in both orders (`COORDS.index(a)` is the position of a name in the list; `x = y = value` sets both entries). The table is drawn with the colour map of the heat maps (red $+1$, blue $-1$, grey 0 on the diagonal), with the word rot or boost in each square and white gaps between the squares. `05d_1_plane_types.png` shows two red $4 \times 4$ squares of rotations, for $\{x1, x2, x3, x8\}$ and for the four times, and blue boosts wherever a space-like direction meets a time-like one.
@@ -2368,7 +2390,8 @@ axes[1].plot(rapidities, spin_boost, color="#eb6834", linewidth=2, linestyle="--
 axes[1].set_xlabel(r"rapidity $\theta$ in the plane $(x1, x4)$")
 axes[1].set_title("A boost: never periodic;\nthe spinor grows half as fast")
 axes[1].legend(loc="upper center", bbox_to_anchor=(0.5, -0.17))
-save_figure(fig, "half_angles", ...)
+save_figure(fig, "half_angles",
+            ...)
 ```
 
 Two pictures: on the left the two rotation curves and two black dots at $\theta = 2\pi$ (the vector entry at 1, the spinor quantity at $-1$); on the right the two boost curves. The tick marks of the left horizontal axis are at multiples of $\pi$; `"\n"` in a title starts a new line; both legends go below their pictures. In `05d_2_half_angles.png` the solid cosine completes two periods over $4\pi$ while the dashed one completes one: the spinor needs $4\pi$ to come back.
@@ -2392,7 +2415,8 @@ fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
 check(np.allclose(spin_transformation("x1", "x2", np.pi),
                   gamma["x1"] @ gamma["x2"], atol=1e-12),
       "R(pi) = gamma^(x1) gamma^(x2) for the rotation in the plane (x1, x2)")
-save_figure(fig, "rotation_matrices", ...)
+save_figure(fig, "rotation_matrices",
+            ...)
 ```
 
 The loop draws $R(\theta)$ at $\theta = 0$, $\pi$, $2\pi$ and $4\pi$ as heat maps (the `zip` runs through the four axes, the four angles and their labels together). The check confirms $R(\pi) = \gamma^{(x1)}\gamma^{(x2)}$ (because $\cos\tfrac\pi2 = 0$ and $\sin\tfrac\pi2 = 1$). In `05d_3_rotation_matrices.png` the first picture is the identity (red diagonal), the second the signed permutation $\gamma^{(x1)}\gamma^{(x2)}$, the third minus the identity (blue diagonal) and the fourth the identity again.
@@ -2436,7 +2460,8 @@ axes[1].set_xlabel("$v_1$ (component along $x1$)")
 axes[1].set_ylabel("$v_4$ (component along the time $x4$)")
 axes[1].set_title("boost in $(x1, x4)$: hyperbolas")
 axes[1].legend(loc="upper center", bbox_to_anchor=(0.5, -0.14))
-save_figure(fig, "orbits", ...)
+save_figure(fig, "orbits",
+            ...)
 ```
 
 The left picture draws the circle and a dot every 15 steps (`[::15]` takes every fifteenth row, that is every $\pi/4$); `set_aspect("equal")` gives both axes the same scale, so that a circle looks round. The right picture draws the two hyperbola branches and the two dotted **null lines** $v_4 = \pm v_1$, on which $v_1^2 - v_4^2 = 0$. In `05d_4_orbits.png` neither hyperbola crosses the null lines: a boost never turns a space-like vector into a time-like one.
@@ -2502,7 +2527,8 @@ ax.set_xlabel(r"angle or rapidity $\theta$")
 ax.set_ylabel("largest entry of the change")
 ax.set_title(r"$R^T C R - C$ is always 0; $R^T B R - B$ only away from $x4$")
 ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.15), ncol=2)
-save_figure(fig, "invariant_forms", ...)
+save_figure(fig, "invariant_forms",
+            ...)
 ```
 
 One curve per plane for the form of $B$, and a dotted line at zero for the form of $C$. In `05d_5_invariant_forms.png` the two rotations without $x4$ lie on the horizontal axis (no change), while the boost in $(x1, x4)$ and the rotation in $(x4, x5)$ rise away from $\theta = 0$.
@@ -2615,7 +2641,8 @@ for k, (ax, (matrix, title)) in enumerate(zip(axes, pictures)):
     ax.set_title(title, fontsize=9)
     ax.grid(False)
 fig.colorbar(image, ax=axes, shrink=0.8, label="matrix entry")
-save_figure(fig, "vector_matrices", ...)
+save_figure(fig, "vector_matrices",
+            ...)
 ```
 
 Four $8 \times 8$ matrices are drawn with the colour scale from $-1.6$ to $1.6$ (a boost has entries $\cosh 1 \approx 1.54$), and each nonzero entry is written in its square with two decimals (`:.2f`). In `05d_6_vector_matrices.png` the rotation has $0.50$ and $\pm0.87$ ($\cos$ and $\sin$ of $\pi/3$) in the $(x1, x2)$ block, the boost $1.54$ and $-1.18$ ($\cosh 1$ and $-\sinh 1$) in the $(x1, x4)$ block, the reflection one $-1$ at $x1$, and $\Lambda(\Gamma)$ is $-1$ on the whole diagonal.
@@ -2747,7 +2774,7 @@ Notebook 05f checks steps (A) to (J) one by one: the rank 28 of the generators, 
 
 ### 5.27 Line-by-line walk-through of Notebook 05f
 
-The notebook has 19 code cells. In [1] is the set-up cell of Section 5.10 with `NOTEBOOK_ID = "05f"`; its comments repeat the instructions of Section 5.25.
+The notebook has 19 code cells. In [1] is the set-up cell of Section 5.10 with `NOTEBOOK_ID = "05f"`; its comments repeat the instructions of Section 5.25. Docstrings are left out of the quotations and long captions are replaced by a line `...)`, as in Section 5.10.
 
 **In [2], the gammas and the recorded checks.**
 
@@ -2944,7 +2971,8 @@ for ax, (a, b) in zip(axes.flat, pairs):
     ax.grid(False)
 fig.suptitle("The 28 matrices $M^{ab}$: how $S^{ab}$ moves the directions "
              "$x1$ to $x8$ (rows and columns numbered 1 to 8)")
-save_figure(fig, "generator_matrices", ...)
+save_figure(fig, "generator_matrices",
+            ...)
 ```
 
 A grid of 4 rows and 7 columns of small pictures, one per plane (`axes.flat` runs through the 28 picture areas). `x[1]` is the second character of a name such as `x5`, so the tick labels are the numbers 1 to 8. In the f-string of the title, three braces `{{{a}` give one literal brace followed by the value of `a`, and `\\,` a small space. `fig.suptitle` is a title over the whole figure. In `05f_1_generator_matrices.png` every small picture has exactly two coloured squares, mirrored about the diagonal: of opposite colours for the 12 rotations, of the same colour for the 16 boosts.
@@ -3033,7 +3061,8 @@ for ax, (a, b, thetas) in zip(axes, cases):
     ax.set_xlim(-4.2, 4.2)
     ax.set_ylim(-4.2, 4.2)
 check(norm_ok, "along the three curves eta(u, u) stays equal to eta_aa")
-save_figure(fig, "two_unit_vectors", ...)
+save_figure(fig, "two_unit_vectors",
+            ...)
 ```
 
 For three planes (a rotation over $\theta$ from 0 to $4\pi$ and two boosts over $-3$ to 3) the cell computes the second factor $u$ at 241 values and plots its two nonzero components against each other, with an orange dot every 40th value. The check confirms $\eta(u, u) = \eta_{aa}$ along all three curves, and each title prints this value ($+1$ for the planes starting with $x1$, $-1$ for the plane $(x4, x8)$). In `05f_2_two_unit_vectors.png` the rotation's $u$ runs once around the unit circle, and the boosts' $u$ run along branches of hyperbolas.
@@ -3230,7 +3259,8 @@ ax.set_xlabel("$\\det A$ (space block)")
 ax.set_ylabel("$\\det D$ (time block)")
 ax.set_title("The four pieces of Pin(4,4)")
 ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=2)
-save_figure(fig, "four_pieces", ...)
+save_figure(fig, "four_pieces",
+            ...)
 ```
 
 `axvspan` and `axhspan` shade the vertical and the horizontal band between $-1$ and $1$ in grey. The 240 points are drawn in four colours, one per word. `set_xscale("symlog", linthresh=1.0)` makes an axis **symmetric logarithmic**: linear between $-1$ and $1$ and logarithmic outside, so that values from 1 to 60 and the band are visible together. In `05f_3_four_pieces.png` each colour fills one of the four corners outside the band, and the products of exponentials (blue) never leave the corner where both determinants are at least 1.
@@ -3275,7 +3305,8 @@ ax.set_ylabel("$\\det A$ (space block)")
 ax.set_title("Ten paths of products of exponentials, and the same times "
              "$\\gamma^{(x8)}$")
 ax.legend(loc="upper left")
-save_figure(fig, "paths_and_band", ...)
+save_figure(fig, "paths_and_band",
+            ...)
 ```
 
 The twenty curves are drawn over the grey band (only the first curve of each family gets a legend label; `None` means no label). In `05f_4_paths_and_band.png` the blue curves start at 1 and stay above the band, the orange ones start at $-1$ and stay below it: no curve crosses the band, which is why $\gamma^{(x8)}$ cannot be reached from 1 by exponentials.
@@ -3396,7 +3427,8 @@ For each example the moving vector starts at $e_{x8}$ or $e_{x4}$, and each fact
 axes[0].set_ylabel("component of the moving vector")
 axes[1].legend(loc="upper center", bbox_to_anchor=(-0.05, -0.15), ncol=8)
 check(steps_ok, "in both examples the moving vector keeps eta(w, w) and ends at v")
-save_figure(fig, "carrying_vectors", ...)
+save_figure(fig, "carrying_vectors",
+            ...)
 ```
 
 Still inside the loop, each of the eight components is drawn against the number of steps, and the target component of $v$ as a diamond (`"D"`) just right of the last step. In `05f_5_carrying_vectors.png` the first step shares the length between $x8$ and $x4$ (a boost), the next three steps fill one block and the last three the other, and every curve ends at its diamond.
@@ -3584,7 +3616,8 @@ ax.set_ylabel("rank of the first $n$ elements")
 ax.set_yticks([0, 64, 128, 192, 256])
 ax.set_title("The span of the group elements")
 ax.legend(loc="lower right")
-save_figure(fig, "span_ranks", ...)
+save_figure(fig, "span_ranks",
+            ...)
 ```
 
 The two rank curves and dotted lines at 128 and 256. In `05f_6_span_ranks.png` both curves rise along the diagonal and then stop flat, the solid one at 128 and the dashed one at 256.
@@ -4025,7 +4058,8 @@ axes[2].set_ylabel("eigenvalue of $A^T A$")
 axes[2].set_title("one zero eigenvalue for each sign")
 axes[2].legend(loc="lower right")
 fig.colorbar(image, ax=axes[:2], ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
-save_figure(fig, "solution_spaces", ...)
+save_figure(fig, "solution_spaces",
+            ...)
 ```
 
 The third picture plots the sorted eigenvalues of the two systems against their numbers 1 to 256, and a large dot on the first (smallest) eigenvalue of each, which is the zero one. The colour bar belongs to the first two pictures (`axes[:2]`). **What figure 05c.1 shows**: on the left the identity (a red diagonal), in the middle $\Gamma$ (blue on the first eight diagonal places, red on the last eight), on the right two staircase curves of eigenvalues that each touch zero exactly once. The student should see that each equation system leaves exactly one free direction: the identity for the same mass, $\Gamma$ for the reversed mass.
@@ -4088,7 +4122,8 @@ heat_map(axes[1], Gamma, r"$\Gamma$", row_label=False)
 image = heat_map(axes[2], calC_minus, r"$\mathcal{C}_- = \Gamma C$",
                  row_label=False)
 fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
-save_figure(fig, "conjugation_matrices", ...)
+save_figure(fig, "conjugation_matrices",
+            ...)
 ```
 
 Three heat maps and a colour bar. **What figure 05c.2 shows**: $\mathcal{C}_+ = C$ with blue squares in the pattern of $\sigma$ in the top-left block and red ones in the bottom-right block; $\Gamma$, blue then red on the diagonal; and $\mathcal{C}_- = \Gamma C$, red in the pattern of $\sigma$ in both diagonal blocks. The student should see that multiplying by $\Gamma$ only reverses the signs of the rows 1 to 8, and that all three pictures are mirror-symmetric about the diagonal (all three matrices are symmetric).
@@ -4226,7 +4261,8 @@ for ax, part in zip(axes, ["real part", "imaginary part"]):
     ax.set_title(f"component 1, {part}")
 axes[0].set_ylabel("value of the component")
 axes[1].legend(loc="upper center", bbox_to_anchor=(-0.05, -0.17), ncol=3)
-save_figure(fig, "conjugate_solutions", ...)
+save_figure(fig, "conjugate_solutions",
+            ...)
 ```
 
 Tick marks at multiples of $\pi$, axis labels and titles; one legend with three columns below both pictures. **What figure 05c.3 shows**: on the left the real part of $\Psi^\ast$ (dashed) lies on that of $\Psi$ (solid), and that of $\Gamma\Psi^\ast$ (dotted) is its mirror image; on the right the imaginary part of $\Psi^\ast$ is the mirror image of that of $\Psi$, and that of $\Gamma\Psi^\ast$ lies on it. The reason: $\Psi^\ast$ reverses the imaginary part, and $\Gamma$ (which is $-1$ on the first half) reverses component 1 once more.
@@ -4262,7 +4298,8 @@ ax.legend(handles=[Patch(color="#2a78d6", label="residual below $10^{-12}$"),
                    Patch(color="#f0efec", label="residual of order 1")],
           loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=2)
 ax.grid(False)
-save_figure(fig, "which_mass", ...)
+save_figure(fig, "which_mass",
+            ...)
 ```
 
 Each square gets the word solves or the word no with the residual; white lines separate the squares; the labels name the masses and the fields; a legend made of two coloured squares (`Patch`) goes below the picture. **What figure 05c.4 shows**: blue squares solves for $\Psi$ and $\Psi^\ast$ under $+m$ and for $\Gamma\Psi^\ast$ under $-m$, grey squares no (11.83) in the other three places: $\mathcal{C}_+$ keeps the mass, $\mathcal{C}_-$ reverses it.
@@ -4291,13 +4328,17 @@ constant = all(np.ptp(v) < 1e-12 for pair in bilinears.values() for v in pair)
 The values of $\Psi$ at the first time point, $x4 = 0$, are printed as two RESULT lines: $S = -2.000000$ and $J^{(x4)} = -6.000000$. `np.ptp` (peak to peak) is the largest minus the smallest value; `constant` is true when it is below $10^{-12}$ for all six lists.
 
 ```python
+# The values at x4 = 0, where Psi = Psi_0, are quoted in the caption of the next
+# figure. Psi_0 has whole-number real and imaginary parts and C, B have entries 0,
+# +-1, +-i, so S = Psi_0^dagger C Psi_0 and J^(x4) = Psi_0^dagger B Psi_0 are
+# computed exactly (small whole numbers are stored without rounding).
 S_exact = PSI0.conj() @ C @ PSI0
 J_exact = PSI0.conj() @ B @ PSI0
 check(S_exact == -2 and J_exact == -6 and S_psi == -2 and J_psi == -6,
       "at x4 = 0 exactly: S = -2 and J^(x4) = -6 for the solution Psi")
 ```
 
-At $x4 = 0$ the solution is $\Psi_0$, whose real and imaginary parts are whole numbers; $C$ and $B$ have the entries $0$, $\pm1$, $\pm i$; so $\Psi_0^\dagger C\Psi_0$ and $\Psi_0^\dagger B\Psi_0$ are computed exactly (small whole numbers are stored without rounding). The check requires $-2$ and $-6$ exactly, the numbers quoted in the caption of the next figure.
+The four comment lines state the reason that the next sentence gives in full. At $x4 = 0$ the solution is $\Psi_0$, whose real and imaginary parts are whole numbers; $C$ and $B$ have the entries $0$, $\pm1$, $\pm i$; so $\Psi_0^\dagger C\Psi_0$ and $\Psi_0^\dagger B\Psi_0$ are computed exactly (small whole numbers are stored without rounding). The check requires $-2$ and $-6$ exactly, the numbers quoted in the caption of the next figure.
 
 ```python
 check(constant and abs(S_psi) > 1 and abs(J_psi) > 1
@@ -4335,7 +4376,8 @@ ax.set_ylabel("value (constant along $x4$)")
 ax.set_ylim(-8, 8)
 ax.set_title("Commuting components: what the two conjugations do to S and J")
 ax.legend(loc="upper left")
-save_figure(fig, "bilinears", ...)
+save_figure(fig, "bilinears",
+            ...)
 ```
 
 The zero line, the labels of the two groups, the vertical range from $-8$ to $8$, the title and the legend. **What figure 05c.5 shows**: three bars at $-2$ in the left group; in the right group $-6$ (blue, $\Psi$), $+6$ (orange, $\Psi^\ast$) and $-6$ (aqua, $\Gamma\Psi^\ast$). For commuting components $\mathcal{C}_+$ reverses the charge and keeps the mass; $\mathcal{C}_-$ keeps the charge and reverses the mass.
@@ -4406,7 +4448,8 @@ ax.set_yticks(range(4), row_names)
 ax.set_title("Sign of each bilinear after the conjugation (red $+1$ kept, blue "
              "$-1$ reversed)")
 ax.grid(False)
-save_figure(fig, "sign_table", ...)
+save_figure(fig, "sign_table",
+            ...)
 ```
 
 Each square gets its sign in bold white; white lines separate the squares, with a thicker line between the column $S$ and the currents; the columns are labelled $S$, $J^{(x1)}, \dots, J^{(x8)}$ (the doubled braces of the `rf`-string give single braces) and the rows by map and kind of component. **What figure 05c.6 shows**: the row $\mathcal{C}_+$, commuting is red for $S$ and blue for all currents; the row $\mathcal{C}_-$, commuting is red everywhere; each anticommuting row is the commuting row above it with every colour reversed. The student should see that the exchange of two anticommuting components flips every sign once more.
@@ -4494,7 +4537,8 @@ ax.annotate("the dash-dotted and the dotted curve are exactly 0 at all times",
             bbox={"facecolor": "white", "edgecolor": "#52514e"})
 ax.set_title("Which reality condition survives the time evolution")
 ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=2)
-save_figure(fig, "reality_in_time", ...)
+save_figure(fig, "reality_in_time",
+            ...)
 ```
 
 Tick marks, labels, the vertical range, and an **annotation**: a text in a white box with an arrow pointing at the place $(2.5\pi, 0)$, where two curves lie on the axis and would otherwise be hard to see. **What figure 05c.7 shows**: the solid curve $2|\sin x4|$ with arches of height 2, the dashed curve $2|\sin(x4/2)|$ with arches twice as wide, and two curves lying exactly on zero: the real field stays real, and the condition of the mass-reversing conjugation survives only for $m = 0$.
@@ -4573,10 +4617,11 @@ axes[1].text(2.0 * np.pi, 0.0, "all three curves coincide:\n"
              r"$\Gamma = +1$ on the second half", ha="center", va="center",
              bbox={"facecolor": "white", "edgecolor": "#52514e"})
 axes[1].legend(loc="upper center", bbox_to_anchor=(-0.05, -0.17), ncol=3)
-save_figure(fig, "real_field", ...)
+save_figure(fig, "real_field",
+            ...)
 ```
 
-A text box in the right picture explains why only one curve is visible there, and one legend goes below both pictures. **What figure 05c.8 shows**: on the left the dashed curve lies exactly on the solid one, and the dotted curve is their mirror image; on the right all three coincide. For a real field the same-mass conjugation does nothing; the only nontrivial real map is $\Gamma$, which flips the first half and belongs to the mass $-m$.
+A text box in the right picture explains why only one curve is visible there, and one legend goes below both pictures. **What figure 05c.8 shows**: on the left the dashed curve lies exactly on the solid one, and the dotted curve is their mirror image; on the right all three coincide. For a real field the same-mass conjugation does nothing; of the two charge-conjugation matrices, the only one that changes a real field is $\Gamma C$, whose map $\Psi \to \Gamma\Psi$ flips the first half and belongs to the mass $-m$.
 
 **In [20], the quantised field.**
 
@@ -4608,7 +4653,8 @@ heat_map(axes[1], q_plus.imag, r"imaginary part of $1\,B^T 1$", row_label=False)
 image = heat_map(axes[2], q_minus.imag, r"imaginary part of $\Gamma B^T\Gamma$",
                  row_label=False)
 fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
-save_figure(fig, "quantum_b", ...)
+save_figure(fig, "quantum_b",
+            ...)
 ```
 
 Three heat maps of imaginary parts (the real parts are zero). **What figure 05c.9 shows**: the middle picture has every colour of the left one reversed ($B^T = -B$), while the right picture equals the left one: of the two maps, only $\Psi \to \Gamma\Psi^{\dagger T}$ keeps the canonical rule.
@@ -4912,7 +4958,8 @@ For each of the four operators: its matrix as a heat map, and its nonzero entrie
     ax.set_title(title)
     ax.grid(False)
 fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
-save_figure(fig, "two_modes", ...)
+save_figure(fig, "two_modes",
+            ...)
 ```
 
 The columns are labelled by the pattern acted on, the rows by the resulting pattern (only in the first picture). **What figure 05e.1 shows**: each operator moves one pattern to another, so each picture has two coloured squares; all are red ($+1$) except one blue square in $f_1$ (from $|11\rangle$ to $|10\rangle$) and one in $f_1^\ast$ (from $|10\rangle$ to $|11\rangle$): the sign that makes operators of different modes anticommute.
@@ -5142,7 +5189,8 @@ heat_map(axes[1], with_dagger.imag, r"measured $\{\Psi_A, \Psi^\dagger_C\}$ / $i
          row_label=False)
 image = heat_map(axes[2], B.imag, r"the matrix $B$ / $i$", row_label=False)
 fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
-save_figure(fig, "anticommutators", ...)
+save_figure(fig, "anticommutators",
+            ...)
 ```
 
 Before drawing, the check confirms what the pictures show: the numbers for $\chi$ are real and those for $\Psi^\dagger$ purely imaginary, so the real part of the first and the imaginary part of the second say everything. **What figure 05e.2 shows**: on the left the identity (a red diagonal); in the middle and on the right the same pattern of red and blue squares, $B/i$, with an empty diagonal. The realisation obeys the canonical rule.
@@ -5209,7 +5257,8 @@ axes[1].set_xticks([0, 1], [r"$\{X, X^*\}$ (Hilbert adjoint)",
 axes[1].set_ylim(-1.5, 1.5)
 axes[1].set_ylabel("measured number")
 axes[1].set_title("$X = u^\\dagger\\Psi$ with $Bu = -u$")
-save_figure(fig, "why_krein", ...)
+save_figure(fig, "why_krein",
+            ...)
 ```
 
 The right picture: two bars with their values written beside them. **What figure 05e.3 shows**: on the left eight dots at $-1$ and eight at $+1$, the signature $(8, 8)$ of $B$; on the right a green bar up to $+1$ (the Hilbert adjoint) and an orange bar down to $-1$ (the canonical conjugate). A negative value is impossible for a Hilbert adjoint, which is why the canonical rule needs an indefinite (Krein) inner product.
@@ -5312,7 +5361,8 @@ for ax, raw, ordered, name in [(axes[0], raw_energies, energies, "energy"),
 axes[0].set_ylabel("value")
 handles, names = axes[0].get_legend_handles_labels()  # one legend for both
 fig.legend(handles, names, loc="lower center", bbox_to_anchor=(0.5, -0.1), ncol=2)
-save_figure(fig, "quanta", ...)
+save_figure(fig, "quanta",
+            ...)
 ```
 
 For the energy (left) and the charge (right), a grey bar (value in the state) and a blue bar (after normal ordering) for each quantum, and a dotted line between particles and antiparticles; one legend for both pictures (`get_legend_handles_labels` collects the labelled bars of the first picture). **What figure 05e.4 shows**: the grey energy bars at $-35$ ($= -40 + 5$) and the blue ones at $+5$; the grey charge bars at $9$ for particles and $7$ for antiparticles, the blue ones at $+1$ and $-1$. The student should see that the vacuum values are large and that normal ordering subtracts them, leaving the physical numbers.
@@ -5364,10 +5414,11 @@ heat_map(axes[1], measured_conjugated["M = 1"].imag,
 image = heat_map(axes[2], measured_conjugated["M = Gamma"].imag,
                  r"measured, $M = \Gamma$, / $i$", row_label=False)
 fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
-save_figure(fig, "conjugated_rules", ...)
+save_figure(fig, "conjugated_rules",
+            ...)
 ```
 
-**What figure 05e.5 shows**: the rule $B/i$ on the left; in the middle, measured for $M = 1$, every colour reversed ($-B$); on the right, measured for $M = \Gamma$, the same picture as on the left. Only $\Gamma$ gives a conjugation of the quantised field.
+**What figure 05e.5 shows**: the rule $B/i$ on the left; in the middle, measured for $M = 1$, every colour reversed ($-B$); on the right, measured for $M = \Gamma$, the same picture as on the left. Of the two matrices, only $\Gamma$ gives a conjugation of the quantised field (up to a phase factor, Section 5.34).
 
 **In [16], the conjugated bilinears: a sign and a constant.**
 
@@ -5486,7 +5537,8 @@ for ax, map_name, title in [(axes[0], "M = 1", r"$\Psi' = \Psi^{\dagger T}$"),
     ax.set_title(title)
     ax.legend(loc="lower left")
 axes[0].set_ylabel("value")
-save_figure(fig, "vacuum_values", ...)
+save_figure(fig, "vacuum_values",
+            ...)
 ```
 
 For each map, three bars per bilinear: the vacuum value before (grey) and after (blue) the conjugation, and the constant $c$ (orange). **What figure 05e.6 shows**: for $M = 1$ the scalar's vacuum value changes from $-4.8$ to $+4.8$, that of $J^{(x1)}$ stays at $-6.4$, and that of $J^{(x4)}$ goes from $8$ to $8 - 16 = -8$; for $M = \Gamma$ all signs flip, and $J^{(x4)}$ goes from $8$ to $-8 + 16 = 8$. The orange bars appear only at $J^{(x4)}$. Normal ordering subtracts each operator's own vacuum value, which removes $c$.
@@ -5563,7 +5615,8 @@ for ax, (title, grid) in zip(axes, grids.items()):
     ax.set_title(title)
     ax.grid(False)
 fig.tight_layout()
-save_figure(fig, "sign_tables", ...)
+save_figure(fig, "sign_tables",
+            ...)
 ```
 
 Three sign tables, one above the other, drawn as in Notebook 05c, In [15] (`c_col` is used as the column counter, because `c` already names a constant); `fig.tight_layout()` spaces the three pictures so that their labels do not overlap. **What figure 05e.7 shows**: the top table (commuting) has a red $S$ and blue currents for $M = 1$ and is all red for $M = \Gamma$; the middle (anticommuting) and the bottom (quantised field after normal ordering) are equal, each the top table with every colour reversed. Normal ordering adds no sign.
@@ -5602,7 +5655,8 @@ ax.set_xlabel("quantum: 1 to 8 particles, 9 to 16 antiparticles")
 ax.set_ylabel("normal-ordered charge")
 ax.set_title("The charge of each quantum, and of its conjugates")
 ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=3)
-save_figure(fig, "conjugated_charges", ...)
+save_figure(fig, "conjugated_charges",
+            ...)
 ```
 
 Large grey circles for the field, small orange squares (`"s"`) for $M = 1$ and blue diamonds (`"D"`) for $M = \Gamma$. **What figure 05e.8 shows**: the grey circles at $+1$ for quanta 1 to 8 and at $-1$ for 9 to 16; the orange squares sit inside the circles (unchanged); the blue diamonds are at $-1$ for the particles and $+1$ for the antiparticles. The one of the two conjugations that keeps the canonical rule exchanges the charges of particles and antiparticles, and, by In [16], it also reverses the scalar and with it the mass.
@@ -5629,7 +5683,7 @@ The request that this book answers asks for a theory that "solves matter anti-ma
 
 - In this theory charge conjugation is a matrix map. With the definition of Section 5.28 (the matrix $M = \mathcal{C}C$ must obey $M(\gamma^a)^\ast = s\,\gamma^aM$ with one sign $s$ for all eight gammas), there are exactly two charge-conjugation matrices, up to a factor, $\mathcal{C}_+ = C$ (same mass) and $\mathcal{C}_- = \Gamma C$ (mass reversed), and each maps every solution to a solution (Theorem CC, Section 5.28). The converse is not claimed: for $V = 0$ other matrices, such as $P_-C$, also map solutions to solutions.
 - For the commuting complex field dirac16complex00, $\mathcal{C}_+$ maps every solution to a solution with the same mass and the opposite charge density (Section 5.29).
-- For a real commuting field the currents vanish, $\mathcal{C}_+$ does nothing, and the only nontrivial real matrix map is $\Gamma$ with $(m, \lambda) \to (-m, -\lambda)$ (Section 5.29).
+- For a real commuting field the currents vanish, $\mathcal{C}_+$ does nothing, and among the matrices that obey the intertwiner condition the only nontrivial one is $\Gamma$ (up to a factor), with $(m, \lambda) \to (-m, -\lambda)$ (Section 5.29).
 - For the quantised anticommuting field dirac16complex, among the matrices of Theorem CC only $\Psi \to \Gamma\Psi^{\dagger T}$, up to a phase factor, keeps the canonical anticommutator; after normal ordering it reverses the charge of every quantum and reverses the mass (Section 5.34).
 - The map $\Psi \to \Gamma\Psi$ keeps the scalar and reverses every current (Section 5.5, (X7) and (X8)); it carries a solution with the parameters $(m, \lambda)$ to one with $(-m, -\lambda)$ (Section 5.29, (F3); this is the input of the pairing theorem T1, which Chapter 18 proves). So a solution and its $\Gamma$ image carry opposite charges, and the two together have total charge zero.
 - The current obeys the local conservation law $\sum_\mu\partial_\mu(\cos z\,J^\mu) = 0$ for every solution (record check `u1_noether_matrix_identity`, derived in Chapter 21). Hence the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of one solution is constant in time for every solution whose current flux through the boundary of the seven other directions vanishes, for example a field that vanishes fast enough there (Section 5.6). For such solutions no process described by these field equations changes the net charge inside one universe; Chapter 21 derives the boundary terms.
@@ -5672,7 +5726,7 @@ All of these are exact statements about **maps between sets of solutions** of th
 
 **Exercise 3.** Take $\Psi_0 = e_1$, the column with 1 in row 1 and 0 elsewhere. (a) Using the table of the time-like gammas in Section 5.2, find $\gamma^{(x4)}e_1$ and write the free solution $\Psi(x4)$ of Section 5.28. (b) Write $\Psi^\ast$ and $\Gamma\Psi^\ast$ and say which mass each belongs to. (c) Compute $S = \Psi^TC\Psi$ and $J^{(x4)}$ of $\Psi$ with the table of Section 5.6. What do the answers illustrate?
 
-*Answer.* (a) $\gamma^{(x4)}e_1$ is column 1 of $\gamma^{(x4)}$. The table lists, for each row, the column of its nonzero entry; row 14 of $\gamma^{(x4)}$ reads $+1$, so the only nonzero entry of column 1 is $+1$ in row 14: $\gamma^{(x4)}e_1 = e_{14}$. So $\Psi(x4) = \cos(m\,x4)\,e_1 - \sin(m\,x4)\,e_{14}$. (b) $\Psi$ is real, so $\Psi^\ast = \Psi$: the same-mass conjugate is the field itself (mass $m$). $\Gamma$ is $-1$ in row 1 and $+1$ in row 14, so $\Gamma\Psi^\ast = -\cos(m\,x4)\,e_1 - \sin(m\,x4)\,e_{14}$. With $\Phi_0 = \Gamma e_1 = -e_1$ the solution formula with mass $-m$ gives $\cos(-m\,x4)\Phi_0 - \sin(-m\,x4)\gamma^{(x4)}\Phi_0 = -\cos(m\,x4)\,e_1 + \sin(m\,x4)\,(-e_{14})$, the same column: $\Gamma\Psi^\ast$ belongs to the mass $-m$. (c) $S = \cos^2(m\,x4)\,C_{1,1} - \cos(m\,x4)\sin(m\,x4)\,(C_{1,14} + C_{14,1}) + \sin^2(m\,x4)\,C_{14,14}$. Row 1 of $C$ points to column 5 and row 14 to column 10, so all four entries are 0 and $S = 0$. In the same way row 1 of $B/i$ points to column 10 and row 14 to column 5, so $B_{1,1} = B_{1,14} = B_{14,1} = B_{14,14} = 0$ and $J^{(x4)} = 0$. The example illustrates Section 5.29: a real field carries no charge, $\mathcal{C}_+$ does nothing to it, and the nontrivial real map $\Gamma$ gives a different real solution with the mass reversed.
+*Answer.* (a) $\gamma^{(x4)}e_1$ is column 1 of $\gamma^{(x4)}$. The table lists, for each row, the column of its nonzero entry; row 14 of $\gamma^{(x4)}$ reads $+1$, so the only nonzero entry of column 1 is $+1$ in row 14: $\gamma^{(x4)}e_1 = e_{14}$. So $\Psi(x4) = \cos(m\,x4)\,e_1 - \sin(m\,x4)\,e_{14}$. (b) $\Psi$ is real, so $\Psi^\ast = \Psi$: the same-mass conjugate is the field itself (mass $m$). $\Gamma$ is $-1$ in row 1 and $+1$ in row 14, so $\Gamma\Psi^\ast = -\cos(m\,x4)\,e_1 - \sin(m\,x4)\,e_{14}$. With $\Phi_0 = \Gamma e_1 = -e_1$ the solution formula with mass $-m$ gives $\cos(-m\,x4)\Phi_0 - \sin(-m\,x4)\gamma^{(x4)}\Phi_0 = -\cos(m\,x4)\,e_1 + \sin(m\,x4)\,(-e_{14})$, the same column: $\Gamma\Psi^\ast$ belongs to the mass $-m$. (c) $S = \cos^2(m\,x4)\,C_{1,1} - \cos(m\,x4)\sin(m\,x4)\,(C_{1,14} + C_{14,1}) + \sin^2(m\,x4)\,C_{14,14}$. Row 1 of $C$ points to column 5 and row 14 to column 10, so all four entries are 0 and $S = 0$. In the same way row 1 of $B/i$ points to column 10 and row 14 to column 5, so $B_{1,1} = B_{1,14} = B_{14,1} = B_{14,14} = 0$ and $J^{(x4)} = 0$. The example illustrates Section 5.29: a real field carries no charge, $\mathcal{C}_+$ does nothing to it, and the map $\Psi \to \Gamma\Psi$ of the other charge-conjugation matrix $\mathcal{C}_- = \Gamma C$ gives a different real solution with the mass reversed.
 
 **Exercise 4.** Take the complex column $\Psi = e_1 + e_5 + i\,e_{10}$. (a) Compute $S = \Psi^\dagger C\Psi$ and $J^{(x4)} = \Psi^\dagger B\Psi$ with the table of Section 5.6. (b) Do the same for $\Psi^\ast$ and for $\Gamma\Psi^\ast$, and compare with the commuting rows of the sign table of Section 5.29.
 

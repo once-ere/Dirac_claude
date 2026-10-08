@@ -84,7 +84,7 @@ FACTS = {
         "ALL 32 CHECKS PASSED (notebook 08c)",
     ],
     "troubleshooting": [
-        ["A cell of sections 7, 11 or 12 runs for more than a minute.",
+        ["A cell of sections 7, 11 or 12 runs for more than a minute",
          "these cells simplify hundreds of exact expressions with sympy; on a slow "
          "computer each can take a few minutes. Wait until the star in the brackets "
          "to the left of the cell turns into a number."],

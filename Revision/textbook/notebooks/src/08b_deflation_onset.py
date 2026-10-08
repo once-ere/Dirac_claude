@@ -113,8 +113,8 @@ CELLS = [
       time; $x_5, x_6, x_7$ the three extra times (time-like, deflating); $x_8$ the
       hidden direction, $z = 6Hx_8$ between $0$ and $\pi/2$.
     - **Hidden coordinate** $y = \ln(\sin z)/(6H)$: a second way to label the points of
-      the hidden direction. $y = 0$ at $z = \pi/2$ (the end of the patch, where the
-      Kohn-Sham record puts its brane) and $y \to -\infty$ at the tip $z \to 0$; the
+      the hidden direction. $y = 0$ at $z = \pi/2$ (the *patch end*, where the author's
+      coordinate patch ends) and $y \to -\infty$ at the *tip* $z \to 0$; the Kohn-Sham
       record cuts the tip at $y = -L$ with $L = 3$. In this coordinate
       $\sin^{1/6}z = e^{Hy}$.
     - **Scale factor**: the factor by which a coordinate length must be multiplied to
@@ -285,7 +285,7 @@ CELLS = [
     save_figure(fig, "scale_factors",
                 "The scale factors of the author's metric along the prescribed "
                 "deflating history $a_4 = A H x_4$ ($A = H = 1$) against the time $x_4$ "
-                "in units of $1/m$, on a logarithmic vertical axis, at the brane end "
+                "in units of $1/m$, on a logarithmic vertical axis, at the patch end "
                 "$y = 0$ (solid) and at $y = -1$ (dashed). Blue: 3-space, "
                 "$e^{a_4}e^{Hy}$, a rising straight line (exponential inflation). Red: "
                 "the extra times, $e^{-a_4}e^{Hy}$, a falling straight line "
@@ -412,7 +412,7 @@ CELLS = [
                 "$q_5$ along the extra time $x_5$ stops oscillating and starts to grow, "
                 "against $q_5$ from $10^{-4}$ to $1$ on a logarithmic axis, along the "
                 "history $a_4 = x_4$ with $m = H = 1$, at the hidden positions $y = 0$ "
-                "(the brane end), $y = -1$ and $y = -3$ (the tip cutoff of the "
+                "(the patch end), $y = -1$ and $y = -3$ (the tip cutoff of the "
                 "Kohn-Sham record), and for a wave that also has $q_1 = 1$. Every curve "
                 "is finite and rises only like $\\ln(1/q_5)$: however small $q_5$ is, "
                 "the deflation of the extra times eventually drives the wave into "
@@ -513,9 +513,12 @@ CELLS = [
     md(r"""
     The next cell solves $du/dx_4 = -i\,h(x_4)u$ with RK4 from $x_4 = 0$ to three
     time units after the onset, for $q_5 = 0.05$ and $q_5 = 0.1$, with 12000 steps,
-    and records $u^\dagger u$ and $u^\dagger B u$ after every step. For $q_5 = 0.05$
-    it repeats the run with 6000 and 24000 steps: the differences of the end values
-    must shrink by a factor close to 16 (fourth order).
+    and records $u^\dagger u$ and $u^\dagger B u$ after every step. It prints the size
+    $u^\dagger u$ at the onset (at the first step after it) and $\ln(u^\dagger u)$ at
+    the end. Before the onset the size does not stay exactly 1: with extra-time
+    momentum the mode matrix is not Hermitian, so the Hilbert norm is not conserved.
+    For $q_5 = 0.05$ it repeats the run with 6000 and 24000 steps: the differences of
+    the end values must shrink by a factor close to 16 (fourth order).
     """),
     code(r'''
     def rk4_history(u0, q5, x4_end, steps):
@@ -547,6 +550,8 @@ CELLS = [
     for q5 in (0.05, 0.1):
         x4_end = onset_time(0.0, q5, 0.0) + 3.0
         runs[q5] = rk4_history(starts[q5], q5, x4_end, 12000)
+        at_onset = np.searchsorted(runs[q5][0], onset_time(0.0, q5, 0.0))  # its index
+        report(f"q5 = {q5}: u^dagger u at the onset", f"{runs[q5][1][at_onset]:.2f}")
         final_size = runs[q5][1][-1]  # u^dagger u at the end of the run
         report(f"q5 = {q5}: ln(u^dagger u) at the onset + 3", f"{np.log(final_size):.6f}")
     x4_end = onset_time(0.0, 0.05, 0.0) + 3.0
@@ -658,7 +663,8 @@ CELLS = [
                 "along the prescribed deflating history $a_4 = x_4$ ($m = H = 1$, "
                 "$y = 0$), against the time $x_4$ in units of $1/m$. Before the onset "
                 "(dotted vertical lines, $x_4^\\ast = \\ln 20$ and $\\ln 10$) the wave "
-                "oscillates and its size stays near 1; after the onset it grows faster "
+                "oscillates and its size grows only slowly, to about 1.5 at the onset "
+                "(the mode matrix is not Hermitian); after the onset it grows faster "
                 "and faster, by about 16 powers of ten in three time units, following "
                 "the WKB curve $2W$ (black dashed, matched 1.5 units after the onset).")
     '''),
@@ -701,7 +707,7 @@ CELLS = [
                 "$q_5 = 0.05$ against the time $x_4$ (units of $1/m$ and $m$), computed "
                 "from the RK4 solution (blue), with the leading WKB rate $2\\kappa$ "
                 "(black dashed) and the first-order rate $2\\kappa - m^2/\\kappa^2$ "
-                "(red dotted); before the onset the rate stays near zero, after it the "
+                "(red dotted); before the onset the rate stays below 1, after it the "
                 "rate itself grows exponentially, so the growth is faster than any "
                 "exponential, and far from the onset the first-order rate is accurate. "
                 "Right: the change of the Krein form $u^\\dagger Bu$ divided by "
@@ -740,14 +746,17 @@ CELLS = [
       statement).
     - In the local-frame model (MODEL: hidden position frozen; not an exact solution of
       the field equation) a wave started with positive frequency oscillates until the
-      onset and then grows faster than any exponential, by about $10^{16}$ in three
-      time units; the growth follows the WKB formulas (COMPUTED: leading order to about
-      $10^{-3}$, first order to about $2.5 \times 10^{-4}$ over the window, late rate to
-      $10^{-5}$), and the Krein form is conserved to rounding.
-    - Consequence (with Notebook 08a): for data that depend on the extra times the
-      initial-value problem is not well posed, and the deflation makes every such wave
-      reach the growing regime. Only the good sector (no dependence on $x_5, x_6, x_7$)
-      is free of this growth; restricting to it is a choice, not a result.
+      onset, while its size grows only slowly (to about 1.5 at the onset, because with
+      extra-time momentum the mode matrix is not Hermitian), and then grows faster than
+      any exponential, by about $10^{16}$ in three time units; the growth follows the
+      WKB formulas (COMPUTED: leading order to about $10^{-3}$, first order to about
+      $2.5 \times 10^{-4}$ over the window, late rate to $10^{-5}$), and the Krein form
+      is conserved to rounding.
+    - Consequence (with Notebook 08a): in flat 4 + 4 space and with frozen
+      coefficients the initial-value problem is not well posed for data that depend on
+      the extra times, and the deflation makes every such wave reach the growing
+      regime. Only the good sector (no dependence on $x_5, x_6, x_7$) is free of this
+      growth; restricting to it is a choice, not a result.
     """),
 ]
 

@@ -2279,7 +2279,7 @@ $$
 -\partial_4\sum_\rho\Gamma^\rho{}_{\rho4} = 0 .
 $$
 
-In the fourth term $\Gamma^\rho{}_{4\lambda}$ is nonzero only for $\rho = \lambda$, a 3-space direction ($a_4'$) or an extra time ($-a_4'$): $\Gamma^{x4}{}_{4\lambda} = \partial_\lambda\ln f_4 = 0$, and $\Gamma^{x8}{}_{4\lambda}$ vanishes for every $\lambda$ (it is $\partial_4\ln f_8 = 0$ for $\lambda = x8$ and $\Gamma^{x8}{}_{44} = 0$ for $\lambda = x4$). Each of the six gives its square:
+In the fourth term look at the symbols $\Gamma^\rho{}_{4\lambda}$ one case at a time. For $\rho = x4$ the symbol is $\partial_\lambda\ln f_4 = 0$ (case (a) for $\lambda = x4$, case (b) otherwise; $f_4 = 1$). For $\lambda = x4$ and $\rho \neq x4$ it is $\Gamma^\rho{}_{44} = 0$ (shown above). For $\rho$, $\lambda$ and $x4$ all different it is 0 (case (d)). What is left is $\rho = \lambda \neq x4$, case (b): $\Gamma^\rho{}_{4\rho} = \partial_4\ln f_\rho$, which is $a_4'$ for a 3-space direction, $-a_4'$ for an extra time and $\partial_4\ln f_8 = 0$ for $x8$. So only the six terms with $\rho = \lambda$ a 3-space direction or an extra time survive, and each is the square of its symbol, because for $\lambda = \rho$ the second factor $\Gamma^\lambda{}_{\rho4} = \Gamma^\rho{}_{\rho4}$ equals the first, $\Gamma^\rho{}_{4\rho}$ (the symbols are symmetric in their two lower indices):
 
 $$
 -\sum_{\rho,\lambda}\Gamma^\rho{}_{4\lambda}\Gamma^\lambda{}_{\rho4} = -\big(3a_4'^2 + 3(-a_4')^2\big) = -6a_4'^2 .
@@ -3998,15 +3998,16 @@ The check requires every split to leave nothing over and the mixed terms to be $
 ```python
 slash = sum((gup[mu] * Omega[mu] for mu in range(8)), Z16)
 slash_nb = sum((gup[mu] * Omega_nb[mu] for mu in range(8)), Z16)
-total_record = parse_mathematica(FORMULAS["gammaOmega_total"].replace(
-    'gamma["x8"]', "G8")).subs({sp.Symbol("H"): H, sp.Symbol("G8"): 1})
+total_text = FORMULAS["gammaOmega_total"].replace(chr(34), "")  # 3*H*gamma[x8]
+total_record = parse_mathematica(total_text.replace("gamma[x8]", "G8")).subs(
+    {sp.Symbol("H"): H, sp.Symbol("G8"): 1})
 check(matrix_is_zero(slash - total_record * gamma[7])
       and record_passed(REPORT_PY, "gamma_mu_Omega_mu_equals_3H_gamma_x8"),
       "correct: gamma^mu Omega_mu = 3 H gamma^(x8)",
       record=f"{THEORY_FILE}, formula gammaOmega_total")
 ```
 
-The two totals. The record's formula `gammaOmega_total` is the text `3*H*gamma["x8"]`; replacing `gamma["x8"]` by a symbol `G8`, reading it, and setting $G8 = 1$ gives the number $3H$, the coefficient of $\gamma^{(x8)}$. The check requires the correct total to be $3H\gamma^{(x8)}$ and the sympy report to record the same.
+The two totals. `sum(..., Z16)` adds the eight matrices $\gamma^\mu\Omega_\mu$, one for each direction $\mu$, starting from the zero matrix `Z16`: `slash` is the correct total $\sum_\mu\gamma^\mu\Omega_\mu$ and `slash_nb` the total of the notebook's contraction. The record's formula `gammaOmega_total` is the text `3*H*gamma["x8"]`. `chr(34)` is the double-quote character (34 is its number in the ASCII table), and `.replace(chr(34), "")` removes every double quote, so `total_text` is the text `3*H*gamma[x8]`, as the comment says. (The code avoids writing the quoted name `gamma["x8"]` inside a Python string: that would need a string in single quotes, and the book prints straight single quotes in code as curly ones, which Python does not accept.) The next line replaces `gamma[x8]` by the name `G8`, and `parse_mathematica` (In [8]) reads the text `3*H*G8` as a sympy expression. Its symbol `H` is a new symbol that knows nothing about its sign, so `.subs` replaces it by the notebook's own positive `H` and replaces `G8` by 1: `total_record` is $3H$, the coefficient of $\gamma^{(x8)}$. The check requires the correct total to be $3H\gamma^{(x8)}$ (`total_record * gamma[7]`) and, through `record_passed`, the sympy report `python-field-theory.json` (the name `REPORT_PY` of In [2]) to record its check `gamma_mu_Omega_mu_equals_3H_gamma_x8` as passed. Its second printed line names the record formula it reproduces.
 
 ```python
 report("notebook: coefficient of gamma^(x8)", sum(t[1] for t in notebook_terms))

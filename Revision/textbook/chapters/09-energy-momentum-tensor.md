@@ -579,7 +579,7 @@ The first worked example puts Sections 9.3 to 9.12 on the computer. At one point
 
 ### 9.17 Line-by-line walk-through of Notebook 09a
 
-The notebook has 21 code cells, In [1] to In [21]. This section explains every line of every one of them, in order. Code that is printed again here is quoted exactly, except that a long figure caption is shortened to "..." (it is printed in full in Section 9.16, under its figure).
+The notebook has 21 code cells, In [1] to In [21]. This section explains every line of every one of them, in order. Code that is printed again here is quoted exactly, except that a long figure caption is shortened to a line "...)" (it is printed in full in Section 9.16, under its figure) and that the texts in triple quotes that document a function (its docstring, explained under In [1]) and the comment lines inside the function `save_figure` are left out.
 
 **In [1], the set-up cell.** Every line that starts with `#` is a **comment**, which Python skips. The first part of the cell, down to the lines of `-` and `=` signs, is the complete run instructions of Section 9.15 again, as comments, so that the notebook file carries its own instructions. The code starts after the heading THE SET-UP; it computes no physics and is the same in every notebook of the book, except for the name of the notebook.
 
@@ -613,6 +613,9 @@ def find_repository_root():
 
 ```python
 REPO = find_repository_root()
+# Every file is WRITTEN below OUTPUT_ROOT.  OUTPUT_ROOT is the repository folder unless
+# the environment variable TEXTBOOK_OUTPUT_ROOT names another folder; the book's
+# checking tool sets it, so that a check run writes into a scratch folder instead.
 OUTPUT_ROOT = Path(os.environ.get("TEXTBOOK_OUTPUT_ROOT", str(REPO)))
 
 
@@ -641,6 +644,8 @@ FIGURE_FOLDER = "Revision/textbook/figures"  # where the figures are saved
 CAPTION_FILE = f"{FIGURE_FOLDER}/{NOTEBOOK_ID}.captions.json"  # their captions
 FIGURE_NUMBERS = {}  # figure name -> its number k (file name <id>_<k>_<name>.png)
 CAPTIONS = {}  # figure file name -> caption, written to CAPTION_FILE after every figure
+# Start with an empty captions file ({} is an empty JSON dictionary); save_figure fills
+# it.  newline="\n" writes the same line ends on Windows, macOS and Linux.
 output_file(CAPTION_FILE).write_text("{}\n", encoding="utf-8", newline="\n")
 ```
 
@@ -983,7 +988,9 @@ ax.set_ylabel("upper index $\\nu$ (row)")
 ax.set_title("$T^\\nu{}_\\mu$ of one random configuration at one point")
 ax.grid(False)  # no grid lines across the squares
 fig.colorbar(picture, ax=ax, label="value of $T^\\nu{}_\\mu$ (energy per volume)")
-save_figure(fig, "tensor_heat_map", ...)
+save_figure(fig, "tensor_heat_map",
+            "Heat map of the energy-momentum tensor $T^\\nu{}_\\mu$ of a random "
+            ...)
 ```
 
 The tick labels turn a name such as `"x1"` into $x_1$ (`n[0]` is its letter, `n[1]` its digit). The colour bar beside the map says which value each colour means. **What Figure 09a.2 shows.** The 64 entries of the tensor of one random configuration, in units of energy per unit volume. The diagonal holds $-\rho$ at $(x_4, x_4)$ and the seven pressures; every square off the diagonal is coloured, because a random configuration has flows of energy and momentum in every direction. The student should notice that the printed table is not symmetric: the upper index is raised with the metric, and only $g_{\nu\nu}T^\nu{}_\mu$ is symmetric.
@@ -1038,7 +1045,9 @@ ax.set_xlabel("direction $\\mu$")
 ax.set_ylabel("value (energy per unit volume)")
 ax.set_title("Diagonal entries $T^\\mu{}_\\mu$ and their two parts")
 ax.legend(fontsize=8)
-save_figure(fig, "diagonal_parts", ...)
+save_figure(fig, "diagonal_parts",
+            "The eight diagonal entries $T^\\mu{}_\\mu$ (right bar of each group) "
+            ...)
 ```
 
 `np.arange(8)` is 0, 1, ..., 7. `ax.bar(x, heights, width=...)` draws bars; the three calls place three bars side by side for each direction, shifted by $-0.27$, 0 and $+0.27$. `ax.axhline(0.0, ...)` draws a horizontal line at zero. **What Figure 09a.3 shows.** For each of the eight directions: the kinetic part $\sum_{\nu \neq \mu}K_\nu$ (left bar), the potential part $-(mS + U)$ (middle bar, the same in every group) and their sum $T^\mu{}_\mu$ (right bar), in units of energy per unit volume. The group at $x_4$ shows $-\rho$. The student should see that only the kinetic parts make the directions differ.
@@ -1333,7 +1342,9 @@ ax.set_xlabel("time $x_4$")
 ax.set_ylabel("volume divided by its value at $x_4 = 0$")
 ax.set_title("Volumes along the history $a_4 = A H x_4$ ($A = 1$, $H = 0.25$)")
 ax.legend()
-save_figure(fig, "volumes_first_law", ...)
+save_figure(fig, "volumes_first_law",
+            "The 3-space volume $V_3 = e^{3a_4}\\sin^{1/2}z$ (solid), the "
+            ...)
 ```
 
 On the history $a_4 = AHx_4$ the ratio $V_3(x_4)/V_3(0)$ is $e^{3AHx_4}$, the ratio for $V_t$ is its inverse, and the ratio for $V_7$ is 1 (`growth / growth`). **What Figure 09a.4 shows.** The three volume ratios (pure numbers) against the time $x_4$ from 0 to 8 on a logarithmic axis: $V_3$ rises along a straight line to $e^{6} \approx 403$, $V_t$ falls along the mirror line to $e^{-6}$, and $V_7$ stays at 1. The student should see that the extra times deflate, exponentially, and that their shrinking exactly compensates the growth of 3-space; this is why the energy density changes only through the difference $p_3 - p_t$.
@@ -1408,7 +1419,9 @@ ax.set_xlabel("$z = 6 H x_8$")
 ax.set_ylabel("$p_8$ (with $p_3 + p_t = 1$)")
 ax.set_title("Pressure profiles allowed by the balance along $x_8$")
 ax.legend()
-save_figure(fig, "hidden_balance", ...)
+save_figure(fig, "hidden_balance",
+            "The hidden-direction pressure profiles $p_8 = P/2 + c/\\sin z$ that "
+            ...)
 report("largest relative residual of the balance on the grid", f"{worst:.1e}")
 ```
 
@@ -1596,7 +1609,7 @@ The second worked example builds the exact condensates of Section 9.18 and measu
 
 ### 9.25 Line-by-line walk-through of Notebook 09b
 
-The notebook has 20 code cells, In [1] to In [20]. As before, long figure captions are shortened to "..." here; they are printed in full in Section 9.24.
+The notebook has 20 code cells, In [1] to In [20]. As in Section 9.17, long figure captions are shortened to a line "...)" and docstrings are left out here; the captions are printed in full in Section 9.24.
 
 **In [1], the set-up cell.** It is word for word the set-up cell of Notebook 09a, explained line by line in Section 9.17, with two differences: its comment lines are the run instructions of Notebook 09b (Section 9.23), and its line `NOTEBOOK_ID = "09b"` names this notebook, so the figures are saved as `09b_<k>_<name>.png` and their captions in `09b.captions.json`. It prints `Set-up of notebook 09b complete: repository folder found, helpers defined.`
 
@@ -1666,7 +1679,9 @@ ax.axvline(0.0, color="black", linewidth=1.0)
 ax.set_xlabel("$S_0 = \\chi^\\dagger C \\chi$ for a random $\\chi$ of length 1")
 ax.set_ylabel("number of the 20000 random $\\chi$")
 ax.set_title("The scalar $S = \\bar\\Phi\\Phi$ has no sign")
-save_figure(fig, "sign_of_s", ...)
+save_figure(fig, "sign_of_s",
+            "Histogram of $S_0 = \\chi^\\dagger C\\chi$ for 20000 random complex "
+            ...)
 ```
 
 A **histogram** is a bar chart that counts how many numbers fall into each of a row of equal intervals: `ax.hist` uses 60 intervals between $-1$ and $1$. `ax.axvline(0.0, ...)` draws a vertical line at zero. **What Figure 09b.1 shows.** The number of random unit columns (vertical axis) whose $S_0$ falls into each interval (horizontal axis, a pure number between $-1$ and $1$). The histogram is symmetric about zero, roughly a hill: about half of the values are negative. The student should see that $S$ has no sign; for a condensate with $\lambda = 0$, $\rho = mS_0$ has the sign of $S_0$.
@@ -1807,7 +1822,9 @@ right.set_yscale("log")
 right.set_xlabel("time $x_4$")
 right.set_title("Growing: $\\lambda = -0.5$, $V = 0.5$")
 right.legend(fontsize=8)
-save_figure(fig, "condensate_solutions", ...)
+save_figure(fig, "condensate_solutions",
+            "Two exact condensates of dirac16complex00 with $m = 1$, $H = 0.25$ and "
+            ...)
 ```
 
 The right panel draws, for the growing condensate, the size $\Phi^\dagger\Phi = \sum_i|\Phi_i|^2$ at every time (the recipe `"ti,ti->t"` sums over the components `i` for each time `t`) and $S$, on a logarithmic axis. **What Figure 09b.2 shows.** Left: three components oscillate with the period $2\pi/\omega = 4.84$ while $S$ stays at 1. Right: $\Phi^\dagger\Phi$ rises, soon along a straight line on the logarithmic axis, like $e^{2kx_4}$ with $k = 0.559$, by more than a factor 100000, while $S$ stays exactly 1. The student should see that a constant $S$ does not mean a constant field: the indefinite form $\Phi^\dagger C\Phi$ can stay fixed while the field grows.
@@ -1899,7 +1916,9 @@ ax.set_xlabel("$S = \\bar\\Phi\\Phi$")
 ax.set_ylabel("energy per unit volume")
 ax.set_title("Condensate: $\\rho$ and $p$ against $S$ ($m = 1$, $\\lambda = 0.5$)")
 ax.legend(fontsize=8)
-save_figure(fig, "energy_and_pressure", ...)
+save_figure(fig, "energy_and_pressure",
+            "Energy density $\\rho = mS + \\lambda S^2/2$ (solid), pressure "
+            ...)
 ```
 
 Four curves and two black dots (`"ko"`: black circles) at the zeros $S = 0$ and $S = -2m/\lambda = -4$ of $\rho$. **What Figure 09b.3 shows.** Against $S$ (horizontal, a pure number) in units of energy per unit volume: the energy density, a parabola through 0 and $-4$ with its lowest point $-1$ at $S = -2$; the pressure, a parabola that touches zero at $S = 0$; the kinetic part of the pressure (dashed) and its potential part (dotted). The student should see that the energy density is negative for $-4 < S < 0$ and that the pressure is the sum of a kinetic and a potential part that partly cancel.
@@ -1957,7 +1976,9 @@ ax.set_xlabel("$x = \\lambda S / m$")
 ax.set_ylabel("$w = p/\\rho$")
 ax.set_title("Equation of state of a condensate: $w = x/(2 + x)$")
 ax.legend(fontsize=8, loc="upper right")
-save_figure(fig, "equation_of_state", ...)
+save_figure(fig, "equation_of_state",
+            "Equation of state $w = p/\\rho$ of a condensate of dirac16complex00 "
+            ...)
 ```
 
 The curve $w = x/(2 + x)$ is drawn in two pieces that stop short of $x = -2$, where it jumps from $+\infty$ to $-\infty$. The twelve measured values are red dots; a dotted vertical line marks $x = -2$, a dashed horizontal line $w = -1$, and `ax.axhspan` shades the band $w < -1$ faintly (`alpha=0.08` is 8 per cent opaque). **What Figure 09b.4 shows.** The equation of state (vertical) against $x$ (horizontal), both pure numbers. The red dots lie on the curve. The student should read off: $w = 0$ at $x = 0$; $w = -1$ at $x = -1$; the phantom band $w < -1$ for $-2 < x < -1$; $w > 1$ for $x < -2$, where $\rho$ and $p$ are both negative; and $w \to 1$ for large $x$. This is the eight-dimensional ratio, not the equation of state an observer in 3-space would infer (OPEN).
@@ -1989,7 +2010,9 @@ ax.set_xlabel("$x = \\lambda S / m$")
 ax.set_ylabel("$3H/|m|$")
 ax.set_title("Condensates: oscillating (blue) or growing (red)")
 ax.grid(False)
-save_figure(fig, "regime_map", ...)
+save_figure(fig, "regime_map",
+            "Map of the condensates of dirac16complex00 in the plane of "
+            ...)
 ```
 
 The first loop draws the vertical lines of constant $w$ at $x = -1$, 0 and 1 with their labels; the second marks the two condensates of In [6] as black dots at $(x, 3H/|m|) = (0.5, 0.75)$ and $(-0.5, 0.75)$ with their names; two more labels name the regions (`\n` starts a new line). **What Figure 09b.5 shows.** The plane of $x$ (horizontal) and $3H/|m|$ (vertical), both pure numbers: a red wedge with its tip at $x = -1$ on the horizontal axis, opening upwards, where condensates grow, and the blue rest, where they oscillate. The student should see that the line $w = -1$ runs through the middle of the wedge: every condensate with $w = -1$ grows.
@@ -2110,7 +2133,9 @@ right.set_xlabel("time $x_4$")
 right.set_ylabel("rate of change of $\\rho$")
 right.set_title("Toy fluid $(w_3, w_t) = (1/3, 2/3)$")
 right.legend(fontsize=7)
-save_figure(fig, "energy_exchange", ...)
+save_figure(fig, "energy_exchange",
+            "Energy exchange along the deflating history $a_4 = AHx_4$, $A = 1$, "
+            ...)
 ```
 
 For the toy fluid with $w_3 = 1/3$ and $w_t = 2/3$ the right panel draws the two terms of $d\rho/dx_4 = -3a_4'p_3 + 3a_4'p_t$ separately, and the slope of the path by finite differences. **What Figure 09b.6 shows.** Left, the energy density divided by its starting value (a pure number, logarithmic axis) against $x_4$ from 0 to 8: the toy fluids with $p_3 > p_t$ ($\Delta w > 0$) lose energy, those with $p_3 < p_t$ gain energy, $\Delta w = 0$ and the exact condensate stay constant. Right, rates in units of energy per unit volume per unit time: the 3-space term is negative (inflating 3-space takes energy out), the extra-time term is positive and twice as large (the deflating extra times put energy in), and the dotted slope is their sum. The student should see the energy exchange of Section 9.10 at work, remembering that the toy fluids are an illustration, not solutions.
@@ -2226,7 +2251,9 @@ ax.axvline(0.0, color="black", linewidth=1.0)
 ax.set_xlabel("energy density $\\rho = E\\,u^\\dagger B u$ of the plane wave")
 ax.set_ylabel("number of the 5000 random $u$")
 ax.set_title("Waves of positive frequency $E = 5$: $\\rho$ has both signs")
-save_figure(fig, "energy_sign", ...)
+save_figure(fig, "energy_sign",
+            "Histogram of the energy density $\\rho = -\\sum_{a \\neq x_4} K_a + mS$ "
+            ...)
 ```
 
 **What Figure 09b.7 shows.** The number of waves (vertical) whose energy density, in units of energy per unit volume, falls into each of 50 intervals between $-5$ and 5 (horizontal). The values are spread symmetrically about zero, and about half are negative. The possible values fill the whole interval from $-5$ (reached for $Bu = -u$) to 5 (for $Bu = u$), but random columns seldom come near the two ends. The student should see that for this commuting field a positive frequency does not mean a positive energy.
@@ -2353,7 +2380,7 @@ The third worked example computes all 64 entries of the tensor of exact condensa
 
 ### 9.30 Line-by-line walk-through of Notebook 09c
 
-The notebook has 20 code cells, In [1] to In [20]. Long figure captions are shortened to "..." here; they are printed in full in Section 9.29.
+The notebook has 20 code cells, In [1] to In [20]. As in Section 9.17, long figure captions are shortened to a line "...)" and docstrings are left out here; the captions are printed in full in Section 9.29.
 
 **In [1], the set-up cell.** It is word for word the set-up cell of Notebook 09a, explained line by line in Section 9.17, except that its comment lines are the run instructions of Notebook 09c (Section 9.28) and its line `NOTEBOOK_ID = "09c"` names this notebook. It prints `Set-up of notebook 09c complete: repository folder found, helpers defined.`
 
@@ -2561,7 +2588,9 @@ SCALE = 2.0  # the colour scale runs from -2 to 2 in both heat maps of this note
 fig, ax = plt.subplots(figsize=(6.6, 5.6))
 picture = heat_map(ax, T_generic, "Generic condensate: $T^\\nu{}_\\mu$", SCALE)
 fig.colorbar(picture, ax=ax, label="value (energy per unit volume)", extend="both")
-save_figure(fig, "generic_condensate", ...)
+save_figure(fig, "generic_condensate",
+            "Heat map of the 64 entries $T^\\nu{}_\\mu$ (row $\\nu$, column $\\mu$, "
+            ...)
 ```
 
 Both heat maps of the notebook use the fixed colour scale from $-2$ to 2, so they can be compared; `extend="both"` adds arrows to the colour bar for values beyond the scale. **What Figure 09c.1 shows.** The 64 entries of the generic condensate's tensor, in units of energy per unit volume. The only diagonal entry that is not zero is $-VS = -1.47$ at $(x_4, x_4)$; 42 squares off the diagonal are coloured, all of them produced by the spin connection; the squares $(x_4, x_8)$ and $(x_8, x_4)$ are zero, and so are the squares inside 3-space and inside the extra times. The student should see that equal pressures do not make a condensate a perfect fluid.
@@ -2600,7 +2629,9 @@ right.axhline(0.0, color="black", linewidth=0.8)
 right.set_xlabel("deflation rate $a_4'$")
 right.set_title("Proportional to $a_4'$")
 right.legend(fontsize=8)
-save_figure(fig, "offdiagonal_entries", ...)
+save_figure(fig, "offdiagonal_entries",
+            "Three off-diagonal entries of the generic condensate of the previous "
+            ...)
 ```
 
 **What Figure 09c.2 shows.** Left: the momentum flow $T^{x_4}{}_{x_1}$ (energy per unit volume) against $a_4'$ is a horizontal line at $0.835532$, the value printed by the cell: it comes from the $H$ part of the spin connection and from the term $3H\gamma^{(4)}\gamma^{(8)}$ of the condensate's time derivative (Section 9.26). Right: $T^{x_1}{}_{x_5}$ (solid) and $T^{x_1}{}_{x_8}$ (dashed) are straight lines through zero. The student should see that 30 of the 42 entries exist only because $a_4' \neq 0$, as the hand computation of $T^{x_1}{}_{x_5}$ in Section 9.26 showed.
@@ -2881,7 +2912,7 @@ report("S of the record divided by S of unit v1, v2 (all three)",
        f"{quotients[0]:.1f}")
 ```
 
-The frequencies must agree exactly: $\omega = \sqrt{V^2 - 9H^2}$ does not depend on any choice. The values of $S$ cannot agree, because the record builds the witnesses with exact columns $v_1$, $v_2$ that are not of length 1, and $S = 2|v_1^\dagger Cv_2|^2$ grows with their lengths (multiplying $v_1$ by a number $a$ and $v_2$ by $b$ multiplies $S$ by $|a|^2|b|^2$). So the second check divides each recorded $S$ by ours and requires the three quotients to be one and the same number; the record's values are then reproduced up to one common factor, which the cell prints. The factor is not physics: it is the product of the squared lengths of the record's columns, a choice of the record's verifier, and it changes whenever the verifier picks other columns. For the Wolfram report `Revision/field_equations_a4/reports/wolfram-a4-report.json` in its version of 2026-10-01 (47 checks), which lists $S = 204800, 115200, 204800$, the quotients are $204800/1.28 = 160000$ for the first and the third witness and $115200/0.72 = 160000$ for the second, and the cell prints 160000.0. The notebook reads the numbers from the report, so a later version of the report that lists other values of $S$ makes the cell print those values and their quotient instead.
+The frequencies must agree exactly: $\omega = \sqrt{V^2 - 9H^2}$ does not depend on any choice. The values of $S$ cannot agree, because the record builds the witnesses with exact columns $v_1$, $v_2$ that are not of length 1, and $S = 2|v_1^\dagger Cv_2|^2$ grows with their lengths (multiplying $v_1$ by a number $a$ and $v_2$ by $b$ multiplies $S$ by $|a|^2|b|^2$). So the second check divides each recorded $S$ by ours and requires the three quotients to be one and the same number; the record's values are then reproduced up to one common factor, which the cell prints. The factor is not physics: it is the product of the squared lengths of the record's columns, a choice of the record's verifier, and it changes whenever the verifier picks other columns. The Wolfram report `Revision/field_equations_a4/reports/wolfram-a4-report.json` in its version of 2026-10-08 (52 checks), whose verifier builds the columns from the author's gamma matrices, lists $S = 51200, 28800, 51200$; the quotients are $51200/1.28 = 40000$ for the first and the third witness and $28800/0.72 = 40000$ for the second, and the cell prints 40000.0. The version of 2026-10-01 (47 checks) built its columns from another set of $16 \times 16$ gamma matrices that obey the same Clifford relations and listed $S = 204800, 115200, 204800$, the common factor $160000$ (the record file `Revision/field_equations_a4/README.md` states both): the factor changed with the columns, while the frequencies, $S \neq 0$ and the vanishing of the 15 bilinears did not. The notebook reads the numbers from the report, so a later version of the report that lists other values of $S$ makes the cell print those values and their quotient instead.
 
 **In [14], the heat map of a witness (Figure 09c.3).**
 
@@ -2890,7 +2921,9 @@ T_witness = condensate_tensor(witness_columns[(5.0, 1.0)], **POINT)
 fig, ax = plt.subplots(figsize=(6.6, 5.6))
 picture = heat_map(ax, T_witness, "Witness condensate: $T^\\nu{}_\\mu$", SCALE)
 fig.colorbar(picture, ax=ax, label="value (energy per unit volume)", extend="both")
-save_figure(fig, "witness_condensate", ...)
+save_figure(fig, "witness_condensate",
+            "Heat map of the 64 entries $T^\\nu{}_\\mu$ of the exact witness "
+            ...)
 check(len(off_diagonal_pairs(T_witness)) == 0 and abs(T_witness[3, 3]) > 0.1,
       "the drawn witness tensor is diagonal with T^x4_x4 = -V S != 0")
 ```
@@ -3054,7 +3087,9 @@ ax.set_xlabel("finite-difference step $h$")
 ax.set_ylabel("largest $|\\nabla_\\mu T^\\mu{}_\\nu|$")
 ax.set_title("Conservation of the full tensor of a condensate")
 ax.legend()
-save_figure(fig, "conservation_convergence", ...)
+save_figure(fig, "conservation_convergence",
+            "The largest of the eight components of the covariant divergence "
+            ...)
 ```
 
 `ax.loglog` draws with logarithmic scales on both axes; `"o-"` draws circles joined by lines, `"s-"` squares. The dotted line is proportional to $h^2$. **What Figure 09c.4 shows.** The largest component of the divergence (energy per unit volume per unit length) against the step $h$, both axes logarithmic. The circles of the true condensate fall along the dotted $h^2$ line over six powers of ten, so the exact divergence is zero; the squares of the control stay near 0.07. The student should see how a convergence plot separates an error of the method (which shrinks with $h$) from a real failure (which does not).
@@ -3076,7 +3111,9 @@ ax.set_xticks(positions, [f"$\\nu = {n[0]}_{n[1]}$" for n in NAMES], fontsize=8)
 ax.set_ylabel("$|\\nabla_\\mu T^\\mu{}_\\nu|$ (with $h = 0.001$)")
 ax.set_title("The eight components of the divergence")
 ax.legend(fontsize=8)
-save_figure(fig, "divergence_components", ...)
+save_figure(fig, "divergence_components",
+            "The eight components $|\\nabla_\\mu T^\\mu{}_\\nu|$, $\\nu = x_1, \\dots, "
+            ...)
 ```
 
 At $h = 0.001$ the cell draws the size of each of the eight components for both configurations as bars on a logarithmic axis; $10^{-16}$ is added so that an exact zero, which a logarithmic axis cannot show, is drawn at the bottom. **What Figure 09c.5 shows.** For $\nu = x_1, \dots, x_8$: the true condensate's bars all lie at the level of the finite-difference error, below $10^{-6}$; the control's bars for the six momentum components $\nu = x_1, x_2, x_3, x_5, x_6, x_7$ stand between about 0.01 and 0.07, while its components $\nu = x_4$ and $x_8$ vanish. The student should see what Section 9.26 explained: the control keeps the energy and hidden balances (its $\rho$ and pressures are those of the true condensate) but breaks the momentum balances; the gravitational term $3H\gamma^{(8)}$ is needed for the conservation of the tensor.
@@ -3121,7 +3158,7 @@ The five figures exist and are captioned, and the last line is `ALL 25 CHECKS PA
 
 **PROVED in the Revision record and used here without its proof:** the vielbein-variation tensor with its spin-density term; the complete (Belinfante) tensor as its symmetric part for every configuration, and the equality of the two tensors on shell in all 64 entries (off shell, in general, only the 8 diagonal entries agree); the drop-out of the spin connection from the Lagrangian of every diagonal vielbein; the conservation $\nabla_\mu T^\mu{}_\nu = 0$ of every solution (Noether identity); the same formulas for the Grassmann field dirac16complex; the 42 off-diagonal entries of a condensate as multiples of 15 bilinears with the listed coefficients, the diagonal witnesses with $\omega = 4, 3, 4$; the Krein inertia (4,4) of the plane waves; the vanishing of every off-diagonal entry of the source and the condition $p_3 + p_t = 2p_8$, both imposed by the field equations of gravity; and the theorem that a condensate source that meets the off-diagonal conditions allows only the linear history $a_4 = AHx_4 + a_0$ (under its four hypotheses, Section 9.26), with either sign of $A$.
 
-**COMPUTED by the notebooks** (every number reproduces the record where they overlap): Notebook 09a, 27 checks, confirms the tensor identities at one point to $10^{-11}$ or better, re-derives the 25 Christoffel symbols and the two identities exactly, and checks the $x_8$ profiles on a grid to a relative residual of $2.3 \cdot 10^{-5}$; Notebook 09b, 33 checks, confirms the condensates at 401 times to $10^{-9}$, measures $w$ on twelve exact solutions (agreement with $x/(2 + x)$ to $10^{-9}$), solves the toy fluids with RK4 (relative error $1.33 \cdot 10^{-8}$, error ratio 16.17 for a halved step) and reproduces $\rho = \pm 5$; Notebook 09c, 25 checks, confirms the 42 entries against the record's coefficients to $10^{-12}$, the dimensions 8 and 1 of the construction of the witnesses, the diagonal tensor of the witnesses at 36 points, the record's frequencies exactly and its values of $S$ up to one common factor (160000 for the Wolfram report of 2026-10-01), and the conservation of the full tensor along a curved history (an error falling like $h^2$, down to $4.5 \cdot 10^{-9}$), with a negative control. The observation $S = 2\omega^2/V^2$ for the three witnesses is COMPUTED, not proved.
+**COMPUTED by the notebooks** (every number reproduces the record where they overlap): Notebook 09a, 27 checks, confirms the tensor identities at one point to $10^{-11}$ or better, re-derives the 25 Christoffel symbols and the two identities exactly, and checks the $x_8$ profiles on a grid to a relative residual of $2.3 \cdot 10^{-5}$; Notebook 09b, 33 checks, confirms the condensates at 401 times to $10^{-9}$, measures $w$ on twelve exact solutions (agreement with $x/(2 + x)$ to $10^{-9}$), solves the toy fluids with RK4 (relative error $1.33 \cdot 10^{-8}$, error ratio 16.17 for a halved step) and reproduces $\rho = \pm 5$; Notebook 09c, 25 checks, confirms the 42 entries against the record's coefficients to $10^{-12}$, the dimensions 8 and 1 of the construction of the witnesses, the diagonal tensor of the witnesses at 36 points, the record's frequencies exactly and its values of $S$ up to one common factor (40000 for the Wolfram report of 2026-10-08), and the conservation of the full tensor along a curved history (an error falling like $h^2$, down to $4.5 \cdot 10^{-9}$), with a negative control. The observation $S = 2\omega^2/V^2$ for the three witnesses is COMPUTED, not proved.
 
 **ASSUMED, chosen, or an interpretation.** The sign conventions $\rho = -T^{x_4}{}_{x_4}$ and $p_\mu = T^\mu{}_\mu$ are definitions. The histories $a_4 = AHx_4$ ($A = 1$) and $a_4 = 0.3x_4 + 0.05x_4^2$ and every parameter value of the examples are choices; every identity holds for every history. The first-law reading of the $x_4$ identity is an interpretation, not an extra result. The toy fluids are an ILLUSTRATION, not solutions of the field equations.
 

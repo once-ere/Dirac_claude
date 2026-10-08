@@ -109,8 +109,9 @@ CELLS = [
        $x4$ and shows which mass each image solves with;
     4. computes how the scalar $S = \bar\Psi\Psi$ and the current $J^a = -i\bar\Psi
        \gamma^a\Psi$ change, for commuting and for anticommuting components;
-    5. treats **real fields**: $J = 0$, $\mathcal{C}_+$ acts as the identity, and the
-       nontrivial real map is the matrix $\Gamma$ with the mass reversed;
+    5. treats **real fields**: $J = 0$, $\mathcal{C}_+$ acts as the identity, and of
+       the two matrices the one that changes a real field is $\mathcal{C}_- = \Gamma
+       C$, whose map $\Psi \to \Gamma\Psi$ reverses the mass;
     6. checks which map preserves the anticommutator $\{\Psi, \Psi^\dagger\} =
        B\,\delta$ of the quantised field: $\Psi \to \Gamma\Psi^{\dagger T}$ does,
        $\Psi \to \Psi^{\dagger T}$ does not.
@@ -1000,7 +1001,8 @@ CELLS = [
                 "(dotted), for component 1 (left, first half) and component 9 (right, "
                 "second half); horizontal axis the time $x4$ in units of $1/m$, vertical "
                 "axis the value. For a real field the same-mass conjugation does nothing; "
-                "the nontrivial real map is $\\Gamma$, which flips the first half and "
+                "of the two charge-conjugation matrices only $\\Gamma C$ changes a real "
+                "field: its map $\\Psi \\to \\Gamma\\Psi$ flips the first half and "
                 "solves the equation with the mass reversed.")
     '''),
     md(r"""
@@ -1087,8 +1089,9 @@ CELLS = [
       (computed in Notebook 05e).
     - Both reality conditions are consistent ($MM^* = 1$); the real one is kept in
       time, the $\Gamma$ one only for $m = 0$.
-    - Real fields: $J = 0$, $\mathcal{C}_+$ is the identity, and the nontrivial real
-      map is the matrix $\Gamma$ with $(m, \lambda) \to (-m, -\lambda)$ (theorem T1).
+    - Real fields: $J = 0$, $\mathcal{C}_+$ is the identity, and among the matrices
+      that obey the intertwiner condition the only nontrivial one is $\Gamma$ (up to a
+      factor), with $(m, \lambda) \to (-m, -\lambda)$ (theorem T1).
     - Quantised field: $\Psi \to \Gamma\Psi^{\dagger T}$ preserves $\{\Psi,
       \Psi^\dagger\} = B\delta$, $\Psi \to \Psi^{\dagger T}$ does not; among the
       multiples of the two matrices only $\Gamma$, up to a phase factor, keeps the

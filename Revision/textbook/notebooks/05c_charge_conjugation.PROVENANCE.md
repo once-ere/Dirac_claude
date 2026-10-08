@@ -319,7 +319,7 @@ The notebook shows 9 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/05c_5_bilinears.png` (1034 x 586 pixels): The scalar $S$ (left group) and the charge density $J^{(x4)}$ (right group) of the solution $\Psi$ (blue) and of its charge conjugates $\mathcal{C}_+\bar\Psi^T = \Psi^{\ast}$ (orange) and $\mathcal{C}_-\bar\Psi^T = \Gamma\Psi^{\ast}$ (aqua), for commuting components; vertical axis the value, which is the same at every time $x4$. All three have the same $S = -2$; $\Psi^{\ast}$ has the opposite charge density $+6$, $\Gamma\Psi^{\ast}$ the same $-6$: for commuting components $\mathcal{C}_+$ reverses the charge and keeps the mass, $\mathcal{C}_-$ keeps the charge and reverses the mass.
 - `Revision/textbook/figures/05c_6_sign_table.png` (1410 x 539 pixels): The sign that each bilinear acquires under the two charge conjugations, for commuting and for anticommuting (classical Grassmann) components: columns the scalar $S$ and the eight currents $J^a$, rows the map and the kind of component; red $+1$ the bilinear is kept, blue $-1$ it is reversed. $\mathcal{C}_+$ on commuting components keeps $S$ and reverses every current; $\mathcal{C}_-$ on commuting components keeps both; for anticommuting components every sign is flipped once more by the exchange of two factors.
 - `Revision/textbook/figures/05c_7_reality_in_time.png` (1036 x 716 pixels): How far the free solution moves away from the two reality conditions, for starting columns of size 1 that obey them: the size of $\Psi - \Gamma\Psi^{\ast}$ for the masses $m = 1$ (solid), $m = 0.5$ (dashed) and $m = 0$ (dash-dotted, zero), and the size of $\Psi - \Psi^{\ast}$ for a real start (dotted, zero); horizontal axis the time $x4$, vertical axis the size (a pure number). The real field stays real; the condition $\Psi = \Gamma\Psi^{\ast}$ of the mass-reversing conjugation is violated by $2|\sin(m x4)|$ unless $m = 0$.
-- `Revision/textbook/figures/05c_8_real_field.png` (1416 x 683 pixels): A real solution of the free equation (solid), its same-mass conjugate $\Psi^{\ast} = \mathcal{C}_+\bar\Psi^T$ (dashed, lying exactly on the solid line) and its image $\Gamma\Psi$ under the real chirality matrix (dotted), for component 1 (left, first half) and component 9 (right, second half); horizontal axis the time $x4$ in units of $1/m$, vertical axis the value. For a real field the same-mass conjugation does nothing; the nontrivial real map is $\Gamma$, which flips the first half and solves the equation with the mass reversed.
+- `Revision/textbook/figures/05c_8_real_field.png` (1416 x 683 pixels): A real solution of the free equation (solid), its same-mass conjugate $\Psi^{\ast} = \mathcal{C}_+\bar\Psi^T$ (dashed, lying exactly on the solid line) and its image $\Gamma\Psi$ under the real chirality matrix (dotted), for component 1 (left, first half) and component 9 (right, second half); horizontal axis the time $x4$ in units of $1/m$, vertical axis the value. For a real field the same-mass conjugation does nothing; of the two charge-conjugation matrices only $\Gamma C$ changes a real field: its map $\Psi \to \Gamma\Psi$ flips the first half and solves the equation with the mass reversed.
 - `Revision/textbook/figures/05c_9_quantum_b.png` (1280 x 437 pixels): The test of the canonical anticommutator: the imaginary parts of $B$ (left), of $B^T$ (middle, the result for $M = 1$) and of $\Gamma B^T\Gamma$ (right, the result for $M = \Gamma$), as heat maps (column and row 1 to 16; blue $-1$, grey $0$, red $+1$; the real parts are zero). The middle picture has every colour reversed: $B^T = -B$, so $\Psi \to \Psi^{\dagger T}$ violates the rule. The right picture equals the left one: $\Psi \to \Gamma\Psi^{\dagger T}$ preserves it, and this conjugation reverses the mass.
 
 ## 4. Side effects
@@ -330,7 +330,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/05c.captions.json` | 5347 | `3939038fdc5c072161204711e850cf4360b18c7956322ddc8711900678691b1a` |
+| `Revision/textbook/figures/05c.captions.json` | 5415 | `71a495dfb471cb453a35a2bc6c00fff6c92a5fdaa275a65e858ede1b49397412` |
 | `Revision/textbook/figures/05c_1_solution_spaces.png` | 65718 | `4bdc05532b1f91c09cff339f5b222d88b089cd6a908a5c3e3db8b86dd861fd94` |
 | `Revision/textbook/figures/05c_2_conjugation_matrices.png` | 28069 | `7c8ada8f2acaaebbd23ff537cb9920144a7c3dd74892f6bff7f09c962831528b` |
 | `Revision/textbook/figures/05c_3_conjugate_solutions.png` | 141410 | `be64cac203eed104b6ed0a8efa1bc703fbe6a905bde0bf31df49904c24661cb8` |
@@ -362,8 +362,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 6.3 s, peak memory of the kernel process 232 MiB;
-- the check run: 5.8 s, peak memory of the kernel process 232 MiB.
+- the build run: 7.7 s, peak memory of the kernel process 233 MiB;
+- the check run: 7.6 s, peak memory of the kernel process 233 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -375,9 +375,9 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/05c_charge_conjugation.ipynb`: `3e63021b2d7b455821f49b28904261ee2d37cea514eb6a8e240f6a95648f3979`
-- `Revision/textbook/notebooks/src/05c_charge_conjugation.py`: `bd2b32d4f7e51beaec74cee3f272a572520a1f21afac36ceac5d5a085cdd93ef`
-- `Revision/textbook/figures/05c.captions.json`: `3939038fdc5c072161204711e850cf4360b18c7956322ddc8711900678691b1a`
+- `Revision/textbook/notebooks/05c_charge_conjugation.ipynb`: `e2f4b8fc6407c3c9ceac87f1ad7dfd33e65d2a44e15101c2e1df3ebb61bf5c4b`
+- `Revision/textbook/notebooks/src/05c_charge_conjugation.py`: `8b19e037f48c9b4fc8e12ea22e9bcf6651cd2d3c33635bfb132bb493de1bc9b2`
+- `Revision/textbook/figures/05c.captions.json`: `71a495dfb471cb453a35a2bc6c00fff6c92a5fdaa275a65e858ede1b49397412`
 - `Revision/textbook/figures/05c_1_solution_spaces.png`: `4bdc05532b1f91c09cff339f5b222d88b089cd6a908a5c3e3db8b86dd861fd94`
 - `Revision/textbook/figures/05c_2_conjugation_matrices.png`: `7c8ada8f2acaaebbd23ff537cb9920144a7c3dd74892f6bff7f09c962831528b`
 - `Revision/textbook/figures/05c_3_conjugate_solutions.png`: `be64cac203eed104b6ed0a8efa1bc703fbe6a905bde0bf31df49904c24661cb8`
@@ -394,4 +394,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 10 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":232.0,"seconds":6.3},"check":{"date":"2026-10-08","files":10,"peak_mb":232.0,"result":"passed","seconds":5.8},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":233.0,"seconds":7.7},"check":{"date":"2026-10-08","files":10,"peak_mb":233.0,"result":"passed","seconds":7.6},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

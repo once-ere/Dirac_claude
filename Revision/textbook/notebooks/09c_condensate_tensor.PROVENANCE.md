@@ -271,7 +271,7 @@ In [13]       reproduces Revision/field_equations_a4/reports/wolfram-a4-report.j
 In [13]      condensate_diagonal_witness_exact;
 In [13]      Revision/field_equations_a4/reports/python-a4-report.json, check
 In [13]      authorT16_condensate_witness
-In [13]  PASS S = 204800, 115200, 204800 of the record are one common multiple of ours
+In [13]  PASS S = 51200, 28800, 51200 of the record are one common multiple of ours
 In [13]       reproduces Revision/field_equations_a4/reports/wolfram-a4-report.json, check
 In [13]      condensate_diagonal_witness_exact
 In [14]  PASS the drawn witness tensor is diagonal with T^x4_x4 = -V S != 0
@@ -301,7 +301,7 @@ In [7]  RESULT slopes d T^x1_x5/d a4p and d T^x1_x8/d a4p = -0.012942 and -0.049
 In [11]  RESULT witness (5, 1): omega, and S for unit v1, v2 = 4 and 1.280000
 In [11]  RESULT witness (5, 1.333): omega, and S for unit v1, v2 = 3 and 0.720000
 In [11]  RESULT witness (-5, 1): omega, and S for unit v1, v2 = 4 and 1.280000
-In [13]  RESULT S of the record divided by S of unit v1, v2 (all three) = 160000.0
+In [13]  RESULT S of the record divided by S of unit v1, v2 (all three) = 40000.0
 In [16]  RESULT effective mass V = m + lambda S of the test condensate = 0.883522
 ```
 
@@ -360,8 +360,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 9.2 s, peak memory of the kernel process 199 MiB;
-- the check run: 7.1 s, peak memory of the kernel process 199 MiB.
+- the build run: 5.3 s, peak memory of the kernel process 198 MiB;
+- the check run: 4.7 s, peak memory of the kernel process 199 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -373,7 +373,7 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/09c_condensate_tensor.ipynb`: `25a1eda3b6671c2aaa11d9df841febb0fb3f56ffd3cf08cb5a3bd89937a4356a`
+- `Revision/textbook/notebooks/09c_condensate_tensor.ipynb`: `41bb5f3e58fb16572d4c49f277e55868fec08153a2756ce0f0a67dc4089f09d8`
 - `Revision/textbook/notebooks/src/09c_condensate_tensor.py`: `3a56d6cb97de10aca39773a44059bcadc5d33dae2800be5ddc3c477079e8b2d7`
 - `Revision/textbook/figures/09c.captions.json`: `653a58afe2f309331fb407d5a93f9de46865c48f1cf4ae6b5120ef54239f2366`
 - `Revision/textbook/figures/09c_1_generic_condensate.png`: `c5ca9bf64ac878a0cc85ecc29450117777efaaed42f3c50b5081f2789cf667d8`
@@ -388,4 +388,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":199.0,"seconds":9.2},"check":{"date":"2026-10-08","files":6,"peak_mb":199.0,"result":"passed","seconds":7.1},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":198.0,"seconds":5.3},"check":{"date":"2026-10-08","files":6,"peak_mb":199.0,"result":"passed","seconds":4.7},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

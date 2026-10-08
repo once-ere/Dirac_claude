@@ -329,8 +329,10 @@ CELLS = [
     \sin^2\frac{\pi t}{T}\Big)dt = \frac{\pi^2}{2T^2}\cdot\frac{T}{2} - \frac{\omega^2}
     {2}\cdot\frac{T}{2} = \frac{T}{4}\Big(\frac{\pi^2}{T^2} - \omega^2\Big).$$
 
-    The first equality inserts $\dot\xi_1 = (\pi/T)\cos(\pi t/T)$; the second uses that
-    $\cos^2$ and $\sin^2$ each average to $\frac12$ over a half period; the third
+    The first equality inserts $\dot\xi_1 = (\pi/T)\cos(\pi t/T)$. The second uses
+    $\cos^2 x = \frac12(1 + \cos 2x)$ and $\sin^2 x = \frac12(1 - \cos 2x)$: the interval
+    from 0 to $T$ is one full period of $\cos(2\pi t/T)$, whose integral over it is 0,
+    so $\cos^2(\pi t/T)$ and $\sin^2(\pi t/T)$ each integrate to $T/2$. The third
     collects. So $S_2 > 0$ for $T < \pi/\omega$: then the true path is a MINIMUM of the
     action along this direction. For $T > \pi/\omega$ the coefficient is negative: the
     true path is still stationary ($S_1 = 0$), but the action is a maximum along
@@ -731,7 +733,7 @@ CELLS = [
     ax.legend(fontsize=8)
     save_figure(fig, "energy_along_paths",
                 "The energy $H = \\frac{1}{2}\\dot q^2 + \\frac{1}{2}\\omega^2q^2$ of the "
-                "oscillator ($\\omega = 1$) along the three paths of Figure 2, against "
+                "oscillator ($\\omega = 1$) along the three paths of Figure 07d.2, against "
                 "the time $t$ (pure numbers). On the true path (solid) it is constant, "
                 "$1/(2\\sin^2 1) \\approx 0.706$; on the line (dashed) and the "
                 "parabola (dotted) it changes, because $dH/dt = -\\dot q\\,E$ and their "

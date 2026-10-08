@@ -44,8 +44,9 @@ FACTS = {
         "It builds the 16 x 16 mode matrix of a plane wave of the field equation with "
         "frozen coefficients from the author's gamma matrices, proves exactly that its "
         "square is E^2 times the unit matrix, computes the growth rate of the waves "
-        "that move along an extra time, shows that this rate has no upper bound (so "
-        "the initial-value problem is not well posed in the sense of Hadamard), checks "
+        "that move along an extra time, shows that this rate has no upper bound (so, "
+        "in flat 4 + 4 space and with frozen coefficients, the initial-value problem "
+        "is not well posed in the sense of Hadamard), checks "
         "that the Krein form is conserved while the ordinary norm grows, and draws six "
         "teaching plots."
     ),
@@ -109,7 +110,8 @@ CELLS = [
       step-by-step numerical method) and compares them;
     - shows that therefore a tiny change of the starting values can make an arbitrarily
       large change later: the initial-value problem is NOT well posed in the sense of
-      Hadamard (for starting values that depend on the extra times);
+      Hadamard (for starting values that depend on the extra times; exactly in flat
+      4 + 4 space, and with frozen coefficients in the author's metric);
     - checks that the Krein form $u^\dagger B u$ stays constant while the ordinary size
       $u^\dagger u$ grows, and that the growing waves have Krein form zero;
     - shows that without extra-time momentum (the *good sector*) every frequency is real.

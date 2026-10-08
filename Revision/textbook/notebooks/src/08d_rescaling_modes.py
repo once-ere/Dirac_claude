@@ -76,7 +76,7 @@ FACTS = {
         "ALL 23 CHECKS PASSED (notebook 08d)",
     ],
     "troubleshooting": [
-        ["A cell of section 6 or 7 runs for more than a minute.",
+        ["A cell of section 6 or 7 runs for more than a minute",
          "sympy simplifies the field equation for sixteen arbitrary functions there; on "
          "a slow computer this can take a few minutes. Wait until the star in the "
          "brackets to the left of the cell turns into a number."],
@@ -144,6 +144,10 @@ CELLS = [
       ($M^\dagger$: the conjugate transpose).
     - **Boundary term (flux)**: a total derivative $\partial_8(\dots)$ whose integral is
       the difference of its values at the two ends.
+    - **$Z_2$ brane**: a boundary surface of spacetime, here the patch end
+      $z = \pi/2$, at which the patch is glued to a mirror copy of itself; the mirror
+      fixes a boundary condition for the field there. The Kohn-Sham record ASSUMES
+      one; this notebook does not use it.
     """),
     md(r"""
     ## 4. The physical and mathematical situation
