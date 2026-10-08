@@ -147,6 +147,45 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4l FINAL STATE 2026-10-08 (user stopped all work; Claude handed over)
+
+User, 2026-10-08: "NEVER wait more than 60 seconds ... KILL ALL OF THESE RIDICULOUSLY LONG AGENT JOBS ... push everything and verify
+repo, and QUIT. GPT-5.6 will take over."  All workflows were stopped (TaskStop) and every agent process was killed (0 left).  Work
+committed and pushed.  `.claude/ALLOW_STOP` exists (delete it to re-enable the Stop hook).  Lesson for the successor: the agent
+tasks were posed far too large (single agents ran for hours); split work into small, checkable steps and never block on long waits.
+
+DONE AND VERIFIED
+* `provenance/dirac matrices.md` (user order of 2026-10-07): generator `provenance/dirac_matrices/build_dirac_matrices_md.py`,
+  extractors `extract_from_author_notebook.wls` (the author's own cells, in the author's In[n] order) and
+  `extract_repository_wolfram_gammas.wls`; 66/66 exact checks; adversarial audit complete (23/23 confirmed findings fixed; independent
+  fresh-clone verifier: 5 MINOR findings left, listed in `Revision/workflows/state_restart/dirac_audit_verify_findings.json`).  It
+  answers measured: "Instruction followed: not completely" - every calculation uses eight real 16x16 Cl(4,4) matrices and all but
+  the Revision a4 engine use the author's T16 entry by entry; the a4 engine uses an exactly equivalent Cl(1,1)^(x)4 basis.  With the
+  a4 patch applied (below) a scratch rerun gave 67/67 and "yes".
+* Primordial verifier false-success fix (b980c80), verified from a fresh clone; its provenance file updated by its fixer.
+* Execution provenance, sets fully through runner -> independent verifier -> fixer: rev-algebra, rev-ks-theory, rev-pairing-ks,
+  rev-pairing, rev-theory, rev-gkd-notebook-reading, old-nb-build-dark, old-nb-build-ks, old-nb-verify-dark, old-nb-verify-ks,
+  old-algebra, old-geometry, old-primordial, old-kohn-sham, old-00, old-pairing, old-matter-antimatter, nb-dark-sector, handoff-probes.
+
+NOT DONE / IN PROGRESS (partial edits are committed and UNVERIFIED)
+* Execution provenance: rev-gkd-verification - its verifier found a MAJOR false-success defect (verify_lovelock_gkd.wls exits 0 /
+  SUCCESS when it cannot write the report) and wrong temp-file text; NOT fixed.  nb-kohn-sham - verified (9 minor), not fixed; the
+  old Stage-4 notebook's gauntlet fails 2/60 by design (old Stage 4 unfinished: user decision pending - finish or mark superseded by
+  Revision/kohn_sham).  rev-a4 - fix HELD for the a4 patch.  The index provenance/EXECUTION_PROVENANCE_INDEX.md and
+  tests/test_execution_provenance.py were NOT written.  All findings: state_restart/state_execution_provenance.json + journals.
+* a4 author-T16 patch: `Revision/workflows/a4_patch/a4_author_gammas.patch` is ready, reviewed (2 reviewers) but NOT applied.  Apply it
+  only together with the downstream list of section 0.4k (three Revision publications + PDFs + test pins, Revision/README.md table,
+  the rev-a4 provenance file, dirac matrices.md regeneration, textbook chapters 00/09/12/17 and notebooks 00c/09c/12a/17b).  A
+  prepared workflow for the Revision part: Revision/workflows/restart/a4_apply_sync.js (too large as one run - split it).
+* Textbook "Universes in Pairs": every chapter's notebooks are built (00-22); chapter texts written for 00-20 and 22 (chapter 21 text
+  NOT written); adversarial reviews done for 00-10 and 12-16 with findings (several major: overclaims in 08, 10, 14; physics wording
+  in 03, 05, 09, 13; numbers not asserted in 12; figure caption in 16); only chapter 04's fixer finished.  Assembly, the book PDF,
+  registration, the six-lens book review and the book fix were NOT done.  Revision/tests/test_universes_in_pairs_textbook.py fails.
+* Revision wave 1b: the Mermin-root repair is done and verified (solver 42/42, determinism 14/14, KS theory 58/58, cross-check 29/29).
+  NOT done: theory-reconcile (partial edits may be in Revision/theory), the full KS cross-check, the reproduction gate, review, fix.
+  Wave 2 NOT started.  Known failing test: test_pair_creation_proofs_publication (document quotes 57 KS-theory checks; the record has 58).
+* Cross-workflow sync obligations: section 0.4h/0.4k lists (textbook notebooks reading changed KS outputs; provenance hashes).
+
 ### 0.4k A4 AUTHOR-T16 PATCH READY (2026-10-08 04:40; implementer of wf_e7ec46e7-1bf; its reviewers/verifier still running)
 
 Patch <SP>/restart/a4prep/a4_author_gammas.patch (896 lines, sha256 7af48ee9..., 7 files under Revision/field_equations_a4/):
