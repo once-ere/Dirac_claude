@@ -52071,7 +52071,7 @@ check(len(R_mixed) == 156, "R^ab_cd has 156 non-zero components, as in the recor
              "riemann_antisymmetry (156 nonzero entries)")
 ```
 
-`record_check(RUST_REPORT, "riemann_antisymmetry", "156 nonzero entries")` confirms that the Rust program's own check passed and that its detail text reports the same 156 non-zero components.
+The call of `record_check` with `RUST_REPORT`, the check name `riemann_antisymmetry` and the text `156 nonzero entries` confirms that the Rust program's own check passed and that its detail text reports the same 156 non-zero components.
 
 The two forms of the tensor for the author's metric; both have 156 non-zero components (two RESULT lines), the number found by hand in Section 3.24 and by the Rust program. This cell takes a few seconds.
 
