@@ -69,8 +69,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "d6c9a6cdf291e339c783cafebc84c42be4b81b725d26720801b621e7b2f0d7f5"
-TEX_SHA256 = "54ccea447ae024a5be0a936105e00f88fe6fbb39ea8e922061129f4905af22bf"
+MARKDOWN_SHA256 = "4f50847e649efe849cb331e48ad0fb17e58641a4163536ae009003e57e48c6c8"
+TEX_SHA256 = "7e52e2b92c49cbb1a9f7e6f57047cfa96495d5def730a5ba009ae10aa8d2bbf4"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"

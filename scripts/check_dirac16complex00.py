@@ -204,7 +204,13 @@ def sha256_file(path):
 
 
 def relative(path):
-    return os.path.relpath(os.path.abspath(path), REPOSITORY_ROOT).replace(os.sep, "/")
+    # A path on another drive than the repository (Windows: the test writes into the system temporary folder
+    # on C:, the repository is on D:) has no relative form: os.path.relpath raises ValueError.  The same
+    # fallback as check_dirac16complex_pairing.py (2026-10-08); committed reports name only repository paths.
+    try:
+        return os.path.relpath(os.path.abspath(path), REPOSITORY_ROOT).replace(os.sep, "/")
+    except ValueError:
+        return path.replace(os.sep, "/")
 
 
 def all_true(mapping):

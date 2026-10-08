@@ -3,7 +3,7 @@
  "producer": "Revision/field_equations_a4/ks_source/ks_source_a4.py",
  "spec": "Revision/SPEC.md sections 5 and 7: the a4 field equations with the Kohn-Sham energy-momentum tensor as the source; coordinates x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times, x8 = hidden direction",
  "inputs": {
-  "Revision/field_equations_a4/a4-equations.json": "b2f470d04a1d660430e5008e7aed1e8af91d5287fd2546a0cbeb82f983573d96",
+  "Revision/field_equations_a4/a4-equations.json": "9965d8c0a8d7d77c5a239d5c7d0576326ffd6143b09e68d4ffd8e467a456afd1",
   "Revision/kohn_sham/results/parameters.json": "f35216c2bee5b0dc21db6343e640c89f0aebcefab0c6dd6efcec618e0bfae993",
   "Revision/kohn_sham/results/ground/emt-integrals.csv": "24a9cb2037c00d7e6f359c070d1290feaff5ba14397bd89b360d4b4986c13ebb",
   "Revision/kohn_sham/results/adiabatic/adiabaticity.csv": "b2389507d0cb727961ba343a2e07d259eb023417d90b831170b359059f82d608",

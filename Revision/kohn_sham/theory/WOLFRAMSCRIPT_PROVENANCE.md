@@ -1148,3 +1148,9 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
   not re-run.
 * Fixes made: the normalisation above. Open discrepancies: none. Not done: a run of the changed script in a
   fresh clone, and a run from a long clone folder.
+* Added later on 2026-10-08 (after an independent verification of this section): section 3.7 still quoted the
+  missing-`gammas.json` line with the unnormalised path of the version before. With this version, in a scratch
+  tree holding only the script and the package (no `Revision/algebra/gammas.json`), run from its root with
+  `wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls`, the only output was
+  `ERROR  input file not found: <scratch root>\Revision\algebra\gammas.json`, error stream empty, exit code 1,
+  5.6 s wall. Section 3.7 now quotes this form and keeps the old one as history; no script changed.

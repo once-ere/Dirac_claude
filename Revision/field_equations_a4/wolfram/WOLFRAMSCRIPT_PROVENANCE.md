@@ -143,11 +143,11 @@ creates). Every file is UTF-8 text with LF line endings, stored byte for byte by
 
 | role | path | bytes | lines | sha256 |
 | --- | --- | --- | --- | --- |
-| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 41876 | 445 | `340933007f94571fe9db57562a48d7309053381c56a6c1c4e44af1875eeb2a4c` |
+| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 41911 | 445 | `e95be20d658a84bd6db189a16f452e8062329784b83e0217e3818fca81244e1b` |
 | package (loaded by the script with `Get`, script line 25) | `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` | 14903 | 220 | `f0292638c8d6dab9b7a05c744ba00a2ebe329e96ef927478cb73c7599e749c11` |
 | input 1 (read by the package with `Import[..., "RawJSON"]`, package line 159) | `Revision/algebra/gammas.json` | 76968 | 1405 | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` |
 | input 2 (read by the script with `Import[..., "RawJSON"]`, script line 89) | `Revision/gkd_lovelock/results/lovelock-tensors.json` | 55056 | 405 | `9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567` |
-| output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 41834 | 788 | `b2f470d04a1d660430e5008e7aed1e8af91d5287fd2546a0cbeb82f983573d96` |
+| output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 41869 | 788 | `9965d8c0a8d7d77c5a239d5c7d0576326ffd6143b09e68d4ffd8e467a456afd1` |
 | output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 14190 | 269 | `27faceeebdcdb8dc97afbebe89e24e322e8308fb5679df19c88dc1c77af72e6b` |
 
 Last commits that changed them: the script, the package and output 2: `e377368` (2026-10-08);
@@ -155,9 +155,12 @@ Last commits that changed them: the script, the package and output 2: `e377368` 
 (2026-10-01; the patch left it byte for byte unchanged). On 2026-10-08, after `e377368`, the script and
 output 1 were changed in the working tree (section 6.6): the folders are normalised with `ExpandFileName`,
 and the text `fields.dirac16complex.statement` of output 1 now reports what `Revision/theory/fock_quartic`
-decided. The table gives these versions; the versions verified in sections 6.3 to 6.5 were the script
-`d9db27d371eefbd6afc0f358fe9b150a21b82c8a58e5ce2741d71f652f9d1ce9` (40749 bytes) and output 1
-`98d3245d30e5c25f7bbdfcd186d5723aec2059a1feeaef4cc3c3249684de03b4` (40843 bytes).
+decided; later that day the opening of the text `fields.dirac16complex.kohnSham` was corrected (section
+6.7). The table gives the version of section 6.7; the versions verified in sections 6.3 to 6.5 were the
+script `d9db27d371eefbd6afc0f358fe9b150a21b82c8a58e5ce2741d71f652f9d1ce9` (40749 bytes) and output 1
+`98d3245d30e5c25f7bbdfcd186d5723aec2059a1feeaef4cc3c3249684de03b4` (40843 bytes), and those of section 6.6
+the script `340933007f94571fe9db57562a48d7309053381c56a6c1c4e44af1875eeb2a4c` (41876 bytes) and output 1
+`b2f470d04a1d660430e5008e7aed1e8af91d5287fd2546a0cbeb82f983573d96` (41834 bytes).
 
 The set reads nothing else: no other file, no environment variable, no command-line argument, no
 network resource. The script finds its package and its second input relative to its own location
@@ -308,9 +311,9 @@ and then prints one line; section 4 says exactly what to expect.
   code `1`. The run stopped on purpose and wrote no file, except in the last of these cases. In
   every line `<root>` stands for the full path of your repository folder; the lines are shown as
   printed on Windows by the script of section 2, which normalises its folders (section 6.6; the
-  versions before it printed `<root>\Revision\field_equations_a4\wolfram\..\` in the two
-  `cannot write` lines, tests E and G of section 6.3); on macOS and Linux the separators are `/`
-  (expected, not verified there):
+  report line was observed with it in section 6.7, test 4; the versions before it printed
+  `<root>\Revision\field_equations_a4\wolfram\..\` in the two `cannot write` lines, tests E and G
+  of section 6.3); on macOS and Linux the separators are `/` (expected, not verified there):
   * `ERROR  <root>\Revision\algebra\gammas.json: input file not found`: the author's matrices are
     missing (usually only part of the repository was copied). Clone the whole repository (3.4), or
     restore the file with `git checkout -- Revision/algebra/gammas.json`.
@@ -385,7 +388,7 @@ Nothing is printed on the error stream, no `FAIL` or `ERROR` line appears, and t
 
 Files written (both are overwritten on every run that reaches its end):
 
-1. `Revision/field_equations_a4/a4-equations.json` (41834 bytes, 788 lines). Its top-level keys
+1. `Revision/field_equations_a4/a4-equations.json` (41869 bytes, 788 lines). Its top-level keys
    are `title`, `producer`, `conventions`, `lovelockTensors`, `generalSource`, `einstein`,
    `linearMember`, `fields`, `checksSummary`; its second line is
    `  "title": "Einstein-Lovelock field equations for a4[x4] in the primordial metric (Revision/SPEC.md section 5)",`.
@@ -506,7 +509,8 @@ representation.)
 The set was verified on 2026-10-02 (6.1) and on 2026-10-07 (6.2) in the version BEFORE the patch
 of commit `e377368`, and on 2026-10-08 (6.3) in the version of that commit. 6.4 lists the findings of the
 independent verifier of 2026-10-07 and what was done with each; 6.5 the open remarks; 6.6 the change of
-2026-10-08 after that commit (folders normalised, one text of output 1 updated) and its runs.
+2026-10-08 after that commit (folders normalised, one text of output 1 updated) and its runs; 6.7 a second
+text change of output 1 on the same day (the opening of `fields.dirac16complex.kohnSham`) and its runs.
 
 ### 6.1 Verification of 2026-10-02 (version before the patch)
 
@@ -800,3 +804,48 @@ for byte. Remarks that do not affect a run from a complete clone:
   value recorded now).
 * Fixes made: the normalisation and the text above. Open discrepancies: none in the results. Not done: a run
   of the changed script in a fresh clone, and a run from a long clone folder.
+
+### 6.7 The opening of the `kohnSham` text corrected (2026-10-08, working tree)
+
+* Why: the independent verifier of section 6.6 (2026-10-08) noted that the text
+  `fields.dirac16complex.kohnSham` of output 1 began with "to be filled by Revision/kohn_sham", although the
+  same text then reports the evaluated Kohn-Sham states (`reports/ks-source-conditions.json`). The source is
+  computed by `Revision/kohn_sham` and its recorded states are evaluated, so nothing is left "to be filled".
+* Change: in script line 432 (the string `"kohnSham"` of the `dirac16complex` entry) `to be filled by
+  Revision/kohn_sham:` became `Kohn-Sham source (Revision/kohn_sham):`, and `; then constraint:` became
+  `; with this source the equations read: constraint:`. The rest of the text and every other line are
+  unchanged (still 445 lines). New sha256 `e95be20d658a84bd6db189a16f452e8062329784b83e0217e3818fca81244e1b`,
+  41911 bytes (before: `340933007f94571fe9db57562a48d7309053381c56a6c1c4e44af1875eeb2a4c`, 41876 bytes, the
+  version of section 6.6). The companion `check_field_equations_a4.py` carries no such text (it reads
+  `fields.dirac16complex00.offDiagonalKinetic` only, not `fields.dirac16complex`) and was not changed.
+* Runs, from the repository root `D:\Developer\github\Dirac_claude` (32 characters) in the working tree on top
+  of commit `6779cd3` and the automatic snapshots after it (none of them changed the package or an input of
+  this set), not in a fresh clone; Windows 11 Pro for Workstations 10.0.26300, WolframScript 1.14.0, Wolfram
+  15.0.1; each Wolfram run started detached from a `cmd.exe` batch file, one at a time:
+  1. `wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls`: `checks: 52,
+     failed: 0`, exit code 0, error stream empty, wall time 49 s (15:45:07 to 15:45:56).
+     `wolfram-a4-report.json` byte-identical to the committed one (also to the one of commit `af0fc19`);
+     `a4-equations.json` differs from the version of section 6.6 only in line 782 (the two phrases above) and
+     now has sha256 `9965d8c0a8d7d77c5a239d5c7d0576326ffd6143b09e68d4ffd8e467a456afd1`, 41869 bytes, 788 lines.
+  2. The same command again: `checks: 52, failed: 0`, exit code 0, error stream empty, wall time 50 s
+     (15:46:24 to 15:47:13); both outputs byte-identical to run 1.
+  3. `python Revision/field_equations_a4/python/check_field_equations_a4.py`, twice: `checks: 63, pass 63,
+     fail 0, pending 0`, exit code 0, 10.1 s and 13.3 s wall; `python-a4-report.json` and
+     `a4-equations-summary.md` byte-identical between the two runs and to the committed ones.
+  4. Failure test E with this script, in a scratch tree holding only the script, the package and the two
+     inputs, with no folder `Revision/field_equations_a4/reports` (root of 152 characters): the single line
+     `ERROR  cannot write <root>\Revision\field_equations_a4\reports\wolfram-a4-report.json` (233 bytes with
+     the scratch root, CR LF included), exit code 1, error stream empty, about 50 s (15:49:19 to 15:50:09);
+     `a4-equations.json` was written before and is byte-identical to the one of run 2. This is the normalised form that section 3.6 now quotes; the
+     `cannot write` line for `a4-equations.json` comes from the same function `writeJSON` with the same
+     normalised folder `$fieldDir` (not run separately with this version).
+* Downstream: `Revision/field_equations_a4/ks_source/ks_source_a4.py` records the sha256 of
+  `a4-equations.json` among its inputs. It was re-run twice: `pass 23/23`, exit code 0, 3.9 s and 3.8 s, all
+  four outputs byte-identical between the runs. `ks_source/reports/ks-source-a4.json` differs from its
+  previous version only in line 6, which now records
+  `9965d8c0a8d7d77c5a239d5c7d0576326ffd6143b09e68d4ffd8e467a456afd1` (new sha256 of the report
+  `a11e3f6e29fc33c8211ae0282f27b5b205998012b3696623739d88dc3c106588`, 20026 bytes); its summary and the two
+  results CSV files are unchanged. `python -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py`:
+  10 tests OK (19.0 s).
+* Fixes made: the text above. Open discrepancies: none in the results. Not done: a run of the changed script in
+  a fresh clone.
