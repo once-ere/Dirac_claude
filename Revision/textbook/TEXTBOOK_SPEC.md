@@ -47,8 +47,12 @@ R3 HONESTY (overrides the wording of the request; the user was told this on 2026
      complete proofs of what is proved and a precise list of what is not.
    * "this theory solves matter anti-matter mysteries": the book teaches the observed asymmetry
      from zero (baryon-to-photon ratio, Sakharov's three conditions), proves in this theory the
-     exact U(1) charge conservation (so no net charge can be generated inside one universe),
-     the discrete symmetries, and the pair-level statement (a T1 partner carries the opposite
+     exact LOCAL U(1) conservation law d_mu(cos z J^mu) = 0 on shell (lead check
+     u1_noether_matrix_identity: no process creates or destroys charge at any point, so no net
+     charge is made locally inside one universe), states that the TOTAL charge of a universe is
+     constant only if no charge flows through the brane z = pi/2 - an ASSUMED no-flux condition,
+     not derived, which fails on the exact homogeneous solutions of chapter 18 (OPEN; corrected
+     2026-10-08) -, the discrete symmetries, and the pair-level statement (a T1 partner carries the opposite
      charge, so a {+m, -m} pair has zero total charge: the universe/anti-universe class of ideas;
      cite Boyle, Finn and Turok, Phys. Rev. Lett. 121, 251301 (2018) as the published example of
      the class without attributing to it anything it does not say), and states precisely that the
@@ -268,12 +272,13 @@ Part V — Pairs of universes, matter and antimatter
    rate, amplitude, big-bang dynamics); the author's hypothesis stated as a hypothesis.  NB 20a
    corollary C1 and the zero-source no-solution result (plots).  Sources: Revision/pairing,
    docs/PAIR_CREATION_PROOFS.md, lead_checks.
-21 Matter and antimatter from zero: observations, Sakharov's conditions, exact U(1) charge
-   conservation in this theory, the charge-conjugation MATRICES calC_+ and calC_- (R5), real
+21 Matter and antimatter from zero: observations, Sakharov's conditions, the exact local U(1)
+   conservation law in this theory (the total charge is constant only under the ASSUMED no-flux
+   condition at the brane), the charge-conjugation MATRICES calC_+ and calC_- (R5), real
    fields, the quantum (unitary-type) conjugation Gamma, P/T and chirality, the pair-level zero
    total charge, the scorecard, what would be needed.  NB 21a the charge-conjugation matrices
    solved exactly from the Revision gammas (heat maps of C, Gamma, Gamma C; the solution-space
-   dimensions; the bilinear sign table); NB 21b U(1) charge conservation and the pair-level
+   dimensions; the bilinear sign table); NB 21b local U(1) charge conservation, the brane flux and the pair-level
    charge bookkeeping (plots); NB 21c the quantised field's conjugation (M B^T M^dagger = B).
    These are NEW Revision computations; they must reproduce Revision/lead_checks/
    charge_conjugation_and_u1.py's report.
