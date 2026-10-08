@@ -102,12 +102,13 @@ BACKGROUND for the reason recorded in `Revision/field_equations_a4/reports/ks-so
 
 * `Revision/docs/PAIR_CREATION_PROOFS.md` (and its `.tex` and `.pdf`): section 8 (Theorem T3 is proved for
   the Kohn-Sham problem of `Revision/kohn_sham/ks-theory.json`), section 9.1 (the table of report counts:
-  `ks-theory-wolfram.json` 46 of 46, `ks-theory-python.json` 57 of 57; the committed companion report has
-  58 of 58 since commit `972cad1`, so this row is out of date, an open discrepancy of section 6.3),
+  `ks-theory-wolfram.json` 46 of 46, `ks-theory-python.json` 58 of 58 since commit `dc6904e`; before it the
+  row said 57 of 57, out of date since commit `972cad1`, the discrepancy of section 6.3, resolved in 6.4),
   section 10 (the reproduction commands `wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls`
   and `python Revision/kohn_sham/theory/check_ks_theory.py`).
 * `Revision/tests/test_pair_creation_proofs_publication.py` reads both reports for the count table (its
-  test `test_report_count_table` fails since commit `972cad1` because of the out-of-date row; section 6.3).
+  test `test_report_count_table` failed from commit `972cad1` to commit `dc6904e` because of the
+  out-of-date row; it passes again since `dc6904e`; sections 6.3 and 6.4).
 * The numerical Kohn-Sham programs that read `ks-theory.json`: the Rust solver
   (`Revision/kohn_sham/solver/src/theory.rs`, described in `Revision/kohn_sham/solver/README.md`; it refuses
   a `ks-theory.json` without the PRESCRIBED BACKGROUND label), the Python reference
@@ -724,9 +725,8 @@ after that of the check before it.
 
 The sha256 of `ks-theory.json` is pinned in `Revision/kohn_sham/results/parameters.json` and
 `Revision/kohn_sham/reference/results/parameters.json`, and the count table of
-`Revision/docs/PAIR_CREATION_PROOFS.md` (with its test) quotes 46 and 57 (the committed companion report
-has 58 checks since commit `972cad1`; this mismatch exists before any run and is an open discrepancy of
-section 6.3). A run that reproduces the committed bytes (as verified) leaves all of these as they were; if
+`Revision/docs/PAIR_CREATION_PROOFS.md` (with its test) quotes 46 and 58 (it quoted 57 from commit
+`972cad1` until commit `dc6904e`; section 6.4). A run that reproduces the committed bytes (as verified) leaves all of these as they were; if
 your run produced different bytes, restore the committed files (section 5.4) before running anything that
 reads them.
 
@@ -1101,3 +1101,17 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
   test `test_report_count_table`) still quotes 57 checks for `ks-theory-python.json`, while the committed
   report has 58 since commit `972cad1`. This set's outputs are reproduced exactly; the document belongs to
   another set and was not changed here.
+
+### 6.4 Resolution of the count-table discrepancy (2026-10-08)
+
+* The open discrepancy of section 6.3 is resolved by commit `dc6904e` ("PAIR_CREATION_PROOFS: Kohn-Sham
+  theory record now has 58 checks (was quoted as 57); run order in section 10"). Section 9.1 of
+  `Revision/docs/PAIR_CREATION_PROOFS.md` now has the row
+  ``| `Revision/kohn_sham/reports/ks-theory-python.json` | 58 | 58 | 0 |``, its section 10 runs
+  `python Revision/field_equations_a4/python/check_ks_source_conditions.py` before
+  `python Revision/kohn_sham/theory/check_ks_theory.py` (the companion reads the report of the first), and
+  its PDF was rebuilt and re-registered.
+* Checked on 2026-10-08: `python -B Revision/tests/test_pair_creation_proofs_publication.py -k
+  test_report_count_table` printed `Ran 1 test` and `OK`.
+* No file of this set changed; the committed reports are the ones verified in section 6.3.
+* Open discrepancies: none.
