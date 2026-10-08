@@ -86,7 +86,7 @@ TESTED_WITH = {"Python": "3.14.5", "sympy": "1.14.0", "numpy": "2.4.6", "Wolfram
 # 24 logical processors), 2026-10-07/08, in the repository and in a fresh clone, while other jobs were running.
 MEASURED_RUN_TIMES = ("between 4 and 11 s for the first Wolfram command and between 6 and 16 s for the second (each "
                       "including the kernel start), between 13 and 22 s for the builder and for `--check`, about 6 s for "
-                      "`--survey`, and between 39 and 48 s for the test (wall-clock times on Windows 11 Pro for "
+                      "`--survey`, and between 36 and 82 s for the test (wall-clock times on Windows 11 Pro for "
                       "Workstations, Intel Core Ultra 9 275HX, 24 logical processors, measured while other jobs were running)")
 
 N = 16
