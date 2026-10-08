@@ -75,7 +75,7 @@ FACTS = {
     "files_written": ["Revision/textbook/figures/09c.captions.json"] + FIGURES,
     "final_lines": [
         "PASS the five figures of this notebook are saved and captioned",
-        "ALL 24 CHECKS PASSED (notebook 09c)",
+        "ALL 25 CHECKS PASSED (notebook 09c)",
     ],
     "troubleshooting": [
         ["\"KeyError\" with the words \"has no check\"",
@@ -171,9 +171,13 @@ CELLS = [
     $\{a, b, c\} = \{i, x_4, x_8\}$ ($i$ any of $x_1, x_2, x_3, x_5, x_6, x_7$) or
     $\{i, j, x_4\}$ ($i$ in 3-space, $j$ an extra time); and exact witnesses exist
     for which all 15 vanish. The field equations for $a_4$ require, among other
-    conditions, that every off-diagonal entry of the source vanishes; on the
-    deflating history a condensate meets this one condition only if all 15
-    bilinears vanish, as for the witnesses.
+    conditions, that every off-diagonal entry of the source vanishes (for a
+    coupling $\kappa \neq 0$; record
+    `Revision/field_equations_a4/a4-equations.json`, entries
+    `generalSource.offDiagonal_other` and
+    `fields.dirac16complex00.offDiagonalConditions`); on the deflating history a
+    condensate meets this one condition only if all 15 bilinears vanish, as for the
+    witnesses.
 
     **Conservation.** The record proves $\nabla_\mu T^\mu{}_\nu = 0$ for every
     solution (the Noether identity of coordinate invariance) and checks it exactly
@@ -464,14 +468,23 @@ CELLS = [
     $P_2 = \gamma^{(2)}\gamma^{(6)}$, $P_3 = \gamma^{(3)}\gamma^{(7)}$ square to 1 and
     commute with each other and with $A$. Let $\omega = \sqrt{V^2 - 9H^2}$ (a real
     number when $V^2 > 9H^2$); then $A^2 = (9H^2 - V^2) \cdot 1 = -\omega^2 \cdot 1$,
-    and $A$ has the eigenvalue $-i\omega$ on an 8-dimensional space. In that space
-    take the unit vector $v_1$ with $P_1 = P_2 = P_3 = -1$ and the unit vector $v_2$
-    with $P_1 = P_2 = P_3 = +1$, put $c = \overline{v_1^\dagger Cv_2}$ (the bar means
-    the complex conjugate number) and $\Phi_0 = v_1 + cv_2$. The condensate is
-    $\Phi = e^{-i\omega x_4}\Phi_0$: it oscillates with the frequency $\omega$. The
-    record gives three such witnesses, $(V, H) = (5, 1)$, $(5, 4/3)$, $(-5, 1)$, with
-    $\omega = 4$, $3$, $4$ (the record writes the effective mass $V$ as $M$ and the
-    frequency $\omega$ as w).
+    and $A$ has the eigenvalue $-i\omega$ on an 8-dimensional space: every column
+    $u$ is the sum of $\frac12(u + \frac{i}{\omega}Au)$, with eigenvalue $-i\omega$,
+    and $\frac12(u - \frac{i}{\omega}Au)$, with eigenvalue $+i\omega$, and because
+    $A$ is real, complex conjugation carries the one space onto the other, so both
+    have dimension $16/2 = 8$. The three $P_k$ split that space into eight sectors
+    (one for each choice of the signs of $P_1$, $P_2$, $P_3$). The matrix that keeps
+    one sector, $\frac12(1 + \frac{i}{\omega}A) \cdot \frac12(1 \pm P_1) \cdot
+    \frac12(1 \pm P_2) \cdot \frac12(1 \pm P_3)$, has trace 1, because every
+    product of different gammas has trace 0; so every sector has dimension 1. In
+    the sector $P_1 = P_2 = P_3 = -1$ take a unit vector $v_1$ and in the sector
+    $P_1 = P_2 = P_3 = +1$ a unit vector $v_2$ (each unique up to a factor of size
+    1, which does not change the bilinears), put $c = \overline{v_1^\dagger Cv_2}$
+    (the bar means the complex conjugate number) and $\Phi_0 = v_1 + cv_2$. The
+    condensate is $\Phi = e^{-i\omega x_4}\Phi_0$: it oscillates with the frequency
+    $\omega$. The record gives three such witnesses, $(V, H) = (5, 1)$, $(5, 4/3)$,
+    $(-5, 1)$, with $\omega = 4$, $3$, $4$ (the record writes the effective mass $V$
+    as $M$ and the frequency $\omega$ as w).
     """),
     code(r'''
     def bilinear_directions(nu, mu):
@@ -573,9 +586,15 @@ CELLS = [
     $P_1 = P_2 = P_3 = \pm1$), each of length 1, and returns $\omega$, $A$, $v_1$,
     $v_2$ and $\Phi_0 = v_1 + cv_2$ (in the code the frequency $\omega$ is called
     `freq`). The cell builds the three witnesses and prints their frequencies
-    $\omega = \sqrt{V^2 - 9H^2}$.
+    $\omega = \sqrt{V^2 - 9H^2}$. It then checks the two dimensions of the
+    construction with numbers: each of the $2^8 - 1 = 255$ products of 1 to 8
+    different gammas has trace 0; for each witness the space of $A$ for $-i\omega$
+    has dimension 8 (the rank of $A + i\omega$ is $16 - 8$); and the matrix that keeps
+    one sector has trace 1 for all eight choices of the three signs.
     """),
     code(r'''
+    import itertools  # all combinations and all sign choices of a list
+
     P = [gamma[i] @ gamma[i + 4] for i in range(3)]  # gamma^(x1) gamma^(x5), ...
 
 
@@ -605,6 +624,31 @@ CELLS = [
     for (V_w, H_w), found in witnesses.items():
         say(f"witness (V, H) = ({V_w:g}, {H_w:.4g}): frequency omega = "
             f"sqrt(V^2 - 9 H^2) = {found[0]:.6f}")
+
+
+    def product_of(indices):
+        """The product gamma^(a) gamma^(b) ... of the frame gammas with these indices."""
+        result = I16
+        for index in indices:
+            result = result @ gamma[index]
+        return result
+
+
+    subsets = [chosen for size in range(1, 9)
+               for chosen in itertools.combinations(range(8), size)]  # 255 index sets
+    traceless = all(abs(np.trace(product_of(chosen))) < 1e-12 for chosen in subsets)
+    dimensions_hold = True
+    for (V_w, H_w), (freq, A_w, v1, v2, phi0) in witnesses.items():
+        # the dimension of the space of -i omega: 16 minus the rank of A + i omega
+        dimension = 16 - np.linalg.matrix_rank(A_w + 1j * freq * I16, tol=1e-9)
+        for signs in itertools.product((-1, 1), repeat=3):  # the eight sectors
+            keeper = (I16 + 1j / freq * A_w) / 2  # keeps the space of -i omega
+            for sign, P_k in zip(signs, P):
+                keeper = keeper @ (I16 + sign * P_k) / 2  # keeps P_k = sign
+            dimensions_hold = dimensions_hold and abs(np.trace(keeper) - 1) < 1e-12
+        dimensions_hold = dimensions_hold and dimension == 8
+    check(len(subsets) == 255 and traceless and dimensions_hold,
+          "255 gamma products have trace 0; space of -i omega: dim 8; each sector: dim 1")
     '''),
     md(r"""
     The next cell checks each witness: that $A\Phi_0 = -i\omega\Phi_0$ (so
@@ -671,15 +715,17 @@ CELLS = [
     md(r"""
     **The numbers of the record.** The Wolfram report of the record lists, in the
     detail text of its check `condensate_diagonal_witness_exact`, the frequencies
-    $\omega = 4, 3, 4$ (written w there) and $S = 204800, 115200, 204800$ for the
-    three witnesses. Its verifier builds the witnesses in its own (equivalent)
-    Clifford representation and with exact columns $v_1$, $v_2$ that are not of
-    length 1; since $S = 2|v_1^\dagger Cv_2|^2$ grows with the lengths of $v_1$ and
-    $v_2$, its $S$ cannot equal ours, while $\omega = \sqrt{V^2 - 9H^2}$ must agree
-    exactly. The next cell reads the numbers out of the detail text (with a regular
-    expression, a pattern that finds text), checks $\omega$, and divides each $S$ of
-    the record by our $S$: the three quotients are one and the same number, so the
-    record's three values are reproduced up to one common factor.
+    $\omega$ (written w there) and the values of $S$ of the three witnesses. The
+    record's verifier builds the witnesses with exact columns $v_1$, $v_2$ that are
+    not of length 1; since $S = 2|v_1^\dagger Cv_2|^2$ grows with the lengths of
+    $v_1$ and $v_2$, its $S$ cannot equal ours, while $\omega = \sqrt{V^2 - 9H^2}$
+    must agree exactly. The next cell reads the numbers out of the detail text (with
+    a regular expression, a pattern that finds text), prints them, checks $\omega$,
+    and divides each $S$ of the record by our $S$: the three quotients must be one
+    and the same number, so that the record's three values are reproduced up to one
+    common factor, which the cell prints. That factor is the product of the squared
+    lengths of the record's columns, a choice of its verifier, not a physical
+    number.
     """),
     code(r'''
     detail = record_entry(A4_WL, "condensate_diagonal_witness_exact")["detail"]
@@ -971,10 +1017,13 @@ CELLS = [
     - The record's witnesses, built from joint eigenvectors of
       $\gamma^{(1)}\gamma^{(5)}$, $\gamma^{(2)}\gamma^{(6)}$, $\gamma^{(3)}\gamma^{(7)}$,
       make all 15 bilinears vanish: their tensor is diagonal (the record shows it for
-      every $a_4$ and $a_4'$; this notebook checked 36 points). Their
+      every $a_4$ and $a_4'$; this notebook checked 36 points). The space of the
+      eigenvalue $-i\omega$ has dimension 8 and each of its eight sectors dimension
+      1, so $v_1$ and $v_2$ are unique up to a factor of size 1. Their
       $S = 2|v_1^\dagger Cv_2|^2$ is never negative; the record's frequencies
-      $\omega = 4, 3, 4$ are reproduced exactly and its $S = 204800, 115200, 204800$
-      up to one common factor, 160000 (the record's columns are not of length 1).
+      $\omega = 4, 3, 4$ are reproduced exactly and its three values of $S$ up to one
+      common factor (the factor printed above; the record's columns are not of
+      length 1).
       On the deflating history only condensates whose 15 bilinears all vanish, such
       as these, meet the condition of the $a_4$ field equations that the
       off-diagonal entries of the source vanish (one condition among several).

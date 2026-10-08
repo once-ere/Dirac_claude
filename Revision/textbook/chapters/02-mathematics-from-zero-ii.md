@@ -355,7 +355,7 @@ $$
 
 (the logarithm of a product is the sum of the logarithms, and $\log_{10}(h^p) = p \log_{10} h$). As a function of $\log_{10} h$ this is a straight line with **slope** $p$. A **log-log plot** marks both axes in powers of ten, so the errors of a method of order $p$ lie on a straight line of slope $p$, and the order can be read off as a slope. A straight line fitted through measured points by **least squares** (the line that makes the sum of the squared vertical distances smallest) gives the measured order.
 
-**Rounding errors.** A computer stores a number with about 16 significant decimal digits (53 binary digits). The spacing of the stored numbers near 1 is the **machine epsilon** $\epsilon = 2^{-52} \approx 2.2 \times 10^{-16}$, and every arithmetic operation rounds its result to a relative error of at most about $\epsilon/2$. With $N$ steps about $N$ such rounding errors add up, so their total grows like $N \epsilon = \epsilon/h$ while the truncation error $C h^p$ falls. A smaller step is therefore not always better: below some step size the rounding errors take over, and the error grows again. For RK4 on Problem A this **rounding floor** is near $10^{-16}$ (Notebook 02a, In [10]).
+**Rounding errors.** A computer stores a number with about 16 significant decimal digits (53 binary digits). The spacing of the stored numbers near 1 is the **machine epsilon** $\epsilon = 2^{-52} \approx 2.2 \times 10^{-16}$, and every arithmetic operation rounds its result to a relative error of at most about $\epsilon/2$. With $N$ steps about $N$ such rounding errors add up. If all of them had their largest size and the same sign, their total would be about $N \epsilon = \epsilon/h$ times the size of the solution; this is a pessimistic **bound**, the scale of the worst case. In practice the rounding errors have both signs and partly cancel, so their total stays far below the bound; but it still grows with the number of steps, while the truncation error $C h^p$ falls. A smaller step is therefore not always better: below some step size the rounding errors take over, and the error grows again, slowly. For RK4 on Problem A this **rounding floor** is near $10^{-16}$, and with more steps the error grows again but stays 524 to 3709 times below the bound $N\epsilon e^{-1}$ (COMPUTED, Notebook 02a, In [10]).
 
 **Richardson's rule.** In a real problem the exact answer $Y$ is unknown. Suppose a method of order $p$ gives the value $Y_h$ with the step $h$ and the value $Y_{h/2}$ with half the step, and that both errors are already close to $C h^p$:
 
@@ -451,17 +451,35 @@ $$
 R(h) R(-h) = (1 + h)(1 - h) = 1 - h^2
 $$
 
-(again $(a + b)(a - b) = a^2 - b^2$): the product shrinks by the factor $1 - h^2$ at every step, and the compensation of inflation by deflation is lost. For RK4 split $R(h) = c + s$ into its even part $c = 1 + \frac{h^2}{2} + \frac{h^4}{24}$ and its odd part $s = h + \frac{h^3}{6}$; then $R(-h) = c - s$, because the odd powers change sign, and
+(again $(a + b)(a - b) = a^2 - b^2$): the product shrinks by the factor $1 - h^2$ at every step, and the compensation of inflation by deflation is lost. For RK4 split $R(h) = c + s$ into its even part $c = 1 + \frac{h^2}{2} + \frac{h^4}{24}$ and its odd part $s = h + \frac{h^3}{6}$ (the letters $c$ and $s$ now stand for these new polynomials); then $R(-h) = c - s$, because the odd powers change sign, and
 
 $$
-R(h) R(-h) = c^2 - s^2 = 1 + \frac{h^6}{72} + \frac{h^8}{576}
+R(h) R(-h) = (c + s)(c - s) = c^2 - s^2
 $$
 
-(the same algebra as for $c^2 + s^2$ above, now with $+h^2/2$ in $c$ and $+h^3/6$ in $s$, and a minus sign in front of $s^2$: the terms with $h^2$ and $h^4$ cancel, and $\frac{1}{24} - \frac{1}{36} = \frac{1}{72}$). With $h = 0.25$ and 8 steps, Euler multiplies the product by $0.9375^8 = 0.597$, RK4 by a number within $3 \times 10^{-5}$ of 1 (PROVED here; COMPUTED in Notebook 02a, In [6]).
+(again $(a + b)(a - b) = a^2 - b^2$).
+
+$$
+c^2 = 1 + h^2 + \frac{h^4}{4} + \frac{h^4}{12} + \frac{h^6}{24} + \frac{h^8}{576} = 1 + h^2 + \frac{h^4}{3} + \frac{h^6}{24} + \frac{h^8}{576}
+$$
+
+(the square of a sum of three terms, $(a + b + d)^2 = a^2 + b^2 + d^2 + 2ab + 2ad + 2bd$, now with $a = 1$, $b = +h^2/2$, $d = h^4/24$: $a^2 = 1$, $2ab = h^2$, $b^2 = h^4/4$, $2ad = h^4/12$, $2bd = h^6/24$, $d^2 = h^8/576$; then $\frac14 + \frac{1}{12} = \frac13$);
+
+$$
+s^2 = h^2 + \frac{h^4}{3} + \frac{h^6}{36}
+$$
+
+($(a + b)^2 = a^2 + 2ab + b^2$ with $a = h$, $b = +h^3/6$: $a^2 = h^2$, $2ab = h^4/3$, $b^2 = h^6/36$);
+
+$$
+R(h) R(-h) = c^2 - s^2 = 1 + \Big(\frac{1}{24} - \frac{1}{36}\Big) h^6 + \frac{h^8}{576} = 1 + \frac{h^6}{72} + \frac{h^8}{576}
+$$
+
+(we subtract; the terms with $h^2$ and $h^4$ cancel, and $\frac{1}{24} - \frac{1}{36} = \frac{3}{72} - \frac{2}{72} = \frac{1}{72}$). With $h = 0.25$ and 8 steps, Euler multiplies the product by $0.9375^8 = 0.597$, RK4 by a number within $3 \times 10^{-5}$ of 1 (PROVED here; COMPUTED in Notebook 02a, In [6]).
 
 ### 2.8 Example: Euler, midpoint and RK4 on the deflating scale factor and the oscillator
 
-Notebook 02a puts Sections 2.2 to 2.7 to work. It makes one step of each method by hand with exact fractions; derives the amplification factors and the energy factors with sympy; solves the inflating and the deflating scale factor with Euler and RK4 and shows what Euler does to their product; measures the errors of the three methods for step sizes from $1/2$ down to $1/4096$ and reads the orders 1, 2 and 4 from a log-log plot; shows the rounding floor of RK4 with up to 262144 steps; reads the step of the Revision Kohn-Sham solver from its record and checks the predicted errors of Section 2.6 at that step; draws the phase portrait and the energy drift of the oscillator; and tests Richardson's rule. It ends with the line ALL 27 CHECKS PASSED (notebook 02a).
+Notebook 02a puts Sections 2.2 to 2.7 to work. It makes one step of each method by hand with exact fractions; derives the amplification factors and the energy factors with sympy; solves the inflating and the deflating scale factor with Euler and RK4 and shows what Euler does to their product; measures the errors of the three methods for step sizes from $1/2$ down to $1/4096$ and reads the orders 1, 2 and 4 from a log-log plot; shows the rounding floor of RK4 with up to 262144 steps; reads the step of the Revision Kohn-Sham solver from its record and checks the predicted errors of Section 2.6 at that step; draws the phase portrait of the oscillator, measures by what angle each method runs ahead of the exact solution and draws the energy drift; and tests Richardson's rule. It ends with the line ALL 29 CHECKS PASSED (notebook 02a).
 
 <!-- NOTEBOOK 02a -->
 
@@ -1094,10 +1112,10 @@ ax.loglog(h_long[shown], rk4_long[shown], color=COLORS["rk4"], marker="o", ms=5,
 ax.loglog(h_long, errors["rk4"][3] * (h_long / h_array[3]) ** 4, "--",
           color=COLORS["guide"], lw=0.9, label="truncation $C h^4$")
 ax.loglog(h_long, EPS * EXACT_A / h_long, ":", color=COLORS["exact"], lw=1.0,
-          label="rounding scale $N \\epsilon\\, e^{-1}$")
+          label="rounding bound $N \\epsilon\\, e^{-1}$")
 ```
 
-`rk4_long > 0` is an array of `True` and `False`; used as an index (`h_long[shown]`) it keeps only the entries where it is `True`. The measured errors are drawn as circles; the dashed line is the truncation error $C h^4$ through the point $N = 16$; the dotted line is $N \epsilon e^{-1} = \epsilon e^{-1}/h$, the size that $N$ rounding errors of relative size $\epsilon$ can reach (in a Python string `\\` stands for one backslash, which matplotlib's mathematics needs).
+`rk4_long > 0` is an array of `True` and `False`; used as an index (`h_long[shown]`) it keeps only the entries where it is `True`. The measured errors are drawn as circles; the dashed line is the truncation error $C h^4$ through the point $N = 16$; the dotted line is $N \epsilon e^{-1} = \epsilon e^{-1}/h$, the pessimistic bound of Section 2.6: the size that $N$ rounding errors of relative size $\epsilon$ would reach only if all of them had their largest size and the same sign (in a Python string `\\` stands for one backslash, which matplotlib's mathematics needs).
 
 ```python
 ax.set_ylim(1e-18, 1e-2)
@@ -1112,7 +1130,16 @@ report("smallest RK4 error", f"{rk4_long[best]:.3e} at N = {N_LONG[best]}")
 report("RK4 error at N = 262144", f"{rk4_long[-1]:.3e}")
 ```
 
-Axis range, labels, legend, the saved figure `02a_5_rounding_floor.png`, and two RESULT lines: the smallest error is $1.110 \times 10^{-16}$ at $N = 4096$, and the error with 262144 steps is $5.773 \times 10^{-15}$, fifty times larger (COMPUTED). **What Figure 02a.5 shows:** coming from the right (large steps), the error falls along the slope-4 line; near $10^{-16}$ it stops, and for smaller steps it grows again along the rounding line.
+Axis range, labels, legend, the saved figure `02a_5_rounding_floor.png`, and two RESULT lines: the smallest error is $1.110 \times 10^{-16}$ at $N = 4096$, and the error with 262144 steps is $5.773 \times 10^{-15}$, fifty times larger (COMPUTED).
+
+```python
+bound = EPS * EXACT_A * np.array(N_LONG, dtype=float)  # the dotted line
+below = bound[best + 1:] / rk4_long[best + 1:]  # past the minimum: bound / error
+report("bound N eps e^-1 / measured error past the minimum (smallest, largest)",
+       f"{below.min():.0f}, {below.max():.0f}")
+```
+
+`bound` holds the value $N \epsilon e^{-1}$ of the dotted line for each of the eighteen runs. `bound[best + 1:]` keeps the entries after the position of the smallest error (the runs with more steps than $N = 4096$); dividing them by the measured errors of the same runs gives, for each run, how many times its error lies below the bound. The RESULT line prints the smallest and the largest of these ratios, 524 and 3709 (COMPUTED). **What Figure 02a.5 shows:** coming from the right (large steps), the error falls along the slope-4 line; near $10^{-16}$ it stops; for smaller steps it grows again, but slowly and 524 to 3709 times below the dotted bound. The rounding errors partly cancel, so the bound gives only the scale of the worst case, not the error itself.
 
 ```python
 check(rk4_long[best] < 1e-15 and 256 <= N_LONG[best] <= 16384,
@@ -1120,9 +1147,11 @@ check(rk4_long[best] < 1e-15 and 256 <= N_LONG[best] <= 16384,
 check(rk4_long[-1] > 10 * max(rk4_long[best], EPS * EXACT_A)
       and rk4_long[-1] < 1e-11,
       "with 262144 steps rounding has made the error grow again")
+check(np.all(below > 100),
+      "past the minimum the error stays over 100 times below the bound N eps e^-1")
 ```
 
-Two checks: the floor is below $10^{-15}$ and is reached at a moderate $N$; with the most steps the error is more than ten times the floor (so rounding has made it grow), yet still below $10^{-11}$. The checks use ranges rather than exact values, because rounding errors can differ in the last bits from one computer to another.
+Three checks: the floor is below $10^{-15}$ and is reached at a moderate $N$; with the most steps the error is more than ten times the floor (so rounding has made it grow), yet still below $10^{-11}$; and past the minimum every error lies more than 100 times below the bound $N \epsilon e^{-1}$. The checks use ranges rather than exact values, because rounding errors can differ in the last bits from one computer to another.
 
 **In [11], the step of the Revision solver and the first missed term.**
 
@@ -1189,30 +1218,51 @@ The state is a numpy array `Y` with `Y[0]` $= x$ and `Y[1]` $= v$ (positions are
 
 ```python
 angle = np.linspace(0.0, 2 * np.pi, 400)
-fig, ax = plt.subplots(figsize=(5.6, 5.6))
-ax.plot(np.cos(angle), -np.sin(angle), color=COLORS["exact"], lw=1.0,
-        label="exact circle $x^2 + v^2 = 1$")
+t_n = H_OSC * np.arange(51)  # the times 0, 0.2, ..., 10 of the 51 points
+fig, (whole, zoom) = plt.subplots(1, 2, figsize=(10.0, 5.2))
 ```
 
-400 angles from 0 to $2\pi$ give the exact circle $x = \cos t$, $v = -\sin t$, drawn in black in a square figure.
+400 angles from 0 to $2\pi$ will give the exact circle $x = \cos t$, $v = -\sin t$. `t_n` holds the 51 times $t_n = 0.2\, n$ of the computed points. The figure has two panels side by side: `whole` (left) for the whole portrait and `zoom` (right) for a close-up.
 
 ```python
-for name in METHODS:
-    x_n, v_n = portraits[name][:, 0], portraits[name][:, 1]
-    ax.plot(x_n, v_n, color=COLORS[name], marker=MARKERS[name], ms=3, lw=0.9,
-            label=f"{LABELS[name]}, $h = 0.2$, 50 steps")
-ax.plot([1.0], [0.0], "o", color=COLORS["exact"], ms=6)  # the starting point
-ax.set_aspect("equal")
-ax.set_xlabel("position $x$")
-ax.set_ylabel("velocity $v$")
-ax.set_title("Phase portrait of $d^2x/dt^2 = -x$ up to $t = 10$")
-ax.legend(loc="lower left", fontsize=8)
+for name in METHODS:  # left panel: the whole portrait of each method
+    whole.plot(portraits[name][:, 0], portraits[name][:, 1], color=COLORS[name],
+               marker=MARKERS[name], ms=3, lw=0.9,
+               label=f"{LABELS[name]}, $h = 0.2$, 50 steps")
+for name in ("midpoint", "rk4"):  # right panel: the last three points only
+    zoom.plot(portraits[name][48:, 0], portraits[name][48:, 1], ls="none",
+              color=COLORS[name], marker=MARKERS[name], ms=8, label=LABELS[name])
+```
+
+`[:, 0]` is the first column of the array (all the positions) and `[:, 1]` the second (all the velocities). The left panel draws each method's whole path, points joined by lines. The right panel draws only the rows from position 48 on (`[48:, 0]`), the last three points at $t = 9.6$, $9.8$ and $10$, of the midpoint method and RK4, as large markers without lines (`ls="none"`); Euler's points are far outside the window of this panel.
+
+```python
+for ax in (whole, zoom):  # the exact circle, dashed, drawn on top (zorder 5)
+    ax.plot(np.cos(angle), -np.sin(angle), "--", color=COLORS["exact"], lw=0.9,
+            zorder=5, label="exact circle $x^2 + v^2 = 1$")
+    ax.set_aspect("equal")
+    ax.set_xlabel("position $x$")
+    ax.set_ylabel("velocity $v$")
+whole.plot([1.0], [0.0], "o", color=COLORS["exact"], ms=6, zorder=6)  # the start
+zoom.plot(np.cos(t_n[48:]), -np.sin(t_n[48:]), "x", color=COLORS["exact"], ms=9,
+          zorder=6, label="exact solution, same times")
+```
+
+In both panels the exact circle is drawn as a thin dashed black line. `zorder=5` puts it on top of the coloured paths (a drawing with a larger `zorder` covers one with a smaller), so it stays visible where the RK4 path lies on it. `set_aspect("equal")` makes one unit equally long on both axes, so that the circle looks round. The black dot marks the start; in the right panel black crosses mark the exact solution $(\cos t_n, -\sin t_n)$ at the same three times.
+
+```python
+zoom.set_xlim(-1.12, -0.74)  # a window round the points at t = 9.6, 9.8 and 10
+zoom.set_ylim(0.12, 0.66)
+whole.set_title("Phase portrait of $d^2x/dt^2 = -x$ up to $t = 10$")
+zoom.set_title("Zoom: the points at $t = 9.6$, $9.8$, $10$")
+whole.legend(loc="lower left", fontsize=8)
+zoom.legend(loc="upper left", fontsize=8)
 save_figure(fig, "phase_portrait",
             "Phase portrait of the oscillator $d^2x/dt^2 = -x$ started at $x = 1$, "
             ...)
 ```
 
-`[:, 0]` is the first column of the array (all the positions) and `[:, 1]` the second (all the velocities). Each method's path is drawn; the black dot marks the start; `set_aspect("equal")` makes one unit equally long on both axes, so that the circle looks round. The figure is saved as `02a_6_phase_portrait.png`. **What Figure 02a.6 shows:** Euler's path spirals outwards (each step multiplies the energy by $1.04$), the midpoint path drifts slowly outwards, the RK4 path stays on the circle.
+The right panel shows only the window $-1.12 \le x \le -0.74$, $0.12 \le v \le 0.66$ around the last three points. Titles, legends, and the figure is saved as `02a_6_phase_portrait.png`. **What Figure 02a.6 shows:** on the left, Euler's path spirals outwards (each step multiplies the energy by $1.04$), while the midpoint and RK4 paths stay close to the dashed circle; on this scale they are hard to tell apart, because the midpoint radius grows only to $\sqrt{1.0004^{50}} = 1.010$. The zoom on the right separates them: the RK4 circles sit on the exact crosses, while the midpoint triangles have run ahead along the circle and lie slightly outside it.
 
 ```python
 for name in METHODS:
@@ -1225,6 +1275,33 @@ for name in METHODS:
 ```
 
 For each method the energy $E = (x^2 + v^2)/2$ is computed at all 51 points; the exact per-step factor of In [4] is evaluated at $h = 1/5$, and the prediction is $E_n = \frac12 q^n$ for $n = 0, \dots, 50$. The energies after 50 steps are 3.5533416731 (Euler), 0.5100986302 (midpoint) and 0.4999778894 (RK4); the checks require every computed energy to equal its prediction to a relative $10^{-13}$, and they pass: the energy drift of each method is exactly the one derived in Section 2.7.
+
+```python
+angle_agrees = []
+for name in METHODS:
+    x_end, v_end = portraits[name][-1]  # the point at t = 10
+    # the clockwise angle from the exact point e^(-10 i) to the computed one
+    ahead = -np.angle(complex(x_end, v_end) * np.exp(10j))
+```
+
+The last part measures the angle error that the zoom shows. The **argument** $\arg w$ of a complex number $w$ is its angle: the angle between the positive real axis and the arrow from 0 to $w$, counted anticlockwise; `np.angle` computes it, as a number between $-\pi$ and $\pi$. Write the computed point at $t = 10$ as $w = x + i v$ (`complex(x_end, v_end)`; `[-1]` is the last row). The exact solution is $x = \cos t$, $v = -\sin t$, that is $w = \cos t - i \sin t = e^{-it}$, so the exact point at $t = 10$ is $e^{-10i}$. In Python `10j` is the imaginary number $10i$, and `np.exp(10j)` is $e^{10i}$. Multiplying $w$ by $e^{10i}$ turns it back by the exact angle, so the argument of the product is the angle from the exact point to the computed one, counted anticlockwise; the minus sign counts it clockwise, the direction in which the point runs. So `ahead` is positive when the computed point has run ahead of the exact one and negative when it lags behind.
+
+```python
+    R_ih = complex(R[name].subs(z, sp.I * sp.Rational(1, 5)))  # R(ih), h = 0.2
+    predicted_ahead = 50 * (np.angle(R_ih) - 0.2)  # 50 (arg R(ih) - h)
+```
+
+The prediction. `R[name]` is the amplification factor of In [4], a polynomial in `z`; `.subs(z, sp.I * sp.Rational(1, 5))` puts in $z = ih$ with $h = 1/5$ (`sp.I` is sympy's $i$), and `complex(...)` turns the exact sympy number into an ordinary complex number. One step multiplies $w$ by $R(-ih)$ (Section 2.7). Its argument is $-\arg R(ih)$, because $R(-ih)$ is the complex conjugate of $R(ih)$ (the coefficients of $R$ are real) and conjugation reflects a point in the real axis, which reverses its angle. The exact factor $e^{-ih}$ has the argument $-h$. The arguments of a product add up, so after 50 steps the computed point has turned by $-50 \arg R(ih)$ and the exact one by $-50 h$; the computed point is ahead, clockwise, by $50\,(\arg R(ih) - h)$.
+
+```python
+    report(f"t = 10, {LABELS[name]}: radius, angle ahead of the exact point",
+           f"{math.hypot(x_end, v_end):.4f}, {ahead:+.3e} rad")
+    angle_agrees.append(abs(ahead - predicted_ahead) < 1e-12)
+check(all(angle_agrees),
+      "at t = 10 each point is ahead of the exact one by 50 (arg R(ih) - h)")
+```
+
+`math.hypot(x_end, v_end)` is the radius $\sqrt{x^2 + v^2}$ of the end point. The three RESULT lines give the radius and the angle ahead: Euler 2.6658 and $-1.302 \times 10^{-1}$ rad (it lags behind by 0.13 rad); midpoint 1.0100 and $+6.586 \times 10^{-2}$ rad (ahead by 0.066 rad, the shift seen in the zoom); RK4 1.0000 and $-1.314 \times 10^{-4}$ rad (COMPUTED). The RK4 value agrees with the lag of $\omega^5/120$ per step derived in Section 2.24: $50 \cdot 0.2^5/120 = 1.33 \times 10^{-4}$ to leading order. The check requires each measured angle to equal its prediction within $10^{-12}$, and it passes.
 
 **In [13], the energy over a long time.**
 
@@ -1324,7 +1401,7 @@ check(all(present), f"all {len(names)} figure files of notebook 02a exist")
 all_checks_passed()
 ```
 
-`enumerate(names, 1)` numbers the eight figure names from 1. For each, the cell asks whether the file `02a_<k>_<name>.png` exists; the check requires all eight to exist, and `all_checks_passed()` prints the last line, ALL 27 CHECKS PASSED (notebook 02a). The 27 checks are: 3 in In [3], 4 in In [4], 2 in In [5], 3 in In [6], 2 in In [7], 1 in In [8], 1 in In [9], 2 in In [10], 2 in In [11], 3 in In [12], 1 in In [13], 2 in In [14] and 1 in In [15].
+`enumerate(names, 1)` numbers the eight figure names from 1. For each, the cell asks whether the file `02a_<k>_<name>.png` exists; the check requires all eight to exist, and `all_checks_passed()` prints the last line, ALL 29 CHECKS PASSED (notebook 02a). The 29 checks are: 3 in In [3], 4 in In [4], 2 in In [5], 3 in In [6], 2 in In [7], 1 in In [8], 1 in In [9], 3 in In [10], 2 in In [11], 4 in In [12], 1 in In [13], 2 in In [14] and 1 in In [15].
 
 ### 2.12 Boundary-value problems and the shooting method
 
@@ -1555,7 +1632,7 @@ $$
 
 ### 2.14 Example: shooting a string and a quantum well
 
-Notebook 02b carries out Sections 2.12 and 2.13. Part A shoots the string with RK4 (200 steps), draws three shots and the whole shooting function, and finds $\lambda_1 = \pi^2$ both by bisection and by the secant rule, comparing how fast they converge. Part B solves the exact well equations with mpmath at 30 digits, shoots the well with RK4 from $x = -a$ with the even and the odd condition at the centre, refines all four levels at once by bisection, shows how a shot misses, draws the four normalised wave functions, checks their nodes, normalisation and orthogonality, and measures the order 4 of the computed energies. It ends with ALL 15 CHECKS PASSED (notebook 02b).
+Notebook 02b carries out Sections 2.12 and 2.13. Part A shoots the string with RK4 (200 steps), draws three shots and the whole shooting function, and finds $\lambda_1 = \pi^2$ both by bisection and by the secant rule, comparing how fast they converge. Part B solves the exact well equations with mpmath at 30 digits, shoots the well with RK4 from $x = -a$ with the even and the odd condition at the centre, refines all four levels at once by bisection, shows how a shot misses, draws the four normalised wave functions, checks their nodes, normalisation and orthogonality (for states of different parity also numerically), and measures the order 4 of the computed energies. It ends with ALL 16 CHECKS PASSED (notebook 02b).
 
 <!-- NOTEBOOK 02b -->
 
@@ -2187,7 +2264,33 @@ check(np.max(np.abs(gram - np.eye(4))) < 1e-8,
       "the wave functions are normalised and orthogonal within 1e-8")
 ```
 
-`gram` is the 4 by 4 table of all the integrals. For normalised, orthogonal functions it must be the unit matrix `np.eye(4)` (1 on the diagonal, 0 elsewhere); the largest difference is $1.6 \times 10^{-10}$ (COMPUTED), within the required $10^{-8}$.
+`gram` is the 4 by 4 table of all the integrals. For normalised, orthogonal functions it must be the unit matrix `np.eye(4)` (1 on the diagonal, 0 elsewhere); the largest difference is $1.6 \times 10^{-10}$ (COMPUTED), within the required $10^{-8}$. The entries for two states of different parity are set to 0 by `overlap` itself, using the proof; so this check tests the normalisation and the orthogonality of states of the same parity only. The next lines test the different-parity case numerically.
+
+```python
+middle = len(STATES[0][0]) // 2  # the position of x = 0 in the grid -3 ... 3
+whole_line, left_half = [], []
+```
+
+`STATES[0][0]` is the grid of $x$ values from $-3$ to $3$ (the first entry returned by `wave_function`). It has $6n + 1 = 1201$ points, so the integer division `// 2` gives 600, the position of the middle point $x = 0$. Two empty lists will collect the results.
+
+```python
+for m, n in [(0, 1), (0, 3), (1, 2), (2, 3)]:  # the pairs of different parity
+    product = STATES[m][1] * STATES[n][1]  # u_m u_n on the grid
+    h_grid = STATES[m][4]  # the grid spacing a/200
+    whole_line.append(abs(simpson(product, h_grid)))  # from x = -3 to x = 3
+    left_half.append(abs(simpson(product[:middle + 1], h_grid)))  # -3 to 0
+```
+
+The states 0 and 2 are even, 1 and 3 odd, so these are the four pairs of different parity. `STATES[m][1]` is the normalised wave function $u_m$ on the whole grid (the second entry returned by `wave_function`) and `STATES[m][4]` the grid spacing $a/200 = 0.005$. For each pair the product $u_m u_n$ is integrated with Simpson's rule over the whole grid ($-3 \le x \le 3$, 1200 intervals, an even number as Simpson's rule needs) and over the left half alone (`product[:middle + 1]`, the points from $x = -3$ to $x = 0$, 600 intervals); the sizes are stored.
+
+```python
+report("different parity: largest |whole integral|, smallest |left half|",
+       f"{max(whole_line):.1e}, {min(left_half):.2f}")
+check(max(whole_line) < 1e-12 < 0.01 < min(left_half),
+      "different parity: the two halves cancel, the whole integral is 0")
+```
+
+The RESULT line prints the largest whole integral, $9.5 \times 10^{-17}$, and the smallest half integral, 0.16 (COMPUTED). The chained comparison `a < b < c < d` means $a < b$ and $b < c$ and $c < d$: every whole integral is below $10^{-12}$ (zero up to rounding), while every half integral is above 0.01. So the two halves are far from zero each but cancel exactly, as the symmetry argument of Section 2.13 says: the product of an even and an odd function is odd.
 
 **In [11], the order of the computed energies.**
 
@@ -2235,7 +2338,7 @@ check(np.all(level_errors[-1] < 1e-9), "with 1024 steps every energy is within 1
 
 The measured orders are 3.99, 3.98, 3.96 and 3.92 (COMPUTED); the checks require them between 3.8 and 4.3 and every error with 1024 steps below $10^{-9}$.
 
-**In [12], the last check.** It is built like In [15] of Notebook 02a: it checks that the eight figure files `02b_1_trial_solutions_string.png` to `02b_8_eigenvalue_convergence.png` exist and prints ALL 15 CHECKS PASSED (notebook 02b).
+**In [12], the last check.** It is built like In [15] of Notebook 02a: it checks that the eight figure files `02b_1_trial_solutions_string.png` to `02b_8_eigenvalue_convergence.png` exist and prints ALL 16 CHECKS PASSED (notebook 02b).
 
 ```python
 names = ["trial_solutions_string", "shooting_function_string",
@@ -2309,7 +2412,19 @@ $$
 \Delta f \approx s\,\Big(c\, \frac{\partial f}{\partial x} + d\, \frac{\partial f}{\partial y}\Big),
 $$
 
-$s$ times the **dot product** of the direction with the gradient (the dot product of two arrows $(c, d)$ and $(p, q)$ is the number $cp + dq$). Two facts follow. (1) Along the direction $(c, d) = (-\partial f/\partial y,\, \partial f/\partial x)/|\nabla f|$ the bracket is $(-f_y f_x + f_x f_y)/|\nabla f| = 0$: $f$ does not change to first order, so this direction runs along the level curve, and it is perpendicular to the gradient (their dot product is zero). (2) The dot product of a unit arrow with the gradient is largest when the arrow points along the gradient (it is $|\nabla f|$ times the cosine of the angle between them), so the gradient points uphill, in the direction of the steepest increase, and its length is the steepest slope.
+$s$ times the **dot product** of the direction with the gradient (the dot product of two arrows $(c, d)$ and $(p, q)$ is the number $cp + dq$). For short write $f_x = \partial f/\partial x$ and $f_y = \partial f/\partial y$, so that $\nabla f = (f_x, f_y)$, and let
+
+$$
+|\nabla f| = \sqrt{f_x^2 + f_y^2}
+$$
+
+be the **length** of the gradient arrow (Pythagoras' theorem; we take a point where $\nabla f \ne (0, 0)$). Two facts follow. (1) The arrow $(c, d) = (-f_y,\, f_x)/|\nabla f|$ is a unit arrow, because $c^2 + d^2 = (f_y^2 + f_x^2)/|\nabla f|^2 = 1$. Along it the bracket is $c f_x + d f_y = (-f_y f_x + f_x f_y)/|\nabla f| = 0$: $f$ does not change to first order, so this direction runs along the level curve, and it is perpendicular to the gradient (their dot product is zero). (2) Every unit arrow can be written $(c, d) = (\cos\varphi, \sin\varphi)$, where $\varphi$ is its angle to the $x$ axis, and the gradient as $(f_x, f_y) = |\nabla f|\,(\cos\psi, \sin\psi)$ with its angle $\psi$. Then
+
+$$
+c f_x + d f_y = |\nabla f|\,(\cos\varphi\cos\psi + \sin\varphi\sin\psi) = |\nabla f|\cos(\varphi - \psi)
+$$
+
+(insert both; then the addition formula of the cosine, $\cos(a - b) = \cos a\cos b + \sin a\sin b$). The cosine is largest, 1, when $\varphi = \psi$: the change of $f$ per unit length is largest when the arrow points along the gradient, and there it is $|\nabla f|$. So the gradient points uphill, in the direction of the steepest increase, and its length is the steepest slope; in the opposite direction ($\varphi - \psi = \pi$, cosine $-1$) $f$ falls fastest. Notebook 02c, In [4], checks both facts at the point $(1.2, 0.7)$: a step of $10^{-4}$ along the level curve changes $f$ by only $-9.58 \times 10^{-9}$ (a second-order amount), and along the gradient $f$ rises at the rate 1.898407 per unit length, against $|\nabla f| = 1.898293$ (COMPUTED).
 
 **Finite differences.** A computer approximates a derivative from values of the function at nearby points with a small spacing $h$. Taylor's theorem (Section 2.3) gives
 
@@ -2355,7 +2470,29 @@ $$
 E'(h) = \alpha - \frac{\beta}{h^2} = 0, \qquad h_{\rm best} = \sqrt{\beta/\alpha}
 $$
 
-(differentiate term by term; then solve for $h$). For $f = x^2 \sin y$ at $(1.2, 0.7)$ in the variable $y$: $|f| = 0.928$ and $|\partial^2 f/\partial y^2| = |x^2 \sin y| = 0.928$, so $\beta = 2.2 \times 10^{-16} \cdot 0.928 = 2.0 \times 10^{-16}$, $\alpha = 0.46$ and $h_{\rm best} \approx 2 \times 10^{-8}$. For the central difference $E(h) = \alpha h^2 + \beta/h$ with $\alpha = |f'''|/6$, and $E'(h) = 2\alpha h - \beta/h^2 = 0$ gives $h_{\rm best} = (\beta/(2\alpha))^{1/3} \approx 10^{-5}$; for the mixed formula $E = \alpha h^2 + \beta/h^2$ gives $h_{\rm best} = (\beta/\alpha)^{1/4} \approx 10^{-4}$. These are estimates of the scale only (rounding errors are not always of their largest size); Notebook 02c (In [6]) measures the best spacings $1.0 \times 10^{-8}$, $1.8 \times 10^{-6}$ and $5.6 \times 10^{-5}$ (COMPUTED). The lesson: the best spacing is far from the smallest one.
+(differentiate term by term; then solve for $h$). For $f = x^2 \sin y$ at $(1.2, 0.7)$ in the variable $y$: $|f| = 0.928$ and $|\partial^2 f/\partial y^2| = |x^2 \sin y| = 0.928$, so $\beta = 2.2 \times 10^{-16} \cdot 0.928 = 2.0 \times 10^{-16}$, $\alpha = 0.46$ and $h_{\rm best} \approx 2 \times 10^{-8}$. For the central difference $E(h) = \alpha h^2 + \beta/h$ with $\alpha = |f'''|/6$, and $E'(h) = 2\alpha h - \beta/h^2 = 0$ gives $h_{\rm best} = (\beta/(2\alpha))^{1/3} \approx 10^{-5}$ (here $|f'''| = |\partial^3 f/\partial y^3| = |x^2\cos y| = 1.101$, so $\alpha = 0.184$ and $h_{\rm best} = 8 \times 10^{-6}$).
+
+For the mixed formula both parts of the error are different. Its truncation term: the central difference in $y$ is $g(x) = \partial_y f(x, y) + \frac{h^2}{6}\,\partial_y^3 f(x, y) + \dots$ (the series of the central difference above, applied to the slice in $y$; $\partial_y^3$ means $\partial_y$ applied three times), and the central difference in $x$ of $g$ is $\partial_x g + \frac{h^2}{6}\,\partial_x^3 g + \dots$ (the same series in $x$). Inserting $g$ into the second series gives
+
+$$
+\frac{g(x + h) - g(x - h)}{2h} = \partial_x\partial_y f + \frac{h^2}{6}\big(\partial_x\partial_y^3 f + \partial_x^3\partial_y f\big) + \dots
+$$
+
+(the term $\frac{h^2}{6}\partial_x^3 g$ contributes $\frac{h^2}{6}\partial_x^3\partial_y f$; the terms with $h^4$ are left out). Its rounding term: each of the four values of $f$ carries about $\epsilon |f|$, together at most about $4\epsilon|f|$, and the formula divides by $4h^2$, which gives about $\epsilon|f|/h^2$. So
+
+$$
+E(h) = \alpha h^2 + \frac{\beta}{h^2}, \qquad \alpha = \frac{|\partial_x\partial_y^3 f + \partial_x^3\partial_y f|}{6}, \quad \beta = \epsilon |f|
+$$
+
+(the truncation term plus the rounding term);
+
+$$
+E'(h) = 2\alpha h - \frac{2\beta}{h^3} = 0, \qquad h^4 = \frac{\beta}{\alpha}, \qquad h_{\rm best} = \Big(\frac{\beta}{\alpha}\Big)^{1/4}
+$$
+
+(differentiate term by term, using $d(h^{-2})/dh = -2h^{-3}$; multiply by $h^3/(2\alpha)$; take the fourth root). For $f = x^2\sin y$: $\partial_y^3 f = -x^2\cos y$, so $\partial_x\partial_y^3 f = -2x\cos y$, while $\partial_x^3\partial_y f = \partial_x^3(x^2\cos y) = 0$ (the third derivative of $x^2$ is 0). At $(1.2, 0.7)$ this gives $\alpha = 2 \cdot 1.2 \cdot \cos 0.7/6 = 0.306$ and $h_{\rm best} = (2.0 \times 10^{-16}/0.306)^{1/4} = 1.6 \times 10^{-4}$, of the order $10^{-4}$.
+
+These are estimates of the scale only (rounding errors are not always of their largest size); Notebook 02c (In [6]) measures the best spacings $1.0 \times 10^{-8}$, $1.8 \times 10^{-6}$ and $5.6 \times 10^{-5}$ (COMPUTED). The lesson: the best spacing is far from the smallest one.
 
 ### 2.19 The chain rule and the derivatives of the author's metric
 
@@ -2514,7 +2651,7 @@ $$
 
 ### 2.20 Example: partial derivatives of a model function and of the author's metric
 
-Notebook 02c carries out Sections 2.18 and 2.19. It differentiates $f = x^2\sin y$ with sympy, checks Schwarz's theorem, draws the level curves with the gradient arrows and two slices with their tangent lines, measures the orders and the rounding limits of three finite-difference formulas, checks the chain rule for $z = 6Hx_8$, and then reads the author's metric from the Revision record and computes its rates along $x_4$ and $x_8$, the volume factor $\cos z$, Jacobi's formula and all 25 Christoffel entries. It ends with ALL 16 CHECKS PASSED (notebook 02c).
+Notebook 02c carries out Sections 2.18 and 2.19. It differentiates $f = x^2\sin y$ with sympy, checks Schwarz's theorem, draws the level curves with the gradient arrows and checks that the gradient is perpendicular to them and points uphill, draws two slices with their tangent lines, measures the orders and the rounding limits of three finite-difference formulas, checks the chain rule for $z = 6Hx_8$, and then reads the author's metric from the Revision record and computes its rates along $x_4$ and $x_8$, the volume factor $\cos z$, Jacobi's formula and all 25 Christoffel entries. It ends with ALL 17 CHECKS PASSED (notebook 02c).
 
 <!-- NOTEBOOK 02c -->
 
@@ -2626,6 +2763,25 @@ check(abs(gx * tangent[0] + gy * tangent[1]) < 1e-15 and abs(change) < 1e-7,
 ```
 
 `gx` and `gy` are the gradient's components at $(1.2, 0.7)$. `math.hypot(gx, gy)` is the length $\sqrt{g_x^2 + g_y^2}$, so `tangent` is the unit arrow $(-g_y, g_x)/|\nabla f|$ of Section 2.18. A step of $10^{-4}$ along it changes $f$ by only $-9.58 \times 10^{-9}$ (COMPUTED), a second-order amount ($10^{-8}$ is the square of $10^{-4}$). The check requires the dot product of the gradient with this direction to vanish (up to rounding) and the change of $f$ to be below $10^{-7}$.
+
+```python
+length = math.hypot(gx, gy)  # the length |grad f| of the gradient arrow
+rise = F(X0 + step * gx / length, Y0 + step * gy / length) - F(X0, Y0)
+report("rise of f per unit length along the gradient, |grad f|",
+       f"{rise / step:.6f}, {length:.6f}")
+```
+
+Now the second fact of Section 2.18. `length` is $|\nabla f| = \sqrt{g_x^2 + g_y^2}$, and $(g_x, g_y)/|\nabla f|$ is the unit arrow along the gradient. `rise` is the change of $f$ for a step of $10^{-4}$ along it, and `rise / step` the change per unit length. The RESULT line prints 1.898407 and $|\nabla f| = 1.898293$ (COMPUTED): along the gradient $f$ rises at the rate $|\nabla f|$, the steepest slope; the two differ by $1.1 \times 10^{-4}$, the second-order term of the step.
+
+```python
+gxq, gyq = FX(xq, yq), FY(xq, yq)  # the arrows of the figure
+lengths = np.hypot(gxq, gyq)
+rises = F(xq + step * gxq / lengths, yq + step * gyq / lengths) - F(xq, yq)
+check(abs(rise / step / length - 1) < 1e-3 and np.all(rises > 0),
+      "the gradient points uphill: f rises at the rate |grad f| along it")
+```
+
+The same test at all 120 points of the coarse grid of the figure: `gxq`, `gyq` are the components of the 120 arrows, `np.hypot` their lengths (one for each point), and `rises` the change of $f$ for a step of $10^{-4}$ along each arrow. The check requires the measured rate at $(1.2, 0.7)$ to equal $|\nabla f|$ within one part in a thousand, and every one of the 120 rises to be positive: every arrow of Figure 02c.1 points uphill.
 
 **In [5], two slices and their slopes.**
 
@@ -3047,7 +3203,7 @@ check(all(present), f"all {len(names)} figure files of notebook 02c exist")
 all_checks_passed()
 ```
 
-As in Notebook 02a: the six figure files must exist; the last line is ALL 16 CHECKS PASSED (notebook 02c). The 16 checks are: 2 in In [3], 1 in In [4], 1 in In [5], 2 in In [6], 1 in In [7], 1 in In [8], 2 in In [9], 1 in In [10], 3 in In [11], 1 in In [12] and 1 in In [13].
+As in Notebook 02a: the six figure files must exist; the last line is ALL 17 CHECKS PASSED (notebook 02c). The 17 checks are: 2 in In [3], 2 in In [4], 1 in In [5], 2 in In [6], 1 in In [7], 1 in In [8], 2 in In [9], 1 in In [10], 3 in In [11], 1 in In [12] and 1 in In [13].
 
 ### 2.24 Two first-order equations, the Prüfer angle and Newton's method
 

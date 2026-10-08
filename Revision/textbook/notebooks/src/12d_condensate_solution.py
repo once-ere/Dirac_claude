@@ -85,6 +85,17 @@ FACTS = {
          "the notebook reads the Revision records of the repository. Run it inside the "
          "folder Revision/textbook/notebooks of a complete copy of the repository made "
          "with git clone, not on a copy of the notebook file alone."],
+        ["\"Jupyter command `jupyter-nbconvert` not found\" or \"Jupyter command "
+         "`jupyter-lab` not found\" after typing `python -m jupyter`",
+         "the program jupyter starts its parts nbconvert and lab as separate programs, "
+         "which it looks for in the folders of the search path PATH, and the folder that "
+         "holds them is not on it. Start the two parts as Python modules instead, with "
+         "the environment active (Step 4) and in the folder Revision/textbook/notebooks "
+         "(Step 5): the first command below opens the notebook in JupyterLab, the second "
+         "runs it headless",
+         ["python -m jupyterlab 12d_condensate_solution.ipynb",
+          "python -m nbconvert --to notebook --execute --inplace "
+          "12d_condensate_solution.ipynb"]],
     ],
 }
 
@@ -421,8 +432,9 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws the frequency $w = \sqrt{M^2 - 9H^2}$ against $M/H$ and, as
-    dots, the imaginary parts of the 16 eigenvalues of $\mathcal{A}$ computed
-    numerically at a few values of $M$ (they are $\pm iw$, each eight times). For
+    dots, the absolute values of the imaginary parts of the 16 eigenvalues of
+    $\mathcal{A}$ computed numerically at a few values of $M$. It also counts the
+    eigenvalues with a positive imaginary part: they are $\pm iw$, each eight times. For
     $|M| < 3H$ the eigenvalues are real, $\pm\sqrt{9H^2 - M^2}$: the condensate grows
     or decays exponentially instead of oscillating (shaded band). The examples of this
     notebook use $M = \pm 5H$, where $w = 4H$.
@@ -436,12 +448,14 @@ CELLS = [
             color="tab:blue")
     ax.axvspan(-3.0, 3.0, color="grey", alpha=0.2, label="$|M| < 3H$: no oscillation")
     worst = 0.0  # the largest deviation of a numerical eigenvalue from +-i w
+    upper = []  # for each mass: how many eigenvalues have a positive imaginary part
     for M_value in (-7.0, -5.0, -4.0, 4.0, 5.0, 7.0):
         matrix = np.array(condensate_matrix(M_value, 1).tolist(), dtype=float)
         eigenvalues = np.linalg.eigvals(matrix)
         w_value = np.sqrt(M_value ** 2 - 9.0)
         worst = max(worst, np.max(np.abs(np.abs(eigenvalues.imag) - w_value)),
                     np.max(np.abs(eigenvalues.real)))
+        upper.append(int(np.sum(eigenvalues.imag > 0)))  # the ones near +i w
         ax.plot([M_value] * 16, np.abs(eigenvalues.imag), "o", color="black",
                 markersize=4, zorder=3)  # zorder 3: drawn on top of the red squares
     ax.plot([], [], "o", color="black", markersize=4,
@@ -453,15 +467,18 @@ CELLS = [
     ax.set_title("The frequency of a homogeneous condensate")
     ax.legend(fontsize=8, loc="upper center")
     say(f"largest deviation of a numerical eigenvalue from +-i w: {worst:.0e}")
-    check(worst < 1e-9, "the 16 eigenvalues of A are +-i w (numerically, six masses)")
+    say(f"eigenvalues near +i w, for each of the six masses: {upper}")
+    check(worst < 1e-9 and upper == [8] * 6,
+          "the 16 eigenvalues of A are +i w and -i w, eight of each (six masses)")
     save_figure(fig, "condensate_frequency",
                 "The frequency $w$ of a homogeneous condensate of dirac16complex00 in "
                 "the author's metric as a function of its effective mass $M = m + "
                 "\\lambda S$, both in units of $H$: the curve $w = \\sqrt{M^2 - 9H^2}$ "
                 "from $\\mathcal{A}^2 = -(M^2 - 9H^2)$, and as black dots the absolute "
                 "imaginary parts of the 16 eigenvalues of the 16 by 16 matrix "
-                "$\\mathcal{A}$, computed numerically at six masses (each dot is eight "
-                "eigenvalues). In the grey band $|M| < 3H$ the eigenvalues are real and "
+                "$\\mathcal{A}$, computed numerically at six masses (each dot stands "
+                "for all 16 eigenvalues of its mass, eight equal to $+iw$ and eight "
+                "equal to $-iw$). In the grey band $|M| < 3H$ the eigenvalues are real and "
                 "the condensate grows or decays instead of oscillating. The red squares "
                 "mark $M = \\pm 5H$, $w = 4H$, the masses used in this notebook. The "
                 "hidden-direction term $3H\\gamma^{(x_8)}$ of the field equation shifts "
@@ -793,8 +810,8 @@ CELLS = [
     md(r"""
     ## 12. Three exact solutions of the coupled equations
 
-    With $H = \kappa = 1$ and the slopes $A = 1$ (the author's deflating history) and
-    $A = \sqrt5$:
+    With $H = \kappa = 1$ and the slopes $A = 1$ (the canonical deflating history of
+    the Revision record) and $A = \sqrt5$:
 
     | example | $A$ | $\Lambda$ | $M$ | $S$ | $m$ | $\lambda$ | $\rho$ | $p$ |
     | --- | --- | --- | --- | --- | --- | --- | --- | --- |

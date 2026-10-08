@@ -183,7 +183,14 @@ CELLS = [
     - D_\mu\bar\Phi \gamma^\nu\Phi + \bar\Phi\gamma_\mu D^\nu\Phi
     - D^\nu\bar\Phi \gamma_\mu\Phi)$, with $\gamma_\mu = g_{\mu\mu}\gamma^\mu$ and
     $D^\nu = g^{\nu\nu}D_\nu$. The sign convention is $\rho = -T^{x_4}{}_{x_4}$ and
-    $p_\mu = T^\mu{}_\mu$ (no sum) for $\mu \neq x_4$.
+    $p_\mu = T^\mu{}_\mu$ (no sum) for $\mu \neq x_4$. This symmetric (Belinfante)
+    tensor is the symmetric part of the tensor that a variation of the vielbein
+    gives (record formula `T_variation`, which has an extra spin-density term); the
+    two are equal on every solution of the field equation, and for other
+    configurations they agree only on the diagonal. This notebook, like the book,
+    uses the symmetric tensor `T_symmetric`; so the lowered table $T_{\nu\mu}$
+    computed below for random values, which do not solve the field equation, is
+    symmetric by construction.
 
     **The diagonal entries.** With the kinetic term of direction $\mu$,
     $K_\mu = \frac{1}{2f_\mu}(\bar\Phi\gamma^{(\mu)}\partial_\mu\Phi

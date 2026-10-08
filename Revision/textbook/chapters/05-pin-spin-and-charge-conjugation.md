@@ -366,7 +366,8 @@ Reading the table: $C$ maps row 1 to column 5 with the sign $-$, so $C_{1,5} = -
 | (B1): $B = -iC\gamma^{(x4)}$ is purely imaginary | PROVED | `wolfram-algebra.json`, checks `B_definition` and `B_purely_imaginary` |
 | (B2) to (B4): $B$ is Hermitian, $BB = 1$, $\mathrm{tr}\,B = 0$, characteristic polynomial $(\lambda - 1)^8(\lambda + 1)^8$ | PROVED | `python-algebra.json`, check `B_hermitian_involution_signature`; `wolfram-algebra.json`, checks `B_Hermitian`, `B_squared_identity` and `B_signature_8_8` |
 | (B5): the commutation signs of $B$ | PROVED | `python-algebra.json`, check `B_gamma_relations` |
-| the total charge $Q$ is conserved | PROVED in the record (derived in Chapter 21) | `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity` |
+| the local law $\sum_\mu\partial_\mu(\cos z\,J^\mu) = 0$ for every solution | PROVED in the record (derived in Chapter 21) | `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity` |
+| the total charge $Q$ is constant in time for every solution whose current flux through the boundary of the seven other directions vanishes | PROVED (from the local law, above; the boundary terms in Chapter 21) | the same check, together with the fundamental theorem of calculus |
 
 Notebook 05a re-checks the first three rows.
 
@@ -1959,7 +1960,47 @@ $$
 
 Products of exponentials keep it too: if $R_1^TCR_1 = C$ and $R_2^TCR_2 = C$, then $(R_1R_2)^TC(R_1R_2) = R_2^T(R_1^TCR_1)R_2 = C$. Since $R$ is real, $(R\Psi)^\dagger C(R\Psi) = \Psi^\dagger R^TCR\Psi = \Psi^\dagger C\Psi$: **the scalar $S$ is invariant** under every product of exponentials.
 
-Second, $B = -iC\gamma^{(x4)}$. For a generator that does not involve $x4$ ($a, b \neq x4$), $(S^{ab})^\dagger B + BS^{ab} = 0$; for the seven generators $S^{(x4)b}$, $(S^{(x4)b})^\dagger B + BS^{(x4)b} = iC\gamma^b \neq 0$. Proof of the second statement (the first is similar): with $S = \tfrac12\gamma^{(x4)}\gamma^b$ ($S$ is real, so $S^\dagger = S^T$),
+Second, $B = -iC\gamma^{(x4)}$. For a generator that does not involve $x4$ ($a, b \neq x4$), $(S^{ab})^\dagger B + BS^{ab} = 0$; for the seven generators $S^{(x4)b}$, $(S^{(x4)b})^\dagger B + BS^{(x4)b} = iC\gamma^b \neq 0$.
+
+Proof of the first statement, line by line. Let $a \neq b$, both different from $x4$, and $S = S^{ab} = \tfrac12\gamma^a\gamma^b$. $S$ is real, so $S^\dagger = S^T$. First, by Rule 4 with $k = 2$,
+
+$$
+S^T = \tfrac12(-1)^{1}\eta_{aa}\eta_{bb}\,\gamma^a\gamma^b = -\tfrac12\eta_{aa}\eta_{bb}\,\gamma^a\gamma^b .
+$$
+
+Second, multiply by $B = -iC\gamma^{(x4)}$ from the right; the two minus signs give a plus:
+
+$$
+S^TB = \tfrac{i}2\,\eta_{aa}\eta_{bb}\,\gamma^a\gamma^bC\gamma^{(x4)} .
+$$
+
+Third, move $C$ to the front with (C1) in the form $\gamma^cC = -\eta_{cc}C\gamma^c$, first past $\gamma^b$, then past $\gamma^a$:
+
+$$
+\gamma^a\gamma^bC = \gamma^a(-\eta_{bb}C\gamma^b) = -\eta_{bb}(\gamma^aC)\gamma^b = -\eta_{bb}(-\eta_{aa}C\gamma^a)\gamma^b = \eta_{aa}\eta_{bb}\,C\gamma^a\gamma^b ,
+$$
+
+so that, with $(\eta_{aa}\eta_{bb})^2 = 1$,
+
+$$
+S^TB = \tfrac{i}2\,(\eta_{aa}\eta_{bb})^2\,C\gamma^a\gamma^b\gamma^{(x4)} = \tfrac{i}2\,C\gamma^a\gamma^b\gamma^{(x4)} .
+$$
+
+Fourth, $\gamma^{(x4)}$ commutes with the pair $\gamma^a\gamma^b$: by Rule 1 it passes two factors that are both different from $x4$, which costs $(-1)^2 = +1$. So $\gamma^a\gamma^b\gamma^{(x4)} = \gamma^{(x4)}\gamma^a\gamma^b$ and
+
+$$
+S^TB = \tfrac{i}2\,C\gamma^{(x4)}\gamma^a\gamma^b .
+$$
+
+Fifth, directly from the definitions,
+
+$$
+BS = -iC\gamma^{(x4)}\,\tfrac12\gamma^a\gamma^b = -\tfrac{i}2\,C\gamma^{(x4)}\gamma^a\gamma^b .
+$$
+
+The sum of the last two lines is zero: $S^\dagger B + BS = 0$.
+
+Proof of the second statement: with $S = \tfrac12\gamma^{(x4)}\gamma^b$ ($S$ is real, so $S^\dagger = S^T$),
 
 $$
 BS = -\tfrac{i}2C\gamma^{(x4)}\gamma^{(x4)}\gamma^b = \tfrac{i}2C\gamma^b, \qquad S^TB = -\tfrac{i}2\eta_{bb}\gamma^{(x4)}\gamma^bC\gamma^{(x4)} = \tfrac{i}2C\gamma^{(x4)}\gamma^b\gamma^{(x4)} = \tfrac{i}2C\gamma^b ,
@@ -3563,7 +3604,7 @@ The last line reads ALL 24 CHECKS PASSED (notebook 05f): one each in In [2] and 
 
 ### 5.28 Charge conjugation is a matrix
 
-**The question.** Every known particle has an **antiparticle** with the same mass and the opposite charge; the positron is the antiparticle of the electron. In a field theory the step from a solution to its antiparticle solution is made by a map called **charge conjugation**: it turns every solution of the field equation into another solution whose charge density has the opposite sign. In the usual four-dimensional Dirac theory this map contains a complex conjugation of the components together with a fixed matrix. In the author's theory one fact changes the picture: the eight gammas are real (Section 5.2). Take a **real** field, one whose 16 components are real numbers at every point, so that $\Psi^\ast = \Psi$. On such a field the complex conjugation $\Psi \to \Psi^\ast$ changes nothing at all: it is the identity map. A map that changes nothing cannot exchange matter and antimatter. So whatever charge conjugation is in this theory, it must be made by a **matrix**, and this section finds every matrix that can do the job. The answer (Theorem CC below) is: exactly two, up to a factor, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$. The Revision record that this section follows is the lead check `Revision/lead_checks/charge_conjugation_and_u1.py` with its report `Revision/lead_checks/reports/charge-conjugation-and-u1.json` (12 of 12 checks passed); Notebook 05c reproduces ten of its checks.
+**The question.** Every known particle has an **antiparticle** with the same mass and the opposite charge; the positron is the antiparticle of the electron. In a field theory the step from a solution to its antiparticle solution is made by a map called **charge conjugation**: it turns every solution of the field equation into another solution whose charge density has the opposite sign. In the usual four-dimensional Dirac theory this map contains a complex conjugation of the components together with a fixed matrix. In the author's theory one fact changes the picture: the eight gammas are real (Section 5.2). Take a **real** field, one whose 16 components are real numbers at every point, so that $\Psi^\ast = \Psi$. On such a field the complex conjugation $\Psi \to \Psi^\ast$ changes nothing at all: it is the identity map. A map that changes nothing cannot exchange matter and antimatter. So whatever charge conjugation is in this theory, it must be made by a **matrix**. This section derives the condition that such a matrix must obey together with every gamma, takes that condition as the definition of a charge-conjugation matrix (as the Revision record does), and finds every matrix that obeys it. The answer (Theorem CC below) is: exactly two, up to a factor, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$. The Revision record that this section follows is the lead check `Revision/lead_checks/charge_conjugation_and_u1.py` with its report `Revision/lead_checks/reports/charge-conjugation-and-u1.json` (12 of 12 checks passed); Notebook 05c reproduces ten of its checks.
 
 **The field equation.** Chapter 7 derives, from the Lagrangian of the Revision record, the field equation of both fields of the author,
 
@@ -3573,15 +3614,15 @@ $$
 
 Here the index $\mu$ runs over the eight coordinates and a repeated index is summed (the **sum convention** of Chapter 1); $\gamma^\mu = e^\mu{}_a\gamma^a$ are the gammas of the curved space, made from the constant gammas $\gamma^a$ with the **vielbein** $e^\mu{}_a$, a set of real factors that Chapter 6 computes from the author's metric; $D_\mu = \partial_\mu + \Omega_\mu$ is the **covariant derivative**, the partial derivative $\partial_\mu$ along the coordinate $\mu$ plus a $16 \times 16$ matrix $\Omega_\mu$, the **spin connection**, which is a combination of the generators $S^{ab}$ with real coefficients (Chapter 6); $m$ is the mass; $U(S)$ is the self-interaction, a function of the scalar $S = \bar\Psi\Psi$, with derivative $U'(S)$; for the record's choice $U = \tfrac\lambda2S^2$ one has $V = m + \lambda S$. Only one property of this equation is needed now: **every matrix in it is real.** The gammas are real (Section 5.2), the vielbein factors are real, the number $V$ is real, and the Revision record checks that every entry of every $\Omega_\mu$ is a real expression (check `spinor_connection_real` of the lead report).
 
-**Definition.** A **charge-conjugation matrix** is a constant $16 \times 16$ matrix $\mathcal{C}$ such that, whenever $\Psi$ solves the field equation, the column
+**What we want.** We look for a constant $16 \times 16$ matrix $\mathcal{C}$ such that, whenever $\Psi$ solves the field equation, the column
 
 $$
 \Psi^c = \mathcal{C}\,\bar\Psi^T
 $$
 
-solves the field equation of the same form, either with the same $V$ (**same mass**) or with $-V$ (**mass reversed**). Here $\bar\Psi = \Psi^\dagger C$ is the Dirac adjoint of Section 5.4, a row, and $\bar\Psi^T$ is that row turned into a column.
+solves the field equation of the same form, either with the same $V$ (**same mass**) or with $-V$ (**mass reversed**). Here $\bar\Psi = \Psi^\dagger C$ is the Dirac adjoint of Section 5.4, a row, and $\bar\Psi^T$ is that row turned into a column. This wish is not yet the definition; the definition comes after Step 4, below.
 
-**From the definition to an equation for a matrix, line by line.** First the column $\bar\Psi^T$:
+**From the wish to an equation for a matrix, line by line.** First the column $\bar\Psi^T$:
 
 $$
 \bar\Psi^T = (\Psi^\dagger C)^T = C^T(\Psi^\dagger)^T = C\Psi^\ast .
@@ -3591,7 +3632,7 @@ The first step is the definition of $\bar\Psi$; the second is the rule $(XY)^T =
 
 - Step 1 (conjugate the equation). The complex conjugate of a product is the product of the complex conjugates, a real factor is its own conjugate, and the derivative of the conjugate is the conjugate of the derivative (the coordinates are real). So the conjugate of $\gamma^\mu D_\mu\Psi = V\Psi$ is $\gamma^\mu D_\mu\Psi^\ast = V\Psi^\ast$: **the column $\Psi^\ast$ solves the same equation.**
 - Step 2 (multiply by a constant matrix). Multiply from the left by $M$: $M\gamma^\mu D_\mu\Psi^\ast = V\,M\Psi^\ast$; the number $V$ may stand on either side of $M$.
-- Step 3 (the condition on $M$). Suppose that, with one sign $s$ ($+1$ or $-1$) for all eight directions,
+- Step 3 (a condition on $M$ that is enough). Suppose that, with one sign $s$ ($+1$ or $-1$) for all eight directions,
 
 $$
 M\gamma^a = s\,\gamma^aM \qquad \text{for } a = x1, \dots, x8 .
@@ -3606,10 +3647,26 @@ $$
 
 **The new field $M\Psi^\ast$ solves the equation with $V$ when $s = +1$ and with $-V$ when $s = -1$.** Because the gammas are real, $(\gamma^a)^\ast = \gamma^a$, and the condition of Step 3 can be written $M(\gamma^a)^\ast = s\,\gamma^aM$; this is the form that the Revision record solves (it would also be the right form for complex gammas). One more remark about $V = m + \lambda S$, which depends on the field through $S$: Section 5.29 shows that for commuting components both matrices found below give a new field with the same $S$ as $\Psi$. Then $sV = s\,m + s\,\lambda S$, so the new field solves the field equation with the parameters $(m, \lambda)$ when $s = +1$ and $(-m, -\lambda)$ when $s = -1$. For a free field ($\lambda = 0$) only the mass matters. (For anticommuting components the table of Section 5.29 shows that the scalar changes its sign; this affects only the self-interaction term, and Section 5.34 treats the quantised field.)
 
+**Definition.** A **charge-conjugation matrix** is a constant $16 \times 16$ matrix $\mathcal{C}$ for which the matrix $M = \mathcal{C}C$ obeys the **intertwiner condition**
+
+$$
+M(\gamma^a)^\ast = s\,\gamma^aM \qquad \text{for } a = x1, \dots, x8 ,
+$$
+
+with one sign $s$ ($+1$ or $-1$) for all eight directions. It is called **same mass** when $s = +1$ and **mass reversed** when $s = -1$. (The name: in the words of Section 5.11, $M$ is an intertwiner from the list of the conjugated gammas $(\gamma^a)^\ast$ to the list of the matrices $s\,\gamma^a$.) This is the definition of the Revision record: its checks `intertwiners_same_mass` and `intertwiners_reversed_mass` solve exactly this condition. Steps 1 to 4 prove that every charge-conjugation matrix does what we wanted: for every solution $\Psi$, the column $\Psi^c = M\Psi^\ast$ solves the field equation with $sV$.
+
+**Why the definition is the condition and not the wish.** Steps 1 to 4 show that the condition is enough for the wish. The converse is not true in general: a matrix can turn every solution into a solution without obeying the condition. Here is an example, line by line, for $V = 0$ (mass $m = 0$ and no self-interaction, $\lambda = 0$), a case that the field equation allows. Take $M = P_- = \tfrac12(1 - \Gamma)$, the chiral projector of Section 5.5, so that $\mathcal{C} = P_-C$.
+
+1. $P_-$ is a combination of $1$ and of $\Gamma$, a product of eight gammas, so it is even, and by (X3) it commutes with every $S^{ab}$, hence with every $\Omega_\mu$; as a constant matrix it commutes with every $\partial_\mu$. So $P_-D_\mu = D_\mu P_-$.
+2. Section 5.5 proved $\gamma^aP_- = P_+\gamma^a$ for every $a$. Multiplying by the vielbein numbers $e^\mu{}_a$ and adding over $a$ gives $\gamma^\mu P_- = P_+\gamma^\mu$.
+3. For every solution $\Psi$: $\gamma^\mu D_\mu(P_-\Psi^\ast) = \gamma^\mu P_-D_\mu\Psi^\ast = P_+\gamma^\mu D_\mu\Psi^\ast = P_+(V\Psi^\ast) = 0$. The first step is line 1, the second is line 2, the third is Step 1 (the column $\Psi^\ast$ solves the equation), the fourth is $V = 0$.
+
+So $P_-\Psi^\ast$ solves the equation with $V = 0$, which is also $-V$: the matrix $P_-C$ fulfils the wish. It does not obey the condition, for either sign. Proof: Section 5.5 also gives $P_-\gamma^a = \gamma^aP_+$ (the same rule with the halves exchanged). If $P_-\gamma^a = s\,\gamma^aP_-$ held, then $\gamma^aP_+ = s\,\gamma^aP_-$; multiplying from the left by $\eta_{aa}\gamma^a$ and using $\eta_{aa}\gamma^a\gamma^a = \eta_{aa}\eta_{aa}1 = 1$ gives $P_+ = s\,P_-$; multiplying this from the right by $P_+$ gives $P_+P_+ = s\,P_-P_+$, that is $P_+ = 0$ (because $P_+P_+ = P_+$ and $P_-P_+ = 0$, Section 5.5). But $P_+ = \mathrm{diag}(0, 1_8)$ is not zero: a contradiction. So with the wish as the definition, the count "exactly two" of Theorem CC would be false for $V = 0$; with the condition as the definition, it is proved below. For $V \neq 0$ this book does not study whether some matrix outside the condition fulfils the wish in the author's metric (OPEN); nothing in this book depends on that question, and every later chapter uses the condition.
+
 **Theorem CC (the two charge-conjugation matrices).**
 
 - (a) The solutions $M$ of $M(\gamma^a)^\ast = +\gamma^aM$ for all $a$ are the multiples of $1$; the solutions of $M(\gamma^a)^\ast = -\gamma^aM$ for all $a$ are the multiples of $\Gamma$.
-- (b) Hence there are exactly two charge-conjugation matrices, up to a factor: $\mathcal{C}_+ = C$ (same mass), with $\Psi^c = \mathcal{C}_+\bar\Psi^T = \Psi^\ast$, and $\mathcal{C}_- = \Gamma C$ (mass reversed), with $\Psi^c = \mathcal{C}_-\bar\Psi^T = \Gamma\Psi^\ast$.
+- (b) Hence, by the definition above, there are exactly two charge-conjugation matrices, up to a factor: $\mathcal{C}_+ = C$ (same mass), with $\Psi^c = \mathcal{C}_+\bar\Psi^T = \Psi^\ast$, and $\mathcal{C}_- = \Gamma C$ (mass reversed), with $\Psi^c = \mathcal{C}_-\bar\Psi^T = \Gamma\Psi^\ast$. By Steps 1 to 4, the first maps every solution to a solution with $V$, the second to a solution with $-V$.
 - (c) They obey $\mathcal{C}_+^{-1}\gamma^a\mathcal{C}_+ = -(\gamma^a)^T$ and $\mathcal{C}_-^{-1}\gamma^a\mathcal{C}_- = +(\gamma^a)^T$ for every $a$; both are real and symmetric, and $\mathcal{C}_+\mathcal{C}_+ = \mathcal{C}_-\mathcal{C}_- = 1$.
 
 *Proof of (a).* The gammas are real, so the condition reads $M\gamma^a = s\,\gamma^aM$. For $s = +1$, $M$ commutes with all eight gammas, and by Theorem P of Section 5.13 it is a multiple of $1$. For $s = -1$, $M$ anticommutes with every gamma. Then $\Gamma M$ commutes with every gamma:
@@ -3620,7 +3677,7 @@ $$
 
 The first step is (X2) of Section 5.5 ($\Gamma$ anticommutes with every gamma); the second is the condition, read as $\gamma^aM = -M\gamma^a$; the third collects the two signs. By Theorem P, $\Gamma M = \lambda 1$ for some number $\lambda$; multiplying from the left by $\Gamma$ and using $\Gamma\Gamma = 1$ (X1) gives $M = \lambda\Gamma$. Conversely, $1$ commutes with every gamma and $\Gamma$ anticommutes with every gamma (X2), so both are solutions. The two solution spaces are therefore one-dimensional, spanned by $1$ and by $\Gamma$.
 
-*Proof of (b).* $\mathcal{C} = MC$ (above). $M = 1$ gives $\mathcal{C}_+ = C$ and $\Psi^c = 1\,\Psi^\ast = \Psi^\ast$; $M = \Gamma$ gives $\mathcal{C}_- = \Gamma C$ and $\Psi^c = \Gamma\Psi^\ast$.
+*Proof of (b).* By the definition, $\mathcal{C}$ is a charge-conjugation matrix exactly when $M = \mathcal{C}C$ solves one of the two conditions of (a); then $\mathcal{C} = MC$ (above), and by (a) $M$ is a multiple of $1$ or of $\Gamma$. $M = 1$ gives $\mathcal{C}_+ = C$ and $\Psi^c = 1\,\Psi^\ast = \Psi^\ast$; $M = \Gamma$ gives $\mathcal{C}_- = \Gamma C$ and $\Psi^c = \Gamma\Psi^\ast$.
 
 *Proof of (c).* For $\mathcal{C}_+ = C$, with $C^{-1} = C$ (C3), $\mathcal{C}_+^{-1}\gamma^a\mathcal{C}_+ = C\gamma^aC = -(\gamma^a)^T$ by (C5). For $\mathcal{C}_-$, the inverse of a product is the product of the inverses in the reverse order, so $\mathcal{C}_-^{-1} = C^{-1}\Gamma^{-1} = C\Gamma$ by (C3) and (X1). Then
 
@@ -3678,8 +3735,11 @@ where the last step uses $\cos(-y) = \cos y$ and $\sin(-y) = -\sin y$. This is t
 | --- | --- | --- |
 | the gammas, $C$ and the $S^{ab}$ are real; $B$ is purely imaginary and Hermitian | PROVED | `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, checks `representation_real` and `B_imaginary_hermitian`; Notebook 05c, In [2] |
 | every entry of the spin connection $\Omega_\mu$ is real, so $\gamma^\mu D_\mu$ is a real operator | PROVED in the record | the same report, check `spinor_connection_real` |
+| Steps 1 to 4: a matrix $M$ with $M(\gamma^a)^\ast = s\,\gamma^aM$ for all $a$ maps every solution $\Psi$ to the solution $M\Psi^\ast$ with $sV$ | PROVED | Section 5.28 (above); the record's detail text of check `charge_conjugation_matrix_minus` states the case $s = -1$ |
 | Theorem CC (a): the solutions of $M(\gamma^a)^\ast = \pm\gamma^aM$ are the multiples of $1$ and of $\Gamma$ | PROVED; the exact solution of the 2048 equations COMPUTED | the same report, checks `intertwiners_same_mass` and `intertwiners_reversed_mass`; Notebook 05c, In [3] and In [4] |
-| Theorem CC (b), (c): $\mathcal{C}_+ = C$, $\mathcal{C}_- = \Gamma C$ and their transposition rules | PROVED | the same report, checks `charge_conjugation_matrix_plus` and `charge_conjugation_matrix_minus`; Notebook 05c, In [5] and In [7] |
+| Theorem CC (b), (c): with the intertwiner condition as the definition, exactly two charge-conjugation matrices up to a factor, $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$, and their transposition rules | PROVED | the same report, checks `charge_conjugation_matrix_plus` and `charge_conjugation_matrix_minus`; Notebook 05c, In [5] and In [7] |
+| for $V = 0$ the matrix $P_-C$ maps every solution to a solution without obeying the condition | PROVED | Section 5.28 (above) |
+| for $V \neq 0$: does any matrix outside the condition map every solution to a solution? | OPEN (not studied; nothing in this book depends on it) | none |
 | the transposition equations have only the solutions $C$ and $\Gamma C$ | PROVED; COMPUTED exactly | Notebook 05c, In [5] (its own computation) |
 | the free solution: $\Psi$ and $\Psi^\ast$ solve with $m$, $\Gamma\Psi^\ast$ with $-m$ | PROVED; COMPUTED exactly (sympy) and numerically (residuals below $10^{-12}$) | Notebook 05c, In [8] and In [9] (its own computation) |
 
@@ -3709,7 +3769,7 @@ So **the bilinear with the matrix $K$ turns into the bilinear with the matrix $K
 | $\mathcal{C}_-$ ($M = \Gamma$) | commuting ($\epsilon = +1$) | $+S$ | $+J^a$ |
 | $\mathcal{C}_-$ ($M = \Gamma$) | anticommuting ($\epsilon = -1$) | $-S$ | $-J^a$ |
 
-This is the table that the Revision record measured (check `bilinears_under_charge_conjugation`, the part of its detail text after the word measured); Notebook 05c reproduces it exactly. For the anticommuting rows the table is a statement about classical Grassmann components. For the quantised field the question is decided by an operator computation, which Section 5.34 carries out: after normal ordering the quantised field has exactly the signs of the anticommuting rows. (The detail text of the record's check also contains, in parentheses, the remark that normal ordering supplies one more sign for each bilinear; that remark is not part of the measured table, and the computation of Section 5.34 and Notebook 05e does not support it. This is listed as an open point for the owner of the record in Section 5.40.)
+This is the table that the Revision record measured (check `bilinears_under_charge_conjugation`, the part of its detail text after the word measured); Notebook 05c reproduces it exactly. For the anticommuting rows the table is a statement about classical Grassmann components. For the quantised field the question is decided by an operator computation, which Section 5.34 carries out: after normal ordering the quantised field has exactly the signs of the anticommuting rows. (The detail text of the record's check also contains, in parentheses, the remark that normal ordering supplies one more sign for each bilinear; that remark is not part of the measured table, and the derivation of Section 5.34 and the computation of Notebook 05e contradict it. This is listed as an open point for the owner of the record in Section 5.40.)
 
 **What the table means for the commuting field.** For dirac16complex00, whose components are commuting complex numbers, $\mathcal{C}_+$ keeps the mass and the scalar and reverses every current, in particular the charge density $J^{(x4)} = \Psi^\dagger B\Psi$. So it turns every solution of charge $Q$ into a solution of the same mass and charge $-Q$: it is the antiparticle map of this field. $\mathcal{C}_-$ reverses the mass and keeps the charge. Notebook 05c shows this on the free solution of Section 5.28 with a fixed complex column $\Psi_0$: the solution has $S = -2$ and $J^{(x4)} = -6$ at every time; $\Psi^\ast$ has $S = -2$ and $J^{(x4)} = +6$; $\Gamma\Psi^\ast$ has $S = -2$ and $J^{(x4)} = -6$ (figure 5 of the notebook).
 
@@ -3735,7 +3795,7 @@ Its length is $2|\sin(m\,x4)|$ times the length of $\Psi_0$, because $\gamma^{(x
 - (F2) **$\mathcal{C}_+$ acts as the identity.** $\Psi^c = \Psi^\ast = \Psi$: a real field is its own same-mass conjugate.
 - (F3) **The real matrix $\Gamma$ reverses the mass.** The map $\Psi \to \Gamma\Psi$ (no conjugation) takes real fields to real fields. It keeps the scalar, $(\Gamma\Psi)^TC(\Gamma\Psi) = \Psi^T\Gamma^TC\Gamma\Psi = \Psi^TC\Psi$ by (X7), and it reverses every kinetic matrix, $\Gamma^TC\gamma^a\Gamma = -C\gamma^a$ by (X8). In the field equation: $\Gamma$ commutes with $\Omega_\mu$ (an even matrix, (X3)) and with $\partial_\mu$, so $\Gamma D_\mu = D_\mu\Gamma$, and $\Gamma$ anticommutes with every $\gamma^\mu$; hence $\gamma^\mu D_\mu(\Gamma\Psi) = -\Gamma\gamma^\mu D_\mu\Psi = -V\,(\Gamma\Psi)$. With $S(\Gamma\Psi) = S(\Psi)$ and $V = m + \lambda S$, the field $\Gamma\Psi$ solves the field equation with $(m, \lambda) \to (-m, -\lambda)$. This is the pairing theorem T1 of the Revision record, which Chapter 18 proves for the Lagrangian; the same calculation holds for complex fields, where $\Gamma$ also reverses every current.
 
-By Theorem CC, every real matrix that maps real solutions to solutions with $\pm V$ is a multiple of $1$ or of $\Gamma$. So for real fields the only nontrivial matrix map is $\Gamma$, and it reverses the mass. The Revision record states this as: for real fields the matter–antimatter map is the matrix $\Gamma$ together with $m \to -m$ (check `real_fields_charge_conjugation`). A real commuting field has no charge to reverse (F1); what the map exchanges is the sign of the mass.
+By Theorem CC, every matrix $M$ that obeys the intertwiner condition $M(\gamma^a)^\ast = s\,\gamma^aM$ of Section 5.28 (one sign $s$ for all $a$) is a multiple of $1$ or of $\Gamma$. On a real field $\Psi^\ast = \Psi$, so $M\Psi^\ast = M\Psi$: a multiple of $1$ only rescales the field, and among the matrices that obey the condition the only nontrivial one is $\Gamma$ (up to a factor), which reverses the mass. (Matrices outside the condition are not charge-conjugation matrices; for $V = 0$ some of them, such as $P_-$, also map solutions to solutions, Section 5.28.) The Revision record states this as: for real fields the matter–antimatter map is the matrix $\Gamma$ together with $m \to -m$ (check `real_fields_charge_conjugation`). A real commuting field has no charge to reverse (F1); what the map exchanges is the sign of the mass.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
@@ -3744,7 +3804,7 @@ By Theorem CC, every real matrix that maps real solutions to solutions with $\pm
 | both reality conditions are consistent ($MM^\ast = 1$) | PROVED | the same report, check `majorana_conditions_consistent`; Notebook 05c, In [16] |
 | the real condition is kept in time; $\Psi = \Gamma\Psi^\ast$ is violated by twice the size of $\sin(m\,x4)$ | PROVED; COMPUTED for $m = 1$, $0.5$, $0$ | Notebook 05c, In [17] (its own computation) |
 | real fields: (F1), (F2), (F3) | PROVED | the same report, check `real_fields_charge_conjugation`; Notebook 05c, In [18] |
-| the parenthetical remark of the record that normal ordering adds a sign | not supported (Section 5.34) | Notebook 05e, In [16] to In [18] |
+| the parenthetical remark of the record that normal ordering adds a sign | OPEN for the record owner: the remark is contradicted by the PROVED derivation of Section 5.34 and the COMPUTED Fock-space result of Notebook 05e | Notebook 05e, In [16] to In [18]; the record's detail text of check `bilinears_under_charge_conjugation` |
 
 ### 5.30 Example: Notebook 05c computes the charge-conjugation matrices
 
@@ -4551,7 +4611,7 @@ fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
 save_figure(fig, "quantum_b", ...)
 ```
 
-Three heat maps of imaginary parts (the real parts are zero). **What figure 05c.9 shows**: the middle picture has every colour of the left one reversed ($B^T = -B$), while the right picture equals the left one: only $\Psi \to \Gamma\Psi^{\dagger T}$ keeps the canonical rule.
+Three heat maps of imaginary parts (the real parts are zero). **What figure 05c.9 shows**: the middle picture has every colour of the left one reversed ($B^T = -B$), while the right picture equals the left one: of the two maps, only $\Psi \to \Gamma\Psi^{\dagger T}$ keeps the canonical rule.
 
 **In [21], the last check.**
 
@@ -4615,7 +4675,7 @@ $$
 
 and then $\{\Psi_A, \Psi^\dagger_C\} = \sum_D\{\Psi_A, \chi_D\}B_{DC} = B_{AC}$: the canonical rule holds. The record also computes the energy $\chi h\Psi$, whose value in the **vacuum** $|0\rangle$ (no mode occupied) is $-8E = -40$ (the eight negative-energy solutions form a filled **sea**), and, after **normal ordering** (the subtraction of the vacuum value, defined below), the energy $+5$ for each of the 16 one-quantum states $b_s^\ast|0\rangle$ and $d_s^\ast|0\rangle$, and the charge $\Psi^\dagger B\Psi$ equal to $+1$ for the eight particles and $-1$ for the eight antiparticles (check `Fock_space_good_sector_example`). Notebook 05e reproduces all of this.
 
-**Which conjugation keeps the rule.** For a real matrix $M$ define the conjugated field $\Psi'_A = \sum_CM_{AC}\Psi^\dagger_C$, the operator form of $M\Psi^\ast$, written $\Psi' = M\Psi^{\dagger T}$. Its canonical conjugate is obtained by conjugating both sides (which conjugates the numbers): $\Psi'^\dagger_A = \sum_CM_{AC}^\ast\Psi_C$. Then, line by line,
+**Which conjugation keeps the rule.** For a constant matrix $M$ (real or complex) define the conjugated field $\Psi'_A = \sum_CM_{AC}\Psi^\dagger_C$, the operator form of $M\Psi^\ast$, written $\Psi' = M\Psi^{\dagger T}$. Its canonical conjugate is obtained by conjugating both sides (which conjugates the numbers): $\Psi'^\dagger_A = \sum_CM_{AC}^\ast\Psi_C$. Then, line by line,
 
 $$
 \{\Psi'_A, \Psi'^\dagger_C\} = \sum_{D,E}M_{AD}M_{CE}^\ast\{\Psi^\dagger_D, \Psi_E\} = \sum_{D,E}M_{AD}B_{ED}M_{CE}^\ast = (MB^TM^\dagger)_{AC} .
@@ -4627,7 +4687,7 @@ $$
 \Gamma B^T\Gamma = -\Gamma B\Gamma = -(-i)\,\Gamma C\gamma^{(x4)}\Gamma = i\,\Gamma^TC\gamma^{(x4)}\Gamma = i(-C\gamma^{(x4)}) = B ,
 $$
 
-by $B^T = -B$, the definition of $B$, (X6) and (X8). **Only $\Psi' = \Gamma\Psi^{\dagger T}$ keeps the canonical rule** (lead check `quantum_charge_conjugation_unitary_type`): the conjugation of the quantised field has the type of $\mathcal{C}_-$.
+by $B^T = -B$, the definition of $B$, (X6) and (X8). The matrices of Theorem CC are the multiples $\lambda 1$ and $\lambda\Gamma$, with any complex number $\lambda \neq 0$. A factor $\lambda$ gives $(\lambda M)B^T(\lambda M)^\dagger = \lambda\lambda^\ast\,MB^TM^\dagger = |\lambda|^2\,MB^TM^\dagger$, because the conjugate transpose turns $\lambda$ into $\lambda^\ast$. So $\lambda 1$ gives $-|\lambda|^2B$, which is never $B$ (that would need $(1 + |\lambda|^2)B = 0$), and $\lambda\Gamma$ gives $|\lambda|^2B$, which is $B$ exactly when $|\lambda| = 1$, that is when $\lambda = e^{i\alpha}$ is a **phase factor** (a complex number of size 1). **Among the matrices of Theorem CC, only $\Psi' = \Gamma\Psi^{\dagger T}$, up to a phase factor, keeps the canonical rule** (lead check `quantum_charge_conjugation_unitary_type` for $M = \Gamma$ and $M = 1$): the conjugation of the quantised field has the type of $\mathcal{C}_-$.
 
 **The conjugated bilinear, line by line.** Let $X = \Psi^\dagger K\Psi = \sum_{A,C}\Psi^\dagger_AK_{AC}\Psi_C$ and $X' = \Psi'^\dagger K\Psi'$.
 
@@ -4651,7 +4711,7 @@ $$
 
 The constant cancels and the sign stays. **After normal ordering the quantised bilinears change with the signs of the classical anticommuting components.** The argument uses only the canonical rule and the fact that normal ordering subtracts a number, so it does not depend on the momentum of the example or on the choice of the vacuum. For the allowed map $M = \Gamma$ the anticommuting row of Section 5.29 gives $(S, J) \to (-S, -J)$: every current is reversed, so the normal-ordered charge of every quantum changes sign (particles $+1 \to -1$, antiparticles $-1 \to +1$), and the scalar is reversed, so the mass term $mS$ becomes $(-m)S$: **the conjugation of the quantised field exchanges particles and antiparticles and reverses the mass**, as the Revision record states.
 
-**About a remark in the record.** The detail text of the lead check `bilinears_under_charge_conjugation` adds, in parentheses, that in the quantum theory normal ordering supplies one more sign for each bilinear, which would give $(S, J) \to (S, -J)$ for $\mathcal{C}_+$. That remark is not part of the record's measured table, and the derivation above, which Notebook 05e confirms on the Fock space, does not support it: normal ordering removes the number $c$ and changes no sign. This book follows the computation; the point is listed as open for the owner of the record (Section 5.40).
+**About a remark in the record.** The detail text of the lead check `bilinears_under_charge_conjugation` adds, in parentheses, that in the quantum theory normal ordering supplies one more sign for each bilinear, which would give $(S, J) \to (S, -J)$ for $\mathcal{C}_+$. That remark is not part of the record's measured table, and the derivation above, which Notebook 05e confirms on the Fock space, contradicts it: normal ordering removes the number $c$ and changes no sign, so for $M = 1$ the normal-ordered result is $(S, J) \to (-S, +J)$, the record's own measured anticommuting row, and not $(S, -J)$. This book follows the computation; the point is listed as open for the owner of the record (Section 5.40).
 
 | statement | status | where it is verified |
 | --- | --- | --- |
@@ -5277,7 +5337,7 @@ check_reproduces(np.max(np.abs(measured_conjugated["M = 1"] + B)) < 1e-12
                  record=record_of("lead", "quantum_charge_conjugation_unitary_type"))
 ```
 
-The check reproduces the lead check on actual operators: only $M = \Gamma$ keeps the canonical rule.
+The check reproduces the lead check on actual operators: of the two maps, only $M = \Gamma$ keeps the canonical rule (Section 5.34 adds that a phase factor $e^{i\alpha}$ in front of $\Gamma$ changes nothing).
 
 **In [15], the picture of the conjugated rules.**
 
@@ -5530,7 +5590,7 @@ ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=3)
 save_figure(fig, "conjugated_charges", ...)
 ```
 
-Large grey circles for the field, small orange squares (`"s"`) for $M = 1$ and blue diamonds (`"D"`) for $M = \Gamma$. **What figure 05e.8 shows**: the grey circles at $+1$ for quanta 1 to 8 and at $-1$ for 9 to 16; the orange squares sit inside the circles (unchanged); the blue diamonds are at $-1$ for the particles and $+1$ for the antiparticles. The only conjugation that keeps the canonical rule exchanges the charges of particles and antiparticles, and, by In [16], it also reverses the scalar and with it the mass.
+Large grey circles for the field, small orange squares (`"s"`) for $M = 1$ and blue diamonds (`"D"`) for $M = \Gamma$. **What figure 05e.8 shows**: the grey circles at $+1$ for quanta 1 to 8 and at $-1$ for 9 to 16; the orange squares sit inside the circles (unchanged); the blue diamonds are at $-1$ for the particles and $+1$ for the antiparticles. The one of the two conjugations that keeps the canonical rule exchanges the charges of particles and antiparticles, and, by In [16], it also reverses the scalar and with it the mass.
 
 **In [20], the last check.**
 
@@ -5552,19 +5612,19 @@ The request that this book answers asks for a theory that "solves matter anti-ma
 
 **What this chapter proves (exact maps between solutions).**
 
-- In this theory charge conjugation is a matrix map, and there are exactly two charge-conjugation matrices, $\mathcal{C}_+ = C$ (same mass) and $\mathcal{C}_- = \Gamma C$ (mass reversed) (Theorem CC, Section 5.28).
+- In this theory charge conjugation is a matrix map. With the definition of Section 5.28 (the matrix $M = \mathcal{C}C$ must obey $M(\gamma^a)^\ast = s\,\gamma^aM$ with one sign $s$ for all eight gammas), there are exactly two charge-conjugation matrices, up to a factor, $\mathcal{C}_+ = C$ (same mass) and $\mathcal{C}_- = \Gamma C$ (mass reversed), and each maps every solution to a solution (Theorem CC, Section 5.28). The converse is not claimed: for $V = 0$ other matrices, such as $P_-C$, also map solutions to solutions.
 - For the commuting complex field dirac16complex00, $\mathcal{C}_+$ maps every solution to a solution with the same mass and the opposite charge density (Section 5.29).
 - For a real commuting field the currents vanish, $\mathcal{C}_+$ does nothing, and the only nontrivial real matrix map is $\Gamma$ with $(m, \lambda) \to (-m, -\lambda)$ (Section 5.29).
-- For the quantised anticommuting field dirac16complex the only conjugation that keeps the canonical anticommutator is $\Psi \to \Gamma\Psi^{\dagger T}$; after normal ordering it reverses the charge of every quantum and reverses the mass (Section 5.34).
+- For the quantised anticommuting field dirac16complex, among the matrices of Theorem CC only $\Psi \to \Gamma\Psi^{\dagger T}$, up to a phase factor, keeps the canonical anticommutator; after normal ordering it reverses the charge of every quantum and reverses the mass (Section 5.34).
 - The map $\Psi \to \Gamma\Psi$ keeps the scalar and reverses every current (Section 5.5, (X7) and (X8)); it carries a solution with the parameters $(m, \lambda)$ to one with $(-m, -\lambda)$ (Section 5.29, (F3); this is the input of the pairing theorem T1, which Chapter 18 proves). So a solution and its $\Gamma$ image carry opposite charges, and the two together have total charge zero.
-- The total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of one solution is conserved (Section 5.6; record check `u1_noether_matrix_identity`, derived in Chapter 21). So no process described by these field equations changes the net charge inside one universe.
+- The current obeys the local conservation law $\sum_\mu\partial_\mu(\cos z\,J^\mu) = 0$ for every solution (record check `u1_noether_matrix_identity`, derived in Chapter 21). Hence the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of one solution is constant in time for every solution whose current flux through the boundary of the seven other directions vanishes, for example a field that vanishes fast enough there (Section 5.6). For such solutions no process described by these field equations changes the net charge inside one universe; Chapter 21 derives the boundary terms.
 
 All of these are exact statements about **maps between sets of solutions** of the field equations.
 
 **What is not proved, and is not claimed.**
 
 - Nothing in this chapter shows that any universe is **created**, in pairs or otherwise. The maps relate solutions that are both allowed by the equations; they contain no creation process, no rate, no amplitude and no big-bang dynamics (Chapter 20).
-- The theory as built does **not** solve the matter–antimatter problem. The observed universe contains far more matter than antimatter (Chapter 21 explains the measurement from zero). In 1967 Sakharov showed that producing such an excess from a symmetric start needs three things: a process that changes the baryon number (roughly, the number of protons and neutrons minus the number of their antiparticles), a violation of the symmetries C and CP, and a departure from thermal equilibrium (Chapter 21 derives the three conditions). The theory as built has no baryons, no process that changes a charge (the charge $Q$ is conserved), no violation of CP built in or computed, and no computation of a departure from equilibrium. Chapter 21 lists what would have to be added.
+- The theory as built does **not** solve the matter–antimatter problem. The observed universe contains far more matter than antimatter (Chapter 21 explains the measurement from zero). In 1967 Sakharov showed that producing such an excess from a symmetric start needs three things: a process that changes the baryon number (roughly, the number of protons and neutrons minus the number of their antiparticles), a violation of the symmetries C and CP, and a departure from thermal equilibrium (Chapter 21 derives the three conditions). The theory as built has no baryons, no process that changes a charge (the current obeys the local conservation law, and $Q$ is constant whenever no current flows through the boundary), no violation of CP built in or computed, and no computation of a departure from equilibrium. Chapter 21 lists what would have to be added.
 - The idea that a universe and an anti-universe together carry zero charge belongs to a class of ideas in the published literature; one example is L. Boyle, K. Finn and N. Turok, "CPT-Symmetric Universe", Phys. Rev. Lett. 121, 251301 (2018). The pair-level statement above (a solution and its $\Gamma$ image have total charge zero) is a statement of this kind about solutions. Any scenario in which our universe is one member of such a pair, or in which the pairing explains the observed excess of matter, is a **HYPOTHESIS**: nothing in this chapter or in the Revision record derives it.
 
 ### 5.40 What we proved, what we computed, what we assumed
@@ -5575,14 +5635,15 @@ All of these are exact statements about **maps between sets of solutions** of th
 - Theorem P: the 16 components carry an irreducible representation of Pin(4,4), and only the multiples of 1 commute with it; Theorem S: under Spin(4,4) they split into two irreducible, inequivalent halves of 8, and the commutant is spanned by $P_-$ and $P_+$; the same holds for the 28 generators $S^{ab}$ (Section 5.13; Notebook 05b; checks `clifford_products_span_M16`, `pin_commutant_dimension_1`, `even_products_span_M8_plus_M8`, `spin_commutant_dimension_2`, `spin_halves_irreducible`, `spin_halves_inequivalent`, `reflections_exchange_halves`).
 - The so(4,4) rules, the vector rule, the key identity of reflections, the closed formulas of the exponentials, the half angle and $R(2\pi) = -1$, the invariance of the scalar under products of exponentials, the form of $B$ kept by exactly the 21 generators without $x4$, the spinor norm $g^TCg = (-1)^kN(g)\,C$, the double cover (the vector matrix fixes $g$ up to the sign), and determinant $+1$ for every element of Pin(4,4) (Sections 5.12 and 5.18; Notebook 05d; checks `S_lorentz_algebra`, `S_vector_action`, `S_preserves_C_and_commutes_with_Gamma`, `S_preserves_B_only_off_x4`).
 - What the scaled commutators generate: the products of their exponentials form exactly $\mathrm{Spin}_0(4,4)$, the piece of Pin(4,4) joined to 1; Pin(4,4) consists of four pieces, $\mathrm{Spin}_0$, $\mathrm{Spin}_0\gamma^{(x8)}$, $\mathrm{Spin}_0\gamma^{(x4)}$ and $\mathrm{Spin}_0\gamma^{(x8)}\gamma^{(x4)}$; together with $\gamma^{(x8)}$ and $\gamma^{(x4)}$ the exponentials generate all of Pin(4,4) (Section 5.23; Notebook 05f).
-- Theorem CC: exactly two charge-conjugation matrices, $\mathcal{C}_+ = C$ (same mass, $\Psi^c = \Psi^\ast$) and $\mathcal{C}_- = \Gamma C$ (mass reversed, $\Psi^c = \Gamma\Psi^\ast$), with $\mathcal{C}_\pm^{-1}\gamma^a\mathcal{C}_\pm = \mp(\gamma^a)^T$; the sign table of the scalar and the currents for commuting and anticommuting components; both reality conditions consistent, the real one kept in time and the other only for $m = 0$; for real fields $J = 0$, $\mathcal{C}_+$ the identity and $\Gamma$ the nontrivial map with $(m, \lambda) \to (-m, -\lambda)$ (Sections 5.28 and 5.29; Notebook 05c; the lead report of charge conjugation, with the checks named in the tables of those two sections).
-- For the quantised field: the canonical conjugate cannot be a Hilbert adjoint; only $\Psi \to \Gamma\Psi^{\dagger T}$ keeps the canonical anticommutator; every conjugated bilinear is $X' = sX + c$ with the sign of the classical anticommuting components and the constant $c = \mathrm{tr}(K'B^T)$; normal ordering removes $c$ and keeps $s$; the allowed conjugation reverses the charge of every quantum and the mass (Section 5.34; Notebook 05e; checks `quantum_charge_conjugation_unitary_type` of the lead report and `no_positive_inner_product` of `Revision/theory/reports/wolfram-field-theory.json`).
+- The local conservation law $\sum_\mu\partial_\mu(\cos z\,J^\mu) = 0$ of the record, and from it: the total charge $Q$ is constant in time for every solution whose current flux through the boundary of the seven other directions vanishes (Section 5.6; check `u1_noether_matrix_identity` of the lead report).
+- Steps 1 to 4 of Section 5.28: every matrix $M$ with $M(\gamma^a)^\ast = s\,\gamma^aM$ (one sign $s$ for all $a$) maps every solution $\Psi$ to the solution $M\Psi^\ast$ with $sV$; for $V = 0$ the matrix $P_-C$ maps every solution to a solution without obeying this condition. Theorem CC: with the condition as the definition, exactly two charge-conjugation matrices, up to a factor, $\mathcal{C}_+ = C$ (same mass, $\Psi^c = \Psi^\ast$) and $\mathcal{C}_- = \Gamma C$ (mass reversed, $\Psi^c = \Gamma\Psi^\ast$), with $\mathcal{C}_\pm^{-1}\gamma^a\mathcal{C}_\pm = \mp(\gamma^a)^T$; the sign table of the scalar and the currents for commuting and anticommuting components; both reality conditions consistent, the real one kept in time and the other only for $m = 0$; for real fields $J = 0$, $\mathcal{C}_+$ the identity and, among the matrices that obey the condition, $\Gamma$ the nontrivial map with $(m, \lambda) \to (-m, -\lambda)$ (Sections 5.28 and 5.29; Notebook 05c; the lead report of charge conjugation, with the checks named in the tables of those two sections).
+- For the quantised field: the canonical conjugate cannot be a Hilbert adjoint; among the matrices of Theorem CC only $\Psi \to \Gamma\Psi^{\dagger T}$, up to a phase factor, keeps the canonical anticommutator; every conjugated bilinear is $X' = sX + c$ with the sign of the classical anticommuting components and the constant $c = \mathrm{tr}(K'B^T)$; normal ordering removes $c$ and keeps $s$; the allowed conjugation reverses the charge of every quantum and the mass (Section 5.34; Notebook 05e; checks `quantum_charge_conjugation_unitary_type` of the lead report and `no_positive_inner_product` of `Revision/theory/reports/wolfram-field-theory.json`).
 
 **COMPUTED** (floating-point numbers, with the measured accuracy, or exact computations of the notebooks): the quadratic form of $C$ along two paths, $\mp\sin 2t$ to $10^{-14}$ (05a); the exact ranks 256 and 128 of the products of different gammas, the commutant and intertwiner dimensions 1, 2, 1, 1, 0, 0 by exact ranks and again by the zero eigenvalues of $A^TA$, the halving sequence $256, 128, \dots, 1$ and the negative control 4 (05b); the vector matrices and the closed formulas to $10^{-10}$ or better (05d); the sign pattern $(+, +)$ on 200 random products of exponentials (smallest determinant 1.019), the four patterns on 240 random elements, ten paths that never cross the band, the construction of step (I) on 40 random unit vectors and the decomposition of 12 random elements of Pin(4,4), and the spans 128 and 256 by singular values (05f); the exact solution spaces of the 2048 equations for each sign and the residuals of the free solution, below $10^{-12}$ where it solves and 11.83 where it does not, the values $S = -2$ and $J^{(x4)} = -6$, $+6$, $-6$ of the free solution and its images (exact at $x4 = 0$), and the violation $2|\sin(m\,x4)|$ of the condition $\Psi = \Gamma\Psi^\ast$ (05c); on the Fock space of 65536 states, the canonical rule to $10^{-12}$, the vacuum energy $-40$, the energies $+5$ and the charges $\pm1$, the vacuum values $S = -4.80$, $J^{(x1)} = -6.40$, $J^{(x4)} = 8$, the constants $c = \mp16$, and the reversed charges of the 16 quanta (05e). One observation is COMPUTED only and not used: $|\det A| = |\det D|$ for the 240 elements of Notebook 05f.
 
 **ASSUMED**: the author's gammas, built from his formulas for T16 (Chapter 4), his coordinates and his metric (the input of the whole theory); the field equation $\gamma^\mu D_\mu\Psi = V\Psi$ of the Revision record (Chapter 7) and its canonical quantisation (Chapter 10); the theorem of Cartan and Dieudonné (every matrix of O(4,4) is a product of reflections), quoted without proof; three facts of analysis quoted without proof (the power series of the exponential converges for every square matrix; a linear differential equation has only one solution with a given starting value; the intermediate value theorem); and, for Notebook 05e, the scope of the example: one momentum without extra-time part, at one point of space, with the Fock vacuum of that momentum.
 
-**HYPOTHESIS and OPEN**: this chapter derives no creation of universes and no explanation of the matter–antimatter asymmetry; every scenario built on the maps of this chapter is a HYPOTHESIS (Section 5.39). OPEN for the owner of the Revision record: the detail text of the lead check `bilinears_under_charge_conjugation` contains, in parentheses, the remark that normal ordering supplies one more sign for each bilinear, giving $(S, J) \to (S, -J)$ for $\mathcal{C}_+$; the derivation of Section 5.34 and the Fock-space computation of Notebook 05e show that normal ordering removes only a constant, so that the quantised signs are those of the record's own measured anticommuting rows. The remark should be corrected in the record; the book follows the computation.
+**HYPOTHESIS and OPEN**: this chapter derives no creation of universes and no explanation of the matter–antimatter asymmetry; every scenario built on the maps of this chapter is a HYPOTHESIS (Section 5.39). OPEN for the owner of the Revision record: the detail text of the lead check `bilinears_under_charge_conjugation` contains, in parentheses, the remark that normal ordering supplies one more sign for each bilinear, giving $(S, J) \to (S, -J)$ for $\mathcal{C}_+$; the derivation of Section 5.34 (PROVED) and the Fock-space computation of Notebook 05e (COMPUTED) show that normal ordering removes only a constant, so that the quantised signs are those of the record's own measured anticommuting rows; they contradict the remark. The remark should be corrected in the record; the book follows the computation. OPEN, not studied in this book: whether, for $V \neq 0$ in the author's metric, some matrix that does not obey the intertwiner condition maps every solution to a solution (Section 5.28; nothing in this book depends on it).
 
 ### 5.41 Exercises
 

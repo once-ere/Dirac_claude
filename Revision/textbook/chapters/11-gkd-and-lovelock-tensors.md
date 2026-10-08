@@ -36,6 +36,7 @@ Each word is defined in plain terms here; the later sections make the definition
 - **History** $a_4(x_4)$: the metric function. **Linear history**: $a_4 = AHx_4$ with a constant **slope** $A$, so $a_4' = AH$ and $a_4'' = 0$; for $A > 0$ the extra times shrink like $e^{-AHx_4}$. **Illustration**: a choice made only to show how a formula behaves; it is not a solution of any equation.
 - **Exact** computation: with whole numbers and fractions, no rounding. **Byte for byte**: two files equal in every byte.
 - **Status labels**: PROVED (exact, by a derivation or by exact computation, with the record file and check), COMPUTED (numerical, with its accuracy), ASSUMED, HYPOTHESIS, OPEN.
+- **The record files of this chapter.** Where a record file is named without its folder, it lies in the folder `Revision/gkd_lovelock/results`: `lovelock-report.json` (the report of the Rust program, with its 19 checks and its counters), `curvature.json` (the metric, the Christoffel symbols, the Riemann, Ricci and Einstein tensors), `lovelock-tensors.json` (every component of the Lovelock tensors and the scalars), `gkd-selftest.json` (the GKD self-test), `python-lovelock-report.json` (the Revision's independent sympy verification) and `wolfram-gkd-report.json` (the Revision's independent Wolfram verification). The record of the field equations of $a_4$ is `Revision/field_equations_a4/a4-equations.json`, with its sympy report `Revision/field_equations_a4/reports/python-a4-report.json`.
 
 ### 11.3 The author's generalized Kronecker delta and the rule GKD
 
@@ -141,11 +142,17 @@ For example $p = 3$: $336\cdot 3! = 336\cdot 6 = 2016$ nonzero values, half of t
 
 **The cost of the determinant (PROVED by counting).** The Leibniz formula of a $p \times p$ determinant adds $p!$ products; the rule GKD makes $p(p - 1)/2$ comparisons of places. And the number $8^{2p}$ of all pairs grows so fast that only the lengths up to 4 can be tested exhaustively:
 
-| $p$ | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| products $p!$ | 1 | 2 | 6 | 24 | 120 | 720 | 5040 | 40320 | 362880 |
-| comparisons $p(p-1)/2$ | 0 | 1 | 3 | 6 | 10 | 15 | 21 | 28 | 36 |
-| pairs $8^{2p}$ | 64 | 4096 | 2.6e5 | 1.7e7 | 1.1e9 | 6.9e10 | 4.4e12 | 2.8e14 | 1.8e16 |
+| length $p$ | products $p!$ | comparisons $p(p-1)/2$ | all pairs $8^{2p}$ |
+| --- | --- | --- | --- |
+| 1 | 1 | 0 | 64 |
+| 2 | 2 | 1 | 4096 |
+| 3 | 6 | 3 | $2.6 \times 10^5$ |
+| 4 | 24 | 6 | $1.7 \times 10^7$ |
+| 5 | 120 | 10 | $1.1 \times 10^9$ |
+| 6 | 720 | 15 | $6.9 \times 10^{10}$ |
+| 7 | 5040 | 21 | $4.4 \times 10^{12}$ |
+| 8 | 40320 | 28 | $2.8 \times 10^{14}$ |
+| 9 | 362880 | 36 | $1.8 \times 10^{16}$ |
 
 (Notebook 11a, In [12], prints this table and draws it as Figure 11a.5.) The work of one literal determinant grows by the factor $p$ from one length to the next, because $p! = p\cdot(p - 1)!$. Notebook 11a also measures both methods on the same 200 pairs of length 7 and checks that the rule is more than ten times faster (In [12]). It does not print the measured times: they differ from computer to computer and from run to run, and the printed output of every notebook of this book must be the same on every run.
 
@@ -1200,7 +1207,7 @@ $$
 R^{ab}{}_{cd} = -R^{ba}{}_{cd} = -R^{ab}{}_{dc}
 $$
 
-(record `Revision/gkd_lovelock/results/lovelock-report.json`, check `riemann_antisymmetry`; Section 3.17 proves it). In particular $R^{aa}{}_{cd} = 0$: a component with two equal upper labels or two equal lower labels vanishes.
+(the Rust report `lovelock-report.json`, check `riemann_antisymmetry`; Section 3.17 proves it). In particular $R^{aa}{}_{cd} = 0$: a component with two equal upper labels or two equal lower labels vanishes.
 
 **The plane curvatures.** For two different directions $a$ and $b$, $K(a, b) = R^{ab}{}_{ab}$ (no sum) is the curvature of their coordinate plane. Section 3.24 computed all 28 planes by hand. With $i$ standing for a 3-space direction ($x_1, x_2, x_3$), $j$ for an extra time ($x_5, x_6, x_7$) and $k$ for either:
 
@@ -1231,7 +1238,11 @@ $$
 The two symbols are, by the Christoffel formula with $g^{44} = -1$,
 
 $$
-\Gamma^4{}_{kk} = -\tfrac12\,g^{44}\,\partial_4 g_{kk} = \tfrac12\,\epsilon_k\,2\sigma_ka_4'\,e^{2\sigma_ka_4}\sin^{1/3}z = \epsilon_k\sigma_k\,a_4'\,e^{2\sigma_ka_4}\sin^{1/3}z,\qquad \Gamma^k{}_{8k} = \tfrac12\,g^{kk}\,\partial_8 g_{kk} = H\cot z
+\Gamma^4{}_{kk} = -\tfrac12\,g^{44}\,\partial_4 g_{kk} = \tfrac12\,\epsilon_k\,2\sigma_ka_4'\,e^{2\sigma_ka_4}\sin^{1/3}z = \epsilon_k\sigma_k\,a_4'\,e^{2\sigma_ka_4}\sin^{1/3}z,
+$$
+
+$$
+\Gamma^k{}_{8k} = \tfrac12\,g^{kk}\,\partial_8 g_{kk} = H\cot z
 $$
 
 (the chain rule: $\partial_4 e^{2\sigma_ka_4} = 2\sigma_ka_4'e^{2\sigma_ka_4}$; and $\partial_8\ln\sin^{1/3}z = \tfrac13\cot z\cdot 6H = 2H\cot z$, half of which is $H\cot z$). Since $\partial_8\sin^{1/3}z = 2H\cot z\,\sin^{1/3}z$,
@@ -1254,7 +1265,7 @@ $$
 R^{x_4}{}_{x_8} = 3\cdot(+Ha_4'\cot z) + 0 + 3\cdot(-Ha_4'\cot z) = 0
 $$
 
-(three inflating directions, the time itself, three deflating directions). The cancellation is exact for every $a_4$, because there are as many inflating as deflating directions (Notebook 11b, In [11], Figure 11b.4). Section 11.20 shows that the same cancellation leaves all three Lovelock tensors without an $x_4$-$x_8$ component.
+(three inflating directions, the time itself, three deflating directions). The cancellation is exact for every $a_4$, because there are as many inflating as deflating directions (Notebook 11b, In [11], Figure 11b.4). Section 11.21 shows that the same cancellation leaves all three Lovelock tensors without an $x_4$-$x_8$ component.
 
 **Three facts used below (PROVED).**
 
@@ -1266,7 +1277,7 @@ $$
 G^i{}_i = -3a_4'^2 + a_4'' + 15H^2,\quad G^4{}_4 = 3a_4'^2 + 21H^2,\quad G^j{}_j = -3a_4'^2 - a_4'' + 15H^2,\quad G^8{}_8 = 15H^2 - 3a_4'^2
 $$
 
-(record `Revision/gkd_lovelock/results/curvature.json`, keys `ricciMixed`, `ricciScalar`, `einsteinMixed`; Notebook 11b, In [8], reproduces the Ricci scalar).
+(record `curvature.json`, its entries for the Ricci tensor, the Ricci scalar and the Einstein tensor; Notebook 11b, In [8], reproduces the Ricci scalar).
 
 ### 11.11 Lovelock's equation (4.38): the three Lovelock tensors
 
@@ -1394,7 +1405,11 @@ $$
 Multiply by the product of the curvature factors and sum over the $4k$ labels. The first term gives $\delta^h_j L_{(k)}$ (the definition of the scalar). In the term $s$, the factor $\delta^h_{j_s}$ keeps only $j_s = h$ in the sum over $j_s$, so $h$ takes the place of $j_s$ in its curvature factor:
 
 $$
-P_{(k)}{}^h{}_j = \delta^h_jL_{(k)} - \sum_{s=1}^{2k}T_s,\qquad T_s = \sum\delta^{h_1\dots h_{2k}}_{j_1\dots(j\text{ at place }s)\dots j_{2k}}\;R^{j_1j_2}{}_{h_1h_2}\cdots(\text{with } h \text{ in place of } j_s)\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}} .
+P_{(k)}{}^h{}_j = \delta^h_jL_{(k)} - \sum_{s=1}^{2k}T_s,
+$$
+
+$$
+T_s = \sum\delta^{h_1\dots h_{2k}}_{j_1\dots(j\text{ at place }s)\dots j_{2k}}\;R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}}\quad(\text{with } h \text{ in place of } j_s) .
 $$
 
 **The $2k$ terms are equal.** (i) Let $s$ be even, the second upper place of its factor $R^{j_{s-1}h}{}_{h_{s-1}h_s}$. Exchange the rows of $j_{s-1}$ and $j$ in the delta (the places $s - 1$ and $s$), a factor $-1$ (rule 3), and write $R^{j_{s-1}h}{}_{h_{s-1}h_s} = -R^{hj_{s-1}}{}_{h_{s-1}h_s}$, another factor $-1$ (antisymmetry). The term is unchanged, and now $j$ stands at the place $s - 1$ and $h$ first in its factor: $T_s = T_{s-1}$. (ii) Let $s = 2m - 1$ be odd with $m > 1$, the first place of the $m$-th factor. Exchange the $m$-th factor with the first factor: the product of the curvature factors is unchanged (numbers commute). In the delta this exchanges the pair of rows at the places $2m - 1, 2m$ with the pair at the places 1, 2, which is two exchanges of rows, a factor $(-1)^2 = +1$, and the pair of columns $h_{2m-1}, h_{2m}$ with $h_1, h_2$, again $+1$. After renaming the summed labels the term is $T_1$. So all $2k$ terms equal $T_1$, and
@@ -1496,7 +1511,10 @@ $$
 **$L_{(2)}$ is four times the Gauss-Bonnet scalar (PROVED).** By the trace argument of Section 11.14, $L_{(2)} = \sum_hX^h{}_h$:
 
 $$
-L_{(2)} = 4R^2 - 8\sum R^b{}_xR^x{}_b - 8\sum R^h{}_cR^c{}_h + 4\sum R^{ab}{}_{cd}R^{cd}{}_{ab} = 4\Big(R^2 - 4\sum_{a,b}R^a{}_bR^b{}_a + \sum R^{ab}{}_{cd}R^{cd}{}_{ab}\Big) = 4\,\mathrm{GB}
+\begin{aligned}
+L_{(2)} &= 4R^2 - 8\sum R^b{}_xR^x{}_b - 8\sum R^h{}_cR^c{}_h + 4\sum R^{ab}{}_{cd}R^{cd}{}_{ab}\\
+&= 4\Big(R^2 - 4\sum_{a,b}R^a{}_bR^b{}_a + \sum R^{ab}{}_{cd}R^{cd}{}_{ab}\Big) = 4\,\mathrm{GB}
+\end{aligned}
 $$
 
 ($\sum_hR^{hb}{}_{hx} = R^b{}_x$; the two Ricci squares are the same sum; then 4 taken out). $\mathrm{GB} = R^2 - 4R^a{}_bR^b{}_a + R^{ab}{}_{cd}R^{cd}{}_{ab}$ is the classical **Gauss-Bonnet scalar**.
@@ -1581,7 +1599,7 @@ for number, (name, verdict) in enumerate(rust_checks, 1):
     say(f"  {number:2d} {name:34s} {verdict}")
 ```
 
-The 19 checks are printed as a numbered table (the format `:34s` pads a text to 34 places): `riemann_antisymmetry`, `riemann_first_bianchi`, `mixed_riemann_free_of_sin_third`, `k1_equals_minus_4_einstein`, then for each order $k = 1, 2, 3$ the trace identity, zero divergence, symmetry and freedom from $\sin^{1/3}z$ (the order-1 trace identity comes right after the Einstein check), then `k4_tensor_vanishes` and the two brute-force checks; all PASS.
+The 19 checks are printed as a numbered table (the format `:34s` pads a text to 34 places). They are: the antisymmetry and the first Bianchi identity of the Riemann tensor, the freedom of every $R^{ab}{}_{cd}$ from $\sin^{1/3}z$, the identity $P_{(1)} = -4G$; for each order $k = 1, 2, 3$ the trace identity, zero divergence, symmetry and freedom from $\sin^{1/3}z$; the vanishing of $P_{(4)}$; and the two brute-force sums. All 19 print PASS.
 
 ```python
 readable = (l4_text.replace("Derivative[1][a4][x4]", "a4'").replace("*", " ")
@@ -2721,7 +2739,7 @@ As in Notebook 11a, In [17]: the five figure files must exist (thirty-sixth PASS
 
 ### 11.20 The components of the three tensors for the author's metric
 
-**The result (PROVED by exact computation).** The Rust program of the record computes all $3 \times 64$ components of $P_{(1)}, P_{(2)}, P_{(3)}$ exactly (`Revision/gkd_lovelock/results/lovelock-tensors.json`, keys `P1_mixed_up_h_down_j` to `P3_mixed_up_h_down_j`); the Revision's sympy and Wolfram verifications recompute every one of them independently and find the same (`python-lovelock-report.json`, checks `rust_k1_mixed_components_agree` to `rust_k3_mixed_components_agree`; `wolfram-gkd-report.json`, checks `k1_P_equals_rust_all_64_components` to `k3_P_equals_rust_all_64_components`), and so does Notebook 11b (In [15]). Only the eight diagonal components are nonzero, for every order. With $E_{(k)} = -P_{(k)}/2^{k+1}$ and the abbreviations $a_4'$, $a_4''$ for the derivatives with respect to the time $x_4$, the independent components are
+**The result (PROVED by exact computation).** The Rust program of the record computes all $3 \times 64$ components of $P_{(1)}, P_{(2)}, P_{(3)}$ exactly and writes them into the record `lovelock-tensors.json`. The Revision's sympy and Wolfram verifications recompute every one of them independently and find the same (checks `rust_k1_mixed_components_agree` to `rust_k3_mixed_components_agree` of the sympy report, and `k1_P_equals_rust_all_64_components` to `k3_P_equals_rust_all_64_components` of the Wolfram report), and so does Notebook 11b (In [15]). Only the eight diagonal components are nonzero, for every order. With $E_{(k)} = -P_{(k)}/2^{k+1}$ and the abbreviations $a_4'$, $a_4''$ for the derivatives with respect to the time $x_4$, the independent components are
 
 $$
 \begin{aligned}
@@ -2807,7 +2825,10 @@ $$
 For $k = 2$, line by line:
 
 $$
-E_{(2)}{}^{x_4}{}_{x_4} - E_{(2)}{}^{x_8}{}_{x_8} = -36a_4'^4 - 120a_4'^2H^2 - 420H^4 - 12a_4'^4 - 168a_4'^2H^2 + 180H^4 = -48a_4'^4 - 288a_4'^2H^2 - 240H^4
+\begin{aligned}
+E_{(2)}{}^{x_4}{}_{x_4} - E_{(2)}{}^{x_8}{}_{x_8} &= -36a_4'^4 - 120a_4'^2H^2 - 420H^4 - 12a_4'^4 - 168a_4'^2H^2 + 180H^4\\
+&= -48a_4'^4 - 288a_4'^2H^2 - 240H^4
+\end{aligned}
 $$
 
 (the two components of Section 11.20; collect equal powers),
@@ -2887,7 +2908,10 @@ $$
 **The Lovelock scalars along the linear history.** From the record (keys `L1` to `L3` of `lovelock-tensors.json`), in units of $H^{2k}$:
 
 $$
-L_{(1)} = 12A^2 - 84,\qquad L_{(2)} = -96A^4 - 2112A^2 + 3360,\qquad L_{(3)} = 1152A^6 + 31104A^4 + 100224A^2 - 40320 .
+\begin{aligned}
+L_{(1)} &= 12A^2 - 84,\qquad L_{(2)} = -96A^4 - 2112A^2 + 3360,\\
+L_{(3)} &= 1152A^6 + 31104A^4 + 100224A^2 - 40320 .
+\end{aligned}
 $$
 
 At the mirror point $A = 0$ they are $-84$, $3360$ and $-40320$. Each has exactly one positive zero. For $k = 1$: $12A^2 = 84$, so $A^2 = 7$ and $A = \sqrt 7 \approx 2.646$ (divide by 12; take the positive root). For $k = 2$, write $u = A^2$:
@@ -3473,7 +3497,7 @@ The five figure files must exist (nineteenth PASS line), and the last line is AL
 **PROVED in this chapter by derivations written out line by line** (each confirmed by a check of a notebook and, where named, of a Revision record):
 
 - **The generalized Kronecker delta** (Sections 11.3 and 11.4): the author's determinant $\det[\delta(l_i, u_j)]$ is 0 when a label repeats in either list or a lower label is missing above, and otherwise the sign of the permutation that carries the lower list into the upper list; so the rule GKD of the Revision program is exactly the author's definition (Notebook 11a, In [2] to In [6]; record `Revision/gkd_lovelock/results/python-lovelock-report.json`, checks `gkd_examples` and `gkd_literal_equals_cofactor_expansion`). The number of nonzero values $8!/(8 - p)!\cdot p!$, half of them $+1$ and half $-1$ for $p \ge 2$, with the counts 8; 56 and 56; 1008 and 1008; 20160 and 20160 for $p = 1$ to 4 (In [6], In [7], In [9]; record `wolfram-gkd-report.json`, entry `gkdComparison`). Every delta with nine or more labels vanishes in eight dimensions (pigeonhole), so $P_{(4)} = 0$ and Lovelock's sum stops at order 3 (In [10]; record `lovelock-report.json`, check `k4_tensor_vanishes`). The rule needs $p(p - 1)/2$ comparisons instead of the $p!$ products of the determinant. The birthday probability $r_p = 8!/((8 - p)!\,8^p)$ of a nonzero rearranged random pair (with the assumed rules of probability).
-- **The author's second route** (Section 11.5): for every matrix $N$, $\sum N_{i_1m_1}\cdots N_{i_nm_n}[m_1\dots m_n] = \det N\,[i_1\dots i_n]$; raising all labels of the Levi-Civita tensor of a metric gives the factor $\sqrt{|\det g|}/\det g$, so the product of two Levi-Civita tensors is the sign of $\det g$ times the product of two symbols; for the author's metric $\det g = \cos^2z > 0$ (record `python-lovelock-report.json`, check `sqrt_abs_det_g`), the sign is $+1$, and the author's second route gives the generalized delta without an extra sign.
+- **The author's second route** (Section 11.5): a determinant identity for the Levi-Civita symbol; raising all labels of the Levi-Civita tensor of a metric gives the factor $\sqrt{|\det g|}/\det g$, so the product of two Levi-Civita tensors is the sign of $\det g$ times the product of two symbols; for the author's metric $\det g = \cos^2z > 0$ (record `python-lovelock-report.json`, check `sqrt_abs_det_g`), the sign is $+1$, and the author's second route gives the generalized delta without an extra sign.
 - **The curvature that the sums use** (Section 11.10): the mixed components $R^{x_4k}{}_{x_8k} = \sigma_kHa_4'\cot z$ carry the sign $\sigma_k = \pm 1$ of inflation or deflation, not of the space-like or time-like character, and $R^{x_4}{}_{x_8} = 0$ because three inflating and three deflating directions cancel; every nonzero $R^{ab}{}_{cd}$ has the weight 2.
 - **Laplace's rule** for determinants of every size, and **the expansion of every Lovelock tensor** along the column of its free upper label, $P_{(k)} = \delta\,L_{(k)} - 2k\,Y_{(k)}$ (Section 11.13; Notebook 11b, In [21]).
 - **For every metric** (Sections 11.14 and 11.15): $L_{(1)} = 2R$, $P_{(1)} = -4G$, so $E_{(1)} = G$; the trace identity $\sum_hP_{(k)}{}^h{}_h = (8 - 2k)L_{(k)}$; $L_{(2)} = 4\,\mathrm{GB}$ and $P_{(2)} = -8\mathcal{H}$ with Lanczos's Gauss-Bonnet tensor $\mathcal{H}$, so $E_{(2)} = \mathcal{H}$ (Notebook 11b, In [18], In [19], In [22]; records `lovelock-report.json`, checks `k1_equals_minus_4_einstein`, `k1_trace_identity` to `k3_trace_identity`, and `python-lovelock-report.json`, checks `L1_equals_2R`, `k2_equals_minus_8_gauss_bonnet`, `L2_equals_4_gauss_bonnet`).
@@ -3483,7 +3507,7 @@ The five figure files must exist (nineteenth PASS line), and the last line is AL
 
 **PROVED by exact computation** (no rounding; by the Revision's programs, recomputed by the notebooks):
 
-- GKD equals the author's determinant for every one of the 266,304 pairs of lengths 1 to 3 (Notebook 11a, In [6]; records `python-lovelock-report.json`, check `gkd_literal_equals_cofactor_expansion`, and `wolfram-gkd-report.json`, checks `gkd_equals_kdelta_exhaustive_length_1` to `_length_3`) and for every one of the 16,777,216 pairs of length 4 (the Rust self-test, rerun in Notebook 11a, In [14], which reproduces `Revision/gkd_lovelock/results/gkd-selftest.json` byte for byte).
+- GKD equals the author's determinant for every one of the 266,304 pairs of lengths 1 to 3 (Notebook 11a, In [6]; the sympy report, check `gkd_literal_equals_cofactor_expansion`; the Wolfram report, checks `gkd_equals_kdelta_exhaustive_length_1` to `_length_3`) and for every one of the 16,777,216 pairs of length 4 (the Rust self-test, rerun in Notebook 11a, In [14], which writes the record `gkd-selftest.json` again byte for byte).
 - The 25 nonzero Christoffel symbols, the 156 nonzero components $R^{ab}{}_{cd}$ and the Ricci scalar $R = 6a_4'^2 - 42H^2$ (Notebook 11b, In [6] to In [8]; records `curvature.json` and `python-lovelock-report.json`, check `rust_riemann_agrees`).
 - All $3 \times 64$ components of $P_{(1)}, P_{(2)}, P_{(3)}$ and the scalars $L_{(1)}, L_{(2)}, L_{(3)}$, computed by the Rust program and again by the notebook's own GKD sum (Notebook 11b, In [3], In [4], In [14], In [15]; record `lovelock-tensors.json`, written again byte for byte; `python-lovelock-report.json`, checks `rust_k1_mixed_components_agree` to `rust_k3_mixed_components_agree` and `rust_L1_agrees` to `rust_L3_agrees`); the counters of the sums, 696, 32,640 and 495,360 GKD calls (In [14]; record `lovelock-report.json`, field `counters`); the literal sums of orders 1 and 2 without any skipping, with 10,140 and 1,581,840 GKD calls (In [16]; checks `k1_unpruned_literal_sum_agrees` and `k2_unpruned_literal_sum_agrees`); the cubic identity $L_{(3)} = 8(2T_1 + 8T_2 + \dots + T_8)$ for the author's metric (In [20]; check `L3_equals_8_cubic_lovelock_density`); zero divergence and symmetry of all three tensors (record `lovelock-report.json`, checks `k1_divergence_free` to `k3_symmetric`); the 19 checks of the Rust program, the 49 of the sympy verification and the 29 of the Wolfram verification, none failed (In [3] and In [24]).
 - The components $E_{(1)}, E_{(2)}, E_{(3)}$ of Section 11.20 equal those recorded for the field equations of $a_4$ (Notebook 11c, In [3]; `Revision/field_equations_a4/reports/python-a4-report.json`, check `json_lovelock_components`).
@@ -3515,7 +3539,34 @@ The five figure files must exist (nineteenth PASS line), and the last line is AL
 
 **Exercise 2.** (a) How many of the $8^{10}$ pairs of index lists of length 5 have the value $+1$, how many $-1$, how many 0? (b) For the Rust self-test of length 6 (100,000 rearranged and 100,000 independent pairs), compute the expected number of nonzero values and its standard deviation, and compare with the record's count 7812.
 
-*Answer.* (a) $N_{\ne 0}(5) = 8\cdot 7\cdot 6\cdot 5\cdot 4\cdot 5! = 6720\cdot 120 = 806400$ (Section 11.4), half of each sign: 403,200 values $+1$ and 403,200 values $-1$; the zeros are $8^{10} - 806400 = 1073741824 - 806400 = 1072935424$. (b) $r_6 = 8!/(2!\cdot 8^6) = 20160/262144 = 0.0769043$ and $q_6 = N_{\ne 0}(6)/8^{12} = 20160\cdot 720/68719476736 = 14515200/68719476736 = 0.000211$. The expectation is $100000\cdot(0.0769043 + 0.000211) = 7711.6$; the standard deviation is $\sqrt{100000\cdot 0.0769043\cdot 0.9230957 + 100000\cdot 0.000211\cdot 0.999789} = \sqrt{7099.0 + 21.1} = \sqrt{7120.1} = 84.4$. The record's 7812 lies $(7812 - 7711.6)/84.4 = 1.19$ standard deviations above the expectation, as Notebook 11a prints (In [15]).
+*Answer.* (a) By the formula of Section 11.4,
+
+$$
+N_{\ne 0}(5) = 8\cdot 7\cdot 6\cdot 5\cdot 4\cdot 5! = 6720\cdot 120 = 806400 ,
+$$
+
+half of each sign: 403,200 values $+1$ and 403,200 values $-1$. The zeros are the rest:
+
+$$
+8^{10} - 806400 = 1073741824 - 806400 = 1072935424 .
+$$
+
+(b) The two chances are
+
+$$
+r_6 = \frac{8!}{2!\cdot 8^6} = \frac{20160}{262144} = 0.0769043,\qquad q_6 = \frac{N_{\ne 0}(6)}{8^{12}} = \frac{20160\cdot 720}{68719476736} = 0.000211 .
+$$
+
+The expectation is $100000\cdot(0.0769043 + 0.000211) = 7711.6$, and the standard deviation is
+
+$$
+\begin{aligned}
+&\sqrt{100000\cdot 0.0769043\cdot 0.9230957 + 100000\cdot 0.000211\cdot 0.999789}\\
+&\quad = \sqrt{7099.0 + 21.1} = \sqrt{7120.1} = 84.4 .
+\end{aligned}
+$$
+
+The record's 7812 lies $(7812 - 7711.6)/84.4 = 1.19$ standard deviations above the expectation, as Notebook 11a prints (In [15]).
 
 **Exercise 3.** Compute the determinant of the matrix with the rows $(2, 1, 0)$, $(0, 1, 3)$, $(1, 0, 1)$ by Laplace's rule along its second column, and compare with the six-term formula, which gives 5.
 
@@ -3527,7 +3578,16 @@ The five figure files must exist (nineteenth PASS line), and the last line is AL
 
 **Exercise 5.** On the author's history $a_4 = Hx_4$ ($A = 1$): (a) write the Einstein tensor and $P_{(1)}$; (b) check the trace identity of order 1 with $L_{(1)}$.
 
-*Answer.* (a) With $a_4' = H$ and $a_4'' = 0$ the components of Section 11.20 give $G^{x_1}{}_{x_1} = -3 + 15 = 12$, $G^{x_4}{}_{x_4} = 3 + 21 = 24$, $G^{x_5}{}_{x_5} = 12$, $G^{x_8}{}_{x_8} = 15 - 3 = 12$ (in units of $H^2$), so $G = \mathrm{diag}(12, 12, 12, 24, 12, 12, 12, 12)H^2$, and $P_{(1)} = -4G = \mathrm{diag}(-48, -48, -48, -96, -48, -48, -48, -48)H^2$. (b) The trace is $\sum_hP_{(1)}{}^h{}_h = -4(7\cdot 12 + 24)H^2 = -432H^2$. With $L_{(1)} = 12a_4'^2 - 84H^2 = -72H^2$, the identity gives $(8 - 2)L_{(1)} = 6\cdot(-72)H^2 = -432H^2$: the same.
+*Answer.* (a) With $a_4' = H$ and $a_4'' = 0$ the components of Section 11.20 give $G^{x_1}{}_{x_1} = -3 + 15 = 12$, $G^{x_4}{}_{x_4} = 3 + 21 = 24$, $G^{x_5}{}_{x_5} = 12$, $G^{x_8}{}_{x_8} = 15 - 3 = 12$ (in units of $H^2$), so
+
+$$
+\begin{aligned}
+G &= \mathrm{diag}(12, 12, 12, 24, 12, 12, 12, 12)\,H^2,\\
+P_{(1)} &= -4G = \mathrm{diag}(-48, -48, -48, -96, -48, -48, -48, -48)\,H^2 .
+\end{aligned}
+$$
+
+(b) The trace is $\sum_hP_{(1)}{}^h{}_h = -4(7\cdot 12 + 24)H^2 = -432H^2$. With $L_{(1)} = 12a_4'^2 - 84H^2 = -72H^2$, the identity gives $(8 - 2)L_{(1)} = 6\cdot(-72)H^2 = -432H^2$: the same.
 
 **Exercise 6.** On the same history $A = 1$: compute the four independent components of $E_{(2)}$, then $P_{(2)}$, $L_{(2)}$, and check the trace identity of order 2. What is special about the Gauss-Bonnet tensor on this history?
 

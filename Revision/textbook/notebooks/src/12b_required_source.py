@@ -72,6 +72,17 @@ FACTS = {
          "the notebook reads the Revision record of the repository. Run it inside the "
          "folder Revision/textbook/notebooks of a complete copy of the repository made "
          "with git clone, not on a copy of the notebook file alone."],
+        ["\"Jupyter command `jupyter-nbconvert` not found\" or \"Jupyter command "
+         "`jupyter-lab` not found\" after typing `python -m jupyter`",
+         "the program jupyter starts its parts nbconvert and lab as separate programs, "
+         "which it looks for in the folders of the search path PATH, and the folder that "
+         "holds them is not on it. Start the two parts as Python modules instead, with "
+         "the environment active (Step 4) and in the folder Revision/textbook/notebooks "
+         "(Step 5): the first command below opens the notebook in JupyterLab, the second "
+         "runs it headless",
+         ["python -m jupyterlab 12b_required_source.ipynb",
+          "python -m nbconvert --to notebook --execute --inplace "
+          "12b_required_source.ipynb"]],
     ],
 }
 

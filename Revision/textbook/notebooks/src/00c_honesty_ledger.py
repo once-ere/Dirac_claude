@@ -26,35 +26,56 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 from nbkit import code, md, run_builder  # noqa: E402
 
-REPORTS = [
-    "Revision/algebra/reports/wolfram-algebra.json",
-    "Revision/algebra/reports/python-algebra.json",
-    "Revision/theory/reports/wolfram-field-theory.json",
-    "Revision/theory/reports/python-field-theory.json",
-    "Revision/theory/reports/wolfram-scope.json",
-    "Revision/theory/reports/python-scope.json",
-    "Revision/field_equations_a4/reports/wolfram-a4-report.json",
-    "Revision/field_equations_a4/reports/python-a4-report.json",
-    "Revision/field_equations_a4/reports/ks-source-conditions.json",
-    "Revision/gkd_lovelock/results/lovelock-report.json",
-    "Revision/gkd_lovelock/results/gkd-selftest.json",
-    "Revision/gkd_lovelock/results/wolfram-gkd-report.json",
-    "Revision/gkd_lovelock/results/python-lovelock-report.json",
-    "Revision/kohn_sham/reports/ks-theory-wolfram.json",
-    "Revision/kohn_sham/reports/ks-theory-python.json",
-    "Revision/kohn_sham/reports/ks-rust-solver.json",
-    "Revision/kohn_sham/reports/ks-rust-determinism.json",
-    "Revision/kohn_sham/reports/ks-rust-mermin-roots.json",
-    "Revision/kohn_sham/reports/ks-reference.json",
-    "Revision/kohn_sham/reports/ks-crosscheck.json",
-    "Revision/pairing/reports/wolfram-pairing.json",
-    "Revision/pairing/reports/python-pairing.json",
-    "Revision/pairing/kohn_sham/reports/wolfram-t3.json",
-    "Revision/pairing/kohn_sham/reports/python-t3.json",
-    "Revision/lead_checks/reports/charge-conjugation-and-u1.json",
-    "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json",
-    "Revision/lead_checks/reports/emt-divergence-and-spin-connection.json",
+# The 27 verifier reports of the Revision record, grouped by folder, each with the engine
+# that did its computation (Wolfram Language, Python, Rust, or the lead's independent
+# Python checks). The notebook prints this list in its cell In [5].
+REPORT_GROUPS = [
+    ("the gammas, C, Gamma, B, Pin(4,4) and Spin(4,4)", [
+        ("Revision/algebra/reports/wolfram-algebra.json", "Wolfram"),
+        ("Revision/algebra/reports/python-algebra.json", "Python")]),
+    ("the Lagrangians, field equations, EMT, quantisation; the scope", [
+        ("Revision/theory/reports/wolfram-field-theory.json", "Wolfram"),
+        ("Revision/theory/reports/python-field-theory.json", "Python"),
+        ("Revision/theory/reports/wolfram-scope.json", "Wolfram"),
+        ("Revision/theory/reports/python-scope.json", "Python")]),
+    ("the field equations for a4; the Kohn-Sham states as a source", [
+        ("Revision/field_equations_a4/reports/wolfram-a4-report.json", "Wolfram"),
+        ("Revision/field_equations_a4/reports/python-a4-report.json", "Python"),
+        ("Revision/field_equations_a4/reports/ks-source-conditions.json", "Python")]),
+    ("GKD and the Lovelock tensors", [
+        ("Revision/gkd_lovelock/results/lovelock-report.json", "Rust"),
+        ("Revision/gkd_lovelock/results/gkd-selftest.json", "Rust"),
+        ("Revision/gkd_lovelock/results/wolfram-gkd-report.json", "Wolfram"),
+        ("Revision/gkd_lovelock/results/python-lovelock-report.json", "Python")]),
+    ("the Kohn-Sham theory, solvers and comparisons", [
+        ("Revision/kohn_sham/reports/ks-theory-wolfram.json", "Wolfram"),
+        ("Revision/kohn_sham/reports/ks-theory-python.json", "Python"),
+        ("Revision/kohn_sham/reports/ks-rust-solver.json", "Rust"),
+        ("Revision/kohn_sham/reports/ks-rust-determinism.json", "Python"),
+        ("Revision/kohn_sham/reports/ks-rust-mermin-roots.json", "Python"),
+        ("Revision/kohn_sham/reports/ks-reference.json", "Python"),
+        ("Revision/kohn_sham/reports/ks-crosscheck.json", "Python")]),
+    ("the pairing theorems T1, T2, Q and T3", [
+        ("Revision/pairing/reports/wolfram-pairing.json", "Wolfram"),
+        ("Revision/pairing/reports/python-pairing.json", "Python"),
+        ("Revision/pairing/kohn_sham/reports/wolfram-t3.json", "Wolfram"),
+        ("Revision/pairing/kohn_sham/reports/python-t3.json", "Python")]),
+    ("the lead's independent checks", [
+        ("Revision/lead_checks/reports/charge-conjugation-and-u1.json", "lead"),
+        ("Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json", "lead"),
+        ("Revision/lead_checks/reports/emt-divergence-and-spin-connection.json",
+         "lead")]),
 ]
+REPORTS = [path for _, group in REPORT_GROUPS for path, _ in group]
+# The list as lines of the code cell In [5]: a comment line before each group, then one
+# line per report (indented by 4 in the notebook, so each line has at most 85 characters).
+REPORT_LINES = []
+for _subject, _group in REPORT_GROUPS:
+    REPORT_LINES.append(f"# {_subject}")
+    for _path, _engine in _group:
+        REPORT_LINES.append(f'("{_path}", "{_engine}"),')
+assert max(len(_line) for _line in REPORT_LINES) <= 85, "a line of REPORTS is too long"
+
 
 FACTS = {
     "id": "00c",
@@ -348,13 +369,16 @@ CELLS = [
     md(r"""
     ## 7. All 27 reports of the Revision record
 
-    The next cell first searches the whole folder Revision (except the folder
-    Revision/textbook of this book and the build folders `target` of the Rust
-    programs) for reports: JSON files that hold a key `checks`, or, like the GKD
-    self-test, a list `results` whose entries count `mismatches`. It then lists the 27
-    verifier reports of the Revision record, each with its engine, counts the checks
-    of each with `count_checks`, and prints a table and the totals per engine. Three
-    checks follow:
+    The next cell first searches the whole folder Revision for reports: JSON files
+    that hold a key `checks`, or, like the GKD self-test, a list `results` whose
+    entries count `mismatches`. It skips three kinds of folders that are not part of
+    the record: the folder Revision/textbook of this book, the folder
+    Revision/workflows (the records of the programs that organised the work, rewritten
+    while they run; the Revision record says itself that no result depends on them),
+    and the build folders `target` of the Rust programs. It then lists the 27 verifier
+    reports of the Revision record, grouped by folder, each with its engine, counts the
+    checks of each with `count_checks`, and prints a table and the totals per engine.
+    Three checks follow:
 
     1. the search finds exactly the 27 reports of the list: no report of the record is
        left out of the count (and so out of the ledger below);
@@ -381,11 +405,12 @@ CELLS = [
         return "checks" in data or self_test
 
 
+    SKIPPED = ("Revision/textbook/", "Revision/workflows/")  # folders that hold no report
     found_reports = []  # every report found in the folder Revision, as a relative path
     for path in sorted(repository_file("Revision").rglob("*.json")):
         relative = path.relative_to(REPO).as_posix()  # e.g. "Revision/algebra/..."
-        if relative.startswith("Revision/textbook/") or "/target/" in relative:
-            continue  # this book's own files, and the Rust build folders
+        if relative.startswith(SKIPPED) or "/target/" in relative:
+            continue  # the book, the workflow records and the Rust build folders
         if is_report(path):
             found_reports.append(relative)
     report("verifier reports found in the folder Revision", len(found_reports))
@@ -425,14 +450,7 @@ CELLS = [
         if stated != counted[path]:
             disagree.append(path)
     check(disagree == [], "each report states the same totals that we counted")
-    '''.replace("@@REPORTS@@", "\n        ".join(
-        f'("{path}",\n         "'
-        + ("Wolfram" if "wolfram" in path
-           else "Rust" if path.endswith(("lovelock-report.json", "gkd-selftest.json",
-                                         "ks-rust-solver.json"))
-           and "python" not in path
-           else "lead" if "lead_checks" in path else "Python")
-        + '"),' for path in REPORTS))),
+    '''.replace("@@REPORTS@@", "\n        ".join(REPORT_LINES))),
     md(r"""
     The next cell compares our counts with two other places of the record that quote
     them. First, the table of the file Revision/README.md (its lines that start with
@@ -502,25 +520,26 @@ CELLS = [
     ENGINE_NAMES = {"Wolfram": "Wolfram Language", "Python": "Python",
                     "Rust": "Rust", "lead": "Python, the lead's independent checks"}
 
+    # The report with the most checks, and its number of checks.
+    largest = max((path for path, _ in REPORTS), key=lambda path: counted[path][1])
+    longest = counted[largest][1]
     fig, ax = plt.subplots(figsize=(6.4, 7.8))
     rows = np.arange(len(REPORTS))[::-1]  # the first report at the top
     for row, (path, engine) in zip(rows, REPORTS):
         total = counted[path][1]
         ax.barh(row, total, height=0.72, color=ENGINE_COLOURS[engine])
-        ax.text(total + 1.5, row, str(total), va="center", fontsize=9)
+        ax.text(total + 0.015 * longest, row, str(total), va="center", fontsize=9)
     # The name of each report without its folder and without the ending .json:
     names = [path.rsplit("/", 1)[1].removesuffix(".json") for path, _ in REPORTS]
     ax.set_yticks(rows, labels=names, fontsize=9)
-    ax.set_xlim(0, 112)
+    ax.set_xlim(0, 1.12 * longest)  # room for the longest bar and its number
     ax.grid(False, axis="y")  # vertical grid lines only
     ax.set_xlabel("number of checks in the report (every one has the verdict PASS)")
     ax.set_title(f"The {len(REPORTS)} verifier reports of the Revision record: "
                  f"{all_checks} checks")
     ax.legend(handles=[Patch(color=ENGINE_COLOURS[e], label=ENGINE_NAMES[e])
                        for e in ENGINE_COLOURS], loc="lower right", fontsize=8)
-    # The report with the most checks, and its file name without the folders.
-    largest = max((path for path, _ in REPORTS), key=lambda path: counted[path][1])
-    largest_name = largest.rsplit("/", 1)[1]
+    largest_name = largest.rsplit("/", 1)[1]  # its file name without the folders
     n_wolfram, n_python, n_rust, n_lead = (engine_totals[engine] for engine in
                                            ("Wolfram", "Python", "Rust", "lead"))
     totals_text = (f"{n_wolfram} Wolfram Language, {n_python} Python, {n_rust} Rust "
@@ -533,8 +552,7 @@ CELLS = [
                 r"lead checks). The colour gives the engine: blue Wolfram Language, "
                 r"orange Python, aqua Rust, yellow the lead's independent Python "
                 f"checks. All {all_checks} checks ({totals_text}) have the verdict "
-                f"PASS; the largest report is {largest_name} with "
-                f"{counted[largest][1]} checks.")
+                f"PASS; the largest report is {largest_name} with {longest} checks.")
     '''),
     md(r"""
     ## 8. Two independent engines
@@ -572,6 +590,7 @@ CELLS = [
         python_numbers.append(counted["Revision/" + python][1])
         say(f"{subject:36} {wolfram_numbers[-1]:7d} {python_numbers[-1]:7d}")
 
+    widest = max(wolfram_numbers + python_numbers)  # the longest of the 16 bars
     fig, ax = plt.subplots(figsize=(7.0, 5.0))
     rows = np.arange(len(SUBJECTS))[::-1]
     height = 0.38  # two bars in each row
@@ -580,10 +599,10 @@ CELLS = [
     ax.barh(rows - height / 2, python_numbers, height, color="#eb6834",
             edgecolor="white", linewidth=1.5, label="Python verifier (sympy)")
     for row, w, p in zip(rows, wolfram_numbers, python_numbers):
-        ax.text(w + 1.5, row + height / 2, str(w), va="center", fontsize=8)
-        ax.text(p + 1.5, row - height / 2, str(p), va="center", fontsize=8)
+        ax.text(w + 0.015 * widest, row + height / 2, str(w), va="center", fontsize=8)
+        ax.text(p + 0.015 * widest, row - height / 2, str(p), va="center", fontsize=8)
     ax.set_yticks(rows, labels=[subject for subject, _, _ in SUBJECTS])
-    ax.set_xlim(0, 112)
+    ax.set_xlim(0, 1.12 * widest)  # room for the longest bar and its number
     ax.grid(False, axis="y")
     ax.set_xlabel("number of checks (every one has the verdict PASS)")
     ax.set_title("Eight subjects, each checked by two independent verifiers")
@@ -714,6 +733,7 @@ CELLS = [
     """),
     code(r'''
     LABEL_COLOURS = {"PROVED": "#2a78d6", "COMPUTED": "#eb6834", "ASSUMED": "#1baf7a"}
+    widest = max(row_totals)  # the row with the most checks
     fig, ax = plt.subplots(figsize=(7.6, 8.0))
     rows = np.arange(len(LEDGER))[::-1]  # the first row of the ledger at the top
     for number, row, (statement, label, note, paths), total in zip(
@@ -723,13 +743,13 @@ CELLS = [
         ax.text(0, row + 0.26, f"{number}. {statement}", va="bottom", fontsize=9.5)
         if total > 0:
             ax.barh(row, total, height=0.42, color=LABEL_COLOURS[label])
-            ax.text(total + 2, row, f"{total} checks: {label}", va="center",
-                    fontsize=9)
+            ax.text(total + 0.012 * widest, row, f"{total} checks: {label}",
+                    va="center", fontsize=9)
         else:  # no report: the label and the note, in grey
             ax.text(0, row, f"{label}: {note}", va="center", fontsize=9,
                     color="#52514e")
     ax.set_yticks([])  # the statements are written above the bars instead
-    ax.set_xlim(0, 232)
+    ax.set_xlim(0, 1.39 * widest)  # room for the longest bar and the text after it
     ax.set_ylim(-0.6, len(LEDGER) - 0.1)
     ax.grid(False, axis="y")
     ax.set_xlabel("number of checks in the reports of the row (all PASS)")

@@ -39,7 +39,9 @@ FACTS = {
         "pressures that each history requires, checks numerically that the constraint "
         "and the conservation law hold along the solutions, and draws six teaching "
         "plots of a4, its rate and the scale factors of 3-space and of the deflating "
-        "extra times."
+        "extra times. At the end it reads the record on the Kohn-Sham states and "
+        "recomputes its numbers from the table of their integrated energy-momentum "
+        "tensors."
     ),
     "records": [
         ["Revision/field_equations_a4/a4-equations.json",
@@ -50,6 +52,10 @@ FACTS = {
          "the Wolfram checks of the a4 record that the notebook reproduces"],
         ["Revision/field_equations_a4/reports/ks-source-conditions.json",
          "the record that no Kohn-Sham state of the repository is an admissible source"],
+        ["Revision/kohn_sham/results/ground/emt-integrals.csv",
+         "the integrals over the hidden direction of the energy density and the pressures "
+         "of every recorded Kohn-Sham ground state, from which the notebook recomputes "
+         "the numbers of the record ks-source-conditions.json"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -66,7 +72,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all six figure files exist",
-        "ALL 26 CHECKS PASSED (notebook 12c)",
+        "ALL 30 CHECKS PASSED (notebook 12c)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming a4-equations.json",
@@ -78,6 +84,17 @@ FACTS = {
          "a changed coupling or stress drove a4' past the point where F vanishes; the "
          "notebook as distributed stops every integration before that point. Undo the "
          "change or lower the stress."],
+        ["\"Jupyter command `jupyter-nbconvert` not found\" or \"Jupyter command "
+         "`jupyter-lab` not found\" after typing `python -m jupyter`",
+         "the program jupyter starts its parts nbconvert and lab as separate programs, "
+         "which it looks for in the folders of the search path PATH, and the folder that "
+         "holds them is not on it. Start the two parts as Python modules instead, with "
+         "the environment active (Step 4) and in the folder Revision/textbook/notebooks "
+         "(Step 5): the first command below opens the notebook in JupyterLab, the second "
+         "runs it headless",
+         ["python -m jupyterlab 12c_a4_evolution.ipynb",
+          "python -m nbconvert --to notebook --execute --inplace "
+          "12c_a4_evolution.ipynb"]],
     ],
 }
 
@@ -135,9 +152,12 @@ CELLS = [
     - **Constraint**: the time component of the field equations, which fixes the
       energy density $\rho$ from $a_4'$; **conservation**: $\rho' = -3a_4'(p_3 - p_t)$.
     - **Deflation rate**: the rate $a_4'$. While $a_4' > 0$ the scale factor
-      $e^{-a_4}$ of the extra times shrinks exponentially, at the momentary rate $a_4'$;
-      the author's history is the linear member with the constant rate $a_4' = AH$,
-      $A = 1$ (or $A = 2$).
+      $e^{-a_4}$ of the extra times shrinks exponentially, at the momentary rate $a_4'$.
+    - **Canonical history**: the author's metric leaves the function $a_4(x_4)$ free;
+      the author requires only that the extra times deflate ($a_4' > 0$). The linear
+      member with the constant rate $a_4' = AH$ and $A = 1$ is the canonical history
+      of the Revision record (ASSUMED, a prescribed choice); this notebook also uses
+      the faster member $A = 2$.
     - **Breakdown**: a point where $F(a_4') = 0$, so that the evolution equation can no
       longer be solved for $a_4''$.
     - **Units**: $H = 1$ and $\kappa = 1$: the time $x_4$ is measured in units of
@@ -398,7 +418,7 @@ CELLS = [
     md(r"""
     ## 8. A pulse of anisotropic stress raises the deflation rate
 
-    Now we start on the author's history, the deflating linear member with $A = 1$
+    Now we start on the canonical history, the deflating linear member with $A = 1$
     ($a_4(0) = 0$, $a_4'(0) = H$), and prescribe a short pulse of stress around the
     time $x_c = 3$ with width $w = 0.5$:
 
@@ -424,7 +444,7 @@ CELLS = [
     code(r'''
     X_C, WIDTH = 3.0, 0.5  # the centre and the width of the pulse
     PUSH = 2.0 / (WIDTH * math.sqrt(math.pi))  # kappa Delta_0
-    RATE_START = 1.0  # a4'(0)/H: the author's deflating history A = 1
+    RATE_START = 1.0  # a4'(0)/H: the canonical deflating history A = 1
 
 
     def pulse(x, y):
@@ -715,7 +735,7 @@ CELLS = [
     $G$ has its maximum at $a_4'_c$, so the rate reaches $a_4'_c$ at the finite time
     $x_4^{\star} = (G(a_4'_c) - G(a_4'(0)))/(\kappa\Delta)$, with $a_4'' = \kappa\Delta/F$
     growing without bound; beyond it the equation has no solution with a smooth
-    $a_4'$. The next cell starts on the author's deflating member ($a_4'(0) = H$),
+    $a_4'$. The next cell starts on the canonical deflating member ($a_4'(0) = H$),
     integrates with $\kappa\Delta = 0.5$ and $\alpha_2 = 0.005, 0.01$ (step
     $h = 0.001$), stops when $F < 0.05$, and checks the integrated relation and the
     breakdown time.
@@ -796,21 +816,98 @@ CELLS = [
     The stresses above were chosen by hand. The Revision record asks the opposite
     question for the only many-particle states it has computed, the Kohn-Sham states
     of dirac16complex: can they be the source of the author's metric? The next cell
-    reads the record's answer and checks that all its checks passed. The answer is no:
-    every nonzero Kohn-Sham state depends on $x_8$ and violates $p_3 + p_t = 2p_8$, so
-    the Kohn-Sham history $a_4 = AHx_4$ is a prescribed background, not a solution of
-    these equations with that source.
+    reads the record's answer, prints how many of its checks passed and checks that
+    every one did. The answer is no: every nonzero Kohn-Sham state depends on $x_8$
+    and violates $p_3 + p_t = 2p_8$, so the Kohn-Sham history $a_4 = AHx_4$ is a
+    prescribed background, not a solution of these equations with that source.
     """),
     code(r'''
     ks = read_json(KS)
     say("record: " + ks["conclusion"])
-    names = [entry["name"] for entry in ks["checks"]]
-    check(ks["summary"]["pass"] == ks["summary"]["checks"] == 5
-          and "ks_history_is_a_prescribed_background" in names,
-          "record: no Kohn-Sham state is an admissible source (5 of 5 checks PASS)")
+    detail = {entry["name"]: entry["detail"] for entry in ks["checks"]}
+    verdicts = [entry["verdict"] for entry in ks["checks"]]
+    passed = verdicts.count("PASS")  # how many checks of the record passed
+    say(f"{KS}: {passed} of {len(verdicts)} checks PASS")
+    check(len(verdicts) > 0 and passed == len(verdicts) == ks["summary"]["checks"]
+          and "ks_history_is_a_prescribed_background" in detail,
+          "record: no Kohn-Sham state is an admissible source (every check PASS)")
     '''),
     md(r"""
-    ## 14. The last check
+    ## 14. The record's numbers, recomputed from the Kohn-Sham table
+
+    The record does not only say no; it gives numbers. We recompute them here from
+    the table `emt-integrals.csv` of the Kohn-Sham record, which holds one row per
+    recorded ground state: its name (for example `N136_lam0_a10`: $N = 136$
+    particles, coupling $\lambda = 0$, slice $a_{4,0} = 1$) and the integrals over
+    the hidden direction, $2\,\mathrm{Vol}_7\int e^{6Hy}\,T\,dy$, of the energy
+    density and of the three pressures (columns `int_rho`, `int_p3`, `int_p_t`,
+    `int_p8`). If the source obeyed $p_3 + p_t = 2p_8$ at every point, it would also
+    obey it after the integration, and the ratio
+    $$r = \frac{\int p_3 + \int p_t}{2\int p_8}$$
+    would be exactly 1. The next cell
+
+    - counts the states, and those whose four integrals are not all zero (a state
+      with a zero energy-momentum tensor is no source at all);
+    - computes $r$ for every other state, finds the one closest to 1, and prints $r$
+      for the history $N = 136$, $\lambda = 0$ at the slices $a_{4,0} = 0, 1, 2$;
+    - compares every number with the text of the record, which prints them with six
+      significant digits (the format `.6g`), so that a change of either is caught.
+    """),
+    code(r'''
+    import csv  # reads tables of comma-separated values
+    import re  # regular expressions: find a pattern in a text
+
+    TABLE = "Revision/kohn_sham/results/ground/emt-integrals.csv"
+    with repository_file(TABLE).open(encoding="utf-8", newline="") as handle:
+        table = {row["id"]: row for row in csv.DictReader(handle)}
+    INTEGRALS = ("int_rho", "int_p3", "int_p_t", "int_p8")  # 2 Vol_7 int e^(6Hy) T dy
+    zero = sorted(name for name, row in table.items()
+                  if all(float(row[column]) == 0.0 for column in INTEGRALS))
+    nonzero = [name for name in table if name not in zero]
+    report("Kohn-Sham states in the table", len(table))
+    report("states with a nonzero energy-momentum tensor", len(nonzero))
+    say("states with a zero energy-momentum tensor: " + ", ".join(zero))
+
+    counted = re.search(r"(\d+) ground-state profiles .*?\((\d+) with a nonzero",
+                        detail["ks_profiles_depend_on_x8"])
+    reproduces(counted is not None
+               and counted.groups() == (str(len(table)), str(len(nonzero))),
+               f"{len(nonzero)} of the {len(table)} states have a nonzero tensor",
+               KS, "ks_profiles_depend_on_x8")
+    listed = detail["ks_zero_source_states_listed"].rsplit(": ", 1)[-1].split(", ")
+    reproduces(sorted(listed) == zero,
+               "the states with a zero tensor are the ones the record lists",
+               KS, "ks_zero_source_states_listed")
+
+    ratio = {}  # r = (int p3 + int p_t)/(2 int p8) of every nonzero state
+    for name in nonzero:
+        row = table[name]
+        if float(row["int_p8"]) != 0.0:
+            ratio[name] = ((float(row["int_p3"]) + float(row["int_p_t"]))
+                           / (2 * float(row["int_p8"])))
+    closest = min(ratio, key=lambda name: abs(ratio[name] - 1.0))
+    report(f"closest to 1: r of {closest}", f"{ratio[closest]:.6g}")
+    HISTORY = ["N136_lam0_a00", "N136_lam0_a10", "N136_lam0_a20"]  # N = 136, lambda = 0
+    for name in HISTORY:
+        slice_a4 = float(table[name]["a4"])  # the slice a4,0 of this state
+        report(f"N = 136, lambda = 0, a4,0 = {slice_a4:g}: r", f"{ratio[name]:.6g}")
+
+    text = detail["ks_integrals_violate_algebraic_condition"]
+    tolerance = float(ks["tolerance"].split()[-1])  # "relative 1e-06" gives 1e-06
+    best = re.search(r"closest to 1: (\S+) at (\w+)", text)
+    reproduces(len(ratio) == len(nonzero) and abs(ratio[closest] - 1.0) > tolerance
+               and best is not None
+               and best.groups() == (f"{ratio[closest]:.6g}", closest),
+               "r differs from 1 for every nonzero state; the closest as recorded",
+               KS, "ks_integrals_violate_algebraic_condition")
+    found = [re.search(name + r": (\S+?)[,\s]", text) for name in HISTORY]
+    reproduces(all(item is not None and item.group(1) == f"{ratio[name]:.6g}"
+                   for item, name in zip(found, HISTORY)),
+               "r of N = 136, lambda = 0 at a4,0 = 0, 1, 2 equals the record",
+               KS, "ks_integrals_violate_algebraic_condition")
+    '''),
+    md(r"""
+    ## 15. The last check
 
     The last cell checks that the six figure files exist in the folder
     Revision/textbook/figures and prints the number of checks that passed.
@@ -824,7 +921,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 15. What this notebook showed
+    ## 16. What this notebook showed
 
     - With a prescribed anisotropic stress $p_3 - p_t$ the evolution equation
       $a_4''F(a_4') = \kappa(p_3 - p_t)$ is an ordinary differential equation for
@@ -844,7 +941,11 @@ CELLS = [
       integrated relation, COMPUTED numerically).
     - None of these stresses is known to come from a field of the theory; the record
       shows that the Kohn-Sham states of the repository are not admissible sources
-      (record ks-source-conditions.json).
+      (record ks-source-conditions.json). The notebook recomputes the record's
+      numbers from the Kohn-Sham table: the integrated ratio
+      $(\int p_3 + \int p_t)/(2\int p_8)$, which must be 1 for an admissible source,
+      differs from 1 for every recorded state with a nonzero energy-momentum tensor
+      (COMPUTED from the record's table; equal to the record).
     """),
 ]
 
