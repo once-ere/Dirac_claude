@@ -473,7 +473,7 @@ def main():
     checks = []
 
     def check(name, crit, ok, detail):
-        checks.append({"name": name, "criterion": crit, "result": "PASS" if ok else "FAIL", "detail": detail})
+        checks.append({"name": name, "criterion": crit, "verdict": "PASS" if ok else "FAIL", "detail": detail})
         print(f"{'PASS' if ok else 'FAIL'} - {name}: {detail}", file=sys.stderr, flush=True)
 
     # ---- 1. build and control -------------------------------------------------------------------
@@ -776,15 +776,15 @@ def main():
                    "|v_v(-L)| = (lambda/16) n(-L) proportional to e^{(6H - 2m)L} = e^{4L}",
             "rows": fo},
         "analysis": analysis,
-        "reference": {"jobs": [{"id": state_id(N, tag, a4), "L": L, "result": rr} for (N, tag, lam, a4, L), rr in zip(rjobs, rref)],
+        "reference": {"jobs": [{"id": state_id(N, tag, a4), "L": L, "values": rr} for (N, tag, lam, a4, L), rr in zip(rjobs, rref)],
                       "comparisons": refcmp, "LDifferences": dcmp},
         "checks": checks,
-        "summary": {"checks": len(checks), "pass": sum(c["result"] == "PASS" for c in checks)},
+        "summary": {"passed": sum(c["verdict"] == "PASS" for c in checks), "total": len(checks)},
     }
     write_text(HERE / "tip-convergence.json", json.dumps(jclean(rep), indent=1, sort_keys=False) + "\n")
     make_figures(rep, allspecs, res_fixed, recspecs, res_rec)
     tlog("report and figures written")
-    ok = all(c["result"] == "PASS" for c in checks)
+    ok = all(c["verdict"] == "PASS" for c in checks)
     print("SUCCESS" if ok else "FAILURE")
     sys.exit(0 if ok else 1)
 
