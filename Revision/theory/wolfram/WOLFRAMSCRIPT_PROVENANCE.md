@@ -988,7 +988,10 @@ checks of section 3.6 hold: the 103 printed lines equal those of section 4.2 apa
 Wolfram message and no `FAIL` or `cannot write` line. `wolfram-field-theory.json` has 95 lines, 35518 bytes and
 sha256 `35f33fb39ded42f510d22703ccb19a4984e372c016b3345bf620b95d0a43e57d`, byte-identical to the expected file;
 `field-theory.json` (sha256 `2a3c83e5...`) and `python-field-theory.json` (sha256 `bb8f8db3...`) are
-byte-identical to those of commit `af0fc19` (the commit before the change, equal to `a4c5eda` for these files);
+byte-identical to those of commit `af0fc19` (the commit before the change; `field-theory.json` is also
+unchanged since `a4c5eda`, while `python-field-theory.json` was regenerated after `a4c5eda` by the snapshot
+`6be66ce` of 2026-10-07, outside this set; at `a4c5eda` it had 1318 lines, 77402 bytes, sha256
+`07b08bf4...`, and since `6be66ce` 1364 lines, 84769 bytes);
 a JSON comparison with the report of `af0fc19` finds exactly the two changed detail texts. This is ONE run of the
 2026-10-08 version, compared with an expected file; a second, independent run of this version has not been made
 (the scope verifier of section 6.7 was run twice). The run was made in the working repository while other

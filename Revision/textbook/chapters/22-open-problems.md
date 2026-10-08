@@ -1822,7 +1822,7 @@ The right-hand side is negative for every real history when $H > 0$. So in Einst
 - What rests on it: theorem T2 in the author's field (the mirror pairing), theorem T3, and every Kohn-Sham number of the record (the densities are those of the doubled system, each patch with the weight $1/2$; key `densities.total`).
 - NOT established, as the record says itself: "no junction condition, brane tension or matching of the field across it is derived" (`Revision/pairing/reports/python-pairing.json`, key `not_established`). OPEN.
 
-**The brane in the coordinate y, line by line.** The two derivations of this paragraph and the next are the book's own, built on statements of the record; no Revision verifier checks them as such. The record's hidden coordinate is $y = \ln(\sin z)/(6H)$, with $dy = \cot z\,dx_8$ (`Revision/kohn_sham/ks-theory.json`, key `geometry.hiddenCoordinate`).
+**The brane in the coordinate y, line by line.** The two derivations of this paragraph and the next are written out by the book from statements of the record. The first, the line element in the coordinate $y$, is verified by the record's checks `geometry_hidden_coordinate` and `geometry_warped_form` of `Revision/kohn_sham/reports/ks-theory-python.json`; the second, the kink of the mirror warp, is the book's own, and no Revision verifier checks it as such. The record's hidden coordinate is $y = \ln(\sin z)/(6H)$, with $dy = \cot z\,dx_8$ (`Revision/kohn_sham/ks-theory.json`, key `geometry.hiddenCoordinate`).
 
 $$
 \cot^2z\,dx_8^2 = dy^2 .

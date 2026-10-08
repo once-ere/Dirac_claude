@@ -1661,14 +1661,15 @@ REPORTS = [  # (report, engine)
 The list `REPORTS` holds the 41 reports of the record, each as a pair: the path of the report and the **engine** that did its computation, that is, the language of the program that wrote the report: `"Wolfram"` (the Wolfram Language), `"Python"`, `"Rust"`, or `"lead"` for the lead's short independent Python checks. A comment line before each group names its subject. The first group is the algebra of Chapters 4 and 5 (the gamma matrices, $C$, $\Gamma$, $B$ and the groups), checked by a Wolfram verifier and by an independent Python verifier.
 
 ```python
-    # the Lagrangians, field equations, EMT, quantisation; the scope
+    # the Lagrangians, field equations, EMT, quantisation; the scope; a Fock model
     ("Revision/theory/reports/wolfram-field-theory.json", "Wolfram"),
     ("Revision/theory/reports/python-field-theory.json", "Python"),
     ("Revision/theory/reports/wolfram-scope.json", "Wolfram"),
     ("Revision/theory/reports/python-scope.json", "Python"),
+    ("Revision/theory/fock_quartic/reports/fock-quartic.json", "Python"),
 ```
 
-The folder `Revision/theory` holds the field theory of Chapters 7, 9 and 10 (the Lagrangians, the field equations, the energy-momentum tensor, abbreviated EMT, and the quantisation of dirac16complex) and the exact scope of the non-triviality (Chapter 8), each in a Wolfram and in a Python version: four reports.
+The folder `Revision/theory` holds the field theory of Chapters 7, 9 and 10 (the Lagrangians, the field equations, the energy-momentum tensor, abbreviated EMT, and the quantisation of dirac16complex) and the exact scope of the non-triviality (Chapter 8), each in a Wolfram and in a Python version: four reports. A fifth report, of its sub-folder `fock_quartic`, comes from one Python program only: the energy-momentum tensor operator of dirac16complex with a self-coupling $\lambda \neq 0$ in a finite model of the quantum theory (Section 0.18, the remark on row 2).
 
 ```python
     # the field equations for a4; the Kohn-Sham states as a source
@@ -1692,7 +1693,7 @@ The field equations for $a_4$ (Chapter 12), in Wolfram and in Python; the report
 The generalized Kronecker delta and the Lovelock tensors (Chapter 11): the Rust program that computes them writes a report on the tensors and a self-test of its GKD function, and a Wolfram and a Python verifier check its results independently. The fifth report compares the curvature of the Revision record with the values stored in the author's own Mathematica notebook (a Python program with sympy; row 7 of the ledger).
 
 ```python
-    # the Kohn-Sham theory, solvers and comparisons
+    # the Kohn-Sham theory, solvers and comparisons; the tip-cutoff study
     ("Revision/kohn_sham/reports/ks-theory-wolfram.json", "Wolfram"),
     ("Revision/kohn_sham/reports/ks-theory-python.json", "Python"),
     ("Revision/kohn_sham/reports/ks-rust-solver.json", "Rust"),
@@ -1700,9 +1701,10 @@ The generalized Kronecker delta and the Lovelock tensors (Chapter 11): the Rust 
     ("Revision/kohn_sham/reports/ks-rust-mermin-roots.json", "Python"),
     ("Revision/kohn_sham/reports/ks-reference.json", "Python"),
     ("Revision/kohn_sham/reports/ks-crosscheck.json", "Python"),
+    ("Revision/kohn_sham/tip_convergence/tip-convergence.json", "Python"),
 ```
 
-The Kohn-Sham model (Chapters 14 to 16): its theory in Wolfram and in Python; the Rust solver; two Python programs that examine the results of the Rust solver (the repeated and the refined run of Section 0.22, and the roots of the Mermin equation for the chemical potential, computed with 40 digits; Chapter 15); the independent Python reference solver; and the cross-check that compares the two solvers (Chapter 16). The determinism report and the report on the roots concern the Rust solver, but their own checks are computed in Python, so their engine is Python.
+The Kohn-Sham model (Chapters 14 to 16): its theory in Wolfram and in Python; the Rust solver; two Python programs that examine the results of the Rust solver (the repeated and the refined run of Section 0.22, and the roots of the Mermin equation for the chemical potential, computed with 40 digits; Chapter 15); the independent Python reference solver; the cross-check that compares the two solvers (Chapter 16); and the study of the tip cutoff $L$ of the hidden direction, a Python program that runs the Rust solver (and, at two values of $L$, the reference solver) for $L$ from 3 to 6 (Chapter 14; Section 0.18, the remark on row 9). The determinism report, the report on the roots and the tip-cutoff study concern the Rust solver, but their own checks are computed in Python, so their engine is Python.
 
 ```python
     # the dark-sector hypotheses of the two fields, investigated
@@ -1822,7 +1824,7 @@ README_ORDER = [  # the reports whose counts the README table quotes, in its ord
     R + "gkd_lovelock/results/wolfram-gkd-report.json",
 ```
 
-`R + "..."` joins two strings. The list `README_ORDER` names, in the order in which they appear in the table of the file `Revision/README.md`, the 37 reports whose counts that table quotes (three of them twice, as the last lines of the list show). The first row of the table, `gkd_lovelock/`, quotes three counts: that of the Rust report on the Lovelock tensors, then those of the Python and of the Wolfram verifier.
+`R + "..."` joins two strings. The list `README_ORDER` names, in the order in which they appear in the table of the file `Revision/README.md`, the 39 reports whose counts that table quotes (three of them twice, as the last lines of the list show). The first row of the table, `gkd_lovelock/`, quotes three counts: that of the Rust report on the Lovelock tensors, then those of the Python and of the Wolfram verifier.
 
 ```python
     R + "algebra/reports/wolfram-algebra.json",  # row algebra/
@@ -1831,9 +1833,10 @@ README_ORDER = [  # the reports whose counts the README table quotes, in its ord
     R + "theory/reports/python-field-theory.json",
     R + "theory/reports/wolfram-scope.json",
     R + "theory/reports/python-scope.json",
+    R + "theory/fock_quartic/reports/fock-quartic.json",
 ```
 
-The rows `algebra/` (two counts, Wolfram then Python) and `theory/` (four counts: the field theory, then the scope, each Wolfram then Python).
+The rows `algebra/` (two counts, Wolfram then Python) and `theory/` (five counts: the field theory, then the scope, each Wolfram then Python, and last the finite Fock model of the folder `theory/fock_quartic`).
 
 ```python
     R + "field_equations_a4/reports/wolfram-a4-report.json",  # row field_equations_a4/
@@ -1847,9 +1850,10 @@ The rows `algebra/` (two counts, Wolfram then Python) and `theory/` (four counts
     R + "kohn_sham/reports/ks-rust-mermin-roots.json",
     R + "kohn_sham/reports/ks-reference.json",
     R + "kohn_sham/reports/ks-crosscheck.json",
+    R + "kohn_sham/tip_convergence/tip-convergence.json",
 ```
 
-The rows `field_equations_a4/` (four counts: Wolfram, Python, the Kohn-Sham source conditions, and the folder `ks_source`) and `kohn_sham/` (seven counts: the theory in Wolfram and in Python, the Rust solver, its determinism, the Mermin roots, the reference solver and the cross-check).
+The rows `field_equations_a4/` (four counts: Wolfram, Python, the Kohn-Sham source conditions, and the folder `ks_source`) and `kohn_sham/` (eight counts: the theory in Wolfram and in Python, the Rust solver, its determinism, the Mermin roots, the reference solver, the cross-check and the tip-cutoff study).
 
 ```python
     R + "dark_sector/dirac16complex/reports/derivation-checks.json",  # dark_sector/
@@ -1893,7 +1897,7 @@ say("the README quotes: " + ", ".join(f"{p}/{t}" for p, t in quoted_readme))
 report("counts quoted in the README table", len(quoted_readme))
 ```
 
-The file is read and cut into lines; the lines of the table of the folders start with a vertical bar, a blank and a backtick, and they are joined again. A **regular expression** is a pattern that describes a family of texts: in `(\d+)/(\d+)`, `\d` means one digit, `+` means one or more of what stands before it, and the round brackets mark the parts to return. `re.findall` returns every match as a pair of the two marked parts, such as `("19", "19")`; `int` turns them into numbers. Out [6] prints the 37 counts found.
+The file is read and cut into lines; the lines of the table of the folders start with a vertical bar, a blank and a backtick, and they are joined again. A **regular expression** is a pattern that describes a family of texts: in `(\d+)/(\d+)`, `\d` means one digit, `+` means one or more of what stands before it, and the round brackets mark the parts to return. `re.findall` returns every match as a pair of the two marked parts, such as `("19", "19")`; `int` turns them into numbers. Out [6] prints the 39 counts found.
 
 ```python
 check_reproduces(quoted_readme == [counted[path] for path in README_ORDER],
@@ -1901,7 +1905,7 @@ check_reproduces(quoted_readme == [counted[path] for path in README_ORDER],
                  "Revision/README.md, the table of the folders")
 ```
 
-The 37 quoted counts must equal our counts of the 37 entries of the list, in this order.
+The 39 quoted counts must equal our counts of the 39 entries of the list, in this order.
 
 ```python
 CROSS = "Revision/kohn_sham/reports/ks-crosscheck.json"
@@ -1956,7 +1960,7 @@ longest = counted[largest][1]
 `max(..., key=...)` returns the path whose value under the key function is largest; `lambda path: counted[path][1]` is a function without a name that gives the number of checks of a report. `longest` is that largest number of checks (101, of the Wolfram pairing report, in the run printed in Section 0.20).
 
 ```python
-fig, ax = plt.subplots(figsize=(7.6, 9.4))
+fig, ax = plt.subplots(figsize=(7.6, 9.9))
 rows = np.arange(len(REPORTS))[::-1]  # the first report at the top
 for row, (path, engine) in zip(rows, REPORTS):
     total = counted[path][1]
@@ -1964,7 +1968,7 @@ for row, (path, engine) in zip(rows, REPORTS):
     ax.text(total + 0.015 * longest, row, str(total), va="center", fontsize=9)
 ```
 
-A tall figure, 7.6 by 9.4 inches, one row per report. `np.arange(39)` is 0 to 38, and `[::-1]` reverses it (a step of $-1$), so that the first report gets the highest row and stands at the top. `ax.barh` draws a horizontal bar of the given length in the given row, coloured by the engine; `ax.text` writes the number just after the end of the bar, at a distance of 1.5 per cent of the longest bar.
+A tall figure, 7.6 by 9.9 inches, one row per report. `np.arange(41)` is 0 to 40, and `[::-1]` reverses it (a step of $-1$), so that the first report gets the highest row and stands at the top. `ax.barh` draws a horizontal bar of the given length in the given row, coloured by the engine; `ax.text` writes the number just after the end of the bar, at a distance of 1.5 per cent of the longest bar.
 
 ```python
 # The name of each report without its folder and without the ending .json:
@@ -1979,7 +1983,7 @@ ax.legend(handles=[Patch(color=ENGINE_COLOURS[e], label=ENGINE_NAMES[e])
                    for e in ENGINE_COLOURS], loc="lower right", fontsize=8)
 ```
 
-`rsplit("/", 1)[1]` keeps the part after the last `/`, the file name, and `removesuffix` removes the ending. The names label the rows, in a font of 8.5 points so that 39 names fit. The horizontal axis runs from 0 to 1.12 times the longest bar, which leaves room for the longest bar and its number; because the limit is computed from the counts, the picture stays complete when a report gains checks. Only vertical grid lines are drawn; the axis label says that no check has the verdict FAIL (a bar counts all checks of its report, the five NOT-AVAILABLE ones of the comparison with the author's notebook included); the title contains the total; the legend names the four engines.
+`rsplit("/", 1)[1]` keeps the part after the last `/`, the file name, and `removesuffix` removes the ending. The names label the rows, in a font of 8.5 points so that 41 names fit. The horizontal axis runs from 0 to 1.12 times the longest bar, which leaves room for the longest bar and its number; because the limit is computed from the counts, the picture stays complete when a report gains checks. Only vertical grid lines are drawn; the axis label says that no check has the verdict FAIL (a bar counts all checks of its report, the five NOT-AVAILABLE ones of the comparison with the author's notebook included); the title contains the total; the legend names the four engines.
 
 ```python
 largest_name = largest.rsplit("/", 1)[1]  # its file name without the folders
@@ -2110,15 +2114,17 @@ LEDGER = [  # (statement, label, note, the reports that verify it)
     ("the gammas, C, Gamma, B; Pin(4,4) and Spin(4,4)", "PROVED", "",
      [R + "algebra/reports/wolfram-algebra.json",
       R + "algebra/reports/python-algebra.json"]),
-    ("Lagrangians, equations, EMT; dirac16complex quantised", "PROVED", "",
+    ("Lagrangians, equations, EMT; dirac16complex quantised", "PROVED",
+     "the EMT operator for lambda != 0: proved only in a finite Fock model",
      [R + "theory/reports/wolfram-field-theory.json",
-      R + "theory/reports/python-field-theory.json"]),
+      R + "theory/reports/python-field-theory.json",
+      R + "theory/fock_quartic/reports/fock-quartic.json"]),
     ("the exact scope of the non-triviality", "PROVED", "",
      [R + "theory/reports/wolfram-scope.json",
       R + "theory/reports/python-scope.json"]),
 ```
 
-The list `LEDGER` holds the twenty rows of the table of Section 0.18, each as a group of four: the statement, the label, the note (an empty string `""` for a row that needs none), and the list of the reports that verify the row. Rows 1 to 3 are the exact results of the algebra and of the field theory, each verified by a Wolfram and a Python report. Row 2 names the quantisation of dirac16complex only, because the field dirac16complex00 is a classical field and is not quantised.
+The list `LEDGER` holds the twenty rows of the table of Section 0.18, each as a group of four: the statement, the label, the note (an empty string `""` for a row that needs none), and the list of the reports that verify the row. Rows 1 to 3 are the exact results of the algebra and of the field theory, each verified by a Wolfram and a Python report. Row 2 names the quantisation of dirac16complex only, because the field dirac16complex00 is a classical field and is not quantised. Row 2 also holds the report of the finite Fock model (`lambda != 0` is $\lambda \neq 0$ written with plain characters: `!=` means "is not equal to"), and its note says how far that report reaches: the energy-momentum tensor (EMT) operator for $\lambda \neq 0$ is proved only in that finite model (Section 0.18).
 
 ```python
     ("EMT conservation identities; the spin connection", "PROVED", "",
@@ -2145,21 +2151,23 @@ Rows 4 to 6, all PROVED: the conservation identities (one report of the lead), t
       R + "kohn_sham/reports/ks-theory-python.json"]),
 ```
 
-Row 7, PROVED, is the only row that has both a report and a note: the note says that five of the 78 comparisons with the author's notebook could not be made (Section 0.18). Row 8 holds the exact parts of the Kohn-Sham theory.
+Row 7, PROVED, has both a report and a note, like row 2: the note says that five of the 78 comparisons with the author's notebook could not be made (Section 0.18). Row 8 holds the exact parts of the Kohn-Sham theory.
 
 ```python
-    ("Kohn-Sham states along the deflating history", "COMPUTED", "",
+    ("Kohn-Sham states along the deflating history", "COMPUTED",
+     "at the tip cutoff L = 3; the large-L limit not established for every state",
      [R + "kohn_sham/reports/ks-rust-solver.json",
       R + "kohn_sham/reports/ks-reference.json",
       R + "kohn_sham/reports/ks-crosscheck.json",
       R + "kohn_sham/reports/ks-rust-determinism.json",
-      R + "kohn_sham/reports/ks-rust-mermin-roots.json"]),
+      R + "kohn_sham/reports/ks-rust-mermin-roots.json",
+      R + "kohn_sham/tip_convergence/tip-convergence.json"]),
     ("the Kohn-Sham history of a4 is a prescribed background", "ASSUMED", "",
      [R + "field_equations_a4/reports/ks-source-conditions.json",
       R + "field_equations_a4/ks_source/reports/ks-source-a4.json"]),
 ```
 
-Row 9 is COMPUTED: the numerical Kohn-Sham states, with the five reports of the two solvers and of their comparisons. Row 10 is ASSUMED, and its two reports give the reason (Section 0.18).
+Row 9 is COMPUTED: the numerical Kohn-Sham states, with the five reports of the two solvers and of their comparisons and, sixth, the study of the tip cutoff. Its note says that the states are computed with the cutoff $L = 3$ and that the limit of large $L$ is not established for every state (Section 0.18). Row 10 is ASSUMED, and its two reports give the reason (Section 0.18).
 
 ```python
     ("pairing T1, T2 (Z2 mirror ASSUMED) and Q", "PROVED", "",
@@ -2220,11 +2228,11 @@ for number, (statement, label, note, paths) in enumerate(LEDGER, 1):
 ```python
 say("The notes of the rows:")
 for number, (statement, label, note, paths) in enumerate(LEDGER, 1):
-    if note:  # the HYPOTHESIS and OPEN rows, and row 7
+    if note:  # rows 2, 7 and 9, and the HYPOTHESIS and OPEN rows
         say(f"{number:3d} {label:10} {note}")
 ```
 
-The notes of the six rows that have one are printed below the table (a non-empty string counts as true in `if`): row 7 and the five rows without a report.
+The notes of the eight rows that have one are printed below the table (a non-empty string counts as true in `if`): rows 2, 7 and 9 and the five rows without a report.
 
 ```python
 used = sorted(path for _, _, _, paths in LEDGER for path in paths)
@@ -2232,7 +2240,7 @@ check(used == sorted(path for path, _ in REPORTS),
       f"every one of the {len(REPORTS)} reports belongs to exactly one row")
 ```
 
-`used` is the sorted list of all reports named in all rows (a comprehension with two `for` parts runs through the rows and, inside each row, through its reports). It must equal the sorted list of the 39 reports: every report appears, and none twice (a report named twice would appear twice in `used`).
+`used` is the sorted list of all reports named in all rows (a comprehension with two `for` parts runs through the rows and, inside each row, through its reports). It must equal the sorted list of the 41 reports: every report appears, and none twice (a report named twice would appear twice in `used`).
 
 ```python
 check(all((label in ("HYPOTHESIS", "OPEN")) == (paths == [] and note != "")
