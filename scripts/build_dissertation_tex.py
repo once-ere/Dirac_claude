@@ -89,6 +89,12 @@
 #     \newpage, so that the first section is numbered 0: the textbook counts
 #     its chapters from 0, and with --strip-heading-numbers LaTeX would
 #     otherwise print chapter N as N+1.  Without it the output is unchanged.
+#   * --wide-page-numbers (added 2026-10-08; keyword wide_page_numbers= of
+#     convert()) widens the contents' page-number box before \tableofcontents
+#     (\@pnumwidth 1.55em -> 2.6em, \@tocrmarg 2.55em -> 3.6em) so that
+#     four-digit page numbers fit: the textbook "Universes in Pairs" has over
+#     6000 pages, and every contents entry on page 1000 or later was an
+#     Overfull hbox of 4.93pt.  Without it the output is unchanged.
 #   * Unchanged: the preamble for documents that use none of the extensions,
 #     and every determinism primitive (\pdfobjcompresslevel=0,
 #     \pdfinfoomitdate=1, \pdftrailerid{}, \pdfsuppressptexinfo=15, LF-only
@@ -389,6 +395,14 @@ def parse_arguments() -> argparse.Namespace:
         "--number-sections-from-zero",
         action="store_true",
         help="Number the first section 0 instead of 1 (the textbook).",
+    )
+    parser.add_argument(
+        "--wide-page-numbers",
+        action="store_true",
+        help=(
+            "Widen the contents' page-number box so that four-digit page "
+            "numbers fit (documents of 1000 or more pages)."
+        ),
     )
     parser.add_argument("--author", default=DEFAULT_AUTHOR)
     parser.add_argument("--date", default=DEFAULT_DATE)
@@ -896,6 +910,7 @@ def convert(
     date: str = DEFAULT_DATE,
     image_root: Path | None = None,
     sections_from_zero: bool = False,
+    wide_page_numbers: bool = False,
 ) -> str:
     """Return the LaTeX document for markdown.
 
@@ -1089,6 +1104,16 @@ def convert(
     # Only a document with a figure loads graphicx: the preamble of every
     # other document stays byte-identical to the origin's.
     graphics_block = "\\usepackage{graphicx}\n" if figure_count else ""
+    # Only a document built with wide_page_numbers widens the contents'
+    # page-number box: every other preamble stays byte-identical.
+    toc_widths = (
+        "\\makeatletter\n"
+        "\\renewcommand{\\@pnumwidth}{2.6em}\n"
+        "\\renewcommand{\\@tocrmarg}{3.6em}\n"
+        "\\makeatother\n"
+        if wide_page_numbers
+        else ""
+    )
     preamble = rf"""\documentclass[11pt]{{article}}
 \usepackage[T1]{{fontenc}}
 \usepackage[utf8]{{inputenc}}
@@ -1111,7 +1136,7 @@ def convert(
 \date{{{inline_markup(date, developer_layout)}}}
 \begin{{document}}
 \maketitle
-\tableofcontents
+{toc_widths}\tableofcontents
 \newpage
 """
     if sections_from_zero:
@@ -1133,6 +1158,7 @@ def main() -> int:
         date=arguments.date,
         image_root=arguments.image_root,
         sections_from_zero=arguments.number_sections_from_zero,
+        wide_page_numbers=arguments.wide_page_numbers,
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(latex, encoding="utf-8", newline="\n")

@@ -335,6 +335,24 @@ class ConvertDeterminismTests(unittest.TestCase):
         ):
             self.assertIn(primitive, latex)
 
+    def test_wide_page_numbers_is_opt_in(self) -> None:
+        # A document of 1000+ pages needs a wider contents page-number box
+        # (four digits); every other document's output must stay unchanged.
+        markdown = minimal("## 0. First\n\nText.\n\n### 0.1 Sub\n\nMore.\n")
+        plain = builder.convert(markdown, True, True)
+        wide = builder.convert(markdown, True, True, wide_page_numbers=True)
+        widths = (
+            "\\makeatletter\n"
+            "\\renewcommand{\\@pnumwidth}{2.6em}\n"
+            "\\renewcommand{\\@tocrmarg}{3.6em}\n"
+            "\\makeatother\n"
+        )
+        self.assertNotIn("\\@pnumwidth", plain)
+        self.assertEqual(
+            wide,
+            plain.replace("\\tableofcontents\n", widths + "\\tableofcontents\n", 1),
+        )
+
     def test_sections_from_zero_is_opt_in(self) -> None:
         markdown = minimal("## 0. First\n\nText.\n\n### 0.1 Sub\n\nMore.\n")
         plain = builder.convert(markdown, True, True)

@@ -169,8 +169,10 @@ identical in wording across the book; a writer may append notebook-specific trou
   figure file exists; every notebook is preceded by its run-instruction section; line lengths in
   fenced blocks; it prints counts (chapters, sections, notebooks, figures, pages after the build).
 * PDF: `python scripts/build_provenance_pdf.py Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.md
-  --developer-layout --number-sections-from-zero --specifications Revision/pdf-specifications.json
-  [--register]`, warning-free, two builds byte-identical; registered as edition
+  --developer-layout --number-sections-from-zero --wide-page-numbers --specifications
+  Revision/pdf-specifications.json [--register]` (--wide-page-numbers, added 2026-10-08, widens the
+  contents' page-number box: the book has over 6000 pages and four-digit page numbers otherwise
+  overflow it), warning-free, two builds byte-identical; registered as edition
   `universes-in-pairs-textbook`; pinned in `Revision/tests/test_universes_in_pairs_textbook.py`
   (assembler output equals the committed .md; every notebook rebuilds byte-identically — fast ones
   in the default run, all with REVISION_NOTEBOOKS_FULL=1; the PDF is registered).
