@@ -1541,7 +1541,20 @@ check_reproduces(all(words in details[name] for name, words in R5_WORDS),
                  "charge_conjugation_matrix_minus and real_fields_charge_conjugation")
 ```
 
-`words in text` is true when the string `words` occurs in the string `text`, and `all(...)` is true when this holds for all eight pairs. So the check confirms that the record states exactly the charge-conjugation statements of Section 0.2, and its second line names the three checks of the report in which it found them; Out [3] ends with these lines. Chapters 5 and 21 derive the statements from zero.
+`words in text` is true when the string `words` occurs in the string `text`, and `all(...)` is true when this holds for all eight pairs. So the check confirms that the record states exactly the charge-conjugation statements of Section 0.2, and its second line names the three checks of the report in which it found them. Chapters 5 and 21 derive the statements from zero.
+
+```python
+U1_WORDS = ["on shell the LOCAL law d_mu(cos z J^mu) = 0 holds",
+            "is constant only if no charge flows through its boundary",
+            "constancy of Q is NOT established by this check"]
+check_reproduces(all(words in details["u1_noether_matrix_identity"]
+                     for words in U1_WORDS),
+                 "the report proves the local law and does not establish a "
+                 "constant total charge",
+                 f"{CC_REPORT}, check u1_noether_matrix_identity")
+```
+
+The list `U1_WORDS` holds three pieces of text that the detail of the check `u1_noether_matrix_identity` must contain word for word: the local law, the condition under which the total charge would be constant, and the report's own statement that this constancy is not established. The check confirms both halves of rows 14 and 18 of the ledger in the record's own words: what is proved, and where the proof stops. Out [3] ends with its PASS line and the line that names the check.
 
 **In [4], one counting function for three layouts.**
 
@@ -1564,9 +1577,12 @@ The reports were written by different programs and store their checks in three l
 def stated_summary(data):
     """(passed, total) as the report states them itself; None if it states none."""
     summary = data.get("summary")
-    if isinstance(summary, dict):  # {"passed": n, "total": n} or {"pass", "checks"}
-        return (summary.get("passed", summary.get("pass")),
-                summary.get("total", summary.get("checks")))
+    if isinstance(summary, dict):  # {"passed": n, "total": n} and similar names
+        passed = summary.get("passed", summary.get("pass", summary.get("PASS")))
+        return passed, summary.get("total", summary.get("checks"))
+    if isinstance(summary, str):  # a text such as "49/49 checks pass"
+        passed, total = re.fullmatch(r"(\d+)/(\d+) checks pass", summary).groups()
+        return int(passed), int(total)
     counts = data.get("counts")
     if isinstance(counts, dict) and "pass" in counts:  # {"pass", "fail", "pending"}
         return counts["pass"], counts["pass"] + counts["fail"] + counts["pending"]
@@ -1577,7 +1593,7 @@ def stated_summary(data):
     return None
 ```
 
-The totals that a report states about itself are written in different words: a dictionary `summary` with `passed` and `total` (or `pass` and `checks`); a dictionary `counts` with the numbers of passed, failed and pending checks; or a total `checkCount` with a number of failed checks under one of three names. `.get(key, default)` returns the default when the key is missing, so the nested `.get` calls try the names one after the other. The function returns the pair (passed, total), or `None` when the report states no totals.
+The totals that a report states about itself are written in different words: a dictionary `summary` with `passed` and `total` (or `pass` or `PASS` for the passed checks, and `checks` for the total); a text `summary` such as "49/49 checks pass" (the two reports of the field dirac16complex00 in the dark sector write it so); a dictionary `counts` with the numbers of passed, failed and pending checks; or a total `checkCount` with a number of failed checks under one of three names. `.get(key, default)` returns the default when the key is missing, so the nested `.get` calls try the names one after the other. `isinstance(summary, str)` asks whether the summary is a text (a **string**). `re.fullmatch(pattern, text)` succeeds only when the whole text matches the pattern; in the pattern `(\d+)/(\d+) checks pass`, `\d+` stands for one or more digits and the brackets mark the two numbers (In [6] explains patterns once more); `.groups()` returns the two marked pieces as texts, and `int` turns each into a whole number. The function returns the pair (passed, total), or `None` when the report states no totals.
 
 ```python
 EXAMPLES = [("A", "Revision/pairing/reports/wolfram-pairing.json"),
@@ -1600,27 +1616,37 @@ def is_report(path):
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
         return False
+    checks = data.get("checks")
+    listed = isinstance(checks, list) or (  # a list of checks, or a dictionary
+        isinstance(checks, dict)  # whose every entry is a check (a dictionary)
+        and all(isinstance(entry, dict) for entry in checks.values()))
     results = data.get("results")
     self_test = (isinstance(results, list) and len(results) > 0
                  and isinstance(results[0], dict) and "mismatches" in results[0])
-    return "checks" in data or self_test
+    return listed or self_test
 ```
 
-A JSON file is a verifier report when it is a dictionary that has a key `checks`, or, like the GKD self-test, a non-empty list `results` whose first entry is a dictionary with the key `mismatches`. `"checks" in data` asks whether the dictionary has that key. The conditions joined by `and` are tested from the left and the testing stops at the first false one, so `results[0]` is never read from an empty or missing list.
+A JSON file is a verifier report when it is a dictionary whose key `checks` holds the checks themselves, or, like the GKD self-test, a non-empty list `results` whose first entry is a dictionary with the key `mismatches`. "Holds the checks themselves" means: `checks` is a list (layout A), or a dictionary each of whose entries is again a dictionary, one per check (layout B). `all(...)` is true when every entry passes the test `isinstance(entry, dict)`. The rule matters for one file of the record: the summary file of the dark sector has a key `checks` whose value is only the two numbers `{"total": 13, "pass": 13}`, the totals of another report; it is not a report, and the cell compares its two numbers in In [6] instead of counting them twice. The conditions joined by `and` are tested from the left and the testing stops at the first false one, so `results[0]` is never read from an empty or missing list; the brackets after `or (` let the condition continue on the next lines.
 
 ```python
 SKIPPED = ("Revision/textbook/", "Revision/workflows/")  # folders that hold no report
 found_reports = []  # every report found in the folder Revision, as a relative path
+not_reports = []  # JSON files with a key "checks" that holds no checks
 for path in sorted(repository_file("Revision").rglob("*.json")):
     relative = path.relative_to(REPO).as_posix()  # e.g. "Revision/algebra/..."
     if relative.startswith(SKIPPED) or "/target/" in relative:
         continue  # the book, the workflow records and the Rust build folders
     if is_report(path):
         found_reports.append(relative)
+    elif "checks" in read_report(relative):
+        not_reports.append(relative)
 report("verifier reports found in the folder Revision", len(found_reports))
+say("JSON files with a key checks that holds no checks:")
+for relative in not_reports:
+    say("    " + relative)
 ```
 
-`SKIPPED` is a **tuple** (a list in round brackets that cannot be changed) of two folder names. `rglob("*.json")` lists every file ending in `.json` in the folder `Revision` and in all its sub-folders, and `sorted` puts the list in a fixed order. `path.relative_to(REPO)` is the path from the repository folder on, and `.as_posix()` writes it with `/` on every operating system. `relative.startswith(SKIPPED)` is true when the path starts with either of the two names (`startswith` accepts a tuple and tries each of its entries). `continue` skips the rest of the loop for this file. Three kinds of folders are skipped, because they are not part of the record: the book's own folder `Revision/textbook`; the folder `Revision/workflows`, which holds the records of the programs that organised the work (they are rewritten while those programs run, so a half-written file could stop the notebook, and the Revision record says itself that no result depends on them); and the build folders `target` of the Rust programs. Every other report is collected. Out [5] begins with the number found, 27.
+`SKIPPED` is a **tuple** (a list in round brackets that cannot be changed) of two folder names. `rglob("*.json")` lists every file ending in `.json` in the folder `Revision` and in all its sub-folders, and `sorted` puts the list in a fixed order. `path.relative_to(REPO)` is the path from the repository folder on, and `.as_posix()` writes it with `/` on every operating system. `relative.startswith(SKIPPED)` is true when the path starts with either of the two names (`startswith` accepts a tuple and tries each of its entries). `continue` skips the rest of the loop for this file. Three kinds of folders are skipped, because they are not part of the record: the book's own folder `Revision/textbook`; the folder `Revision/workflows`, which holds the records of the programs that organised the work (they are rewritten while those programs run, so a half-written file could stop the notebook, and the Revision record says itself that no result depends on them); and the build folders `target` of the Rust programs. Every other report is collected. `elif` ("else if") collects, in the second list, every file that is not a report but still has a key `checks`, so that no such file is dropped silently. Out [5] begins with the number found, 39, and the one file of the second list, `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`.
 
 ```python
 REPORTS = [  # (report, engine)
@@ -1629,7 +1655,7 @@ REPORTS = [  # (report, engine)
     ("Revision/algebra/reports/python-algebra.json", "Python"),
 ```
 
-The list `REPORTS` holds the 27 reports of the record, each as a pair: the path of the report and the **engine** that did its computation, `"Wolfram"` (the Wolfram Language), `"Python"`, `"Rust"`, or `"lead"` for the lead's short independent Python checks. A comment line before each group names its subject. The first group is the algebra of Chapters 4 and 5 (the gamma matrices, $C$, $\Gamma$, $B$ and the groups), checked by a Wolfram verifier and by an independent Python verifier.
+The list `REPORTS` holds the 39 reports of the record, each as a pair: the path of the report and the **engine** that did its computation, that is, the language of the program that wrote the report: `"Wolfram"` (the Wolfram Language), `"Python"`, `"Rust"`, or `"lead"` for the lead's short independent Python checks. A comment line before each group names its subject. The first group is the algebra of Chapters 4 and 5 (the gamma matrices, $C$, $\Gamma$, $B$ and the groups), checked by a Wolfram verifier and by an independent Python verifier.
 
 ```python
     # the Lagrangians, field equations, EMT, quantisation; the scope
@@ -1646,19 +1672,21 @@ The folder `Revision/theory` holds the field theory of Chapters 7, 9 and 10 (the
     ("Revision/field_equations_a4/reports/wolfram-a4-report.json", "Wolfram"),
     ("Revision/field_equations_a4/reports/python-a4-report.json", "Python"),
     ("Revision/field_equations_a4/reports/ks-source-conditions.json", "Python"),
+    ("Revision/field_equations_a4/ks_source/reports/ks-source-a4.json", "Python"),
 ```
 
-The field equations for $a_4$ (Chapter 12), in Wolfram and in Python, and the report of a Python program that tests whether the computed Kohn-Sham states can be the source of the history $a_4 = A H x_4$ (Chapter 17; its five checks show that they cannot).
+The field equations for $a_4$ (Chapter 12), in Wolfram and in Python; the report of a Python program that tests whether the computed Kohn-Sham states can be the source of the history $a_4 = A H x_4$ (Chapter 17; its five checks show that they cannot); and the report of the folder `ks_source`, which writes the equations for $a_4$ with the Kohn-Sham states as their source (exact identities, the averages over the hidden direction, and the integration of a stated simplified system) and finds that no recorded Kohn-Sham state is an admissible source.
 
 ```python
-    # GKD and the Lovelock tensors
+    # GKD and the Lovelock tensors; the comparison with the author's outputs
     ("Revision/gkd_lovelock/results/lovelock-report.json", "Rust"),
     ("Revision/gkd_lovelock/results/gkd-selftest.json", "Rust"),
     ("Revision/gkd_lovelock/results/wolfram-gkd-report.json", "Wolfram"),
     ("Revision/gkd_lovelock/results/python-lovelock-report.json", "Python"),
+    ("Revision/gkd_lovelock/comparison/author-comparison-report.json", "Python"),
 ```
 
-The generalized Kronecker delta and the Lovelock tensors (Chapter 11): the Rust program that computes them writes a report on the tensors and a self-test of its GKD function, and a Wolfram and a Python verifier check its results independently.
+The generalized Kronecker delta and the Lovelock tensors (Chapter 11): the Rust program that computes them writes a report on the tensors and a self-test of its GKD function, and a Wolfram and a Python verifier check its results independently. The fifth report compares the curvature of the Revision record with the values stored in the author's own Mathematica notebook (a Python program with sympy; row 7 of the ledger).
 
 ```python
     # the Kohn-Sham theory, solvers and comparisons
@@ -1674,14 +1702,31 @@ The generalized Kronecker delta and the Lovelock tensors (Chapter 11): the Rust 
 The Kohn-Sham model (Chapters 14 to 16): its theory in Wolfram and in Python; the Rust solver; two Python programs that examine the results of the Rust solver (the repeated and the refined run of Section 0.22, and the roots of the Mermin equation for the chemical potential, computed with 40 digits; Chapter 15); the independent Python reference solver; and the cross-check that compares the two solvers (Chapter 16). The determinism report and the report on the roots concern the Rust solver, but their own checks are computed in Python, so their engine is Python.
 
 ```python
-    # the pairing theorems T1, T2, Q and T3
+    # the dark-sector hypotheses of the two fields, investigated
+    ("Revision/dark_sector/dirac16complex/reports/derivation-checks.json", "Python"),
+    ("Revision/dark_sector/dirac16complex/reports/ks-history-run.json", "Python"),
+    ("Revision/dark_sector/dirac16complex/reports/eos-checks.json", "Python"),
+    ("Revision/dark_sector/dirac16complex/reports/independent-checks.json", "Python"),
+    ("Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json", "Python"),
+    ("Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json",
+     "Python"),
+```
+
+The investigation of the author's two dark-sector hypotheses (Chapter 22), all six reports written by Python programs. For the field dirac16complex: the exact derivation of the identities with sympy; the run of the Rust Kohn-Sham solver along the prescribed history (its checks are computed by the Python program that runs the solver, so its engine is Python); the equations of state computed from that run; and an independent implementation. For the field dirac16complex00: the derivation of its equations of state and of its models, and independent numerics. The last pair is written on two lines, the path on the first and the engine on the second, because one line would be wider than 89 characters.
+
+```python
+    # the pairing theorems T1, T2, Q and T3; T3 completed and demonstrated
     ("Revision/pairing/reports/wolfram-pairing.json", "Wolfram"),
     ("Revision/pairing/reports/python-pairing.json", "Python"),
     ("Revision/pairing/kohn_sham/reports/wolfram-t3.json", "Wolfram"),
     ("Revision/pairing/kohn_sham/reports/python-t3.json", "Python"),
+    ("Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json", "Wolfram"),
+    ("Revision/pairing/kohn_sham/reports/python-t3-completion.json", "Python"),
+    ("Revision/pairing/kohn_sham/reports/t3-rust-demo.json", "Python"),
+    ("Revision/pairing/kohn_sham/reports/t3-reference-demo.json", "Python"),
 ```
 
-The pairing theorems (Chapters 18 and 19): T1, T2 and Q in one Wolfram and one Python report, T3 in a second pair of reports.
+The pairing theorems (Chapters 18 and 19): T1, T2 and Q in one Wolfram and one Python report; T3 in a second pair of reports; its completion (the Kohn-Sham potentials read from the Kohn-Sham record, the filling convention carried onto the member of mass $-M$, and the statement for all 16 components) in a third pair; and two numerical demonstrations of T3, one with the Rust solver and one with the Python reference solver, both run by Python programs.
 
 ```python
     # the lead's independent checks
@@ -1703,22 +1748,23 @@ The search must find exactly the reports of the list: no report is missing from 
 ```python
 counted = {}  # report -> (passed, total)
 header = "report (in the folder Revision)"
-say(f"{header:59} engine   passed of all")
+say(f"{header:69} engine  pass of all")
 for path, engine in REPORTS:
     data = read_report(path)
     counted[path] = count_checks(data)
     passed, total = counted[path]
     short = path.removeprefix("Revision/")
-    say(f"{short:59} {engine:8} {passed:6d} of {total:3d}")
+    say(f"{short:69} {engine:7} {passed:4d} of {total:3d}")
 ```
 
-Every report is read and counted; the pair (passed, total) is stored in the dictionary `counted` under its path. `removeprefix` removes `Revision/` from the front of the path to keep the table narrow, and `{passed:6d}` writes a whole number right-aligned in 6 characters. The 27 lines of the table in Out [5] are printed here.
+Every report is read and counted; the pair (passed, total) is stored in the dictionary `counted` under its path. `removeprefix` removes `Revision/` from the front of the path to keep the table narrow; `{short:69}` writes the path filled with blanks to 69 characters (the longest path has 69), and `{passed:4d}` writes a whole number right-aligned in 4 characters, so that a line of the table has at most 89 characters. The 39 lines of the table in Out [5] are printed here. One line shows fewer passed checks than checks: the comparison with the author's notebook, 73 of 78.
 
 ```python
 all_checks = sum(total for _, total in counted.values())
 all_passed = sum(passed for passed, _ in counted.values())
 report("reports", len(REPORTS))
 report("checks in all reports", all_checks)
+report("checks with the verdict PASS", all_passed)
 engine_totals = {}  # engine -> the number of its checks
 for engine in ("Wolfram", "Python", "Rust", "lead"):
     engine_totals[engine] = sum(counted[path][1] for path, e in REPORTS
@@ -1726,14 +1772,28 @@ for engine in ("Wolfram", "Python", "Rust", "lead"):
     report(f"checks done with the engine {engine}", engine_totals[engine])
 ```
 
-The totals over all reports, and the total per engine: for each engine the numbers of checks of its reports are added (`counted[path][1]` is the total of a report). These are the RESULT lines of Out [5]. The numbers are not written into the notebook: they are counted from the record each time, so they follow the record. In the run printed in Section 0.20 (2026-10-08, the date of the notebook's last verified run, which its provenance file records) they are 947 checks in all: 382 done with the Wolfram Language, 458 with Python, 70 with Rust and 37 by the lead's checks.
+The totals over all reports, the number of passed checks, and the total per engine: for each engine the numbers of checks of its reports are added (`counted[path][1]` is the total of a report). These are the RESULT lines of Out [5]. The numbers are not written into the notebook: they are counted from the record each time, so they follow the record. In the run printed in Section 0.20 (2026-10-08, the date of the notebook's last verified run, which its provenance file records) they are 1208 checks in all, of which 1203 have the verdict PASS: 385 done with the Wolfram Language, 716 with Python, 70 with Rust and 37 by the lead's checks.
 
 ```python
-check(all_passed == all_checks and sum(engine_totals.values()) == all_checks,
-      f"all {all_checks} checks of the {len(REPORTS)} reports have the verdict PASS")
+COMPARISON = "Revision/gkd_lovelock/comparison/author-comparison-report.json"
+not_pass = [path for path, _ in REPORTS if counted[path][0] != counted[path][1]]
+other_verdicts = [entry["verdict"] for entry in read_report(COMPARISON)["checks"]
+                  if entry["verdict"] != "PASS"]  # the verdicts that are not PASS
+not_available = other_verdicts.count("NOT-AVAILABLE")
+report("checks with the verdict NOT-AVAILABLE", not_available)
 ```
 
-Every check of every report must have passed, and the four engine totals must add up to the total (each report has exactly one engine).
+`not_pass` lists the reports in which some check is not PASS. `other_verdicts` collects, from the comparison with the author's notebook, every verdict that is not PASS, and `.count("NOT-AVAILABLE")` counts how many of them are the word NOT-AVAILABLE: the comparisons that could not be made, because the author's notebook stores no value of the quantity (Section 0.18, row 7). Out [5] prints the number, 5.
+
+```python
+check(not_pass == [COMPARISON] and len(other_verdicts) == not_available == 5
+      and all_passed + not_available == all_checks
+      and sum(engine_totals.values()) == all_checks,
+      f"no check FAILS: {all_passed} PASS, {not_available} NOT-AVAILABLE, "
+      f"{all_checks} in all")
+```
+
+The check requires four things: the only report with a check that is not PASS is the comparison; its checks that are not PASS are exactly five, and all five are NOT-AVAILABLE; the passed and the not-available checks together are all the checks, so not a single check of the 39 reports has the verdict FAIL; and the four engine totals add up to the total (each report has exactly one engine). Its PASS line prints the three numbers: 1203 PASS, 5 NOT-AVAILABLE, 1208 in all.
 
 ```python
 disagree = []  # reports whose own summary differs from our count
@@ -1747,7 +1807,7 @@ for path, _ in REPORTS:
 check(disagree == [], "each report states the same totals that we counted")
 ```
 
-For every report our count must equal what the report states about itself. The GKD self-test states no totals; for it the stated verdict SUCCESS is required instead. Out [5] ends with this PASS line.
+For every report our count must equal what the report states about itself (for the comparison with the author's notebook: 73 PASS of 78, as its own summary says). The GKD self-test states no totals; for it the stated verdict SUCCESS is required instead. Out [5] ends with this PASS line.
 
 **In [6], two other places that quote the counts.**
 

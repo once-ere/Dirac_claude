@@ -13,6 +13,7 @@ import io
 import json
 import math
 import os
+import re
 import sys
 import tempfile
 import types
@@ -77,10 +78,10 @@ class ParticleHoleRuleTests(unittest.TestCase):
 
 
 class GridUncertaintyTests(unittest.TestCase):
-    """The checker's measured Rust grid uncertainty: a _g601 run and the run
-    of its base label in the same subcommand form a pair; each quantity's
-    |X(601) - X(301)| is returned under the base label, runs without a
-    partner get nothing."""
+    """The checker's Rust grid uncertainty (STAGE4_SPEC E4.14(a)): a _g<n> run and the run of its base label
+    in the same subcommand form a refinement family; every member gets its OWN estimated grid error, the
+    301-point member |X(601) - X(301)|, the 601-point member |X(601) - X(301)| / (2^p - 1) (p measured from
+    three grids, else the design order 2); runs without a partner get nothing."""
 
     def test_refinement_pairs(self):
         runs = [
@@ -92,12 +93,40 @@ class GridUncertaintyTests(unittest.TestCase):
             {"sub": "scf", "label": "m1_L3_N8_lam0_T0", "run": {"energy": 0.0}, "record": None},
         ]
         gu = C.rust_grid_uncertainties(runs)
-        self.assertEqual(set(gu), {("excited", "m1_L3_N1016_lamm2_T0")})   # the scf _g601 run has no base
-        unc = gu[("excited", "m1_L3_N1016_lamm2_T0")]
+        self.assertEqual(set(gu), {("excited", "m1_L3_N1016_lamm2_T0"),         # the scf _g601 run has no base
+                                   ("excited", "m1_L3_N1016_lamm2_T0_g601")})
+        coarse = gu[("excited", "m1_L3_N1016_lamm2_T0")]
+        self.assertEqual(coarse["gridPoints"], 301)
+        unc = coarse["values"]
         self.assertAlmostEqual(unc["deltaScf"], 2.6e-6, places=12)
         self.assertAlmostEqual(unc["E0"], 1e-4, places=9)
         self.assertEqual(unc["ksGap"], 0.0)
         self.assertNotIn("mu", unc)
+        fine = gu[("excited", "m1_L3_N1016_lamm2_T0_g601")]
+        self.assertEqual(fine["gridPoints"], 601)
+        self.assertAlmostEqual(fine["values"]["deltaScf"], 2.6e-6 / 3.0, places=12)   # design order 2: / (2^2 - 1)
+        self.assertAlmostEqual(fine["values"]["E0"], 1e-4 / 3.0, places=9)
+        self.assertEqual(fine["orders"]["deltaScf"], C.RUST_GRID_DESIGN_ORDER)
+
+    def test_member_errors_with_a_measured_order(self):
+        # three grids converging with order 4: X = 1 + c h^4, h = 1/300, 1/600, 1/1200
+        values = [(n, 1.0 + 1e3 * (1.0 / (n - 1)) ** 4) for n in (301, 601, 1201)]
+        (u0, p0, how0), (u1, p1, how1), (u2, p2, how2) = C.member_grid_errors(values)
+        self.assertEqual((p0, how0, how1, how2), (None, "coarsest", "measured", "measured"))
+        self.assertAlmostEqual(p1, 4.0, places=6)
+        self.assertAlmostEqual(p2, 4.0, places=6)
+        self.assertAlmostEqual(u0, abs(values[1][1] - values[0][1]), delta=1e-18)
+        exact601, exact1201 = values[1][1] - 1.0, values[2][1] - 1.0        # the true errors of the members
+        self.assertAlmostEqual(u1, exact601, delta=1e-6 * exact601)
+        self.assertAlmostEqual(u2, exact1201, delta=1e-6 * exact1201)
+        # a non-converging triple (order 0): the finer member's term is capped at the coarser member's
+        (u0, _, _), (u1, _, _), (u2, _, _) = C.member_grid_errors([(301, 1.0), (601, 1.0 + 1e-6), (1201, 1.0)])
+        self.assertEqual(u1, u0)
+        self.assertEqual(u2, u1)
+        # two grids: the design order
+        (u0, _, _), (u1, p1, how1) = C.member_grid_errors([(301, 1.0), (601, 1.0 + 3e-6)])
+        self.assertEqual((p1, how1), (C.RUST_GRID_DESIGN_ORDER, "design"))
+        self.assertAlmostEqual(u1, u0 / 3.0, delta=1e-18)
 
 
 class AlgebraTests(unittest.TestCase):
@@ -505,8 +534,9 @@ def add_grid_partner(root, label, shifts):
 
 
 class CheckerLevelUncertaintyTests(unittest.TestCase):
-    """STAGE4_SPEC E4.14: the measured Rust y-grid change |eps(601) - eps(301)| of a level enters
-    that level's eigenvalue tolerance, and only that level's (rust_level_grid_uncertainties)."""
+    """STAGE4_SPEC E4.14: the OWN estimated Rust y-grid error of a level enters that level's eigenvalue
+    tolerance, and only that level's, of that member only (rust_level_grid_uncertainties): the 301-point
+    member |eps(601) - eps(301)|, the 601-point member |eps(601) - eps(301)| / (2^p - 1)."""
     LABEL = "m1_L3_N8_lamp1_T0"
 
     @classmethod
@@ -559,6 +589,39 @@ class CheckerLevelUncertaintyTests(unittest.TestCase):
         reg = self.check("large", 1e-4, {"mid": -2e-6})
         self.assertFalse(reg.checks["canonical_eigenvalues"], reg.measurements["canonical_eigenvalues_detail"])
 
+    def record(self, reg, suffix=""):
+        return reg.comparisons["canonical_scf_" + self.LABEL + suffix]["detail"]
+
+    def test_fine_member_gets_its_own_scaled_term(self):
+        # |eps(601) - eps(301)| = 3e-6: the 301-point member gets 3e-6, the 601-point member its own
+        # (design order 2) 3e-6 / 3 = 1e-6, never the 301-point member's term
+        reg = self.check("scaled", 3e-6, {"mid": -3e-6})
+        self.assertTrue(reg.checks["canonical_eigenvalues"], reg.measurements["canonical_eigenvalues_detail"])
+        coarse = self.record(reg)["rustLevelGridUncertainty"]
+        fine = self.record(reg, "_g601")["rustLevelGridUncertainty"]
+        self.assertEqual((coarse["gridPoints"], fine["gridPoints"]), (301, 601))
+        self.assertAlmostEqual(coarse["max"], 3e-6, delta=1e-12)
+        self.assertAlmostEqual(fine["max"], 1e-6, delta=1e-12)
+        self.assertEqual(fine["orders"]["design"], fine["levels"])
+        self.assertEqual(fine["orders"]["designOrder"], C.RUST_GRID_DESIGN_ORDER)
+
+    def test_negative_control_fine_member_beyond_its_own_tolerance(self):
+        # the 301-point member agrees with the reference, the 601-point member is off by 4.5e-6: its own
+        # term is 1.5e-6, so the deviation exceeds its tolerance (it would have passed with the 301-point
+        # member's term 4.5e-6, the rule before this test)
+        shift = 4.5e-6
+        reg = self.check("finebad", 0.0, {"mid": shift})
+        self.assertFalse(reg.checks["canonical_eigenvalues"], reg.measurements["canonical_eigenvalues_detail"])
+        coarse, fine = self.record(reg)["eigenvalues"], self.record(reg, "_g601")["eigenvalues"]
+        self.assertLess(coarse["maxDeviationOverTolerance"], 1e-3)
+        self.assertGreater(fine["maxDeviationOverTolerance"], 1.0)
+        dev = fine["maxAbsDeviation"]
+        self.assertAlmostEqual(dev, shift, delta=1e-12)
+        tol_own = dev / fine["maxDeviationOverTolerance"]
+        self.assertLess(tol_own, dev)
+        self.assertGreater(tol_own - shift / 3.0 + shift, dev)    # the old (coarse-term) tolerance missed it
+        self.assertIn("scf/%s_g601" % self.LABEL, reg.measurements["canonical_eigenvalues_detail"])
+
 
 class CheckerTests(unittest.TestCase):
 
@@ -580,6 +643,39 @@ class CheckerTests(unittest.TestCase):
             self.assertFalse(report["checks"]["reference_present"])
             self.assertEqual(report["comparisons"]["rust_outputs"]["status"], "not run")
             self.assertIn("check_count=", out.getvalue())
+
+    def test_report_names_no_folder_of_the_computer(self):
+        """The report records repository-relative paths (repo_path): no absolute path of the computer, so
+        a re-run from another folder writes the same bytes.  The temporary folder stands in for the
+        repository (the reference inside it, the Rust and theory inputs outside it)."""
+        from unittest import mock
+        self.assertEqual(C.repo_path(os.path.join(C.REPO, "artifacts", "x", "y.json")), "artifacts/x/y.json")
+        with tempfile.TemporaryDirectory() as tmp, tempfile.TemporaryDirectory() as outside:
+            repo = os.path.join(tmp, "repo")
+            ref = os.path.join(repo, "artifacts", "reference")
+            os.makedirs(ref)
+            with open(os.path.join(ref, "reference-summary.json"), "w", encoding="utf-8") as handle:
+                json.dump({"complete": True, "runs": [{"label": "absent_run", "converged": True}]}, handle)
+            report_path = os.path.join(outside, "report.json")
+            with mock.patch.object(C, "REPO", repo), contextlib.redirect_stdout(io.StringIO()):
+                C.main(["--reference", ref, "--rust", os.path.join(outside, "rust"),
+                        "--theory", os.path.join(outside, "theory.json"), "--report", report_path,
+                        "--no-stationarity", "--no-reproduce"])
+            with open(report_path, encoding="utf-8") as handle:
+                text = handle.read()
+            report = json.loads(text)
+            self.assertEqual(report["measurements"]["reference_present_detail"],
+                             "artifacts/reference/reference-summary.json")
+            self.assertIn("absent_run", report["measurements"]["reference_run_files_readable_detail"])
+            self.assertEqual(report["comparisons"]["theory_json"]["detail"],
+                             "missing <outside the repository>/theory.json")
+            for folder in (tmp, outside, C.REPO, os.path.expanduser("~")):
+                for form in {folder, folder.replace("\\", "/"), json.dumps(folder)[1:-1]}:
+                    self.assertNotIn(form, text)
+            # nothing that looks like an absolute path: a drive letter with a separator (the backslash
+            # JSON-escaped), or a POSIX root folder
+            self.assertIsNone(re.search(r'(?<![A-Za-z0-9_])[A-Za-z]:(?:\\\\|/)|(?<![A-Za-z0-9_.])/(?:home|Users|tmp|var|mnt)/',
+                                        text))
 
     def test_rust_labels_and_couplings(self):
         self.assertEqual(K.rust_label(1, 3, 8, "lamp1", 0), "m1_L3_N8_lamp1_T0")

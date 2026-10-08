@@ -132,8 +132,9 @@ CELLS = [
        (condition 3);
     4. applies the three conditions to the theory of this book, using the verdicts of
        the Revision record: the U(1) charge obeys an exact local conservation law
-       (condition 1 fails inside the patch; the total charge is constant only under
-       the ASSUMED no-flux condition at the brane $z = \pi/2$),
+       (condition 1 fails inside the patch $0 < z < \pi/2$, off the brane; the total
+       charge is constant only under the ASSUMED no-flux condition at the brane
+       $z = \pi/2$),
        the same-mass conjugation is an exact symmetry of the commuting field, the
        quantised field has only the mass-reversing conjugation, and no departure from
        equilibrium has been computed;
@@ -198,13 +199,14 @@ CELLS = [
 
     **The theory of this book** has no quarks and no baryons. The only number of this
     kind it has is the U(1) charge $Q$ of its field; the Revision record proves that
-    $Q$ obeys an exact local conservation law in the author's metric, for every
+    $Q$ obeys an exact local conservation law at every point of the patch
+    $0 < z < \pi/2$ (off the brane $z = \pi/2$) in the author's metric, for every
     history $a_4(x_4)$, in particular the one in which the three extra times
-    $x5, x6, x7$ deflate exponentially: charge can only flow from one place to
-    another. The total $Q$ of a universe is constant only if no charge flows through
-    the brane $z = \pi/2$; this no-flux condition is ASSUMED, not derived. The
-    notebook first teaches the three conditions on toy models and then asks,
-    condition by condition, what this theory does.
+    $x5, x6, x7$ deflate exponentially: inside the patch charge can only flow from
+    one place to another. The total $Q$ of a universe is constant only if no charge
+    flows through the brane $z = \pi/2$; this no-flux condition is ASSUMED, not
+    derived. The notebook first teaches the three conditions on toy models and then
+    asks, condition by condition, what this theory does.
 
     **Honesty.** The toy models (a decay model and a rate model) are illustrations
     with ASSUMED equations; they are not part of this theory. Every statement about
@@ -653,19 +655,19 @@ CELLS = [
     ## 10. This theory, condition 1: no process changes the U(1) charge locally
 
     The Revision record proves (check u1_noether_matrix_identity) the exact local
-    conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ on every solution, in the
-    author's metric with an arbitrary history $a_4(x_4)$: charge can only flow from
-    one place to another, and the U(1) charge
-    $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of a universe changes only by what
-    flows through its boundary. At the brane $z = \pi/2$ the record does not exclude
-    such a flow (notebook 21b follows an exact solution whose charge changes by the
-    flux through the brane); the no-flux condition that would make $Q$ constant is
-    ASSUMED, not derived. In the language of section 7: every process of this
-    theory, at any point, has channels of the **same** charge, $B_1 = B_2$, so the factor
-    $(B_1 - B_2)$ is zero, and the rate model then starts with $\epsilon = 0$ and ends
-    with $a = 0$, whatever the rates and however far from equilibrium. The next cell
-    checks that the record holds this verdict and evaluates the decay formula and the
-    rate model with this input.
+    conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ on every solution, at every
+    point of the patch $0 < z < \pi/2$ (off the brane), in the author's metric with an
+    arbitrary history $a_4(x_4)$: charge can only flow from one place to another, and
+    the U(1) charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of a universe changes
+    only by what flows through its boundary. At the brane $z = \pi/2$ the record does
+    not exclude such a flow (notebook 21b follows an exact solution whose charge
+    changes by the flux through the brane); the no-flux condition that would make $Q$
+    constant is ASSUMED, not derived. In the language of section 7: every process of
+    this theory, at any point of the patch $0 < z < \pi/2$, has channels of the
+    **same** charge, $B_1 = B_2$, so the factor $(B_1 - B_2)$ is zero, and the rate
+    model then starts with $\epsilon = 0$ and ends with $a = 0$, whatever the rates
+    and however far from equilibrium. The next cell checks that the record holds this
+    verdict and evaluates the decay formula and the rate model with this input.
     """),
     code(r'''
     Q_channel = sp.Symbol("Q_channel")  # the common charge of every channel
@@ -675,8 +677,9 @@ CELLS = [
         f"a(infinity) = {a_theory[1]}")
     check(LEAD["u1_noether_matrix_identity"] == "PASS" and eps_theory == 0
           and a_theory[1] == 0.0,
-          "local U(1) law: no process makes a net charge at any point, condition 1 "
-          "fails there (total charge: no flux through the brane ASSUMED)",
+          "local U(1) law: no process makes a net charge at any point of the patch "
+          "0 < z < pi/2, condition 1 fails there (total charge: no flux through the "
+          "brane ASSUMED)",
           record=f"{LEAD_FILE}, check u1_noether_matrix_identity")
     '''),
     md(r"""
@@ -987,8 +990,9 @@ CELLS = [
                 "PROVED (classical bilinears)"),
          "T1_current_primordial_commuting, T1_current_primordial_grassmann"),
         ("verdict",
-         "no process makes a net charge at any point of one universe (nor a total "
-         "charge, under the ASSUMED no-flux condition); no baryons in the theory",
+         "no process makes a net charge at any point of the patch 0 < z < pi/2 of one "
+         "universe (nor a total charge, under the ASSUMED no-flux condition at the "
+         "brane); no baryons in the theory",
          status(LEAD["u1_noether_matrix_identity"] == "PASS", "PROBLEM NOT SOLVED"),
          "the checks above")]
     for row in ROWS:
@@ -1071,16 +1075,16 @@ CELLS = [
       $1/(K - 1)$ for fast ones: condition 3.
     - This theory (Revision record): the U(1) charge obeys an exact local
       conservation law (u1_noether_matrix_identity), so no process of the theory can
-      make a net charge at any point inside one universe, whatever the rates and
-      however far from equilibrium: condition 1 FAILS there (PROVED). The total
-      charge of a universe is constant only under the no-flux condition at the brane
-      $z = \pi/2$, which is ASSUMED, not derived (OPEN). The same-mass conjugation
-      is an exact symmetry of the commuting field (COMPUTED here at a point of the
-      author's metric) that reverses
-      the charge, so condition 2 FAILS for the commuting field (PROVED); the quantised
-      field has only the mass-reversing conjugation (quantum_charge_conjugation_
-      unitary_type), and C and CP violation in its rates is NOT COMPUTED; no departure
-      from equilibrium is computed (the Kohn-Sham history is a prescribed background).
+      make a net charge at any point of the patch $0 < z < \pi/2$ (off the brane) of
+      one universe, whatever the rates and however far from equilibrium: condition 1
+      FAILS there (PROVED). The total charge of a universe is constant only under the
+      no-flux condition at the brane $z = \pi/2$, which is ASSUMED, not derived
+      (OPEN). The same-mass conjugation is an exact symmetry of the commuting field
+      (COMPUTED here at a point of the author's metric) that reverses the charge, so
+      condition 2 FAILS for the commuting field (PROVED); the quantised field has
+      only the mass-reversing conjugation (quantum_charge_conjugation_unitary_type),
+      and C and CP violation in its rates is NOT COMPUTED; no departure from
+      equilibrium is computed (the Kohn-Sham history is a prescribed background).
     - PROVED (exact linear algebra): the only Spin(4,4)-invariant Majorana-type mass
       matrices are $C$ and $C\Gamma$; both are symmetric, so the anticommuting field
       has no such term; for the commuting field they carry U(1) charge 2.

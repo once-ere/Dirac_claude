@@ -30,6 +30,16 @@ problem, or of a prediction of the asymmetry, to carry a negation or to mark the
 as a hypothesis, an open question or a question; the status-word exercises that list such a
 statement for classification must be answered HYPOTHESIS or OPEN.
 
+The book is PRESERVED UNMODIFIED by the user's order of 2026-10-02 (HANDOFF.md, section 0.4e);
+its successor is the textbook "Universes in Pairs" in Revision/textbook/.  What the later
+record contradicts or makes out of date is listed in provenance/ERRATA_FIRST_EDITION_TEXTBOOK.md,
+which ErrataTests check: it names the successor, lists the parts (a) to (e), and every quotation
+of it stands at the cited line of the book.  The Stage-4 status sentence of Section 16.1 is
+checked against the cross-check report AS COMMITTED AT THE BOOK'S LAST BUILD (git log -1 of the
+book, then git show of the report at that commit: 63 checks, 1 failed); whenever the current
+committed report differs from it, the errata must state the current counts exactly as
+"python-check-report.json: N checks, M failed".
+
 After an intended edit of a chapter: reassemble, rebuild and register with
     python scripts/build_textbook.py
     python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_TEXTBOOK.md --developer-layout --number-sections-from-zero --register
@@ -91,8 +101,8 @@ ERRATA_PART_FACTS = {
     "c": ("charge-conjugation-and-u1.json", "normal ordering", "MATRIX", "successor 5.34",
           "REAL commuting field"),
     "d": ("a0164273df62f2e1", "verify_dirac16complex_primordial.PROVENANCE.md"),
-    "e": ("E4.14", "handoff/specs/STAGE4_SPEC.md", "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
-          "`canonical_eigenvalues`"),
+    "e": ("E4.14", "handoff/specs/STAGE4_SPEC.md",
+          "notebooks/dirac16complex_kohn_sham.PROVENANCE.md", "`canonical_eigenvalues`"),
 }
 # The book's Stage-4 sentence of Section 16.1, quoted; its numbers are those of the
 # cross-check report as committed at the book's last build.
@@ -766,7 +776,9 @@ class HonestyStatementTests(TextbookTestCase):
         # The preserved book quotes the report as committed at its last build (63 checks,
         # 1 failed); the errata states the counts of the current report whenever they differ
         # (stage4_status_problems).
-        self.assertEqual(book_build_commit(), "4ede502042bbbb38b0ba8ab49c2ec8fb8870e7b9")
+        self.assertEqual(book_build_commit(), "4ede502042bbbb38b0ba8ab49c2ec8fb8870e7b9",
+                         "the preserved book must not be committed again; in a shallow clone "
+                         "fetch the history first (git fetch --unshallow)")
         frozen = frozen_kohn_sham_report()
         self.assertEqual(report_counts(frozen), (63, 1))
         self.assertEqual(frozen["failed"], ["canonical_eigenvalues"])
@@ -830,6 +842,81 @@ class HonestyStatementTests(TextbookTestCase):
                 self.assertTrue(all(value is True for value in checks.values()))
                 self.assertRegex(block, r"%s +%d of %d checks true" % (re.escape(name), count,
                                                                       count))
+
+
+class ErrataTests(TextbookTestCase):
+    """The errata of the preserved first edition, provenance/ERRATA_FIRST_EDITION_TEXTBOOK.md."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.text = ERRATA.read_text(encoding="utf-8")
+        cls.book_lines = markdown_text().split("\n")
+        parts = list(re.finditer(r"(?m)^## \(([a-z])\) (.*)$", cls.text))
+        cls.parts = {match.group(1): (match.group(2),
+                                      cls.text[match.start():parts[index + 1].start()
+                                               if index + 1 < len(parts) else len(cls.text)])
+                     for index, match in enumerate(parts)}
+        cls.part_order = [match.group(1) for match in parts]
+
+    def test_errata_is_lf_only_utf8_with_one_final_newline(self):
+        content = ERRATA.read_bytes()
+        self.assertNotIn(b"\r", content)
+        self.assertFalse(content.startswith(b"\xef\xbb\xbf"))
+        self.assertTrue(content.endswith(b"\n"))
+        self.assertFalse(content.endswith(b"\n\n"))
+
+    def test_errata_says_the_book_is_preserved_and_names_its_successor(self):
+        head = self.text.split("\n## ", 1)[0]
+        self.assertTrue(self.text.startswith("# Errata of the first edition"))
+        for statement in ("**The book is preserved unmodified.**",
+                          "`provenance/DIRAC16COMPLEX_TEXTBOOK.md`",
+                          "by the user's order of 2026-10-02", "section 0.4e",
+                          "never edited, rebuilt or re-registered",
+                          "Its successor is the textbook **\"%s\"** in `%s`"
+                          % (SUCCESSOR_TITLE, SUCCESSOR_DIRECTORY),
+                          "`%s`" % book_build_commit()):
+            with self.subTest(statement=statement):
+                self.assertIn(statement, head)
+        self.assertTrue((REPOSITORY_ROOT / SUCCESSOR_DIRECTORY / "TEXTBOOK_SPEC.md").is_file())
+
+    def test_errata_lists_the_parts_a_to_e_in_order_with_their_facts(self):
+        self.assertEqual(self.part_order[:len(ERRATA_PARTS)],
+                         [letter for letter, _ in ERRATA_PARTS])
+        for letter, heading in ERRATA_PARTS:
+            title, body = self.parts[letter]
+            with self.subTest(part=letter):
+                self.assertTrue(title.startswith(heading), title)
+                self.assertRegex(body, r"(?m)^### %s\d+\. " % letter)
+                for fact in ERRATA_PART_FACTS[letter]:
+                    self.assertIn(fact, body)
+
+    def test_part_d_states_the_digest_of_the_committed_stage2_report(self):
+        digest = sha256_file(STAGE2_WOLFRAM_REPORT)
+        self.assertIn("`%s`" % digest, self.parts["d"][1])
+        self.assertIn("stage2_sha256=a0164273df62f2e1...", self.book_lines[14327])
+
+    def test_every_entry_cites_book_lines_whose_text_it_quotes(self):
+        # The book is preserved unmodified, so every quotation of the errata must stay at
+        # the cited line of provenance/DIRAC16COMPLEX_TEXTBOOK.md (counted from 1).
+        entries = errata_entries(self.text)
+        self.assertGreaterEqual(len(entries), 15)
+        chapter_files = {path.name for path in CHAPTERS.glob("*.md")}
+        for entry in entries:
+            with self.subTest(entry=entry["id"]):
+                self.assertRegex(entry["id"], r"^[a-f]\d+$")
+                self.assertTrue(entry["lines"], entry["where"])
+                self.assertTrue(entry["files"], entry["where"])
+                self.assertTrue(entry["quotes"])
+                self.assertTrue(entry["correction"] and entry["source"])
+                for name in entry["files"]:
+                    self.assertIn(name, chapter_files)
+                texts = [self.book_lines[number - 1] for number in entry["lines"]]
+                for quote in entry["quotes"]:
+                    self.assertTrue(any(quote in text for text in texts),
+                                    "%r is not at book lines %s" % (quote, entry["lines"]))
+                for number, text in zip(entry["lines"], texts):
+                    self.assertTrue(any(quote in text for quote in entry["quotes"]),
+                                    "book line %d is cited but not quoted" % number)
 
 
 class OverclaimLintTests(TextbookTestCase):
