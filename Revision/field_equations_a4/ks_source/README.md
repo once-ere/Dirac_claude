@@ -55,7 +55,9 @@ to about 20 s under load (2026-10-08).
   case (alpha2 H^2 = 1/80, alpha3 H^4 = 1/4000), with the source strength sigma0 = kappa rho_bar(0)/H^2 in
   {-10, -1, -1/10, 1/10, 1, 10} and with Lambda = 0, by two methods (first integral; RK4 of the evolution equation with
   an independently interpolated source) that agree to the stated tolerance. Outcomes: regular, turning point (a4' = 0:
-  the deflation halts and the extra times re-inflate) or branch point (F = 0: the evolution equation is not defined).
+  the deflation halts; the integration stops there and what follows is not computed) or branch point (F = 0: the
+  evolution equation is not defined). Integrated series: N136_lam0, N688_lam0, N688_lamp2, N688_lamm2 (with
+  3-momentum) and N8_lamp2; the other series of the Kohn-Sham record are not integrated.
 
 ## Answer to "does the dirac16complex source drive exponential deflation of the extra times?"
 
@@ -64,9 +66,10 @@ metric (x8 dependence; the algebraic condition fails, also after averaging over 
 a4 is derived from the coupled equations. In the stated approximation the source does not start or select exponential
 deflation. The initial rate and its sign are initial data, Lambda is fixed by them, and the gas changes a4'^2 only by a
 bounded amount set by the energy it loses. It speeds the deflation up for kappa rho_bar > 0 and slows it down for
-kappa rho_bar < 0. With Lambda = 0 the deflation halts inside the computed range for every series with 3-momentum
-(N = 136, 688), and with Gauss-Bonnet and
-kappa rho_bar > 0 the evolution reaches a branch point. A source that does not change with a4 (the N = 8 interacting
-states) gives exactly the linear member a4 = A H x4 + a0 within the approximation: exponential deflation at the rate
-chosen initially, allowed but not selected. The numbers, the residuals of the dropped equations (O(1), not small) and
+kappa rho_bar < 0. With Lambda = 0 the deflation halts (a4' = 0) inside the computed range for each of the four
+integrated series with 3-momentum (N136_lam0, N688_lam0, N688_lamp2, N688_lamm2; the other six series with 3-momentum
+were not integrated); the integration stops at that turning point, and what follows it is not computed. With
+Gauss-Bonnet and kappa rho_bar > 0 the evolution reaches a branch point. A source that does not change with a4 (the
+N = 8 interacting states) gives exactly the linear member a4 = A H x4 + a0 within the approximation: exponential
+deflation at the rate chosen initially, allowed but not selected. The numbers, the residuals of the dropped equations (O(1), not small) and
 what is not computed (a4 > 2, thermal states, the non-adiabatic problem) are in `reports/ks-source-a4.json`.

@@ -20,7 +20,7 @@ What is tested (fast, read-only):
   * key statements are present (non-triviality [1], the Krein structure, the a4 equations, what is
     not claimed) and no placeholder text is left;
   * every check name the document cites (in a code span) exists, with a passing verdict, in one of
-    the eight Revision reports the document is drawn from; a list of essential checks is cited;
+    the Revision reports the document is drawn from (REPORTS below); a list of essential checks is cited;
   * the check counts the document quotes equal the counts in the reports, and the statement about
     the comparison record of the theory branch matches the two theory reports;
   * the 16 component field equations, the Lovelock components E_(k), F(a4'), the Einstein
@@ -95,6 +95,8 @@ REPORTS = {
     "ds-ks-history": REVISION / "dark_sector" / "dirac16complex" / "reports" / "ks-history-run.json",
     "ds-eos": REVISION / "dark_sector" / "dirac16complex" / "reports" / "eos-checks.json",
     "ds-independent": REVISION / "dark_sector" / "dirac16complex" / "reports" / "independent-checks.json",
+    "lead-u1": REVISION / "lead_checks" / "reports" / "charge-conjugation-and-u1.json",
+    "fock-quartic": REVISION / "theory" / "fock_quartic" / "reports" / "fock-quartic.json",
 }
 
 TITLE = "dirac16complex in the author's primordial gravitational field"
@@ -134,7 +136,7 @@ NON_CHECK_SPANS = {
     "sourceRequiredByGivenA4", "einstein", "linearMember", "theoremLinear",
     "homogeneousSingleMode", "kohnSham", "emtConvention", "offDiagonalConditions",
     "einsteinConditions", "comparison_with_wolfram", "dirac_equation_components",
-    "not_established", "wolframscript", "pdflatex",
+    "not_established", "wolframscript", "pdflatex", "wolfram_checks_without_sympy_counterpart",
 }
 
 ESSENTIAL_CHECKS = [
@@ -163,6 +165,9 @@ ESSENTIAL_CHECKS = [
     "A1_lovelock_identity_x1_plus_x5_equals_2x8", "B2_x8_conservation_on_every_profile",
     "C1_averaged_algebraic_condition_fails", "D4_constant_source_gives_linear_member",
     "T3C_krein_rule_16_component", "T3C.krein_rule_16_component",
+    "mode_hamiltonian_good_sector", "good_sector_positive_fock_realisation",
+    "trace_identity_operator_identity_wick", "trace_identity_fails_for_every_other_combination",
+    "homogeneous_rho_p_operator_identities_wick", "negative_control_free_dynamics",
 ]
 
 REQUIRED_PHRASES = [
@@ -196,6 +201,11 @@ REQUIRED_PHRASES = [
     "`Revision/docs/KOHN_SHAM_DEFLATING_FIELD`",
     "`Revision/docs/LOVELOCK_GKD`",
     "`Revision/docs/DARK_SECTOR_HYPOTHESES`",
+    "constructed and checked only for single good-sector momenta with frozen coefficients",
+    "a positive-norm Hilbert space for the full field is not established",
+    "the identity holds in this model if and only if the potential and the energy-momentum tensor are both Wick ordered",
+    "Nothing is proved for the field on a whole slice",
+    r"and in section 15 (the equation-of-state values $w_{\rm eff}$ of the Kohn-Sham gas",
 ]
 
 # Numbers quoted from the second-wave reports: (report key, text in the report, text in the document).
@@ -208,6 +218,11 @@ QUOTED_NUMBERS = [
 ]
 
 PLACEHOLDERS = ["TODO", "TBD", "FIXME", "lorem ipsum", "PLACEHOLDER", "XXX"]
+
+# Stale or unqualified statements corrected after review (2026-10-08): the documents named exist,
+# the charge is only locally conserved, and nothing past the Lambda = 0 turning point is computed.
+STALE_PHRASES = ["planned and not yet written", "the conserved charge", "re-inflate",
+                 "for every series with 3-momentum"]
 
 # Hand-written formulas of the document that are compared with field-theory.json below.
 DOCUMENT_FORMULAS = [
@@ -517,7 +532,7 @@ def report_count(key: str) -> tuple[int, int]:
         return counts["pass"], counts["pass"] + counts["fail"] + counts["pending"]
     if key in ("scope-wolfram", "t3-wolfram"):
         return data["summary"]["passed"], data["summary"]["total"]
-    if key in ("scope-python", "ks-source", "ks-source-a4", "ks-crosscheck"):
+    if key in ("scope-python", "ks-source", "ks-source-a4", "ks-crosscheck", "fock-quartic"):
         return data["summary"]["pass"], data["summary"]["checks"]
     if key == "t3c-wolfram":
         return data["summary"]["passed"], data["summary"]["total"]
@@ -551,6 +566,7 @@ QUOTED_COUNTS = {
     "ds-ks-history": "Kohn-Sham history: {p} of {t} checks pass",
     "ds-eos": "equation of state: {p} of {t} checks pass",
     "ds-independent": "independent: {p} of {t} checks pass",
+    "fock-quartic": "no Wolfram counterpart): {p} of {t} checks pass",
 }
 
 
@@ -625,6 +641,9 @@ class DocumentFilesTest(unittest.TestCase):
         for placeholder in PLACEHOLDERS:
             with self.subTest(placeholder=placeholder):
                 self.assertNotIn(placeholder, text)
+        for phrase in STALE_PHRASES:
+            with self.subTest(stale=phrase):
+                self.assertNotIn(phrase, text)
 
     def test_no_old_stage_paths_are_cited(self):
         text = markdown_text()
@@ -687,6 +706,10 @@ class CitedChecksTest(unittest.TestCase):
         self.assertEqual(uncovered, [])
         for name in comparison["checks"]["wolfram_checks_without_sympy_counterpart"]:
             self.assertIn(f"`{name}`", text)
+        if not comparison["checks"]["wolfram_checks_without_sympy_counterpart"]:
+            total = comparison["wolfram_summary"]["total"]
+            self.assertIn(f"every one of the {total} Wolfram checks is paired with a sympy check", text)
+            self.assertNotIn("paired with a sympy check except", text)
 
 
 class GeneratedBlocksTest(unittest.TestCase):

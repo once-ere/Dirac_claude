@@ -143,16 +143,21 @@ creates). Every file is UTF-8 text with LF line endings, stored byte for byte by
 
 | role | path | bytes | lines | sha256 |
 | --- | --- | --- | --- | --- |
-| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 40749 | 445 | `d9db27d371eefbd6afc0f358fe9b150a21b82c8a58e5ce2741d71f652f9d1ce9` |
+| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 41876 | 445 | `340933007f94571fe9db57562a48d7309053381c56a6c1c4e44af1875eeb2a4c` |
 | package (loaded by the script with `Get`, script line 25) | `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` | 14903 | 220 | `f0292638c8d6dab9b7a05c744ba00a2ebe329e96ef927478cb73c7599e749c11` |
 | input 1 (read by the package with `Import[..., "RawJSON"]`, package line 159) | `Revision/algebra/gammas.json` | 76968 | 1405 | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` |
 | input 2 (read by the script with `Import[..., "RawJSON"]`, script line 89) | `Revision/gkd_lovelock/results/lovelock-tensors.json` | 55056 | 405 | `9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567` |
-| output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 40843 | 788 | `98d3245d30e5c25f7bbdfcd186d5723aec2059a1feeaef4cc3c3249684de03b4` |
+| output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 41834 | 788 | `b2f470d04a1d660430e5008e7aed1e8af91d5287fd2546a0cbeb82f983573d96` |
 | output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 14190 | 269 | `27faceeebdcdb8dc97afbebe89e24e322e8308fb5679df19c88dc1c77af72e6b` |
 
 Last commits that changed them: the script, the package and output 2: `e377368` (2026-10-08);
 `gammas.json`: `9ea68d4` (2026-10-01); `lovelock-tensors.json`: `ad02ebb` (2026-10-01); output 1: `70fab64`
-(2026-10-01; the patch left it byte for byte unchanged).
+(2026-10-01; the patch left it byte for byte unchanged). On 2026-10-08, after `e377368`, the script and
+output 1 were changed in the working tree (section 6.6): the folders are normalised with `ExpandFileName`,
+and the text `fields.dirac16complex.statement` of output 1 now reports what `Revision/theory/fock_quartic`
+decided. The table gives these versions; the versions verified in sections 6.3 to 6.5 were the script
+`d9db27d371eefbd6afc0f358fe9b150a21b82c8a58e5ce2741d71f652f9d1ce9` (40749 bytes) and output 1
+`98d3245d30e5c25f7bbdfcd186d5723aec2059a1feeaef4cc3c3249684de03b4` (40843 bytes).
 
 The set reads nothing else: no other file, no environment variable, no command-line argument, no
 network resource. The script finds its package and its second input relative to its own location
@@ -377,7 +382,7 @@ Nothing is printed on the error stream, no `FAIL` or `ERROR` line appears, and t
 
 Files written (both are overwritten on every run that reaches its end):
 
-1. `Revision/field_equations_a4/a4-equations.json` (40843 bytes, 788 lines). Its top-level keys
+1. `Revision/field_equations_a4/a4-equations.json` (41834 bytes, 788 lines). Its top-level keys
    are `title`, `producer`, `conventions`, `lovelockTensors`, `generalSource`, `einstein`,
    `linearMember`, `fields`, `checksSummary`; its second line is
    `  "title": "Einstein-Lovelock field equations for a4[x4] in the primordial metric (Revision/SPEC.md section 5)",`.
@@ -496,8 +501,9 @@ representation.)
 ## 6. Verification record
 
 The set was verified on 2026-10-02 (6.1) and on 2026-10-07 (6.2) in the version BEFORE the patch
-of commit `e377368`, and on 2026-10-08 (6.3) in the current version. 6.4 lists the findings of the
-independent verifier of 2026-10-07 and what was done with each; 6.5 the open remarks.
+of commit `e377368`, and on 2026-10-08 (6.3) in the version of that commit. 6.4 lists the findings of the
+independent verifier of 2026-10-07 and what was done with each; 6.5 the open remarks; 6.6 the change of
+2026-10-08 after that commit (folders normalised, one text of output 1 updated) and its runs.
 
 ### 6.1 Verification of 2026-10-02 (version before the patch)
 
@@ -741,3 +747,51 @@ for byte. Remarks that do not affect a run from a complete clone:
   missing error exits (the patch added them,
   section 3.6); and the sentence of `provenance/dirac matrices.md` about this set (that file was
   regenerated with the patch and now states that `FEGammaFrame` equals the author's matrices).
+
+### 6.6 Folders normalised and the `dirac16complex` statement updated (2026-10-08, working tree)
+
+* Why (folders): a review of the reproducibility of the Revision gate (2026-10-08; it fixed the same pattern
+  in `Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls`) found that lines 21 and 22 built
+  the folders with `FileNameJoin[{..., ".."}]` without normalising them. The second input is then read as
+  `<root>\Revision\field_equations_a4\wolfram\..\..\gkd_lovelock\results\lovelock-tensors.json`, the root
+  plus 85 characters, and on Windows a path of 260 or more characters (MAX_PATH) is not found although the
+  file exists, so the run failed from a clone folder of 175 characters or more (a computed figure).
+* Why (text): `fields.dirac16complex.statement` said that the operator form of the trace identity
+  sum_mu <:k_mu:> = <:(m + U'(S)) S:> was "assumed ... (to be confirmed by the theory branch)". The record
+  `Revision/theory/fock_quartic` (commit `4f9e55e`; `reports/fock-quartic.json`, 21 of 21 checks PASS) now
+  decides it in a finite model only (one good-sector plane-wave mode set with frozen coefficients, flat
+  frame, volume 1, 16 modes, 2^16 states): there it is an exact operator identity for the Heisenberg field of
+  the interacting operator field equation if the potential and the energy-momentum tensor are both Wick
+  ordered, and it fails for every other tested combination; nothing is proved for the field on a whole slice.
+  The statement now says this, and still calls the identity for the field on a whole slice ASSUMED.
+* Change: lines 21 and 22 now read `$fieldDir = ExpandFileName[FileNameJoin[{$here, ".."}]];` (followed on
+  the same line by a comment) and `$revDir = ExpandFileName[FileNameJoin[{$fieldDir, ".."}]];`; the string
+  `"statement"` of the `dirac16complex` entry (line 429) was rewritten. No other line changed (still 445
+  lines). New sha256 `340933007f94571fe9db57562a48d7309053381c56a6c1c4e44af1875eeb2a4c`, 41876 bytes (before:
+  `d9db27d371eefbd6afc0f358fe9b150a21b82c8a58e5ce2741d71f652f9d1ce9`, 40749 bytes). The companion
+  `Revision/field_equations_a4/python/check_field_equations_a4.py` received the matching qualification in
+  the `dirac16complex` line of its summary `reports/a4-equations-summary.md` (line 39); its checks did not
+  change.
+* Runs, from the repository root `D:\Developer\github\Dirac_claude` (32 characters) in the working tree on
+  top of commit `a8eb09d` or `ab84209` (both committed by others during this work; neither changed a file of
+  this set, its inputs or its outputs), not in a fresh clone (other areas of the tree had uncommitted edits of
+  other work, none in this folder or in its inputs); Windows 11 Pro for Workstations 10.0.26300, WolframScript
+  1.14.0, Wolfram 15.0.1; each Wolfram run started detached from a `cmd.exe` batch file, one at a time:
+  1. With only the folders normalised: `wolframscript -file
+     Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` printed `checks: 52, failed: 0`,
+     exit code 0, wall time 61 s. Both outputs were byte-identical to the committed ones
+     (`git diff --quiet` on both succeeded).
+  2. With the new statement: the same command, `checks: 52, failed: 0`, exit code 0, wall time 40 s.
+     `wolfram-a4-report.json` was byte-identical to the committed one; `a4-equations.json` differed from it
+     only in line 776 (`fields.dirac16complex.statement`) and now has the sha256 and size of section 2.
+  3. The same command again: `checks: 52, failed: 0`, exit code 0, wall time 37 s; `a4-equations.json`
+     byte-identical to run 2.
+  4. `python Revision/field_equations_a4/python/check_field_equations_a4.py`, twice: `checks: 63, pass 63,
+     fail 0, pending 0`, exit code 0, 6 s each; `python-a4-report.json` byte-identical to the committed one,
+     `a4-equations-summary.md` identical between the two runs and different from the committed one only
+     in line 39.
+* Downstream: `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` records the sha256 of
+  `a4-equations.json` among its inputs; `ks_source_a4.py` was re-run twice (23 of 23 PASS, byte-identical
+  runs) and now records `b2f470d04a1d660430e5008e7aed1e8af91d5287fd2546a0cbeb82f983573d96`.
+* Fixes made: the normalisation and the text above. Open discrepancies: none in the results. Not done: a run
+  of the changed script in a fresh clone, and a run from a long clone folder.

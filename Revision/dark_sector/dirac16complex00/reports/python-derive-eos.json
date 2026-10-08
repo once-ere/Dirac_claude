@@ -101,7 +101,7 @@
       "verdict": "PASS"
     },
     {
-      "detail": "B h = (B h)^dagger: the conserved charge Q = Phi^dagger B Phi is the Krein form of the evolution",
+      "detail": "B h = (B h)^dagger: the charge density Q = Phi^dagger B Phi is the Krein form of the frozen-frame evolution and is conserved by it (in the field theory the charge obeys a local conservation law; its total is constant only without flux through z = pi/2, an ASSUMED condition)",
       "name": "mode_generator_B_selfadjoint",
       "verdict": "PASS"
     },
@@ -181,7 +181,7 @@
       "verdict": "PASS"
     },
     {
-      "detail": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), omega^2 = m^2 + k^2/a^2 - q^2 a^2 (comoving k, q; Q the conserved Krein charge per comoving volume) satisfy d rho/dx4 = -3 a4' (p3 - p_t) exactly",
+      "detail": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), omega^2 = m^2 + k^2/a^2 - q^2 a^2 (comoving k, q; Q the Krein charge per comoving volume, constant as an adiabatic invariant of the WKB model) satisfy d rho/dx4 = -3 a4' (p3 - p_t) exactly",
       "name": "wkb_mode_gas_conservation",
       "verdict": "PASS"
     },
@@ -221,7 +221,7 @@
       "verdict": "PASS"
     },
     {
-      "detail": "N2 tangent of M4 = (-0.861, -0.600) = the Unite CPL values; yet w_eff(N2) >= -1 at every a (theorem: positive components), no crossing: the phantom past of the CPL line is not reproduced",
+      "detail": "N2 tangent of M4 = (-0.861, -0.600) = the Unite CPL values; yet w_eff(N2) >= -1 before the turning point a_* = 1.2355 of its extra-time mode (theorem: positive components with real frequencies; checked on a in [1/300, 1], M4_never_phantom), no crossing there: the phantom past of the CPL line is not reproduced; past a_* the frequency is imaginary and w_eff(N2) >= -1 is not established",
       "name": "M4_tangent_equals_unite",
       "verdict": "PASS"
     },
@@ -241,7 +241,7 @@
       "verdict": "PASS"
     },
     {
-      "detail": "the same model with the ghost component removed (Omega_c = 1 - Omega_q) has no crossing: the crossing is due to the negative-energy component",
+      "detail": "the same model with the ghost component removed (Omega_c = 1 - Omega_q) has no crossing in [1/3, 1]: the crossing is due to the negative-energy component",
       "name": "M5_without_ghost_no_crossing",
       "verdict": "PASS"
     }

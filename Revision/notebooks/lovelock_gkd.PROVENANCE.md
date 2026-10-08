@@ -2,10 +2,10 @@
 
 The Lovelock tensors of the author's metric with the generalized Kronecker delta (GKD).
 
-* Notebook: `Revision/notebooks/lovelock_gkd.ipynb` (35 cells: 20 markdown, 15 code; 408487 bytes;
-  sha256 `a2f44779c8586525f1b8dca776e28876579f60b6e47e353088f5ed267a224348`).
+* Notebook: `Revision/notebooks/lovelock_gkd.ipynb` (35 cells: 20 markdown, 15 code; 410418 bytes;
+  sha256 `e4066a453826082a0e0d9761b2cff8f0d0af92871551dc121aaebcf40c19cce0`).
 * Builder: `Revision/notebooks/src/lovelock_gkd.py`
-  (sha256 `0c0706ab28e3d7b9e8b01d032316a33d50e26e425eb61b432a67d92ec27a4d16`).
+  (sha256 `149d1769e1764746255eaf147c46be1ccd7c761f1cc927c4471558168f95c998`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
@@ -17,8 +17,8 @@ The Lovelock tensors of the author's metric with the generalized Kronecker delta
 ## 1. What it computes
 
 1. Builds the Revision Rust crate `Revision/gkd_lovelock/code` (`lovelock_gkd`, pure Rust, no
-   dependencies) with `cargo build --release` into `<output>/cargo-target` and requires zero
-   compiler warnings.
+   dependencies) with `cargo build --release` into the build folder `<cargo-target>` (section 2) and
+   requires zero compiler warnings.
 2. Runs `lovelock_gkd print-config` and checks that the recited metric occurs verbatim in the author's
    task quoted in `Revision/README.md`.
 3. Defines two independent Python versions of the GKD (the rule: distinct indices, same set, sign of
@@ -61,7 +61,7 @@ Read (sha256 at the time of the verified builds):
 | file | sha256 |
 | --- | --- |
 | `Revision/SPEC.md` | (only its existence is used, to find the repository) |
-| `Revision/README.md` | `338c2a25c632ff7f348be0d8760ae7eecc8f73beac22ab0d323404cf72e55bfb` (the notebook only needs the metric text to occur in it) |
+| `Revision/README.md` | (not pinned: the file changes as the record grows; the notebook only needs the author's metric text to occur in it and checks that it does) |
 | `Revision/gkd_lovelock/code/Cargo.toml` | `c6719ffae8040c42034a903b7cf2aefbc2124fee7dd6750de0c455d7cb653d70` |
 | `Revision/gkd_lovelock/code/Cargo.lock` | `41e4efb7365fc3c818a2a7d18ffd214d11d6856dd4f62ea970ca2a4e39115250` |
 | `Revision/gkd_lovelock/code/src/geometry.rs` | `ea7a77cef471610b909ba6f0300e78f582506bfc1125c36c1b2a772fefd96678` |
@@ -80,9 +80,12 @@ Read (sha256 at the time of the verified builds):
 | `Revision/gkd_lovelock/results/python-lovelock-report.json` | `a4d6c0d5e2d063ce01611c06a98a4ba9cff0d61616b480b0b5828e2f3eee4d52` |
 | `Revision/gkd_lovelock/results/wolfram-gkd-report.json` | `71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189` |
 
-Written, all into the output folder `<output>` (the folder named by `REVISION_NB_OUT`, otherwise
-`build/revision_notebooks/lovelock_gkd` in the repository, ignored by git); identical in both
-verified builds:
+Written: the result files and figures into the output folder `<output>` (the folder named by
+`REVISION_NB_OUT`, otherwise `build/revision_notebooks/lovelock_gkd` in the repository, ignored by
+git), identical in both verified builds and in the `check` runs; the Rust build into `<cargo-target>`
+(the folder named by `REVISION_NB_CARGO_TARGET`, otherwise `revision-nb-lovelock_gkd-` followed by the
+first 12 hexadecimal digits of the sha256 of the path of `<output>`, in the system's temporary
+folder):
 
 | file | bytes | sha256 |
 | --- | --- | --- |
@@ -93,7 +96,7 @@ verified builds:
 | `<output>/figures/figure1_scale_factors.png` | 72361 | `f2e19dd62b8515b200e6c6dcd46397322474848795c60faf087d8687f3252e9e` |
 | `<output>/figures/figure2_lovelock_components.png` | 111384 | `7a180d388d97d88ae5149aa4aea9e33e0b1ad8445ef33be90332b7fb49758a42` |
 | `<output>/figures/figure3_gkd_work.png` | 57413 | `f602fb8a3078c891a31c8a6c6b2440c1c5732a10e4b42396a30ec72ff4159954` |
-| `<output>/cargo-target/` | | the Rust build folder (compiler output; not compared) |
+| `<cargo-target>/` | about 2.6 MB | the Rust build folder (compiler output; not compared) |
 
 The tool writes `Revision/notebooks/lovelock_gkd.ipynb` (`build`) or `<output>/lovelock_gkd.ipynb`
 (`check`). With `REVISION_NB_LONG=1` (not used for the committed notebook) the notebook also writes
@@ -143,12 +146,15 @@ or, to rebuild and compare with the committed file (from the repository root):
 * Section 10.4: `checks of this notebook: 40 passed, 0 failed` and the seven files listed above.
 
 Run times printed by the program are masked as `<t>`; no path of the computer is printed (paths are
-shown relative to the repository or as `<output>/...`).
+shown relative to the repository or as `<output>/...` and `<cargo-target>/...`). The printed text
+does not depend on where `<output>` and `<cargo-target>` are, so the notebook is byte-identical with
+or without `REVISION_NB_CARGO_TARGET`.
 
 ## 5. Measured run time (Windows 11, 2026-10-08)
 
-* Whole notebook, executed by `build_notebooks.py`: 26.6 s (build A) and 25.6 s (build B) of
-  execution; 29.9 s and 28.6 s wall time including kernel start.
+* Whole notebook, executed by `build_notebooks.py`: 26.8 s (build A) and 30.5 s (build B) of
+  execution, 29.4 s wall time for build A including kernel start; the three `check` runs of section 7
+  25.4 s, 26.0 s and 24.8 s of execution.
 * Inside it: the fresh `cargo build --release` about 3 s; `lovelock --brute-force-k2` 13.6 s as the
   program reports it in a separate run (4.4 s without `--brute-force-k2`); the exhaustive Python GKD
   comparison a few seconds.
@@ -158,33 +164,61 @@ shown relative to the repository or as `<output>/...`).
 
 ## 6. Side effects
 
-* Writes only into `<output>` (and the tool writes the notebook file named in section 2). The
-  committed record `Revision/gkd_lovelock/results/` is only read; the notebook raises an error if
-  `<output>` would place the program's files there. The crate's own `target/` folder is not used
-  (the build goes to `<output>/cargo-target`).
+* Writes only into `<output>` and `<cargo-target>` (and the tool writes the notebook file named in
+  section 2). The committed record `Revision/gkd_lovelock/results/` is only read; the notebook raises
+  an error if `<output>` or `<cargo-target>` would place the program's files there. The crate's own
+  `target/` folder is not used (the build goes to `<cargo-target>`).
+* By default `<cargo-target>` is a new folder of about 2.6 MB in the system's temporary folder for
+  every new `<output>` (every `build` and `check` of the tool uses a new `<output>`); nothing deletes
+  it, it can be deleted by hand. It is placed there, short and outside the repository, because on
+  Windows the MSVC linker `link.exe` cannot open a file whose path is longer than 259 characters
+  (MAX_PATH): with the former build folder `<output>/cargo-target`, the default `<output>` of the tool
+  (`build/revision_notebooks/lovelock_gkd-XXXXXXXX/`) and a repository folder longer than 148
+  characters (the part of the path below the repository folder is 111 characters), the library file `liblovelock_gkd-<16 hexadecimal digits>.rlib` that the linker must open
+  had a path of 260 or more characters, and `check` failed with `LNK1104` (section 7).
 * Runs `cargo` (needs the Rust toolchain on PATH) and the built program; no network access during the
   run, no Wolfram Language, no installation.
 
 ## 7. Verification record
 
+* 2026-10-08, the reason for the current version: a review found that `build_notebooks.py check
+  lovelock_gkd` failed in a fresh clone whose repository folder had 153 characters (`LINK : fatal error
+  LNK1104` on the 264-character path of `liblovelock_gkd-<16 hexadecimal digits>.rlib` under
+  `<output>/cargo-target`; the gate step notebooks-check failed). Reproduced here before the change:
+  `cargo build --release` of `Revision/gkd_lovelock/code` with the former folder layout below a
+  155-character folder ended with exit status 101 and `LNK1104` (.rlib path 266 characters). The
+  crate has a library (`src/lib.rs`) and a program (`src/main.rs`), so the linker must open the .rlib.
+  The other two notebooks (crate `Revision/kohn_sham/solver`, no library) failed in the same way at
+  longer repository folders, on the path of the program the linker writes (above 153 and 159
+  characters; their provenance files, section 7); all three were changed in the same way. Since then
+  the build goes to `<cargo-target>` (sections 2 and 6); the results and the figures are unchanged.
+* All runs below with the system's temporary folder set (TMP, TEMP, TMPDIR) to a scratch folder of
+  154 characters, so `<cargo-target>` had a path of 192 characters and the .rlib one of 243.
 * 2026-10-08, build A: `python Revision/notebooks/tools/build_notebooks.py build lovelock_gkd --out
-  <scratch>/buildA` - executed in 26.6 s, wrote 408487 bytes, audit PASS, sha256
-  `a2f44779c8586525f1b8dca776e28876579f60b6e47e353088f5ed267a224348`.
-* 2026-10-08, build B: the same command with `--out <scratch>/buildB` - executed in 25.6 s; the
+  <scratch>/buildA` - executed in 26.8 s, wrote 410418 bytes, audit PASS, sha256
+  `e4066a453826082a0e0d9761b2cff8f0d0af92871551dc121aaebcf40c19cce0`.
+* 2026-10-08, build B: the same command with `--out <scratch>/buildB` - executed in 30.5 s; the
   notebook written is byte-identical to build A (same sha256), and the seven files of the two output
   folders are byte-identical (table of section 2).
 * 2026-10-08, check: `python Revision/notebooks/tools/build_notebooks.py check lovelock_gkd --out
-  <scratch>/check1` - a third independent execution (40.8 s, run while another job used the CPU):
-  `check lovelock_gkd: PASS - the re-executed notebook is byte-identical to
-  Revision/notebooks/lovelock_gkd.ipynb (408487 bytes)`.
-* 2026-10-08, tests: `python -m unittest Revision/tests/test_revision_notebooks.py -v` - 7 static tests
-  OK, 2 skipped (1.2 s); with `REVISION_NOTEBOOKS_FULL=1` - 9 tests OK in 55.7 s (the installed versions
-  equal the pins; a fourth execution through `check` in a temporary folder is byte-identical).
+  <scratch>/check1` - a third independent execution (25.4 s): `check lovelock_gkd: PASS - the
+  re-executed notebook is byte-identical to Revision/notebooks/lovelock_gkd.ipynb (410418 bytes)`; its
+  seven files equal those of builds A and B.
+* 2026-10-08, deep repository folder: the files the notebook needs (`Revision/SPEC.md`,
+  `Revision/README.md`, the crate's `Cargo.toml`, `Cargo.lock` and `src/`, `Revision/gkd_lovelock/results/`,
+  `Revision/notebooks/`) copied below a folder of 170 characters and `check lovelock_gkd` run there
+  without `--out`, as the gate step notebooks-check runs it: with the previous builder and notebook
+  (those of the last commit before this change) exit status 1 with `LNK1104`; with the current ones
+  `check lovelock_gkd: PASS - ... byte-identical ... (410418 bytes)` (26.0 s).
+* 2026-10-08, `REVISION_NB_CARGO_TARGET=<scratch>/ct` with `check lovelock_gkd --out <scratch>/check2`:
+  PASS, byte-identical (24.8 s); the build went to `<scratch>/ct`.
+* 2026-10-08, tests: `python -m unittest Revision/tests/test_revision_notebooks.py -v` - 9 static tests
+  OK, 2 skipped; with `REVISION_NOTEBOOKS_FULL=1` - 11 tests OK in 109.1 s (the installed versions
+  equal the pins; `check` of all three notebooks in temporary folders is byte-identical).
 * 2026-10-08, headless instruction of section 2.5: `python -m nbconvert --to notebook --execute
-  Revision/notebooks/lovelock_gkd.ipynb --output-dir <scratch>` with `REVISION_NB_OUT=<scratch>` - exit
-  status 0 (68.7 s wall time, concurrently with the full test), no error output, no stderr,
-  `checks of this notebook: 40 passed, 0 failed` (nbconvert's own file is not normalised, so it is not
-  compared byte for byte).
+  Revision/notebooks/lovelock_gkd.ipynb --output-dir <scratch>` with `REVISION_NB_OUT=<scratch>/out` -
+  exit status 0, no error output, no stderr, `checks of this notebook: 40 passed, 0 failed`
+  (nbconvert's own file is not normalised, so it is not compared byte for byte).
 * Not verified here: the run instructions on macOS and Linux (written for them, executed only on
   Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
   the matplotlib version).

@@ -79,8 +79,9 @@ observer. It agrees with p3/rho only when no energy is exchanged with the extra 
 - The ratio is phantom exactly for lambda S/m in (-2, -1).
 - For a condensate that is a self-consistent source of the linear member (A = a4'/H):
   kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)].
-  - In Einstein gravity, rho + p = -6 (1 + A^2) H^2/kappa. With rho > 0 the ratio is therefore
-    w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1, which is phantom and constant.
+  - In Einstein gravity, rho + p = -6 (1 + A^2) H^2/kappa, so the ratio is the constant
+    w = -1 - 6 (1 + A^2) H^2/(kappa rho). It is phantom (w < -1) exactly when kappa rho > 0 (e.g. kappa > 0
+    and rho > 0) and w > -1 for kappa rho < 0; the sign of kappa is not fixed by this record.
   - In Einstein gravity the observer's Hubble rate from the expansion gives
     w_tot = -1 - kappa (p3 - p_t)/(3 a4'^2). This is exactly -1 for the linear member, whose Hubble rate is
     constant.
@@ -104,7 +105,9 @@ observer. It agrees with p3/rho only when no energy is exchanged with the extra 
   independent of the sign of Q.
 - For mixtures, w_eff(N1) = sum eps_i rho_i / sum rho_i.
 - **Theorem:** if every component has rho_i >= 0, with real frequencies, then w_eff(N1) >= 0 and
-  w_eff(N2) >= -1 at every a. There is no phantom and no crossing of -1.
+  w_eff(N2) >= -1 at every a at which these conditions hold. There is then no phantom and no crossing of -1.
+  A mode with extra-time momentum loses its real frequency past its turning point a_* (section 3), where the
+  theorem does not apply.
 - A crossing needs a component with **negative classical energy**.
 
 ## 3. Models, CPL tangents and fits
@@ -120,7 +123,7 @@ therefore not comparable with the supernova constant-w fit -0.764, which weights
 | M1 condensate | ratio / N1 / N2 | (lambda S/(2m+lambda S), 0) / (0, 0) / (-1, 0) | constant | no |
 | M2 good-sector gas (q = 0), k^2/(k^2+m^2) = 0.417 at a = 1 | N2 | (-0.861, **+0.162074**): freezing | (-0.8655, 0.2173; -0.8112) | no |
 | M2 | N1 = ratio | (0.139, 0.162074): 1/3 → 0, **dark-matter-like** | (0.1345, 0.2173; 0.1888) | no |
-| M3 extra-time mode (k = 0), q^2/m^2 = 417/1417 | N2 | (-0.861, **-0.393926**): thawing, w ≥ -1 | (-0.8734, -0.2196; -0.9283) | no |
+| M3 extra-time mode (k = 0), q^2/m^2 = 417/1417 | N2 | (-0.861, **-0.393926**): thawing, w ≥ -1 for a < a_* | (-0.8734, -0.2196; -0.9283) | no |
 | M4 condensate + extra-time mode, s = **264037/403037**, Omega_q = **57963/264037** | N2 | (**-0.861, -0.600**) = Unite, exactly | (-0.8832, -0.2203; -0.9383) | **no** (min w → -1 from above) |
 | M4 | N1 / ratio | (0.139, -0.600) / (0, 0) | (0.1168, -0.2203; 0.0617) / 0 | no |
 | M5 = M4-type + **ghost** (negative-energy massless modes, 30 % of the total at a = 1) | N2 | (-0.8396, -1.0399) | (**-0.861, -0.600**; -1.011) | **yes, at a = 0.779** |
@@ -129,6 +132,10 @@ Notes on the table:
 
 - **M3:** the turning point is at a_* = sqrt(1417/417) = 1.843, in the future.
 - **M4:** the turning point is at a_* = 1.235.
+- **crosses -1?** is the crossing search of the record on a ∈ [1/3, 1] (for M4 also the minimum of w over
+  a = 1/300, ..., 1, `M4_never_phantom`); it says nothing about a > 1. Past the turning point a_* of an
+  extra-time mode (M3: 1.8434, M4: 1.2355) the frequency of that mode is imaginary, the theorem of section 2
+  does not apply and w ≥ -1 is not established.
 - **M5:** s = 0.5678 and Omega_c = 0.7053. Without its ghost component M5 does not cross -1
   (`M5_without_ghost_no_crossing`).
 
@@ -159,15 +166,19 @@ amplitude grows by 10^32.2 between a = 1.5 and 2.2, and its energy density becom
    dust-like under N1. Under N2 the same states look like dark energy instead. The reading depends on the
    observer ASSUMPTION.
 2. **Dark energy without ghosts.** This exists only under N2, and only as freezing (M2: wa > 0) or thawing
-   (M3, M4: wa < 0) evolution with w ≥ -1 at every a.
+   (M3, M4: wa < 0) evolution with w ≥ -1: for M2 at every a; for M3 and M4 only before the turning point a_*
+   of the extra-time mode (M3: 1.8434; M4: 1.2355; checked on a ∈ [1/300, 1]); past a_* the bound is not
+   established.
    - The thawing case is driven by the deflation, which blueshifts the extra-time momentum.
-   - M4 reproduces the Unite CPL **tangent** (-0.861, -0.60) exactly, but its actual w(a) never crosses -1.
+   - M4 reproduces the Unite CPL **tangent** (-0.861, -0.60) exactly, but its actual w(a) does not cross -1
+     on a ∈ [1/300, 1] (minimum -0.999999214228) and, by the theorem of section 2, not before its turning
+     point a_* = 1.2355; past a_* this is not established.
      The phantom past w0 + wa = -1.461 belongs to the linear CPL extrapolation, not to the model.
    - Its least-squares fit over [1/2, 1] is (-0.883, -0.220), not the Unite pair.
    - The same mode reaches a turning point (a_* = 1.235) and then grows without bound.
    - Under N1, or in the ratio, the same model is not dark energy (w ≥ 0).
-3. **Phantom and crossing of -1.** With positive-energy components only, both are impossible (theorem of
-   section 2).
+3. **Phantom and crossing of -1.** With positive-energy components of real frequency only (for an extra-time
+   mode: before its turning point a_*), both are impossible (theorem of section 2).
    - They occur when components of negative classical energy are present (M5: the Unite fit over [1/2, 1]
      reproduced, crossing at a = 0.779 against 0.768).
    - The only phantom without a negative energy density is the constant ratio of a condensate with lambda < 0.

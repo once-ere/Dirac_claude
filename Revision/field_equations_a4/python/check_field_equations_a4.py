@@ -790,7 +790,10 @@ lines = [
     r"  then $p_3 = p_t$ forces $a_4'' F(a_4') = 0$, hence $a_4 = A H x_4 + a_0$",
     r"* Einstein with $U = \lambda S^2/2$: $\kappa\sigma_T m S = -(36H^2 + 2\Lambda)$, $6(A^2+1)H^2 = -\kappa\sigma_T S(m+\lambda S)$",
     r"  ($A$ enters only as $A^2$: deflation of the extra times, $A > 0$, is a choice of sign, not selected by the equations; $A = 0$ is static)",
-    r"* dirac16complex: the same with normal-ordered expectation values; a state with $\langle k_1\rangle \ne \langle k_5\rangle$ would drive $a_4''$ only if it also satisfied $p_3 + p_t = 2p_8$ and $x_8$-independence;",
+    r"* dirac16complex: the same with normal-ordered expectation values (the operator form of the on-shell trace identity, "
+    r"$\sum_\mu\langle{:}k_\mu{:}\rangle = \langle{:}(m + U')S{:}\rangle$, is ASSUMED for the field on a whole slice; "
+    r"`Revision/theory/fock_quartic` decides it only in a finite one-mode-set Fock model, where it holds exactly if the "
+    r"potential and the energy-momentum tensor are both Wick ordered and fails for every other tested ordering); a state with $\langle k_1\rangle \ne \langle k_5\rangle$ would drive $a_4''$ only if it also satisfied $p_3 + p_t = 2p_8$ and $x_8$-independence;",
     r"  the recorded Kohn-Sham states violate both (reports/ks-source-conditions.json), and the Kohn-Sham history $a_4 = AHx_4$ is a prescribed background without back-reaction",
     "",
     "## Run",

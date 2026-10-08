@@ -238,9 +238,18 @@ $PY Revision/notebooks/tools/build_notebooks.py check @NAME@
 
 ### 2.6 Where the notebook writes
 
-Every file the notebook writes goes into one output folder: the folder named by the environment
-variable `REVISION_NB_OUT` if it is set, otherwise `build/revision_notebooks/@NAME@` inside the
-repository (git ignores `build/`). @WHERE@
+Every result file the notebook writes goes into one output folder: the folder named by the
+environment variable `REVISION_NB_OUT` if it is set, otherwise `build/revision_notebooks/@NAME@`
+inside the repository (git ignores `build/`). @WHERE@
+
+The Rust solver is compiled into a separate build folder, called `<cargo-target>` here: the folder
+named by the environment variable `REVISION_NB_CARGO_TARGET` if it is set, otherwise the folder
+`revision-nb-@NAME@-` followed by 12 hexadecimal digits in the temporary folder of your system
+(the digits are the start of the sha256 of the path of `<output>`, so every output folder has its own
+build folder). The build folder is kept outside the repository and short on purpose: on Windows the
+Rust linker (`link.exe`) cannot open a file whose path is longer than 259 characters (the limit
+MAX_PATH), and a build folder inside a repository placed in a deep folder exceeds it. The notebook
+never deletes this folder; it holds only compiler output and can be deleted by hand after the run.
 """
 
 
@@ -253,7 +262,7 @@ md(run_instructions(
     "The whole notebook takes well under a minute (about 15 s on the computer on which it was built, "
     "including the build of the solver); the 123 solver runs are spread over up to eight parallel "
     "processes and take from a few hundredths of a second to about two seconds each.",
-    "The Rust solver is compiled into `<output>/cargo-target`, the 123 result files of the solver go to "
+    "The 123 result files of the solver go to "
     "`<output>/ks_runs`, the two reproduced tables to `<output>/ks-history-dense-subset.csv` and "
     "`<output>/eos-history-subset.csv`, the figures to `<output>/figures`. The committed records "
     "`Revision/dark_sector/` and `Revision/kohn_sham/results/` are only read; the notebook refuses to "
@@ -374,8 +383,9 @@ md(r"""
 
 The next cell imports the Python modules, finds the repository (the folder that contains
 `Revision/SPEC.md`, searched upwards from the folder in which the notebook runs), fixes the output
-folder (section 2.6) and refuses to continue if that folder would put files into a committed record.
-It prints no path of your computer, only names relative to the repository or to `<output>`.
+folder and the Rust build folder `<cargo-target>` (section 2.6) and refuses to continue if either
+would put files into a committed record. It prints no path of your computer, only names relative to
+the repository, to `<output>` or to `<cargo-target>`.
 """)
 
 code(r'''
@@ -388,6 +398,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 from fractions import Fraction
 from pathlib import Path
 
@@ -424,6 +435,17 @@ for protected in (REPO / "Revision" / "dark_sector", KS / "results", KS / "repor
         if folder == protected or protected in folder.parents:
             raise RuntimeError("the output folder lies inside the committed record " +
                                protected.relative_to(REPO).as_posix() + ": choose another REVISION_NB_OUT")
+# The Rust build folder <cargo-target> (section 2.6): by default short and outside the repository, because on
+# Windows the linker cannot open paths longer than 259 characters (MAX_PATH).
+if os.environ.get("REVISION_NB_CARGO_TARGET"):
+    TARGET = Path(os.environ["REVISION_NB_CARGO_TARGET"]).resolve()
+else:
+    TARGET = Path(tempfile.gettempdir()).resolve() / (
+        "revision-nb-dark_sector_hypotheses-" + hashlib.sha256(str(OUT).encode("utf-8")).hexdigest()[:12])
+for protected in (REPO / "Revision" / "dark_sector", KS / "results", KS / "reports"):
+    if TARGET == protected or protected in TARGET.parents:
+        raise RuntimeError("the Rust build folder lies inside the committed record " +
+                           protected.relative_to(REPO).as_posix() + ": choose another REVISION_NB_CARGO_TARGET")
 for folder in (OUT, RUN_DIR, FIG_DIR):
     folder.mkdir(parents=True, exist_ok=True)
 
@@ -438,9 +460,9 @@ def check(name, ok, detail):
 
 
 def shown(path):
-    """A path as the notebook prints it: relative to <output> or to the repository."""
+    """A path as the notebook prints it: relative to <cargo-target>, to <output> or to the repository."""
     path = Path(path).resolve()
-    for base, label in ((OUT, "<output>"), (REPO, "")):
+    for base, label in ((TARGET, "<cargo-target>"), (OUT, "<output>"), (REPO, "")):
         if path == base or base in path.parents:
             rel = path.relative_to(base).as_posix()
             return (label + "/" + rel if label else rel) if rel != "." else (label or ".")
@@ -463,6 +485,7 @@ def write_lf(path, text):
 UNITE = {"w_const": -0.764, "w0": -0.861, "wa": -0.60}     # Revision/README.md
 print("repository: found (the folder that contains Revision/SPEC.md)")
 print("<output> =", OUT_LABEL)
+print("<cargo-target> = the Rust build folder (section 2.6; by default a short folder in the system's temporary folder)")
 print("Python", sys.version.split()[0], "| numpy", np.__version__, "| matplotlib", matplotlib.__version__)
 print("Unite values (Revision/README.md): constant w =", UNITE["w_const"], "| CPL (w0, wa) =", (UNITE["w0"], UNITE["wa"]))
 ''')
@@ -471,8 +494,8 @@ md(r"""
 ### 5.2 Build the Rust solver and define one solver run
 
 The next cell runs `cargo build --release` on the crate `Revision/kohn_sham/solver` (pure Rust, no
-external crates) with the build folder `<output>/cargo-target`, so that nothing is written into the
-crate's own `target` folder. The first build takes about half a minute. If `cargo` is not found,
+external crates) with the build folder `<cargo-target>` (section 2.6), so that nothing is written into
+the crate's own `target` folder. The first build takes about half a minute. If `cargo` is not found,
 install Rust (section 2) and restart JupyterLab from a new terminal.
 
 The cell also defines `run_one`, which runs the solver's command `single` for one state with EXACTLY
@@ -488,7 +511,6 @@ CARGO = shutil.which("cargo")
 if CARGO is None:
     raise RuntimeError("cargo was not found: install Rust (section 2), then start JupyterLab again "
                        "from a terminal in which `cargo --version` works")
-TARGET = OUT / "cargo-target"
 build = subprocess.run(
     [CARGO, "build", "--release", "--manifest-path", str(CRATE / "Cargo.toml"), "--target-dir", str(TARGET)],
     capture_output=True, text=True, encoding="utf-8", errors="replace")
@@ -498,7 +520,7 @@ if build.returncode != 0:
     raise RuntimeError("cargo build failed; the messages above say why")
 EXE = TARGET / "release" / ("revision_ks_solver.exe" if os.name == "nt" else "revision_ks_solver")
 warnings = [line for line in build.stderr.splitlines() if line.startswith("warning")]
-print("$ cargo build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml --target-dir <output>/cargo-target")
+print("$ cargo build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml --target-dir <cargo-target>")
 print("exit status:", build.returncode)
 print("compiler warnings:", len(warnings))
 print("program:", shown(EXE.parent) + "/revision_ks_solver", "(the file name ends in .exe on Windows)")
@@ -1265,11 +1287,15 @@ check("M4_parameters_and_tangent_exact", (cc - 2) / (cc - 1) == s4 == Fraction(2
 ''')
 
 md(r"""
-### 12.1 Does any model cross $w = -1$? M4 never; M5 at $a = 0.779$, because of its ghost-like part
+### 12.1 Does any model cross $w = -1$? M2 to M4 not before their turning points; M5 at $a = 0.779$, because of its ghost-like part
 
-With positive-energy components only, $w_\mathrm{eff}(N2) = -1 + \sum\varepsilon_i\rho_i/\sum\rho_i \ge -1$ at
-every $a$ (all $\varepsilon_i \ge 0$, $\rho_i \ge 0$): M2, M3 and M4 never cross $-1$, so M4 reproduces the
-Unite TANGENT but not the phantom past of the CPL line ($w_0 + w_a = -1.461$). In M5,
+With positive-energy components of real frequency only, $w_\mathrm{eff}(N2) = -1 + \sum\varepsilon_i\rho_i/\sum\rho_i \ge -1$
+at every $a$ at which these conditions hold (all $\varepsilon_i \ge 0$, $\rho_i \ge 0$). M2 ($q = 0$) has a
+real frequency at every $a$, so it never crosses $-1$. The extra-time mode of M3 and M4 has a real frequency
+only before its turning point $a_* = 1/\sqrt{s}$ (M3: 1.8434; M4: 1.2355): M3 and M4 do not cross $-1$
+before $a_*$ (for M4 the record checks $a \in [1/300, 1]$, check `M4_never_phantom`), and past $a_*$ the
+bound $w \ge -1$ is not established. So M4 reproduces the Unite TANGENT but not the phantom past of the CPL
+line ($w_0 + w_a = -1.461$). In M5,
 $w + 1 = E/R$ with $E = \Omega_q s a^2/(3\sqrt{(1 - sa^2)(1 - s)}) - G/(3a)$; for $R > 0$ the sign of
 $w + 1$ is the sign of $E$, and squaring the two positive terms shows that $E < 0$ exactly when
 
@@ -1559,7 +1585,7 @@ code(r'''
 print(f"checks of this notebook: {len(CHECKS)} passed, 0 failed")
 runs = sorted(RUN_DIR.glob("*.json"))
 print(f"  <output>/ks_runs/*.json: {len(runs)} result files, {sum(p.stat().st_size for p in runs)} bytes")
-for path in sorted(p for p in OUT.rglob("*") if p.is_file() and "cargo-target" not in p.parts and p.parent != RUN_DIR):
+for path in sorted(p for p in OUT.rglob("*") if p.is_file() and TARGET not in p.parents and p.parent != RUN_DIR):
     print(f"  {shown(path):48s} {path.stat().st_size:7d} bytes")
 ''')
 

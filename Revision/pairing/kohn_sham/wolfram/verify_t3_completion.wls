@@ -26,8 +26,8 @@
 *)
 
 $here = DirectoryName[$InputFileName];
-$t3Dir = FileNameJoin[{$here, ".."}];
-$revDir = FileNameJoin[{$t3Dir, "..", ".."}];
+$t3Dir = ExpandFileName[FileNameJoin[{$here, ".."}]]; (* NORMALISED: a ".." left in a path can push it past the Windows limit of 260 characters (MAX_PATH) *)
+$revDir = ExpandFileName[FileNameJoin[{$t3Dir, "..", ".."}]];
 checks = {};
 addCheck[name_String, ok_, detail_String] := (
   AppendTo[checks, <|"name" -> name, "verdict" -> If[TrueQ[ok], "PASS", "FAIL"], "detail" -> detail|>];

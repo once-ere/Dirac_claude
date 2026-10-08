@@ -22,12 +22,18 @@
      'Generalized _Kronecker_Delta_4+4.nb') re-checks whether any cell mentions Lovelock tensors.
 
    Output: author-curvature-outputs.json next to this script (or the path in the environment variable
-   AUTHOR_CURVATURE_OUTPUTS).  Deterministic (no dates, no timings in the file), LF line endings, ASCII. *)
+   AUTHOR_CURVATURE_OUTPUTS).  Deterministic (no dates, no timings in the file), LF line endings, ASCII.
+   Only the Wolfram version NUMBER is written, not $Version: the text of $Version also names the operating
+   system ("for Microsoft Windows (64-bit)", "for Linux x86 (64-bit)", ...), which would make the bytes of
+   the file depend on the platform although the results do not. *)
 
 $HistoryLength = 0;
 
 here = DirectoryName[$InputFileName];
-root = FileNameJoin[{here, "..", "..", ".."}];
+(* the repository root, NORMALISED: an unnormalised "...\comparison\..\..\.." adds 42 characters to every
+   path, and on Windows FileExistsQ returns False for a path of 260 or more characters (MAX_PATH) even when
+   the file exists *)
+root = ExpandFileName[FileNameJoin[{here, "..", "..", ".."}]];
 nbName = "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb";
 gkdName = "Generalized _Kronecker_Delta_4+4.nb";
 nbPath = FileNameJoin[{root, nbName}];
@@ -35,8 +41,12 @@ gkdPath = FileNameJoin[{root, gkdName}];
 outPath = With[{e = Environment["AUTHOR_CURVATURE_OUTPUTS"]},
   If[StringQ[e] && e =!= "", e, FileNameJoin[{here, "author-curvature-outputs.json"}]]];
 
-If[! FileExistsQ[nbPath], Print["ERROR: notebook not found: ", nbPath]; Exit[1]];
-If[! FileExistsQ[gkdPath], Print["ERROR: notebook not found: ", gkdPath]; Exit[1]];
+notFound[p_] := (Print["ERROR: notebook not found: ", p];
+   If[StringLength[p] > 259, Print["  the path has ", StringLength[p], " characters; on Windows a path of 260 or more ",
+     "characters is not found although the file exists: clone the repository into a shorter folder"]];
+   Exit[1]);
+If[! FileExistsQ[nbPath], notFound[nbPath]];
+If[! FileExistsQ[gkdPath], notFound[gkdPath]];
 
 sha256[p_] := ToLowerCase[IntegerString[FileHash[p, "SHA256"], 16, 64]];
 
@@ -127,7 +137,6 @@ result = <|
   "purpose" -> "read-only extraction of the author's stored curvature outputs (no notebook definition evaluated)",
   "notebook" -> nbName,
   "notebookSha256" -> sha256[nbPath],
-  "wolframVersion" -> $Version,
   "wolframVersionNumber" -> StringRiffle[ToString /@ {Floor[$VersionNumber], Round[10 FractionalPart[$VersionNumber]], $ReleaseNumber}, "."],
   "cellEnumeration" -> "Cases[Get[file], Cell[_, _String, ___], Infinity], 1-based",
   "conversion" -> "ToExpression[boxes, StandardForm, HoldComplete], then InputForm of the held expression (never evaluated)",

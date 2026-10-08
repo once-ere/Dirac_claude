@@ -223,14 +223,22 @@ $PY Revision/notebooks/tools/build_notebooks.py check lovelock_gkd
 
 ### 2.6 Where the notebook writes
 
-Every file the notebook writes goes into one output folder: the folder named by the environment
-variable `REVISION_NB_OUT` if it is set, otherwise `build/revision_notebooks/lovelock_gkd` inside the
-repository (git ignores `build/`). The Rust program is compiled into `<output>/cargo-target`, the
-program's result files go to `<output>/lovelock_run`, the figures to `<output>/figures`. The
-committed record `Revision/gkd_lovelock/results/` is only read; the notebook refuses to write
-there. Setting `REVISION_NB_LONG=1` before starting JupyterLab additionally re-runs the program's
-complete GKD self-test (section 7.3); it is not part of the normal run because it takes many
-minutes.
+Every result file the notebook writes goes into one output folder: the folder named by the
+environment variable `REVISION_NB_OUT` if it is set, otherwise `build/revision_notebooks/lovelock_gkd`
+inside the repository (git ignores `build/`). The program's result files go to
+`<output>/lovelock_run`, the figures to `<output>/figures`. The committed record
+`Revision/gkd_lovelock/results/` is only read; the notebook refuses to write there. Setting
+`REVISION_NB_LONG=1` before starting JupyterLab additionally re-runs the program's complete GKD
+self-test (section 7.3); it is not part of the normal run because it takes many minutes.
+
+The Rust program is compiled into a separate build folder, called `<cargo-target>` here: the folder
+named by the environment variable `REVISION_NB_CARGO_TARGET` if it is set, otherwise the folder
+`revision-nb-lovelock_gkd-` followed by 12 hexadecimal digits in the temporary folder of your system
+(the digits are the start of the sha256 of the path of `<output>`, so every output folder has its own
+build folder). The build folder is kept outside the repository and short on purpose: on Windows the
+Rust linker (`link.exe`) cannot open a file whose path is longer than 259 characters (the limit
+MAX_PATH), and a build folder inside a repository placed in a deep folder exceeds it. The notebook
+never deletes this folder; it holds only compiler output and can be deleted by hand after the run.
 """)
 
 md(r"""
@@ -350,9 +358,9 @@ md(r"""
 
 The next cell imports the Python modules, finds the repository (the folder that contains
 `Revision/SPEC.md`, searched upwards from the folder in which the notebook runs), fixes the output
-folder (section 2.6) and refuses to continue if that folder would put the program's files into the
-committed record. It prints no path of your computer, only names relative to the repository or to
-`<output>`.
+folder and the Rust build folder `<cargo-target>` (section 2.6) and refuses to continue if either
+would put the program's files into the committed record. It prints no path of your computer, only
+names relative to the repository, to `<output>` or to `<cargo-target>`.
 """)
 
 code(r'''
@@ -363,6 +371,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from fractions import Fraction
 from itertools import permutations, product
@@ -398,6 +407,16 @@ FIG_DIR = OUT / "figures"
 if RUN_DIR == RECORD or RECORD in RUN_DIR.parents or FIG_DIR == RECORD or RECORD in FIG_DIR.parents:
     raise RuntimeError("the output folder lies inside the committed record Revision/gkd_lovelock/results: "
                        "choose another REVISION_NB_OUT")
+# The Rust build folder <cargo-target> (section 2.6): by default short and outside the repository, because on
+# Windows the linker cannot open paths longer than 259 characters (MAX_PATH).
+if os.environ.get("REVISION_NB_CARGO_TARGET"):
+    TARGET = Path(os.environ["REVISION_NB_CARGO_TARGET"]).resolve()
+else:
+    TARGET = Path(tempfile.gettempdir()).resolve() / (
+        "revision-nb-lovelock_gkd-" + hashlib.sha256(str(OUT).encode("utf-8")).hexdigest()[:12])
+if TARGET == RECORD or RECORD in TARGET.parents:
+    raise RuntimeError("the Rust build folder lies inside the committed record Revision/gkd_lovelock/results: "
+                       "choose another REVISION_NB_CARGO_TARGET")
 for folder in (OUT, RUN_DIR, FIG_DIR):
     folder.mkdir(parents=True, exist_ok=True)
 LONG = os.environ.get("REVISION_NB_LONG") == "1"
@@ -413,9 +432,9 @@ def check(name, ok, detail):
 
 
 def shown(path):
-    """A path as the notebook prints it: relative to <output> or to the repository."""
+    """A path as the notebook prints it: relative to <cargo-target>, to <output> or to the repository."""
     path = Path(path).resolve()
-    for base, label in ((OUT, "<output>"), (REPO, "")):
+    for base, label in ((TARGET, "<cargo-target>"), (OUT, "<output>"), (REPO, "")):
         if path == base or base in path.parents:
             rel = path.relative_to(base).as_posix()
             return (label + "/" + rel if label else rel) if rel != "." else (label or ".")
@@ -432,6 +451,7 @@ def load_json(path):
 
 print("repository: found (the folder that contains Revision/SPEC.md)")
 print("<output> =", OUT_LABEL)
+print("<cargo-target> = the Rust build folder (section 2.6; by default a short folder in the system's temporary folder)")
 print("long mode (REVISION_NB_LONG=1):", LONG)
 print("Python", sys.version.split()[0], "| numpy", np.__version__, "| matplotlib", matplotlib.__version__)
 ''')
@@ -440,8 +460,8 @@ md(r"""
 ### 5.2 Build the Rust program
 
 The next cell runs `cargo build --release` on the crate `Revision/gkd_lovelock/code` (pure Rust, no
-dependencies) with the build folder `<output>/cargo-target`, so that nothing is written into the
-repository's own `target` folder. The first build takes a few seconds. If `cargo` is not found,
+dependencies) with the build folder `<cargo-target>` (section 2.6), so that nothing is written into
+the repository's own `target` folder. The first build takes a few seconds. If `cargo` is not found,
 install Rust (section 2) and restart JupyterLab from a new terminal.
 """)
 
@@ -450,7 +470,6 @@ CARGO = shutil.which("cargo")
 if CARGO is None:
     raise RuntimeError("cargo was not found: install Rust (section 2), then start JupyterLab again "
                        "from a terminal in which `cargo --version` works")
-TARGET = OUT / "cargo-target"
 build = subprocess.run(
     [CARGO, "build", "--release", "--manifest-path", str(CRATE / "Cargo.toml"), "--target-dir", str(TARGET)],
     capture_output=True, text=True, encoding="utf-8", errors="replace")
@@ -460,7 +479,7 @@ if build.returncode != 0:
     raise RuntimeError("cargo build failed; the messages above say why")
 EXE = TARGET / "release" / ("lovelock_gkd.exe" if os.name == "nt" else "lovelock_gkd")
 warnings = [line for line in build.stderr.splitlines() if line.startswith("warning")]
-print("$ cargo build --release --manifest-path Revision/gkd_lovelock/code/Cargo.toml --target-dir <output>/cargo-target")
+print("$ cargo build --release --manifest-path Revision/gkd_lovelock/code/Cargo.toml --target-dir <cargo-target>")
 print("exit status:", build.returncode)
 print("compiler warnings:", len(warnings))
 print("program:", shown(EXE.parent) + "/lovelock_gkd", "(the file name ends in .exe on Windows)")
@@ -1071,7 +1090,7 @@ would have stopped the notebook at that point) and lists the files written into 
 
 code(r'''
 print(f"checks of this notebook: {len(CHECKS)} passed, 0 failed")
-for path in sorted(p for p in OUT.rglob("*") if p.is_file() and "cargo-target" not in p.parts):
+for path in sorted(p for p in OUT.rglob("*") if p.is_file() and TARGET not in p.parents):
     print(f"  {shown(path):48s} {path.stat().st_size:7d} bytes")
 ''')
 

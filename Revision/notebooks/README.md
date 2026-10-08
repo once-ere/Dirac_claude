@@ -49,6 +49,16 @@ python -m unittest Revision/tests/test_revision_notebooks.py -v
 * The tool never deletes: the output folder must not exist or be empty. The kernel receives
   `REVISION_NB_OUT=DIR` and `PYTHONHASHSEED=0`; `REVISION_NB_LONG` is removed, so the committed notebook
   is always the normal run.
+* Every notebook compiles its Rust program into a build folder OUTSIDE DIR, `<cargo-target>`: the folder
+  named by `REVISION_NB_CARGO_TARGET` if it is set, otherwise `revision-nb-<name>-` followed by the first
+  12 hexadecimal digits of the sha256 of the path of DIR, in the system's temporary folder (about 3 MB
+  per run; nothing deletes it). It is kept short and outside the repository because on Windows the MSVC
+  linker `link.exe` cannot open a file whose path is longer than 259 characters (MAX_PATH): with the
+  former build folder `DIR/cargo-target` under `build/revision_notebooks/`, `check` failed with
+  `LNK1104` when the repository folder was longer than 148 (`lovelock_gkd`), 153
+  (`dark_sector_hypotheses`) or 159 (`kohn_sham_states`) characters (each notebook's provenance file,
+  section 7). The printed notebook does not depend on where `<cargo-target>` is (checked for
+  `lovelock_gkd` with `REVISION_NB_CARGO_TARGET` set: byte-identical).
 * `Revision/tests/test_revision_notebooks.py` runs the static checks always and re-executes every
   notebook (the `check` command, in a temporary folder) when `REVISION_NOTEBOOKS_FULL=1`.
 

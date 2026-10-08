@@ -136,21 +136,42 @@ python Revision/gkd_lovelock/comparison/compare_with_author.py
 * The extractor prints the cell count, `inputs parsed: 8/8`, `outputs parsed: 4/4`, the output dimensions, the
   keyword-scan counts and the input cells that mention `RS` or `EinsteinG`, and writes
   `author-curvature-outputs.json` (or the path in the environment variable `AUTHOR_CURVATURE_OUTPUTS`); exit
-  code 0, 1 when the notebook is missing or the file cannot be written. Run time 4.4 to 6.0 s (seven runs,
+  code 0, 1 when a notebook is not found or the file cannot be written. Run time 4.4 to 6.0 s (seven runs,
   2026-10-08, shared 24-core Windows 11 machine with other jobs running).
+* Path length (Windows). The extractor normalises the repository root (`ExpandFileName`), so the path of the
+  main notebook is the root plus 80 characters. WolframScript does not find a file whose path has 260 or more
+  characters (observed with `LongPathsEnabled` = 1), so the extractor needs a repository root of at most 179
+  characters; with a longer root it prints `ERROR: notebook not found`, the length of the path and the advice
+  to clone into a shorter folder, and exits with code 1. (Before 2026-10-08 the root was not normalised: the
+  path then had 42 characters more, and a clone root of 138 characters or more failed with only `notebook not
+  found`, although the notebook was there.) Checked on 2026-10-08 with copies in a scratch folder: root of 178
+  characters, the earlier version fails and this version writes the same bytes as the committed file; root of
+  184 characters, this version prints the advice and exits with code 1.
 * The comparison prints `checks: 78; PASS 73, FAIL 0, NOT-AVAILABLE 5` and writes
   `author-comparison-report.json` (or `--output <path>`); exit code 0 when no check fails, 1 otherwise. Run
   time 0.7 to 0.9 s.
 * Each program was run three times (two runs into a scratch folder, one into this folder): the outputs are
   byte-identical (LF line endings, ASCII). The outputs contain no date or time; they contain the Wolfram
-  version string and the sympy version.
+  version NUMBER (`wolframVersionNumber`, 15.0.1) and the sympy version (`sympyVersion`, 1.14.0). Until
+  2026-10-08 `author-curvature-outputs.json` also held the text of `$Version`
+  (`15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)`), which names the operating system; it was removed,
+  so that the bytes no longer depend on the platform (the only change of the file; the change of its sha256
+  is the only change of `author-comparison-report.json`; checks and verdicts are unchanged).
+* Byte identity of the two outputs was established with Wolfram Language 15.0.1 and sympy 1.14.0 (Python
+  3.14) on Windows 11. Another Wolfram or sympy version writes a different version number and can change the
+  bytes without changing the results; no run on Linux or macOS was made.
+* Re-run after the change of 2026-10-08 (extractor: five runs, three into a scratch folder and two into this
+  folder, the last two with the final file, whose earlier version differed only in one comment; comparison:
+  five runs, three into a scratch folder and two into this folder): byte-identical, sha256 below. The
+  machine was more heavily loaded than for the run times above: the extractor took 13.3 s (one timed run),
+  the comparison 2.3 and 3.6 s (two timed runs).
 
 | file | sha256 |
 | --- | --- |
-| `extract_author_curvature_outputs.wls` | `ca446244b7bcfc4573ec603898bddaf2b34e49ca980ee5043b6772cdaa466891` |
+| `extract_author_curvature_outputs.wls` | `0a0a17b133ea46dd511b86ccd238c01f828a4e11feff6d1d239d739b1e74a88b` |
 | `compare_with_author.py` | `f5e7ca1e2e5b16d2cf45f27e299f7c17884464bf07f08406800aed8864aeeab3` |
-| `author-curvature-outputs.json` | `7433675c15aab19ea322c22377cfa8d71c2171f175aa143ee64e35ae8834ed1c` |
-| `author-comparison-report.json` | `ed830d8cee677c14b08eabb34863e38844d0a5009587263c71ba444fcdb3c02c` |
+| `author-curvature-outputs.json` | `f041955db36f67d5ec113ad65542f448af1de6eba159c85ecff73f83761039f0` |
+| `author-comparison-report.json` | `e7dfb4c1491f4d555c739c23efbfb743f6f724eb20372325f3fd758f20fa7241` |
 
 ## 8. Side effects
 

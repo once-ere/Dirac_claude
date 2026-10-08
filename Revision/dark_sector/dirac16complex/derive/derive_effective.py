@@ -287,7 +287,13 @@ check("expansion_inferred_w_einstein", zero(w_exp_E - (-1 - kap * (P3v - Ptv) / 
 check("phantom_condition", zero(weff["C_per_unit_proper_7_volume"] + 1 - Xs / Es),
       "w_eff(C) < -1 iff (P3 - Pt)/E < 0 and w_eff(A) < 0 iff (P3 - Pt)/E < 0: with E > 0 this needs P_t > P3 "
       "(an extra-time pressure exceeding the 3-space pressure), which no real-frequency mode supplies "
-      "(flat_mode_X_nonnegative); otherwise E < 0 (negative-norm / Krein sector)")
+      "(flat_mode_X_nonnegative); otherwise E < 0 together with X > 0. This check verifies the identity "
+      "w_eff(C) + 1 = X/E, not the origin of a negative E. Negative E is not specific to a negative-norm (Krein) "
+      "sector: in the good sector the interacting N = 8, lambda > 0 Kohn-Sham states have E < 0 with X = 0 exactly, "
+      "from the interaction energy of the canonical uniform-gas exchange functional (E = 0 at lambda = 0; in the "
+      "exact-Fock variant, Revision/kohn_sham/results/exx/exact-fock-variant.csv, the N = 8 states have "
+      "|E| <= 2.04e-13); for free modes E < 0 needs a negative Krein charge, outside the positive good-sector "
+      "realisation (OPEN)")
 
 formulas = {
     "description": "Exact effective formulas of the dark-sector analysis of dirac16complex (SPEC sections 8, 11), "

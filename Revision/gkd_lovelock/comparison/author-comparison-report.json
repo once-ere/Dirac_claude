@@ -4,7 +4,7 @@
   "inputs": [
     {
       "path": "Revision/gkd_lovelock/comparison/author-curvature-outputs.json",
-      "sha256": "7433675c15aab19ea322c22377cfa8d71c2171f175aa143ee64e35ae8834ed1c"
+      "sha256": "f041955db36f67d5ec113ad65542f448af1de6eba159c85ecff73f83761039f0"
     },
     {
       "path": "Revision/gkd_lovelock/results/curvature.json",

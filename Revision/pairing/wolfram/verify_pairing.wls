@@ -26,8 +26,8 @@
 *)
 
 $here = DirectoryName[$InputFileName];
-$pairingDir = FileNameJoin[{$here, ".."}];
-$revisionDir = FileNameJoin[{$pairingDir, ".."}];
+$pairingDir = ExpandFileName[FileNameJoin[{$here, ".."}]]; (* NORMALISED: a ".." left in a path can push it past the Windows limit of 260 characters (MAX_PATH) *)
+$revisionDir = ExpandFileName[FileNameJoin[{$pairingDir, ".."}]];
 Get[FileNameJoin[{$here, "RevisionPairing.wl"}]];
 RPLoadFixture[FileNameJoin[{$revisionDir, "algebra", "gammas.json"}]];
 

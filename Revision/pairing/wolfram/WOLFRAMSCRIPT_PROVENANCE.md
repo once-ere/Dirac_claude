@@ -120,7 +120,7 @@ separate set.
 
 | file | role | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/pairing/wolfram/verify_pairing.wls` | the script you run (the driver: all 101 checks, writes both outputs) | `ce7efca01e73105a8bb934181e91600edf720ee047411c22ecc0c518e95c9fbd` | 501 | 52611 |
+| `Revision/pairing/wolfram/verify_pairing.wls` | the script you run (the driver: all 101 checks, writes both outputs) | `2ccdb951777c14f6bc9daa473335d96e8b54eb7d1c8c8aedc5072865ee017609` | 501 | 52747 |
 | `Revision/pairing/wolfram/RevisionPairing.wl` | the package the script loads (field algebra for both statistics, spin connection, bilinears, Euler-Lagrange expressions) | `a1806b50705c729767795cff2c5382390e9763feaebca051a68951d99b6b8222` | 234 | 14469 |
 | `Revision/algebra/gammas.json` | INPUT, only read (the 16 x 16 gamma matrices `gamma^(x1..x8)`, `eta`, `C`, `Gamma`, `B`, `S^ab`; written by the algebra set `Revision/algebra/wolfram/verify_algebra.wls`, which you do NOT need to run first) | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` | 1405 | 76968 |
 | `Revision/pairing/reports/wolfram-pairing.json` | OUTPUT, overwritten by every run (every check with its name, verdict `PASS` or `FAIL` and detail; the summary counts) | `4ea0fa709ed595b9279b04f1d45d2dce64b759ef0d60c57d15207bba02352990` | 112 | 40151 |
@@ -663,3 +663,23 @@ took about 80 s.
 * **Open discrepancies:** none. The counts in the citing documents (101 checks, 101 PASS, 0 FAIL;
   at `b8a695d` also the stored output of the notebook `00c_honesty_ledger.ipynb`, work in progress,
   which prints `101 of 101` for `wolfram-pairing.json`) agree with the reproduced report.
+* **Folders normalised (2026-10-08, working tree):** a review of the reproducibility of the Revision gate
+  (2026-10-08; it fixed the same pattern in
+  `Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls`) found that the script built its
+  folders with `FileNameJoin[{..., ".."}]` without normalising them, so every path built from them kept the
+  text `\..`; on Windows a path of 260 or more characters (MAX_PATH) is not found although the file exists, so
+  the unnormalised `..` lowered the length of the clone folder at which a run fails. Lines 29 and 30 now read
+  `$pairingDir = ExpandFileName[FileNameJoin[{$here, ".."}]];` (followed on the same line by a comment) and
+  `$revisionDir = ExpandFileName[FileNameJoin[{$pairingDir, ".."}]];`; no other line changed (still 501
+  lines). The table of section 2 gives the new sha256
+  `2ccdb951777c14f6bc9daa473335d96e8b54eb7d1c8c8aedc5072865ee017609` (52747 bytes); the version verified in
+  the runs above had sha256 `ce7efca01e73105a8bb934181e91600edf720ee047411c22ecc0c518e95c9fbd` (52611 bytes).
+  Run: `wolframscript -file Revision/pairing/wolfram/verify_pairing.wls`, started detached from a `cmd.exe`
+  batch file; Windows 11 Pro for Workstations 10.0.26300, WolframScript 1.14.0, Wolfram 15.0.1; run from the
+  repository root `D:\Developer\github\Dirac_claude` (32 characters) in the working tree on top of commit
+  `a8eb09d` or `ab84209` (both committed by others during this work; neither changed a file of this set, its
+  inputs or its outputs), not in a fresh clone (other areas of the tree had uncommitted edits of other work,
+  none in the folders of this set or in its inputs and outputs). Exit code 0, `101/101 checks passed; time
+  128.49 s`, wall time 132 s (15:14:03 to 15:16:16). `git diff --quiet -- Revision/pairing/pairing-theory.json
+  Revision/pairing/reports` succeeded: both outputs are byte-identical to the committed ones (the sha256 of
+  section 2). Not done: a run of the changed script in a fresh clone, and a run from a long clone folder.

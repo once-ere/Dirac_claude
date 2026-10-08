@@ -45,6 +45,11 @@ example = [r for r in index if r["report"].endswith("charge-conjugation-and-u1.j
 words = "zero one two three four five six seven eight nine ten".split()
 sec = [r for r in rows if r["id"] == "05c"][0]["section"]
 gate = re.search(r"the gate's step table names (\d+) reports", outputs).group(1)
+# the gate numbers of Out [9] (its RESULT lines), quoted in Sections 23.5 and 23.11
+gsteps = int(re.search(r"^RESULT gate steps = (\d+)$", outputs, re.M).group(1))
+glong = int(re.search(r"^RESULT long steps \(skipped by --fast\) = (\d+)$", outputs, re.M).group(1))
+gfull = re.search(r"^RESULT expected wall time of the full gate = (\d+) s = ([\d.]+) h$", outputs, re.M)
+gfast = re.search(r"^RESULT expected wall time with --fast = (\d+) s = ([\d.]+) min$", outputs, re.M)
 values = {
     "NNB": str(len(rows)), "NCHK": str(sum(int(r["checks"]) for r in rows)),
     "NFIG": str(sum(int(r["figures"]) for r in rows)), "TOTAL": tot,
@@ -60,6 +65,8 @@ values = {
     "U1CHS": u1, "U1CHW": ", ".join(u1words[:-1]) + " and " + u1words[-1],
     "U1MIN": words[min(len(r["cited_by_chapters"].split()) for r in example)],
     "SEC05C": sec, "SEC05CNEXT": f"{sec.split('.')[0]}.{int(sec.split('.')[1]) + 1}",
+    "GSTEPS": str(gsteps), "GLONG": str(glong), "GFASTN": str(gsteps - glong),
+    "GFULLS": gfull.group(1), "GFULLH": gfull.group(2), "GFASTS": gfast.group(1), "GFASTMIN": gfast.group(2),
 }
 for key, value in values.items():
     template = template.replace("{{" + key + "}}", value)

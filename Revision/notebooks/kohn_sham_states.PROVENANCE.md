@@ -2,10 +2,10 @@
 
 The Kohn-Sham states of dirac16complex in the author's deflating primordial field.
 
-* Notebook: `Revision/notebooks/kohn_sham_states.ipynb` (33 cells: 19 markdown, 14 code; 512116 bytes;
-  sha256 `954fa087209146cc70c3e6ded6c0f5537e815c2eaf13d4103b9085a6847095d3`).
+* Notebook: `Revision/notebooks/kohn_sham_states.ipynb` (33 cells: 19 markdown, 14 code; 514141 bytes;
+  sha256 `451587216e92819278076431902f3942bddf752a6bc40ca9f931dd636fee554d`).
 * Builder: `Revision/notebooks/src/kohn_sham_states.py`
-  (sha256 `7e894415915fa7e433775801ba1d9e4a26801ca8772dbbab9f758aafbc28ebed`).
+  (sha256 `cafae389ff99e0dfe11561d2559ed756fea98aa21912ce8792054ee2aa19f600`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
@@ -17,7 +17,8 @@ The Kohn-Sham states of dirac16complex in the author's deflating primordial fiel
 ## 1. What it computes
 
 1. Builds the Revision Rust crate `Revision/kohn_sham/solver` (`revision_ks_solver`, no external crates)
-   with `cargo build --release` into `<output>/cargo-target` and requires zero compiler warnings.
+   with `cargo build --release` into the build folder `<cargo-target>` (section 2) and requires zero
+   compiler warnings.
 2. Runs `revision_ks_solver single --m 1 --lambda 0.0 --a4 0.0 --N 8 ... --root <repository>` and prints
    the solver's three input checks (`theory_input_coefficients`: M_eff = m + 0.9375 lambda S,
    v_v = -0.0625 lambda n from `ks-theory.json`; `gamma_fixture_numeric`: the author's gammas of
@@ -109,9 +110,12 @@ Read (sha256 at the time of the verified builds):
 | `Revision/kohn_sham/reports/ks-reference.json` | `5eb5f0ada9d392a4cf01d672ed00d2a174439bfec196a24dbce3965c2c559c35` |
 | `Revision/kohn_sham/reports/ks-crosscheck.json` | `f0d918e923847703b761d5cd0eae440df877a5f0671f6dadfa9e9110206490ea` |
 
-Written, all into the output folder `<output>` (the folder named by `REVISION_NB_OUT`, otherwise
-`build/revision_notebooks/kohn_sham_states` in the repository, ignored by git); identical in both
-verified builds:
+Written: the result files and figures into the output folder `<output>` (the folder named by
+`REVISION_NB_OUT`, otherwise `build/revision_notebooks/kohn_sham_states` in the repository, ignored by
+git), identical in both verified builds and in the `check` run; the Rust build into
+`<cargo-target>` (the folder named by `REVISION_NB_CARGO_TARGET`, otherwise
+`revision-nb-kohn_sham_states-` followed by the first 12 hexadecimal digits of the sha256 of the path of
+`<output>`, in the system's temporary folder):
 
 | file | bytes | sha256 |
 | --- | --- | --- |
@@ -138,7 +142,7 @@ verified builds:
 | `<output>/ks_runs/N8_lam0_a10.json` | 18455 | `4de1b5e4507440ea71b2c413850af9909b02fff55a0a43b7a5bd542ad66bf79e` |
 | `<output>/ks_runs/N8_lam0_a20.csv` | 36974 | `a26b1acc40eb20783a077f41a917fda8e5c96cb0536624e270d56d3d7b5e923e` (= record `results/ground/profiles/N8_lam0_a20.csv`) |
 | `<output>/ks_runs/N8_lam0_a20.json` | 89961 | `02e0b82557cc4eedf4e7325b07527de3411e988535643fb4911c4b4048853681` |
-| `<output>/cargo-target/` | | the Rust build folder (compiler output; not compared) |
+| `<cargo-target>/` | about 2.8 MB | the Rust build folder (compiler output; not compared) |
 
 The tool writes `Revision/notebooks/kohn_sham_states.ipynb` (`build`) or
 `<output>/kohn_sham_states.ipynb` (`check`). The notebook has no long mode.
@@ -189,12 +193,13 @@ or, to rebuild and compare with the committed file (from the repository root):
 * Section 10.5: `checks of this notebook: 24 passed, 0 failed` and the 23 files listed above.
 
 No run time and no path of the computer is printed (paths are shown relative to the repository, as
-`.` for the repository itself, or as `<output>/...`).
+`.` for the repository itself, or as `<output>/...` and `<cargo-target>/...`).
 
 ## 5. Measured run time (Windows 11, 2026-10-08)
 
-* Whole notebook, executed by `build_notebooks.py`: 12.5 s (build A) and 12.2 s (build B) of
-  execution, including the fresh `cargo build --release` of the solver into `<output>/cargo-target`
+* Whole notebook, executed by `build_notebooks.py`: 21.7 s (build A), 21.7 s (build B) and 28.9 s
+  (`check`) of execution while other work ran on the computer (the first builds of this notebook took
+  12.2 s to 12.5 s), including the fresh `cargo build --release` of the solver into `<cargo-target>`
   and the ten solver runs (each under one second when timed separately: 0.06 s for N = 8, 0.5 s for
   N136_lamp1_a10, 0.9 s for N688_lam0_a20).
 * Not part of the notebook: the canonical matrix of the solver (`revision_ks_solver all`) took 78.1 s
@@ -202,30 +207,51 @@ No run time and no path of the computer is printed (paths are shown relative to 
 
 ## 6. Side effects
 
-* Writes only into `<output>` (and the tool writes the notebook file named in section 2). The
+* Writes only into `<output>` and `<cargo-target>` (and the tool writes the notebook file named in section 2). The
   committed record `Revision/kohn_sham/results/` and the reports `Revision/kohn_sham/reports/` are only
-  read; the notebook raises an error if `<output>` would place its files there. The crate's own
-  `target/` folder is not used (the build goes to `<output>/cargo-target`).
+  read; the notebook raises an error if `<output>` or `<cargo-target>` would place its files there.
+  The crate's own `target/` folder is not used (the build goes to `<cargo-target>`).
+* By default `<cargo-target>` is a new folder of about 2.8 MB in the system's temporary folder for
+  every new `<output>` (every `build` and `check` of the tool uses a new `<output>`); nothing deletes
+  it, it can be deleted by hand. It is placed there, short and outside the repository, because on
+  Windows the MSVC linker `link.exe` cannot open a file whose path is longer than 259 characters
+  (MAX_PATH; section 7).
 * Runs `cargo` (needs the Rust toolchain on PATH) and the built solver; no network access during the
   run, no Wolfram Language, no installation.
 
 ## 7. Verification record
 
+* 2026-10-08, the reason for the current version: on Windows the MSVC linker `link.exe` cannot open
+  a file whose path is longer than 259 characters (MAX_PATH). With the former build folder
+  `<output>/cargo-target` and the default `<output>` of the tool
+  (`build/revision_notebooks/kohn_sham_states-XXXXXXXX/`), the solver program
+  `cargo-target/release/deps/revision_ks_solver.exe` that the linker writes lies 100 characters
+  below the repository folder, so `check` failed with `LNK1104` for a repository folder longer than
+  159 characters. Measured with `cargo build --release` of the solver and this folder layout: a
+  repository folder of 159 characters links, one of 160 characters fails with `LNK1104` on the
+  260-character path of the program. In a copy of the needed files below a folder of 170
+  characters, `check kohn_sham_states` without `--out` (as the gate step notebooks-check runs it)
+  failed with `LNK1104` with the previous builder and notebook (those of the last commit before this
+  change) and passed with the current ones (byte-identical, 514141 bytes, 38.0 s). A review had found the same failure for the notebook
+  `lovelock_gkd` (above 148 characters); all three notebooks were changed in the same way. Since then
+  the build goes to `<cargo-target>` (sections 2 and 6); the results and the figures are unchanged.
+* All runs below with the system's temporary folder set (TMP, TEMP, TMPDIR) to a scratch folder of
+  154 characters.
 * 2026-10-08, build A: `python Revision/notebooks/tools/build_notebooks.py build kohn_sham_states --out
-  <scratch>/ksFinalA` - executed in 12.5 s, wrote 512116 bytes, audit PASS, sha256
-  `954fa087209146cc70c3e6ded6c0f5537e815c2eaf13d4103b9085a6847095d3`.
-* 2026-10-08, build B: the same command with `--out <scratch>/ksFinalB` - executed in 12.2 s; the
-  notebook written is byte-identical to build A (same sha256), and the 23 files of the two output
-  folders are byte-identical (table of section 2).
+  <scratch>/kohn_sham_states_A` - executed in 21.7 s, wrote 514141 bytes, audit PASS, sha256
+  `451587216e92819278076431902f3942bddf752a6bc40ca9f931dd636fee554d`.
+* 2026-10-08, build B: the same command with `--out <scratch>/kohn_sham_states_B` - executed in 21.7 s;
+  the notebook written is byte-identical to build A (same sha256), and the 23 files of the two output
+  folders are byte-identical and equal to the table of section 2.
 * 2026-10-08, check: `python Revision/notebooks/tools/build_notebooks.py check kohn_sham_states --out
-  <scratch>/ksCheck1` - a third independent execution (12.4 s): `check kohn_sham_states: PASS - the
-  re-executed notebook is byte-identical to Revision/notebooks/kohn_sham_states.ipynb (512116 bytes)`.
-* 2026-10-08, tests: `python -m unittest Revision/tests/test_revision_notebooks.py -v` - 8 static tests
-  OK, 2 skipped; with `REVISION_NOTEBOOKS_FULL=1` - 10 tests OK in 29.8 s (the installed versions equal
-  the pins; `check` re-executions of `lovelock_gkd` and `kohn_sham_states` in temporary folders are
-  byte-identical to the committed notebooks; run concurrently with the headless run below).
+  <scratch>/kohn_sham_states_check1` - a third independent execution (28.9 s): `check kohn_sham_states:
+  PASS - the re-executed notebook is byte-identical to Revision/notebooks/kohn_sham_states.ipynb
+  (514141 bytes)`; its 23 files equal the table of section 2.
+* 2026-10-08, tests: `python -m unittest Revision/tests/test_revision_notebooks.py -v` - 9 static tests OK, 2 skipped; with
+  `REVISION_NOTEBOOKS_FULL=1` - 11 tests OK in 109.1 s (the installed versions equal the pins; `check` of all three notebooks in
+  temporary folders is byte-identical).
 * 2026-10-08, headless instruction of section 2.5: `python -m nbconvert --to notebook --execute
-  Revision/notebooks/kohn_sham_states.ipynb --output-dir <scratch>` with `REVISION_NB_OUT=<scratch>` -
+  Revision/notebooks/kohn_sham_states.ipynb --output-dir <scratch>` with `REVISION_NB_OUT=<scratch>/out` -
   exit status 0, no error output, no stderr output in the executed notebook,
   `checks of this notebook: 24 passed, 0 failed` (nbconvert's own file is not normalised, so it is not
   compared byte for byte; nbconvert itself printed pyzmq's harmless Proactor event-loop warning on the

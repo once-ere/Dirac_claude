@@ -3,7 +3,6 @@
 	"purpose":"read-only extraction of the author's stored curvature outputs (no notebook definition evaluated)",
 	"notebook":"Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb",
 	"notebookSha256":"5ee5cb2a95146136ee65636a4aef174f303b6c41da130d2c57e4684f9c8ff69f",
-	"wolframVersion":"15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)",
 	"wolframVersionNumber":"15.0.1",
 	"cellEnumeration":"Cases[Get[file], Cell[_, _String, ___], Infinity], 1-based",
 	"conversion":"ToExpression[boxes, StandardForm, HoldComplete], then InputForm of the held expression (never evaluated)",

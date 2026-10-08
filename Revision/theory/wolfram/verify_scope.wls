@@ -18,7 +18,7 @@
 *)
 
 $here = DirectoryName[$InputFileName];
-$revDir = FileNameJoin[{$here, "..", ".."}];
+$revDir = ExpandFileName[FileNameJoin[{$here, "..", ".."}]];
 t0 = AbsoluteTime[];
 checks = {};
 addCheck[name_String, ok_, detail_String] := (
@@ -180,7 +180,8 @@ addCheck["commuting_field_energy_unbounded_below",
   Simplify[rN + 5 cc^2] === 0 && Simplify[rP - 5 cc^2] === 0 && Simplify[qN + cc^2] === 0 && Simplify[qP - cc^2] === 0,
   "dirac16complex00, flat frame, good sector, U = 0, m = 2, (k1, k2, k3, k8) = (1, 2, 0, 4), E = 5: [B, h_k] = 0; the E = 5 eigenspace has dimension 8 and the form u^dagger B u on it has inertia " <> ToString[inertia] <>
   "; the positive-frequency solutions Phi = c u E^(i (k.x - 5 x4)) (field equation verified) with B u = -u and B u = +u, |u| = 1, have energy density rho = -T^x4_x4 = " <> ToString[rN, InputForm] <> " and " <> ToString[rP, InputForm] <>
-  " and charge density Phi^dagger B Phi = " <> ToString[qN, InputForm] <> " and " <> ToString[qP, InputForm] <> " (cc = |c|): the classical energy is unbounded below already for U = 0, and the conserved charge is indefinite"];
+  " and charge density Phi^dagger B Phi = " <> ToString[qN, InputForm] <> " and " <> ToString[qP, InputForm] <> " (cc = |c|): the classical energy is unbounded below already for U = 0, and the U(1) charge is indefinite (only its local law d_mu (Cos[z] J^mu) = 0 is proved; " <>
+  "the total charge is constant in x4 only if no charge flows through the boundary of the slice x4 = const, which at the brane z = Pi/2 is an ASSUMED no-flux condition)"];
 
 (* ------------------------------------------------------------------ report *)
 jstr[s_String] := "\"" <> StringReplace[s, {"\\" -> "\\\\", "\"" -> "\\\""}] <> "\"";

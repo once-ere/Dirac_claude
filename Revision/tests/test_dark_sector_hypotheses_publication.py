@@ -68,8 +68,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "da3bb8613dd7be236c10936927b5fe1aa744a6f9667f6f8e81d035bd7abf8de0"
-TEX_SHA256 = "3f52e60563a091e40cfaa3148fdbe5c658af45086d611b001b2dbbba53a54d81"
+MARKDOWN_SHA256 = "f6c264a5e3c77eecefd19654e3dd0b0899b39d6aa49a904055fcc176131a51f3"
+TEX_SHA256 = "4e685e127e77ea4617412e8dd007c78024fe6522b07ec56ee8f283dada5da079"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"
@@ -152,6 +152,11 @@ KEY_STATEMENTS = (
     "the gas fraction 0.6807148417136 is CHOSEN so that the constant-$w$ proxy",
     "This value of $\\lambda S/m$ is CHOSEN to give -0.764: one parameter tuned to one number.",
     "2. Any Unite value as an output of the field equations: every match is by construction",
+    "Negative $E$ is not specific to a negative-norm (Krein) sector",
+    "which is phantom ($w < -1$) exactly when $\\kappa\\rho > 0$",
+    "a constant ratio $w < -1$ for $\\kappa\\rho > 0$",
+    "in the positive realisation of the good sector (with the ASSUMED brane condition",
+    "crosses $-1$ on $[1/3, 1]$?",
 )
 FORBIDDEN = (
     r"\b(?:hypothesis(?:00)?|hypotheses)\s+(?:is|are|has been|have been|was|were)\s+"
@@ -162,6 +167,13 @@ FORBIDDEN = (
     r"\bghost(?:-like)?\s+(?:sector|component|modes?)\s+(?:is|are)\s+(?:a\s+)?"
     r"(?:physical|established|real)\b",
     r"\b(?:proves?|proved|proven)\s+(?:that\s+)?(?:a\s+)?(?:time-varying\s+)?dark[- ](?:energy|matter)\b",
+    # w >= -1 for M3 and M4 holds only before the turning point a_* of their extra-time mode
+    r"\b(?:M3|M4)\b[^.]*\bnever\s+crosses\s+\$?-1",
+    r"\bthawing\b[^.;]*\$w\s*\\geq\s*-1\$\s+at\s+every\s+\$a\$",
+    # negative E is not specific to the Krein sector (the N = 8, lambda > 0 good-sector states have E < 0)
+    r"otherwise\s+\$E\s*<\s*0\$,\s+the\s+negative-norm",
+    # the Einstein linear-member ratio is phantom only for kappa * rho > 0
+    r"\$w\s*<\s*-1\$\s+for\s+\$\\rho\s*>\s*0\$",
 )
 FILE_SUFFIXES = (".json", ".py", ".wls", ".wl", ".md", ".tex", ".pdf", ".rs", ".csv", ".toml")
 
@@ -399,6 +411,10 @@ class Content(unittest.TestCase):
             "The model M4 predicts the Unite values.",
             "The ghost sector is physical.",
             "This proves that a time-varying dark energy exists.",
+            "M4, tuned to the Unite tangent, never crosses $-1$.",
+            r"as freezing (M2) or thawing (M3, M4) evolution with $w \geq -1$ at every $a$",
+            "otherwise $E < 0$, the negative-norm (Krein) sector",
+            r"the linear member, a constant ratio $w < -1$ for $\rho > 0$",
         )
         self.assertEqual(len(tampered), len(FORBIDDEN))
         for pattern, sentence in zip(FORBIDDEN, tampered):

@@ -15,8 +15,8 @@
 *)
 
 $here = DirectoryName[$InputFileName];
-$theoryDir = FileNameJoin[{$here, ".."}];
-$revDir = FileNameJoin[{$theoryDir, ".."}];
+$theoryDir = ExpandFileName[FileNameJoin[{$here, ".."}]];
+$revDir = ExpandFileName[FileNameJoin[{$theoryDir, ".."}]];
 Get[FileNameJoin[{$here, "RevisionFieldTheory.wl"}]];
 rftLoadFixture[FileNameJoin[{$revDir, "algebra", "gammas.json"}]];
 
@@ -302,7 +302,8 @@ Do[With[{P = fld[st]["Psi"], Pc = fld[st]["Psic"]},
     addCheck["current_conservation_identity_" <> st, sZeroQ[st, sAdd[st, {divJ, sScal[st, -1, rhs]}]],
       "d_mu (sqrt g J^mu) = -i sqrt g (Ebar Psi + Psibar E) exactly (off shell), so nabla_mu J^mu = 0 on shell, for " <> statName[st]];
     addCheck["charge_density_is_Krein_form_" <> st, sZeroQ[st, sAdd[st, {J[[4]], sScal[st, -1, sDot[st, Pc, matVec[st, Bm, P]]]}]],
-      "J^(x4) = Psi^dagger B Psi with B = -i C gamma^(x4) (Hermitian, signature (8,8)): the conserved charge Q = integral of Cos[z] Psi^dagger B Psi d^7x is an indefinite form, " <> statName[st]]]], {st, stats}];
+      "J^(x4) = Psi^dagger B Psi with B = -i C gamma^(x4) (Hermitian, signature (8,8)): the charge Q = integral of Cos[z] Psi^dagger B Psi d^7x over a slice x4 = const is an indefinite form, " <> statName[st] <>
+      " (only the local law d_mu (Cos[z] J^mu) = 0 on shell is proved; Q is constant in x4 only if no charge flows through the boundary of the slice, which at the brane z = Pi/2 is an ASSUMED no-flux condition that this record does not impose)"]]], {st, stats}];
 addFormulaText["current", "conserved current and its identity (both statistics)",
   "J^mu = -i Psibar gamma^mu Psi; d_mu (Cos[z] J^mu) = -i Cos[z] (Ebar Psi + Psibar E); J^x4 = Psi^dagger B Psi; Q = Integral Cos[z] Psi^dagger B Psi dx1 dx2 dx3 dx5 dx6 dx7 dx8"];
 (* Lichnerowicz *)

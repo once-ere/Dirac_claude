@@ -1,7 +1,7 @@
 {
   "condensate": {
     "CPL": "wa = 0 in all three definitions (no time dependence)",
-    "einstein": "rho + p = -6 (1 + A^2) H^2/kappa: rho > 0 gives w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (constant); with alpha2, alpha3 the bracket can change sign",
+    "einstein": "rho + p = -6 (1 + A^2) H^2/kappa: kappa rho > 0 (e.g. kappa > 0 and rho > 0) gives w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (constant), kappa rho < 0 gives w > -1 (the sign of kappa is not fixed by this record); with alpha2, alpha3 the bracket can change sign",
     "expansion_inferred_w": "Einstein, backreacted homogeneous source: w_tot = -1 - kappa (p3 - p_t)/(3 a4'^2); for the condensate p3 = p_t: a4 linear, w_tot = -1 exactly (constant 3-space Hubble rate A H)",
     "linear_member_rho_plus_p": "kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)], a4' = A H",
     "p": "p3 = p_t = p8 = lambda S^2/2 (constant)",
@@ -18,7 +18,7 @@
     "x4": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7)  (isotropic: -d4 rho - 3 a4' (p3 - p_t))",
     "x8": "nabla_mu T^mu_x8 = d8 p8 + H cot z sum_{dir in x1,x2,x3,x5,x6,x7} (p8 - p_dir)  (isotropic: d8 p8 + 3 H cot z (2 p8 - p3 - p_t))"
   },
-  "ghost": "INTERPRETATION (with the exact basis above): dirac16complex00 is a commuting field with a first-order Lagrangian; at every real frequency half of its modes (Krein charge of the opposite sign) carry negative classical energy, and its energy is unbounded below. Components of negative classical energy are a ghost-like sector. With positive-energy components only, no phantom w and no crossing of -1 occur (theorem of section wkb); every phantom or crossing found here needs the ghost-like sector, or (ratio definition only) a constant condensate with lambda < 0.",
+  "ghost": "INTERPRETATION (with the exact basis above): dirac16complex00 is a commuting field with a first-order Lagrangian; at every real frequency half of its modes (Krein charge of the opposite sign) carry negative classical energy, and its energy is unbounded below. Components of negative classical energy are a ghost-like sector. With positive-energy components of real frequency only (for an extra-time mode: before its turning point a_*), no phantom w and no crossing of -1 occur (theorem of section wkb); every phantom or crossing found here needs the ghost-like sector, or (ratio definition only) a constant condensate with lambda < 0.",
   "labels": "EXACT = verified by exact symbolic computation in the named checks; APPROXIMATION = stated approximation; ASSUMPTION = observer or model assumption; INTERPRETATION = reading, not a computed statement",
   "metric": "author's metric (SPEC section 1); a4 linear in x4 (a4 = A H x4 + a0, the exponentially deflating member, the only one a homogeneous dirac16complex00 condensate allows) is the reference background; test-field statements hold for every a4(x4)",
   "models": {
@@ -182,7 +182,7 @@
           "3/4": "-0.933875997674"
         }
       },
-      "N2_formula": "w_eff(N2) = -1 + (1/3) s a^2/(1 - s a^2) >= -1",
+      "N2_formula": "w_eff(N2) = -1 + (1/3) s a^2/(1 - s a^2) >= -1 for a < a_* = 1/sqrt(s) (real frequency); past a_* the frequency is imaginary and the formula does not apply",
       "N2_tangent_exact": {
         "w0": "-861/1000",
         "wa": "-196963/500000",
@@ -361,7 +361,7 @@
         }
       },
       "content": "positive condensate + positive extra-time mode + a GHOST component (massless good-sector modes of NEGATIVE classical energy, rho_g = -G/a, eps = 1/3), G = 3/10 of the total at a = 1 (a stated choice); s and Omega_q solve: N2 least-squares CPL fit over a in [1/2, 1] = (-0.861, -0.60)",
-      "family": "smaller G moves the q-mode turning point towards a = 1 (G = 0.28: s = 0.726; G = 0.24: s = 0.921; exploration, not a check); for G = 0 no crossing is possible (theorem)",
+      "family": "smaller G moves the q-mode turning point towards a = 1 (G = 0.28: s = 0.726; G = 0.24: s = 0.921; exploration, not a check); for G = 0 no crossing is possible before the turning point of the q-mode (theorem)",
       "parameters": {
         "G": "3/10",
         "Omega_c": "0.705324804623",
@@ -513,6 +513,6 @@
     "component": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), p8 = 0, omega^2 = m^2 + k^2/a^2 - q^2 a^2 (isotropic averages)",
     "eps": "eps = w_eff(N1) = (k^2/a^2 + q^2 a^2)/(3 omega^2) >= 0 for real omega",
     "mixture": "w_eff(N1) = sum eps_i rho_i / sum rho_i, w_eff(N2) = w_eff(N1) - 1, w = p3/rho = sum p3_i / sum rho_i",
-    "theorem": "if every component has rho_i >= 0 (Krein charge of the sign of omega), real frequencies, and total rho > 0, then w_eff(N1) >= 0 and w_eff(N2) >= -1 at every a (weighted averages of eps_i >= 0 with weights rho_i >= 0): no phantom and no crossing of -1. A crossing needs sum eps_i rho_i to change sign, i.e. a component with rho_i < 0 (negative classical energy: a ghost-like sector)"
+    "theorem": "if every component has rho_i >= 0 (Krein charge of the sign of omega), real frequencies, and total rho > 0, then w_eff(N1) >= 0 and w_eff(N2) >= -1 at every a at which these conditions hold (weighted averages of eps_i >= 0 with weights rho_i >= 0): no phantom and no crossing of -1 there. A mode with extra-time momentum q != 0 loses its real frequency past its turning point a_* (q_phys = q a grows), where the theorem does not apply. A crossing needs sum eps_i rho_i to change sign, i.e. a component with rho_i < 0 (negative classical energy: a ghost-like sector)"
   }
 }

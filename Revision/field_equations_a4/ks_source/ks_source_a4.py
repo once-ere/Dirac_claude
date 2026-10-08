@@ -825,11 +825,17 @@ def main(argv: list) -> int:
     lam0 = [c for c in cases if c["label"] == "Lambda = 0"]
     lam0_mom = [c for c in lam0 if not c["series"].startswith("N8_")]
     ok3 = all(c["event"] == "turning_point" and c["sigma0"] < 0 for c in lam0_mom)
+    lam0_tags = list(dict.fromkeys(c["series"] for c in lam0_mom))
+    not_integrated = [t for t in dict.fromkeys(s["id"].rsplit("_a", 1)[0] for s in states.values())
+                      if not t.startswith("N8_") and t not in SERIES]
     check("D3_lambda_zero_cases_halt", ok3,
           "with Lambda = 0 and the initial rate a4'(0) = H the constraint needs sigma0 = -P(H^2) < 0 (kappa rho_bar < 0) in "
-          "all three theories; then for every series with momentum the deflation HALTS inside the computed range: "
-          "turning point a4' = 0 at %s (gravity/series: a4*)" % "; ".join(
-              "%s/%s: %s" % (c["gravity"], c["series"], g6(c["a_end"])) for c in lam0_mom))
+          "all three theories; then for each of the %d integrated series with momentum (%s; the other %d series with "
+          "momentum of the Kohn-Sham record, %s, are not integrated) the deflation HALTS inside the computed range: "
+          "turning point a4' = 0 at %s (gravity/series: a4*); the integration stops at the turning point, what follows "
+          "it is not computed" % (len(lam0_tags), ", ".join(lam0_tags), len(not_integrated), ", ".join(not_integrated),
+                                  "; ".join("%s/%s: %s" % (c["gravity"], c["series"], g6(c["a_end"]))
+                                            for c in lam0_mom)))
     n8 = [c for c in cases if c["series"].startswith("N8_")]
     check("D4_constant_source_gives_linear_member", all(c["event"] == "regular" and abs(c["A_end"] - 1.0) < 1e-12
                                                         for c in n8),
@@ -917,8 +923,9 @@ def main(argv: list) -> int:
         "gas modifies a deflation that is already there, by a bounded amount set by the energy it loses (D5): it "
         "accelerates it for kappa rho_bar > 0 (sigma0 > 0) and slows it for sigma0 < 0; for the canonical series "
         "N136_lam0 in Einstein gravity a4'(2)/a4'(0) = %s (sigma0 = 10), %s (sigma0 = 1), %s (sigma0 = -1). With "
-        "Lambda = 0 (then sigma0 < 0 is forced) the deflation halts at a4* = %s (Einstein), %s (EGB), %s (cubic "
-        "Lovelock), after which a4 decreases again (the extra times re-inflate, D3); in Einstein-Gauss-Bonnet with "
+        "Lambda = 0 (then sigma0 < 0 is forced) the deflation of N136_lam0 halts (a4' = 0) at a4* = %s (Einstein), %s "
+        "(EGB), %s (cubic Lovelock), and so does that of the other integrated series with momentum (D3); the "
+        "integration stops at the turning point, and what follows it is not computed; in Einstein-Gauss-Bonnet with "
         "sigma0 > 0 the evolution reaches the branch point F = 0, where the evolution equation is not defined (D6). "
         "CONDITIONAL (not computed): if rho_bar tends to 0 as a4 grows beyond 2, Einstein gravity gives a4'^2 -> "
         "(-Lambda - 21 H^2)/3, i.e. late-time exponential deflation at a rate set by Lambda and H alone."
@@ -996,8 +1003,9 @@ def summary_md(rep: dict, cases: list, states: dict, slices: list) -> str:
             g6(s["mu1_p8"]), g6(s["mu_rho"]), g6(s["mu_p8"]), g6(s["alg_bar_rel"])))
     L += ["", "## Integrated cases (series N136_lam0, a4'(0) = H)", "",
           "sigma0 = kappa rho_bar(0)/H^2; Lambda from the constraint at a4 = 0; outcome: regular (through a4 = 2), "
-          "turning_point (a4' = 0: the deflation halts, then the extra times re-inflate), branch_point (F(a4') = 0: the "
-          "evolution equation is not defined there). Every series and case: `results/ks-source-a4-cases.csv`.", "",
+          "turning_point (a4' = 0: the deflation halts; the integration stops there, what follows is not computed), "
+          "branch_point (F(a4') = 0: the evolution equation is not defined there). Every integrated series ("
+          + ", ".join(SERIES) + ") and case: `results/ks-source-a4-cases.csv`.", "",
           "| gravity | case | Lambda/H^2 | outcome | a4 reached | x4 elapsed (1/H) | a4'/H there |", "| --- " * 7 + "|"]
     for c in cases:
         if c["series"] != "N136_lam0":

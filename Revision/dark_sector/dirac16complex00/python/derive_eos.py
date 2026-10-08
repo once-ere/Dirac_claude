@@ -296,7 +296,7 @@ def section_condensate(g):
         "CPL": "wa = 0 in all three definitions (no time dependence)",
         "unite_constant_w_by_ratio": "lambda S/m = -382/441 (rho > 0: m S > 0, lambda < 0)",
         "linear_member_rho_plus_p": "kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)], a4' = A H",
-        "einstein": "rho + p = -6 (1 + A^2) H^2/kappa: rho > 0 gives w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (constant); with alpha2, alpha3 the bracket can change sign",
+        "einstein": "rho + p = -6 (1 + A^2) H^2/kappa: kappa rho > 0 (e.g. kappa > 0 and rho > 0) gives w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (constant), kappa rho < 0 gives w > -1 (the sign of kappa is not fixed by this record); with alpha2, alpha3 the bracket can change sign",
         "expansion_inferred_w": "Einstein, backreacted homogeneous source: w_tot = -1 - kappa (p3 - p_t)/(3 a4'^2); for the condensate p3 = p_t: a4 linear, w_tot = -1 exactly (constant 3-space Hubble rate A H)",
     }
 
@@ -320,7 +320,7 @@ def section_modes(g):
     okh2 = (h * h - (m ** 2 + k ** 2 - q ** 2) * sp.eye(16)).expand() == sp.zeros(16)
     okB = ((B * h) - (B * h).H).expand() == sp.zeros(16)
     check("mode_dispersion_h_squared", okh2, "h^2 = (m^2 + k^2 - q^2) I16: omega^2 = m^2 + k_phys^2 - q_phys^2 (the extra times are time-like: q enters with the opposite sign)")
-    check("mode_generator_B_selfadjoint", okB, "B h = (B h)^dagger: the conserved charge Q = Phi^dagger B Phi is the Krein form of the evolution")
+    check("mode_generator_B_selfadjoint", okB, "B h = (B h)^dagger: the charge density Q = Phi^dagger B Phi is the Krein form of the frozen-frame evolution and is conserved by it (in the field theory the charge obeys a local conservation law; its total is constant only without flux through z = pi/2, an ASSUMED condition)")
     g1, g5 = g[0], g[4]
     for (mv, kv, qv) in [(3, 4, 0), (5, 0, 3), (4, 4, 4)]:
         Cm, Bm, hm = mode_matrices(g, sp.Integer(mv), sp.Integer(kv), sp.Integer(qv))
@@ -392,7 +392,7 @@ def section_wkb():
     pt = -q ** 2 * a ** 2 / (3 * om) * Q
     ok = sp.simplify(sp.diff(rho, x4) + 3 * sp.diff(a4, x4) * (p3 - pt)) == 0
     check("wkb_mode_gas_conservation", ok,
-          "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), omega^2 = m^2 + k^2/a^2 - q^2 a^2 (comoving k, q; Q the conserved Krein charge per comoving volume) satisfy d rho/dx4 = -3 a4' (p3 - p_t) exactly")
+          "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), omega^2 = m^2 + k^2/a^2 - q^2 a^2 (comoving k, q; Q the Krein charge per comoving volume, constant as an adiabatic invariant of the WKB model) satisfy d rho/dx4 = -3 a4' (p3 - p_t) exactly")
     eps = sp.simplify((p3 - pt) / rho)
     ok2 = sp.simplify(eps - (k ** 2 / a ** 2 + q ** 2 * a ** 2) / (3 * om ** 2)) == 0
     check("wkb_epsilon_sign_free", ok2,
@@ -411,7 +411,7 @@ def section_wkb():
         "component": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), p8 = 0, omega^2 = m^2 + k^2/a^2 - q^2 a^2 (isotropic averages)",
         "eps": "eps = w_eff(N1) = (k^2/a^2 + q^2 a^2)/(3 omega^2) >= 0 for real omega",
         "mixture": "w_eff(N1) = sum eps_i rho_i / sum rho_i, w_eff(N2) = w_eff(N1) - 1, w = p3/rho = sum p3_i / sum rho_i",
-        "theorem": "if every component has rho_i >= 0 (Krein charge of the sign of omega), real frequencies, and total rho > 0, then w_eff(N1) >= 0 and w_eff(N2) >= -1 at every a (weighted averages of eps_i >= 0 with weights rho_i >= 0): no phantom and no crossing of -1. A crossing needs sum eps_i rho_i to change sign, i.e. a component with rho_i < 0 (negative classical energy: a ghost-like sector)",
+        "theorem": "if every component has rho_i >= 0 (Krein charge of the sign of omega), real frequencies, and total rho > 0, then w_eff(N1) >= 0 and w_eff(N2) >= -1 at every a at which these conditions hold (weighted averages of eps_i >= 0 with weights rho_i >= 0): no phantom and no crossing of -1 there. A mode with extra-time momentum q != 0 loses its real frequency past its turning point a_* (q_phys = q a grows), where the theorem does not apply. A crossing needs sum eps_i rho_i to change sign, i.e. a component with rho_i < 0 (negative classical energy: a ghost-like sector)",
     }
 
 
@@ -568,7 +568,7 @@ def section_models():
         "content": "one positive-energy mode with extra-time momentum q and k = 0, s = q^2/m^2 = 417/1417 at a = 1 (w_eff(N2)(1) = -0.861)",
         "N2_tangent_exact": {"w0": "-861/1000", "wa": sstr(wa3), "wa_decimal": num(q2mp(wa3))},
         "turning_point_a_star": {"exact": "sqrt(1417/417)", "decimal": num(mp.sqrt(mp.mpf(1417) / 417))},
-        "N2_formula": "w_eff(N2) = -1 + (1/3) s a^2/(1 - s a^2) >= -1",
+        "N2_formula": "w_eff(N2) = -1 + (1/3) s a^2/(1 - s a^2) >= -1 for a < a_* = 1/sqrt(s) (real frequency); past a_* the frequency is imaginary and the formula does not apply",
     })
     # M4 condensate + q-mode, N2 tangent = Unite
     c = sp.Rational(600, 139) - sp.Rational(417, 1000)
@@ -579,7 +579,7 @@ def section_models():
     m4 = Model([("condensate", 1 - mp.mpf(57963) / 264037, {}), ("qmode", mp.mpf(57963) / 264037, {"s": mp.mpf(264037) / 403037})])
     w0n, wan = tangent(m4.wN2)
     check("M4_tangent_equals_unite", abs(w0n - mp.mpf("-0.861")) < mp.mpf("1e-25") and abs(wan - mp.mpf("-0.60")) < mp.mpf("1e-20"),
-          "N2 tangent of M4 = (-0.861, -0.600) = the Unite CPL values; yet w_eff(N2) >= -1 at every a (theorem: positive components), no crossing: the phantom past of the CPL line is not reproduced")
+          "N2 tangent of M4 = (-0.861, -0.600) = the Unite CPL values; yet w_eff(N2) >= -1 before the turning point a_* = %s of its extra-time mode (theorem: positive components with real frequencies; checked on a in [1/300, 1], M4_never_phantom), no crossing there: the phantom past of the CPL line is not reproduced; past a_* the frequency is imaginary and w_eff(N2) >= -1 is not established" % mp.nstr(1 / mp.sqrt(mp.mpf(264037) / 403037), 5))
     minw = min(m4.wN2(mp.mpf(j) / 300) for j in range(1, 301))
     check("M4_never_phantom", minw >= -1, "min of w_eff(N2) over a = 1/300 ... 1 is %s >= -1" % num(minw))
     out["M4_condensate_plus_extra_time_mode"] = summarize(m4, {
@@ -605,12 +605,12 @@ def section_models():
     check("M5_crosses_minus_1", len(cr) == 1, "w_eff(N2) of M5 crosses -1 once in [1/3, 1], at a = %s (Unite line: 461/600 = 0.768333)" % (num(cr[0]) if cr else "none"))
     m5_no_ghost = Model([("condensate", 1 - Oq5, {}), ("qmode", Oq5, {"s": s5})])
     check("M5_without_ghost_no_crossing", len(crossings(m5_no_ghost.wN2)) == 0,
-          "the same model with the ghost component removed (Omega_c = 1 - Omega_q) has no crossing: the crossing is due to the negative-energy component")
+          "the same model with the ghost component removed (Omega_c = 1 - Omega_q) has no crossing in [1/3, 1]: the crossing is due to the negative-energy component")
     out["M5_with_ghost_component"] = summarize(m5, {
         "content": "positive condensate + positive extra-time mode + a GHOST component (massless good-sector modes of NEGATIVE classical energy, rho_g = -G/a, eps = 1/3), G = 3/10 of the total at a = 1 (a stated choice); s and Omega_q solve: N2 least-squares CPL fit over a in [1/2, 1] = (-0.861, -0.60)",
         "parameters": {"G": "3/10", "s": num(s5), "Omega_q": num(Oq5), "Omega_c": num(1 - Oq5 + G)},
         "turning_point_a_star": num(1 / mp.sqrt(s5)),
-        "family": "smaller G moves the q-mode turning point towards a = 1 (G = 0.28: s = 0.726; G = 0.24: s = 0.921; exploration, not a check); for G = 0 no crossing is possible (theorem)",
+        "family": "smaller G moves the q-mode turning point towards a = 1 (G = 0.28: s = 0.726; G = 0.24: s = 0.921; exploration, not a check); for G = 0 no crossing is possible before the turning point of the q-mode (theorem)",
     })
     return out
 
@@ -633,7 +633,7 @@ def main():
         "modes": section_modes(g),
         "wkb": section_wkb(),
         "models": section_models(),
-        "ghost": "INTERPRETATION (with the exact basis above): dirac16complex00 is a commuting field with a first-order Lagrangian; at every real frequency half of its modes (Krein charge of the opposite sign) carry negative classical energy, and its energy is unbounded below. Components of negative classical energy are a ghost-like sector. With positive-energy components only, no phantom w and no crossing of -1 occur (theorem of section wkb); every phantom or crossing found here needs the ghost-like sector, or (ratio definition only) a constant condensate with lambda < 0.",
+        "ghost": "INTERPRETATION (with the exact basis above): dirac16complex00 is a commuting field with a first-order Lagrangian; at every real frequency half of its modes (Krein charge of the opposite sign) carry negative classical energy, and its energy is unbounded below. Components of negative classical energy are a ghost-like sector. With positive-energy components of real frequency only (for an extra-time mode: before its turning point a_*), no phantom w and no crossing of -1 occur (theorem of section wkb); every phantom or crossing found here needs the ghost-like sector, or (ratio definition only) a constant condensate with lambda < 0.",
     }
     os.makedirs(os.path.join(args.out, "reports"), exist_ok=True)
     with open(os.path.join(args.out, "eos-theory.json"), "w", encoding="utf-8", newline="\n") as fh:

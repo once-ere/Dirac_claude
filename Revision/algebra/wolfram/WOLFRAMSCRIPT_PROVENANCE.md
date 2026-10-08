@@ -3,7 +3,7 @@
 This file is written for a student who has never used Wolfram or a command line. It says what the set
 computes, which files it reads and writes, how to run it from nothing on Windows, macOS or Linux, what
 you will see, what the run changes on your computer, and how it was verified on 2026-10-02 and
-re-verified on 2026-10-07 (section 6).
+re-verified on 2026-10-07 and 2026-10-08 (section 6).
 
 ## 1. What this set is and what it computes
 
@@ -183,12 +183,16 @@ Line counts are numbers of LF line endings; every file below uses LF line ending
 
 | file | role | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/algebra/wolfram/verify_algebra.wls` | the driver you run; it loads the package, runs the 45 checks, writes the two outputs, prints the verdicts and exits | `99ff3c1fc6e1c7720cd00ef4141a0fc950ba4906d4153770d3ffd6c5840022ff` | 281 | 17599 |
+| `Revision/algebra/wolfram/verify_algebra.wls` | the driver you run; it loads the package, runs the 45 checks, writes the two outputs, prints the verdicts and exits | `4bb186d23b81b28267525b9b3f7df7358c5be16302637aa10797ebda3e06ee5b` | 281 | 17719 |
 | `Revision/algebra/wolfram/RevisionAlgebra.wl` | the package (context ``RevisionAlgebra` ``): the author's formulas, the exact linear algebra (commutants, intertwiners, span dimension) and the JSON writer and reader | `fd1aaea5edd6c230da859156bf496ee624e3f569475454ef0e1384cb2d29c881` | 260 | 15089 |
 
 The driver above is the version with the write-failure fix of section 6.3 (an output file that cannot
 be written now stops the run with exit code 1). It was committed in `3f0a577` on 2026-10-02 at
-07:35:37 -0700 and is the driver that was re-verified on 2026-10-07 (section 6.4). The version committed
+07:35:37 -0700 and is the driver that was re-verified on 2026-10-07 (section 6.4). On 2026-10-08 its
+line 17 was changed so that the folder of the set is normalised with `ExpandFileName` (section 6.6); the
+table gives that version. The version before (sha256
+`99ff3c1fc6e1c7720cd00ef4141a0fc950ba4906d4153770d3ffd6c5840022ff`, 281 lines, 17599 bytes) writes
+byte-identical outputs. The version committed
 up to commit `c2b33cc` had sha256 `75b9f95d5fc7c1e748579f798838427401dd23fcd5b3b7ee3159238512b8369a`
 (275 lines, 17185 bytes); it computes the same 45 checks and writes byte-identical outputs, and differs
 only in what happens when an output cannot be written (section 3.7).
@@ -939,3 +943,25 @@ instead. Afterwards `git status --porcelain` prints nothing.
   `git status --porcelain --ignored` printed nothing; after run 2 the command of item 2 printed
   `Revision\algebra\reports\wolfram-algebra.json:7:  "summary": {"passed": 45, "failed": 0, "total": 45},`.
 * Fixes made: none (no execution defect). Open discrepancies: none.
+
+### 6.6 Root normalised (2026-10-08, working tree)
+
+* Why: a review of the reproducibility of the Revision gate (2026-10-08; it fixed the same pattern in
+  `Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls`) found that the script built its
+  folders with `FileNameJoin[{..., ".."}]` without normalising them, so every path built from them kept the
+  text `\..`; on Windows a path of 260 or more characters (MAX_PATH) is not found although the file exists, so
+  the unnormalised `..` lowered the length of the clone folder at which a run fails.
+* Change: line 17 now reads `$algebraDir = ExpandFileName[FileNameJoin[{$here, ".."}]];`, followed on the same
+  line by a comment; no other line changed (still 281 lines). New sha256
+  `4bb186d23b81b28267525b9b3f7df7358c5be16302637aa10797ebda3e06ee5b`, 17719 bytes (before:
+  `99ff3c1fc6e1c7720cd00ef4141a0fc950ba4906d4153770d3ffd6c5840022ff`, 17599 bytes).
+* Run: `wolframscript -file Revision/algebra/wolfram/verify_algebra.wls`; Windows 11 Pro for Workstations
+  10.0.26300, WolframScript 1.14.0, Wolfram 15.0.1; run from the repository root
+  `D:\Developer\github\Dirac_claude` (32 characters) in the working tree on top of commit `a8eb09d` or
+  `ab84209` (both committed by others during this work; neither changed a file of this set, its inputs or its
+  outputs), not in a fresh clone (other areas of the tree had uncommitted edits of other work, none in the
+  folders of this set or in its inputs and outputs). Exit code 0, `45/45 checks passed; time 5.11 s`, wall
+  time 12 s. `git diff --quiet -- Revision/algebra/gammas.json Revision/algebra/reports` succeeded: both
+  outputs are byte-identical to the committed ones (the sha256 of section 2.3).
+* Fixes made: the normalisation above. Open discrepancies: none. Not done: a run of the changed driver in a
+  fresh clone, and a run from a long clone folder.

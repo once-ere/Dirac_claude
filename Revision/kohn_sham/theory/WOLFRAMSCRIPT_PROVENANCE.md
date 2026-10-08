@@ -2,7 +2,8 @@
 
 This file tells a student who has never used Wolfram or Python what this set of scripts is, how to run
 it from nothing, what it prints and writes, what it changes on the computer, and how it was verified on
-2026-10-02 and verified again, in new fresh clones, on 2026-10-07 (section 6). Every number below was
+2026-10-02 and verified again, in new fresh clones, on 2026-10-07 (section 6; on 2026-10-08 the script's
+folders were normalised and the script was re-run, section 6.5). Every number below was
 measured on the verification machine or read from the files themselves; nothing is copied from another
 document.
 
@@ -143,7 +144,7 @@ their line endings). Line counts are counts of line-feed characters (`wc -l`).
 
 | File | sha256 | Lines | Bytes |
 | --- | --- | --- | --- |
-| `Revision/kohn_sham/theory/verify_ks_theory.wls` (the script you run) | `4ce71aaa2c8efd78c8e1508ab72a3223383e21900805c4a34e55a3d5f7deb50d` | 463 | 41295 |
+| `Revision/kohn_sham/theory/verify_ks_theory.wls` (the script you run) | `b2b9d397848c6d7e1ea5796634cc1a08f3d1a8912b47117804e2520a868e9944` | 463 | 41431 |
 | `Revision/kohn_sham/theory/KohnShamTheory.wl` (its package, loaded by the script with `Get`) | `554d726af9cff43c680ee9a4a70e7ffa28740a306c91581b6944cc668007f3cf` | 87 | 4575 |
 | `Revision/kohn_sham/theory/check_ks_theory.py` (optional companion, Python/sympy) | `e395b794e33c24700a4fcc81e0e7279a5317dc82163811043e4aaa08c8af1458` | 825 | 49831 |
 
@@ -153,6 +154,10 @@ version is committed since commit `3f0a577c234501e0e073df1ec1640554bf93d764` and
 `d8df4e07976352d07c41c4b38a28ca09626f20d54a237cfba7ba942893596cab`, 455 lines, 40693 bytes). Both
 versions perform the same 46 checks and write the same bytes; the earlier one does not stop when an
 input file is missing or an output file cannot be written (section 3.7 describes what it does then).
+On 2026-10-08 lines 21 and 22 were changed so that the two folders are normalised with `ExpandFileName`
+(section 6.5); the table gives that version. The version before (sha256
+`4ce71aaa2c8efd78c8e1508ab72a3223383e21900805c4a34e55a3d5f7deb50d`, 463 lines, 41295 bytes) is the one
+verified in sections 6.1 to 6.3; both write the same bytes.
 
 The companion was extended on 2026-10-07, outside this verification, by commit
 `3d22bc54a15cbfbc1fc38a4860bc2b1a8f0613f1` (a WIP snapshot of another workflow): it gained one check,
@@ -1115,3 +1120,27 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
   test_report_count_table` printed `Ran 1 test` and `OK`.
 * No file of this set changed; the committed reports are the ones verified in section 6.3.
 * Open discrepancies: none.
+
+### 6.5 Folders normalised (2026-10-08, working tree)
+
+* Why: a review of the reproducibility of the Revision gate (2026-10-08; it fixed the same pattern in
+  `Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls`) found that the script built its
+  folders with `FileNameJoin[{..., ".."}]` without normalising them, so every path built from them kept the
+  text `\..`; on Windows a path of 260 or more characters (MAX_PATH) is not found although the file exists, so
+  the unnormalised `..` lowered the length of the clone folder at which a run fails.
+* Change: lines 21 and 22 now read `$ks = ExpandFileName[FileNameJoin[{$here, ".."}]];` (followed on the same
+  line by a comment) and `$rev = ExpandFileName[FileNameJoin[{$ks, ".."}]];`; no other line changed (still 463
+  lines). New sha256 `b2b9d397848c6d7e1ea5796634cc1a08f3d1a8912b47117804e2520a868e9944`, 41431 bytes (before:
+  `4ce71aaa2c8efd78c8e1508ab72a3223383e21900805c4a34e55a3d5f7deb50d`, 41295 bytes).
+* Run: `wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls`, started detached from a `cmd.exe`
+  batch file; Windows 11 Pro for Workstations 10.0.26300, WolframScript 1.14.0, Wolfram 15.0.1; run from the
+  repository root `D:\Developer\github\Dirac_claude` (32 characters) in the working tree on top of commit
+  `a8eb09d` or `ab84209` (both committed by others during this work; neither changed a file of this set, its
+  inputs or its outputs), not in a fresh clone (other areas of the tree had uncommitted edits of other work,
+  none in the folders of this set or in its inputs and outputs). Exit code 0, `46/46 checks passed; time 37.5
+  s`, wall time 41 s (15:12:54 to 15:13:36). `git diff --quiet -- Revision/kohn_sham/ks-theory.json
+  Revision/kohn_sham/reports` succeeded: `ks-theory.json` and `ks-theory-wolfram.json` are byte-identical to
+  the committed ones (the sha256 of section 2.3). The companion `check_ks_theory.py` did not change and was
+  not re-run.
+* Fixes made: the normalisation above. Open discrepancies: none. Not done: a run of the changed script in a
+  fresh clone, and a run from a long clone folder.

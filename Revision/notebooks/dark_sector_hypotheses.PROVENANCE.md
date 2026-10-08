@@ -2,10 +2,10 @@
 
 The dark-sector hypotheses of dirac16complex and dirac16complex00 against the Unite values.
 
-* Notebook: `Revision/notebooks/dark_sector_hypotheses.ipynb` (47 cells: 26 markdown, 21 code; 453240 bytes;
-  sha256 `e8e23fafdfe80ac9d414a49628fe2b06cb81c8e0c0c61fcd2d8ce8412bd5d0fb`).
+* Notebook: `Revision/notebooks/dark_sector_hypotheses.ipynb` (47 cells: 26 markdown, 21 code; 455344 bytes;
+  sha256 `fadca750e38b16dcfa3f7687e52f8e0882639d09f49267c2429df722c86e8429`).
 * Builder: `Revision/notebooks/src/dark_sector_hypotheses.py`
-  (sha256 `8cb598080ffe8a7a5854053cb35b39c2708c3868d7ca76b1881fca2b68c7e470`).
+  (sha256 `1d89e3c5e8b9e50308f44e7e42a06ee0f54bd21eb517b455d89f5b6941e8f4bd`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
@@ -26,7 +26,8 @@ at every slice; no static or frozen extra times are used.
 ## 1. What it computes
 
 1. Builds the Revision Rust crate `Revision/kohn_sham/solver` (`revision_ks_solver`, no external crates)
-   with `cargo build --release` into `<output>/cargo-target` and requires zero compiler warnings.
+   with `cargo build --release` into the build folder `<cargo-target>` (section 2) and requires zero
+   compiler warnings.
 2. Runs `revision_ks_solver single --m 1 --lambda 0.01946 --a4 0.0 --N 8 --out <output>/ks_runs/N8_lamp1_a000.json`
    (the arguments of `Revision/dark_sector/dirac16complex/compute/run_ks_history.py`, working folder the
    repository) and prints the solver's three input checks (`theory_input_coefficients`,
@@ -122,9 +123,12 @@ Followed but not executed (the notebook reproduces their arithmetic; listed so t
 `Revision/dark_sector/dirac16complex/compute/compute_eos.py` (sha256
 `3bfc7301a0a77c3ed4031da3a908e3f351adac9111633994d973e02d86e632d5`).
 
-Written, all into the output folder `<output>` (the folder named by `REVISION_NB_OUT`, otherwise
-`build/revision_notebooks/dark_sector_hypotheses` in the repository, ignored by git); identical in both
-verified builds (129 files compared, the build folder excluded):
+Written: the result files and figures into the output folder `<output>` (the folder named by
+`REVISION_NB_OUT`, otherwise `build/revision_notebooks/dark_sector_hypotheses` in the repository, ignored by
+git), identical in both verified builds and in the `check` run (129 files compared); the Rust build into
+`<cargo-target>` (the folder named by `REVISION_NB_CARGO_TARGET`, otherwise
+`revision-nb-dark_sector_hypotheses-` followed by the first 12 hexadecimal digits of the sha256 of the path of
+`<output>`, in the system's temporary folder):
 
 | file | bytes | sha256 |
 | --- | --- | --- |
@@ -135,7 +139,7 @@ verified builds (129 files compared, the build folder excluded):
 | `<output>/figures/figure3_dirac16complex00_populations.png` | 79878 | `0d393d8b03382d2fd582be2d39f147824f9a2ffdf17c4171ed8ee296af6c243a` |
 | `<output>/figures/figure4_w0_wa_plane.png` | 39932 | `55d56eac83e106647012ae3a1f952852cc26d5a684328bdfb48d2b382cbcfc0d` |
 | `<output>/ks_runs/<id>.json` (123 solver result files, ids `N688_lam0_a000` ... `N8_lamp1_a200`) | 4873129 in total | combined `e0fa4f369f35112aee435cf721eeaeddeb72b4f3b52556d57b629c7951e718e8` (sha256 of the 123 lines `<sha256>  <file name>`, sorted by file name, LF) |
-| `<output>/cargo-target/` | | the Rust build folder (compiler output; not compared) |
+| `<cargo-target>/` | about 2.8 MB | the Rust build folder (compiler output; not compared) |
 
 The tool writes `Revision/notebooks/dark_sector_hypotheses.ipynb` (`build`) or
 `<output>/dark_sector_hypotheses.ipynb` (`check`). The notebook has no long mode.
@@ -192,12 +196,13 @@ or, to rebuild and compare with the committed file (from the repository root):
 * Section 14: four figures and `checks of this notebook: 40 passed, 0 failed`; the list of the written files.
 
 No run time and no path of the computer is printed (paths are shown relative to the repository or as
-`<output>/...`).
+`<output>/...` and `<cargo-target>/...`).
 
 ## 5. Measured run time (Windows 11, 2026-10-08)
 
-* Whole notebook, executed by `build_notebooks.py`: 15.4 s (build A), 15.4 s (build B) and 15.9 s (`check`)
-  of execution, including the fresh `cargo build --release` of the solver into `<output>/cargo-target`
+* Whole notebook, executed by `build_notebooks.py`: 32.7 s (build A), 42.6 s (build B) and 44.0 s (`check`)
+  of execution while other work ran on the computer (the first builds of this notebook took 15.4 s to
+  15.9 s), including the fresh `cargo build --release` of the solver into `<cargo-target>`
   and the 123 solver runs (8 parallel processes; measured separately with the same arguments: 9.3 s of wall
   time for the 123 runs, the longest single run 2.4 s).
 * Not part of the notebook: the committed dense history (615 states, `run_ks_history.py`) took about 2 min,
@@ -205,39 +210,61 @@ No run time and no path of the computer is printed (paths are shown relative to 
 
 ## 6. Side effects
 
-* Writes only into `<output>` (and the tool writes the notebook file named in section 2). The committed
+* Writes only into `<output>` and `<cargo-target>` (and the tool writes the notebook file named in section 2). The committed
   records `Revision/dark_sector/`, `Revision/kohn_sham/results/` and `Revision/kohn_sham/reports/` are only
-  read; the notebook raises an error if `<output>` would place its files there. The crate's own `target/`
-  folder is not used (the build goes to `<output>/cargo-target`).
+  read; the notebook raises an error if `<output>` or `<cargo-target>` would place its files there. The
+  crate's own `target/` folder is not used (the build goes to `<cargo-target>`).
+* By default `<cargo-target>` is a new folder of about 2.8 MB in the system's temporary folder for
+  every new `<output>` (every `build` and `check` of the tool uses a new `<output>`); nothing deletes
+  it, it can be deleted by hand. It is placed there, short and outside the repository, because on
+  Windows the MSVC linker `link.exe` cannot open a file whose path is longer than 259 characters
+  (MAX_PATH; section 7).
 * Runs `cargo` (needs the Rust toolchain on PATH) and the built solver (up to eight processes at a time,
   working folder the repository, which the solver only reads); no network access during the run, no
   Wolfram Language, no installation.
 
 ## 7. Verification record
 
+* 2026-10-08, the reason for the current version: on Windows the MSVC linker `link.exe` cannot open
+  a file whose path is longer than 259 characters (MAX_PATH). With the former build folder
+  `<output>/cargo-target` and the default `<output>` of the tool
+  (`build/revision_notebooks/dark_sector_hypotheses-XXXXXXXX/`), the solver program
+  `cargo-target/release/deps/revision_ks_solver.exe` that the linker writes lies 106 characters
+  below the repository folder, so `check` failed with `LNK1104` for a repository folder longer than
+  153 characters. Measured: with this folder layout below a repository folder of 200 characters,
+  `cargo build --release` of the solver fails with `LNK1104` on the 306-character path of the
+  program (the limit of 153 characters is computed from the 106 characters below the repository
+  folder; the reviewer's clone of 153 characters passed). In a copy of the needed files below a
+  folder of 170 characters, `check dark_sector_hypotheses` without `--out` (as the gate step
+  notebooks-check runs it) failed with `LNK1104` with the previous builder and notebook (those of the
+  last commit before this change) and passed with the current ones (byte-identical, 455344 bytes,
+  47.8 s). A review had found the same failure for the notebook
+  `lovelock_gkd` (above 148 characters); all three notebooks were changed in the same way. Since then
+  the build goes to `<cargo-target>` (sections 2 and 6); the results and the figures are unchanged.
+* All runs below with the system's temporary folder set (TMP, TEMP, TMPDIR) to a scratch folder of
+  154 characters.
 * 2026-10-08, build A: `python Revision/notebooks/tools/build_notebooks.py build dark_sector_hypotheses --out
-  <scratch>/buildA` - executed in 15.4 s, wrote 453240 bytes, audit PASS, sha256
-  `e8e23fafdfe80ac9d414a49628fe2b06cb81c8e0c0c61fcd2d8ce8412bd5d0fb`.
-* 2026-10-08, build B: the same command with `--out <scratch>/buildB` - executed in 15.4 s; the notebook
-  written is byte-identical to build A (same sha256), and the 129 files of the two output folders (the build
-  folder excluded) are byte-identical (table of section 2).
+  <scratch>/dark_sector_hypotheses_A` - executed in 32.7 s, wrote 455344 bytes, audit PASS, sha256
+  `fadca750e38b16dcfa3f7687e52f8e0882639d09f49267c2429df722c86e8429`.
+* 2026-10-08, build B: the same command with `--out <scratch>/dark_sector_hypotheses_B` - executed in
+  42.6 s; the notebook written is byte-identical to build A (same sha256), and the 129 files of the two
+  output folders are byte-identical and equal to the table of section 2.
 * 2026-10-08, check: `python Revision/notebooks/tools/build_notebooks.py check dark_sector_hypotheses --out
-  <scratch>/check1` - a third independent execution (15.9 s): `check dark_sector_hypotheses: PASS - the
-  re-executed notebook is byte-identical to Revision/notebooks/dark_sector_hypotheses.ipynb (453240 bytes)`.
+  <scratch>/dark_sector_hypotheses_check1` - a third independent execution (44.0 s): `check
+  dark_sector_hypotheses: PASS - the re-executed notebook is byte-identical to
+  Revision/notebooks/dark_sector_hypotheses.ipynb (455344 bytes)`; its 129 files equal the table of
+  section 2.
 * 2026-10-08, headless instruction of section 2.5: `python -m nbconvert --to notebook --execute
-  Revision/notebooks/dark_sector_hypotheses.ipynb --output-dir <scratch>/headless` with
-  `REVISION_NB_OUT=<scratch>/headless/out` - exit status 0 in 18.9 s, no error output and no stderr output in
-  the executed notebook, `checks of this notebook: 40 passed, 0 failed`, no FAIL line (nbconvert's own file
-  is not normalised, so it is not compared byte for byte; nbconvert itself printed pyzmq's harmless Proactor
-  event-loop warning on the console).
+  Revision/notebooks/dark_sector_hypotheses.ipynb --output-dir <scratch>` with
+  `REVISION_NB_OUT=<scratch>/out` - exit status 0, no error output and no stderr output in the executed
+  notebook, `checks of this notebook: 40 passed, 0 failed`, no FAIL line (nbconvert's own file is not
+  normalised, so it is not compared byte for byte).
 * Before these builds, every comparison was prototyped in scratch scripts against the committed record with
   a separately built solver (123 of 123 dense rows and 123 of 123 equation-of-state rows identical, the three
   eos-summary entries, the mixtures and the exact dirac16complex00 fractions equal).
-* 2026-10-08, tests (after this file was written): `python -m unittest Revision/tests/test_revision_notebooks.py`
-  - 9 static tests OK, 2 skipped (including the new `test_dark_sector_record_counts_printed`); with
-  `REVISION_NOTEBOOKS_FULL=1` - 11 tests OK in 45.4 s (the installed versions equal the pins; `check`
-  re-executions of `dark_sector_hypotheses`, `kohn_sham_states` and `lovelock_gkd` in temporary folders are
-  byte-identical to the committed notebooks).
+* 2026-10-08, tests: `python -m unittest Revision/tests/test_revision_notebooks.py -v` - 9 static tests OK, 2 skipped; with
+  `REVISION_NOTEBOOKS_FULL=1` - 11 tests OK in 109.1 s (the installed versions equal the pins; `check` of all three notebooks in
+  temporary folders is byte-identical).
 * Not verified here: the run instructions on macOS and Linux (written for them, executed only on
   Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
   the matplotlib version).

@@ -59,7 +59,12 @@ The Rust solver binary is built with `cargo build --release --manifest-path Revi
   (p3 >= 0, p_t <= 0). A massive mode has w_eff(A) = k^2/(3 (M^2 a^2 + k^2)): 1/3 → 0 (CPL tangent
   w0 = x/(3(1+x)), wa = 2x/(3(1+x)^2) > 0, x = k^2/M^2); a massless one has X/E = 1/3.
 * Phantom: w_eff(C) < -1 (or w_eff(A) < 0) iff X/E < 0, which needs P_t > P3 with E > 0 (no real-frequency mode
-  supplies it) or E < 0 (negative-norm, Krein sector).
+  supplies it) or E < 0 together with X > 0 (check `phantom_condition` verifies the identity w_eff(C) + 1 = X/E,
+  not the origin of a negative E). Negative E is not specific to a negative-norm (Krein) sector: in the good
+  sector the interacting N = 8, lambda > 0 Kohn-Sham states have E < 0 with X = 0 exactly, from the interaction
+  energy of the canonical uniform-gas exchange functional (E = 0 at lambda = 0; in the exact-Fock variant,
+  `Revision/kohn_sham/results/exx/exact-fock-variant.csv`, the N = 8 states have |E| <= 2.04e-13); for free modes
+  E < 0 needs a negative Krein charge, outside the positive good-sector realisation (OPEN).
 * Expansion-inferred w of an observer who reads a(t) = e^{a4(x4)} with 4-dimensional Friedmann equations:
   w_exp = -1 - (2/3) a4''/a4'^2; Einstein case -1 - kappa (p3 - p_t)/(3 a4'^2); **on the linear history
   a4 = A H x4 (the history of the Kohn-Sham record and the only one the condensate allows) w_exp = -1 exactly.**
@@ -111,7 +116,8 @@ are the adiabatically continued states); y-conservation holds to 2.0e-8; dE/da4 
   the condensate are freezing; nothing computed comes near the Unite thawing pair (w0, wa) = (-0.861, -0.60) or its
   phantom past (w0 + wa = -1.461); the Unite constant w = -0.764 is matched only by the constant 8-dimensional ratio
   of a condensate or by a C-normalised mixture whose CPL slope has the opposite sign;
-  (iii) no computed state crosses w = -1 (X >= 0 and E > 0 for all except N = 8, lambda > 0, where X = 0 exactly);
+  (iii) no computed state crosses w = -1 (X >= 0 and E > 0 for all except N = 8: for lambda > 0 E < 0 with X = 0
+  exactly, for lambda = 0 E = 0 and there is no equation of state);
   (iv) on the prescribed history the observer's expansion itself reads w_exp = -1 exactly.
 
 ## Status and limits (honesty rule)

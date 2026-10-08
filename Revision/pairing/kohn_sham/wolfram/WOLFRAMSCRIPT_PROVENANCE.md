@@ -144,8 +144,8 @@ nothing).
 
 | file | sha256 | lines | bytes |
 | --- | --- | --- | --- |
-| `Revision/pairing/kohn_sham/wolfram/verify_t3.wls` | `0cde8c8f36914fbdcc991e11ae44bf26a17f7177d9c9757e58a37cd29ab787c8` | 250 | 27280 |
-| `Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls` | `35605f5c29bb7e44a7ec10dd6f4e34f3aa5bec37c12d3bc9cd2fc1537fb2d227` | 140 | 17486 |
+| `Revision/pairing/kohn_sham/wolfram/verify_t3.wls` | `efb6a122f8c266dd5b7ba142f702742e259a732f3f2fd4e6c53a4e239564f7a9` | 250 | 27416 |
+| `Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls` | `77a361840f8008498ab936a27497bbf43b50b1ce230e9c5c652aa9b751188645` | 140 | 17622 |
 
 There is no package file: neither script loads a Wolfram package (`Get`/`Needs` are not used) and neither
 takes command-line arguments. Each finds its input and output files relative to its own location
@@ -1033,3 +1033,32 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   its record (`verify_t3_completion.wls` lines 12-13, 51 and 107, hence `t3-completion.json` gap 1 and
   `wolfram-t3-completion.json`), see section 1.4. Not verified: macOS, Linux with Wolfram, Wolfram versions
   other than 15.0.1.
+
+### 6.6 Folders normalised in both scripts (2026-10-08, working tree)
+
+- Why: a review of the reproducibility of the Revision gate (2026-10-08; it fixed the same pattern in
+  `Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls`) found that the script built its
+  folders with `FileNameJoin[{..., ".."}]` without normalising them, so every path built from them kept the
+  text `\..`; on Windows a path of 260 or more characters (MAX_PATH) is not found although the file exists, so
+  the unnormalised `..` lowered the length of the clone folder at which a run fails.
+- Change: in `verify_t3.wls` lines 32 and 33, in `verify_t3_completion.wls` lines 29 and 30 now read `$t3Dir =
+  ExpandFileName[FileNameJoin[{$here, ".."}]];` (followed on the same line by a comment) and `$revDir =
+  ExpandFileName[FileNameJoin[{$t3Dir, "..", ".."}]];`; no other line changed (still 250 and 140 lines). New
+  sha256 `efb6a122f8c266dd5b7ba142f702742e259a732f3f2fd4e6c53a4e239564f7a9` (27416 bytes) and
+  `77a361840f8008498ab936a27497bbf43b50b1ce230e9c5c652aa9b751188645` (17622 bytes); before:
+  `0cde8c8f36914fbdcc991e11ae44bf26a17f7177d9c9757e58a37cd29ab787c8` (27280 bytes) and
+  `35605f5c29bb7e44a7ec10dd6f4e34f3aa5bec37c12d3bc9cd2fc1537fb2d227` (17486 bytes), the versions of section
+  6.5.
+- Run: `wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls`, then `wolframscript -file
+  Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls`; Windows 11 Pro for Workstations 10.0.26300,
+  WolframScript 1.14.0, Wolfram 15.0.1; run from the repository root `D:\Developer\github\Dirac_claude` (32
+  characters) in the working tree on top of commit `a8eb09d` or `ab84209` (both committed by others during
+  this work; neither changed a file of this set, its inputs or its outputs), not in a fresh clone (other areas
+  of the tree had uncommitted edits of other work, none in the folders of this set or in its inputs and
+  outputs). Exit codes 0 and 0, `10/10 checks passed; time 1. s` and `3/3 checks passed`, wall times 10 s
+  each. `git diff --quiet -- Revision/pairing/kohn_sham/t3-theory.json
+  Revision/pairing/kohn_sham/t3-completion.json Revision/pairing/kohn_sham/reports` succeeded: the four
+  outputs are byte-identical to the committed ones (the sha256 of section 2.3). The sympy checkers did not
+  change and were not re-run.
+- Fixes made: the normalisation above. Open discrepancies: none new. Not done: a run of the changed scripts in
+  a fresh clone, and a run from a long clone folder.

@@ -14,7 +14,7 @@
 *)
 
 $here = DirectoryName[$InputFileName];
-$algebraDir = FileNameJoin[{$here, ".."}];
+$algebraDir = ExpandFileName[FileNameJoin[{$here, ".."}]]; (* NORMALISED: a ".." left in a path can push it past the Windows limit of 260 characters (MAX_PATH) *)
 Get[FileNameJoin[{$here, "RevisionAlgebra.wl"}]];
 
 t0 = AbsoluteTime[];

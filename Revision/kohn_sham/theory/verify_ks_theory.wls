@@ -18,8 +18,8 @@
 *)
 
 $here = DirectoryName[$InputFileName];
-$ks = FileNameJoin[{$here, ".."}];
-$rev = FileNameJoin[{$ks, ".."}];
+$ks = ExpandFileName[FileNameJoin[{$here, ".."}]]; (* NORMALISED: a ".." left in a path can push it past the Windows limit of 260 characters (MAX_PATH) *)
+$rev = ExpandFileName[FileNameJoin[{$ks, ".."}]];
 $pkg = FileNameJoin[{$here, "KohnShamTheory.wl"}];
 If[! FileExistsQ[$pkg], Print["ERROR  input file not found: ", $pkg]; Exit[1]];
 Get[$pkg];

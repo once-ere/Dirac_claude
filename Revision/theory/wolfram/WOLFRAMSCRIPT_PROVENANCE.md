@@ -9,7 +9,12 @@ between the two runs. One execution defect was fixed on 2026-10-02 (an output fi
 is now reported with exit code 2 instead of being ignored; section 6.6); the fix is part of commit
 `a4c5eda`. Unless stated otherwise, the measured values in this file are those of 2026-10-07. On
 2026-10-08 three statements of the text (sections 1.4 and 3.7) were corrected after an independent review;
-no file of the set, its input or its outputs changed (section 6.6).
+no file of the set, its input or its outputs changed (section 6.6). Later on 2026-10-08 both scripts were
+changed, in texts and file paths only (section 6.7): the details of three checks no longer call the U(1)
+charge "the conserved charge" without qualification, and the repository root is normalised with
+`ExpandFileName`. `verify_scope.wls` was then run twice again (15 of 15, exit code 0, the two reports
+byte-identical, and different from the earlier committed report only in that detail text); the re-run of
+`verify_field_theory.wls` was started and its result is not yet recorded in this file (section 6.7).
 
 ## 1. What this set is and what it computes
 
@@ -135,13 +140,19 @@ All files are plain text, pure ASCII (hence also UTF-8), with LF line endings an
 
 | file | role | lines | bytes | sha256 |
 | --- | --- | --- | --- | --- |
-| `Revision/theory/wolfram/verify_field_theory.wls` | script: 84 checks; writes the field-theory report and the formula file | 734 | 73931 | `54064dfb85342e3defcbd28eb36a092b48890b6157d3120bc8160d2001161ac1` |
+| `Revision/theory/wolfram/verify_field_theory.wls` | script: 84 checks; writes the field-theory report and the formula file | 735 | 74225 | `107f8803afaa7bb127ea7c6b7b470a7e58dd7199b6d072297a3267942a23cf46` |
 | `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (geometry, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 292 | 18269 | `31528570831302199c15a5d6f95e8b95a3ed6532a1c3360c4fc526e8f9dad71d` |
-| `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 205 | 17177 | `41b9e4a52dcbffe60e6decf62835ece0aef9f5c3388aac7d22236b7f20d6e499` |
+| `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 206 | 17416 | `282c4602470812ba678a5b19eb40602febac5f4b73c85fedb78d8bc76549ef54` |
 
-These are the files of commit `a4c5eda`. The value for `verify_field_theory.wls` is that of the version
+The two scripts are the versions of 2026-10-08 (section 6.7); the package is the file of commit `a4c5eda`.
+The versions of commit `a4c5eda` (`verify_field_theory.wls`: 734 lines, 73931 bytes, sha256
+`54064dfb85342e3defcbd28eb36a092b48890b6157d3120bc8160d2001161ac1`; `verify_scope.wls`: 205 lines, 17177
+bytes, sha256 `41b9e4a52dcbffe60e6decf62835ece0aef9f5c3388aac7d22236b7f20d6e499`) compute exactly the same
+checks with the same verdicts; they differ only in the normalised root and in the detail texts of three
+checks (section 6.7). The value of commit `a4c5eda` for `verify_field_theory.wls` is that of the version
 with the output-writing fix of section 6.6 (line 706 now stops the script with exit code 2 when an output
-file cannot be written). The version of commit `c2b33cc` and earlier has 734 lines, 73873 bytes and
+file cannot be written; in the version of 2026-10-08 this is line 707, and the same test of
+`verify_scope.wls` is its line 203). The version of commit `c2b33cc` and earlier has 734 lines, 73873 bytes and
 sha256 `dafe62233cf76106e1dc7bca51ad3aafcf62762eaf37c3af9969f0c955014c9d`; it computes and prints exactly
 the same and writes exactly the same files, and differs only when an output cannot be written (section
 3.7).
@@ -168,7 +179,13 @@ read, and nothing is downloaded.
 | --- | --- | --- | --- | --- |
 | `Revision/theory/reports/wolfram-field-theory.json` | `verify_field_theory.wls` | 95 | 35018 | `eed5e0fb01b281d58ccabe7dd84bde3b81574ae09a9c4b05e67f22f6a8065a7e` |
 | `Revision/theory/field-theory.json` | `verify_field_theory.wls` | 68 | 24609 | `2a3c83e5db5e0ad3572791334a4797b8af549a22295bb6800739340f2c107f54` |
-| `Revision/theory/reports/wolfram-scope.json` | `verify_scope.wls` | 25 | 6996 | `8a0bee2e9c0b536ed25c6dcb31272e6e0d7a49ae9e1f69a755899ce6efa021ce` |
+| `Revision/theory/reports/wolfram-scope.json` | `verify_scope.wls` | 25 | 7211 | `ce8a923f85eb1cc7ff2c0740c4653ad9db3a65e2aa8cee3aed076dfb8e21a8ab` |
+
+The value for `wolfram-scope.json` is that of the version of 2026-10-08 (section 6.7; before it: 6996 bytes,
+sha256 `8a0bee2e9c0b536ed25c6dcb31272e6e0d7a49ae9e1f69a755899ce6efa021ce`). The values for the two outputs
+of `verify_field_theory.wls` are those of the committed files of commit `a4c5eda`; the run of the
+2026-10-08 version is not yet recorded here (section 6.7): it is expected to leave `field-theory.json`
+unchanged and to change `wolfram-field-theory.json` only in the detail texts of two checks.
 
 * `wolfram-field-theory.json`: every check with its name, verdict and a sentence stating exactly what was
   verified, and the summary `{"passed": 84, "failed": 0, "total": 84}`.
@@ -296,7 +313,9 @@ a hash belongs to; the rows of that table are in the order of the files in the c
 macOS: `shasum -a 256 Revision/theory/wolfram/verify_field_theory.wls Revision/theory/wolfram/RevisionFieldTheory.wl Revision/theory/wolfram/verify_scope.wls`;
 Linux: the same with `sha256sum` instead of `shasum -a 256` (each line is the hash, two spaces, and the
 file name). Compare with the table of section 2.1. If they differ, your copy is not the verified version:
-if only `verify_field_theory.wls` differs and its hash is
+if the two scripts have the hashes of commit `a4c5eda` given below the table of section 2.1, you have the
+versions before the text change of 2026-10-08 (they compute the same checks; only three detail texts of
+the reports differ, section 6.7); if only `verify_field_theory.wls` differs and its hash is
 `dafe62233cf76106e1dc7bca51ad3aafcf62762eaf37c3af9969f0c955014c9d`, you have the version before the
 output-writing fix (section 2.1; read the `OpenWrite::noopen` entry of section 3.7); otherwise the set was
 changed after this record was written. The instructions still apply, but the expected output of section 4
@@ -752,7 +771,9 @@ The second command must then print nothing. To restore the input as well, add
   `9ea68d4`, the outputs in `a9a1b70` (field theory) and `70fab64` (scope). On 2026-10-08, in a fresh
   clone at commit `97236d2fa7b61147e49e8a4d01cf4456c4acd56f` (the branch `main` at that time), the sha256
   values of the three files of section 2.1, the input of section 2.2 and the three outputs of section 2.3
-  were again exactly those of the tables.
+  were again exactly those of the tables as they stood before the change of section 6.7 (the values of
+  commit `a4c5eda`, now given below the tables). Sections 6.1 to 6.6 describe those versions; the runs of
+  the 2026-10-08 versions are in section 6.7.
 * Clones on 2026-10-07: two fresh clones made with `git clone https://github.com/once-ere/Dirac_claude.git`
   (runs 1 and 2) and two further fresh clones for the experiments of section 6.4. No uncommitted file was
   copied into them: the set, its input and its outputs were committed and unchanged in the working tree.
@@ -901,7 +922,9 @@ experiments.
   found: <name>` when run with `zsh -c`; without the `1:` in an interactive terminal) and bash 5.2.21
   (`bash: <name>: command not found`; Ubuntu's standard settings print `<name>: command not found`),
   measured on Ubuntu 24.04 under WSL; macOS itself was not tested.
-* Open discrepancies: none. Every check passes and every output reproduces byte for byte.
+* Open discrepancies: none for the versions of commit `a4c5eda` (every check passes and every output
+  reproduces byte for byte). For the versions of 2026-10-08 the run of `verify_field_theory.wls` is not
+  yet recorded (section 6.7).
 * Observations recorded for students (not defects of this set): WolframScript returns exit code 0 when it
   cannot open the script file; WolframScript occasionally printed `The product exited because an error
   occurred ...` with exit code 1 after a correct result while the machine was heavily loaded (2026-10-02
@@ -911,3 +934,50 @@ experiments.
 * Correction of the earlier draft of this file (committed in the snapshots `3f0a577` and `cb7c01e`): it
   described the fix in section 2.1 but stated "No fix was needed" in its status line and "Fixes: none" in
   this section; this version records the fix consistently.
+
+### 6.7 Text change and re-runs of 2026-10-08
+
+What changed (texts and file paths only; no check, condition, verdict, tolerance or number):
+
+* `verify_field_theory.wls` lines 18-19 and `verify_scope.wls` line 21: the repository root is wrapped in
+  `ExpandFileName[...]`, so the scripts open and write paths without `..` components. These paths are
+  shorter, which matters on Windows when the clone folder has a long path. The author-curvature extractor
+  of `Revision/gkd_lovelock/comparison/` uses the same normalisation.
+* The details of `charge_density_is_Krein_form_G` and `charge_density_is_Krein_form_C`
+  (`verify_field_theory.wls` lines 305-306) and of `commuting_field_energy_unbounded_below`
+  (`verify_scope.wls` lines 183-184) called the charge "the conserved charge" without qualification. They
+  now say that only the local law `d_mu (Cos[z] J^mu) = 0` is proved, and that the total charge is
+  constant in `x4` only if no charge flows through the boundary of the slice `x4 = const`, which at the
+  brane `z = Pi/2` is an ASSUMED no-flux condition that the record does not impose. The same text change
+  was made in the sympy checker `Revision/theory/python/check_scope.py` (not part of this set; its report
+  `python-scope.json` differs from the committed one only in that detail, two runs byte-identical).
+* New sizes and sha256 values: section 2.1. Both edited scripts parse (`SyntaxQ` True) into the same
+  number of top-level expressions as the versions of commit `a4c5eda` (158 and 96).
+
+Runs of `verify_scope.wls` (2026-10-08, in the working repository on the verification machine, not in a
+fresh clone; other agents were changing other parts of the repository at the same time; from the
+repository root, `wolframscript -file Revision/theory/wolfram/verify_scope.wls`, started detached through
+`cmd.exe`):
+
+| run | exit code | final line | checks |
+| --- | --- | --- | --- |
+| 1 | 0 | `15/15 checks passed; time 30.3 s` | 15 PASS, 0 FAIL |
+| 2 | 0 | `15/15 checks passed; time 24.400000000000002 s` | 15 PASS, 0 FAIL |
+
+The 16 printed lines of the two runs are identical apart from the time values. The two reports are
+byte-identical (25 lines, 7211 bytes, sha256
+`ce8a923f85eb1cc7ff2c0740c4653ad9db3a65e2aa8cee3aed076dfb8e21a8ab`). A JSON comparison with the
+previously committed report (sha256 `8a0bee2e...`) finds exactly one differing value, the detail of
+`commuting_field_energy_unbounded_below`; the summary, every name, every verdict and every other detail
+are unchanged.
+
+Run of `verify_field_theory.wls`: started detached on 2026-10-08 at 15:14:18 from the repository root,
+followed in the same command file by `python Revision/theory/python/check_field_theory.py` (which reads
+its outputs). Expected: exit code 0 with `84/84 checks passed`; `field-theory.json` unchanged (sha256
+`2a3c83e5...`); `wolfram-field-theory.json` equal to the committed report with only the two detail texts
+above replaced (95 lines, 35518 bytes, sha256
+`35f33fb39ded42f510d22703ccb19a4984e372c016b3345bf620b95d0a43e57d`, computed by replacing the two strings in
+the committed file); the sympy comparison status `agree`. The result is not yet recorded here.
+
+The read-only experiments of section 6.4 were not repeated; their recorded `OpenWrite::noopen` messages
+show the paths of the versions of commit `a4c5eda`, with `..` components.

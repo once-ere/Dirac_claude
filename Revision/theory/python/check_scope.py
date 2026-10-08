@@ -400,8 +400,10 @@ def main():
           f"B u = -u and B u = +u (|u| = 1) the energy density rho = -T^x4_x4 = -sum_(mu != x4) K_mu + m S is "
           f"{sp.sstr(rN)} and {sp.sstr(rP)} (cc = |c|), and the charge density Phi^dagger B Phi is {sp.sstr(qN)} and "
           f"{sp.sstr(qP)}: the classical energy of dirac16complex00 is unbounded below already for U = 0 in the good "
-          "sector (positive-frequency modes of negative energy), and its conserved charge is indefinite - unlike "
-          "Dirac's 1928 wave function, whose conserved density is positive")
+          "sector (positive-frequency modes of negative energy), and its U(1) charge is indefinite (only the local "
+          "law d_mu(cos z J^mu) = 0 is proved; the total charge is constant in x4 only if no charge flows through "
+          "the boundary of the slice x4 = const, which at the brane z = pi/2 is an ASSUMED no-flux condition) - "
+          "unlike Dirac's 1928 wave function, whose charge density psi^dagger psi is positive")
 
     npass = sum(1 for x in CHECKS if x["verdict"] == "PASS")
     rep = {
