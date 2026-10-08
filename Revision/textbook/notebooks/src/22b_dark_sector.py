@@ -64,6 +64,8 @@ FACTS = {
         [f"{D16}/reports/derivation-checks.json",
          "the 30 exact checks of the observer identities, the condensate and the "
          "mixtures"],
+        [f"{D16}/reports/ks-history-run.json",
+         "the 5 checks of the 615 Kohn-Sham solver runs along the prescribed history"],
         [f"{D16}/reports/eos-checks.json",
          "the 13 checks of the equation of state of the Kohn-Sham gas"],
         [f"{D16}/reports/independent-checks.json",
@@ -86,7 +88,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 27 CHECKS PASSED (notebook 22b)",
+        "ALL 28 CHECKS PASSED (notebook 22b)",
     ],
     "troubleshooting": [],
 }
@@ -169,7 +171,7 @@ CELLS = [
     md(r"""
     ## 5. The records
 
-    The next cell loads the modules, reads the five check reports of the dark-sector
+    The next cell loads the modules, reads the six check reports of the dark-sector
     record and checks that every one of their checks is PASS, then reads the table of
     the Kohn-Sham history and the four output files whose numbers the later cells
     reproduce.
@@ -192,12 +194,13 @@ CELLS = [
 
 
     REPORTS = {"derive": f"{D16}/reports/derivation-checks.json",
+               "history": f"{D16}/reports/ks-history-run.json",
                "eos": f"{D16}/reports/eos-checks.json",
                "independent": f"{D16}/reports/independent-checks.json",
                "derive00": f"{D00}/reports/python-derive-eos.json",
                "numerics00": f"{D00}/reports/python-independent-numerics.json"}
-    EXPECTED = {"derive": 30, "eos": 13, "independent": 9, "derive00": 49,
-                "numerics00": 28}  # the number of checks each report holds
+    EXPECTED = {"derive": 30, "history": 5, "eos": 13, "independent": 9,
+                "derive00": 49, "numerics00": 28}  # the checks each report holds
     for key, relative in REPORTS.items():
         entries = read_json(relative)["checks"]
         passed = [entry for entry in entries if entry["verdict"] == "PASS"]
@@ -664,9 +667,13 @@ CELLS = [
                 "The models of dirac16complex00 under definition C against the "
                 "observer scale factor $a$ from 1/3 to 1 (horizontal axes). Left: "
                 "$w_{eff}$ (a pure number) of M2 to M5 and the Unite CPL line "
-                "(dashed). M2 rises (freezing), M3 and M4 fall toward $-1$ (thawing) "
-                "but stay above $-1$ (dotted); the tangent of M4 equals the Unite "
-                "line at $a = 1$ because its two parameters were CHOSEN for that. "
+                "(dashed). As $a$ grows, M2 falls toward $-1$ (freezing, $w_a > 0$); "
+                "M3 and M4 rise away from $-1$ (thawing, $w_a < 0$) and stay above "
+                "$-1$ (dotted) at every $a$. M2, M3 and M4 pass through $-0.861$ at "
+                "$a = 1$; the tangent of M4 equals the Unite line at $a = 1$ because "
+                "its two parameters were CHOSEN for that. M5 ends at $-0.8396$: its "
+                "two parameters were CHOSEN so that its least-squares fit over "
+                "$a$ from 1/2 to 1, not its value today, equals the Unite pair. "
                 "Only M5 crosses $-1$, at $a = 0.779$, and only because of its "
                 "ghost-like part. Right: the energy densities of the three parts of "
                 "M5 (total 1 at $a = 1$); the ghost-like part is negative, $-0.3/a$. "

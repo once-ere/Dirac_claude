@@ -15,6 +15,7 @@ It reads or reproduces these Revision records:
 - `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`: the CPL tangents, the condensate and the mixtures of dirac16complex
 - `Revision/dark_sector/dirac16complex/outputs/independent-free-gas.json`: the bulk-band and brane-band levels of the independent free-gas computation
 - `Revision/dark_sector/dirac16complex/reports/derivation-checks.json`: the 30 exact checks of the observer identities, the condensate and the mixtures
+- `Revision/dark_sector/dirac16complex/reports/ks-history-run.json`: the 5 checks of the 615 Kohn-Sham solver runs along the prescribed history
 - `Revision/dark_sector/dirac16complex/reports/eos-checks.json`: the 13 checks of the equation of state of the Kohn-Sham gas
 - `Revision/dark_sector/dirac16complex/reports/independent-checks.json`: the 9 checks of the independent free-gas computation
 - `Revision/dark_sector/dirac16complex00/eos-theory.json`: the models M1 to M5 of dirac16complex00, their parameters and the Unite values
@@ -38,7 +39,7 @@ The notebook has 22 cells (13 markdown cells and 9 code cells) in these sections
 - 12. The comparison with the Unite values
 - 13. What this notebook showed
 
-It prints 27 PASS lines (one per check), 23 RESULT lines (key numbers) and draws 5 figures.
+It prints 28 PASS lines (one per check), 23 RESULT lines (key numbers) and draws 5 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -209,7 +210,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS every figure file of this notebook exists
-ALL 27 CHECKS PASSED (notebook 22b)
+ALL 28 CHECKS PASSED (notebook 22b)
 ```
 
 and the notebook must show 5 figures below the cells that draw them.
@@ -246,6 +247,9 @@ Every check prints a PASS line (a check that fails stops the notebook with an As
 ```text
 In [2]  PASS all 30 checks of the report derive are PASS
 In [2]       reproduces Revision/dark_sector/dirac16complex/reports/derivation-checks.json, all
+In [2]      checks
+In [2]  PASS all 5 checks of the report history are PASS
+In [2]       reproduces Revision/dark_sector/dirac16complex/reports/ks-history-run.json, all
 In [2]      checks
 In [2]  PASS all 13 checks of the report eos are PASS
 In [2]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, all checks
@@ -358,7 +362,7 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS every figure file of this notebook exists
-ALL 27 CHECKS PASSED (notebook 22b)
+ALL 28 CHECKS PASSED (notebook 22b)
 ```
 
 ### 3.4 Figures
@@ -369,7 +373,7 @@ The notebook shows 5 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/22b_2_bulk_and_brane_bands.png` (933 x 579 pixels): Which quanta of dirac16complex behave like dark matter. Horizontal axis $a_4$ from $-3$ to 4, vertical axis $w_{eff}$ under definitions A and B (a pure number). Orange: one level of the massive bulk band falls from 0.24 toward the dust value 0 (dotted), the dark-matter-like law. Blue: a brane-band level of the same shell tends to the radiation value 1/3 (dashed). Green, thick: the computed Kohn-Sham gas, which fills only the brane band and is radiation-like. The computed ground states do not populate the bulk band.
 - `Revision/textbook/figures/22b_3_condensate_ratio.png` (918 x 587 pixels): The constant ratio $p/\rho = u/(2 + u)$ of a homogeneous condensate against $u = \lambda S/m$ (horizontal axis, a pure number; the ratio has a pole at $u = -2$). The orange point is the value $u = -382/441$ CHOSEN so that the ratio equals the Unite constant $w = -0.764$: one parameter for one number, not a prediction. The red band is the phantom window. The observer does not see this ratio: the dilution gives $w_{eff} = 0$ under A and B (dashed) and $-1$ under C (dotted), constant in time.
 - `Revision/textbook/figures/22b_4_mixtures_against_unite.png` (938 x 583 pixels): Mixtures of the computed Kohn-Sham gas N688_lam0 with a condensate, under definition C, against the observer scale factor $a$ (horizontal axis, $a = 1$ today, taken at $a_4 = 2$); vertical axis $w_{eff}$ (a pure number). Each coloured curve has another gas share today; the share 0.437 is CHOSEN so that $w_{eff} = -0.861$ today. Every curve that contains condensate falls toward the condensate value $-1$ (dotted) as $a$ grows: freezing, $w_a > 0$; the pure gas (share 1) rises only slightly. The Unite CPL line (dashed) rises steeply instead: $w_a = -0.60$. No share gives the Unite slope.
-- `Revision/textbook/figures/22b_5_models_against_unite.png` (1171 x 533 pixels): The models of dirac16complex00 under definition C against the observer scale factor $a$ from 1/3 to 1 (horizontal axes). Left: $w_{eff}$ (a pure number) of M2 to M5 and the Unite CPL line (dashed). M2 rises (freezing), M3 and M4 fall toward $-1$ (thawing) but stay above $-1$ (dotted); the tangent of M4 equals the Unite line at $a = 1$ because its two parameters were CHOSEN for that. Only M5 crosses $-1$, at $a = 0.779$, and only because of its ghost-like part. Right: the energy densities of the three parts of M5 (total 1 at $a = 1$); the ghost-like part is negative, $-0.3/a$. Every match is by construction, NOT a prediction.
+- `Revision/textbook/figures/22b_5_models_against_unite.png` (1171 x 533 pixels): The models of dirac16complex00 under definition C against the observer scale factor $a$ from 1/3 to 1 (horizontal axes). Left: $w_{eff}$ (a pure number) of M2 to M5 and the Unite CPL line (dashed). As $a$ grows, M2 falls toward $-1$ (freezing, $w_a > 0$); M3 and M4 rise away from $-1$ (thawing, $w_a < 0$) and stay above $-1$ (dotted) at every $a$. M2, M3 and M4 pass through $-0.861$ at $a = 1$; the tangent of M4 equals the Unite line at $a = 1$ because its two parameters were CHOSEN for that. M5 ends at $-0.8396$: its two parameters were CHOSEN so that its least-squares fit over $a$ from 1/2 to 1, not its value today, equals the Unite pair. Only M5 crosses $-1$, at $a = 0.779$, and only because of its ghost-like part. Right: the energy densities of the three parts of M5 (total 1 at $a = 1$); the ghost-like part is negative, $-0.3/a$. Every match is by construction, NOT a prediction.
 
 ## 4. Side effects
 
@@ -379,7 +383,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/22b.captions.json` | 3114 | `5f786eef3cb17db65a9172e43263b9744a17429cd13538f56b033a54ddbc4cbd` |
+| `Revision/textbook/figures/22b.captions.json` | 3377 | `bdcddf89b08e242c893c531111fc580e311165ddd04c5f5f4d3f08988987a512` |
 | `Revision/textbook/figures/22b_1_gas_three_definitions.png` | 101764 | `485e6e482c98b49a99aeeb35e20e3eec9f888ffdf9ab20bc426db42c0f1d3059` |
 | `Revision/textbook/figures/22b_2_bulk_and_brane_bands.png` | 50094 | `527213c957960fccdbc0f6f845540a692fe880d8fa1fc4febb0c1f81b91cb0ef` |
 | `Revision/textbook/figures/22b_3_condensate_ratio.png` | 40447 | `dd624427c00951f53f739939aaf602349a897846fc1506f37a99fe18e9046c46` |
@@ -407,8 +411,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 3.3 s, peak memory of the kernel process 148 MiB;
-- the check run: 2.9 s, peak memory of the kernel process 148 MiB.
+- the build run: 12.7 s, peak memory of the kernel process 148 MiB;
+- the check run: 5.7 s, peak memory of the kernel process 148 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -420,9 +424,9 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/22b_dark_sector.ipynb`: `479f1ad36243a87c194183e5ef17d97ade9958bd259195ae2add5dc39960fba5`
-- `Revision/textbook/notebooks/src/22b_dark_sector.py`: `5a846a19f569122e23fc1eab97d25b979a402b72568cac69b9fe5b9da9a367b9`
-- `Revision/textbook/figures/22b.captions.json`: `5f786eef3cb17db65a9172e43263b9744a17429cd13538f56b033a54ddbc4cbd`
+- `Revision/textbook/notebooks/22b_dark_sector.ipynb`: `a04aee1be6fa07e22bf270d75f64c98c7ac9e1b64c3d050433be2b7b3522019e`
+- `Revision/textbook/notebooks/src/22b_dark_sector.py`: `d1b9fe30182d9d4a1fedf4d96b961d64977ed05725622887aad73ed5826cad3a`
+- `Revision/textbook/figures/22b.captions.json`: `bdcddf89b08e242c893c531111fc580e311165ddd04c5f5f4d3f08988987a512`
 - `Revision/textbook/figures/22b_1_gas_three_definitions.png`: `485e6e482c98b49a99aeeb35e20e3eec9f888ffdf9ab20bc426db42c0f1d3059`
 - `Revision/textbook/figures/22b_2_bulk_and_brane_bands.png`: `527213c957960fccdbc0f6f845540a692fe880d8fa1fc4febb0c1f81b91cb0ef`
 - `Revision/textbook/figures/22b_3_condensate_ratio.png`: `dd624427c00951f53f739939aaf602349a897846fc1506f37a99fe18e9046c46`
@@ -435,4 +439,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":148.0,"seconds":3.3},"check":{"date":"2026-10-08","files":6,"peak_mb":148.0,"result":"passed","seconds":2.9},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":148.0,"seconds":12.7},"check":{"date":"2026-10-08","files":6,"peak_mb":148.0,"result":"passed","seconds":5.7},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

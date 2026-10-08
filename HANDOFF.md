@@ -596,9 +596,10 @@ D. Stage 4: cross-check final state 63 checks, 1 failed (canonical_eigenvalues, 
    Stage-4 row).  UPDATE 2026-10-08 (stage4-fix): analysed and fixed in the code, erratum
    E4.14 of handoff/specs/STAGE4_SPEC.md: (a) the eigenvalue tolerance gets the measured Rust
    grid change |eps(601) - eps(301)| level by level (as E4.12 for the scalars; Rust converges
-   to the reference: 2.195e-6, 1.83e-7, 2.6e-8 at 301/601/1201 points); (b) the reference
-   Delta-SCF builds the occupations of every grid level from that level's own ground state
-   (+4.4e-7 bias of the smeared run removed; integer runs bit-identical); 7 new tests in
+   to the reference: 2.195e-6, 1.83e-7, 2.6e-8 at 301/601/1201 points); (b) for Fermi-Dirac
+   (smeared) occupations the reference Delta-SCF builds the occupations of every grid level
+   from that level's own ground state (+4.4e-7 bias of the smeared run removed; integer runs
+   keep the old code path, bit-identical); 7 new tests in
    tests/test_d16c_kohn_sham_reference.py.  In a scratch copy (stage4-fix) the full checker
    gives 63 checks, 0 failed (eigenvalues 0.716, Delta-SCF 0.79) and the notebook gauntlet 60
    of 60.  NOT yet in the repository (two blockers for the lead/user): the reference rerun of

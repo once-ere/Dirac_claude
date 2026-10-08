@@ -209,14 +209,17 @@ E4.14 (2026-10-08) Two causes of the last cross-check failure, fixed in the code
      Rust levels converge to the reference; |601 - 301| <= 2.01e-6.  The check
      canonical_eigenvalues went from ratio 2.08 (63 checks, 1 failed) to 0.716 (63 checks,
      0 failed).
-     (b) Reference Delta-SCF: ks_reference_solver.delta_scf builds the constrained occupations
-     of EVERY grid level from that level's own ground state, as the Rust scf.rs delta_scf (each
-     Rust run is one grid).  Before, the finest level's occupations were frozen on all three
-     levels; for a smeared run the Fermi-Dirac weights depend on the grid (f = 0.5264526 at
-     L/480 against 0.5265879 in the continuum), which leaves an O(h_finest^2) bias in E_1 that
-     the extrapolation does not remove: estimated +4.4e-7 m on m1_L3_N1016_lamm2_T0 (corrected
-     value about 0.0436195131 against the Rust 301/601/1201 extrapolation 0.0436195197).
-     Integer-occupation runs are bit-identical (every other Stage-4 run).  A smeared run records
+     (b) Reference Delta-SCF: for Fermi-Dirac occupations (T = 0 smearing or T > 0),
+     ks_reference_solver.delta_scf builds the constrained occupations of EVERY grid level from
+     that level's own ground state, as the Rust scf.rs delta_scf (each Rust run is one grid;
+     the HOMO/LUMO groups must agree on all levels as key sets, else RuntimeError).  Before,
+     the finest level's occupations were frozen on all three levels; for a smeared run the
+     Fermi-Dirac weights depend on the grid (f = 0.5264526 at L/480 against 0.5265879 in the
+     continuum), which leaves an O(h_finest^2) bias in E_1 that the extrapolation does not
+     remove: estimated +4.4e-7 m on m1_L3_N1016_lamm2_T0 (corrected value about 0.0436195131
+     against the Rust 301/601/1201 extrapolation 0.0436195197).  Integer (aufbau) occupations
+     do not depend on the grid and keep the old code path (the finest level's dict on every
+     level), so every other Stage-4 run is unchanged bit for bit.  A smeared run records
      excited.deltaSCF.constrainedOccupations, and --resume recomputes a smeared run that lacks
      it (tests DeltaScfOccupationTests).  OPEN: the committed reference run
      m1_L3_N1016_lamm2_T0 (Delta-SCF 0.0436199531) predates rule (b); its rerun takes about

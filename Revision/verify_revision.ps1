@@ -34,32 +34,32 @@
 #
 # Steps (dependency order; expected wall time on the development machine, Windows 11, 24 threads, from the
 # folder READMEs and provenance files or measured by this gate on 2026-10-08; "long" = skipped by --fast):
-#   algebra-wolfram                       15 s
-#   algebra-sympy                         20 s
+#   algebra-wolfram                       10 s
+#   algebra-sympy                          5 s
 #   gkd-rust-build                        60 s
-#   gkd-rust-lovelock                     30 s
+#   gkd-rust-lovelock                     15 s
 #   gkd-rust-selftest                    900 s  long
 #   gkd-wolfram                          110 s
-#   gkd-sympy                             60 s
-#   gkd-notebook-extract                  60 s
+#   gkd-sympy                             30 s
+#   gkd-notebook-extract                  10 s
 #   gkd-notebook-digest                    5 s
-#   gkd-notebook-image                    60 s
+#   gkd-notebook-image                    10 s
 #   gkd-author-extract                   120 s
 #   gkd-author-compare                    60 s
 #   theory-wolfram                      2700 s  long
 #   theory-wolfram-scope                  60 s
 #   theory-sympy                         240 s
-#   theory-sympy-scope                    60 s
+#   theory-sympy-scope                     5 s
 #   theory-compare                         2 s
 #   pairing-wolfram                      280 s
-#   pairing-sympy                         60 s
+#   pairing-sympy                        240 s
 #   a4-wolfram                            70 s
 #   a4-sympy                              30 s
-#   a4-ks-source-conditions               10 s
+#   a4-ks-source-conditions                5 s
 #   a4-ks-source                          20 s
-#   a4-ks-source-unittest                 60 s
-#   ks-theory-wolfram                     45 s
-#   ks-theory-sympy                       30 s
+#   a4-ks-source-unittest                 30 s
+#   ks-theory-wolfram                     60 s
+#   ks-theory-sympy                       60 s
 #   ks-rust-build                         60 s
 #   ks-rust-test                          60 s
 #   ks-rust-canonical                    250 s
@@ -83,17 +83,17 @@
 #   dark16-independent                   180 s
 #   dark00-derive                         30 s
 #   dark00-independent                    30 s
-#   dark00-unittest                      120 s
+#   dark00-unittest                       30 s
 #   lead-emt-divergence                   10 s
 #   lead-einstein-gauss-bonnet            20 s
 #   lead-charge-conjugation               15 s
 #   notebooks-check                       90 s
-#   pdf-dirac16complex-field-theory       90 s
-#   pdf-dirac16complex00-field-theory     90 s
-#   pdf-pair-creation-proofs              90 s
-#   pdf-kohn-sham-deflating-field         90 s
-#   pdf-dark-sector-hypotheses            90 s
-#   pdf-lovelock-gkd                      90 s
+#   pdf-dirac16complex-field-theory       30 s
+#   pdf-dirac16complex00-field-theory     30 s
+#   pdf-pair-creation-proofs              30 s
+#   pdf-kohn-sham-deflating-field         30 s
+#   pdf-dark-sector-hypotheses            30 s
+#   pdf-lovelock-gkd                      30 s
 #   committed-unchanged                   10 s  always
 #   reports-pass                           5 s  always
 #   unit-tests                           150 s
@@ -185,32 +185,32 @@ New-Item -ItemType Directory -Force -Path $gateDirectory, "build/logs/revision" 
 $stepsFile = "$gateDirectory/steps.txt"
 $auditScript = "$gateDirectory/gate_audit.py"
 $stepsTable = @'
-algebra-wolfram|15|0|-|Revision/algebra/gammas.json,Revision/algebra/reports/wolfram-algebra.json|Revision/algebra/reports/wolfram-algebra.json|{wolframscript} -file Revision/algebra/wolfram/verify_algebra.wls
-algebra-sympy|20|0|-|Revision/algebra/reports/python-algebra.json,Revision/algebra/reports/python-gammas.json|Revision/algebra/reports/python-algebra.json|{python} Revision/algebra/python/check_algebra.py
+algebra-wolfram|10|0|-|Revision/algebra/gammas.json,Revision/algebra/reports/wolfram-algebra.json|Revision/algebra/reports/wolfram-algebra.json|{wolframscript} -file Revision/algebra/wolfram/verify_algebra.wls
+algebra-sympy|5|0|-|Revision/algebra/reports/python-algebra.json,Revision/algebra/reports/python-gammas.json|Revision/algebra/reports/python-algebra.json|{python} Revision/algebra/python/check_algebra.py
 gkd-rust-build|60|0|-|-|-|{cargo} build --release --manifest-path Revision/gkd_lovelock/code/Cargo.toml
-gkd-rust-lovelock|30|0|-|Revision/gkd_lovelock/results/curvature.json,Revision/gkd_lovelock/results/lovelock-tensors.json,Revision/gkd_lovelock/results/lovelock-components.md,Revision/gkd_lovelock/results/lovelock-report.json|Revision/gkd_lovelock/results/lovelock-report.json|{gkd_exe} lovelock --output Revision/gkd_lovelock/results --brute-force-k2
+gkd-rust-lovelock|15|0|-|Revision/gkd_lovelock/results/curvature.json,Revision/gkd_lovelock/results/lovelock-tensors.json,Revision/gkd_lovelock/results/lovelock-components.md,Revision/gkd_lovelock/results/lovelock-report.json|Revision/gkd_lovelock/results/lovelock-report.json|{gkd_exe} lovelock --output Revision/gkd_lovelock/results --brute-force-k2
 gkd-rust-selftest|900|1|-|Revision/gkd_lovelock/results/gkd-selftest.json|Revision/gkd_lovelock/results/gkd-selftest.json|{gkd_exe} gkd-selftest --exhaustive-max 4 --output Revision/gkd_lovelock/results
 gkd-wolfram|110|0|-|Revision/gkd_lovelock/results/wolfram-gkd-report.json|Revision/gkd_lovelock/results/wolfram-gkd-report.json|{wolframscript} -file Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls Revision/gkd_lovelock/results/wolfram-gkd-report.json
-gkd-sympy|60|0|-|Revision/gkd_lovelock/results/python-lovelock-report.json|Revision/gkd_lovelock/results/python-lovelock-report.json|{python} Revision/gkd_lovelock/verification/check_lovelock_gkd.py
-gkd-notebook-extract|60|0|-|-|-|{wolframscript} -file Revision/gkd_lovelock/notebook_reading/lovelock_extract_nb_inputs.wls
+gkd-sympy|30|0|-|Revision/gkd_lovelock/results/python-lovelock-report.json|Revision/gkd_lovelock/results/python-lovelock-report.json|{python} Revision/gkd_lovelock/verification/check_lovelock_gkd.py
+gkd-notebook-extract|10|0|-|-|-|{wolframscript} -file Revision/gkd_lovelock/notebook_reading/lovelock_extract_nb_inputs.wls
 gkd-notebook-digest|5|0|-|Revision/gkd_lovelock/results/notebook-input-cells.txt|-|{python} Revision/gkd_lovelock/notebook_reading/lovelock_digest_nb_inputs.py
-gkd-notebook-image|60|0|-|Revision/gkd_lovelock/results/notebook-in68-image.png|-|{wolframscript} -file Revision/gkd_lovelock/notebook_reading/lovelock_export_nb_image.wls
+gkd-notebook-image|10|0|-|Revision/gkd_lovelock/results/notebook-in68-image.png|-|{wolframscript} -file Revision/gkd_lovelock/notebook_reading/lovelock_export_nb_image.wls
 gkd-author-extract|120|0|-|Revision/gkd_lovelock/comparison/author-curvature-outputs.json|-|{wolframscript} -file Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls
 gkd-author-compare|60|0|-|Revision/gkd_lovelock/comparison/author-comparison-report.json|Revision/gkd_lovelock/comparison/author-comparison-report.json|{python} Revision/gkd_lovelock/comparison/compare_with_author.py
 theory-wolfram|2700|1|-|Revision/theory/field-theory.json,Revision/theory/reports/wolfram-field-theory.json|Revision/theory/reports/wolfram-field-theory.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls
 theory-wolfram-scope|60|0|-|Revision/theory/reports/wolfram-scope.json|Revision/theory/reports/wolfram-scope.json|{wolframscript} -file Revision/theory/wolfram/verify_scope.wls
 theory-sympy|240|0|-|Revision/theory/reports/python-field-theory.json|Revision/theory/reports/python-field-theory.json|{python} Revision/theory/python/check_field_theory.py
-theory-sympy-scope|60|0|-|Revision/theory/reports/python-scope.json|Revision/theory/reports/python-scope.json|{python} Revision/theory/python/check_scope.py
+theory-sympy-scope|5|0|-|Revision/theory/reports/python-scope.json|Revision/theory/reports/python-scope.json|{python} Revision/theory/python/check_scope.py
 theory-compare|2|0|-|-|-|{audit} json-equals Revision/theory/reports/python-field-theory.json comparison_with_wolfram.status agree
 pairing-wolfram|280|0|-|Revision/pairing/pairing-theory.json,Revision/pairing/reports/wolfram-pairing.json|Revision/pairing/reports/wolfram-pairing.json|{wolframscript} -file Revision/pairing/wolfram/verify_pairing.wls
-pairing-sympy|60|0|-|Revision/pairing/reports/python-pairing.json|Revision/pairing/reports/python-pairing.json|{python} Revision/pairing/python/check_pairing.py
+pairing-sympy|240|0|-|Revision/pairing/reports/python-pairing.json|Revision/pairing/reports/python-pairing.json|{python} Revision/pairing/python/check_pairing.py
 a4-wolfram|70|0|-|Revision/field_equations_a4/a4-equations.json,Revision/field_equations_a4/reports/wolfram-a4-report.json|Revision/field_equations_a4/reports/wolfram-a4-report.json|{wolframscript} -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
 a4-sympy|30|0|-|Revision/field_equations_a4/reports/python-a4-report.json,Revision/field_equations_a4/reports/a4-equations-summary.md|Revision/field_equations_a4/reports/python-a4-report.json|{python} Revision/field_equations_a4/python/check_field_equations_a4.py
-a4-ks-source-conditions|10|0|-|Revision/field_equations_a4/reports/ks-source-conditions.json|Revision/field_equations_a4/reports/ks-source-conditions.json|{python} Revision/field_equations_a4/python/check_ks_source_conditions.py
+a4-ks-source-conditions|5|0|-|Revision/field_equations_a4/reports/ks-source-conditions.json|Revision/field_equations_a4/reports/ks-source-conditions.json|{python} Revision/field_equations_a4/python/check_ks_source_conditions.py
 a4-ks-source|20|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|Revision/field_equations_a4/ks_source/reports/ks-source-a4.json|{python} Revision/field_equations_a4/ks_source/ks_source_a4.py
-a4-ks-source-unittest|60|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|-|{python} -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
-ks-theory-wolfram|45|0|-|Revision/kohn_sham/ks-theory.json,Revision/kohn_sham/reports/ks-theory-wolfram.json|Revision/kohn_sham/reports/ks-theory-wolfram.json|{wolframscript} -file Revision/kohn_sham/theory/verify_ks_theory.wls
-ks-theory-sympy|30|0|-|Revision/kohn_sham/reports/ks-theory-python.json|Revision/kohn_sham/reports/ks-theory-python.json|{python} Revision/kohn_sham/theory/check_ks_theory.py
+a4-ks-source-unittest|30|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|-|{python} -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
+ks-theory-wolfram|60|0|-|Revision/kohn_sham/ks-theory.json,Revision/kohn_sham/reports/ks-theory-wolfram.json|Revision/kohn_sham/reports/ks-theory-wolfram.json|{wolframscript} -file Revision/kohn_sham/theory/verify_ks_theory.wls
+ks-theory-sympy|60|0|-|Revision/kohn_sham/reports/ks-theory-python.json|Revision/kohn_sham/reports/ks-theory-python.json|{python} Revision/kohn_sham/theory/check_ks_theory.py
 ks-rust-build|60|0|-|-|-|{cargo} build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml
 ks-rust-test|60|0|-|-|-|{cargo} test --release --manifest-path Revision/kohn_sham/solver/Cargo.toml
 ks-rust-canonical|250|0|-|Revision/kohn_sham/results,Revision/kohn_sham/reports/ks-rust-solver.json|Revision/kohn_sham/reports/ks-rust-solver.json|{ks_solver} all --out Revision/kohn_sham/results --report Revision/kohn_sham/reports/ks-rust-solver.json
@@ -234,17 +234,17 @@ dark16-eos|5|0|-|Revision/dark_sector/dirac16complex/outputs/eos-history.csv,Rev
 dark16-independent|180|0|-|Revision/dark_sector/dirac16complex/outputs/independent-free-gas.json,Revision/dark_sector/dirac16complex/reports/independent-checks.json|Revision/dark_sector/dirac16complex/reports/independent-checks.json|{python} Revision/dark_sector/dirac16complex/independent/independent_free_gas.py
 dark00-derive|30|0|-|Revision/dark_sector/dirac16complex00/eos-theory.json,Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json|Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json|{python} Revision/dark_sector/dirac16complex00/python/derive_eos.py
 dark00-independent|30|0|-|Revision/dark_sector/dirac16complex00/results/independent-numerics.json,Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json|Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json|{python} Revision/dark_sector/dirac16complex00/python/independent_numerics.py
-dark00-unittest|120|0|-|Revision/dark_sector/dirac16complex00|-|{python} -m unittest Revision/dark_sector/dirac16complex00/tests/test_dark_sector_dirac16complex00.py -v
+dark00-unittest|30|0|-|Revision/dark_sector/dirac16complex00|-|{python} -m unittest Revision/dark_sector/dirac16complex00/tests/test_dark_sector_dirac16complex00.py -v
 lead-emt-divergence|10|0|-|Revision/lead_checks/reports/emt-divergence-and-spin-connection.json|Revision/lead_checks/reports/emt-divergence-and-spin-connection.json|{python} Revision/lead_checks/emt_divergence_and_spin_connection.py
 lead-einstein-gauss-bonnet|20|0|-|Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json|Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json|{python} Revision/lead_checks/einstein_gauss_bonnet_a4.py
 lead-charge-conjugation|15|0|-|Revision/lead_checks/reports/charge-conjugation-and-u1.json|Revision/lead_checks/reports/charge-conjugation-and-u1.json|{python} Revision/lead_checks/charge_conjugation_and_u1.py
 notebooks-check|90|0|-|Revision/notebooks|-|{audit} notebooks Revision/notebooks/tools/build_notebooks.py
-pdf-dirac16complex-field-theory|90|0|-|Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.tex,Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md --developer-layout --specifications Revision/pdf-specifications.json
-pdf-dirac16complex00-field-theory|90|0|-|Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.tex,Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md --developer-layout --specifications Revision/pdf-specifications.json
-pdf-pair-creation-proofs|90|0|-|Revision/docs/PAIR_CREATION_PROOFS.tex,Revision/docs/PAIR_CREATION_PROOFS.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/PAIR_CREATION_PROOFS.md --developer-layout --specifications Revision/pdf-specifications.json
-pdf-kohn-sham-deflating-field|90|0|-|Revision/docs/KOHN_SHAM_DEFLATING_FIELD.tex,Revision/docs/KOHN_SHAM_DEFLATING_FIELD.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/KOHN_SHAM_DEFLATING_FIELD.md --developer-layout --specifications Revision/pdf-specifications.json
-pdf-dark-sector-hypotheses|90|0|-|Revision/docs/DARK_SECTOR_HYPOTHESES.tex,Revision/docs/DARK_SECTOR_HYPOTHESES.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/DARK_SECTOR_HYPOTHESES.md --developer-layout --specifications Revision/pdf-specifications.json
-pdf-lovelock-gkd|90|0|-|Revision/docs/LOVELOCK_GKD.tex,Revision/docs/LOVELOCK_GKD.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/LOVELOCK_GKD.md --developer-layout --specifications Revision/pdf-specifications.json
+pdf-dirac16complex-field-theory|30|0|-|Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.tex,Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md --developer-layout --specifications Revision/pdf-specifications.json
+pdf-dirac16complex00-field-theory|30|0|-|Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.tex,Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md --developer-layout --specifications Revision/pdf-specifications.json
+pdf-pair-creation-proofs|30|0|-|Revision/docs/PAIR_CREATION_PROOFS.tex,Revision/docs/PAIR_CREATION_PROOFS.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/PAIR_CREATION_PROOFS.md --developer-layout --specifications Revision/pdf-specifications.json
+pdf-kohn-sham-deflating-field|30|0|-|Revision/docs/KOHN_SHAM_DEFLATING_FIELD.tex,Revision/docs/KOHN_SHAM_DEFLATING_FIELD.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/KOHN_SHAM_DEFLATING_FIELD.md --developer-layout --specifications Revision/pdf-specifications.json
+pdf-dark-sector-hypotheses|30|0|-|Revision/docs/DARK_SECTOR_HYPOTHESES.tex,Revision/docs/DARK_SECTOR_HYPOTHESES.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/DARK_SECTOR_HYPOTHESES.md --developer-layout --specifications Revision/pdf-specifications.json
+pdf-lovelock-gkd|30|0|-|Revision/docs/LOVELOCK_GKD.tex,Revision/docs/LOVELOCK_GKD.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/LOVELOCK_GKD.md --developer-layout --specifications Revision/pdf-specifications.json
 committed-unchanged|10|A|-|-|-|{audit} unchanged
 reports-pass|5|A|-|-|-|{audit} reports
 unit-tests|150|0|-|-|-|{audit} unittest Revision/tests test_universes_in_pairs_textbook
