@@ -1,0 +1,17 @@
+# Revision/notebooks/requirements.txt
+#
+# The Python packages of the Revision notebooks (Revision/notebooks/*.ipynb), pinned to the exact
+# versions with which the committed notebooks were built and executed (Python 3.14.5 on
+# Windows 11, 2026-10-08).  Python 3.12 or newer is required.  pip installs the packages these
+# need.  The notebooks use no scipy, no sympy and no Wolfram Language; they need the Rust
+# toolchain (cargo) for the Revision Rust programs they run.
+#
+# Install into a private environment OUTSIDE the repository (see section 2 of every notebook):
+#     <environment python> -m pip install -r Revision/notebooks/requirements.txt
+numpy==2.4.6
+matplotlib==3.11.0
+jupyterlab==4.4.10
+nbformat==5.10.4
+nbclient==0.10.2
+ipykernel==7.1.0
+nbconvert==7.16.6

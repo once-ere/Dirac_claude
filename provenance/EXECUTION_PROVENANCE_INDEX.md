@@ -65,7 +65,17 @@ Meaning of the columns:
 | 22 | handoff-probes (fast) | `handoff/tools/probe1.wls`<br>`handoff/tools/probe2.wls` | `handoff/tools/WOLFRAMSCRIPT_PROVENANCE.md` | 6.2 (2026-10-07), 6.3 | no checks; the printed lines are compared with part 4 | yes (printed output) | about 3 to 10 s each (part 4.5) | probe1's printed line 15 is garbled (operator precedence; part 4.3); the statement it was meant to show is true; the throw-away probe is kept unchanged on purpose, as a record |
 | 23 | dirac-matrices (fast) | `provenance/dirac_matrices/extract_from_author_notebook.wls`<br>`provenance/dirac_matrices/extract_repository_wolfram_gammas.wls` | `provenance/dirac matrices.md` | its section "How to reproduce" (2026-10-08) | 67 of 67 exact checks (`build_dirac_matrices_md.py`) | yes (both JSON files and the Markdown file, `--check`) | 4 to 11 s and 6 to 16 s for the two extractions; 13 to 22 s for the builder | none ("Instruction followed: yes") |
 
-## 4. The notebooks of the textbook "Universes in Pairs"
+## 4. The Revision notebooks (`Revision/notebooks/`)
+
+Each is built and checked by `Revision/notebooks/tools/build_notebooks.py` (`check` re-executes it in a fresh folder and
+compares it byte for byte with the committed notebook); `Revision/tests/test_revision_notebooks.py` re-executes every one
+with `REVISION_NOTEBOOKS_FULL=1`.
+
+| # | set | scripts | provenance file | latest record | checks | byte identity | run time | open discrepancies |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 24 | revnb-lovelock-gkd | `Revision/notebooks/lovelock_gkd.ipynb` | `Revision/notebooks/lovelock_gkd.PROVENANCE.md` | part 7 (2026-10-08) | 40 `PASS` lines, 0 `FAIL` (the Rust run 19/19, the GKD comparison over 266304 index pairs, the committed records 19/19, 49/49, 29/29) | yes (two builds and a `check` re-execution) | about 26 s to 91 s per execution (part 5) | none (macOS and Linux instructions written but executed only on Windows 11) |
+
+## 5. The notebooks of the textbook "Universes in Pairs"
 
 The 89 notebooks `Revision/textbook/notebooks/<name>.ipynb` are not listed one by one: each has its own
 execution-provenance file `Revision/textbook/notebooks/<name>.PROVENANCE.md`, written by the notebook
