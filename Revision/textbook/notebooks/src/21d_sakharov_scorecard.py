@@ -202,7 +202,7 @@ CELLS = [
     $Q$ obeys an exact local conservation law at every point of the patch
     $0 < z < \pi/2$ (off the brane $z = \pi/2$) in the author's metric, for every
     history $a_4(x_4)$, in particular the one in which the three extra times
-    $x5, x6, x7$ deflate exponentially: inside the patch charge can only flow from
+    $x5, x6, x7$ deflate exponentially: inside the patch, charge can only flow from
     one place to another. The total $Q$ of a universe is constant only if no charge
     flows through the brane $z = \pi/2$; this no-flux condition is ASSUMED, not
     derived. The notebook first teaches the three conditions on toy models and then
