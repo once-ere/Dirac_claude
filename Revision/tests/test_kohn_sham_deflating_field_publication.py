@@ -552,6 +552,71 @@ class QuotedNumbers(unittest.TestCase):
                  / (e_ks("N136_lamm1_a20", 3.0) - e_ks("N136_lam0_a20", 3.0)))
         expected.append(rf"about {plus:.0f} ($+\lambda_1$, value at $L = 5.5$) and {minus:.0f} "
                         rf"($-\lambda_1$, extrapolated)")
+        # the +-lambda_1 partners of N = 8 (fixed protocol, the record's step): largest relative deviation
+        # |E(+) + E(-)| / max(|E(+)|, |E(-)|) over every L where both converge (record: 1.0602e-12, 12 pairs)
+        deviations = []
+        for (state, length), row in table.items():
+            partner = table.get((state.replace("lamp1", "lamm1"), length))
+            if state.startswith("N8_lamp1") and partner:
+                plus_e, minus_e = float(row["E_KS"]), float(partner["E_KS"])
+                deviations.append(abs(plus_e + minus_e) / max(abs(plus_e), abs(minus_e)))
+        self.assertEqual(len(deviations), 12)
+        expected.append(rf"negatives of each other to ${max(deviations) * 1e12:.1f}\times10^{{-12}}$ relative at "
+                        rf"every $L$ where both converge")
+        # counts of the failing and of the not-established interacting states (sections 5 and 15.4)
+        expected += [f"for {len(open_limit)} of them the successive differences of $E_{{KS}}$",
+                     f"nor for the {len(open_limit)} interacting states whose successive differences",
+                     f"(it fails at some larger $L$ for {len(failing)} of the {len(interacting)} studied;"]
+        # the recorded states (section 15.2): ground states and the two Mermin states
+        states = record["analysis"]["fixed"]
+        ground = [s for s in states.values() if not s["T"]]
+        thermal = [s for s in states.values() if s["T"]]
+        self.assertEqual({s["N"] for s in ground}, {8, 136, 688})
+        self.assertEqual(len(thermal), 2)
+        self.assertEqual({s["N"] for s in thermal}, {136})
+        tags = {"lam0": "0", "lamp1": r"\lambda_1", "lamm1": r"-\lambda_1"}
+        mermin = "; ".join(rf"$\lambda = {tags[s['lambda_tag']]}$, $a_{{4,0}} = {s['a4']:g}$, $T = {s['T']:g}$"
+                           for s in thermal)
+        expected += [rf"of {len(states)} recorded states, the {len(ground)} ground states with "
+                     rf"$N \in \{{8, 136, 688\}}$",
+                     f"and two Mermin states of $N = 136$ ({mermin})"]
+        # the L grid, the checks of the report and the reference solver's L values
+        grid = record["Lvalues"]
+        steps = {round(b - a, 12) for a, b in zip(grid, grid[1:])}
+        self.assertEqual(len(steps), 1)
+        expected += [f"$L = {grid[0]:g}$ to ${grid[-1]:g}$ in steps of ${steps.pop():g}$",
+                     f"The dependence on the tip cutoff $L$ from {grid[0]:g} to {grid[-1]:g} of"]
+        checks = record["checks"]
+        self.assertTrue(all(c["verdict"] == "PASS" for c in checks))
+        self.assertEqual((record["summary"]["passed"], record["summary"]["total"]), (len(checks), len(checks)))
+        passed = f"{len(checks)} of {len(checks)} checks PASS"
+        expected += [f"$L = {grid[0]:g}$ to ${grid[-1]:g}$, {passed})",
+                     f"tip_convergence/tip-convergence.json`, {passed})",
+                     f"`Revision/kohn_sham/tip_convergence/`, {passed};"]
+        comparisons = record["reference"]["comparisons"]
+        self.assertTrue(comparisons and all(c["pass"] for c in comparisons))
+        reference_l = sorted({c["L"] for c in comparisons} | {j["L"] for j in record["reference"]["jobs"]})
+        self.assertEqual(len(reference_l), 2)
+        expected += [f"the reference solver agrees at $L = {reference_l[0]:g}$ and ${reference_l[1]:g}$",
+                     f"the reference at $L = {reference_l[0]:g}$ and ${reference_l[1]:g}$)"]
+        # the N = 8 states: only N8_lamm1_a20 is solved at every L; the other five fail from one common L
+        n8 = sorted(s for (p, s, q) in extra if p == "fixed" and q == "E_KS" and s.startswith("N8_") and "lam0" not in s)
+        reached = {s: max(length for (t, length) in table if t == s) for s in n8}
+        self.assertEqual([s for s in n8 if reached[s] == grid[-1]], ["N8_lamm1_a20"])
+        expected += [r"(extrapolated from $\lambda = -\lambda_1$ at $a_{4,0} = 2$, the only interacting $N = 8$ state "
+                     f"solved up to $L = {grid[-1]:g}$;"]
+        first = {float(extra[("fixed", s, "E_KS")]["first_failed_L"]) for s in n8 if s != "N8_lamm1_a20"}
+        self.assertEqual(len(first), 1)
+        expected.append(f"because their self-consistent iteration fails from $L = {first.pop():g}$)")
+        # N = 688 at a_{4,0} = 0: the KS gap closes (the occupied set changes) from the second L of the grid on
+        closed = min(length for (s, length), r in table.items() if s == "N688_lam0_a00" and float(r["KS_gap"]) == 0)
+        expected += [f"changes its occupied set from $L = {closed:g}$ on",
+                     f"from $L = {closed:g}$ on the $N = 688$"]
+        # "about one third": the recorded N = 8 interaction energy over its large-L value
+        ratio = (fixed("N8_lamm1_a20", "E_KS", "value_L3") / fixed("N8_lamm1_a20", "E_KS", "extrapolated_Linf"))
+        self.assertTrue(0.30 < ratio < 0.36, ratio)
+        expected += ["the recorded value is about one third of the large-$L$ value",
+                     "the recorded $N = 8$ interaction energy is about one third of its large-$L$ value"]
         for statement in expected:
             self.assertIn(statement, text, statement)
 
@@ -559,6 +624,24 @@ class QuotedNumbers(unittest.TestCase):
         # negative control: one quoted number of the study changed in a copy of the text must be detected
         with self.assertRaises(AssertionError):
             self.test_tip_convergence_numbers(self.text.replace("12.44507", "12.44508"))
+
+    def test_tip_convergence_counts_detect_a_changed_value(self):
+        # negative controls for the counts, deviations and L values of the study: each change must be detected
+        for old, new in (("1.1\\times10^{-12}$ relative", "1.2\\times10^{-12}$ relative"),
+                         ("for 7 of them", "for 6 of them"), ("nor for the 7 interacting", "nor for the 8 interacting"),
+                         ("13 of the 19 studied", "14 of the 19 studied"), ("of 29 recorded states", "of 28 recorded states"),
+                         ("the 27 ground states", "the 26 ground states"), ("$T = 0.02$)", "$T = 0.01$)"),
+                         ("$T = 0.05$;", "$T = 0.5$;"), ("in steps of $0.5$", "in steps of $0.25$"),
+                         ("7 of 7 checks PASS", "6 of 7 checks PASS"),
+                         ("agrees at $L = 3$ and $4$", "agrees at $L = 3$ and $5$"),
+                         ("fails from $L = 5$)", "fails from $L = 5.5$)"),
+                         ("changes its occupied set from $L = 3.5$", "changes its occupied set from $L = 4$"),
+                         ("the only interacting $N = 8$ state", "the only $N = 8$ state"),
+                         ("about one third of the large", "about one half of the large")):
+            with self.subTest(old=old):
+                self.assertIn(old, self.text)
+                with self.assertRaises(AssertionError):
+                    self.test_tip_convergence_numbers(self.text.replace(old, new))
 
     def test_theory_record(self):
         theory = load_json(KS_THEORY)
