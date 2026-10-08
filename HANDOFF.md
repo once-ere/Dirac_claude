@@ -147,6 +147,16 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4s CHAPTER 23 NOTES (2026-10-08 ~14:45)
+
+Chapter 23 and Notebook 23a written (tb-23; glossary agent and verifier running).  (1) 23a reads every other notebook's
+recorded check and the chapters, so it must be rebuilt LAST (after phase 3c), then chapter 23 regenerated.  (2) The chapter is
+generated from a template by <scratchpad>/phase3b/tb-23/gen.py (+ ch23.template.md, fills.json): move them into
+Revision/textbook/tools/chapter23/ with a repository-relative ROOT, and make the generator keep the glossary section (the glossary
+agent edits the chapter file, not the template).  (3) A whole-book test build at 20:45 UTC failed on two LaTeX warnings from other
+chapters (Overfull hbox 4.93 pt at .tex lines 788-795; 'Float too large for page by 3.5 pt' at input line 6381): find and fix
+before the final PDF.  (4) 23a writes Revision/textbook/data/23a_*.csv (new folder): check the assembler and the textbook test.
+
 ### 0.4r OLD STAGES 4 AND 5 (2026-10-08 ~14:30; user: complete every open stage)
 
 Old Stage 4: both root fixes and the checker follow-up committed (7baaf9e, 4ecfec5; tests 46/46; negative controls verified by
