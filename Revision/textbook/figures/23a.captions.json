@@ -1,0 +1,8 @@
+{
+ "23a_1_check_time_per_notebook.png": "The wall time in seconds of the last recorded nbkit check of every notebook of chapters 0 to 22 (one bar each, in book order), on a logarithmic vertical axis. Most notebooks take a few seconds; a few, which run the Rust programs or long numerical scans, take minutes.",
+ "23a_2_cumulative_check_time.png": "The share in percent of the total recorded check time taken by the slowest notebooks: the curve adds the check times up from the slowest notebook down. It rises steeply at first, because a few slow notebooks take a large part of the time, and then flattens.",
+ "23a_3_checks_per_chapter.png": "The number of checks of the notebooks of each chapter (the sum of the numbers n in their last lines ALL n CHECKS PASSED); horizontal axis the chapter, vertical axis the number of checks.",
+ "23a_4_figures_per_chapter.png": "The number of figures drawn by the notebooks of each chapter (the entries of their caption files); horizontal axis the chapter, vertical axis the number of figures.",
+ "23a_5_check_time_per_chapter.png": "The recorded nbkit check time in seconds of the notebooks of each chapter, added up; horizontal axis the chapter, vertical axis the seconds. This is the time one command per chapter needs on the development machine.",
+ "23a_6_gate_step_times.png": "The expected wall time in seconds of every step of the Revision gate, in the order the gate runs them, on a logarithmic vertical axis; red bars are the long steps that the option fast skips, blue bars all others. A few long Wolfram and Kohn-Sham steps take most of the time."
+}

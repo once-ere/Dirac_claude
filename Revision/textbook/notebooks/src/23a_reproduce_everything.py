@@ -249,14 +249,18 @@ CELLS = [
     ## 6. Where each notebook is printed in the book
 
     A notebook is placed in its chapter by a marker line: an HTML comment that holds the
-    word `NOTEBOOK` and the notebook's id, such as `NOTEBOOK 03b`. The book's assembler replaces the marker by two new sections: the run instructions,
+    word `NOTEBOOK` and the notebook's id, such as `NOTEBOOK 03b`. The book's assembler
+    replaces the marker by two new sections: the run instructions,
     numbered one more than the last section heading `### N.M` before the marker, and
-    then the complete text of the notebook. The next cell reads every chapter, finds
+    then the complete text of the notebook. The next cell reads chapters 0 to 22 (this
+    chapter 23 is left out, so that its own text cannot change the results), finds
     every marker and the heading before it, and checks that every notebook is placed
     exactly once, in the chapter of its own number.
     """),
     code(r'''
-    CHAPTERS = by_name(repository_file("Revision/textbook/chapters").glob("[0-9][0-9]-*.md"))
+    CHAPTERS = [path for path in by_name(repository_file("Revision/textbook/chapters")
+                                         .glob("[0-9][0-9]-*.md"))
+                if int(path.name[:2]) <= 22]  # the chapter files 00 to 22
     HEADING = re.compile(r"^### (\d+)\.(\d+) ")  # a section heading such as ### 3.4
     MARKER = re.compile(r"^<!-{2} NOTEBOOK (\w+) -->$")  # a notebook marker line
     PLACED = {}  # notebook id -> list of (chapter file name, section of its instructions)
@@ -438,9 +442,12 @@ CELLS = [
 
 
     def short_command(command):
-        """The first two words of a step command that are not options, as file names."""
+        """What a step runs: the script file for python and wolframscript, else the
+        first two words of the command that are not options."""
         words = [word.strip("{}").rsplit("/", 1)[-1] for word in command.split()
                  if not word.startswith("-")]
+        if words[0] in ("python", "wolframscript"):
+            return next(word for word in words[1:] if "." in word)
         return " ".join(words[:2])
 
 
@@ -535,14 +542,12 @@ CELLS = [
     code(r'''
     BLOCKS = {}  # chapter number -> its paragraphs and the outputs of its notebooks
     for chapter in CHAPTERS:
-        number = int(chapter.name[:2])
-        if number > 22:
-            continue  # chapter 23 itself is left out
+        number = int(chapter.name[:2])  # the chapter number, e.g. 5
         text = chapter.read_text(encoding="utf-8")
         blocks = [block for block in re.split(r"\n\s*\n", text) if block.strip()]
         for row in ROWS:
             if row["chapter"] == number:
-                notebook = json.loads((NOTEBOOKS / f"{row['name']}.ipynb").read_text(
+                notebook = json.loads((NOTEBOOKS / f"{row["name"]}.ipynb").read_text(
                     encoding="utf-8"))
                 for cell in notebook["cells"]:
                     outputs = [output.get("text", "") for output in cell.get("outputs", [])]

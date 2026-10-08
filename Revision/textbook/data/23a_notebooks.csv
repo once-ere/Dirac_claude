@@ -1,0 +1,91 @@
+id,chapter,title,checks,figures,date,result,seconds,section,builder
+00a,0,Checking the installation,9,2,2026-10-08,passed,3.6,0.11,Revision/textbook/notebooks/src/00a_check_installation.py
+00b,0,The eight directions and the author's metric: a first look,14,4,2026-10-08,passed,4.1,0.15,Revision/textbook/notebooks/src/00b_eight_directions.py
+00c,0,The honesty ledger: reading and checking the Revision record,18,4,2026-10-08,passed,3.4,0.19,Revision/textbook/notebooks/src/00c_honesty_ledger.py
+00d,0,"Why every run gives the same bytes: rounding, order, seeds and line ends",22,6,2026-10-08,passed,4.0,0.23,Revision/textbook/notebooks/src/00d_reproducible_runs.py
+01a,1,"Matrices, permutations and determinants",30,6,2026-10-08,passed,4.9,1.23,Revision/textbook/notebooks/src/01a_matrices_determinants.py
+01b,1,"Complex numbers, rotations and boosts",34,6,2026-10-08,passed,4.5,1.15,Revision/textbook/notebooks/src/01b_complex_rotations.py
+01c,1,The generalized Kronecker delta as a determinant,28,6,2026-10-08,passed,12.3,1.46,Revision/textbook/notebooks/src/01c_generalized_delta.py
+01d,1,Reproducing the GKD self-tests of the Revision record bit for bit,19,6,2026-10-08,passed,11.4,1.52,Revision/textbook/notebooks/src/01d_gkd_record_selftests.py
+01e,1,"Index notation, the summation convention and the metric",25,6,2026-10-08,passed,5.9,1.31,Revision/textbook/notebooks/src/01e_index_notation.py
+01f,1,"Numbers: fractions, real numbers, floating point and powers",26,6,2026-10-08,passed,5.0,1.7,Revision/textbook/notebooks/src/01f_numbers_and_powers.py
+01g,1,"Eigenvalues, eigenvectors and the signature (4,4)",30,9,2026-10-08,passed,5.8,1.39,Revision/textbook/notebooks/src/01g_eigenvalues_signature.py
+02a,2,"Euler, midpoint and RK4: the order of a method on a log-log plot",29,8,2026-10-08,passed,4.9,2.9,Revision/textbook/notebooks/src/02a_rk4_convergence.py
+02b,2,The shooting method: a vibrating string and a quantum well,16,8,2026-10-08,passed,5.0,2.15,Revision/textbook/notebooks/src/02b_shooting_quantum_well.py
+02c,2,"Partial derivatives, finite differences and the chain rule",17,6,2026-10-08,passed,5.3,2.21,Revision/textbook/notebooks/src/02c_partial_derivatives.py
+02d,2,Shooting two first-order equations with the Pruefer angle,19,8,2026-10-08,passed,5.8,2.26,Revision/textbook/notebooks/src/02d_pruefer_shooting.py
+03a,3,"The author's metric: signature, scale factors, warp and proper volumes",29,7,2026-10-08,passed,5.2,3.11,Revision/textbook/notebooks/src/03a_authors_metric.py
+03b,3,"The curvature of the author's metric: Christoffel, Riemann, Ricci, Einstein, Kretschmann",40,7,2026-10-08,passed,18.0,3.28,Revision/textbook/notebooks/src/03b_curvature.py
+03c,3,"Curvature from zero: the plane, the sphere, parallel transport and geodesics",16,5,2026-10-08,passed,4.6,3.20,Revision/textbook/notebooks/src/03c_sphere_curvature.py
+03d,3,"Free fall in the author's metric: conserved momenta, redshift, blueshift and the push along the hidden direction",23,5,2026-10-08,passed,6.4,3.33,Revision/textbook/notebooks/src/03d_free_fall.py
+04a,4,The author's gamma matrices T16 built from his formulas,28,6,2026-10-08,passed,4.5,4.6,Revision/textbook/notebooks/src/04a_t16_from_formulas.py
+04b,4,Square roots of quadratic forms: from Pauli and Dirac to the author's gammas,19,6,2026-10-08,passed,4.4,4.10,Revision/textbook/notebooks/src/04b_square_roots.py
+04c,4,"The 256 products of the author's gammas: Cl(4,4) is all real 16 by 16 matrices",19,8,2026-10-08,passed,6.0,4.14,Revision/textbook/notebooks/src/04c_256_products.py
+04d,4,"A second set of gammas from tensor products, and the change of basis to the author's T16",18,6,2026-10-08,passed,5.4,4.18,Revision/textbook/notebooks/src/04d_tensor_gammas.py
+05a,5,"The matrices C, Gamma and B built from the author's gammas",26,6,2026-10-08,passed,4.0,5.8,Revision/textbook/notebooks/src/05a_c_gamma_b.py
+05b,5,"Commutants: Pin(4,4) acts irreducibly, Spin(4,4) splits into two inequivalent halves",17,5,2026-10-08,passed,9.6,5.15,Revision/textbook/notebooks/src/05b_commutants.py
+05c,5,The charge-conjugation matrices calC_+ = C and calC_- = Gamma C,20,9,2026-10-08,passed,6.1,5.31,Revision/textbook/notebooks/src/05c_charge_conjugation.py
+05d,5,"Spin(4,4) transformations: rotations, boosts, reflections and the double cover",20,6,2026-10-08,passed,4.4,5.20,Revision/textbook/notebooks/src/05d_spin_transformations.py
+05e,5,"The quantised field: reordering operators, normal ordering and the conjugated bilinears",18,8,2026-10-08,passed,3.9,5.36,Revision/textbook/notebooks/src/05e_quantum_bilinears.py
+05f,5,"What the scaled commutators generate: Spin_0(4,4), and with two gammas all of Pin(4,4)",24,6,2026-10-08,passed,6.9,5.25,Revision/textbook/notebooks/src/05f_pin_generation.py
+06a,6,"Vielbein, spin connection and the term 3 H gamma^(x8) of the field equation",34,10,2026-10-08,passed,16.7,6.12,Revision/textbook/notebooks/src/06a_spin_connection.py
+06b,6,"What depends on the frame: boosts, spin covariance, curvature, rescaling",26,6,2026-10-08,passed,36.3,6.20,Revision/textbook/notebooks/src/06b_frame_dependence.py
+06c,6,One missing metric factor: the mixed contraction of the spin connection,27,6,2026-10-08,passed,11.5,6.26,Revision/textbook/notebooks/src/06c_mixed_contraction.py
+07a,7,A Grassmann algebra by hand,38,7,2026-10-08,passed,5.2,7.15,Revision/textbook/notebooks/src/07a_grassmann_algebra.py
+07b,7,The Euler-Lagrange equations in the author's metric,47,6,2026-10-08,passed,5.4,7.25,Revision/textbook/notebooks/src/07b_euler_lagrange_metric.py
+07c,7,Real fields: the Majorana-type control and the matrix Gamma,23,4,2026-10-08,passed,4.0,7.31,Revision/textbook/notebooks/src/07c_real_fields.py
+07d,7,The action principle and the Euler-Lagrange equation,30,8,2026-10-08,passed,7.0,7.7,Revision/textbook/notebooks/src/07d_action_principle.py
+08a,8,Growth rates of the extra-time waves and Hadamard ill-posedness,30,6,2026-10-08,passed,4.1,8.21,Revision/textbook/notebooks/src/08a_growth_rates.py
+08b,8,The deflating extra times drive every extra-time wave into growth,25,5,2026-10-08,passed,5.5,8.27,Revision/textbook/notebooks/src/08b_deflation_onset.py
+08c,8,The spin-connection term depends on the frame,32,5,2026-10-08,passed,50.2,8.13,Revision/textbook/notebooks/src/08c_frame_dependence.py
+08d,8,"The rescaling that removes the term, and the growing modes at the patch end",23,5,2026-10-08,passed,26.7,8.34,Revision/textbook/notebooks/src/08d_rescaling_modes.py
+09a,9,The energy-momentum tensor and its conservation identities,27,5,2026-10-08,passed,4.7,9.15,Revision/textbook/notebooks/src/09a_emt_and_identities.py
+09b,9,"Homogeneous condensates: energy, pressure, equation of state and energy exchange",33,7,2026-10-08,passed,3.8,9.23,Revision/textbook/notebooks/src/09b_condensates.py
+09c,9,The full energy-momentum tensor of a condensate,25,5,2026-10-08,passed,4.7,9.28,Revision/textbook/notebooks/src/09c_condensate_tensor.py
+10a,10,One-particle spectra and Krein signatures,28,6,2026-10-08,passed,4.6,10.8,Revision/textbook/notebooks/src/10a_krein_spectra.py
+10b,10,The canonical anticommutator forces a Krein space,25,5,2026-10-08,passed,4.6,10.17,Revision/textbook/notebooks/src/10b_canonical_krein.py
+10c,10,The good sector: a positive Fock space for one momentum,14,5,2026-10-08,passed,3.7,10.24,Revision/textbook/notebooks/src/10c_good_sector_fock.py
+10d,10,The curved good sector and the boundary at z = pi/2,16,5,2026-10-08,passed,5.4,10.30,Revision/textbook/notebooks/src/10d_curved_good_sector.py
+10e,10,Invariant forms and Krein-unitary symmetries,15,5,2026-10-08,passed,3.3,10.36,Revision/textbook/notebooks/src/10e_invariant_forms.py
+10f,10,The Krein structure along the deflating history,19,5,2026-10-08,passed,4.3,10.41,Revision/textbook/notebooks/src/10f_krein_along_history.py
+10g,10,The quantum reading of the pairing: one system or two universes,30,5,2026-10-08,passed,4.8,10.47,Revision/textbook/notebooks/src/10g_quantum_pair_reading.py
+11a,11,The generalized Kronecker delta GKD in Python and in Rust,24,6,2026-10-08,passed,348.5,11.7,Revision/textbook/notebooks/src/11a_kronecker_delta_gkd.py
+11b,11,"The three Lovelock tensors of the author's metric, computed with GKD",36,5,2026-10-08,passed,31.5,11.17,Revision/textbook/notebooks/src/11b_lovelock_tensors.py
+11c,11,The Lovelock tensors along the deflating history: components and identities,19,5,2026-10-08,passed,5.1,11.25,Revision/textbook/notebooks/src/11c_lovelock_components.py
+12a,12,The field equations for a4 derived with sympy,59,5,2026-10-08,passed,6.6,12.14,Revision/textbook/notebooks/src/12a_a4_field_equations.py
+12b,12,The source that the linear member a4 = A H x4 requires,24,8,2026-10-08,passed,5.2,12.18,Revision/textbook/notebooks/src/12b_required_source.py
+12c,12,Integrating the evolution equation of a4 for prescribed sources,30,6,2026-10-08,passed,4.9,12.23,Revision/textbook/notebooks/src/12c_a4_evolution.py
+12d,12,An exact solution: a condensate of dirac16complex00 as the source of the deflating member,40,6,2026-10-08,passed,6.7,12.28,Revision/textbook/notebooks/src/12d_condensate_solution.py
+13a,13,A one-dimensional Kohn-Sham toy with self-consistency,36,10,2026-10-08,passed,12.4,13.34,Revision/textbook/notebooks/src/13a_kohn_sham_1d_toy.py
+13b,13,Exchange of a contact interaction in a uniform gas,44,9,2026-10-08,passed,6.1,13.18,Revision/textbook/notebooks/src/13b_contact_exchange_gas.py
+13c,13,"Slater determinants, second quantization and the two-site model",33,8,2026-10-08,passed,6.2,13.12,Revision/textbook/notebooks/src/13c_two_site_model.py
+13d,13,Charge sloshing and mixing in the two-site model,17,6,2026-10-08,passed,4.1,13.23,Revision/textbook/notebooks/src/13d_charge_sloshing.py
+13e,13,Finite temperature (Mermin) and excited states (Delta-SCF),24,7,2026-10-08,passed,4.6,13.29,Revision/textbook/notebooks/src/13e_mermin_delta_scf.py
+14a,14,The reduction of the Kohn-Sham equation to eight 2x2 blocks and the rescaling identity,28,5,2026-10-08,passed,14.2,14.9,Revision/textbook/notebooks/src/14a_block_reduction.py
+14b,14,The free Kohn-Sham spectrum at zero 3-momentum: exact formulas against numerical shooting,20,6,2026-10-08,passed,33.5,14.16,Revision/textbook/notebooks/src/14b_free_spectra.py
+14c,14,The brane band: free Kohn-Sham levels at nonzero 3-momentum along the deflating history,15,6,2026-10-08,passed,59.6,14.23,Revision/textbook/notebooks/src/14c_brane_band.py
+14d,14,The exact local exchange of the contact interaction and the Kohn-Sham potentials,16,4,2026-10-08,passed,27.8,14.29,Revision/textbook/notebooks/src/14d_local_exchange.py
+15a,15,Running the Rust Kohn-Sham solver over the canonical matrix,25,8,2026-10-08,passed,106.3,15.12,Revision/textbook/notebooks/src/15a_canonical_matrix.py
+15b,15,Energy-momentum profiles and the conservation law along the hidden direction,18,7,2026-10-08,passed,14.3,15.18,Revision/textbook/notebooks/src/15b_emt_profiles.py
+15c,15,Adiabaticity along the deflating history,12,6,2026-10-08,passed,6.7,15.23,Revision/textbook/notebooks/src/15c_adiabaticity.py
+15d,15,Thermodynamics of the Kohn-Sham gas along the deflating history,15,7,2026-10-08,passed,11.7,15.28,Revision/textbook/notebooks/src/15d_thermodynamics.py
+15e,15,"The solver's method by hand: shooting, Pruefer count and Anderson mixing",18,6,2026-10-08,passed,8.3,15.7,Revision/textbook/notebooks/src/15e_shooting_by_hand.py
+16a,16,Running the reference solver on a subset and the cross-check,51,7,2026-10-08,passed,118.4,16.10,Revision/textbook/notebooks/src/16a_reference_crosscheck.py
+16b,16,"The reference method by hand: staggered grid, Sturm counts, Richardson",31,7,2026-10-08,passed,19.3,16.17,Revision/textbook/notebooks/src/16b_staggered_grid.py
+16c,16,How the cross-check caught a rounding error: the Mermin root,26,6,2026-10-08,passed,14.4,16.22,Revision/textbook/notebooks/src/16c_mermin_root.py
+17a,17,The source conditions of the a4 equations on the recorded Kohn-Sham states,16,7,2026-10-08,passed,5.7,17.9,Revision/textbook/notebooks/src/17a_source_conditions.py
+17b,17,The conservation laws and the source conditions: why the Kohn-Sham states fail,20,6,2026-10-08,passed,9.7,17.19,Revision/textbook/notebooks/src/17b_conserved_sources.py
+18a,18,"The matrix facts behind the pairing theorems T1, T2 and Q",16,7,2026-10-08,passed,6.6,18.7,Revision/textbook/notebooks/src/18a_pairing_matrices.py
+18b,18,T1 and T2 proved symbolically in the author's deflating metric,20,5,2026-10-08,passed,23.7,18.18,Revision/textbook/notebooks/src/18b_t1_t2_symbolic.py
+18c,18,"T1 and T2 numerically: solutions, partners, currents and spectra",21,7,2026-10-08,passed,10.1,18.25,Revision/textbook/notebooks/src/18c_pairs_numerically.py
+19a,19,The Rust Kohn-Sham solver for the universes of mass +M and -M,37,10,2026-10-08,passed,35.3,19.19,Revision/textbook/notebooks/src/19a_t3_rust_pairs.py
+19b,19,"Theorem T3 by hand: the block map, the exact spectra and the control",19,6,2026-10-08,passed,10.1,19.14,Revision/textbook/notebooks/src/19b_t3_by_hand.py
+20a,20,Corollary C1: a T1 pair as the only source of the author's metric,37,7,2026-10-08,passed,5.6,20.9,Revision/textbook/notebooks/src/20a_c1_zero_source.py
+20b,20,One universe and its two partners: an exact case study,25,4,2026-10-08,passed,5.4,20.14,Revision/textbook/notebooks/src/20b_one_universe_partners.py
+20c,20,Allowed is not the same as happens: the threshold of pair creation,12,4,2026-10-08,passed,4.2,20.19,Revision/textbook/notebooks/src/20c_allowed_not_happens.py
+21a,21,Charge conjugation is a matrix: calC_+ = C and calC_- = Gamma C,27,7,2026-10-08,passed,8.2,21.13,Revision/textbook/notebooks/src/21a_conjugation_matrices.py
+21b,21,"Local U(1) charge conservation, the brane flux and the pair-level charge bookkeeping",21,8,2026-10-08,passed,15.5,21.21,Revision/textbook/notebooks/src/21b_charge_conservation.py
+21c,21,The conjugation of the quantised field: M B^T M^dagger = B,17,6,2026-10-08,passed,12.4,21.28,Revision/textbook/notebooks/src/21c_quantum_conjugation.py
+21d,21,Sakharov's three conditions and the scorecard of this theory,19,8,2026-10-08,passed,5.6,21.34,Revision/textbook/notebooks/src/21d_sakharov_scorecard.py
+22a,22,When does the instantaneous Kohn-Sham picture break down,20,8,2026-10-08,passed,15.6,22.10,Revision/textbook/notebooks/src/22a_adiabatic_breakdown.py
+22b,22,The dark-sector hypotheses: what the Revision record finds,28,5,2026-10-08,passed,3.6,22.21,Revision/textbook/notebooks/src/22b_dark_sector.py
