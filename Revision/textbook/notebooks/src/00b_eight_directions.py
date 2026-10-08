@@ -70,6 +70,18 @@ FACTS = {
          "a file of the Revision record is missing or damaged: the repository folder is "
          "incomplete. Delete the folder Dirac_claude, download it again with the git "
          "clone command of Step 3, and open the notebook from the new folder."],
+        ["\"Jupyter command `jupyter-lab` not found\" or \"Jupyter command "
+         "`jupyter-nbconvert` not found\" after a command that starts with "
+         "`python -m jupyter`",
+         "that form still has to find the programs jupyter-lab and jupyter-nbconvert in "
+         "the folders where the terminal looks for programs, and it did not find them "
+         "there. Do Step 4 and type `jupyter` again. Or start the two "
+         "programs through Python itself, in the folder of the notebook: the first "
+         "command below does what `jupyter lab` does in Step 5, the second what "
+         "`jupyter nbconvert` does in Step 6.",
+         ["python -m jupyterlab 00b_eight_directions.ipynb",
+          "python -m nbconvert --to notebook --execute --inplace "
+          "00b_eight_directions.ipynb"]],
     ],
 }
 

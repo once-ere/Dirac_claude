@@ -72,6 +72,28 @@ FACTS = {
          ["python -m jupyterlab 00a_check_installation.ipynb",
           "python -m nbconvert --to notebook --execute --inplace "
           "00a_check_installation.ipynb"]],
+        ["Debian 12: the version check of Step 2 prints 3.11, and the first of the "
+         "three commands of Step 2 for a too-low version fails or is not found",
+         "those three commands add the package source ppa:deadsnakes, which serves "
+         "Ubuntu only (and the command add-apt-repository comes with the package "
+         "software-properties-common, which small installations lack). Debian 13 and "
+         "newer have Python 3.13, which is new enough: there the two commands of Step 2 "
+         "suffice. On Debian 12, build Python 3.14.5 from its source code with the "
+         "commands below, in your home folder (about ten minutes; they add the command "
+         "`python3.14` and leave the Python of the system unchanged), then type "
+         "`python3.14` instead of `python3` in the command of Step 3 that creates the "
+         "environment.",
+         ["sudo apt install build-essential pkg-config wget libssl-dev zlib1g-dev",
+          "sudo apt install libbz2-dev libreadline-dev libsqlite3-dev",
+          "sudo apt install libffi-dev liblzma-dev libncurses-dev",
+          "wget https://www.python.org/ftp/python/3.14.5/Python-3.14.5.tgz",
+          "tar -xzf Python-3.14.5.tgz",
+          "cd Python-3.14.5",
+          "./configure",
+          "make -j 4",
+          "sudo make altinstall",
+          "cd ..",
+          "python3.14 --version"]],
     ],
 }
 

@@ -24,8 +24,14 @@ Read the chapters in order. Run each notebook when you reach it: reading a compu
 
 ### 0.2 The request, and what the equations prove and do not prove
 
-The book answers a request of the author (2026-10-02) for a teaching book that describes every step of the formalism, derives the field equations, introduces and derives approximations of the DFT type, solves the equations as far as possible, and proves "that the ‘big bang’ creates universes in pairs" and that "this theory solves matter anti-matter mysteries". The first four parts of the request are carried out in Parts I to IV of the book. The last two cannot be delivered as they are worded, because the equations do not prove them, and a book that wrote them as established would teach something false. The book therefore follows one rule above every other, the **honesty rule**: it teaches exactly what the Revision record proves and computes, with every assumption, and it never writes "proved" for a statement that is not proved. The author was told this on 2026-10-02. Here is what the equations give, in plain words. Many words of this section are new. Each is defined from zero in a later chapter; the list below gives each one a one-line meaning and names that chapter, so that you can follow the story now.
+The book answers a request of the author (2026-10-02) for a teaching book that describes every step of the formalism, derives the field equations, introduces and derives approximations of the DFT type, solves the equations as far as possible, and proves "that the ‘big bang’ creates universes in pairs" and that "this theory solves matter anti-matter mysteries". The first four parts of the request are carried out in Parts I to IV of the book. The last two cannot be delivered as they are worded, because the equations do not prove them, and a book that wrote them as established would teach something false. The book therefore follows one rule above every other, the **honesty rule**: it teaches exactly what the Revision record proves and computes, with every assumption, and it never writes "proved" for a statement that is not proved. The author was told this on 2026-10-02. Here is what the equations give, in plain words. Many words of this section are new. Each is defined from zero in a later chapter or a later section of this chapter; the list below gives each one a one-line meaning and names that place, so that you can follow the story now.
 
+- **gravitational field**: in this book, the author's metric of Section 0.1, the rule for the lengths of small steps; since Einstein, gravity is described by such a rule (Chapter 3);
+- $a_4$, $H$ **and** $z$: $a_4$ is the function of the time $x_4$ in the author's metric that makes ordinary space inflate and the extra times deflate; $H$ is a positive constant of the author; $z = 6 H x_8$ measures the position along the hidden direction, and it lies between $z = 0$ and the edge $z = \pi/2$ (Section 0.14);
+- **space-like** and **time-like**: a direction along which a step is measured like a distance, or like a duration; $x_1$, $x_2$, $x_3$ and $x_8$ are space-like, $x_4$ to $x_7$ time-like (Section 0.14);
+- **solution**, **boundary condition**: a solution of a field's equations is a field that satisfies them at every point; a boundary condition is a further condition that a solution must satisfy at the edge of the region in which it is defined (Chapters 2 and 14);
+- $\Psi$ (the Greek capital letter psi): a field, its sixteen components written as one column of sixteen numbers (Chapter 7);
+- **commuting** and **complex conjugation**: ordinary numbers are commuting, the order of a product does not matter ($ab = ba$), while the anticommuting numbers of Chapter 7 have $ab = -ba$; complex conjugation changes the sign of the imaginary part of every complex number, $a + i b \to a - i b$ (Chapter 1);
 - **mass** $m$: a number in the equations of a field; for a field that describes particles it is their mass (Chapter 7);
 - **self-coupling** $\lambda$: the strength with which a field acts on itself (Chapter 7);
 - **Lagrangian**: the function from which the equations of a field follow (Chapter 7);
@@ -36,16 +42,18 @@ The book answers a request of the author (2026-10-02) for a teaching book that d
 - **charge** $Q$ and **charge current** $J$: a number carried by a field that does not change in time, and the flow of this number through space (Chapter 21);
 - **U(1) symmetry**: the multiplication of every component of a field by one and the same complex number of absolute value 1, which changes no equation; it is the reason why the charge does not change (Chapter 21);
 - **gamma matrices**: eight fixed $16 \times 16$ matrices of the author, one for each direction, from which the equations of both fields are built (Chapter 4);
-- **the matrices** $C$ **and** $\Gamma$: two fixed $16 \times 16$ matrices that are products of gamma matrices, $C$ of the four space-like ones and $\Gamma$ (the **chirality**) of all eight (Chapter 5);
+- **the matrices** $C$, $\Gamma$ **and** $B$: three fixed $16 \times 16$ matrices built from gamma matrices: $C$ is the product of the four space-like ones, $\Gamma$ (the **chirality**) the product of all eight, and $B$ the product of $C$ and the gamma matrix of the time $x_4$, times $-i$; $B$ enters the quantum theory (Chapter 5);
 - **group, Pin(4,4)**: a group is a collection of transformations that can be combined and undone; Pin(4,4) is the group of the transformations of the sixteen components of a field that go with the rotations and reflections of the eight directions, rotations in a wide sense that includes the mixing of space-like and time-like directions (Chapter 5);
 - **Z2 mirror**: a reflection across the edge $z = \pi/2$ of the hidden direction, imposed as a boundary condition; Z2 is the group of two elements, doing nothing and reflecting (Chapter 14);
-- **quantised**: turned into a quantum theory, in which the field becomes an operator that acts on the states of the system (Chapter 10);
+- **quantised**: turned into a quantum theory, in which the field becomes an operator, a rule that turns one state of the system into another (Chapter 10);
 - **indefinite (Krein) metric**: a rule for the squared length of a quantum state that can also give negative numbers (Chapter 10);
 - **probability amplitude**: the number from which quantum theory computes how likely a process is (Chapter 10);
-- **Kohn-Sham universe**: a solution of the equations of the density-functional approximation, in which the field moves in a potential computed from its own density; **self-consistent** means that this potential and this density fit each other (Chapters 13 to 15);
+- **Kohn-Sham universe**: a solution of the equations of the density-functional approximation, in which the field moves in a potential computed from its own density; **self-consistent** means that this potential and this density fit each other; the mass of the field in this model is written $M$ (Chapters 13 to 15);
 - **antimatter**: matter made of antiparticles; the antiparticle of a particle has the same mass and the opposite charge, as the positron has for the electron (Chapter 21);
 - **the symmetries C and CP**: C exchanges every particle with its antiparticle, P reflects space as in a mirror, and CP does both (Chapter 21);
-- **thermal equilibrium**: a state in which every process runs forwards as often as backwards, so that on average nothing changes (Chapter 21).
+- **thermal equilibrium**: a state in which every process runs forwards as often as backwards, so that on average nothing changes (Chapter 21);
+- **photon**: the particle of light (Chapter 21);
+- **discrete symmetry**: a symmetry that is a single operation, such as a reflection, and not a continuous family of operations such as the multiplications of the U(1) symmetry (Chapter 21).
 
 **Pairs of universes.** Each field has a **mass** $m$ (a number that enters its equations) and a **self-coupling** $\lambda$ (the strength with which the field acts on itself). The Revision record proves exact maps between the solutions of the equations with mass $+m$ and those with mass $-m$:
 
@@ -228,7 +236,7 @@ cargo build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml
 
 A build writes the folder `target` next to the file `Cargo.toml` of its program (git ignores it). The two programs use no package from the internet, so cargo downloads nothing. A notebook that needs a program runs the same build command itself before it uses it.
 
-**Removing everything** again is simple: delete the folders dirac-book-env and Dirac_claude in your home folder; nothing else was changed. Rust removes itself with the command `rustup self uninstall`.
+**Removing everything** again is simple: delete the folders dirac-book-env and Dirac_claude in your home folder; apart from the programs Git, Python and Rust that you installed, nothing else was changed. Those programs are removed like any other program of your system (a Python that you built from its source code on Debian 12, as a troubleshooting entry of Section 0.11 describes, lies in the folder `/usr/local`); Rust removes itself with the command `rustup self uninstall`.
 
 ### 0.9 How the notebooks are built and checked
 
@@ -1480,13 +1488,19 @@ check_reproduces(passed == stated["passed"] == stated["total"] == 12,
 
 A report also states its own totals, under the key `summary`; they are printed. Then the notebook counts for itself: `sum(1 for entry in ... if ...)` adds 1 for every check whose verdict is PASS, and `len` is the number of checks. Python allows a chain of comparisons, `a == b == c == 12`, which is true only when every neighbouring pair is equal. The check requires that our count, the stated number of passed checks and the stated total are all 12. This is level 2 of Section 0.4, done by the computer.
 
-**In [3], three details of the same report.**
+**In [3], five details of the same report.**
 
 ```python
-for wanted in ("representation_real", "charge_conjugation_matrix_minus",
+details = {entry["name"]: entry["detail"] for entry in cc["checks"]}  # name -> detail
+```
+
+A **dictionary comprehension**: for every check of the report it stores the detail text under the name of the check, so that, for example, `details["representation_real"]` is the detail of the check `representation_real`.
+
+```python
+for wanted in ("representation_real", "charge_conjugation_matrix_plus",
+               "charge_conjugation_matrix_minus", "real_fields_charge_conjugation",
                "u1_noether_matrix_identity"):
-    detail = next(entry["detail"] for entry in cc["checks"]
-                  if entry["name"] == wanted)  # the first (and only) such check
+    detail = details[wanted]
     if wanted == "u1_noether_matrix_identity":
         # This detail is long; its last part, after the last "; ", is the result.
         detail = detail.rsplit("; ", 1)[-1]
@@ -1494,7 +1508,32 @@ for wanted in ("representation_real", "charge_conjugation_matrix_minus",
     say("    " + detail)
 ```
 
-For three check names, `next(... for entry in ... if ...)` returns the detail of the first check with that name. The third detail is long; `rsplit("; ", 1)` cuts it once, at the last semicolon (the `r` means: search from the right), and `[-1]` keeps the last piece. Out [3] prints, in the report's own words: that the gammas, $C$ and $S^{ab}$ are real, so that plain complex conjugation is the identity on a real field; that $\mathcal{C}_- = \Gamma C$ satisfies $\mathcal{C}_-^{-1} \gamma^a \mathcal{C}_- = +(\gamma^a)^T$ and that the conjugate field $\Gamma \Psi^*$ solves the field equation in which the term $V$ that holds the mass has the opposite sign (the report writes $V \to -V$); and that the charge $Q = \int \cos z \, \Psi^\dagger B \Psi \, d^7x$ is conserved when the field equations hold. These are the statements of Section 0.2 about charge conjugation, with their record; Chapters 5 and 21 derive them.
+For five check names the loop looks up the detail and prints the name and, below it and indented by four blanks, the detail. The last detail is long; `rsplit("; ", 1)` cuts it once, at the last semicolon followed by a blank (the `r` means: search from the right), and `[-1]` keeps the last piece, which states the result. Out [3] prints, in the report's own words (written with plain letters: `calC_+` is $\mathcal{C}_+$, `Psi*` is $\Psi^*$, and `^T` marks a transposed matrix, Chapter 1): that the gammas, $C$ and $S^{ab}$ are real, so that plain complex conjugation is the identity on a real field; that $\mathcal{C}_+ = C$ satisfies $\mathcal{C}_+^{-1} \gamma^a \mathcal{C}_+ = -(\gamma^a)^T$ for every direction $a$, and that its conjugate field is $\Psi^c = \Psi^*$; that $\mathcal{C}_- = \Gamma C$ satisfies $\mathcal{C}_-^{-1} \gamma^a \mathcal{C}_- = +(\gamma^a)^T$, and that its conjugate field $\Gamma \Psi^*$ solves the field equation in which the term $V$ that holds the mass has the opposite sign (the report writes $V \to -V$); that for a real commuting field the charge current $J^a$ is zero, $\mathcal{C}_+$ acts as the identity, and the real matrix $\Gamma$ together with the reversal of the mass maps solutions to solutions (this is T1); and that the charge $Q = \int \cos z \, \Psi^\dagger B \Psi \, d^7x$ is conserved when the field equations hold (the report says "on shell").
+
+```python
+R5_WORDS = [  # (check, words that its detail must contain)
+    ("representation_real", "plain complex conjugation is the identity"),
+    ("charge_conjugation_matrix_plus", "calC_+ = C (= sigma16)"),
+    ("charge_conjugation_matrix_plus", "Psi^c = calC_+ Psibar^T = Psi*"),
+    ("charge_conjugation_matrix_minus", "calC_- = Gamma C"),
+    ("charge_conjugation_matrix_minus", "Psi^c = calC_- Psibar^T = Gamma Psi*"),
+    ("real_fields_charge_conjugation", "J^a = -i Psi^T C gamma^a Psi = 0"),
+    ("real_fields_charge_conjugation", "calC_+ acts as the identity"),
+    ("real_fields_charge_conjugation", "the matrix Gamma with the mass reversed"),
+]
+```
+
+The list `R5_WORDS` holds eight pairs, each a check name and a piece of text that the detail of that check must contain word for word. Together the eight pieces are the statements of Section 0.2 about charge conjugation: plain complex conjugation does nothing to a real field; the two charge-conjugation matrices are $\mathcal{C}_+ = C$ (`sigma16` is the author's name for $C$) and $\mathcal{C}_- = \Gamma C$, each with its conjugate field; and for a real commuting field the charge current is zero, $\mathcal{C}_+$ acts as the identity, and the map between matter and antimatter is the matrix $\Gamma$ with the mass reversed.
+
+```python
+check_reproduces(all(words in details[name] for name, words in R5_WORDS),
+                 "the report states calC_+ = C, calC_- = Gamma C and J = 0 for a "
+                 "real field",
+                 f"{CC_REPORT}, checks charge_conjugation_matrix_plus, "
+                 "charge_conjugation_matrix_minus and real_fields_charge_conjugation")
+```
+
+`words in text` is true when the string `words` occurs in the string `text`, and `all(...)` is true when this holds for all eight pairs. So the check confirms that the record states exactly the charge-conjugation statements of Section 0.2, and its second line names the three checks of the report in which it found them; Out [3] ends with these lines. Chapters 5 and 21 derive the statements from zero.
 
 **In [4], one counting function for three layouts.**
 
@@ -1562,27 +1601,89 @@ def is_report(path):
 A JSON file is a verifier report when it is a dictionary that has a key `checks`, or, like the GKD self-test, a non-empty list `results` whose first entry is a dictionary with the key `mismatches`. `"checks" in data` asks whether the dictionary has that key. The conditions joined by `and` are tested from the left and the testing stops at the first false one, so `results[0]` is never read from an empty or missing list.
 
 ```python
+SKIPPED = ("Revision/textbook/", "Revision/workflows/")  # folders that hold no report
 found_reports = []  # every report found in the folder Revision, as a relative path
 for path in sorted(repository_file("Revision").rglob("*.json")):
     relative = path.relative_to(REPO).as_posix()  # e.g. "Revision/algebra/..."
-    if relative.startswith("Revision/textbook/") or "/target/" in relative:
-        continue  # this book's own files, and the Rust build folders
+    if relative.startswith(SKIPPED) or "/target/" in relative:
+        continue  # the book, the workflow records and the Rust build folders
     if is_report(path):
         found_reports.append(relative)
 report("verifier reports found in the folder Revision", len(found_reports))
 ```
 
-`rglob("*.json")` lists every file ending in `.json` in the folder `Revision` and in all its sub-folders, and `sorted` puts the list in a fixed order. `path.relative_to(REPO)` is the path from the repository folder on, and `.as_posix()` writes it with `/` on every operating system. `continue` skips the rest of the loop for this file: the book's own files and the build folders of the Rust programs are not part of the record. Every other report is collected. Out [5] begins with the number found, 27.
+`SKIPPED` is a **tuple** (a list in round brackets that cannot be changed) of two folder names. `rglob("*.json")` lists every file ending in `.json` in the folder `Revision` and in all its sub-folders, and `sorted` puts the list in a fixed order. `path.relative_to(REPO)` is the path from the repository folder on, and `.as_posix()` writes it with `/` on every operating system. `relative.startswith(SKIPPED)` is true when the path starts with either of the two names (`startswith` accepts a tuple and tries each of its entries). `continue` skips the rest of the loop for this file. Three kinds of folders are skipped, because they are not part of the record: the book's own folder `Revision/textbook`; the folder `Revision/workflows`, which holds the records of the programs that organised the work (they are rewritten while those programs run, so a half-written file could stop the notebook, and the Revision record says itself that no result depends on them); and the build folders `target` of the Rust programs. Every other report is collected. Out [5] begins with the number found, 27.
 
 ```python
 REPORTS = [  # (report, engine)
-    ("Revision/algebra/reports/wolfram-algebra.json",
-     "Wolfram"),
-    ("Revision/algebra/reports/python-algebra.json",
-     "Python"),
+    # the gammas, C, Gamma, B, Pin(4,4) and Spin(4,4)
+    ("Revision/algebra/reports/wolfram-algebra.json", "Wolfram"),
+    ("Revision/algebra/reports/python-algebra.json", "Python"),
 ```
 
-The list `REPORTS` holds the 27 reports of the record, each with the **engine** that did its computation: `"Wolfram"` (Wolfram Language), `"Python"`, `"Rust"`, or `"lead"` for the lead's short independent Python checks. Its 54 lines all have the form of these four; in order they name the two algebra reports, the four theory reports (field theory and scope, Wolfram and Python each), the three reports of the field equations for $a_4$ (Wolfram, Python and the Kohn-Sham source conditions), the four reports of GKD and the Lovelock tensors (two Rust, one Wolfram, one Python), the seven Kohn-Sham reports (theory in Wolfram and Python, the Rust solver, determinism, the roots of the Mermin equation, the reference solver and the cross-check), the four pairing reports (T1, T2 and Q; T3) and the three reports of the lead's checks. Section 0.20 prints the whole list, and the table of Out [5] repeats it.
+The list `REPORTS` holds the 27 reports of the record, each as a pair: the path of the report and the **engine** that did its computation, `"Wolfram"` (the Wolfram Language), `"Python"`, `"Rust"`, or `"lead"` for the lead's short independent Python checks. A comment line before each group names its subject. The first group is the algebra of Chapters 4 and 5 (the gamma matrices, $C$, $\Gamma$, $B$ and the groups), checked by a Wolfram verifier and by an independent Python verifier.
+
+```python
+    # the Lagrangians, field equations, EMT, quantisation; the scope
+    ("Revision/theory/reports/wolfram-field-theory.json", "Wolfram"),
+    ("Revision/theory/reports/python-field-theory.json", "Python"),
+    ("Revision/theory/reports/wolfram-scope.json", "Wolfram"),
+    ("Revision/theory/reports/python-scope.json", "Python"),
+```
+
+The folder `Revision/theory` holds the field theory of Chapters 7, 9 and 10 (the Lagrangians, the field equations, the energy-momentum tensor, abbreviated EMT, and the quantisation) and the exact scope of the non-triviality (Chapter 8), each in a Wolfram and in a Python version: four reports.
+
+```python
+    # the field equations for a4; the Kohn-Sham states as a source
+    ("Revision/field_equations_a4/reports/wolfram-a4-report.json", "Wolfram"),
+    ("Revision/field_equations_a4/reports/python-a4-report.json", "Python"),
+    ("Revision/field_equations_a4/reports/ks-source-conditions.json", "Python"),
+```
+
+The field equations for $a_4$ (Chapter 12), in Wolfram and in Python, and the report of a Python program that tests whether the computed Kohn-Sham states can be the source of the history $a_4 = A H x_4$ (Chapter 17; its five checks show that they cannot).
+
+```python
+    # GKD and the Lovelock tensors
+    ("Revision/gkd_lovelock/results/lovelock-report.json", "Rust"),
+    ("Revision/gkd_lovelock/results/gkd-selftest.json", "Rust"),
+    ("Revision/gkd_lovelock/results/wolfram-gkd-report.json", "Wolfram"),
+    ("Revision/gkd_lovelock/results/python-lovelock-report.json", "Python"),
+```
+
+The generalized Kronecker delta and the Lovelock tensors (Chapter 11): the Rust program that computes them writes a report on the tensors and a self-test of its GKD function, and a Wolfram and a Python verifier check its results independently.
+
+```python
+    # the Kohn-Sham theory, solvers and comparisons
+    ("Revision/kohn_sham/reports/ks-theory-wolfram.json", "Wolfram"),
+    ("Revision/kohn_sham/reports/ks-theory-python.json", "Python"),
+    ("Revision/kohn_sham/reports/ks-rust-solver.json", "Rust"),
+    ("Revision/kohn_sham/reports/ks-rust-determinism.json", "Python"),
+    ("Revision/kohn_sham/reports/ks-rust-mermin-roots.json", "Python"),
+    ("Revision/kohn_sham/reports/ks-reference.json", "Python"),
+    ("Revision/kohn_sham/reports/ks-crosscheck.json", "Python"),
+```
+
+The Kohn-Sham model (Chapters 14 to 16): its theory in Wolfram and in Python; the Rust solver; two Python programs that examine the results of the Rust solver (the repeated and the refined run of Section 0.22, and the roots of the Mermin equation for the chemical potential, computed with 40 digits; Chapter 15); the independent Python reference solver; and the cross-check that compares the two solvers (Chapter 16). The determinism report and the report on the roots concern the Rust solver, but their own checks are computed in Python, so their engine is Python.
+
+```python
+    # the pairing theorems T1, T2, Q and T3
+    ("Revision/pairing/reports/wolfram-pairing.json", "Wolfram"),
+    ("Revision/pairing/reports/python-pairing.json", "Python"),
+    ("Revision/pairing/kohn_sham/reports/wolfram-t3.json", "Wolfram"),
+    ("Revision/pairing/kohn_sham/reports/python-t3.json", "Python"),
+```
+
+The pairing theorems (Chapters 18 and 19): T1, T2 and Q in one Wolfram and one Python report, T3 in a second pair of reports.
+
+```python
+    # the lead's independent checks
+    ("Revision/lead_checks/reports/charge-conjugation-and-u1.json", "lead"),
+    ("Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json", "lead"),
+    ("Revision/lead_checks/reports/emt-divergence-and-spin-connection.json", "lead"),
+]
+```
+
+The three short Python programs of the lead, which import no other Revision code: the charge-conjugation matrices and the conserved charge (read in In [2] and In [3]); the field equations for $a_4$ in Einstein's theory and with the Gauss-Bonnet term (the second Lovelock term of Chapter 11), compared with the record of Chapter 12; and the conservation identities of the energy-momentum tensor together with the spin connection (Chapters 6 and 9). The closing bracket ends the list. The table of Out [5] repeats the list with the counts.
 
 ```python
 check(found_reports == sorted(path for path, _ in REPORTS),
@@ -1617,7 +1718,7 @@ for engine in ("Wolfram", "Python", "Rust", "lead"):
     report(f"checks done with the engine {engine}", engine_totals[engine])
 ```
 
-The totals over all reports, and the total per engine: for each engine the numbers of checks of its reports are added (`counted[path][1]` is the total of a report). These are the RESULT lines of Out [5]. The numbers are not written into the notebook: they are counted from the record each time, so they follow the record. On the day the notebook was last checked for this chapter they were 940 checks in all: 377 done with the Wolfram Language, 456 with Python, 70 with Rust and 37 by the lead's checks.
+The totals over all reports, and the total per engine: for each engine the numbers of checks of its reports are added (`counted[path][1]` is the total of a report). These are the RESULT lines of Out [5]. The numbers are not written into the notebook: they are counted from the record each time, so they follow the record. In the run printed in Section 0.20 (2026-10-08, the date of the notebook's last verified run, which its provenance file records) they are 947 checks in all: 382 done with the Wolfram Language, 458 with Python, 70 with Rust and 37 by the lead's checks.
 
 ```python
 check(all_passed == all_checks and sum(engine_totals.values()) == all_checks,
@@ -1647,9 +1748,34 @@ R = "Revision/"
 README_ORDER = [  # the reports whose counts the README table quotes, in its order
     R + "gkd_lovelock/results/lovelock-report.json",  # row gkd_lovelock/
     R + "gkd_lovelock/results/python-lovelock-report.json",
+    R + "gkd_lovelock/results/wolfram-gkd-report.json",
 ```
 
-`R + "..."` joins two strings. The list `README_ORDER` names, in the order in which they appear in the table of the file `Revision/README.md`, the 16 reports whose counts that table quotes: the three of GKD and the Lovelock tensors, the two of the algebra, the four of the theory, the three of the field equations for $a_4$ and the four of the pairing (its 16 entries, one per line, have the form of the two shown).
+`R + "..."` joins two strings. The list `README_ORDER` names, in the order in which they appear in the table of the file `Revision/README.md`, the 16 reports whose counts that table quotes. The first row of the table, `gkd_lovelock/`, quotes three counts: that of the Rust report on the Lovelock tensors, then those of the Python and of the Wolfram verifier.
+
+```python
+    R + "algebra/reports/wolfram-algebra.json",  # row algebra/
+    R + "algebra/reports/python-algebra.json",
+    R + "theory/reports/wolfram-field-theory.json",  # row theory/
+    R + "theory/reports/python-field-theory.json",
+    R + "theory/reports/wolfram-scope.json",
+    R + "theory/reports/python-scope.json",
+```
+
+The rows `algebra/` (two counts, Wolfram then Python) and `theory/` (four counts: the field theory, then the scope, each Wolfram then Python).
+
+```python
+    R + "field_equations_a4/reports/wolfram-a4-report.json",  # row field_equations_a4/
+    R + "field_equations_a4/reports/python-a4-report.json",
+    R + "field_equations_a4/reports/ks-source-conditions.json",
+    R + "pairing/reports/wolfram-pairing.json",  # row pairing/
+    R + "pairing/reports/python-pairing.json",
+    R + "pairing/kohn_sham/reports/wolfram-t3.json",
+    R + "pairing/kohn_sham/reports/python-t3.json",
+]
+```
+
+The rows `field_equations_a4/` (three counts: Wolfram, Python, and the Kohn-Sham source conditions) and `pairing/` (four counts: T1, T2 and Q in Wolfram and in Python, then T3 in Wolfram and in Python). The other eleven reports have no count in the table (its row `kohn_sham/` says only what was computed, and the GKD self-test and the lead's checks are not named there), so they are not in this list; the counts of three Kohn-Sham reports are compared with the cross-check at the end of this cell.
 
 ```python
 readme_lines = repository_file("Revision/README.md").read_text(
@@ -1701,21 +1827,29 @@ ENGINE_NAMES = {"Wolfram": "Wolfram Language", "Python": "Python",
 The coloured squares of the legend (as in In [3] of Notebook 00b), a colour for each engine and its full name for the legend.
 
 ```python
+# The report with the most checks, and its number of checks.
+largest = max((path for path, _ in REPORTS), key=lambda path: counted[path][1])
+longest = counted[largest][1]
+```
+
+`max(..., key=...)` returns the path whose value under the key function is largest; `lambda path: counted[path][1]` is a function without a name that gives the number of checks of a report. `longest` is that largest number of checks (101, of the Wolfram pairing report, in the run printed in Section 0.20).
+
+```python
 fig, ax = plt.subplots(figsize=(6.4, 7.8))
 rows = np.arange(len(REPORTS))[::-1]  # the first report at the top
 for row, (path, engine) in zip(rows, REPORTS):
     total = counted[path][1]
     ax.barh(row, total, height=0.72, color=ENGINE_COLOURS[engine])
-    ax.text(total + 1.5, row, str(total), va="center", fontsize=9)
+    ax.text(total + 0.015 * longest, row, str(total), va="center", fontsize=9)
 ```
 
-A tall figure, one row per report. `np.arange(27)` is 0 to 26, and `[::-1]` reverses it (a step of $-1$), so that the first report gets the highest row and stands at the top. `ax.barh` draws a horizontal bar of the given length in the given row, coloured by the engine; `ax.text` writes the number just after the end of the bar.
+A tall figure, one row per report. `np.arange(27)` is 0 to 26, and `[::-1]` reverses it (a step of $-1$), so that the first report gets the highest row and stands at the top. `ax.barh` draws a horizontal bar of the given length in the given row, coloured by the engine; `ax.text` writes the number just after the end of the bar, at a distance of 1.5 per cent of the longest bar.
 
 ```python
 # The name of each report without its folder and without the ending .json:
 names = [path.rsplit("/", 1)[1].removesuffix(".json") for path, _ in REPORTS]
 ax.set_yticks(rows, labels=names, fontsize=9)
-ax.set_xlim(0, 112)
+ax.set_xlim(0, 1.12 * longest)  # room for the longest bar and its number
 ax.grid(False, axis="y")  # vertical grid lines only
 ax.set_xlabel("number of checks in the report (every one has the verdict PASS)")
 ax.set_title(f"The {len(REPORTS)} verifier reports of the Revision record: "
@@ -1724,19 +1858,17 @@ ax.legend(handles=[Patch(color=ENGINE_COLOURS[e], label=ENGINE_NAMES[e])
                    for e in ENGINE_COLOURS], loc="lower right", fontsize=8)
 ```
 
-`rsplit("/", 1)[1]` keeps the part after the last `/`, the file name, and `removesuffix` removes the ending. The names label the rows; the horizontal axis runs from 0 to 112 (room for the longest bar and its number); only vertical grid lines are drawn; the title contains the total; the legend names the four engines.
+`rsplit("/", 1)[1]` keeps the part after the last `/`, the file name, and `removesuffix` removes the ending. The names label the rows. The horizontal axis runs from 0 to 1.12 times the longest bar, which leaves room for the longest bar and its number; because the limit is computed from the counts, the picture stays complete when a report gains checks. Only vertical grid lines are drawn; the title contains the total; the legend names the four engines.
 
 ```python
-# The report with the most checks, and its file name without the folders.
-largest = max((path for path, _ in REPORTS), key=lambda path: counted[path][1])
-largest_name = largest.rsplit("/", 1)[1]
+largest_name = largest.rsplit("/", 1)[1]  # its file name without the folders
 n_wolfram, n_python, n_rust, n_lead = (engine_totals[engine] for engine in
                                        ("Wolfram", "Python", "Rust", "lead"))
 totals_text = (f"{n_wolfram} Wolfram Language, {n_python} Python, {n_rust} Rust "
                f"and {n_lead} lead checks")
 ```
 
-`max(..., key=...)` returns the path whose value under the key function is largest; `lambda path: counted[path][1]` is a function without a name that gives the total of a report. The four engine totals are unpacked into four names and written into a sentence for the caption, so that the caption always states the counts of the record as it is.
+The file name of the largest report, for the caption. The four engine totals are unpacked into four names and written into a sentence for the caption, so that the caption always states the counts of the record as it is.
 
 ```python
 save_figure(fig, "checks_by_report",
@@ -1747,11 +1879,10 @@ save_figure(fig, "checks_by_report",
             r"lead checks). The colour gives the engine: blue Wolfram Language, "
             r"orange Python, aqua Rust, yellow the lead's independent Python "
             f"checks. All {all_checks} checks ({totals_text}) have the verdict "
-            f"PASS; the largest report is {largest_name} with "
-            f"{counted[largest][1]} checks.")
+            f"PASS; the largest report is {largest_name} with {longest} checks.")
 ```
 
-The figure `00c_1_checks_by_report.png` with its caption, partly raw strings and partly f-strings (each piece of the joined caption has its own prefix). What Figure 00c.1 shows: one bar per report, grouped by folder from the algebra at the top to the lead's checks at the bottom; the longest bar belongs to the report that the caption names (the Wolfram pairing report when this chapter was written), and every colour occurs, so every engine contributes.
+The figure `00c_1_checks_by_report.png` with its caption, partly raw strings and partly f-strings (each piece of the joined caption has its own prefix). What Figure 00c.1 shows: one bar per report, grouped by folder from the algebra at the top to the lead's checks at the bottom; the longest bar belongs to the report that the caption names (the Wolfram pairing report, 101 checks), and every colour occurs, so every engine contributes.
 
 **In [8], two independent engines.**
 
@@ -1759,9 +1890,29 @@ The figure `00c_1_checks_by_report.png` with its caption, partly raw strings and
 SUBJECTS = [  # (subject, Wolfram report, Python report)
     ("the gammas, Pin(4,4), Spin(4,4)", "algebra/reports/wolfram-algebra.json",
      "algebra/reports/python-algebra.json"),
+    ("Lagrangians, field equations, EMT", "theory/reports/wolfram-field-theory.json",
+     "theory/reports/python-field-theory.json"),
+    ("scope of the non-triviality", "theory/reports/wolfram-scope.json",
+     "theory/reports/python-scope.json"),
+    ("field equations for a4", "field_equations_a4/reports/wolfram-a4-report.json",
+     "field_equations_a4/reports/python-a4-report.json"),
 ```
 
-The list `SUBJECTS` names eight subjects, each with its Wolfram report and its independent Python report (paths without `Revision/`): the gammas, the field theory, the scope of the non-triviality, the field equations for $a_4$, GKD and the Lovelock tensors, the Kohn-Sham theory, the pairing theorems T1, T2 and Q, and the theorem T3. Its other lines have the form of these two.
+The list `SUBJECTS` names the eight subjects that have two independent verifiers, each as a group of three: a short name, the Wolfram report and the Python report (paths without `Revision/`). Its first four entries are the four subjects of the algebra and the field theory: the gammas and the groups, the field theory (Lagrangians, field equations, energy-momentum tensor), the scope of the non-triviality, and the field equations for $a_4$.
+
+```python
+    ("GKD and the Lovelock tensors", "gkd_lovelock/results/wolfram-gkd-report.json",
+     "gkd_lovelock/results/python-lovelock-report.json"),
+    ("Kohn-Sham theory", "kohn_sham/reports/ks-theory-wolfram.json",
+     "kohn_sham/reports/ks-theory-python.json"),
+    ("pairing theorems T1, T2, Q", "pairing/reports/wolfram-pairing.json",
+     "pairing/reports/python-pairing.json"),
+    ("pairing theorem T3", "pairing/kohn_sham/reports/wolfram-t3.json",
+     "pairing/kohn_sham/reports/python-t3.json"),
+]
+```
+
+The other four: GKD and the Lovelock tensors (the Rust results checked by Wolfram and by Python), the Kohn-Sham theory, the pairing theorems T1, T2 and Q, and the theorem T3. These are the eight subjects of the remark "Two independent verifiers" of Section 0.18 (rows 1 to 3, 5 to 7, 10 and 11 of the ledger).
 
 ```python
 say("subject                              Wolfram  Python")
@@ -1775,6 +1926,7 @@ for subject, wolfram, python in SUBJECTS:
 For each subject the totals of its two reports are taken from `counted` and printed: the table of Out [8]. `[-1]` is the entry just appended.
 
 ```python
+widest = max(wolfram_numbers + python_numbers)  # the longest of the 16 bars
 fig, ax = plt.subplots(figsize=(7.0, 5.0))
 rows = np.arange(len(SUBJECTS))[::-1]
 height = 0.38  # two bars in each row
@@ -1783,15 +1935,15 @@ ax.barh(rows + height / 2, wolfram_numbers, height, color="#2a78d6",
 ax.barh(rows - height / 2, python_numbers, height, color="#eb6834",
         edgecolor="white", linewidth=1.5, label="Python verifier (sympy)")
 for row, w, p in zip(rows, wolfram_numbers, python_numbers):
-    ax.text(w + 1.5, row + height / 2, str(w), va="center", fontsize=8)
-    ax.text(p + 1.5, row - height / 2, str(p), va="center", fontsize=8)
+    ax.text(w + 0.015 * widest, row + height / 2, str(w), va="center", fontsize=8)
+    ax.text(p + 0.015 * widest, row - height / 2, str(p), va="center", fontsize=8)
 ```
 
-Two bars in each row, the Wolfram bar half a bar height above the middle of the row and the Python bar half a bar height below it; the numbers are written after the ends of the bars.
+`wolfram_numbers + python_numbers` joins the two lists of eight numbers into one list of sixteen, and `max` finds the longest bar. Two bars in each row, the Wolfram bar half a bar height above the middle of the row and the Python bar half a bar height below it; the numbers are written after the ends of the bars, at a distance of 1.5 per cent of the longest bar.
 
 ```python
 ax.set_yticks(rows, labels=[subject for subject, _, _ in SUBJECTS])
-ax.set_xlim(0, 112)
+ax.set_xlim(0, 1.12 * widest)  # room for the longest bar and its number
 ax.grid(False, axis="y")
 ax.set_xlabel("number of checks (every one has the verdict PASS)")
 ax.set_title("Eight subjects, each checked by two independent verifiers")
@@ -1806,7 +1958,7 @@ save_figure(fig, "two_verifiers",
             f"{sum(python_numbers)} Python checks, all PASS.")
 ```
 
-Labels, title, legend and the figure `00c_2_two_verifiers.png`. What Figure 00c.2 shows: every subject has two bars, so every subject was checked twice, in two languages; the bars differ in length because the two verifiers were written independently and test partly different statements.
+Labels, a horizontal axis from 0 to 1.12 times the longest bar (computed from the counts, as in In [7]), title, legend and the figure `00c_2_two_verifiers.png`. What Figure 00c.2 shows: every subject has two bars, so every subject was checked twice, in two languages; the bars differ in length because the two verifiers were written independently and test partly different statements.
 
 ```python
 report("checks of the Wolfram verifiers of the eight subjects", sum(wolfram_numbers))
@@ -1825,9 +1977,60 @@ LEDGER = [  # (statement, label, note, the reports that verify it)
     ("the gammas, C, Gamma, B; Pin(4,4) and Spin(4,4)", "PROVED", "",
      [R + "algebra/reports/wolfram-algebra.json",
       R + "algebra/reports/python-algebra.json"]),
+    ("Lagrangians, field equations, EMT, quantisation", "PROVED", "",
+     [R + "theory/reports/wolfram-field-theory.json",
+      R + "theory/reports/python-field-theory.json"]),
+    ("the exact scope of the non-triviality", "PROVED", "",
+     [R + "theory/reports/wolfram-scope.json",
+      R + "theory/reports/python-scope.json"]),
 ```
 
-The list `LEDGER` holds the sixteen rows of the table of Section 0.18, each as a group of four: the statement, the label, the note (an empty string `""` for the rows that have reports), and the list of the reports. The rows 13 to 16 have an empty list of reports and a note:
+The list `LEDGER` holds the sixteen rows of the table of Section 0.18, each as a group of four: the statement, the label, the note (an empty string `""` for the rows that have reports), and the list of the reports that verify the row. Rows 1 to 3 are the exact results of the algebra and of the field theory, each verified by a Wolfram and a Python report.
+
+```python
+    ("EMT conservation identities; the spin connection", "PROVED", "",
+     [R + "lead_checks/reports/emt-divergence-and-spin-connection.json"]),
+    ("the field equations for a4", "PROVED", "",
+     [R + "field_equations_a4/reports/wolfram-a4-report.json",
+      R + "field_equations_a4/reports/python-a4-report.json",
+      R + "lead_checks/reports/einstein-gauss-bonnet-a4.json"]),
+    ("GKD and the three Lovelock tensors", "PROVED", "",
+     [R + "gkd_lovelock/results/lovelock-report.json",
+      R + "gkd_lovelock/results/gkd-selftest.json",
+      R + "gkd_lovelock/results/wolfram-gkd-report.json",
+      R + "gkd_lovelock/results/python-lovelock-report.json"]),
+    ("Kohn-Sham theory: blocks, rescaling, exchange", "PROVED", "",
+     [R + "kohn_sham/reports/ks-theory-wolfram.json",
+      R + "kohn_sham/reports/ks-theory-python.json"]),
+```
+
+Rows 4 to 7, all PROVED: the conservation identities (one report of the lead), the field equations for $a_4$ (the Wolfram and the Python verifier and the lead's independent check, three reports), GKD and the Lovelock tensors (the four reports of the folder `gkd_lovelock`), and the exact parts of the Kohn-Sham theory.
+
+```python
+    ("Kohn-Sham states along the deflating history", "COMPUTED", "",
+     [R + "kohn_sham/reports/ks-rust-solver.json",
+      R + "kohn_sham/reports/ks-reference.json",
+      R + "kohn_sham/reports/ks-crosscheck.json",
+      R + "kohn_sham/reports/ks-rust-determinism.json",
+      R + "kohn_sham/reports/ks-rust-mermin-roots.json"]),
+    ("the Kohn-Sham history of a4 is a prescribed background", "ASSUMED", "",
+     [R + "field_equations_a4/reports/ks-source-conditions.json"]),
+```
+
+Row 8 is the only COMPUTED row: the numerical Kohn-Sham states, with the five reports of the two solvers and of their comparisons. Row 9 is ASSUMED, and its one report gives the reason (Section 0.18).
+
+```python
+    ("pairing T1, T2 (Z2 mirror ASSUMED) and Q", "PROVED", "",
+     [R + "pairing/reports/wolfram-pairing.json",
+      R + "pairing/reports/python-pairing.json"]),
+    ("T3 (Z2 mirror ASSUMED): Kohn-Sham +M and -M", "PROVED", "",
+     [R + "pairing/kohn_sham/reports/wolfram-t3.json",
+      R + "pairing/kohn_sham/reports/python-t3.json"]),
+    ("charge conjugation C, Gamma C; U(1) charge", "PROVED", "",
+     [R + "lead_checks/reports/charge-conjugation-and-u1.json"]),
+```
+
+Rows 10 to 12, PROVED: the pairing theorems, whose statements name the ASSUMED Z2 mirror where it enters, and the charge-conjugation matrices with the conserved charge. The rows 13 to 16 have an empty list of reports and a note:
 
 ```python
     ("a time-varying dark sector from the fields", "HYPOTHESIS",
@@ -1836,12 +2039,12 @@ The list `LEDGER` holds the sixteen rows of the table of Section 0.18, each as a
      "the T1 maps exist; that a partner exists is not shown", []),
     ("the big bang creates universes in pairs", "OPEN",
      "not proved: no creation process, rate or amplitude", []),
-    ("the theory explains matter over antimatter", "OPEN",
-     "the theory as built does not explain it", []),
+    ("what produces the excess of matter over antimatter", "OPEN",
+     "the theory as built does not produce it", []),
 ]
 ```
 
-The rows 2 to 12 have the same form as row 1, with the statements, labels and reports of the table of Section 0.18. The four entries without reports are the honest answers of Section 0.2, written as data, so that the computer can check them.
+The four entries without reports are the honest answers of Section 0.2, written as data, so that the computer can check them. Row 16 is written as the open question that it is, with the note that the theory as built does not produce the excess.
 
 ```python
 say("row label       passed of all  statement")
@@ -1894,11 +2097,12 @@ The labels are counted: ten rows PROVED, one COMPUTED, one ASSUMED, two HYPOTHES
 
 ```python
 LABEL_COLOURS = {"PROVED": "#2a78d6", "COMPUTED": "#eb6834", "ASSUMED": "#1baf7a"}
+widest = max(row_totals)  # the row with the most checks
 fig, ax = plt.subplots(figsize=(7.6, 8.0))
 rows = np.arange(len(LEDGER))[::-1]  # the first row of the ledger at the top
 ```
 
-A colour for each label that has reports, a tall figure, and the row positions with the first row at the top.
+A colour for each label that has reports, the largest number of checks of a row (167, row 10, in the run printed in Section 0.20), a tall figure, and the row positions with the first row at the top.
 
 ```python
 for number, row, (statement, label, note, paths), total in zip(
@@ -1908,18 +2112,18 @@ for number, row, (statement, label, note, paths), total in zip(
     ax.text(0, row + 0.26, f"{number}. {statement}", va="bottom", fontsize=9.5)
     if total > 0:
         ax.barh(row, total, height=0.42, color=LABEL_COLOURS[label])
-        ax.text(total + 2, row, f"{total} checks: {label}", va="center",
-                fontsize=9)
+        ax.text(total + 0.012 * widest, row, f"{total} checks: {label}",
+                va="center", fontsize=9)
     else:  # no report: the label and the note, in grey
         ax.text(0, row, f"{label}: {note}", va="center", fontsize=9,
                 color="#52514e")
 ```
 
-`zip` runs through four lists together: the row numbers 1 to 16, the positions, the rows of the ledger and their totals. For each row the statement is written just above the place of its bar. A row with checks gets a bar of that length in the colour of its label, with the number and the label after it; a row without checks gets its label and its note in grey instead.
+`zip` runs through four lists together: the row numbers 1 to 16, the positions, the rows of the ledger and their totals. For each row the statement is written just above the place of its bar. A row with checks gets a bar of that length in the colour of its label, with the number and the label after it, at a distance of 1.2 per cent of the longest bar; a row without checks gets its label and its note in grey instead.
 
 ```python
 ax.set_yticks([])  # the statements are written above the bars instead
-ax.set_xlim(0, 232)
+ax.set_xlim(0, 1.39 * widest)  # room for the longest bar and the text after it
 ax.set_ylim(-0.6, len(LEDGER) - 0.1)
 ax.grid(False, axis="y")
 ax.set_xlabel("number of checks in the reports of the row (all PASS)")
@@ -1929,7 +2133,7 @@ ax.legend(handles=[Patch(color=colour, label=label_name)
           loc="lower right", fontsize=9)
 ```
 
-No labels on the vertical axis (the statements stand above the bars); the limits leave room for the longest bar and its text and for the statement of the top row; the legend names the three colours.
+No labels on the vertical axis (the statements stand above the bars). The horizontal axis runs to 1.39 times the longest bar, computed from the counts, which leaves room for the longest bar and the text after it; the vertical limits leave room for the statement of the top row; the legend names the three colours.
 
 ```python
 save_figure(fig, "ledger",
@@ -1941,9 +2145,9 @@ save_figure(fig, "ledger",
             r"$a_4$ must be assumed. The last four rows have no bar, because no "
             r"check of the record establishes them: two hypotheses (a time-varying "
             r"dark sector, and a partner universe of opposite charge) and two open "
-            r"questions (that the big bang creates universes in pairs, which is not "
-            r"proved, and the excess of matter over antimatter, which the theory as "
-            r"built does not explain).")
+            r"questions (whether the big bang creates universes in pairs, which is "
+            r"not proved, and what produces the excess of matter over antimatter, "
+            r"which the theory as built does not produce).")
 ```
 
 The figure `00c_3_ledger.png`. What Figure 00c.3 shows: twelve bars, ten blue, one orange (the Kohn-Sham numbers) and one short aqua bar (the prescribed background), and four rows without a bar at the bottom: the two hypotheses and the two open questions. The picture makes the honesty rule visible: a statement without checks is never drawn as if it had them.
@@ -2037,15 +2241,17 @@ save_figure(fig, "fingerprints",
             r"character was replaced by the next one and the number of the 64 "
             r"hexadecimal characters of the fingerprint that changed was counted; "
             r"horizontal axis that number (0 to 64), vertical axis how many of the "
-            r"115 altered sentences gave it. Every change altered between 54 and 64 "
-            r"of the 64 characters, on average 60.03, as for a random string "
-            r"(dotted line at 60): no small change of a file can leave its "
-            r"fingerprint nearly the same.")
-check(counts.min() >= 32 and abs(counts.mean() - 60.0) < 1.0,
-      "every one-character change alters more than half of the fingerprint")
+            r"115 altered sentences gave it. Every change altered between "
+            f"{counts.min()} and {counts.max()} of the 64 characters, on average "
+            f"{counts.mean():.2f}, as for a random string (dotted line at 60): none "
+            f"of the {len(counts)} one-character changes left the fingerprint "
+            r"nearly the same.")
+check(counts.min() > 32 and abs(counts.mean() - 60.0) < 1.0,
+      f"all {len(counts)} one-character changes alter more than half of the "
+      "fingerprint")
 ```
 
-The figure `00c_4_fingerprints.png`, and a check: every change alters at least 32 of the 64 characters, and the mean lies within 1 of 60. What Figure 00c.4 shows: all bars stand close to the dotted line at 60, and the left half of the picture is empty: no one-character change left a fingerprint nearly unchanged.
+The figure `00c_4_fingerprints.png`; its caption takes the smallest, the mean and the largest count from the computation (54, 60.03 and 64) and states only what was measured: none of these 115 changes left the fingerprint nearly the same. The check requires that every change alters more than 32 of the 64 characters, that is more than half of them (`>` is "greater than"), and that the mean lies within 1 of 60. What Figure 00c.4 shows: all bars stand close to the dotted line at 60, and the left half of the picture is empty: no one-character change left a fingerprint nearly unchanged.
 
 **In [13], the fingerprints recorded by the reports.**
 
@@ -2141,7 +2347,7 @@ check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_na
 all_checks_passed()
 ```
 
-As in Notebook 00b: the four figure files must exist, and the last line prints ALL 14 CHECKS PASSED (notebook 00c): one check each in In [2], In [8], In [11], In [12], In [13] and In [14], three in In [5], two in In [6] and three in In [9].
+As in Notebook 00b: the four figure files must exist, and the last line prints ALL 15 CHECKS PASSED (notebook 00c): one check each in In [2], In [3], In [8], In [11], In [12], In [13] and In [14], three in In [5], two in In [6] and three in In [9].
 
 ### 0.22 Why every run gives the same bytes
 
@@ -2165,7 +2371,21 @@ $$
 
 **Floating-point numbers.** Python's numbers with a fraction part (the type `float`, and numpy's `float64`) are **floating-point numbers**: each is a whole number $m$ of exactly 53 binary digits, that is $2^{52} \le m < 2^{53}$, times a power of two, $x = m \cdot 2^{e}$ (and the same with a minus sign; zero is stored separately). The 53 binary digits correspond to about 16 decimal digits, since $2^{53} = 9007199254740992$ has 16 digits. A number that is not of this form is replaced by the nearest one that is: this is **rounding**. If it lies exactly halfway between two neighbours, the rule is to take the neighbour whose $m$ is even (**round half to even**).
 
-**How 0.1 is stored.** The number 0.1 lies between $2^{-4} = 0.0625$ and $2^{-3} = 0.125$; so it must be written as $m \cdot 2^{-4-52} = m \cdot 2^{-56}$ with a 53-digit $m$:
+**Which power of 2.** The size of a stored number fixes its power of 2. Take $x = m \cdot 2^{e}$ with $2^{52} \le m < 2^{53}$, and multiply both inequalities by $2^{e}$:
+
+$$
+2^{52 + e} \le x < 2^{53 + e}
+$$
+
+(multiplying both sides of an inequality by the positive number $2^{e}$ keeps it true, and $2^{52} \cdot 2^{e} = 2^{52 + e}$ by the law of exponents). Now suppose that $x$ lies between $2^{k}$ and $2^{k+1}$ for a whole number $k$, that is $2^{k} \le x < 2^{k+1}$. Then
+
+$$
+52 + e = k , \quad \text{that is} \quad e = k - 52
+$$
+
+(the intervals from $2^{j}$ to $2^{j+1}$, one for each whole number $j$, do not overlap, so $x$ lies in exactly one of them; the line above and the assumption both name that interval, so $52 + e = k$; then subtract 52 on both sides). We call this the **storage rule**: a number between $2^{k}$ and $2^{k+1}$ is stored as $m \cdot 2^{k-52}$ with a 53-digit $m$.
+
+**How 0.1 is stored.** The number 0.1 lies between $2^{-4} = 0.0625$ and $2^{-3} = 0.125$; so, by the storage rule with $k = -4$, it must be written as $m \cdot 2^{-4-52} = m \cdot 2^{-56}$ with a 53-digit $m$:
 
 $$
 m = 0.1 \cdot 2^{56} = 7205759403792793.6
@@ -2191,7 +2411,7 @@ $$
 0.2 \approx \frac{3602879701896397}{2^{54}} = \frac{7205759403792794}{2^{55}}
 $$
 
-(multiply the stored 0.1 by 2, then write it over $2^{55}$ by multiplying numerator and denominator by 2). The number 0.3 lies between $2^{-2}$ and $2^{-1}$, so it is stored as $m \cdot 2^{-54}$ with $m = 0.3 \cdot 2^{54} = 5404319552844595.2$, rounded:
+(multiply the stored 0.1 by 2, then write it over $2^{55}$ by multiplying numerator and denominator by 2). The number 0.3 lies between $2^{-2}$ and $2^{-1}$, so, by the storage rule with $k = -2$, it is stored as $m \cdot 2^{-2-52} = m \cdot 2^{-54}$ with $m = 0.3 \cdot 2^{54} = 5404319552844595.2$, rounded:
 
 $$
 0.3 \approx \frac{5404319552844595}{2^{54}}
@@ -2203,7 +2423,7 @@ $$
 \frac{3602879701896397}{2^{55}} + \frac{7205759403792794}{2^{55}} = \frac{10808639105689191}{2^{55}}
 $$
 
-(fractions with the same denominator are added by adding their numerators). This sum lies between $2^{-2}$ and $2^{-1}$, so it must be stored as $m \cdot 2^{-54}$, with
+(fractions with the same denominator are added by adding their numerators). This sum lies between $2^{-2}$ and $2^{-1}$, so, by the storage rule with $k = -2$ again, it must be stored as $m \cdot 2^{-54}$, with
 
 $$
 m = \frac{10808639105689191}{2} = 5404319552844595.5
@@ -2229,7 +2449,7 @@ $$
 \epsilon = 2^{-52} = 2.22 \times 10^{-16}
 $$
 
-is called the **machine epsilon**. The number $1 + \epsilon/2 = 1 + 2^{-53}$ lies exactly halfway between 1 and $1 + \epsilon$; round half to even picks 1 (its $m = 2^{52}$ is even), so $1 + 2^{-53}$ is stored as 1. More generally, every stored number $x$ between $2^{k}$ and $2^{k+1}$ (with $2^k \le x < 2^{k+1}$) has the power $2^{k-52}$, so the gap to the next stored number is $2^{k-52}$. Dividing by $x$:
+is called the **machine epsilon**. The number $1 + \epsilon/2 = 1 + 2^{-53}$ lies exactly halfway between 1 and $1 + \epsilon$; round half to even picks 1 (its $m = 2^{52}$ is even), so $1 + 2^{-53}$ is stored as 1. More generally, every stored number $x$ between $2^{k}$ and $2^{k+1}$ (with $2^k \le x < 2^{k+1}$) has the power $2^{k-52}$ (the storage rule), so the gap to the next stored number, whose $m$ is larger by 1, is $2^{k-52}$. Dividing by $x$:
 
 $$
 \frac{\mathrm{gap}}{x} = \frac{2^{k-52}}{x} \le \frac{2^{k-52}}{2^{k}} = 2^{-52} = \epsilon
@@ -2283,7 +2503,18 @@ $$
 
 (the fundamental theorem of calculus with the antiderivative $-1/x$ of $1/x^2$, whose value goes to 0 as $x$ grows). For $N = 10^6$ the method error lies between $9.99999 \times 10^{-7}$ and $10^{-6}$; Notebook 00d measures $9.999995 \times 10^{-7}$, more than $10^{7}$ times larger than even the largest rounding difference of the sums (196 ulps of about $2.2 \times 10^{-16}$ each, that is about $4 \times 10^{-14}$).
 
-**Tolerances.** Two runs of the same program in the same order agree byte for byte. Two *different* computations of the same quantity, such as two solvers, or one solver with two step sizes, agree only up to rounding and up to the errors of their methods. Such a comparison uses a **tolerance**: the largest difference that it accepts as agreement. The tolerance must be fixed *before* the comparison is made; a tolerance chosen after seeing the difference would prove nothing. The Revision record's Kohn-Sham solver was run with its canonical settings and again with refined settings (twice as many integration steps, tighter tolerances of its own, and one equation solved in another, exactly equivalent form that rounds along another path). The tolerances fixed in advance were $10^{-8}$ for energies, levels and thermodynamic quantities and $10^{-6}$ for profiles and derivatives. The eight measured largest differences are below their tolerances by factors (**margins**) between 4.7 and 7692 (COMPUTED: `Revision/kohn_sham/reports/ks-rust-determinism.json`, checks `refined_ground_energies` to `refined_heat_capacity`; the measured values are quoted by `Revision/kohn_sham/reports/ks-crosscheck.json`, key `rust_matrix_wide_uncertainties`).
+**Tolerances.** Two runs of the same program in the same order agree byte for byte. Two *different* computations of the same quantity, such as two solvers, or one solver with two step sizes, agree only up to rounding and up to the errors of their methods. Such a comparison uses a **tolerance**: the largest difference that it accepts as agreement. The tolerance must be fixed *before* the comparison is made; a tolerance chosen after seeing the difference would prove nothing. The Revision record's Kohn-Sham solver was run with its canonical settings and again with refined settings (twice as many integration steps, tighter tolerances of its own, and one equation solved in another, exactly equivalent form that rounds along another path). The tolerances fixed in advance were $10^{-8}$ for energies, levels and thermodynamic quantities and $10^{-6}$ for profiles and derivatives. The eight measured largest differences are below their tolerances by factors (**margins**) between 4.7 and 7692 (COMPUTED: `Revision/kohn_sham/reports/ks-rust-determinism.json`; the measured values are quoted by `Revision/kohn_sham/reports/ks-crosscheck.json`, key `rust_matrix_wide_uncertainties`). The eight comparisons are these eight checks of the determinism report:
+
+- `refined_ground_energies`: the ground-state energies;
+- `refined_ground_homo_lumo_gap`: the gaps between levels;
+- `refined_eigenvalues`: all Kohn-Sham levels;
+- `refined_delta_scf`: the excitation energies;
+- `refined_profiles`: the profiles;
+- `refined_adiabatic_derivatives`: the adiabatic derivatives;
+- `refined_thermodynamics`: the thermodynamic quantities;
+- `refined_heat_capacity`: the heat capacity.
+
+In the report the check `refined_mermin_root_path` stands between the last two; it is not a comparison with a tolerance but the negative control described next.
 
 **A negative control.** A **negative control** is a test that must detect a known error; if it does not, the test is useless. The record contains one that teaches a general lesson. An earlier version of the solver found the chemical potential $\mu$ (Chapter 13) with a method that was wrong by up to about $8 \times 10^{-10}$ in units of the mass $m$ in three thermal states, and it used that method in *both* runs. Both runs made the same rounding error, so their difference was tiny and hid the error. The present refined run finds $\mu$ along another rounding path, and its difference from the old result shows the error in full (`Revision/kohn_sham/reports/ks-rust-determinism.json`, check `refined_mermin_root_path`). Two computations that round the same way can agree with each other and both be wrong: a comparison is only as good as the independence of the two computations.
 
@@ -2579,10 +2810,10 @@ check_reproduces(
     sorted(measured) == sorted(SHORT_NAMES) and all(quoted.values())
     and all(verdicts[n] == "PASS" and measured[n] < tolerances[n] for n in SHORT_NAMES),
     "each of the eight measured differences of the record is below its tolerance",
-    f"{DETERMINISM}, checks refined_ground_energies to refined_heat_capacity")
+    f"{DETERMINISM}, checks " + ", ".join(SHORT_NAMES))
 ```
 
-The smallest margin is printed. The check requires that the cross-check quotes exactly these eight comparisons (`sorted` of a dictionary gives its sorted keys), that each measured number appears in its check's detail, and that each check passed with the measured difference below the tolerance.
+The smallest margin is printed. The check requires that the cross-check quotes exactly these eight comparisons (`sorted` of a dictionary gives its sorted keys), that each measured number appears in its check's detail, and that each check passed with the measured difference below the tolerance. Its record names the eight checks one by one: `", ".join(SHORT_NAMES)` joins the keys of the dictionary, in their order, into one string with a comma and a blank between neighbours. (In the report the check `refined_mermin_root_path` stands between the last two of them; it is not a comparison with a tolerance but the negative control of In [9].) Out [7] ends with the PASS line and the record line, which `say` breaks into four lines.
 
 **In [8], the tolerances drawn.**
 
@@ -2712,7 +2943,7 @@ save_figure(fig, "shared_rounding",
             r"$m$, which the blue bars show in full.")
 ```
 
-The figure `00d_4_shared_rounding.png`; its caption computes how much shorter the grey bars are. What Figure 00d.4 shows: in each state the orange and the blue bar have almost the same length (the present comparison sees the whole error), while the grey bar is hundreds to more than a million times shorter (the former comparison saw almost nothing). This is the lesson of the negative control of Section 0.22.
+The figure `00d_4_shared_rounding.png`; its caption computes how much shorter the grey bars are. What Figure 00d.4 shows: in each state the orange and the blue bar have almost the same length (the present comparison sees the whole error), while the grey bar is between 93 and 1.4 million times shorter, as the caption computes from the table of Out [9] (the former comparison saw almost nothing). This is the lesson of the negative control of Section 0.22.
 
 **In [11], random walks with seeds.**
 
@@ -3077,8 +3308,8 @@ The chapter also states, without proof, the theorems that later chapters prove: 
 
 - Notebook 00a: the installed versions (In [2] to In [4]); the determinant $-2.000000000000$ (In [5]); the derivative $2 \sin x \cos x$ (In [6]); 30 digits of $\pi$ (In [7]); the tangent line and the two exponentials at 401 points each (In [8], In [9]).
 - Notebook 00b: the names and the signs of the coordinates (In [2]; reproduces `Revision/algebra/reports/wolfram-algebra.json`, check `eta_in_author_order`); the eight entries of the metric (In [4]; reproduces `Revision/theory/reports/python-field-theory.json`, check `metric_from_vielbein_equals_SPEC`); no wrong sign at 4819 points (In [5]); $\det g = \cos^2 z$ (In [6]; reproduces `Revision/theory/reports/wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z`); $e^{3} = 20.0855$ and $e^{-3} = 0.049787$ (In [7]); the table of the length factors at $z = \pi/4$ with the product 0.7071 (In [8]; reproduces `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g_is_cos_z`); the volume factor equal to $\cos z$ within $8.9 \times 10^{-16}$ at 200 points for three values of $a_4$ (In [9]; reproduces `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`).
-- Notebook 00c: 12 of 12 checks of the charge-conjugation report (In [2]); the 27 reports of the record, all found by the search, every check PASS, and each report's own totals equal to the counted ones (In [5]; the counts follow the record: 940 checks when this chapter was written); the 16 counts of the table of `Revision/README.md` and the 3 counts quoted by `Revision/kohn_sham/reports/ks-crosscheck.json`, check `inputs_all_pass` (In [6]); the ledger with 10 PROVED, 1 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 2 OPEN rows, every report in exactly one row (In [9]); the twelve sentences of `Revision/pairing/reports/python-pairing.json`, key `not_established` (In [11]); 54 to 64 changed characters, mean 60.03, for one-character changes (In [12]); 24 recorded fingerprints equal to today's files (In [13]).
-- Notebook 00d: the forward, backward and pairwise errors of 196, 1 and 3 ulps, and the method error $9.999995 \times 10^{-7}$ (In [5]); the relative difference $2.65 \times 10^{-14}$ of the three sums (In [6]); the eight measured differences of the Kohn-Sham solver below their tolerances with the margins 4.7 to 7692 (In [7]; reproduces `Revision/kohn_sham/reports/ks-rust-determinism.json`, checks `refined_ground_energies` to `refined_heat_capacity`); the negative control with a hidden error up to $8.267 \times 10^{-10}$ in units of $m$ (In [9]; check `refined_mermin_root_path` of the same report); 12 distinct set orders for 12 hash seeds (In [12]); no CR LF line end in the 244 Rust and the 340 reference result files (In [15]; checks `outputs_lf_only` and `reference_outputs_lf_only`); 582 manifest fingerprints equal to today's files, and the record's repeat runs of both solvers byte-identical (In [16]; checks `reference_manifest`, `repeat_byte_identical` and `reference_repeat_byte_identical`).
+- Notebook 00c: 12 of 12 checks of the charge-conjugation report (In [2]); the statements $\mathcal{C}_+ = C$, $\mathcal{C}_- = \Gamma C$ and $J = 0$ for a real field, word for word in the details of that report (In [3]; checks `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus` and `real_fields_charge_conjugation`); the 27 reports of the record, all found by the search, every check PASS, and each report's own totals equal to the counted ones (In [5]; the counts follow the record: 947 checks in the run of 2026-10-08); the 16 counts of the table of `Revision/README.md` and the 3 counts quoted by `Revision/kohn_sham/reports/ks-crosscheck.json`, check `inputs_all_pass` (In [6]); the ledger with 10 PROVED, 1 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 2 OPEN rows, every report in exactly one row (In [9]); the twelve sentences of `Revision/pairing/reports/python-pairing.json`, key `not_established` (In [11]); 54 to 64 changed characters, mean 60.03, for one-character changes (In [12]); 24 recorded fingerprints equal to today's files (In [13]).
+- Notebook 00d: the forward, backward and pairwise errors of 196, 1 and 3 ulps, and the method error $9.999995 \times 10^{-7}$ (In [5]); the relative difference $2.65 \times 10^{-14}$ of the three sums (In [6]); the eight measured differences of the Kohn-Sham solver below their tolerances with the margins 4.7 to 7692 (In [7]; reproduces `Revision/kohn_sham/reports/ks-rust-determinism.json`, its eight comparison checks named in Section 0.22, from `refined_ground_energies` to `refined_heat_capacity` without the negative control `refined_mermin_root_path`); the negative control with a hidden error up to $8.267 \times 10^{-10}$ in units of $m$ (In [9]; check `refined_mermin_root_path` of the same report); 12 distinct set orders for 12 hash seeds (In [12]); no CR LF line end in the 244 Rust and the 340 reference result files (In [15]; checks `outputs_lf_only` and `reference_outputs_lf_only`); 582 manifest fingerprints equal to today's files, and the record's repeat runs of both solvers byte-identical (In [16]; checks `reference_manifest`, `repeat_byte_identical` and `reference_repeat_byte_identical`).
 
 **ASSUMED** (used, not derived here):
 
@@ -3086,9 +3317,9 @@ The chapter also states, without proof, the theorems that later chapters prove: 
 - the author's metric itself (Section 0.14), and the history $a_4 = A H x_4$ where it is used, a prescribed background (`Revision/field_equations_a4/reports/ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`);
 - the Z2 mirror at the edge $z = \pi/2$ of the hidden direction, in T2 and T3;
 - school facts used without proof: the determinant of a diagonal matrix is the product of its diagonal entries (proved in Chapter 1); every whole number is a product of primes in exactly one way; Euler's sum $\pi^2/6$; the rules of the floating-point arithmetic (53 binary digits, round half to even), which are a property of the computer;
-- that nobody can construct two different files with the same sha256 fingerprint (believed, not proved).
+- that a change of a single byte changes the sha256 fingerprint completely, beyond the 115 cases that Notebook 00c measures, and that nobody can construct two different files with the same sha256 fingerprint (both believed, not proved; Section 0.18).
 
-**HYPOTHESIS and OPEN.** The chapter adds no hypothesis of its own; it records the two HYPOTHESIS rows of the ledger (a time-varying dark sector from the fields; a partner universe of opposite charge) and the two OPEN rows (that the big bang creates universes in pairs, which the equations do not prove; and the excess of matter over antimatter, which the theory as built does not explain).
+**HYPOTHESIS and OPEN.** The chapter adds no hypothesis of its own; it records the two HYPOTHESIS rows of the ledger (a time-varying dark sector from the fields; a partner universe of opposite charge) and the two OPEN rows (that the big bang creates universes in pairs, which the equations do not prove; and what produces the excess of matter over antimatter, which the theory as built does not produce).
 
 ### 0.27 Exercises
 
@@ -3122,4 +3353,4 @@ The chapter also states, without proof, the theorems that later chapters prove: 
 
 **Exercise 8.** Theorem T1 is PROVED, and it says that a universe with mass $+m$ and its T1 image with mass $-m$ have opposite charges, so that together they have the total charge zero. (a) Why does this not prove that the big bang creates universes in pairs? (b) Name one calculation that would be needed in addition.
 
-*Answer.* (a) T1 is a map between solution sets: if a solution with $(m, \lambda)$ exists, then a solution with $(-m, -\lambda)$ exists. It says which configurations are allowed, not which configurations occur, when, or how often; a single universe with mass $+m$ is an equally valid solution without its partner. The zero total holds for classical fields; at the quantum level the image is the same quantum system written in other variables, and two independently quantised universes do not cancel (Q). The same situation is familiar from ordinary physics: the conservation of energy, momentum and charge allows two energetic photons to turn into an electron and a positron, but whether this happens, and how often, is computed from the dynamics of the particles, not from the conservation laws. (b) A dynamical calculation: for example a quantum amplitude, or a probability per unit time, for a transition from a state without universes to a state with the pair, or a solution of the coupled equations of the fields and of gravity that evolves from an initial state into the pair. None of these is derived in the Revision record, which is why the ledger labels the statement OPEN (`Revision/pairing/reports/python-pairing.json`, key `not_established`, sentences 1 and 2).
+*Answer.* (a) T1 is a map between solution sets: if a configuration of the field is a solution of the equations with $(m, \lambda)$, then its image under $\Gamma$ is a solution of the equations with $(-m, -\lambda)$. It says which configurations are allowed, not which configurations occur, when, or how often; a single universe with mass $+m$ is an equally valid solution without its partner. The zero total holds for classical fields; at the quantum level the image is the same quantum system written in other variables, and two independently quantised universes do not cancel (Q). The same situation is familiar from ordinary physics: the conservation of energy, momentum and charge allows two energetic photons to turn into an electron and a positron, but whether this happens, and how often, is computed from the dynamics of the particles, not from the conservation laws. (b) A dynamical calculation: for example a quantum amplitude, or a probability per unit time, for a transition from a state without universes to a state with the pair, or a solution of the coupled equations of the fields and of gravity that evolves from an initial state into the pair. None of these is derived in the Revision record, which is why the ledger labels the statement OPEN (`Revision/pairing/reports/python-pairing.json`, key `not_established`, sentences 1 and 2).

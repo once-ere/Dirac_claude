@@ -223,6 +223,22 @@ python -m jupyterlab 00a_check_installation.ipynb
 python -m nbconvert --to notebook --execute --inplace 00a_check_installation.ipynb
 ```
 
+- Debian 12: the version check of Step 2 prints 3.11, and the first of the three commands of Step 2 for a too-low version fails or is not found: those three commands add the package source ppa:deadsnakes, which serves Ubuntu only (and the command add-apt-repository comes with the package software-properties-common, which small installations lack). Debian 13 and newer have Python 3.13, which is new enough: there the two commands of Step 2 suffice. On Debian 12, build Python 3.14.5 from its source code with the commands below, in your home folder (about ten minutes; they add the command `python3.14` and leave the Python of the system unchanged), then type `python3.14` instead of `python3` in the command of Step 3 that creates the environment.
+
+```text
+sudo apt install build-essential pkg-config wget libssl-dev zlib1g-dev
+sudo apt install libbz2-dev libreadline-dev libsqlite3-dev
+sudo apt install libffi-dev liblzma-dev libncurses-dev
+wget https://www.python.org/ftp/python/3.14.5/Python-3.14.5.tgz
+tar -xzf Python-3.14.5.tgz
+cd Python-3.14.5
+./configure
+make -j 4
+sudo make altinstall
+cd ..
+python3.14 --version
+```
+
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
 ```text
@@ -304,8 +320,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 3.7 s, peak memory of the kernel process 173 MiB;
-- the check run: 3.1 s, peak memory of the kernel process 173 MiB.
+- the build run: 6.5 s, peak memory of the kernel process 173 MiB;
+- the check run: 4.2 s, peak memory of the kernel process 173 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -317,8 +333,8 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/00a_check_installation.ipynb`: `14ab794354bfa4863df98ec7c25ebefc23a57e232efa8589f2c69e1d69dd10a5`
-- `Revision/textbook/notebooks/src/00a_check_installation.py`: `93e312f543a06cf788edd93ca600088f07bcf5460a45696049c03f810983d8b1`
+- `Revision/textbook/notebooks/00a_check_installation.ipynb`: `dd4be50e1634b0aaa208e098c6451c37a88d7f2c59179f127116a9d29d10aa8c`
+- `Revision/textbook/notebooks/src/00a_check_installation.py`: `463b0f4112941159a8942db6ae244b8fad39878c0ca3db52c8886cd07251294f`
 - `Revision/textbook/figures/00a.captions.json`: `7432c1c07d2c4bc435353681e3b49dcabcdf92d94b983f36ccae79321b5974e3`
 - `Revision/textbook/figures/00a_1_parabola_tangent.png`: `10bcc732b84cbe5d5b3f0c085efd1aac900f0139306df13634656ba717065c0c`
 - `Revision/textbook/figures/00a_2_growth_and_decay.png`: `8744cd6df66199e4ec9b8c5d93308c0332eed84852ff91613d5386006f4dbf2b`
@@ -329,4 +345,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 3 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":173.0,"seconds":3.7},"check":{"date":"2026-10-08","files":3,"peak_mb":173.0,"result":"passed","seconds":3.1},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":173.0,"seconds":6.5},"check":{"date":"2026-10-08","files":3,"peak_mb":173.0,"result":"passed","seconds":4.2},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

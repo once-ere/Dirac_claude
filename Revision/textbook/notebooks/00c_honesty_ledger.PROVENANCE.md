@@ -261,6 +261,13 @@ git status
 git restore FILE
 ```
 
+- "Jupyter command `jupyter-lab` not found" or "Jupyter command `jupyter-nbconvert` not found" after a command that starts with `python -m jupyter`: that form still has to find the programs jupyter-lab and jupyter-nbconvert in the folders where the terminal looks for programs, and it did not find them there. Do Step 4 and type `jupyter` again. Or start the two programs through Python itself, in the folder of the notebook: the first command below does what `jupyter lab` does in Step 5, the second what `jupyter nbconvert` does in Step 6.
+
+```text
+python -m jupyterlab 00c_honesty_ledger.ipynb
+python -m nbconvert --to notebook --execute --inplace 00c_honesty_ledger.ipynb
+```
+
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
 ```text
@@ -281,7 +288,7 @@ In [3]       reproduces Revision/lead_checks/reports/charge-conjugation-and-u1.j
 In [3]      charge_conjugation_matrix_plus, charge_conjugation_matrix_minus and
 In [3]      real_fields_charge_conjugation
 In [5]  PASS the search finds exactly the 27 reports of the list
-In [5]  PASS all 940 checks of the 27 reports have the verdict PASS
+In [5]  PASS all 947 checks of the 27 reports have the verdict PASS
 In [5]  PASS each report states the same totals that we counted
 In [6]  PASS the 16 counts quoted in the README equal ours
 In [6]       reproduces Revision/README.md, the table of the folders
@@ -309,14 +316,14 @@ The key numbers are printed as RESULT lines:
 In [2]  RESULT checks with the verdict PASS, counted = 12 of 12
 In [5]  RESULT verifier reports found in the folder Revision = 27
 In [5]  RESULT reports = 27
-In [5]  RESULT checks in all reports = 940
-In [5]  RESULT checks done with the engine Wolfram = 377
-In [5]  RESULT checks done with the engine Python = 456
+In [5]  RESULT checks in all reports = 947
+In [5]  RESULT checks done with the engine Wolfram = 382
+In [5]  RESULT checks done with the engine Python = 458
 In [5]  RESULT checks done with the engine Rust = 70
 In [5]  RESULT checks done with the engine lead = 37
 In [6]  RESULT counts quoted in the README table = 16
-In [8]  RESULT checks of the Wolfram verifiers of the eight subjects = 377
-In [8]  RESULT checks of the Python verifiers of the eight subjects = 366
+In [8]  RESULT checks of the Wolfram verifiers of the eight subjects = 382
+In [8]  RESULT checks of the Python verifiers of the eight subjects = 368
 In [12]  RESULT characters of the sentence = 115
 In [12]  RESULT changed characters of the fingerprint: smallest, mean, largest = 54, 60.03, 64
 In [13]  RESULT recorded fingerprints compared = 24
@@ -335,8 +342,8 @@ ALL 15 CHECKS PASSED (notebook 00c)
 
 The notebook shows 4 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
-- `Revision/textbook/figures/00c_1_checks_by_report.png` (1139 x 1027 pixels): The number of checks in each of the 27 verifier reports of the Revision record (horizontal axis, a count; one bar per report, named on the vertical axis and grouped by folder: algebra, theory, field equations for $a_4$, GKD and Lovelock, Kohn-Sham, pairing, lead checks). The colour gives the engine: blue Wolfram Language, orange Python, aqua Rust, yellow the lead's independent Python checks. All 940 checks (377 Wolfram Language, 456 Python, 70 Rust and 37 lead checks) have the verdict PASS; the largest report is wolfram-pairing.json with 101 checks.
-- `Revision/textbook/figures/00c_2_two_verifiers.png` (1214 x 703 pixels): For each of eight subjects of the Revision record (vertical axis), the number of checks of its Wolfram Language verifier (blue, upper bar) and of its independent Python verifier (orange, lower bar); horizontal axis a count. The two verifiers share no code; each also checks statements that the other does not, so the numbers differ. Together they hold 377 Wolfram and 366 Python checks, all PASS.
+- `Revision/textbook/figures/00c_1_checks_by_report.png` (1139 x 1027 pixels): The number of checks in each of the 27 verifier reports of the Revision record (horizontal axis, a count; one bar per report, named on the vertical axis and grouped by folder: algebra, theory, field equations for $a_4$, GKD and Lovelock, Kohn-Sham, pairing, lead checks). The colour gives the engine: blue Wolfram Language, orange Python, aqua Rust, yellow the lead's independent Python checks. All 947 checks (382 Wolfram Language, 458 Python, 70 Rust and 37 lead checks) have the verdict PASS; the largest report is wolfram-pairing.json with 101 checks.
+- `Revision/textbook/figures/00c_2_two_verifiers.png` (1214 x 703 pixels): For each of eight subjects of the Revision record (vertical axis), the number of checks of its Wolfram Language verifier (blue, upper bar) and of its independent Python verifier (orange, lower bar); horizontal axis a count. The two verifiers share no code; each also checks statements that the other does not, so the numbers differ. Together they hold 382 Wolfram and 368 Python checks, all PASS.
 - `Revision/textbook/figures/00c_3_ledger.png` (920 x 1050 pixels): The honesty ledger of the book at a glance: one row per main statement (written above its bar), the length of its bar the number of checks in the reports that verify it (horizontal axis, a count), the colour its label: blue PROVED, orange COMPUTED, aqua ASSUMED. The ASSUMED row has five checks, which show why the Kohn-Sham history of $a_4$ must be assumed. The last four rows have no bar, because no check of the record establishes them: two hypotheses (a time-varying dark sector, and a partner universe of opposite charge) and two open questions (whether the big bang creates universes in pairs, which is not proved, and what produces the excess of matter over antimatter, which the theory as built does not produce).
 - `Revision/textbook/figures/00c_4_fingerprints.png` (913 x 611 pixels): How much a sha256 fingerprint changes when one character of a text changes: for each of the 115 characters of one sentence, the character was replaced by the next one and the number of the 64 hexadecimal characters of the fingerprint that changed was counted; horizontal axis that number (0 to 64), vertical axis how many of the 115 altered sentences gave it. Every change altered between 54 and 64 of the 64 characters, on average 60.03, as for a random string (dotted line at 60): none of the 115 one-character changes left the fingerprint nearly the same.
 
@@ -348,10 +355,10 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/00c.captions.json` | 2356 | `aedfdba586774ebce9ac5c8565690b66382a7f4e48773c867cd9bf8125b2f2a6` |
-| `Revision/textbook/figures/00c_1_checks_by_report.png` | 115636 | `fcca59ef380b35f79312a0cd505e1278f7a0969c5beeedf71142aad96891c9fa` |
-| `Revision/textbook/figures/00c_2_two_verifiers.png` | 66457 | `cd40af6f2366c0b84ebf9be4f4c7a18af79bd15f8b1267057d8b067e9f1315d7` |
-| `Revision/textbook/figures/00c_3_ledger.png` | 170117 | `4a69505256b5584872cbfe93662bb2f8de2210a61df7c8cc169fb92d3acc0105` |
+| `Revision/textbook/figures/00c.captions.json` | 2356 | `5a6ef3a7214b9e238bb5befa32715969dfd66c384c039cb9203dc23256260bae` |
+| `Revision/textbook/figures/00c_1_checks_by_report.png` | 115753 | `b15da53c79412af6a56c8efe168f630304487b52fe367f2260d9f2f758a05d07` |
+| `Revision/textbook/figures/00c_2_two_verifiers.png` | 66739 | `cfbc85fd61fa0bd43ef6f3c60293996aba4ab0edba173ff42abff76257f0d5c7` |
+| `Revision/textbook/figures/00c_3_ledger.png` | 170168 | `ba9076238e2447e479b4fbf11387d8486d67f9cda9e4dd934b88cec9dba4f1b1` |
 | `Revision/textbook/figures/00c_4_fingerprints.png` | 48872 | `7baa35a0d8de0ec7bae6aac8259d8bcd35e1101eafc78adaa867c031dc58c564` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/00c_honesty_ledger.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -375,8 +382,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 6.7 s, peak memory of the kernel process 140 MiB;
-- the check run: 4.4 s, peak memory of the kernel process 140 MiB.
+- the build run: 4.1 s, peak memory of the kernel process 138 MiB;
+- the check run: 3.6 s, peak memory of the kernel process 139 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -388,12 +395,12 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `70d4fd7782e969ba5a580b0ca03e290dd51f87e2434cf3fff5cff0e28e20f961`
-- `Revision/textbook/notebooks/src/00c_honesty_ledger.py`: `9ade3affac2417f748c667df7592927280a07717a9eafbc8698e675664327b02`
-- `Revision/textbook/figures/00c.captions.json`: `aedfdba586774ebce9ac5c8565690b66382a7f4e48773c867cd9bf8125b2f2a6`
-- `Revision/textbook/figures/00c_1_checks_by_report.png`: `fcca59ef380b35f79312a0cd505e1278f7a0969c5beeedf71142aad96891c9fa`
-- `Revision/textbook/figures/00c_2_two_verifiers.png`: `cd40af6f2366c0b84ebf9be4f4c7a18af79bd15f8b1267057d8b067e9f1315d7`
-- `Revision/textbook/figures/00c_3_ledger.png`: `4a69505256b5584872cbfe93662bb2f8de2210a61df7c8cc169fb92d3acc0105`
+- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `dae53db973ab95c8292aedf301793c9f0e0a76bc5e52b69dc4ff6412498571e2`
+- `Revision/textbook/notebooks/src/00c_honesty_ledger.py`: `0014660bfc08358515c922cf64d8c0f198e0f3e7353493bf280e0d4df3a856b4`
+- `Revision/textbook/figures/00c.captions.json`: `5a6ef3a7214b9e238bb5befa32715969dfd66c384c039cb9203dc23256260bae`
+- `Revision/textbook/figures/00c_1_checks_by_report.png`: `b15da53c79412af6a56c8efe168f630304487b52fe367f2260d9f2f758a05d07`
+- `Revision/textbook/figures/00c_2_two_verifiers.png`: `cfbc85fd61fa0bd43ef6f3c60293996aba4ab0edba173ff42abff76257f0d5c7`
+- `Revision/textbook/figures/00c_3_ledger.png`: `ba9076238e2447e479b4fbf11387d8486d67f9cda9e4dd934b88cec9dba4f1b1`
 - `Revision/textbook/figures/00c_4_fingerprints.png`: `7baa35a0d8de0ec7bae6aac8259d8bcd35e1101eafc78adaa867c031dc58c564`
 
 ## 7. Verification
@@ -402,4 +409,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 5 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":140.0,"seconds":6.7},"check":{"date":"2026-10-08","files":5,"peak_mb":140.0,"result":"passed","seconds":4.4},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":138.0,"seconds":4.1},"check":{"date":"2026-10-08","files":5,"peak_mb":139.0,"result":"passed","seconds":3.6},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
