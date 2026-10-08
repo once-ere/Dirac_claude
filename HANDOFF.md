@@ -147,6 +147,25 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4w STATE AND ORDER 2026-10-08 ~15:35
+
+Done since 0.4v: tip_convergence committed (a8eb09d) and re-run by the lead byte-identically; gate 65 steps + 'Failed to open
+file' rule + LF test + README corrections (ab84209); whole-book test build OK (<scratchpad>/bookcheck1: 6457 pages, no LaTeX
+warning, register = verify).  INCIDENT 15:11: the old-Stage-5 reference pairs job (--workers 8) had two workers at 167 GB and
+123 GB (runaway minusM_control and m3 lamp2 runs: 14k-104k states after widening the window); commit charge 325/326 GB; the
+Stage-4 R1 run died with MemoryError.  The lead killed the pairs job; R1 RESTARTED 15:15 (<scratchpad>/stage4_R1, the failed
+attempt in stage4_R1_oom); an agent (s5guard, <scratchpad>/s5guard/) designs a deterministic state/window guard in the DRIVER
+ks_reference_pairs.py (not the solver, whose sha the Stage-4 records pin), writes erratum E5.3 and relaunches the pairs.
+ORDER: (1) phase 3c-rev2 (wf_35f24f29-e41: theory incl. the detached 45-min verify_field_theory.wls, roots-a4, docs-a, docs-b)
+-> commit; (2) dark_sector generator texts + Revision/notebooks/dark_sector_hypotheses cell 32 (after the notebooks
+fix-verifier) and KOHN_SHAM_DEFLATING_FIELD 5/15.3/15.4 with the tip study (the agent's sentences in its report) -> commit;
+(3) old Stage 5 numerics -> pairs checker -> documents -> gate -> matter-antimatter; (4) old Stage 4 R2-R5 after R1;
+(5) TEXTBOOK SWEEP after the Revision record is final: nbkit check of every notebook (00c must list fock-quartic.json and
+tip-convergence.json and the two new README counts; chapter 00 quotes '39 reports', '37 counts'), rebuild what fails with its
+chapter, phase 3c-book review, chapter 23 template ('long step' definition; 65 steps, 9 long), 23a LAST, run_all.py, assemble,
+PDF --date 'October 2026' --wide-page-numbers --register, test_universes_in_pairs_textbook; (6) full gate detached,
+EXECUTION_PROVENANCE_FULL=1, all suites, two fresh clones, push, notify.
+
 ### 0.4v STATE 2026-10-08 ~15:10 (phase 3c-rev fixers done or finishing; follow-up round planned)
 
 Committed: chapter-23 kit (36f7fce), 21d words list + check_chapter --book --wide-page-numbers (b0bae4b), Revision/workflows LF
