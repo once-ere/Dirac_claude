@@ -68,8 +68,11 @@ Both T3 verifiers were re-run and reproduce `t3-theory.json`, `reports/wolfram-t
 byte for byte; every proof step was re-derived. No error was found in the statement or the proof. Gaps found and
 closed (details in `t3-completion.json` adversarial_verification):
 
-1. `verify_t3.wls` writes the Kohn-Sham coefficients 15/16, -1/16, 15/32, -1/32 into the script instead of reading
-   ks-theory.json, and its v_v clause compares an expression with itself: `T3C_mean_field_coefficients_from_ks_theory`.
+1. `verify_t3.wls` wrote the Kohn-Sham coefficients 15/16, -1/16, 15/32, -1/32 into the script instead of reading
+   ks-theory.json, and its v_v clause compared an expression with itself: `T3C_mean_field_coefficients_from_ks_theory`.
+   Fixed at the root on 2026-10-08: `verify_t3.wls` now reads the coefficients from ks-theory.json and its check
+   `T3_mean_field_map` writes v_v as a function of (m, lambda, n, S) and compares its values at the original and the
+   image arguments (10/10; a broken coefficient makes the check fail; wolfram/WOLFRAMSCRIPT_PROVENANCE.md section 6.5).
 2. The filling convention (hypothesis H5) was used for the -M member without showing that its particle set is the
    image of the +M member's: `T3C_filling_convention_mapped`.
 3. The proof covers the four diagonal energy-momentum components of the 2 x 2 reduction; the 16-component Krein rule
