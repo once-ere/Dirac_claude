@@ -1,5 +1,8 @@
 # Stage 5 document outlines (binding structure; numbers only from the Stage-5 reports)
 
+Errata E5.1 (quantum reading of the T1 corollary) and E5.2 (Rust y-grid uncertainty per member) of
+STAGE5_SPEC.md section 9 (2026-10-08) bind both documents.
+
 ## A. provenance/DIRAC16COMPLEX00_FIELD_THEORY.md
 
 Title: "dirac16complex and dirac16complex00: Lagrangians, field equations, energy-momentum
@@ -48,17 +51,28 @@ field"
 2. Conventions and the facts about gamma^8, C, B used in the proofs.
 3. Theorem T1 (chirality map, field level) with proof; corollary: vanishing total
    energy-momentum and charge of a pair (hypotheses: lambda -> -lambda, or lambda = 0);
-   what "creation at x4 = 0" means as a statement about constraints/conservation.
+   the corollary is a statement about CLASSICAL fields (commuting c-number fields, or two
+   independent classical fields in the correlated configuration Psi_- = gamma^8 Psi_+); its
+   quantum reading per E5.1: the operator identities hold, but the image field under its own
+   anticommutator -B is the same quantum system, with x4-generator, charge and metric EMT
+   +H_+, +Q_+, +T_+, so no reading gives a cancellation between two independent, consistently
+   quantised universes; what "creation at x4 = 0" means as a statement about
+   constraints/conservation.
 4. Theorem T2 (mirror map with the same lambda; Pin reflection; the Z2 mirror universe of
    mass -M across the brane).
 5. The Kohn–Sham model of each field in the primordial field (Stage-4 frame; the Wick sign
    of the statistics; e_x and the KS potentials for both fields; the model's status).
 6. Theorem T3 (KS level): the exact block map, the transformed boundary conditions, the
    mapping of spectra, occupations, energies, densities, EMT; the ground and first excited
-   states of the +M and -M universes; pair totals at the KS level; what fails with
+   states of the +M and -M universes; pair totals at the KS level (the Krein-image pair
+   totals E = 0, charge 0, T = 0 are exact identities read as X + (-X) = 0 between the +M
+   values and the (-m, -lambda) formulas on the same state, E5.1); what fails with
    untransformed boundary conditions.
 7. Numerical demonstration T4 (both solvers, both fields): tables and figures of the +M,
-   -M (transformed) and -M (untransformed) runs; pairing deviations; pair totals.
+   -M (transformed) and -M (untransformed) runs; pairing deviations; pair totals; every
+   member of a Rust y-grid refinement family compared with the reference with its own
+   grid-error term (E5.2).
 8. Verification records.
 9. Reproduction commands.
-10. What is proved, what is interpretation, open problems.
+10. What is proved, what is interpretation, open problems (including E5.1: no cancellation
+    between two independent quantised universes is proved or claimed).
