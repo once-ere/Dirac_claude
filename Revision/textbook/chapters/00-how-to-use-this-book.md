@@ -1809,7 +1809,7 @@ check(disagree == [], "each report states the same totals that we counted")
 
 For every report our count must equal what the report states about itself (for the comparison with the author's notebook: 73 PASS of 78, as its own summary says). The GKD self-test states no totals; for it the stated verdict SUCCESS is required instead. Out [5] ends with this PASS line.
 
-**In [6], two other places that quote the counts.**
+**In [6], three other places that quote the counts.**
 
 ```python
 R = "Revision/"
@@ -1819,7 +1819,7 @@ README_ORDER = [  # the reports whose counts the README table quotes, in its ord
     R + "gkd_lovelock/results/wolfram-gkd-report.json",
 ```
 
-`R + "..."` joins two strings. The list `README_ORDER` names, in the order in which they appear in the table of the file `Revision/README.md`, the 16 reports whose counts that table quotes. The first row of the table, `gkd_lovelock/`, quotes three counts: that of the Rust report on the Lovelock tensors, then those of the Python and of the Wolfram verifier.
+`R + "..."` joins two strings. The list `README_ORDER` names, in the order in which they appear in the table of the file `Revision/README.md`, the 37 reports whose counts that table quotes (three of them twice, as the last lines of the list show). The first row of the table, `gkd_lovelock/`, quotes three counts: that of the Rust report on the Lovelock tensors, then those of the Python and of the Wolfram verifier.
 
 ```python
     R + "algebra/reports/wolfram-algebra.json",  # row algebra/
@@ -1836,14 +1836,50 @@ The rows `algebra/` (two counts, Wolfram then Python) and `theory/` (four counts
     R + "field_equations_a4/reports/wolfram-a4-report.json",  # row field_equations_a4/
     R + "field_equations_a4/reports/python-a4-report.json",
     R + "field_equations_a4/reports/ks-source-conditions.json",
+    R + "field_equations_a4/ks_source/reports/ks-source-a4.json",
+    R + "kohn_sham/reports/ks-theory-wolfram.json",  # row kohn_sham/
+    R + "kohn_sham/reports/ks-theory-python.json",
+    R + "kohn_sham/reports/ks-rust-solver.json",
+    R + "kohn_sham/reports/ks-rust-determinism.json",
+    R + "kohn_sham/reports/ks-rust-mermin-roots.json",
+    R + "kohn_sham/reports/ks-reference.json",
+    R + "kohn_sham/reports/ks-crosscheck.json",
+```
+
+The rows `field_equations_a4/` (four counts: Wolfram, Python, the Kohn-Sham source conditions, and the folder `ks_source`) and `kohn_sham/` (seven counts: the theory in Wolfram and in Python, the Rust solver, its determinism, the Mermin roots, the reference solver and the cross-check).
+
+```python
+    R + "dark_sector/dirac16complex/reports/derivation-checks.json",  # dark_sector/
+    R + "dark_sector/dirac16complex/reports/ks-history-run.json",
+    R + "dark_sector/dirac16complex/reports/eos-checks.json",
+    R + "dark_sector/dirac16complex/reports/independent-checks.json",
+    R + "dark_sector/dirac16complex00/reports/python-derive-eos.json",
+    R + "dark_sector/dirac16complex00/reports/python-independent-numerics.json",
+```
+
+The row `dark_sector/` (six counts: four for the field dirac16complex, two for dirac16complex00).
+
+```python
     R + "pairing/reports/wolfram-pairing.json",  # row pairing/
     R + "pairing/reports/python-pairing.json",
     R + "pairing/kohn_sham/reports/wolfram-t3.json",
     R + "pairing/kohn_sham/reports/python-t3.json",
+    R + "pairing/kohn_sham/reports/wolfram-t3-completion.json",
+    R + "pairing/kohn_sham/reports/python-t3-completion.json",
+    R + "pairing/kohn_sham/reports/t3-rust-demo.json",
+    R + "pairing/kohn_sham/reports/t3-reference-demo.json",
+```
+
+The row `pairing/` (eight counts: T1, T2 and Q in Wolfram and in Python; T3 in Wolfram and in Python; its completion in Wolfram and in Python; the two demonstrations, with the Rust solver and with the reference solver).
+
+```python
+    R + "gkd_lovelock/results/lovelock-report.json",  # row docs/: LOVELOCK_GKD
+    R + "gkd_lovelock/results/wolfram-gkd-report.json",
+    R + "gkd_lovelock/results/python-lovelock-report.json",
 ]
 ```
 
-The rows `field_equations_a4/` (three counts: Wolfram, Python, and the Kohn-Sham source conditions) and `pairing/` (four counts: T1, T2 and Q in Wolfram and in Python, then T3 in Wolfram and in Python). The other eleven reports have no count in the table (its row `kohn_sham/` says only what was computed, and the GKD self-test and the lead's checks are not named there), so they are not in this list; the counts of three Kohn-Sham reports are compared with the cross-check at the end of this cell.
+The row `docs/` names the document on the Lovelock tensors together with the counts of its three reports, in the order Rust, Wolfram, Python; so these three reports stand twice in the list. The reports that the table does not quote (the GKD self-test, the comparison with the author's notebook and the lead's three checks) are not in this list.
 
 ```python
 readme_lines = repository_file("Revision/README.md").read_text(
@@ -1854,7 +1890,7 @@ say("the README quotes: " + ", ".join(f"{p}/{t}" for p, t in quoted_readme))
 report("counts quoted in the README table", len(quoted_readme))
 ```
 
-The file is read and cut into lines; the lines of the table of the folders start with a vertical bar, a blank and a backtick, and they are joined again. A **regular expression** is a pattern that describes a family of texts: in `(\d+)/(\d+)`, `\d` means one digit, `+` means one or more of what stands before it, and the round brackets mark the parts to return. `re.findall` returns every match as a pair of the two marked parts, such as `("19", "19")`; `int` turns them into numbers. Out [6] prints the 16 counts found.
+The file is read and cut into lines; the lines of the table of the folders start with a vertical bar, a blank and a backtick, and they are joined again. A **regular expression** is a pattern that describes a family of texts: in `(\d+)/(\d+)`, `\d` means one digit, `+` means one or more of what stands before it, and the round brackets mark the parts to return. `re.findall` returns every match as a pair of the two marked parts, such as `("19", "19")`; `int` turns them into numbers. Out [6] prints the 37 counts found.
 
 ```python
 check_reproduces(quoted_readme == [counted[path] for path in README_ORDER],
@@ -1862,7 +1898,7 @@ check_reproduces(quoted_readme == [counted[path] for path in README_ORDER],
                  "Revision/README.md, the table of the folders")
 ```
 
-The 16 quoted counts must equal our counts of the 16 reports, in this order.
+The 37 quoted counts must equal our counts of the 37 entries of the list, in this order.
 
 ```python
 CROSS = "Revision/kohn_sham/reports/ks-crosscheck.json"
@@ -1879,7 +1915,21 @@ check_reproduces([(int(p), int(t)) for p, t in quoted] == ours,
                  f"{CROSS}, check inputs_all_pass")
 ```
 
-The Kohn-Sham cross-check read three other reports before it compared the two solvers, and quoted their counts in the detail of its check `inputs_all_pass`, in the form `37/37 PASS`. The pattern `(\d+)/(\d+) PASS` finds them; they must equal our counts of the reference report, the Rust solver report and the determinism report, in this order. Out [6] ends with the PASS line.
+The Kohn-Sham cross-check read three other reports before it compared the two solvers, and quoted their counts in the detail of its check `inputs_all_pass`, in the form `37/37 PASS`. The pattern `(\d+)/(\d+) PASS` finds them; they must equal our counts of the reference report, the Rust solver report and the determinism report, in this order.
+
+```python
+SUMMARY = "Revision/dark_sector/dirac16complex/outputs/eos-summary.json"
+EOS = "Revision/dark_sector/dirac16complex/reports/eos-checks.json"
+summary_numbers = read_report(SUMMARY)["checks"]  # a dictionary of two numbers
+say(f"the dark-sector summary quotes: {summary_numbers}")
+quoted_eos = (summary_numbers["pass"], summary_numbers["total"])
+check_reproduces(not_reports == [SUMMARY] and quoted_eos == counted[EOS],
+                 f"the dark-sector summary quotes the {counted[EOS][1]} checks of "
+                 "eos-checks.json that we counted",
+                 f"{SUMMARY}, key checks")
+```
+
+The summary file that the search of In [5] set aside holds, under its key `checks`, the dictionary `{'total': 13, 'pass': 13}` (Out [6] prints it as Python writes a dictionary, with single quotes). The program that writes the equations of state of the dark sector writes both this file and the report `eos-checks.json`, and the two numbers are the totals of that report. The check requires that the summary file is the only file set aside by the search and that its two numbers, in the order (passed, total), equal our count of `eos-checks.json`. Out [6] ends with this PASS line.
 
 **In [7], a bar for every report.**
 

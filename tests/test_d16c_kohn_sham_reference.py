@@ -651,9 +651,13 @@ class CheckerTests(unittest.TestCase):
         from unittest import mock
         self.assertEqual(C.repo_path(os.path.join(C.REPO, "artifacts", "x", "y.json")), "artifacts/x/y.json")
         with tempfile.TemporaryDirectory() as tmp, tempfile.TemporaryDirectory() as outside:
+            import shutil
             repo = os.path.join(tmp, "repo")
             ref = os.path.join(repo, "artifacts", "reference")
             os.makedirs(ref)
+            os.makedirs(os.path.join(repo, "scripts"))      # main() records the solver's sha256 from REPO
+            shutil.copyfile(os.path.join(C.REPO, "scripts", "ks_reference_solver.py"),
+                            os.path.join(repo, "scripts", "ks_reference_solver.py"))
             with open(os.path.join(ref, "reference-summary.json"), "w", encoding="utf-8") as handle:
                 json.dump({"complete": True, "runs": [{"label": "absent_run", "converged": True}]}, handle)
             report_path = os.path.join(outside, "report.json")
