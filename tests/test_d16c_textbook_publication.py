@@ -44,6 +44,7 @@ import json
 import re
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -781,21 +782,28 @@ class HonestyStatementTests(TextbookTestCase):
         frozen = frozen_kohn_sham_report()
         errata_text = ERRATA.read_text(encoding="utf-8")
         with tempfile.TemporaryDirectory() as directory:
+            # The copy gets one more check and no failure, so its counts differ from the
+            # frozen ones and from every count the errata states now.
             report_copy = Path(directory) / "python-check-report.json"
             changed = json.loads(KOHN_SHAM_CHECK_REPORT.read_text(encoding="utf-8"))
             changed["checks"] = {name: True for name in changed["checks"]}
+            changed["checks"]["planted_extra_check"] = True
+            changed["checkCount"] = len(changed["checks"])
             changed["failedCheckCount"], changed["failed"] = 0, []
             report_copy.write_text(json.dumps(changed), encoding="utf-8")
             current = load_json(report_copy)
+            new_line = CURRENT_COUNTS_FORMAT % report_counts(current)
+            self.assertNotIn(new_line, errata_text)
             errata_copy = Path(directory) / "errata.md"
             errata_copy.write_text(errata_text, encoding="utf-8")
             problems = stage4_status_problems(self.section["16.1"], frozen, current,
                                               errata_copy.read_text(encoding="utf-8"))
-            self.assertTrue(any("does not state 'python-check-report.json: 63 checks, 0 failed'"
-                                in problem for problem in problems), problems)
-            updated = errata_text.replace(CURRENT_COUNTS_FORMAT % report_counts(frozen),
-                                          CURRENT_COUNTS_FORMAT % (63, 0))
-            self.assertNotEqual(updated, errata_text)
+            self.assertTrue(any("does not state %r" % new_line in problem
+                                for problem in problems), problems)
+            # The same errata with the current line updated passes.
+            updated = CURRENT_COUNTS.sub(new_line, errata_text)
+            if updated == errata_text:
+                updated += "\n" + new_line + "\n"
             errata_copy.write_text(updated, encoding="utf-8")
             self.assertEqual(stage4_status_problems(self.section["16.1"], frozen, current,
                                                     errata_copy.read_text(encoding="utf-8")),
@@ -803,12 +811,13 @@ class HonestyStatementTests(TextbookTestCase):
         # A stale count in the exact form, a changed book sentence and an inconsistent
         # report are reported as well.
         current = load_json(KOHN_SHAM_CHECK_REPORT)
-        stale = errata_text + "\n" + CURRENT_COUNTS_FORMAT % (64, 2) + "\n"
+        checks, failed = report_counts(current)
+        stale = errata_text + "\n" + CURRENT_COUNTS_FORMAT % (checks + 1, failed + 1) + "\n"
         self.assertTrue(stage4_status_problems(self.section["16.1"], frozen, current, stale))
         changed_section = self.section["16.1"].replace("63 checks of which 1 failed",
                                                        "63 checks of which 0 failed")
         self.assertTrue(stage4_status_problems(changed_section, frozen, current, errata_text))
-        inconsistent = dict(current, failedCheckCount=0)
+        inconsistent = dict(current, failedCheckCount=failed + 1)
         self.assertTrue(stage4_status_problems(self.section["16.1"], frozen, inconsistent,
                                                errata_text))
 

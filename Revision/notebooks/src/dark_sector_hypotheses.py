@@ -1383,8 +1383,8 @@ Each figure is drawn from the computations of this notebook and is also saved as
 Left: $w_\mathrm{eff}(A) = w_\mathrm{eff}(B) = X/E$ along the history for the three series, with the
 reference values 1/3 (radiation) and 0 (dust): the gas rises toward 1/3; the interacting zero modes
 (N = 8) stay at 0. Right: the same states under normalisation C, $w_\mathrm{eff}(C) = X/E - 1$, with the
-Unite constant $w = -0.764$, the Unite $w_0 = -0.861$ and $w = -1$: the gas lies between $-0.71$ and
-$-0.68$, never near $-0.861$ and never below $-1$. The two panels show the SAME states: only the
+Unite constant $w = -0.764$, the Unite $w_0 = -0.861$ and $w = -1$: the gas lies between $-0.708$ and
+$-0.673$, never near $-0.861$ and never below $-1$. The two panels show the SAME states: only the
 observer ASSUMPTION differs.
 """)
 
