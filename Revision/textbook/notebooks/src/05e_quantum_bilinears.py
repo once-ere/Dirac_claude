@@ -22,9 +22,10 @@ M = 1 and M = Gamma (Revision/lead_checks/reports/charge-conjugation-and-u1.json
 quantum_charge_conjugation_unitary_type), and the conjugated bilinears.  Result: each
 conjugated bilinear equals the bilinear times the sign of the ANTICOMMUTING row of the
 record's measured table (check bilinears_under_charge_conjugation) plus a constant, and
-normal ordering removes exactly that constant.  The parenthetical remark in the detail
-text of that record check ("normal ordering supplies one more sign") is contradicted by
-this computation; the notebook says so.
+normal ordering removes exactly that constant.  This agrees with the detail text of that
+record check as corrected on 2026-10-08 ("normal ordering adds no sign"); the earlier
+remark there ("normal ordering supplies one more sign") was contradicted by this
+computation and has been withdrawn from the record.
 """
 
 import sys
@@ -997,13 +998,16 @@ CELLS = [
     anticommuting ($\epsilon = -1$) components, and draws three tables: commuting,
     anticommuting and the quantised field after normal ordering.
 
-    **About a remark in the record.** The detail text of the record's check
-    `bilinears_under_charge_conjugation` adds in parentheses that in the quantum theory
-    normal ordering supplies one more sign for each bilinear, which would give
-    $(S, J) \to (S, -J)$ for $\mathcal{C}_+$. That remark is not part of the record's
-    measured table, and this computation contradicts it: normal ordering removes
-    only the constant $c$, and the operator signs are exactly the measured signs of
-    the anticommuting rows.
+    **What the record says.** The detail text of the record's check
+    `bilinears_under_charge_conjugation` states that normal ordering adds no sign: it
+    subtracts the vacuum value, a number, so $X' = sX + c$ gives
+    $:\!X'\!: = s\,:\!X\!:$. The record makes no Fock-space computation; this cell
+    makes one. It confirms the statement: normal ordering removes only the constant
+    $c$, and the operator signs are exactly the measured signs of the anticommuting
+    rows. (Until 2026-10-08 that detail text said instead that normal ordering
+    supplies one more sign for each bilinear, which would give $(S, J) \to (S, -J)$
+    for $\mathcal{C}_+$; this computation contradicted it, and the record was
+    corrected.)
     """),
     code(r'''
     def apply_normal_ordered(L, K, R, state):
@@ -1153,9 +1157,9 @@ CELLS = [
       of the record's table: $M = 1$ gives $(S, J) \to (-S, +J)$, $M = \Gamma$ gives
       $(S, J) \to (-S, -J)$. The constant $c$ vanishes except for the charge density
       ($\mp 16$), and normal ordering removes it: after normal ordering the quantised
-      field has exactly the anticommuting signs. The record's parenthetical remark
-      that normal ordering supplies one more sign is contradicted by this
-      computation.
+      field has exactly the anticommuting signs. This agrees with the record's check
+      `bilinears_under_charge_conjugation`, whose detail text states that normal
+      ordering adds no sign.
     - COMPUTED: of the two conjugations, the one that keeps the canonical rule,
       $\Psi \to \Gamma\Psi^{\dagger T}$ (among the multiples of 1 and of $\Gamma$ the
       only one, up to a phase factor), reverses the normal-ordered charge of every

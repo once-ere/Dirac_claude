@@ -11,13 +11,13 @@ by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/00c_honesty_ledger.py
 
-It opens every verifier report of the Revision record (27 JSON files), counts their
+It opens every verifier report of the Revision record (39 JSON files), counts their
 checks in each of the three layouts that occur, compares the counts with the reports' own
-summaries, with the table of Revision/README.md and with the counts quoted by the
-Kohn-Sham cross-check, assigns every report to one row of the honesty ledger (the
-statuses of TEXTBOOK_SPEC rule R3), prints the list of what the pairing record itself
-says is NOT established, and compares the 24 sha256 fingerprints that the reports record
-for their input files with the files of today.
+summaries, with the table of Revision/README.md, with the counts quoted by the
+Kohn-Sham cross-check and with the dark-sector summary file, assigns every report to one
+row of the honesty ledger (the statuses of TEXTBOOK_SPEC rule R3), prints the list of
+what the pairing record itself says is NOT established, and compares the 24 sha256
+fingerprints that the reports record for their input files with the files of today.
 """
 
 import sys
@@ -26,9 +26,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 from nbkit import code, md, run_builder  # noqa: E402
 
-# The 27 verifier reports of the Revision record, grouped by folder, each with the engine
-# that did its computation (Wolfram Language, Python, Rust, or the lead's independent
-# Python checks). The notebook prints this list in its cell In [5].
+# The 39 verifier reports of the Revision record, grouped by folder, each with the engine
+# that did its computation: the language of the program that wrote the report (Wolfram
+# Language, Python, Rust, or the lead's independent Python checks). The notebook prints
+# this list in its cell In [5].
 REPORT_GROUPS = [
     ("the gammas, C, Gamma, B, Pin(4,4) and Spin(4,4)", [
         ("Revision/algebra/reports/wolfram-algebra.json", "Wolfram"),
@@ -41,12 +42,14 @@ REPORT_GROUPS = [
     ("the field equations for a4; the Kohn-Sham states as a source", [
         ("Revision/field_equations_a4/reports/wolfram-a4-report.json", "Wolfram"),
         ("Revision/field_equations_a4/reports/python-a4-report.json", "Python"),
-        ("Revision/field_equations_a4/reports/ks-source-conditions.json", "Python")]),
-    ("GKD and the Lovelock tensors", [
+        ("Revision/field_equations_a4/reports/ks-source-conditions.json", "Python"),
+        ("Revision/field_equations_a4/ks_source/reports/ks-source-a4.json", "Python")]),
+    ("GKD and the Lovelock tensors; the comparison with the author's outputs", [
         ("Revision/gkd_lovelock/results/lovelock-report.json", "Rust"),
         ("Revision/gkd_lovelock/results/gkd-selftest.json", "Rust"),
         ("Revision/gkd_lovelock/results/wolfram-gkd-report.json", "Wolfram"),
-        ("Revision/gkd_lovelock/results/python-lovelock-report.json", "Python")]),
+        ("Revision/gkd_lovelock/results/python-lovelock-report.json", "Python"),
+        ("Revision/gkd_lovelock/comparison/author-comparison-report.json", "Python")]),
     ("the Kohn-Sham theory, solvers and comparisons", [
         ("Revision/kohn_sham/reports/ks-theory-wolfram.json", "Wolfram"),
         ("Revision/kohn_sham/reports/ks-theory-python.json", "Python"),
@@ -55,11 +58,26 @@ REPORT_GROUPS = [
         ("Revision/kohn_sham/reports/ks-rust-mermin-roots.json", "Python"),
         ("Revision/kohn_sham/reports/ks-reference.json", "Python"),
         ("Revision/kohn_sham/reports/ks-crosscheck.json", "Python")]),
-    ("the pairing theorems T1, T2, Q and T3", [
+    ("the dark-sector hypotheses of the two fields, investigated", [
+        ("Revision/dark_sector/dirac16complex/reports/derivation-checks.json",
+         "Python"),
+        ("Revision/dark_sector/dirac16complex/reports/ks-history-run.json", "Python"),
+        ("Revision/dark_sector/dirac16complex/reports/eos-checks.json", "Python"),
+        ("Revision/dark_sector/dirac16complex/reports/independent-checks.json",
+         "Python"),
+        ("Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json",
+         "Python"),
+        ("Revision/dark_sector/dirac16complex00/reports/"
+         "python-independent-numerics.json", "Python")]),
+    ("the pairing theorems T1, T2, Q and T3; T3 completed and demonstrated", [
         ("Revision/pairing/reports/wolfram-pairing.json", "Wolfram"),
         ("Revision/pairing/reports/python-pairing.json", "Python"),
         ("Revision/pairing/kohn_sham/reports/wolfram-t3.json", "Wolfram"),
-        ("Revision/pairing/kohn_sham/reports/python-t3.json", "Python")]),
+        ("Revision/pairing/kohn_sham/reports/python-t3.json", "Python"),
+        ("Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json", "Wolfram"),
+        ("Revision/pairing/kohn_sham/reports/python-t3-completion.json", "Python"),
+        ("Revision/pairing/kohn_sham/reports/t3-rust-demo.json", "Python"),
+        ("Revision/pairing/kohn_sham/reports/t3-reference-demo.json", "Python")]),
     ("the lead's independent checks", [
         ("Revision/lead_checks/reports/charge-conjugation-and-u1.json", "lead"),
         ("Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json", "lead"),
@@ -68,12 +86,18 @@ REPORT_GROUPS = [
 ]
 REPORTS = [path for _, group in REPORT_GROUPS for path, _ in group]
 # The list as lines of the code cell In [5]: a comment line before each group, then one
-# line per report (indented by 4 in the notebook, so each line has at most 85 characters).
+# line per report (indented by 4 in the notebook, so each line may have at most 85
+# characters); a report whose line would be longer is written on two lines, the path on
+# the first and the engine on the second.
 REPORT_LINES = []
 for _subject, _group in REPORT_GROUPS:
     REPORT_LINES.append(f"# {_subject}")
     for _path, _engine in _group:
-        REPORT_LINES.append(f'("{_path}", "{_engine}"),')
+        if len(f'("{_path}", "{_engine}"),') <= 85:
+            REPORT_LINES.append(f'("{_path}", "{_engine}"),')
+        else:
+            REPORT_LINES.append(f'("{_path}",')
+            REPORT_LINES.append(f' "{_engine}"),')
 assert max(len(_line) for _line in REPORT_LINES) <= 85, "a line of REPORTS is too long"
 
 
@@ -82,10 +106,12 @@ FACTS = {
     "name": "00c_honesty_ledger",
     "title": "The honesty ledger: reading and checking the Revision record",
     "purpose": (
-        "It finds the 27 verifier reports of the Revision record, counts their checks "
-        "and confirms that every one has the verdict PASS, compares the counts "
-        "with the summaries of the reports and with the numbers quoted elsewhere in the "
-        "record, assigns every report to its row of the honesty ledger with the labels "
+        "It finds the 39 verifier reports of the Revision record, counts their checks "
+        "and confirms that none has the verdict FAIL (all are PASS except five "
+        "comparisons with the author's outputs that are NOT-AVAILABLE), compares the "
+        "counts with the summaries of the reports and with the numbers quoted elsewhere "
+        "in the record, assigns every report to its row of the honesty ledger with the "
+        "labels "
         "PROVED, COMPUTED, ASSUMED, HYPOTHESIS and OPEN, prints what the pairing record "
         "itself says is not established, compares 24 recorded sha256 fingerprints with "
         "the files of today, and draws four teaching plots."
@@ -96,6 +122,9 @@ FACTS = {
         + [
             ["Revision/README.md",
              "the check counts printed in its table of the folders"],
+            ["Revision/dark_sector/dirac16complex/outputs/eos-summary.json",
+             "a summary file whose key checks quotes the totals of the report "
+             "eos-checks.json"],
             ["Revision/algebra/gammas.json",
              "an input file whose sha256 fingerprint the Kohn-Sham reports record"],
             ["Revision/algebra/reports/python-gammas.json",
@@ -126,7 +155,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the four figure files of this notebook exist",
-        "ALL 15 CHECKS PASSED (notebook 00c)",
+        "ALL 18 CHECKS PASSED (notebook 00c)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" or \"KeyError\" naming a file below the folder Revision",
@@ -155,11 +184,13 @@ CELLS = [
 
     - opens one report of the Revision record and reads its checks one by one;
     - writes a function that counts the checks of a report in each of the three
-      layouts that occur, searches the whole folder Revision for reports, finds 27,
+      layouts that occur, searches the whole folder Revision for reports, finds 39,
       and counts the checks of all of them;
-    - confirms that every check has the verdict PASS and that the counts agree with
-      the summaries that the reports state themselves, with the table of the file
-      Revision/README.md and with the counts quoted by the Kohn-Sham cross-check;
+    - confirms that no check has the verdict FAIL (every check is PASS except five
+      comparisons with the author's own outputs that could not be made, verdict
+      NOT-AVAILABLE) and that the counts agree with the summaries that the reports
+      state themselves, with the table of the file Revision/README.md, with the
+      counts quoted by the Kohn-Sham cross-check and with the dark-sector summary;
     - assigns every report to its row of the ledger, and prints the list of what the
       pairing record itself says is NOT established;
     - computes sha256 fingerprints and compares the 24 fingerprints that the reports
@@ -222,7 +253,7 @@ CELLS = [
     3. **The computation**: run the verifier again and compare its new report with the
        stored one (the last chapter of the book lists every command).
 
-    Two facts make level 2 trustworthy. First, the exact statements of eight subjects
+    Two facts make level 2 trustworthy. First, the exact statements of nine subjects
     were checked by two independent verifiers, one in Wolfram Language and one in
     Python, and the Kohn-Sham numbers by two independent solvers, one in Rust and one
     in Python.
@@ -234,8 +265,10 @@ CELLS = [
     establishes it. In particular the record proves exact maps between the solutions
     of mass $+m$ and those of mass $-m$ (the pairing theorems T1, T2, Q and T3), but it
     does not prove that the big bang creates universes, in pairs or otherwise, and the
-    theory as built does not explain the excess of matter over antimatter. The pairing
-    record states itself what it does not establish; the notebook prints that list.
+    theory as built does not explain the excess of matter over antimatter. It proves
+    that no charge is made or destroyed at any point (a *local* conservation law), but
+    not that the total charge of a universe stays constant. The pairing record states
+    itself what it does not establish; the notebook prints that list.
     """),
     md(r"""
     ## 5. One report, opened by hand
@@ -249,7 +282,7 @@ CELLS = [
     it in one piece, so that the book's tools read them together.)
 
     Then the cell opens the report of the lead's independent check of the
-    charge-conjugation matrices and of the conservation of the charge,
+    charge-conjugation matrices and of the local conservation law of the charge,
     Revision/lead_checks/reports/charge-conjugation-and-u1.json. It prints the program
     that wrote the report (its *producer*), the verdict and name of each of its 12
     checks, and the summary that the report states about itself. The check confirms

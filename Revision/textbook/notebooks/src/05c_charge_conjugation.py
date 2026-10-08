@@ -765,9 +765,8 @@ CELLS = [
     behind (their anticommutator); normal ordering removes that constant and nothing
     else. So after normal ordering the quantised bilinears change with the signs of the
     anticommuting rows of this table. Notebook 05e computes this on an explicit Fock
-    space. (The detail text of the record's check also contains, in parentheses, the
-    remark that normal ordering supplies one more sign; that remark is not part of the
-    measured table, and the computation of Notebook 05e contradicts it.)
+    space. The detail text of the record's check says the same: normal ordering adds
+    no sign, because it subtracts the vacuum value, which is a number.
     """),
     code(r'''
     K_S = C.astype(complex)  # the matrix of the scalar S

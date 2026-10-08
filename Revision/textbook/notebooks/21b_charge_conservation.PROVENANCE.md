@@ -226,7 +226,13 @@ python -m ipykernel install --user --name python3
 - "fatal: destination path 'Dirac_claude' already exists" in Step 3: the repository was downloaded before; skip the line with `git clone`.
 - Windows: "running scripts is disabled on this system": run the line with `Set-ExecutionPolicy` and then the activation line again. "py is not recognized": use `python` instead of `py -3`; "python is not recognized": install Python again and tick "Add python.exe to PATH".
 - Linux: "ensurepip is not available" when the environment is created: run `sudo apt install python3-venv` and repeat Step 3.
-- "jupyter is not recognized" or "command not found: jupyter": the environment is not active; do Step 4 (or type `python -m jupyter` instead of `jupyter`).
+- "jupyter is not recognized" or "command not found: jupyter": the environment is not active; do Step 4. If the environment is active and the message stays, the programs jupyter-lab and jupyter-nbconvert are not in the folders where the terminal looks for programs (`python -m jupyter` does not help then: it has to find the same programs). Start them through Python itself, in the folder of the notebook: the first command below does what `jupyter lab` does, the second what the headless command does:
+
+```text
+python -m jupyterlab 21b_charge_conservation.ipynb
+python -m nbconvert --execute --inplace 21b_charge_conservation.ipynb
+```
+
 - Windows: the headless run prints a RuntimeWarning that mentions the "Proactor event loop" and zmq: this is a message of the package pyzmq, not an error; the run continues normally.
 - A red box with "Matplotlib is building the font cache; this may take a moment." in the first run after the installation: this is a message, not an error; the run continues and the message does not come again.
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
@@ -356,8 +362,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 40 seconds (FACTS: 40 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 22.3 s, peak memory of the kernel process 240 MiB;
-- the check run: 16.3 s, peak memory of the kernel process 239 MiB.
+- the build run: 14.6 s, peak memory of the kernel process 239 MiB;
+- the check run: 15.5 s, peak memory of the kernel process 239 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -369,7 +375,7 @@ Expected run time: about 40 seconds (FACTS: 40 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/21b_charge_conservation.ipynb`: `f63dc86f8298f5224507a047acc8a160c996a644d07fce0e5898fe33601efe1b`
+- `Revision/textbook/notebooks/21b_charge_conservation.ipynb`: `82c71bfc626c29d0b0242ad57388929b6353ab6b3d4a254cc312c13e51d80872`
 - `Revision/textbook/notebooks/src/21b_charge_conservation.py`: `3d00d5a7d5fee320a2e740c650041c07d3227fb99486a981787387219f3ef635`
 - `Revision/textbook/figures/21b.captions.json`: `8381844c39e8c66a488e69acd3169158bf413efd5c39c946c4a089282000c69a`
 - `Revision/textbook/figures/21b_1_volume_balance.png`: `68be709397e72b1a28c47bd78387635f2c53a7bb4fb956e3b9806c7e9a782fb4`
@@ -387,4 +393,4 @@ Expected run time: about 40 seconds (FACTS: 40 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":240.0,"seconds":22.3},"check":{"date":"2026-10-08","files":9,"peak_mb":239.0,"result":"passed","seconds":16.3},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":239.0,"seconds":14.6},"check":{"date":"2026-10-08","files":9,"peak_mb":239.0,"result":"passed","seconds":15.5},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
