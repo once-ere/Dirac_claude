@@ -663,7 +663,7 @@ took about 80 s.
 * **Open discrepancies:** none. The counts in the citing documents (101 checks, 101 PASS, 0 FAIL;
   at `b8a695d` also the stored output of the notebook `00c_honesty_ledger.ipynb`, work in progress,
   which prints `101 of 101` for `wolfram-pairing.json`) agree with the reproduced report.
-* **Folders normalised (2026-10-08, working tree):** a review of the reproducibility of the Revision gate
+* **Folders normalised (2026-10-08, first committed in the automatic snapshot `6779cd3`):** a review of the reproducibility of the Revision gate
   (2026-10-08; it fixed the same pattern in
   `Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls`) found that the script built its
   folders with `FileNameJoin[{..., ".."}]` without normalising them, so every path built from them kept the

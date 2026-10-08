@@ -944,7 +944,7 @@ instead. Afterwards `git status --porcelain` prints nothing.
   `Revision\algebra\reports\wolfram-algebra.json:7:  "summary": {"passed": 45, "failed": 0, "total": 45},`.
 * Fixes made: none (no execution defect). Open discrepancies: none.
 
-### 6.6 Root normalised (2026-10-08, working tree)
+### 6.6 Root normalised (2026-10-08, first committed in the automatic snapshot `6779cd3`)
 
 * Why: a review of the reproducibility of the Revision gate (2026-10-08; it fixed the same pattern in
   `Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls`) found that the script built its
