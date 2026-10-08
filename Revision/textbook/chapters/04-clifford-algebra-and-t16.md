@@ -347,7 +347,7 @@ The next three sections hold Notebook 04a: how to run it, its complete text, and
 
 ### 4.8 Line-by-line walk-through of Notebook 04a
 
-The notebook has 28 code cells, In [1] to In [28]. This section quotes every line of every one of them, in order, and explains what each line or small group of lines does. Only the long caption texts handed to `save_figure` are shortened to `...` here, because each caption is printed in full under its figure in Section 4.7; every walk-through of this chapter does the same. Two kinds of lines are text for the reader and are not executed: a **comment** is everything after a `#` sign on a line, and a **docstring** is a text in triple quotes `"""..."""` directly below a `def` line, which says in words what the function does (Python stores it with the function and skips it when the function runs). They are quoted with the code they describe; the explanations below add what they do not already say.
+The notebook has 28 code cells, In [1] to In [28]. This section quotes every line of every one of them, in order, and explains what each line or small group of lines does. Only the long caption texts handed to `save_figure` are shortened here, to a line `...)` whose three dots stand for the caption text and whose bracket closes the call of `save_figure`, because each caption is printed in full under its figure in Section 4.7; every walk-through of this chapter does the same. Two kinds of lines are text for the reader and are not executed: a **comment** is everything after a `#` sign on a line, and a **docstring** is a text in triple quotes `"""..."""` directly below a `def` line, which says in words what the function does (Python stores it with the function and skips it when the function runs). They are quoted with the code they describe; the explanations below add what they do not already say.
 
 **In [1], the set-up cell.** Its first part is the complete run instructions of Section 4.6 again, as **comment lines**: every line that starts with `#` is a comment, which Python skips; they are there so that the notebook file carries its own instructions. The code starts after the second line of `=` signs. This set-up cell is the same in every notebook of the book, except for the line that names the notebook.
 
@@ -718,10 +718,11 @@ for h in (1, 2, 3):
     draw_signs(axes[0, h - 1], s4[h], f"s4[{h}]", numbers=True, first=1)
     draw_signs(axes[1, h - 1], t4[h], f"t4[{h}]", numbers=True, first=1)
 sign_legend(fig)
-save_figure(fig, "blocks_s4_t4", ...)
+save_figure(fig, "blocks_s4_t4",
+            ...)
 ```
 
-(The caption string is shortened to `...` here; it is printed in full in Section 4.7, and Python joins the strings written next to each other into one.) `plt.subplots(2, 3, ...)` makes a figure with two rows of three panels, 7.4 by 5.6 inches; `layout="constrained"` spaces the panels so that nothing overlaps. `axes[0, h - 1]` is the panel in row 0 and column $h - 1$. The upper row shows s4[1], s4[2], s4[3], the lower row the t-blocks, each entry written into its square, rows and columns numbered 1 to 4. **What figure 1 shows and why:** every block has exactly one coloured square in each row and each column (a signed permutation), and the square in row $p$, column $q$ has the opposite colour of the square in row $q$, column $p$, because every block is antisymmetric (Section 4.5).
+(The caption is shortened here to the line `...)`: the three dots stand for the caption text, and the bracket closes the call of `save_figure`. The caption is printed in full in Section 4.7, written as several strings next to each other, which Python joins into one.) `plt.subplots(2, 3, ...)` makes a figure with two rows of three panels, 7.4 by 5.6 inches; `layout="constrained"` spaces the panels so that nothing overlaps. `axes[0, h - 1]` is the panel in row 0 and column $h - 1$. The upper row shows s4[1], s4[2], s4[3], the lower row the t-blocks, each entry written into its square, rows and columns numbered 1 to 4. **What figure 1 shows and why:** every block has exactly one coloured square in each row and each column (a signed permutation), and the square in row $p$, column $q$ has the opposite colour of the square in row $q$, column $p$, because every block is antisymmetric (Section 4.5).
 
 **In [8], the rules of the blocks.**
 
@@ -889,7 +890,8 @@ fig, axes = plt.subplots(2, 4, figsize=(8.6, 5.0), layout="constrained")
 for A in range(8):
     draw_signs(axes[A // 4, A % 4], tau[A], f"tau[{A}]")  # // and %: row, column
 sign_legend(fig)
-save_figure(fig, "tau_matrices", ...)
+save_figure(fig, "tau_matrices",
+            ...)
 ```
 
 Two rows of four panels; matrix $A$ goes into row $A // 4$ (the whole part of $A/4$) and column $A \% 4$ (the remainder). **What figure 2 shows and why:** $\tau_0$ is the identity (red diagonal); $\tau_1$ to $\tau_6$ have their entries only in the upper-right and lower-left $4 \times 4$ corners, because they are made of the blocks s4 and t4 placed there; $\tau_7$ is diagonal with four blue and four red entries, $\mathrm{diag}(-I_4, I_4)$.
@@ -1032,7 +1034,8 @@ for (x, y), label in labels.items():
     ax.text(x, y, label, ha="center", va="center", fontsize=12, color="#0b0b0b",
             bbox={"facecolor": "white", "alpha": 0.85, "edgecolor": "none"})
 sign_legend(fig)
-save_figure(fig, "block_form_of_t16", ...)
+save_figure(fig, "block_form_of_t16",
+            ...)
 ```
 
 The centres of the four corners get their names, each on a white, slightly transparent background (`bbox`). **What figure 3 shows and why:** the upper-left and lower-right corners are empty, because T16[4] is block off-diagonal; the upper-right corner is $\bar\tau_4$ and the lower-left $\tau_4$, with one coloured square in each row.
@@ -1087,7 +1090,8 @@ fig, axes = plt.subplots(2, 4, figsize=(8.8, 5.0), layout="constrained")
 for a in range(8):
     draw_signs(axes[a // 4, a % 4], gamma[a], f"$\\gamma^{{(x_{a + 1})}}$")
 sign_legend(fig)
-save_figure(fig, "gammas_x1_to_x8", ...)
+save_figure(fig, "gammas_x1_to_x8",
+            ...)
 ```
 
 The eight gammas in two rows of four panels. In the f-string title, the doubled braces `{{` and `}}` print single braces and the doubled backslash prints one, so the title becomes the mathematical text $\gamma^{(x_1)}$, ..., $\gamma^{(x_8)}$. **What figure 4 shows and why:** each matrix has exactly one coloured square in every row and every column, all in the upper-right and lower-left $8 \times 8$ corners (signed permutations in block form); $\gamma^{(x_8)}$ consists of two red diagonal lines, because it is T16[0] $= \begin{pmatrix} 0 & I_8 \\ I_8 & 0 \end{pmatrix}$. These are the author's eight real $16 \times 16$ gamma matrices themselves.
@@ -1200,7 +1204,8 @@ ax.set_xlabel("direction $b$")
 ax.set_ylabel("direction $a$")
 ax.set_title("$\\gamma^a\\gamma^b + \\gamma^b\\gamma^a = c_{ab}\\, I_{16}$")
 ax.grid(False)
-save_figure(fig, "anticommutator_table", ...)
+save_figure(fig, "anticommutator_table",
+            ...)
 ```
 
 The rows and columns are labelled $x_1, \dots, x_8$, the axes named, the title set, and the figure saved. **What figure 5 shows and why:** a diagonal of three red, four blue and one red square: $c_{ab} = 2\eta^{ab}$, red for the space-like $x_1, x_2, x_3, x_8$, blue for the time-like $x_4$ to $x_7$, and grey off the diagonal because different gammas anticommute. It is the Clifford relation in one picture.
@@ -1251,7 +1256,8 @@ draw_signs(axes[0, 1], gamma[0].T, "its transpose: the same")
 draw_signs(axes[1, 0], gamma[3], "$\\gamma^{(x_4)}$ (time-like)")
 draw_signs(axes[1, 1], gamma[3].T, "its transpose: all signs flipped")
 sign_legend(fig)
-save_figure(fig, "symmetry_pattern", ...)
+save_figure(fig, "symmetry_pattern",
+            ...)
 ```
 
 Four panels: $\gamma^{(x_1)}$ and its transpose, $\gamma^{(x_4)}$ and its transpose. **What figure 6 shows and why:** the upper two pictures are identical (a symmetric matrix equals its transpose); in the lower two every red square has become blue and every blue square red at the same place, because the transpose of an antisymmetric matrix is minus the matrix.
@@ -1412,7 +1418,7 @@ The next three sections hold Notebook 04b.
 
 ### 4.12 Line-by-line walk-through of Notebook 04b
 
-The notebook has 18 code cells, In [1] to In [18]. As in Section 4.8, every line is quoted except the long caption texts handed to `save_figure`, which are shortened to `...`; each caption is printed in full under its figure in Section 4.11.
+The notebook has 18 code cells, In [1] to In [18]. As in Section 4.8, every line is quoted except two things: the set-up cell In [1], which is the set-up cell of Notebook 04a explained line by line in Section 4.8 and differs from it only as said below, and the long caption texts handed to `save_figure`, which are shortened to a line `...)` (the dots stand for the caption, the bracket closes the call); each caption is printed in full under its figure in Section 4.11.
 
 **In [1], the set-up cell.** It is the set-up cell of Notebook 04a, explained line by line in Section 4.8, with one difference: the line `NOTEBOOK_ID = "04b"` names this notebook, so its figures are numbered 04b.1, 04b.2, ..., and its comment lines hold the run instructions of Section 4.10. It prints one line, Set-up of notebook 04b complete: repository folder found, helpers defined.
 
@@ -1521,7 +1527,8 @@ right.set_title("eigenvalues of $p\\,\\sigma_x + N$")
 right.set_xlabel("$p$")
 right.set_ylabel("part of the eigenvalue")
 right.legend(fontsize=8)
-save_figure(fig, "square_roots_2x2", ...)
+save_figure(fig, "square_roots_2x2",
+            ...)
 ```
 
 The right panel draws the real part (solid) and the imaginary part (dashed) of $\sqrt{p^2 - 1}$, and the figure is saved (its caption is printed in Section 4.11). **What figure 1 shows and why:** on the left two real curves that never meet, because $p^2 + 1 > 0$; on the right the solid curve is zero for $\lvert p \rvert < 1$ and the dashed curve is zero for $\lvert p \rvert > 1$: where the minus term of $p^2 - q^2$ wins, the square root becomes imaginary. This is the two-dimensional picture of what a momentum along an extra time does in In [15].
@@ -1610,7 +1617,8 @@ draw_table(left, pauli_table, ["$\\sigma_x$", "$\\sigma_y$", "$\\sigma_z$"],
 draw_table(right, dirac_table, ["$\\gamma_D^0$", "$\\gamma_D^x$", "$\\gamma_D^y$",
                                 "$\\gamma_D^z$"],
            "Dirac: $\\{\\gamma_D^a, \\gamma_D^b\\} = c_{ab} I_4$")
-save_figure(fig, "pauli_dirac_tables", ...)
+save_figure(fig, "pauli_dirac_tables",
+            ...)
 ```
 
 The Pauli table on the left, Dirac's on the right. **What figure 2 shows and why:** grey off the diagonal (different matrices anticommute) and twice the signs of the directions on the diagonal: three red squares for Pauli's three space directions; one red square for Dirac's time and three blue ones for his space directions, in his convention $(+1, -1, -1, -1)$.
@@ -1676,7 +1684,8 @@ for e in (-5.0, 5.0):
 ax.set_xlabel("energy $E$")
 ax.set_ylabel("smallest singular value of $P - m I_4$")
 ax.set_title("Dirac plane waves for $m = 3$, $k = (4, 0, 0)$")
-save_figure(fig, "dirac_mass_shell", ...)
+save_figure(fig, "dirac_mass_shell",
+            ...)
 ```
 
 The smallest singular value against the energy, with dotted vertical lines (`axvline`) at $E = \pm 5$. **What figure 3 shows and why:** the curve touches zero only at the two dotted lines, the two solutions of $E^2 = m^2 + k^2 = 25$: the first-order matrix equation contains the energy relation of special relativity.
@@ -1762,7 +1771,8 @@ right.semilogy(range(1, 301), np.maximum(worst, 1e-18), "o", markersize=3,
 right.set_xlabel("number of the random vector")
 right.set_ylabel("largest deviation from $\\eta(p,p)\\, I_{16}$")
 right.set_title("rounding errors")
-save_figure(fig, "square_root_8d", ...)
+save_figure(fig, "square_root_8d",
+            ...)
 ```
 
 The right panel draws, on a **logarithmic** vertical axis (`semilogy`: equal distances for equal factors of ten), the largest deviation for each vector; `np.maximum(worst, 1e-18)` replaces a deviation of exactly 0 by $10^{-18}$, because 0 has no logarithm. **What figure 4 shows and why:** on the left all 300 dots lie on the line of slope 1, for positive and for negative $\eta(p, p)$ (the minus signs of the time and the extra times make many values negative); on the right every deviation is of the size of floating-point rounding, that is, an error in about the sixteenth significant digit of entries whose size is between about 1 and 15, many powers of ten under the tolerance $10^{-12}$. (This panel may look slightly different on another computer; the exact identity is the sympy check of In [10].)
@@ -1883,7 +1893,8 @@ for e in (-5.0, 5.0):
 ax.set_xlabel("energy $E$")
 ax.set_ylabel("smallest singular value of $E I_{16} - h$")
 ax.set_title("plane waves in flat 4+4 space, $m = 2$, $k = (1, 2, 0;\\ k_8 = 4)$")
-save_figure(fig, "mass_shell_4p4", ...)
+save_figure(fig, "mass_shell_4p4",
+            ...)
 ```
 
 The same kind of figure as figure 3, now for the author's gammas. **What figure 5 shows and why:** a zigzag of straight lines, the distance from $E$ to the nearer of $\pm 5$, touching zero only at the dotted lines $E = \pm 5$, where $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 = 25$; each of the two energies belongs to eight independent solutions (In [13] counted them). It has the shape of the Dirac curve: the same algebra in more directions.
@@ -2025,7 +2036,8 @@ for ax, part in ((left, "real"), (right, "imaginary")):
     ax.set_ylabel(f"{part} part of the energy $E$")
 left.set_title("real parts: $\\pm\\sqrt{25 - k_5^2}$ for $k_5 < 5$")
 right.set_title("imaginary parts: $\\pm\\sqrt{k_5^2 - 25}$ for $k_5 > 5$")
-save_figure(fig, "extra_time_momentum", ...)
+save_figure(fig, "extra_time_momentum",
+            ...)
 ```
 
 Both panels get a dotted line at $k_5 = 5$ and axis labels, then titles, and the figure is saved. **What figure 6 shows and why:** on the left the real parts follow the upper and the lower half of a circle of radius 5, $\pm\sqrt{25 - k_5^2}$, reach zero at $k_5 = 5$ and stay zero beyond; on the right the imaginary parts are zero up to $k_5 = 5$ and then open up as $\pm\sqrt{k_5^2 - 25}$, growing without bound. Because the extra times enter the quadratic form with a minus sign, a large enough momentum along an extra time turns oscillating waves into growing and shrinking ones.
@@ -2143,7 +2155,7 @@ The next three sections hold Notebook 04c.
 
 ### 4.16 Line-by-line walk-through of Notebook 04c
 
-The notebook has 19 code cells, In [1] to In [19]. As in Section 4.8, every line is quoted except the long caption texts handed to `save_figure`, which are shortened to `...`; each caption is printed in full under its figure in Section 4.15.
+The notebook has 19 code cells, In [1] to In [19]. As in Section 4.8, every line is quoted except two things: the set-up cell In [1], which is the set-up cell of Notebook 04a explained line by line in Section 4.8 and differs from it only as said below, and the long caption texts handed to `save_figure`, which are shortened to a line `...)` (the dots stand for the caption, the bracket closes the call); each caption is printed in full under its figure in Section 4.15.
 
 **In [1], the set-up cell.** It is the set-up cell of Notebook 04a, explained line by line in Section 4.8, except for the line `NOTEBOOK_ID = "04c"` and the run instructions of Section 4.14 in its comment lines. It prints one line.
 
@@ -2223,7 +2235,8 @@ ax.set_ylabel("number of products")
 ax.set_ylim(0, 80)
 ax.legend(handles=[bars[0], bars[1]], labels=["even degree (128 in all)",
                                              "odd degree (128 in all)"], fontsize=9)
-save_figure(fig, "products_by_degree", ...)
+save_figure(fig, "products_by_degree",
+            ...)
 ```
 
 A bar chart: `ax.bar` draws one bar per degree, blue for even and orange for odd degrees; `ax.bar_label` writes each count above its bar; the vertical axis runs from 0 to 80; the legend uses the first two bars (degree 0, blue, and degree 1, orange) as samples of the two colours. **What figure 1 shows and why:** the counts rise from 1 to 70 at degree 4 and fall back to 1, symmetric about the middle because choosing $k$ directions is the same as leaving out $8 - k$; the blue bars add up to 128, the orange ones to 128.
@@ -2297,7 +2310,8 @@ ax.set_yticks(range(16), names, fontsize=8)
 ax.set_xlabel("second factor $\\gamma_B$ (coordinate numbers of $B$)")
 ax.set_ylabel("first factor $\\gamma_A$")
 ax.grid(False)
-save_figure(fig, "multiplication_table", ...)
+save_figure(fig, "multiplication_table",
+            ...)
 ```
 
 Every square gets the sign and the name of $A \triangle B$, so that it reads, for example, $-14$ for $\gamma_A\gamma_B = -\gamma^{(x_1)}\gamma^{(x_4)}$; rows and columns are labelled with the names of the 16 sets. **What figure 2 shows and why:** every product of two of these 16 matrices is again one of them, up to sign (rule R1): they form the Clifford algebra of four directions, the algebra of Dirac's matrices. The diagonal holds the squares, $+$I or $-$I as rule R2 predicts (for example the square of $\gamma^{(x_4)}$ is $-$I, because $x_4$ is time-like).
@@ -2360,7 +2374,8 @@ ax.set_xticks(range(9))
 ax.set_xlabel("degree $k$")
 ax.set_ylabel("number of products")
 ax.legend(fontsize=9)
-save_figure(fig, "squares_by_degree", ...)
+save_figure(fig, "squares_by_degree",
+            ...)
 ```
 
 The counts are written into the middle of the bars that are tall enough; for degrees 0 and 8, whose bars have height 1, the number is written above the bar instead. **What figure 3 shows and why:** the red counts per degree are $1, 4, 16, 28, 38, 28, 16, 4, 1$ and the blue ones $0, 4, 12, 28, 32, 28, 12, 4, 0$; for example among the 28 products of degree 2, the 16 boost planes square to $+I_{16}$ and the 12 rotation planes to $-I_{16}$ (Section 4.13). The totals are 136 and 120, the dimensions of the symmetric and of the antisymmetric matrices.
@@ -2426,7 +2441,8 @@ right.set_xticks(range(corner), names, fontsize=5, rotation=90)
 right.set_yticks(range(corner), names, fontsize=5)
 right.set_title("$\\mathrm{tr}(\\gamma_A\\gamma_B)/16$, degrees 0, 1, 2")
 right.grid(False)
-save_figure(fig, "trace_products", ...)
+save_figure(fig, "trace_products",
+            ...)
 ```
 
 The right panel magnifies the corner of the table $\mathrm{tr}(\gamma_A\gamma_B)/16$ for the first 37 products ($1 + 8 + 28$, degrees 0, 1 and 2), labelled with their names (the column labels turned by 90 degrees). **What figure 4 shows and why:** on the left a single red diagonal line on grey: every product is perpendicular to every other, which is why they are independent. On the right the diagonal is red for I and for $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_8)}$ (squares $+I_{16}$), blue for $\gamma^{(x_4)}, \dots, \gamma^{(x_7)}$ (squares $-I_{16}$), and for the products of two gammas red for the 16 boost planes and blue for the 12 rotation planes, $-\eta^{aa}\eta^{bb}$ by rule R2.
@@ -2532,7 +2548,8 @@ for ax, name, colour in ((top, "E00", "#2a78d6"), (bottom, "random", "#eb6834"))
 top.set_title("$E_{00}$ (a single 1 in row 0, column 0)")
 bottom.set_title("a matrix of random whole numbers from $-3$ to $3$")
 bottom.set_xlabel("number of the product $\\gamma_A$ (dotted lines: degree changes)")
-save_figure(fig, "coefficients", ...)
+save_figure(fig, "coefficients",
+            ...)
 ```
 
 Two panels one above the other, sharing the horizontal axis (`sharex=True`): one bar per product with its coefficient, a grey zero line, and dotted lines where the degree changes. **What figure 5 shows and why:** for $E_{00}$ only 16 bars, all of height $\pm 1/16$, at the diagonal products; for the random matrix nearly every one of the 256 bars is nonzero. Every matrix, however special or random, is a combination of the 256 products.
@@ -2605,7 +2622,8 @@ for ax, values, title in ((left, support_even, "128 even products"),
     ax.axhline(7.5, color="#0b0b0b", linewidth=1)
     ax.axvline(7.5, color="#0b0b0b", linewidth=1)
     ax.grid(False)
-save_figure(fig, "even_odd_blocks", ...)
+save_figure(fig, "even_odd_blocks",
+            ...)
 ```
 
 Two heat maps of the counts, light grey for 0 and dark blue for 16, with black lines between the blocks. **What figure 6 shows and why:** the even products fill exactly the two diagonal $8 \times 8$ blocks, and the odd ones exactly the two others, because every gamma is block off-diagonal (Section 4.13).
@@ -2689,7 +2707,8 @@ ax.set_ylim(1, 1024)
 ax.set_xticks(positions, [r[0] for r in rows], fontsize=9)
 ax.set_ylabel("count (logarithmic scale)")
 ax.legend(fontsize=8, loc="upper left")
-save_figure(fig, "how_big", ...)
+save_figure(fig, "how_big",
+            ...)
 ```
 
 For each of the four examples three bars side by side (shifted by $-0.25$, 0 and $+0.25$): the number of products, the exact rank and $d^2$, each labelled with its value; the vertical axis is logarithmic with base 2, from 1 to 1024. **What figure 7 shows and why:** for $n = 2$, 4 and 8 the three bars of each group have the same height, $2^n = d^2$: the products fill all $d \times d$ matrices, so no smaller $d$ is possible. For $n = 7$ the first bar (128) is taller than the other two (64): seven matrices fit into $8 \times 8$, but eight need $16 \times 16$.
@@ -2811,7 +2830,8 @@ key = [Patch(facecolor="white", edgecolor=FRAME[-1], linewidth=2,
        Patch(facecolor="#e34948", label="entry $+1$")]
 fig.legend(handles=key, loc="outside lower center", ncol=2, fontsize=9,
            frameon=False)
-save_figure(fig, "two_gamma_products", ...)
+save_figure(fig, "two_gamma_products",
+            ...)
 ```
 
 The key below the figure explains the two frame colours and the two entry colours. **What figure 8 shows and why:** a triangle of 28 small heat maps, the products of two of the author's real gammas, each block diagonal with 16 nonzero entries (two of every four quadrants are empty), because each is an even product. The black frames sit where both directions are of the same kind (among $x_1, x_2, x_3, x_8$, or among $x_4, \dots, x_7$), the green ones where one is space-like and one time-like. Four panels are diagonal matrices: $x_1x_6$, $x_2x_5$, $x_3x_4$ and $x_7x_8$ (Section 4.17 explains why exactly these). Half of each product is the matrix $S^{ab}$ of the Revision record.
@@ -2929,7 +2949,7 @@ The next three sections hold Notebook 04d.
 
 ### 4.20 Line-by-line walk-through of Notebook 04d
 
-The notebook has 18 code cells, In [1] to In [18]. As in Section 4.8, every line is quoted except the long caption texts handed to `save_figure`, which are shortened to `...`; each caption is printed in full under its figure in Section 4.19.
+The notebook has 18 code cells, In [1] to In [18]. As in Section 4.8, every line is quoted except two things: the set-up cell In [1], which is the set-up cell of Notebook 04a explained line by line in Section 4.8 and differs from it only as said below, and the long caption texts handed to `save_figure`, which are shortened to a line `...)` (the dots stand for the caption, the bracket closes the call); each caption is printed in full under its figure in Section 4.19.
 
 **In [1], the set-up cell.** It is the set-up cell of Notebook 04a, explained line by line in Section 4.8, except for the line `NOTEBOOK_ID = "04d"` and the run instructions of Section 4.18 in its comment lines. It prints one line.
 
@@ -3086,7 +3106,8 @@ for boundary in (1.5, 3.5, 5.5):  # lines between the four pairs
 ax.grid(False)
 ax.set_title("$\\hat\\gamma$ = slot 1 $\\otimes$ slot 2 $\\otimes$ slot 3 "
              "$\\otimes$ slot 4")
-save_figure(fig, "slot_pattern", ...)
+save_figure(fig, "slot_pattern",
+            ...)
 ```
 
 Columns and rows are labelled, black lines separate the four pairs, and the title states the recipe. **What figure 1 shows and why:** a staircase: each pair has its own slot with a red $P$ and a blue $N$, grey $G$ before it and white $I_2$ after it; this staircase is what makes all eight anticommute (Section 4.17).
@@ -3122,7 +3143,8 @@ fig, axes = plt.subplots(2, 4, figsize=(8.8, 5.0), layout="constrained")
 for a in range(8):  # a // 4 is the row of the panel, a % 4 its column
     draw_signs(axes[a // 4, a % 4], hat[a], f"$\\hat\\gamma^{{(x_{a + 1})}}$")
 sign_legend(fig)
-save_figure(fig, "tensor_gammas", ...)
+save_figure(fig, "tensor_gammas",
+            ...)
 ```
 
 The eight hat gammas in two rows of four panels. **What figure 2 shows and why:** each is a signed permutation matrix, but the pattern differs from the author's: a $P$ or $N$ in slot $k$ exchanges components whose numbers differ in bit $k$, so the coloured squares lie on diagonals at the distance 8 (slot 1), 4 (slot 2), 2 (slot 3) or 1 (slot 4) from the main diagonal, and the factors $G$ in front flip signs ($\hat\gamma^{(x_1)}$ and $\hat\gamma^{(x_6)}$, with nothing before slot 1, show two clean diagonals at distance 8).
@@ -3280,7 +3302,8 @@ for ax, values, title in (
 top.set_xticks(range(16))
 bottom.set_xticks(range(16), [f"{j}\n{bits[j]}" for j in range(16)], fontsize=8)
 bottom.set_xlabel("row number $j$ and its bits $b_1 b_2 b_3 b_4$")
-save_figure(fig, "chirality_diagonals", ...)
+save_figure(fig, "chirality_diagonals",
+            ...)
 ```
 
 Two bar charts, one above the other: the 16 diagonal entries of the author's product and of the hat product, blue for $-1$ and red for $+1$; the lower one labels every row with its number and, on a second line (`"\n"` starts a new line), its bits. **What figure 3 shows and why:** the author's diagonal is eight blue bars followed by eight red ones; the hat diagonal alternates in a pattern that follows the parity of the bits. Both have eight entries of each sign, so a renumbering of the components can turn one into the other; In [10] finds it.
@@ -3383,7 +3406,8 @@ for i in range(16):
     ax.text(j, i, f"{Q[i, j]:+d}", ha="center", va="center", color="white",
             fontsize=7)
 sign_legend(fig)
-save_figure(fig, "change_of_basis", ...)
+save_figure(fig, "change_of_basis",
+            ...)
 ```
 
 $Q$ as a heat map; the columns are labelled with their number and bits (turned by 90 degrees), and the single nonzero entry of every row is written into its square. **What figure 4 shows and why:** sixteen coloured squares, one in each row and each column: $Q$ renumbers the components and flips some signs. The first eight rows use exactly the columns whose bits contain an odd number of ones, where $\hat\Gamma = -1$; this moves the eight entries $-1$ of $\hat\Gamma$ to the top, as in the author's $\mathrm{diag}(-I_8, I_8)$.
@@ -3475,7 +3499,8 @@ ax.set_ylim(0, 80)
 ax.set_xlabel("eigenvalue of $K = A^T A$ (the penalty of a candidate $X$)")
 ax.set_ylabel("multiplicity")
 ax.set_title("$\\gamma^{(x_a)}X - X\\hat\\gamma^{(x_a)} = 0$: one solution, $X = Q$")
-save_figure(fig, "penalty_spectrum", ...)
+save_figure(fig, "penalty_spectrum",
+            ...)
 ```
 
 A bar chart of the multiplicities against the eigenvalues, the bar of the eigenvalue 0 in orange. **What figure 5 shows and why:** one orange bar of height 1 at 0 (only $Q$ solves all 2048 equations) and blue bars of the binomial heights 8, 28, 56, 70, 56, 28, 8, 1 at 4 to 32: the part of any matrix that is perpendicular to $Q$ makes the sum of the squared equations at least 4 times its squared size.
@@ -3548,7 +3573,8 @@ for ax, matrix, title in (
     ax.set_ylabel("author's component $i$")
     ax.grid(False)
 fig.colorbar(image, ax=[left, right], shrink=0.8, label="entry")
-save_figure(fig, "two_assignments", ...)
+save_figure(fig, "two_assignments",
+            ...)
 ```
 
 $Q$ and $Q_2$ side by side with one continuous colour scale (`"RdBu_r"`: blue for $-1$, white for 0, red for $+1$; `vmin` and `vmax` fix its ends), and a colour bar explaining it. **What figure 6 shows and why:** on the left sixteen full-coloured squares, one per row and column; on the right thirty-two paler squares, two per row and column, of the size $1/\sqrt2 \approx 0.71$. Both matrices are orthogonal and both turn one set of gammas exactly into the other; only the assignment that matches the author's pairs gives a pure renumbering.
