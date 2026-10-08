@@ -1,0 +1,77 @@
+{
+ "description": "Exact effective formulas of the dark-sector analysis of dirac16complex (SPEC sections 8, 11), derived by Revision/dark_sector/dirac16complex/derive/derive_effective.py (sympy); every entry is a named check of reports/derivation-checks.json.",
+ "coordinates": "x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (time-like, scale factor e^{-a4} sin^{1/6} z, a4 increasing); x8 = hidden direction, z = 6 H x8 in (0, pi/2), y = ln(sin z)/(6 H).",
+ "observerScaleFactor": "a = e^{a4} (3-space scale factor on the brane z = pi/2, normalised a = 1 at the chosen 'today' a4 = a4_today, i.e. a = e^{a4 - a4_today})",
+ "volumes": {
+  "sqrtDetG": "cos z",
+  "proper7VolumeElement": "cos z (independent of a4)",
+  "proper3VolumeElement": "e^{3 a4} sin^{1/2} z",
+  "properExtraTimeVolumeElement": "e^{-3 a4} sin^{1/2} z",
+  "hiddenLengthElement": "cot z dx8 = dy"
+ },
+ "conservation": {
+  "x4": "d rho/d x4 = -3 a4' (p3 - p_t)",
+  "x8": "d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0  <=>  p8_y + 6 H p8 = 3 H (p3 + p_t)",
+  "integrated": "dE/d a4 = -3 (P3 - Pt), E = int rho sqrt|g| d^7x, P3 = int p3 sqrt|g| d^7x, Pt = int p_t sqrt|g| d^7x (fixed occupations / exact solutions)"
+ },
+ "rho4": {
+  "A_compact_coordinate_period": "ASSUMPTION: the extra times are compact with a fixed coordinate period (closed time-like directions); rho_4 = E/(proper 3-volume) ~ E e^{-3 a4}",
+  "B_per_unit_extra_time_coordinate_volume": "non-compact extra times; rho_4 = E/(proper 3-volume x extra-time coordinate volume) ~ E e^{-3 a4}",
+  "C_per_unit_proper_7_volume": "rho_4 = E/(proper 7-volume) x (constant) ~ E (equivalently per unit proper extra-time volume)",
+  "general": "rho_4 ~ E e^{-3 (1 - s) a4}: s = 0 (A, B), s = 1 (C)"
+ },
+ "wEff": {
+  "definition": "w_eff = -1 - (1/3) d ln rho_4/d ln a",
+  "A": "(P3 - Pt)/E",
+  "B": "(P3 - Pt)/E",
+  "C": "(P3 - Pt)/E - 1",
+  "general": "(P3 - Pt)/E - s"
+ },
+ "ratios": {
+  "w3": "P3/E",
+  "wt": "Pt/E",
+  "w8": "P8/E (integrated); brane-local p3/rho etc. also reported"
+ },
+ "condensate": {
+  "rho": "m S + lambda S^2/2",
+  "p3=p_t=p8": "lambda S^2/2",
+  "w_ratio": "lambda S/(2 m + lambda S)",
+  "w_eff_A": "0",
+  "w_eff_C": "-1",
+  "wa": "0 (every definition)",
+  "ratio_equals_minus_0p764_at_lambdaS_over_m": "-382/441"
+ },
+ "flatModeLabelled": {
+  "status": "flat (warp-free) limit, used for the sign structure and the limits only",
+  "omega2": "M^2 + k^2 e^{-2 a4} - q^2 e^{2 a4}",
+  "X": "(k^2 e^{-2 a4} + q^2 e^{2 a4})/(3 omega)",
+  "massive_w_eff_A": "k^2/(3 (M^2 a^2 + k^2))",
+  "massive_w0": "x/(3*(x + 1))",
+  "massive_wa": "2*x/(3*(x + 1)**2)"
+ },
+ "mixtures": {
+  "w_eff": "sum_i X_i/sum_i E_i - s",
+  "radiation_plus_condensate_A": "(1/3) r/(1 + r), r = r0/a",
+  "w0": "r0/(3*(r0 + 1))",
+  "wa": "r0/(3*(r0**2 + 2*r0 + 1))",
+  "r0_for_w_eff_C_equal_minus_0p861": "417/583"
+ },
+ "cpl": {
+  "convention": "w(a) = w0 + wa (1 - a); thawing wa < 0, freezing wa > 0 (the formula decides)",
+  "tangent": "w0 = w(1), wa = -dw/da at a = 1 = -dw/da4 at a4 = a4_today",
+  "leastSquaresW0": "2*(-2*a1*Integral(w(a), (a, a1, 1)) + 3*Integral(a*w(a), (a, a1, 1)) - Integral(w(a), (a, a1, 1)))/(a1**2 - 2*a1 + 1)",
+  "leastSquaresWa": "6*(-a1*Integral(w(a), (a, a1, 1)) + 2*Integral(a*w(a), (a, a1, 1)) - Integral(w(a), (a, a1, 1)))/(a1**3 - 3*a1**2 + 3*a1 - 1)",
+  "constantWFit": "w_const = (1/(1 - a1)) int_{a1}^{1} w(a) da"
+ },
+ "expansionInferred": {
+  "w_exp": "-1 - (2/3) a4''/a4'^2",
+  "einstein": "-1 - kappa (p3 - p_t)/(3 a4'^2)",
+  "linearMember": "-1"
+ },
+ "unite": {
+  "constant_w": "-0.764",
+  "w0": "-0.861",
+  "wa": "-0.60",
+  "deep_past": "-1.461 (w0 + wa; quoted as -1.46)"
+ }
+}

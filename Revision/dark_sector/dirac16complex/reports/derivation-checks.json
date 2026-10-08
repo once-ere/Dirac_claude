@@ -1,0 +1,161 @@
+{
+ "producer": "Revision/dark_sector/dirac16complex/derive/derive_effective.py",
+ "engine": "sympy 1.14.0",
+ "checks": [
+  {
+   "name": "sqrt_det_g_equals_cos_z",
+   "verdict": "PASS",
+   "detail": "sqrt|det g| = cs (sn = sin z, cs = cos z > 0 on the patch)"
+  },
+  {
+   "name": "proper_7_volume_element_independent_of_a4",
+   "verdict": "PASS",
+   "detail": "(e^(3a4) sin^(1/2) z)(e^(-3a4) sin^(1/2) z)(cot z) = cos(z); d/da4 = 0"
+  },
+  {
+   "name": "proper_3_and_extra_time_volume_scalings",
+   "verdict": "PASS",
+   "detail": "d ln(proper 3-volume)/d a4 = +3 (inflating), d ln(proper extra-time volume)/d a4 = -3 (deflating)"
+  },
+  {
+   "name": "conservation_x4_identity",
+   "verdict": "PASS",
+   "detail": "nabla_mu T^mu_x4 = -d rho/d x4 - 3 a4' (p3 - p_t): d rho/d x4 = -3 a4' (p3 - p_t) on shell"
+  },
+  {
+   "name": "conservation_x8_identity",
+   "verdict": "PASS",
+   "detail": "nabla_mu T^mu_x8 = d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t)"
+  },
+  {
+   "name": "conservation_other_components_vanish",
+   "verdict": "PASS",
+   "detail": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (homogeneous diagonal T)"
+  },
+  {
+   "name": "hidden_coordinate_dy_dx8",
+   "verdict": "PASS",
+   "detail": "dy/dx8 = cot z"
+  },
+  {
+   "name": "conservation_x8_in_y_form",
+   "verdict": "PASS",
+   "detail": "tan z * (x8 identity) = p8_y + 6 H p8 - 3 H (p3 + p_t) (the form checked by the Kohn-Sham solver)"
+  },
+  {
+   "name": "integrated_identity_dE_da4",
+   "verdict": "PASS",
+   "detail": "family rho = sin^2 z e^(-a4), p3 - p_t = rho/3: E = exp(-a4(x4))/(18*H), dE/dx4 = -3 a4' (P3 - Pt)"
+  },
+  {
+   "name": "w_eff_A_equals_X_over_E",
+   "verdict": "PASS",
+   "detail": "w_eff(A) = X/E"
+  },
+  {
+   "name": "w_eff_B_equals_w_eff_A",
+   "verdict": "PASS",
+   "detail": "normalising per unit extra-time coordinate volume divides by a constant: same w_eff as A"
+  },
+  {
+   "name": "w_eff_C_equals_X_over_E_minus_1",
+   "verdict": "PASS",
+   "detail": "w_eff(C) = (-E + X)/E"
+  },
+  {
+   "name": "w_eff_general_normaliser",
+   "verdict": "PASS",
+   "detail": "rho_4 = E/(e^{3a4} e^{-3 s a4}): w_eff = (P3 - Pt)/E - s; s = 0 (A, B), s = 1 (C)"
+  },
+  {
+   "name": "condensate_rho_p",
+   "verdict": "PASS",
+   "detail": "rho = m S + lambda S^2/2, p3 = p_t = p8 = lambda S^2/2"
+  },
+  {
+   "name": "condensate_satisfies_both_identities",
+   "verdict": "PASS",
+   "detail": "S constant: d rho/dx4 = 0 = -3 a4' (p - p); x8 identity 3 H cot z (2p - p - p) = 0"
+  },
+  {
+   "name": "condensate_ratio_w",
+   "verdict": "PASS",
+   "detail": "w = p/rho = S*lambda/(S*lambda + 2*m)"
+  },
+  {
+   "name": "condensate_w_eff",
+   "verdict": "PASS",
+   "detail": "X = P3 - Pt = 0: w_eff(A) = w_eff(B) = 0 (dust-like dilution a^-3), w_eff(C) = -1; constant in time (wa = 0)"
+  },
+  {
+   "name": "condensate_ratio_equal_unite_constant_w",
+   "verdict": "PASS",
+   "detail": "u = lambda S/m = -382/441 = -0.866213151927 gives w = -0.764; rho/(m S) = 1 + u/2 = 0.566893424036 > 0 (rho > 0 iff m S > 0); the ratio is constant: no time variation"
+  },
+  {
+   "name": "flat_mode_mass_shell",
+   "verdict": "PASS",
+   "detail": "g^{mu nu} k_mu k_nu = -M^2: omega^2 = M^2 + k^2 e^{-2a4} - q^2 e^{2a4} (k: 3-momentum, q: extra-time momentum)"
+  },
+  {
+   "name": "flat_mode_X_nonnegative",
+   "verdict": "PASS",
+   "detail": "per mode X = P3 - Pt = -(1/3) d omega/d a4 = (k^2 e^{-2a4} + q^2 e^{2a4})/(3 omega) >= 0 for real omega > 0; kinetic theory: p3 = k_p^2/(3 omega) >= 0, p_t = -q_p^2/(3 omega) <= 0 (time-like extra directions)"
+  },
+  {
+   "name": "massive_mode_w_eff_law",
+   "verdict": "PASS",
+   "detail": "q = 0: w_eff(A) = k^2/(3 (M^2 a^2 + k^2)) -> 1/3 (a -> 0), -> 0 (a -> oo): the dark-matter-like 1/3 -> 0 law"
+  },
+  {
+   "name": "massive_mode_cpl_tangent",
+   "verdict": "PASS",
+   "detail": "w0 = x/(3*(x + 1)), wa = 2*x/(3*(x + 1)**2) > 0 (freezing sign in the CPL convention)"
+  },
+  {
+   "name": "massless_mode_w_eff",
+   "verdict": "PASS",
+   "detail": "M = 0, q = 0: X/E = 1/3 exactly: w_eff(A) = 1/3 (radiation), w_eff(C) = -2/3"
+  },
+  {
+   "name": "mixture_radiation_condensate_cpl",
+   "verdict": "PASS",
+   "detail": "gas with X = E/3 (E ~ 1/a) + condensate (X = 0, E const): w_eff(A) = (1/3) r/(1 + r), r = r0/a; w0 = r0/(3*(r0 + 1)), wa = r0/(3*(r0**2 + 2*r0 + 1)) > 0; w_eff(C) = w_eff(A) - 1 (same wa)"
+  },
+  {
+   "name": "mixture_C_matching_w0_unite",
+   "verdict": "PASS",
+   "detail": "w_eff(C) = -0.861 at a = 1 needs r0 = 417/583 = 0.715265866209; then wa = 0.081037000000 (> 0), not -0.60"
+  },
+  {
+   "name": "cpl_least_squares_rule",
+   "verdict": "PASS",
+   "detail": "normal equations of min int_{a1}^1 (w - w0 - wa (1 - a))^2 da; reproduce an exact CPL curve"
+  },
+  {
+   "name": "unite_deep_past",
+   "verdict": "PASS",
+   "detail": "Unite CPL: w(a -> 0) = w0 + wa = -1.461 (quoted as -1.46; phantom); wa < 0: w rises from the past (thawing sign)"
+  },
+  {
+   "name": "expansion_inferred_w",
+   "verdict": "PASS",
+   "detail": "a = e^{a4(x4)}, t = x4 (g44 = -1): H_obs = a4', w_exp = -1 - (2/3) a4''/a4'^2"
+  },
+  {
+   "name": "expansion_inferred_w_einstein",
+   "verdict": "PASS",
+   "detail": "Einstein (alpha1 = 1): w_exp = -1 - kappa (p3 - p_t)/(3 a4'^2); the linear member a4 = A H x4 (the only history the condensate allows, p3 = p_t) gives w_exp = -1 exactly; w_exp < -1 iff kappa (p3 - p_t) > 0 (valid only for an ADMISSIBLE source; the Kohn-Sham states are not admissible)"
+  },
+  {
+   "name": "phantom_condition",
+   "verdict": "PASS",
+   "detail": "w_eff(C) < -1 iff (P3 - Pt)/E < 0 and w_eff(A) < 0 iff (P3 - Pt)/E < 0: with E > 0 this needs P_t > P3 (an extra-time pressure exceeding the 3-space pressure), which no real-frequency mode supplies (flat_mode_X_nonnegative); otherwise E < 0 (negative-norm / Krein sector)"
+  }
+ ],
+ "summary": {
+  "total": 30,
+  "pass": 30,
+  "fail": 0
+ }
+}

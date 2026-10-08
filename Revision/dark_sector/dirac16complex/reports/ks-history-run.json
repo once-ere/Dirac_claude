@@ -1,0 +1,80 @@
+{
+ "producer": "Revision/dark_sector/dirac16complex/compute/run_ks_history.py",
+ "solver": "Revision/kohn_sham/solver (command single), canonical numerics, T = 0, H = m = 1, L = 3, theta = 0",
+ "slices": [
+  0.0,
+  0.05,
+  0.1,
+  0.15,
+  0.2,
+  0.25,
+  0.3,
+  0.35,
+  0.4,
+  0.45,
+  0.5,
+  0.55,
+  0.6,
+  0.65,
+  0.7,
+  0.75,
+  0.8,
+  0.85,
+  0.9,
+  0.95,
+  1.0,
+  1.05,
+  1.1,
+  1.15,
+  1.2,
+  1.25,
+  1.3,
+  1.35,
+  1.4,
+  1.45,
+  1.5,
+  1.55,
+  1.6,
+  1.65,
+  1.7,
+  1.75,
+  1.8,
+  1.85,
+  1.9,
+  1.95,
+  2.0
+ ],
+ "history": "PRESCRIBED BACKGROUND a4 = A H x4 (Revision/kohn_sham/results/parameters.json conventions.history): the Kohn-Sham gas is a test field without back-reaction",
+ "checks": [
+  {
+   "name": "all_runs_succeeded",
+   "verdict": "PASS",
+   "detail": "615 runs (15 series x 41 slices), failed: []"
+  },
+  {
+   "name": "committed_slices_reproduced",
+   "verdict": "PASS",
+   "detail": "300 integrals of the 75 committed states compared with Revision/kohn_sham/results/ground/emt-integrals.csv: max relative deviation 0.000e+00"
+  },
+  {
+   "name": "occupied_labels_fixed_along_history",
+   "verdict": "PASS",
+   "detail": "occupied (n2, j, parity, level, f) set identical at all 41 slices for 15 of 15 series; changed: []"
+  },
+  {
+   "name": "y_conservation_every_state",
+   "verdict": "PASS",
+   "detail": "p8_y + 6 H p8 = 3 H (p3 + p_t): max relative residual over 615 states 1.951e-08 (solver's own)"
+  },
+  {
+   "name": "particle_number_every_state",
+   "verdict": "PASS",
+   "detail": "max |int n - N|/N = 2.299e-15"
+  }
+ ],
+ "summary": {
+  "total": 5,
+  "pass": 5,
+  "fail": 0
+ }
+}
