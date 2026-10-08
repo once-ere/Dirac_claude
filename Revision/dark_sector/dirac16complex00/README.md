@@ -169,7 +169,7 @@ amplitude grows by 10^32.2 between a = 1.5 and 2.2, and its energy density becom
    dust-like under N1. Under N2 the same states look like dark energy instead. The reading depends on the
    observer ASSUMPTION.
 2. **Dark energy without ghosts.** This exists only under N2, and only as freezing (M2: wa > 0) or thawing
-   (M3, M4: wa < 0) evolution with w ≥ -1: for M2 at every a; for M3 and M4 only before the turning point a_*
+   (M3, M4: wa < 0) evolution with w ≥ -1: for M2 at every a (within the WKB model, an approximation); for M3 and M4 only before the turning point a_*
    of the extra-time mode (M3: 1.8434; M4: 1.2355; checked on a ∈ [1/300, 1]); past a_* the bound is not
    established.
    - The thawing case is driven by the deflation, which blueshifts the extra-time momentum.
