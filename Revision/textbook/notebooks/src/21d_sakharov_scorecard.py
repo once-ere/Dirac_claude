@@ -937,8 +937,8 @@ CELLS = [
                 "the phase of $\\Psi^T C\\Psi$ (solid) and of $\\Psi^\\dagger C\\Psi$ "
                 "(dashed) for a commuting field under $\\Psi \\to e^{i\\alpha}\\Psi$, "
                 "versus $\\alpha$ (radians): the Majorana-type term turns twice as "
-                "fast, it carries U(1) charge 2 and would break the charge "
-                "conservation.")
+                "fast, it carries U(1) charge 2 and would break the U(1) symmetry "
+                "and with it the local conservation law of the charge.")
     '''),
     md(r"""
     ## 13. The scorecard

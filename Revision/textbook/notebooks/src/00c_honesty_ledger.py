@@ -11,7 +11,7 @@ by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/00c_honesty_ledger.py
 
-It opens every verifier report of the Revision record (39 JSON files), counts their
+It opens every verifier report of the Revision record (41 JSON files), counts their
 checks in each of the three layouts that occur, compares the counts with the reports' own
 summaries, with the table of Revision/README.md, with the counts quoted by the
 Kohn-Sham cross-check and with the dark-sector summary file, assigns every report to one
@@ -26,7 +26,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 from nbkit import code, md, run_builder  # noqa: E402
 
-# The 39 verifier reports of the Revision record, grouped by folder, each with the engine
+# The 41 verifier reports of the Revision record, grouped by folder, each with the engine
 # that did its computation: the language of the program that wrote the report (Wolfram
 # Language, Python, Rust, or the lead's independent Python checks). The notebook prints
 # this list in its cell In [5].
@@ -34,11 +34,12 @@ REPORT_GROUPS = [
     ("the gammas, C, Gamma, B, Pin(4,4) and Spin(4,4)", [
         ("Revision/algebra/reports/wolfram-algebra.json", "Wolfram"),
         ("Revision/algebra/reports/python-algebra.json", "Python")]),
-    ("the Lagrangians, field equations, EMT, quantisation; the scope", [
+    ("the Lagrangians, field equations, EMT, quantisation; the scope; a Fock model", [
         ("Revision/theory/reports/wolfram-field-theory.json", "Wolfram"),
         ("Revision/theory/reports/python-field-theory.json", "Python"),
         ("Revision/theory/reports/wolfram-scope.json", "Wolfram"),
-        ("Revision/theory/reports/python-scope.json", "Python")]),
+        ("Revision/theory/reports/python-scope.json", "Python"),
+        ("Revision/theory/fock_quartic/reports/fock-quartic.json", "Python")]),
     ("the field equations for a4; the Kohn-Sham states as a source", [
         ("Revision/field_equations_a4/reports/wolfram-a4-report.json", "Wolfram"),
         ("Revision/field_equations_a4/reports/python-a4-report.json", "Python"),
@@ -50,14 +51,15 @@ REPORT_GROUPS = [
         ("Revision/gkd_lovelock/results/wolfram-gkd-report.json", "Wolfram"),
         ("Revision/gkd_lovelock/results/python-lovelock-report.json", "Python"),
         ("Revision/gkd_lovelock/comparison/author-comparison-report.json", "Python")]),
-    ("the Kohn-Sham theory, solvers and comparisons", [
+    ("the Kohn-Sham theory, solvers and comparisons; the tip-cutoff study", [
         ("Revision/kohn_sham/reports/ks-theory-wolfram.json", "Wolfram"),
         ("Revision/kohn_sham/reports/ks-theory-python.json", "Python"),
         ("Revision/kohn_sham/reports/ks-rust-solver.json", "Rust"),
         ("Revision/kohn_sham/reports/ks-rust-determinism.json", "Python"),
         ("Revision/kohn_sham/reports/ks-rust-mermin-roots.json", "Python"),
         ("Revision/kohn_sham/reports/ks-reference.json", "Python"),
-        ("Revision/kohn_sham/reports/ks-crosscheck.json", "Python")]),
+        ("Revision/kohn_sham/reports/ks-crosscheck.json", "Python"),
+        ("Revision/kohn_sham/tip_convergence/tip-convergence.json", "Python")]),
     ("the dark-sector hypotheses of the two fields, investigated", [
         ("Revision/dark_sector/dirac16complex/reports/derivation-checks.json",
          "Python"),
@@ -106,7 +108,7 @@ FACTS = {
     "name": "00c_honesty_ledger",
     "title": "The honesty ledger: reading and checking the Revision record",
     "purpose": (
-        "It finds the 39 verifier reports of the Revision record, counts their checks "
+        "It finds the 41 verifier reports of the Revision record, counts their checks "
         "and confirms that none has the verdict FAIL (all are PASS except five "
         "comparisons with the author's outputs that are NOT-AVAILABLE), compares the "
         "counts with the summaries of the reports and with the numbers quoted elsewhere "
@@ -184,7 +186,7 @@ CELLS = [
 
     - opens one report of the Revision record and reads its checks one by one;
     - writes a function that counts the checks of a report in each of the three
-      layouts that occur, searches the whole folder Revision for reports, finds 39,
+      layouts that occur, searches the whole folder Revision for reports, finds 41,
       and counts the checks of all of them;
     - confirms that no check has the verdict FAIL (every check is PASS except five
       comparisons with the author's own outputs that could not be made, verdict
@@ -444,7 +446,7 @@ CELLS = [
         say(f"    counted {passed} of {total}; stated {stated_summary(data)}")
     '''),
     md(r"""
-    ## 7. All 39 reports of the Revision record
+    ## 7. All 41 reports of the Revision record
 
     The next cell first searches the whole folder Revision for reports: JSON files
     whose key `checks` holds the checks themselves (a list of checks, or a dictionary
@@ -457,7 +459,7 @@ CELLS = [
     part of the record: the folder Revision/textbook of this book, the folder
     Revision/workflows (the records of the programs that organised the work, rewritten
     while they run; the Revision record says itself that no result depends on them),
-    and the build folders `target` of the Rust programs. The cell then lists the 39
+    and the build folders `target` of the Rust programs. The cell then lists the 41
     verifier reports of the Revision record, grouped by folder, each with its engine
     (the language of the program that wrote the report), counts the checks of each with
     `count_checks`, and prints a table and the totals per engine.
@@ -471,9 +473,9 @@ CELLS = [
     no stored output was found there), so there is nothing to compare; their verdict
     is NOT-AVAILABLE. Three checks follow:
 
-    1. the search finds exactly the 39 reports of the list: no report of the record is
+    1. the search finds exactly the 41 reports of the list: no report of the record is
        left out of the count (and so out of the ledger below);
-    2. no check of the 39 reports has the verdict FAIL: every check is PASS, except
+    2. no check of the 41 reports has the verdict FAIL: every check is PASS, except
        the five NOT-AVAILABLE comparisons of that one report;
     3. for every report that states its own totals, our count equals them (the
        self-test of layout C states only its verdict, SUCCESS, which is checked
@@ -566,7 +568,7 @@ CELLS = [
     md(r"""
     The next cell compares our counts with three other places of the record that quote
     them. First, the table of the file Revision/README.md (its lines that start with
-    a vertical bar and a folder name) prints 37 counts as "19/19", "49/49" and so on;
+    a vertical bar and a folder name) prints 39 counts as "19/19", "49/49" and so on;
     the counts of the reports on the Lovelock tensors stand there twice, in the row
     of their folder and in the row of the documents. The cell finds the counts in the
     order in which they stand there and compares them with our counts of the reports
@@ -591,6 +593,7 @@ CELLS = [
         R + "theory/reports/python-field-theory.json",
         R + "theory/reports/wolfram-scope.json",
         R + "theory/reports/python-scope.json",
+        R + "theory/fock_quartic/reports/fock-quartic.json",
         R + "field_equations_a4/reports/wolfram-a4-report.json",  # row field_equations_a4/
         R + "field_equations_a4/reports/python-a4-report.json",
         R + "field_equations_a4/reports/ks-source-conditions.json",
@@ -602,6 +605,7 @@ CELLS = [
         R + "kohn_sham/reports/ks-rust-mermin-roots.json",
         R + "kohn_sham/reports/ks-reference.json",
         R + "kohn_sham/reports/ks-crosscheck.json",
+        R + "kohn_sham/tip_convergence/tip-convergence.json",
         R + "dark_sector/dirac16complex/reports/derivation-checks.json",  # dark_sector/
         R + "dark_sector/dirac16complex/reports/ks-history-run.json",
         R + "dark_sector/dirac16complex/reports/eos-checks.json",
@@ -777,7 +781,7 @@ CELLS = [
 
     The next cell writes the ledger: twenty rows, each with a statement of the book,
     its label, a short note where one is needed, and the reports that verify it. Every
-    one of the 39 reports belongs to exactly one row. The five rows labelled HYPOTHESIS
+    one of the 41 reports belongs to exactly one row. The five rows labelled HYPOTHESIS
     or OPEN have no report: nothing in the record establishes them, and their notes
     say why. Two rows of PROVED theorems name an assumption in their statement: the
     pairing theorems T2 and T3 hold with the Z2 mirror (a choice of boundary
@@ -793,12 +797,18 @@ CELLS = [
     Kohn-Sham history of $a_4$ is labelled ASSUMED
     although it has 28 checks: those checks show that the computed Kohn-Sham states
     cannot be the source of that history in the field equations, so the history has
-    to be assumed (a *prescribed background*). Row 7, the comparison of the Revision's
-    curvature with the values that the author stored in his own notebook, has a note
-    as well: five of its comparisons could not be made (NOT-AVAILABLE).
+    to be assumed (a *prescribed background*). Three rows with reports have a note as
+    well. Row 2: the energy-momentum tensor (EMT) operator of dirac16complex with a
+    self-coupling $\lambda \neq 0$ is checked by one Python program only in a finite
+    model (one set of 16 modes); for the field on a whole slice of space it is not
+    proved. Row 7, the comparison of the Revision's curvature with the values that the
+    author stored in his own notebook: five of its comparisons could not be made
+    (NOT-AVAILABLE). Row 9: the Kohn-Sham states are computed with the far end of the
+    hidden direction cut off at $L = 3$; a study of larger $L$ (its seventh report)
+    finds that the limit of large $L$ is not established for every state.
 
-    Two rows are labelled COMPUTED because they rest on numerical computations.
-    Row 13: the theorem T3 is proved (row 12) and, in addition, demonstrated on
+    Rows 13 and 15 are labelled COMPUTED as well, because they rest on numerical
+    computations. Row 13: the theorem T3 is proved (row 12) and, in addition, demonstrated on
     computed Kohn-Sham states of mass $+M$ and $-M$; a demonstration is not a proof.
     Row 15: the author's dark-sector hypotheses were investigated; the investigation
     derives exact identities, but its results, the equations of state that each field
@@ -838,9 +848,11 @@ CELLS = [
         ("the gammas, C, Gamma, B; Pin(4,4) and Spin(4,4)", "PROVED", "",
          [R + "algebra/reports/wolfram-algebra.json",
           R + "algebra/reports/python-algebra.json"]),
-        ("Lagrangians, equations, EMT; dirac16complex quantised", "PROVED", "",
+        ("Lagrangians, equations, EMT; dirac16complex quantised", "PROVED",
+         "the EMT operator for lambda != 0: proved only in a finite Fock model",
          [R + "theory/reports/wolfram-field-theory.json",
-          R + "theory/reports/python-field-theory.json"]),
+          R + "theory/reports/python-field-theory.json",
+          R + "theory/fock_quartic/reports/fock-quartic.json"]),
         ("the exact scope of the non-triviality", "PROVED", "",
          [R + "theory/reports/wolfram-scope.json",
           R + "theory/reports/python-scope.json"]),
@@ -861,12 +873,14 @@ CELLS = [
         ("Kohn-Sham theory: blocks, rescaling, exchange", "PROVED", "",
          [R + "kohn_sham/reports/ks-theory-wolfram.json",
           R + "kohn_sham/reports/ks-theory-python.json"]),
-        ("Kohn-Sham states along the deflating history", "COMPUTED", "",
+        ("Kohn-Sham states along the deflating history", "COMPUTED",
+         "at the tip cutoff L = 3; the large-L limit not established for every state",
          [R + "kohn_sham/reports/ks-rust-solver.json",
           R + "kohn_sham/reports/ks-reference.json",
           R + "kohn_sham/reports/ks-crosscheck.json",
           R + "kohn_sham/reports/ks-rust-determinism.json",
-          R + "kohn_sham/reports/ks-rust-mermin-roots.json"]),
+          R + "kohn_sham/reports/ks-rust-mermin-roots.json",
+          R + "kohn_sham/tip_convergence/tip-convergence.json"]),
         ("the Kohn-Sham history of a4 is a prescribed background", "ASSUMED", "",
          [R + "field_equations_a4/reports/ks-source-conditions.json",
           R + "field_equations_a4/ks_source/reports/ks-source-a4.json"]),
@@ -908,7 +922,7 @@ CELLS = [
         say(f"{number:3d} {label:10} {passed:7d} of {total:3d}  {statement}")
     say("The notes of the rows:")
     for number, (statement, label, note, paths) in enumerate(LEDGER, 1):
-        if note:  # the HYPOTHESIS and OPEN rows, and row 7
+        if note:  # rows 2, 7 and 9, and the HYPOTHESIS and OPEN rows
             say(f"{number:3d} {label:10} {note}")
     used = sorted(path for _, _, _, paths in LEDGER for path in paths)
     check(used == sorted(path for path, _ in REPORTS),

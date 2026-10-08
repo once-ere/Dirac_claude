@@ -633,7 +633,7 @@ CELLS = [
           record=f"{D00}/reports/python-derive-eos.json, check M5_crosses_minus_1")
     check(crossings(no_ghost) == [] and crossings(MODELS["M4"]) == []
           and abs(lowest_M4 - float(M4_RECORD["min_w_N2_on_(0,1]"])) < 1e-11,
-          "no crossing without the ghost: M5 without it, and M4 (w >= -1)",
+          "no crossing on 1/3 <= a <= 1 without the ghost: M5 without it, and M4",
           record=f"{D00}/reports/python-derive-eos.json, checks "
                  "M5_without_ghost_no_crossing and M4_never_phantom")
     check(abs(crossing_B - cross_M5[0]) < 1e-4,
@@ -669,7 +669,7 @@ CELLS = [
                 "$w_{eff}$ (a pure number) of M2 to M5 and the Unite CPL line "
                 "(dashed). As $a$ grows, M2 falls toward $-1$ (freezing, $w_a > 0$); "
                 "M3 and M4 rise away from $-1$ (thawing, $w_a < 0$) and stay above "
-                "$-1$ (dotted) at every $a$. M2, M3 and M4 pass through $-0.861$ at "
+                "$-1$ (dotted) on this range. M2, M3 and M4 pass through $-0.861$ at "
                 "$a = 1$; the tangent of M4 equals the Unite line at $a = 1$ because "
                 "its two parameters were CHOSEN for that. M5 ends at $-0.8396$: its "
                 "two parameters were CHOSEN so that its least-squares fit over "

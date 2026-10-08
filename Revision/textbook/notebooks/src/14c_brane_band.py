@@ -106,7 +106,7 @@ CELLS = [
       (figure 3);
     - checks the mirror symmetries of the two block types $j = \pm1$ (figure 4);
     - shows that, at the cutoff $L = 3$, the band does not feel the tip angle
-      $	heta$ (figure 5);
+      $\theta$ (figure 5);
     - finds the particle branch, the degeneracies $4r_3(n^2)$ of the torus lattice
       and the closed shells of the free aufbau, with the particle numbers
       $N = 8, 136, 688$ of the Revision runs (figure 6).
@@ -639,8 +639,7 @@ CELLS = [
     cutoff is a different question, which this notebook does not compute: the
     Revision record measures it for $L = 3$ to $6$
     (`Revision/kohn_sham/tip_convergence/`, report `tip-convergence.json`, 7 of 7
-    checks PASS). The free results with $k 
-e 0$ converge, but the recorded
+    checks PASS). The free results with $k \ne 0$ converge, but the recorded
     $L = 3$ values are low by up to 1.4% in $E_{KS}$ and 12% in the $p_8$ integral at
     $a_{4,0} = 2$ (the redshifted brane band reaches the tip); the $k = 0$ levels
     approach $\pm m$ only algebraically; and the interaction energy of the brane

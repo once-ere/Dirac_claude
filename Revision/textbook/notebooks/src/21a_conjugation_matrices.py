@@ -1031,8 +1031,9 @@ CELLS = [
     The next cell checks that the Revision record of the lead checks reports all its
     checks as passed, and that the nine checks reproduced in this notebook are among
     them. (The remaining three are reproduced elsewhere in this chapter's notebooks:
-    the reality of the spin connection and the U(1) identity concern charge
-    conservation, and the last check concerns the quantised field.) Then it checks
+    the reality of the spin connection and the U(1) identity concern the local
+    conservation law of the charge (notebook 21b), and the last check concerns the
+    quantised field (notebook 21c).) Then it checks
     that the seven figure files exist and prints the number of checks that passed.
     """),
     code(r'''

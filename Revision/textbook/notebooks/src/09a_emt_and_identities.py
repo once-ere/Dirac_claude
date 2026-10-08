@@ -208,9 +208,17 @@ CELLS = [
 
     **Both fields.** The same formulas hold for the anticommuting field
     dirac16complex, whose bilinears are even elements of a Grassmann algebra (the
-    record verifies them in its checks ending in `_G`); after quantisation they are
-    normal-ordered operators. This notebook computes with ordinary complex numbers,
-    that is, for dirac16complex00.
+    record verifies them in its checks ending in `_G`). After quantisation the record
+    defines the tensor as a normal-ordered operator; the positive space of quantum
+    states this needs is constructed only for single good-sector momenta (waves that
+    do not depend on the extra times) with frozen coefficients, and for
+    $\lambda \neq 0$ the operator form of the on-shell identity
+    $\sum_\mu\langle{:}K_\mu{:}\rangle = \langle{:}(m + U')S{:}\rangle$ is verified
+    only in a finite model of one such mode set, and there only when the potential
+    and the tensor are Wick (normal) ordered as whole products
+    (`Revision/theory/fock_quartic/reports/fock-quartic.json`, 21 of 21 checks); for
+    the field on a whole slice it is OPEN. This notebook computes with ordinary
+    complex numbers, that is, for dirac16complex00.
     """),
     md(r"""
     ## 5. The gamma matrices and the matrix C
