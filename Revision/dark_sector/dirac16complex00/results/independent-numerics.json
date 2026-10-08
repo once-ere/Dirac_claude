@@ -1,0 +1,239 @@
+{
+  "growth": {
+    "a_star": 1.8433886,
+    "log10_amplitude_growth_1.5_to_2.2": 32.171218,
+    "numerical_rate": 0.54337468,
+    "pt_iso_over_Q_at_2.2": -1.2626426e+64,
+    "reading": "the extra-time-momentum mode becomes exponentially growing once q a > m (the deflation blueshifts q); its energy and extra-time pressure then grow without bound",
+    "rho_over_Q_at_2.2": -2.9228317e+61,
+    "wkb_rate": 0.55114035
+  },
+  "independent_solves": {
+    "M3_s": 0.29426353,
+    "M4_Omega_q": 0.21946024,
+    "M4_s": 0.65505409
+  },
+  "krein_signed_energy": {
+    "omega": 1.25,
+    "rho_Q_minus": -1.25,
+    "rho_Q_plus": 1.25
+  },
+  "models": {
+    "M2_positive_good_sector_gas": {
+      "N1": {
+        "fit_a_1/2_to_1": {
+          "constant_w": 0.18884512,
+          "w0": 0.13453057,
+          "wa": 0.21725817
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": 0.20867208,
+          "w0": 0.13227324,
+          "wa": 0.22919654
+        },
+        "tangent": {
+          "w0": 0.13900337,
+          "wa": 0.1620931
+        }
+      },
+      "N2": {
+        "fit_a_1/2_to_1": {
+          "constant_w": -0.81115488,
+          "w0": -0.86546943,
+          "wa": 0.21725817
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": -0.79132792,
+          "w0": -0.86772676,
+          "wa": 0.22919654
+        },
+        "tangent": {
+          "w0": -0.86099663,
+          "wa": 0.1620931
+        }
+      },
+      "ratio": {
+        "fit_a_1/2_to_1": {
+          "constant_w": 0.18884512,
+          "w0": 0.13453057,
+          "wa": 0.21725817
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": 0.20867208,
+          "w0": 0.13227324,
+          "wa": 0.22919654
+        },
+        "tangent": {
+          "w0": 0.13900337,
+          "wa": 0.1620931
+        }
+      }
+    },
+    "M3_positive_extra_time_mode": {
+      "N1": {
+        "fit_a_1/2_to_1": {
+          "constant_w": 0.071668771,
+          "w0": 0.12657535,
+          "wa": -0.21962633
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": 0.058400824,
+          "w0": 0.11979478,
+          "wa": -0.18418188
+        },
+        "tangent": {
+          "w0": 0.13901852,
+          "wa": -0.39399828
+        }
+      },
+      "N2": {
+        "fit_a_1/2_to_1": {
+          "constant_w": -0.92833123,
+          "w0": -0.87342465,
+          "wa": -0.21962633
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": -0.94159918,
+          "w0": -0.88020522,
+          "wa": -0.18418188
+        },
+        "tangent": {
+          "w0": -0.86098148,
+          "wa": -0.39399828
+        }
+      },
+      "ratio": {
+        "fit_a_1/2_to_1": {
+          "constant_w": 2.5357708e-18,
+          "w0": 3.2820652e-18,
+          "wa": -2.9851775e-18
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": 1.5257309e-18,
+          "w0": 3.8977478e-18,
+          "wa": -7.1160508e-18
+        },
+        "tangent": {
+          "w0": -8.1712632e-18,
+          "wa": 6.213048e-16
+        }
+      }
+    },
+    "M4_condensate_plus_extra_time_mode": {
+      "N1": {
+        "fit_a_1/2_to_1": {
+          "constant_w": 0.061730315,
+          "w0": 0.11682353,
+          "wa": -0.22037286
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": 0.049793447,
+          "w0": 0.10827843,
+          "wa": -0.17545495
+        },
+        "tangent": {
+          "w0": 0.13907606,
+          "wa": -0.60082222
+        }
+      },
+      "N2": {
+        "fit_a_1/2_to_1": {
+          "constant_w": -0.93826969,
+          "w0": -0.88317647,
+          "wa": -0.22037286
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": -0.95020655,
+          "w0": -0.89172157,
+          "wa": -0.17545495
+        },
+        "tangent": {
+          "w0": -0.86092394,
+          "wa": -0.60082222
+        }
+      },
+      "ratio": {
+        "fit_a_1/2_to_1": {
+          "constant_w": 2.0714583e-19,
+          "w0": 9.1012604e-19,
+          "wa": -2.8119208e-18
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": 1.7843743e-19,
+          "w0": 5.4082722e-19,
+          "wa": -1.0871694e-18
+        },
+        "tangent": {
+          "w0": -1.6077984e-18,
+          "wa": -3.0279366e-16
+        }
+      }
+    },
+    "M5_with_ghost_component": {
+      "N1": {
+        "fit_a_1/2_to_1": {
+          "constant_w": -0.010968729,
+          "w0": 0.13906047,
+          "wa": -0.60011679
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": -0.073787233,
+          "w0": 0.15933948,
+          "wa": -0.69938015
+        },
+        "tangent": {
+          "w0": 0.16046865,
+          "wa": -1.0407652
+        }
+      },
+      "N2": {
+        "fit_a_1/2_to_1": {
+          "constant_w": -1.0109687,
+          "w0": -0.86093953,
+          "wa": -0.60011679
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": -1.0737872,
+          "w0": -0.84066052,
+          "wa": -0.69938015
+        },
+        "tangent": {
+          "w0": -0.83953135,
+          "wa": -1.0407652
+        }
+      },
+      "crossing_N2": 0.77905405,
+      "ratio": {
+        "fit_a_1/2_to_1": {
+          "constant_w": -0.13591449,
+          "w0": -0.084901254,
+          "wa": -0.20405293
+        },
+        "fit_a_1/3_to_1": {
+          "constant_w": -0.1771115,
+          "w0": -0.049427361,
+          "wa": -0.38305241
+        },
+        "tangent": {
+          "w0": -0.10000001,
+          "wa": -0.051857366
+        }
+      }
+    }
+  },
+  "producer": "Revision/dark_sector/dirac16complex00/python/independent_numerics.py (implementation B: numpy ODE integration)",
+  "settings": {
+    "eps_AH_over_m": 0.001,
+    "fits": "least squares over 101 uniform points in a (as implementation A)",
+    "omega_dx": 0.05,
+    "smoothing": "local linear regression in ln a over |ln a - ln a0| < 0.01",
+    "tangent": "local cubic regression over a in [0.985, 1.015] (13 points)"
+  },
+  "superposition": {
+    "p1_average": 0.17854725,
+    "p1_sum_of_modes": 0.17854725,
+    "rho_average": 0.5112083,
+    "rho_pointwise_range": 0.27738092,
+    "rho_sum_of_modes": 0.5112083
+  }
+}

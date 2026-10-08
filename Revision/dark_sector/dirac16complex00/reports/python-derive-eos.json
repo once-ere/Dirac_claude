@@ -1,0 +1,251 @@
+{
+  "checks": [
+    {
+      "detail": "{gamma^a, gamma^b} = 2 eta^ab for the fixture Revision/algebra/gammas.json (eta = diag(+,+,+,-,-,-,-,+) in the order x1..x8)",
+      "name": "gammas_clifford_author_T16",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "control: the x4 identity with the opposite sign of the exchange term is NOT satisfied (the comparison is not vacuous)",
+      "name": "conservation_negative_control",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7) for a diagonal T(x4, x8), Christoffel symbols computed here from the author's metric",
+      "name": "conservation_x4_author_metric",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "nabla_mu T^mu_x8 = d8 p8 + H cot z sum_{6 directions} (p8 - p_dir); isotropic: d8 p8 + 3 H cot z (2 p8 - p3 - p_t)",
+      "name": "conservation_x8_author_metric",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7",
+      "name": "conservation_other_components_vanish",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "local model (warp frozen at a fixed hidden position): the same x4 identity; nabla_mu T^mu_x8 = d8 p8",
+      "name": "conservation_x4_local_model",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "local model: sqrt|g| = 1, independent of x4 (3-space inflation e^{3 a4} compensated by the deflation e^{-3 a4})",
+      "name": "local_model_volume_constant",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "N1 (per unit extra-time coordinate volume, rho_4 = e^{-3 a4} <rho>): w_eff = (p1+p2+p3-p5-p6-p7)/(3 rho) = w3 - w_t (isotropic), using the exact conservation identity d rho/d x4 = -a4' (p1+p2+p3-p5-p6-p7)",
+      "name": "observer_N1_weff_identity",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "N2 (per unit proper 7-volume, rho_4 = <rho>): w_eff = -1 + (p1+p2+p3-p5-p6-p7)/(3 rho) = w_eff(N1) - 1",
+      "name": "observer_N2_weff_identity",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "<f> = int cos z f dx8 over the patch: d<f>/dx4 = <d4 f>, so the identities hold for the hidden-direction averages",
+      "name": "observer_hidden_average_commutes",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "Phi(x4) on shell: d4 Phi = A Phi, A = -gamma^(x4) (M - 3 H gamma^(x8)), M = m + U'(S); C A + A^T C = 0 (author's T16), so S = Phibar Phi is constant",
+      "name": "condensate_S_constant_T16",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "controls: K_x4 is not -M S, and C A - A^T C is not zero",
+      "name": "condensate_negative_control",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "K_x4 = (1/2)(Phibar gamma^(x4) d4 Phi - d4 Phibar gamma^(x4) Phi) = M S exactly (matrix identity (C g4 A - A^T C g4)/2 = M C); all other K_mu = 0",
+      "name": "condensate_K4_equals_MS_T16",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "rho = m S + lambda S^2/2, p3 = p_t = p8 = lambda S^2/2 (constant), w = p/rho = lambda S/(2 m + lambda S)",
+      "name": "condensate_rho_p_w",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "w = x/(1+x) with x = lambda S/(2 m): w < -1 exactly for x in (-1, -1/2), i.e. lambda S/m in (-2, -1); there rho = m S (1 + x) has the sign of m S and p = m S x the opposite sign",
+      "name": "condensate_phantom_interval",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "w = -0.764 at x = -191/441, i.e. lambda S/m = -382/441 = -0.866213...; rho > 0 then needs m S > 0 and lambda < 0 (U = lambda S^2/2 < 0); constant in time (wa = 0)",
+      "name": "condensate_ratio_equals_unite_constant_w",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "from a4-equations.json (linearMember): kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)] at a4' = A H",
+      "name": "linear_member_rho_plus_p_factorises",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "Einstein: rho + p = -6 (1 + A^2) H^2/kappa < 0 (kappa > 0); a self-consistent condensate source with rho > 0 therefore has w = p/rho = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (phantom in the RATIO sense), constant in x4",
+      "name": "linear_member_einstein_phantom_ratio",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "backreacted homogeneous source, Einstein gravity: a4'^2 = -(kappa rho + Lambda + 21 H^2)/3, so the observer's Hubble rate gives w_tot = -1 - (1/3) d ln a4'^2/d ln a = -1 - kappa (p3 - p_t)/(3 a4'^2); the linear member (a4'' = 0) gives w_tot = -1 exactly",
+      "name": "expansion_inferred_w_einstein",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "h^2 = (m^2 + k^2 - q^2) I16: omega^2 = m^2 + k_phys^2 - q_phys^2 (the extra times are time-like: q enters with the opposite sign)",
+      "name": "mode_dispersion_h_squared",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "B h = (B h)^dagger: the conserved charge Q = Phi^dagger B Phi is the Krein form of the evolution",
+      "name": "mode_generator_B_selfadjoint",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "controls on the omega = 5 eigenspace: rho is not -omega Q, and the Krein form is not zero there",
+      "name": "mode_emt_negative_control",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "eigenspace omega = 5: dimension 8, Krein form u^dagger B u of signature (4, 4)",
+      "name": "mode_krein_inertia_m3_k4_q0_pos",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "on the eigenspace exactly: rho = omega Q, L0 = 0, p1 = k^2 Q/omega, p5 = -q^2 Q/omega, Q = u^dagger B u (T^mu_nu = k^mu k_nu Q/omega); energy sign = sign(omega) sign(Q): both signs at every real frequency",
+      "name": "mode_emt_m3_k4_q0_pos",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "eigenspace omega = -5: dimension 8, Krein form u^dagger B u of signature (4, 4)",
+      "name": "mode_krein_inertia_m3_k4_q0_neg",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "on the eigenspace exactly: rho = omega Q, L0 = 0, p1 = k^2 Q/omega, p5 = -q^2 Q/omega, Q = u^dagger B u (T^mu_nu = k^mu k_nu Q/omega); energy sign = sign(omega) sign(Q): both signs at every real frequency",
+      "name": "mode_emt_m3_k4_q0_neg",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "eigenspace omega = 4: dimension 8, Krein form u^dagger B u of signature (4, 4)",
+      "name": "mode_krein_inertia_m5_k0_q3_pos",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "on the eigenspace exactly: rho = omega Q, L0 = 0, p1 = k^2 Q/omega, p5 = -q^2 Q/omega, Q = u^dagger B u (T^mu_nu = k^mu k_nu Q/omega); energy sign = sign(omega) sign(Q): both signs at every real frequency",
+      "name": "mode_emt_m5_k0_q3_pos",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "eigenspace omega = -4: dimension 8, Krein form u^dagger B u of signature (4, 4)",
+      "name": "mode_krein_inertia_m5_k0_q3_neg",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "on the eigenspace exactly: rho = omega Q, L0 = 0, p1 = k^2 Q/omega, p5 = -q^2 Q/omega, Q = u^dagger B u (T^mu_nu = k^mu k_nu Q/omega); energy sign = sign(omega) sign(Q): both signs at every real frequency",
+      "name": "mode_emt_m5_k0_q3_neg",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "eigenspace omega = 4: dimension 8, Krein form u^dagger B u of signature (4, 4)",
+      "name": "mode_krein_inertia_m4_k4_q4_pos",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "on the eigenspace exactly: rho = omega Q, L0 = 0, p1 = k^2 Q/omega, p5 = -q^2 Q/omega, Q = u^dagger B u (T^mu_nu = k^mu k_nu Q/omega); energy sign = sign(omega) sign(Q): both signs at every real frequency",
+      "name": "mode_emt_m4_k4_q4_pos",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "eigenspace omega = -4: dimension 8, Krein form u^dagger B u of signature (4, 4)",
+      "name": "mode_krein_inertia_m4_k4_q4_neg",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "on the eigenspace exactly: rho = omega Q, L0 = 0, p1 = k^2 Q/omega, p5 = -q^2 Q/omega, Q = u^dagger B u (T^mu_nu = k^mu k_nu Q/omega); energy sign = sign(omega) sign(Q): both signs at every real frequency",
+      "name": "mode_emt_m4_k4_q4_neg",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "m = 3, k = 0, q = 5: omega = 4 i (growth exp(4 x4)); the growing eigenspace has dimension 8 and is Krein-neutral (Q = 0), so K_x4 = Re(omega) Q = 0 and rho = 0",
+      "name": "growing_mode_krein_neutral",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "on the growing eigenspace K_x5 = m S exactly (on shell), so rho = 0, p1 = p8 = L0 = 0 and p5 = -m S, which grows as exp(8 x4) and is not identically zero: w = p/rho is undefined; the energy of a growing mode sits in cross terms with decaying modes",
+      "name": "growing_mode_extra_time_pressure",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), omega^2 = m^2 + k^2/a^2 - q^2 a^2 (comoving k, q; Q the conserved Krein charge per comoving volume) satisfy d rho/dx4 = -3 a4' (p3 - p_t) exactly",
+      "name": "wkb_mode_gas_conservation",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "w_eff(N1) of one component = eps = (k^2/a^2 + q^2 a^2)/(3 omega^2): independent of the Krein charge Q, and eps >= 0 for real omega",
+      "name": "wkb_epsilon_sign_free",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "mixture: w_eff(N2) = -1 + sum eps_i rho_i / sum rho_i, w_eff(N1) = sum eps_i rho_i / sum rho_i (condensates have eps = 0)",
+      "name": "mixture_weighted_average",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "the fit procedure applied to the Unite CPL line itself returns (w0, wa) = (-0.861, -0.60) and the constant w = -1.011 ([1/2, 1]) and -1.061 ([1/3, 1]): the constant-w proxy (mean of w(a)) is NOT the supernova constant-w fit -0.764, which weights the data",
+      "name": "unite_line_fit_proxy",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "the Unite CPL line crosses w = -1 at a = 461/600 (z = 139/461 = 0.3015)",
+      "name": "unite_crossing_point",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "positive-energy good-sector gas (q = 0), k^2/(k^2+m^2) = 417/1000 at a = 1: N2 tangent (w0, wa) = (-0.861, 81037/500000) = (-0.861, (2/3) r (1 - r)): FREEZING (wa > 0)",
+      "name": "M2_tangent_exact",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "positive-energy extra-time-momentum mode (k = 0), s = q^2/m^2 = 417/1417 at a = 1: N2 tangent (w0, wa) = (-0.861, -196963/500000): THAWING (wa < 0), w -> -1 from above as a -> 0",
+      "name": "M3_tangent_exact",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "condensate + positive q-mode with N2 tangent equal to Unite: s = 264037/403037, Omega_q = 57963/264037 (exact solution of the two tangent conditions)",
+      "name": "M4_parameters_exact",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "N2 tangent of M4 = (-0.861, -0.600) = the Unite CPL values; yet w_eff(N2) >= -1 at every a (theorem: positive components), no crossing: the phantom past of the CPL line is not reproduced",
+      "name": "M4_tangent_equals_unite",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "min of w_eff(N2) over a = 1/300 ... 1 is -0.999999214228 >= -1",
+      "name": "M4_never_phantom",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "condensate + positive q-mode + ghost radiation (|rho_ghost| = 0.3 of the total at a = 1): N2 least-squares CPL fit over a in [1/2, 1] (101 points) = (-0.861, -0.60); s = 0.567762680825, Omega_q = 0.594675195377",
+      "name": "M5_fit_equals_unite",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "w_eff(N2) of M5 crosses -1 once in [1/3, 1], at a = 0.77909966367 (Unite line: 461/600 = 0.768333)",
+      "name": "M5_crosses_minus_1",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "the same model with the ghost component removed (Omega_c = 1 - Omega_q) has no crossing: the crossing is due to the negative-energy component",
+      "name": "M5_without_ghost_no_crossing",
+      "verdict": "PASS"
+    }
+  ],
+  "producer": "Revision/dark_sector/dirac16complex00/python/derive_eos.py",
+  "summary": "49/49 checks pass"
+}

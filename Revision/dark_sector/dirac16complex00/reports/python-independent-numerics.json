@@ -1,0 +1,146 @@
+{
+  "checks": [
+    {
+      "detail": "numeric Clifford relation of the fixture (independent loader)",
+      "name": "B_clifford_numeric",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "B = -i C gamma^(x4) Hermitian, B^2 = 1",
+      "name": "B_krein_matrix",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "m = 1, k = 0.75, omega = 1.25: positive-frequency vectors with Q = +1 and Q = -1 have rho = +1.25 and -1.25 (rho = omega Q)",
+      "name": "B_krein_signed_energy",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "three modes (k = 1, 2, 3; Krein signs +, -, +) at one instant: the spatial averages of rho and p1 equal the sums of omega |c|^2 Q and k^2 |c|^2 Q/omega (cross terms average to zero; pointwise interference range 0.27738092)",
+      "name": "B_superposition_average",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "Krein charge drift 3.375078e-14, max |L0| (on shell) 1.1657342e-15, conservation d rho/dx4 = a4' (K1 - K5) relative residual 4.6665535e-08 (finite differences)",
+      "name": "B_run_kmode_invariants",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "Krein charge drift 1.9539925e-14, max |L0| (on shell) 4.4408921e-16, conservation d rho/dx4 = a4' (K1 - K5) relative residual 3.7338374e-07 (finite differences)",
+      "name": "B_run_q3_invariants",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "Krein charge drift 9.4368957e-15, max |L0| (on shell) 6.6613381e-16, conservation d rho/dx4 = a4' (K1 - K5) relative residual 4.8268616e-07 (finite differences)",
+      "name": "B_run_q4_invariants",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "Krein charge drift 1.2767565e-14, max |L0| (on shell) 4.4408921e-16, conservation d rho/dx4 = a4' (K1 - K5) relative residual 4.1564123e-07 (finite differences)",
+      "name": "B_run_q5_invariants",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "Krein charge drift 1.8378632e-12, max |L0| (on shell) 2.220446e-16, conservation d rho/dx4 = a4' (K1 - K5) relative residual 7.1054274e-15 (finite differences)",
+      "name": "B_run_cond_invariants",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "Krein charge drift 1.7985613e-14, max |L0| (on shell) 8.8817842e-16, conservation d rho/dx4 = a4' (K1 - K5) relative residual 1.3357525e-10 (finite differences)",
+      "name": "B_run_ghost_invariants",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "the ghost component (massless, positive frequency, Krein charge -1) has rho < 0 along the whole run: rho(1.06) = -0.94339623",
+      "name": "B_ghost_negative_energy",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "homogeneous solution (k = q = 0): rho = m S constant, range 1.8378632e-12",
+      "name": "B_condensate_rho_constant",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M2_positive_good_sector_gas, N2: tangent (w0, wa) = (-0.86099663, 0.1620931) vs A (-0.861, 0.162074); fit [1/2,1] (-0.86546943, 0.21725817, const -0.81115488) vs A (-0.865472812404, 0.217262379167, -0.811157217612); max deviation 1.9104074e-05",
+      "name": "B_vs_A_M2_N2",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M2_positive_good_sector_gas, N1: tangent (w0, wa) = (0.13900337, 0.1620931) vs A (0.139, 0.162074); fit [1/2,1] (0.13453057, 0.21725817, const 0.18884512) vs A (0.134527187596, 0.217262379167, 0.188842782388); max deviation 1.9104074e-05",
+      "name": "B_vs_A_M2_N1",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M2_positive_good_sector_gas, ratio: tangent (w0, wa) = (0.13900337, 0.1620931) vs A (0.139, 0.162074); fit [1/2,1] (0.13453057, 0.21725817, const 0.18884512) vs A (0.134527187596, 0.217262379167, 0.188842782388); max deviation 1.9104074e-05",
+      "name": "B_vs_A_M2_ratio",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M3_positive_extra_time_mode, N2: tangent (w0, wa) = (-0.86098148, -0.39399828) vs A (-0.861, -0.393926); fit [1/2,1] (-0.87342465, -0.21962633, const -0.92833123) vs A (-0.873439775934, -0.21959617856, -0.928338820574); max deviation 7.2279769e-05",
+      "name": "B_vs_A_M3_N2",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M3_positive_extra_time_mode, N1: tangent (w0, wa) = (0.13901852, -0.39399828) vs A (0.139, -0.393926); fit [1/2,1] (0.12657535, -0.21962633, const 0.071668771) vs A (0.126560224066, -0.21959617856, 0.0716611794264); max deviation 7.2279769e-05",
+      "name": "B_vs_A_M3_N1",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M3_positive_extra_time_mode, ratio: tangent (w0, wa) = (-8.1712632e-18, 6.213048e-16) vs A (0.0, 0.0); fit [1/2,1] (3.2820652e-18, -2.9851775e-18, const 2.5357708e-18) vs A (0.0, 0.0, 0.0); max deviation 6.213048e-16",
+      "name": "B_vs_A_M3_ratio",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M4_condensate_plus_extra_time_mode, N2: tangent (w0, wa) = (-0.86092394, -0.60082222) vs A (-0.861, -0.6); fit [1/2,1] (-0.88317647, -0.22037286, const -0.93826969) vs A (-0.883223741759, -0.220263283648, -0.938289562671); max deviation 0.00082221593",
+      "name": "B_vs_A_M4_N2",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M4_condensate_plus_extra_time_mode, N1: tangent (w0, wa) = (0.13907606, -0.60082222) vs A (0.139, -0.6); fit [1/2,1] (0.11682353, -0.22037286, const 0.061730315) vs A (0.116776258241, -0.220263283648, 0.0617104373289); max deviation 0.00082221593",
+      "name": "B_vs_A_M4_N1",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M4_condensate_plus_extra_time_mode, ratio: tangent (w0, wa) = (-1.6077984e-18, -3.0279366e-16) vs A (0.0, 0.0); fit [1/2,1] (9.1012604e-19, -2.8119208e-18, const 2.0714583e-19) vs A (0.0, 0.0, 0.0); max deviation 3.0279366e-16",
+      "name": "B_vs_A_M4_ratio",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M5_with_ghost_component, N2: tangent (w0, wa) = (-0.83953135, -1.0407652) vs A (-0.839622680899, -1.03993432294); fit [1/2,1] (-0.86093953, -0.60011679, const -1.0109687) vs A (-0.861, -0.6, -1.011); max deviation 0.00083082726",
+      "name": "B_vs_A_M5_N2",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M5_with_ghost_component, N1: tangent (w0, wa) = (0.16046865, -1.0407652) vs A (0.160377319101, -1.03993432294); fit [1/2,1] (0.13906047, -0.60011679, const -0.010968729) vs A (0.139, -0.6, -0.011); max deviation 0.00083082726",
+      "name": "B_vs_A_M5_N1",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "M5_with_ghost_component, ratio: tangent (w0, wa) = (-0.10000001, -0.051857366) vs A (-0.1, -0.0518868042696); fit [1/2,1] (-0.084901254, -0.20405293, const -0.13591449) vs A (-0.0849009828099, -0.204074688144, -0.135919654846); max deviation 3.9667955e-05",
+      "name": "B_vs_A_M5_ratio",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "w_eff(N2) of M5 from the field equation crosses -1 at a = 0.77905405 (A: 0.77909966367; Unite line 0.768333)",
+      "name": "B_vs_A_M5_crossing",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "bisection on the field-equation solution: w_eff(N2)(1) = -0.861 at s = q^2/m^2 = 0.29426353 (A: 417/1417 = 0.2942837)",
+      "name": "B_solve_M3_s",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "bisection on the field-equation solution: tangent (w0, wa) = (-0.861, -0.60) at s = 0.65505409, Omega_q = 0.21946024 (A: 0.65511851, 0.21952605)",
+      "name": "B_solve_M4",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "q-mode of M3 past its turning point a_* = 1.8433886: d ln|phi|/dx4 over a in [2.0, 2.2] = 0.54337468, WKB rate sqrt(q^2 a^2 - m^2) at the mean a = 0.55114035",
+      "name": "B_growth_rate",
+      "verdict": "PASS"
+    }
+  ],
+  "producer": "Revision/dark_sector/dirac16complex00/python/independent_numerics.py",
+  "summary": "28/28 checks pass"
+}

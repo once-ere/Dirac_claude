@@ -1,0 +1,196 @@
+{
+ "report": "Revision/field_equations_a4/ks_source/reports/ks-source-a4.json",
+ "producer": "Revision/field_equations_a4/ks_source/ks_source_a4.py",
+ "spec": "Revision/SPEC.md sections 5 and 7: the a4 field equations with the Kohn-Sham energy-momentum tensor as the source; coordinates x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times, x8 = hidden direction",
+ "inputs": {
+  "Revision/field_equations_a4/a4-equations.json": "98d3245d30e5c25f7bbdfcd186d5723aec2059a1feeaef4cc3c3249684de03b4",
+  "Revision/kohn_sham/results/parameters.json": "f35216c2bee5b0dc21db6343e640c89f0aebcefab0c6dd6efcec618e0bfae993",
+  "Revision/kohn_sham/results/ground/emt-integrals.csv": "24a9cb2037c00d7e6f359c070d1290feaff5ba14397bd89b360d4b4986c13ebb",
+  "Revision/kohn_sham/results/adiabatic/adiabaticity.csv": "b2389507d0cb727961ba343a2e07d259eb023417d90b831170b359059f82d608",
+  "Revision/kohn_sham/results/adiabatic/history.json": "8cacaac849efbf4da2441e9b7c619622d820839baebc1d51b076beea9a49173c",
+  "Revision/kohn_sham/ks-theory.json": "1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3",
+  "Revision/field_equations_a4/reports/ks-source-conditions.json": "0597509efe64e0686dcf3cc916121317aacca01c6e73d902edc16f434287361e"
+ },
+ "inputProfiles": {
+  "directory": "Revision/kohn_sham/results/ground/profiles",
+  "files": 75,
+  "sha256OfSortedDigests": "a88efd415ae23ce44efa748c02b381cfaa80db6bb2025ebeb3447bccb4970af3"
+ },
+ "units": "the solver's units H = m = 1; kappa in units m^-6 (H = m), Lambda in units H^2; sigma0 = kappa rho_bar(a4 = 0)/H^2 is the dimensionless source strength",
+ "assumptions": [
+  "source = the T = 0 instantaneous Kohn-Sham ground states of Revision/kohn_sham (adiabatic family, no Fermi-level crossings) at the computed slices a4 = 0, 0.5, 1, 1.5, 2; rho_bar between slices by the cubic Hermite interpolant with the exact slopes -3 (p3_bar - p_t_bar)",
+  "hidden-direction averages with the volume weight sqrt|g| = e^{6Hy} over the patch y in [-L, 0], L = 3 (the solver's tip cut-off)",
+  "truncation: the x4 moment and the x1 - x5 moment are imposed, the x8 moment and the x1 + x5 - 2 x8 moment are not (their residuals are reported)",
+  "sign convention sigmaT = +1 (a4-equations.json); kappa of either sign is examined (sigma0 > 0 and < 0)",
+  "initial rate a4'(0) = H (the rate of the prescribed Kohn-Sham history, A = 1), a4(0) = 0; Lambda fixed by the constraint at a4 = 0 (or Lambda = 0 with sigma0 fixed instead)"
+ ],
+ "gravity": [
+  {
+   "name": "einstein",
+   "couplings": "Einstein gravity: alpha1 = 1, alpha2 = alpha3 = 0",
+   "P(X) at H = 1": "3*X + 21",
+   "N(X) = sum alpha (E^x8_x8 - E^x4_x4) at H = 1": "-6*X - 6"
+  },
+  {
+   "name": "egb",
+   "couplings": "Einstein-Gauss-Bonnet: alpha1 = 1, alpha2 H^2 = 1/80 (inside 0 < alpha2 H^2 <= 1/40, where the vacuum admits the linear member, a4-equations.json linearMember.einsteinGaussBonnetVacuum), alpha3 = 0",
+   "P(X) at H = 1": "-9*X**2/20 + 3*X/2 + 63/4",
+   "N(X) = sum alpha (E^x8_x8 - E^x4_x4) at H = 1": "3*X**2/5 - 12*X/5 - 3"
+  },
+  {
+   "name": "lovelock3",
+   "couplings": "Einstein-Lovelock (cubic): alpha1 = 1, alpha2 H^2 = 1/80, alpha3 H^4 = 1/4000",
+   "P(X) at H = 1": "9*X**3/100 - 36*X**2/125 + 177*X/100 + 819/50",
+   "N(X) = sum alpha (E^x8_x8 - E^x4_x4) at H = 1": "-27*X**3/250 + 69*X**2/250 - 789*X/250 - 177/50"
+  }
+ ],
+ "conclusions": [
+  "EXACT: no recorded Kohn-Sham state is an admissible source of the author's metric. The states conserve energy-momentum along x8 (B2), so p3 + p_t - 2 p8 = p8_y/(3H) exactly (A6): the algebraic condition fails because every component depends on x8 (B4: at least a share 0.583068 of the energy density deviates from its hidden-direction average, L1 measure), and it fails also after averaging over the hidden direction (C1: O(1) defect). The coupled problem 'metric of SPEC section 1 + Kohn-Sham source' has no solution; nothing about a4 is DERIVED from it.",
+  "APPROXIMATION (stated): keep the x4 moment and the x1 - x5 moment of the field equations (multiplied by sqrt|g| and integrated over the patch: exact necessary conditions), drop the x8 moment and the x1 + x5 - 2 x8 moment. This pair is the only consistent one (A4, C2, C3) and has the first integral P(a4'^2) + Lambda = -kappa rho_bar(a4) (Einstein: a4'^2 = a4'^2(0) - (kappa/3)(rho_bar(a4) - rho_bar(0))). Its error is the dropped residuals (C1, D7), which are O(1), not small.",
+  "Within that approximation the Kohn-Sham source does NOT drive (start or select) exponential deflation of the extra times: the rate a4'(0) and its sign are initial data (the equations are invariant under x4 -> -x4, which turns deflation into inflation of the extra times, A3) and Lambda is fixed by them through the constraint. The gas modifies a deflation that is already there, by a bounded amount set by the energy it loses (D5): it accelerates it for kappa rho_bar > 0 (sigma0 > 0) and slows it for sigma0 < 0; for the canonical series N136_lam0 in Einstein gravity a4'(2)/a4'(0) = 1.95362 (sigma0 = 10), 1.1321 (sigma0 = 1), 0.847549 (sigma0 = -1). With Lambda = 0 (then sigma0 < 0 is forced) the deflation halts at a4* = 0.149623 (Einstein), 0.0724197 (EGB), 0.102772 (cubic Lovelock), after which a4 decreases again (the extra times re-inflate, D3); in Einstein-Gauss-Bonnet with sigma0 > 0 the evolution reaches the branch point F = 0, where the evolution equation is not defined (D6). CONDITIONAL (not computed): if rho_bar tends to 0 as a4 grows beyond 2, Einstein gravity gives a4'^2 -> (-Lambda - 21 H^2)/3, i.e. late-time exponential deflation at a rate set by Lambda and H alone.",
+  "A source that does not change with a4 (the N = 8 interacting brane zero modes: p3_bar = p_t_bar) gives exactly the linear member a4 = A H x4 + a0 within the approximation (D4) - exponential deflation at the rate chosen initially, allowed but not selected; its x8 moment still fails (C1).",
+  "Not computed (open): the source beyond a4 = 2 (no Kohn-Sham states there; any late-time statement is an extrapolation), thermal states (only the T = 0 ground states are used), the non-adiabatic problem, and a source with the hidden-direction profile the equations require (an x8-independent energy-momentum tensor, or a metric with x8-dependent warp functions that could carry the Kohn-Sham profile)."
+ ],
+ "tolerances": {
+  "integrals": 1e-06,
+  "x8ConservationFD": 0.001,
+  "integratedIdentity": 1e-06,
+  "energyRelationSolver": 1e-06,
+  "energyRelationSlices": 0.02,
+  "methods": 0.005
+ },
+ "outputs": [
+  "Revision/field_equations_a4/ks_source/results/ks-source-moments.csv",
+  "Revision/field_equations_a4/ks_source/results/ks-source-a4-cases.csv",
+  "Revision/field_equations_a4/ks_source/reports/ks-source-a4-summary.md"
+ ],
+ "zeroSourceStates": [
+  "N8_lam0_a00",
+  "N8_lam0_a05",
+  "N8_lam0_a10",
+  "N8_lam0_a15",
+  "N8_lam0_a20"
+ ],
+ "summary": {
+  "checks": 23,
+  "pass": 23,
+  "fail": 0
+ },
+ "checks": [
+  {
+   "name": "A1_lovelock_identity_x1_plus_x5_equals_2x8",
+   "verdict": "PASS",
+   "detail": "for k = 1, 2, 3 (a4-equations.json lovelockTensors): E_(k)^x1_x1 + E_(k)^x5_x5 - 2 E_(k)^x8_x8 = 0 exactly and E_(k)^x4_x8 = E_(k)^x8_x4 = 0; hence the x1 + x5 - 2 x8 combination of the field equations reads 0 = kappa (p3 + p_t - 2 p8) for EVERY a4(x4), Lambda and alpha_k"
+  },
+  {
+   "name": "A2_evolution_is_x1_minus_x5",
+   "verdict": "PASS",
+   "detail": "sum_k alpha_k (E_(k)^x1_x1 - E_(k)^x5_x5) = a4'' F(a4') exactly, F = generalSource.evolution_F = 720*H**4*alpha3 + 864*H**2*ad1**2*alpha3 - 80*H**2*alpha2 + 720*ad1**4*alpha3 - 48*ad1**2*alpha2 + 2*alpha1"
+  },
+  {
+   "name": "A3_F_equals_two_thirds_dP_dX",
+   "verdict": "PASS",
+   "detail": "P(X) := sum_k alpha_k E_(k)^x4_x4 at a4'^2 = X is a polynomial in X (E^x4_x4 is even in a4' and free of a4''); F is even in a4' as well (so the equations are invariant under x4 -> -x4, which exchanges deflation and inflation of the extra times); 3 F(a4') = 2 dP/dX at X = a4'^2 exactly; P(X) = 2520*H**6*alpha3 - 420*H**4*alpha2 + 21*H**2*alpha1 + 360*X**3*alpha3 + X**2*(648*H**2*alpha3 - 36*alpha2) + X*(1080*H**4*alpha3 - 120*H**2*alpha2 + 3*alpha1)"
+  },
+  {
+   "name": "A4_constraint_propagation_with_averaged_source",
+   "verdict": "PASS",
+   "detail": "for any source that depends on x4 only through a4(x4) and obeys d rho_bar/d a4 = -3 (p3_bar - p_t_bar): d/dx4 [P(a4'^2) + Lambda + kappa rho_bar(a4)] = 3 a4' [a4'' F(a4') - kappa (p3_bar - p_t_bar)] exactly; so the x4 moment (constraint) and the x1 - x5 moment (evolution) are mutually consistent, and for a4' != 0 the evolution follows from the first integral P(a4'^2) + Lambda + kappa rho_bar(a4) = 0"
+  },
+  {
+   "name": "A5_x8_residual_after_constraint",
+   "verdict": "PASS",
+   "detail": "with Lambda = -P(a4'^2) - kappa rho (constraint) the x8 equation sum_k alpha_k E^x8_x8 + Lambda = kappa p8 becomes R8 := N(a4') - kappa (rho + p8) = 0 with N = sum_k alpha_k (E^x8_x8 - E^x4_x4) = generalSource.nullCombinations[kappa(rho+p8)] (equal exactly); Einstein: N = -6 (a4'^2 + H^2) < 0"
+  },
+  {
+   "name": "A6_x8_conservation_in_y",
+   "verdict": "PASS",
+   "detail": "y = ln(sin z)/(6H) gives dy/dx8 = cot z and sqrt|g| dx8 = cos z dx8 = e^{6Hy} dy; generalSource.conservation_x8 with q48 = 0 is cot z [p8_y + 6 H p8 - 3 H (p3 + p_t)] = 0, so on shell p3 + p_t - 2 p8 = p8_y/(3H) EXACTLY (the algebraic condition fails exactly where p8 depends on x8) and d/dy(e^{6Hy} p8) = 3 H e^{6Hy} (p3 + p_t), i.e. int_{-L}^{0} e^{6Hy} (p3 + p_t) dy = [e^{6Hy} p8]_{-L}^{0}/(3H)"
+  },
+  {
+   "name": "B1_integrals_reproduced",
+   "verdict": "PASS",
+   "detail": "Simpson's rule with the volume weight e^{6Hy} on the 151-point output grid (y = -L ... 0, L = 3) reproduces results/ground/emt-integrals.csv (int_X = 2 Vol_7 int e^{6Hy} X dy, Vol_7 = 15875.2, the doubled system) for all 75 states: largest relative difference 1.69995e-08 (N136_lamm2_a20); hence the weighted average X_bar = int_X / (2 Vol_7 W), W = int_{-L}^{0} e^{6Hy} dy = 0.166667"
+  },
+  {
+   "name": "B2_x8_conservation_on_every_profile",
+   "verdict": "PASS",
+   "detail": "p8_y + 6 H p8 - 3 H (p3 + p_t) = 0 (check A6) evaluated with 4th-order central differences on the output grid (dy = 0.02) of the 70 nonzero profiles: largest residual relative to the largest term 6.63404e-05 (N8_lamm1_a00; tolerance 0.001 from the finite-difference truncation). The recorded states CONSERVE energy-momentum along x8; therefore their violation of p3 + p_t = 2 p8 is exactly p8_y/(3H): the source fails the field equations because p8 (and with it every component) depends on x8, not because conservation fails"
+  },
+  {
+   "name": "B3_integrated_x8_identity",
+   "verdict": "PASS",
+   "detail": "int (p3 + p_t) = 2 Vol_7 [e^{6Hy} p8]_{-L}^{0}/(3H) with the solver's integrals and end values p8_brane, p8_tip (emt-integrals.csv) for the 70 nonzero states: largest relative difference 1.42142e-11 (N8_lamm2_a00). So p3_bar + p_t_bar - 2 p8_bar = ([e^{6Hy} p8]_{-L}^{0} - 6 H W p8_bar)/(3 H W): the averaged algebraic condition holds only if the boundary flux of p8 equals the value an x8-independent p8 would give"
+  },
+  {
+   "name": "B4_hidden_direction_mismatch",
+   "verdict": "PASS",
+   "detail": "the field equations require every component to be independent of x8, the profiles are not. Two measures over the patch with the volume weight e^{6Hy}: (L1) mu1_X = int e^{6Hy} |X - X_bar| / int e^{6Hy} |X| (0 for an x8-independent X; above 1 where X changes sign along x8): over the 70 nonzero states mu1_rho in [0.583068, 0.763572] (smallest N688_lamp2_a00), mu1_p3 in [0.751199, 1.96558], mu1_p8 in [0.57668, 1.45056], mu1_p_t in [1.00213, 1.96607]; (L2) mu_X = ||X - X_bar||/||X|| (X_bar is the orthogonal projection of X on the x8-independent functions): mu_rho in [0.754082, 1] (smallest N688_lamp2_a00), mu_p3 in [0.865381, 1], mu_p8 in [0.734311, 0.999986], mu_p_t in [0.998425, 1] - the L2 norm is weighted towards the tip (the share of ||rho||^2 from the tip half y < -L/2 is [0.0237472, 0.999996]), so the L1 measure is the less cut-off dependent one; p_t = e_int is identically zero (hence x8-independent) in the 10 states with lambda = 0; the algebraic defect ||p3 + p_t - 2 p8||/||(rho, p3, p_t, p8)|| lies in [0.295434, 2.11698]. Every measure is O(1): the computed source is NOT close to an x8-independent one"
+  },
+  {
+   "name": "B0_wave1_report_verified",
+   "verdict": "PASS",
+   "detail": "Revision/field_equations_a4/reports/ks-source-conditions.json (all 5 checks PASS) re-derived independently from the same Kohn-Sham files: 70 nonzero states; the smallest x8 variation (max rho - min rho)/max|T| = 0.0497329 (N136_lamm2_a20); the pointwise algebraic defect max|p3 + p_t - 2 p8|/max|T| from 2.09192 (N136_lamp2_a20) to 3.99006 (N8_lamm1_a00); the integrated ratio (int p3 + int p_t)/(2 int p8) closest to 1 is 0.414328 (N688_lamm2_a00) and below 1 for every state - all equal to the numbers in that report. REFINEMENT: the recorded states do NOT violate the x8 conservation identity d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0; they satisfy it (check B2); what fails is p3 + p_t = 2 p8, which is that identity combined with x8-independence"
+  },
+  {
+   "name": "C1_averaged_algebraic_condition_fails",
+   "verdict": "PASS",
+   "detail": "the x1 + x5 - 2 x8 moment reads 0 = kappa (p3_bar + p_t_bar - 2 p8_bar) whatever a4, Lambda, alpha_k (check A1); |p3_bar + p_t_bar - 2 p8_bar| / (|p3_bar| + |p_t_bar| + 2 |p8_bar|) lies in [0.414086 (N688_lamm2_a00), 0.806379] over the 70 nonzero states: an O(1) violation, so no choice of kappa != 0 makes the hidden-direction averaged Kohn-Sham source satisfy all moments; dropping this combination (and with it the x8 moment) is an APPROXIMATION whose error is this defect"
+  },
+  {
+   "name": "C2_averaged_energy_relation",
+   "verdict": "PASS",
+   "detail": "d rho_bar/d a4 = -3 (p3_bar - p_t_bar) (the x4 moment of nabla_mu T^mu_x4 = 0 for the instantaneous states; T^x4_y = 0): (i) the solver's finite-difference dE/da4 agrees with the energy-momentum formula to 1.53537e-10 (largest relative difference, N136_lamp1_a20; adiabaticity.csv); (ii) between slices, Simpson's rule on the 5 slices (h = 0.5) reproduces the change of rho_bar to 0.000270425 (worst: N136_lamp2 on [1.0, 2.0]; tolerance 0.02 for the step 0.5); (iii) history.json records 0 Fermi-level crossings, so the instantaneous ground states form one adiabatic family along a4 in [0, 2]"
+  },
+  {
+   "name": "C3_x8_moment_inconsistent_with_history",
+   "verdict": "PASS",
+   "detail": "Einstein gravity: the x4 and x8 moments give kappa (p8_bar - rho_bar) = 36 H^2 + 2 Lambda (a constant), and the x8 moment with the evolution needs d p8_bar/d a4 = d rho_bar/d a4, the same condition; along the history p8_bar - rho_bar varies by a fraction 0.909317 ... 0.915045 of its largest value in the 10 series with momentum, so every set of moments containing the x8 moment is inconsistent for them; it is constant (a4-independent source) only in the N = 8 interacting series N8_lamm1, N8_lamm2, N8_lamp1, N8_lamp2, whose x1 + x5 - 2 x8 moment still fails (check C1)"
+  },
+  {
+   "name": "C4_source_signs",
+   "verdict": "PASS",
+   "detail": "for the 50 nonzero states with N = 136, 688: rho_bar > 0, rho_bar + p8_bar > 0 and p3_bar - p_t_bar > 0 (range 0.000764665 ... 0.0376646); for the N = 8 interacting states (k = 0 brane zero modes) p3_bar = p_t_bar (no 3-momentum) and the source does not depend on a4; so the evolution source kappa (p3_bar - p_t_bar) has the sign of kappa for N = 136, 688 and vanishes for N = 8"
+  },
+  {
+   "name": "D0_gravity_branches",
+   "verdict": "PASS",
+   "detail": "dP/dX (F = (2/3) dP/dX, check A3) has no positive root for Einstein (F = 2) and for the cubic Lovelock case (discriminant < 0: F > 0 for every a4'), and the single root X = a4'^2 = 5/3 H^2 for Einstein-Gauss-Bonnet (F = 1 - (3/5) a4'^2/H^2): there the evolution equation is singular (branch point); P(X): einstein 3*X + 21; egb -9*X**2/20 + 3*X/2 + 63/4; lovelock3 9*X**3/100 - 36*X**2/125 + 177*X/100 + 819/50"
+  },
+  {
+   "name": "D1_two_integration_methods_agree",
+   "verdict": "PASS",
+   "detail": "M1 (first integral P(a4'^2) = -Lambda - kappa rho_bar(a4), rho_bar by the cubic Hermite interpolant with the exact slopes -3 (p3_bar - p_t_bar); x4 by Gauss-Legendre quadrature) against M2 (RK4 of a4'' F(a4') = kappa (p3_bar - p_t_bar)(a4), source by a natural cubic spline of ln(p3_bar - p_t_bar) through the 5 values (of the values themselves when they vanish), step 1e-3) for the 97 regular and turning-point cases: end point, elapsed x4 and end rate agree to 0.000549953 (worst: einstein N136_lam0 Lambda = 0; tolerance 0.005 for two different interpolations between slices 0.5 apart)"
+  },
+  {
+   "name": "D2_einstein_first_integral",
+   "verdict": "PASS",
+   "detail": "Einstein gravity: a4'^2(a4) = a4'^2(0) - (kappa/3)(rho_bar(a4) - rho_bar(0)), i.e. a4'^2/H^2 = A0^2 + (sigma0/3)(1 - rho_bar(a4)/rho_bar(0)) with sigma0 = kappa rho_bar(0)/H^2 and Lambda = -3 A0^2 H^2 - 21 H^2 - sigma0 H^2; reproduced at every slice reached by every Einstein case to 1.6946e-15"
+  },
+  {
+   "name": "D3_lambda_zero_cases_halt",
+   "verdict": "PASS",
+   "detail": "with Lambda = 0 and the initial rate a4'(0) = H the constraint needs sigma0 = -P(H^2) < 0 (kappa rho_bar < 0) in all three theories; then for every series with momentum the deflation HALTS inside the computed range: turning point a4' = 0 at einstein/N136_lam0: 0.149623; einstein/N688_lam0: 0.151689; einstein/N688_lamp2: 0.151697; einstein/N688_lamm2: 0.151681; egb/N136_lam0: 0.0724197; egb/N688_lam0: 0.0733771; egb/N688_lamp2: 0.0733808; egb/N688_lamm2: 0.0733735; lovelock3/N136_lam0: 0.102772; lovelock3/N688_lam0: 0.104154; lovelock3/N688_lamp2: 0.104159; lovelock3/N688_lamm2: 0.104149 (gravity/series: a4*)"
+  },
+  {
+   "name": "D4_constant_source_gives_linear_member",
+   "verdict": "PASS",
+   "detail": "for the N = 8 interacting source (a4-independent, p3_bar = p_t_bar) the truncated system gives exactly the linear member a4 = A0 H x4 + a0 for every sigma0 and theory (21 cases; the rate is the initial condition, Lambda absorbs kappa rho_bar); the dropped x8 moment fails by the C1 defect"
+  },
+  {
+   "name": "D5_einstein_sign_of_the_effect",
+   "verdict": "PASS",
+   "detail": "Einstein gravity, series with momentum: the Kohn-Sham source accelerates the deflation (a4' grows, extra times deflate faster) for sigma0 > 0 (kappa > 0, which needs Lambda < -21 H^2 - kappa rho_bar(0)) and decelerates it for sigma0 < 0; the total change of a4'^2 over a4 in [0, 2] is (sigma0/3)(1 - rho_bar(2)/rho_bar(0)) H^2, i.e. at most 0.281661 |sigma0| H^2 (bounded by the energy the gas loses)"
+  },
+  {
+   "name": "D6_branch_points_only_for_egb",
+   "verdict": "PASS",
+   "detail": "the evolution equation is not well defined where F(a4') = 0; this happens only for Einstein-Gauss-Bonnet with sigma0 > 0 (the first integral pushes a4'^2 up to the branch point 5/3 H^2): 8 cases, e.g. N136_lam0 sigma0 = 1: a4* = 0.249607; N136_lam0 sigma0 = 10: a4* = 0.0226924; N688_lam0 sigma0 = 1: a4* = 0.253246; N688_lam0 sigma0 = 10: a4* = 0.022984"
+  },
+  {
+   "name": "D7_dropped_x8_moment_residual_and_adiabaticity",
+   "verdict": "PASS",
+   "detail": "the dropped x8 moment R8 = N(a4') - kappa (rho_bar + p8_bar) (check A5) relative to the largest term of the x8 equation, at the slices reached: 0.109607 ... 1.87301 over the cases with momentum (never small: the truncation is not a small perturbation of an exact solution); the adiabaticity measure along the solved histories, Q_max(a4') = Q_max(a4' = H) a4'/H, stays <= 0.14766"
+  }
+ ]
+}
