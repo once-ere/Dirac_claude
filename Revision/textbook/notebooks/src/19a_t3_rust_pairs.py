@@ -139,6 +139,7 @@ FACTS = {
          "output of the last run (ignored by git); delete it at any time, the notebook "
          "writes it again."],
     ],
+    "work_folders": ["Revision/kohn_sham/solver/target/textbook_19a"],
 }
 
 CELLS = [

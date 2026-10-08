@@ -84,17 +84,6 @@ FACTS = {
          "a changed coupling or stress drove a4' past the point where F vanishes; the "
          "notebook as distributed stops every integration before that point. Undo the "
          "change or lower the stress."],
-        ["\"Jupyter command `jupyter-nbconvert` not found\" or \"Jupyter command "
-         "`jupyter-lab` not found\" after typing `python -m jupyter`",
-         "the program jupyter starts its parts nbconvert and lab as separate programs, "
-         "which it looks for in the folders of the search path PATH, and the folder that "
-         "holds them is not on it. Start the two parts as Python modules instead, with "
-         "the environment active (Step 4) and in the folder Revision/textbook/notebooks "
-         "(Step 5): the first command below opens the notebook in JupyterLab, the second "
-         "runs it headless",
-         ["python -m jupyterlab 12c_a4_evolution.ipynb",
-          "python -m nbconvert --to notebook --execute --inplace "
-          "12c_a4_evolution.ipynb"]],
     ],
 }
 

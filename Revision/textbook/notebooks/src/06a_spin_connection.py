@@ -90,17 +90,6 @@ FACTS = {
          "the exact algebra of sympy is slow on old computers; the whole notebook needs "
          "about half a minute on a 2024 laptop, and up to about a minute while other "
          "programs use the processor. Wait, or close the other programs."],
-        ["\"Jupyter command `jupyter-nbconvert` not found\" or \"Jupyter command "
-         "`jupyter-lab` not found\" after typing `python -m jupyter`",
-         "the program jupyter starts its parts nbconvert and lab as separate programs, "
-         "which it looks for in the folders of the search path PATH, and the folder that "
-         "holds them is not on it. Start the two parts as Python modules instead, with "
-         "the environment active (Step 4) and in the folder Revision/textbook/notebooks "
-         "(Step 5): the first command below opens the notebook in JupyterLab, the second "
-         "runs it headless",
-         ["python -m jupyterlab 06a_spin_connection.ipynb",
-          "python -m nbconvert --to notebook --execute --inplace "
-          "06a_spin_connection.ipynb"]],
     ],
 }
 

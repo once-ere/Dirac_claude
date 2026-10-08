@@ -112,6 +112,9 @@ FACTS_DOCUMENTATION = {
     "allow_stderr": "optional bool: allow output on stderr (default False)",
     "network": "optional str: what the notebook downloads while it runs (default: "
                "nothing)",
+    "work_folders": "optional list of repository-relative folders inside a git-ignored "
+                    "Rust build folder (a path containing /target/) where the notebook "
+                    "keeps the raw output of its program runs (default: none)",
 }
 REQUIRED_KEYS = {
     "id": str,
@@ -127,7 +130,7 @@ REQUIRED_KEYS = {
     "final_lines": list,
     "troubleshooting": list,
 }
-OPTIONAL_KEYS = {"allow_stderr": bool, "network": str}
+OPTIONAL_KEYS = {"allow_stderr": bool, "network": str, "work_folders": list}
 RUST_KEYS = {"manifest": str, "binaries": list, "build_minutes": (int, float)}
 
 
@@ -296,6 +299,10 @@ def validate_facts(facts: dict) -> list[str]:
     for key, kind in OPTIONAL_KEYS.items():
         if key in facts and not isinstance(facts[key], kind):
             problems.append(f"FACTS[{key!r}] must be of type {kind}")
+    for folder in facts.get("work_folders", []) if isinstance(facts.get("work_folders"), list) else []:
+        if not isinstance(folder, str) or "/target/" not in folder or folder.startswith("/"):
+            problems.append(f"FACTS['work_folders']: {folder!r} must be a repository-relative "
+                            "folder inside a Rust build folder target (git-ignored)")
     if problems:
         return problems
     if not json.dumps(facts, ensure_ascii=False).isascii():
@@ -677,6 +684,9 @@ def blocks(facts: dict) -> list[tuple]:
         "It changes no other file of the repository"
         + (" except the Rust build folder `target` next to each `Cargo.toml` it "
            "builds" if rust else "")
+        + ("" if not facts.get("work_folders") else
+           " (inside it the notebook keeps the raw output of its program runs in "
+           + _join([f"`{f}`" for f in facts["work_folders"]]) + ", which git ignores)")
         + "; running it headless or saving it in JupyterLab also rewrites the notebook "
           "file itself. "
         + (f"While it runs it uses the internet: {network} " if network else
@@ -724,8 +734,14 @@ def blocks(facts: dict) -> list[tuple]:
         ("Linux: \"ensurepip is not available\" when the environment is created: run "
          "`sudo apt install python3-venv` and repeat Step 3.", []),
         ("\"jupyter is not recognized\" or \"command not found: jupyter\": the "
-         "environment is not active; do Step 4 (or type `python -m jupyter` instead of "
-         "`jupyter`).", []),
+         "environment is not active; do Step 4. If the environment is active and the "
+         "message stays, the programs jupyter-lab and jupyter-nbconvert are not in the "
+         "folders where the terminal looks for programs (`python -m jupyter` does not "
+         "help then: it has to find the same programs). Start them through Python "
+         "itself, in the folder of the notebook: the first command below does what "
+         "`jupyter lab` does, the second what the headless command does:",
+         [f"python -m jupyterlab {nb_name}",
+          f"python -m nbconvert --execute --inplace {nb_name}"]),
         ("Windows: the headless run prints a RuntimeWarning that mentions the "
          "\"Proactor event loop\" and zmq: this is a message of the package pyzmq, not "
          "an error; the run continues normally.", []),

@@ -644,7 +644,9 @@ def validate_executed(notebook, facts: dict, output_root: Path,
             problems.append(f"a code cell was not executed: {cell['source'][:60]!r}")
             continue
         lines_in_cell = 0
-        for output in cell.get("outputs", []):
+        # The normalised outputs (consecutive stream chunks merged) are what the stored notebook holds; scanning
+        # the raw chunks made the collected PASS continuation lines depend on how the kernel split stdout.
+        for output in normalise_outputs(cell.get("outputs", [])):
             kind = output["output_type"]
             if kind == "error":
                 problems.append(f"{label}: error output {output.get('ename')}")
@@ -1015,6 +1017,11 @@ def provenance_markdown(facts: dict, builder_relative: str, notebook_text: str,
         else:
             add(f"| `{path}` | {len(data)} | `{sha256(data)}` |")
     add("")
+    if facts.get("work_folders"):
+        add("Besides these files the notebook writes only the raw output of its program runs, "
+            "below " + ", ".join(f"`{f}`" for f in facts["work_folders"]) + " (inside the Rust "
+            "build folder `target`, which git ignores; section 4.2).")
+        add("")
     add("Running the notebook headless with `--inplace`, or saving it in JupyterLab, "
         f"also rewrites the notebook file `{nb_file}` itself (with new outputs; "
         "JupyterLab's copy differs from the stored one in its metadata). JupyterLab "

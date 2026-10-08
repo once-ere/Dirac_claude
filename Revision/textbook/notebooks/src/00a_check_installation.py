@@ -60,18 +60,6 @@ FACTS = {
          "the environment was made with an older Python; delete the folder "
          "dirac-book-env in your home folder and repeat Step 3 with Python 3.12 or "
          "newer."],
-        ["\"Jupyter command `jupyter-lab` not found\" or \"Jupyter command "
-         "`jupyter-nbconvert` not found\" after a command that starts with "
-         "`python -m jupyter`",
-         "that form still has to find the programs jupyter-lab and jupyter-nbconvert in "
-         "the folders where the terminal looks for programs, and it did not find them "
-         "there. Do Step 4 and type `jupyter` again. Or start the two "
-         "programs through Python itself, in the folder of the notebook: the first "
-         "command below does what `jupyter lab` does in Step 5, the second what "
-         "`jupyter nbconvert` does in Step 6.",
-         ["python -m jupyterlab 00a_check_installation.ipynb",
-          "python -m nbconvert --to notebook --execute --inplace "
-          "00a_check_installation.ipynb"]],
         ["Debian 12: the version check of Step 2 prints 3.11, and the first of the "
          "three commands of Step 2 for a too-low version fails or is not found",
          "those three commands add the package source ppa:deadsnakes, which serves "

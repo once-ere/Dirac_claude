@@ -221,16 +221,16 @@ python -m ipykernel install --user --name python3
 - "fatal: destination path 'Dirac_claude' already exists" in Step 3: the repository was downloaded before; skip the line with `git clone`.
 - Windows: "running scripts is disabled on this system": run the line with `Set-ExecutionPolicy` and then the activation line again. "py is not recognized": use `python` instead of `py -3`; "python is not recognized": install Python again and tick "Add python.exe to PATH".
 - Linux: "ensurepip is not available" when the environment is created: run `sudo apt install python3-venv` and repeat Step 3.
-- "jupyter is not recognized" or "command not found: jupyter": the environment is not active; do Step 4 (or type `python -m jupyter` instead of `jupyter`).
+- "jupyter is not recognized" or "command not found: jupyter": the environment is not active; do Step 4. If the environment is active and the message stays, the programs jupyter-lab and jupyter-nbconvert are not in the folders where the terminal looks for programs (`python -m jupyter` does not help then: it has to find the same programs). Start them through Python itself, in the folder of the notebook: the first command below does what `jupyter lab` does, the second what the headless command does:
+
+```text
+python -m jupyterlab 02c_partial_derivatives.ipynb
+python -m nbconvert --execute --inplace 02c_partial_derivatives.ipynb
+```
+
 - Windows: the headless run prints a RuntimeWarning that mentions the "Proactor event loop" and zmq: this is a message of the package pyzmq, not an error; the run continues normally.
 - A red box with "Matplotlib is building the font cache; this may take a moment." in the first run after the installation: this is a message, not an error; the run continues and the message does not come again.
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
-- "Jupyter command `jupyter-nbconvert` not found" after typing `python -m jupyter nbconvert` (the folder that holds the Jupyter programs is not on the search path of the computer): start the two programs as Python modules instead. With the environment active, in the folder Revision/textbook/notebooks, type the first line below to run the notebook headless, or the second line to open it in JupyterLab
-
-```text
-python -m nbconvert --execute --inplace 02c_partial_derivatives.ipynb
-python -m jupyterlab 02c_partial_derivatives.ipynb
-```
 
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
@@ -344,8 +344,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 4.5 s, peak memory of the kernel process 197 MiB;
-- the check run: 4.8 s, peak memory of the kernel process 197 MiB.
+- the build run: 5.4 s, peak memory of the kernel process 199 MiB;
+- the check run: 5.3 s, peak memory of the kernel process 199 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -357,8 +357,8 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/02c_partial_derivatives.ipynb`: `8979cc07c143b6863ae5bb9acd3415741610f855d1d224c312f6a4608a5747ad`
-- `Revision/textbook/notebooks/src/02c_partial_derivatives.py`: `c026666f377e39546ae3d82aeca6aa66f59028fc3ac8eea1573123e573b3c939`
+- `Revision/textbook/notebooks/02c_partial_derivatives.ipynb`: `9c47af0f662f3710b1f0d159af39fddfd60327b06e7120208104514ad32bf845`
+- `Revision/textbook/notebooks/src/02c_partial_derivatives.py`: `85cd03f386a2b6f2a9e494a6611aedb92089cae171f3e9aba44803e05de16d7b`
 - `Revision/textbook/figures/02c.captions.json`: `31fb5e67f5e8f014a1e62d61c5a3b005d804658425f4eb08a2cc26b78d149a29`
 - `Revision/textbook/figures/02c_1_level_curves_gradient.png`: `293f1181a384ee2383e2e19a12957fbd61cf7c81cc3ff2db9dc4946e1943d429`
 - `Revision/textbook/figures/02c_2_slices_and_slopes.png`: `7a96afd53136d331ade6267d0b2d6495b0170ff43eb27178fa269f99caf7451d`
@@ -373,4 +373,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":197.0,"seconds":4.5},"check":{"date":"2026-10-08","files":7,"peak_mb":197.0,"result":"passed","seconds":4.8},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":199.0,"seconds":5.4},"check":{"date":"2026-10-08","files":7,"peak_mb":199.0,"result":"passed","seconds":5.3},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

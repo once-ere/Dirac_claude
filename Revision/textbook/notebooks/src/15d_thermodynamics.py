@@ -86,6 +86,7 @@ FACTS = {
          "the raw output of the last run (40 files, about 0.6 MB), which git "
          "ignores; delete it at any time, the notebook writes it again."],
     ],
+    "work_folders": ["Revision/kohn_sham/solver/target/textbook_15d"],
 }
 
 CELLS = [

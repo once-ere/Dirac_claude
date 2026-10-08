@@ -111,6 +111,7 @@ FACTS = {
          "source were changed, and restore both with the command below.",
          ["git checkout -- Revision/gkd_lovelock"]],
     ],
+    "work_folders": ["Revision/gkd_lovelock/code/target/textbook_11b"],
 }
 
 CELLS = [

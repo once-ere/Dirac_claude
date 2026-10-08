@@ -210,19 +210,18 @@ python -m ipykernel install --user --name python3
 - "fatal: destination path 'Dirac_claude' already exists" in Step 3: the repository was downloaded before; skip the line with `git clone`.
 - Windows: "running scripts is disabled on this system": run the line with `Set-ExecutionPolicy` and then the activation line again. "py is not recognized": use `python` instead of `py -3`; "python is not recognized": install Python again and tick "Add python.exe to PATH".
 - Linux: "ensurepip is not available" when the environment is created: run `sudo apt install python3-venv` and repeat Step 3.
-- "jupyter is not recognized" or "command not found: jupyter": the environment is not active; do Step 4 (or type `python -m jupyter` instead of `jupyter`).
+- "jupyter is not recognized" or "command not found: jupyter": the environment is not active; do Step 4. If the environment is active and the message stays, the programs jupyter-lab and jupyter-nbconvert are not in the folders where the terminal looks for programs (`python -m jupyter` does not help then: it has to find the same programs). Start them through Python itself, in the folder of the notebook: the first command below does what `jupyter lab` does, the second what the headless command does:
+
+```text
+python -m jupyterlab 00a_check_installation.ipynb
+python -m nbconvert --execute --inplace 00a_check_installation.ipynb
+```
+
 - Windows: the headless run prints a RuntimeWarning that mentions the "Proactor event loop" and zmq: this is a message of the package pyzmq, not an error; the run continues normally.
 - A red box with "Matplotlib is building the font cache; this may take a moment." in the first run after the installation: this is a message, not an error; the run continues and the message does not come again.
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
 - "AssertionError: check failed: every package has its pinned version": the table printed just above the error names each package with the installed and the pinned version; install the pinned versions again with the pip commands of Step 3 (with the environment active) and run the notebook again.
 - "AssertionError: check failed: Python is version 3.12 or newer": the environment was made with an older Python; delete the folder dirac-book-env in your home folder and repeat Step 3 with Python 3.12 or newer.
-- "Jupyter command `jupyter-lab` not found" or "Jupyter command `jupyter-nbconvert` not found" after a command that starts with `python -m jupyter`: that form still has to find the programs jupyter-lab and jupyter-nbconvert in the folders where the terminal looks for programs, and it did not find them there. Do Step 4 and type `jupyter` again. Or start the two programs through Python itself, in the folder of the notebook: the first command below does what `jupyter lab` does in Step 5, the second what `jupyter nbconvert` does in Step 6.
-
-```text
-python -m jupyterlab 00a_check_installation.ipynb
-python -m nbconvert --to notebook --execute --inplace 00a_check_installation.ipynb
-```
-
 - Debian 12: the version check of Step 2 prints 3.11, and the first of the three commands of Step 2 for a too-low version fails or is not found: those three commands add the package source ppa:deadsnakes, which serves Ubuntu only (and the command add-apt-repository comes with the package software-properties-common, which small installations lack). Debian 13 and newer have Python 3.13, which is new enough: there the two commands of Step 2 suffice. On Debian 12, build Python 3.14.5 from its source code with the commands below, in your home folder (about ten minutes; they add the command `python3.14` and leave the Python of the system unchanged), then type `python3.14` instead of `python3` in the command of Step 3 that creates the environment.
 
 ```text
@@ -320,8 +319,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 6.5 s, peak memory of the kernel process 173 MiB;
-- the check run: 4.2 s, peak memory of the kernel process 173 MiB.
+- the build run: 3.7 s, peak memory of the kernel process 174 MiB;
+- the check run: 3.6 s, peak memory of the kernel process 174 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -333,8 +332,8 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/00a_check_installation.ipynb`: `dd4be50e1634b0aaa208e098c6451c37a88d7f2c59179f127116a9d29d10aa8c`
-- `Revision/textbook/notebooks/src/00a_check_installation.py`: `463b0f4112941159a8942db6ae244b8fad39878c0ca3db52c8886cd07251294f`
+- `Revision/textbook/notebooks/00a_check_installation.ipynb`: `ad821816153388d6296c229480c0e7f357aad0ad92334475df4f5d5860b34a28`
+- `Revision/textbook/notebooks/src/00a_check_installation.py`: `bd61a57bb5403f44f9cb743d613271f8f6804dd05f1be2938ce7321e6c8a801c`
 - `Revision/textbook/figures/00a.captions.json`: `7432c1c07d2c4bc435353681e3b49dcabcdf92d94b983f36ccae79321b5974e3`
 - `Revision/textbook/figures/00a_1_parabola_tangent.png`: `10bcc732b84cbe5d5b3f0c085efd1aac900f0139306df13634656ba717065c0c`
 - `Revision/textbook/figures/00a_2_growth_and_decay.png`: `8744cd6df66199e4ec9b8c5d93308c0332eed84852ff91613d5386006f4dbf2b`
@@ -345,4 +344,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 3 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":173.0,"seconds":6.5},"check":{"date":"2026-10-08","files":3,"peak_mb":173.0,"result":"passed","seconds":4.2},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":174.0,"seconds":3.7},"check":{"date":"2026-10-08","files":3,"peak_mb":174.0,"result":"passed","seconds":3.6},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
