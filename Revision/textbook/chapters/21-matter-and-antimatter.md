@@ -10,7 +10,7 @@ The request that this book answers ends with the words "this theory solves matte
 
 - The theory contains no baryons (no protons, neutrons or quarks), so it cannot say anything about the baryon number of the observed universe.
 - The only number of the theory that could play the role of "matter minus antimatter" is the **U(1) charge** $Q$ of its field. It is **exactly conserved**: in the author's metric, for every history $a_4(x_4)$, in particular the one in which ordinary space inflates and the three extra times $x_5, x_6, x_7$ deflate exponentially, no solution can change its charge unless charge flows through the boundary (PROVED, Sections 21.16 to 21.18). So no process described by these equations can make a net charge inside one universe: Sakharov's first condition fails.
-- For the commuting field dirac16complex00 the same-mass charge conjugation is an exact symmetry (PROVED, Sections 21.10 and 21.31). No violation of C or CP in reaction rates is built into the theory or computed (NOT COMPUTED). No departure from thermal equilibrium is computed (NOT COMPUTED); the Kohn-Sham history of this book is a prescribed background (Section 21.31).
+- For the commuting field dirac16complex00 the same-mass charge conjugation is an exact symmetry that reverses the charge (PROVED, Sections 21.10 and 21.31), so Sakharov's second condition fails for it as well (PROVED, Section 21.31). For the quantised field dirac16complex no violation of C or CP in reaction rates is built into the theory or computed (NOT COMPUTED). No departure from thermal equilibrium is computed (NOT COMPUTED); the Kohn-Sham history of this book is a prescribed background (Section 21.31).
 
 **What the theory does provide, exactly.**
 
@@ -532,7 +532,7 @@ The record checks this exactly (check `exact_solution_family_x4_x8` of `Revision
 
 ### 21.12 Example: Notebook 21a solves for every charge-conjugation matrix
 
-Notebook 21a turns Sections 21.7 to 21.11 into exact computations on the author's gammas. It reads the gammas from `Revision/algebra/gammas.json` and the lead report `Revision/lead_checks/reports/charge-conjugation-and-u1.json`; it checks the eight real gammas and draws them; it builds $C$, $\Gamma$, $B$ and the $S^{ab}$; it writes the conditions $M(\gamma^a)^\ast = s\gamma^aM$ as two systems of 2048 linear equations for the 256 entries of $M$ and solves them exactly over the rational numbers; it watches each equation halve the solution space; it builds $\mathcal{C}_+$ and $\mathcal{C}_-$, checks their transposition rules and solves the transposition equations; it checks the two reality conditions; it reads the field equation and the exact solution from the field-theory record word for word and applies both conjugations to the solution; it computes the signs of all 256 bilinears; and it treats real fields. Nine of its checks reproduce checks of the lead report, two reproduce the field-theory record. It runs in about 30 seconds (the last verified run took 9 to 14 seconds), needs no Rust, prints 27 PASS lines and draws seven figures.
+Notebook 21a turns Sections 21.7 to 21.11 into exact computations on the author's gammas. It reads the gammas from `Revision/algebra/gammas.json` and the lead report `Revision/lead_checks/reports/charge-conjugation-and-u1.json`; it checks the eight real gammas and draws them; it builds $C$, $\Gamma$, $B$ and the $S^{ab}$; it writes the conditions $M(\gamma^a)^\ast = s\gamma^aM$ as two systems of 2048 linear equations for the 256 entries of $M$ and solves them exactly over the rational numbers; it watches each equation halve the solution space; it builds $\mathcal{C}_+$ and $\mathcal{C}_-$, checks their transposition rules and solves the transposition equations; it checks the two reality conditions; it reads the field equation and the exact solution from the field-theory record word for word and applies both conjugations to the solution; it computes the signs of all 256 bilinears; and it treats real fields. Nine of its checks reproduce checks of the lead report, two reproduce the field-theory record. It runs in about 30 seconds; the times measured on the build computer, which depend on how busy that computer is, are recorded in the notebook's provenance file `Revision/textbook/notebooks/21a_conjugation_matrices.PROVENANCE.md`. It needs no Rust, prints 27 PASS lines and draws seven figures.
 
 <!-- NOTEBOOK 21a -->
 
@@ -898,7 +898,7 @@ check(np.array_equal(B.real, np.zeros((16, 16))) and np.allclose(B, B.conj().T)
       record=f"{RECORD}, check B_imaginary_hermitian")
 ```
 
-`B.real` is the array of the real parts, which must all be zero; `B.conj().T` is the conjugate transpose $B^\dagger$, and `np.allclose` compares two arrays allowing differences at the level of rounding (about $10^{-8}$ relative); `B @ B` must be the identity. Out [5] shows the three PASS lines, two of them with the record checks they reproduce.
+`B.real` is the array of the real parts, which must all be zero; `B.conj().T` is the conjugate transpose $B^\dagger$, and `np.allclose` compares two arrays entry by entry and accepts a difference up to $10^{-8}$ plus $10^{-5}$ times the size of the corresponding entry of the second array (numpy's default tolerances), far above rounding errors and far below the differences that matter here; `B @ B` must be the identity. Out [5] shows the three PASS lines, two of them with the record checks they reproduce.
 
 **In [6]: every conjugation matrix, solved exactly.**
 
@@ -1851,7 +1851,7 @@ The idea that a universe and an anti-universe together are symmetric belongs to 
 
 ### 21.20 Example: Notebook 21b follows the charge in the author's metric
 
-Notebook 21b turns Sections 21.16 to 21.19 into exact computations. It reads the gammas, the lead report, the field-theory record and both pairing reports; it builds the canonical spin connection of the author's metric with sympy for an unspecified history $a_4(x_4)$ and checks it against the record; it verifies the U(1) matrix identity, its negative control and the control metric with inflating extra times; it checks the Noether current with a local phase at one point; it follows the charge of the record's exact solution (local conservation, the balance through the brane, a stationary solution of constant charge, a finite-difference test); it shows that the charge density is indefinite; and it does the pair-level bookkeeping of theorem T1. It runs in about 40 seconds (the last verified run took 20 seconds), needs no Rust, prints 21 PASS lines and draws eight figures.
+Notebook 21b turns Sections 21.16 to 21.19 into exact computations. It reads the gammas, the lead report, the field-theory record and both pairing reports; it builds the canonical spin connection of the author's metric with sympy for an unspecified history $a_4(x_4)$ and checks it against the record; it verifies the U(1) matrix identity, its negative control and the control metric with inflating extra times; it checks the Noether current with a local phase at one point; it follows the charge of the record's exact solution (local conservation, the balance through the brane, a stationary solution of constant charge, a finite-difference test); it shows that the charge density is indefinite; and it does the pair-level bookkeeping of theorem T1. It runs in about 40 seconds; the times measured on the build computer, which depend on how busy that computer is, are recorded in the notebook's provenance file `Revision/textbook/notebooks/21b_charge_conservation.PROVENANCE.md`. It needs no Rust, prints 21 PASS lines and draws eight figures.
 
 <!-- NOTEBOOK 21b -->
 
@@ -3001,7 +3001,7 @@ What this does **not** do: no regularised quantum field theory in signature (4,4
 
 ### 21.27 Example: Notebook 21c conjugates the quantised field
 
-Notebook 21c turns Sections 21.25 and 21.26 into computations. It reads the gammas, the lead report, the field-theory record and its sympy report, and the pairing record; it checks the properties of $B$; it computes $MB^TM^\dagger$ for $M = \Gamma$, $M = 1$ and the family $\cos t\,1 + \sin t\,\Gamma$; it builds 16 fermion modes with the Jordan-Wigner rule and measures all 256 anticommutators of three fields with explicit operators on 65536 states; it checks $Q' = 16 - Q$; it proves the one-particle facts with sympy, reproduces the eight samples of the pairing record and scans the momenta into the region of growing modes. It runs in about 30 seconds (the last verified run took 15 seconds), needs no Rust, prints 17 PASS lines and draws six figures.
+Notebook 21c turns Sections 21.25 and 21.26 into computations. It reads the gammas, the lead report, the field-theory record and its sympy report, and the pairing record; it checks the properties of $B$; it computes $MB^TM^\dagger$ for $M = \Gamma$, $M = 1$ and the family $\cos t\,1 + \sin t\,\Gamma$; it builds 16 fermion modes with the Jordan-Wigner rule and measures all 256 anticommutators of three fields with explicit operators on 65536 states; it checks $Q' = 16 - Q$; it proves the one-particle facts with sympy, reproduces the eight samples of the pairing record and scans the momenta into the region of growing modes. It runs in about 30 seconds; the times measured on the build computer, which depend on how busy that computer is, are recorded in the notebook's provenance file `Revision/textbook/notebooks/21c_quantum_conjugation.PROVENANCE.md`. It needs no Rust, prints 17 PASS lines and draws six figures.
 
 <!-- NOTEBOOK 21c -->
 
@@ -3754,7 +3754,7 @@ Sections 21.3 to 21.6 taught the three conditions on toy models; Sections 21.7 t
 - Replacing $\Psi$ by $\Psi^\ast$ turns $\Psi_r^\ast X_{rc}\Phi_c$ into $\Psi_rX_{rc}\Phi_c^\ast = (\Psi_r^\ast X_{rc}\Phi_c)^\ast$ (commuting numbers may be reordered; $X_{rc}$ is real; the conjugate of a product is the product of the conjugates).
 - So $\mathcal{L}[\Psi^\ast] = (\mathcal{L}[\Psi])^\ast$, and $\mathcal{L}$ is real (record checks `L_real_C` of `Revision/theory/reports/wolfram-field-theory.json` and `commuting_lagrangian_real` of the sympy report): $\mathcal{L}[\Psi^\ast] = \mathcal{L}[\Psi]$.
 
-The map keeps the Lagrangian, hence maps solutions to solutions of the same theory, and it reverses every current (Section 21.10). By Proposition 2 of Section 21.5 a C-symmetric start can then develop no average charge asymmetry, even if condition 1 were met. Notebook 21d checks $\mathcal{L}[\Psi^\ast] = \mathcal{L}[\Psi] = -11.2851368126$ at one point of the author's metric with the record's spin connection (In [14]). For the quantised field dirac16complex there is no same-mass conjugation at all: the only conjugation compatible with canonical quantisation, $\Psi \to \Gamma\Psi^{\dagger T}$, reverses the mass (Section 21.25). The maps $\Gamma$ and $\Gamma\Psi^\ast$ also reverse the mass: $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = \mathcal{L}_{m,\lambda}[\Gamma\Psi^\ast] = -\mathcal{L}_{-m,-\lambda}[\Psi] = 8.4767165144$ at the same point (In [14]; theorem T1, record check `T1_Lagrangian_primordial_commuting`). Whether particle and antiparticle processes of this theory happen at different rates (C and CP violation in rates) is **NOT COMPUTED**: the record computes no reaction rates at all. With the exact C of the commuting field the status of condition 2 is: NOT COMPUTED, and C exact for the commuting field.
+The map keeps the Lagrangian, hence maps solutions to solutions of the same theory, and it reverses every current (Section 21.10). By Proposition 2 of Section 21.5 a C-symmetric start can then develop no average charge asymmetry, even if condition 1 were met. Notebook 21d checks $\mathcal{L}[\Psi^\ast] = \mathcal{L}[\Psi] = -11.2851368126$ at one point of the author's metric with the record's spin connection (In [14]). For the quantised field dirac16complex there is no same-mass conjugation at all: the only conjugation compatible with canonical quantisation, $\Psi \to \Gamma\Psi^{\dagger T}$, reverses the mass (Section 21.25). The maps $\Gamma$ and $\Gamma\Psi^\ast$ also reverse the mass: $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = \mathcal{L}_{m,\lambda}[\Gamma\Psi^\ast] = -\mathcal{L}_{-m,-\lambda}[\Psi] = 8.4767165144$ at the same point (In [14]; theorem T1, record check `T1_Lagrangian_primordial_commuting`). Whether particle and antiparticle processes of this theory happen at different rates (C and CP violation in rates) is **NOT COMPUTED**: the record computes no reaction rates at all. The status of condition 2 is therefore different for the two fields. For the commuting field dirac16complex00 condition 2 **FAILS (PROVED)**: $\mathcal{C}_+$ is an exact symmetry that reverses the charge, so Proposition 2 applies (the reality of the gammas, of $C$ and of the $\Omega_\mu$: lead checks `representation_real` and `spinor_connection_real`; the reversal of the current: lead check `bilinears_under_charge_conjugation`). For the quantised field dirac16complex it is **NOT COMPUTED**: no rates are computed, and its only conjugation reverses the mass (lead check `quantum_charge_conjugation_unitary_type`).
 
 **Condition 3: a departure from thermal equilibrium.** The Revision record contains no computation of reaction rates or of a departure from equilibrium. Its Kohn-Sham states (Chapters 14 and 15) are instantaneous states along the history $a_4 = AHx_4$, and that history is a **prescribed background**: the Kohn-Sham states violate the source conditions of the $a_4$ equations, so the history is not a dynamical consequence of the field (record check `ks_history_is_a_prescribed_background` of `Revision/field_equations_a4/reports/ks-source-conditions.json`; Chapter 17). **NOT COMPUTED.**
 
@@ -3763,7 +3763,7 @@ The map keeps the Lagrangian, hence maps solutions to solutions of the same theo
 | Sakharov condition | this theory | status | record check |
 | --- | --- | --- | --- |
 | 1. a process changes the number | $Q$ exactly conserved for every $a_4$ | FAILS (PROVED) | `u1_noether_matrix_identity` |
-| 2. C and CP violated | C exact for the commuting field; the quantised field has only the mass-reversing conjugation; no rates computed | NOT COMPUTED (C exact for the commuting field) | `bilinears_under_charge_conjugation`, `quantum_charge_conjugation_unitary_type` |
+| 2. C and CP violated | the commuting field: $\mathcal{C}_+$ is exact and reverses the charge, so a C-symmetric start keeps zero charge; the quantised field has only the mass-reversing conjugation; no rates computed | dirac16complex00: FAILS (PROVED: $\mathcal{C}_+$ exact, Proposition 2); dirac16complex: NOT COMPUTED (no rates; only the mass-reversing conjugation) | `representation_real`, `spinor_connection_real`, `bilinears_under_charge_conjugation`, `quantum_charge_conjugation_unitary_type` |
 | 3. out of equilibrium | no rate computed; the Kohn-Sham history is a prescribed background | NOT COMPUTED | `ks_history_is_a_prescribed_background` |
 
 ### 21.32 What a charge-violating term would look like
@@ -3814,7 +3814,7 @@ $$
 
 ### 21.33 Example: Notebook 21d computes the three conditions and the scorecard
 
-Notebook 21d computes the worked examples of Sections 21.3, 21.5, 21.6, 21.31 and 21.32 and draws the scorecard. It counts $\mathcal{B}$, $L$ and $Q_{\mathrm{el}}$ in four processes with exact fractions; it proves the net baryon number of the decay model with sympy; it checks the equilibrium surplus and evaluates the worked example; it solves the rate model in closed form with the incomplete gamma function and integrates it with RK4; then it turns to the theory: it applies condition 1 with the record's verdict, evaluates the record's Lagrangian at a point of the author's metric for $\Psi$, $\Psi^\ast$, $\Gamma\Psi$ and $\Gamma\Psi^\ast$, solves for every invariant Majorana-type matrix, and builds the scorecard from the PASS verdicts of the record. It uses no measured number. It runs in about 20 seconds (the last verified run took 9 seconds), needs no Rust, prints 19 PASS lines and draws eight figures.
+Notebook 21d computes the worked examples of Sections 21.3, 21.5, 21.6, 21.31 and 21.32 and draws the scorecard. It counts $\mathcal{B}$, $L$ and $Q_{\mathrm{el}}$ in four processes with exact fractions; it proves the net baryon number of the decay model with sympy; it checks the equilibrium surplus and evaluates the worked example; it solves the rate model in closed form with the incomplete gamma function and integrates it with RK4; then it turns to the theory: it applies condition 1 with the record's verdict, evaluates the record's Lagrangian at a point of the author's metric for $\Psi$, $\Psi^\ast$, $\Gamma\Psi$ and $\Gamma\Psi^\ast$, solves for every invariant Majorana-type matrix, and builds the scorecard from the PASS verdicts of the record. It uses no measured number. It runs in about 20 seconds; the times measured on the build computer, which depend on how busy that computer is, are recorded in the notebook's provenance file `Revision/textbook/notebooks/21d_sakharov_scorecard.PROVENANCE.md`. It needs no Rust, prints 19 PASS lines and draws eight figures.
 
 <!-- NOTEBOOK 21d -->
 
@@ -3864,6 +3864,8 @@ The four reports on which the scorecard rests: the lead checks of charge conjuga
 
 ```python
 USED = [(LEAD_FILE, LEAD, "u1_noether_matrix_identity"),
+        (LEAD_FILE, LEAD, "representation_real"),
+        (LEAD_FILE, LEAD, "spinor_connection_real"),
         (LEAD_FILE, LEAD, "bilinears_under_charge_conjugation"),
         (LEAD_FILE, LEAD, "quantum_charge_conjugation_unitary_type"),
         (PAIR_FILE, PAIR, "T1_current_primordial_commuting"),
@@ -3875,7 +3877,7 @@ for path, verdicts, name in USED:
     say(f"record {path.split('/')[-1]}: {name} = {verdicts[name]}")
 ```
 
-The eight record checks the notebook will use, each as a triple (file, its verdicts, check name). The loop prints the file name (`split` cuts the path at every slash, and the index `[-1]` takes the last part), the check name and its verdict: Out [2] shows eight lines, all PASS.
+The ten record checks the notebook will use, each as a triple (file, its verdicts, check name). Two of them, `representation_real` (the gammas, $C$ and the $S^{ab}$ are real) and `spinor_connection_real` (every entry of every $\Omega_\mu$ is real), are the facts on which the exact same-mass conjugation of the commuting field rests (Section 21.31); the scorecard of In [18] uses them. The loop prints the file name (`split` cuts the path at every slash, and the index `[-1]` takes the last part), the check name and its verdict: Out [2] shows ten lines, all PASS.
 
 **In [3]: counting conserved numbers.**
 
@@ -4671,15 +4673,19 @@ Each row has four entries: the condition, what this theory has, the status, and 
 
 ```python
     ("2. C and CP violated",
-     "commuting field: the same-mass conjugation is an exact symmetry; quantised "
+     "commuting field: the same-mass conjugation is an exact symmetry that "
+     "reverses the charge, so a C-symmetric start keeps zero charge; quantised "
      "field: the only conjugation, Gamma, reverses the mass; no rates computed",
-     status(LEAD["bilinears_under_charge_conjugation"] == "PASS"
-            and LEAD["quantum_charge_conjugation_unitary_type"] == "PASS",
-            "NOT COMPUTED (C exact for the commuting field)"),
+     status(all(LEAD[name] == "PASS" for name in (
+         "representation_real", "spinor_connection_real",
+         "bilinears_under_charge_conjugation",
+         "quantum_charge_conjugation_unitary_type")),
+         "commuting: FAILS (PROVED); quantised: NOT COMPUTED"),
+     "representation_real, spinor_connection_real, "
      "bilinears_under_charge_conjugation, quantum_charge_conjugation_unitary_type"),
 ```
 
-Row 2: not computed, with C exact for the commuting field (Section 21.31).
+Row 2 has two statuses, one for each field (Section 21.31). For the commuting field dirac16complex00 condition 2 fails: the same-mass conjugation is exact (all matrices of $\mathcal{L}$ are real) and reverses the charge, so by Proposition 2 of Section 21.5 a start in which every configuration and its conjugate are equally likely keeps zero average charge. For the quantised field dirac16complex it is not computed. `all(...)` is `True` only when every one of the four named lead checks has the verdict PASS: `representation_real` and `spinor_connection_real` (the reality of the gammas, of $C$ and of the $\Omega_\mu$), `bilinears_under_charge_conjugation` (the conjugation reverses the current) and `quantum_charge_conjugation_unitary_type` (the quantised field has only the mass-reversing conjugation). Python joins two string pieces that stand next to each other into one text: the last entry is the list of the four checks.
 
 ```python
     ("3. out of equilibrium",
@@ -4714,7 +4720,7 @@ The verdict row, and a loop that prints the condition (padded to 34 characters) 
 
 ```python
 check([row[2] for row in ROWS] == ["FAILS (PROVED)",
-                                   "NOT COMPUTED (C exact for the commuting field)",
+                                   "commuting: FAILS (PROVED); quantised: NOT COMPUTED",
                                    "NOT COMPUTED", "PROVED (classical bilinears)",
                                    "PROBLEM NOT SOLVED"],
       "scorecard: every status is backed by a PASS verdict of the Revision record")
@@ -4726,7 +4732,7 @@ The five statuses must be exactly these, which is possible only if every record 
 
 ```python
 COLOURS = {"FAILS (PROVED)": "#f4c7c3",
-           "NOT COMPUTED (C exact for the commuting field)": "#f2e2b8",
+           "commuting: FAILS (PROVED); quantised: NOT COMPUTED": "#f2e2b8",
            "NOT COMPUTED": "#e3e3e3", "PROVED (classical bilinears)": "#cfe8c4",
            "PROBLEM NOT SOLVED": "#f4c7c3"}
 fig, ax = plt.subplots(figsize=(13.0, 6.2))
@@ -4735,7 +4741,7 @@ ax.set_ylim(0, len(ROWS) + 1)
 ax.axis("off")
 ```
 
-A pale background colour for each status (red for failure, yellow and grey for not computed, green for proved). The figure is used as a drawing area with coordinates from 0 to 13 across and 0 to 6 up; `ax.axis("off")` hides the axes.
+A pale background colour for each status (red for failure, yellow for the two statuses of condition 2, fails for the commuting field and not computed for the quantised one, grey for not computed, green for proved). The figure is used as a drawing area with coordinates from 0 to 13 across and 0 to 6 up; `ax.axis("off")` hides the axes.
 
 ```python
 columns = [(0.1, 2.4, "Sakharov condition"), (2.6, 4.3, "this theory"),
@@ -4768,12 +4774,14 @@ save_figure(fig, "scorecard",
             "check it rests on (each status is set by the notebook only when the "
             "record holds that check with the verdict PASS). Condition 1 fails "
             "exactly (the U(1) charge is conserved for every history $a_4$), so "
-            "conditions 2 and 3 cannot help; the pair-level statement of theorem "
+            "conditions 2 and 3 cannot help; condition 2 also fails for the "
+            "commuting field (its same-mass conjugation is exact) and is not "
+            "computed for the quantised field; the pair-level statement of theorem "
             "T1 is exact but creates nothing. The theory does not solve the "
             "matter-antimatter problem.")
 ```
 
-Figure 21d.8. **What the figure shows.** A table of five coloured rows: red for condition 1 (fails) and for the verdict (problem not solved), yellow and grey for conditions 2 and 3 (not computed), green for the pair level (proved for classical bilinears), each with the record check it rests on.
+Figure 21d.8. **What the figure shows.** A table of five coloured rows: red for condition 1 (fails) and for the verdict (problem not solved), yellow for condition 2 (fails for the commuting field, not computed for the quantised field), grey for condition 3 (not computed), green for the pair level (proved for classical bilinears), each with the record checks it rests on.
 
 **In [20]: the figure files.**
 
@@ -4789,7 +4797,7 @@ The eight figure files exist, and the last line prints ALL 19 CHECKS PASSED (not
 
 ### 21.37 The scorecard, pairs of universes as a hypothesis, and what would be needed
 
-**The scorecard.** Figure 21d.8 and the table of Section 21.31 put the three conditions side by side. Condition 1 fails exactly; conditions 2 and 3 are not computed, and they could not help while condition 1 fails; the pair-level statement is exact but creates nothing. **The theory as built does not solve the matter-antimatter problem.** It contains no baryons, it cannot change its charge inside one universe, and it predicts no value of the baryon-to-photon ratio $\eta_B$.
+**The scorecard.** Figure 21d.8 and the table of Section 21.31 put the three conditions side by side. Condition 1 fails exactly; condition 2 fails exactly for the commuting field and is not computed for the quantised field; condition 3 is not computed; and conditions 2 and 3 could not help while condition 1 fails; the pair-level statement is exact but creates nothing. **The theory as built does not solve the matter-antimatter problem.** It contains no baryons, it cannot change its charge inside one universe, and it predicts no value of the baryon-to-photon ratio $\eta_B$.
 
 **Pairs of universes, stated as a hypothesis.** Theorem T1 suggests a picture of the kind described at the end of Section 21.19: our universe carries some charge, and a partner universe of mass $-m$ carries the opposite charge, so that the pair as a whole is symmetric. The picture rests on three statements, each of which is a **HYPOTHESIS**: nothing in the Revision record derives it.
 
@@ -4843,7 +4851,7 @@ A published example of the class of universe/anti-universe ideas is the CPT-symm
 | the same-mass conjugation is an exact symmetry of the commuting field | PROVED (Section 21.31); COMPUTED at a point | `Revision/theory/reports/wolfram-field-theory.json`, `L_real_C`; Notebook 21d, In [14] |
 | invariant Majorana-type matrices: exactly $C$ and $C\Gamma$; none for anticommuting components | PROVED | `Revision/algebra/reports/python-algebra.json`, `spin_commutant_dimension_2`; Notebook 21d, In [16] |
 | Sakharov condition 1 | FAILS (PROVED) | lead check `u1_noether_matrix_identity`; Notebook 21d, In [13] |
-| Sakharov condition 2 (C and CP violation in rates) | NOT COMPUTED (C exact for the commuting field) | Notebook 21d, In [14], In [18] |
+| Sakharov condition 2 (C and CP violation) | dirac16complex00: FAILS (PROVED: $\mathcal{C}_+$ exact, Proposition 2); dirac16complex: NOT COMPUTED (no rates; only the mass-reversing conjugation) | lead checks `representation_real`, `spinor_connection_real`, `bilinears_under_charge_conjugation`, `quantum_charge_conjugation_unitary_type`; Notebook 21d, In [14], In [18] |
 | Sakharov condition 3 (departure from equilibrium) | NOT COMPUTED | `Revision/field_equations_a4/reports/ks-source-conditions.json`, `ks_history_is_a_prescribed_background` |
 | our universe is one member of a pair; the U(1) charge is the baryon number | HYPOTHESIS | Section 21.37 |
 | a creation process, rate or amplitude for universes, in pairs or otherwise | not derived by any equation of the record | Chapter 20; `Revision/docs/PAIR_CREATION_PROOFS.md`, its section 11.2 |

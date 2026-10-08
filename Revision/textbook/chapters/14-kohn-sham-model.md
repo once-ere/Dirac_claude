@@ -26,11 +26,11 @@ Chapter 13 taught density functional theory from zero: how the hopeless problem 
 | 14c | the brane band, its slope, redshift, symmetries and closed shells | 15 | 6 |
 | 14d | the exact local exchange, the potentials and the zero-mode state | 16 | 4 |
 
-None of them needs Rust: Notebooks 14b and 14c write the shooting method of the Revision Rust solver in a few lines of numpy and reproduce the solver's recorded numbers; Chapter 15 runs the Rust solver itself.
+None of them needs Rust: Notebooks 14b and 14c write the shooting function of the Revision Rust solver (the same RK4 integration and Pruefer angle) in a few lines of numpy, find its roots by plain bisection where the Rust solver uses a safeguarded Newton-bisection, and reproduce the solver's recorded numbers; Chapter 15 runs the Rust solver itself.
 
 **The status of every statement.** As everywhere in this book, every statement carries one of the five labels of Chapter 0: PROVED, COMPUTED, ASSUMED, HYPOTHESIS, OPEN. In this chapter they are used as follows.
 
-- PROVED: every identity of Sections 14.2 to 14.7, the boundary-condition facts of Section 14.12, the exact spectra of Section 14.13, the counting property of the shooting angle in Section 14.14, the slope formula of Section 14.19 and the exchange formulas of Sections 14.26 and 14.27. Each is verified in the Revision record by sympy in `Revision/kohn_sham/reports/ks-theory-python.json` (in its present state 58 of 58 checks passed), most of them also by WolframScript in `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 of 46 checks passed), and again by the notebooks of this chapter; the check names are given with each statement.
+- PROVED: every identity of Sections 14.2 to 14.7, the boundary-condition facts of Section 14.12, the exact spectra of Section 14.13, the counting property of the shooting angle in Section 14.14, the slope formula of Section 14.19 and the exchange formulas of Sections 14.26 and 14.27. The counting property is proved in the text of Section 14.14 and checked numerically by Notebook 14b; each of the others is verified in the Revision record by sympy in `Revision/kohn_sham/reports/ks-theory-python.json` (in its present state 58 of 58 checks passed), most of them also by WolframScript in `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 of 46 checks passed), and again by the notebooks of this chapter; the check names are given with each statement.
 - COMPUTED: the numerical levels, slopes, shifts and closed shells; each comes with its measured error and the record file it reproduces (the Rust solver's report `Revision/kohn_sham/reports/ks-rust-solver.json`, in its present state 42 of 42 checks passed, and its result files).
 - ASSUMED: the good sector (no dependence on the extra times); the Z2 mirror brane at $y = 0$; the regular tip condition at the cutoff $y = -L$ (a choice of the numerical model; Section 14.20 shows that the brane band at nonzero 3-momentum does not feel it); the deflating history $a_4 = AHx_4$ along which the Kohn-Sham states are computed, which is a **prescribed background**, given and not solved for (Section 14.3); the convention that counts the zero modes at zero 3-momentum as particle levels (Section 14.21).
 - OPEN: the justification of that convention (Section 14.21), and the behaviour of the gas when the history is not slow (the time-dependent problem, Chapter 15 and Chapter 22).
@@ -121,7 +121,7 @@ $$
 
 where the **effective mass** $M_{\rm eff} = m + \tfrac{15}{16}\lambda S$ and the **vector potential** $v_v = -\tfrac{1}{16}\lambda n$ are made by all the quanta through their scalar density $S$ and number density $n$. Sections 14.26 and 14.27 derive these two formulas exactly; until then $M_{\rm eff}$ and $v_v$ are any two real functions of $y$, written $M$ and $v$ for short.
 
-**The good sector (ASSUMED).** We look only for orbitals that do not depend on the extra times $x_5, x_6, x_7$. Chapters 8 and 10 explain why: modes with enough momentum along the extra times grow without bound, and only without extra-time dependence does the quantised field have a space of states with a positive norm. This restriction is an assumption of the Revision theory, not a result.
+**The good sector (ASSUMED).** We look only for orbitals that do not depend on the extra times $x_5, x_6, x_7$. Chapters 8 and 10 explain why: modes with enough momentum along the extra times grow without bound (the problem is ill-posed in the sense of Hadamard), and a quantum space of states with a positive norm has been built only for single good-sector momenta with frozen coefficients (Chapter 10); a positive-norm space of states for the whole field is OPEN. This restriction is an assumption of the Revision theory, not a result.
 
 **The box.** The three directions of 3-space are taken as a **torus** of coordinate size $\ell$: a quantum leaving the box on one side comes back on the other, so the allowed coordinate momenta are $\mathbf k = \Delta k\,(n_1, n_2, n_3)$ with whole numbers $n_1, n_2, n_3$ and $\Delta k = 2\pi/\ell$. The Revision runs use $\Delta k = 0.25$, so $\ell = 8\pi \approx 25.13$. The extra times have the coordinate volume $v_t$ ($v_t = 1$ in the runs).
 
@@ -486,11 +486,16 @@ def find_repository_root():
 `def` defines a **function**: a named piece of code that runs when it is called. `Path.cwd()` is the folder in which Jupyter runs the notebook (the folder that holds it), and `.resolve()` writes it as a complete address. `here.parents` lists the folders above it; `[here, *here.parents]` is the list that starts with `here` and continues with them (the star unpacks one list into another). The `for` loop visits these folders one after the other. The operator `/` joins a folder and a name into a longer path, and `.is_file()` is true when that file exists. The first folder that contains the file `Revision/textbook/requirements.txt` (the list of the book's packages) is the repository, and `return` hands it back. If no folder qualifies, `raise` stops the notebook with a `FileNotFoundError` whose message says what to do.
 
 ```python
+# The repository folder.  It is never printed: it differs from computer to computer,
+# and the printed output of a notebook must not.
 REPO = find_repository_root()
+# Every file is WRITTEN below OUTPUT_ROOT.  OUTPUT_ROOT is the repository folder unless
+# the environment variable TEXTBOOK_OUTPUT_ROOT names another folder; the book's
+# checking tool sets it, so that a check run writes into a scratch folder instead.
 OUTPUT_ROOT = Path(os.environ.get("TEXTBOOK_OUTPUT_ROOT", str(REPO)))
 ```
 
-The first line calls the function and names its result `REPO`. It is never printed, because it differs from computer to computer, while the printed output of a notebook must not. The second line chooses where files are written. `os.environ` holds the **environment variables** of the program (named texts that it receives from the computer); `.get(name, default)` returns the value of `TEXTBOOK_OUTPUT_ROOT` if it is set and the default `str(REPO)` (the repository folder as a string) otherwise. When you run the notebook the variable is not set, so the files go into the repository; the book's checking tool sets it to a scratch folder, so that a check never changes the repository.
+The comment lines say in short what this paragraph explains. The first statement calls the function and names its result `REPO`. It is never printed, because it differs from computer to computer, while the printed output of a notebook must not. The second line chooses where files are written. `os.environ` holds the **environment variables** of the program (named texts that it receives from the computer); `.get(name, default)` returns the value of `TEXTBOOK_OUTPUT_ROOT` if it is set and the default `str(REPO)` (the repository folder as a string) otherwise. When you run the notebook the variable is not set, so the files go into the repository; the book's checking tool sets it to a scratch folder, so that a check never changes the repository.
 
 ```python
 def repository_file(relative):
@@ -525,6 +530,8 @@ FIGURE_FOLDER = "Revision/textbook/figures"  # where the figures are saved
 CAPTION_FILE = f"{FIGURE_FOLDER}/{NOTEBOOK_ID}.captions.json"  # their captions
 FIGURE_NUMBERS = {}  # figure name -> its number k (file name <id>_<k>_<name>.png)
 CAPTIONS = {}  # figure file name -> caption, written to CAPTION_FILE after every figure
+# Start with an empty captions file ({} is an empty JSON dictionary); save_figure fills
+# it.  newline="\n" writes the same line ends on Windows, macOS and Linux.
 output_file(CAPTION_FILE).write_text("{}\n", encoding="utf-8", newline="\n")
 ```
 
@@ -535,6 +542,9 @@ def save_figure(fig, name, caption):
     number = FIGURE_NUMBERS.setdefault(name, len(FIGURE_NUMBERS) + 1)
     file_name = f"{NOTEBOOK_ID}_{number}_{name}.png"
     relative = f"{FIGURE_FOLDER}/{file_name}"
+    # dpi=150: 150 dots per inch.  bbox_inches="tight": cut away the empty margin.
+    # metadata={"Software": None}: no program name is stored in the PNG file, so that
+    # every run writes exactly the same bytes.
     fig.savefig(output_file(relative), dpi=150, bbox_inches="tight",
                 metadata={"Software": None})
     plt.close(fig)  # forget the figure, so that Jupyter does not draw it a second time
@@ -785,7 +795,8 @@ right.set_xlabel("$y$ (units of $1/H$)")
 right.set_ylabel("$\\kappa = e^{-Hy - a_{4,0}}$ (logarithmic)")
 right.set_title("the momentum weight at five slices")
 right.legend(fontsize=8)
-save_figure(fig, "inflation_deflation", ...)
+save_figure(fig, "inflation_deflation",
+            ...)
 ```
 
 The loop draws the momentum weight $\kappa = e^{-y - a}$ ($H = 1$) for each slice $a$; in an f-string a doubled brace `{{` prints one brace, so the label reads $a_{4,0} = 0.5$ and so on. **What figure 14a.2 shows.** Left: $e^{a_4}$ grows to $e^2 \approx 7.4$, $e^{-a_4}$ falls to $e^{-2} \approx 0.14$, and the dotted line stays at 1: inflation of 3-space and deflation of the extra times exactly balance in the volume. Right: five parallel straight lines falling from left to right: $\kappa$ is largest at the tip ($e^3 \approx 20$ at $y = -3$ for the slice 0), and each later slice lies lower by the factor $e^{-0.5}$: the same coordinate momentum costs less energy as 3-space inflates.
@@ -951,7 +962,8 @@ ax.set_ylabel("coefficient")
 ax.set_title("$\\gamma^\\mu\\Omega_\\mu = 3H\\gamma^{(x_8)}$: "
              "the $da_4/dx_4$ pieces cancel")
 ax.legend(fontsize=8)
-save_figure(fig, "spin_connection_terms", ...)
+save_figure(fig, "spin_connection_terms",
+            ...)
 ```
 
 Labels, title, legend and saving. **What figure 14a.3 shows.** Above $x_1$, $x_2$, $x_3$ two bars of height $+\tfrac12$; above $x_5$, $x_6$, $x_7$ a bar of height $-\tfrac12$ (the coefficient of $\gamma^{(x_4)}$) and one of $+\tfrac12$ (the coefficient of $\gamma^{(x_8)}$); nothing above $x_4$ and $x_8$. The six left bars of the $\gamma^{(x_4)}$ coefficient add to zero (inflation against deflation), the six bars of the $\gamma^{(x_8)}$ coefficient add to $3H$.
@@ -1012,14 +1024,16 @@ kg = kap * (k1 * g1 + k2 * g2 + k3 * g3)  # kappa k.gamma
 The derivation of Step 7 is pure algebra at one point, so $\chi$ and $\chi'$ are replaced by two columns of 16 independent symbols, and $\kappa$ by a positive symbol.
 
 ```python
+# line 1 and 2: d chi/dx4 = -g4 [(M - i v g4) chi - g8 chi' - i kappa k.g chi]
 dt_chi = -g4 * ((M * I16 - sp.I * v * g4) * chi_s - g8 * dchi_s - sp.I * kg * chi_s)
+# line 3: h chi with the four pieces of h
 h_chi = (sp.I * g4 * g8 * dchi_s - kap * g4 * (k1 * g1 + k2 * g2 + k3 * g3) * chi_s
          + M * (-sp.I * g4) * chi_s + v * chi_s)
 check((sp.I * dt_chi - h_chi).expand().is_zero_matrix,
       "i d_x4 chi = h chi with h = i g4 g8 d_y - kappa k_j g4 g_j + M(-i g4) + v")
 ```
 
-`dt_chi` is $\partial_{x_4}\chi$ from the first two lines of Step 7 (move the terms, multiply by $-\gamma^{(x_4)}$); `h_chi` is $h\chi$ with the four pieces of the third line. The check confirms $i\,\partial_{x_4}\chi = h\chi$ after multiplying out (`expand`).
+The two comment lines name the lines of Step 7 that the statement below each writes out. `dt_chi` is $\partial_{x_4}\chi$ from the first two lines of Step 7 (move the terms, multiply by $-\gamma^{(x_4)}$); `h_chi` is $h\chi$ with the four pieces of the third line. The check confirms $i\,\partial_{x_4}\chi = h\chi$ after multiplying out (`expand`).
 
 ```python
 hermitian = ((g4 * g8).T == g4 * g8 and all((-g4 * gj).H == -g4 * gj
@@ -1211,7 +1225,8 @@ for ax in axes[1:]:  # mark the 2 x 2 blocks in the block basis
     for edge in np.arange(1.5, 15.0, 2.0):
         ax.axhline(edge, color="gray", linewidth=0.4)
         ax.axvline(edge, color="gray", linewidth=0.4)
-save_figure(fig, "block_structure", ...)
+save_figure(fig, "block_structure",
+            ...)
 ```
 
 In the second and third panels thin gray lines are drawn between rows and columns 1 and 2, 3 and 4, and so on (`np.arange(1.5, 15.0, 2.0)` is 1.5, 3.5, ..., 13.5), which frame the eight blocks. **What figure 14a.4 shows.** Left: in the original basis the entries of $N_{16}$ are spread over the whole matrix in a diamond pattern. Middle: in the block basis only the eight $2 \times 2$ blocks on the diagonal are nonzero. In every block the diagonal entries are $\pm M$ ($|1|$) and the two off-diagonal entries have the sizes $|\kappa k + j\varepsilon| = 1.2$ and $|j\varepsilon - \kappa k| = 0.2$; in the first four blocks ($j = +1$) the large one is above the diagonal, in the last four ($j = -1$) below it: the two block types are visible. Right: $V^\dagger\Gamma V$ has entries of size 1 only between the block $b$ and the block $b \pm 4$, the pairs $(j, s_2, s_3) \leftrightarrow (-j, s_2, s_3)$.
@@ -1248,6 +1263,7 @@ The level $\varepsilon$ as a symbol; `h_algebraic` is the part of $h_j - v$ with
 
 ```python
 kk = sp.symbols("k", real=True)
+# h chi = eps chi  <=>  -i j sigma1 chi' = (eps - v - j(M s2 + kappa k s3)) chi
 ok_ode = all(sp.simplify(-sp.I * j * s1 * N_matrix(j, M, kk, eps, v, kap)
                          - ((eps - v) * I2 - h_algebraic(j, M, kk, kap)))
              .is_zero_matrix for j in (1, -1))
@@ -1256,7 +1272,7 @@ check(ok_ode and record_check("block_ode_equivalent"),
       record=f"{PY_REPORT}, check block_ode_equivalent")
 ```
 
-The equation $h_j\chi = \varepsilon\chi$ reads $-ij\sigma_1\chi' = (\varepsilon - v)\chi - j(M\sigma_2 + \kappa k\sigma_3)\chi$ (the first line of the first-order form in Section 14.5). If $\chi' = N\chi$, this holds for every $\chi$ exactly when $-ij\sigma_1N = (\varepsilon - v) - j(M\sigma_2 + \kappa k\sigma_3)$, which is checked for both types.
+`kk` is the momentum $k$ as a real symbol. The comment line says what the check is about: the equation $h_j\chi = \varepsilon\chi$ reads $-ij\sigma_1\chi' = (\varepsilon - v)\chi - j(M\sigma_2 + \kappa k\sigma_3)\chi$ (the first line of the first-order form in Section 14.5; `<=>` means "is the same as"). If $\chi' = N\chi$, this holds for every $\chi$ exactly when $-ij\sigma_1N = (\varepsilon - v) - j(M\sigma_2 + \kappa k\sigma_3)$, which is checked for both types.
 
 ```python
 d_term = -sp.I * s1  # the matrix in front of d/dy (times j)
@@ -1422,7 +1438,8 @@ right.set_xlabel("slice $a_{4,0}$")
 right.set_ylabel("proper volume at $y = 0$ (logarithmic)")
 right.set_title("the boxes inflate and deflate, the 7-volume stays")
 right.legend(fontsize=8)
-save_figure(fig, "rescaling", ...)
+save_figure(fig, "rescaling",
+            ...)
 ```
 
 **What figure 14a.5 shows.** Left: six parallel straight lines of slope $-1$ on the logarithmic axis: every lattice momentum is redshifted by the same factor $e^{-a_{4,0}}$, so the ordering of the shells never changes. Right: the 3-space box grows from $(8\pi)^3 \approx 1.6\times10^4$ by the factor $e^6 \approx 403$, the extra-time box shrinks from 1 to $e^{-6} \approx 0.0025$, and their product, the dotted line, stays constant. This is the rescaling identity in a picture: a later slice is the slice 0 with a finer momentum lattice and the same proper box.
@@ -1551,7 +1568,7 @@ so $\chi^\dagger\sigma_1\chi = 0$ there. Rule: replace $\chi$ by $Q\chi$, move $
 - For $k > 0$ the branch $s = +1$ grows enormously toward the tip and the branch $s = -1$ decays toward the tip (for $k < 0$ the two exchange their roles). The decaying branch, $\sigma_2\chi = -\chi$ for $k > 0$, is the **regular** one.
 - An orbital is therefore suppressed at the cutoff, compared with its size at a point $y$, by about the factor $\exp(-|k|(\kappa(-L) - \kappa(y))/H)$. Rule: the ratio of $\exp(-|k|\kappa/H)$ at the two points.
 
-Whatever condition is imposed at $y = -L$ acts on a part of the orbital that is already this small, so for $k \ne 0$ the levels change by about this factor at most. At the slice $a_{4,0} = 0$, between the brane and the cutoff, $\kappa(-L) - \kappa(0) = e^{HL} - 1 = e^3 - 1 \approx 19.09$, and for the smallest lattice momentum $k = 0.25$ the factor is $8.47\times10^{-3}$ (the column suppression_factor of `Revision/kohn_sham/results/spectrum/tip-angle.csv`). At $k = 0$ there is no suppression and the tip condition matters: there the choice $\theta = 0$ selects the brane zero mode of Section 14.13. Status: PROVED; check bc_tip_asymptotics (both reports); Section 14.20 measures the effect.
+Whatever condition is imposed at $y = -L$ acts on a part of the orbital that is already this small, so for $k \ne 0$ the levels should change by about this factor at most; this last step is an estimate, not a proof. At the slice $a_{4,0} = 0$, between the brane and the cutoff, $\kappa(-L) - \kappa(0) = e^{HL} - 1 = e^3 - 1 \approx 19.09$, and for the smallest lattice momentum $k = 0.25$ the factor is $8.47\times10^{-3}$ (the column suppression_factor of `Revision/kohn_sham/results/spectrum/tip-angle.csv`). At $k = 0$ there is no suppression and the tip condition matters: there the choice $\theta = 0$ selects the brane zero mode of Section 14.13. Status: the two asymptotic branches, the regular branch and the suppression factor of the orbital are PROVED (check bc_tip_asymptotics, both reports); the bound on the change of the levels is an estimate, whose size is COMPUTED in Section 14.20 (check free_tip_angle_insensitivity of `Revision/kohn_sham/reports/ks-rust-solver.json`, record `Revision/kohn_sham/results/spectrum/tip-angle.csv`).
 
 ### 14.13 The exact free levels at zero 3-momentum
 
@@ -1691,13 +1708,27 @@ $$
 \text{even level:}\ \ \Phi(\varepsilon) = l\pi, \qquad \text{odd level:}\ \ \Phi(\varepsilon) = \frac\pi2 + l\pi, \qquad l = \dots, -1, 0, 1, \dots
 $$
 
-The integer $l$ is the **label** of the level. Because $\Phi$ grows strictly and has no jumps, it passes every target value exactly once: there is exactly one level for every label and parity, no level can be missed and none can be counted twice. At $k = 0$ these are exactly the labels of Section 14.13 (Figure 14b.6 shows the angles). A level is found by **bisection** on $\Phi(\varepsilon) - $ target (Chapter 2): the solver keeps an interval with the target between $\Phi(\text{lo})$ and $\Phi(\text{hi})$ and halves it 72 times, starting from $[-20, 20]$. After 72 halvings the interval has the length $40/2^{72} \approx 8.5\times10^{-21}$, far below the spacing of floating-point numbers near 1 (about $2.2\times10^{-16}$): the result is the level of the integrated equation to the last digit the computer can hold, and the error that remains is the error of the integration.
+The integer $l$ is the **label** of the level. Because $\Phi$ grows strictly, it passes every target value at most once. It passes every target value at least once, because it runs from $-\infty$ to $+\infty$. Line by line:
+
+$$
+\theta(0) - \theta(-L) = \int_{-L}^{0}\theta'\,dy = j\varepsilon L - j\int_{-L}^{0}v\,dy - \int_{-L}^{0}\big(K\cos2\theta + M\sin2\theta\big)\,dy .
+$$
+
+Rule: integrate the equation of the Pruefer angle from $-L$ to $0$, with $\varepsilon' = \varepsilon - v$ (the integral of the constant $j\varepsilon$ over an interval of length $L$ is $j\varepsilon L$).
+
+$$
+\big|\Phi(\varepsilon) - \varepsilon L\big| \le |\theta(-L)| + \int_{-L}^{0}|v|\,dy + \int_{-L}^{0}\big(|K| + |M|\big)\,dy .
+$$
+
+Rule: multiply the last line by $j$ (with $j^2 = 1$ this gives $\Phi = j\theta(0)$ on the left and $\varepsilon L$ as the first term on the right), move every other term to the right side, and use $|j| = 1$, $|\cos2\theta| \le 1$, $|\sin2\theta| \le 1$ and the rule that the size of an integral is at most the integral of the size. The right side does not depend on $\varepsilon$: the start angle $\theta(-L)$ is fixed by the tip condition, and $v$, $K$ and $M$ are given functions of $y$. So $\Phi(\varepsilon)$ stays within a fixed distance of the straight line $\varepsilon L$: for very negative $\varepsilon$ it lies below every target value, for very positive $\varepsilon$ above it, and because it has no jumps it passes the target value in between (the intermediate value theorem, Section 2.12). Hence there is exactly one level for every label and parity, no level can be missed and none can be counted twice. Status: PROVED (this derivation; it is not a separate check of the Revision record, and Notebook 14b confirms the labels numerically). At $k = 0$ these are exactly the labels of Section 14.13 (Figure 14b.6 shows the angles).
+
+**Finding a level.** The notebooks of this chapter find a level by plain **bisection** on $\Phi(\varepsilon) - $ target (Chapter 2): they keep an interval with the target between $\Phi(\text{lo})$ and $\Phi(\text{hi})$ and halve it 72 times, starting from $[-20, 20]$. After 72 halvings the interval has the length $40/2^{72} \approx 8.5\times10^{-21}$, far below the spacing of floating-point numbers near 1 (about $2.2\times10^{-16}$): the result is the level of the integrated equation to the last digit the computer can hold, and the error that remains is the error of the integration. The Revision Rust solver finds the root of the same function $\Phi$ with fewer evaluations, by the **safeguarded Newton-bisection** of Section 2.24 (the function find_level of `Revision/kohn_sham/solver/src/shoot.rs`): it widens a bracket around a first guess until $\Phi - $ target changes sign, then takes Newton steps with the derivative $d\Phi/d\varepsilon = \int r^2dy/r(0)^2$ derived above, takes the midpoint of the bracket instead whenever a Newton step would leave the bracket or the last step has not at least halved the mismatch $|\Phi - \text{target}|$, and stops when the bracket, or its last Newton step, is shorter than the tolerance $10^{-13}$ (rootTolerance of `Revision/kohn_sham/results/parameters.json`). Both find the root of the same integrated $\Phi$, so the two sets of levels agree to far below $10^{-11}$; Notebook 14b measures the largest difference, $7.1\times10^{-15}$ (In [8]).
 
 **The integration (RK4).** The real form is integrated with the classical fourth-order Runge-Kutta method of Chapter 2, with $G$ steps of size $h = L/G$ (the Revision solver uses $G = 900$ for $L = 3$, so $h = 1/300$). RK4 needs the coefficient $K = \kappa k$ at the nodes and at the midpoints of the steps, that is on a fine grid of $2G + 1$ points. Its error is proportional to $h^4$: halving the step divides the error of a level by $2^4 = 16$. The Revision record measured exactly this: doubling the step number ($G = 1800$ for $L = 3$, $1200$ for $L = 2$) divided the errors of the 39 levels whose error is above $10^{-11}$ by the median factor 16.00, and the largest errors were $5.050\times10^{-8}$ with the canonical and $3.157\times10^{-9}$ with the refined step (check refined_free_spectra_convergence_order of `Revision/kohn_sham/reports/ks-rust-determinism.json`). Status: COMPUTED; Notebook 14b repeats the measurement (In [10]).
 
 ### 14.15 Example: Notebook 14b, the free spectra exact and numerical
 
-Notebook 14b does Sections 14.12 to 14.14 with the computer. With sympy it checks the real form, the mirror map and the parities of the densities, the brane conditions, the boundary term, the tip family, the constant current, the exact solutions of Section 14.13 and the equation of the Pruefer angle, each against the verdict of the Revision record. With numpy it writes the shooting method of the Revision Rust solver in about forty lines (RK4 on the fine grid, the Pruefer angle followed step by step, bisection on the labels), finds the 54 levels of the record and compares them with the exact levels and with the Rust numbers, repeats the fourth-order measurement, and compares the numerical orbitals with the exact ones. It draws six figures. It needs no Rust. It runs in about 40 seconds (two cells integrate the equation for hundreds of energies at once, 72 times over, and take 10 to 20 seconds each), and its last line is ALL 20 CHECKS PASSED (notebook 14b).
+Notebook 14b does Sections 14.12 to 14.14 with the computer. With sympy it checks the real form, the mirror map and the parities of the densities, the brane conditions, the boundary term, the tip family, the constant current, the exact solutions of Section 14.13 and the equation of the Pruefer angle, each against the verdict of the Revision record. With numpy it writes the shooting function of the Revision Rust solver in about forty lines (RK4 on the fine grid, the Pruefer angle followed step by step) with plain bisection on the labels (the Rust solver uses the safeguarded Newton-bisection of Section 14.14 instead), finds the 54 levels of the record and compares them with the exact levels and with the Rust numbers, repeats the fourth-order measurement, and compares the numerical orbitals with the exact ones. It draws six figures. It needs no Rust. It runs in about 40 seconds (two cells integrate the equation for hundreds of energies at once, 72 times over, and take 10 to 20 seconds each), and its last line is ALL 20 CHECKS PASSED (notebook 14b).
 
 <!-- NOTEBOOK 14b -->
 
@@ -2208,26 +2239,63 @@ A table of the case $m = 1$, $L = 3$: for each label the numerical and exact lev
 rust_diff = max(abs(numeric[(float(r["m"]), float(r["L"]), r["parity"],
                              int(r["label"]))] - float(r["eps_numeric"]))
                 for r in record)
+report("largest difference from the Rust solver's levels", f"{rust_diff:.1e}", "m")
 check(rust_diff < 1e-11,
       "the 54 numerical levels equal those of the Rust solver",
       record="Revision/kohn_sham/results/spectrum/free-k0-analytic.csv, eps_numeric")
 ```
 
-The largest difference between the notebook's numerical levels and the Rust solver's (column eps_numeric). The two programs do the same arithmetic, so they can differ only by rounding errors; the check requires agreement to $10^{-11}$, and it passes.
+The largest difference between the notebook's numerical levels and the Rust solver's (column eps_numeric), printed as a RESULT line with one decimal (`.1e`). The two programs integrate the same RK4 discretisation and look for the roots of the same shooting function $\Phi$; they differ only in the root finder (plain bisection to the last digit here, the safeguarded Newton-bisection with the tolerance $10^{-13}$ in the Rust solver, Section 14.14) and in rounding. The check requires agreement to $10^{-11}$; Out [8] shows the difference $7.1\times10^{-15}\,m$.
 
 ```python
 errors = {key: abs(numeric[key] - exact[key]) for key in numeric}
 low = max(err for key, err in errors.items() if abs(exact[key]) < 4.0)
 high = max(err for key, err in errors.items() if abs(exact[key]) >= 4.0)
-check(low < 5e-9 and high < 3.2e-7 and record_check(
-    "free_k0_analytic_spectra", (RUST_REPORT,)),
-      "error below 5e-9 for |eps| < 4 m and below 3.2e-7 above",
+report("largest error for |eps| < 4 m", f"{low:.2e}", "m")
+report("largest error for |eps| >= 4 m", f"{high:.2e}", "m")
+```
+
+The errors against the exact levels, and the largest of them below and above $|\varepsilon| = 4m$, printed with two decimals (`.2e`). The Rust check free_k0_analytic_spectra measured the same two numbers; the next lines read them from its record.
+
+```python
+import re  # regular expressions: patterns that find numbers in a text
+
+
+def record_detail(name, report_file):
+    """The detail text of the check called name in a Revision report."""
+    data = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+    return [c["detail"] for c in data["checks"] if c["name"] == name][0]
+```
+
+`re` is Python's module for **regular expressions**, patterns that describe pieces of text. `record_detail` reads a report as `record_check` does (In [2]), keeps the checks with the given name and returns the detail text of the first, the sentence in which the record states its numbers. The argument is called `report_file` and not `report`, so that inside the function it does not hide the helper `report` of the set-up cell.
+
+```python
+detail = record_detail("free_k0_analytic_spectra", RUST_REPORT)
+rec_low, tol_low, rec_high, tol_high = re.findall(r"\d+(?:\.\d+)?e-\d+", detail)
+check(f"{low:.2e}" == f"{float(rec_low):.2e}"
+      and f"{high:.2e}" == f"{float(rec_high):.2e}"
+      and low < float(tol_low) and high < float(tol_high)
+      and record_check("free_k0_analytic_spectra", (RUST_REPORT,)),
+      f"largest errors {low:.2e} for |eps| < 4 m and {high:.2e} above, as in the "
+      f"record, below its tolerances {tol_low} and {tol_high}",
       record=f"{RUST_REPORT}, check free_k0_analytic_spectra")
+```
+
+The detail of the Rust check ends with the words
+
+```text
+max |difference| 7.23e-10 for |eps| < 4 m (tolerance 5e-9, RK4 error ~ (h eps)^4),
+5.05e-8 for 4 m <= |eps| < 7 m (tolerance 3e-7)
+```
+
+(one line in the record). The pattern `\d+(?:\.\d+)?e-\d+` describes a number with a negative power of ten: one or more digits (`\d+`), then, if present, a point and more digits (the group `(?:\.\d+)` followed by `?`, which makes it optional), then `e-` and digits; the `r` before the string keeps the backslashes as they are. `re.findall` returns every piece of the text that fits the pattern, in order: the texts `7.23e-10`, `5e-9`, `5.05e-8` and `3e-7`, which are unpacked into the four names (if the record ever stated a different number of such numbers, the unpacking would fail and the notebook would stop). The check requires: the notebook's two largest errors, written with two decimals, equal the record's, written the same way (`float` turns a text into a number, so the record's `5.05e-8` is written `5.05e-08`); both lie below the record's tolerances; and the record's verdict is PASS. Because the numbers are read from the record, the check fails if the record is ever recomputed with different results.
+
+```python
 check(all(numeric[(m_, L_, "even", 0)] == 0.0 for m_, L_ in CASES),
       "the brane zero mode comes out as exactly eps = 0")
 ```
 
-The errors against the exact levels, the largest below and above $|\varepsilon| = 4m$, and the tolerances of the Rust check free_k0_analytic_spectra (whose verdict is read from the Rust report). The last check: the zero mode is exactly 0 in all three cases. Why exactly: the first midpoint of the bisection is $\varepsilon = 0$; there, with $k = 0$ and the start $b = 0$, every RK4 slope of $b$ is exactly zero, so $b$ stays exactly 0, the angle stays exactly 0, $\Phi - $ target is exactly 0, and both ends of the interval jump to 0. Out [8] shows the table and three PASS lines. In the table the numerical and exact levels agree in all 10 printed decimals for the labels $-2$ to $2$; the higher ones differ in the 9th or 10th decimal (for example $5.3306254627$ against $5.3306254587$ for the even label 5): the error grows with the level, because the orbital oscillates faster.
+The last check: the zero mode is exactly 0 in all three cases. Why exactly: the first midpoint of the bisection is $\varepsilon = 0$; there, with $k = 0$ and the start $b = 0$, every RK4 slope of $b$ is exactly zero, so $b$ stays exactly 0, the angle stays exactly 0, $\Phi - $ target is exactly 0, and both ends of the interval jump to 0. Out [8] shows the table, three RESULT lines and three PASS lines: the largest difference from the Rust levels $7.1\times10^{-15}$, and the largest errors $7.23\times10^{-10}$ below $4m$ and $5.05\times10^{-8}$ above, the numbers of the record. In the table the numerical and exact levels agree in all 10 printed decimals for the even labels $-2$ to $2$ and the odd labels $-1$ and $0$; the odd labels $-2$, $1$ and $2$ differ by one unit in the 10th decimal (for example $2.0106285601$ against $2.0106285600$ for the odd label 1), and the higher labels differ in the 8th to 10th decimal (for example $5.3306254627$ against $5.3306254587$ for the even label 5): the error grows with the level, because the orbital oscillates faster.
 
 **In [9], figure 3.**
 
@@ -2293,17 +2361,39 @@ report("number of levels with a canonical error above 1e-11", len(ratios))
 report("median error ratio canonical / refined", f"{median:.2f}")
 report("largest error, canonical step", f"{max(errors.values()):.3e}", "m")
 report("largest error, refined step", f"{max(refined_errors.values()):.3e}", "m")
-check(len(ratios) == 39 and f"{median:.2f}" == "16.00"
-      and f"{max(errors.values()):.3e}" == "5.050e-08"
-      and f"{max(refined_errors.values()):.3e}" == "3.157e-09"
-      and record_check("refined_free_spectra_convergence_order",
-                       ("Revision/kohn_sham/reports/ks-rust-determinism.json",)),
-      "39 levels, median error ratio 16.00, largest errors 5.050e-08 and 3.157e-09",
-      record="Revision/kohn_sham/reports/ks-rust-determinism.json, check "
-             "refined_free_spectra_convergence_order")
 ```
 
-Four RESULT lines and the check that they equal the numbers of the Revision record as printed there: 39 levels, the median ratio 16.00 (RK4's $2^4 = 16$), and the largest errors $5.050\times10^{-8}$ and $3.157\times10^{-9}$. The comparison is made on the printed texts (`f"{x:.3e}"` writes a number with 3 decimals and an exponent), exactly as the record states them.
+Four RESULT lines: the number of ratios, the median ratio with two decimals, and the largest canonical and refined errors with three decimals and an exponent (`f"{x:.3e}"`).
+
+```python
+DETERMINISM = "Revision/kohn_sham/reports/ks-rust-determinism.json"
+detail = record_detail("refined_free_spectra_convergence_order", DETERMINISM)
+rec_canonical, rec_refined = re.search(r"canonical (\S+), refined (\S+);",
+                                       detail).groups()
+rec_median, rec_count = re.search(r"ratio (\S+) over (\d+) levels",
+                                  detail).groups()
+```
+
+The detail text of the record's check, read with `record_detail` of In [8], is
+
+```text
+analytic k = 0 spectra: max error canonical 5.050e-08, refined 3.157e-09; median
+error ratio 16.00 over 39 levels (RK4 order 4 predicts 16)
+```
+
+(one line in the record). `re.search` finds the first place where a pattern fits, and `.groups()` returns the pieces of text matched by the bracketed parts of the pattern: `\S+` is one or more characters that are not spaces, `\d+` one or more digits. So the first pattern picks out the texts `5.050e-08` and `3.157e-09` (the words "canonical" and "refined", the comma and the semicolon fix where they stand), and the second the texts `16.00` and `39`. If the record's sentence had another form, `re.search` would find nothing, return `None`, and `.groups()` would stop the notebook with an error.
+
+```python
+check(len(ratios) == int(rec_count) and f"{median:.2f}" == rec_median
+      and f"{max(errors.values()):.3e}" == rec_canonical
+      and f"{max(refined_errors.values()):.3e}" == rec_refined
+      and record_check("refined_free_spectra_convergence_order", (DETERMINISM,)),
+      f"{len(ratios)} levels, median error ratio {median:.2f}, largest errors "
+      f"{max(errors.values()):.3e} and {max(refined_errors.values()):.3e}",
+      record=f"{DETERMINISM}, check refined_free_spectra_convergence_order")
+```
+
+The check that the notebook's four numbers equal the record's: 39 levels (`int` turns the text into a whole number), the median ratio 16.00 (RK4's $2^4 = 16$), and the largest errors $5.050\times10^{-8}$ and $3.157\times10^{-9}$. The comparison is made on the printed texts, written in the same form as the record writes them, and the numbers come from the record itself, so a recomputed record with other numbers would make the check fail. The name of the check is built from the notebook's own numbers.
 
 **In [11], figure 4.**
 
@@ -2636,7 +2726,7 @@ Only the brane band of the blocks $j = +1$ appears on the shells $n^2 \ge 1$ in 
 
 ### 14.22 Example: Notebook 14c, the brane band
 
-Notebook 14c does Sections 14.19 to 14.21 with the computer, with the shooting method of Notebook 14b (now also for nonzero 3-momenta and any slice). It computes the brane band and three other levels for $k$ from 0 to 4 and compares 324 levels with the Rust record; it derives the slope formula with sympy, checks the integral of Section 14.19 on the numerical zero mode, measures the slope by Richardson extrapolation at the five slices and for two other cutoffs; it checks the rescaling identity for 45 levels and the gap of the state $N = 8$ at the five slices; it checks the two block-type symmetries; it measures the effect of the tip condition; and it builds the lattice shells, the particle labels, the closed shells at the slices 0 and 0.5 and the particle numbers of the Revision runs, all against the Rust records. It draws six figures and needs no Rust. It runs in about 90 seconds (the cells of its sections 8 and 11 integrate the equation for hundreds of energies at once, 72 times over, and take 10 to 20 seconds each), and its last line is ALL 15 CHECKS PASSED (notebook 14c).
+Notebook 14c does Sections 14.19 to 14.21 with the computer, with the shooting method of Notebook 14b (now also for nonzero 3-momenta and any slice). It computes the brane band and three other levels for $k$ from 0 to 4 and compares 324 levels with the Rust record; it derives the slope formula with sympy, checks the integral of Section 14.19 on the numerical zero mode, measures the slope by Richardson extrapolation at the five slices and for two other cutoffs; it checks the rescaling identity for 45 levels and the gap of the state $N = 8$ at the five slices; it checks the two block-type symmetries; it measures the effect of the tip condition; and it builds the lattice shells, the particle labels, the closed shells at the slices 0 and 0.5 and the particle numbers of the Revision runs, all against the Rust records. It draws six figures and needs no Rust. It runs in about 90 seconds (the cells of its sections 8 to 11 integrate the equation for hundreds of energies at once, 72 times over, and take 5 to 20 seconds each), and its last line is ALL 15 CHECKS PASSED (notebook 14c).
 
 <!-- NOTEBOOK 14c -->
 
@@ -3464,7 +3554,19 @@ $$
 \big(-i\gamma^{(x_4)}\big)\big(\gamma^{(x_4)}\gamma^{(a)}\big) + \big(\gamma^{(x_4)}\gamma^{(a)}\big)\big(-i\gamma^{(x_4)}\big) = -i\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(a)} - \gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(a)}\big) = 0 ,
 $$
 
-and in the same way the products of $\gamma^{(x_4)}\gamma^{(a)}$ and $\gamma^{(x_4)}\gamma^{(b)}$ for $a \ne b$ cancel in pairs. Rule: anticommutation of different gammas. Hence
+Rule: anticommutation of different gammas ($\gamma^{(x_4)}$ is moved to the left past $\gamma^{(a)}$ in the second product, which costs one sign). For two different space-like directions $a \ne b$, line by line:
+
+$$
+\big(\gamma^{(x_4)}\gamma^{(a)}\big)\big(\gamma^{(x_4)}\gamma^{(b)}\big) = -\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(a)}\gamma^{(b)} = \gamma^{(a)}\gamma^{(b)}, \qquad \big(\gamma^{(x_4)}\gamma^{(b)}\big)\big(\gamma^{(x_4)}\gamma^{(a)}\big) = \gamma^{(b)}\gamma^{(a)} .
+$$
+
+Rule: move the second $\gamma^{(x_4)}$ to the left past $\gamma^{(a)}$, which costs one sign, and use $\gamma^{(x_4)}\gamma^{(x_4)} = -1$; the second product is the same with $a$ and $b$ exchanged.
+
+$$
+\big(\gamma^{(x_4)}\gamma^{(a)}\big)\big(\gamma^{(x_4)}\gamma^{(b)}\big) + \big(\gamma^{(x_4)}\gamma^{(b)}\big)\big(\gamma^{(x_4)}\gamma^{(a)}\big) = \gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 0 .
+$$
+
+Rule: add the two products; different gammas anticommute, $\gamma^{(a)}\gamma^{(b)} = -\gamma^{(b)}\gamma^{(a)}$. Hence
 
 $$
 h_{\mathbf p}^2 = \big(M^2 + p_1^2 + p_2^2 + p_3^2 + p_8^2\big)\,1 = E^2\,1, \qquad E = \sqrt{M^2 + p^2} .
@@ -3478,7 +3580,7 @@ $$
 
 is the **projector** on them: $G_{\mathbf p}^2 = \tfrac14(1 + 2h_{\mathbf p}/E + h_{\mathbf p}^2/E^2) = \tfrac14(2 + 2h_{\mathbf p}/E) = G_{\mathbf p}$, and $\mathrm{Tr}\,G_{\mathbf p} = \tfrac12(16 + 0) = 8$. Status: PROVED; check gas_mode_projector (both reports).
 
-**Why every symmetric occupation has $\rho = (nB + SC)/16$.** The sum of $uu^\dagger$ over the eight positive-energy modes (orthonormal, because $h_{\mathbf p}$ is Hermitian) is the projector $G_{\mathbf p}$, so these eight modes, all filled, contribute $G_{\mathbf p}B$ to $\rho$. Line by line:
+**Why every symmetric occupation has $\rho = (nB + SC)/16$.** The sum of $uu^\dagger$ over the eight positive-energy modes (orthonormal, because $h_{\mathbf p}$ is Hermitian) is the projector $G_{\mathbf p}$. We assume that the eight modes of one momentum carry the same occupation $f$, as they do in every closed shell (all eight filled) and in every thermal state (the occupation depends only on the energy, which is the same for the eight). Then these eight modes contribute $fG_{\mathbf p}B$ to $\rho$; we write the case $f = 1$, and a common factor $f$ changes nothing below. Line by line:
 
 $$
 G_{\mathbf p}B = \tfrac12B + \frac{M}{2E}\big(-i\gamma^{(x_4)}\big)B - \frac{1}{2E}\sum_a p_a\gamma^{(x_4)}\gamma^{(a)}B .
@@ -3496,7 +3598,7 @@ $$
 G_{\mathbf p}B = \tfrac12\Big(B + \frac ME\,C\Big) - \frac{1}{2E}\sum_a p_a\gamma^{(x_4)}\gamma^{(a)}B .
 $$
 
-The last term changes its sign when $\mathbf p$ is replaced by $-\mathbf p$. If the state occupies $\mathbf p$ and $-\mathbf p$ equally, which is true for every closed shell and for every thermal state, these terms cancel in pairs, and each pair leaves $B + (M/E)C$. Filled negative-energy modes give in the same way $\tfrac12(1 - h_{\mathbf p}/E)B$, whose symmetric part is $\tfrac12(B - (M/E)C)$. So the one-body matrix of any such state is a combination of $B$ and $C$ only, $\rho = \alpha B + \beta C$. The two numbers follow from the densities:
+The last term changes its sign when $\mathbf p$ is replaced by $-\mathbf p$. If the state occupies $\mathbf p$ and $-\mathbf p$ equally, which is true for every closed shell and for every thermal state, these terms cancel in pairs, and each pair leaves $B + (M/E)C$ (times the common occupation). Filled negative-energy modes give in the same way $\tfrac12(1 - h_{\mathbf p}/E)B$, whose symmetric part is $\tfrac12(B - (M/E)C)$. So the one-body matrix of any such state is a combination of $B$ and $C$ only, $\rho = \alpha B + \beta C$. The two numbers follow from the densities:
 
 $$
 n = \mathrm{Tr}(B\rho) = \alpha\,\mathrm{Tr}(B^2) + \beta\,\mathrm{Tr}(BC) = 16\alpha, \qquad S = \mathrm{Tr}(C\rho) = \alpha\,\mathrm{Tr}(CB) + \beta\,\mathrm{Tr}(C^2) = 16\beta .
@@ -3508,7 +3610,7 @@ $$
 \rho = \frac{nB + SC}{16} ,
 $$
 
-for every occupation that is symmetric under $\mathbf p \to -\mathbf p$, at every temperature. Status: PROVED; checks gas_angular_average (both reports), gas_negative_energy_modes (sympy report) and gas_densities (both).
+for every occupation that gives the eight modes of each momentum the same occupation and is symmetric under $\mathbf p \to -\mathbf p$, at every temperature (the record: "any p -> -p symmetric occupation of the 8-fold good-sector gas", `Revision/kohn_sham/ks-theory.json`, exchange.uniformGas). If only some of the eight modes of a momentum were filled, their one-body matrix would in general not be a combination of $B$ and $C$, and the formula would not apply. Status: PROVED; checks gas_angular_average (both reports), gas_negative_energy_modes (sympy report) and gas_densities (both).
 
 **Wick's rule for the contact term.** Write $S = \Psi^\dagger C\Psi = \sum_{A,B}\Psi_A^\dagger C_{AB}\Psi_B$, with the components $A, B = 0, \dots, 15$. For a quasi-free state (a determinant or a thermal state of independent quanta), Wick's theorem (Section 13.4) gives the expectation of a normal-ordered product of two creation and two annihilation operators as the sum over the ways of pairing each $\Psi^\dagger$ with a $\Psi$, with a minus sign for the crossed pairing because the field anticommutes. With $f_{AB} = \langle\Psi_A^\dagger\Psi_B\rangle$:
 
@@ -3598,7 +3700,7 @@ $$
 
 Rule: the Lagrangian of Chapter 7 is a kinetic part minus $mS$ minus the interaction, whose expectation value is $e_{\rm int}$. On shell (for orbitals that solve the Kohn-Sham equation $\gamma^\mu D_\mu\Psi = (M_{\rm eff} - iv_v\gamma^{(x_4)})\Psi$) the kinetic part is $\bar\Psi\gamma^\mu D_\mu\Psi = M_{\rm eff}\bar\Psi\Psi + v_v\Psi^\dagger(-iC\gamma^{(x_4)})\Psi = M_{\rm eff}S + v_vn$, because $\bar\Psi = \Psi^\dagger C$ and $B = -iC\gamma^{(x_4)}$ (the symmetrised form of the kinetic term has the same value on shell); then the line above gives $M_{\rm eff}S + v_vn = mS + 2e_{\rm int}$. This value of the Lagrangian enters the energy-momentum tensor (Chapter 15). Status: PROVED; check ks_onshell_lagrangian (both reports).
 
-**What the functional leaves out.** The Kohn-Sham functional of the Revision theory is Hartree plus this uniform-gas exchange, with no correlation energy. Its states, however, are not uniform along $y$. The record computes the EXACT Fock exchange of such a state (exchange.exactFockSlab in ks-theory.json): take one level, closed over a shell ($\mathbf k$ and $-\mathbf k$ equally filled), with the $2 \times 2$ block density $D = \tfrac12(d_0 + d_1\sigma_1 + d_2\sigma_2 + d_3\sigma_3)$ in each of the four blocks of type $j = +1$ and $\sigma_3D\sigma_3$ in each of the four of type $-1$ (their degenerate partners, Section 14.5), and average it over the directions of the shell. The average over directions is the same as the projection onto the matrices that commute with the rotations of 3-space, a space of dimension 64. The result, with $Q = \langle\Psi^\dagger B\gamma^{(x_8)}\Psi\rangle$ and the $y$-current $Y$:
+**What the functional leaves out.** The Kohn-Sham functional of the Revision theory is Hartree plus this uniform-gas exchange, with no correlation energy. Its states, however, are not uniform along $y$. The record computes the EXACT Fock exchange of such a state (exchange.exactFockSlab in ks-theory.json): take one level, closed over a shell ($\mathbf k$ and $-\mathbf k$ equally filled), with the $2 \times 2$ block density $D = \tfrac12(d_0 + d_1\sigma_1 + d_2\sigma_2 + d_3\sigma_3)$ in each of the four blocks of type $j = +1$ and $\sigma_3D\sigma_3$ in each of the four of type $-1$ (their degenerate partners, Section 14.5), and average it over the directions of the shell. Two facts make this average simple. First, averaging a matrix over all the rotations of a group gives a matrix that no rotation of the group changes, that is, one that commutes with all of them; and a matrix that already commutes with them is its own average. So the average over all rotations of 3-space is the projection onto the matrices that commute with the rotations, a space of dimension 64. Second, a closed shell contains only a finite set of directions, which the 24 rotations of a cube carry into each other, not all directions. But under the rotations of 3-space the $16 \times 16$ matrices split into parts of spin 0 (unchanged by every rotation) and parts of spin 1 (turned like an arrow), and nothing else; and the average of an arrow over the 24 rotations of a cube is zero, just as its average over all rotations. So for these matrices the average over the cube equals the average over all rotations (both theory reports state this: the 16 x 16 matrices carry only spin 0 and spin 1). The result, with $Q = \langle\Psi^\dagger B\gamma^{(x_8)}\Psi\rangle$ and the $y$-current $Y$:
 
 $$
 n = 8d_0, \qquad S = 8d_2, \qquad Q = 8d_3, \qquad Y = 8d_1, \qquad e_x^{\rm exact} = -\frac{\lambda}{32}\big(n^2 + S^2 - Q^2 - Y^2\big) .
@@ -3619,7 +3721,7 @@ Rule: the binomial formulas. So for one orbital $S^2 + Q^2 = n^2$, and for a mix
 - One orbital: $n_o = P(a^2 + b^2) = Pa^2$, $s_o = P\,j\,2ab = 0$, $q_o = P(a^2 - b^2) = Pa^2$, with $P = e^{-6Hy}/(\ell^3v_t)$, the factor that makes the densities proper (Section 14.7).
 - The state: $n = \sum w\,g\,f\,n_o$, with the degeneracy $g = 4$ per block type, the occupation $f = 1$, and the weight $w = \tfrac12$ of the ASSUMED Z2 doubled system: the orbitals are normalised on the patch, $\int_{-L}^0\chi^\dagger\chi\,dy = 1$, but the system consists of the patch and its mirror copy, so the patch holds half of each orbital, and the particle number $N = \sum g f$ counts the doubled system. So $n = \tfrac12(4 + 4)Pa^2 = 4Pa^2$, $S = 0$ and $Q = n$.
 - The proper density $n = 4e^{-6Hy}a^2/(\ell^3v_t) \propto e^{(2M - 6H)y}$ is largest at the cutoff $y = -L$ (for $M = H = 1$: $e^{-4y}$), although the orbital itself sits at the brane: the proper 7-volume $e^{6Hy}$ is tiny near the tip. With $H = m = 1$, $L = 3$, $\ell = 2\pi/0.25$ and $v_t = 1$ its largest value is $n_{\max} = 82.2208638894$ (Notebook 14d, Out [12]; the column n_max of the row N8_lam0_a00 of `Revision/kohn_sham/results/ground/summary.csv`).
-- To first order in $\lambda$ the potentials are $M_{\rm eff} - m = \tfrac{15}{16}\lambda S = 0$ and $v_v = -\tfrac{\lambda}{16}n$. The Revision solver calibrates its couplings by the largest first-order potential per unit $\lambda$, $n_{\max}/16 = 5.138803993$; $\lambda_1$ and $\lambda_2$ are $0.1$ and $0.3$ divided by it, rounded to 4 significant digits: $\lambda_1 = 0.01946$, $\lambda_2 = 0.05838$, so that the first-order potential stays below $0.1\,m$ and $0.3\,m$ (`Revision/kohn_sham/results/parameters.json`, couplingCalibration; the states $N = 136$ and $688$ have their own, smaller couplings, fixed the same way along the whole history).
+- To first order in $\lambda$ the potentials are $M_{\rm eff} - m = \tfrac{15}{16}\lambda S = 0$ and $v_v = -\tfrac{\lambda}{16}n$. The Revision solver calibrates its couplings by the largest first-order potential per unit $\lambda$, $n_{\max}/16 = 5.138803993$; $\lambda_1$ and $\lambda_2$ are $0.1$ and $0.3$ divided by it, rounded to 4 significant digits: $\lambda_1 = 0.01946$, $\lambda_2 = 0.05838$, so that the largest first-order potential is $0.1\,m$ and $0.3\,m$ to four significant digits (after the rounding of $\lambda$ it is $0.1000011\,m$ and $0.3000034\,m$, Notebook 14d, Out [12]; `Revision/kohn_sham/results/parameters.json`, couplingCalibration; the states $N = 136$ and $688$ have their own, smaller couplings, fixed the same way along the whole history).
 - The exact Fock exchange of this state vanishes: with $S = 0$ and $Q = n$, $e_x^{\rm exact} = -\tfrac{\lambda}{32}(n^2 - Q^2) = 0$. In the exact-Fock variant the potential on $(a, 0)$ is $v_v + w_Q = \tfrac{\lambda}{16}(Q - n) = 0$ (because $\sigma_3$ acts as $+1$ on $(a, 0)$), so the zero modes stay exact solutions with $\varepsilon = 0$ and the energy of the state is exactly zero. The record's twenty self-consistent exact-Fock states with $N = 8$ (four couplings, five slices) have energies zero to rounding, below $10^{-12}$ (`Revision/kohn_sham/results/exx/exact-fock-variant.csv`).
 
 Status: the formulas PROVED; the numbers COMPUTED (they reproduce the records named); the weight $w = \tfrac12$ rests on the ASSUMED Z2 mirror.
@@ -3903,10 +4005,11 @@ same = (sp.Rational(potentials["Meff_coefficient_of_lambda_S"]) == sp.Rational(1
         and inputs["exchangeCoefficientS2"] == -0.03125)
 check(same and record_check("ks_theory_json_exchange"),
       "the coefficients 15/16, -1/16, -1/32, -1/32 equal the records",
-      record="Revision/kohn_sham/ks-theory.json and results/parameters.json")
+      record="Revision/kohn_sham/ks-theory.json, exchange; "
+             "Revision/kohn_sham/results/parameters.json, theoryInputs")
 ```
 
-The theory record stores the coefficients as texts such as "15/16", which `sp.Rational` turns into exact fractions; the solver's record stores them as decimal numbers, $0.9375 = 15/16$, $-0.0625 = -1/16$ and $-0.03125 = -1/32$ (all four are exact in binary floating point). Out [8] shows three PASS lines.
+The theory record stores the coefficients as texts such as "15/16", which `sp.Rational` turns into exact fractions; the solver's record stores them as decimal numbers, $0.9375 = 15/16$, $-0.0625 = -1/16$ and $-0.03125 = -1/32$ (all four are exact in binary floating point). The PASS line names both records with the parts that hold the coefficients: the section exchange of the theory record and the section theoryInputs of the solver's parameters record (two strings written next to each other are joined into one). Out [8] shows three PASS lines.
 
 **In [9], figure 2.**
 
@@ -4189,7 +4292,7 @@ The four figure files must exist; the last line prints ALL 16 CHECKS PASSED (not
 | the exact rescaling identity between the slices (Section 14.7; Notebooks 14a and 14c) | `rescaling_identity` (both) |
 | the real form, the boundary term, the mirror map and the parities, the tip family, the constant current, the suppression at the tip (Section 14.12; Notebook 14b) | `bc_mirror_map_PA`, `bc_mirror_parities_of_densities`, `bc_brane_parity_conditions`, `bc_self_adjoint_boundary_term`, `bc_tip_family`, `bc_current_conserved_along_y`, `bc_tip_asymptotics` (all both) |
 | the exact free levels at zero 3-momentum, the zero mode and the gap (Section 14.13; Notebook 14b) | `bc_exact_k0_spectra` (both) |
-| the equation of the Pruefer angle; the shooting function grows with the energy; one level per label (Section 14.14; Notebook 14b) | derived in Section 14.14 |
+| the equation of the Pruefer angle; the shooting function grows with the energy; one level per label (Section 14.14; Notebook 14b) | derived in Section 14.14 (not a separate check of the record); Notebook 14b checks the equation of the angle with sympy and the labels numerically |
 | the slope of the brane band; the band is odd in $k$ (Section 14.19; Notebook 14c) | `brane_band_slope` (both) |
 | $h_{\mathbf p}^2 = E^2$; $\rho = (nB + SC)/16$; Wick's rule; the exact local exchange; the ratio $-1/8$ (Section 14.26; Notebook 14d) | `gas_mode_projector`, `gas_angular_average`, `gas_densities`, `exchange_uniform_gas` (both), `gas_negative_energy_modes`, `hf_wick_contraction`, `filled_shell_ratio` |
 | the Kohn-Sham potentials; the Lagrangian on shell (Section 14.27; Notebook 14d) | `ks_potentials`, `ks_onshell_lagrangian` (both) |
@@ -4199,8 +4302,8 @@ The four figure files must exist; the last line prints ALL 16 CHECKS PASSED (not
 
 | result (notebook) | record and measured accuracy |
 | --- | --- |
-| the 54 free levels at $k = 0$ by RK4 shooting (Notebook 14b) | `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`; check `free_k0_analytic_spectra` of `Revision/kohn_sham/reports/ks-rust-solver.json`; accuracy: within $5\times10^{-9}$ below $4m$, $3.2\times10^{-7}$ above |
-| fourth-order convergence (Notebook 14b) | check `refined_free_spectra_convergence_order` of `Revision/kohn_sham/reports/ks-rust-determinism.json`; accuracy: median error ratio 16.00 over 39 levels |
+| the 54 free levels at $k = 0$ by RK4 shooting (Notebook 14b) | `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`; check `free_k0_analytic_spectra` of `Revision/kohn_sham/reports/ks-rust-solver.json`; measured largest errors against the exact levels $7.23\times10^{-10}$ below $4m$ and $5.05\times10^{-8}$ above (tolerances of the record $5\times10^{-9}$ and $3\times10^{-7}$); the notebook reproduces both numbers and agrees with the Rust levels to $7.1\times10^{-15}$ |
+| fourth-order convergence (Notebook 14b) | check `refined_free_spectra_convergence_order` of `Revision/kohn_sham/reports/ks-rust-determinism.json`; measured: median error ratio 16.00 over 39 levels, largest errors $5.050\times10^{-8}$ (canonical step) and $3.157\times10^{-9}$ (refined step), reproduced by the notebook |
 | the brane band and three other levels for $k$ from 0 to 4 (Notebook 14c) | `Revision/kohn_sham/results/spectrum/brane-band.csv`; accuracy: reproduced to $10^{-11}$ |
 | the numerical slope $c\,e^{-a_{4,0}}$ at five slices (Notebook 14c) | `brane-band-slope.csv` (spectrum folder); check `free_brane_band_slope`; accuracy: $1.87\times10^{-12}$ relative |
 | the rescaling identity solved as two separate problems (Notebook 14a, the partner parameters) | `Revision/kohn_sham/results/rescaling/rescaling.csv`; checks `rescaling_identity_between_slices` and `rescaling_identity_energy_profiles`; accuracy: levels to $1.5\times10^{-13}$, energies and profiles to $3.3\times10^{-13}$ |

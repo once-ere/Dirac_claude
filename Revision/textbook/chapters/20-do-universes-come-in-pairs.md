@@ -10,7 +10,7 @@ The author asked for a proof "that Universes of masses {+mass, -mass} are create
 
 1. PROVED (theorem T1, the chirality pairing): multiplying a field $\Psi$ by the chirality matrix $\Gamma$ turns every configuration of the theory with mass $m$ and coupling $\lambda$ into a configuration of the theory with $(-m, -\lambda)$, solutions into solutions, in every gravitational field, and reverses its energy-momentum tensor, its current and its charge. A T1 pair therefore has zero total energy, momentum, stress and charge at every point.
 2. PROVED (theorem T2, the mirror pairing): the gamma matrix of the hidden direction together with the mirror $z \to \pi - z$ across the surface $z = \pi/2$ (an ASSUMED construction) turns a solution with $(-m, \lambda)$ into a solution with $(m, \lambda)$ with EQUAL, not opposite, energy and charge.
-3. PROVED (the quantum reading Q, dirac16complex only): the T1 image is the same quantum system relabelled; two independently quantised universes of masses $+m$ and $-m$ have identical one-particle spectra and energies that add, not cancel.
+3. PROVED (the quantum reading Q, dirac16complex only): the T1 image is the same quantum system relabelled; two independently quantised universes of masses $+m$ and $-m$ have identical one-particle spectra (the $\lambda = 0$ spectra, in flat 4+4 space or in a general field at a point with frozen coefficients) and energies that add, not cancel.
 4. PROVED (theorem T3, the Kohn-Sham level, dirac16complex): every self-consistent instantaneous Kohn-Sham state with $(m, \lambda)$ has a partner with $(-m, +\lambda)$ and equal energies (ASSUMED Z2 brane, transformed tip condition).
 5. PROVED (corollary C1): a T1 pair taken as the only source of the author's metric is a zero source, and in Einstein gravity the author's metric then has no solution at all for $H > 0$.
 6. COMPUTED in this chapter (Notebook 20b): one exact universe, a solution of the field equation and of all 64 Einstein equations together, that needs no partner; its T1 partner solves its own field equation but cannot be the source of the author's metric.
@@ -20,7 +20,7 @@ The author asked for a proof "that Universes of masses {+mass, -mass} are create
 
 T1, T2, Q, T3 and C1 are exact **maps between solution sets** and one consequence of them: they say which solutions exist if one solution exists. None of them is a statement that a universe comes into being.
 
-**The plan.** Section 20.2 defines the words. Section 20.3 reads the request and the hypothesis word by word, and Section 20.4 separates the three questions hidden in it. Sections 20.5 and 20.6 state the pairing theorems and prove the central steps line by line (the complete proofs of T1, T2 and Q are in Chapter 18, those of T3 in Chapter 19). Section 20.7 proves the corollary C1, and Notebook 20a makes every step of it visible (Sections 20.8 to 20.11). Section 20.12 derives one exact universe of the theory, and Notebook 20b builds it and its partners (Sections 20.13 to 20.16). Section 20.17 shows, with the creation of an electron and a positron from light, what a proof of creation contains, and Notebook 20c computes it (Sections 20.18 to 20.21). Section 20.22 says what the conservation laws of this theory allow and forbid, Section 20.23 what pairs have to do with matter and antimatter, Section 20.24 lists what is not established, Section 20.25 what a calculation of creation would require, and Section 20.26 gives the answer to the question of the title. The chapter ends with the ledger "What we proved, what we computed, what we assumed" (Section 20.27) and with exercises and their complete answers (Section 20.28).
+**The plan.** Section 20.2 defines the words. Section 20.3 reads the request and the hypothesis word by word, and Section 20.4 separates the three questions hidden in it. Sections 20.5 and 20.6 state the pairing theorems and prove them line by line: this chapter gives the complete proofs of T1 and T2 (with the reflected-connection lemma) and the Krein-metric step of Q; the remaining steps of Q, which need the one-particle Hamiltonian of Chapter 10, are proved in Chapter 18, and T3, whose proof needs the Kohn-Sham blocks of Chapter 14, is proved in Chapter 19 (Section 20.6 outlines it). Section 20.7 proves the corollary C1, and Notebook 20a makes every step of it visible (Sections 20.8 to 20.11). Section 20.12 derives one exact universe of the theory, and Notebook 20b builds it and its partners (Sections 20.13 to 20.16). Section 20.17 shows, with the creation of an electron and a positron from light, what a proof of creation contains, and Notebook 20c computes it (Sections 20.18 to 20.21). Section 20.22 says what the conservation laws of this theory allow and forbid, Section 20.23 what pairs have to do with matter and antimatter, Section 20.24 lists what is not established, Section 20.25 what a calculation of creation would require, and Section 20.26 gives the answer to the question of the title. The chapter ends with the ledger "What we proved, what we computed, what we assumed" (Section 20.27) and with exercises and their complete answers (Section 20.28).
 
 **The three worked examples.** Each is a complete Jupyter notebook; you may run them in any order. None of them needs Rust.
 
@@ -78,6 +78,11 @@ with $a_4 = a_4(x_4)$ and $a_4' = da_4/dx_4$; its signature is (4,4) and $\sqrt{
 - **Corollary**: a statement that follows from a theorem in a few lines.
 - **Process**: a solution of a dynamical equation that connects an initial state with a different final state. **Creation** of a universe: a process whose initial state has fewer universes than its final state.
 - **Rate, probability, amplitude**: numbers that say how often a process happens; they come from a dynamical theory. An **amplitude** is the complex number whose squared modulus is a probability.
+- **Cross section**: for a process in which a particle hits a target (for example a photon a nucleus), the effective area of the target that the particle must hit for the process to happen; the number of processes per unit time is the cross section times the number of incoming particles that cross a unit area per unit time. It is measured in units of area.
+- **Bogoliubov coefficient**: in a quantum field on a gravitational field that changes in time, a number that says how much of a wave that oscillates with positive frequency at early times has turned into a wave of negative frequency at late times; its squared modulus is the mean number of particles created in that wave. It is the standard measure of particle creation by a changing background.
+- **Vacuum decay**: the quantum transition of a state that has the lowest energy only among its neighbouring states (a **false vacuum**) into a state of still lower energy; its rate per unit volume is computed from the quantum theory.
+- **Tunnelling**: a quantum transition through a region that the classical equations forbid (a **barrier**), with a small but nonzero probability; proposals in which a universe appears by tunnelling are of this kind (Section 20.25).
+- **Wave function of the universe, path integral**: a wave function of the universe is a quantum state of the geometry together with the matter fields (Section 20.25); a path integral computes an amplitude by adding up one complex number for every history that connects the initial and the final state.
 - **Allowed**: not forbidden by any conservation law. Allowed does NOT mean that the process happens, nor how often.
 - **Conserved quantity**: a number whose value does not change in time for every solution.
 - **Status words.** PROVED: an exact statement with a proof, verified by a named check of a Revision record or by an exact computation of this book's notebooks. COMPUTED: a floating-point result with its measured accuracy. ASSUMED: an assumption on which a result rests. HYPOTHESIS: a scientific conjecture that is not established. OPEN: a question that nobody has answered here.
@@ -98,7 +103,7 @@ The Revision record gives its answer to the request in its list of answers to th
 
 **"In pairs."** That the second universe is present together with the first one, and necessarily so. The pairing theorems say that the partner is a solution of the partner theory; they do not say that it is present (Section 20.4).
 
-**"The big bang."** In cosmology the big bang is the hot, dense early phase from which the observed expansion started; in the classical solutions of Einstein's equations that describe it, the scale factor of space goes to zero at a finite time in the past, and the equations break down there (a **singularity**). The author's metric has no such moment. We prove it line by line, for any history $a_4$ that is finite with finite $a_4'$ and $a_4''$ at the time considered, on the patch $0 < z < \pi/2$.
+**"The big bang."** In cosmology the big bang is the hot, dense early phase from which the observed expansion started; in the classical solutions of Einstein's equations that describe it, the scale factor of space goes to zero at a finite time in the past, and the equations break down there (a **singularity**). What we can prove is narrower: the author's metric has no such moment wherever its history $a_4$ is regular. We prove it line by line, for any history $a_4$ that is finite with finite $a_4'$ and $a_4''$ at the time considered, on the patch $0 < z < \pi/2$; the prescribed deflating history is such a history at every finite time. Whether the equations of this book, solved together, produce a big-bang moment is a different question, and it is not decided (see the end of this paragraph).
 
 $$
 g_{x_1x_1} = g_{x_2x_2} = g_{x_3x_3} = e^{2a_4}\sin^{1/3}z,\qquad 0 < g_{x_1x_1} < \infty .
@@ -122,7 +127,9 @@ $$
 \sqrt{|g|} = \cos z > 0 .
 $$
 
-This is the record's volume factor (`python-pairing.json`, check `geometry.brane_degenerate`, which also records that it and $g_{x_8x_8}$ vanish at the brane $z = \pi/2$, the edge of the patch). So at every finite time the metric is finite and non-degenerate at every point of the patch. Its curvature is finite as well: every component $R^{ab}{}_{cd}$ is a Laurent polynomial in $\cot z$ (a sum of powers $\cot^kz$ with whole, possibly negative, $k$) whose coefficients are polynomials in $H$, $a_4'$ and $a_4''$ (`python-a4-report.json`, checks `riemann_entries_laurent` and `mixed_riemann_free_of_warp_and_a4`), and such an expression is finite where $\cot z$ is finite and not zero. For the deflating history $a_4 = Hx_4$ the 3-space scale factor $e^{Hx_4}\sin^{1/6}z$ tends to zero only as $x_4 \to -\infty$, never at a finite time. Status: PROVED (derived here from the metric and the two record checks). The degenerate places of the metric are the edges of the patch, not a moment of time: the brane $z = \pi/2$ ($g_{x_8x_8} = 0$ and $\sqrt{|g|} = 0$) and the tip $z \to 0$. Moreover, the history $a_4$ itself is not computed from a source in the Kohn-Sham chapters: the Kohn-Sham history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND, because the Kohn-Sham states violate the source conditions of the $a_4$ equations (`ks-source-conditions.json`, checks `ks_profiles_depend_on_x8` and `ks_history_is_a_prescribed_background`). The equations of this book therefore contain no moment that could be called the big bang.
+This is the record's volume factor (`python-pairing.json`, check `geometry.brane_degenerate`, which also records that it and $g_{x_8x_8}$ vanish at the brane $z = \pi/2$, the edge of the patch). So at every finite time the metric is finite and non-degenerate at every point of the patch. Its curvature is finite as well: every component $R^{ab}{}_{cd}$ is a Laurent polynomial in $\cot z$ (a sum of powers $\cot^kz$ with whole, possibly negative, $k$) whose coefficients are polynomials in $H$, $a_4'$ and $a_4''$ (`python-a4-report.json`, checks `riemann_entries_laurent` and `mixed_riemann_free_of_warp_and_a4`), and such an expression is finite where $\cot z$ is finite and not zero. For the prescribed deflating history $a_4 = Hx_4$ the three numbers $a_4 = Hx_4$, $a_4' = H$ and $a_4'' = 0$ are finite at every finite time $x_4$, so the metric and its curvature are finite at every finite time on the patch; and its 3-space scale factor $e^{Hx_4}\sin^{1/6}z$ tends to zero only as $x_4 \to -\infty$, never at a finite time. Status: PROVED for the prescribed deflating history $a_4 = AHx_4$, and for any history whose $a_4$, $a_4'$ and $a_4''$ stay finite (derived here from the metric and the two record checks). The degenerate places of the metric are the edges of the patch, not a moment of time: the brane $z = \pi/2$ ($g_{x_8x_8} = 0$ and $\sqrt{|g|} = 0$) and the tip $z \to 0$.
+
+What this proof does NOT show: that the equations of this book exclude a big-bang moment. It assumed that $a_4$, $a_4'$ and $a_4''$ are finite, and it says nothing about a history in which one of them becomes infinite at a finite time. The history used in this book is prescribed, not computed: the Kohn-Sham history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND, because the Kohn-Sham states violate the source conditions of the $a_4$ equations (`ks-source-conditions.json`, checks `ks_profiles_depend_on_x8` and `ks_history_is_a_prescribed_background`). And when the $a_4$ equations are solved with a given source, they can break down at a finite time: Chapter 12 integrates the evolution equation of Einstein-Gauss-Bonnet gravity with a given constant source and finds that the rate $a_4'$ reaches a critical value at a finite time $x_4^\star$, where $a_4''$ becomes infinite and no solution with a smooth $a_4'$ continues. The curvature contains $a_4''$ (for example the Einstein tensor component $G^{x_1}{}_{x_1} = -3a_4'^2 + a_4'' + 15H^2$, `a4-equations.json`, key `lovelockTensors`, entry `E1`, `x1x1`), so it becomes infinite there too: a singularity at a finite time. In Einstein gravity the record allows every history $a_4$ that has a continuous second derivative, each with the source that it requires (`a4-equations.json`, key `einstein`, entry `allowedA4`), so a history in which $a_4 \to -\infty$ at a finite time, that is in which the 3-space scale factor goes to zero, is not excluded either. So: the PRESCRIBED history contains no big-bang moment; whether the coupled equations of the fields and of $a_4$, solved together, contain one is not decided (OPEN).
 
 ### 20.4 Three questions: is it allowed, does it happen, how often?
 
@@ -136,7 +143,7 @@ The sentence "universes are created in pairs" packs three questions of very diff
 
 **Symmetry is not realisation.** A pairing theorem says: for every solution with mass $+m$ there is a solution with mass $-m$. It does not say that whenever the first is present, the second is present too. An everyday comparison makes the difference plain. The laws of mechanics do not change when everything is reflected in a mirror, so for every right hand that the laws allow, a left hand is allowed as well. That does not mean that every right hand comes with a left hand, still less that hands are created in right-left pairs. To go from "the partner is allowed" to "the partner is created together with the original" one needs an answer to Q2 or Q3.
 
-**What the Revision record answers.** The pairing theorems T1, T2, Q and T3 answer none of the three questions directly: they are statements about the SETS of solutions of two theories. Q1 is answered in part in Section 20.22: the conservation laws of the theory forbid a T1 pair with nonzero member charges from appearing out of zero fields. Q2 and Q3 are not answered by any equation of the record: no creation process, rate or amplitude is derived (`pairing-theory.json`, list `not_established`, items "No creation process" and "No rate and no amplitude"). Notebook 20c shows on the creation of electron-positron pairs from light what an answer to Q1, Q2 and Q3 looks like when physics does have it.
+**What the Revision record answers.** The pairing theorems T1, T2, Q and T3 answer none of the three questions directly: they are statements about the SETS of solutions of two theories. Q1 is answered in part in Section 20.22: the conservation laws of the theory forbid a T1 pair with nonzero member charges or momenta from appearing out of zero fields. Q2 and Q3 are not answered by any equation of the record: no creation process, rate or amplitude is derived (`pairing-theory.json`, list `not_established`, items "No creation process" and "No rate and no amplitude"). Notebook 20c shows on the creation of electron-positron pairs from light what an answer to Q1, Q2 and Q3 looks like when physics does have it.
 
 ### 20.5 What is proved (1): theorem T1, line by line
 
@@ -154,7 +161,7 @@ $$
 T_{\mu\nu} = \tfrac14\big(\bar\Psi\gamma_\mu D_\nu\Psi + \bar\Psi\gamma_\nu D_\mu\Psi - (D_\mu\bar\Psi)\gamma_\nu\Psi - (D_\nu\bar\Psi)\gamma_\mu\Psi\big) - g_{\mu\nu}\,\frac{\mathcal{L}}{\sqrt{|g|}},\qquad J^\mu = -i\bar\Psi\gamma^\mu\Psi ,
 $$
 
-with $D_\mu\Psi = \partial_\mu\Psi + \Omega_\mu\Psi$, $D_\mu\bar\Psi = \partial_\mu\bar\Psi - \bar\Psi\Omega_\mu$, $\Omega_\mu = \frac12\omega_{\mu ab}S^{ab}$, $S^{ab} = \frac14[\gamma^{(a)}, \gamma^{(b)}]$ and $\gamma^\mu = \gamma^{(\mu)}/f_\mu$ for the diagonal vielbein with the lengths $f_\mu$. (This $T_{\mu\nu}$ is the one of the pairing records; it is minus the tensor of the field-theory record. Every statement below is linear in $T$ and in $J$, so their sign conventions do not matter.)
+with $D_\mu\Psi = \partial_\mu\Psi + \Omega_\mu\Psi$, $D_\mu\bar\Psi = \partial_\mu\bar\Psi - \bar\Psi\Omega_\mu$, $\Omega_\mu = \frac12\omega_{\mu ab}S^{ab}$, $S^{ab} = \frac14[\gamma^{(a)}, \gamma^{(b)}]$ and $\gamma^\mu = \gamma^{(\mu)}/f_\mu$ for the diagonal vielbein with the lengths $f_\mu$. (This $T_{\mu\nu}$ is the one of the pairing records; it is minus the tensor of the field-theory record. The pairing records write the current as $J^\mu = \bar\Psi\gamma^\mu\Psi$; this book uses the real current $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ of the field-theory record and of `charge-conjugation-and-u1.json`, whose $x_4$ component is $\Psi^\dagger B\Psi$ with the Hermitian matrix $B$. Every statement below is linear in $T$ and in $J$, so neither the sign convention of $T$ nor the factor $-i$ of $J$ matters.)
 
 **Statement** (theorem T1).
 
@@ -256,7 +263,7 @@ Notebook 20a reproduces T1 at a point of the deflating history (In [7]) and alon
 
 **Theorem T2 (the mirror pairing).** Hypotheses (`pairing-theory.json`, theorem T2): $n$ is a space-like frame direction ($x_1$, $x_2$, $x_3$ or $x_8$); in a general field the frame is reflected, $e' = R_ne$, where $R_n$ is the $8 \times 8$ diagonal matrix with $-1$ in place $n$ (this is the same metric, because $R_n\eta R_n = \eta$), and $\Psi' = \gamma^{(n)}\Psi$ at the same point; in the author's field the reflection of $x_8$ is the mirror $x_8 \to \pi/(6H) - x_8$, that is $z \to \pi - z$, across the brane, with the ASSUMED Z2 construction; both statistics; $U(S) = \frac{\lambda}{2}S^2$. Statement: $\mathcal{L}_{m,\lambda}[\gamma^{(n)}\Psi; R_ne] = +\mathcal{L}_{-m,\lambda}[\Psi; e]$; $S' = -S$; $\Psi$ solves the $(-m, \lambda)$ equation exactly when its image solves the $(m, \lambda)$ equation; in the author's field the image carries, at the mirror point, the pulled-back tensor $T' = R_8TR_8$ and the current $J' = R_8J$: the energy density and the charge are EQUAL, not opposite.
 
-The two central lines, derived here. First, the charge matrix obeys $C\gamma^{(n)}C^{-1} = -(\gamma^{(n)})^T$ (Chapter 5), that is $(\gamma^{(n)})^TC = -C\gamma^{(n)}$, so
+The proof, derived here line by line. First, the charge matrix obeys $C\gamma^{(n)}C^{-1} = -(\gamma^{(n)})^T$ (Chapter 5), that is $(\gamma^{(n)})^TC = -C\gamma^{(n)}$, so
 
 $$
 \overline{\gamma^{(n)}\Psi} = \Psi^\dagger(\gamma^{(n)})^TC = -\Psi^\dagger C\gamma^{(n)} = -\bar\Psi\gamma^{(n)} .
@@ -274,7 +281,15 @@ $$
 \gamma^{(n)}\gamma'^\mu\gamma^{(n)} = -\eta_{nn}\gamma^\mu \quad\text{for every }\mu ,
 $$
 
-because for $\mu \neq n$ one exchange gives $-1$ and $(\gamma^{(n)})^2 = \eta_{nn}$, and for $\mu = n$ the sign of the reflected frame gives the $-1$. The reflected frame has the reflected connection, and the covariant derivative obeys $D'_\mu(\gamma^{(n)}\Psi) = \gamma^{(n)}D_\mu\Psi$ (Chapter 18 derives this from $\gamma^{(n)}S^{ab}(\gamma^{(n)})^{-1} = (R_n)^a{}_c(R_n)^b{}_dS^{cd}$). Hence
+because for $\mu \neq n$ one exchange gives $-1$ and $(\gamma^{(n)})^2 = \eta_{nn}$, and for $\mu = n$ the sign of the reflected frame gives the $-1$. Third, the covariant derivative of the image in the reflected frame is the image of the covariant derivative, $D'_\mu(\gamma^{(n)}\Psi) = \gamma^{(n)}D_\mu\Psi$ (the reflected-connection lemma). Its proof, line by line ($(\gamma^{(n)})^{-1} = \eta_{nn}\gamma^{(n)}$, because $(\gamma^{(n)})^2 = \eta_{nn}I_{16}$):
+
+1. For $a \neq n$, $\gamma^{(n)}\gamma^{(a)}(\gamma^{(n)})^{-1} = -\gamma^{(a)}$ (one exchange); for $a = n$ it is $+\gamma^{(n)}$. Both cases together: $\gamma^{(n)}\gamma^{(a)}(\gamma^{(n)})^{-1} = -(R_n)^a{}_a\gamma^{(a)}$, since $(R_n)^a{}_a$ is $-1$ for $a = n$ and $+1$ otherwise.
+2. $S^{ab} = \frac14(\gamma^{(a)}\gamma^{(b)} - \gamma^{(b)}\gamma^{(a)})$ contains two gammas, and inserting $(\gamma^{(n)})^{-1}\gamma^{(n)} = I_{16}$ between them gives $\gamma^{(n)}S^{ab}(\gamma^{(n)})^{-1} = (-1)^2(R_n)^a{}_a(R_n)^b{}_bS^{ab}$ (no sum), that is, $S^{ab}$ for $a, b \neq n$ and $-S^{ab}$ when exactly one of $a, b$ is $n$.
+3. The reflected frame $e' = R_ne$ is the old frame with one leg reversed, by a constant matrix; its spin connection is therefore $\omega'_{\mu ab} = (R_n)^a{}_a(R_n)^b{}_b\,\omega_{\mu ab}$ (no sum): the components with exactly one index $n$ change sign, the others do not.
+4. So in $\Omega'_\mu = \frac12\omega'_{\mu ab}S^{ab}$ each term carries the same sign as in line 2: $\Omega'_\mu = \gamma^{(n)}\Omega_\mu(\gamma^{(n)})^{-1}$.
+5. Hence $D'_\mu(\gamma^{(n)}\Psi) = \partial_\mu(\gamma^{(n)}\Psi) + \gamma^{(n)}\Omega_\mu(\gamma^{(n)})^{-1}\gamma^{(n)}\Psi = \gamma^{(n)}(\partial_\mu\Psi + \Omega_\mu\Psi) = \gamma^{(n)}D_\mu\Psi$, because $\gamma^{(n)}$ is a constant matrix. In the same way $D'_\mu(\overline{\gamma^{(n)}\Psi}) = -(D_\mu\bar\Psi)\gamma^{(n)}$.
+
+Hence
 
 $$
 \overline{\gamma^{(n)}\Psi}\,\gamma'^\mu D'_\mu(\gamma^{(n)}\Psi) = -\bar\Psi\,\gamma^{(n)}\gamma'^\mu\gamma^{(n)}\,D_\mu\Psi = \eta_{nn}\,\bar\Psi\gamma^\mu D_\mu\Psi ,
@@ -286,7 +301,19 @@ $$
 \mathcal{L}_{m,\lambda}[\Psi'; e'] = \sqrt{|g|}\,\big[K - m(-S) - \tfrac{\lambda}{2}(-S)^2\big] = \sqrt{|g|}\,\big[K - (-m)S - \tfrac{\lambda}{2}S^2\big] = \mathcal{L}_{-m,\lambda}[\Psi; e] ,
 $$
 
-where the middle step uses $(-S)^2 = S^2$: the mass changes sign, the coupling does not, and the Lagrangian keeps its sign. In the author's field the mirror $z \to \pi - z$ leaves every metric component unchanged ($\sin(\pi - z) = \sin z$ and $\cot^2(\pi - z) = \cot^2 z$), and its pulled-back positive vielbein is $R_8e$; this turns the frame statement into the mirror statement. Status: PROVED; the Z2 construction across the brane is ASSUMED, the metric is degenerate at the brane, and no junction condition there is derived. Records: the Wolfram pairing report has 28 checks of T2 and the sympy pairing report 16; among them:
+where the middle step uses $(-S)^2 = S^2$: the mass changes sign, the coupling does not, and the Lagrangian keeps its sign. The field equation follows in the same way. Multiplying $\gamma^{(n)}\gamma'^\mu\gamma^{(n)} = -\eta_{nn}\gamma^\mu$ on the left by $(\gamma^{(n)})^{-1} = \eta_{nn}\gamma^{(n)}$ gives $\gamma'^\mu\gamma^{(n)} = -\gamma^{(n)}\gamma^\mu$ (because $\eta_{nn}^2 = 1$), so, with $S' = -S$ and the lemma,
+
+$$
+E'_{m,\lambda}[\gamma^{(n)}\Psi] = \gamma'^\mu\gamma^{(n)}D_\mu\Psi - (m - \lambda S)\gamma^{(n)}\Psi = -\gamma^{(n)}\big[\gamma^\mu D_\mu\Psi - (-m + \lambda S)\Psi\big] = -\gamma^{(n)}E_{-m,\lambda}[\Psi] ,
+$$
+
+and since $\gamma^{(n)}$ is invertible, the image solves the $(m, \lambda)$ equation exactly when $\Psi$ solves the $(-m, \lambda)$ equation. For the current, with the adjoint $\overline{\gamma^{(n)}\Psi} = -\bar\Psi\gamma^{(n)}$ found first and $\gamma^{(n)}\gamma'^\mu\gamma^{(n)} = -\gamma^\mu$ for a space-like $n$,
+
+$$
+J'^\mu = -i\,\overline{\gamma^{(n)}\Psi}\,\gamma'^\mu\gamma^{(n)}\Psi = +i\,\bar\Psi\,\gamma^{(n)}\gamma'^\mu\gamma^{(n)}\,\Psi = -i\bar\Psi\gamma^\mu\Psi = J^\mu ;
+$$
+
+each kinetic term of $T_{\mu\nu}$ is unchanged in the same way (with the lemma for the derivatives), and so is $\mathcal{L}/\sqrt{|g|}$ by the Lagrangian line, so $T'_{\mu\nu} = T_{\mu\nu}$ in the reflected frame. In the author's field the mirror $z \to \pi - z$ leaves every metric component unchanged ($\sin(\pi - z) = \sin z$ and $\cot^2(\pi - z) = \cot^2 z$), and its pulled-back positive vielbein is $R_8e$; this turns the frame statement into the mirror statement. Status: PROVED; the Z2 construction across the brane is ASSUMED, the metric is degenerate at the brane, and no junction condition there is derived. Records: the Wolfram pairing report has 28 checks of T2 and the sympy pairing report 16; among them:
 
 | statement | report | check |
 | --- | --- | --- |
@@ -313,9 +340,9 @@ $$
 \Gamma B\Gamma = -i\,\Gamma C\gamma^{(x_4)}\Gamma = -i\,C\,\Gamma\gamma^{(x_4)}\Gamma = -i\,C(-\gamma^{(x_4)}) = -B ,
 $$
 
-by step 2 and then step 1 of Section 20.5. The statements (`pairing-theory.json`, theorem Q): (Q1) the T1 image carries the Krein metric $-B$, which is also what its own Lagrangian demands; (Q2) its generators coincide with those of $\Psi$: $\Psi$ and $\Gamma\Psi$ are ONE quantum system relabelled, and the T1 identity $T' = -T$ is an identity between operators of that one system; (Q3) an independently quantised $(-m, -\lambda)$ universe has the anticommutator $+B$, cannot be identified with $\Gamma\Psi$, and on the product of the two state spaces the generators ADD, so no cancellation follows; (Q4) the one-particle ($\lambda = 0$) spectra of $+m$ and $-m$ are IDENTICAL (similar matrices, $\Gamma h_m\Gamma = h_{-m}$); (Q5) the T2 image keeps $+B$ ($\gamma^{(x_8)}B\gamma^{(x_8)\dagger} = +B$): the mirror universe is an ordinary, independently quantisable copy with equal energies. Records: `wolfram-pairing.json`, `Q_Krein_metric_of_images`, `Q_no_identification_of_independent_universes`, `Q_one_particle_maps` (12 Q checks); `python-pairing.json`, `Q.no_cancellation_independent_universes`, `Q.T2_image_keeps_B` (10 Q checks). Status: PROVED. The quantum reading therefore removes the one place where a zero total could have looked like "a pair that costs nothing": for two independent quantum universes the energies do not cancel.
+by step 2 and then step 1 of Section 20.5. The statements (`pairing-theory.json`, theorem Q): (Q1) the T1 image carries the Krein metric $-B$, which is also what its own Lagrangian demands; (Q2) its generators coincide with those of $\Psi$: $\Psi$ and $\Gamma\Psi$ are ONE quantum system relabelled, and the T1 identity $T' = -T$ is an identity between operators of that one system; (Q3) an independently quantised $(-m, -\lambda)$ universe has the anticommutator $+B$, cannot be identified with $\Gamma\Psi$, and on the product of the two state spaces the generators ADD, so no cancellation follows; (Q4) the one-particle ($\lambda = 0$) spectra of $+m$ and $-m$ are IDENTICAL (similar matrices, $\Gamma h_m\Gamma = h_{-m}$), in flat 4+4 space or in a general field at a point with frozen coefficients (the coefficients of the equation taken constant, equal to their values at that point); (Q5) the T2 image keeps $+B$ ($\gamma^{(x_8)}B\gamma^{(x_8)\dagger} = +B$): the mirror universe is an ordinary, independently quantisable copy with equal energies. Records: `wolfram-pairing.json`, `Q_Krein_metric_of_images`, `Q_no_identification_of_independent_universes`, `Q_one_particle_maps` (12 Q checks); `python-pairing.json`, `Q.no_cancellation_independent_universes`, `Q.T2_image_keeps_B` (10 Q checks). Status: PROVED. The quantum reading therefore removes the one place where a zero total could have looked like "a pair that costs nothing": for two independent quantum universes the energies do not cancel.
 
-**Theorem T3 (the Kohn-Sham level, dirac16complex).** At the level of the Kohn-Sham model of Chapters 14 and 15 (instantaneous mean-field states at a fixed slice $a_{4,0}$ of the deflating history, good sector, Hartree plus the exact uniform-gas exchange), the block map of $\Gamma$, with the two brane parities exchanged and the tip angle $\theta \to \pi - \theta$, maps every self-consistent Kohn-Sham state with $(m, \lambda, \theta)$ onto one with $(-m, +\lambda, \pi - \theta)$, with equal levels, occupations, Kohn-Sham energy, grand potential and energy-momentum profiles, and $S \to -S$ (`t3-theory.json`; `wolfram-t3.json` 10 of 10 and `python-t3.json` 13 of 13 checks PASS). The Z2 brane is ASSUMED; the tip condition is a choice and must be transformed; in its parameters the map is of the T2 type (equal energies), although its matrix is the chirality of T1. Status: PROVED under these hypotheses; Chapter 19 gives the proof and runs the Rust solver for both members. T3's own list of what it does not establish begins with "No creation process, rate or amplitude" and adds: instantaneous states only (the time-dependent problem is OPEN), the brane ASSUMED, mean-field level only, and no back-reaction.
+**Theorem T3 (the Kohn-Sham level, dirac16complex).** At the level of the Kohn-Sham model of Chapters 14 and 15 (instantaneous mean-field states at a fixed slice $a_{4,0}$ of the deflating history, good sector, Hartree plus the exact uniform-gas exchange), the block map of $\Gamma$, with the two brane parities exchanged and the tip angle $\theta \to \pi - \theta$, maps every self-consistent Kohn-Sham state with $(m, \lambda, \theta)$ onto one with $(-m, +\lambda, \pi - \theta)$, with equal levels, occupations, Kohn-Sham energy, grand potential and energy-momentum profiles, and $S \to -S$ (`t3-theory.json`; `wolfram-t3.json` 10 of 10 and `python-t3.json` 13 of 13 checks PASS). The Z2 brane is ASSUMED; the tip condition is a choice and must be transformed; in its parameters the map is of the T2 type (equal energies), although its matrix is the chirality of T1. Status: PROVED under these hypotheses. The proof in outline (`t3-theory.json`, key `proof`; the check names below are those of `wolfram-t3.json`, and `python-t3.json` has the same checks with a dot after `T3`; Chapter 19 gives the proof line by line and runs the Rust solver for both members): the $2 \times 2$ block form of $\Gamma$ maps each block Hamiltonian with the effective mass $M_{\mathrm{eff}}$ onto the block Hamiltonian of the other block with $-M_{\mathrm{eff}}$ at the same level (check `T3_block_hamiltonian_map`); it turns the tip condition with angle $\theta$ into the one with $\pi - \theta$ and exchanges the brane parities (checks `T3_tip_condition_map`, `T3_brane_parities_exchanged`); the densities that enter the energies are even under the map and $S$ is odd, so $M_{\mathrm{eff}} \to -M_{\mathrm{eff}}$ exactly when $(m, \lambda) \to (-m, +\lambda)$ (checks `T3_orbital_densities`, `T3_mean_field_map`); a one-to-one map between the orbitals with equal levels then gives equal occupations, energies and energy-momentum profiles (check `T3_energies_and_emt_profiles_equal`). T3's own list of what it does not establish begins with "No creation process, rate or amplitude" and adds: instantaneous states only (the time-dependent problem is OPEN), the brane ASSUMED, mean-field level only, and no back-reaction.
 
 ### 20.7 Corollary C1, line by line
 
@@ -468,6 +495,7 @@ def repository_file(relative):
     """The path of the repository file relative, for READING (a Revision record)."""
     return REPO / relative
 
+
 def output_file(relative):
     """The path at which to WRITE the repository file relative (its folder is made)."""
     path = OUTPUT_ROOT / relative
@@ -533,6 +561,7 @@ def save_figure(fig, name, caption):
 ```python
 PASSED = []  # the names of the checks that passed, in order
 
+
 def check(condition, name, record=None):
     """A check.  If condition is False, stop with an AssertionError that names the
     check (an if statement is used instead of assert, because python -O would skip an
@@ -553,9 +582,11 @@ def report(label, value, unit=""):
     """Print a key number as a line "RESULT <label> = <value> <unit>"."""
     say(f"RESULT {label} = {value}" + (f" {unit}" if unit else ""))
 
+
 def all_checks_passed():
     """Print the last line of the notebook: how many checks passed."""
     print(f"ALL {len(PASSED)} CHECKS PASSED (notebook {NOTEBOOK_ID})")
+
 
 say(f"Set-up of notebook {NOTEBOOK_ID} complete: repository folder found, helpers "
     "defined.")
@@ -590,6 +621,7 @@ Nine short names for the nine files of the repository that the notebook reads: t
 def read_json(relative):
     """Read a JSON file of the repository (a Revision record)."""
     return json.loads(repository_file(relative).read_text(encoding="utf-8"))
+
 
 def record_verdict(report_file, name):
     """The verdict ("PASS") of the check called name in a report; None if absent."""
@@ -796,6 +828,7 @@ def components(omega):
     """The nonzero omega_mu ab with a < b, as a dictionary."""
     return {(mu, a, b): omega[mu][a][b] for mu in range(8) for a in range(8)
             for b in range(a + 1, 8) if omega[mu][a][b] != 0}
+
 
 def same_components(found, wanted):
     return set(found) == set(wanted) and all(
@@ -1039,7 +1072,7 @@ At each point the field is $\Psi(z) = \Psi_0 + \frac{3}{10}(\pi/2 - z)^2\Psi_1$.
         charge[key].append(result["J"][3])  # J^x4
 ```
 
-The geometry at the point $z$ of the patch and at the mirror point $\pi - z$ of the mirror patch. The three objects: the field with $(m, \lambda)$, its T1 partner with $(-m, -\lambda)$ at the same point, and its T2 mirror copy $\gamma^{(x_8)}\Psi$ with $(-m, \lambda)$ at the mirror point. For each, the energy density $\rho = -T_{x_4x_4}$ (position 3, 3; with $g_{x_4x_4} = -1$ this equals $-T^{x_4}{}_{x_4}$ in the convention of the pairing records up to their overall sign, which does not matter for the comparisons) and the charge density $J^{x_4}$ are appended to their lists.
+The geometry at the point $z$ of the patch and at the mirror point $\pi - z$ of the mirror patch. The three objects: the field with $(m, \lambda)$, its T1 partner with $(-m, -\lambda)$ at the same point, and its T2 mirror copy $\gamma^{(x_8)}\Psi$ with $(-m, \lambda)$ at the mirror point. For each, the energy density $\rho = -T_{x_4x_4}$ (position 3, 3; the notebook computes the tensor $T_{\mu\nu}$ of the pairing records; because $g^{x_4x_4} = -1$, $T^{x_4}{}_{x_4} = g^{x_4x_4}T_{x_4x_4} = -T_{x_4x_4}$, so $-T_{x_4x_4} = +T^{x_4}{}_{x_4}$ in the pairing convention, which is $-T^{x_4}{}_{x_4}$ in the field-theory convention of Section 20.2, that is $\rho$) and the charge density $J^{x_4}$ are appended to their lists.
 
 ```python
 rho = {key: np.array(values) for key, values in rho.items()}
@@ -1649,12 +1682,14 @@ def read_json(relative):
     """Read a JSON file of the repository (a Revision record)."""
     return json.loads(repository_file(relative).read_text(encoding="utf-8"))
 
+
 def record_verdict(report_file, name):
     """The verdict ("PASS") of the check called name in a report; None if absent."""
     for entry in read_json(report_file)["checks"]:
         if entry["name"] == name:
             return entry["verdict"]
     return None
+
 
 def reproduces(condition, name, report_file, record_name):
     """A check that also requires the record check record_name to be PASS."""
@@ -1709,6 +1744,7 @@ z = sp.symbols("z", real=True)
 x4 = sp.symbols("x4", real=True)
 a4 = sp.Function("a4")(x4)
 a4_value, slope = sp.symbols("a4_value slope", real=True)
+
 
 def d(expr, mu):
     """The partial derivative along the coordinate at position mu."""
@@ -1860,6 +1896,7 @@ family = (v1 + t * c * v2).applyfunc(sp.expand)  # Phi_0(t)
 def bilinear(phi, matrix):
     """phibar matrix phi = phi^dagger C matrix phi (exact)."""
     return sp.expand((phi.H * C * matrix * phi)[0])
+
 
 t_value = sp.solve(bilinear(family, I16) - S_value, t)[0]
 phi0 = family.subs(t, t_value).applyfunc(sp.expand)  # the universe at x4 = 0
@@ -2440,14 +2477,14 @@ The comparison, item by item (the right column is the subject of Sections 20.22 
 
 | question | electron and positron from light | universes of masses $+m$ and $-m$ |
 | --- | --- | --- |
-| Q1: conserved quantities | energy, momentum, charge | the U(1) charge of each universe (PROVED); the energy of a universe is not conserved in the deflating metric |
+| Q1: conserved quantities | energy, momentum, charge | the U(1) charge of each universe (PROVED); the momenta of each universe along $x_1, x_2, x_3, x_5, x_6, x_7$ and its rotation quantities (derived, Section 20.22 (d')); the energy of a universe is not conserved in the deflating metric |
 | Q1: an interaction that lets energy or charge pass | light couples to electrons | none in the theory |
 | Q2: the dynamics of creation | quantum electrodynamics | none derived |
 | Q3: rate, probability, amplitude | computed in 1934 (quoted) | none |
 
 ### 20.18 Example: the threshold of pair creation, computed
 
-Notebook 20c proves the lemma's key line with sympy and tests the lemma on 20000 random pairs of bodies, shows on 5000 random electron-positron states that one photon can never make a pair, derives the threshold $2m(1 + m/M)$ on a nucleus with an exact final state at the threshold, and the allowed region for two photons. At the end it reads, from the Revision record of the pairing theorems, which of the three questions those theorems answer for universes, and the U(1) record of one universe. It prints 12 PASS lines, one of which reproduces a named check of a Revision report, and draws four figures. It needs numpy, sympy and matplotlib, no Rust, and runs in about 15 seconds (its recorded check run on the build computer took 10.2 seconds).
+Notebook 20c proves the lemma's key line with sympy and tests the lemma on 20000 random pairs of bodies, shows on 5000 random electron-positron states that one photon can never make a pair, derives the threshold $2m(1 + m/M)$ on a nucleus with an exact final state at the threshold, and the allowed region for two photons. At the end it reads, from the Revision record of the pairing theorems, which of the three questions those theorems answer for universes, and the U(1) record of one universe. It prints 12 PASS lines, one of which reproduces a named check of a Revision report, and draws four figures. It needs numpy, sympy and matplotlib, no Rust, and runs in about 15 seconds (its recorded check run on the build computer, which was busy with other work at the time, took 28.1 seconds).
 
 <!-- NOTEBOOK 20c -->
 
@@ -2792,13 +2829,23 @@ $$
 \frac{d\rho}{dx_4} = -3a_4'\,(p_3 - p_t) :
 $$
 
-the energy density changes whenever the pressure of 3-space and that of the extra times differ, and energy is exchanged between the inflating 3-space and the deflating extra times. (For the universe of Section 20.12 $p_3 = p_t$, and its $\rho$ is constant.) So energy gives no separate conserved number that could forbid the appearance of a pair; in this theory only the charges do.
+the energy density changes whenever the pressure of 3-space and that of the extra times differ, and energy is exchanged between the inflating 3-space and the deflating extra times. (For the universe of Section 20.12 $p_3 = p_t$, and its $\rho$ is constant.) So the energy is not conserved.
+
+**(d') The momenta of a universe are conserved.** The metric does not depend on the six coordinates $x_1, x_2, x_3, x_5, x_6, x_7$: shifting one of them by a constant, $x_i \to x_i + c$, leaves every metric component unchanged. Such a change of coordinates that leaves the metric unchanged is a **symmetry of the metric** (an **isometry**). For each of these six directions the $x_i$ component of the local law gives a conserved **momentum**, line by line:
+
+1. The divergence of a tensor $T^\mu{}_\nu$ is $\nabla_\mu T^\mu{}_\nu = \partial_\mu T^\mu{}_\nu + \Gamma^\mu{}_{\mu\lambda}T^\lambda{}_\nu - \Gamma^\lambda{}_{\mu\nu}T^\mu{}_\lambda$, with the Christoffel symbols $\Gamma^\lambda{}_{\mu\nu} = \frac12g^{\lambda\sigma}(\partial_\mu g_{\sigma\nu} + \partial_\nu g_{\sigma\mu} - \partial_\sigma g_{\mu\nu})$ of Chapter 3 (they are not the chirality matrix): the covariant derivative of Chapter 3 adds one Christoffel term for the upper index and subtracts one for the lower index.
+2. For the diagonal metric of this book the contracted symbol is $\Gamma^\mu{}_{\mu\lambda} = \frac12\sum_\mu\partial_\lambda g_{\mu\mu}/g_{\mu\mu}$ (in the definition with $\lambda$ and $\mu$ contracted, the first and third terms cancel), which is $\partial_\lambda\ln\sqrt{|g|}$, because $|g|$ is the absolute value of the product of the eight $g_{\mu\mu}$ and the logarithm of a product is the sum of the logarithms. So the first two terms of line 1 together are $\frac{1}{\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\,T^\mu{}_\nu)$ (the product rule, read backwards).
+3. In the last term, lowering the index gives $\Gamma^\lambda{}_{\mu\nu}T^\mu{}_\lambda = T^{\mu\sigma}\,\tfrac12(\partial_\mu g_{\sigma\nu} + \partial_\nu g_{\sigma\mu} - \partial_\sigma g_{\mu\nu})$. The tensor is symmetric, $T^{\mu\sigma} = T^{\sigma\mu}$ (`python-field-theory.json`, checks `commuting_emt_symmetric` and `grassmann_emt_symmetric`), so exchanging the names $\mu$ and $\sigma$ in the first term shows that it cancels the third; what remains is $\tfrac12T^{\mu\sigma}\partial_\nu g_{\sigma\mu}$.
+4. For $\nu = x_i$ with $i$ one of $1, 2, 3, 5, 6, 7$ every $\partial_{x_i}g_{\sigma\mu}$ is zero. On shell the divergence vanishes, $\nabla_\mu T^\mu{}_\nu = 0$, so we are left with $\partial_\mu(\cos z\,T^\mu{}_{x_i}) = 0$, because $\sqrt{|g|} = \cos z$. The records of the on-shell law are the two checks `commuting_emt_conservation_on_shell` and `grassmann_emt_conservation_on_shell` of the report `python-field-theory.json`.
+5. This has the form of the charge law of (a) with $J^\mu$ replaced by $T^\mu{}_{x_i}$, so the four lines of (a) give that $P_i = \int\cos z\,T^{x_4}{}_{x_i}\,d^7x$ is constant in time, with the same ASSUMED boundary conditions.
+
+The same holds for the rotations of 3-space (in the planes of $x_1, x_2, x_3$, where the three metric components are equal) and for the rotations of the three extra times among themselves: they too leave the metric unchanged and give conserved quantities. Because the two universes do not couple (b), each of these is conserved SEPARATELY for each universe, exactly like the charges; and the T1 partner has $T' = -T$, so its momenta are $-P_i$. Like the charges, the separately conserved momenta therefore forbid a T1 pair whose members have nonzero momenta from appearing out of zero fields (the five lines of (c) with $Q$ replaced by $P_i$). Status: derived here from the PROVED local law and the PROVED symmetry of $T$, with the boundary terms ASSUMED to vanish. Energy is the one conserved number that the deflating metric removes: in this theory the charges and the momenta (and the rotation quantities) remain.
 
 **(e) The totals of the two kinds of pair.** A T1 pair has $T + T' = 0$ and $Q_+ + Q_- = 0$: its totals are those of the empty state, so the conservation of the TOTALS does not forbid its appearance; (c) shows that the separate charges do, unless $Q_+ = 0$. A T2 pair has the total charge $2Q_+$ (the copy carries the SAME charge): already its total forbids its appearance from zero fields unless $Q_+ = 0$.
 
 **(f) A classical condensate cannot grow out of zero.** The zero field solves every field equation of this book, because every term of the field equation contains $\Psi$. For a condensate the field equation is the ordinary differential equation $\Phi' = -\gamma^{(x_4)}(m + \lambda S - 3H\gamma^{(x_8)})\Phi$ (Section 20.12, step 1), whose right side is a polynomial in the real and imaginary parts of the 16 components that vanishes at $\Phi = 0$. The uniqueness theorem for ordinary differential equations with such a smooth right side (the theorem of Picard and Lindelöf, quoted without proof in Chapter 2) says that near every time only one solution has a given value at that time. The zero function is a solution with the value zero. So a condensate that is zero at one time $t_0$ is zero on a small interval around $t_0$. Suppose it were not zero at some later time $t_2$. Let $t^*$ be the least upper bound of the times $s$ (the smallest number that none of them exceeds) such that the condensate is zero at every time from $t_0$ to $s$. Because the solution is continuous, it is zero at $t^*$ itself, so $t^* \neq t_2$ and hence $t^* < t_2$; by the theorem, applied at $t^*$, it is zero on a small interval beyond $t^*$, which contradicts the choice of $t^*$. The same argument runs backwards in time. So the condensate is zero at every time. For the full field equation in 4+4 dimensions, whose initial-value problem is not well posed in the extra-time directions (Chapter 8), no such uniqueness theorem is proved in this book: OPEN.
 
-**Summary of Q1 for universes.** The totals of a T1 pair are those of the empty state; the separate conservation of each member's charge, which holds because nothing couples the two universes, forbids the appearance of a T1 pair with charged members out of zero fields; a T2 pair is forbidden already by its total charge unless it is neutral. Only an interaction between the two universes, which the theory does not contain, could leave the totals as the only conserved charges (OPEN). And even where the conservation laws allow something, that is not a creation (Section 20.17, lesson 1).
+**Summary of Q1 for universes.** The totals of a T1 pair are those of the empty state; the separate conservation of each member's charge and momenta, which holds because nothing couples the two universes, forbids the appearance of a T1 pair with charged members, or with members of nonzero momentum, out of zero fields; a T2 pair is forbidden already by its total charge unless it is neutral. Only an interaction between the two universes, which the theory does not contain, could leave the totals as the only conserved charges (OPEN). And even where the conservation laws allow something, that is not a creation (Section 20.17, lesson 1).
 
 ### 20.23 Pairs of universes, matter and antimatter
 
@@ -2837,7 +2884,7 @@ The following are NOT established by any equation of this book or of the Revisio
 7. **The Z2 brane.** The mirror across $z = \pi/2$ uses the ASSUMED Z2 construction; the metric is degenerate there; no junction condition, brane tension or matching of the field across the brane is derived.
 8. **Quantum positivity.** A positive-norm Fock space for either universe is not established by the pairing theorems.
 9. **The Kohn-Sham level.** T3 holds for instantaneous mean-field Kohn-Sham states with the ASSUMED brane and the transformed tip condition; the time-dependent problem is OPEN, correlation is not included, and the Kohn-Sham history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND (the Kohn-Sham states violate the source conditions of the $a_4$ equations: `ks-source-conditions.json`, check `ks_profiles_violate_algebraic_condition`).
-10. **No big bang in the equations.** The author's metric is regular at every finite time on the patch (Section 20.3); nothing in the equations marks a beginning, and T1 holds at every time, so no moment is singled out.
+10. **No big bang in the equations.** For the PRESCRIBED deflating history $a_4 = AHx_4$ (and for any history whose $a_4$, $a_4'$ and $a_4''$ stay finite) the author's metric and its curvature are finite at every finite time on the patch (Section 20.3), and T1 holds at every time, so no moment is singled out. The history is prescribed, not computed; whether the coupled equations of the fields and of $a_4$ contain a big-bang moment is not decided (OPEN), and with a given source the $a_4$ equations of Einstein-Gauss-Bonnet gravity can break down at a finite time (Chapter 12; Section 20.3).
 11. **No value of the mass.** $m$, $\lambda$, $H$ and $\kappa$ are free parameters; no relation between $H$ and $m$ is derived.
 12. **No solution of the matter-antimatter problem** (Section 20.23).
 13. **No uniqueness for the full 4+4 field equation.** Whether a classical field that vanishes at one time vanishes at all times is proved here only for condensates (Section 20.22 (f)).
@@ -2872,7 +2919,7 @@ The first line is where the pairing theorems stand. The last three lines are the
 
 ### 20.26 The answer to the question of the title
 
-**Do universes come in pairs?** For each of the two fields, dirac16complex and dirac16complex00, the equations of this book PROVE: to every solution with mass $m$ the explicit map $\Gamma$ assigns a solution with mass $-m$ and coupling $-\lambda$, with the opposite energy-momentum tensor and charge, in every gravitational field (T1); the map $\gamma^{(x_8)}$ with the ASSUMED Z2 mirror assigns a solution with mass $-m$ and the same coupling, with the SAME energy-momentum and charge, in the author's primordial field (T2); for dirac16complex at the Kohn-Sham level the block map of $\Gamma$ with the transformed boundary conditions assigns to every self-consistent instantaneous state with $(m, \lambda)$ one with $(-m, +\lambda)$ at equal energies (T3); at the quantum level the T1 partner is the same quantum system relabelled, and two independently quantised universes have identical one-particle spectra and energies that add (Q); and a T1 pair as the only source of the author's metric is a zero source, which in Einstein gravity admits no solution for $H > 0$ (C1). These are exact maps between solution sets, with their stated hypotheses.
+**Do universes come in pairs?** For each of the two fields, dirac16complex and dirac16complex00, the equations of this book PROVE: to every solution with mass $m$ the explicit map $\Gamma$ assigns a solution with mass $-m$ and coupling $-\lambda$, with the opposite energy-momentum tensor and charge, in every gravitational field (T1); the map $\gamma^{(x_8)}$ with the ASSUMED Z2 mirror assigns a solution with mass $-m$ and the same coupling, with the SAME energy-momentum and charge, in the author's primordial field (T2); for dirac16complex at the Kohn-Sham level the block map of $\Gamma$ with the transformed boundary conditions assigns to every self-consistent instantaneous state with $(m, \lambda)$ one with $(-m, +\lambda)$ at equal energies (T3); at the quantum level the T1 partner is the same quantum system relabelled, and two independently quantised universes have identical one-particle spectra (the $\lambda = 0$ spectra, in flat 4+4 space or in a general field at a point with frozen coefficients) and energies that add (Q); and a T1 pair as the only source of the author's metric is a zero source, which in Einstein gravity admits no solution for $H > 0$ (C1). These are exact maps between solution sets, with their stated hypotheses.
 
 The equations do NOT prove that universes come in pairs: a single universe with mass $+m$ is an equally valid solution without its partner, and Section 20.12 builds one, exactly. They do NOT prove that any universe is created, in pairs or otherwise: they contain no creation process, no rate, no probability and no amplitude, and in the theory as built the separate conservation of each universe's charge forbids a charged T1 pair from appearing out of zero fields. They do NOT solve the matter-antimatter problem.
 
@@ -2884,29 +2931,30 @@ The equations do NOT prove that universes come in pairs: a single universe with 
 | --- | --- | --- |
 | T1: $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$; solutions to solutions; $T \to -T$, $J \to -J$; the pair has zero total source and charge (classical bilinears; every gravitational field; both fields) | PROVED | `wolfram-pairing.json` (51 T1 checks), `python-pairing.json` (23 T1 checks); Section 20.5; Notebook 20a, In [7] and In [9]; Notebook 20b, In [7] |
 | T2: $\gamma^{(n)}$ with a frame reflection of character $-1$: $(m, \lambda) \to (-m, \lambda)$, $\mathcal{L} \to +\mathcal{L}$; in the author's field the mirror copy has the pulled-back, EQUAL tensor and charge | PROVED; the Z2 construction ASSUMED | `wolfram-pairing.json` (28 T2 checks), `python-pairing.json` (16 T2 checks); Section 20.6; Notebook 20a, In [9] and In [11]; Notebook 20b, In [9] |
-| Q: the T1 image carries $-B$ and is the same quantum system; independent universes do not cancel; equal one-particle spectra; the T2 image keeps $+B$ | PROVED | `wolfram-pairing.json` (12 Q checks), `python-pairing.json` (10 Q checks); Section 20.6 |
+| Q: the T1 image carries $-B$ and is the same quantum system; independent universes do not cancel; equal one-particle spectra ($\lambda = 0$; flat 4+4 space, or a general field at a point with frozen coefficients); the T2 image keeps $+B$ | PROVED | `wolfram-pairing.json` (12 Q checks), `python-pairing.json` (10 Q checks); Section 20.6 |
 | T3: Kohn-Sham states with $(m, \lambda, \theta)$ and $(-m, +\lambda, \pi - \theta)$ have equal levels, energies and energy-momentum profiles | PROVED; brane ASSUMED, tip transformed, instantaneous mean-field states | `wolfram-t3.json` (10 checks), `python-t3.json` (13 checks); Section 20.6; Chapter 19 |
 | C1(a): a T1 pair as the only source; Einstein gravity has no real solution for $H > 0$; the only solutions are $a_4' = \pm iH$, $\Lambda = -18H^2$ | PROVED | `wolfram-a4-report.json`, check `einstein_no_vacuum_solution`; `python-a4-report.json`, check `einstein_no_vacuum`; `einstein-gauss-bonnet-a4.json`, check `no_vacuum_for_H_positive`; Section 20.7; Notebook 20a, In [12] |
 | every source of the author's metric needs $\kappa(\rho + p_8) = -6(a_4'^2 + H^2)$ in Einstein gravity | PROVED | both a4 reports, check `einstein_null_energy_x8`; Notebook 20a, In [14] |
 | C1(b): the linear member is a vacuum exactly when $V = 0$; with $\alpha_2H^2 = 1/48$ and $\Lambda = -12H^2$ the deflating history is a Gauss-Bonnet vacuum | PROVED | both a4 reports, checks `linear_member_vacuum_factor` and `einstein_gauss_bonnet_vacuum_linear`; exact check in Notebook 20a, In [16] |
 | $\sum_\mu\gamma^\mu\Omega_\mu = -3H\gamma^{(x_8)}$ on the mirror patch | COMPUTED exactly (a result of this book, not a record) | Notebook 20a, In [5]; Notebook 20b, In [3] |
-| the author's metric is finite and non-degenerate at every finite time on the patch: no big-bang moment | PROVED here | Section 20.3, from `python-pairing.json`, check `geometry.brane_degenerate`, and `python-a4-report.json`, check `riemann_entries_laurent` |
+| the author's metric and its curvature are finite and non-degenerate at every finite time on the patch for the prescribed history $a_4 = AHx_4$ (and any history with finite $a_4$, $a_4'$, $a_4''$): no big-bang moment in the prescribed history | PROVED for the prescribed history; for computed histories OPEN (with a given source the $a_4$ equations can break down at a finite time, Chapter 12) | Section 20.3, from `python-pairing.json`, check `geometry.brane_degenerate`, and `python-a4-report.json`, check `riemann_entries_laurent` |
 | the universe $m = 15$, $\lambda = -25/3$, $A = 1$, $\Lambda = -36H^2$: $S = 12/5$, $\rho = 12$, $p = -24$, $J^{x_4} = -3$, frequency $4H$, a complete solution without a partner | COMPUTED (exact for the field equation; Einstein equations to $10^{-10}$ at nine points); a result of this book | Section 20.12; Notebook 20b, In [4] to In [6] |
 | its T1 partner solves its own equation with the same frequency but is the source of no member of the author's family in Einstein gravity | PROVED here by hand (record's null combination); checked numerically | Section 20.12, steps 6 and 7; Notebook 20b, In [7] |
 | its T2 mirror copy solves the coupled equations on the mirror patch with equal $\rho$ and $J^{x_4}$ | PROVED here by hand; checked | Section 20.12, step 9; Notebook 20b, In [9] |
 | the charge of one universe is conserved; a T1 pair with charged members cannot evolve out of zero fields | the local law PROVED; the consequence derived here; boundary terms ASSUMED to vanish | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; both field-theory reports; Section 20.22 |
 | $d\rho/dx_4 = -3a_4'(p_3 - p_t)$: the energy of one universe is not conserved | PROVED | `emt-divergence-and-spin-connection.json`, check `divergence_x4_component`; Section 20.22 (d) |
+| the momenta $P_i = \int\cos z\,T^{x_4}{}_{x_i}\,d^7x$ ($i = 1, 2, 3, 5, 6, 7$) of each universe are conserved separately; a T1 pair whose members have nonzero momenta cannot evolve out of zero fields | derived here from the PROVED local law and the PROVED symmetry of $T$; boundary terms ASSUMED to vanish | `python-field-theory.json`, checks `commuting_emt_conservation_on_shell`, `grassmann_emt_conservation_on_shell`, `commuting_emt_symmetric` and `grassmann_emt_symmetric`; Section 20.22 (d') |
 | a condensate that vanishes at one time vanishes always | PROVED here with the quoted uniqueness theorem for ODEs | Section 20.22 (f) |
 | the threshold lemma; one photon makes no pair; $E_\gamma \ge 2m(1 + m/M)$; $E_aE_b \ge 2m^2/(1 - \cos\theta)$ | PROVED here from ASSUMED special relativity | Section 20.17; Notebook 20c, In [2] to In [8] |
 | the rates of pair creation by light | quoted from the literature (Bethe-Heitler, Breit-Wheeler), not computed | Section 20.17 |
-| a T1 pair has zero total charge; a T2 copy has the same charge | PROVED | T1c and T2c above |
+| a T1 pair has zero total charge; a T2 copy has the same charge | PROVED | (T1c) in Section 20.5 and the statement of T2 in Section 20.6 ($J' = R_8J$) |
 | the two charge-conjugation matrices $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$; for real fields the nontrivial real map is $\Gamma$ (T1) | PROVED | `charge-conjugation-and-u1.json` (12 checks); Chapters 5 and 21 |
 | a partner universe explains the matter excess of our universe | HYPOTHESIS | Section 20.23 |
 | the theory solves the matter-antimatter problem | NOT ESTABLISHED: no baryons, no baryon-number violation, no CP violation, no departure from equilibrium computed | Section 20.23 |
 | a creation process, rate, probability or amplitude for universes | NOT ESTABLISHED (OPEN) | `pairing-theory.json`, key `not_established`; Sections 20.24 and 20.25 |
 | Hypothesis P: "the big bang creates universes of masses $+M$ and $-M$ in pairs" | HYPOTHESIS | Sections 20.3 and 20.26 |
 | Einstein gravity in the example; the sign convention $\sigma_T = +1$; the classical field dirac16complex00 in the examples; the units $H = \kappa = 1$; the Z2 brane and the mirror patch | ASSUMED | Sections 20.12 and 20.6 |
-| the junction at the brane; the stability of the condensate; uniqueness for the full 4+4 field equation; a coupling between universes | OPEN | Sections 20.12, 20.22 and 20.25 |
+| the junction at the brane; the stability of the condensate; uniqueness for the full 4+4 field equation; a coupling between universes; whether the coupled equations of the fields and of $a_4$ contain a big-bang moment | OPEN | Sections 20.3, 20.12, 20.22 and 20.25 |
 
 ### 20.28 Exercises
 

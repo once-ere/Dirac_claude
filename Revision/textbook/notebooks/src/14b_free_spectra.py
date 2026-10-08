@@ -11,11 +11,14 @@ by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/14b_free_spectra.py
 
-The shooting function of the notebook is the method of the Revision Rust solver
+The shooting function of the notebook is that of the Revision Rust solver
 (Revision/kohn_sham/solver/src/shoot.rs: classical RK4 on the same grid, the Pruefer
-angle of atan2(b, a) unwrapped step by step), written with numpy; the notebook's
-levels reproduce the solver's record Revision/kohn_sham/results/spectrum/
-free-k0-analytic.csv to about 1e-14.
+angle of atan2(b, a) unwrapped step by step), written with numpy; its root finder is
+plain bisection (72 halvings of [-20, 20]), where the solver's find_level uses a
+safeguarded Newton-bisection down to the tolerance 1e-13.  The notebook's levels
+reproduce the solver's record Revision/kohn_sham/results/spectrum/
+free-k0-analytic.csv to better than 1e-11 (the check; the measured difference is
+printed).
 """
 
 import sys
@@ -99,9 +102,10 @@ CELLS = [
     - solves the equation exactly: the brane zero mode $\varepsilon = 0$, the even
       levels $\pm\sqrt{M^2 + (n\pi/L)^2}$ and the odd levels from
       $\tan(pL) = -p/M$ (figure 1);
-    - solves it again numerically with the method of the Revision Rust solver:
-      fourth-order Runge-Kutta (RK4) shooting with a Pruefer angle that gives every
-      level an integer label (figures 2 and 6);
+    - solves it again numerically with the shooting function of the Revision Rust
+      solver: fourth-order Runge-Kutta (RK4) shooting with a Pruefer angle that
+      gives every level an integer label, the levels found by bisection
+      (figures 2 and 6);
     - compares the two for 54 levels and reproduces the Rust solver's record to
       about $10^{-14}$ (figure 3);
     - measures the fourth-order convergence of the method (figure 4) and draws the
@@ -489,16 +493,18 @@ CELLS = [
 
     The brane condition says: even, $b(0) = 0$, i.e. $\Phi = l\pi$; odd, $a(0) = 0$,
     i.e. $\Phi = \pi/2 + l\pi$, with an integer label $l$. Because $\Phi$ only grows,
-    each label has exactly one level, no level can be missed, and bisection on
-    $\Phi(\varepsilon) - $ target always finds it.
+    and $\Phi(\varepsilon) - \varepsilon L$ stays bounded (so $\Phi$ runs from
+    $-\infty$ to $+\infty$), each label has exactly one level, no level can be
+    missed, and bisection on $\Phi(\varepsilon) - $ target always finds it.
 
     The next cell checks line 3 with sympy and defines the two numerical tools of
-    the notebook, written exactly as in the Rust solver: `shoot` (classical RK4 with
+    the notebook: `shoot`, written exactly as in the Rust solver (classical RK4 with
     $G$ steps on $[-L, 0]$, the coefficients taken at the nodes and step midpoints
-    of a fine grid of $2G + 1$ points, the angle unwrapped after every step) and
-    `levels` (bisection, 72 halvings of the interval $[-20, 20]$, which reaches the
-    resolution of floating-point numbers). Both work on whole arrays of energies at
-    once (numpy), which makes them fast.
+    of a fine grid of $2G + 1$ points, the angle unwrapped after every step), and
+    `levels` (plain bisection, 72 halvings of the interval $[-20, 20]$, which reaches
+    the resolution of floating-point numbers; the Rust solver finds the same root
+    with a safeguarded Newton-bisection that stops at the tolerance $10^{-13}$).
+    Both work on whole arrays of energies at once (numpy), which makes them fast.
     """),
     code(r'''
     r_s, t_s = sp.symbols("r t", positive=True)  # polar coordinates of (a, b)
@@ -631,14 +637,19 @@ CELLS = [
     checks three things:
 
     - the numerical levels equal the Rust solver's column `eps_numeric` to
-      $10^{-11}$ (the two programs do the same arithmetic; the differences are
-      rounding, of order $10^{-14}$);
-    - the numerical error $|\varepsilon_{\rm num} - \varepsilon_{\rm exact}|$ is
-      below $5\times10^{-9}$ for $|\varepsilon| < 4m$ and below $3.2\times10^{-7}$
-      above, the tolerances of the Rust check `free_k0_analytic_spectra`;
+      $10^{-11}$ (both programs integrate the same RK4 discretisation and find the
+      root of the same shooting function, this notebook by plain bisection down to
+      the last digit, the Rust solver by a safeguarded Newton-bisection that stops
+      at its tolerance $10^{-13}$ or sooner; the printed largest difference is of
+      order $10^{-14}$);
+    - the largest numerical errors $|\varepsilon_{\rm num} -
+      \varepsilon_{\rm exact}|$, for $|\varepsilon| < 4m$ and above, equal the ones
+      the Rust check `free_k0_analytic_spectra` measured (read from its record) and
+      lie below its tolerances $5\times10^{-9}$ and $3\times10^{-7}$;
     - the zero mode comes out as exactly 0.
 
-    It prints the levels of the case $m = 1$, $L = 3$ next to the exact ones.
+    It prints the levels of the case $m = 1$, $L = 3$ next to the exact ones, the
+    largest difference from the Rust levels and the two largest errors.
     """),
     code(r'''
     numeric = {}  # (m, L, parity, label) -> numerical level at the canonical step
@@ -657,15 +668,32 @@ CELLS = [
     rust_diff = max(abs(numeric[(float(r["m"]), float(r["L"]), r["parity"],
                                  int(r["label"]))] - float(r["eps_numeric"]))
                     for r in record)
+    report("largest difference from the Rust solver's levels", f"{rust_diff:.1e}", "m")
     check(rust_diff < 1e-11,
           "the 54 numerical levels equal those of the Rust solver",
           record="Revision/kohn_sham/results/spectrum/free-k0-analytic.csv, eps_numeric")
     errors = {key: abs(numeric[key] - exact[key]) for key in numeric}
     low = max(err for key, err in errors.items() if abs(exact[key]) < 4.0)
     high = max(err for key, err in errors.items() if abs(exact[key]) >= 4.0)
-    check(low < 5e-9 and high < 3.2e-7 and record_check(
-        "free_k0_analytic_spectra", (RUST_REPORT,)),
-          "error below 5e-9 for |eps| < 4 m and below 3.2e-7 above",
+    report("largest error for |eps| < 4 m", f"{low:.2e}", "m")
+    report("largest error for |eps| >= 4 m", f"{high:.2e}", "m")
+    import re  # regular expressions: patterns that find numbers in a text
+
+
+    def record_detail(name, report_file):
+        """The detail text of the check called name in a Revision report."""
+        data = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+        return [c["detail"] for c in data["checks"] if c["name"] == name][0]
+
+
+    detail = record_detail("free_k0_analytic_spectra", RUST_REPORT)
+    rec_low, tol_low, rec_high, tol_high = re.findall(r"\d+(?:\.\d+)?e-\d+", detail)
+    check(f"{low:.2e}" == f"{float(rec_low):.2e}"
+          and f"{high:.2e}" == f"{float(rec_high):.2e}"
+          and low < float(tol_low) and high < float(tol_high)
+          and record_check("free_k0_analytic_spectra", (RUST_REPORT,)),
+          f"largest errors {low:.2e} for |eps| < 4 m and {high:.2e} above, as in the "
+          f"record, below its tolerances {tol_low} and {tol_high}",
           record=f"{RUST_REPORT}, check free_k0_analytic_spectra")
     check(all(numeric[(m_, L_, "even", 0)] == 0.0 for m_, L_ in CASES),
           "the brane zero mode comes out as exactly eps = 0")
@@ -737,14 +765,19 @@ CELLS = [
     report("median error ratio canonical / refined", f"{median:.2f}")
     report("largest error, canonical step", f"{max(errors.values()):.3e}", "m")
     report("largest error, refined step", f"{max(refined_errors.values()):.3e}", "m")
-    check(len(ratios) == 39 and f"{median:.2f}" == "16.00"
-          and f"{max(errors.values()):.3e}" == "5.050e-08"
-          and f"{max(refined_errors.values()):.3e}" == "3.157e-09"
-          and record_check("refined_free_spectra_convergence_order",
-                           ("Revision/kohn_sham/reports/ks-rust-determinism.json",)),
-          "39 levels, median error ratio 16.00, largest errors 5.050e-08 and 3.157e-09",
-          record="Revision/kohn_sham/reports/ks-rust-determinism.json, check "
-                 "refined_free_spectra_convergence_order")
+    DETERMINISM = "Revision/kohn_sham/reports/ks-rust-determinism.json"
+    detail = record_detail("refined_free_spectra_convergence_order", DETERMINISM)
+    rec_canonical, rec_refined = re.search(r"canonical (\S+), refined (\S+);",
+                                           detail).groups()
+    rec_median, rec_count = re.search(r"ratio (\S+) over (\d+) levels",
+                                      detail).groups()
+    check(len(ratios) == int(rec_count) and f"{median:.2f}" == rec_median
+          and f"{max(errors.values()):.3e}" == rec_canonical
+          and f"{max(refined_errors.values()):.3e}" == rec_refined
+          and record_check("refined_free_spectra_convergence_order", (DETERMINISM,)),
+          f"{len(ratios)} levels, median error ratio {median:.2f}, largest errors "
+          f"{max(errors.values()):.3e} and {max(refined_errors.values()):.3e}",
+          record=f"{DETERMINISM}, check refined_free_spectra_convergence_order")
     '''),
     md(r"""
     The next cell draws the convergence for four levels of the case $m = 1$,

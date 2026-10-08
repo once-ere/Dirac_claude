@@ -427,10 +427,13 @@ CELLS = [
     For universes of masses $+m$ and $-m$ the theory of this book supplies:
 
     - **Q1, conserved quantities.** Light: energy, momentum and charge. Universes:
-      the U(1) charge of each universe is conserved (PROVED in the record); the energy
-      of a universe is NOT a conserved quantity, because the deflating metric depends
-      on the time $x_4$ (for a homogeneous source the record's identity is
-      $d\rho/dx_4 = -3a_4'(p_3 - p_t)$).
+      the U(1) charge of each universe is conserved (PROVED in the record); so are its
+      momenta along the six directions on which the metric does not depend ($x_1$,
+      $x_2$, $x_3$, $x_5$, $x_6$, $x_7$), separately for each universe (derived from
+      the record's on-shell law $\nabla_\mu T^\mu{}_\nu = 0$ and the symmetry of $T$;
+      ASSUMED: the boundary terms vanish); the energy of a universe is NOT a conserved
+      quantity, because the deflating metric depends on the time $x_4$ (for a
+      homogeneous source the record's identity is $d\rho/dx_4 = -3a_4'(p_3 - p_t)$).
     - **Q1, interaction.** Light couples to electrons. No term of any Lagrangian of
       the record couples two universes.
     - **Q2, the dynamics of creation.** Light: quantum electrodynamics. Universes:

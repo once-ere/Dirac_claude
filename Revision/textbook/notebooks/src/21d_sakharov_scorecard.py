@@ -68,7 +68,8 @@ FACTS = {
         ["Revision/algebra/gammas.json",
          "the author's eight real gamma matrices in the coordinate order x1 to x8 (read)"],
         ["Revision/lead_checks/reports/charge-conjugation-and-u1.json",
-         "checks u1_noether_matrix_identity, bilinears_under_charge_conjugation and "
+         "checks u1_noether_matrix_identity, representation_real, "
+         "spinor_connection_real, bilinears_under_charge_conjugation and "
          "quantum_charge_conjugation_unitary_type (read for the scorecard)"],
         ["Revision/theory/field-theory.json",
          "the formulas Lagrangian and Omega_components (read; the Lagrangian is "
@@ -232,6 +233,8 @@ CELLS = [
     LEAD, PAIR = load_checks(LEAD_FILE), load_checks(PAIR_FILE)
     ALGEBRA, KS = load_checks(ALGEBRA_FILE), load_checks(KS_FILE)
     USED = [(LEAD_FILE, LEAD, "u1_noether_matrix_identity"),
+            (LEAD_FILE, LEAD, "representation_real"),
+            (LEAD_FILE, LEAD, "spinor_connection_real"),
             (LEAD_FILE, LEAD, "bilinears_under_charge_conjugation"),
             (LEAD_FILE, LEAD, "quantum_charge_conjugation_unitary_type"),
             (PAIR_FILE, PAIR, "T1_current_primordial_commuting"),
@@ -684,7 +687,11 @@ CELLS = [
        an exact symmetry of the commuting field dirac16complex00. (Why: every matrix
        in $\mathcal{L}$, that is $C$, the gammas and $\Omega_\mu$, is real, so
        replacing $\Psi$ by $\Psi^*$ turns $\mathcal{L}$ into its complex conjugate;
-       and $\mathcal{L}$ is real.)
+       and $\mathcal{L}$ is real.) The map also reverses every current, so it turns
+       every solution into a solution of the same theory with the opposite charge. A
+       start in which every field configuration and its conjugate are equally likely
+       therefore keeps the average charge zero at all times: for the commuting field
+       **condition 2 fails** (PROVED).
     2. $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$
        (theorem T1, record check T1_Lagrangian_primordial_commuting) and the same for
        $\Gamma\Psi^*$ (the conjugation $\mathcal{C}_-$): these maps reverse the mass.
@@ -693,7 +700,8 @@ CELLS = [
     quantum_charge_conjugation_unitary_type) that the only conjugation compatible with
     the canonical anticommutator is $\Psi \to \Gamma\Psi^{\dagger T}$, which reverses
     the mass: within one universe of mass $m$ there is no same-mass conjugation of the
-    quantised field.
+    quantised field. Whether its particles and antiparticles react at different rates
+    is NOT COMPUTED: the record computes no reaction rates.
     """),
     code(r'''
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
@@ -918,9 +926,13 @@ CELLS = [
 
     The next cell builds the scorecard of this theory from the verdicts of the
     Revision record (each status is set only if the record holds the named check
-    with the verdict PASS) and draws it as a table. Condition 3: the Revision record
-    contains no computation of reaction rates or of a departure from equilibrium; its
-    Kohn-Sham history is a prescribed background (record check
+    with the verdict PASS) and draws it as a table. Condition 2 has two statuses: it
+    fails for the commuting field (its same-mass conjugation is exact, section 11;
+    the record checks that the gammas, $C$ and $\Omega_\mu$ are real and that the
+    conjugation reverses the current), and it is not computed for the quantised field
+    (no rates; its only conjugation reverses the mass). Condition 3: the Revision
+    record contains no computation of reaction rates or of a departure from
+    equilibrium; its Kohn-Sham history is a prescribed background (record check
     ks_history_is_a_prescribed_background), not a dynamical history.
     """),
     code(r'''
@@ -936,11 +948,15 @@ CELLS = [
          status(LEAD["u1_noether_matrix_identity"] == "PASS", "FAILS (PROVED)"),
          "u1_noether_matrix_identity"),
         ("2. C and CP violated",
-         "commuting field: the same-mass conjugation is an exact symmetry; quantised "
+         "commuting field: the same-mass conjugation is an exact symmetry that "
+         "reverses the charge, so a C-symmetric start keeps zero charge; quantised "
          "field: the only conjugation, Gamma, reverses the mass; no rates computed",
-         status(LEAD["bilinears_under_charge_conjugation"] == "PASS"
-                and LEAD["quantum_charge_conjugation_unitary_type"] == "PASS",
-                "NOT COMPUTED (C exact for the commuting field)"),
+         status(all(LEAD[name] == "PASS" for name in (
+             "representation_real", "spinor_connection_real",
+             "bilinears_under_charge_conjugation",
+             "quantum_charge_conjugation_unitary_type")),
+             "commuting: FAILS (PROVED); quantised: NOT COMPUTED"),
+         "representation_real, spinor_connection_real, "
          "bilinears_under_charge_conjugation, quantum_charge_conjugation_unitary_type"),
         ("3. out of equilibrium",
          "no rate computed; the Kohn-Sham history is a prescribed background",
@@ -959,7 +975,7 @@ CELLS = [
     for row in ROWS:
         say(f"{row[0]:34} | {row[2]}")
     check([row[2] for row in ROWS] == ["FAILS (PROVED)",
-                                       "NOT COMPUTED (C exact for the commuting field)",
+                                       "commuting: FAILS (PROVED); quantised: NOT COMPUTED",
                                        "NOT COMPUTED", "PROVED (classical bilinears)",
                                        "PROBLEM NOT SOLVED"],
           "scorecard: every status is backed by a PASS verdict of the Revision record")
@@ -969,7 +985,7 @@ CELLS = [
     """),
     code(r'''
     COLOURS = {"FAILS (PROVED)": "#f4c7c3",
-               "NOT COMPUTED (C exact for the commuting field)": "#f2e2b8",
+               "commuting: FAILS (PROVED); quantised: NOT COMPUTED": "#f2e2b8",
                "NOT COMPUTED": "#e3e3e3", "PROVED (classical bilinears)": "#cfe8c4",
                "PROBLEM NOT SOLVED": "#f4c7c3"}
     fig, ax = plt.subplots(figsize=(13.0, 6.2))
@@ -996,7 +1012,9 @@ CELLS = [
                 "check it rests on (each status is set by the notebook only when the "
                 "record holds that check with the verdict PASS). Condition 1 fails "
                 "exactly (the U(1) charge is conserved for every history $a_4$), so "
-                "conditions 2 and 3 cannot help; the pair-level statement of theorem "
+                "conditions 2 and 3 cannot help; condition 2 also fails for the "
+                "commuting field (its same-mass conjugation is exact) and is not "
+                "computed for the quantised field; the pair-level statement of theorem "
                 "T1 is exact but creates nothing. The theory does not solve the "
                 "matter-antimatter problem.")
     '''),
@@ -1033,10 +1051,11 @@ CELLS = [
       (u1_noether_matrix_identity), so no process of the theory can make a net charge
       inside one universe, whatever the rates and however far from equilibrium:
       condition 1 FAILS. The same-mass conjugation is an exact symmetry of the
-      commuting field (COMPUTED here at a point of the author's metric); the quantised
+      commuting field (COMPUTED here at a point of the author's metric) that reverses
+      the charge, so condition 2 FAILS for the commuting field (PROVED); the quantised
       field has only the mass-reversing conjugation (quantum_charge_conjugation_
-      unitary_type); CP violation in rates is NOT COMPUTED; no departure from
-      equilibrium is computed (the Kohn-Sham history is a prescribed background).
+      unitary_type), and C and CP violation in its rates is NOT COMPUTED; no departure
+      from equilibrium is computed (the Kohn-Sham history is a prescribed background).
     - PROVED (exact linear algebra): the only Spin(4,4)-invariant Majorana-type mass
       matrices are $C$ and $C\Gamma$; both are symmetric, so the anticommuting field
       has no such term; for the commuting field they carry U(1) charge 2.

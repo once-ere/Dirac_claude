@@ -450,7 +450,8 @@ CELLS = [
             and inputs["exchangeCoefficientS2"] == -0.03125)
     check(same and record_check("ks_theory_json_exchange"),
           "the coefficients 15/16, -1/16, -1/32, -1/32 equal the records",
-          record="Revision/kohn_sham/ks-theory.json and results/parameters.json")
+          record="Revision/kohn_sham/ks-theory.json, exchange; "
+                 "Revision/kohn_sham/results/parameters.json, theoryInputs")
     '''),
     md(r"""
     The next cell draws the three energy densities per unit $\lambda n^2$ against

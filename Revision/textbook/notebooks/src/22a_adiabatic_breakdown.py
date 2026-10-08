@@ -75,7 +75,7 @@ FACTS = {
     ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 40,
+    "expected_seconds": 60,
     "timeout_seconds": 600,
     "files_written": ["Revision/textbook/figures/22a.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
@@ -227,7 +227,9 @@ CELLS = [
 
     the record's adiabaticity measure. So $Q$ is the amplitude, and $Q^2$ the
     probability, with which the moving particle is NOT in its instantaneous level, as
-    long as $Q \ll 1$. This admixture is the **dressing**.
+    long as $Q \ll 1$. This admixture is the **dressing**. (The record calls $Q^2$
+    the leading-order transition probability; reading it for a constant rate as the
+    probability of the dressing is this notebook's derivation, tested in section 14.)
 
     **Exact rule 1: Q grows in proportion to the rate.** The levels, orbitals and
     matrix elements of a slice depend on $a_{4,0}$, not on how fast $a_4$ changes; only
@@ -578,8 +580,10 @@ CELLS = [
     g_star, q_star = float(fine_g.max()), float(fine_q[int(np.argmax(fine_g))])
     report("largest Q per unit rate of the band jump, G*", f"{g_star:.5f}")
     report("at the redshifted momentum q*", f"{q_star:.3f}")
-    report("naive breakdown rate of the band level of any shell, 1/G*",
+    report("naive breakdown rate of the band level, 0.02 <= q <= 6, 1/G*",
            f"{1.0 / g_star:.3f}")
+    report("largest G of the jumps band -> bulk 2, 3, 4 on the grid",
+           ", ".join(f"{G[:, BAND, BAND + m].max():.5f}" for m in (2, 3, 4)))
     '''),
     md(r"""
     The next cell draws $G_{01}(q)$ and $G_{02}(q)$ and puts the record's $Q_{max}$ of
@@ -618,7 +622,8 @@ CELLS = [
                 "the 50 states with $N = 136$ (circles) and $N = 688$ (squares), each "
                 "at the $q$ of its Fermi shell; the five couplings overlap. The grey "
                 "band is the range of the record; the star is the top of the curve, "
-                "the largest $Q/A$ that any shell at any slice can reach.")
+                "the largest $Q/A$ of the jump to the first bulk level for every "
+                "shell and slice with $0.02 \\le q \\le 6$ (all states of the record).")
     spread = max(abs(q_max[(n, tag, a4)] / q_max[(n, "lam0", a4)] - 1.0)
                  for n in (136, 688) for tag in TAGS for a4 in SLICES)
     report("largest relative change of Q_max by the interaction", f"{spread:.4f}")
@@ -668,9 +673,10 @@ CELLS = [
                 "bulk levels 1 and 2 and to the band level 0 (coloured), compared "
                 "with the band jump of the record (black), against the redshifted "
                 "momentum $q$ (horizontal axis, logarithmic, units of $m$). The jumps "
-                "across the gap peak near $q = 0.1$, where they exceed the band jump, "
-                "and stay below 0.05 per unit rate; their reading as pair creation of "
-                "the field is OPEN.")
+                "across the gap stay below 0.05 per unit rate; the strongest of them "
+                "($-1 \\to$ bulk 1) peaks near $q = 0.11$ at 0.049 and exceeds the "
+                "band jump only below $q$ of about 0.1; their reading as pair "
+                "creation of the field is OPEN.")
     report("largest G of a jump negative level -> bulk level", f"{sea[sea_top]:.5f}")
     report("at the redshifted momentum", f"{Q_GRID[sea_top]:.4f}")
     check(sea[sea_top] < 0.5 * g_star,
@@ -958,8 +964,9 @@ CELLS = [
                 "(dotted). Vertical lines: the record's rate $A = 1$, the rate "
                 "$A_{1/2}$ at which $P$ reaches half the sudden limit, and the naive "
                 "breakdown rate $1/Q_{max}$. The gas stops following its level near "
-                "$A = 1$, ten times below the naive estimate, but $P$ never exceeds the "
-                "sudden limit of about 7.5 percent.")
+                "$A = 1$, about seven times below the naive estimate ($A_{1/2} = 1.5$ "
+                "against $1/Q_{max} = 10.7$), but $P$ never exceeds the sudden limit "
+                "of about 7.5 percent.")
     '''),
     md(r"""
     ## 14. A constant rate: the dressing that Q measures
@@ -1168,7 +1175,7 @@ CELLS = [
     q_first = q_max[(688, "lam0", 0.0)]  # the largest Q of the free Fermi shell, A = 1
     estimates = [
         ("naive: Q = 1 for the weakest recorded state", naive[weakest]),
-        ("naive: Q = 1 for the band level of any shell", 1.0 / g_star),
+        ("naive: Q = 1 for the band level, 0.02 <= q <= 6", 1.0 / g_star),
         ("first order: Q^2 reaches the sudden limit", math.sqrt(sudden) / q_first),
         ("exact: P reaches half the sudden limit", rate_half),
     ]
@@ -1190,26 +1197,30 @@ CELLS = [
     md(r"""
     ## 17. What this notebook showed
 
-    - The record's adiabaticity measure $Q$ is the first-order amplitude of the dressing
-      that a moving particle carries; by an exact argument it grows in proportion to
-      the rate $A$ of the history. At the record's rate $A = 1$, $Q_{max} \le 0.0935$
-      for all 75 states (COMPUTED, Revision record), so the naive breakdown "$Q = 1$"
-      would need $A \ge 10.7$.
+    - The record's adiabaticity measure $Q$ is, in this notebook's reading (the record
+      calls $Q^2$ the leading-order transition probability), the first-order amplitude
+      of the dressing that a moving particle carries; by an exact argument it grows in
+      proportion to the rate $A$ of the history. At the record's rate $A = 1$,
+      $Q_{max} \le 0.0935$ for all 75 states (COMPUTED, Revision record), so the naive
+      breakdown "$Q = 1$" would need $A \ge 10.7$.
     - The solver's shooting method, written again in vectorised Python, reproduces the
       record's levels and $Q$ of the free Fermi shells; with the exact rescaling
       identity every slice and every shell falls on ONE curve $Q/A = G(q)$, whose top
       is $G^* = 0.0998$ at $q = 2.13$ (COMPUTED here): for a particle in the band level
-      of any shell at any slice the naive breakdown rate is at least $A = 10.0$.
+      of every shell and slice with $0.02 \le q \le 6$ (all states of the record) the
+      naive breakdown rate is at least $A = 10.0$.
     - Jumps across the gap into the negative branch, which the record leaves out, are
-      weaker (below 0.05 per unit rate, largest near $q = 0.1$); their reading as pair
-      creation of the field in 4+4 dimensions is OPEN, and they say nothing about the
-      creation of universes.
+      weaker than the top of the band jump (below 0.05 per unit rate; the strongest,
+      $-1 \to$ bulk 1, peaks near $q = 0.11$) but stronger than the band jump itself
+      below $q$ of about 0.1; their reading as pair creation of the field in 4+4
+      dimensions is OPEN, and they say nothing about the creation of universes.
     - The exact evolution of the free Fermi-shell sector of $N = 688$ (20-level basis,
       converged to a few millionths) tells a sharper story: the gas stops following its
       instantaneous level already near $A = 1$ ($A_{1/2} \approx 1.5$ for a smooth
-      passage), ten times below the naive estimate; but the damage is capped by the
-      sudden limit, 7.5 percent over the recorded span and about 10.5 percent even for
-      an instant jump to $a_{4,0} = 6$, because the band orbital itself changes slowly.
+      passage), about seven times below the naive estimate ($1/Q_{max} = 10.7$); but
+      the damage is capped by the sudden limit, 7.5 percent over the recorded span and
+      about 10.5 percent even for an instant jump to $a_{4,0} = 6$, because the band
+      orbital itself changes slowly.
       At the record's rate the probability to find a Fermi-shell particle outside its
       instantaneous level is about 1 percent (COMPUTED here).
     - What remains OPEN: the self-consistent time-dependent Kohn-Sham problem with

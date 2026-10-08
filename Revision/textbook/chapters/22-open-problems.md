@@ -56,6 +56,9 @@ Most words of this chapter were defined in earlier chapters; they are repeated h
 - **Brane**: the end $y = 0$ (that is $z = \pi/2$) of the hidden direction. **Z2 mirror** (or **orbifold**): the construction that continues the universe beyond the brane by its mirror image. **Kink**: a point where a function is continuous but its slope jumps. **Junction condition**: the rule that ties the jump of the slopes of the metric (or of a field) across a surface to the energy and momentum concentrated on that surface. **Tension**: the energy per unit area of a surface, which acts like a negative pressure along it.
 - **Equation of state** $w$: the ratio $p/\rho$ of a pressure to the energy density. **CPL parametrisation**: the formula $w(a) = w_0 + w_a(1 - a)$ for an equation of state that changes with the scale factor $a$ of the observed universe. **Phantom**: $w < -1$.
 - **Null energy condition** along a direction: $\rho + p \ge 0$, with $p$ the pressure of that direction.
+- **Einstein-Hilbert Lagrangian**: the Lagrangian density $\sqrt{|g|}R$ of the geometry, with $R$ the Ricci scalar; varying its action with respect to the metric gives Einstein's equations without a source.
+- **Quantum cosmology** and **wave function of the universe**: a quantum theory in which a few numbers that describe the whole geometry, such as a scale factor, are quantum variables; its wave function is a function of these numbers. The **Wheeler-DeWitt equation** is the equation this wave function must obey. The **tunnelling proposal** and the **no-boundary proposal** are two proposed boundary conditions that pick one solution of it; they are named in this chapter, not used.
+- **Bogoliubov method**: a way to count the quanta of a field that a changing background creates: one compares the modes of the field before and after the change, and the part of a positive-energy mode of the start that has turned into negative-energy modes of the end measures the creation. It is quoted in this chapter, not derived or applied.
 - **Hypothesis**: an idea that is stated and examined but not established; here, every scenario that goes beyond what the record proves or computes.
 
 ### 22.3 How to work on an open problem
@@ -133,7 +136,7 @@ The square of a real number is never negative, and $-H^2 < 0$ for $H > 0$. So no
 **Why it is hard.**
 
 - *The geometry has no dynamics of its own in the record.* Every theorem of Chapters 18 to 20 is a statement about fields in a gravitational field that is given (hypothesis H1 of T1). Without a dynamical geometry there is no process "a universe appears", and no state "no universe" from which it could appear.
-- *A universe is not a particle in a fixed background.* To speak of the creation of universes one needs a quantum theory in which the geometry itself is a quantum variable, such as the quantum cosmology of a few variables of the metric (the Wheeler-DeWitt equation, the tunnelling and the no-boundary proposals). None of these is formulated for this 8-dimensional theory, and in signature (4,4) both the classical and the quantum side bring their own difficulties: modes with momentum along the extra times grow instead of oscillating (Chapter 8), and the quantised field has an indefinite (Krein) inner product (Chapter 10).
+- *A universe is not a particle in a fixed background.* To speak of the creation of universes one needs a quantum theory in which the geometry itself is a quantum variable, such as the quantum cosmology of a few variables of the metric (the Wheeler-DeWitt equation, the tunnelling and the no-boundary proposals). In plain words: **quantum cosmology** treats a few numbers that describe the whole geometry, such as a scale factor, as quantum variables; its **wave function of the universe** is a function of these numbers, and the **Wheeler-DeWitt equation** is the equation that this wave function must obey, the analogue for a geometry of the Schroedinger equation of a particle. That equation alone does not fix the wave function; it needs a boundary condition, and the **tunnelling proposal** (A. Vilenkin) and the **no-boundary proposal** (J. B. Hartle and S. W. Hawking) are two proposed boundary conditions of this kind. They are named here, not used. None of these is formulated for this 8-dimensional theory, and in signature (4,4) both the classical and the quantum side bring their own difficulties: modes with momentum along the extra times grow instead of oscillating (Chapter 8), and the quantised field has an indefinite (Krein) inner product (Chapter 10).
 - *Nothing forces the partner to exist.* T1, T2 and T3 relate the solutions of two parameter sets. A single universe of mass $+m$ is an equally valid solution.
 - *The cancelling pair has no home in Einstein gravity.* By C1 a T1 pair as the complete source of one common geometry leaves no solution for $H > 0$. A T2 pair does not cancel at all: its two members carry equal energy-momentum.
 
@@ -163,7 +166,7 @@ $$
 
 Rule: divide $-18(a_4')^2 + 126H^2 = -3R$ by $-3$.
 
-The second derivative $a_4''$ has dropped out: the inflation of 3-space and the deflation of the extra times enter with opposite signs. With $\sqrt{|g|} = \cos z$ independent of $a_4$ (Chapter 12), the Einstein-Hilbert Lagrangian $\sqrt{|g|}R$ of the author's metric contains $a_4$ only through $(a_4')^2$, which is the starting point of a reduced quantum model with the one variable $a_4$. Quantising such a model is a HYPOTHESIS-level programme of quantum cosmology; even if it is carried out, it gives a wave function of $a_4$, not a process that changes the number of universes, and both the boundary condition of that wave function and the meaning of "two universes" in it would have to be supplied. (c) Study the one kind of creation that the record's own equations do contain: the creation of quanta of the field inside ONE universe by the changing background, which in ordinary Dirac theory is the jump of a particle from a filled negative level to an empty positive one (the Bogoliubov method, introduced for expanding universes by L. Parker, Phys. Rev. 183, 1057 (1969); quoted, not derived here). Notebook 22a measures how strongly the deflating background couples the negative branch to the positive one in the free field (Section 22.13); whether such jumps mean the creation of pairs of quanta in the 4+4 quantisation with its Krein metric is OPEN, and they have nothing to do with the creation of universes.
+The second derivative $a_4''$ has dropped out: the inflation of 3-space and the deflation of the extra times enter with opposite signs. The **Einstein-Hilbert Lagrangian** is the Lagrangian density $\sqrt{|g|}R$ of the geometry itself: when its action is varied with respect to the components of the metric, the Euler-Lagrange equations (Chapter 7) are Einstein's equations without a source (with a source, the Lagrangian of the matter is added). With $\sqrt{|g|} = \cos z$ independent of $a_4$ (Chapter 12), the Einstein-Hilbert Lagrangian $\sqrt{|g|}R$ of the author's metric contains $a_4$ only through $(a_4')^2$, which is the starting point of a reduced quantum model with the one variable $a_4$. Quantising such a model is a HYPOTHESIS-level programme of quantum cosmology; even if it is carried out, it gives a wave function of $a_4$, not a process that changes the number of universes, and both the boundary condition of that wave function and the meaning of "two universes" in it would have to be supplied. (c) Study the one kind of creation that could occur within the record's own equations, the creation of quanta of the field inside ONE universe by the changing background (OPEN: the record computes no such process), which in ordinary Dirac theory is the jump of a particle from a filled negative level to an empty positive one (the Bogoliubov method, introduced for expanding universes by L. Parker, Phys. Rev. 183, 1057 (1969); quoted, not derived here). Notebook 22a measures how strongly the deflating background couples the negative branch to the positive one in the free field (Section 22.13); whether such jumps mean the creation of pairs of quanta in the 4+4 quantisation with its Krein metric is OPEN, and they have nothing to do with the creation of universes.
 
 **Where to start.** The proofs and their limits: `Revision/docs/PAIR_CREATION_PROOFS.md` (its section 11 lists what is proved and what is not), `Revision/pairing/pairing-theory.json` (key `not_established`), the verifiers `Revision/pairing/wolfram/verify_pairing.wls` and `Revision/pairing/python/check_pairing.py`; the equations for $a_4$: `Revision/field_equations_a4/a4-equations.json` with its two verifiers; the lead's check `Revision/lead_checks/einstein_gauss_bonnet_a4.py`, which has its own curvature code.
 
@@ -175,7 +178,7 @@ The second derivative $a_4''$ has dropped out: the inflation of 3-space and the 
 
 - PROVED: the reduction of the field equation to the hidden coordinate is exact also when $a_4$ depends on $x_4$; in each sector the orbital obeys $i\,\partial\chi/\partial x_4 = h(x_4)\chi$ with a Hermitian $h$, and the momentum, the block and the brane parity are conserved, so particles can only jump between levels of the same sector. The record states this in `Revision/kohn_sham/ks-theory.json` under the keys `sectorAndAnsatz.exactReduction` and `adiabaticity.exactEvolution`, and both theory reports in the folder `Revision/kohn_sham/reports` verify it with their check `hamiltonian_16_hermitian`.
 - PROVED: the identity behind the adiabaticity measure $Q$ (Sections 22.6 and 22.7); check `adiabatic_offdiagonal_identity` of the report `ks-theory-python.json` in the same folder.
-- COMPUTED: at the record's rate $A = 1$ the largest $Q$ of each of the 75 ground states is at most $0.0935$ (largest value $0.0934532$, state N688_lamm2_a00), and $Q = 0$ exactly for $N = 8$; the column `transition_probability_estimate_Q2` gives $Q^2$, at most $0.0087335$. The table is `adiabaticity.csv` in the folder `Revision/kohn_sham/results/adiabatic`.
+- COMPUTED: at the record's rate $A = 1$ the largest $Q$ of each of the 75 ground states is at most $0.0935$ (largest value $0.0934532$, state N688_lamm2_a00), and $Q = 0$ exactly for $N = 8$; the column `transition_probability_estimate_Q2` gives $Q^2$, at most $0.0087335$ (the record's name for $Q^2$; Section 22.7 explains how this book reads it). The table is `adiabaticity.csv` in the folder `Revision/kohn_sham/results/adiabatic`.
 - COMPUTED: for the 15 series of the record (three particle numbers, five couplings) the set of occupied levels does not change between neighbouring slices (the tables `fermi-level-crossings.csv` and `history.json` of the same folder). But the record also shows that this is not always so: for $N = 696$ at $\lambda = 0$ the brane-band levels redshift below the $k = 0$ bulk level along the history, the instantaneous ground state changes its occupied levels, and the state continued adiabatically from $a_{4,0} = 0$ lies above the instantaneous ground state by $3.657$, $6.053$, $7.612$ and $8.623$ (units of $m$) at the slices $0.5$, $1$, $1.5$ and $2$. This is the table `crossing-demo.csv` of the same folder, checked by `adiabatic_crossing_flag_demonstration` of the solver's report `Revision/kohn_sham/reports/ks-rust-solver.json`.
 - PRESCRIBED BACKGROUND: the history itself (`Revision/kohn_sham/results/adiabatic/history.json`, key `status`).
 - OPEN: the non-adiabatic (time-dependent) problem (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.caveat`).
@@ -304,7 +307,7 @@ $$
 \partial_a\kappa = \partial_a e^{-Hy - a_4} = -\kappa, \qquad \partial_a h = -j\kappa k\,\sigma_3 .
 $$
 
-Rule: the derivative of $e^{-a_4}$ with respect to $a_4$ is $-e^{-a_4}$; $M = 1$ and $v = 0$ do not depend on $a_4$.
+Rule: the derivative of $e^{-a_4}$ with respect to $a_4$ is $-e^{-a_4}$; $M = 1$ and $v = 0$ do not depend on $a_4$. PROVED: the record states $\partial_a h_j = -j\kappa k\sigma_3$ for frozen potentials (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.derivative`) and verifies it with the check `adiabatic_hellmann_feynman` of `Revision/kohn_sham/reports/ks-theory-python.json`. Lines 1 to 5 and line 7 are derivations of this book, which no Revision check covers.
 
 $$
 \langle m|\partial_a h|n\rangle = -k\,e^{-a_4}\int_{-L}^{0}e^{-Hy}\,(a_ma_n - b_mb_n)\,dy \qquad (j = +1) .
@@ -342,7 +345,7 @@ $$
 
 Rule: insert line 6, $K_{m0} = \langle m|\partial_a h|0\rangle/(\varepsilon_0 - \varepsilon_m)$, and take the absolute value ($|i| = 1$).
 
-This is exactly the record's adiabaticity measure $Q_{0m}$ (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.measure`: $Q_{nm} = AH|\langle n|\partial_a h|m\rangle|/(\varepsilon_n - \varepsilon_m)^2$ for $n$ occupied and $m$ empty in the same sector). So $Q$ has a plain meaning: it is the amplitude, and $Q^2$ the probability, of the admixture of level $m$ that a particle carries while the background moves, as long as $Q$ is much smaller than 1. This admixture is the dressing. It is not a transition: when the motion stops slowly, the dressing disappears again.
+This is exactly the record's adiabaticity measure $Q_{0m}$ (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.measure`: $Q_{nm} = AH|\langle n|\partial_a h|m\rangle|/(\varepsilon_n - \varepsilon_m)^2$ for $n$ occupied and $m$ empty in the same sector). So $Q$ has a plain meaning: it is the amplitude, and $Q^2$ the probability, of the admixture of level $m$ that a particle carries while the background moves, as long as $Q$ is much smaller than 1. This admixture is the dressing. It is not a transition: when the motion stops slowly, the dressing disappears again. The record itself calls $Q^2$ the leading-order transition probability (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.measure`). For a constant rate this book reads it instead as the probability of the dressing; this reading is a derivation of this book, not of the record, and Notebook 22a tests it numerically in In [14]: at $A = 0.3$ the exact evolution, started in the dressed state, agrees with $\sum_m Q_{0m}^2$ within 15 percent. Only when the motion is started or stopped abruptly is $Q^2$ of the size of a real transition: the abrupt start at $A = 1$ in Figure 22a.6 (right) leaves up to about three times the dressing.
 
 **Exact rule 1: Q grows in proportion to the rate.** The levels, orbitals and matrix elements of a slice depend only on $a_{4,0}$, not on how fast $a_4$ changes. The rate enters $Q$ only through the factor $AH$. Hence $Q(A) = A\,Q(A = 1)$ exactly, and the naive criterion "breakdown when $Q$ reaches 1" puts the breakdown at the rate $A = 1/Q_{max}$, where $Q_{max}$ is the record's largest $Q$ at $A = 1$.
 
@@ -430,7 +433,7 @@ Rule: integrate from $u = 0$, where $d_m = 0$ (the particle starts in level 0), 
 
 ### 22.9 Example: when does the instantaneous picture break down (Notebook 22a)
 
-Notebook 22a carries out the first step of Problem 2. It reads the table `Revision/kohn_sham/results/adiabatic/adiabaticity.csv` (the largest $Q$ of each of the 75 ground states), `Revision/kohn_sham/results/adiabatic/history.json` (the status of the history), `Revision/kohn_sham/results/ground/levels` (the level tables), `Revision/kohn_sham/results/parameters.json` (the units and numerical parameters) and `Revision/kohn_sham/ks-theory.json`. It writes the solver's shooting method again in Python for the free block, reproduces the record's levels and $Q$, draws the one curve $G(q)$ of exact rule 2, measures the jumps into the negative branch, and integrates the amplitude equation of Section 22.6 in a basis of 20 instantaneous levels for the smooth passage and the constant rate of Section 22.8. Everything that is computed beyond the record is computed for the free field ($\lambda = 0$) and for one sector: $j = +1$, even brane parity, the Fermi shell $n_2 = 11$ of $N = 688$. It needs only numpy and matplotlib, takes about 40 seconds (the check run for this chapter took 42 seconds on a machine shared with other jobs), draws eight figures and ends with the line ALL 20 CHECKS PASSED (notebook 22a).
+Notebook 22a carries out the first step of Problem 2. It reads the table `Revision/kohn_sham/results/adiabatic/adiabaticity.csv` (the largest $Q$ of each of the 75 ground states), `Revision/kohn_sham/results/adiabatic/history.json` (the status of the history), `Revision/kohn_sham/results/ground/levels` (the level tables), `Revision/kohn_sham/results/parameters.json` (the units and numerical parameters) and `Revision/kohn_sham/ks-theory.json`. It writes the solver's shooting method again in Python for the free block, reproduces the record's levels and $Q$, draws the one curve $G(q)$ of exact rule 2, measures the jumps into the negative branch, and integrates the amplitude equation of Section 22.6 in a basis of 20 instantaneous levels for the smooth passage and the constant rate of Section 22.8. Everything that is computed beyond the record is computed for the free field ($\lambda = 0$) and for one sector: $j = +1$, even brane parity, the Fermi shell $n_2 = 11$ of $N = 688$. It needs only numpy and matplotlib, takes about a minute (the recorded build and check runs of 2026-10-08 took 32 and 30 seconds; on a machine busy with other jobs the same run has taken up to 110 seconds), draws eight figures and ends with the line ALL 20 CHECKS PASSED (notebook 22a).
 
 <!-- NOTEBOOK 22a -->
 
@@ -718,7 +721,7 @@ check(naive[weakest] > 10.0,
 
 `save_figure` saves Figure 22a.1 with its caption (Python joins strings written next to each other into one). The report names the weakest state, N688_lamm2_a00 (the tuple `weakest` is (688, "lamm2", 0.0), so `weakest[0]` is the particle number, `weakest[2]` the slice and `weakest[1]` the tag), and its naive breakdown rate $10.7005$ (Out [3]). The check requires that every recorded state keeps $Q$ below 1 up to the rate $A = 10$.
 
-*What the student should see in Figure 22a.1, and why.* On the left every point lies far above the dotted line: the naive breakdown rate is between $10.7$ (N688 at the slice 0) and about $26$ (N136 at the slice 2), so by this measure the record's history is at least ten times too slow to disturb the instantaneous picture. Both curves rise with the slice: as the history goes on, the momentum of the Fermi shell redshifts, $q = ke^{-a_{4,0}}$ falls, and $Q/A$ falls with it (Figure 22a.2 shows why). The shaded bands are thin: the five couplings change $Q_{max}$ by at most about ten percent. On the right the five lines are straight with slope 1 on the logarithmic axes, which is exact rule 1: ten times the rate gives ten times $Q$. They cross the dotted line $Q = 1$ between $A = 10.7$ and $A = 18.9$.
+*What the student should see in Figure 22a.1, and why.* On the left every point lies far above the dotted line: the naive breakdown rate is between $10.7$ (N688_lamm2_a00) and $27.8$ (N136_lamm2_a20; $26.05$ for the free state N136 at the slice 2), so by this measure the record's history is at least ten times too slow to disturb the instantaneous picture. Both curves rise with the slice: as the history goes on, the momentum of the Fermi shell redshifts, $q = ke^{-a_{4,0}}$ falls, and $Q/A$ falls with it (Figure 22a.2 shows why). The shaded bands are thin: the five couplings change $Q_{max}$ by at most about ten percent. On the right the five lines are straight with slope 1 on the logarithmic axes, which is exact rule 1: ten times the rate gives ten times $Q$. They cross the dotted line $Q = 1$ between $A = 10.7$ and $A = 18.9$.
 
 **In [4], the solver's shooting method, vectorised.**
 
@@ -972,11 +975,13 @@ g_star, q_star = float(fine_g.max()), float(fine_q[int(np.argmax(fine_g))])
 ```python
 report("largest Q per unit rate of the band jump, G*", f"{g_star:.5f}")
 report("at the redshifted momentum q*", f"{q_star:.3f}")
-report("naive breakdown rate of the band level of any shell, 1/G*",
+report("naive breakdown rate of the band level, 0.02 <= q <= 6, 1/G*",
        f"{1.0 / g_star:.3f}")
+report("largest G of the jumps band -> bulk 2, 3, 4 on the grid",
+       ", ".join(f"{G[:, BAND, BAND + m].max():.5f}" for m in (2, 3, 4)))
 ```
 
-Out [6]: $G^* = 0.09979$ at $q^* = 2.128$. Since every shell at every slice sits somewhere on this one curve, no particle in the band level of any shell, at any slice, can have $Q/A$ above $G^*$, so the naive breakdown rate of the band level is at least $1/G^* = 10.021$ for every shell (COMPUTED here, free field).
+Out [6]: $G^* = 0.09979$ at $q^* = 2.128$, and $1/G^* = 10.021$. The last line prints, for the jumps from the band level to the second, third and fourth bulk levels, the largest value on the 61 momenta of the grid: `G[:, BAND, BAND + m]` is the column of the jump to label $m$, `.max()` its largest entry, and `", ".join(...)` writes the three numbers separated by commas; Out [6] shows $0.00640$, $0.00249$ and $0.00087$. What this establishes, and only this: every shell at every slice whose redshifted momentum lies between $0.02$ and $6$ sits somewhere on the one curve, and that includes every state of the record (their $q$ lie between $0.5e^{-2} = 0.068$ and $0.829$). For all of them the jump from the band level to the first bulk level never has $Q/A$ above $G^*$, the jumps to the second, third and fourth bulk levels stay below $0.0065$, $0.0025$ and $0.0009$, and so the naive breakdown rate of the band level is at least $1/G^* = 10.021$ (COMPUTED here, free field, for the labels up to 4). Beyond $q = 6$ the curve was not computed, and nothing is claimed there.
 
 **In [7], drawing the one curve (Figure 22a.2).**
 
@@ -1019,10 +1024,11 @@ save_figure(fig, "one_curve",
             "the 50 states with $N = 136$ (circles) and $N = 688$ (squares), each "
             "at the $q$ of its Fermi shell; the five couplings overlap. The grey "
             "band is the range of the record; the star is the top of the curve, "
-            "the largest $Q/A$ that any shell at any slice can reach.")
+            "the largest $Q/A$ of the jump to the first bulk level for every "
+            "shell and slice with $0.02 \\le q \\le 6$ (all states of the record).")
 ```
 
-A logarithmic horizontal axis, the labels, the title, the legend in the upper left corner, and `save_figure` saves Figure 22a.2.
+A logarithmic horizontal axis, the labels, the title, the legend in the upper left corner, and `save_figure` saves Figure 22a.2. In the caption, `\\le` gives matplotlib's and the book's sign $\le$ (less than or equal); the doubled backslash is needed in a normal Python string, as explained for In [3].
 
 ```python
 spread = max(abs(q_max[(n, tag, a4)] / q_max[(n, "lam0", a4)] - 1.0)
@@ -1076,16 +1082,17 @@ save_figure(fig, "across_the_gap",
             "bulk levels 1 and 2 and to the band level 0 (coloured), compared "
             "with the band jump of the record (black), against the redshifted "
             "momentum $q$ (horizontal axis, logarithmic, units of $m$). The jumps "
-            "across the gap peak near $q = 0.1$, where they exceed the band jump, "
-            "and stay below 0.05 per unit rate; their reading as pair creation of "
-            "the field is OPEN.")
+            "across the gap stay below 0.05 per unit rate; the strongest of them "
+            "($-1 \\to$ bulk 1) peaks near $q = 0.11$ at 0.049 and exceeds the "
+            "band jump only below $q$ of about 0.1; their reading as pair "
+            "creation of the field is OPEN.")
 report("largest G of a jump negative level -> bulk level", f"{sea[sea_top]:.5f}")
 report("at the redshifted momentum", f"{Q_GRID[sea_top]:.4f}")
 check(sea[sea_top] < 0.5 * g_star,
       "every jump across the gap is weaker than half the top of the band jump")
 ```
 
-The axes, the title, the legend and Figure 22a.3. Out [8] gives the strongest jump from a negative to a bulk level, $G = 0.04887$ at $q = 0.1107$, and the check requires it to be below half of $G^*$.
+The axes, the title, the legend and Figure 22a.3; in its caption `\\to` gives the arrow $\to$. Out [8] gives the strongest jump from a negative to a bulk level, $G = 0.04887$ at $q = 0.1107$, and the check requires it to be below half of $G^*$.
 
 *What the student should see in Figure 22a.3, and why.* The strongest jump across the gap, from $-1$ to bulk 1 (blue), rises to its peak $0.0489$ near $q = 0.11$ and falls on both sides; below about $q = 0.1$ it is stronger than the band jump of the record, above it is weaker, and at large $q$ it is far weaker. The other jumps across the gap stay below $0.025$; the jumps from $-1$ to the band level and from $-2$ to bulk 1 pass through zero near $q = 0.15$. So in the free field the moving background does couple the negative branch to the positive one, at a strength comparable to the band jump at small momenta. In ordinary Dirac theory a jump from a filled negative level to an empty positive one is the creation of a particle-antiparticle pair OF THE FIELD, inside one universe. Whether that reading holds in the 4+4 quantisation with its Krein metric is OPEN, and it has nothing to do with the creation of universes.
 
@@ -1341,7 +1348,7 @@ for rate in RATES:
 excited = np.array(excited)
 ```
 
-31 peak rates $A = 10^{-0.6}, \ldots, 10^{2.4}$, that is from $0.251$ to $251$, ten per factor 10; the seventh is exactly 1 and the eleventh $10^{0.4} = 2.51$. For each the passage lasts $T = 4/A$ (Section 22.8), and the probability that the particle has left the band level at the end is $P = 1 - |c_0|^2$. It counts every other level of the basis, the negative ones included. `np.vdot(c, c)` is $\sum_n|c_n|^2$, the total probability, and `norm_error` keeps its largest distance from 1. The underscore `_` receives the stored amplitudes, which are not needed here.
+31 peak rates $A = 10^{-0.6}, \ldots, 10^{2.4}$, that is from $0.251$ to $251$, ten per factor 10; the seventh is 1 (up to rounding in the last digit: the computer stores $1.0000000000000002$) and the eleventh $10^{0.4} = 2.51$. For each the passage lasts $T = 4/A$ (Section 22.8), and the probability that the particle has left the band level at the end is $P = 1 - |c_0|^2$. It counts every other level of the basis, the negative ones included. `np.vdot(c, c)` is $\sum_n|c_n|^2$, the total probability, and `norm_error` keeps its largest distance from 1. The underscore `_` receives the stored amplitudes, which are not needed here.
 
 ```python
 c, _ = passage(0.0, E_SMOOTH, K_SMOOTH, RATE_SMOOTH, START, 400)  # infinitely fast
@@ -1433,8 +1440,9 @@ save_figure(fig, "smooth_passage",
             "(dotted). Vertical lines: the record's rate $A = 1$, the rate "
             "$A_{1/2}$ at which $P$ reaches half the sudden limit, and the naive "
             "breakdown rate $1/Q_{max}$. The gas stops following its level near "
-            "$A = 1$, ten times below the naive estimate, but $P$ never exceeds the "
-            "sudden limit of about 7.5 percent.")
+            "$A = 1$, about seven times below the naive estimate ($A_{1/2} = 1.5$ "
+            "against $1/Q_{max} = 10.7$), but $P$ never exceeds the sudden limit "
+            "of about 7.5 percent.")
 ```
 
 Both axes logarithmic, the vertical one from $10^{-8}$ to $0.3$; labels, title and legend; Figure 22a.5.
@@ -1689,13 +1697,13 @@ Figure 22a.8 and Out [16]: with 20 levels the sudden limit is right to $4.2 \tim
 q_first = q_max[(688, "lam0", 0.0)]  # the largest Q of the free Fermi shell, A = 1
 estimates = [
     ("naive: Q = 1 for the weakest recorded state", naive[weakest]),
-    ("naive: Q = 1 for the band level of any shell", 1.0 / g_star),
+    ("naive: Q = 1 for the band level, 0.02 <= q <= 6", 1.0 / g_star),
     ("first order: Q^2 reaches the sudden limit", math.sqrt(sudden) / q_first),
     ("exact: P reaches half the sudden limit", rate_half),
 ]
 ```
 
-The four estimates of the breakdown rate of Section 22.8: the naive one for the weakest recorded state ($1/Q_{max}$, In [3]); the naive one for the band level of any shell ($1/G^*$, In [6]); the first-order one, the rate at which $(AQ_0)^2$ reaches the sudden limit, $A = \sqrt{P_{sudden}}/Q_0$ with $Q_0 = 0.0934506$, the record's $Q_{max}$ of the free state $N = 688$ at the slice 0; and the exact $A_{1/2}$ (In [12]). `estimates` is a list of pairs (text, value).
+The four estimates of the breakdown rate of Section 22.8: the naive one for the weakest recorded state ($1/Q_{max}$, In [3]); the naive one for the band level of every shell and slice with redshifted momentum $0.02 \le q \le 6$ ($1/G^*$, In [6]); the first-order one, the rate at which $(AQ_0)^2$ reaches the sudden limit, $A = \sqrt{P_{sudden}}/Q_0$ with $Q_0 = 0.0934506$, the record's $Q_{max}$ of the free state $N = 688$ at the slice 0; and the exact $A_{1/2}$ (In [12]). `estimates` is a list of pairs (text, value).
 
 ```python
 say("breakdown estimate                                    rate A")
@@ -1731,7 +1739,7 @@ The last check requires that all eight figure files exist (`enumerate(NAMES, sta
 | naive breakdown rate $1/Q_{max}$ of the weakest recorded state | $10.70$ | COMPUTED from the record | Out [3] |
 | record's levels and $Q$ of the free Fermi shells, reproduced | to $8.8 \times 10^{-14}$ and $1.3 \times 10^{-13}$ (relative) | COMPUTED here | Out [5] |
 | top of the curve $G(q) = Q/A$ of the band jump | $G^* = 0.09979$ at $q^* = 2.128$ | COMPUTED here ($\lambda = 0$) | Out [6] |
-| naive breakdown rate of the band level of any shell, $1/G^*$ | $10.02$ | COMPUTED here ($\lambda = 0$) | Out [6] |
+| naive breakdown rate of the band level of every shell with $0.02 \le q \le 6$ (all states of the record), $1/G^*$ | $10.02$ | COMPUTED here ($\lambda = 0$) | Out [6] |
 | largest change of $Q_{max}$ by the interaction | $9.8$ percent (N136_lamp2_a20) | COMPUTED from the record | Out [7] |
 | strongest jump from a negative level to a bulk level, per unit rate | $0.0489$ at $q = 0.111$ | COMPUTED here; its reading OPEN | Out [8] |
 | $P$ at the end of the smooth passage with peak rate $A = 1$ | $0.0138$ | COMPUTED here | Out [12] |
@@ -1745,7 +1753,7 @@ The rate $A_{1/2}$ comes from a straight-line interpolation in $\ln A$ between t
 
 **What the results mean.** Four statements, each for the free field ($\lambda = 0$) in the sector computed, follow from the table.
 
-- The record's $Q$ measures what Section 22.7 says it measures: at a small rate ($A = 0.3$) a particle carries the dressing $\sum_mQ_{0m}^2$, and the exact evolution agrees with it within $11.3$ percent along the whole span (Out [14]).
+- In this book's reading (Section 22.7; the record calls $Q^2$ the leading-order transition probability), the record's $Q$ measures the dressing, and the numbers confirm this reading: at a small rate ($A = 0.3$) a particle carries the dressing $\sum_mQ_{0m}^2$, and the exact evolution agrees with it within $11.3$ percent along the whole span (Out [14]).
 - The naive criterion "$Q$ reaches 1" overestimates the breakdown rate about sevenfold ($10.7$ against $1.508$). The reason is visible in the derivation of Section 22.7: what can leave the level is a probability, $Q^2$ to first order, and what it should be compared with is not 1 but the largest probability that can leave at all, the sudden limit $0.0749$. The first-order estimate built on that comparison, $A = 2.929$, is within a factor of two of the exact $A_{1/2}$.
 - The damage is capped: however fast the passage, at most about $7.5$ percent of the particles of the Fermi shell leave the band level over the record's span, and at most about $10.5$ percent even for a jump to the slice 6, because the band orbital itself changes little (Figure 22a.7).
 - At the record's rate $A = 1$, about one percent of the Fermi-shell particles are outside their instantaneous level ($0.7$ to $0.9$ percent along the constant-rate history, $1.4$ percent at the end of the smooth passage). The instantaneous picture is therefore a fair first approximation at $A = 1$ for this sector, but the record's history is not deep inside the adiabatic regime: the gas stops following its levels at rates only about $1.5$ times larger.
@@ -1945,8 +1953,11 @@ The table lists further open items that earlier chapters met, with their status 
 | a T1 pair as the complete source leaves no real history $a_4$ in Einstein gravity for $H > 0$ (corollary C1): $(a_4')^2 = -H^2$ | `wolfram-a4-report.json`, `einstein_no_vacuum_solution`; `python-a4-report.json`, `einstein_no_vacuum`; lead's report `einstein-gauss-bonnet-a4.json`, `no_vacuum_for_H_positive`; Section 22.4 |
 | the Ricci scalar of the author's metric is $R = 6(a_4')^2 - 42H^2$ | derived in Section 22.4 from the record's Einstein components; no Revision verifier checks $R$ itself |
 | the total probability $\langle\chi\vert \chi\rangle$ is conserved | `ks-theory-python.json` and `ks-theory-wolfram.json`, `hamiltonian_16_hermitian`; Section 22.6 |
-| the amplitude equations; $K_{mn} = \langle m\vert \partial_a h\vert n\rangle/(\varepsilon_n - \varepsilon_m)$; $K_{nn} = 0$; $\partial_a h = -j\kappa k\sigma_3$ in the free field | `ks-theory-python.json`, `adiabatic_offdiagonal_identity`; Section 22.6 |
-| the dressing amplitude $\vert \alpha_m\vert  = Q_{0m}$; $Q(A) = A\,Q(1)$; in the free field $Q/A = G(q)$ with $q = ke^{-a_{4,0}}$ | `ks-theory-python.json`, `rescaling_identity`; Section 22.7 |
+| $K_{mn} = \langle m\vert \partial_a h\vert n\rangle/(\varepsilon_n - \varepsilon_m)$ for $m \ne n$ | `ks-theory-python.json`, `adiabatic_offdiagonal_identity`; Section 22.6, line 6 |
+| $\partial_a h = -j\kappa k\sigma_3$ in the free field | `ks-theory-python.json`, `adiabatic_hellmann_feynman`; Section 22.6, line 8 |
+| the amplitude equations (lines 1 to 5) and $K_{nn} = 0$ (line 7) | derivations of this book, Section 22.6; no Revision check covers them |
+| the dressing amplitude $\vert \alpha_m\vert  = Q_{0m}$; $Q(A) = A\,Q(1)$ | derivations of this book, Section 22.7 ($Q(A) = A\,Q(1)$ read off the record's formula, `ks-theory.json`, key `adiabaticity.measure`); the dressing tested numerically in Notebook 22a, In [14] |
+| in the free field $Q/A = G(q)$ with $q = ke^{-a_{4,0}}$ | `ks-theory-python.json`, `rescaling_identity`; Section 22.7 |
 | the sudden limit $P_{sudden} = 1 - \vert \langle\varphi_0(s_2)\vert \varphi_0(s_1)\rangle\vert ^2$, the rate of the smooth passage, the first-order formula for $P^{(1)}$ | derivations of this book, Section 22.8; tested numerically in Notebook 22a, In [12] and In [14] |
 | in Einstein gravity every source has $\kappa(\rho + p_8) = -6((a_4')^2 + H^2)$ | both a4 reports, `einstein_null_energy_x8`; lead's report, `einstein_null_energy`; Section 22.14 |
 | the line element in the coordinate $y$ is regular at $y = 0$; the mirror warp $e^{-H\vert y\vert }$ has a kink, and $\int_{-\epsilon}^{\epsilon}W''\,dy \to -2H$ | derived in Section 22.15 from the record's statements (`ks-theory-python.json`, `geometry_warped_form`) |

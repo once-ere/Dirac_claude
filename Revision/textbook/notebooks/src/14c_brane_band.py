@@ -29,17 +29,17 @@ FACTS = {
     "title": "The brane band: free Kohn-Sham levels at nonzero 3-momentum along the "
              "deflating history",
     "purpose": (
-        "With the fourth-order Runge-Kutta shooting method of the Revision Rust "
-        "solver it computes the free Kohn-Sham levels of dirac16complex at nonzero "
-        "3-momentum k: the brane band that grows out of the zero modes, its slope c "
-        "at k = 0 from the Hellmann-Feynman rule and its exact formula, the redshift "
-        "of the band along the prescribed deflating history and the exact rescaling "
-        "identity eps(k, a4) = eps(k e^(-a4), 0), the mirror symmetries of the two "
-        "block types, the insensitivity of the band to the tip condition, the "
-        "particle branch, the lattice degeneracies 4 r3(n2) and the closed shells of "
-        "the free aufbau with the particle numbers 8, 136 and 688; it reproduces the "
-        "Revision Rust solver's records of all of these and draws six teaching "
-        "figures."
+        "With the fourth-order Runge-Kutta shooting function of the Revision Rust "
+        "solver (the levels found by bisection) it computes the free Kohn-Sham levels "
+        "of dirac16complex at nonzero 3-momentum k: the brane band that grows out "
+        "of the zero modes, its slope c at k = 0 from the Hellmann-Feynman rule and "
+        "its exact formula, the redshift of the band along the prescribed deflating "
+        "history and the exact rescaling identity eps(k, a4) = eps(k e^(-a4), 0), "
+        "the mirror symmetries of the two block types, the insensitivity of the band "
+        "to the tip condition, the particle branch, the lattice degeneracies "
+        "4 r3(n2) and the closed shells of the free aufbau with the particle numbers "
+        "8, 136 and 688; it reproduces the Revision Rust solver's records of all of "
+        "these and draws six teaching figures."
     ),
     "records": [
         ["Revision/kohn_sham/ks-theory.json",
@@ -79,7 +79,7 @@ FACTS = {
         "ALL 15 CHECKS PASSED (notebook 14c)",
     ],
     "troubleshooting": [
-        ["the cells of sections 8 and 11 run for 10 to 20 seconds each",
+        ["the cells of sections 8 to 11 run for 5 to 20 seconds each",
          "they integrate the equation for hundreds of energies at once, 72 times "
          "over; wait until the PASS lines appear."],
     ],
@@ -170,18 +170,20 @@ CELLS = [
     md(r"""
     ## 5. The shooting tools
 
-    The next cell defines the numerical tools, exactly the method of the Revision
-    Rust solver: `shoot` integrates the real form from the tip ($(a, b) =
+    The next cell defines the numerical tools. `shoot` is the shooting function of
+    the Revision Rust solver: it integrates the real form from the tip ($(a, b) =
     (\cos\frac\theta2, \sin\frac\theta2)$, canonical $\theta = 0$) to the brane with
     classical RK4 ($G$ steps; the coefficients at the nodes and step midpoints of a
     fine grid of $2G + 1$ points) and follows the Pruefer angle $\mathrm{atan2}(b, a)$
     step by step; it returns $\Phi = j\,\theta(0)$, which grows strictly with
     $\varepsilon$. `levels` finds the energy with $\Phi = $ target (even $l\pi$, odd
-    $\pi/2 + l\pi$) by 72 bisections of $[-20, 20]$. `orbital` returns a normalised
-    orbital on the fine grid (cubic Hermite values at the midpoints, Simpson's rule
-    for the norm). All three accept arrays (numpy), so that hundreds of levels are
-    found at once. It also reads the Rust solver's records with a small CSV reader
-    and defines `record_check`, which reads the verdict of a named check.
+    $\pi/2 + l\pi$) by 72 bisections of $[-20, 20]$ (the Rust solver finds the same
+    root with a safeguarded Newton-bisection that stops at the tolerance
+    $10^{-13}$). `orbital` returns a normalised orbital on the fine grid (cubic
+    Hermite values at the midpoints, Simpson's rule for the norm). All three accept
+    arrays (numpy), so that hundreds of levels are found at once. It also reads the
+    Rust solver's records with a small CSV reader and defines `record_check`, which
+    reads the verdict of a named check.
     """),
     code(r'''
     import math  # exp, cos, sin of single numbers
