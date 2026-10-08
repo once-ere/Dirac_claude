@@ -4722,7 +4722,7 @@ for row in ROWS:
     say(f"{row[0]:34} | {row[2]}")
 ```
 
-The verdict row (its second entry is again one text made of two string pieces; as in In [13], "at any point" means any point of the patch $0 < z < \pi/2$, off the brane, where the local law is proved), and a loop that prints the condition (padded to 34 characters) and the status of each row: Out [18].
+The verdict row (its second entry is again one text, made of three string pieces that stand next to each other), and a loop that prints the condition (padded to 34 characters) and the status of each row: Out [18].
 
 ```python
 check([row[2] for row in ROWS] == [

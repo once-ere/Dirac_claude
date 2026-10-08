@@ -2096,6 +2096,13 @@ The two sums are printed (385 Wolfram and 375 Python checks in the run printed i
 
 ```python
 R = "Revision/"
+K = R + "pairing/kohn_sham/reports/"  # the folder of the T3 reports
+D = R + "dark_sector/"  # the folder of the dark-sector reports
+```
+
+Three short names for the beginnings of paths, so that the lines of the ledger stay narrow: the folder `Revision/`, the folder of the reports on T3, and the folder of the dark sector.
+
+```python
 LEDGER = [  # (statement, label, note, the reports that verify it)
     ("the gammas, C, Gamma, B; Pin(4,4) and Spin(4,4)", "PROVED", "",
      [R + "algebra/reports/wolfram-algebra.json",
@@ -2108,7 +2115,7 @@ LEDGER = [  # (statement, label, note, the reports that verify it)
       R + "theory/reports/python-scope.json"]),
 ```
 
-The list `LEDGER` holds the sixteen rows of the table of Section 0.18, each as a group of four: the statement, the label, the note (an empty string `""` for the rows that have reports), and the list of the reports that verify the row. Rows 1 to 3 are the exact results of the algebra and of the field theory, each verified by a Wolfram and a Python report.
+The list `LEDGER` holds the twenty rows of the table of Section 0.18, each as a group of four: the statement, the label, the note (an empty string `""` for a row that needs none), and the list of the reports that verify the row. Rows 1 to 3 are the exact results of the algebra and of the field theory, each verified by a Wolfram and a Python report.
 
 ```python
     ("EMT conservation identities; the spin connection", "PROVED", "",
@@ -2122,12 +2129,20 @@ The list `LEDGER` holds the sixteen rows of the table of Section 0.18, each as a
       R + "gkd_lovelock/results/gkd-selftest.json",
       R + "gkd_lovelock/results/wolfram-gkd-report.json",
       R + "gkd_lovelock/results/python-lovelock-report.json"]),
+```
+
+Rows 4 to 6, all PROVED: the conservation identities (one report of the lead), the field equations for $a_4$ (the Wolfram and the Python verifier and the lead's independent check, three reports), and GKD and the Lovelock tensors (the four reports of the folder `gkd_lovelock/results`).
+
+```python
+    ("the curvature agrees with the author's stored outputs", "PROVED",
+     "5 of 78 comparisons NOT-AVAILABLE: the author's notebook stores no value",
+     [R + "gkd_lovelock/comparison/author-comparison-report.json"]),
     ("Kohn-Sham theory: blocks, rescaling, exchange", "PROVED", "",
      [R + "kohn_sham/reports/ks-theory-wolfram.json",
       R + "kohn_sham/reports/ks-theory-python.json"]),
 ```
 
-Rows 4 to 7, all PROVED: the conservation identities (one report of the lead), the field equations for $a_4$ (the Wolfram and the Python verifier and the lead's independent check, three reports), GKD and the Lovelock tensors (the four reports of the folder `gkd_lovelock`), and the exact parts of the Kohn-Sham theory.
+Row 7, PROVED, is the only row that has both a report and a note: the note says that five of the 78 comparisons with the author's notebook could not be made (Section 0.18). Row 8 holds the exact parts of the Kohn-Sham theory.
 
 ```python
     ("Kohn-Sham states along the deflating history", "COMPUTED", "",
@@ -2137,29 +2152,46 @@ Rows 4 to 7, all PROVED: the conservation identities (one report of the lead), t
       R + "kohn_sham/reports/ks-rust-determinism.json",
       R + "kohn_sham/reports/ks-rust-mermin-roots.json"]),
     ("the Kohn-Sham history of a4 is a prescribed background", "ASSUMED", "",
-     [R + "field_equations_a4/reports/ks-source-conditions.json"]),
+     [R + "field_equations_a4/reports/ks-source-conditions.json",
+      R + "field_equations_a4/ks_source/reports/ks-source-a4.json"]),
 ```
 
-Row 8 is the only COMPUTED row: the numerical Kohn-Sham states, with the five reports of the two solvers and of their comparisons. Row 9 is ASSUMED, and its one report gives the reason (Section 0.18).
+Row 9 is COMPUTED: the numerical Kohn-Sham states, with the five reports of the two solvers and of their comparisons. Row 10 is ASSUMED, and its two reports give the reason (Section 0.18).
 
 ```python
     ("pairing T1, T2 (Z2 mirror ASSUMED) and Q", "PROVED", "",
      [R + "pairing/reports/wolfram-pairing.json",
       R + "pairing/reports/python-pairing.json"]),
-    ("T3 (Z2 mirror ASSUMED): Kohn-Sham +M and -M", "PROVED", "",
-     [R + "pairing/kohn_sham/reports/wolfram-t3.json",
-      R + "pairing/kohn_sham/reports/python-t3.json"]),
-    ("charge conjugation C, Gamma C; U(1) charge", "PROVED", "",
+    ("T3 and its completion (Z2 mirror ASSUMED): +M and -M", "PROVED", "",
+     [K + "wolfram-t3.json", K + "python-t3.json",
+      K + "wolfram-t3-completion.json", K + "python-t3-completion.json"]),
+    ("T3 shown on computed Kohn-Sham states (not a proof)", "COMPUTED", "",
+     [K + "t3-rust-demo.json", K + "t3-reference-demo.json"]),
+    ("charge conjugation C, Gamma C; the local U(1) law", "PROVED", "",
      [R + "lead_checks/reports/charge-conjugation-and-u1.json"]),
 ```
 
-Rows 10 to 12, PROVED: the pairing theorems, whose statements name the ASSUMED Z2 mirror where it enters, and the charge-conjugation matrices with the local conservation law of the charge (the total charge is constant only under the ASSUMED no-flux condition at $z = \pi/2$). The rows 13 to 16 have an empty list of reports and a note:
+Rows 11 to 14. Rows 11 and 12, PROVED: the pairing theorems, whose statements name the ASSUMED Z2 mirror where it enters; row 12 holds the four reports on T3 and on its completion. Row 13, COMPUTED: the two numerical demonstrations of T3, labelled in their statement as what they are, not a proof. Row 14, PROVED: the charge-conjugation matrices with the local conservation law of the charge; its statement says "the local U(1) law" because only the local law is proved (In [3]).
+
+```python
+    ("the dark-sector investigation: what each field gives", "COMPUTED", "",
+     [D + "dirac16complex/reports/derivation-checks.json",
+      D + "dirac16complex/reports/ks-history-run.json",
+      D + "dirac16complex/reports/eos-checks.json",
+      D + "dirac16complex/reports/independent-checks.json",
+      D + "dirac16complex00/reports/python-derive-eos.json",
+      D + "dirac16complex00/reports/python-independent-numerics.json"]),
+```
+
+Row 15, COMPUTED: the six reports of the dark-sector investigation. The rows 16 to 20 have an empty list of reports and a note:
 
 ```python
     ("a time-varying dark sector from the fields", "HYPOTHESIS",
-     "to be investigated; no result yet", []),
+     "investigated (row 15): results stated, not established", []),
     ("our universe has a partner of opposite charge", "HYPOTHESIS",
      "the T1 maps exist; that a partner exists is not shown", []),
+    ("the total charge Q of one universe is constant", "OPEN",
+     "holds only with no flux through the brane (ASSUMED, not derived)", []),
     ("the big bang creates universes in pairs", "OPEN",
      "not proved: no creation process, rate or amplitude", []),
     ("what produces the excess of matter over antimatter", "OPEN",
@@ -2167,113 +2199,133 @@ Rows 10 to 12, PROVED: the pairing theorems, whose statements name the ASSUMED Z
 ]
 ```
 
-The four entries without reports are the honest answers of Section 0.2, written as data, so that the computer can check them. Row 16 is written as the open question that it is, with the note that the theory as built does not produce the excess.
+The five entries without reports are the honest answers of Section 0.2, written as data, so that the computer can check them. Row 16 says that the dark-sector hypothesis was investigated (row 15) and is not established. Row 18 is the limit of row 14: the total charge is constant only if no charge flows through the brane, a condition that is ASSUMED and not derived. Row 20 is written as the open question that it is, with the note that the theory as built does not produce the excess.
 
 ```python
 say("row label       passed of all  statement")
-row_totals = []
+row_passed, row_totals = [], []
 for number, (statement, label, note, paths) in enumerate(LEDGER, 1):
     passed = sum(counted[path][0] for path in paths)
     total = sum(counted[path][1] for path in paths)
+    row_passed.append(passed)
     row_totals.append(total)
     say(f"{number:3d} {label:10} {passed:7d} of {total:3d}  {statement}")
 ```
 
-`enumerate(LEDGER, 1)` numbers the rows from 1. For each row, the passed checks and the checks of its reports are added (a sum over an empty list is 0) and a line of the table of Out [9] is printed.
+`enumerate(LEDGER, 1)` numbers the rows from 1. For each row, the passed checks and the checks of its reports are added (a sum over an empty list is 0), kept in the lists `row_passed` and `row_totals` for the checks below and for the picture of In [10], and a line of the table of Out [9] is printed. Row 7 shows 73 of 78.
 
 ```python
-say("The notes of the rows without a report:")
+say("The notes of the rows:")
 for number, (statement, label, note, paths) in enumerate(LEDGER, 1):
-    if note:  # only the HYPOTHESIS and OPEN rows have a note
+    if note:  # the HYPOTHESIS and OPEN rows, and row 7
         say(f"{number:3d} {label:10} {note}")
 ```
 
-The notes of the four rows without a report are printed below the table (a non-empty string counts as true in `if`).
+The notes of the six rows that have one are printed below the table (a non-empty string counts as true in `if`): row 7 and the five rows without a report.
 
 ```python
 used = sorted(path for _, _, _, paths in LEDGER for path in paths)
 check(used == sorted(path for path, _ in REPORTS),
-      "every one of the 27 reports belongs to exactly one row of the ledger")
+      f"every one of the {len(REPORTS)} reports belongs to exactly one row")
 ```
 
-`used` is the sorted list of all reports named in all rows (a comprehension with two `for` parts runs through the rows and, inside each row, through its reports). It must equal the sorted list of the 27 reports: every report appears, and none twice (a report named twice would appear twice in `used`).
+`used` is the sorted list of all reports named in all rows (a comprehension with two `for` parts runs through the rows and, inside each row, through its reports). It must equal the sorted list of the 39 reports: every report appears, and none twice (a report named twice would appear twice in `used`).
 
 ```python
-check(all((label in ("HYPOTHESIS", "OPEN")) == (paths == []) == (note != "")
-          and all(counted[p][0] == counted[p][1] for p in paths)
-          for _, label, note, paths in LEDGER),
-      "rows with a report have only PASS checks; OPEN and HYPOTHESIS rows have none")
+check(all((label in ("HYPOTHESIS", "OPEN")) == (paths == [] and note != "")
+          for _, label, note, paths in LEDGER)
+      and all(paths != [] for _, label, _, paths in LEDGER
+              if label not in ("HYPOTHESIS", "OPEN")),
+      "OPEN and HYPOTHESIS rows have a note and no report; the others have reports")
 ```
 
-For every row, three statements must be all true or all false: the label is HYPOTHESIS or OPEN; the row has no report; the row has a note. And every report of the row must have only passed checks.
+For every row, two statements must be both true or both false: the label is HYPOTHESIS or OPEN; the row has no report and has a note. And every row with another label must have at least one report (`paths != []`; the `if` inside the brackets keeps only those rows). Together: a statement is labelled HYPOTHESIS or OPEN exactly when nothing in the record establishes it, and then the ledger says why.
+
+```python
+not_all_pass = [number for number, passed, total
+                in zip(range(1, len(LEDGER) + 1), row_passed, row_totals)
+                if passed != total]  # the rows with a check that is not PASS
+check(not_all_pass == [7] and row_totals[6] - row_passed[6] == not_available
+      and "NOT-AVAILABLE" in LEDGER[6][2],
+      f"only row 7 has checks that are not PASS: its {not_available} "
+      "NOT-AVAILABLE comparisons")
+```
+
+`not_all_pass` lists the numbers of the rows in which the passed checks are fewer than the checks. It must be the list `[7]`, and the missing checks of row 7 must be exactly the five NOT-AVAILABLE comparisons counted in In [5]; its note (the third entry of the row, `LEDGER[6][2]`, because Python counts the rows from 0) must say so. So no row of the ledger rests on a check that failed.
 
 ```python
 labels = [label for _, label, _, _ in LEDGER]
 check([labels.count(name) for name in
-       ("PROVED", "COMPUTED", "ASSUMED", "HYPOTHESIS", "OPEN")] == [10, 1, 1, 2, 2],
-      "the ledger: 10 PROVED, 1 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 2 OPEN rows")
+       ("PROVED", "COMPUTED", "ASSUMED", "HYPOTHESIS", "OPEN")] == [11, 3, 1, 2, 3],
+      "the ledger: 11 PROVED, 3 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 3 OPEN rows")
 ```
 
-The labels are counted: ten rows PROVED, one COMPUTED, one ASSUMED, two HYPOTHESIS and two OPEN. Out [9] ends with three PASS lines.
+The labels are counted: eleven rows PROVED, three COMPUTED, one ASSUMED, two HYPOTHESIS and three OPEN. Out [9] ends with four PASS lines.
 
 **In [10], the ledger as a picture.**
 
 ```python
 LABEL_COLOURS = {"PROVED": "#2a78d6", "COMPUTED": "#eb6834", "ASSUMED": "#1baf7a"}
 widest = max(row_totals)  # the row with the most checks
-fig, ax = plt.subplots(figsize=(7.6, 8.0))
+fig, ax = plt.subplots(figsize=(8.6, 9.4))
 rows = np.arange(len(LEDGER))[::-1]  # the first row of the ledger at the top
 ```
 
-A colour for each label that has reports, the largest number of checks of a row (167, row 10, in the run printed in Section 0.20), a tall figure, and the row positions with the first row at the top.
+A colour for each label that has reports, the largest number of checks of a row (167, row 11, in the run printed in Section 0.20), a tall figure of 8.6 by 9.4 inches, and the row positions with the first row at the top.
 
 ```python
-for number, row, (statement, label, note, paths), total in zip(
-        range(1, len(LEDGER) + 1), rows, LEDGER, row_totals):
+for number, row, (statement, label, note, paths), passed, total in zip(
+        range(1, len(LEDGER) + 1), rows, LEDGER, row_passed, row_totals):
     # The statement is written just above its bar (va="bottom": the text starts
     # at the given height and extends upwards).
     ax.text(0, row + 0.26, f"{number}. {statement}", va="bottom", fontsize=9.5)
     if total > 0:
         ax.barh(row, total, height=0.42, color=LABEL_COLOURS[label])
-        ax.text(total + 0.012 * widest, row, f"{total} checks: {label}",
-                va="center", fontsize=9)
+        if passed == total:
+            after = f"{total} checks: {label}"
+        else:  # row 7: say how many checks are NOT-AVAILABLE
+            after = f"{passed} PASS, {total - passed} NOT-AVAILABLE: {label}"
+        ax.text(total + 0.012 * widest, row, after, va="center", fontsize=9)
     else:  # no report: the label and the note, in grey
         ax.text(0, row, f"{label}: {note}", va="center", fontsize=9,
                 color="#52514e")
 ```
 
-`zip` runs through four lists together: the row numbers 1 to 16, the positions, the rows of the ledger and their totals. For each row the statement is written just above the place of its bar. A row with checks gets a bar of that length in the colour of its label, with the number and the label after it, at a distance of 1.2 per cent of the longest bar; a row without checks gets its label and its note in grey instead.
+`zip` runs through five lists together: the row numbers 1 to 20, the positions, the rows of the ledger, their passed checks and their totals. For each row the statement is written just above the place of its bar. A row with checks gets a bar of that length in the colour of its label, with a text after it, at a distance of 1.2 per cent of the longest bar: the number of checks and the label, or, for row 7, the numbers of PASS and of NOT-AVAILABLE checks and the label. A row without checks gets its label and its note in grey instead.
 
 ```python
 ax.set_yticks([])  # the statements are written above the bars instead
 ax.set_xlim(0, 1.39 * widest)  # room for the longest bar and the text after it
 ax.set_ylim(-0.6, len(LEDGER) - 0.1)
 ax.grid(False, axis="y")
-ax.set_xlabel("number of checks in the reports of the row (all PASS)")
+ax.set_xlabel("number of checks in the reports of the row (none FAILS)")
 ax.set_title("The honesty ledger at a glance")
 ax.legend(handles=[Patch(color=colour, label=label_name)
                    for label_name, colour in LABEL_COLOURS.items()],
           loc="lower right", fontsize=9)
 ```
 
-No labels on the vertical axis (the statements stand above the bars). The horizontal axis runs to 1.39 times the longest bar, computed from the counts, which leaves room for the longest bar and the text after it; the vertical limits leave room for the statement of the top row; the legend names the three colours.
+No labels on the vertical axis (the statements stand above the bars). The horizontal axis runs to 1.39 times the longest bar, computed from the counts, which leaves room for the longest bar and the text after it; the vertical limits leave room for the statement of the top row; the axis label says that no check of the ledger fails; the legend names the three colours.
 
 ```python
 save_figure(fig, "ledger",
             r"The honesty ledger of the book at a glance: one row per main "
             r"statement (written above its bar), the length of its bar the number of "
             r"checks in the reports that verify it (horizontal axis, a count), the "
-            r"colour its label: blue PROVED, orange COMPUTED, aqua ASSUMED. The "
-            r"ASSUMED row has five checks, which show why the Kohn-Sham history of "
-            r"$a_4$ must be assumed. The last four rows have no bar, because no "
-            r"check of the record establishes them: two hypotheses (a time-varying "
-            r"dark sector, and a partner universe of opposite charge) and two open "
-            r"questions (whether the big bang creates universes in pairs, which is "
-            r"not proved, and what produces the excess of matter over antimatter, "
-            r"which the theory as built does not produce).")
+            r"colour its label: blue PROVED, orange COMPUTED, aqua ASSUMED. Every "
+            r"check is PASS except five NOT-AVAILABLE comparisons of row 7. The "
+            f"ASSUMED row has {row_totals[9]} checks, which show why the Kohn-Sham "
+            r"history of $a_4$ must be assumed. The last five rows have no bar, "
+            r"because no check of the record establishes them: two hypotheses (a "
+            r"time-varying dark sector, investigated in row 15 but not established; "
+            r"a partner universe of opposite charge) and three open questions (a "
+            r"constant total charge of one universe, which needs an assumed "
+            r"condition at the brane; the creation of universes in pairs, not "
+            r"proved; what produces the excess of matter "
+            r"over antimatter, which the theory as built does not produce).")
 ```
 
-The figure `00c_3_ledger.png`. What Figure 00c.3 shows: twelve bars, ten blue, one orange (the Kohn-Sham numbers) and one short aqua bar (the prescribed background), and four rows without a bar at the bottom: the two hypotheses and the two open questions. The picture makes the honesty rule visible: a statement without checks is never drawn as if it had them.
+The figure `00c_3_ledger.png`; `row_totals[9]` is the number of checks of row 10, the ASSUMED row (28 in the run printed in Section 0.20). What Figure 00c.3 shows: fifteen bars, eleven blue, three orange (the Kohn-Sham numbers, the demonstrations of T3 and the dark-sector investigation) and one short aqua bar (the prescribed background), and five rows without a bar at the bottom: the two hypotheses and the three open questions. The picture makes the honesty rule visible: a statement without checks is never drawn as if it had them.
 
 **In [11], what the pairing record does not establish.**
 
