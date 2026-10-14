@@ -326,21 +326,21 @@
 	},
 	"inputSha256":{
 		"Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md":"eb7011d650683737868b43422cfc6c6e311aa1647a3d2608af1c2fb4c8df3759",
-		"Revision/gkd_lovelock/results/curvature.json":"6412e69bb38e983165e4e2237308059021ba8a5756b37c9613da201fad0152a0",
+		"Revision/gkd_lovelock/results/curvature.json":"b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1",
 		"Revision/gkd_lovelock/results/lovelock-tensors.json":"f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c",
 		"Revision/gkd_lovelock/results/lovelock-report.json":"c0202db95902003ad9dfe3b58137c5db798057d75265d7bcd16fe0483fa3b4d0",
 		"Revision/gkd_lovelock/code/Cargo.toml":"c6719ffae8040c42034a903b7cf2aefbc2124fee7dd6750de0c455d7cb653d70",
-		"Revision/gkd_lovelock/code/src/geometry.rs":"2586569a0d42a3d185428bb03001e6eb2d07e2ddefac9822761184f2441ad678",
+		"Revision/gkd_lovelock/code/src/geometry.rs":"83328f22ae19086925db64099cfec1d87f6f14ad4e91d208f05da493a322320c",
 		"Revision/gkd_lovelock/code/src/gkd.rs":"3be0169f6c03d0d6afbd8361e6d80c5b802defb0878ddc2ffeb62e3dde106dd4",
 		"Revision/gkd_lovelock/code/src/lib.rs":"cccd024b5a559ce306d770e4a2674a1bc3eb7b6cf00e05dc0858fb3cc4991da6",
 		"Revision/gkd_lovelock/code/src/lovelock.rs":"1ce0c7e3a16acd1509890b7f7029cd9e258e72d4816235a0df4bf2f99f1acd1b",
-		"Revision/gkd_lovelock/code/src/main.rs":"e1b08e838aa6ec843cf23a48970d263418f1f2d377e10d7f0da95524a0e53cae",
+		"Revision/gkd_lovelock/code/src/main.rs":"12e18732dd4b2db7c8e44440fb9b25e883d53a344f615852b265bc4b1c5e724d",
 		"Revision/gkd_lovelock/code/src/output.rs":"668921a2cf0ce4f19371981702794bcb3934945ffa9faed1f6a77c0254023759",
 		"Revision/gkd_lovelock/code/src/poly.rs":"392a321b76ec60891bbb9b5d226a96425c745cabbb3b59aba9aa3f266d508194",
 		"Revision/gkd_lovelock/code/src/rational.rs":"a8e9b54a655dc9e1d15ef0f4203cb55eda168efd93e52b337573fb6d8c5384ba"
 	},
 	"sourceSha256":{
-		"Revision/gkd_lovelock/verification/LovelockGKDCheck.wl":"5390b4ebe881e9f302a25e083cf6d9de135eaf8b6f7749c636d1b203038d95cf",
+		"Revision/gkd_lovelock/verification/LovelockGKDCheck.wl":"1112c5a3a54191a7fe1eae1e3659c92c9bb2a24002fbb24a64e7bbc7279795bd",
 		"Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls":"58eeeb4d0392c62796369dec80d0d376be362bde56c225bf2d79fc0bac8b8511"
 	},
 	"checkCount":29,

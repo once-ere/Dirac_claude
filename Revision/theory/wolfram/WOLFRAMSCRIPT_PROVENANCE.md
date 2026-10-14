@@ -18,7 +18,7 @@ byte-identical, and different from the earlier committed report only in that det
 previous one except for the two changed detail texts (section 6.7).
 
 **2026-10-14 (section 6.8).** The set now uses the author's own coordinates X = {x0, x1, ..., x7} (x0 = the hidden
-direction, listed first, as in his notebooks); the labels x1..x8 with the hidden direction x8 listed last, used until
+direction, listed first, as in the author's notebooks); the labels x1..x8 with the hidden direction x8 listed last, used until
 then, are withdrawn (map x8 -> x0, xk -> xk). Names derived from the old label of the hidden direction follow it:
 `p8` -> `p0`, `w8` -> `w0`, `B48`/`B84` -> `B40`/`B04`, `k8` -> `k0`, `d8` -> `d0`; the checks
 `gammaOmega_equals_3H_gamma_x8`, `T_x4_x8_component_*`, `exact_solution_x4_x8_*` and
@@ -152,8 +152,8 @@ All files are plain text, pure ASCII (hence also UTF-8), with LF line endings an
 | file | role | lines | bytes | sha256 |
 | --- | --- | --- | --- | --- |
 | `Revision/theory/wolfram/verify_field_theory.wls` | script: 84 checks; writes the field-theory report and the formula file | 769 | 77938 | `8165a797e117045d2b9f12761fe98a864242d9371c0ccabe697f4cd9cf70f9fd` |
-| `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (geometry, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 295 | 18596 | `f791ffbf695497cbc16de426dbb83fc9652fc0a61d2f57ee65673c5f03d02a8c` |
-| `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 212 | 18053 | `e8834e8bf10a22b4bf3d200f93086b8b10a9fdfc9de275005a4011402b77c240` |
+| `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (geometry, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 295 | 18614 | `313e617d6df3cad7f1d389d9d85681af176e655f0a103a015bdb5b99c4c4e88f` |
+| `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 212 | 18062 | `f47348cab9eb8e2fb77b1089ff003eaf29a8427ff8d923ddb67b37fc5b86dbcb` |
 
 These are the files of 2026-10-14 (the author's coordinates x0..x7 and parallel subkernels, section 6.8). Before
 2026-10-14 the two scripts were the versions of 2026-10-08 (section 6.7: `verify_field_theory.wls` 735 lines, 74225
@@ -1023,7 +1023,7 @@ show the paths of the versions of commit `a4c5eda`, with `..` components.
 
 ### 6.8 The author's coordinates x0..x7 and parallel subkernels (2026-10-14)
 
-* Why. (1) On 2026-10-14 the user ordered that his coordinates X = {x0, x1, ..., x7} be used throughout (x0 = the
+* Why. (1) On 2026-10-14 the user ordered that their coordinates X = {x0, x1, ..., x7} be used throughout (x0 = the
   hidden direction, listed first; `Dirac_Einstein-Lovelock_4+4_Nash.nb`, In[48]); the Revision record had named them
   x1..x8 with the hidden direction x8 listed last. (2) The same day the user ruled that no single calculation may take
   longer than 7 min 3 s; the full `verify_field_theory.wls` took 1783 to 2508 s serially (section 4.4), its three slow
@@ -1054,3 +1054,8 @@ show the paths of the versions of commit `a4c5eda`, with `..` components.
   exchange identity (all three entries), the metric, the vielbein, sqrt|det g| and eta are identical; the 19 prose
   records differ only in the relabelling. Both reports have the same checks with the same verdicts in the same order
   (five check names renamed, listed above).
+* Wording, later on 2026-10-14: two comments of `RevisionFieldTheory.wl` and one of `verify_scope.wls` said "his
+  order"; they now say "the author's order" (no gendered pronoun for the author). Only comments changed; no output of
+  this set depends on them (the reports do not record these sha256). New sha256: `RevisionFieldTheory.wl`
+  `313e617d6df3cad7f1d389d9d85681af176e655f0a103a015bdb5b99c4c4e88f`, `verify_scope.wls`
+  `f47348cab9eb8e2fb77b1089ff003eaf29a8427ff8d923ddb67b37fc5b86dbcb` (tables of section 2).

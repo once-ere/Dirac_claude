@@ -160,7 +160,7 @@ has `* -text`, so git never converts line endings); both scripts are pure ASCII 
 | file | role | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
 | `Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls` | the script you run (WolframScript); builds and runs the exporter, does the checks, writes the report | `58eeeb4d0392c62796369dec80d0d376be362bde56c225bf2d79fc0bac8b8511` | 577 | 36,965 |
-| `Revision/gkd_lovelock/verification/LovelockGKDCheck.wl` | the package it loads (context ``LovelockGKDCheck` ``): the verbatim `kδ`, the metric, the curvature, the Lovelock sums, the monomial reader | `5390b4ebe881e9f302a25e083cf6d9de135eaf8b6f7749c636d1b203038d95cf` | 221 | 14,013 |
+| `Revision/gkd_lovelock/verification/LovelockGKDCheck.wl` | the package it loads (context ``LovelockGKDCheck` ``): the verbatim `kδ`, the metric, the curvature, the Lovelock sums, the monomial reader | `1112c5a3a54191a7fe1eae1e3659c92c9bb2a24002fbb24a64e7bbc7279795bd` | 221 | 14,031 |
 
 The script finds the package and all its inputs relative to its OWN location
 (`ExpandFileName[$InputFileName]`), so the inputs are found whatever the current directory is; only
@@ -171,15 +171,15 @@ the report path you type is relative to the current directory.
 | file | why it is read | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
 | `Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md` | must contain the author's definition of `kδ`, in backquotes | `eb7011d650683737868b43422cfc6c6e311aa1647a3d2608af1c2fb4c8df3759` | 73 | 4,868 |
-| `Revision/gkd_lovelock/results/curvature.json` | the Rust curvature, `riemannMixedNonzero` | `6412e69bb38e983165e4e2237308059021ba8a5756b37c9613da201fad0152a0` | 325 | 40,869 |
+| `Revision/gkd_lovelock/results/curvature.json` | the Rust curvature, `riemannMixedNonzero` | `b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1` | 325 | 40,878 |
 | `Revision/gkd_lovelock/results/lovelock-tensors.json` | the Rust P_(k), A_(k), L_(k) (exact monomial lists and Mathematica text) | `f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c` | 405 | 163,905 |
 | `Revision/gkd_lovelock/results/lovelock-report.json` | the Rust counters `gkdNonzero` and `leaves` | `c0202db95902003ad9dfe3b58137c5db798057d75265d7bcd16fe0483fa3b4d0` | 34 | 3,231 |
 | `Revision/gkd_lovelock/code/Cargo.toml` | the crate compiled by cargo as a path dependency of the exporter | `c6719ffae8040c42034a903b7cf2aefbc2124fee7dd6750de0c455d7cb653d70` | 16 | 400 |
-| `Revision/gkd_lovelock/code/src/geometry.rs` | crate source (compiled) | `2586569a0d42a3d185428bb03001e6eb2d07e2ddefac9822761184f2441ad678` | 233 | 8,797 |
+| `Revision/gkd_lovelock/code/src/geometry.rs` | crate source (compiled) | `83328f22ae19086925db64099cfec1d87f6f14ad4e91d208f05da493a322320c` | 233 | 8,806 |
 | `Revision/gkd_lovelock/code/src/gkd.rs` | crate source: the function `GKD` | `3be0169f6c03d0d6afbd8361e6d80c5b802defb0878ddc2ffeb62e3dde106dd4` | 205 | 7,488 |
 | `Revision/gkd_lovelock/code/src/lib.rs` | crate source (compiled) | `cccd024b5a559ce306d770e4a2674a1bc3eb7b6cf00e05dc0858fb3cc4991da6` | 15 | 645 |
 | `Revision/gkd_lovelock/code/src/lovelock.rs` | crate source (compiled) | `1ce0c7e3a16acd1509890b7f7029cd9e258e72d4816235a0df4bf2f99f1acd1b` | 204 | 7,396 |
-| `Revision/gkd_lovelock/code/src/main.rs` | crate source (hashed; it is the crate's own program, not used by the exporter) | `e1b08e838aa6ec843cf23a48970d263418f1f2d377e10d7f0da95524a0e53cae` | 263 | 15,686 |
+| `Revision/gkd_lovelock/code/src/main.rs` | crate source (hashed; it is the crate's own program, not used by the exporter) | `12e18732dd4b2db7c8e44440fb9b25e883d53a344f615852b265bc4b1c5e724d` | 263 | 15,695 |
 | `Revision/gkd_lovelock/code/src/output.rs` | crate source (compiled) | `668921a2cf0ce4f19371981702794bcb3934945ffa9faed1f6a77c0254023759` | 72 | 2,543 |
 | `Revision/gkd_lovelock/code/src/poly.rs` | crate source (compiled) | `392a321b76ec60891bbb9b5d226a96425c745cabbb3b59aba9aa3f266d508194` | 488 | 15,560 |
 | `Revision/gkd_lovelock/code/src/rational.rs` | crate source (compiled) | `a8e9b54a655dc9e1d15ef0f4203cb55eda168efd93e52b337573fb6d8c5384ba` | 141 | 3,716 |
@@ -835,8 +835,8 @@ What a run of the documented command creates, overwrites or starts:
 ### 6.4 The metric with b4 and the author's coordinates x0..x7 (2026-10-14)
 
 * Why: on 2026-10-14 the user changed the metric (the factor b4[x4] in the three extra-time components;
-  `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`) and ordered that his own coordinates X = {x0, x1, ..., x7}
-  be used throughout (x0 = the hidden direction, listed first, as in his notebooks). Until then the set used the
+  `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`) and ordered that their own coordinates X = {x0, x1, ..., x7}
+  be used throughout (x0 = the hidden direction, listed first, as in the author's notebooks). Until then the set used the
   labels x1..x8 with the hidden direction x8 listed last; those labels are withdrawn (map x8 -> x0, xk -> xk).
 * Changes: `LovelockGKDCheck.wl` (coordinates `{x0, ..., x7}`, the metric in that order with b4[x4], the domain
   `0 < 6 H x0 < Pi/2 && b4[x4] > 0`, the monomial reader with 13 exponents); `verify_lovelock_gkd.wls`
@@ -855,3 +855,14 @@ What a run of the documented command creates, overwrites or starts:
   64 Ricci and 64 Einstein components, R, L_(1..3), P_(1..3), A_(1..3), the counters and all check verdicts are
   identical; the 384 component lines of `lovelock-components.md` are the same set. The independent sympy twin
   `check_lovelock_gkd.py` (also relabelled) gives 49 of 49 checks (17 s).
+* Wording, later on 2026-10-14: the texts no longer refer to the author with a gendered pronoun ("his coordinates",
+  "his notebook(s)", "his order" -> "the author's ..."): comments of `LovelockGKDCheck.wl` and `geometry.rs`, the
+  metric description string `METRIC_AS_GIVEN` of `main.rs` (written into `curvature.json` and `lovelock-components.md`),
+  `check_lovelock_gkd.py`, `compare_with_author.py` and its report. Re-run: `cargo build --release`, `lovelock_gkd
+  lovelock --output Revision/gkd_lovelock/results --brute-force-k2` (16 s, `lovelock-tensors.json` and
+  `lovelock-report.json` byte-identical), `verify_lovelock_gkd.wls` 29 of 29 (85 s; the report differs only in the
+  sha256 of the four changed inputs), `check_lovelock_gkd.py` 49 of 49 (20 s), `compare_with_author.py` 73 PASS, 0
+  FAIL, 5 not available (1 s). New sha256 in the tables of section 2: `curvature.json`
+  `b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1`, `main.rs` `12e18732dd4b2db7c8e44440fb9b25e883d53a344f615852b265bc4b1c5e724d`,
+  `geometry.rs` `83328f22ae19086925db64099cfec1d87f6f14ad4e91d208f05da493a322320c`, `LovelockGKDCheck.wl`
+  `1112c5a3a54191a7fe1eae1e3659c92c9bb2a24002fbb24a64e7bbc7279795bd`.

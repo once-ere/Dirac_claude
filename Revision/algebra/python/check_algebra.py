@@ -20,7 +20,7 @@ read only, never modified):
   In[370]  sigma16 = T16A[0].T16A[1].T16A[2].T16A[3]
   In[372]  T16A[8] = T16A[0].T16A[1]...T16A[7]
 
-in the author's coordinates X = {x0, x1, ..., x7} (SPEC sections 1-2; his notebooks), whose order IS the
+in the author's coordinates X = {x0, x1, ..., x7} (SPEC sections 1-2; the author's notebooks), whose order IS the
 notebook frame order (x0 = hidden, x1-x3 = 3-space, x4 = time, x5-x7 = extra times): gamma^(xk) = T16[k],
 k = 0..7; eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in x0..x7 (the notebook's eta4488).  Python index k = xk.
 (Until 2026-10-14 this file used the withdrawn labels x1..x8 with the hidden direction x8 listed last.)
@@ -57,7 +57,7 @@ FIXTURE = ALGEBRA / "gammas.json"
 REPORT = REPORTS / "python-algebra.json"
 OUR_GAMMAS = REPORTS / "python-gammas.json"
 
-COORDS = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # the author's coordinates, his order
+COORDS = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # the author's coordinates, in the author's order
 # author's coordinate index (0..7 for x0..x7) -> notebook T16 index: the identity
 COORD_TO_T16 = [0, 1, 2, 3, 4, 5, 6, 7]
 ETA = [1, 1, 1, 1, -1, -1, -1, -1]  # x0..x7, SPEC section 2 (= the notebook's eta4488)
@@ -432,7 +432,7 @@ def main():
     eta_ok = [eta4488[COORD_TO_T16[a]][COORD_TO_T16[a]] for a in range(8)] == ETA
     map_ok = COORDS == [f"x{k}" for k in range(8)] and COORD_TO_T16 == list(range(8))
     check("coordinate_map", eta_ok and map_ok,
-          "the author's coordinates x0..x7 in his order (x0 = the hidden direction first): gamma^(xk) = T16[k], "
+          "the author's coordinates x0..x7 in the author's order (x0 = the hidden direction first): gamma^(xk) = T16[k], "
           f"k = 0..7 (SPEC section 2) ({map_ok}); eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in x0..x7 is the notebook's "
           f"eta4488 itself ({eta_ok})")
 

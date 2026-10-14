@@ -23,7 +23,7 @@ use std::fs;
 use std::path::PathBuf;
 use std::time::Instant;
 
-const METRIC_AS_GIVEN: &str = "{{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},{0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},{0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},{0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}} (the user's metric of 2026-10-14 in the author's coordinates x0..x7, as in his notebook Dirac_Einstein-Lovelock_4+4_Nash.nb; b4 = 1 is the metric before 2026-10-14)";
+const METRIC_AS_GIVEN: &str = "{{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},{0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},{0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},{0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}} (the user's metric of 2026-10-14 in the author's coordinates x0..x7, as in the author's notebook Dirac_Einstein-Lovelock_4+4_Nash.nb; b4 = 1 is the metric before 2026-10-14)";
 
 struct Check {
     name: String,

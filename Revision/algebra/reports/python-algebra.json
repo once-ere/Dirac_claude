@@ -49,7 +49,7 @@
     {
       "name": "coordinate_map",
       "verdict": "pass",
-      "detail": "the author's coordinates x0..x7 in his order (x0 = the hidden direction first): gamma^(xk) = T16[k], k = 0..7 (SPEC section 2) (True); eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in x0..x7 is the notebook's eta4488 itself (True)"
+      "detail": "the author's coordinates x0..x7 in the author's order (x0 = the hidden direction first): gamma^(xk) = T16[k], k = 0..7 (SPEC section 2) (True); eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in x0..x7 is the notebook's eta4488 itself (True)"
     },
     {
       "name": "clifford_relation",

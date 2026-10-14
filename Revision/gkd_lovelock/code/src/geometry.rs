@@ -1,4 +1,4 @@
-//! The test metric (exactly as given by the author, in his coordinates x0..x7 stored at
+//! The test metric (exactly as given by the author, in the author's coordinates x0..x7 stored at
 //! indices 0..7, x0 = the hidden direction first; since 2026-10-14 with the metric function
 //! b4[x4] of the user's order and the author's notebook Dirac_Einstein-Lovelock_4+4_Nash.nb)
 //! and its curvature, computed exactly.

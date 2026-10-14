@@ -13,7 +13,7 @@
     {"name": "tau_taubar_Clifford_relation", "verdict": "PASS", "detail": "tau[A] taubar[B] + tau[B] taubar[A] = taubar[A] tau[B] + taubar[B] tau[A] = 2 eta4488_AB I8 for A, B = 0..7, eta4488 = diag(1,1,1,1,-1,-1,-1,-1) (the notebook's frame order)"},
     {"name": "tau7_and_sigma_identities", "verdict": "PASS", "detail": "sigma = tau[1] tau[2] tau[3] = tau[4] tau[5] tau[6] tau[7] and sigma taubar[A] = (sigma tau[A])^T, A = 0..7 (identities stated in the notebook, re-verified)"},
     {"name": "T16_block_form", "verdict": "PASS", "detail": "T16[A] = {{0, taubar[A]}, {tau[A], 0}}, A = 0..7"},
-    {"name": "coordinate_map", "verdict": "PASS", "detail": "the author's coordinates x0..x7 in his order (x0 = the hidden direction first): gamma^(xk) = T16[k] for k = 0..7 (SPEC section 2)"},
+    {"name": "coordinate_map", "verdict": "PASS", "detail": "the author's coordinates x0..x7 in the author's order (x0 = the hidden direction first): gamma^(xk) = T16[k] for k = 0..7 (SPEC section 2)"},
     {"name": "eta_in_author_order", "verdict": "PASS", "detail": "eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in the order x0..x7 = the notebook's eta4488: space-like x0, x1, x2, x3; time-like x4, x5, x6, x7"},
     {"name": "Clifford_relation", "verdict": "PASS", "detail": "{gamma^a, gamma^b} = 2 eta^ab I16 for all 64 pairs a, b in x0..x7 (exact integer arithmetic); squares: x0:1, x1:1, x2:1, x3:1, x4:-1, x5:-1, x6:-1, x7:-1"},
     {"name": "reality", "verdict": "PASS", "detail": "every gamma^a is a real 16 x 16 matrix with entries in {-1, 0, 1}"},

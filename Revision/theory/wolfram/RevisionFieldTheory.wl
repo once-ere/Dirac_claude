@@ -13,7 +13,7 @@
    (decoded by its own reader below, independent of the algebra package).
 
    Names.  The package defines global symbols with the prefix rft (functions, data) and uses the
-   global coordinate symbols x0 ... x7, the author's coordinates in his order (x0 = the hidden direction,
+   global coordinate symbols x0 ... x7, the author's coordinates in the author's order (x0 = the hidden direction,
    x1, x2, x3 = 3-space, x4 = time, x5, x6, x7 = the exponentially deflating extra times; Wolfram position
    k + 1 holds xk), the metric function a4[x4], the constant H > 0, the mass m, the coupling lam and
    z = 6 H x0 in (0, Pi/2).  (Until 2026-10-14 the package used the withdrawn labels x1 ... x8 with the
@@ -52,7 +52,7 @@
 *)
 
 (* ------------------------------------------------------------------ coordinates and metric *)
-(* the author's coordinates x0..x7 in his order; Wolfram position k + 1 holds xk *)
+(* the author's coordinates x0..x7 in the author's order; Wolfram position k + 1 holds xk *)
 rftX = {x0, x1, x2, x3, x4, x5, x6, x7};
 rftZ = 6 H x0;
 rftCoordNames = {"x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"};

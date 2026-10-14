@@ -39,7 +39,7 @@ x5..x7 the extra times):
 
 **The coordinates are the author's: X = {x0, x1, x2, x3, x4, x5, x6, x7}** (the notebook's In[48]; also the older
 notebook Pair_Creation_of_Universes_...Nash.nb).  Every array, every component list and every frame index of the
-Revision record is ordered x0, x1, ..., x7 (index 0 = x0).  On 2026-10-14 the user ordered that his coordinates be used
+Revision record is ordered x0, x1, ..., x7 (index 0 = x0).  On 2026-10-14 the user ordered that their coordinates be used
 throughout ("YOU MUST USE MY COORDINATES {x0,x1,x2,x3,x4,x5,x6,x7}"); until then the Revision record had named them
 x1 ... x8 with the hidden direction x8 listed LAST (following the metric text of the task message of 2026-10-01, quoted
 in `Revision/README.md`).  That labelling is withdrawn; the map from it is x8 -> x0 (moved to the front), xk -> xk

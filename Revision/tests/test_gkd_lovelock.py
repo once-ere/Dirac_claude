@@ -62,13 +62,13 @@ SCRATCH = os.environ.get("REVISION_SCRATCH") or None
 
 # sha256 of the committed files.
 PINNED = {
-    "curvature.json": "f8d7969991af89dde0a007cfa2f48d928326a263c94946344a19c31ef843c96e",
-    "lovelock-tensors.json": "5dfd10de558904fa0845fe9035b4a3c8ef146dab250337b8ef9002d4274f99f0",
-    "lovelock-components.md": "1d729040a1a5e2fda51ef7537cc42e7b726cbe024dbca97d2b9a45d615a7e6ae",
-    "lovelock-report.json": "fbf9de79a0deb61eb7727e7b354cdce64f2ecc4fb503c14d30bc91ff6a9ba677",
+    "curvature.json": "b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1",
+    "lovelock-tensors.json": "f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c",
+    "lovelock-components.md": "37f06066b2fed49718ebb6dd8f502f470bc1b1d83d2c34c9d008af44d6b1a86d",
+    "lovelock-report.json": "c0202db95902003ad9dfe3b58137c5db798057d75265d7bcd16fe0483fa3b4d0",
     "gkd-selftest.json": "6cd72bd8d5d8d2f7acb4825ed0a975a26aaad343e323b9c96f6d1fc4f294d1dc",
-    "python-lovelock-report.json": "8b0356708bfeab7e23f6d0db210aa6684d5a293f5a2982d1b42744ec4d8f8cbe",
-    "wolfram-gkd-report.json": "891e7f6dbbe3b317fbd63948406515ac0a829e8be550815955f6fcfa56e1f186",
+    "python-lovelock-report.json": "d027c58b5e7ddb3cbe0b97b49d940f6cc2c403b0b358141a350967e6552b095d",
+    "wolfram-gkd-report.json": "f0fcd8e3880b2bddc8570ea501b26f6771f79dd0e463063dd1bd22c7bfd18d0d",
 }
 RUST_LOVELOCK_OUTPUTS = ["curvature.json", "lovelock-tensors.json", "lovelock-components.md", "lovelock-report.json"]
 PY_CHECK_COUNT = 49
@@ -165,10 +165,10 @@ class TestCanonAndReaders(unittest.TestCase):
     def test_readers_agree(self):
         entry = load("lovelock-tensors.json")["A3_contravariant_l_h"]["x5,x5"]
         self.assertTrue(C.is_zero(C.from_mathematica(entry["mathematica"]) - C.from_monomials(entry["monomials"])))
-        expr = C.from_mathematica("-(4)*Derivative[2][a4][x4]*E^(-2*a4[x4])*Sin[6*H*x8]^(2/3)*Cot[6*H*x8]")
+        expr = C.from_mathematica("-(4)*Derivative[2][a4][x4]*E^(-2*a4[x4])*Sin[6*H*x0]^(2/3)*Cot[6*H*x0]")
         self.assertEqual(expr, -4 * C.DER[1] * sp.exp(-2 * C.a4(C.x4)) * sp.sin(C.TH) ** sp.Rational(2, 3) * sp.cot(C.TH))
         with self.assertRaises(ValueError):
-            C.from_mathematica("Foo[x8]")
+            C.from_mathematica("Foo[x0]")
 
     def test_negative_control_is_detected(self):
         comp = C.Comparator(C.Points())

@@ -37,7 +37,7 @@
         T16[A] = {{0, taubar[A]}, {tau[A], 0}}           A = 0..7
         T16[8] = T16[0] . T16[1] . ... . T16[7]
 
-   4. The author's coordinates X = {x0, x1, x2, x3, x4, x5, x6, x7} (his notebooks; SPEC sections 1, 2):
+   4. The author's coordinates X = {x0, x1, x2, x3, x4, x5, x6, x7} (the author's notebooks; SPEC sections 1, 2):
       x0 = the hidden direction, x1, x2, x3 = 3-space, x4 = time, x5, x6, x7 = the exponentially
       deflating extra times.  The coordinate order IS the notebook's frame order:
 
@@ -50,7 +50,7 @@
         Gamma = gamma^(x0) . gamma^(x1) . ... . gamma^(x7)              (the notebook's T16[8])
 
       (Until 2026-10-14 this package used the labels x1..x8 with the hidden direction x8 = T16[0]
-      listed last.  That labelling is withdrawn: the user ordered his coordinates {x0, ..., x7}.)
+      listed last.  That labelling is withdrawn: the user ordered their coordinates {x0, ..., x7}.)
         B     = -I C . gamma^(x4)
         S^ab  = (1/4) (gamma^a . gamma^b - gamma^b . gamma^a)
 

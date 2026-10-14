@@ -28,7 +28,7 @@ gamma^(x0), ..., gamma^(x7) that square to plus or minus the identity and antico
 
 (order x0 ... x7; the four entries +1 belong to the space-like directions x0, x1, x2, x3 and the four
 entries -1 to the time-like directions x4, x5, x6, x7: the signature (4, 4)). This rule is called the
-Clifford relation. The author built such matrices, called `T16`, in his Mathematica notebook
+Clifford relation. The author built such matrices, called `T16`, in the author's Mathematica notebook
 `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`. This set does NOT
 open that notebook: the author's formulas were re-typed into `RevisionAlgebra.wl` (from the notebook's
 input cells In[45], In[46], In[294], In[300], In[301], In[338], In[351], In[370], In[371], In[372]),
@@ -38,8 +38,8 @@ and the matrices are rebuilt from them in four steps:
    and Kronecker deltas;
 2. 8 x 8 matrices `sigma`, `tau[A]` and `taubar[A]` (A = 0 ... 7) from the blocks;
 3. 16 x 16 matrices `T16[A] = {{0, taubar[A]}, {tau[A], 0}}`;
-4. the author's coordinates: gamma^(xk) = T16[k] for k = 0 ... 7 (his coordinate order is the frame
-   order of his notebook, so no reordering is made).
+4. the author's coordinates: gamma^(xk) = T16[k] for k = 0 ... 7 (the author's coordinate order is the frame
+   order of the author's notebook, so no reordering is made).
 
 From the gammas it builds:
 
@@ -185,8 +185,8 @@ Line counts are numbers of LF line endings; every file below uses LF line ending
 
 | file | role | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/algebra/wolfram/verify_algebra.wls` | the driver you run; it loads the package, runs the 45 checks, writes the two outputs, prints the verdicts and exits | `944adb6c8239f012e42a79a75f75958fb325b5792cb1963503b888baf6b779d5` | 284 | 17993 |
-| `Revision/algebra/wolfram/RevisionAlgebra.wl` | the package (context ``RevisionAlgebra` ``): the author's formulas, the exact linear algebra (commutants, intertwiners, span dimension) and the JSON writer and reader | `6ea75dc111bc4a69e2849b77ad90dbce31550bfb4a025f264b65a516e22a30f2` | 263 | 15683 |
+| `Revision/algebra/wolfram/verify_algebra.wls` | the driver you run; it loads the package, runs the 45 checks, writes the two outputs, prints the verdicts and exits | `15ea1bdc76b22e47e5960a58462af56aa17867bb4c691b56eca68727d875625e` | 284 | 18002 |
+| `Revision/algebra/wolfram/RevisionAlgebra.wl` | the package (context ``RevisionAlgebra` ``): the author's formulas, the exact linear algebra (commutants, intertwiners, span dimension) and the JSON writer and reader | `8fbc14e89c53e95dc4989e66666864bf729759f063407c442226bf4eed3b54a3` | 263 | 15694 |
 
 The two files above are the versions in the author's coordinates x0..x7 (2026-10-14, section 6.7). The
 versions before, in the withdrawn labels x1..x8, were the driver sha256
@@ -207,7 +207,7 @@ only in what happens when an output cannot be written (section 3.7).
 
 | input | sha256 | how it is read |
 | --- | --- | --- |
-| `Revision/algebra/wolfram/RevisionAlgebra.wl` | `6ea75dc111bc4a69e2849b77ad90dbce31550bfb4a025f264b65a516e22a30f2` | `Get` from the folder of the driver (`$InputFileName`), so it is found from any working directory |
+| `Revision/algebra/wolfram/RevisionAlgebra.wl` | `8fbc14e89c53e95dc4989e66666864bf729759f063407c442226bf4eed3b54a3` | `Get` from the folder of the driver (`$InputFileName`), so it is found from any working directory |
 
 There is no other input. The author's notebook is not read (its formulas are re-typed in the package).
 The script reads `Revision/algebra/gammas.json` back with `Import[..., "RawJSON"]` for check 45, but only
@@ -220,7 +220,7 @@ any check is reported, section 3.7).
 | output | content | sha256 of the committed file (and of every verified run) | lines | bytes |
 | --- | --- | --- | --- | --- |
 | `Revision/algebra/gammas.json` | the fixture: `description`, `producer`, `encoding`, `definitions`, `coordinates`, `notebookFrameIndex`, `eta` (8 numbers), `gamma` (8 matrices 16 x 16), `C`, `Gamma` (16 x 16), `B` (as `{"re": ..., "im": ...}`), `S` (8 x 8 matrices 16 x 16; entries 1/2 written as the string `"1/2"`) | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` | 1405 | 76894 |
-| `Revision/algebra/reports/wolfram-algebra.json` | the report: `report`, `producer`, `package`, `fixture`, `coordinates`, `summary`, `checks` (45 objects with `name`, `verdict`, `detail`) | `1df697c0b5621c34101f7e913aed7804713ac2ce8f6cc53cc7c1a6f6a1376a7e` | 55 | 9334 |
+| `Revision/algebra/reports/wolfram-algebra.json` | the report: `report`, `producer`, `package`, `fixture`, `coordinates`, `summary`, `checks` (45 objects with `name`, `verdict`, `detail`) | `49df71c2ebbc45d1436edfa74aa22f5903f38cb520d76032a29e44a7a67048b1` | 55 | 9343 |
 
 Before 2026-10-14 (labels x1..x8) the two outputs had sha256
 `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` (gammas.json, 76968 bytes) and
@@ -979,7 +979,7 @@ instead. Afterwards `git status --porcelain` prints nothing.
 
 ### 6.7 The author's coordinates x0..x7 (2026-10-14)
 
-* Why: on 2026-10-14 the author ordered that his own coordinates X = {x0, x1, x2, x3, x4, x5, x6, x7} (his
+* Why: on 2026-10-14 the author ordered that their own coordinates X = {x0, x1, x2, x3, x4, x5, x6, x7} (the author's
   notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb`, In[48]; x0 = the hidden direction, listed first) be used
   throughout. Up to this date the set used the labels x1..x8 with the hidden direction x8 = T16[0] listed
   last; those labels are withdrawn. The map from the withdrawn labels is x8 -> x0 (moved to the front),
@@ -1004,3 +1004,11 @@ instead. Afterwards `git status --porcelain` prints nothing.
   under the permutation new index k <- old index (7, 0, 1, 2, 3, 4, 5, 6)[k], i.e. old x8 -> new x0.
 * Consequence: every consumer of `gammas.json` that records its sha256 (section 1.4) must be re-run; they
   are relabelled in the same work.
+* Wording, later on 2026-10-14: the texts of this set no longer refer to the author or the user with a gendered
+  pronoun ("his order" -> "the author's order", "his notebooks" -> "the author's notebooks"); changed:
+  `RevisionAlgebra.wl` (two comments), `verify_algebra.wls` (the detail of `coordinate_map`), the sympy twin
+  `check_algebra.py`, this file. Re-run: `verify_algebra.wls` 45 of 45 (4 s), `check_algebra.py` 35 of 35 (2 s);
+  `gammas.json` and `python-gammas.json` byte-identical; the two reports differ only in that detail. New sha256 (the
+  tables of section 2): `verify_algebra.wls` `15ea1bdc76b22e47e5960a58462af56aa17867bb4c691b56eca68727d875625e`,
+  `RevisionAlgebra.wl` `8fbc14e89c53e95dc4989e66666864bf729759f063407c442226bf4eed3b54a3`, `wolfram-algebra.json`
+  `49df71c2ebbc45d1436edfa74aa22f5903f38cb520d76032a29e44a7a67048b1`.

@@ -12,8 +12,9 @@ anew by code in this folder. The binding plan is [`SPEC.md`](SPEC.md).
 > Make this change throughout the entire project; create a provenance that proves that these critical
 > changes were correctly made by you.
 
-The notebook's x0 is the hidden direction, which this record calls x8 (`SPEC.md` section 1 gives the metric
-in both orders).  Against the metric of the task of 2026-10-01 below, the only change is the new function
+This record uses the author's coordinates {x0, x1, ..., x7} in the author's order (x0 = the hidden direction, listed
+first; ordered by the user on 2026-10-14; the task of 2026-10-01 quoted below writes the hidden direction as x0,
+listed last: x0 -> x0, xk -> xk; `SPEC.md` section 1 gives the metric in the author's order).  Against the metric of the task of 2026-10-01 below, the only change is the new function
 b4[x4] in the three extra-time components (b4 = 1 is the earlier metric).  The proof of the change and its
 consequences: [`metric_b4/METRIC_CHANGE_PROVENANCE.md`](metric_b4/METRIC_CHANGE_PROVENANCE.md).  The task
 of 2026-10-01 is quoted below unchanged, as the user gave it then.
@@ -90,7 +91,7 @@ of 2026-10-01 is quoted below unchanged, as the user gave it then.
   spinors). The non-trivial Lagrangian is the Dirac-type one with Psibar = Psi^dagger C; the notebook's
   real Majorana-type Lg[] is a total derivative for anticommuting fields. In this metric, in the diagonal
   vielbein, the time-direction spin-connection terms of the 3 inflating and 3 deflating directions cancel
-  exactly, while a hidden-direction term 3 H gamma^(x8) survives. Non-triviality [1], [2] holds in the
+  exactly, while a hidden-direction term 3 H gamma^(x0) survives. Non-triviality [1], [2] holds in the
   qualified sense stated in the correction below (this sentence was written as a plan before the work and
   has been corrected after it).
 * Canonical quantisation in 4 + 4: when Psi^dagger is realised as the Hilbert adjoint, the canonical
@@ -104,7 +105,7 @@ of 2026-10-01 is quoted below unchanged, as the user gave it then.
   Hermitian only up to a boundary term at z = pi/2; the field-theory record imposes no boundary condition
   there (the Z2 brane is an ASSUMPTION, stated where it is used, e.g. in T2 and T3), and without one the good
   sector has complex frequencies (for U = 0) whenever m^2 < 9 H^2 (checks good_sector_hermiticity_up_to_the_brane_flux
-  and good_sector_x8_independent_modes_without_boundary_condition of `theory/reports/wolfram-scope.json`). A
+  and good_sector_x0_independent_modes_without_boundary_condition of `theory/reports/wolfram-scope.json`). A
   positive-norm Hilbert space for the full field in the deflating background is not established.
   The energy-momentum tensor operator for lambda != 0 (U = (lambda/2) S^2) was checked after the work in a
   finite fermionic Fock model of one good-sector plane-wave mode set with frozen coefficients
@@ -114,7 +115,7 @@ of 2026-10-01 is quoted below unchanged, as the user gave it then.
   (normal) ordered; rho = m S + U and p = S U' - U are proved as Wick-ordered operator identities only on the
   rest-frame mode set (k = 0, the homogeneous sector); with the other orderings tested the identity fails
   already in expectation values. Nothing is proved for the field on a whole slice,
-  for the curved x8 dependence or for the extra-time sector, and symmetry and conservation of the quartic
+  for the curved x0 dependence or for the extra-time sector, and symmetry and conservation of the quartic
   operator are not verified.
 * "PROVE that Universes ... are created in pairs": the pairing theorems T1, T2 (both fields), the quantum
   reading Q (dirac16complex) and the Kohn-Sham-level theorem T3 (dirac16complex) are proved, each under its
@@ -125,12 +126,12 @@ of 2026-10-01 is quoted below unchanged, as the user gave it then.
 **Correction for the author (2026-10-01, after the review; you asked to be corrected where you are wrong).**
 Non-triviality [1] and [2] are true only in a qualified sense. In this metric the canonical spin connection
 drops out of the Lagrangian, so the Euler-Lagrange equations are those of the connection-free symmetric
-Lagrangian; the surviving term 3 H gamma^(x8) is its half-density (volume and vielbein divergence) term. Its
-value belongs to the diagonal vielbein: in a frame boosted in the (x4, x8) plane with rapidity 6 H x4 the term
+Lagrangian; the surviving term 3 H gamma^(x0) is its half-density (volume and vielbein divergence) term. Its
+value belongs to the diagonal vielbein: in a frame boosted in the (x4, x0) plane with rapidity 6 H x4 the term
 gamma^mu Omega_mu vanishes identically, and the rescaling Psi = sin^(-1/2)(z) chi removes it (completely for
 U = 0). The deflation a4 contributes nothing to gamma^mu Omega_mu; it enters through the vielbein factors
 e^(-+a4). What is frame-independent: Omega_mu vanishes in no frame (its curvature is the Riemann tensor,
-R^x8_x8 = -6 H^2), the vielbein factors enter every derivative term, and the metric is curved for every
+R^x0_x0 = -6 H^2), the vielbein factors enter every derivative term, and the metric is curved for every
 H > 0; the spin connection also enters the energy-momentum tensor. The exact checks are in
 `theory/reports/wolfram-scope.json` and `theory/reports/python-scope.json`.
 

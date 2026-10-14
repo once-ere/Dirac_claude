@@ -34,7 +34,7 @@
   {
    "name": "metric_equals_author_Out101",
    "pass": true,
-   "detail": "the metric = the author's Out[101], component by component in his coordinates x0..x7"
+   "detail": "the metric = the author's Out[101], component by component in the author's coordinates x0..x7"
   },
   {
    "name": "ricci_scalar_equals_author_Out119",

@@ -8,7 +8,7 @@
     },
     {
       "path": "Revision/gkd_lovelock/results/curvature.json",
-      "sha256": "6412e69bb38e983165e4e2237308059021ba8a5756b37c9613da201fad0152a0"
+      "sha256": "b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1"
     },
     {
       "path": "Revision/gkd_lovelock/results/lovelock-tensors.json",
@@ -16,7 +16,7 @@
     },
     {
       "path": "Revision/SPEC.md",
-      "sha256": "7e376ccd0d72ce2c9564265d52ea7636e7f89b998d504d1d3e90dfb869acb2f5"
+      "sha256": "465e96ca5ab6dc52136f971d56137f592e6d83c0f85bacde516bde874ea94715"
     },
     {
       "path": "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb",
@@ -33,7 +33,7 @@
     ]
   },
   "mapping": {
-    "coordinates": "the identity: the Revision uses the author's coordinates x0..x7 in his order (array position k + 1 = xk on both sides); no component is permuted",
+    "coordinates": "the identity: the Revision uses the author's coordinates x0..x7 in the author's order (array position k + 1 = xk on both sides); no component is permuted",
     "function": "a4_Revision(x4) := a4_author(H*x4); therefore a4_author^(n)(H*x4) = H^(-n) a4_Revision^(n)(x4) (chain rule; n = 0, 1, 2); only the argument H*x4 occurs in the author's outputs (checked)",
     "constant": "H is the same constant on both sides",
     "b4": "the metric of 2026-10-14 has b4[x4] in the extra-time components; this author notebook (before 2026-10-14) has no b4, so every comparison with it is made at b4 = 1, b4' = b4'' = 0 (the earlier metric); the comparison of SPEC section 1 with curvature.json keeps b4",

@@ -8,7 +8,7 @@
    Ricci tensor, Ricci scalar, Einstein tensor, the Lovelock tensors k = 1, 2, 3 and the vacuum
    Einstein-Lovelock equations.  Context MetricB4`.  Driven by verify_metric_b4.wls.
 
-   The metric in the author's coordinates x0, x1, ..., x7 (his order, as in the notebook: x0 the hidden
+   The metric in the author's coordinates x0, x1, ..., x7 (the author's order, as in the notebook: x0 the hidden
    direction, listed first; x1, x2, x3 space; x4 time; x5, x6, x7 the exponentially deflating extra times):
 
      g = diag( Cot[6 H x0]^2                              (x0),
@@ -39,7 +39,7 @@ BeginPackage["MetricB4`"];
 H::usage = "H > 0, the author's constant.";
 a4::usage = "a4[x4], the metric function of the 3-space and extra-time scale factors.";
 b4::usage = "b4[x4] > 0, the metric function of the three extra-time components (new on 2026-10-14).";
-x0::usage = "the author's coordinates x0 .. x7 (his order; x0 is the hidden direction).";
+x0::usage = "the author's coordinates x0 .. x7 (the author's order; x0 is the hidden direction).";
 x1::usage = x0::usage; x2::usage = x0::usage; x3::usage = x0::usage; x4::usage = x0::usage;
 x5::usage = x0::usage; x6::usage = x0::usage; x7::usage = x0::usage;
 w1::usage = "Lovelock weight of k = 1."; w2::usage = "Lovelock weight of k = 2."; w3::usage = "Lovelock weight of k = 3.";

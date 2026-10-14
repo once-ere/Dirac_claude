@@ -21,8 +21,8 @@
       determinant is the generalized Kronecker delta delta^{u1 ... up}_{l1 ... lp}.
       This file never replaces it by a "faster" formula.
 
-   2. The metric (exactly as the author gave it, in his coordinates x0..x7 = Wolfram positions 1..8
-      here, x0 = the hidden direction first, as in his notebook Dirac_Einstein-Lovelock_4+4_Nash.nb;
+   2. The metric (exactly as the author gave it, in the author's coordinates x0..x7 = Wolfram positions 1..8
+      here, x0 = the hidden direction first, as in the author's notebook Dirac_Einstein-Lovelock_4+4_Nash.nb;
       since 2026-10-14 with the metric function b4[x4] of the user's order; b4 = 1 is the metric before
       2026-10-14; the labels x1..x8 with the hidden direction x8 last, used until 2026-10-14, are withdrawn):
 

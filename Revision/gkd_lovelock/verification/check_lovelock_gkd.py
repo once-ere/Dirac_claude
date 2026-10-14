@@ -17,7 +17,7 @@ for the author's 8 x 8 test metric
               -1                              (x4),
               -e^{-2 a4(x4)} b4(x4) sin(6 H x0)^{1/3} (x5, x6, x7) ),
 
-in the author's coordinates x0 ... x7 (x0 = the hidden direction, listed first, as in his notebooks; the
+in the author's coordinates x0 ... x7 (x0 = the hidden direction, listed first, as in the author's notebooks; the
 labels x1 ... x8 with the hidden direction x8 last, used until 2026-10-14, are withdrawn),
 
 and writes them to ``Revision/gkd_lovelock/results/`` (``curvature.json``, ``lovelock-tensors.json``).

@@ -9,7 +9,7 @@
     "symbols": "A1 = a4'(x4), A2 = a4''(x4), c = cot(6 H x0)"
   },
   "inputsSha256": {
-    "curvature.json": "6412e69bb38e983165e4e2237308059021ba8a5756b37c9613da201fad0152a0",
+    "curvature.json": "b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1",
     "lovelock-tensors.json": "f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c"
   },
   "randomPoints": [

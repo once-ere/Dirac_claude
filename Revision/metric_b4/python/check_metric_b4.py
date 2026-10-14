@@ -16,7 +16,7 @@ and a difference is zero exactly when its numerator vanishes modulo c^2 = 1 - S^
   * at b4 = 1 with the earlier record (curvature.json and lovelock-tensors.json before 2026-10-14, frozen in
     Revision/metric_b4/reference_b4_1/ from commit e3e35fe),
 and writes Revision/metric_b4/results/python-metric-b4-report.json (checks; UTF-8, LF, no time stamps).
-Coordinates: the author's x0, x1, ..., x7 in his order (x0 = the hidden direction, index 0; xk = index k).  The frozen
+Coordinates: the author's x0, x1, ..., x7 in the author's order (x0 = the hidden direction, index 0; xk = index k).  The frozen
 b4 = 1 record is in the withdrawn labels x1..x8 (hidden x8 last) and is read through the map x8 -> x0, xk -> xk.
 Exit code 0 if every check passes, 1 otherwise.  Usage (repository root):
     python Revision/metric_b4/python/check_metric_b4.py
@@ -287,7 +287,7 @@ au = json.load(open(os.path.join(RES, "author-b4-outputs.json"), encoding="utf-8
 A101 = mma(au["Out[101]"], author=True)
 check("metric_equals_author_Out101", all(is_zero(to_symbols(gdiag[p]) - sym(A101[p][p])) for p in range(8))
       and all(A101[p][q] == 0 for p in range(8) for q in range(8) if p != q),
-      "the metric = the author's Out[101], component by component in his coordinates x0..x7")
+      "the metric = the author's Out[101], component by component in the author's coordinates x0..x7")
 check("ricci_scalar_equals_author_Out119", is_zero(Rs - sym(mma(au["Out[119]"], author=True))), "R = Out[119]")
 check("einstein_equals_author_Out120", same(G, author_to_revision(mma(au["Out[120]"], author=True)), "Out120"), "G = Out[120]")
 check("ricci_equals_author_Out124", same(ricci, author_to_revision(mma(au["Out[124]"], author=True)), "Out124"), "R^h_j = Out[124]")

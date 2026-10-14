@@ -11,7 +11,7 @@
 		"x6",
 		"x7"
 	],
-	"coordinateMap":"the author's coordinates x0..x7 of the notebook, in his order (identity; x0 = the hidden direction)",
+	"coordinateMap":"the author's coordinates x0..x7 of the notebook, in the author's order (identity; x0 = the hidden direction)",
 	"metricDiagonal":[
 		"Cot[6*H*x0]^2",
 		"E^(2*a4[x4])*Sin[6*H*x0]^(1\/3)",

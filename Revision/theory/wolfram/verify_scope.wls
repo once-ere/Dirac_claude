@@ -12,7 +12,7 @@
    Usage:  wolframscript -file Revision/theory/wolfram/verify_scope.wls
    Exit code 0 if every check passes, 1 otherwise.
 
-   Coordinates as the author names them, in his order x0..x7 (Wolfram position k + 1 holds xk): x0 = the hidden
+   Coordinates as the author names them, in the author's order x0..x7 (Wolfram position k + 1 holds xk): x0 = the hidden
    direction, z = 6 H x0 in (0, Pi/2); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the three extra times, which
    DEFLATE exponentially (scale factor e^-a4 sin^(1/6) z, a4 increasing).  (Until 2026-10-14 this file used the
    withdrawn labels x1..x8 with the hidden direction x8 listed last.)

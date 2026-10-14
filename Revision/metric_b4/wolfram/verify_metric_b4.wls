@@ -13,7 +13,7 @@
      (C) exact identities (the divergence of every Lovelock tensor vanishes; constant b4 drops out of every
          curvature quantity; sqrt|det g| = b4^(3/2) Cos[6 H x0]; the only off-diagonal entries are (x0, x4)
          and (x4, x0), each proportional to b4'[x4]).
-   Coordinates: the author's x0, x1, ..., x7 in his order (x0 = the hidden direction, Wolfram position 1; xk at
+   Coordinates: the author's x0, x1, ..., x7 in the author's order (x0 = the hidden direction, Wolfram position 1; xk at
    position k + 1).  The frozen b4 = 1 record of (B) is in the withdrawn labels x1..x8 (hidden x8 last); it is read
    through the map x8 -> x0, xk -> xk.
    Writes Revision/metric_b4/results/metric-b4.json (the components) and wolfram-metric-b4-report.json (the
@@ -136,7 +136,7 @@ mixedAssoc[M_] := Association[Flatten[Table[If[M[[h, j]] === 0, Nothing, (lab[[h
 out = <|
   "program" -> "Revision/metric_b4/wolfram/verify_metric_b4.wls",
   "metricAsGiven" -> "{{Cot[6 H x0[]]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4[]]) Sin[6 H x0[]]^(1/3),0,0,0,0,0,0},{0,0,E^(2 a4[x4[]]) Sin[6 H x0[]]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4[]]) Sin[6 H x0[]]^(1/3),0,0,0,0},{0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1/3),0,0},{0,0,0,0,0,0,-E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1/3)}}",
-  "coordinates" -> lab, "coordinateMap" -> "the author's coordinates x0..x7 of the notebook, in his order (identity; x0 = the hidden direction)",
+  "coordinates" -> lab, "coordinateMap" -> "the author's coordinates x0..x7 of the notebook, in the author's order (identity; x0 = the hidden direction)",
   "metricDiagonal" -> (str /@ Diagonal[g]), "sqrtAbsDetG" -> str[curv["sqrtAbsDetG"]],
   "christoffelNonzero" -> Flatten[Table[If[chr[[a, b, c]] === 0 || b > c, Nothing, <|"a" -> lab[[a]], "b" -> lab[[b]], "c" -> lab[[c]], "value" -> str[chr[[a, b, c]]]|>], {a, 8}, {b, 8}, {c, 8}]],
   "riemannMixedNonzeroCount" -> Length[curv["nonzeroMixed"]],

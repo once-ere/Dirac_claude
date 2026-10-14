@@ -7,7 +7,7 @@ Revision/theory/reports/python-scope.json (deterministic, LF).
 
 Usage:  python Revision/theory/python/check_scope.py [--out PATH]
 
-Coordinates as the author names them, in his order x0..x7 (arrays index them 0..7, index k = xk): x0 = the hidden
+Coordinates as the author names them, in the author's order x0..x7 (arrays index them 0..7, index k = xk): x0 = the hidden
 direction, z = 6 H x0 in (0, pi/2); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the three extra times, which DEFLATE
 exponentially (scale factor e^{-a4} sin^{1/6} z, a4 increasing).  (Until 2026-10-14 the withdrawn labels x1..x8 with the
 hidden direction x8 last were used.)

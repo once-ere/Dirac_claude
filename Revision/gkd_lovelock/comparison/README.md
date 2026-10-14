@@ -86,7 +86,7 @@ compared exactly, for general b4, in `Revision/metric_b4/` (`verify_metric_b4.wl
 
 * Coordinates. The author's `X = {x0, x1, ..., x7}` (`In[26]`): array position 1 is `x0`, the hidden
   direction (`g00 = Cot[6 H x0]^2`), positions 2 to 8 are `x1` ... `x7`. The Revision (SPEC section 1) uses
-  the author's own coordinates in his order: x0 (hidden), x1, x2, x3 (space), x4 (time), x5, x6, x7 (the extra
+  the author's own coordinates in the author's order: x0 (hidden), x1, x2, x3 (space), x4 (time), x5, x6, x7 (the extra
   times, which deflate exponentially, scale factor e^{-a4} b4^{1/2} sin^{1/6} z with a4 increasing). Mapping: the
   identity; no component is permuted. (Until 2026-10-14 the Revision used the withdrawn labels x1 ... x8 with the
   hidden direction x8 last, and the mapping was author `x0` -> Revision `x8`; the checks and verdicts are the same

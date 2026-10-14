@@ -45,7 +45,7 @@ SPEC_MD = os.path.join(ROOT, "Revision", "SPEC.md")
 # Author (notebook In[26]: X = {x0, x1, ..., x7}; In[79]/In[82]: MatrixMetric44 with
 # beta3 = Exp[2 a4[H x4]], beta1 = Sin[6 H x0]^(1/3), beta2 = Cot[6 H x0]^2):
 #   array position 1 = x0 (the hidden direction), positions 2..8 = x1..x7.
-# Revision (SPEC section 1): the author's own coordinates x0..x7 in his order (x0 hidden, x1, x2, x3 space,
+# Revision (SPEC section 1): the author's own coordinates x0..x7 in the author's order (x0 hidden, x1, x2, x3 space,
 #   x4 time, x5, x6, x7 the deflating extra times); array positions 1..8 = x0..x7.
 # Coordinate mapping: the identity (author xk = Revision xk, k = 0..7).  (Until 2026-10-14 the Revision used the
 #   withdrawn labels x1..x8 with the hidden direction x8 last, and this script mapped author x0 -> Revision x8.)
@@ -56,7 +56,7 @@ AUTHOR_POSITION_TO_REVISION = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
 REVISION_ORDER = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
 
 MAPPING_TEXT = {
-    "coordinates": "the identity: the Revision uses the author's coordinates x0..x7 in his order (array position "
+    "coordinates": "the identity: the Revision uses the author's coordinates x0..x7 in the author's order (array position "
                    "k + 1 = xk on both sides); no component is permuted",
     "function": "a4_Revision(x4) := a4_author(H*x4); therefore a4_author^(n)(H*x4) = H^(-n) a4_Revision^(n)(x4) "
                 "(chain rule; n = 0, 1, 2); only the argument H*x4 occurs in the author's outputs (checked)",

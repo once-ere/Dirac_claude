@@ -78,7 +78,7 @@ addCheck["T16_block_form",
 addCheck["coordinate_map",
   coords == {"x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"} &&
   RANotebookFrame == {0, 1, 2, 3, 4, 5, 6, 7} && And @@ Table[g[[k + 1]] == RAT16[k], {k, 0, 7}],
-  "the author's coordinates x0..x7 in his order (x0 = the hidden direction first): gamma^(xk) = T16[k] for k = 0..7 (SPEC section 2)"];
+  "the author's coordinates x0..x7 in the author's order (x0 = the hidden direction first): gamma^(xk) = T16[k] for k = 0..7 (SPEC section 2)"];
 
 addCheck["eta_in_author_order",
   eta == DiagonalMatrix[{1, 1, 1, 1, -1, -1, -1, -1}] && eta == RAEta4488,

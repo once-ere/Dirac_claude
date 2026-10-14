@@ -1,6 +1,6 @@
 {
   "program": "lovelock_gkd lovelock",
-  "metricAsGiven": "{{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},{0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},{0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},{0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}} (the user's metric of 2026-10-14 in the author's coordinates x0..x7, as in his notebook Dirac_Einstein-Lovelock_4+4_Nash.nb; b4 = 1 is the metric before 2026-10-14)",
+  "metricAsGiven": "{{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},{0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},{0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},{0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}} (the user's metric of 2026-10-14 in the author's coordinates x0..x7, as in the author's notebook Dirac_Einstein-Lovelock_4+4_Nash.nb; b4 = 1 is the metric before 2026-10-14)",
   "coordinates": ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"],
   "metricDiagonal": ["Cot[6*H*x0]^2", "E^(2*a4[x4])*Sin[6*H*x0]^(1/3)", "E^(2*a4[x4])*Sin[6*H*x0]^(1/3)", "E^(2*a4[x4])*Sin[6*H*x0]^(1/3)", "-1", "-E^(-2*a4[x4])*Sin[6*H*x0]^(1/3)*b4[x4]", "-E^(-2*a4[x4])*Sin[6*H*x0]^(1/3)*b4[x4]", "-E^(-2*a4[x4])*Sin[6*H*x0]^(1/3)*b4[x4]"],
   "sqrtAbsDetG": "Sin[6*H*x0]*Cot[6*H*x0]*b4[x4]^(3/2)",
