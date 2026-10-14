@@ -130,9 +130,9 @@ NON_CHECK_SPANS = {
     "field_equation_components", "christoffel_nonzero", "omega_nonzero",
     "gammaOmega_per_direction", "field_equation_blocks", "quantisation", "nontriviality",
     "majorana_negative_control", "exact_solutions", "EMT_diagonal", "EMT_kinetic_potential",
-    "EMT_homogeneous_on_shell", "EMT_offdiagonal_x4_x8", "T_variation", "T_symmetric",
+    "EMT_homogeneous_on_shell", "EMT_offdiagonal_x4_x0", "T_variation", "T_symmetric",
     "energy_exchange", "adjoint_equation", "equation_of_state_definitions",
-    "hidden_direction_hermiticity", "lovelockTensors", "generalSource", "x8_dependence",
+    "hidden_direction_hermiticity", "lovelockTensors", "generalSource", "x0_dependence",
     "sourceRequiredByGivenA4", "einstein", "linearMember", "theoremLinear",
     "homogeneousSingleMode", "kohnSham", "emtConvention", "offDiagonalConditions",
     "einsteinConditions", "comparison_with_wolfram", "dirac_equation_components",
@@ -142,8 +142,8 @@ NON_CHECK_SPANS = {
 ESSENTIAL_CHECKS = [
     "Pin44_irreducible_commutant_dim_1", "pin_commutant_dimension_1",
     "chiral_halves_inequivalent_intertwiners_0", "spin_halves_inequivalent",
-    "vielbein_postulate", "Omega_components", "gammaOmega_equals_3H_gamma_x8",
-    "gamma_mu_Omega_mu_equals_3H_gamma_x8", "gammaOmega_x4_terms_cancel",
+    "vielbein_postulate", "Omega_components", "gammaOmega_equals_3H_gamma_x0",
+    "gamma_mu_Omega_mu_equals_3H_gamma_x0", "gammaOmega_x4_terms_cancel",
     "time_terms_cancel_hidden_term_survives", "nontriviality_1_dirac16complex",
     "Omega_vanishes_iff_a4prime_and_H_vanish", "never_flat_for_H_positive",
     "spin_curvature_equals_Riemann", "L_real_G", "EL_Psibar_G", "EL_Psi_G",
@@ -156,13 +156,13 @@ ESSENTIAL_CHECKS = [
     "extra_time_modes_grow", "good_sector_hermiticity_curved", "evolution_factorises_a4pp_times_F",
     "boosted_frame_gammaOmega_vanishes", "boosted_frame_curvature_nonzero", "rescaling_removes_the_connection_term",
     "connection_free_lagrangian_same_equations", "good_sector_hermiticity_up_to_the_brane_flux",
-    "good_sector_x8_independent_modes_without_boundary_condition", "extra_time_growth_rates_unbounded",
+    "good_sector_x0_independent_modes_without_boundary_condition", "extra_time_growth_rates_unbounded",
     "Q_one_particle_Krein_inertia_real_frequencies", "Q_one_particle_complex_and_zero_frequencies_Krein_neutral",
     "ks_profiles_violate_algebraic_condition", "ks_history_is_a_prescribed_background",
     "T3_energies_and_emt_profiles_equal",
-    "algebraic_identity_x1_plus_x5_minus_2x8", "constraint_propagation_bianchi",
-    "einstein_null_energy_x8", "linear_member_equal_pressures", "Q_Krein_metric_of_images",
-    "A1_lovelock_identity_x1_plus_x5_equals_2x8", "B2_x8_conservation_on_every_profile",
+    "algebraic_identity_x1_plus_x5_minus_2x0", "constraint_propagation_bianchi",
+    "einstein_null_energy_x0", "linear_member_equal_pressures", "Q_Krein_metric_of_images",
+    "A1_lovelock_identity_x1_plus_x5_equals_2x0", "B2_x0_conservation_on_every_profile",
     "C1_averaged_algebraic_condition_fails", "D4_constant_source_gives_linear_member",
     "T3C_krein_rule_16_component", "T3C.krein_rule_16_component",
     "mode_hamiltonian_good_sector", "good_sector_positive_fock_realisation",
@@ -176,14 +176,14 @@ REQUIRED_PHRASES = [
     "two inequivalent irreducible 8-dimensional representations",
     "Theorem 1 (non-triviality [1])",
     "the time-direction terms of the three inflating and the three deflating directions cancel",
-    r"\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}",
+    r"\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}",
     "never flat for $H > 0$",
     "is a total derivative",
     "Theorem 2 (the canonical anticommutator forces a Krein structure)",
     "no positive inner product",
     "normal ordered",
     r"\hat T^\nu{}_\mu",
-    "p_3 + p_t = 2p_8",
+    "p_3 + p_t = 2p_0",
     "a_4 = AHx_4 + a_0",
     r"\sigma_T = +1",
     "no creation process",
@@ -226,19 +226,19 @@ STALE_PHRASES = ["planned and not yet written", "the conserved charge", "re-infl
 
 # Hand-written formulas of the document that are compared with field-theory.json below.
 DOCUMENT_FORMULAS = [
-    r"f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z,\quad f_4 = 1,\quad f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z,\quad f_8 = \cot z",
-    r"\sqrt{|g|} = f_1 f_2\cdots f_8 = \sin z\cot z = \cos z",
-    r"\Gamma^{x_i}{}_{x_i x_4} &= a_4', & \Gamma^{x_i}{}_{x_i x_8} &= H\cot z,",
-    r"\Gamma^{x_t}{}_{x_4 x_t} &= -a_4', & \Gamma^{x_t}{}_{x_t x_8} &= H\cot z,",
+    r"f_0 = \cot z,\quad f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z,\quad f_4 = 1,\quad f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z",
+    r"\sqrt{|g|} = f_0 f_1\cdots f_7 = \sin z\cot z = \cos z",
+    r"\Gamma^{x_i}{}_{x_i x_4} &= a_4', & \Gamma^{x_i}{}_{x_i x_0} &= H\cot z,",
+    r"\Gamma^{x_t}{}_{x_4 x_t} &= -a_4', & \Gamma^{x_t}{}_{x_t x_0} &= H\cot z,",
     r"\Gamma^{x_4}{}_{x_i x_i} &= e^{2a_4}\sin^{1/3}z\,a_4', & \Gamma^{x_4}{}_{x_t x_t} &= e^{-2a_4}\sin^{1/3}z\,a_4',",
-    r"\Gamma^{x_8}{}_{x_i x_i} &= -e^{2a_4}H\,\frac{\sin^{4/3}z}{\cos z}, & \Gamma^{x_8}{}_{x_t x_t} &= e^{-2a_4}H\,\frac{\sin^{4/3}z}{\cos z},",
-    r"\Gamma^{x_8}{}_{x_8 x_8} &= -\frac{6H}{\sin z\cos z}",
-    r"R^{x_i}{}_{x_i} = a_4'' - 6H^2,\quad R^{x_4}{}_{x_4} = 6(a_4')^2,\quad R^{x_t}{}_{x_t} = -a_4'' - 6H^2,\quad R^{x_8}{}_{x_8} = -6H^2",
+    r"\Gamma^{x_0}{}_{x_i x_i} &= -e^{2a_4}H\,\frac{\sin^{4/3}z}{\cos z}, & \Gamma^{x_0}{}_{x_t x_t} &= e^{-2a_4}H\,\frac{\sin^{4/3}z}{\cos z},",
+    r"\Gamma^{x_0}{}_{x_0 x_0} &= -\frac{6H}{\sin z\cos z}",
+    r"R^{x_0}{}_{x_0} = -6H^2,\quad R^{x_i}{}_{x_i} = a_4'' - 6H^2,\quad R^{x_4}{}_{x_4} = 6(a_4')^2,\quad R^{x_t}{}_{x_t} = -a_4'' - 6H^2",
     r"R = 6\big((a_4')^2 - 7H^2\big)",
-    r"\omega_{x_i\,(i)(4)} &= a_4'\,e^{a_4}\sin^{1/6}z, & \omega_{x_i\,(i)(8)} &= H\,e^{a_4}\sin^{1/6}z,",
-    r"\omega_{x_t\,(4)(t)} &= -a_4'\,e^{-a_4}\sin^{1/6}z, & \omega_{x_t\,(t)(8)} &= -H\,e^{-a_4}\sin^{1/6}z,",
-    r"\gamma^{x_i}\Omega_{x_i} &= \tfrac12 a_4'\,\gamma^{(4)} + \tfrac12 H\,\gamma^{(8)} \qquad (i = 1, 2, 3),",
-    r"\gamma^{x_t}\Omega_{x_t} &= -\tfrac12 a_4'\,\gamma^{(4)} + \tfrac12 H\,\gamma^{(8)} \qquad (t = 5, 6, 7),",
+    r"\omega_{x_i\,(i)(4)} &= a_4'\,e^{a_4}\sin^{1/6}z, & \omega_{x_i\,(i)(0)} &= H\,e^{a_4}\sin^{1/6}z,",
+    r"\omega_{x_t\,(4)(t)} &= -a_4'\,e^{-a_4}\sin^{1/6}z, & \omega_{x_t\,(t)(0)} &= -H\,e^{-a_4}\sin^{1/6}z,",
+    r"\gamma^{x_i}\Omega_{x_i} &= \tfrac12 a_4'\,\gamma^{(4)} + \tfrac12 H\,\gamma^{(0)} \qquad (i = 1, 2, 3),",
+    r"\gamma^{x_t}\Omega_{x_t} &= -\tfrac12 a_4'\,\gamma^{(4)} + \tfrac12 H\,\gamma^{(0)} \qquad (t = 5, 6, 7),",
 ]
 
 
@@ -255,7 +255,7 @@ EPS_T = sp.exp(_a4) * sp.sin(_z) ** sp.Rational(-1, 6)    # 1/f for x5, x6, x7
 def wl_to_sympy(text: str) -> sp.Expr:
     """Parse a Wolfram InputForm expression of field-theory.json (no field symbols)."""
     t = text.replace("Derivative[1][a4][x4]", "A1").replace("Derivative[2][a4][x4]", "A2")
-    t = t.replace("a4[x4]", "a4").replace("12*H*x8", "(2*z)").replace("6*H*x8", "z")
+    t = t.replace("a4[x4]", "a4").replace("12*H*x0", "(2*z)").replace("6*H*x0", "z")
     for name in ("Sin", "Cos", "Tan", "Cot", "Sec", "Csc"):
         t = t.replace(name + "[", name.lower() + "(")
     t = t.replace("[", "(").replace("]", ")").replace("^", "**")
@@ -282,7 +282,7 @@ def _parse_component(text: str) -> tuple[sp.Expr, int]:
         raise ValueError(f"unexpected right-hand side {rhs!r}")
     t = re.sub(r'dd\["x(\d)",\s*Psi\[(\d+)\]\]', r"D_\1_\2", lhs)
     t = re.sub(r"Psi\[(\d+)\]", r"P_\1", t)
-    t = t.replace("a4[x4]", "a4").replace("6*H*x8", "z")
+    t = t.replace("a4[x4]", "a4").replace("6*H*x0", "z")
     t = t.replace("Sin[z]", "sin(z)").replace("Tan[z]", "tan(z)").replace("Cos[z]", "cos(z)")
     t = t.replace("^", "**")
     if "[" in t or "]" in t:
@@ -328,25 +328,24 @@ def component_equation_rows() -> list[str]:
                     raise ValueError(f"two x{k} derivatives in component {number}")
                 derivative[int(k)] = (int(b), expr.coeff(symbol))
         mass_terms = [s for s in expr.free_symbols if s.name.startswith("P_")]
-        if len(mass_terms) != 1 or sorted(derivative) != list(range(1, 9)):
+        if len(mass_terms) != 1 or sorted(derivative) != list(range(8)):  # x0..x7, x0 the hidden direction
             raise ValueError(f"unexpected structure of component {number}")
         p_symbol = mass_terms[0]
         rest = sp.expand(expr - sum(c * sp.Symbol(f"D_{k}_{b}") for k, (b, c) in derivative.items())
                          - expr.coeff(p_symbol) * p_symbol)
         if rest != 0:
             raise ValueError(f"unexpected remainder {rest} in component {number}")
-        bases = {1: EPS_S, 2: EPS_S, 3: EPS_S, 4: sp.Integer(1), 5: EPS_T, 6: EPS_T, 7: EPS_T,
-                 8: sp.tan(_z)}
+        bases = {0: sp.tan(_z), 1: EPS_S, 2: EPS_S, 3: EPS_S, 4: sp.Integer(1), 5: EPS_T, 6: EPS_T, 7: EPS_T}
         signs = {k: _sign(c, bases[k]) for k, (b, c) in derivative.items()}
-        hidden_b = derivative[8][0]
-        if int(p_symbol.name[2:]) != hidden_b or signs[8] != 1 or _sign(expr.coeff(p_symbol), 3 * _H) != 1:
-            raise ValueError(f"the hidden-direction terms of component {number} are not (tan z d8 + 3H)")
+        hidden_b = derivative[0][0]
+        if int(p_symbol.name[2:]) != hidden_b or signs[0] != 1 or _sign(expr.coeff(p_symbol), 3 * _H) != 1:
+            raise ValueError(f"the hidden-direction terms of component {number} are not (tan z d0 + 3H)")
         space = "".join(_signed(signs[k], rf"\partial_{k}\psi_{{{derivative[k][0]}}}", k == 1)
                         for k in (1, 2, 3))
         time = "".join(_signed(signs[k], rf"\partial_{k}\psi_{{{derivative[k][0]}}}", k == 5)
                        for k in (5, 6, 7))
         x4 = _signed(signs[4], rf"\partial_4\psi_{{{derivative[4][0]}}}", False)
-        rows.append(rf"\epsilon_s({space}){x4} + \epsilon_t({time}) + (\tan z\,\partial_8 + 3H)"
+        rows.append(rf"\epsilon_s({space}){x4} + \epsilon_t({time}) + (\tan z\,\partial_0 + 3H)"
                     rf"\psi_{{{hidden_b}}} &= V\psi_{{{number}}}")
     return rows
 
@@ -434,11 +433,11 @@ def alpha_tex(expr: sp.Expr, gens: tuple[sp.Symbol, ...]) -> str:
     return "".join(_signed(s, t, i == 0) for i, (s, t) in enumerate(alpha_pieces(expr, gens)))
 
 
-A4_COMPONENT_LABELS = {"x1x1": "x_1", "x4x4": "x_4", "x5x5": "x_5", "x8x8": "x_8"}
+A4_COMPONENT_LABELS = {"x0x0": "x_0", "x1x1": "x_1", "x4x4": "x_4", "x5x5": "x_5"}
 
 
 def lovelock_block() -> str:
-    """The diagonal Lovelock components E_(k)^mu_mu (k = 1, 2, 3; mu = x1, x4, x5, x8)."""
+    """The diagonal Lovelock components E_(k)^mu_mu (k = 1, 2, 3; mu = x0, x1, x4, x5)."""
     data = json.loads(A4_EQUATIONS.read_text("utf-8"))
     rows = []
     gens = (_ad1, _ad2, _H)
@@ -464,7 +463,7 @@ def einstein_block() -> str:
     gens = (_ad1, _ad2, _H)
     rows = []
     for key, right in (("constraint_x4", r"-\kappa\rho"), ("space_x1", r"\kappa p_3"),
-                       ("extraTime_x5", r"\kappa p_t"), ("hidden_x8", r"\kappa p_8")):
+                       ("extraTime_x5", r"\kappa p_t"), ("hidden_x0", r"\kappa p_0")):
         lhs, _ = data[key]["input"].split("==")
         rows.append(rf"{poly_tex(_wl_poly(lhs) - _lam, gens)} + \Lambda &= {right}")
     return aligned(rows)
@@ -727,7 +726,7 @@ class GeneratedBlocksTest(unittest.TestCase):
             t = re.sub(r"psi(\d+)_x(\d)", r"D_\2_\1", text)
             t = re.sub(r"psi(\d+)", r"P_\1", t)
             t = re.sub(r"chi(\d+)", r"C_\1", t)
-            t = t.replace("lambda", "lam").replace("6*H*x8", "z").replace("a4(x4)", "a4")
+            t = t.replace("lambda", "lam").replace("6*H*x0", "z").replace("a4(x4)", "a4")
             expr = sp.sympify(t, locals={"lam": lam, "m": m, "a4": _a4, "z": _z, "H": _H,
                                           "exp": sp.exp, "sin": sp.sin, "cos": sp.cos})
             mass = sp.expand(expr).coeff(m)
@@ -746,26 +745,28 @@ class GeneratedBlocksTest(unittest.TestCase):
         s6 = sp.sin(_z) ** sp.Rational(1, 6)
         e = sp.exp(_a4)
         # vielbein and sqrt|g|
+        # list position k + 1 holds x_k (the author's coordinates x0..x7; x0 the hidden direction, first)
         f = re.findall(r"[^{},]+", formulas["vielbein_diagonal"])
-        expected_f = [e * s6] * 3 + [1] + [s6 / e] * 3 + [sp.cot(_z)]
+        expected_f = [sp.cot(_z)] + [e * s6] * 3 + [1] + [s6 / e] * 3
         self.assertEqual(len(f), 8)
         for got, want in zip(f, expected_f):
             self.assertTrue(is_zero(wl_to_sympy(got) - want))
         self.assertTrue(is_zero(wl_to_sympy(formulas["sqrt_det_g"]) - sp.cos(_z)))
         # Christoffel symbols: 25 nonzero, as written in section 2
         entries = re.findall(r"\{(\d), (\d), (\d), ([^{}]+)\}", formulas["christoffel_nonzero"])
+        P = {k: k + 1 for k in range(8)}  # the list position of x_k
         expected = {}
         for i in (1, 2, 3):
-            expected[(i, i, 4)] = _A1
-            expected[(i, i, 8)] = _H * sp.cot(_z)
-            expected[(4, i, i)] = sp.exp(2 * _a4) * sp.sin(_z) ** sp.Rational(1, 3) * _A1
-            expected[(8, i, i)] = -sp.exp(2 * _a4) * _H * sp.sin(_z) ** sp.Rational(4, 3) / sp.cos(_z)
+            expected[(P[i], P[i], P[4])] = _A1
+            expected[(P[i], P[0], P[i])] = _H * sp.cot(_z)
+            expected[(P[4], P[i], P[i])] = sp.exp(2 * _a4) * sp.sin(_z) ** sp.Rational(1, 3) * _A1
+            expected[(P[0], P[i], P[i])] = -sp.exp(2 * _a4) * _H * sp.sin(_z) ** sp.Rational(4, 3) / sp.cos(_z)
         for t in (5, 6, 7):
-            expected[(t, 4, t)] = -_A1
-            expected[(t, t, 8)] = _H * sp.cot(_z)
-            expected[(4, t, t)] = sp.exp(-2 * _a4) * sp.sin(_z) ** sp.Rational(1, 3) * _A1
-            expected[(8, t, t)] = sp.exp(-2 * _a4) * _H * sp.sin(_z) ** sp.Rational(4, 3) / sp.cos(_z)
-        expected[(8, 8, 8)] = -6 * _H / (sp.sin(_z) * sp.cos(_z))
+            expected[(P[t], P[4], P[t])] = -_A1
+            expected[(P[t], P[0], P[t])] = _H * sp.cot(_z)
+            expected[(P[4], P[t], P[t])] = sp.exp(-2 * _a4) * sp.sin(_z) ** sp.Rational(1, 3) * _A1
+            expected[(P[0], P[t], P[t])] = sp.exp(-2 * _a4) * _H * sp.sin(_z) ** sp.Rational(4, 3) / sp.cos(_z)
+        expected[(P[0], P[0], P[0])] = -6 * _H / (sp.sin(_z) * sp.cos(_z))
         got = {(int(a), int(b), int(c)): wl_to_sympy(v) for a, b, c, v in entries}
         self.assertEqual(set(got), set(expected))
         for key, value in got.items():
@@ -773,34 +774,35 @@ class GeneratedBlocksTest(unittest.TestCase):
                 self.assertTrue(is_zero(value - expected[key]))
         # Ricci components and scalar
         ricci = [wl_to_sympy(x) for x in re.findall(r"[^{},]+", formulas["ricci_mixed_diagonal"])]
-        want = [_A2 - 6 * _H**2] * 3 + [6 * _A1**2] + [-_A2 - 6 * _H**2] * 3 + [-6 * _H**2]
+        want = [-6 * _H**2] + [_A2 - 6 * _H**2] * 3 + [6 * _A1**2] + [-_A2 - 6 * _H**2] * 3
         for got_r, want_r in zip(ricci, want):
             self.assertTrue(is_zero(got_r - want_r))
         self.assertTrue(is_zero(wl_to_sympy(formulas["ricci_scalar"]) - 6 * (_A1**2 - 7 * _H**2)))
         # spin connection: 12 nonzero omega_mu,ab (a < b)
         entries = re.findall(r"\{(\d), (\d), (\d), ([^{}]+)\}", formulas["omega_nonzero"])
+        # omega_mu,ab with a < b in the list positions: the pair (x0, x_i) is written (0)(i) = -(i)(0)
         expected = {}
         for i in (1, 2, 3):
-            expected[(i, i, 4)] = _A1 * e * s6
-            expected[(i, i, 8)] = _H * e * s6
+            expected[(P[i], P[i], P[4])] = _A1 * e * s6
+            expected[(P[i], P[0], P[i])] = -_H * e * s6
         for t in (5, 6, 7):
-            expected[(t, 4, t)] = -_A1 * s6 / e
-            expected[(t, t, 8)] = -_H * s6 / e
+            expected[(P[t], P[4], P[t])] = -_A1 * s6 / e
+            expected[(P[t], P[0], P[t])] = _H * s6 / e
         got = {(int(a), int(b), int(c)): wl_to_sympy(v) for a, b, c, v in entries}
         self.assertEqual(set(got), set(expected))
         for key, value in got.items():
             with self.subTest(omega=key):
                 self.assertTrue(is_zero(value - expected[key]))
-        # gamma^mu Omega_mu per direction: coefficients of gamma^(x4) and gamma^(x8)
+        # gamma^mu Omega_mu per direction (list position): coefficients of gamma^(x4) and gamma^(x0)
         entries = re.findall(r"\{(\d), ([^{},]+), ([^{},]+)\}", formulas["gammaOmega_per_direction"])
-        want = {1: (_A1 / 2, _H / 2), 2: (_A1 / 2, _H / 2), 3: (_A1 / 2, _H / 2), 4: (0, 0),
-                5: (-_A1 / 2, _H / 2), 6: (-_A1 / 2, _H / 2), 7: (-_A1 / 2, _H / 2), 8: (0, 0)}
+        want = {P[0]: (0, 0), P[1]: (_A1 / 2, _H / 2), P[2]: (_A1 / 2, _H / 2), P[3]: (_A1 / 2, _H / 2),
+                P[4]: (0, 0), P[5]: (-_A1 / 2, _H / 2), P[6]: (-_A1 / 2, _H / 2), P[7]: (-_A1 / 2, _H / 2)}
         self.assertEqual(len(entries), 8)
-        for mu, c4, c8 in entries:
+        for mu, c4, c0 in entries:
             with self.subTest(direction=mu):
                 self.assertTrue(is_zero(wl_to_sympy(c4) - want[int(mu)][0]))
-                self.assertTrue(is_zero(wl_to_sympy(c8) - want[int(mu)][1]))
-        self.assertEqual(formulas["gammaOmega_total"].replace(" ", ""), '3*H*gamma["x8"]')
+                self.assertTrue(is_zero(wl_to_sympy(c0) - want[int(mu)][1]))
+        self.assertEqual(formulas["gammaOmega_total"].replace(" ", ""), '3*H*gamma["x0"]')
 
 
 @unittest.skipUnless(os.environ.get("REVISION_PDF_REBUILD") == "1", "set REVISION_PDF_REBUILD=1 to rebuild the PDF in verify mode")

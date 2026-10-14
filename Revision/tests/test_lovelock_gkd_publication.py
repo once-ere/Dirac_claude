@@ -29,7 +29,7 @@ What is tested
   * every quoted number is read from its JSON report: the GKD self-test, the Rust, sympy and Wolfram
     counters, the brute-force deviations, the Christoffel and Riemann data, the Ricci and Einstein
     tensors, every listed component of P_(1), P_(2), P_(3), the scalars L_(k), the normalisation
-    constants, the identity P^x1 + P^x5 = 2 P^x8, the factor F(a4') of the evolution equation and the
+    constants, the identity P^x1 + P^x5 = 2 P^x0, the factor F(a4') of the evolution equation and the
     E_(k) of Revision/field_equations_a4/a4-equations.json; the run times are those of the provenance
     files;
   * the comparison with the author's stored outputs (section 8.2): the counts, the verdict of every
@@ -78,8 +78,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "5ecd0bfca9a15d5a76edaebbbc5bae9950bd379e12571d5abf3db1ca544416ec"
-TEX_SHA256 = "ee03a31923725faa1e1756b5e6d289d4b5faae957bbf35648a85172817c8f7e3"
+MARKDOWN_SHA256 = "a6abb090876740abce610e6eff25c90412499c1a04df5a9a960fafcc49a113b8"
+TEX_SHA256 = "99cecfcb3e6df4fe78f8d56835c893911b714c1830182eee471d58bdb4043160"
 
 GKD = REVISION / "gkd_lovelock"
 RESULTS = GKD / "results"
@@ -208,7 +208,7 @@ OTHER_IDENTIFIERS = {
     "kd": EXTRACTOR,
     "AUTHOR_CURVATURE_OUTPUTS": EXTRACTOR,
 }
-COMPONENTS = ("x1,x1", "x4,x4", "x5,x5", "x8,x8")
+COMPONENTS = ("x0,x0", "x1,x1", "x4,x4", "x5,x5")  # the author's coordinates x0..x7
 A1, A2, H = sp.symbols("A1 A2 H")
 ALPHA = sp.symbols("alpha1 alpha2 alpha3")
 
@@ -419,7 +419,7 @@ class Content(unittest.TestCase):
         total, passed, failed = count_report(WOLFRAM_REPORT)
         wrong_row = f"| `Revision/gkd_lovelock/results/wolfram-gkd-report.json` | {total + 1} | {passed} | {failed} |"
         self.assertNotIn(wrong_row, self.text)
-        p3 = load_json(TENSORS)["P3_mixed_up_h_down_j"]["x8,x8"]["latex"].replace("1152", "1153")
+        p3 = load_json(TENSORS)["P3_mixed_up_h_down_j"]["x0,x0"]["latex"].replace("1152", "1153")
         self.assertNotIn(normalise_math(p3), normalise_math(self.text))
 
     def test_no_material_of_the_earlier_stages(self):
@@ -506,14 +506,16 @@ class QuotedData(unittest.TestCase):
                     f"{row['scalarGkdCalls']} | {row['nonzeroComponents']} |")
             self.assertIn(line, self.text, line)
         # since 2026-10-14 (metric with b4) the brute-force point includes b4, b4', b4''
-        for name, lists, deviation in (("k1_brute_force_numeric", "262144", "1.33e-15"),
-                                       ("k2_brute_force_numeric", "1073741824", "5.26e-14")):
+        # since the relabel to the author's coordinates (2026-10-14) the unpruned sums run over the labels in the new
+        # order, so the floating-point rounding differs: 1.33e-15 and 5.26e-14 before
+        for name, lists, deviation in (("k1_brute_force_numeric", "262144", "9.99e-16"),
+                                       ("k2_brute_force_numeric", "1073741824", "3.89e-14")):
             detail = detail_of(RUST_REPORT, name)
-            for number in (lists, deviation, "H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, b4 = 1.37, b4' = 0.31, b4'' = -0.23, x8 = 0.41"):
+            for number in (lists, deviation, "H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, b4 = 1.37, b4' = 0.31, b4'' = -0.23, x0 = 0.41"):
                 self.assertIn(number, detail, name)
             self.assertIn(f"{lists} index lists", self.text)
             self.assertIn(deviation, self.text)
-        self.assertIn("$H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$, $b_4 = 1.37$, $b_4' = 0.31$, $b_4'' = -0.23$, $x_8 = 0.41$", self.text)
+        self.assertIn("$H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$, $b_4 = 1.37$, $b_4' = 0.31$, $b_4'' = -0.23$, $x_0 = 0.41$", self.text)
         self.assertIn("all 4096 index lists", detail_of(RUST_REPORT, "riemann_first_bianchi"))
         self.assertIn("for all 4096 index lists", self.text)
 
@@ -531,7 +533,7 @@ class QuotedData(unittest.TestCase):
             ("k1_unpruned_literal_sum_agrees", "10140 kdelta calls", "(10140 calls)"),
             ("k2_unpruned_literal_sum_agrees", "1581840 kdelta calls", "(1581840 calls)"),
             ("k3_pruned_terms_vanish_literally", "20000 random", "20000 random terms"),
-            ("k3_pruned_terms_vanish_literally", "19900 have a repeated index", "19900 of them"),
+            ("k3_pruned_terms_vanish_literally", "19909 have a repeated index", "19909 of them"),  # 19900 before 2026-10-14
             ("k4_terms_vanish_literally", "300 random", "300 random 9-index lists"),
             ("gkd_literal_equals_cofactor_expansion", "266304 pairs", "266304 pairs"),
             ("gkd_literal_equals_cofactor_expansion", "7500 random pairs of length 4..8", "7500 random pairs of lengths 4 to 8"),
@@ -598,48 +600,49 @@ class QuotedData(unittest.TestCase):
                 self.assertEqual(sp.expand(value - expected["i4"]), 0, entry)
             elif "x4" in pair and pair & extra:
                 self.assertEqual(sp.expand(value - expected["4t"]), 0, entry)
-            elif "x8" in pair:
+            elif "x0" in pair:
                 self.assertEqual(sp.expand(value - expected["8"]), 0, entry)
-        self.assertFalse(any(set(e["up"]) == {"x4", "x8"} for e in riemann))
+        self.assertFalse(any(set(e["up"]) == {"x0", "x4"} for e in riemann))
         for line in ("| $R^{x_ix_t}{}_{x_ix_t}$ | $-(a_4')^2 - H^2$ |", "| $R^{x_ix_4}{}_{x_ix_4}$ | $a_4'' + (a_4')^2$ |",
                      "| $R^{x_4x_t}{}_{x_4x_t}$ | $-a_4'' + (a_4')^2$ |",
-                     "| $R^{x_ix_8}{}_{x_ix_8}$ and $R^{x_tx_8}{}_{x_tx_8}$ | $-H^2$ |"):
+                     "| $R^{x_ix_0}{}_{x_ix_0}$ and $R^{x_tx_0}{}_{x_tx_0}$ | $-H^2$ |"):
             self.assertIn(line, self.text, line)
         cot = [e for e in riemann if "Cot" in e["value"]]
         self.assertEqual(len(cot), 156 - sum(1 for e in riemann if "Cot" not in e["value"]))
         # at b4 = 1 these are +-H a4' Cot^(+-1) (with b4 the extra-time ones carry a4' - b4'/(2 b4))
         cc = sp.Symbol("cc")
-        values = {sp.srepr(from_mathematica(e["value"].replace("Cot[6*H*x8]", "cc"))) for e in cot}
+        values = {sp.srepr(from_mathematica(e["value"].replace("Cot[6*H*x0]", "cc"))) for e in cot}
         expected_vals = {sp.srepr(sp.sympify(v, locals={"A1": A1, "H": H, "cc": cc}))
                          for v in ("H*A1*cc", "-H*A1*cc", "H*A1/cc", "-H*A1/cc")}
         self.assertEqual(values, expected_vals)
         self.assertEqual(from_mathematica(self.curvature["ricciScalar"]), 6*A1**2 - 42*H**2)
         self.assertIn("$R = 6(a_4')^2 - 42H^2$", self.text)
-        ricci = {"x1,x1": A2 - 6*H**2, "x4,x4": 6*A1**2, "x5,x5": -A2 - 6*H**2, "x8,x8": -6*H**2}
-        einstein = {"x1,x1": A2 - 3*A1**2 + 15*H**2, "x4,x4": 3*A1**2 + 21*H**2,
-                    "x5,x5": -A2 - 3*A1**2 + 15*H**2, "x8,x8": -3*A1**2 + 15*H**2}
+        ricci = {"x0,x0": -6*H**2, "x1,x1": A2 - 6*H**2, "x4,x4": 6*A1**2, "x5,x5": -A2 - 6*H**2}
+        einstein = {"x0,x0": -3*A1**2 + 15*H**2, "x1,x1": A2 - 3*A1**2 + 15*H**2, "x4,x4": 3*A1**2 + 21*H**2,
+                    "x5,x5": -A2 - 3*A1**2 + 15*H**2}
         for key in COMPONENTS:
             self.assertEqual(sp.expand(from_mathematica(self.curvature["ricciMixed"][key]["mathematica"]) - ricci[key]), 0)
             self.assertEqual(sp.expand(from_mathematica(self.curvature["einsteinMixed"][key]["mathematica"]) - einstein[key]), 0)
         for text in ("$R^{x_i}{}_{x_i} = a_4'' - 6H^2$", "$R^{x_4}{}_{x_4} = 6(a_4')^2$", "$R^{x_t}{}_{x_t} = -a_4'' - 6H^2$",
-                     "$R^{x_8}{}_{x_8} = -6H^2$"):
+                     "$R^{x_0}{}_{x_0} = -6H^2$"):
             self.assertIn(text, self.text, text)
         for text in ("G^{x_i}{}_{x_i} = a_4'' - 3(a_4')^2 + 15H^2", "G^{x_4}{}_{x_4} = 3(a_4')^2 + 21H^2",
-                     "G^{x_t}{}_{x_t} = -a_4'' - 3(a_4')^2 + 15H^2", "G^{x_8}{}_{x_8} = -3(a_4')^2 + 15H^2"):
+                     "G^{x_t}{}_{x_t} = -a_4'' - 3(a_4')^2 + 15H^2", "G^{x_0}{}_{x_0} = -3(a_4')^2 + 15H^2"):
             self.assertIn(text, self.text, text)
-        self.assertEqual(self.curvature["sqrtAbsDetG"], "Sin[6*H*x8]*Cot[6*H*x8]*b4[x4]^(3/2)")
-        self.assertEqual(self.curvature["metricDiagonal"][3], "-1")
+        self.assertEqual(self.curvature["sqrtAbsDetG"], "Sin[6*H*x0]*Cot[6*H*x0]*b4[x4]^(3/2)")
+        self.assertEqual(self.curvature["metricDiagonal"][0], "Cot[6*H*x0]^2")  # x0 first (the author's order)
+        self.assertEqual(self.curvature["metricDiagonal"][4], "-1")
 
     def test_every_listed_lovelock_component(self):
         for k in (1, 2, 3):
             tensor = self.tensors[f"P{k}_mixed_up_h_down_j"]
             for key, entry in tensor.items():
                 h, j = key.split(",")
-                if h != j and key not in ("x4,x8", "x8,x4"):
+                if h != j and key not in ("x0,x4", "x4,x0"):
                     self.assertEqual(entry["mathematica"], "0", key)
                 elif h != j:  # since 2026-10-14: proportional to b4', zero at b4 = 1
                     self.assertIn("Derivative[1][b4][x4]", entry["mathematica"], key)
-                    self.assertEqual(from_mathematica(entry["mathematica"].replace("Cot[6*H*x8]", "1")), 0, key)
+                    self.assertEqual(from_mathematica(entry["mathematica"].replace("Cot[6*H*x0]", "1")), 0, key)
             for a, b in (("x2,x2", "x1,x1"), ("x3,x3", "x1,x1"), ("x6,x6", "x5,x5"), ("x7,x7", "x5,x5")):
                 self.assertEqual(tensor[a]["mathematica"], tensor[b]["mathematica"])
             for key in COMPONENTS:
@@ -662,7 +665,7 @@ class QuotedData(unittest.TestCase):
             self.assertIn(latex, self.text, key)
         for k in (1, 2, 3):
             tensor = self.tensors[f"P{k}_mixed_up_h_down_j"]
-            trace = sum(from_mathematica(tensor[f"x{i},x{i}"]["mathematica"]) for i in range(1, 9))
+            trace = sum(from_mathematica(tensor[f"x{i},x{i}"]["mathematica"]) for i in range(8))
             self.assertEqual(sp.expand(trace - (8 - 2*k)*from_mathematica(self.tensors[f"L{k}"])), 0, k)
         self.assertEqual(self.tensors["k4"], "identically zero (GKD of 9 indices in 8 dimensions)")
         self.assertIn("“identically zero (GKD of 9 indices in 8 dimensions)”", self.text)
@@ -670,14 +673,14 @@ class QuotedData(unittest.TestCase):
     def test_identity_and_einstein_relation(self):
         for k in (1, 2, 3):
             p = {key: from_mathematica(self.tensors[f"P{k}_mixed_up_h_down_j"][key]["mathematica"]) for key in COMPONENTS}
-            self.assertEqual(sp.expand(p["x1,x1"] + p["x5,x5"] - 2*p["x8,x8"]), 0, k)
-            self.assertFalse(p["x4,x4"].has(A2) or p["x8,x8"].has(A2), k)
+            self.assertEqual(sp.expand(p["x1,x1"] + p["x5,x5"] - 2*p["x0,x0"]), 0, k)
+            self.assertFalse(p["x4,x4"].has(A2) or p["x0,x0"].has(A2), k)
             self.assertEqual(sp.expand(p["x1,x1"].coeff(A2) + p["x5,x5"].coeff(A2)), 0, k)
         for key in COMPONENTS:
             p1 = from_mathematica(self.tensors["P1_mixed_up_h_down_j"][key]["mathematica"])
             g = from_mathematica(self.curvature["einsteinMixed"][key]["mathematica"])
             self.assertEqual(sp.expand(p1 + 4*g), 0, key)
-        self.assertIn("$P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} = 2P_{(k)}^{x_8}{}_{x_8}$", self.text)
+        self.assertIn("$P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} = 2P_{(k)}^{x_0}{}_{x_0}$", self.text)
         a1x4 = self.tensors["A1_contravariant_l_h"]["x4,x4"]["latex"]
         self.assertIn(f"$A_{{(1)}}{{}}^{{x_4x_4}} = {a1x4}$", self.text)
 
@@ -705,7 +708,7 @@ class QuotedData(unittest.TestCase):
         for name in ("P1_direct_equals_gkd_branch_monomials", "P2_direct_equals_gkd_branch_monomials",
                      "P3_direct_equals_gkd_branch_monomials"):
             self.assertIn("Revision/gkd_lovelock/results/lovelock-tensors.json", detail_of(A4_WOLFRAM, name))
-        self.assertIn("x4-x8", detail_of(A4_PYTHON, "other_components_vanish"))
+        self.assertIn("x4-x0", detail_of(A4_PYTHON, "other_components_vanish"))
 
     def test_notebook_reading(self):
         provenance = PROVENANCE.read_text(encoding="utf-8")
@@ -823,9 +826,11 @@ class AuthorComparison(unittest.TestCase):
 
     def test_mapping_and_normalisations(self):
         mapping = self.report["mapping"]
-        self.assertIn("author array position 1 (x0, hidden) -> Revision x8", mapping["coordinates"])
-        self.assertIn("The author's `x0` becomes $x_8$ of this record and the author's `xk` becomes $x_k$ for "
-                      "$k = 1, \\dots, 7$", self.section)
+        # since 2026-10-14 the Revision uses the author's coordinates x0..x7: the coordinate map is the identity
+        self.assertIn("the identity: the Revision uses the author's coordinates x0..x7 in the author's order",
+                      mapping["coordinates"])
+        self.assertIn("This record uses the same coordinates in the same order, so the coordinate map is the identity "
+                      "and no component is permuted.", self.section)
         self.assertIn("a4_Revision(x4) := a4_author(H*x4)", mapping["function"])
         self.assertIn("a4_author^(n)(H*x4) = H^(-n) a4_Revision^(n)(x4) (chain rule; n = 0, 1, 2)", mapping["function"])
         self.assertIn("$a_4(x_4) := a_4^{\\mathrm{author}}(Hx_4)$", self.section)

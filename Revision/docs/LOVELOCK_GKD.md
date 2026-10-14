@@ -4,7 +4,7 @@
 
 ## Abstract
 
-This document records the computation of `Revision/gkd_lovelock`: the generalized Kronecker delta of the author's notebook, re-implemented in pure Rust as the function GKD, and the three nonzero Lovelock tensors $P_{(1)}$, $P_{(2)}$, $P_{(3)}$ of Lovelock's equation (4.38) for the author's primordial metric of signature (4,4), in which the three extra times $x_5, x_6, x_7$ deflate as $e^{-a_4(x_4)}$ while 3-space inflates as $e^{a_4(x_4)}$. Every component of $P_{(k)}$ is exact; at $b_4 = 1$ it is a polynomial in $H$, $a_4'$ and $a_4''$, and for general $b_4$ it contains in addition terms in $b_4'/b_4$ and $b_4''/b_4$ (and, in the $x_4$-$x_8$ pair, $\cot z$); the diagonal components are, as for $b_4 = 1$, free of the warp factor $\sin^{1/3}z$, of $e^{a_4}$ and of $x_8$, with equal components in the three 3-space directions and in the three extra-time directions, and the only off-diagonal components are the pair $x_4$-$x_8$, $x_8$-$x_4$, proportional to $b_4'$ (they vanish at $b_4 = 1$); $P_{(4)} = 0$ identically in eight dimensions. The Rust program checks 19 identities (19 of 19 pass); GKD equals the author's determinant on all 16,777,216 pairs of index lists of length 4 and on 200,000 pseudo-random pairs of each length 5 to 9. Two independent verifications agree with every component: a Wolfram Language check that evaluates the author's definition verbatim (29 of 29 checks pass) and a sympy checker that shares no code with the Rust program (49 of 49 checks pass). The field equations for $a_4$ use these tensors with the normalisation $E_{(k)} = -P_{(k)}/2^{k+1}$, $E_{(1)} = G$. A later comparison with the author's own stored outputs (`Revision/gkd_lovelock/comparison/`, 2026-10-08; 78 checks: 73 PASS, 0 FAIL, 5 NOT-AVAILABLE) finds the author's metric, Ricci scalar and all 64 components of the author's Einstein tensor exactly equal to this record under a coordinate and function mapping stated before the comparison, so that $P_{(1)}$ and $L_{(1)}$ equal $-4$ times the author's Einstein tensor and 2 times the author's Ricci scalar; in the two notebooks of the author in the repository a keyword scan finds no stored output of the Lovelock tensors of order $k = 2$ and $k = 3$, so for those orders nothing could be compared. Not established here: any solution of the field equations, anything at or beyond the brane $z = \pi/2$, and agreement with any Lovelock tensor of order $k = 2$ or $k = 3$ computed by the author.
+This document records the computation of `Revision/gkd_lovelock`: the generalized Kronecker delta of the author's notebook, re-implemented in pure Rust as the function GKD, and the three nonzero Lovelock tensors $P_{(1)}$, $P_{(2)}$, $P_{(3)}$ of Lovelock's equation (4.38) for the author's primordial metric of signature (4,4), in which the three extra times $x_5, x_6, x_7$ deflate as $e^{-a_4(x_4)}$ while 3-space inflates as $e^{a_4(x_4)}$. Every component of $P_{(k)}$ is exact; at $b_4 = 1$ it is a polynomial in $H$, $a_4'$ and $a_4''$, and for general $b_4$ it contains in addition terms in $b_4'/b_4$ and $b_4''/b_4$ (and, in the $x_0$-$x_4$ pair, $\cot z$); the diagonal components are, as for $b_4 = 1$, free of the warp factor $\sin^{1/3}z$, of $e^{a_4}$ and of $x_0$, with equal components in the three 3-space directions and in the three extra-time directions, and the only off-diagonal components are the pair $x_0$-$x_4$, $x_4$-$x_0$, proportional to $b_4'$ (they vanish at $b_4 = 1$); $P_{(4)} = 0$ identically in eight dimensions. The Rust program checks 19 identities (19 of 19 pass); GKD equals the author's determinant on all 16,777,216 pairs of index lists of length 4 and on 200,000 pseudo-random pairs of each length 5 to 9. Two independent verifications agree with every component: a Wolfram Language check that evaluates the author's definition verbatim (29 of 29 checks pass) and a sympy checker that shares no code with the Rust program (49 of 49 checks pass). The field equations for $a_4$ use these tensors with the normalisation $E_{(k)} = -P_{(k)}/2^{k+1}$, $E_{(1)} = G$. A later comparison with the author's own stored outputs (`Revision/gkd_lovelock/comparison/`, 2026-10-08; 78 checks: 73 PASS, 0 FAIL, 5 NOT-AVAILABLE) finds the author's metric, Ricci scalar and all 64 components of the author's Einstein tensor exactly equal to this record under a function mapping stated before the comparison (the coordinates are the author's on both sides), so that $P_{(1)}$ and $L_{(1)}$ equal $-4$ times the author's Einstein tensor and 2 times the author's Ricci scalar; in the two notebooks of the author in the repository a keyword scan finds no stored output of the Lovelock tensors of order $k = 2$ and $k = 3$, so for those orders nothing could be compared. Not established here: any solution of the field equations, anything at or beyond the brane $z = \pi/2$, and agreement with any Lovelock tensor of order $k = 2$ or $k = 3$ computed by the author.
 
 ## 1. The task and the result
 
@@ -22,16 +22,16 @@ Every formula and number below is taken from the Revision files named with it; n
 
 ### 2.1 The author's metric and coordinates
 
-The coordinates are named as the author names them; arrays index them $0, \dots, 7$. $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, time-like, which DEFLATE exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$ as $a_4(x_4)$ increases (they are never treated as static); $x_8$ is the hidden space direction with $z = 6Hx_8 \in (0,\pi/2)$; $H > 0$ is the author's constant and $a_4' = da_4/dx_4$. The metric of `Revision/SPEC.md` section 1, as the Rust program stores it (`metricDiagonal` of `curvature.json`), is
+The coordinates are the author's, $x_0, x_1, \dots, x_7$, in the author's order; arrays index them $0, \dots, 7$ (index $k$ is $x_k$). $x_0$ is the hidden space direction with $z = 6Hx_0 \in (0,\pi/2)$; $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, time-like, which DEFLATE exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$ as $a_4(x_4)$ increases (they are never treated as static); $H > 0$ is the author's constant and $a_4' = da_4/dx_4$. (Until 2026-10-14 this record named the coordinates $x_1, \dots, x_8$, with the hidden direction $x_8$ listed last; the user ordered the author's coordinates on 2026-10-14.) The metric of `Revision/SPEC.md` section 1, as the Rust program stores it (`metricDiagonal` of `curvature.json`), is
 
 $$
 \begin{aligned}
-g = \mathrm{diag}\big(& e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ -1, \\
-& -e^{-2a_4}b_4\sin^{1/3}z,\ -e^{-2a_4}b_4\sin^{1/3}z,\ -e^{-2a_4}b_4\sin^{1/3}z,\ \cot^2 z\big),
+g = \mathrm{diag}\big(& \cot^2 z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ -1, \\
+& -e^{-2a_4}b_4\sin^{1/3}z,\ -e^{-2a_4}b_4\sin^{1/3}z,\ -e^{-2a_4}b_4\sin^{1/3}z\big),
 \end{aligned}
 $$
 
-with the metric function $b_4(x_4) > 0$ of the user's metric of 2026-10-14 multiplying the three extra-time components ($b_4 = 1$ is the metric used before 2026-10-14; see section 8.4), of signature (4,4): space-like $x_1, x_2, x_3, x_8$, time-like $x_4, x_5, x_6, x_7$. Its determinant is $\det g = b_4^3\cos^2 z$, so $\sqrt{|g|} = b_4^{3/2}\cos z$ on $0 < z < \pi/2$ ($\cos z$ at $b_4 = 1$); the Rust program writes it as $\sin z\cot z\,b_4^{3/2}$ (`sqrtAbsDetG`). The 7-volume factor $e^{3a_4}e^{-3a_4} = 1$ shows that the inflation of 3-space is compensated by the deflation of the extra times.
+with the metric function $b_4(x_4) > 0$ of the user's metric of 2026-10-14 multiplying the three extra-time components ($b_4 = 1$ is the metric used before 2026-10-14; see section 8.4), of signature (4,4): space-like $x_0, x_1, x_2, x_3$, time-like $x_4, x_5, x_6, x_7$. Its determinant is $\det g = b_4^3\cos^2 z$, so $\sqrt{|g|} = b_4^{3/2}\cos z$ on $0 < z < \pi/2$ ($\cos z$ at $b_4 = 1$); the Rust program writes it as $\sin z\cot z\,b_4^{3/2}$ (`sqrtAbsDetG`). The 7-volume factor $e^{3a_4}e^{-3a_4} = 1$ shows that the inflation of 3-space is compensated by the deflation of the extra times.
 
 ### 2.2 Curvature conventions
 
@@ -104,11 +104,8 @@ For $k = 1, 2, 3$ (`lovelock-tensors.json`, key `definition`):
 $$
 \begin{aligned}
 P_{(k)}{}^h{}_j &= \delta^{hh_1\cdots h_{2k}}_{jj_1\cdots j_{2k}}\,R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}} \\
-&\quad \delta^{hh_1\cdots h_{2k}}_{jj_1\cdots j_{2k}}\,R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}} \\
- &= \sum \mathrm{GKD}\big([j,j_1,\dots,j_{2k}],[h,h_1,\dots,h_{2k}]\big)\prod_{i=1}^{k}R^{j_{2i-1}j_{2i}}{}_{h_{2i-1}h_{2i}} , \\
-&\quad \sum \mathrm{GKD}\big([j,j_1,\dots,j_{2k}],[h,h_1,\dots,h_{2k}]\big)\prod_{i=1}^{k}R^{j_{2i-1}j_{2i}}{}_{h_{2i-1}h_{2i}} , \\
-L_{(k)} &= \delta^{h_1\cdots h_{2k}}_{j_1\cdots j_{2k}}\,R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}} , \\
-&\quad \delta^{h_1\cdots h_{2k}}_{j_1\cdots j_{2k}}\,R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}} , \\
+&= \sum \mathrm{GKD}\big([j,j_1,\dots,j_{2k}],[h,h_1,\dots,h_{2k}]\big)\prod_{i=1}^{k}R^{j_{2i-1}j_{2i}}{}_{h_{2i-1}h_{2i}} ,\\
+L_{(k)} &= \delta^{h_1\cdots h_{2k}}_{j_1\cdots j_{2k}}\,R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}} ,\\
 A_{(k)}{}^{lh} &= \sqrt{|g|}\,g^{jl}\,P_{(k)}{}^h{}_j ,
 \end{aligned}
 $$
@@ -150,7 +147,7 @@ $P_{(4)}$ would need $\delta$ with $2\cdot4 + 1 = 9$ upper and 9 lower indices o
 | `gkd.rs` | `gkd.rs::GKD` | the generalized Kronecker delta by cases (a) to (d) of section 3.2 |
 | `gkd.rs` | `gkd.rs::kdelta_det`, `gkd.rs::compare_exhaustive`, `gkd.rs::compare_random` | the literal Leibniz determinant and the two self-test loops |
 | `rational.rs` | `rational.rs::Rational` | exact rationals on `i128`; every operation that would overflow stops with a message |
-| `poly.rs` | `poly.rs::Poly`, `poly.rs::d` | exact Laurent polynomials with rational coefficients in $H$, $a_4'$ to $a_4''''$, $E = e^{a_4}$, $S = \sin^{1/3}z$, $C = \cot z$, with the exact derivatives in $x_4$ and $x_8$ |
+| `poly.rs` | `poly.rs::Poly`, `poly.rs::d` | exact Laurent polynomials with rational coefficients in $H$, $a_4'$ to $a_4''''$, $E = e^{a_4}$, $S = \sin^{1/3}z$, $C = \cot z$, with the exact derivatives in $x_0$ and $x_4$ |
 | `geometry.rs` | `geometry.rs::metric_diagonal`, `geometry.rs::Geometry` | the metric, its inverse, $\sqrt{\lvert g\rvert} = S^3C$, the Christoffel symbols, $R^a{}_{bcd}$, $R^{ab}{}_{cd}$, Ricci and $R$ |
 | `geometry.rs` | `geometry.rs::nonzero_mixed`, `geometry.rs::einstein_mixed` | the list of nonzero $R^{ab}{}_{cd}$; the Einstein tensor from the Ricci tensor |
 | `lovelock.rs` | `lovelock.rs::lovelock_mixed`, `lovelock.rs::lovelock_scalar`, `lovelock.rs::dfs` | $P_{(k)}{}^h{}_j$ and $L_{(k)}$ by a depth-first search over the nonzero curvature entries |
@@ -172,7 +169,7 @@ For each pair $(h, j)$, `lovelock.rs::dfs` chooses $k$ ordered nonzero entries $
 | 3 | 1128960 | 495360 | 495360 | 213120 | 10 |
 | 4 | 0 | 0 | 0 | 1105920 | 0 |
 
-The pruning is checked, not assumed: `lovelock.rs::brute_force_numeric` evaluates the completely unpruned literal sum, every index list sent to GKD, at the point $H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$, $b_4 = 1.37$, $b_4' = 0.31$, $b_4'' = -0.23$, $x_8 = 0.41$: 262144 index lists for $k = 1$ (maximal relative deviation from the exact $P_{(1)}$ 1.33e-15) and 1073741824 index lists for $k = 2$ (maximal relative deviation from the exact $P_{(2)}$ 5.26e-14) (`k1_brute_force_numeric`, `k2_brute_force_numeric`). The two independent checkers repeat the unpruned sums exactly (section 7).
+The pruning is checked, not assumed: `lovelock.rs::brute_force_numeric` evaluates the completely unpruned literal sum, every index list sent to GKD, at the point $H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$, $b_4 = 1.37$, $b_4' = 0.31$, $b_4'' = -0.23$, $x_0 = 0.41$: 262144 index lists for $k = 1$ (maximal relative deviation from the exact $P_{(1)}$ 9.99e-16) and 1073741824 index lists for $k = 2$ (maximal relative deviation from the exact $P_{(2)}$ 3.89e-14) (`k1_brute_force_numeric`, `k2_brute_force_numeric`). The two independent checkers repeat the unpruned sums exactly (section 7).
 
 ## 6. Results
 
@@ -184,10 +181,10 @@ The curvature formulas quoted in this section (Ricci, Einstein, $R$, the Riemann
 
 $$
 \begin{aligned}
-&\Gamma^{x_i}{}_{x_ix_4} = a_4',\quad \Gamma^{x_t}{}_{x_4x_t} = -a_4',\quad \Gamma^{x_i}{}_{x_ix_8} = \Gamma^{x_t}{}_{x_tx_8} = H\cot z,\\
+&\Gamma^{x_i}{}_{x_ix_4} = a_4',\quad \Gamma^{x_t}{}_{x_4x_t} = -a_4',\quad \Gamma^{x_i}{}_{x_ix_0} = \Gamma^{x_t}{}_{x_tx_0} = H\cot z,\\
 &\Gamma^{x_4}{}_{x_ix_i} = a_4'e^{2a_4}\sin^{1/3}z,\quad \Gamma^{x_4}{}_{x_tx_t} = a_4'e^{-2a_4}\sin^{1/3}z,\\
-&\Gamma^{x_8}{}_{x_ix_i} = -He^{2a_4}\sin^{1/3}z\,\tan z,\quad \Gamma^{x_8}{}_{x_tx_t} = He^{-2a_4}\sin^{1/3}z\,\tan z,\\
-&\Gamma^{x_8}{}_{x_8x_8} = -6H\tan z - 6H\cot z .
+&\Gamma^{x_0}{}_{x_ix_i} = -He^{2a_4}\sin^{1/3}z\,\tan z,\quad \Gamma^{x_0}{}_{x_tx_t} = He^{-2a_4}\sin^{1/3}z\,\tan z,\\
+&\Gamma^{x_0}{}_{x_0x_0} = -6H\tan z - 6H\cot z .
 \end{aligned}
 $$
 
@@ -199,18 +196,18 @@ The mixed Riemann tensor $R^{ab}{}_{cd}$ has 156 nonzero entries. Up to the anti
 | $R^{x_ix_t}{}_{x_ix_t}$ | $-(a_4')^2 - H^2$ |
 | $R^{x_ix_4}{}_{x_ix_4}$ | $a_4'' + (a_4')^2$ |
 | $R^{x_4x_t}{}_{x_4x_t}$ | $-a_4'' + (a_4')^2$ |
-| $R^{x_ix_8}{}_{x_ix_8}$ and $R^{x_tx_8}{}_{x_tx_8}$ | $-H^2$ |
-| $R^{x_ix_4}{}_{x_ix_8}$ and $R^{x_4x_t}{}_{x_tx_8}$ | $Ha_4'\cot z$ |
-| $R^{x_ix_8}{}_{x_ix_4}$ and $R^{x_tx_8}{}_{x_4x_t}$ | $-Ha_4'\tan z$ |
+| $R^{x_ix_0}{}_{x_ix_0}$ and $R^{x_tx_0}{}_{x_tx_0}$ | $-H^2$ |
+| $R^{x_ix_4}{}_{x_ix_0}$ and $R^{x_4x_t}{}_{x_tx_0}$ | $Ha_4'\cot z$ |
+| $R^{x_ix_0}{}_{x_ix_4}$ and $R^{x_tx_0}{}_{x_4x_t}$ | $-Ha_4'\tan z$ |
 
-$R^{x_4x_8}{}_{x_4x_8} = 0$. Every $R^{ab}{}_{cd}$ is free of $\sin^{1/3}z$ and of $e^{a_4}$ (`mixed_riemann_free_of_sin_third`, `mixed_riemann_free_of_warp_and_exponential`). The deflation enters through $a_4'$ and $a_4''$ with the opposite sign of the inflating directions: the sectional curvature of the plane $(x_i, x_4)$ is $a_4'' + (a_4')^2$ and that of $(x_4, x_t)$ is $-a_4'' + (a_4')^2$.
+$R^{x_0x_4}{}_{x_0x_4} = 0$. Every $R^{ab}{}_{cd}$ is free of $\sin^{1/3}z$ and of $e^{a_4}$ (`mixed_riemann_free_of_sin_third`, `mixed_riemann_free_of_warp_and_exponential`). The deflation enters through $a_4'$ and $a_4''$ with the opposite sign of the inflating directions: the sectional curvature of the plane $(x_i, x_4)$ is $a_4'' + (a_4')^2$ and that of $(x_4, x_t)$ is $-a_4'' + (a_4')^2$.
 
-The mixed Ricci tensor is diagonal, $R^{x_i}{}_{x_i} = a_4'' - 6H^2$, $R^{x_4}{}_{x_4} = 6(a_4')^2$, $R^{x_t}{}_{x_t} = -a_4'' - 6H^2$, $R^{x_8}{}_{x_8} = -6H^2$; the Ricci scalar is $R = 6(a_4')^2 - 42H^2$ (`ricciScalar`), and the Einstein tensor is
+The mixed Ricci tensor is diagonal, $R^{x_i}{}_{x_i} = a_4'' - 6H^2$, $R^{x_4}{}_{x_4} = 6(a_4')^2$, $R^{x_t}{}_{x_t} = -a_4'' - 6H^2$, $R^{x_0}{}_{x_0} = -6H^2$; the Ricci scalar is $R = 6(a_4')^2 - 42H^2$ (`ricciScalar`), and the Einstein tensor is
 
 $$
 \begin{aligned}
 &G^{x_i}{}_{x_i} = a_4'' - 3(a_4')^2 + 15H^2,\quad G^{x_4}{}_{x_4} = 3(a_4')^2 + 21H^2,\\
-&G^{x_t}{}_{x_t} = -a_4'' - 3(a_4')^2 + 15H^2,\quad G^{x_8}{}_{x_8} = -3(a_4')^2 + 15H^2 .
+&G^{x_t}{}_{x_t} = -a_4'' - 3(a_4')^2 + 15H^2,\quad G^{x_0}{}_{x_0} = -3(a_4')^2 + 15H^2 .
 \end{aligned}
 $$
 
@@ -230,14 +227,20 @@ $$
 
 ### 6.3 The Lovelock tensors
 
-Every $P_{(k)}{}^h{}_j$ has 10 nonzero components: the 8 diagonal ones and the pair $P^{x_4}{}_{x_8}$, $P^{x_8}{}_{x_4}$, which are proportional to $b_4'$ (so at $b_4 = 1$ all 56 off-diagonal components of each tensor vanish, as in the record before 2026-10-14); the other 54 off-diagonal components vanish. The diagonal satisfies $x_1 = x_2 = x_3$ and $x_5 = x_6 = x_7$, so four components per order are independent. The formulas below are the LaTeX texts of `lovelock-tensors.json`, unchanged.
+Every $P_{(k)}{}^h{}_j$ has 10 nonzero components: the 8 diagonal ones and the pair $P^{x_0}{}_{x_4}$, $P^{x_4}{}_{x_0}$, which are proportional to $b_4'$ (so at $b_4 = 1$ all 56 off-diagonal components of each tensor vanish, as in the record before 2026-10-14); the other 54 off-diagonal components vanish. The diagonal satisfies $x_1 = x_2 = x_3$ and $x_5 = x_6 = x_7$, so four components per order are independent. The formulas below are the LaTeX texts of `lovelock-tensors.json`, unchanged (only broken into lines at top-level signs).
 
 $k = 1$:
 
 $$
 \begin{aligned}
-P_{(1)}{}^{x_1}{}_{x_1} &= 6\,b_4^{-1}\,b_4'' - 4\,a_4'' - 12\,a_4'\,b_4^{-1}\,b_4' + 12\,(a_4')^{2} - 60\,H^{2} \\
-&\quad 6\,b_4^{-1}\,b_4'' - 4\,a_4'' - 12\,a_4'\,b_4^{-1}\,b_4' + 12\,(a_4')^{2} - 60\,H^{2}
+P_{(1)}{}^{x_0}{}_{x_0} &= 6\,b_4^{-1}\,b_4'' - 6\,a_4'\,b_4^{-1}\,b_4' + 12\,(a_4')^{2} - 60\,H^{2}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+P_{(1)}{}^{x_1}{}_{x_1} &= 6\,b_4^{-1}\,b_4'' - 4\,a_4'' - 12\,a_4'\,b_4^{-1}\,b_4' \\
+&\quad + 12\,(a_4')^{2} - 60\,H^{2}
 \end{aligned}
 $$
 
@@ -249,26 +252,20 @@ $$
 
 $$
 \begin{aligned}
-P_{(1)}{}^{x_5}{}_{x_5} &= -b_4^{-2}\,(b_4')^{2} + 4\,b_4^{-1}\,b_4'' + 4\,a_4'' + 12\,(a_4')^{2} - 60\,H^{2} \\
-&\quad -b_4^{-2}\,(b_4')^{2} + 4\,b_4^{-1}\,b_4'' + 4\,a_4'' + 12\,(a_4')^{2} - 60\,H^{2}
+P_{(1)}{}^{x_5}{}_{x_5} &= -b_4^{-2}\,(b_4')^{2} + 4\,b_4^{-1}\,b_4'' + 4\,a_4'' + 12\,(a_4')^{2} \\
+&\quad - 60\,H^{2}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-P_{(1)}{}^{x_8}{}_{x_8} &= 6\,b_4^{-1}\,b_4'' - 6\,a_4'\,b_4^{-1}\,b_4' + 12\,(a_4')^{2} - 60\,H^{2}
+P_{(1)}{}^{x_0}{}_{x_4} &= 6\,H\,\cot^{-1}(6Hx_0)\,b_4^{-1}\,b_4'
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-P_{(1)}{}^{x_4}{}_{x_8} &= -6\,H\,\cot(6Hx_8)\,b_4^{-1}\,b_4'
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
-P_{(1)}{}^{x_8}{}_{x_4} &= 6\,H\,\cot^{-1}(6Hx_8)\,b_4^{-1}\,b_4'
+P_{(1)}{}^{x_4}{}_{x_0} &= -6\,H\,\cot(6Hx_0)\,b_4^{-1}\,b_4'
 \end{aligned}
 $$
 
@@ -276,60 +273,66 @@ $k = 2$:
 
 $$
 \begin{aligned}
-P_{(2)}{}^{x_1}{}_{x_1} &= -6\,b_4^{-4}\,(b_4')^{4} + 12\,b_4^{-3}\,(b_4')^{2}\,b_4'' \\
-&\quad + 24\,a_4''\,b_4^{-2}\,(b_4')^{2} - 24\,a_4'\,b_4^{-3}\,(b_4')^{3} \\
-&\quad + 48\,a_4'\,b_4^{-2}\,b_4'\,b_4'' - 192\,a_4'\,a_4''\,b_4^{-1}\,b_4' \\
-&\quad - 48\,(a_4')^{2}\,b_4^{-2}\,(b_4')^{2} - 96\,(a_4')^{2}\,b_4^{-1}\,b_4'' \\
-&\quad + 192\,(a_4')^{2}\,a_4'' + 192\,(a_4')^{3}\,b_4^{-1}\,b_4' - 96\,(a_4')^{4} \\
-&\quad + 144\,H^{2}\,b_4^{-2}\,(b_4')^{2} - 480\,H^{2}\,b_4^{-1}\,b_4'' + 320\,H^{2}\,a_4'' \\
-&\quad + 960\,H^{2}\,a_4'\,b_4^{-1}\,b_4' - 1344\,H^{2}\,(a_4')^{2} + 1440\,H^{4}
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
-P_{(2)}{}^{x_4}{}_{x_4} &= 36\,a_4'\,b_4^{-3}\,(b_4')^{3} - 288\,(a_4')^{3}\,b_4^{-1}\,b_4' + 288\,(a_4')^{4} \\
-&\quad - 240\,H^{2}\,b_4^{-2}\,(b_4')^{2} - 480\,H^{2}\,a_4'\,b_4^{-1}\,b_4' \\
-&\quad + 960\,H^{2}\,(a_4')^{2} + 3360\,H^{4}
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
-P_{(2)}{}^{x_5}{}_{x_5} &= 24\,a_4''\,b_4^{-2}\,(b_4')^{2} - 24\,a_4'\,b_4^{-3}\,(b_4')^{3} \\
-&\quad + 48\,a_4'\,b_4^{-2}\,b_4'\,b_4'' - 192\,(a_4')^{2}\,a_4'' - 96\,(a_4')^{4} \\
-&\quad + 128\,H^{2}\,b_4^{-2}\,(b_4')^{2} - 320\,H^{2}\,b_4^{-1}\,b_4'' - 320\,H^{2}\,a_4'' \\
-&\quad + 384\,H^{2}\,a_4'\,b_4^{-1}\,b_4' - 1344\,H^{2}\,(a_4')^{2} + 1440\,H^{4}
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
-P_{(2)}{}^{x_8}{}_{x_8} &= -6\,b_4^{-4}\,(b_4')^{4} + 12\,b_4^{-3}\,(b_4')^{2}\,b_4'' \\
+P_{(2)}{}^{x_0}{}_{x_0} &= -6\,b_4^{-4}\,(b_4')^{4} + 12\,b_4^{-3}\,(b_4')^{2}\,b_4'' \\
 &\quad + 48\,a_4''\,b_4^{-2}\,(b_4')^{2} - 36\,a_4'\,b_4^{-3}\,(b_4')^{3} \\
 &\quad + 96\,a_4'\,b_4^{-2}\,b_4'\,b_4'' - 192\,a_4'\,a_4''\,b_4^{-1}\,b_4' \\
 &\quad - 48\,(a_4')^{2}\,b_4^{-2}\,(b_4')^{2} - 96\,(a_4')^{2}\,b_4^{-1}\,b_4'' \\
-&\quad + 96\,(a_4')^{3}\,b_4^{-1}\,b_4' - 96\,(a_4')^{4} + 96\,H^{2}\,b_4^{-2}\,(b_4')^{2} \\
-&\quad - 480\,H^{2}\,b_4^{-1}\,b_4'' + 672\,H^{2}\,a_4'\,b_4^{-1}\,b_4' - 1344\,H^{2}\,(a_4')^{2} \\
+&\quad + 96\,(a_4')^{3}\,b_4^{-1}\,b_4' - 96\,(a_4')^{4} \\
+&\quad + 96\,H^{2}\,b_4^{-2}\,(b_4')^{2} - 480\,H^{2}\,b_4^{-1}\,b_4'' \\
+&\quad + 672\,H^{2}\,a_4'\,b_4^{-1}\,b_4' - 1344\,H^{2}\,(a_4')^{2} \\
 &\quad + 1440\,H^{4}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-P_{(2)}{}^{x_4}{}_{x_8} &= -12\,H\,\cot(6Hx_8)\,b_4^{-3}\,(b_4')^{3} \\
-&\quad - 144\,H\,a_4'\,\cot(6Hx_8)\,b_4^{-2}\,(b_4')^{2} \\
-&\quad + 288\,H\,(a_4')^{2}\,\cot(6Hx_8)\,b_4^{-1}\,b_4' \\
-&\quad + 480\,H^{3}\,\cot(6Hx_8)\,b_4^{-1}\,b_4'
+P_{(2)}{}^{x_1}{}_{x_1} &= -6\,b_4^{-4}\,(b_4')^{4} + 12\,b_4^{-3}\,(b_4')^{2}\,b_4'' \\
+&\quad + 24\,a_4''\,b_4^{-2}\,(b_4')^{2} - 24\,a_4'\,b_4^{-3}\,(b_4')^{3} \\
+&\quad + 48\,a_4'\,b_4^{-2}\,b_4'\,b_4'' - 192\,a_4'\,a_4''\,b_4^{-1}\,b_4' \\
+&\quad - 48\,(a_4')^{2}\,b_4^{-2}\,(b_4')^{2} - 96\,(a_4')^{2}\,b_4^{-1}\,b_4'' \\
+&\quad + 192\,(a_4')^{2}\,a_4'' + 192\,(a_4')^{3}\,b_4^{-1}\,b_4' \\
+&\quad - 96\,(a_4')^{4} + 144\,H^{2}\,b_4^{-2}\,(b_4')^{2} \\
+&\quad - 480\,H^{2}\,b_4^{-1}\,b_4'' + 320\,H^{2}\,a_4'' \\
+&\quad + 960\,H^{2}\,a_4'\,b_4^{-1}\,b_4' - 1344\,H^{2}\,(a_4')^{2} \\
+&\quad + 1440\,H^{4}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-P_{(2)}{}^{x_8}{}_{x_4} &= 12\,H\,\cot^{-1}(6Hx_8)\,b_4^{-3}\,(b_4')^{3} \\
-&\quad + 144\,H\,a_4'\,\cot^{-1}(6Hx_8)\,b_4^{-2}\,(b_4')^{2} \\
-&\quad - 288\,H\,(a_4')^{2}\,\cot^{-1}(6Hx_8)\,b_4^{-1}\,b_4' \\
-&\quad - 480\,H^{3}\,\cot^{-1}(6Hx_8)\,b_4^{-1}\,b_4'
+P_{(2)}{}^{x_4}{}_{x_4} &= 36\,a_4'\,b_4^{-3}\,(b_4')^{3} - 288\,(a_4')^{3}\,b_4^{-1}\,b_4' \\
+&\quad + 288\,(a_4')^{4} - 240\,H^{2}\,b_4^{-2}\,(b_4')^{2} \\
+&\quad - 480\,H^{2}\,a_4'\,b_4^{-1}\,b_4' + 960\,H^{2}\,(a_4')^{2} \\
+&\quad + 3360\,H^{4}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+P_{(2)}{}^{x_5}{}_{x_5} &= 24\,a_4''\,b_4^{-2}\,(b_4')^{2} - 24\,a_4'\,b_4^{-3}\,(b_4')^{3} \\
+&\quad + 48\,a_4'\,b_4^{-2}\,b_4'\,b_4'' - 192\,(a_4')^{2}\,a_4'' \\
+&\quad - 96\,(a_4')^{4} + 128\,H^{2}\,b_4^{-2}\,(b_4')^{2} \\
+&\quad - 320\,H^{2}\,b_4^{-1}\,b_4'' - 320\,H^{2}\,a_4'' \\
+&\quad + 384\,H^{2}\,a_4'\,b_4^{-1}\,b_4' - 1344\,H^{2}\,(a_4')^{2} \\
+&\quad + 1440\,H^{4}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+P_{(2)}{}^{x_0}{}_{x_4} &= 12\,H\,\cot^{-1}(6Hx_0)\,b_4^{-3}\,(b_4')^{3} \\
+&\quad + 144\,H\,a_4'\,\cot^{-1}(6Hx_0)\,b_4^{-2}\,(b_4')^{2} \\
+&\quad - 288\,H\,(a_4')^{2}\,\cot^{-1}(6Hx_0)\,b_4^{-1}\,b_4' \\
+&\quad - 480\,H^{3}\,\cot^{-1}(6Hx_0)\,b_4^{-1}\,b_4'
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+P_{(2)}{}^{x_4}{}_{x_0} &= -12\,H\,\cot(6Hx_0)\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 144\,H\,a_4'\,\cot(6Hx_0)\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 288\,H\,(a_4')^{2}\,\cot(6Hx_0)\,b_4^{-1}\,b_4' \\
+&\quad + 480\,H^{3}\,\cot(6Hx_0)\,b_4^{-1}\,b_4'
 \end{aligned}
 $$
 
@@ -337,95 +340,120 @@ $k = 3$:
 
 $$
 \begin{aligned}
-P_{(3)}{}^{x_1}{}_{x_1} &= 288\,a_4'\,a_4''\,b_4^{-3}\,(b_4')^{3} - 216\,(a_4')^{2}\,b_4^{-4}\,(b_4')^{4} \\
-&\quad + 432\,(a_4')^{2}\,b_4^{-3}\,(b_4')^{2}\,b_4'' \\
-&\quad - 2592\,(a_4')^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} + 288\,(a_4')^{3}\,b_4^{-3}\,(b_4')^{3} \\
-&\quad - 1728\,(a_4')^{3}\,b_4^{-2}\,b_4'\,b_4'' + 6912\,(a_4')^{3}\,a_4''\,b_4^{-1}\,b_4' \\
-&\quad + 1728\,(a_4')^{4}\,b_4^{-2}\,(b_4')^{2} + 1728\,(a_4')^{4}\,b_4^{-1}\,b_4'' \\
-&\quad - 5760\,(a_4')^{4}\,a_4'' - 3456\,(a_4')^{5}\,b_4^{-1}\,b_4' + 1152\,(a_4')^{6} \\
-&\quad + 216\,H^{2}\,b_4^{-4}\,(b_4')^{4} - 432\,H^{2}\,b_4^{-3}\,(b_4')^{2}\,b_4'' \\
-&\quad - 864\,H^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} + 2592\,H^{2}\,a_4'\,b_4^{-3}\,(b_4')^{3} \\
-&\quad - 1728\,H^{2}\,a_4'\,b_4^{-2}\,b_4'\,b_4'' + 6912\,H^{2}\,a_4'\,a_4''\,b_4^{-1}\,b_4' \\
-&\quad - 3456\,H^{2}\,(a_4')^{2}\,b_4^{-2}\,(b_4')^{2} + 3456\,H^{2}\,(a_4')^{2}\,b_4^{-1}\,b_4'' \\
-&\quad - 6912\,H^{2}\,(a_4')^{2}\,a_4'' - 6912\,H^{2}\,(a_4')^{3}\,b_4^{-1}\,b_4' \\
-&\quad + 10368\,H^{2}\,(a_4')^{4} - 5184\,H^{4}\,b_4^{-2}\,(b_4')^{2} \\
-&\quad + 8640\,H^{4}\,b_4^{-1}\,b_4'' - 5760\,H^{4}\,a_4'' - 17280\,H^{4}\,a_4'\,b_4^{-1}\,b_4' \\
-&\quad + 31104\,H^{4}\,(a_4')^{2} - 5760\,H^{6}
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
-P_{(3)}{}^{x_4}{}_{x_4} &= 720\,(a_4')^{3}\,b_4^{-3}\,(b_4')^{3} - 4320\,(a_4')^{4}\,b_4^{-2}\,(b_4')^{2} \\
-&\quad + 8640\,(a_4')^{5}\,b_4^{-1}\,b_4' - 5760\,(a_4')^{6} \\
-&\quad - 1296\,H^{2}\,a_4'\,b_4^{-3}\,(b_4')^{3} + 10368\,H^{2}\,(a_4')^{3}\,b_4^{-1}\,b_4' \\
-&\quad - 10368\,H^{2}\,(a_4')^{4} + 4320\,H^{4}\,b_4^{-2}\,(b_4')^{2} \\
-&\quad + 8640\,H^{4}\,a_4'\,b_4^{-1}\,b_4' - 17280\,H^{4}\,(a_4')^{2} - 40320\,H^{6}
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
-P_{(3)}{}^{x_5}{}_{x_5} &= 864\,(a_4')^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} - 288\,(a_4')^{3}\,b_4^{-3}\,(b_4')^{3} \\
-&\quad + 576\,(a_4')^{3}\,b_4^{-2}\,b_4'\,b_4'' - 4608\,(a_4')^{3}\,a_4''\,b_4^{-1}\,b_4' \\
-&\quad + 288\,(a_4')^{4}\,b_4^{-2}\,(b_4')^{2} - 1152\,(a_4')^{4}\,b_4^{-1}\,b_4'' \\
-&\quad + 5760\,(a_4')^{4}\,a_4'' + 1152\,(a_4')^{6} - 864\,H^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} \\
-&\quad + 864\,H^{2}\,a_4'\,b_4^{-3}\,(b_4')^{3} - 1728\,H^{2}\,a_4'\,b_4^{-2}\,b_4'\,b_4'' \\
-&\quad + 5184\,H^{2}\,(a_4')^{2}\,b_4^{-2}\,(b_4')^{2} + 6912\,H^{2}\,(a_4')^{2}\,a_4'' \\
-&\quad - 13824\,H^{2}\,(a_4')^{3}\,b_4^{-1}\,b_4' + 10368\,H^{2}\,(a_4')^{4} \\
-&\quad - 3168\,H^{4}\,b_4^{-2}\,(b_4')^{2} + 5760\,H^{4}\,b_4^{-1}\,b_4'' + 5760\,H^{4}\,a_4'' \\
-&\quad - 13824\,H^{4}\,a_4'\,b_4^{-1}\,b_4' + 31104\,H^{4}\,(a_4')^{2} - 5760\,H^{6}
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
-P_{(3)}{}^{x_8}{}_{x_8} &= 864\,a_4'\,a_4''\,b_4^{-3}\,(b_4')^{3} - 648\,(a_4')^{2}\,b_4^{-4}\,(b_4')^{4} \\
+P_{(3)}{}^{x_0}{}_{x_0} &= 864\,a_4'\,a_4''\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 648\,(a_4')^{2}\,b_4^{-4}\,(b_4')^{4} \\
 &\quad + 1296\,(a_4')^{2}\,b_4^{-3}\,(b_4')^{2}\,b_4'' \\
-&\quad - 5184\,(a_4')^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} + 720\,(a_4')^{3}\,b_4^{-3}\,(b_4')^{3} \\
-&\quad - 3456\,(a_4')^{3}\,b_4^{-2}\,b_4'\,b_4'' + 6912\,(a_4')^{3}\,a_4''\,b_4^{-1}\,b_4' \\
-&\quad + 1728\,(a_4')^{4}\,b_4^{-2}\,(b_4')^{2} + 1728\,(a_4')^{4}\,b_4^{-1}\,b_4'' \\
-&\quad - 1728\,(a_4')^{5}\,b_4^{-1}\,b_4' + 1152\,(a_4')^{6} + 216\,H^{2}\,b_4^{-4}\,(b_4')^{4} \\
-&\quad - 432\,H^{2}\,b_4^{-3}\,(b_4')^{2}\,b_4'' - 1728\,H^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} \\
-&\quad + 2160\,H^{2}\,a_4'\,b_4^{-3}\,(b_4')^{3} - 3456\,H^{2}\,a_4'\,b_4^{-2}\,b_4'\,b_4'' \\
-&\quad + 6912\,H^{2}\,a_4'\,a_4''\,b_4^{-1}\,b_4' + 1728\,H^{2}\,(a_4')^{2}\,b_4^{-2}\,(b_4')^{2} \\
-&\quad + 3456\,H^{2}\,(a_4')^{2}\,b_4^{-1}\,b_4'' - 10368\,H^{2}\,(a_4')^{3}\,b_4^{-1}\,b_4' \\
-&\quad + 10368\,H^{2}\,(a_4')^{4} - 3456\,H^{4}\,b_4^{-2}\,(b_4')^{2} \\
-&\quad + 8640\,H^{4}\,b_4^{-1}\,b_4'' - 15552\,H^{4}\,a_4'\,b_4^{-1}\,b_4' \\
+&\quad - 5184\,(a_4')^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 720\,(a_4')^{3}\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 3456\,(a_4')^{3}\,b_4^{-2}\,b_4'\,b_4'' \\
+&\quad + 6912\,(a_4')^{3}\,a_4''\,b_4^{-1}\,b_4' \\
+&\quad + 1728\,(a_4')^{4}\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 1728\,(a_4')^{4}\,b_4^{-1}\,b_4'' - 1728\,(a_4')^{5}\,b_4^{-1}\,b_4' \\
+&\quad + 1152\,(a_4')^{6} + 216\,H^{2}\,b_4^{-4}\,(b_4')^{4} \\
+&\quad - 432\,H^{2}\,b_4^{-3}\,(b_4')^{2}\,b_4'' \\
+&\quad - 1728\,H^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 2160\,H^{2}\,a_4'\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 3456\,H^{2}\,a_4'\,b_4^{-2}\,b_4'\,b_4'' \\
+&\quad + 6912\,H^{2}\,a_4'\,a_4''\,b_4^{-1}\,b_4' \\
+&\quad + 1728\,H^{2}\,(a_4')^{2}\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 3456\,H^{2}\,(a_4')^{2}\,b_4^{-1}\,b_4'' \\
+&\quad - 10368\,H^{2}\,(a_4')^{3}\,b_4^{-1}\,b_4' + 10368\,H^{2}\,(a_4')^{4} \\
+&\quad - 3456\,H^{4}\,b_4^{-2}\,(b_4')^{2} + 8640\,H^{4}\,b_4^{-1}\,b_4'' \\
+&\quad - 15552\,H^{4}\,a_4'\,b_4^{-1}\,b_4' + 31104\,H^{4}\,(a_4')^{2} \\
+&\quad - 5760\,H^{6}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+P_{(3)}{}^{x_1}{}_{x_1} &= 288\,a_4'\,a_4''\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 216\,(a_4')^{2}\,b_4^{-4}\,(b_4')^{4} \\
+&\quad + 432\,(a_4')^{2}\,b_4^{-3}\,(b_4')^{2}\,b_4'' \\
+&\quad - 2592\,(a_4')^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 288\,(a_4')^{3}\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 1728\,(a_4')^{3}\,b_4^{-2}\,b_4'\,b_4'' \\
+&\quad + 6912\,(a_4')^{3}\,a_4''\,b_4^{-1}\,b_4' \\
+&\quad + 1728\,(a_4')^{4}\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 1728\,(a_4')^{4}\,b_4^{-1}\,b_4'' - 5760\,(a_4')^{4}\,a_4'' \\
+&\quad - 3456\,(a_4')^{5}\,b_4^{-1}\,b_4' + 1152\,(a_4')^{6} \\
+&\quad + 216\,H^{2}\,b_4^{-4}\,(b_4')^{4} \\
+&\quad - 432\,H^{2}\,b_4^{-3}\,(b_4')^{2}\,b_4'' \\
+&\quad - 864\,H^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 2592\,H^{2}\,a_4'\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 1728\,H^{2}\,a_4'\,b_4^{-2}\,b_4'\,b_4'' \\
+&\quad + 6912\,H^{2}\,a_4'\,a_4''\,b_4^{-1}\,b_4' \\
+&\quad - 3456\,H^{2}\,(a_4')^{2}\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 3456\,H^{2}\,(a_4')^{2}\,b_4^{-1}\,b_4'' \\
+&\quad - 6912\,H^{2}\,(a_4')^{2}\,a_4'' \\
+&\quad - 6912\,H^{2}\,(a_4')^{3}\,b_4^{-1}\,b_4' + 10368\,H^{2}\,(a_4')^{4} \\
+&\quad - 5184\,H^{4}\,b_4^{-2}\,(b_4')^{2} + 8640\,H^{4}\,b_4^{-1}\,b_4'' \\
+&\quad - 5760\,H^{4}\,a_4'' - 17280\,H^{4}\,a_4'\,b_4^{-1}\,b_4' \\
 &\quad + 31104\,H^{4}\,(a_4')^{2} - 5760\,H^{6}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-P_{(3)}{}^{x_4}{}_{x_8} &= -2160\,H\,(a_4')^{2}\,\cot(6Hx_8)\,b_4^{-3}\,(b_4')^{3} \\
-&\quad + 8640\,H\,(a_4')^{3}\,\cot(6Hx_8)\,b_4^{-2}\,(b_4')^{2} \\
-&\quad - 8640\,H\,(a_4')^{4}\,\cot(6Hx_8)\,b_4^{-1}\,b_4' \\
-&\quad + 432\,H^{3}\,\cot(6Hx_8)\,b_4^{-3}\,(b_4')^{3} \\
-&\quad + 5184\,H^{3}\,a_4'\,\cot(6Hx_8)\,b_4^{-2}\,(b_4')^{2} \\
-&\quad - 10368\,H^{3}\,(a_4')^{2}\,\cot(6Hx_8)\,b_4^{-1}\,b_4' \\
-&\quad - 8640\,H^{5}\,\cot(6Hx_8)\,b_4^{-1}\,b_4'
+P_{(3)}{}^{x_4}{}_{x_4} &= 720\,(a_4')^{3}\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 4320\,(a_4')^{4}\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 8640\,(a_4')^{5}\,b_4^{-1}\,b_4' - 5760\,(a_4')^{6} \\
+&\quad - 1296\,H^{2}\,a_4'\,b_4^{-3}\,(b_4')^{3} \\
+&\quad + 10368\,H^{2}\,(a_4')^{3}\,b_4^{-1}\,b_4' - 10368\,H^{2}\,(a_4')^{4} \\
+&\quad + 4320\,H^{4}\,b_4^{-2}\,(b_4')^{2} + 8640\,H^{4}\,a_4'\,b_4^{-1}\,b_4' \\
+&\quad - 17280\,H^{4}\,(a_4')^{2} - 40320\,H^{6}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-P_{(3)}{}^{x_8}{}_{x_4} &= 2160\,H\,(a_4')^{2}\,\cot^{-1}(6Hx_8)\,b_4^{-3}\,(b_4')^{3} \\
-&\quad - 8640\,H\,(a_4')^{3}\,\cot^{-1}(6Hx_8)\,b_4^{-2}\,(b_4')^{2} \\
-&\quad + 8640\,H\,(a_4')^{4}\,\cot^{-1}(6Hx_8)\,b_4^{-1}\,b_4' \\
-&\quad - 432\,H^{3}\,\cot^{-1}(6Hx_8)\,b_4^{-3}\,(b_4')^{3} \\
-&\quad - 5184\,H^{3}\,a_4'\,\cot^{-1}(6Hx_8)\,b_4^{-2}\,(b_4')^{2} \\
-&\quad + 10368\,H^{3}\,(a_4')^{2}\,\cot^{-1}(6Hx_8)\,b_4^{-1}\,b_4' \\
-&\quad + 8640\,H^{5}\,\cot^{-1}(6Hx_8)\,b_4^{-1}\,b_4'
+P_{(3)}{}^{x_5}{}_{x_5} &= 864\,(a_4')^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} \\
+&\quad - 288\,(a_4')^{3}\,b_4^{-3}\,(b_4')^{3} \\
+&\quad + 576\,(a_4')^{3}\,b_4^{-2}\,b_4'\,b_4'' \\
+&\quad - 4608\,(a_4')^{3}\,a_4''\,b_4^{-1}\,b_4' \\
+&\quad + 288\,(a_4')^{4}\,b_4^{-2}\,(b_4')^{2} \\
+&\quad - 1152\,(a_4')^{4}\,b_4^{-1}\,b_4'' + 5760\,(a_4')^{4}\,a_4'' \\
+&\quad + 1152\,(a_4')^{6} - 864\,H^{2}\,a_4''\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 864\,H^{2}\,a_4'\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 1728\,H^{2}\,a_4'\,b_4^{-2}\,b_4'\,b_4'' \\
+&\quad + 5184\,H^{2}\,(a_4')^{2}\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 6912\,H^{2}\,(a_4')^{2}\,a_4'' \\
+&\quad - 13824\,H^{2}\,(a_4')^{3}\,b_4^{-1}\,b_4' + 10368\,H^{2}\,(a_4')^{4} \\
+&\quad - 3168\,H^{4}\,b_4^{-2}\,(b_4')^{2} + 5760\,H^{4}\,b_4^{-1}\,b_4'' \\
+&\quad + 5760\,H^{4}\,a_4'' - 13824\,H^{4}\,a_4'\,b_4^{-1}\,b_4' \\
+&\quad + 31104\,H^{4}\,(a_4')^{2} - 5760\,H^{6}
 \end{aligned}
 $$
 
-Remarks, each an exact property of the listed components at $b_4 = 1$ (the metric before 2026-10-14); for general $b_4$ the second and third do not hold (checked with sympy: $P^{x_1}{}_{x_1} + P^{x_5}{}_{x_5} - 2P^{x_8}{}_{x_8}$ is a nonzero expression in $b_4'$ and $b_4''$, and $a_4''$ enters $P_{(2)}{}^{x_8}{}_{x_8}$ and $P_{(3)}{}^{x_8}{}_{x_8}$ through the $b_4$ terms):
+$$
+\begin{aligned}
+P_{(3)}{}^{x_0}{}_{x_4} &= 2160\,H\,(a_4')^{2}\,\cot^{-1}(6Hx_0)\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 8640\,H\,(a_4')^{3}\,\cot^{-1}(6Hx_0)\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 8640\,H\,(a_4')^{4}\,\cot^{-1}(6Hx_0)\,b_4^{-1}\,b_4' \\
+&\quad - 432\,H^{3}\,\cot^{-1}(6Hx_0)\,b_4^{-3}\,(b_4')^{3} \\
+&\quad - 5184\,H^{3}\,a_4'\,\cot^{-1}(6Hx_0)\,b_4^{-2}\,(b_4')^{2} \\
+&\quad + 10368\,H^{3}\,(a_4')^{2}\,\cot^{-1}(6Hx_0)\,b_4^{-1}\,b_4' \\
+&\quad + 8640\,H^{5}\,\cot^{-1}(6Hx_0)\,b_4^{-1}\,b_4'
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+P_{(3)}{}^{x_4}{}_{x_0} &= -2160\,H\,(a_4')^{2}\,\cot(6Hx_0)\,b_4^{-3}\,(b_4')^{3} \\
+&\quad + 8640\,H\,(a_4')^{3}\,\cot(6Hx_0)\,b_4^{-2}\,(b_4')^{2} \\
+&\quad - 8640\,H\,(a_4')^{4}\,\cot(6Hx_0)\,b_4^{-1}\,b_4' \\
+&\quad + 432\,H^{3}\,\cot(6Hx_0)\,b_4^{-3}\,(b_4')^{3} \\
+&\quad + 5184\,H^{3}\,a_4'\,\cot(6Hx_0)\,b_4^{-2}\,(b_4')^{2} \\
+&\quad - 10368\,H^{3}\,(a_4')^{2}\,\cot(6Hx_0)\,b_4^{-1}\,b_4' \\
+&\quad - 8640\,H^{5}\,\cot(6Hx_0)\,b_4^{-1}\,b_4'
+\end{aligned}
+$$
+
+Remarks, each an exact property of the listed components at $b_4 = 1$ (the metric before 2026-10-14); for general $b_4$ the second and third do not hold (checked with sympy: $P^{x_1}{}_{x_1} + P^{x_5}{}_{x_5} - 2P^{x_0}{}_{x_0}$ is a nonzero expression in $b_4'$ and $b_4''$, and $a_4''$ enters $P_{(2)}{}^{x_0}{}_{x_0}$ and $P_{(3)}{}^{x_0}{}_{x_0}$ through the $b_4$ terms):
 
 - $P_{(1)} = -4G$ component by component (compare section 6.1).
-- Of the metric function only the derivatives $a_4'$ and $a_4''$ occur, not $a_4$ itself; $a_4''$ occurs only in the 3-space and extra-time components, with opposite signs (the inflating and the deflating directions), and never in the $x_4$ and $x_8$ components.
-- $P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} = 2P_{(k)}^{x_8}{}_{x_8}$ for $k = 1, 2, 3$ (read off the lists above).
-- The contravariant densities are $A_{(k)}{}^{ll} = b_4^{3/2}\cos z\;g^{ll}\,P_{(k)}{}^l{}_l$ for every $l$ ($\sqrt{|g|} = b_4^{3/2}\cos z$; the off-diagonal pair $A_{(k)}{}^{x_4x_8}$, $A_{(k)}{}^{x_8x_4}$ is built in the same way from $P_{(k)}{}^{x_4}{}_{x_8}$, $P_{(k)}{}^{x_8}{}_{x_4}$), with $g^{x_ix_i} = e^{-2a_4}\sin^{-1/3}z$, $g^{x_4x_4} = -1$, $g^{x_tx_t} = -e^{2a_4}b_4^{-1}\sin^{-1/3}z$ and $g^{x_8x_8} = \tan^2z$; for example the file gives $A_{(1)}{}^{x_4x_4} = -3\,\sin(6Hx_8)\,\cot(6Hx_8)\,b_4^{-1/2}\,(b_4')^{2} - 6\,a_4'\,\sin(6Hx_8)\,\cot(6Hx_8)\,b_4^{1/2}\,b_4' + 12\,(a_4')^{2}\,\sin(6Hx_8)\,\cot(6Hx_8)\,b_4^{3/2} + 84\,H^{2}\,\sin(6Hx_8)\,\cot(6Hx_8)\,b_4^{3/2}$. All 64 components of each $A_{(k)}$, each with its exact monomial list, are in `lovelock-tensors.json`; all 384 components of $P_{(k)}$ and $A_{(k)}$ are also written out in `lovelock-components.md`.
+- Of the metric function only the derivatives $a_4'$ and $a_4''$ occur, not $a_4$ itself; $a_4''$ occurs only in the 3-space and extra-time components, with opposite signs (the inflating and the deflating directions), and never in the $x_0$ and $x_4$ components.
+- $P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} = 2P_{(k)}^{x_0}{}_{x_0}$ for $k = 1, 2, 3$ (read off the lists above).
+- The contravariant densities are $A_{(k)}{}^{ll} = b_4^{3/2}\cos z\;g^{ll}\,P_{(k)}{}^l{}_l$ for every $l$ ($\sqrt{|g|} = b_4^{3/2}\cos z$; the off-diagonal pair $A_{(k)}{}^{x_0x_4}$, $A_{(k)}{}^{x_4x_0}$ is built in the same way from $P_{(k)}{}^{x_0}{}_{x_4}$, $P_{(k)}{}^{x_4}{}_{x_0}$), with $g^{x_0x_0} = \tan^2z$, $g^{x_ix_i} = e^{-2a_4}\sin^{-1/3}z$, $g^{x_4x_4} = -1$ and $g^{x_tx_t} = -e^{2a_4}b_4^{-1}\sin^{-1/3}z$; for example the file gives $A_{(1)}{}^{x_4x_4} = -3\,\sin(6Hx_0)\,\cot(6Hx_0)\,b_4^{-1/2}\,(b_4')^{2} - 6\,a_4'\,\sin(6Hx_0)\,\cot(6Hx_0)\,b_4^{1/2}\,b_4' + 12\,(a_4')^{2}\,\sin(6Hx_0)\,\cot(6Hx_0)\,b_4^{3/2} + 84\,H^{2}\,\sin(6Hx_0)\,\cot(6Hx_0)\,b_4^{3/2}$. All 64 components of each $A_{(k)}$, each with its exact monomial list, are in `lovelock-tensors.json`; all 384 components of $P_{(k)}$ and $A_{(k)}$ are also written out in `lovelock-components.md`.
 
 ### 6.4 The checks of the Rust program
 
@@ -484,7 +512,7 @@ The sympy checker is the file `check_lovelock_gkd.py` in the folder `Revision/gk
 | 2 | 11040 | 187680 | 39840 | 5520 |
 | 3 | 282240 | 1411200 | 708480 | 47040 |
 
-with 4096401 determinant calls in all and 29030 distinct 0/1 matrices determined by sympy. The skipped terms are checked as well: the completely unpruned literal sums for $k = 1$ (10140 calls) and $k = 2$ (1581840 calls) agree exactly with the pruned sums; 20000 random terms of the unpruned $k = 3$ sum, 19900 of them with a repeated index, give 0 whenever skipped; 300 random 9-index lists give 0. The comparison with the Rust output is exact three times over: by an exact canonical form (`canon`, which uses $s^6(1 + c^2) = 1$ to reach a unique form, so a zero difference is a proof of equality), by plain sympy simplification, and numerically with 60 digits at 5 random rational points.
+with 4096410 determinant calls in all and 29096 distinct 0/1 matrices determined by sympy (4096401 and 29030 before the relabel of 2026-10-14: the random samples of the checker are drawn over the labels in the new order). The skipped terms are checked as well: the completely unpruned literal sums for $k = 1$ (10140 calls) and $k = 2$ (1581840 calls) agree exactly with the pruned sums; 20000 random terms of the unpruned $k = 3$ sum, 19909 of them with a repeated index, give 0 whenever skipped; 300 random 9-index lists give 0. The comparison with the Rust output is exact three times over: by an exact canonical form (`canon`, which uses $s^6(1 + c^2) = 1$ to reach a unique form, so a zero difference is a proof of equality), by plain sympy simplification, and numerically with 60 digits at 5 random rational points.
 
 | check | check | check |
 | --- | --- | --- |
@@ -540,7 +568,7 @@ What was read. The author's notebook `Pair_Creation_of_Universes_WaveFunctionOfU
 
 That `Out[535]` and `Out[536]` are the values returned by `rt[gtry]` at `In[238]` is an inference from the file, labelled as such: among all input cells only `In[238]` assigns the global symbols `RS` and `EinsteinG`. The notebook was not re-run; its outputs are taken as stored.
 
-The mapping (a definition stated before the comparison, not a fit). The author's array position 1 is the hidden direction `x0`, with $g_{00} = \cot^2(6Hx_0)$, and positions 2 to 8 are `x1` to `x7`. The author's `x0` becomes $x_8$ of this record and the author's `xk` becomes $x_k$ for $k = 1, \dots, 7$; tensor components are permuted accordingly. The author's `a4` is a function of the argument $Hx_4$, this record's of $x_4$: $a_4(x_4) := a_4^{\mathrm{author}}(Hx_4)$, so by the chain rule $(a_4^{\mathrm{author}})^{(n)}(Hx_4) = H^{-n}a_4^{(n)}(x_4)$ for $n = 0, 1, 2$; the program checks that no other argument of `a4` occurs in the author's outputs. $H$ is the same constant on both sides. The mapping is checked on the metric first; only then are the curvature outputs compared.
+The mapping (a definition stated before the comparison, not a fit). The author's array position 1 is the hidden direction `x0`, with $g_{00} = \cot^2(6Hx_0)$, and positions 2 to 8 are `x1` to `x7`. This record uses the same coordinates in the same order, so the coordinate map is the identity and no component is permuted. (Until 2026-10-14 the record named the hidden direction $x_8$ and listed it last; the author's `x0` was then mapped to $x_8$, with the same checks and verdicts.) The author's `a4` is a function of the argument $Hx_4$, this record's of $x_4$: $a_4(x_4) := a_4^{\mathrm{author}}(Hx_4)$, so by the chain rule $(a_4^{\mathrm{author}})^{(n)}(Hx_4) = H^{-n}a_4^{(n)}(x_4)$ for $n = 0, 1, 2$; the program checks that no other argument of `a4` occurs in the author's outputs. $H$ is the same constant on both sides. The mapping is checked on the metric first; only then are the curvature outputs compared.
 
 The conventions and normalisations (each stated and applied, none fitted). The author's `rt[g]` uses the Christoffel symbols, the Riemann tensor and the Ricci tensor of section 2.2, and $G = \mathrm{Ric} - \frac12 g\,R$ with both indices down. The Ricci scalar is compared with no factor. The author's Einstein tensor is raised with the author's own (mapped) inverse metric, $G^\mu{}_\nu = g^{\mu s}G_{s\nu}$, with no other factor. For $k = 1$, section 4.3 gives $P_{(1)} = -4G$ and $L_{(1)} = 2R$, so `P1_mixed_up_h_down_j` is compared with $-4$ times the author's $G^\mu{}_\nu$ and `L1` with 2 times the author's Ricci scalar.
 
@@ -568,7 +596,7 @@ In all, the report `author-comparison-report.json` has 78 checks: 73 PASS, 0 FAI
 
 Why five objects are NOT-AVAILABLE. The Christoffel symbols, the Riemann tensor and the Ricci tensor are computed by `rt[gtry]`, but `In[238]` ends with a semicolon, so no value of them is stored there, and no other stored output of their values was taken. For the Lovelock tensors the box strings of every cell of the main notebook and of `Generalized _Kronecker_Delta_4+4.nb` were scanned for the word Lovelock (in any case) and for box strings equal to one of the tokens `P2`, `P3`, `P4`, `LovelockP`, `kd` and `kδ`. In the main notebook 20 cells contain the word; the 4 Output cells among them hold only strings (file names), and none of its cells contains one of the tokens. In the Kronecker-delta notebook 3 cells contain the word, none of them an Output cell, and the cells with the token `kδ` are Input and Text cells. No stored output of $P_{(2)}$, $P_{(3)}$, $L_{(2)}$ or $L_{(3)}$ was found.
 
-Re-run for this document (2026-10-08, into a scratch directory, the committed files untouched): the extractor reproduced `author-curvature-outputs.json` byte for byte (one run, 6 s of wall time including the start of the kernel), and `compare_with_author.py` reproduced `author-comparison-report.json` byte for byte in four runs (two of them timed: 0.85 s and 0.92 s). Later on 2026-10-08 the extractor was changed (it normalises the repository root, and it no longer writes the text of `$Version`, which names the operating system; only the version number 15.0.1 is written) and `author-curvature-outputs.json` was regenerated: the only change of that file is the removed line with the version text (its sha256 is now `f041955db36f67d5ec113ad65542f448af1de6eba159c85ecff73f83761039f0`), the only change of the report is the sha256 it records for that input, and the checks and verdicts are unchanged (78 checks: 73 PASS, 0 FAIL, 5 NOT-AVAILABLE). Re-run of both programs after that change, for this document (one run each into a scratch directory, the committed files untouched, on a loaded machine): both reproduced the committed files byte for byte (the extractor 19.2 s, the comparison 5.3 s); the report has the sha256 `6896fd78e327784d0c295e73eef4e45a127e88aa2d6990bf9855ac7b35796265`. These run times were measured while writing this document; no report records them.
+Re-run for this document (2026-10-08, into a scratch directory, the committed files untouched): the extractor reproduced `author-curvature-outputs.json` byte for byte (one run, 6 s of wall time including the start of the kernel), and `compare_with_author.py` reproduced `author-comparison-report.json` byte for byte in four runs (two of them timed: 0.85 s and 0.92 s). Later on 2026-10-08 the extractor was changed (it normalises the repository root, and it no longer writes the text of `$Version`, which names the operating system; only the version number 15.0.1 is written) and `author-curvature-outputs.json` was regenerated: the only change of that file is the removed line with the version text (its sha256 is now `f041955db36f67d5ec113ad65542f448af1de6eba159c85ecff73f83761039f0`), the only change of the report is the sha256 it records for that input, and the checks and verdicts are unchanged (78 checks: 73 PASS, 0 FAIL, 5 NOT-AVAILABLE). Re-run of both programs after that change, for this document (one run each into a scratch directory, the committed files untouched, on a loaded machine): both reproduced the committed files byte for byte (the extractor 19.2 s, the comparison 5.3 s); the report then had the sha256 `6896fd78e327784d0c295e73eef4e45a127e88aa2d6990bf9855ac7b35796265`. These run times were measured while writing this document; no report records them. On 2026-10-14 the comparison was re-run for the metric with $b_4$ (at $b_4 = 1$) and for the author's coordinates (the identity mapping): the same 78 checks with the same verdicts; the Einstein components are now named `einstein-mixed-x0,x0` to `einstein-mixed-x7,x7`, and the report has the sha256 `1fc3c6fb2a73d7f361846b8971c669079e9f2d96e5094a512310ceab285fd545` (it records the sha256 of `Revision/SPEC.md`, which was reworded the same day; `Revision/gkd_lovelock/comparison/README.md`, section 7).
 
 ### 8.3 What the comparison does not establish
 
@@ -582,9 +610,9 @@ Re-run for this document (2026-10-08, into a scratch directory, the committed fi
 
 ### 8.4 The metric of 2026-10-14 (b4)
 
-On 2026-10-14 the user changed the primordial metric: the three extra-time components gained the factor $b_4(x_4)$, $g_{x_5x_5} = g_{x_6x_6} = g_{x_7x_7} = -e^{-2a_4}b_4\sin^{1/3}z$ (section 2.1); $b_4 = 1$ is the metric used before. Every file of `Revision/gkd_lovelock/results/` was recomputed with $b_4$: the Rust program passes 19 of 19 checks (with the brute force of $k = 2$), the Wolfram check 29 of 29, the sympy checker 49 of 49, and the comparison with the author's earlier notebook, evaluated at $b_4 = 1$, gives 73 PASS, 0 FAIL, 5 NOT-AVAILABLE. Each $P_{(k)}$ now has 10 nonzero components, the 8 diagonal ones and $x_4$-$x_8$, $x_8$-$x_4$, proportional to $b_4'$ (section 6.3); the monomial vectors of `lovelock-tensors.json` have 13 exponents.
+On 2026-10-14 the user changed the primordial metric: the three extra-time components gained the factor $b_4(x_4)$, $g_{x_5x_5} = g_{x_6x_6} = g_{x_7x_7} = -e^{-2a_4}b_4\sin^{1/3}z$ (section 2.1); $b_4 = 1$ is the metric used before. Every file of `Revision/gkd_lovelock/results/` was recomputed with $b_4$: the Rust program passes 19 of 19 checks (with the brute force of $k = 2$), the Wolfram check 29 of 29, the sympy checker 49 of 49, and the comparison with the author's earlier notebook, evaluated at $b_4 = 1$, gives 73 PASS, 0 FAIL, 5 NOT-AVAILABLE. Each $P_{(k)}$ now has 10 nonzero components, the 8 diagonal ones and $x_0$-$x_4$, $x_4$-$x_0$, proportional to $b_4'$ (section 6.3); the monomial vectors of `lovelock-tensors.json` have 13 exponents.
 
-The author's new notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb` stores the Lovelock tensors allLovelock2 and allLovelock3 with $b_4$, so the tensors of order $k = 2$ and $k = 3$, which were NOT-AVAILABLE in section 8.2, are now compared exactly with the author's stored outputs in `Revision/metric_b4` (`Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`): the Wolfram verifier `metric_b4/wolfram/verify_metric_b4.wls` passes 26 of 26 checks and the independent sympy checker `metric_b4/python/check_metric_b4.py` 20 of 20. These are exact comparisons of the stored outputs of that notebook for this metric; they do not extend what section 8.3 says is not established about the earlier notebook.
+The author's new notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb` stores the Lovelock tensors allLovelock2 and allLovelock3 with $b_4$, so the tensors of order $k = 2$ and $k = 3$, which were NOT-AVAILABLE in section 8.2, are now compared exactly with the author's stored outputs in `Revision/metric_b4` (`Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`): the Wolfram verifier `metric_b4/wolfram/verify_metric_b4.wls` passes 27 of 27 checks and the independent sympy checker `metric_b4/python/check_metric_b4.py` 21 of 21. These are exact comparisons of the stored outputs of that notebook for this metric; they do not extend what section 8.3 says is not established about the earlier notebook.
 
 ## 9. How the field equations for $a_4$ use the Lovelock tensors
 
@@ -604,13 +632,13 @@ with $\alpha_1 = 1$ for Einstein gravity ($\alpha_2 = \alpha_3 = 0$). Both of it
 | structure, $P_{(4)} = 0$ | `P1_structure`, `P2_structure`, `P3_structure`, `independent_components`, `P4_vanishes_pigeonhole` | `P1_structure`, `P2_structure`, `P3_structure`, `other_components_vanish` |
 | divergence of $E_{(k)}$; the $E_{(k)}$ of `a4-equations.json` | `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free` | `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free`, `json_lovelock_components` |
 
-What follows from the tensors of this record (taken from those reports, not derived here): the independent components are $x_1 = x_2 = x_3$, $x_4$, $x_5 = x_6 = x_7$, $x_8$ and the pair $x_4$-$x_8$, whose left-hand side is 0; the evolution equation, the 3-space minus extra-time combination, factorises as $a_4''\,F(a_4') = \kappa(p_3 - p_t)$ with
+What follows from the tensors of this record (taken from those reports, not derived here): the independent components are $x_0$, $x_1 = x_2 = x_3$, $x_4$, $x_5 = x_6 = x_7$ and the pair $x_0$-$x_4$, whose left-hand side is 0; the evolution equation, the 3-space minus extra-time combination, factorises as $a_4''\,F(a_4') = \kappa(p_3 - p_t)$ with
 
 $$
 F(a_4') = 2\alpha_1 - 48\alpha_2(a_4')^2 - 80\alpha_2H^2 + 720\alpha_3(a_4')^4 + 864\alpha_3(a_4')^2H^2 + 720\alpha_3H^4
 $$
 
-(Wolfram record `evolution_factorises_a4pp_times_F`, sympy record `evolution_factorises`). The identity $P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} = 2P_{(k)}^{x_8}{}_{x_8}$ of section 6.3 becomes the source condition $p_3 + p_t = 2p_8$ (`algebraic_identity_x1_plus_x5_minus_2x8`, `algebraic_identity`). The solutions of these equations and their sources are the subject of the field-theory documents `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md` and `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md`, not of this one.
+(Wolfram record `evolution_factorises_a4pp_times_F`, sympy record `evolution_factorises`). The identity $P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} = 2P_{(k)}^{x_0}{}_{x_0}$ of section 6.3 becomes the source condition $p_3 + p_t = 2p_0$ (`algebraic_identity_x1_plus_x5_minus_2x0`, `algebraic_identity`). The solutions of these equations and their sources are the subject of the field-theory documents `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md` and `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md`, not of this one.
 
 ## 10. Verification records
 
@@ -695,13 +723,13 @@ The PDF build runs the Markdown-to-LaTeX builder twice (with different hash seed
 1. GKD equals the author's definition `kδ` for all index lists of equal length (theorem of section 3.2, with its proof); confirmed exhaustively up to length 4 (Rust) and length 3 (Wolfram, sympy) and on pseudo-random samples up to length 9.
 2. For the author's metric on $0 < z < \pi/2$, with the conventions of sections 2.2 and 4.2: the 25 nonzero Christoffel symbols, the 156 nonzero $R^{ab}{}_{cd}$, the Ricci and Einstein tensors and the Lovelock tensors $P_{(k)}$, $A_{(k)}$ and scalars $L_{(k)}$, $k = 1, 2, 3$, exactly as listed in section 6 and in `lovelock-tensors.json`; three programs that share no code for the sums agree on every component.
 3. $P_{(1)} = -4G$, $P_{(2)} = -8\mathcal{H}$ (Gauss-Bonnet), $L_{(1)} = 2R$, $L_{(2)} = 4\,GB$, $L_{(3)} = 8(2T_1 + \dots + T_8)$; the trace identities; $\nabla_hP_{(k)}{}^h{}_j = 0$; the symmetry of $A_{(k)}$; $P_{(4)} = 0$ in eight dimensions.
-4. The structure: diagonal except for the pair $x_4$-$x_8$, $x_8$-$x_4$, which is proportional to $b_4'$ (diagonal at $b_4 = 1$); the diagonal components free of $\sin^{1/3}z$, $e^{a_4}$ and $x_8$, with $x_1 = x_2 = x_3$ and $x_5 = x_6 = x_7$, and with $a_4''$ entering the 3-space and extra-time components with opposite signs (these statements of the diagonal hold at $b_4 = 1$; for general $b_4$ see section 6.3).
+4. The structure: diagonal except for the pair $x_0$-$x_4$, $x_4$-$x_0$, which is proportional to $b_4'$ (diagonal at $b_4 = 1$); the diagonal components free of $\sin^{1/3}z$, $e^{a_4}$ and $x_0$, with $x_1 = x_2 = x_3$ and $x_5 = x_6 = x_7$, and with $a_4''$ entering the 3-space and extra-time components with opposite signs (these statements of the diagonal hold at $b_4 = 1$; for general $b_4$ see section 6.3).
 5. Agreement with the author's stored outputs (section 8.2): under the mapping stated before the comparison, the author's metric `Out[235]`, Ricci scalar `Out[535]` and all 64 components of the Einstein tensor `Out[536]` (raised with the author's own metric) equal those of this record exactly, and hence $P_{(1)}$ and $L_{(1)}$ equal $-4$ times the author's Einstein tensor and 2 times the author's Ricci scalar; of the 78 checks 73 pass, none fails and 5 are NOT-AVAILABLE.
 
 ### 12.2 Not established
 
 1. No solution: this record gives the left-hand sides of the field equations only. Which $a_4$ and which sources solve them is not part of it (section 9).
-2. The domain: only the patch $0 < z < \pi/2$, where $\sqrt{|g|} = \cos z$. Nothing is computed at the brane $z = \pi/2$, where $g_{88} = \cot^2z = 0$ and $\det g = 0$, or on a mirror patch.
+2. The domain: only the patch $0 < z < \pi/2$, where $\sqrt{|g|} = \cos z$. Nothing is computed at the brane $z = \pi/2$, where $g_{00} = \cot^2z = 0$ and $\det g = 0$, or on a mirror patch.
 3. No comparison for $k = 2$ and $k = 3$: the author's files that were read hold no stored output of $P_{(2)}$, $P_{(3)}$, $L_{(2)}$ or $L_{(3)}$, nor of the Christoffel symbols, the Riemann tensor or the Ricci tensor (section 8.2). Agreement with the author's own Lovelock tensors of order $k = 2$ and $k = 3$ is therefore not established. The notebooks in which, by the main notebook's text, the author calculates the Einstein-Lovelock tensors were not read; the limits of the comparison that was made are listed in section 8.3.
 4. For $k = 3$ the tensor $P_{(3)}$ is verified by three independent recomputations, the trace, the divergence and the symmetry, and the scalar $L_{(3)}$ against the classical cubic density; it is not compared with an independent closed formula for the third-order Lovelock tensor. $E_{(k)} = -P_{(k)}/2^{k+1}$ is a normalisation convention, which equals the Einstein tensor for $k = 1$ and the Gauss-Bonnet tensor for $k = 2$.
 5. The unpruned sums are exact for $k = 1, 2$ (sympy) and numerical at one point (Rust); for $k = 3$ the skipped terms are confirmed by a random sample (sympy) and by the theorem of section 3.2; the Wolfram no-skip run of the diagonal $k = 3$ components is recorded in its provenance file only, and its report is not committed.

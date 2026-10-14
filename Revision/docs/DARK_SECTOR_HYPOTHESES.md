@@ -28,12 +28,12 @@ The short answer (details and records in sections 3 to 9):
 
 ### 2.1 The author's metric and coordinates
 
-The coordinates are named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space (inflating), $x_4$ is the time, $x_5, x_6, x_7$ are the three extra times, which are time-like and DEFLATE exponentially as $a_4$ increases, and $x_8$ is the hidden space direction, with $z = 6Hx_8 \in (0,\pi/2)$ and $H > 0$ the author's constant. The metric of `Revision/SPEC.md` section 1 is
+The coordinates are the author's, $x_0, x_1, \dots, x_7$, in the author's order: $x_0$ is the hidden space direction, with $z = 6Hx_0 \in (0,\pi/2)$ and $H > 0$ the author's constant, $x_1, x_2, x_3$ are ordinary 3-space (inflating), $x_4$ is the time, and $x_5, x_6, x_7$ are the three extra times, which are time-like and DEFLATE exponentially as $a_4$ increases. (Until 2026-10-14 this record named them $x_1, \dots, x_8$, with the hidden direction $x_8$ listed last; the user ordered the author's coordinates on 2026-10-14.) The metric of `Revision/SPEC.md` section 1 is
 
 $$
 \begin{aligned}
-ds^2 = {} & e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
-& - e^{-2a_4(x_4)}\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) + \cot^2 z\,dx_8^2 ,
+ds^2 = {} & \cot^2 z\,dx_0^2 + e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
+& - e^{-2a_4(x_4)}\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) ,
 \end{aligned}
 $$
 
@@ -41,7 +41,7 @@ of signature (4,4), with $\sqrt{|g|} = \cos z$. On 2026-10-14 the author changed
 
 ### 2.2 The two fields and the energy-momentum tensor
 
-dirac16complex is $\Psi$: 16 complex anticommuting components, a Pin(4,4) spinor, quantised canonically; its energy-momentum tensor is an operator, and the numbers below are expectation values in the instantaneous Kohn-Sham states of the good sector (no extra-time momentum), in the positive realisation of the good sector (with the ASSUMED brane condition and the chosen tip condition of the Kohn-Sham record, which make its blocks self-adjoint; the field-theory record constructs the positive realisation explicitly only for single good-sector momenta with frozen coefficients). dirac16complex00 is $\Phi$: 16 complex commuting components that transform as a Pin(4,4) spinor, a classical field; its energy-momentum tensor is the classical bilinear, whose energy has both signs (Krein-signed energies, section 6.2). Both fields have the Lagrangian of `Revision/SPEC.md` section 3 with $U(S) = \frac{\lambda}{2}S^2$, $S = \bar\Psi\Psi$. The energy density is $\rho = -T^{x_4}{}_{x_4}$ and the pressures are $p_\mu = T^\mu{}_\mu$ (no sum): $p_3$ of 3-space, $p_t$ of the extra times and $p_8$ of the hidden direction. For homogeneous on-shell states $\rho = mS + U$ and $p = SU' - U$. For a state of the Kohn-Sham record, $E$, $P_3$, $P_t$ and $P_8$ are the proper 7-volume integrals of $\rho$, $p_3$, $p_t$ and $p_8$, and $X = P_3 - P_t$.
+dirac16complex is $\Psi$: 16 complex anticommuting components, a Pin(4,4) spinor, quantised canonically; its energy-momentum tensor is an operator, and the numbers below are expectation values in the instantaneous Kohn-Sham states of the good sector (no extra-time momentum), in the positive realisation of the good sector (with the ASSUMED brane condition and the chosen tip condition of the Kohn-Sham record, which make its blocks self-adjoint; the field-theory record constructs the positive realisation explicitly only for single good-sector momenta with frozen coefficients). dirac16complex00 is $\Phi$: 16 complex commuting components that transform as a Pin(4,4) spinor, a classical field; its energy-momentum tensor is the classical bilinear, whose energy has both signs (Krein-signed energies, section 6.2). Both fields have the Lagrangian of `Revision/SPEC.md` section 3 with $U(S) = \frac{\lambda}{2}S^2$, $S = \bar\Psi\Psi$. The energy density is $\rho = -T^{x_4}{}_{x_4}$ and the pressures are $p_\mu = T^\mu{}_\mu$ (no sum): $p_3$ of 3-space, $p_t$ of the extra times and $p_0$ of the hidden direction. For homogeneous on-shell states $\rho = mS + U$ and $p = SU' - U$. For a state of the Kohn-Sham record, $E$, $P_3$, $P_t$ and $P_0$ are the proper 7-volume integrals of $\rho$, $p_3$, $p_t$ and $p_0$, and $X = P_3 - P_t$.
 
 ### 2.3 The Unite values and the CPL convention
 
@@ -55,8 +55,8 @@ The author's metric of 2026-10-14 is
 
 $$
 \begin{aligned}
-ds^2 = {} & e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
-& - e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) + \cot^2 z\,dx_8^2 ,
+ds^2 = {} & \cot^2 z\,dx_0^2 + e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
+& - e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) ,
 \end{aligned}
 $$
 
@@ -64,7 +64,7 @@ and $b_4 = 1$ is the metric of section 2.1 (`Revision/metric_b4/METRIC_CHANGE_PR
 
 1. The background. In the author's vacuum Einstein-Lovelock equations ($w_1 = 1$, $w_2 = 1/32$, $w_3 = 1/1152$, $\Lambda = 10$) every $C^2$ solution with $b_4 > 0$ has $b_4$ constant and $a_4 = \pm H x_4 + {\rm const}$; a constant $b_4$ is the rescaling $x_{5,6,7} \to \sqrt{b_4}\,x_{5,6,7}$, so the vacuum history is $b_4 = 1$, $a_4 = Hx_4$ or its time reverse (`Revision/metric_b4/results/vacuum-b4.json`, 6 checks). The equations of state of this record are computed on that background, $b_4 = 1$, where nothing in sections 3 to 13 changes.
 2. The volume factor, for general $b_4$. $\sqrt{|g|} = b_4^{3/2}\cos z$ and the extra-time scale factor without the warp is $c = e^{-a_4}b_4^{1/2}$, so the effective 4-dimensional density of a 3-space observer carries $c^3 = e^{-3a_4}\,b_4^{3/2}$ instead of $e^{-3a_4}$ (check P4, dark-sector volume factor, of `Revision/metric_b4/results/consequences-b4.json`, 4 of 4 checks PASS). The proper 7-volume element is then no longer independent of the history: it is $b_4^{3/2}\cos z$. The identities of section 3.1 and the definitions (A), (B), (C) are derived for $b_4 = 1$ and have NOT been re-derived for a non-constant $b_4$.
-3. The source conditions, for general $b_4$. The left-hand sides of the $x_1$..$x_3$, $x_4$, $x_5$..$x_7$ and $x_8$ equations stay free of $x_8$ for every $b_4$, so condition C1 (every component of the source independent of $x_8$) holds unchanged and the $x_8$-dependent Kohn-Sham profiles are not an admissible source for any $b_4$ (`ks_verdict_holds_for_every_b4`). The condition $p_3 + p_t = 2p_8$ is the $b_4 = 1$ form; for general $b_4$ its right-hand side is $\sum_k \alpha_k (E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_8}{}_{x_8})$, for Einstein gravity $(b_4'/b_4)^2/4 + b_4''/(2b_4)$, and a non-constant $b_4$ adds the off-diagonal $x_4$-$x_8$ condition $\kappa\, q_{48} = \cot z\,(b_4'/b_4)\,Q$, which is not evaluated (the Kohn-Sham solver does not record $T^{x_4}{}_{x_8}$; OPEN).
+3. The source conditions, for general $b_4$. The left-hand sides of the $x_0$, $x_1$..$x_3$, $x_4$ and $x_5$..$x_7$ equations stay free of $x_0$ for every $b_4$, so condition C1 (every component of the source independent of $x_0$) holds unchanged and the $x_0$-dependent Kohn-Sham profiles are not an admissible source for any $b_4$ (`ks_verdict_holds_for_every_b4`). The condition $p_3 + p_t = 2p_0$ is the $b_4 = 1$ form; for general $b_4$ its right-hand side is $\sum_k \alpha_k (E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_0}{}_{x_0})$, for Einstein gravity $(b_4'/b_4)^2/4 + b_4''/(2b_4)$, and a non-constant $b_4$ adds the off-diagonal $x_4$-$x_0$ condition $\kappa\, q_{40} = \cot z\,(b_4'/b_4)\,Q$, which is not evaluated (the Kohn-Sham solver does not record $T^{x_4}{}_{x_0}$; OPEN).
 
 None of this explains dark energy or dark matter: a non-constant $b_4$ is not a solution of the vacuum equations, no source that would sustain one has been constructed, and no equation of state has been computed for $b_4 \ne 1$.
 
@@ -72,11 +72,11 @@ None of this explains dark energy or dark matter: a non-constant $b_4$ is not a 
 
 ### 3.1 Exact identities
 
-The proper 7-volume element of a slice $x_4 = $ const is $\cos z$, independent of $a_4$: the inflation $e^{3a_4}$ of the proper 3-volume is compensated exactly by the deflation $e^{-3a_4}$ of the proper extra-time volume (records `proper_7_volume_element_independent_of_a4`, `proper_3_and_extra_time_volume_scalings`, `local_model_volume_constant`). The conservation law $\nabla_\mu T^\mu{}_\nu = 0$ for a diagonal $T(x_4, x_8)$, re-derived from the author's metric with Christoffel symbols computed anew, gives (records `conservation_x4_identity`, `conservation_x8_identity`, `conservation_other_components_vanish`, `conservation_x4_author_metric`, `conservation_x8_author_metric`, with the negative control `conservation_negative_control`)
+The proper 7-volume element of a slice $x_4 = $ const is $\cos z$, independent of $a_4$: the inflation $e^{3a_4}$ of the proper 3-volume is compensated exactly by the deflation $e^{-3a_4}$ of the proper extra-time volume (records `proper_7_volume_element_independent_of_a4`, `proper_3_and_extra_time_volume_scalings`, `local_model_volume_constant`). The conservation law $\nabla_\mu T^\mu{}_\nu = 0$ for a diagonal $T(x_0, x_4)$, re-derived from the author's metric with Christoffel symbols computed anew, gives (records `conservation_x4_identity`, `conservation_x0_identity`, `conservation_other_components_vanish`, `conservation_x4_author_metric`, `conservation_x0_author_metric`, with the negative control `conservation_negative_control`)
 
 $$
 \frac{d\rho}{dx_4} = -3a_4'\,(p_3 - p_t),\qquad
-\frac{dp_8}{dx_8} + 3H\cot z\,(2p_8 - p_3 - p_t) = 0,\qquad
+\frac{dp_0}{dx_0} + 3H\cot z\,(2p_0 - p_3 - p_t) = 0,\qquad
 \frac{dE}{da_4} = -3\,(P_3 - P_t) = -3X .
 $$
 
@@ -120,7 +120,7 @@ Every effective formula is derived exactly (sympy) before any number is computed
 
 ### 4.2 The conservation identities as checks of the numerics
 
-The exact identities of section 3.1 test every numerical history. For the Kohn-Sham gas: $dE/da_4 = -3X$ with fourth-order differences of $E$ against the solver's energy-momentum integrals, maximal relative deviation 1.235e-07 (record `conservation_dE_da4_equals_minus_3X`); integrated with Simpson's rule, 1.927e-08 (`conservation_integrated_simpson`); $d(X/E)/da_4$ two ways, 1.397e-06 (`derivative_two_ways`); the hidden-direction identity $p_{8,y} + 6Hp_8 = 3H(p_3 + p_t)$ in every state, 1.951e-08 (`y_conservation_every_state`). For dirac16complex00 the independent implementation B checks along each run that the Krein charge is conserved (drift at most 1.8378632e-12), that the solution is on shell ($|L_0|$ at most 1.1657342e-15) and that the conservation identity of section 3.1 holds (relative residual at most 4.8268616e-07 by finite differences; records `B_run_*_invariants`).
+The exact identities of section 3.1 test every numerical history. For the Kohn-Sham gas: $dE/da_4 = -3X$ with fourth-order differences of $E$ against the solver's energy-momentum integrals, maximal relative deviation 1.235e-07 (record `conservation_dE_da4_equals_minus_3X`); integrated with Simpson's rule, 1.927e-08 (`conservation_integrated_simpson`); $d(X/E)/da_4$ two ways, 1.397e-06 (`derivative_two_ways`); the hidden-direction identity $p_{0,y} + 6Hp_0 = 3H(p_3 + p_t)$ in every state, 1.951e-08 (`y_conservation_every_state`). For dirac16complex00 the independent implementation B checks along each run that the Krein charge is conserved (drift at most 1.8378632e-12), that the solution is on shell ($|L_0|$ at most 1.1657342e-15) and that the conservation identity of section 3.1 holds (relative residual at most 4.8268616e-07 by finite differences; records `B_run_*_invariants`).
 
 ### 4.3 The Kohn-Sham history (dirac16complex)
 
@@ -130,7 +130,7 @@ An INDEPENDENT second implementation, `independent_free_gas.py` (numpy; Chebyshe
 
 ### 4.4 Condensates
 
-The homogeneous condensate is an exact solution for both fields: $S$ is constant, $\rho = mS + \lambda S^2/2$ and $p_3 = p_t = p_8 = \lambda S^2/2$ (records `condensate_rho_p`, `condensate_satisfies_both_identities`, `condensate_rho_p_w`). For dirac16complex00 it is $\Phi = e^{\mathcal{A}x_4}\chi$ with $\mathcal{A} = -\gamma^{(x_4)}(M - 3H\gamma^{(x_8)})$, $M = m + U'(S)$; $C\mathcal{A} + \mathcal{A}^TC = 0$ for the author's T16, so $S$ is constant, and $K_{x_4} = MS$ exactly (records `condensate_S_constant_T16`, `condensate_K4_equals_MS_T16`, with the negative control `condensate_negative_control`). As a source of the field equations for $a_4$ the condensate allows only the linear member $a_4 = AHx_4 + a_0$ ($p_3 = p_t$ forces $a_4'' = 0$).
+The homogeneous condensate is an exact solution for both fields: $S$ is constant, $\rho = mS + \lambda S^2/2$ and $p_3 = p_t = p_0 = \lambda S^2/2$ (records `condensate_rho_p`, `condensate_satisfies_both_identities`, `condensate_rho_p_w`). For dirac16complex00 it is $\Phi = e^{\mathcal{A}x_4}\chi$ with $\mathcal{A} = -\gamma^{(x_4)}(M - 3H\gamma^{(x_0)})$, $M = m + U'(S)$; $C\mathcal{A} + \mathcal{A}^TC = 0$ for the author's T16, so $S$ is constant, and $K_{x_4} = MS$ exactly (records `condensate_S_constant_T16`, `condensate_K4_equals_MS_T16`, with the negative control `condensate_negative_control`). As a source of the field equations for $a_4$ the condensate allows only the linear member $a_4 = AHx_4 + a_0$ ($p_3 = p_t$ forces $a_4'' = 0$).
 
 ### 4.5 Modes and Krein-signed energies (dirac16complex00)
 
@@ -156,7 +156,7 @@ $X = 0$, so $w_{\rm eff}(A) = w_{\rm eff}(B) = 0$ (dust-like dilution $a^{-3}$) 
 
 - The occupied levels lie on the brane band, which is massless at $k = 0$ (the brane zero mode at $\varepsilon = 0$, slope $c\,e^{-a_4}$ with $c = 1.9051482536$ at small $k$; `brane_band_slope`). The gas therefore redshifts like radiation, not like dust: $d\ln E/da_4$ goes from -0.8787 at $a_4 = 0$ to -0.9549 at $a_4 = 2$ ($N = 688$, $\lambda = 0$), toward the radiation value $-1$.
 - Over all $N = 136, 688$ series and all slices, $X/E$ lies in [0.292893, 0.328105] and rises monotonically toward $1/3$ (`gas_radiation_like_band`, `gas_X_over_E_rises_toward_one_third`).
-- $N = 688$, $\lambda = 0$: $w_{\rm eff}(A) = w_{\rm eff}(B)$ goes from 0.2929 to 0.3183 and $w_{\rm eff}(C)$ from -0.7071 to -0.6817. The ratio $w_3 = P_3/E$ equals $X/E$ up to $|P_t/E| \leq 0.002$ over the $N = 136, 688$ series ($P_t$ is the integrated interaction part; it vanishes at $\lambda = 0$). The hidden-direction ratio $w_8 = P_8/E$ goes from 0.3535 to 0.6482: a pressure that the 3-space observer does not see as pressure.
+- $N = 688$, $\lambda = 0$: $w_{\rm eff}(A) = w_{\rm eff}(B)$ goes from 0.2929 to 0.3183 and $w_{\rm eff}(C)$ from -0.7071 to -0.6817. The ratio $w_3 = P_3/E$ equals $X/E$ up to $|P_t/E| \leq 0.002$ over the $N = 136, 688$ series ($P_t$ is the integrated interaction part; it vanishes at $\lambda = 0$). The hidden-direction ratio $w_{x_0} = P_0/E$ goes from 0.3535 to 0.6482: a pressure that the 3-space observer does not see as pressure.
 - CPL tangents ($N = 688$, $\lambda = 0$):
 
 | $a_{4,\rm today}$ | 0.5 | 1 | 1.5 | 2 |
@@ -267,7 +267,7 @@ What is not tuned: the signs and the ranges. For positive-energy content with re
 1. “The 7-volume of the metric is constant.” CONFIRMED exactly: the proper 7-volume element is $\cos z$, independent of $a_4$ (`proper_7_volume_element_independent_of_a4`, `local_model_volume_constant`).
 2. “The effective 4-dimensional density is $\rho_4 \sim \rho_8c^3$.” This is definition (B) (with (A) of the same scaling). It is an ASSUMPTION about the observer: definition (C), per unit proper 7-volume, is equally consistent with the field equations and shifts every $w_{\rm eff}$ by exactly $-1$ (section 3).
 3. “Non-relativistic quanta give dust, relativistic quanta radiation.” CONFIRMED under (A), (B) in the flat (warp-free) limit: a massive mode has $w_{\rm eff} = k^2/(3(M^2a^2 + k^2))$, $1/3 \to 0$, and a massless one $1/3$ (`massive_mode_w_eff_law`, `massless_mode_w_eff`); the Kohn-Sham gas has $d\ln E/da_4$ approaching $-1$ (section 5.2).
-4. “A Kohn-Sham gas whose 3-momenta redshift has a time-varying equation of state from $1/3$ towards 0.” NOT FOUND in the computed states: the occupied levels lie on the massless brane band and $w_{\rm eff}(A)$ RISES toward $1/3$ (section 5.2). The falling law is present for quanta of the massive bulk band (section 5.3), which the computed ground states do not populate. For dirac16complex00 the falling law holds for a positive-energy gas of good-sector modes (M2). The hidden-direction pressure ($w_8$ = 0.3535 to 0.6482) and the extra-time pressure ($|P_t/E| \leq 0.002$) were computed; the 3-space observer does not see them as pressure.
+4. “A Kohn-Sham gas whose 3-momenta redshift has a time-varying equation of state from $1/3$ towards 0.” NOT FOUND in the computed states: the occupied levels lie on the massless brane band and $w_{\rm eff}(A)$ RISES toward $1/3$ (section 5.2). The falling law is present for quanta of the massive bulk band (section 5.3), which the computed ground states do not populate. For dirac16complex00 the falling law holds for a positive-energy gas of good-sector modes (M2). The hidden-direction pressure ($w_{x_0}$ = 0.3535 to 0.6482) and the extra-time pressure ($|P_t/E| \leq 0.002$) were computed; the 3-space observer does not see them as pressure.
 5. “A homogeneous condensate has constant $w$ while $\rho_4 \sim a^{-3}$; the ratio and $w_{\rm eff} = 0$ disagree; 4-dimensional energy is exchanged with the extra dimensions.” CONFIRMED exactly for both fields under (B) (`condensate_w_eff`, `condensate_rho_p_w`); under (C) $w_{\rm eff} = -1$. The exchange reading is an INTERPRETATION of the disagreement between the ratio and the dilution.
 6. “Whether any state gives a time-varying dark-energy equation of state near the Unite values must be computed.” COMPUTED: for dirac16complex no computed state comes near the Unite pair in any definition (section 5); for dirac16complex00 only definition (C) gives dark-energy-like values, and the Unite numbers are reached only by tuned models (sections 6.3 and 7).
 7. “Crossing $w = -1$ needs negative kinetic energy, which the indefinite (Krein) energy of the extra-time sector and the commuting field dirac16complex00 may supply.” EXAMINED. Positive-energy extra-time momentum does NOT supply it: its pressure $p_t \leq 0$ increases $X$, so it moves $w_{\rm eff}$ up, not down (`flat_mode_X_nonnegative`, `wkb_epsilon_sign_free`; M3 has $w \geq -1$ before its turning point $a_* = 1.8434$). What is needed is negative classical ENERGY: dirac16complex00 has it at every real frequency (Krein signature (4,4)), and with it the crossing occurs (M5), as a ghost-like sector. For dirac16complex no computed state has $X < 0$; the only states with $E < 0$ ($N = 8$, $\lambda > 0$, negative with the canonical uniform-gas exchange functional; with the exact Fock exchange solved self-consistently $\lvert E\rvert \leq 2.04 \times 10^{-13}$, section 4.7) have $X = 0$ exactly. Modes of dirac16complex with extra-time momentum lie outside the good sector and are OPEN.
@@ -293,10 +293,10 @@ This record establishes neither Hypothesis nor Hypothesis00. What it shows, unde
 
 ## 10. What remains open
 
-1. A self-consistent (non-linear) $a_4$ history with an admissible source. No recorded Kohn-Sham state is an admissible source of the author's metric: its energy-momentum tensor depends on $x_8$ and violates $p_3 + p_t = 2p_8$, and the history is a prescribed background (the 6 checks of `Revision/field_equations_a4/reports/ks-source-conditions.json`, among them `ks_profiles_depend_on_x8`, `ks_profiles_violate_algebraic_condition` and, for the metric with $b_4$, `ks_verdict_holds_for_every_b4`). The truncated integration of the $a_4$ equations with the averaged Kohn-Sham source is an approximation and is not used here. The condensate is an exact source only on the linear member.
+1. A self-consistent (non-linear) $a_4$ history with an admissible source. No recorded Kohn-Sham state is an admissible source of the author's metric: its energy-momentum tensor depends on $x_0$ and violates $p_3 + p_t = 2p_0$, and the history is a prescribed background (the 6 checks of `Revision/field_equations_a4/reports/ks-source-conditions.json`, among them `ks_profiles_depend_on_x0`, `ks_profiles_violate_algebraic_condition` and, for the metric with $b_4$, `ks_verdict_holds_for_every_b4`). The truncated integration of the $a_4$ equations with the averaged Kohn-Sham source is an approximation and is not used here. The condensate is an exact source only on the linear member.
 2. Populated bulk-band or thermal states along the history (fixed entropy); only $T = 0$ ground states and $a_4 \in [0, 2]$ (the solver's validated range) are computed.
 3. Modes of dirac16complex with extra-time momentum (outside the good sector; only their flat-limit sign structure is derived) and the non-adiabatic (time-dependent) Kohn-Sham problem.
-4. For dirac16complex00: configurations that depend on $x_8$ are not consistent sources of the metric; the WKB model freezes the hidden-direction warp; the growing modes make the Cauchy problem ill-posed, and nothing here cures that; no quantum treatment (a classical field).
+4. For dirac16complex00: configurations that depend on $x_0$ are not consistent sources of the metric; the WKB model freezes the hidden-direction warp; the growing modes make the Cauchy problem ill-posed, and nothing here cures that; no quantum treatment (a classical field).
 5. Which normalisation of $\rho_4$, if any, describes a physical 3-space observer; the value of $a_{4,\rm today}$.
 6. What would select the populations of M2 to M5, the mixture fractions or the condensate's $\lambda S/m$.
 7. A supernova likelihood (distances, covariances): no fit to data is part of this record.
@@ -326,8 +326,8 @@ The tables list every check of the six dark-sector reports; every one has the ve
 | check | check | check |
 | --- | --- | --- |
 | `sqrt_det_g_equals_cos_z` | `proper_7_volume_element_independent_of_a4` | `proper_3_and_extra_time_volume_scalings` |
-| `conservation_x4_identity` | `conservation_x8_identity` | `conservation_other_components_vanish` |
-| `hidden_coordinate_dy_dx8` | `conservation_x8_in_y_form` | `integrated_identity_dE_da4` |
+| `conservation_x4_identity` | `conservation_x0_identity` | `conservation_other_components_vanish` |
+| `hidden_coordinate_dy_dx0` | `conservation_x0_in_y_form` | `integrated_identity_dE_da4` |
 | `w_eff_A_equals_X_over_E` | `w_eff_B_equals_w_eff_A` | `w_eff_C_equals_X_over_E_minus_1` |
 | `w_eff_general_normaliser` | `condensate_rho_p` | `condensate_satisfies_both_identities` |
 | `condensate_ratio_w` | `condensate_w_eff` | `condensate_ratio_equal_unite_constant_w` |
@@ -366,7 +366,7 @@ The tables list every check of the six dark-sector reports; every one has the ve
 | check | check | check |
 | --- | --- | --- |
 | `gammas_clifford_author_T16` | `conservation_negative_control` | `conservation_x4_author_metric` |
-| `conservation_x8_author_metric` | `conservation_other_components_vanish` | `conservation_x4_local_model` |
+| `conservation_x0_author_metric` | `conservation_other_components_vanish` | `conservation_x4_local_model` |
 | `local_model_volume_constant` | `observer_N1_weff_identity` | `observer_N2_weff_identity` |
 | `observer_hidden_average_commutes` | `condensate_S_constant_T16` | `condensate_negative_control` |
 | `condensate_K4_equals_MS_T16` | `condensate_rho_p_w` | `condensate_phantom_interval` |
@@ -443,7 +443,7 @@ The cargo build was not re-timed (the solver was already built). The PDF build r
 
 ### 13.1 Proved (exact, by symbolic computation in the named checks)
 
-1. The proper 7-volume element is $\cos z$, independent of $a_4$; the conservation identities $d\rho/dx_4 = -3a_4'(p_3 - p_t)$ and $dp_8/dx_8 + 3H\cot z(2p_8 - p_3 - p_t) = 0$ for diagonal sources $T(x_4, x_8)$ in the author's metric.
+1. The proper 7-volume element is $\cos z$, independent of $a_4$; the conservation identities $d\rho/dx_4 = -3a_4'(p_3 - p_t)$ and $dp_0/dx_0 + 3H\cot z(2p_0 - p_3 - p_t) = 0$ for diagonal sources $T(x_0, x_4)$ in the author's metric.
 2. The observer identities $w_{\rm eff}(A) = w_{\rm eff}(B) = X/E$ and $w_{\rm eff}(C) = X/E - 1$ (and $w_{\rm eff}(N1) = w_3 - w_t$, $w_{\rm eff}(N2) = w_{\rm eff}(N1) - 1$), for each stated normalisation.
 3. The condensate: an exact homogeneous solution of both fields with constant $\rho$, $p$ and ratio; $w_{\rm eff} = 0$ under (B) and $-1$ under (C); the ratio $-0.764$ at $\lambda S/m = -382/441$; the phantom window $(-2, -1)$; for the self-consistent linear member the factorised $\kappa(\rho + p)$ and, in Einstein gravity, the constant ratio, phantom exactly when $\kappa\rho > 0$, that is (by the record's $x_4$ constraint $\kappa\rho = -(3A^2 + 21)H^2 - \Lambda$) exactly when $\Lambda < -(21 + 3A^2)H^2$, and above $-1$ for $\Lambda = 0$; and $w_{\rm tot} = -1$.
 4. The flat-limit mode laws (massive $1/3 \to 0$, massless $1/3$, $X \geq 0$ for real frequencies) and the expansion-inferred $w_{\rm exp}$, $-1$ exactly on the linear member.

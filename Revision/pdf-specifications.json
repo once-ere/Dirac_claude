@@ -2,32 +2,32 @@
   "dark-sector-hypotheses": {
     "path": "Revision/docs/DARK_SECTOR_HYPOTHESES.pdf",
     "pages": 25,
-    "sha256": "8947e3f2d197dd3376be7319db4472ace715fe92b4bb15bdec5ed10a497fb724"
+    "sha256": "54e23481407d0d3a269be1ffde9d95b4095fade14aa625a52c69eec7fa7f695f"
   },
   "dirac16complex-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.pdf",
     "pages": 35,
-    "sha256": "ddd01b53d117f20747ff3a5eb9ff69df99113028389919f359b8c65e1c226af1"
+    "sha256": "568d1ef3bd85dfd1312e4e97812f46c039946334a5fae2edb71d440f8e3f4bd4"
   },
   "dirac16complex00-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.pdf",
-    "pages": 39,
-    "sha256": "00810fc7d34d69d89824a147e6fe2a2f2c91b25ad2e31dddd0e474428c5a78b6"
+    "pages": 40,
+    "sha256": "5547dd9ef3c580b668f9d920041ad314cfb533dc6eec526600440339ddb18c80"
   },
   "kohn-sham-deflating-field": {
     "path": "Revision/docs/KOHN_SHAM_DEFLATING_FIELD.pdf",
     "pages": 24,
-    "sha256": "5e34516d470df8749426197eb5dc0066dbe04e9d5228fe7351df520dc428e1a8"
+    "sha256": "1003854fa2e14298b158562e25594799d70e6312b5e97c0cc5ec69707d27cd5e"
   },
   "lovelock-gkd": {
     "path": "Revision/docs/LOVELOCK_GKD.pdf",
-    "pages": 28,
-    "sha256": "5872c85fb2f58f7445c0041dbc702cee3918a7501151197ee6023242a783a1ee"
+    "pages": 29,
+    "sha256": "19de566f8542cba258fa0b72f610ed5c09dae8fdce51b63bf2e8fb4c592b3915"
   },
   "pair-creation-proofs": {
     "path": "Revision/docs/PAIR_CREATION_PROOFS.pdf",
     "pages": 34,
-    "sha256": "cd32addc6036ee27e3290de5bba522d97dd3fcafdc25ae940eb144a5461e1e59"
+    "sha256": "09de3b40b517f61e2010e7a64ee63bb35bd0f3aae87e1839308d660a39a098d4"
   },
   "universes-in-pairs-textbook": {
     "path": "Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.pdf",

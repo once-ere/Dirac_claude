@@ -127,8 +127,8 @@ S = Psibar Psi,   U(S) = (lambda/2) S^2   (general U where stated),
   and extra-time directions; the OPERATOR (normal-ordered, section 6) for dirac16complex and the
   classical bilinear for dirac16complex00.
 * Kinetic part (derivative terms) and potential part (m S + U); energy density, the pressures of
-  3-space p3, of the extra times p_t and of the hidden direction p8, the trace; on shell
-  (homogeneous states) rho = m S + U, p = S U' - U; the equations of state w3 = p3/rho, w_t, w8 and the
+  3-space p3, of the extra times p_t and of the hidden direction p0 (p8 in the withdrawn labels), the trace; on shell
+  (homogeneous states) rho = m S + U, p = S U' - U; the equations of state w3 = p3/rho, w_t, w_x0 = p0/rho and the
   3-space observer's effective w.  Conservation nabla_mu T^mu_nu = 0 on shell, verified exactly.
 * All of this in the metric of section 1 (explicit component formulas), for both fields.
 
@@ -147,7 +147,7 @@ member a4 linear in x4 and what source it requires).
 ADDED 2026-10-14 (metric with b4, section 1): the same for the pair (a4, b4): the evolution equations now
 contain a4'' and b4''; the x4 component stays a constraint (first derivatives only); the off-diagonal x0-x4
 component of every E_(k) is proportional to Cot[6 H x0] b4' (it vanishes identically for b4' = 0), so a
-source with T^4_8 = 0 forces b4' = 0 or the factor Q(a4', b4'/b4) of `Revision/metric_b4/results/vacuum-b4.json`
+source with T^{x4}_{x0} = 0 forces b4' = 0 or the factor Q(a4', b4'/b4) of `Revision/metric_b4/results/vacuum-b4.json`
 to vanish; derive which (a4, b4) each source allows, with b4 = 1 as the earlier special case.
 
 ## 6. Canonical quantisation in 4 + 4 dimensions (dirac16complex)

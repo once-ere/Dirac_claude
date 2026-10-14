@@ -65,8 +65,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "62972da9540c91db0909a6b18fab0e0c11580a6e31844f5a998601c25ffc54e3"
-TEX_SHA256 = "ded4700332cfe4bbf0e065665d029121e245bc1bcc6031e54c4ce1663d97c565"
+MARKDOWN_SHA256 = "3058487b39f6bab275e6ce46844e5eac54919e1686f4fc52a0e5872f28577135"
+TEX_SHA256 = "565f4a86761a71feb2833d151f1699834f9aad2b5b6b7b3544a5b30911954273"
 
 PAIRING_THEORY = REVISION / "pairing" / "pairing-theory.json"
 WOLFRAM_PAIRING = REVISION / "pairing" / "reports" / "wolfram-pairing.json"
@@ -148,10 +148,10 @@ KEY_STATEMENTS = (
     r"$T^{(-m,-\lambda)}_{\mu\nu}[\Gamma\Psi] = -T^{(m,\lambda)}_{\mu\nu}[\Psi]$",
     r"$\mathcal{L}_{m,\lambda}[\gamma^n\Psi;\,R_ne] = +\mathcal{L}_{-m,\lambda}[\Psi;\,e]$",
     r"$E_{m,\lambda}[\gamma^n\Psi;\,R_ne] = -\gamma^nE_{-m,\lambda}[\Psi;\,e]$",
-    "the energy density and every component without an $x_8$ index are EQUAL, not opposite",
+    "the energy density and every component without an $x_0$ index are EQUAL, not opposite",
     "The chirality image $\\chi = \\Gamma\\Psi$ carries the Krein metric $-B$",
     "no cancellation $P_1 + P_2 = 0$ follows",
-    "The T2 image $\\gamma^8\\Psi$ keeps the anticommutator $+B$",
+    "The T2 image $\\gamma^0\\Psi$ keeps the anticommutator $+B$",
     "the ASSUMED Z2 construction of `Revision/SPEC.md` section 7",
     "the same occupations, chemical potential, particle number and entropy, EQUAL Kohn-Sham energy",
     "for every REAL frequency ($w^2 > 0$, with or without extra-time momentum)",
@@ -417,27 +417,27 @@ class QuotedData(unittest.TestCase):
     def test_signs_of_P_n(self):
         signs = [sign_text(row["P_n_equals_sign_times_product_of_other_seven"])
                  for row in self.theory["data"]["reflections"]]
-        self.assertIn("are $" + ", ".join(signs) + "$ for $n = x_1, \\dots, x_8$", self.text)
+        self.assertIn("are $" + ", ".join(signs) + "$ for $n = x_0, \\dots, x_7$", self.text)
 
     def test_krein_signs(self):
         signs = {entry["map"]: entry["sign"] for entry in self.theory["data"]["Krein_signs_M_B_Mdagger"]}
         self.assertEqual(signs["Gamma"], -1)
-        for name in ("gamma^x1", "gamma^x2", "gamma^x3", "gamma^x4", "gamma^x8"):
+        for name in ("gamma^x0", "gamma^x1", "gamma^x2", "gamma^x3", "gamma^x4"):
             self.assertEqual(signs[name], 1, name)
         for name in ("gamma^x5", "gamma^x6", "gamma^x7"):
             self.assertEqual(signs[name], -1, name)
-        for n in range(1, 9):
+        for n in range(8):
             self.assertEqual(signs[f"P_x{n}"], -signs[f"gamma^x{n}"], n)
-        self.assertIn(r"$\sigma_{\gamma^n} = +1$ for $n = x_1, x_2, x_3, x_4, x_8$ and $-1$ for "
+        self.assertIn(r"$\sigma_{\gamma^n} = +1$ for $n = x_0, x_1, x_2, x_3, x_4$ and $-1$ for "
                       r"$n = x_5, x_6, x_7$", self.text)
-        self.assertIn(r"$-1$ for $P_{x_1}, P_{x_2}, P_{x_3}, P_{x_4}, P_{x_8}$ and $+1$ for "
+        self.assertIn(r"$-1$ for $P_{x_0}, P_{x_1}, P_{x_2}, P_{x_3}, P_{x_4}$ and $+1$ for "
                       r"$P_{x_5}, P_{x_6}, P_{x_7}$", self.text)
 
     def test_one_particle_samples(self):
         data = self.theory["data"]["one_particle_flat"]
         self.assertEqual(data["hamiltonian"],
                          "h_m(k) = -i m gamma^(x4) - gamma^(x4) sum_(a != x4) k_a gamma^a")
-        self.assertIn("(m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2)", data["square"])
+        self.assertIn("(m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - k7^2)", data["square"])
         for sample in data["samples"]:
             self.assertEqual((sample["dim_plus_w"], sample["dim_minus_w"]), (8, 8))
             self.assertEqual(sample["B_inertia_plus_w"], [4, 4])
@@ -448,8 +448,9 @@ class QuotedData(unittest.TestCase):
             row = f"| ${sample['m']}$ | ({k}) | ${w_tex}$ | 8 and 8 | (4,4) and (4,4) |"
             self.assertIn(row, self.text, row)
             m, ks = sp.Integer(sample["m"]), [sp.Integer(value) for value in sample["k"]]
-            w_value = sp.sqrt(m**2 + ks[0]**2 + ks[1]**2 + ks[2]**2 + ks[7]**2
-                              - ks[4]**2 - ks[5]**2 - ks[6]**2)
+            # the author's order k0..k7: k0..k3 space-like, k4 unused, k5..k7 the extra times
+            w_value = sp.sqrt(m**2 + ks[0]**2 + ks[1]**2 + ks[2]**2 + ks[3]**2
+                              - ks[5]**2 - ks[6]**2 - ks[7]**2)
             self.assertEqual(sp.simplify(w_value - sp.sympify(re.sub(r"Sqrt\[(\d+)\]", r"sqrt(\1)", w))), 0)
 
     def test_t3_record_and_its_checks(self):
@@ -548,7 +549,7 @@ class QuotedData(unittest.TestCase):
         pairs = (
             ("pointwise_field_is_general", "1411/6561", "$\\det e = 1411/6561$"),
             ("pointwise_field_is_general", "448 of the 512", "448 of the 512 connection components"),
-            ("Q_one_particle_general_field", "-2269482/1990921", "-\\frac{2269482}{1990921}"),
+            ("Q_one_particle_general_field", "-2307429/1990921", "-\\frac{2307429}{1990921}"),  # -2269482 before 2026-10-14
             ("T1_Lagrangian_primordial_commuting", "408 monomials", "(408 monomials)"),
             ("T1_Lagrangian_primordial_grassmann", "392 monomials", "(392 monomials)"),
             ("T1_kernel_connection", "all 512 triples", "(all 512 triples)"),

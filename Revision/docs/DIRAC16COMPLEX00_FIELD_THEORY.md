@@ -4,7 +4,7 @@
 
 ## Abstract
 
-This document records, for the author's primordial gravitational field of `Revision/SPEC.md` section 1, the field theory of dirac16complex00: a field $\Phi$ with 16 complex commuting components that transform as a spinor of Pin(4,4) (a set of 16 scalar fields that transform as a Pin(4,4) spinor), treated as a classical ("semi-classical") field. It gives the Lagrangian and its coupling to gravity through the vielbein and the canonical spin connection, the exact Euler-Lagrange equations (covariant, explicit in the metric, and as 16 component equations), the non-triviality theorem [2] with its proof and its exact scope (in the diagonal vielbein the gravitational term of the field equation is $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$, nonzero for every $H > 0$; this value depends on the frame and on the field variables, while $\Omega_\mu$ itself vanishes in no frame because the metric is curved), the self-consistency of the equations and its limits (no well-posed Cauchy problem for data that depend on the extra times; boundary terms at $z = \pi/2$), the energy-momentum tensor as a classical bilinear, its kinetic and potential parts, the energy density, the pressures and the equations of state, and the Einstein-Lovelock field equations for $a_4(x_4)$ with dirac16complex00 as the source. Every formula is an output of Revision code (Wolfram and an independent sympy checker for each part); each section ends with the names of the checks that verify it, and the check index collects them. Nothing is taken from the earlier stages of the repository. The classical energy of dirac16complex00 is unbounded below already for $U = 0$ (positive-frequency modes of negative energy) and its charge is indefinite and only locally conserved (the charge of a slice is constant only if no charge flows through the brane $z = \pi/2$, where this record imposes no boundary condition). What the record does not establish is stated in the section "What is not claimed". Added on 2026-10-08: the verdict of the dark-sector investigation of Hypothesis00 (section 10, from `Revision/docs/DARK_SECTOR_HYPOTHESES`) and pointers to the other Revision documents (section 1).
+This document records, for the author's primordial gravitational field of `Revision/SPEC.md` section 1, the field theory of dirac16complex00: a field $\Phi$ with 16 complex commuting components that transform as a spinor of Pin(4,4) (a set of 16 scalar fields that transform as a Pin(4,4) spinor), treated as a classical ("semi-classical") field. It gives the Lagrangian and its coupling to gravity through the vielbein and the canonical spin connection, the exact Euler-Lagrange equations (covariant, explicit in the metric, and as 16 component equations), the non-triviality theorem [2] with its proof and its exact scope (in the diagonal vielbein the gravitational term of the field equation is $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$, nonzero for every $H > 0$; this value depends on the frame and on the field variables, while $\Omega_\mu$ itself vanishes in no frame because the metric is curved), the self-consistency of the equations and its limits (no well-posed Cauchy problem for data that depend on the extra times; boundary terms at $z = \pi/2$), the energy-momentum tensor as a classical bilinear, its kinetic and potential parts, the energy density, the pressures and the equations of state, and the Einstein-Lovelock field equations for $a_4(x_4)$ with dirac16complex00 as the source. Every formula is an output of Revision code (Wolfram and an independent sympy checker for each part); each section ends with the names of the checks that verify it, and the check index collects them. Nothing is taken from the earlier stages of the repository. The classical energy of dirac16complex00 is unbounded below already for $U = 0$ (positive-frequency modes of negative energy) and its charge is indefinite and only locally conserved (the charge of a slice is constant only if no charge flows through the brane $z = \pi/2$, where this record imposes no boundary condition). What the record does not establish is stated in the section "What is not claimed". Added on 2026-10-08: the verdict of the dark-sector investigation of Hypothesis00 (section 10, from `Revision/docs/DARK_SECTOR_HYPOTHESES`) and pointers to the other Revision documents (section 1).
 
 ## 1. Scope, sources and conventions
 
@@ -22,33 +22,33 @@ The Wolfram and the sympy records are written independently (no shared code); ea
 
 **Related Revision documents.** The generalized Kronecker delta and the Lovelock tensors $P_{(1)}$, $P_{(2)}$, $P_{(3)}$ behind the field equations for $a_4$ of section 11 are described in `Revision/docs/LOVELOCK_GKD`. Hypothesis00 (SPEC section 8) is investigated in `Revision/docs/DARK_SECTOR_HYPOTHESES`, whose verdict for dirac16complex00 is summarised at the end of section 10; its two dirac16complex00 records are `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` (the derivations and the models; 49 of 49 checks pass) and `Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json` (an independent implementation; 28 of 28 checks pass). The pairing theorems for both fields are in `Revision/docs/PAIR_CREATION_PROOFS`. The Kohn-Sham model of `Revision/docs/KOHN_SHAM_DEFLATING_FIELD` belongs to dirac16complex and is not used here.
 
-**Coordinates (the author's names).** $x_1, x_2, x_3$ are ordinary 3-space (inflating, scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, time-like, which deflate exponentially (scale factor $e^{-a_4}\sin^{1/6}z$ with $a_4$ increasing); $x_8$ is the hidden space direction. Throughout $z = 6Hx_8 \in (0, \pi/2)$, $H > 0$ is the author's constant and $a_4' = da_4/dx_4$. In formulas the index $i$ runs over $x_1, x_2, x_3$ and $t$ over $x_5, x_6, x_7$.
+**Coordinates (the author's).** $x_0, x_1, \dots, x_7$, in the author's order: $x_0$ is the hidden space direction; $x_1, x_2, x_3$ are ordinary 3-space (inflating, scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, time-like, which deflate exponentially (scale factor $e^{-a_4}\sin^{1/6}z$ with $a_4$ increasing). (Until 2026-10-14 this record named them $x_1, \dots, x_8$, with the hidden direction $x_8$ listed last; the user ordered the author's coordinates on 2026-10-14.) Throughout $z = 6Hx_0 \in (0, \pi/2)$, $H > 0$ is the author's constant and $a_4' = da_4/dx_4$. In formulas the index $i$ runs over $x_1, x_2, x_3$ and $t$ over $x_5, x_6, x_7$.
 
-**The metric** (SPEC section 1, exactly):
+**The metric** (SPEC section 1, exactly, at $b_4 = 1$; rows and columns in the order $x_0, \dots, x_7$):
 
 ```text
-g = {{E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0,0},
-     {0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0},
-     {0,0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0},
-     {0,0,0,-1,0,0,0,0},
-     {0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0},
-     {0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x8]^(1/3),0,0},
-     {0,0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x8]^(1/3),0},
-     {0,0,0,0,0,0,0,Cot[6 H x8]^2}}
+g = {{Cot[6 H x0]^2,0,0,0,0,0,0,0},
+     {0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},
+     {0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},
+     {0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},
+     {0,0,0,0,-1,0,0,0},
+     {0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x0]^(1/3),0,0},
+     {0,0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x0]^(1/3),0},
+     {0,0,0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x0]^(1/3)}}
 ```
 
-Signature (4,4): space-like $x_1, x_2, x_3, x_8$, time-like $x_4, x_5, x_6, x_7$. The volume factor is
+Signature (4,4): space-like $x_0, x_1, x_2, x_3$, time-like $x_4, x_5, x_6, x_7$. The volume factor is
 
 $$
 \sqrt{|g|} = \cos z ,
 $$
 
-independent of $x_4$: the inflation $e^{3a_4}$ of 3-space is compensated by the deflation $e^{-3a_4}$ of the extra times. $H = 0$ is not a metric of the family (a degenerate limit: $g_{11}, g_{55} \to 0$ and $g_{88} \to \infty$); every statement assumes $H > 0$ and $0 < z < \pi/2$.
+independent of $x_4$: the inflation $e^{3a_4}$ of 3-space is compensated by the deflation $e^{-3a_4}$ of the extra times. $H = 0$ is not a metric of the family (a degenerate limit: $g_{11}, g_{55} \to 0$ and $g_{00} \to \infty$); every statement assumes $H > 0$ and $0 < z < \pi/2$.
 
 **The metric of 2026-10-14 (b4).** On 2026-10-14 the user changed the metric (SPEC section 1, `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`): the three extra-time components carry a new metric function $b_4(x_4) > 0$,
 
 ```text
-g55 = g66 = g77 = -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3)
+g55 = g66 = g77 = -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)
 ```
 
 all other components as above. The metric written above is the case $b_4 = 1$ (the metric of the record before 2026-10-14), and sections 2 to 16 are written for it; with $b_4$ the volume factor is $\sqrt{|g|} = b_4^{3/2}\cos z$, constant in $x_4$ only when $b_4$ is. What changes for dirac16complex00 is stated in section 17; with the author's weights every vacuum history has $b_4$ constant (a constant $b_4$ is the rescaling $x_{5,6,7} \to b_4^{1/2}x_{5,6,7}$), and on the background $b_4 = 1$ nothing recorded below changes.
@@ -66,11 +66,11 @@ all other components as above. The metric written above is the case $b_4 = 1$ (t
 
 dirac16complex00 is a field $\Phi$ with 16 complex commuting components (16 scalar fields) that transform as a Pin(4,4) spinor. It is a classical field; it is not quantised (SPEC section 6: only dirac16complex, the anticommuting field, is quantised canonically). SPEC section 3 calls it the analogue of Dirac's 1928 wave function and the author calls it semi-classical; both are interpretations, and the record shows two exact differences from Dirac's wave function: its charge $Q = \int\cos z\,\Phi^\dagger B\Phi\,d^7x$ (locally conserved, section 7) is an indefinite form, and its classical energy is unbounded below already for $U = 0$ in the good sector (section 9).
 
-**The gammas.** The real $16\times16$ matrices are the author's T16, rebuilt in Revision code from the author's formulas (the tau matrices and their blocks), with the frame map $\gamma^{(x_8)} = T16[0]$, $\gamma^{(x_1..x_3)} = T16[1..3]$, $\gamma^{(x_4)} = T16[4]$ and $\gamma^{(x_5..x_7)} = T16[5..7]$. Verified exactly:
+**The gammas.** The real $16\times16$ matrices are the author's T16, rebuilt in Revision code from the author's formulas (the tau matrices and their blocks), with the frame map $\gamma^{(x_k)} = T16[k]$ for $k = 0, \dots, 7$ ($\gamma^{(x_0)}$ of the hidden direction, $\gamma^{(x_4)}$ of the time). Verified exactly:
 
-- $\{\gamma^{(a)}, \gamma^{(b)}\} = 2\eta^{ab}$ with $\eta = \mathrm{diag}(+1,+1,+1,-1,-1,-1,-1,+1)$ in the order $x_1 \ldots x_8$; every $\gamma^{(a)}$ is a real signed permutation matrix; the space-like ones are symmetric, the time-like ones antisymmetric.
-- $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ is real symmetric, $C^2 = 1$, and $C\gamma^{(a)}$ is real antisymmetric for every $a$; $C = \mathrm{diag}(-\sigma, \sigma)$ with the notebook's $\sigma$.
-- $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$, $\Gamma^2 = 1$, and $\Gamma$ anticommutes with every $\gamma^{(a)}$.
+- $\{\gamma^{(a)}, \gamma^{(b)}\} = 2\eta^{ab}$ with $\eta = \mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ in the order $x_0 \ldots x_7$; every $\gamma^{(a)}$ is a real signed permutation matrix; the space-like ones are symmetric, the time-like ones antisymmetric.
+- $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ is real symmetric, $C^2 = 1$, and $C\gamma^{(a)}$ is real antisymmetric for every $a$; $C = \mathrm{diag}(-\sigma, \sigma)$ with the notebook's $\sigma$.
+- $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$, $\Gamma^2 = 1$, and $\Gamma$ anticommutes with every $\gamma^{(a)}$.
 - $B = -iC\gamma^{(x_4)}$ is Hermitian, $B^2 = 1$, with eigenvalues $+1$ and $-1$ eight times each: signature (8,8).
 - $S^{ab} = \tfrac14[\gamma^{(a)}, \gamma^{(b)}]$ satisfy the so(4,4) relations; $(S^{ab})^T C + C S^{ab} = 0$, so $S = \bar\Phi\Phi$ is Spin(4,4)-invariant; $[\Gamma, S^{ab}] = 0$.
 
@@ -92,21 +92,21 @@ dirac16complex00 is a field $\Phi$ with 16 complex commuting components (16 scal
 
 $$
 \begin{aligned}
-& f_{x_1} = f_{x_2} = f_{x_3} = e^{a_4}\sin^{1/6}z, \qquad f_{x_4} = 1, \\
-& f_{x_5} = f_{x_6} = f_{x_7} = e^{-a_4}\sin^{1/6}z, \qquad f_{x_8} = \cot z
+& f_{x_0} = \cot z, \qquad f_{x_1} = f_{x_2} = f_{x_3} = e^{a_4}\sin^{1/6}z, \qquad f_{x_4} = 1, \\
+& f_{x_5} = f_{x_6} = f_{x_7} = e^{-a_4}\sin^{1/6}z
 \end{aligned}
 $$
 
-reproduces the author's metric entry by entry, $g = e^T\eta e$, with inverse $e_a{}^\mu = \delta_a^\mu/f_a$ and $\sqrt{|g|} = f_1\cdots f_8 = \cos z$.
+reproduces the author's metric entry by entry, $g = e^T\eta e$, with inverse $e_a{}^\mu = \delta_a^\mu/f_a$ and $\sqrt{|g|} = f_{x_0}\cdots f_{x_7} = \cos z$.
 
 **Levi-Civita connection.** The 25 independent nonzero Christoffel symbols ($m \le n$) are, for $i = x_1, x_2, x_3$ and $t = x_5, x_6, x_7$ (no sum),
 
 $$
 \begin{aligned}
-&\Gamma^{x_i}{}_{x_i x_4} = a_4', \qquad \Gamma^{x_i}{}_{x_i x_8} = H\cot z, \qquad \Gamma^{x_4}{}_{x_i x_i} = e^{2a_4}\sin^{1/3}z\; a_4', \\
-&\Gamma^{x_8}{}_{x_i x_i} = -e^{2a_4} H\sec z\,\sin^{4/3}z, \\
-&\Gamma^{x_t}{}_{x_4 x_t} = -a_4', \qquad \Gamma^{x_t}{}_{x_t x_8} = H\cot z, \qquad \Gamma^{x_4}{}_{x_t x_t} = e^{-2a_4}\sin^{1/3}z\; a_4', \\
-&\Gamma^{x_8}{}_{x_t x_t} = e^{-2a_4} H\sec z\,\sin^{4/3}z, \qquad \Gamma^{x_8}{}_{x_8 x_8} = -12H\csc(12Hx_8) .
+&\Gamma^{x_i}{}_{x_i x_4} = a_4', \qquad \Gamma^{x_i}{}_{x_i x_0} = H\cot z, \qquad \Gamma^{x_4}{}_{x_i x_i} = e^{2a_4}\sin^{1/3}z\; a_4', \\
+&\Gamma^{x_0}{}_{x_i x_i} = -e^{2a_4} H\sec z\,\sin^{4/3}z, \\
+&\Gamma^{x_t}{}_{x_4 x_t} = -a_4', \qquad \Gamma^{x_t}{}_{x_t x_0} = H\cot z, \qquad \Gamma^{x_4}{}_{x_t x_t} = e^{-2a_4}\sin^{1/3}z\; a_4', \\
+&\Gamma^{x_0}{}_{x_t x_t} = e^{-2a_4} H\sec z\,\sin^{4/3}z, \qquad \Gamma^{x_0}{}_{x_0 x_0} = -12H\csc(12Hx_0) .
 \end{aligned}
 $$
 
@@ -114,20 +114,20 @@ $$
 
 $$
 \begin{aligned}
-& \omega_{x_i,(x_i)(x_4)} = a_4' e^{a_4}\sin^{1/6}z, \qquad \omega_{x_i,(x_i)(x_8)} = H e^{a_4}\sin^{1/6}z, \\
-& \omega_{x_t,(x_4)(x_t)} = -a_4' e^{-a_4}\sin^{1/6}z, \qquad \omega_{x_t,(x_t)(x_8)} = -H e^{-a_4}\sin^{1/6}z ,
+& \omega_{x_i,(x_i)(x_4)} = a_4' e^{a_4}\sin^{1/6}z, \qquad \omega_{x_i,(x_i)(x_0)} = H e^{a_4}\sin^{1/6}z, \\
+& \omega_{x_t,(x_4)(x_t)} = -a_4' e^{-a_4}\sin^{1/6}z, \qquad \omega_{x_t,(x_t)(x_0)} = -H e^{-a_4}\sin^{1/6}z ,
 \end{aligned}
 $$
 
-and $\omega_{x_4} = \omega_{x_8} = 0$. Each component is $a_4'$ or $H$ times a factor that never vanishes on the patch.
+and $\omega_{x_0} = \omega_{x_4} = 0$. Each component is $a_4'$ or $H$ times a factor that never vanishes on the patch.
 
 **Spinor connection and covariant derivative.** $\Omega_\mu = \tfrac12\omega_{\mu ab}S^{ab}$:
 
 $$
 \begin{aligned}
-\Omega_{x_i} &= \tfrac12 e^{a_4}\sin^{1/6}z\,\big(a_4'\,\gamma^{(x_i)}\gamma^{(x_4)} + H\,\gamma^{(x_i)}\gamma^{(x_8)}\big), \qquad i = x_1, x_2, x_3, \\
-\Omega_{x_t} &= -\tfrac12 e^{-a_4}\sin^{1/6}z\,\big(a_4'\,\gamma^{(x_4)}\gamma^{(x_t)} + H\,\gamma^{(x_t)}\gamma^{(x_8)}\big), \qquad t = x_5, x_6, x_7, \\
-\Omega_{x_4} &= \Omega_{x_8} = 0,
+\Omega_{x_i} &= \tfrac12 e^{a_4}\sin^{1/6}z\,\big(a_4'\,\gamma^{(x_i)}\gamma^{(x_4)} + H\,\gamma^{(x_i)}\gamma^{(x_0)}\big), \qquad i = x_1, x_2, x_3, \\
+\Omega_{x_t} &= -\tfrac12 e^{-a_4}\sin^{1/6}z\,\big(a_4'\,\gamma^{(x_4)}\gamma^{(x_t)} + H\,\gamma^{(x_t)}\gamma^{(x_0)}\big), \qquad t = x_5, x_6, x_7, \\
+\Omega_{x_0} &= \Omega_{x_4} = 0,
 \end{aligned}
 $$
 
@@ -146,21 +146,21 @@ for all 64 pairs $(\mu, \nu)$. It is built from the mixed $\omega_\mu{}^a{}_b$ l
 **Curvature.** $R^\mu{}_\nu$ is diagonal with
 
 $$
-R^{x_i}{}_{x_i} = a_4'' - 6H^2,\quad R^{x_4}{}_{x_4} = 6(a_4')^2,\quad R^{x_t}{}_{x_t} = -a_4'' - 6H^2,\quad R^{x_8}{}_{x_8} = -6H^2 ,
+R^{x_0}{}_{x_0} = -6H^2,\quad R^{x_i}{}_{x_i} = a_4'' - 6H^2,\quad R^{x_4}{}_{x_4} = 6(a_4')^2,\quad R^{x_t}{}_{x_t} = -a_4'' - 6H^2 ,
 $$
 
 $$
 R = 6\big((a_4')^2 - 7H^2\big) .
 $$
 
-Since $R^{x_8}{}_{x_8} = -6H^2 < 0$ for every $H > 0$ and every function $a_4$, the metric is curved for every member of the family, $a_4$ constant included; all Riemann components vanish only in the formal limit $a_4' = a_4'' = 0$, $H = 0$ (flat 4+4), which is outside the family.
+Since $R^{x_0}{}_{x_0} = -6H^2 < 0$ for every $H > 0$ and every function $a_4$, the metric is curved for every member of the family, $a_4$ constant included; all Riemann components vanish only in the formal limit $a_4' = a_4'' = 0$, $H = 0$ (flat 4+4), which is outside the family.
 
 | statement | Wolfram checks (theory) | sympy checks (theory) |
 | --- | --- | --- |
 | vielbein and its inverse | `metric_is_the_authors`, `vielbein_inverse` | `metric_from_vielbein_equals_SPEC` |
 | 25 Christoffel symbols | `christoffel_count` | `christoffel_symmetric_metric_compatible` |
 | vielbein postulate, antisymmetry, the 12 components | `vielbein_postulate`, `omega_antisymmetric`, `omega_components` | `vielbein_postulate`, `spin_connection_antisymmetric` |
-| $\Omega_\mu$; $\Omega_{x_4} = \Omega_{x_8} = 0$ | `Omega_components` | `Omega_x4_and_Omega_x8_vanish` |
+| $\Omega_\mu$; $\Omega_{x_0} = \Omega_{x_4} = 0$ | `Omega_components` | `Omega_x0_and_Omega_x4_vanish` |
 | covariant constancy of the gammas | `gamma_covariantly_constant` | `covariant_constancy_D_mu_gamma_nu` |
 | Ricci tensor and scalar; curved for every $H > 0$ | `ricci_mixed_components`, `ricci_scalar`, `never_flat_for_H_positive` | `curvature_nonzero_flat_only_formally` |
 
@@ -215,13 +215,13 @@ $$
 
 and the second is the Dirac conjugate of the first. For $U = \tfrac{\lambda}{2}S^2$: $\gamma^\mu D_\mu\Phi = (m + \lambda S)\Phi$. (The sympy derivation includes the control that the same comparison with $m \to -m$ fails.)
 
-**Explicit form in the primordial field** ($z = 6Hx_8$):
+**Explicit form in the primordial field** ($z = 6Hx_0$):
 
 $$
 \begin{aligned}
 & e^{-a_4}\sin^{-1/6}z\,\big(\gamma^{(x_1)}\partial_1 + \gamma^{(x_2)}\partial_2 + \gamma^{(x_3)}\partial_3\big)\Phi + \gamma^{(x_4)}\partial_4\Phi \\
 & \qquad + e^{a_4}\sin^{-1/6}z\,\big(\gamma^{(x_5)}\partial_5 + \gamma^{(x_6)}\partial_6 + \gamma^{(x_7)}\partial_7\big)\Phi \\
-& \qquad + \tan z\,\gamma^{(x_8)}\partial_8\Phi + 3H\,\gamma^{(x_8)}\Phi = \big(m + U'(S)\big)\,\Phi ,
+& \qquad + \tan z\,\gamma^{(x_0)}\partial_0\Phi + 3H\,\gamma^{(x_0)}\Phi = \big(m + U'(S)\big)\,\Phi ,
 \end{aligned}
 $$
 
@@ -231,7 +231,7 @@ $$
 \begin{aligned}
 & e^{-a_4}\sin^{-1/6}z\,\big(\partial_1\bar\Phi\,\gamma^{(x_1)} + \partial_2\bar\Phi\,\gamma^{(x_2)} + \partial_3\bar\Phi\,\gamma^{(x_3)}\big) + \partial_4\bar\Phi\,\gamma^{(x_4)} \\
 & \qquad + e^{a_4}\sin^{-1/6}z\,\big(\partial_5\bar\Phi\,\gamma^{(x_5)} + \partial_6\bar\Phi\,\gamma^{(x_6)} + \partial_7\bar\Phi\,\gamma^{(x_7)}\big) \\
-& \qquad + \tan z\,\partial_8\bar\Phi\,\gamma^{(x_8)} + 3H\,\bar\Phi\,\gamma^{(x_8)} = -\big(m + U'(S)\big)\,\bar\Phi .
+& \qquad + \tan z\,\partial_0\bar\Phi\,\gamma^{(x_0)} + 3H\,\bar\Phi\,\gamma^{(x_0)} = -\big(m + U'(S)\big)\,\bar\Phi .
 \end{aligned}
 $$
 
@@ -240,7 +240,7 @@ The derivative coefficients are $1/f_a$: the inverse 3-space scale factor $e^{-a
 **Evolution form.** Since $(\gamma^{(x_4)})^2 = -1$, the field equation is equivalent to the first-order evolution equation
 
 $$
-\partial_4\Phi = -\gamma^{(x_4)}\Big[\big(m + U'(S)\big)\Phi - \sum_{a \ne x_4}\frac{1}{f_a}\,\gamma^{(a)}\partial_a\Phi - 3H\,\gamma^{(x_8)}\Phi\Big] ;
+\partial_4\Phi = -\gamma^{(x_4)}\Big[\big(m + U'(S)\big)\Phi - \sum_{a \ne x_4}\frac{1}{f_a}\,\gamma^{(a)}\partial_a\Phi - 3H\,\gamma^{(x_0)}\Phi\Big] ;
 $$
 
 the slices $x_4 = \mathrm{const}$ are non-characteristic ($g^{44} = -1 \ne 0$).
@@ -248,7 +248,7 @@ the slices $x_4 = \mathrm{const}$ are non-characteristic ($g^{44} = -1 \ne 0$).
 **Chiral block form.** With $\Phi = (\varphi_-, \varphi_+)$ ($\Gamma = -1$ on rows 1-8, $\Gamma = +1$ on rows 9-16) every gamma is block off-diagonal, with $8\times8$ blocks $\bar\tau_a$ (upper right) and $\tau_a$ (lower left) listed in `Revision/theory/field-theory.json` (`field_equation_blocks`), and the field equation is the pair
 
 $$
-\sum_a \frac{1}{f_a}\,\bar\tau_a\,\partial_a\varphi_+ + 3H\,\bar\tau_{x_8}\varphi_+ = V\varphi_-, \qquad \sum_a \frac{1}{f_a}\,\tau_a\,\partial_a\varphi_- + 3H\,\tau_{x_8}\varphi_- = V\varphi_+ .
+\sum_a \frac{1}{f_a}\,\bar\tau_a\,\partial_a\varphi_+ + 3H\,\bar\tau_{x_0}\varphi_+ = V\varphi_-, \qquad \sum_a \frac{1}{f_a}\,\tau_a\,\partial_a\varphi_- + 3H\,\tau_{x_0}\varphi_- = V\varphi_+ .
 $$
 
 The mass term and the gravitational term $3H$ both couple the two chiral halves.
@@ -258,61 +258,61 @@ The mass term and the gravitational term $3H$ both couple the two chiral halves.
 $$
 \begin{aligned}
 (1)\;\; & -\partial_4\Phi_{14} + u\,(-\partial_1\Phi_{16} + \partial_2\Phi_{15} - \partial_3\Phi_{14}) \\
-& + v\,(\partial_5\Phi_{15} + \partial_6\Phi_{16} + \partial_7\Phi_{9}) + (t\,\partial_8 + 3H)\,\Phi_{9} = V\,\Phi_{1} \\
+& + v\,(\partial_5\Phi_{15} + \partial_6\Phi_{16} + \partial_7\Phi_{9}) + (t\,\partial_0 + 3H)\,\Phi_{9} = V\,\Phi_{1} \\
 (2)\;\; & \partial_4\Phi_{13} + u\,(-\partial_1\Phi_{15} - \partial_2\Phi_{16} + \partial_3\Phi_{13}) \\
-& + v\,(\partial_5\Phi_{16} - \partial_6\Phi_{15} + \partial_7\Phi_{10}) + (t\,\partial_8 + 3H)\,\Phi_{10} = V\,\Phi_{2} \\
+& + v\,(\partial_5\Phi_{16} - \partial_6\Phi_{15} + \partial_7\Phi_{10}) + (t\,\partial_0 + 3H)\,\Phi_{10} = V\,\Phi_{2} \\
 (3)\;\; & \partial_4\Phi_{16} + u\,(\partial_1\Phi_{14} - \partial_2\Phi_{13} - \partial_3\Phi_{16}) \\
-& + v\,(-\partial_5\Phi_{13} + \partial_6\Phi_{14} + \partial_7\Phi_{11}) + (t\,\partial_8 + 3H)\,\Phi_{11} = V\,\Phi_{3} \\
+& + v\,(-\partial_5\Phi_{13} + \partial_6\Phi_{14} + \partial_7\Phi_{11}) + (t\,\partial_0 + 3H)\,\Phi_{11} = V\,\Phi_{3} \\
 (4)\;\; & -\partial_4\Phi_{15} + u\,(\partial_1\Phi_{13} + \partial_2\Phi_{14} + \partial_3\Phi_{15}) \\
-& + v\,(-\partial_5\Phi_{14} - \partial_6\Phi_{13} + \partial_7\Phi_{12}) + (t\,\partial_8 + 3H)\,\Phi_{12} = V\,\Phi_{4}
+& + v\,(-\partial_5\Phi_{14} - \partial_6\Phi_{13} + \partial_7\Phi_{12}) + (t\,\partial_0 + 3H)\,\Phi_{12} = V\,\Phi_{4}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
 (5)\;\; & \partial_4\Phi_{10} + u\,(-\partial_1\Phi_{12} + \partial_2\Phi_{11} - \partial_3\Phi_{10}) \\
-& + v\,(-\partial_5\Phi_{11} - \partial_6\Phi_{12} - \partial_7\Phi_{13}) + (t\,\partial_8 + 3H)\,\Phi_{13} = V\,\Phi_{5} \\
+& + v\,(-\partial_5\Phi_{11} - \partial_6\Phi_{12} - \partial_7\Phi_{13}) + (t\,\partial_0 + 3H)\,\Phi_{13} = V\,\Phi_{5} \\
 (6)\;\; & -\partial_4\Phi_{9} + u\,(-\partial_1\Phi_{11} - \partial_2\Phi_{12} + \partial_3\Phi_{9}) \\
-& + v\,(-\partial_5\Phi_{12} + \partial_6\Phi_{11} - \partial_7\Phi_{14}) + (t\,\partial_8 + 3H)\,\Phi_{14} = V\,\Phi_{6} \\
+& + v\,(-\partial_5\Phi_{12} + \partial_6\Phi_{11} - \partial_7\Phi_{14}) + (t\,\partial_0 + 3H)\,\Phi_{14} = V\,\Phi_{6} \\
 (7)\;\; & -\partial_4\Phi_{12} + u\,(\partial_1\Phi_{10} - \partial_2\Phi_{9} - \partial_3\Phi_{12}) \\
-& + v\,(\partial_5\Phi_{9} - \partial_6\Phi_{10} - \partial_7\Phi_{15}) + (t\,\partial_8 + 3H)\,\Phi_{15} = V\,\Phi_{7} \\
+& + v\,(\partial_5\Phi_{9} - \partial_6\Phi_{10} - \partial_7\Phi_{15}) + (t\,\partial_0 + 3H)\,\Phi_{15} = V\,\Phi_{7} \\
 (8)\;\; & \partial_4\Phi_{11} + u\,(\partial_1\Phi_{9} + \partial_2\Phi_{10} + \partial_3\Phi_{11}) \\
-& + v\,(\partial_5\Phi_{10} + \partial_6\Phi_{9} - \partial_7\Phi_{16}) + (t\,\partial_8 + 3H)\,\Phi_{16} = V\,\Phi_{8}
+& + v\,(\partial_5\Phi_{10} + \partial_6\Phi_{9} - \partial_7\Phi_{16}) + (t\,\partial_0 + 3H)\,\Phi_{16} = V\,\Phi_{8}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
 (9)\;\; & \partial_4\Phi_{6} + u\,(\partial_1\Phi_{8} - \partial_2\Phi_{7} + \partial_3\Phi_{6}) \\
-& + v\,(-\partial_5\Phi_{7} - \partial_6\Phi_{8} - \partial_7\Phi_{1}) + (t\,\partial_8 + 3H)\,\Phi_{1} = V\,\Phi_{9} \\
+& + v\,(-\partial_5\Phi_{7} - \partial_6\Phi_{8} - \partial_7\Phi_{1}) + (t\,\partial_0 + 3H)\,\Phi_{1} = V\,\Phi_{9} \\
 (10)\;\; & -\partial_4\Phi_{5} + u\,(\partial_1\Phi_{7} + \partial_2\Phi_{8} - \partial_3\Phi_{5}) \\
-& + v\,(-\partial_5\Phi_{8} + \partial_6\Phi_{7} - \partial_7\Phi_{2}) + (t\,\partial_8 + 3H)\,\Phi_{2} = V\,\Phi_{10} \\
+& + v\,(-\partial_5\Phi_{8} + \partial_6\Phi_{7} - \partial_7\Phi_{2}) + (t\,\partial_0 + 3H)\,\Phi_{2} = V\,\Phi_{10} \\
 (11)\;\; & -\partial_4\Phi_{8} + u\,(-\partial_1\Phi_{6} + \partial_2\Phi_{5} + \partial_3\Phi_{8}) \\
-& + v\,(\partial_5\Phi_{5} - \partial_6\Phi_{6} - \partial_7\Phi_{3}) + (t\,\partial_8 + 3H)\,\Phi_{3} = V\,\Phi_{11} \\
+& + v\,(\partial_5\Phi_{5} - \partial_6\Phi_{6} - \partial_7\Phi_{3}) + (t\,\partial_0 + 3H)\,\Phi_{3} = V\,\Phi_{11} \\
 (12)\;\; & \partial_4\Phi_{7} + u\,(-\partial_1\Phi_{5} - \partial_2\Phi_{6} - \partial_3\Phi_{7}) \\
-& + v\,(\partial_5\Phi_{6} + \partial_6\Phi_{5} - \partial_7\Phi_{4}) + (t\,\partial_8 + 3H)\,\Phi_{4} = V\,\Phi_{12}
+& + v\,(\partial_5\Phi_{6} + \partial_6\Phi_{5} - \partial_7\Phi_{4}) + (t\,\partial_0 + 3H)\,\Phi_{4} = V\,\Phi_{12}
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
 (13)\;\; & -\partial_4\Phi_{2} + u\,(\partial_1\Phi_{4} - \partial_2\Phi_{3} + \partial_3\Phi_{2}) \\
-& + v\,(\partial_5\Phi_{3} + \partial_6\Phi_{4} + \partial_7\Phi_{5}) + (t\,\partial_8 + 3H)\,\Phi_{5} = V\,\Phi_{13} \\
+& + v\,(\partial_5\Phi_{3} + \partial_6\Phi_{4} + \partial_7\Phi_{5}) + (t\,\partial_0 + 3H)\,\Phi_{5} = V\,\Phi_{13} \\
 (14)\;\; & \partial_4\Phi_{1} + u\,(\partial_1\Phi_{3} + \partial_2\Phi_{4} - \partial_3\Phi_{1}) \\
-& + v\,(\partial_5\Phi_{4} - \partial_6\Phi_{3} + \partial_7\Phi_{6}) + (t\,\partial_8 + 3H)\,\Phi_{6} = V\,\Phi_{14} \\
+& + v\,(\partial_5\Phi_{4} - \partial_6\Phi_{3} + \partial_7\Phi_{6}) + (t\,\partial_0 + 3H)\,\Phi_{6} = V\,\Phi_{14} \\
 (15)\;\; & \partial_4\Phi_{4} + u\,(-\partial_1\Phi_{2} + \partial_2\Phi_{1} + \partial_3\Phi_{4}) \\
-& + v\,(-\partial_5\Phi_{1} + \partial_6\Phi_{2} + \partial_7\Phi_{7}) + (t\,\partial_8 + 3H)\,\Phi_{7} = V\,\Phi_{15} \\
+& + v\,(-\partial_5\Phi_{1} + \partial_6\Phi_{2} + \partial_7\Phi_{7}) + (t\,\partial_0 + 3H)\,\Phi_{7} = V\,\Phi_{15} \\
 (16)\;\; & -\partial_4\Phi_{3} + u\,(-\partial_1\Phi_{1} - \partial_2\Phi_{2} - \partial_3\Phi_{3}) \\
-& + v\,(-\partial_5\Phi_{2} - \partial_6\Phi_{1} + \partial_7\Phi_{8}) + (t\,\partial_8 + 3H)\,\Phi_{8} = V\,\Phi_{16}
+& + v\,(-\partial_5\Phi_{2} - \partial_6\Phi_{1} + \partial_7\Phi_{8}) + (t\,\partial_0 + 3H)\,\Phi_{8} = V\,\Phi_{16}
 \end{aligned}
 $$
 
-In every component the gravitational term $3H\,\Phi_B$ appears next to the hidden-direction derivative $\tan z\,\partial_8\Phi_B$ of the same component $B$ ($\gamma^{(x_8)}$ is a permutation matrix with entries $+1$).
+In every component the gravitational term $3H\,\Phi_B$ appears next to the hidden-direction derivative $\tan z\,\partial_0\Phi_B$ of the same component $B$ ($\gamma^{(x_0)}$ is a permutation matrix with entries $+1$).
 
 **Exact solutions used as test points.** They satisfy the field equation for every $a_4$.
 
-- $U = 0$: $\Phi = \sin^{\alpha}z\,\big(\cosh(kx_4) + \tfrac{\sinh(kx_4)}{k}M\big)\chi$ with constant $\chi$ (16 free complex constants), $M = -m\gamma^{(x_4)} + 3H(2\alpha + 1)\gamma^{(x_4)}\gamma^{(x_8)}$, $k^2 = 9H^2(2\alpha+1)^2 - m^2$ and $\alpha$ arbitrary; $M^2 = k^2$ and $M^TC + CM = 0$. Honest scope: at these solutions the pressures and the momentum density vanish and $\rho = mS$ is constant in $x_4$, so they test the terms $\tan z\,\gamma^{(x_8)}\partial_8$ and $3H\gamma^{(x_8)}$ but are a weak test of conservation; the general proof of conservation is the Noether identity of section 7.
-- $U = \tfrac{\lambda}{2}S^2$, homogeneous (nonlinear): $\Phi = \big(\cosh(kx_4) + \tfrac{\sinh(kx_4)}{k}M\big)\chi$, $M = -(m + \lambda S_0)\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_8)}$, $S_0 = \chi^\dagger C\chi$, $k^2 = 9H^2 - (m + \lambda S_0)^2$: $S = S_0$ is constant, the field equation holds, $\nabla_\mu T^\mu{}_\nu = 0$ for all $\nu$, and $\rho = mS_0 + \lambda S_0^2/2$, $p = \lambda S_0^2/2$.
+- $U = 0$: $\Phi = \sin^{\alpha}z\,\big(\cosh(kx_4) + \tfrac{\sinh(kx_4)}{k}M\big)\chi$ with constant $\chi$ (16 free complex constants), $M = -m\gamma^{(x_4)} + 3H(2\alpha + 1)\gamma^{(x_4)}\gamma^{(x_0)}$, $k^2 = 9H^2(2\alpha+1)^2 - m^2$ and $\alpha$ arbitrary; $M^2 = k^2$ and $M^TC + CM = 0$. Honest scope: at these solutions the pressures and the momentum density vanish and $\rho = mS$ is constant in $x_4$, so they test the terms $\tan z\,\gamma^{(x_0)}\partial_0$ and $3H\gamma^{(x_0)}$ but are a weak test of conservation; the general proof of conservation is the Noether identity of section 7.
+- $U = \tfrac{\lambda}{2}S^2$, homogeneous (nonlinear): $\Phi = \big(\cosh(kx_4) + \tfrac{\sinh(kx_4)}{k}M\big)\chi$, $M = -(m + \lambda S_0)\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_0)}$, $S_0 = \chi^\dagger C\chi$, $k^2 = 9H^2 - (m + \lambda S_0)^2$: $S = S_0$ is constant, the field equation holds, $\nabla_\mu T^\mu{}_\nu = 0$ for all $\nu$, and $\rho = mS_0 + \lambda S_0^2/2$, $p = \lambda S_0^2/2$.
 
 | statement | Wolfram checks (theory) | sympy checks (theory) |
 | --- | --- | --- |
@@ -320,7 +320,7 @@ In every component the gravitational term $3H\,\Phi_B$ appears next to the hidde
 | the adjoint equation is the Dirac conjugate | `adjoint_equation_is_Dirac_conjugate_C` | `commuting_adjoint_equation_is_conjugate` |
 | explicit form, 16 components, chiral blocks | `Dirac_operator_explicit_C`, `block_form` | `commuting_euler_lagrange_psibar_variation` (the sympy field equation), compared term by term with `field_equation_components` and entry by entry with `field_equation_blocks` in the regenerated comparison record (section `comparison_with_wolfram` of the sympy report: 32 of 32 formula records agree) |
 | evolution form | `evolution_form_C` | |
-| exact solutions | `solution_matrix_square`, `exact_solution_x4_x8_C`, `exact_solution_nonlinear_homogeneous_C` | `exact_solution_family_x4_x8`, `exact_nonlinear_homogeneous_solution` |
+| exact solutions | `solution_matrix_square`, `exact_solution_x4_x0_C`, `exact_solution_nonlinear_homogeneous_C` | `exact_solution_family_x4_x0`, `exact_nonlinear_homogeneous_solution` |
 
 ## 6. Non-triviality [2]: theorem and proof
 
@@ -331,28 +331,28 @@ The author's requirement [2]: the Lagrangian of dirac16complex00 must be non-tri
 **(1) The gravitational term of the field equation.** The spin-connection part of the Euler-Lagrange operator is
 
 $$
-\gamma^\mu D_\mu\Phi - \gamma^\mu\partial_\mu\Phi = \gamma^\mu\Omega_\mu\,\Phi, \qquad \gamma^\mu\Omega_\mu = 3H\,\gamma^{(x_8)} ,
+\gamma^\mu D_\mu\Phi - \gamma^\mu\partial_\mu\Phi = \gamma^\mu\Omega_\mu\,\Phi, \qquad \gamma^\mu\Omega_\mu = 3H\,\gamma^{(x_0)} ,
 $$
 
-a constant matrix, independent of $a_4$, $x_4$ and $x_8$. The term $3H\gamma^{(x_8)}\Phi$ is nonzero for every $H > 0$ and every $\Phi \ne 0$, because $\gamma^{(x_8)}$ is invertible, $(\gamma^{(x_8)})^2 = 1$.
+a constant matrix, independent of $a_4$, $x_4$ and $x_0$. The term $3H\gamma^{(x_0)}\Phi$ is nonzero for every $H > 0$ and every $\Phi \ne 0$, because $\gamma^{(x_0)}$ is invertible, $(\gamma^{(x_0)})^2 = 1$.
 
 **(2) What cancels and what survives.** Per direction (no sum)
 
 $$
 \begin{aligned}
-\gamma^{x_i}\Omega_{x_i} &= \tfrac{a_4'}{2}\,\gamma^{(x_4)} + \tfrac{H}{2}\,\gamma^{(x_8)} \qquad (i = x_1, x_2, x_3), \\
-\gamma^{x_t}\Omega_{x_t} &= -\tfrac{a_4'}{2}\,\gamma^{(x_4)} + \tfrac{H}{2}\,\gamma^{(x_8)} \qquad (t = x_5, x_6, x_7),
+\gamma^{x_i}\Omega_{x_i} &= \tfrac{a_4'}{2}\,\gamma^{(x_4)} + \tfrac{H}{2}\,\gamma^{(x_0)} \qquad (i = x_1, x_2, x_3), \\
+\gamma^{x_t}\Omega_{x_t} &= -\tfrac{a_4'}{2}\,\gamma^{(x_4)} + \tfrac{H}{2}\,\gamma^{(x_0)} \qquad (t = x_5, x_6, x_7),
 \end{aligned}
 $$
 
-and $\gamma^{x_4}\Omega_{x_4} = \gamma^{x_8}\Omega_{x_8} = 0$. The time-direction ($\gamma^{(x_4)}$) terms of the 3 inflating and the 3 deflating directions cancel exactly, $3a_4'/2 - 3a_4'/2 = 0$; the hidden-direction ($\gamma^{(x_8)}$) terms of all six directions add, $6 \cdot H/2 = 3H$.
+and $\gamma^{x_0}\Omega_{x_0} = \gamma^{x_4}\Omega_{x_4} = 0$. The time-direction ($\gamma^{(x_4)}$) terms of the 3 inflating and the 3 deflating directions cancel exactly, $3a_4'/2 - 3a_4'/2 = 0$; the hidden-direction ($\gamma^{(x_0)}$) terms of all six directions add, $6 \cdot H/2 = 3H$.
 
-**(3) It vanishes only in flat 4+4 space.** $\Omega_\mu = 0$ for all $\mu$ if and only if $a_4' = 0$ and $H = 0$; $H = 0$ is a degenerate limit outside the family, so for every admissible metric the spin connection is nonzero. No choice of frame removes it: $[D_\mu, D_\nu] = \tfrac12 R_{ab\mu\nu}S^{ab}$ and $R^{x_8}{}_{x_8} = -6H^2 \ne 0$.
+**(3) It vanishes only in flat 4+4 space.** $\Omega_\mu = 0$ for all $\mu$ if and only if $a_4' = 0$ and $H = 0$; $H = 0$ is a degenerate limit outside the family, so for every admissible metric the spin connection is nonzero. No choice of frame removes it: $[D_\mu, D_\nu] = \tfrac12 R_{ab\mu\nu}S^{ab}$ and $R^{x_0}{}_{x_0} = -6H^2 \ne 0$.
 
 **(4) The vielbein in every derivative term.** Gravity also enters every derivative term,
 
 $$
-\gamma^\mu\partial_\mu = e^{-a_4}\sin^{-1/6}z\,\gamma^{(x_i)}\partial_i + \gamma^{(x_4)}\partial_4 + e^{a_4}\sin^{-1/6}z\,\gamma^{(x_t)}\partial_t + \tan z\,\gamma^{(x_8)}\partial_8
+\gamma^\mu\partial_\mu = e^{-a_4}\sin^{-1/6}z\,\gamma^{(x_i)}\partial_i + \gamma^{(x_4)}\partial_4 + e^{a_4}\sin^{-1/6}z\,\gamma^{(x_t)}\partial_t + \tan z\,\gamma^{(x_0)}\partial_0
 $$
 
 (sums over $i$ and $t$), none of the factors being identically 1; $a_4$ enters the field equation only through these factors (its spin-connection terms cancel by (2)).
@@ -360,45 +360,45 @@ $$
 **Proof.** Step (a), the inflating directions $i = x_1, x_2, x_3$: by section 3
 
 $$
-\gamma^{x_i} = e^{-a_4}\sin^{-1/6}z\,\gamma^{(x_i)}, \qquad \Omega_{x_i} = \tfrac12 e^{a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(x_i)}\gamma^{(x_4)} + H\gamma^{(x_i)}\gamma^{(x_8)}\big) .
+\gamma^{x_i} = e^{-a_4}\sin^{-1/6}z\,\gamma^{(x_i)}, \qquad \Omega_{x_i} = \tfrac12 e^{a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(x_i)}\gamma^{(x_4)} + H\gamma^{(x_i)}\gamma^{(x_0)}\big) .
 $$
 
-The scale factors cancel and $(\gamma^{(x_i)})^2 = \eta^{ii} = +1$, so $\gamma^{x_i}\Omega_{x_i} = \tfrac12(a_4'\gamma^{(x_4)} + H\gamma^{(x_8)})$.
+The scale factors cancel and $(\gamma^{(x_i)})^2 = \eta^{ii} = +1$, so $\gamma^{x_i}\Omega_{x_i} = \tfrac12(a_4'\gamma^{(x_4)} + H\gamma^{(x_0)})$.
 
 Step (b), the deflating extra times $t = x_5, x_6, x_7$:
 
 $$
-\gamma^{x_t} = e^{a_4}\sin^{-1/6}z\,\gamma^{(x_t)}, \qquad \Omega_{x_t} = -\tfrac12 e^{-a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(x_4)}\gamma^{(x_t)} + H\gamma^{(x_t)}\gamma^{(x_8)}\big) .
+\gamma^{x_t} = e^{a_4}\sin^{-1/6}z\,\gamma^{(x_t)}, \qquad \Omega_{x_t} = -\tfrac12 e^{-a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(x_4)}\gamma^{(x_t)} + H\gamma^{(x_t)}\gamma^{(x_0)}\big) .
 $$
 
-With $\gamma^{(x_t)}\gamma^{(x_4)}\gamma^{(x_t)} = -\gamma^{(x_4)}(\gamma^{(x_t)})^2 = \gamma^{(x_4)}$ and $(\gamma^{(x_t)})^2 = -1$ this gives $\gamma^{x_t}\Omega_{x_t} = -\tfrac12(a_4'\gamma^{(x_4)} - H\gamma^{(x_8)})$.
+With $\gamma^{(x_t)}\gamma^{(x_4)}\gamma^{(x_t)} = -\gamma^{(x_4)}(\gamma^{(x_t)})^2 = \gamma^{(x_4)}$ and $(\gamma^{(x_t)})^2 = -1$ this gives $\gamma^{x_t}\Omega_{x_t} = -\tfrac12(a_4'\gamma^{(x_4)} - H\gamma^{(x_0)})$.
 
-Step (c): $\Omega_{x_4} = \Omega_{x_8} = 0$. Summing (a), (b) and (c) gives statements (1) and (2). Equivalently, since $\{\gamma^\mu, \Omega_\mu\} = 0$ for each $\mu$,
+Step (c): $\Omega_{x_0} = \Omega_{x_4} = 0$. Summing (a), (b) and (c) gives statements (1) and (2). Equivalently, since $\{\gamma^\mu, \Omega_\mu\} = 0$ for each $\mu$,
 
 $$
 \gamma^\mu\Omega_\mu = \frac{1}{2\sqrt{|g|}}\,\partial_\mu\big(\sqrt{|g|}\,e_a{}^\mu\big)\gamma^{(a)} ;
 $$
 
-only $\mu = x_8$ contributes: $\sqrt{|g|}\,e_{x_8}{}^{x_8} = \cos z\tan z = \sin z$ and $\tfrac{1}{2\cos z}\partial_8\sin z = 3H$, while $\partial_4(\sqrt{|g|}\,e_{x_4}{}^{x_4}) = \partial_4\cos z = 0$.
+only $\mu = x_0$ contributes: $\sqrt{|g|}\,e_{x_0}{}^{x_0} = \cos z\tan z = \sin z$ and $\tfrac{1}{2\cos z}\partial_0\sin z = 3H$, while $\partial_4(\sqrt{|g|}\,e_{x_4}{}^{x_4}) = \partial_4\cos z = 0$.
 
 Step (d): each of the 12 nonzero $\omega_{\mu ab}$ is $a_4'$ or $H$ times $\pm e^{\pm a_4}\sin^{1/6}z \ne 0$, and the $S^{ab}$ are linearly independent; this gives statement (3), with the curvature statement from the integrability identity and the Ricci components of section 3.
 
 Step (e): statement (4) is the explicit form of section 5. Every step is verified exactly, for the author's T16 and, in the $a_4$ record, also for a second, independently built Clifford representation. $\square$
 
-**What survives and what cancels, in words.** The three inflating directions contribute $+\tfrac{a_4'}{2}\gamma^{(x_4)}$ each and the three deflating extra times $-\tfrac{a_4'}{2}\gamma^{(x_4)}$ each: the expansion-rate terms cancel exactly because 3-space inflates at the rate at which the extra times deflate (the same balance that makes $\sqrt{|g|} = \cos z$ independent of $x_4$). The warp $\sin^{1/6}z$ of the six directions along the hidden direction gives $+\tfrac{H}{2}\gamma^{(x_8)}$ for each of them and survives as $3H\gamma^{(x_8)}$.
+**What survives and what cancels, in words.** The three inflating directions contribute $+\tfrac{a_4'}{2}\gamma^{(x_4)}$ each and the three deflating extra times $-\tfrac{a_4'}{2}\gamma^{(x_4)}$ each: the expansion-rate terms cancel exactly because 3-space inflates at the rate at which the extra times deflate (the same balance that makes $\sqrt{|g|} = \cos z$ independent of $x_4$). The warp $\sin^{1/6}z$ of the six directions along the hidden direction gives $+\tfrac{H}{2}\gamma^{(x_0)}$ for each of them and survives as $3H\gamma^{(x_0)}$.
 
-**Scope of [2] (exact).** The value $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ belongs to the diagonal vielbein and to the field variables $\Phi$:
+**Scope of [2] (exact).** The value $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ belongs to the diagonal vielbein and to the field variables $\Phi$:
 
-- In another admissible vielbein of the same metric, the frame boosted in the $(x_4, x_8)$ plane, $e'^{(x_4)} = \cosh b\,e^{(x_4)} + \sinh b\,e^{(x_8)}$, $e'^{(x_8)} = \sinh b\,e^{(x_4)} + \cosh b\,e^{(x_8)}$ with rapidity $b = \beta x_4 + b_0$, its canonical connection gives $\gamma'^\mu\Omega'_\mu = \tfrac{6H - \beta}{2}(\cosh b\,\gamma^{(x_8)} - \sinh b\,\gamma^{(x_4)})$, which vanishes identically for $\beta = 6H$, for every $H > 0$ and every $a_4$.
-- Within the diagonal frame the rescaling $\Phi = \sin^{-1/2}z\,\chi$ removes the term exactly: $\gamma^\mu D_\mu\Phi = \sin^{-1/2}z\,\gamma^\mu\partial_\mu\chi$, so for $U = 0$ the equation for $\chi$ has no spin-connection term, and for $U = \tfrac{\lambda}{2}S^2$ the term becomes the $x_8$-dependent coupling $\lambda S[\chi]/\sin z$. The exact family of section 5 shows this: $\alpha = -\tfrac12$ gives $M = -m\gamma^{(x_4)}$ with no $H$ term.
+- In another admissible vielbein of the same metric, the frame boosted in the $(x_0, x_4)$ plane, $e'^{(x_4)} = \cosh b\,e^{(x_4)} + \sinh b\,e^{(x_0)}$, $e'^{(x_0)} = \sinh b\,e^{(x_4)} + \cosh b\,e^{(x_0)}$ with rapidity $b = \beta x_4 + b_0$, its canonical connection gives $\gamma'^\mu\Omega'_\mu = \tfrac{6H - \beta}{2}(\cosh b\,\gamma^{(x_0)} - \sinh b\,\gamma^{(x_4)})$, which vanishes identically for $\beta = 6H$, for every $H > 0$ and every $a_4$.
+- Within the diagonal frame the rescaling $\Phi = \sin^{-1/2}z\,\chi$ removes the term exactly: $\gamma^\mu D_\mu\Phi = \sin^{-1/2}z\,\gamma^\mu\partial_\mu\chi$, so for $U = 0$ the equation for $\chi$ has no spin-connection term, and for $U = \tfrac{\lambda}{2}S^2$ the term becomes the $x_0$-dependent coupling $\lambda S[\chi]/\sin z$. The exact family of section 5 shows this: $\alpha = -\tfrac12$ gives $M = -m\gamma^{(x_4)}$ with no $H$ term.
 - The canonical connection drops out of $\mathcal{L}$ (section 4), so the Euler-Lagrange equations are those of the connection-free symmetric Lagrangian; the deflation $a_4$ contributes nothing to $\gamma^\mu\Omega_\mu$ although $R^{x_4}{}_{x_4} = 6(a_4')^2 \neq 0$.
-- What cannot be removed in any frame is $\Omega_\mu$ itself (its curvature is the Riemann tensor, $R^{x_8}{}_{x_8} = -6H^2$), together with the frame factors $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$ of the derivative terms: this is the frame-independent content of [2]. In the diagonal frame the connection also enters the energy-momentum tensor (for a homogeneous configuration $K^{x_4}{}_{x_1}$ contains $\tfrac12 e^{a_4}\sin^{1/6}z\,H\,\bar\Phi\gamma^{(x_4)}\gamma^{(x_1)}\gamma^{(x_8)}\Phi$).
-- Interpretation (labelled): in the quantum theory of dirac16complex the term makes the hidden-direction operator antisymmetric for the measure $\cos z\,dx_8$ in the variables $\Psi$, up to a boundary term that does not vanish at $z = \pi/2$; in the variables $\chi$ with the measure $dy = \cot z\,dx_8$ no $H$ term is needed. This role therefore depends on the variables and the measure.
+- What cannot be removed in any frame is $\Omega_\mu$ itself (its curvature is the Riemann tensor, $R^{x_0}{}_{x_0} = -6H^2$), together with the frame factors $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$ of the derivative terms: this is the frame-independent content of [2]. In the diagonal frame the connection also enters the energy-momentum tensor (for a homogeneous configuration $K^{x_4}{}_{x_1}$ contains $\tfrac12 e^{a_4}\sin^{1/6}z\,H\,\bar\Phi\gamma^{(x_4)}\gamma^{(x_1)}\gamma^{(x_0)}\Phi$).
+- Interpretation (labelled): in the quantum theory of dirac16complex the term makes the hidden-direction operator antisymmetric for the measure $\cos z\,dx_0$ in the variables $\Psi$, up to a boundary term that does not vanish at $z = \pi/2$; in the variables $\chi$ with the measure $dy = \cot z\,dx_0$ no $H$ term is needed. This role therefore depends on the variables and the measure.
 
 | statement | Wolfram checks | sympy checks |
 | --- | --- | --- |
-| (1) $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$, nonzero for every $\Phi \ne 0$ | `nontriviality_2_dirac16complex00`, `gammaOmega_equals_3H_gamma_x8` (theory); `gravity_term_gamma_mu_Omega_mu` ($a_4$ record) | `gamma_mu_Omega_mu_equals_3H_gamma_x8` (theory); `ownrep_gravity_term`, `authorT16_gravity_term` ($a_4$ record) |
-| (2) the $x_4$ terms cancel, the $x_8$ terms add | `gammaOmega_x4_terms_cancel`, `gammaOmega_divergence_form` | `time_terms_cancel_hidden_term_survives`, `divergence_of_sqrtg_gamma` |
+| (1) $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$, nonzero for every $\Phi \ne 0$ | `nontriviality_2_dirac16complex00`, `gammaOmega_equals_3H_gamma_x0` (theory); `gravity_term_gamma_mu_Omega_mu` ($a_4$ record) | `gamma_mu_Omega_mu_equals_3H_gamma_x0` (theory); `ownrep_gravity_term`, `authorT16_gravity_term` ($a_4$ record) |
+| (2) the $x_4$ terms cancel, the $x_0$ terms add | `gammaOmega_x4_terms_cancel`, `gammaOmega_divergence_form` | `time_terms_cancel_hidden_term_survives`, `divergence_of_sqrtg_gamma` |
 | (3) $\Omega_\mu = 0$ only for $a_4' = 0$ and $H = 0$; never flat | `Omega_vanishes_iff_a4prime_and_H_vanish`, `never_flat_for_H_positive`, `spin_curvature_equals_Riemann` | `nontriviality_Omega_zero_iff_flat`, `curvature_nonzero_flat_only_formally`, `spinor_curvature_equals_riemann` |
 | (4) explicit operator | `Dirac_operator_explicit_C` | |
 | the same term in the quantum theory of dirac16complex (up to a boundary term) | `good_sector_hermiticity_curved`, `good_sector_hermiticity_up_to_the_brane_flux` (scope) | `good_sector_hermiticity_up_to_the_brane_flux` (scope) |
@@ -425,7 +425,7 @@ $$
 
 and $\gamma^\mu\gamma^\nu F_{\mu\nu} = -\tfrac{R}{2}$ for the spinor curvature $F_{\mu\nu} = [D_\mu, D_\nu]$.
 
-**Cauchy problem.** The equation is first order in $x_4$ with non-characteristic slices (evolution form, section 5). This does not make the Cauchy problem well posed, and it is not listed here as a self-consistency property: for data that depend on the extra times the growth rates of the modes have no upper bound (with frozen coefficients $k_5 = K$ gives the rate $\sqrt{K^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$; Hadamard ill-posedness), and in the good sector, without a boundary condition at $z = \pi/2$, the $x_8$-independent modes grow whenever $m^2 < 9H^2$ (for $U = 0$; the matrix $-im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_8)}$ has square $(m^2 - 9H^2)I_{16}$).
+**Cauchy problem.** The equation is first order in $x_4$ with non-characteristic slices (evolution form, section 5). This does not make the Cauchy problem well posed, and it is not listed here as a self-consistency property: for data that depend on the extra times the growth rates of the modes have no upper bound (with frozen coefficients $k_5 = K$ gives the rate $\sqrt{K^2 - m^2 - k_0^2 - k_1^2 - k_2^2 - k_3^2}$; Hadamard ill-posedness), and in the good sector, without a boundary condition at $z = \pi/2$, the $x_0$-independent modes grow whenever $m^2 < 9H^2$ (for $U = 0$; the matrix $-im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_0)}$ has square $(m^2 - 9H^2)I_{16}$).
 
 **Conserved current.** $J^\mu = -i\bar\Phi\gamma^\mu\Phi$ is real, and off shell
 
@@ -438,7 +438,7 @@ with $E = \gamma^\mu D_\mu\Phi - (m + U'(S))\Phi$ and $\bar E = (D_\mu\bar\Phi)\
 **Bianchi-type identity of the energy-momentum tensor.** The off-shell Noether identity of diffeomorphism invariance,
 
 $$
-\partial_\mu\big(\sqrt{|g|}\,T^\mu{}_\lambda\big) - \sqrt{|g|}\,T^\mu{}_a\,\partial_\lambda e^a{}_\mu = \sum_\phi \mathrm{EL}_\phi\,\partial_\lambda\phi \qquad (\lambda = x_1, \ldots, x_8),
+\partial_\mu\big(\sqrt{|g|}\,T^\mu{}_\lambda\big) - \sqrt{|g|}\,T^\mu{}_a\,\partial_\lambda e^a{}_\mu = \sum_\phi \mathrm{EL}_\phi\,\partial_\lambda\phi \qquad (\lambda = x_0, \ldots, x_7),
 $$
 
 and the off-shell identity of local Lorentz invariance (the antisymmetric part of $T$ is a combination of the Euler-Lagrange expressions $\mathrm{EL}_\phi$) give: on shell $T$ is symmetric and $\nabla_\mu T^\mu{}_\nu = 0$, exactly, for general solutions.
@@ -453,7 +453,7 @@ and the off-shell identity of local Lorentz invariance (the antisymmetric part o
 | Lichnerowicz identity | `Lichnerowicz_identity_C` | `lichnerowicz_identity_on_fields`, `lichnerowicz_contraction` |
 | current: reality, conservation, indefinite charge | `current_real_C`, `current_conservation_identity_C`, `charge_density_is_Krein_form_C` | `commuting_current_conservation` |
 | Noether identities and conservation of $T$ | `Noether_identity_diffeomorphisms_C`, `Noether_identity_local_Lorentz_C`, `conservation_on_shell_general` | `commuting_emt_conservation_on_shell`, `commuting_emt_conservation_negative_control` |
-| no well-posed Cauchy problem: unbounded growth, growing good-sector modes without a boundary condition | `extra_time_growth_rates_unbounded`, `good_sector_x8_independent_modes_without_boundary_condition` (scope) | the same two names (scope) |
+| no well-posed Cauchy problem: unbounded growth, growing good-sector modes without a boundary condition | `extra_time_growth_rates_unbounded`, `good_sector_x0_independent_modes_without_boundary_condition` (scope) | the same two names (scope) |
 
 ## 8. The energy-momentum tensor (classical bilinears)
 
@@ -476,7 +476,7 @@ and on shell the variation tensor is symmetric and equals it (section 7; indepen
 **Sign convention.** The energy density is $\rho = -T^{x_4}{}_{x_4}$ and the pressures are $p_\mu = T^\mu{}_\mu$ (no sum) for the space-like and the extra-time directions:
 
 $$
-\rho = -T^{x_4}{}_{x_4}, \qquad p_3 = T^{x_1}{}_{x_1}, \qquad p_t = T^{x_5}{}_{x_5}, \qquad p_8 = T^{x_8}{}_{x_8} .
+\rho = -T^{x_4}{}_{x_4}, \qquad p_3 = T^{x_1}{}_{x_1}, \qquad p_t = T^{x_5}{}_{x_5}, \qquad p_0 = T^{x_0}{}_{x_0} .
 $$
 
 **Diagonal components in the primordial field.** With the kinetic term of direction $\mu$ (no sum)
@@ -490,7 +490,7 @@ that is
 $$
 \begin{aligned}
 K_{x_i} &= \tfrac12 e^{-a_4}\sin^{-1/6}z\,\big(\bar\Phi\gamma^{(x_i)}\partial_i\Phi - \partial_i\bar\Phi\,\gamma^{(x_i)}\Phi\big), \qquad K_{x_4} = \tfrac12\big(\bar\Phi\gamma^{(x_4)}\partial_4\Phi - \partial_4\bar\Phi\,\gamma^{(x_4)}\Phi\big), \\
-K_{x_t} &= \tfrac12 e^{a_4}\sin^{-1/6}z\,\big(\bar\Phi\gamma^{(x_t)}\partial_t\Phi - \partial_t\bar\Phi\,\gamma^{(x_t)}\Phi\big), \qquad K_{x_8} = \tfrac12\tan z\,\big(\bar\Phi\gamma^{(x_8)}\partial_8\Phi - \partial_8\bar\Phi\,\gamma^{(x_8)}\Phi\big),
+K_{x_t} &= \tfrac12 e^{a_4}\sin^{-1/6}z\,\big(\bar\Phi\gamma^{(x_t)}\partial_t\Phi - \partial_t\bar\Phi\,\gamma^{(x_t)}\Phi\big), \qquad K_{x_0} = \tfrac12\tan z\,\big(\bar\Phi\gamma^{(x_0)}\partial_0\Phi - \partial_0\bar\Phi\,\gamma^{(x_0)}\Phi\big),
 \end{aligned}
 $$
 
@@ -506,20 +506,20 @@ $$
 \begin{aligned}
 \rho &= -\sum_{\mu \ne x_4} K_\mu + mS + U(S), \\
 p_3 &= \sum_{\mu \ne x_1} K_\mu - mS - U(S) \quad (= T^{x_2}{}_{x_2} = T^{x_3}{}_{x_3} \text{ for states isotropic in 3-space}), \\
-p_t &= \sum_{\mu \ne x_5} K_\mu - mS - U(S), \qquad p_8 = \sum_{\mu \ne x_8} K_\mu - mS - U(S) .
+p_t &= \sum_{\mu \ne x_5} K_\mu - mS - U(S), \qquad p_0 = \sum_{\mu \ne x_0} K_\mu - mS - U(S) .
 \end{aligned}
 $$
 
-**The $x_4$-$x_8$ component** (the off-diagonal component allowed by the symmetry of the metric; $\Omega_{x_4} = \Omega_{x_8} = 0$):
+**The $x_4$-$x_0$ component** (the off-diagonal component allowed by the symmetry of the metric; $\Omega_{x_0} = \Omega_{x_4} = 0$):
 
 $$
 \begin{aligned}
-& T^{x_4}{}_{x_8} = -\tfrac14\big(B_{48} - \cot z\,B_{84}\big), \qquad T^{x_8}{}_{x_4} = -\tan^2 z\;T^{x_4}{}_{x_8}, \\
-& B_{48} = \bar\Phi\gamma^{(x_4)}\partial_8\Phi - \partial_8\bar\Phi\,\gamma^{(x_4)}\Phi, \qquad B_{84} = \bar\Phi\gamma^{(x_8)}\partial_4\Phi - \partial_4\bar\Phi\,\gamma^{(x_8)}\Phi ;
+& T^{x_4}{}_{x_0} = -\tfrac14\big(B_{40} - \cot z\,B_{04}\big), \qquad T^{x_0}{}_{x_4} = -\tan^2 z\;T^{x_4}{}_{x_0}, \\
+& B_{40} = \bar\Phi\gamma^{(x_4)}\partial_0\Phi - \partial_0\bar\Phi\,\gamma^{(x_4)}\Phi, \qquad B_{04} = \bar\Phi\gamma^{(x_0)}\partial_4\Phi - \partial_4\bar\Phi\,\gamma^{(x_0)}\Phi ;
 \end{aligned}
 $$
 
-On homogeneous on-shell states both $T^{x_4}{}_{x_8}$ and $T^{x_8}{}_{x_4}$ vanish identically, so these states do not source the $x_4$-$x_8$ component of the $a_4$ equations; this is not claimed for the other off-diagonal components (42 of the remaining 54 are nonzero bilinears in general), whose vanishing is a separate condition on the state (section 12).
+On homogeneous on-shell states both $T^{x_4}{}_{x_0}$ and $T^{x_0}{}_{x_4}$ vanish identically, so these states do not source the $x_4$-$x_0$ component of the $a_4$ equations; this is not claimed for the other off-diagonal components (42 of the remaining 54 are nonzero bilinears in general), whose vanishing is a separate condition on the state (section 12).
 
 **Trace.** Off shell (an exact identity in both engines) $T^\mu{}_\mu = 8L_0 - \sum_\mu K_\mu = 7\sum_\mu K_\mu - 8(mS + U)$. Exactly, $\sum_\mu K_\mu = (m + U')S + \tfrac12(\bar\Phi E - \bar E\Phi)$, so on shell $\sum_\mu K_\mu = (m + U'(S))S$, $L_0 = S\,U'(S) - U(S)$ and
 
@@ -530,19 +530,19 @@ $$
 **Conservation and energy exchange.** For a diagonal tensor
 
 $$
-T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)(x_4, x_8)
+T = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)(x_0, x_4)
 $$
 
-whose entries are functions of $x_4$ and $x_8$, all eight components of the divergence are
+whose entries are functions of $x_0$ and $x_4$, all eight components of the divergence are
 
 $$
-\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t), \qquad \nabla_\mu T^\mu{}_{x_8} = \partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t),
+\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t), \qquad \nabla_\mu T^\mu{}_{x_0} = \partial_0 p_0 + 3H\cot z\,(2p_0 - p_3 - p_t),
 $$
 
-and $\nabla_\mu T^\mu{}_\nu = 0$ identically for $\nu = x_1, x_2, x_3, x_5, x_6, x_7$. Conservation is therefore exactly $\partial_4\rho = -3a_4'(p_3 - p_t)$ and $\partial_8 p_8 = -3H\cot z\,(2p_8 - p_3 - p_t)$; for a homogeneous tensor (entries functions of $x_4$ only) it gives
+and $\nabla_\mu T^\mu{}_\nu = 0$ identically for $\nu = x_1, x_2, x_3, x_5, x_6, x_7$. Conservation is therefore exactly $\partial_4\rho = -3a_4'(p_3 - p_t)$ and $\partial_0 p_0 = -3H\cot z\,(2p_0 - p_3 - p_t)$; for a homogeneous tensor (entries functions of $x_4$ only) it gives
 
 $$
-\frac{d\rho}{dx_4} = -3\,a_4'\,(p_3 - p_t), \qquad p_3 + p_t = 2p_8 :
+\frac{d\rho}{dx_4} = -3\,a_4'\,(p_3 - p_t), \qquad p_3 + p_t = 2p_0 :
 $$
 
 energy flows between 3-space and the extra times unless $p_3 = p_t$, since $\sqrt{|g|}$ does not depend on $x_4$.
@@ -552,9 +552,9 @@ energy flows between 3-space and the extra times unless $p_3 = p_t$, since $\sqr
 | variation tensor in closed form | `T_vielbein_variation_closed_form_C` | `commuting_emt_equals_general_vielbein_variation_on_shell` |
 | Belinfante tensor, symmetric | `T_symmetric_part_Belinfante_C` | `commuting_emt_symmetric` |
 | normalisation $\delta S_{\mathrm{act}} = \tfrac12\int\sqrt{\lvert g\rvert}\,T^{\mu\nu}\delta g_{\mu\nu}$, diagonal components | `T_diagonal_components_C` | `commuting_emt_equals_vielbein_variation_diagonal` |
-| $x_4$-$x_8$ component | `T_x4_x8_component_C` | `commuting_T_x4x8_homogeneous` |
+| $x_4$-$x_0$ component | `T_x4_x0_component_C` | `commuting_T_x4x0_homogeneous` |
 | trace, on-shell kinetic sum | `EMT_trace_C`, `kinetic_sum_on_shell_C` | `commuting_trace_on_shell` |
-| energy exchange and the $x_8$ condition | `energy_exchange_equation` | `energy_exchange_equation` |
+| energy exchange and the $x_0$ condition | `energy_exchange_equation` | `energy_exchange_equation` |
 
 ## 9. Kinetic energy, potential energy, energy density and pressures
 
@@ -576,17 +576,17 @@ $$
 | energy density $\rho = -T^{x_4}{}_{x_4}$ | $-\sum_{\mu \ne x_4} K_\mu$ | $mS + U(S)$ | $-\sum_{\mu \ne x_4} K_\mu + mS + U$ |
 | 3-space pressure $p_3 = T^{x_1}{}_{x_1}$ | $\sum_{\mu \ne x_1} K_\mu$ | $-(mS + U)$ | $\sum_{\mu \ne x_1} K_\mu - mS - U$ |
 | extra-time pressure $p_t = T^{x_5}{}_{x_5}$ | $\sum_{\mu \ne x_5} K_\mu$ | $-(mS + U)$ | $\sum_{\mu \ne x_5} K_\mu - mS - U$ |
-| hidden-direction pressure $p_8 = T^{x_8}{}_{x_8}$ | $\sum_{\mu \ne x_8} K_\mu$ | $-(mS + U)$ | $\sum_{\mu \ne x_8} K_\mu - mS - U$ |
+| hidden-direction pressure $p_0 = T^{x_0}{}_{x_0}$ | $\sum_{\mu \ne x_0} K_\mu$ | $-(mS + U)$ | $\sum_{\mu \ne x_0} K_\mu - mS - U$ |
 
 **Homogeneous states on shell** ($\Phi$ depending on $x_4$ only): $K_\mu = 0$ for $\mu \ne x_4$ and $K_{x_4} = (m + U'(S))S$. So the kinetic energy density vanishes, $-T_{\mathrm{kin}}{}^{x_4}{}_{x_4} = 0$, the kinetic pressure is $(m + U'(S))S$ in every direction, and
 
 $$
-\rho = m S + U(S), \qquad p_3 = p_t = p_8 = S\,U'(S) - U(S) ;
+\rho = m S + U(S), \qquad p_3 = p_t = p_0 = S\,U'(S) - U(S) ;
 $$
 
 for $U = \tfrac{\lambda}{2}S^2$: $\rho = mS + \tfrac{\lambda}{2}S^2$ and $p = \tfrac{\lambda}{2}S^2$ (formula `EMT_homogeneous_on_shell` of `Revision/theory/field-theory.json`; the exact nonlinear solution of section 5 realises these values). $S$ is constant along $x_4$ for a homogeneous solution, so $\rho$ and $p$ are constant, consistent with $d\rho/dx_4 = -3a_4'(p_3 - p_t) = 0$.
 
-**Sign of the energy (exact).** The classical energy of dirac16complex00 is unbounded below already for $U = 0$ in the good sector. In the flat frame with $m = 2$ and $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$, $E = 5$, the one-particle generator commutes with $B$ and its $E = 5$ eigenspace (dimension 8) contains vectors $u$ with $Bu = -u$ and with $Bu = +u$; the positive-frequency solutions $\Phi = c\,u\,e^{i(k\cdot x - 5x_4)}$ ($|u| = 1$) have the energy density $\rho = -T^{x_4}{}_{x_4} = -5|c|^2$ and $+5|c|^2$ and the charge density $\Phi^\dagger B\Phi = -|c|^2$ and $+|c|^2$ (`commuting_field_energy_unbounded_below`, both engines). By the Krein-inertia theorem of the pairing record (every real-frequency eigenspace has inertia (4,4), `Q_one_particle_Krein_inertia_real_frequencies`) such negative-energy modes exist at every real frequency. In the author's metric the homogeneous solutions of section 5 have $\rho = mS_0$ with $S_0 = \chi^\dagger C\chi$ of either sign. dirac16complex00 therefore has a negative-energy (ghost-like) sector at positive frequency, the classical form of the spin-statistics problem of a commuting field with a first-order Lagrangian; this matters for any reading of Hypothesis00, for example a phantom $w < -1$.
+**Sign of the energy (exact).** The classical energy of dirac16complex00 is unbounded below already for $U = 0$ in the good sector. In the flat frame with $m = 2$ and $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$, the one-particle generator commutes with $B$ and its $E = 5$ eigenspace (dimension 8) contains vectors $u$ with $Bu = -u$ and with $Bu = +u$; the positive-frequency solutions $\Phi = c\,u\,e^{i(k\cdot x - 5x_4)}$ ($|u| = 1$) have the energy density $\rho = -T^{x_4}{}_{x_4} = -5|c|^2$ and $+5|c|^2$ and the charge density $\Phi^\dagger B\Phi = -|c|^2$ and $+|c|^2$ (`commuting_field_energy_unbounded_below`, both engines). By the Krein-inertia theorem of the pairing record (every real-frequency eigenspace has inertia (4,4), `Q_one_particle_Krein_inertia_real_frequencies`) such negative-energy modes exist at every real frequency. In the author's metric the homogeneous solutions of section 5 have $\rho = mS_0$ with $S_0 = \chi^\dagger C\chi$ of either sign. dirac16complex00 therefore has a negative-energy (ghost-like) sector at positive frequency, the classical form of the spin-statistics problem of a commuting field with a first-order Lagrangian; this matters for any reading of Hypothesis00, for example a phantom $w < -1$.
 
 | statement | Wolfram checks | sympy checks |
 | --- | --- | --- |
@@ -599,24 +599,24 @@ for $U = \tfrac{\lambda}{2}S^2$: $\rho = mS + \tfrac{\lambda}{2}S^2$ and $p = \t
 From the diagonal components (SPEC section 4):
 
 $$
-w_3 = \frac{p_3}{\rho}, \qquad w_t = \frac{p_t}{\rho}, \qquad w_8 = \frac{p_8}{\rho} .
+w_3 = \frac{p_3}{\rho}, \qquad w_t = \frac{p_t}{\rho}, \qquad w_{x_0} = \frac{p_0}{\rho} .
 $$
 
 For homogeneous states on shell the three are equal,
 
 $$
-w_3 = w_t = w_8 = \frac{S\,U'(S) - U(S)}{mS + U(S)}, \qquad w = \frac{\lambda S}{2m + \lambda S} \quad (U = \tfrac{\lambda}{2}S^2)
+w_3 = w_t = w_{x_0} = \frac{S\,U'(S) - U(S)}{mS + U(S)}, \qquad w = \frac{\lambda S}{2m + \lambda S} \quad (U = \tfrac{\lambda}{2}S^2)
 $$
 
 For $\lambda = 0$ the homogeneous state has $p = 0$ and $w = 0$. Because $S$, $\rho$ and $p$ are constant for a homogeneous solution, these ratios are constant in $x_4$.
 
 | statement | source |
 | --- | --- |
-| definitions and homogeneous values of $w_3$, $w_t$, $w_8$ | formula `equation_of_state_definitions` of `Revision/theory/field-theory.json`; sympy check `commuting_homogeneous_on_shell_rho_p` |
+| definitions and homogeneous values of $w_3$, $w_t$, $w_{x_0}$ | formula `equation_of_state_definitions` of `Revision/theory/field-theory.json`; sympy check `commuting_homogeneous_on_shell_rho_p` |
 
 Not computed in this document: the equation of state that a 3-space observer infers (after integrating over the hidden direction and the extra times), its time dependence as the extra times deflate, CPL parameters, and any comparison with supernova data. These belong to the dark-sector investigation of Hypothesis00 (SPEC section 8), the separate Revision record `Revision/docs/DARK_SECTOR_HYPOTHESES`.
 
-**The verdict of the dark-sector record for dirac16complex00 (Hypothesis00; a summary, every number from its reports).** The equation of state that a 3-space observer infers is not fixed by the field equations alone: the 4-dimensional density needs an ASSUMPTION about how the observer normalises over the deflating extra times, and the two normalisations of the dirac16complex00 record (N1, the scaling of the definitions (A) and (B) of that document, and N2, its definition (C)) differ by exactly $-1$ (`observer_N2_weff_identity`). Under (B) a positive-energy gas of good-sector modes has the time-varying, dark-matter-like law from $1/3$ to 0, and a condensate is dust-like. Dark-energy-like values occur only under (C), as freezing evolution with $w \geq -1$ at every scale factor (M2, positive-energy good-sector modes without extra-time momentum, whose WKB frequencies $\omega^2 = m^2 + k^2/a^2$ stay real within the WKB model of the dark-sector record, an APPROXIMATION; in the author's metric, without a boundary condition at $z = \pi/2$, the $x_8$-independent good-sector modes grow whenever $m^2 < 9H^2$ (for $U = 0$), section 7) or as thawing evolution with $w \geq -1$ only before the turning point $a_*$ of the extra-time mode (M3: $a_* = 1.8434$, M4: $a_* = 1.2355$); past $a_*$ the mode grows, its frequency is imaginary and the bound is not established. The model M4 reproduces the Unite CPL tangent $(w_0, w_a) = (-0.861, -0.60)$ because its two free parameters were CHOSEN to solve the two tangent conditions, and its $w$ does not cross $-1$ on $a \in [1/300, 1]$ (`M4_tangent_equals_unite`, `M4_never_phantom`); a crossing of $w = -1$ occurs only with a component of negative classical energy, a ghost-like sector (`M5_crosses_minus_1`, `M5_without_ghost_no_crossing`); the Unite constant $w = -0.764$ is the constant ratio of a condensate only for the tuned value $\lambda S/m = -382/441$ (`condensate_ratio_equals_unite_constant_w`). For a condensate that is the source of the metric in Einstein gravity (the linear member, section 12) the ratio is constant and below $-1$ for $\kappa\rho > 0$, above $-1$ for $\kappa\rho < 0$ (`linear_member_einstein_phantom_ratio`, whose detail states the hypotheses $\kappa > 0$ and $\rho > 0$; the sign of $\kappa$ is not fixed by these records). The sign of $\kappa\rho$ is fixed by the constraint: on the linear member $\kappa\rho = -(3A^2 + 21)H^2 - \Lambda$ (`Revision/field_equations_a4/a4-equations.json`, keys `linearMember/rhoEinstein` and `einstein/allowedA4`), so the ratio $w = -1 + 6(1 + A^2)H^2/((3A^2 + 21)H^2 + \Lambda)$ is phantom exactly when $\Lambda < -(21 + 3A^2)H^2$, and for $\Lambda = 0$ it is $w = (A^2 - 5)/(A^2 + 7) > -1$. The expansion seen by the observer gives $w = -1$ exactly (`expansion_inferred_w_einstein`). A model with as many tuned parameters as matched numbers reproduces them by construction and is not a prediction. That record establishes neither Hypothesis nor Hypothesis00; it states what each field can and cannot produce under its stated assumptions.
+**The verdict of the dark-sector record for dirac16complex00 (Hypothesis00; a summary, every number from its reports).** The equation of state that a 3-space observer infers is not fixed by the field equations alone: the 4-dimensional density needs an ASSUMPTION about how the observer normalises over the deflating extra times, and the two normalisations of the dirac16complex00 record (N1, the scaling of the definitions (A) and (B) of that document, and N2, its definition (C)) differ by exactly $-1$ (`observer_N2_weff_identity`). Under (B) a positive-energy gas of good-sector modes has the time-varying, dark-matter-like law from $1/3$ to 0, and a condensate is dust-like. Dark-energy-like values occur only under (C), as freezing evolution with $w \geq -1$ at every scale factor (M2, positive-energy good-sector modes without extra-time momentum, whose WKB frequencies $\omega^2 = m^2 + k^2/a^2$ stay real within the WKB model of the dark-sector record, an APPROXIMATION; in the author's metric, without a boundary condition at $z = \pi/2$, the $x_0$-independent good-sector modes grow whenever $m^2 < 9H^2$ (for $U = 0$), section 7) or as thawing evolution with $w \geq -1$ only before the turning point $a_*$ of the extra-time mode (M3: $a_* = 1.8434$, M4: $a_* = 1.2355$); past $a_*$ the mode grows, its frequency is imaginary and the bound is not established. The model M4 reproduces the Unite CPL tangent $(w_0, w_a) = (-0.861, -0.60)$ because its two free parameters were CHOSEN to solve the two tangent conditions, and its $w$ does not cross $-1$ on $a \in [1/300, 1]$ (`M4_tangent_equals_unite`, `M4_never_phantom`); a crossing of $w = -1$ occurs only with a component of negative classical energy, a ghost-like sector (`M5_crosses_minus_1`, `M5_without_ghost_no_crossing`); the Unite constant $w = -0.764$ is the constant ratio of a condensate only for the tuned value $\lambda S/m = -382/441$ (`condensate_ratio_equals_unite_constant_w`). For a condensate that is the source of the metric in Einstein gravity (the linear member, section 12) the ratio is constant and below $-1$ for $\kappa\rho > 0$, above $-1$ for $\kappa\rho < 0$ (`linear_member_einstein_phantom_ratio`, whose detail states the hypotheses $\kappa > 0$ and $\rho > 0$; the sign of $\kappa$ is not fixed by these records). The sign of $\kappa\rho$ is fixed by the constraint: on the linear member $\kappa\rho = -(3A^2 + 21)H^2 - \Lambda$ (`Revision/field_equations_a4/a4-equations.json`, keys `linearMember/rhoEinstein` and `einstein/allowedA4`), so the ratio $w = -1 + 6(1 + A^2)H^2/((3A^2 + 21)H^2 + \Lambda)$ is phantom exactly when $\Lambda < -(21 + 3A^2)H^2$, and for $\Lambda = 0$ it is $w = (A^2 - 5)/(A^2 + 7) > -1$. The expansion seen by the observer gives $w = -1$ exactly (`expansion_inferred_w_einstein`). A model with as many tuned parameters as matched numbers reproduces them by construction and is not a prediction. That record establishes neither Hypothesis nor Hypothesis00; it states what each field can and cannot produce under its stated assumptions.
 
 ## 11. The field equations for a4[x4]
 
@@ -628,16 +628,16 @@ $$
 
 with $P_{(k)}{}^h{}_j$ the Lovelock tensors computed with the generalized Kronecker delta (GKD) from the Riemann tensor (MTW convention). $P_{(4)}$ vanishes in 8 dimensions (a GKD with 9 indices over 8 values), so $k = 1, 2, 3$ is the complete series. The components computed directly from the curvature equal the GKD record `Revision/gkd_lovelock/results/lovelock-tensors.json` monomial by monomial. The mixed Riemann components contain neither the warp nor $e^{a_4}$, so the left-hand sides depend on $H$, $a_4'$ and $a_4''$ only.
 
-**The Lovelock components.** All off-diagonal components vanish (including $x_4$-$x_8$); $x_2 = x_3 = x_1$ and $x_6 = x_7 = x_5$:
+**The Lovelock components.** All off-diagonal components vanish (including $x_4$-$x_0$); $x_2 = x_3 = x_1$ and $x_6 = x_7 = x_5$:
 
 $$
 \begin{aligned}
 E_{(1)}{}^{x_1}{}_{x_1} &= -3 (a_4')^2+a_4''+15 H^2, \qquad E_{(1)}{}^{x_4}{}_{x_4} = 3 (a_4')^2+21 H^2, \\
-E_{(1)}{}^{x_5}{}_{x_5} &= -3 (a_4')^2-a_4''+15 H^2, \qquad E_{(1)}{}^{x_8}{}_{x_8} = 15 H^2-3 (a_4')^2, \\
+E_{(1)}{}^{x_5}{}_{x_5} &= -3 (a_4')^2-a_4''+15 H^2, \qquad E_{(1)}{}^{x_0}{}_{x_0} = 15 H^2-3 (a_4')^2, \\
 E_{(2)}{}^{x_1}{}_{x_1} &= 12 (a_4')^4-24 (a_4')^2 a_4''+168 (a_4')^2 H^2-40 a_4'' H^2-180 H^4, \\
 E_{(2)}{}^{x_4}{}_{x_4} &= -36 (a_4')^4-120 (a_4')^2 H^2-420 H^4, \\
 E_{(2)}{}^{x_5}{}_{x_5} &= 12 (a_4')^4+24 (a_4')^2 a_4''+168 (a_4')^2 H^2+40 a_4'' H^2-180 H^4, \\
-E_{(2)}{}^{x_8}{}_{x_8} &= 12 (a_4')^4+168 (a_4')^2 H^2-180 H^4,
+E_{(2)}{}^{x_0}{}_{x_0} &= 12 (a_4')^4+168 (a_4')^2 H^2-180 H^4,
 \end{aligned}
 $$
 
@@ -648,19 +648,19 @@ E_{(3)}{}^{x_1}{}_{x_1} &= -72 (a_4')^6+360 (a_4')^4 a_4''-648 (a_4')^4 H^2+432 
 E_{(3)}{}^{x_4}{}_{x_4} &= 360 (a_4')^6+648 (a_4')^4 H^2+1080 (a_4')^2 H^4+2520 H^6, \\
 E_{(3)}{}^{x_5}{}_{x_5} &= -72 (a_4')^6-360 (a_4')^4 a_4''-648 (a_4')^4 H^2-432 (a_4')^2 a_4'' H^2 \\
 &\quad -1944 (a_4')^2 H^4-360 a_4'' H^4+360 H^6, \\
-E_{(3)}{}^{x_8}{}_{x_8} &= -72 (a_4')^6-648 (a_4')^4 H^2-1944 (a_4')^2 H^4+360 H^6 .
+E_{(3)}{}^{x_0}{}_{x_0} &= -72 (a_4')^6-648 (a_4')^4 H^2-1944 (a_4')^2 H^4+360 H^6 .
 \end{aligned}
 $$
 
 Each $E_{(k)}$ is divergence-free, and $\sum_h P_{(k)}{}^h{}_h = (8 - 2k)L_{(k)}$.
 
-**The independent equations for a general source** $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ plus $q_{48} = T^{x_4}{}_{x_8}$ and $q_{84} = T^{x_8}{}_{x_4}$:
+**The independent equations for a general source** $T = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)$ plus $q_{40} = T^{x_4}{}_{x_0}$ and $q_{04} = T^{x_0}{}_{x_4}$:
 
 - constraint ($x_4$, first order in $a_4$): $\sum_k\alpha_k E_{(k)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\rho$;
 - 3-space ($x_1 = x_2 = x_3$): $\sum_k\alpha_k E_{(k)}{}^{x_1}{}_{x_1} + \Lambda = \kappa p_3$;
 - extra times ($x_5 = x_6 = x_7$): $\sum_k\alpha_k E_{(k)}{}^{x_5}{}_{x_5} + \Lambda = \kappa p_t$;
-- hidden direction ($x_8$, first order in $a_4$): $\sum_k\alpha_k E_{(k)}{}^{x_8}{}_{x_8} + \Lambda = \kappa p_8$;
-- off-diagonal: $0 = \kappa q_{48} = \kappa q_{84}$, and $0 = \kappa T^\mu{}_\nu$ for every other $\mu \ne \nu$.
+- hidden direction ($x_0$, first order in $a_4$): $\sum_k\alpha_k E_{(k)}{}^{x_0}{}_{x_0} + \Lambda = \kappa p_0$;
+- off-diagonal: $0 = \kappa q_{40} = \kappa q_{04}$, and $0 = \kappa T^\mu{}_\nu$ for every other $\mu \ne \nu$.
 
 **The evolution equation** (3-space minus extra time) contains $a_4''$ and is sourced by $p_3 - p_t$:
 
@@ -672,10 +672,10 @@ $F$ vanishes identically only for $\alpha_1 = \alpha_2 = \alpha_3 = 0$.
 
 **Consistency conditions.**
 
-- Algebraic: $\sum_k\alpha_k(E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_8}{}_{x_8}) = 0$ identically, so the equations force $p_3+p_t = 2 p_8$.
-- $x_8$-dependence: the left-hand sides are free of $x_8$ (and of $a_4$ itself), so every component of the source must be a function of $x_4$ alone and $q_{48} = q_{84} = 0$; an $x_8$-dependent source is not compatible with the metric of section 1.
+- Algebraic: $\sum_k\alpha_k(E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_0}{}_{x_0}) = 0$ identically, so the equations force $p_3+p_t = 2 p_0$.
+- $x_0$-dependence: the left-hand sides are free of $x_0$ (and of $a_4$ itself), so every component of the source must be a function of $x_4$ alone and $q_{40} = q_{04} = 0$; an $x_0$-dependent source is not compatible with the metric of section 1.
 - Isotropy: since the left-hand sides of $x_1, x_2, x_3$ coincide (and those of $x_5, x_6, x_7$), the source must have $T^{x_1}{}_{x_1} = T^{x_2}{}_{x_2} = T^{x_3}{}_{x_3}$ and $T^{x_5}{}_{x_5} = T^{x_6}{}_{x_6} = T^{x_7}{}_{x_7}$.
-- Conservation: $\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t) + \partial_8 q_{84} - 6H\tan z\,q_{84}$ and $\nabla_\mu T^\mu{}_{x_8} = \partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t) + \partial_4 q_{48}$; with an $x_8$-independent source and $q_{48} = q_{84} = 0$ they reduce to $\rho' = -3a_4'(p_3 - p_t)$ and $p_3 + p_t = 2p_8$, both implied by the field equations (Bianchi identity).
+- Conservation: $\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t) + \partial_0 q_{04} - 6H\tan z\,q_{04}$ and $\nabla_\mu T^\mu{}_{x_0} = \partial_0 p_0 + 3H\cot z\,(2p_0 - p_3 - p_t) + \partial_4 q_{40}$; with an $x_0$-independent source and $q_{40} = q_{04} = 0$ they reduce to $\rho' = -3a_4'(p_3 - p_t)$ and $p_3 + p_t = 2p_0$, both implied by the field equations (Bianchi identity).
 - Constraint propagation: $\tfrac{d}{dx_4}\sum_k\alpha_k E_{(k)}{}^{x_4}{}_{x_4} = 3a_4'\sum_k\alpha_k(E^{x_1}{}_{x_1} - E^{x_5}{}_{x_5})$ identically, so the derivative of the constraint is $3a_4'$ times the evolution equation once $\rho' = -3a_4'(p_3 - p_t)$ holds; for $a_4' \ne 0$ the evolution equation follows from the constraint and conservation.
 
 **Einstein gravity** ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$):
@@ -683,14 +683,14 @@ $F$ vanishes identically only for $\alpha_1 = \alpha_2 = \alpha_3 = 0$.
 $$
 \begin{aligned}
 & 3 (a_4')^2+21 H^2+\Lambda = -\kappa  \rho, \qquad -3 (a_4')^2+a_4''+15 H^2+\Lambda = \kappa  p_3, \\
-& -3 (a_4')^2-a_4''+15 H^2+\Lambda = \kappa  p_t, \qquad -3 (a_4')^2+15 H^2+\Lambda = \kappa  p_8, \\
-& 2 a_4'' = \kappa  (p_3-p_t), \qquad \kappa  (p_8+\rho ) = -6 (a_4')^2-6 H^2 .
+& -3 (a_4')^2-a_4''+15 H^2+\Lambda = \kappa  p_t, \qquad -3 (a_4')^2+15 H^2+\Lambda = \kappa  p_0, \\
+& 2 a_4'' = \kappa  (p_3-p_t), \qquad \kappa  (p_0+\rho ) = -6 (a_4')^2-6 H^2 .
 \end{aligned}
 $$
 
-Every $C^2$ function $a_4$ is allowed with the source it requires; that source always has $\kappa(\rho + p_8) = -6((a_4')^2 + H^2) < 0$ (for $\kappa > 0$ it violates the null energy condition along $x_4 + x_8$), and $T = 0$ has no solution for $H > 0$ and any $\Lambda$.
+Every $C^2$ function $a_4$ is allowed with the source it requires; that source always has $\kappa(\rho + p_0) = -6((a_4')^2 + H^2) < 0$ (for $\kappa > 0$ it violates the null energy condition along $x_4 + x_0$), and $T = 0$ has no solution for $H > 0$ and any $\Lambda$.
 
-**The linear member $a_4 = A H x_4 + a_0$** ($a_4' = AH$, $a_4'' = 0$; 3-space scale factor $e^{AHx_4}$, extra-time scale factor $e^{-AHx_4}$: exponential deflation of the extra times for $A > 0$). For any $\alpha_k$ the field equations require $p_3 = p_t = p_8 = p$ and $\rho$, all constant, with
+**The linear member $a_4 = A H x_4 + a_0$** ($a_4' = AH$, $a_4'' = 0$; 3-space scale factor $e^{AHx_4}$, extra-time scale factor $e^{-AHx_4}$: exponential deflation of the extra times for $A > 0$). For any $\alpha_k$ the field equations require $p_3 = p_t = p_0 = p$ and $\rho$, all constant, with
 
 $$
 \begin{aligned}
@@ -716,9 +716,9 @@ which in Einstein gravity ($\mathcal{V} = 1$) is impossible. The equations conta
 | divergence-free $E_{(k)}$ | `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free` | `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free` |
 | independent components, structure | `independent_components` | `other_components_vanish`, `json_lovelock_components`, `json_general_source_equations` |
 | evolution equation and $F$ | `evolution_factorises_a4pp_times_F`, `evolution_F_not_identically_zero` | `evolution_factorises`, `evolution_F_not_identically_zero` |
-| algebraic condition, first-order constraint and $x_8$ equation | `algebraic_identity_x1_plus_x5_minus_2x8`, `x8_component_contains_no_a4pp` | `algebraic_identity`, `constraint_and_x8_first_order` |
+| algebraic condition, first-order constraint and $x_0$ equation | `algebraic_identity_x1_plus_x5_minus_2x0`, `x0_component_contains_no_a4pp` | `algebraic_identity`, `constraint_and_x0_first_order` |
 | conservation, constraint propagation | `conservation_components`, `constraint_propagation_bianchi` | `conservation_components`, `bianchi_x4` |
-| Einstein case | `einstein_components`, `einstein_null_energy_x8`, `einstein_no_vacuum_solution` | `einstein_components`, `einstein_null_energy_x8`, `einstein_no_vacuum`, `json_einstein` |
+| Einstein case | `einstein_components`, `einstein_null_energy_x0`, `einstein_no_vacuum_solution` | `einstein_components`, `einstein_null_energy_x0`, `einstein_no_vacuum`, `json_einstein` |
 | linear member | `linear_member_equal_pressures`, `linear_member_vacuum_factor` | `linear_member_equal_pressures`, `linear_member_vacuum_factor`, `json_linear_member` |
 
 ## 12. dirac16complex00 as the source of the a4 equations
@@ -726,42 +726,42 @@ which in Einstein gravity ($\mathcal{V} = 1$) is impossible. The equations conta
 **The tensor.** The source is the classical bilinear tensor of section 8. The $a_4$ record writes it as $T^\mu{}_\nu = \sigma_T\big(-K^{(\mu}{}_{\nu)} + \delta^\mu_\nu\,L_0\big)$ with $K^\mu{}_\nu = \tfrac12(\bar\Phi\gamma^\mu D_\nu\Phi - D_\nu\bar\Phi\,\gamma^\mu\Phi)$ symmetrised, and $\sigma_T = +1$; this is the Belinfante tensor of section 8 (whose symmetrised kinetic term is the same expression), so the two records use the same tensor and the same sign. With $k_\mu = K^\mu{}_\mu$ (no sum; equal to $K_\mu$ of section 8) and $L_0 = \sum_\mu k_\mu - mS - U(S)$:
 
 $$
-\rho = k_4 - L_0, \qquad p_3 = L_0 - k_1, \qquad p_t = L_0 - k_5, \qquad p_8 = L_0 - k_8, \qquad q_{48} = -K^{(x_4}{}_{x_8)} .
+\rho = k_4 - L_0, \qquad p_3 = L_0 - k_1, \qquad p_t = L_0 - k_5, \qquad p_0 = L_0 - k_0, \qquad q_{40} = -K^{(x_4}{}_{x_0)} .
 $$
 
 **The equations with dirac16complex00 as the source** (classical commuting $\Phi$; $k_\mu$, $S$ and $U$ classical bilinears):
 
 $$
 \begin{aligned}
-&\textstyle\sum_k\alpha_k E_{(k)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\,(k_4 - L_0), \qquad \sum_k\alpha_k E_{(k)}{}^{x_8}{}_{x_8} + \Lambda = \kappa\,(L_0 - k_8), \\
-&a_4''\,F(a_4') = \kappa\,(k_5 - k_1), \qquad 2k_8 = k_1 + k_5, \qquad K^{(\mu}{}_{\nu)} = 0 \;\; (\mu \ne \nu),
+&\textstyle\sum_k\alpha_k E_{(k)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\,(k_4 - L_0), \qquad \sum_k\alpha_k E_{(k)}{}^{x_0}{}_{x_0} + \Lambda = \kappa\,(L_0 - k_0), \\
+&a_4''\,F(a_4') = \kappa\,(k_5 - k_1), \qquad 2k_0 = k_1 + k_5, \qquad K^{(\mu}{}_{\nu)} = 0 \;\; (\mu \ne \nu),
 \end{aligned}
 $$
 
-together with $k_1 = k_2 = k_3$, $k_5 = k_6 = k_7$ and the requirement that every component be independent of $x_8$. On shell $L_0 = S\,U'(S) - U(S)$. The evolution equation shows what drives $a_4''$: a difference between the kinetic terms along 3-space and along the extra times. This record contains no exact non-homogeneous dirac16complex00 configuration that satisfies all of these conditions with $k_1 \ne k_5$; whether one exists is open.
+together with $k_1 = k_2 = k_3$, $k_5 = k_6 = k_7$ and the requirement that every component be independent of $x_0$. On shell $L_0 = S\,U'(S) - U(S)$. The evolution equation shows what drives $a_4''$: a difference between the kinetic terms along 3-space and along the extra times. This record contains no exact non-homogeneous dirac16complex00 configuration that satisfies all of these conditions with $k_1 \ne k_5$; whether one exists is open.
 
-**The homogeneous condensate.** For $\Phi = \Phi(x_4)$ on shell the field equation is $\partial_4\Phi = A_\Phi\Phi$ with $A_\Phi = -\gamma^{(x_4)}\big(M - 3H\gamma^{(x_8)}\big)$ and $M = m + U'(S)$, free of $x_8$. Proved exactly (Wolfram, and in the sympy record both for an independently built Clifford representation and for the author's T16):
+**The homogeneous condensate.** For $\Phi = \Phi(x_4)$ on shell the field equation is $\partial_4\Phi = A_\Phi\Phi$ with $A_\Phi = -\gamma^{(x_4)}\big(M - 3H\gamma^{(x_0)}\big)$ and $M = m + U'(S)$, free of $x_0$. Proved exactly (Wolfram, and in the sympy record both for an independently built Clifford representation and for the author's T16):
 
 - $CA_\Phi + A_\Phi^TC = 0$, so $S = \bar\Phi\Phi$ is constant along $x_4$;
-- the diagonal kinetic components are $K^{x_4}{}_{x_4} = MS$ and $0$ for every other direction, and $K^{x_4}{}_{x_8} = K^{x_8}{}_{x_4} = 0$; hence $\rho = mS + U(S)$, $p_3 = p_t = p_8 = S\,U'(S) - U(S)$ and $q_{48} = q_{84} = 0$, and the algebraic condition and the $x_8$-independence hold;
-- the nonzero off-diagonal kinetic components are exactly multiples of the 15 three-gamma bilinears $B_{abc} = \bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$ with $\{a,b,c\} = \{i, x_4, x_8\}$ ($i = x_1..x_3, x_5..x_7$) and $\{i, j, x_4\}$ ($i = x_1..x_3$, $j = x_5..x_7$); there are 42 nonzero ordered pairs $(\mu, \nu)$.
+- the diagonal kinetic components are $K^{x_4}{}_{x_4} = MS$ and $0$ for every other direction, and $K^{x_4}{}_{x_0} = K^{x_0}{}_{x_4} = 0$; hence $\rho = mS + U(S)$, $p_3 = p_t = p_0 = S\,U'(S) - U(S)$ and $q_{40} = q_{04} = 0$, and the algebraic condition and the $x_0$-independence hold;
+- the nonzero off-diagonal kinetic components are exactly multiples of the 15 three-gamma bilinears $B_{abc} = \bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$ with $\{a,b,c\} = \{i, x_4, x_0\}$ ($i = x_1..x_3, x_5..x_7$) and $\{i, j, x_4\}$ ($i = x_1..x_3$, $j = x_5..x_7$); there are 42 nonzero ordered pairs $(\mu, \nu)$.
 
 The 42 components fall into ten groups; within each group the coefficient is the same for every 3-space index $x_i$ ($i = 1, 2, 3$) and extra-time index $x_t$ ($t = 5, 6, 7$), and on the patch $\sqrt[12]{\cot^2 z+1} = \sin^{-1/6}z$ (the gammas in this table are the frame gammas; generated from `Revision/field_equations_a4/a4-equations.json`):
 
 | component | bilinear | coefficient |
 | --- | --- | --- |
-| $K^{x_i}{}_{x_4}$ | $\bar\Phi \gamma^{x_i} \gamma^{x_4} \gamma^{x_8} \Phi$ | $\frac{7}{4} e^{-a_4} \sqrt[12]{\cot^2 z+1}\, H$ |
+| $K^{x_0}{}_{x_i}$ | $\bar\Phi \gamma^{x_0} \gamma^{x_i} \gamma^{x_4} \Phi$ | $\frac{e^{a_4} (a_4')}{4 \cot z \sqrt[12]{\cot^2 z+1}}$ |
+| $K^{x_0}{}_{x_t}$ | $\bar\Phi \gamma^{x_0} \gamma^{x_4} \gamma^{x_t} \Phi$ | $-\frac{e^{-a_4} (a_4')}{4 \cot z \sqrt[12]{\cot^2 z+1}}$ |
+| $K^{x_i}{}_{x_0}$ | $\bar\Phi \gamma^{x_0} \gamma^{x_i} \gamma^{x_4} \Phi$ | $\frac{1}{4} e^{-a_4} (a_4') \cot z \sqrt[12]{\cot^2 z+1}$ |
+| $K^{x_i}{}_{x_4}$ | $\bar\Phi \gamma^{x_0} \gamma^{x_i} \gamma^{x_4} \Phi$ | $\frac{7}{4} e^{-a_4} \sqrt[12]{\cot^2 z+1}\, H$ |
 | $K^{x_i}{}_{x_t}$ | $\bar\Phi \gamma^{x_i} \gamma^{x_4} \gamma^{x_t} \Phi$ | $-\frac{1}{2} e^{-2 a_4} (a_4')$ |
-| $K^{x_i}{}_{x_8}$ | $\bar\Phi \gamma^{x_i} \gamma^{x_4} \gamma^{x_8} \Phi$ | $\frac{1}{4} e^{-a_4} (a_4') \cot z \sqrt[12]{\cot^2 z+1}$ |
-| $K^{x_4}{}_{x_i}$ | $\bar\Phi \gamma^{x_i} \gamma^{x_4} \gamma^{x_8} \Phi$ | $-\frac{7 e^{a_4} H}{4 \sqrt[12]{\cot^2 z+1}}$ |
-| $K^{x_4}{}_{x_t}$ | $\bar\Phi \gamma^{x_4} \gamma^{x_t} \gamma^{x_8} \Phi$ | $-\frac{7 e^{-a_4} H}{4 \sqrt[12]{\cot^2 z+1}}$ |
+| $K^{x_4}{}_{x_i}$ | $\bar\Phi \gamma^{x_0} \gamma^{x_i} \gamma^{x_4} \Phi$ | $-\frac{7 e^{a_4} H}{4 \sqrt[12]{\cot^2 z+1}}$ |
+| $K^{x_4}{}_{x_t}$ | $\bar\Phi \gamma^{x_0} \gamma^{x_4} \gamma^{x_t} \Phi$ | $-\frac{7 e^{-a_4} H}{4 \sqrt[12]{\cot^2 z+1}}$ |
+| $K^{x_t}{}_{x_0}$ | $\bar\Phi \gamma^{x_0} \gamma^{x_4} \gamma^{x_t} \Phi$ | $\frac{1}{4} e^{a_4} (a_4') \cot z \sqrt[12]{\cot^2 z+1}$ |
 | $K^{x_t}{}_{x_i}$ | $\bar\Phi \gamma^{x_i} \gamma^{x_4} \gamma^{x_t} \Phi$ | $\frac{1}{2} e^{2 a_4} (a_4')$ |
-| $K^{x_t}{}_{x_4}$ | $\bar\Phi \gamma^{x_4} \gamma^{x_t} \gamma^{x_8} \Phi$ | $-\frac{7}{4} e^{a_4} \sqrt[12]{\cot^2 z+1}\, H$ |
-| $K^{x_t}{}_{x_8}$ | $\bar\Phi \gamma^{x_4} \gamma^{x_t} \gamma^{x_8} \Phi$ | $\frac{1}{4} e^{a_4} (a_4') \cot z \sqrt[12]{\cot^2 z+1}$ |
-| $K^{x_8}{}_{x_i}$ | $\bar\Phi \gamma^{x_i} \gamma^{x_4} \gamma^{x_8} \Phi$ | $\frac{e^{a_4} (a_4')}{4 \cot z \sqrt[12]{\cot^2 z+1}}$ |
-| $K^{x_8}{}_{x_t}$ | $\bar\Phi \gamma^{x_4} \gamma^{x_t} \gamma^{x_8} \Phi$ | $-\frac{e^{-a_4} (a_4')}{4 \cot z \sqrt[12]{\cot^2 z+1}}$ |
+| $K^{x_t}{}_{x_4}$ | $\bar\Phi \gamma^{x_0} \gamma^{x_4} \gamma^{x_t} \Phi$ | $-\frac{7}{4} e^{a_4} \sqrt[12]{\cot^2 z+1}\, H$ |
 
-The off-diagonal field equations $0 = \kappa T^\mu{}_\nu$ therefore require $B_{i\,x_4 x_8} = 0$ for the six $i$ (coefficients proportional to $H$ and to $a_4'$) and, when $a_4' \ne 0$, $B_{i j x_4} = 0$ for the nine pairs $i, j$.
+The off-diagonal field equations $0 = \kappa T^\mu{}_\nu$ therefore require $B_{i\,x_4 x_0} = 0$ for the six $i$ (coefficients proportional to $H$ and to $a_4'$) and, when $a_4' \ne 0$, $B_{i j x_4} = 0$ for the nine pairs $i, j$.
 
 **Exact witnesses** that these conditions can be met with $S \ne 0$: $\Phi = e^{-i\omega x_4}\Phi_0$ with $\omega = \sqrt{M^2 - 9H^2}$ ($M^2 > 9H^2$), and $\Phi_0 = v_1 + c\,v_2$ built from the two eigenvectors of $A_\Phi$ in the sectors $\gamma^{(x_1)}\gamma^{(x_5)} = \gamma^{(x_2)}\gamma^{(x_6)} = \gamma^{(x_3)}\gamma^{(x_7)} = -1$ and $+1$, $c = \overline{v_1^\dagger C v_2}$. At $(M, H) = (5, 1)$, $(5, 4/3)$ and $(-5, 1)$ (exact Gaussian-rational arithmetic) the frequencies are $\omega = 4, 3, 4$, all 15 three-gamma bilinears and every off-diagonal kinetic component vanish for every $a_4$ and $a_4'$, and $S = 51200$, $28800$, $51200$ respectively. These values are computed in the author's matrices T16; $S$ scales with the arbitrary normalisation of the exact null vectors $v_1, v_2$ (in the comparison basis of the record, Cl(1,1)$^{\otimes 4}$, the same witnesses give $204800$, $115200$, $204800$), whereas $\omega$, $S \ne 0$ and the vanishing of the bilinears do not depend on that normalisation.
 
@@ -773,10 +773,10 @@ $$
 
 with real $A$: only the linear member is allowed (`theoremLinear` of `Revision/field_equations_a4/a4-equations.json`, resting on the checks listed below). The equations contain $A$ only through $A^2$ (invariant under $A \to -A$): the extra times deflate for $A > 0$, which is a choice of sign and is not selected by the equations; $A < 0$ is allowed on the same footing, and $A = 0$ is the static case.
 
-**The source it requires.** With $a_4' = AH$ the remaining equations are the constraint and the $x_8$ equation, at $a_4' = AH$:
+**The source it requires.** With $a_4' = AH$ the remaining equations are the constraint and the $x_0$ equation, at $a_4' = AH$:
 
 $$
-\kappa\,\big(mS + U\big) = -\Big(\Lambda + \sum_k\alpha_k E_{(k)}{}^{x_4}{}_{x_4}\Big), \qquad \kappa\,\big(S\,U' - U\big) = \Lambda + \sum_k\alpha_k E_{(k)}{}^{x_8}{}_{x_8} ,
+\kappa\,\big(mS + U\big) = -\Big(\Lambda + \sum_k\alpha_k E_{(k)}{}^{x_4}{}_{x_4}\Big), \qquad \kappa\,\big(S\,U' - U\big) = \Lambda + \sum_k\alpha_k E_{(k)}{}^{x_0}{}_{x_0} ,
 $$
 
 that is, $\rho = mS + U$ and $p = SU' - U$ must equal the linear-member values of section 11. In Einstein gravity
@@ -796,7 +796,7 @@ so $A^2 = -\kappa S(m + \lambda S)/(6H^2) - 1$, and a real $A$ needs $\kappa S(m
 | statement | Wolfram checks ($a_4$ record) | sympy checks ($a_4$ record) |
 | --- | --- | --- |
 | the Clifford facts used, in the author's T16 (with the Cl(1,1)$^{\otimes 4}$ basis as an exactly equivalent comparison) | `clifford_relations_author_T16`, `C_properties_author_T16`, `gamma_mu_anticommutes_with_Omega_mu_no_sum`, `representations_equivalent_author_T16_own_rep` | `ownrep_clifford`, `ownrep_C_properties`, `ownrep_anticommutator_no_sum`, `authorT16_clifford`, `authorT16_C_properties`, `authorT16_anticommutator_no_sum` |
-| condensate equation free of $x_8$; $S$ constant; adjoint | `condensate_equation_x8_consistent`, `condensate_S_constant`, `condensate_adjoint_equation` | `ownrep_condensate_S_constant`, `ownrep_condensate_adjoint`, `authorT16_condensate_S_constant`, `authorT16_condensate_adjoint` |
+| condensate equation free of $x_0$; $S$ constant; adjoint | `condensate_equation_x0_consistent`, `condensate_S_constant`, `condensate_adjoint_equation` | `ownrep_condensate_S_constant`, `ownrep_condensate_adjoint`, `authorT16_condensate_S_constant`, `authorT16_condensate_adjoint` |
 | diagonal kinetic tensor of the condensate | `condensate_kinetic_tensor_diagonal` | `ownrep_condensate_kinetic_diagonal`, `authorT16_condensate_kinetic_diagonal` |
 | off-diagonal components: the 15 three-gamma bilinears, coefficients | `condensate_offdiagonal_are_three_gamma_bilinears` | `ownrep_condensate_offdiagonal_three_gamma`, `authorT16_condensate_offdiagonal_three_gamma`, `json_offdiagonal_coefficients`, `offdiagonal_coefficients_representation_independent` |
 | exact witnesses | `condensate_diagonal_witness_exact` | `ownrep_condensate_witness`, `authorT16_condensate_witness` |
@@ -815,7 +815,7 @@ $$
 
 (for a general $U$: $\mathcal{L}_{m,U}[\Gamma\Phi] = -\mathcal{L}_{-m,-U}[\Phi]$), and $\Phi$ solves the $(m, \lambda)$ equations if and only if $\Gamma\Phi$ solves the $(-m, -\lambda)$ ones. The pair's total energy-momentum density, current and charge vanish as classical c-number bilinears.
 
-**T2 (mirror pairing).** With the isometry $\phi: x_8 \to \pi/(6H) - x_8$ ($z \to \pi - z$, the $Z_2$ mirror across $z = \pi/2$, an ASSUMED construction at a degenerate surface of the metric) and $\Phi'(\phi(x)) = \gamma^{(x_8)}\Phi(x)$:
+**T2 (mirror pairing).** With the isometry $\phi: x_0 \to \pi/(6H) - x_0$ ($z \to \pi - z$, the $Z_2$ mirror across $z = \pi/2$, an ASSUMED construction at a degenerate surface of the metric) and $\Phi'(\phi(x)) = \gamma^{(x_0)}\Phi(x)$:
 
 $$
 \mathcal{L}_{m,\lambda}[\Phi'](\phi(x)) = \mathcal{L}_{-m,\lambda}[\Phi](x), \qquad S' = -S ,
@@ -846,30 +846,30 @@ Every check below has the verdict PASS in the named report (the publication test
 | `Revision/algebra/reports/python-algebra.json` | `reflections_exchange_halves`, `fixture_comparison_gammas_json` |
 | `Revision/theory/reports/wolfram-field-theory.json` | `metric_is_the_authors`, `vielbein_inverse`, `sqrt_det_g_is_cos_z`, `degenerate_at_H_0`, `christoffel_count`, `ricci_scalar` |
 | `Revision/theory/reports/wolfram-field-theory.json` | `ricci_mixed_components`, `never_flat_for_H_positive`, `vielbein_postulate`, `omega_antisymmetric`, `omega_components`, `Omega_components` |
-| `Revision/theory/reports/wolfram-field-theory.json` | `gamma_covariantly_constant`, `spin_curvature_equals_Riemann`, `gammaOmega_equals_3H_gamma_x8`, `gammaOmega_x4_terms_cancel`, `gammaOmega_divergence_form`, `L_real_C` |
+| `Revision/theory/reports/wolfram-field-theory.json` | `gamma_covariantly_constant`, `spin_curvature_equals_Riemann`, `gammaOmega_equals_3H_gamma_x0`, `gammaOmega_x4_terms_cancel`, `gammaOmega_divergence_form`, `L_real_C` |
 | `Revision/theory/reports/wolfram-field-theory.json` | `L_total_divergence_to_unsymmetrised_C`, `L_spin_connection_drops_out_C`, `EL_Psibar_C`, `EL_Psi_C`, `adjoint_equation_is_Dirac_conjugate_C`, `Dirac_operator_explicit_C` |
 | `Revision/theory/reports/wolfram-field-theory.json` | `block_form`, `evolution_form_C`, `nontriviality_2_dirac16complex00`, `Omega_vanishes_iff_a4prime_and_H_vanish`, `current_real_C`, `current_conservation_identity_C` |
 | `Revision/theory/reports/wolfram-field-theory.json` | `charge_density_is_Krein_form_C`, `Lichnerowicz_identity_C`, `Majorana_Lg_total_derivative_grassmann`, `Majorana_Lg_commuting_control`, `T_vielbein_variation_closed_form_C`, `T_symmetric_part_Belinfante_C` |
 | `Revision/theory/reports/wolfram-field-theory.json` | `Noether_identity_diffeomorphisms_C`, `Noether_identity_local_Lorentz_C`, `conservation_on_shell_general`, `T_diagonal_components_C`, `EMT_trace_C`, `kinetic_sum_on_shell_C` |
-| `Revision/theory/reports/wolfram-field-theory.json` | `T_x4_x8_component_C`, `energy_exchange_equation`, `solution_matrix_square`, `exact_solution_x4_x8_C`, `exact_solution_nonlinear_homogeneous_C`, `good_sector_hermiticity_curved` |
+| `Revision/theory/reports/wolfram-field-theory.json` | `T_x4_x0_component_C`, `energy_exchange_equation`, `solution_matrix_square`, `exact_solution_x4_x0_C`, `exact_solution_nonlinear_homogeneous_C`, `good_sector_hermiticity_curved` |
 | `Revision/theory/reports/python-field-theory.json` | `gammas_json_equals_python_construction`, `metric_from_vielbein_equals_SPEC`, `sqrt_det_g_equals_cos_z`, `christoffel_symmetric_metric_compatible`, `spin_connection_antisymmetric`, `vielbein_postulate` |
-| `Revision/theory/reports/python-field-theory.json` | `Omega_x4_and_Omega_x8_vanish`, `covariant_constancy_D_mu_gamma_nu`, `gamma_mu_Omega_mu_equals_3H_gamma_x8`, `time_terms_cancel_hidden_term_survives`, `anticommutator_gamma_Omega_vanishes`, `divergence_of_sqrtg_gamma` |
+| `Revision/theory/reports/python-field-theory.json` | `Omega_x0_and_Omega_x4_vanish`, `covariant_constancy_D_mu_gamma_nu`, `gamma_mu_Omega_mu_equals_3H_gamma_x0`, `time_terms_cancel_hidden_term_survives`, `anticommutator_gamma_Omega_vanishes`, `divergence_of_sqrtg_gamma` |
 | `Revision/theory/reports/python-field-theory.json` | `nontriviality_Omega_zero_iff_flat`, `curvature_nonzero_flat_only_formally`, `spinor_curvature_equals_riemann`, `lichnerowicz_contraction`, `lichnerowicz_identity_on_fields`, `commuting_lagrangian_real` |
 | `Revision/theory/reports/python-field-theory.json` | `commuting_controls_not_vacuous`, `commuting_total_divergence_relation`, `commuting_euler_lagrange_psibar_variation`, `commuting_euler_lagrange_psi_variation`, `commuting_adjoint_equation_is_conjugate`, `commuting_current_conservation` |
-| `Revision/theory/reports/python-field-theory.json` | `commuting_emt_symmetric`, `commuting_emt_conservation_on_shell`, `commuting_emt_conservation_negative_control`, `commuting_trace_on_shell`, `commuting_homogeneous_on_shell_rho_p`, `commuting_T_x4x8_homogeneous` |
-| `Revision/theory/reports/python-field-theory.json` | `commuting_emt_equals_general_vielbein_variation_on_shell`, `commuting_emt_equals_vielbein_variation_diagonal`, `negative_control_majorana_grassmann_total_derivative`, `negative_control_majorana_commuting_contrast`, `energy_exchange_equation`, `exact_solution_family_x4_x8` |
+| `Revision/theory/reports/python-field-theory.json` | `commuting_emt_symmetric`, `commuting_emt_conservation_on_shell`, `commuting_emt_conservation_negative_control`, `commuting_trace_on_shell`, `commuting_homogeneous_on_shell_rho_p`, `commuting_T_x4x0_homogeneous` |
+| `Revision/theory/reports/python-field-theory.json` | `commuting_emt_equals_general_vielbein_variation_on_shell`, `commuting_emt_equals_vielbein_variation_diagonal`, `negative_control_majorana_grassmann_total_derivative`, `negative_control_majorana_commuting_contrast`, `energy_exchange_equation`, `exact_solution_family_x4_x0` |
 | `Revision/theory/reports/python-field-theory.json` | `exact_nonlinear_homogeneous_solution` |
 | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `metric_is_SPEC_section_1`, `sqrt_abs_det_g_is_cos_z`, `mixed_riemann_free_of_warp_and_a4`, `P1_direct_equals_minus_4_Einstein`, `P1_direct_equals_gkd_branch_monomials`, `P2_direct_equals_gkd_branch_monomials` |
 | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `P3_direct_equals_gkd_branch_monomials`, `P1_trace_identity`, `P2_trace_identity`, `P3_trace_identity`, `P4_vanishes_pigeonhole`, `E1_divergence_free` |
-| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `E2_divergence_free`, `E3_divergence_free`, `independent_components`, `evolution_factorises_a4pp_times_F`, `evolution_F_not_identically_zero`, `algebraic_identity_x1_plus_x5_minus_2x8` |
-| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `x8_component_contains_no_a4pp`, `constraint_propagation_bianchi`, `conservation_components`, `einstein_components`, `einstein_null_energy_x8`, `einstein_no_vacuum_solution` |
-| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `linear_member_equal_pressures`, `linear_member_vacuum_factor`, `C_properties_own_rep`, `gamma_mu_anticommutes_with_Omega_mu_no_sum`, `gravity_term_gamma_mu_Omega_mu`, `condensate_equation_x8_consistent` |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `E2_divergence_free`, `E3_divergence_free`, `independent_components`, `evolution_factorises_a4pp_times_F`, `evolution_F_not_identically_zero`, `algebraic_identity_x1_plus_x5_minus_2x0` |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `x0_component_contains_no_a4pp`, `constraint_propagation_bianchi`, `conservation_components`, `einstein_components`, `einstein_null_energy_x0`, `einstein_no_vacuum_solution` |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `linear_member_equal_pressures`, `linear_member_vacuum_factor`, `C_properties_own_rep`, `gamma_mu_anticommutes_with_Omega_mu_no_sum`, `gravity_term_gamma_mu_Omega_mu`, `condensate_equation_x0_consistent` |
 | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `condensate_S_constant`, `condensate_adjoint_equation`, `condensate_kinetic_tensor_diagonal`, `condensate_offdiagonal_are_three_gamma_bilinears`, `condensate_einstein_quadratic_U`, `condensate_diagonal_witness_exact` |
-| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `b4_lovelock_equals_metric_b4_set`, `b4_constraint_first_order`, `b4_offdiagonal_factorises`, `b4_einstein_offdiagonal_forces_b4_constant`, `b4_identity_x1_plus_x5_minus_2x8`, `b4_einstein_second_order_system` |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `b4_lovelock_equals_metric_b4_set`, `b4_constraint_first_order`, `b4_offdiagonal_factorises`, `b4_einstein_offdiagonal_forces_b4_constant`, `b4_identity_x1_plus_x5_minus_2x0`, `b4_einstein_second_order_system` |
 | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `b4_conservation_components`, `b4_gravity_term`, `b4_condensate_equation`, `b4_condensate_kinetic_diagonal`, `b4_condensate_offdiagonal_bilinears`, `b4_author_weights_vacuum` |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | `mixed_riemann_free_of_warp_and_a4`, `riemann_entries_laurent`, `P1_equals_minus_4_Einstein`, `P1_equals_gkd_branch_monomials`, `P2_equals_gkd_branch_monomials`, `P3_equals_gkd_branch_monomials` |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free`, `evolution_factorises`, `evolution_F_not_identically_zero`, `algebraic_identity` |
-| `Revision/field_equations_a4/reports/python-a4-report.json` | `constraint_and_x8_first_order`, `bianchi_x4`, `other_components_vanish`, `conservation_components`, `einstein_components`, `einstein_null_energy_x8` |
+| `Revision/field_equations_a4/reports/python-a4-report.json` | `constraint_and_x0_first_order`, `bianchi_x4`, `other_components_vanish`, `conservation_components`, `einstein_components`, `einstein_null_energy_x0` |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | `einstein_no_vacuum`, `linear_member_equal_pressures`, `linear_member_vacuum_factor`, `condensate_einstein_quadratic_U`, `json_lovelock_components`, `json_general_source_equations` |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | `json_einstein`, `json_linear_member`, `ownrep_clifford`, `ownrep_C_properties`, `ownrep_anticommutator_no_sum`, `ownrep_gravity_term` |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | `ownrep_condensate_S_constant`, `ownrep_condensate_adjoint`, `ownrep_condensate_kinetic_diagonal`, `ownrep_condensate_offdiagonal_three_gamma`, `ownrep_condensate_witness`, `authorT16_clifford` |
@@ -883,10 +883,10 @@ Every check below has the verdict PASS in the named report (the publication test
 | `Revision/pairing/reports/wolfram-pairing.json` | `Q_one_particle_Krein_inertia_real_frequencies` |
 | `Revision/theory/reports/wolfram-scope.json` | `boosted_frame_reproduces_metric`, `boosted_frame_canonical_connection`, `boosted_frame_gammaOmega_formula`, `boosted_frame_gammaOmega_vanishes`, `boosted_frame_curvature_nonzero`, `rescaling_removes_the_connection_term` |
 | `Revision/theory/reports/wolfram-scope.json` | `rescaled_equation_quadratic_potential`, `gammaOmega_blind_to_the_deflation`, `connection_free_lagrangian_same_equations`, `spin_connection_in_the_energy_momentum_tensor`, `good_sector_hermiticity_up_to_the_brane_flux` |
-| `Revision/theory/reports/wolfram-scope.json` | `good_sector_x8_independent_modes_without_boundary_condition`, `extra_time_growth_rates_unbounded`, `commuting_field_energy_unbounded_below` |
+| `Revision/theory/reports/wolfram-scope.json` | `good_sector_x0_independent_modes_without_boundary_condition`, `extra_time_growth_rates_unbounded`, `commuting_field_energy_unbounded_below` |
 | `Revision/theory/reports/python-scope.json` | `boosted_frame_reproduces_metric`, `boosted_frame_canonical_connection`, `boosted_frame_gammaOmega_formula`, `boosted_frame_gammaOmega_vanishes`, `boosted_frame_curvature_nonzero`, `rescaling_removes_the_connection_term` |
 | `Revision/theory/reports/python-scope.json` | `rescaled_equation_quadratic_potential`, `gammaOmega_blind_to_the_deflation`, `connection_free_lagrangian_same_equations`, `spin_connection_in_the_energy_momentum_tensor`, `good_sector_hermiticity_up_to_the_brane_flux` |
-| `Revision/theory/reports/python-scope.json` | `good_sector_x8_independent_modes_without_boundary_condition`, `extra_time_growth_rates_unbounded`, `commuting_field_energy_unbounded_below` |
+| `Revision/theory/reports/python-scope.json` | `good_sector_x0_independent_modes_without_boundary_condition`, `extra_time_growth_rates_unbounded`, `commuting_field_energy_unbounded_below` |
 | `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `observer_N2_weff_identity`, `M4_tangent_equals_unite`, `M4_never_phantom`, `M5_crosses_minus_1`, `M5_without_ghost_no_crossing`, `condensate_ratio_equals_unite_constant_w` |
 | `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `linear_member_einstein_phantom_ratio`, `expansion_inferred_w_einstein` |
 
@@ -894,12 +894,12 @@ Every check below has the verdict PASS in the named report (the publication test
 
 - **No quantisation.** dirac16complex00 is not quantised; its energy-momentum tensor is a classical bilinear. The operator statements (Krein space, Fock space, normal ordering) belong to dirac16complex.
 - **The energy is not bounded below, the charge is indefinite.** The record decides the energy question negatively: already for $U = 0$ in the good sector there are positive-frequency solutions of negative energy, and the energy density $-5|c|^2$ of the example of section 9 is unbounded below as $|c|$ grows; the charge $\int\cos z\,\Phi^\dagger B\Phi$ is indefinite and only locally conserved (it is constant only if no charge flows through the brane $z = \pi/2$; see the item on the brane below). The descriptions "semi-classical" and "analogue of Dirac's 1928 wave function" are interpretations: that wave function has a positive conserved density, this field does not.
-- **Frame dependence of the gravitational term.** $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ is the value for the diagonal vielbein and the variables $\Phi$; it vanishes in the boosted frame of section 6 and is removed by the rescaling $\Phi = \sin^{-1/2}z\,\chi$. Only $\Omega_\mu$ itself (curvature) and the frame factors are frame-independent; non-triviality [2] is claimed in this exact sense.
+- **Frame dependence of the gravitational term.** $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ is the value for the diagonal vielbein and the variables $\Phi$; it vanishes in the boosted frame of section 6 and is removed by the rescaling $\Phi = \sin^{-1/2}z\,\chi$. Only $\Omega_\mu$ itself (curvature) and the frame factors are frame-independent; non-triviality [2] is claimed in this exact sense.
 - **No 3-space observer equation of state, no CPL fit, no comparison with supernova data.** Section 10 gives the ratios $p/\rho$ of the 8-dimensional tensor only; Hypothesis00 (a time-varying dark-energy or dark-matter equation of state from dirac16complex00) is investigated in the separate dark-sector record `Revision/docs/DARK_SECTOR_HYPOTHESES`, not here (its verdict is summarised in section 10: it establishes neither hypothesis). For the homogeneous condensate the ratio $w$ is constant in $x_4$.
 - **No general solution, no well-posed Cauchy problem.** The exact solutions of section 5 are test points; the field equation is not solved in general, and no existence statement for the nonlinear Cauchy problem is made beyond the first-order evolution form. For data that depend on the extra times the problem is ill-posed in Hadamard's sense (section 7), and the good sector needs a boundary condition at $z = \pi/2$, which this record does not impose.
 - **No realisation of the deflating member by a specific condensate.** The theorem of section 12 shows that a homogeneous condensate allows only $a_4 = AHx_4 + a_0$ and gives the conditions the source must satisfy; the sign of $A$ (deflation for $A > 0$) is not selected by the equations; it is not shown that a specific dirac16complex00 condensate meets those conditions with definite $\kappa$, $\Lambda$, $m$, $\lambda$ and $A > 0$, and no non-homogeneous source with $k_1 \ne k_5$ (which would drive $a_4''$) is constructed.
-- **The $x_8$ dependence.** The metric of section 1 is an exact solution only with an $x_8$-independent, isotropic source with vanishing off-diagonal components; a dirac16complex00 configuration that depends on $x_8$ is not a consistent source for this metric.
-- **The brane.** The patch end $z = \pi/2$ is a degenerate surface of the metric ($g_{88} = 0$, $\sqrt{|g|} = 0$) at finite proper distance; no junction condition is derived, the mirror construction used by T2 is an assumption, and the boundary term $\sin z\,u^\dagger M_8 v$ of the hidden direction does not vanish there.
+- **The $x_0$ dependence.** The metric of section 1 is an exact solution only with an $x_0$-independent, isotropic source with vanishing off-diagonal components; a dirac16complex00 configuration that depends on $x_0$ is not a consistent source for this metric.
+- **The brane.** The patch end $z = \pi/2$ is a degenerate surface of the metric ($g_{00} = 0$, $\sqrt{|g|} = 0$) at finite proper distance; no junction condition is derived, the mirror construction used by T2 is an assumption, and the boundary term $\sin z\,u^\dagger M_0 v$ of the hidden direction does not vanish there.
 - **Pairing.** The pairing theorems of section 13 derive no creation process, rate or amplitude for universes of masses $\{+m, -m\}$; they are correspondences between solutions, in a fixed gravitational field.
 - **Notebook conventions.** The canonical spin connection used here is the one with $\omega_{\mu ab} = \eta_{ac}\omega_\mu{}^c{}_b$; the notebook's contraction of the mixed components (which lacks a metric factor) is not used, and its Majorana-type $L_g$ serves only as the negative control of section 4.
 
@@ -946,7 +946,7 @@ On 2026-10-14 the user changed the primordial metric: $g_{55} = g_{66} = g_{77} 
 **Geometry and the gravity term.** $\sqrt{|g|} = b_4^{3/2}\cos z$; a constant $b_4$ drops out (the rescaling $x_{5,6,7} \to b_4^{1/2}x_{5,6,7}$). The Lovelock tensors with $b_4$ are those of the metric record (`b4_lovelock_equals_metric_b4_set`). The gravity term of section 3 becomes
 
 $$
-\gamma^\mu\Omega_\mu = 3H\,\gamma^{(x_8)} + \tfrac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)}
+\gamma^\mu\Omega_\mu = 3H\,\gamma^{(x_0)} + \tfrac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)}
 $$
 
 (`b4_gravity_term`): when $b_4' \ne 0$ the $x_4$ terms of the extra-time directions no longer cancel those of 3-space, the field equation gains $\tfrac34(b_4'/b_4)\gamma^{(x_4)}\Phi$, and the extra-time derivatives are scaled by $b_4^{-1/2}$. Exactly (the theory supplement for $b_4$ of the provenance record), $D_{b_4}[b_4^{-3/4}X] = b_4^{-3/4}\big(D_1[X] + (b_4^{-1/2} - 1)\,e^{a_4}\sin^{-1/6}z\,\sum_t\gamma^{(t)}\partial_t X\big)$, where $D_{b_4}$ is the Dirac operator of the metric with $b_4$ and $D_1$ that of $b_4 = 1$.
@@ -957,15 +957,15 @@ $$
 \partial_4 S = -\tfrac32\,\frac{b_4'}{b_4}\,S , \qquad b_4^{3/2}\,S = \text{const}
 $$
 
-(`b4_condensate_equation`). $S$ is therefore no longer constant along $x_4$ unless $b_4$ is; the statement "$S$ constant" of sections 9, 10 and 12 is the case $b_4$ constant. The kinetic tensor keeps the form of section 12: $K^{x_4}{}_{x_4} = MS$, $K^\mu{}_\mu = 0$ for $\mu \ne x_4$ and $K^{x_4}{}_{x_8} = K^{x_8}{}_{x_4} = 0$ (`b4_condensate_kinetic_diagonal`); the nonzero off-diagonal components are the same 42 ordered pairs and the same 15 three-gamma bilinears, with coefficients that depend on $b_4$ and reduce at $b_4 = 1$ to those of section 12 (`b4_condensate_offdiagonal_bilinears`).
+(`b4_condensate_equation`). $S$ is therefore no longer constant along $x_4$ unless $b_4$ is; the statement "$S$ constant" of sections 9, 10 and 12 is the case $b_4$ constant. The kinetic tensor keeps the form of section 12: $K^{x_4}{}_{x_4} = MS$, $K^\mu{}_\mu = 0$ for $\mu \ne x_4$ and $K^{x_4}{}_{x_0} = K^{x_0}{}_{x_4} = 0$ (`b4_condensate_kinetic_diagonal`); the nonzero off-diagonal components are the same 42 ordered pairs and the same 15 three-gamma bilinears, with coefficients that depend on $b_4$ and reduce at $b_4 = 1$ to those of section 12 (`b4_condensate_offdiagonal_bilinears`).
 
 **The field equations for $a_4$ and $b_4$** (key `b4/generalSource`). The $x_4$ component stays a constraint, first order in $a_4'$ and $b_4'/b_4$ (`b4_constraint_first_order`). The metric now has off-diagonal Lovelock components, and the field equations contain
 
 $$
-\kappa\,q_{48} = \cot z\,\frac{b_4'}{b_4}\,Q , \qquad \kappa\,q_{84} = -\tan z\,\frac{b_4'}{b_4}\,Q
+\kappa\,q_{40} = \cot z\,\frac{b_4'}{b_4}\,Q , \qquad \kappa\,q_{04} = -\tan z\,\frac{b_4'}{b_4}\,Q
 $$
 
-with $Q$ the polynomial of `b4/generalSource/offDiagonalFactor_Q` (`b4_offdiagonal_factorises`); for Einstein gravity $Q = 3H/2 \ne 0$, so a source without $T^{x_4}{}_{x_8}$ forces $b_4' = 0$, i.e. $b_4$ constant (`b4_einstein_offdiagonal_forces_b4_constant`). The homogeneous condensate has $K^{x_4}{}_{x_8} = 0$; as a source of Einstein gravity it therefore leaves only $b_4$ constant (a reading that combines the two checks above, not a separate check). The algebraic condition $p_3 + p_t = 2p_8$ of section 11 becomes, for Einstein gravity, $\kappa\,(p_3 + p_t - 2p_8) = \tfrac14(b_4'/b_4)^2 + b_4''/(2b_4)$ (`b4_identity_x1_plus_x5_minus_2x8`); the $x_1 - x_5$ and $x_8$ components are linear in $(a_4'', b_4'')$ with a nonsingular Jacobian (`b4_einstein_second_order_system`); conservation gains $-\tfrac32(b_4'/b_4)(\rho + p_t)$ in the $x_4$ component and $+\tfrac32(b_4'/b_4)\,q_{48}$ in the $x_8$ component (`b4_conservation_components`). The theorem of section 12 (only the linear member) is proved for $b_4$ constant; the record has no version of it for a non-constant $b_4$.
+with $Q$ the polynomial of `b4/generalSource/offDiagonalFactor_Q` (`b4_offdiagonal_factorises`); for Einstein gravity $Q = 3H/2 \ne 0$, so a source without $T^{x_4}{}_{x_0}$ forces $b_4' = 0$, i.e. $b_4$ constant (`b4_einstein_offdiagonal_forces_b4_constant`). The homogeneous condensate has $K^{x_4}{}_{x_0} = 0$; as a source of Einstein gravity it therefore leaves only $b_4$ constant (a reading that combines the two checks above, not a separate check). The algebraic condition $p_3 + p_t = 2p_0$ of section 11 becomes, for Einstein gravity, $\kappa\,(p_3 + p_t - 2p_0) = \tfrac14(b_4'/b_4)^2 + b_4''/(2b_4)$ (`b4_identity_x1_plus_x5_minus_2x0`); the $x_1 - x_5$ and $x_0$ components are linear in $(a_4'', b_4'')$ with a nonsingular Jacobian (`b4_einstein_second_order_system`); conservation gains $-\tfrac32(b_4'/b_4)(\rho + p_t)$ in the $x_4$ component and $+\tfrac32(b_4'/b_4)\,q_{40}$ in the $x_0$ component (`b4_conservation_components`). The theorem of section 12 (only the linear member) is proved for $b_4$ constant; the record has no version of it for a non-constant $b_4$.
 
 **Vacuum.** With the author's weights ($w_1 = 1$, $w_2 = 1/32$, $w_3 = 1/1152$, the author's $\Lambda = 10$; $\alpha_k = w_k/H^{2k}$) every $C^2$ vacuum history has $b_4$ constant and $a_4 = \pm Hx_4 + \text{const}$: the author's solution $b_4 = 1$, $a_4 = Hx_4$ and its time reverse (`b4_author_weights_vacuum`; the theorem for general $b_4$ is `Revision/metric_b4/results/vacuum-b4.json`, 6 of 6 checks).
 
@@ -976,10 +976,10 @@ with $Q$ the polynomial of `b4/generalSource/offDiagonalFactor_Q` (`b4_offdiagon
 - `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls`: 64 of 64.
 - `Revision/field_equations_a4/python/check_b4_block.py`, the sympy twin for the key `b4`, with the report `Revision/field_equations_a4/reports/python-b4-block.json`: 11 of 11.
 - `Revision/theory/wolfram/verify_field_theory_b4.wls`: 19 of 19 (geometry, spin connection, gravity term, Dirac operator, evolution form, conservation, both statistics).
-- The energy-momentum tensor by vielbein variation, its Belinfante part, the diagonal components and $T^{x_4}{}_{x_8}$, for both statistics: 4 and 4 checks, in `Revision/theory/wolfram/verify_field_theory_b4_emt.wls`.
+- The energy-momentum tensor by vielbein variation, its Belinfante part, the diagonal components and $T^{x_4}{}_{x_0}$, for both statistics: 4 and 4 checks, in `Revision/theory/wolfram/verify_field_theory_b4_emt.wls`.
 - `Revision/theory/python/check_field_theory_b4.py`: 5 of 5.
 
-**Not recomputed for general $b_4$.** The full theory verifier of section 16 (84 checks, 1783 s to 2508 s at $b_4 = 1$) and its parts on the Noether identities, the exact solutions with conservation and the canonical quantisation exceed the time limit of 423 s per calculation set for the change (`claude_failures.md`, section C); for these the record is the case $b_4 = 1$, which the vacuum theorem fixes.
+**Not recomputed for general $b_4$.** The parts of the full theory verifier of section 16 on the Noether identities, the exact solutions with conservation and the canonical quantisation were not derived or run for general $b_4$ (at $b_4 = 1$ the verifier took 1783 s to 2508 s when run serially on 2026-10-08, beyond the time limit of 423 s per calculation set for the change; on 2026-10-14, in the author's coordinates and with its slow zero tests on parallel subkernels, the $b_4 = 1$ verifier took 309 s and 310 s; `claude_failures.md`, section C); for these the record is the case $b_4 = 1$, which the vacuum theorem fixes.
 
 ```text
 wolframscript -file Revision/metric_b4/wolfram/verify_metric_b4.wls

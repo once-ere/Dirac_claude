@@ -65,8 +65,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "5ef6166d993f0268e4bbf35e765c703308acd066ed393b80eeb64e98d8786f9a"
-TEX_SHA256 = "d0ba67708b957a1cc405fb3367daeb2095bf280ddb08ef3d8d0e7ff50f65e871"
+MARKDOWN_SHA256 = "ce5962be9d08790fed3751b4c58e1d26105851643b6621c10c34818c0250f546"
+TEX_SHA256 = "7e83baec43605a6beda574f28ee6b401231d15e1827187e995daf61676cce9d7"
 
 KS = REVISION / "kohn_sham"
 RESULTS = KS / "results"
@@ -151,7 +151,7 @@ KEY_STATEMENTS = (
     "the three extra times, which DEFLATE exponentially, with the scale factor $e^{-a_4}\\sin^{1/6}z$",
     "they are never treated as static",
     "the $a_4'$ pieces of the three inflating directions, $+\\frac32a_4'\\gamma^4$, and of the three deflating directions, $-\\frac32a_4'\\gamma^4$, cancel",
-    "The factor $W^{-3}$ removes the term $3H\\gamma^8$",
+    "The factor $W^{-3}$ removes the term $3H\\gamma^0$",
     "M_{\\mathrm{eff}}(y) = m + \\tfrac{15}{16}\\lambda S(y) ,\\qquad v_v(y) = -\\tfrac{\\lambda}{16}n(y) ,",
     "e_x = -\\tfrac{\\lambda}{32}\\big(n^2 + S^2\\big)",
     "**Brane (ASSUMED).**",
@@ -467,7 +467,7 @@ class Tables(unittest.TestCase):
     def test_emt_integrals(self):
         emt = csv_by_id("ground/emt-integrals.csv")
         self.assert_rows(
-            f"| {n} | {g7(r['a4'])} | {g7(r['int_rho'])} | {g7(r['int_p3'])} | {g7(r['int_p_t'])} | {g7(r['int_p8'])} |"
+            f"| {n} | {g7(r['a4'])} | {g7(r['int_rho'])} | {g7(r['int_p3'])} | {g7(r['int_p_t'])} | {g7(r['int_p0'])} |"
             for n in (136, 688) for r in (emt[f"N{n}_lam0_{s}"] for s in SLICES))
 
     def test_rescaling(self):
@@ -517,8 +517,8 @@ class QuotedNumbers(unittest.TestCase):
         expected = [
             f"{fixed('N136_lam0_a20', 'E_KS', 'value_L3'):.5f} against the extrapolated "
             f"{fixed('N136_lam0_a20', 'E_KS', 'extrapolated_Linf'):.5f}",
-            f"{fixed('N136_lam0_a20', 'int_p8', 'value_L3'):.5f} against "
-            f"{fixed('N136_lam0_a20', 'int_p8', 'extrapolated_Linf'):.5f}",
+            f"{fixed('N136_lam0_a20', 'int_p0', 'value_L3'):.5f} against "
+            f"{fixed('N136_lam0_a20', 'int_p0', 'extrapolated_Linf'):.5f}",
             rf"\mp {fixed('N8_lamm1_a00', 'E_KS', 'value_L3') * 1e4:.3f}\times10^{{-4}}$ at $L = 3$",
             rf"\mp {fixed('N8_lamm1_a20', 'E_KS', 'extrapolated_Linf') * 1e3:.4f}\times10^{{-3}}$ at large $L$",
             rf"\mp {fixed('N8_lamm1_a00', 'E_KS', 'extrapolated_Linf') * 1e3:.3f}\times10^{{-3}}$ from $L \leq 4.5$",
@@ -542,9 +542,9 @@ class QuotedNumbers(unittest.TestCase):
             return max(abs(float(r["value_L3"]) / float(r["extrapolated_Linf"]) - 1)
                        for r in free if r["quantity"] == quantity)
 
-        expected += [f"low by up to {100 * worst('E_KS'):.1f}% in $E_{{KS}}$ and {100 * worst('int_p8'):.0f}% in",
-                     f"lie within {100 * worst('E_KS'):.1f}% ($E_{{KS}}$) and {100 * worst('int_p8'):.0f}% "
-                     f"(the $p_8$ integral)"]
+        expected += [f"low by up to {100 * worst('E_KS'):.1f}% in $E_{{KS}}$ and {100 * worst('int_p0'):.0f}% in",
+                     f"lie within {100 * worst('E_KS'):.1f}% ($E_{{KS}}$) and {100 * worst('int_p0'):.0f}% "
+                     f"(the $p_0$ integral)"]
         plus = ((e_ks("N136_lamp1_a20", 5.5) - e_ks("N136_lam0_a20", 5.5))
                 / (e_ks("N136_lamp1_a20", 3.0) - e_ks("N136_lam0_a20", 3.0)))
         minus = ((fixed("N136_lamm1_a20", "E_KS", "extrapolated_Linf")
@@ -760,7 +760,7 @@ class QuotedNumbers(unittest.TestCase):
         self.assertIn("three grids (300, 600, 1200)", self.text)
 
     def test_source_condition_numbers(self):
-        detail = check_detail(SOURCE_CONDITIONS, "ks_profiles_depend_on_x8")
+        detail = check_detail(SOURCE_CONDITIONS, "ks_profiles_depend_on_x0")
         self.pair(detail, ">= 0.0497329", "\\geq 0.0497329")
         self.assertIn("70 with a nonzero", detail)
         self.assertIn("Every one of the 70 nonzero ground-state profiles", self.text)

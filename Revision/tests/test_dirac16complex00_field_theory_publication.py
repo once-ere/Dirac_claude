@@ -124,10 +124,10 @@ TERM_PATTERNS = (
     ("x4", re.compile(r'^dd\["x4", Psi\[(\d+)\]\]$')),
     ("mass", re.compile(r"^3\*H\*Psi\[(\d+)\]$")),
     ("space", re.compile(
-        r'^dd\["x([123])", Psi\[(\d+)\]\]/\(E\^a4\[x4\]\*Sin\[6\*H\*x8\]\^\(1/6\)\)$')),
+        r'^dd\["x([123])", Psi\[(\d+)\]\]/\(E\^a4\[x4\]\*Sin\[6\*H\*x0\]\^\(1/6\)\)$')),
     ("time", re.compile(
-        r'^\(E\^a4\[x4\]\*dd\["x([567])", Psi\[(\d+)\]\]\)/Sin\[6\*H\*x8\]\^\(1/6\)$')),
-    ("hidden", re.compile(r'^dd\["x8", Psi\[(\d+)\]\]\*Tan\[6\*H\*x8\]$')),
+        r'^\(E\^a4\[x4\]\*dd\["x([567])", Psi\[(\d+)\]\]\)/Sin\[6\*H\*x0\]\^\(1/6\)$')),
+    ("hidden", re.compile(r'^dd\["x0", Psi\[(\d+)\]\]\*Tan\[6\*H\*x0\]$')),  # x0: the hidden direction
 )
 
 
@@ -175,7 +175,7 @@ def component_equation_lines() -> list[tuple[str, str]]:
     for text in theory_formula("field_equation_components"):
         t = parse_component_equation(text)
         if t["mass"] != (1, t["hidden"][1]) or t["hidden"][0] != 1:
-            raise ValueError("the 3 H and tan z d8 terms must act on the same component with +")
+            raise ValueError("the 3 H and tan z d0 terms must act on the same component with +")
         s4, i4 = t["x4"]
         space = "".join(
             signed(t["space"][d][0], rf"\partial_{d}\Phi_{{{t['space'][d][1]}}}", d == 1)
@@ -191,7 +191,7 @@ def component_equation_lines() -> list[tuple[str, str]]:
             + rf" + u\,({space}) \\"
         )
         second = (
-            rf"& + v\,({time}) + (t\,\partial_8 + 3H)\,\Phi_{{{t['hidden'][1]}}}"
+            rf"& + v\,({time}) + (t\,\partial_0 + 3H)\,\Phi_{{{t['hidden'][1]}}}"
             + rf" = V\,\Phi_{{{t['target']}}}"
         )
         lines.append((first, second))
@@ -199,12 +199,12 @@ def component_equation_lines() -> list[tuple[str, str]]:
 
 
 def lovelock_component_tex() -> dict[tuple[str, str], str]:
-    """(E1|E2|E3, x1x1|x4x4|x5x5|x8x8) -> tex of a4-equations.json."""
+    """(E1|E2|E3, x0x0|x1x1|x4x4|x5x5) -> tex of a4-equations.json."""
     tensors = load_json(A4_JSON)["lovelockTensors"]
     return {
         (k, c): tensors[k][c]["tex"]
         for k in ("E1", "E2", "E3")
-        for c in ("x1x1", "x4x4", "x5x5", "x8x8")
+        for c in ("x0x0", "x1x1", "x4x4", "x5x5")
     }
 
 
@@ -219,7 +219,7 @@ EXTRA_TIMES = ("x5", "x6", "x7")
 
 
 def index_class(index: str) -> str:
-    """x1..x3 -> x_i (3-space), x5..x7 -> x_t (extra times), x4 -> x_4, x8 -> x_8."""
+    """x1..x3 -> x_i (3-space), x5..x7 -> x_t (extra times), x4 -> x_4, x0 -> x_0."""
     if index in SPACE:
         return "x_i"
     if index in EXTRA_TIMES:
@@ -258,7 +258,7 @@ def offdiagonal_rows() -> list[tuple[str, str, str]]:
             .replace("gamma^x_i", r"\gamma^{x_i}")
             .replace("gamma^x_t", r"\gamma^{x_t}")
             .replace("gamma^x4", r"\gamma^{x_4}")
-            .replace("gamma^x8", r"\gamma^{x_8}")
+            .replace("gamma^x0", r"\gamma^{x_0}")
         )
         rows.append((rf"$K^{{{upper}}}{{}}_{{{lower}}}$", f"${latex}$", f"${coefficient}$"))
     return rows
@@ -363,7 +363,7 @@ class TestGeneratedFormulaBlocks(unittest.TestCase):
             data["einstein"]["constraint_x4"]["tex"],
             data["einstein"]["space_x1"]["tex"],
             data["einstein"]["extraTime_x5"]["tex"],
-            data["einstein"]["hidden_x8"]["tex"],
+            data["einstein"]["hidden_x0"]["tex"],
             data["einstein"]["evolution"]["tex"],
             data["einstein"]["nullEnergy"]["tex"],
             data["linearMember"]["rho"]["tex"],
@@ -443,14 +443,14 @@ class TestKeyStatements(unittest.TestCase):
         r"\mathcal{L} = \sqrt{|g|}\,\Big[\tfrac12\big(\bar\Phi\gamma^\mu D_\mu\Phi"
         r" - (D_\mu\bar\Phi)\gamma^\mu\Phi\big) - m\,S - U(S)\Big]",
         r"\gamma^\mu D_\mu\Phi = \big(m + U'(S)\big)\,\Phi",
-        r"\gamma^\mu\Omega_\mu = 3H\,\gamma^{(x_8)}",
+        r"\gamma^\mu\Omega_\mu = 3H\,\gamma^{(x_0)}",
         r"\sqrt{|g|} = \cos z",
         r"R = 6\big((a_4')^2 - 7H^2\big)",
-        r"R^{x_8}{}_{x_8} = -6H^2",
+        r"R^{x_0}{}_{x_0} = -6H^2",
         "NON-TRIVIALITY [2]",
         r"\rho = -T^{x_4}{}_{x_4}",
         r"\rho = m S + U(S)",
-        r"p_3 = p_t = p_8 = S\,U'(S) - U(S)",
+        r"p_3 = p_t = p_0 = S\,U'(S) - U(S)",
         r"w = \frac{\lambda S}{2m + \lambda S}",
         r"\frac{d\rho}{dx_4} = -3\,a_4'\,(p_3 - p_t)",
         r"a_4 = A H x_4 + a_0",
@@ -460,7 +460,7 @@ class TestKeyStatements(unittest.TestCase):
         "## 15. What is not claimed",
         "no creation process",
         "**Scope of [2] (exact).**",
-        "The value $\\gamma^\\mu\\Omega_\\mu = 3H\\gamma^{(x_8)}$ belongs to the diagonal vielbein",
+        "The value $\\gamma^\\mu\\Omega_\\mu = 3H\\gamma^{(x_0)}$ belongs to the diagonal vielbein",
         "What cannot be removed in any frame is $\\Omega_\\mu$ itself",
         "The classical energy of dirac16complex00 is unbounded below already for $U = 0$",
         "This does not make the Cauchy problem well posed",

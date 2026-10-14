@@ -69,8 +69,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "594fc82d2fc411916383a2241753eee91743b2e2b54b480495a3ca40d3c04d02"
-TEX_SHA256 = "037a5e8526585be39fced91aae05d645de77d8474dceb2d9547ac92c3dac9ebd"
+MARKDOWN_SHA256 = "b21a8302541ab543eac0ed2838cbd73bb876cd74d048f783576bbebb7867184b"
+TEX_SHA256 = "92f9b212add6b602aeac6bff5b21b816d6549e154229d386bb909c5d62a794bc"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"
@@ -528,8 +528,8 @@ class QuotedNumbers(unittest.TestCase):
         self.assertQuoted(f"({fixed(lo, 4)} to {fixed(hi, 4)} for $N = 688$, $\\lambda = 0$)")
         lo, hi = s["w_eff_C_range"]
         self.assertQuoted(f"$w_{{\\rm eff}}(C)$ from {fixed(lo, 4)} to {fixed(hi, 4)}")
-        lo, hi = s["ratio_w8_range"]
-        self.assertQuoted(f"$w_8 = P_8/E$ goes from {fixed(lo, 4)} to {fixed(hi, 4)}")
+        lo, hi = s["ratio_wx0_range"]  # the hidden-direction ratio P0/E (named w8 before 2026-10-14)
+        self.assertQuoted(f"$w_{{x_0}} = P_0/E$ goes from {fixed(lo, 4)} to {fixed(hi, 4)}")
         start, end = s["dlnE_da4_at_0_and_2"]
         self.assertQuoted(f"goes from {fixed(start, 4)} at $a_4 = 0$ to {fixed(end, 4)} at $a_4 = 2$")
         self.assertEqual(s["ratio_wt_range"], [0.0, 0.0])

@@ -26,25 +26,25 @@ Related Revision documents. The Kohn-Sham model of dirac16complex in the deflati
 
 ### 2.1 The author's metric and coordinates
 
-The coordinates are named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space (inflating), $x_4$ is the time, $x_5, x_6, x_7$ are the three extra times, which DEFLATE exponentially as $a_4$ increases, and $x_8$ is the hidden space direction, with $z = 6Hx_8 \in (0,\pi/2)$ and $H > 0$ the author's constant. The metric of `Revision/SPEC.md` section 1, as changed by the author on 2026-10-14, is
+The coordinates are the author's, $x_0, x_1, \dots, x_7$, in the author's order: $x_0$ is the hidden space direction, with $z = 6Hx_0 \in (0,\pi/2)$ and $H > 0$ the author's constant, $x_1, x_2, x_3$ are ordinary 3-space (inflating), $x_4$ is the time, and $x_5, x_6, x_7$ are the three extra times, which DEFLATE exponentially as $a_4$ increases. (Until 2026-10-14 this document named them $x_1, \dots, x_8$, with the hidden direction $x_8$ listed last; the user ordered the author's coordinates on 2026-10-14.) The metric of `Revision/SPEC.md` section 1, as changed by the author on 2026-10-14, is
 
 $$
 \begin{aligned}
-ds^2 = {} & e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
-& - e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) + \cot^2 z\,dx_8^2 ,
+ds^2 = {} & \cot^2 z\,dx_0^2 + e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
+& - e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) ,
 \end{aligned}
 $$
 
-that is $g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}b_4(x_4)\sin^{1/3}(6Hx_8)$ with one metric function $b_4(x_4) > 0$; $b_4 = 1$ is the metric of 2026-10-01 for which this document was written, and the vacuum Einstein-Lovelock equations with the author's weights force $b_4 = $ const (a constant $b_4$ is removed by rescaling $x_5, x_6, x_7$), so the background of the record is $b_4 = 1$, $a_4 = \pm Hx_4$ (`Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). The formulas of the rest of this section are written for $b_4 = 1$; for general $b_4$, $f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}\sin^{1/6}z$, $\sqrt{|g|} = b_4^{3/2}\cos z$ and $\gamma^\mu\Omega_\mu = 3H\gamma^8 + \frac{3}{4}\frac{b_4'}{b_4}\gamma^4$. Section 9.4 shows that T1, T2 and T3 hold unchanged for every $b_4$. The metric has signature (4,4) (space-like $x_1, x_2, x_3, x_8$; time-like $x_4, x_5, x_6, x_7$), with $\sqrt{|g|} = \cos z$. The diagonal vielbein is $e^a{}_\mu = f_a\delta^a_\mu$ with $f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z$, $f_4 = 1$, $f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z$ and $f_8 = \cot z$; the frame metric is $\eta = \mathrm{diag}(+1,+1,+1,-1,-1,-1,-1,+1)$ in the order $x_1, \dots, x_8$. Frame indices $a = 1, \dots, 8$ are aligned with the coordinates, so $\gamma^4$ is the time gamma $\gamma^{(x_4)}$ and $\gamma^8$ the hidden-direction gamma $\gamma^{(x_8)}$.
+that is $g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}b_4(x_4)\sin^{1/3}(6Hx_0)$ with one metric function $b_4(x_4) > 0$; $b_4 = 1$ is the metric of 2026-10-01 for which this document was written, and the vacuum Einstein-Lovelock equations with the author's weights force $b_4 = $ const (a constant $b_4$ is removed by rescaling $x_5, x_6, x_7$), so the background of the record is $b_4 = 1$, $a_4 = \pm Hx_4$ (`Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). The formulas of the rest of this section are written for $b_4 = 1$; for general $b_4$, $f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}\sin^{1/6}z$, $\sqrt{|g|} = b_4^{3/2}\cos z$ and $\gamma^\mu\Omega_\mu = 3H\gamma^0 + \frac{3}{4}\frac{b_4'}{b_4}\gamma^4$. Section 9.4 shows that T1, T2 and T3 hold unchanged for every $b_4$. The metric has signature (4,4) (space-like $x_0, x_1, x_2, x_3$; time-like $x_4, x_5, x_6, x_7$), with $\sqrt{|g|} = \cos z$. The diagonal vielbein is $e^a{}_\mu = f_a\delta^a_\mu$ with $f_0 = \cot z$, $f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z$, $f_4 = 1$ and $f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z$; the frame metric is $\eta = \mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ in the order $x_0, \dots, x_7$. Frame indices $a = 0, \dots, 7$ are aligned with the coordinates, so $\gamma^0$ is the hidden-direction gamma $\gamma^{(x_0)}$ and $\gamma^4$ the time gamma $\gamma^{(x_4)}$.
 
-The canonical spin connection (vielbein postulate) has the nonzero components $\omega_{x_i,\,i4} = a_4' e^{a_4}\sin^{1/6}z$ and $\omega_{x_i,\,i8} = H e^{a_4}\sin^{1/6}z$ for the inflating directions $i = 1, 2, 3$, and $\omega_{x_t,\,4t} = -a_4' e^{-a_4}\sin^{1/6}z$ and $\omega_{x_t,\,t8} = -H e^{-a_4}\sin^{1/6}z$ for the deflating extra times $t = 5, 6, 7$, with $\Omega_{x_4} = \Omega_{x_8} = 0$. Contracted with the gammas, $\gamma^\mu\Omega_\mu = 3H\gamma^8$: each inflating direction contributes $\frac{a_4'}{2}\gamma^4 + \frac{H}{2}\gamma^8$ and each deflating extra time $-\frac{a_4'}{2}\gamma^4 + \frac{H}{2}\gamma^8$, so the time-direction terms cancel and the hidden-direction terms add.
+The canonical spin connection (vielbein postulate) has the nonzero components $\omega_{x_i,\,i4} = a_4' e^{a_4}\sin^{1/6}z$ and $\omega_{x_i,\,i0} = H e^{a_4}\sin^{1/6}z$ for the inflating directions $i = 1, 2, 3$, and $\omega_{x_t,\,4t} = -a_4' e^{-a_4}\sin^{1/6}z$ and $\omega_{x_t,\,t0} = -H e^{-a_4}\sin^{1/6}z$ for the deflating extra times $t = 5, 6, 7$, with $\Omega_{x_0} = \Omega_{x_4} = 0$. Contracted with the gammas, $\gamma^\mu\Omega_\mu = 3H\gamma^0$: each inflating direction contributes $\frac{a_4'}{2}\gamma^4 + \frac{H}{2}\gamma^0$ and each deflating extra time $-\frac{a_4'}{2}\gamma^4 + \frac{H}{2}\gamma^0$, so the time-direction terms cancel and the hidden-direction terms add.
 
 ### 2.2 Clifford data
 
-The gammas are the author's real $16 \times 16$ matrices T16, re-constructed in Revision code from the author's tau formulas, with $\gamma^8 = T16[0]$, $\gamma^{1,2,3} = T16[1..3]$, $\gamma^4 = T16[4]$ and $\gamma^{5,6,7} = T16[5..7]$. They are real signed permutation matrices with $\{\gamma^a,\gamma^b\} = 2\eta^{ab}$ and $(\gamma^a)^T = \eta_{aa}\gamma^a$. Further:
+The gammas are the author's real $16 \times 16$ matrices T16, re-constructed in Revision code from the author's tau formulas, with $\gamma^a = T16[a]$ for $a = 0, \dots, 7$ ($\gamma^0$ the hidden direction, $\gamma^4$ the time). They are real signed permutation matrices with $\{\gamma^a,\gamma^b\} = 2\eta^{ab}$ and $(\gamma^a)^T = \eta_{aa}\gamma^a$. Further:
 
-- $C = \gamma^8\gamma^1\gamma^2\gamma^3$ is real and symmetric, $C^2 = 1$, $C\gamma^a$ is real and antisymmetric and $C\gamma^aC^{-1} = -(\gamma^a)^T$; the Dirac adjoint is $\bar\Psi = \Psi^\dagger C$.
-- $\Gamma = \gamma^8\gamma^1\gamma^2\gamma^3\gamma^4\gamma^5\gamma^6\gamma^7 = \mathrm{diag}(-I_8, I_8)$.
+- $C = \gamma^0\gamma^1\gamma^2\gamma^3$ is real and symmetric, $C^2 = 1$, $C\gamma^a$ is real and antisymmetric and $C\gamma^aC^{-1} = -(\gamma^a)^T$; the Dirac adjoint is $\bar\Psi = \Psi^\dagger C$.
+- $\Gamma = \gamma^0\gamma^1\gamma^2\gamma^3\gamma^4\gamma^5\gamma^6\gamma^7 = \mathrm{diag}(-I_8, I_8)$.
 - $B = -iC\gamma^4$ is Hermitian with $B^2 = 1$ and signature (8,8).
 - $S^{ab} = \frac14[\gamma^a,\gamma^b]$ satisfy the commutation relations of so(4,4).
 - The 16-dimensional representation is irreducible under Pin(4,4) (commutant of dimension 1) and splits under Spin(4,4) into two inequivalent irreducible 8-dimensional representations, the chiral halves $\Gamma = -1$ (components 1 to 8, written $\psi_-$) and $\Gamma = +1$ (components 9 to 16, written $\psi_+$); every $\gamma^a$ exchanges the two halves.
@@ -93,11 +93,11 @@ $$
 \begin{aligned}
 & e^{-a_4}\sin^{-1/6}z\,\big(\gamma^1\partial_1+\gamma^2\partial_2+\gamma^3\partial_3\big)\Psi + \gamma^4\partial_4\Psi
 + e^{a_4}\sin^{-1/6}z\,\big(\gamma^5\partial_5+\gamma^6\partial_6+\gamma^7\partial_7\big)\Psi \\
-& \qquad + \tan z\,\gamma^8\partial_8\Psi + 3H\gamma^8\Psi = \big(m + U'(S)\big)\Psi ,
+& \qquad + \tan z\,\gamma^0\partial_0\Psi + 3H\gamma^0\Psi = \big(m + U'(S)\big)\Psi ,
 \end{aligned}
 $$
 
-where $3H\gamma^8 = \gamma^\mu\Omega_\mu$ is the spin-connection term in the diagonal vielbein of section 2.1 and in the field variables $\Psi$; in this frame and these variables it is nonzero for every $H > 0$ and every $\Psi \neq 0$ (`nontriviality_1_dirac16complex`, `nontriviality_2_dirac16complex00`). This is non-triviality [1] and [2] of the theory record only in the qualified sense stated there: the value belongs to the frame and the variables. In the frame boosted in the $(x_4, x_8)$ plane with rapidity $6Hx_4 + b_0$ the term $\gamma^\mu\Omega_\mu$ vanishes identically (`boosted_frame_gammaOmega_vanishes`); the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it (completely for $U = 0$; for $U \neq 0$ it becomes the $x_8$-dependent coupling $\lambda S[\chi]/\sin z$: `rescaling_removes_the_connection_term`, `rescaled_equation_quadratic_potential`); and the canonical spin connection drops out of $\mathcal{L}$ (`connection_free_lagrangian_same_equations`). What is frame-independent is that $\Omega_\mu$ vanishes in no frame, because its curvature is the Riemann tensor and the metric is curved for every $H > 0$ (`boosted_frame_curvature_nonzero`, `spin_curvature_equals_Riemann`), and that the vielbein factors enter every derivative term. In the chiral block form $\Psi = (\psi_-, \psi_+)$ every gamma is block off-diagonal, with upper-right block $\bar\tau^a$ and lower-left block $\tau^a$, and $\bar\tau^8 = \tau^8 = I_8$; the 16 equations become the two 8-component equations
+where $3H\gamma^0 = \gamma^\mu\Omega_\mu$ is the spin-connection term in the diagonal vielbein of section 2.1 and in the field variables $\Psi$; in this frame and these variables it is nonzero for every $H > 0$ and every $\Psi \neq 0$ (`nontriviality_1_dirac16complex`, `nontriviality_2_dirac16complex00`). This is non-triviality [1] and [2] of the theory record only in the qualified sense stated there: the value belongs to the frame and the variables. In the frame boosted in the $(x_0, x_4)$ plane with rapidity $6Hx_4 + b_0$ the term $\gamma^\mu\Omega_\mu$ vanishes identically (`boosted_frame_gammaOmega_vanishes`); the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it (completely for $U = 0$; for $U \neq 0$ it becomes the $x_0$-dependent coupling $\lambda S[\chi]/\sin z$: `rescaling_removes_the_connection_term`, `rescaled_equation_quadratic_potential`); and the canonical spin connection drops out of $\mathcal{L}$ (`connection_free_lagrangian_same_equations`). What is frame-independent is that $\Omega_\mu$ vanishes in no frame, because its curvature is the Riemann tensor and the metric is curved for every $H > 0$ (`boosted_frame_curvature_nonzero`, `spin_curvature_equals_Riemann`), and that the vielbein factors enter every derivative term. In the chiral block form $\Psi = (\psi_-, \psi_+)$ every gamma is block off-diagonal, with upper-right block $\bar\tau^a$ and lower-left block $\tau^a$, and $\bar\tau^0 = \tau^0 = I_8$; the 16 equations become the two 8-component equations
 
 $$
 \sum_a f_a^{-1}\bar\tau^a\partial_a\psi_+ + 3H\psi_+ = V\psi_-,\qquad
@@ -109,7 +109,7 @@ $$
 | item | Wolfram records | sympy records |
 | --- | --- | --- |
 | metric, vielbein, $\sqrt{\lvert g\rvert} = \cos z$ | `metric_is_the_authors`, `sqrt_det_g_is_cos_z`, `primordial_vielbein` | `metric_from_vielbein_equals_SPEC`, `sqrt_det_g_equals_cos_z` |
-| spin connection and $\gamma^\mu\Omega_\mu = 3H\gamma^8$ | `omega_components`, `Omega_components`, `gammaOmega_equals_3H_gamma_x8`, `gammaOmega_x4_terms_cancel` | `geometry.spin_connection_components`, `gamma_mu_Omega_mu_equals_3H_gamma_x8`, `time_terms_cancel_hidden_term_survives` |
+| spin connection and $\gamma^\mu\Omega_\mu = 3H\gamma^0$ | `omega_components`, `Omega_components`, `gammaOmega_equals_3H_gamma_x0`, `gammaOmega_x4_terms_cancel` | `geometry.spin_connection_components`, `gamma_mu_Omega_mu_equals_3H_gamma_x0`, `time_terms_cancel_hidden_term_survives` |
 | gammas | `coordinate_map`, `Clifford_relation`, `reality`, `signed_permutation_matrices`, `symmetry_pattern` | `clifford_relation`, `reality_signed_permutations`, `symmetry_pattern` |
 | $C$, $\Gamma$, $B$, $S^{ab}$ | `C_real_symmetric`, `C_squared_identity`, `C_gamma_real_antisymmetric`, `C_gamma_C_inverse`, `Gamma_definition`, `Gamma_diag`, `B_Hermitian`, `B_squared_identity`, `B_signature_8_8`, `S_Lorentz_algebra` | `C_real_symmetric_involution`, `C_gamma_antisymmetric`, `C_conjugation`, `chirality_diag`, `B_hermitian_involution_signature`, `S_lorentz_algebra` |
 | Pin(4,4) and Spin(4,4) | `Pin44_irreducible_commutant_dim_1`, `Spin44_commutant_dim_2_chiral_projectors`, `chiral_halves_irreducible`, `chiral_halves_inequivalent_intertwiners_0`, `Spin_Pin_reflection_swaps_halves` | `pin_commutant_dimension_1`, `spin_commutant_dimension_2`, `spin_halves_irreducible`, `spin_halves_inequivalent`, `reflections_exchange_halves` |
@@ -144,7 +144,7 @@ Proof. By Lemma 1, $\bar\Psi' = \Psi^\dagger\Gamma^\dagger C = \Psi^\dagger\Gamm
 
 1. $(\gamma^n)^TC\gamma^n = -\eta_{nn}C$.
 2. $\gamma^n\gamma^a(\gamma^n)^{-1} = -(R_n)^a{}_b\gamma^b$ and $\gamma^nS^{ab}(\gamma^n)^{-1} = (R_n)^a{}_c(R_n)^b{}_dS^{cd}$.
-3. $P_n := \Gamma\gamma^n$ is plus or minus the product of the seven other gammas, hence an element of Pin(4,4); $P_n^{-1}\gamma^aP_n = (R_n)^a{}_b\gamma^b$ (it covers $R_n$); $P_n^\dagger CP_n = \chi_nC$ with the character $\chi_n = -\eta_{nn}$, i.e. $-1$ for the space-like $x_1, x_2, x_3, x_8$ and $+1$ for the time-like $x_4, x_5, x_6, x_7$; and $\Gamma P_n = \gamma^n$.
+3. $P_n := \Gamma\gamma^n$ is plus or minus the product of the seven other gammas, hence an element of Pin(4,4); $P_n^{-1}\gamma^aP_n = (R_n)^a{}_b\gamma^b$ (it covers $R_n$); $P_n^\dagger CP_n = \chi_nC$ with the character $\chi_n = -\eta_{nn}$, i.e. $-1$ for the space-like $x_0, x_1, x_2, x_3$ and $+1$ for the time-like $x_4, x_5, x_6, x_7$; and $\Gamma P_n = \gamma^n$.
 
 Proof. (1) From $C\gamma^nC^{-1} = -(\gamma^n)^T$ we have $C\gamma^n = -(\gamma^n)^TC$, so
 
@@ -161,13 +161,13 @@ P_n^\dagger CP_n &= (\gamma^n)^T\Gamma C\Gamma\gamma^n = (\gamma^n)^TC\gamma^n =
 \end{aligned}
 $$
 
-and $\Gamma P_n = \Gamma^2\gamma^n = \gamma^n$. QED. The signs of $P_n$ relative to the product of the other seven gammas (in the order of $\Gamma$) are $+1, -1, +1, +1, -1, +1, -1, -1$ for $n = x_1, \dots, x_8$.
+and $\Gamma P_n = \Gamma^2\gamma^n = \gamma^n$. QED. The signs of $P_n$ relative to the product of the other seven gammas (in the order of $\Gamma$) are $-1, +1, -1, +1, +1, -1, +1, -1$ for $n = x_0, \dots, x_7$.
 
 | Wolfram records | sympy records |
 | --- | --- |
 | `T2_Pn_in_Pin44`, `T2_Pn_covers_the_reflection`, `T2_character_of_Pn`, `T2_Gamma_times_Pn_is_gamma_n`, `T2_kernels_gamma_n_with_frame_reflection` | `T2.general_field.matrix_identities`, `T2.general_field.reflection_table`, `compare.theory.reflection_table` |
 
-**Lemma 4 (Krein signs of the maps).** $MBM^\dagger = \sigma_MB$ with $\sigma_\Gamma = -1$; $\sigma_{\gamma^n} = +1$ for $n = x_1, x_2, x_3, x_4, x_8$ and $-1$ for $n = x_5, x_6, x_7$; and $\sigma_{P_n} = -\sigma_{\gamma^n}$, i.e. $-1$ for $P_{x_1}, P_{x_2}, P_{x_3}, P_{x_4}, P_{x_8}$ and $+1$ for $P_{x_5}, P_{x_6}, P_{x_7}$.
+**Lemma 4 (Krein signs of the maps).** $MBM^\dagger = \sigma_MB$ with $\sigma_\Gamma = -1$; $\sigma_{\gamma^n} = +1$ for $n = x_0, x_1, x_2, x_3, x_4$ and $-1$ for $n = x_5, x_6, x_7$; and $\sigma_{P_n} = -\sigma_{\gamma^n}$, i.e. $-1$ for $P_{x_0}, P_{x_1}, P_{x_2}, P_{x_3}, P_{x_4}$ and $+1$ for $P_{x_5}, P_{x_6}, P_{x_7}$.
 
 Proof. $\Gamma$: Lemma 2. For $\gamma^n$: it is real, so $(\gamma^n)^\dagger = (\gamma^n)^T = \eta_{nn}\gamma^n$, and transposing $C\gamma^nC^{-1} = -(\gamma^n)^T$ with $C^T = C = C^{-1}$ gives $\gamma^nC = -C(\gamma^n)^T$. Hence
 
@@ -259,7 +259,7 @@ the same equations. None of the gravitational terms ($e^{\mp a_4}\sin^{-1/6}z$, 
 ### 4.5 Remarks on T1
 
 - Negative controls: $\mathcal{L}_{m,\lambda}[\Gamma\Psi] + \mathcal{L}_{m,\lambda}[\Psi] \neq 0$ and $\mathcal{L}_{m,\lambda}[\Gamma\Psi] + \mathcal{L}_{-m,\lambda}[\Psi] \neq 0$: the mass AND the coupling must change sign. For $\lambda \neq 0$, T1 is therefore not a pure $+m$ / $-m$ pairing; for $\lambda = 0$ (free fields) it pairs $+m$ with $-m$ exactly.
-- The partner's energy density, pressures and equations of state: $\rho' = -\rho$ and $p_\mu' = -p_\mu$ in every direction; for homogeneous on-shell states $\rho = mS + \frac{\lambda}{2}S^2$ and $p = \frac{\lambda}{2}S^2$ become $\rho' = -mS - \frac{\lambda}{2}S^2$ and $p' = -\frac{\lambda}{2}S^2$ (with $S' = S$). Every ratio of components, in particular $w_3 = p_3/\rho$, $w_t = p_t/\rho$ and $w_8 = p_8/\rho$, is the same for both members.
+- The partner's energy density, pressures and equations of state: $\rho' = -\rho$ and $p_\mu' = -p_\mu$ in every direction; for homogeneous on-shell states $\rho = mS + \frac{\lambda}{2}S^2$ and $p = \frac{\lambda}{2}S^2$ become $\rho' = -mS - \frac{\lambda}{2}S^2$ and $p' = -\frac{\lambda}{2}S^2$ (with $S' = S$). Every ratio of components, in particular $w_3 = p_3/\rho$, $w_t = p_t/\rho$ and $w_{x_0} = p_0/\rho$, is the same for both members.
 - T1 is not a symmetry of one theory: it changes the parameters and the sign of the action. Because $-\mathcal{L}$ and $\mathcal{L}$ have the same Euler-Lagrange equations, $\Gamma\Psi$ is a solution of the $(-m,-\lambda)$ theory; nothing more is asserted.
 - Representation content: $\Gamma$ is $-1$ on one irreducible Spin(4,4) half and $+1$ on the other (section 2.2); the partner differs from $\Psi$ by the relative sign of its two inequivalent Spin(4,4) components, and $\Gamma$ is itself an element of Pin(4,4) (a product of eight unit vectors).
 
@@ -271,9 +271,9 @@ the same equations. None of the gravitational terms ($e^{\mp a_4}\sin^{-1/6}z$, 
 
 ### 5.1 Hypotheses
 
-- (H5) $n$ is a space-like frame direction ($x_1$, $x_2$, $x_3$ or $x_8$), and $P_n = \Gamma\gamma^n$ is the Pin(4,4) lift of the reflection $R_n$, of character $-1$ (Lemma 3).
+- (H5) $n$ is a space-like frame direction ($x_0$, $x_1$, $x_2$ or $x_3$), and $P_n = \Gamma\gamma^n$ is the Pin(4,4) lift of the reflection $R_n$, of character $-1$ (Lemma 3).
 - (H6) General-field version: the frame is reflected, $e' = R_ne$ (the same metric, since $R_n\eta R_n = \eta$, and the same $\sqrt{|g|}$), with its canonical connection, and $\Psi'(x) = \Gamma P_n\Psi(x) = \gamma^n\Psi(x)$ at the same point.
-- (H7) Author's-field version: the map $\phi: x_8 \mapsto \pi/(6H) - x_8$ ($z \mapsto \pi - z$) takes the patch $z \in (0,\pi/2)$ onto the mirror patch $z \in (\pi/2,\pi)$; each patch carries its own positive vielbein ($e^8 = |\cot z|\,dx_8$, i.e. $-\cot z\,dx_8$ on the mirror patch); and $\Psi'(\phi(x)) = \gamma^8\Psi(x)$. The brane $z = \pi/2$ is a degenerate surface of the metric ($g_{88} = \cot^2 z = 0$ and $\sqrt{|g|} = \cos z = 0$ there); extending the field to the mirror patch is the ASSUMED Z2 construction of `Revision/SPEC.md` section 7.
+- (H7) Author's-field version: the map $\phi: x_0 \mapsto \pi/(6H) - x_0$ ($z \mapsto \pi - z$) takes the patch $z \in (0,\pi/2)$ onto the mirror patch $z \in (\pi/2,\pi)$; each patch carries its own positive vielbein ($e^0 = |\cot z|\,dx_0$, i.e. $-\cot z\,dx_0$ on the mirror patch); and $\Psi'(\phi(x)) = \gamma^0\Psi(x)$. The brane $z = \pi/2$ is a degenerate surface of the metric ($g_{00} = \cot^2 z = 0$ and $\sqrt{|g|} = \cos z = 0$ there); extending the field to the mirror patch is the ASSUMED Z2 construction of `Revision/SPEC.md` section 7.
 - (H8) Both statistics; $U(S) = \frac{\lambda}{2}S^2$ or any even function of $S$.
 
 ### 5.2 Statement
@@ -282,7 +282,7 @@ the same equations. None of the gravitational terms ($e^{\mp a_4}\sin^{-1/6}z$, 
 
 - (T2a) $\mathcal{L}_{m,\lambda}[\gamma^n\Psi;\,R_ne] = +\mathcal{L}_{-m,\lambda}[\Psi;\,e]$ in every gravitational field; in the author's field $\mathcal{L}_{m,\lambda}[\Psi'](\phi(x)) = \mathcal{L}_{-m,\lambda}[\Psi](x)$.
 - (T2b) $S' = -S$, and $E_{m,\lambda}[\gamma^n\Psi;\,R_ne] = -\gamma^nE_{-m,\lambda}[\Psi;\,e]$: $\Psi$ solves the $(-m,\lambda)$ equations if and only if its image solves the $(m,\lambda)$ equations (in the author's field: on the patch and on the mirror patch respectively).
-- (T2c) In the general-field version $T'_{\mu\nu} = T^{(-m,\lambda)}_{\mu\nu}[\Psi]$ and $J'^\mu = J^\mu[\Psi]$. In the author's field $T_{\mu\nu}[\Psi'](\phi(x)) = (R_8\,T^{(-m,\lambda)}[\Psi](x)\,R_8)_{\mu\nu}$ and $J'^\mu = (R_8)^\mu{}_\nu J^\nu$: the energy density and every component without an $x_8$ index are EQUAL, not opposite. T2 pairs $+m$ with $-m$ at equal energy-momentum.
+- (T2c) In the general-field version $T'_{\mu\nu} = T^{(-m,\lambda)}_{\mu\nu}[\Psi]$ and $J'^\mu = J^\mu[\Psi]$. In the author's field $T_{\mu\nu}[\Psi'](\phi(x)) = (R_0\,T^{(-m,\lambda)}[\Psi](x)\,R_0)_{\mu\nu}$ and $J'^\mu = (R_0)^\mu{}_\nu J^\nu$: the energy density and every component without an $x_0$ index are EQUAL, not opposite. T2 pairs $+m$ with $-m$ at equal energy-momentum.
 - (T2d) For a time-like $n$ (character $+1$) the same construction gives $\mathcal{L} \to -\mathcal{L}_{-m,-\lambda}$, a T1-type map; the character $-1$ is what makes T2 a pairing $(m,\lambda) \to (-m,\lambda)$ with $\mathcal{L} \to +\mathcal{L}$.
 
 ### 5.3 Proof in a general field (frame reflection)
@@ -323,9 +323,9 @@ Step 7 (statistics). $\gamma^n$ is a constant signed permutation matrix; the sub
 
 ### 5.4 Proof in the author's field (the Z2 mirror)
 
-$\phi$ is an isometry of the author's metric: its components depend on $x_8$ only through $\sin z$ and $\cot^2 z$, both invariant under $z \mapsto \pi - z$. The positive vielbein of the mirror patch, pulled back by $\phi$, is $R_8e$: its hidden leg is $-\cot(\pi - z)\,d(\pi/(6H) - x_8) = -\cot z\,dx_8 = -e^8$, and the other legs are unchanged. $\sqrt{|g|}\,d^8x$ is invariant ($|\cos z|$ is invariant and the Jacobian has modulus 1). Pulling the mirror-patch Lagrangian back by $\phi$ therefore gives the frame-reflected Lagrangian of section 5.3 with $n = x_8$, which proves (T2a) and (T2b) in the author's field; the coordinate components of $T$ and $J$ pick up the Jacobian $R_8$ of $\phi$, which gives (T2c). QED.
+$\phi$ is an isometry of the author's metric: its components depend on $x_0$ only through $\sin z$ and $\cot^2 z$, both invariant under $z \mapsto \pi - z$. The positive vielbein of the mirror patch, pulled back by $\phi$, is $R_0e$: its hidden leg is $-\cot(\pi - z)\,d(\pi/(6H) - x_0) = -\cot z\,dx_0 = -e^0$, and the other legs are unchanged. $\sqrt{|g|}\,d^8x$ is invariant ($|\cos z|$ is invariant and the Jacobian has modulus 1). Pulling the mirror-patch Lagrangian back by $\phi$ therefore gives the frame-reflected Lagrangian of section 5.3 with $n = x_0$, which proves (T2a) and (T2b) in the author's field; the coordinate components of $T$ and $J$ pick up the Jacobian $R_0$ of $\phi$, which gives (T2c). QED.
 
-In block form $\gamma^8$ has the blocks $\bar\tau^8 = \tau^8 = I_8$, so $\gamma^8(\psi_-, \psi_+) = (\psi_+, \psi_-)$: the mirror image exchanges the two inequivalent Spin(4,4) halves, and $S = -\psi_-^\dagger\sigma\psi_- + \psi_+^\dagger\sigma\psi_+$ changes sign.
+In block form $\gamma^0$ has the blocks $\bar\tau^0 = \tau^0 = I_8$, so $\gamma^0(\psi_-, \psi_+) = (\psi_+, \psi_-)$: the mirror image exchanges the two inequivalent Spin(4,4) halves, and $S = -\psi_-^\dagger\sigma\psi_- + \psi_+^\dagger\sigma\psi_+$ changes sign.
 
 | Wolfram records (author's field) | sympy records (author's field) |
 | --- | --- |
@@ -333,10 +333,11 @@ In block form $\gamma^8$ has the blocks $\bar\tau^8 = \tau^8 = I_8$, so $\gamma^
 
 ### 5.5 The eight reflections
 
-The sympy checker also shows that neither the plain mirror ($P = 1$) nor $\Gamma$ alone gives a relation $\mathcal{L}_{\mathrm{mirror}} = \pm\mathcal{L}_{\mathrm{patch}}$ with $(m,\lambda) \to (\pm m, \pm\lambda)$, that $P_8 = \Gamma\gamma^8$ alone gives $\mathcal{L} \to -\mathcal{L}_{m,-\lambda}$, and that its composition with $\Gamma$ gives T2. The frame reflections of all eight directions, from the data of the pairing theory record (the Wolfram pointwise frame-reflection checks of every direction and the sympy frame-reflection checks of the general diagonal field, both statistics; the record names are in the T2 tables of section 9.2):
+The sympy checker also shows that neither the plain mirror ($P = 1$) nor $\Gamma$ alone gives a relation $\mathcal{L}_{\mathrm{mirror}} = \pm\mathcal{L}_{\mathrm{patch}}$ with $(m,\lambda) \to (\pm m, \pm\lambda)$, that $P_0 = \Gamma\gamma^0$ alone gives $\mathcal{L} \to -\mathcal{L}_{m,-\lambda}$, and that its composition with $\Gamma$ gives T2. The frame reflections of all eight directions, from the data of the pairing theory record (the Wolfram pointwise frame-reflection checks of every direction and the sympy frame-reflection checks of the general diagonal field, both statistics; the record names are in the T2 tables of section 9.2):
 
 | direction | $\eta_{nn}$ | character of $P_n$ | $S$ under $\gamma^n$ | kinetic term | map |
 | --- | --- | --- | --- | --- | --- |
+| $x_0$ | $+1$ | $-1$ | $-S$ | $+K$ | $(-m,\lambda)$, $+\mathcal{L}$ (T2) |
 | $x_1$ | $+1$ | $-1$ | $-S$ | $+K$ | $(-m,\lambda)$, $+\mathcal{L}$ (T2) |
 | $x_2$ | $+1$ | $-1$ | $-S$ | $+K$ | $(-m,\lambda)$, $+\mathcal{L}$ (T2) |
 | $x_3$ | $+1$ | $-1$ | $-S$ | $+K$ | $(-m,\lambda)$, $+\mathcal{L}$ (T2) |
@@ -344,9 +345,8 @@ The sympy checker also shows that neither the plain mirror ($P = 1$) nor $\Gamma
 | $x_5$ | $-1$ | $+1$ | $+S$ | $-K$ | $(-m,-\lambda)$, $-\mathcal{L}$ (T1-type) |
 | $x_6$ | $-1$ | $+1$ | $+S$ | $-K$ | $(-m,-\lambda)$, $-\mathcal{L}$ (T1-type) |
 | $x_7$ | $-1$ | $+1$ | $+S$ | $-K$ | $(-m,-\lambda)$, $-\mathcal{L}$ (T1-type) |
-| $x_8$ | $+1$ | $-1$ | $-S$ | $+K$ | $(-m,\lambda)$, $+\mathcal{L}$ (T2) |
 
-In the author's field only the reflection of $x_8$ is realised by an isometry that maps the patch onto another patch (the mirror across the Z2 brane); the reflections of $x_1, x_2, x_3$ are frame statements.
+In the author's field only the reflection of $x_0$ is realised by an isometry that maps the patch onto another patch (the mirror across the Z2 brane); the reflections of $x_1, x_2, x_3$ are frame statements.
 
 ## 6. The quantum-level reading (dirac16complex)
 
@@ -360,8 +360,8 @@ In the author's field only the reflection of $x_8$ is realised by an isometry th
 - (Q1) The chirality image $\chi = \Gamma\Psi$ carries the Krein metric $-B$: $\{\chi_A, \chi^\dagger_B\} = (\Gamma B\Gamma)_{AB}\,\delta/\sqrt{|g|} = -B_{AB}\,\delta/\sqrt{|g|}$, which is also the anticommutator demanded by its own Lagrangian $\mathcal{L}_{m,\lambda}[\Gamma\chi] = -\mathcal{L}_{-m,-\lambda}[\chi]$.
 - (Q2) The image's own generators (energy, momentum and charge from its own Lagrangian) coincide with those of $\Psi$: the pair $\Psi$, $\Gamma\Psi$ is ONE quantum system, and the T1 identity $T^{(-m,-\lambda)}[\Gamma\Psi] = -T^{(m,\lambda)}[\Psi]$ is an identity between operators of that one system.
 - (Q3) An independently quantised $(-m,-\lambda)$ universe has the anticommutator $+B$ (from $\mathcal{L}_{-m,-\lambda}$), its own vacuum and its own generators; it cannot be identified with $\Gamma\Psi$ ($B \neq -B$); on the product state space the generators add, $P_{\mathrm{total}} = P_1\otimes 1 + 1\otimes P_2$, and no cancellation $P_1 + P_2 = 0$ follows.
-- (Q4) The one-particle ($\lambda = 0$) Hamiltonians satisfy $\Gamma h_m\Gamma = h_{-m}$ (flat space, and a general field at a point with frozen coefficients) and $\gamma^8h_m(k)\gamma^8 = h_{-m}(R_8k)$: the $+m$ and $-m$ one-particle spectra are IDENTICAL, not opposite. In flat 4+4 space $h_m(k) = -im\gamma^4 - \gamma^4\sum_{a \neq 4}k_a\gamma^a$ and $h_m(k)^2 = w^2 I_{16}$ with $w^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$; for every REAL frequency ($w^2 > 0$, with or without extra-time momentum) each of the two eigenspaces has dimension 8 and Krein inertia (4,4), the same for $+m$ and $-m$, and for imaginary or zero frequency (the growing extra-time modes) the eigenspaces are Krein-neutral ($B$ vanishes on them).
-- (Q5) The T2 image $\gamma^8\Psi$ keeps the anticommutator $+B$: the mirror $(-m,\lambda)$ universe is an ordinary, independently quantisable copy with equal energies.
+- (Q4) The one-particle ($\lambda = 0$) Hamiltonians satisfy $\Gamma h_m\Gamma = h_{-m}$ (flat space, and a general field at a point with frozen coefficients) and $\gamma^0h_m(k)\gamma^0 = h_{-m}(R_0k)$: the $+m$ and $-m$ one-particle spectra are IDENTICAL, not opposite. In flat 4+4 space $h_m(k) = -im\gamma^4 - \gamma^4\sum_{a \neq 4}k_a\gamma^a$ and $h_m(k)^2 = w^2 I_{16}$ with $w^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$; for every REAL frequency ($w^2 > 0$, with or without extra-time momentum) each of the two eigenspaces has dimension 8 and Krein inertia (4,4), the same for $+m$ and $-m$, and for imaginary or zero frequency (the growing extra-time modes) the eigenspaces are Krein-neutral ($B$ vanishes on them).
+- (Q5) The T2 image $\gamma^0\Psi$ keeps the anticommutator $+B$: the mirror $(-m,\lambda)$ universe is an ordinary, independently quantisable copy with equal energies.
 
 ### 6.3 Proofs
 
@@ -371,30 +371,30 @@ In the author's field only the reflection of $x_8$ is realised by an isometry th
 
 (Q3) The Lagrangian $\mathcal{L}_{-m,-\lambda}[\chi_2]$ of an independent universe has the kernel $N = +B$, hence $\{\chi_2, \chi_2^\dagger\} = +B\,\delta/\sqrt{|g|}$, while $\{\Gamma\Psi_1, (\Gamma\Psi_1)^\dagger\} = -B\,\delta/\sqrt{|g|}$; and independence requires $\{\Psi_1, \chi_2^\dagger\} = 0$, whereas $\{\Gamma\Psi_1, \Psi_1^\dagger\} = \Gamma B/\sqrt{|g|}$ has rank 16. So no identification $\chi_2 = \Gamma\Psi_1$ exists. On the product space the generators of the two systems add; the T1 identity relates operators of universe 1 only and gives no relation $P_2 = -P_1$. At zero momentum the block one-particle generator $\mathrm{diag}(Bh_m, Bh_{-m})$ has the eigenvalues $-m$ and $m$, each 16 times, all nonzero for $m \neq 0$.
 
-(Q4) $\Gamma\gamma^4\Gamma = -\gamma^4$ and $\Gamma\gamma^4\gamma^a\Gamma = \gamma^4\gamma^a$ give $\Gamma h_m\Gamma = h_{-m}$. With $(\gamma^8)^2 = 1$,
+(Q4) $\Gamma\gamma^4\Gamma = -\gamma^4$ and $\Gamma\gamma^4\gamma^a\Gamma = \gamma^4\gamma^a$ give $\Gamma h_m\Gamma = h_{-m}$. With $(\gamma^0)^2 = 1$,
 
 $$
-\gamma^8\gamma^4\gamma^8 = -\gamma^4,\qquad
-\gamma^8\gamma^4\gamma^a\gamma^8 = \gamma^4\gamma^a \ (a \neq 4, 8),\qquad
-\gamma^8\gamma^4\gamma^8\gamma^8 = -\gamma^4\gamma^8 ,
+\gamma^0\gamma^4\gamma^0 = -\gamma^4,\qquad
+\gamma^0\gamma^4\gamma^a\gamma^0 = \gamma^4\gamma^a \ (a \neq 0, 4),\qquad
+\gamma^0\gamma^4\gamma^0\gamma^0 = -\gamma^4\gamma^0 ,
 $$
 
-which gives $\gamma^8h_m(k)\gamma^8 = h_{-m}(R_8k)$. Similar matrices have equal spectra. The square and the eigenspaces are computed exactly; the samples of `Revision/pairing/pairing-theory.json` are:
+which gives $\gamma^0h_m(k)\gamma^0 = h_{-m}(R_0k)$. Similar matrices have equal spectra. The square and the eigenspaces are computed exactly; the samples of `Revision/pairing/pairing-theory.json` are:
 
-| $m$ | momentum $(k_1, \dots, k_8)$ | $w$ | dimensions of the $+w$ and $-w$ eigenspaces | Krein inertia on $+w$ and on $-w$ |
+| $m$ | momentum $(k_0, \dots, k_7)$ | $w$ | dimensions of the $+w$ and $-w$ eigenspaces | Krein inertia on $+w$ and on $-w$ |
 | --- | --- | --- | --- | --- |
-| $2$ | (1, 2, 0, 0, 0, 0, 0, 4) | $5$ | 8 and 8 | (4,4) and (4,4) |
-| $-2$ | (1, 2, 0, 0, 0, 0, 0, 4) | $5$ | 8 and 8 | (4,4) and (4,4) |
+| $2$ | (4, 1, 2, 0, 0, 0, 0, 0) | $5$ | 8 and 8 | (4,4) and (4,4) |
+| $-2$ | (4, 1, 2, 0, 0, 0, 0, 0) | $5$ | 8 and 8 | (4,4) and (4,4) |
 | $3$ | (0, 0, 0, 0, 0, 0, 0, 0) | $3$ | 8 and 8 | (4,4) and (4,4) |
 | $-3$ | (0, 0, 0, 0, 0, 0, 0, 0) | $3$ | 8 and 8 | (4,4) and (4,4) |
-| $1$ | (1, 0, 0, 0, 0, 0, 0, 0) | $\sqrt{2}$ | 8 and 8 | (4,4) and (4,4) |
-| $-1$ | (1, 0, 0, 0, 0, 0, 0, 0) | $\sqrt{2}$ | 8 and 8 | (4,4) and (4,4) |
-| $2$ | (0, 0, 0, 0, 1, 0, 0, 0) | $\sqrt{3}$ | 8 and 8 | (4,4) and (4,4) |
-| $-2$ | (0, 0, 0, 0, 1, 0, 0, 0) | $\sqrt{3}$ | 8 and 8 | (4,4) and (4,4) |
+| $1$ | (0, 1, 0, 0, 0, 0, 0, 0) | $\sqrt{2}$ | 8 and 8 | (4,4) and (4,4) |
+| $-1$ | (0, 1, 0, 0, 0, 0, 0, 0) | $\sqrt{2}$ | 8 and 8 | (4,4) and (4,4) |
+| $2$ | (0, 0, 0, 0, 0, 1, 0, 0) | $\sqrt{3}$ | 8 and 8 | (4,4) and (4,4) |
+| $-2$ | (0, 0, 0, 0, 0, 1, 0, 0) | $\sqrt{3}$ | 8 and 8 | (4,4) and (4,4) |
 
-The entry $k_4$ is not used ($h_m$ contains no $\gamma^4\gamma^4$ term). The last two rows have an extra-time momentum and a real frequency. The general statement is proved, not sampled: (i) for real $w > 0$ the projectors $P_\pm = (1 \pm h_m/w)/2$ satisfy $P_+^\dagger BP_- = 0$ and $P_+^\dagger BP_+ = BP_+$ (from $Bh_m = h_m^\dagger B$ and $h_m^2 = w^2$), so the two eigenspaces are $B$-orthogonal and $B$ is nondegenerate on each; (ii) in the good sector $[B, h_m] = 0$ and $\mathrm{tr}\,B = \mathrm{tr}(Bh_m) = 0$, so $\mathrm{tr}(BP_\pm) = 0$ and $B$ has inertia (4,4) on each eigenspace; (iii) the region $w^2 > 0$ is connected and contains the good sector (lowering $k_5, k_6, k_7$ to zero only increases $w^2$), and $P_\pm$ depend continuously on $k$ there, so the inertia (4,4) holds at every real frequency. For imaginary $w$, $h u = wu$ and $hv = wv$ give $(w - \bar w)\,u^\dagger Bv = 0$: the eigenspace is Krein-neutral; for $w = 0$, $h^2 = 0$ with rank 8 and $\ker h = \mathrm{ran}\,h$ is $B$-neutral. Exact samples: $m = 1$, $k_5 = 2$ ($w = \pm i\sqrt3$); $m = 1$, $k_1 = 1$, $k_5 = 2$ ($w = \pm i\sqrt2$); $m = 1$, $k_5 = 1$ ($w = 0$): every eigenspace has dimension 8 and the form $u^\dagger Bv$ vanishes on it identically. In a general field at a point the same similarity $\Gamma h_m\Gamma = h_{-m}$ holds for symbolic momenta; in the pointwise test field $(\gamma^{x_4})^2 = g^{x_4x_4}I_{16} = -\frac{2269482}{1990921}I_{16}$.
+The entry $k_4$ is not used ($h_m$ contains no $\gamma^4\gamma^4$ term). The last two rows have an extra-time momentum and a real frequency. The general statement is proved, not sampled: (i) for real $w > 0$ the projectors $P_\pm = (1 \pm h_m/w)/2$ satisfy $P_+^\dagger BP_- = 0$ and $P_+^\dagger BP_+ = BP_+$ (from $Bh_m = h_m^\dagger B$ and $h_m^2 = w^2$), so the two eigenspaces are $B$-orthogonal and $B$ is nondegenerate on each; (ii) in the good sector $[B, h_m] = 0$ and $\mathrm{tr}\,B = \mathrm{tr}(Bh_m) = 0$, so $\mathrm{tr}(BP_\pm) = 0$ and $B$ has inertia (4,4) on each eigenspace; (iii) the region $w^2 > 0$ is connected and contains the good sector (lowering $k_5, k_6, k_7$ to zero only increases $w^2$), and $P_\pm$ depend continuously on $k$ there, so the inertia (4,4) holds at every real frequency. For imaginary $w$, $h u = wu$ and $hv = wv$ give $(w - \bar w)\,u^\dagger Bv = 0$: the eigenspace is Krein-neutral; for $w = 0$, $h^2 = 0$ with rank 8 and $\ker h = \mathrm{ran}\,h$ is $B$-neutral. Exact samples: $m = 1$, $k_5 = 2$ ($w = \pm i\sqrt3$); $m = 1$, $k_1 = 1$, $k_5 = 2$ ($w = \pm i\sqrt2$); $m = 1$, $k_5 = 1$ ($w = 0$): every eigenspace has dimension 8 and the form $u^\dagger Bv$ vanishes on it identically. In a general field at a point the same similarity $\Gamma h_m\Gamma = h_{-m}$ holds for symbolic momenta; in the pointwise test field $(\gamma^{x_4})^2 = g^{x_4x_4}I_{16} = -\frac{2307429}{1990921}I_{16}$ (the coefficients of that field are a formula in the list positions of the coordinates; since the relabel of 2026-10-14 the positions are those of the author's order, so it is a different, equally generic field: $\det e$ and the number of nonzero connection components are unchanged, $g^{x_4x_4}$ was $-\frac{2269482}{1990921}$ before).
 
-(Q5) Lemma 4 gives $\gamma^8B(\gamma^8)^\dagger = +B$. QED.
+(Q5) Lemma 4 gives $\gamma^0B(\gamma^0)^\dagger = +B$. QED.
 
 | statement | Wolfram records | sympy records |
 | --- | --- | --- |
@@ -405,13 +405,13 @@ The entry $k_4$ is not used ($h_m$ contains no $\gamma^4\gamma^4$ term). The las
 | (Q4) | `Q_one_particle_flat_dispersion`, `Q_one_particle_maps`, `Q_one_particle_Krein_signatures`, `Q_one_particle_Krein_inertia_real_frequencies`, `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`, `Q_one_particle_general_field` | `Q.one_particle_maps`, `Q.one_particle_Krein_inertia`, `Q.one_particle_Krein_inertia_proof`, `Q.one_particle_complex_frequency_Krein_neutral`, `compare.theory.one_particle` |
 | (Q5) | `Q_Krein_metric_of_images` | `Q.T2_image_keeps_B` |
 
-Relation to the good sector of the theory record. With $\Psi^\dagger$ realised as the Hilbert adjoint, the canonical anticommutator forces an indefinite (Krein) inner product (record `no_positive_inner_product`). The theory record constructs, in the good sector without extra-time momentum, a positive Fock representation in which $\Psi^\dagger$ is realised as $\chi B$ with $\chi$ the Hilbert adjoint, but only for single good-sector momenta with frozen coefficients (flat-frame plane waves, in which the deflation of the extra times does not enter; records `mode_hamiltonian_good_sector`, `Fock_space_good_sector_example` and `good_sector_positive_fock_realisation`). In the author's metric the curved good-sector mode operator is Hermitian only up to a boundary term at $z = \pi/2$ (`good_sector_hermiticity_up_to_the_brane_flux`); the theory record imposes no boundary condition there, and without one the good sector has complex frequencies, for $U = 0$ whenever $m^2 < 9H^2$ (`good_sector_x8_independent_modes_without_boundary_condition`). A positive-norm Hilbert space for the full field is not established. The statements Q1 to Q5 are statements about the canonical anticommutator; they neither use nor establish a positive-norm Fock space for either universe.
+Relation to the good sector of the theory record. With $\Psi^\dagger$ realised as the Hilbert adjoint, the canonical anticommutator forces an indefinite (Krein) inner product (record `no_positive_inner_product`). The theory record constructs, in the good sector without extra-time momentum, a positive Fock representation in which $\Psi^\dagger$ is realised as $\chi B$ with $\chi$ the Hilbert adjoint, but only for single good-sector momenta with frozen coefficients (flat-frame plane waves, in which the deflation of the extra times does not enter; records `mode_hamiltonian_good_sector`, `Fock_space_good_sector_example` and `good_sector_positive_fock_realisation`). In the author's metric the curved good-sector mode operator is Hermitian only up to a boundary term at $z = \pi/2$ (`good_sector_hermiticity_up_to_the_brane_flux`); the theory record imposes no boundary condition there, and without one the good sector has complex frequencies, for $U = 0$ whenever $m^2 < 9H^2$ (`good_sector_x0_independent_modes_without_boundary_condition`). A positive-norm Hilbert space for the full field is not established. The statements Q1 to Q5 are statements about the canonical anticommutator; they neither use nor establish a positive-norm Fock space for either universe.
 
 ## 7. Corollary C1: a T1 pair as the source of the field equations for $a_4$
 
 **Hypotheses.** (i) The gravitational field is the author's metric with the Einstein-Lovelock equations $\sum_{k=1}^3\alpha_kE_{(k)}{}^\mu{}_\nu + \Lambda\delta^\mu_\nu = \kappa T^\mu{}_\nu$ of `Revision/SPEC.md` section 5. (ii) The complete source is the sum of the classical energy-momentum tensors of the two members of a T1 pair at the same points of the same patch (dirac16complex00, or dirac16complex as a Grassmann-algebra-valued classical bilinear). (iii) Nothing else sources the metric.
 
-**Statement.** The total source vanishes identically, so $a_4$ must solve the vacuum equations. (a) In Einstein gravity ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$) there is no real solution for $H > 0$ and any $\Lambda$: the $x_4$ and $x_8$ components give $36H^2 + 2\Lambda = 0$ and $6(a_4')^2 + 6H^2 = 0$. (b) In Einstein-Lovelock gravity the linear member $a_4 = AHx_4 + a_0$ needs $V = 0$, with
+**Statement.** The total source vanishes identically, so $a_4$ must solve the vacuum equations. (a) In Einstein gravity ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$) there is no real solution for $H > 0$ and any $\Lambda$: the $x_4$ and $x_0$ components give $36H^2 + 2\Lambda = 0$ and $6(a_4')^2 + 6H^2 = 0$. (b) In Einstein-Lovelock gravity the linear member $a_4 = AHx_4 + a_0$ needs $V = 0$, with
 
 $$
 V = \alpha_1 - 40\alpha_2H^2 - 8A^2\alpha_2H^2 + 360\alpha_3H^4 + 144A^2\alpha_3H^4 + 72A^4\alpha_3H^4 ;
@@ -426,7 +426,7 @@ in Einstein-Gauss-Bonnet gravity ($\alpha_1 = 1$, $\alpha_3 = 0$) this gives $A^
 | (a) | `einstein_no_vacuum_solution` | `einstein_no_vacuum` |
 | (b) | `linear_member_vacuum_factor`, `einstein_gauss_bonnet_vacuum_linear` | `linear_member_vacuum_factor`, `einstein_gauss_bonnet_vacuum_linear` |
 
-Consequence (exact, under (i) to (iii)): a T1 pair cannot by itself be the source of the author's metric in Einstein gravity. This is a statement about sources in one common geometry; it is not a derivation that such a geometry, or such a pair, is created. For a T2 pair the sources do not cancel: the mirror partner carries the pulled-back energy-momentum tensor $R_8TR_8$ of the $(-m,\lambda)$ configuration. For two independently quantised universes C1 does not apply (Q3).
+Consequence (exact, under (i) to (iii)): a T1 pair cannot by itself be the source of the author's metric in Einstein gravity. This is a statement about sources in one common geometry; it is not a derivation that such a geometry, or such a pair, is created. For a T2 pair the sources do not cancel: the mirror partner carries the pulled-back energy-momentum tensor $R_0TR_0$ of the $(-m,\lambda)$ configuration. For two independently quantised universes C1 does not apply (Q3).
 
 ## 8. Theorem T3: the Kohn-Sham level (dirac16complex)
 
@@ -443,7 +443,7 @@ Consequence (exact, under (i) to (iii)): a T1 pair cannot by itself be the sourc
 
 ### 8.2 Statement
 
-For every self-consistent Kohn-Sham state with $(m,\lambda,\theta)$, the map $(\chi, j) \to (\sigma_2\chi, -j)$ at the same $k$, which is the chirality $\Gamma$ of the 16-component orbital in the block basis (up to the phase $s_2$ per block), with the two brane parities exchanged, gives a self-consistent Kohn-Sham state with $(-m,+\lambda,\pi-\theta)$, and conversely (the map is an involution). The two states have the same levels with their degeneracies, the same occupations, chemical potential, particle number and entropy, EQUAL Kohn-Sham energy $E_{KS}$, grand potential and free energy, and equal energy-momentum profiles $\rho(y)$, $p_3(y)$, $p_t(y)$, $p_8(y)$; the densities transform as $n \to n$, $S \to -S$, $Q \to -Q$, so $M_{\mathrm{eff}} \to -M_{\mathrm{eff}}$ and $v_v \to v_v$. With the untransformed tip angle the spectra differ. Inside the ASSUMED Z2 orbifold the mirror copy of a self-consistent state carries $(-m,+\lambda)$.
+For every self-consistent Kohn-Sham state with $(m,\lambda,\theta)$, the map $(\chi, j) \to (\sigma_2\chi, -j)$ at the same $k$, which is the chirality $\Gamma$ of the 16-component orbital in the block basis (up to the phase $s_2$ per block), with the two brane parities exchanged, gives a self-consistent Kohn-Sham state with $(-m,+\lambda,\pi-\theta)$, and conversely (the map is an involution). The two states have the same levels with their degeneracies, the same occupations, chemical potential, particle number and entropy, EQUAL Kohn-Sham energy $E_{KS}$, grand potential and free energy, and equal energy-momentum profiles $\rho(y)$, $p_3(y)$, $p_t(y)$, $p_0(y)$; the densities transform as $n \to n$, $S \to -S$, $Q \to -Q$, so $M_{\mathrm{eff}} \to -M_{\mathrm{eff}}$ and $v_v \to v_v$. With the untransformed tip angle the spectra differ. Inside the ASSUMED Z2 orbifold the mirror copy of a self-consistent state carries $(-m,+\lambda)$.
 
 ### 8.3 Proof
 
@@ -471,7 +471,7 @@ A numerical self-test of the Rust solver, labelled in its report as NOT a proof 
 
 Interpretation (labelled, not a theorem): in its parameters the Kohn-Sham-level map is of the T2 type, $(m,\lambda) \to (-m,+\lambda)$ at equal energies, not of the T1 type, although its 16-component matrix is the chirality $\Gamma$ of T1: the Kohn-Sham expectation values are taken with the fixed Krein metric $B$ of the canonical quantisation, under which $\Gamma$ flips the sign ($\Gamma B\Gamma = -B$, statement Q1), so $S \to -S$ at the Kohn-Sham level while $S[\Gamma\Psi] = S[\Psi]$ for the classical bilinear.
 
-What T3 does not establish: no creation process, rate or amplitude; only instantaneous (adiabatic) mean-field states (the time-dependent problem is OPEN); the Z2 brane is ASSUMED and the tip angle must be transformed; no correlation; no statement about two independently quantised universes; no back-reaction (the Kohn-Sham energy-momentum tensor does not satisfy the source conditions of the $a_4$ equations, record `ks_profiles_violate_algebraic_condition`). The $a_4$ equations with the Kohn-Sham source (`Revision/field_equations_a4/ks_source/reports/ks-source-a4.json`, 23 of 23 checks) confirm this exactly: the recorded states conserve energy-momentum along $x_8$ (`B2_x8_conservation_on_every_profile`), so their violation of $p_3 + p_t = 2p_8$ is exactly their dependence on $x_8$, and it persists after averaging over the hidden direction (`C1_averaged_algebraic_condition_fails`); the coupled problem has no solution, so nothing about $a_4$ is derived from it, and the integration of a truncated, averaged system there is an approximation with residuals of order one, not used here.
+What T3 does not establish: no creation process, rate or amplitude; only instantaneous (adiabatic) mean-field states (the time-dependent problem is OPEN); the Z2 brane is ASSUMED and the tip angle must be transformed; no correlation; no statement about two independently quantised universes; no back-reaction (the Kohn-Sham energy-momentum tensor does not satisfy the source conditions of the $a_4$ equations, record `ks_profiles_violate_algebraic_condition`). The $a_4$ equations with the Kohn-Sham source (`Revision/field_equations_a4/ks_source/reports/ks-source-a4.json`, 23 of 23 checks) confirm this exactly: the recorded states conserve energy-momentum along $x_0$ (`B2_x0_conservation_on_every_profile`), so their violation of $p_3 + p_t = 2p_0$ is exactly their dependence on $x_0$, and it persists after averaging over the hidden direction (`C1_averaged_algebraic_condition_fails`); the coupled problem has no solution, so nothing about $a_4$ is derived from it, and the integration of a truncated, averaged system there is an approximation with residuals of order one, not used here.
 
 ### 8.5 Completion of T3 (2026-10-08)
 
@@ -524,7 +524,7 @@ Every check has a name, a verdict and a detail. Counts at the time of writing (t
 | `Revision/kohn_sham/reports/ks-theory-python.json` | 58 | 58 | 0 |
 | `Revision/kohn_sham/reports/ks-rust-solver.json` | 42 | 42 | 0 |
 
-The pairing theorems are verified in four gravitational fields: the author's metric on the patch $z \in (0,\pi/2)$ (primordial); the same metric on the mirror patch; a general diagonal (4,4) field $e^a{}_\mu = h_a(x_1,\dots,x_8)\delta^a_\mu$ with eight arbitrary functions of all eight coordinates (diagonal8); and a general non-diagonal field at one point (pointwise), with exact rational $e^a{}_\mu$ and $\partial_\rho e^a{}_\mu$, $\det e = 1411/6561$, a non-diagonal metric and 448 of the 512 connection components nonzero; plus the linearity (kernel) argument that covers every field. The canonical connection of each test field satisfies the vielbein postulate exactly. The Wolfram side and the sympy side share no code; the sympy side re-builds the gammas from the author's tau formulas and compares them entry by entry with `Revision/algebra/gammas.json`.
+The pairing theorems are verified in four gravitational fields: the author's metric on the patch $z \in (0,\pi/2)$ (primordial); the same metric on the mirror patch; a general diagonal (4,4) field $e^a{}_\mu = h_a(x_0,\dots,x_7)\delta^a_\mu$ with eight arbitrary functions of all eight coordinates (diagonal8); and a general non-diagonal field at one point (pointwise), with exact rational $e^a{}_\mu$ and $\partial_\rho e^a{}_\mu$, $\det e = 1411/6561$, a non-diagonal metric and 448 of the 512 connection components nonzero; plus the linearity (kernel) argument that covers every field. The canonical connection of each test field satisfies the vielbein postulate exactly. The Wolfram side and the sympy side share no code; the sympy side re-builds the gammas from the author's tau formulas and compares them entry by entry with `Revision/algebra/gammas.json`.
 
 ### 9.2 Checks per theorem
 
@@ -575,7 +575,7 @@ The tables below list all 101 checks of the Wolfram pairing report and all 66 ch
 | `T2_frame_reflection_pointwise_x3_commuting` | `T2_frame_reflection_pointwise_x3_grassmann` | `T2_frame_reflection_pointwise_x4_commuting` |
 | `T2_frame_reflection_pointwise_x4_grassmann` | `T2_frame_reflection_pointwise_x5_commuting` | `T2_frame_reflection_pointwise_x5_grassmann` |
 | `T2_frame_reflection_pointwise_x6_commuting` | `T2_frame_reflection_pointwise_x6_grassmann` | `T2_frame_reflection_pointwise_x7_commuting` |
-| `T2_frame_reflection_pointwise_x7_grassmann` | `T2_frame_reflection_pointwise_x8_commuting` | `T2_frame_reflection_pointwise_x8_grassmann` |
+| `T2_frame_reflection_pointwise_x7_grassmann` | `T2_frame_reflection_pointwise_x0_commuting` | `T2_frame_reflection_pointwise_x0_grassmann` |
 | `T2_mirror_is_isometry` | `T2_mirror_Lagrangian_commuting` | `T2_mirror_energy_momentum_and_current_commuting` |
 | `T2_mirror_Euler_Lagrange_commuting` | `T2_mirror_Lagrangian_grassmann` | `T2_mirror_energy_momentum_and_current_grassmann` |
 | `T2_mirror_Euler_Lagrange_grassmann` |  |  |
@@ -631,20 +631,20 @@ The tables below list all 101 checks of the Wolfram pairing report and all 66 ch
 
 ### 9.3 Re-verification for this document
 
-For the first edition (2026-10-01) both pairing verifiers were re-run on a copy of the working tree: 99 of 99 and 64 of 64 checks passed and the outputs were byte-identical to the recorded files. After the review of the same day the pairing verifiers were extended (the Krein inertia of every real-frequency eigenspace, the Krein-neutral imaginary-frequency eigenspaces) and re-run on the working tree: `verify_pairing.wls` 101 of 101 PASS in about 80 s, `check_pairing.py` 66 of 66 PASS in about 140 s; the T3 verifiers 10 of 10 (about 3 s) and 13 of 13 (about 1 s). Two runs of each give byte-identical outputs. The completion records of section 8.5 (2026-10-08) are cited with the counts of their committed reports (Wolfram 3 of 3, sympy 7 of 7, the two demonstrations 7 of 7 each); their run times on the development machine, shared with other jobs, are about 15 s and 2 s for the completion verifiers, 10 to 15 min for the Rust demonstration (630 solver runs, 8 at a time) and about 10 min for the reference demonstration. The reports cited in this document are the files of the working tree.
+For the first edition (2026-10-01) both pairing verifiers were re-run on a copy of the working tree: 99 of 99 and 64 of 64 checks passed and the outputs were byte-identical to the recorded files. After the review of the same day the pairing verifiers were extended (the Krein inertia of every real-frequency eigenspace, the Krein-neutral imaginary-frequency eigenspaces) and re-run on the working tree: `verify_pairing.wls` 101 of 101 PASS in about 80 s, `check_pairing.py` 66 of 66 PASS in about 140 s; the T3 verifiers 10 of 10 (about 3 s) and 13 of 13 (about 1 s). Two runs of each give byte-identical outputs. The completion records of section 8.5 (2026-10-08) are cited with the counts of their committed reports (Wolfram 3 of 3, sympy 7 of 7, the two demonstrations 7 of 7 each); their run times on the development machine, shared with other jobs, are about 15 s and 2 s for the completion verifiers, 10 to 15 min for the Rust demonstration (630 solver runs, 8 at a time) and about 10 min for the reference demonstration. The reports cited in this document are the files of the working tree. On 2026-10-14, after the relabel to the author's coordinates $x_0, \dots, x_7$ (every run within 423 s), the pairing verifiers gave 101 of 101 (two runs with byte-identical outputs, 79 s and 91 s of kernel time) and 66 of 66 (194 s), the T3 verifiers 10 of 10 and 13 of 13, the completion verifiers 3 of 3 and 7 of 7, and the two demonstrations 7 of 7 each (the Rust demonstration with 10 workers in 281 s, the reference demonstration with 22 workers in 169 s); every report has the same checks with the same verdicts as before, apart from the two frame-reflection checks of the hidden direction, which are now named for $x_0$; the provenance files of the pairing record list the runs.
 
 ### 9.4 The metric of 2026-10-14 (b4)
 
 On 2026-10-14 the author changed the primordial metric (section 2.1): the three extra-time components became
 
 $$
-g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}\,b_4(x_4)\,\sin^{1/3}(6Hx_8),
+g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}\,b_4(x_4)\,\sin^{1/3}(6Hx_0),
 $$
 
 and $b_4 = 1$ is the metric for which this document was first written. The change and every recomputation are recorded in `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`. For the pairing theorems the result is (the report `Revision/metric_b4/results/consequences-b4.json`, produced by `Revision/metric_b4/wolfram/consequences_b4.wls`, 4 of 4 checks PASS):
 
 1. T1 holds unchanged. Its hypothesis is any gravitational field taken as a fixed background, which covers the metric with $b_4$; the check P1_T1_chirality_pairing_with_b4 confirms in that metric $\{\Gamma, \gamma^\mu\} = 0$, $[\Gamma, \Omega_\mu] = 0$ for every $\mu$ and $\gamma^\mu D_\mu(\Gamma\Psi) = -\Gamma\gamma^\mu D_\mu\Psi$ for a general 16-component $\Psi$.
-2. T2 holds unchanged. The mirror $x_8 \to \pi/(6H) - x_8$ ($z \to \pi - z$) pulls the metric with $b_4$ back to itself, since $\sin z$ and $\cot^2 z$ are symmetric under $z \to \pi - z$ and $b_4$ depends on $x_4$ only: the Z2 mirror of section 5.4 is an isometry for every $b_4$ (check P2_T2_mirror_isometry_with_b4). The Z2 brane remains ASSUMED.
+2. T2 holds unchanged. The mirror $x_0 \to \pi/(6H) - x_0$ ($z \to \pi - z$) pulls the metric with $b_4$ back to itself, since $\sin z$ and $\cot^2 z$ are symmetric under $z \to \pi - z$ and $b_4$ depends on $x_4$ only: the Z2 mirror of section 5.4 is an isometry for every $b_4$ (check P2_T2_mirror_isometry_with_b4). The Z2 brane remains ASSUMED.
 3. T3 holds unchanged. T3 concerns the good-sector Kohn-Sham problem (no extra-time momenta), whose levels and orbitals do not contain $b_4$: $b_4$ enters the Dirac operator only through the factor $b_4^{-3/4}$ and the extra-time derivatives (`Revision/kohn_sham/reports/ks-b4-wolfram.json`, 4 of 4 PASS: `K1_dirac_operator_b4_factorisation`, `K2_good_sector_independent_of_b4`, `K3_norm_and_volume`, `K4_background_b4_1`; check P3_T3_kohn_sham_level).
 4. The Kohn-Sham source verdict of section 8.4 holds for every $b_4$ (`Revision/field_equations_a4/reports/ks-source-conditions.json`, 6 of 6 PASS, `ks_verdict_holds_for_every_b4`), and the field equations for $a_4$ with the new key $b_4$ are verified in `Revision/field_equations_a4/reports/wolfram-a4-report.json` (64 of 64 PASS, of which 12 for $b_4$). Corollary C1 concerns a zero source: with a vanishing source the vacuum equations with the author's weights force $b_4 = $ const and $a_4 = \pm Hx_4 + $ const, so C1 is unchanged.
 
@@ -674,8 +674,8 @@ python Revision/pairing/kohn_sham/python/check_t3.py
 wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls
 cargo build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml
 python Revision/pairing/kohn_sham/numerics/t3_rust_demo.py \
-    --solver <target>/release/revision_ks_solver --work <scratch> --jobs 8
-python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 8
+    --solver <target>/release/revision_ks_solver --work <scratch> --jobs 10
+python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22
 python Revision/pairing/kohn_sham/python/check_t3_completion.py
 python scripts/build_provenance_pdf.py Revision/docs/PAIR_CREATION_PROOFS.md \
     --developer-layout --specifications Revision/pdf-specifications.json
@@ -704,11 +704,11 @@ Exactly, for both fields (dirac16complex with Grassmann components, dirac16compl
 4. T1 is not a symmetry of a single theory: it changes the parameters and the sign of the action, and for $\lambda \neq 0$ it pairs $(m,\lambda)$ with $(-m,-\lambda)$, not $+m$ with $-m$ at fixed coupling. The pure pairing $(m,\lambda) \to (-m,\lambda)$ is T2, at equal, not opposite, energy-momentum: T2 does not reverse the sign of $T$.
 5. The vanishing total energy-momentum and charge of a T1 pair holds for classical bilinears and as an operator identity within ONE quantum system; it does not hold for two independently quantised universes, whose generators add without cancelling.
 6. Test-field statement: the gravitational field is fixed and the same for both members. The back-reaction through the field equations for $a_4$ is not part of the theorems; corollary C1 is the only statement about it, and it concerns the sum of classical sources in one common geometry.
-7. The Z2 brane: the mirror across $z = \pi/2$ uses the ASSUMED Z2 construction; the metric is degenerate there ($g_{88} = 0$ and $\sqrt{|g|} = 0$), and no junction condition, brane tension or matching of the field across the brane is derived.
+7. The Z2 brane: the mirror across $z = \pi/2$ uses the ASSUMED Z2 construction; the metric is degenerate there ($g_{00} = 0$ and $\sqrt{|g|} = 0$), and no junction condition, brane tension or matching of the field across the brane is derived.
 8. Quantum positivity: in flat 4+4 space every real-frequency eigenspace of the one-particle Hamiltonian has Krein inertia (4,4) (proved, section 6.3), and the eigenspaces of imaginary or zero frequency are Krein-neutral; a positive-norm Fock space for either universe is not established by these theorems (the good-sector construction of the theory record is a separate result, made only for single good-sector momenta with frozen coefficients and not used here; section 6.3).
 9. dirac16complex00 is a classical field: no quantum statement is made for it.
 10. The Kohn-Sham level T3 holds for the instantaneous (adiabatic) mean-field Kohn-Sham states only, with the ASSUMED Z2 brane and the transformed tip condition; the time-dependent Kohn-Sham problem is open, no correlation is included, and T3 says nothing about back-reaction (section 8); the history $a_4 = AHx_4$ of the numerical demonstrations is a prescribed background, the filling of the Kohn-Sham states is a CONVENTION, and the demonstrations of section 8.5 are numerical, not proofs.
 
 ### 11.3 The answer to the request
 
-The request “PROVE that Universes of masses {+mass, -mass} are created in pairs” is answered exactly as follows, for dirac16complex and for dirac16complex00. Proved: to every solution with mass $m$ the explicit maps $\Gamma$ (T1: with $\lambda \to -\lambda$, opposite energy-momentum and charge, in every gravitational field) and $\gamma^8$ with the ASSUMED Z2 mirror construction (T2: same $\lambda$, equal energy-momentum, in the author's primordial gravitational field) assign a solution with mass $-m$; for dirac16complex, at the Kohn-Sham level, the block map of $\Gamma$ with the transformed boundary conditions assigns to every self-consistent instantaneous Kohn-Sham state with $(m,\lambda)$ one with $(-m,+\lambda)$ at equal energies (T3, ASSUMED Z2 brane). That universes occur in pairs is not proved: these are maps between the solutions of two parameter sets, and a single universe with mass $+m$ is an equally valid solution without its partner. At the quantum level of dirac16complex the chirality partner is the same quantum system with the Krein metric $-B$, and two independently quantised universes of masses $+m$ and $-m$ have identical one-particle ($\lambda = 0$) spectra (flat space, or frozen coefficients at a point) and no cancelling generators. Not proved: that such universes are CREATED, in pairs or otherwise. No creation process, rate or amplitude follows from these equations.
+The request “PROVE that Universes of masses {+mass, -mass} are created in pairs” is answered exactly as follows, for dirac16complex and for dirac16complex00. Proved: to every solution with mass $m$ the explicit maps $\Gamma$ (T1: with $\lambda \to -\lambda$, opposite energy-momentum and charge, in every gravitational field) and $\gamma^0$ with the ASSUMED Z2 mirror construction (T2: same $\lambda$, equal energy-momentum, in the author's primordial gravitational field) assign a solution with mass $-m$; for dirac16complex, at the Kohn-Sham level, the block map of $\Gamma$ with the transformed boundary conditions assigns to every self-consistent instantaneous Kohn-Sham state with $(m,\lambda)$ one with $(-m,+\lambda)$ at equal energies (T3, ASSUMED Z2 brane). That universes occur in pairs is not proved: these are maps between the solutions of two parameter sets, and a single universe with mass $+m$ is an equally valid solution without its partner. At the quantum level of dirac16complex the chirality partner is the same quantum system with the Krein metric $-B$, and two independently quantised universes of masses $+m$ and $-m$ have identical one-particle ($\lambda = 0$) spectra (flat space, or frozen coefficients at a point) and no cancelling generators. Not proved: that such universes are CREATED, in pairs or otherwise. No creation process, rate or amplitude follows from these equations.
