@@ -5,18 +5,19 @@
 //!   0 H            the notebook's constant H
 //!   1 A1 = a4'[x4]     2 A2 = a4''[x4]     3 A3 = a4'''[x4]     4 A4 = a4''''[x4]
 //!   5 E  = e^{a4[x4]}  (so the metric entry E^(2 a4) is E^2)
-//!   6 S  = Sin[6 H x8]^(1/3)
-//!   7 C  = Cot[6 H x8]
+//!   6 S  = Sin[6 H x0]^(1/3)
+//!   7 C  = Cot[6 H x0]
 //!   8 Q  = b4[x4]^(1/2)   (the metric function b4 of the user's metric of 2026-10-14; b4 = Q^2)
 //!   9 B1 = b4'[x4]    10 B2 = b4''[x4]    11 B3 = b4'''[x4]    12 B4 = b4''''[x4]
 //! Every component of the metric is a monomial in these symbols:
-//!   g_11 = g_22 = g_33 = E^2 S,  g_44 = -1,  g_55 = g_66 = g_77 = -E^-2 Q^2 S,  g_88 = C^2,
-//! and sqrt|det g| = Q^3 S^3 C (= b4^(3/2) Sin * Cot = b4^(3/2) Cos[6 H x8] on 0 < 6 H x8 < pi/2).
+//!   g_00 = C^2,  g_11 = g_22 = g_33 = E^2 S,  g_44 = -1,  g_55 = g_66 = g_77 = -E^-2 Q^2 S
+//! (indices = the author's coordinates x0..x7), and sqrt|det g| = Q^3 S^3 C (= b4^(3/2) Sin * Cot
+//! = b4^(3/2) Cos[6 H x0] on 0 < 6 H x0 < pi/2).
 //! (Q is used instead of b4 so that sqrt|det g| is a monomial; b4 = 1 is Q = 1, B_n = 0, the metric
 //! before 2026-10-14.)
 //! Derivatives (exact):
 //!   d/dx4:  A_n -> A_{n+1},  E -> A1 E,  B_n -> B_{n+1},  Q -> B1 / (2 Q),  everything else -> 0
-//!   d/dx8:  S -> (1/3) Sin^(-2/3) Cos 6H = 2 H C S,  C -> -6 H (1 + C^2),  everything else -> 0
+//!   d/dx0:  S -> (1/3) Sin^(-2/3) Cos 6H = 2 H C S,  C -> -6 H (1 + C^2),  everything else -> 0
 //! The representation is not canonical in general (S^6 (1 + C^2) = 1 holds), but S
 //! cancels identically in every mixed tensor this program prints, and every zero test
 //! is done on mixed tensors (plus independent numerical checks).
@@ -125,12 +126,12 @@ impl Poly {
         Poly::monomial(c.recip(), inv)
     }
 
-    /// Exact derivative with respect to the coordinate x_{coord+1} (coord 0..7, i.e.
-    /// x1..x8 of the test metric); only x4 (coord 3) and x8 (coord 7) appear.
+    /// Exact derivative with respect to the coordinate x_coord (coord 0..7, the author's
+    /// x0..x7); only x0 (coord 0) and x4 (coord 4) appear.
     pub fn d(&self, coord: usize) -> Poly {
         match coord {
-            3 => self.d4(),
-            7 => self.d8(),
+            0 => self.d0(),
+            4 => self.d4(),
             _ => Poly::zero(),
         }
     }
@@ -175,7 +176,7 @@ impl Poly {
         out
     }
 
-    fn d8(&self) -> Poly {
+    fn d0(&self) -> Poly {
         let mut out = Poly::zero();
         for (m, c) in &self.terms {
             // S^k -> k S^(k-1) * 2 H C S = 2 k H C S^k
@@ -206,9 +207,9 @@ impl Poly {
         self.terms.keys().any(|m| m[var] != 0)
     }
 
-    /// Numerical value at a point: values of H, a4, a4', a4'', a4''', a4'''', b4, b4', ..., b4'''' and x8.
+    /// Numerical value at a point: values of H, a4, a4', a4'', a4''', a4'''', b4, b4', ..., b4'''' and x0.
     pub fn eval(&self, p: &Point) -> f64 {
-        let z = 6.0 * p.h * p.x8;
+        let z = 6.0 * p.h * p.x0;
         let vals = [p.h, p.a1, p.a2, p.a3, p.a4d4, p.a4.exp(), z.sin().cbrt(), z.cos() / z.sin(),
             p.b4.sqrt(), p.b1, p.b2, p.b3, p.b4d4];
         let mut s = 0.0;
@@ -301,10 +302,10 @@ pub struct Point {
     pub b2: f64,
     pub b3: f64,
     pub b4d4: f64,
-    pub x8: f64,
+    pub x0: f64,
 }
 
-/// The exponent k/3 of Sin[6 H x8] for S^k, as a reduced fraction (numerator, denominator).
+/// The exponent k/3 of Sin[6 H x0] for S^k, as a reduced fraction (numerator, denominator).
 fn third_exponent(k: i32) -> (i32, i32) {
     if k % 3 == 0 {
         (k / 3, 1)
@@ -329,13 +330,13 @@ fn mathematica_factors(m: &Monomial) -> Vec<String> {
     }
     if m[SV] != 0 {
         f.push(match third_exponent(m[SV]) {
-            (1, 1) => "Sin[6*H*x8]".to_string(),
-            (n, 1) => format!("Sin[6*H*x8]^{}", if n < 0 { format!("({})", n) } else { n.to_string() }),
-            (n, d) => format!("Sin[6*H*x8]^({}/{})", n, d),
+            (1, 1) => "Sin[6*H*x0]".to_string(),
+            (n, 1) => format!("Sin[6*H*x0]^{}", if n < 0 { format!("({})", n) } else { n.to_string() }),
+            (n, d) => format!("Sin[6*H*x0]^({}/{})", n, d),
         });
     }
     if m[CV] != 0 {
-        f.push(pw("Cot[6*H*x8]", m[CV]));
+        f.push(pw("Cot[6*H*x0]", m[CV]));
     }
     if m[QV] != 0 {
         f.push(if m[QV] % 2 == 0 { pw("b4[x4]", m[QV] / 2) } else { format!("b4[x4]^({}/2)", m[QV]) });
@@ -368,16 +369,16 @@ fn latex_factors(m: &Monomial) -> String {
     }
     if m[SV] != 0 {
         match third_exponent(m[SV]) {
-            (1, 1) => f.push_str("\\,\\sin(6Hx_8)"),
-            (n, 1) => write!(f, "\\,\\sin^{{{}}}(6Hx_8)", n).unwrap(),
-            (n, d) => write!(f, "\\,\\sin^{{{}/{}}}(6Hx_8)", n, d).unwrap(),
+            (1, 1) => f.push_str("\\,\\sin(6Hx_0)"),
+            (n, 1) => write!(f, "\\,\\sin^{{{}}}(6Hx_0)", n).unwrap(),
+            (n, d) => write!(f, "\\,\\sin^{{{}/{}}}(6Hx_0)", n, d).unwrap(),
         }
     }
     if m[CV] != 0 {
         if m[CV] == 1 {
-            f.push_str("\\,\\cot(6Hx_8)");
+            f.push_str("\\,\\cot(6Hx_0)");
         } else {
-            write!(f, "\\,\\cot^{{{}}}(6Hx_8)", m[CV]).unwrap();
+            write!(f, "\\,\\cot^{{{}}}(6Hx_0)", m[CV]).unwrap();
         }
     }
     if m[QV] != 0 {
@@ -454,7 +455,7 @@ mod tests {
     use super::*;
 
     fn pt() -> Point {
-        Point { h: 0.37, a4: 0.21, a1: 0.8, a2: -0.3, a3: 0.11, a4d4: 0.05, b4: 1.7, b1: 0.43, b2: -0.27, b3: 0.19, b4d4: 0.07, x8: 0.29 }
+        Point { h: 0.37, a4: 0.21, a1: 0.8, a2: -0.3, a3: 0.11, a4d4: 0.05, b4: 1.7, b1: 0.43, b2: -0.27, b3: 0.19, b4d4: 0.07, x0: 0.29 }
     }
 
     /// The exact derivatives agree with central finite differences.
@@ -463,19 +464,19 @@ mod tests {
         let p = &(&(&Poly::var(EV, 2) * &Poly::var(SV, 1)) * &(&Poly::var(CV, -3) + &Poly::var(A1, 2)))
             * &(&(&Poly::var(QV, 3) + &Poly::var(QV, -2)) * &(&Poly::var(B1, 2) + &Poly::var(B2, 1)));
         let q = pt();
-        // d/dx8 by finite differences in x8
+        // d/dx0 by finite differences in x0
         let e = 1e-6;
         let mut qp = q;
-        qp.x8 += e;
+        qp.x0 += e;
         let mut qm = q;
-        qm.x8 -= e;
+        qm.x0 -= e;
         let fd = (p.eval(&qp) - p.eval(&qm)) / (2.0 * e);
-        assert!((p.d(7).eval(&q) - fd).abs() < 1e-6 * fd.abs().max(1.0));
+        assert!((p.d(0).eval(&q) - fd).abs() < 1e-6 * fd.abs().max(1.0));
         // d/dx4: a4 -> a4 + e a1, a1 -> a1 + e a2, ... (a Taylor step of the function a4)
         let step = |s: f64| Point { a4: q.a4 + s * q.a1, a1: q.a1 + s * q.a2, a2: q.a2 + s * q.a3, a3: q.a3 + s * q.a4d4,
             b4: q.b4 + s * q.b1, b1: q.b1 + s * q.b2, b2: q.b2 + s * q.b3, b3: q.b3 + s * q.b4d4, ..q };
         let fd4 = (p.eval(&step(e)) - p.eval(&step(-e))) / (2.0 * e);
-        assert!((p.d(3).eval(&q) - fd4).abs() < 1e-5 * fd4.abs().max(1.0));
+        assert!((p.d(4).eval(&q) - fd4).abs() < 1e-5 * fd4.abs().max(1.0));
     }
 
     #[test]

@@ -45,18 +45,19 @@ SPEC_MD = os.path.join(ROOT, "Revision", "SPEC.md")
 # Author (notebook In[26]: X = {x0, x1, ..., x7}; In[79]/In[82]: MatrixMetric44 with
 # beta3 = Exp[2 a4[H x4]], beta1 = Sin[6 H x0]^(1/3), beta2 = Cot[6 H x0]^2):
 #   array position 1 = x0 (the hidden direction), positions 2..8 = x1..x7.
-# Revision (SPEC section 1): x1, x2, x3 space, x4 time, x5, x6, x7 the deflating extra times,
-#   x8 hidden; array positions 1..8 = x1..x8.
-# Coordinate mapping: author x0 -> Revision x8; author xk -> Revision xk for k = 1..7.
+# Revision (SPEC section 1): the author's own coordinates x0..x7 in his order (x0 hidden, x1, x2, x3 space,
+#   x4 time, x5, x6, x7 the deflating extra times); array positions 1..8 = x0..x7.
+# Coordinate mapping: the identity (author xk = Revision xk, k = 0..7).  (Until 2026-10-14 the Revision used the
+#   withdrawn labels x1..x8 with the hidden direction x8 last, and this script mapped author x0 -> Revision x8.)
 # Function mapping: the author's a4 is a function of the argument H*x4, the Revision's a4 of x4:
 #   a4_Revision(x4) := a4_author(H*x4), hence by the chain rule
 #   a4_author^(n)(H*x4) = H^(-n) * a4_Revision^(n)(x4)   (n = 0, 1, 2).
-AUTHOR_POSITION_TO_REVISION = ["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
-REVISION_ORDER = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
+AUTHOR_POSITION_TO_REVISION = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
+REVISION_ORDER = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
 
 MAPPING_TEXT = {
-    "coordinates": "author array position 1 (x0, hidden) -> Revision x8; author positions 2..8 "
-                   "(x1..x7) -> Revision x1..x7 (same names); tensor components are permuted accordingly",
+    "coordinates": "the identity: the Revision uses the author's coordinates x0..x7 in his order (array position "
+                   "k + 1 = xk on both sides); no component is permuted",
     "function": "a4_Revision(x4) := a4_author(H*x4); therefore a4_author^(n)(H*x4) = H^(-n) a4_Revision^(n)(x4) "
                 "(chain rule; n = 0, 1, 2); only the argument H*x4 occurs in the author's outputs (checked)",
     "constant": "H is the same constant on both sides",
@@ -141,7 +142,7 @@ class Parser:
     """expr := sum; sum := term (('+'|'-') term)*; term := unary (('*'|'/'|juxtaposition) unary)*;
     unary := '-' unary | power; power := postfix ['^' unary]; postfix := primary ('[' args ']')*;
     primary := integer | identifier | '(' expr ')' | '{' args '}'.  Juxtaposition is multiplication,
-    as in Mathematica (needed for the SPEC's 'E^(2 a4[x4]) Sin[6 H x8]^(1/3)')."""
+    as in Mathematica (needed for the SPEC's 'E^(2 a4[x4]) Sin[6 H x0]^(1/3)')."""
 
     def __init__(self, text):
         self.toks = tokenize(text)
@@ -294,9 +295,9 @@ def map_parsed_a4(expr, expected_arg, scale):
 
 
 def map_author(expr):
-    """The stated mapping applied to one author expression: x0 -> x8, a4_author^(n)(H x4) -> H^-n a4^(n)(x4)."""
-    e = expr.subs(sym("x0"), sym("x8"), simultaneous=True)
-    return map_parsed_a4(e, H * x4, H)
+    """The stated mapping applied to one author expression: coordinates unchanged (identity),
+    a4_author^(n)(H x4) -> H^-n a4^(n)(x4)."""
+    return map_parsed_a4(expr, H * x4, H)
 
 
 B4REV = [sp.Function("b4_rev_d%d" % n) for n in range(3)]  # b4^(n), functions of x4
@@ -336,7 +337,7 @@ def matrix_from_list(lv):
 
 
 def author_to_revision_matrix(m):
-    """Permute the author's 8 x 8 component array to the Revision order (x1..x8) and map each entry."""
+    """The author's 8 x 8 component array in the Revision order (x0..x7, the same order) with each entry mapped."""
     pos = {name: p for p, name in enumerate(AUTHOR_POSITION_TO_REVISION)}
     return {(a, b): map_author(m[pos[a]][pos[b]]) for a in REVISION_ORDER for b in REVISION_ORDER}
 
@@ -484,7 +485,7 @@ def main():
         {"revision": love["L1"], "twiceAuthorMapped": sp.sstr(sp.expand(2 * a_rs)), "method": how})
 
     # controls: a WRONG mapping or a missing normalisation must be detected (the comparison is not vacuous)
-    no_chain = map_parsed_a4(parse(outs["Out[535]="]["inputForm"]).subs(sym("x0"), sym("x8")), H * x4, sp.Integer(1))
+    no_chain = map_parsed_a4(parse(outs["Out[535]="]["inputForm"]), H * x4, sp.Integer(1))
     ok, how = exact_zero(no_chain - r_rs)
     add("control-mapping-without-chain-rule-is-detected", "PASS" if not ok else "FAIL",
         {"variant": "a4_author^(n)(H x4) -> a4^(n)(x4) WITHOUT the factor H^(-n), applied to the author's RS",

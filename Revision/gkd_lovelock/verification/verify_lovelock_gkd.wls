@@ -47,7 +47,7 @@
 
    5. Exact comparison with Revision/gkd_lovelock/results/lovelock-tensors.json, rebuilt from its exact
       monomial lists: FullSimplify[wolfram - rust] must be 0 for every component of P_(k) and of
-      A_(k) (A on the domain 0 < 6 H x8 < Pi/2, b4 > 0, where sqrt|det g| = b4^(3/2) Cos[6 H x8]); plus
+      A_(k) (A on the domain 0 < 6 H x0 < Pi/2, b4 > 0, where sqrt|det g| = b4^(3/2) Cos[6 H x0]); plus
       P_(1) = -4 G (the Einstein tensor from the Ricci tensor), the traces against L_(k), and the
       numbers of nonzero k\[Delta] terms against the counters of lovelock-report.json.
 
@@ -158,7 +158,8 @@ details = <||>;
 addCheck[name_String, passed_, detail_String] := (checks[name] = TrueQ[passed]; details[name] = detail);
 measurements = <||>;
 
-coordinateNames = {"x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"};
+(* the author's coordinates x0..x7 (x0 = the hidden direction first); Wolfram position k + 1 holds xk *)
+coordinateNames = {"x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"};
 labelOf[s_String] := First[FirstPosition[coordinateNames, s]];
 deltaChar = FromCharacterCode[948];
 
@@ -369,9 +370,9 @@ riemannMatch = Length[entries] === 156 && entries[[All, 1]] === rustRiemannIndex
 addCheck["riemann_mixed_equals_rust_curvature", riemannMatch,
   "R^ab_cd computed here (Christoffel and Riemann from the metric with D, Inverse, Simplify; MTW convention) has " <> ToString[Length[entries]] <>
     " nonzero entries, the same index lists and exactly the same values as riemannMixedNonzero of curvature.json"];
-addCheck["sqrt_det_g_is_cos", Simplify[sqrtG - b4[x4]^(3/2) Cos[6 H x8], LGKDDomainAssumption] === 0 &&
-    Simplify[Det[curvature["metric"]] - b4[x4]^3 Cos[6 H x8]^2] === 0,
-  "det g = b4[x4]^3 Cos[6 H x8]^2 and sqrt|det g| = b4[x4]^(3/2) Cos[6 H x8] on 0 < 6 H x8 < Pi/2, b4 > 0 (the Rust program's Q^3 S^3 C = b4^(3/2) Sin Cot; b4 = 1 before 2026-10-14)"];
+addCheck["sqrt_det_g_is_cos", Simplify[sqrtG - b4[x4]^(3/2) Cos[6 H x0], LGKDDomainAssumption] === 0 &&
+    Simplify[Det[curvature["metric"]] - b4[x4]^3 Cos[6 H x0]^2] === 0,
+  "det g = b4[x4]^3 Cos[6 H x0]^2 and sqrt|det g| = b4[x4]^(3/2) Cos[6 H x0] on 0 < 6 H x0 < Pi/2, b4 > 0 (the Rust program's Q^3 S^3 C = b4^(3/2) Sin Cot; b4 = 1 before 2026-10-14)"];
 step["curvature"];
 
 (* ============================================================================================ *)
@@ -400,7 +401,7 @@ If[k3UnprunedSetting === "diagonal",
         res[c] = r["results"][c];
         vals[c] = r["values"][c]
       ];
-      step["lovelock_k3_unpruned_component_x" <> ToString[c[[1]]] <> "_x" <> ToString[c[[2]]]],
+      step["lovelock_k3_unpruned_component_" <> coordinateNames[[c[[1]]]] <> "_" <> coordinateNames[[c[[2]]]]],
       {c, diagonal}];
     lovelockRuns[{3, "unpruned"}] = <|"results" -> res, "values" -> vals,
       "kDeltaCalls" -> Total[#["kDeltaCalls"] & /@ Values[res]],
@@ -447,18 +448,19 @@ Do[
         If[badP === {}, "", "; MISMATCH at " <> compText[badP]]];
     addCheck["k" <> ToString[k] <> "_A_equals_rust_all_64_components", badA === {},
       "A_(" <> ToString[k] <> ")^lh = sqrt(g) g^jl P_(" <> ToString[k] <> ")^h_j minus the Rust A_(" <> ToString[k] <>
-        ") rebuilt from its monomials: FullSimplify on 0 < 6 H x8 < Pi/2 gives 0 for all 64 components" <>
+        ") rebuilt from its monomials: FullSimplify on 0 < 6 H x0 < Pi/2 gives 0 for all 64 components" <>
         If[badA === {}, "", "; MISMATCH at " <> compText[badA]]];
     measurements["k" <> ToString[k] <> "NonzeroComponents"] = key @@@ nz;
   ], {k, 3}];
 (* negative control: the same test must flag a change of one P component and of one A component *)
 Module[{rp = rustP[2], ra = rustA[3], badP, badA},
-  rp[[3, 3]] = rp[[3, 3]] + H^4/1000;
-  ra[[8, 8]] = ra[[8, 8]] (1 + 1/1000);
+  (* Wolfram position 4 = x3, position 1 = x0 *)
+  rp[[4, 4]] = rp[[4, 4]] + H^4/1000;
+  ra[[1, 1]] = ra[[1, 1]] (1 + 1/1000);
   badP = mismatchList[pMatrix[2], rp, True];
   badA = mismatchList[aMatrix[3], ra, LGKDDomainAssumption];
-  addCheck["negative_control_tensor_comparison_detects_a_change", badP === {{3, 3}} && badA === {{8, 8}},
-    "negative control: after adding H^4/1000 to the Rust P_(2) x3,x3 and multiplying the Rust A_(3) x8,x8 by 1001/1000, the same FullSimplify test flags exactly " <>
+  addCheck["negative_control_tensor_comparison_detects_a_change", badP === {{4, 4}} && badA === {{1, 1}},
+    "negative control: after adding H^4/1000 to the Rust P_(2) x3,x3 and multiplying the Rust A_(3) x0,x0 by 1001/1000, the same FullSimplify test flags exactly " <>
       compText[badP] <> " (P_(2)) and " <> compText[badA] <> " (A_(3)), so the comparison can fail"]
 ];
 step["compare_with_rust_tensors"];
@@ -468,7 +470,7 @@ If[k3UnprunedSetting === "diagonal",
     bad = Select[diagonal, Simplify[lovelockRuns[{3, "unpruned"}]["values"][#] - lovelockRuns[{3, "pruned"}]["values"][#]] =!= 0 ||
         lovelockRuns[{3, "unpruned"}]["results"][#]["nonzeroCalls"] =!= lovelockRuns[{3, "pruned"}]["results"][#]["nonzeroCalls"] &];
     addCheck["k3_diagonal_unpruned_equals_skip_sum", bad === {},
-      "for the 8 diagonal components x1,x1 .. x8,x8 the literal sum over every 3-tuple of the 156 nonzero R entries (156^3 = 3796416 calls of k" <>
+      "for the 8 diagonal components x0,x0 .. x7,x7 the literal sum over every 3-tuple of the 156 nonzero R entries (156^3 = 3796416 calls of k" <>
         deltaChar <> " per component, " <> ToString[lovelockRuns[{3, "unpruned"}]["kDeltaCalls"]] <>
         " in all, no skip) gives exactly the same P_(3) and the same number of nonzero k" <> deltaChar <> " terms (" <>
         ToString[lovelockRuns[{3, "unpruned"}]["nonzeroCalls"]] <> ") as the sum with the repeated-label skip" <>

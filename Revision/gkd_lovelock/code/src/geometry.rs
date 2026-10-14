@@ -1,11 +1,15 @@
-//! The test metric (exactly as given by the author, coordinates x1..x8 stored at
-//! indices 0..7; since 2026-10-14 with the metric function b4[x4] of the user's order and
-//! the author's notebook Dirac_Einstein-Lovelock_4+4_Nash.nb) and its curvature, computed exactly.
+//! The test metric (exactly as given by the author, in his coordinates x0..x7 stored at
+//! indices 0..7, x0 = the hidden direction first; since 2026-10-14 with the metric function
+//! b4[x4] of the user's order and the author's notebook Dirac_Einstein-Lovelock_4+4_Nash.nb)
+//! and its curvature, computed exactly.
 //!
-//!   g = diag( E^(2 a4[x4]) Sin[6 H x8]^(1/3)        (x1, x2, x3),
+//!   g = diag( Cot[6 H x0]^2                         (x0),
+//!             E^(2 a4[x4]) Sin[6 H x0]^(1/3)        (x1, x2, x3),
 //!             -1                                    (x4),
-//!             -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3) (x5, x6, x7),
-//!             Cot[6 H x8]^2                         (x8) )
+//!             -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3) (x5, x6, x7) )
+//!
+//! (Until 2026-10-14 this program used the withdrawn labels x1..x8 with the hidden direction x8
+//! stored last; the author's coordinates are x0..x7.)
 //!
 //! (b4 = 1 is the metric before 2026-10-14; b4 is carried as Q = b4^(1/2), see poly.rs.)
 //!
@@ -20,8 +24,8 @@ use crate::rational::Rational;
 
 pub const DIM: usize = 8;
 
-/// Coordinate names of the test metric, index 0..7.
-pub const COORD: [&str; DIM] = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"];
+/// Coordinate names of the test metric (the author's), index k = xk.
+pub const COORD: [&str; DIM] = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"];
 
 fn mono(c: i128, e: i32, s: i32, cot: i32, q: i32) -> Poly {
     let mut m = [0; NVAR];
@@ -35,14 +39,14 @@ fn mono(c: i128, e: i32, s: i32, cot: i32, q: i32) -> Poly {
 /// The diagonal of the test metric.
 pub fn metric_diagonal() -> Vec<Poly> {
     let mut g = Vec::with_capacity(DIM);
+    g.push(mono(1, 0, 0, 2, 0)); // x0: Cot^2
     for _ in 0..3 {
-        g.push(mono(1, 2, 1, 0, 0)); // E^(2 a4) Sin^(1/3)
+        g.push(mono(1, 2, 1, 0, 0)); // x1, x2, x3: E^(2 a4) Sin^(1/3)
     }
     g.push(Poly::int(-1)); // x4
     for _ in 0..3 {
-        g.push(mono(-1, -2, 1, 0, 2)); // -E^(-2 a4) b4 Sin^(1/3), b4 = Q^2
+        g.push(mono(-1, -2, 1, 0, 2)); // x5, x6, x7: -E^(-2 a4) b4 Sin^(1/3), b4 = Q^2
     }
-    g.push(mono(1, 0, 0, 2, 0)); // Cot^2
     g
 }
 
@@ -220,10 +224,10 @@ mod tests {
     #[test]
     fn christoffel_numerical() {
         let geo = Geometry::new();
-        let q = Point { h: 0.4, a4: 0.3, a1: 0.7, a2: -0.2, a3: 0.1, a4d4: 0.0, b4: 1.3, b1: 0.25, b2: -0.15, b3: 0.0, b4d4: 0.0, x8: 0.31 };
-        // Γ^8_{88} = (1/2) g^88 ∂_8 g_88 by hand: g_88 = cot^2 z, z = 6 H x8
-        let z = 6.0 * q.h * q.x8;
+        let q = Point { h: 0.4, a4: 0.3, a1: 0.7, a2: -0.2, a3: 0.1, a4d4: 0.0, b4: 1.3, b1: 0.25, b2: -0.15, b3: 0.0, b4d4: 0.0, x0: 0.31 };
+        // Γ^0_{00} = (1/2) g^00 ∂_0 g_00 by hand: g_00 = cot^2 z, z = 6 H x0
+        let z = 6.0 * q.h * q.x0;
         let expect = 0.5 * (z.sin() / z.cos()).powi(2) * (2.0 * (z.cos() / z.sin()) * (-1.0 / z.sin().powi(2)) * 6.0 * q.h);
-        assert!((geo.christoffel[7][7][7].eval(&q) - expect).abs() < 1e-12 * expect.abs().max(1.0));
+        assert!((geo.christoffel[0][0][0].eval(&q) - expect).abs() < 1e-12 * expect.abs().max(1.0));
     }
 }

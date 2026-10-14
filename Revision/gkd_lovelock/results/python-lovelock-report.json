@@ -5,18 +5,18 @@
     "riemann": "MTW: R^a_bcd = d_c Gamma^a_bd - d_d Gamma^a_bc + Gamma^a_ce Gamma^e_bd - Gamma^a_de Gamma^e_bc; R^ab_cd = g^be R^a_ecd; R^h_j = R^ha_ja; G = Ric - R/2",
     "kdelta": "Det[Outer[delta, lower, upper]] with sympy Matrix.det, memoised by the 0/1 matrix",
     "lovelock": "P_(k)^h_j = kdelta[{j,j1..j2k},{h,h1..h2k}] R^{j1j2}_{h1h2}...; L_(k) = kdelta[{j1..},{h1..}] R...R; A_(k)^lh = sqrt|g| g^jl P_(k)^h_j",
-    "sqrtAbsDetG": "cos(6 H x8) (det g = cos^2(6 H x8); domain 0 < 6 H x8 < pi/2)",
-    "symbols": "A1 = a4'(x4), A2 = a4''(x4), c = cot(6 H x8)"
+    "sqrtAbsDetG": "cos(6 H x0) (det g = cos^2(6 H x0); domain 0 < 6 H x0 < pi/2)",
+    "symbols": "A1 = a4'(x4), A2 = a4''(x4), c = cot(6 H x0)"
   },
   "inputsSha256": {
-    "curvature.json": "f8d7969991af89dde0a007cfa2f48d928326a263c94946344a19c31ef843c96e",
-    "lovelock-tensors.json": "5dfd10de558904fa0845fe9035b4a3c8ef146dab250337b8ef9002d4274f99f0"
+    "curvature.json": "6412e69bb38e983165e4e2237308059021ba8a5756b37c9613da201fad0152a0",
+    "lovelock-tensors.json": "f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c"
   },
   "randomPoints": [
     {
       "H": "1/4",
-      "x8": "46/75",
-      "6Hx8": "23/25",
+      "x0": "46/75",
+      "6Hx0": "23/25",
       "a4": "-7/100",
       "a4'": "9/25",
       "a4''": "49/100",
@@ -30,8 +30,8 @@
     },
     {
       "H": "7/20",
-      "x8": "41/210",
-      "6Hx8": "41/100",
+      "x0": "41/210",
+      "6Hx0": "41/100",
       "a4": "27/50",
       "a4'": "-61/100",
       "a4''": "-51/100",
@@ -45,8 +45,8 @@
     },
     {
       "H": "7/50",
-      "x8": "11/21",
-      "6Hx8": "11/25",
+      "x0": "11/21",
+      "6Hx0": "11/25",
       "a4": "-9/10",
       "a4'": "-13/25",
       "a4''": "19/100",
@@ -60,8 +60,8 @@
     },
     {
       "H": "31/100",
-      "x8": "59/186",
-      "6Hx8": "59/100",
+      "x0": "59/186",
+      "6Hx0": "59/100",
       "a4": "9/20",
       "a4'": "-31/100",
       "a4''": "-17/50",
@@ -75,8 +75,8 @@
     },
     {
       "H": "23/100",
-      "x8": "15/23",
-      "6Hx8": "9/10",
+      "x0": "15/23",
+      "6Hx0": "9/10",
       "a4": "-93/100",
       "a4'": "-2/5",
       "a4''": "41/100",
@@ -113,50 +113,50 @@
         "distinctMultisets": 47040
       }
     ],
-    "kdeltaCallsTotal": 4096401,
-    "distinctOuterMatricesDeterminedBySympy": 29030
+    "kdeltaCallsTotal": 4096410,
+    "distinctOuterMatricesDeterminedBySympy": 29096
   },
   "independentResults": {
     "P1_mixed_nonzero": {
+      "x0,x0": "12*A1**2 - 6*A1*B1/B0 - 60*H**2 + 6*B2/B0",
+      "x0,x4": "6*B1*H/(B0*c)",
       "x1,x1": "12*A1**2 - 12*A1*B1/B0 - 4*A2 - 60*H**2 + 6*B2/B0",
       "x2,x2": "12*A1**2 - 12*A1*B1/B0 - 4*A2 - 60*H**2 + 6*B2/B0",
       "x3,x3": "12*A1**2 - 12*A1*B1/B0 - 4*A2 - 60*H**2 + 6*B2/B0",
+      "x4,x0": "-6*B1*H*c/B0",
       "x4,x4": "-12*A1**2 + 6*A1*B1/B0 - 84*H**2 + 3*B1**2/B0**2",
-      "x4,x8": "-6*B1*H*c/B0",
       "x5,x5": "12*A1**2 + 4*A2 - 60*H**2 + 4*B2/B0 - B1**2/B0**2",
       "x6,x6": "12*A1**2 + 4*A2 - 60*H**2 + 4*B2/B0 - B1**2/B0**2",
-      "x7,x7": "12*A1**2 + 4*A2 - 60*H**2 + 4*B2/B0 - B1**2/B0**2",
-      "x8,x4": "6*B1*H/(B0*c)",
-      "x8,x8": "12*A1**2 - 6*A1*B1/B0 - 60*H**2 + 6*B2/B0"
+      "x7,x7": "12*A1**2 + 4*A2 - 60*H**2 + 4*B2/B0 - B1**2/B0**2"
     },
     "L1": "12*A1**2 - 6*A1*B1/B0 - 84*H**2 + 6*B2/B0",
     "P2_mixed_nonzero": {
+      "x0,x0": "-96*A1**4 + 96*A1**3*B1/B0 - 1344*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 672*A1*B1*H**2/B0 + 96*A1*B1*B2/B0**2 - 36*A1*B1**3/B0**3 + 48*A2*B1**2/B0**2 + 1440*H**4 - 480*B2*H**2/B0 + 96*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4",
+      "x0,x4": "-288*A1**2*B1*H/(B0*c) + 144*A1*B1**2*H/(B0**2*c) - 480*B1*H**3/(B0*c) + 12*B1**3*H/(B0**3*c)",
       "x1,x1": "-96*A1**4 + 192*A1**3*B1/B0 + 192*A1**2*A2 - 1344*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 960*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 + 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 480*B2*H**2/B0 + 144*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4",
       "x2,x2": "-96*A1**4 + 192*A1**3*B1/B0 + 192*A1**2*A2 - 1344*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 960*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 + 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 480*B2*H**2/B0 + 144*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4",
       "x3,x3": "-96*A1**4 + 192*A1**3*B1/B0 + 192*A1**2*A2 - 1344*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 960*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 + 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 480*B2*H**2/B0 + 144*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4",
+      "x4,x0": "288*A1**2*B1*H*c/B0 - 144*A1*B1**2*H*c/B0**2 + 480*B1*H**3*c/B0 - 12*B1**3*H*c/B0**3",
       "x4,x4": "288*A1**4 - 288*A1**3*B1/B0 + 960*A1**2*H**2 - 480*A1*B1*H**2/B0 + 36*A1*B1**3/B0**3 + 3360*H**4 - 240*B1**2*H**2/B0**2",
-      "x4,x8": "288*A1**2*B1*H*c/B0 - 144*A1*B1**2*H*c/B0**2 + 480*B1*H**3*c/B0 - 12*B1**3*H*c/B0**3",
       "x5,x5": "-96*A1**4 - 192*A1**2*A2 - 1344*A1**2*H**2 + 384*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 - 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 320*B2*H**2/B0 + 128*B1**2*H**2/B0**2",
       "x6,x6": "-96*A1**4 - 192*A1**2*A2 - 1344*A1**2*H**2 + 384*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 - 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 320*B2*H**2/B0 + 128*B1**2*H**2/B0**2",
-      "x7,x7": "-96*A1**4 - 192*A1**2*A2 - 1344*A1**2*H**2 + 384*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 - 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 320*B2*H**2/B0 + 128*B1**2*H**2/B0**2",
-      "x8,x4": "-288*A1**2*B1*H/(B0*c) + 144*A1*B1**2*H/(B0**2*c) - 480*B1*H**3/(B0*c) + 12*B1**3*H/(B0**3*c)",
-      "x8,x8": "-96*A1**4 + 96*A1**3*B1/B0 - 1344*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 672*A1*B1*H**2/B0 + 96*A1*B1*B2/B0**2 - 36*A1*B1**3/B0**3 + 48*A2*B1**2/B0**2 + 1440*H**4 - 480*B2*H**2/B0 + 96*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4"
+      "x7,x7": "-96*A1**4 - 192*A1**2*A2 - 1344*A1**2*H**2 + 384*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 - 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 320*B2*H**2/B0 + 128*B1**2*H**2/B0**2"
     },
     "L2": "-96*A1**4 + 96*A1**3*B1/B0 - 2112*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 1056*A1*B1*H**2/B0 + 96*A1*B1*B2/B0**2 - 36*A1*B1**3/B0**3 + 48*A2*B1**2/B0**2 + 3360*H**4 - 720*B2*H**2/B0 + 168*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4",
     "P3_mixed_nonzero": {
+      "x0,x0": "1152*A1**6 - 1728*A1**5*B1/B0 + 10368*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 10368*A1**3*B1*H**2/B0 - 3456*A1**3*B1*B2/B0**2 + 720*A1**3*B1**3/B0**3 - 5184*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 3456*A1**2*B2*H**2/B0 + 1728*A1**2*B1**2*H**2/B0**2 + 1296*A1**2*B1**2*B2/B0**3 - 648*A1**2*B1**4/B0**4 + 6912*A1*A2*B1*H**2/B0 + 864*A1*A2*B1**3/B0**3 - 15552*A1*B1*H**4/B0 - 3456*A1*B1*B2*H**2/B0**2 + 2160*A1*B1**3*H**2/B0**3 - 1728*A2*B1**2*H**2/B0**2 - 5760*H**6 + 8640*B2*H**4/B0 - 3456*B1**2*H**4/B0**2 - 432*B1**2*B2*H**2/B0**3 + 216*B1**4*H**2/B0**4",
+      "x0,x4": "8640*A1**4*B1*H/(B0*c) - 8640*A1**3*B1**2*H/(B0**2*c) + 10368*A1**2*B1*H**3/(B0*c) + 2160*A1**2*B1**3*H/(B0**3*c) - 5184*A1*B1**2*H**3/(B0**2*c) + 8640*B1*H**5/(B0*c) - 432*B1**3*H**3/(B0**3*c)",
       "x1,x1": "1152*A1**6 - 3456*A1**5*B1/B0 - 5760*A1**4*A2 + 10368*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 6912*A1**3*B1*H**2/B0 - 1728*A1**3*B1*B2/B0**2 + 288*A1**3*B1**3/B0**3 - 6912*A1**2*A2*H**2 - 2592*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 3456*A1**2*B2*H**2/B0 - 3456*A1**2*B1**2*H**2/B0**2 + 432*A1**2*B1**2*B2/B0**3 - 216*A1**2*B1**4/B0**4 + 6912*A1*A2*B1*H**2/B0 + 288*A1*A2*B1**3/B0**3 - 17280*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 2592*A1*B1**3*H**2/B0**3 - 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 8640*B2*H**4/B0 - 5184*B1**2*H**4/B0**2 - 432*B1**2*B2*H**2/B0**3 + 216*B1**4*H**2/B0**4",
       "x2,x2": "1152*A1**6 - 3456*A1**5*B1/B0 - 5760*A1**4*A2 + 10368*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 6912*A1**3*B1*H**2/B0 - 1728*A1**3*B1*B2/B0**2 + 288*A1**3*B1**3/B0**3 - 6912*A1**2*A2*H**2 - 2592*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 3456*A1**2*B2*H**2/B0 - 3456*A1**2*B1**2*H**2/B0**2 + 432*A1**2*B1**2*B2/B0**3 - 216*A1**2*B1**4/B0**4 + 6912*A1*A2*B1*H**2/B0 + 288*A1*A2*B1**3/B0**3 - 17280*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 2592*A1*B1**3*H**2/B0**3 - 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 8640*B2*H**4/B0 - 5184*B1**2*H**4/B0**2 - 432*B1**2*B2*H**2/B0**3 + 216*B1**4*H**2/B0**4",
       "x3,x3": "1152*A1**6 - 3456*A1**5*B1/B0 - 5760*A1**4*A2 + 10368*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 6912*A1**3*B1*H**2/B0 - 1728*A1**3*B1*B2/B0**2 + 288*A1**3*B1**3/B0**3 - 6912*A1**2*A2*H**2 - 2592*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 3456*A1**2*B2*H**2/B0 - 3456*A1**2*B1**2*H**2/B0**2 + 432*A1**2*B1**2*B2/B0**3 - 216*A1**2*B1**4/B0**4 + 6912*A1*A2*B1*H**2/B0 + 288*A1*A2*B1**3/B0**3 - 17280*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 2592*A1*B1**3*H**2/B0**3 - 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 8640*B2*H**4/B0 - 5184*B1**2*H**4/B0**2 - 432*B1**2*B2*H**2/B0**3 + 216*B1**4*H**2/B0**4",
+      "x4,x0": "-8640*A1**4*B1*H*c/B0 + 8640*A1**3*B1**2*H*c/B0**2 - 10368*A1**2*B1*H**3*c/B0 - 2160*A1**2*B1**3*H*c/B0**3 + 5184*A1*B1**2*H**3*c/B0**2 - 8640*B1*H**5*c/B0 + 432*B1**3*H**3*c/B0**3",
       "x4,x4": "-5760*A1**6 + 8640*A1**5*B1/B0 - 10368*A1**4*H**2 - 4320*A1**4*B1**2/B0**2 + 10368*A1**3*B1*H**2/B0 + 720*A1**3*B1**3/B0**3 - 17280*A1**2*H**4 + 8640*A1*B1*H**4/B0 - 1296*A1*B1**3*H**2/B0**3 - 40320*H**6 + 4320*B1**2*H**4/B0**2",
-      "x4,x8": "-8640*A1**4*B1*H*c/B0 + 8640*A1**3*B1**2*H*c/B0**2 - 10368*A1**2*B1*H**3*c/B0 - 2160*A1**2*B1**3*H*c/B0**3 + 5184*A1*B1**2*H**3*c/B0**2 - 8640*B1*H**5*c/B0 + 432*B1**3*H**3*c/B0**3",
       "x5,x5": "1152*A1**6 + 5760*A1**4*A2 + 10368*A1**4*H**2 - 1152*A1**4*B2/B0 + 288*A1**4*B1**2/B0**2 - 4608*A1**3*A2*B1/B0 - 13824*A1**3*B1*H**2/B0 + 576*A1**3*B1*B2/B0**2 - 288*A1**3*B1**3/B0**3 + 6912*A1**2*A2*H**2 + 864*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 5184*A1**2*B1**2*H**2/B0**2 - 13824*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 864*A1*B1**3*H**2/B0**3 + 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 5760*B2*H**4/B0 - 3168*B1**2*H**4/B0**2",
       "x6,x6": "1152*A1**6 + 5760*A1**4*A2 + 10368*A1**4*H**2 - 1152*A1**4*B2/B0 + 288*A1**4*B1**2/B0**2 - 4608*A1**3*A2*B1/B0 - 13824*A1**3*B1*H**2/B0 + 576*A1**3*B1*B2/B0**2 - 288*A1**3*B1**3/B0**3 + 6912*A1**2*A2*H**2 + 864*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 5184*A1**2*B1**2*H**2/B0**2 - 13824*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 864*A1*B1**3*H**2/B0**3 + 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 5760*B2*H**4/B0 - 3168*B1**2*H**4/B0**2",
-      "x7,x7": "1152*A1**6 + 5760*A1**4*A2 + 10368*A1**4*H**2 - 1152*A1**4*B2/B0 + 288*A1**4*B1**2/B0**2 - 4608*A1**3*A2*B1/B0 - 13824*A1**3*B1*H**2/B0 + 576*A1**3*B1*B2/B0**2 - 288*A1**3*B1**3/B0**3 + 6912*A1**2*A2*H**2 + 864*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 5184*A1**2*B1**2*H**2/B0**2 - 13824*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 864*A1*B1**3*H**2/B0**3 + 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 5760*B2*H**4/B0 - 3168*B1**2*H**4/B0**2",
-      "x8,x4": "8640*A1**4*B1*H/(B0*c) - 8640*A1**3*B1**2*H/(B0**2*c) + 10368*A1**2*B1*H**3/(B0*c) + 2160*A1**2*B1**3*H/(B0**3*c) - 5184*A1*B1**2*H**3/(B0**2*c) + 8640*B1*H**5/(B0*c) - 432*B1**3*H**3/(B0**3*c)",
-      "x8,x8": "1152*A1**6 - 1728*A1**5*B1/B0 + 10368*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 10368*A1**3*B1*H**2/B0 - 3456*A1**3*B1*B2/B0**2 + 720*A1**3*B1**3/B0**3 - 5184*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 3456*A1**2*B2*H**2/B0 + 1728*A1**2*B1**2*H**2/B0**2 + 1296*A1**2*B1**2*B2/B0**3 - 648*A1**2*B1**4/B0**4 + 6912*A1*A2*B1*H**2/B0 + 864*A1*A2*B1**3/B0**3 - 15552*A1*B1*H**4/B0 - 3456*A1*B1*B2*H**2/B0**2 + 2160*A1*B1**3*H**2/B0**3 - 1728*A2*B1**2*H**2/B0**2 - 5760*H**6 + 8640*B2*H**4/B0 - 3456*B1**2*H**4/B0**2 - 432*B1**2*B2*H**2/B0**3 + 216*B1**4*H**2/B0**4"
+      "x7,x7": "1152*A1**6 + 5760*A1**4*A2 + 10368*A1**4*H**2 - 1152*A1**4*B2/B0 + 288*A1**4*B1**2/B0**2 - 4608*A1**3*A2*B1/B0 - 13824*A1**3*B1*H**2/B0 + 576*A1**3*B1*B2/B0**2 - 288*A1**3*B1**3/B0**3 + 6912*A1**2*A2*H**2 + 864*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 5184*A1**2*B1**2*H**2/B0**2 - 13824*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 864*A1*B1**3*H**2/B0**3 + 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 5760*B2*H**4/B0 - 3168*B1**2*H**4/B0**2"
     },
     "L3": "1152*A1**6 - 1728*A1**5*B1/B0 + 31104*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 31104*A1**3*B1*H**2/B0 - 3456*A1**3*B1*B2/B0**2 + 720*A1**3*B1**3/B0**3 - 5184*A1**2*A2*B1**2/B0**2 + 100224*A1**2*H**4 + 6912*A1**2*B2*H**2/B0 + 3456*A1**2*B1**2*H**2/B0**2 + 1296*A1**2*B1**2*B2/B0**3 - 648*A1**2*B1**4/B0**4 + 13824*A1*A2*B1*H**2/B0 + 864*A1*A2*B1**3/B0**3 - 50112*A1*B1*H**4/B0 - 6912*A1*B1*B2*H**2/B0**2 + 5616*A1*B1**3*H**2/B0**3 - 3456*A2*B1**2*H**2/B0**2 - 40320*H**6 + 25920*B2*H**4/B0 - 12096*B1**2*H**4/B0**2 - 864*B1**2*B2*H**2/B0**3 + 432*B1**4*H**2/B0**4",
-    "sqrtAbsDetG": "b4(x4)**(3/2)*cos(6*H*x8)"
+    "sqrtAbsDetG": "b4(x4)**(3/2)*cos(6*H*x0)"
   },
   "checks": [
     {
@@ -197,7 +197,7 @@
     {
       "name": "sqrt_abs_det_g",
       "verdict": "PASS",
-      "detail": "det g = b4^3 cos^2(6 H x8) exactly, so sqrt|det g| = b4^(3/2) cos(6 H x8) on 0 < 6 H x8 < pi/2, b4 > 0; sympy's sqrt(Abs(det g)) equals b4^(3/2) cos(6 H x8) > 0 at the 5 random points (60 digits)"
+      "detail": "det g = b4^3 cos^2(6 H x0) exactly, so sqrt|det g| = b4^(3/2) cos(6 H x0) on 0 < 6 H x0 < pi/2, b4 > 0; sympy's sqrt(Abs(det g)) equals b4^(3/2) cos(6 H x0) > 0 at the 5 random points (60 digits)"
     },
     {
       "name": "christoffel_symmetric",
@@ -212,7 +212,7 @@
     {
       "name": "mixed_riemann_free_of_warp_and_exponential",
       "verdict": "PASS",
-      "detail": "every R^{ab}_{cd} is free of sin(6 H x8)^(1/3) and of e^{a4}: a rational function of H, a4', a4'', b4, b4', b4'', cot(6 H x8)"
+      "detail": "every R^{ab}_{cd} is free of sin(6 H x0)^(1/3) and of e^{a4}: a rational function of H, a4', a4'', b4, b4', b4'', cot(6 H x0)"
     },
     {
       "name": "riemann_antisymmetry_and_pair_symmetry",
@@ -232,7 +232,7 @@
     {
       "name": "k3_pruned_terms_vanish_literally",
       "verdict": "PASS",
-      "detail": "20000 random (3 non-zero R^ab_cd entries, h, j) terms of the unpruned k = 3 sum: 19900 have a repeated index (skipped by the enumeration) and kdelta gives 0 for every one of them (non-zero: 0)"
+      "detail": "20000 random (3 non-zero R^ab_cd entries, h, j) terms of the unpruned k = 3 sum: 19909 have a repeated index (skipped by the enumeration) and kdelta gives 0 for every one of them (non-zero: 0)"
     },
     {
       "name": "k4_terms_vanish_literally",
@@ -287,7 +287,7 @@
     {
       "name": "k1_divergence_free",
       "verdict": "PASS",
-      "detail": "nabla_h P_(1)^h_j = 0 exactly for j = x1..x8 (sympy diff + Christoffels)"
+      "detail": "nabla_h P_(1)^h_j = 0 exactly for j = x0..x7 (sympy diff + Christoffels)"
     },
     {
       "name": "k1_symmetric",
@@ -297,12 +297,12 @@
     {
       "name": "k1_free_of_warp",
       "verdict": "PASS",
-      "detail": "every P_(1)^h_j is free of sin(6 H x8)^(1/3) and of e^(a4)"
+      "detail": "every P_(1)^h_j is free of sin(6 H x0)^(1/3) and of e^(a4)"
     },
     {
       "name": "k2_divergence_free",
       "verdict": "PASS",
-      "detail": "nabla_h P_(2)^h_j = 0 exactly for j = x1..x8 (sympy diff + Christoffels)"
+      "detail": "nabla_h P_(2)^h_j = 0 exactly for j = x0..x7 (sympy diff + Christoffels)"
     },
     {
       "name": "k2_symmetric",
@@ -312,12 +312,12 @@
     {
       "name": "k2_free_of_warp",
       "verdict": "PASS",
-      "detail": "every P_(2)^h_j is free of sin(6 H x8)^(1/3) and of e^(a4)"
+      "detail": "every P_(2)^h_j is free of sin(6 H x0)^(1/3) and of e^(a4)"
     },
     {
       "name": "k3_divergence_free",
       "verdict": "PASS",
-      "detail": "nabla_h P_(3)^h_j = 0 exactly for j = x1..x8 (sympy diff + Christoffels)"
+      "detail": "nabla_h P_(3)^h_j = 0 exactly for j = x0..x7 (sympy diff + Christoffels)"
     },
     {
       "name": "k3_symmetric",
@@ -327,7 +327,7 @@
     {
       "name": "k3_free_of_warp",
       "verdict": "PASS",
-      "detail": "every P_(3)^h_j is free of sin(6 H x8)^(1/3) and of e^(a4)"
+      "detail": "every P_(3)^h_j is free of sin(6 H x0)^(1/3) and of e^(a4)"
     },
     {
       "name": "rust_k1_mixed_components_agree",
@@ -377,7 +377,7 @@
     {
       "name": "negative_controls_detected",
       "verdict": "PASS",
-      "detail": "each of canon, plain sympy and the 60-digit numerics separately detects every tampered Rust component: P3^x8_x8 with its first coefficient + 1: (True, True, True); A2^x1x1 with S^2 -> S^1 in its first monomial: (True, True, True); A1^x5x5 with E^2 -> E^-2 in its first monomial: (True, True, True); P2^x4_x4 + 10^-30 H^4: (True, True, True)"
+      "detail": "each of canon, plain sympy and the 60-digit numerics separately detects every tampered Rust component: P3^x0_x0 with its first coefficient + 1: (True, True, True); A2^x1x1 with S^2 -> S^1 in its first monomial: (True, True, True); A1^x5x5 with E^2 -> E^-2 in its first monomial: (True, True, True); P2^x4_x4 + 10^-30 H^4: (True, True, True)"
     },
     {
       "name": "rust_metric_and_sqrt_g_agree",

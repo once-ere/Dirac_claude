@@ -23,7 +23,7 @@ use std::fs;
 use std::path::PathBuf;
 use std::time::Instant;
 
-const METRIC_AS_GIVEN: &str = "{{E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0},{0,0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0},{0,0,0,-1,0,0,0,0},{0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0,0},{0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0},{0,0,0,0,0,0,0,Cot[6 H x8]^2}} (the user's metric of 2026-10-14 in the Revision order; the author's notebook Dirac_Einstein-Lovelock_4+4_Nash.nb lists the hidden direction x8 first as x0; b4 = 1 is the metric before 2026-10-14)";
+const METRIC_AS_GIVEN: &str = "{{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},{0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},{0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},{0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}} (the user's metric of 2026-10-14 in the author's coordinates x0..x7, as in his notebook Dirac_Einstein-Lovelock_4+4_Nash.nb; b4 = 1 is the metric before 2026-10-14)";
 
 struct Check {
     name: String,
@@ -56,7 +56,7 @@ fn main() {
 fn print_config() {
     println!("program          = lovelock_gkd {}", env!("CARGO_PKG_VERSION"));
     println!("metric (as given) = {}", METRIC_AS_GIVEN);
-    println!("coordinates      = x1 x2 x3 (3-space), x4 (time), x5 x6 x7 (extra times), x8 (hidden; z = 6 H x8)");
+    println!("coordinates      = the author's x0 (hidden; z = 6 H x0), x1 x2 x3 (3-space), x4 (time), x5 x6 x7 (extra times)");
     println!("riemann          = R^a_bcd = d_c G^a_db - d_d G^a_cb + G^a_ce G^e_db - G^a_de G^e_cb (MTW)");
     println!("lovelock (4.38)  = A_(k)^lh = sqrt(g) g^jl kdelta[{{j,j1..j2k}},{{h,h1..h2k}}] R^j1j2_h1h2 ... , k = 1, 2, 3 (n = 8, m = 4)");
     println!("gkd              = GKD(lower, upper) = Det[Outer[delta, lower, upper]] = sign of the permutation, or 0");
@@ -118,7 +118,7 @@ fn run_lovelock(out: &PathBuf, brute_k2: bool) -> i32 {
     add("riemann_antisymmetry", antisym, format!("R^ab_cd = -R^ba_cd = -R^ab_dc exactly for all 4096 index lists; {} nonzero entries", entries.len()));
     add("riemann_first_bianchi", bianchi, "R^a_bcd + R^a_cdb + R^a_dbc = 0 exactly for all 4096 index lists".to_string());
     let s_free = entries.iter().all(|e| !e.4.contains(SV));
-    add("mixed_riemann_free_of_sin_third", s_free, "every R^ab_cd is free of Sin[6 H x8]^(1/3) (the warp cancels in mixed components)".to_string());
+    add("mixed_riemann_free_of_sin_third", s_free, "every R^ab_cd is free of Sin[6 H x0]^(1/3) (the warp cancels in mixed components)".to_string());
 
     // --- Lovelock tensors k = 1, 2, 3 (and 4) ---
     let mut ps = Vec::new();
@@ -158,7 +158,7 @@ fn run_lovelock(out: &PathBuf, brute_k2: bool) -> i32 {
         add(&format!("k{}_trace_identity", k), tr == expect, format!("sum_h P_({})^h_h = (8 - {}) L_({}) exactly", k, 2 * k, k));
         // divergence
         let div = divergence(&geo, p);
-        add(&format!("k{}_divergence_free", k), div.iter().all(|x| x.is_zero()), format!("nabla_h P_({})^h_j = 0 exactly for j = x1..x8", k));
+        add(&format!("k{}_divergence_free", k), div.iter().all(|x| x.is_zero()), format!("nabla_h P_({})^h_j = 0 exactly for j = x0..x7", k));
         // symmetry of P_hj = g_hh P^h_j
         let mut sym = true;
         for h in 0..DIM {
@@ -168,13 +168,13 @@ fn run_lovelock(out: &PathBuf, brute_k2: bool) -> i32 {
         }
         add(&format!("k{}_symmetric", k), sym, format!("g_hh P_({})^h_j = g_jj P_({})^j_h exactly (so A_({})^lh = A_({})^hl)", k, k, k, k));
         let sf = p.iter().flatten().all(|x| !x.contains(SV));
-        add(&format!("k{}_free_of_sin_third", k), sf, format!("every P_({})^h_j is free of Sin[6 H x8]^(1/3)", k));
+        add(&format!("k{}_free_of_sin_third", k), sf, format!("every P_({})^h_j is free of Sin[6 H x0]^(1/3)", k));
     }
     add("k4_tensor_vanishes", ps[3].iter().flatten().all(|x| x.is_zero()), "P_(4) = 0 identically: GKD of 9 indices in 8 dimensions is 0 (pigeonhole), so (4.38) stops at k = m - 1 = 3".to_string());
     println!("info - L_(4) (8 indices, the 8-dimensional Euler density, not zero in general; its field equations P_(4) vanish identically): {}", ls[3].to_mathematica());
 
     // brute force (no pruning) at a numerical point
-    let q = Point { h: 0.23, a4: 0.17, a1: 0.61, a2: -0.37, a3: 0.29, a4d4: 0.0, b4: 1.37, b1: 0.31, b2: -0.23, b3: 0.0, b4d4: 0.0, x8: 0.41 };
+    let q = Point { h: 0.23, a4: 0.17, a1: 0.61, a2: -0.37, a3: 0.29, a4d4: 0.0, b4: 1.37, b1: 0.31, b2: -0.23, b3: 0.0, b4d4: 0.0, x0: 0.41 };
     for k in 1..=(if brute_k2 { 2 } else { 1 }) {
         let tb = Instant::now();
         let (bf, calls) = brute_force_numeric(&geo, k, &q);
@@ -185,7 +185,7 @@ fn run_lovelock(out: &PathBuf, brute_k2: bool) -> i32 {
                 worst = worst.max((exact - bf[h][j]).abs() / exact.abs().max(1.0));
             }
         }
-        add(&format!("k{}_brute_force_numeric", k), worst < 1e-10, format!("literal sum over all {} index lists with GKD weights (no pruning) at H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, b4 = 1.37, b4' = 0.31, b4'' = -0.23, x8 = 0.41: max relative deviation from the exact P_({}) = {:.2e}", calls, k, worst));
+        add(&format!("k{}_brute_force_numeric", k), worst < 1e-10, format!("literal sum over all {} index lists with GKD weights (no pruning) at H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, b4 = 1.37, b4' = 0.31, b4'' = -0.23, x0 = 0.41: max relative deviation from the exact P_({}) = {:.2e}", calls, k, worst));
         println!("info - brute force k = {} took {:.1} s", k, tb.elapsed().as_secs_f64());
     }
 
@@ -193,7 +193,7 @@ fn run_lovelock(out: &PathBuf, brute_k2: bool) -> i32 {
     let mut curv = String::from("{\n");
     writeln!(curv, "  \"program\": \"lovelock_gkd lovelock\",").unwrap();
     writeln!(curv, "  \"metricAsGiven\": {},", json_str(METRIC_AS_GIVEN)).unwrap();
-    writeln!(curv, "  \"coordinates\": [\"x1\", \"x2\", \"x3\", \"x4\", \"x5\", \"x6\", \"x7\", \"x8\"],").unwrap();
+    writeln!(curv, "  \"coordinates\": [\"x0\", \"x1\", \"x2\", \"x3\", \"x4\", \"x5\", \"x6\", \"x7\"],").unwrap();
     writeln!(curv, "  \"metricDiagonal\": [{}],", geo.g.iter().map(|x| json_str(&x.to_mathematica())).collect::<Vec<_>>().join(", ")).unwrap();
     writeln!(curv, "  \"sqrtAbsDetG\": {},", json_str(&geo.sqrt_g.to_mathematica())).unwrap();
     let mut chr = Vec::new();
@@ -231,7 +231,7 @@ fn run_lovelock(out: &PathBuf, brute_k2: bool) -> i32 {
     let mut md = String::new();
     writeln!(md, "# Lovelock tensors of the test metric, all components (generated by lovelock_gkd)\n").unwrap();
     writeln!(md, "Metric as given: `{}`\n", METRIC_AS_GIVEN).unwrap();
-    writeln!(md, "Curvature convention: MTW. $\\sqrt{{g}} = {}$ (that is, $\\cos(6Hx_8)$ on $0<6Hx_8<\\pi/2$).\n", geo.sqrt_g.to_latex()).unwrap();
+    writeln!(md, "Curvature convention: MTW. $\\sqrt{{g}} = {}$ (that is, $\\cos(6Hx_0)$ on $0<6Hx_0<\\pi/2$).\n", geo.sqrt_g.to_latex()).unwrap();
     writeln!(md, "Ricci scalar: $R = {}$\n", geo.ricci_scalar.to_latex()).unwrap();
     for k in 1..=3usize {
         writeln!(md, "## k = {}\n", k).unwrap();

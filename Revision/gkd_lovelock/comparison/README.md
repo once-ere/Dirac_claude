@@ -86,9 +86,11 @@ compared exactly, for general b4, in `Revision/metric_b4/` (`verify_metric_b4.wl
 
 * Coordinates. The author's `X = {x0, x1, ..., x7}` (`In[26]`): array position 1 is `x0`, the hidden
   direction (`g00 = Cot[6 H x0]^2`), positions 2 to 8 are `x1` ... `x7`. The Revision (SPEC section 1) uses
-  x1, x2, x3 (space), x4 (time), x5, x6, x7 (the extra times, which deflate exponentially, scale factor
-  e^{-a4} sin^{1/6} z with a4 increasing) and x8 (hidden). Mapping: author `x0` -> Revision `x8`; author `xk`
-  -> Revision `xk` for k = 1 ... 7; tensor components are permuted accordingly.
+  the author's own coordinates in his order: x0 (hidden), x1, x2, x3 (space), x4 (time), x5, x6, x7 (the extra
+  times, which deflate exponentially, scale factor e^{-a4} b4^{1/2} sin^{1/6} z with a4 increasing). Mapping: the
+  identity; no component is permuted. (Until 2026-10-14 the Revision used the withdrawn labels x1 ... x8 with the
+  hidden direction x8 last, and the mapping was author `x0` -> Revision `x8`; the checks and verdicts are the same
+  under both, see section 7.)
 * The function. The author's `a4` is a function of the argument `H x4` (`In[79]`), the Revision's of `x4`:
   a4_Revision(x4) := a4_author(H x4); by the chain rule a4_author^(n)(H x4) = H^(-n) a4_Revision^(n)(x4)
   (n = 0, 1, 2). The program checks that no other argument of `a4` occurs in the author's outputs.
@@ -122,7 +124,7 @@ compared exactly, for general b4, in `Revision/metric_b4/` (`verify_metric_b4.wl
 * Nothing about k = 2 and k = 3: the Gauss-Bonnet and cubic Lovelock tensors of this record are compared with
   no output of the author, because none exists in the files read.
 * The agreement is one between two computations of the same objects for this one metric, on the patch
-  0 < 6 H x8 < pi/2; it is not an independent check of conventions beyond those stated in section 4.
+  0 < 6 H x0 < pi/2; it is not an independent check of conventions beyond those stated in section 4.
 * The k = 1 Lovelock comparison carries no information beyond the Einstein-tensor comparison together with the
   Revision's own identity P_(1) = -4 G (already a check of the Rust program).
 * The author's outputs are taken as stored in the file; the notebook was not re-run, and that the stored
@@ -179,9 +181,16 @@ python Revision/gkd_lovelock/comparison/compare_with_author.py
 | file | sha256 |
 | --- | --- |
 | `extract_author_curvature_outputs.wls` | `0a0a17b133ea46dd511b86ccd238c01f828a4e11feff6d1d239d739b1e74a88b` |
-| `compare_with_author.py` | `f5e7ca1e2e5b16d2cf45f27e299f7c17884464bf07f08406800aed8864aeeab3` |
+| `compare_with_author.py` | `772b74b6748f4c10213be32a38621a79a9a52d679179bf898bfd340901d155d0` |
 | `author-curvature-outputs.json` | `f041955db36f67d5ec113ad65542f448af1de6eba159c85ecff73f83761039f0` |
-| `author-comparison-report.json` | `6896fd78e327784d0c295e73eef4e45a127e88aa2d6990bf9855ac7b35796265` |
+| `author-comparison-report.json` | `331c02edc170c44d10a61e507082833e0d259ae9a85bdbddff7ae6d78067de22` |
+
+The two hashes of `compare_with_author.py` and `author-comparison-report.json` above are those of 2026-10-14, after
+the change to the author's coordinates x0..x7 (the identity mapping; the Revision results `curvature.json` and
+`lovelock-tensors.json` it reads were regenerated in those coordinates). Run twice (once into a scratch folder):
+byte-identical; `checks: 78; PASS 73, FAIL 0, NOT-AVAILABLE 5`, the same counts and verdicts as before; the check
+names of the Einstein components now read `einstein-mixed-x0,x0` ... `einstein-mixed-x7,x7` (before: x1 ... x8).
+The extractor and its output are unchanged (the notebook is read in the author's own coordinates).
 
 ## 8. Side effects
 

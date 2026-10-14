@@ -12,10 +12,13 @@ author's generalized Kronecker delta), the three non-zero Lovelock tensors of (4
 
 for the author's 8 x 8 test metric
 
-    g = diag( e^{2 a4(x4)} sin(6 H x8)^{1/3}  (x1, x2, x3),
+    g = diag( cot(6 H x0)^2                   (x0),
+              e^{2 a4(x4)} sin(6 H x0)^{1/3}  (x1, x2, x3),
               -1                              (x4),
-              -e^{-2 a4(x4)} sin(6 H x8)^{1/3} (x5, x6, x7),
-              cot(6 H x8)^2                   (x8) ),
+              -e^{-2 a4(x4)} b4(x4) sin(6 H x0)^{1/3} (x5, x6, x7) ),
+
+in the author's coordinates x0 ... x7 (x0 = the hidden direction, listed first, as in his notebooks; the
+labels x1 ... x8 with the hidden direction x8 last, used until 2026-10-14, are withdrawn),
 
 and writes them to ``Revision/gkd_lovelock/results/`` (``curvature.json``, ``lovelock-tensors.json``).
 This script recomputes everything from the metric with sympy and compares. It shares NO code
@@ -26,14 +29,14 @@ text) and, for the comparison, the two Rust JSON files. It never reads the autho
 
 CONVENTIONS (stated)
 ====================
-* Coordinates x1 ... x8 are indices 0 ... 7.  H > 0 and a4 is an arbitrary function of x4.
+* The author's coordinates x0 ... x7 are indices 0 ... 7 (index k = xk).  H > 0 and a4 is an arbitrary function of x4.
 * Christoffel symbols: Gamma^a_{bc} = 1/2 g^{ad} (d_b g_{dc} + d_c g_{db} - d_d g_{bc}).
 * Riemann tensor, MTW (Misner-Thorne-Wheeler) sign convention:
       R^a_{bcd} = d_c Gamma^a_{bd} - d_d Gamma^a_{bc} + Gamma^a_{ce} Gamma^e_{bd} - Gamma^a_{de} Gamma^e_{bc},
   R^{ab}_{cd} = g^{be} R^a_{ecd},  Ricci R_{bd} = R^a_{bad}, so R^h_j = R^{ha}_{ja}, R = R^a_a,
   Einstein G^h_j = R^h_j - 1/2 delta^h_j R.  (A round sphere has R > 0 in this convention.)
-* sqrt(g) means sqrt|det g|.  det g = cos^2(6 H x8) exactly (checked), so on the domain
-  0 < 6 H x8 < pi/2 (where sin, cos and cot are positive) sqrt|det g| = cos(6 H x8).
+* sqrt(g) means sqrt|det g|.  det g = cos^2(6 H x0) exactly (checked), so on the domain
+  0 < 6 H x0 < pi/2 (where sin, cos and cot are positive) sqrt|det g| = cos(6 H x0).
 * The generalized Kronecker delta is the author's
       kdelta[lower_, upper_] /; Length[lower] == Length[upper] := Det[Outer[delta, lower, upper]]
   i.e. the determinant of the 0/1 matrix M[r][c] = 1 if lower[r] == upper[c] else 0, and
@@ -41,8 +44,8 @@ CONVENTIONS (stated)
   (det M = det M^T, so it does not matter which list labels the rows).
 * L_(k) = delta^{h1 ... h2k}_{j1 ... j2k} R^{j1 j2}_{h1 h2} ... is the k-th Lovelock scalar.
 
-Symbols used for exact simplification ("symbol form"): E = e^{a4(x4)}, s = sin(6 H x8)^{1/3},
-c = cot(6 H x8), A1 ... A4 = a4', a4'', a4''', a4''''.  They satisfy one relation,
+Symbols used for exact simplification ("symbol form"): E = e^{a4(x4)}, s = sin(6 H x0)^{1/3},
+c = cot(6 H x0), A1 ... A4 = a4', a4'', a4''', a4''''.  They satisfy one relation,
 cos^2 + sin^2 = 1, i.e. s^6 (1 + c^2) = 1.  ``canon`` (below) uses it to bring any
 expression to the unique form  b0 + b1 s + ... + b5 s^5  with b_r rational functions of
 (H, A1..A4, E, c) (1, s, ..., s^5 are linearly independent over those functions because
@@ -94,8 +97,8 @@ COMPARISON WITH THE RUST OUTPUT
 ===============================
 Every one of the 3 x 64 mixed P_(k)^h_j and 3 x 64 contravariant A_(k)^{lh} components of
 ``lovelock-tensors.json`` is rebuilt from its exact monomial list [[num, den, [e_H, e_a4',
-e_a4'', e_a4''', e_a4'''', e_E, e_S, e_C]], ...] with E -> exp(a4(x4)), S -> sin(6 H x8)^(1/3),
-C -> cot(6 H x8), a4^(n) -> Derivative(a4(x4), (x4, n)), and the difference with this script's
+e_a4'', e_a4''', e_a4'''', e_E, e_S, e_C]], ...] with E -> exp(a4(x4)), S -> sin(6 H x0)^(1/3),
+C -> cot(6 H x0), a4^(n) -> Derivative(a4(x4), (x4, n)), and the difference with this script's
 own component is shown to vanish exactly (1) by ``canon`` and (2) by plain sympy (expand /
 simplify after cot = cos/sin), and (3) numerically at 5 random rational points with 60 digits.
 The same is done for L_(1..3), and for curvature.json: the metric, sqrt|g|, every Christoffel
@@ -135,17 +138,17 @@ GKD_DIR = Path(__file__).resolve().parents[1]  # Revision/gkd_lovelock
 DEFAULT_ARTIFACTS = GKD_DIR / "results"
 REPORT_NAME = "python-lovelock-report.json"
 N = 8
-NAMES = [f"x{i}" for i in range(1, N + 1)]
+NAMES = [f"x{i}" for i in range(N)]  # the author's x0 .. x7
 
 # ---------------------------------------------------------------------------------------------
 # Symbols: "function form" (what sympy differentiates) and "symbol form" (for exact algebra)
 # ---------------------------------------------------------------------------------------------
 H = sp.Symbol("H", positive=True)
-X = sp.symbols("x1:9", real=True)
-x4, x8 = X[3], X[7]
+X = sp.symbols("x0:8", real=True)
+x0, x4 = X[0], X[4]
 a4 = sp.Function("a4")
 b4 = sp.Function("b4")  # the metric function of the extra-time components (user's metric of 2026-10-14)
-TH = 6 * H * x8
+TH = 6 * H * x0
 THIRD = sp.Rational(1, 3)
 DER = [sp.Derivative(a4(x4), (x4, m)) for m in range(1, 5)]  # a4', a4'', a4''', a4''''
 DERB = [sp.Derivative(b4(x4), (x4, m)) for m in range(1, 5)]  # b4', b4'', b4''', b4''''
@@ -175,8 +178,8 @@ def metric_diagonal():
     """The author's metric, typed in from the user's order of 2026-10-14 (function form; b4 = 1 is the
     metric before 2026-10-14)."""
     warp = sp.sin(TH) ** THIRD
-    return ([sp.exp(2 * a4(x4)) * warp] * 3 + [sp.Integer(-1)]
-            + [-sp.exp(-2 * a4(x4)) * b4(x4) * warp] * 3 + [sp.cot(TH) ** 2])
+    return ([sp.cot(TH) ** 2] + [sp.exp(2 * a4(x4)) * warp] * 3 + [sp.Integer(-1)]
+            + [-sp.exp(-2 * a4(x4)) * b4(x4) * warp] * 3)
 
 
 def _check_angle(arg):
@@ -721,8 +724,8 @@ def geometry(rec):
     numeric_ok = all(abs(pts.evaluate(literal_root, p) - pts.evaluate(sqrt_g, p)) < sp.Float("1e-50", 60)
                      and pts.evaluate(sqrt_g, p) > 0 for p in pts.points)
     rec.add("sqrt_abs_det_g", is_zero(det - sqrt_g ** 2) and numeric_ok,
-            "det g = b4^3 cos^2(6 H x8) exactly, so sqrt|det g| = b4^(3/2) cos(6 H x8) on 0 < 6 H x8 < pi/2, b4 > 0; "
-            "sympy's sqrt(Abs(det g)) equals b4^(3/2) cos(6 H x8) > 0 at the 5 random points (60 digits)")
+            "det g = b4^3 cos^2(6 H x0) exactly, so sqrt|det g| = b4^(3/2) cos(6 H x0) on 0 < 6 H x0 < pi/2, b4 > 0; "
+            "sympy's sqrt(Abs(det g)) equals b4^(3/2) cos(6 H x0) > 0 at the 5 random points (60 digits)")
     gamma = [[[sp.Integer(0)] * N for _ in range(N)] for _ in range(N)]
     for a in range(N):
         for b in range(N):
@@ -770,7 +773,7 @@ def geometry(rec):
                     if cf[0] != 0:
                         rud[a, b, c, d] = cf[0]
     rec.add("mixed_riemann_free_of_warp_and_exponential", free_ok,
-            "every R^{ab}_{cd} is free of sin(6 H x8)^(1/3) and of e^{a4}: a rational function of H, a4', a4'', b4, b4', b4'', cot(6 H x8)")
+            "every R^{ab}_{cd} is free of sin(6 H x0)^(1/3) and of e^{a4}: a rational function of H, a4', a4'', b4, b4', b4'', cot(6 H x0)")
     anti_ok = all(sp.cancel(v + rud.get((b, a, c, d), 0)) == 0 and sp.cancel(v + rud.get((a, b, d, c), 0)) == 0
                   for (a, b, c, d), v in rud.items())
     gsym = [to_symbol_form(x) for x in diag]
@@ -808,7 +811,7 @@ def from_monomials(monomials):
     return total
 
 
-_MMA_LOCALS = {"H": H, "x8": x8, "E": sp.E, "a4x4": a4(x4), "b4x4": b4(x4), "sin": sp.sin, "cot": sp.cot,
+_MMA_LOCALS = {"H": H, "x0": x0, "E": sp.E, "a4x4": a4(x4), "b4x4": b4(x4), "sin": sp.sin, "cot": sp.cot,
                **{f"Da4n{m + 1}": DER[m] for m in range(4)}, **{f"Db4n{m + 1}": DERB[m] for m in range(4)}}
 
 
@@ -816,12 +819,12 @@ def from_mathematica(text):
     """Parse the Rust Mathematica text (InputForm subset) into a function-form sympy expression."""
     t = re.sub(r"Derivative\[(\d)\]\[a4\]\[x4\]", r"Da4n\1", text)
     t = re.sub(r"Derivative\[(\d)\]\[b4\]\[x4\]", r"Db4n\1", t)
-    t = t.replace("a4[x4]", "a4x4").replace("b4[x4]", "b4x4").replace("Sin[6*H*x8]", "sin(6*H*x8)").replace("Cot[6*H*x8]", "cot(6*H*x8)")
+    t = t.replace("a4[x4]", "a4x4").replace("b4[x4]", "b4x4").replace("Sin[6*H*x0]", "sin(6*H*x0)").replace("Cot[6*H*x0]", "cot(6*H*x0)")
     if "[" in t or "]" in t:
         raise ValueError(f"unparsed Mathematica text: {text}")
     t = t.replace("^", "**")
     expr = sp.parse_expr(t, local_dict=dict(_MMA_LOCALS))
-    if expr.free_symbols - {H, x4, x8}:
+    if expr.free_symbols - {H, x4, x0}:
         raise ValueError(f"unknown symbols in {text}: {expr.free_symbols}")
     return expr
 
@@ -831,7 +834,7 @@ def sha256(path):
 
 
 class Points:
-    """5 random rational points with 0 < 6 H x8 < pi/2; values of a4 and of its derivatives."""
+    """5 random rational points with 0 < 6 H x0 < pi/2; values of a4 and of its derivatives."""
 
     def __init__(self, seed=20261001, count=5):
         rng = random.Random(seed)
@@ -853,11 +856,11 @@ class Points:
         bv = self.bvals[self.points.index(point)]
         e = sp.sympify(expr).xreplace({DER[m]: vals[m + 1] for m in range(4)})
         e = e.xreplace({DERB[m]: bv[m + 1] for m in range(4)})
-        e = e.xreplace({a4(x4): vals[0], b4(x4): bv[0]}).xreplace({H: h, x8: x})
+        e = e.xreplace({a4(x4): vals[0], b4(x4): bv[0]}).xreplace({H: h, x0: x})
         return sp.N(e, 60)
 
     def describe(self):
-        return [{"H": str(h), "x8": str(x), "6Hx8": str(6 * h * x), "a4": str(v[0]), "a4'": str(v[1]),
+        return [{"H": str(h), "x0": str(x), "6Hx0": str(6 * h * x), "a4": str(v[0]), "a4'": str(v[1]),
                  "a4''": str(v[2]), "a4'''": str(v[3]), "a4''''": str(v[4]), "b4": str(bv[0]), "b4'": str(bv[1]),
                  "b4''": str(bv[2]), "b4'''": str(bv[3]), "b4''''": str(bv[4])}
                 for (h, x, v), bv in zip(self.points, self.bvals)]
@@ -1049,11 +1052,11 @@ def run(artifacts: Path, timings: dict):
                 for e in range(N):
                     v += gamma[h][h][e] * P_fun[k][e][j] - gamma[e][h][j] * P_fun[k][h][e]
             div_ok &= is_zero(v)
-        rec.add(f"k{k}_divergence_free", div_ok, f"nabla_h P_({k})^h_j = 0 exactly for j = x1..x8 (sympy diff + Christoffels)")
+        rec.add(f"k{k}_divergence_free", div_ok, f"nabla_h P_({k})^h_j = 0 exactly for j = x0..x7 (sympy diff + Christoffels)")
         sym_ok = all(is_zero(gsym[h] * P_sym[k][h][j] - gsym[j] * P_sym[k][j][h]) for h in range(N) for j in range(N))
         rec.add(f"k{k}_symmetric", sym_ok, f"g_hh P_({k})^h_j = g_jj P_({k})^j_h exactly, so A_({k})^lh = A_({k})^hl")
         free = all(not P_sym[k][h][j].has(s_) and not P_sym[k][h][j].has(E_) for h in range(N) for j in range(N))
-        rec.add(f"k{k}_free_of_warp", free, f"every P_({k})^h_j is free of sin(6 H x8)^(1/3) and of e^(a4)")
+        rec.add(f"k{k}_free_of_warp", free, f"every P_({k})^h_j is free of sin(6 H x0)^(1/3) and of e^(a4)")
     lap("routes")
 
     print("6. Comparison with the Rust output", flush=True)
@@ -1112,10 +1115,10 @@ def run(artifacts: Path, timings: dict):
         ms[0][2][5] = -ms[0][2][5]
 
     controls = [
-        ("P3^x8_x8 with its first coefficient + 1", P_fun[3][7][7], tampered("P3_mixed_up_h_down_j", "x8,x8", bump)),
-        ("A2^x1x1 with S^2 -> S^1 in its first monomial", A_fun[2][0][0], tampered("A2_contravariant_l_h", "x1,x1", warp)),
-        ("A1^x5x5 with E^2 -> E^-2 in its first monomial", A_fun[1][4][4], tampered("A1_contravariant_l_h", "x5,x5", flip_e)),
-        ("P2^x4_x4 + 10^-30 H^4", P_fun[2][3][3],
+        ("P3^x0_x0 with its first coefficient + 1", P_fun[3][0][0], tampered("P3_mixed_up_h_down_j", "x0,x0", bump)),
+        ("A2^x1x1 with S^2 -> S^1 in its first monomial", A_fun[2][1][1], tampered("A2_contravariant_l_h", "x1,x1", warp)),
+        ("A1^x5x5 with E^2 -> E^-2 in its first monomial", A_fun[1][5][5], tampered("A1_contravariant_l_h", "x5,x5", flip_e)),
+        ("P2^x4_x4 + 10^-30 H^4", P_fun[2][4][4],
          from_monomials(tensors["P2_mixed_up_h_down_j"]["x4,x4"]["monomials"]) + sp.Rational(1, 10 ** 30) * H ** 4),
     ]
     neg = Comparator(points)
@@ -1199,8 +1202,8 @@ def build_report(rec, counters, results, inputs, points):
             "kdelta": "Det[Outer[delta, lower, upper]] with sympy Matrix.det, memoised by the 0/1 matrix",
             "lovelock": "P_(k)^h_j = kdelta[{j,j1..j2k},{h,h1..h2k}] R^{j1j2}_{h1h2}...; L_(k) = kdelta[{j1..},{h1..}] R...R; "
                         "A_(k)^lh = sqrt|g| g^jl P_(k)^h_j",
-            "sqrtAbsDetG": "cos(6 H x8) (det g = cos^2(6 H x8); domain 0 < 6 H x8 < pi/2)",
-            "symbols": "A1 = a4'(x4), A2 = a4''(x4), c = cot(6 H x8)",
+            "sqrtAbsDetG": "cos(6 H x0) (det g = cos^2(6 H x0); domain 0 < 6 H x0 < pi/2)",
+            "symbols": "A1 = a4'(x4), A2 = a4''(x4), c = cot(6 H x0)",
         },
         "inputsSha256": inputs,
         "randomPoints": points.describe(),

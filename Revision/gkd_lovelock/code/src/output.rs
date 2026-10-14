@@ -21,7 +21,7 @@ pub fn json_str(s: &str) -> String {
 }
 
 /// All 64 components of a rank-2 object as a JSON object
-/// {"x1,x1": {"mathematica": ..., "latex": ...}, ...} in the index order [row][col].
+/// {"x0,x0": {"mathematica": ..., "latex": ...}, ...} in the index order [row][col].
 pub fn tensor_json(t: &[Vec<Poly>], indent: &str) -> String {
     let mut o = String::from("{\n");
     let mut first = true;
