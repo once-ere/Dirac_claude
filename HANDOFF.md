@@ -147,6 +147,34 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.5a RESUMED 2026-10-14 (new session 837d3989; the weekly limit stopped session 9e0a6725 at 2026-10-08 16:57)
+
+What the limit killed (all at 17:17 on 2026-10-08): the detached old-Stage-4 R1 run, the guarded Stage-5 reference pairs run
+(BrokenProcessPool), the Stage-5 Rust canonical pairs run (no resume), and the agents of the book fix rounds (book v2
+wf_f498b1dc-916: lenses book-references and book-notebooks never ran, all 12 chapter fixers of its 19 confirmed findings failed;
+residual rounds wf_06568fcb-164, wf_2585e73c-8be, wf_732b0dc4-103 returned null with partial edits in the tree).
+Old session scratchpad (kept on this machine): C:/Users/nsh/AppData/Local/Temp/claude/D--Developer-github-Dirac-claude/
+9e0a6725-1ba0-4d61-be26-82d9c70a6ded/scratchpad (stage4_keep/, phase3c_book/ progress logs, sweep/ finding files).
+New session scratchpad SP = C:/Users/nsh/AppData/Local/Temp/claude/D--Developer-github-Dirac-claude/
+837d3989-831c-4131-a54e-de216022bedc/scratchpad.
+
+RELAUNCHED 2026-10-14 11:32 (detached; logs and done markers under SP):
+* SP/stage4_R1/run_R1.cmd - old Stage 4 R1 (same config stage4_keep/refsmear120-config.json, same solver sha 8dbedada...);
+  ~4.5 h; then R2-R5 of section 0.4u item 4 with <scratchpad>/stage4_R1/out = SP/stage4_R1/out.
+* SP/s5ref/run_s5_reference_guarded.cmd - Stage-5 reference pairs, --workers 8 --resume (89 of 180 runs were recorded).
+* SP/s5rust/run_canonical_then_refined.cmd (affinity FF: canonical into artifacts/.../rust, then --refined into
+  build/s5-rust-refined) and SP/s5rust/run_repeat.cmd (affinity FF00, in parallel: build/s5-rust-repeat).
+WORKFLOWS (this session): book continuation wf_dce5cca3-aa8 (skeptics for the 6 findings without skeptic results, one fixer +
+one adversarial verifier per chapter 00, 05, 07, 09-18, 20, 21; items in SP/book_items.json); old Stage 5 documents prep
+wf_4f461ffd-f21 (document A complete + review/skeptics/fix; document B sections 1-6, 8-10 with section 7 and the numerical rows
+left to the lead; the gate twins).  DONE: the three minor rev7 verifier findings (8e75a17).
+ORDER after these: (1) the two missing book lenses (references, notebooks) in small per-chapter-group agents -> skeptics ->
+fixes; (2) 23a rebuilt last, chapter 23 regenerated (tools/chapter23/run_all.py), assembly, book PDF --register, textbook test;
+(3) old Stage 4 R2-R5 when SP/stage4_R1/done.txt exists; (4) old Stage 5 when the reference and Rust runs are done: pairs
+checker, compare_pairs_runs.py, document B section 7 + figures script, register, gate, matter-antimatter regeneration and the
+PROVISIONAL strings (stage5_plan_final.md step 7, in the old scratchpad), pairing provenance, extract_repository_wolfram_gammas.wls;
+(5) full Revision gate (detached), EXECUTION_PROVENANCE_FULL=1, all suites, two fresh clones, push, notify.
+
 ### 0.4z STATE 2026-10-08 ~16:10 (Revision record nearly final)
 
 Done and verified since 0.4y (most edits are in the Stop hook's WIP snapshots; their content is described here): phases
