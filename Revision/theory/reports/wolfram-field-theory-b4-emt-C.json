@@ -1,0 +1,28 @@
+{
+  "producer": "Revision/theory/wolfram/verify_field_theory_b4_emt.wls C",
+  "checkCount": 4,
+  "failedCount": 0,
+  "verdict": "PASS",
+  "checks": [
+    {
+      "name": "T_vielbein_variation_closed_form_C_b4",
+      "verdict": "PASS",
+      "detail": "metric with b4, dirac16complex00 (commuting): for all 64 components T^nu_mu := e^b_mu (1/sqrt g) delta S / delta e^b_nu equals delta^nu_mu L0 - (1/2)(Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi) - (1/4) g_mu,rho nabla_l (Psibar {gamma^l, Sigma^(nu rho)} Psi), the formula of field-theory.json"
+    },
+    {
+      "name": "T_symmetric_part_Belinfante_C_b4",
+      "verdict": "PASS",
+      "detail": "metric with b4, dirac16complex00 (commuting): the symmetric part of the variation tensor equals T_sym of field-theory.json"
+    },
+    {
+      "name": "T_diagonal_components_C_b4",
+      "verdict": "PASS",
+      "detail": "metric with b4, dirac16complex00 (commuting): T^mu_mu (no sum) = L0 - K_mu, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi), f_5..7 = E^-a4 b4^(1/2) Sin[z]^(1/6)"
+    },
+    {
+      "name": "T_x4_x8_component_C_b4",
+      "verdict": "PASS",
+      "detail": "metric with b4, dirac16complex00 (commuting): T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8, as in field-theory.json"
+    }
+  ]
+}

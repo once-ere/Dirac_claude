@@ -1,0 +1,33 @@
+{
+ "producer": "Revision/theory/python/check_field_theory_b4.py",
+ "checks": [
+  {
+   "name": "christoffel_nonzero",
+   "verdict": "PASS",
+   "detail": "the 25 nonzero Gamma^l_mn (m <= n) and their values equal field-theory-b4.json"
+  },
+  {
+   "name": "omega_nonzero",
+   "verdict": "PASS",
+   "detail": "the 12 nonzero omega_mu,ab (a < b) and their values equal field-theory-b4.json"
+  },
+  {
+   "name": "gammaOmega_per_direction",
+   "verdict": "PASS",
+   "detail": "gamma^mu Omega_mu (no sum): (a4'/2) gamma^x4 + (H/2) gamma^x8 (mu = x1..x3), (-a4'/2 + b4'/(4 b4)) gamma^x4 + (H/2) gamma^x8 (x5..x7), 0 (x4, x8)"
+  },
+  {
+   "name": "gammaOmega_total",
+   "verdict": "PASS",
+   "detail": "gamma^mu Omega_mu = 3 H gamma^x8 + (3/4)(b4'/b4) gamma^x4 (author's T16)"
+  },
+  {
+   "name": "gammaOmega_formula_text",
+   "verdict": "PASS",
+   "detail": "field-theory-b4.json gammaOmega_total states 3 H gamma[x8] + (3/4)(b4'/b4) gamma[x4]: 3*H*gamma[\"x8\"] + (3*gamma[\"x4\"]*Derivative[1][b4][x4])/(4*b4[x4])"
+  }
+ ],
+ "checkCount": 5,
+ "failedCount": 0,
+ "verdict": "PASS"
+}
