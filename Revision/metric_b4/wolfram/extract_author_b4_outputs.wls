@@ -17,15 +17,26 @@
    Every stored output is converted from its boxes to an expression WITHOUT evaluation (ToExpression with
    head HoldComplete; a cell of several lines gives a list of held lines), written in InputForm, and the author's symbols are mapped to plain names: x0[] -> X0, x1[]..x7[]
    -> X1..X7, a4, b4, H, w1, w2, w3, Lambda.  The notebook's coordinate order is (x0, x1, ..., x7) with x0
-   the hidden direction; the Revision order (x1, ..., x8) puts the hidden direction last (x8 = x0).  This
-   script does NOT reorder: it records the author's arrays as stored; the comparison script reorders.
+   the hidden direction; the Revision uses the same coordinates in the same order (X0 is the author's x0).  This
+   script does NOT reorder: it records the author's arrays as stored; the comparison script converts only the
+   index placement (the author stores T_a^b, the Revision T^h_j).
 
    Output: UTF-8, LF, no time stamps; the notebook's sha256 is recorded (key notebookSha256).
-   Usage (repository root): wolframscript -file Revision/metric_b4/wolfram/extract_author_b4_outputs.wls *)
+   Usage (repository root): wolframscript -file Revision/metric_b4/wolfram/extract_author_b4_outputs.wls [notebook path]
+   (the notebook must be the version of the user's order, sha256 4f2d83b5...; see $pinnedSha below) *)
 
 $root = ParentDirectory[DirectoryName[$InputFileName], 3];
-$nbFile = FileNameJoin[{$root, "Dirac_Einstein-Lovelock_4+4_Nash.nb"}];
+(* the version of the user's order of 2026-10-14 (committed in b13373c); the user may keep working on the notebook in
+   the working tree, so the version is pinned and checked: give the path of that version as the first argument, e.g.
+   git show b13373c:Dirac_Einstein-Lovelock_4+4_Nash.nb > <scratch>/nb.nb ; wolframscript -file <this script> <scratch>/nb.nb *)
+$pinnedSha = "4f2d83b53e4a35696e1ed4d0569f4cabbfc7463d0036c36ae5534bd6e549aafb";
+$args = Select[Rest[$ScriptCommandLine], # =!= "--" &];
+$nbFile = If[Length[$args] >= 1, ExpandFileName[First[$args]], FileNameJoin[{$root, "Dirac_Einstein-Lovelock_4+4_Nash.nb"}]];
 If[! FileExistsQ[$nbFile], Print["ERROR: author notebook not found: ", $nbFile]; Exit[1]];
+If[IntegerString[FileHash[$nbFile, "SHA256"], 16, 64] =!= $pinnedSha,
+  Print["ERROR: ", $nbFile, " has sha256 ", IntegerString[FileHash[$nbFile, "SHA256"], 16, 64],
+    ", not the version of the user's order of 2026-10-14 (", $pinnedSha, ", commit b13373c); extract from that version: ",
+    "git show b13373c:Dirac_Einstein-Lovelock_4+4_Nash.nb > <scratch>/nb.nb and pass <scratch>/nb.nb as the argument"]; Exit[1]];
 $out = FileNameJoin[{$root, "Revision", "metric_b4", "results", "author-b4-outputs.json"}];
 nb = Import[$nbFile, "Notebook"];
 cells = Cases[nb, Cell[_, "Input" | "Output", ___], Infinity];
@@ -43,7 +54,7 @@ toText[c_] := Module[{b = c[[1]], held},
 want = {"In[97]", "Out[101]", "Out[119]", "Out[120]", "Out[123]", "Out[124]", "Out[126]", "Out[127]", "Out[128]",
   "Out[129]", "Out[132]", "Out[134]", "Out[135]"};
 data = Association[(# -> toText[byLabel[#]]) & /@ want];
-json = ExportString[<|"notebook" -> "Dirac_Einstein-Lovelock_4+4_Nash.nb",
+json = ExportString[<|"notebook" -> "Dirac_Einstein-Lovelock_4+4_Nash.nb (version of the user's order of 2026-10-14, commit b13373c)",
    "notebookSha256" -> IntegerString[FileHash[$nbFile, "SHA256"], 16, 64],
    "wolframVersion" -> ToString[$VersionNumber] <> "." <> ToString[$ReleaseNumber],
    "symbolMap" -> "x0[] -> X0 (hidden direction), x1[]..x7[] -> X1..X7; held InputForm of the stored boxes, unevaluated (HoldComplete[...])",

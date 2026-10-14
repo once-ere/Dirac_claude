@@ -4,7 +4,7 @@
 		{
 			"name":"metric_equals_author_Out101",
 			"pass":true,
-			"detail":"the metric of MetricB4.wl equals the author's stored MatrixMetric44 (Out[101]) with the author's x0 renamed x8 and listed last"
+			"detail":"the metric of MetricB4.wl equals the author's stored MatrixMetric44 (Out[101]) component by component, in the author's coordinates x0..x7"
 		},
 		{
 			"name":"ricci_scalar_equals_author_Out119",
@@ -14,7 +14,7 @@
 		{
 			"name":"einstein_equals_author_Out120",
 			"pass":true,
-			"detail":"G^h_j = the author's EinsteinCD[-a, b] (Out[120]), all 64 components after the coordinate renaming"
+			"detail":"G^h_j = the author's EinsteinCD[-a, b] (Out[120]), all 64 components (the author's coordinates; only the index placement is converted)"
 		},
 		{
 			"name":"ricci_mixed_equals_author_Out124",
@@ -60,6 +60,11 @@
 			"name":"author_solution_Out135",
 			"pass":true,
 			"detail":"Solve gives {{w3 -> 1\/1152, Lambda -> 10}} = the author's Out[135] (w3 = 1\/1152, Lambda = 10)"
+		},
+		{
+			"name":"reference_b4_1_files_are_the_earlier_record",
+			"pass":true,
+			"detail":"Revision\/metric_b4\/reference_b4_1\/curvature.json (sha256 d5beb73a...) and lovelock-tensors.json (9278a0bf...) are the files of Revision\/gkd_lovelock\/results at commit e3e35fe, before the metric change (the sha256 pinned by Revision\/tests\/test_gkd_lovelock.py then)"
 		},
 		{
 			"name":"b4_one_ricci_scalar_equals_record",
@@ -109,7 +114,7 @@
 		{
 			"name":"sqrt_det_g",
 			"pass":true,
-			"detail":"sqrt|det g| = b4[x4]^(3\/2) Cos[6 H x8] (b4 = 1: Cos[6 H x8] as before; the 7-volume element is no longer constant in x4 unless b4 is)"
+			"detail":"sqrt|det g| = b4[x4]^(3\/2) Cos[6 H x0] (b4 = 1: Cos[6 H x0] as before; the 7-volume element is no longer constant in x4 unless b4 is)"
 		},
 		{
 			"name":"constant_b4_drops_out",
@@ -117,14 +122,14 @@
 			"detail":"a constant b4 = cB > 0 drops out of R, G and E_(2), E_(3) (it is the rescaling x5,6,7 -> sqrt(cB) x5,6,7)"
 		},
 		{
-			"name":"off_diagonal_entries_x4_x8_only",
+			"name":"off_diagonal_entries_x0_x4_only",
 			"pass":true,
-			"detail":"the only nonzero off-diagonal entries of E_(1), E_(2), E_(3) are (h, j) = {{4, 8}, {8, 4}}"
+			"detail":"the only nonzero off-diagonal entries of E_(1), E_(2), E_(3) are (h, j) = x0,x4; x4,x0"
 		},
 		{
 			"name":"off_diagonal_proportional_to_b4prime",
 			"pass":true,
-			"detail":"E_(k)^4_8 and E_(k)^8_4 vanish when b4' = 0 (k = 1, 2, 3)"
+			"detail":"E_(k)^x0_x4 and E_(k)^x4_x0 vanish when b4' = 0 (k = 1, 2, 3)"
 		},
 		{
 			"name":"e1_equals_einstein",
@@ -132,7 +137,7 @@
 			"detail":"E_(1) = -P_(1)\/4 = G"
 		}
 	],
-	"checkCount":26,
+	"checkCount":27,
 	"failedCount":0,
 	"authorNotebookSha256":"4f2d83b53e4a35696e1ed4d0569f4cabbfc7463d0036c36ae5534bd6e549aafb",
 	"wolframVersion":"15..1"

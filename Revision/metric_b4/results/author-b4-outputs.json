@@ -1,5 +1,5 @@
 {
-	"notebook":"Dirac_Einstein-Lovelock_4+4_Nash.nb",
+	"notebook":"Dirac_Einstein-Lovelock_4+4_Nash.nb (version of the user's order of 2026-10-14, commit b13373c)",
 	"notebookSha256":"4f2d83b53e4a35696e1ed4d0569f4cabbfc7463d0036c36ae5534bd6e549aafb",
 	"wolframVersion":"15..1",
 	"symbolMap":"x0[] -> X0 (hidden direction), x1[]..x7[] -> X1..X7; held InputForm of the stored boxes, unevaluated (HoldComplete[...])",

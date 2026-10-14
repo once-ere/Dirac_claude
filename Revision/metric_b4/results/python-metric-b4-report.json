@@ -34,7 +34,7 @@
   {
    "name": "metric_equals_author_Out101",
    "pass": true,
-   "detail": "the metric = the author's Out[101] (x0 -> x8)"
+   "detail": "the metric = the author's Out[101], component by component in his coordinates x0..x7"
   },
   {
    "name": "ricci_scalar_equals_author_Out119",
@@ -77,6 +77,11 @@
    "detail": "b4 = 1, a4 = H x4, w1 = 1, w2 = 1/32: reduced [-Lambda - 2304*w3 + 12, -Lambda + 4608*w3 + 6], solve [{Lambda: 10, w3: 1/1152}] (the author's Out[135]: w3 = 1/1152, Lambda = 10)"
   },
   {
+   "name": "reference_b4_1_files_are_the_earlier_record",
+   "pass": true,
+   "detail": "reference_b4_1/curvature.json and lovelock-tensors.json are the gkd_lovelock results of commit e3e35fe (before b4)"
+  },
+  {
    "name": "b4_one_ricci_scalar_equals_record",
    "pass": true,
    "detail": "R at b4 = 1 = curvature.json"
@@ -102,7 +107,7 @@
    "detail": "E_(3) at b4 = 1 = -P_(3)/2^4 of lovelock-tensors.json"
   }
  ],
- "checkCount": 20,
+ "checkCount": 21,
  "failedCount": 0,
  "sympyVersion": "1.14.0",
  "riemannMixedNonzero": 156

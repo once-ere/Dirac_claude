@@ -6,15 +6,18 @@ with sympy, contracts the generalized Kronecker delta by the SIGN OF THE PERMUTA
 as the Wolfram side does), and decides every equality exactly: after differentiation every quantity is a
 rational function of the symbols
 
-    H, S = Sin[6 H x8]^(1/3) (so Sin[6 H x8] = S^3), c = Cos[6 H x8], A0 = a4, A1 = a4', A2 = a4'', A3, B0 = b4,
+    H, S = Sin[6 H x0]^(1/3) (so Sin[6 H x0] = S^3), c = Cos[6 H x0], A0 = a4, A1 = a4', A2 = a4'', A3, B0 = b4,
     B1 = b4', B2 = b4'', B3, w1, w2, w3, Lambda (and E = e^{a4})
 
 and a difference is zero exactly when its numerator vanishes modulo c^2 = 1 - S^6.  It then compares
   * with the Wolfram components Revision/metric_b4/results/metric-b4.json,
   * with the author's STORED outputs Revision/metric_b4/results/author-b4-outputs.json (Out[101], Out[119],
     Out[120], Out[124], Out[126], Out[127], Out[128], Out[129], Out[134], Out[135]),
-  * at b4 = 1 with the earlier record Revision/gkd_lovelock/results/curvature.json and lovelock-tensors.json,
+  * at b4 = 1 with the earlier record (curvature.json and lovelock-tensors.json before 2026-10-14, frozen in
+    Revision/metric_b4/reference_b4_1/ from commit e3e35fe),
 and writes Revision/metric_b4/results/python-metric-b4-report.json (checks; UTF-8, LF, no time stamps).
+Coordinates: the author's x0, x1, ..., x7 in his order (x0 = the hidden direction, index 0; xk = index k).  The frozen
+b4 = 1 record is in the withdrawn labels x1..x8 (hidden x8 last) and is read through the map x8 -> x0, xk -> xk.
 Exit code 0 if every check passes, 1 otherwise.  Usage (repository root):
     python Revision/metric_b4/python/check_metric_b4.py
 """
@@ -32,24 +35,24 @@ RES = os.path.join(ROOT, "Revision", "metric_b4", "results")
 T0 = time.time()
 
 H = sp.Symbol("H", positive=True)
-x4, x8 = sp.symbols("x4 x8", real=True)
+x0, x4 = sp.symbols("x0 x4", real=True)
 a4 = sp.Function("a4")
 b4 = sp.Function("b4")
-X = [sp.Symbol("x%d" % i, real=True) for i in (1, 2, 3)] + [x4] + [sp.Symbol("x%d" % i, real=True) for i in (5, 6, 7)] + [x8]
+X = [x0] + [sp.Symbol("x%d" % i, real=True) for i in (1, 2, 3)] + [x4] + [sp.Symbol("x%d" % i, real=True) for i in (5, 6, 7)]
 S = sp.Symbol("S", positive=True)
 c, A0, A1, A2, A3, B0, B1, B2, B3 = sp.symbols("c A0 A1 A2 A3 B0 B1 B2 B3")
 w1, w2, w3, Lam = sp.symbols("w1 w2 w3 Lambda")
 EA = sp.Symbol("EA", positive=True)  # e^{a4}
-z = 6 * H * x8
+z = 6 * H * x0
 
-# ---- the metric (Revision order x1..x8; x8 = the author's x0) -------------------------------------------------------
+# ---- the metric (the author's coordinates x0..x7, x0 = the hidden direction first) ---------------------------------
 s13 = sp.sin(z) ** sp.Rational(1, 3)
-gdiag = [sp.exp(2 * a4(x4)) * s13] * 3 + [sp.Integer(-1)] + [-sp.exp(-2 * a4(x4)) * b4(x4) * s13] * 3 + [sp.cot(z) ** 2]
+gdiag = [sp.cot(z) ** 2] + [sp.exp(2 * a4(x4)) * s13] * 3 + [sp.Integer(-1)] + [-sp.exp(-2 * a4(x4)) * b4(x4) * s13] * 3
 n = 8
 
 
 def trig_subs(e):
-    """Sin, Cos, Tan, Cot, Sec, Csc of z = 6 H x8 (and Sin, Cos of 2 z) -> S^3, c (exact)."""
+    """Sin, Cos, Tan, Cot, Sec, Csc of z = 6 H x0 (and Sin, Cos of 2 z) -> S^3, c (exact)."""
     e = e.subs({sp.sin(2 * z): 2 * S ** 3 * c, sp.cos(2 * z): 1 - 2 * S ** 6})
     return e.subs({sp.cot(z): c / S ** 3, sp.tan(z): S ** 3 / c, sp.sec(z): 1 / c, sp.csc(z): 1 / S ** 3}).subs(
         {sp.sin(z): S ** 3, sp.cos(z): c})
@@ -201,14 +204,16 @@ for k in (1, 2, 3):
 
 
 # ---- parse Mathematica InputForm strings (the limited grammar of the outputs) --------------------------------------
-def mma(s, author=False):
-    """Evaluate a Mathematica list/expression string; lists become nested Python lists."""
+def mma(s, author=False, withdrawn=False):
+    """Evaluate a Mathematica list/expression string; lists become nested Python lists.  author: the notebook's
+    names X0..X7 are the author's x0..x7; withdrawn: a string of the record in the withdrawn labels (x8 -> x0)."""
     t = s.strip()
     t = re.sub(r"^HoldComplete\[(.*)\]$", r"\1", t, flags=re.S)
     if author:
-        t = t.replace("X0", "x8")
-        for i in range(1, 8):
+        for i in range(0, 8):
             t = t.replace("X%d" % i, "x%d" % i)
+    if withdrawn:
+        t = re.sub(r"x8(?![0-9])", "x0", t)
     t = re.sub(r"Derivative\[(\d)\]\[a4\]\[x4\]", lambda m: "A%s" % m.group(1), t)
     t = re.sub(r"Derivative\[(\d)\]\[b4\]\[x4\]", lambda m: "B%s" % m.group(1), t)
     t = t.replace("a4[x4]", "log(EA)").replace("b4[x4]", "B0")
@@ -228,7 +233,7 @@ def mma(s, author=False):
     t = "".join(out).replace("^", "**")
     t = re.sub(r"(?<![\w.])(\d+)(?![\w.])", r"sp.Integer(\1)", t)
     ns = {"sin": sp.sin, "cos": sp.cos, "tan": sp.tan, "cot": sp.cot, "sec": sp.sec, "csc": sp.csc,
-          "log": sp.log, "H": H, "x8": x8, "x4": x4, "EA": EA, "Lambda": Lam, "w1": w1, "w2": w2, "w3": w3,
+          "log": sp.log, "H": H, "x0": x0, "x4": x4, "EA": EA, "Lambda": Lam, "w1": w1, "w2": w2, "w3": w3,
           "A1": A1, "A2": A2, "A3": A3, "B0": B0, "B1": B1, "B2": B2, "B3": B3, "sp": sp}
     return eval(t, ns)  # noqa: S307 - our own files of a fixed grammar
 
@@ -243,12 +248,12 @@ def to_symbols_plain(e):
 
 
 def author_to_revision(A):
-    """A[p][q] = T_{a(p)}^{a(q)} (author order x0..x7) -> M[h][j] = T^h_j (Revision order x1..x8)."""
-    r = lambda p: 7 if p == 0 else p - 1  # noqa: E731
+    """A[p][q] = T_{a(p)}^{a(q)} (lower index first) -> M[h][j] = T^h_j (upper index first); both in the author's
+    order x0..x7, so M[q][p] = A[p][q]."""
     M = [[sp.Integer(0)] * n for _ in range(n)]
     for p in range(n):
         for q in range(n):
-            M[r(q)][r(p)] = A[p][q]
+            M[q][p] = A[p][q]
     return M
 
 
@@ -261,7 +266,8 @@ def same(M, N, label=""):
 
 # ---- (1) against the Wolfram components ---------------------------------------------------------------------------
 wol = json.load(open(os.path.join(RES, "metric-b4.json"), encoding="utf-8"))
-lab = ["x%d" % i for i in range(1, 9)]
+lab = ["x%d" % i for i in range(0, 8)]  # the author's x0..x7
+OLDLAB = ["x8"] + ["x%d" % i for i in range(1, 8)]  # their names in the withdrawn labels (the frozen b4 = 1 record)
 
 
 def wmixed(key):
@@ -279,9 +285,9 @@ check("riemann_nonzero_count_equals_wolfram", len(Rmix) == wol["riemannMixedNonz
 # ---- (2) against the author's stored outputs ----------------------------------------------------------------------
 au = json.load(open(os.path.join(RES, "author-b4-outputs.json"), encoding="utf-8"))["cells"]
 A101 = mma(au["Out[101]"], author=True)
-check("metric_equals_author_Out101", all(is_zero(to_symbols(gdiag[r]) - sym(A101[p][p])) for p, r in zip(range(8), [7, 0, 1, 2, 3, 4, 5, 6]))
+check("metric_equals_author_Out101", all(is_zero(to_symbols(gdiag[p]) - sym(A101[p][p])) for p in range(8))
       and all(A101[p][q] == 0 for p in range(8) for q in range(8) if p != q),
-      "the metric = the author's Out[101] (x0 -> x8)")
+      "the metric = the author's Out[101], component by component in his coordinates x0..x7")
 check("ricci_scalar_equals_author_Out119", is_zero(Rs - sym(mma(au["Out[119]"], author=True))), "R = Out[119]")
 check("einstein_equals_author_Out120", same(G, author_to_revision(mma(au["Out[120]"], author=True)), "Out120"), "G = Out[120]")
 check("ricci_equals_author_Out124", same(ricci, author_to_revision(mma(au["Out[124]"], author=True)), "Out124"), "R^h_j = Out[124]")
@@ -304,16 +310,24 @@ check("author_solution_Out135", sol == [{w3: sp.Rational(1, 1152), Lam: 10}],
       "b4 = 1, a4 = H x4, w1 = 1, w2 = 1/32: reduced %s, solve %s (the author's Out[135]: w3 = 1/1152, Lambda = 10)" % (reduced, sol))
 
 # ---- (3) b4 = 1 against the earlier record -------------------------------------------------------------------------
-cur = json.load(open(os.path.join(ROOT, "Revision", "gkd_lovelock", "results", "curvature.json"), encoding="utf-8"))
-lov = json.load(open(os.path.join(ROOT, "Revision", "gkd_lovelock", "results", "lovelock-tensors.json"), encoding="utf-8"))
+# the record before 2026-10-14 (metric without b4), frozen from commit e3e35fe (Revision/gkd_lovelock/results now has b4)
+REF = os.path.join(ROOT, "Revision", "metric_b4", "reference_b4_1")
+import hashlib  # noqa: E402
+ref_sha = {n: hashlib.sha256(open(os.path.join(REF, n), "rb").read()).hexdigest() for n in ("curvature.json", "lovelock-tensors.json")}
+check("reference_b4_1_files_are_the_earlier_record",
+      ref_sha == {"curvature.json": "d5beb73a32244ea938ca61eac3573f72061c0e329b78f7506dd983881638763e",
+                  "lovelock-tensors.json": "9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567"},
+      "reference_b4_1/curvature.json and lovelock-tensors.json are the gkd_lovelock results of commit e3e35fe (before b4)")
+cur = json.load(open(os.path.join(REF, "curvature.json"), encoding="utf-8"))
+lov = json.load(open(os.path.join(REF, "lovelock-tensors.json"), encoding="utf-8"))
 one = {B0: 1, B1: 0, B2: 0, B3: 0}
 
 
 def rec_mixed(d):
-    return [[mma(d[lab[h] + "," + lab[j]]["mathematica"]) for j in range(n)] for h in range(n)]
+    return [[mma(d[OLDLAB[h] + "," + OLDLAB[j]]["mathematica"], withdrawn=True) for j in range(n)] for h in range(n)]
 
 
-check("b4_one_ricci_scalar_equals_record", is_zero(Rs.subs(one) - sym(mma(cur["ricciScalar"]))), "R at b4 = 1 = curvature.json")
+check("b4_one_ricci_scalar_equals_record", is_zero(Rs.subs(one) - sym(mma(cur["ricciScalar"], withdrawn=True))), "R at b4 = 1 = curvature.json")
 check("b4_one_einstein_equals_record", all(is_zero(G[h][j].subs(one) - sym(x)) for h, row in enumerate(rec_mixed(cur["einsteinMixed"])) for j, x in enumerate(row)),
       "G at b4 = 1 = curvature.json einsteinMixed")
 for k in (1, 2, 3):
