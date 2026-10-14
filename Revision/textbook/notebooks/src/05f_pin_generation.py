@@ -265,7 +265,17 @@ CELLS = [
     planes $(x8, x1)$, $(x8, x2)$, $(x8, x3)$ turn $e_{x8}$ into $\sigma/|\sigma|$ and
     do not touch the time part. The result is $\sigma + \tau = v$. The angles follow
     from (E). For an even $h$, $h\gamma^{(x8)}h^{-1} = \gamma(\Lambda(h)e_{x8}) =
-    \gamma(v)$. A time-like $v$ is treated in the same way, starting from $e_{x4}$.
+    \gamma(v)$. A time-like unit vector $v$ has $|\tau|^2 - |\sigma|^2 = 1$; three
+    stages, with the roles of the two blocks exchanged, carry $e_{x4}$ to $v$: a boost
+    in the plane $(x4, x8)$ gives $|\tau|e_{x4} + |\sigma|e_{x8}$ (by (E) with $a =
+    x4$, $\eta_{aa} = -1$: $\sinh\theta = |\sigma|$, so $\cosh\theta = \sqrt{1 +
+    |\sigma|^2} = |\tau|$); three rotations in the planes $(x8, x1)$, $(x8, x2)$,
+    $(x8, x3)$ turn $e_{x8}$ into $\sigma/|\sigma|$ and do not touch $x4$; three
+    rotations in the planes $(x4, x5)$, $(x4, x6)$, $(x4, x7)$ turn $e_{x4}$ into
+    $\tau/|\tau|$ and do not touch the space part. The result is again $\sigma + \tau
+    = v$, and $h\gamma^{(x4)}h^{-1} = \gamma(\Lambda(h)e_{x4}) = \gamma(v)$. When the
+    boost puts nothing on the other axis ($\tau = 0$ for a space-like, $\sigma = 0$
+    for a time-like $v$), $\theta = 0$ and the middle stage is left out.
 
     **(J) Moving the gammas to the right.** Moving $\gamma^e$ through $\gamma^a
     \gamma^b$ costs $(-1)^2 = +1$ when $e$ is neither $a$ nor $b$, and $-1$ when $e$

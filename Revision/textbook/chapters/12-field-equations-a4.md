@@ -289,7 +289,15 @@ $$
 \sum = (1 + 3 - 6 + 2 + 3)(a_4')^2 + (-1 - 3 - 6 - 5)H^2 + (2 - 3)a_4'' = 3(a_4')^2 - 15H^2 - a_4'',
 $$
 
-so $G^{x_1}{}_{x_1} = a_4'' - 3(a_4')^2 + 15H^2$. **The extra-time component** is found in the same way (three 3-space pairs, one extra-time pair, six mixed pairs, three space-time pairs, two extra-time-time pairs, five with $x_8$): $\sum = 3(a_4')^2 - 15H^2 + a_4''$ and $G^{x_5}{}_{x_5} = -a_4'' - 3(a_4')^2 + 15H^2$.
+so $G^{x_1}{}_{x_1} = a_4'' - 3(a_4')^2 + 15H^2$.
+
+**The extra-time component.** It uses the pairs without $x_5$: three pairs of two 3-space directions, one of two extra times ($x_6x_7$), six of a 3-space direction and an extra time ($x_6$ or $x_7$), three of a 3-space direction and the time, two of an extra time ($x_6$ or $x_7$) and the time, five with $x_8$ (the six minus $x_5x_8$), and the time with $x_8$:
+
+$$
+\sum = (3 + 1 - 6 + 3 + 2)(a_4')^2 + (-3 - 1 - 6 - 5)H^2 + (3 - 2)a_4'' = 3(a_4')^2 - 15H^2 + a_4''
+$$
+
+(the table, row by row, with the pair $x_4x_8$ contributing $0$; collect the terms with $(a_4')^2$, with $H^2$ and with $a_4''$), so $G^{x_5}{}_{x_5} = -a_4'' - 3(a_4')^2 + 15H^2$.
 
 These four components are PROVED (record `Revision/field_equations_a4/reports/python-a4-report.json` and the Wolfram report, check `einstein_components`; reproduced in Notebook 12a, In [12]).
 

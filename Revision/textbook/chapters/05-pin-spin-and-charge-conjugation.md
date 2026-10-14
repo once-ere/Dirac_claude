@@ -2739,7 +2739,19 @@ $$
 h\gamma^{(x8)}h^{-1} = \sum_d\Lambda(h)_{d,x8}\,\gamma^d = \gamma(\Lambda(h)e_{x8}) = \gamma(v) .
 $$
 
-A time-like unit vector is treated in the same way, starting from $e_{x4}$ with a boost in the plane $(x4, x8)$.
+A time-like unit vector $v$ has $|\tau|^2 - |\sigma|^2 = 1$. Three stages carry $e_{x4}$ to $v$; compared with the space-like case, the boost has $\cosh\theta = |\tau|$ instead of $|\sigma|$, and the two rotation stages exchange their places:
+
+- a boost in the plane $(x4, x8)$ carries $e_{x4}$ to $|\tau|\,e_{x4} + |\sigma|\,e_{x8}$ (by (E) with $a = x4$ and $\eta_{aa} = -1$, $\Lambda e_{x4} = \cosh\theta\,e_{x4} + \sinh\theta\,e_{x8}$; choose $\sinh\theta = |\sigma|$; then $\cosh\theta = \sqrt{1 + |\sigma|^2} = |\tau|$);
+- three rotations in the planes $(x8, x1)$, $(x8, x2)$, $(x8, x3)$ turn $e_{x8}$ into $\sigma/|\sigma|$ and do not touch $x4$, giving $|\tau|\,e_{x4} + \sigma$;
+- three rotations in the planes $(x4, x5)$, $(x4, x6)$, $(x4, x7)$ turn $e_{x4}$ into $\tau/|\tau|$ and do not touch the space part, giving $\sigma + \tau = v$.
+
+With $h$ the product of these at most seven exponentials, $\Lambda(h)e_{x4} = v$, and, since $h$ is again even, the same final step with $x4$ in place of $x8$ gives
+
+$$
+h\gamma^{(x4)}h^{-1} = \sum_d\Lambda(h)_{d,x4}\,\gamma^d = \gamma(\Lambda(h)e_{x4}) = \gamma(v) .
+$$
+
+In both cases, when the boost puts nothing on the other axis ($\tau = 0$ for a space-like $v$, $\sigma = 0$ for a time-like $v$), its angle is $\theta = 0$ and the middle stage is left out.
 
 **(J) Moving the gammas to the right.** Moving $\gamma^e$ through $\gamma^a\gamma^b$ costs $(-1)^2 = +1$ when $e$ is neither $a$ nor $b$, and $-1$ when $e$ is one of them (Rule 1). So $\gamma^eS^{ab}(\gamma^e)^{-1} = s\,S^{ab}$ with that sign $s$, and, term by term in the power series,
 

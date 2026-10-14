@@ -130,7 +130,7 @@ CELLS = [
     md(r"""
     ## 1. What this notebook computes
 
-    Notebook 17a showed that no recorded Kohn-Sham state of dirac16complex is an
+    Notebook 17a showed that no recorded Kohn-Sham ground state of dirac16complex is an
     admissible source of the author's metric: the states fail the three source
     conditions C1, C2, C3 of the $a_4$ equations. This notebook asks WHY, and the
     answer is the **conservation law** of energy and momentum. Every source of the
@@ -1185,7 +1185,7 @@ CELLS = [
     md(r"""
     ## 13. The equations averaged over the hidden direction (an approximation)
 
-    No recorded state meets C1, so the $a_4$ equations cannot hold point by point
+    No recorded ground state meets C1, so the $a_4$ equations cannot hold point by point
     with the Kohn-Sham source. The Revision record in the folder
     `Revision/field_equations_a4/ks_source` asks the next weaker question: multiply
     every field equation by the volume weight $e^{6Hy}$ and integrate it over the
@@ -1381,7 +1381,7 @@ CELLS = [
       $p_3 + p_t - 2p_8 = p_8'(y)/(3H)$, so C2 is the statement "$p_8$ is flat"; and
       $d\mathcal C/dx_4 = 3a_4'\,\mathcal E$, so the linear member needs $p_3 = p_t$
       and a constant $\rho$.
-    - COMPUTED (the 75 recorded states): the Kohn-Sham states obey the conservation
+    - COMPUTED (the 75 recorded ground states): the Kohn-Sham states obey the conservation
       law of the hidden direction point by point (to about $10^{-4}$ of max|T| with
       fourth-order differences of step 0.02, the error falling with the fourth power
       of the step) and integrated over the patch (to about $10^{-11}$). The energy

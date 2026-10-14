@@ -2667,7 +2667,7 @@ check(diagonal_ok and list(np.diag(tables[1])) == [4, 4, 4, 33, 2, 2, 2, 3],
       "equal, hidden entry their mean; G = diag(4, 4, 4, 33, 2, 2, 2, 3) H^2")
 ```
 
-The three diagonals are printed: $E_{(1)}$: 4, 4, 4, 33, 2, 2, 2, 3; $E_{(2)}$: 548, 548, 548, $-1476$, 820, 820, 820, 684; $E_{(3)}$: $-14544$ (three times), 40248, $-30240$ (three times), $-22392$. With the Einstein tensor of Section 11.10 and $a_4' = 2H$, $a_4'' = H^2$: $G^{x_1}{}_{x_1} = -12 + 1 + 15 = 4$, $G^{x_4}{}_{x_4} = 12 + 21 = 33$, $G^{x_5}{}_{x_5} = -12 - 1 + 15 = 2$, $G^{x_8}{}_{x_8} = 15 - 12 = 3$, in units of $H^2$, which the check confirms. Thirty-second PASS line.
+The three diagonals are printed: $E_{(1)}$: 4, 4, 4, 33, 2, 2, 2, 3; $E_{(2)}$: 548, 548, 548, $-1476$, 820, 820, 820, 684; $E_{(3)}$: $-14544$ (three times), 40248, $-30240$ (three times), $-22392$ (Section 11.20 recomputes every one of these entries by hand). With the Einstein tensor of Section 11.10 and $a_4' = 2H$, $a_4'' = H^2$: $G^{x_1}{}_{x_1} = -12 + 1 + 15 = 4$, $G^{x_4}{}_{x_4} = 12 + 21 = 33$, $G^{x_5}{}_{x_5} = -12 - 1 + 15 = 2$, $G^{x_8}{}_{x_8} = 15 - 12 = 3$, in units of $H^2$, which the check confirms. Thirty-second PASS line.
 
 *What Figure 11b.5 shows.* Three $8 \times 8$ tables in units of $H^2$, $H^4$ and $H^6$, each filled only on its diagonal. In each table the first three diagonal squares are equal (3-space), the squares 5 to 7 are equal (extra times), and the last square (hidden direction) lies exactly halfway between them: $(4 + 2)/2 = 3$, $(548 + 820)/2 = 684$, $(-14544 - 30240)/2 = -22392$. The time square $x_4$ stands apart: in $E_{(1)}$ it is much larger than the others (33 against 2 to 4, all positive); in $E_{(2)}$ and $E_{(3)}$ it has the opposite sign to all the others ($-1476$ against positive entries, $+40248$ against negative ones). Section 11.21 proves these patterns for every history.
 
@@ -2786,13 +2786,59 @@ $$
 
 with $E^{x_2}{}_{x_2} = E^{x_3}{}_{x_3} = E^{x_1}{}_{x_1}$ and $E^{x_6}{}_{x_6} = E^{x_7}{}_{x_7} = E^{x_5}{}_{x_5}$ for every order. These are exactly the components that the record of the field equations of $a_4$ lists (`Revision/field_equations_a4/a4-equations.json`, key `lovelockTensors`, compared in its sympy report `Revision/field_equations_a4/reports/python-a4-report.json`, check `json_lovelock_components`); Notebook 11c reads them from the Rust record and compares them with this list (In [2] and In [3]). The components contain only $H$, $a_4'$ and $a_4''$: no $x_8$ (no $\cot z$ and no $\sin^{1/3}z$), no $e^{a_4}$ and no higher derivative. The order-1 components are those of the Einstein tensor of Section 11.10, as Section 11.14 proved they must be.
 
-**One component checked by hand.** Take the moment $a_4' = 2H$, $a_4'' = H^2$ of a history in which the extra times deflate and the deflation speeds up. In $E_{(2)}{}^{x_1}{}_{x_1}$:
+**Every component checked by hand.** Take the moment $a_4' = 2H$, $a_4'' = H^2$ of a history in which the extra times deflate and the deflation speeds up. Then $a_4'^2 = 4H^2$, $a_4'^4 = 16H^4$ and $a_4'^6 = 64H^6$ (products of two, four and six factors $2H$). We insert these values into the twelve formulas above and add the whole numbers; because the components $x_2, x_3$ equal the component $x_1$ and the components $x_6, x_7$ equal the component $x_5$ (stated just above), it suffices to do the components $x_1$, $x_4$, $x_5$ and $x_8$ of each order. Order 1:
 
 $$
-12\cdot 16H^4 - 24\cdot 4H^2\cdot H^2 + 168\cdot 4H^2\cdot H^2 - 40H^2\cdot H^2 - 180H^4 = (192 - 96 + 672 - 40 - 180)H^4 = 548H^4
+\begin{aligned}
+E_{(1)}{}^{x_1}{}_{x_1} &= -3\cdot 4H^2 + H^2 + 15H^2 = (-12 + 1 + 15)H^2 = 4H^2,\\
+E_{(1)}{}^{x_4}{}_{x_4} &= 3\cdot 4H^2 + 21H^2 = (12 + 21)H^2 = 33H^2,\\
+E_{(1)}{}^{x_5}{}_{x_5} &= -3\cdot 4H^2 - H^2 + 15H^2 = (-12 - 1 + 15)H^2 = 2H^2,\\
+E_{(1)}{}^{x_8}{}_{x_8} &= -3\cdot 4H^2 + 15H^2 = (-12 + 15)H^2 = 3H^2.
+\end{aligned}
 $$
 
-(insert $a_4'^2 = 4H^2$, $a_4'^4 = 16H^4$, $a_4'' = H^2$; then add the whole numbers). In the same way the diagonals at this moment are $E_{(1)} = (4, 4, 4, 33, 2, 2, 2, 3)H^2$, $E_{(2)} = (548, 548, 548, -1476, 820, 820, 820, 684)H^4$ and $E_{(3)} = (-14544, -14544, -14544, 40248, -30240, -30240, -30240, -22392)H^6$, in the order $x_1, \dots, x_8$ (Notebook 11b, In [23], Figure 11b.5).
+In each line the first step inserts $a_4'^2 = 4H^2$ and $a_4'' = H^2$, the second multiplies out ($3\cdot 4 = 12$) and takes the common factor $H^2$ out of the sum, and the last adds the whole numbers. Order 2: the four products that occur become $a_4'^4 = 16H^4$, $a_4'^2a_4'' = 4H^2\cdot H^2 = 4H^4$, $a_4'^2H^2 = 4H^4$ and $a_4''H^2 = H^4$ (powers of $H$ multiply by adding their exponents), and $H^4$ stays $H^4$. In $E_{(2)}{}^{x_1}{}_{x_1}$, written out factor by factor:
+
+$$
+12\cdot 16H^4 - 24\cdot 4H^2\cdot H^2 + 168\cdot 4H^2\cdot H^2 - 40H^2\cdot H^2 - 180H^4 = (192 - 96 + 672 - 40 - 180)H^4 = 548H^4 .
+$$
+
+The other three components of order 2 in the same steps (insert, multiply the coefficient of each term by 16, 4, 4 or 1 according to its product, the term in $H^4$ keeping its coefficient, add):
+
+$$
+\begin{aligned}
+E_{(2)}{}^{x_4}{}_{x_4} &= (-36\cdot 16 - 120\cdot 4 - 420)H^4 = (-576 - 480 - 420)H^4 = -1476H^4,\\
+E_{(2)}{}^{x_5}{}_{x_5} &= (12\cdot 16 + 24\cdot 4 + 168\cdot 4 + 40 - 180)H^4 = (192 + 96 + 672 + 40 - 180)H^4 = 820H^4,\\
+E_{(2)}{}^{x_8}{}_{x_8} &= (12\cdot 16 + 168\cdot 4 - 180)H^4 = (192 + 672 - 180)H^4 = 684H^4.
+\end{aligned}
+$$
+
+Order 3: the six products that occur become $a_4'^6 = 64H^6$, $a_4'^4a_4'' = 16H^4\cdot H^2 = 16H^6$, $a_4'^4H^2 = 16H^6$, $a_4'^2a_4''H^2 = 4H^2\cdot H^2\cdot H^2 = 4H^6$, $a_4'^2H^4 = 4H^6$ and $a_4''H^4 = H^6$, so the coefficient of each term is multiplied by 64, 16, 16, 4, 4 or 1 according to its product, and the term in $H^6$ keeps its coefficient:
+
+$$
+\begin{aligned}
+E_{(3)}{}^{x_1}{}_{x_1} &= (-72\cdot 64 + 360\cdot 16 - 648\cdot 16 + 432\cdot 4 - 1944\cdot 4 + 360 + 360)H^6\\
+&= (-4608 + 5760 - 10368 + 1728 - 7776 + 360 + 360)H^6 = -14544H^6,\\
+E_{(3)}{}^{x_4}{}_{x_4} &= (360\cdot 64 + 648\cdot 16 + 1080\cdot 4 + 2520)H^6\\
+&= (23040 + 10368 + 4320 + 2520)H^6 = 40248H^6,\\
+E_{(3)}{}^{x_5}{}_{x_5} &= (-72\cdot 64 - 360\cdot 16 - 648\cdot 16 - 432\cdot 4 - 1944\cdot 4 - 360 + 360)H^6\\
+&= (-4608 - 5760 - 10368 - 1728 - 7776 - 360 + 360)H^6 = -30240H^6,\\
+E_{(3)}{}^{x_8}{}_{x_8} &= (-72\cdot 64 - 648\cdot 16 - 1944\cdot 4 + 360)H^6\\
+&= (-4608 - 10368 - 7776 + 360)H^6 = -22392H^6.
+\end{aligned}
+$$
+
+For each component the first line inserts the products, the second line multiplies out each coefficient, and its last step adds the whole numbers. With $E^{x_2}{}_{x_2} = E^{x_3}{}_{x_3} = E^{x_1}{}_{x_1}$ and $E^{x_6}{}_{x_6} = E^{x_7}{}_{x_7} = E^{x_5}{}_{x_5}$ the diagonals at this moment are, in the order $x_1, \dots, x_8$,
+
+$$
+\begin{aligned}
+E_{(1)} &= (4, 4, 4, 33, 2, 2, 2, 3)H^2,\\
+E_{(2)} &= (548, 548, 548, -1476, 820, 820, 820, 684)H^4,\\
+E_{(3)} &= (-14544, -14544, -14544, 40248, -30240, -30240, -30240, -22392)H^6,
+\end{aligned}
+$$
+
+exactly the numbers that Notebook 11b prints (In [23], Figure 11b.5).
 
 ### 11.21 Their structure: equal directions, constraint, evolution factor, mean, sign and weight
 

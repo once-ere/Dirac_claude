@@ -344,9 +344,9 @@ $$
 
 ### 21.8 Charge conjugation is a matrix: the condition on the matrix
 
-**The question.** An antiparticle has the same mass and the opposite charge. In a field theory the step from a solution to its "antiparticle solution" is made by a map called **charge conjugation**: it turns every solution of the field equation into a solution whose charge density has the opposite sign. In Dirac's theory of the electron, whose gamma matrices are complex, this map combines the complex conjugate $\Psi^\ast$ with a fixed matrix. In the author's theory the gammas are real. Take a **real** field, one whose components are real numbers, so that $\Psi^\ast = \Psi$. On such a field, complex conjugation does nothing: it is the identity map, and a map that changes nothing cannot exchange matter and antimatter. Whatever charge conjugation is in this theory, it must be made by a **matrix**. This section and the next find every such matrix.
+**The question.** An antiparticle has the same mass and the opposite charge. In a field theory the step from a solution to its "antiparticle solution" is made by a map called **charge conjugation**: it turns every solution of the field equation into a solution whose charge density has the opposite sign. In Dirac's theory of the electron, whose gamma matrices are complex, this map combines the complex conjugate $\Psi^\ast$ with a fixed matrix. In the author's theory the gammas are real. Take a **real** field, one whose components are real numbers, so that $\Psi^\ast = \Psi$. On such a field, complex conjugation does nothing: it is the identity map, and a map that changes nothing cannot exchange matter and antimatter. Whatever charge conjugation is in this theory, it must be made by a **matrix**. This section derives a condition on the matrix that is enough for it to do its job and makes that condition the definition, as the Revision record does; the next section finds every matrix that obeys this condition.
 
-**Definition.** A **charge-conjugation matrix** is a constant $16 \times 16$ matrix $\mathcal{C}$ such that, whenever $\Psi$ solves the field equation, the column
+**The wish.** We look for a constant $16 \times 16$ matrix $\mathcal{C}$ such that, whenever $\Psi$ solves the field equation, the column
 
 $$
 \Psi^c = \mathcal{C}\,\bar\Psi^T
@@ -354,7 +354,7 @@ $$
 
 solves the field equation of the same form, either with the same $V$ (**same mass**) or with $-V$ (**mass reversed**).
 
-**From the definition to an equation for a matrix**, line by line.
+**From the wish to an equation for a matrix**, line by line.
 
 $$
 \bar\Psi^T = (\Psi^\dagger C)^T = C^T(\Psi^\dagger)^T = C\Psi^\ast
@@ -381,6 +381,22 @@ $$
 $$
 
 **The new field $M\Psi^\ast$ solves the equation with $V$ when $s = +1$ and with $-V$ when $s = -1$.** Since the gammas are real, $(\gamma^a)^\ast = \gamma^a$, and the condition can be written $M(\gamma^a)^\ast = s\,\gamma^aM$, the form in which the Revision record solves it. (For $V = m + \lambda S$, which depends on the field, Section 21.10 shows that for commuting components both matrices found below keep $S$; then $sV = sm + s\lambda S$, so the new field solves the equation with $(m, \lambda)$ when $s = +1$ and with $(-m, -\lambda)$ when $s = -1$. For a free field, $\lambda = 0$, only the mass matters.)
+
+**Definition.** A **charge-conjugation matrix** is a constant $16 \times 16$ matrix $\mathcal{C}$ for which the matrix $M = \mathcal{C}C$ obeys the **intertwiner condition**
+
+$$
+M(\gamma^a)^\ast = s\,\gamma^aM \qquad (a = x1, \dots, x8),
+$$
+
+with one sign $s$ ($+1$ or $-1$) for all eight directions; it is called **same mass** when $s = +1$ and **mass reversed** when $s = -1$. This is the definition of the Revision record: its checks `intertwiners_same_mass` and `intertwiners_reversed_mass` solve exactly this condition. Steps 1 to 4 prove that every charge-conjugation matrix fulfils the wish: for every solution $\Psi$, the column $\Psi^c = M\Psi^\ast$ solves the field equation with $sV$.
+
+**Why the definition is the condition and not the wish.** The condition is enough for the wish, but the converse is not true in general: a matrix can turn every solution into a solution without obeying the condition. An example, line by line, for $V = 0$ (mass $0$ and no self-interaction, a case that the field equation allows), with the chiral projectors $P_\pm = \tfrac12(1 \pm \Gamma)$ and $M = P_-$, that is $\mathcal{C} = P_-C$:
+
+1. $P_-$ is a combination of $1$ and of $\Gamma$, so by (R2) it commutes with every product of two gammas, hence with every $\Omega_\mu$; as a constant matrix it commutes with every derivative. So $P_-D_\mu = D_\mu P_-$.
+2. By (R1), $\gamma^aP_- = \tfrac12(\gamma^a - \gamma^a\Gamma) = \tfrac12(\gamma^a + \Gamma\gamma^a) = P_+\gamma^a$, and in the same way $P_-\gamma^a = \gamma^aP_+$. Multiplying by the scale factors gives $\gamma^\mu P_- = P_+\gamma^\mu$.
+3. For every solution $\Psi$: $\gamma^\mu D_\mu(P_-\Psi^\ast) = P_+\gamma^\mu D_\mu\Psi^\ast = P_+(V\Psi^\ast) = 0$ (lines 1 and 2, then Step 1, then $V = 0$).
+
+So $P_-\Psi^\ast$ solves the equation with $V = 0$, which is also $-V$: the matrix $P_-C$ fulfils the wish. It does not obey the condition, for either sign: if $P_-\gamma^a = s\,\gamma^aP_-$ held, then with line 2 $\gamma^aP_+ = s\,\gamma^aP_-$; multiplying from the left by $\eta_{aa}\gamma^a$ (and $\eta_{aa}\gamma^a\gamma^a = 1$) gives $P_+ = s\,P_-$, and multiplying from the right by $P_+$ gives $P_+ = 0$, because $P_+P_+ = P_+$ and $P_-P_+ = \tfrac14(1 - \Gamma\Gamma) = 0$. But $P_+ = \mathrm{diag}(0, 1_8)$ is not zero. (Section 5.28 gives the same example.) So with the wish as the definition, the count "exactly two" of Theorem CC would be false for $V = 0$; with the condition as the definition, it is proved below. For $V \neq 0$ this book does not study whether some matrix outside the condition fulfils the wish in the author's metric (OPEN); nothing in this chapter depends on that question, because the Revision record and this chapter use the condition.
 
 ### 21.9 The two charge-conjugation matrices
 

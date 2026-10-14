@@ -29,9 +29,11 @@ FACTS = {
         "It reads the eight real 16 by 16 gamma matrices of the Revision record, checks the "
         "Clifford relation, builds the charge matrix C (the product of the four space-like "
         "gammas), the chirality Gamma (the product of all eight gammas) and the matrix B = "
-        "-i C gamma^(x4), proves numerically every property that the Revision record states "
-        "about them (symmetry, squares, commutation signs, eigenvalues and signature), and "
-        "draws six teaching plots: heat maps of the matrices, an indefinite quadratic form, "
+        "-i C gamma^(x4), checks again with its own code every property that the Revision "
+        "record states about them (symmetry, squares, commutation signs, eigenvalues and "
+        "signature; COMPUTED here, partly in exact whole-number arithmetic and partly in "
+        "floating-point numbers, while the record proves them exactly), and draws six "
+        "teaching plots: heat maps of the matrices, an indefinite quadratic form, "
         "the spectra and a table of commutation signs."
     ),
     "records": [

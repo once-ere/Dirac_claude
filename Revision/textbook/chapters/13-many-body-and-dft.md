@@ -207,7 +207,32 @@ $$
 \langle a_p'^\dagger a'_q\rangle = \sum_{k,l} U_{kp}\,U_{lq}^*\,\langle a_k^\dagger a_l\rangle = \sum_{k,l} U^*_{lq}\,\rho_{lk}\,U_{kp} = (U^\dagger\rho\,U)_{qp} ,
 $$
 
-which is the matrix element of the same $\rho$ between the new orbitals; the four-operator formula transforms in the same way, factor by factor. So Wick's theorem holds in every orthonormal basis. It also holds, with occupations $f_a$ between 0 and 1 in place of 0 and 1, for a **thermal ensemble** of non-interacting fermions (Section 13.26 shows that the occupations of different orbitals are then independent, which is all the proof needs). Notebook 13c checks all $16 + 256$ two- and four-operator values in a randomly rotated basis, for a determinant and for a thermal ensemble (In [6] and In [7]).
+which is the matrix element of the same $\rho$ between the new orbitals. Call this matrix $\rho' = U^\dagger\rho\,U$, so that $\langle a_p'^\dagger a'_q\rangle = \rho'_{qp}$. The four-operator formula transforms in the same way; line by line:
+
+$$
+\begin{aligned}
+\langle a_p'^\dagger a_q'^\dagger a'_s a'_r\rangle &= \sum_{k,l,m,n} U_{kp}\,U_{lq}\,U^*_{ms}\,U^*_{nr}\,\langle a_k^\dagger a_l^\dagger a_m a_n\rangle \\
+&= \sum_{k,l,m,n} U_{kp}\,U_{lq}\,U^*_{ms}\,U^*_{nr}\,\big(\rho_{nk}\,\rho_{ml} - \rho_{mk}\,\rho_{nl}\big) \\
+&= \Big(\sum_{n,k} U^*_{nr}\,\rho_{nk}\,U_{kp}\Big)\Big(\sum_{m,l} U^*_{ms}\,\rho_{ml}\,U_{lq}\Big) \\
+&\qquad - \Big(\sum_{m,k} U^*_{ms}\,\rho_{mk}\,U_{kp}\Big)\Big(\sum_{n,l} U^*_{nr}\,\rho_{nl}\,U_{lq}\Big) \\
+&= \rho'_{rp}\,\rho'_{sq} - \rho'_{sp}\,\rho'_{rq} .
+\end{aligned}
+$$
+
+The first line inserts the four expansions $a_p'^\dagger = \sum_k U_{kp}\,a_k^\dagger$, $a_q'^\dagger = \sum_l U_{lq}\,a_l^\dagger$, $a'_s = \sum_m U^*_{ms}\,a_m$, $a'_r = \sum_n U^*_{nr}\,a_n$, multiplies out, and uses the linearity of expectation values; the second is the four-operator formula above with $p, q, s, r$ renamed $k, l, m, n$; the third (written on two rows) splits each of the two products into two independent sums (each sum collects the factors that carry its two summation letters); the fourth recognises each sum as an element of the matrix product $U^\dagger\rho\,U$, for example $\sum_{n,k} U^*_{nr}\,\rho_{nk}\,U_{kp} = (U^\dagger\rho\,U)_{rp}$ because $(U^\dagger)_{rn} = U^*_{nr}$. The result is Wick's formula again, now with the density matrix $\rho'$ of the new basis. So Wick's theorem holds in every orthonormal basis.
+
+**A thermal ensemble.** Wick's theorem also holds for a **thermal ensemble** of non-interacting fermions, the statistical mixture of states that describes them at a temperature $T > 0$ (Section 13.26), with occupations $f_a$ between 0 and 1 in place of 0 and 1. Section 13.26 shows two facts about it: in the basis of the orbitals $\phi_a$ of the non-interacting Hamiltonian, the ensemble is a mixture of the occupation-number states $|n_0 n_1 \cdots\rangle$ (they are the eigenstates of $\hat H - \mu\hat N$, so the Gibbs state, a function of this operator, gives each of them a probability, its Gibbs weight); and in this mixture orbital $a$ is occupied with the Fermi-Dirac probability $f_a$, independently of the other orbitals. An expectation value in a mixture is the average, with these probabilities, of the expectation values in its states (Section 13.26), and each state is a determinant of basis orbitals. So the two determinant formulas above give, in this basis, line by line:
+
+$$
+\begin{aligned}
+\langle a_p^\dagger a_q\rangle &= \delta_{pq}\,\langle\hat n_p\rangle = \delta_{pq}\,f_p ,\\
+\langle a_p^\dagger a_q^\dagger a_s a_r\rangle &= \langle\hat n_p\,\hat n_q\rangle\,\big(\delta_{pr}\delta_{qs} - \delta_{ps}\delta_{qr}\big) \\
+&= f_p\,f_q\,\big(\delta_{pr}\delta_{qs} - \delta_{ps}\delta_{qr}\big) \\
+&= \rho_{rp}\,\rho_{sq} - \rho_{sp}\,\rho_{rq}, \qquad \rho = \mathrm{diag}(f_0, f_1, \dots) .
+\end{aligned}
+$$
+
+The first line averages $\delta_{pq}[p\in O]$; the average of $[p\in O]$ is the probability that orbital $p$ is occupied, $f_p$. So $\rho_{qp} = \delta_{pq}f_p$: the density matrix is diagonal, with the occupations on its diagonal. The second line averages $[p\in O]\,[q\in O]$, the value of $\hat n_p\hat n_q$ in each occupation-number state; this average is the probability that both $p$ and $q$ are occupied. The third line uses the independence: for $p \ne q$ that probability is the product $f_p f_q$. (For $p = q$ the bracket $\delta_{pr}\delta_{ps} - \delta_{ps}\delta_{pr}$ is 0, so this case needs nothing.) Independence is needed here because the four-operator formula is a product of two density-matrix elements, and the average of a product of two occupations is in general not the product of their averages; for independent occupations it is. The fourth line inserts $\rho_{rp} = \delta_{pr}f_p$, $\rho_{sq} = \delta_{qs}f_q$, $\rho_{sp} = \delta_{ps}f_p$ and $\rho_{rq} = \delta_{qr}f_q$: the two products are $f_pf_q\,\delta_{pr}\delta_{qs}$ and $f_pf_q\,\delta_{ps}\delta_{qr}$. The basis change above then carries Wick's theorem for the thermal ensemble to every orthonormal basis, with $\rho' = U^\dagger\,\mathrm{diag}(f_0, f_1, \dots)\,U$. Notebook 13c checks all $16 + 256$ two- and four-operator values in a randomly rotated basis, for a determinant and for a thermal ensemble (In [6] and In [7]).
 
 **The normal-ordered square of a one-body quantity.** The interaction of the dirac16complex Kohn-Sham model (Section 13.16) is the square of a one-body quantity $S = \sum_{p,q} V_{pq}\,a_p^\dagger a_q$ with a Hermitian matrix $V$ (the **vertex**). Its **normal-ordered square** puts all creation operators to the left: ${:}S^2{:} = \sum V_{pq}V_{rs}\,a_p^\dagger a_r^\dagger a_s a_q$. Line by line:
 

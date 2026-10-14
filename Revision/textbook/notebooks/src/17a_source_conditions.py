@@ -48,7 +48,7 @@ FACTS = {
         "and a constant energy density). It then evaluates the three conditions on the "
         "75 committed Kohn-Sham ground states of dirac16complex, reproduces every number "
         "of the five checks of the Revision record ks-source-conditions.json, shows "
-        "that no recorded Kohn-Sham state is an admissible source, so that the "
+        "that no recorded Kohn-Sham ground state is an admissible source, so that the "
         "Kohn-Sham history is a prescribed background, and draws seven teaching plots."
     ),
     "records": [
@@ -118,7 +118,7 @@ CELLS = [
     - evaluates C1, C2 (point by point and after integration over $x_8$) and C3 on
       every state and reproduces every number of the five checks of the record
       `ks-source-conditions.json`;
-    - concludes, as the record does, that no recorded Kohn-Sham state is an
+    - concludes, as the record does, that no recorded Kohn-Sham ground state is an
       admissible source, so that the Kohn-Sham history $a_4 = AHx_4$ is a
       **prescribed background** (the gas is a test field without back-reaction);
     - draws seven teaching plots. It takes about fifteen seconds.
@@ -931,10 +931,12 @@ CELLS = [
       change along the history, but they too fail C1 and C2.
     - PROVED (Einstein gravity): $T = 0$ is not a solution for $H > 0$, so the five
       states without a source are not admissible either.
-    - Hence no recorded Kohn-Sham state is an admissible source. The Kohn-Sham history
-      $a_4 = Hx_4$ is a PRESCRIBED BACKGROUND (ASSUMED, not solved for): the gas is a
-      test field without back-reaction, and energies, pressures and equations of state
-      computed along it are not consequences of the coupled field equations.
+    - Hence no recorded Kohn-Sham ground state is an admissible source (the 135
+      thermal states of the canonical matrix store no profiles and are not tested).
+      The Kohn-Sham history $a_4 = Hx_4$ is a PRESCRIBED BACKGROUND (ASSUMED, not
+      solved for): the gas is a test field without back-reaction, and energies,
+      pressures and equations of state computed along it are not consequences of the
+      coupled field equations.
     - WHY (worked out in Notebook 17b): every source of the field equations must be
       conserved, and for a conserved source C2 says exactly that $p_8$ does not
       change along $x_8$, while C3 says exactly that no energy is exchanged with the

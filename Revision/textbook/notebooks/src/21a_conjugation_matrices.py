@@ -15,7 +15,10 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
 TEXTBOOK_SPEC rule R5: charge conjugation is a MATRIX.  The author's gammas are real, so
 for a real field plain complex conjugation is the identity.  The notebook verifies that
 the eight gammas of the Revision record are real 16 x 16 matrices obeying the Clifford
-relation of signature (4,4), solves exactly for every conjugation matrix, shows how each
+relation of signature (4,4), solves exactly for every matrix that obeys the intertwiner
+condition M (gamma^a)* = s gamma^a M (the record's definition of a charge-conjugation
+matrix; the condition is sufficient, not necessary, for mapping solutions to solutions:
+for V = 0 the projector P_- also does, Notebook 05c), shows how each
 conjugation acts on an exact solution of the field equation in the author's curved
 metric, tabulates the signs of all 256 bilinears, and treats real fields.  It reproduces
 nine of the twelve checks of Revision/lead_checks/reports/charge-conjugation-and-u1.json
@@ -111,7 +114,9 @@ CELLS = [
     $$\Psi^c = \mathcal{C}\,\bar\Psi^T = \mathcal{C}\,C\,\Psi^* ,$$
 
     where $\bar\Psi = \Psi^\dagger C$ is the Dirac adjoint and $C$ the charge matrix
-    (the author's sigma16). This notebook finds every such matrix exactly. It
+    (the author's sigma16). This notebook finds, exactly, every matrix that obeys the
+    intertwiner condition of Section 4 (the definition of a charge-conjugation matrix
+    used by the Revision record). It
 
     1. checks that the Revision record holds **eight real $16 \times 16$ gamma
        matrices** that obey the Clifford relation of signature (4,4), and draws them;
@@ -129,7 +134,8 @@ CELLS = [
     5. computes how all 256 bilinears $\bar\Psi\,\Gamma_A\Psi$ change sign, for
        commuting and for anticommuting components;
     6. treats **real fields**: the current vanishes, $\mathcal{C}_+$ is the identity,
-       and the nontrivial real map is the matrix $\Gamma$ with the mass reversed.
+       and, among the matrices that obey the intertwiner condition, the nontrivial
+       real map is the matrix $\Gamma$ with the mass reversed.
 
     Nine checks reproduce checks of the Revision record
     `Revision/lead_checks/reports/charge-conjugation-and-u1.json`; two more read the
@@ -166,9 +172,13 @@ CELLS = [
     - **Field equation**: $(\gamma^\mu D_\mu - V)\Psi = 0$ with $V = m + U'(S)$ real,
       $m$ the **mass**, $S = \bar\Psi\Psi$ the **scalar**; $D_\mu$ is the derivative
       with the gravitational spin connection.
-    - **Charge-conjugation matrix** $\mathcal{C}$: a constant matrix such that
-      $\Psi^c = \mathcal{C}\bar\Psi^T$ solves a field equation of the same form
-      whenever $\Psi$ does, with the same mass or with the mass reversed.
+    - **Charge-conjugation matrix** $\mathcal{C}$: a constant matrix for which
+      $M = \mathcal{C}C$ obeys the **intertwiner condition**
+      $M(\gamma^a)^* = s\,\gamma^a M$ for all eight $a$, with one sign $s$ ($s = +1$
+      same mass, $s = -1$ mass reversed); this is the definition of the Revision
+      record. Then $\Psi^c = \mathcal{C}\bar\Psi^T$ solves a field equation of the
+      same form whenever $\Psi$ does (Section 4); the converse is not true in
+      general (Section 4).
     - **Solution space, dimension**: all solutions of a set of linear equations form a
       space; its *dimension* is the number of free numbers in the general solution.
     - **Bilinear**: $\Psi^\dagger K\Psi = \sum_{r,c}\Psi_r^* K_{rc}\Psi_c$ for a fixed
@@ -189,7 +199,8 @@ CELLS = [
     gamma matrices are complex, $\Psi^c$ involves the complex conjugate $\Psi^*$
     together with a matrix. The author's gammas are real; then for a real field
     $\Psi^* = \Psi$, and complex conjugation alone does nothing. The matrix is
-    essential, and we must find all possible matrices.
+    essential. We derive a condition on the matrix that is enough for $\Psi^c$ to be
+    a solution, and then we find all matrices that obey the condition below.
 
     **Deriving the condition on the matrix**, line by line. Let $\Psi$ solve
     $\gamma^\mu D_\mu\Psi = V\Psi$ with real $V$. In the author's metric the gammas
@@ -213,11 +224,23 @@ CELLS = [
        $-V$ (the mass reversed) when $s = -1$.
 
     Because the gammas are real, $(\gamma^a)^* = \gamma^a$ and the condition is
-    $M(\gamma^a)^* = s\,\gamma^a M$: $M$ must commute ($s = +1$) or anticommute
-    ($s = -1$) with all eight gammas. The textbook form of charge conjugation is
+    $M(\gamma^a)^* = s\,\gamma^a M$: it is enough that $M$ commutes ($s = +1$) or
+    anticommutes ($s = -1$) with all eight gammas (the converse fails for $V = 0$,
+    see below). The textbook form of charge conjugation is
     $\Psi^c = \mathcal{C}\bar\Psi^T$; since $\bar\Psi^T = (\Psi^\dagger C)^T =
     C^T\Psi^* = C\Psi^*$ ($C$ is symmetric), $\Psi^c = \mathcal{C}C\Psi^*$, so
     $M = \mathcal{C}C$ and, because $CC = 1$, $\mathcal{C} = MC$.
+
+    **The definition.** A **charge-conjugation matrix** is a constant matrix
+    $\mathcal{C}$ for which $M = \mathcal{C}C$ obeys this **intertwiner condition**
+    $M(\gamma^a)^* = s\,\gamma^a M$ with one sign $s$ for all eight $a$. This is the
+    definition of the Revision record: its checks intertwiners_same_mass and
+    intertwiners_reversed_mass solve exactly this condition. Steps 1 to 4 show that
+    the condition is enough for $M\Psi^*$ to be a solution. The converse is not true
+    in general: for $V = 0$ (mass 0, no self-interaction) the chiral projector
+    $P_- = \frac12(1 - \Gamma)$ also maps every solution to a solution without
+    obeying the condition for either sign (Notebook 05c). The count below therefore
+    concerns the matrices that obey the condition.
 
     **What to expect.** The matrices that commute with all eight gammas are the
     multiples of $1$, because the 16 components carry an *irreducible*
@@ -382,7 +405,7 @@ CELLS = [
           record=f"{RECORD}, check B_imaginary_hermitian")
     '''),
     md(r"""
-    ## 7. Every conjugation matrix, solved exactly
+    ## 7. Every matrix that obeys the condition, solved exactly
 
     Write the unknown matrix $M$ as its 256 entries $M_{rc}$. For one gamma the
     condition $M(\gamma^a)^* - s\,\gamma^a M = 0$ is a $16 \times 16$ matrix of
@@ -1064,11 +1087,14 @@ CELLS = [
       $M(\gamma^a)^* = s\,\gamma^a M$ for all eight gammas are the multiples of $1$
       ($s = +1$, same mass) and of $\Gamma$ ($s = -1$, mass reversed); each gamma
       equation halves the solution space, $256 \to 128 \to \dots \to 1$.
-    - PROVED: the two charge-conjugation matrices are $\mathcal{C}_+ = C$ (with
+    - PROVED: with the intertwiner condition as the definition (that of the Revision
+      record), the two charge-conjugation matrices are $\mathcal{C}_+ = C$ (with
       $\mathcal{C}_+^{-1}\gamma^a\mathcal{C}_+ = -(\gamma^a)^T$; $\Psi^c = \Psi^*$) and
       $\mathcal{C}_- = \Gamma C$ (with $\mathcal{C}_-^{-1}\gamma^a\mathcal{C}_- =
       +(\gamma^a)^T$; $\Psi^c = \Gamma\Psi^*$); both are real, and both reality
-      (Majorana) conditions are consistent.
+      (Majorana) conditions are consistent. The condition is sufficient, not
+      necessary: for $V = 0$ the projector $P_-$ also maps every solution to a
+      solution (Notebook 05c).
     - PROVED (exact, sympy): on the Revision record's exact solution in the author's
       curved metric (valid for every history $a_4$, the deflating one included),
       $\Psi^*$ solves the equation with the same mass and $\Gamma\Psi^*$ the one with
@@ -1078,8 +1104,9 @@ CELLS = [
       sign classically; all 256 bilinears follow the degree rules $(-1)^{k(k+1)/2}$
       and $(-1)^{k(k-1)/2}$.
     - PROVED: for a real field $\mathcal{C}_+$ is the identity and $J = 0$ (a real
-      field is its own conjugate and has no U(1) charge); the nontrivial real map is
-      the matrix $\Gamma$ with the mass reversed. Plain complex conjugation is never
+      field is its own conjugate and has no U(1) charge); among the matrices that obey
+      the intertwiner condition, the nontrivial real map is the matrix $\Gamma$ with
+      the mass reversed. Plain complex conjugation is never
       the charge conjugation of a real field: charge conjugation is a matrix.
     - Reproduced: nine checks of `Revision/lead_checks/reports/
       charge-conjugation-and-u1.json`, the formulas field_equation and exact_solutions

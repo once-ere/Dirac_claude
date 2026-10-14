@@ -191,11 +191,14 @@ CELLS = [
     $M = 1$: $B = -B$ is **false**.
 
     **Which mass?** A conjugation must also map solutions of the field equation to
-    solutions. The classical analysis of the charge-conjugation matrices shows that
-    the only constant matrices doing so are the multiples of $1$ (same mass) and of
-    $\Gamma$ (mass reversed). So for the quantised field the only conjugation that
-    keeps the canonical anticommutator is $\Psi \to \Gamma\Psi^{\dagger T}$ (times a
-    phase), and it **reverses the mass**. Section 9 checks this directly on the
+    solutions. The classical analysis of the charge-conjugation matrices (Notebook
+    21a) defines them by the intertwiner condition $M(\gamma^a)^* = s\,\gamma^a M$
+    (the definition of the Revision record), which is enough for this, and shows
+    that the only matrices obeying it are the multiples of $1$ (same mass) and of
+    $\Gamma$ (mass reversed). (Other matrices can also map solutions to solutions:
+    for $V = 0$ the projector $P_-$ does, Notebook 05c.) So for the quantised field
+    the only charge-conjugation matrix that keeps the canonical anticommutator gives
+    $\Psi \to \Gamma\Psi^{\dagger T}$ (times a phase), and it **reverses the mass**. Section 9 checks this directly on the
     one-particle Hamiltonian.
     """),
     md(r"""

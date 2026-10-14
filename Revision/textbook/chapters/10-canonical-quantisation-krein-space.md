@@ -321,7 +321,7 @@ Notebook 10a reads the author's gammas from the record `Revision/algebra/gammas.
 
 The notebook has 18 code cells, In [1] to In [18]. This section explains every line of each of them. Python, the language of the notebooks, is read from top to bottom; a line that starts with `#` is a **comment** for the reader, which Python skips, and the text after `#` on a line of code is a comment too. Where a cell defines a function, the **docstring** (the text in triple quotes below the `def` line, which only describes the function) is left out of the quotations; it is printed in Section 10.9.
 
-**In [1], the set-up cell.** Its first 247 lines are comments: they repeat, word for word, the run instructions of Section 10.8 (Python skips them; they are there so that the notebook carries its own instructions, so this comment block is different in every notebook), and end with the heading THE SET-UP between two lines of `=` signs. The code starts below that heading. The code is the same in all seven notebooks of this chapter, except for the line that sets `NOTEBOOK_ID` (the notebooks of the book that run a Rust program define one more helper, `rust_program`, which this chapter does not need).
+**In [1], the set-up cell.** Its first 247 lines are comments: they repeat, word for word, the run instructions of Section 10.8 (Python skips them; they are there so that the notebook carries its own instructions, so this comment block is different in every notebook), and end with the heading `# THE SET-UP (the same in every notebook of this book; it computes no physics)` between two lines of `=` signs. The code starts below that heading. The words "the same in every notebook of this book" in the heading are not exactly true; here is what is the same. The code below the heading is the same in all seven notebooks of this chapter, except for the line that sets `NOTEBOOK_ID`. In the whole book, that line differs from notebook to notebook, and the notebooks that run a Rust program also import `shutil` and `subprocess` and define one more helper, `rust_program`, which this chapter does not need.
 
 ```python
 import json  # reads and writes JSON files (text files that hold names and numbers)
@@ -3609,9 +3609,9 @@ $$
 | statement | status | where it is verified |
 | --- | --- | --- |
 | the invariant bilinear forms are $r_-CP_- + r_+CP_+$ | PROVED (from the commutant of Spin(4,4)); COMPUTED in Notebook 10e (two zero eigenvalues, separation from about 7 down to $1.3 \times 10^{-15}$) | `python-algebra.json`, checks `spin_commutant_dimension_2` and `S_preserves_C_and_commutes_with_Gamma`; `wolfram-algebra.json`, check `S_preserves_C` |
-| every invariant charge density satisfies $\Gamma X\Gamma = -X$ and is indefinite | PROVED (above) and checked for 40 random densities | Notebook 10e, In [5]; `wolfram-algebra.json`, check `B_signature_8_8` for $X = B$ |
+| every invariant charge density satisfies $\Gamma X\Gamma = -X$ and is indefinite | PROVED (above) and checked for 40 random densities | Notebook 10e, In [5], check `40 random invariant densities: Gamma X Gamma = -X, 8 positive, 8 negative`; `wolfram-algebra.json`, check `B_signature_8_8` for $X = B$ |
 | exactly the 21 generators without $x_4$ are Krein-unitary; defect $iC\gamma^{(x_b)}$ for $S^{(x_4x_b)}$ | PROVED | `wolfram-algebra.json`, check `S_preserves_B_only_off_x4` |
-| the counts 12 (anti-Hermitian), 13 (commuting with $B$), 9 (both) | PROVED (above) and checked | Notebook 10e, In [6] |
+| the counts 12 (anti-Hermitian), 13 (commuting with $B$), 9 (both) | PROVED (above) and checked | Notebook 10e, In [6], check `counts: 12 anti-Hermitian, 13 commute with B, 9 both unitary and Krein` |
 
 ### 10.35 Example: Notebook 10e computes the invariant forms and the generators
 
@@ -4128,7 +4128,7 @@ which fall towards $m$ as 3-space inflates. At each instant the positive Fock sp
 | the scale factors $e^{\pm a_4}\sin^{1/6}z$, 1, $\cot z$ | from the record | `Revision/theory/field-theory.json`, formula `vielbein_diagonal` |
 | local-frame model (coefficients of one instant and position, no hidden-direction terms) | ASSUMED | `python-field-theory.json`, check `extra_time_modes_grow` (a local-frame statement) |
 | $h(x_4)^2 = w(x_4)^2I_{16}$; $\lVert h_A\rVert = k_5$, $\lVert Bh - hB\rVert = 2k_5$; good sector Hermitian at all times | PROVED (exact, every instant) | Notebook 10f, In [4]; `python-field-theory.json`, check `good_sector_spectrum_and_B_sectors` |
-| every wave with $q_5 \neq 0$ reaches the onset $x_4^\ast = \ln X^\ast/(2AH)$ | PROVED (above) | Notebook 10f, In [6] (agreement with bisection $8.9 \times 10^{-16}$) |
+| every wave with $q_5 \neq 0$ reaches the onset $x_4^\ast = \ln X^\ast/(2AH)$ | PROVED (above) | Notebook 10f, In [6], check `the exact onset time agrees with bisection; q1 = 0, y = 0: ln(m / q5)` (agreement with bisection $8.9 \times 10^{-16}$) |
 | onset 2.996044 for $q_1 = 0.5$, $q_5 = 0.05$; inertia $(4, 4)$ before, neutral after; onset map | COMPUTED | Notebook 10f, In [6], In [9], In [10]; `python-pairing.json`, checks `Q.one_particle_Krein_inertia_proof` and `Q.one_particle_complex_frequency_Krein_neutral` |
 | instantaneous good-sector Fock space: sea $-8E(x_4)$, quanta $+E(x_4)$ | COMPUTED at the five slices | Notebook 10f, In [11] |
 | evolution of the quantum state through the background; a positive state space for the extra-time sector | OPEN | not computed in the Revision record |
@@ -4835,7 +4835,7 @@ by (B1) of Section 10.2 and $CC = I_{16}$; so $BC$ has the eigenvalues $+1$ and 
 | (Q1) the image carries $-B$, also from its own Lagrangian | PROVED | `wolfram-pairing.json`, check `Q_Krein_metric_of_images`; `python-pairing.json`, checks `Q.image_krein_metric` and `Q.image_own_quantisation` |
 | (Q2) the image's generators are those of $\Psi$; $T \to -T$, $J \to -J$ inside one system | PROVED | `wolfram-pairing.json`, checks `Q_generators_of_the_image_grassmann` and `Q_generators_of_the_image_commuting`; `python-pairing.json`, check `Q.image_generators_same_dynamics` |
 | (Q3) no identification with an independent universe; generators add; block eigenvalues $\pm m$, 16 each | PROVED | `wolfram-pairing.json`, check `Q_no_identification_of_independent_universes`; `python-pairing.json`, check `Q.no_cancellation_independent_universes` |
-| (Q4) identical one-particle spectra; inertia $(4, 4)$ at real frequencies | PROVED | Sections 10.5 and 10.6 |
+| (Q4) identical one-particle spectra; inertia $(4, 4)$ at real frequencies | PROVED | Sections 10.5 and 10.6; `wolfram-pairing.json`, checks `Q_one_particle_maps` and `Q_one_particle_Krein_inertia_real_frequencies`; `python-pairing.json`, checks `Q.one_particle_maps` and `Q.one_particle_Krein_inertia_proof` |
 | (Q5) the mirror image keeps $+B$ | PROVED | `python-pairing.json`, check `Q.T2_image_keeps_B` |
 | the two engines agree on Q | PROVED | `python-pairing.json`, check `compare.theory.theorem_Q` (10 sympy checks confirm the 12 Wolfram verifications) |
 

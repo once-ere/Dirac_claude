@@ -139,8 +139,13 @@ CELLS = [
       density, because the proper 7-volume of a coordinate box is $e^{6Hy}$ times its
       coordinate volume).
     - **Conservation law**: the statement $\nabla_\mu T^\mu{}_\nu = 0$ (the covariant
-      divergence vanishes): energy and momentum are neither created nor destroyed, they
-      only flow.
+      divergence vanishes). In flat spacetime it says that energy and momentum are
+      neither created nor destroyed, they only flow. In the author's metric, which
+      depends on the time $x_4$ through $a_4$, it is a local balance law: the energy is
+      not conserved, it changes along the history (sections 4 and 9). The momenta along
+      $x_1, x_2, x_3, x_5, x_6, x_7$, coordinates on which the metric does not depend,
+      have totals that are constant, but only under ASSUMED boundary conditions
+      (Section 20.22 of the book).
     - **Finite difference**: an approximation of a derivative from values at nearby
       points; the fourth-order formula
       $f'(y_i) \approx [f_{i-2} - 8 f_{i-1} + 8 f_{i+1} - f_{i+2}]/(12h)$ has an error

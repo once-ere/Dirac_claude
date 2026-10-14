@@ -182,9 +182,13 @@ CELLS = [
 
     **What is not computed here.** The equation of state that an observer living in
     3-space would infer (after integrating over the hidden direction and the extra
-    times), its time dependence and any comparison with supernova data are not part
-    of the Revision record: they are OPEN. The $w$ of this notebook is the ratio
-    $p/\rho$ of the 8-dimensional tensor. The condensate's off-diagonal entries,
+    times), its time dependence and its comparison with supernova fit values are not
+    computed in this notebook. The Revision record computes them in
+    `Revision/dark_sector/` under an ASSUMED normalisation of the observer's energy
+    density (definitions A, B and C; `Revision/docs/DARK_SECTOR_HYPOTHESES.md`,
+    taught in Chapter 22); which normalisation, if any, describes a physical
+    observer, and a fit to supernova data, are OPEN. The $w$ of this notebook is the
+    ratio $p/\rho$ of the 8-dimensional tensor. The condensate's off-diagonal entries,
     which are not zero in general, are not used here.
     """),
     md(r"""
@@ -891,8 +895,8 @@ CELLS = [
     - The equation of state is $w = x/(2 + x)$ with $x = \lambda S/m$, measured on
       twelve exact solutions; $w = -1$ exactly where the effective mass vanishes, and
       such condensates always grow. These $w$ are constant in time and are
-      8-dimensional ratios; what a 3-space observer would infer is OPEN in the
-      Revision record.
+      8-dimensional ratios; what a 3-space observer would infer rests on an ASSUMED
+      normalisation of its energy density (Chapter 22).
     - Because $p_3 = p_t$, a condensate exchanges no energy between 3-space and the
       extra times; toy fluids with $p_3 \neq p_t$ (an illustration) show the exchange
       $d\rho/dx_4 = -3a_4'(p_3 - p_t)$ and its reversal under $A \to -A$.
@@ -904,8 +908,10 @@ CELLS = [
       component, the energy-exchange identity and the unbounded energy are PROVED in
       the Revision record (exact, Wolfram and sympy); this notebook re-computes them
       numerically (COMPUTED). The toy fluids are an ILLUSTRATION, not solutions. The
-      equation of state of a 3-space observer is OPEN. The parameter values are
-      choices of this notebook.
+      equation of state of a 3-space observer is not computed here; the Revision
+      record computes it under the ASSUMED definitions A, B and C (Chapter 22), and
+      which definition describes a physical observer is OPEN. The parameter values
+      are choices of this notebook.
     """),
 ]
 
