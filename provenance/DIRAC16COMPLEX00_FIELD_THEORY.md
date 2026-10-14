@@ -126,7 +126,7 @@ checks
 The curved-space identities are verified exactly at points of four families of vielbeins (descriptions in `dirac16complex00-theory.json`, key testGeometries):
 
 - **G1** (Stage 1): $e_\mu{}^a=\delta+P(x)$ with a polynomial $P$, three rational points p1-p3; general non-diagonal frames.
-- **G2** (Stage 1): the Stage-2 primordial field with an arbitrary function $a_4$, three exact points with numbers in $\mathbb Q(\cos z)$ (Python: symbolic $H$ and $a_4'$, $a_4''$).
+- **G2** (Stage 1): the Stage-2 primordial field with an arbitrary function $a_4$, three exact points with numbers in $\mathbb Q(\cos z)$; the Python checker uses one G2 point of its own construction (in its connection checks $H$ and $a_4'$ stay symbols).
 - **G3** (Stage 1): Bianchi-I frames $h_i=1+x_4^2/(i+2)$ at $x_4\in\{1/3,-2/5,3/7\}$ (Gaussian normal time).
 - **G4** (new): a generic integer frame $e(x)=E_0+x^lE_{1,l}+\tfrac12x^lx^kE_{2,lk}$ at $x=0$, with $E_0=UL$ ($U$, $L$ unitriangular with entries in $\{-1,0,1\}$), $\det E_0=1$, 35 nonzero off-diagonal entries of $E_0$, $g^{44}=-49$, signature (4,4) and scalar curvature $R=82754$ (identical in both reports).
 
@@ -308,7 +308,7 @@ $$
 k_4^2+k_5^2+k_6^2+k_7^2-k_0^2-k_1^2-k_2^2-k_3^2=m^2,
 $$
 
-that is, for the $x_4$-frequency $\omega=|k_4|$: $\omega^2=m^2+|k_{\rm space}|^2-|k_{\rm extra\text{-}time}|^2$. At $m=1$, $k=(1,1,2,3;\,4;\,0,0,0)$ the solution space has dimension 8; off shell ($k_4=3$) it has dimension 0. The mass enters the dispersion as $m^2$. In a curved field with $U=0$ the on-shell second-order form is $(\gamma^\mu D_\mu)^2\Psi=m^2\Psi$, i.e. $\Box\Psi-\tfrac R4\Psi=m^2\Psi$ (Section 4.4).
+that is, for the $x_4$-frequency $\omega=|k_4|$: $\omega^2=m^2+k_0^2+k_1^2+k_2^2+k_3^2-k_5^2-k_6^2-k_7^2$ (space-like momenta raise the frequency, extra-time momenta lower it). At $m=1$, $k=(1,1,2,3;\,4;\,0,0,0)$ the solution space has dimension 8; off shell ($k_4=3$) it has dimension 0. The mass enters the dispersion as $m^2$. In a curved field with $U=0$ the on-shell second-order form is $(\gamma^\mu D_\mu)^2\Psi=m^2\Psi$, i.e. $\Box\Psi-\tfrac R4\Psi=m^2\Psi$ (Section 4.4).
 
 ```
 checks
@@ -369,3 +369,223 @@ checks
 ```
 
 ## 5. Euler-Lagrange equations
+
+### 5.1 Derivation for commuting components
+
+For dirac16complex00 the components $\Psi_a$ and $\Psi^\ast_a$ are varied as independent commuting variables. The momenta of (L1) are
+
+$$
+\frac{\partial\mathcal L}{\partial(\partial_\mu\Psi^\ast)}=-\tfrac12\sqrt{|g|}\,C\gamma^\mu\Psi,\qquad \frac{\partial\mathcal L}{\partial(\partial_\mu\Psi)}=\tfrac12\sqrt{|g|}\,\bar\Psi\gamma^\mu ,
+$$
+
+and $\partial\mathcal L/\partial\Psi^\ast=\sqrt{|g|}\bigl[\tfrac12C\gamma^\mu D_\mu\Psi+\tfrac12C\Omega_\mu\gamma^\mu\Psi-(m+U'(S))\,C\Psi\bigr]$. Hence
+
+$$
+\frac{\partial\mathcal L}{\partial\Psi^\ast}-\partial_\mu\frac{\partial\mathcal L}{\partial(\partial_\mu\Psi^\ast)}=\sqrt{|g|}\Bigl[\tfrac12C\gamma^\mu D_\mu\Psi+\tfrac12C\Omega_\mu\gamma^\mu\Psi+\tfrac12C\gamma^\mu\partial_\mu\Psi-(m+U')\,C\Psi\Bigr]+\tfrac12C\,\partial_\mu\bigl(\sqrt{|g|}\,\gamma^\mu\bigr)\Psi .
+$$
+
+The divergence identity $\partial_\mu(\sqrt{|g|}\,\gamma^\mu)=\sqrt{|g|}\,[\gamma^\mu,\Omega_\mu]$ (Result 4.5 item 2) turns the last term into $\tfrac12\sqrt{|g|}\,C(\gamma^\mu\Omega_\mu-\Omega_\mu\gamma^\mu)\Psi$, which cancels the $\Omega_\mu\gamma^\mu$ term and completes $\tfrac12C\gamma^\mu\partial_\mu\Psi$ to $\tfrac12C\gamma^\mu D_\mu\Psi$. The variation with respect to $\Psi$ is the same computation with the roles exchanged. Since $C$ is invertible:
+
+**Theorem 5.1** (field equations of dirac16complex00). The Euler-Lagrange expressions of (L1) for commuting components are
+
+$$
+\begin{aligned}
+&\frac{\partial\mathcal L}{\partial\Psi^\ast}-\partial_\mu\frac{\partial\mathcal L}{\partial(\partial_\mu\Psi^\ast)}=\sqrt{|g|}\,C\bigl(\gamma^\mu D_\mu\Psi-(m+U'(S))\Psi\bigr),\\
+&\frac{\partial\mathcal L}{\partial\Psi}-\partial_\mu\frac{\partial\mathcal L}{\partial(\partial_\mu\Psi)}=-\sqrt{|g|}\,\bigl((D_\mu\bar\Psi)\gamma^\mu+(m+U'(S))\bar\Psi\bigr),
+\end{aligned}
+$$
+
+so the field equations are
+
+$$
+\gamma^\mu D_\mu\Psi=\bigl(m+U'(S)\bigr)\Psi,\qquad (D_\mu\bar\Psi)\gamma^\mu=-\bigl(m+U'(S)\bigr)\bar\Psi,\qquad S=\bar\Psi\Psi .\tag{EL}
+$$
+
+For the default potential $U'(S)=\lambda S$ and $M_{\rm eff}:=m+\lambda S$. The equations are non-linear for $\lambda\ne0$; the mass enters through $m$ (Section 4.2) and the gravitational field through $\gamma^\mu=e_a{}^\mu\gamma^a$ and through $\gamma^\mu\Omega_\mu$, which is nonzero in all 16 components at the curved test points (Result 4.5 item 6).
+
+**Verification.** Wolfram computes both Euler-Lagrange expressions with $\Psi$, $\Psi^\ast$ independent commuting symbols for the value and the first and second derivatives at the point, and $m$, $\lambda$ symbols, in two ways (from the jet identity and from the explicit momenta above), at G1 p1-p3 (the Lagrangian has 1304 terms) and G2 p1-p3 (408 terms), and in flat space with constant coefficients. The Python checker repeats this with its own code at flat (408 terms for the quartic $U$, 273 for a general $U$), G1 p1-p3 (1304 terms) and G2 (408 terms), checks the momenta in closed form, and confirms that the mass term enters the equation and that the connection term is nonzero in 16 components at the curved points (0 in flat space).
+
+### 5.2 The same form for both statistics
+
+For Grassmann components Stage 1 derived the same equations with the left derivative with respect to $\Psi^\dagger$ and the right derivative with respect to $\Psi$ (Stage 1 Section 8; LAG_eulerLagrangePsibar_G1/G2 and LAG_eulerLagrangePsi_G1/G2, six curved points). For commuting variables the variation of a product has no signs; for Grassmann variables the left and right derivatives absorb them. The resulting expressions coincide term by term: in the flat exact Grassmann algebra ($m=3/7$, $\lambda=5/11$) the left Euler-Lagrange derivative with respect to $\Psi^\ast_a$ is $(C(\gamma^\mu\partial_\mu\Psi-(m+\lambda S)\Psi))_a$, the expression found for commuting symbols; the Python checker also computes the left and right Euler-Lagrange derivatives of the Grassmann Lagrangian at the curved point G1 p1 ($m=3/7$, $\lambda=5/11$; 1288 monomials in the value) and finds the same equations.
+
+**Result 5.1.** dirac16complex and dirac16complex00 have the same covariant field equations (EL) in every gravitational field. The difference between the theories lies in what a solution is (an operator-valued field subject to the canonical anticommutator, or a classical spinor-valued function) and in the admissible $U$.
+
+### 5.3 A general smooth potential
+
+With an abstract smooth $U$ (Wolfram: a function symbol at G1 p1; Python: G1 p1, 1169 terms, and G2, 273 terms) the Euler-Lagrange expressions are $\sqrt{|g|}\,C(\gamma^\mu D_\mu\Psi-(m+U'(S))\Psi)$ and $-\sqrt{|g|}((D_\mu\bar\Psi)\gamma^\mu+(m+U'(S))\bar\Psi)$. For commuting components $U$ may be any smooth function of $S$; for the Grassmann field only polynomials exist ($S^{17}=0$).
+
+```
+checks
+  C00_EL_commutingFlat, C00_EL_commutingCurved (G1 p1-p3, G2 p1-p3),
+  C00_EL_commutingGeneralSmoothU, C00_EL_identicalFormBothStatistics,
+  C00_lagrangian_grassmannFlatHermitianAndEL: wolfram-dirac16complex00
+  S5_EL_commutingFlat, S5_EL_commutingCurved (G1 p1-p3, G2),
+  S5_EL_commutingGeneralSmoothU, S5_EL_grassmannCurved (G1 p1),
+  S5_EL_identicalFormBothStatistics: python-dirac16complex00
+  LAG_eulerLagrangePsibar_G1/G2, LAG_eulerLagrangePsi_G1/G2:
+      wolfram-geometry, python-geometry (Stage 1, cited)
+```
+
+## 6. Energy-momentum tensor
+
+### 6.1 Definition and derivation from the vielbein variation
+
+$$
+T_{\mu\nu}=-\tfrac14\Bigl[\bar\Psi\gamma_\mu D_\nu\Psi+\bar\Psi\gamma_\nu D_\mu\Psi-(D_\mu\bar\Psi)\gamma_\nu\Psi-(D_\nu\bar\Psi)\gamma_\mu\Psi\Bigr]+g_{\mu\nu}\,\mathcal L_s,\qquad \mathcal L_s=K-mS-U(S),
+$$
+
+with $\gamma_\mu=g_{\mu\nu}\gamma^\nu$ and $K=\tfrac12(\bar\Psi\gamma^\mu D_\mu\Psi-(D_\mu\bar\Psi)\gamma^\mu\Psi)$ (all indices down; the Stage-1 formula, Stage 1 Section 9.2). On shell $K=(m+U'(S))S$ (contract the two field equations with $\bar\Psi$ and $\Psi$), hence $\mathcal L_s=SU'(S)-U(S)$ on shell.
+
+**Theorem 6.1** (vielbein variation). Let $E[\mu,a]=\delta\mathcal S/\delta e_\mu{}^a$ be the exact functional derivative of the action of (L1), including the variation of the spin connection, and $X^{\mu\nu}=\sum_aE[\mu,a]\,e^{a\nu}$. Then
+
+1. the symmetric part of $X^{\mu\nu}$ equals $\sqrt{|g|}\,T^{\mu\nu}$ in all 36 components, OFF SHELL; hence $T_{\mu\nu}=-\frac{2}{\sqrt{|g|}}\frac{\delta\mathcal S}{\delta g^{\mu\nu}}$ exactly;
+2. the antisymmetric part of $X^{\mu\nu}$ (local Lorentz rotations of the frame) is nonzero off shell and vanishes on shell.
+
+This is verified at the non-diagonal frames G1 p1 and G4 p1 (space-space, space-time and time-time mixing) and at the Bianchi-I point G3 t1, with fixed commuting field data ($\Psi$, $\Psi^\dagger$ independent; $m=3/7$, $\lambda=5/11$; seeds 61100/61150, 61200/61250, 61300/61350; at G1 p1 the off-shell data have $S=-4303/672$ in both reports). $\partial\mathcal L/\partial(\partial_\nu e)$ is computed in closed form ($\omega$ is affine in $\partial e$) and agrees with the exact linearisation in all 512 directions; the Wolfram verifier also recomputes the functional derivative independently by the generic jet identity for all 64 entries at G4 p1 and three entries at G1 p1. The derivation uses only products of the bilinears with $\Psi^\dagger$ to the left of $\Psi$, so it holds verbatim for Grassmann components. It lifts the Stage-1 limitation that the off-diagonal components were not varied explicitly (Stage 1 Result 9.1, which covers diagonal metrics).
+
+```
+checks
+  C00_EMT_vielbeinVariation (G1 p1, G4 p1, G3 t1): wolfram-dirac16complex00
+  S5_EMT_vielbeinVariation (G1 p1, G4 p1, G3 q1): python-dirac16complex00
+  EMT_variation_G3: wolfram-geometry (Stage 1, cited)
+```
+
+### 6.2 Symmetry, reality, conservation and trace
+
+**Theorem 6.2.** For commuting components and every smooth $U$:
+
+1. $T_{\mu\nu}=T_{\nu\mu}$ off shell;
+2. $T_{\mu\nu}$ is real when $\Psi^\dagger=\overline{\Psi}^T$ (exact complex Gaussian-rational data);
+3. $\nabla^\mu T_{\mu\nu}=0$ when the field equations and their first derivatives hold (solved exactly at the point for the $x_4$-derivatives); the divergence is nonzero off shell;
+4. off shell $T^\mu{}_\mu=-K+8\mathcal L_s$ (from $g^{\mu\nu}\gamma_\mu=\gamma^\nu$ and $g^{\mu\nu}g_{\mu\nu}=8$), and on shell
+
+$$
+T^\mu{}_\mu=-mS+7SU'(S)-8U(S)=-mS+3\lambda S^2\quad\text{for }U=\tfrac\lambda2S^2 .
+$$
+
+For a general smooth $U$ the values $u_0=U(S_0)$, $u_1=U'(S_0)$, $u_2=U''(S_0)$ are independent symbols and conservation, the trace $-mS+7Su_1-8u_0$ and current conservation hold identically in $u_0,u_1,u_2$; the on-shell solver reproduces Stage 1's for the quartic $U$.
+
+The verification uses exact jets at G1 p1-p3 and G2 p1-p3 (Python: G1 p1-p3 and its G2 point). On-shell trace values recorded by the Wolfram verifier for the quartic $U$ (Stage-1 field data, seeds $62000+100k+10$):
+
+| point | $T^\mu{}_\mu$ on shell (Wolfram data) |
+| --- | --- |
+| G1 p1 | $923549/26880$ |
+| G1 p2 | $1601363/112320$ |
+| G1 p3 | $-160632858521/2257920000$ |
+| G2 p1 | $3272672573/75442752$ |
+| G2 p2 | $200207827/910000$ |
+| G2 p3 | $-69153803/6096384$ |
+
+The Python checker recomputes each of these as $-mS_0+3\lambda S_0^2$ from the same generated data and finds equality (agreement items report.EMT.traceOnShellValue.G1p1 ... G2p3). Its own checks use independent random data, with on-shell traces $34246073/232848$ (G1 p1), $7919153/49140$ (G1 p2), $-66869268761/50803200$ (G1 p3) and $903664049165/730211328$ (G2).
+
+For Grassmann components the same statements are Stage 1 Result 9.2 (symmetric, Hermitian, conserved on shell, same trace), with the quartic term entering through the even element $S$.
+
+```
+checks
+  C00_EMT_symmetricAndReal, C00_EMT_conservationOnShell, C00_EMT_traceOnShell,
+  C00_EMT_generalSmoothU: wolfram-dirac16complex00
+  S5_EMT_symmetricAndReal, S5_EMT_conservationOnShell, S5_EMT_traceOnShell,
+  S5_EMT_generalSmoothU: python-dirac16complex00
+  EMT_symmetricHermitian_G1/G2, EMT_conservation_G1/G2, EMT_trace_G1/G2:
+      wolfram-geometry (Stage 1, cited)
+```
+
+### 6.3 The current
+
+$$
+j^\mu=\bar\Psi\gamma^\mu\Psi,\qquad J^\mu:=-i\,j^\mu,\qquad \partial_\mu\bigl(\sqrt{|g|}\,j^\mu\bigr)=0\ \text{on shell}.
+$$
+
+For commuting components $j^\mu$ is purely imaginary, because $C\gamma^\mu$ is real antisymmetric and so $\Psi^\dagger C\gamma^\mu\Psi$ is an anti-Hermitian form; $J^\mu$ is the real Noether current of the phase symmetry $\Psi\to e^{i\alpha}\Psi$. The divergence is zero on shell and nonzero off shell (G1 p1-p3, G2; also for every smooth $U$). In Gaussian normal gauge ($\gamma^{x_4}=\gamma^{a=4}$), $C\gamma^4=iB$ gives
+
+$$
+J^4=-i\,\bar\Psi\gamma^4\Psi=\Psi^\dagger B\Psi .
+$$
+
+For dirac16complex00 this density is indefinite because $B$ has signature (8,8); explicit configurations are in Section 7 (part 2). For dirac16complex the same $B$ is the canonical anticommutator (Section 3.1).
+
+```
+checks
+  C00_current_conservationAndReality, C00_charge_indefinite (J^4 = Psi^dagger B Psi):
+      wolfram-dirac16complex00
+  S5_current_conservationAndReality, S5_charge_indefinite: python-dirac16complex00
+```
+
+### 6.4 Energy density, pressures and the two kinetic/potential splits
+
+Take Gaussian normal time, $g_{44}=-1$, $g_{4i}=0$, and the observer $u=\partial_4$ (the Stage-1 convention, Stage 1 Sections 9.4-9.5). Then
+
+$$
+\rho=T_{\mu\nu}u^\mu u^\nu=T_{44}=-T^4{}_4,\qquad p_{(i)}=T^i{}_i\ \ (\text{no sum},\ i\ne4),\qquad \bar p=\tfrac17\sum_{i\ne4}p_{(i)},\qquad w_{(i)}=\frac{p_{(i)}}{\rho},
+$$
+
+with seven transverse directions: four space-like ($i=0,1,2,3$) and three time-like ($i=5,6,7$). Split the kinetic term $K=K_4+K_\perp$:
+
+$$
+K_4=\tfrac12\bigl(\bar\Psi\gamma^{x_4}D_4\Psi-(D_4\bar\Psi)\gamma^{x_4}\Psi\bigr),\qquad K_\perp=\tfrac12\sum_{\mu\ne4}\bigl(\bar\Psi\gamma^\mu D_\mu\Psi-(D_\mu\bar\Psi)\gamma^\mu\Psi\bigr).
+$$
+
+- **Lagrangian split (A):** $\mathrm{KE}_L:=\tfrac12K_4$, $\mathrm{PE}_L:=\rho-\mathrm{KE}_L$.
+- **Hamiltonian split (B):** $\mathrm{KE}_H:=-K_\perp$ (gradient and transverse-connection energy), $\mathrm{PE}_H:=mS+U(S)$ (mass and self-interaction energy).
+
+**Theorem 6.3** (observer identity, off shell). In Gaussian normal time
+
+$$
+\rho=T_{44}=K_4-\mathcal L_s=\mathrm{KE}_H+\mathrm{PE}_H .
+$$
+
+*Proof.* $\gamma_4=g_{44}\gamma^{x_4}=-\gamma^{x_4}$ and $g_{44}=-1$ turn the formula of Section 6.1 into $T_{44}=K_4-\mathcal L_s$, and $\mathcal L_s=K_4+K_\perp-mS-U$. $\square$
+
+Verified at G2 p1-p3 (Wolfram) and at the G2 point of the Python checker for commuting components, off shell; the G1 points are not Gaussian normal and are excluded. For a first-order field the time derivatives do not appear in split (B): they are not an energy. In flat space in Cartesian coordinates $\rho$ is also the canonical Hamiltonian density; in a curved field the two differ by connection and boundary terms (Stage 1 Section 9.5, derived there).
+
+```
+checks
+  C00_EMT_observerSplitGaussianNormal (G2 p1-p3): wolfram-dirac16complex00
+  S5_EMT_observerSplitGaussianNormal (G2): python-dirac16complex00
+```
+
+### 6.5 Homogeneous backgrounds and equations of state
+
+For a homogeneous field $\Psi(x_4)$ in a diagonal Gaussian-normal (Bianchi-I) frame $ds^2=-dx_4^2+\sum_{i\ne4}\eta_{ii}h_i(x_4)^2dx_i^2$ with rates $H_i=\partial_4h_i/h_i$, on shell:
+
+**Theorem 6.4** (homogeneous equations of state; quartic and every smooth $U$).
+
+$$
+\begin{aligned}
+&\rho=mS+U,\qquad p_{(i)}=SU'-U\ \ (\text{all seven transverse directions, isotropic although the }h_i\text{ differ}),\\
+&\mathrm{KE}_L=\tfrac12S\,(m+U'),\qquad \mathrm{PE}_L=\tfrac12\bigl(mS+2U-SU'\bigr),\qquad \mathrm{KE}_H=0,\qquad \mathrm{PE}_H=mS+U=\rho,\\
+&\rho+p=2\,\mathrm{KE}_L,\qquad p=\mathrm{KE}_L-\mathrm{PE}_L,\qquad w=\frac{p}{\rho}=\frac{SU'-U}{mS+U}=\frac{\mathrm{KE}_L-\mathrm{PE}_L}{\mathrm{KE}_L+\mathrm{PE}_L},\\
+&T_{ij}=\tfrac14(H_i-H_j)\,\bar\Psi\gamma_i\gamma_j\gamma^{x_4}\Psi\quad(i\ne j,\ \text{nonzero for generic states}),\qquad T_{4i}=0 .
+\end{aligned}
+$$
+
+Special cases: the free field ($U=0$) has $\mathrm{KE}_L=\mathrm{PE}_L=\tfrac12mS$, $p=0$, $w=0$ (dust); the default potential gives $\rho=mS+\tfrac\lambda2S^2$, $p=\tfrac\lambda2S^2$ and $w=\lambda S/(2m+\lambda S)$. Because $S=\Psi^\dagger C\Psi$ has no fixed sign (signature (8,8), Result 4.2), $\mathrm{KE}_L$ and $\mathrm{PE}_L$ have no fixed sign either; the consequences (phantom states, $w>1$) are discussed for the Grassmann mean field in Stage 1 Section 9.6 and hold for the classical commuting field with the same formulas.
+
+Exact samples (identical in both reports; Bianchi-I points G3 with $h_i=1+x_4^2/(i+2)$, quartic $U$, on-shell data from seeds 63100, 63200, 63300):
+
+| point | $x_4$ | $m$ | $\lambda$ | $S$ | $\rho$ | $p$ | $\mathrm{KE}_L$ | $\mathrm{PE}_L$ | $w$ |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| G3 t1 | $1/3$ | $3/7$ | $5/11$ | $5617/567$ | $187781927/7072758$ | $157753445/7072758$ | $12340549/505197$ | $5617/2646$ | $28085/33431$ |
+| G3 t2 | $-2/5$ | $-2/5$ | $7/13$ | $-168533/75600$ | $47332998649/21228480000$ | $28403372089/21228480000$ | $5409740767/3032640000$ | $168533/378000$ | $168533/280853$ |
+| G3 t3 | $3/7$ | $5/9$ | $-3/8$ | $-83/15$ | $-95201/10800$ | $-6889/1200$ | $-78601/10800$ | $-83/54$ | $747/1147$ |
+
+At G3 t3 the energy density is negative ($\rho=-95201/10800$) and $\mathrm{KE}_L<0$: an exact on-shell example of the indefiniteness discussed in Section 7. These are kinematic identities of the classical (or mean-field) bilinears; they say nothing about which states are physically admissible.
+
+```
+checks
+  C00_EMT_homogeneousEquationsOfState (G3 t1-t3; quartic and general U):
+      wolfram-dirac16complex00
+  S5_EMT_homogeneousEquationsOfState (G3 q1-q3; quartic and general U):
+      python-dirac16complex00
+  EMT_homogeneousReduction_G3: wolfram-geometry (Stage 1, cited)
+```
+
+### 6.6 Operator versus c-number
+
+The formulas of Sections 6.1-6.5 are the same for both fields; their meaning differs.
+
+- **dirac16complex.** $T_{\mu\nu}$, $j^\mu$, $\rho$, $p_{(i)}$ and the splits are operators: the same expressions in the Grassmann field operators, Hermitian at the coefficient level (Stage 1 Result 9.2), normal ordered with respect to the free Krein vacuum as in Stage 1. Their expectation values in a state are what enters a mean-field (Kohn-Sham) treatment; the expectation rule and the Wick contraction of $U$ are part of the Kohn-Sham model (Section 8 and document B). Under the chirality map the operator identity $:T_{\mu\nu}[\gamma^8\Psi;-m,-\lambda]:\,=-:T_{\mu\nu}[\Psi;m,\lambda]:$ holds, with the quantum reading of erratum E5.1 (Section 1.2).
+- **dirac16complex00.** $T_{\mu\nu}$ is a c-number tensor field, a quadratic function of a classical solution and its first derivatives. It can be inserted directly as a classical source on the right-hand side of the gravitational field equations; Section 8 (part 2) gives an exact homogeneous solution whose $T_{\mu\nu}$ equals the Einstein tensor of the static primordial member in all 64 components. Its energy density is not bounded below (Section 7).
+
+<!-- PART 2: sections 7-11 -->

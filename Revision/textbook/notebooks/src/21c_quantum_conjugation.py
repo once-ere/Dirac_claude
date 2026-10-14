@@ -198,8 +198,8 @@ CELLS = [
     $\Gamma$ (mass reversed). (Other matrices can also map solutions to solutions:
     for $V = 0$ the projector $P_-$ does, Notebook 05c.) So for the quantised field
     the only charge-conjugation matrix that keeps the canonical anticommutator gives
-    $\Psi \to \Gamma\Psi^{\dagger T}$ (times a phase), and it **reverses the mass**. Section 9 checks this directly on the
-    one-particle Hamiltonian.
+    $\Psi \to \Gamma\Psi^{\dagger T}$ (times a phase), and it **reverses the mass**.
+    Section 9 checks this directly on the one-particle Hamiltonian.
     """),
     md(r"""
     ## 5. The gammas and the Krein matrix B

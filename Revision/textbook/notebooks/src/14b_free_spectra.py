@@ -129,8 +129,9 @@ CELLS = [
       coefficients real.
     - **Boundary condition**: a condition on the solution at an end of the interval.
     - **Z2 mirror brane**: the ASSUMED picture that the patch $y \le 0$ is glued at
-      $y = 0$ to a mirror copy; it gives the even parity ($b(0) = 0$) and the odd
-      parity ($a(0) = 0$).
+      $y = 0$ to a mirror copy and the field obeys the parity relation
+      $\Psi(-y) = \pm\gamma^{(x_8)}\Psi(y)$; the relation (not the gluing alone)
+      gives the even parity ($b(0) = 0$) and the odd parity ($a(0) = 0$).
     - **Regular tip**: the chosen condition $b(-L) = 0$ at the cutoff.
     - **Current**: $\chi^\dagger\sigma_1\chi$, the flow of the U(1) charge along
       $y$; a good boundary condition makes it vanish at the ends.
