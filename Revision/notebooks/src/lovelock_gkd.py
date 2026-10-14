@@ -352,10 +352,14 @@ $\sum_{k=1}^{3} \alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu{}_\nu = \kapp
   $R^a{}_{bcd} = \partial_c \Gamma^a{}_{db} - \partial_d \Gamma^a{}_{cb} + \Gamma^a{}_{ce}\Gamma^e{}_{db} - \Gamma^a{}_{de}\Gamma^e{}_{cb}$.
 - Components are labelled by coordinate names, `"x1,x1"` meaning $h = x_1$, $j = x_1$.
 - The program represents every quantity exactly, as a sum of terms (whole-number fraction) times
-  powers of eight symbols, in this order: $H$, $a_4'$, $a_4''$, $a_4'''$, $a_4''''$, $e^{a_4}$,
-  $\sin^{1/3} z$, $\cot z$. In the result file each term is `[numerator, denominator, [eight exponents]]`.
+  powers of thirteen symbols, in this order: $H$, $a_4'$, $a_4''$, $a_4'''$, $a_4''''$, $e^{a_4}$,
+  $\sin^{1/3} z$, $\cot z$, $Q = b_4^{1/2}$, $b_4'$, $b_4''$, $b_4'''$, $b_4''''$. In the result file each
+  term is `[numerator, denominator, [thirteen exponents]]` (eight before the metric change of 2026-10-14,
+  which added the function $b_4(x_4)$ to the extra-time components; $b_4 = 1$ is the earlier metric).
 - The warp factor $\sin^{1/3} z$ cancels in all mixed components; the mixed Lovelock tensors depend
-  only on $H$, $a_4'$ and $a_4''$.
+  only on $H$, $a_4'$, $a_4''$, $b_4'/b_4$ and $b_4''/b_4$. The tables and figures of this notebook show the
+  background $b_4 = 1$ (every vacuum history has $b_4$ constant, `Revision/metric_b4/results/vacuum-b4.json`);
+  the exact identities of section 8.3 are checked for general $b_4$ where stated.
 """)
 
 # ------------------------------------------------------------------------------------------------
@@ -529,19 +533,24 @@ def run_program(*args):
 md(r"""
 ## 6. The program recites its configuration
 
-Before trusting any result, the program states what it computes: the metric exactly as the author
-wrote it in his message (with `exp^` for the exponential, as in the message), the coordinates, the
-Riemann convention, the Lovelock formula and the GKD rule. The cell then checks that the recited
-metric is, character for character, the metric quoted from the author's task in `Revision/README.md`.
+Before trusting any result, the program states what it computes: the metric (the user's metric of
+2026-10-14 with the function $b_4(x_4)$ in the extra-time components, in the Revision order of the
+coordinates), the coordinates, the Riemann convention, the Lovelock formula and the GKD rule. The cell
+then checks that the recited metric is, character for character apart from spaces, the metric
+`g = ...` of `Revision/SPEC.md` section 1.
 """)
 
 code(r'''
 config = run_program("print-config")
 metric_line = next(line for line in config if line.startswith("metric (as given)"))
 metric = metric_line.split("=", 1)[1].strip()
-readme = (REPO / "Revision" / "README.md").read_text(encoding="utf-8")
-check("metric_is_the_authors", metric.startswith("{{exp^(2 a4[x4]) Sin[6 H x8]^(1/3)") and metric in readme,
-      "the recited metric occurs verbatim in the author's task quoted in Revision/README.md")
+spec = (REPO / "Revision" / "SPEC.md").read_text(encoding="utf-8")
+spec_block = re.search(r"```text\n(g = .*?)```", spec, re.S).group(1)
+spec_metric = "".join(spec_block[len("g = "):].split())
+recited = "".join(metric.split(" (the user's")[0].split())
+check("metric_is_the_authors", recited == spec_metric and "b4[x4]" in recited,
+      "the recited metric (with b4[x4], the user's metric of 2026-10-14) equals, character for character apart from "
+      "spaces, the metric g = ... of Revision/SPEC.md section 1")
 ''')
 
 # ------------------------------------------------------------------------------------------------
@@ -737,11 +746,16 @@ BLOCKS = [("x1", "x1 = x2 = x3 (ordinary space)"), ("x4", "x4 (time)"),
           ("x5", "x5 = x6 = x7 (extra times)"), ("x8", "x8 (hidden direction)")]
 for k in (1, 2, 3):
     P = tensors[f"P{k}_mixed_up_h_down_j"]
-    off_zero = all(P[f"{h},{j}"]["monomials"] == [] for h in COORDS for j in COORDS if h != j)
+    # since 2026-10-14 the metric has b4: the x4-x8 pair is nonzero and every one of its terms carries b4' (index 9
+    # of the 13 exponents); at b4 = 1 (the background) the tensor is diagonal
+    pair = [(h, j) for h in COORDS for j in COORDS if h != j and (h, j) not in (("x4", "x8"), ("x8", "x4"))]
+    off_zero = all(P[f"{h},{j}"]["monomials"] == [] for h, j in pair)
+    pair_b4p = all(P[key]["monomials"] != [] and all(m[2][9] >= 1 for m in P[key]["monomials"]) for key in ("x4,x8", "x8,x4"))
     groups_equal = all(P[f"{h},{h}"]["monomials"] == P["x1,x1"]["monomials"] for h in ("x2", "x3")) and \
         all(P[f"{h},{h}"]["monomials"] == P["x5,x5"]["monomials"] for h in ("x6", "x7"))
-    check(f"k{k}_diagonal_and_grouped", off_zero and groups_equal,
-          f"P_({k}) has 56 zero off-diagonal components; x1 = x2 = x3 and x5 = x6 = x7")
+    check(f"k{k}_diagonal_and_grouped", off_zero and pair_b4p and groups_equal,
+          f"P_({k}): 54 off-diagonal components are 0; the x4-x8 and x8-x4 components are nonzero and every term "
+          f"contains b4' (so at b4 = 1 P_({k}) is diagonal); x1 = x2 = x3 and x5 = x6 = x7")
     rows = [f"| component | $P_{{({k})}}{{}}^h{{}}_h$ |", "|---|---|"]
     for h, label in BLOCKS:
         rows.append(f"| {label} | ${P[h + ',' + h]['latex']}$ |")
@@ -765,10 +779,16 @@ The next cell turns the components into exact Python polynomials (fractions, no 
 """)
 
 code(r'''
-def poly_from_monomials(monomials):
+def poly_from_monomials(monomials, full=False):
+    """Exact polynomial from the monomial lists (13 exponents since 2026-10-14: ..., Q = b4^(1/2) and the first four
+    derivatives of b4).  full=False gives the restriction to b4 = 1 (Q = 1, every b4 derivative 0) over the first eight
+    symbols, the background of the record; full=True keeps all 13 exponents."""
     poly = {}
     for num, den, exps in monomials:
-        key = tuple(exps)
+        assert len(exps) == 13, "13 exponents expected (format since 2026-10-14)"
+        if not full and any(e != 0 for e in exps[9:]):
+            continue
+        key = tuple(exps) if full else tuple(exps[:8])
         poly[key] = poly.get(key, Fraction(0)) + Fraction(num, den)
     return {m: c for m, c in poly.items() if c != 0}
 
@@ -792,9 +812,13 @@ def poly_from_mathematica(text):
     poly = {}
     for sign, term in re.findall(r"(^-?|[+-] )([^+-]+?)(?= [+-] |$)", text.strip()):
         coeff, exps = Fraction(-1 if sign.strip() == "-" else 1), [0] * 8
+        if "[b4]" in term:
+            continue  # a term with a derivative of b4: zero at b4 = 1 (the restriction used here)
         for factor in term.strip().split("*"):
             if factor.startswith("("):
                 coeff *= Fraction(factor.strip("()"))
+            elif factor.startswith("b4[x4]"):
+                continue  # b4^n = 1 at b4 = 1
             else:
                 base, _, power = factor.partition("^")
                 exps[MATHEMATICA_FACTOR[base]] += int(power or 1)
@@ -815,26 +839,27 @@ for k in (1, 2, 3):
 
 P1 = tensors["P1_mixed_up_h_down_j"]
 einstein_equal = all(
-    poly_add(poly_from_monomials(curvature["einsteinMixed"][f"{h},{j}"]["monomials"]),
-             poly_from_monomials(P1[f"{h},{j}"]["monomials"]), Fraction(1, 4)) == {}
+    poly_add(poly_from_monomials(curvature["einsteinMixed"][f"{h},{j}"]["monomials"], full=True),
+             poly_from_monomials(P1[f"{h},{j}"]["monomials"], full=True), Fraction(1, 4)) == {}
     for h in COORDS for j in COORDS)
 check("e1_equals_einstein_python", einstein_equal,
       "-P_(1)/4 equals einsteinMixed of curvature.json in all 64 components; the record's check "
       "k1_equals_minus_4_einstein in Revision/gkd_lovelock/results/lovelock-report.json says the same")
 
-# sqrt|det g| = S^3 C and the inverse metric g^hh, as exponent lists over the eight symbols
-SQRT_DET = [0, 0, 0, 0, 0, 0, 3, 1]
-G_INV = {"x1": (1, [0, 0, 0, 0, 0, -2, -1, 0]), "x4": (-1, [0] * 8), "x5": (-1, [0, 0, 0, 0, 0, 2, -1, 0]),
-         "x8": (1, [0, 0, 0, 0, 0, 0, 0, -2])}
+# sqrt|det g| = Q^3 S^3 C (Q = b4^(1/2)) and the inverse metric g^hh, as exponent lists over the 13 symbols (exact,
+# general b4)
+SQRT_DET = [0, 0, 0, 0, 0, 0, 3, 1, 3, 0, 0, 0, 0]
+G_INV = {"x1": (1, [0, 0, 0, 0, 0, -2, -1, 0, 0, 0, 0, 0, 0]), "x4": (-1, [0] * 13),
+         "x5": (-1, [0, 0, 0, 0, 0, 2, -1, 0, -2, 0, 0, 0, 0]), "x8": (1, [0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0])}
 G_INV.update({"x2": G_INV["x1"], "x3": G_INV["x1"], "x6": G_INV["x5"], "x7": G_INV["x5"]})
 density_ok = True
 for k in (1, 2, 3):
     P, A = tensors[f"P{k}_mixed_up_h_down_j"], tensors[f"A{k}_contravariant_l_h"]
     for h in COORDS:
         sign, exps = G_INV[h]
-        expected = poly_times_monomial(poly_from_monomials(P[f"{h},{h}"]["monomials"]), Fraction(sign),
+        expected = poly_times_monomial(poly_from_monomials(P[f"{h},{h}"]["monomials"], full=True), Fraction(sign),
                                        [a + b for a, b in zip(exps, SQRT_DET)])
-        density_ok &= poly_from_monomials(A[f"{h},{h}"]["monomials"]) == expected
+        density_ok &= poly_from_monomials(A[f"{h},{h}"]["monomials"], full=True) == expected
 check("density_from_mixed_python", density_ok,
       "A_(k)^hh = sqrt|det g| g^hh P_(k)^h_h exactly for k = 1, 2, 3 and all eight h")
 ''')

@@ -26,6 +26,16 @@ It does not change any file of `results/`, `code/`, `verification/` or `notebook
 
 No disagreement was found. The interpretation is limited by section 6.
 
+### 1.1 The metric of 2026-10-14 (b4)
+
+On 2026-10-14 the user changed the metric: the extra-time components carry the new function b4[x4]
+(`Revision/SPEC.md` section 1; `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). The Revision record now carries b4;
+this notebook (written before that change) has no b4, so `compare_with_author.py` makes every comparison with it at
+b4 = 1, b4' = b4'' = 0 (the earlier metric), and compares SPEC section 1 with `curvature.json` keeping b4. The result is
+unchanged: 78 checks, 73 PASS, 0 FAIL, 5 NOT-AVAILABLE; the report was regenerated (sha256 in section 7). The author's
+NEW notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb` stores the Lovelock tensors of order 2 and 3 as well; they are
+compared exactly, for general b4, in `Revision/metric_b4/` (`verify_metric_b4.wls`, 26 of 26).
+
 ## 2. What was read, and how
 
 * The author's notebook `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`
@@ -171,7 +181,7 @@ python Revision/gkd_lovelock/comparison/compare_with_author.py
 | `extract_author_curvature_outputs.wls` | `0a0a17b133ea46dd511b86ccd238c01f828a4e11feff6d1d239d739b1e74a88b` |
 | `compare_with_author.py` | `f5e7ca1e2e5b16d2cf45f27e299f7c17884464bf07f08406800aed8864aeeab3` |
 | `author-curvature-outputs.json` | `f041955db36f67d5ec113ad65542f448af1de6eba159c85ecff73f83761039f0` |
-| `author-comparison-report.json` | `e7dfb4c1491f4d555c739c23efbfb743f6f724eb20372325f3fd758f20fa7241` |
+| `author-comparison-report.json` | `6896fd78e327784d0c295e73eef4e45a127e88aa2d6990bf9855ac7b35796265` |
 
 ## 8. Side effects
 

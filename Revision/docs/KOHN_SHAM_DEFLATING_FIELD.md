@@ -21,22 +21,24 @@ Every number below is read from the named Revision report or results file (the p
 
 ## 2. Setting: the author's field, the good sector and the hidden coordinate
 
-The coordinates are named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space, inflating with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which DEFLATE exponentially, with the scale factor $e^{-a_4}\sin^{1/6}z$ and $a_4$ increasing (they are never treated as static); $x_8$ is the hidden space direction, $z = 6Hx_8 \in (0,\pi/2)$. The metric of `Revision/SPEC.md` section 1 is
+The coordinates are named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space, inflating with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which DEFLATE exponentially, with the scale factor $e^{-a_4}\sin^{1/6}z$ and $a_4$ increasing (they are never treated as static); $x_8$ is the hidden space direction, $z = 6Hx_8 \in (0,\pi/2)$. The metric of `Revision/SPEC.md` section 1, as changed by the author on 2026-10-14 ($g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}(6Hx_8)$; `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`), is
 
 $$
 \begin{aligned}
 ds^2 = {} & e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
-& - e^{-2a_4(x_4)}\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) + \cot^2 z\,dx_8^2 .
+& - e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) + \cot^2 z\,dx_8^2 ;
 \end{aligned}
 $$
+
+$b_4 = 1$ is the metric used before 2026-10-14, and every number of this record is computed at $b_4 = 1$, which is the vacuum background (with the author's weights every vacuum solution has $b_4$ constant and $a_4 = \pm Hx_4 + \mathrm{const}$, `Revision/metric_b4/results/vacuum-b4.json`). Section 2.1 shows that the good-sector Kohn-Sham problem does not depend on $b_4$ at all.
 
 The Kohn-Sham record uses the hidden coordinate $y = \ln(\sin z)/(6H) \in (-\infty, 0]$, with $dy = \cot z\,dx_8$; the patch end $z = \pi/2$ is $y = 0$ (the brane) and the tip $z \to 0$ is $y \to -\infty$. In it the metric is exactly
 
 $$
-ds^2 = e^{2Hy}\big[e^{2a_4}(dx_1^2+dx_2^2+dx_3^2) - e^{-2a_4}(dx_5^2+dx_6^2+dx_7^2)\big] - dx_4^2 + dy^2 ,
+ds^2 = e^{2Hy}\big[e^{2a_4}(dx_1^2+dx_2^2+dx_3^2) - e^{-2a_4}b_4(dx_5^2+dx_6^2+dx_7^2)\big] - dx_4^2 + dy^2 ,
 $$
 
-with the warp $W = e^{Hy}$ and $\sqrt{|g|} = e^{6Hy}$ ($= \cos z$ in the author's chart). The 7-volume is independent of $a_4$: the inflation $e^{3a_4}$ of 3-space is compensated exactly by the deflation $e^{-3a_4}$ of the extra times. The canonical spin connection gives $\gamma^\mu\Omega_\mu = 3H\gamma^8$ for every $a_4(x_4)$: the $a_4'$ pieces of the three inflating directions, $+\frac32a_4'\gamma^4$, and of the three deflating directions, $-\frac32a_4'\gamma^4$, cancel.
+with the warp $W = e^{Hy}$ and $\sqrt{|g|} = b_4^{3/2}e^{6Hy}$ ($= b_4^{3/2}\cos z$ in the author's chart; $= e^{6Hy}$ at $b_4 = 1$). The 7-volume is independent of $a_4$: the inflation $e^{3a_4}$ of 3-space is compensated exactly by the deflation $e^{-3a_4}$ of the extra times; it carries the factor $b_4^{3/2}$ of the extra-time components (equal to 1 on the background $b_4 = 1$ of this record). The canonical spin connection gives $\gamma^\mu\Omega_\mu = 3H\gamma^8$ for every $a_4(x_4)$ at $b_4 = 1$ (for general $b_4$ it is $3H\gamma^8 + \frac34(b_4'/b_4)\gamma^4$, section 2.1): the $a_4'$ pieces of the three inflating directions, $+\frac32a_4'\gamma^4$, and of the three deflating directions, $-\frac32a_4'\gamma^4$, cancel.
 
 The good sector: no dependence on $x_5, x_6, x_7$ (zero extra-time momenta), a coordinate 3-torus of side $\ell$ with the momenta $k \in \Delta k\,\mathbb{Z}^3$, $\Delta k = 2\pi/\ell$, and the extra-time coordinate volume $v_t$; $\mathrm{Vol}_7 = \ell^3v_t$. With the ASSUMED brane condition and the chosen tip condition (section 5; together they kill the $y$-current and make the blocks $h_j$ self-adjoint) the good sector is quantised in the positive realisation of the canonical quantisation of `Revision/SPEC.md` section 6; the field-theory record `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY` (its section 11) constructs that realisation explicitly only for single good-sector momenta with frozen coefficients, and without a boundary condition at $z = \pi/2$ the curved good sector has complex frequencies (for $U = 0$ whenever $m^2 < 9H^2$, which includes the parameters $m = H = 1$ used here). The expectation-value rule $\langle\Psi^\dagger M\Psi\rangle = \mathrm{Tr}(M\rho)$, $\rho = \sum_{\mathrm{occ}} f\,uu^\dagger B$, defines the quasi-free (Slater or Mermin) states used here.
 
@@ -45,6 +47,28 @@ The good sector: no dependence on $x_5, x_6, x_7$ (zero extra-time momenta), a c
 | gammas, $C$, $B$, $\Gamma$ | `fixture_input`, `clifford_relation`, `C_B_Gamma` | `fixture_input`, `fixture_python_equals_wolfram`, `clifford_relation`, `C_B_Gamma`, `BC_and_Cg4` |
 | hidden coordinate, $\sqrt{\lvert g\rvert}$ | `geometry_hidden_coordinate`, `geometry_sqrt_det` | `geometry_hidden_coordinate`, `geometry_sqrt_det`, `geometry_warped_form` |
 | spin connection | `spin_connection_compatibility`, `spin_connection_slash_3H`, `spin_connection_time_terms_cancel`, `spin_connection_slash_3H_x8_chart` | `spin_connection_compatibility`, `spin_connection_slash_3H`, `spin_connection_time_terms_cancel`, `spin_connection_time_term_value`, `spin_connection_slash_3H_x8_chart` |
+
+### 2.1 The metric of 2026-10-14 (b4)
+
+On 2026-10-14 the author changed the extra-time components to $g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}(6Hx_8)$ ($b_4 = 1$ is the earlier metric; the change, its source cells and every verification are recorded in `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). The report `Revision/kohn_sham/reports/ks-b4-wolfram.json` (4 of 4 PASS, producer `Revision/kohn_sham/theory/verify_ks_b4.wls`) proves exactly, for every 16-component $X(x_1,\dots,x_8)$:
+
+1. Factorisation of the Dirac operator (record `K1_dirac_operator_b4_factorisation`):
+$$
+D_{b_4}\big[b_4^{-3/4}X\big] = b_4^{-3/4}\Big(D_1[X] + \big(b_4^{-1/2} - 1\big)\,e^{a_4}\sin^{-1/6}z\sum_{t=5}^{7}\gamma^t\partial_tX\Big),
+$$
+where $D_{b_4} = \gamma^\mu D_\mu$ in the metric with $b_4$ and $D_1$ the same operator at $b_4 = 1$.
+2. The good sector is independent of $b_4$ (record `K2_good_sector_independent_of_b4`): for $X$ independent of $x_5, x_6, x_7$ (no extra-time momenta) the extra term vanishes, $D_{b_4}[b_4^{-3/4}X] = b_4^{-3/4}D_1[X]$ exactly; the $\chi$-equation, the slice Hamiltonian $h(a_{4,0})$, every level, orbital and slice of this record are unchanged.
+3. Norm and volume (record `K3_norm_and_volume`): $\sqrt{|g|} = b_4^{3/2}\cos z$ and $\sqrt{|g|}\,(b_4^{-3/4})^2 = \cos z$, so the factor $b_4^{-3/4}$ keeps every normalisation integral; the proper extra-time volume carries $b_4^{3/2}$, and the rescaling identity of section 10 reads
+$$
+\mathrm{KS}(a_{4,0}, b_{4,0};\,\Delta k, v_t) = \mathrm{KS}\big(0, 1;\,\Delta k\,e^{-a_{4,0}},\ v_t\,e^{-3a_{4,0}}\,b_{4,0}^{3/2}\big).
+$$
+4. The background (record `K4_background_b4_1`): $\gamma^\mu\Omega_\mu = 3H\gamma^8 + \frac34(b_4'/b_4)\gamma^4$ in the metric with $b_4$, and $= 3H\gamma^8$ at $b_4 = 1$, the value `ks-theory.json` uses. The vacuum history of `Revision/metric_b4/results/vacuum-b4.json` has $b_4 = 1$ (every vacuum solution with the author's weights has $b_4$ constant, and a constant $b_4$ is absorbed into $v_t$ by item 3), so on the background of this record no recorded number changes.
+
+The source conditions of section 11 hold for every $b_4$ (record `ks_verdict_holds_for_every_b4` of `Revision/field_equations_a4/reports/ks-source-conditions.json`): the left-hand sides of the diagonal $a_4$ equations stay free of $x_8$, so C1 is unchanged and the $x_8$-dependent profiles are not an admissible source for any $b_4$; C2 as written is its $b_4 = 1$ form; the off-diagonal $x_4$-$x_8$ condition $\kappa q_{48} = \cot z\,(b_4'/b_4)\,Q$ is not evaluated, because the solver does not record $T^{x_4}{}_{x_8}$ (OPEN). Not established here: Kohn-Sham states with nonzero extra-time momenta, for which the term $(b_4^{-1/2} - 1)$ of item 1 does not vanish, and any history with non-constant $b_4$.
+
+| report | records |
+| --- | --- |
+| `Revision/kohn_sham/reports/ks-b4-wolfram.json` | `K1_dirac_operator_b4_factorisation`, `K2_good_sector_independent_of_b4`, `K3_norm_and_volume`, `K4_background_b4_1` |
 
 ## 3. The exact block reduction
 
@@ -301,13 +325,14 @@ for the levels, orbitals, proper densities and energy-momentum profiles. Reading
 
 ## 11. The recorded states are not admissible sources of the $a_4$ equations
 
-`Revision/SPEC.md` section 7 names the Kohn-Sham energy-momentum tensor as the source of the field equations for $a_4$. The Einstein-Lovelock equations of the author's metric (`Revision/field_equations_a4`) require of any source: (C1) every component independent of $x_8$; (C2) $p_3 + p_t = 2p_8$ (the algebraic identity $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} = 2E^{x_8}{}_{x_8}$ of the Lovelock tensors); (C3) for the linear member $a_4 = AHx_4 + a_0$: $p_3 = p_t = p_8$ and constant $\rho$. The record `Revision/field_equations_a4/reports/ks-source-conditions.json` (5 of 5 PASS) finds:
+`Revision/SPEC.md` section 7 names the Kohn-Sham energy-momentum tensor as the source of the field equations for $a_4$. The Einstein-Lovelock equations of the author's metric (`Revision/field_equations_a4`) require of any source: (C1) every component independent of $x_8$; (C2) $p_3 + p_t = 2p_8$ (the algebraic identity $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} = 2E^{x_8}{}_{x_8}$ of the Lovelock tensors); (C3) for the linear member $a_4 = AHx_4 + a_0$: $p_3 = p_t = p_8$ and constant $\rho$. The record `Revision/field_equations_a4/reports/ks-source-conditions.json` (6 of 6 PASS) finds:
 
 1. Every one of the 70 nonzero ground-state profiles depends on $x_8$: $(\max\rho - \min\rho)/\max|T| \geq 0.0497329$ (record `ks_profiles_depend_on_x8`).
 2. $\max_y|p_3 + p_t - 2p_8|/\max|T|$ lies between 2.09192 and 3.99006 (record `ks_profiles_violate_algebraic_condition`).
 3. Integrated over the patch, $(\int p_3 + \int p_t)/(2\int p_8)$ differs from 1 for every nonzero state (closest 0.414328); for the history $N = 136$, $\lambda = 0$ it is 0.339767, 0.25969 and 0.239714 at $a_{4,0} = 0, 1, 2$ (record `ks_integrals_violate_algebraic_condition`): even an $x_8$-averaged source violates C2.
 4. Along the history $\rho$ changes with $a_{4,0}$ and $p_3 \neq p_t$, so C3 fails: the history is a PRESCRIBED background (record `ks_history_is_a_prescribed_background`).
 5. Five states have an identically vanishing tensor (the free $N = 8$ zero modes), a zero source, for which Einstein gravity has no vacuum solution with $H > 0$ (record `ks_zero_source_states_listed`).
+6. The verdict holds for every $b_4$ of the metric of 2026-10-14 (section 2.1): the diagonal left-hand sides stay free of $x_8$, so C1 is unchanged; the off-diagonal $x_4$-$x_8$ condition is not evaluated (OPEN) (record `ks_verdict_holds_for_every_b4`).
 
 The full analysis `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` (23 of 23 PASS) refines this exactly: the states SATISFY the $x_8$ conservation identity, and $p_3 + p_t - 2p_8 = p_{8,y}/(3H)$ on shell, so C2 fails exactly because $p_8$ depends on $x_8$; at least a share 0.583068 of the energy density deviates from its hidden-direction average (L1 measure). Its conclusion: the coupled problem “metric of `Revision/SPEC.md` section 1 + Kohn-Sham source” has no solution, and nothing about $a_4$ is derived from it. In a stated approximation (the $x_4$ and $x_1 - x_5$ moments kept, the others dropped, with dropped residuals of order one) the Kohn-Sham source does not start or select the exponential deflation; it modifies a deflation set by the initial data, e.g. $a_4'(2)/a_4'(0) = 1.95362$, 1.1321 and 0.847549 for the source strengths $\sigma_0 = 10$, 1 and $-1$ of the series $N = 136$, $\lambda = 0$ in Einstein gravity, and with $\Lambda = 0$ and the initial rate $a_4'(0) = H$ the constraint forces $\kappa\bar\rho(0) < 0$, that is $\kappa < 0$ for this gas of positive energy density (a negative gravitational coupling in the sign convention of the energy-momentum tensor used by the field-equations record); then, for $N = 136$, $\lambda = 0$, the deflation halts ($a_4' = 0$) at $a_4 = 0.149623$ (Einstein), 0.0724197 (Einstein-Gauss-Bonnet) and 0.102772 (cubic Lovelock), where the integration stops (four of the ten series with 3-momentum were integrated; what follows the turning point is not computed). These are statements of that approximation, not of the field equations.
 
@@ -315,7 +340,7 @@ Consequence: the Kohn-Sham gas of this record is a test field on the prescribed 
 
 | report | records |
 | --- | --- |
-| `Revision/field_equations_a4/reports/ks-source-conditions.json` | `ks_profiles_depend_on_x8`, `ks_profiles_violate_algebraic_condition`, `ks_integrals_violate_algebraic_condition`, `ks_history_is_a_prescribed_background`, `ks_zero_source_states_listed` |
+| `Revision/field_equations_a4/reports/ks-source-conditions.json` | `ks_profiles_depend_on_x8`, `ks_profiles_violate_algebraic_condition`, `ks_integrals_violate_algebraic_condition`, `ks_history_is_a_prescribed_background`, `ks_zero_source_states_listed`, `ks_verdict_holds_for_every_b4` |
 | `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` | `A1_lovelock_identity_x1_plus_x5_equals_2x8`, `A6_x8_conservation_in_y`, `B0_wave1_report_verified`, `B2_x8_conservation_on_every_profile`, `B4_hidden_direction_mismatch`, `C1_averaged_algebraic_condition_fails`, `D3_lambda_zero_cases_halt`, `D5_einstein_sign_of_the_effect` |
 | Kohn-Sham theory (the record and the label of the history) | `adiabatic_offdiagonal_identity`, `ks_theory_json_written`, `ks_theory_json_basis`, `ks_theory_json_slope`, `ks_theory_json_history_label` |
 
@@ -338,9 +363,9 @@ Every check has a name, a verdict and a detail. Counts at the time of writing (t
 | `Revision/kohn_sham/reports/ks-rust-mermin-roots.json` | 5 | 5 | 0 |
 | `Revision/kohn_sham/reports/ks-reference.json` | 37 | 37 | 0 |
 | `Revision/kohn_sham/reports/ks-crosscheck.json` | 31 | 31 | 0 |
-| `Revision/field_equations_a4/reports/ks-source-conditions.json` | 5 | 5 | 0 |
+| `Revision/field_equations_a4/reports/ks-source-conditions.json` | 6 | 6 | 0 |
 | `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` | 23 | 23 | 0 |
-| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 52 | 52 | 0 |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 64 | 64 | 0 |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | 63 | 63 | 0 |
 | `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | 10 | 10 | 0 |
 | `Revision/pairing/kohn_sham/reports/python-t3.json` | 13 | 13 | 0 |

@@ -78,8 +78,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "4e4ed66d881ed9c898949a3caf4aea7d048f6774abc427e05e9f2527704deebc"
-TEX_SHA256 = "407657404690886a792469e773a3efa691b408abcd922000cda8e2bfbf01b8f8"
+MARKDOWN_SHA256 = "5ecd0bfca9a15d5a76edaebbbc5bae9950bd379e12571d5abf3db1ca544416ec"
+TEX_SHA256 = "ee03a31923725faa1e1756b5e6d289d4b5faae957bbf35648a85172817c8f7e3"
 
 GKD = REVISION / "gkd_lovelock"
 RESULTS = GKD / "results"
@@ -297,11 +297,18 @@ def detail_of(path: Path, name: str) -> str:
     raise KeyError(f"{name} not in {path}")
 
 
-def from_mathematica(text: str) -> sp.Expr:
-    """The Mathematica text of a curvature or Lovelock component (no warp factors) as sympy."""
+BB, B1, B2 = sp.symbols("BB B1 B2")
+
+
+def from_mathematica(text: str, b4_one: bool = True) -> sp.Expr:
+    """The Mathematica text of a curvature or Lovelock component (no warp factors) as sympy.  Since 2026-10-14 the
+    record carries the metric function b4[x4]; the statements of the document that this test compares are those of
+    the background b4 = 1 (b4' = b4'' = 0), so by default the expression is returned at b4 = 1."""
     text = text.replace("Derivative[2][a4][x4]", "A2").replace("Derivative[1][a4][x4]", "A1")
+    text = text.replace("Derivative[2][b4][x4]", "B2").replace("Derivative[1][b4][x4]", "B1").replace("b4[x4]", "BB")
     text = text.replace("^", "**")
-    return sp.sympify(text, locals={"A1": A1, "A2": A2, "H": H})
+    expr = sp.sympify(text, locals={"A1": A1, "A2": A2, "H": H, "BB": BB, "B1": B1, "B2": B2})
+    return sp.simplify(expr.subs({B1: 0, B2: 0}).subs(BB, 1)) if b4_one else expr
 
 
 def from_ad(text: str) -> sp.Expr:
@@ -498,14 +505,15 @@ class QuotedData(unittest.TestCase):
             line = (f"| {row['k']} | {row['leaves']} | {row['gkdCalls']} | {row['gkdNonzero']} | "
                     f"{row['scalarGkdCalls']} | {row['nonzeroComponents']} |")
             self.assertIn(line, self.text, line)
-        for name, lists, deviation in (("k1_brute_force_numeric", "262144", "1.40e-15"),
-                                       ("k2_brute_force_numeric", "1073741824", "4.41e-14")):
+        # since 2026-10-14 (metric with b4) the brute-force point includes b4, b4', b4''
+        for name, lists, deviation in (("k1_brute_force_numeric", "262144", "1.33e-15"),
+                                       ("k2_brute_force_numeric", "1073741824", "5.26e-14")):
             detail = detail_of(RUST_REPORT, name)
-            for number in (lists, deviation, "H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, x8 = 0.41"):
+            for number in (lists, deviation, "H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, b4 = 1.37, b4' = 0.31, b4'' = -0.23, x8 = 0.41"):
                 self.assertIn(number, detail, name)
             self.assertIn(f"{lists} index lists", self.text)
             self.assertIn(deviation, self.text)
-        self.assertIn("$H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$, $x_8 = 0.41$", self.text)
+        self.assertIn("$H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$, $b_4 = 1.37$, $b_4' = 0.31$, $b_4'' = -0.23$, $x_8 = 0.41$", self.text)
         self.assertIn("all 4096 index lists", detail_of(RUST_REPORT, "riemann_first_bianchi"))
         self.assertIn("for all 4096 index lists", self.text)
 
@@ -599,9 +607,12 @@ class QuotedData(unittest.TestCase):
             self.assertIn(line, self.text, line)
         cot = [e for e in riemann if "Cot" in e["value"]]
         self.assertEqual(len(cot), 156 - sum(1 for e in riemann if "Cot" not in e["value"]))
-        values = {e["value"] for e in cot}
-        self.assertEqual(values, {"H*Derivative[1][a4][x4]*Cot[6*H*x8]", "-H*Derivative[1][a4][x4]*Cot[6*H*x8]",
-                                  "H*Derivative[1][a4][x4]*Cot[6*H*x8]^(-1)", "-H*Derivative[1][a4][x4]*Cot[6*H*x8]^(-1)"})
+        # at b4 = 1 these are +-H a4' Cot^(+-1) (with b4 the extra-time ones carry a4' - b4'/(2 b4))
+        cc = sp.Symbol("cc")
+        values = {sp.srepr(from_mathematica(e["value"].replace("Cot[6*H*x8]", "cc"))) for e in cot}
+        expected_vals = {sp.srepr(sp.sympify(v, locals={"A1": A1, "H": H, "cc": cc}))
+                         for v in ("H*A1*cc", "-H*A1*cc", "H*A1/cc", "-H*A1/cc")}
+        self.assertEqual(values, expected_vals)
         self.assertEqual(from_mathematica(self.curvature["ricciScalar"]), 6*A1**2 - 42*H**2)
         self.assertIn("$R = 6(a_4')^2 - 42H^2$", self.text)
         ricci = {"x1,x1": A2 - 6*H**2, "x4,x4": 6*A1**2, "x5,x5": -A2 - 6*H**2, "x8,x8": -6*H**2}
@@ -616,7 +627,7 @@ class QuotedData(unittest.TestCase):
         for text in ("G^{x_i}{}_{x_i} = a_4'' - 3(a_4')^2 + 15H^2", "G^{x_4}{}_{x_4} = 3(a_4')^2 + 21H^2",
                      "G^{x_t}{}_{x_t} = -a_4'' - 3(a_4')^2 + 15H^2", "G^{x_8}{}_{x_8} = -3(a_4')^2 + 15H^2"):
             self.assertIn(text, self.text, text)
-        self.assertEqual(self.curvature["sqrtAbsDetG"], "Sin[6*H*x8]*Cot[6*H*x8]")
+        self.assertEqual(self.curvature["sqrtAbsDetG"], "Sin[6*H*x8]*Cot[6*H*x8]*b4[x4]^(3/2)")
         self.assertEqual(self.curvature["metricDiagonal"][3], "-1")
 
     def test_every_listed_lovelock_component(self):
@@ -624,8 +635,11 @@ class QuotedData(unittest.TestCase):
             tensor = self.tensors[f"P{k}_mixed_up_h_down_j"]
             for key, entry in tensor.items():
                 h, j = key.split(",")
-                if h != j:
+                if h != j and key not in ("x4,x8", "x8,x4"):
                     self.assertEqual(entry["mathematica"], "0", key)
+                elif h != j:  # since 2026-10-14: proportional to b4', zero at b4 = 1
+                    self.assertIn("Derivative[1][b4][x4]", entry["mathematica"], key)
+                    self.assertEqual(from_mathematica(entry["mathematica"].replace("Cot[6*H*x8]", "1")), 0, key)
             for a, b in (("x2,x2", "x1,x1"), ("x3,x3", "x1,x1"), ("x6,x6", "x5,x5"), ("x7,x7", "x5,x5")):
                 self.assertEqual(tensor[a]["mathematica"], tensor[b]["mathematica"])
             for key in COMPONENTS:

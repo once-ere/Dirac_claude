@@ -62,7 +62,7 @@ ds^2 = {} & e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
 \end{aligned}
 \]
 
-of signature (4,4), with $\sqrt{|g|} = \cos z$. The 3-space scale factor is $e^{a_4}\sin^{1/6}z$ and the extra-time scale factor $e^{-a_4}\sin^{1/6}z$. The observer's scale factor is $a = e^{a_4 - a_{4,\rm today}}$, normalised to $a = 1$ at a chosen ``today'' $a_{4,\rm today}$ (a free parameter). The Kohn-Sham records use the hidden coordinate $y = \ln(\sin z)/(6H)$.
+of signature (4,4), with $\sqrt{|g|} = \cos z$. On 2026-10-14 the author changed the extra-time components to $g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}z$ with a second function $b_4(x_4) > 0$; the metric above is $b_4 = 1$, on which every number of this record is computed (section 2.4). The 3-space scale factor is $e^{a_4}\sin^{1/6}z$ and the extra-time scale factor $e^{-a_4}\sin^{1/6}z$. The observer's scale factor is $a = e^{a_4 - a_{4,\rm today}}$, normalised to $a = 1$ at a chosen ``today'' $a_{4,\rm today}$ (a free parameter). The Kohn-Sham records use the hidden coordinate $y = \ln(\sin z)/(6H)$.
 
 \subsection{The two fields and the energy-momentum tensor}
 
@@ -73,6 +73,27 @@ dirac16complex is $\Psi$: 16 complex anticommuting components, a Pin(4,4) spinor
 The author's private PDF (not part of the repository; only these numbers are used) gives the Supernovae Unite constant-$w$ fit $w = -0.764$ and the CPL fit $w(a) = w_0 + w_a(1-a)$ with $(w_0, w_a) = (-0.861, -0.60)$. In the deep past the CPL line tends to $w_0 + w_a = -1.461$ (quoted as -1.46), which is phantom; the line crosses $w = -1$ at $a = 461/600 = 0.7683$ ($z = 139/461$; record \texttt{unite\_cr\allowbreak{}ossing\_p\allowbreak{}oint}). In this convention thawing means $w_a < 0$ ($w$ rises from near $-1$) and freezing $w_a > 0$; the formula decides (the PDF's table states the opposite signs).
 
 The CPL tangent of a model is $w_0 = w(1)$, $w_a = -dw/da$ at $a = 1$. The fits are least squares of $w(a)$ over $a \in [1/2, 1]$ or $[1/3, 1]$ (record \texttt{cpl\_leas\allowbreak{}t\_square\allowbreak{}s\_rule}). The ``constant $w$'' of a model is the mean of $w(a)$ over the range, a PROXY: applied to the Unite CPL line itself it gives -1.011 on $[1/2, 1]$ and -1.061 on $[1/3, 1]$ (record \texttt{unite\_li\allowbreak{}ne\_fit\_p\allowbreak{}roxy}), so it is not the supernova constant-$w$ fit -0.764, which weights the data. No supernova likelihood, distance fit or covariance is computed anywhere in this record.
+
+\subsection{The metric of 2026-10-14 (b4)}
+
+The author's metric of 2026-10-14 is
+
+\[
+\begin{aligned}
+ds^2 = {} & e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
+& - e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) + \cot^2 z\,dx_8^2 ,
+\end{aligned}
+\]
+
+and $b_4 = 1$ is the metric of section 2.1 (\texttt{Revision\allowbreak{}/metric\_\allowbreak{}b4/METRI\allowbreak{}C\_CHANGE\allowbreak{}\_PROVENA\allowbreak{}NCE.md}). What changes for this record:
+
+\begin{enumerate}
+\item The background. In the author's vacuum Einstein-Lovelock equations ($w_1 = 1$, $w_2 = 1/32$, $w_3 = 1/1152$, $\Lambda = 10$) every $C^2$ solution with $b_4 > 0$ has $b_4$ constant and $a_4 = \pm H x_4 + {\rm const}$; a constant $b_4$ is the rescaling $x_{5,6,7} \to \sqrt{b_4}\,x_{5,6,7}$, so the vacuum history is $b_4 = 1$, $a_4 = Hx_4$ or its time reverse (\texttt{Revision\allowbreak{}/metric\_\allowbreak{}b4/resul\allowbreak{}ts/vacuu\allowbreak{}m-b4.jso\allowbreak{}n}, 6 checks). The equations of state of this record are computed on that background, $b_4 = 1$, where nothing in sections 3 to 13 changes.
+\item The volume factor, for general $b_4$. $\sqrt{|g|} = b_4^{3/2}\cos z$ and the extra-time scale factor without the warp is $c = e^{-a_4}b_4^{1/2}$, so the effective 4-dimensional density of a 3-space observer carries $c^3 = e^{-3a_4}\,b_4^{3/2}$ instead of $e^{-3a_4}$ (check P4, dark-sector volume factor, of \texttt{Revision\allowbreak{}/metric\_\allowbreak{}b4/resul\allowbreak{}ts/conse\allowbreak{}quences-\allowbreak{}b4.json}, 4 of 4 checks PASS). The proper 7-volume element is then no longer independent of the history: it is $b_4^{3/2}\cos z$. The identities of section 3.1 and the definitions (A), (B), (C) are derived for $b_4 = 1$ and have NOT been re-derived for a non-constant $b_4$.
+\item The source conditions, for general $b_4$. The left-hand sides of the $x_1$..$x_3$, $x_4$, $x_5$..$x_7$ and $x_8$ equations stay free of $x_8$ for every $b_4$, so condition C1 (every component of the source independent of $x_8$) holds unchanged and the $x_8$-dependent Kohn-Sham profiles are not an admissible source for any $b_4$ (\texttt{ks\_verdi\allowbreak{}ct\_holds\allowbreak{}\_for\_eve\allowbreak{}ry\_b4}). The condition $p_3 + p_t = 2p_8$ is the $b_4 = 1$ form; for general $b_4$ its right-hand side is $\sum_k \alpha_k (E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_8}{}_{x_8})$, for Einstein gravity $(b_4'/b_4)^2/4 + b_4''/(2b_4)$, and a non-constant $b_4$ adds the off-diagonal $x_4$-$x_8$ condition $\kappa\, q_{48} = \cot z\,(b_4'/b_4)\,Q$, which is not evaluated (the Kohn-Sham solver does not record $T^{x_4}{}_{x_8}$; OPEN).
+\end{enumerate}
+
+None of this explains dark energy or dark matter: a non-constant $b_4$ is not a solution of the vacuum equations, no source that would sustain one has been constructed, and no equation of state has been computed for $b_4 \ne 1$.
 
 \section{The observer assumption: \texorpdfstring{$\rho_4$}{ρ\_4} and the definitions (A), (B), (C)}
 
@@ -391,7 +412,7 @@ This record establishes neither Hypothesis nor Hypothesis00. What it shows, unde
 \section{What remains open}
 
 \begin{enumerate}
-\item A self-consistent (non-linear) $a_4$ history with an admissible source. No recorded Kohn-Sham state is an admissible source of the author's metric: its energy-momentum tensor depends on $x_8$ and violates $p_3 + p_t = 2p_8$, and the history is a prescribed background (the 5 checks of \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/ks-s\allowbreak{}ource-co\allowbreak{}nditions\allowbreak{}.json}, among them \texttt{ks\_profi\allowbreak{}les\_depe\allowbreak{}nd\_on\_x8} and \texttt{ks\_profi\allowbreak{}les\_viol\allowbreak{}ate\_alge\allowbreak{}braic\_co\allowbreak{}ndition}). The truncated integration of the $a_4$ equations with the averaged Kohn-Sham source is an approximation and is not used here. The condensate is an exact source only on the linear member.
+\item A self-consistent (non-linear) $a_4$ history with an admissible source. No recorded Kohn-Sham state is an admissible source of the author's metric: its energy-momentum tensor depends on $x_8$ and violates $p_3 + p_t = 2p_8$, and the history is a prescribed background (the 6 checks of \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/ks-s\allowbreak{}ource-co\allowbreak{}nditions\allowbreak{}.json}, among them \texttt{ks\_profi\allowbreak{}les\_depe\allowbreak{}nd\_on\_x8}, \texttt{ks\_profi\allowbreak{}les\_viol\allowbreak{}ate\_alge\allowbreak{}braic\_co\allowbreak{}ndition} and, for the metric with $b_4$, \texttt{ks\_verdi\allowbreak{}ct\_holds\allowbreak{}\_for\_eve\allowbreak{}ry\_b4}). The truncated integration of the $a_4$ equations with the averaged Kohn-Sham source is an approximation and is not used here. The condensate is an exact source only on the linear member.
 \item Populated bulk-band or thermal states along the history (fixed entropy); only $T = 0$ ground states and $a_4 \in [0, 2]$ (the solver's validated range) are computed.
 \item Modes of dirac16complex with extra-time momentum (outside the good sector; only their flat-limit sign structure is derived) and the non-adiabatic (time-dependent) Kohn-Sham problem.
 \item For dirac16complex00: configurations that depend on $x_8$ are not consistent sources of the metric; the WKB model freezes the hidden-direction warp; the growing modes make the Cauchy problem ill-posed, and nothing here cures that; no quantum treatment (a classical field).
@@ -423,7 +444,7 @@ Every check has a name, a verdict and a detail. Counts at the time of writing (t
 \texttt{Revision\allowbreak{}/dark\_se\allowbreak{}ctor/dir\allowbreak{}ac16comp\allowbreak{}lex/repo\allowbreak{}rts/inde\allowbreak{}pendent-\allowbreak{}checks.j\allowbreak{}son} & 9 & 9 & 0 \\
 \texttt{Revision\allowbreak{}/dark\_se\allowbreak{}ctor/dir\allowbreak{}ac16comp\allowbreak{}lex00/re\allowbreak{}ports/py\allowbreak{}thon-der\allowbreak{}ive-eos.\allowbreak{}json} & 49 & 49 & 0 \\
 \texttt{Revision\allowbreak{}/dark\_se\allowbreak{}ctor/dir\allowbreak{}ac16comp\allowbreak{}lex00/re\allowbreak{}ports/py\allowbreak{}thon-ind\allowbreak{}ependent\allowbreak{}-numeric\allowbreak{}s.json} & 28 & 28 & 0 \\
-\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/ks-s\allowbreak{}ource-co\allowbreak{}nditions\allowbreak{}.json} & 5 & 5 & 0 \\
+\texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/ks-s\allowbreak{}ource-co\allowbreak{}nditions\allowbreak{}.json} & 6 & 6 & 0 \\
 \bottomrule
 \end{longtable}
 \endgroup

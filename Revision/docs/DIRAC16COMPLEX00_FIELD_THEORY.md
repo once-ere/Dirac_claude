@@ -45,6 +45,14 @@ $$
 
 independent of $x_4$: the inflation $e^{3a_4}$ of 3-space is compensated by the deflation $e^{-3a_4}$ of the extra times. $H = 0$ is not a metric of the family (a degenerate limit: $g_{11}, g_{55} \to 0$ and $g_{88} \to \infty$); every statement assumes $H > 0$ and $0 < z < \pi/2$.
 
+**The metric of 2026-10-14 (b4).** On 2026-10-14 the user changed the metric (SPEC section 1, `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`): the three extra-time components carry a new metric function $b_4(x_4) > 0$,
+
+```text
+g55 = g66 = g77 = -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3)
+```
+
+all other components as above. The metric written above is the case $b_4 = 1$ (the metric of the record before 2026-10-14), and sections 2 to 16 are written for it; with $b_4$ the volume factor is $\sqrt{|g|} = b_4^{3/2}\cos z$, constant in $x_4$ only when $b_4$ is. What changes for dirac16complex00 is stated in section 17; with the author's weights every vacuum history has $b_4$ constant (a constant $b_4$ is the rescaling $x_{5,6,7} \to b_4^{1/2}x_{5,6,7}$), and on the background $b_4 = 1$ nothing recorded below changes.
+
 **Spinor notation.** $\bar\Phi = \Phi^\dagger C$, $S = \bar\Phi\Phi$, $U(S)$ a real potential ($U = \tfrac{\lambda}{2}S^2$ where stated), $V = m + U'(S)$. Frame gammas are written $\gamma^{(x_a)}$, coordinate gammas $\gamma^\mu = e^\mu{}_a\gamma^{(a)}$. The theory records write $\Psi$ for both statistics; here $\Phi$ denotes the commuting field.
 
 **Labels.** "Exact" means verified by exact symbolic computation (no floating point) in the named checks; "interpretation" marks a reading that is not itself a computed statement.
@@ -824,7 +832,7 @@ There is no quantum reading for dirac16complex00: it is not quantised. These the
 
 ## 14. Check index
 
-Every check below has the verdict PASS in the named report (the publication test re-reads the reports and confirms each name and verdict). Counts at the time of writing: wolfram-algebra 45 checks, python-algebra 35, wolfram-field-theory 84, python-field-theory 70, wolfram-a4-report 52, python-a4-report 63, wolfram-pairing 101, python-pairing 66, wolfram-scope 15, python-scope 14, python-derive-eos 49, python-independent-numerics 28; all pass.
+Every check below has the verdict PASS in the named report (the publication test re-reads the reports and confirms each name and verdict). Counts at the time of writing: wolfram-algebra 45 checks, python-algebra 35, wolfram-field-theory 84, python-field-theory 70, wolfram-a4-report 64, python-a4-report 63, wolfram-pairing 101, python-pairing 66, wolfram-scope 15, python-scope 14, python-derive-eos 49, python-independent-numerics 28; all pass.
 
 | report | checks cited in this document |
 | --- | --- |
@@ -857,6 +865,8 @@ Every check below has the verdict PASS in the named report (the publication test
 | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `x8_component_contains_no_a4pp`, `constraint_propagation_bianchi`, `conservation_components`, `einstein_components`, `einstein_null_energy_x8`, `einstein_no_vacuum_solution` |
 | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `linear_member_equal_pressures`, `linear_member_vacuum_factor`, `C_properties_own_rep`, `gamma_mu_anticommutes_with_Omega_mu_no_sum`, `gravity_term_gamma_mu_Omega_mu`, `condensate_equation_x8_consistent` |
 | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `condensate_S_constant`, `condensate_adjoint_equation`, `condensate_kinetic_tensor_diagonal`, `condensate_offdiagonal_are_three_gamma_bilinears`, `condensate_einstein_quadratic_U`, `condensate_diagonal_witness_exact` |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `b4_lovelock_equals_metric_b4_set`, `b4_constraint_first_order`, `b4_offdiagonal_factorises`, `b4_einstein_offdiagonal_forces_b4_constant`, `b4_identity_x1_plus_x5_minus_2x8`, `b4_einstein_second_order_system` |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `b4_conservation_components`, `b4_gravity_term`, `b4_condensate_equation`, `b4_condensate_kinetic_diagonal`, `b4_condensate_offdiagonal_bilinears`, `b4_author_weights_vacuum` |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | `mixed_riemann_free_of_warp_and_a4`, `riemann_entries_laurent`, `P1_equals_minus_4_Einstein`, `P1_equals_gkd_branch_monomials`, `P2_equals_gkd_branch_monomials`, `P3_equals_gkd_branch_monomials` |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free`, `evolution_factorises`, `evolution_F_not_identically_zero`, `algebraic_identity` |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | `constraint_and_x8_first_order`, `bianchi_x4`, `other_components_vanish`, `conservation_components`, `einstein_components`, `einstein_null_energy_x8` |
@@ -928,3 +938,57 @@ python -m unittest Revision/tests/test_dirac16complex00_field_theory_publication
 ```
 
 The builder makes the .tex twice and the PDF in two fresh directories, requires byte identity and a warning-free LaTeX log, and verifies the PDF against its entry in Revision's own registry `Revision/pdf-specifications.json`. The publication test checks that the .tex is the builder's output for this .md, that the PDF is registered with its page count and sha256, that the formula blocks of sections 5, 11 and 12 are the ones generated from `Revision/theory/field-theory.json` and `Revision/field_equations_a4/a4-equations.json`, and that every check cited in section 14 exists in its report with a passing verdict.
+
+## 17. The metric of 2026-10-14 (b4)
+
+On 2026-10-14 the user changed the primordial metric: $g_{55} = g_{66} = g_{77} = -e^{-2a_4}\,b_4(x_4)\sin^{1/3}z$ with a new metric function $b_4(x_4) > 0$, every other component as in section 1; $b_4 = 1$ is the metric of sections 1 to 16. The change is proved against the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb` in `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`. For dirac16complex00 the records give the following (formulas from the key `b4` of `Revision/field_equations_a4/a4-equations.json`; checks from `Revision/field_equations_a4/reports/wolfram-a4-report.json`, which now has 64 checks, the 52 of the case $b_4 = 1$ and the 12 below, all PASS).
+
+**Geometry and the gravity term.** $\sqrt{|g|} = b_4^{3/2}\cos z$; a constant $b_4$ drops out (the rescaling $x_{5,6,7} \to b_4^{1/2}x_{5,6,7}$). The Lovelock tensors with $b_4$ are those of the metric record (`b4_lovelock_equals_metric_b4_set`). The gravity term of section 3 becomes
+
+$$
+\gamma^\mu\Omega_\mu = 3H\,\gamma^{(x_8)} + \tfrac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)}
+$$
+
+(`b4_gravity_term`): when $b_4' \ne 0$ the $x_4$ terms of the extra-time directions no longer cancel those of 3-space, the field equation gains $\tfrac34(b_4'/b_4)\gamma^{(x_4)}\Phi$, and the extra-time derivatives are scaled by $b_4^{-1/2}$. Exactly (the theory supplement for $b_4$ of the provenance record), $D_{b_4}[b_4^{-3/4}X] = b_4^{-3/4}\big(D_1[X] + (b_4^{-1/2} - 1)\,e^{a_4}\sin^{-1/6}z\,\sum_t\gamma^{(t)}\partial_t X\big)$, where $D_{b_4}$ is the Dirac operator of the metric with $b_4$ and $D_1$ that of $b_4 = 1$.
+
+**The condensate.** For a homogeneous on-shell condensate the equation of section 12 becomes $\partial_4\Phi = \big(A_\Phi - \tfrac34(b_4'/b_4)I_{16}\big)\Phi$ with $A_\Phi$ the matrix of section 12, so $\Phi = b_4^{-3/4}\Phi_1$ with $\Phi_1$ a solution for $b_4 = 1$; the matrix satisfies $C A_b + A_b^T C = -\tfrac32(b_4'/b_4)\,C$ for $A_b = A_\Phi - \tfrac34(b_4'/b_4)I_{16}$, so
+
+$$
+\partial_4 S = -\tfrac32\,\frac{b_4'}{b_4}\,S , \qquad b_4^{3/2}\,S = \text{const}
+$$
+
+(`b4_condensate_equation`). $S$ is therefore no longer constant along $x_4$ unless $b_4$ is; the statement "$S$ constant" of sections 9, 10 and 12 is the case $b_4$ constant. The kinetic tensor keeps the form of section 12: $K^{x_4}{}_{x_4} = MS$, $K^\mu{}_\mu = 0$ for $\mu \ne x_4$ and $K^{x_4}{}_{x_8} = K^{x_8}{}_{x_4} = 0$ (`b4_condensate_kinetic_diagonal`); the nonzero off-diagonal components are the same 42 ordered pairs and the same 15 three-gamma bilinears, with coefficients that depend on $b_4$ and reduce at $b_4 = 1$ to those of section 12 (`b4_condensate_offdiagonal_bilinears`).
+
+**The field equations for $a_4$ and $b_4$** (key `b4/generalSource`). The $x_4$ component stays a constraint, first order in $a_4'$ and $b_4'/b_4$ (`b4_constraint_first_order`). The metric now has off-diagonal Lovelock components, and the field equations contain
+
+$$
+\kappa\,q_{48} = \cot z\,\frac{b_4'}{b_4}\,Q , \qquad \kappa\,q_{84} = -\tan z\,\frac{b_4'}{b_4}\,Q
+$$
+
+with $Q$ the polynomial of `b4/generalSource/offDiagonalFactor_Q` (`b4_offdiagonal_factorises`); for Einstein gravity $Q = 3H/2 \ne 0$, so a source without $T^{x_4}{}_{x_8}$ forces $b_4' = 0$, i.e. $b_4$ constant (`b4_einstein_offdiagonal_forces_b4_constant`). The homogeneous condensate has $K^{x_4}{}_{x_8} = 0$; as a source of Einstein gravity it therefore leaves only $b_4$ constant (a reading that combines the two checks above, not a separate check). The algebraic condition $p_3 + p_t = 2p_8$ of section 11 becomes, for Einstein gravity, $\kappa\,(p_3 + p_t - 2p_8) = \tfrac14(b_4'/b_4)^2 + b_4''/(2b_4)$ (`b4_identity_x1_plus_x5_minus_2x8`); the $x_1 - x_5$ and $x_8$ components are linear in $(a_4'', b_4'')$ with a nonsingular Jacobian (`b4_einstein_second_order_system`); conservation gains $-\tfrac32(b_4'/b_4)(\rho + p_t)$ in the $x_4$ component and $+\tfrac32(b_4'/b_4)\,q_{48}$ in the $x_8$ component (`b4_conservation_components`). The theorem of section 12 (only the linear member) is proved for $b_4$ constant; the record has no version of it for a non-constant $b_4$.
+
+**Vacuum.** With the author's weights ($w_1 = 1$, $w_2 = 1/32$, $w_3 = 1/1152$, the author's $\Lambda = 10$; $\alpha_k = w_k/H^{2k}$) every $C^2$ vacuum history has $b_4$ constant and $a_4 = \pm Hx_4 + \text{const}$: the author's solution $b_4 = 1$, $a_4 = Hx_4$ and its time reverse (`b4_author_weights_vacuum`; the theorem for general $b_4$ is `Revision/metric_b4/results/vacuum-b4.json`, 6 of 6 checks).
+
+**On the background $b_4 = 1$ nothing recorded changes.** Every formula, number and check of sections 1 to 16 is the case $b_4 = 1$, and a constant $b_4$ is equivalent to it by the rescaling above; the keys of `Revision/theory/field-theory.json` and the keys of `Revision/field_equations_a4/a4-equations.json` other than `b4` are this case and are unchanged. The pairing theorems T1 and T2 of section 13 hold with $b_4$ (`Revision/metric_b4/wolfram/consequences_b4.wls`, 4 of 4 checks), and the Kohn-Sham source conditions hold for every $b_4$ (`Revision/field_equations_a4/reports/ks-source-conditions.json`, 6 of 6).
+
+**Records for $b_4$.**
+
+- `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls`: 64 of 64.
+- `Revision/field_equations_a4/python/check_b4_block.py`, the sympy twin for the key `b4`, with the report `Revision/field_equations_a4/reports/python-b4-block.json`: 11 of 11.
+- `Revision/theory/wolfram/verify_field_theory_b4.wls`: 19 of 19 (geometry, spin connection, gravity term, Dirac operator, evolution form, conservation, both statistics).
+- The energy-momentum tensor by vielbein variation, its Belinfante part, the diagonal components and $T^{x_4}{}_{x_8}$, for both statistics: 4 and 4 checks, in `Revision/theory/wolfram/verify_field_theory_b4_emt.wls`.
+- `Revision/theory/python/check_field_theory_b4.py`: 5 of 5.
+
+**Not recomputed for general $b_4$.** The full theory verifier of section 16 (84 checks, 1783 s to 2508 s at $b_4 = 1$) and its parts on the Noether identities, the exact solutions with conservation and the canonical quantisation exceed the time limit of 423 s per calculation set for the change (`claude_failures.md`, section C); for these the record is the case $b_4 = 1$, which the vacuum theorem fixes.
+
+```text
+wolframscript -file Revision/metric_b4/wolfram/verify_metric_b4.wls
+python Revision/metric_b4/python/check_metric_b4.py
+wolframscript -file Revision/metric_b4/wolfram/vacuum_b4.wls
+wolframscript -file Revision/metric_b4/wolfram/consequences_b4.wls
+wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
+python Revision/field_equations_a4/python/check_b4_block.py
+python Revision/field_equations_a4/python/check_ks_source_conditions.py
+wolframscript -file Revision/theory/wolfram/verify_field_theory_b4.wls
+python Revision/theory/python/check_field_theory_b4.py
+```

@@ -69,8 +69,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "c64462637409b67d2e38ef2731d06ce53bb4417595f9d9596bc9e9440a555cc4"
-TEX_SHA256 = "659a3134e348a68ba090cb6ef74ad220cd75fedd3d51b8c8a09c605ddfdaf08a"
+MARKDOWN_SHA256 = "594fc82d2fc411916383a2241753eee91743b2e2b54b480495a3ca40d3c04d02"
+TEX_SHA256 = "037a5e8526585be39fced91aae05d645de77d8474dceb2d9547ac92c3dac9ebd"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"
@@ -733,7 +733,7 @@ class QuotedNumbers(unittest.TestCase):
 
     def test_ks_source_conditions(self):
         data = load_json(KS_SOURCE)
-        self.assertEqual(data["summary"], {"checks": 5, "pass": 5, "fail": 0})
+        self.assertEqual(data["summary"], {"checks": 6, "pass": 6, "fail": 0})  # 6 since 2026-10-14 (ks_verdict_holds_for_every_b4)
         self.assertIn("No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source", data["conclusion"])
         self.assertQuoted("No recorded Kohn-Sham state is an admissible source of the author's metric")
 

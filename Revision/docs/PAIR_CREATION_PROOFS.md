@@ -26,16 +26,16 @@ Related Revision documents. The Kohn-Sham model of dirac16complex in the deflati
 
 ### 2.1 The author's metric and coordinates
 
-The coordinates are named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space (inflating), $x_4$ is the time, $x_5, x_6, x_7$ are the three extra times, which DEFLATE exponentially as $a_4$ increases, and $x_8$ is the hidden space direction, with $z = 6Hx_8 \in (0,\pi/2)$ and $H > 0$ the author's constant. The metric of `Revision/SPEC.md` section 1 is
+The coordinates are named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space (inflating), $x_4$ is the time, $x_5, x_6, x_7$ are the three extra times, which DEFLATE exponentially as $a_4$ increases, and $x_8$ is the hidden space direction, with $z = 6Hx_8 \in (0,\pi/2)$ and $H > 0$ the author's constant. The metric of `Revision/SPEC.md` section 1, as changed by the author on 2026-10-14, is
 
 $$
 \begin{aligned}
 ds^2 = {} & e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
-& - e^{-2a_4(x_4)}\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) + \cot^2 z\,dx_8^2 ,
+& - e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) + \cot^2 z\,dx_8^2 ,
 \end{aligned}
 $$
 
-of signature (4,4) (space-like $x_1, x_2, x_3, x_8$; time-like $x_4, x_5, x_6, x_7$), with $\sqrt{|g|} = \cos z$. The diagonal vielbein is $e^a{}_\mu = f_a\delta^a_\mu$ with $f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z$, $f_4 = 1$, $f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z$ and $f_8 = \cot z$; the frame metric is $\eta = \mathrm{diag}(+1,+1,+1,-1,-1,-1,-1,+1)$ in the order $x_1, \dots, x_8$. Frame indices $a = 1, \dots, 8$ are aligned with the coordinates, so $\gamma^4$ is the time gamma $\gamma^{(x_4)}$ and $\gamma^8$ the hidden-direction gamma $\gamma^{(x_8)}$.
+that is $g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}b_4(x_4)\sin^{1/3}(6Hx_8)$ with one metric function $b_4(x_4) > 0$; $b_4 = 1$ is the metric of 2026-10-01 for which this document was written, and the vacuum Einstein-Lovelock equations with the author's weights force $b_4 = $ const (a constant $b_4$ is removed by rescaling $x_5, x_6, x_7$), so the background of the record is $b_4 = 1$, $a_4 = \pm Hx_4$ (`Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). The formulas of the rest of this section are written for $b_4 = 1$; for general $b_4$, $f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}\sin^{1/6}z$, $\sqrt{|g|} = b_4^{3/2}\cos z$ and $\gamma^\mu\Omega_\mu = 3H\gamma^8 + \frac{3}{4}\frac{b_4'}{b_4}\gamma^4$. Section 9.4 shows that T1, T2 and T3 hold unchanged for every $b_4$. The metric has signature (4,4) (space-like $x_1, x_2, x_3, x_8$; time-like $x_4, x_5, x_6, x_7$), with $\sqrt{|g|} = \cos z$. The diagonal vielbein is $e^a{}_\mu = f_a\delta^a_\mu$ with $f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z$, $f_4 = 1$, $f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z$ and $f_8 = \cot z$; the frame metric is $\eta = \mathrm{diag}(+1,+1,+1,-1,-1,-1,-1,+1)$ in the order $x_1, \dots, x_8$. Frame indices $a = 1, \dots, 8$ are aligned with the coordinates, so $\gamma^4$ is the time gamma $\gamma^{(x_4)}$ and $\gamma^8$ the hidden-direction gamma $\gamma^{(x_8)}$.
 
 The canonical spin connection (vielbein postulate) has the nonzero components $\omega_{x_i,\,i4} = a_4' e^{a_4}\sin^{1/6}z$ and $\omega_{x_i,\,i8} = H e^{a_4}\sin^{1/6}z$ for the inflating directions $i = 1, 2, 3$, and $\omega_{x_t,\,4t} = -a_4' e^{-a_4}\sin^{1/6}z$ and $\omega_{x_t,\,t8} = -H e^{-a_4}\sin^{1/6}z$ for the deflating extra times $t = 5, 6, 7$, with $\Omega_{x_4} = \Omega_{x_8} = 0$. Contracted with the gammas, $\gamma^\mu\Omega_\mu = 3H\gamma^8$: each inflating direction contributes $\frac{a_4'}{2}\gamma^4 + \frac{H}{2}\gamma^8$ and each deflating extra time $-\frac{a_4'}{2}\gamma^4 + \frac{H}{2}\gamma^8$, so the time-direction terms cancel and the hidden-direction terms add.
 
@@ -517,7 +517,7 @@ Every check has a name, a verdict and a detail. Counts at the time of writing (t
 | `Revision/theory/reports/python-field-theory.json` | 70 | 70 | 0 |
 | `Revision/theory/reports/wolfram-scope.json` | 15 | 15 | 0 |
 | `Revision/theory/reports/python-scope.json` | 14 | 14 | 0 |
-| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 52 | 52 | 0 |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 64 | 64 | 0 |
 | `Revision/field_equations_a4/reports/python-a4-report.json` | 63 | 63 | 0 |
 | `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` | 23 | 23 | 0 |
 | `Revision/kohn_sham/reports/ks-theory-wolfram.json` | 46 | 46 | 0 |
@@ -632,6 +632,23 @@ The tables below list all 101 checks of the Wolfram pairing report and all 66 ch
 ### 9.3 Re-verification for this document
 
 For the first edition (2026-10-01) both pairing verifiers were re-run on a copy of the working tree: 99 of 99 and 64 of 64 checks passed and the outputs were byte-identical to the recorded files. After the review of the same day the pairing verifiers were extended (the Krein inertia of every real-frequency eigenspace, the Krein-neutral imaginary-frequency eigenspaces) and re-run on the working tree: `verify_pairing.wls` 101 of 101 PASS in about 80 s, `check_pairing.py` 66 of 66 PASS in about 140 s; the T3 verifiers 10 of 10 (about 3 s) and 13 of 13 (about 1 s). Two runs of each give byte-identical outputs. The completion records of section 8.5 (2026-10-08) are cited with the counts of their committed reports (Wolfram 3 of 3, sympy 7 of 7, the two demonstrations 7 of 7 each); their run times on the development machine, shared with other jobs, are about 15 s and 2 s for the completion verifiers, 10 to 15 min for the Rust demonstration (630 solver runs, 8 at a time) and about 10 min for the reference demonstration. The reports cited in this document are the files of the working tree.
+
+### 9.4 The metric of 2026-10-14 (b4)
+
+On 2026-10-14 the author changed the primordial metric (section 2.1): the three extra-time components became
+
+$$
+g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}\,b_4(x_4)\,\sin^{1/3}(6Hx_8),
+$$
+
+and $b_4 = 1$ is the metric for which this document was first written. The change and every recomputation are recorded in `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`. For the pairing theorems the result is (the report `Revision/metric_b4/results/consequences-b4.json`, produced by `Revision/metric_b4/wolfram/consequences_b4.wls`, 4 of 4 checks PASS):
+
+1. T1 holds unchanged. Its hypothesis is any gravitational field taken as a fixed background, which covers the metric with $b_4$; the check P1_T1_chirality_pairing_with_b4 confirms in that metric $\{\Gamma, \gamma^\mu\} = 0$, $[\Gamma, \Omega_\mu] = 0$ for every $\mu$ and $\gamma^\mu D_\mu(\Gamma\Psi) = -\Gamma\gamma^\mu D_\mu\Psi$ for a general 16-component $\Psi$.
+2. T2 holds unchanged. The mirror $x_8 \to \pi/(6H) - x_8$ ($z \to \pi - z$) pulls the metric with $b_4$ back to itself, since $\sin z$ and $\cot^2 z$ are symmetric under $z \to \pi - z$ and $b_4$ depends on $x_4$ only: the Z2 mirror of section 5.4 is an isometry for every $b_4$ (check P2_T2_mirror_isometry_with_b4). The Z2 brane remains ASSUMED.
+3. T3 holds unchanged. T3 concerns the good-sector Kohn-Sham problem (no extra-time momenta), whose levels and orbitals do not contain $b_4$: $b_4$ enters the Dirac operator only through the factor $b_4^{-3/4}$ and the extra-time derivatives (`Revision/kohn_sham/reports/ks-b4-wolfram.json`, 4 of 4 PASS: `K1_dirac_operator_b4_factorisation`, `K2_good_sector_independent_of_b4`, `K3_norm_and_volume`, `K4_background_b4_1`; check P3_T3_kohn_sham_level).
+4. The Kohn-Sham source verdict of section 8.4 holds for every $b_4$ (`Revision/field_equations_a4/reports/ks-source-conditions.json`, 6 of 6 PASS, `ks_verdict_holds_for_every_b4`), and the field equations for $a_4$ with the new key $b_4$ are verified in `Revision/field_equations_a4/reports/wolfram-a4-report.json` (64 of 64 PASS, of which 12 for $b_4$). Corollary C1 concerns a zero source: with a vanishing source the vacuum equations with the author's weights force $b_4 = $ const and $a_4 = \pm Hx_4 + $ const, so C1 is unchanged.
+
+The answer of section 11.3 is unchanged. The numerical demonstrations of sections 8.4 and 8.5 were made at $b_4 = 1$, the background that the vacuum theorem fixes; they were not recomputed for other $b_4$. The change of the metric adds no creation process: nothing about the creation of universes, in pairs or otherwise, is proved with $b_4$ either.
 
 ## 10. Reproduction
 
