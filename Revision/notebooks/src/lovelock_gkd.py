@@ -253,10 +253,11 @@ md(r"""
 ## 3. The words used in this notebook
 
 - **Metric** $g_{\mu\nu}$: the table of numbers that turns small coordinate steps into lengths and
-  times, $ds^2 = \sum_{\mu\nu} g_{\mu\nu}\,dx^\mu dx^\nu$. Here it is diagonal: only $g_{11},\dots,g_{88}$
-  are non-zero.
-- **Coordinates** $x_1,\dots,x_8$: the author's names. $x_1, x_2, x_3$ ordinary space, $x_4$ the time,
-  $x_5, x_6, x_7$ the three extra times, $x_8$ the hidden direction. Program arrays count them 0 to 7.
+  times, $ds^2 = \sum_{\mu\nu} g_{\mu\nu}\,dx^\mu dx^\nu$. Here it is diagonal for $b_4$ constant (only
+  $g_{00},\dots,g_{77}$ are non-zero).
+- **Coordinates** $x_0,\dots,x_7$: the author's coordinates, in the author's order. $x_0$ the hidden direction,
+  $x_1, x_2, x_3$ ordinary space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times. Program arrays count
+  them 0 to 7 (index $k$ is $x_k$).
 - **Space-like / time-like**: a direction whose metric entry is positive / negative. This metric
   has four of each (signature (4,4)).
 - **Scale factor**: the factor by which lengths along a direction grow or shrink; along $x_1$ it is
@@ -287,16 +288,16 @@ md(r"""
 
 ### 4.1 The author's metric
 
-The author's metric is diagonal. With $z = 6 H x_8$ and $0 < z < \pi/2$:
+The author's metric (the user's metric of 2026-10-14) is diagonal. With $z = 6 H x_0$ and $0 < z < \pi/2$:
 
 $$
-g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)} \sin^{1/3} z,\qquad g_{44} = -1,\qquad
-g_{55} = g_{66} = g_{77} = -e^{-2 a_4(x_4)} \sin^{1/3} z,\qquad g_{88} = \cot^2 z .
+g_{00} = \cot^2 z,\qquad g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)} \sin^{1/3} z,\qquad g_{44} = -1,\qquad
+g_{55} = g_{66} = g_{77} = -e^{-2 a_4(x_4)}\, b_4(x_4) \sin^{1/3} z .
 $$
 
-$H > 0$ is the author's constant and $a_4(x_4)$ the metric function; $a_4' = da_4/dx_4$. Space-like:
-$x_1, x_2, x_3, x_8$; time-like: $x_4, x_5, x_6, x_7$. The square root of the absolute determinant is
-$\sqrt{|\det g|} = \sin z \cot z = \cos z$.
+$H > 0$ is the author's constant and $a_4(x_4)$, $b_4(x_4) > 0$ the metric functions; $a_4' = da_4/dx_4$; $b_4 = 1$ is
+the metric before 2026-10-14. Space-like: $x_0, x_1, x_2, x_3$; time-like: $x_4, x_5, x_6, x_7$. The square root of the
+absolute determinant is $\sqrt{|\det g|} = b_4^{3/2} \sin z \cot z = b_4^{3/2} \cos z$.
 
 When $a_4$ increases, ordinary space inflates with the scale factor $e^{a_4}\sin^{1/6} z$ and the three
 extra times **deflate** with the scale factor $e^{-a_4}\sin^{1/6} z$; for $a_4 = c\,x_4$ with
@@ -306,7 +307,7 @@ in the results.
 
 ### 4.2 The generalized Kronecker delta
 
-The author's definition (his notebook, cell In[54]) is the determinant of the $p \times p$ table of
+The author's definition (the author's notebook, cell In[54]) is the determinant of the $p \times p$ table of
 ordinary Kronecker deltas:
 
 $$
@@ -741,20 +742,20 @@ independent diagonal components and the Lovelock scalar, in the LaTeX form that 
 
 code(r'''
 tensors = load_json(RUN_DIR / "lovelock-tensors.json")
-COORDS = [f"x{i}" for i in range(1, 9)]
-BLOCKS = [("x1", "x1 = x2 = x3 (ordinary space)"), ("x4", "x4 (time)"),
-          ("x5", "x5 = x6 = x7 (extra times)"), ("x8", "x8 (hidden direction)")]
+COORDS = [f"x{i}" for i in range(8)]          # the author's coordinates x0..x7 (x0 = the hidden direction)
+BLOCKS = [("x0", "x0 (hidden direction)"), ("x1", "x1 = x2 = x3 (ordinary space)"), ("x4", "x4 (time)"),
+          ("x5", "x5 = x6 = x7 (extra times)")]
 for k in (1, 2, 3):
     P = tensors[f"P{k}_mixed_up_h_down_j"]
-    # since 2026-10-14 the metric has b4: the x4-x8 pair is nonzero and every one of its terms carries b4' (index 9
+    # since 2026-10-14 the metric has b4: the x4-x0 pair is nonzero and every one of its terms carries b4' (index 9
     # of the 13 exponents); at b4 = 1 (the background) the tensor is diagonal
-    pair = [(h, j) for h in COORDS for j in COORDS if h != j and (h, j) not in (("x4", "x8"), ("x8", "x4"))]
+    pair = [(h, j) for h in COORDS for j in COORDS if h != j and (h, j) not in (("x4", "x0"), ("x0", "x4"))]
     off_zero = all(P[f"{h},{j}"]["monomials"] == [] for h, j in pair)
-    pair_b4p = all(P[key]["monomials"] != [] and all(m[2][9] >= 1 for m in P[key]["monomials"]) for key in ("x4,x8", "x8,x4"))
+    pair_b4p = all(P[key]["monomials"] != [] and all(m[2][9] >= 1 for m in P[key]["monomials"]) for key in ("x4,x0", "x0,x4"))
     groups_equal = all(P[f"{h},{h}"]["monomials"] == P["x1,x1"]["monomials"] for h in ("x2", "x3")) and \
         all(P[f"{h},{h}"]["monomials"] == P["x5,x5"]["monomials"] for h in ("x6", "x7"))
     check(f"k{k}_diagonal_and_grouped", off_zero and pair_b4p and groups_equal,
-          f"P_({k}): 54 off-diagonal components are 0; the x4-x8 and x8-x4 components are nonzero and every term "
+          f"P_({k}): 54 off-diagonal components are 0; the x4-x0 and x0-x4 components are nonzero and every term "
           f"contains b4' (so at b4 = 1 P_({k}) is diagonal); x1 = x2 = x3 and x5 = x6 = x7")
     rows = [f"| component | $P_{{({k})}}{{}}^h{{}}_h$ |", "|---|---|"]
     for h, label in BLOCKS:
@@ -850,7 +851,7 @@ check("e1_equals_einstein_python", einstein_equal,
 # general b4)
 SQRT_DET = [0, 0, 0, 0, 0, 0, 3, 1, 3, 0, 0, 0, 0]
 G_INV = {"x1": (1, [0, 0, 0, 0, 0, -2, -1, 0, 0, 0, 0, 0, 0]), "x4": (-1, [0] * 13),
-         "x5": (-1, [0, 0, 0, 0, 0, 2, -1, 0, -2, 0, 0, 0, 0]), "x8": (1, [0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0])}
+         "x5": (-1, [0, 0, 0, 0, 0, 2, -1, 0, -2, 0, 0, 0, 0]), "x0": (1, [0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0])}
 G_INV.update({"x2": G_INV["x1"], "x3": G_INV["x1"], "x6": G_INV["x5"], "x7": G_INV["x5"]})
 density_ok = True
 for k in (1, 2, 3):
@@ -910,11 +911,11 @@ E = {}
 for k in (1, 2, 3):
     P = tensors[f"P{k}_mixed_up_h_down_j"]
     E[k] = {h: poly_add({}, poly_from_monomials(P[f"{h},{h}"]["monomials"]), Fraction(-1, 2 ** (k + 1)))
-            for h in ("x1", "x4", "x5", "x8")}
-rows = ["| $k$ | $E_{(k)}{}^{x_1}{}_{x_1}$ (ordinary space) | $E_{(k)}{}^{x_4}{}_{x_4}$ (time) | "
-        "$E_{(k)}{}^{x_5}{}_{x_5}$ (extra times) | $E_{(k)}{}^{x_8}{}_{x_8}$ (hidden) |", "|---|---|---|---|---|"]
+            for h in ("x0", "x1", "x4", "x5")}
+rows = ["| $k$ | $E_{(k)}{}^{x_0}{}_{x_0}$ (hidden) | $E_{(k)}{}^{x_1}{}_{x_1}$ (ordinary space) | "
+        "$E_{(k)}{}^{x_4}{}_{x_4}$ (time) | $E_{(k)}{}^{x_5}{}_{x_5}$ (extra times) |", "|---|---|---|---|---|"]
 for k in (1, 2, 3):
-    rows.append(f"| {k} | " + " | ".join(f"${latex(E[k][h])}$" for h in ("x1", "x4", "x5", "x8")) + " |")
+    rows.append(f"| {k} | " + " | ".join(f"${latex(E[k][h])}$" for h in ("x0", "x1", "x4", "x5")) + " |")
 display(Markdown("\n".join(rows)))
 
 
@@ -926,9 +927,9 @@ for k in (1, 2, 3):
     diff = poly_add(E[k]["x1"], E[k]["x5"], Fraction(-1))
     check(f"k{k}_space_minus_extra_time_has_a4pp", diff != {} and all(m[2] >= 1 for m in diff),
           f"E_({k})^x1_x1 - E_({k})^x5_x5 = {plain(diff)}  (every term contains a4'')")
-    same = at_a4pp_zero(E[k]["x1"]) == at_a4pp_zero(E[k]["x5"]) == E[k]["x8"]
+    same = at_a4pp_zero(E[k]["x1"]) == at_a4pp_zero(E[k]["x5"]) == E[k]["x0"]
     check(f"k{k}_blocks_equal_at_a4pp_zero", same,
-          f"at a4'' = 0: E_({k})^x1_x1 = E_({k})^x5_x5 = E_({k})^x8_x8 = {plain(E[k]['x8'])}")
+          f"at a4'' = 0: E_({k})^x1_x1 = E_({k})^x5_x5 = E_({k})^x0_x0 = {plain(E[k]['x0'])}")
 ''')
 
 # ------------------------------------------------------------------------------------------------
@@ -998,7 +999,7 @@ exponentially deflating history, chosen for the picture; the notebook does not s
 at a fixed point of the hidden direction where $\sin z = 1$. Ordinary space grows like $e^{a_4}$,
 each extra time shrinks like $e^{-a_4}$, the time direction stays fixed, and the product of the six
 space and extra-time factors stays 1. Right: the dependence on the hidden coordinate through
-$z = 6 H x_8$: the common warp $\sin^{1/6} z$, the hidden-direction scale factor $\cot z$, and the
+$z = 6 H x_0$: the common warp $\sin^{1/6} z$, the hidden-direction scale factor $\cot z$, and the
 volume factor $\sqrt{|\det g|} = \cos z$.
 """)
 
@@ -1026,10 +1027,10 @@ ax1.legend(fontsize=8, loc="upper left")
 ax1.grid(True, which="both", alpha=0.3)
 z = np.linspace(0.02, np.pi / 2 - 0.02, 400)
 ax2.plot(z, np.sin(z) ** (1 / 6), lw=2, label=r"warp $\sin^{1/6} z$ (factor of $x_1 \dots x_3$, $x_5 \dots x_7$)")
-ax2.plot(z, 1 / np.tan(z), lw=2, label=r"hidden direction $\sqrt{g_{88}} = \cot z$")
+ax2.plot(z, 1 / np.tan(z), lw=2, label=r"hidden direction $\sqrt{g_{00}} = \cot z$")
 ax2.plot(z, np.cos(z), lw=2, ls="--", label=r"$\sqrt{|\det g|} = \sin z \cot z = \cos z$")
 ax2.set_ylim(0, 3)
-ax2.set_xlabel(r"$z = 6 H x_8$")
+ax2.set_xlabel(r"$z = 6 H x_0$")
 ax2.set_title("the hidden direction")
 ax2.legend(fontsize=8, loc="upper right")
 ax2.grid(True, alpha=0.3)
@@ -1057,12 +1058,12 @@ def evaluate(poly, h, a1, a2):
 
 u = np.linspace(0.0, 3.0, 301)
 STYLE = {"x1": ("ordinary space $x_1$", "-", 3.0), "x4": ("time $x_4$", "-", 2.0),
-         "x5": ("extra times $x_5$", "--", 2.0), "x8": ("hidden $x_8$", ":", 2.0)}
+         "x5": ("extra times $x_5$", "--", 2.0), "x0": ("hidden $x_0$", ":", 2.0)}
 fig, axes = plt.subplots(2, 3, figsize=(12, 7), sharex=True)
 for row, a2 in enumerate((0.0, 0.5)):
     for col, k in enumerate((1, 2, 3)):
         ax = axes[row][col]
-        for h in ("x1", "x4", "x5", "x8"):
+        for h in ("x0", "x1", "x4", "x5"):
             label, ls, lw = STYLE[h]
             ax.plot(u, evaluate(E[k][h], 1.0, u, a2), ls=ls, lw=lw, label=label)
         ax.axhline(0.0, color="k", lw=0.5)
@@ -1144,7 +1145,7 @@ md(r"""
 **Showed.**
 
 - The Revision Rust program builds without warnings and recites the metric exactly as the author
-  wrote it in his task.
+  wrote it in the task.
 - The generalized Kronecker delta agrees with the author's determinant definition for all pairs of
   index lists of length 1, 2 and 3 over eight values (computed here in Python), with the same counts
   of $+1$, $-1$ and $0$ as the committed Rust and Wolfram records.

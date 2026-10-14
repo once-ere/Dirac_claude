@@ -62,7 +62,7 @@ This notebook
    `Revision/dark_sector/dirac16complex/compute/run_ks_history.py`), and compares every row bit for bit
    with the committed `outputs/ks-history-dense.csv`;
 3. recomputes $X = P_3 - P_t$, the effective equations of state $w_\mathrm{eff}(A) = w_\mathrm{eff}(B) = X/E$
-   and $w_\mathrm{eff}(C) = X/E - 1$, the ratios $w_3, w_t, w_8$ and their derivatives exactly as
+   and $w_\mathrm{eff}(C) = X/E - 1$, the ratios $w_3, w_t, w_{x_0}$ and their derivatives exactly as
    `compute/compute_eos.py` does, and compares every row with `outputs/eos-history.csv`;
 4. recomputes the CPL tangents and least-squares CPL fits and compares them with
    `outputs/eos-summary.json`;
@@ -282,9 +282,8 @@ md(r"""
 
 - **Metric** $g_{\mu\nu}$: the table that turns small coordinate steps into lengths and times. The
   author's metric is diagonal (section 4.1).
-- **Coordinates** $x_1,\dots,x_8$: the author's names. $x_1, x_2, x_3$ ordinary space, $x_4$ the time,
-  $x_5, x_6, x_7$ the three extra times (time-like; they **deflate exponentially**), $x_8$ the hidden
-  direction.
+- **Coordinates** $x_0,\dots,x_7$: the author's coordinates, in the author's order. $x_0$ the hidden direction, $x_1, x_2, x_3$ ordinary space, $x_4$ the time,
+  $x_5, x_6, x_7$ the three extra times (time-like; they **deflate exponentially**).
 - **$a_4$, slice**: the metric function $a_4(x_4)$; a *slice* is one fixed value of $a_4$ at which the
   instantaneous state is computed. Run ids end in `_a000`, `_a005`, ..., `_a200` for
   $a_4 = 0, 0.05, \dots, 2$.
@@ -294,7 +293,7 @@ md(r"""
 - **Kohn-Sham gas**: the dirac16complex particles of the Revision's density-functional model (each
   particle moves in the mean field of all the others), here at zero temperature with N = 8, 136 or 688
   particles and coupling $\lambda$.
-- **EMT integrals** $E, P_3, P_t, P_8$: the energy and the pressures of ordinary space, of the extra
+- **EMT integrals** $E, P_3, P_t, P_0$: the energy and the pressures of ordinary space, of the extra
   times and of the hidden direction, integrated over the proper 7-volume of a slice.
 - **Equation of state** $w$: a pressure divided by an energy density. A dust-like (cold matter) fluid
   has $w = 0$, radiation $w = 1/3$, a cosmological constant $w = -1$; **phantom** means $w < -1$.
@@ -302,7 +301,7 @@ md(r"""
   4-dimensional observer infers from how the energy density $\rho_4$ dilutes as 3-space expands.
 - **Normalisations A, B, C** (dirac16complex) and **N1, N2** (dirac16complex00): ASSUMPTIONS about how
   the observer turns the 8-dimensional energy into $\rho_4$ (section 4.3).
-- **Ratio** $w_3 = P_3/E$, $w_t = P_t/E$, $w_8 = P_8/E$: integrated pressure over integrated energy;
+- **Ratio** $w_3 = P_3/E$, $w_t = P_t/E$, $w_{x_0} = P_0/E$: integrated pressure over integrated energy;
   the ratio does not depend on the normalisation.
 - **CPL**: the Chevallier-Polarski-Linder form $w(a) = w_0 + w_a(1 - a)$. **Tangent**: $w_0 = w(1)$,
   $w_a = -dw/da$ at $a = 1$. **Fit**: least squares of $w(a)$ over $a \in [a_1, 1]$. **Thawing**: $w_a < 0$;
@@ -325,12 +324,17 @@ md(r"""
 
 ### 4.1 The author's metric and the deflating extra times
 
-With $z = 6 H x_8$, $0 < z < \pi/2$:
+In the author's coordinates $x_0, x_1, \dots, x_7$, with $z = 6 H x_0$, $0 < z < \pi/2$ (the user's metric of
+2026-10-14):
 
 $$
-g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)} \sin^{1/3} z,\qquad g_{44} = -1,\qquad
-g_{55} = g_{66} = g_{77} = -e^{-2 a_4(x_4)} \sin^{1/3} z,\qquad g_{88} = \cot^2 z .
+g_{00} = \cot^2 z,\qquad g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)} \sin^{1/3} z,\qquad g_{44} = -1,\qquad
+g_{55} = g_{66} = g_{77} = -e^{-2 a_4(x_4)}\, b_4(x_4) \sin^{1/3} z .
 $$
+
+The states of this notebook are on the background $b_4 = 1$ (every vacuum history has $b_4$ constant,
+`Revision/metric_b4/results/vacuum-b4.json`; the good-sector Kohn-Sham problem does not contain $b_4$,
+`Revision/kohn_sham/reports/ks-b4-wolfram.json`).
 
 As $a_4$ increases, ordinary space inflates with the scale factor $e^{a_4}\sin^{1/6} z$ and the three
 extra times **deflate exponentially** with the scale factor $e^{-a_4}\sin^{1/6} z$. They are never
@@ -340,7 +344,7 @@ $e^{-3a_4}$ cancel).
 
 ### 4.2 Conservation along the history
 
-For a diagonal energy-momentum tensor that depends on $x_4$ and $x_8$, the Revision derived from the
+For a diagonal energy-momentum tensor that depends on $x_4$ and $x_0$, the Revision derived from the
 metric (`Revision/dark_sector/dirac16complex/outputs/effective-formulas.json`, sympy, 30 checks)
 
 $$
@@ -645,7 +649,7 @@ md(r"""
 ### 7.2 Comparison with the committed dense history, bit for bit
 
 `run_ks_history.py` wrote one row per state into `outputs/ks-history-dense.csv`: the id, N, the
-coupling, $a_4$, $E_\mathrm{KS}$, the EMT integrals $E = \int\rho$, $P_3$, $P_t$, $P_8$, the particle integral,
+coupling, $a_4$, $E_\mathrm{KS}$, the EMT integrals $E = \int\rho$, $P_3$, $P_t$, $P_0$, the particle integral,
 the number of SCF iterations, the residual, the Fermi level, the solver's two residuals of the
 hidden-direction conservation law, and a 16-character fingerprint of the occupied level set (floats
 written as Python's shortest round-trip `repr`). The next cell rebuilds each row from the new result
@@ -673,7 +677,7 @@ for n, tag, lam, a4 in TASKS:
     emt = d["emtIntegrals_2Vol7_int_e6Hy"]
     sig, nocc = occupied_signature(d["levels_n2_j_parity_label_eps_deg_f"])
     row = {"id": rid, "N": n, "lambda_tag": tag, "lambda": lam, "a4": a4, "E_KS": d["E_KS"],
-           "int_rho": emt["rho"], "int_p3": emt["p3"], "int_p_t": emt["p_t"], "int_p8": emt["p8"],
+           "int_rho": emt["rho"], "int_p3": emt["p3"], "int_p_t": emt["p_t"], "int_p0": emt["p0"],
            "int_n": emt["n"], "iterations": d["iterations"], "residual": d["residual"],
            "fermi_level": d["mu_or_fermi_level"], "ycons_integrated_rel": d["yConservationIntegratedRel"],
            "ycons_pointwise_rel": d["yConservationPointwiseRel"], "occupied_signature": sig,
@@ -696,7 +700,7 @@ for n, tag, lam in SERIES:
 yc = max(max(r["ycons_integrated_rel"], r["ycons_pointwise_rel"]) for r in ROWS.values())
 nmax = max(abs(r["int_n"] - r["N"]) / r["N"] for r in ROWS.values())
 check("y_conservation_and_particle_number", yc <= 1e-6 and nmax <= 1e-12,
-      f"p8_y + 6 H p8 = 3 H (p3 + p_t): largest relative residual of the solver {yc:.3e} (<= 1e-6); "
+      f"p0_y + 6 H p0 = 3 H (p3 + p_t): largest relative residual of the solver {yc:.3e} (<= 1e-6); "
       f"max |int n - N|/N = {nmax:.3e} (<= 1e-12), as the checks of reports/ks-history-run.json require")
 print("the reproduced rows are written to", shown(OUT / "ks-history-dense-subset.csv"),
       "| sha256", sha256(OUT / "ks-history-dense-subset.csv"))
@@ -713,11 +717,11 @@ and $P_3 = P_t$.
 """)
 
 code(r'''
-rows = ["| series | $a_4$ | $E$ | $P_3$ | $P_t$ | $P_8$ |", "|---|---|---|---|---|---|"]
+rows = ["| series | $a_4$ | $E$ | $P_3$ | $P_t$ | $P_0$ |", "|---|---|---|---|---|---|"]
 for n, tag, lam in SERIES:
     for a4 in (0.0, 0.5, 1.0, 1.5, 2.0):
         r = ROWS[rid_of(n, tag, a4)]
-        rows.append(f"| N{n}_{tag} | {a4:.2f} | {r['int_rho']:.9e} | {r['int_p3']:.9e} | {r['int_p_t']:.9e} | {r['int_p8']:.9e} |")
+        rows.append(f"| N{n}_{tag} | {a4:.2f} | {r['int_rho']:.9e} | {r['int_p3']:.9e} | {r['int_p_t']:.9e} | {r['int_p0']:.9e} |")
 display(Markdown("\n".join(rows)))
 ''')
 
@@ -728,7 +732,7 @@ md(r"""
 ### 8.1 Recompute it as compute_eos.py does
 
 For each series the next cell forms, at every slice, $X = P_3 - P_t$, $w_\mathrm{eff}(A) = w_\mathrm{eff}(B)
-= X/E$, $w_\mathrm{eff}(C) = X/E - 1$, the ratios $w_3 = P_3/E$, $w_t = P_t/E$, $w_8 = P_8/E$, and the
+= X/E$, $w_\mathrm{eff}(C) = X/E - 1$, the ratios $w_3 = P_3/E$, $w_t = P_t/E$, $w_{x_0} = P_0/E$, and the
 derivatives $dw_\mathrm{eff}/da_4$ and $dw_3/da_4$ with the fourth-order finite-difference stencil of
 `compute_eos.py` (central inside, one-sided at the two ends; step 0.05). The functions `deriv`, `interp`
 (cubic Lagrange interpolation on the grid) and `cpl_fit` (continuous least squares of $w(a)$ by
@@ -804,12 +808,12 @@ HIST_RECORD = {}
 for line in (DS / "outputs" / "eos-history.csv").read_text(encoding="utf-8").splitlines()[1:]:
     p = line.split(",")
     HIST_RECORD[(p[0], p[3])] = line
-hist_new = ["series,N,lambda,a4,E,P3,Pt,P8,w_eff_A_B,w_eff_C,w3,wt,w8,dw_eff_da4,dw3_da4"]
+hist_new = ["series,N,lambda,a4,E,P3,Pt,P0,w_eff_A_B,w_eff_C,w3,wt,wx0,dw_eff_da4,dw3_da4"]
 same_rows, worst_cons, worst_int, worst_dw = 0, 0.0, 0.0, 0.0
 for n, tag, lam in SERIES:
     sid = f"N{n}_{tag}"
     g = lambda c: np.array([ROWS[rid_of(n, tag, a4)][c] for a4 in SLICES])
-    a4, E, P3, Pt, P8 = g("a4"), g("int_rho"), g("int_p3"), g("int_p_t"), g("int_p8")
+    a4, E, P3, Pt, P0 = g("a4"), g("int_rho"), g("int_p3"), g("int_p_t"), g("int_p0")
     X = P3 - Pt
     dE = deriv(E, H_STEP)
     scale = np.max(np.abs(E))
@@ -820,22 +824,22 @@ for n, tag, lam in SERIES:
         devint = max(devint, abs(E[i + 2] - E[0] + 3 * integ) / scale)
     wA = X / E
     wC = wA - 1
-    w3, wt, w8 = P3 / E, Pt / E, P8 / E
+    w3, wt, wx0 = P3 / E, Pt / E, P0 / E
     dwA = deriv(wA, H_STEP)
     dwA_id = deriv(X, H_STEP) / E + 3 * wA ** 2
     dw3 = deriv(w3, H_STEP)
     worst_cons, worst_int = max(worst_cons, dev), max(worst_int, devint)
     worst_dw = max(worst_dw, float(np.max(np.abs(dwA - dwA_id))))
     for i in range(41):
-        vals = [lam, a4[i], E[i], P3[i], Pt[i], P8[i], wA[i], wC[i], w3[i], wt[i], w8[i], dwA[i], dw3[i]]
+        vals = [lam, a4[i], E[i], P3[i], Pt[i], P0[i], wA[i], wC[i], w3[i], wt[i], wx0[i], dwA[i], dw3[i]]
         line = ",".join([sid, str(n)] + [f"{float(v):.15e}" for v in vals])
         hist_new.append(line)
         same_rows += HIST_RECORD.get((sid, f"{a4[i]:.15e}")) == line
-    EOS[sid] = {"a4": a4, "E": E, "X": X, "P3": P3, "Pt": Pt, "P8": P8, "wA": wA, "wC": wC, "w3": w3,
-                "wt": wt, "w8": w8, "dwA": dwA, "dw3": dw3, "dE": dE, "dev": dev, "devint": devint, "lambda": lam}
+    EOS[sid] = {"a4": a4, "E": E, "X": X, "P3": P3, "Pt": Pt, "P0": P0, "wA": wA, "wC": wC, "w3": w3,
+                "wt": wt, "wx0": wx0, "dwA": dwA, "dw3": dw3, "dE": dE, "dev": dev, "devint": devint, "lambda": lam}
 write_lf(OUT / "eos-history-subset.csv", "\n".join(hist_new) + "\n")
 check("eos_rows_identical", same_rows == 123,
-      f"{same_rows} of 123 rows (E, P3, Pt, P8, w_eff(A, B), w_eff(C), w3, wt, w8 and the two derivatives) equal "
+      f"{same_rows} of 123 rows (E, P3, Pt, P0, w_eff(A, B), w_eff(C), w3, wt, wx0 and the two derivatives) equal "
       "the rows of Revision/dark_sector/dirac16complex/outputs/eos-history.csv character for character")
 check("conservation_dE_da4_equals_minus_3X", worst_cons <= 1e-6 and worst_int <= 1e-7,
       f"max |dE/da4 + 3X|/max|E| = {worst_cons:.3e} (interior slices; <= 1e-6) and Simpson "
@@ -851,7 +855,7 @@ print("the reproduced rows are written to", shown(OUT / "eos-history-subset.csv"
 md(r"""
 ### 8.2 What the numbers say
 
-The next cell tabulates $w_\mathrm{eff}(A) = w_\mathrm{eff}(B)$, $w_\mathrm{eff}(C)$, $w_3$, $w_t$, $w_8$ and
+The next cell tabulates $w_\mathrm{eff}(A) = w_\mathrm{eff}(B)$, $w_\mathrm{eff}(C)$, $w_3$, $w_t$, $w_{x_0}$ and
 $d\ln E/da_4$ at five slices, and checks the physical statements of `reports/eos-checks.json` for these
 series: the gas (N = 688 and 136) has $X/E$ between 0.29 and 1/3 and RISING toward 1/3 (radiation-like:
 the occupied levels lie on the brane band, which is massless at $k = 0$); it does not fall toward 0
@@ -861,12 +865,12 @@ number, $|X/E| \le 10^{-12}$, as the check below requires).
 """)
 
 code(r'''
-rows = ["| series | $a_4$ | $w_\\mathrm{eff}(A)=w_\\mathrm{eff}(B)$ | $w_\\mathrm{eff}(C)$ | $w_3$ | $w_t$ | $w_8$ | $d\\ln E/da_4$ |",
+rows = ["| series | $a_4$ | $w_\\mathrm{eff}(A)=w_\\mathrm{eff}(B)$ | $w_\\mathrm{eff}(C)$ | $w_3$ | $w_t$ | $w_{x_0}$ | $d\\ln E/da_4$ |",
         "|---|---|---|---|---|---|---|---|"]
 for sid, e in EOS.items():
     for i in (0, 10, 20, 30, 40):
         rows.append(f"| {sid} | {e['a4'][i]:.2f} | {e['wA'][i]:.6f} | {e['wC'][i]:.6f} | {e['w3'][i]:.6f} | "
-                    f"{e['wt'][i]:.2e} | {e['w8'][i]:.6f} | {e['dE'][i] / e['E'][i]:.6f} |")
+                    f"{e['wt'][i]:.2e} | {e['wx0'][i]:.6f} | {e['dE'][i] / e['E'][i]:.6f} |")
 display(Markdown("\n".join(rows)))
 gas = [EOS["N688_lam0"], EOS["N136_lam0"]]
 wmin = min(float(np.min(e["wA"])) for e in gas)
@@ -938,7 +942,7 @@ for sid, e in EOS.items():
             "w_eff_C_range": [r12(float(np.min(wC))), r12(float(np.max(wC)))],
             "ratio_w3_range": [r12(float(np.min(w3))), r12(float(np.max(w3)))],
             "ratio_wt_range": [r12(float(np.min(e["wt"]))), r12(float(np.max(e["wt"])))],
-            "ratio_w8_range": [r12(float(np.min(e["w8"]))), r12(float(np.max(e["w8"])))],
+            "ratio_wx0_range": [r12(float(np.min(e["wx0"]))), r12(float(np.max(e["wx0"])))],
             "dlnE_da4_at_0_and_2": [r12(float(dE[0] / E[0])), r12(float(dE[-1] / E[-1]))],
             "sign_of_E": "positive" if np.all(E > 0) else ("negative" if np.all(E < 0) else "mixed"),
             "cplTangent": tang, "cplFits": fits,
@@ -971,7 +975,7 @@ md(r"""
 ### 10.1 The condensate
 
 The exact homogeneous solution (the condensate) has constant scalar density $S$ and
-$\rho = mS + \lambda S^2/2$, $p_3 = p_t = p_8 = \lambda S^2/2$. Hence $X = 0$: $w_\mathrm{eff}(A) = w_\mathrm{eff}(B) = 0$
+$\rho = mS + \lambda S^2/2$, $p_3 = p_t = p_0 = \lambda S^2/2$. Hence $X = 0$: $w_\mathrm{eff}(A) = w_\mathrm{eff}(B) = 0$
 and $w_\mathrm{eff}(C) = -1$, and the 8-dimensional ratio is, with $u = \lambda S/m$,
 
 $$

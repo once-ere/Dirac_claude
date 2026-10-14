@@ -266,12 +266,12 @@ md(r"""
 
 - **Metric** $g_{\mu\nu}$: the table that turns small coordinate steps into lengths and times. The
   author's metric is diagonal (section 4.1).
-- **Coordinates** $x_1,\dots,x_8$: the author's names. $x_1, x_2, x_3$ ordinary space, $x_4$ the time,
-  $x_5, x_6, x_7$ the three extra times (they deflate exponentially), $x_8$ the hidden direction.
+- **Coordinates** $x_0,\dots,x_7$: the author's coordinates, in the author's order. $x_0$ the hidden direction, $x_1, x_2, x_3$ ordinary space, $x_4$ the time,
+  $x_5, x_6, x_7$ the three extra times (they deflate exponentially).
 - **$a_4$, slice $a_{4,0}$**: the metric function $a_4(x_4)$; a *slice* is one fixed value $a_{4,0}$ at
   which the instantaneous state is computed. Run ids end in `_a00`, `_a10`, `_a20` for
   $a_{4,0} = 0, 1, 2$.
-- **Hidden coordinate $y$**: $y = \ln(\sin z)/(6H)$ with $z = 6 H x_8$; the solver works on
+- **Hidden coordinate $y$**: $y = \ln(\sin z)/(6H)$ with $z = 6 H x_0$; the solver works on
   $-L \le y \le 0$ with $L = 3$.
 - **Brane** ($y = 0$) and **tip** ($y = -L$): the two ends of the hidden interval. The brane is a
   mirror ($Z_2$) boundary, an ASSUMED boundary condition; the tip is a regular cutoff.
@@ -294,7 +294,7 @@ md(r"""
   unoccupied level; **Kohn-Sham gap** = LUMO - HOMO.
 - **Brane band**: the levels that live near the brane; at $k = 0$ it contains the **zero mode**
   $\varepsilon = 0$, and it redshifts as $e^{-a_{4,0}}$.
-- **Energy-momentum (EMT) integrals**: $E$, $P_3$, $P_t$, $P_8$ = the energy density $\rho$ and the
+- **Energy-momentum (EMT) integrals**: $E$, $P_3$, $P_t$, $P_0$ = the energy density $\rho$ and the
   pressures of ordinary space, of the extra times and of the hidden direction, integrated over the
   proper 7-volume of the doubled (universe + mirror image) system.
 - **Profile**: a density or pressure as a function of $y$.
@@ -313,12 +313,17 @@ md(r"""
 
 ### 4.1 The author's metric and the deflating extra times
 
-With $z = 6 H x_8$, $0 < z < \pi/2$:
+In the author's coordinates $x_0, x_1, \dots, x_7$, with $z = 6 H x_0$, $0 < z < \pi/2$ (the user's metric of
+2026-10-14):
 
 $$
-g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)} \sin^{1/3} z,\qquad g_{44} = -1,\qquad
-g_{55} = g_{66} = g_{77} = -e^{-2 a_4(x_4)} \sin^{1/3} z,\qquad g_{88} = \cot^2 z .
+g_{00} = \cot^2 z,\qquad g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)} \sin^{1/3} z,\qquad g_{44} = -1,\qquad
+g_{55} = g_{66} = g_{77} = -e^{-2 a_4(x_4)}\, b_4(x_4) \sin^{1/3} z .
 $$
+
+The states of this notebook are on the background $b_4 = 1$ (every vacuum history has $b_4$ constant,
+`Revision/metric_b4/results/vacuum-b4.json`; the good-sector Kohn-Sham problem does not contain $b_4$,
+`Revision/kohn_sham/reports/ks-b4-wolfram.json`).
 
 As $a_4$ increases, ordinary space inflates with the scale factor $e^{a_4}\sin^{1/6} z$ and the three
 extra times **deflate exponentially** with the scale factor $e^{-a_4}\sin^{1/6} z$. The extra times
@@ -619,7 +624,7 @@ EQUAL (not merely close):
 - every level (shell, block, parity, label, $\varepsilon$, $g$, $f$) of `results/ground/levels/<id>.csv`
   with the level of the new result (the command `single` also lists the levels of a few further
   3-momentum shells; they must all be empty, $f = 0$, and lie in shells above those of the record);
-- the EMT integrals $E$, $P_3$, $P_t$, $P_8$ and the particle integral with
+- the EMT integrals $E$, $P_3$, $P_t$, $P_0$ and the particle integral with
   `results/ground/emt-integrals.csv`;
 
 and the new profile file byte for byte with `results/ground/profiles/<id>.csv`. For the thermal state
@@ -657,7 +662,7 @@ for rid in GROUND_IDS:
     levels_ok = record_levels <= new_levels and all(l[6] == 0 and l[0] > top_shell for l in extra) \
         and len(record_levels) == int(s["levels"])
     emt = d["emtIntegrals_2Vol7_int_e6Hy"]
-    same_emt = all(emt[k] == float(e["int_" + k]) for k in ("rho", "p3", "p_t", "p8", "n"))
+    same_emt = all(emt[k] == float(e["int_" + k]) for k in ("rho", "p3", "p_t", "p0", "n"))
     same_profile = (RUN_DIR / f"{rid}.csv").read_bytes() == (RECORD / "ground" / "profiles" / f"{rid}.csv").read_bytes()
     check(f"{rid}_equals_record",
           same_summary and levels_ok and same_emt and same_profile,
@@ -702,17 +707,17 @@ md(r"""
 
 For each series, the next cell tabulates at $a_{4,0} = 0, 1, 2$: $E_\mathrm{KS}$, HOMO, LUMO, the
 Kohn-Sham gap, and the ratios of the integrated pressures to the integrated energy, $P_3/E$ (ordinary
-space), $P_t/E$ (extra times) and $P_8/E$ (hidden direction). These are integrated EMT components of
+space), $P_t/E$ (extra times) and $P_0/E$ (hidden direction). These are integrated EMT components of
 the eight-dimensional gas. What a 3-space observer would call its equation of state is the subject
 of the dark-sector notebook of this folder, not of this one.
 """)
 
 code(r'''
-rows = ["| state | $E_\\mathrm{KS}$ | HOMO | LUMO | KS gap | $P_3/E$ | $P_t/E$ | $P_8/E$ |", "|---|---|---|---|---|---|---|---|"]
+rows = ["| state | $E_\\mathrm{KS}$ | HOMO | LUMO | KS gap | $P_3/E$ | $P_t/E$ | $P_0/E$ |", "|---|---|---|---|---|---|---|---|"]
 for rid in GROUND_IDS:
     d, h = RESULTS[rid], DERIVED[rid]
     emt = d["emtIntegrals_2Vol7_int_e6Hy"]
-    ratios = [f"{emt[k] / emt['rho']:.6f}" if emt["rho"] != 0 else "(E = 0)" for k in ("p3", "p_t", "p8")]
+    ratios = [f"{emt[k] / emt['rho']:.6f}" if emt["rho"] != 0 else "(E = 0)" for k in ("p3", "p_t", "p0")]
     rows.append(f"| {rid} | {d['E_KS']:.7f} | {h['HOMO']:.7f} | {h['LUMO']:.7f} | {h['KS_gap']:.7f} | " + " | ".join(ratios) + " |")
 display(Markdown("\n".join(rows)))
 gaps8 = [DERIVED[f"N8_lam0_a{s}"]["KS_gap"] for s in ("00", "10", "20")]
@@ -745,7 +750,7 @@ within the table's tolerance.
 
 code(r'''
 xtable = {r["case"]: r for r in read_csv(REPORTS / "ks-crosscheck-table.csv")}
-QUANTITIES = ["E_KS", "HOMO", "LUMO", "KS_gap", "int_rho", "int_p3", "int_p_t", "int_p8", "int_n"]
+QUANTITIES = ["E_KS", "HOMO", "LUMO", "KS_gap", "int_rho", "int_p3", "int_p_t", "int_p0", "int_n"]
 
 
 def new_value(rid, q):
@@ -874,16 +879,16 @@ The proper densities and pressures of the state N = 136, $\lambda = +\lambda_1$,
 the hidden coordinate $y$ (brane at $y = 0$, tip at $y = -3$), read from the profile file the solver
 has just written. Left: the particle density $n$ and the energy density $\rho$ (logarithmic scale):
 they grow toward the tip, where the proper 7-volume element $e^{6Hy}$ is small. Right: the
-pressures $p_3$, $p_t$, $p_8$ divided by $\rho$; the extra-time pressure $p_t = e_\mathrm{int}$ is small
+pressures $p_3$, $p_t$, $p_0$ divided by $\rho$; the extra-time pressure $p_t = e_\mathrm{int}$ is small
 because it comes only from the interaction. Pointwise the ratios are not bounded by $1/3$ (near the
-tip $p_3/\rho$ exceeds 1 and $p_8/\rho$ is negative); only the integrated ratio $P_3/E$ of section 8.2
+tip $p_3/\rho$ exceeds 1 and $p_0/\rho$ is negative); only the integrated ratio $P_3/E$ of section 8.2
 lies below $1/3$.
 """)
 
 code(r'''
 prof = read_csv(RUN_DIR / "N136_lamp1_a10.csv")
 y = np.array([float(r["y"]) for r in prof])
-col = {k: np.array([float(r[k]) for r in prof]) for k in ("n", "S", "rho", "p3", "p_t", "p8", "M_eff", "v_v")}
+col = {k: np.array([float(r[k]) for r in prof]) for k in ("n", "S", "rho", "p3", "p_t", "p0", "M_eff", "v_v")}
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.2))
 ax1.semilogy(y, col["n"], lw=2, label="particle density $n$")
 ax1.semilogy(y, col["rho"], lw=2, ls="--", label=r"energy density $\rho$")
@@ -893,7 +898,7 @@ ax1.set_title("N = 136, $\\lambda = +\\lambda_1$, $a_{4,0}$ = 1: proper densitie
 ax1.legend(fontsize=8)
 ax1.grid(True, which="both", alpha=0.3)
 for k, label in (("p3", r"$p_3/\rho$ (ordinary space)"), ("p_t", r"$p_t/\rho$ (extra times)"),
-                 ("p8", r"$p_8/\rho$ (hidden direction)")):
+                 ("p0", r"$p_0/\rho$ (hidden direction)")):
     ax2.plot(y, col[k] / col["rho"], lw=2, label=label)
 ax2.axhline(1 / 3, color="k", lw=0.5, ls=":")
 ax2.set_xlabel("hidden coordinate $y$")
@@ -911,7 +916,7 @@ md(r"""
 
 Left: the Kohn-Sham energy $E_\mathrm{KS}$ of the N = 136 and N = 688 series against $a_{4,0}$
 (logarithmic scale): the gas loses energy as its 3-momenta redshift, roughly like $e^{-a_{4,0}}$.
-Right: the ratios $P_3/E$ and $P_8/E$ of the integrated pressures; $P_3/E$ approaches $1/3$, the value
+Right: the ratios $P_3/E$ and $P_0/E$ of the integrated pressures; $P_3/E$ approaches $1/3$, the value
 of a massless (radiation-like) gas.
 """)
 
@@ -924,7 +929,7 @@ for prefix, colour in (("N136_lamp1", "C1"), ("N688_lam0", "C2")):
     ax1.semilogy(a4s, E[0] * np.exp(-a4s), ":", color=colour, lw=1)
     emts = [RESULTS[i]["emtIntegrals_2Vol7_int_e6Hy"] for i in ids]
     ax2.plot(a4s, [e["p3"] / e["rho"] for e in emts], "o-", color=colour, lw=2, label=f"$P_3/E$ {prefix}")
-    ax2.plot(a4s, [e["p8"] / e["rho"] for e in emts], "s--", color=colour, lw=1.5, label=f"$P_8/E$ {prefix}")
+    ax2.plot(a4s, [e["p0"] / e["rho"] for e in emts], "s--", color=colour, lw=1.5, label=f"$P_0/E$ {prefix}")
 ax2.axhline(1 / 3, color="k", lw=0.5, ls=":")
 ax1.set_xlabel(r"slice $a_{4,0}$")
 ax1.set_ylabel("$E_{KS}$ (units of $m$)")

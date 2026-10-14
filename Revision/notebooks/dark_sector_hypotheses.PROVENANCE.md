@@ -2,15 +2,16 @@
 
 The dark-sector hypotheses of dirac16complex and dirac16complex00 against the Unite values.
 
-* Notebook: `Revision/notebooks/dark_sector_hypotheses.ipynb` (47 cells: 26 markdown, 21 code; 457652 bytes;
-  sha256 `30d2e843921159fa285901db19796585d0434204b8b7bbb03eb6ec9b15574f25`).
+* Notebook: `Revision/notebooks/dark_sector_hypotheses.ipynb` (47 cells: 26 markdown, 21 code; 458105 bytes;
+  sha256 `f339eb3ff22561b9e9f1b3dda9bb2cda04a522457b6883c8e51f154ad5883c49`).
 * Builder: `Revision/notebooks/src/dark_sector_hypotheses.py`
-  (sha256 `12d5cad95338f4ffc9cbdcc49decb88f7a3a240ed2d18ddef599f2e9c667fd95`).
+  (sha256 `e0ae67a54659166ad78e8aa50dc19b88938c0dcf863e05f4c38fdd2f026da9f6`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
   (sha256 `ba6c2cab4048282eb64e9bad8d3b265660438e700815f019dd0592c6f67450bb`).
-* Built and verified on 2026-10-08, Windows 11 Pro for Workstations, Python 3.14.5, numpy 2.4.6,
+* Built and verified on 2026-10-08 and, in the author's coordinates x0..x7, on 2026-10-14 (section 7),
+  Windows 11 Pro for Workstations, Python 3.14.5, numpy 2.4.6,
   matplotlib 3.11.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, nbconvert 7.16.6,
   jupyterlab 4.4.10, cargo 1.91.1.
 
@@ -43,7 +44,7 @@ at every slice; no static or frozen extra times are used.
    report's checks for these series: occupied set fixed at all 41 slices (12, 6 and 2 occupied levels),
    hidden-direction conservation residual 2.225e-09 (<= 1e-6), particle number to 1.652e-15.
 5. Recomputes, with the functions `deriv`, `interp` and `cpl_fit` copied from `compute/compute_eos.py`,
-   X = P3 - Pt, w_eff(A) = w_eff(B) = X/E, w_eff(C) = X/E - 1, w3, wt, w8 and the derivatives d w_eff/d a4,
+   X = P3 - Pt, w_eff(A) = w_eff(B) = X/E, w_eff(C) = X/E - 1, w3, wt, wx0 and the derivatives d w_eff/d a4,
    d w3/d a4: 123 of 123 rows equal `outputs/eos-history.csv` character for character; conservation
    dE/da4 = -3X to 1.235e-07 (finite differences) and 1.903e-08 (Simpson); d(X/E)/da4 two ways to 6.251e-07.
    Checks that the gas (N = 688, 136) has X/E in [0.292906, 0.326398], rising toward 1/3, and that the
@@ -90,31 +91,31 @@ Read (sha256 at the time of the verified builds):
 | `Revision/SPEC.md` | (only its existence is used, to find the repository) |
 | `Revision/kohn_sham/solver/Cargo.toml` | `464d553adcfaa1943af53ec3b18324fcba99ee92b3d82efcb08d2dc74bca24b1` |
 | `Revision/kohn_sham/solver/Cargo.lock` | `65b7ed2cbe76d4701a66287cfbdedc8d4a780ee3c9e672de0e4055eb4ae70738` |
-| `Revision/kohn_sham/solver/src/analysis.rs` | `200b0c4640f5b02262518dab568fd2c77c0fe33ca72e9ab3a687fb8284ad8bcb` |
+| `Revision/kohn_sham/solver/src/analysis.rs` | `43d69cb108e37b58beca76b613b6d5c80d5a4456884a6b4cbebbe76da598a487` |
 | `Revision/kohn_sham/solver/src/json.rs` | `919be3b192ab81d62deb8429229aa065a50d8fd0f8df6877ac4e413909efdf05` |
 | `Revision/kohn_sham/solver/src/main.rs` | `6964c47f87c224d323a443471137c2ffa57b9c6d79e926cd14ddcc6e54efa18c` |
 | `Revision/kohn_sham/solver/src/mermin.rs` | `0be57b4defb8ec056b521c7585138f67d68fb95e3446b8a020b60312cbf6a094` |
 | `Revision/kohn_sham/solver/src/model.rs` | `391ac28244bc07ff246a8f4dcdd2fae74ff3571268187791e0ad8a88e7b486eb` |
 | `Revision/kohn_sham/solver/src/report.rs` | `0a770aff24dde0de531d0578e968ab9cad3d5f42b7cda532f7c753633b7ff9c7` |
-| `Revision/kohn_sham/solver/src/runs.rs` | `254d5fd638e9f619caab663472d34b7567951cbe1a64168156c2c9a4232d6446` |
-| `Revision/kohn_sham/solver/src/scf.rs` | `0c624e4bf2a413a8e7be1ad7cb1f77342eda8360c657074a9e47e02b412b4e8d` |
+| `Revision/kohn_sham/solver/src/runs.rs` | `5e944987088de64b10559d42474569ca18cb188aae13bae0d7a474a17df19f55` |
+| `Revision/kohn_sham/solver/src/scf.rs` | `d27060a8db753b8a933946d35eb3918ba3f982b201263435b448a6c702254dd7` |
 | `Revision/kohn_sham/solver/src/sha256.rs` | `f44ed328e324b26d9b7c78f530e95be9ff1c88b179026ab4839ab38009e15122` |
 | `Revision/kohn_sham/solver/src/shoot.rs` | `39c95fffea255d3977efa9ddadf87131e51c4fd47557bec3a6225fa05bf7d7f4` |
 | `Revision/kohn_sham/solver/src/spectrum.rs` | `b52b6997e1418f094e1e7a5cca6064235b6d5ded6bcb534cce149e3a0d3622de` |
-| `Revision/kohn_sham/solver/src/theory.rs` | `392d2fdd01cc9661451bc8d5f42561348c124ad9927fe0770a59b979c196c407` |
-| `Revision/kohn_sham/ks-theory.json` (read by the solver) | `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3` |
-| `Revision/algebra/gammas.json` (read by the solver) | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` |
-| `Revision/kohn_sham/results/parameters.json` | `f35216c2bee5b0dc21db6343e640c89f0aebcefab0c6dd6efcec618e0bfae993` |
-| `Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv` | `8a6afadf714a95c6e0e1dc1cf1e4bec2832e96385eef9db7565e5b9155d9685e` |
-| `Revision/dark_sector/dirac16complex/outputs/eos-history.csv` | `1acdf7574ef4d6e1661cb01dc3519f10b721f976a80908ba5b74698f4c93d278` |
-| `Revision/dark_sector/dirac16complex/outputs/eos-summary.json` | `f3fa5775e31dd1b7801fe9d0995e0937a027b51a8b4a2e49dabb6964952a861a` |
-| `Revision/dark_sector/dirac16complex/outputs/effective-formulas.json` | `88727cb7cb7162630f8e72d1c64afe5de1e5058a9d26801cc060aa0b76d70477` |
-| `Revision/dark_sector/dirac16complex/reports/derivation-checks.json` | `4188953df6eef8e3904d498b6949c997e944179eeadad65857d5e6a6ebfd4235` |
-| `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` | `8a02a4e35981bdf34389207c24bb4710d6e9c396871981cfe7e6cee8c04d4f71` |
+| `Revision/kohn_sham/solver/src/theory.rs` | `cfde16d6fa442f797ac0e5684227e192394bc4aa75f3d89f78ea00d05965bbb4` |
+| `Revision/kohn_sham/ks-theory.json` (read by the solver) | `a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2` |
+| `Revision/algebra/gammas.json` (read by the solver) | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` |
+| `Revision/kohn_sham/results/parameters.json` | `c91041b68b6520c7eec890bd18ffd361b260730c0ee4328eb1d90a8f91c83ebb` |
+| `Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv` | `cddd2d52590db92a7f140307ea6efe0b5af32f7b3ccdc90d2eca5987cf7f79c2` |
+| `Revision/dark_sector/dirac16complex/outputs/eos-history.csv` | `25e6bf551f99d406b73f710320d07ce17aaba38caf38c1f6ce279ab268b1965f` |
+| `Revision/dark_sector/dirac16complex/outputs/eos-summary.json` | `b2faaa076a6bb75a9fd236edd06f2aacfd7100da89617345d9afdbd21a17a7a6` |
+| `Revision/dark_sector/dirac16complex/outputs/effective-formulas.json` | `6ae6b2b1ee79ce8dbad3e630adf8b54a9ec24f4aebb9fbe80a4754964280f19b` |
+| `Revision/dark_sector/dirac16complex/reports/derivation-checks.json` | `0bce01a89b895ecfd0489f0dcd8a97d7ef25c472a796787d325bce955f1d018a` |
+| `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` | `f0321cf8c349651a480730ddf078347779ea8d3e764fe8b6cab4e2d19c2729ff` |
 | `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | `bd887ed06014f6a2114a47f7726dab6d9f0e7907c03838dede5893ec7ecf7639` |
 | `Revision/dark_sector/dirac16complex/reports/independent-checks.json` | `129825058b03c2b698aadd43583e48564d9e34614e4b63c4444ce61658819ea6` |
-| `Revision/dark_sector/dirac16complex00/eos-theory.json` | `e7586528b991fc842ec2c04981f32039423096813ffb76b2a622ca653f3625e6` |
-| `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `1c3d233dd26a1172f72f1413a2325ae5cb2ea01b1424f2891cb6ac9ff0019986` |
+| `Revision/dark_sector/dirac16complex00/eos-theory.json` | `86c7a911dba1cc93044883cf70771afadd4ccda72a87214681cedc94619ca6dc` |
+| `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `686384cfb8e9e62866ac22f4ea6722770125780f40ca9f74d53b2444c87f9f90` |
 | `Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json` | `ce3114a3e7e25d32d5bbca4e9ad5f6c6c087e41c70264dbf8d23a7e50c912f0c` |
 
 Followed but not executed (the notebook reproduces their arithmetic; listed so that a change is noticed):
@@ -132,13 +133,13 @@ git), identical in both verified builds and in the `check` run (129 files compar
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `<output>/ks-history-dense-subset.csv` (header + the 123 reproduced rows of `ks-history-dense.csv`) | 28791 | `288265b470b968444dac96720b943f319a5a77eddc28088fe35cc7f455ac58b2` |
-| `<output>/eos-history-subset.csv` (header + the 123 reproduced rows of `eos-history.csv`) | 37220 | `5c785a99674059b47f79524a49137f5f080e78763052f1ab945f9fc0e710090a` |
+| `<output>/ks-history-dense-subset.csv` (header + the 123 reproduced rows of `ks-history-dense.csv`) | 28791 | `768ce177283655c9098123ae0b5581a8096cb338ffbf28d8fcd818e5dd1570be` |
+| `<output>/eos-history-subset.csv` (header + the 123 reproduced rows of `eos-history.csv`) | 37221 | `4fba3492cdad61f94b763432ce929d8a5e262d813fa7fa13ff0e55e0f977eb64` |
 | `<output>/figures/figure1_w_eff_histories.png` | 60531 | `3dd746f892c0382b743ea36b5c7a5432dc49666eff32be4f4e2fc380f44a27fb` |
 | `<output>/figures/figure2_mixtures.png` | 65481 | `b796eaa803b89a6c8ef074a13396a0476366893bc3474e6a04eaf66315aa3d05` |
 | `<output>/figures/figure3_dirac16complex00_populations.png` | 79878 | `0d393d8b03382d2fd582be2d39f147824f9a2ffdf17c4171ed8ee296af6c243a` |
 | `<output>/figures/figure4_w0_wa_plane.png` | 39932 | `55d56eac83e106647012ae3a1f952852cc26d5a684328bdfb48d2b382cbcfc0d` |
-| `<output>/ks_runs/<id>.json` (123 solver result files, ids `N688_lam0_a000` ... `N8_lamp1_a200`) | 4873129 in total | combined `e0fa4f369f35112aee435cf721eeaeddeb72b4f3b52556d57b629c7951e718e8` (sha256 of the 123 lines `<sha256>  <file name>`, sorted by file name, LF) |
+| `<output>/ks_runs/<id>.json` (123 solver result files, ids `N688_lam0_a000` ... `N8_lamp1_a200`) | 4873129 in total | combined `2f6a285ca037c71955aa3ea902f164533d3d523264f8e7a0a9529afa032926ac` (sha256 of the 123 lines `<sha256>  <file name>`, sorted by file name, LF) |
 | `<cargo-target>/` | about 2.8 MB | the Rust build folder (compiler output; not compared) |
 
 The tool writes `Revision/notebooks/dark_sector_hypotheses.ipynb` (`build`) or
@@ -181,10 +182,10 @@ or, to rebuild and compare with the committed file (from the repository root):
   status 0`, the parameter block (H 1.0, m 1.0, L 3.0, dk 0.25, v_t 1.0, a4 0.0, lambda 0.01946, N 8.0, T 0.0,
   tipTheta 0.0, exactFockVariant False), lambda_1 = 0.01946, 0.0009298, 0.0001846 for N = 8, 136, 688.
 * Section 7: `all_runs_succeeded: 123 runs`, `dense_rows_bit_identical: 123 of 123 rows`, three
-  `..._occupations_fixed` lines, the table of E, P3, Pt, P8 (for example N688_lam0 at a4 = 0: E =
-  6.804412466e+02, P3 = 1.993052338e+02, P8 = 2.405597506e+02).
+  `..._occupations_fixed` lines, the table of E, P3, Pt, P0 (for example N688_lam0 at a4 = 0: E =
+  6.804412466e+02, P3 = 1.993052338e+02, P0 = 2.405597506e+02).
 * Section 8: `eos_rows_identical: 123 of 123 rows`; the w table (N688_lam0: X/E = 0.292906 at a4 = 0 and
-  0.318294 at a4 = 2; w_eff(C) = -0.707094 and -0.681706; w8 = 0.353535 and 0.648248).
+  0.318294 at a4 = 2; w_eff(C) = -0.707094 and -0.681706; wx0 = 0.353535 and 0.648248).
 * Section 9: three `..._summary_equals_record` lines and the tangent and fit tables (N688_lam0, today a4 = 2:
   tangent (-0.681706, -0.017750), fit over [1/2, 1] (-0.681157, -0.024238), constant w -0.687217).
 * Sections 10 and 11: `u = lambda S/m = -382/441 | ratio u/(2 + u) = -191/250 = -0.764`; the dual-number
@@ -200,6 +201,7 @@ No run time and no path of the computer is printed (paths are shown relative to 
 
 ## 5. Measured run time (Windows 11, 2026-10-08)
 
+* 2026-10-14 (the author's coordinates; other jobs of this work on the computer): 14.1 s (`build`) and 13.4 s (`check`) of execution.
 * Whole notebook, executed by `build_notebooks.py` (current version): 23.0 s (build A), 24.3 s (build B) and
   25.8 s, 31.2 s and 39.6 s (the three `check` runs of part 7) of execution while other work ran on the computer (earlier versions: 24.4 s to 47.8 s
   under load, section 7; the first builds of this notebook took 15.4 s to 15.9 s), including the fresh
@@ -341,6 +343,9 @@ No run time and no path of the computer is printed (paths are shown relative to 
 * 2026-10-08, tests: `python -m unittest Revision/tests/test_revision_notebooks.py -v` - 9 static tests OK, 2 skipped; with
   `REVISION_NOTEBOOKS_FULL=1` - 11 tests OK in 109.1 s (the installed versions equal the pins; `check` of all three notebooks in
   temporary folders is byte-identical).
+* 2026-10-14, the author's coordinates x0..x7 (ordered by the user on 2026-10-14; the record had named them x1..x8 with the hidden direction x8 last): the coordinate definition and section 4.1 (the user's metric with b4; the recorded states are at b4 = 1), the hidden-direction pressure P0 = T^x0_x0 (was P8), the ratio w_x0 = P0/E (code `wx0`, was w8), every x8 in the texts. `python Revision/notebooks/tools/build_notebooks.py build dark_sector_hypotheses` - executed in 14.1 s, wrote 458105 bytes, audit PASS, sha256 `f339eb3ff22561b9e9f1b3dda9bb2cda04a522457b6883c8e51f154ad5883c49` (the version before: 457652 bytes, `30d2e843921159fa...`; builder before `12d5cad95338f4ff...`); `check dark_sector_hypotheses` - a second independent execution (13.4 s): PASS, the re-executed notebook is byte-identical; the 129 files of the two output folders are byte-identical and equal to the table of section 2 (refreshed from them). The notebook's own checks pass as before (no FAIL line). Tests: `REVISION_NOTEBOOKS_FULL=1 python -m unittest Revision/tests/test_revision_notebooks.py` - 11
+  tests OK in 48.6 s (the installed versions equal the pins; `check` of all three notebooks byte-identical). Every run
+  with `timeout 423`.
 * Not verified here: the run instructions on macOS and Linux (written for them, executed only on
   Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
   the matplotlib version).

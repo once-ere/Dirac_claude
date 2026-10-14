@@ -2,15 +2,16 @@
 
 The Lovelock tensors of the author's metric with the generalized Kronecker delta (GKD).
 
-* Notebook: `Revision/notebooks/lovelock_gkd.ipynb` (35 cells: 20 markdown, 15 code; 412223 bytes;
-  sha256 `4b48dba289e5abc40cafd083426a157fe083d25384a33e8dffc6cf6c68189076`).
+* Notebook: `Revision/notebooks/lovelock_gkd.ipynb` (35 cells: 20 markdown, 15 code; 419435 bytes;
+  sha256 `adfc95b1c2c0e8152172900f596a60492fab24cc635678c7b1fbcaf23df71395`).
 * Builder: `Revision/notebooks/src/lovelock_gkd.py`
-  (sha256 `a8992530a389d5dc0307f1d37cf51a453ae913b687a5fa56491be20af45c5fa7`).
+  (sha256 `e3a4c0080d70aedd3306dcd5652879a5ef042f7748fbc23a690cbac3188c4c4f`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
   (sha256 `ba6c2cab4048282eb64e9bad8d3b265660438e700815f019dd0592c6f67450bb`).
-* Built and verified on 2026-10-08, Windows 11 Pro for Workstations, Python 3.14.5, numpy 2.4.6,
+* Built and verified on 2026-10-08 and, in the author's coordinates x0..x7, on 2026-10-14 (section 7),
+  Windows 11 Pro for Workstations, Python 3.14.5, numpy 2.4.6,
   matplotlib 3.11.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, nbconvert 7.16.6,
   jupyterlab 4.4.10, cargo 1.91.
 
@@ -35,7 +36,7 @@ The Lovelock tensors of the author's metric with the generalized Kronecker delta
    Python re-checks (fractions, no rounding): the trace identity for k = 1, 2, 3, -P_(1)/4 equals
    `einsteinMixed` of `curvature.json` in all 64 components, A_(k)^hh = sqrt|det g| g^hh P_(k)^h_h;
    the normalised E_(k) = -P_(k)/2^(k+1) in a table, with the exact observations that
-   E^x1_x1 - E^x5_x5 contains a4'' in every term and that at a4'' = 0 the x1, x5 and x8 components are
+   E^x1_x1 - E^x5_x5 contains a4'' in every term and that at a4'' = 0 the x1, x5 and x0 components are
    equal.
 6. Reads the five committed records and asserts their counts exactly as their JSON files give them:
    `lovelock-report.json` checkCount 19, failedCheckCount 0, verdict SUCCESS;
@@ -64,21 +65,21 @@ Read (sha256 at the time of the verified builds):
 | `Revision/README.md` | (not pinned: the file changes as the record grows; the notebook only needs the author's metric text to occur in it and checks that it does) |
 | `Revision/gkd_lovelock/code/Cargo.toml` | `c6719ffae8040c42034a903b7cf2aefbc2124fee7dd6750de0c455d7cb653d70` |
 | `Revision/gkd_lovelock/code/Cargo.lock` | `41e4efb7365fc3c818a2a7d18ffd214d11d6856dd4f62ea970ca2a4e39115250` |
-| `Revision/gkd_lovelock/code/src/geometry.rs` | `ea7a77cef471610b909ba6f0300e78f582506bfc1125c36c1b2a772fefd96678` |
+| `Revision/gkd_lovelock/code/src/geometry.rs` | `83328f22ae19086925db64099cfec1d87f6f14ad4e91d208f05da493a322320c` |
 | `Revision/gkd_lovelock/code/src/gkd.rs` | `3be0169f6c03d0d6afbd8361e6d80c5b802defb0878ddc2ffeb62e3dde106dd4` |
 | `Revision/gkd_lovelock/code/src/lib.rs` | `cccd024b5a559ce306d770e4a2674a1bc3eb7b6cf00e05dc0858fb3cc4991da6` |
 | `Revision/gkd_lovelock/code/src/lovelock.rs` | `1ce0c7e3a16acd1509890b7f7029cd9e258e72d4816235a0df4bf2f99f1acd1b` |
-| `Revision/gkd_lovelock/code/src/main.rs` | `ac56bbce5e2482caf57b316691ea8326ebd05bbd13cb7184bc07b900e91d66ac` |
-| `Revision/gkd_lovelock/code/src/output.rs` | `b33a257109e1cdc528fb32c08aa59d6e541d0791da235256258b94ae0cd59e15` |
-| `Revision/gkd_lovelock/code/src/poly.rs` | `c0e91c8b0ba8d4dcb542f48385b6e637b61373d6dcaf22913c70a7e54212b36d` |
+| `Revision/gkd_lovelock/code/src/main.rs` | `12e18732dd4b2db7c8e44440fb9b25e883d53a344f615852b265bc4b1c5e724d` |
+| `Revision/gkd_lovelock/code/src/output.rs` | `668921a2cf0ce4f19371981702794bcb3934945ffa9faed1f6a77c0254023759` |
+| `Revision/gkd_lovelock/code/src/poly.rs` | `392a321b76ec60891bbb9b5d226a96425c745cabbb3b59aba9aa3f266d508194` |
 | `Revision/gkd_lovelock/code/src/rational.rs` | `a8e9b54a655dc9e1d15ef0f4203cb55eda168efd93e52b337573fb6d8c5384ba` |
-| `Revision/gkd_lovelock/results/curvature.json` | `d5beb73a32244ea938ca61eac3573f72061c0e329b78f7506dd983881638763e` |
-| `Revision/gkd_lovelock/results/lovelock-tensors.json` | `9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567` |
-| `Revision/gkd_lovelock/results/lovelock-components.md` | `65f95810d3b7b6696227670f03241c20758bcee4e408743803200cae68a1b8e7` |
-| `Revision/gkd_lovelock/results/lovelock-report.json` | `5c919ea827a5e6822a7196bb66ead64fa0a3e70f01f35b2bbfb99a65ae028bb8` |
+| `Revision/gkd_lovelock/results/curvature.json` | `b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1` |
+| `Revision/gkd_lovelock/results/lovelock-tensors.json` | `f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c` |
+| `Revision/gkd_lovelock/results/lovelock-components.md` | `37f06066b2fed49718ebb6dd8f502f470bc1b1d83d2c34c9d008af44d6b1a86d` |
+| `Revision/gkd_lovelock/results/lovelock-report.json` | `c0202db95902003ad9dfe3b58137c5db798057d75265d7bcd16fe0483fa3b4d0` |
 | `Revision/gkd_lovelock/results/gkd-selftest.json` | `6cd72bd8d5d8d2f7acb4825ed0a975a26aaad343e323b9c96f6d1fc4f294d1dc` |
-| `Revision/gkd_lovelock/results/python-lovelock-report.json` | `a4d6c0d5e2d063ce01611c06a98a4ba9cff0d61616b480b0b5828e2f3eee4d52` |
-| `Revision/gkd_lovelock/results/wolfram-gkd-report.json` | `71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189` |
+| `Revision/gkd_lovelock/results/python-lovelock-report.json` | `d027c58b5e7ddb3cbe0b97b49d940f6cc2c403b0b358141a350967e6552b095d` |
+| `Revision/gkd_lovelock/results/wolfram-gkd-report.json` | `f0fcd8e3880b2bddc8570ea501b26f6771f79dd0e463063dd1bd22c7bfd18d0d` |
 
 Written: the result files and figures into the output folder `<output>` (the folder named by
 `REVISION_NB_OUT`, otherwise `build/revision_notebooks/lovelock_gkd` in the repository, ignored by
@@ -89,12 +90,12 @@ folder; on macOS and Linux created private, section 6):
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `<output>/lovelock_run/curvature.json` | 28162 | `d5beb73a32244ea938ca61eac3573f72061c0e329b78f7506dd983881638763e` (= record) |
-| `<output>/lovelock_run/lovelock-tensors.json` | 55056 | `9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567` (= record) |
-| `<output>/lovelock_run/lovelock-components.md` | 19604 | `65f95810d3b7b6696227670f03241c20758bcee4e408743803200cae68a1b8e7` (= record) |
-| `<output>/lovelock_run/lovelock-report.json` | 3154 | `5c919ea827a5e6822a7196bb66ead64fa0a3e70f01f35b2bbfb99a65ae028bb8` (= record) |
-| `<output>/figures/figure1_scale_factors.png` | 72361 | `f2e19dd62b8515b200e6c6dcd46397322474848795c60faf087d8687f3252e9e` |
-| `<output>/figures/figure2_lovelock_components.png` | 111384 | `7a180d388d97d88ae5149aa4aea9e33e0b1ad8445ef33be90332b7fb49758a42` |
+| `<output>/lovelock_run/curvature.json` | 40878 | `b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1` (= record) |
+| `<output>/lovelock_run/lovelock-tensors.json` | 163905 | `f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c` (= record) |
+| `<output>/lovelock_run/lovelock-components.md` | 50784 | `37f06066b2fed49718ebb6dd8f502f470bc1b1d83d2c34c9d008af44d6b1a86d` (= record) |
+| `<output>/lovelock_run/lovelock-report.json` | 3231 | `c0202db95902003ad9dfe3b58137c5db798057d75265d7bcd16fe0483fa3b4d0` (= record) |
+| `<output>/figures/figure1_scale_factors.png` | 72319 | `92c67100c3b9055da2ad76d3cbe1e367047eac0082eab2397ed116c94a441a6f` |
+| `<output>/figures/figure2_lovelock_components.png` | 107918 | `0d26ca8971a303b093fd6d75ce87aeb190af7fa373cd6076fef2ccc0288be324` |
 | `<output>/figures/figure3_gkd_work.png` | 57413 | `f602fb8a3078c891a31c8a6c6b2440c1c5732a10e4b42396a30ec72ff4159954` |
 | `<cargo-target>/` | about 2.6 MB | the Rust build folder (compiler output; not compared) |
 
@@ -135,12 +136,13 @@ or, to rebuild and compare with the committed file (from the repository root):
 
 * Section 5: `exit status: 0`, `compiler warnings: 0`.
 * Section 6: the program's six configuration lines; the metric line begins
-  `{{exp^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0,0},...`.
+  `{{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),...` (the user's metric of 2026-10-14 in the author's
+  coordinates x0..x7; before 2026-10-14 the line began `{{exp^(2 a4[x4]) Sin[6 H x8]^(1/3),...`).
 * Section 7: the table `p = 1, 2, 3`: pairs 64 / 4096 / 262144, mismatches 0, +1: 8 / 56 / 1008,
   -1: 0 / 56 / 1008, 0: 56 / 3984 / 260128; the committed self-test table (9 rows, verdict SUCCESS).
 * Section 8.1: 19 PASS lines of the program, `check_count=19`, `failed_check_count=0`,
   `lovelock: SUCCESS (<t> s)`, and four `identical to the record` lines.
-* Section 8.4, for example: at a4'' = 0, E_(1)^x1_x1 = E_(1)^x5_x5 = E_(1)^x8_x8 = 15 H^2 - 3 (a4')^2;
+* Section 8.4, for example: at a4'' = 0, E_(1)^x1_x1 = E_(1)^x5_x5 = E_(1)^x0_x0 = 15 H^2 - 3 (a4')^2;
   E_(1)^x1_x1 - E_(1)^x5_x5 = 2 a4''.
 * Section 9: the table of the four reports (19 / 9 rows / 49 / 29 checks, 0 failed, SUCCESS).
 * Section 10.4: `checks of this notebook: 40 passed, 0 failed` and the seven files listed above.
@@ -152,6 +154,7 @@ or without `REVISION_NB_CARGO_TARGET`.
 
 ## 5. Measured run time (Windows 11, 2026-10-08)
 
+* 2026-10-14 (the author's coordinates; other jobs of this work on the computer): 24.1 s (`build`) and 20.6 s (`check`) of execution.
 * Whole notebook, executed by `build_notebooks.py` (current version): 24.7 s (build A), 22.8 s
   (build B) and 21.1 s (`check`) of execution, 26.9 s wall time for build A including kernel start.
   The previous version took 24.8 s to 30.5 s in its builds and checks (section 7).
@@ -267,6 +270,9 @@ or without `REVISION_NB_CARGO_TARGET`.
   Revision/notebooks/lovelock_gkd.ipynb --output-dir <scratch>` with `REVISION_NB_OUT=<scratch>/out` -
   exit status 0, no error output, no stderr, `checks of this notebook: 40 passed, 0 failed`
   (nbconvert's own file is not normalised, so it is not compared byte for byte).
+* 2026-10-14, the author's coordinates x0..x7 (ordered by the user on 2026-10-14; the record had named them x1..x8 with the hidden direction x8 last): the coordinate list of the builder is x0..x7 (x0 the hidden direction, first), section 4.1 states the user's metric with b4 (b4 = 1 is the metric before), the tables and figures label the components x0, x1, x4, x5, and the program run of section 8 writes the result files of `Revision/gkd_lovelock/results` of 2026-10-14 (the table of section 2 had still listed the files from before the metric with b4). `python Revision/notebooks/tools/build_notebooks.py build lovelock_gkd` - executed in 24.1 s, wrote 419435 bytes, audit PASS, sha256 `adfc95b1c2c0e8152172900f596a60492fab24cc635678c7b1fbcaf23df71395` (the version before: 412223 bytes, `4b48dba289e5abc4...`; builder before `a8992530a389d5dc...`); `check lovelock_gkd` - a second independent execution (20.6 s): PASS, the re-executed notebook is byte-identical; the 7 files of the two output folders are byte-identical and equal to the table of section 2 (refreshed from them). The notebook's own checks pass as before (no FAIL line). Tests: `REVISION_NOTEBOOKS_FULL=1 python -m unittest Revision/tests/test_revision_notebooks.py` - 11
+  tests OK in 48.6 s (the installed versions equal the pins; `check` of all three notebooks byte-identical). Every run
+  with `timeout 423`.
 * Not verified here: the run instructions on macOS and Linux (written for them, executed only on
   Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
   the matplotlib version).
