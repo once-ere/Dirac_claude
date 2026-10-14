@@ -1,28 +1,32 @@
 # WolframScript provenance: the a4 field-equation verifier
 
 Set: `Revision/field_equations_a4/wolfram/` (the script `verify_field_equations_a4.wls` and its
-package `FieldEquationsA4.wl`), in the version of commit `e377368` (2026-10-08), which computes
-every spinor statement with the author's real 16 x 16 Dirac matrices T16. This file tells you what
+package `FieldEquationsA4.wl`), in the version of 2026-10-14: the user's metric with b4[x4] in the extra-time
+components (commit `c26995c`) in the author's coordinates {x0, x1, ..., x7} (commit `fedf89c`; section 6.8). It
+computes every spinor statement with the author's real 16 x 16 Dirac matrices T16. Sections 6.1 to 6.7 record the
+verifications of earlier versions (52 checks, metric without b4, the withdrawn labels x1..x8 with the hidden
+direction x8 listed last; the map to the author's labels is x8 -> x0, xk -> xk for k = 1..7). This file tells you what
 the set computes, which files it reads and writes, exactly how to run it, what you should see,
 what it changes on your computer, and how it was verified. Everything you need to run it is in
 section 3 of this file.
 
 ## 1. What the set is and what it computes
 
-In plain words: the author's theory lives in an 8-dimensional spacetime with coordinates
-x1, x2, x3 (ordinary 3-space), x4 (time), x5, x6, x7 (three extra time directions) and x8 (a
-hidden direction, written through z = 6 H x8 with 0 < z < pi/2). Distances in 3-space carry the
-scale factor e^{a4(x4)} and distances along the extra times the scale factor e^{-a4(x4)} (both
-times sin^{1/6} z), so when 3-space expands the extra times shrink exponentially (they deflate);
-the single unknown function is a4(x4). The set answers: which equations must a4(x4) obey, and what
-matter can drive it? The task is defined in `Revision/SPEC.md`, section 5; the Dirac matrices are
+In plain words: the author's theory lives in an 8-dimensional spacetime with the author's coordinates
+x0 (a hidden direction, written through z = 6 H x0 with 0 < z < pi/2), x1, x2, x3 (ordinary 3-space), x4 (time)
+and x5, x6, x7 (three extra time directions). Distances in 3-space carry the scale factor e^{a4(x4)} and distances
+along the extra times the scale factor e^{-a4(x4)} b4(x4)^{1/2} (both times sin^{1/6} z), so when 3-space expands
+the extra times shrink exponentially (they deflate). The unknown functions are a4(x4) and, since the metric of
+2026-10-14, b4(x4); sections 1 to 6 of the script treat b4 = 1 (the metric before 2026-10-14), its section 7 the
+general b4. The set answers: which equations must a4(x4) (and b4(x4)) obey, and what matter can drive them? The task is defined in `Revision/SPEC.md`, section 5; the Dirac matrices are
 those of SPEC section 2.
 
 Step by step, the script (with its package) does the following, using exact algebra only (no
 floating-point numbers anywhere):
 
-1. Geometry. It writes down the metric, g = diag(e^{2 a4} s, e^{2 a4} s, e^{2 a4} s, -1,
-   -e^{-2 a4} s, -e^{-2 a4} s, -e^{-2 a4} s, cot^2 z) with s = sin^{1/3} z, and computes from it
+1. Geometry. It writes down the metric, g = diag(cot^2 z, e^{2 a4} s, e^{2 a4} s, e^{2 a4} s, -1,
+   -e^{-2 a4} b4 s, -e^{-2 a4} b4 s, -e^{-2 a4} b4 s) in the order x0, x1, ..., x7, with s = sin^{1/3} z
+   (b4 = 1 in sections 1 to 6 of the script), and computes from it
    the Christoffel symbols, the Riemann curvature tensor (sign convention of Misner, Thorne and
    Wheeler), the Ricci tensor and the Einstein tensor.
 2. Lovelock tensors. It computes the three Lovelock tensors P_(1), P_(2), P_(3) (the
@@ -35,7 +39,7 @@ floating-point numbers anywhere):
 3. Field equations. It writes the Einstein-Lovelock field equations
    sum_k alpha_k E_(k)^mu_nu + Lambda delta^mu_nu = kappa T^mu_nu with a general source T and
    reduces them: a constraint (x4 component), an evolution equation a4'' F(a4') =
-   kappa (p3 - p_t), an x8 equation, the algebraic condition p3 + p_t = 2 p8, the propagation of
+   kappa (p3 - p_t), an x0 equation, the algebraic condition p3 + p_t = 2 p0, the propagation of
    the constraint (Bianchi identity) and the conservation law of the source.
 4. Special cases. Pure Einstein gravity (alpha1 = 1, alpha2 = alpha3 = 0): no vacuum solution and
    a violated null energy condition. The linear member a4 = A H x4 + a0: equal pressures, the
@@ -48,12 +52,19 @@ floating-point numbers anywhere):
    for comparison: it proves exactly that the two representations are equivalent and that the
    off-diagonal coefficients it writes do not depend on the representation.
 
-Each of these statements is a named check with the verdict PASS or FAIL. There are 52 checks. The
+6. The general b4 (section 7 of the script, 12 checks, key `b4` of `a4-equations.json`): the Lovelock
+   tensors equal the set of `Revision/metric_b4`, the constraint stays first order, the off-diagonal
+   equations kappa q40 = cot z (b4'/b4) Q and kappa q04 = -tan z (b4'/b4) Q, the identity that replaces
+   p3 + p_t = 2 p0, the general conservation law, gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4),
+   the condensate in the metric with b4 and the vacuum of the linear member with the author's weights.
+
+Each of these statements is a named check with the verdict PASS or FAIL. There are 64 checks (52 for b4 = 1
+and 12 for the general b4; the 52 are those of the earlier versions, five of them renamed with x0). The
 script writes two files: `a4-equations.json` (every equation, in Wolfram InputForm and in TeX) and
 `reports/wolfram-a4-report.json` (every check with name, verdict and a one-line explanation).
 
 Documents and programs that cite or read these results (found on 2026-10-08, for your information
-only; you do not need them to run this set):
+only; you do not need them to run this set; the counts they quote are those of 2026-10-08):
 
 * `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md` (and its `.tex` and `.pdf`): quotes the count
   "wolfram-a4-report 52"; 41 of the 52 check names appear in it; it generates its a4 equations and
@@ -88,32 +99,34 @@ only; you do not need them to run this set):
 
 `Revision/SPEC.md` section 2 (binding for every file under `Revision/`) requires the author's real
 16 x 16 matrices T16 of the notebook, re-constructed in Revision code from the author's formulas,
-with gamma^(x8) = T16[0], gamma^(x1..x3) = T16[1..3], gamma^(x4) = T16[4],
-gamma^(x5..x7) = T16[5..7]. They are re-constructed by `Revision/algebra/wolfram/RevisionAlgebra.wl`
-(from the tau matrices of the notebook) and stored, in the order x1..x8, in
-`Revision/algebra/gammas.json` by `Revision/algebra/wolfram/verify_algebra.wls`.
+with gamma^(xk) = T16[k] for k = 0, 1, ..., 7 (gamma^(x0) = T16[0] is the hidden direction). They are
+re-constructed by `Revision/algebra/wolfram/RevisionAlgebra.wl` (from the tau matrices of the notebook) and
+stored, in the author's order x0, x1, ..., x7, in `Revision/algebra/gammas.json` by
+`Revision/algebra/wolfram/verify_algebra.wls`.
 
-This set follows that instruction: `FieldEquationsA4.wl` (lines 126-185) reads `gammas.json` when
+This set follows that instruction: `FieldEquationsA4.wl` (lines 133-193) reads `gammas.json` when
 it is loaded, with strict parsing (every matrix entry must be a JSON integer or a string "p/q" in
 lowest terms; anything else, or a missing file or key, stops the run with a line `ERROR  ...` and
 exit code 1, section 3.6; there is no fallback to other matrices). The primary matrices are
-`FEGammaFrame` = the fixture's eight gammas (gamma^(x1..x7) = T16[1..7], gamma^(x8) = T16[0]) and
-`FEC` = gamma^x8 gamma^x1 gamma^x2 gamma^x3 (the notebook's sigma16). The checks
+`FEGammaFrame` = the fixture's eight gammas (gamma^(xk) = T16[k], k = 0..7, at Wolfram position k + 1) and
+`FEC` = gamma^x0 gamma^x1 gamma^x2 gamma^x3 (the notebook's sigma16). The checks
 `fixture_author_T16_read`, `clifford_relations_author_T16` ({gamma^a, gamma^b} = 2 eta^ab with
-eta = diag(1, 1, 1, -1, -1, -1, -1, 1) in the order x1..x8) and `C_properties_author_T16` (C equals
+eta = diag(1, 1, 1, 1, -1, -1, -1, -1) in the order x0..x7) and `C_properties_author_T16` (C equals
 the fixture's C, is real symmetric, C^2 = 1, C gamma^a antisymmetric) record this; every spinor
 check after them uses these matrices.
 
-The package also builds, in lines 187-194, a comparison representation `FEGammaFrameComparison`
+The package also builds, in lines 195-203, a comparison representation `FEGammaFrameComparison`
 (with `FECComparison`), from Kronecker products of the real 2 x 2 matrices s1 = [[0,1],[1,0]],
 e = [[0,1],[-1,0]] and w = s1 e = [[-1,0],[0,1]] (1 = the 2 x 2 unit matrix):
 
 | direction | matrix (`FEGammaFrameComparison`) | square |
 | --- | --- | --- |
+| x0 (hidden direction) | w(x)w(x)w(x)s1 | +1 |
 | x1, x2, x3 (3-space) | s1(x)1(x)1(x)1, w(x)s1(x)1(x)1, w(x)w(x)s1(x)1 | +1 |
 | x4 (time) | e(x)1(x)1(x)1 | -1 |
 | x5, x6, x7 (extra times) | w(x)e(x)1(x)1, w(x)w(x)e(x)1, w(x)w(x)w(x)e | -1 |
-| x8 (hidden direction) | w(x)w(x)w(x)s1 | +1 |
+
+(Each coordinate has the same matrix as before 2026-10-14; only the list order changed.)
 
 It is used for no result. Its checks are `clifford_relations_own_rep`, `C_properties_own_rep`,
 `representations_equivalent_author_T16_own_rep` (exactly, by `NullSpace` over the rationals: the
@@ -143,12 +156,16 @@ creates). Every file is UTF-8 text with LF line endings, stored byte for byte by
 
 | role | path | bytes | lines | sha256 |
 | --- | --- | --- | --- | --- |
-| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 41911 | 445 | `e95be20d658a84bd6db189a16f452e8062329784b83e0217e3818fca81244e1b` |
-| package (loaded by the script with `Get`, script line 25) | `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` | 14903 | 220 | `f0292638c8d6dab9b7a05c744ba00a2ebe329e96ef927478cb73c7599e749c11` |
-| input 1 (read by the package with `Import[..., "RawJSON"]`, package line 159) | `Revision/algebra/gammas.json` | 76968 | 1405 | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` |
-| input 2 (read by the script with `Import[..., "RawJSON"]`, script line 89) | `Revision/gkd_lovelock/results/lovelock-tensors.json` | 55056 | 405 | `9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567` |
-| output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 41869 | 788 | `9965d8c0a8d7d77c5a239d5c7d0576326ffd6143b09e68d4ffd8e467a456afd1` |
-| output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 14190 | 269 | `27faceeebdcdb8dc97afbebe89e24e322e8308fb5679df19c88dc1c77af72e6b` |
+| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 53312 | 551 | `82c224295feed0aaf0653c5615b0f4dfb2ac9d302431368153a4da7437b45ad5` |
+| package (loaded by the script with `Get`, script line 25) | `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` | 16131 | 229 | `19cd007b0300b1641c753a139ed6afb000ca83c274c6d2e6b20a6ce0f3e037a4` |
+| input 1 (read by the package with `Import[..., "RawJSON"]`, package line 167) | `Revision/algebra/gammas.json` | 76894 | 1405 | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` |
+| input 2 (read by the script with `Import[..., "RawJSON"]`, script line 91) | `Revision/gkd_lovelock/results/lovelock-tensors.json` | 163905 | 405 | `f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c` |
+| input 3 (read by the script with `Import[..., "RawJSON"]`, script line 370; section 7, general b4) | `Revision/metric_b4/results/metric-b4.json` | 49637 | 1669 | `7a57e570a5eb4c1a61978399aead9e0bcda2a687fce08bfeec628c802c154c49` |
+| output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 68631 | 922 | `dba03bf4f09c3ac080b3abb6fc34e528bb9ba32e52d21b508c630b6479ba759d` |
+| output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 19869 | 329 | `7caf8938f0c3854c3f90ab0400fd16e044d410bc02c4c24e3dbdb41068e4f5f9` |
+
+The table gives the version of 2026-10-14 (section 6.8). The paragraph that follows describes the versions of
+2026-10-08 (sections 6.3 to 6.7).
 
 Last commits that changed them: the package and output 2: `e377368` (2026-10-08); the script: `16d538f`
 and output 1: `7daacf6` (automatic snapshots of 2026-10-08, section 6.7; the changes of section 6.6 were first
@@ -167,14 +184,16 @@ The set reads nothing else: no other file, no environment variable, no command-l
 network resource. The script finds its package and its second input relative to its own location
 (`$InputFileName`), and the package finds `gammas.json` relative to its own location, so the set
 does not depend on the folder you start it from. The package also computes the sha256 of
-`gammas.json` (`FileHash`, package line 169) and writes it into the detail of the check
+`gammas.json` (`FileHash`, package line 177) and writes it into the detail of the check
 `fixture_author_T16_read`. Both inputs are produced by other sets (`gammas.json` by
 `Revision/algebra/wolfram/verify_algebra.wls`, `lovelock-tensors.json` by the Rust program in
 `Revision/gkd_lovelock/code`); they are committed, so you need neither to run this set. The two
 outputs are deterministic: LF line endings, no time stamps, no machine names, fixed key order. The
 script and the package contain no random numbers, no dates, no parallel computation and no network
 functions; the script writes only through its function `writeJSON` (one `OpenWrite`, script line
-41), which it calls twice (line 437 for `a4-equations.json`, then line 442 for the report).
+41), which it calls twice (line 543 for `a4-equations.json`, then line 548 for the report). Since the metric of
+2026-10-14 the script also reads `Revision/metric_b4/results/metric-b4.json` (input 3; if it is missing the run
+stops with `ERROR  <path>: not found (run Revision/metric_b4/wolfram/verify_metric_b4.wls)` and exit code 1).
 
 The optional supplementary Dirac-matrix check of section 6.3 (not part of the set, not committed)
 reads the same package and `gammas.json` and writes nothing.
@@ -365,52 +384,53 @@ and then prints one line; section 4 says exactly what to expect.
     kernel ended together with it in the test of section 6.3 (no kernel was left running), the
     outputs are unchanged, but WolframScript's two temporary files stay behind (section 5). Pressing
     Ctrl+C in the terminal was not tested; afterwards check as above that no kernel is left running.
-* All 52 checks pass but `git status` shows `a4-equations.json` or `wolfram-a4-report.json` (or
+* All 64 checks pass but `git status` shows `a4-equations.json` or `wolfram-a4-report.json` (or
   both) as modified: you are probably using a Wolfram version other than 15.0.1, whose TeX or
   InputForm formatting differs. Both files contain expressions formatted by Wolfram:
   `a4-equations.json` in InputForm and TeX, and the explanations in `wolfram-a4-report.json` in
-  InputForm (for example `"detail": "L_(1) = 12*ad1^2 - 84*H^2"`). The mathematics (the 52 checks)
+  InputForm (for example `"detail": "L_(1) = 12*ad1^2 - 84*H^2"`). The mathematics (the 64 checks)
   is what matters; only Wolfram 15.0.1 was verified to reproduce the committed bytes. Restore both
   committed files with
   `git checkout -- Revision/field_equations_a4/a4-equations.json Revision/field_equations_a4/reports/wolfram-a4-report.json`.
 
 ## 4. Expected output
 
-Printed on the screen (standard output), exactly one line:
+Printed on the screen (standard output), exactly one line (the version of 2026-10-14; the earlier versions
+printed `checks: 52, failed: 0`):
 
 ```text
-checks: 52, failed: 0
+checks: 64, failed: 0
 ```
 
 Nothing is printed on the error stream, no `FAIL` or `ERROR` line appears, and the exit code is `0`
 (`$LASTEXITCODE` in PowerShell, `echo $?` in bash/zsh). If a check failed, the line would read
-`checks: 52, failed: <n>`, each failed check would be listed on a line
+`checks: 64, failed: <n>`, each failed check would be listed on a line
 `FAIL <name>: <explanation>`, and the exit code would be `1`.
 
 Files written (both are overwritten on every run that reaches its end):
 
-1. `Revision/field_equations_a4/a4-equations.json` (41869 bytes, 788 lines). Its top-level keys
+1. `Revision/field_equations_a4/a4-equations.json` (68631 bytes, 922 lines). Its top-level keys
    are `title`, `producer`, `conventions`, `lovelockTensors`, `generalSource`, `einstein`,
-   `linearMember`, `fields`, `checksSummary`; its second line is
-   `  "title": "Einstein-Lovelock field equations for a4[x4] in the primordial metric (Revision/SPEC.md section 5)",`.
+   `linearMember`, `fields`, `b4`, `checksSummary`; its second line begins
+   `  "title": "Einstein-Lovelock field equations for a4[x4] and b4[x4] in the primordial metric (Revision/SPEC.md section 5); the keys lovelockTensors .. fields are the restriction b4 = 1`.
    For example `generalSource.evolution_F.input` is
    `2*alpha1 - 48*ad1^2*alpha2 + 720*ad1^4*alpha3 - 80*alpha2*H^2 + 864*ad1^2*alpha3*H^2 + 720*alpha3*H^4`
    (ad1 = a4').
-2. `Revision/field_equations_a4/reports/wolfram-a4-report.json` (14190 bytes, 269 lines). Its first
+2. `Revision/field_equations_a4/reports/wolfram-a4-report.json` (19869 bytes, 329 lines). Its first
    six lines are:
 
    ```text
    {
      "producer": "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls",
      "spec": "Revision/SPEC.md section 5",
-     "checkCount": 52,
+     "checkCount": 64,
      "failedCount": 0,
      "verdict": "PASS",
    ```
 
    Show them with `Get-Content Revision/field_equations_a4/reports/wolfram-a4-report.json -TotalCount 6`
    (PowerShell) or `head -n 6 Revision/field_equations_a4/reports/wolfram-a4-report.json`
-   (macOS/Linux). If Python is installed, this prints `52 0 PASS`:
+   (macOS/Linux). If Python is installed, this prints `64 0 PASS`:
    `python -c "import json; r=json.load(open('Revision/field_equations_a4/reports/wolfram-a4-report.json')); print(r['checkCount'], r['failedCount'], r['verdict'])"`
    (use `python3` on macOS/Linux).
 
@@ -423,16 +443,21 @@ How to check that you reproduced the committed results exactly:
   `shasum -a 256 <file>` (macOS) or `sha256sum <file>` (Linux), and compare with the sha256 of
   the two output rows in section 2.
 
-The 52 checks, in the order of the report (all PASS):
+The 64 checks, in the order of the report (all PASS):
 
 | section | checks |
 | --- | --- |
 | geometry (4) | `metric_is_SPEC_section_1`, `sqrt_abs_det_g_is_cos_z`, `mixed_riemann_free_of_warp_and_a4`, `riemann_pair_antisymmetry` |
 | Lovelock tensors (17) | `P1_direct_equals_minus_4_Einstein`; for k = 1, 2, 3: `Pk_direct_equals_gkd_branch_monomials`, `Lk_direct_equals_gkd_branch`, `Pk_trace_identity`, `Pk_structure`; `P4_vanishes_pigeonhole`, `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free` |
-| field equations, general source (7) | `independent_components`, `evolution_factorises_a4pp_times_F`, `evolution_F_not_identically_zero`, `algebraic_identity_x1_plus_x5_minus_2x8`, `x8_component_contains_no_a4pp`, `constraint_propagation_bianchi`, `conservation_components` |
-| Einstein case (3) | `einstein_components`, `einstein_null_energy_x8`, `einstein_no_vacuum_solution` |
+| field equations, general source (7) | `independent_components`, `evolution_factorises_a4pp_times_F`, `evolution_F_not_identically_zero`, `algebraic_identity_x1_plus_x5_minus_2x0`, `x0_component_contains_no_a4pp`, `constraint_propagation_bianchi`, `conservation_components` |
+| Einstein case (3) | `einstein_components`, `einstein_null_energy_x0`, `einstein_no_vacuum_solution` |
 | linear member (3) | `linear_member_equal_pressures`, `linear_member_vacuum_factor`, `einstein_gauss_bonnet_vacuum_linear` |
-| spinor sources (18) | the author's T16: `fixture_author_T16_read`, `clifford_relations_author_T16`, `C_properties_author_T16`; comparison representation: `clifford_relations_own_rep`, `C_properties_own_rep`, `representations_equivalent_author_T16_own_rep`; in T16: `spin_connection_antisymmetric`, `Omega_x4_Omega_x8_vanish`, `gamma_mu_anticommutes_with_Omega_mu_no_sum`, `gravity_term_gamma_mu_Omega_mu`, `condensate_equation_x8_consistent`, `condensate_S_constant`, `condensate_adjoint_equation`, `condensate_kinetic_tensor_diagonal`, `condensate_offdiagonal_are_three_gamma_bilinears`, `offdiagonal_coefficients_representation_independent`, `condensate_einstein_quadratic_U`, `condensate_diagonal_witness_exact` |
+| spinor sources (18) | the author's T16: `fixture_author_T16_read`, `clifford_relations_author_T16`, `C_properties_author_T16`; comparison representation: `clifford_relations_own_rep`, `C_properties_own_rep`, `representations_equivalent_author_T16_own_rep`; in T16: `spin_connection_antisymmetric`, `Omega_x0_Omega_x4_vanish`, `gamma_mu_anticommutes_with_Omega_mu_no_sum`, `gravity_term_gamma_mu_Omega_mu`, `condensate_equation_x0_consistent`, `condensate_S_constant`, `condensate_adjoint_equation`, `condensate_kinetic_tensor_diagonal`, `condensate_offdiagonal_are_three_gamma_bilinears`, `offdiagonal_coefficients_representation_independent`, `condensate_einstein_quadratic_U`, `condensate_diagonal_witness_exact` |
+| general b4 (12) | `b4_lovelock_equals_metric_b4_set`, `b4_constraint_first_order`, `b4_offdiagonal_factorises`, `b4_einstein_offdiagonal_forces_b4_constant`, `b4_identity_x1_plus_x5_minus_2x0`, `b4_einstein_second_order_system`, `b4_conservation_components`, `b4_gravity_term`, `b4_condensate_equation`, `b4_condensate_kinetic_diagonal`, `b4_condensate_offdiagonal_bilinears`, `b4_author_weights_vacuum` |
+
+Five names carry the hidden label: before 2026-10-14 they read `algebraic_identity_x1_plus_x5_minus_2x8`,
+`x8_component_contains_no_a4pp`, `einstein_null_energy_x8`, `Omega_x4_Omega_x8_vanish`,
+`condensate_equation_x8_consistent` (and, in the b4 section of commit `c26995c`, `b4_identity_x1_plus_x5_minus_2x8`).
 
 Run time and memory, measured on 2026-10-08 on the verification machine (Intel Core Ultra 9
 275HX, 24 cores, 191 GB memory, Windows 11 Pro for Workstations), section 6.3: wall clock 36.3 s
@@ -512,6 +537,7 @@ of commit `e377368`, and on 2026-10-08 (6.3) in the version of that commit. 6.4 
 independent verifier of 2026-10-07 and what was done with each; 6.5 the open remarks; 6.6 the change of
 2026-10-08 after that commit (folders normalised, one text of output 1 updated) and its runs; 6.7 a second
 text change of output 1 on the same day (the opening of `fields.dirac16complex.kohnSham`) and its runs.
+6.8 records the version of 2026-10-14 (the metric with b4, the author's coordinates x0..x7, 64 checks).
 
 ### 6.1 Verification of 2026-10-02 (version before the patch)
 
@@ -850,3 +876,33 @@ for byte. Remarks that do not affect a run from a complete clone:
   10 tests OK (19.0 s).
 * Fixes made: the text above. Open discrepancies: none in the results. Not done: a run of the changed script in
   a fresh clone.
+
+### 6.8 The metric with b4 and the author's coordinates x0..x7 (2026-10-14)
+
+* Why. (1) On 2026-10-14 the user gave the metric with b4[x4] in the extra-time components,
+  diag(Cot[6 H x0]^2, E^(2 a4) Sin^(1/3) (x1, x2, x3), -1, -E^(-2 a4) b4 Sin^(1/3) (x5, x6, x7)); (2) the same day the
+  user ordered that their coordinates X = {x0, x1, ..., x7} be used throughout (x0 = the hidden direction, listed
+  first); this set had named them x1..x8 with the hidden direction x8 listed last. Sections 6.1 to 6.7 record the
+  earlier version (52 checks, metric without b4, labels x1..x8).
+* Changes. Commit `c26995c`: `FieldEquationsA4.wl` builds the metric and the vielbein with b4 (symbols `bb`, `bd1`, ...;
+  `FEB4One` restricts to b4 = 1); the script's sections 3 to 6 are the restriction b4 = 1 and every earlier statement
+  holds there byte for byte; the new section 7 (12 checks, key `b4` of `a4-equations.json`) treats the general b4 and
+  reads `Revision/metric_b4/results/metric-b4.json` (input 3). Commit `fedf89c`: the coordinates `FECoords = {x0, ...,
+  x7}`, the metric, vielbein and eta in the author's order, `FEC = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)` with the
+  fixture's gamma[k] = gamma^(xk), the comparison representation in the new order (the same matrix for every
+  coordinate), every position in the script (hidden direction at position 1, x4 at 5); the keys of `a4-equations.json`
+  `x8x8`, `x4x8`, `x8x4`, `hidden_x8`, `conservation_x8` and the symbols `p8`, `q48`, `q84`, `d8...` are now `x0x0`,
+  `x4x0`, `x0x4`, `hidden_x0`, `conservation_x0`, `p0`, `q40`, `q04`, `d0...`; five check names carry x0 (section 4).
+  On 2026-10-14 also: `python/check_ks_source_conditions.py` and `ks_source/` relabelled (they read the relabelled
+  Kohn-Sham outputs, where the hidden-direction pressure is now `p0`).
+* Runs (2026-10-14, Windows 11, Wolfram 15.0.1, from the repository root, other jobs of this work on the machine):
+  `checks: 64, failed: 0`, exit code 0, wall 45 s (run of commit `fedf89c`) and 51 s (a second run on the working
+  tree on top of commit `fedf89c`, with only documents of this set changed): both outputs byte-identical to the
+  committed ones (sha256 in section 2). The sympy twins: `check_field_equations_a4.py` 63 of 63, `check_b4_block.py`
+  11 of 11; `check_ks_source_conditions.py` 6 of 6; `ks_source/ks_source_a4.py` 23 of 23 (2 s) and its 10 unit tests
+  (9 s).
+* Same physics. A comparison of the new `a4-equations.json` with the one committed before the relabel (in commit `cae873a`; exact, in WolframScript,
+  after renaming x8 -> x0, p8 -> p0, q48 -> q40, q84 -> q04, d8 -> d0, k8 -> k0 and the keys x8x8, x4x8, x8x4): all 78
+  `input` expressions are equal, and the 42 off-diagonal kinetic coefficients are equal component by component (with
+  the sign of the permutation where a three-gamma bilinear is now listed in the new coordinate order). The report has
+  the same 64 checks with the same verdicts in the same order.

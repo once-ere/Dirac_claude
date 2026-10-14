@@ -49,7 +49,7 @@
     {
       "name": "T3.energies_and_emt_profiles_equal",
       "verdict": "PASS",
-      "detail": "three general occupied orbitals (blocks j = +1, -1, +1; arbitrary complex chi, level eps, occupation f, degeneracy g, momentum |k|, weight w): rho = sum w g f eps n_o - e_int, p3 = sum w g f (kappa |k|/3) t_o + e_int, p_t = e_int, p8 = sum w g f [(eps - v_v) n_o - M_eff s_o - kappa |k| t_o] + e_int (ks-theory.json emt), the E_KS density sum g f eps - e_int, the entropy and the exact-Fock diagnostic e_int + (lambda/32) Q^2 are equal for the image with (-m, +lambda) while S and Q change sign; with (-m, -lambda) the E_KS density differs (control). Equal levels and occupations give equal mu, N, Omega and F"
+      "detail": "three general occupied orbitals (blocks j = +1, -1, +1; arbitrary complex chi, level eps, occupation f, degeneracy g, momentum |k|, weight w): rho = sum w g f eps n_o - e_int, p3 = sum w g f (kappa |k|/3) t_o + e_int, p_t = e_int, p0 = sum w g f [(eps - v_v) n_o - M_eff s_o - kappa |k| t_o] + e_int (ks-theory.json emt), the E_KS density sum g f eps - e_int, the entropy and the exact-Fock diagnostic e_int + (lambda/32) Q^2 are equal for the image with (-m, +lambda) while S and Q change sign; with (-m, -lambda) the E_KS density differs (control). Equal levels and occupations give equal mu, N, Omega and F"
     },
     {
       "name": "T3.exact_k0_spectra",
@@ -59,7 +59,7 @@
     {
       "name": "T3.Gamma_is_the_block_map",
       "verdict": "PASS",
-      "detail": "block basis V of ks-theory.json (unitary; rows = spinor components) and the chirality Gamma = diag(-I8, I8) of gammas.json: Gamma V_(j,s2,s3) = V_(-j,s2,s3) (s2 sigma2) for all 8 blocks, with gamma^(x8) = sigma3 and gamma^(x8) gamma^(x4) = j sigma1 in every block: the 2 x 2 map of T3 is the chirality of the 16-component Kohn-Sham orbital (up to the phase s2)"
+      "detail": "block basis V of ks-theory.json (unitary; rows = spinor components) and the chirality Gamma = diag(-I8, I8) of gammas.json: Gamma V_(j,s2,s3) = V_(-j,s2,s3) (s2 sigma2) for all 8 blocks, with gamma^(x0) = sigma3 and gamma^(x0) gamma^(x4) = j sigma1 in every block: the 2 x 2 map of T3 is the chirality of the 16-component Kohn-Sham orbital (up to the phase s2)"
     },
     {
       "name": "T3.z2_mirror_copy_carries_minus_m_plus_lambda",

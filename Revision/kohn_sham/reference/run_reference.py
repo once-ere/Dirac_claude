@@ -9,8 +9,9 @@ theta = 0, ASSUMED Z2 brane, history a4 = A H x4 with A = 1 and slices a4,0 in {
 temperatures {0.01, 0.02, 0.05} m, first-order mean-field targets sigma = 0.1 and 0.3 m).  The particle
 numbers N_mid, N_large and the couplings lambda_1, lambda_2 are RE-DERIVED here from their stated rules.
 
-Coordinates: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times
-(scale factor e^{-a4} sin^{1/6} z, a4 increasing); x8 = hidden direction, y = ln(sin z)/(6H).
+Coordinates: the author's {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H), z = 6 H x0; x1, x2, x3 = 3-space;
+x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4 increasing).
+The hidden-direction pressure is p0 = T^x0_x0.
 
 The FULL canonical matrix is solved: 75 ground states (N in {8, N_mid, N_large}, 5 coupling tags, 5 slices) with
 their Delta-SCF states, a4 neighbours, adiabaticity pairs and particle-hole lists; the exact-Fock-exchange
@@ -23,9 +24,14 @@ measured grid uncertainty U = |R - R2| + 2e-12 max(1, |R|), R2 = (4 x(4G) - x(2G
 h^4 term at the finest grid; validated on a fourth grid G = 2400 for one state).
 
 Usage (from the repository root):
-  python Revision/kohn_sham/reference/run_reference.py [--out DIR] [--report FILE] [--timing FILE] [--jobs N]
+  python Revision/kohn_sham/reference/run_reference.py [--out DIR] [--report FILE] [--timing FILE] [--jobs N] [--cache DIR [--part i/n]]
 Defaults: --out Revision/kohn_sham/reference/results, --report Revision/kohn_sham/reports/ks-reference.json.
 Outputs are deterministic (LF, no timings or paths); --timing writes the wall-clock times separately.
+In parts (each invocation within a time limit): run --cache DIR --part i/n for i = 1..n (each computes a fixed part of
+the jobs, balanced by cost_estimate, saves every finished job in DIR and writes no outputs), then --cache DIR without
+--part (computes any job still missing and writes the outputs).  The outputs are the same as those of one run: every
+job is a pure function of its inputs, and the cache is tied to the SHA-256 of ks-theory.json, run_reference.py and
+ks_fd.py and to the Python and numpy versions (a cache made with other inputs is refused).
 """
 
 from __future__ import annotations
@@ -40,6 +46,7 @@ import hashlib
 import json
 import math
 import multiprocessing as mp
+import pickle
 import re
 import shutil
 import sys
@@ -79,7 +86,7 @@ PH_ROWS = 48             # particle-hole excitations kept per ground state (the 
 CROSSING_EMAX = 1.6      # free a4,0 = 0 closed shells up to this energy: the N of the crossing demonstration
 SEA_EXTRA_SHELLS = 5     # sea-hole diagnostic: shells beyond the thermal label set that are also evaluated
 
-PROFILE_NAMES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p8")
+PROFILE_NAMES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 
 
 # ------------------------------------------------------------------------------------------------
@@ -636,7 +643,7 @@ def exx_job(co, spec):
               "E_exx_minus_first_order": ox["E_KS"] - olda["E_KS"] - olda["deltaE_x_exact_fock"],
               "HOMO_exact_fock": h, "LUMO_exact_fock": l, "gap_exact_fock": l - h,
               "int_rho": ox["int_rho"], "E_variational": ox["E_variational"], "ycons_jump": ox["ycons_jump"],
-              "ycons_integral": ox["ycons_integral"], "p8_tip": ox["p8_tip"], "p8_brane": ox["p8_brane"], "N_sum": ox["N_sum"],
+              "ycons_integral": ox["ycons_integral"], "p0_tip": ox["p0_tip"], "p0_brane": ox["p0_brane"], "N_sum": ox["N_sum"],
               "max_abs_wQ": float(np.max(np.abs(sx.wq)))}
         per.append({"G": G, "iterations": sx.iters, "residual": sx.res, "uniform_gas_residual": gs.res,
                     "same_occupations_as_uniform_gas": bool(np.array_equal(sx.f, gs.f)), "open_shell": sx.open_shell, "scalars": sc})
@@ -666,7 +673,7 @@ def rescale_job(co, spec):
         o, prof = K.observables(st)
         ri = g.report_indices()
         runs.append({"G": G, "iterations": st.iters, "residual": st.res, "E_KS": o["E_KS"], "eps": st.eps, "f": st.f,
-                     "profiles": {k: prof[k][ri] for k in ("n", "S", "rho", "p3", "p8")}})
+                     "profiles": {k: prof[k][ri] for k in ("n", "S", "rho", "p3", "p0")}})
     keys = ls0.keys()
     R, U = rich3(*[r["E_KS"] for r in runs])
     Re, Ue = rich3(*[r["eps"] for r in runs])
@@ -677,7 +684,7 @@ def rescale_job(co, spec):
            "levels": {"keys": [list(k) for k in keys], "eps": Re, "U": Ue, "f": runs[-1]["f"]},
            "same_occupations_all_grids": all(np.array_equal(r["f"], runs[0]["f"]) for r in runs),
            "profiles": {}}
-    for nm in ("n", "S", "rho", "p3", "p8"):
+    for nm in ("n", "S", "rho", "p3", "p0"):
         Rp, Up = rich3(*[r["profiles"][nm] for r in runs])
         out["profiles"][nm] = {"value": Rp, "U": Up}
     return {"kind": "rescale", "id": spec["id"], "data": out, "seconds": time.time() - t0}
@@ -787,11 +794,11 @@ def validation_job(co, spec):
                                 "max_ratio_to_U123": float(np.max(d / U1)), "all_within_U123": bool(np.all(d <= U1)),
                                 "max_U123": float(U1.max()), "max_U234": float(np.max(U2))}
 
-    for k in ("E_KS", "E_int", "HOMO", "LUMO", "int_rho", "int_p3", "int_p8", "dE_da4_emt", "deltaE_x_exact_fock",
-              "rho_tip", "p8_tip", "rho_brane", "p8_brane"):
+    for k in ("E_KS", "E_int", "HOMO", "LUMO", "int_rho", "int_p3", "int_p0", "dE_da4_emt", "deltaE_x_exact_fock",
+              "rho_tip", "p0_tip", "rho_brane", "p0_brane"):
         comp(k, [v["o"][k] for v in vals])
     comp("eigenvalues", [v["eps"] for v in vals])
-    for k in ("n", "S", "rho", "p3", "p8"):
+    for k in ("n", "S", "rho", "p3", "p0"):
         comp("profile_" + k, [v["prof"][k] for v in vals])
     return {"kind": "validation", "id": spec["id"], "data": res, "seconds": time.time() - t0}
 
@@ -889,6 +896,61 @@ def _dispatch(task):
     if kind == "free":
         return free_checks_job(co)
     raise ValueError(kind)
+
+
+def task_key(task):
+    """The key of a job's result: (kind, state id), "" for the jobs without a state."""
+    kind, _, spec = task
+    return (kind, spec["id"] if isinstance(spec, dict) else "")
+
+
+def _dispatch_keyed(task):
+    return task_key(task), _dispatch(task)
+
+
+def partition(tasks, n):
+    """A fixed partition of the jobs into n parts of nearly equal cost_estimate (longest job first to the cheapest part)."""
+    parts, load = [[] for _ in range(n)], [0.0] * n
+    for t in sorted(tasks, key=lambda t: (-cost_estimate(t), task_key(t))):
+        i = min(range(n), key=lambda j: (load[j], j))
+        parts[i].append(t)
+        load[i] += cost_estimate(t)
+    return parts
+
+
+def open_cache(cache: Path, co):
+    """Create or reopen a job cache; refuse one made with other inputs."""
+    ident = {"ks-theory.json": co["sha256"],
+             "run_reference.py": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+             "ks_fd.py": hashlib.sha256((HERE / "ks_fd.py").read_bytes()).hexdigest(),
+             "python": sys.version.split()[0], "numpy": np.__version__}
+    f = cache / "cache-identity.json"
+    if f.exists():
+        old = json.loads(f.read_text(encoding="utf-8"))
+        if old != ident:
+            raise SystemExit(f"{cache} holds jobs computed with other inputs: {old} != {ident}")
+    else:
+        if cache.exists() and any(cache.iterdir()):
+            raise SystemExit(f"{cache} exists, is not empty and is not a job cache of run_reference.py")
+        cache.mkdir(parents=True, exist_ok=True)
+        f.write_text(json.dumps(ident, indent=1) + "\n", encoding="utf-8")
+
+
+def cache_file(cache: Path, key):
+    return cache / f"{key[0]}__{key[1] or 'all'}.pkl"
+
+
+def cache_load(cache, key):
+    f = cache_file(cache, key) if cache else None
+    return pickle.loads(f.read_bytes()) if f is not None and f.exists() else None
+
+
+def cache_save(cache, key, r):
+    if cache:
+        f = cache_file(cache, key)
+        tmp = f.with_suffix(".tmp")
+        tmp.write_bytes(pickle.dumps(r, protocol=4))
+        os.replace(tmp, f)
 
 
 def cost_estimate(task):
@@ -999,8 +1061,8 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
                                      "value = the larger of the two ratios |difference| / allowance", 1.0),
         "ground_energy_two_forms": Agg("E_KS = sum g f eps - E_int equals the variational form on every grid: relative difference", 1e-9),
         "emt_energy_integral": Agg("2 Vol_7 int e^{6Hy} rho dy = E_KS (Richardson values): |difference| / (3 (U1 + U2) + 1e-12 max(1, |E|))", 1.0),
-        "emt_y_conservation_integrated": Agg("[e^{6Hy} p8]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy (Richardson values): |difference| / (3 (U1 + U2) + 1e-8 scale), "
-                                             "scale = max(|jump|, |integral|, |e^{6Hy} p8| at both ends)", 1.0),
+        "emt_y_conservation_integrated": Agg("[e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy (Richardson values): |difference| / (3 (U1 + U2) + 1e-8 scale), "
+                                             "scale = max(|jump|, |integral|, |e^{6Hy} p0| at both ends)", 1.0),
         "emt_energy_change_dE_da4": Agg("dE/da4 at fixed occupations (a4 +- delta, +- 2 delta, Richardson) = -6 Vol_7 int e^{6Hy}(p3 - p_t) dy (Richardson in h): "
                                         "|difference| / (3 (U1 + U2) + 1e-10 max(1, |dE/da4|))", 1.0),
         "adiabatic_hellmann_feynman_discrete": Agg("d eps_n/da4 (differences of the self-consistent levels) = z_n^T (dT/da4) z_n on every grid: max |deviation| (units of m)", 1e-8),
@@ -1033,7 +1095,7 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
 
         A["emt_energy_integral"].add(sid, cmp("int_rho", "E_KS", 1e-12))
         ysc = max(abs(sc["ycons_integral"]["value"]), abs(sc["ycons_jump"]["value"]),
-                  abs(sc["p8_tip"]["value"]) * math.exp(-18.0), abs(sc["p8_brane"]["value"]), 1e-300)
+                  abs(sc["p0_tip"]["value"]) * math.exp(-18.0), abs(sc["p0_brane"]["value"]), 1e-300)
         A["emt_y_conservation_integrated"].add(sid, cmp("ycons_jump", "ycons_integral", 1e-8, scale=ysc))
         A["emt_energy_change_dE_da4"].add(sid, cmp("dE_da4_fd", "dE_da4_emt", 1e-10))
         A["adiabatic_hellmann_feynman_discrete"].add(sid, max(r["hellmann_feynman_maxdev"] for r in pg))
@@ -1054,7 +1116,7 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
         "exx_N_conservation": Agg("exact-Fock variant: |sum g f - N| on every grid", 1e-9),
         "exx_energy_two_forms": Agg("exact-Fock variant: E_KS equals the variational form (incl. - int w_Q Q) on every grid: relative difference", 1e-9),
         "exx_emt_energy_integral": Agg("exact-Fock variant: 2 Vol_7 int e^{6Hy} rho dy = E_KS (Richardson): |difference| / (3 (U1 + U2) + 1e-12 max(1, |E|))", 1.0),
-        "exx_y_conservation_integrated": Agg("exact-Fock variant: [e^{6Hy} p8]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy with p8 including - w_Q Q "
+        "exx_y_conservation_integrated": Agg("exact-Fock variant: [e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy with p0 including - w_Q Q "
                                              "(Richardson): |difference| / (3 (U1 + U2) + 1e-8 scale)", 1.0),
     }
     for e in exxs:
@@ -1068,8 +1130,8 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
                                                max(1.0, abs(r["scalars"]["E_exact_fock_scf"])) for r in pg))
         x, y = sc["int_rho"], sc["E_exact_fock_scf"]
         X["exx_emt_energy_integral"].add(sid, abs(x["value"] - y["value"]) / (3 * (x["U"] + y["U"]) + 1e-12 * max(1.0, abs(y["value"]))))
-        ysc = max(abs(sc["ycons_integral"]["value"]), abs(sc["ycons_jump"]["value"]), abs(sc["p8_tip"]["value"]) * math.exp(-18.0),
-                  abs(sc["p8_brane"]["value"]), 1e-300)
+        ysc = max(abs(sc["ycons_integral"]["value"]), abs(sc["ycons_jump"]["value"]), abs(sc["p0_tip"]["value"]) * math.exp(-18.0),
+                  abs(sc["p0_brane"]["value"]), 1e-300)
         x, y = sc["ycons_jump"], sc["ycons_integral"]
         X["exx_y_conservation_integrated"].add(sid, abs(x["value"] - y["value"]) / (3 * (x["U"] + y["U"]) + 1e-8 * ysc))
     for name, ag in X.items():
@@ -1078,7 +1140,7 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
     gmap = {g["data"]["id"]: g["data"] for g in grounds}
     R_ = Agg("KS(a4,0; dk, v_t, lambda) = KS(0; dk e^{-a4,0}, v_t e^{-3 a4,0}, lambda), solved independently by the reference: the same "
              "label set and occupations (value 1e9 otherwise), max over the levels |delta eps| (m), |delta E_KS| / max(1, |E|) and "
-             "max |delta profile| / profile maximum (n, S, rho, p3, p8), all Richardson values: the largest", 1e-10)
+             "max |delta profile| / profile maximum (n, S, rho, p3, p0), all Richardson values: the largest", 1e-10)
     for r in rescales:
         d = r["data"]
         g = gmap[d["id"]]
@@ -1089,7 +1151,7 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
         dl = float(np.max(np.abs(np.asarray(d["levels"]["eps"]) - np.asarray(g["levels"]["eps"]))))
         de = abs(d["E_KS"]["value"] - g["scalars"]["E_KS"]["value"]) / max(1.0, abs(g["scalars"]["E_KS"]["value"]))
         dp = max(float(np.max(np.abs(np.asarray(d["profiles"][nm]["value"]) - np.asarray(g["profiles"][nm]["value"])))) /
-                 max(float(np.max(np.abs(np.asarray(g["profiles"][nm]["value"])))), 1e-300) for nm in ("n", "S", "rho", "p3", "p8"))
+                 max(float(np.max(np.abs(np.asarray(g["profiles"][nm]["value"])))), 1e-300) for nm in ("n", "S", "rho", "p3", "p0"))
         R_.add(d["id"], max(dl, de, dp))
     R_.emit(rep, "rescaling_identity_reference")
     # crossing demonstration
@@ -1161,14 +1223,28 @@ def main():
     ap.add_argument("--report", default=str(KS / "reports" / "ks-reference.json"))
     ap.add_argument("--timing", default=None)
     ap.add_argument("--jobs", type=int, default=min(20, max(1, (os.cpu_count() or 4) - 2)))
+    ap.add_argument("--cache", default=None, help="job cache: jobs found there are not recomputed; every finished job is saved there")
+    ap.add_argument("--part", default=None, help="i/n (needs --cache): compute only part i of n of the jobs and write no outputs")
     args = ap.parse_args()
     out = Path(args.out)
     t_all = time.time()
     co = theory_coefficients()
     timing = {}
+    cache = Path(args.cache) if args.cache else None
+    part = None
+    if args.part:
+        m_ = re.fullmatch(r"(\d+)/(\d+)", args.part)
+        if not cache or not m_ or not 1 <= int(m_.group(1)) <= int(m_.group(2)):
+            raise SystemExit("--part i/n needs --cache and 1 <= i <= n")
+        part = (int(m_.group(1)), int(m_.group(2)))
+    if cache:
+        open_cache(cache, co)
 
     print("parameters (particle numbers, calibration) ...", file=sys.stderr, flush=True)
-    pj = parameters_job(co)
+    pj = cache_load(cache, ("parameters", ""))
+    if pj is None:
+        pj = parameters_job(co)
+        cache_save(cache, ("parameters", ""), pj)
     params = pj["data"]
     timing["parameters"] = pj["seconds"]
     nmap = {8: 8.0, "mid": params["N_mid"], "large": params["N_large"]}
@@ -1194,14 +1270,30 @@ def main():
     tasks += [("thermo", co, tspec(*s)) for s in THERMO_MATRIX]
     # longest jobs first (the order changes no output: results are keyed and written in a fixed order)
     tasks.sort(key=lambda t: -cost_estimate(t))
-    print(f"{len(tasks)} jobs on {args.jobs} processes ...", file=sys.stderr, flush=True)
     results = {}
-    with mp.get_context("spawn").Pool(args.jobs) as pool:
-        for r in pool.imap_unordered(_dispatch, tasks):
-            key = (r["kind"], r.get("id", ""))
-            results[key] = r
-            timing[f"{r['kind']}:{r.get('id', '')}"] = r["seconds"]
-            print(f"  done {r['kind']} {r.get('id', '')} ({r['seconds']:.1f} s; {len(results)}/{len(tasks)})", file=sys.stderr, flush=True)
+    for t in tasks:
+        r = cache_load(cache, task_key(t))
+        if r is not None:
+            results[task_key(t)] = r
+    todo = partition(tasks, part[1])[part[0] - 1] if part else tasks
+    run = [t for t in todo if task_key(t) not in results]
+    print(f"{len(tasks)} jobs ({len(results)} from the cache); this run computes {len(run)}"
+          f"{f' (part {part[0]}/{part[1]})' if part else ''} on {args.jobs} processes ...", file=sys.stderr, flush=True)
+    if run:
+        with mp.get_context("spawn").Pool(args.jobs) as pool:
+            for key, r in pool.imap_unordered(_dispatch_keyed, run):
+                if key != (r["kind"], r.get("id", "")):
+                    raise SystemExit(f"job key {key} != result key {(r['kind'], r.get('id', ''))}")
+                results[key] = r
+                cache_save(cache, key, r)
+                timing[f"{r['kind']}:{r.get('id', '')}"] = r["seconds"]
+                print(f"  done {r['kind']} {r.get('id', '')} ({r['seconds']:.1f} s; {len(results)}/{len(tasks)})", file=sys.stderr, flush=True)
+    if part:
+        missing = sum(1 for t in tasks if task_key(t) not in results)
+        print(f"part {part[0]}/{part[1]}: {len(run)} jobs computed in {time.time() - t_all:.1f} s; {missing} of {len(tasks)} jobs not yet in the cache",
+              file=sys.stderr)
+        print("PART DONE")
+        return 0
     free = results[("free", "")]["data"]
     valid = results[("validation", run_id(nmap[VALIDATION_STATE[0]], VALIDATION_STATE[1], VALIDATION_STATE[2]))]
     crossing = results[("crossing", "")]
@@ -1214,8 +1306,8 @@ def main():
     params_out = {
         "description": "Revision Kohn-Sham REFERENCE solver (Revision/kohn_sham/reference): independent Python solver, staggered finite "
                        "differences in y with Richardson extrapolation over G = 300, 600, 1200 (SPEC section 7, Revision/kohn_sham/ks-theory.json). "
-                       "x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z), "
-                       "x8 = hidden direction (y = ln(sin z)/(6H)).",
+                       "The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln(sin z)/(6H), z = 6 H x0), x1..x3 = 3-space, "
+                       "x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z).",
         "theoryInputs": {"ksTheorySha256": co["sha256"], "MeffCoefficientOfLambdaS": str(co["cM"]), "vvCoefficientOfLambdaN": str(co["cV"]),
                          "eintCoefficientS2": str(co["eS2"]), "eintCoefficientN2": str(co["eN2"]),
                          "exactFockVariantEintCoefficientQ2": str(co["cQ2"]), "exactFockVariantWQCoefficientOfLambdaQ": str(co["cWQ"])},
@@ -1255,8 +1347,8 @@ def main():
     for p, obj in files.items():
         dump_json(out / p, obj)
     hdr = ["id", "N", "lambda_tag", "lambda", "a4"]
-    gcols = ["E_KS", "E_band", "E_int", "HOMO", "LUMO", "KS_gap", "delta_SCF", "int_rho", "int_p3", "int_p_t", "int_p8", "int_n",
-             "dE_da4_emt", "dE_da4_fd", "deltaE_x_exact_fock", "rho_brane", "p8_brane", "rho_tip", "p8_tip"]
+    gcols = ["E_KS", "E_band", "E_int", "HOMO", "LUMO", "KS_gap", "delta_SCF", "int_rho", "int_p3", "int_p_t", "int_p0", "int_n",
+             "dE_da4_emt", "dE_da4_fd", "deltaE_x_exact_fock", "rho_brane", "p0_brane", "rho_tip", "p0_tip"]
     rows = []
     for gr in grounds:
         d = gr["data"]

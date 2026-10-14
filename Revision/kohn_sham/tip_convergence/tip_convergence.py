@@ -24,7 +24,7 @@ Steps (all outputs in this folder, deterministic: no timings, no paths):
   4. independent check with the reference solver (reference/ks_fd.py) at L = 3 and L = 4.
 
 Usage (from the repository root):
-  python Revision/kohn_sham/tip_convergence/tip_convergence.py --work <scratch dir> [--jobs 8]
+  python Revision/kohn_sham/tip_convergence/tip_convergence.py --work <scratch dir> [--jobs N]  (N <= 22, default 8)
 """
 from __future__ import annotations
 
@@ -94,10 +94,10 @@ PATCHES = (
      '            g: std::env::var("KS_RK4_STEPS").ok().map(|s| s.parse::<usize>().expect("KS_RK4_STEPS")).unwrap_or(900),\n'),
 )
 
-Q_T0 = ("E_KS", "E_int", "HOMO", "LUMO", "KS_gap", "eps_zero_mode", "int_rho", "int_p3", "int_p_t", "int_p8",
-        "int_n", "rho_brane", "p3_brane", "p_t_brane", "p8_brane", "n_brane")
-Q_THERMAL = ("E_KS", "mu", "entropy", "int_rho", "int_p3", "int_p_t", "int_p8", "int_n", "rho_brane",
-             "p3_brane", "p_t_brane", "p8_brane", "n_brane")
+Q_T0 = ("E_KS", "E_int", "HOMO", "LUMO", "KS_gap", "eps_zero_mode", "int_rho", "int_p3", "int_p_t", "int_p0",
+        "int_n", "rho_brane", "p3_brane", "p_t_brane", "p0_brane", "n_brane")
+Q_THERMAL = ("E_KS", "mu", "entropy", "int_rho", "int_p3", "int_p_t", "int_p0", "int_n", "rho_brane",
+             "p3_brane", "p_t_brane", "p0_brane", "n_brane")
 DIAG = ("n_tip", "max_abs_v_v", "max_abs_Meff_minus_m", "iterations", "residual")
 CSV_COLS = ("protocol", "id", "N", "lambda_tag", "lambda", "a4", "T", "L", "G", "status") + \
     tuple(dict.fromkeys(Q_T0 + Q_THERMAL + DIAG))
@@ -219,7 +219,7 @@ def parse_single(js: Path, pr: Path, spec):
     o = {"E_KS": d["E_KS"], "E_band": d["E_band"], "E_int": d["E_int"], "iterations": d["iterations"],
          "residual": d["residual"]}
     em = d["emtIntegrals_2Vol7_int_e6Hy"]
-    for k, v in (("int_rho", "rho"), ("int_p3", "p3"), ("int_p_t", "p_t"), ("int_p8", "p8"), ("int_n", "n")):
+    for k, v in (("int_rho", "rho"), ("int_p3", "p3"), ("int_p_t", "p_t"), ("int_p0", "p0"), ("int_n", "n")):
         o[k] = em[v]
     lv = d["levels_n2_j_parity_label_eps_deg_f"]
     o["levels"] = lv
@@ -240,7 +240,7 @@ def parse_single(js: Path, pr: Path, spec):
     col = {h: data[:, i] for i, h in enumerate(hdr)}
     o["y"] = col["y"]
     o["profiles"] = col
-    for nm in ("rho", "p3", "p_t", "p8", "n"):
+    for nm in ("rho", "p3", "p_t", "p0", "n"):
         o[f"{nm}_brane"] = float(col[nm][-1])
     o["n_tip"] = float(col["n"][0])
     o["max_abs_v_v"] = float(np.max(np.abs(col["v_v"])))
@@ -328,7 +328,7 @@ def ref_job(args):
         gs = free if lam == 0.0 else K.solve_state(g, ph, ls, guess=free.eps)
         o, _ = K.observables(gs)
         homo, lumo, _, _ = K.homo_lumo(gs)
-        vals.append({"E_KS": o["E_KS"], "E_int": o["E_int"], "HOMO": homo, "LUMO": lumo, "int_p8": o["int_p8"],
+        vals.append({"E_KS": o["E_KS"], "E_int": o["E_int"], "HOMO": homo, "LUMO": lumo, "int_p0": o["int_p0"],
                      "int_n": o["int_n"], "int_rho": o["int_rho"]})
     out = {"grids": list(grids)}
     for k in vals[0]:
@@ -467,7 +467,7 @@ def main():
     a = ap.parse_args()
     work = Path(a.work).resolve()
     work.mkdir(parents=True, exist_ok=True)
-    jobs = max(1, min(a.jobs, 8))
+    jobs = max(1, min(a.jobs, 22))   # the outputs do not depend on the number of workers (deterministic solver runs)
     t0 = time.time()
     tlog = lambda s: print(f"[{time.time() - t0:7.1f} s] {s}", file=sys.stderr, flush=True)  # noqa: E731
     checks = []
@@ -533,7 +533,7 @@ def main():
         if s["T"] == 0:
             for k in ("E_KS", "HOMO", "LUMO", "KS_gap"):
                 pairs.append((k, x[k], float(summ[s["id"]][k])))
-            for k in ("int_rho", "int_p3", "int_p_t", "int_p8", "int_n", "rho_brane", "p3_brane", "p_t_brane", "p8_brane"):
+            for k in ("int_rho", "int_p3", "int_p_t", "int_p0", "int_n", "rho_brane", "p3_brane", "p_t_brane", "p0_brane"):
                 pairs.append((k, x[k], float(emt[s["id"]][k])))
         else:
             for k, kk in (("E_KS", "E"), ("mu", "mu"), ("entropy", "entropy")):
@@ -711,7 +711,7 @@ def main():
     refcmp, rfail, rworst = [], [], 0.0
     for (N, tag, lam, a4, L), rr in zip(rjobs, rref):
         sid = state_id(N, tag, a4)
-        for q in ("E_KS", "E_int", "HOMO", "LUMO", "int_p8", "int_n", "int_rho"):
+        for q in ("E_KS", "E_int", "HOMO", "LUMO", "int_p0", "int_n", "int_rho"):
             x, xh = series(allspecs, res_fixed, sid, q)
             if q == "E_int":
                 x = {}
@@ -732,7 +732,7 @@ def main():
     dcmp = []
     for (N, tag, a4) in REF_STATES:
         sid = state_id(N, tag, a4)
-        for q in ("E_KS", "HOMO", "LUMO", "int_p8", "int_n"):
+        for q in ("E_KS", "HOMO", "LUMO", "int_p0", "int_n"):
             c3 = next(c for c in refcmp if c["id"] == sid and c["L"] == 3.0 and c["quantity"] == q)
             c4 = next(c for c in refcmp if c["id"] == sid and c["L"] == 4.0 and c["quantity"] == q)
             dcmp.append({"id": sid, "quantity": q, "rust_L4_minus_L3": c4["rust"] - c3["rust"],

@@ -1,7 +1,7 @@
 {
   "checks": [
     {
-      "detail": "{gamma^a, gamma^b} = 2 eta^ab for the fixture Revision/algebra/gammas.json (eta = diag(+,+,+,-,-,-,-,+) in the order x1..x8)",
+      "detail": "{gamma^a, gamma^b} = 2 eta^ab for the fixture Revision/algebra/gammas.json (eta = diag(+,+,+,+,-,-,-,-) in the author's order x0..x7)",
       "name": "gammas_clifford_author_T16",
       "verdict": "PASS"
     },
@@ -11,13 +11,13 @@
       "verdict": "PASS"
     },
     {
-      "detail": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7) for a diagonal T(x4, x8), Christoffel symbols computed here from the author's metric",
+      "detail": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7) for a diagonal T(x4, x0), Christoffel symbols computed here from the author's metric",
       "name": "conservation_x4_author_metric",
       "verdict": "PASS"
     },
     {
-      "detail": "nabla_mu T^mu_x8 = d8 p8 + H cot z sum_{6 directions} (p8 - p_dir); isotropic: d8 p8 + 3 H cot z (2 p8 - p3 - p_t)",
-      "name": "conservation_x8_author_metric",
+      "detail": "nabla_mu T^mu_x0 = d0 p0 + H cot z sum_{6 directions} (p0 - p_dir); isotropic: d0 p0 + 3 H cot z (2 p0 - p3 - p_t)",
+      "name": "conservation_x0_author_metric",
       "verdict": "PASS"
     },
     {
@@ -26,7 +26,7 @@
       "verdict": "PASS"
     },
     {
-      "detail": "local model (warp frozen at a fixed hidden position): the same x4 identity; nabla_mu T^mu_x8 = d8 p8",
+      "detail": "local model (warp frozen at a fixed hidden position): the same x4 identity; nabla_mu T^mu_x0 = d0 p0",
       "name": "conservation_x4_local_model",
       "verdict": "PASS"
     },
@@ -46,12 +46,12 @@
       "verdict": "PASS"
     },
     {
-      "detail": "<f> = int cos z f dx8 over the patch: d<f>/dx4 = <d4 f>, so the identities hold for the hidden-direction averages",
+      "detail": "<f> = int cos z f dx0 over the patch: d<f>/dx4 = <d4 f>, so the identities hold for the hidden-direction averages",
       "name": "observer_hidden_average_commutes",
       "verdict": "PASS"
     },
     {
-      "detail": "Phi(x4) on shell: d4 Phi = A Phi, A = -gamma^(x4) (M - 3 H gamma^(x8)), M = m + U'(S); C A + A^T C = 0 (author's T16), so S = Phibar Phi is constant",
+      "detail": "Phi(x4) on shell: d4 Phi = A Phi, A = -gamma^(x4) (M - 3 H gamma^(x0)), M = m + U'(S); C A + A^T C = 0 (author's T16), so S = Phibar Phi is constant",
       "name": "condensate_S_constant_T16",
       "verdict": "PASS"
     },
@@ -66,7 +66,7 @@
       "verdict": "PASS"
     },
     {
-      "detail": "rho = m S + lambda S^2/2, p3 = p_t = p8 = lambda S^2/2 (constant), w = p/rho = lambda S/(2 m + lambda S)",
+      "detail": "rho = m S + lambda S^2/2, p3 = p_t = p0 = lambda S^2/2 (constant), w = p/rho = lambda S/(2 m + lambda S)",
       "name": "condensate_rho_p_w",
       "verdict": "PASS"
     },
@@ -176,7 +176,7 @@
       "verdict": "PASS"
     },
     {
-      "detail": "on the growing eigenspace K_x5 = m S exactly (on shell), so rho = 0, p1 = p8 = L0 = 0 and p5 = -m S, which grows as exp(8 x4) and is not identically zero: w = p/rho is undefined; the energy of a growing mode sits in cross terms with decaying modes",
+      "detail": "on the growing eigenspace K_x5 = m S exactly (on shell), so rho = 0, p1 = p0 = L0 = 0 and p5 = -m S, which grows as exp(8 x4) and is not identically zero: w = p/rho is undefined; the energy of a growing mode sits in cross terms with decaying modes",
       "name": "growing_mode_extra_time_pressure",
       "verdict": "PASS"
     },

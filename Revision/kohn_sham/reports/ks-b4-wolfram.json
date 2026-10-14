@@ -7,7 +7,7 @@
 		{
 			"name":"K1_dirac_operator_b4_factorisation",
 			"verdict":"PASS",
-			"detail":"for every 16-component X(x1..x8): gamma^mu D_mu (b4^(-3\/4) X) [metric with b4] = b4^(-3\/4) (gamma^mu D_mu X [b4 = 1] + (b4^(-1\/2) - 1) E^a4 Sin[z]^(-1\/6) sum_(t=5..7) gamma^(t) d_t X)"
+			"detail":"for every 16-component X(x0..x7): gamma^mu D_mu (b4^(-3\/4) X) [metric with b4] = b4^(-3\/4) (gamma^mu D_mu X [b4 = 1] + (b4^(-1\/2) - 1) E^a4 Sin[z]^(-1\/6) sum_(t = x5, x6, x7) gamma^(t) d_t X)"
 		},
 		{
 			"name":"K2_good_sector_independent_of_b4",
@@ -22,7 +22,7 @@
 		{
 			"name":"K4_background_b4_1",
 			"verdict":"PASS",
-			"detail":"gamma^mu Omega_mu = 3 H gamma^(x8) + (3\/4)(b4'\/b4) gamma^(x4) in the metric with b4 and = 3 H gamma^(x8) at b4 = 1, the value ks-theory.json (geometry.spinConnection) uses: on the background of the record (b4 = 1, the vacuum history of Revision\/metric_b4\/results\/vacuum-b4.json) no recorded number changes"
+			"detail":"gamma^mu Omega_mu = 3 H gamma^(x0) + (3\/4)(b4'\/b4) gamma^(x4) in the metric with b4 and = 3 H gamma^(x0) at b4 = 1, the value ks-theory.json (geometry.spinConnection) uses: on the background of the record (b4 = 1, the vacuum history of Revision\/metric_b4\/results\/vacuum-b4.json) no recorded number changes"
 		}
 	]
 }

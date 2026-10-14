@@ -2,18 +2,18 @@
 """Revision/dark_sector/dirac16complex/derive/derive_effective.py - exact (sympy) derivation of every effective
 formula the dark-sector analysis of dirac16complex uses (SPEC sections 4, 5, 8, 11), BEFORE any number is computed.
 
-Coordinates as the author names them: x1, x2, x3 = ordinary 3-space (scale factor e^{a4} sin^{1/6} z);
-x4 = the time; x5, x6, x7 = the three EXTRA TIMES, time-like, which DEFLATE EXPONENTIALLY (scale factor
-e^{-a4} sin^{1/6} z, a4 increasing); x8 = the hidden space direction, z = 6 H x8 in (0, pi/2).
+The author's coordinates {x0, x1, ..., x7}: x0 = the hidden space direction, z = 6 H x0 in (0, pi/2); x1, x2, x3 =
+ordinary 3-space (scale factor e^{a4} sin^{1/6} z); x4 = the time; x5, x6, x7 = the three EXTRA TIMES, time-like,
+which DEFLATE EXPONENTIALLY (scale factor e^{-a4} sin^{1/6} z, a4 increasing).
 
 Derived here (every item is a named check in reports/derivation-checks.json):
   * the volume elements: sqrt|g| = cos z; the proper 7-volume element of a slice x4 = const is cos z and does not
     depend on a4 (3-space inflation e^{3 a4} compensated by extra-time deflation e^{-3 a4});
   * the conservation identities, re-derived from the metric (own Christoffel symbols) for a diagonal
-    T = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8) depending on (x4, x8):
+    T = diag(p0, p3, p3, p3, -rho, p_t, p_t, p_t) depending on (x4, x0):
       nabla_mu T^mu_x4 = 0  <=>  d rho/d x4 = -3 a4' (p3 - p_t),
-      nabla_mu T^mu_x8 = 0  <=>  d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0,
-    all other components vanish identically; the hidden-coordinate form p8_y + 6 H p8 = 3 H (p3 + p_t);
+      nabla_mu T^mu_x0 = 0  <=>  d p0/d x0 + 3 H cot z (2 p0 - p3 - p_t) = 0,
+    all other components vanish identically; the hidden-coordinate form p0_y + 6 H p0 = 3 H (p3 + p_t);
   * the integrated identity dE/da4 = -3 (P3 - Pt) (E, P3, Pt = proper 7-volume integrals);
   * the 4-dimensional effective density rho_4 of a 3-space observer for the three normalisations
     (A) compact extra times of fixed coordinate period (closed time-like directions; ASSUMPTION),
@@ -21,7 +21,7 @@ Derived here (every item is a named check in reports/derivation-checks.json):
     (C) per unit PROPER 7-volume (equivalently per unit proper extra-time volume),
     and the exact dilution-inferred w_eff = -1 - (1/3) d ln rho_4 / d ln a, a = e^{a4}:
       w_eff(A) = w_eff(B) = (P3 - Pt)/E,  w_eff(C) = (P3 - Pt)/E - 1;
-  * the homogeneous condensate (exact solution): rho = m S + U, p3 = p_t = p8 = S U' - U constant: w_eff(A) = 0,
+  * the homogeneous condensate (exact solution): rho = m S + U, p3 = p_t = p0 = S U' - U constant: w_eff(A) = 0,
     w_eff(C) = -1, ratio w = lambda S/(2 m + lambda S) constant; the value of lambda S/m that makes the ratio
     equal to the Unite constant-w value;
   * a free mode in the flat (warp-free) limit, labelled: omega^2 = M^2 + k^2 e^{-2 a4} - q^2 e^{2 a4} from the
@@ -60,16 +60,16 @@ def zero(expr):
 
 
 # ----------------------------------------------------------------------------------------------- metric
-x = sp.symbols("x1:9", real=True)            # x[0..7] = x1..x8
-x4, x8 = x[3], x[7]
+x = sp.symbols("x0:8", real=True)            # x[k] = xk, the author's coordinates x0..x7
+x4, x0 = x[4], x[0]
 H = sp.symbols("H", positive=True)
 a4 = sp.Function("a4")(x4)
-z = 6 * H * x8
+z = 6 * H * x0
 sz = sp.sin(z)
-g = sp.diag(sp.exp(2 * a4) * sz ** sp.Rational(1, 3), sp.exp(2 * a4) * sz ** sp.Rational(1, 3),
+g = sp.diag(sp.cot(z) ** 2, sp.exp(2 * a4) * sz ** sp.Rational(1, 3), sp.exp(2 * a4) * sz ** sp.Rational(1, 3),
             sp.exp(2 * a4) * sz ** sp.Rational(1, 3), -1,
             -sp.exp(-2 * a4) * sz ** sp.Rational(1, 3), -sp.exp(-2 * a4) * sz ** sp.Rational(1, 3),
-            -sp.exp(-2 * a4) * sz ** sp.Rational(1, 3), sp.cot(z) ** 2)
+            -sp.exp(-2 * a4) * sz ** sp.Rational(1, 3))
 ginv = sp.diag(*[1 / g[i, i] for i in range(8)])
 
 # volume elements (0 < z < pi/2: every factor positive)
@@ -78,7 +78,7 @@ A4s = sp.symbols("a4", real=True)
 
 
 def onchart(e):
-    return e.subs(a4, A4s).subs(6 * H * x8, zs)
+    return e.subs(a4, A4s).subs(6 * H * x0, zs)
 
 
 sn, cs = sp.symbols("sn cs", positive=True)      # sin z, cos z on the patch 0 < z < pi/2
@@ -88,12 +88,12 @@ def poschart(e):
     return onchart(e).subs({sp.cot(zs): cs / sn}).subs(sp.sin(zs), sn)
 
 
-sqrt_det_z = sp.simplify(sp.prod([sp.sqrt(poschart(-g[i, i]) if i in (3, 4, 5, 6) else poschart(g[i, i]))
+sqrt_det_z = sp.simplify(sp.prod([sp.sqrt(poschart(-g[i, i]) if i in (4, 5, 6, 7) else poschart(g[i, i]))
                                   for i in range(8)]))
 f3 = onchart(sp.exp(3 * a4) * sz ** sp.Rational(1, 2))          # proper 3-volume element (x1 x2 x3)
 ft = onchart(sp.exp(-3 * a4) * sz ** sp.Rational(1, 2))         # proper extra-time volume element (x5 x6 x7)
-f8 = sp.cot(zs)                                                 # proper hidden length element
-vol7 = sp.simplify(f3 * ft * f8)
+f0 = sp.cot(zs)                                                 # proper hidden length element (x0)
+vol7 = sp.simplify(f3 * ft * f0)
 check("sqrt_det_g_equals_cos_z", zero(sqrt_det_z - cs),
       f"sqrt|det g| = {sqrt_det_z} (sn = sin z, cs = cos z > 0 on the patch)")
 check("proper_7_volume_element_independent_of_a4",
@@ -112,11 +112,11 @@ for l in dims:
             Gam[l][m_][n] = sp.simplify(sum(ginv[l, s] * (sp.diff(g[s, m_], x[n]) + sp.diff(g[s, n], x[m_])
                                                        - sp.diff(g[m_, n], x[s])) for s in dims) / 2)
 
-rho = sp.Function("rho")(x4, x8)
-p3 = sp.Function("p3")(x4, x8)
-pt = sp.Function("pt")(x4, x8)
-p8 = sp.Function("p8")(x4, x8)
-T = sp.diag(p3, p3, p3, -rho, pt, pt, pt, p8)                  # T^mu_nu, mixed
+rho = sp.Function("rho")(x4, x0)
+p3 = sp.Function("p3")(x4, x0)
+pt = sp.Function("pt")(x4, x0)
+p0 = sp.Function("p0")(x4, x0)
+T = sp.diag(p0, p3, p3, p3, -rho, pt, pt, pt)                  # T^mu_nu, mixed, order x0, x1, ..., x7
 
 div = []
 for nu in dims:
@@ -126,23 +126,23 @@ for nu in dims:
     div.append(sp.simplify(e))
 a4p = sp.diff(a4, x4)
 expected_x4 = -sp.diff(rho, x4) - 3 * a4p * (p3 - pt)
-expected_x8 = sp.diff(p8, x8) + 3 * H * sp.cot(z) * (2 * p8 - p3 - pt)
-others_zero = all(zero(div[i]) for i in (0, 1, 2, 4, 5, 6))
-check("conservation_x4_identity", zero(div[3] - expected_x4),
+expected_x0 = sp.diff(p0, x0) + 3 * H * sp.cot(z) * (2 * p0 - p3 - pt)
+others_zero = all(zero(div[i]) for i in (1, 2, 3, 5, 6, 7))
+check("conservation_x4_identity", zero(div[4] - expected_x4),
       "nabla_mu T^mu_x4 = -d rho/d x4 - 3 a4' (p3 - p_t): d rho/d x4 = -3 a4' (p3 - p_t) on shell")
-check("conservation_x8_identity", zero(sp.expand_trig(div[7] - expected_x8)),
-      "nabla_mu T^mu_x8 = d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t)")
+check("conservation_x0_identity", zero(sp.expand_trig(div[0] - expected_x0)),
+      "nabla_mu T^mu_x0 = d p0/d x0 + 3 H cot z (2 p0 - p3 - p_t)")
 check("conservation_other_components_vanish", others_zero,
       "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (homogeneous diagonal T)")
 
-# hidden coordinate y = ln(sin z)/(6 H): dy/dx8 = cot z, so d/dx8 = cot z d/dy
+# hidden coordinate y = ln(sin z)/(6 H): dy/dx0 = cot z, so d/dx0 = cot z d/dy
 yv = sp.log(sp.sin(z)) / (6 * H)
-check("hidden_coordinate_dy_dx8", zero(sp.simplify(sp.diff(yv, x8) - sp.cot(z))), "dy/dx8 = cot z")
-P8y, P3v, Ptv, P8v = sp.symbols("p8_y p3 p_t p8", real=True)
-# d p8/dx8 = cot z p8_y; the x8 identity times tan z gives p8_y + 6 H p8 - 3 H (p3 + p_t)
-yform = sp.simplify(sp.tan(z) * (sp.cot(z) * P8y + 3 * H * sp.cot(z) * (2 * P8v - P3v - Ptv)))
-check("conservation_x8_in_y_form", zero(yform - (P8y + 6 * H * P8v - 3 * H * (P3v + Ptv))),
-      "tan z * (x8 identity) = p8_y + 6 H p8 - 3 H (p3 + p_t) (the form checked by the Kohn-Sham solver)")
+check("hidden_coordinate_dy_dx0", zero(sp.simplify(sp.diff(yv, x0) - sp.cot(z))), "dy/dx0 = cot z")
+P0y, P3v, Ptv, P0v = sp.symbols("p0_y p3 p_t p0", real=True)
+# d p0/dx0 = cot z p0_y; the x0 identity times tan z gives p0_y + 6 H p0 - 3 H (p3 + p_t)
+yform = sp.simplify(sp.tan(z) * (sp.cot(z) * P0y + 3 * H * sp.cot(z) * (2 * P0v - P3v - Ptv)))
+check("conservation_x0_in_y_form", zero(yform - (P0y + 6 * H * P0v - 3 * H * (P3v + Ptv))),
+      "tan z * (x0 identity) = p0_y + 6 H p0 - 3 H (p3 + p_t) (the form checked by the Kohn-Sham solver)")
 
 # integrated identity on an explicit family (linear consequence of the pointwise identity)
 c8 = sp.sin(z) ** 2
@@ -150,8 +150,8 @@ rho_fam = c8 * sp.exp(-a4)
 X_fam = c8 * sp.exp(-a4) / 3            # p3 - p_t of the family
 fam_ok = zero(sp.diff(rho_fam, x4) + 3 * a4p * X_fam)
 lim = sp.pi / (12 * H)
-E_fam = sp.integrate(rho_fam * sp.cos(z), (x8, 0, lim))
-X_int = sp.integrate(X_fam * sp.cos(z), (x8, 0, lim))
+E_fam = sp.integrate(rho_fam * sp.cos(z), (x0, 0, lim))
+X_int = sp.integrate(X_fam * sp.cos(z), (x0, 0, lim))
 check("integrated_identity_dE_da4", fam_ok and zero(sp.diff(E_fam, x4) + 3 * a4p * X_int),
       f"family rho = sin^2 z e^(-a4), p3 - p_t = rho/3: E = {sp.simplify(E_fam)}, dE/dx4 = -3 a4' (P3 - Pt)")
 
@@ -187,11 +187,11 @@ m, lam, S = sp.symbols("m lambda S", real=True)
 U = lam * S ** 2 / 2
 rho_c = m * S + U
 p_c = S * sp.diff(U, S) - U
-check("condensate_rho_p", zero(p_c - lam * S ** 2 / 2), "rho = m S + lambda S^2/2, p3 = p_t = p8 = lambda S^2/2")
+check("condensate_rho_p", zero(p_c - lam * S ** 2 / 2), "rho = m S + lambda S^2/2, p3 = p_t = p0 = lambda S^2/2")
 cond_x4 = zero(expected_x4.subs({rho: rho_c, p3: p_c, pt: p_c}).doit())
-cond_x8 = zero(expected_x8.subs({p8: p_c, p3: p_c, pt: p_c}).doit())
-check("condensate_satisfies_both_identities", cond_x4 and cond_x8,
-      "S constant: d rho/dx4 = 0 = -3 a4' (p - p); x8 identity 3 H cot z (2p - p - p) = 0")
+cond_x0 = zero(expected_x0.subs({p0: p_c, p3: p_c, pt: p_c}).doit())
+check("condensate_satisfies_both_identities", cond_x4 and cond_x0,
+      "S constant: d rho/dx4 = 0 = -3 a4' (p - p); x0 identity 3 H cot z (2p - p - p) = 0")
 ratio_c = sp.simplify(p_c / rho_c)
 check("condensate_ratio_w", zero(ratio_c - lam * S / (2 * m + lam * S)), f"w = p/rho = {ratio_c}")
 check("condensate_w_eff", zero(weff["A_compact_coordinate_period"].subs(Xs, 0)) and
@@ -302,16 +302,16 @@ formulas = {
     "description": "Exact effective formulas of the dark-sector analysis of dirac16complex (SPEC sections 8, 11), "
                    "derived by Revision/dark_sector/dirac16complex/derive/derive_effective.py (sympy); every entry is "
                    "a named check of reports/derivation-checks.json.",
-    "coordinates": "x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three "
-                   "exponentially DEFLATING extra times (time-like, scale factor e^{-a4} sin^{1/6} z, a4 increasing); "
-                   "x8 = hidden direction, z = 6 H x8 in (0, pi/2), y = ln(sin z)/(6 H).",
+    "coordinates": "the author's coordinates {x0, ..., x7}: x0 = hidden direction, z = 6 H x0 in (0, pi/2), "
+                   "y = ln(sin z)/(6 H); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = "
+                   "the three exponentially DEFLATING extra times (time-like, scale factor e^{-a4} sin^{1/6} z, a4 increasing).",
     "observerScaleFactor": "a = e^{a4} (3-space scale factor on the brane z = pi/2, normalised a = 1 at the chosen "
                            "'today' a4 = a4_today, i.e. a = e^{a4 - a4_today})",
     "volumes": {"sqrtDetG": "cos z", "proper7VolumeElement": "cos z (independent of a4)",
                 "proper3VolumeElement": "e^{3 a4} sin^{1/2} z", "properExtraTimeVolumeElement": "e^{-3 a4} sin^{1/2} z",
-                "hiddenLengthElement": "cot z dx8 = dy"},
+                "hiddenLengthElement": "cot z dx0 = dy"},
     "conservation": {"x4": "d rho/d x4 = -3 a4' (p3 - p_t)",
-                     "x8": "d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0  <=>  p8_y + 6 H p8 = 3 H (p3 + p_t)",
+                     "x0": "d p0/d x0 + 3 H cot z (2 p0 - p3 - p_t) = 0  <=>  p0_y + 6 H p0 = 3 H (p3 + p_t)",
                      "integrated": "dE/d a4 = -3 (P3 - Pt), E = int rho sqrt|g| d^7x, P3 = int p3 sqrt|g| d^7x, "
                                    "Pt = int p_t sqrt|g| d^7x (fixed occupations / exact solutions)"},
     "rho4": {
@@ -324,8 +324,8 @@ formulas = {
         "general": "rho_4 ~ E e^{-3 (1 - s) a4}: s = 0 (A, B), s = 1 (C)"},
     "wEff": {"definition": "w_eff = -1 - (1/3) d ln rho_4/d ln a",
              "A": "(P3 - Pt)/E", "B": "(P3 - Pt)/E", "C": "(P3 - Pt)/E - 1", "general": "(P3 - Pt)/E - s"},
-    "ratios": {"w3": "P3/E", "wt": "Pt/E", "w8": "P8/E (integrated); brane-local p3/rho etc. also reported"},
-    "condensate": {"rho": "m S + lambda S^2/2", "p3=p_t=p8": "lambda S^2/2", "w_ratio": "lambda S/(2 m + lambda S)",
+    "ratios": {"w3": "P3/E", "wt": "Pt/E", "wx0": "P0/E (integrated; the x0 ratio, not the CPL w0); brane-local p3/rho etc. also reported"},
+    "condensate": {"rho": "m S + lambda S^2/2", "p3=p_t=p0": "lambda S^2/2", "w_ratio": "lambda S/(2 m + lambda S)",
                    "w_eff_A": "0", "w_eff_C": "-1", "wa": "0 (every definition)",
                    "ratio_equals_minus_0p764_at_lambdaS_over_m": str(u_sol[0])},
     "flatModeLabelled": {"status": "flat (warp-free) limit, used for the sign structure and the limits only",

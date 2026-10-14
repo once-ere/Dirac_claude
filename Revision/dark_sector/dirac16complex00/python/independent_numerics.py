@@ -62,8 +62,8 @@ def load():
 
 
 G, ETA = load()
-G1, G4, G5, G8 = G[0], G[3], G[4], G[7]
-C = G8 @ G[0] @ G[1] @ G[2]
+G0, G1, G4, G5 = G[0], G[1], G[4], G[5]   # G[k] = gamma^(xk), the author's order x0..x7
+C = G0 @ G1 @ G[2] @ G[3]
 B = -1j * C @ G4
 I16 = np.eye(16, dtype=complex)
 CG1, CG4, CG5 = C @ G1, C @ G4, C @ G5

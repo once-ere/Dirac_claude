@@ -18,7 +18,7 @@
   {
    "name": "theory_input_coefficients",
    "verdict": "PASS",
-   "detail": "ks-theory.json (sha256 1bf41d79318a24a4): M_eff = m + 15/16 lambda S, v_v = -1/16 lambda n, e_int = lambda[15/32 S^2 + -1/32 n^2] (Hartree 1/2 plus the uniform-gas exchange -1/32, -1/32); consistent: M_eff - m = d e_int/dS (15/16 = 15/16), v_v = d e_int/dn (-1/16 = -1/16): True; exact-Fock variant (exchange.exactFockSlab): e_x^exact = -lambda 1/32 (n^2 + S^2 - Q^2), i.e. e_int + lambda 1/32 Q^2 (stated: 1/32) and w_Q = lambda 1/16 Q sigma3 = d(lambda 1/32 Q^2)/dQ, the n^2 and S^2 coefficients equal the uniform-gas -1/32, -1/32: True"
+   "detail": "ks-theory.json (sha256 a40cc2e2fa67039b): M_eff = m + 15/16 lambda S, v_v = -1/16 lambda n, e_int = lambda[15/32 S^2 + -1/32 n^2] (Hartree 1/2 plus the uniform-gas exchange -1/32, -1/32); consistent: M_eff - m = d e_int/dS (15/16 = 15/16), v_v = d e_int/dn (-1/16 = -1/16): True; exact-Fock variant (exchange.exactFockSlab): e_x^exact = -lambda 1/32 (n^2 + S^2 - Q^2), i.e. e_int + lambda 1/32 Q^2 (stated: 1/32) and w_Q = lambda 1/16 Q sigma3 = d(lambda 1/32 Q^2)/dQ, the n^2 and S^2 coefficients equal the uniform-gas -1/32, -1/32: True"
   },
   {
    "name": "free_k0_analytic_spectra",
@@ -98,7 +98,7 @@
   {
    "name": "emt_y_conservation_integrated",
    "verdict": "PASS",
-   "detail": "[e^{6Hy} p8]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy (Richardson values): |difference| / (3 (U1 + U2) + 1e-8 scale), scale = max(|jump|, |integral|, |e^{6Hy} p8| at both ends); 75 cases; worst value 3.562e-04 (N688_lamm2_a20); tolerance 1.0e+00; failures: none"
+   "detail": "[e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy (Richardson values): |difference| / (3 (U1 + U2) + 1e-8 scale), scale = max(|jump|, |integral|, |e^{6Hy} p0| at both ends); 75 cases; worst value 3.562e-04 (N688_lamm2_a20); tolerance 1.0e+00; failures: none"
   },
   {
    "name": "emt_energy_change_dE_da4",
@@ -148,12 +148,12 @@
   {
    "name": "exx_y_conservation_integrated",
    "verdict": "PASS",
-   "detail": "exact-Fock variant: [e^{6Hy} p8]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy with p8 including - w_Q Q (Richardson): |difference| / (3 (U1 + U2) + 1e-8 scale); 60 cases; worst value 3.140e-04 (N136_lamp2_a20); tolerance 1.0e+00; failures: none"
+   "detail": "exact-Fock variant: [e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy with p0 including - w_Q Q (Richardson): |difference| / (3 (U1 + U2) + 1e-8 scale); 60 cases; worst value 3.140e-04 (N136_lamp2_a20); tolerance 1.0e+00; failures: none"
   },
   {
    "name": "rescaling_identity_reference",
    "verdict": "PASS",
-   "detail": "KS(a4,0; dk, v_t, lambda) = KS(0; dk e^{-a4,0}, v_t e^{-3 a4,0}, lambda), solved independently by the reference: the same label set and occupations (value 1e9 otherwise), max over the levels |delta eps| (m), |delta E_KS| / max(1, |E|) and max |delta profile| / profile maximum (n, S, rho, p3, p8), all Richardson values: the largest; 60 cases; worst value 4.247e-14 (N8_lamp1_a05); tolerance 1.0e-10; failures: none"
+   "detail": "KS(a4,0; dk, v_t, lambda) = KS(0; dk e^{-a4,0}, v_t e^{-3 a4,0}, lambda), solved independently by the reference: the same label set and occupations (value 1e9 otherwise), max over the levels |delta eps| (m), |delta E_KS| / max(1, |E|) and max |delta profile| / profile maximum (n, S, rho, p3, p0), all Richardson values: the largest; 60 cases; worst value 4.247e-14 (N8_lamp1_a05); tolerance 1.0e-10; failures: none"
   },
   {
    "name": "crossing_demo_reference",
@@ -198,7 +198,7 @@
   {
    "name": "richardson_uncertainty_validated",
    "verdict": "PASS",
-   "detail": "N136_lamp2_a20 solved also on G = 2400: the three-grid value of (600, 1200, 2400) differs from that of (300, 600, 1200) by at most the stated U of the latter for every element of 19 quantity classes (scalars, all levels, profiles); largest |R123 - R234| / U123 = 0.787 (p8_tip); classes exceeding: none"
+   "detail": "N136_lamp2_a20 solved also on G = 2400: the three-grid value of (600, 1200, 2400) differs from that of (300, 600, 1200) by at most the stated U of the latter for every element of 19 quantity classes (scalars, all levels, profiles); largest |R123 - R234| / U123 = 0.787 (p0_tip); classes exceeding: none"
   }
  ]
 }

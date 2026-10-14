@@ -43,7 +43,7 @@ BIN = KS / "solver" / "target" / "release" / ("revision_ks_solver.exe" if sys.pl
 RUST = KS / "results"
 OUT = HERE / "rust-refinement.json"
 SIGMA = {"lam0": 0.0, "lamp1": 0.1, "lamm1": 0.1, "lamp2": 0.3, "lamm2": 0.3}
-PROFILES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p8")
+PROFILES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 DEG_TOL = 1e-9           # the degeneracy tolerance of the Rust solver (parameters.json numerics.degeneracyTolerance)
 KIND_ORDER = {"ground": 0, "thermo": 1, "exx": 2, "crossing": 3}
 
@@ -120,7 +120,7 @@ def compare(spec, c, r, rust_rows, occ0=None):
     put("E_KS", cj["E_KS"], rj["E_KS"])
     put("E_band", cj["E_band"], rj["E_band"])
     put("E_int", cj["E_int"], rj["E_int"])
-    for k in ("rho", "p3", "p_t", "p8", "n"):
+    for k in ("rho", "p3", "p_t", "p0", "n"):
         put("int_" + k, cj["emtIntegrals_2Vol7_int_e6Hy"][k], rj["emtIntegrals_2Vol7_int_e6Hy"][k])
     if spec["kind"] == "thermo":
         put("mu", cj["mu_or_fermi_level"], rj["mu_or_fermi_level"])
@@ -132,7 +132,7 @@ def compare(spec, c, r, rust_rows, occ0=None):
         xr = [num(row[nm]) for row in pr]
         d = [abs(a - b) for a, b in zip(xc, xr)]
         prof[nm] = {"max_abs_diff": max(d), "max_abs": max(abs(a) for a in xc), "points": len(d)}
-    for k in ("rho", "p3", "p_t", "p8"):
+    for k in ("rho", "p3", "p_t", "p0"):
         put(k + "_brane", num(pc[-1][k]), num(pr[-1][k]))
         put(k + "_tip", num(pc[0][k]), num(pr[0][k]))
     lcl = cj["levels_n2_j_parity_label_eps_deg_f"]
@@ -189,7 +189,7 @@ def compare(spec, c, r, rust_rows, occ0=None):
         erow = rust_rows["emt"][spec["id"]]
         cm["E_KS_rel"] = abs(cj["E_KS"] - float(srow["E_KS"])) / max(1.0, abs(float(srow["E_KS"])))
         cm["emt_integrals_rel"] = max(abs(cj["emtIntegrals_2Vol7_int_e6Hy"][k] - float(erow["int_" + k])) / max(1.0, abs(float(erow["int_" + k])))
-                                      for k in ("rho", "p3", "p_t", "p8", "n"))
+                                      for k in ("rho", "p3", "p_t", "p0", "n"))
         lv = {(int(x["n2"]), int(x["j"]), x["parity"], int(x["label"])): float(x["eps"]) for x in read_csv(RUST / "ground" / "levels" / f"{spec['id']}.csv")}
         cmm = [abs(lc[k] - lv[k]) for k in lc if k in lv]
         cm["levels_max_abs"] = max(cmm)

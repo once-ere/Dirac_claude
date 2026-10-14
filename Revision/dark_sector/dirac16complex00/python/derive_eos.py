@@ -92,7 +92,7 @@ def _m(rows):
 def load_gammas():
     with open(GAMMAS, encoding="utf-8") as fh:
         d = json.load(fh)
-    g = [_m(x) for x in d["gamma"]]  # g[0..7] = gamma^(x1..x8)
+    g = [_m(x) for x in d["gamma"]]  # g[k] = gamma^(xk), k = 0..7 (the author's order; x0 the hidden direction)
     eta = [int(x) for x in d["eta"]]
     return g, eta
 
@@ -130,47 +130,47 @@ def divergence_diag(G, P, X):
 
 
 def section_conservation():
-    xs = sp.symbols("x1:9", real=True)
-    x4, x8 = xs[3], xs[7]
+    xs = sp.symbols("x0:8", real=True)          # the author's coordinates x0, x1, ..., x7 (index k = xk)
+    x4, x0 = xs[4], xs[0]
     H = sp.Symbol("H", positive=True)
     a4 = sp.Function("a4")(x4)
-    z = 6 * H * x8
+    z = 6 * H * x0
     w6 = sp.sin(z) ** sp.Rational(1, 3)
-    gd = [sp.exp(2 * a4) * w6] * 3 + [-1] + [-sp.exp(-2 * a4) * w6] * 3 + [sp.cot(z) ** 2]
+    gd = [sp.cot(z) ** 2] + [sp.exp(2 * a4) * w6] * 3 + [-1] + [-sp.exp(-2 * a4) * w6] * 3
     G = christoffel_diag(gd, xs)
-    P = [sp.Function("P%d" % (i + 1))(x4, x8) for i in range(8)]  # T^mu_mu, P4 = -rho
+    P = [sp.Function("P%d" % i)(x4, x0) for i in range(8)]  # P[k] = T^xk_xk, P4 = -rho
     div = divergence_diag(G, P, xs)
-    rho = -P[3]
-    exp4 = -sp.diff(rho, x4) - sp.diff(a4, x4) * (P[0] + P[1] + P[2] - P[4] - P[5] - P[6])
-    exp8 = sp.diff(P[7], x8) + H * sp.cot(z) * sum(P[7] - P[i] for i in (0, 1, 2, 4, 5, 6))
-    ok4 = sp.simplify(div[3] - exp4) == 0
-    ok8 = sp.simplify(sp.expand_trig(div[7] - exp8)) == 0
-    okrest = all(sp.simplify(div[i]) == 0 for i in (0, 1, 2, 4, 5, 6))
-    wrong4 = -sp.diff(rho, x4) + sp.diff(a4, x4) * (P[0] + P[1] + P[2] - P[4] - P[5] - P[6])
-    check("conservation_negative_control", sp.simplify(div[3] - wrong4) != 0,
+    rho = -P[4]
+    exp4 = -sp.diff(rho, x4) - sp.diff(a4, x4) * (P[1] + P[2] + P[3] - P[5] - P[6] - P[7])
+    exp0 = sp.diff(P[0], x0) + H * sp.cot(z) * sum(P[0] - P[i] for i in (1, 2, 3, 5, 6, 7))
+    ok4 = sp.simplify(div[4] - exp4) == 0
+    ok0 = sp.simplify(sp.expand_trig(div[0] - exp0)) == 0
+    okrest = all(sp.simplify(div[i]) == 0 for i in (1, 2, 3, 5, 6, 7))
+    wrong4 = -sp.diff(rho, x4) + sp.diff(a4, x4) * (P[1] + P[2] + P[3] - P[5] - P[6] - P[7])
+    check("conservation_negative_control", sp.simplify(div[4] - wrong4) != 0,
           "control: the x4 identity with the opposite sign of the exchange term is NOT satisfied (the comparison is not vacuous)")
     check("conservation_x4_author_metric", ok4,
-          "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7) for a diagonal T(x4, x8), "
+          "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7) for a diagonal T(x4, x0), "
           "Christoffel symbols computed here from the author's metric")
-    check("conservation_x8_author_metric", ok8,
-          "nabla_mu T^mu_x8 = d8 p8 + H cot z sum_{6 directions} (p8 - p_dir); isotropic: d8 p8 + 3 H cot z (2 p8 - p3 - p_t)")
+    check("conservation_x0_author_metric", ok0,
+          "nabla_mu T^mu_x0 = d0 p0 + H cot z sum_{6 directions} (p0 - p_dir); isotropic: d0 p0 + 3 H cot z (2 p0 - p3 - p_t)")
     check("conservation_other_components_vanish", okrest,
           "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7")
     # the local model: the same metric with the warp sin^(1/6) z frozen (absorbed in the coordinates)
-    gl = [sp.exp(2 * a4)] * 3 + [-1] + [-sp.exp(-2 * a4)] * 3 + [1]
+    gl = [1] + [sp.exp(2 * a4)] * 3 + [-1] + [-sp.exp(-2 * a4)] * 3
     Gl = christoffel_diag(gl, xs)
     divl = divergence_diag(Gl, P, xs)
-    okl = sp.simplify(divl[3] - exp4) == 0 and sp.simplify(divl[7] - sp.diff(P[7], x8)) == 0
+    okl = sp.simplify(divl[4] - exp4) == 0 and sp.simplify(divl[0] - sp.diff(P[0], x0)) == 0
     check("conservation_x4_local_model", okl,
-          "local model (warp frozen at a fixed hidden position): the same x4 identity; nabla_mu T^mu_x8 = d8 p8")
+          "local model (warp frozen at a fixed hidden position): the same x4 identity; nabla_mu T^mu_x0 = d0 p0")
     sqrtg_l = sp.sqrt(sp.Abs(sp.prod(gl)))
     check("local_model_volume_constant", sp.simplify(sqrtg_l - 1) == 0,
           "local model: sqrt|g| = 1, independent of x4 (3-space inflation e^{3 a4} compensated by the deflation e^{-3 a4})")
     return {
         "x4": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7)  (isotropic: -d4 rho - 3 a4' (p3 - p_t))",
-        "x8": "nabla_mu T^mu_x8 = d8 p8 + H cot z sum_{dir in x1,x2,x3,x5,x6,x7} (p8 - p_dir)  (isotropic: d8 p8 + 3 H cot z (2 p8 - p3 - p_t))",
-        "others": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (diagonal T depending on x4, x8)",
-        "homogeneous": "d rho / d x4 = -3 a4' (p3 - p_t) and p3 + p_t = 2 p8 (x8-independent source)",
+        "x0": "nabla_mu T^mu_x0 = d0 p0 + H cot z sum_{dir in x1,x2,x3,x5,x6,x7} (p0 - p_dir)  (isotropic: d0 p0 + 3 H cot z (2 p0 - p3 - p_t))",
+        "others": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (diagonal T depending on x4, x0)",
+        "homogeneous": "d rho / d x4 = -3 a4' (p3 - p_t) and p3 + p_t = 2 p0 (x0-independent source)",
     }
 
 
@@ -198,16 +198,16 @@ def section_observer():
           "using the exact conservation identity d rho/d x4 = -a4' (p1+p2+p3-p5-p6-p7)")
     check("observer_N2_weff_identity", ok2,
           "N2 (per unit proper 7-volume, rho_4 = <rho>): w_eff = -1 + (p1+p2+p3-p5-p6-p7)/(3 rho) = w_eff(N1) - 1")
-    # the weighted x8 average commutes with d/dx4 (the weight cos z does not depend on x4)
-    x8, H = sp.symbols("x8 H", positive=True)
-    f = sp.Function("f")(x4, x8)
-    avg = sp.Integral(sp.cos(6 * H * x8) * f, (x8, 0, sp.pi / (12 * H)))
-    ok3 = sp.simplify(sp.diff(avg, x4) - sp.Integral(sp.cos(6 * H * x8) * sp.diff(f, x4), (x8, 0, sp.pi / (12 * H)))) == 0
+    # the weighted x0 average commutes with d/dx4 (the weight cos z does not depend on x4)
+    x0, H = sp.symbols("x0 H", positive=True)
+    f = sp.Function("f")(x4, x0)
+    avg = sp.Integral(sp.cos(6 * H * x0) * f, (x0, 0, sp.pi / (12 * H)))
+    ok3 = sp.simplify(sp.diff(avg, x4) - sp.Integral(sp.cos(6 * H * x0) * sp.diff(f, x4), (x0, 0, sp.pi / (12 * H)))) == 0
     check("observer_hidden_average_commutes", ok3,
-          "<f> = int cos z f dx8 over the patch: d<f>/dx4 = <d4 f>, so the identities hold for the hidden-direction averages")
+          "<f> = int cos z f dx0 over the patch: d<f>/dx4 = <d4 f>, so the identities hold for the hidden-direction averages")
     return {
         "a": "a = e^{a4}: the 3-space scale factor (up to the constant factor sin^{1/6} z at a fixed hidden position); c = e^{-a4} = 1/a the extra-time scale factor",
-        "average": "<f>(x4) = int_0^{pi/(12 H)} cos z f dx8 (the proper-volume weight sqrt|g| = cos z; constant in x4)",
+        "average": "<f>(x4) = int_0^{pi/(12 H)} cos z f dx0 (the proper-volume weight sqrt|g| = cos z; constant in x4)",
         "N1": "per unit extra-time COORDINATE volume: rho_4 = e^{-3 a4} <rho> (integrate over the proper extra-time volume e^{-3 a4} sin^{1/2} z d^3x_t per unit coordinate volume, divide by the 3-space volume); the SPEC section 11 choice rho_4 ~ rho_8 c^3",
         "N2": "per unit PROPER 7-volume: rho_4 = <rho>/<1> (equivalently: integrate over a FIXED proper extra-time volume, whose coordinate extent grows as e^{a4})",
         "compactness": "a compact coordinate range of the time-like x5, x6, x7 means closed time-like directions; a non-compact range needs a normalisation per unit extra-time volume (N1 or N2). Both are ASSUMPTIONS about the 3-space observer, not consequences of the field equations",
@@ -225,15 +225,15 @@ def section_observer():
 
 def section_condensate(g):
     M, H, m, lam, S = sp.symbols("M H m lambda S", real=True)
-    g4, g8 = g[3], g[7]
-    C = g[7] * g[0] * g[1] * g[2]
+    g4, g0 = g[4], g[0]
+    C = g[0] * g[1] * g[2] * g[3]
     I16 = sp.eye(16)
-    A = -g4 * (M * I16 - 3 * H * g8)
+    A = -g4 * (M * I16 - 3 * H * g0)
     ok_S = (C * A + A.T * C).expand() == sp.zeros(16)
     K4mat = ((C * g4 * A - A.T * C * g4) / 2).expand()
     ok_K4 = (K4mat - M * C).expand() == sp.zeros(16)
     check("condensate_S_constant_T16", ok_S,
-          "Phi(x4) on shell: d4 Phi = A Phi, A = -gamma^(x4) (M - 3 H gamma^(x8)), M = m + U'(S); C A + A^T C = 0 (author's T16), so S = Phibar Phi is constant")
+          "Phi(x4) on shell: d4 Phi = A Phi, A = -gamma^(x4) (M - 3 H gamma^(x0)), M = m + U'(S); C A + A^T C = 0 (author's T16), so S = Phibar Phi is constant")
     check("condensate_negative_control", (K4mat + M * C).expand() != sp.zeros(16) and (C * A - A.T * C).expand() != sp.zeros(16),
           "controls: K_x4 is not -M S, and C A - A^T C is not zero")
     check("condensate_K4_equals_MS_T16", ok_K4,
@@ -244,7 +244,7 @@ def section_condensate(g):
     ok_p = sp.simplify(p - lam * S ** 2 / 2) == 0
     w = sp.simplify(p / rho)
     check("condensate_rho_p_w", ok_p and sp.simplify(w - lam * S / (2 * m + lam * S)) == 0,
-          "rho = m S + lambda S^2/2, p3 = p_t = p8 = lambda S^2/2 (constant), w = p/rho = lambda S/(2 m + lambda S)")
+          "rho = m S + lambda S^2/2, p3 = p_t = p0 = lambda S^2/2 (constant), w = p/rho = lambda S/(2 m + lambda S)")
     # observer: constant rho -> N1: rho_4 ~ a^-3 -> w_eff = 0; N2: w_eff = -1
     x = sp.Symbol("x", real=True)  # x = lambda S/(2 m)
     wx = x / (1 + x)
@@ -294,8 +294,8 @@ def section_condensate(g):
     check("expansion_inferred_w_einstein", ok_wt,
           "backreacted homogeneous source, Einstein gravity: a4'^2 = -(kappa rho + Lambda + 21 H^2)/3, so the observer's Hubble rate gives w_tot = -1 - (1/3) d ln a4'^2/d ln a = -1 - kappa (p3 - p_t)/(3 a4'^2); the linear member (a4'' = 0) gives w_tot = -1 exactly")
     return {
-        "solution": "Phi = exp(A x4) chi, A = -gamma^(x4) (M - 3 H gamma^(x8)), M = m + lambda S, S = chi^dagger C chi constant (Revision/field_equations_a4 record; re-verified here: C A + A^T C = 0, K_x4 = M S)",
-        "rho": "m S + lambda S^2/2 (constant)", "p": "p3 = p_t = p8 = lambda S^2/2 (constant)",
+        "solution": "Phi = exp(A x4) chi, A = -gamma^(x4) (M - 3 H gamma^(x0)), M = m + lambda S, S = chi^dagger C chi constant (Revision/field_equations_a4 record; re-verified here: C A + A^T C = 0, K_x4 = M S)",
+        "rho": "m S + lambda S^2/2 (constant)", "p": "p3 = p_t = p0 = lambda S^2/2 (constant)",
         "w_ratio": "lambda S/(2 m + lambda S) (constant; any value; w < -1 iff lambda S/m in (-2, -1))",
         "w_eff_N1": "0 (rho_4 ~ a^-3: dust-like dilution)", "w_eff_N2": "-1 (rho_4 constant: Lambda-like)",
         "CPL": "wa = 0 in all three definitions (no time dependence)",
@@ -311,8 +311,8 @@ def section_condensate(g):
 # ----------------------------------------------------------------------------------------------
 
 def mode_matrices(g, m, k, q):
-    g1, g4, g5 = g[0], g[3], g[4]
-    C = g[7] * g[0] * g[1] * g[2]
+    g1, g4, g5 = g[1], g[4], g[5]
+    C = g[0] * g[1] * g[2] * g[3]
     B = -sp.I * C * g4
     h = -sp.I * m * g4 - k * g4 * g1 - q * g4 * g5
     return C, B, h
@@ -326,7 +326,7 @@ def section_modes(g):
     okB = ((B * h) - (B * h).H).expand() == sp.zeros(16)
     check("mode_dispersion_h_squared", okh2, "h^2 = (m^2 + k^2 - q^2) I16: omega^2 = m^2 + k_phys^2 - q_phys^2 (the extra times are time-like: q enters with the opposite sign)")
     check("mode_generator_B_selfadjoint", okB, "B h = (B h)^dagger: the charge density Q = Phi^dagger B Phi is the Krein form of the frozen-frame evolution and is conserved by it (in the field theory the charge obeys a local conservation law; its total is constant only without flux through z = pi/2, an ASSUMED condition)")
-    g1, g5 = g[0], g[4]
+    g1, g5 = g[1], g[5]
     for (mv, kv, qv) in [(3, 4, 0), (5, 0, 3), (4, 4, 4)]:
         Cm, Bm, hm = mode_matrices(g, sp.Integer(mv), sp.Integer(kv), sp.Integer(qv))
         om = sp.sqrt(mv ** 2 + kv ** 2 - qv ** 2)
@@ -376,8 +376,8 @@ def section_modes(g):
     check("growing_mode_krein_neutral", P.shape[1] == 8 and ok_neutral,
           "m = 3, k = 0, q = 5: omega = 4 i (growth exp(4 x4)); the growing eigenspace has dimension 8 and is Krein-neutral (Q = 0), so K_x4 = Re(omega) Q = 0 and rho = 0")
     check("growing_mode_extra_time_pressure", ok_K5 and ok_S_nonzero,
-          "on the growing eigenspace K_x5 = m S exactly (on shell), so rho = 0, p1 = p8 = L0 = 0 and p5 = -m S, which grows as exp(8 x4) and is not identically zero: w = p/rho is undefined; the energy of a growing mode sits in cross terms with decaying modes")
-    out["growing"] = {"m": mv, "k": kv, "q": qv, "omega": "4 i", "result": "Krein-neutral 8-dimensional eigenspace; rho = 0, p5 = -m S (growing), p1 = p8 = 0"}
+          "on the growing eigenspace K_x5 = m S exactly (on shell), so rho = 0, p1 = p0 = L0 = 0 and p5 = -m S, which grows as exp(8 x4) and is not identically zero: w = p/rho is undefined; the energy of a growing mode sits in cross terms with decaying modes")
+    out["growing"] = {"m": mv, "k": kv, "q": qv, "omega": "4 i", "result": "Krein-neutral 8-dimensional eigenspace; rho = 0, p5 = -m S (growing), p1 = p0 = 0"}
     out["rate"] = "frozen frame: growth rate sqrt(q_phys^2 - m^2 - k_phys^2) for q_phys^2 > m^2 + k_phys^2; in the deflating field q_phys = e^{a4} q grows, so every q != 0 mode reaches the turning point a_* = sqrt((m^2 + ...)/q^2) and then grows (rate proportional to a, double-exponential amplitude for a4 linear in x4)"
     return out
 
@@ -412,8 +412,8 @@ def section_wkb():
     check("mixture_weighted_average", ok3,
           "mixture: w_eff(N2) = -1 + sum eps_i rho_i / sum rho_i, w_eff(N1) = sum eps_i rho_i / sum rho_i (condensates have eps = 0)")
     return {
-        "approximation": "ADIABATIC (WKB) local plane-wave modes at a fixed hidden position: the warp sin^{1/6} z and tan z frozen (wavelengths short compared with the warp scale 1/H; in the variables chi = sin^{1/2} z Phi the term 3 H gamma^(x8) is absent exactly), the Krein charge of each mode an adiabatic invariant (|d omega/dx4| << omega^2); incoherent superposition (cross terms between different momenta average to zero over 3-space and the extra times; cross terms between frequencies average to zero in time)",
-        "component": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), p8 = 0, omega^2 = m^2 + k^2/a^2 - q^2 a^2 (isotropic averages)",
+        "approximation": "ADIABATIC (WKB) local plane-wave modes at a fixed hidden position: the warp sin^{1/6} z and tan z frozen (wavelengths short compared with the warp scale 1/H; in the variables chi = sin^{1/2} z Phi the term 3 H gamma^(x0) is absent exactly), the Krein charge of each mode an adiabatic invariant (|d omega/dx4| << omega^2); incoherent superposition (cross terms between different momenta average to zero over 3-space and the extra times; cross terms between frequencies average to zero in time)",
+        "component": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), p0 = 0, omega^2 = m^2 + k^2/a^2 - q^2 a^2 (isotropic averages)",
         "eps": "eps = w_eff(N1) = (k^2/a^2 + q^2 a^2)/(3 omega^2) >= 0 for real omega",
         "mixture": "w_eff(N1) = sum eps_i rho_i / sum rho_i, w_eff(N2) = w_eff(N1) - 1, w = p3/rho = sum p3_i / sum rho_i",
         "theorem": "if every component has rho_i >= 0 (Krein charge of the sign of omega), real frequencies, and total rho > 0, then w_eff(N1) >= 0 and w_eff(N2) >= -1 at every a at which these conditions hold (weighted averages of eps_i >= 0 with weights rho_i >= 0): no phantom and no crossing of -1 there. A mode with extra-time momentum q != 0 loses its real frequency past its turning point a_* (q_phys = q a grows), where the theorem does not apply. A crossing needs sum eps_i rho_i to change sign, i.e. a component with rho_i < 0 (negative classical energy: a ghost-like sector)",
@@ -626,7 +626,7 @@ def main():
     args = ap.parse_args()
     g, eta = load_gammas()
     ok_cl = all(((g[i] * g[j] + g[j] * g[i]) == (2 * eta[i] * sp.eye(16) if i == j else sp.zeros(16))) for i in range(8) for j in range(8))
-    check("gammas_clifford_author_T16", ok_cl, "{gamma^a, gamma^b} = 2 eta^ab for the fixture Revision/algebra/gammas.json (eta = diag(+,+,+,-,-,-,-,+) in the order x1..x8)")
+    check("gammas_clifford_author_T16", ok_cl, "{gamma^a, gamma^b} = 2 eta^ab for the fixture Revision/algebra/gammas.json (eta = diag(+,+,+,+,-,-,-,-) in the author's order x0..x7)")
     theory = {
         "title": "dirac16complex00 (classical commuting Pin(4,4) spinor): the 3-space observer's equation of state in the deflating primordial field (Hypothesis00; Revision/SPEC.md sections 8 and 11)",
         "producer": "Revision/dark_sector/dirac16complex00/python/derive_eos.py (implementation A: sympy exact, mpmath 30 digits)",

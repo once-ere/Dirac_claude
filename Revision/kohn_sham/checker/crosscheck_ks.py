@@ -21,16 +21,19 @@ TOLERANCE RULE (fixed in this file before any comparison; never adjusted to a re
   scale  = max(1, |x|) for scalars, the profile maximum for profiles (roundoff floor).
 Every comparison yields ratio = |x_Rust - x_ref| / tolerance; a check passes when every ratio <= 1.
 
-Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially
-DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4 increasing); x8 = hidden direction,
-y = ln(sin z)/(6H) in [-L, 0].
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H) in [-L, 0], z = 6 H x0;
+x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z,
+a4 increasing).  p0 = T^x0_x0 is the hidden-direction pressure.
 
 The reference repeat: the checker itself runs Revision/kohn_sham/reference/run_reference.py into a fresh
 directory <work>/reference-repeat and compares every result file and the report byte for byte with the committed
-ones.
+ones.  With --repeat-cache DIR that run uses the job cache DIR (run_reference.py --cache DIR): the repeat can then be
+computed beforehand in parts, each within a time limit (run_reference.py --cache DIR --part i/n, i = 1..n), into a
+cache of its own (not the one of the canonical run), and the checker's run only assembles it.
 
 Usage (from the repository root):
   python Revision/kohn_sham/checker/crosscheck_ks.py --work <scratch dir> [--jobs N] [--report FILE] [--table FILE]
+         [--repeat-cache DIR]
 """
 
 from __future__ import annotations
@@ -57,7 +60,7 @@ REPO = KS.parent.parent
 K_SIGMA = 3.0
 FLOOR = 1e-12
 RK4_FACTOR = 16.0 / 15.0
-PROFILES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p8")
+PROFILES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 EPS_MACH = 2.220446049250313e-16
 
 
@@ -225,8 +228,9 @@ def group_from_labels(s, lmin):
     return ";".join(sorted(key_from_label(x, lmin) for x in s.split(";") if x))
 
 
-def run_reference_repeat(work: Path, jobs: int):
-    """Run the reference into a fresh <work>/reference-repeat (results + report); returns (dir, report, seconds, ok)."""
+def run_reference_repeat(work: Path, jobs: int, cache=None):
+    """Run the reference into a fresh <work>/reference-repeat (results + report), with the job cache `cache` if given;
+    returns (dir, report, seconds, ok)."""
     rep = work / "reference-repeat"
     if rep.exists():
         if not ((rep / "results" / "manifest.json").exists() or not any(rep.iterdir())):
@@ -235,7 +239,7 @@ def run_reference_repeat(work: Path, jobs: int):
     rep.mkdir(parents=True)
     t0 = time.time()
     cmd = [sys.executable, str(KS / "reference" / "run_reference.py"), "--out", str(rep / "results"), "--report", str(rep / "ks-reference.json"),
-           "--jobs", str(jobs)]
+           "--jobs", str(jobs)] + (["--cache", str(cache)] if cache else [])
     with open(rep / "stderr.txt", "w", encoding="utf-8") as fe_:
         r = subprocess.run(cmd, cwd=str(REPO), stdout=subprocess.PIPE, stderr=fe_, text=True)
     return rep, rep / "ks-reference.json", time.time() - t0, r.returncode == 0 and r.stdout.strip().endswith("SUCCESS")
@@ -251,6 +255,7 @@ def main():
     ap.add_argument("--reference-report", default=str(KS / "reports" / "ks-reference.json"))
     ap.add_argument("--work", required=True, help="scratch directory: the checker runs the reference repeat into <work>/reference-repeat")
     ap.add_argument("--jobs", type=int, default=20)
+    ap.add_argument("--repeat-cache", default=None, help="job cache of run_reference.py for the reference repeat (filled beforehand in parts)")
     ap.add_argument("--report", default=str(KS / "reports" / "ks-crosscheck.json"))
     ap.add_argument("--table", default=str(KS / "reports" / "ks-crosscheck-table.csv"))
     args = ap.parse_args()
@@ -407,9 +412,9 @@ def main():
                                              "flag, delta_eps within the rule (U_Rust = 2 x (16/15) x the largest |canonical - refined| over the levels "
                                              "of the state); compared where the particle lies below both solvers' lowest excluded level; and no "
                                              "reference excitation below the Rust 24th (minus its tolerance) is missing from the Rust list"),
-        "emt_integrals": Check("2 Vol_7 int e^{6Hy} (rho, p3, p_t, p8, n) dy; U_Rust per state measured"),
-        "emt_brane_tip_values": Check("rho, p3, p_t, p8 at the brane y = 0 and at the tip y = -L; U_Rust per state measured (profile end points)"),
-        "ground_profiles": Check("proper profiles n, S, Q, M_eff, v_v, e_int, rho, p3, p_t, p8 at the 151 points y = -3 + 0.02 i, in units of the "
+        "emt_integrals": Check("2 Vol_7 int e^{6Hy} (rho, p3, p_t, p0, n) dy; U_Rust per state measured"),
+        "emt_brane_tip_values": Check("rho, p3, p_t, p0 at the brane y = 0 and at the tip y = -L; U_Rust per state measured (profile end points)"),
+        "ground_profiles": Check("proper profiles n, S, Q, M_eff, v_v, e_int, rho, p3, p_t, p0 at the 151 points y = -3 + 0.02 i, in units of the "
                                  "profile maximum; U_Rust = (16/15) x the largest |canonical - refined| of that profile of the state"),
         "exchange_delta_E_x": Check("Delta E_x = (lambda/32) 2 Vol_7 int e^{6Hy} Q^2 dy (exact-Fock minus uniform-gas exchange, first order); U_Rust = "
                                     "(16/15) x 2 x (largest |canonical - refined| of Q / max |Q|) x |Delta E_x| (derived from the measured Q profile)"),
@@ -526,11 +531,11 @@ def main():
         cph.extra_rows = getattr(cph, "extra_rows", 0) + matched
         # EMT
         ci = C["emt_integrals"]
-        for k in ("rho", "p3", "p_t", "p8", "n"):
+        for k in ("rho", "p3", "p_t", "p0", "n"):
             ci.cmp(f"{sid} int_{k}", float(r_e["int_" + k]), sc["int_" + k]["value"], sc["int_" + k]["U"], U("int_" + k), table=table,
                    xr_refined=REF("int_" + k))
         cb = C["emt_brane_tip_values"]
-        for k in ("rho", "p3", "p_t", "p8"):
+        for k in ("rho", "p3", "p_t", "p0"):
             for end in ("brane", "tip"):
                 nm = f"{k}_{end}"
                 cb.cmp(f"{sid} {nm}", float(r_e[nm]), sc[nm]["value"], sc[nm]["U"], U(nm), table=table, xr_refined=REF(nm))
@@ -905,7 +910,7 @@ def main():
     emit("reference_manifest", not bad_hash and len(man) == len(files) - 1,
          f"manifest.json lists {len(man)} files with SHA-256 ({len(files) - 1} result files besides it); mismatches: {bad_hash if bad_hash else 'none'}")
     print(f"running the reference repeat into {work / 'reference-repeat'} ({args.jobs} processes) ...", file=sys.stderr, flush=True)
-    rep_dir, rep_report, secs, rep_ok = run_reference_repeat(work, args.jobs)
+    rep_dir, rep_report, secs, rep_ok = run_reference_repeat(work, args.jobs, args.repeat_cache)
     timing["reference_repeat"] = secs
     f2 = sorted(p for p in (rep_dir / "results").rglob("*") if p.is_file())
     names1 = [p.relative_to(ref).as_posix() for p in files]
@@ -913,7 +918,8 @@ def main():
     differ = [n for n in names1 if n in names2 and (ref / n).read_bytes() != (rep_dir / "results" / n).read_bytes()]
     same_report = rep_report.exists() and rep_report.read_bytes() == Path(args.reference_report).read_bytes()
     emit("reference_repeat_byte_identical", rep_ok and names1 == names2 and not differ and same_report,
-         f"this checker ran run_reference.py again into a fresh directory (<work>/reference-repeat; exit SUCCESS: {rep_ok}): {len(names2)} result "
+         f"this checker ran run_reference.py again into a fresh directory (<work>/reference-repeat; exit SUCCESS: {rep_ok}"
+         f"{'; its jobs computed beforehand in parts into a separate job cache, run_reference.py --cache DIR --part i/n' if args.repeat_cache else ''}): {len(names2)} result "
          f"files, same file set: {names1 == names2}, differing files: {differ if differ else 'none'}; report ks-reference.json byte-identical: "
          f"{same_report}")
 

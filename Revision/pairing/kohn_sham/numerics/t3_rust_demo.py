@@ -29,8 +29,8 @@ Usage (from the repository root; the solver built from the committed sources, e.
          [--jobs 10]
 Writes (deterministic, LF): Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv and
 Revision/pairing/kohn_sham/reports/t3-rust-demo.json.  Exit 0 iff every check passes.
-Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra
-times; x8 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L).
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0 
+(brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.
 """
 
 import argparse
@@ -60,7 +60,7 @@ OPPOSITE = {"lam0": "lam0", "lamp1": "lamm1", "lamm1": "lamp1", "lamp2": "lamm2"
 TOL = 1e-9          # T3 equality tolerance (relative, floor 1; profiles relative to the column maximum)
 CTRL_MIN = 1e-6     # a negative control must differ by more than this (1000 x TOL)
 CANON_TOL = 1e-9    # plus member against the committed canonical matrix
-EVEN = ("n", "v_v", "e_int", "rho", "p3", "p_t", "p8")
+EVEN = ("n", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 ODD = ("S", "Q", "M_eff")
 
 
@@ -333,9 +333,9 @@ def main():
                      repr(a["E_KS"]), repr(b["E_KS"]), repr(a["mu_or_fermi_level"]), repr(b["mu_or_fermi_level"]),
                      repr(a["entropy"]), repr(b["entropy"]), repr(oa) if oa is not None else "", repr(ob) if ob is not None else "",
                      repr(a["emtIntegrals_2Vol7_int_e6Hy"]["rho"]), repr(a["emtIntegrals_2Vol7_int_e6Hy"]["p3"]),
-                     repr(a["emtIntegrals_2Vol7_int_e6Hy"]["p_t"]), repr(a["emtIntegrals_2Vol7_int_e6Hy"]["p8"]),
+                     repr(a["emtIntegrals_2Vol7_int_e6Hy"]["p_t"]), repr(a["emtIntegrals_2Vol7_int_e6Hy"]["p0"]),
                      repr(b["emtIntegrals_2Vol7_int_e6Hy"]["rho"]), repr(b["emtIntegrals_2Vol7_int_e6Hy"]["p3"]),
-                     repr(b["emtIntegrals_2Vol7_int_e6Hy"]["p_t"]), repr(b["emtIntegrals_2Vol7_int_e6Hy"]["p8"]),
+                     repr(b["emtIntegrals_2Vol7_int_e6Hy"]["p_t"]), repr(b["emtIntegrals_2Vol7_int_e6Hy"]["p0"]),
                      len(a["levels_n2_j_parity_label_eps_deg_f"]), "%.3e" % d["worst"],
                      "%.3e" % d["levels_eps"], "%.3e" % d["scalars"], "%.3e" % d["profiles_even"], "%.3e" % d["profiles_odd"],
                      "no state" if c is None else repr(c["E_KS"]), "no state" if c is None else "%.3e" % cd,
@@ -351,9 +351,9 @@ def main():
         check("t3_equal_%s_states" % kind, cnt == nst and worst <= TOL and not [p for p in probs_all if (("_T" in p.split(":")[0]) == (kind == "thermal"))],
               "%d %s: the image (-m, +lambda, tip pi) equals the plus state (m, lambda, tip 0) as T3 states: levels label "
               "by label with the sector map (n2, j, parity) -> (n2, -j, other parity) (eps, degeneracy, occupation), "
-              "E_KS, E_band, E_int, mu, entropy, N, the EMT integrals 2 Vol_7 int e^(6Hy)(rho, p3, p_t, p8, n) dy, "
+              "E_KS, E_band, E_int, mu, entropy, N, the EMT integrals 2 Vol_7 int e^(6Hy)(rho, p3, p_t, p0, n) dy, "
               "Omega = -T sum g ln(1 + e^(-(eps - mu)/T)) - E_int and F = Omega + mu N (thermal), HOMO, LUMO and KS "
-              "gap (T = 0), the even profiles n, v_v, e_int, rho, p3, p_t, p8 pointwise, and the odd profiles S, Q, M_eff "
+              "gap (T = 0), the even profiles n, v_v, e_int, rho, p3, p_t, p0 pointwise, and the odd profiles S, Q, M_eff "
               "with opposite sign (relative to each profile's maximum); worst deviation %.3e, tolerance %.0e; per "
               "quantity (worst, state): %s%s"
               % (cnt, what, worst, TOL, agg_text(kind), "" if not probs_all else "; problems: " + "; ".join(probs_all[:10])))
@@ -381,7 +381,7 @@ def main():
 
     head = ["id", "N", "lambda_tag", "lambda", "a4", "T", "E_KS_plus", "E_KS_image", "mu_plus", "mu_image",
             "entropy_plus", "entropy_image", "Omega_plus", "Omega_image", "int_rho_plus", "int_p3_plus", "int_p_t_plus",
-            "int_p8_plus", "int_rho_image", "int_p3_image", "int_p_t_image", "int_p8_image", "levels",
+            "int_p0_plus", "int_rho_image", "int_p3_image", "int_p_t_image", "int_p0_image", "levels",
             "t3_worst_dev", "t3_levels_dev", "t3_scalars_dev", "t3_profiles_even_dev", "t3_profiles_odd_dev",
             "E_KS_control_untransformed_tip", "control_tip_dev", "control_lambda_sign_dev"]
     buf = io.StringIO()

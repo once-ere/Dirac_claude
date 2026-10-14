@@ -3,28 +3,28 @@
 the Kohn-Sham states of dirac16complex (SPEC section 7, Revision/kohn_sham) as the source.
 
 Coordinates as the author names them: x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 =
-the three EXTRA TIMES, which DEFLATE EXPONENTIALLY when a4 increases (scale factor e^{-a4} sin^{1/6} z); x8 = the hidden
-direction, z = 6 H x8, and the Kohn-Sham hidden coordinate y = ln(sin z)/(6 H) in [-L, 0] (sqrt|g| dx8 = e^{6Hy} dy).
+the three EXTRA TIMES, which DEFLATE EXPONENTIALLY when a4 increases (scale factor e^{-a4} sin^{1/6} z); x0 = the hidden
+direction, z = 6 H x0, and the Kohn-Sham hidden coordinate y = ln(sin z)/(6 H) in [-L, 0] (sqrt|g| dx0 = e^{6Hy} dy).
 
 What this script does (Revision code only; inputs are Revision files, read-only):
   A (exact, sympy, from Revision/field_equations_a4/a4-equations.json)
-    the identities used below: E^x1_x1 + E^x5_x5 = 2 E^x8_x8 for every Lovelock order; E^x1_x1 - E^x5_x5 = a4'' F(a4');
+    the identities used below: E^x1_x1 + E^x5_x5 = 2 E^x0_x0 for every Lovelock order; E^x1_x1 - E^x5_x5 = a4'' F(a4');
     E^x4_x4 depends on a4'^2 only, P(X) := sum_k alpha_k E_(k)^x4_x4 at a4'^2 = X, and 3 F = 2 dP/dX (so the evolution
-    equation is the x4-derivative of the constraint once the averaged energy relation holds); the x8 conservation
-    identity in the y coordinate, p8_y + 6 H p8 = 3 H (p3 + p_t), hence p3 + p_t - 2 p8 = p8_y/(3H); its integral over
-    the patch; the residual of the x8 equation after the constraint is used.
+    equation is the x4-derivative of the constraint once the averaged energy relation holds); the x0 conservation
+    identity in the y coordinate, p0_y + 6 H p0 = 3 H (p3 + p_t), hence p3 + p_t - 2 p0 = p0_y/(3H); its integral over
+    the patch; the residual of the x0 equation after the constraint is used.
   B (numerical, the recorded Kohn-Sham ground-state profiles)
-    the x8 conservation identity on every profile (4th-order finite differences on the output grid); the integrated
+    the x0 conservation identity on every profile (4th-order finite differences on the output grid); the integrated
     identity against the solver's integrals; the hidden-direction mismatch of every component, measured in the
-    L2 norm with the volume weight e^{6Hy} (the x8-independent part of a profile is its weighted average, the
-    mismatch mu = ||X - Xbar|| / ||X|| is the fraction that no x8-independent source can carry).
+    L2 norm with the volume weight e^{6Hy} (the x0-independent part of a profile is its weighted average, the
+    mismatch mu = ||X - Xbar|| / ||X|| is the fraction that no x0-independent source can carry).
   C (the hidden-direction moments of the field equations)
     multiplying the field equations by sqrt|g| and integrating over the patch gives EXACT necessary conditions with
-    the weighted averages rho_bar, p3_bar, p_t_bar, p8_bar as the source; which of them are mutually consistent for
+    the weighted averages rho_bar, p3_bar, p_t_bar, p0_bar as the source; which of them are mutually consistent for
     the Kohn-Sham states along the history (the x4 moment and the x1 - x5 moment are, through the averaged energy
-    relation d rho_bar/d a4 = -3 (p3_bar - p_t_bar); every set that contains the x8 moment is not).
+    relation d rho_bar/d a4 = -3 (p3_bar - p_t_bar); every set that contains the x0 moment is not).
   D (integration, an APPROXIMATION stated as such)
-    the truncated system "x4 moment + x1 - x5 moment" (the x8 moment and the x1 + x5 - 2 x8 combination dropped, their
+    the truncated system "x4 moment + x1 - x5 moment" (the x0 moment and the x1 + x5 - 2 x0 combination dropped, their
     residuals reported) has the first integral P(a4'^2) + Lambda = -kappa rho_bar(a4); it is integrated over the
     computed range a4 in [0, 2] for Einstein gravity and two stated Einstein-Lovelock couplings, with two methods
     (M1: the first integral and a quadrature for x4; M2: RK4 of the evolution equation with an independently
@@ -78,7 +78,7 @@ CHECKS: list[dict] = []
 # tolerances (stated, with their reasons)
 TOL_INTEGRAL = 1e-6      # Simpson on the 151-point output grid against the solver's own integrals (found ~1e-8)
 TOL_CONS_FD = 1e-3       # 4th-order finite differences on the output grid dy = 0.02 (truncation ~ dy^4)
-TOL_IDENTITY = 1e-6      # integrated x8 identity, from the solver's integrals and end values
+TOL_IDENTITY = 1e-6      # integrated x0 identity, from the solver's integrals and end values
 TOL_ENERGY_SOLVER = 1e-6  # solver: dE/da4 by finite differences (step 2e-3) against the EMT formula
 TOL_ENERGY_SLICES = 2e-2  # between slices (step 0.5): Simpson of -3 (p3_bar - p_t_bar) against the change of rho_bar
 TOL_METHODS = 5e-3       # M1 (first integral) against M2 (RK4 of the evolution equation, independent interpolant)
@@ -150,9 +150,9 @@ def set_paths(ks_results: Path, out: Path) -> None:
 # ---------------------------------------------------------------------------------------------------------------------
 ad1, ad2, H, X, Lam, kap = sp.symbols("ad1 ad2 H X Lam kappa")
 al1, al2, al3 = sp.symbols("alpha1 alpha2 alpha3")
-p3, pt, p8, rho, p8y, cc = sp.symbols("p3 pt p8 rho p8y cc")
+p3, pt, p0, rho, p0y, cc = sp.symbols("p3 pt p0 rho p0y cc")
 LOC = {"ad1": ad1, "ad2": ad2, "H": H, "alpha1": al1, "alpha2": al2, "alpha3": al3, "Lam": Lam, "kappa": kap,
-       "p3": p3, "pt": pt, "p8": p8, "rho": rho, "cc": cc}
+       "p3": p3, "pt": pt, "p0": p0, "rho": rho, "cc": cc}
 
 
 def parse(s: str) -> sp.Expr:
@@ -170,16 +170,16 @@ def part_a(a4: dict) -> dict:
     lt = a4["lovelockTensors"]
     E = {}
     for k in ("E1", "E2", "E3"):
-        E[k] = {c: parse(lt[k][c]["input"]) for c in ("x1x1", "x4x4", "x5x5", "x8x8", "x4x8", "x8x4")}
+        E[k] = {c: parse(lt[k][c]["input"]) for c in ("x1x1", "x4x4", "x5x5", "x0x0", "x4x0", "x0x4")}
     # A1: algebraic identity and off-diagonal zeros
-    ok = all(sp.expand(E[k]["x1x1"] + E[k]["x5x5"] - 2 * E[k]["x8x8"]) == 0 for k in E)
-    ok_off = all(E[k]["x4x8"] == 0 and E[k]["x8x4"] == 0 for k in E)
-    check("A1_lovelock_identity_x1_plus_x5_equals_2x8", ok and ok_off,
-          "for k = 1, 2, 3 (a4-equations.json lovelockTensors): E_(k)^x1_x1 + E_(k)^x5_x5 - 2 E_(k)^x8_x8 = 0 exactly and "
-          "E_(k)^x4_x8 = E_(k)^x8_x4 = 0; hence the x1 + x5 - 2 x8 combination of the field equations reads "
-          "0 = kappa (p3 + p_t - 2 p8) for EVERY a4(x4), Lambda and alpha_k")
+    ok = all(sp.expand(E[k]["x1x1"] + E[k]["x5x5"] - 2 * E[k]["x0x0"]) == 0 for k in E)
+    ok_off = all(E[k]["x4x0"] == 0 and E[k]["x0x4"] == 0 for k in E)
+    check("A1_lovelock_identity_x1_plus_x5_equals_2x0", ok and ok_off,
+          "for k = 1, 2, 3 (a4-equations.json lovelockTensors): E_(k)^x1_x1 + E_(k)^x5_x5 - 2 E_(k)^x0_x0 = 0 exactly and "
+          "E_(k)^x4_x0 = E_(k)^x0_x4 = 0; hence the x1 + x5 - 2 x0 combination of the field equations reads "
+          "0 = kappa (p3 + p_t - 2 p0) for EVERY a4(x4), Lambda and alpha_k")
     al = {"E1": al1, "E2": al2, "E3": al3}
-    lhs = {c: sp.expand(sum(al[k] * E[k][c] for k in E)) for c in ("x1x1", "x4x4", "x5x5", "x8x8")}
+    lhs = {c: sp.expand(sum(al[k] * E[k][c] for k in E)) for c in ("x1x1", "x4x4", "x5x5", "x0x0")}
     F_rec = parse(a4["generalSource"]["evolution_F"]["input"])
     diff15 = sp.expand(lhs["x1x1"] - lhs["x5x5"] - ad2 * F_rec)
     check("A2_evolution_is_x1_minus_x5", diff15 == 0 and not F_rec.has(ad2),
@@ -209,30 +209,30 @@ def part_a(a4: dict) -> dict:
           "d/dx4 [P(a4'^2) + Lambda + kappa rho_bar(a4)] = 3 a4' [a4'' F(a4') - kappa (p3_bar - p_t_bar)] exactly; so the "
           "x4 moment (constraint) and the x1 - x5 moment (evolution) are mutually consistent, and for a4' != 0 the "
           "evolution follows from the first integral P(a4'^2) + Lambda + kappa rho_bar(a4) = 0")
-    # A5: residual of the x8 equation once Lambda is eliminated with the constraint
-    null_rec = parse(a4["generalSource"]["nullCombinations"]["kappa(rho+p8)"]["input"])
-    r8 = sp.expand(lhs["x8x8"] - lhs["x4x4"] - null_rec)
-    check("A5_x8_residual_after_constraint", r8 == 0,
-          "with Lambda = -P(a4'^2) - kappa rho (constraint) the x8 equation sum_k alpha_k E^x8_x8 + Lambda = kappa p8 "
-          "becomes R8 := N(a4') - kappa (rho + p8) = 0 with N = sum_k alpha_k (E^x8_x8 - E^x4_x4) = generalSource."
-          "nullCombinations[kappa(rho+p8)] (equal exactly); Einstein: N = -6 (a4'^2 + H^2) < 0")
-    # A6: the x8 conservation identity in the y coordinate and its integral
-    x8s, ys = sp.symbols("x8 y", positive=True)
-    z = 6 * H * x8s
+    # A5: residual of the x0 equation once Lambda is eliminated with the constraint
+    null_rec = parse(a4["generalSource"]["nullCombinations"]["kappa(rho+p0)"]["input"])
+    r8 = sp.expand(lhs["x0x0"] - lhs["x4x4"] - null_rec)
+    check("A5_x0_residual_after_constraint", r8 == 0,
+          "with Lambda = -P(a4'^2) - kappa rho (constraint) the x0 equation sum_k alpha_k E^x0_x0 + Lambda = kappa p0 "
+          "becomes R0 := N(a4') - kappa (rho + p0) = 0 with N = sum_k alpha_k (E^x0_x0 - E^x4_x4) = generalSource."
+          "nullCombinations[kappa(rho+p0)] (equal exactly); Einstein: N = -6 (a4'^2 + H^2) < 0")
+    # A6: the x0 conservation identity in the y coordinate and its integral
+    x0s, ys = sp.symbols("x0 y", positive=True)
+    z = 6 * H * x0s
     yfun = sp.log(sp.sin(z)) / (6 * H)
-    dy_dx8 = sp.simplify(sp.diff(yfun, x8s) - sp.cot(z)) == 0
-    vol = sp.simplify(sp.cos(z) / sp.cot(z) - sp.sin(z)) == 0          # sqrt|g| dx8 = cos z dx8 = sin z dy = e^{6Hy} dy
-    cons = parse(a4["generalSource"]["conservation_x8"]["input"].replace("d4q48", "0").replace("d8p8", "(cc*p8y)"))
-    in_y = sp.expand(cons / cc - (p8y + 6 * H * p8 - 3 * H * (p3 + pt)))
-    alg = sp.expand((p3 + pt - 2 * p8) - p8y / (3 * H) - (-(p8y + 6 * H * p8 - 3 * H * (p3 + pt)) / (3 * H)))
-    fy = sp.Function("p8f")(ys)
+    dy_dx0 = sp.simplify(sp.diff(yfun, x0s) - sp.cot(z)) == 0
+    vol = sp.simplify(sp.cos(z) / sp.cot(z) - sp.sin(z)) == 0          # sqrt|g| dx0 = cos z dx0 = sin z dy = e^{6Hy} dy
+    cons = parse(a4["generalSource"]["conservation_x0"]["input"].replace("d4q40", "0").replace("d0p0", "(cc*p0y)"))
+    in_y = sp.expand(cons / cc - (p0y + 6 * H * p0 - 3 * H * (p3 + pt)))
+    alg = sp.expand((p3 + pt - 2 * p0) - p0y / (3 * H) - (-(p0y + 6 * H * p0 - 3 * H * (p3 + pt)) / (3 * H)))
+    fy = sp.Function("p0f")(ys)
     integrand = sp.diff(sp.exp(6 * H * ys) * fy, ys) - sp.exp(6 * H * ys) * (sp.diff(fy, ys) + 6 * H * fy)
-    ok6 = dy_dx8 and vol and in_y == 0 and alg == 0 and sp.simplify(integrand) == 0
-    check("A6_x8_conservation_in_y", ok6,
-          "y = ln(sin z)/(6H) gives dy/dx8 = cot z and sqrt|g| dx8 = cos z dx8 = e^{6Hy} dy; generalSource."
-          "conservation_x8 with q48 = 0 is cot z [p8_y + 6 H p8 - 3 H (p3 + p_t)] = 0, so on shell p3 + p_t - 2 p8 = "
-          "p8_y/(3H) EXACTLY (the algebraic condition fails exactly where p8 depends on x8) and d/dy(e^{6Hy} p8) = "
-          "3 H e^{6Hy} (p3 + p_t), i.e. int_{-L}^{0} e^{6Hy} (p3 + p_t) dy = [e^{6Hy} p8]_{-L}^{0}/(3H)")
+    ok6 = dy_dx0 and vol and in_y == 0 and alg == 0 and sp.simplify(integrand) == 0
+    check("A6_x0_conservation_in_y", ok6,
+          "y = ln(sin z)/(6H) gives dy/dx0 = cot z and sqrt|g| dx0 = cos z dx0 = e^{6Hy} dy; generalSource."
+          "conservation_x0 with q40 = 0 is cot z [p0_y + 6 H p0 - 3 H (p3 + p_t)] = 0, so on shell p3 + p_t - 2 p0 = "
+          "p0_y/(3H) EXACTLY (the algebraic condition fails exactly where p0 depends on x0) and d/dy(e^{6Hy} p0) = "
+          "3 H e^{6Hy} (p3 + p_t), i.e. int_{-L}^{0} e^{6Hy} (p3 + p_t) dy = [e^{6Hy} p0]_{-L}^{0}/(3H)")
     polys = {}
     for gname, g1, g2, g3, _ in GRAVITY:
         sub = {al1: sp.Rational(g1.numerator, g1.denominator), al2: sp.Rational(g2.numerator, g2.denominator),
@@ -335,11 +335,11 @@ def gauss_legendre(n=48):
         for i in range(1, n + 1):
             x = math.cos(math.pi * (i - 0.25) / (n + 0.5))
             for _ in range(100):
-                p0, p1 = 1.0, x
+                L0, L1 = 1.0, x
                 for k in range(2, n + 1):
-                    p0, p1 = p1, ((2 * k - 1) * x * p1 - (k - 1) * p0) / k
-                dp = n * (x * p1 - p0) / (x * x - 1)
-                dx = p1 / dp
+                    L0, L1 = L1, ((2 * k - 1) * x * L1 - (k - 1) * L0) / k
+                dp = n * (x * L1 - L0) / (x * x - 1)
+                dx = L1 / dp
                 x -= dx
                 if abs(dx) < 1e-16:
                     break
@@ -379,7 +379,7 @@ def part_bc(params: dict) -> tuple:
                                                                  for i in range(len(ys) - 1)):
             err("profile %s is not on a uniform grid from -L to 0" % p.name)
         w = [math.exp(6 * Hn * y) for y in ys]
-        comp = {c: [r[c] for r in rows] for c in ("rho", "p3", "p_t", "p8")}
+        comp = {c: [r[c] for r in rows] for c in ("rho", "p3", "p_t", "p0")}
         sid = p.stem
         it = integ[sid]
         st = {"id": sid, "N": int(float(it["N"])), "lambda_tag": it["lambda_tag"], "lambda": float(it["lambda"]),
@@ -388,34 +388,34 @@ def part_bc(params: dict) -> tuple:
         st["zero"] = scale == 0.0
         # B1: integrals against the solver
         worst_int = 0.0
-        for c, ic in (("rho", "int_rho"), ("p3", "int_p3"), ("p_t", "int_p_t"), ("p8", "int_p8")):
+        for c, ic in (("rho", "int_rho"), ("p3", "int_p3"), ("p_t", "int_p_t"), ("p0", "int_p0")):
             I = simpson([w[i] * comp[c][i] for i in range(len(ys))], h)
             st[c + "_bar"] = I / wvol
             ref = float(it[ic]) / (2 * vol7)
-            den = max(abs(ref), max(abs(float(it[k])) for k in ("int_rho", "int_p3", "int_p_t", "int_p8")) / (2 * vol7))
+            den = max(abs(ref), max(abs(float(it[k])) for k in ("int_rho", "int_p3", "int_p_t", "int_p0")) / (2 * vol7))
             if den > 0:
                 worst_int = max(worst_int, abs(I - ref) / den)
         st["int_rel"] = worst_int
         if st["zero"]:
             states[sid] = st
             continue
-        # B2: pointwise x8 conservation by 4th-order central differences
-        p8v, s = comp["p8"], [comp["p3"][i] + comp["p_t"][i] for i in range(len(ys))]
+        # B2: pointwise x0 conservation by 4th-order central differences
+        p0v, s = comp["p0"], [comp["p3"][i] + comp["p_t"][i] for i in range(len(ys))]
         worst = 0.0
         for i in range(2, len(ys) - 2):
-            d = (-p8v[i + 2] + 8 * p8v[i + 1] - 8 * p8v[i - 1] + p8v[i - 2]) / (12 * h)
-            res = d + 6 * Hn * p8v[i] - 3 * Hn * s[i]
-            den = max(abs(d), abs(6 * Hn * p8v[i]), abs(3 * Hn * s[i]))
+            d = (-p0v[i + 2] + 8 * p0v[i + 1] - 8 * p0v[i - 1] + p0v[i - 2]) / (12 * h)
+            res = d + 6 * Hn * p0v[i] - 3 * Hn * s[i]
+            den = max(abs(d), abs(6 * Hn * p0v[i]), abs(3 * Hn * s[i]))
             if den > 0:
                 worst = max(worst, abs(res) / den)
         st["cons_fd_rel"] = worst
         st["var_ratio"] = (max(comp["rho"]) - min(comp["rho"])) / scale
-        st["int_ratio"] = ((float(it["int_p3"]) + float(it["int_p_t"])) / (2 * float(it["int_p8"]))
-                           if float(it["int_p8"]) != 0.0 else None)
-        st["alg_pointwise_rel"] = max(abs(s[i] - 2 * p8v[i]) for i in range(len(ys))) / scale
-        # B3: integrated identity (solver integrals and end values): int (p3 + p_t) = 2 Vol7 [e^{6Hy} p8]/(3H)
+        st["int_ratio"] = ((float(it["int_p3"]) + float(it["int_p_t"])) / (2 * float(it["int_p0"]))
+                           if float(it["int_p0"]) != 0.0 else None)
+        st["alg_pointwise_rel"] = max(abs(s[i] - 2 * p0v[i]) for i in range(len(ys))) / scale
+        # B3: integrated identity (solver integrals and end values): int (p3 + p_t) = 2 Vol7 [e^{6Hy} p0]/(3H)
         lhs = float(it["int_p3"]) + float(it["int_p_t"])
-        rhs = 2 * vol7 * (float(it["p8_brane"]) - math.exp(-6 * Hn * L) * float(it["p8_tip"])) / (3 * Hn)
+        rhs = 2 * vol7 * (float(it["p0_brane"]) - math.exp(-6 * Hn * L) * float(it["p0_tip"])) / (3 * Hn)
         st["identity_rel"] = abs(lhs - rhs) / max(abs(lhs), abs(rhs), 1e-300)
         # B4: L2(e^{6Hy}) mismatch of every component
         half = (len(ys) - 1) // 2              # index of y = -L/2; y in [-L, -L/2] is the tip half of the patch
@@ -432,11 +432,11 @@ def part_bc(params: dict) -> tuple:
             if c == "rho":
                 sq = [w[i] * comp[c][i] ** 2 for i in range(len(ys))]      # trapezoid: y = -L/2 is a grid point
                 st["tip_share_rho"] = (sum(sq[:half + 1]) - 0.5 * (sq[0] + sq[half])) / (sum(sq) - 0.5 * (sq[0] + sq[-1]))
-        a = [s[i] - 2 * p8v[i] for i in range(len(ys))]
+        a = [s[i] - 2 * p0v[i] for i in range(len(ys))]
         tn = simpson([w[i] * sum(comp[c][i] ** 2 for c in comp) for i in range(len(ys))], h)
         st["alg_L2_rel"] = math.sqrt(simpson([w[i] * a[i] ** 2 for i in range(len(ys))], h) / tn)
-        st["alg_bar_rel"] = abs(st["p3_bar"] + st["p_t_bar"] - 2 * st["p8_bar"]) / (
-            abs(st["p3_bar"]) + abs(st["p_t_bar"]) + 2 * abs(st["p8_bar"]))
+        st["alg_bar_rel"] = abs(st["p3_bar"] + st["p_t_bar"] - 2 * st["p0_bar"]) / (
+            abs(st["p3_bar"]) + abs(st["p_t_bar"]) + 2 * abs(st["p0_bar"]))
         st["rho_brane"], st["rho_tip"] = float(it["rho_brane"]), float(it["rho_tip"])
         ad = adia[sid]
         st["dE_fd"], st["dE_emt"] = float(ad["dE_da4_finite_difference"]), float(ad["dE_da4_emt"])
@@ -462,7 +462,7 @@ def integrate_case(poly: dict, ser: list, slices: list, sigma0: float, A0f: floa
     Pc, Nc = poly["P"], poly["N"]
     rb = [s["rho_bar"] for s in ser]
     D = [s["p3_bar"] - s["p_t_bar"] for s in ser]
-    p8b = [s["p8_bar"] for s in ser]
+    p0b = [s["p0_bar"] for s in ser]
     r0 = rb[0]
     kappa = sigma0 / r0                     # sigma0 = kappa rho_bar(a4 = 0) / H^2
     X0 = A0f * A0f
@@ -534,17 +534,17 @@ def integrate_case(poly: dict, ser: list, slices: list, sigma0: float, A0f: floa
     else:
         X_end = lo if abs(target(a_end) - Plo) <= abs(target(a_end) - Phi) else hi
     X_sl = [Xof(target(a)) if a <= a_end + 1e-15 and inside(target(a)) else None for a in slices]
-    # residual of the dropped x8 moment at the slices reached: R8 = N(X) - kappa (rho_bar + p8_bar)
+    # residual of the dropped x0 moment at the slices reached: R0 = N(X) - kappa (rho_bar + p0_bar)
     r8 = []
     for i, a in enumerate(slices):
         if X_sl[i] is None:
             continue
         Nx = horner(Nc, X_sl[i])
-        e8 = horner(Pc, X_sl[i]) + Nx         # sum alpha E^x8_x8 = P + N
-        R = Nx - kappa * (rb[i] + p8b[i])
-        scale = max(abs(e8), abs(Lam_), abs(kappa * p8b[i]))
+        e0 = horner(Pc, X_sl[i]) + Nx         # sum alpha E^x0_x0 = P + N
+        R = Nx - kappa * (rb[i] + p0b[i])
+        scale = max(abs(e0), abs(Lam_), abs(kappa * p0b[i]))
         r8.append(abs(R) / scale)
-    alg = [abs(D_ + 2 * s["p_t_bar"] - 2 * s["p8_bar"]) / (abs(s["p3_bar"]) + abs(s["p_t_bar"]) + 2 * abs(s["p8_bar"]))
+    alg = [abs(D_ + 2 * s["p_t_bar"] - 2 * s["p0_bar"]) / (abs(s["p3_bar"]) + abs(s["p_t_bar"]) + 2 * abs(s["p0_bar"]))
            for D_, s in zip(D, ser)]
     # adiabaticity along the solution: Q scales with a4' (Q_max recorded at a4' = H)
     q = [ser[i]["Q_max"] * math.sqrt(X_sl[i]) for i in range(len(slices)) if X_sl[i] is not None]
@@ -614,7 +614,7 @@ def main(argv: list) -> int:
         kst = json.loads(KS_THEORY.read_text(encoding="utf-8"))
     except (OSError, ValueError) as ex:
         err("cannot read an input: %s" % ex)
-    if "p8' + 6H p8 = 3H (p3 + p_t)" not in kst["emt"]["conservationY"]:
+    if "p0' + 6H p0 = 3H (p3 + p_t)" not in kst["emt"]["conservationY"]:
         err("ks-theory.json emt.conservationY is not the expected identity")
 
     # ---------------- A
@@ -632,42 +632,42 @@ def main(argv: list) -> int:
           "W = int_{-L}^{0} e^{6Hy} dy = %s" % (g6(geo["L"]), g6(geo["Vol7"]), len(states), g6(wi["int_rel"]), wi["id"],
                                                g6(geo["wvol"])))
     wc = max(nz, key=lambda s: s["cons_fd_rel"])
-    check("B2_x8_conservation_on_every_profile", wc["cons_fd_rel"] <= TOL_CONS_FD,
-          "p8_y + 6 H p8 - 3 H (p3 + p_t) = 0 (check A6) evaluated with 4th-order central differences on the output "
+    check("B2_x0_conservation_on_every_profile", wc["cons_fd_rel"] <= TOL_CONS_FD,
+          "p0_y + 6 H p0 - 3 H (p3 + p_t) = 0 (check A6) evaluated with 4th-order central differences on the output "
           "grid (dy = %s) of the %d nonzero profiles: largest residual relative to the largest term %s (%s; tolerance %s "
-          "from the finite-difference truncation). The recorded states CONSERVE energy-momentum along x8; therefore their "
-          "violation of p3 + p_t = 2 p8 is exactly p8_y/(3H): the source fails the field equations because p8 (and with "
-          "it every component) depends on x8, not because conservation fails"
+          "from the finite-difference truncation). The recorded states CONSERVE energy-momentum along x0; therefore their "
+          "violation of p3 + p_t = 2 p0 is exactly p0_y/(3H): the source fails the field equations because p0 (and with "
+          "it every component) depends on x0, not because conservation fails"
           % (g6(wc["h"]), len(nz), g6(wc["cons_fd_rel"]), wc["id"], g6(TOL_CONS_FD)))
     wid = max(nz, key=lambda s: s["identity_rel"])
-    check("B3_integrated_x8_identity", wid["identity_rel"] <= TOL_IDENTITY,
-          "int (p3 + p_t) = 2 Vol_7 [e^{6Hy} p8]_{-L}^{0}/(3H) with the solver's integrals and end values p8_brane, "
-          "p8_tip (emt-integrals.csv) for the %d nonzero states: largest relative difference %s (%s). So "
-          "p3_bar + p_t_bar - 2 p8_bar = ([e^{6Hy} p8]_{-L}^{0} - 6 H W p8_bar)/(3 H W): the averaged algebraic "
-          "condition holds only if the boundary flux of p8 equals the value an x8-independent p8 would give"
+    check("B3_integrated_x0_identity", wid["identity_rel"] <= TOL_IDENTITY,
+          "int (p3 + p_t) = 2 Vol_7 [e^{6Hy} p0]_{-L}^{0}/(3H) with the solver's integrals and end values p0_brane, "
+          "p0_tip (emt-integrals.csv) for the %d nonzero states: largest relative difference %s (%s). So "
+          "p3_bar + p_t_bar - 2 p0_bar = ([e^{6Hy} p0]_{-L}^{0} - 6 H W p0_bar)/(3 H W): the averaged algebraic "
+          "condition holds only if the boundary flux of p0 equals the value an x0-independent p0 would give"
           % (len(nz), g6(wid["identity_rel"]), wid["id"]))
-    mus = {c: [s["mu_" + c] for s in nz if s["mu_" + c] is not None] for c in ("rho", "p3", "p_t", "p8")}
-    mu1 = {c: [s["mu1_" + c] for s in nz if s["mu1_" + c] is not None] for c in ("rho", "p3", "p_t", "p8")}
+    mus = {c: [s["mu_" + c] for s in nz if s["mu_" + c] is not None] for c in ("rho", "p3", "p_t", "p0")}
+    mu1 = {c: [s["mu1_" + c] for s in nz if s["mu1_" + c] is not None] for c in ("rho", "p3", "p_t", "p0")}
     ptzero = [s["id"] for s in nz if s["mu_p_t"] is None]
     mu_rho_min = min(nz, key=lambda s: s["mu_rho"])
     mu1_rho_min = min(nz, key=lambda s: s["mu1_rho"])
-    ok_mu = all(s["mu_rho"] > 1e-3 and s["mu_p8"] > 1e-3 and s["mu1_rho"] > 1e-3 and s["mu1_p8"] > 1e-3 for s in nz)
+    ok_mu = all(s["mu_rho"] > 1e-3 and s["mu_p0"] > 1e-3 and s["mu1_rho"] > 1e-3 and s["mu1_p0"] > 1e-3 for s in nz)
 
     def rng(v):
         return "[%s, %s]" % (g6(min(v)), g6(max(v))) if v else "-"
     tips = [s["tip_share_rho"] for s in nz]
     check("B4_hidden_direction_mismatch", ok_mu,
-          "the field equations require every component to be independent of x8, the profiles are not. Two measures over "
+          "the field equations require every component to be independent of x0, the profiles are not. Two measures over "
           "the patch with the volume weight e^{6Hy}: (L1) mu1_X = int e^{6Hy} |X - X_bar| / int e^{6Hy} |X| (0 for an "
-          "x8-independent X; above 1 where X changes sign along x8): over the %d nonzero states mu1_rho "
-          "in %s (smallest %s), mu1_p3 in %s, mu1_p8 in %s, mu1_p_t in %s; (L2) mu_X = ||X - X_bar||/||X|| (X_bar is the "
-          "orthogonal projection of X on the x8-independent functions): mu_rho in %s (smallest %s), mu_p3 in %s, mu_p8 in "
+          "x0-independent X; above 1 where X changes sign along x0): over the %d nonzero states mu1_rho "
+          "in %s (smallest %s), mu1_p3 in %s, mu1_p0 in %s, mu1_p_t in %s; (L2) mu_X = ||X - X_bar||/||X|| (X_bar is the "
+          "orthogonal projection of X on the x0-independent functions): mu_rho in %s (smallest %s), mu_p3 in %s, mu_p0 in "
           "%s, mu_p_t in %s - the L2 norm is weighted towards the tip (the share of ||rho||^2 from the tip half y < -L/2 "
           "is %s), so the L1 measure is the less cut-off dependent one; p_t = e_int is identically zero (hence "
-          "x8-independent) in the %d states with lambda = 0; the algebraic defect ||p3 + p_t - 2 p8||/||(rho, p3, p_t, "
-          "p8)|| lies in %s. Every measure is O(1): the computed source is NOT close to an x8-independent one"
-          % (len(nz), rng(mu1["rho"]), mu1_rho_min["id"], rng(mu1["p3"]), rng(mu1["p8"]), rng(mu1["p_t"]),
-             rng(mus["rho"]), mu_rho_min["id"], rng(mus["p3"]), rng(mus["p8"]), rng(mus["p_t"]), rng(tips),
+          "x0-independent) in the %d states with lambda = 0; the algebraic defect ||p3 + p_t - 2 p0||/||(rho, p3, p_t, "
+          "p0)|| lies in %s. Every measure is O(1): the computed source is NOT close to an x0-independent one"
+          % (len(nz), rng(mu1["rho"]), mu1_rho_min["id"], rng(mu1["p3"]), rng(mu1["p0"]), rng(mu1["p_t"]),
+             rng(mus["rho"]), mu_rho_min["id"], rng(mus["p3"]), rng(mus["p0"]), rng(mus["p_t"]), rng(tips),
              len(ptzero), rng([s["alg_L2_rel"] for s in nz])))
     # B0: the wave-1 report ks-source-conditions.json, re-derived independently from the same Kohn-Sham files
     try:
@@ -680,7 +680,7 @@ def main(argv: list) -> int:
     amax_s = max(nz, key=lambda s: s["alg_pointwise_rel"])
     rat = {s["id"]: s["int_ratio"] for s in nz if s["int_ratio"] is not None}
     rbest = min(rat, key=lambda k: abs(rat[k] - 1.0))
-    exp = [("ks_profiles_depend_on_x8", ["%d with a nonzero" % len(nz), ">= %s (smallest: %s)"
+    exp = [("ks_profiles_depend_on_x0", ["%d with a nonzero" % len(nz), ">= %s (smallest: %s)"
                                          % (g6(vmin_s["var_ratio"]), vmin_s["id"])]),
            ("ks_profiles_violate_algebraic_condition", ["between %s (%s) and %s (%s)" % (
                g6(amin_s["alg_pointwise_rel"]), amin_s["id"], g6(amax_s["alg_pointwise_rel"]), amax_s["id"])]),
@@ -690,21 +690,21 @@ def main(argv: list) -> int:
     missing = [n for n, subs in exp if n not in w1c or not all(x in w1c[n]["detail"] for x in subs)]
     check("B0_wave1_report_verified", ok0 and not missing and all(rat[k] < 1.0 for k in rat),
           "%s (all %d checks PASS) re-derived independently from the same Kohn-Sham files: %d nonzero states; the "
-          "smallest x8 variation (max rho - min rho)/max|T| = %s (%s); the pointwise algebraic defect max|p3 + p_t - "
-          "2 p8|/max|T| from %s (%s) to %s (%s); the integrated ratio (int p3 + int p_t)/(2 int p8) closest to 1 is %s "
+          "smallest x0 variation (max rho - min rho)/max|T| = %s (%s); the pointwise algebraic defect max|p3 + p_t - "
+          "2 p0|/max|T| from %s (%s) to %s (%s); the integrated ratio (int p3 + int p_t)/(2 int p0) closest to 1 is %s "
           "(%s) and below 1 for every state - all equal to the numbers in that report%s. REFINEMENT: the recorded states "
-          "do NOT violate the x8 conservation identity d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0; they satisfy it "
-          "(check B2); what fails is p3 + p_t = 2 p8, which is that identity combined with x8-independence"
+          "do NOT violate the x0 conservation identity d p0/d x0 + 3 H cot z (2 p0 - p3 - p_t) = 0; they satisfy it "
+          "(check B2); what fails is p3 + p_t = 2 p0, which is that identity combined with x0-independence"
           % (rel(WAVE1), len(w1["checks"]), len(nz), g6(vmin_s["var_ratio"]), vmin_s["id"],
              g6(amin_s["alg_pointwise_rel"]), amin_s["id"], g6(amax_s["alg_pointwise_rel"]), amax_s["id"],
              g6(rat[rbest]), rbest, "" if not missing else " EXCEPT " + ", ".join(missing)))
     # ---------------- C
     walg = min(nz, key=lambda s: s["alg_bar_rel"])
     check("C1_averaged_algebraic_condition_fails", all(s["alg_bar_rel"] > 1e-3 for s in nz),
-          "the x1 + x5 - 2 x8 moment reads 0 = kappa (p3_bar + p_t_bar - 2 p8_bar) whatever a4, Lambda, alpha_k (check A1); "
-          "|p3_bar + p_t_bar - 2 p8_bar| / (|p3_bar| + |p_t_bar| + 2 |p8_bar|) lies in [%s (%s), %s] over the %d nonzero "
+          "the x1 + x5 - 2 x0 moment reads 0 = kappa (p3_bar + p_t_bar - 2 p0_bar) whatever a4, Lambda, alpha_k (check A1); "
+          "|p3_bar + p_t_bar - 2 p0_bar| / (|p3_bar| + |p_t_bar| + 2 |p0_bar|) lies in [%s (%s), %s] over the %d nonzero "
           "states: an O(1) violation, so no choice of kappa != 0 makes the hidden-direction averaged Kohn-Sham source "
-          "satisfy all moments; dropping this combination (and with it the x8 moment) is an APPROXIMATION whose error "
+          "satisfy all moments; dropping this combination (and with it the x0 moment) is an APPROXIMATION whose error "
           "is this defect" % (g6(walg["alg_bar_rel"]), walg["id"], g6(max(s["alg_bar_rel"] for s in nz)), len(nz)))
     wsolv = max(nz, key=lambda s: abs(s["dE_fd"] - s["dE_emt"]) / max(abs(s["dE_emt"]), 1e-300)
                 if s["dE_emt"] != 0 else 0.0)
@@ -733,29 +733,29 @@ def main(argv: list) -> int:
           "(h = 0.5) reproduces the change of rho_bar to %s (worst: %s; tolerance %s for the step 0.5); (iii) "
           "history.json records %d Fermi-level crossings, so the instantaneous ground states form one adiabatic family "
           "along a4 in [0, 2]" % (g6(solv_rel), wsolv["id"], g6(worst_sl), worst_tag, g6(TOL_ENERGY_SLICES), crossings))
-    # x4 + x8 moments (Einstein): kappa (p8_bar - rho_bar) = 36 H^2 + 2 Lambda must be constant along the history
+    # x4 + x0 moments (Einstein): kappa (p0_bar - rho_bar) = 36 H^2 + 2 Lambda must be constant along the history
     var = []
     for tag in tags:
         ser = series_of(states, tag, slices)
-        q = [s["p8_bar"] - s["rho_bar"] for s in ser]
+        q = [s["p0_bar"] - s["rho_bar"] for s in ser]
         var.append((abs(max(q) - min(q)) / max(abs(v) for v in q), tag))
     vmin = min(var)
     const_tags = sorted(t for v, t in var if v <= 1e-9)
     moving = [(v, t) for v, t in var if v > 1e-9]
-    check("C3_x8_moment_inconsistent_with_history", all(t.startswith("N8_") for t in const_tags) and moving
+    check("C3_x0_moment_inconsistent_with_history", all(t.startswith("N8_") for t in const_tags) and moving
           and all(v > 0.05 for v, _ in moving),
-          "Einstein gravity: the x4 and x8 moments give kappa (p8_bar - rho_bar) = 36 H^2 + 2 Lambda (a constant), and "
-          "the x8 moment with the evolution needs d p8_bar/d a4 = d rho_bar/d a4, the same condition; along the history "
-          "p8_bar - rho_bar varies by a fraction %s ... %s of its largest value in the %d series with momentum, so every "
-          "set of moments containing the x8 moment is inconsistent for them; it is constant (a4-independent source) "
-          "only in the N = 8 interacting series %s, whose x1 + x5 - 2 x8 moment still fails (check C1)"
+          "Einstein gravity: the x4 and x0 moments give kappa (p0_bar - rho_bar) = 36 H^2 + 2 Lambda (a constant), and "
+          "the x0 moment with the evolution needs d p0_bar/d a4 = d rho_bar/d a4, the same condition; along the history "
+          "p0_bar - rho_bar varies by a fraction %s ... %s of its largest value in the %d series with momentum, so every "
+          "set of moments containing the x0 moment is inconsistent for them; it is constant (a4-independent source) "
+          "only in the N = 8 interacting series %s, whose x1 + x5 - 2 x0 moment still fails (check C1)"
           % (g6(min(v for v, _ in moving)), g6(max(v for v, _ in moving)), len(moving), ", ".join(const_tags)))
     mom = [s for s in nz if s["N"] > 8]
-    check("C4_source_signs", all(s["p3_bar"] - s["p_t_bar"] > 0 and s["rho_bar"] > 0 and s["rho_bar"] + s["p8_bar"] > 0
+    check("C4_source_signs", all(s["p3_bar"] - s["p_t_bar"] > 0 and s["rho_bar"] > 0 and s["rho_bar"] + s["p0_bar"] > 0
                                  for s in mom)
           and all(abs(s["p3_bar"] - s["p_t_bar"]) <= 1e-12 * max(abs(s["p3_bar"]), 1e-300) + 1e-18
                   for s in nz if s["N"] == 8),
-          "for the %d nonzero states with N = 136, 688: rho_bar > 0, rho_bar + p8_bar > 0 and p3_bar - p_t_bar > 0 "
+          "for the %d nonzero states with N = 136, 688: rho_bar > 0, rho_bar + p0_bar > 0 and p3_bar - p_t_bar > 0 "
           "(range %s ... %s); for the N = 8 interacting states (k = 0 brane zero modes) p3_bar = p_t_bar (no 3-momentum) "
           "and the source does not depend on a4; so the evolution source kappa (p3_bar - p_t_bar) has the sign of kappa "
           "for N = 136, 688 and vanishes for N = 8"
@@ -841,7 +841,7 @@ def main(argv: list) -> int:
                                                         for c in n8),
           "for the N = 8 interacting source (a4-independent, p3_bar = p_t_bar) the truncated system gives exactly the "
           "linear member a4 = A0 H x4 + a0 for every sigma0 and theory (%d cases; the rate is the initial condition, "
-          "Lambda absorbs kappa rho_bar); the dropped x8 moment fails by the C1 defect" % len(n8))
+          "Lambda absorbs kappa rho_bar); the dropped x0 moment fails by the C1 defect" % len(n8))
     ok5 = all((c["sigma0"] > 0 and c["A_end"] > 1.0) or (c["sigma0"] < 0 and (c["A_end"] < 1.0))
               for c in ein if not c["series"].startswith("N8_"))
     check("D5_einstein_sign_of_the_effect", ok5,
@@ -860,9 +860,9 @@ def main(argv: list) -> int:
                                         for c in egb_branch[:4])))
     r8s = [c["r8_max"] for c in cases if c["r8_max"] is not None and not c["series"].startswith("N8_")]
     qs = [c["q_max"] for c in cases if c["q_max"] is not None]
-    check("D7_dropped_x8_moment_residual_and_adiabaticity", min(r8s) > 1e-3 and max(qs) < 1.0,
-          "the dropped x8 moment R8 = N(a4') - kappa (rho_bar + p8_bar) (check A5) relative to the largest term of the "
-          "x8 equation, at the slices reached: %s ... %s over the cases with momentum (never small: the truncation is "
+    check("D7_dropped_x0_moment_residual_and_adiabaticity", min(r8s) > 1e-3 and max(qs) < 1.0,
+          "the dropped x0 moment R0 = N(a4') - kappa (rho_bar + p0_bar) (check A5) relative to the largest term of the "
+          "x0 equation, at the slices reached: %s ... %s over the cases with momentum (never small: the truncation is "
           "not a small perturbation of an exact solution); the adiabaticity measure along the solved histories, "
           "Q_max(a4') = Q_max(a4' = H) a4'/H, stays <= %s" % (g6(min(r8s)), g6(max(r8s)), g6(max(qs))))
 
@@ -871,8 +871,8 @@ def main(argv: list) -> int:
     OUT_REPORT.parent.mkdir(parents=True, exist_ok=True)
     buf = io.StringIO(newline="")
     wr = csv.writer(buf, lineterminator="\n")
-    wr.writerow(["id", "N", "lambda_tag", "a4", "rho_bar", "p3_bar", "p_t_bar", "p8_bar", "mu1_rho", "mu1_p3", "mu1_p_t",
-                 "mu1_p8", "mu_rho", "mu_p3", "mu_p_t", "mu_p8", "tip_share_rho", "alg_bar_rel", "alg_L2_rel",
+    wr.writerow(["id", "N", "lambda_tag", "a4", "rho_bar", "p3_bar", "p_t_bar", "p0_bar", "mu1_rho", "mu1_p3", "mu1_p_t",
+                 "mu1_p0", "mu_rho", "mu_p3", "mu_p_t", "mu_p0", "tip_share_rho", "alg_bar_rel", "alg_L2_rel",
                  "alg_pointwise_rel", "cons_fd_rel", "identity_rel", "Q_max"])
     for sid in sorted(states):
         s = states[sid]
@@ -880,10 +880,10 @@ def main(argv: list) -> int:
             wr.writerow([sid, s["N"], s["lambda_tag"], e12(s["a4"]), "0", "0", "0", "0"] + ["zero source"] * 14 + [""])
             continue
         wr.writerow([sid, s["N"], s["lambda_tag"], e12(s["a4"]), e12(s["rho_bar"]), e12(s["p3_bar"]),
-                     e12(s["p_t_bar"]), e12(s["p8_bar"]), e12(s["mu1_rho"]), e12(s["mu1_p3"]),
-                     "identically zero" if s["mu1_p_t"] is None else e12(s["mu1_p_t"]), e12(s["mu1_p8"]),
+                     e12(s["p_t_bar"]), e12(s["p0_bar"]), e12(s["mu1_rho"]), e12(s["mu1_p3"]),
+                     "identically zero" if s["mu1_p_t"] is None else e12(s["mu1_p_t"]), e12(s["mu1_p0"]),
                      e12(s["mu_rho"]), e12(s["mu_p3"]),
-                     "identically zero" if s["mu_p_t"] is None else e12(s["mu_p_t"]), e12(s["mu_p8"]),
+                     "identically zero" if s["mu_p_t"] is None else e12(s["mu_p_t"]), e12(s["mu_p0"]),
                      e12(s["tip_share_rho"]),
                      e12(s["alg_bar_rel"]), e12(s["alg_L2_rel"]), e12(s["alg_pointwise_rel"]), e12(s["cons_fd_rel"]),
                      e12(s["identity_rel"]), e12(s["Q_max"])])
@@ -892,7 +892,7 @@ def main(argv: list) -> int:
     wr = csv.writer(buf, lineterminator="\n")
     wr.writerow(["gravity", "series", "case", "sigma0", "kappa", "Lambda", "event", "a4_end", "x4_end", "rate_end",
                  "rate_a00", "rate_a05", "rate_a10", "rate_a15", "rate_a20", "m2_a4_end", "m2_x4_end", "m2_rate_end",
-                 "x8_moment_residual_max_rel", "algebraic_defect_max_rel", "adiabaticity_Q_max"])
+                 "x0_moment_residual_max_rel", "algebraic_defect_max_rel", "adiabaticity_Q_max"])
     for c in cases:
         m2 = c["m2"]
         wr.writerow([c["gravity"], c["series"], c["label"], e12(c["sigma0"]), e12(c["kappa"]), e12(c["Lambda"]),
@@ -907,13 +907,13 @@ def main(argv: list) -> int:
     canon = {c["gravity"] + "/" + c["label"]: c for c in cases if c["series"] == "N136_lam0"}
     conclusions = [
         "EXACT: no recorded Kohn-Sham state is an admissible source of the author's metric. The states conserve "
-        "energy-momentum along x8 (B2), so p3 + p_t - 2 p8 = p8_y/(3H) exactly (A6): the algebraic condition fails "
-        "because every component depends on x8 (B4: at least a share %s of the energy density deviates from its "
+        "energy-momentum along x0 (B2), so p3 + p_t - 2 p0 = p0_y/(3H) exactly (A6): the algebraic condition fails "
+        "because every component depends on x0 (B4: at least a share %s of the energy density deviates from its "
         "hidden-direction average, L1 measure), and it fails also after averaging over the hidden direction (C1: O(1) "
         "defect). The coupled problem 'metric of SPEC section 1 + Kohn-Sham source' has no solution; nothing about a4 is "
         "DERIVED from it." % g6(min(mu1["rho"])),
         "APPROXIMATION (stated): keep the x4 moment and the x1 - x5 moment of the field equations (multiplied by "
-        "sqrt|g| and integrated over the patch: exact necessary conditions), drop the x8 moment and the x1 + x5 - 2 x8 "
+        "sqrt|g| and integrated over the patch: exact necessary conditions), drop the x0 moment and the x1 + x5 - 2 x0 "
         "moment. This pair is the only consistent one (A4, C2, C3) and has the first integral P(a4'^2) + Lambda = "
         "-kappa rho_bar(a4) (Einstein: a4'^2 = a4'^2(0) - (kappa/3)(rho_bar(a4) - rho_bar(0))). Its error is the "
         "dropped residuals (C1, D7), which are O(1), not small.",
@@ -934,18 +934,18 @@ def main(argv: list) -> int:
            g6(canon["egb/Lambda = 0"]["a_end"]), g6(canon["lovelock3/Lambda = 0"]["a_end"])),
         "A source that does not change with a4 (the N = 8 interacting brane zero modes: p3_bar = p_t_bar) gives exactly "
         "the linear member a4 = A H x4 + a0 within the approximation (D4) - exponential deflation at the rate chosen "
-        "initially, allowed but not selected; its x8 moment still fails (C1).",
+        "initially, allowed but not selected; its x0 moment still fails (C1).",
         "Not computed (open): the source beyond a4 = 2 (no Kohn-Sham states there; any late-time statement is an "
         "extrapolation), thermal states (only the T = 0 ground states are used), the non-adiabatic problem, and a "
-        "source with the hidden-direction profile the equations require (an x8-independent energy-momentum tensor, or "
-        "a metric with x8-dependent warp functions that could carry the Kohn-Sham profile).",
+        "source with the hidden-direction profile the equations require (an x0-independent energy-momentum tensor, or "
+        "a metric with x0-dependent warp functions that could carry the Kohn-Sham profile).",
     ]
     rep = {
         "report": rel(OUT_REPORT),
         "producer": rel(Path(__file__)),
         "spec": "Revision/SPEC.md sections 5 and 7: the a4 field equations with the Kohn-Sham energy-momentum tensor as "
                 "the source; coordinates x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times, "
-                "x8 = hidden direction",
+                "x0 = hidden direction",
         "inputs": {rel(p): sha256(p) for p in (A4_JSON, KS_PARAMS, KS_INTEGRALS, KS_ADIABATIC, KS_HISTORY, KS_THEORY,
                                                WAVE1)},
         "inputProfiles": {"directory": rel(KS_PROFILES), "files": len(states),
@@ -959,16 +959,16 @@ def main(argv: list) -> int:
             "Hermite interpolant with the exact slopes -3 (p3_bar - p_t_bar)",
             "hidden-direction averages with the volume weight sqrt|g| = e^{6Hy} over the patch y in [-L, 0], L = 3 (the "
             "solver's tip cut-off)",
-            "truncation: the x4 moment and the x1 - x5 moment are imposed, the x8 moment and the x1 + x5 - 2 x8 moment "
+            "truncation: the x4 moment and the x1 - x5 moment are imposed, the x0 moment and the x1 + x5 - 2 x0 moment "
             "are not (their residuals are reported)",
             "sign convention sigmaT = +1 (a4-equations.json); kappa of either sign is examined (sigma0 > 0 and < 0)",
             "initial rate a4'(0) = H (the rate of the prescribed Kohn-Sham history, A = 1), a4(0) = 0; Lambda fixed by "
             "the constraint at a4 = 0 (or Lambda = 0 with sigma0 fixed instead)",
         ],
         "gravity": [{"name": g[0], "couplings": g[4], "P(X) at H = 1": polys[g[0]]["Pstr"],
-                     "N(X) = sum alpha (E^x8_x8 - E^x4_x4) at H = 1": polys[g[0]]["Nstr"]} for g in GRAVITY],
+                     "N(X) = sum alpha (E^x0_x0 - E^x4_x4) at H = 1": polys[g[0]]["Nstr"]} for g in GRAVITY],
         "conclusions": conclusions,
-        "tolerances": {"integrals": TOL_INTEGRAL, "x8ConservationFD": TOL_CONS_FD, "integratedIdentity": TOL_IDENTITY,
+        "tolerances": {"integrals": TOL_INTEGRAL, "x0ConservationFD": TOL_CONS_FD, "integratedIdentity": TOL_IDENTITY,
                        "energyRelationSolver": TOL_ENERGY_SOLVER, "energyRelationSlices": TOL_ENERGY_SLICES,
                        "methods": TOL_METHODS},
         "outputs": [rel(OUT_MOMENTS), rel(OUT_CASES), rel(OUT_SUMMARY)],
@@ -987,20 +987,20 @@ def summary_md(rep: dict, cases: list, states: dict, slices: list) -> str:
          "Generated by `%s`; every number below is from this run (report `%s`, %d/%d checks pass)."
          % (rep["producer"], rep["report"], rep["summary"]["pass"], rep["summary"]["checks"]), "",
          "Coordinates: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor "
-         "e^{-a4} sin^{1/6} z); x8 = hidden direction (Kohn-Sham coordinate y = ln(sin z)/(6H)).", "",
+         "e^{-a4} sin^{1/6} z); x0 = hidden direction (Kohn-Sham coordinate y = ln(sin z)/(6H)).", "",
          "## Conclusions", ""]
     for c in rep["conclusions"]:
         L.append("* " + c)
     L += ["", "## Assumptions", ""] + ["* " + a for a in rep["assumptions"]]
     L += ["", "## Hidden-direction averages along the history (N = 136, lambda = 0)", "",
           "Proper densities in the solver's units (H = m = 1); mu1 = L1 and mu = L2 hidden-direction mismatch (check B4); "
-          "defect = |p3_bar + p_t_bar - 2 p8_bar| / (|p3_bar| + |p_t_bar| + 2 |p8_bar|) (check C1).", "",
-          "| a4 | rho_bar | p3_bar | p_t_bar | p8_bar | mu1_rho | mu1_p8 | mu_rho | mu_p8 | defect |", "| --- " * 10 + "|"]
+          "defect = |p3_bar + p_t_bar - 2 p0_bar| / (|p3_bar| + |p_t_bar| + 2 |p0_bar|) (check C1).", "",
+          "| a4 | rho_bar | p3_bar | p_t_bar | p0_bar | mu1_rho | mu1_p0 | mu_rho | mu_p0 | defect |", "| --- " * 10 + "|"]
     for a in slices:
         s = states["N136_lam0_a%02d" % int(round(10 * a))]
         L.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
-            g6(a), g6(s["rho_bar"]), g6(s["p3_bar"]), g6(s["p_t_bar"]), g6(s["p8_bar"]), g6(s["mu1_rho"]),
-            g6(s["mu1_p8"]), g6(s["mu_rho"]), g6(s["mu_p8"]), g6(s["alg_bar_rel"])))
+            g6(a), g6(s["rho_bar"]), g6(s["p3_bar"]), g6(s["p_t_bar"]), g6(s["p0_bar"]), g6(s["mu1_rho"]),
+            g6(s["mu1_p0"]), g6(s["mu_rho"]), g6(s["mu_p0"]), g6(s["alg_bar_rel"])))
     L += ["", "## Integrated cases (series N136_lam0, a4'(0) = H)", "",
           "sigma0 = kappa rho_bar(0)/H^2; Lambda from the constraint at a4 = 0; outcome: regular (through a4 = 2), "
           "turning_point (a4' = 0: the deflation halts; the integration stops there, what follows is not computed), "

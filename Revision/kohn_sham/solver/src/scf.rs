@@ -66,7 +66,7 @@ pub struct Dens {
     pub k4: Vec<f64>,
     /// sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o - w_Q q_o]
     pub ky: Vec<f64>,
-    /// sum w g f [|eps - v| n_o + |M s_o| + |kappa k t_o| + |w_Q q_o|] (scale of the cancelling terms of p8)
+    /// sum w g f [|eps - v| n_o + |M s_o| + |kappa k t_o| + |w_Q q_o|] (scale of the cancelling terms of p0)
     pub kyabs: Vec<f64>,
 }
 

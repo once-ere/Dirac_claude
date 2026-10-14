@@ -13,7 +13,7 @@ What is tested
   * SLOW (skipped when REVISION_FAST=1): the script is run twice into temporary directories; both runs are
     byte-identical, the CSV tables are byte-identical to the committed ones and the report and the summary agree with
     the committed ones up to the output paths;
-  * SLOW negative controls: a copy of the Kohn-Sham results with one profile value of p8 changed (the x8 conservation
+  * SLOW negative controls: a copy of the Kohn-Sham results with one profile value of p0 changed (the x0 conservation
     identity is broken at one grid point) and a copy with one integral changed must make the script fail (exit 1, the
     expected checks FAIL). Temporary files go to tempfile directories; the committed files are never touched.
 Run time of the whole file: 18 s to 98 s on the development machine, depending on the load (2026-10-08); with
@@ -183,19 +183,19 @@ class Rerun(unittest.TestCase):
         shutil.rmtree(d, ignore_errors=True)
         return r, {c["name"]: c["verdict"] for c in rep["checks"]}
 
-    def test_negative_control_broken_x8_conservation(self):
+    def test_negative_control_broken_x0_conservation(self):
         def edit(ks):
             p = ks / "ground" / "profiles" / "N136_lam0_a10.csv"
             lines = p.read_text(encoding="utf-8").split("\n")
             cols = lines[0].split(",")
-            j = cols.index("p8")
+            j = cols.index("p0")
             row = lines[76].split(",")                       # y = -1.5
             row[j] = repr(float(row[j]) * 1.5)
             lines[76] = ",".join(row)
             p.write_text("\n".join(lines), encoding="utf-8", newline="\n")
         r, v = self._tampered(edit)
         self.assertEqual(r.returncode, 1)
-        self.assertEqual(v["B2_x8_conservation_on_every_profile"], "FAIL")
+        self.assertEqual(v["B2_x0_conservation_on_every_profile"], "FAIL")
 
     def test_negative_control_wrong_integral(self):
         def edit(ks):

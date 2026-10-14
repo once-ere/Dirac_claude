@@ -6,15 +6,35 @@ different discretisation. Its only theory input is `Revision/kohn_sham/ks-theory
 coefficients are read from it and checked to be exactly 15/16, -1/16, 15/32 and -1/32 (and 1/32, 1/16 for the
 exact-Fock variant). Nothing from the old stages is used.
 
-Coordinates as the author names them: x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time;
-x5, x6, x7 = the three EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} sin^{1/6} z, a4
-increasing); x8 = hidden direction, y = ln(sin z)/(6H) in [-L, 0] (brane y = 0, tip cutoff y = -L).
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H) in [-L, 0], z = 6 H x0 (brane
+y = 0, tip cutoff y = -L); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three
+EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} sin^{1/6} z, a4 increasing).  p0 = T^x0_x0 is the
+hidden-direction pressure (named p8 in the outputs before the relabel of 2026-10-14).
 
 ## Run (from the repository root)
 
 ```
-python Revision/kohn_sham/reference/run_reference.py --jobs 22 --timing <scratch>/timing.json   # canonical
+python Revision/kohn_sham/reference/run_reference.py --jobs 22 --timing <scratch>/timing.json   # canonical, one run
 ```
+
+In parts, each within a time limit (the way it was run on 2026-10-14, when no single calculation may take longer
+than 423 s):
+
+```
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 1/4 --jobs 12
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 2/4 --jobs 12
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 3/4 --jobs 12
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 4/4 --jobs 12
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --jobs 12          # writes the outputs
+```
+
+`--part i/n` computes a fixed part of the 333 jobs (the jobs sorted by `cost_estimate`, longest first, each given
+to the part with the smallest total so far), saves every finished job in the cache (one pickle per job) and writes
+no outputs. The run without `--part` computes any job still missing and writes the outputs. The cache is tied to
+the SHA-256 of `ks-theory.json`, `run_reference.py` and `ks_fd.py` and to the Python and numpy versions
+(`cache-identity.json`); a cache made with other inputs is refused. The outputs do not depend on how the jobs are
+distributed: every job is a pure function of its inputs (single-threaded BLAS), and the results are written in a
+fixed order.
 
 The run writes `reference/results/` (a fresh directory: a former output directory is replaced) and
 `reports/ks-reference.json`, and prints every check as `PASS/FAIL - name: detail` on stderr and
@@ -45,7 +65,7 @@ check `reference_repeat_byte_identical`), which also compares the reference with
   offset) equals the Rust label minus label_min.
 * **Densities, potentials, integrals.** u and w are averaged onto each other's positions. The proper
   densities n, S, Q, the potentials M_eff = m + (15/16) lambda S and v_v = -(1/16) lambda n, e_int and the EMT
-  (rho, p3, p_t, p8 as in ks-theory.json emt) are evaluated at all positions. Integrals use the midpoint rule
+  (rho, p3, p_t, p0 as in ks-theory.json emt) are evaluated at all positions. Integrals use the midpoint rule
   on the half nodes. Brane and tip values use a quintic extrapolation of u from the six nearest half nodes.
   Anderson mixing of the potentials runs to max |residual| <= 1e-12 m.
 * **Runs per state.** Each state gets the ground state (aufbau, closed shells), the Delta-SCF state (one
@@ -81,7 +101,7 @@ check `reference_repeat_byte_identical`), which also compares the reference with
   lambda Q^2/32 to e_int and w_Q = lambda Q/16 sigma3 (both block types) to h. The coefficients are read from
   the theory file and checked (w_Q = d e_int/dQ; the n^2 and S^2 coefficients equal the uniform-gas ones). In
   the real form, w_Q enters as K -> K + j w_Q. The SCF mixes (dM, v_v, w_Q) and starts from the converged
-  uniform-gas state, as the Rust matrix does. p8 gets -w_Q Q, and the report checks y-conservation,
+  uniform-gas state, as the Rust matrix does. p0 gets -w_Q Q, and the report checks y-conservation,
   2 Vol_7 int e^{6Hy} rho = E_KS and the two energy forms for the variant.
 * **Rescaling partners (a4,0 > 0).** The problem KS(0; dk e^{-a4,0}, v_t e^{-3 a4,0}, lambda) is solved
   independently: its own label set, three grids, Richardson. The report compares it with the state at a4,0 (the
@@ -147,7 +167,7 @@ check `reference_repeat_byte_identical`), which also compares the reference with
   is HOMO group -> LUMO group at the KS gap in every state.
 * **Exact-Fock variant (60).** Converged on every grid (residual <= 6.1e-13 m), with the uniform-gas
   occupations. N is conserved, the two energy forms agree, and 2 Vol_7 int e^{6Hy} rho = E_KS holds. The
-  y-conservation with the derived -w_Q Q term in p8 holds to 3.1e-4 of the allowance. Examples: for N = 8 the
+  y-conservation with the derived -w_Q Q term in p0 holds to 3.1e-4 of the allowance. Examples: for N = 8 the
   exact Fock exchange cancels the uniform-gas interaction energy (E_EXX = 2.5e-17 against
   E_uniform_gas = -0.002862652173735 for lambda_2, a4,0 = 0). For N688_lamp2_a20: E_EXX = 110.6531060797778
   (U 4.8e-10), E_uniform_gas = 110.5777627893853, Delta E_x = 0.07682582877714, and
@@ -167,8 +187,8 @@ check `reference_repeat_byte_identical`), which also compares the reference with
   particle-only Mermin ensemble is outside its range of validity (a DIAGNOSTIC of the CONVENTION, not a
   validation).
 * **Uncertainty validated.** On G = 2400 the three-grid value moves by at most 0.79 of the stated U, in
-  every element of 19 quantity classes. The largest U are at the tip (p8 there: U = 1.0e-7, against
-  |p8| ~ 1e3). Energies and levels carry U of 1e-12 to 3e-9 absolute.
+  every element of 19 quantity classes. The largest U are at the tip (p0 there: U = 1.0e-7, against
+  |p0| ~ 1e3). Energies and levels carry U of 1e-12 to 3e-9 absolute.
 * **Examples (Richardson value, U).** E_KS(N136_lamp2_a20) = 12.44899948125322 (4.6e-11);
   E_KS(N688_lam0_a00) = 680.4412465815219 (3.3e-9); Delta-SCF(N8_lamp2_a00) = 0.4312928642917516 (2.6e-12);
   Q_max(N688_lam0_a00) = 0.09345059173142507.
@@ -186,6 +206,15 @@ byte-identical. Per kind (CPU time of the jobs, under full load, 2026-10-01):
 * 75 ground states: 1971 s, from 2.9 s to 132.7 s (N688_lamp2_a20).
 * 60 exact-Fock variants: 728 s, at most 44.8 s. 60 rescaling partners: 426 s, at most 27.5 s.
 * The four-grid validation takes 40.9 s, the crossing demonstration 21.2 s and the free checks 8.8 s.
+
+Run of 2026-10-14 (the author's coordinates x0..x7; the hidden-direction pressure is named p0, before p8): four
+parts of 84, 83, 83 and 83 jobs with `--jobs 12` took 234 s, 225 s, 258 s and 268 s of wall time (other jobs shared
+the machine); the longest single job was N688_lamp1_a20_T50 with 266.8 s; alone on the idle machine the same job
+took 220.3 s (with the parameter derivation, 17.2 s, before it). The assembly from the cache took 3 s. The 37
+checks pass. Every result file equals the one of 2026-10-08 after the renaming p8 -> p0 (keys `p0`, `int_p0`,
+`p0_brane`, `p0_tip`, `profile_p0`, CSV columns) except `parameters.json`, whose description now names the author's
+coordinates and whose `ksTheorySha256` is that of the relabelled `ks-theory.json`; the report differs only in that
+sha256.
 
 ## History
 

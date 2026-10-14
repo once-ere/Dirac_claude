@@ -3,8 +3,9 @@
 The Kohn-Sham record (`Revision/kohn_sham/`) replaces the tip $z \to 0$ ($y \to -\infty$) of the author's hidden
 coordinate $y = \ln(\sin z)/(6H)$ by a CHOSEN regular-tip condition $b(-L) = 0$ ($\theta = 0$) at the cutoff
 $y = -L$, $L = 3$. This folder measures how the recorded results depend on $L$ and whether they converge as $L$
-grows ($L = 3, 3.5, \dots, 6$). Coordinates as the author names them: x1..x3 = 3-space, x4 = time, x5..x7 = the
-three extra times, which DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}\sin^{1/6}z$), x8 = the hidden direction.
+grows ($L = 3, 3.5, \dots, 6$). The author's coordinates {x0, ..., x7}: x0 = the hidden direction
+($z = 6Hx_0$), x1..x3 = 3-space, x4 = time, x5..x7 = the three extra times, which DEFLATE EXPONENTIALLY (scale factor
+$e^{-a_4}\sin^{1/6}z$); p0 = $T^{x_0}{}_{x_0}$ is the hidden-direction pressure (named p8 before the relabel of 2026-10-14).
 
 ## Answer in brief
 
@@ -53,7 +54,7 @@ three extra times, which DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}\sin^{1/6}
   test at $L = 2$ scales $G$ the same way, `spectrum.rs`). Fixed $h$ keeps the RK4 truncation error per unit
   length of the record; the new tip region is evanescent for $k \neq 0$, with $h\kappa|k| \le 1.6$ at $L = 6$
   (inside the RK4 stability interval). Every run is repeated with $G = 600L$; the $h$-error is
-  $U_h = (16/15)|x(600L) - x(300L)|$ (RK4, order 4). $U_h \le 5\times10^{-9}$ for every quantity (largest: int_p8 of N688_lam0_a00), far below the $L$ differences
+  $U_h = (16/15)|x(600L) - x(300L)|$ (RK4, order 4). $U_h \le 5\times10^{-9}$ for every quantity (largest: int_p0 of N688_lam0_a00), far below the $L$ differences
   discussed.
 
 ## 2. What was computed
@@ -121,8 +122,8 @@ $x(3)$ is the recorded value, $x_\infty$ the extrapolated value with uncertainty
 | N136_lam0_a10 | E_KS | 32.38411569 | 32.42752401 | 4e-10 | 1.3e-3 | converged from L = 5 |
 | N136_lam0_a20 | E_KS | 12.44506958 | 12.62207048 | 2e-10 | 1.4e-2 | geometric tail |
 | N136_lam0_a20 | HOMO / LUMO | 0.1267657 / 0.1412225 | 0.1279669 / 0.1422925 | 1e-11 | 9.4e-3 / 7.5e-3 | converged from L = 5.5 / 5 |
-| N136_lam0_a20 | int_p8 | 8.47270252 | 9.638387084 | 4e-10 | 0.12 | geometric tail |
-| N136_lam0_a20 | rho / p8 at the brane | 7.907748e-4 / 3.708901e-4 | 8.012947e-4 / 3.817859e-4 | 1e-11 | 1.3e-2 / 2.9e-2 | converged from L = 5.5 |
+| N136_lam0_a20 | int_p0 | 8.47270252 | 9.638387084 | 4e-10 | 0.12 | geometric tail |
+| N136_lam0_a20 | rho / p0 at the brane | 7.907748e-4 / 3.708901e-4 | 8.012947e-4 / 3.817859e-4 | 1e-11 | 1.3e-2 / 2.9e-2 | converged from L = 5.5 |
 | N688_lam0_a00 | E_KS | 680.4412466 | - | - | - | NOT CONVERGED (678.2997 at L = 6; ratios 0.77-0.79, algebraic) |
 | N688_lam0_a00 | KS gap | 0.04518028744 | 0 from L = 3.5 | - | - | occupied set changes: open shell |
 | N688_lam0_a10 | E_KS | 279.4248865 | 279.4766394 | 3e-9 | 1.9e-4 | converged from L = 5 |
@@ -142,7 +143,7 @@ so the large-$L$ ground state of $N = 688$ at $a_{4,0} = 0$ is a different state
 | --- | --- | --- | --- | --- |
 | N8, $\mp\lambda_1$, every slice | E_KS | $\pm$9.868426191e-4 | $\pm$3.004585e-3 (4e-10, from N8_lamm1_a20, the only interacting N = 8 state converged to L = 6) | geometric tail, ratio 0.0498 = $e^{-3}$ per 0.5 |
 | N8, $\mp\lambda_1$ | HOMO (zero-mode level) | $\pm$2.455627e-4 | $\pm$5.635198e-4 (1e-11) | converged from L = 5 (N8_lamm1_a20) |
-| N8_lamm1_a20 | int_p8 / rho at the brane | 8.891377e-3 / 1.239022e-7 | 2.563318e-2 / 2.841360e-7 | geometric / from 4.5 |
+| N8_lamm1_a20 | int_p0 / rho at the brane | 8.891377e-3 / 1.239022e-7 | 2.563318e-2 / 2.841360e-7 | geometric / from 4.5 |
 | N8, other 5 states | all | as above to L = 4.5 | - | SCF fails from L = 5 |
 | N136_lamm1_a00 | E_KS | 80.28074397 | 80.28165543 (1e-8) | geometric tail |
 | N136_lamp1_a00 | E_KS | 80.28370092 | 80.28339995 at L = 5 | NOT CONVERGED (non-monotone), SCF fails from 5.5 |
@@ -202,10 +203,10 @@ occupation of $k = 0$ bulk levels.
 
 ### 4.6 Independent reference
 
-Reference and Rust agree at $L = 3$ and $L = 4$ in all 28 comparisons ($E_{KS}$, $E_{int}$, HOMO, LUMO, int_p8,
+Reference and Rust agree at $L = 3$ and $L = 4$ in all 28 comparisons ($E_{KS}$, $E_{int}$, HOMO, LUMO, int_p0,
 int_n, int_rho of N8_lamp1_a00 and N136_lam0_a20), worst |diff|/tolerance 0.005. The $L$ differences agree:
 $E_{KS}(4) - E_{KS}(3) = -1.954398469\times10^{-3}$ (both solvers, N8_lamp1_a00) and $0.1711236020$ (N136_lam0_a20);
-int_p8: $-0.0165948537$ and $1.10655006$.
+int_p0: $-0.0165948537$ and $1.10655006$.
 
 ## 5. Checks (`tip-convergence.json`, 7 checks, all PASS)
 
@@ -227,7 +228,7 @@ Established (numerically, two solvers at two $L$, controls byte for byte):
 * the exact $L$ laws of section 4.1 (k = 0 spectrum, zero-mode density, first-order zero-mode energy);
 * $L \to \infty$ values with uncertainties for the free states except N688_lam0_a00, and for the interacting
   states marked converged or geometric in 4.3; the size of the $L = 3$ error for each of them (largest: $E_{KS}$
-  1.4% and int_p8 12% for N136_lam0_a20; $E_{KS}$ of the interacting $N = 8$ states, a factor 3.04);
+  1.4% and int_p0 12% for N136_lam0_a20; $E_{KS}$ of the interacting $N = 8$ states, a factor 3.04);
 * the double-exponential convergence of the free $k \neq 0$ sector and the exponential (rate $6H$) convergence of the
   saturated zero-mode interaction.
 
@@ -264,13 +265,21 @@ python Revision/kohn_sham/tip_convergence/tip_convergence.py --work <scratch>/ti
 
 Needs `cargo` (the patched copy is built in `<work>/solver_tipL`, about 4-12 s), the committed binary
 `Revision/kohn_sham/solver/target/release/revision_ks_solver.exe` (control singles) and Python with numpy and
-matplotlib (no scipy). At most `--jobs` (capped at 8) solver processes or threads run at a time. Prints every check
+matplotlib (no scipy). At most `--jobs` (capped at 22 since 2026-10-14, at 8 before; the outputs do not depend on it) solver processes or threads run at a time. Prints every check
 as `PASS/FAIL - name: detail` on stderr and SUCCESS/FAILURE last on stdout (exit 0/1).
 
 Measured (2026-10-08, 8 workers, machine shared with other jobs): two complete runs took 541 s and 553 s
 (build 7-9 s, control matrix 155-167 s, control singles 6-7 s, fixed-coupling scan 288-302 s with 420 runs,
 calibration and recalibrated scans 49-58 s with 357 runs, reference 16 s with 4 processes, figures 4 s). All 7
 output files of the two runs are byte-identical (`tip-convergence.json`, both CSV files, the four PNG figures).
+
+Run of 2026-10-14 (the author's coordinates x0..x7; the solver's hidden-direction pressure is named p0, before p8),
+22 workers (the cap was raised from 8; the outputs do not depend on it), other jobs of this work on the machine:
+196 s in total (build 3 s, control matrix 78 s, control singles 3 s, fixed-coupling scan 88 s, calibration and
+recalibrated scans 13 s, reference 9 s, report and figures 2 s); 7 of 7 checks PASS. The four PNG figures are
+byte-identical to those of 2026-10-08; `tip-convergence.json` and the two CSV files differ only by the renaming
+p8 -> p0 (`int_p0`, `p0_brane`) and, in `tip-convergence.json`, by the sha256 of the four changed solver sources
+(`analysis.rs`, `runs.rs`, `scf.rs`, `theory.rs`) and of the patched copy.
 
 ## 9. History
 

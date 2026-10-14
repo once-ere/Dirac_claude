@@ -14,8 +14,8 @@ Revision/algebra/gammas.json, and - at the end, as data - Revision/pairing/kohn_
 theorem record) and Revision/kohn_sham/reports/ks-rust-solver.json (a numerical confirmation, not a proof).
 Writes Revision/pairing/kohn_sham/reports/python-t3.json (deterministic, LF).
 
-Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially
-DEFLATING extra times; x8 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L).
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0 
+(brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.
 """
 
 import json
@@ -168,12 +168,12 @@ def main():
         rho = sum(w * o["g"] * o["f"] * o["eps"] * dens(o["j"], o["chi"])[0] for o in os_) - ei
         p3 = sum(w * o["g"] * o["f"] * kap0 * o["k"] / 3 * dens(o["j"], o["chi"])[2] for o in os_) + ei
         pt = ei
-        p8 = sum(w * o["g"] * o["f"] * ((o["eps"] - ve) * dens(o["j"], o["chi"])[0] - me * dens(o["j"], o["chi"])[1]
+        p0 = sum(w * o["g"] * o["f"] * ((o["eps"] - ve) * dens(o["j"], o["chi"])[0] - me * dens(o["j"], o["chi"])[1]
                                         - kap0 * o["k"] * dens(o["j"], o["chi"])[2]) for o in os_) + ei
         eks = sum(o["g"] * o["f"] * o["eps"] for o in os_) - ei
         ent = sum(-o["g"] * (o["f"] * sp.log(o["f"]) + (1 - o["f"]) * sp.log(1 - o["f"])) for o in os_)
         exx = ei + ll * qq**2 / 32
-        return [rho, p3, pt, p8, eks, ent, exx], ss, qq
+        return [rho, p3, pt, p0, eks, ent, exx], ss, qq
     pO, SO, QO = profiles(orbs, m, lam)
     pI, SI, QI = profiles(image, -m, lam)
     pC, _, _ = profiles(image, -m, -lam)
@@ -182,7 +182,7 @@ def main():
     check("T3.energies_and_emt_profiles_equal", ok,
           "three general occupied orbitals (blocks j = +1, -1, +1; arbitrary complex chi, level eps, occupation f, "
           "degeneracy g, momentum |k|, weight w): rho = sum w g f eps n_o - e_int, p3 = sum w g f (kappa |k|/3) t_o + "
-          "e_int, p_t = e_int, p8 = sum w g f [(eps - v_v) n_o - M_eff s_o - kappa |k| t_o] + e_int (ks-theory.json emt), "
+          "e_int, p_t = e_int, p0 = sum w g f [(eps - v_v) n_o - M_eff s_o - kappa |k| t_o] + e_int (ks-theory.json emt), "
           "the E_KS density sum g f eps - e_int, the entropy and the exact-Fock diagnostic e_int + (lambda/32) Q^2 are "
           "equal for the image with (-m, +lambda) while S and Q change sign; with (-m, -lambda) the E_KS density differs "
           "(control). Equal levels and occupations give equal mu, N, Omega and F")
@@ -233,11 +233,11 @@ def main():
         bp = labels.index((-jj, s2v, s3v))
         Vb, Vbp = V[:, 2 * b:2 * b + 2], V[:, 2 * bp:2 * bp + 2]
         ok = ok and (Gam * Vb - Vbp * (s2v * s2)).applyfunc(sp.simplify) == sp.zeros(16, 2)
-        ok = ok and (Vb.H * G[7] * Vb).applyfunc(sp.simplify) == s3 and (Vb.H * G[7] * G[3] * Vb).applyfunc(sp.simplify) == jj * s1
+        ok = ok and (Vb.H * G[0] * Vb).applyfunc(sp.simplify) == s3 and (Vb.H * G[0] * G[4] * Vb).applyfunc(sp.simplify) == jj * s1   # G[k] = gamma^(xk)
     check("T3.Gamma_is_the_block_map", ok,
           "block basis V of ks-theory.json (unitary; rows = spinor components) and the chirality Gamma = diag(-I8, I8) "
-          "of gammas.json: Gamma V_(j,s2,s3) = V_(-j,s2,s3) (s2 sigma2) for all 8 blocks, with gamma^(x8) = sigma3 and "
-          "gamma^(x8) gamma^(x4) = j sigma1 in every block: the 2 x 2 map of T3 is the chirality of the 16-component "
+          "of gammas.json: Gamma V_(j,s2,s3) = V_(-j,s2,s3) (s2 sigma2) for all 8 blocks, with gamma^(x0) = sigma3 and "
+          "gamma^(x0) gamma^(x4) = j sigma1 in every block: the 2 x 2 map of T3 is the chirality of the 16-component "
           "Kohn-Sham orbital (up to the phase s2)")
 
     # 10. the ASSUMED Z2 mirror P_A

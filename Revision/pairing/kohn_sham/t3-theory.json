@@ -7,7 +7,7 @@
     "Revision/algebra/gammas.json"
   ],
   "status": "all checks of the report passed",
-  "coordinates": "x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times; x8 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L)",
+  "coordinates": "the author's coordinates {x0, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times",
   "hypotheses": [
     "H1 (the problem): the instantaneous Kohn-Sham problem of Revision/kohn_sham/ks-theory.json at a fixed slice a4,0 = a4(x4) of the author's metric: good sector (no extra-time momentum), 3-torus lattice of momenta k, block Hamiltonians h_j = j[-i sigma1 d_y + M_eff(y) sigma2 + kappa(y) k sigma3] + v_v(y) on y in [-L, 0], j = +-1, four blocks (s2, s3) per j",
     "H2 (the functional): Hartree plus the exact uniform-gas exchange, M_eff = m + (15/16) lambda S, v_v = -lambda n/16, e_int = (15/32) lambda S^2 - (1/32) lambda n^2 (no correlation); the energy-momentum tensor of ks-theory.json emt",
@@ -20,7 +20,7 @@
     "S1: (chi, j) -> (sigma2 chi, -j) at the same k, i.e. Psi_16 -> Gamma Psi_16 (the chirality, up to the phase s2 per block), maps every eigen-orbital of h_j with (M_eff, v_v) onto an eigen-orbital of h_(-j) with (-M_eff, v_v) at the SAME level eps, and exchanges the brane parities",
     "S2: the tip condition with angle theta goes into the tip condition with angle Pi - theta (canonical theta = 0 -> theta = Pi); with the untransformed tip the spectra differ (control)",
     "S3: the densities transform as n -> n, S -> -S, t -> t, Q -> -Q; hence M_eff -> -M_eff and v_v -> v_v exactly when (m, lambda) -> (-m, +lambda): every self-consistent Kohn-Sham state with (m, lambda, theta) is mapped onto a self-consistent Kohn-Sham state with (-m, +lambda, Pi - theta), and conversely (the map is an involution)",
-    "S4: EQUAL Kohn-Sham levels with their degeneracies, occupations, chemical potential, particle number, entropy, Kohn-Sham energy E_KS, grand potential Omega and free energy F, and equal energy-momentum profiles rho(y), p3(y), p_t(y), p8(y) (also for the exact-Fock diagnostic); S(y) and Q(y) change sign",
+    "S4: EQUAL Kohn-Sham levels with their degeneracies, occupations, chemical potential, particle number, entropy, Kohn-Sham energy E_KS, grand potential Omega and free energy F, and equal energy-momentum profiles rho(y), p3(y), p_t(y), p0(y) (also for the exact-Fock diagnostic); S(y) and Q(y) change sign",
     "S5: inside the ASSUMED Z2 orbifold the mirror copy of a self-consistent state carries (-m, +lambda) (P_A symmetry of the doubled problem), consistent with S3"
   ],
   "proof": [
@@ -50,6 +50,6 @@
     "The brane: the Z2 mirror construction at y = 0 is ASSUMED (ks-theory.json); the tip condition is a choice, and T3 needs the transformed tip angle Pi - theta.",
     "Mean-field level only: Hartree plus uniform-gas exchange without correlation, quasi-free states, the filling convention of ks-theory.json (its justification is OPEN).",
     "Not a statement about two independently quantised universes; the pairing is between Kohn-Sham problems with (m, lambda) and (-m, +lambda), not (-m, -lambda).",
-    "No back-reaction: the Kohn-Sham energy-momentum tensor is not a source that satisfies the a4 equations of SPEC section 5 (it depends on x8), see Revision/field_equations_a4/reports/ks-source-conditions.json."
+    "No back-reaction: the Kohn-Sham energy-momentum tensor is not a source that satisfies the a4 equations of SPEC section 5 (it depends on x0), see Revision/field_equations_a4/reports/ks-source-conditions.json."
   ]
 }

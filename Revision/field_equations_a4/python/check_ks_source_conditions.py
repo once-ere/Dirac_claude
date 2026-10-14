@@ -2,18 +2,18 @@
 """Revision/field_equations_a4/python/check_ks_source_conditions.py - do the Kohn-Sham states computed in
 Revision/kohn_sham satisfy the conditions that the field equations for a4[x4] (SPEC section 5) impose on a source?
 
-The a4 record (Revision/field_equations_a4/a4-equations.json, checks algebraic_identity_x1_plus_x5_minus_2x8,
-x8-dependence, linear_member_equal_pressures) requires of every source of the author's metric:
-  (C1) every component independent of x8 (the left-hand sides do not depend on x8),
-  (C2) p3 + p_t = 2 p8 (algebraic identity of the Lovelock tensors),
-  (C3) for the linear member a4 = A H x4 + a0: p3 = p_t = p8 and rho constant along x4.
+The a4 record (Revision/field_equations_a4/a4-equations.json, checks algebraic_identity_x1_plus_x5_minus_2x0,
+x0-dependence, linear_member_equal_pressures) requires of every source of the author's metric:
+  (C1) every component independent of x0 (the left-hand sides do not depend on x0),
+  (C2) p3 + p_t = 2 p0 (algebraic identity of the Lovelock tensors),
+  (C3) for the linear member a4 = A H x4 + a0: p3 = p_t = p0 and rho constant along x4.
 This script reads the Kohn-Sham outputs (results of the Rust solver: ground-state profiles in the hidden
-coordinate y = ln(sin z)/(6 H), a function of x8 alone, and their integrals) and records, for every state, whether
+coordinate y = ln(sin z)/(6 H), a function of x0 alone, and their integrals) and records, for every state, whether
 these conditions hold.  It derives nothing new about the Kohn-Sham states; it only evaluates the stated conditions
 on the recorded numbers.  Writes Revision/field_equations_a4/reports/ks-source-conditions.json (deterministic, LF).
 
-Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING
-extra times; x8 = hidden direction.
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction; x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the
+exponentially DEFLATING extra times.  p0 = T^x0_x0 is the hidden-direction pressure.
 """
 
 import csv
@@ -55,22 +55,22 @@ def main():
     trivial, nontrivial = [], []
     var_ratio, alg_ratio = {}, {}
     for sid, rs in rows.items():
-        scale = max(max(abs(r[c]) for c in ("rho", "p3", "p_t", "p8")) for r in rs)
+        scale = max(max(abs(r[c]) for c in ("rho", "p3", "p_t", "p0")) for r in rs)
         if scale == 0.0:
             trivial.append(sid)
             continue
         nontrivial.append(sid)
         rho = [r["rho"] for r in rs]
         var_ratio[sid] = (max(rho) - min(rho)) / scale
-        alg_ratio[sid] = max(abs(r["p3"] + r["p_t"] - 2 * r["p8"]) for r in rs) / scale
+        alg_ratio[sid] = max(abs(r["p3"] + r["p_t"] - 2 * r["p0"]) for r in rs) / scale
 
-    # C1: x8 dependence of every nontrivial profile
+    # C1: x0 dependence of every nontrivial profile
     worst1 = min(var_ratio, key=var_ratio.get)
-    check("ks_profiles_depend_on_x8", nontrivial and all(v > TOL for v in var_ratio.values()),
+    check("ks_profiles_depend_on_x0", nontrivial and all(v > TOL for v in var_ratio.values()),
           "%d ground-state profiles of Revision/kohn_sham/results/ground/profiles (%d with a nonzero energy-momentum "
           "tensor): for every nonzero one the energy density rho(y) varies along the hidden coordinate y (a function of "
-          "x8 alone), (max rho - min rho)/max|T| >= %s (smallest: %s); the a4 equations require every component of the "
-          "source to be independent of x8, so none of these states is an admissible source of the author's metric"
+          "x0 alone), (max rho - min rho)/max|T| >= %s (smallest: %s); the a4 equations require every component of the "
+          "source to be independent of x0, so none of these states is an admissible source of the author's metric"
           % (len(rows), len(nontrivial), g6(var_ratio[worst1]), worst1))
     # C2: algebraic condition pointwise
     worst2 = min(alg_ratio, key=alg_ratio.get)
@@ -80,26 +80,26 @@ def main():
     if ex:
         def at(yv):
             r = min(ex, key=lambda q: abs(q["y"] - yv))
-            return "y = %s: rho = %s, p3 = %s, p_t = %s, p8 = %s, p3 + p_t - 2 p8 = %s" % (
-                g6(r["y"]), g6(r["rho"]), g6(r["p3"]), g6(r["p_t"]), g6(r["p8"]), g6(r["p3"] + r["p_t"] - 2 * r["p8"]))
+            return "y = %s: rho = %s, p3 = %s, p_t = %s, p0 = %s, p3 + p_t - 2 p0 = %s" % (
+                g6(r["y"]), g6(r["rho"]), g6(r["p3"]), g6(r["p_t"]), g6(r["p0"]), g6(r["p3"] + r["p_t"] - 2 * r["p0"]))
         exs = "; example N136_lam0_a10 (N = 136, lambda = 0, a4,0 = 1): " + " | ".join(at(v) for v in (-3.0, -1.5, 0.0))
     check("ks_profiles_violate_algebraic_condition", all(v > TOL for v in alg_ratio.values()),
-          "for every nonzero profile max_y |p3 + p_t - 2 p8| / max|T| lies between %s (%s) and %s (%s): the condition "
-          "p3 + p_t = 2 p8 of the a4 equations (algebraic identity E^x1_x1 + E^x5_x5 = 2 E^x8_x8 of the Lovelock "
+          "for every nonzero profile max_y |p3 + p_t - 2 p0| / max|T| lies between %s (%s) and %s (%s): the condition "
+          "p3 + p_t = 2 p0 of the a4 equations (algebraic identity E^x1_x1 + E^x5_x5 = 2 E^x0_x0 of the Lovelock "
           "tensors) fails pointwise%s" % (g6(alg_ratio[worst2]), worst2, g6(alg_ratio[best2]), best2, exs))
-    # C2 integrated (an averaging over x8 does not rescue it)
+    # C2 integrated (an averaging over x0 does not rescue it)
     ratios = {}
     for sid in nontrivial:
         r = integ[sid]
-        if f(r["int_p8"]) != 0.0:
-            ratios[sid] = (f(r["int_p3"]) + f(r["int_p_t"])) / (2 * f(r["int_p8"]))
+        if f(r["int_p0"]) != 0.0:
+            ratios[sid] = (f(r["int_p3"]) + f(r["int_p_t"])) / (2 * f(r["int_p0"]))
     dev = {sid: abs(v - 1.0) for sid, v in ratios.items()}
     hist = ", ".join("%s: %s" % (sid, g6(ratios[sid])) for sid in ("N136_lam0_a00", "N136_lam0_a10", "N136_lam0_a20")
                      if sid in ratios)
     check("ks_integrals_violate_algebraic_condition", ratios and len(ratios) == len(nontrivial) and min(dev.values()) > TOL,
           "integrated over the patch (results/ground/emt-integrals.csv: 2 Vol_7 int e^(6Hy) T dy), (int p3 + int p_t)/"
-          "(2 int p8) differs from 1 for every nonzero state (closest to 1: %s at %s); for the history N = 136, lambda = "
-          "0: %s - even an x8-averaged (dimensionally reduced) source would violate p3 + p_t = 2 p8"
+          "(2 int p0) differs from 1 for every nonzero state (closest to 1: %s at %s); for the history N = 136, lambda = "
+          "0: %s - even an x0-averaged (dimensionally reduced) source would violate p3 + p_t = 2 p0"
           % (g6(ratios[min(dev, key=dev.get)]), min(dev, key=dev.get), hist))
     # C3: the history a4 = A H x4 is not a solution with the Kohn-Sham source
     hist_ids = [sid for sid in ("N136_lam0_a00", "N136_lam0_a10", "N136_lam0_a20", "N688_lam0_a00", "N688_lam0_a10",
@@ -112,7 +112,7 @@ def main():
                      for sid, v in vals.items())
     check("ks_history_is_a_prescribed_background", len(vals) == 6 and not rho_const and not p_equal,
           "the Kohn-Sham history of Revision/kohn_sham (ks-theory.json adiabaticity.history: a4 = A H x4, A = 1) uses "
-          "the linear member, which the a4 equations allow only with p3 = p_t = p8 and constant rho "
+          "the linear member, which the a4 equations allow only with p3 = p_t = p0 and constant rho "
           "(linear_member_equal_pressures); along it the Kohn-Sham source has %s: rho changes with a4,0 and p3 != p_t "
           "(dE/da4 = -3 (2 Vol_7) int e^(6Hy) (p3 - p_t) dy, ks-theory.json emt.energyChange). The history is therefore a "
           "PRESCRIBED test-field background without back-reaction, not a solution of the a4 equations with the "
@@ -126,28 +126,28 @@ def main():
     # the metric of 2026-10-14 with b4[x4]: does the verdict survive for every b4?
     eqs = json.loads((A4 / "a4-equations.json").read_text(encoding="utf-8"))
     b4gs = eqs.get("b4", {}).get("generalSource", {})
-    diag_keys = ("constraint_x4", "space_x1_eq_x2_eq_x3", "extraTime_x5_eq_x6_eq_x7", "hidden_x8")
+    diag_keys = ("constraint_x4", "space_x1_eq_x2_eq_x3", "extraTime_x5_eq_x6_eq_x7", "hidden_x0")
     diag_free = bool(b4gs) and all("cc" not in b4gs[k]["input"].split(" == ")[0] for k in diag_keys)
-    off_has_cc = bool(b4gs) and "cc" in b4gs["offDiagonal_x4x8"]["input"]
+    off_has_cc = bool(b4gs) and "cc" in b4gs["offDiagonal_x4x0"]["input"]
     check("ks_verdict_holds_for_every_b4", diag_free and off_has_cc,
           "with the metric of 2026-10-14 (b4[x4] in the extra-time components; a4-equations.json key b4) the left-hand "
-          "sides of the x1..x3, x4, x5..x7 and x8 equations are still free of x8 for every b4 (the off-diagonal x4-x8 "
-          "left-hand side is cot z (b4'/b4) Q), so condition C1 holds unchanged and the x8-dependent Kohn-Sham "
-          "profiles (check ks_profiles_depend_on_x8) are not an admissible source for ANY b4; C2 above is the b4 = 1 "
-          "form (for general b4: kappa (p3 + p_t - 2 p8) = sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x8_x8), for "
-          "Einstein (b4'/b4)^2/4 + b4''/(2 b4)); the Kohn-Sham solver does not record T^x4_x8, so the off-diagonal "
-          "condition kappa q48 = cot z (b4'/b4) Q is not evaluated here (OPEN)")
+          "sides of the x0, x1..x3, x4 and x5..x7 equations are still free of x0 for every b4 (the off-diagonal x4-x0 "
+          "left-hand side is cot z (b4'/b4) Q), so condition C1 holds unchanged and the x0-dependent Kohn-Sham "
+          "profiles (check ks_profiles_depend_on_x0) are not an admissible source for ANY b4; C2 above is the b4 = 1 "
+          "form (for general b4: kappa (p3 + p_t - 2 p0) = sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x0_x0), for "
+          "Einstein (b4'/b4)^2/4 + b4''/(2 b4)); the Kohn-Sham solver does not record T^x4_x0, so the off-diagonal "
+          "condition kappa q40 = cot z (b4'/b4) Q is not evaluated here (OPEN)")
     n_pass = sum(1 for c in CHECKS if c["verdict"] == "PASS")
     rep = {
         "report": "Revision/field_equations_a4/reports/ks-source-conditions.json",
         "producer": "Revision/field_equations_a4/python/check_ks_source_conditions.py",
         "spec": "Revision/SPEC.md sections 5 and 7: the Kohn-Sham energy-momentum tensor as a source of the a4 equations",
         "inputs": ["Revision/kohn_sham/results/ground/profiles/*.csv", "Revision/kohn_sham/results/ground/emt-integrals.csv"],
-        "conditions": ["C1: every component of the source independent of x8",
-                       "C2: p3 + p_t = 2 p8",
-                       "C3 (linear member a4 = A H x4 + a0): p3 = p_t = p8 and rho constant"],
+        "conditions": ["C1: every component of the source independent of x0",
+                       "C2: p3 + p_t = 2 p0",
+                       "C3 (linear member a4 = A H x4 + a0): p3 = p_t = p0 and rho constant"],
         "conclusion": "No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source of the author's metric: "
-                      "C1 and C2 fail for every nonzero state (C2 also after integration over x8), and the Kohn-Sham "
+                      "C1 and C2 fail for every nonzero state (C2 also after integration over x0), and the Kohn-Sham "
                       "history uses the linear member as a prescribed background, without back-reaction.  With the "
                       "metric of 2026-10-14 (b4[x4]) C1 alone excludes every recorded state for every b4 (check "
                       "ks_verdict_holds_for_every_b4); C2 is the b4 = 1 form.",

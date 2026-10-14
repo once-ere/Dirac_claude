@@ -4,9 +4,10 @@ Independent of the Rust solver (Revision/kohn_sham/solver): no code is shared an
 different (global symmetric tridiagonal matrices instead of shooting with RK4).  Only the formulas of
 Revision/kohn_sham/ks-theory.json are used.
 
-Coordinates as the author names them: x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time;
-x5, x6, x7 = the three EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} sin^{1/6} z, a4
-increasing); x8 = hidden direction, y = ln(sin z)/(6H) in [-L, 0] (brane y = 0, tip cutoff y = -L).
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H) in [-L, 0], z = 6 H x0 (brane
+y = 0, tip cutoff y = -L); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three
+EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} sin^{1/6} z, a4 increasing).  p0 = T^x0_x0 is the
+hidden-direction pressure.
 
 Block equation (ks-theory.json blockEquation): h_j = j[-i sigma1 d_y + M sigma2 + K sigma3] + v,
 K = kappa(y) |k|, kappa = e^{-Hy - a4,0}.  With chi = (a, i b) (a, b real) h_j is the real symmetric
@@ -581,12 +582,12 @@ def observables(st: State):
     wx = 2.0 * ph.cQ2 * lam * d.Q if ph.exx else np.zeros_like(d.Q)   # w_Q (exact-Fock variant only)
     if ph.exx:
         eint = eint + ph.cQ2 * lam * d.Q ** 2
-    # p8 bracket: sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o - w_Q q_o] = k4 - v n - M S - tk - w_Q Q
+    # p0 bracket: sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o - w_Q q_o] = k4 - v n - M S - tk - w_Q Q
     # (the w_Q term only in the exact-Fock variant: the orbital identity holds with kappa k -> kappa k + j w_Q)
     rho = d.k4 - eint
     p3 = d.tk / 3.0 + eint
     pt = eint.copy()
-    p8 = d.k4 - vx * d.n - Mx * d.S - d.tk - wx * d.Q + eint
+    p0 = d.k4 - vx * d.n - Mx * d.S - d.tk - wx * d.Q + eint
     vol2 = 2.0 * ph.vol7
     e6 = g.e6ext
     I = lambda f: vol2 * g.midpoint(e6 * f)
@@ -601,19 +602,19 @@ def observables(st: State):
     o["int_rho"] = I(rho)
     o["int_p3"] = I(p3)
     o["int_p_t"] = I(pt)
-    o["int_p8"] = I(p8)
+    o["int_p0"] = I(p0)
     o["int_n"] = I(d.n)
     o["dE_da4_emt"] = -vol2 * g.midpoint(e6 * d.tk)
     o["deltaE_x_exact_fock"] = lam / 32.0 * I(d.Q ** 2)
-    # y-conservation (nabla_mu T^mu_y = 0): [e^{6Hy} p8]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy
-    o["ycons_jump"] = float(e6[-1] * p8[-1] - e6[0] * p8[0])
+    # y-conservation (nabla_mu T^mu_y = 0): [e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy
+    o["ycons_jump"] = float(e6[-1] * p0[-1] - e6[0] * p0[0])
     o["ycons_integral"] = 3.0 * ph.H * g.midpoint(e6 * (p3 + pt))
-    for nm, arr in (("rho", rho), ("p3", p3), ("p_t", pt), ("p8", p8)):
+    for nm, arr in (("rho", rho), ("p3", p3), ("p_t", pt), ("p0", p0)):
         o[nm + "_brane"] = float(arr[-1])
         o[nm + "_tip"] = float(arr[0])
     o["N_sum"] = float(np.sum(st.ls.deg * st.f))
     prof = {"n": d.n, "S": d.S, "Q": d.Q, "M_eff": Mx, "v_v": vx, "e_int": eint, "rho": rho, "p3": p3,
-            "p_t": pt, "p8": p8}
+            "p_t": pt, "p0": p0}
     return o, prof
 
 

@@ -5,13 +5,14 @@
 //! `Revision/algebra/gammas.json`, and verifies in floating point (independent
 //! of the Wolfram and sympy code that produced them) that in the exported basis
 //! V the 16-component instantaneous Hamiltonian
-//!     h = i g4 g8 d_y - kappa k g4 g1 + M (-i g4) + v
+//!     h = i g4 g0 d_y - kappa k g4 g1 + M (-i g4) + v
 //! is block diagonal with the 2 x 2 blocks
 //!     h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v,
 //! and that the density matrices used by the solver have the stated block
-//! forms (n: B B = 1, S: B C = j sigma2, Q: B g8 -> sigma3 via B B g8 = g8,
-//! current: -i B C g1 = j sigma3).  g1 = gamma^(x1), g4 = gamma^(x4),
-//! g8 = gamma^(x8) in the author's coordinates.
+//! forms (n: B B = 1, S: B C = j sigma2, Q: B g0 -> sigma3 via B B g0 = g0,
+//! current: -i B C g1 = j sigma3).  g0 = gamma^(x0) (the hidden direction),
+//! g1 = gamma^(x1), g4 = gamma^(x4) in the author's coordinates {x0, ..., x7}
+//! (gammas.json lists gamma^(xk) = T16[k] at index k).
 
 use crate::json::{obj, parse, Json};
 use crate::report::Report;
@@ -271,7 +272,7 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
     for x in gl {
         g.push(real_matrix(x)?);
     }
-    let eta = [1.0, 1.0, 1.0, -1.0, -1.0, -1.0, -1.0, 1.0];
+    let eta = [1.0, 1.0, 1.0, 1.0, -1.0, -1.0, -1.0, -1.0]; // x0, x1..x3 space-like; x4..x7 time-like
     let mut cliff = 0.0f64;
     for a in 0..8 {
         for b in 0..8 {
@@ -282,15 +283,15 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
     }
     let cmat = real_matrix(ga.get("C").ok_or("C missing")?)?;
     let bmat = complex_matrix(ga.get("B").ok_or("B missing")?)?;
-    let (g1, g4, g8) = (&g[0], &g[3], &g[7]);
-    let c_def = g8.mul(&g[0]).mul(&g[1]).mul(&g[2]);
+    let (g0, g1, g4) = (&g[0], &g[1], &g[4]);
+    let c_def = g0.mul(g1).mul(&g[2]).mul(&g[3]);
     let b_def = cmat.mul(g4).scale(C::new(0.0, -1.0));
     let fix_dev = c_def.sub(&cmat).max_abs().max(b_def.sub(&bmat).max_abs());
     rep.check(
         "gamma_fixture_numeric",
         cliff == 0.0 && fix_dev == 0.0,
         format!(
-            "gammas.json (sha256 {}): {{gamma^a, gamma^b}} = 2 eta^ab exactly in floating point (max deviation {:e}), C = g8 g1 g2 g3 and B = -i C g4 reproduced (max deviation {:e})",
+            "gammas.json (sha256 {}): {{gamma^a, gamma^b}} = 2 eta^ab exactly in floating point (max deviation {:e}), C = g0 g1 g2 g3 and B = -i C g4 reproduced (max deviation {:e})",
             &sha_g[..16], cliff, fix_dev
         ),
     );
@@ -322,14 +323,14 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
     let mi = C::new(0.0, -1.0);
     // operators of the instantaneous Hamiltonian and of the densities
     let ops: Vec<(&str, M)> = vec![
-        ("i g4 g8 (d_y term)", g4.mul(g8).scale(i_)),
+        ("i g4 g0 (d_y term)", g4.mul(g0).scale(i_)),
         ("-i g4 (mass term)", g4.scale(mi)),
         ("-g4 g1 (momentum term)", g4.mul(g1).scale(C::new(-1.0, 0.0))),
         ("B B (number density n)", bmat.mul(&bmat)),
         ("B C (scalar density S)", bmat.mul(&cmat)),
-        ("B B g8 (Q = <Psi^dag B g8 Psi>)", bmat.mul(&bmat).mul(g8)),
+        ("B B g0 (Q = <Psi^dag B g0 Psi>)", bmat.mul(&bmat).mul(g0)),
         ("-i B C g1 (current t)", bmat.mul(&cmat).mul(g1).scale(mi)),
-        ("g8", g8.clone()),
+        ("g0", g0.clone()),
         ("B", bmat.clone()),
     ];
     let mut off = 0.0f64;
@@ -353,14 +354,14 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
                 }
                 let (j, s2, _s3) = labels[bi];
                 let expect = match *name {
-                    "i g4 g8 (d_y term)" => pauli(1).scale(C::new(0.0, -j)),
+                    "i g4 g0 (d_y term)" => pauli(1).scale(C::new(0.0, -j)),
                     "-i g4 (mass term)" => pauli(2).scale(C::new(j, 0.0)),
                     "-g4 g1 (momentum term)" => pauli(3).scale(C::new(j, 0.0)),
                     "B B (number density n)" => pauli(0),
                     "B C (scalar density S)" => pauli(2).scale(C::new(j, 0.0)),
-                    "B B g8 (Q = <Psi^dag B g8 Psi>)" => pauli(3),
+                    "B B g0 (Q = <Psi^dag B g0 Psi>)" => pauli(3),
                     "-i B C g1 (current t)" => pauli(3).scale(C::new(j, 0.0)),
-                    "g8" => pauli(3),
+                    "g0" => pauli(3),
                     _ => pauli(0).scale(C::new(j * s2, 0.0)),
                 };
                 formdev = formdev.max(blk.sub(&expect).max_abs());
@@ -371,7 +372,7 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
         "block_reduction_numeric",
         unit < 1e-14 && off < 1e-14 && formdev < 1e-14,
         format!(
-            "basis V of ks-theory.json (rows = spinor components): |V^dag V - 1| = {:.1e}; off-block entries of V^dag X V {:.1e}; diagonal blocks equal the solver's forms (i g4 g8 -> -i j sigma1, -i g4 -> j sigma2, -g4 g1 -> j sigma3, B B -> 1, B C -> j sigma2, B B g8 -> sigma3, -i B C g1 -> j sigma3, g8 -> sigma3, B -> j s2) to {:.1e}: the 2x2 equation h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v integrated by the solver is the 16-component Hamiltonian",
+            "basis V of ks-theory.json (rows = spinor components): |V^dag V - 1| = {:.1e}; off-block entries of V^dag X V {:.1e}; diagonal blocks equal the solver's forms (i g4 g0 -> -i j sigma1, -i g4 -> j sigma2, -g4 g1 -> j sigma3, B B -> 1, B C -> j sigma2, B B g0 -> sigma3, -i B C g1 -> j sigma3, g0 -> sigma3, B -> j s2) to {:.1e}: the 2x2 equation h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v integrated by the solver is the 16-component Hamiltonian",
             unit, off, formdev
         ),
     );

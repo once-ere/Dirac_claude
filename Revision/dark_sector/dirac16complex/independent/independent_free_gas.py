@@ -3,7 +3,7 @@
 the key numbers of the dark-sector analysis of dirac16complex for the free (lambda = 0) Kohn-Sham gas.
 
 Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the three exponentially
-DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4 increasing); x8 = hidden direction, y = ln(sin z)/(6H).
+DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4 increasing); x0 = hidden direction, y = ln(sin z)/(6H).
 
 Independent of the Rust solver (different method, different code, no solver output read except for the final
 comparison): the 2 x 2 block Hamiltonian of Revision/kohn_sham/ks-theory.json (blockEquation; lambda = 0, so

@@ -24,9 +24,10 @@ The same folder holds an independent second engine, the Python/sympy program `ch
 ### 1.2 The physics, in plain words
 
 * The field. The author's field Psi has 16 complex components and lives in 8 dimensions, named as the
-  author names them: x1, x2, x3 are ordinary space; x4 is time; x5, x6, x7 are three extra time-like
-  directions whose scale factor shrinks exponentially (they "deflate" while space inflates); x8 is a
-  hidden direction. The 16 x 16 gamma matrices that define the field equation are read from the file
+  author names them, X = {x0, x1, ..., x7}: x0 is a hidden direction; x1, x2, x3 are ordinary space;
+  x4 is time; x5, x6, x7 are three extra time-like directions whose scale factor shrinks exponentially
+  (they "deflate" while space inflates). (Until 2026-10-14 this set used the withdrawn labels x1..x8 with
+  the hidden direction x8 listed last; section 6.6.) The 16 x 16 gamma matrices that define the field equation are read from the file
   `Revision/algebra/gammas.json` (made by another set, `Revision/algebra/wolfram/`). They are the
   author's eight REAL 16 x 16 Dirac matrices: every entry is 0, +1 or -1 (read from the file on
   2026-10-07: 8 matrices of 16 x 16 integers, values {-1, 0, 1}); `provenance/dirac matrices.md` proves that
@@ -44,12 +45,12 @@ The same folder holds an independent second engine, the Python/sympy program `ch
   screen):
   * A. The gamma matrices (3 checks: `fixture_input`, `clifford_relation`, `C_B_Gamma`). The matrices
     are read, the defining Clifford relation {gamma^a, gamma^b} = 2 eta^ab with the signature
-    (+,+,+,-,-,-,-,+) is verified for all 64 pairs, and the three special matrices C (scalar density),
+    (+,+,+,+,-,-,-,-) in the order x0, x1, ..., x7 is verified for all 64 pairs, and the three special matrices C (scalar density),
     B (number density) and Gamma (the chirality, the product of all eight gammas) are checked.
   * B. The geometry (6 checks). The hidden coordinate is replaced by the proper distance
-    y = ln(sin 6 H x8)/(6 H) <= 0; the volume factor sqrt|g| is checked; the spin connection (how a
+    y = ln(sin 6 H x0)/(6 H) <= 0; the volume factor sqrt|g| is checked; the spin connection (how a
     spinor is carried along in the curved field) is computed from the metric and verified for all 64
-    index pairs; the key result is that gamma^mu Omega_mu = 3 H gamma^(x8) exactly, for any time
+    index pairs; the key result is that gamma^mu Omega_mu = 3 H gamma^(x0) exactly, for any time
     dependence a4(x4) of the scale factors, because the contributions of the 3 inflating and the
     3 deflating directions cancel.
   * C. The ansatz (3 checks). Writing Psi = e^{i k.x} W^{-3} chi(y, x4) with the warp W = e^{H y} removes
@@ -115,7 +116,7 @@ BACKGROUND for the reason recorded in `Revision/field_equations_a4/reports/ks-so
   a `ks-theory.json` without the PRESCRIBED BACKGROUND label), the Python reference
   (`Revision/kohn_sham/reference/ks_fd.py`, `run_reference.py`, `README.md`) and the cross-check
   `Revision/kohn_sham/checker/crosscheck_ks.py`. The sha256 of `ks-theory.json`
-  (`1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3`) is pinned in
+  (`a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2`; before 2026-10-14 `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3`) is pinned in
   `Revision/kohn_sham/results/parameters.json` and `Revision/kohn_sham/reference/results/parameters.json`,
   and its first 16 hex digits are quoted in `Revision/kohn_sham/reports/ks-crosscheck.json`,
   `ks-reference.json` and `ks-rust-solver.json`.
@@ -142,11 +143,15 @@ their line endings). Line counts are counts of line-feed characters (`wc -l`).
 
 ### 2.1 The script and the package
 
+The tables of section 2 give the version of 2026-10-14 in the author's coordinates x0..x7 (section 6.6); the
+paragraphs under them describe the earlier versions, whose sha256 values are quoted there and in sections 6.1
+to 6.5.
+
 | File | sha256 | Lines | Bytes |
 | --- | --- | --- | --- |
-| `Revision/kohn_sham/theory/verify_ks_theory.wls` (the script you run) | `b2b9d397848c6d7e1ea5796634cc1a08f3d1a8912b47117804e2520a868e9944` | 463 | 41431 |
-| `Revision/kohn_sham/theory/KohnShamTheory.wl` (its package, loaded by the script with `Get`) | `554d726af9cff43c680ee9a4a70e7ffa28740a306c91581b6944cc668007f3cf` | 87 | 4575 |
-| `Revision/kohn_sham/theory/check_ks_theory.py` (optional companion, Python/sympy) | `e395b794e33c24700a4fcc81e0e7279a5317dc82163811043e4aaa08c8af1458` | 825 | 49831 |
+| `Revision/kohn_sham/theory/verify_ks_theory.wls` (the script you run) | `c7ba3eb5d38a24deb5d325fcd83ba2d95b3637b9d84b53c30a91c5668a633628` | 463 | 41581 |
+| `Revision/kohn_sham/theory/KohnShamTheory.wl` (its package, loaded by the script with `Get`) | `4dca70acf65b178f8a1a84bf48ab753de251e707243b1078b30a6ed4402dd96c` | 89 | 4798 |
+| `Revision/kohn_sham/theory/check_ks_theory.py` (optional companion, Python/sympy) | `c58f6775ab54247b848716214225271595acc187d6517b8f8df5319c5d94e68f` | 826 | 50072 |
 
 The version with the execution fix of 2026-10-02 (section 6) has been committed since commit
 `3f0a577c234501e0e073df1ec1640554bf93d764` (sha256
@@ -176,10 +181,10 @@ the same detail texts.
 
 | Input | Read by | sha256 | Lines | Bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/algebra/gammas.json` (the 8 gamma matrices and eta) | both | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` | 1405 | 76968 |
-| `Revision/algebra/reports/python-gammas.json` (the same matrices rebuilt in Python) | companion only | `b6241910ade6cc282e0aaab75d90fc697247a0d68504618787f547447e2e458b` | 11639 | 94180 |
+| `Revision/algebra/gammas.json` (the 8 gamma matrices and eta) | both | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` | 1405 | 76894 |
+| `Revision/algebra/reports/python-gammas.json` (the same matrices rebuilt in Python) | companion only | `7388509a974f4d9dc383bb5d89cb16818ed01dc5a59784eb8f3e2d6742fcddbe` | 11639 | 94194 |
 | `Revision/kohn_sham/ks-theory.json` (the Wolfram output) | the Wolfram script reads back what it has just written; the companion cross-checks it | see 2.3 | | |
-| `Revision/field_equations_a4/reports/ks-source-conditions.json` (the a4 source conditions of the Kohn-Sham states, written by `Revision/field_equations_a4/python/check_ks_source_conditions.py`) | companion only (check `ks_theory_json_history_label`) | `0597509efe64e0686dcf3cc916121317aacca01c6e73d902edc16f434287361e` | 48 | 4150 |
+| `Revision/field_equations_a4/reports/ks-source-conditions.json` (the a4 source conditions of the Kohn-Sham states, written by `Revision/field_equations_a4/python/check_ks_source_conditions.py`) | companion only (check `ks_theory_json_history_label`) | `dfa3d59ee718f09aef4effa6176ff6b729a9ff08f4098acf9918293085eb2709` | 53 | 5086 |
 
 The script finds the package and the inputs relative to its own location (`$InputFileName`), not relative
 to the current folder. Before it reads the package and before it reads `gammas.json` it checks that the
@@ -189,9 +194,9 @@ file exists; if not, it prints `ERROR  input file not found: <full path>` and st
 
 | Output | Written by | sha256 (committed and reproduced) | Lines | Bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/kohn_sham/ks-theory.json` (the formulas for the solvers) | `verify_ks_theory.wls` | `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3` | 477 | 17278 |
-| `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 checks) | `verify_ks_theory.wls` | `5d803af6b270bc7dd93120907c13c28e855c4ba351ccdc3b411d7f8086112ae6` | 56 | 10291 |
-| `Revision/kohn_sham/reports/ks-theory-python.json` (58 checks) | `check_ks_theory.py` | `7ae5c6be4dbaf167093a7c0799d9c102d3a7d1d17ec93311a1b17ea5bc26cf9c` | 303 | 19402 |
+| `Revision/kohn_sham/ks-theory.json` (the formulas for the solvers) | `verify_ks_theory.wls` | `a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2` | 477 | 17346 |
+| `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 checks) | `verify_ks_theory.wls` | `21f7736e340618bf5405acb169bf5000f02c47a8f710ce5fd48d8658cbd1224d` | 56 | 10337 |
+| `Revision/kohn_sham/reports/ks-theory-python.json` (58 checks) | `check_ks_theory.py` | `d39256e3dd7bee6c203493bd08fd4b2f5f7494af0f07dbf69874706d4eb76784` | 303 | 19475 |
 
 If the folder `Revision/kohn_sham/reports` is missing, both scripts create it. If an output file cannot
 be opened for writing (for example because it is read-only), the Wolfram script prints the Wolfram
@@ -557,48 +562,51 @@ PASS  geometry_sqrt_det  t=0.7000000000000001
 PASS  spin_connection_compatibility  t=0.9
 PASS  spin_connection_slash_3H  t=0.9
 PASS  spin_connection_time_terms_cancel  t=0.9
-PASS  spin_connection_slash_3H_x8_chart  t=1.3
-PASS  ansatz_removes_spin_connection  t=1.3
-PASS  ansatz_without_W3_term_survives  t=1.4000000000000001
-PASS  hamiltonian_16_hermitian  t=1.4000000000000001
-PASS  blocks_commuting_set  t=1.4000000000000001
-PASS  blocks_basis_unitary  t=1.4000000000000001
-PASS  blocks_forms  t=1.5
-PASS  blocks_relation_to_Gamma  t=1.5
-PASS  block_hamiltonian  t=1.5
-PASS  block_ode_equivalent  t=1.5
-PASS  block_type_relation  t=1.5
-PASS  block_Gamma_map  t=1.5
-PASS  rotation_invariance  t=1.5
-PASS  gas_mode_projector  t=1.5
-PASS  gas_angular_average  t=24.5
-PASS  gas_densities  t=24.5
-PASS  exchange_uniform_gas  t=24.5
-PASS  ks_potentials  t=24.5
-PASS  ks_onshell_lagrangian  t=24.5
-PASS  exchange_slab_exact_fock  t=25.1
-PASS  bc_mirror_map_PA  t=25.1
-PASS  bc_mirror_parities_of_densities  t=25.1
-PASS  bc_brane_parity_conditions  t=25.1
-PASS  bc_self_adjoint_boundary_term  t=25.1
-PASS  bc_tip_family  t=25.1
-PASS  bc_current_conserved_along_y  t=25.1
-PASS  bc_exact_k0_spectra  t=25.1
-PASS  bc_tip_asymptotics  t=25.1
-PASS  rescaling_identity  t=25.1
-PASS  emt_orbital_components  t=31.8
-PASS  emt_trace_identity  t=31.8
-PASS  emt_y_conservation_orbital  t=31.8
-PASS  emt_y_conservation_selfconsistent  t=31.8
-PASS  emt_x4_component  t=31.8
-PASS  adiabatic_hellmann_feynman  t=31.8
-PASS  adiabatic_offdiagonal_identity  t=31.8
-PASS  brane_band_slope  t=33.6
-PASS  ks_theory_json_written  t=33.6
-46/46 checks passed; time 33.6 s
+PASS  spin_connection_slash_3H_x0_chart  t=1.2000000000000002
+PASS  ansatz_removes_spin_connection  t=1.2000000000000002
+PASS  ansatz_without_W3_term_survives  t=1.3
+PASS  hamiltonian_16_hermitian  t=1.3
+PASS  blocks_commuting_set  t=1.3
+PASS  blocks_basis_unitary  t=1.3
+PASS  blocks_forms  t=1.3
+PASS  blocks_relation_to_Gamma  t=1.3
+PASS  block_hamiltonian  t=1.3
+PASS  block_ode_equivalent  t=1.4000000000000001
+PASS  block_type_relation  t=1.4000000000000001
+PASS  block_Gamma_map  t=1.4000000000000001
+PASS  rotation_invariance  t=1.4000000000000001
+PASS  gas_mode_projector  t=1.4000000000000001
+PASS  gas_angular_average  t=22.400000000000002
+PASS  gas_densities  t=22.400000000000002
+PASS  exchange_uniform_gas  t=22.400000000000002
+PASS  ks_potentials  t=22.400000000000002
+PASS  ks_onshell_lagrangian  t=22.400000000000002
+PASS  exchange_slab_exact_fock  t=23.1
+PASS  bc_mirror_map_PA  t=23.1
+PASS  bc_mirror_parities_of_densities  t=23.1
+PASS  bc_brane_parity_conditions  t=23.1
+PASS  bc_self_adjoint_boundary_term  t=23.1
+PASS  bc_tip_family  t=23.1
+PASS  bc_current_conserved_along_y  t=23.1
+PASS  bc_exact_k0_spectra  t=23.1
+PASS  bc_tip_asymptotics  t=23.1
+PASS  rescaling_identity  t=23.1
+PASS  emt_orbital_components  t=28.900000000000002
+PASS  emt_trace_identity  t=28.900000000000002
+PASS  emt_y_conservation_orbital  t=28.900000000000002
+PASS  emt_y_conservation_selfconsistent  t=28.900000000000002
+PASS  emt_x4_component  t=28.900000000000002
+PASS  adiabatic_hellmann_feynman  t=28.900000000000002
+PASS  adiabatic_offdiagonal_identity  t=28.900000000000002
+PASS  brane_band_slope  t=30.5
+PASS  ks_theory_json_written  t=30.6
+46/46 checks passed; time 30.6 s
 ```
 
-(This is recorded run 1 of 2026-10-02, section 6.) The runs of 2026-10-07 printed the same 47 lines in
+(This is run 2 of 2026-10-14, section 6.6; run 1 ended with `46/46 checks passed; time 26.200000000000003 s`. The runs of 2026-10-02 to
+2026-10-08 printed the same 47 lines, except that the ninth check was named `spin_connection_slash_3H_x8_chart`,
+the name in the withdrawn labels; run 1 of 2026-10-02 ended with `46/46 checks passed; time 33.6 s`.) The runs of
+2026-10-07 printed the same 47 lines in
 the same order with larger `t=` values, because the machine was busier that day; the final lines of the
 two recorded runs of section 6.2 were `46/46 checks passed; time 46.300000000000004 s` and
 `46/46 checks passed; time 45.800000000000004 s`, those of the three complete runs of section 6.3
@@ -623,8 +631,8 @@ exactly 47 lines were printed and that none contains `::` (section 3.5, step 1).
 
 | File | How to check it |
 | --- | --- |
-| `Revision/kohn_sham/reports/ks-theory-wolfram.json` | line 7 is `  "summary": {"passed": 46, "failed": 0, "total": 46},`; 46 entries under `"checks"`, each `"verdict": "PASS"`; sha256 `5d803af6b270bc7dd93120907c13c28e855c4ba351ccdc3b411d7f8086112ae6` |
-| `Revision/kohn_sham/ks-theory.json` | 18 top-level keys from `"description"` to `"solverChecklist"`; `checksNumeric.braneBandSlope_M1_H1_L3_a0` is `"1.9051482536448664"`; `adiabaticity.historyStatus` begins with `PRESCRIBED BACKGROUND`; sha256 `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3` |
+| `Revision/kohn_sham/reports/ks-theory-wolfram.json` | line 7 is `  "summary": {"passed": 46, "failed": 0, "total": 46},`; 46 entries under `"checks"`, each `"verdict": "PASS"`; sha256 `21f7736e340618bf5405acb169bf5000f02c47a8f710ce5fd48d8658cbd1224d` (2026-10-14; before: `5d803af6b270bc7dd93120907c13c28e855c4ba351ccdc3b411d7f8086112ae6`) |
+| `Revision/kohn_sham/ks-theory.json` | 18 top-level keys from `"description"` to `"solverChecklist"`; `checksNumeric.braneBandSlope_M1_H1_L3_a0` is `"1.9051482536448664"`; `adiabaticity.historyStatus` begins with `PRESCRIBED BACKGROUND`; sha256 `a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2` (2026-10-14; before: `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3`) |
 
 The detail of `brane_band_slope` in the report reads, on the verification machine,
 `... c = 2/(1+E^-3) = 1.905148253644866; NDSolve shooting (WorkingPrecision 25, k = +-1e-3, +-2e-3, Richardson): 1.90514825252 (a4,0 = 0), 1.15553082704 (a4,0 = 1/2; exact 1.15553082713)`.
@@ -676,7 +684,8 @@ Exit code `0` when no check fails, `1` if a check fails. Caution: an exit code `
 success for the companion either. A check whose verdict is neither PASS nor FAIL (the verdict `pending`,
 printed when `ks-theory.json` is missing) is counted as `"other"` and does not change the exit code
 (section 3.7); so the last line must read exactly 58 of 58 as above. It writes
-`Revision/kohn_sham/reports/ks-theory-python.json` (303 lines, 19402 bytes, sha256
+`Revision/kohn_sham/reports/ks-theory-python.json` (303 lines, 19475 bytes, sha256
+`d39256e3dd7bee6c203493bd08fd4b2f5f7494af0f07dbf69874706d4eb76784`; 2026-10-14, section 6.6; before: 303 lines, 19402 bytes,
 `7ae5c6be4dbaf167093a7c0799d9c102d3a7d1d17ec93311a1b17ea5bc26cf9c`), whose `"summary"` block (lines 5
 to 10) holds `"passed": 58`, `"failed": 0`, `"other": 0`, `"total": 58`. Run time of the extended version
 (section 6.3): 134.3 s and 128.5 s wall clock (last time stamp 123.5 s and 119.3 s; `shooting time
@@ -1156,3 +1165,35 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
   `wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls`, the only output was
   `ERROR  input file not found: <scratch root>\Revision\algebra\gammas.json`, error stream empty, exit code 1,
   5.6 s wall. Section 3.7 now quotes this form and keeps the old one as history; no script changed.
+
+### 6.6 The author's coordinates x0..x7 (2026-10-14)
+
+* Why. On 2026-10-14 the user ordered that their coordinates X = {x0, x1, ..., x7} be used throughout (x0 = the
+  hidden direction, listed first; `Dirac_Einstein-Lovelock_4+4_Nash.nb`); this set had named them x1..x8 with the
+  hidden direction x8 listed last. The fixture `Revision/algebra/gammas.json` was rewritten the same day in the
+  author's order (gamma^(xk) = T16[k], eta = diag(1,1,1,1,-1,-1,-1,-1); sha256 `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c`), so the
+  script of section 6.5 no longer matched its input (its Clifford check expected eta = (1,1,1,-1,-1,-1,-1,1)).
+* Changes. `KohnShamTheory.wl`: `KSGeometryY` in the chart (y, x1, ..., x7) with y at position 1 (y replaces x0),
+  `KSGeometryX0` (was `KSGeometryX8`) in the chart (x0, ..., x7), eta and the vielbein reordered, the block basis
+  with `J = g[[1]].g[[2]].g[[5]]` (gamma^(x0) gamma^(x1) gamma^(x4)), `K1 = g[[3]].g[[4]]`, `K2 = g[[6]].g[[7]]`,
+  `(1 + g[[1]])/2` and `v- = g[[1]].g[[2]].v+` (the same matrices as before). `verify_ks_theory.wls`: the variables
+  `g0..g7` (gk = gamma^(xk)), `C = g0 g1 g2 g3`, `Gamma = g0 g1 ... g7`, the expected eta, the position lists of the
+  inflating (2..4) and deflating (6..8) directions, `Om[[5]]`, `Om[[1]]`, the EMT components (`Kd[2]` = x1, `Kd[5]`
+  = x4, `Kd[1]` = y, `Ko[5, 1]` = (x4, y)), `Tmix` and the divergences `divT[Tf, 1]` (y) and `divT[Tf, 5]` (x4), the
+  hidden-direction pressure p8 -> p0, every text; the check `spin_connection_slash_3H_x8_chart` is now
+  `spin_connection_slash_3H_x0_chart`. `ks-theory.json`: the keys `gamma^(x8)...` and `B gamma^(x8)` of `blockForms`
+  are now `gamma^(x0)...`, `B gamma^(x0)`, and `emt.p8` is `emt.p0`. `check_ks_theory.py`: the same relabelling (index
+  k = xk, y at index 0). New sha256: script `c7ba3eb5d38a24deb5d325fcd83ba2d95b3637b9d84b53c30a91c5668a633628` (463 lines, 41581 bytes), package `4dca70acf65b178f8a1a84bf48ab753de251e707243b1078b30a6ed4402dd96c` (89 lines, 4798
+  bytes), companion `c58f6775ab54247b848716214225271595acc187d6517b8f8df5319c5d94e68f` (826 lines, 50072 bytes).
+* Runs (2026-10-14, working tree on top of commit `fedf89c`, Windows 11, Wolfram 15.0.1, run from the repository
+  root): run 1 `46/46 checks passed; time 26.200000000000003 s` (exit code 0, wall 29 s), run 2 `46/46 checks passed; time 30.6 s` (exit code 0, wall 34 s); both
+  wrote byte-identical `ks-theory.json` and `ks-theory-wolfram.json`. The companion, after the relabelled
+  `Revision/field_equations_a4/reports/ks-source-conditions.json` (6 of 6), printed
+  `{"passed": 58, "failed": 0, "other": 0, "total": 58}` (exit code 0, wall 46 s, `shooting time 20.1 s`).
+* Same physics. `ks-theory.json` compared with the one of section 6.5 after the renaming x8 -> x0, g8 -> g0, p8 -> p0,
+  gamma^(x8) -> gamma^(x0): all 385 leaves are present in both; the block basis (`unnormalisedColumns2Sqrt2V`), the
+  labels, the seed columns, the coefficients and the brane-band slope are identical; only `coordinates` and
+  `geometry.sqrtDetG` were reworded. The report has the same 46 checks with the same verdicts in the same order;
+  apart from the renamed check its details differ only in the sha256 of `gammas.json`, the eta order and the chart
+  wording. The companion's report: the same 58 checks and verdicts; details differ only by the relabelling, the
+  sha256 of `python-gammas.json` and the coordinate wording.

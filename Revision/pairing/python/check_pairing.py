@@ -5,7 +5,8 @@ Revision code; it imports nothing from the old stages and shares no code with th
 (Revision/pairing/wolfram/).  Everything is re-derived here:
 
 * the author's real 16 x 16 gammas T16 are re-constructed from the author's formulas (tau matrices,
-  notebook input cells In[45..372]) and mapped to x1..x8 (SPEC section 2); Revision/algebra/gammas.json
+  notebook input cells In[45..372]) and mapped to the author's coordinates x0..x7 (gamma^(xk) = T16[k], SPEC
+  section 2); Revision/algebra/gammas.json
   is only READ at the end for an entry-by-entry comparison;
 * the metric of SPEC section 1, its Christoffel symbols, the diagonal vielbein and the canonical spin
   connection are computed with sympy;
@@ -21,14 +22,14 @@ Checked items (the pairing-wolfram task, every item):
        T_mu nu -> -T_mu nu; J -> -J; the pair has zero total T and J; for both statistics, in the
        metric of SPEC section 1 and in a general gravitational field (matrix-level proof for arbitrary
        vielbein and connection, plus a random exact instance in both statistics).
-  T2   Gamma combined with the Pin(4,4) reflection of character -1 (Gamma gamma^(x8)), i.e. the spinor
-       matrix gamma^(x8), with the mirror z -> pi - z across the Z2 brane at z = pi/2:
+  T2   Gamma combined with the Pin(4,4) reflection of character -1 (Gamma gamma^(x0)), i.e. the spinor
+       matrix gamma^(x0), with the mirror z -> pi - z across the Z2 brane at z = pi/2:
        (m, lam) -> (-m, lam), L -> +L; EL, T and J transformation; both statistics.
   Q    quantum reading: canonical anticommutator B/sqrt|g| extracted from L; the image field Gamma Psi
        carries the Krein metric -B, its own generators reproduce the same dynamics; no cancellation
        between two independently quantised universes.
   NOT  the exact list of what the theorems do not establish.
-  Further: a general diagonal field e^a_mu = h_a(x1..x8) (T1 in full; T2 as frame reflections of every
+  Further: a general diagonal field e^a_mu = h_a(x0..x7) (T1 in full; T2 as frame reflections of every
   direction), a general cubic potential U(S) (T1), negative controls, and the flat one-particle
   generator (similarities, h^2, Krein inertia (4,4) of every real-frequency eigenspace, Krein-neutral
   eigenspaces of imaginary or zero frequency).
@@ -58,8 +59,8 @@ REPORT = PAIRING / "reports" / "python-pairing.json"
 FIXTURE = REVISION / "algebra" / "gammas.json"
 THEORY = PAIRING / "pairing-theory.json"
 
-COORDS = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
-ETA = [1, 1, 1, -1, -1, -1, -1, 1]
+COORDS = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]      # the author's coordinates; index k = xk
+ETA = [1, 1, 1, 1, -1, -1, -1, -1]
 N = 16
 
 CHECKS: list[dict] = []
@@ -104,15 +105,15 @@ def author_T16():
 
 
 T16 = author_T16()
-# author's coordinate x_(a+1) -> notebook frame index: x1..x3 -> 1..3, x4 -> 4, x5..x7 -> 5..7, x8 -> 0
-GAM = [T16[i] for i in [1, 2, 3, 4, 5, 6, 7, 0]]
+# the author's coordinate xk -> notebook frame index k (x0 = the hidden direction -> 0)
+GAM = [T16[i] for i in range(8)]
 I16 = sp.eye(N)
-C = GAM[7] * GAM[0] * GAM[1] * GAM[2]
-CHI = GAM[7] * GAM[0] * GAM[1] * GAM[2] * GAM[3] * GAM[4] * GAM[5] * GAM[6]   # Gamma
-B = -sp.I * C * GAM[3]
+C = GAM[0] * GAM[1] * GAM[2] * GAM[3]
+CHI = GAM[0] * GAM[1] * GAM[2] * GAM[3] * GAM[4] * GAM[5] * GAM[6] * GAM[7]   # Gamma
+B = -sp.I * C * GAM[4]
 SAB = [[(GAM[a] * GAM[b] - GAM[b] * GAM[a]) / 4 for b in range(8)] for a in range(8)]
-G8 = GAM[7]
-LAM8 = [1, 1, 1, 1, 1, 1, 1, -1]          # the reflection x8 -> -x8 (z -> pi - z) on vector indices
+G0 = GAM[0]
+LAM0 = [-1, 1, 1, 1, 1, 1, 1, 1]          # the reflection x0 -> -x0 (z -> pi - z) on vector indices
 
 
 def matzero(M):
@@ -122,12 +123,12 @@ def matzero(M):
 def algebra_checks():
     ok = all((GAM[a] * GAM[b] + GAM[b] * GAM[a]) == (2 * ETA[a] if a == b else 0) * I16
              for a in range(8) for b in range(8))
-    check("gammas.clifford", ok, "{gamma^a, gamma^b} = 2 eta^ab I16 exactly, eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) in x1..x8, for the gammas re-built here from the author's tau formulas")
+    check("gammas.clifford", ok, "{gamma^a, gamma^b} = 2 eta^ab I16 exactly, eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in x0..x7, for the gammas re-built here from the author's tau formulas")
     check("gammas.C", C == C.T and C * C == I16 and all((C * g).T == -(C * g) for g in GAM),
-          "C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) is real symmetric, C^2 = 1, C gamma^a real antisymmetric (a = x1..x8)")
+          "C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) is real symmetric, C^2 = 1, C gamma^a real antisymmetric (a = x0..x7)")
     d = [CHI[i, i] for i in range(N)]
     check("gammas.Gamma", CHI == sp.diag(*([-1] * 8 + [1] * 8)),
-          "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-I8, I8) (diagonal %s)" % d)
+          "Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = diag(-I8, I8) (diagonal %s)" % d)
     check("gammas.Gamma_anticommutes", all(CHI * g == -g * CHI for g in GAM) and CHI * CHI == I16,
           "Gamma^2 = 1 and Gamma gamma^a = -gamma^a Gamma for all eight a; hence [Gamma, S^ab] = 0 and Gamma C = C Gamma")
     check("gammas.B", B == B.H and B * B == I16 and sorted(B.eigenvals().items()) == [(-1, 8), (1, 8)],
@@ -318,22 +319,22 @@ a4 = sp.Function("a4")(x4)
 
 
 def dcoord(expr, mu):
-    """d/dx_mu of a coefficient (x8 enters through z = 6 H x8)."""
-    if mu == 3:
+    """d/dx_mu of a coefficient (x0 enters through z = 6 H x0; x4 = index 4)."""
+    if mu == 4:
         return sp.diff(expr, x4)
-    if mu == 7:
+    if mu == 0:
         return 6 * H * sp.diff(expr, z)
     return sp.Integer(0)
 
 
 class Geometry:
-    """Diagonal vielbein e^a_mu = f_mu delta; s8 = +1 on the patch z in (0, pi/2) (f8 = cot z > 0),
-    s8 = -1 on the mirror patch z in (pi/2, pi) (f8 = -cot z > 0): the positive frame sqrt|g_mu mu|."""
+    """Diagonal vielbein e^a_mu = f_mu delta (order x0, x1, ..., x7); s0 = +1 on the patch z in (0, pi/2)
+    (f0 = cot z > 0), s0 = -1 on the mirror patch z in (pi/2, pi) (f0 = -cot z > 0): the positive frame sqrt|g_mu mu|."""
 
-    def __init__(self, s8=None, f=None, dfun=None, sqrtg=None):
+    def __init__(self, s0=None, f=None, dfun=None, sqrtg=None):
         if f is None:
             E, Em, S6 = sp.exp(a4), sp.exp(-a4), sp.sin(z) ** sp.Rational(1, 6)
-            f = [E * S6] * 3 + [sp.Integer(1)] + [Em * S6] * 3 + [s8 * sp.cot(z)]
+            f = [s0 * sp.cot(z)] + [E * S6] * 3 + [sp.Integer(1)] + [Em * S6] * 3
             dfun = dcoord
         self.f = f
         self.d = dfun
@@ -513,7 +514,7 @@ def geometry_checks(geo):
     ok = True
     for mu in range(8):
         for nu in range(8):
-            M = sp.diff(geo.gup[nu], x4) if mu == 3 else (6 * H * sp.diff(geo.gup[nu], z) if mu == 7 else sp.zeros(N))
+            M = sp.diff(geo.gup[nu], x4) if mu == 4 else (6 * H * sp.diff(geo.gup[nu], z) if mu == 0 else sp.zeros(N))
             for la in range(8):
                 if geo.Gam[nu][mu][la] != 0:
                     M = M + geo.Gam[nu][mu][la] * geo.gup[la]
@@ -529,12 +530,12 @@ def geometry_checks(geo):
     CHECKS.append({"name": "geometry.spin_connection_components", "verdict": "PASS", "detail": "nonzero components (a < b): " + det})
     rule = {z: sp.pi - z}
     iso = all(sp.simplify(gg.subs(rule) - gg) == 0 for gg in geo.g)
-    deg = (sp.limit(geo.g[7], z, sp.pi / 2) == 0 and sp.limit(geo.sqrtg, z, sp.pi / 2) == 0
+    deg = (sp.limit(geo.g[0], z, sp.pi / 2) == 0 and sp.limit(geo.sqrtg, z, sp.pi / 2) == 0
            and sp.simplify(geo.sqrtg - sp.cos(z)) == 0)
     check("geometry.brane_degenerate", deg,
-          "sqrt|g| = %s on the patch; at the brane z = pi/2: g_88 -> 0 and sqrt|g| -> 0 (a degenerate surface of the metric)" % geo.sqrtg)
+          "sqrt|g| = %s on the patch; at the brane z = pi/2: g_00 -> 0 and sqrt|g| -> 0 (a degenerate surface of the metric)" % geo.sqrtg)
     check("geometry.mirror_isometry", iso,
-          "g_mu mu(pi - z) = g_mu mu(z) for every component: z -> pi - z (x8 -> pi/(6H) - x8, the Z2 brane at z = pi/2) is an isometry of the metric of SPEC section 1")
+          "g_mu mu(pi - z) = g_mu mu(z) for every component: z -> pi - z (x0 -> pi/(6H) - x0, the Z2 brane at z = pi/2) is an isometry of the metric of SPEC section 1")
 
 
 def t1_metric(geo, odd):
@@ -586,7 +587,7 @@ def t1_metric(geo, odd):
 
 
 def p_name(P):
-    for nm, M in (("1", I16), ("Gamma", CHI), ("gamma^(x8)", G8), ("Gamma gamma^(x8)", CHI * G8)):
+    for nm, M in (("1", I16), ("Gamma", CHI), ("gamma^(x0)", G0), ("Gamma gamma^(x0)", CHI * G0)):
         if P == M:
             return nm
     return "?"
@@ -599,8 +600,8 @@ def t2_metric(patch, mirror, odd):
     refl = patch.reflected()
     table = []
     found = {}
-    for P in (I16, CHI, G8, CHI * G8):
-        JP = transform_jets(J, P, LAM8, odd)
+    for P in (I16, CHI, G0, CHI * G0):
+        JP = transform_jets(J, P, LAM0, odd)
         Lm, _ = lagrangian(mirror, JP, odd, m, lam)
         hit = None
         for sg, sm, sl in itertools.product((1, -1), (1, -1), (1, -1)):
@@ -615,28 +616,28 @@ def t2_metric(patch, mirror, odd):
             table.append("P = %s: L_{m,lambda}[P Psi(Rx)] = %s L_{%sm,%slambda}[Psi](Rx)"
                          % (p_name(P), "+" if hit[0] > 0 else "-", "" if hit[1] > 0 else "-", "" if hit[2] > 0 else "-"))
     check("T2.metric.%s.reflection_table" % sn,
-          found["gamma^(x8)"] == (1, -1, 1) and found["Gamma gamma^(x8)"] == (-1, 1, -1),
+          found["gamma^(x0)"] == (1, -1, 1) and found["Gamma gamma^(x0)"] == (-1, 1, -1),
           "%s, mirror across the Z2 brane z -> pi - z with the positive frame on both sides: " % fn + "; ".join(table)
-          + ". So the reflection Gamma gamma^(x8) (spinor action P^-1 gamma^a P = Lambda^a_b gamma^b, character -1 on S) gives L -> -L_{m,-lambda}; combined with Gamma (Gamma Gamma gamma^(x8) = gamma^(x8)) it gives T2: (m, lambda) -> (-m, lambda), L -> +L")
-    # T2 in detail for P = gamma^(x8)
-    JP = transform_jets(J, G8, LAM8, odd)
+          + ". So the reflection Gamma gamma^(x0) (spinor action P^-1 gamma^a P = Lambda^a_b gamma^b, character -1 on S) gives L -> -L_{m,-lambda}; combined with Gamma (Gamma Gamma gamma^(x0) = gamma^(x0)) it gives T2: (m, lambda) -> (-m, lambda), L -> +L")
+    # T2 in detail for P = gamma^(x0)
+    JP = transform_jets(J, G0, LAM0, odd)
     E1 = el_operator(mirror, JP, odd, m, lam)
-    E2 = matvec(G8, el_operator(refl, J, odd, -m, lam), odd)
+    E2 = matvec(G0, el_operator(refl, J, odd, -m, lam), odd)
     ok, info = all_zero([(A, E1[A] + E2[A]) for A in range(N)])
     check("T2.metric.%s.euler_lagrange_map" % sn, ok,
-          "%s: E_{m,lambda}[gamma^(x8) Psi(Rx)](x) = -gamma^(x8) E_{-m,lambda}[Psi](Rx): Psi solves the (-m, lambda) equations on the patch iff its mirror image solves the (m, lambda) equations on the mirror patch (%s)" % (fn, info))
+          "%s: E_{m,lambda}[gamma^(x0) Psi(Rx)](x) = -gamma^(x0) E_{-m,lambda}[Psi](Rx): Psi solves the (-m, lambda) equations on the patch iff its mirror image solves the (m, lambda) equations on the mirror patch (%s)" % (fn, info))
     T1 = emt(mirror, JP, odd, m, lam)
     T2 = emt(refl, J, odd, -m, lam)
-    ok, info = all_zero([(k, T1[k] - T2[k].scale(LAM8[k[0]] * LAM8[k[1]])) for k in sorted(T1)])
+    ok, info = all_zero([(k, T1[k] - T2[k].scale(LAM0[k[0]] * LAM0[k[1]])) for k in sorted(T1)])
     check("T2.metric.%s.emt" % sn, ok,
-          "%s: T_mu nu[gamma^(x8) Psi(Rx); m, lambda](x) = Lambda_mu Lambda_nu T_mu nu[Psi; -m, lambda](Rx) (the pull-back by R; no sign change of the energy density) (%s)" % (fn, info))
+          "%s: T_mu nu[gamma^(x0) Psi(Rx); m, lambda](x) = Lambda_mu Lambda_nu T_mu nu[Psi; -m, lambda](Rx) (the pull-back by R; no sign change of the energy density) (%s)" % (fn, info))
     J1, J2 = current(mirror, JP, odd), current(refl, J, odd)
-    ok, info = all_zero([(mu, J1[mu] - J2[mu].scale(LAM8[mu])) for mu in range(8)])
+    ok, info = all_zero([(mu, J1[mu] - J2[mu].scale(LAM0[mu])) for mu in range(8)])
     check("T2.metric.%s.current" % sn, ok,
           "%s: J^mu[mirror image](x) = Lambda^mu J^mu[Psi](Rx): the charge density J^(x4) is unchanged (%s)" % (fn, info))
     S1, S2 = scalar_S(JP, odd), scalar_S(J, odd)
     ok, info = all_zero([("S", S1 + S2)])
-    check("T2.metric.%s.S_odd" % sn, ok, "%s: S[gamma^(x8) Psi] = -S[Psi] (S is a pseudo-scalar under the hidden-direction reflection because C contains gamma^(x8)) (%s)" % (fn, info))
+    check("T2.metric.%s.S_odd" % sn, ok, "%s: S[gamma^(x0) Psi] = -S[Psi] (S is a pseudo-scalar under the hidden-direction reflection because C contains gamma^(x0)) (%s)" % (fn, info))
 
 
 def general_field_matrix_checks():
@@ -651,15 +652,15 @@ def general_field_matrix_checks():
     ok = ok and all(CHI.T * g * CHI == -g for g in GAM) and all(CHI.T * (C * GAM[a]) * CHI == -(C * GAM[a]) for a in range(8))
     check("T1.general_field.matrix_identities", ok,
           "Gamma^T M Gamma = -M for all %d kinetic and connection basis matrices M (C gamma^a; C gamma^a S^bc; C S^bc gamma^a) and Gamma^T C Gamma = +C; since Gamma is constant and real, for ANY vielbein, spin connection and sqrt|g|: L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi], the EL map, J -> -J, and (the identity holding for every vielbein) T_mu nu -> -T_mu nu, for both statistics" % (len(basis_kin) + len(basis_con)))
-    Lam = sp.diag(*LAM8)
-    ok = G8.T * C * G8 == -C
-    ok = ok and all(G8.T * C * GAM[a] * G8 == C * sum((Lam[a, b] * GAM[b] for b in range(8)), sp.zeros(N)) for a in range(8))
-    ok = ok and all(G8.inv() * SAB[a][b] * G8 == LAM8[a] * LAM8[b] * SAB[a][b] for a in range(8) for b in range(8))
-    P2 = CHI * G8
-    ok2 = all(P2.inv() * GAM[a] * P2 == LAM8[a] * GAM[a] for a in range(8)) and P2.T * C * P2 == -C
-    ok3 = all(G8.inv() * GAM[a] * G8 == -LAM8[a] * GAM[a] for a in range(8))
+    Lam = sp.diag(*LAM0)
+    ok = G0.T * C * G0 == -C
+    ok = ok and all(G0.T * C * GAM[a] * G0 == C * sum((Lam[a, b] * GAM[b] for b in range(8)), sp.zeros(N)) for a in range(8))
+    ok = ok and all(G0.inv() * SAB[a][b] * G0 == LAM0[a] * LAM0[b] * SAB[a][b] for a in range(8) for b in range(8))
+    P2 = CHI * G0
+    ok2 = all(P2.inv() * GAM[a] * P2 == LAM0[a] * GAM[a] for a in range(8)) and P2.T * C * P2 == -C
+    ok3 = all(G0.inv() * GAM[a] * G0 == -LAM0[a] * GAM[a] for a in range(8))
     check("T2.general_field.matrix_identities", ok and ok2 and ok3,
-          "gamma^(x8)^T C gamma^(x8) = -C; gamma^(x8)^T C gamma^a gamma^(x8) = C Lambda^a_b gamma^b; gamma^(x8)^-1 S^ab gamma^(x8) = Lambda^a Lambda^b S^ab (Lambda = diag(1,1,1,1,1,1,1,-1)); (Gamma gamma^(x8))^-1 gamma^a (Gamma gamma^(x8)) = Lambda^a_b gamma^b and (Gamma gamma^(x8))^T C (Gamma gamma^(x8)) = -C; gamma^(x8)^-1 gamma^a gamma^(x8) = -Lambda^a_b gamma^b. Hence in ANY field with an isometry reflecting the x8 frame direction the hidden-direction reflection with gamma^(x8) maps (m, lambda) -> (-m, lambda), L -> +L")
+          "gamma^(x0)^T C gamma^(x0) = -C; gamma^(x0)^T C gamma^a gamma^(x0) = C Lambda^a_b gamma^b; gamma^(x0)^-1 S^ab gamma^(x0) = Lambda^a Lambda^b S^ab (Lambda = diag(-1,1,1,1,1,1,1,1)); (Gamma gamma^(x0))^-1 gamma^a (Gamma gamma^(x0)) = Lambda^a_b gamma^b and (Gamma gamma^(x0))^T C (Gamma gamma^(x0)) = -C; gamma^(x0)^-1 gamma^a gamma^(x0) = -Lambda^a_b gamma^b. Hence in ANY field with an isometry reflecting the x0 frame direction the hidden-direction reflection with gamma^(x0) maps (m, lambda) -> (-m, lambda), L -> +L")
     # table of all single reflections
     rows = []
     for b in range(8):
@@ -668,10 +669,10 @@ def general_field_matrix_checks():
         kin_inv = all(GAM[b].T * C * GAM[a] * GAM[b] == Lb[a] * C * GAM[a] for a in range(8))
         kin_flip = all(GAM[b].T * C * GAM[a] * GAM[b] == -Lb[a] * C * GAM[a] for a in range(8))
         rows.append("%s: S -> %sS, kinetic %s" % (COORDS[b], "+" if sS > 0 else "-", "invariant" if kin_inv else ("-1" if kin_flip else "?")))
-    expect = all(("S -> -S, kinetic invariant" in r) for r in rows[:3] + rows[7:]) and all(("S -> +S, kinetic -1" in r) for r in rows[3:7])
+    expect = all(("S -> -S, kinetic invariant" in r) for r in rows[:4]) and all(("S -> +S, kinetic -1" in r) for r in rows[4:])
     check("T2.general_field.reflection_table", expect,
           "spinor matrix gamma^(b) with the frame reflection of direction b: " + "; ".join(rows)
-          + ". The space-like reflections (x1, x2, x3, x8) give (m, lambda) -> (-m, lambda), L -> +L; the time-like ones (x4..x7) give L -> -L_{-m,-lambda}")
+          + ". The space-like reflections (x0, x1, x2, x3) give (m, lambda) -> (-m, lambda), L -> +L; the time-like ones (x4..x7) give L -> -L_{-m,-lambda}")
 
 
 def random_instance_general_field():
@@ -712,10 +713,10 @@ def quantum_checks(geo):
     K = sp.zeros(N)
     for A in range(N):
         for Bi in range(N):
-            c1 = Ld.t.get((id_psc(A), id_dps(3, Bi)), 0)
-            c2 = Ld.t.get(tuple(sorted((id_dpsc(3, A), id_ps(Bi)))), 0)
+            c1 = Ld.t.get((id_psc(A), id_dps(4, Bi)), 0)            # d_x4: index 4
+            c2 = Ld.t.get(tuple(sorted((id_dpsc(4, A), id_ps(Bi)))), 0)
             # psi^*_A dpsi_B (coefficient c1) and dpsi^*_A psi_B: sorted order puts psi_B (16+B) before dpsi^*_4A
-            # (32+48+A), so the stored monomial is psi_B dpsi^*_A = -dpsi^*_A psi_B
+            # (32+64+A), so the stored monomial is psi_B dpsi^*_A = -dpsi^*_A psi_B
             K[A, Bi] = sp.simplify(c1 + c2)       # = coefficient after moving d_4 onto Psi (up to a total derivative)
     # L ~ i Psi^dagger M d_4 Psi  =>  {Psi_A, Psi^dagger_B} = (M^-1)_AB
     M = (-sp.I * K).applyfunc(sp.simplify)
@@ -735,9 +736,9 @@ def quantum_checks(geo):
     ok = ok and matzero(Xp + B / geo.sqrtg) and matzero(CHI * X * CHI - Xp)
     check("Q.image_own_quantisation", ok,
           "the image Psi' = Gamma Psi obeys the (m, lambda) equations but its dynamics comes from L' = -L_{m,lambda}[Psi']: canonical quantisation of L' gives {Psi', Psi'^dagger} = -B/sqrt|g| = Gamma (B/sqrt|g|) Gamma, consistent with the map")
-    # one-particle generators: i d_4 Psi = G Psi with G = X h (flat 4+4 slice, plane wave k_j in x1..x3, x5..x8)
-    ks = sp.symbols("k1 k2 k3 k5 k6 k7 k8", real=True)
-    kv = dict(zip([0, 1, 2, 4, 5, 6, 7], ks))
+    # one-particle generators: i d_4 Psi = G Psi with G = X h (flat 4+4 slice, plane wave k_j in x0..x3, x5..x7)
+    ks = sp.symbols("k0 k1 k2 k3 k5 k6 k7", real=True)
+    kv = dict(zip([0, 1, 2, 3, 5, 6, 7], ks))
     def h_of(mass):
         # H density = -(L - velocity terms) for L = Psibar gamma^a d_a Psi - m S in flat space, d_j -> i k_j
         return mass * C - sum((sp.I * kv[j] * C * GAM[j] for j in kv), sp.zeros(N))
@@ -778,10 +779,10 @@ def general_potential(geo, odd):
 
 
 def diagonal8_checks(odd):
-    """A general diagonal (4,4) field: e^a_mu = h_a(x1..x8) delta^a_mu, eight arbitrary functions."""
+    """A general diagonal (4,4) field: e^a_mu = h_a(x0..x7) delta^a_mu, eight arbitrary functions."""
     sn, fn = stat_name(odd), field_name(odd)
-    X = sp.symbols("x1:9", real=True)
-    h = [sp.Function("h%d" % (a + 1))(*X) for a in range(8)]
+    X = sp.symbols("x0:8", real=True)
+    h = [sp.Function("h%d" % a)(*X) for a in range(8)]
     dfun = lambda e, mu: sp.diff(e, X[mu])  # noqa: E731
     geo = Geometry(f=h, dfun=dfun)
     J = jets(odd)
@@ -801,7 +802,7 @@ def diagonal8_checks(odd):
              + [("J%d" % mu, J1[mu] + J2[mu]) for mu in range(8)])
     ok, info = all_zero(items)
     check("T1.diagonal8.%s" % sn, ok,
-          "%s, general diagonal field e^a_mu = h_a(x1..x8) delta^a_mu with its canonical spin connection: L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi]; EL derived from L = sqrt|g| C E; E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; T -> -T (36 components); J -> -J (%s)" % (fn, info))
+          "%s, general diagonal field e^a_mu = h_a(x0..x7) delta^a_mu with its canonical spin connection: L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi]; EL derived from L = sqrt|g| C E; E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; T -> -T (36 components); J -> -J (%s)" % (fn, info))
     # T2 as a frame reflection at the same point: e' = R_n e, Psi' = gamma^n Psi
     rows, good = [], True
     for n in range(8):
@@ -821,22 +822,22 @@ def diagonal8_checks(odd):
 
 
 def quantum_one_particle_checks():
-    ks = sp.symbols("k1 k2 k3 k5 k6 k7 k8", real=True)
-    idx = [0, 1, 2, 4, 5, 6, 7]
+    ks = sp.symbols("k0 k1 k2 k3 k5 k6 k7", real=True)
+    idx = [0, 1, 2, 3, 5, 6, 7]
     def G_of(mass, kk):
         h = mass * C - sum((sp.I * kk[i] * C * GAM[j] for i, j in enumerate(idx)), sp.zeros(N))
         return B * h
-    kR = list(ks[:-1]) + [-ks[-1]]
+    kR = [-ks[0]] + list(ks[1:])                       # R_0 k: the x0 component reflected
     ok1 = (CHI * G_of(m, ks) * CHI - G_of(-m, ks)).applyfunc(sp.expand) == sp.zeros(N)
-    ok2 = (G8 * G_of(m, ks) * G8 - G_of(-m, kR)).applyfunc(sp.expand) == sp.zeros(N)
-    E2 = m ** 2 + ks[0] ** 2 + ks[1] ** 2 + ks[2] ** 2 - ks[3] ** 2 - ks[4] ** 2 - ks[5] ** 2 + ks[6] ** 2
+    ok2 = (G0 * G_of(m, ks) * G0 - G_of(-m, kR)).applyfunc(sp.expand) == sp.zeros(N)
+    E2 = m ** 2 + ks[0] ** 2 + ks[1] ** 2 + ks[2] ** 2 + ks[3] ** 2 - ks[4] ** 2 - ks[5] ** 2 - ks[6] ** 2
     sq1 = (G_of(m, ks) ** 2 - E2 * I16).applyfunc(sp.expand) == sp.zeros(N)
     sq2 = (G_of(-m, ks) ** 2 - E2 * I16).applyfunc(sp.expand) == sp.zeros(N)
     tr0 = sp.expand(G_of(m, ks).trace()) == 0 and sp.expand(G_of(-m, ks).trace()) == 0
     check("Q.one_particle_maps", ok1 and ok2 and sq1 and sq2 and tr0,
-          "flat 4+4 one-particle generator G_m(k) = B (m C - i k_j C gamma^j) (i d_4 Psi = G Psi, k in x1..x3, x5..x8): Gamma G_m(k) Gamma = G_(-m)(k) and gamma^(x8) G_m(k) gamma^(x8) = G_(-m)(R_8 k) (similarities, so equal spectra); G_(+-m)(k)^2 = (%s) I16 and tr G = 0: both universes have the eigenvalues +-sqrt(%s), each 8-fold (the extra-time momenta k5, k6, k7 enter with the opposite sign)" % (E2, E2))
+          "flat 4+4 one-particle generator G_m(k) = B (m C - i k_j C gamma^j) (i d_4 Psi = G Psi, k in x0..x3, x5..x7): Gamma G_m(k) Gamma = G_(-m)(k) and gamma^(x0) G_m(k) gamma^(x0) = G_(-m)(R_0 k) (similarities, so equal spectra); G_(+-m)(k)^2 = (%s) I16 and tr G = 0: both universes have the eigenvalues +-sqrt(%s), each 8-fold (the extra-time momenta k5, k6, k7 enter with the opposite sign)" % (E2, E2))
     # Krein inertia of B on each eigenspace at an exact sample point with E = 3
-    sub = {m: 1, ks[0]: 2, ks[1]: 0, ks[2]: 0, ks[3]: 0, ks[4]: 0, ks[5]: 0, ks[6]: 2}
+    sub = {m: 1, ks[0]: 2, ks[1]: 2, ks[2]: 0, ks[3]: 0, ks[4]: 0, ks[5]: 0, ks[6]: 0}      # k0 = 2, k1 = 2
     Gs = G_of(m, ks).subs(sub)
     res, good = [], True
     for ev in (3, -3):
@@ -850,11 +851,11 @@ def quantum_one_particle_checks():
         res.append("w = %s: dim %d, Krein inertia (%d,%d)" % (ev, V.cols, pos, neg))
         good = good and ok_ev and V.cols == 8 and (pos, neg) == (4, 4)
     check("Q.one_particle_Krein_inertia", good,
-          "at the exact sample m = 1, k1 = 2, k8 = 2, other k = 0 (E = 3, a real frequency): " + "; ".join(res) + " - B restricted to each of these eigenspaces has inertia (4,4); the statement for every real frequency is Q.one_particle_Krein_inertia_proof, the imaginary and zero frequencies are Q.one_particle_complex_frequency_Krein_neutral")
+          "at the exact sample m = 1, k0 = 2, k1 = 2, other k = 0 (E = 3, a real frequency): " + "; ".join(res) + " - B restricted to each of these eigenspaces has inertia (4,4); the statement for every real frequency is Q.one_particle_Krein_inertia_proof, the imaginary and zero frequencies are Q.one_particle_complex_frequency_Krein_neutral")
     # every REAL frequency: B-orthogonal eigenspaces, signature 0 in the good sector, continuity
     w = sp.Symbol("w", positive=True)
     Gm = G_of(m, ks)
-    good_sector = {ks[3]: 0, ks[4]: 0, ks[5]: 0}
+    good_sector = {ks[4]: 0, ks[5]: 0, ks[6]: 0}            # k5 = k6 = k7 = 0
     commute = (B * Gm.subs(good_sector) - Gm.subs(good_sector) * B).applyfunc(sp.expand) == sp.zeros(N)
     traces = sp.expand((B * Gm).trace()) == 0 and B.trace() == 0
     Pp, Pn = (I16 + Gm / w) / 2, (I16 - Gm / w) / 2
@@ -863,7 +864,7 @@ def quantum_one_particle_checks():
     orth = ((PpH * B * Pn).applyfunc(sp.expand).subs(w, sp.sqrt(E2)).applyfunc(sp.simplify) == sp.zeros(N))
     selfp = ((PpH * B * Pp - B * Pp).applyfunc(sp.expand).subs(w, sp.sqrt(E2)).applyfunc(sp.simplify) == sp.zeros(N))
     # an exact real-frequency sample WITH extra-time momentum: m = 2, k5 = 1 (w^2 = 3)
-    sub2 = {m: 2, ks[0]: 0, ks[1]: 0, ks[2]: 0, ks[3]: 1, ks[4]: 0, ks[5]: 0, ks[6]: 0}
+    sub2 = {m: 2, ks[0]: 0, ks[1]: 0, ks[2]: 0, ks[3]: 0, ks[4]: 1, ks[5]: 0, ks[6]: 0}      # k5 = 1
     G2 = Gm.subs(sub2)
     w2v = sp.sqrt(3)
     res2, good2 = [], True
@@ -879,7 +880,7 @@ def quantum_one_particle_checks():
           "flat 4+4, one-particle generator G_m(k) = B (m C - i k_j C gamma^j), G^2 = w^2 I16 with w^2 = %s: (i) for real w > 0 the projectors P_(+-) = (1 +- G/w)/2 obey P_+^dagger B P_- = 0 and P_+^dagger B P_+ = B P_+ (symbolic): the two 8-dimensional eigenspaces are B-orthogonal and B is nondegenerate on each; (ii) good sector (k5 = k6 = k7 = 0): [B, G] = 0 and tr B = tr(B G) = 0, so tr(B P_(+-)) = 0 and B has inertia (4,4) on each eigenspace; (iii) w^2 > 0 is a connected region containing the good sector (k5, k6, k7 -> 0 at fixed other k only increases w^2) on which P_(+-) are continuous, so the inertia (4,4) holds at EVERY real frequency; exact extra-time sample m = 2, k5 = 1: %s" % (E2, "; ".join(res2)))
     # imaginary and zero frequencies: Krein-neutral eigenspaces
     res3, good3 = [], True
-    for mv, kv in ((1, (0, 0, 0, 2, 0, 0, 0)), (1, (1, 0, 0, 2, 0, 0, 0)), (1, (0, 0, 0, 1, 0, 0, 0))):
+    for mv, kv in ((1, (0, 0, 0, 0, 2, 0, 0)), (1, (0, 1, 0, 0, 2, 0, 0)), (1, (0, 0, 0, 0, 1, 0, 0))):   # k5 = 2; k1 = 1, k5 = 2; k5 = 1
         Gs3 = Gm.subs({m: mv, **{ks[i]: kv[i] for i in range(7)}})
         w3sq = E2.subs({m: mv, **{ks[i]: kv[i] for i in range(7)}})
         if w3sq == 0:
@@ -891,12 +892,12 @@ def quantum_one_particle_checks():
             nil = True
         dims = [len(sps) for sps in spaces]
         zero_form = all(((sp.Matrix.hstack(*sps).H * B * sp.Matrix.hstack(*sps)).applyfunc(sp.simplify) == sp.zeros(len(sps))) for sps in spaces)
-        res3.append("m = %s, (k1,k2,k3,k5,k6,k7,k8) = %s: w^2 = %s, eigenspace dimensions %s, B-form identically zero: %s" % (mv, kv, w3sq, dims, zero_form))
+        res3.append("m = %s, (k0,k1,k2,k3,k5,k6,k7) = %s: w^2 = %s, eigenspace dimensions %s, B-form identically zero: %s" % (mv, kv, w3sq, dims, zero_form))
         good3 = good3 and all(d == 8 for d in dims) and zero_form and nil
     check("Q.one_particle_complex_frequency_Krein_neutral", good3,
           "B G = G^dagger B gives (w - conj w) u^dagger B v = 0 on an eigenspace of G, so for imaginary w (growing extra-time modes) B vanishes identically there (Krein-neutral, inertia (0,0,8)); for w = 0, G^2 = 0 with rank 8 and ker G = ran G is B-neutral. Exact samples: " + "; ".join(res3) + ". Hence 'Krein inertia (4,4) in every energy eigenspace' is exact for real frequencies only")
-    check("Q.T2_image_keeps_B", G8 * B * G8.H == B,
-          "gamma^(x8) B gamma^(x8)^dagger = +B: the T2 (mirror) image keeps the canonical anticommutator +B/sqrt|g|, it is an ordinary independently quantisable copy with equal energies (unlike the T1 image, which carries -B)")
+    check("Q.T2_image_keeps_B", G0 * B * G0.H == B,
+          "gamma^(x0) B gamma^(x0)^dagger = +B: the T2 (mirror) image keeps the canonical anticommutator +B/sqrt|g|, it is an ordinary independently quantisable copy with equal energies (unlike the T1 image, which carries -B)")
 
 NOT_ESTABLISHED = [
     "No creation process: nothing in these equations produces a universe, a pair of universes or a change of the number of universes; no transition between 'no universe' and 'two universes' is described.",
@@ -909,7 +910,7 @@ NOT_ESTABLISHED = [
     "No dynamical necessity: nothing forces the partner configuration to exist; the theorems are correspondences between solutions of two parameter sets, not a mechanism.",
     "T1 pairs (m, lambda) with (-m, -lambda): for lambda != 0 it is not a pure +m / -m pairing; the pure pairing (m, lambda) -> (-m, lambda) is T2, at EQUAL (not opposite) energy-momentum.",
     "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle generator has Krein inertia (4,4) (Q.one_particle_Krein_inertia_proof) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral (Q.one_particle_complex_frequency_Krein_neutral); a positive-norm Fock space for either universe is not established by these theorems.",
-    "The brane z = pi/2 is a degenerate surface of the metric (g_88 = cot^2 z = 0, sqrt|g| = cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
+    "The brane z = pi/2 is a degenerate surface of the metric (g_00 = cot^2 z = 0, sqrt|g| = cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
     "The Kohn-Sham level (T3) is not covered by this checker; it is proved separately in Revision/pairing/kohn_sham/ (check_t3.py, with its own hypotheses: ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states).",
 ]
 
@@ -930,7 +931,7 @@ def compare_with_theory():
         n = COORDS.index(row["direction"])
         Pn = CHI * GAM[n]
         prod = I16
-        for a in [7, 0, 1, 2, 3, 4, 5, 6]:          # Gamma's product order x8, x1, ..., x7
+        for a in range(8):                          # Gamma's product order x0, x1, ..., x7
             if a != n:
                 prod = prod * GAM[a]
         sgn = 1 if Pn == prod else (-1 if Pn == -prod else 0)
@@ -964,11 +965,11 @@ def compare_with_theory():
           "M B M^dagger = s B recomputed here, equal to the Wolfram record: " + ", ".join(notes))
     # 3. one-particle Hamiltonian and samples
     op = data["one_particle_flat"]
-    kk = sp.symbols("q1:9", real=True)
-    h_theirs = -sp.I * m * GAM[3] - GAM[3] * sum((kk[a] * GAM[a] for a in range(8) if a != 3), sp.zeros(N))
-    h_mine = B * (m * C - sum((sp.I * kk[a] * C * GAM[a] for a in range(8) if a != 3), sp.zeros(N)))
+    kk = sp.symbols("q0:8", real=True)                 # kk[k] = the momentum along xk
+    h_theirs = -sp.I * m * GAM[4] - GAM[4] * sum((kk[a] * GAM[a] for a in range(8) if a != 4), sp.zeros(N))
+    h_mine = B * (m * C - sum((sp.I * kk[a] * C * GAM[a] for a in range(8) if a != 4), sp.zeros(N)))
     same_h = (h_theirs - h_mine).applyfunc(sp.expand) == sp.zeros(N)
-    E2 = m ** 2 + kk[0] ** 2 + kk[1] ** 2 + kk[2] ** 2 + kk[7] ** 2 - kk[4] ** 2 - kk[5] ** 2 - kk[6] ** 2
+    E2 = m ** 2 + kk[0] ** 2 + kk[1] ** 2 + kk[2] ** 2 + kk[3] ** 2 - kk[5] ** 2 - kk[6] ** 2 - kk[7] ** 2
     same_sq = (h_mine ** 2 - E2 * I16).applyfunc(sp.expand) == sp.zeros(N)
     smp_ok, notes = True, []
     for smp in op["samples"]:
@@ -985,7 +986,7 @@ def compare_with_theory():
                                  sum(v for e, v in evs.items() if sp.N(e) < 0))))
         theirs = ((smp["dim_plus_w"], tuple(smp["B_inertia_plus_w"])), (smp["dim_minus_w"], tuple(smp["B_inertia_minus_w"])))
         wt = sp.sympify(smp["w"].replace("Sqrt[", "sqrt(").replace("]", ")"))
-        ok = tuple(res) == theirs and sp.simplify(wt - w) == 0 and smp["k"][3] == 0
+        ok = tuple(res) == theirs and sp.simplify(wt - w) == 0 and smp["k"][4] == 0
         smp_ok = smp_ok and ok
         notes.append("m=%s k=%s: w=%s %s" % (smp["m"], smp["k"], w, "agrees" if ok else "DIFFERS (%s)" % (res,)))
     check("compare.theory.one_particle", same_h and same_sq and smp_ok,
@@ -1066,16 +1067,16 @@ def main():
         "spec": "Revision/SPEC.md section 9 (pairing of universes of masses {+m, -m}, both fields)",
         "independence": "sympy only; gammas re-built from the author's tau formulas; no code shared with Revision/pairing/wolfram",
         "conventions": {
-            "coordinates": "x1..x3 3-space, x4 time, x5..x7 the exponentially deflating extra times, x8 hidden (z = 6 H x8)",
+            "coordinates": "the author's coordinates x0..x7: x0 hidden (z = 6 H x0), x1..x3 3-space, x4 time, x5..x7 the exponentially deflating extra times",
             "lagrangian": "L = sqrt|g| [ (1/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m S - (lambda/2) S^2 ], Psibar = Psi^dagger C, S = Psibar Psi",
             "emt": "T_mu nu = (1/4)[Psibar gamma_mu D_nu Psi + Psibar gamma_nu D_mu Psi - (D_mu Psibar) gamma_nu Psi - (D_nu Psibar) gamma_mu Psi] - g_mu nu L/sqrt|g|",
             "current": "J^mu = i Psibar gamma^mu Psi",
-            "mirror": "R: z -> pi - z (x8 -> pi/(6H) - x8), Z2 brane at z = pi/2 (ASSUMED boundary construction); positive frame e^(x8)_(x8) = |cot z| on both sides; Lambda = diag(1,1,1,1,1,1,1,-1)",
+            "mirror": "R: z -> pi - z (x0 -> pi/(6H) - x0), Z2 brane at z = pi/2 (ASSUMED boundary construction); positive frame e^(x0)_(x0) = |cot z| on both sides; Lambda = diag(-1,1,1,1,1,1,1,1)",
             "statistics": "commuting jets = dirac16complex00 (classical); Grassmann jets = dirac16complex (anticommuting, the same identities hold as operator identities before normal ordering)",
         },
         "theorems_verified": {
             "T1": "L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi]; E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; T[Gamma Psi; m, lambda] = -T[Psi; -m, -lambda]; J[Gamma Psi] = -J[Psi]; for the pair (Psi, m, lambda) and (Gamma Psi, -m, -lambda): T + T = 0 and J + J = 0 identically; both statistics; the metric of SPEC section 1 and any gravitational field",
-            "T2": "with P = gamma^(x8) = Gamma (Gamma gamma^(x8)) and the mirror z -> pi - z: L_{m,lambda}[P Psi(Rx)](x) = +L_{-m,lambda}[Psi](Rx); EL map; T pulled back (no sign change); J pulled back; S -> -S; both statistics",
+            "T2": "with P = gamma^(x0) = Gamma (Gamma gamma^(x0)) and the mirror z -> pi - z: L_{m,lambda}[P Psi(Rx)](x) = +L_{-m,lambda}[Psi](Rx); EL map; T pulled back (no sign change); J pulled back; S -> -S; both statistics",
             "quantum": "{Psi, Psi^dagger} = B/sqrt|g|; the image Gamma Psi carries -B; its own generators (-h) reproduce the same dynamics; no operator cancellation between two independently quantised universes",
         },
         "not_established": NOT_ESTABLISHED,

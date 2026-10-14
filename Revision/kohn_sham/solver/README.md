@@ -5,9 +5,10 @@ formulas of `Revision/kohn_sham/ks-theory.json` (checked in `Revision/kohn_sham/
 No code, number or fixture of the old stages is used; `studies/dirac16complex_kohn_sham` was read only to
 recall that a shooting method with a Pruefer count suits this problem.
 
-Coordinates as the author names them: x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time;
-x5, x6, x7 = the three EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} sin^{1/6} z, a4
-increasing); x8 = hidden direction, y = ln(sin z)/(6H) in [-L, 0] (brane y = 0, tip cutoff y = -L).
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H) in [-L, 0], z = 6 H x0 (brane
+y = 0, tip cutoff y = -L); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three
+EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} sin^{1/6} z, a4 increasing).  p0 = T^x0_x0 is the
+hidden-direction pressure (named p8 in the outputs before the relabel of 2026-10-14).
 
 ## Build and run (from the repository root)
 
@@ -115,13 +116,13 @@ energies, energy-momentum integrals and identities.
   "sum w_Z2 g f = N". That line is inconsistent with its own densities.total, energy and grand potential;
   the solver follows the latter, and records the discrepancy in `parameters.json`.
 * **Energy-momentum tensor:** rho = sum w g f eps n_o - e_int, p3 = sum w g f (kappa|k|/3) t_o + e_int,
-  p_t = e_int, p8 = sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o] + e_int (ks-theory.json emt). For the
-  exact-Fock variant, p8 gets -w_Q q_o inside the sum. This is derived here: the orbital identity holds with
+  p_t = e_int, p0 = sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o] + e_int (ks-theory.json emt). For the
+  exact-Fock variant, p0 gets -w_Q q_o inside the sum. This is derived here: the orbital identity holds with
   kappa k replaced by kappa k + j w_Q, and e_int stays homogeneous of degree 2.
 * **History and adiabaticity:** a4 = A H x4 with A = 1, slices a4,0 in {0, 0.5, 1, 1.5, 2}. This history is a
   PRESCRIBED test-field background without back-reaction: the a4 equations of SPEC section 5 allow the linear
-  member only with p3 = p_t = p8 and constant rho, and the Kohn-Sham gas along it has p3 != p_t and a changing
-  rho (and depends on x8); it is not a solution of the a4 equations with the Kohn-Sham source
+  member only with p3 = p_t = p0 and constant rho, and the Kohn-Sham gas along it has p3 != p_t and a changing
+  rho (and depends on x0); it is not a solution of the a4 equations with the Kohn-Sham source
   (`Revision/field_equations_a4/reports/ks-source-conditions.json`). ks-theory.json carries this label
   (`adiabaticity.history` ends "PRESCRIBED BACKGROUND (see historyStatus)", `adiabaticity.historyStatus`); the
   solver refuses a ks-theory.json without it and copies it into `parameters.json` and `adiabatic/history.json`.
@@ -158,8 +159,8 @@ H = 1, m = 1, L = 3, dk = 0.25, v_t = 1, Vol_7 = ell^3 v_t, tip theta = 0.
 | `parameters.json`, `manifest.json` | parameters, calibration, conventions; SHA-256 of every file |
 | `spectrum/` | analytic k = 0 spectra, brane-band slope per slice, band and bulk levels vs k, tip-angle test, closed shells per slice |
 | `ground/summary.csv`, `ground/runs.json` | 75 ground states: E_KS, HOMO, LUMO, KS gap, potentials, SCF history |
-| `ground/levels/<id>.csv`, `ground/profiles/<id>.csv` | levels with labels and occupations; proper profiles n, S, Q, M_eff, v_v, e_int, rho, p3, p_t, p8 at y = -3 + 0.02 i |
-| `ground/emt-integrals.csv` | 2 Vol_7 int e^{6Hy}(rho, p3, p_t, p8, n) dy, brane and tip values, identities |
+| `ground/levels/<id>.csv`, `ground/profiles/<id>.csv` | levels with labels and occupations; proper profiles n, S, Q, M_eff, v_v, e_int, rho, p3, p_t, p0 at y = -3 + 0.02 i |
+| `ground/emt-integrals.csv` | 2 Vol_7 int e^{6Hy}(rho, p3, p_t, p0, n) dy, brane and tip values, identities |
 | `excited/summary.csv`, `excited/particle-hole/<id>.csv` | KS gap, Delta-SCF, the 24 lowest particle-hole excitations |
 | `adiabatic/` | Q_max per state, Fermi-level crossings, continued states, crossing demonstration (N = 696) |
 | `rescaling/rescaling.csv` | the exact rescaling identity, solved independently |
@@ -293,7 +294,7 @@ the well-conditioned T dS/dT (dE/dT is kept for the identity check).
   110.3867 for N = 688, at a4,0 = 0, 1, 2. The brane-band gas redshifts. (Along the prescribed history, without
   back-reaction: equations of state derived from it are not consequences of the coupled field equations.)
 * **Integrated pressure ratios (lambda = 0):** int p3 / int rho is 0.2966, 0.3100, 0.3264 (N = 136) and
-  0.2929, 0.3018, 0.3183 (N = 688); int p8 / int rho is 0.4365, 0.5969, 0.6808 (N = 136). These are the
+  0.2929, 0.3018, 0.3183 (N = 688); int p0 / int rho is 0.4365, 0.5969, 0.6808 (N = 136). These are the
   integrated EMT components only. Equations of state seen by a 3-space observer are the work of
   `Revision/dark_sector`.
 * **Adiabaticity:** Q_max <= 0.0935 over the whole matrix, the largest for the Fermi-shell brane-band level
@@ -361,3 +362,23 @@ The comparison (`Revision/kohn_sham/reports/ks-rust-determinism.json`, 14 checks
   (N688_lamm1_a00_T20); the largest B_c + B_r is 1.149e-13 m (N688_lamm1_a20_T50; canonical bound 4.769e-14 m,
   refined 6.724e-14 m); the negative control passes in the 3 states where the former error exceeds 2 U_mu;
 * the analytic spectra converge with a measured error ratio of 16.00, the order of RK4.
+
+## The author's coordinates x0..x7 (2026-10-14)
+
+On 2026-10-14 the Revision record was relabelled to the author's coordinates {x0, x1, ..., x7} (x0 = the hidden
+direction, listed first; before: x1..x8 with the hidden direction x8 listed last). `Revision/algebra/gammas.json` now
+lists gamma^(xk) = T16[k] at index k with eta = (1, 1, 1, 1, -1, -1, -1, -1). The solver was changed accordingly:
+`src/theory.rs` takes g0 = gamma^(x0) = `g[0]`, g1 = `g[1]`, g4 = `g[4]` and C = g0 g1 g2 g3 (before: `g[7]`, `g[0]`,
+`g[3]` and `g[7] g[0] g[1] g[2]`, which are the same matrices in the old order) and checks the new eta; the
+hidden-direction pressure p8 is now named p0 (`analysis.rs`, `runs.rs`, `scf.rs`: profile column `p0`, CSV columns
+`int_p0`, `p0_brane`, `p0_tip`, JSON key `p0`; `tools/compare_runs.py`). The physics is unchanged.
+
+Runs of 2026-10-14 (22 threads; other jobs of this work shared the machine): canonical matrix 75 s (ground matrix
+33.0 s, thermodynamics 35.0 s) and, after a one-word change of the description, 78 s; repeat 77 s; refined-tolerance
+run alone 328 s (ground matrix 146.0 s, thermodynamics 169.8 s; 618.6 s before, when it ran in parallel with the
+repeat); `tools/mermin_roots_mp.py` 9 s; `cargo test --release` 10 of 10. Every result file equals the one of
+2026-10-08 after the renaming p8 -> p0, except `parameters.json` (the description names the author's coordinates; the
+sha256 of `ks-theory.json` and of `gammas.json`); the manifest lists the new hashes of the 78 renamed files. The
+report `ks-rust-solver.json` differs only in the first 16 hex digits of these two sha256 values. The repeat is
+byte-identical in all 244 files and its report; `ks-rust-determinism.json` (14 of 14) differs from the one of
+2026-10-08 only in the byte total of the compared files (5857843 instead of 5857791: the longer description).

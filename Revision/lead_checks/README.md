@@ -7,11 +7,11 @@ Written by the lead from scratch; they import no other Revision code (they read 
 | check | statement |
 |---|---|
 | `divergence_x4_component` | nabla_mu T^mu_x4 = -d rho/d x4 - 3 a4' (p3 - p_t) for the homogeneous diagonal source |
-| `divergence_x8_component` | nabla_mu T^mu_x8 = d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t), z = 6 H x8 |
+| `divergence_x0_component` | nabla_mu T^mu_x0 = d p0/d x0 + 3 H cot z (2 p0 - p3 - p_t), z = 6 H x0 |
 | `divergence_other_components_zero` | the other six components vanish identically |
-| `ks_coordinate_jacobian`, `ks_coordinate_form` | in y = ln(sin z)/(6H) the x8 component is cot z [p8'(y) + 6 H p8 - 3 H (p3 + p_t)], the form the Kohn-Sham solver checks (`emt_y_conservation_*`) |
+| `ks_coordinate_jacobian`, `ks_coordinate_form` | in y = ln(sin z)/(6H) the x0 component is cot z [p0'(y) + 6 H p0 - 3 H (p3 + p_t)], the form the Kohn-Sham solver checks (`emt_y_conservation_*`) |
 | `fixture_clifford`, `vielbein_reproduces_metric` | the inputs |
-| `gamma_Omega_equals_3H_gamma8` | gamma^mu Omega_mu = 3 H gamma^(x8) exactly, from the canonical spin connection |
+| `gamma_Omega_equals_3H_gamma0` | gamma^mu Omega_mu = 3 H gamma^(x0) exactly, from the canonical spin connection |
 | `gamma_Omega_divergence_formula` | the same from (1/2) gamma^a (1/sqrt|g|) d_mu (sqrt|g| e_a^mu) |
 | `negative_control_inflating_extra_times` | with inflating extra times an a4' gamma^(x4) term survives: the cancellation is due to the deflation |
 
@@ -25,9 +25,9 @@ writes `reports/emt-divergence-and-spin-connection.json` (deterministic, LF; abo
 
 `einstein_gauss_bonnet_a4.py` (about 15 s) recomputes, with its own curvature code, the Einstein tensor of the
 author's metric for a general a4(x4) and compares it with `Revision/field_equations_a4/a4-equations.json`
-(15 checks): G^mu_nu is diagonal, isotropic in 3-space and in the extra times, and independent of x8; the
+(15 checks): G^mu_nu is diagonal, isotropic in 3-space and in the extra times, and independent of x0; the
 constraint, space, extra-time, hidden and evolution equations agree with the record (ratio exactly 1);
-kappa (rho + p8) = -6 (a4'^2 + H^2) < 0 (the null energy condition fails along x8); a zero source has no
+kappa (rho + p0) = -6 (a4'^2 + H^2) < 0 (the null energy condition fails along x0); a zero source has no
 real solution for H > 0 and any Lambda (the vacuum system's only solutions are a4' = +-i H, Lambda = -18 H^2);
 for the linear member a4 = A H x4 the Gauss-Bonnet tensor from the CLASSICAL Lanczos formula (independent of
 the GKD route) reproduces the alpha_2 terms of the record's rho and p exactly, and G the alpha_1 terms.

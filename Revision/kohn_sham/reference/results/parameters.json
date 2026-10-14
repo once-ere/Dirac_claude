@@ -1,7 +1,7 @@
 {
- "description": "Revision Kohn-Sham REFERENCE solver (Revision/kohn_sham/reference): independent Python solver, staggered finite differences in y with Richardson extrapolation over G = 300, 600, 1200 (SPEC section 7, Revision/kohn_sham/ks-theory.json). x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z), x8 = hidden direction (y = ln(sin z)/(6H)).",
+ "description": "Revision Kohn-Sham REFERENCE solver (Revision/kohn_sham/reference): independent Python solver, staggered finite differences in y with Richardson extrapolation over G = 300, 600, 1200 (SPEC section 7, Revision/kohn_sham/ks-theory.json). The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln(sin z)/(6H), z = 6 H x0), x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z).",
  "theoryInputs": {
-  "ksTheorySha256": "1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3",
+  "ksTheorySha256": "a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2",
   "MeffCoefficientOfLambdaS": "15/16",
   "vvCoefficientOfLambdaN": "-1/16",
   "eintCoefficientS2": "15/32",

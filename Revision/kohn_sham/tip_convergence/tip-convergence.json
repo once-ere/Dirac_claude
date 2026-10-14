@@ -4,18 +4,18 @@
  "question": "dependence of the recorded Kohn-Sham results on the chosen tip cutoff L (regular tip b(-L) = 0); convergence as L grows",
  "howTheSolverGetsL": "L = 3 is a literal in base_phys() (solver/src/runs.rs) and G = 900 in Numerics::canonical() (solver/src/model.rs); results/parameters.json is written by the solver, not read; --root only locates ks-theory.json, gammas.json and the Mermin fixture. A scratch root with a modified parameters.json is therefore ignored. This study builds a patched COPY (two one-line patches, L and G from the environment) and verifies it at L = 3 against the committed record.",
  "committedSolverSourceSha256": {
-  "src/analysis.rs": "200b0c4640f5b02262518dab568fd2c77c0fe33ca72e9ab3a687fb8284ad8bcb",
+  "src/analysis.rs": "43d69cb108e37b58beca76b613b6d5c80d5a4456884a6b4cbebbe76da598a487",
   "src/json.rs": "919be3b192ab81d62deb8429229aa065a50d8fd0f8df6877ac4e413909efdf05",
   "src/main.rs": "6964c47f87c224d323a443471137c2ffa57b9c6d79e926cd14ddcc6e54efa18c",
   "src/mermin.rs": "0be57b4defb8ec056b521c7585138f67d68fb95e3446b8a020b60312cbf6a094",
   "src/model.rs": "391ac28244bc07ff246a8f4dcdd2fae74ff3571268187791e0ad8a88e7b486eb",
   "src/report.rs": "0a770aff24dde0de531d0578e968ab9cad3d5f42b7cda532f7c753633b7ff9c7",
-  "src/runs.rs": "254d5fd638e9f619caab663472d34b7567951cbe1a64168156c2c9a4232d6446",
-  "src/scf.rs": "0c624e4bf2a413a8e7be1ad7cb1f77342eda8360c657074a9e47e02b412b4e8d",
+  "src/runs.rs": "5e944987088de64b10559d42474569ca18cb188aae13bae0d7a474a17df19f55",
+  "src/scf.rs": "d27060a8db753b8a933946d35eb3918ba3f982b201263435b448a6c702254dd7",
   "src/sha256.rs": "f44ed328e324b26d9b7c78f530e95be9ff1c88b179026ab4839ab38009e15122",
   "src/shoot.rs": "39c95fffea255d3977efa9ddadf87131e51c4fd47557bec3a6225fa05bf7d7f4",
   "src/spectrum.rs": "b52b6997e1418f094e1e7a5cca6064235b6d5ded6bcb534cce149e3a0d3622de",
-  "src/theory.rs": "392d2fdd01cc9661451bc8d5f42561348c124ad9927fe0770a59b979c196c407",
+  "src/theory.rs": "cfde16d6fa442f797ac0e5684227e192394bc4aa75f3d89f78ea00d05965bbb4",
   "Cargo.toml": "464d553adcfaa1943af53ec3b18324fcba99ee92b3d82efcb08d2dc74bca24b1",
   "Cargo.lock": "65b7ed2cbe76d4701a66287cfbdedc8d4a780ee3c9e672de0e4055eb4ae70738"
  },
@@ -25,7 +25,7 @@
    "old": "Physics { hh: 1.0, m: 1.0, l: 3.0, dk: 0.25,",
    "new": "Physics { hh: 1.0, m: 1.0, l: std::env::var(\"KS_TIP_L\").ok().map(|s| s.parse::<f64>().expect(\"KS_TIP_L\")).unwrap_or(3.0), dk: 0.25,",
    "matches": 1,
-   "patchedSha256": "0697560dec0c7149c22f2ed3ba023a11bc8d1904305856fcef3be7cc12456ddd"
+   "patchedSha256": "585a7352614a97b5c10870beae2ad1e2ced782b4dc818d4315d6b93120713a2e"
   },
   {
    "file": "src/model.rs",
@@ -1937,7 +1937,7 @@
        "converged_from_L": 3.0
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -2347,7 +2347,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -3306,7 +3306,7 @@
        "converged_from_L": 3.0
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -3716,7 +3716,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -4687,7 +4687,7 @@
        "converged_from_L": 3.0
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -5097,7 +5097,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -6029,7 +6029,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -6368,7 +6368,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -7272,7 +7272,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -7611,7 +7611,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -8515,7 +8515,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -8854,7 +8854,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -9758,7 +9758,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -10097,7 +10097,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -11001,7 +11001,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -11340,7 +11340,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -12411,7 +12411,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -12854,7 +12854,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -13792,7 +13792,7 @@
        "converged_from_L": 3.0
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -14202,7 +14202,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -15214,7 +15214,7 @@
        "converged_from_L": 3.0
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -15651,7 +15651,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -16699,7 +16699,7 @@
        "converged_from_L": 3.0
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -17158,7 +17158,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -18165,7 +18165,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -18541,7 +18541,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -19576,7 +19576,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -19997,7 +19997,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -21048,7 +21048,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -21470,7 +21470,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -22562,7 +22562,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -23006,7 +23006,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -24111,7 +24111,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -24555,7 +24555,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -25670,7 +25670,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -26114,7 +26114,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -27107,7 +27107,7 @@
        "converged_from_L": 3.0
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -27557,7 +27557,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -28550,7 +28550,7 @@
        "converged_from_L": 3.0
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -28987,7 +28987,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -30033,7 +30033,7 @@
        "converged_from_L": 3.0
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -30492,7 +30492,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -31079,7 +31079,7 @@
        "fits": null
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -31269,7 +31269,7 @@
        "fits": null
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -32208,7 +32208,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -32621,7 +32621,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -33672,7 +33672,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -34094,7 +34094,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -34845,7 +34845,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -35124,7 +35124,7 @@
        "converged_from_L": 3.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -36149,7 +36149,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -36594,7 +36594,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -37705,7 +37705,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -38162,7 +38162,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -38956,7 +38956,7 @@
        "converged_from_L": 3.0
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -39416,7 +39416,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -40165,7 +40165,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -40554,7 +40554,7 @@
        "converged_from_L": 3.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -41655,7 +41655,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -42134,7 +42134,7 @@
        "converged_from_L": 5.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -43274,7 +43274,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -43758,7 +43758,7 @@
        "converged_from_L": 5.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -44898,7 +44898,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -45381,7 +45381,7 @@
        "converged_from_L": 4.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -46521,7 +46521,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -47000,7 +47000,7 @@
        "converged_from_L": 5.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -48140,7 +48140,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -48624,7 +48624,7 @@
        "converged_from_L": 5.0
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -49764,7 +49764,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -50246,7 +50246,7 @@
        "converged_from_L": 4.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -51356,7 +51356,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -51832,7 +51832,7 @@
        "converged_from_L": 4.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -52967,7 +52967,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -53439,7 +53439,7 @@
        "converged_from_L": 4.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -54569,7 +54569,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -55041,7 +55041,7 @@
        "converged_from_L": 4.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -56146,7 +56146,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -56622,7 +56622,7 @@
        "converged_from_L": 4.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -57757,7 +57757,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -58229,7 +58229,7 @@
        "converged_from_L": 4.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -59359,7 +59359,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -59831,7 +59831,7 @@
        "converged_from_L": 4.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -60965,7 +60965,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -61415,7 +61415,7 @@
        "converged_from_L": 3.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -62555,7 +62555,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -63005,7 +63005,7 @@
        "converged_from_L": 3.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -64145,7 +64145,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -64595,7 +64595,7 @@
        "converged_from_L": 3.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -65735,7 +65735,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -66185,7 +66185,7 @@
        "converged_from_L": 3.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -67325,7 +67325,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -67775,7 +67775,7 @@
        "converged_from_L": 3.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -68915,7 +68915,7 @@
        ]
       }
      },
-     "int_p8": {
+     "int_p0": {
       "L": [
        3.0,
        3.5,
@@ -69365,7 +69365,7 @@
        "converged_from_L": 3.5
       }
      },
-     "p8_brane": {
+     "p0_brane": {
       "L": [
        3.0,
        3.5,
@@ -69609,7 +69609,7 @@
       "value": 0.43069835084986063,
       "U": 2.646760422995385e-12
      },
-     "int_p8": {
+     "int_p0": {
       "value": -0.008891377239044063,
       "U": 2.0010894063429134e-12
      },
@@ -69648,7 +69648,7 @@
       "value": 0.43070246537203777,
       "U": 2.635991259656521e-12
      },
-     "int_p8": {
+     "int_p0": {
       "value": -0.02548623098647432,
       "U": 2.3747627208561255e-12
      },
@@ -69687,7 +69687,7 @@
       "value": 0.141222536429857,
       "U": 2.170613523309271e-12
      },
-     "int_p8": {
+     "int_p0": {
       "value": 8.472702520537165,
       "U": 3.538931810456713e-11
      },
@@ -69726,7 +69726,7 @@
       "value": 0.1422868956904662,
       "U": 2.1533773108519653e-12
      },
-     "int_p8": {
+     "int_p0": {
       "value": 9.579252585206929,
       "U": 4.161876104779063e-11
      },
@@ -69789,7 +69789,7 @@
    {
     "id": "N8_lamp1_a00",
     "L": 3.0,
-    "quantity": "int_p8",
+    "quantity": "int_p0",
     "rust": -0.008891377239038644,
     "reference": -0.008891377239044063,
     "U_reference": 2.0010894063429134e-12,
@@ -69866,7 +69866,7 @@
    {
     "id": "N8_lamp1_a00",
     "L": 4.0,
-    "quantity": "int_p8",
+    "quantity": "int_p0",
     "rust": -0.02548623098626894,
     "reference": -0.02548623098647432,
     "U_reference": 2.3747627208561255e-12,
@@ -69943,7 +69943,7 @@
    {
     "id": "N136_lam0_a20",
     "L": 3.0,
-    "quantity": "int_p8",
+    "quantity": "int_p0",
     "rust": 8.472702520494567,
     "reference": 8.472702520537165,
     "U_reference": 3.538931810456713e-11,
@@ -70020,7 +70020,7 @@
    {
     "id": "N136_lam0_a20",
     "L": 4.0,
-    "quantity": "int_p8",
+    "quantity": "int_p0",
     "rust": 9.579252585163667,
     "reference": 9.579252585206929,
     "U_reference": 4.161876104779063e-11,
@@ -70072,7 +70072,7 @@
    },
    {
     "id": "N8_lamp1_a00",
-    "quantity": "int_p8",
+    "quantity": "int_p0",
     "rust_L4_minus_L3": -0.016594853747230298,
     "reference_L4_minus_L3": -0.016594853747430256
    },
@@ -70102,7 +70102,7 @@
    },
    {
     "id": "N136_lam0_a20",
-    "quantity": "int_p8",
+    "quantity": "int_p0",
     "rust_L4_minus_L3": 1.1065500646691007,
     "reference_L4_minus_L3": 1.1065500646697632
    },

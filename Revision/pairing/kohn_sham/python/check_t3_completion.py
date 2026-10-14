@@ -16,8 +16,8 @@ t3-rust-demo.json, t3-reference-demo.json.  Writes Revision/pairing/kohn_sham/re
 Run order: verify_t3.wls, check_t3.py, verify_t3_completion.wls, numerics/t3_rust_demo.py,
 numerics/t3_reference_demo.py, then this script.
 
-Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra
-times; x8 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L).  The Kohn-Sham history
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0 
+(brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.  The Kohn-Sham history
 a4 = A H x4 used by the demonstrations is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus).
 """
 
@@ -132,14 +132,14 @@ def main():
     def sign(X):
         Y = -conj(X)
         return 1 if Y == X else (-1 if Y == -X else 0)
-    sig = sign(Bm) == 1 and sign(Cm) == -1 and sign(Bm * G[7]) == -1 and all(sign(Cm * G[a]) == 1 for a in range(8))
+    sig = sign(Bm) == 1 and sign(Cm) == -1 and sign(Bm * G[0]) == -1 and all(sign(Cm * G[a]) == 1 for a in range(8))   # G[0] = gamma^(x0)
     sig = sig and all(sign(Cm * G[a] * Sab[b][c]) == 1 for a in range(8) for b in range(8) for c in range(8))
     rule = "rho = sum_occ f u u^dagger B" in ks["exchange"]["expectationRule"]
     check("T3C.krein_rule_16_component", gen and rho_ok and sig and rule,
-          "gammas.json gamma^(x1..x8), B, C, Gamma and the expectation rule rho = sum f u u^dagger B (ks-theory.json "
+          "gammas.json gamma^(x0..x7), B, C, Gamma and the expectation rule rho = sum f u u^dagger B (ks-theory.json "
           "exchange.expectationRule): Gamma^2 = 1, Gamma B Gamma = -B, Gamma C Gamma = C, Gamma gamma^a Gamma = -gamma^a, "
           "Gamma S^ab Gamma = S^ab; (Gamma u)(Gamma u)^dagger B = -Gamma (u u^dagger B) Gamma for a general u, so <X>' = "
-          "-Tr(Gamma X Gamma rho): n = <B> even, S = <C> and Q = <B gamma^(x8)> odd, the kinetic bilinears C gamma^a and "
+          "-Tr(Gamma X Gamma rho): n = <B> even, S = <C> and Q = <B gamma^(x0)> odd, the kinetic bilinears C gamma^a and "
           "C gamma^a S^bc (8 + 512) even: with (m, lambda) -> (-m, +lambda) every component of the 16-component "
           "energy-momentum tensor and the current are unchanged (S6)")
 

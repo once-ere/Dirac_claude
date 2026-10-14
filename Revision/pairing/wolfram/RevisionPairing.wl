@@ -7,14 +7,14 @@
    Z2 mirror across the patch end z = pi/2 of the hidden coordinate) and the quantum-level reading.
    Context RevisionPairing`.  Driven by Revision/pairing/wolfram/verify_pairing.wls.
 
-   Inputs: ONLY the Revision fixture Revision/algebra/gammas.json (gamma^(x1..x8), C, Gamma, B, S in
-   the author's coordinate order x1..x8; x1, x2, x3 = 3-space, x4 = time, x5, x6, x7 = the
-   exponentially deflating extra times, x8 = the hidden direction).  Nothing is taken from an earlier
+   Inputs: ONLY the Revision fixture Revision/algebra/gammas.json (gamma^(x0..x7), C, Gamma, B, S in
+   the author's coordinate order x0, x1, ..., x7; x0 = the hidden direction, x1, x2, x3 = 3-space,
+   x4 = time, x5, x6, x7 = the exponentially deflating extra times; Wolfram position k + 1 holds xk).  Nothing is taken from an earlier
    stage of the repository.
 
    1. The field algebra.  Both statistics are handled by ONE code path:
         generators  RPpsi[A], RPpsis[A]            (Psi_A and Psi_A^dagger at the point x)
-                    RPdpsi[A, mu], RPdpsis[A, mu]  (their first derivatives d_mu, mu = 1..8 = x1..x8)
+                    RPdpsi[A, mu], RPdpsis[A, mu]  (their first derivatives d_mu, mu = 1..8 = x0..x7)
       An element is an Association  {g1, ..., gk} -> coefficient  (a monomial in canonical order).
         commuting mode   (gr = False, dirac16complex00): monomials are sorted multisets;
         Grassmann mode   (gr = True,  dirac16complex):   all generators are odd; a product is
@@ -49,13 +49,13 @@
 BeginPackage["RevisionPairing`"];
 
 RPLoadFixture::usage = "RPLoadFixture[path] reads Revision/algebra/gammas.json and sets RPgamma, RPeta, RPC, RPGamma, RPB, RPS.";
-RPgamma::usage = "RPgamma[[a]] = gamma^(x_a), a = 1..8.";
-RPeta::usage = "RPeta = diag(+1,+1,+1,-1,-1,-1,-1,+1).";
+RPgamma::usage = "RPgamma[[k + 1]] = gamma^(xk), k = 0..7.";
+RPeta::usage = "RPeta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in the order x0..x7.";
 RPC::usage = "RPC: the charge matrix C of SPEC section 2.";
 RPGamma::usage = "RPGamma: the chirality Gamma of SPEC section 2.";
 RPB::usage = "RPB = -I C gamma^(x4).";
 RPS::usage = "RPS[[a, b]] = S^ab.";
-RPX::usage = "RPX = {x1, ..., x8} (coordinate symbols).";
+RPX::usage = "RPX = {x0, x1, ..., x7} (the author's coordinate symbols).";
 RPH::usage = "RPH: the author's constant H.";
 RPa4::usage = "RPa4: the metric function a4[x4].";
 RPm::usage = "RPm: the mass parameter m.";
@@ -100,7 +100,7 @@ RPLoadFixture[path_String] := Module[{j = Import[path, "RawJSON"]},
   RPS = Map[decodeMatrix, j["S"], {2}];
   j];
 
-RPX = {x1, x2, x3, x4, x5, x6, x7, x8};
+RPX = {x0, x1, x2, x3, x4, x5, x6, x7};
 
 (* ---------- 1. field algebra ---------- *)
 canon[True, key_List] := If[DuplicateFreeQ[key], {Signature[key], Sort[key]}, Nothing];

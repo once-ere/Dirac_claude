@@ -5,11 +5,11 @@
   "method": "Revision/kohn_sham/reference/ks_fd.py (read only) for plus (m, lambda, tip 0) and control (-m, +lambda, tip 0); for the image (-m, +lambda, tip pi) the reference's rotated frame with the tip end rotated by pi/2 (phi(-L) = j pi/2), supplied here; Richardson over G = 300, 600, 1200 (run_reference.rich3)",
   "background": "slices of the PRESCRIBED BACKGROUND history a4 = A H x4 (A = 1; x5, x6, x7 deflating as e^{-a4}); the Kohn-Sham states violate the a4 source conditions (Revision/field_equations_a4/reports/ks-source-conditions.json)",
   "inputs": {
-    "Revision/kohn_sham/ks-theory.json": "1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3",
-    "Revision/kohn_sham/reference/ks_fd.py": "c82cb2e1ee58d60be23000115d9dbd06b3a26204fc1865e04450a26e81417a29",
-    "Revision/kohn_sham/reference/run_reference.py": "7d3ef535875e5f035fd0d5e6a66d88485e007f98e8c2893373f5c0c26280c058",
-    "Revision/kohn_sham/results/parameters.json": "f35216c2bee5b0dc21db6343e640c89f0aebcefab0c6dd6efcec618e0bfae993",
-    "Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv": "be5534dabc8f23489a8d42d6367d096041013f5b8cff999bed2221bf74172457"
+    "Revision/kohn_sham/ks-theory.json": "a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2",
+    "Revision/kohn_sham/reference/ks_fd.py": "7af46dc8f99d4dbebed434d2eb1ce4efc4cac390d3d5a2fcdb17a18be097b760",
+    "Revision/kohn_sham/reference/run_reference.py": "a81246f237fc6f066cbfc271d9ebe9f0c22005d5ab759ec1ff7b17a37526e990",
+    "Revision/kohn_sham/results/parameters.json": "c91041b68b6520c7eec890bd18ffd361b260730c0ee4328eb1d90a8f91c83ebb",
+    "Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv": "878e09db74040b7760b1c2414f1bc57e18166bc0a92b471beecdf98c96fb115b"
   },
   "tolerances": {
     "t3_equality": 1e-09,
@@ -37,7 +37,7 @@
     {
       "name": "t3_equal_ground_states",
       "verdict": "PASS",
-      "detail": "13 ground states (N = 8: lam0, lamp2, lamm2 x a4,0 = 0, 1, 2; N = 136: lamp2, lamm2 x a4,0 = 0, 2), Richardson values: levels by key (eps, occupation, degeneracy), E_KS, E_band, E_int, the EMT integrals (rho, p3, p_t, p8, n), N, HOMO, LUMO, KS gap, the profiles n, v_v, e_int, rho, p3, p_t, p8 (equal) and S, Q, M_eff (opposite sign) of the image (-m, +lambda, tip pi) equal those of the plus state: worst 2.043e-14 (N136_lamp2_a20), tolerance 1e-09. On a single grid the levels of the two members differ by up to 2.23e-04: the image's rotated frame is not the discrete image of the plus frame, so the two discretisations differ at O(h^2), and the equality appears in the extrapolated (continuum) values"
+      "detail": "13 ground states (N = 8: lam0, lamp2, lamm2 x a4,0 = 0, 1, 2; N = 136: lamp2, lamm2 x a4,0 = 0, 2), Richardson values: levels by key (eps, occupation, degeneracy), E_KS, E_band, E_int, the EMT integrals (rho, p3, p_t, p0, n), N, HOMO, LUMO, KS gap, the profiles n, v_v, e_int, rho, p3, p_t, p0 (equal) and S, Q, M_eff (opposite sign) of the image (-m, +lambda, tip pi) equal those of the plus state: worst 2.043e-14 (N136_lamp2_a20), tolerance 1e-09. On a single grid the levels of the two members differ by up to 2.23e-04: the image's rotated frame is not the discrete image of the plus frame, so the two discretisations differ at O(h^2), and the equality appears in the extrapolated (continuum) values"
     },
     {
       "name": "t3_equal_thermal_states",

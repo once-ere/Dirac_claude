@@ -5,9 +5,9 @@ Written from scratch; imports no Revision code.  For the author's metric (SPEC s
 
 1. The Einstein tensor G^mu_nu with a general a4(x4), from this file's own Christoffel symbols and the MTW
    Riemann tensor, compared component by component with the record's Einstein equations
-   (constraint_x4, space_x1, extraTime_x5, hidden_x8, evolution, nullEnergy) for the source
-   T^mu_nu = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8) and G^mu_nu + Lambda delta^mu_nu = kappa T^mu_nu;
-   x8-independence of G; vanishing of every off-diagonal component.
+   (constraint_x4, space_x1, extraTime_x5, hidden_x0, evolution, nullEnergy) for the source
+   T^mu_nu = diag(p0, p3, p3, p3, -rho, p_t, p_t, p_t) (order x0, x1, ..., x7) and G^mu_nu + Lambda delta^mu_nu = kappa T^mu_nu;
+   x0-independence of G; vanishing of every off-diagonal component.
 2. noVacuum: T = 0 has no solution for H > 0, for any Lambda and any a4.
 3. The Gauss-Bonnet (Lanczos) tensor from the CLASSICAL formula
      H_mu nu = 2 (R R_mu nu - 2 R_mu a R^a_nu - 2 R_mu a nu b R^ab + R_mu^abc R_nu abc)
@@ -28,12 +28,12 @@ ROOT = os.path.normpath(os.path.join(HERE, '..', '..'))
 OUT = os.path.join(HERE, 'reports', 'einstein-gauss-bonnet-a4.json')
 REC = os.path.join(ROOT, 'Revision', 'field_equations_a4', 'a4-equations.json')
 N = 8
-x = sp.symbols('x1:9', real=True)
+x = sp.symbols('x0:8', real=True)  # the author's coordinates; x[k] = xk
 H, A, Lam, kappa = sp.symbols('H A Lam kappa', real=True)
-rho, p3, pt, p8 = sp.symbols('rho p3 pt p8', real=True)
+rho, p3, pt, p0 = sp.symbols('rho p3 pt p0', real=True)
 ad1, ad2 = sp.symbols('ad1 ad2', real=True)
 alpha1, alpha2, alpha3 = sp.symbols('alpha1 alpha2 alpha3', real=True)
-z = 6 * H * x[7]
+z = 6 * H * x[0]
 checks = []
 
 
@@ -43,7 +43,7 @@ def check(name, ok, detail):
 
 def metric(a4):
     s6 = sp.sin(z) ** sp.Rational(1, 3)
-    return sp.diag(*([sp.exp(2 * a4) * s6] * 3 + [-1] + [-sp.exp(-2 * a4) * s6] * 3 + [sp.cot(z) ** 2]))
+    return sp.diag(*([sp.cot(z) ** 2] + [sp.exp(2 * a4) * s6] * 3 + [-1] + [-sp.exp(-2 * a4) * s6] * 3))
 
 
 def curvature(g):
@@ -70,12 +70,15 @@ def curvature(g):
 
 
 def to_symbols(expr, a4):
-    return sp.simplify(expr.subs(sp.Derivative(a4, (x[3], 2)), ad2).subs(sp.Derivative(a4, x[3]), ad1))
+    # sp.fu (trigonometric simplification) after sp.simplify: with the hidden coordinate named x0 (sorted first)
+    # sp.simplify alone leaves terms like (cos(12 H x0) + 1) tan(6 H x0)^2/(cos(12 H x0) - 1) unreduced
+    e = sp.simplify(expr.subs(sp.Derivative(a4, (x[4], 2)), ad2).subs(sp.Derivative(a4, x[4]), ad1))
+    return sp.simplify(sp.fu(e))
 
 
 rec = json.load(open(REC, encoding='utf-8'))
 P = lambda s: sp.parse_expr(s.replace('^', '**'), local_dict={'ad1': ad1, 'ad2': ad2, 'H': H, 'Lam': Lam, 'kappa': kappa, 'rho': rho,
-                                           'p3': p3, 'pt': pt, 'p8': p8, 'AA': A, 'alpha1': alpha1,
+                                           'p3': p3, 'pt': pt, 'p0': p0, 'AA': A, 'alpha1': alpha1,
                                            'alpha2': alpha2, 'alpha3': alpha3})
 
 
@@ -85,46 +88,46 @@ def eq(rec_entry):
 
 
 # ---- 1. Einstein tensor with a general a4 ----
-a4 = sp.Function('a4')(x[3])
+a4 = sp.Function('a4')(x[4])
 g = metric(a4)
 gi, Rie, Ric = curvature(g)
 Rs = sp.simplify(sum(gi[i, i] * Ric[i, i] for i in range(N)))
 Gmix = (gi * Ric - Rs / 2 * sp.eye(N)).applyfunc(sp.simplify)  # G^mu_nu
 Gs = Gmix.applyfunc(lambda e: to_symbols(e, a4))
-check('einstein_x8_independent', all(sp.diff(Gs[i, j], x[7]) == 0 for i in range(N) for j in range(N)),
-      'every component of G^mu_nu is independent of x8 (z)')
+check('einstein_x0_independent', all(sp.diff(Gs[i, j], x[0]) == 0 for i in range(N) for j in range(N)),
+      'every component of G^mu_nu is independent of x0 (z)')
 check('einstein_off_diagonal_zero', all(Gs[i, j] == 0 for i in range(N) for j in range(N) if i != j),
-      'G^mu_nu is diagonal (in particular G^x4_x8 = G^x8_x4 = 0)')
-check('einstein_isotropy', Gs[0, 0] == Gs[1, 1] == Gs[2, 2] and Gs[4, 4] == Gs[5, 5] == Gs[6, 6],
+      'G^mu_nu is diagonal (in particular G^x4_x0 = G^x0_x4 = 0)')
+check('einstein_isotropy', Gs[1, 1] == Gs[2, 2] == Gs[3, 3] and Gs[5, 5] == Gs[6, 6] == Gs[7, 7],
       'G^x1_x1 = G^x2_x2 = G^x3_x3 and G^x5_x5 = G^x6_x6 = G^x7_x7')
-T = {3: -rho, 0: p3, 4: pt, 7: p8}
+T = {4: -rho, 1: p3, 5: pt, 0: p0}             # index k = xk
 mine = {k: Gs[k, k] + Lam - kappa * v for k, v in T.items()}  # = 0 are the field equations
 E = rec['einstein']
-for key, k in (('constraint_x4', 3), ('space_x1', 0), ('extraTime_x5', 4), ('hidden_x8', 7)):
+for key, k in (('constraint_x4', 4), ('space_x1', 1), ('extraTime_x5', 5), ('hidden_x0', 0)):
     r = eq(E[key])
     ratio = sp.simplify(mine[k] / r)
     check('einstein_' + key, ratio in (1, -1),
-          f"G^{k + 1}_{k + 1} + Lambda = kappa T: mine = {sp.sstr(mine[k])}; record: {E[key]['input']}; ratio {ratio}")
-check('einstein_evolution', sp.simplify((mine[0] - mine[4]) - (-eq(E['evolution']))) == 0
-      or sp.simplify((mine[0] - mine[4]) - eq(E['evolution'])) == 0,
-      'space minus extra-time component: ' + sp.sstr(sp.simplify(mine[0] - mine[4])) + ' = 0; record ' + E['evolution']['input'])
-null_mine = sp.solve(mine[3], rho)[0] + sp.solve(mine[7], p8)[0]
-null_rec = sp.solve(eq(E['nullEnergy']), p8)[0] + rho
+          f"G^x{k}_x{k} + Lambda = kappa T: mine = {sp.sstr(mine[k])}; record: {E[key]['input']}; ratio {ratio}")
+check('einstein_evolution', sp.simplify((mine[1] - mine[5]) - (-eq(E['evolution']))) == 0
+      or sp.simplify((mine[1] - mine[5]) - eq(E['evolution'])) == 0,
+      'space minus extra-time component: ' + sp.sstr(sp.simplify(mine[1] - mine[5])) + ' = 0; record ' + E['evolution']['input'])
+null_mine = sp.solve(mine[4], rho)[0] + sp.solve(mine[0], p0)[0]
+null_rec = sp.solve(eq(E['nullEnergy']), p0)[0] + rho
 check('einstein_null_energy', sp.simplify(kappa * null_mine - kappa * null_rec) == 0,
-      'kappa (rho + p8) = ' + sp.sstr(sp.simplify(kappa * null_mine)) + ' (< 0 for H > 0): the null energy condition fails along x8')
+      'kappa (rho + p0) = ' + sp.sstr(sp.simplify(kappa * null_mine)) + ' (< 0 for H > 0): the null energy condition fails along x0')
 
 # ---- 2. no vacuum ----
-vac = [Gs[k, k] + Lam for k in (0, 3, 4, 7)]
+vac = [Gs[k, k] + Lam for k in (1, 4, 5, 0)]   # x1, x4, x5, x0
 sol = sp.solve(vac, [Lam, ad1, ad2], dict=True)
 check('no_vacuum_for_H_positive',
-      sp.simplify(vac[1] + vac[3] - (Gs[3, 3] + Gs[7, 7] + 2 * Lam)) == 0
-      and sp.simplify((Gs[3, 3] - Gs[7, 7]) - (6 * ad1 ** 2 + 6 * H ** 2)) == 0
+      sp.simplify(vac[1] + vac[3] - (Gs[4, 4] + Gs[0, 0] + 2 * Lam)) == 0
+      and sp.simplify((Gs[4, 4] - Gs[0, 0]) - (6 * ad1 ** 2 + 6 * H ** 2)) == 0
       and all(any(sp.simplify(v.subs(H, 1)).has(sp.I) for v in s.values()) for s in sol),
-      'G^x4_x4 - G^x8_x8 = 6 a4\'^2 + 6 H^2 > 0 for H > 0, so T = 0 (G + Lambda = 0) is impossible for every Lambda; '
+      'G^x4_x4 - G^x0_x0 = 6 a4\'^2 + 6 H^2 > 0 for H > 0, so T = 0 (G + Lambda = 0) is impossible for every Lambda; '
       'solutions of the vacuum system: ' + sp.sstr(sol))
 
 # ---- 3. Gauss-Bonnet tensor for the linear member ----
-a4l = A * H * x[3]
+a4l = A * H * x[4]
 gl = metric(a4l)
 gil, Riel, Ricl = curvature(gl)
 Rl = sp.simplify(sum(gil[i, i] * Ricl[i, i] for i in range(N)))
@@ -147,24 +150,24 @@ for m in range(N):
              for a in range(N) for b in range(N) for c in range(N))
     Hmm = 2 * (t1 - 2 * t2 - 2 * t3 + t4) - diag_g[m] * GBscalar / 2
     Hmix.append(sp.simplify(inv_g[m] * Hmm))
-check('gauss_bonnet_constant', all(not Hm.has(x[3]) and not Hm.has(x[7]) for Hm in Hmix),
-      'for a4 = A H x4 the Gauss-Bonnet tensor H^mu_nu is constant: ' + sp.sstr([Hmix[i] for i in (0, 3, 4, 7)]))
-check('gauss_bonnet_isotropic_pressure', sp.simplify(Hmix[0] - Hmix[4]) == 0 and sp.simplify(Hmix[0] - Hmix[7]) == 0,
-      'H^x1_x1 = H^x5_x5 = H^x8_x8 for the linear member (so p3 = p_t = p8 = p)')
+check('gauss_bonnet_constant', all(not Hm.has(x[4]) and not Hm.has(x[0]) for Hm in Hmix),
+      'for a4 = A H x4 the Gauss-Bonnet tensor H^mu_nu is constant: ' + sp.sstr([Hmix[i] for i in (1, 4, 5, 0)]))
+check('gauss_bonnet_isotropic_pressure', sp.simplify(Hmix[1] - Hmix[5]) == 0 and sp.simplify(Hmix[1] - Hmix[0]) == 0,
+      'H^x1_x1 = H^x5_x5 = H^x0_x0 for the linear member (so p3 = p_t = p0 = p)')
 L = rec['linearMember']
 rho_rec, p_rec = P(L['rho']['input']), P(L['p']['input'])
 # alpha2 part of the record: coefficient of alpha2 in kappa*rho and kappa*p
 a2_rho = sp.simplify(sp.diff(kappa * rho_rec, alpha2))
 a2_p = sp.simplify(sp.diff(kappa * p_rec, alpha2))
 # field equations: alpha2 H^4_4 = kappa T^4_4 = -kappa rho -> kappa rho = -alpha2 H^4_4; kappa p = alpha2 H^1_1
-check('gauss_bonnet_rho_alpha2', sp.simplify(a2_rho - (-Hmix[3])) == 0,
-      'alpha_2 part of kappa rho: record ' + sp.sstr(a2_rho) + ', classical Gauss-Bonnet -H^x4_x4 = ' + sp.sstr(sp.simplify(-Hmix[3])))
-check('gauss_bonnet_p_alpha2', sp.simplify(a2_p - Hmix[0]) == 0,
-      'alpha_2 part of kappa p: record ' + sp.sstr(a2_p) + ', classical Gauss-Bonnet H^x1_x1 = ' + sp.sstr(sp.simplify(Hmix[0])))
+check('gauss_bonnet_rho_alpha2', sp.simplify(a2_rho - (-Hmix[4])) == 0,
+      'alpha_2 part of kappa rho: record ' + sp.sstr(a2_rho) + ', classical Gauss-Bonnet -H^x4_x4 = ' + sp.sstr(sp.simplify(-Hmix[4])))
+check('gauss_bonnet_p_alpha2', sp.simplify(a2_p - Hmix[1]) == 0,
+      'alpha_2 part of kappa p: record ' + sp.sstr(a2_p) + ', classical Gauss-Bonnet H^x1_x1 = ' + sp.sstr(sp.simplify(Hmix[1])))
 a1_rho = sp.simplify(sp.diff(kappa * rho_rec, alpha1))
-Gl = [sp.simplify(sum(gil[m, k] * Ricl[k, m] for k in range(N)) - Rl / 2) for m in range(N)]
-check('einstein_linear_rho_alpha1', sp.simplify(a1_rho - (-Gl[3])) == 0,
-      'alpha_1 part of kappa rho: record ' + sp.sstr(a1_rho) + ', -G^x4_x4 = ' + sp.sstr(sp.simplify(-Gl[3])))
+Gl = [sp.simplify(sp.fu(sp.simplify(sum(gil[m, k] * Ricl[k, m] for k in range(N)) - Rl / 2))) for m in range(N)]
+check('einstein_linear_rho_alpha1', sp.simplify(a1_rho - (-Gl[4])) == 0,
+      'alpha_1 part of kappa rho: record ' + sp.sstr(a1_rho) + ', -G^x4_x4 = ' + sp.sstr(sp.simplify(-Gl[4])))
 
 report = {
     'producer': 'Revision/lead_checks/einstein_gauss_bonnet_a4.py (lead, independent; no Revision code imported; '

@@ -1,4 +1,4 @@
-id,N,lambda_tag,lambda,a4,E_KS,int_rho,int_p3,int_p_t,int_p8,int_n,iterations,residual,fermi_level,ycons_integrated_rel,ycons_pointwise_rel,occupied_signature,occupied_labels
+id,N,lambda_tag,lambda,a4,E_KS,int_rho,int_p3,int_p_t,int_p0,int_n,iterations,residual,fermi_level,ycons_integrated_rel,ycons_pointwise_rel,occupied_signature,occupied_labels
 N8_lam0_a000,8,lam0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,8.000000000000005,1,0.0,0.0,0.0,0.0,32d238688b8eecbb,2
 N8_lam0_a005,8,lam0,0.0,0.05,0.0,0.0,0.0,0.0,0.0,8.000000000000005,1,0.0,0.0,0.0,0.0,32d238688b8eecbb,2
 N8_lam0_a010,8,lam0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,8.000000000000005,1,0.0,0.0,0.0,0.0,32d238688b8eecbb,2

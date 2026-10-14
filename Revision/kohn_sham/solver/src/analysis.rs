@@ -5,10 +5,10 @@
 //!   rho = sum w g f eps n_o - e_int,
 //!   p3  = sum w g f (kappa |k| / 3) t_o + e_int   (closed cubic shells),
 //!   p_t = e_int,
-//!   p8  = sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o] + e_int
-//! (exact-Fock variant: - w_Q q_o inside the bracket of p8, derived in the
+//!   p0  = sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o] + e_int
+//! (exact-Fock variant: - w_Q q_o inside the bracket of p0, derived in the
 //! solver README).  Identities checked: 2 Vol_7 int e^{6Hy} rho = E_KS;
-//! (e^{6Hy} p8)' = 3H e^{6Hy} (p3 + p_t) (nabla_mu T^mu_y = 0) pointwise and
+//! (e^{6Hy} p0)' = 3H e^{6Hy} (p3 + p_t) (nabla_mu T^mu_y = 0) pointwise and
 //! integrated; the derivative form of the y-kinetic term
 //! j (a b' - b a') = (eps - v)(a^2+b^2) - M j 2ab - kappa k j (a^2-b^2) - w_Q (a^2-b^2)
 //! with a', b' from finite differences of the stored orbitals (a pointwise
@@ -25,7 +25,7 @@ pub struct Emt {
     pub rho: Vec<f64>,
     pub p3: Vec<f64>,
     pub pt: Vec<f64>,
-    pub p8: Vec<f64>,
+    pub p0: Vec<f64>,
 }
 
 pub fn emt(phys: &Physics, co: Coeffs, st: &State) -> Emt {
@@ -36,7 +36,7 @@ pub fn emt(phys: &Physics, co: Coeffs, st: &State) -> Emt {
         rho: (0..nf).map(|p| d.k4[p] - eint[p]).collect(),
         p3: (0..nf).map(|p| d.tk[p] / 3.0 + eint[p]).collect(),
         pt: eint.clone(),
-        p8: (0..nf).map(|p| d.ky[p] + eint[p]).collect(),
+        p0: (0..nf).map(|p| d.ky[p] + eint[p]).collect(),
         eint,
     }
 }
@@ -69,7 +69,7 @@ pub struct EmtChecks {
     pub int_rho: f64,
     pub int_p3: f64,
     pub int_pt: f64,
-    pub int_p8: f64,
+    pub int_p0: f64,
     pub int_n: f64,
     pub de_da_emt: f64,
     pub delta_ex_fock: f64,
@@ -86,26 +86,26 @@ pub fn emt_checks(grid: &Grid, phys: &Physics, st: &State, e: &Emt) -> EmtChecks
     let int_rho = w(&|p| e.rho[p]);
     let int_p3 = w(&|p| e.p3[p]);
     let int_pt = w(&|p| e.pt[p]);
-    let int_p8 = w(&|p| e.p8[p]);
+    let int_p0 = w(&|p| e.p0[p]);
     let int_n = w(&|p| st.dens.n[p]);
     let de_da_emt = -w(&|p| st.dens.tk[p]);
     let delta_ex_fock = phys.lambda / 32.0 * w(&|p| st.dens.q[p] * st.dens.q[p]);
     // y-conservation on the node grid
     let nodes: Vec<usize> = (0..=grid.g).map(|i| 2 * i).collect();
-    let dcoord: Vec<f64> = nodes.iter().map(|&p| grid.e6[p] * e.p8[p]).collect();
+    let dcoord: Vec<f64> = nodes.iter().map(|&p| grid.e6[p] * e.p0[p]).collect();
     let rhs: Vec<f64> = nodes.iter().map(|&p| 3.0 * hh * grid.e6[p] * (e.p3[p] + e.pt[p])).collect();
     let dd = deriv4(&dcoord, grid.h);
-    // scale: the derivatives themselves or the size of the cancelling terms of p8 (times m, an inverse length)
+    // scale: the derivatives themselves or the size of the cancelling terms of p0 (times m, an inverse length)
     let termscale = (0..nf).map(|p| grid.e6[p] * (st.dens.kyabs[p] + e.eint[p].abs())).fold(0.0f64, f64::max);
     let scale = dd.iter().chain(rhs.iter()).fold(0.0f64, |m, x| m.max(x.abs())).max(termscale * phys.m.abs()).max(1e-300);
     let pw = dd.iter().zip(&rhs).fold(0.0f64, |m, (a, b)| m.max((a - b).abs())) / scale;
     let rhs_f: Vec<f64> = (0..nf).map(|p| 3.0 * hh * grid.e6[p] * (e.p3[p] + e.pt[p])).collect();
     let integ = grid.integrate(&rhs_f);
-    let jump = grid.e6[nf - 1] * e.p8[nf - 1] - grid.e6[0] * e.p8[0];
-    let sc2 = integ.abs().max(jump.abs()).max((grid.e6[0] * e.p8[0]).abs()).max(termscale).max(1e-300);
+    let jump = grid.e6[nf - 1] * e.p0[nf - 1] - grid.e6[0] * e.p0[0];
+    let sc2 = integ.abs().max(jump.abs()).max((grid.e6[0] * e.p0[0]).abs()).max(termscale).max(1e-300);
     let yint = (jump - integ).abs() / sc2;
     if std::env::var("KS_DEBUG").is_ok() {
-        eprintln!("  emt: functional {:?} jump {:e} integral {:e} e6p8(0) {:e} e6p8(-L) {:e} pointwise {:e} max|eint| {:e}", phys.functional, jump, integ, grid.e6[nf - 1] * e.p8[nf - 1], grid.e6[0] * e.p8[0], pw, e.eint.iter().fold(0.0f64, |m, x| m.max(x.abs())));
+        eprintln!("  emt: functional {:?} jump {:e} integral {:e} e6p0(0) {:e} e6p0(-L) {:e} pointwise {:e} max|eint| {:e}", phys.functional, jump, integ, grid.e6[nf - 1] * e.p0[nf - 1], grid.e6[0] * e.p0[0], pw, e.eint.iter().fold(0.0f64, |m, x| m.max(x.abs())));
     }
     // derivative form of the y-kinetic term, occupied orbitals
     let kap0 = (-phys.a4).exp();
@@ -140,7 +140,7 @@ pub fn emt_checks(grid: &Grid, phys: &Physics, st: &State, e: &Emt) -> EmtChecks
         int_rho,
         int_p3,
         int_pt,
-        int_p8,
+        int_p0,
         int_n,
         de_da_emt,
         delta_ex_fock,

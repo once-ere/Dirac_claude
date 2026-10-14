@@ -25,9 +25,9 @@ two independent sympy checkers of section 3.8 are not part of the set but read i
 ### 1.2 The physics, in plain words
 
 - The repository studies a field with 16 complex components (called `dirac16complex`) living in an
-  8-dimensional space-time chosen by the author. The coordinates are named as the author names them:
-  x1, x2, x3 are ordinary 3-space; x4 is time; x5, x6, x7 are three extra "times" that deflate exponentially;
-  x8 is a hidden direction, written as y = ln(sin z)/(6 H) with y between -L and 0. The end y = 0 is called
+  8-dimensional space-time chosen by the author. The coordinates are the author's {x0, x1, ..., x7}:
+  x0 is a hidden direction, written as y = ln(sin z)/(6 H) with y between -L and 0; x1, x2, x3 are ordinary
+  3-space; x4 is time; x5, x6, x7 are three extra "times" that deflate exponentially. The end y = 0 is called
   the brane, the end y = -L is called the tip.
 - The Kohn-Sham method is the method behind density-functional theory (DFT). Instead of solving the full
   many-particle problem, every particle moves in an averaged field produced by the densities of all the
@@ -69,9 +69,9 @@ to detect a false statement. The other five checks (2, 4, 5, 9 and 10) have no c
 | 4 | `T3_brane_parities_exchanged` | the two brane parities (chi2(0) = 0 and chi1(0) = 0) are exchanged; the boundary current and the norm are unchanged | none |
 | 5 | `T3_orbital_densities` | per orbital: n and t are unchanged, s and q change sign, c is unchanged (for arbitrary complex chi, both j) | none |
 | 6 | `T3_mean_field_map` | the coefficients c_M, c_v of M_eff = m + c_M lambda S and v_v = c_v lambda n are READ from `ks-theory.json` (`exchange.kohnShamPotentials`), and c_S, c_n of e_int = c_S lambda S^2 + c_n lambda n^2 are parsed from its stated formula. Consistency: they are the values 15/16, -1/16, 15/32, -1/32 of hypothesis H2; the coefficient fields agree with the stated formulas `Meff` and `vv`; M_eff - m = d e_int/dS and v_v = d e_int/dn. Map: M_eff(-m, +lambda, -S) = -M_eff(m, lambda, S); with v_v written as a function v_v(m, lambda, n, S) of the four arguments of the self-consistency loop, its value at the image arguments (-m, +lambda, n, -S) equals its value at (m, lambda, n, S); e_int is unchanged when S -> -S | with (-m, -lambda): M_eff is not mapped to -M_eff (difference 2 c_M lambda S) and v_v(-m, -lambda, n, -S) differs from v_v(m, lambda, n, S) (difference -2 c_v lambda n) |
-| 7 | `T3_energies_and_emt_profiles_equal` | for two general occupied orbitals of opposite block type: energy density, pressures p3, p_t, p8, the Kohn-Sham energy integrand, entropy terms and the exact-Fock diagnostic are equal; S and Q change sign (the same function v_v(m, lambda, n, S) of check 6 enters p8) | with (-m, -lambda) the energy integrand differs |
+| 7 | `T3_energies_and_emt_profiles_equal` | for two general occupied orbitals of opposite block type: energy density, pressures p3, p_t, p0, the Kohn-Sham energy integrand, entropy terms and the exact-Fock diagnostic are equal; S and Q change sign (the same function v_v(m, lambda, n, S) of check 6 enters p0) | with (-m, -lambda) the energy integrand differs |
 | 8 | `T3_exact_k0_spectra` | for k = 0, v = 0 and constant M the exact characteristic functions of the original and the image problem agree, so the spectra are equal level by level; the zero mode maps to the zero mode | the untransformed tip gives a different spectrum |
-| 9 | `T3_Gamma_is_the_block_map` | with the block basis V read from `ks-theory.json` and the matrices read from `gammas.json`: V is unitary, Gamma = diag(-1 (8 times), +1 (8 times)), Gamma maps block (j, s2, s3) to block (-j, s2, s3) times s2 sigma2, and in every block gamma^(x8) = sigma3 and gamma^(x8) gamma^(x4) = j sigma1 | none |
+| 9 | `T3_Gamma_is_the_block_map` | with the block basis V read from `ks-theory.json` and the matrices read from `gammas.json`: V is unitary, Gamma = diag(-1 (8 times), +1 (8 times)), Gamma maps block (j, s2, s3) to block (-j, s2, s3) times s2 sigma2, and in every block gamma^(x0) = sigma3 and gamma^(x0) gamma^(x4) = j sigma1 | none |
 | 10 | `T3_z2_mirror_copy_carries_minus_m_plus_lambda` | inside the ASSUMED Z2 mirror (orbifold) construction, the mirror copy of a self-consistent state carries (-m, +lambda) | none |
 
 ### 1.4 What `verify_t3_completion.wls` computes
@@ -80,7 +80,7 @@ to detect a false statement. The other five checks (2, 4, 5, 9 and 10) have no c
 | --- | --- | --- |
 | 1 | `T3C_mean_field_coefficients_from_ks_theory` | the coefficients 15/16 (M_eff) and -1/16 (v_v) read from `ks-theory.json`, its formulas `Meff`, `vv` and `e_int` as stated text; M_eff - m = d e_int/dS, v_v = d e_int/dn; M_eff(-m, +lambda, -S) = -M_eff(m, lambda, S), e_int even in S, v_v free of S; control: with (-m, -lambda) M_eff is not mapped to -M_eff |
 | 2 | `T3C_filling_convention_mapped` | the map commutes with the continuation in lambda of the filling convention (hypothesis H5) for any S(y), both j; the k = 0 brane zero mode (E^(M y), 0) goes to the zero mode (0, I E^(M y)) of the image problem in its own boundary conditions (odd parity, tip theta = pi); control: it violates the untransformed tip theta = 0 |
-| 3 | `T3C_krein_rule_16_component` | with gamma^(x1..x8), B, C and Gamma read from `gammas.json` and the expectation rule rho = sum f u u^dagger B (`ks-theory.json` `exchange.expectationRule`): Gamma^2 = 1, Gamma B Gamma = -B, Gamma C Gamma = C, Gamma gamma^a Gamma = -gamma^a, Gamma S^ab Gamma = S^ab; rho' = -Gamma rho Gamma; n even, S and Q odd, all 8 + 512 kinetic bilinears even: every component of the energy-momentum tensor and of the current is equal for the pair (S6) |
+| 3 | `T3C_krein_rule_16_component` | with gamma^(x0..x7), B, C and Gamma read from `gammas.json` and the expectation rule rho = sum f u u^dagger B (`ks-theory.json` `exchange.expectationRule`): Gamma^2 = 1, Gamma B Gamma = -B, Gamma C Gamma = C, Gamma gamma^a Gamma = -gamma^a, Gamma S^ab Gamma = S^ab; rho' = -Gamma rho Gamma; n even, S and Q odd, all 8 + 512 kinetic bilinears even: every component of the energy-momentum tensor and of the current is equal for the pair (S6) |
 
 The completion record `t3-completion.json` (and the detail text of its check 1) describes `verify_t3.wls` as
 it was when the completion was written (2026-10-08, before the fix of section 1.5): "writes the coefficients
@@ -144,8 +144,8 @@ nothing).
 
 | file | sha256 | lines | bytes |
 | --- | --- | --- | --- |
-| `Revision/pairing/kohn_sham/wolfram/verify_t3.wls` | `efb6a122f8c266dd5b7ba142f702742e259a732f3f2fd4e6c53a4e239564f7a9` | 250 | 27416 |
-| `Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls` | `77a361840f8008498ab936a27497bbf43b50b1ce230e9c5c652aa9b751188645` | 140 | 17622 |
+| `Revision/pairing/kohn_sham/wolfram/verify_t3.wls` | `30775647151bb6aab4157088602275796bee922f1cac271870a02ec9aa65ad78` | 251 | 27549 |
+| `Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls` | `41c2a6f7a797299cc99351cb5725861bb9ff869dd5fda26249d32bcf1882668d` | 140 | 17709 |
 
 There is no package file: neither script loads a Wolfram package (`Get`/`Needs` are not used) and neither
 takes command-line arguments. Each finds its input and output files relative to its own location
@@ -156,8 +156,8 @@ script itself, so the commands of section 3.5 are typed in the repository root.
 
 | file | sha256 | lines | bytes | what is read | produced by |
 | --- | --- | --- | --- | --- | --- |
-| `Revision/kohn_sham/ks-theory.json` | `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3` | 477 | 17278 | both scripts: `exchange.kohnShamPotentials` (`Meff_coefficient_of_lambda_S` = `15/16`, `vv_coefficient_of_lambda_n` = `-1/16`, the formulas `Meff`, `vv`, `e_int`); `verify_t3.wls` also `blockBasis.unnormalisedColumns2Sqrt2V` and `blockBasis.labels`; the completion also `exchange.expectationRule` | `Revision/kohn_sham/theory/verify_ks_theory.wls` |
-| `Revision/algebra/gammas.json` | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` | 1405 | 76968 | `gamma` (gamma^(x1) ... gamma^(x8)) and `Gamma` (the chirality); the completion also `B` and `C` | `Revision/algebra/wolfram/verify_algebra.wls` |
+| `Revision/kohn_sham/ks-theory.json` | `a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2` | 477 | 17346 | both scripts: `exchange.kohnShamPotentials` (`Meff_coefficient_of_lambda_S` = `15/16`, `vv_coefficient_of_lambda_n` = `-1/16`, the formulas `Meff`, `vv`, `e_int`); `verify_t3.wls` also `blockBasis.unnormalisedColumns2Sqrt2V` and `blockBasis.labels`; the completion also `exchange.expectationRule` | `Revision/kohn_sham/theory/verify_ks_theory.wls` |
+| `Revision/algebra/gammas.json` | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` | 1405 | 76894 | `gamma` (gamma^(x0) ... gamma^(x7)) and `Gamma` (the chirality); the completion also `B` and `C` | `Revision/algebra/wolfram/verify_algebra.wls` |
 
 In `verify_t3.wls` checks 6, 7 and 10 use the Kohn-Sham coefficients read from `ks-theory.json` and check 9
 uses the block basis and the matrices; checks 1 to 5 and 8 use only formulas written in the script. Note: the
@@ -168,10 +168,10 @@ file `ks-theory.json` writes every `/` as `\/` (for example `"15\/16"`); a JSON 
 
 | file | written by | sha256 | lines | bytes | content |
 | --- | --- | --- | --- | --- | --- |
-| `Revision/pairing/kohn_sham/t3-theory.json` | `verify_t3.wls` | `f1ae1e8ab2248bde43526fc2e1624f0a74aacbe4a0b7f3f3a8954a3048dbcdd7` | 55 | 7053 | the theorem record: hypotheses H1-H6, statement S1-S5, proof, the 10 check names, what is not established; line 9 `  "status": "all checks of the report passed",` |
-| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | `verify_t3.wls` | `b0903ca4ffd2520b5dfaa68e5cd9e67b2a6e393722f49139077f275287a8f7c6` | 19 | 7193 | the report; line 6 `  "summary": {"passed": 10, "failed": 0, "total": 10},`; name, verdict and detail of each check |
-| `Revision/pairing/kohn_sham/t3-completion.json` | `verify_t3_completion.wls` | `2999ced97a67713cb4be6ebb05531d45fabb9bdc2712c39ebd6fe32227156373` | 38 | 7222 | the completion record: S6, the filling convention for the pair, the PRESCRIBED BACKGROUND, the adversarial verification, the 3 check names, what is not established; line 6 `  "status": "all checks of the report passed",` |
-| `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` | `verify_t3_completion.wls` | `91bd5b86273d617d5a2722947ec033426b4a4c0cd7603a18544013fc81b07b7f` | 12 | 3309 | the report; line 6 `  "summary": {"passed": 3, "failed": 0, "total": 3},` |
+| `Revision/pairing/kohn_sham/t3-theory.json` | `verify_t3.wls` | `e734ca5fcb88f8af35df3941eb09cd22d30b54a09b287c081e954730b3f33028` | 55 | 7093 | the theorem record: hypotheses H1-H6, statement S1-S5, proof, the 10 check names, what is not established; line 9 `  "status": "all checks of the report passed",` |
+| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | `verify_t3.wls` | `caa55c6f37e6d5cc2b6cb60c8a0ebc5384046acfff5cfd8560beeb8083d3b059` | 19 | 7193 | the report; line 6 `  "summary": {"passed": 10, "failed": 0, "total": 10},`; name, verdict and detail of each check |
+| `Revision/pairing/kohn_sham/t3-completion.json` | `verify_t3_completion.wls` | `b38e93db9687042940b2c16b020164ba678894156f71a07b16f950d669f71e76` | 38 | 7262 | the completion record: S6, the filling convention for the pair, the PRESCRIBED BACKGROUND, the adversarial verification, the 3 check names, what is not established; line 6 `  "status": "all checks of the report passed",` |
+| `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` | `verify_t3_completion.wls` | `ae3225b81be13536f511b803854e96605ec40f3939c256387dbca3160d701ea0` | 12 | 3309 | the report; line 6 `  "summary": {"passed": 3, "failed": 0, "total": 3},` |
 
 The four files contain only fixed text and integer check counts (no dates, times, machine names or
 floating-point numbers), so a passing run reproduces them byte for byte. If a check fails, the counts, the
@@ -182,10 +182,10 @@ verdict of that check and the `status` line of the record change. `wolfram-t3.js
 
 | file | sha256 | lines | bytes |
 | --- | --- | --- | --- |
-| `Revision/pairing/kohn_sham/python/check_t3.py` | `7458fcb9b3b563e79554333a1acb5d3c9b80f4c6b66b3d7ecaa93d7c52723bca` | 324 | 20491 |
-| `Revision/pairing/kohn_sham/python/check_t3_completion.py` | `3318070471cf03f178e07958bb5d0192d89b93981220956545f11677da7d163e` | 223 | 14131 |
-| `Revision/pairing/kohn_sham/reports/python-t3.json` (written by `check_t3.py`) | `4924b8ebd2d294c53eab12977012880446759d6ff53526620b3764dd9d875481` | 85 | 7634 |
-| `Revision/pairing/kohn_sham/reports/python-t3-completion.json` (written by `check_t3_completion.py`) | `c80011b6ea374832572e8a39a918064f00a4c27a5f8c19cedea1b187c73487c3` | 49 | 4839 |
+| `Revision/pairing/kohn_sham/python/check_t3.py` | `e21f49ed293ba2ce0ecf4bb270b57233d80fd51520c743621b1204be7cf8b8c6` | 324 | 20532 |
+| `Revision/pairing/kohn_sham/python/check_t3_completion.py` | `f41393b8d6f53d869a6a6a6119f009f8ef5ae9388921cd6fc75fbb11e58f783d` | 223 | 14172 |
+| `Revision/pairing/kohn_sham/reports/python-t3.json` (written by `check_t3.py`) | `99fa3f01cd2d144dab98c373a66ec7ff58d8754dc0a2e3f0cd41b0761e529c4f` | 85 | 7634 |
+| `Revision/pairing/kohn_sham/reports/python-t3-completion.json` (written by `check_t3_completion.py`) | `549db4ac2013a6c7a68e85508f110b75192e6502162efdbc8801011c65df5690` | 49 | 4839 |
 
 `check_t3.py` also reads `Revision/kohn_sham/reports/ks-rust-solver.json`; `check_t3_completion.py` also reads
 `Revision/pairing/kohn_sham/reports/t3-rust-demo.json` and `t3-reference-demo.json` (committed results of the
@@ -1067,3 +1067,22 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   change and were not re-run.
 - Fixes made: the normalisation above. Open discrepancies: none new. Not done: a run of the changed scripts in
   a fresh clone, and a run from a long clone folder.
+
+### 6.7 The author's coordinates x0..x7 (2026-10-14)
+
+* Why. On 2026-10-14 the user ordered that their coordinates X = {x0, x1, ..., x7} be used throughout (x0 = the
+  hidden direction, listed first); the inputs `Revision/algebra/gammas.json` (gamma^(xk) = T16[k] at index k) and
+  `Revision/kohn_sham/ks-theory.json` (keys `gamma^(x0)...`, `emt.p0`) were rewritten the same day.
+* Changes. `verify_t3.wls`: the block forms use gm[[1]] = gamma^(x0) and gm[[5]] = gamma^(x4) (before gm[[8]] and
+  gm[[4]], the same matrices in the old order); `verify_t3_completion.wls`: B gamma^(x0) with gm[[1]]; both: texts
+  (p8 -> p0, gamma^(x8) -> gamma^(x0), the coordinate sentence). The sympy twins `check_t3.py` and
+  `check_t3_completion.py` (G[0] = gamma^(x0), G[4] = gamma^(x4)) and the demonstrations `t3_rust_demo.py`,
+  `t3_reference_demo.py` (the hidden-direction pressure `p0`, `int_p0`) were relabelled the same way.
+* Runs (2026-10-14, Wolfram 15.0.1, from the repository root): `verify_t3.wls` `10/10 checks passed` (4 s, then
+  0.5 s kernel time in a second run), `verify_t3_completion.wls` `3/3 checks passed` (3 s, twice); the second runs
+  reproduced all four outputs byte for byte. `check_t3.py` 13 of 13, `check_t3_completion.py` 7 of 7;
+  `t3_rust_demo.py --jobs 10` 7 of 7 in 281 s (630 `single` runs); `t3_reference_demo.py --jobs 22` 7 of 7 in 169 s.
+* Same physics. The four outputs of the two scripts are identical to those of section 6.6 after the renaming
+  (p8 -> p0, gamma^(x8) -> gamma^(x0), gamma^(x1..x8) -> gamma^(x0..x7), the coordinate sentence); the demonstration
+  reports differ from the committed ones only in the renamed quantities and in the sha256 of their inputs
+  (`ks-theory.json`, the Kohn-Sham `parameters.json`, the solver and reference sources, the source-condition report).

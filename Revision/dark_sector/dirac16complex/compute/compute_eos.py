@@ -4,15 +4,15 @@ dirac16complex as the extra times deflate and 3-space inflates (SPEC sections 8,
 gas (instantaneous states along a4, outputs/ks-history-dense.csv of run_ks_history.py), (ii) the homogeneous
 condensate (exact solution), (iii) mixtures; CPL tangents and fits; comparison with the Supernovae Unite values.
 
-Coordinates as the author names them: x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time;
-x5, x6, x7 = the three exponentially DEFLATING extra times (time-like; scale factor e^{-a4} sin^{1/6} z);
-x8 = hidden direction.  Observer scale factor a = e^{a4 - a4_today}.
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction; x1, x2, x3 = 3-space (scale factor
+e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (time-like; scale factor
+e^{-a4} sin^{1/6} z).  Observer scale factor a = e^{a4 - a4_today}.
 
 Every formula used here is derived exactly in derive/derive_effective.py (outputs/effective-formulas.json):
-  E, P3, Pt, P8 = proper 7-volume integrals 2 Vol_7 int e^{6Hy} (rho, p3, p_t, p8) dy of the doubled
+  E, P3, Pt, P0 = proper 7-volume integrals 2 Vol_7 int e^{6Hy} (rho, p3, p_t, p0) dy of the doubled
   (universe + Z2 image) system, X = P3 - Pt, conservation dE/da4 = -3 X (fixed occupations);
   w_eff(A) = w_eff(B) = X/E (extra times compact with fixed coordinate period, ASSUMPTION; or per unit extra-time
-  coordinate volume), w_eff(C) = X/E - 1 (per unit proper 7-volume); ratios w3 = P3/E, wt = Pt/E, w8 = P8/E;
+  coordinate volume), w_eff(C) = X/E - 1 (per unit proper 7-volume); ratios w3 = P3/E, wt = Pt/E, wx0 = P0/E (the x0 ratio, not the CPL w0);
   CPL w(a) = w0 + wa (1 - a): tangent w0 = w(1), wa = -dw/da4 at a4_today; least-squares fits over a in [a1, 1].
 Interpretation is labelled in the outputs.  Numbers only from Revision outputs.  Deterministic (LF).
 """
@@ -117,7 +117,7 @@ def load():
     for key, rs in series.items():
         rs.sort(key=lambda q: float(q["a4"]))
         g = lambda c: np.array([float(q[c]) for q in rs])
-        out[key] = {"a4": g("a4"), "E": g("int_rho"), "P3": g("int_p3"), "Pt": g("int_p_t"), "P8": g("int_p8"),
+        out[key] = {"a4": g("a4"), "E": g("int_rho"), "P3": g("int_p3"), "Pt": g("int_p_t"), "P0": g("int_p0"),
                     "lambda": float(rs[0]["lambda"])}
     return out
 
@@ -135,7 +135,7 @@ def main():
     worst_cons, worst_int, worst_dw = 0.0, 0.0, 0.0
     for key in sorted(S, key=lambda k: (k[0], TAGS.index(k[1]))):
         d = S[key]
-        a4, E, P3, Pt, P8 = d["a4"], d["E"], d["P3"], d["Pt"], d["P8"]
+        a4, E, P3, Pt, P0 = d["a4"], d["E"], d["P3"], d["Pt"], d["P0"]
         X = P3 - Pt
         sid = f"N{key[0]}_{key[1]}"
         if np.max(np.abs(E)) == 0.0:
@@ -156,15 +156,15 @@ def main():
         worst_int = max(worst_int, devint)
         wA = X / E
         wC = wA - 1
-        w3, wt, w8 = P3 / E, Pt / E, P8 / E
+        w3, wt, wx0 = P3 / E, Pt / E, P0 / E
         dwA = deriv(wA, h)
         dX = deriv(X, h)
         dwA_id = dX / E + 3 * wA ** 2                       # identity d(X/E)/da4 = X'/E + 3 (X/E)^2
         worst_dw = max(worst_dw, float(np.max(np.abs(dwA - dwA_id))))
         dw3 = deriv(w3, h)
         for i in range(41):
-            hist_rows.append([sid, key[0], d["lambda"], a4[i], E[i], P3[i], Pt[i], P8[i], wA[i], wC[i], w3[i], wt[i],
-                              w8[i], dwA[i], dw3[i]])
+            hist_rows.append([sid, key[0], d["lambda"], a4[i], E[i], P3[i], Pt[i], P0[i], wA[i], wC[i], w3[i], wt[i],
+                              wx0[i], dwA[i], dw3[i]])
         tang = []
         for t in TODAY:
             i = int(round(t / h))
@@ -187,7 +187,7 @@ def main():
             "w_eff_C_range": [r(float(np.min(wC))), r(float(np.max(wC)))],
             "ratio_w3_range": [r(float(np.min(w3))), r(float(np.max(w3)))],
             "ratio_wt_range": [r(float(np.min(wt))), r(float(np.max(wt)))],
-            "ratio_w8_range": [r(float(np.min(w8))), r(float(np.max(w8)))],
+            "ratio_wx0_range": [r(float(np.min(wx0))), r(float(np.max(wx0)))],
             "dlnE_da4_at_0_and_2": [r(float(dE[0] / E[0])), r(float(dE[-1] / E[-1]))],
             "sign_of_E": "positive" if np.all(E > 0) else ("negative" if np.all(E < 0) else "mixed"),
             "cplTangent": tang, "cplFits": fits,
@@ -221,7 +221,7 @@ def main():
 
     # ---- condensate (exact)
     u = -382.0 / 441.0
-    cond = {"rho": "m S + lambda S^2/2", "p3=p_t=p8": "lambda S^2/2", "w_eff_A_B": 0.0, "w_eff_C": -1.0,
+    cond = {"rho": "m S + lambda S^2/2", "p3=p_t=p0": "lambda S^2/2", "w_eff_A_B": 0.0, "w_eff_C": -1.0,
             "ratio_w": "u/(2 + u), u = lambda S/m (constant)", "wa_every_definition": 0.0,
             "u_for_ratio_minus_0p764": r(u), "ratio_check": r(u / (2 + u)),
             "phantom_ratio_window": "ratio < -1 iff -2 < u < -1 (attractive lambda S < 0; rho = m S (1 + u/2) > 0 "
@@ -360,7 +360,7 @@ def main():
     with open(OUT_SUM, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(json.dumps(summary, indent=1) + "\n")
     with open(OUT_HIST, "w", encoding="utf-8", newline="\n") as fh:
-        fh.write("series,N,lambda,a4,E,P3,Pt,P8,w_eff_A_B,w_eff_C,w3,wt,w8,dw_eff_da4,dw3_da4\n")
+        fh.write("series,N,lambda,a4,E,P3,Pt,P0,w_eff_A_B,w_eff_C,w3,wt,wx0,dw_eff_da4,dw3_da4\n")
         for row in hist_rows:
             fh.write(",".join([row[0], str(row[1])] + [f"{float(v):.15e}" for v in row[2:]]) + "\n")
     rep = {"producer": "Revision/dark_sector/dirac16complex/compute/compute_eos.py", "checks": CHECKS,

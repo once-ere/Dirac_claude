@@ -23,7 +23,7 @@
   {
    "name": "intertwiners_reversed_mass",
    "verdict": "PASS",
-   "detail": "M (gamma^a)* = - gamma^a M for all a: solution space of dimension 1, spanned by Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7): the mass-reversing conjugation Psi -> Gamma Psi*"
+   "detail": "M (gamma^a)* = - gamma^a M for all a: solution space of dimension 1, spanned by Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7): the mass-reversing conjugation Psi -> Gamma Psi*"
   },
   {
    "name": "charge_conjugation_matrix_plus",

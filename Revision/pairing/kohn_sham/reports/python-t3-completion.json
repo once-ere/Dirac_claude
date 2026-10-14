@@ -23,7 +23,7 @@
     {
       "name": "T3C.krein_rule_16_component",
       "verdict": "PASS",
-      "detail": "gammas.json gamma^(x1..x8), B, C, Gamma and the expectation rule rho = sum f u u^dagger B (ks-theory.json exchange.expectationRule): Gamma^2 = 1, Gamma B Gamma = -B, Gamma C Gamma = C, Gamma gamma^a Gamma = -gamma^a, Gamma S^ab Gamma = S^ab; (Gamma u)(Gamma u)^dagger B = -Gamma (u u^dagger B) Gamma for a general u, so <X>' = -Tr(Gamma X Gamma rho): n = <B> even, S = <C> and Q = <B gamma^(x8)> odd, the kinetic bilinears C gamma^a and C gamma^a S^bc (8 + 512) even: with (m, lambda) -> (-m, +lambda) every component of the 16-component energy-momentum tensor and the current are unchanged (S6)"
+      "detail": "gammas.json gamma^(x0..x7), B, C, Gamma and the expectation rule rho = sum f u u^dagger B (ks-theory.json exchange.expectationRule): Gamma^2 = 1, Gamma B Gamma = -B, Gamma C Gamma = C, Gamma gamma^a Gamma = -gamma^a, Gamma S^ab Gamma = S^ab; (Gamma u)(Gamma u)^dagger B = -Gamma (u u^dagger B) Gamma for a general u, so <X>' = -Tr(Gamma X Gamma rho): n = <B> even, S = <C> and Q = <B gamma^(x0)> odd, the kinetic bilinears C gamma^a and C gamma^a S^bc (8 + 512) even: with (m, lambda) -> (-m, +lambda) every component of the 16-component energy-momentum tensor and the current are unchanged (S6)"
     },
     {
       "name": "T3C.t3_reports_pass",

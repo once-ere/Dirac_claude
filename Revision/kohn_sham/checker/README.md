@@ -8,9 +8,9 @@ crossing demonstration (5 slices). It also tests the stated rounding bound of th
 against 40-digit roots. The reference uses staggered finite differences with Richardson extrapolation; Rust uses
 shooting with RK4 and a Pruefer count. Revision code only.
 
-Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially
-DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4 increasing); x8 = hidden direction,
-y = ln(sin z)/(6H).
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H), z = 6 H x0; x1, x2, x3 =
+3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4
+increasing).  p0 = T^x0_x0 is the hidden-direction pressure (named p8 before the relabel of 2026-10-14).
 
 ## Run (from the repository root; the Rust binary must be built: `cargo build --release` in `../solver`)
 
@@ -22,8 +22,17 @@ python Revision/kohn_sham/checker/crosscheck_ks.py --work <scratch>/cc --jobs 22
 
 `crosscheck_ks.py` runs the reference a second time itself, into a fresh `<work>/reference-repeat`. It then
 compares every result file and the report `ks-reference.json` byte for byte with the committed ones (check
-`reference_repeat_byte_identical`). No repeat directory from elsewhere is accepted. It also recomputes mu in
-40-digit arithmetic in parallel processes for 405 level sets: the 16-digit levels of both solvers (270) and the
+`reference_repeat_byte_identical`). No repeat directory from elsewhere is accepted. Since 2026-10-14 the repeat may
+use a job cache of its own (`--repeat-cache DIR`, passed to `run_reference.py --cache DIR`): the 333 jobs of the
+repeat are then computed beforehand in parts, each within a time limit, into that cache (it must not be the cache of
+the canonical run), and the checker's run of `run_reference.py` only assembles them:
+
+```
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/repeat-cache --part 1/4 --jobs 12   # ... up to 4/4
+python Revision/kohn_sham/checker/crosscheck_ks.py --work <scratch>/cc --jobs 22 --repeat-cache <scratch>/repeat-cache
+```
+
+The checker also recomputes mu in 40-digit arithmetic in parallel processes for 405 level sets: the 16-digit levels of both solvers (270) and the
 exact Rust levels (135).
 
 Outputs: `Revision/kohn_sham/reports/ks-crosscheck.json` (every check with name, verdict and detail, plus a
@@ -172,6 +181,23 @@ Rust solver processes and 7 Python processes of other workflows). These times ar
   comparisons themselves take about 1 s. Two runs give byte-identical `ks-crosscheck.json` and
   `ks-crosscheck-table.csv`. Each repeat of the reference is byte-identical to the committed reference (340
   files and the report).
+
+Runs of 2026-10-14 (the author's coordinates x0..x7; every run with `timeout 423`, other jobs of this work on the
+machine):
+
+* `run_reference.py` (canonical) in four parts with a job cache, `--cache DIR --part i/4 --jobs 12`: 234 s, 225 s,
+  258 s, 268 s, then the assembly from the cache, 3 s (`../reference/README.md`).
+* `measure_rust_refinement.py` (22 threads): 550 single runs in 31.2 s; slowest run 19.0 s (refined
+  N688_lamm1_a20_T50).
+* The reference repeat for the checker, into a separate job cache, `--part i/4 --jobs 12`: 239 s, 232 s, 262 s,
+  267 s.
+* `crosscheck_ks.py --jobs 22 --repeat-cache DIR`: 21 s in total (40-digit mu roots 17.5 s, assembly of the
+  reference repeat from the cache 2.6 s); 31 checks, all PASS. The repeat is byte-identical to the committed
+  reference (340 files and the report). Against the report and table of 2026-10-08 the run is the same after the
+  renaming (p8 -> p0, int_p8 -> int_p0, x8 -> x0): the same 31 checks in the same order with the same verdicts;
+  the details differ only in the sha256 of `ks-theory.json` (rewritten in the author's coordinates), the renamed
+  quantity `int_p0` and the note on the job cache; `ks-crosscheck-table.csv` has the same 5448 rows, equal after
+  the renaming.
 
 ## History
 

@@ -159,7 +159,7 @@ pub struct Shared<'a> {
 }
 
 fn profile_csv(grid: &Grid, st: &State, e: &Emt) -> String {
-    let mut csv = Csv::new(vec!["y", "n", "S", "Q", "M_eff", "v_v", "w_Q", "e_int", "rho", "p3", "p_t", "p8"]);
+    let mut csv = Csv::new(vec!["y", "n", "S", "Q", "M_eff", "v_v", "w_Q", "e_int", "rho", "p3", "p_t", "p0"]);
     let stride = (grid.nf - 1) / 150;
     let mut p = 0;
     while p < grid.nf {
@@ -175,7 +175,7 @@ fn profile_csv(grid: &Grid, st: &State, e: &Emt) -> String {
             f(e.rho[p]),
             f(e.p3[p]),
             f(e.pt[p]),
-            f(e.p8[p]),
+            f(e.p0[p]),
         ]);
         p += stride;
     }
@@ -295,8 +295,8 @@ fn ground_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, out: &mut Gro
     out.items.push(it("ground_orbital_boundary_conditions", "max over orbitals of the brane-condition residual |b(0)| (even) or |a(0)| (odd) of the normalised orbital", 1e-8, gs.max_brane_residual));
     out.items.push(it("ground_energy_two_forms", "E_KS = sum g f eps - 2 Vol_7 int e^{6Hy} e_int equals the variational form (input potentials, output densities): relative difference", 1e-9, (gs.e_ks - gs.e_var).abs() / gs.e_ks.abs().max(1.0)));
     out.items.push(it("emt_energy_integral", "2 Vol_7 int e^{6Hy} rho dy = E_KS: relative difference", 1e-11, (ec.energy_integral - gs.e_ks).abs() / gs.e_ks.abs().max(1.0)));
-    out.items.push(it("emt_y_conservation_integrated", "[e^{6Hy} p8]_{-L}^{0} = 3H int e^{6Hy} (p3 + p_t) dy (nabla_mu T^mu_y = 0): relative difference", 1e-7, ec.ycons_integrated_rel));
-    out.items.push(it("emt_y_conservation_pointwise", "(e^{6Hy} p8)' = 3H e^{6Hy}(p3 + p_t) on the node grid (4th-order differences): max relative residual", 1e-5, ec.ycons_pointwise_rel));
+    out.items.push(it("emt_y_conservation_integrated", "[e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy} (p3 + p_t) dy (nabla_mu T^mu_y = 0): relative difference", 1e-7, ec.ycons_integrated_rel));
+    out.items.push(it("emt_y_conservation_pointwise", "(e^{6Hy} p0)' = 3H e^{6Hy}(p3 + p_t) on the node grid (4th-order differences): max relative residual", 1e-5, ec.ycons_pointwise_rel));
     out.items.push(it("emt_trace_derivative_form", "derivative form of the y-kinetic term j(a b' - b a') = (eps - v)(a^2+b^2) - M j 2ab - kappa k j(a^2-b^2) (orbital equation residual from finite differences of the stored occupied orbitals): max relative deviation", 1e-5, ec.trace_derivative_rel));
     out.items.push(Item { name: "ground_window_complete", desc: "label set complete: the lowest level outside the label set lies above the LUMO (value: LUMO - lowest excluded, must be < 0)", tol: 0.0, value: lumo - e_complete, pass: Some(lumo < e_complete) });
     out.items.push(Item { name: "ground_closed_shell", desc: "the aufbau ground state is closed-shell (no fractionally occupied degenerate level; value 1 = open)", tol: 0.0, value: if gs.open_shell { 1.0 } else { 0.0 }, pass: Some(!gs.open_shell) });
@@ -370,7 +370,7 @@ fn ground_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, out: &mut Gro
             let s = a.iter().fold(0.0f64, |m, x| m.max(x.abs())).max(1e-300);
             a.iter().zip(b).fold(0.0f64, |m, (x, y)| m.max((x - y).abs())) / s
         };
-        let pd = rel(&gs.dens.n, &gr_r.dens.n).max(rel(&gs.dens.s, &gr_r.dens.s)).max(rel(&e.rho, &er.rho)).max(rel(&e.p3, &er.p3)).max(rel(&e.p8, &er.p8));
+        let pd = rel(&gs.dens.n, &gr_r.dens.n).max(rel(&gs.dens.s, &gr_r.dens.s)).max(rel(&e.rho, &er.rho)).max(rel(&e.p3, &er.p3)).max(rel(&e.p0, &er.p0));
         let d_e = (gs.e_ks - gr_r.e_ks).abs() / gs.e_ks.abs().max(1.0);
         let occ_same = occ_map(&gs) == occ_map(&gr_r);
         out.items.push(Item {
@@ -380,7 +380,7 @@ fn ground_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, out: &mut Gro
             value: de,
             pass: Some(same_keys && occ_same && de <= 1e-9),
         });
-        out.items.push(it("rescaling_identity_energy_profiles", "rescaling partner: relative difference of E_KS and max relative difference of the proper profiles n, S, rho, p3, p8", 1e-8, d_e.max(pd)));
+        out.items.push(it("rescaling_identity_energy_profiles", "rescaling partner: relative difference of E_KS and max relative difference of the proper profiles n, S, rho, p3, p0", 1e-8, d_e.max(pd)));
         out.rescale = Some(vec![id.clone(), (n as i64).to_string(), out.tag.clone(), f(lam), f(a4), f(pr.dk), f(pr.vt), same_keys.to_string(), occ_same.to_string(), f(de), f(d_e), f(pd), f(gr_r.e_ks)]);
     }
     // exact-Fock variant (lambda != 0)
@@ -418,7 +418,7 @@ fn ground_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, out: &mut Gro
         let hx = grx.iter().filter(|(_, m)| m.iter().any(|&i| sx.occ[i] > 1e-12)).map(|(e, _)| *e).fold(f64::NEG_INFINITY, f64::max);
         let lx = grx.iter().filter(|(e, m)| *e > hx && m.iter().any(|&i| sx.occ[i] < 1.0 - 1e-12)).map(|(e, _)| *e).fold(f64::INFINITY, f64::min);
         out.items.push(it("exx_variant_scf_converged", "exact-Fock-exchange variant (w_Q = lambda Q/16 sigma3, + lambda Q^2/32) converged from the uniform-gas state", num.scf_tol, sx.resid));
-        out.items.push(it("exx_variant_y_conservation", "exact-Fock variant: (e^{6Hy} p8)' = 3H e^{6Hy}(p3 + p_t) with p8 including -w_Q Q (derived): integrated relative residual", 1e-7, cx.ycons_integrated_rel));
+        out.items.push(it("exx_variant_y_conservation", "exact-Fock variant: (e^{6Hy} p0)' = 3H e^{6Hy}(p3 + p_t) with p0 including -w_Q Q (derived): integrated relative residual", 1e-7, cx.ycons_integrated_rel));
         out.exx = Some(vec![
             id.clone(),
             (n as i64).to_string(),
@@ -480,16 +480,16 @@ fn ground_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, out: &mut Gro
         f(ec.int_rho),
         f(ec.int_p3),
         f(ec.int_pt),
-        f(ec.int_p8),
+        f(ec.int_p0),
         f(ec.int_n),
         f(e.rho[nf - 1]),
         f(e.p3[nf - 1]),
         f(e.pt[nf - 1]),
-        f(e.p8[nf - 1]),
+        f(e.p0[nf - 1]),
         f(e.rho[0]),
         f(e.p3[0]),
         f(e.pt[0]),
-        f(e.p8[0]),
+        f(e.p0[0]),
         f(ec.delta_ex_fock),
         f(ec.ycons_integrated_rel),
         f(ec.ycons_pointwise_rel),
@@ -928,7 +928,7 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
     let mut sum_csv = Csv::new(SUMMARY_HEADER.to_vec());
     let mut exc_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "HOMO", "LUMO", "KS_gap", "g_HOMO_group", "g_LUMO_group", "hole_levels", "particle_levels", "E_excited", "delta_SCF", "delta_SCF_minus_gap", "iterations", "residual"]);
     let mut ad_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "Q_max", "Q_max_pair", "Q_max_delta_eps", "Q_max_matrix_element", "transition_probability_estimate_Q2", "pairs", "HF_max_dev", "max_abs_deps_da4", "dE_da4_finite_difference", "dE_da4_emt"]);
-    let mut emt_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "int_rho", "int_p3", "int_p_t", "int_p8", "int_n", "rho_brane", "p3_brane", "p_t_brane", "p8_brane", "rho_tip", "p3_tip", "p_t_tip", "p8_tip", "deltaE_x_exact_fock", "ycons_integrated_rel", "ycons_pointwise_rel", "trace_derivative_rel"]);
+    let mut emt_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "int_rho", "int_p3", "int_p_t", "int_p0", "int_n", "rho_brane", "p3_brane", "p_t_brane", "p0_brane", "rho_tip", "p3_tip", "p_t_tip", "p0_tip", "deltaE_x_exact_fock", "ycons_integrated_rel", "ycons_pointwise_rel", "trace_derivative_rel"]);
     let mut rs_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "partner_dk", "partner_v_t", "same_label_set", "same_occupations", "max_abs_delta_eps", "rel_delta_E", "max_rel_profile_diff", "partner_E_KS"]);
     let mut exx_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "E_uniform_gas", "deltaE_x_exact_fock_diag", "E_uniform_gas_plus_deltaE_x", "E_exact_fock_scf", "E_exx_minus_first_order", "gap_uniform_gas", "gap_exact_fock", "iterations", "ycons_integrated_rel"]);
     let mut records = Vec::new();
@@ -1142,7 +1142,7 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
             let eb = emt(&pb, co, &b);
             let ca = emt_checks(&grid, &pa, &a, &ea);
             let cb = emt_checks(&grid, &pb, &b, &eb);
-            let dint = [(ca.int_rho, cb.int_rho), (ca.int_p3, cb.int_p3), (ca.int_pt, cb.int_pt), (ca.int_p8, cb.int_p8)].iter().fold(0.0f64, |m, (x, y)| m.max((x - y).abs() / x.abs().max(1.0)));
+            let dint = [(ca.int_rho, cb.int_rho), (ca.int_p3, cb.int_p3), (ca.int_pt, cb.int_pt), (ca.int_p0, cb.int_p0)].iter().fold(0.0f64, |m, (x, y)| m.max((x - y).abs() / x.abs().max(1.0)));
             let smax = a.dens.s.iter().fold(0.0f64, |m, x| m.max(x.abs())).max(1e-300);
             let ds = a.dens.s.iter().zip(&b.dens.s).fold(0.0f64, |m, (x, y)| m.max((x + y).abs())) / smax;
             let d_en = (a.e_ks - b.e_ks).abs() / a.e_ks.abs().max(1.0);
@@ -1165,7 +1165,7 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
     agg.into_report(&mut rep);
     // --- parameters ------------------------------------------------------------------
     let params = obj(vec![
-        ("description", "Revision Kohn-Sham solver (Revision/kohn_sham/solver): instantaneous Kohn-Sham states of dirac16complex in the author's primordial field along the deflating history (SPEC section 7, Revision/kohn_sham/ks-theory.json). x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z), x8 = hidden direction (y = ln(sin z)/(6H)).".into()),
+        ("description", "Revision Kohn-Sham solver (Revision/kohn_sham/solver): instantaneous Kohn-Sham states of dirac16complex in the author's primordial field along the deflating history (SPEC section 7, Revision/kohn_sham/ks-theory.json). The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln(sin z)/(6H), z = 6 H x0), x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z).".into()),
         ("theoryInputs", inputs_json(th)),
         ("units", "H = 1, m = 1: energies, momenta, temperatures in units of m = H; lambda in units of m^-6 with Vol_7 in units of H^-7".into()),
         ("physics", obj(vec![("H", base.hh.into()), ("m", base.m.into()), ("L_tipCutoff", base.l.into()), ("dk", base.dk.into()), ("ell", base.ell().into()), ("v_t", base.vt.into()), ("Vol7", base.vol7().into()), ("tipTheta", base.tip_theta.into()), ("historyA", A_HIST.into()), ("slicesA4", SLICES.to_vec().into()), ("temperatures", TEMPS.to_vec().into())])),
@@ -1306,7 +1306,7 @@ pub fn run_single(num: &Numerics, th: &TheoryInputs, o: &SingleOpts) -> Result<b
         ("mu_or_fermi_level", st.mu.into()),
         ("entropy", st.entropy.into()),
         ("particleNumber", ntot.into()),
-        ("emtIntegrals_2Vol7_int_e6Hy", obj(vec![("rho", c.int_rho.into()), ("p3", c.int_p3.into()), ("p_t", c.int_pt.into()), ("p8", c.int_p8.into()), ("n", c.int_n.into())])),
+        ("emtIntegrals_2Vol7_int_e6Hy", obj(vec![("rho", c.int_rho.into()), ("p3", c.int_p3.into()), ("p_t", c.int_pt.into()), ("p0", c.int_p0.into()), ("n", c.int_n.into())])),
         ("yConservationIntegratedRel", c.ycons_integrated_rel.into()),
         ("yConservationPointwiseRel", c.ycons_pointwise_rel.into()),
         ("levels_n2_j_parity_label_eps_deg_f", Json::Arr(levels)),

@@ -11,17 +11,17 @@
     {
       "name": "theory_input_coefficients",
       "verdict": "PASS",
-      "detail": "ks-theory.json (sha256 1bf41d79318a24a4): M_eff = m + 0.9375 lambda S, v_v = -0.0625 lambda n, e_x = (-0.03125 n^2 + -0.03125 S^2) lambda; consistent: M_eff - m = d e_int/dS with e_int = (1/2 + -0.03125) lambda S^2 + -0.03125 lambda n^2, v_v = d e_int/dn"
+      "detail": "ks-theory.json (sha256 a40cc2e2fa67039b): M_eff = m + 0.9375 lambda S, v_v = -0.0625 lambda n, e_x = (-0.03125 n^2 + -0.03125 S^2) lambda; consistent: M_eff - m = d e_int/dS with e_int = (1/2 + -0.03125) lambda S^2 + -0.03125 lambda n^2, v_v = d e_int/dn"
     },
     {
       "name": "gamma_fixture_numeric",
       "verdict": "PASS",
-      "detail": "gammas.json (sha256 95d8cbdd0682fd30): {gamma^a, gamma^b} = 2 eta^ab exactly in floating point (max deviation 0e0), C = g8 g1 g2 g3 and B = -i C g4 reproduced (max deviation 0e0)"
+      "detail": "gammas.json (sha256 c99277bab4793c42): {gamma^a, gamma^b} = 2 eta^ab exactly in floating point (max deviation 0e0), C = g0 g1 g2 g3 and B = -i C g4 reproduced (max deviation 0e0)"
     },
     {
       "name": "block_reduction_numeric",
       "verdict": "PASS",
-      "detail": "basis V of ks-theory.json (rows = spinor components): |V^dag V - 1| = 1.1e-16; off-block entries of V^dag X V 2.8e-17; diagonal blocks equal the solver's forms (i g4 g8 -> -i j sigma1, -i g4 -> j sigma2, -g4 g1 -> j sigma3, B B -> 1, B C -> j sigma2, B B g8 -> sigma3, -i B C g1 -> j sigma3, g8 -> sigma3, B -> j s2) to 1.1e-16: the 2x2 equation h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v integrated by the solver is the 16-component Hamiltonian"
+      "detail": "basis V of ks-theory.json (rows = spinor components): |V^dag V - 1| = 1.1e-16; off-block entries of V^dag X V 2.8e-17; diagonal blocks equal the solver's forms (i g4 g0 -> -i j sigma1, -i g4 -> j sigma2, -g4 g1 -> j sigma3, B B -> 1, B C -> j sigma2, B B g0 -> sigma3, -i B C g1 -> j sigma3, g0 -> sigma3, B -> j s2) to 1.1e-16: the 2x2 equation h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v integrated by the solver is the 16-component Hamiltonian"
     },
     {
       "name": "free_k0_analytic_spectra",
@@ -106,12 +106,12 @@
     {
       "name": "emt_y_conservation_integrated",
       "verdict": "PASS",
-      "detail": "[e^{6Hy} p8]_{-L}^{0} = 3H int e^{6Hy} (p3 + p_t) dy (nabla_mu T^mu_y = 0): relative difference; 75 cases; worst value 1.422e-11 (N8_lamp2_a00); tolerance 1.0e-7; failures: none"
+      "detail": "[e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy} (p3 + p_t) dy (nabla_mu T^mu_y = 0): relative difference; 75 cases; worst value 1.422e-11 (N8_lamp2_a00); tolerance 1.0e-7; failures: none"
     },
     {
       "name": "emt_y_conservation_pointwise",
       "verdict": "PASS",
-      "detail": "(e^{6Hy} p8)' = 3H e^{6Hy}(p3 + p_t) on the node grid (4th-order differences): max relative residual; 75 cases; worst value 1.951e-8 (N8_lamp2_a00); tolerance 1.0e-5; failures: none"
+      "detail": "(e^{6Hy} p0)' = 3H e^{6Hy}(p3 + p_t) on the node grid (4th-order differences): max relative residual; 75 cases; worst value 1.951e-8 (N8_lamp2_a00); tolerance 1.0e-5; failures: none"
     },
     {
       "name": "excited_delta_scf_free_equals_gap",
@@ -131,7 +131,7 @@
     {
       "name": "exx_variant_y_conservation",
       "verdict": "PASS",
-      "detail": "exact-Fock variant: (e^{6Hy} p8)' = 3H e^{6Hy}(p3 + p_t) with p8 including -w_Q Q (derived): integrated relative residual; 60 cases; worst value 3.199e-11 (N8_lamp2_a00); tolerance 1.0e-7; failures: none"
+      "detail": "exact-Fock variant: (e^{6Hy} p0)' = 3H e^{6Hy}(p3 + p_t) with p0 including -w_Q Q (derived): integrated relative residual; 60 cases; worst value 3.199e-11 (N8_lamp2_a00); tolerance 1.0e-7; failures: none"
     },
     {
       "name": "ground_N_conservation",
@@ -176,7 +176,7 @@
     {
       "name": "rescaling_identity_energy_profiles",
       "verdict": "PASS",
-      "detail": "rescaling partner: relative difference of E_KS and max relative difference of the proper profiles n, S, rho, p3, p8; 60 cases; worst value 3.318e-13 (N136_lamp1_a05); tolerance 1.0e-8; failures: none"
+      "detail": "rescaling partner: relative difference of E_KS and max relative difference of the proper profiles n, S, rho, p3, p0; 60 cases; worst value 3.318e-13 (N136_lamp1_a05); tolerance 1.0e-8; failures: none"
     },
     {
       "name": "thermo_CV_identity",

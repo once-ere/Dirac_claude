@@ -1,17 +1,17 @@
 {
  "description": "Exact effective formulas of the dark-sector analysis of dirac16complex (SPEC sections 8, 11), derived by Revision/dark_sector/dirac16complex/derive/derive_effective.py (sympy); every entry is a named check of reports/derivation-checks.json.",
- "coordinates": "x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (time-like, scale factor e^{-a4} sin^{1/6} z, a4 increasing); x8 = hidden direction, z = 6 H x8 in (0, pi/2), y = ln(sin z)/(6 H).",
+ "coordinates": "the author's coordinates {x0, ..., x7}: x0 = hidden direction, z = 6 H x0 in (0, pi/2), y = ln(sin z)/(6 H); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (time-like, scale factor e^{-a4} sin^{1/6} z, a4 increasing).",
  "observerScaleFactor": "a = e^{a4} (3-space scale factor on the brane z = pi/2, normalised a = 1 at the chosen 'today' a4 = a4_today, i.e. a = e^{a4 - a4_today})",
  "volumes": {
   "sqrtDetG": "cos z",
   "proper7VolumeElement": "cos z (independent of a4)",
   "proper3VolumeElement": "e^{3 a4} sin^{1/2} z",
   "properExtraTimeVolumeElement": "e^{-3 a4} sin^{1/2} z",
-  "hiddenLengthElement": "cot z dx8 = dy"
+  "hiddenLengthElement": "cot z dx0 = dy"
  },
  "conservation": {
   "x4": "d rho/d x4 = -3 a4' (p3 - p_t)",
-  "x8": "d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0  <=>  p8_y + 6 H p8 = 3 H (p3 + p_t)",
+  "x0": "d p0/d x0 + 3 H cot z (2 p0 - p3 - p_t) = 0  <=>  p0_y + 6 H p0 = 3 H (p3 + p_t)",
   "integrated": "dE/d a4 = -3 (P3 - Pt), E = int rho sqrt|g| d^7x, P3 = int p3 sqrt|g| d^7x, Pt = int p_t sqrt|g| d^7x (fixed occupations / exact solutions)"
  },
  "rho4": {
@@ -30,11 +30,11 @@
  "ratios": {
   "w3": "P3/E",
   "wt": "Pt/E",
-  "w8": "P8/E (integrated); brane-local p3/rho etc. also reported"
+  "wx0": "P0/E (integrated; the x0 ratio, not the CPL w0); brane-local p3/rho etc. also reported"
  },
  "condensate": {
   "rho": "m S + lambda S^2/2",
-  "p3=p_t=p8": "lambda S^2/2",
+  "p3=p_t=p0": "lambda S^2/2",
   "w_ratio": "lambda S/(2 m + lambda S)",
   "w_eff_A": "0",
   "w_eff_C": "-1",

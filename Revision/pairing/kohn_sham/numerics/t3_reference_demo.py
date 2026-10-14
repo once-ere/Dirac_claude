@@ -28,8 +28,8 @@ Usage (from the repository root; after numerics/t3_rust_demo.py, whose table it 
   python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py [--jobs 8]
 Writes (deterministic, LF): Revision/pairing/kohn_sham/numerics/results/t3-reference-states.csv and
 Revision/pairing/kohn_sham/reports/t3-reference-demo.json.  Exit 0 iff every check passes.
-Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra
-times; x8 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L).
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0 
+(brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.
 """
 
 import argparse
@@ -60,7 +60,7 @@ GRIDS = (300, 600, 1200)
 TOL = 1e-9            # T3 equality (relative, floor 1; profiles relative to their maximum)
 CTRL_MIN = 1e-6
 XSOLVER_TOL = 1e-8    # reference image vs Rust image (E_KS, mu: relative, floor 1)
-PROFILE_NAMES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p8")
+PROFILE_NAMES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 ODD = ("S", "Q", "M_eff")
 STATE = {"tip_pi": False}
 ORIG_SA = K.sector_arrays
@@ -176,7 +176,7 @@ def _member(task):
         free = K.solve_state(g, ph.copy(lam=0.0), ls, mode=mode)
         st = free if ph.lam == 0.0 else K.solve_state(g, ph, ls, mode=mode, guess=free.eps)
         o, prof = K.observables(st)
-        sc = {k: o[k] for k in ("E_KS", "E_band", "E_int", "int_rho", "int_p3", "int_p_t", "int_p8", "int_n", "N_sum")}
+        sc = {k: o[k] for k in ("E_KS", "E_band", "E_int", "int_rho", "int_p3", "int_p_t", "int_p0", "int_n", "N_sum")}
         if T > 0.0:
             ent, lg = K.mermin_sums(st.eps, ls.deg, st.mu, T)
             sc["mu"], sc["entropy"] = st.mu, ent
@@ -359,7 +359,7 @@ def main():
         else:
             la, lc = sorted(zip(a["eps"], a["deg"])), sorted(zip(c["eps"], c["deg"]))
             cd = max((max(abs(x[0] - y[0]), abs(x[1] - y[1])) for x, y in zip(la, lc)), default=0.0)
-            cd = max(cd, max(rel(a["sc"][k][0], c["sc"][k][0]) for k in ("E_KS", "int_rho", "int_p3", "int_p_t", "int_p8")))
+            cd = max(cd, max(rel(a["sc"][k][0], c["sc"][k][0]) for k in ("E_KS", "int_rho", "int_p3", "int_p_t", "int_p0")))
             na, nc = np.array(a["prof"]["n"][0]), np.array(c["prof"]["n"][0])
             dn = float(np.max(np.abs(na - nc)) / max(float(np.max(np.abs(na))), 1e-300))
             cd = max(cd, dn)
@@ -375,7 +375,7 @@ def main():
             dx = rel(b["sc"]["E_KS"][0], float(r["E_KS_image"]))
             if s["T"] > 0.0:
                 dx = max(dx, abs(b["sc"]["mu"][0] - float(r["mu_image"])), rel(b["sc"]["Omega"][0], float(r["Omega_image"])))
-            for nm in ("rho", "p3", "p_t", "p8"):
+            for nm in ("rho", "p3", "p_t", "p0"):
                 dx = max(dx, rel(b["sc"]["int_" + nm][0], float(r["int_%s_image" % nm])))
             xs = "%.3e" % dx
             if dx > xs_worst:
@@ -384,7 +384,7 @@ def main():
                      repr(a["sc"]["E_KS"][0]), "%.2e" % a["sc"]["E_KS"][1], repr(b["sc"]["E_KS"][0]), "%.2e" % b["sc"]["E_KS"][1],
                      repr(a["sc"]["mu"][0]) if s["T"] else repr(a["sc"]["HOMO"][0]),
                      repr(b["sc"]["mu"][0]) if s["T"] else repr(b["sc"]["HOMO"][0]),
-                     repr(a["sc"]["int_p8"][0]), repr(b["sc"]["int_p8"][0]), len(a["keys"]),
+                     repr(a["sc"]["int_p0"][0]), repr(b["sc"]["int_p0"][0]), len(a["keys"]),
                      "%.3e" % w, "%.3e" % dl, "%.3e" % dsc, "%.3e" % dpe, "%.3e" % dpo,
                      "no state" if "error" in c else repr(c["sc"]["E_KS"][0]), "no state" if "error" in c else "%.3e" % cd, xs])
     ng = sum(1 for s in specs if s["T"] == 0.0)
@@ -396,8 +396,8 @@ def main():
           "map (n2, j, parity, rank) -> (n2, -j, other parity, rank)%s" % (len(specs), resmax, "" if not probs else "; problems: " + "; ".join(probs[:8])))
     check("t3_equal_ground_states", worst_g <= TOL,
           "%d ground states (N = 8: lam0, lamp2, lamm2 x a4,0 = 0, 1, 2; N = 136: lamp2, lamm2 x a4,0 = 0, 2), Richardson values: "
-          "levels by key (eps, occupation, degeneracy), E_KS, E_band, E_int, the EMT integrals (rho, p3, p_t, p8, n), N, "
-          "HOMO, LUMO, KS gap, the profiles n, v_v, e_int, rho, p3, p_t, p8 (equal) and S, Q, M_eff (opposite sign) of the "
+          "levels by key (eps, occupation, degeneracy), E_KS, E_band, E_int, the EMT integrals (rho, p3, p_t, p0, n), N, "
+          "HOMO, LUMO, KS gap, the profiles n, v_v, e_int, rho, p3, p_t, p0 (equal) and S, Q, M_eff (opposite sign) of the "
           "image (-m, +lambda, tip pi) equal those of the plus state: worst %.3e (%s), tolerance %.0e. On a single grid the "
           "levels of the two members differ by up to %.2e: the image's rotated frame is not the discrete image of the plus "
           "frame, so the two discretisations differ at O(h^2), and the equality appears in the extrapolated (continuum) "
@@ -424,7 +424,7 @@ def main():
           "Kohn-Sham states are not admissible sources); T3 holds slice by slice" % hist[:120])
 
     head = ["id", "N", "lambda_tag", "lambda", "a4", "T", "E_KS_plus", "U_E_KS_plus", "E_KS_image", "U_E_KS_image",
-            "mu_or_HOMO_plus", "mu_or_HOMO_image", "int_p8_plus", "int_p8_image", "levels", "t3_worst_dev",
+            "mu_or_HOMO_plus", "mu_or_HOMO_image", "int_p0_plus", "int_p0_image", "levels", "t3_worst_dev",
             "t3_levels_dev", "t3_scalars_dev", "t3_profiles_even_dev", "t3_profiles_odd_dev",
             "E_KS_control_untransformed_tip", "control_tip_dev", "reference_vs_rust_image_dev"]
     buf = io.StringIO()

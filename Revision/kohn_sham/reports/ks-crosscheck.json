@@ -45,7 +45,7 @@
   {
    "name": "problem_definition_identical",
    "verdict": "PASS",
-   "detail": "H, m, L, dk, v_t, tip angle, history A, slices and temperatures identical: True (no differences); both read the same ks-theory.json (sha256 1bf41d79318a24a4): True"
+   "detail": "H, m, L, dk, v_t, tip angle, history A, slices and temperatures identical: True (no differences); both read the same ks-theory.json (sha256 a40cc2e2fa67039b): True"
   },
   {
    "name": "parameters_particle_numbers",
@@ -90,17 +90,17 @@
   {
    "name": "emt_integrals",
    "verdict": "PASS",
-   "detail": "2 Vol_7 int e^{6Hy} (rho, p3, p_t, p8, n) dy; U_Rust per state measured; 375 comparisons; worst |diff|/tolerance 0.225 (N688_lamp1_a15 int_p8: Rust 104.814398148874, reference 104.814398149719, |diff| 8.452e-10, tolerance 3.758e-09); failures: none"
+   "detail": "2 Vol_7 int e^{6Hy} (rho, p3, p_t, p0, n) dy; U_Rust per state measured; 375 comparisons; worst |diff|/tolerance 0.225 (N688_lamp1_a15 int_p0: Rust 104.814398148874, reference 104.814398149719, |diff| 8.452e-10, tolerance 3.758e-09); failures: none"
   },
   {
    "name": "emt_brane_tip_values",
    "verdict": "PASS",
-   "detail": "rho, p3, p_t, p8 at the brane y = 0 and at the tip y = -L; U_Rust per state measured (profile end points); 600 comparisons; worst |diff|/tolerance 0.495 (N8_lamm2_a00 rho_tip: Rust -10.1822650611886, reference -10.182265056614, |diff| 4.575e-09, tolerance 9.238e-09); failures: none"
+   "detail": "rho, p3, p_t, p0 at the brane y = 0 and at the tip y = -L; U_Rust per state measured (profile end points); 600 comparisons; worst |diff|/tolerance 0.495 (N8_lamm2_a00 rho_tip: Rust -10.1822650611886, reference -10.182265056614, |diff| 4.575e-09, tolerance 9.238e-09); failures: none"
   },
   {
    "name": "ground_profiles",
    "verdict": "PASS",
-   "detail": "proper profiles n, S, Q, M_eff, v_v, e_int, rho, p3, p_t, p8 at the 151 points y = -3 + 0.02 i, in units of the profile maximum; U_Rust = (16/15) x the largest |canonical - refined| of that profile of the state; 113250 comparisons; worst |diff|/tolerance 0.495 (N8_lamm2_a00 rho(y = -3.00): Rust -10.1822650611886, reference -10.182265056614, |diff| 4.575e-09, tolerance 9.238e-09); failures: none"
+   "detail": "proper profiles n, S, Q, M_eff, v_v, e_int, rho, p3, p_t, p0 at the 151 points y = -3 + 0.02 i, in units of the profile maximum; U_Rust = (16/15) x the largest |canonical - refined| of that profile of the state; 113250 comparisons; worst |diff|/tolerance 0.495 (N8_lamm2_a00 rho(y = -3.00): Rust -10.1822650611886, reference -10.182265056614, |diff| 4.575e-09, tolerance 9.238e-09); failures: none"
   },
   {
    "name": "exchange_delta_E_x",
@@ -180,7 +180,7 @@
   {
    "name": "reference_repeat_byte_identical",
    "verdict": "PASS",
-   "detail": "this checker ran run_reference.py again into a fresh directory (<work>/reference-repeat; exit SUCCESS: True): 340 result files, same file set: True, differing files: none; report ks-reference.json byte-identical: True"
+   "detail": "this checker ran run_reference.py again into a fresh directory (<work>/reference-repeat; exit SUCCESS: True; its jobs computed beforehand in parts into a separate job cache, run_reference.py --cache DIR --part i/n): 340 result files, same file set: True, differing files: none; report ks-reference.json byte-identical: True"
   }
  ]
 }

@@ -22,13 +22,13 @@ Labels: **EXACT** means verified by exact symbolic computation in a named check.
 
 ## 1. Method
 
-**Conservation (EXACT; re-derived from the metric).** For a diagonal T(x4, x8):
+**Conservation (EXACT; re-derived from the metric).** For a diagonal T(x4, x0):
 
 - nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7)
-- nabla_mu T^mu_x8 = d8 p8 + H cot z sum_dir (p8 - p_dir)
+- nabla_mu T^mu_x0 = d0 p0 + H cot z sum_dir (p0 - p_dir)
 
-Every other component vanishes identically. For an isotropic, x8-independent source this gives
-d rho/dx4 = -3 a4' (p3 - p_t) and p3 + p_t = 2 p8. Checks: `conservation_*`, with a negative control.
+Every other component vanishes identically. For an isotropic, x0-independent source this gives
+d rho/dx4 = -3 a4' (p3 - p_t) and p3 + p_t = 2 p0. Checks: `conservation_*`, with a negative control.
 
 **The observer (ASSUMPTION, stated with its alternatives).** a = e^{a4} is the 3-space scale factor. The
 3-space observer averages over the hidden direction with the weight sqrt|g| = cos z, which does not depend
@@ -70,7 +70,7 @@ observer. It agrees with p3/rho only when no energy is exchanged with the extra 
 
 **Condensate.** Checks `condensate_*` and `linear_member_*`.
 
-- rho = m S + lambda S^2/2 and p3 = p_t = p8 = lambda S^2/2, both constant. The ratio is
+- rho = m S + lambda S^2/2 and p3 = p_t = p0 = lambda S^2/2, both constant. The ratio is
   w = lambda S/(2 m + lambda S).
 - Normalisation dependence: w_eff(N1) = 0 (dust-like dilution) and w_eff(N2) = -1 (Lambda-like). wa = 0 in
   all three definitions: **no time dependence**.
@@ -203,7 +203,7 @@ amplitude grows by 10^32.2 between a = 1.5 and 2.2, and its energy density becom
   w(a).
 - The models M2 to M5 are illustrative members with stated parameters. They are not predictions, and nothing
   selects their populations.
-- The WKB/local model freezes the hidden-direction warp. An x8-dependent configuration is not a consistent
+- The WKB/local model freezes the hidden-direction warp. An x0-dependent configuration is not a consistent
   source of the metric (`Revision/field_equations_a4`): the test-field results are not backreacted, except in
   item 5 of section 4.
 - The growing modes make the Cauchy problem ill-posed (`Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY`

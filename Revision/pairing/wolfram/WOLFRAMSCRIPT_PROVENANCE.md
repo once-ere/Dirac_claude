@@ -11,9 +11,9 @@ run it is written out here; you do not have to look anything up in another file.
 
 The theory studied in this repository has a field `Psi` with 16 complex components living in an
 8-dimensional space-time with four space directions and four time directions (signature (4,4)). The
-eight coordinates are named `x1 ... x8`: `x1, x2, x3` are ordinary space, `x4` is ordinary time,
-`x5, x6, x7` are three extra time directions that deflate exponentially, and `x8` is a hidden space
-direction (with `z = 6 H x8`). The field comes in two versions, and every statement below is checked
+eight coordinates are the author's `x0 ... x7`: `x0` is a hidden space direction (with `z = 6 H x0`),
+`x1, x2, x3` are ordinary space, `x4` is ordinary time, and `x5, x6, x7` are three extra time directions that
+deflate exponentially. The field comes in two versions, and every statement below is checked
 for both:
 
 * `dirac16complex`: the components of `Psi` are Grassmann numbers (they anticommute, as for fermions);
@@ -120,13 +120,14 @@ separate set.
 
 | file | role | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/pairing/wolfram/verify_pairing.wls` | the script you run (the driver: all 101 checks, writes both outputs) | `2ccdb951777c14f6bc9daa473335d96e8b54eb7d1c8c8aedc5072865ee017609` | 501 | 52747 |
-| `Revision/pairing/wolfram/RevisionPairing.wl` | the package the script loads (field algebra for both statistics, spin connection, bilinears, Euler-Lagrange expressions) | `a1806b50705c729767795cff2c5382390e9763feaebca051a68951d99b6b8222` | 234 | 14469 |
-| `Revision/algebra/gammas.json` | INPUT, only read (the 16 x 16 gamma matrices `gamma^(x1..x8)`, `eta`, `C`, `Gamma`, `B`, `S^ab`; written by the algebra set `Revision/algebra/wolfram/verify_algebra.wls`, which you do NOT need to run first) | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` | 1405 | 76968 |
-| `Revision/pairing/reports/wolfram-pairing.json` | OUTPUT, overwritten by every run (every check with its name, verdict `PASS` or `FAIL` and detail; the summary counts) | `4ea0fa709ed595b9279b04f1d45d2dce64b759ef0d60c57d15207bba02352990` | 112 | 40151 |
-| `Revision/pairing/pairing-theory.json` | OUTPUT, overwritten by every run (the theorems T1, T2, Q with hypotheses, statements, proofs, the names of the checks verifying them, data tables, and what is not established) | `aaf104a92a64d7a50ef590207201798ddfe08affbf4df371441eba157517c2ce` | 420 | 22430 |
+| `Revision/pairing/wolfram/verify_pairing.wls` | the script you run (the driver: all 101 checks, writes both outputs) | `990d26ca8778d5d4ae440776dd59f3312a9d423a08a2a8aceee8b1a6afab8bc8` | 502 | 53218 |
+| `Revision/pairing/wolfram/RevisionPairing.wl` | the package the script loads (field algebra for both statistics, spin connection, bilinears, Euler-Lagrange expressions) | `9c5cebbb2d92459d23f8b80bed09fc5cda8dc5038323a4e30fee99ee266fe322` | 234 | 14551 |
+| `Revision/algebra/gammas.json` | INPUT, only read (the 16 x 16 gamma matrices `gamma^(x0..x7)`, `eta`, `C`, `Gamma`, `B`, `S^ab`; written by the algebra set `Revision/algebra/wolfram/verify_algebra.wls`, which you do NOT need to run first) | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` | 1405 | 76894 |
+| `Revision/pairing/reports/wolfram-pairing.json` | OUTPUT, overwritten by every run (every check with its name, verdict `PASS` or `FAIL` and detail; the summary counts) | `bfb87f5b3eaccac7435a8297a92b5805191f9b90254d7c8bff14363b56737f53` | 112 | 40200 |
+| `Revision/pairing/pairing-theory.json` | OUTPUT, overwritten by every run (the theorems T1, T2, Q with hypotheses, statements, proofs, the names of the checks verifying them, data tables, and what is not established) | `6199652cca6a2053c7149f2abb9206fda1f2b48a6b6ff9796945dbf3cf13fc77` | 420 | 22474 |
 
-The hashes are those of the committed files (unchanged from commit `70fab64` up to commit `b8a695d`,
+The table gives the version of 2026-10-14 in the author's coordinates x0..x7 (the last item of section 6). The
+following sentences describe the version before it, whose hashes were those of the committed files (unchanged from commit `70fab64` up to commit `b8a695d`,
 the head of `main` in the evening of 2026-10-07, where they were checked again); a successful run
 reproduces both outputs byte for byte.
 Nothing else is read: no other file of the repository, no network resource, no command-line argument.
@@ -296,14 +297,14 @@ in section 3.5). Remember that a mistyped path also gives `0` (section 3.6): the
 
 ### 4.3 Files written, and how to check them
 
-* `Revision/pairing/reports/wolfram-pairing.json`, 40151 bytes, 112 lines. Its eighth line is the
+* `Revision/pairing/reports/wolfram-pairing.json`, 40200 bytes, 112 lines (40151 bytes before 2026-10-14). Its eighth line is the
   summary:
 
   ```text
     "summary": {"passed": 101, "failed": 0, "total": 101},
   ```
 
-* `Revision/pairing/pairing-theory.json`, 22430 bytes, 420 lines. Its seventh line is:
+* `Revision/pairing/pairing-theory.json`, 22474 bytes, 420 lines (22430 bytes before 2026-10-14). Its seventh line is:
 
   ```text
     "status": "all checks of the report passed",
@@ -683,3 +684,24 @@ took about 80 s.
   128.49 s`, wall time 132 s (15:14:03 to 15:16:16). `git diff --quiet -- Revision/pairing/pairing-theory.json
   Revision/pairing/reports` succeeded: both outputs are byte-identical to the committed ones (the sha256 of
   section 2). Not done: a run of the changed script in a fresh clone, and a run from a long clone folder.
+* **The author's coordinates x0..x7 (2026-10-14):** on 2026-10-14 the user ordered that their coordinates
+  X = {x0, x1, ..., x7} be used throughout (x0 = the hidden direction, listed first); this set had named them x1..x8
+  with the hidden direction x8 listed last, and its input `Revision/algebra/gammas.json` was rewritten the same day in
+  the author's order (gamma^(xk) = T16[k], eta = diag(1,1,1,1,-1,-1,-1,-1)). Changes: `RevisionPairing.wl` `RPX =
+  {x0, ..., x7}` and its texts; `verify_pairing.wls`: the coordinate names, the space-like positions {1, 2, 3, 4}
+  (x0..x3) and time-like {5, 6, 7, 8} (x4..x7), C = g[[1]] g[[2]] g[[3]] g[[4]], Gamma = g[[1]] ... g[[8]], B = -i C
+  g[[5]], the primordial and mirror vielbeins with Cot[z] first, the mirror x0 -> pi/(6H) - x0 with R_0 = refl[1] and
+  gamma^(x0) = g[[1]], the x4-derivative generators at position 5, the flat momenta k0..k7 (the same samples as before,
+  listed in the new order), g^(x4 x4) at position 5, every text. The pointwise test field keeps its formula in the
+  list positions, e^a_mu = delta + ((2a + 3mu) mod 5 - 2)/9 and d_rho e^a_mu = ((a + 2mu + 3rho) mod 7 - 3)/11; in the
+  new order it is a different, equally generic field (det e = 1411/6561 and 448 of the 512 connection components nonzero as before;
+  g^(x4 x4) = -2307429/1990921, before -2269482/1990921). New sha256: script `990d26ca8778d5d4ae440776dd59f3312a9d423a08a2a8aceee8b1a6afab8bc8` (502 lines, 53218 bytes), package `9c5cebbb2d92459d23f8b80bed09fc5cda8dc5038323a4e30fee99ee266fe322` (234 lines, 14551
+  bytes). Runs (2026-10-14, working tree on top of commit `fedf89c`, Wolfram 15.0.1, other jobs of this work on the
+  machine): run 1 `101/101 checks passed; time 91.27 s` (wall 94 s), run 2 `101/101 checks passed; time
+  79.07000000000001 s` (wall 82 s); both runs wrote byte-identical outputs (sha256 `bfb87f5b3eaccac7435a8297a92b5805191f9b90254d7c8bff14363b56737f53` and `6199652cca6a2053c7149f2abb9206fda1f2b48a6b6ff9796945dbf3cf13fc77`). The sympy twin
+  `Revision/pairing/python/check_pairing.py` (relabelled the same way, index k = xk): 66 PASS, 0 FAIL in 194 s, its
+  comparison with `pairing-theory.json` included. Same physics: the report has the same 101 checks with the same
+  verdicts; the two names `T2_frame_reflection_pointwise_x8_commuting` and `..._x8_grassmann` are now `..._x0_...`,
+  and the 16 frame-reflection checks are listed in the coordinate order x0, x1, ..., x7 (x0 first); every detail differs from the version before only
+  by the relabelling, the order of the listed directions, the value g^(x4 x4) of the pointwise field above and the
+  character count of `pairing-theory.json` (check `theory_file_deterministic`: 22474, before 22430).

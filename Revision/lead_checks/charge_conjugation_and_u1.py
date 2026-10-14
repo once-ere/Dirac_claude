@@ -3,7 +3,7 @@
 
 Written from scratch; imports no other Revision code (reads only the fixture Revision/algebra/gammas.json).
 Conventions of the Revision record (Revision/theory/field-theory.json, keys Lagrangian and current):
-Psibar = Psi^dagger C with C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) (the author's sigma16), S = Psibar Psi,
+Psibar = Psi^dagger C with C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) (the author's sigma16), S = Psibar Psi,
 J^mu = -i Psibar gamma^mu Psi, J^x4 = Psi^dagger B Psi, B = -i C gamma^(x4), field equation
 (gamma^mu D_mu - V) Psi = 0 with V = m + U'(S) real.
 
@@ -16,9 +16,9 @@ every a (the spinor connection is built from products of two gammas, so it then 
 
 Checks:
  1. reality of the representation: gamma^a, C real; B purely imaginary Hermitian; S^ab and Omega_mu real.
- 2. ALL solutions M of M (gamma^a)* = s gamma^a M, a = x1..x8, solved exactly as linear equations
+ 2. ALL solutions M of M (gamma^a)* = s gamma^a M, a = x0..x7, solved exactly as linear equations
     (256 unknowns): s = +1 gives the 1-dimensional space spanned by the identity, s = -1 the 1-dimensional
-    space spanned by Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7).
+    space spanned by Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7).
  3. the two charge-conjugation matrices calC_+ = M C^-1 = C and calC_- = Gamma C, with
     calC_+^-1 gamma^a calC_+ = -(gamma^a)^T and calC_-^-1 gamma^a calC_- = +(gamma^a)^T (the two matrices C_+-
     every even dimension has), both real, calC_+ symmetric, and the Majorana consistency conditions
@@ -66,13 +66,13 @@ def check(name, ok, detail):
 
 with open(os.path.join(ROOT, 'Revision', 'algebra', 'gammas.json'), encoding='utf-8') as f:
     fx = json.load(f)
-gam = [sp.Matrix(m) for m in fx['gamma']]  # gamma^a, a = x1..x8
-eta = sp.diag(1, 1, 1, -1, -1, -1, -1, 1)
+gam = [sp.Matrix(m) for m in fx['gamma']]  # gam[k] = gamma^(xk), the author's order x0..x7
+eta = sp.diag(1, 1, 1, 1, -1, -1, -1, -1)
 I16 = sp.eye(16)
 assert all(gam[a] * gam[b] + gam[b] * gam[a] == 2 * eta[a, b] * I16 for a in range(N) for b in range(N))
-C = gam[7] * gam[0] * gam[1] * gam[2]           # the author's sigma16
-B = -sp.I * C * gam[3]
-Gam = gam[7] * gam[0] * gam[1] * gam[2] * gam[3] * gam[4] * gam[5] * gam[6]
+C = gam[0] * gam[1] * gam[2] * gam[3]           # the author's sigma16
+B = -sp.I * C * gam[4]
+Gam = gam[0] * gam[1] * gam[2] * gam[3] * gam[4] * gam[5] * gam[6] * gam[7]
 S = [[(gam[a] * gam[b] - gam[b] * gam[a]) / 4 for b in range(N)] for a in range(N)]
 real = lambda M: all(sp.im(e) == 0 for e in M)
 
@@ -140,7 +140,7 @@ check('intertwiners_same_mass', len(Mp) == 1 and prop(Mp[0], I16),
       '(Pin(4,4) irreducible): Psi -> Psi* (times a phase) is the only same-mass conjugation in the Psi* form')
 check('intertwiners_reversed_mass', len(Mm) == 1 and prop(Mm[0], Gam),
       f'M (gamma^a)* = - gamma^a M for all a: solution space of dimension {len(Mm)}, spanned by Gamma = '
-      'gamma^(x8) gamma^(x1) ... gamma^(x7): the mass-reversing conjugation Psi -> Gamma Psi*')
+      'gamma^(x0) gamma^(x1) ... gamma^(x7): the mass-reversing conjugation Psi -> Gamma Psi*')
 
 # ---- 3. the two charge-conjugation matrices ----
 Cp = C.inv()          # calC_+ = M C^-1 with M = 1  -> equals C
@@ -196,12 +196,12 @@ check('real_fields_charge_conjugation', ok5,
       'solutions (T1) - for real fields the matter <-> antimatter map is the matrix Gamma with the mass reversed')
 
 # ---- 6. U(1): exact matrix identity equivalent to the Noether identity ----
-x = sp.symbols('x1:9', real=True)
+x = sp.symbols('x0:8', real=True)  # the author's coordinates; x[k] = xk
 H = sp.symbols('H', positive=True)
-a4 = sp.Function('a4', real=True)(x[3])
-z = 6 * H * x[7]
-E = [sp.exp(a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)] + \
-    [sp.exp(-a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3 + [sp.cot(z)]
+a4 = sp.Function('a4', real=True)(x[4])
+z = 6 * H * x[0]
+E = [sp.cot(z)] + [sp.exp(a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)] + \
+    [sp.exp(-a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3
 g = sp.diag(*[eta[a, a] * E[a] ** 2 for a in range(N)])
 gi = g.inv()
 Gm = [[[sp.simplify(sum(gi[l, m] * (sp.diff(g[m, i], x[j]) + sp.diff(g[m, j], x[i]) - sp.diff(g[i, j], x[m]))

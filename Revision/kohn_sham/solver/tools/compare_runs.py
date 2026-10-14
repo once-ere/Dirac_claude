@@ -190,14 +190,14 @@ def main():
             if len(A) != len(B) or any(abs(num(x["y"]) - num(y["y"])) > 1e-12 for x, y in zip(A, B)):
                 wp, wpid = float("inf"), name + " (grids differ)"
                 continue
-            for col in ("n", "S", "rho", "p3", "p_t", "p8"):
+            for col in ("n", "S", "rho", "p3", "p_t", "p0"):
                 mx = max(abs(num(x[col])) for x in A)
                 if mx == 0.0:
                     continue
                 d = max(abs(num(x[col]) - num(y[col])) for x, y in zip(A, B)) / mx
                 if d > wp:
                     wp, wpid = d, f"{name[:-4]} {col}"
-        check("refined_profiles", wp <= TOL["profile"], f"proper profiles n, S, rho, p3, p_t, p8 at the 151 common y points: max difference / profile maximum {wp:.3e} ({wpid}); tolerance {TOL['profile']:.0e}")
+        check("refined_profiles", wp <= TOL["profile"], f"proper profiles n, S, rho, p3, p_t, p0 at the 151 common y points: max difference / profile maximum {wp:.3e} ({wpid}); tolerance {TOL['profile']:.0e}")
         # derived
         ac = rows(os.path.join(a.canonical, "adiabatic/adiabaticity.csv"), ["id"])
         ar = rows(os.path.join(ref, "adiabatic/adiabaticity.csv"), ["id"])

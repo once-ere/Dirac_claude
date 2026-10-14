@@ -17,7 +17,7 @@
     {
       "name": "repeat_byte_identical",
       "verdict": "PASS",
-      "detail": "second run with the canonical options: 244 files (5857791 bytes) compared, same file set: True, differing files: none"
+      "detail": "second run with the canonical options: 244 files (5857843 bytes) compared, same file set: True, differing files: none"
     },
     {
       "name": "repeat_report_byte_identical",
@@ -62,7 +62,7 @@
     {
       "name": "refined_profiles",
       "verdict": "PASS",
-      "detail": "proper profiles n, S, rho, p3, p_t, p8 at the 151 common y points: max difference / profile maximum 2.800e-09 (N136_lamp2_a00 p3); tolerance 1e-06"
+      "detail": "proper profiles n, S, rho, p3, p_t, p0 at the 151 common y points: max difference / profile maximum 2.800e-09 (N136_lamp2_a00 p3); tolerance 1e-06"
     },
     {
       "name": "refined_adiabatic_derivatives",

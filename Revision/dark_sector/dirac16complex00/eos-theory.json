@@ -4,19 +4,19 @@
     "einstein": "rho + p = -6 (1 + A^2) H^2/kappa: kappa rho > 0 (kappa > 0 with rho > 0 needs Lambda < -(21 + 3 A^2) H^2, below) gives w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (constant), kappa rho < 0 gives w > -1; on the linear member the x4 constraint 3 a4'^2 + 21 H^2 + Lambda = -kappa rho gives kappa rho = -(3 A^2 + 21) H^2 - Lambda, so the ratio is phantom exactly when Lambda < -(21 + 3 A^2) H^2 (Lambda = 0: w = (A^2 - 5)/(A^2 + 7) > -1); with alpha2, alpha3 the bracket can change sign",
     "expansion_inferred_w": "Einstein, backreacted homogeneous source: w_tot = -1 - kappa (p3 - p_t)/(3 a4'^2); for the condensate p3 = p_t: a4 linear, w_tot = -1 exactly (constant 3-space Hubble rate A H)",
     "linear_member_rho_plus_p": "kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)], a4' = A H",
-    "p": "p3 = p_t = p8 = lambda S^2/2 (constant)",
+    "p": "p3 = p_t = p0 = lambda S^2/2 (constant)",
     "rho": "m S + lambda S^2/2 (constant)",
-    "solution": "Phi = exp(A x4) chi, A = -gamma^(x4) (M - 3 H gamma^(x8)), M = m + lambda S, S = chi^dagger C chi constant (Revision/field_equations_a4 record; re-verified here: C A + A^T C = 0, K_x4 = M S)",
+    "solution": "Phi = exp(A x4) chi, A = -gamma^(x4) (M - 3 H gamma^(x0)), M = m + lambda S, S = chi^dagger C chi constant (Revision/field_equations_a4 record; re-verified here: C A + A^T C = 0, K_x4 = M S)",
     "unite_constant_w_by_ratio": "lambda S/m = -382/441 (rho > 0: m S > 0, lambda < 0)",
     "w_eff_N1": "0 (rho_4 ~ a^-3: dust-like dilution)",
     "w_eff_N2": "-1 (rho_4 constant: Lambda-like)",
     "w_ratio": "lambda S/(2 m + lambda S) (constant; any value; w < -1 iff lambda S/m in (-2, -1))"
   },
   "conservation": {
-    "homogeneous": "d rho / d x4 = -3 a4' (p3 - p_t) and p3 + p_t = 2 p8 (x8-independent source)",
-    "others": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (diagonal T depending on x4, x8)",
-    "x4": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7)  (isotropic: -d4 rho - 3 a4' (p3 - p_t))",
-    "x8": "nabla_mu T^mu_x8 = d8 p8 + H cot z sum_{dir in x1,x2,x3,x5,x6,x7} (p8 - p_dir)  (isotropic: d8 p8 + 3 H cot z (2 p8 - p3 - p_t))"
+    "homogeneous": "d rho / d x4 = -3 a4' (p3 - p_t) and p3 + p_t = 2 p0 (x0-independent source)",
+    "others": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (diagonal T depending on x4, x0)",
+    "x0": "nabla_mu T^mu_x0 = d0 p0 + H cot z sum_{dir in x1,x2,x3,x5,x6,x7} (p0 - p_dir)  (isotropic: d0 p0 + 3 H cot z (2 p0 - p3 - p_t))",
+    "x4": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7)  (isotropic: -d4 rho - 3 a4' (p3 - p_t))"
   },
   "ghost": "INTERPRETATION (with the exact basis above): dirac16complex00 is a commuting field with a first-order Lagrangian; at every real frequency half of its modes (Krein charge of the opposite sign) carry negative classical energy, and its energy is unbounded below. Components of negative classical energy are a ghost-like sector. With positive-energy components of real frequency only (for an extra-time mode: before its turning point a_*), no phantom w and no crossing of -1 occur (theorem of section wkb); every phantom or crossing found here needs the ghost-like sector, or (ratio definition only) a constant condensate with lambda < 0.",
   "labels": "EXACT = verified by exact symbolic computation in the named checks; APPROXIMATION = stated approximation; ASSUMPTION = observer or model assumption; INTERPRETATION = reading, not a computed statement",
@@ -490,7 +490,7 @@
       "m": 3,
       "omega": "4 i",
       "q": 5,
-      "result": "Krein-neutral 8-dimensional eigenspace; rho = 0, p5 = -m S (growing), p1 = p8 = 0"
+      "result": "Krein-neutral 8-dimensional eigenspace; rho = 0, p5 = -m S (growing), p1 = p0 = 0"
     },
     "rate": "frozen frame: growth rate sqrt(q_phys^2 - m^2 - k_phys^2) for q_phys^2 > m^2 + k_phys^2; in the deflating field q_phys = e^{a4} q grows, so every q != 0 mode reaches the turning point a_* = sqrt((m^2 + ...)/q^2) and then grows (rate proportional to a, double-exponential amplitude for a4 linear in x4)"
   },
@@ -500,7 +500,7 @@
     "N2": "per unit PROPER 7-volume: rho_4 = <rho>/<1> (equivalently: integrate over a FIXED proper extra-time volume, whose coordinate extent grows as e^{a4})",
     "N2_result": "w_eff(N2) = w_eff(N1) - 1 = -1 + w3 - w_t (isotropic)",
     "a": "a = e^{a4}: the 3-space scale factor (up to the constant factor sin^{1/6} z at a fixed hidden position); c = e^{-a4} = 1/a the extra-time scale factor",
-    "average": "<f>(x4) = int_0^{pi/(12 H)} cos z f dx8 (the proper-volume weight sqrt|g| = cos z; constant in x4)",
+    "average": "<f>(x4) = int_0^{pi/(12 H)} cos z f dx0 (the proper-volume weight sqrt|g| = cos z; constant in x4)",
     "compactness": "a compact coordinate range of the time-like x5, x6, x7 means closed time-like directions; a non-compact range needs a normalisation per unit extra-time volume (N1 or N2). Both are ASSUMPTIONS about the 3-space observer, not consequences of the field equations",
     "ratio": "w = p3/rho (the 3-space pressure over the energy density; independent of the normalisation, both being densities of the same volume)",
     "reading": "INTERPRETATION: a 3-space observer who uses the 4-dimensional Friedmann equations infers w_eff from the dilution of rho_4 (this is what supernova distances measure); w = p3/rho is the 3-space pressure ratio. They agree only if no energy is exchanged with the extra times (p_t = 0 under N1)",
@@ -509,8 +509,8 @@
   "producer": "Revision/dark_sector/dirac16complex00/python/derive_eos.py (implementation A: sympy exact, mpmath 30 digits)",
   "title": "dirac16complex00 (classical commuting Pin(4,4) spinor): the 3-space observer's equation of state in the deflating primordial field (Hypothesis00; Revision/SPEC.md sections 8 and 11)",
   "wkb": {
-    "approximation": "ADIABATIC (WKB) local plane-wave modes at a fixed hidden position: the warp sin^{1/6} z and tan z frozen (wavelengths short compared with the warp scale 1/H; in the variables chi = sin^{1/2} z Phi the term 3 H gamma^(x8) is absent exactly), the Krein charge of each mode an adiabatic invariant (|d omega/dx4| << omega^2); incoherent superposition (cross terms between different momenta average to zero over 3-space and the extra times; cross terms between frequencies average to zero in time)",
-    "component": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), p8 = 0, omega^2 = m^2 + k^2/a^2 - q^2 a^2 (isotropic averages)",
+    "approximation": "ADIABATIC (WKB) local plane-wave modes at a fixed hidden position: the warp sin^{1/6} z and tan z frozen (wavelengths short compared with the warp scale 1/H; in the variables chi = sin^{1/2} z Phi the term 3 H gamma^(x0) is absent exactly), the Krein charge of each mode an adiabatic invariant (|d omega/dx4| << omega^2); incoherent superposition (cross terms between different momenta average to zero over 3-space and the extra times; cross terms between frequencies average to zero in time)",
+    "component": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), p0 = 0, omega^2 = m^2 + k^2/a^2 - q^2 a^2 (isotropic averages)",
     "eps": "eps = w_eff(N1) = (k^2/a^2 + q^2 a^2)/(3 omega^2) >= 0 for real omega",
     "mixture": "w_eff(N1) = sum eps_i rho_i / sum rho_i, w_eff(N2) = w_eff(N1) - 1, w = p3/rho = sum p3_i / sum rho_i",
     "theorem": "if every component has rho_i >= 0 (Krein charge of the sign of omega), real frequencies, and total rho > 0, then w_eff(N1) >= 0 and w_eff(N2) >= -1 at every a at which these conditions hold (weighted averages of eps_i >= 0 with weights rho_i >= 0): no phantom and no crossing of -1 there. A mode with extra-time momentum q != 0 loses its real frequency past its turning point a_* (q_phys = q a grows), where the theorem does not apply. A crossing needs sum eps_i rho_i to change sign, i.e. a component with rho_i < 0 (negative classical energy: a ghost-like sector)"

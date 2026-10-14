@@ -4,7 +4,7 @@ deflating history on a DENSE grid of slices, computed by the Revision Rust Kohn-
 (Revision/kohn_sham/solver, command `single`; read-only use of that code, outputs written here).
 
 Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the three exponentially
-DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4 increasing); x8 = hidden direction.
+DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4 increasing); x0 = hidden direction.
 
 The committed Kohn-Sham record has five slices a4,0 in {0, 0.5, 1, 1.5, 2}; the CPL tangent needs d w/d a4, so
 this driver solves the SAME states (same N, the same calibrated lambda values of
@@ -118,7 +118,7 @@ def main():
         emt = d["emtIntegrals_2Vol7_int_e6Hy"]
         sig, nocc = occupied_signature(d["levels_n2_j_parity_label_eps_deg_f"])
         rows.append({"id": rid, "N": n, "lambda_tag": tag, "lambda": lam, "a4": a4, "E_KS": d["E_KS"],
-                     "int_rho": emt["rho"], "int_p3": emt["p3"], "int_p_t": emt["p_t"], "int_p8": emt["p8"],
+                     "int_rho": emt["rho"], "int_p3": emt["p3"], "int_p_t": emt["p_t"], "int_p0": emt["p0"],
                      "int_n": emt["n"], "iterations": d["iterations"], "residual": d["residual"],
                      "fermi_level": d["mu_or_fermi_level"], "ycons_integrated_rel": d["yConservationIntegratedRel"],
                      "ycons_pointwise_rel": d["yConservationPointwiseRel"], "occupied_signature": sig,
@@ -138,7 +138,7 @@ def main():
         if c is None:
             worst = float("inf")
             continue
-        for mine, theirs in (("int_rho", "int_rho"), ("int_p3", "int_p3"), ("int_p_t", "int_p_t"), ("int_p8", "int_p8")):
+        for mine, theirs in (("int_rho", "int_rho"), ("int_p3", "int_p3"), ("int_p_t", "int_p_t"), ("int_p0", "int_p0")):
             a, b = float(r[mine]), float(c[theirs])
             worst = max(worst, abs(a - b) / max(1.0, abs(b)))
             compared += 1
@@ -156,7 +156,7 @@ def main():
           f"{len(series)} series; changed: {changed}")
     yc = max(max(r["ycons_integrated_rel"], r["ycons_pointwise_rel"]) for r in rows)
     check("y_conservation_every_state", yc <= 1e-6,
-          f"p8_y + 6 H p8 = 3 H (p3 + p_t): max relative residual over {len(rows)} states {yc:.3e} (solver's own)")
+          f"p0_y + 6 H p0 = 3 H (p3 + p_t): max relative residual over {len(rows)} states {yc:.3e} (solver's own)")
     nmax = max(abs(r["int_n"] - r["N"]) / r["N"] for r in rows)
     check("particle_number_every_state", nmax <= 1e-12, f"max |int n - N|/N = {nmax:.3e}")
     write(results, rows)

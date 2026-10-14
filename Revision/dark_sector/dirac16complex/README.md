@@ -1,10 +1,10 @@
 # dark_sector/dirac16complex — the Hypothesis for dirac16complex (SPEC sections 8 and 11)
 
 Revision code only (no-mixing rule of `Revision/SPEC.md` section 0: nothing from the old stages is used). Every number
-below is an output of the scripts in this folder (files named in brackets). Coordinates as the author names them:
-x1, x2, x3 = ordinary 3-space (scale factor e^{a4} sin^{1/6} z); x4 = the time; **x5, x6, x7 = the three extra
-times, time-like, which DEFLATE EXPONENTIALLY** (scale factor e^{-a4} sin^{1/6} z, a4 increasing); x8 = the hidden
-space direction, z = 6 H x8 in (0, pi/2), y = ln(sin z)/(6H). The 3-space observer's scale factor is a = e^{a4}
+below is an output of the scripts in this folder (files named in brackets). The author's coordinates
+{x0, x1, ..., x7}: x0 = the hidden space direction, z = 6 H x0 in (0, pi/2), y = ln(sin z)/(6H); x1, x2, x3 = ordinary
+3-space (scale factor e^{a4} sin^{1/6} z); x4 = the time; **x5, x6, x7 = the three extra times, time-like, which
+DEFLATE EXPONENTIALLY** (scale factor e^{-a4} sin^{1/6} z, a4 increasing). The 3-space observer's scale factor is a = e^{a4}
 (normalised a = 1 at a chosen "today" a4_today; a = e^{a4 - a4_today}).
 
 **Hypothesis (to be investigated, not assumed):** dirac16complex provides a possible physical mechanism for a
@@ -37,8 +37,8 @@ The Rust solver binary is built with `cargo build --release --manifest-path Revi
 * Volumes: sqrt|g| = cos z; the proper 7-volume element of a slice x4 = const is cos z, independent of a4 (the
   3-space inflation e^{3 a4} is compensated by the extra-time deflation e^{-3 a4}).
 * Conservation, re-derived from the metric (own Christoffel symbols) for T = diag(p3, p3, p3, -rho, p_t, p_t, p_t,
-  p8)(x4, x8): nabla_mu T^mu_x4 = 0 ⇔ **d rho/d x4 = -3 a4' (p3 - p_t)**; nabla_mu T^mu_x8 = 0 ⇔
-  **d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0** ⇔ p8_y + 6 H p8 = 3 H (p3 + p_t) (the form the Kohn-Sham solver
+  p0)(x4, x0): nabla_mu T^mu_x4 = 0 ⇔ **d rho/d x4 = -3 a4' (p3 - p_t)**; nabla_mu T^mu_x0 = 0 ⇔
+  **d p0/d x0 + 3 H cot z (2 p0 - p3 - p_t) = 0** ⇔ p0_y + 6 H p0 = 3 H (p3 + p_t) (the form the Kohn-Sham solver
   checks); the other components vanish identically. Integrated: dE/da4 = -3 (P3 - Pt), with E, P3, Pt the proper
   7-volume integrals of rho, p3, p_t.
 * **rho_4 is an ASSUMPTION about the observer** (the extra times are time-like): (A) the extra times are compact
@@ -50,7 +50,7 @@ The Rust solver binary is built with `cargo build --release --manifest-path Revi
 
   The verdict depends on the choice by exactly -1: the same state is "dust/radiation-like" under A and B and
   "cosmological-constant-like" under C.
-* Condensate (the exact homogeneous solution): rho = m S + lambda S^2/2, p3 = p_t = p8 = lambda S^2/2, S constant:
+* Condensate (the exact homogeneous solution): rho = m S + lambda S^2/2, p3 = p_t = p0 = lambda S^2/2, S constant:
   X = 0, so w_eff(A) = w_eff(B) = 0 and w_eff(C) = -1, ratio w = lambda S/(2 m + lambda S); all constant (wa = 0).
   The ratio equals the Unite constant-w value -0.764 at lambda S/m = -382/441 (rho = m S (1 + u/2) > 0 iff m S > 0),
   but it is the 8-dimensional ratio, not the observer's dilution-inferred w.
@@ -87,7 +87,7 @@ are the adiabatically continued states); y-conservation holds to 2.0e-8; dE/da4 
 * X/E lies in [0.2929, 0.3281] over all N = 136, 688 series and slices and **rises monotonically toward 1/3** (the
   band becomes linear as the 3-momenta redshift): w_eff(A) = w_eff(B) = 0.2929 → 0.3183 (N = 688, lambda = 0),
   w_eff(C) = -0.7071 → -0.6817. The ratio w3 = P3/E equals X/E up to |Pt/E| <= 0.002 (Pt = int e_int; 0 at
-  lambda = 0). The hidden-direction ratio w8 = P8/E = 0.35 → 0.65 is a pressure the 3-space observer does not see.
+  lambda = 0). The hidden-direction ratio wx0 = P0/E = 0.35 → 0.65 is a pressure the 3-space observer does not see.
 * CPL tangent (N = 688, lambda = 0), a4_today = 0.5, 1, 1.5, 2: wa = -0.0090, -0.0129, -0.0170, -0.0178, with
   w0(C) = -0.704, -0.698, -0.691, -0.682 (w0(A) = w0(C) + 1). Least-squares CPL fits over a in [1/2, 1] and
   [1/3, 1] (a4_today = 2): wa = -0.024, -0.026; constant-w fits w(C) = -0.687, -0.690. Over all N = 136, 688
