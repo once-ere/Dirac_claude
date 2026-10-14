@@ -201,7 +201,7 @@ No run time and no path of the computer is printed (paths are shown relative to 
 ## 5. Measured run time (Windows 11, 2026-10-08)
 
 * Whole notebook, executed by `build_notebooks.py` (current version): 23.0 s (build A), 24.3 s (build B) and
-  25.8 s (`check`) of execution while other work ran on the computer (earlier versions: 24.4 s to 47.8 s
+  25.8 s, 31.2 s and 39.6 s (the three `check` runs of part 7) of execution while other work ran on the computer (earlier versions: 24.4 s to 47.8 s
   under load, section 7; the first builds of this notebook took 15.4 s to 15.9 s), including the fresh
   `cargo build --release` of the solver into `<cargo-target>` and the 123 solver runs (8 parallel
   processes; measured separately with the same arguments: 9.3 s of wall time for the 123 runs, the
@@ -276,7 +276,8 @@ No run time and no path of the computer is printed (paths are shown relative to 
 * 2026-10-08, after the re-runs of `derive_effective.py` and `derive_eos.py` with corrected texts committed
   in the snapshot `f3d347e` (15:57; new sha256 of `derivation-checks.json` `4188953d...` and of
   `eos-theory.json` `e7586528...` in section 2; a JSON comparison with the previous commit finds one
-  changed detail text in each file, nothing else): `check dark_sector_hypotheses --out <scratch>/nbcheck`,
+  changed text field in each file, nothing else: `derivation-checks.json`, the detail of `phantom_condition`;
+  `eos-theory.json`, `condensate/einstein`): `check dark_sector_hypotheses --out <scratch>/nbcheck`,
   with TMP, TEMP and TMPDIR set to a scratch folder - PASS, `the re-executed notebook is byte-identical to
   Revision/notebooks/dark_sector_hypotheses.ipynb (457652 bytes)`, executed in 39.6 s (43 s wall time); its
   129 files equal the table of section 2 (the six files by sha256 and size, the 123 solver files by the
