@@ -20,9 +20,10 @@ read only, never modified):
   In[370]  sigma16 = T16A[0].T16A[1].T16A[2].T16A[3]
   In[372]  T16A[8] = T16A[0].T16A[1]...T16A[7]
 
-and maps the notebook frame order (0 = hidden, 1-3 = 3-space, 4 = time, 5-7 = extra times) to the
-author's coordinates x1..x8 (SPEC section 1-2): gamma^(x8) = T16[0], gamma^(x1..x3) = T16[1..3],
-gamma^(x4) = T16[4], gamma^(x5..x7) = T16[5..7]; eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) in x1..x8.
+in the author's coordinates X = {x0, x1, ..., x7} (SPEC sections 1-2; his notebooks), whose order IS the
+notebook frame order (x0 = hidden, x1-x3 = 3-space, x4 = time, x5-x7 = extra times): gamma^(xk) = T16[k],
+k = 0..7; eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in x0..x7 (the notebook's eta4488).  Python index k = xk.
+(Until 2026-10-14 this file used the withdrawn labels x1..x8 with the hidden direction x8 listed last.)
 
 All arithmetic is exact: Python integers and fractions.Fraction (own Gaussian elimination), with
 sympy (Matrix, DomainMatrix over QQ) as an independent second engine for the ranks, B and the
@@ -30,7 +31,7 @@ characteristic polynomials.
 
 Outputs (deterministic, LF):
   Revision/algebra/reports/python-algebra.json  every check with name, verdict, detail
-  Revision/algebra/reports/python-gammas.json   this construction's matrices (x1..x8 order)
+  Revision/algebra/reports/python-gammas.json   this construction's matrices (x0..x7 order)
 The comparison with Revision/algebra/gammas.json (the Wolfram fixture) is done entry by entry
 when that file exists; otherwise the check is recorded with verdict "pending".
 
@@ -56,10 +57,10 @@ FIXTURE = ALGEBRA / "gammas.json"
 REPORT = REPORTS / "python-algebra.json"
 OUR_GAMMAS = REPORTS / "python-gammas.json"
 
-COORDS = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
-# author's coordinate index (0..7 for x1..x8) -> notebook T16 index
-COORD_TO_T16 = [1, 2, 3, 4, 5, 6, 7, 0]
-ETA = [1, 1, 1, -1, -1, -1, -1, 1]  # x1..x8, SPEC section 2
+COORDS = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # the author's coordinates, his order
+# author's coordinate index (0..7 for x0..x7) -> notebook T16 index: the identity
+COORD_TO_T16 = [0, 1, 2, 3, 4, 5, 6, 7]
+ETA = [1, 1, 1, 1, -1, -1, -1, -1]  # x0..x7, SPEC section 2 (= the notebook's eta4488)
 
 
 # --------------------------------------------------------------------------- exact matrix helpers
@@ -296,7 +297,7 @@ def as_int(m):
 # --------------------------------------------------------------------------- comparison with the fixture
 # The fixture's documented encoding (its "encoding" field): a matrix is a list of rows; an exact
 # rational is a JSON integer, or a string "p/q" in lowest terms with q > 0; a complex matrix is
-# {"re": ..., "im": ...}; indices 0..7 of gamma, eta and S stand for x1..x8.  Parsing is strict:
+# {"re": ..., "im": ...}; indices 0..7 of gamma, eta and S stand for x0..x7.  Parsing is strict:
 # anything else (floats, other keys) makes the comparison fail.
 def _rat(x):
     if isinstance(x, bool) or isinstance(x, float):
@@ -347,7 +348,7 @@ def compare_fixture(ours):
         if len(v) != 8:
             return False, f"{len(v)} matrices"
         d = [_diffs(_real(v[a]), ours["gamma"][a]) for a in range(8)]
-        return sum(d) == 0, f"8 matrices x 256 entries, differing entries per x1..x8: {d}"
+        return sum(d) == 0, f"8 matrices x 256 entries, differing entries per x0..x7: {d}"
 
     item("gamma", cmp_gamma)
     item("C", lambda v: ((lambda d: (d == 0, f"256 entries, {d} differ"))(_diffs(_real(v), ours["C"]))))
@@ -365,7 +366,7 @@ def compare_fixture(ours):
         if len(v) != 8 or any(len(r) != 8 for r in v):
             return False, "not an 8 x 8 array of matrices"
         d = sum(_diffs(_real(v[a][b]), ours["S"][(a, b)]) for a in range(8) for b in range(8))
-        return d == 0, f"64 matrices S^ab (a, b = x1..x8) x 256 entries, {d} differ"
+        return d == 0, f"64 matrices S^ab (a, b = x0..x7) x 256 entries, {d} differ"
 
     item("S", cmp_S)
     allok = all(ok for _, ok, _ in res)
@@ -428,17 +429,18 @@ def main():
 
     # ---- map to the author's coordinates
     gamma = [T16[COORD_TO_T16[a]] for a in range(8)]
-    check("coordinate_map", True,
-          "gamma^(x1..x3) = T16[1..3], gamma^(x4) = T16[4], gamma^(x5..x7) = T16[5..7], gamma^(x8) = T16[0] "
-          "(SPEC section 2); eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) in x1..x8 is eta4488 with its index 0 moved last: "
-          + str([eta4488[COORD_TO_T16[a]][COORD_TO_T16[a]] for a in range(8)] == ETA))
-    CHECKS[-1]["verdict"] = "pass" if [eta4488[COORD_TO_T16[a]][COORD_TO_T16[a]] for a in range(8)] == ETA else "fail"
+    eta_ok = [eta4488[COORD_TO_T16[a]][COORD_TO_T16[a]] for a in range(8)] == ETA
+    map_ok = COORDS == [f"x{k}" for k in range(8)] and COORD_TO_T16 == list(range(8))
+    check("coordinate_map", eta_ok and map_ok,
+          "the author's coordinates x0..x7 in his order (x0 = the hidden direction first): gamma^(xk) = T16[k], "
+          f"k = 0..7 (SPEC section 2) ({map_ok}); eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in x0..x7 is the notebook's "
+          f"eta4488 itself ({eta_ok})")
 
     # ---- Clifford relation (own integer arithmetic and sympy)
     bad = [(COORDS[a], COORDS[b]) for a in range(8) for b in range(8)
            if not eq(anticomm(gamma[a], gamma[b]), scal(2 * (ETA[a] if a == b else 0), I16))]
     check("clifford_relation", not bad,
-          "{gamma^a, gamma^b} = 2 eta^ab I16 for all 64 ordered pairs a, b in x1..x8, eta = diag(+,+,+,-,-,-,-,+)"
+          "{gamma^a, gamma^b} = 2 eta^ab I16 for all 64 ordered pairs a, b in x0..x7, eta = diag(+,+,+,+,-,-,-,-)"
           + ("" if not bad else f"; failures {bad}"))
     sg = [sympy.Matrix(g) for g in gamma]
     bad_s = [(a, b) for a in range(8) for b in range(a, 8)
@@ -452,22 +454,22 @@ def main():
           "(one nonzero entry per row)")
     sym = [COORDS[a] for a in range(8) if eq(tr(gamma[a]), gamma[a])]
     asym = [COORDS[a] for a in range(8) if eq(tr(gamma[a]), neg(gamma[a]))]
-    ok = sym == ["x1", "x2", "x3", "x8"] and asym == ["x4", "x5", "x6", "x7"]
+    ok = sym == ["x0", "x1", "x2", "x3"] and asym == ["x4", "x5", "x6", "x7"]
     check("symmetry_pattern", ok,
           f"symmetric: {sym} (the space-like directions); antisymmetric: {asym} (the time-like directions); "
           "hence gamma^a T = eta_aa gamma^a")
 
-    # ---- C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3)
-    C = mulall(gamma[7], gamma[0], gamma[1], gamma[2])
+    # ---- C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)
+    C = mulall(gamma[0], gamma[1], gamma[2], gamma[3])
     ok = eq(C, nb["sigma16"]) and eq(C, block([[neg(sigma), zeros(8)], [zeros(8), sigma]]))
     check("C_equals_notebook_sigma16", ok,
-          "C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) equals the notebook's sigma16 = T16A[0..3] product "
+          "C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) equals the notebook's sigma16 = T16A[0..3] product "
           "(In[370]) and equals diag(-sigma, sigma) (notebook assertion)")
     ok = eq(tr(C), C) and eq(mul(C, C), I16)
     check("C_real_symmetric_involution", ok, "C is real (integer entries), C^T = C and C^2 = I16")
     bad = [COORDS[a] for a in range(8) if not eq(tr(mul(C, gamma[a])), neg(mul(C, gamma[a])))]
     check("C_gamma_antisymmetric", not bad,
-          "C gamma^a is real antisymmetric for every a in x1..x8" + ("" if not bad else f"; failures {bad}"))
+          "C gamma^a is real antisymmetric for every a in x0..x7" + ("" if not bad else f"; failures {bad}"))
     ok2 =all(eq(mulall(C, gamma[a], C), neg(tr(gamma[a]))) for a in range(8))
     check("C_conjugation", ok2,
           "C gamma^a C^-1 = -(gamma^a)^T for all a (equivalent to C gamma^a antisymmetric with C symmetric); "
@@ -475,14 +477,14 @@ def main():
 
     # ---- chirality Gamma
     Gamma = mulall(*[T16[A] for A in range(8)])
-    Gamma_coords = mulall(gamma[7], *[gamma[a] for a in range(7)])
+    Gamma_coords = mulall(*[gamma[a] for a in range(8)])
     ok = eq(Gamma, Gamma_coords) and eq(Gamma, nb["T16_8"]) and eq(Gamma, block([[neg(I8), zeros(8)], [zeros(8), I8]]))
     check("chirality_diag", ok,
-          "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) (the notebook's product order T16A[0]...T16A[7], In[372]) "
+          "Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) (the notebook's product order T16A[0]...T16A[7], In[372]) "
           "= diag(-I8, I8)")
     ok = eq(mul(Gamma, Gamma), I16) and all(is_zero(anticomm(Gamma, gamma[a])) for a in range(8))
     check("chirality_anticommutes", ok, "Gamma^2 = I16 and Gamma anticommutes with every gamma^a")
-    ok = eq(Gamma, mulall(C, gamma[3], gamma[4], gamma[5], gamma[6]))
+    ok = eq(Gamma, mulall(C, gamma[4], gamma[5], gamma[6], gamma[7]))
     check("chirality_eq_C_times_time_gammas", ok,
           "Gamma = C gamma^(x4) gamma^(x5) gamma^(x6) gamma^(x7) (notebook assertion T16A[8] == sigma16.T16A[4..7])")
     ok = (eq(mul(C, Gamma), mul(Gamma, C)) and eq(tr(Gamma), Gamma) and eq(mulall(tr(Gamma), C, Gamma), C)
@@ -493,7 +495,7 @@ def main():
           "unchanged and every Psibar gamma^a E Psi with E an even product of gammas changes sign (input for the pairing theorem T1)")
 
     # ---- B = -i C gamma^(x4)
-    Cg4 = mul(C, gamma[3])
+    Cg4 = mul(C, gamma[4])  # gamma^(x4)
     B_imag = neg(Cg4)  # B = i * B_imag  (B = -i C gamma^(x4))
     # Hermitian: B^dagger = conj(B)^T = -i * B_imag^T ; equals B iff B_imag^T = -B_imag
     herm = eq(tr(B_imag), neg(B_imag))
@@ -515,8 +517,8 @@ def main():
     anticommute = [COORDS[a] for a in range(8) if eq(neg(mulall(B_imag, gamma[a], B_imag)), neg(gamma[a]))]
     hermitian = [COORDS[a] for a in range(8) if eq(neg(mulall(B_imag, gamma[a], B_imag)), tr(gamma[a]))]
     antihermitian = [COORDS[a] for a in range(8) if eq(neg(mulall(B_imag, gamma[a], B_imag)), neg(tr(gamma[a])))]
-    ok = (commute == ["x1", "x2", "x3", "x4", "x8"] and anticommute == ["x5", "x6", "x7"]
-          and hermitian == ["x1", "x2", "x3", "x5", "x6", "x7", "x8"] and antihermitian == ["x4"])
+    ok = (commute == ["x0", "x1", "x2", "x3", "x4"] and anticommute == ["x5", "x6", "x7"]
+          and hermitian == ["x0", "x1", "x2", "x3", "x5", "x6", "x7"] and antihermitian == ["x4"])
     check("B_gamma_relations", ok,
           f"B commutes with gamma^a for a in {commute} and anticommutes for a in {anticommute}; equivalently "
           f"B gamma^a is Hermitian for a in {hermitian} and anti-Hermitian for a in {antihermitian} "
@@ -648,8 +650,8 @@ def main():
         return str(x.numerator) if x.denominator == 1 else f"{x.numerator}/{x.denominator}"
 
     gammas_out = {
-        "description": "Revision: the author's T16 rebuilt by Revision/algebra/python/check_algebra.py, mapped to "
-                       "the author's coordinates x1..x8 (SPEC section 2). Real matrices as integer arrays; B as "
+        "description": "Revision: the author's T16 rebuilt by Revision/algebra/python/check_algebra.py, in "
+                       "the author's coordinates x0..x7 (SPEC section 2): gamma^(xk) = T16[k]. Real matrices as integer arrays; B as "
                        "{re, im}; S^ab as exact rational strings.",
         "coordinates": COORDS,
         "eta": ETA,
@@ -671,7 +673,7 @@ def main():
         "producer": "Revision/algebra/python/check_algebra.py (exact: int, fractions.Fraction, sympy)",
         "spec": "Revision/SPEC.md section 2",
         "construction": "author's formulas: Qa, Qb, s4by4, t4by4, tau, taubar = sigma tau^T sigma, "
-                        "T16 = {{0, taubar}, {tau, 0}}; coordinate map gamma^(x8) = T16[0], gamma^(x1..x7) = T16[1..7]",
+                        "T16 = {{0, taubar}, {tau, 0}}; the author's coordinates x0..x7: gamma^(xk) = T16[k], k = 0..7",
         "fixture_comparison": status,
         "summary": {"checks": len(CHECKS),
                     "pass": sum(1 for c in CHECKS if c["verdict"] == "pass"),

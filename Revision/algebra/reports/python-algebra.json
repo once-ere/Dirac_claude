@@ -2,7 +2,7 @@
   "report": "Revision/algebra/reports/python-algebra.json",
   "producer": "Revision/algebra/python/check_algebra.py (exact: int, fractions.Fraction, sympy)",
   "spec": "Revision/SPEC.md section 2",
-  "construction": "author's formulas: Qa, Qb, s4by4, t4by4, tau, taubar = sigma tau^T sigma, T16 = {{0, taubar}, {tau, 0}}; coordinate map gamma^(x8) = T16[0], gamma^(x1..x7) = T16[1..7]",
+  "construction": "author's formulas: Qa, Qb, s4by4, t4by4, tau, taubar = sigma tau^T sigma, T16 = {{0, taubar}, {tau, 0}}; the author's coordinates x0..x7: gamma^(xk) = T16[k], k = 0..7",
   "fixture_comparison": "pass",
   "summary": {
     "checks": 35,
@@ -49,12 +49,12 @@
     {
       "name": "coordinate_map",
       "verdict": "pass",
-      "detail": "gamma^(x1..x3) = T16[1..3], gamma^(x4) = T16[4], gamma^(x5..x7) = T16[5..7], gamma^(x8) = T16[0] (SPEC section 2); eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) in x1..x8 is eta4488 with its index 0 moved last: True"
+      "detail": "the author's coordinates x0..x7 in his order (x0 = the hidden direction first): gamma^(xk) = T16[k], k = 0..7 (SPEC section 2) (True); eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in x0..x7 is the notebook's eta4488 itself (True)"
     },
     {
       "name": "clifford_relation",
       "verdict": "pass",
-      "detail": "{gamma^a, gamma^b} = 2 eta^ab I16 for all 64 ordered pairs a, b in x1..x8, eta = diag(+,+,+,-,-,-,-,+)"
+      "detail": "{gamma^a, gamma^b} = 2 eta^ab I16 for all 64 ordered pairs a, b in x0..x7, eta = diag(+,+,+,+,-,-,-,-)"
     },
     {
       "name": "clifford_relation_sympy",
@@ -69,12 +69,12 @@
     {
       "name": "symmetry_pattern",
       "verdict": "pass",
-      "detail": "symmetric: ['x1', 'x2', 'x3', 'x8'] (the space-like directions); antisymmetric: ['x4', 'x5', 'x6', 'x7'] (the time-like directions); hence gamma^a T = eta_aa gamma^a"
+      "detail": "symmetric: ['x0', 'x1', 'x2', 'x3'] (the space-like directions); antisymmetric: ['x4', 'x5', 'x6', 'x7'] (the time-like directions); hence gamma^a T = eta_aa gamma^a"
     },
     {
       "name": "C_equals_notebook_sigma16",
       "verdict": "pass",
-      "detail": "C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) equals the notebook's sigma16 = T16A[0..3] product (In[370]) and equals diag(-sigma, sigma) (notebook assertion)"
+      "detail": "C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) equals the notebook's sigma16 = T16A[0..3] product (In[370]) and equals diag(-sigma, sigma) (notebook assertion)"
     },
     {
       "name": "C_real_symmetric_involution",
@@ -84,7 +84,7 @@
     {
       "name": "C_gamma_antisymmetric",
       "verdict": "pass",
-      "detail": "C gamma^a is real antisymmetric for every a in x1..x8"
+      "detail": "C gamma^a is real antisymmetric for every a in x0..x7"
     },
     {
       "name": "C_conjugation",
@@ -94,7 +94,7 @@
     {
       "name": "chirality_diag",
       "verdict": "pass",
-      "detail": "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) (the notebook's product order T16A[0]...T16A[7], In[372]) = diag(-I8, I8)"
+      "detail": "Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) (the notebook's product order T16A[0]...T16A[7], In[372]) = diag(-I8, I8)"
     },
     {
       "name": "chirality_anticommutes",
@@ -119,7 +119,7 @@
     {
       "name": "B_gamma_relations",
       "verdict": "pass",
-      "detail": "B commutes with gamma^a for a in ['x1', 'x2', 'x3', 'x4', 'x8'] and anticommutes for a in ['x5', 'x6', 'x7']; equivalently B gamma^a is Hermitian for a in ['x1', 'x2', 'x3', 'x5', 'x6', 'x7', 'x8'] and anti-Hermitian for a in ['x4'] (B gamma^(x4) = -i C is anti-Hermitian). Measured facts recorded for the quantisation work (SPEC section 6); no interpretation is attached here"
+      "detail": "B commutes with gamma^a for a in ['x0', 'x1', 'x2', 'x3', 'x4'] and anticommutes for a in ['x5', 'x6', 'x7']; equivalently B gamma^a is Hermitian for a in ['x0', 'x1', 'x2', 'x3', 'x5', 'x6', 'x7'] and anti-Hermitian for a in ['x4'] (B gamma^(x4) = -i C is anti-Hermitian). Measured facts recorded for the quantisation work (SPEC section 6); no interpretation is attached here"
     },
     {
       "name": "S_definition",
@@ -184,7 +184,7 @@
     {
       "name": "fixture_comparison_gammas_json",
       "verdict": "pass",
-      "detail": "entry-by-entry comparison with Revision/algebra/gammas.json (the Wolfram fixture): coordinates: equal (['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8']); eta: equal ([1, 1, 1, -1, -1, -1, -1, 1]); gamma: equal (8 matrices x 256 entries, differing entries per x1..x8: [0, 0, 0, 0, 0, 0, 0, 0]); C: equal (256 entries, 0 differ); Gamma: equal (256 entries, 0 differ); B: equal (re and im parts, 512 entries, 0 differ); S: equal (64 matrices S^ab (a, b = x1..x8) x 256 entries, 0 differ)"
+      "detail": "entry-by-entry comparison with Revision/algebra/gammas.json (the Wolfram fixture): coordinates: equal (['x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7']); eta: equal ([1, 1, 1, 1, -1, -1, -1, -1]); gamma: equal (8 matrices x 256 entries, differing entries per x0..x7: [0, 0, 0, 0, 0, 0, 0, 0]); C: equal (256 entries, 0 differ); Gamma: equal (256 entries, 0 differ); B: equal (re and im parts, 512 entries, 0 differ); S: equal (64 matrices S^ab (a, b = x0..x7) x 256 entries, 0 differ)"
     }
   ]
 }

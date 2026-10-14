@@ -5,7 +5,7 @@
 
    Driver for Revision/algebra/wolfram/RevisionAlgebra.wl (Revision/SPEC.md, section 2).
    Writes, deterministically (LF line endings, no time stamps):
-     Revision/algebra/gammas.json                    the fixture (gamma, C, Gamma, B, S; order x1..x8)
+     Revision/algebra/gammas.json                    the fixture (gamma, C, Gamma, B, S; the author's order x0..x7)
      Revision/algebra/reports/wolfram-algebra.json   every check with name, verdict, detail
    Usage:  wolframscript -file Revision/algebra/wolfram/verify_algebra.wls
    Every check is exact (integer / Gaussian-rational arithmetic, NullSpace and MatrixRank over the
@@ -26,7 +26,8 @@ coords = RACoordinates;
 g = RAGamma; eta = RAEta;
 id16 = IdentityMatrix[16]; id8 = IdentityMatrix[8];
 zero16 = ConstantArray[0, {16, 16}];
-spaceLike = {1, 2, 3, 8}; timeLike = {4, 5, 6, 7};
+(* Wolfram positions: 1 = x0, 2 = x1, ..., 8 = x7 *)
+spaceLike = {1, 2, 3, 4}; timeLike = {5, 6, 7, 8};
 anti[a_, b_] := a . b + b . a;
 comm[a_, b_] := a . b - b . a;
 
@@ -73,19 +74,20 @@ addCheck["T16_block_form",
     RAT16[A][[1 ;; 8, 9 ;; 16]] == RATauBar[A] && RAT16[A][[9 ;; 16, 1 ;; 8]] == RATau[A], {A, 0, 7}],
   "T16[A] = {{0, taubar[A]}, {tau[A], 0}}, A = 0..7"];
 
-(* ---------- 1. Clifford relation in the author's order x1..x8 ---------- *)
+(* ---------- 1. Clifford relation in the author's coordinates x0..x7 ---------- *)
 addCheck["coordinate_map",
-  RANotebookFrame == {1, 2, 3, 4, 5, 6, 7, 0} && And @@ Table[g[[a]] == RAT16[RANotebookFrame[[a]]], {a, 8}],
-  "gamma^(x1..x3) = T16[1..3], gamma^(x4) = T16[4], gamma^(x5..x7) = T16[5..7], gamma^(x8) = T16[0] (SPEC section 2)"];
+  coords == {"x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"} &&
+  RANotebookFrame == {0, 1, 2, 3, 4, 5, 6, 7} && And @@ Table[g[[k + 1]] == RAT16[k], {k, 0, 7}],
+  "the author's coordinates x0..x7 in his order (x0 = the hidden direction first): gamma^(xk) = T16[k] for k = 0..7 (SPEC section 2)"];
 
 addCheck["eta_in_author_order",
-  eta == DiagonalMatrix[{1, 1, 1, -1, -1, -1, -1, 1}],
-  "eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) in the order x1..x8 (read off from the notebook's eta4488 through the frame map): space-like x1, x2, x3, x8; time-like x4, x5, x6, x7"];
+  eta == DiagonalMatrix[{1, 1, 1, 1, -1, -1, -1, -1}] && eta == RAEta4488,
+  "eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in the order x0..x7 = the notebook's eta4488: space-like x0, x1, x2, x3; time-like x4, x5, x6, x7"];
 
 cliffordTable = Table[anti[g[[a]], g[[b]]] == 2 eta[[a, b]] id16, {a, 8}, {b, 8}];
 addCheck["Clifford_relation",
   And @@ Flatten[cliffordTable],
-  "{gamma^a, gamma^b} = 2 eta^ab I16 for all 64 pairs a, b in x1..x8 (exact integer arithmetic); " <>
+  "{gamma^a, gamma^b} = 2 eta^ab I16 for all 64 pairs a, b in x0..x7 (exact integer arithmetic); " <>
   "squares: " <> StringRiffle[Table[coords[[a]] <> ":" <> ToString[eta[[a, a]]], {a, 8}], ", "]];
 
 addCheck["reality",
@@ -105,8 +107,8 @@ addCheck["symmetry_pattern",
 (* ---------- 2. C, Gamma, B ---------- *)
 C16 = RAC;
 addCheck["C_definition",
-  C16 == g[[8]] . g[[1]] . g[[2]] . g[[3]] && C16 == RAT16[0] . RAT16[1] . RAT16[2] . RAT16[3],
-  "C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) = the notebook's sigma16 = T16[0] T16[1] T16[2] T16[3]"];
+  C16 == g[[1]] . g[[2]] . g[[3]] . g[[4]] && C16 == RAT16[0] . RAT16[1] . RAT16[2] . RAT16[3],
+  "C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) = the notebook's sigma16 = T16[0] T16[1] T16[2] T16[3]"];
 addCheck["C_real_symmetric",
   MatrixQ[C16, IntegerQ] && Transpose[C16] == C16,
   "C is a real (integer) symmetric matrix"];
@@ -114,15 +116,15 @@ addCheck["C_squared_identity", C16 . C16 == id16, "C^2 = I16"];
 cGammaPattern = Table[Transpose[C16 . g[[a]]] == -(C16 . g[[a]]) && MatrixQ[C16 . g[[a]], IntegerQ], {a, 8}];
 addCheck["C_gamma_real_antisymmetric",
   And @@ cGammaPattern,
-  "C gamma^a is real and antisymmetric for every a in x1..x8 (so Psibar gamma^a Psi = Psi^dagger C gamma^a Psi; for real commuting spinors it vanishes)"];
+  "C gamma^a is real and antisymmetric for every a in x0..x7 (so Psibar gamma^a Psi = Psi^dagger C gamma^a Psi; for real commuting spinors it vanishes)"];
 addCheck["C_gamma_C_inverse",
   And @@ Table[C16 . g[[a]] . C16 == -Transpose[g[[a]]], {a, 8}],
   "C gamma^a C^-1 = -(gamma^a)^T for every a (equivalent statement)"];
 
 Gam = RAChirality;
 addCheck["Gamma_definition",
-  Gam == Dot @@ g[[{8, 1, 2, 3, 4, 5, 6, 7}]] && Gam == RAT16[8],
-  "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = the notebook's T16[8] = T16[0] ... T16[7]"];
+  Gam == Dot @@ g[[{1, 2, 3, 4, 5, 6, 7, 8}]] && Gam == RAT16[8],
+  "Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = the notebook's T16[8] = T16[0] ... T16[7]"];
 addCheck["Gamma_diag",
   Gam == ArrayFlatten[{{-id8, 0}, {0, id8}}],
   "Gamma = diag(-I8, I8)"];
@@ -137,7 +139,7 @@ addCheck["notebook_product_identity",
   "T16[0] T16[1] ... T16[7] T16[8] = I16 (an identity stated in the notebook; it is Gamma^2 = I16)"];
 
 Bm = RAB;
-addCheck["B_definition", Bm == -I C16 . g[[4]], "B = -i C gamma^(x4)"];
+addCheck["B_definition", Bm == -I C16 . g[[5]], "B = -i C gamma^(x4) (Wolfram position 5 = x4)"];
 addCheck["B_Hermitian", ConjugateTranspose[Bm] == Bm, "B^dagger = B"];
 addCheck["B_squared_identity", Bm . Bm == id16, "B^2 = I16"];
 bEig = Eigenvalues[Bm];
@@ -173,9 +175,10 @@ addCheck["S_preserves_C",
   "S^T C + C S = 0 (equivalently S^dagger C + C S = 0, S real) for every S^ab: Psibar Psi = Psi^dagger C Psi is Spin(4,4) invariant"];
 bInvPairs = Flatten[Table[If[ConjugateTranspose[S[[a, b]]] . Bm + Bm . S[[a, b]] == zero16, Nothing, {a, b}], {a, 8}, {b, a + 1, 8}], 1];
 addCheck["S_preserves_B_only_off_x4",
-  Sort[bInvPairs] == Sort[Flatten[Table[If[a == 4 || b == 4, {a, b}, Nothing], {a, 8}, {b, a + 1, 8}], 1]] &&
-  And @@ Table[If[b == 4, True,
-    ConjugateTranspose[S[[4, b]]] . Bm + Bm . S[[4, b]] == I C16 . g[[b]]], {b, 8}],
+  (* bInvPairs lists the pairs whose S^ab does NOT preserve B; x4 is Wolfram position 5 *)
+  Sort[bInvPairs] == Sort[Flatten[Table[If[a == 5 || b == 5, {a, b}, Nothing], {a, 8}, {b, a + 1, 8}], 1]] &&
+  And @@ Table[If[b == 5, True,
+    ConjugateTranspose[S[[5, b]]] . Bm + Bm . S[[5, b]] == I C16 . g[[b]]], {b, 8}],
   "S^dagger B + B S = 0 holds exactly for the 21 generators S^ab with a, b != x4; for the 7 generators S^(x4 b) it equals i C gamma^b != 0 (exact): " <>
   "the Hermitian form Psi^dagger B Psi (signature (8,8)) is invariant under the Spin(4,3) that fixes the x4 direction, " <>
   "not under all of Spin(4,4) (B = -i C gamma^(x4) singles out the time x4, like Psi^dagger Psi in Minkowski space); " <>
@@ -200,7 +203,7 @@ addCheck["even_subalgebra_dimension",
 commPin = RACommutantBasis[g];
 addCheck["Pin44_irreducible_commutant_dim_1",
   Length[commPin] == 1 && MatrixRank[{Flatten[First[commPin]], Flatten[id16]}] == 1,
-  "the commutant {X : X gamma^a = gamma^a X, a = x1..x8} has dimension " <> ToString[Length[commPin]] <>
+  "the commutant {X : X gamma^a = gamma^a X, a = x0..x7} has dimension " <> ToString[Length[commPin]] <>
   " and is spanned by I16 (exact NullSpace over Q; the gammas are rational, so the complex commutant has the same dimension). " <>
   "Pin(4,4) is generated by the unit vectors v^a gamma_a and its linear span is the whole Clifford algebra, so its commutant is this one: " <>
   "the 16-dimensional representation is irreducible under Pin(4,4) (Schur, over C)"];
@@ -267,7 +270,7 @@ report = StringJoin[
   "  \"producer\": ", jstr["Revision/algebra/wolfram/verify_algebra.wls"], ",\n",
   "  \"package\": ", jstr["Revision/algebra/wolfram/RevisionAlgebra.wl"], ",\n",
   "  \"fixture\": ", jstr["Revision/algebra/gammas.json"], ",\n",
-  "  \"coordinates\": ", jstr["x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times; x8 = the hidden direction"], ",\n",
+  "  \"coordinates\": ", jstr["the author's coordinates x0..x7: x0 = the hidden direction; x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times"], ",\n",
   "  \"summary\": {\"passed\": ", ToString[nPass], ", \"failed\": ", ToString[nTot - nPass], ", \"total\": ", ToString[nTot], "},\n",
   "  \"checks\": [\n",
   StringRiffle[("    {\"name\": " <> jstr[#["name"]] <> ", \"verdict\": " <> jstr[#["verdict"]] <> ", \"detail\": " <> jstr[#["detail"]] <> "}") & /@ checks, ",\n"],

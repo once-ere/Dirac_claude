@@ -37,26 +37,30 @@ x5..x7 the extra times):
  {0, 0, 0, 0, 0, 0, 0, -E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1/3)}}
 ```
 
-The same metric in the Revision order of coordinates (x8 = the notebook's x0, listed LAST), which every
-Revision file uses:
+**The coordinates are the author's: X = {x0, x1, x2, x3, x4, x5, x6, x7}** (the notebook's In[48]; also the older
+notebook Pair_Creation_of_Universes_...Nash.nb).  Every array, every component list and every frame index of the
+Revision record is ordered x0, x1, ..., x7 (index 0 = x0).  On 2026-10-14 the user ordered that his coordinates be used
+throughout ("YOU MUST USE MY COORDINATES {x0,x1,x2,x3,x4,x5,x6,x7}"); until then the Revision record had named them
+x1 ... x8 with the hidden direction x8 listed LAST (following the metric text of the task message of 2026-10-01, quoted
+in `Revision/README.md`).  That labelling is withdrawn; the map from it is x8 -> x0 (moved to the front), xk -> xk
+(k = 1..7).  The metric is the one above:
 
 ```text
-g = {{E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0},
-     {0,0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0},{0,0,0,-1,0,0,0,0},
-     {0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0,0},
-     {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0},{0,0,0,0,0,0,0,Cot[6 H x8]^2}}
+g = {{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},
+     {0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},
+     {0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},
+     {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}}
 ```
 
 The only difference from the metric of this section before 2026-10-14 is the second metric function
 b4(x4) > 0 in the three extra-time components; b4 = 1 is the earlier metric.  The proof that the change is
 made correctly, and its consequences, are in `Revision/metric_b4/` (`METRIC_CHANGE_PROVENANCE.md`).
 
-Coordinates are named as the author names them, x1 ... x8 (arrays index them 0 ... 7):
-x1, x2, x3 = ordinary 3-space (inflating, scale factor e^{a4} sin^{1/6} z); x4 = the time;
-x5, x6, x7 = the three EXTRA TIMES, time-like, which DEFLATE EXPONENTIALLY (scale factor
-e^{-a4} b4^{1/2} sin^{1/6} z, a4 increasing; see the memory of the author's correction: they are never treated
-as static or frozen in a canonical computation); x8 = the hidden space direction, z = 6 H x8 in
-(0, pi/2), g88 = cot^2 z.  Signature (4,4): space-like x1, x2, x3, x8; time-like x4, x5, x6, x7 (for b4 > 0).
+The coordinates, as the author names them: x0 = the hidden space direction (a small circle), z = 6 H x0 in
+(0, pi/2), g00 = cot^2 z; x1, x2, x3 = ordinary 3-space (inflating, scale factor e^{a4} sin^{1/6} z); x4 = the time;
+x5, x6, x7 = the three EXTRA TIMES, time-like, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} b4^{1/2} sin^{1/6} z,
+a4 increasing; see the memory of the author's correction: they are never treated as static or frozen in a canonical
+computation).  Signature (4,4): space-like x0, x1, x2, x3; time-like x4, x5, x6, x7 (for b4 > 0).
 sqrt|det g| = b4^{3/2} sin z cot z = b4^{3/2} cos z.  H > 0 is the author's constant; a4(x4) and b4(x4) are
 the metric functions whose field equations section 5 derives.  Derivatives: a4' = d a4 / d x4, b4' = d b4 / d x4.
 
@@ -69,16 +73,16 @@ and states so; every formula is derived for general b4(x4).
 
 ## 2. Clifford algebra, Pin(4,4), Spin(4,4)
 
-* Frame indices a = 1 ... 8 aligned with the coordinates (diagonal vielbein e^a_mu = sqrt|g_mumu|
-  delta^a_mu); frame metric eta_ab = diag(+1, +1, +1, -1, -1, -1, -1, +1) in the order x1 ... x8.
-* Gamma matrices: the author's real 16 x 16 matrices T16 of the notebook (built from the tau
-  matrices), RE-CONSTRUCTED in Revision code from the author's formulas, with the notebook's frame
-  order (0 = hidden, 1-3 = 3-space, 4 = time, 5-7 = extra times) mapped to the author's coordinates:
-  gamma^(x8) = T16[0], gamma^(x1..x3) = T16[1..3], gamma^(x4) = T16[4], gamma^(x5..x7) = T16[5..7].
-  Verify exactly: {gamma^a, gamma^b} = 2 eta^ab; reality; symmetry pattern.
-* C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) (the four space-like gammas; the notebook's sigma16):
-  verify C real symmetric, C^2 = 1, C gamma^a real antisymmetric.  Dirac adjoint Psibar = Psi^dagger C.
-* Chirality Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) (the notebook's product order, giving
+* Frame indices a = 0 ... 7 aligned with the coordinates x0 ... x7 (diagonal vielbein e^a_mu = sqrt|g_mumu|
+  delta^a_mu); frame metric eta_ab = diag(+1, +1, +1, +1, -1, -1, -1, -1) in the order x0 ... x7.
+* Gamma matrices: the author's real 16 x 16 matrices T16A[0..7] of the notebook (built from the tau
+  matrices), RE-CONSTRUCTED in Revision code from the author's formulas, in the author's own frame order,
+  which is the coordinate order: gamma^(xk) = T16A[k] for k = 0 ... 7 (0 = hidden, 1-3 = 3-space, 4 = time,
+  5-7 = extra times).  Verify exactly: {gamma^a, gamma^b} = 2 eta^ab; reality; symmetry pattern.
+* C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) = T16A[0] T16A[1] T16A[2] T16A[3] (the four space-like gammas;
+  the notebook's sigma16): verify C real symmetric, C^2 = 1, C gamma^a real antisymmetric.  Dirac adjoint
+  Psibar = Psi^dagger C.
+* Chirality Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = T16A[8] (the notebook's product order, giving
   diag(-I8, I8)); B = -i C gamma^(x4) (Hermitian, B^2 = 1, signature (8,8)).
 * S^ab = (1/4)[gamma^a, gamma^b]; verify exactly: the 16-dimensional representation is IRREDUCIBLE
   under Pin(4,4) (commutant dimension 1) and splits under Spin(4,4) into TWO INEQUIVALENT irreducible
@@ -133,16 +137,16 @@ S = Psibar Psi,   U(S) = (lambda/2) S^2   (general U where stated),
 Einstein-Lovelock gravity with the Lovelock tensors computed with GKD (`Revision/gkd_lovelock`):
 sum_{k=1}^{3} alpha_k E_(k)^mu_nu + Lambda delta^mu_nu = kappa T^mu_nu, E_(k) = -P_(k)/2^(k+1)
 (alpha_1 = 1 gives Einstein).  For the metric of section 1 derive exactly: the independent components
-(x1 = x2 = x3, x4, x5 = x6 = x7, x8, and the off-diagonal x4-x8 component), the EVOLUTION EQUATION for
+(x0, x1 = x2 = x3, x4, x5 = x6 = x7, and the off-diagonal x0-x4 component), the EVOLUTION EQUATION for
 a4 (the 3-space minus extra-time component: it contains a4'' and is sourced by p3 - p_t), the CONSTRAINT
-(the x4 component), and the remaining consistency conditions (the x8 component and the x8-dependence
+(the x4 component), and the remaining consistency conditions (the x0 component and the x0-dependence
 the source must have); specialise to each field's T^mu_nu (dirac16complex: expectation values in the
 states of section 7; dirac16complex00: classical bilinears) and to Einstein gravity (alpha_2 = alpha_3 = 0)
 as a special case; state what a4 the equations then allow (including the exponentially deflating
 member a4 linear in x4 and what source it requires).
 ADDED 2026-10-14 (metric with b4, section 1): the same for the pair (a4, b4): the evolution equations now
-contain a4'' and b4''; the x4 component stays a constraint (first derivatives only); the off-diagonal x4-x8
-component of every E_(k) is proportional to Cot[6 H x8] b4' (it vanishes identically for b4' = 0), so a
+contain a4'' and b4''; the x4 component stays a constraint (first derivatives only); the off-diagonal x0-x4
+component of every E_(k) is proportional to Cot[6 H x0] b4' (it vanishes identically for b4' = 0), so a
 source with T^4_8 = 0 forces b4' = 0 or the factor Q(a4', b4'/b4) of `Revision/metric_b4/results/vacuum-b4.json`
 to vanish; derive which (a4, b4) each source allows, with b4 = 1 as the earlier special case.
 

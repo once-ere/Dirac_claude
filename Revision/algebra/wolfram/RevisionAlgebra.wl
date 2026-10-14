@@ -37,16 +37,20 @@
         T16[A] = {{0, taubar[A]}, {tau[A], 0}}           A = 0..7
         T16[8] = T16[0] . T16[1] . ... . T16[7]
 
-   4. The author's coordinate order x1..x8 (SPEC section 2): x1, x2, x3 = 3-space, x4 = time,
-      x5, x6, x7 = the exponentially deflating extra times, x8 = the hidden direction:
+   4. The author's coordinates X = {x0, x1, x2, x3, x4, x5, x6, x7} (his notebooks; SPEC sections 1, 2):
+      x0 = the hidden direction, x1, x2, x3 = 3-space, x4 = time, x5, x6, x7 = the exponentially
+      deflating extra times.  The coordinate order IS the notebook's frame order:
 
-        gamma^(x1..x3) = T16[1..3],  gamma^(x4) = T16[4],  gamma^(x5..x7) = T16[5..7],  gamma^(x8) = T16[0]
-        eta = diag(+1, +1, +1, -1, -1, -1, -1, +1)       (order x1..x8)
+        gamma^(xk) = T16[k]   (k = 0..7)
+        eta = diag(+1, +1, +1, +1, -1, -1, -1, -1)       (order x0..x7; the notebook's eta4488)
 
       and from them (SPEC section 2):
 
-        C     = gamma^(x8) . gamma^(x1) . gamma^(x2) . gamma^(x3)       (the notebook's sigma16)
-        Gamma = gamma^(x8) . gamma^(x1) . ... . gamma^(x7)              (the notebook's T16[8])
+        C     = gamma^(x0) . gamma^(x1) . gamma^(x2) . gamma^(x3)       (the notebook's sigma16)
+        Gamma = gamma^(x0) . gamma^(x1) . ... . gamma^(x7)              (the notebook's T16[8])
+
+      (Until 2026-10-14 this package used the labels x1..x8 with the hidden direction x8 = T16[0]
+      listed last.  That labelling is withdrawn: the user ordered his coordinates {x0, ..., x7}.)
         B     = -I C . gamma^(x4)
         S^ab  = (1/4) (gamma^a . gamma^b - gamma^b . gamma^a)
 
@@ -75,22 +79,22 @@ RAEta4488::usage = "RAEta4488 = diag(1,1,1,1,-1,-1,-1,-1): the notebook's frame 
 RATau::usage = "RATau[A] (A = 0..7): the author's 8 x 8 tau matrices.";
 RATauBar::usage = "RATauBar[A] (A = 0..7): taubar = sigma . tau^T . sigma (taubar[0] = I8).";
 RAT16::usage = "RAT16[A] (A = 0..8): the author's 16 x 16 matrices in the notebook frame order; RAT16[8] = T16[0]...T16[7].";
-RACoordinates::usage = "RACoordinates = {\"x1\", ..., \"x8\"}.";
-RANotebookFrame::usage = "RANotebookFrame = {1, 2, 3, 4, 5, 6, 7, 0}: the notebook frame index A of T16[A] used for x1..x8.";
-RAEta::usage = "RAEta = diag(+1,+1,+1,-1,-1,-1,-1,+1): the frame metric in the order x1..x8, read off from RAEta4488 through RANotebookFrame.";
-RAGamma::usage = "RAGamma = {gamma^(x1), ..., gamma^(x8)}: the 16 x 16 gamma matrices in the order x1..x8.";
-RAC::usage = "RAC = gamma^(x8).gamma^(x1).gamma^(x2).gamma^(x3) (the charge matrix of SPEC section 2).";
-RAChirality::usage = "RAChirality = gamma^(x8).gamma^(x1).....gamma^(x7) (Gamma of SPEC section 2).";
+RACoordinates::usage = "RACoordinates = {\"x0\", ..., \"x7\"}: the author's coordinates.";
+RANotebookFrame::usage = "RANotebookFrame = {0, 1, ..., 7}: the notebook frame index A of T16[A] used for x0..x7 (the identity).";
+RAEta::usage = "RAEta = diag(+1,+1,+1,+1,-1,-1,-1,-1): the frame metric in the order x0..x7, read off from RAEta4488 through RANotebookFrame.";
+RAGamma::usage = "RAGamma = {gamma^(x0), ..., gamma^(x7)} = {T16[0], ..., T16[7]}: the 16 x 16 gamma matrices in the order x0..x7 (Wolfram position k+1 holds gamma^(xk)).";
+RAC::usage = "RAC = gamma^(x0).gamma^(x1).gamma^(x2).gamma^(x3) (the charge matrix of SPEC section 2).";
+RAChirality::usage = "RAChirality = gamma^(x0).gamma^(x1).....gamma^(x7) (Gamma of SPEC section 2).";
 RAB::usage = "RAB = -I RAC.gamma^(x4).";
-RAS::usage = "RAS[[a, b]] = (1/4)(gamma^a.gamma^b - gamma^b.gamma^a), a, b = 1..8 in the order x1..x8.";
+RAS::usage = "RAS[[a, b]] = (1/4)(gamma^a.gamma^b - gamma^b.gamma^a); Wolfram positions a, b = 1..8 stand for x0..x7.";
 RAPL::usage = "RAPL = (I16 - Gamma)/2 (the notebook's P_L; the Gamma = -1 half, rows/columns 1..8).";
 RAPR::usage = "RAPR = (I16 + Gamma)/2 (the notebook's P_R; the Gamma = +1 half, rows/columns 9..16).";
-RACliffordBasis::usage = "RACliffordBasis[k] gives the list of {indices, product} for all increasing index lists of length k (indices 1..8 = x1..x8); k = 0 gives the identity.";
+RACliffordBasis::usage = "RACliffordBasis[k] gives the list of {indices, product} for all increasing index lists of length k (Wolfram positions 1..8 = x0..x7); k = 0 gives the identity.";
 RACommutantBasis::usage = "RACommutantBasis[mats] gives a basis (n x n matrices) of {X : M.X == X.M for all M in mats}.";
 RAIntertwinerBasis::usage = "RAIntertwinerBasis[from, to] gives a basis of {X : X.from[[k]] == to[[k]].X for all k}.";
 RASpanDimension::usage = "RASpanDimension[mats] is the dimension of the linear span of the matrices mats (exact rank).";
-RAMetricDiagonal::usage = "RAMetricDiagonal: the diagonal of the author's metric g (SPEC section 1) in the order x1..x8.";
-RAMetricAssumptions::usage = "RAMetricAssumptions: {a4[x4] real, H > 0, 0 < 6 H x8 < Pi/2}.";
+RAMetricDiagonal::usage = "RAMetricDiagonal: the diagonal of the author's metric g (SPEC section 1, with b4[x4] since 2026-10-14) in the order x0..x7.";
+RAMetricAssumptions::usage = "RAMetricAssumptions: {a4[x4] real, H > 0, 0 < 6 H x0 < Pi/2, b4[x4] > 0}.";
 RAJSONRational::usage = "RAJSONRational[q] writes an exact rational as JSON: an integer, or the string \"p/q\".";
 RAJSONMatrixLines::usage = "RAJSONMatrixLines[m, indent] writes a real exact matrix as a JSON list of rows, one row per line.";
 RAFixtureString::usage = "RAFixtureString[] gives the full text of gammas.json (LF line endings, deterministic).";
@@ -132,15 +136,15 @@ t16Table = Module[{t = Association[]},
   t];
 RAT16[a_Integer /; 0 <= a <= 8] := t16Table[a];
 
-(* 4. the author's coordinate order (SPEC section 2) *)
-RACoordinates = {"x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"};
-RANotebookFrame = {1, 2, 3, 4, 5, 6, 7, 0};
+(* 4. the author's coordinates x0..x7 (SPEC sections 1, 2); Wolfram position k+1 holds xk *)
+RACoordinates = {"x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"};
+RANotebookFrame = {0, 1, 2, 3, 4, 5, 6, 7};
 RAEta = DiagonalMatrix[Table[RAEta4488[[f + 1, f + 1]], {f, RANotebookFrame}]];
 RAGamma = Table[t16Table[f], {f, RANotebookFrame}];
 
-RAC = RAGamma[[8]] . RAGamma[[1]] . RAGamma[[2]] . RAGamma[[3]];
-RAChirality = Dot @@ RAGamma[[{8, 1, 2, 3, 4, 5, 6, 7}]];
-RAB = -I RAC . RAGamma[[4]];
+RAC = RAGamma[[1]] . RAGamma[[2]] . RAGamma[[3]] . RAGamma[[4]];   (* x0 x1 x2 x3 *)
+RAChirality = Dot @@ RAGamma;                                      (* x0 x1 ... x7 *)
+RAB = -I RAC . RAGamma[[5]];                                       (* gamma^(x4) *)
 RAS = Table[(1/4) (RAGamma[[a]] . RAGamma[[b]] - RAGamma[[b]] . RAGamma[[a]]), {a, 8}, {b, 8}];
 RAPL = (id16 - RAChirality)/2;
 RAPR = (id16 + RAChirality)/2;
@@ -148,18 +152,18 @@ RAPR = (id16 + RAChirality)/2;
 RACliffordBasis[k_Integer /; 0 <= k <= 8] :=
   Table[{s, If[s === {}, id16, Dot @@ RAGamma[[s]]]}, {s, Subsets[Range[8], {k}]}];
 
-(* the author's metric (SPEC section 1), diagonal, order x1..x8 *)
+(* the author's metric (SPEC section 1; with b4[x4] since 2026-10-14), diagonal, order x0..x7 *)
 RAMetricDiagonal = {
-  E^(2 Global`a4[Global`x4]) Sin[6 Global`H Global`x8]^(1/3),
-  E^(2 Global`a4[Global`x4]) Sin[6 Global`H Global`x8]^(1/3),
-  E^(2 Global`a4[Global`x4]) Sin[6 Global`H Global`x8]^(1/3),
+  Cot[6 Global`H Global`x0]^2,
+  E^(2 Global`a4[Global`x4]) Sin[6 Global`H Global`x0]^(1/3),
+  E^(2 Global`a4[Global`x4]) Sin[6 Global`H Global`x0]^(1/3),
+  E^(2 Global`a4[Global`x4]) Sin[6 Global`H Global`x0]^(1/3),
   -1,
-  -E^(-2 Global`a4[Global`x4]) Sin[6 Global`H Global`x8]^(1/3),
-  -E^(-2 Global`a4[Global`x4]) Sin[6 Global`H Global`x8]^(1/3),
-  -E^(-2 Global`a4[Global`x4]) Sin[6 Global`H Global`x8]^(1/3),
-  Cot[6 Global`H Global`x8]^2};
+  -E^(-2 Global`a4[Global`x4]) Global`b4[Global`x4] Sin[6 Global`H Global`x0]^(1/3),
+  -E^(-2 Global`a4[Global`x4]) Global`b4[Global`x4] Sin[6 Global`H Global`x0]^(1/3),
+  -E^(-2 Global`a4[Global`x4]) Global`b4[Global`x4] Sin[6 Global`H Global`x0]^(1/3)};
 RAMetricAssumptions = {Element[Global`a4[Global`x4], Reals], Global`H > 0,
-  0 < 6 Global`H Global`x8 < Pi/2};
+  0 < 6 Global`H Global`x0 < Pi/2, Global`b4[Global`x4] > 0};
 
 (* 5. exact linear algebra *)
 commutatorOperator[m_] := Module[{n = Length[m], idn},
@@ -209,18 +213,17 @@ RAFixtureString[] := StringJoin[
   "  \"description\": ", jsonString[
     "The real 16 x 16 gamma matrices of the author's notebook (T16, built from the tau matrices), " <>
     "re-constructed from the author's formulas by Revision/algebra/wolfram/RevisionAlgebra.wl and " <>
-    "mapped to the author's coordinate order x1..x8 (SPEC section 2): gamma^(x8) = T16[0], " <>
-    "gamma^(x1..x3) = T16[1..3], gamma^(x4) = T16[4], gamma^(x5..x7) = T16[5..7]. " <>
-    "x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times; x8 = the hidden direction."], ",\n",
+    "in the author's coordinates x0..x7 (SPEC section 2): gamma^(xk) = T16[k], k = 0..7. " <>
+    "x0 = the hidden direction; x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times."], ",\n",
   "  \"producer\": ", jsonString["Revision/algebra/wolfram/verify_algebra.wls"], ",\n",
   "  \"encoding\": ", jsonString[
     "Every matrix is a list of rows (row index first). An exact rational is a JSON integer when it is an integer " <>
     "and otherwise a JSON string \"p/q\" in lowest terms with q > 0. A complex matrix is an object " <>
-    "{\"re\": real part, \"im\": imaginary part}. Indices a, b = 0..7 of gamma, eta and S stand for x1..x8."], ",\n",
+    "{\"re\": real part, \"im\": imaginary part}. Indices a, b = 0..7 of gamma, eta and S stand for x0..x7."], ",\n",
   "  \"definitions\": {\n",
-  "    \"gamma\": ", jsonString["gamma[a] = gamma^(x_(a+1)); {gamma^a, gamma^b} = 2 eta^ab I16"], ",\n",
-  "    \"C\": ", jsonString["C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) (the notebook's sigma16); Dirac adjoint Psibar = Psi^dagger C"], ",\n",
-  "    \"Gamma\": ", jsonString["Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) (the notebook's T16[8]) = diag(-I8, I8)"], ",\n",
+  "    \"gamma\": ", jsonString["gamma[a] = gamma^(x_a) = T16[a]; {gamma^a, gamma^b} = 2 eta^ab I16"], ",\n",
+  "    \"C\": ", jsonString["C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) (the notebook's sigma16); Dirac adjoint Psibar = Psi^dagger C"], ",\n",
+  "    \"Gamma\": ", jsonString["Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) (the notebook's T16[8]) = diag(-I8, I8)"], ",\n",
   "    \"B\": ", jsonString["B = -i C gamma^(x4)"], ",\n",
   "    \"S\": ", jsonString["S[a][b] = S^ab = (1/4)(gamma^a gamma^b - gamma^b gamma^a)"], "\n",
   "  },\n",

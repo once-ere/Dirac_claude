@@ -3,7 +3,9 @@
 This file is written for a student who has never used Wolfram or a command line. It says what the set
 computes, which files it reads and writes, how to run it from nothing on Windows, macOS or Linux, what
 you will see, what the run changes on your computer, and how it was verified on 2026-10-02 and
-re-verified on 2026-10-07 and 2026-10-08 (section 6).
+re-verified on 2026-10-07, 2026-10-08 and 2026-10-14 (section 6). Since 2026-10-14 the set uses the
+author's own coordinates X = {x0, x1, ..., x7} with the hidden direction x0 listed first (section 6.7);
+the earlier labels x1..x8 (hidden direction x8, listed last) are withdrawn.
 
 ## 1. What this set is and what it computes
 
@@ -17,14 +19,14 @@ them, proves 45 exact statements about them, and writes two files: the matrices
 
 ### 1.2 The physics, in plain words
 
-The theory lives in eight dimensions with coordinates x1 ... x8: x1, x2, x3 are ordinary 3-space, x4 is
-time, x5, x6, x7 are three extra times that deflate exponentially, and x8 is a hidden direction. A spinor
-field (the 16-component field `Psi` of the theory) needs eight "gamma matrices" gamma^(x1), ...,
-gamma^(x8) that square to plus or minus the identity and anticommute with one another:
+The theory lives in eight dimensions with the author's coordinates x0, x1, ..., x7: x0 is a hidden
+direction, x1, x2, x3 are ordinary 3-space, x4 is time, and x5, x6, x7 are three extra times that deflate
+exponentially. A spinor field (the 16-component field `Psi` of the theory) needs eight "gamma matrices"
+gamma^(x0), ..., gamma^(x7) that square to plus or minus the identity and anticommute with one another:
 
-    gamma^a gamma^b + gamma^b gamma^a = 2 eta^ab I16,   eta = diag(+1, +1, +1, -1, -1, -1, -1, +1)
+    gamma^a gamma^b + gamma^b gamma^a = 2 eta^ab I16,   eta = diag(+1, +1, +1, +1, -1, -1, -1, -1)
 
-(order x1 ... x8; the four entries +1 belong to the space-like directions x1, x2, x3, x8 and the four
+(order x0 ... x7; the four entries +1 belong to the space-like directions x0, x1, x2, x3 and the four
 entries -1 to the time-like directions x4, x5, x6, x7: the signature (4, 4)). This rule is called the
 Clifford relation. The author built such matrices, called `T16`, in his Mathematica notebook
 `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`. This set does NOT
@@ -36,14 +38,14 @@ and the matrices are rebuilt from them in four steps:
    and Kronecker deltas;
 2. 8 x 8 matrices `sigma`, `tau[A]` and `taubar[A]` (A = 0 ... 7) from the blocks;
 3. 16 x 16 matrices `T16[A] = {{0, taubar[A]}, {tau[A], 0}}`;
-4. the coordinate map gamma^(x1..x3) = T16[1..3], gamma^(x4) = T16[4], gamma^(x5..x7) = T16[5..7],
-   gamma^(x8) = T16[0].
+4. the author's coordinates: gamma^(xk) = T16[k] for k = 0 ... 7 (his coordinate order is the frame
+   order of his notebook, so no reordering is made).
 
 From the gammas it builds:
 
-* `C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3)` (the notebook's `sigma16`): the matrix of the Dirac
+* `C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)` (the notebook's `sigma16`): the matrix of the Dirac
   adjoint `Psibar = Psi^dagger C`;
-* `Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7)` (the notebook's `T16[8]`): the chirality matrix,
+* `Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7)` (the notebook's `T16[8]`): the chirality matrix,
   equal to `diag(-I8, I8)`;
 * `B = -i C gamma^(x4)`: a Hermitian matrix with `B^2 = I16` and eigenvalues +1 (eight times) and -1
   (eight times);
@@ -89,18 +91,18 @@ they are printed:
 | 5 | `tau_taubar_Clifford_relation` | tau[A] taubar[B] + tau[B] taubar[A] = 2 eta4488_AB I8 (and the other order) |
 | 6 | `tau7_and_sigma_identities` | sigma = tau1 tau2 tau3 = tau4 tau5 tau6 tau7, sigma taubar[A] = (sigma tau[A])^T |
 | 7 | `T16_block_form` | T16[A] = {{0, taubar[A]}, {tau[A], 0}} |
-| 8 | `coordinate_map` | gamma^(x1..x8) = T16[1, 2, 3, 4, 5, 6, 7, 0] |
-| 9 | `eta_in_author_order` | eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) in the order x1..x8 |
+| 8 | `coordinate_map` | the coordinates are x0..x7 in the author's order and gamma^(xk) = T16[k], k = 0..7 |
+| 9 | `eta_in_author_order` | eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) in the order x0..x7 (= the notebook's eta4488) |
 | 10 | `Clifford_relation` | {gamma^a, gamma^b} = 2 eta^ab I16 for all 64 pairs |
 | 11 | `reality` | every gamma is a real matrix with entries in {-1, 0, 1} |
 | 12 | `signed_permutation_matrices` | one nonzero entry (+-1) in each row and column |
 | 13 | `symmetry_pattern` | space-like gammas symmetric, time-like gammas antisymmetric |
-| 14 | `C_definition` | C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) = T16[0] T16[1] T16[2] T16[3] |
+| 14 | `C_definition` | C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) = T16[0] T16[1] T16[2] T16[3] |
 | 15 | `C_real_symmetric` | C is a real (integer) symmetric matrix |
 | 16 | `C_squared_identity` | C^2 = I16 |
 | 17 | `C_gamma_real_antisymmetric` | C gamma^a is real and antisymmetric for every a |
 | 18 | `C_gamma_C_inverse` | C gamma^a C^-1 = -(gamma^a)^T for every a |
-| 19 | `Gamma_definition` | Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = T16[8] |
+| 19 | `Gamma_definition` | Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = T16[8] |
 | 20 | `Gamma_diag` | Gamma = diag(-I8, I8) |
 | 21 | `Gamma_anticommutes_with_gammas` | {Gamma, gamma^a} = 0, Gamma^2 = I16 |
 | 22 | `Gamma_commutes_with_C` | [Gamma, C] = 0 |
@@ -183,10 +185,14 @@ Line counts are numbers of LF line endings; every file below uses LF line ending
 
 | file | role | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/algebra/wolfram/verify_algebra.wls` | the driver you run; it loads the package, runs the 45 checks, writes the two outputs, prints the verdicts and exits | `4bb186d23b81b28267525b9b3f7df7358c5be16302637aa10797ebda3e06ee5b` | 281 | 17719 |
-| `Revision/algebra/wolfram/RevisionAlgebra.wl` | the package (context ``RevisionAlgebra` ``): the author's formulas, the exact linear algebra (commutants, intertwiners, span dimension) and the JSON writer and reader | `fd1aaea5edd6c230da859156bf496ee624e3f569475454ef0e1384cb2d29c881` | 260 | 15089 |
+| `Revision/algebra/wolfram/verify_algebra.wls` | the driver you run; it loads the package, runs the 45 checks, writes the two outputs, prints the verdicts and exits | `944adb6c8239f012e42a79a75f75958fb325b5792cb1963503b888baf6b779d5` | 284 | 17993 |
+| `Revision/algebra/wolfram/RevisionAlgebra.wl` | the package (context ``RevisionAlgebra` ``): the author's formulas, the exact linear algebra (commutants, intertwiners, span dimension) and the JSON writer and reader | `6ea75dc111bc4a69e2849b77ad90dbce31550bfb4a025f264b65a516e22a30f2` | 263 | 15683 |
 
-The driver above is the version with the write-failure fix of section 6.3 (an output file that cannot
+The two files above are the versions in the author's coordinates x0..x7 (2026-10-14, section 6.7). The
+versions before, in the withdrawn labels x1..x8, were the driver sha256
+`4bb186d23b81b28267525b9b3f7df7358c5be16302637aa10797ebda3e06ee5b` (281 lines, 17719 bytes) and the package
+sha256 `fd1aaea5edd6c230da859156bf496ee624e3f569475454ef0e1384cb2d29c881` (260 lines, 15089 bytes); the
+history below refers to those. That driver was the version with the write-failure fix of section 6.3 (an output file that cannot
 be written now stops the run with exit code 1). It was committed in `3f0a577` on 2026-10-02 at
 07:35:37 -0700 and is the driver that was re-verified on 2026-10-07 (section 6.4). On 2026-10-08 its
 line 17 was changed so that the folder of the set is normalised with `ExpandFileName` (section 6.6); the
@@ -201,7 +207,7 @@ only in what happens when an output cannot be written (section 3.7).
 
 | input | sha256 | how it is read |
 | --- | --- | --- |
-| `Revision/algebra/wolfram/RevisionAlgebra.wl` | `fd1aaea5edd6c230da859156bf496ee624e3f569475454ef0e1384cb2d29c881` | `Get` from the folder of the driver (`$InputFileName`), so it is found from any working directory |
+| `Revision/algebra/wolfram/RevisionAlgebra.wl` | `6ea75dc111bc4a69e2849b77ad90dbce31550bfb4a025f264b65a516e22a30f2` | `Get` from the folder of the driver (`$InputFileName`), so it is found from any working directory |
 
 There is no other input. The author's notebook is not read (its formulas are re-typed in the package).
 The script reads `Revision/algebra/gammas.json` back with `Import[..., "RawJSON"]` for check 45, but only
@@ -213,8 +219,13 @@ any check is reported, section 3.7).
 
 | output | content | sha256 of the committed file (and of every verified run) | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/algebra/gammas.json` | the fixture: `description`, `producer`, `encoding`, `definitions`, `coordinates`, `notebookFrameIndex`, `eta` (8 numbers), `gamma` (8 matrices 16 x 16), `C`, `Gamma` (16 x 16), `B` (as `{"re": ..., "im": ...}`), `S` (8 x 8 matrices 16 x 16; entries 1/2 written as the string `"1/2"`) | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` | 1405 | 76968 |
-| `Revision/algebra/reports/wolfram-algebra.json` | the report: `report`, `producer`, `package`, `fixture`, `coordinates`, `summary`, `checks` (45 objects with `name`, `verdict`, `detail`) | `2167774a0bd0a2794fd5999ac485717c0e725f974826b2bb70b5d46d9598a6a3` | 55 | 9295 |
+| `Revision/algebra/gammas.json` | the fixture: `description`, `producer`, `encoding`, `definitions`, `coordinates`, `notebookFrameIndex`, `eta` (8 numbers), `gamma` (8 matrices 16 x 16), `C`, `Gamma` (16 x 16), `B` (as `{"re": ..., "im": ...}`), `S` (8 x 8 matrices 16 x 16; entries 1/2 written as the string `"1/2"`) | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` | 1405 | 76894 |
+| `Revision/algebra/reports/wolfram-algebra.json` | the report: `report`, `producer`, `package`, `fixture`, `coordinates`, `summary`, `checks` (45 objects with `name`, `verdict`, `detail`) | `1df697c0b5621c34101f7e913aed7804713ac2ce8f6cc53cc7c1a6f6a1376a7e` | 55 | 9334 |
+
+Before 2026-10-14 (labels x1..x8) the two outputs had sha256
+`95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` (gammas.json, 76968 bytes) and
+`2167774a0bd0a2794fd5999ac485717c0e725f974826b2bb70b5d46d9598a6a3` (wolfram-algebra.json, 9295 bytes); the
+history in section 6 up to 6.6 refers to those.
 
 The script also prints to the screen (standard output); nothing is written to standard error.
 
@@ -386,8 +397,8 @@ the most recent command. Optional, to measure the run time: in PowerShell
    macOS: `shasum -a 256 Revision/algebra/gammas.json Revision/algebra/reports/wolfram-algebra.json`,
    Linux: `sha256sum Revision/algebra/gammas.json Revision/algebra/reports/wolfram-algebra.json`, and on
    both `git status --porcelain`. The hashes must be (PowerShell prints them in capital letters)
-   `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` for `gammas.json` and
-   `2167774a0bd0a2794fd5999ac485717c0e725f974826b2bb70b5d46d9598a6a3` for `wolfram-algebra.json`, and
+   `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` for `gammas.json` and
+   `1df697c0b5621c34101f7e913aed7804713ac2ce8f6cc53cc7c1a6f6a1376a7e` for `wolfram-algebra.json`, and
    `git status --porcelain` must print nothing at all (an empty answer means that no file of the
    repository differs from the committed version).
 
@@ -965,3 +976,31 @@ instead. Afterwards `git status --porcelain` prints nothing.
   outputs are byte-identical to the committed ones (the sha256 of section 2.3).
 * Fixes made: the normalisation above. Open discrepancies: none. Not done: a run of the changed driver in a
   fresh clone, and a run from a long clone folder.
+
+### 6.7 The author's coordinates x0..x7 (2026-10-14)
+
+* Why: on 2026-10-14 the author ordered that his own coordinates X = {x0, x1, x2, x3, x4, x5, x6, x7} (his
+  notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb`, In[48]; x0 = the hidden direction, listed first) be used
+  throughout. Up to this date the set used the labels x1..x8 with the hidden direction x8 = T16[0] listed
+  last; those labels are withdrawn. The map from the withdrawn labels is x8 -> x0 (moved to the front),
+  xk -> xk for k = 1..7.
+* Change: `RevisionAlgebra.wl`: `RACoordinates = {"x0", ..., "x7"}`, `RANotebookFrame = {0, ..., 7}` (the
+  identity), `RAC = RAGamma[[1]].RAGamma[[2]].RAGamma[[3]].RAGamma[[4]]`, `RAChirality = Dot @@ RAGamma`,
+  `RAB = -I RAC.RAGamma[[5]]` (Wolfram position k + 1 holds xk), `RAMetricDiagonal` in the order x0..x7 and
+  with the factor b4[x4] of the metric of 2026-10-14 in the x5, x6, x7 entries, `RAMetricAssumptions` with
+  `0 < 6 H x0 < Pi/2` and `b4[x4] > 0`, and every description string. `verify_algebra.wls`: the checks
+  `coordinate_map` (now: coordinates x0..x7 and gamma^(xk) = T16[k]), `eta_in_author_order` (now
+  diag(+1,+1,+1,+1,-1,-1,-1,-1) = eta4488), `C_definition`, `Gamma_definition`, `B_definition` and
+  `S_preserves_B_only_off_x4` use the new positions; the space-like positions are x0..x3. The 45 checks
+  are the same checks.
+* Run: `wolframscript -file Revision/algebra/wolfram/verify_algebra.wls` from the repository root
+  `D:\Developer\github\Dirac_claude` in the working tree on top of commit `bf555a9` (Windows 11 Pro for
+  Workstations 10.0.26300, Wolfram 15.0.1): exit code 0, `45/45 checks passed; time 1.31 s`, wall time 4 s.
+  The outputs have the sha256 of section 2.3. The independent Python twin
+  `python Revision/algebra/python/check_algebra.py` (same coordinates): 35/35 checks pass, and its
+  entry-by-entry comparison with the new `gammas.json` is equal for coordinates, eta, gamma, C, Gamma, B and S.
+* Same physics: a comparison of the new `gammas.json` with the committed one of the labels x1..x8 (commit
+  `bf555a9`) gives C, Gamma and B identical entry by entry, and gamma, eta and S equal to the old ones
+  under the permutation new index k <- old index (7, 0, 1, 2, 3, 4, 5, 6)[k], i.e. old x8 -> new x0.
+* Consequence: every consumer of `gammas.json` that records its sha256 (section 1.4) must be re-run; they
+  are relabelled in the same work.
