@@ -35,9 +35,9 @@ The Stage-5 request (handoff/specs/STAGE5_SPEC.md, Section 0, item 6) asks, for 
 All statements in this table are exact theorems with the hypotheses stated in Sections 3 and 4 (and, for T3, in Section 6). Every one is verified in both exact reports:
 
 ```
-artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json   (141 of 141 checks true)
-artifacts/dirac16complex/pair-creation/python-pairing-report.json    (172 of 172 checks true)
-artifacts/dirac16complex/pair-creation/pairing-theory.json           (statements, proofs, block maps)
+artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json  (141 of 141 true)
+artifacts/dirac16complex/pair-creation/python-pairing-report.json   (172 of 172 true)
+artifacts/dirac16complex/pair-creation/pairing-theory.json          (statements, proofs)
 ```
 
 The Wolfram report is produced by scripts/verify_dirac16complex_pairing.wls from wolfram/Dirac16ComplexPairing.wl; the Python report by scripts/check_dirac16complex_pairing.py, an independent sympy implementation with its own derivations, which also re-reads the Wolfram report and checks the agreement of the statements and measurements (S5_wolfram_reportAllTrue, S5_wolfram_sourcesCurrent, S5_wolfram_statementsAgree, S5_wolfram_honestyStatements, S5_pairingAgreesWithWolfram).
@@ -59,7 +59,7 @@ In words: (i) to every configuration of either field with $(m,\lambda)$ the chir
 
 The following are NOT proved by anything in this document, and the text never claims them:
 
-1. No creation process, and no dynamical creation rate, amplitude or probability of pair creation is derived; there is no wave function of the universe and no path integral in these theorems (pairing-theory.json, notProved).
+1. No creation process, and no dynamical creation rate, amplitude or probability of pair creation is derived; there is no wave function of the universe and no path integral in these theorems (pairing-theory.json, notProved). The remark of cell 6 that dark matter or dark energy may be related to a wave-function overlap of the two universes is not addressed.
 2. The theorems do not show that pairs ARE created at $x_4=0$. T1 shows that a $\{+M,-M\}$ pair of the chiral type carries zero total energy-momentum, charge and action in every gravitational field at every $x_4$, so that its appearance from the field-free state is consistent with these conservation laws and with the gravitational constraints (Section 3.5). Consistency is not production.
 3. No dynamical necessity: no equation and no conservation law forces the partner to exist; a single universe of mass $+M$ is an equally valid solution without its partner. T1 and T2 are correspondences between the solutions of two parameter sets, not mechanisms. T1 is not a symmetry of one theory: it changes the parameters and the sign of the action, and for $\lambda\ne0$ it pairs $(m,\lambda)$ with $(-m,-\lambda)$.
 4. The cancelling (chiral) pair needs $\lambda\to-\lambda$ (or $\lambda=0$) and is a statement about classical fields. For the quantum field no reading gives a cancellation between two independent, consistently quantised universes (erratum E5.1 of STAGE5_SPEC.md, Section 9; Section 3.4 below). dirac16complex00 is a classical field; no quantum statement is made for it.
@@ -167,7 +167,8 @@ checks
 
 ```
 checks
-  PAIR_algebra_bilinearParities (measurement algebra_oddBilinearMatrixCount = 456): wolfram-pairing
+  PAIR_algebra_bilinearParities: wolfram-pairing
+    (measurement algebra_oddBilinearMatrixCount = 456)
   S5_algebra_bilinearParities (count 456): python-pairing
 ```
 
@@ -184,7 +185,8 @@ checks
 ```
 checks
   PAIR_T2frame_unitVectors, PAIR_T2frame_characterIsMinusNorm: wolfram-pairing
-  S5_algebra_characterIsMinusNorm, S5_T2frame_unitVectors, S5_T2frame_characterIsMinusNorm: python-pairing
+  S5_algebra_characterIsMinusNorm, S5_T2frame_unitVectors,
+  S5_T2frame_characterIsMinusNorm: python-pairing
 ```
 
 ## 3. Theorem T1: the chirality map
@@ -236,27 +238,37 @@ Step 7 (both statistics). The map is linear, acts pointwise and keeps every $\Ps
 ```
 checks (Wolfram: wolfram-pairing-report.json; Python: python-pairing-report.json)
   generic symbols, commuting components, every vielbein (polynomial identities):
-    PAIR_T1generic_nontrivial, _scalarInvariantKineticOdd, _lagrangian, _naiveFixedLambdaFails,
-    _fieldEquation, _conjugateFieldEquation, _emtAll36, _current, _connectionCommutesWithGamma8
-    S5_T1generic_nontrivial, _scalarInvariantKineticOdd, _lagrangian, _naiveFixedLambdaFails,
-    _fieldEquation, _conjugateFieldEquation, _eulerLagrangeFromLagrangian, _current, _emtAll36,
+    PAIR_T1generic_nontrivial, _scalarInvariantKineticOdd, _lagrangian,
+    _naiveFixedLambdaFails,
+    _fieldEquation, _conjugateFieldEquation, _emtAll36, _current,
+    _connectionCommutesWithGamma8
+    S5_T1generic_nontrivial, _scalarInvariantKineticOdd, _lagrangian,
+    _naiveFixedLambdaFails,
+    _fieldEquation, _conjugateFieldEquation, _eulerLagrangeFromLagrangian, _current,
+    _emtAll36,
     _connectionCommutesWithGamma8
   Grassmann-odd components (dirac16complex):
-    PAIR_T1grassmann_nontrivial, _scalarEvenKineticOdd, _lagrangian, _naiveFixedLambdaFails,
+    PAIR_T1grassmann_nontrivial, _scalarEvenKineticOdd, _lagrangian,
+    _naiveFixedLambdaFails,
     _diracOperator, _emt, _current
-    S5_T1grassmann_nontrivial, _scalarEvenKineticOdd, _lagrangian, _naiveFixedLambdaFails,
+    S5_T1grassmann_nontrivial, _scalarEvenKineticOdd, _lagrangian,
+    _naiveFixedLambdaFails,
     _diracOperator, _conjugateDiracOperator, _emt, _current, _eulerLagrangeFromLagrangian
   exact jets of the generic non-diagonal vielbein G1 at the three points p1, p2, p3:
-    PAIR_T1jets_lagrangian, _scalarEvenKineticOdd, _naiveFixedLambdaFails, _emt, _current,
+    PAIR_T1jets_lagrangian, _scalarEvenKineticOdd, _naiveFixedLambdaFails, _emt,
+    _current,
     _fieldEquations, _connectionCommutes, _onShellImage, _conservationBoth
     S5_T1jets_lagrangian, _scalarEvenKineticOdd, _naiveFixedLambdaFails, _emt, _current,
     _fieldEquations, _connectionCommutes, _onShellImage, _conservationBoth
-  the Stage-2 primordial field (notebook chart, arbitrary a4(t), generic fields of all eight coordinates):
-    PAIR_T1primordial_nontrivialCoupling, _scalarAndKinetic, _lagrangian, _diracOperator, _emt64, _current
-    S5_T1primordial_nontrivialCoupling, _scalarAndKinetic, _lagrangian, _diracOperator, _emt64, _current
+  the Stage-2 primordial field (notebook chart, arbitrary a4(t),
+  generic fields of all eight coordinates):
+    PAIR_T1primordial_nontrivialCoupling, _scalarAndKinetic, _lagrangian, _diracOperator,
+    _emt64, _current
+    S5_T1primordial_nontrivialCoupling, _scalarAndKinetic, _lagrangian, _diracOperator,
+    _emt64, _current
 ```
 
-The recorded measurements show that the identities are not empty. With generic symbols the kinetic term has 23552 monomials and its connection part 21504 (both reports: T1generic_kineticMonomials and T1generic_connectionMonomials in the Wolfram measurements, S5_T1generic in the Python measurements, where the identity runs over 4143 independent symbols); the coupling to the spin connection enters $\mathcal L$ through $\tfrac12\bar\Psi\{\gamma^\mu,\Omega_\mu\}\Psi$. In the Grassmann algebra the scalar Lagrangian has 1288 monomials and $S^2$ has 120 (both reports; the squares of odd generators vanish, against 136 monomials of $S^2$ for commuting components); the Wolfram check uses 288 odd generators (pairing-theory.json, T1.fieldsCovered), the Python check 1440. In the primordial field $\gamma^\mu\Omega_\mu=3H\gamma^0$ with 192 nonzero entries of the $\Omega_\mu$ (the individual $\Omega_\mu$ depend on $a_4(t)$, the contraction does not), and the energy-momentum identity covers 64 nonzero components (S5_T1primordial). In the jets, every on-shell configuration with $(m,\lambda)$ has an on-shell image for $(-m,-\lambda)$, which is not a solution for $(m,\lambda)$ or for $(-m,\lambda)$, and $\nabla^\mu T_{\mu\nu}=0$ holds for both members on shell and fails off shell (S5_T1jets: onShellImage, conservationBoth).
+The recorded measurements show that the identities are not empty. With generic symbols the kinetic term has 23552 monomials and its connection part 21504 (both reports: T1generic_kineticMonomials and T1generic_connectionMonomials in the Wolfram measurements, S5_T1generic in the Python measurements, where the identity runs over 4143 independent symbols); the coupling to the spin connection enters $\mathcal L$ through $\tfrac12\bar\Psi\{\gamma^\mu,\Omega_\mu\}\Psi$. In the Grassmann algebra the scalar Lagrangian has 1288 monomials and $S^2$ has 120 (both reports; the squares of odd generators vanish, against 136 monomials of $S^2$ for commuting components); the Wolfram check uses 288 odd generators (pairing-theory.json, T1.fieldsCovered), the Python check 1440. In the primordial field $\gamma^\mu\Omega_\mu=3H\gamma^0$ with 192 nonzero entries of the $\Omega_\mu$ (the individual $\Omega_\mu$ depend on $a_4(t)$, the contraction does not), and the energy-momentum identity covers 64 nonzero components (S5_T1primordial). In the jets, every on-shell configuration with $(m,\lambda)$ has an on-shell image for $(-m,-\lambda)$, which is not a solution for $(m,\lambda)$ or for $(-m,\lambda)$, and $\nabla^\mu T_{\mu\nu}=0$ holds for both members on shell and fails off shell (order-2 jets at p1; S5_T1jets: onShellImage, conservationBoth).
 
 ### 3.2 The vielbein form of T1
 
@@ -296,8 +308,10 @@ The total energy density, momentum density, stresses, charge and action of the p
 
 ```
 checks
-  PAIR_T1jets_pairEMTAndCurrentVanish, PAIR_totals_fieldLevelChiralPair, PAIR_T1generic_emtAll36: wolfram-pairing
-  S5_T1jets_pairEMTAndCurrentVanish (on shell at p1, p2, p3: T + T' = 0, j + j' = 0, L + L' = 0, S' = S),
+  PAIR_T1jets_pairEMTAndCurrentVanish, PAIR_totals_fieldLevelChiralPair,
+  PAIR_T1generic_emtAll36: wolfram-pairing
+  S5_T1jets_pairEMTAndCurrentVanish (on shell at p1, p2, p3: T + T' = 0, j + j' = 0,
+  L + L' = 0, S' = S),
   S5_totals_fieldLevelChiralPair, S5_T1generic_emtAll36: python-pairing
 ```
 
@@ -343,12 +357,16 @@ The middle column is minus the image field's own generators, not the energy and 
 ```
 checks
   PAIR_T1krein_restHamiltonians, _modes, _fieldCAR, _statesNormalised, _expectationRule,
-  _positiveExcitations, _imageAnticommutatorMinusB, _imageOperatorIdentities (including the four
-  commutators above, erratum E5.1), _imageExpectationValues, _minusMModes, _independentCARPlusB,
+  _positiveExcitations, _imageAnticommutatorMinusB,
+  _imageOperatorIdentities (including the four
+  commutators above, erratum E5.1), _imageExpectationValues, _minusMModes,
+  _independentCARPlusB,
   _independentExpectationValues: wolfram-pairing (12 checks)
   S5_T1krein_restHamiltonians, _modes, _fieldCAR, _bilinearFromFields, _statesNormalised,
-  _expectationRule, _positiveExcitations, _imageAnticommutatorMinusB, _imageOperatorIdentities,
-  _imageExpectationValues, _minusMModes, _independentCARPlusB, _independentExpectationValues:
+  _expectationRule, _positiveExcitations, _imageAnticommutatorMinusB,
+  _imageOperatorIdentities,
+  _imageExpectationValues, _minusMModes, _independentCARPlusB,
+  _independentExpectationValues:
   python-pairing (13 checks)
 ```
 
@@ -357,6 +375,125 @@ checks
 The corollary is a theorem about kinematics, conservation laws and constraints of classical fields. Its exact content for the hypothesis of cells 6, 7 and 17:
 
 - The field-free state ($\Psi_+=\Psi_-=0$) has $T_{\mu\nu}=0$, $j^\mu=0$, $Q=0$ and zero action. A chiral pair (hypotheses (i) to (iii) of Corollary T1.1) has the same totals at every point and every $x_4$. The conservation of the total energy-momentum and of the total charge, and the gravitational constraints at $x_4=0$ (the components $G^4{}_\nu=\kappa\,T^{\mathrm{pair}\,4}{}_\nu$ of the Einstein equations, and their Lovelock analogues), are therefore satisfied by the pair exactly as by the field-free state: these laws do not forbid the appearance of such a pair from the field-free state (derived from Corollary T1.1).
-- Each member solves its own field equations (T1 (d)), so each member's current is conserved separately. In the theory as built the two members do not interact, and the vanishing of the pair totals does not by itself allow members with nonzero individual charge to appear from a state in which each member had zero charge (derived).
+- Each member solves its own field equations (T1 (d)), so each member's current is conserved separately. In the theory as built the two members do not interact with each other (the gravitational field is prescribed), and the vanishing of the pair totals does not by itself allow members with nonzero individual charge to appear from a state in which each member had zero charge (derived).
 - A chiral pair taken as the complete source of the gravitational field is a zero source. The static primordial field of Stage 4 requires the eight-dimensional Einstein source $\rho_{\mathrm{req}}=-21H^2/\kappa$, $p_{\mathrm{req}}=+15H^2/\kappa$ (STAGE4_SPEC.md, erratum E4.3), which is nonzero for $H>0$; so with a chiral pair as its only source it is not a solution of the eight-dimensional Einstein equations (derived; the Stage-4 analogue of corollary C1 of Revision/docs/PAIR_CREATION_PROOFS.md for the author's metric). The Einstein–Lovelock case is not studied here.
 - Nothing in this section is a creation process, a rate, an amplitude or a probability, and nothing shows that such a pair is produced. "Created in pairs" remains the notebook's hypothesis; what is proved is that the chiral pair of classical fields is consistent with the conservation laws and constraints listed above.
+
+## 4. Theorem T2: the mirror map with the same coupling
+
+### 4.1 Statement and proof (frame form)
+
+For a real unit vector $u=v_a\gamma^a$ with $u^2=n(u)=\eta(v,v)=\pm1$ let $R_u$ be the hyperplane reflection of the frame, $u\gamma^au^{-1}=-R_u(\gamma^a)$ (PAIR_T2frame_untwistedAdjointIsMinusReflection). Two frame actions accompany $\Psi\to u\Psi$: the **twisted** action $e\to eR_u$, for which the transformed curved gammas are $\gamma'^\mu=-u\gamma^\mu u^{-1}$, and the **untwisted** action $e\to-eR_u$, for which $\gamma'^\mu=+u\gamma^\mu u^{-1}$. In both, the metric and $\sqrt{|g|}$ are unchanged and $\Omega_\mu\to u\Omega_\mu u^{-1}$, so that $D'_\mu(u\Psi)=u\,D_\mu\Psi$ (PAIR_T2frame_frameReflectionsGeometry).
+
+**Theorem T2 (mirror map; field level, arbitrary gravitational field, both statistics).** Let $u$ be space-like, $n(u)=+1$, so that its character is $\chi(u)=-1$ (F6). For every vielbein $e$, every $m$, $\lambda$ and every configuration $\Psi$ (off shell),
+
+$$
+\begin{aligned}
+&\mathcal L_{m,\lambda}[eR_u,u\Psi]=+\mathcal L_{-m,\lambda}[e,\Psi],\qquad T_{\mu\nu}[eR_u,u\Psi;m,\lambda]=+T_{\mu\nu}[e,\Psi;-m,\lambda],\\
+&S[eR_u,u\Psi]=-S[e,\Psi],\qquad j^\mu[eR_u,u\Psi]=+j^\mu[e,\Psi],\qquad E_{m,\lambda}[eR_u,u\Psi]=-u\,E_{-m,\lambda}[e,\Psi],
+\end{aligned}
+$$
+
+in the same metric and the same coordinates. Since $u^2=1$ and $R_u^2=1$, the map is an involution: $\Psi$ solves the equations with $(-m,\lambda)$ in the frame $e$ if and only if $u\Psi$ solves them with $(m,\lambda)$ in the frame $eR_u$; the coupling is the SAME. Equivalently, $\gamma^8u$ with the untwisted action $e\to-eR_u$ gives the same result. For time-like $u$ ($\chi=+1$) the twisted action gives a T1-type map, $\mathcal L_{m,\lambda}[eR_u,u\Psi]=-\mathcal L_{-m,-\lambda}[e,\Psi]$ with $T\to-T$, and the untwisted action is an exact symmetry.
+
+*Proof.* By F6, $(u\Psi)^\dagger C=\Psi^\dagger u^\dagger C=\chi\,\bar\Psi u^{-1}$. Hence $S\to\chi\,\bar\Psi u^{-1}u\Psi=\chi S$. With the twisted action, $\overline{u\Psi}\,\gamma'^\mu D'_\mu(u\Psi)=\chi\bar\Psi u^{-1}(-u\gamma^\mu u^{-1})u\,D_\mu\Psi=-\chi\,\bar\Psi\gamma^\mu D_\mu\Psi$, and in the same way for the other kinetic term, the current and the kinetic bilinears $\mathcal K_{\mu\nu}$ of the energy-momentum tensor (each carries exactly one gamma matrix): they acquire the factor $-\chi$. The interaction $\tfrac\lambda2S^2$ is even. For $\chi=-1$: $K\to K$, $S\to-S$, $j\to j$, and
+
+$$
+\mathcal L_{m,\lambda}[eR_u,u\Psi]=\sqrt{|g|}\Bigl[K+mS-\tfrac\lambda2S^2\Bigr]=\mathcal L_{-m,\lambda}[e,\Psi];
+$$
+
+$T_{\mu\nu}=\mathcal K_{\mu\nu}+g_{\mu\nu}\mathcal L_s$ then goes to $T_{\mu\nu}[e,\Psi;-m,\lambda]$. For the field equation, $\gamma'^\mu D'_\mu(u\Psi)=-u\gamma^\mu D_\mu\Psi$ and $S\to-S$ give $E_{m,\lambda}[eR_u,u\Psi]=-u\gamma^\mu D_\mu\Psi-(m-\lambda S)u\Psi=-u\bigl[\gamma^\mu D_\mu\Psi-(-m+\lambda S)\Psi\bigr]=-u\,E_{-m,\lambda}[e,\Psi]$. With the untwisted action the kinetic factor is $+\chi$ instead of $-\chi$; for $\chi=-1$ this gives $K\to-K$, $S\to-S$ and $\mathcal L_{m,\lambda}\to-\mathcal L_{m,-\lambda}$ (CONTRACT erratum E3), and composing with $\gamma^8$ (which reverses $K$ once more and leaves $S$) gives $+\mathcal L_{-m,\lambda}$. For $\chi=+1$ the twisted action gives $K\to-K$, $S\to S$, i.e. $-\mathcal L_{-m,-\lambda}$, and the untwisted one $K\to K$, $S\to S$, an exact symmetry. All steps are matrix identities between $\Psi^\dagger$ and $\Psi$, valid for both statistics. $\square$
+
+```
+checks
+  PAIR_T2frame_unitVectors, _characterIsMinusNorm, _untwistedAdjointIsMinusReflection,
+  _frameReflectionsGeometry, _scalarAndCurrentSigns,
+  _twistedSpacelikeMapsToMinusMSameLambda,
+  _untwistedSpacelikeContractE3, _gamma8TimesUntwistedSpacelike, _twistedTimelike,
+  _untwistedTimelikeSymmetry, _gamma8TimesUntwistedTimelike,
+  _onShellImage: wolfram-pairing
+  S5_T2frame_unitVectors, _characterIsMinusNorm, _untwistedAdjointIsMinusReflection,
+  _frameReflectionsGeometry, _scalarAndCurrentSigns,
+  _twistedSpacelikeMapsToMinusMSameLambda,
+  _onShellImage, _untwistedSpacelikeContractE3, _gamma8TimesUntwistedSpacelike,
+  _twistedTimelike,
+  _untwistedTimelikeSymmetry, _gamma8TimesUntwistedTimelike: python-pairing
+```
+
+The field-equation identity is derived in the proof; the checks verify the Lagrangian and energy-momentum identities and the on-shell image (a solution with $(-m,\lambda)$ in the frame $e$ is mapped onto a solution with $(m,\lambda)$ in the frame $eR_u$). The checks use exact jets of the generic non-diagonal vielbein G1 for the eight basis vectors and for a general space-like and a general time-like rational unit vector (pairing-theory.json, T2.proof and T2.table; the Python report evaluates twelve unit vectors, among them further integer and rational ones).
+
+### 4.2 Which reflections do it, and the relation to T1 and to CONTRACT E3
+
+The table of pairing-theory.json (T2.table), reproduced by both reports (S5_wolfram_T2table compares them):
+
+| $u$ | $n(u)$ | $\chi(u)$ | $uBu^\dagger$ | twisted $(eR_u,u\Psi)$ | untwisted $(-eR_u,u\Psi)$ | $\gamma^8u$, untwisted |
+|---|---|---|---|---|---|---|
+| $\gamma^0,\gamma^1,\gamma^2,\gamma^3$ | $+1$ | $-1$ | $+B$ | $+\mathcal L_{-m,\lambda}$; $T\to+T$, $S\to-S$, $j\to+j$ | $-\mathcal L_{m,-\lambda}$ (E3) | $+\mathcal L_{-m,\lambda}$ |
+| $\gamma^4$ | $-1$ | $+1$ | $+B$ | $-\mathcal L_{-m,-\lambda}$; $T\to-T$, $S\to+S$, $j\to-j$ | $+\mathcal L_{m,\lambda}$ (symmetry) | $-\mathcal L_{-m,-\lambda}$ |
+| $\gamma^5,\gamma^6,\gamma^7$ | $-1$ | $+1$ | $-B$ | $-\mathcal L_{-m,-\lambda}$; $T\to-T$, $S\to+S$, $j\to-j$ | $+\mathcal L_{m,\lambda}$ (symmetry) | $-\mathcal L_{-m,-\lambda}$ |
+| $(5/4,1/2,-1/4,1/4,3/4,-1/4,1/2,1/4)$ | $+1$ | $-1$ | neither | $+\mathcal L_{-m,\lambda}$; $T\to+T$, $S\to-S$, $j\to+j$ | $-\mathcal L_{m,-\lambda}$ (E3) | $+\mathcal L_{-m,\lambda}$ |
+| $(-4/5,-2/5,-2/5,2/5,3/5,-6/5,2/5,-2/5)$ | $-1$ | $+1$ | neither | $-\mathcal L_{-m,-\lambda}$; $T\to-T$, $S\to+S$, $j\to-j$ | $+\mathcal L_{m,\lambda}$ (symmetry) | $-\mathcal L_{-m,-\lambda}$ |
+
+(the vectors are the components $v_0,\dots,v_7$; the entries give $\mathcal L_{m,\lambda}$ of the transformed configuration in terms of the original one in the frame $e$). Exactly the space-like unit vectors map $(m,\lambda)$ to $(-m,\lambda)$ with $\mathcal L\to+\mathcal L$: $\gamma^0$ (the hidden direction $x_0\sim y$), $\gamma^1,\gamma^2,\gamma^3$ (3-space) and every space-like combination; the time-like ones do not.
+
+**Consistency with the Stage-1 Pin characters and with T1.** The Stage-1 document (Section 7.7) and CONTRACT erratum E3 state the untwisted result: a reflection of character $-1$ gives $\mathcal L_{m,\lambda}\to-\mathcal L_{m,-\lambda}$, so that exact covariance of the interacting theory under character $-1$ holds only for $U=0$ or an odd $U$. T2 does not contradict this. The twisted action differs from the untwisted one by the frame sign flip $e\to-e$, and by the vielbein form of T1 (Section 3.2) that flip acts as $\mathcal L_{m',\lambda'}[-e',\Psi']=-\mathcal L_{-m',-\lambda'}[e',\Psi']$. Applying it to the untwisted result with $(m',\lambda')=(-m,-\lambda)$ gives $\mathcal L_{m,\lambda}[eR_u,u\Psi]=-\mathcal L_{-m,-\lambda}[-eR_u,u\Psi]=+\mathcal L_{-m,\lambda}[e,\Psi]$ (derived; each factor is checked: PAIR_T2frame_untwistedSpacelikeContractE3, PAIR_T1jets_vielbeinSignFlipIsT1, PAIR_T2frame_twistedSpacelikeMapsToMinusMSameLambda). So T2 is the composition of the E3 reflection with T1, and the two sign changes of $\lambda$ cancel.
+
+**Krein metric.** For the basis reflections $u=\gamma^0,\dots,\gamma^3$ one has $uBu^\dagger=+B$ (F3), so the image $u\Psi$ of the quantum field has the anticommutator $u\,B\,u^\dagger=+B$: unlike the chiral image of Section 3.4, the T2 image keeps the Krein metric $+B$ (derived from F3; for a general space-like $u$ the conjugate $uBu^\dagger$ is neither $+B$ nor $-B$). The Kohn–Sham consequences are the subject of T3 (Section 6).
+
+### 4.3 The Z2 mirror universe in the static primordial field
+
+**Geometry (Stage 4).** The static member of the primordial family (constant $a_4$) in the proper hidden coordinate $y=\ln(\sin z)/(6H)$ (STAGE4_SPEC.md, Section 1) has the vielbein $h=(1,\ We^{a_4}\ (\text{three times}),\ 1,\ We^{-a_4}\ (\text{three times}))$ in the order $(y,x_1,x_2,x_3,x_4,x_5,x_6,x_7)$, with the warp $W=e^{Hy}$ on the notebook patch $y<0$. The Z2 extension (E2) of STAGE4_SPEC.md, Section 1 (a construction chosen there, not derived from the notebook), continues it by $W=e^{-H|y|}$, with a brane at $y=0$, i.e. $z=\pi/2$. The reflection $\phi:y\to-y$ is an isometry of this geometry whose differential reflects the frame vector $e_0$; the spin connections of the two sides satisfy $\Omega^+_\mu(y)=\gamma^0\,\Omega^-_\mu(-y)\,\gamma^0$, with $\gamma^\mu\Omega_\mu=+3H\gamma^0$ for $y<0$ and $-3H\gamma^0$ for $y>0$ (S5_T2z2, geometry).
+
+**The map.** T2 with $u=\gamma^0$ ($n=+1$, $\chi=-1$), its twisted frame action realised by the coordinate reflection $\phi$:
+
+$$
+\Psi'(y,x)=\gamma^0\,\Psi(-y,x),\qquad \Psi'^\dagger(y,x)=\Psi^\dagger(-y,x)\,\gamma^0 .
+$$
+
+**Proposition T2.Z2.** For every configuration $\Psi$ and every $m,\lambda$:
+
+$$
+\begin{aligned}
+&\gamma^\mu D_\mu\Psi'(y)=-\gamma^0(\gamma^\mu D_\mu\Psi)(-y),\qquad S[\Psi'](y)=-S[\Psi](-y),\qquad K[\Psi'](y)=K[\Psi](-y),\\
+&E_{-m,\lambda}[\Psi'](y)=-\gamma^0E_{m,\lambda}[\Psi](-y),\qquad \mathcal L_{-m,\lambda}[\Psi'](y)=\mathcal L_{m,\lambda}[\Psi](-y)\quad(\sqrt{|g|}=W^6\text{ even}),\\
+&T'_{\mu\nu}(y)=s_\mu s_\nu\,T_{\mu\nu}(-y),\qquad j'^\mu(y)=s_\mu\,j^\mu(-y),\qquad s=(-1,1,1,1,1,1,1,1),
+\end{aligned}
+$$
+
+where $T'$ is the energy-momentum tensor of $\Psi'$ with $(-m,\lambda)$, i.e. the pull-back $\phi^*T$. So $\Psi$ solves the equations with $(m,\lambda)$ on $y<0$ if and only if $\Psi'$ solves them with $(-m,\lambda)$ on $y>0$, with the SAME $\lambda$; the energy density is even, $\rho'(y)=\rho(-y)$, all pressures are even, $T'_{yi}(y)=-T_{yi}(-y)$, and the charge density $j^4$ is even (the same charge on both sides). With the same mass on both sides the map fails: $E_{m,\lambda}[\Psi'](y)+\gamma^0E_{m,\lambda}[\Psi](-y)=-2m\gamma^0\Psi(-y)\ne0$.
+
+**Odd mass function.** For a mass function $m(y)$ the image solves the equation with $y\mapsto-m(-y)$. A Z2-symmetric configuration $\Psi(-y)=\pm\gamma^0\Psi(y)$ satisfies the equations on both sides with ONE mass function $m(y)$ if and only if $(m(y)+m(-y))\Psi(-y)=0$, i.e. if and only if $m$ is odd wherever $\Psi\ne0$: the mirror side carries the mass $-M$ (STAGE4_SPEC.md, erratum E4.6). With the Hartree term $\lambda S$ the effective mass is then odd automatically, because $S$ is odd under the map.
+
+*Proof.* The geometric statements are the isometry property of $\phi$ and the relation of the spin connections above; the field statements are T2 with $u=\gamma^0$ (Section 4.1) composed with the pull-back by $\phi$, under which the components of a tensor with one $y$ index change sign. The odd-mass statement follows from the mass-function form of the field equation. $\square$ (verified exactly on both patches with the full $y$-dependence.)
+
+```
+checks
+  PAIR_T2z2_geometry, _diracOperator, _sameMassFails, _scalarOdd, _lagrangianEven,
+  _emtPullback,
+  _currentPullback, _massFunctionMap, _symmetricIffOddMass, _PBfieldLevelFlipsLambda,
+  _ruleParities: wolfram-pairing
+  S5_T2z2_geometry, _diracOperator, _scalarOdd, _kineticEven, _lagrangianEven,
+  _fieldEquationMapsToMinusMSameLambda, _sameMassFails, _massFunctionMap,
+  _symmetricIffOddMass,
+  _emtPullback (64 components), _currentPullback, _PBfieldLevelFlipsLambda,
+  _ruleParities,
+  _PBRuleMatrixEvenCOdd: python-pairing
+```
+
+**The even-mass map $P_B$.** The other Stage-4 reflection, $P_B:\Psi'(y)=i\gamma^0\gamma^8\Psi(-y)$, is $P_A$ composed with the chirality map of T1. At the field level it maps $(m,\lambda)\to(m,-\lambda)$ with $\mathcal L\to-\mathcal L$ and $S\to-S$ (PAIR_T2z2_PBfieldLevelFlipsLambda). At the Kohn–Sham mean-field level with the standard expectation rule it is the even-mass symmetry with the same $\lambda$ of Stage 4 (STAGE4_SPEC.md, erratum E4.6), because the rule matrix $BC$ is $P_B$-even while $C$ is $P_B$-odd: $\gamma^8$ reverses the Krein metric $B$ (PAIR_T2z2_ruleParities, S5_T2z2_PBRuleMatrixEvenCOdd). This difference between the field level and the mean-field level is treated in Section 6.
+
+### 4.4 Pair totals of the mirror pair, and interpretation
+
+For the T2 pair $\{(m,\lambda,e,\Psi),\ (-m,\lambda,eR_u,u\Psi)\}$ with space-like $u$, in the same metric and coordinates,
+
+$$
+T^{\mathrm{pair}}_{\mu\nu}=2T_{\mu\nu},\qquad j^{\mathrm{pair}\,\mu}=2j^\mu,\qquad \mathcal L^{\mathrm{pair}}=2\mathcal L,\qquad S^{\mathrm{pair}}=0
+$$
+
+(PAIR_totals_fieldLevelMirrorPair, S5_totals_fieldLevelMirrorPair). In the Z2-extended primordial field the mirror universe of mass $-M$ has, at the mirror point, the same energy density, the same pressures and the same charge density as the $+M$ universe, and the opposite scalar density. Its energy-momentum doubles that of the $+M$ universe; it does not cancel it.
+
+*Interpretation (not derived).* The Z2 mirror universe of mass $-M$ is the mirror image of the $+M$ universe under the frame reflection of the hidden direction. The sign of $m$ relative to the orientation of the frame is not an invariant of the theory: the Pin reflections of character $-1$ map $(m,\lambda)\to(-m,\lambda)$ with $\mathcal L\to+\mathcal L$ (pairing-theory.json, T2z2.interpretation and T2.remark). Reading the two sides of the Z2 brane as "a pair of universes with masses $\pm M$" in the sense of cell 6 is the reading of the Stage-4 construction (STAGE4_SPEC.md, Section 1, (E2)); like T1, T2 says nothing about a creation process, and a single universe of mass $+M$ on the notebook patch $y<0$ alone, without the mirror side, is an equally valid solution.
+
+**Relation to the Revision record.** Revision/docs/PAIR_CREATION_PROOFS.md proves the same frame identity, $\mathcal L_{m,\lambda}[\gamma^n\Psi;R_ne]=+\mathcal L_{-m,\lambda}[\Psi;e]$, and in the author's field the mirror across the brane $z=\pi/2$ under an assumed Z2 construction, with EQUAL energy-momentum and charge (its Section 11.1, item 2). This agrees with Sections 4.1 to 4.4. The geometry differs: Section 4.3 uses the Stage-4 static warped form in the old Stage-2/4 frame (proper coordinate $y$, constant $a_4$, $x_4$ the time, the brane at $y=0$, where the static metric is regular in $y$ with $W(0)=1$, while in the notebook chart $x_0$ its determinant vanishes there, STAGE4_SPEC.md, Section 1), whereas the Revision record uses the author's coordinates $x_1,\dots,x_8$ with the exponentially deflating extra times $x_5,x_6,x_7$, in which its metric is degenerate at the brane (its Section 11.2, item 7). Each record's Z2 statement holds for its own geometry and its own Z2 construction.
+
+<!-- DOCUMENT B, PART 2: sections 5 to 10 (Kohn-Sham model of both fields, Theorem T3, numerical demonstration T4, verification records, reproduction commands, what is proved and what is not) follow here -->

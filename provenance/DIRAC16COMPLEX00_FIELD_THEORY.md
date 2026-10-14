@@ -15,7 +15,17 @@ Both fields get the same Lagrangian (L1) with the canonical spin connection, an 
 
 ### 1.2 What is proved
 
-Every statement below is an exact identity verified by two independent implementations: the Wolfram verifier `scripts/verify_dirac16complex00.wls` (package `wolfram/Dirac16Complex00.wl`, Wolfram Language 15.0.1; report `artifacts/dirac16complex/pair-creation/wolfram-dirac16complex00-report.json`, 46 of 46 checks true, formulas in `artifacts/dirac16complex/pair-creation/dirac16complex00-theory.json`) and the independent sympy checker `scripts/check_dirac16complex00.py` (report `artifacts/dirac16complex/pair-creation/python-dirac16complex00-report.json`, 49 of 49 checks true). The Python checker compares 89 items with the Wolfram report (exact values, formulas and statements); none fails (check S5_agreesWithWolfram). Where a statement holds for all metrics, it is verified at exact points of explicit test geometries (Section 2.4), not as a symbolic identity in an arbitrary metric; the proofs given in the text are general.
+Every statement below is an exact identity verified by two independent implementations: the Wolfram verifier (Wolfram Language 15.0.1; 46 of 46 checks true) and the independent sympy checker (49 of 49 checks true). Their files:
+
+```
+Wolfram  scripts/verify_dirac16complex00.wls (package wolfram/Dirac16Complex00.wl)
+  report artifacts/dirac16complex/pair-creation/wolfram-dirac16complex00-report.json
+  theory artifacts/dirac16complex/pair-creation/dirac16complex00-theory.json
+Python   scripts/check_dirac16complex00.py
+  report artifacts/dirac16complex/pair-creation/python-dirac16complex00-report.json
+```
+
+The Python checker compares 89 items with the Wolfram report (exact values, formulas and statements); none fails (check S5_agreesWithWolfram). Where a statement holds for all metrics, it is verified at exact points of explicit test geometries (Section 2.4), not as a symbolic identity in an arbitrary metric; the proofs given in the text are general.
 
 1. The 16 commuting components of dirac16complex00 carry exactly the Pin(4,4) representation of the 16 Grassmann components of dirac16complex (Section 3.2).
 2. The notebook's real Lagrangian Lg[] is a pure divergence with empty field equations for a real Grassmann field (Stage 1, re-verified), but non-trivial for a real commuting field, where its Euler-Lagrange equation is the Dirac equation with $m=-HM$; (L1) for commuting components is the complexification of Lg[] (Section 3.3).
@@ -25,44 +35,92 @@ Every statement below is an exact identity verified by two independent implement
 6. The Euler-Lagrange equations of the commuting field have exactly the form derived in Stage 1 for the Grassmann field, for the quartic and for every smooth $U$ (Section 5).
 7. The tensor $T_{\mu\nu}$ of Section 6 is the symmetric part of the exact vielbein variation of the action, off shell, at general non-diagonal frames; it is symmetric, real, conserved on shell, with on-shell trace $-mS+7SU'-8U$; the current is conserved; the observer identities and the homogeneous equations of state hold (Section 6).
 
-The pairing theorems T1-T3 (the chirality map $\Psi\to\gamma^8\Psi$, the mirror map, the Kohn-Sham block map) and the Wick sign of the interaction are the subject of document B, `provenance/DIRAC16COMPLEX_PAIR_CREATION.md` (reports `wolfram-pairing-report.json`, 141 of 141 checks true, and `python-pairing-report.json`, 172 of 172 checks true, in the same directory). Erratum E5.1 of `handoff/specs/STAGE5_SPEC.md` binds this document as well: the cancellation $T^{\rm pair}_{\mu\nu}=0$ of the T1 corollary is a statement about classical fields (commuting c-number fields, or two independent classical fields in the correlated configuration $\Psi_-=\gamma^8\Psi_+$); for the quantized field dirac16complex no reading gives a cancellation between two independent, consistently quantised universes. Nothing in this document concerns the creation of universes: no creation process, rate, amplitude or wave function is derived here.
+The pairing theorems T1-T3 (the chirality map $\Psi\to\gamma^8\Psi$, the mirror map, the Kohn-Sham block map) and the Wick sign of the interaction are the subject of document B, `provenance/DIRAC16COMPLEX_PAIR_CREATION.md` (reports `wolfram-pairing-report.json`, 141 of 141 checks true, and `python-pairing-report.json`, 172 of 172 checks true, next to the reports listed above). Erratum E5.1 of `handoff/specs/STAGE5_SPEC.md` binds this document as well: the cancellation $T^{\rm pair}_{\mu\nu}=0$ of the T1 corollary is a statement about classical fields (commuting c-number fields, or two independent classical fields in the correlated configuration $\Psi_-=\gamma^8\Psi_+$); for the quantized field dirac16complex no reading gives a cancellation between two independent, consistently quantised universes. Nothing in this document concerns the creation of universes: no creation process, rate, amplitude or wave function is derived here.
 
 ### 1.3 Where each result is verified
 
-Check names starting with C00_ are in the Wolfram report, those starting with S5_ in the Python report. "Stage 1" means a cited check of the committed Stage-1 reports (Section 2.5).
+The table lists, for each result, the section, the Wolfram check (W, report wolfram-dirac16complex00-report.json, prefix C00_) and the Python check (P, report python-dirac16complex00-report.json, prefix S5_). "Stage 1" means a cited check of the committed Stage-1 reports (Section 2.5).
 
-| result | section | Wolfram check | Python check |
-| --- | --- | --- | --- |
-| exact fixture: $\gamma^a$, $C$, $\gamma^8$, $B$, the 28 $S^{ab}$ | 2.2 | C00_fixture_matchesStage1Construction | S5_fixture_matchesContractConstruction |
-| facts about $\gamma^8$, $C$, $B$ | 2.3 | C00_algebra_leadFacts | S5_algebra_leadFacts |
-| only $\omega_{[cab]}$ enters the symmetrized kinetic term | 2.3, 4.4 | C00_algebra_anticommutatorTotallyAntisymmetric | S5_algebra_anticommutatorTotallyAntisymmetric |
-| same Pin(4,4) module for both statistics | 3.2 | C00_algebra_pinModuleAndSpinInvariance | S5_algebra_pinModuleAndSpinInvariance |
-| real restriction trivial for Grassmann components | 3.3 | C00_realRestriction_grassmannFlatTrivial, C00_realRestriction_grassmannCurvedTrivial, C00_realRestriction_grassmannComplexDecomposition | S5_realRestriction_grassmannFlatTrivial, S5_realRestriction_grassmannCurvedTrivial, S5_realRestriction_grassmannComplexDecomposition |
-| real restriction non-trivial for commuting components | 3.3 | C00_realRestriction_commutingNonTrivial, C00_realRestriction_commutingNotebookContraction, C00_realRestriction_commutingFlatDecomposition | S5_realRestriction_commutingNonTrivial, S5_realRestriction_commutingNotebookContraction, S5_realRestriction_commutingFlatDecomposition |
-| (L1) is the complexification of Lg[] | 3.3 | C00_realRestriction_relationToL1 | S5_realRestriction_relationToL1 |
-| reality / Hermiticity of (L1) | 4.1 | C00_lagrangian_realCommuting, C00_lagrangian_coefficientHermiticity, C00_lagrangian_grassmannFlatHermitianAndEL | S5_lagrangian_realCommuting, S5_lagrangian_coefficientHermiticity, S5_lagrangian_grassmannFlatHermitianAndEL |
-| mass term nonzero, commuting | 4.2 | C00_massTerm_commutingExplicitSpinors | S5_massTerm_commutingExplicitSpinors |
-| mass term nonzero, Grassmann | 4.2 | C00_massTerm_grassmannNonzero | S5_massTerm_grassmannNonzero |
-| mass enters the dispersion | 4.2 | C00_massTerm_dispersionFlat | S5_massTerm_dispersionFlat |
-| coupling to the spin connection and gravity | 4.4 | C00_connection_nonTrivialCoupling, C00_geometry_G4Generic | S5_connection_nonTrivialCoupling, S5_geometry_G4Generic |
-| connection term in the field equation | 4.4 | C00_connection_OmegaTermInFieldEquation | S5_connection_OmegaTermInFieldEquation |
-| Euler-Lagrange equations, commuting | 5 | C00_EL_commutingFlat, C00_EL_commutingCurved | S5_EL_commutingFlat, S5_EL_commutingCurved |
-| Euler-Lagrange equations, smooth $U$ | 5 | C00_EL_commutingGeneralSmoothU | S5_EL_commutingGeneralSmoothU |
-| identical form for both statistics | 5 | C00_EL_identicalFormBothStatistics (Grassmann curved: Stage 1) | S5_EL_identicalFormBothStatistics, S5_EL_grassmannCurved |
-| $T_{\mu\nu}$ from the vielbein variation | 6.1 | C00_EMT_vielbeinVariation | S5_EMT_vielbeinVariation |
-| symmetric and real | 6.2 | C00_EMT_symmetricAndReal | S5_EMT_symmetricAndReal |
-| conservation on shell | 6.2 | C00_EMT_conservationOnShell | S5_EMT_conservationOnShell |
-| trace on shell | 6.2 | C00_EMT_traceOnShell | S5_EMT_traceOnShell |
-| conservation and reality for every smooth $U$ | 6.2 | C00_EMT_generalSmoothU | S5_EMT_generalSmoothU |
-| current | 6.3 | C00_current_conservationAndReality | S5_current_conservationAndReality |
-| observer identities (Gaussian normal time) | 6.4 | C00_EMT_observerSplitGaussianNormal | S5_EMT_observerSplitGaussianNormal |
-| homogeneous equations of state | 6.5 | C00_EMT_homogeneousEquationsOfState | S5_EMT_homogeneousEquationsOfState |
-| indefinite charge density (dirac16complex00) | 7 | C00_charge_indefinite | S5_charge_indefinite |
-| classical energy unbounded below (dirac16complex00) | 7 | C00_energy_unboundedBelow | S5_energy_unboundedBelow |
-| primordial field, Stage-2 chart | 8 | C00_primordial_geometryMatchesStage2, C00_primordial_ELcommuting, C00_primordial_homogeneousState, C00_primordial_staticFieldSourcedExactly | S5_primordial_geometryMatchesStage2, S5_primordial_ELcommuting, S5_primordial_homogeneousState, S5_primordial_staticFieldSourcedExactly, S5_static_sourceProperChart |
-| static warped form, Stage-4 blocks | 8 | C00_static_geometryAndReducedEquation, C00_static_blocksFromStage4Theory, C00_static_classicalModeIsKreinWeightedKS, C00_static_classicalEnergyKreinSigned, C00_static_KSorbitalEnergySplit | S5_static_geometryAndReducedEquation, S5_static_blocksFromStage4Theory, S5_static_classicalModeIsKreinWeightedKS, S5_static_classicalEnergyKreinSigned, S5_static_KSorbitalEnergySplit, S5_static_meanFieldOneBodyEMT |
-| cited Stage 1-4 reports are true and current | 2.5 | C00_citation_stage1to4ReportsMatchSources | S5_citation_pythonStage1to4ReportsMatchSources |
-| bookkeeping and agreement | 9 | C00_internal_noException, C00_verifier_expectedCheckCount | S5_internal_noException, S5_agreesWithWolfram |
+```
+result (section)  ->  Wolfram check (W)  ->  Python check (P)
+
+exact fixture: gamma^a, C, gamma^8, B, the 28 S^ab (2.2)
+  W C00_fixture_matchesStage1Construction
+  P S5_fixture_matchesContractConstruction
+facts about gamma^8, C, B (2.3)
+  W C00_algebra_leadFacts
+  P S5_algebra_leadFacts
+only omega_[cab] enters the symmetrized kinetic term (2.3, 4.4)
+  W C00_algebra_anticommutatorTotallyAntisymmetric
+  P S5_algebra_anticommutatorTotallyAntisymmetric
+same Pin(4,4) module for both statistics (3.2)
+  W C00_algebra_pinModuleAndSpinInvariance
+  P S5_algebra_pinModuleAndSpinInvariance
+real restriction trivial for Grassmann components (3.3)
+  W C00_realRestriction_grassmannFlatTrivial, ..._grassmannCurvedTrivial,
+    ..._grassmannComplexDecomposition
+  P S5_realRestriction_ (the same three names)
+real restriction non-trivial for commuting components (3.3)
+  W C00_realRestriction_commutingNonTrivial, ..._commutingNotebookContraction,
+    ..._commutingFlatDecomposition
+  P S5_realRestriction_ (the same three names)
+(L1) is the complexification of Lg[] (3.3)
+  W C00_realRestriction_relationToL1
+  P S5_realRestriction_relationToL1
+reality / Hermiticity of (L1) (4.1)
+  W C00_lagrangian_realCommuting, C00_lagrangian_coefficientHermiticity,
+    C00_lagrangian_grassmannFlatHermitianAndEL
+  P S5_lagrangian_ (the same three names)
+mass term nonzero, commuting and Grassmann; mass in the dispersion (4.2)
+  W C00_massTerm_commutingExplicitSpinors, C00_massTerm_grassmannNonzero,
+    C00_massTerm_dispersionFlat
+  P S5_massTerm_ (the same three names)
+coupling to the spin connection and to gravity (4.4)
+  W C00_connection_nonTrivialCoupling, C00_geometry_G4Generic,
+    C00_connection_OmegaTermInFieldEquation
+  P S5_connection_nonTrivialCoupling, S5_geometry_G4Generic,
+    S5_connection_OmegaTermInFieldEquation
+Euler-Lagrange equations, commuting, quartic and smooth U (5)
+  W C00_EL_commutingFlat, C00_EL_commutingCurved, C00_EL_commutingGeneralSmoothU
+  P S5_EL_commutingFlat, S5_EL_commutingCurved, S5_EL_commutingGeneralSmoothU
+the same equations for both statistics (5.2)
+  W C00_EL_identicalFormBothStatistics (Grassmann curved: Stage 1, cited)
+  P S5_EL_identicalFormBothStatistics, S5_EL_grassmannCurved
+T_mu nu from the exact vielbein variation (6.1)
+  W C00_EMT_vielbeinVariation
+  P S5_EMT_vielbeinVariation
+symmetric, real, conserved on shell, trace, every smooth U (6.2)
+  W C00_EMT_symmetricAndReal, C00_EMT_conservationOnShell,
+    C00_EMT_traceOnShell, C00_EMT_generalSmoothU
+  P S5_EMT_ (the same four names)
+current (6.3)
+  W C00_current_conservationAndReality
+  P S5_current_conservationAndReality
+observer identities in Gaussian normal time (6.4)
+  W C00_EMT_observerSplitGaussianNormal
+  P S5_EMT_observerSplitGaussianNormal
+homogeneous equations of state (6.5)
+  W C00_EMT_homogeneousEquationsOfState
+  P S5_EMT_homogeneousEquationsOfState
+indefinite charge density, unbounded classical energy (7)
+  W C00_charge_indefinite, C00_energy_unboundedBelow
+  P S5_charge_indefinite, S5_energy_unboundedBelow
+primordial field, Stage-2 chart (8)
+  W C00_primordial_geometryMatchesStage2, C00_primordial_ELcommuting,
+    C00_primordial_homogeneousState, C00_primordial_staticFieldSourcedExactly
+  P S5_primordial_ (the same four names), S5_static_sourceProperChart
+static warped form and the Stage-4 blocks (8)
+  W C00_static_geometryAndReducedEquation, C00_static_blocksFromStage4Theory,
+    C00_static_classicalModeIsKreinWeightedKS,
+    C00_static_classicalEnergyKreinSigned, C00_static_KSorbitalEnergySplit
+  P S5_static_ (the same five names), S5_static_meanFieldOneBodyEMT
+cited Stage 1-4 reports are true and current (2.5)
+  W C00_citation_stage1to4ReportsMatchSources
+  P S5_citation_pythonStage1to4ReportsMatchSources
+bookkeeping and agreement (9)
+  W C00_internal_noException, C00_verifier_expectedCheckCount
+  P S5_internal_noException, S5_agreesWithWolfram
+```
 
 ### 1.4 Scope relative to the Revision record
 
@@ -88,7 +146,7 @@ $$
 
 ### 2.2 The exact fixture
 
-The gamma matrices are the notebook's $\gamma^a=T16^A[a]$ (16x16, real, integer), stored with $C$, $\gamma^8$, $B$ and the 28 generators $S^{ab}=\tfrac14[\gamma^a,\gamma^b]$ in `artifacts/dirac16complex/arbitrary-field/algebra-fixture.json` (SHA-256 8b4f1546...e02653b, recorded in both reports). The Wolfram verifier compares every entry with the Stage-1 construction, and the Python checker rebuilds the same objects from CONTRACT Section 1 (module `scripts/d16c_exact.py`) and compares them with the fixture: $\gamma^a$, $C$, the chirality, $B$ and all 28 $S^{ab}$ agree exactly.
+The gamma matrices are the notebook's $\gamma^a=T16^A[a]$ (16x16, real, integer), stored with $C$, $\gamma^8$, $B$ and the 28 generators $S^{ab}=\tfrac14[\gamma^a,\gamma^b]$ in the exact fixture artifacts/dirac16complex/arbitrary-field/algebra-fixture.json (SHA-256 8b4f1546...e02653b, recorded in both reports). The Wolfram verifier compares every entry with the Stage-1 construction, and the Python checker rebuilds the same objects from CONTRACT Section 1 (module `scripts/d16c_exact.py`) and compares them with the fixture: $\gamma^a$, $C$, the chirality, $B$ and all 28 $S^{ab}$ agree exactly.
 
 ```
 checks
@@ -134,7 +192,20 @@ Field data at a point (value, first and second derivatives of $\Psi$ and $\Psi^\
 
 ### 2.5 How the checks treat the two statistics
 
-For commuting components the Wolfram verifier treats $\Psi_a$, $\Psi^\ast_a$ and their derivatives at a point as independent commuting symbols; the Python checker does the same ("commuting proxy": $\chi=\Psi^\ast$ independent) and decides reality by the swap symmetry of the real-coefficient polynomial $\mathcal L(\chi,\psi)$ and by exact Gaussian-rational data with $\Psi^\dagger=\overline{\Psi}^T$. Grassmann statements are verified in an exact Grassmann algebra (flat: 288 odd generators $\Psi_a,\Psi^\ast_a,\partial_\mu\Psi_a,\partial_\mu\Psi^\ast_a$ in the Wolfram verifier; Python module `scripts/grassmann_algebra.py`) or cited from Stage 1. Each report checks that every cited Stage 1-4 check is true and that the recorded SHA-256 of its source equals the file in the repository now: the Wolfram verifier cites 20 Stage-1 geometry checks (among them LAG_hermiticity_G1/G2, LAG_eulerLagrangePsibar/Psi_G1/G2, LAG_notebookLgGrassmannTrivial_G1/G2, LAG_localSpinInvariance_G1/G2, EMT_conservation_G1/G2, EMT_trace_G1/G2, EMT_variation_G3, QNT_canonicalMomentum_G1/G2), 8 Stage-1 algebra checks (ALG_gamma8Map, ALG_pinLiftCharacter, ALG_invariantForms, ALG_chargeFormB, QNT_kreinSignature, QNT_flatModeHamiltonian, ALG_pinIrreducibleComplex, ALG_spinDecomposition), 6 Stage-2 checks and 4 Stage-4 checks; the Python checker cites the committed Python geometry, Grassmann-demonstration, algebra, primordial and Kohn-Sham theory reports.
+For commuting components the Wolfram verifier treats $\Psi_a$, $\Psi^\ast_a$ and their derivatives at a point as independent commuting symbols; the Python checker does the same ("commuting proxy": $\chi=\Psi^\ast$ independent) and decides reality by the swap symmetry of the real-coefficient polynomial $\mathcal L(\chi,\psi)$ and by exact Gaussian-rational data with $\Psi^\dagger=\overline{\Psi}^T$. Grassmann statements are verified in an exact Grassmann algebra (flat: 288 odd generators $\Psi_a,\Psi^\ast_a,\partial_\mu\Psi_a,\partial_\mu\Psi^\ast_a$ in the Wolfram verifier; Python module `scripts/grassmann_algebra.py`) or cited from Stage 1. Each report checks that every cited Stage 1-4 check is true and that the recorded SHA-256 of its source equals the file in the repository now. The Wolfram verifier cites 20 Stage-1 geometry checks, 8 Stage-1 algebra checks, 6 Stage-2 checks and 4 Stage-4 checks, among them:
+
+```
+Stage 1 geometry  LAG_hermiticity_G1/G2, LAG_eulerLagrangePsibar_G1/G2,
+                  LAG_eulerLagrangePsi_G1/G2, LAG_notebookLgGrassmannTrivial_G1/G2,
+                  LAG_localSpinInvariance_G1/G2, EMT_conservation_G1/G2,
+                  EMT_trace_G1/G2, EMT_variation_G3, EMT_homogeneousReduction_G3,
+                  EMT_symmetricHermitian_G1/G2, QNT_canonicalMomentum_G1/G2
+Stage 1 algebra   ALG_gamma8Map, ALG_pinLiftCharacter, ALG_invariantForms,
+                  ALG_chargeFormB, QNT_kreinSignature, QNT_flatModeHamiltonian,
+                  ALG_pinIrreducibleComplex, ALG_spinDecomposition
+```
+
+The Python checker cites the committed Python geometry, Grassmann-demonstration, algebra, primordial and Kohn-Sham theory reports.
 
 ```
 checks
@@ -208,7 +279,10 @@ with the canonical connection. Its mass part $2\sqrt{|g|}\,CX$ is nonzero, and i
 **Relation to (L1) (proved here).** For commuting $\Psi=X+iY$ ($X,Y$ real 16-vectors), $\bar\Psi\Psi=X^TCX+Y^TCY$ and the symmetrized kinetic term of (L1) equals $X^TC\gamma^\mu D_\mu X+Y^TC\gamma^\mu D_\mu Y$, with no cross terms. Hence, exactly (value and all first-derivative jets),
 
 $$
-\mathcal L_{(L1)}[X+iY]=\sqrt{|g|}\,\bigl[K_R[X]+K_R[Y]-m\,(S_X+S_Y)-U(S_X+S_Y)\bigr],\qquad K_R[Z]=Z^TC\gamma^\mu D_\mu Z,\quad S_Z=Z^TCZ .
+\begin{aligned}
+&\mathcal L_{(L1)}[X+iY]=\sqrt{|g|}\,\bigl[K_R[X]+K_R[Y]-m\,(S_X+S_Y)-U(S_X+S_Y)\bigr],\\
+&K_R[Z]=Z^TC\gamma^\mu D_\mu Z,\qquad S_Z=Z^TCZ .
+\end{aligned}
 $$
 
 For $U=0$ this is $\mathcal L_{\rm nb}[X]+\mathcal L_{\rm nb}[Y]$ with $HM=-m$: (L1) is the complexification of the notebook-type real Lagrangian, two copies coupled only through $U$. $Y=0$ is a consistent truncation (the $Y$ equations vanish identically at $Y=0$), and the $X$ equation is then $2\sqrt{|g|}\,C(\gamma^\mu D_\mu X-(m+\lambda S_X)X)=0$. So the real restriction of dirac16complex00 is exactly the notebook's Lg[] with the canonical connection, and Lg[] is non-trivial for commuting fields. dirac16complex00 itself uses the complex (L1) of Section 4.
@@ -553,22 +627,28 @@ For a homogeneous field $\Psi(x_4)$ in a diagonal Gaussian-normal (Bianchi-I) fr
 
 $$
 \begin{aligned}
-&\rho=mS+U,\qquad p_{(i)}=SU'-U\ \ (\text{all seven transverse directions, isotropic although the }h_i\text{ differ}),\\
+&\rho=mS+U,\qquad p_{(i)}=SU'-U\quad(\text{all seven }i\ne4),\\
 &\mathrm{KE}_L=\tfrac12S\,(m+U'),\qquad \mathrm{PE}_L=\tfrac12\bigl(mS+2U-SU'\bigr),\qquad \mathrm{KE}_H=0,\qquad \mathrm{PE}_H=mS+U=\rho,\\
 &\rho+p=2\,\mathrm{KE}_L,\qquad p=\mathrm{KE}_L-\mathrm{PE}_L,\qquad w=\frac{p}{\rho}=\frac{SU'-U}{mS+U}=\frac{\mathrm{KE}_L-\mathrm{PE}_L}{\mathrm{KE}_L+\mathrm{PE}_L},\\
-&T_{ij}=\tfrac14(H_i-H_j)\,\bar\Psi\gamma_i\gamma_j\gamma^{x_4}\Psi\quad(i\ne j,\ \text{nonzero for generic states}),\qquad T_{4i}=0 .
+&T_{ij}=\tfrac14(H_i-H_j)\,\bar\Psi\gamma_i\gamma_j\gamma^{x_4}\Psi\quad(i\ne j),\qquad T_{4i}=0 .
 \end{aligned}
 $$
 
-Special cases: the free field ($U=0$) has $\mathrm{KE}_L=\mathrm{PE}_L=\tfrac12mS$, $p=0$, $w=0$ (dust); the default potential gives $\rho=mS+\tfrac\lambda2S^2$, $p=\tfrac\lambda2S^2$ and $w=\lambda S/(2m+\lambda S)$. Because $S=\Psi^\dagger C\Psi$ has no fixed sign (signature (8,8), Result 4.2), $\mathrm{KE}_L$ and $\mathrm{PE}_L$ have no fixed sign either; the consequences (phantom states, $w>1$) are discussed for the Grassmann mean field in Stage 1 Section 9.6 and hold for the classical commuting field with the same formulas.
+The pressure is isotropic in all seven transverse directions although the $h_i$ differ, and $T_{ij}$ is nonzero for generic states. Special cases: the free field ($U=0$) has $\mathrm{KE}_L=\mathrm{PE}_L=\tfrac12mS$, $p=0$, $w=0$ (dust); the default potential gives $\rho=mS+\tfrac\lambda2S^2$, $p=\tfrac\lambda2S^2$ and $w=\lambda S/(2m+\lambda S)$. Because $S=\Psi^\dagger C\Psi$ has no fixed sign (signature (8,8), Result 4.2), $\mathrm{KE}_L$ and $\mathrm{PE}_L$ have no fixed sign either; the consequences (phantom states, $w>1$) are discussed for the Grassmann mean field in Stage 1 Section 9.6 and hold for the classical commuting field with the same formulas.
 
 Exact samples (identical in both reports; Bianchi-I points G3 with $h_i=1+x_4^2/(i+2)$, quartic $U$, on-shell data from seeds 63100, 63200, 63300):
 
-| point | $x_4$ | $m$ | $\lambda$ | $S$ | $\rho$ | $p$ | $\mathrm{KE}_L$ | $\mathrm{PE}_L$ | $w$ |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| G3 t1 | $1/3$ | $3/7$ | $5/11$ | $5617/567$ | $187781927/7072758$ | $157753445/7072758$ | $12340549/505197$ | $5617/2646$ | $28085/33431$ |
-| G3 t2 | $-2/5$ | $-2/5$ | $7/13$ | $-168533/75600$ | $47332998649/21228480000$ | $28403372089/21228480000$ | $5409740767/3032640000$ | $168533/378000$ | $168533/280853$ |
-| G3 t3 | $3/7$ | $5/9$ | $-3/8$ | $-83/15$ | $-95201/10800$ | $-6889/1200$ | $-78601/10800$ | $-83/54$ | $747/1147$ |
+| quantity | G3 t1 | G3 t2 | G3 t3 |
+| --- | --- | --- | --- |
+| $x_4$ | $\frac{1}{3}$ | $-\frac{2}{5}$ | $\frac{3}{7}$ |
+| $m$ | $\frac{3}{7}$ | $-\frac{2}{5}$ | $\frac{5}{9}$ |
+| $\lambda$ | $\frac{5}{11}$ | $\frac{7}{13}$ | $-\frac{3}{8}$ |
+| $S$ | $\frac{5617}{567}$ | $-\frac{168533}{75600}$ | $-\frac{83}{15}$ |
+| $\rho$ | $\frac{187781927}{7072758}$ | $\frac{47332998649}{21228480000}$ | $-\frac{95201}{10800}$ |
+| $p$ | $\frac{157753445}{7072758}$ | $\frac{28403372089}{21228480000}$ | $-\frac{6889}{1200}$ |
+| $\mathrm{KE}_L$ | $\frac{12340549}{505197}$ | $\frac{5409740767}{3032640000}$ | $-\frac{78601}{10800}$ |
+| $\mathrm{PE}_L$ | $\frac{5617}{2646}$ | $\frac{168533}{378000}$ | $-\frac{83}{54}$ |
+| $w$ | $\frac{28085}{33431}$ | $\frac{168533}{280853}$ | $\frac{747}{1147}$ |
 
 At G3 t3 the energy density is negative ($\rho=-95201/10800$) and $\mathrm{KE}_L<0$: an exact on-shell example of the indefiniteness discussed in Section 7. These are kinematic identities of the classical (or mean-field) bilinears; they say nothing about which states are physically admissible.
 

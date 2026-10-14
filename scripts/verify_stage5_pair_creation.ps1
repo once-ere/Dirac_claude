@@ -467,7 +467,12 @@ $inputs = @(
     "$committedReference/reference-pairs-summary.json",
     $figuresScript,
     "$($documents[0]).md",
+    "$($documents[0]).tex",
+    "$($documents[0]).pdf",
     "$($documents[1]).md",
+    "$($documents[1]).tex",
+    "$($documents[1]).pdf",
+    "provenance/pdf-specifications.json",
     $manifest
 )
 foreach ($subcommand in @("spectrum", "scf", "excited")) { $inputs += "$stage4Rust/$subcommand/summary.json" }
@@ -606,7 +611,7 @@ Invoke-GateStep -Name "stage5-19-reference-quick-audit" -Expected $expect["19"] 
 Invoke-GateStep -Name "stage5-20-reference-reproduce" -Expected $expect["20"] `
     -Inputs @("$committedReference/reference-pairs-summary.json") `
     -Command ("$audit reference-reproduce --committed $committedReference --output $referenceReproduce " +
-        "--python python --log build/logs/stage5-20-reference-reproduce-runner.log")
+        "--log build/logs/stage5-20-reference-reproduce-runner.log")
 Invoke-GateStep -Name "stage5-21-pairs-check" -Expected $expect["21"] `
     -Inputs @("$committedReference/reference-pairs-summary.json", "$committedRust/pairs/summary.json") `
     -Command ("python scripts/check_dirac16complex_pairs.py --reference $committedReference --rust $committedRust " +
