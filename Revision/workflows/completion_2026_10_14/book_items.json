@@ -1,0 +1,453 @@
+{
+ "17": {
+  "residual": [
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/17-a4-equations-with-kohn-sham-source.md",
+    "location": "line 3102, Section 17.23, the paragraph '**OPEN.** What metric the Kohn-Sham gas would produce with back-reaction; ... the source beyond $a_4 = 2$ and at nonzero temperature.'",
+    "problem": "Finding 1's fix is correct where it was made, but the chapter's end-of-chapter ledger was not updated to match. Section 17.17 marks two things as not computed. Line 1798 says the evolution after a turning point is not computed and tags it '(OPEN)'. Line 1802 lists 'the evolution after a turning point; the six series with 3-momentum that are not integrated' under 'Not computed (OPEN)'. The OPEN list in Section 17.23 includes neither item. A reader who goes by the ledger cannot see that what follows the turning point is open, and that is the exact point the turning-point fix was meant to make clear.",
+    "evidence": "Chapter line 1798: 'The integration stops at the turning point; what follows it is not computed (OPEN).' Line 1802: 'Not computed (OPEN): the source beyond $a_4 = 2$ ...; the evolution after a turning point; the six series with 3-momentum that are not integrated; ...'. Line 3102 lists only: back-reaction metric; admissible state; non-adiabatic evolution; source beyond $a_4 = 2$ and at nonzero temperature. Record ks_source README lines 57-58 and the D3 detail both say 'the integration stops at the turning point, what follows it is not computed'.",
+    "fix": "Replace line 3102 with: '**OPEN.** What metric the Kohn-Sham gas would produce with back-reaction; whether any state of dirac16complex is an admissible source of the author's metric; the time-dependent (non-adiabatic) evolution of the gas along the history; the source beyond $a_4 = 2$ and at nonzero temperature; the evolution after a turning point (the record's integration stops there, Section 17.17); the six series with 3-momentum that are not integrated.' This changes the chapter text only, so no notebook rebuild is needed. Then re-run check_chapter.py on chapter 17.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:17"
+   }
+  ],
+  "book_review": [
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/chapters/17-a4-equations-with-kohn-sham-source.md",
+    "location": "line 3051 (also lines 3, 15, 24, 32, 1808: 'the 75 recorded Kohn-Sham states')",
+    "problem": "Chapter 17 calls the 75 tested states \"the 75 recorded Kohn-Sham states\", as if the record held no others. The record holds 210 states: 75 ground states and 135 thermal (Mermin) states (Chapters 15 and 19, the cross-check matrix). The source conditions are tested only on the 75 ground states, which are the only states whose profiles the record stores.",
+    "evidence": "Ch17:3051: \"Only the 75 recorded Kohn-Sham states are tested.\" ks-source-conditions.json, check ks_profiles_depend_on_x8: \"75 ground-state profiles of Revision/kohn_sham/results/ground/profiles\". Ch19:571: \"on all 210 states of the canonical matrix: 75 ground states ... and 135 Mermin states\". ks-crosscheck.json matrix: {'ground': 75, 'thermal': 135, ...}. Revision/kohn_sham/results/thermo holds no profiles. Ch17:985 already writes \"75 recorded Kohn-Sham ground states\".",
+    "fix": "Line 3051: replace \"Only the 75 recorded Kohn-Sham states are tested.\" with \"Only the 75 recorded ground states ($T = 0$), whose profiles the record stores, are tested; the 135 thermal states of the canonical matrix (Chapter 15) store no profiles and are not tested.\" At lines 3, 15, 24, 32 and 1808, write \"75 recorded Kohn-Sham ground states\".",
+    "lens": "book-consistency",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   }
+  ]
+ },
+ "09": {
+  "residual": [
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/09-energy-momentum-tensor.md",
+    "location": "line 576 (Section 9.13, limit 3, second sentence) and line 587 (new table row 'finite model, $n$ particles at rest')",
+    "problem": "The refix states the finite-model values for 'states of its one mode set with a definite number $n$ of particles, at rest'. The record states them for occupation states with $n$ QUANTA, which counts particles and antiparticles together. The book itself separates particles ($b$) from antiparticles ($d$): Chapter 10 line 2282 writes 'An occupation state with $n$ quanta at rest' for this same check, and its exercise answers count 'two particles', 'one of each' and 'two antiparticles' separately. Read the book's way, the new sentence gives wrong values. A state with one particle and one antiparticle would get $\\rho = m$, but the record gives $\\rho = 2m + \\lambda$. An antiparticle alone would get $\\rho = 0$, but the record gives $\\rho = m$. A smaller point: '$\\langle{:}U(S){:}\\rangle \\neq U(\\langle{:}S{:}\\rangle)$' is stated with no restriction on $n$, but at $n = 0$ both sides are 0.",
+    "evidence": "In Revision/theory/fock_quartic/reports/fock-quartic.json, check homogeneous_expectation_values_are_not_U_of_expectation (PASS) says 'on occupation states with n quanta rho = m n + (lam/2) n(n - 1), p = (lam/2) n(n - 1), so <:U(S):> = (lam/2) n(n - 1) != U(<:S:>) = (lam/2) n^2'. Its table gives 'b0 d0': <:S:> = 2, rho = lam + 2*m; 'b0 b1 d0': <:S:> = 3, rho = 3*lam + 3*m; vacuum: everything 0. Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md section 12 says 'On states with $n$ quanta at $k = 0$'. Chapter 10 line 2282 says 'An occupation state with $n$ quanta at rest has ...'.",
+    "fix": "Line 576: replace 'The finite model of limit 2 gives exact values on the states of its one mode set with a definite number $n$ of particles, at rest (momentum $k = 0$): $\\rho = mn + \\frac{\\lambda}{2}n(n - 1)$ and $p = \\frac{\\lambda}{2}n(n - 1)$, so that $\\langle{:}U(S){:}\\rangle \\neq U(\\langle{:}S{:}\\rangle)$ (PROVED in that model; the table below names the check).' with 'The finite model of limit 2 gives exact values on the occupation states of its one mode set at rest (momentum $k = 0$; an occupation state has each of the 16 modes either empty or holding one quantum) with $n$ quanta, particles and antiparticles counted together: $\\rho = mn + \\frac{\\lambda}{2}n(n - 1)$ and $p = \\frac{\\lambda}{2}n(n - 1)$, so that $\\langle{:}U(S){:}\\rangle = \\frac{\\lambda}{2}n(n - 1)$ differs from $U(\\langle{:}S{:}\\rangle) = \\frac{\\lambda}{2}n^2$ for $n \\geq 1$ (PROVED in that model; the table below names the check).' Line 587: change the first cell 'finite model, $n$ particles at rest: ...' to 'finite model, occupation states with $n$ quanta at rest: $\\rho = mn + \\frac{\\lambda}{2}n(n - 1)$, $p = \\frac{\\lambda}{2}n(n - 1)$'. Then re-run check_chapter for chapter 09.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:09"
+   },
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/09-energy-momentum-tensor.md",
+    "location": "line 3176, Section 9.31 'What we proved, what we computed, what we assumed', paragraph 'PROVED in the Revision record and used here without its proof'",
+    "problem": "The refix adds a new PROVED statement to Section 9.13: the exact finite-model values of $\\rho$ and $p$ on states with $n$ quanta at rest, PROVED in that model by check homogeneous_expectation_values_are_not_U_of_expectation. The closing list of what the chapter proved still names only two finite-model results: 'the operator form of the on-shell identity ... when the potential and the tensor are both Wick ordered, and its failure for every other ordering tested (Section 9.13)'. The new PROVED item is missing from that list. TEXTBOOK_SPEC line 104 requires every chapter to end with what it proved.",
+    "evidence": "Line 3176 reads '... in the finite Fock model of one good-sector mode set with frozen coefficients, the operator form of the on-shell identity for $\\lambda \\neq 0$ when the potential and the tensor are both Wick ordered, and its failure for every other ordering tested (Section 9.13); ...'. The text has no mention of $\\rho = mn + \\frac{\\lambda}{2}n(n - 1)$.",
+    "fix": "In line 3176, replace 'and its failure for every other ordering tested (Section 9.13);' with ', its failure for every other ordering tested, and its exact values $\\rho = mn + \\frac{\\lambda}{2}n(n - 1)$ and $p = \\frac{\\lambda}{2}n(n - 1)$ on the occupation states with $n$ quanta at rest (Section 9.13);'. Then re-run check_chapter for chapter 09.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:09"
+   }
+  ],
+  "book_review": [
+   {
+    "severity": "major",
+    "file": "Revision/textbook/chapters/09-energy-momentum-tensor.md",
+    "location": "line 20 ('What it does not do'), line 1583 ('What these numbers are, and what they are not'), line 3182 (OPEN list)",
+    "problem": "Chapter 9 says the Revision record does not contain the equation of state an observer in 3-space would infer, its time dependence, CPL fits, or any comparison with the supernova values, and labels all of this OPEN. The record does contain these, and Chapters 0 and 22 report them as COMPUTED.",
+    "evidence": "Line 20: \"...its change in time and any comparison with supernova data ... are not part of the Revision record: they are OPEN\". Line 1583: \"The Revision record contains no such computation, so the observer's $w$, its time dependence and any comparison with the supernova values are OPEN\". Line 3182 (**OPEN.**): \"The equation of state that an observer in 3-space would infer, its change in time, fits of the CPL form ... and any comparison with supernova data\". Against this: Revision/README.md (row dark_sector/: 30/30, 5/5, 13/13, 9/9, 49/49, 28/28) and Revision/docs/DARK_SECTOR_HYPOTHESES.md sections 3, 7 and 9 compute w_eff under the observer definitions (A), (B) and (C), the CPL tangents and fits (e.g. w_eff(C) in [-0.707107, -0.671895], tangent w_a in [-0.020523, -0.008894]) and compare them with the Unite values. Chapter 22 (lines 2046 and 2923-2925) and ledger row 15 of Chapter 0 (COMPUTED, six dark_sector reports) say the same. The only items the record leaves open are the physical normalisation of rho_4 (open item 5) and a supernova likelihood fit (open item 7).",
+    "fix": "Line 20: replace \"are not part of the Revision record: they are OPEN, and this chapter claims nothing about them\" with \"are not computed in this chapter: the Revision record computes them in `Revision/dark_sector/` under an ASSUMED observer normalisation (definitions A, B, C; `Revision/docs/DARK_SECTOR_HYPOTHESES`, COMPUTED, Chapter 22) and establishes neither hypothesis; which normalisation describes a physical observer, and a fit to supernova data, are OPEN\". Line 1583: replace \"The Revision record contains no such computation, so the observer's $w$, its time dependence and any comparison with the supernova values are OPEN\" with \"This chapter makes no such computation; the Revision dark-sector record makes it under ASSUMED observer definitions (Chapter 22, COMPUTED), and what a physical observer would measure is OPEN\". Line 3182: drop the observer-w, CPL and supernova items from the OPEN list, or reword them as \"the observer's normalisation of rho_4 and a supernova likelihood fit (the record's dark-sector results under the ASSUMED definitions A, B, C are in Chapter 22)\".",
+    "lens": "book-consistency",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   }
+  ]
+ },
+ "15": {
+  "residual": [
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/15-solving-the-kohn-sham-equations.md",
+    "location": "line 114 (Section 15.2, new paragraph 'How the study judges the limit L -> infinity', first sentence)",
+    "problem": "The new paragraph says 'The rules were fixed before the comparison (section 3 of the README of that folder)' and leaves out the one revision the record states. The geometric-tail threshold (last two ratios in (0, 0.5)) was NOT fixed before the comparison. It was made stricter after the first analysis had extrapolated N = 688, lambda = 0, a4,0 = 0. As written, the sentence claims more for the rule than the record does (HONESTY).",
+    "evidence": "tip_convergence/README.md section 3 heading: 'Analysis rules (fixed before the comparison; one revision, see History)'. Section 9: 'The first analysis accepted a geometric extrapolation when the last ratio was below 0.9. N688_lam0_a00 then got an extrapolated value although its ratios 0.77-0.79 are those of an algebraic L^{-3} tail. The rule was made stricter (the last two ratios in (0, 0.5), section 3); this only removes extrapolations.'",
+    "fix": "Replace 'The rules were fixed before the comparison (section 3 of the README of that folder).' with 'The rules were fixed before the comparison and changed once, after the first analysis (sections 3 and 9 of the README of that folder). The first version accepted a geometric tail whenever the last ratio was below 0.9. That gave $N = 688$, $\\lambda = 0$, $a_{4,0} = 0$ an extrapolated value, although its ratios 0.77 to 0.79 belong to a tail that falls like the power $L^{-3}$, not geometrically. The rule below is the stricter one, and the change only removed extrapolations.'",
+    "source": "wf_f16cb3eb-d3d:refix-verify:15"
+   },
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/15-solving-the-kohn-sham-equations.md",
+    "location": "line 114 ('over the values of $L$, from 3 on, at which the self-consistent iteration converged') and line 120 ('Rule: $L_{max}$ is the largest converged $L$' and 'when fewer than three values of $L$ converged')",
+    "problem": "The paraphrase drops the record's condition that only the UNBROKEN run of converged L values starting at L = 3 counts. Without it, the stated rule does not reproduce the record's verdict for one of the 7 states whose limit is not established. N688_lamp1_a00 converged at four values of L (3, 4, 4.5, 5), so 'fewer than three values of L converged' does not describe it. Yet the record classifies it NOT ESTABLISHED because its run from L = 3 stops at the failure at L = 3.5.",
+    "evidence": "README section 3: 'Successive differences d_i = x(L_{i+1}) - x(L_i) over the contiguous range of L from 3 at which the SCF converged'. tip_convergence.py analyse_series: '# contiguous successes from L = 3' (the loop breaks at the first failure), then 'if len(ok) < 3: NOT ESTABLISHED'. tip-convergence-table.csv, fixed N688_lamp1_a00: status ok at L = 3, 4, 4.5, 5 and scf_failed at 3.5, 5.5, 6. tip-convergence-extrapolation.csv verdict: 'NOT ESTABLISHED: fewer than 3 converged L values (SCF fails at L = 3.5)'.",
+    "fix": "Line 114: replace 'over the values of $L$, from 3 on, at which the self-consistent iteration converged' with 'over the unbroken run $L = 3, 3.5, 4, \\dots$ of values at which the self-consistent iteration converged; the run ends just before the first $L$ at which the iteration fails, and values at larger $L$ after a failure are not used'. Line 120: replace '$L_{max}$ is the largest converged $L$' with '$L_{max}$ is the last $L$ of this run'. Also replace 'and when fewer than three values of $L$ converged' with 'and when this run holds fewer than three values of $L$ (as for $N = 688$, $+\\lambda_1$, $a_{4,0} = 0$, which converges at $L = 3$ and fails at $L = 3.5$)'.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:15"
+   },
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/15-solving-the-kohn-sham-equations.md",
+    "location": "line 114 (parenthesis '(for each value the uncertainty measured with the step $h/2$, plus $10^{-11}$ relative)')",
+    "problem": "The noise floor is given as '10^{-11} relative'. In the record it is 10^{-11} max(1, |x|), which is an absolute 10^{-11} whenever |x| < 1, and that covers every N = 8 quantity. With a purely relative floor, the free N = 8 energy (exactly 0) would have zero noise, yet the record gives it U = 1e-11.",
+    "evidence": "README section 3: 'nu = U_h + 10^{-11} max(1, |x|)'. tip_convergence.py noise(): '(eh[L] or 0.0) + CRIT[\"noise_floor_rel\"] * max(1.0, abs(x[L]))', with eh = (16/15)|x(600L) - x(300L)|. tip-convergence-extrapolation.csv, N8_lam0_a00/a10/a20 E_KS: value 0, U = 9.999999999999999e-12.",
+    "fix": "Replace 'plus $10^{-11}$ relative' with 'plus $10^{-11}$ times the larger of 1 and $|x|$'. Optionally also replace 'the uncertainty measured with the step $h/2$' with 'the uncertainty $\\tfrac{16}{15}|x(h/2) - x(h)|$ measured with the step $h/2$'.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:15"
+   },
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/15-solving-the-kohn-sham-equations.md",
+    "location": "line 124 ('is at large $L$ about 28 ($+\\lambda_1$, value at $L = 5.5$) and 21 ($-\\lambda_1$, extrapolated) times its value at $L = 3$') and line 4169 (15.31 ASSUMED: 'is at large $L$ about 21 to 28 times its $L = 3$ value')",
+    "problem": "The refix now defines the large-L value as the limit that the study's rule establishes. The factor 28, however, comes from N136_lamp1_a20, whose limit the rule does NOT establish: it is one of the 7 'not established' states of the bullet on line 125. Calling 28 a value 'at large L' contradicts the chapter's own new definition. In 15.31, where the qualifier '(value at L = 5.5)' is missing, the 28 reads as an established limit.",
+    "evidence": "tip-convergence-extrapolation.csv, fixed N136_lamp1_a20 E_KS: Lmax_converged 5.5, first_failed_L 6, verdict 'NOT CONVERGED: last ratios of successive differences 0.0152, -0.0544'. README 4.3: '+5.6e-2 (L = 5.5) / -4.9e-2 (L -> infinity)'. Chapter line 114: 'the limit, which the record calls the extrapolated value and this chapter also the large-$L$ value'.",
+    "fix": "Line 124: replace 'is at large $L$ about 28 ($+\\lambda_1$, value at $L = 5.5$) and 21 ($-\\lambda_1$, extrapolated) times its value at $L = 3$' with 'is about 21 times its value at $L = 3$ at large $L$ for $-\\lambda_1$ (extrapolated), and about 28 times at $L = 5.5$ for $+\\lambda_1$ (the last $L$ before its iteration fails; its limit is not established)'. Line 4169: replace 'is at large $L$ about 21 to 28 times its $L = 3$ value' with 'is about 21 times its $L = 3$ value at large $L$ ($-\\lambda_1$) and about 28 times at $L = 5.5$ ($+\\lambda_1$, limit not established)'.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:15"
+   }
+  ],
+  "book_review": [
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/notebooks/src/15b_emt_profiles.py",
+    "location": "lines 141-143 (word list, 'Conservation law'); copied into chapters/23-reproducing-everything.md line 1180 (glossary, which is the lead's to regenerate)",
+    "problem": "The definition says that nabla_mu T^mu_nu = 0 means energy is neither created nor destroyed. In the author's time-dependent (deflating) metric the book and the record show the opposite: the energy of a universe is not conserved. The glossary entry therefore states a conservation result that the record contradicts.",
+    "evidence": "src/15b l.141-143 and ch23 l.1180: \"Conservation law: the statement nabla_mu T^mu_nu = 0 (the covariant divergence vanishes): energy and momentum are neither created nor destroyed, they only flow.\" Against this: ch20 Section 20.22 (d) (\"The energy of a universe is not conserved in the deflating metric ... d rho/dx4 = -3 a4' (p3 - p_t)\", record emt-divergence-and-spin-connection.json check divergence_x4_component) and ch20 ledger row l.2945 'the energy of one universe is not conserved | PROVED'.",
+    "fix": "In src/15b_emt_profiles.py replace it with: \"Conservation law: the statement nabla_mu T^mu_nu = 0 (the covariant divergence vanishes). In flat space it says that energy and momentum only flow. In the author's time-dependent metric it is a local balance law: the energy of a universe is not conserved (Section 20.22 (d)); only the momenta along x1, x2, x3, x5, x6, x7 have totals that are constant under the assumed boundary conditions.\" Regenerate notebook 15b and its PROVENANCE file; the lead regenerates the ch23 glossary.",
+    "lens": "book-honesty",
+    "refutations": 0,
+    "skeptic_results": 0,
+    "needs_skeptics": true
+   }
+  ]
+ },
+ "16": {
+  "residual": [
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/16-checking-the-solution-independently.md",
+    "location": "Section 16.25, closing paragraph (line 3861): 'Of these inputs, only one has been tested so far, and only in part: the dependence on the tip cutoff $L$ ...'",
+    "problem": "The refix added a new absolute claim, that only one of the shared inputs has been tested. The same section's bullets contradict it. The filling convention is tested by the sea-hole diagnostic, which 'shows where this convention leaves its range of validity' (15 of 135 thermal states). The prescribed history is tested against the source conditions of the a4 equations, and the Kohn-Sham states violate them. The exchange part of the functional is probed by the exact-Fock diagnostic and variant of Chapter 14. The text before the refix ('A test of these inputs would need ...') made no such exclusivity claim.",
+    "evidence": "Line 3857: 'The sea-hole diagnostic ... shows where this convention leaves its range of validity: in 15 of the 135 thermal states ...'. Line 3858: 'the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`, Chapter 17)'. Revision/docs/KOHN_SHAM_DEFLATING_FIELD.md line 93: the difference Delta E_x 'is reported for every state, and the exact-Fock functional is solved as a variant (60 states)'. Chapter 14 line 3719: 'The record labels this a DIAGNOSTIC ... also solves an exact-Fock variant'.",
+    "fix": "In line 3861 replace 'Of these inputs, only one has been tested so far, and only in part: the dependence on the tip cutoff $L$, measured for 29 recorded states in `Revision/kohn_sham/tip_convergence/` (above);' with 'Of these inputs, only the tip cutoff has been varied in a study of its own, and only in part: $L$ from 3 to 6 for 29 recorded states in `Revision/kohn_sham/tip_convergence/` (above). The other inputs are probed only by diagnostics, which can show where they fail but cannot confirm them: the exact-Fock diagnostic of the exchange (Chapter 14), the sea-hole diagnostic of the filling convention and the source conditions of the history (above). Even for the tip cutoff'. Then continue with the existing 'the large-$L$ limit is not established for ...', after removing the now duplicated 'even there' that began that clause.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:16"
+   },
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/16-checking-the-solution-independently.md",
+    "location": "Section 16.26, OPEN (line 3891): 'and the large-$L$ limit wherever that study does not establish it: $N = 688$ at $a_{4,0} = 0$, the 7 interacting states ..., and the recorded states and quantities it does not compute at $L \\neq 3$'. Also the matching clause of the 16.25 closing paragraph (line 3861).",
+    "problem": "The colon list reads as the complete set of cases where the large-L limit is not established, and it is incomplete. It leaves out quantities that the study does compute at every L but does not find converged, in interacting states outside the 7 named and outside N688_lam0_a00. This text came from finding 3's fix: the finding's own evidence quoted the record's qualifier 'only for the states and quantities marked converged', and the fix dropped it. A reader concludes that the limit of every computed quantity of the other 21 states is established, and the record does not support that.",
+    "evidence": "tip-convergence.json, analysis.fixed: E_KS has a geometric tail, but these quantities have the verdict 'NOT CONVERGED': N8_lamp1_a00 (E_int, LUMO, int_p3, int_p_t), N8_lamp1_a10 (the same), N8_lamp1_a20 (E_int, int_p3, int_p_t), N8_lamm1_a00 (E_int, LUMO, int_p3, int_p_t), N8_lamm1_a10 (the same plus KS_gap), N8_lamm1_a20 (LUMO, KS_gap), N136_lamp1_a10 (E_int, int_p3, int_p_t), N688_lamm1_a10 (E_int, int_p3, int_p_t). Overall, E_int is NOT CONVERGED in 12 states and int_p3 and int_p_t in 13 each. KOHN_SHAM_DEFLATING_FIELD.md line 463: 'The limit $L \\to \\infty$ is established (numerically, with uncertainties) only for the states and quantities marked converged or with a geometric tail in `Revision/kohn_sham/tip_convergence/README.md`; it is NOT established for ...'.",
+    "fix": "In line 3891 replace 'and the large-$L$ limit wherever that study does not establish it: $N = 688$ at $a_{4,0} = 0$, the 7 interacting states whose self-consistent iteration fails before the successive differences of $E_{KS}$ meet that study's rule for a geometric tail, and the recorded states and quantities it does not compute at $L \\neq 3$.' with 'and the large-$L$ limit wherever that study does not establish it. It establishes the limit only for the states and quantities it marks converged or with a geometric tail, and not at all for $N = 688$ at $a_{4,0} = 0$ or for the 7 interacting states whose self-consistent iteration fails before the successive differences of $E_{KS}$ meet its rule for a geometric tail. In 8 further interacting states some quantities other than $E_{KS}$ do not meet the rule (the interaction energy, the integrals of $p_3$ and $p_t$, LUMO, the gap; `tip-convergence.json`, `analysis.fixed`), and the recorded states and quantities it does not compute at $L \\neq 3$ are not covered.' In line 3861, after the corresponding '... nor for the 7 interacting states ... geometric tail', insert ', nor, in 8 further interacting states, for some quantities other than $E_{KS}$ (the interaction energy and the integrals of $p_3$ and $p_t$ among them)'.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:16"
+   }
+  ],
+  "book_review": []
+ },
+ "10": {
+  "residual": [
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/10-canonical-quantisation-krein-space.md",
+    "location": "Section 10.21, status table, line 2287 (row 'T-hat = :T[Psi-hat, Psi-hat^dagger C]:; normal ordering removes the vacuum value -8E per momentum'), third column",
+    "problem": "The refix changed the status of this row from 'definition; CHECKED in the exact examples' to 'definition; the vacuum value PROVED (Section 10.20) and checked in the exact examples' but did not change the third column. That column still names the check `good_sector_positive_fock_realisation` without its verifier file. Rule R3 says a PROVED statement carries both the verifier file and the check name. The row at line 2248 cites the same result correctly.",
+    "evidence": "Line 2287: '| definition; the vacuum value PROVED (Section 10.20) and checked in the exact examples | Revision theory document, section 12; `good_sector_positive_fock_realisation` |'. TEXTBOOK_SPEC R3: 'PROVED (exact, with the verifier file and check name)'. The check is in Revision/theory/reports/python-field-theory.json ('vacuum value -40 = -8E, the filled sea'). The Wolfram counterpart is wolfram-field-theory.json, check Fock_space_good_sector_example ('vacuum value -8 E (the filled sea)'). Line 2248 cites them as '`python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example`'.",
+    "fix": "In line 2287, replace the third column 'Revision theory document, section 12; `good_sector_positive_fock_realisation`' with 'Revision theory document, section 12; `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example`'. This is a text-only change: no notebook rebuild is needed. Afterwards, re-run check_chapter.py.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:10"
+   },
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/tools/nbkit.py",
+    "location": "PREAMBLE, line 178: '# THE SET-UP (the same in every notebook of this book; it computes no physics)'. This line appears in In [1] of all seven stored notebooks 10a-10g, which the chapter prints in Sections 10.9, 10.18, 10.25, 10.31, 10.37, 10.42 and 10.48.",
+    "problem": "Finding 4 is fixed in the chapter text, but the same false claim is still in the chapter's notebooks. The heading generated by nbkit says the set-up code is 'the same in every notebook of this book'. It is not. The NOTEBOOK_ID line differs in every notebook, and 7 notebooks of the book add two imports and a helper. This contradicts the corrected walk-through at line 324. The chapter-10 fixer cannot fix it: the line is generated by a shared tool, and other chapters quote it.",
+    "evidence": "Stored ipynb, In [1] of 10a-10g: the 3 lines just above 'import json' are the '=' rule, '# THE SET-UP (the same in every notebook of this book; it computes no physics)' and the '=' rule. I compared the set-up code below the heading across all 91 book notebooks. With the NOTEBOOK_ID line removed, 84 are identical. 11a, 11b, 15a, 15b, 15d, 16a and 19a differ by 25 lines ('import shutil', 'import subprocess', 'def rust_program'). The same claim is also in chapter 05 line 385: 'It is the same in every notebook of the book; only the line that sets `NOTEBOOK_ID` differs'. The heading is quoted verbatim in chapter 03 line 345 and in chapters 12, 17, 20 and 21.",
+    "fix": "This fix belongs to the lead or the owner of the tools, not to the chapter-10 fixer. In nbkit.py line 178, replace the heading with one comment line of at most 89 characters, for example '# THE SET-UP (it computes no physics)'. Keeping it to one line keeps every comment-line count in the book unchanged, including 247/248/249/248/246/252/252 for 10a-10g. Then rebuild all notebooks with nbkit build and run nbkit check. Update the verbatim quotations of the heading in chapters 03 (line 345), 12, 17, 20 and 21. In chapter 05 line 385, replace 'It is the same in every notebook of the book; only the line that sets `NOTEBOOK_ID` differs.' with the wording now used in chapter 10 line 324.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:10"
+   }
+  ],
+  "book_review": []
+ },
+ "14": {
+  "residual": [
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/14-kohn-sham-model.md",
+    "location": "line 2698 (end of the 14.20 paragraph 'The tip angle does not matter for the band (at the cutoff L = 3 and the slice 0)') and line 4330 (14.32 ASSUMED, the tip item)",
+    "problem": "The conclusion is now scoped to L = 3 and slice 0, but it still says theta is 'harmless for every lattice level with k != 0'. The record and Notebook 14c measured only ONE level: the brane band (even parity, j = +1, label 0). No other level at k != 0 (the bulk levels with label >= 1, odd parity, the j = -1 levels) was computed with another tip angle. For those levels only the estimate of Section 14.12 applies, and line 1571 itself says that this estimate is 'an estimate, not a proof'. The 'Status: COMPUTED' sentence therefore covers more than what was computed. Lines 35 and 4321 already say it correctly ('the brane band' / 'the band').",
+    "evidence": "Revision/kohn_sham/solver/src/spectrum.rs lines 207-236 (check free_tip_angle_insensitivity): 'even j = +1 brane-band level at k = 0.25, 0.5, 1 with tip angles theta = 0, 0.5, 1'. tip-angle.csv has 9 rows, all brane-band levels. Notebook 14c In [11] calls only levels(tip_k, 1.0, \"even\", 0, tip=th) and levels(k_tip, 1.0, \"even\", 0, ...). Chapter line 1571: 'for k != 0 the levels should change by about this factor at most; this last step is an estimate, not a proof'.",
+    "fix": "Line 2698: replace 'the choice of the tip angle $\\theta$ in the ASSUMED tip condition is harmless for every lattice level with $k \\ne 0$;' with 'the choice of the tip angle $\\theta$ in the ASSUMED tip condition is harmless for the brane band at every lattice momentum $k \\ne 0$ (the other levels with $k \\ne 0$ were not computed with another tip angle; for them only the estimate of Section 14.12 applies);'. Line 4330: replace 'its angle $\\theta$ is harmless for every lattice level with $k \\ne 0$' with 'its angle $\\theta$ is harmless for the brane band at every lattice momentum $k \\ne 0$ (for the other levels with $k \\ne 0$ only the estimate of Section 14.12 applies)'. These are chapter-only edits. Re-run check_chapter.py afterwards.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:14"
+   },
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/14-kohn-sham-model.md",
+    "location": "line 4330 (14.32 ASSUMED: '(at the later slices, where the suppression factor of Section 14.12 is no longer small, this is not computed)'); the same over-general reason in D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/14c_brane_band.py lines 946-948 (section 13 closing bullet: 'At the later slices this factor is not small')",
+    "problem": "The reason given is stated for every momentum, but it holds only for the lowest lattice momenta. At a later slice the factor is exp(-k e^(-a4,0)(e^3 - 1)), and for most occupied momenta it is still tiny: for k = 1 it is 9.3e-6 at the slice 0.5 and 7.6e-2 at the slice 2; for k = 4 it is 3.3e-5 at the slice 2. In the 14c bullet, 'this factor' even refers to exp(-k(e^{HL} - 1)/H), which does not depend on the slice at all. Section 14.20 (line 2700) and the 14c section-10 text state it correctly: 'for the first lattice shell, k = 0.25'. The conclusion 'not computed / not established' is correct in every place; only the reason clause is too general.",
+    "evidence": "exp(-k e^(-a)(e^3 - 1)) with e^3 - 1 = 19.0855: k = 0.25 gives 0.0554, 0.173, 0.345 and 0.524 at the slices 0.5, 1, 1.5 and 2 (the chapter's own 0.173 and 0.524 agree). k = 1 at the slice 0.5 gives exp(-11.58) = 9.3e-6. k = 4 at the slice 2 gives exp(-10.33) = 3.3e-5. The chapter's line 2700 restricts it correctly: 'for the first lattice shell, $k = 0.25$, it is ...'.",
+    "fix": "Chapter line 4330: replace '(at the later slices, where the suppression factor of Section 14.12 is no longer small, this is not computed)' with '(at the later slices, where the suppression factor of Section 14.12 is no longer small for the lowest lattice momenta, this is not computed)'. Builder 14c_brane_band.py lines 946-948: replace 'At the later\\n      slices this factor is not small and the tip angle is not computed there (by\\n      this notebook or by the record).' with 'At a later\\n      slice the factor is $\\exp(-k\\,e^{-a_{4,0}}(e^{HL} - 1)/H)$, which is not small\\n      for the lowest lattice momenta, and the tip angle is not computed there (by\\n      this notebook or by the record).' Keep every line at most 89 characters. Then run nbkit lint, nbkit build --date 2026-10-08, nbkit check --record 2026-10-08 for 14c (markdown only, so In/Out are unchanged), walkthrough_diff for 14c, and check_chapter.py for chapter 14. If no rebuild is wanted, the chapter edit alone is enough to fix the 14.32 sentence.",
+    "source": "wf_f16cb3eb-d3d:refix-verify:14"
+   }
+  ],
+  "book_review": [
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/chapters/14-kohn-sham-model.md",
+    "location": "line 1490 (paragraph 'The current along y is the same at every point')",
+    "problem": "Chapter 14 calls \"the Z2 mirror\" a no-flux condition. Chapters 18 and 21 say that gluing on the Z2 mirror does not stop the flow of charge through the brane. Both are true of different things: the Kohn-Sham brane parity conditions kill the current, while the T2 gluing imposes no parity and does not. Under the one name \"Z2 mirror\" the chapters contradict each other.",
+    "evidence": "Ch14:1490: \"its total is constant only under the ASSUMED no-flux condition at the brane $z = \\pi/2$ (Chapter 5, Section 5.6), and the Z2 mirror assumed below is such a condition.\" Ch18:2709: \"The T2 mirror partner has the EQUAL charge density ..., so the charge of the mirror patch changes at the same rate ...: gluing does not stop the flow.\" Ch21:3750: \"with the Z2 mirror glued on, the mirror patch changes its charge at the same rate and with the same sign (Section 18.21), so gluing does not stop the change\". Ch14 Notebook 14b check text: \"both brane parities (chi2(0) = 0 or chi1(0) = 0) kill the current\".",
+    "fix": "Replace \"and the Z2 mirror assumed below is such a condition\" with \"and the brane parity conditions of the Kohn-Sham record assumed below ($\\chi_2(0) = 0$ or $\\chi_1(0) = 0$) are such a condition: they make the current vanish at the brane. The T2 gluing of Chapter 18, which imposes no parity, is not one (Section 18.21)\".",
+    "lens": "book-consistency",
+    "refutations": 0,
+    "skeptic_results": 0,
+    "needs_skeptics": true
+   }
+  ]
+ },
+ "00": {
+  "residual": [
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+    "location": "Section 0.18: ledger table row 2 (line 1363) and the row-2 remark (line 1387); builder 00c section 9 prose (src/00c_honesty_ledger.py lines 800-804)",
+    "problem": "Chapter 00 gives the lambda != 0 operator form of the EMT on a whole slice the label ASSUMED. Chapters 9 and 10 give the same statement the label OPEN, adding that the field-equations record ASSUMES it. Section 0.18 promises that the ledger label is the one every later chapter uses, so chapter 00 now contradicts chapters 9 and 10. Section 0.26's ASSUMED list also leaves the item out, even though the ledger now calls it ASSUMED.",
+    "evidence": "ch00 line 1363: 'for the field on a whole slice of space it is ASSUMED'. ch09 line 575: 'For the field on a whole slice ... the operator identity is OPEN (the field-equations record of Chapter 12 ASSUMES it)'. ch10 line 2288 (status table): 'OPEN for the field on a whole slice, the curved x_8 dependence and the extra-time sector'. Record DIRAC16COMPLEX_FIELD_THEORY.md section 12 says the field-equations record treats it 'as ASSUMED, not proved, and as decided only in the finite model'. Both readings are honest, but the ledger and the chapters must use the same label. Section 0.26 (lines 3500-3507) has no such ASSUMED entry.",
+    "fix": "Make row 2 and its remark match chapters 9 and 10, for example: 'for the field on a whole slice of space it is not established (OPEN); the field equations of Chapter 12 ASSUME it'. Use the same wording in the remark ('there the record treats ... as ASSUMED' -> 'there it is OPEN, and the field-equations record ASSUMES it'). If ASSUMED stays the ledger label, add the item to the ASSUMED list of Section 0.26. Running check_chapter again is enough; the notebook output does not change.",
+    "source": "sweep-verify:00"
+   },
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+    "location": "Section 0.18 'Two independent verifiers' paragraph (line 1400) and walk-through In [5], Kohn-Sham group prose (line 1707)",
+    "problem": "The chapter says the tip-cutoff study ran the independent reference solver at L = 3 and 4 without saying that it did so for only two of its states. The independent check of the tip study therefore reads as broader than it is.",
+    "evidence": "tip_convergence/README.md line 73-74: 'The reference solver ... at L = 3 and L = 4 for N8_lamp1_a00 and N136_lam0_a20.' Report tip-convergence.json, check reference_solver_at_two_L: '28 comparisons'. ch00 line 1400: 'the study of the tip cutoff ran the reference solver at two of its values of L, 3 and 4.' ch00 line 1707: '(and, at two values of L, the reference solver)'.",
+    "fix": "Add the scope in both places: '... ran the reference solver for two of its states at two of its values of L, 3 and 4 (28 comparisons)', and in line 1707 '(and, for two states at L = 3 and 4, the reference solver)'.",
+    "source": "sweep-verify:00"
+   },
+   {
+    "severity": "minor",
+    "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+    "location": "Walk-through In [6], the sentence after the first README_ORDER block (line 1827)",
+    "problem": "The sentence speaks of 39 reports, but README_ORDER has 39 entries that name only 36 distinct reports, three of them twice. 'The 39 reports ... (three of them twice)' therefore miscounts the reports. The fix touched this sentence (37 -> 39) and kept the imprecision.",
+    "evidence": "line 1827: 'the 39 reports whose counts that table quotes (three of them twice, as the last lines of the list show)'. README_ORDER in the builder (lines 586-626) has 39 entries; lovelock-report.json, wolfram-gkd-report.json and python-lovelock-report.json each occur twice, which leaves 36 distinct reports. Line 1908 states it correctly: 'the 39 entries of the list'.",
+    "fix": "Write: 'the 36 reports whose 39 counts that table quotes (three of them twice, as the last lines of the list show)', or 'the reports of the 39 counts that table quotes (three reports twice ...)'.",
+    "source": "sweep-verify:00"
+   }
+  ],
+  "book_review": []
+ },
+ "18": {
+  "residual": [],
+  "book_review": [
+   {
+    "severity": "major",
+    "file": "Revision/textbook/chapters/18-pairing-theorems.md",
+    "location": "line 1356, paragraph 'T1 and charge conjugation'",
+    "problem": "Chapter 18 says the same-mass conjugation C_+ gives (S, -J) after normal ordering for the quantised field. The corrected record and Chapters 5 and 21 say normal ordering adds no sign, so the quantised result is (-S, +J). Chapter 5 names the (S, -J) result explicitly as the withdrawn one.",
+    "evidence": "Ch18:1356: \"for Grassmann components it gives $(S, J) \\to (-S, +J)$ as classical bilinears, and the standard $(S, -J)$ after normal ordering in the quantum theory\". Record Revision/lead_checks/reports/charge-conjugation-and-u1.json, check bilinears_under_charge_conjugation, detail: \"calC_+ Grassmann (S, J) -> (-S, +J) classically (normal ordering adds no sign: it subtracts the vacuum value ... :X: -> s :X:)\". Ch05:4776: \"For M = 1 the normal-ordered result is therefore (S, J) -> (-S, +J) ... An earlier version ... said ... normal ordering supplies one more sign ..., which would have given (S, J) -> (S, -J) for C_+; ... the record was corrected on 2026-10-08\". Ch21:4870: \"normal ordering adds no sign: :Q': = -Q\".",
+    "fix": "Replace \"and the standard $(S, -J)$ after normal ordering in the quantum theory\" with \"and normal ordering adds no sign, so the quantised field has the same $(S, J) \\to (-S, +J)$ (the record's corrected detail text; Section 5.34 and Section 21.26 make the Fock-space computation)\".",
+    "lens": "book-consistency",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   },
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/chapters/18-pairing-theorems.md",
+    "location": "line 3 (chapter introduction, statement of Q)",
+    "problem": "The introduction states the proved quantum reading Q without its hypotheses. The record proves identical one-particle spectra only for lambda = 0, in flat space or with frozen coefficients at a point. Chapter 20 l.13 and the ch20 ledger carry these qualifiers; the ch18 introduction does not.",
+    "evidence": "ch18 l.3: \"while two independently quantised universes of masses +m and -m have identical one-particle spectra and energies that do not cancel.\" Against this: PAIR_CREATION_PROOFS.md Abstract and 11.3 (\"identical one-particle (lambda = 0) spectra (flat space, or frozen coefficients at a point)\").",
+    "fix": "Replace with \"...have identical one-particle spectra (the lambda = 0 spectra, in flat 4+4 space or with frozen coefficients at a point) and energies that do not cancel.\"",
+    "lens": "book-honesty",
+    "refutations": 0,
+    "skeptic_results": 0,
+    "needs_skeptics": true
+   },
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/chapters/18-pairing-theorems.md",
+    "location": "Section 18.15 Step 7, line 1480; Lemma 1 proof, line 260; also 20-do-universes-come-in-pairs.md line 316",
+    "problem": "The transformation of the energy-momentum tensor under the reflection (T2c) is asserted by analogy, not written out. The adjoint half of Lemma 1 is likewise 'the same computation from the right'. Chapter 20 repeats the same shortcut for T_{mu nu}.",
+    "evidence": "ch18 l.1480: 'The kinetic bilinears with free indices, bar Psi gamma_mu D_nu Psi, transform like the contracted one in Step 4 (with the factor eta_nn = +1) ... so T'_{mu nu} = T^{(-m,lambda)}_{mu nu}[Psi]'. ch18 l.260: 'The adjoint statement is the same computation from the right. QED.' ch20 l.316: 'each kinetic term of T_{mu nu} is unchanged in the same way (with the lemma for the derivatives)'.",
+    "fix": "Write the line: overline{gamma^(n) Psi} gamma'_mu D'_nu(gamma^(n) Psi) = -bar Psi gamma^(n) gamma'_mu gamma^(n) D_nu Psi = eta_nn bar Psi gamma_mu D_nu Psi. Rules: the adjoint of gamma^(n) Psi; the lemma D'_nu(gamma^(n) Psi) = gamma^(n) D_nu Psi; gamma^(n) gamma'_mu gamma^(n) = -eta_nn gamma_mu, i.e. Step 1 with the index lowered by g_{mu nu}, which the reflection leaves unchanged. Do the same for the (D_nu bar Psi) gamma_mu Psi term, and then insert into the T_{mu nu} formula of Chapter 9. For Lemma 1 add: D_mu(bar Psi Gamma) = partial_mu(bar Psi Gamma) - bar Psi Gamma Omega_mu = (partial_mu bar Psi - bar Psi Omega_mu) Gamma = (D_mu bar Psi) Gamma (Gamma is constant; Omega_mu Gamma = Gamma Omega_mu).",
+    "lens": "book-deepdive",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   }
+  ]
+ },
+ "07": {
+  "residual": [],
+  "book_review": [
+   {
+    "severity": "major",
+    "file": "Revision/textbook/chapters/07-two-fields-and-lagrangians.md",
+    "location": "line 3968 (charge-conjugation paragraph after the sign table)",
+    "problem": "Chapter 7 attributes to the record the withdrawn statement that normal ordering supplies one more sign. The record was corrected on 2026-10-08 and now says the opposite, and Chapters 5 and 21 already say so.",
+    "evidence": "Ch07:3968: \"For the Grassmann field the classical signs differ; the record states that in the quantum theory normal ordering supplies one more sign for each bilinear\". The current record detail of check bilinears_under_charge_conjugation reads \"normal ordering adds no sign: it subtracts the vacuum value, a number, so X -> s X + c gives :X: -> s :X:; no Fock-space computation is made here\". Ch05:3841 and 5717 say the earlier remark \"is withdrawn\" (\"RESOLVED on 2026-10-08\"), and Ch21:454 says \"Its earlier remark that normal ordering supplies one more sign was withdrawn on 2026-10-08\".",
+    "fix": "Replace \"the record states that in the quantum theory normal ordering supplies one more sign for each bilinear, and that\" with \"the record states that normal ordering adds no sign (it subtracts the vacuum value, a number; Section 5.34 confirms this on the Fock space), and that\".",
+    "lens": "book-consistency",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   },
+   {
+    "severity": "major",
+    "file": "Revision/textbook/chapters/07-two-fields-and-lagrangians.md",
+    "location": "Section 7.23, line 2618 ('The author's requirement')",
+    "problem": "The book quotes the author's requirement that the Euler-Lagrange equations 'must be self-consistent' but never defines 'self-consistent'. Neither this chapter nor Chapter 8 says which statements answer that part of the requirement. The book's only definition of the word comes in Ch. 13/15, where it means the Kohn-Sham fixed point, which is a different notion. One of the record's senses, the Lichnerowicz integrability identity, does not appear anywhere in chapters 00-23. This breaks deep-dive rule (b): every technical word is defined at first use.",
+    "evidence": "Book: 'their Euler-Lagrange equations must always contain nonzero contributions from gravity ... and must be self-consistent.' The theorem that follows treats only non-triviality. grep finds no 'self-consist'/'consisten' in ch08, and only this one occurrence in ch07. The record, Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md line 286, says: 'The field equations of section 6 are self-consistent in the following exact senses.' It then lists six senses: one system (adjoint equation = Dirac conjugate); evolution form, which is not a well-posed Cauchy problem; integrability (Lichnerowicz identity, checks Lichnerowicz_identity_G, lichnerowicz_identity_on_fields); conserved current; the Bianchi-type identity of T; exact solutions as test points. 'grep -il Lichnerowicz chapters/*.md' returns nothing.",
+    "fix": "Directly after the requirement in 7.23, add a paragraph: 'Self-consistent, in the exact senses of the Revision record (docs/DIRAC16COMPLEX_FIELD_THEORY.md, section 6): (i) the adjoint equation is the Dirac conjugate of the field equation (Section 7.x, table line at 2562); (ii) the equation has an evolution form with non-characteristic slices but is not well posed (Sections 7.22, 8.16-8.19); (iii) integrability: the square of the Dirac operator obeys the Lichnerowicz identity (gamma^mu D_mu)^2 Psi = g^{mu nu}(D_mu D_nu Psi - Gamma^lambda_{mu nu} D_lambda Psi) - (R/4) Psi with R = 6((a_4')^2 - 7H^2), record checks Lichnerowicz_identity_G and lichnerowicz_identity_on_fields; (iv) the current is conserved locally (Chapter 21); (v) the Noether/Bianchi identity of T (Chapter 9); (vi) exact solutions as test points (Section 7.23).' Either derive (iii) or label it 'PROVED in the record, not derived in this book'. Add 'self-consistent (of field equations)' to the glossary, separate from the Kohn-Sham meaning.",
+    "lens": "book-deepdive",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   }
+  ]
+ },
+ "20": {
+  "residual": [],
+  "book_review": [
+   {
+    "severity": "major",
+    "file": "Revision/textbook/chapters/20-do-universes-come-in-pairs.md",
+    "location": "line 2924 (Section 20.26, 'The answer to the question of the title'); also line 2896",
+    "problem": "The chapter's final answer says without qualification that the separate conservation of each universe's charge forbids a charged T1 pair from appearing out of zero fields. The PROVED law is only local. The total charge is constant only under the ASSUMED no-flux condition at z = pi/2, which fails on the homogeneous solutions of Section 18.21. Chapter 20 itself (lines 146, 2812, 2848, 2862, 2914, 2944), Chapter 0 (rows 14 and 18 of the ledger) and Chapter 21 carry that qualifier.",
+    "evidence": "Ch20:2924: \"...and in the theory as built the separate conservation of each universe's charge forbids a charged T1 pair from appearing out of zero fields.\" Ch20:2896: \"Section 20.22 shows the obstacles: the separate conservation of the two charges forbids a charged pair from zero fields\". Ch20:2862, by contrast: \"since each universe's charge is conserved on its own under the ASSUMED no-flux condition at the brane, a T1 pair with charged members cannot evolve out of zero fields under that condition\". Record: charge-conjugation-and-u1.json, u1_noether_matrix_identity: \"constancy of Q is NOT established by this check\". Task honesty rule: the total is constant only under the ASSUMED no-flux condition.",
+    "fix": "Line 2924: replace \"and in the theory as built the separate conservation of each universe's charge forbids a charged T1 pair from appearing out of zero fields\" with \"and, under the ASSUMED no-flux condition at the brane $z = \\pi/2$ (not derived; it fails on the homogeneous solutions of Section 18.21), the separate conservation of each universe's charge forbids a charged T1 pair from appearing out of zero fields\". Line 2896: insert \"under the ASSUMED no-flux condition at the brane\" after \"the separate conservation of the two charges\".",
+    "lens": "book-consistency",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   },
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/chapters/20-do-universes-come-in-pairs.md",
+    "location": "line 2876 (opening of the list of what is not established)",
+    "problem": "Chapter 20 says its items 1 to 9 are the record's own list and cites both pairing-theory.json and PAIR_CREATION_PROOFS.md section 11.2. The two lists differ in length: pairing-theory.json, key not_established, has 9 items; section 11.2 has 10 (item 10 is the Kohn-Sham-level limits of T3). Chapter 0 counts yet another list, the twelve items of python-pairing.json.",
+    "evidence": "Ch20:2876: \"The items 1 to 9 are the record's own list (`pairing-theory.json`, key `not_established`; `PAIR_CREATION_PROOFS.md`, section 11.2)\". Computed: len(pairing-theory.json['not_established']) = 9; PAIR_CREATION_PROOFS.md lines 682-693 list items 1 to 10; len(python-pairing.json['not_established']) = 12 (the count Chapter 0, lines 72 and 1396, quotes).",
+    "fix": "Write \"The items 1 to 9 are the record's own list (`pairing-theory.json`, key `not_established`; items 1 to 9 of `PAIR_CREATION_PROOFS.md`, section 11.2, whose item 10, the Kohn-Sham-level limits of T3, appears in Chapter 19); the sympy verifier keeps its own list of twelve (`python-pairing.json`, Chapter 0)\".",
+    "lens": "book-consistency",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   },
+   {
+    "severity": "major",
+    "file": "Revision/textbook/chapters/20-do-universes-come-in-pairs.md",
+    "location": "line 2896 (Section 20.25, 'The classical route (Q2)') and line 2924 (Section 20.26, the answer to the question of the title)",
+    "problem": "Two summary sentences say, without the no-flux condition, that the charge of each universe is conserved separately and that this forbids a charged pair from appearing out of zero fields. This breaks the R3 rule that the total U(1) charge is constant only under the ASSUMED no-flux condition at z = pi/2. Section 20.22 (a)-(c), the table at line 2914 and ledger row 2944 of the same chapter all carry the condition, so these two sentences contradict the chapter's own derivation.",
+    "evidence": "l.2896: \"Section 20.22 shows the obstacles: the separate conservation of the two charges forbids a charged pair from zero fields, and a condensate cannot grow out of zero at all.\" l.2924: \"...and in the theory as built the separate conservation of each universe's charge forbids a charged T1 pair from appearing out of zero fields.\" Contradicted by TEXTBOOK_SPEC R3 (the total charge is constant only under an ASSUMED no-flux condition that fails on the exact homogeneous solutions of ch. 18) and by the chapter itself. Section 20.22 (a) says \"whether the total charge of a universe is conserved is OPEN\", (c) step 3 adds \"(under the ASSUMED no-flux condition at the brane)\", and the summary at l.2848 says a flow through the brane \"could change this\".",
+    "fix": "l.2896: replace with \"Section 20.22 shows the obstacles: under the ASSUMED no-flux condition at the brane z = pi/2 (not derived, and violated by the homogeneous solutions of Section 18.21) the separate conservation of the two charges forbids a charged pair from zero fields, and a condensate cannot grow out of zero at all.\" l.2924: replace the clause with \"...and in the theory as built, under the ASSUMED no-flux condition at the brane, the separate conservation of each universe's charge forbids a charged T1 pair from appearing out of zero fields (without that condition this is OPEN, Section 20.22).\"",
+    "lens": "book-honesty",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   },
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/chapters/20-do-universes-come-in-pairs.md",
+    "location": "line 11 (item 1 of 'The answer in brief') and line 17 (item 7)",
+    "problem": "The brief answer of the central chapter states the T1 cancellation for a pair of universes without the record's qualifier that it holds only for classical bilinears (and as an operator identity within one quantum system), not for two independently quantised universes. Item 3 of the same list says energies 'add, not cancel', so items 1 and 7 read as unconditional PROVED claims that the record limits.",
+    "evidence": "l.11: \"A T1 pair therefore has zero total energy, momentum, stress and charge at every point.\" l.17: \"PROVED (the charge of a pair): a T1 partner carries the opposite charge, so a T1 pair has zero total charge\". Against this: PAIR_CREATION_PROOFS.md 11.1 item 1 (\"the pair has zero total energy-momentum, current and charge as classical bilinears\") and 11.2 item 5 (\"holds for classical bilinears and as an operator identity within ONE quantum system; it does not hold for two independently quantised universes\").",
+    "fix": "l.11: \"A T1 pair therefore has zero total energy, momentum, stress and charge at every point, as classical bilinears (for two independently quantised universes they add, item 3).\" l.17: \"...so a T1 pair has zero total charge as classical bilinears (not for two independently quantised universes, item 3)...\"",
+    "lens": "book-honesty",
+    "refutations": 0,
+    "skeptic_results": 0,
+    "needs_skeptics": true
+   }
+  ]
+ },
+ "21": {
+  "residual": [],
+  "book_review": [
+   {
+    "severity": "major",
+    "file": "Revision/textbook/chapters/21-matter-and-antimatter.md",
+    "location": "line 17 (opening 'What the theory does provide'), lines 347-355 (Section 21.8: 'This section and the next find every such matrix' and the Definition), line 390 (Theorem CC (b) 'Hence there are exactly two'), ledger row l.420; also chapter 20 l.2860; notebook 21a (src/21a_conjugation_matrices.py) cell 0 'finds every such matrix exactly' and cell 4 'we must find all possible matrices' / 'M must commute or anticommute'; notebook 07c (src/07c_real_fields.py) cell 1 'every matrix that maps solutions to solutions in the conjugated form is a multiple of the identity ... or of ... Gamma'",
+    "problem": "This is the R5 presentation, and it labels as PROVED something that neither the record nor the book proves; it is in fact false. Chapter 21 defines a charge-conjugation matrix as any constant matrix whose image solves the equation (the 'wish'). Step 3 only shows that the intertwiner condition is sufficient. Theorem CC (b) then concludes 'Hence there are exactly two charge-conjugation matrices', and line 17 and ch. 20 l.2860 say that solving for every matrix that maps solutions to solutions gives exactly two. The book itself proves the opposite: Section 5.28 (PROVED row at ch. 5 l.3775) shows that for V = 0 the matrix P_-C maps every solution to a solution without obeying the condition. Notebook 05c says 'the converse is not true in general'. The record only classifies matrices that obey the condition.",
+    "evidence": "ch21 l.17: \"Solving exactly for every matrix that maps solutions to solutions gives exactly two, up to a factor: C_+ = C ... and C_- = Gamma C ... (PROVED, Sections 21.8 to 21.10; Notebook 21a)\". ch21 l.349: \"A charge-conjugation matrix is a constant 16 x 16 matrix C such that, whenever Psi solves the field equation, the column Psi^c ... solves the field equation of the same form\". ch20 l.2860: \"Solving exactly for every matrix that maps solutions to solutions gives two charge-conjugation matrices\". Against this: ch05 l.3692 \"The converse is not true in general: a matrix can turn every solution into a solution without obeying the condition ... M = P_-\", ch05 l.3775 row \"for V = 0 the matrix P_-C maps every solution to a solution without obeying the condition | PROVED\", and the record charge-conjugation-and-u1.json checks intertwiners_same_mass/intertwiners_reversed_mass (\"M (gamma^a)* = +/- gamma^a M for all a: solution space of dimension 1\"), which classify only matrices that obey the condition.",
+    "fix": "Use chapter 5's convention throughout. ch21 Section 21.8: make the definition 'a constant matrix C for which M = C C obeys M(gamma^a)* = s gamma^a M with one sign s for all a (the definition of the Revision record)', state that Steps 1-4 show this is sufficient, and add ch. 5's sentence: 'the converse is not true in general: for V = 0 the projector P_- also maps every solution to a solution (Section 5.28)'. Change l.347 to '...find every matrix that obeys this condition'. Theorem CC (b): 'Hence, with the intertwiner condition as the definition, there are exactly two...'. Line 17 and ch20 l.2860: replace 'Solving exactly for every matrix that maps solutions to solutions' with 'Solving exactly for every matrix that obeys the intertwiner condition M(gamma^a)* = s gamma^a M (the record's definition; other matrices, e.g. P_-C for V = 0, can also map solutions to solutions)'. NB 21a src: cell 0 'finds every matrix that obeys the intertwiner condition'; cell 4 change 'we must find all possible matrices' to 'we find all matrices that obey the condition below' and 'M must commute' to 'it is enough that M commutes ... (the converse fails for V = 0, Notebook 05c)'. NB 07c src cell 1: 'every matrix that obeys the intertwiner condition M(gamma^a)* = s gamma^a M is a multiple of...'. Then regenerate notebooks and PROVENANCE files.",
+    "lens": "book-honesty",
+    "refutations": 0,
+    "skeptic_results": 0,
+    "needs_skeptics": true
+   }
+  ]
+ },
+ "05": {
+  "residual": [],
+  "book_review": [
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/notebooks/src/05a_c_gamma_b.py",
+    "location": "line 32 (notebook description; appears 3 times in 05a_c_gamma_b.ipynb and at lines 10 and 42 of 05a_c_gamma_b.PROVENANCE.md)",
+    "problem": "A numerical verification is called a proof, which breaks the book's own label rule (numerical means COMPUTED, exact means PROVED). The sentence makes no claim about pairs, charge or the dark sector, but it is a wording error of the kind R3 forbids.",
+    "evidence": "\"...and the matrix B = -i C gamma^(x4), proves numerically every property that the Revision record states about them (symmetry, squares, commutation signs, eigenvalues and signature)\". TEXTBOOK_SPEC R3: \"PROVED (exact ...), COMPUTED (numerical ...)\".",
+    "fix": "Change 'proves numerically every property' to 'checks numerically (COMPUTED; the record proves them exactly) every property' and regenerate the notebook and its PROVENANCE file.",
+    "lens": "book-honesty",
+    "refutations": 0,
+    "skeptic_results": 0,
+    "needs_skeptics": true
+   },
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/chapters/05-pin-spin-and-charge-conjugation.md",
+    "location": "Section 5.23 (I), line 2742",
+    "problem": "The space-like case is proved in three explicit stages. The time-like case is dismissed with 'in the same way', although its boost sets a different stage (cosh theta = |tau|, not |sigma|) and the roles of the two rotation stages are exchanged.",
+    "evidence": "Quoted: 'A time-like unit vector is treated in the same way, starting from e_{x4} with a boost in the plane (x4, x8).' The preceding space-like proof uses |sigma|^2 - |tau|^2 = 1 and cosh theta = |sigma|; a time-like v has |tau|^2 - |sigma|^2 = 1.",
+    "fix": "Write the three stages. (1) A boost in the plane (x4, x8) carries e_{x4} to |tau| e_{x4} + |sigma| e_{x8}: by (E), sinh theta = ±|sigma| with the sign fixed by (E), so cosh theta = sqrt(1 + |sigma|^2) = |tau|. (2) Rotations in (x8, x1), (x8, x2), (x8, x3) turn e_{x8} into sigma/|sigma| without touching x4. (3) Rotations in (x4, x5), (x4, x6), (x4, x7) turn e_{x4} into tau/|tau|, giving sigma + tau = v. Then h gamma^{(x4)} h^{-1} = gamma(v), by the same final display.",
+    "lens": "book-deepdive",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   }
+  ]
+ },
+ "13": {
+  "residual": [],
+  "book_review": [
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/chapters/13-many-body-and-dft.md",
+    "location": "Section 13.4 'Every basis', line 210",
+    "problem": "Two steps of the Wick-theorem proof are skipped. First, the four-operator formula is said to transform 'in the same way, factor by factor', with no line written. Second, Wick's theorem for a thermal ensemble is asserted because the occupations are independent, 'which is all the proof needs'. The thermal four-operator expectation is never derived, and Section 13.26 proves only the independence.",
+    "evidence": "Quoted: 'which is the matrix element of the same rho between the new orbitals; the four-operator formula transforms in the same way, factor by factor. ... It also holds, with occupations f_a between 0 and 1 ..., for a thermal ensemble ... (Section 13.26 shows that the occupations of different orbitals are then independent, which is all the proof needs).' grep shows Section 13.26 (lines 2972-2984) derives independent Fermi-Dirac occupations but no <a+_p a+_q a_s a_r> formula.",
+    "fix": "Insert the line <a'+_p a'+_q a'_s a'_r> = sum_{k,l,m,n} U_kp U_lq U*_ms U*_nr <a+_k a+_l a_m a_n> = sum U_kp U_lq U*_ms U*_nr (rho_nk rho_ml - rho_mk rho_nl) = rho'_rp rho'_sq - rho'_sp rho'_rq, with rho' = U^dagger rho U. Give the rule: linearity, then the determinant formula, then regroup the sums into matrix products. For the thermal case, add: in the eigen-orbitals of the ensemble, <a+_p a_q> = delta_pq f_p, because states with different occupations are orthogonal. For p != q, <n_p n_q> = f_p f_q by independence. So <a+_p a+_q a_s a_r> = f_p f_q (delta_pr delta_qs - delta_ps delta_qr) = rho_rp rho_sq - rho_sp rho_rq with rho = diag(f), and the basis change above carries this to every basis.",
+    "lens": "book-deepdive",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   }
+  ]
+ },
+ "12": {
+  "residual": [],
+  "book_review": [
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+    "location": "Section 12.6, line 292 ('The extra-time component is found in the same way')",
+    "problem": "The collected-sum line is skipped for G^{x5}_{x5}, although it is written out for G^{x1}_{x1}. Only the pair counts and the final result are given.",
+    "evidence": "Quoted: 'The extra-time component is found in the same way (three 3-space pairs, one extra-time pair, six mixed pairs, three space-time pairs, two extra-time-time pairs, five with x_8): sum = 3(a_4')^2 - 15H^2 + a_4''.' I checked it from the 12.5 table: (3+1-6+3+2)(a4')^2 + (-3-1-6-5)H^2 + (3-2)a4'' = 3(a4')^2 - 15H^2 + a4''. The result is correct; only the line is missing.",
+    "fix": "Insert the display: sum = (3 + 1 - 6 + 3 + 2)(a_4')^2 + (-3 - 1 - 6 - 5)H^2 + (3 - 2)a_4'' = 3(a_4')^2 - 15H^2 + a_4''. Rule: the table row by row (the x4x8 pair contributes 0); collect the (a_4')^2, H^2 and a_4'' terms. Replace 'is found in the same way' with 'uses the pairs without x_5'.",
+    "lens": "book-deepdive",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   }
+  ]
+ },
+ "11": {
+  "residual": [],
+  "book_review": [
+   {
+    "severity": "minor",
+    "file": "Revision/textbook/chapters/11-gkd-and-lovelock-tensors.md",
+    "location": "Section 11.20, line 2795 ('In the same way the diagonals at this moment are ...')",
+    "problem": "One substitution, E_(2)^{x1}_{x1} = 548 H^4, is shown. The other distinct diagonal values (E_(1): 4, 33, 2, 3; E_(2): -1476, 820, 684; E_(3): -14544, 40248, -30240, -22392) are stated with 'in the same way', so the arithmetic is skipped.",
+    "evidence": "Quoted: 'In the same way the diagonals at this moment are E_(1) = (4, 4, 4, 33, 2, 2, 2, 3)H^2, E_(2) = (548, ..., -1476, 820, ..., 684)H^4 and E_(3) = (-14544, ..., 40248, -30240, ..., -22392)H^6'. I recomputed all of them from the listed formulas with a4'^2 = 4H^2, a4'' = H^2 and they are correct; e.g. E_(3)^{x1}: -4608 + 5760 - 10368 + 1728 - 7776 + 360 + 360 = -14544.",
+    "fix": "Add one line per distinct value, in the same style as the 548 line. Example: E_(3)^{x4}_{x4} = 360·64 + 648·16 + 1080·4 + 2520 = (23040 + 10368 + 4320 + 2520)H^6 = 40248 H^6 (insert a4'^6 = 64H^6, a4'^4 = 16H^4, a4'^2 = 4H^2; add). Alternatively, move them into a worked exercise with full answers.",
+    "lens": "book-deepdive",
+    "refutations": 0,
+    "skeptic_results": 2,
+    "needs_skeptics": false
+   }
+  ]
+ }
+}
