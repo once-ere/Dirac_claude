@@ -100,12 +100,13 @@ MEASURED_RUN_TIMES = ("between 4 and 11 s for the first Wolfram command and betw
 
 N = 16
 IDX = range(8)
-# author's coordinate x_k (k = 1..8) -> notebook index A (Revision/SPEC.md section 2)
-COORD_OF_A = {0: "x8", 1: "x1", 2: "x2", 3: "x3", 4: "x4", 5: "x5", 6: "x6", 7: "x7"}
+# the author's coordinate x_k (k = 0..7) is the notebook index A = k (Revision/SPEC.md sections 1 and 2; the Revision
+# record uses the author's coordinates x0..x7 since 2026-10-14, before that the withdrawn labels x1..x8 with x8 -> A = 0)
+COORD_OF_A = {A: f"x{A}" for A in range(8)}
 ROLE_OF_A = {0: "hidden space-like direction", 1: "space", 2: "space", 3: "space",
              4: "time", 5: "extra time, deflates exponentially", 6: "extra time, deflates exponentially",
              7: "extra time, deflates exponentially"}
-COORD_TO_A = [1, 2, 3, 4, 5, 6, 7, 0]  # x1..x8 -> notebook index A
+COORD_TO_A = list(range(8))  # x0..x7 -> notebook index A (the identity)
 A_TO_COORD = {A: k for k, A in enumerate(COORD_TO_A)}
 SUBSETS = [s for k in range(9) for s in itertools.combinations(IDX, k)]
 
@@ -1204,7 +1205,7 @@ def main():
               "x5..x7; the eight flat matrices T16A are not affected")
 
     # ---- 9. every gamma source of the repository, loaded or constructed now and compared
-    Sx = lambda a, b: S[(COORD_TO_A[a], COORD_TO_A[b])]  # noqa: E731  (coordinate order x1..x8)
+    Sx = lambda a, b: S[(COORD_TO_A[a], COORD_TO_A[b])]  # noqa: E731  (coordinate order x0..x7)
     eta_x = [eta[COORD_TO_A[k]] for k in IDX]
     sources = []   # dicts: name, source, kind, readers, compared, cmap, result, cls ("equal", "reads", "equivalent")
     status = {}    # measured facts used in the text
@@ -1266,7 +1267,7 @@ def main():
         compare("fixture_Revision_algebra_gammas_json", "Revision/algebra/gammas.json", "Revision fixture, JSON",
                 "the Revision calculations (e.g. Revision/theory, Revision/pairing, Revision/kohn_sham, Revision/lead_checks, "
                 "the a4 Python checker) and the textbook notebooks",
-                [("coordinates", fx["coordinates"] == [f"x{k}" for k in range(1, 9)]),
+                [("coordinates", fx["coordinates"] == [f"x{k}" for k in range(8)]),
                  ("notebookFrameIndex", fx["notebookFrameIndex"] == COORD_TO_A),
                  ("eta", fx["eta"] == eta_x),
                  ("gamma", all(eq(int_matrix(fx["gamma"][k]), G[COORD_TO_A[k]]) for k in IDX)),
@@ -1274,23 +1275,23 @@ def main():
                  ("Gamma", eq(int_matrix(fx["Gamma"]), T8)),
                  ("B", eq(int_matrix(fx["B"]["re"]), zeros()) and eq(int_matrix(fx["B"]["im"]), negM5)),
                  ("S", all(eq(frac_matrix(fx["S"][a][b]), Sx(a, b)) for a in IDX for b in IDX))],
-                f"x_k -> Gamma_A with A = 1..7, 0 for k = 1..8; S[a][b] = S^(A(a) A(b)); B = -i sigma16 Gamma_4; "
+                f"x_k -> Gamma_k for k = 0..7 (the identity); S[a][b] = S^(ab); B = -i sigma16 Gamma_4; "
                 f"sha256 {gj_sha[:16]}")
     with group("report_Revision_algebra_python_gammas_json"):
         pg = json.loads((ROOT / "Revision/algebra/reports/python-gammas.json").read_text(encoding="utf-8"))
         compare("report_Revision_algebra_python_gammas_json", "Revision/algebra/reports/python-gammas.json",
                 "Revision report of the Python construction, JSON",
                 "Revision/kohn_sham/theory/check_ks_theory.py (its preferred input), e.g. textbook notebook 04a",
-                [("coordinates", pg["coordinates"] == [f"x{k}" for k in range(1, 9)]),
-                 ("map_coordinate_to_T16_index", pg["map_coordinate_to_T16_index"] == {f"x{k + 1}": COORD_TO_A[k] for k in IDX}),
+                [("coordinates", pg["coordinates"] == [f"x{k}" for k in range(8)]),
+                 ("map_coordinate_to_T16_index", pg["map_coordinate_to_T16_index"] == {f"x{k}": COORD_TO_A[k] for k in IDX}),
                  ("eta", pg["eta"] == eta_x),
                  ("gamma", all(eq(int_matrix(pg["gamma"][k]), G[COORD_TO_A[k]]) for k in IDX)),
                  ("C", eq(int_matrix(pg["C"]), sigma16)),
                  ("Gamma", eq(int_matrix(pg["Gamma"]), T8)),
                  ("B", eq(int_matrix(pg["B"]["re"]), zeros()) and eq(int_matrix(pg["B"]["im"]), negM5)),
-                 ("S", len(pg["S"]) == 28 and all(eq(frac_matrix(pg["S"][f"x{a + 1},x{b + 1}"]), Sx(a, b))
+                 ("S", len(pg["S"]) == 28 and all(eq(frac_matrix(pg["S"][f"x{a},x{b}"]), Sx(a, b))
                                                    for a in IDX for b in IDX if a < b))],
-                "x_k -> Gamma_A as above; S['xi,xj'] = S^(A(i) A(j))")
+                "x_k -> Gamma_k as above; S['xi,xj'] = S^(ij)")
     with group("Revision_construction"):
         rev = load_module("Revision/algebra/python/check_algebra.py", "check_algebra").construct()
         compare("Revision_construction", "Revision/algebra/python/check_algebra.py: construct()",
@@ -1317,7 +1318,7 @@ def main():
                  ("RAB", eq(ra["B_re"], zeros()) and eq(ra["B_im"], negM5)),
                  ("RAS", all(eq([[Fraction(x, 4) for x in r] for r in ra["four_S"][a][b]], Sx(a, b)) for a in IDX for b in IDX)),
                  ("RAPL, RAPR", eq(ra["twice_PL"], nbd["twice_PL"]) and eq(ra["twice_PR"], nbd["twice_PR"]))],
-                "gamma, eta, S in the order x1..x8 with x_k -> Gamma_A as above; T16, tau, taubar in the notebook frame")
+                "gamma, eta, S in the order x0..x7 with x_k -> Gamma_k as above; T16, tau, taubar in the notebook frame")
     with group("Revision_pairing_construction"):
         cp = load_module("Revision/pairing/python/check_pairing.py", "check_pairing")
         t16 = cp.author_T16()
@@ -1331,7 +1332,7 @@ def main():
                  ("C", eq(int_matrix(cp.C), sigma16)), ("CHI", eq(int_matrix(cp.CHI), T8)),
                  ("B", eq(b_re, zeros()) and eq(b_im, negM5)),
                  ("SAB", all(eq(frac_matrix(cp.SAB[a][b]), Sx(a, b)) for a in IDX for b in IDX))],
-                "author_T16() in the notebook frame; GAM, ETA, SAB in the order x1..x8 with x_k -> Gamma_A as above")
+                "author_T16() in the notebook frame; GAM, ETA, SAB in the order x0..x7 with x_k -> Gamma_k as above")
 
     # the a4 field-equation engine (Wolfram) and its Python checker: measured here, never assumed
     status["fe_equal"] = status["fe_cmp"] = status["py_own"] = status["py_author"] = None
@@ -1339,7 +1340,7 @@ def main():
         fe = wl[FE_KEY]
         FEx = [int_matrix(m) for m in fe["gamma"]]
         FEA = [FEx[A_TO_COORD[A]] for A in IDX]
-        derived = {k: fe[k] for k in ("C_is_gamma_x8_x1_x2_x3", "Sab_from_gamma", "GammaCoord_from_gamma", "Omega_from_Sab")}
+        derived = {k: fe[k] for k in ("C_is_gamma_x0_x1_x2_x3", "Sab_from_gamma", "GammaCoord_from_gamma", "Omega_from_Sab")}
         ok, equal, text, c = relation(FEA, "FEGammaFrame", int_matrix(fe["C"]))
         status["fe_equal"], status["fe_c"] = equal, c
         record("Revision_a4_engine_wolfram", f"{FE_KEY}: FEGammaFrame, FEC",
@@ -1348,7 +1349,7 @@ def main():
                "a4-equations.json and wolfram-a4-report.json)",
                "FEGammaFrame, the basis the engine's results are built from (measured by the extraction: "
                + ", ".join(f"{k} = {v}" for k, v in derived.items()) + ")",
-               "FEGammaFrame in the order x1..x8, x_k -> Gamma_A as above",
+               "FEGammaFrame in the order x0..x7, x_k -> Gamma_k as above",
                ok and all(v is True for v in derived.values()), text, "equal" if equal else "equivalent")
         if fe.get("comparison_gamma") is not None:
             FCA = [int_matrix(fe["comparison_gamma"][A_TO_COORD[A]]) for A in IDX]
@@ -1357,7 +1358,7 @@ def main():
             status["fe_cmp"] = (equal, c)
             record("Revision_a4_engine_wolfram_comparison_basis", f"{FE_KEY}: FEGammaFrameComparison",
                    "the a4 engine's labelled comparison basis", "the engine's own equivalence check",
-                   "FEGammaFrameComparison", "order x1..x8, x_k -> Gamma_A as above", ok, text,
+                   "FEGammaFrameComparison", "order x0..x7, x_k -> Gamma_k as above", ok, text,
                    "equal" if equal else "equivalent")
     with group("Revision_a4_engine_python"):
         funcs = [f for f in ("own_rep", "author_rep") if f in defined_functions(FE_PY)]
@@ -1373,7 +1374,7 @@ def main():
             record("Revision_a4_python_own_rep", f"{FE_PY}: own_rep()",
                    "Revision Python construction in the a4 checker (a tensor-product basis built there)",
                    "the a4 checker's spinor lemmas (checks named ownrep_*)", f"own_rep() ({ran})",
-                   "returned in the order x1..x8, x_k -> Gamma_A as above", ok, text, "equal" if equal else "equivalent")
+                   "returned in the order x0..x7, x_k -> Gamma_k as above", ok, text, "equal" if equal else "equivalent")
         if "author_rep" in funcs:
             arep = ns["author_rep"]()
             if arep is None:
@@ -1385,17 +1386,17 @@ def main():
                 record("Revision_a4_python_author_rep", f"{FE_PY}: author_rep()",
                        "Revision Python reader of gammas.json in the a4 checker",
                        "the a4 checker's spinor lemmas in the author's T16 (checks named authorT16_*)",
-                       f"author_rep() ({ran})", "returned in the order x1..x8, x_k -> Gamma_A as above",
+                       f"author_rep() ({ran})", "returned in the order x0..x7, x_k -> Gamma_k as above",
                        ok and equal, text, "equal" if equal else "equivalent")
     with group("Revision_rust_solver_reads_gammas_json"):
         rs = (ROOT / "Revision/kohn_sham/solver/src/theory.rs").read_text(encoding="utf-8")
         rrep = json.loads((ROOT / "Revision/kohn_sham/reports/ks-rust-solver.json").read_text(encoding="utf-8"))
         rchk = next((c for c in rrep.get("checks", []) if c.get("name") == "gamma_fixture_numeric"), None)
-        eta_lit = re.search(r"\[\s*1\.0,\s*1\.0,\s*1\.0,\s*-1\.0,\s*-1\.0,\s*-1\.0,\s*-1\.0,\s*1\.0\s*\]", rs)
+        eta_lit = re.search(r"\[\s*1\.0,\s*1\.0,\s*1\.0,\s*1\.0,\s*-1\.0,\s*-1\.0,\s*-1\.0,\s*-1\.0\s*\]", rs)
         items = [("theory.rs reads Revision/algebra/gammas.json", '"Revision/algebra/gammas.json"' in rs),
                  ('it takes the fields "gamma", "C", "B" of that file', all(f'get("{k}")' in rs for k in ("gamma", "C", "B"))),
-                 ("its eta literal [1, 1, 1, -1, -1, -1, -1, 1] is the fixture's eta in the order x1..x8",
-                  eta_lit is not None and fx["eta"] == [1, 1, 1, -1, -1, -1, -1, 1]),
+                 ("its eta literal [1, 1, 1, 1, -1, -1, -1, -1] is the fixture's eta in the order x0..x7",
+                  eta_lit is not None and fx["eta"] == [1, 1, 1, 1, -1, -1, -1, -1]),
                  (f"its committed report records gamma_fixture_numeric = PASS for sha256 {gj_sha[:16]}, the gammas.json "
                   "compared above", rchk is not None and rchk.get("verdict") == "PASS"
                   and f"sha256 {gj_sha[:16]}" in rchk.get("detail", ""))]
@@ -1403,7 +1404,7 @@ def main():
         record("Revision_rust_solver_reads_gammas_json",
                "Revision/kohn_sham/solver/src/theory.rs, Revision/kohn_sham/reports/ks-rust-solver.json",
                "Revision Rust solver: reads the fixture, holds no matrix of its own", "the Revision Kohn-Sham solver",
-               "; ".join(k for k, _ in items), "gamma in the order x1..x8 of the fixture", not fails,
+               "; ".join(k for k, _ in items), "gamma in the order x0..x7 of the fixture", not fails,
                "reads the compared gammas.json (equal to the author's matrices)" if not fails else f"FAILED: {fails}", "reads")
     with group("old_stage_fixture_algebra_fixture_json"):
         af = json.loads((ROOT / "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json").read_text(encoding="utf-8"))
@@ -1614,7 +1615,8 @@ def main():
       "builds the coordinate matrices as gamma^mu = e^mu_a gamma^a from the frame matrices instead (checked here for the "
       f"a4 engine). The {len(sources)} gamma sources of the repository in the table below were loaded or "
       f"constructed when this file was generated and compared: {by_cls['equal']} are equal to the author's matrices "
-      "entry by entry (coordinate map x8 -> Gamma_0, x1..x3 -> Gamma_1..3, x4 -> Gamma_4, x5..x7 -> Gamma_5..7), "
+      "entry by entry (the Revision constructions in the author's coordinates x0..x7 with x_k -> Gamma_k, the identity; "
+      "the earlier-stage ones in the notebook frame A = 0..7), "
       f"{by_cls['reads']} reads the compared fixture, and {by_cls['equivalent']} are different bases with an exact "
       "invertible intertwiner (named in the table). The textbook notebooks under Revision/textbook/ (owned by another "
       "workflow and still being written) are not compared here. The matrices are real; the fields are not required to "

@@ -50,11 +50,11 @@ $yIntOrNull[m_] := If[m === Null, Null, $yInt[m]];
 $yGet["Revision/field_equations_a4/wolfram/FieldEquationsA4.wl"];
 $yFEZero[x_] := AllTrue[Flatten[{x}], TrueQ[Simplify[#] == 0] &];
 $yFE = <|
-  "frame" -> "coordinates x1..x8",
+  "frame" -> "the author's coordinates x0..x7 (index k = xk)",
   "symbols" -> "FEGammaFrame, FEC, FESab, FEGammaCoord, FEOmega, FEGammaFrameComparison, FECComparison",
   "gamma" -> $yInt[FEGammaFrame],
   "C" -> $yInt[FEC],
-  "C_is_gamma_x8_x1_x2_x3" -> (FEC === FEGammaFrame[[8]] . FEGammaFrame[[1]] . FEGammaFrame[[2]] . FEGammaFrame[[3]]),
+  "C_is_gamma_x0_x1_x2_x3" -> (FEC === FEGammaFrame[[1]] . FEGammaFrame[[2]] . FEGammaFrame[[3]] . FEGammaFrame[[4]]),
   "Sab_from_gamma" -> (FESab === Table[(1/4) (FEGammaFrame[[a]] . FEGammaFrame[[b]] - FEGammaFrame[[b]] . FEGammaFrame[[a]]),
       {a, 8}, {b, 8}]),
   "GammaCoord_from_gamma" -> $yFEZero[FEGammaCoord - Table[Sum[FEVielbeinInv[[mu, a]] FEGammaFrame[[a]], {a, 8}], {mu, 8}]],
@@ -100,7 +100,7 @@ $yWriteJSON[$yOut, <|
   "input_sha256" -> $yHashes,
   "Revision/field_equations_a4/wolfram/FieldEquationsA4.wl" -> $yFE,
   "Revision/algebra/wolfram/RevisionAlgebra.wl" -> <|
-    "frame" -> "coordinates x1..x8 (gamma, eta, S); notebook frame A = 0..8 (T16, tau, taubar)",
+    "frame" -> "the author's coordinates x0..x7, index k = xk (gamma, eta, S); notebook frame A = 0..8 (T16, tau, taubar)",
     "symbols" -> "RAEta4488, RASigma8, RATau, RATauBar, RAT16, RANotebookFrame, RAEta, RAGamma, RAC, RAChirality, RAB, RAS, RAPL, RAPR",
     "eta4488" -> $yInt[RevisionAlgebra`RAEta4488],
     "sigma8" -> $yInt[RevisionAlgebra`RASigma8],
