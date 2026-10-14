@@ -1,24 +1,24 @@
 {
   "producer": "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls",
   "spec": "Revision/SPEC.md section 5",
-  "checkCount": 52,
+  "checkCount": 64,
   "failedCount": 0,
   "verdict": "PASS",
   "checks": [
     {
       "name": "metric_is_SPEC_section_1",
       "verdict": "PASS",
-      "detail": "g = diag(e^{2a4} s, e^{2a4} s, e^{2a4} s, -1, -e^{-2a4} s, -e^{-2a4} s, -e^{-2a4} s, cot^2 z), s = sin^{1/3} z, z = 6 H x8 (x1..x8)"
+      "detail": "g = diag(e^{2a4} s, e^{2a4} s, e^{2a4} s, -1, -e^{-2a4} b4 s, -e^{-2a4} b4 s, -e^{-2a4} b4 s, cot^2 z), s = sin^{1/3} z, z = 6 H x8 (x1..x8): the metric of SPEC section 1 since 2026-10-14 (b4 = 1 is the metric before)"
     },
     {
       "name": "sqrt_abs_det_g_is_cos_z",
       "verdict": "PASS",
-      "detail": "sqrt|det g| = sin z cot z = cos z on 0 < z < pi/2 (independent of a4: the 7-volume factor e^{3a4} e^{-3a4} = 1)"
+      "detail": "sqrt|det g| = b4^{3/2} sin z cot z = b4^{3/2} cos z on 0 < z < pi/2 (independent of a4: the 7-volume factor e^{3a4} e^{-3a4} b4^{3/2} = b4^{3/2}, constant in x4 exactly when b4 is; = cos z at b4 = 1)"
     },
     {
       "name": "mixed_riemann_free_of_warp_and_a4",
       "verdict": "PASS",
-      "detail": "every R^{ab}_{cd} (MTW, computed here from the Christoffel symbols) is a function of H, a4', a4'', cot z only (a Laurent polynomial in cot z): the warp sin^{1/3} z and e^{a4} cancel; 39 nonzero components with a < b, c < d"
+      "detail": "every R^{ab}_{cd} (MTW, computed here from the Christoffel symbols) is a function of H, a4', a4'', b4'/b4, b4''/b4, cot z only (a Laurent polynomial in cot z; at b4 = 1 of H, a4', a4'', cot z): the warp sin^{1/3} z and e^{a4} cancel; 39 nonzero components with a < b, c < d"
     },
     {
       "name": "riemann_pair_antisymmetry",
@@ -38,7 +38,7 @@
     {
       "name": "L1_direct_equals_gkd_branch",
       "verdict": "PASS",
-      "detail": "L_(1) = 12*ad1^2 - 84*H^2"
+      "detail": "L_(1) = 12*ad1^2 - (6*ad1*bd1)/bb + (6*bd2)/bb - 84*H^2"
     },
     {
       "name": "P1_trace_identity",
@@ -48,7 +48,7 @@
     {
       "name": "P1_structure",
       "verdict": "PASS",
-      "detail": "P_(1)^h_j is diagonal (in particular the x4-x8 components vanish), free of x8, with x1 = x2 = x3 and x5 = x6 = x7"
+      "detail": "P_(1)^h_j: the diagonal is free of x8 with x1 = x2 = x3 and x5 = x6 = x7; the only nonzero off-diagonal components are x4-x8 and x8-x4, each proportional to b4' (metric of 2026-10-14), so at b4 = 1 P_(1) is diagonal"
     },
     {
       "name": "P2_direct_equals_gkd_branch_monomials",
@@ -58,7 +58,7 @@
     {
       "name": "L2_direct_equals_gkd_branch",
       "verdict": "PASS",
-      "detail": "L_(2) = -96*ad1^4 - 2112*ad1^2*H^2 + 3360*H^4"
+      "detail": "L_(2) = -96*ad1^4 + (96*ad1^3*bd1)/bb - (192*ad1*ad2*bd1)/bb - (48*ad1^2*bd1^2)/bb^2 + (48*ad2*bd1^2)/bb^2 - (36*ad1*bd1^3)/bb^3 - (6*bd1^4)/bb^4 - (96*ad1^2*bd2)/bb + (96*ad1*bd1*bd2)/bb^2 + (12*bd1^2*bd2)/bb^3 - 2112*ad1^2*H^2 + (1056*ad1*bd1*H^2)/bb + (168*bd1^2*H^2)/bb^2 - (720*bd2*H^2)/bb + 3360*H^4"
     },
     {
       "name": "P2_trace_identity",
@@ -68,7 +68,7 @@
     {
       "name": "P2_structure",
       "verdict": "PASS",
-      "detail": "P_(2)^h_j is diagonal (in particular the x4-x8 components vanish), free of x8, with x1 = x2 = x3 and x5 = x6 = x7"
+      "detail": "P_(2)^h_j: the diagonal is free of x8 with x1 = x2 = x3 and x5 = x6 = x7; the only nonzero off-diagonal components are x4-x8 and x8-x4, each proportional to b4' (metric of 2026-10-14), so at b4 = 1 P_(2) is diagonal"
     },
     {
       "name": "P3_direct_equals_gkd_branch_monomials",
@@ -78,7 +78,7 @@
     {
       "name": "L3_direct_equals_gkd_branch",
       "verdict": "PASS",
-      "detail": "L_(3) = 1152*ad1^6 + 31104*ad1^4*H^2 + 100224*ad1^2*H^4 - 40320*H^6"
+      "detail": "L_(3) = 1152*ad1^6 - (1728*ad1^5*bd1)/bb + (6912*ad1^3*ad2*bd1)/bb + (1728*ad1^4*bd1^2)/bb^2 - (5184*ad1^2*ad2*bd1^2)/bb^2 + (720*ad1^3*bd1^3)/bb^3 + (864*ad1*ad2*bd1^3)/bb^3 - (648*ad1^2*bd1^4)/bb^4 + (1728*ad1^4*bd2)/bb - (3456*ad1^3*bd1*bd2)/bb^2 + (1296*ad1^2*bd1^2*bd2)/bb^3 + 31104*ad1^4*H^2 - (31104*ad1^3*bd1*H^2)/bb + (13824*ad1*ad2*bd1*H^2)/bb + (3456*ad1^2*bd1^2*H^2)/bb^2 - (3456*ad2*bd1^2*H^2)/bb^2 + (5616*ad1*bd1^3*H^2)/bb^3 + (432*bd1^4*H^2)/bb^4 + (6912*ad1^2*bd2*H^2)/bb - (6912*ad1*bd1*bd2*H^2)/bb^2 - (864*bd1^2*bd2*H^2)/bb^3 + 100224*ad1^2*H^4 - (50112*ad1*bd1*H^4)/bb - (12096*bd1^2*H^4)/bb^2 + (25920*bd2*H^4)/bb - 40320*H^6"
     },
     {
       "name": "P3_trace_identity",
@@ -88,7 +88,7 @@
     {
       "name": "P3_structure",
       "verdict": "PASS",
-      "detail": "P_(3)^h_j is diagonal (in particular the x4-x8 components vanish), free of x8, with x1 = x2 = x3 and x5 = x6 = x7"
+      "detail": "P_(3)^h_j: the diagonal is free of x8 with x1 = x2 = x3 and x5 = x6 = x7; the only nonzero off-diagonal components are x4-x8 and x8-x4, each proportional to b4' (metric of 2026-10-14), so at b4 = 1 P_(3) is diagonal"
     },
     {
       "name": "P4_vanishes_pigeonhole",
@@ -264,6 +264,66 @@
       "name": "condensate_diagonal_witness_exact",
       "verdict": "PASS",
       "detail": "exact Gaussian-rational witnesses (M, H) = (5, 1), (5, 4/3), (-5, 1): Phi = e^{-i w x4} Phi0 with w = sqrt(M^2 - 9 H^2) = {4, 3, 4}, Phi0 = v1 + c v2 (v1, v2 the A-eigenvectors with gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1 and +1, c = conj(v1^dagger C v2)), solves the condensate equation; all 15 three-gamma bilinears and every off-diagonal kinetic component vanish for every a4, a4'; S = {51200, 28800, 51200} != 0"
+    },
+    {
+      "name": "b4_lovelock_equals_metric_b4_set",
+      "verdict": "PASS",
+      "detail": "all 64 components of E_(1), E_(2), E_(3) for general b4, computed in this file (GKD as Det of the delta matrix over the nonzero R^{ab}_{cd}), equal those of Revision/metric_b4/results/metric-b4.json (MetricB4.wl, compared there with the author's stored outputs of Dirac_Einstein-Lovelock_4+4_Nash.nb)"
+    },
+    {
+      "name": "b4_constraint_first_order",
+      "verdict": "PASS",
+      "detail": "the x4 component (constraint) contains only a4' and b4'/b4 (no second derivative, no x8): 3*ad1^2 - (3*ad1*bd1)/(2*bb) - (3*bd1^2)/(4*bb^2) + 21*H^2 for Einstein"
+    },
+    {
+      "name": "b4_offdiagonal_factorises",
+      "verdict": "PASS",
+      "detail": "sum_k alpha_k E_(k)^x4_x8 = cot z (b4'/b4) Q and sum_k alpha_k E_(k)^x8_x4 = -tan z (b4'/b4) Q, Q = (3*alpha1*H)/2 - 36*ad1^2*alpha2*H + 540*ad1^4*alpha3*H - 60*alpha2*H^3 + 648*ad1^2*alpha3*H^3 + 540*alpha3*H^5 + 18*ad1*alpha2*H*uu - 540*ad1^3*alpha3*H*uu - 324*ad1*alpha3*H^3*uu + (3*alpha2*H*uu^2)/2 + 135*ad1^2*alpha3*H*uu^2 - 27*alpha3*H^3*uu^2 (u = b4'/b4), both zero for b4' = 0: the off-diagonal field equations read kappa q48 = cot z u Q and kappa q84 = -tan z u Q"
+    },
+    {
+      "name": "b4_einstein_offdiagonal_forces_b4_constant",
+      "verdict": "PASS",
+      "detail": "Einstein (alpha1 = 1, alpha2 = alpha3 = 0): Q = 3 H/2 != 0, so a source with T^x4_x8 = 0 (q48 = 0) forces b4' = 0, i.e. b4 constant (a rescaling of x5, x6, x7: the metric before 2026-10-14)"
+    },
+    {
+      "name": "b4_identity_x1_plus_x5_minus_2x8",
+      "verdict": "PASS",
+      "detail": "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x8_x8) vanishes when b4' = b4'' = 0 (b4 = 1: the algebraic condition p3 + p_t = 2 p8), and for Einstein equals (b4'/b4)^2/4 + b4''/(2 b4): with b4 the field equations give kappa (p3 + p_t - 2 p8) = (b4'/b4)^2/4 + b4''/(2 b4) instead of the condition p3 + p_t = 2 p8"
+    },
+    {
+      "name": "b4_einstein_second_order_system",
+      "verdict": "PASS",
+      "detail": "Einstein: the x1 - x5 and x8 components are linear in (a4'', b4'') with Jacobian {{2, -1/2*1/bb}, {0, -3/(2*bb)}} (nonsingular): they determine a4'' and b4''/b4 from the sources; the x4 component is the constraint"
+    },
+    {
+      "name": "b4_conservation_components",
+      "verdict": "PASS",
+      "detail": "general b4: nabla_mu T^mu_x4 = -d4 rho - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) + d8 q84 - 6 H tan(z) q84 and nabla_mu T^mu_x8 = d8 p8 + 3 H cot(z) (2 p8 - p3 - p_t) + d4 q48 + (3/2)(b4'/b4) q48 (b4 = 1: section 3)"
+    },
+    {
+      "name": "b4_gravity_term",
+      "verdict": "PASS",
+      "detail": "general b4: gamma^mu Omega_mu = 3 H gamma^x8 + (3/4)(b4'/b4) gamma^x4 (frame gammas; the x4 terms of the extra-time directions no longer cancel those of 3-space when b4' != 0)"
+    },
+    {
+      "name": "b4_condensate_equation",
+      "verdict": "PASS",
+      "detail": "general b4: d4 Phi = A_b Phi with A_b = A - (3/4)(b4'/b4) I16 (A the b4 = 1 matrix of section 5), so Phi = b4^(-3/4) Phi_1 with Phi_1 a solution for b4 = 1; C A_b + A_b^T C = -(3/2)(b4'/b4) C, so d4 S = -(3/2)(b4'/b4) S: b4^(3/2) S (= S sqrt|det g|/cos z) is constant along x4 (S itself is constant only when b4 is)"
+    },
+    {
+      "name": "b4_condensate_kinetic_diagonal",
+      "verdict": "PASS",
+      "detail": "general b4: the condensate's symmetrised kinetic tensor still has K^x4_x4 = M S, K^mu_mu = 0 (mu != x4) and K^x4_x8 = K^x8_x4 = 0"
+    },
+    {
+      "name": "b4_condensate_offdiagonal_bilinears",
+      "verdict": "PASS",
+      "detail": "general b4: the nonzero off-diagonal kinetic components are the same 42 ordered pairs and the same 15 three-gamma bilinears; their coefficients depend on b4 and reduce at b4 = 1 to those of section 5"
+    },
+    {
+      "name": "b4_author_weights_vacuum",
+      "verdict": "PASS",
+      "detail": "the author's weights of Dirac_Einstein-Lovelock_4+4_Nash.nb (w1 = 1, w2 = 1/32, w3 = 1/1152, Lambda_author = 10, i.e. alpha_k = w_k/H^(2k), Lam = -10): with b4 constant the vacuum equations hold exactly for a4' = +-H (the author's solution and its time reverse); the full vacuum theorem for general b4 (b4 must be constant) is Revision/metric_b4/results/vacuum-b4.json"
     }
   ]
 }

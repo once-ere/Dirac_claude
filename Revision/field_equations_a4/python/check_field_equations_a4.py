@@ -308,6 +308,9 @@ for k in (1, 2, 3):
           f"P_({k}) diagonal (x4-x8 components 0), free of x8, x1 = x2 = x3, x5 = x6 = x7")
 
 # compare with the GKD branch's monomial lists
+# since 2026-10-14 the monomial lists have 13 exponents (..., Q = b4^(1/2), b4', b4'', b4''', b4''''); this checker
+# covers the keys of a4-equations.json that are the restriction b4 = 1, so the lists are read at Q = 1, b4^(n) = 0
+# (the general b4 key is checked by check_b4_block.py)
 MONO_VARS = (H, ad1, ad2, ad3, ad4, Ee, sp.Symbol("Smon"), Cc)
 if LOVELOCK_JSON.exists():
     lj = json.loads(LOVELOCK_JSON.read_text(encoding="utf-8"))
@@ -315,8 +318,12 @@ if LOVELOCK_JSON.exists():
     def from_monomials(mons):
         e = sp.Integer(0)
         for num, den, ex in mons:
-            t = sp.Rational(num, den)
-            for v, n in zip(MONO_VARS, ex):
+            if len(ex) != 13:
+                raise SystemExit("ERROR  a monomial of lovelock-tensors.json does not have 13 exponents (format since 2026-10-14)")
+            if any(n != 0 for n in ex[9:]):
+                continue  # a factor b4', b4'', ... : zero at b4 = 1
+            t = sp.Rational(num, den)  # Q^ex[8] = 1 at b4 = 1
+            for v, n in zip(MONO_VARS, ex[:8]):
                 t *= v**n
             e += t
         return e
@@ -334,7 +341,9 @@ if LOVELOCK_JSON.exists():
                     ok = False
         check(f"P{k}_equals_gkd_branch_monomials", ok and no_extra,
               f"all 64 components of P_({k}) computed here equal Revision/gkd_lovelock/results/lovelock-tensors.json ({key}); no warp, e^(a4) or higher derivatives in the lists")
-        Ls = sp.sympify(lj[f"L{k}"].replace("Derivative[1][a4][x4]", "ad1").replace("^", "**"))
+        Ls = sp.sympify(re.sub(r"Derivative\[(\d)\]\[a4\]\[x4\]", r"ad\1",
+                               re.sub(r"Derivative\[\d\]\[b4\]\[x4\]", "0", lj[f"L{k}"])).replace("b4[x4]", "1").replace("^", "**"),
+                        locals={"ad1": ad1, "ad2": ad2, "ad3": ad3, "ad4": ad4, "H": H})
         check(f"L{k}_equals_gkd_branch", sp.expand(Ls - Lsc[k]) == 0, f"L_({k}) = {sp.expand(Lsc[k])}")
 else:
     check("gkd_branch_monomials", False, "Revision/gkd_lovelock/results/lovelock-tensors.json missing", pending=True)

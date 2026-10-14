@@ -123,6 +123,20 @@ def main():
           "equations have no vacuum solution for H > 0, check einstein_no_vacuum_solution): %s"
           % (len(trivial), ", ".join(trivial) if trivial else "none"))
 
+    # the metric of 2026-10-14 with b4[x4]: does the verdict survive for every b4?
+    eqs = json.loads((A4 / "a4-equations.json").read_text(encoding="utf-8"))
+    b4gs = eqs.get("b4", {}).get("generalSource", {})
+    diag_keys = ("constraint_x4", "space_x1_eq_x2_eq_x3", "extraTime_x5_eq_x6_eq_x7", "hidden_x8")
+    diag_free = bool(b4gs) and all("cc" not in b4gs[k]["input"].split(" == ")[0] for k in diag_keys)
+    off_has_cc = bool(b4gs) and "cc" in b4gs["offDiagonal_x4x8"]["input"]
+    check("ks_verdict_holds_for_every_b4", diag_free and off_has_cc,
+          "with the metric of 2026-10-14 (b4[x4] in the extra-time components; a4-equations.json key b4) the left-hand "
+          "sides of the x1..x3, x4, x5..x7 and x8 equations are still free of x8 for every b4 (the off-diagonal x4-x8 "
+          "left-hand side is cot z (b4'/b4) Q), so condition C1 holds unchanged and the x8-dependent Kohn-Sham "
+          "profiles (check ks_profiles_depend_on_x8) are not an admissible source for ANY b4; C2 above is the b4 = 1 "
+          "form (for general b4: kappa (p3 + p_t - 2 p8) = sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x8_x8), for "
+          "Einstein (b4'/b4)^2/4 + b4''/(2 b4)); the Kohn-Sham solver does not record T^x4_x8, so the off-diagonal "
+          "condition kappa q48 = cot z (b4'/b4) Q is not evaluated here (OPEN)")
     n_pass = sum(1 for c in CHECKS if c["verdict"] == "PASS")
     rep = {
         "report": "Revision/field_equations_a4/reports/ks-source-conditions.json",
@@ -134,7 +148,9 @@ def main():
                        "C3 (linear member a4 = A H x4 + a0): p3 = p_t = p8 and rho constant"],
         "conclusion": "No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source of the author's metric: "
                       "C1 and C2 fail for every nonzero state (C2 also after integration over x8), and the Kohn-Sham "
-                      "history uses the linear member as a prescribed background, without back-reaction.",
+                      "history uses the linear member as a prescribed background, without back-reaction.  With the "
+                      "metric of 2026-10-14 (b4[x4]) C1 alone excludes every recorded state for every b4 (check "
+                      "ks_verdict_holds_for_every_b4); C2 is the b4 = 1 form.",
         "tolerance": "relative %s" % TOL,
         "summary": {"checks": len(CHECKS), "pass": n_pass, "fail": len(CHECKS) - n_pass},
         "checks": CHECKS,

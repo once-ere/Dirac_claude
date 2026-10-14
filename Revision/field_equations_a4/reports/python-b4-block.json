@@ -1,0 +1,64 @@
+{
+ "producer": "Revision/field_equations_a4/python/check_b4_block.py",
+ "checks": [
+  {
+   "name": "b4_lovelock_components",
+   "verdict": "PASS",
+   "detail": "E_(1), E_(2), E_(3) (components x1x1, x4x4, x5x5, x8x8, x4x8, x8x4) of b4.lovelockTensors equal the sympy tensors (permutation signs)"
+  },
+  {
+   "name": "b4_offdiagonal_factor_Q",
+   "verdict": "PASS",
+   "detail": "sum_k alpha_k E^x4_x8 = cot z (b4'/b4) Q and E^x8_x4 = -tan z (b4'/b4) Q with Q of the JSON"
+  },
+  {
+   "name": "b4_einstein_Q",
+   "verdict": "PASS",
+   "detail": "Einstein: Q = 3 H / 2"
+  },
+  {
+   "name": "b4_identity",
+   "verdict": "PASS",
+   "detail": "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x8_x8) equals the JSON and, for Einstein, (b4'/b4)^2/4 + b4''/(2 b4)"
+  },
+  {
+   "name": "b4_equation_constraint_x4",
+   "verdict": "PASS",
+   "detail": "constraint_x4: the left-hand side equals sum_k alpha_k E^mu_mu + Lambda"
+  },
+  {
+   "name": "b4_equation_space_x1_eq_x2_eq_x3",
+   "verdict": "PASS",
+   "detail": "space_x1_eq_x2_eq_x3: the left-hand side equals sum_k alpha_k E^mu_mu + Lambda"
+  },
+  {
+   "name": "b4_equation_extraTime_x5_eq_x6_eq_x7",
+   "verdict": "PASS",
+   "detail": "extraTime_x5_eq_x6_eq_x7: the left-hand side equals sum_k alpha_k E^mu_mu + Lambda"
+  },
+  {
+   "name": "b4_equation_hidden_x8",
+   "verdict": "PASS",
+   "detail": "hidden_x8: the left-hand side equals sum_k alpha_k E^mu_mu + Lambda"
+  },
+  {
+   "name": "b4_conservation",
+   "verdict": "PASS",
+   "detail": "nabla_mu T^mu_x4, nabla_mu T^mu_x8 equal the JSON; the other components vanish"
+  },
+  {
+   "name": "b4_gravity_term",
+   "verdict": "PASS",
+   "detail": "gamma^mu Omega_mu = 3 H gamma^x8 + (3/4)(b4'/b4) gamma^x4 (author's T16)"
+  },
+  {
+   "name": "b4_condensate_matrix",
+   "verdict": "PASS",
+   "detail": "A_b = A_1 - (3/4)(b4'/b4) I16 and C A_b + A_b^T C = -(3/2)(b4'/b4) C"
+  }
+ ],
+ "checkCount": 11,
+ "failedCount": 0,
+ "verdict": "PASS",
+ "sympyVersion": "1.14.0"
+}

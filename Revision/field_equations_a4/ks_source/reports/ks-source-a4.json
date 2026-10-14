@@ -3,13 +3,13 @@
  "producer": "Revision/field_equations_a4/ks_source/ks_source_a4.py",
  "spec": "Revision/SPEC.md sections 5 and 7: the a4 field equations with the Kohn-Sham energy-momentum tensor as the source; coordinates x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times, x8 = hidden direction",
  "inputs": {
-  "Revision/field_equations_a4/a4-equations.json": "9965d8c0a8d7d77c5a239d5c7d0576326ffd6143b09e68d4ffd8e467a456afd1",
+  "Revision/field_equations_a4/a4-equations.json": "bbe2b664adb064e274b6c340d5d2f8e22ff9ba8da69969229f54bb43eb85598d",
   "Revision/kohn_sham/results/parameters.json": "f35216c2bee5b0dc21db6343e640c89f0aebcefab0c6dd6efcec618e0bfae993",
   "Revision/kohn_sham/results/ground/emt-integrals.csv": "24a9cb2037c00d7e6f359c070d1290feaff5ba14397bd89b360d4b4986c13ebb",
   "Revision/kohn_sham/results/adiabatic/adiabaticity.csv": "b2389507d0cb727961ba343a2e07d259eb023417d90b831170b359059f82d608",
   "Revision/kohn_sham/results/adiabatic/history.json": "8cacaac849efbf4da2441e9b7c619622d820839baebc1d51b076beea9a49173c",
   "Revision/kohn_sham/ks-theory.json": "1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3",
-  "Revision/field_equations_a4/reports/ks-source-conditions.json": "0597509efe64e0686dcf3cc916121317aacca01c6e73d902edc16f434287361e"
+  "Revision/field_equations_a4/reports/ks-source-conditions.json": "87e2d5533a4f4fdec72af43307977f9fa9b03c134b54981a1d729fb900a6a266"
  },
  "inputProfiles": {
   "directory": "Revision/kohn_sham/results/ground/profiles",
@@ -130,7 +130,7 @@
   {
    "name": "B0_wave1_report_verified",
    "verdict": "PASS",
-   "detail": "Revision/field_equations_a4/reports/ks-source-conditions.json (all 5 checks PASS) re-derived independently from the same Kohn-Sham files: 70 nonzero states; the smallest x8 variation (max rho - min rho)/max|T| = 0.0497329 (N136_lamm2_a20); the pointwise algebraic defect max|p3 + p_t - 2 p8|/max|T| from 2.09192 (N136_lamp2_a20) to 3.99006 (N8_lamm1_a00); the integrated ratio (int p3 + int p_t)/(2 int p8) closest to 1 is 0.414328 (N688_lamm2_a00) and below 1 for every state - all equal to the numbers in that report. REFINEMENT: the recorded states do NOT violate the x8 conservation identity d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0; they satisfy it (check B2); what fails is p3 + p_t = 2 p8, which is that identity combined with x8-independence"
+   "detail": "Revision/field_equations_a4/reports/ks-source-conditions.json (all 6 checks PASS) re-derived independently from the same Kohn-Sham files: 70 nonzero states; the smallest x8 variation (max rho - min rho)/max|T| = 0.0497329 (N136_lamm2_a20); the pointwise algebraic defect max|p3 + p_t - 2 p8|/max|T| from 2.09192 (N136_lamp2_a20) to 3.99006 (N8_lamm1_a00); the integrated ratio (int p3 + int p_t)/(2 int p8) closest to 1 is 0.414328 (N688_lamm2_a00) and below 1 for every state - all equal to the numbers in that report. REFINEMENT: the recorded states do NOT violate the x8 conservation identity d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0; they satisfy it (check B2); what fails is p3 + p_t = 2 p8, which is that identity combined with x8-independence"
   },
   {
    "name": "C1_averaged_algebraic_condition_fails",

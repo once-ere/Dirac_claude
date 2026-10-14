@@ -1,8 +1,8 @@
 {
-  "title": "Einstein-Lovelock field equations for a4[x4] in the primordial metric (Revision/SPEC.md section 5)",
+  "title": "Einstein-Lovelock field equations for a4[x4] and b4[x4] in the primordial metric (Revision/SPEC.md section 5); the keys lovelockTensors .. fields are the restriction b4 = 1 (the metric before 2026-10-14), the key b4 is the general case",
   "producer": "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls (with FieldEquationsA4.wl)",
   "conventions": {
-    "coordinates": "x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = extra times, time-like, deflating (scale factor e^{-a4} sin^{1/6} z); x8 = hidden direction, z = 6 H x8 in (0, pi/2)",
+    "coordinates": "x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = extra times, time-like, deflating (scale factor e^{-a4} b4^{1/2} sin^{1/6} z; b4 = 1 in the keys lovelockTensors .. fields); x8 = hidden direction, z = 6 H x8 in (0, pi/2)",
     "symbols": "ad1 = a4'(x4), ad2 = a4''(x4), H > 0, alpha1..alpha3 = Lovelock couplings, Lam = Lambda, kappa = gravitational coupling, cc = cot z; d4f, d8f = partial derivatives of f with respect to x4, x8",
     "curvature": "MTW: R^a_{bcd} = d_c Gamma^a_{bd} - d_d Gamma^a_{bc} + Gamma^a_{ce} Gamma^e_{bd} - Gamma^a_{de} Gamma^e_{bc}",
     "lovelock": "P_(k)^h_j = GKD[{h,h1..h2k},{j,j1..j2k}] R^{j1j2}_{h1h2} ... R^{j(2k-1)j2k}_{h(2k-1)h2k}; E_(k) = -P_(k)/2^(k+1); E_(1) = G",
@@ -783,6 +783,140 @@
       "offDiagonal": "every off-diagonal expectation value <:T^mu_nu:> (mu != nu) must vanish, in particular the expectation values of the 15 three-gamma bilinears for a homogeneous state",
       "homogeneousSingleMode": "if a state has <:k1:> = <:k5:> (e.g. all quanta at zero 3- and extra-time momentum), for every x4 (and the off-diagonal conditions hold), then a4'' F(a4') = 0 and the argument of the dirac16complex00 theorem gives a4 = A H x4 + a0 with real A (A -> -A is a symmetry of the equations; the sign of A is not selected)"
     }
+  },
+  "b4": {
+    "metric": "the user's metric of 2026-10-14 (SPEC section 1): g55 = g66 = g77 = -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3), b4 > 0; symbols bb = b4, bd1 = b4', bd2 = b4'', uu = b4'/b4",
+    "lovelockTensors": {
+      "E1": {
+        "x1x1": {
+          "input": "-3*ad1^2 + ad2 + (3*ad1*bd1)/bb - (3*bd2)/(2*bb) + 15*H^2",
+          "tex": "-3 (a_4')^2+\\frac{3 (a_4') b_4'}{b_4}+a_4''-\\frac{3 b_4''}{2 b_4}+15 H^2"
+        },
+        "x4x4": {
+          "input": "3*ad1^2 - (3*ad1*bd1)/(2*bb) - (3*bd1^2)/(4*bb^2) + 21*H^2",
+          "tex": "3 (a_4')^2-\\frac{3 (a_4') b_4'}{2 b_4}-\\frac{3 b_4'^2}{4 b_4^2}+21 H^2"
+        },
+        "x5x5": {
+          "input": "-3*ad1^2 - ad2 + bd1^2/(4*bb^2) - bd2/bb + 15*H^2",
+          "tex": "-3 (a_4')^2-a_4''+\\frac{b_4'^2}{4 b_4^2}-\\frac{b_4''}{b_4}+15 H^2"
+        },
+        "x8x8": {
+          "input": "-3*ad1^2 + (3*ad1*bd1)/(2*bb) - (3*bd2)/(2*bb) + 15*H^2",
+          "tex": "-3 (a_4')^2+\\frac{3 (a_4') b_4'}{2 b_4}-\\frac{3 b_4''}{2 b_4}+15 H^2"
+        },
+        "x4x8": {
+          "input": "(3*bd1*cc*H)/(2*bb)",
+          "tex": "\\frac{3 b_4' \\cot z H}{2 b_4}"
+        },
+        "x8x4": {
+          "input": "(-3*bd1*H)/(2*bb*cc)",
+          "tex": "-\\frac{3 b_4' H}{2 b_4 \\cot z}"
+        }
+      },
+      "E2": {
+        "x1x1": {
+          "input": "12*ad1^4 - 24*ad1^2*ad2 - (24*ad1^3*bd1)/bb + (24*ad1*ad2*bd1)/bb + (6*ad1^2*bd1^2)/bb^2 - (3*ad2*bd1^2)/bb^2 + (3*ad1*bd1^3)/bb^3 + (3*bd1^4)/(4*bb^4) + (12*ad1^2*bd2)/bb - (6*ad1*bd1*bd2)/bb^2 - (3*bd1^2*bd2)/(2*bb^3) + 168*ad1^2*H^2 - 40*ad2*H^2 - (120*ad1*bd1*H^2)/bb - (18*bd1^2*H^2)/bb^2 + (60*bd2*H^2)/bb - 180*H^4",
+          "tex": "12 (a_4')^4-\\frac{24 (a_4')^3 b_4'}{b_4}-24 (a_4')^2 a_4''+\\frac{6 (a_4')^2 b_4'^2}{b_4^2}+\\frac{12 (a_4')^2 b_4''}{b_4}+168 (a_4')^2 H^2+\\frac{24 (a_4') a_4'' b_4'}{b_4}+\\frac{3 (a_4') b_4'^3}{b_4^3}-\\frac{6 (a_4') b_4' b_4''}{b_4^2}-\\frac{120 (a_4') b_4' H^2}{b_4}-\\frac{3 a_4'' b_4'^2}{b_4^2}-40 a_4'' H^2+\\frac{3 b_4'^4}{4 b_4^4}-\\frac{3 b_4'^2 b_4''}{2 b_4^3}-\\frac{18 b_4'^2 H^2}{b_4^2}+\\frac{60 b_4'' H^2}{b_4}-180 H^4"
+        },
+        "x4x4": {
+          "input": "-36*ad1^4 + (36*ad1^3*bd1)/bb - (9*ad1*bd1^3)/(2*bb^3) - 120*ad1^2*H^2 + (60*ad1*bd1*H^2)/bb + (30*bd1^2*H^2)/bb^2 - 420*H^4",
+          "tex": "-36 (a_4')^4+\\frac{36 (a_4')^3 b_4'}{b_4}-120 (a_4')^2 H^2-\\frac{9 (a_4') b_4'^3}{2 b_4^3}+\\frac{60 (a_4') b_4' H^2}{b_4}+\\frac{30 b_4'^2 H^2}{b_4^2}-420 H^4"
+        },
+        "x5x5": {
+          "input": "12*ad1^4 + 24*ad1^2*ad2 - (3*ad2*bd1^2)/bb^2 + (3*ad1*bd1^3)/bb^3 - (6*ad1*bd1*bd2)/bb^2 + 168*ad1^2*H^2 + 40*ad2*H^2 - (48*ad1*bd1*H^2)/bb - (16*bd1^2*H^2)/bb^2 + (40*bd2*H^2)/bb - 180*H^4",
+          "tex": "12 (a_4')^4+24 (a_4')^2 a_4''+168 (a_4')^2 H^2+\\frac{3 (a_4') b_4'^3}{b_4^3}-\\frac{6 (a_4') b_4' b_4''}{b_4^2}-\\frac{48 (a_4') b_4' H^2}{b_4}-\\frac{3 a_4'' b_4'^2}{b_4^2}+40 a_4'' H^2-\\frac{16 b_4'^2 H^2}{b_4^2}+\\frac{40 b_4'' H^2}{b_4}-180 H^4"
+        },
+        "x8x8": {
+          "input": "12*ad1^4 - (12*ad1^3*bd1)/bb + (24*ad1*ad2*bd1)/bb + (6*ad1^2*bd1^2)/bb^2 - (6*ad2*bd1^2)/bb^2 + (9*ad1*bd1^3)/(2*bb^3) + (3*bd1^4)/(4*bb^4) + (12*ad1^2*bd2)/bb - (12*ad1*bd1*bd2)/bb^2 - (3*bd1^2*bd2)/(2*bb^3) + 168*ad1^2*H^2 - (84*ad1*bd1*H^2)/bb - (12*bd1^2*H^2)/bb^2 + (60*bd2*H^2)/bb - 180*H^4",
+          "tex": "12 (a_4')^4-\\frac{12 (a_4')^3 b_4'}{b_4}+\\frac{6 (a_4')^2 b_4'^2}{b_4^2}+\\frac{12 (a_4')^2 b_4''}{b_4}+168 (a_4')^2 H^2+\\frac{24 (a_4') a_4'' b_4'}{b_4}+\\frac{9 (a_4') b_4'^3}{2 b_4^3}-\\frac{12 (a_4') b_4' b_4''}{b_4^2}-\\frac{84 (a_4') b_4' H^2}{b_4}-\\frac{6 a_4'' b_4'^2}{b_4^2}+\\frac{3 b_4'^4}{4 b_4^4}-\\frac{3 b_4'^2 b_4''}{2 b_4^3}-\\frac{12 b_4'^2 H^2}{b_4^2}+\\frac{60 b_4'' H^2}{b_4}-180 H^4"
+        },
+        "x4x8": {
+          "input": "(-3*(24*ad1^2*bb^2*bd1*cc*H - 12*ad1*bb*bd1^2*cc*H - bd1^3*cc*H + 40*bb^2*bd1*cc*H^3))/(2*bb^3)",
+          "tex": "-\\frac{3 \\left(24 (a_4')^2 b_4^2 b_4' \\cot z H-12 (a_4') b_4 b_4'^2 \\cot z H+40 b_4^2 b_4' \\cot z H^3+b_4'^3 (-\\cot z) H\\right)}{2 b_4^3}"
+        },
+        "x8x4": {
+          "input": "(3*(24*ad1^2*bb^2*bd1*H - 12*ad1*bb*bd1^2*H - bd1^3*H + 40*bb^2*bd1*H^3))/(2*bb^3*cc)",
+          "tex": "\\frac{3 \\left(24 (a_4')^2 b_4^2 b_4' H-12 (a_4') b_4 b_4'^2 H+40 b_4^2 b_4' H^3+b_4'^3 (-H)\\right)}{2 b_4^3 \\cot z}"
+        }
+      },
+      "E3": {
+        "x1x1": {
+          "input": "-72*ad1^6 + 360*ad1^4*ad2 + (216*ad1^5*bd1)/bb - (432*ad1^3*ad2*bd1)/bb - (108*ad1^4*bd1^2)/bb^2 + (162*ad1^2*ad2*bd1^2)/bb^2 - (18*ad1^3*bd1^3)/bb^3 - (18*ad1*ad2*bd1^3)/bb^3 + (27*ad1^2*bd1^4)/(2*bb^4) - (108*ad1^4*bd2)/bb + (108*ad1^3*bd1*bd2)/bb^2 - (27*ad1^2*bd1^2*bd2)/bb^3 - 648*ad1^4*H^2 + 432*ad1^2*ad2*H^2 + (432*ad1^3*bd1*H^2)/bb - (432*ad1*ad2*bd1*H^2)/bb + (216*ad1^2*bd1^2*H^2)/bb^2 + (54*ad2*bd1^2*H^2)/bb^2 - (162*ad1*bd1^3*H^2)/bb^3 - (27*bd1^4*H^2)/(2*bb^4) - (216*ad1^2*bd2*H^2)/bb + (108*ad1*bd1*bd2*H^2)/bb^2 + (27*bd1^2*bd2*H^2)/bb^3 - 1944*ad1^2*H^4 + 360*ad2*H^4 + (1080*ad1*bd1*H^4)/bb + (324*bd1^2*H^4)/bb^2 - (540*bd2*H^4)/bb + 360*H^6",
+          "tex": "-72 (a_4')^6+\\frac{216 (a_4')^5 b_4'}{b_4}+360 (a_4')^4 a_4''-\\frac{108 (a_4')^4 b_4'^2}{b_4^2}-\\frac{108 (a_4')^4 b_4''}{b_4}-648 (a_4')^4 H^2-\\frac{432 (a_4')^3 a_4'' b_4'}{b_4}-\\frac{18 (a_4')^3 b_4'^3}{b_4^3}+\\frac{108 (a_4')^3 b_4' b_4''}{b_4^2}+\\frac{432 (a_4')^3 b_4' H^2}{b_4}+\\frac{162 (a_4')^2 a_4'' b_4'^2}{b_4^2}+432 (a_4')^2 a_4'' H^2+\\frac{27 (a_4')^2 b_4'^4}{2 b_4^4}-\\frac{27 (a_4')^2 b_4'^2 b_4''}{b_4^3}+\\frac{216 (a_4')^2 b_4'^2 H^2}{b_4^2}-\\frac{216 (a_4')^2 b_4'' H^2}{b_4}-1944 (a_4')^2 H^4-\\frac{18 (a_4') a_4'' b_4'^3}{b_4^3}-\\frac{432 (a_4') a_4'' b_4' H^2}{b_4}-\\frac{162 (a_4') b_4'^3 H^2}{b_4^3}+\\frac{108 (a_4') b_4' b_4'' H^2}{b_4^2}+\\frac{1080 (a_4') b_4' H^4}{b_4}+\\frac{54 a_4'' b_4'^2 H^2}{b_4^2}+360 a_4'' H^4-\\frac{27 b_4'^4 H^2}{2 b_4^4}+\\frac{27 b_4'^2 b_4'' H^2}{b_4^3}+\\frac{324 b_4'^2 H^4}{b_4^2}-\\frac{540 b_4'' H^4}{b_4}+360 H^6"
+        },
+        "x4x4": {
+          "input": "360*ad1^6 - (540*ad1^5*bd1)/bb + (270*ad1^4*bd1^2)/bb^2 - (45*ad1^3*bd1^3)/bb^3 + 648*ad1^4*H^2 - (648*ad1^3*bd1*H^2)/bb + (81*ad1*bd1^3*H^2)/bb^3 + 1080*ad1^2*H^4 - (540*ad1*bd1*H^4)/bb - (270*bd1^2*H^4)/bb^2 + 2520*H^6",
+          "tex": "360 (a_4')^6-\\frac{540 (a_4')^5 b_4'}{b_4}+\\frac{270 (a_4')^4 b_4'^2}{b_4^2}+648 (a_4')^4 H^2-\\frac{45 (a_4')^3 b_4'^3}{b_4^3}-\\frac{648 (a_4')^3 b_4' H^2}{b_4}+1080 (a_4')^2 H^4+\\frac{81 (a_4') b_4'^3 H^2}{b_4^3}-\\frac{540 (a_4') b_4' H^4}{b_4}-\\frac{270 b_4'^2 H^4}{b_4^2}+2520 H^6"
+        },
+        "x5x5": {
+          "input": "-72*ad1^6 - 360*ad1^4*ad2 + (288*ad1^3*ad2*bd1)/bb - (18*ad1^4*bd1^2)/bb^2 - (54*ad1^2*ad2*bd1^2)/bb^2 + (18*ad1^3*bd1^3)/bb^3 + (72*ad1^4*bd2)/bb - (36*ad1^3*bd1*bd2)/bb^2 - 648*ad1^4*H^2 - 432*ad1^2*ad2*H^2 + (864*ad1^3*bd1*H^2)/bb - (324*ad1^2*bd1^2*H^2)/bb^2 + (54*ad2*bd1^2*H^2)/bb^2 - (54*ad1*bd1^3*H^2)/bb^3 + (108*ad1*bd1*bd2*H^2)/bb^2 - 1944*ad1^2*H^4 - 360*ad2*H^4 + (864*ad1*bd1*H^4)/bb + (198*bd1^2*H^4)/bb^2 - (360*bd2*H^4)/bb + 360*H^6",
+          "tex": "-72 (a_4')^6-360 (a_4')^4 a_4''-\\frac{18 (a_4')^4 b_4'^2}{b_4^2}+\\frac{72 (a_4')^4 b_4''}{b_4}-648 (a_4')^4 H^2+\\frac{288 (a_4')^3 a_4'' b_4'}{b_4}+\\frac{18 (a_4')^3 b_4'^3}{b_4^3}-\\frac{36 (a_4')^3 b_4' b_4''}{b_4^2}+\\frac{864 (a_4')^3 b_4' H^2}{b_4}-\\frac{54 (a_4')^2 a_4'' b_4'^2}{b_4^2}-432 (a_4')^2 a_4'' H^2-\\frac{324 (a_4')^2 b_4'^2 H^2}{b_4^2}-1944 (a_4')^2 H^4-\\frac{54 (a_4') b_4'^3 H^2}{b_4^3}+\\frac{108 (a_4') b_4' b_4'' H^2}{b_4^2}+\\frac{864 (a_4') b_4' H^4}{b_4}+\\frac{54 a_4'' b_4'^2 H^2}{b_4^2}-360 a_4'' H^4+\\frac{198 b_4'^2 H^4}{b_4^2}-\\frac{360 b_4'' H^4}{b_4}+360 H^6"
+        },
+        "x8x8": {
+          "input": "-72*ad1^6 + (108*ad1^5*bd1)/bb - (432*ad1^3*ad2*bd1)/bb - (108*ad1^4*bd1^2)/bb^2 + (324*ad1^2*ad2*bd1^2)/bb^2 - (45*ad1^3*bd1^3)/bb^3 - (54*ad1*ad2*bd1^3)/bb^3 + (81*ad1^2*bd1^4)/(2*bb^4) - (108*ad1^4*bd2)/bb + (216*ad1^3*bd1*bd2)/bb^2 - (81*ad1^2*bd1^2*bd2)/bb^3 - 648*ad1^4*H^2 + (648*ad1^3*bd1*H^2)/bb - (432*ad1*ad2*bd1*H^2)/bb - (108*ad1^2*bd1^2*H^2)/bb^2 + (108*ad2*bd1^2*H^2)/bb^2 - (135*ad1*bd1^3*H^2)/bb^3 - (27*bd1^4*H^2)/(2*bb^4) - (216*ad1^2*bd2*H^2)/bb + (216*ad1*bd1*bd2*H^2)/bb^2 + (27*bd1^2*bd2*H^2)/bb^3 - 1944*ad1^2*H^4 + (972*ad1*bd1*H^4)/bb + (216*bd1^2*H^4)/bb^2 - (540*bd2*H^4)/bb + 360*H^6",
+          "tex": "-72 (a_4')^6+\\frac{108 (a_4')^5 b_4'}{b_4}-\\frac{108 (a_4')^4 b_4'^2}{b_4^2}-\\frac{108 (a_4')^4 b_4''}{b_4}-648 (a_4')^4 H^2-\\frac{432 (a_4')^3 a_4'' b_4'}{b_4}-\\frac{45 (a_4')^3 b_4'^3}{b_4^3}+\\frac{216 (a_4')^3 b_4' b_4''}{b_4^2}+\\frac{648 (a_4')^3 b_4' H^2}{b_4}+\\frac{324 (a_4')^2 a_4'' b_4'^2}{b_4^2}+\\frac{81 (a_4')^2 b_4'^4}{2 b_4^4}-\\frac{81 (a_4')^2 b_4'^2 b_4''}{b_4^3}-\\frac{108 (a_4')^2 b_4'^2 H^2}{b_4^2}-\\frac{216 (a_4')^2 b_4'' H^2}{b_4}-1944 (a_4')^2 H^4-\\frac{54 (a_4') a_4'' b_4'^3}{b_4^3}-\\frac{432 (a_4') a_4'' b_4' H^2}{b_4}-\\frac{135 (a_4') b_4'^3 H^2}{b_4^3}+\\frac{216 (a_4') b_4' b_4'' H^2}{b_4^2}+\\frac{972 (a_4') b_4' H^4}{b_4}+\\frac{108 a_4'' b_4'^2 H^2}{b_4^2}-\\frac{27 b_4'^4 H^2}{2 b_4^4}+\\frac{27 b_4'^2 b_4'' H^2}{b_4^3}+\\frac{216 b_4'^2 H^4}{b_4^2}-\\frac{540 b_4'' H^4}{b_4}+360 H^6"
+        },
+        "x4x8": {
+          "input": "(27*(20*ad1^4*bb^2*bd1*cc*H - 20*ad1^3*bb*bd1^2*cc*H + 5*ad1^2*bd1^3*cc*H + 24*ad1^2*bb^2*bd1*cc*H^3 - 12*ad1*bb*bd1^2*cc*H^3 - bd1^3*cc*H^3 + 20*bb^2*bd1*cc*H^5))/bb^3",
+          "tex": "\\frac{27 \\left(20 (a_4')^4 b_4^2 b_4' \\cot z H-20 (a_4')^3 b_4 b_4'^2 \\cot z H+24 (a_4')^2 b_4^2 b_4' \\cot z H^3+5 (a_4')^2 b_4'^3 \\cot z H-12 (a_4') b_4 b_4'^2 \\cot z H^3+20 b_4^2 b_4' \\cot z H^5-b_4'^3 \\cot z H^3\\right)}{b_4^3}"
+        },
+        "x8x4": {
+          "input": "(-27*(20*ad1^4*bb^2*bd1*H - 20*ad1^3*bb*bd1^2*H + 5*ad1^2*bd1^3*H + 24*ad1^2*bb^2*bd1*H^3 - 12*ad1*bb*bd1^2*H^3 - bd1^3*H^3 + 20*bb^2*bd1*H^5))/(bb^3*cc)",
+          "tex": "-\\frac{27 \\left(20 (a_4')^4 b_4^2 b_4' H-20 (a_4')^3 b_4 b_4'^2 H+24 (a_4')^2 b_4^2 b_4' H^3+5 (a_4')^2 b_4'^3 H-12 (a_4') b_4 b_4'^2 H^3+20 b_4^2 b_4' H^5-b_4'^3 H^3\\right)}{b_4^3 \\cot z}"
+        }
+      },
+      "allOtherComponents": "x2x2 = x3x3 = x1x1, x6x6 = x7x7 = x5x5; the only nonzero off-diagonal components are x4x8 and x8x4 (proportional to b4'); equal to Revision/metric_b4/results/metric-b4.json"
+    },
+    "generalSource": {
+      "constraint_x4": {
+        "input": "(3*(4*ad1^2*alpha1*bb^3 - 48*ad1^4*alpha2*bb^3 + 480*ad1^6*alpha3*bb^3 - 2*ad1*alpha1*bb^2*bd1 + 48*ad1^3*alpha2*bb^2*bd1 - 720*ad1^5*alpha3*bb^2*bd1 - alpha1*bb*bd1^2 + 360*ad1^4*alpha3*bb*bd1^2 - 6*ad1*alpha2*bd1^3 - 60*ad1^3*alpha3*bd1^3 + 28*alpha1*bb^3*H^2 - 160*ad1^2*alpha2*bb^3*H^2 + 864*ad1^4*alpha3*bb^3*H^2 + 80*ad1*alpha2*bb^2*bd1*H^2 - 864*ad1^3*alpha3*bb^2*bd1*H^2 + 40*alpha2*bb*bd1^2*H^2 + 108*ad1*alpha3*bd1^3*H^2 - 560*alpha2*bb^3*H^4 + 1440*ad1^2*alpha3*bb^3*H^4 - 720*ad1*alpha3*bb^2*bd1*H^4 - 360*alpha3*bb*bd1^2*H^4 + 3360*alpha3*bb^3*H^6))/(4*bb^3) + Lam == -(kappa*rho)",
+        "tex": "\\frac{3 \\left(480 (a_4')^6 \\alpha_3 b_4^3-720 (a_4')^5 \\alpha_3 b_4^2 b_4'-48 (a_4')^4 \\alpha_2 b_4^3+864 (a_4')^4 \\alpha_3 b_4^3 H^2+360 (a_4')^4 \\alpha_3 b_4 b_4'^2+48 (a_4')^3 \\alpha_2 b_4^2 b_4'-864 (a_4')^3 \\alpha_3 b_4^2 b_4' H^2-60 (a_4')^3 \\alpha_3 b_4'^3+4 (a_4')^2 \\alpha_1 b_4^3-160 (a_4')^2 \\alpha_2 b_4^3 H^2+1440 (a_4')^2 \\alpha_3 b_4^3 H^4-2 (a_4') \\alpha_1 b_4^2 b_4'+80 (a_4') \\alpha_2 b_4^2 b_4' H^2-6 (a_4') \\alpha_2 b_4'^3-720 (a_4') \\alpha_3 b_4^2 b_4' H^4+108 (a_4') \\alpha_3 b_4'^3 H^2+28 \\alpha_1 b_4^3 H^2-\\alpha_1 b_4 b_4'^2-560 \\alpha_2 b_4^3 H^4+40 \\alpha_2 b_4 b_4'^2 H^2+3360 \\alpha_3 b_4^3 H^6-360 \\alpha_3 b_4 b_4'^2 H^4\\right)}{4 b_4^3}+\\Lambda = -\\kappa  \\rho"
+      },
+      "space_x1_eq_x2_eq_x3": {
+        "input": "(-12*ad1^2*alpha1*bb^4 + 4*ad2*alpha1*bb^4 + 48*ad1^4*alpha2*bb^4 - 96*ad1^2*ad2*alpha2*bb^4 - 288*ad1^6*alpha3*bb^4 + 1440*ad1^4*ad2*alpha3*bb^4 + 12*ad1*alpha1*bb^3*bd1 - 96*ad1^3*alpha2*bb^3*bd1 + 96*ad1*ad2*alpha2*bb^3*bd1 + 864*ad1^5*alpha3*bb^3*bd1 - 1728*ad1^3*ad2*alpha3*bb^3*bd1 + 24*ad1^2*alpha2*bb^2*bd1^2 - 12*ad2*alpha2*bb^2*bd1^2 - 432*ad1^4*alpha3*bb^2*bd1^2 + 648*ad1^2*ad2*alpha3*bb^2*bd1^2 + 12*ad1*alpha2*bb*bd1^3 - 72*ad1^3*alpha3*bb*bd1^3 - 72*ad1*ad2*alpha3*bb*bd1^3 + 3*alpha2*bd1^4 + 54*ad1^2*alpha3*bd1^4 - 6*alpha1*bb^3*bd2 + 48*ad1^2*alpha2*bb^3*bd2 - 432*ad1^4*alpha3*bb^3*bd2 - 24*ad1*alpha2*bb^2*bd1*bd2 + 432*ad1^3*alpha3*bb^2*bd1*bd2 - 6*alpha2*bb*bd1^2*bd2 - 108*ad1^2*alpha3*bb*bd1^2*bd2 + 60*alpha1*bb^4*H^2 + 672*ad1^2*alpha2*bb^4*H^2 - 160*ad2*alpha2*bb^4*H^2 - 2592*ad1^4*alpha3*bb^4*H^2 + 1728*ad1^2*ad2*alpha3*bb^4*H^2 - 480*ad1*alpha2*bb^3*bd1*H^2 + 1728*ad1^3*alpha3*bb^3*bd1*H^2 - 1728*ad1*ad2*alpha3*bb^3*bd1*H^2 - 72*alpha2*bb^2*bd1^2*H^2 + 864*ad1^2*alpha3*bb^2*bd1^2*H^2 + 216*ad2*alpha3*bb^2*bd1^2*H^2 - 648*ad1*alpha3*bb*bd1^3*H^2 - 54*alpha3*bd1^4*H^2 + 240*alpha2*bb^3*bd2*H^2 - 864*ad1^2*alpha3*bb^3*bd2*H^2 + 432*ad1*alpha3*bb^2*bd1*bd2*H^2 + 108*alpha3*bb*bd1^2*bd2*H^2 - 720*alpha2*bb^4*H^4 - 7776*ad1^2*alpha3*bb^4*H^4 + 1440*ad2*alpha3*bb^4*H^4 + 4320*ad1*alpha3*bb^3*bd1*H^4 + 1296*alpha3*bb^2*bd1^2*H^4 - 2160*alpha3*bb^3*bd2*H^4 + 1440*alpha3*bb^4*H^6)/(4*bb^4) + Lam == kappa*p3",
+        "tex": "\\frac{-288 (a_4')^6 \\alpha_3 b_4^4+864 (a_4')^5 \\alpha_3 b_4^3 b_4'+1440 (a_4')^4 a_4'' \\alpha_3 b_4^4+48 (a_4')^4 \\alpha_2 b_4^4-2592 (a_4')^4 \\alpha_3 b_4^4 H^2-432 (a_4')^4 \\alpha_3 b_4^3 b_4''-432 (a_4')^4 \\alpha_3 b_4^2 b_4'^2-1728 (a_4')^3 a_4'' \\alpha_3 b_4^3 b_4'-96 (a_4')^3 \\alpha_2 b_4^3 b_4'+1728 (a_4')^3 \\alpha_3 b_4^3 b_4' H^2+432 (a_4')^3 \\alpha_3 b_4^2 b_4' b_4''-72 (a_4')^3 \\alpha_3 b_4 b_4'^3-96 (a_4')^2 a_4'' \\alpha_2 b_4^4+1728 (a_4')^2 a_4'' \\alpha_3 b_4^4 H^2+648 (a_4')^2 a_4'' \\alpha_3 b_4^2 b_4'^2-12 (a_4')^2 \\alpha_1 b_4^4+672 (a_4')^2 \\alpha_2 b_4^4 H^2+48 (a_4')^2 \\alpha_2 b_4^3 b_4''+24 (a_4')^2 \\alpha_2 b_4^2 b_4'^2-7776 (a_4')^2 \\alpha_3 b_4^4 H^4-864 (a_4')^2 \\alpha_3 b_4^3 b_4'' H^2+864 (a_4')^2 \\alpha_3 b_4^2 b_4'^2 H^2-108 (a_4')^2 \\alpha_3 b_4 b_4'^2 b_4''+54 (a_4')^2 \\alpha_3 b_4'^4+96 (a_4') a_4'' \\alpha_2 b_4^3 b_4'-1728 (a_4') a_4'' \\alpha_3 b_4^3 b_4' H^2-72 (a_4') a_4'' \\alpha_3 b_4 b_4'^3+12 (a_4') \\alpha_1 b_4^3 b_4'-480 (a_4') \\alpha_2 b_4^3 b_4' H^2-24 (a_4') \\alpha_2 b_4^2 b_4' b_4''+12 (a_4') \\alpha_2 b_4 b_4'^3+4320 (a_4') \\alpha_3 b_4^3 b_4' H^4+432 (a_4') \\alpha_3 b_4^2 b_4' b_4'' H^2-648 (a_4') \\alpha_3 b_4 b_4'^3 H^2+4 a_4'' \\alpha_1 b_4^4-160 a_4'' \\alpha_2 b_4^4 H^2-12 a_4'' \\alpha_2 b_4^2 b_4'^2+1440 a_4'' \\alpha_3 b_4^4 H^4+216 a_4'' \\alpha_3 b_4^2 b_4'^2 H^2+60 \\alpha_1 b_4^4 H^2-6 \\alpha_1 b_4^3 b_4''-720 \\alpha_2 b_4^4 H^4+240 \\alpha_2 b_4^3 b_4'' H^2-72 \\alpha_2 b_4^2 b_4'^2 H^2-6 \\alpha_2 b_4 b_4'^2 b_4''+3 \\alpha_2 b_4'^4+1440 \\alpha_3 b_4^4 H^6-2160 \\alpha_3 b_4^3 b_4'' H^4+1296 \\alpha_3 b_4^2 b_4'^2 H^4+108 \\alpha_3 b_4 b_4'^2 b_4'' H^2-54 \\alpha_3 b_4'^4 H^2}{4 b_4^4}+\\Lambda = \\kappa  p_3"
+      },
+      "extraTime_x5_eq_x6_eq_x7": {
+        "input": "(-12*ad1^2*alpha1*bb^3 - 4*ad2*alpha1*bb^3 + 48*ad1^4*alpha2*bb^3 + 96*ad1^2*ad2*alpha2*bb^3 - 288*ad1^6*alpha3*bb^3 - 1440*ad1^4*ad2*alpha3*bb^3 + 1152*ad1^3*ad2*alpha3*bb^2*bd1 + alpha1*bb*bd1^2 - 12*ad2*alpha2*bb*bd1^2 - 72*ad1^4*alpha3*bb*bd1^2 - 216*ad1^2*ad2*alpha3*bb*bd1^2 + 12*ad1*alpha2*bd1^3 + 72*ad1^3*alpha3*bd1^3 - 4*alpha1*bb^2*bd2 + 288*ad1^4*alpha3*bb^2*bd2 - 24*ad1*alpha2*bb*bd1*bd2 - 144*ad1^3*alpha3*bb*bd1*bd2 + 60*alpha1*bb^3*H^2 + 672*ad1^2*alpha2*bb^3*H^2 + 160*ad2*alpha2*bb^3*H^2 - 2592*ad1^4*alpha3*bb^3*H^2 - 1728*ad1^2*ad2*alpha3*bb^3*H^2 - 192*ad1*alpha2*bb^2*bd1*H^2 + 3456*ad1^3*alpha3*bb^2*bd1*H^2 - 64*alpha2*bb*bd1^2*H^2 - 1296*ad1^2*alpha3*bb*bd1^2*H^2 + 216*ad2*alpha3*bb*bd1^2*H^2 - 216*ad1*alpha3*bd1^3*H^2 + 160*alpha2*bb^2*bd2*H^2 + 432*ad1*alpha3*bb*bd1*bd2*H^2 - 720*alpha2*bb^3*H^4 - 7776*ad1^2*alpha3*bb^3*H^4 - 1440*ad2*alpha3*bb^3*H^4 + 3456*ad1*alpha3*bb^2*bd1*H^4 + 792*alpha3*bb*bd1^2*H^4 - 1440*alpha3*bb^2*bd2*H^4 + 1440*alpha3*bb^3*H^6)/(4*bb^3) + Lam == kappa*pt",
+        "tex": "\\frac{-288 (a_4')^6 \\alpha_3 b_4^3-1440 (a_4')^4 a_4'' \\alpha_3 b_4^3+48 (a_4')^4 \\alpha_2 b_4^3-2592 (a_4')^4 \\alpha_3 b_4^3 H^2+288 (a_4')^4 \\alpha_3 b_4^2 b_4''-72 (a_4')^4 \\alpha_3 b_4 b_4'^2+1152 (a_4')^3 a_4'' \\alpha_3 b_4^2 b_4'+3456 (a_4')^3 \\alpha_3 b_4^2 b_4' H^2-144 (a_4')^3 \\alpha_3 b_4 b_4' b_4''+72 (a_4')^3 \\alpha_3 b_4'^3+96 (a_4')^2 a_4'' \\alpha_2 b_4^3-1728 (a_4')^2 a_4'' \\alpha_3 b_4^3 H^2-216 (a_4')^2 a_4'' \\alpha_3 b_4 b_4'^2-12 (a_4')^2 \\alpha_1 b_4^3+672 (a_4')^2 \\alpha_2 b_4^3 H^2-7776 (a_4')^2 \\alpha_3 b_4^3 H^4-1296 (a_4')^2 \\alpha_3 b_4 b_4'^2 H^2-192 (a_4') \\alpha_2 b_4^2 b_4' H^2-24 (a_4') \\alpha_2 b_4 b_4' b_4''+12 (a_4') \\alpha_2 b_4'^3+3456 (a_4') \\alpha_3 b_4^2 b_4' H^4+432 (a_4') \\alpha_3 b_4 b_4' b_4'' H^2-216 (a_4') \\alpha_3 b_4'^3 H^2-4 a_4'' \\alpha_1 b_4^3+160 a_4'' \\alpha_2 b_4^3 H^2-12 a_4'' \\alpha_2 b_4 b_4'^2-1440 a_4'' \\alpha_3 b_4^3 H^4+216 a_4'' \\alpha_3 b_4 b_4'^2 H^2+60 \\alpha_1 b_4^3 H^2-4 \\alpha_1 b_4^2 b_4''+\\alpha_1 b_4 b_4'^2-720 \\alpha_2 b_4^3 H^4+160 \\alpha_2 b_4^2 b_4'' H^2-64 \\alpha_2 b_4 b_4'^2 H^2+1440 \\alpha_3 b_4^3 H^6-1440 \\alpha_3 b_4^2 b_4'' H^4+792 \\alpha_3 b_4 b_4'^2 H^4}{4 b_4^3}+\\Lambda = \\kappa  p_t"
+      },
+      "hidden_x8": {
+        "input": "(-3*(4*ad1^2*alpha1*bb^4 - 16*ad1^4*alpha2*bb^4 + 96*ad1^6*alpha3*bb^4 - 2*ad1*alpha1*bb^3*bd1 + 16*ad1^3*alpha2*bb^3*bd1 - 32*ad1*ad2*alpha2*bb^3*bd1 - 144*ad1^5*alpha3*bb^3*bd1 + 576*ad1^3*ad2*alpha3*bb^3*bd1 - 8*ad1^2*alpha2*bb^2*bd1^2 + 8*ad2*alpha2*bb^2*bd1^2 + 144*ad1^4*alpha3*bb^2*bd1^2 - 432*ad1^2*ad2*alpha3*bb^2*bd1^2 - 6*ad1*alpha2*bb*bd1^3 + 60*ad1^3*alpha3*bb*bd1^3 + 72*ad1*ad2*alpha3*bb*bd1^3 - alpha2*bd1^4 - 54*ad1^2*alpha3*bd1^4 + 2*alpha1*bb^3*bd2 - 16*ad1^2*alpha2*bb^3*bd2 + 144*ad1^4*alpha3*bb^3*bd2 + 16*ad1*alpha2*bb^2*bd1*bd2 - 288*ad1^3*alpha3*bb^2*bd1*bd2 + 2*alpha2*bb*bd1^2*bd2 + 108*ad1^2*alpha3*bb*bd1^2*bd2 - 20*alpha1*bb^4*H^2 - 224*ad1^2*alpha2*bb^4*H^2 + 864*ad1^4*alpha3*bb^4*H^2 + 112*ad1*alpha2*bb^3*bd1*H^2 - 864*ad1^3*alpha3*bb^3*bd1*H^2 + 576*ad1*ad2*alpha3*bb^3*bd1*H^2 + 16*alpha2*bb^2*bd1^2*H^2 + 144*ad1^2*alpha3*bb^2*bd1^2*H^2 - 144*ad2*alpha3*bb^2*bd1^2*H^2 + 180*ad1*alpha3*bb*bd1^3*H^2 + 18*alpha3*bd1^4*H^2 - 80*alpha2*bb^3*bd2*H^2 + 288*ad1^2*alpha3*bb^3*bd2*H^2 - 288*ad1*alpha3*bb^2*bd1*bd2*H^2 - 36*alpha3*bb*bd1^2*bd2*H^2 + 240*alpha2*bb^4*H^4 + 2592*ad1^2*alpha3*bb^4*H^4 - 1296*ad1*alpha3*bb^3*bd1*H^4 - 288*alpha3*bb^2*bd1^2*H^4 + 720*alpha3*bb^3*bd2*H^4 - 480*alpha3*bb^4*H^6))/(4*bb^4) + Lam == kappa*p8",
+        "tex": "\\Lambda-\\frac{3 \\left(96 (a_4')^6 \\alpha_3 b_4^4-144 (a_4')^5 \\alpha_3 b_4^3 b_4'-16 (a_4')^4 \\alpha_2 b_4^4+864 (a_4')^4 \\alpha_3 b_4^4 H^2+144 (a_4')^4 \\alpha_3 b_4^3 b_4''+144 (a_4')^4 \\alpha_3 b_4^2 b_4'^2+576 (a_4')^3 a_4'' \\alpha_3 b_4^3 b_4'+16 (a_4')^3 \\alpha_2 b_4^3 b_4'-864 (a_4')^3 \\alpha_3 b_4^3 b_4' H^2-288 (a_4')^3 \\alpha_3 b_4^2 b_4' b_4''+60 (a_4')^3 \\alpha_3 b_4 b_4'^3-432 (a_4')^2 a_4'' \\alpha_3 b_4^2 b_4'^2+4 (a_4')^2 \\alpha_1 b_4^4-224 (a_4')^2 \\alpha_2 b_4^4 H^2-16 (a_4')^2 \\alpha_2 b_4^3 b_4''-8 (a_4')^2 \\alpha_2 b_4^2 b_4'^2+2592 (a_4')^2 \\alpha_3 b_4^4 H^4+288 (a_4')^2 \\alpha_3 b_4^3 b_4'' H^2+144 (a_4')^2 \\alpha_3 b_4^2 b_4'^2 H^2+108 (a_4')^2 \\alpha_3 b_4 b_4'^2 b_4''-54 (a_4')^2 \\alpha_3 b_4'^4-32 (a_4') a_4'' \\alpha_2 b_4^3 b_4'+576 (a_4') a_4'' \\alpha_3 b_4^3 b_4' H^2+72 (a_4') a_4'' \\alpha_3 b_4 b_4'^3-2 (a_4') \\alpha_1 b_4^3 b_4'+112 (a_4') \\alpha_2 b_4^3 b_4' H^2+16 (a_4') \\alpha_2 b_4^2 b_4' b_4''-6 (a_4') \\alpha_2 b_4 b_4'^3-1296 (a_4') \\alpha_3 b_4^3 b_4' H^4-288 (a_4') \\alpha_3 b_4^2 b_4' b_4'' H^2+180 (a_4') \\alpha_3 b_4 b_4'^3 H^2+8 a_4'' \\alpha_2 b_4^2 b_4'^2-144 a_4'' \\alpha_3 b_4^2 b_4'^2 H^2-20 \\alpha_1 b_4^4 H^2+2 \\alpha_1 b_4^3 b_4''+240 \\alpha_2 b_4^4 H^4-80 \\alpha_2 b_4^3 b_4'' H^2+16 \\alpha_2 b_4^2 b_4'^2 H^2+2 \\alpha_2 b_4 b_4'^2 b_4''-\\alpha_2 b_4'^4-480 \\alpha_3 b_4^4 H^6+720 \\alpha_3 b_4^3 b_4'' H^4-288 \\alpha_3 b_4^2 b_4'^2 H^4-36 \\alpha_3 b_4 b_4'^2 b_4'' H^2+18 \\alpha_3 b_4'^4 H^2\\right)}{4 b_4^4} = \\kappa  p_8"
+      },
+      "offDiagonal_x4x8": {
+        "input": "(3*(alpha1*bb^2*bd1*cc*H - 24*ad1^2*alpha2*bb^2*bd1*cc*H + 360*ad1^4*alpha3*bb^2*bd1*cc*H + 12*ad1*alpha2*bb*bd1^2*cc*H - 360*ad1^3*alpha3*bb*bd1^2*cc*H + alpha2*bd1^3*cc*H + 90*ad1^2*alpha3*bd1^3*cc*H - 40*alpha2*bb^2*bd1*cc*H^3 + 432*ad1^2*alpha3*bb^2*bd1*cc*H^3 - 216*ad1*alpha3*bb*bd1^2*cc*H^3 - 18*alpha3*bd1^3*cc*H^3 + 360*alpha3*bb^2*bd1*cc*H^5))/(2*bb^3) == kappa*q48",
+        "tex": "\\frac{3 \\left(360 (a_4')^4 \\alpha_3 b_4^2 b_4' \\cot z H-360 (a_4')^3 \\alpha_3 b_4 b_4'^2 \\cot z H-24 (a_4')^2 \\alpha_2 b_4^2 b_4' \\cot z H+432 (a_4')^2 \\alpha_3 b_4^2 b_4' \\cot z H^3+90 (a_4')^2 \\alpha_3 b_4'^3 \\cot z H+12 (a_4') \\alpha_2 b_4 b_4'^2 \\cot z H-216 (a_4') \\alpha_3 b_4 b_4'^2 \\cot z H^3+\\alpha_1 b_4^2 b_4' \\cot z H-40 \\alpha_2 b_4^2 b_4' \\cot z H^3+\\alpha_2 b_4'^3 \\cot z H+360 \\alpha_3 b_4^2 b_4' \\cot z H^5-18 \\alpha_3 b_4'^3 \\cot z H^3\\right)}{2 b_4^3} = \\kappa  q_{48}"
+      },
+      "offDiagonal_x8x4": {
+        "input": "(-3*(alpha1*bb^2*bd1*H - 24*ad1^2*alpha2*bb^2*bd1*H + 360*ad1^4*alpha3*bb^2*bd1*H + 12*ad1*alpha2*bb*bd1^2*H - 360*ad1^3*alpha3*bb*bd1^2*H + alpha2*bd1^3*H + 90*ad1^2*alpha3*bd1^3*H - 40*alpha2*bb^2*bd1*H^3 + 432*ad1^2*alpha3*bb^2*bd1*H^3 - 216*ad1*alpha3*bb*bd1^2*H^3 - 18*alpha3*bd1^3*H^3 + 360*alpha3*bb^2*bd1*H^5))/(2*bb^3*cc) == kappa*q84",
+        "tex": "-\\frac{3 \\left(360 (a_4')^4 \\alpha_3 b_4^2 b_4' H-360 (a_4')^3 \\alpha_3 b_4 b_4'^2 H-24 (a_4')^2 \\alpha_2 b_4^2 b_4' H+432 (a_4')^2 \\alpha_3 b_4^2 b_4' H^3+90 (a_4')^2 \\alpha_3 b_4'^3 H+12 (a_4') \\alpha_2 b_4 b_4'^2 H-216 (a_4') \\alpha_3 b_4 b_4'^2 H^3+\\alpha_1 b_4^2 b_4' H-40 \\alpha_2 b_4^2 b_4' H^3+\\alpha_2 b_4'^3 H+360 \\alpha_3 b_4^2 b_4' H^5-18 \\alpha_3 b_4'^3 H^3\\right)}{2 b_4^3 \\cot z} = \\kappa  q_{84}"
+      },
+      "offDiagonalFactor_Q": {
+        "input": "(3*alpha1*H)/2 - 36*ad1^2*alpha2*H + 540*ad1^4*alpha3*H - 60*alpha2*H^3 + 648*ad1^2*alpha3*H^3 + 540*alpha3*H^5 + 18*ad1*alpha2*H*uu - 540*ad1^3*alpha3*H*uu - 324*ad1*alpha3*H^3*uu + (3*alpha2*H*uu^2)/2 + 135*ad1^2*alpha3*H*uu^2 - 27*alpha3*H^3*uu^2",
+        "tex": "540 (a_4')^4 \\alpha_3 H-540 (a_4')^3 \\alpha_3 H u-36 (a_4')^2 \\alpha_2 H+648 (a_4')^2 \\alpha_3 H^3+135 (a_4')^2 \\alpha_3 H u^2+18 (a_4') \\alpha_2 H u-324 (a_4') \\alpha_3 H^3 u+\\frac{3 \\alpha_1 H}{2}-60 \\alpha_2 H^3+\\frac{3}{2} \\alpha_2 H u^2+540 \\alpha_3 H^5-27 \\alpha_3 H^3 u^2"
+      },
+      "offDiagonalStatement": "kappa q48 = cot z (b4'/b4) Q and kappa q84 = -tan z (b4'/b4) Q: a source with q48 = q84 = 0 (in particular every source that is x8-independent and has no T^x4_x8) forces b4' Q = 0; for Einstein gravity Q = 3 H/2, so b4' = 0",
+      "identity_x1_plus_x5_minus_2x8": {
+        "input": "(-96*ad1*ad2*alpha2*bb^3*bd1 + 2880*ad1^3*ad2*alpha3*bb^3*bd1 + alpha1*bb^2*bd1^2 - 24*ad1^2*alpha2*bb^2*bd1^2 + 24*ad2*alpha2*bb^2*bd1^2 + 360*ad1^4*alpha3*bb^2*bd1^2 - 2160*ad1^2*ad2*alpha3*bb^2*bd1^2 - 12*ad1*alpha2*bb*bd1^3 + 360*ad1^3*alpha3*bb*bd1^3 + 360*ad1*ad2*alpha3*bb*bd1^3 - 3*alpha2*bd1^4 - 270*ad1^2*alpha3*bd1^4 + 2*alpha1*bb^3*bd2 - 48*ad1^2*alpha2*bb^3*bd2 + 720*ad1^4*alpha3*bb^3*bd2 + 48*ad1*alpha2*bb^2*bd1*bd2 - 1440*ad1^3*alpha3*bb^2*bd1*bd2 + 6*alpha2*bb*bd1^2*bd2 + 540*ad1^2*alpha3*bb*bd1^2*bd2 + 1728*ad1*ad2*alpha3*bb^3*bd1*H^2 - 40*alpha2*bb^2*bd1^2*H^2 + 432*ad1^2*alpha3*bb^2*bd1^2*H^2 - 432*ad2*alpha3*bb^2*bd1^2*H^2 + 216*ad1*alpha3*bb*bd1^3*H^2 + 54*alpha3*bd1^4*H^2 - 80*alpha2*bb^3*bd2*H^2 + 864*ad1^2*alpha3*bb^3*bd2*H^2 - 864*ad1*alpha3*bb^2*bd1*bd2*H^2 - 108*alpha3*bb*bd1^2*bd2*H^2 + 360*alpha3*bb^2*bd1^2*H^4 + 720*alpha3*bb^3*bd2*H^4)/(4*bb^4)",
+        "tex": "\\frac{720 (a_4')^4 \\alpha_3 b_4^3 b_4''+360 (a_4')^4 \\alpha_3 b_4^2 b_4'^2+2880 (a_4')^3 a_4'' \\alpha_3 b_4^3 b_4'-1440 (a_4')^3 \\alpha_3 b_4^2 b_4' b_4''+360 (a_4')^3 \\alpha_3 b_4 b_4'^3-2160 (a_4')^2 a_4'' \\alpha_3 b_4^2 b_4'^2-48 (a_4')^2 \\alpha_2 b_4^3 b_4''-24 (a_4')^2 \\alpha_2 b_4^2 b_4'^2+864 (a_4')^2 \\alpha_3 b_4^3 b_4'' H^2+432 (a_4')^2 \\alpha_3 b_4^2 b_4'^2 H^2+540 (a_4')^2 \\alpha_3 b_4 b_4'^2 b_4''-270 (a_4')^2 \\alpha_3 b_4'^4-96 (a_4') a_4'' \\alpha_2 b_4^3 b_4'+1728 (a_4') a_4'' \\alpha_3 b_4^3 b_4' H^2+360 (a_4') a_4'' \\alpha_3 b_4 b_4'^3+48 (a_4') \\alpha_2 b_4^2 b_4' b_4''-12 (a_4') \\alpha_2 b_4 b_4'^3-864 (a_4') \\alpha_3 b_4^2 b_4' b_4'' H^2+216 (a_4') \\alpha_3 b_4 b_4'^3 H^2+24 a_4'' \\alpha_2 b_4^2 b_4'^2-432 a_4'' \\alpha_3 b_4^2 b_4'^2 H^2+2 \\alpha_1 b_4^3 b_4''+\\alpha_1 b_4^2 b_4'^2-80 \\alpha_2 b_4^3 b_4'' H^2-40 \\alpha_2 b_4^2 b_4'^2 H^2+6 \\alpha_2 b_4 b_4'^2 b_4''-3 \\alpha_2 b_4'^4+720 \\alpha_3 b_4^3 b_4'' H^4+360 \\alpha_3 b_4^2 b_4'^2 H^4-108 \\alpha_3 b_4 b_4'^2 b_4'' H^2+54 \\alpha_3 b_4'^4 H^2}{4 b_4^4}"
+      },
+      "identity_einstein": "kappa (p3 + p_t - 2 p8) = (b4'/b4)^2/4 + b4''/(2 b4) (Einstein); with b4' = b4'' = 0 the earlier condition p3 + p_t = 2 p8",
+      "conservation_x4": {
+        "input": "-d4rho + d8q84 - 3*ad1*p3 + 3*ad1*pt - (3*bd1*pt)/(2*bb) - (6*H*q84)/cc - (3*bd1*rho)/(2*bb) == 0",
+        "tex": "-3 (a_4') p_3+3 (a_4') p_t-\\frac{3 b_4' p_t}{2 b_4}-\\frac{3 b_4' \\rho }{2 b_4}-\\frac{6 H q_{84}}{\\cot z}-\\partial_4 \\rho+\\partial_8 q_{84} = 0"
+      },
+      "conservation_x8": {
+        "input": "d4q48 + d8p8 - 3*cc*H*p3 + 6*cc*H*p8 - 3*cc*H*pt + (3*bd1*q48)/(2*bb) == 0",
+        "tex": "\\frac{3 b_4' q_{48}}{2 b_4}-3 \\cot z H p_3+6 \\cot z H p_8-3 \\cot z H p_t+\\partial_4 q_{48}+\\partial_8 p_8 = 0"
+      },
+      "secondOrderEinstein": "the x1 - x5 and x8 components are linear in (a4'', b4'') with a nonsingular Jacobian: they determine a4'' and b4'' from the sources; the x4 component is the constraint"
+    },
+    "fields": {
+      "gravityTerm": "gamma^mu Omega_mu = 3 H gamma^x8 + (3/4)(b4'/b4) gamma^x4",
+      "condensate": "d4 Phi = (A - (3/4)(b4'/b4) I16) Phi: Phi = b4^(-3/4) Phi_1 (Phi_1 a b4 = 1 solution); b4^(3/2) S is constant; K^x4_x4 = M S, K^mu_mu = 0 (mu != x4), K^x4_x8 = 0; the same 15 off-diagonal three-gamma bilinears with b4-dependent coefficients"
+    },
+    "background": "with the author's weights (w1 = 1, w2 = 1/32, w3 = 1/1152, Lambda = 10) every vacuum solution has b4 constant and a4 = +-H x4 + const (Revision/metric_b4/results/vacuum-b4.json); the keys lovelockTensors .. fields above are this background case b4 = 1"
   },
   "checksSummary": "see reports/wolfram-a4-report.json"
 }

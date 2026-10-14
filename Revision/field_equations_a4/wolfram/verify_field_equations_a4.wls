@@ -50,7 +50,7 @@ fnRules = {Derivative[1, 0][f_][x4, x8] :> Symbol["d4" <> SymbolName[f]],
 inp[e_] := ToString[e /. fnRules, InputForm, PageWidth -> Infinity];
 bs = FromCharacterCode[92];   (* the backslash *)
 texRules = Map[(bs <> "text{" <> #[[1]] <> "}") -> StringReplace[#[[2]], "@" -> bs] &, {
-    {"ad1", "(a_4')"}, {"ad2", "a_4''"}, {"alpha1", "@alpha_1"}, {"alpha2", "@alpha_2"}, {"alpha3", "@alpha_3"},
+    {"ad1", "(a_4')"}, {"ad2", "a_4''"}, {"bb", "b_4"}, {"bd1", "b_4'"}, {"bd2", "b_4''"}, {"uu", "u"}, {"alpha1", "@alpha_1"}, {"alpha2", "@alpha_2"}, {"alpha3", "@alpha_3"},
     {"Lam", "@Lambda"}, {"AA", "A"}, {"cc", "@cot z"}, {"a4v", "a_4"}, {"pt", "p_t"}, {"p3", "p_3"}, {"p8", "p_8"},
     {"q48", "q_{48}"}, {"q84", "q_{84}"}, {"sigmaT", "@sigma_T"},
     {"d4rho", "@partial_4 @rho"}, {"d8rho", "@partial_8 @rho"}, {"d4p3", "@partial_4 p_3"}, {"d8p3", "@partial_8 p_3"},
@@ -67,19 +67,19 @@ coordName[i_] := ToString[FECoords[[i]]];
    ====================================================================== *)
 addCheck["metric_is_SPEC_section_1",
   FEMetricDiag === {E^(2 a4[x4]) Sin[6 H x8]^(1/3), E^(2 a4[x4]) Sin[6 H x8]^(1/3), E^(2 a4[x4]) Sin[6 H x8]^(1/3), -1,
-     -E^(-2 a4[x4]) Sin[6 H x8]^(1/3), -E^(-2 a4[x4]) Sin[6 H x8]^(1/3), -E^(-2 a4[x4]) Sin[6 H x8]^(1/3), Cot[6 H x8]^2},
-  "g = diag(e^{2a4} s, e^{2a4} s, e^{2a4} s, -1, -e^{-2a4} s, -e^{-2a4} s, -e^{-2a4} s, cot^2 z), s = sin^{1/3} z, z = 6 H x8 (x1..x8)"];
+     -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3), -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3), -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3), Cot[6 H x8]^2},
+  "g = diag(e^{2a4} s, e^{2a4} s, e^{2a4} s, -1, -e^{-2a4} b4 s, -e^{-2a4} b4 s, -e^{-2a4} b4 s, cot^2 z), s = sin^{1/3} z, z = 6 H x8 (x1..x8): the metric of SPEC section 1 since 2026-10-14 (b4 = 1 is the metric before)"];
 addCheck["sqrt_abs_det_g_is_cos_z",
-  Together[FENormal[Times @@ FEMetricDiag] - cc^2/(1 + cc^2)] === 0,
-  "sqrt|det g| = sin z cot z = cos z on 0 < z < pi/2 (independent of a4: the 7-volume factor e^{3a4} e^{-3a4} = 1)"];
+  Together[FENormal[Times @@ FEMetricDiag] - bb^3 cc^2/(1 + cc^2)] === 0,
+  "sqrt|det g| = b4^{3/2} sin z cot z = b4^{3/2} cos z on 0 < z < pi/2 (independent of a4: the 7-volume factor e^{3a4} e^{-3a4} b4^{3/2} = b4^{3/2}, constant in x4 exactly when b4 is; = cos z at b4 = 1)"];
 
 riemannSthirdFree = FreeQ[FERiemannUU, Sin] && FreeQ[FERiemannUU, a4] && FreeQ[FERiemannUU, a0];
 addCheck["mixed_riemann_free_of_warp_and_a4",
   riemannSthirdFree,
-  "every R^{ab}_{cd} (MTW, computed here from the Christoffel symbols) is a function of H, a4', a4'', cot z only (a Laurent polynomial in cot z): the warp sin^{1/3} z and e^{a4} cancel; " <>
+  "every R^{ab}_{cd} (MTW, computed here from the Christoffel symbols) is a function of H, a4', a4'', b4'/b4, b4''/b4, cot z only (a Laurent polynomial in cot z; at b4 = 1 of H, a4', a4'', cot z): the warp sin^{1/3} z and e^{a4} cancel; " <>
    ToString[Length[FERiemannPairs]] <> " nonzero components with a < b, c < d"];
 addCheck["riemann_pair_antisymmetry",
-  And @@ Flatten[Table[FERiemannUU[[a, b, c, d]] === -FERiemannUU[[b, a, c, d]] && FERiemannUU[[a, b, c, d]] === -FERiemannUU[[a, b, d, c]],
+  And @@ Flatten[Table[Together[FERiemannUU[[a, b, c, d]] + FERiemannUU[[b, a, c, d]]] === 0 && Together[FERiemannUU[[a, b, c, d]] + FERiemannUU[[a, b, d, c]]] === 0,
      {a, 8}, {b, 8}, {c, 8}, {d, 8}]],
   "R^{ab}_{cd} = -R^{ba}_{cd} = -R^{ab}_{dc} for all 4096 index lists"];
 
@@ -106,9 +106,11 @@ Do[
    FENormal[Tr[Pdirect[[k]]] - (8 - 2 k) Ldirect[[k]]] === 0,
    "sum_h P_(" <> ToString[k] <> ")^h_h = (8 - " <> ToString[2 k] <> ") L_(" <> ToString[k] <> ")"];
   addCheck["P" <> ToString[k] <> "_structure",
-   FreeQ[Pdirect[[k]], cc] && And @@ Flatten[Table[If[h != j, Pdirect[[k, h, j]] === 0, True], {h, 8}, {j, 8}]] &&
-    Pdirect[[k, 1, 1]] === Pdirect[[k, 2, 2]] === Pdirect[[k, 3, 3]] && Pdirect[[k, 5, 5]] === Pdirect[[k, 6, 6]] === Pdirect[[k, 7, 7]],
-   "P_(" <> ToString[k] <> ")^h_j is diagonal (in particular the x4-x8 components vanish), free of x8, with x1 = x2 = x3 and x5 = x6 = x7"],
+   FreeQ[Diagonal[Pdirect[[k]]], cc] && And @@ Flatten[Table[If[h != j && !MemberQ[{{4, 8}, {8, 4}}, {h, j}], Pdirect[[k, h, j]] === 0, True], {h, 8}, {j, 8}]] &&
+    Together[Pdirect[[k, 4, 8]] /. bd1 -> 0] === 0 && Together[Pdirect[[k, 8, 4]] /. bd1 -> 0] === 0 &&
+    Pdirect[[k, 1, 1]] === Pdirect[[k, 2, 2]] === Pdirect[[k, 3, 3]] && Pdirect[[k, 5, 5]] === Pdirect[[k, 6, 6]] === Pdirect[[k, 7, 7]] &&
+    And @@ Flatten[Table[If[h != j, Together[Pdirect[[k, h, j]] /. FEB4One] === 0, True], {h, 8}, {j, 8}]],
+   "P_(" <> ToString[k] <> ")^h_j: the diagonal is free of x8 with x1 = x2 = x3 and x5 = x6 = x7; the only nonzero off-diagonal components are x4-x8 and x8-x4, each proportional to b4' (metric of 2026-10-14), so at b4 = 1 P_(" <> ToString[k] <> ") is diagonal"],
   {k, 3}];
 addCheck["P4_vanishes_pigeonhole",
   FEGKD[{1, 2, 3, 4, 5, 6, 7, 8, 1}, {1, 2, 3, 4, 5, 6, 7, 8, 2}] === 0 && FEGKD[Range[8], Range[8]] === 1,
@@ -121,6 +123,11 @@ Do[
    And @@ (FEZeroQ /@ FEDivergence[EkD[[k]]]),
    "nabla_mu E_(" <> ToString[k] <> ")^mu_nu = 0 for nu = x1..x8 (exact; Christoffel symbols of this file)"],
   {k, 3}];
+(* Since 2026-10-14 the metric carries b4[x4].  Sections 3 to 6 below are the analysis of the metric before 2026-10-14,
+   i.e. the restriction b4 = 1 (FEB4One), kept exactly as it was (every statement there holds at b4 = 1); section 7 derives
+   what changes for general b4 and writes it to the key "b4" of a4-equations.json.  EkG keeps the general tensors. *)
+EkG = Ek;
+Ek = Map[Together[# /. FEB4One] &, EkG, {3}];
 
 (* ======================================================================
    3. The field equations with a general homogeneous source
@@ -157,7 +164,8 @@ addCheck["constraint_propagation_bianchi",
 (* conservation of a general source T(x4, x8) *)
 Tgen = DiagonalMatrix[{p3[x4, x8], p3[x4, x8], p3[x4, x8], -rho[x4, x8], pt[x4, x8], pt[x4, x8], pt[x4, x8], p8[x4, x8]}];
 Tgen[[4, 8]] = q48[x4, x8]; Tgen[[8, 4]] = q84[x4, x8];
-divT = FENormal /@ FEDivergence[Tgen];
+divTG = FENormal /@ FEDivergence[Tgen];          (* general b4 (section 7) *)
+divT = Together[Expand[#]] & /@ (divTG /. FEB4One);  (* b4 = 1 *)
 consX4 = Collect[Expand[divT[[4]]], {cc}];
 consX8 = Collect[Expand[divT[[8]]], {cc}];
 addCheck["conservation_components",
@@ -229,7 +237,11 @@ offDiagonalDecomposition[g_List, Cm_, ns_] := Module[{binv, dec, pairs},
    pairs = Select[Flatten[Table[{mu, nu}, {mu, 8}, {nu, 8}], 1], #[[1]] != #[[2]] && ns[[#[[1]], #[[2]]]] =!= zero16 &];
    Association[(# -> dec[ns[[#[[1]], #[[2]]]]]) & /@ pairs]];
 
-prim = condensateKinetic[FEGammaFrame, FEC];
+(* general b4 (section 7) and its restriction to b4 = 1 (sections 5, 6) *)
+restrictB4[x_List] := restrictB4 /@ x;
+restrictB4[x_] := Together[Expand[x /. FEB4One]];
+primG = condensateKinetic[FEGammaFrame, FEC];
+prim = restrictB4 /@ primG;
 gF = FEGammaFrame; gC = prim["gC"]; Om = prim["Om"];
 addCheck["fixture_author_T16_read",
   fx["coordinates"] === {"x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"} && fx["notebookFrameIndex"] === {1, 2, 3, 4, 5, 6, 7, 0} &&
@@ -304,7 +316,8 @@ addCheck["condensate_offdiagonal_are_three_gamma_bilinears",
   "the nonzero off-diagonal kinetic components of the condensate are exactly multiples of the 15 bilinears B_abc = Phibar gamma^a gamma^b gamma^c Phi with {a,b,c} = {i, x4, x8} (i = x1..x3, x5..x7; coefficients proportional to H or a4') and {i, j, x4} (i = x1..x3, j = x5..x7; coefficients proportional to a4'); " <>
    ToString[Length[offPairs]] <> " ordered pairs (mu, nu) are nonzero"];
 (* the same pipeline in the comparison representation: the coefficients written to a4-equations.json do not depend on it *)
-cmpR = condensateKinetic[gR, CR];
+cmpRG = condensateKinetic[gR, CR];
+cmpR = restrictB4 /@ cmpRG;
 offDecompR = offDiagonalDecomposition[gR, CR, cmpR["NmatSym"]];
 addCheck["offdiagonal_coefficients_representation_independent",
   cmpR["Gdirac"] === 3 H gR[[8]] && Keys[offDecompR] === offPairs &&
@@ -343,6 +356,72 @@ addCheck["condensate_diagonal_witness_exact",
    ", Phi0 = v1 + c v2 (v1, v2 the A-eigenvectors with gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1 and +1, c = conj(v1^dagger C v2)), solves the condensate equation; all 15 three-gamma bilinears and every off-diagonal kinetic component vanish for every a4, a4'; S = " <> inp[#[[3]] & /@ wit] <> " != 0"];
 
 (* ======================================================================
+   7. The metric function b4[x4] (the user's metric of 2026-10-14): what changes for general b4.
+      Notation: u = b4'/b4 (= bd1/bb), b4''/b4 = bd2/bb.
+   ====================================================================== *)
+LHSG = Sum[alphas[[k]] EkG[[k]], {k, 3}] + Lam IdentityMatrix[8];
+g11 = Together[LHSG[[1, 1]] - Lam]; g44 = Together[LHSG[[4, 4]] - Lam]; g55 = Together[LHSG[[5, 5]] - Lam];
+g88 = Together[LHSG[[8, 8]] - Lam]; g48 = Together[LHSG[[4, 8]]]; g84 = Together[LHSG[[8, 4]]];
+b4setFile = FileNameJoin[{$revDir, "metric_b4", "results", "metric-b4.json"}];
+If[!FileExistsQ[b4setFile], Print["ERROR  ", b4setFile, ": not found (run Revision/metric_b4/wolfram/verify_metric_b4.wls)"]; Exit[1]];
+b4set = Import[b4setFile, "RawJSON"];
+mbE[k_] := Table[FENormal[ToExpression[Lookup[b4set["E" <> ToString[k] <> "Mixed"], coordName[h] <> "," <> coordName[j], "0"]]], {h, 8}, {j, 8}];
+addCheck["b4_lovelock_equals_metric_b4_set",
+  And @@ Flatten[Table[Together[EkG[[k, h, j]] - mbE[k][[h, j]]] === 0, {k, 3}, {h, 8}, {j, 8}]],
+  "all 64 components of E_(1), E_(2), E_(3) for general b4, computed in this file (GKD as Det of the delta matrix over the nonzero R^{ab}_{cd}), equal those of Revision/metric_b4/results/metric-b4.json (MetricB4.wl, compared there with the author's stored outputs of Dirac_Einstein-Lovelock_4+4_Nash.nb)"];
+addCheck["b4_constraint_first_order",
+  FreeQ[g44, ad2] && FreeQ[g44, bd2] && FreeQ[g44, cc],
+  "the x4 component (constraint) contains only a4' and b4'/b4 (no second derivative, no x8): " <> inp[Expand[g44 /. einst]] <> " for Einstein"];
+Q48 = Together[g48 bb/(cc bd1)];
+Q48u = Together[Q48 /. bd1 -> uu bb];
+addCheck["b4_offdiagonal_factorises",
+  FreeQ[Q48, cc] && FreeQ[Q48u, bb] && Together[g84 + bd1 Q48/(cc bb)] === 0 && Together[g48 /. bd1 -> 0] === 0,
+  "sum_k alpha_k E_(k)^x4_x8 = cot z (b4'/b4) Q and sum_k alpha_k E_(k)^x8_x4 = -tan z (b4'/b4) Q, Q = " <> inp[Expand[Q48u]] <>
+   " (u = b4'/b4), both zero for b4' = 0: the off-diagonal field equations read kappa q48 = cot z u Q and kappa q84 = -tan z u Q"];
+addCheck["b4_einstein_offdiagonal_forces_b4_constant",
+  Together[(Q48 /. einst) - 3 H/2] === 0,
+  "Einstein (alpha1 = 1, alpha2 = alpha3 = 0): Q = 3 H/2 != 0, so a source with T^x4_x8 = 0 (q48 = 0) forces b4' = 0, i.e. b4 constant (a rescaling of x5, x6, x7: the metric before 2026-10-14)"];
+idG = Together[g11 + g55 - 2 g88];
+addCheck["b4_identity_x1_plus_x5_minus_2x8",
+  Together[idG /. {bd1 -> 0, bd2 -> 0}] === 0 && Together[(idG /. einst) - (bd1^2/(4 bb^2) + bd2/(2 bb))] === 0,
+  "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x8_x8) vanishes when b4' = b4'' = 0 (b4 = 1: the algebraic condition p3 + p_t = 2 p8), and for Einstein equals (b4'/b4)^2/4 + b4''/(2 b4): with b4 the field equations give kappa (p3 + p_t - 2 p8) = (b4'/b4)^2/4 + b4''/(2 b4) instead of the condition p3 + p_t = 2 p8"];
+jac = Together[D[{g11 - g55, g88} /. einst, {{ad2, bd2}}]];
+addCheck["b4_einstein_second_order_system",
+  Together[Det[jac] bb] =!= 0 && FreeQ[jac, ad1] && FreeQ[Together[(g11 - g55) /. einst], cc],
+  "Einstein: the x1 - x5 and x8 components are linear in (a4'', b4'') with Jacobian " <> inp[jac] <> " (nonsingular): they determine a4'' and b4''/b4 from the sources; the x4 component is the constraint"];
+consGX4 = Expand[divTG[[4]]]; consGX8 = Expand[divTG[[8]]];
+addCheck["b4_conservation_components",
+  And @@ (# === 0 & /@ divTG[[{1, 2, 3, 5, 6, 7}]]) &&
+   Together[divTG[[4]] - (-D[rho[x4, x8], x4] - 3 ad1 (p3[x4, x8] - pt[x4, x8]) - (3/2) (bd1/bb) (rho[x4, x8] + pt[x4, x8]) + D[q84[x4, x8], x8] - 6 H q84[x4, x8]/cc)] === 0 &&
+   Together[divTG[[8]] - (D[p8[x4, x8], x8] + 3 H cc (2 p8[x4, x8] - p3[x4, x8] - pt[x4, x8]) + D[q48[x4, x8], x4] + (3/2) (bd1/bb) q48[x4, x8])] === 0,
+  "general b4: nabla_mu T^mu_x4 = -d4 rho - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) + d8 q84 - 6 H tan(z) q84 and nabla_mu T^mu_x8 = d8 p8 + 3 H cot(z) (2 p8 - p3 - p_t) + d4 q48 + (3/2)(b4'/b4) q48 (b4 = 1: section 3)"];
+GdiracG = primG["Gdirac"]; AmatG = primG["Amat"];
+addCheck["b4_gravity_term",
+  Map[Together, GdiracG - (3 H gF[[8]] + (3/4) (bd1/bb) gF[[4]]), {2}] === zero16,
+  "general b4: gamma^mu Omega_mu = 3 H gamma^x8 + (3/4)(b4'/b4) gamma^x4 (frame gammas; the x4 terms of the extra-time directions no longer cancel those of 3-space when b4' != 0)"];
+addCheck["b4_condensate_equation",
+  Map[Together, AmatG - (Amat + (-(3/4) (bd1/bb)) IdentityMatrix[16]), {2}] === zero16 &&
+   Map[Together, FEC . AmatG + Transpose[AmatG] . FEC + (3/2) (bd1/bb) FEC, {2}] === zero16,
+  "general b4: d4 Phi = A_b Phi with A_b = A - (3/4)(b4'/b4) I16 (A the b4 = 1 matrix of section 5), so Phi = b4^(-3/4) Phi_1 with Phi_1 a solution for b4 = 1; C A_b + A_b^T C = -(3/2)(b4'/b4) C, so d4 S = -(3/2)(b4'/b4) S: b4^(3/2) S (= S sqrt|det g|/cos z) is constant along x4 (S itself is constant only when b4 is)"];
+nsG = primG["NmatSym"];
+addCheck["b4_condensate_kinetic_diagonal",
+  Map[Together, nsG[[4, 4]] - MM FEC, {2}] === zero16 && And @@ Table[Map[Together, nsG[[mu, mu]], {2}] === zero16, {mu, {1, 2, 3, 5, 6, 7, 8}}] &&
+   Map[Together, nsG[[4, 8]], {2}] === zero16 && Map[Together, nsG[[8, 4]], {2}] === zero16,
+  "general b4: the condensate's symmetrised kinetic tensor still has K^x4_x4 = M S, K^mu_mu = 0 (mu != x4) and K^x4_x8 = K^x8_x4 = 0"];
+offDecompG = offDiagonalDecomposition[gF, FEC, nsG];
+triplesG = Union[Flatten[Keys /@ Values[offDecompG], 1]];
+addCheck["b4_condensate_offdiagonal_bilinears",
+  Sort[Keys[offDecompG]] === Sort[offPairs] && Sort[triplesG] === Sort[triples] &&
+   And @@ Table[Keys[offDecompG[pq]] === Keys[offDecomp[pq]] && And @@ (Together[# /. FEB4One] === 0 & /@ (Values[offDecompG[pq]] - Values[offDecomp[pq]])), {pq, offPairs}],
+  "general b4: the nonzero off-diagonal kinetic components are the same " <> ToString[Length[offPairs]] <> " ordered pairs and the same 15 three-gamma bilinears; their coefficients depend on b4 and reduce at b4 = 1 to those of section 5"];
+authW = {alpha1 -> 1/H^2, alpha2 -> (1/32)/H^4, alpha3 -> (1/1152)/H^6, Lam -> -10};
+linB = {ad1 -> AA H, ad2 -> 0, bd1 -> 0, bd2 -> 0};
+vacAuth = Union[Together /@ ((Diagonal[LHSG] /. linB /. authW))];
+addCheck["b4_author_weights_vacuum",
+  Union[AA /. Solve[Thread[vacAuth == 0], AA, Reals]] === {-1, 1} && Together[Q48 /. authW /. {ad1 -> H, bd1 -> uu bb}] =!= 0,
+  "the author's weights of Dirac_Einstein-Lovelock_4+4_Nash.nb (w1 = 1, w2 = 1/32, w3 = 1/1152, Lambda_author = 10, i.e. alpha_k = w_k/H^(2k), Lam = -10): with b4 constant the vacuum equations hold exactly for a4' = +-H (the author's solution and its time reverse); the full vacuum theorem for general b4 (b4 must be constant) is Revision/metric_b4/results/vacuum-b4.json"];
+
+(* ======================================================================
    6. a4-equations.json
    ====================================================================== *)
 offJSON = Table[<|"component" -> "K^" <> coordName[pq[[1]]] <> "_" <> coordName[pq[[2]]] <> " (symmetrised)",
@@ -351,12 +430,14 @@ offJSON = Table[<|"component" -> "K^" <> coordName[pq[[1]]] <> "_" <> coordName[
 compE[k_] := <|"x1x1" -> expr[Expand[Ek[[k, 1, 1]]]], "x4x4" -> expr[Expand[Ek[[k, 4, 4]]]], "x5x5" -> expr[Expand[Ek[[k, 5, 5]]]],
    "x8x8" -> expr[Expand[Ek[[k, 8, 8]]]], "x4x8" -> expr[Ek[[k, 4, 8]]], "x8x4" -> expr[Ek[[k, 8, 4]]]|>;
 Fein = fEvo /. einst;
+compEG[k_] := <|"x1x1" -> expr[Expand[EkG[[k, 1, 1]]]], "x4x4" -> expr[Expand[EkG[[k, 4, 4]]]], "x5x5" -> expr[Expand[EkG[[k, 5, 5]]]],
+   "x8x8" -> expr[Expand[EkG[[k, 8, 8]]]], "x4x8" -> expr[EkG[[k, 4, 8]]], "x8x4" -> expr[EkG[[k, 8, 4]]]|>;
 
 data = <|
-  "title" -> "Einstein-Lovelock field equations for a4[x4] in the primordial metric (Revision/SPEC.md section 5)",
+  "title" -> "Einstein-Lovelock field equations for a4[x4] and b4[x4] in the primordial metric (Revision/SPEC.md section 5); the keys lovelockTensors .. fields are the restriction b4 = 1 (the metric before 2026-10-14), the key b4 is the general case",
   "producer" -> "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls (with FieldEquationsA4.wl)",
   "conventions" -> <|
-    "coordinates" -> "x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = extra times, time-like, deflating (scale factor e^{-a4} sin^{1/6} z); x8 = hidden direction, z = 6 H x8 in (0, pi/2)",
+    "coordinates" -> "x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = extra times, time-like, deflating (scale factor e^{-a4} b4^{1/2} sin^{1/6} z; b4 = 1 in the keys lovelockTensors .. fields); x8 = hidden direction, z = 6 H x8 in (0, pi/2)",
     "symbols" -> "ad1 = a4'(x4), ad2 = a4''(x4), H > 0, alpha1..alpha3 = Lovelock couplings, Lam = Lambda, kappa = gravitational coupling, cc = cot z; d4f, d8f = partial derivatives of f with respect to x4, x8",
     "curvature" -> "MTW: R^a_{bcd} = d_c Gamma^a_{bd} - d_d Gamma^a_{bc} + Gamma^a_{ce} Gamma^e_{bd} - Gamma^a_{de} Gamma^e_{bc}",
     "lovelock" -> "P_(k)^h_j = GKD[{h,h1..h2k},{j,j1..j2k}] R^{j1j2}_{h1h2} ... R^{j(2k-1)j2k}_{h(2k-1)h2k}; E_(k) = -P_(k)/2^(k+1); E_(1) = G",
@@ -432,6 +513,28 @@ data = <|
       "kohnSham" -> "Kohn-Sham source (Revision/kohn_sham): rho_KS(x4), p3_KS(x4), p_t_KS(x4), p8_KS(x4) from the occupied Kohn-Sham orbitals (with the Hartree and exchange terms); with this source the equations read: constraint: sum_k alpha_k E_(k)^x4_x4 + Lam = -kappa rho_KS; evolution: a4'' F(a4') = kappa (p3_KS - p_t_KS); x8: sum_k alpha_k E_(k)^x8_x8 + Lam = kappa p8_KS; conditions: p3_KS + p_t_KS = 2 p8_KS, the x4-x8 component zero, and every component independent of x8 (a Kohn-Sham source with an x8 profile satisfies the equations only if these hold; otherwise the metric of SPEC section 1 is not an exact solution with that source). Evaluated on the recorded Kohn-Sham states (Revision/field_equations_a4/reports/ks-source-conditions.json): every nonzero ground state depends on x8 and violates p3 + p_t = 2 p8 pointwise and after integration over x8, so none is an admissible source; the Kohn-Sham history a4 = A H x4 is a PRESCRIBED test-field background without back-reaction (the linear member needs p3 = p_t = p8 and constant rho, which the Kohn-Sham gas does not have)",
       "offDiagonal" -> "every off-diagonal expectation value <:T^mu_nu:> (mu != nu) must vanish, in particular the expectation values of the 15 three-gamma bilinears for a homogeneous state",
       "homogeneousSingleMode" -> "if a state has <:k1:> = <:k5:> (e.g. all quanta at zero 3- and extra-time momentum), for every x4 (and the off-diagonal conditions hold), then a4'' F(a4') = 0 and the argument of the dirac16complex00 theorem gives a4 = A H x4 + a0 with real A (A -> -A is a symmetry of the equations; the sign of A is not selected)"|>|>,
+  "b4" -> <|
+    "metric" -> "the user's metric of 2026-10-14 (SPEC section 1): g55 = g66 = g77 = -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3), b4 > 0; symbols bb = b4, bd1 = b4', bd2 = b4'', uu = b4'/b4",
+    "lovelockTensors" -> <|"E1" -> compEG[1], "E2" -> compEG[2], "E3" -> compEG[3],
+      "allOtherComponents" -> "x2x2 = x3x3 = x1x1, x6x6 = x7x7 = x5x5; the only nonzero off-diagonal components are x4x8 and x8x4 (proportional to b4'); equal to Revision/metric_b4/results/metric-b4.json"|>,
+    "generalSource" -> <|
+      "constraint_x4" -> eqn[g44 + Lam, -kappa rho],
+      "space_x1_eq_x2_eq_x3" -> eqn[g11 + Lam, kappa p3],
+      "extraTime_x5_eq_x6_eq_x7" -> eqn[g55 + Lam, kappa pt],
+      "hidden_x8" -> eqn[g88 + Lam, kappa p8],
+      "offDiagonal_x4x8" -> eqn[g48, kappa q48],
+      "offDiagonal_x8x4" -> eqn[g84, kappa q84],
+      "offDiagonalFactor_Q" -> expr[Expand[Q48u]],
+      "offDiagonalStatement" -> "kappa q48 = cot z (b4'/b4) Q and kappa q84 = -tan z (b4'/b4) Q: a source with q48 = q84 = 0 (in particular every source that is x8-independent and has no T^x4_x8) forces b4' Q = 0; for Einstein gravity Q = 3 H/2, so b4' = 0",
+      "identity_x1_plus_x5_minus_2x8" -> expr[idG],
+      "identity_einstein" -> "kappa (p3 + p_t - 2 p8) = (b4'/b4)^2/4 + b4''/(2 b4) (Einstein); with b4' = b4'' = 0 the earlier condition p3 + p_t = 2 p8",
+      "conservation_x4" -> eqn[consGX4, 0],
+      "conservation_x8" -> eqn[consGX8, 0],
+      "secondOrderEinstein" -> "the x1 - x5 and x8 components are linear in (a4'', b4'') with a nonsingular Jacobian: they determine a4'' and b4'' from the sources; the x4 component is the constraint"|>,
+    "fields" -> <|
+      "gravityTerm" -> "gamma^mu Omega_mu = 3 H gamma^x8 + (3/4)(b4'/b4) gamma^x4",
+      "condensate" -> "d4 Phi = (A - (3/4)(b4'/b4) I16) Phi: Phi = b4^(-3/4) Phi_1 (Phi_1 a b4 = 1 solution); b4^(3/2) S is constant; K^x4_x4 = M S, K^mu_mu = 0 (mu != x4), K^x4_x8 = 0; the same 15 off-diagonal three-gamma bilinears with b4-dependent coefficients"|>,
+    "background" -> "with the author's weights (w1 = 1, w2 = 1/32, w3 = 1/1152, Lambda = 10) every vacuum solution has b4 constant and a4 = +-H x4 + const (Revision/metric_b4/results/vacuum-b4.json); the keys lovelockTensors .. fields above are this background case b4 = 1"|>,
   "checksSummary" -> "see reports/wolfram-a4-report.json"|>;
 
 writeJSON[FileNameJoin[{$fieldDir, "a4-equations.json"}], data];
