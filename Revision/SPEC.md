@@ -22,21 +22,50 @@
 
 ## 1. The primordial gravitational field (the author's metric, exactly)
 
+**Changed on 2026-10-14 by the user's order** ("We are changing the metric of the primordial gravitation
+field to ... Make this change throughout the entire project; create a provenance that proves that these
+critical changes were correctly made"), from the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb`
+(repository root; its input cell In[97] builds the metric, its stored output Out[101] shows it).  The user's
+text, in the notebook's coordinate order (x0 = the hidden direction listed FIRST, x1..x3 space, x4 time,
+x5..x7 the extra times):
+
+```text
+{{Cot[6 H x0[]]^2, 0, 0, 0, 0, 0, 0, 0}, {0, E^(2 a4[x4[]]) Sin[6 H x0[]]^(1/3), 0, 0, 0, 0, 0, 0},
+ {0, 0, E^(2 a4[x4[]]) Sin[6 H x0[]]^(1/3), 0, 0, 0, 0, 0}, {0, 0, 0, E^(2 a4[x4[]]) Sin[6 H x0[]]^(1/3), 0, 0, 0, 0},
+ {0, 0, 0, 0, -1, 0, 0, 0}, {0, 0, 0, 0, 0, -E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1/3), 0, 0},
+ {0, 0, 0, 0, 0, 0, -E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1/3), 0},
+ {0, 0, 0, 0, 0, 0, 0, -E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1/3)}}
+```
+
+The same metric in the Revision order of coordinates (x8 = the notebook's x0, listed LAST), which every
+Revision file uses:
+
 ```text
 g = {{E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0},
      {0,0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0},{0,0,0,-1,0,0,0,0},
-     {0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x8]^(1/3),0,0},
-     {0,0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x8]^(1/3),0},{0,0,0,0,0,0,0,Cot[6 H x8]^2}}
+     {0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0,0},
+     {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0},{0,0,0,0,0,0,0,Cot[6 H x8]^2}}
 ```
+
+The only difference from the metric of this section before 2026-10-14 is the second metric function
+b4(x4) > 0 in the three extra-time components; b4 = 1 is the earlier metric.  The proof that the change is
+made correctly, and its consequences, are in `Revision/metric_b4/` (`METRIC_CHANGE_PROVENANCE.md`).
 
 Coordinates are named as the author names them, x1 ... x8 (arrays index them 0 ... 7):
 x1, x2, x3 = ordinary 3-space (inflating, scale factor e^{a4} sin^{1/6} z); x4 = the time;
 x5, x6, x7 = the three EXTRA TIMES, time-like, which DEFLATE EXPONENTIALLY (scale factor
-e^{-a4} sin^{1/6} z, a4 increasing; see the memory of the author's correction: they are never treated
+e^{-a4} b4^{1/2} sin^{1/6} z, a4 increasing; see the memory of the author's correction: they are never treated
 as static or frozen in a canonical computation); x8 = the hidden space direction, z = 6 H x8 in
-(0, pi/2), g88 = cot^2 z.  Signature (4,4): space-like x1, x2, x3, x8; time-like x4, x5, x6, x7.
-sqrt|det g| = sin z cot z = cos z.  H > 0 is the author's constant; a4(x4) is the metric function whose
-field equations section 5 derives.  Derivatives: a4' = d a4 / d x4.
+(0, pi/2), g88 = cot^2 z.  Signature (4,4): space-like x1, x2, x3, x8; time-like x4, x5, x6, x7 (for b4 > 0).
+sqrt|det g| = b4^{3/2} sin z cot z = b4^{3/2} cos z.  H > 0 is the author's constant; a4(x4) and b4(x4) are
+the metric functions whose field equations section 5 derives.  Derivatives: a4' = d a4 / d x4, b4' = d b4 / d x4.
+
+**The background history.** With the author's Lovelock weights (w1 = 1, w2 = 1/32, w3 = 1/1152,
+Lambda = 10; the notebook's Out[134]/Out[135]) every vacuum solution has b4 = constant and a4 = +-H x4 +
+const (proved in `Revision/metric_b4/results/vacuum-b4.json`); a constant b4 is the rescaling
+x5,6,7 -> b4^{1/2} x5,6,7, i.e. the earlier metric.  Every Revision calculation that needs a background
+history (the Kohn-Sham states on the slices, the dark-sector equations of state) therefore keeps b4 = 1
+and states so; every formula is derived for general b4(x4).
 
 ## 2. Clifford algebra, Pin(4,4), Spin(4,4)
 
@@ -99,7 +128,7 @@ S = Psibar Psi,   U(S) = (lambda/2) S^2   (general U where stated),
   3-space observer's effective w.  Conservation nabla_mu T^mu_nu = 0 on shell, verified exactly.
 * All of this in the metric of section 1 (explicit component formulas), for both fields.
 
-## 5. The field equations for a4[x4] (each field as the source)
+## 5. The field equations for a4[x4] and b4[x4] (each field as the source)
 
 Einstein-Lovelock gravity with the Lovelock tensors computed with GKD (`Revision/gkd_lovelock`):
 sum_{k=1}^{3} alpha_k E_(k)^mu_nu + Lambda delta^mu_nu = kappa T^mu_nu, E_(k) = -P_(k)/2^(k+1)
@@ -111,6 +140,11 @@ the source must have); specialise to each field's T^mu_nu (dirac16complex: expec
 states of section 7; dirac16complex00: classical bilinears) and to Einstein gravity (alpha_2 = alpha_3 = 0)
 as a special case; state what a4 the equations then allow (including the exponentially deflating
 member a4 linear in x4 and what source it requires).
+ADDED 2026-10-14 (metric with b4, section 1): the same for the pair (a4, b4): the evolution equations now
+contain a4'' and b4''; the x4 component stays a constraint (first derivatives only); the off-diagonal x4-x8
+component of every E_(k) is proportional to Cot[6 H x8] b4' (it vanishes identically for b4' = 0), so a
+source with T^4_8 = 0 forces b4' = 0 or the factor Q(a4', b4'/b4) of `Revision/metric_b4/results/vacuum-b4.json`
+to vanish; derive which (a4, b4) each source allows, with b4 = 1 as the earlier special case.
 
 ## 6. Canonical quantisation in 4 + 4 dimensions (dirac16complex)
 
@@ -173,8 +207,9 @@ independently quantised universes); and an exact statement of what these theorem
 
 ## 11. Lead's analysis for section 8 (to be CHECKED by the dark-sector work, not results)
 
-* The 7-volume of the metric is constant (the inflation e^{3 a4} of 3-space is compensated by the
-  deflation e^{-3 a4} of the extra times). A 3-space observer integrates over the hidden direction and
+* The 7-volume of the metric is constant when b4 is (the inflation e^{3 a4} of 3-space is compensated by
+  the deflation e^{-3 a4} of the extra times; with the metric of 2026-10-14 the volume element is
+  b4^{3/2} cos z, constant in x4 exactly when b4 is, which holds on every vacuum history, section 1). A 3-space observer integrates over the hidden direction and
   the extra times, so the effective 4-dimensional density is rho_4 ~ rho_8 c^3 with c = e^{-a4} ~ 1/a,
   where a = e^{a4} is the 3-space scale factor.
 * Non-relativistic quanta (conserved number in a constant 7-volume): rho_8 constant, rho_4 ~ a^-3 (dust).

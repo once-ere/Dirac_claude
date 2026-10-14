@@ -5,6 +5,19 @@ primordial gravitational field given below. Nothing in it is copied from, or mix
 stages of the repository (`artifacts/`, `provenance/`, `studies/`, ...): every result here is computed
 anew by code in this folder. The binding plan is [`SPEC.md`](SPEC.md).
 
+## The metric change of 2026-10-14 (user's order, verbatim key sentence)
+
+> We are changing the metric of the primordial gravitation field to
+> {{Cot[6 H x0[]]^2, 0, 0, 0, 0, 0, 0, 0}, {0, E^(2 a4[x4[]]) Sin[6 H x0[]]^(1/3), 0, 0, 0, 0, 0, 0}, {0, 0, E^(2 a4[x4[]]) Sin[6 H x0[]]^(1/3), 0, 0, 0, 0, 0}, {0, 0, 0, E^(2 a4[x4[]]) Sin[6 H x0[]]^(1/3), 0, 0, 0, 0}, {0, 0, 0, 0, -1, 0, 0, 0}, {0, 0, 0, 0, 0, -E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1/3), 0, 0}, {0, 0, 0, 0, 0, 0, -E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1/3), 0}, {0, 0, 0, 0, 0, 0, 0, -E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1/3)}}.
+> Make this change throughout the entire project; create a provenance that proves that these critical
+> changes were correctly made by you.
+
+The notebook's x0 is the hidden direction, which this record calls x8 (`SPEC.md` section 1 gives the metric
+in both orders).  Against the metric of the task of 2026-10-01 below, the only change is the new function
+b4[x4] in the three extra-time components (b4 = 1 is the earlier metric).  The proof of the change and its
+consequences: [`metric_b4/METRIC_CHANGE_PROVENANCE.md`](metric_b4/METRIC_CHANGE_PROVENANCE.md).  The task
+of 2026-10-01 is quoted below unchanged, as the user gave it then.
+
 ## The author's task (verbatim, 2026-10-01)
 
 > USE the metric tensor
