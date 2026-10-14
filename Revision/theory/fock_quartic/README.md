@@ -91,7 +91,7 @@ below. Everything here is proved only for the finite model described next, not f
    `homogeneous_expectation_values_are_not_U_of_expectation`, `homogeneous_p_vacuum_subtraction_fails`).
    In the Wick sense these are exact operator identities:
    * rho = :H: = m :S: + (lambda/2) :S S: = :m S + U:;
-   * p3 = p_t = p8 = :K_4: - :m S + U: = (lambda/2) :S S: = :S U' - U:;
+   * p3 = p_t = p0 = :K_4: - :m S + U: = (lambda/2) :S S: = :S U' - U:;
    * [H, S] = 0, so S is conserved;
    * :S: = N_b + N_d = n, and :S S: = n^2 - n.
 
@@ -116,7 +116,7 @@ V = 1, 16 modes, 2^16 states):
 
 Not established:
 
-* The field on a whole slice (many momenta), the curved x8 dependence and its boundary term at z = pi/2,
+* The field on a whole slice (many momenta), the curved x0 dependence and its boundary term at z = pi/2,
   and the extra-time sector with its growing modes.
 * Renormalisation. The one-body discrepancies of the other orderings scale with the number of sea modes,
   and in the continuum they would diverge. This is a remark; it was not computed.

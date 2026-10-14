@@ -2,16 +2,17 @@
 Christoffel symbols, the canonical spin connection, Riemann tensor - for an arbitrary DIAGONAL vielbein
 e^a_mu = f_a delta^a_mu given together with a coordinate-derivative operator on coefficients.
 
-Coordinates x1..x8 are indexed 0..7.  Frame metric eta = diag(+1,+1,+1,-1,-1,-1,-1,+1).
+The author's coordinates x0..x7 are indexed 0..7 (index k = xk; x0 = the hidden direction, first).  Frame metric
+eta = diag(+1,+1,+1,+1,-1,-1,-1,-1).  (Until 2026-10-14 the withdrawn labels x1..x8, hidden x8 last, were used.)
 """
 
 import sympy as sp
 
-ETA = [1, 1, 1, -1, -1, -1, -1, 1]
-X4, X8 = 3, 7  # array indices of the time x4 and the hidden direction x8
+ETA = [1, 1, 1, 1, -1, -1, -1, -1]
+X0, X4 = 0, 4  # array indices of the hidden direction x0 and the time x4
 
 # ---------------------------------------------------------------- the author's metric as a coefficient ring
-# E = e^{a4(x4)}, A1..A4 = a4', a4'', a4''', a4'''' ; s = sin(z)^(1/6), c = cos(z), z = 6 H x8 in (0, pi/2)
+# E = e^{a4(x4)}, A1..A4 = a4', a4'', a4''', a4'''' ; s = sin(z)^(1/6), c = cos(z), z = 6 H x0 in (0, pi/2)
 E, s, c = sp.symbols("E s c", positive=True)
 A1, A2, A3, A4, A5 = sp.symbols("A1 A2 A3 A4 A5", real=True)
 H = sp.symbols("H", positive=True)
@@ -26,14 +27,14 @@ def cd_author(expr, mu):
         for a, b in _ACHAIN:
             r += sp.diff(expr, a) * b
         return r
-    if mu == X8:
+    if mu == X0:
         return sp.diff(expr, s) * H * c / s**5 + sp.diff(expr, c) * (-6 * H * s**6)
     return sp.Integer(0)
 
 
 def f_author():
     """Diagonal vielbein f_a = sqrt|g_aa| of SPEC section 1."""
-    return [E * s, E * s, E * s, sp.Integer(1), s / E, s / E, s / E, c / s**6]
+    return [c / s**6, E * s, E * s, E * s, sp.Integer(1), s / E, s / E, s / E]
 
 
 def zero_author(expr):
@@ -60,19 +61,20 @@ def canon_author(expr):
 
 
 def to_physical(expr):
-    """Rewrite a ring expression in the author's functions: E = e^{a4}, s = sin(6 H x8)^(1/6), c = cos(6 H x8)."""
-    x4, x8 = sp.symbols("x4 x8", real=True)
+    """Rewrite a ring expression in the author's functions: E = e^{a4}, s = sin(6 H x0)^(1/6), c = cos(6 H x0)."""
+    x0, x4 = sp.symbols("x0 x4", real=True)
     a4 = sp.Function("a4")(x4)
-    z = 6 * H * x8
+    z = 6 * H * x0
     return sp.sympify(expr).subs({E: sp.exp(a4), s: sp.sin(z) ** sp.Rational(1, 6), c: sp.cos(z),
                                   A2: sp.Derivative(a4, (x4, 2)), A1: sp.Derivative(a4, x4)})
 
 
 # ---------------------------------------------------------------- a general diagonal vielbein (jet symbols)
 def generic_ring():
-    F = [sp.Symbol(f"F{a+1}", positive=True) for a in range(8)]
-    dF = [[sp.Symbol(f"F{a+1}_{n+1}", real=True) for n in range(8)] for a in range(8)]
-    ddF = [[[sp.Symbol(f"F{a+1}_{min(n, r)+1}{max(n, r)+1}", real=True) for r in range(8)] for n in range(8)]
+    # F{a} = f_a of the coordinate xa (a = 0..7, the author's x0..x7); F{a}_{n} = d f_a / d xn
+    F = [sp.Symbol(f"F{a}", positive=True) for a in range(8)]
+    dF = [[sp.Symbol(f"F{a}_{n}", real=True) for n in range(8)] for a in range(8)]
+    ddF = [[[sp.Symbol(f"F{a}_{min(n, r)}{max(n, r)}", real=True) for r in range(8)] for n in range(8)]
            for a in range(8)]
 
     def cd(expr, mu):

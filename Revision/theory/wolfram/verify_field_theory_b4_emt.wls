@@ -4,12 +4,13 @@
 (* verify_field_theory_b4_emt.wls
 
    The metric-dependent part of the field theory (Revision/SPEC.md sections 1-4) for the user's metric of 2026-10-14,
-   g55 = g66 = g77 = -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3) (b4 > 0; b4 = 1 is the metric before 2026-10-14).
+   g55 = g66 = g77 = -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3) (b4 > 0; b4 = 1 is the metric before 2026-10-14), in the
+   author's coordinates x0..x7 (x0 = the hidden direction, Wolfram position 1; x4 = position 5).
 
    Why a supplement.  RevisionFieldTheory.wl is written for an arbitrary diagonal vielbein; everything that does
    not depend on the metric (the Clifford fixture, the Grassmann algebra, the Lagrangian's form, the variational
    identities) is unchanged.  verify_field_theory.wls checks those AND the metric-dependent statements for the
-   vielbein of the metric before 2026-10-14 (b4 = 1) in about 30 to 45 minutes; its outputs field-theory.json and
+   vielbein of the metric before 2026-10-14 (b4 = 1) (about 5 minutes with parallel subkernels); its outputs field-theory.json and
    reports/wolfram-field-theory.json remain the record of the case b4 = 1.  This script loads the SAME package,
    replaces the vielbein by the one of the metric with b4 (f(x5..x7) = E^-a4 b4^(1/2) Sin[z]^(1/6)), rebuilds the
    geometry with the package's own functions and re-checks every metric-dependent statement for general b4:
@@ -39,13 +40,14 @@ statName["G"] = "dirac16complex (Grassmann)"; statName["C"] = "dirac16complex00 
 stats = {"G", "C"};
 
 (* ---------------------------------------------------------------- the metric with b4: the package's globals *)
-rftF = {E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), 1,
-        E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6), Cot[rftZ]};
-rftMetricAuthor = {{E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0},
-  {0,0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0},{0,0,0,-1,0,0,0,0},
-  {0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0,0},
-  {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0},{0,0,0,0,0,0,0,Cot[6 H x8]^2}};
-rftAssumptions = {H > 0, 0 < 6 H x8 < Pi/2, Element[a4[x4], Reals], Element[x4, Reals], b4[x4] > 0};
+rftF = {Cot[rftZ], E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), 1,
+        E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6)};
+(* the author's coordinates x0..x7 (Wolfram position k + 1 holds xk: x0 = 1, x4 = 5) *)
+rftMetricAuthor = {{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},
+  {0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},
+  {0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},
+  {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}};
+rftAssumptions = {H > 0, 0 < 6 H x0 < Pi/2, Element[a4[x4], Reals], Element[x4, Reals], b4[x4] > 0};
 rftE0 = DiagonalMatrix[rftF]; rftEinv0 = DiagonalMatrix[1/rftF];
 rftG0 = Transpose[rftE0] . rftEta . rftE0; rftGinv0 = Inverse[rftG0];
 rftSqrtG0 = b4[x4]^(3/2) Cos[rftZ];
@@ -79,31 +81,24 @@ addCheck["T_symmetric_part_Belinfante_" <> st <> "_b4", okSym, "metric with b4, 
 K[mu_] := sScal[st, 1/(2 f[[mu]]), sAdd[st, {bilM[st, Pc, g[[mu]], vD[st, P, X[[mu]]]], sScal[st, -1, sDot[st, vecMat[st, vD[st, rftPsibar[st, Pc], X[[mu]]], g[[mu]]], P]]}]];
 okDiag = And @@ Table[sZeroQ[st, sAdd[st, {Tsym[[mu, mu]], sScal[st, -1, L0], K[mu]}]], {mu, 8}];
 addCheck["T_diagonal_components_" <> st <> "_b4", okDiag, "metric with b4, " <> statName[st] <> ": T^mu_mu (no sum) = L0 - K_mu, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi), f_5..7 = E^-a4 b4^(1/2) Sin[z]^(1/6)"];
-B48 = sAdd[st, {bilM[st, Pc, g[[4]], vD[st, P, x8]], sScal[st, -1, sDot[st, vecMat[st, vD[st, rftPsibar[st, Pc], x8], g[[4]]], P]]}];
-B84 = sAdd[st, {bilM[st, Pc, g[[8]], vD[st, P, x4]], sScal[st, -1, sDot[st, vecMat[st, vD[st, rftPsibar[st, Pc], x4], g[[8]]], P]]}];
-addCheck["T_x4_x8_component_" <> st <> "_b4",
-  sZeroQ[st, sAdd[st, {Tsym[[4, 8]], sScal[st, 1/4, B48], sScal[st, -Cot[rftZ]/4, B84]}]] && sZeroQ[st, sAdd[st, {Tsym[[8, 4]], sScal[st, Tan[rftZ]^2, Tsym[[4, 8]]]}]],
-  "metric with b4, " <> statName[st] <> ": T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8, as in field-theory.json"];
+(* Wolfram positions: x4 = 5, x0 = 1 *)
+B40 = sAdd[st, {bilM[st, Pc, g[[5]], vD[st, P, x0]], sScal[st, -1, sDot[st, vecMat[st, vD[st, rftPsibar[st, Pc], x0], g[[5]]], P]]}];
+B04 = sAdd[st, {bilM[st, Pc, g[[1]], vD[st, P, x4]], sScal[st, -1, sDot[st, vecMat[st, vD[st, rftPsibar[st, Pc], x4], g[[1]]], P]]}];
+addCheck["T_x4_x0_component_" <> st <> "_b4",
+  sZeroQ[st, sAdd[st, {Tsym[[5, 1]], sScal[st, 1/4, B40], sScal[st, -Cot[rftZ]/4, B04]}]] && sZeroQ[st, sAdd[st, {Tsym[[1, 5]], sScal[st, Tan[rftZ]^2, Tsym[[5, 1]]]}]],
+  "metric with b4, " <> statName[st] <> ": T^x4_x0 = -(1/4)(B40 - Cot[z] B04) and T^x0_x4 = -Tan[z]^2 T^x4_x0, as in field-theory.json"];
 section["done"];
 failed = Count[checks, c_ /; c["verdict"] =!= "PASS"];
-jsonEsc[s_String] := StringReplace[s, {"\\" -> "\\\\", "\"" -> "\\\"", "
-" -> "\n", "	" -> "\t"}];
+jsonEsc[s_String] := StringReplace[s, {"\\" -> "\\\\", "\"" -> "\\\"", "\n" -> "\\n", "\t" -> "\\t"}];
 toJSON[s_String, _] := "\"" <> jsonEsc[s] <> "\"";
 toJSON[n_Integer, _] := ToString[n];
-toJSON[l_List, ind_] := If[l === {}, "[]", "[
-" <> StringRiffle[(StringRepeat[" ", ind + 2] <> toJSON[#, ind + 2]) & /@ l, ",
-"] <> "
-" <> StringRepeat[" ", ind] <> "]"];
-toJSON[a_Association, ind_] := If[Length[a] == 0, "{}", "{
-" <> StringRiffle[KeyValueMap[(StringRepeat[" ", ind + 2] <> toJSON[#1, 0] <> ": " <> toJSON[#2, ind + 2]) &, a], ",
-"] <> "
-" <> StringRepeat[" ", ind] <> "}"];
+toJSON[l_List, ind_] := If[l === {}, "[]", "[\n" <> StringRiffle[(StringRepeat[" ", ind + 2] <> toJSON[#, ind + 2]) & /@ l, ",\n"] <> "\n" <> StringRepeat[" ", ind] <> "]"];
+toJSON[a_Association, ind_] := If[Length[a] == 0, "{}", "{\n" <> StringRiffle[KeyValueMap[(StringRepeat[" ", ind + 2] <> toJSON[#1, 0] <> ": " <> toJSON[#2, ind + 2]) &, a], ",\n"] <> "\n" <> StringRepeat[" ", ind] <> "}"];
 outPath = FileNameJoin[{$theoryDir, "reports", "wolfram-field-theory-b4-emt-" <> st <> ".json"}];
 outS = Quiet[OpenWrite[outPath, BinaryFormat -> True]];
 If[Head[outS] =!= OutputStream, Print["ERROR  cannot write ", outPath]; Exit[1]];
 BinaryWrite[outS, ToCharacterCode[toJSON[<|"producer" -> "Revision/theory/wolfram/verify_field_theory_b4_emt.wls " <> st, "checkCount" -> Length[checks], "failedCount" -> failed,
-    "verdict" -> If[failed == 0, "PASS", "FAIL"], "checks" -> checks|>, 0] <> "
-", "UTF-8"]];
+    "verdict" -> If[failed == 0, "PASS", "FAIL"], "checks" -> checks|>, 0] <> "\n", "UTF-8"]];
 Close[outS];
 Print[Length[checks] - failed, "/", Length[checks], " checks passed; total time ", Round[AbsoluteTime[] - t0, 0.1], " s"];
 Exit[If[failed == 0, 0, 1]];

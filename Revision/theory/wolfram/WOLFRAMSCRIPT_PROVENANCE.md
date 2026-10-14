@@ -17,6 +17,16 @@ byte-identical, and different from the earlier committed report only in that det
 `verify_field_theory.wls` (one run, 2026-10-08, 1783 s) passed 84 of 84 with exit code 0, and its report equals the
 previous one except for the two changed detail texts (section 6.7).
 
+**2026-10-14 (section 6.8).** The set now uses the author's own coordinates X = {x0, x1, ..., x7} (x0 = the hidden
+direction, listed first, as in his notebooks); the labels x1..x8 with the hidden direction x8 listed last, used until
+then, are withdrawn (map x8 -> x0, xk -> xk). Names derived from the old label of the hidden direction follow it:
+`p8` -> `p0`, `w8` -> `w0`, `B48`/`B84` -> `B40`/`B04`, `k8` -> `k0`, `d8` -> `d0`; the checks
+`gammaOmega_equals_3H_gamma_x8`, `T_x4_x8_component_*`, `exact_solution_x4_x8_*` and
+`good_sector_x8_independent_modes_without_boundary_condition` are now named with `x0`. In the same change the three
+slow sections of `verify_field_theory.wls` evaluate their exact zero tests on parallel subkernels, so that one run takes
+about 5 minutes instead of 30 to 42 (section 6.8). The tables of section 2 give the files of 2026-10-14; the text
+below describes the earlier runs where it says so.
+
 ## 1. What this set is and what it computes
 
 ### 1.1 The set in one sentence
@@ -28,12 +38,12 @@ the repository quote.
 
 ### 1.2 The physics, in plain words
 
-* The world of the theory has 8 coordinates, named as the author names them: `x1, x2, x3` are ordinary
-  space; `x4` is ordinary time; `x5, x6, x7` are three extra TIME directions, which shrink ("deflate")
-  exponentially while ordinary space expands; `x8` is a hidden space direction. The signature is 4 + 4
+* The world of the theory has 8 coordinates, named and ordered as the author names them: `x0` is a hidden
+  space direction; `x1, x2, x3` are ordinary space; `x4` is ordinary time; `x5, x6, x7` are three extra TIME
+  directions, which shrink ("deflate") exponentially while ordinary space expands. The signature is 4 + 4
   (four space-like and four time-like directions).
 * The gravitational field is the author's primordial metric. It depends on `x4` through a function
-  `a4(x4)` and on `x8` through `z = 6 H x8` with a constant `H > 0` and `0 < z < Pi/2`.
+  `a4(x4)` and on `x0` through `z = 6 H x0` with a constant `H > 0` and `0 < z < Pi/2`.
 * The matter field is a spinor with 16 complex components (a larger relative of the electron's Dirac
   field), built on the author's eight real 16 x 16 Dirac matrices (read from the file
   `Revision/algebra/gammas.json`), in two versions: `dirac16complex`, whose components ANTICOMMUTE
@@ -57,18 +67,18 @@ sections (the names are printed on the screen while it runs):
 | section (as printed) | checks | what is verified |
 | --- | --- | --- |
 | (before the first section) | 1 | the exact zero test used by all later checks returns True on identities and False on nonzero control expressions |
-| `fixture` | 2 | the gamma matrices read from `Revision/algebra/gammas.json` satisfy `{gamma^a, gamma^b} = 2 eta^ab` with `eta = diag(1,1,1,-1,-1,-1,-1,1)`; the matrices `C`, `B`, `Gamma`, `S^ab` are the stated products |
+| `fixture` | 2 | the gamma matrices read from `Revision/algebra/gammas.json` satisfy `{gamma^a, gamma^b} = 2 eta^ab` with `eta = diag(1,1,1,1,-1,-1,-1,-1)` (order x0..x7); the matrices `C`, `B`, `Gamma`, `S^ab` are the stated products |
 | `geometry` | 8 | the diagonal vielbein reproduces the author's metric; `sqrt|det g| = Cos[z]`; `H = 0` is a degenerate limit; 25 nonzero Christoffel symbols; Ricci tensor and Ricci scalar `R = 6 (a4'^2 - 7 H^2)`; the metric is curved for every `H > 0` |
 | `spin connection` | 7 | vielbein postulate, the 12 nonzero spin-connection components, covariant constancy of the gammas, spin curvature equals the Riemann tensor |
-| `gamma^mu Omega_mu` | 3 | `gamma^mu Omega_mu = 3 H gamma^(x8)` exactly; the `a4'` terms of the 3 inflating and the 3 deflating directions cancel |
+| `gamma^mu Omega_mu` | 3 | `gamma^mu Omega_mu = 3 H gamma^(x0)` exactly; the `a4'` terms of the 3 inflating and the 3 deflating directions cancel |
 | `Lagrangian, both statistics` | 7 | explicit Grassmann algebra; the Lagrangian is real; symmetrised and unsymmetrised forms differ by a total divergence; the spin connection drops out of the symmetrised Lagrangian |
 | `Euler-Lagrange equations` | 11 | the field equation `gamma^mu D_mu Psi = (m + U'(S)) Psi` and its adjoint, from the Euler-Lagrange derivative of every component; the explicit Dirac operator; the chiral block form; the first-order evolution form in `x4` |
-| `non-triviality` | 3 | the gravitational terms do not drop out: `gamma^mu D_mu Psi - gamma^mu d_mu Psi = 3 H gamma^(x8) Psi`, nonzero for every `H > 0`; the spin connection vanishes only if `a4' = 0` and `H = 0` |
+| `non-triviality` | 3 | the gravitational terms do not drop out: `gamma^mu D_mu Psi - gamma^mu d_mu Psi = 3 H gamma^(x0) Psi`, nonzero for every `H > 0`; the spin connection vanishes only if `a4' = 0` and `H = 0` |
 | `current and integrability` | 8 | the conserved current, its reality, the charge density `Psi^dagger B Psi` (an indefinite form), the Lichnerowicz identity |
 | `Majorana-type Lg` | 2 | negative control: a Majorana-type Lagrangian with real anticommuting components is a total derivative (it gives no field equation) |
 | `energy-momentum tensor by vielbein variation` | 4 | the energy-momentum tensor from the exact first-order vielbein variation, and its symmetric (Belinfante) part |
 | `Noether identities` | 5 | the identities of coordinate invariance and local Lorentz invariance; conservation on shell |
-| `EMT components` | 9 | diagonal components, trace, kinetic sum on shell, the `x4`-`x8` component, the energy-exchange equations |
+| `EMT components` | 9 | diagonal components, trace, kinetic sum on shell, the `x4`-`x0` component, the energy-exchange equations |
 | `exact solutions and conservation` | 5 | exact solutions (linear, and nonlinear homogeneous for both statistics) satisfy the field equation and the conservation of the energy-momentum tensor and of the current |
 | `canonical quantisation` | 9 | canonical momentum, the anticommutator `{Psi, Psi^dagger} = B delta / sqrt|g|`, Heisenberg equation = field equation, no positive inner product (Krein space), mode Hamiltonian, explicit Fock-space example |
 
@@ -81,8 +91,8 @@ holds only up to boundary terms, and what the indefinite structures imply.
 | group | checks | what is verified |
 | --- | --- | --- |
 | `fixture_gammas` | 1 | the gammas of `Revision/algebra/gammas.json` satisfy the Clifford relation; `C` and `B` are the stated products |
-| `boosted_frame_*` | 5 | a frame boosted in the `x4`-`x8` plane reproduces the same metric and its canonical connection satisfies the vielbein postulate; in it `gamma^mu Omega_mu` has a different value and vanishes for the rapidity `6 H x4 + b0`, while the spinor curvature stays nonzero |
-| diagonal frame and field variables | 5 | the rescaling `Psi = Sin[z]^(-1/2) chi` removes the term `3 H gamma^(x8)` (for `U = 0`); this term does not see the deflation `a4`; the connection-free Lagrangian gives the same equations; the spin connection does enter the energy-momentum tensor |
+| `boosted_frame_*` | 5 | a frame boosted in the `x4`-`x0` plane reproduces the same metric and its canonical connection satisfies the vielbein postulate; in it `gamma^mu Omega_mu` has a different value and vanishes for the rapidity `6 H x4 + b0`, while the spinor curvature stays nonzero |
+| diagonal frame and field variables | 5 | the rescaling `Psi = Sin[z]^(-1/2) chi` removes the term `3 H gamma^(x0)` (for `U = 0`); this term does not see the deflation `a4`; the connection-free Lagrangian gives the same equations; the spin connection does enter the energy-momentum tensor |
 | boundary terms | 2 | the curved mode operator is Hermitian only up to a boundary term at `z = Pi/2`; without a boundary condition it has complex frequencies |
 | growth and energy | 2 | growth rates of extra-time modes are unbounded; the classical energy of `dirac16complex00` is unbounded below |
 
@@ -141,11 +151,15 @@ All files are plain text, pure ASCII (hence also UTF-8), with LF line endings an
 
 | file | role | lines | bytes | sha256 |
 | --- | --- | --- | --- | --- |
-| `Revision/theory/wolfram/verify_field_theory.wls` | script: 84 checks; writes the field-theory report and the formula file | 735 | 74225 | `107f8803afaa7bb127ea7c6b7b470a7e58dd7199b6d072297a3267942a23cf46` |
-| `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (geometry, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 292 | 18269 | `31528570831302199c15a5d6f95e8b95a3ed6532a1c3360c4fc526e8f9dad71d` |
-| `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 206 | 17416 | `282c4602470812ba678a5b19eb40602febac5f4b73c85fedb78d8bc76549ef54` |
+| `Revision/theory/wolfram/verify_field_theory.wls` | script: 84 checks; writes the field-theory report and the formula file | 769 | 77938 | `8165a797e117045d2b9f12761fe98a864242d9371c0ccabe697f4cd9cf70f9fd` |
+| `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (geometry, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 295 | 18596 | `f791ffbf695497cbc16de426dbb83fc9652fc0a61d2f57ee65673c5f03d02a8c` |
+| `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 212 | 18053 | `e8834e8bf10a22b4bf3d200f93086b8b10a9fdfc9de275005a4011402b77c240` |
 
-The two scripts are the versions of 2026-10-08 (section 6.7); the package is the file of commit `a4c5eda`.
+These are the files of 2026-10-14 (the author's coordinates x0..x7 and parallel subkernels, section 6.8). Before
+2026-10-14 the two scripts were the versions of 2026-10-08 (section 6.7: `verify_field_theory.wls` 735 lines, 74225
+bytes, sha256 `107f8803afaa7bb127ea7c6b7b470a7e58dd7199b6d072297a3267942a23cf46`; `verify_scope.wls` 206 lines, 17416
+bytes, sha256 `282c4602470812ba678a5b19eb40602febac5f4b73c85fedb78d8bc76549ef54`) and the package the file of commit
+`a4c5eda` (292 lines, 18269 bytes, sha256 `31528570831302199c15a5d6f95e8b95a3ed6532a1c3360c4fc526e8f9dad71d`).
 The versions of commit `a4c5eda` (`verify_field_theory.wls`: 734 lines, 73931 bytes, sha256
 `54064dfb85342e3defcbd28eb36a092b48890b6157d3120bc8160d2001161ac1`; `verify_scope.wls`: 205 lines, 17177
 bytes, sha256 `41b9e4a52dcbffe60e6decf62835ece0aef9f5c3388aac7d22236b7f20d6e499`) compute exactly the same
@@ -166,7 +180,7 @@ runs them from the repository root.
 
 | file | read by | lines | bytes | sha256 |
 | --- | --- | --- | --- | --- |
-| `Revision/algebra/gammas.json` | both scripts | 1405 | 76968 | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` |
+| `Revision/algebra/gammas.json` | both scripts | 1405 | 76894 | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` |
 | `Revision/theory/wolfram/RevisionFieldTheory.wl` | `verify_field_theory.wls` | (section 2.1) | | |
 
 `gammas.json` holds the author's 8 real gamma matrices (16 x 16, exact entries -1, 0 and 1) and the
@@ -178,11 +192,15 @@ read, and nothing is downloaded.
 
 | file | written by | lines | bytes | sha256 of the committed (and reproduced) file |
 | --- | --- | --- | --- | --- |
-| `Revision/theory/reports/wolfram-field-theory.json` | `verify_field_theory.wls` | 95 | 35518 | `35f33fb39ded42f510d22703ccb19a4984e372c016b3345bf620b95d0a43e57d` |
-| `Revision/theory/field-theory.json` | `verify_field_theory.wls` | 68 | 24609 | `2a3c83e5db5e0ad3572791334a4797b8af549a22295bb6800739340f2c107f54` |
-| `Revision/theory/reports/wolfram-scope.json` | `verify_scope.wls` | 25 | 7211 | `ce8a923f85eb1cc7ff2c0740c4653ad9db3a65e2aa8cee3aed076dfb8e21a8ab` |
+| `Revision/theory/reports/wolfram-field-theory.json` | `verify_field_theory.wls` | 95 | 35720 | `88cd9ee66846a567b07062120c02a73f17ca73593ab657c0ae3b586457a6064d` |
+| `Revision/theory/field-theory.json` | `verify_field_theory.wls` | 68 | 24674 | `536255e3a508bf59292f89dca6c949478e74564879039ea13c7c307c2cfc8e3b` |
+| `Revision/theory/reports/wolfram-scope.json` | `verify_scope.wls` | 25 | 7244 | `0224e5e5bbbdd7a5550f1a07865d841f5081d7d3ec3907b88150deb950afed52` |
 
-The value for `wolfram-scope.json` is that of the version of 2026-10-08 (section 6.7; before it: 6996 bytes,
+These are the outputs of 2026-10-14 (section 6.8; gammas.json of the author's coordinates as input). Before:
+`wolfram-field-theory.json` 35518 bytes, sha256 `35f33fb39ded42f510d22703ccb19a4984e372c016b3345bf620b95d0a43e57d`;
+`field-theory.json` 24609 bytes, sha256 `2a3c83e5db5e0ad3572791334a4797b8af549a22295bb6800739340f2c107f54`;
+`wolfram-scope.json` 7211 bytes, sha256 `ce8a923f85eb1cc7ff2c0740c4653ad9db3a65e2aa8cee3aed076dfb8e21a8ab`; the
+history in this file refers to those. The value for `wolfram-scope.json` was that of the version of 2026-10-08 (section 6.7; before it: 6996 bytes,
 sha256 `8a0bee2e9c0b536ed25c6dcb31272e6e0d7a49ae9e1f69a755899ce6efa021ce`). The values for the two outputs
 of `verify_field_theory.wls` are those of the run of the 2026-10-08 version (section 6.7): `field-theory.json`
 is unchanged from commit `a4c5eda`, and `wolfram-field-theory.json` differs from the file of `a4c5eda` (35018
@@ -523,7 +541,7 @@ PASS  gammaOmega_blind_to_the_deflation  [49.400000000000006 s]
 PASS  connection_free_lagrangian_same_equations  [51. s]
 PASS  spin_connection_in_the_energy_momentum_tensor  [51.2 s]
 PASS  good_sector_hermiticity_up_to_the_brane_flux  [52.6 s]
-PASS  good_sector_x8_independent_modes_without_boundary_condition  [53.900000000000006 s]
+PASS  good_sector_x0_independent_modes_without_boundary_condition  [53.900000000000006 s]
 PASS  extra_time_growth_rates_unbounded  [54. s]
 PASS  commuting_field_energy_unbounded_below  [54.400000000000006 s]
 15/15 checks passed; time 54.400000000000006 s
@@ -538,7 +556,9 @@ error stream.
 `[<seconds> s] -> <section>` at the start of each section (15 lines; the number is the time spent in the
 PREVIOUS section), two lines `   G vielbein variations: ...` and `   C vielbein variations: ...`, and the
 final verdict line. The numbers vary from run to run; everything else is exactly as shown. Run 1 of
-2026-10-07 printed:
+2026-10-07 printed the following (check names as of 2026-10-14; since 2026-10-14 two more lines are printed at
+the start, `RevisionFieldTheory.wl loaded` and `subkernels: 16`, and the times of the three slow sections are
+those of section 6.8):
 
 ```text
 RevisionFieldTheory.wl loaded
@@ -564,7 +584,7 @@ PASS  gamma_covariantly_constant
 PASS  S_rotates_gamma_with_omega
 PASS  spin_curvature_equals_Riemann
 [2.3000000000000003 s] -> gamma^mu Omega_mu
-PASS  gammaOmega_equals_3H_gamma_x8
+PASS  gammaOmega_equals_3H_gamma_x0
 PASS  gammaOmega_x4_terms_cancel
 PASS  gammaOmega_divergence_form
 [0.2 s] -> Lagrangian, both statistics
@@ -623,13 +643,13 @@ PASS  kinetic_sum_on_shell_G
 PASS  T_diagonal_components_C
 PASS  EMT_trace_C
 PASS  kinetic_sum_on_shell_C
-PASS  T_x4_x8_component_G
-PASS  T_x4_x8_component_C
+PASS  T_x4_x0_component_G
+PASS  T_x4_x0_component_C
 PASS  energy_exchange_equation
 [72.2 s] -> exact solutions and conservation
 PASS  solution_matrix_square
-PASS  exact_solution_x4_x8_G
-PASS  exact_solution_x4_x8_C
+PASS  exact_solution_x4_x0_G
+PASS  exact_solution_x4_x0_C
 PASS  exact_solution_nonlinear_homogeneous_C
 PASS  exact_solution_nonlinear_homogeneous_G
 [1005.4000000000001 s] -> canonical quantisation
@@ -1000,3 +1020,37 @@ agents edited other folders, not in a fresh clone. The check program is
 
 The read-only experiments of section 6.4 were not repeated; their recorded `OpenWrite::noopen` messages
 show the paths of the versions of commit `a4c5eda`, with `..` components.
+
+### 6.8 The author's coordinates x0..x7 and parallel subkernels (2026-10-14)
+
+* Why. (1) On 2026-10-14 the user ordered that his coordinates X = {x0, x1, ..., x7} be used throughout (x0 = the
+  hidden direction, listed first; `Dirac_Einstein-Lovelock_4+4_Nash.nb`, In[48]); the Revision record had named them
+  x1..x8 with the hidden direction x8 listed last. (2) The same day the user ruled that no single calculation may take
+  longer than 7 min 3 s; the full `verify_field_theory.wls` took 1783 to 2508 s serially (section 4.4), its three slow
+  sections 444.5 s, 910.8 s and 1005.4 s each.
+* Changes. `RevisionFieldTheory.wl`: coordinates `rftX = {x0, ..., x7}`, `rftZ = 6 H x0`, `rftEta = diag(1,1,1,1,-1,-1,-1,-1)`,
+  the vielbein factors `rftF = {Cot[z], E^a4 Sin^(1/6) (x3), 1, E^-a4 Sin^(1/6) (x3)}`, the metric and the trigonometric rules
+  in `x0`. `verify_field_theory.wls`: every position of the old order replaced by the position of the same coordinate
+  (x0 = Wolfram position 1, xk = position k + 1): `g[[8]]` -> `g[[1]]` (hidden), `g[[4]]` -> `g[[5]]` (time), the lists of
+  space and extra-time positions, the expected Ricci diagonal, the spin-connection list (with a < b; the components
+  omega_(xi),(x0)(xi) = -omega_(xi),(xi)(x0) are now listed with their sign), the energy-exchange identity with
+  `p0[x4, x0]`, the exact-solution matrix `M = -m g[[5]] + mu g[[5]].g[[1]]`, the mode Hamiltonian, the curved
+  Hermiticity check, the Fock example, every text. Parallel evaluation: `$DistributedContexts = None`, 16 subkernels
+  (environment variable `RFT_KERNELS`; 0 = serial as before) each load the same package and fixture; in the sections
+  `energy-momentum tensor by vielbein variation`, `Noether identities`, `EMT components` and `exact solutions and
+  conservation` every test expression is built on the main kernel exactly as before and only its zero test
+  (`sZeroQ`, `zeroQK`, the same functions) runs on a subkernel (`pS`, `pZeroQ`). No check, test expression or verdict
+  changed. `verify_scope.wls`: the same relabelling (frame boost in the (x4, x0) plane, `F'_x1x0`, `M0`, `k0..k7`,
+  `y0..y7`, the classical-energy example with `(k0, k1, k2, k3) = (4, 1, 2, 0)`).
+* Runs (2026-10-14, working tree on top of commit `cae873a`, Windows 11, Wolfram 15.0.1, 24 logical processors):
+  `verify_field_theory.wls` 84 of 84, exit code 0, `total time 299.8 s`, wall time 309 s; section times 58.3 s
+  (energy-momentum tensor), 87.7 s (Noether identities), 10.3 s (EMT components), 113.1 s (exact solutions and
+  conservation). `verify_scope.wls` 15 of 15, 14.9 s. The independent sympy twins: `check_field_theory.py` 70 of 70 with
+  the comparison `agree` (32 of 32 formula records, 63 of 63 check pairs), `check_scope.py` 14 of 14.
+* Same physics. A comparison of the new `field-theory.json` with the one of commit `bf555a9` (exact, in WolframScript,
+  after renaming x8 -> x0 and p8 -> p0 and mapping the old position q to the new one: 8 -> 1, k -> k + 1): the 25
+  Christoffel symbols, the Ricci diagonal and scalar, the 12 spin-connection components (with the sign of the swapped
+  pairs), gamma^mu Omega_mu per direction and in total, the 16 component field equations, the chiral blocks, the energy
+  exchange identity (all three entries), the metric, the vielbein, sqrt|det g| and eta are identical; the 19 prose
+  records differ only in the relabelling. Both reports have the same checks with the same verdicts in the same order
+  (five check names renamed, listed above).

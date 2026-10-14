@@ -292,7 +292,7 @@ def load_gammas():
 
 G, CM, BM, ETA = load_gammas()
 I16 = sp.eye(16)
-X4 = 3
+X4 = 4  # index of the time x4 in the author's coordinates x0..x7 (index k = xk)
 BETA = -sp.I * G[X4]
 ALPHA = {a: -G[X4] * G[a] for a in range(8) if a != X4}
 
@@ -382,7 +382,7 @@ def section_setup():
           "(XY)^+ = Y^+ X^+ on test elements. The normal-ordered basis is faithful on the 2^16-dimensional Fock "
           "space: an operator is zero iff it vanishes on every state", sec)
     M0 = ModeSet("M0", None, {}, True)
-    M1 = ModeSet("M1", sp.Integer(3), {0: sp.Integer(4)}, False)
+    M1 = ModeSet("M1", sp.Integer(3), {1: sp.Integer(4)}, False)  # k along x1 (index 1)
     for M, txt in ((M0, "M0: rest frame k = 0, symbolic m > 0, h = m beta, energies +-m"),
                    (M1, "M1: m = 3, k = (4, 0, 0, 0) along x1, h = 3 beta + 4 alpha^(x1), energies +-5 (the record's Wolfram example)")):
         okA = all(acomm(A_[i], AD[j]).t == ({(P0, (), ()): ONE} if i == j else {}) and acomm(A_[i], A_[j]).zero()
@@ -391,7 +391,7 @@ def section_setup():
         check(f"mode_set_{M.label}", M.unitary and M.diag and okA and (M.V * M.V.H / M.nsq) * BM == BM and Bt.H == Bt,
               f"{txt}: columns u_j = (1 + sgn h/E)(1 + sgn beta) e_A / sqrt(nsq), nsq = {sp.sstr(M.nsq)} (one A per pair of "
               "beta's signed permutation; sgn = + for 8 modes, - for 8): U^dagger U = U U^dagger = 1 exactly, U^dagger h U = "
-              "diag(E x8, -E x8); with psi = U a, a_j = b_j (j < 8), d_(j-8)^+ (j >= 8): {a_i, a_j^+} = delta_ij, {a_i, a_j} = 0 "
+              "diag(E (8 times), -E (8 times)); with psi = U a, a_j = b_j (j < 8), d_(j-8)^+ (j >= 8): {a_i, a_j^+} = delta_ij, {a_i, a_j} = 0 "
               "(engine), hence {psi_A, chi_C} = delta_AC and {psi_A, Psi^dagger_C} = (U U^dagger B)_AC = B_AC with "
               "Psi^dagger = chi B: the canonical anticommutator of the record (delta^7 replaced by its projection on the "
               "mode set, V = 1). Only Gaussian-rational matrices U^dagger M U enter (no square roots)", sec)
@@ -558,7 +558,7 @@ def main():
     eb, ed = expect(o["H0n"], b0), expect(o["H0n"], d0)
     qb, qd = expect(o["Q"].novac(), b0), expect(o["Q"].novac(), d0)
     dense = sp.Matrix(16, 16, lambda A, Bv: ((3 * (A + 1) + 5 * (Bv + 1)) % 7 - 3) if A <= Bv else ((3 * (Bv + 1) + 5 * (A + 1)) % 7 - 3))
-    Ms = [CM, -sp.I * CM * G[X4], -sp.I * CM * G[0], CM * G[1] * G[2], dense]
+    Ms = [CM, -sp.I * CM * G[X4], -sp.I * CM * G[1], CM * G[2] * G[3], dense]  # gamma^(x1), gamma^(x2) gamma^(x3)
     ok_rule = True
     for Mx in Ms:
         Nt = M.Nt(BM * Mx)
@@ -710,7 +710,7 @@ def main():
     check("homogeneous_rho_p_operator_identities_wick", ok_rho and ok_p and ok_cons and ok_n and ok_nbd,
           "M0 (k = 0, the homogeneous sector), Wick ordering, K_mu as Wick products with the Heisenberg derivative: "
           "K_(a != x4) = 0 identically; rho = -T^x4_x4 = :H: = m :S: + (lam/2) :S S: = :m S + U(S): and p_mu = T^mu_mu = "
-          ":K_4: - :m S + U: = (lam/2) :S S: = :S U'(S) - U(S): for every mu != x4 (p3 = p_t = p8): EXACT operator "
+          ":K_4: - :m S + U: = (lam/2) :S S: = :S U'(S) - U(S): for every mu != x4 (p3 = p_t = p0): EXACT operator "
           "identities on the whole Fock space; [H, S] = 0 (S is conserved, the analogue of the classical S = S0); "
           ":S: = N_b + N_d =: n and :S S: = n^2 - n (operator identities)", sec)
     check("homogeneous_expectation_values_are_not_U_of_expectation", ok_tab,
@@ -770,7 +770,7 @@ def main():
                 "Wick ordering: with H = :chi h psi: + (lam/2):S S: the Heisenberg field obeys the Wick-ordered operator "
                 "field equation gamma^mu d_mu Psi = :(m + lam S) Psi: exactly, and with K_mu defined as Wick products "
                 ":sum_mu K_mu: = :(m + U'(S)) S: is an operator identity on the whole Fock space (all states; slice x4 = 0)",
-                "homogeneous (k = 0): rho = :m S + U(S): and p3 = p_t = p8 = :S U' - U: = (lam/2):S S: as operator identities "
+                "homogeneous (k = 0): rho = :m S + U(S): and p3 = p_t = p0 = :S U' - U: = (lam/2):S S: as operator identities "
                 "in the same (Wick) sense",
                 "for every ordering: sum_mu K_mu = m S + lam S.S - (lam/2) Q + (U_W - (lam/2) S.S) + const (exact operator "
                 "theorem with the plain operator products)"],
@@ -783,7 +783,7 @@ def main():
                 "<:U(S):> = U(<:S:>): false (one quantum at k = 0: p = 0 versus lam/2)",
                 "the identity for arbitrary d4 Psi (negative control): it needs the interacting operator field equation"],
             "scope": "one good-sector plane-wave mode set with frozen coefficients (flat frame, V = 1, 16 modes, 2^16 "
-                     "states); not the field on a whole slice, not the curved x8 dependence, not the extra-time sector; "
+                     "states); not the field on a whole slice, not the curved x0 dependence, not the extra-time sector; "
                      "the one-body discrepancies scale with the number of sea modes (8 here) and would diverge in the "
                      "continuum (remark, not computed)"},
     }

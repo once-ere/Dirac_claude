@@ -6,13 +6,14 @@ from the Wolfram side is used as an input except the two files that are being CH
 
   Revision/gkd_lovelock/results/lovelock-tensors.json   (the GKD branch's exact monomial lists)
   Revision/field_equations_a4/a4-equations.json         (written by the Wolfram verifier)
-  Revision/algebra/gammas.json                          (the author's T16, order x1..x8: REQUIRED; read
+  Revision/algebra/gammas.json                          (the author's T16, order x0..x7: REQUIRED; read
                                                          strictly; a missing or malformed file stops the
                                                          run at once with a line "ERROR  ..." and exit code 1)
 
 Everything else is computed here from the metric of SPEC section 1, by a different implementation:
-  * the metric is written in the symbols Ee = e^{a4}, Sh = sin^{1/6} z, Cc = cot z (z = 6 H x8) with
-    exact derivation rules (d/dx4: a4^(n) -> a4^(n+1), Ee -> a4' Ee; d/dx8: Sh -> H Cc Sh,
+  * the metric is written in the symbols Ee = e^{a4}, Sh = sin^{1/6} z, Cc = cot z (z = 6 H x0) in the author's
+    coordinates x0..x7 (index k = xk) with
+    exact derivation rules (d/dx4: a4^(n) -> a4^(n+1), Ee -> a4' Ee; d/dx0: Sh -> H Cc Sh,
     Cc -> -6 H (1 + Cc^2)), so no trigonometric simplification is needed;
   * Christoffel symbols, Riemann R^{ab}_{cd} (MTW), Ricci and Einstein tensors;
   * GKD as the sign of a permutation (not as a determinant);
@@ -70,7 +71,7 @@ def check(name: str, ok, detail: str, pending: bool = False) -> None:
 # The fixture's documented encoding (its "encoding" field): every matrix is a list of rows; an exact rational is
 # a JSON integer when it is an integer and otherwise a JSON string "p/q" in lowest terms with q > 0 (so a string
 # has q > 1); a complex matrix is {"re": ..., "im": ...};
-# indices 0..7 of gamma, eta and S stand for x1..x8.  Anything else (a float, a boolean, another string, a wrong
+# indices 0..7 of gamma, eta and S stand for x0..x7.  Anything else (a float, a boolean, another string, a wrong
 # shape, a missing key, a file that is not a JSON object, a missing file) is an ERROR: one line, exit code 1.
 class FixtureError(Exception):
     pass
@@ -156,18 +157,19 @@ except FixtureError as exc:
 H, ad1, ad2, ad3, ad4 = sp.symbols("H ad1 ad2 ad3 ad4")
 Ee, Sh, Cc = sp.symbols("Ee Sh Cc", positive=True)  # e^{a4}, sin^{1/6} z, cot z
 alpha1, alpha2, alpha3, Lam, kappa, AA = sp.symbols("alpha1 alpha2 alpha3 Lam kappa AA")
-rho, p3, pt, p8, q48, q84 = sp.symbols("rho p3 pt p8 q48 q84")
-SRC = [rho, p3, pt, p8, q48, q84]
+# p0 = the pressure along the hidden direction x0; q40 = T^x4_x0, q04 = T^x0_x4 (p8, q48, q84 in the withdrawn labels)
+rho, p3, pt, p0, q40, q04 = sp.symbols("rho p3 pt p0 q40 q04")
+SRC = [rho, p3, pt, p0, q40, q04]
 D4SRC = {s: sp.Symbol("d4" + s.name) for s in SRC}
-D8SRC = {s: sp.Symbol("d8" + s.name) for s in SRC}
+D0SRC = {s: sp.Symbol("d0" + s.name) for s in SRC}
 
 RULE4 = {ad1: ad2, ad2: ad3, ad3: ad4, Ee: ad1 * Ee, **D4SRC}
-RULE8 = {Sh: H * Cc * Sh, Cc: -6 * H * (1 + Cc**2), **D8SRC}
+RULE0 = {Sh: H * Cc * Sh, Cc: -6 * H * (1 + Cc**2), **D0SRC}
 
 
 def deriv(e, mu: int):
-    """Partial derivative with respect to coordinate index mu (0..7 = x1..x8)."""
-    rule = RULE4 if mu == 3 else RULE8 if mu == 7 else None
+    """Partial derivative with respect to coordinate index mu (0..7 = the author's x0..x7)."""
+    rule = RULE4 if mu == 4 else RULE0 if mu == 0 else None
     if rule is None:
         return sp.Integer(0)
     return sp.Add(*[sp.diff(e, s) * v for s, v in rule.items() if e.has(s)])
@@ -184,11 +186,11 @@ def norm(e):
 
 
 N8 = 8
-COORDS = [f"x{i}" for i in range(1, 9)]
-gdiag = [Ee**2 * Sh**2] * 3 + [sp.Integer(-1)] + [-(Ee**-2) * Sh**2] * 3 + [Cc**2]
+COORDS = [f"x{i}" for i in range(8)]  # the author's x0..x7
+gdiag = [Cc**2] + [Ee**2 * Sh**2] * 3 + [sp.Integer(-1)] + [-(Ee**-2) * Sh**2] * 3
 ginv = [sp.cancel(1 / x) for x in gdiag]
-vielb = [Ee * Sh] * 3 + [sp.Integer(1)] + [Sh / Ee] * 3 + [Cc]  # e^a_mu = sqrt|g_mumu|
-eta = [1, 1, 1, -1, -1, -1, -1, 1]
+vielb = [Cc] + [Ee * Sh] * 3 + [sp.Integer(1)] + [Sh / Ee] * 3  # e^a_mu = sqrt|g_mumu|
+eta = [1, 1, 1, 1, -1, -1, -1, -1]
 
 t_start = time.time()
 
@@ -303,9 +305,9 @@ for k in (1, 2, 3):
     check(f"P{k}_trace_identity", sp.expand(sum(P[k][i][i] for i in range(N8)) - (8 - 2 * k) * Lsc[k]) == 0,
           f"sum_h P_({k})^h_h = (8 - {2 * k}) L_({k}); L_({k}) = {sp.expand(Lsc[k])}")
     diag_ok = all(P[k][h][j] == 0 for h in range(N8) for j in range(N8) if h != j)
-    grp_ok = P[k][0][0] == P[k][1][1] == P[k][2][2] and P[k][4][4] == P[k][5][5] == P[k][6][6]
+    grp_ok = P[k][1][1] == P[k][2][2] == P[k][3][3] and P[k][5][5] == P[k][6][6] == P[k][7][7]
     check(f"P{k}_structure", diag_ok and grp_ok and not any(P[k][i][i].has(Cc) for i in range(N8)),
-          f"P_({k}) diagonal (x4-x8 components 0), free of x8, x1 = x2 = x3, x5 = x6 = x7")
+          f"P_({k}) diagonal (x4-x0 components 0), free of x0, x1 = x2 = x3, x5 = x6 = x7")
 
 # compare with the GKD branch's monomial lists
 # since 2026-10-14 the monomial lists have 13 exponents (..., Q = b4^(1/2), b4', b4'', b4''', b4''''); this checker
@@ -364,14 +366,14 @@ def divergence(T):
 
 for k in (1, 2, 3):
     check(f"E{k}_divergence_free", all(x == 0 for x in divergence(E[k])),
-          f"nabla_mu E_({k})^mu_nu = 0 for nu = x1..x8 (Christoffel symbols of this file)")
+          f"nabla_mu E_({k})^mu_nu = 0 for nu = x0..x7 (Christoffel symbols of this file)")
 
 # ----------------------------------------------------------------------------------------------
 # field equations
 # ----------------------------------------------------------------------------------------------
 al = {1: alpha1, 2: alpha2, 3: alpha3}
 LHS = [[sp.expand(sum(al[k] * E[k][h][j] for k in (1, 2, 3)) + (Lam if h == j else 0)) for j in range(N8)] for h in range(N8)]
-e11, e44, e55, e88 = (sp.expand(LHS[i][i] - Lam) for i in (0, 3, 4, 7))
+e11, e44, e55, e00 = (sp.expand(LHS[i][i] - Lam) for i in (1, 4, 5, 0))  # x1, x4, x5, x0
 Fevo = sp.expand(sp.cancel((e11 - e55) / ad2))
 check("evolution_factorises", not Fevo.has(ad2) and sp.expand(Fevo * ad2 - (e11 - e55)) == 0,
       f"sum_k alpha_k (E^x1_x1 - E^x5_x5) = a4'' F(a4'), F = {Fevo}")
@@ -379,63 +381,63 @@ coeffs = sp.Poly(Fevo, ad1, H).coeffs()
 sol = sp.solve(coeffs, [alpha1, alpha2, alpha3], dict=True)
 check("evolution_F_not_identically_zero", sol == [{alpha1: 0, alpha2: 0, alpha3: 0}],
       "F vanishes identically in (a4', H) only for alpha1 = alpha2 = alpha3 = 0")
-check("algebraic_identity", sp.expand(e11 + e55 - 2 * e88) == 0,
-      "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x8_x8) = 0 identically: the equations force p3 + p_t = 2 p8")
-check("constraint_and_x8_first_order", not e44.has(ad2) and not e88.has(ad2),
-      "the x4 and x8 components contain a4' but not a4''")
-check("bianchi_x4", sp.expand(deriv(e44, 3) - 3 * ad1 * (e11 - e55)) == 0,
+check("algebraic_identity", sp.expand(e11 + e55 - 2 * e00) == 0,
+      "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x0_x0) = 0 identically: the equations force p3 + p_t = 2 p0")
+check("constraint_and_x0_first_order", not e44.has(ad2) and not e00.has(ad2),
+      "the x4 and x0 components contain a4' but not a4''")
+check("bianchi_x4", sp.expand(deriv(e44, 4) - 3 * ad1 * (e11 - e55)) == 0,
       "d/dx4 sum_k alpha_k E^x4_x4 = 3 a4' sum_k alpha_k (E^x1_x1 - E^x5_x5)")
 check("other_components_vanish",
       all(LHS[h][j] == 0 for h in range(N8) for j in range(N8) if h != j) and
-      LHS[0][0] == LHS[1][1] == LHS[2][2] and LHS[4][4] == LHS[5][5] == LHS[6][6],
-      "every off-diagonal left-hand side (including x4-x8) is 0; x1 = x2 = x3 and x5 = x6 = x7")
+      LHS[1][1] == LHS[2][2] == LHS[3][3] and LHS[5][5] == LHS[6][6] == LHS[7][7],
+      "every off-diagonal left-hand side (including x4-x0) is 0; x1 = x2 = x3 and x5 = x6 = x7")
 
-# conservation of a general source T(x4, x8)
+# conservation of a general source T(x4, x0)
 Tg = [[sp.Integer(0)] * N8 for _ in range(N8)]
-for i in (0, 1, 2):
+for i in (1, 2, 3):
     Tg[i][i] = p3
-for i in (4, 5, 6):
+for i in (5, 6, 7):
     Tg[i][i] = pt
-Tg[3][3] = -rho
-Tg[7][7] = p8
-Tg[3][7] = q48
-Tg[7][3] = q84
+Tg[4][4] = -rho
+Tg[0][0] = p0
+Tg[4][0] = q40
+Tg[0][4] = q04
 divT = divergence(Tg)
-d4r, d8p8, d8q84, d4q48 = D4SRC[rho], D8SRC[p8], D8SRC[q84], D4SRC[q48]
-exp_x4 = -d4r - 3 * ad1 * (p3 - pt) + d8q84 - 6 * H * q84 / Cc
-exp_x8 = d8p8 + 3 * H * Cc * (2 * p8 - p3 - pt) + d4q48
+d4r, d0p0, d0q04, d4q40 = D4SRC[rho], D0SRC[p0], D0SRC[q04], D4SRC[q40]
+exp_x4 = -d4r - 3 * ad1 * (p3 - pt) + d0q04 - 6 * H * q04 / Cc
+exp_x0 = d0p0 + 3 * H * Cc * (2 * p0 - p3 - pt) + d4q40
 check("conservation_components",
-      all(divT[i] == 0 for i in (0, 1, 2, 4, 5, 6)) and sp.cancel(divT[3] - exp_x4) == 0 and sp.cancel(divT[7] - exp_x8) == 0,
-      "nabla_mu T^mu_x4 = -d4 rho - 3 a4' (p3 - p_t) + d8 q84 - 6 H tan z q84; nabla_mu T^mu_x8 = d8 p8 + 3 H cot z (2 p8 - p3 - p_t) + d4 q48")
+      all(divT[i] == 0 for i in (1, 2, 3, 5, 6, 7)) and sp.cancel(divT[4] - exp_x4) == 0 and sp.cancel(divT[0] - exp_x0) == 0,
+      "nabla_mu T^mu_x4 = -d4 rho - 3 a4' (p3 - p_t) + d0 q04 - 6 H tan z q04; nabla_mu T^mu_x0 = d0 p0 + 3 H cot z (2 p0 - p3 - p_t) + d4 q40")
 
 ein = {alpha1: 1, alpha2: 0, alpha3: 0}
 check("einstein_components",
       sp.expand(e44.subs(ein) - (3 * ad1**2 + 21 * H**2)) == 0 and sp.expand(e11.subs(ein) - (ad2 - 3 * ad1**2 + 15 * H**2)) == 0 and
-      sp.expand(e55.subs(ein) - (-ad2 - 3 * ad1**2 + 15 * H**2)) == 0 and sp.expand(e88.subs(ein) - (-3 * ad1**2 + 15 * H**2)) == 0,
-      "G^x4_x4 = 3 a4'^2 + 21 H^2, G^x1_x1 = a4'' - 3 a4'^2 + 15 H^2, G^x5_x5 = -a4'' - 3 a4'^2 + 15 H^2, G^x8_x8 = -3 a4'^2 + 15 H^2")
-nec8 = sp.expand(e88 - e44)
-check("einstein_null_energy_x8", sp.expand(nec8.subs(ein) + 6 * ad1**2 + 6 * H**2) == 0,
-      "Einstein: kappa (rho + p8) = -6 (a4'^2 + H^2) < 0 for every a4, Lambda")
+      sp.expand(e55.subs(ein) - (-ad2 - 3 * ad1**2 + 15 * H**2)) == 0 and sp.expand(e00.subs(ein) - (-3 * ad1**2 + 15 * H**2)) == 0,
+      "G^x4_x4 = 3 a4'^2 + 21 H^2, G^x1_x1 = a4'' - 3 a4'^2 + 15 H^2, G^x5_x5 = -a4'' - 3 a4'^2 + 15 H^2, G^x0_x0 = -3 a4'^2 + 15 H^2")
+nec0 = sp.expand(e00 - e44)
+check("einstein_null_energy_x0", sp.expand(nec0.subs(ein) + 6 * ad1**2 + 6 * H**2) == 0,
+      "Einstein: kappa (rho + p0) = -6 (a4'^2 + H^2) < 0 for every a4, Lambda")
 check("einstein_no_vacuum",
-      sp.expand((e44 - e88).subs(ein) - 6 * (ad1**2 + H**2)) == 0 and sp.expand((e44 + e88).subs(ein) - 36 * H**2) == 0,
-      "T = 0: the x4 and x8 equations give (x4 - x8) 6 (a4'^2 + H^2) = 0, impossible for real a4' and H > 0 (and 36 H^2 + 2 Lambda = 0)")
+      sp.expand((e44 - e00).subs(ein) - 6 * (ad1**2 + H**2)) == 0 and sp.expand((e44 + e00).subs(ein) - 36 * H**2) == 0,
+      "T = 0: the x4 and x0 equations give (x4 - x0) 6 (a4'^2 + H^2) = 0, impossible for real a4' and H > 0 (and 36 H^2 + 2 Lambda = 0)")
 
 lin = {ad1: AA * H, ad2: 0}
 rho_lin = sp.expand(-(e44 + Lam).subs(lin) / kappa)
-p_lin = sp.expand((e88 + Lam).subs(lin) / kappa)
+p_lin = sp.expand((e00 + Lam).subs(lin) / kappa)
 check("linear_member_equal_pressures",
-      sp.expand((e11 - e88).subs(lin)) == 0 and sp.expand((e55 - e88).subs(lin)) == 0,
-      "a4 = A H x4 + a0: p3 = p_t = p8 = p constant, rho constant (any alpha_k)")
-Vfac = sp.expand(sp.cancel((e44 - e88).subs(lin) / (6 * (AA**2 + 1) * H**2)))
-check("linear_member_vacuum_factor", Vfac.is_polynomial(AA) and sp.expand(6 * (AA**2 + 1) * H**2 * Vfac - (e44 - e88).subs(lin)) == 0,
-      f"sum_k alpha_k (E^x4_x4 - E^x8_x8) at a4' = A H = 6 (A^2 + 1) H^2 V, V = {Vfac}")
+      sp.expand((e11 - e00).subs(lin)) == 0 and sp.expand((e55 - e00).subs(lin)) == 0,
+      "a4 = A H x4 + a0: p3 = p_t = p0 = p constant, rho constant (any alpha_k)")
+Vfac = sp.expand(sp.cancel((e44 - e00).subs(lin) / (6 * (AA**2 + 1) * H**2)))
+check("linear_member_vacuum_factor", Vfac.is_polynomial(AA) and sp.expand(6 * (AA**2 + 1) * H**2 * Vfac - (e44 - e00).subs(lin)) == 0,
+      f"sum_k alpha_k (E^x4_x4 - E^x0_x0) at a4' = A H = 6 (A^2 + 1) H^2 V, V = {Vfac}")
 Vegb = sp.expand(Vfac.subs({alpha1: 1, alpha3: 0}))
 check("einstein_gauss_bonnet_vacuum_linear", sp.expand(Vegb - (1 - 8 * alpha2 * H**2 * (AA**2 + 5))) == 0,
       "alpha1 = 1, alpha3 = 0: V = 1 - 8 alpha2 H^2 (A^2 + 5); vacuum A^2 = (1 - 40 alpha2 H^2)/(8 alpha2 H^2)")
 
 msym, lamsym, Ssym, sigT = sp.symbols("m lam S sigmaT")
 condC = sp.expand(e44.subs(ein).subs(lin) + Lam + kappa * sigT * (msym * Ssym + lamsym * Ssym**2 / 2))
-condX = sp.expand(e88.subs(ein).subs(lin) + Lam - kappa * sigT * (lamsym * Ssym**2 / 2))
+condX = sp.expand(e00.subs(ein).subs(lin) + Lam - kappa * sigT * (lamsym * Ssym**2 / 2))
 check("condensate_einstein_quadratic_U",
       sp.expand(condC + condX - (36 * H**2 + 2 * Lam + kappa * sigT * msym * Ssym)) == 0 and
       sp.expand(condC - condX - (6 * (AA**2 + 1) * H**2 + kappa * sigT * Ssym * (msym + lamsym * Ssym))) == 0,
@@ -445,8 +447,8 @@ check("condensate_einstein_quadratic_U",
 # comparison with a4-equations.json (the Wolfram output)
 # ----------------------------------------------------------------------------------------------
 LOC = {"ad1": ad1, "ad2": ad2, "H": H, "alpha1": alpha1, "alpha2": alpha2, "alpha3": alpha3, "Lam": Lam,
-       "kappa": kappa, "AA": AA, "rho": rho, "p3": p3, "pt": pt, "p8": p8, "q48": q48, "q84": q84, "cc": Cc,
-       **{v.name: v for v in D4SRC.values()}, **{v.name: v for v in D8SRC.values()}}
+       "kappa": kappa, "AA": AA, "rho": rho, "p3": p3, "pt": pt, "p0": p0, "q40": q40, "q04": q04, "cc": Cc,
+       **{v.name: v for v in D4SRC.values()}, **{v.name: v for v in D0SRC.values()}}
 
 
 def parse(s: str):
@@ -463,35 +465,35 @@ if A4_JSON.exists():
     ok = True
     for k in (1, 2, 3):
         comp = aj["lovelockTensors"][f"E{k}"]
-        for key, (h, j) in {"x1x1": (0, 0), "x4x4": (3, 3), "x5x5": (4, 4), "x8x8": (7, 7), "x4x8": (3, 7), "x8x4": (7, 3)}.items():
+        for key, (h, j) in {"x0x0": (0, 0), "x1x1": (1, 1), "x4x4": (4, 4), "x5x5": (5, 5), "x4x0": (4, 0), "x0x4": (0, 4)}.items():
             if sp.expand(parse(comp[key]["input"]) - E[k][h][j]) != 0:
                 ok = False
-    check("json_lovelock_components", ok, "E_(1..3) components x1x1, x4x4, x5x5, x8x8, x4x8, x8x4 in a4-equations.json equal this file's")
+    check("json_lovelock_components", ok, "E_(1..3) components x0x0, x1x1, x4x4, x5x5, x4x0, x0x4 in a4-equations.json equal this file's")
     gs = aj["generalSource"]
     mine = {
         "constraint_x4": e44 + Lam + kappa * rho, "space_x1_eq_x2_eq_x3": e11 + Lam - kappa * p3,
-        "extraTime_x5_eq_x6_eq_x7": e55 + Lam - kappa * pt, "hidden_x8": e88 + Lam - kappa * p8,
-        "evolution_x1_minus_x5": ad2 * Fevo - kappa * (p3 - pt), "algebraic_condition": p3 + pt - 2 * p8,
+        "extraTime_x5_eq_x6_eq_x7": e55 + Lam - kappa * pt, "hidden_x0": e00 + Lam - kappa * p0,
+        "evolution_x1_minus_x5": ad2 * Fevo - kappa * (p3 - pt), "algebraic_condition": p3 + pt - 2 * p0,
     }
     ok = all(sp.expand(parse_eq(gs[k]["input"]) - v) == 0 for k, v in mine.items())
     ok = ok and sp.expand(parse(gs["evolution_F"]["input"]) - Fevo) == 0
-    check("json_general_source_equations", ok, "constraint, x1, x5, x8, evolution (with F) and algebraic condition in a4-equations.json equal this file's")
+    check("json_general_source_equations", ok, "constraint, x1, x5, x0, evolution (with F) and algebraic condition in a4-equations.json equal this file's")
     src = gs["sourceRequiredByGivenA4"]
     ok = (sp.expand(parse(src["rho"]["input"]) + (e44 + Lam) / kappa) == 0 and sp.expand(parse(src["p3"]["input"]) - (e11 + Lam) / kappa) == 0
-          and sp.expand(parse(src["pt"]["input"]) - (e55 + Lam) / kappa) == 0 and sp.expand(parse(src["p8"]["input"]) - (e88 + Lam) / kappa) == 0)
+          and sp.expand(parse(src["pt"]["input"]) - (e55 + Lam) / kappa) == 0 and sp.expand(parse(src["p0"]["input"]) - (e00 + Lam) / kappa) == 0)
     nc = gs["nullCombinations"]
-    ok = ok and sp.expand(parse(nc["kappa(rho+p8)"]["input"]) - nec8) == 0 and sp.expand(parse(nc["kappa(rho+p3)"]["input"]) - (e11 - e44)) == 0 \
+    ok = ok and sp.expand(parse(nc["kappa(rho+p0)"]["input"]) - nec0) == 0 and sp.expand(parse(nc["kappa(rho+p3)"]["input"]) - (e11 - e44)) == 0 \
         and sp.expand(parse(nc["kappa(rho+pt)"]["input"]) - (e55 - e44)) == 0
     check("json_required_source_and_null_combinations", ok, "sourceRequiredByGivenA4 and nullCombinations equal this file's")
     cx4 = parse_eq(gs["conservation_x4"]["input"])
-    cx8 = parse_eq(gs["conservation_x8"]["input"])
-    check("json_conservation", sp.cancel(cx4 - exp_x4) == 0 and sp.cancel(cx8 - exp_x8) == 0,
-          "conservation_x4 and conservation_x8 in a4-equations.json equal this file's covariant divergence")
+    cx0 = parse_eq(gs["conservation_x0"]["input"])
+    check("json_conservation", sp.cancel(cx4 - exp_x4) == 0 and sp.cancel(cx0 - exp_x0) == 0,
+          "conservation_x4 and conservation_x0 in a4-equations.json equal this file's covariant divergence")
     ei = aj["einstein"]
     ok = (sp.expand(parse_eq(ei["constraint_x4"]["input"]) - (e44.subs(ein) + Lam + kappa * rho)) == 0
           and sp.expand(parse_eq(ei["evolution"]["input"]) - (2 * ad2 - kappa * (p3 - pt))) == 0
-          and sp.expand(parse_eq(ei["hidden_x8"]["input"]) - (e88.subs(ein) + Lam - kappa * p8)) == 0
-          and sp.expand(parse_eq(ei["x4_plus_x8"]["input"]) - (36 * H**2 + 2 * Lam - kappa * (p8 - rho))) == 0)
+          and sp.expand(parse_eq(ei["hidden_x0"]["input"]) - (e00.subs(ein) + Lam - kappa * p0)) == 0
+          and sp.expand(parse_eq(ei["x4_plus_x0"]["input"]) - (36 * H**2 + 2 * Lam - kappa * (p0 - rho))) == 0)
     check("json_einstein", ok, "the Einstein special case in a4-equations.json equals this file's")
     lm = aj["linearMember"]
     ok = (sp.expand(parse(lm["rho"]["input"]) - rho_lin) == 0 and sp.expand(parse(lm["p"]["input"]) - p_lin) == 0
@@ -525,12 +527,12 @@ def own_rep():
     f1, f2 = kron(ep, s1, I2, I2), kron(ep, s3, I2, I2)
     e3, e4 = kron(ep, ep, s1, I2), kron(ep, ep, s3, I2)
     f3, f4 = kron(ep, ep, ep, s1), kron(ep, ep, ep, s3)
-    return [e1, e2, e3, f1, f2, f3, f4, e4]  # x1, x2, x3, x4, x5, x6, x7, x8
+    return [e4, e1, e2, e3, f1, f2, f3, f4]  # x0, x1, ..., x7 (the same generator per coordinate as before 2026-10-14)
 
 
 def author_rep():
     # the PRIMARY representation: the author's T16 of Revision/algebra/gammas.json (read strictly at start-up),
-    # gamma^(x1..x7) = T16[1..7], gamma^(x8) = T16[0] (SPEC section 2)
+    # gamma^(xk) = T16[k], k = 0..7 (SPEC section 2)
     return FIXTURE["gamma"]
 
 
@@ -573,10 +575,10 @@ def spinor_checks(label: str, gF, prefix: str = ""):
 
     I16 = sp.eye(16)
     cl = all(gF[a] * gF[b] + gF[b] * gF[a] == 2 * eta[a] * (1 if a == b else 0) * I16 for a in range(8) for b in range(8))
-    lcheck(f"{label}_clifford", cl, "{gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)")
-    C = gF[7] * gF[0] * gF[1] * gF[2]
+    lcheck(f"{label}_clifford", cl, "{gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,1,-1,-1,-1,-1)")
+    C = gF[0] * gF[1] * gF[2] * gF[3]
     cprops = C == C.T and C * C == I16 and all((C * g).T == -(C * g) for g in gF) and all(x.is_real for x in C)
-    lcheck(f"{label}_C_properties", cprops, "C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 real symmetric, C^2 = 1, C gamma^a antisymmetric")
+    lcheck(f"{label}_C_properties", cprops, "C = gamma^x0 gamma^x1 gamma^x2 gamma^x3 real symmetric, C^2 = 1, C gamma^a antisymmetric")
     Sab = [[(gF[a] * gF[b] - gF[b] * gF[a]) / 4 for b in range(8)] for a in range(8)]
     # omega_mu^a_b = e^a_a (delta_ab d_mu e_b^b + Gamma^a_{mu b} e_b^b)  (diagonal vielbein; e_b^b = 1/e^b_b)
     Om = []
@@ -591,28 +593,28 @@ def spinor_checks(label: str, gF, prefix: str = ""):
                     M += sp.Rational(1, 2) * w * Sab[a][b]
         Om.append(M.applyfunc(norm))
     gC = [(gF[m] / vielb[m]).applyfunc(norm) for m in range(8)]
-    lcheck(f"{label}_Omega_x4_x8_zero", Om[3] == Z16 and Om[7] == Z16, "Omega_x4 = Omega_x8 = 0")
+    lcheck(f"{label}_Omega_x0_x4_zero", Om[4] == Z16 and Om[0] == Z16, "Omega_x0 = Omega_x4 = 0")
     lcheck(f"{label}_anticommutator_no_sum",
            all((gC[m] * Om[m] + Om[m] * gC[m]).applyfunc(norm) == Z16 for m in range(8)),
            "{gamma^mu, Omega_mu} = 0 for each mu (no sum)")
     Gd = sum((gC[m] * Om[m] for m in range(8)), Z16).applyfunc(norm)
-    lcheck(f"{label}_gravity_term", Gd == 3 * H * gF[7], "gamma^mu Omega_mu = 3 H gamma^x8")
-    A = (-gC[3] * (MM * I16 - Gd)).applyfunc(sp.expand)
+    lcheck(f"{label}_gravity_term", Gd == 3 * H * gF[0], "gamma^mu Omega_mu = 3 H gamma^x0")
+    A = (-gC[4] * (MM * I16 - Gd)).applyfunc(sp.expand)
     lcheck(f"{label}_condensate_S_constant", (C * A + A.T * C).applyfunc(sp.expand) == Z16, "C A + A^T C = 0: S constant along x4")
-    adj = (A.T * C * gC[3] - C * sum((Om[m] * gC[m] for m in range(8)), Z16) + MM * C).applyfunc(norm)
+    adj = (A.T * C * gC[4] - C * sum((Om[m] * gC[m] for m in range(8)), Z16) + MM * C).applyfunc(norm)
     lcheck(f"{label}_condensate_adjoint", adj == Z16, "(D_mu Phibar) gamma^mu = -M Phibar for the condensate")
 
     def dphi(nu):
-        return (A if nu == 3 else Z16) + Om[nu]
+        return (A if nu == 4 else Z16) + Om[nu]
 
     def dphibar(nu):
-        return (A.T * C if nu == 3 else Z16) - C * Om[nu]
+        return (A.T * C if nu == 4 else Z16) - C * Om[nu]
 
     Nm = [[((C * gC[m] * dphi(n) - dphibar(n) * gC[m]) / 2) for n in range(8)] for m in range(8)]
     Ns = [[((Nm[m][n] + (gdiag[n] / gdiag[m]) * Nm[n][m]) / 2).applyfunc(norm) for n in range(8)] for m in range(8)]
-    diag_ok = Ns[3][7] == Z16 and Ns[7][3] == Z16 and all(Ns[m][m] == Z16 for m in (0, 1, 2, 4, 5, 6, 7)) and \
-        (Ns[3][3] - MM * C).applyfunc(sp.expand) == Z16
-    lcheck(f"{label}_condensate_kinetic_diagonal", diag_ok, "K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x8 = K^x8_x4 = 0")
+    diag_ok = Ns[4][0] == Z16 and Ns[0][4] == Z16 and all(Ns[m][m] == Z16 for m in (0, 1, 2, 3, 5, 6, 7)) and \
+        (Ns[4][4] - MM * C).applyfunc(sp.expand) == Z16
+    lcheck(f"{label}_condensate_kinetic_diagonal", diag_ok, "K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x0 = K^x0_x4 = 0")
     # off-diagonal: each nonzero N^mu_nu is X C gamma^a gamma^b gamma^c with the expected triple
     expected = {}
     for m in range(8):
@@ -636,15 +638,16 @@ def spinor_checks(label: str, gF, prefix: str = ""):
                 found = True
                 break
         ok = ok and found
-    exp_trip = {tuple(sorted((i, 3, 7))) for i in (0, 1, 2, 4, 5, 6)} | {tuple(sorted((i, j, 3))) for i in (0, 1, 2) for j in (4, 5, 6)}
+    exp_trip = {tuple(sorted((i, 4, 0))) for i in (1, 2, 3, 5, 6, 7)} | {tuple(sorted((i, j, 4))) for i in (1, 2, 3) for j in (5, 6, 7)}
     lcheck(f"{label}_condensate_offdiagonal_three_gamma", ok and triples_found == exp_trip,
-           f"every nonzero off-diagonal kinetic component ({len(expected)} ordered pairs) is a multiple of one of the 15 bilinears Phibar gamma^a gamma^b gamma^c Phi, {{a,b,c}} = {{i,x4,x8}} or {{i,j,x4}}")
+           f"every nonzero off-diagonal kinetic component ({len(expected)} ordered pairs) is a multiple of one of the 15 bilinears Phibar gamma^a gamma^b gamma^c Phi, {{a,b,c}} = {{i,x4,x0}} or {{i,j,x4}}")
     # exact witness at (M, H) = (5, 1)
     Av = A.subs({MM: 5, H: 1})
     w = 4
 
     def sector(e):
-        stack = sp.Matrix.vstack(Av + sp.I * w * I16, gF[0] * gF[4] - e * I16, gF[1] * gF[5] - e * I16, gF[2] * gF[6] - e * I16)
+        # gamma^x1 gamma^x5, gamma^x2 gamma^x6, gamma^x3 gamma^x7
+        stack = sp.Matrix.vstack(Av + sp.I * w * I16, gF[1] * gF[5] - e * I16, gF[2] * gF[6] - e * I16, gF[3] * gF[7] - e * I16)
         return stack.nullspace()
 
     n1, n2 = sector(-1), sector(1)
@@ -667,18 +670,18 @@ def spinor_checks(label: str, gF, prefix: str = ""):
 orep = own_rep()
 coeffs_own = spinor_checks("ownrep", orep, prefix="comparison representation (own_rep, built here; not used for any result): ")
 arep = author_rep()
-fixture_C = arep[7] * arep[0] * arep[1] * arep[2]
-fixture_Gamma = arep[7] * arep[0] * arep[1] * arep[2] * arep[3] * arep[4] * arep[5] * arep[6]
+fixture_C = arep[0] * arep[1] * arep[2] * arep[3]
+fixture_Gamma = arep[0] * arep[1] * arep[2] * arep[3] * arep[4] * arep[5] * arep[6] * arep[7]
 fixture_S_ok = all(FIXTURE["S"][a][b] == (arep[a] * arep[b] - arep[b] * arep[a]) / 4 for a in range(8) for b in range(8))
 check("authorT16_fixture_read",
-      FIXTURE["coordinates"] == COORDS and FIXTURE["notebookFrameIndex"] == [1, 2, 3, 4, 5, 6, 7, 0]
+      FIXTURE["coordinates"] == COORDS and FIXTURE["notebookFrameIndex"] == [0, 1, 2, 3, 4, 5, 6, 7]
       and FIXTURE["eta"] == eta and FIXTURE["C"] == fixture_C and len(arep) == 8
-      and fixture_S_ok and FIXTURE["Gamma"] == fixture_Gamma and FIXTURE["B"] == -sp.I * fixture_C * arep[3],
+      and fixture_S_ok and FIXTURE["Gamma"] == fixture_Gamma and FIXTURE["B"] == -sp.I * fixture_C * arep[4],
       f"Revision/algebra/gammas.json (sha256 {FIXTURE['sha256']}) read with strict parsing (every entry a JSON integer or a "
       "string \"p/q\" in lowest terms; a missing or malformed file stops the run with an ERROR line and exit code 1): "
-      "coordinates x1..x8, notebook frame index [1, 2, 3, 4, 5, 6, 7, 0] (gamma^(x1..x7) = T16[1..7], gamma^(x8) = T16[0]), "
-      "eta = diag(1,1,1,-1,-1,-1,-1,1), the fixture's C equals gamma^x8 gamma^x1 gamma^x2 gamma^x3 (the notebook's sigma16), "
-      "its S, Gamma and B equal (1/4)[gamma^a, gamma^b], gamma^x8 gamma^x1 ... gamma^x7 and -i C gamma^x4; "
+      "coordinates x0..x7 (the author's), notebook frame index [0, 1, 2, 3, 4, 5, 6, 7] (gamma^(xk) = T16[k]), "
+      "eta = diag(1,1,1,1,-1,-1,-1,-1), the fixture's C equals gamma^x0 gamma^x1 gamma^x2 gamma^x3 (the notebook's sigma16), "
+      "its S, Gamma and B equal (1/4)[gamma^a, gamma^b], gamma^x0 gamma^x1 ... gamma^x7 and -i C gamma^x4; "
       "the author's T16 is the primary representation (its coefficients are compared with a4-equations.json)")
 coeffs_author = spinor_checks("authorT16", arep)
 
@@ -686,11 +689,11 @@ coeffs_author = spinor_checks("authorT16", arep)
 kb = intertwiners(orep, arep)  # K gamma_own^a = gamma_T16^a K
 Kmat = kb[0] if len(kb) == 1 else Z16
 kc = (Kmat.T * Kmat)[0, 0]
-C_own = orep[7] * orep[0] * orep[1] * orep[2]
+C_own = orep[0] * orep[1] * orep[2] * orep[3]
 equiv_ok = (len(kb) == 1 and kc > 0 and Kmat.T * Kmat == kc * sp.eye(16)
             and all(Kmat * orep[a] == arep[a] * Kmat for a in range(8)) and Kmat * C_own == fixture_C * Kmat)
 check("representations_equivalent_authorT16_ownrep", equiv_ok,
-      f"exact (sympy DomainMatrix nullspace over QQ): the intertwiners K with K gamma_own^a = gamma_T16^a K for a = x1..x8 "
+      f"exact (sympy DomainMatrix nullspace over QQ): the intertwiners K with K gamma_own^a = gamma_T16^a K for a = x0..x7 "
       f"(gamma_own the comparison representation) form a space of dimension {len(kb)}, and K^T K = {kc} I16 "
       f"(K is sqrt({kc}) times an orthogonal matrix) with K C_own = C_T16 K: the comparison representation is equivalent "
       "to the author's T16, so every trace of a product of gammas is the same in both")
@@ -708,15 +711,15 @@ if aj is not None:
     mpmath.mp.dps = 40
     ok = len(offj) == len(coeffs_author)
     for entry in offj:
-        comp = entry["component"].split(" ")[0]  # K^x1_x4
-        mu = int(comp[3]) - 1
-        nu = int(comp.split("_")[1][1]) - 1
+        comp = entry["component"].split(" ")[0]  # K^x1_x4; the coordinate xk has index k
+        mu = int(comp[3])
+        nu = int(comp.split("_")[1][1])
         if (mu, nu) not in coeffs_author or len(entry["terms"]) != 1:
             ok = False
             continue
         t, X = coeffs_author[(mu, nu)]
         names = entry["terms"][0]["bilinear"].replace("Phibar ", "").replace(" Phi", "").split(" ")
-        tj = tuple(int(nm[-1]) - 1 for nm in names)
+        tj = tuple(int(nm[-1]) for nm in names)
         if tj != t:
             ok = False
             continue
@@ -756,7 +759,7 @@ REPORT.write_bytes((json.dumps(report, indent=2) + "\n").encode("utf-8"))
 
 def lx(e) -> str:
     s = sp.latex(e, symbol_names={ad1: "a_4'", ad2: "a_4''", alpha1: r"\alpha_1", alpha2: r"\alpha_2", alpha3: r"\alpha_3",
-                                   Lam: r"\Lambda", AA: "A", p3: "p_3", pt: "p_t", p8: "p_8"})
+                                   Lam: r"\Lambda", AA: "A", p3: "p_3", pt: "p_t", p0: "p_0"})
     return s.replace("a_4'^{2}", "(a_4')^{2}").replace("a_4'^{4}", "(a_4')^{4}").replace("a_4'^{6}", "(a_4')^{6}")
 
 
@@ -768,41 +771,41 @@ lines = [
     "output `Revision/field_equations_a4/a4-equations.json`. Report: `reports/python-a4-report.json`.",
     "",
     "Field equations: $\\sum_{k=1}^{3}\\alpha_k E_{(k)}{}^\\mu{}_\\nu + \\Lambda\\delta^\\mu_\\nu = \\kappa T^\\mu{}_\\nu$,",
-    "$E_{(k)} = -P_{(k)}/2^{k+1}$, $T = \\mathrm{diag}(p_3,p_3,p_3,-\\rho,p_t,p_t,p_t,p_8)$.",
+    "$E_{(k)} = -P_{(k)}/2^{k+1}$, $T = \\mathrm{diag}(p_0,p_3,p_3,p_3,-\\rho,p_t,p_t,p_t)$ (order x0..x7).",
     "",
     "## Independent components (general Lovelock)",
     "",
     f"* constraint (x4): $ {lx(e44)} + \\Lambda = -\\kappa\\rho$",
     f"* 3-space (x1 = x2 = x3): $ {lx(e11)} + \\Lambda = \\kappa p_3$",
     f"* extra times (x5 = x6 = x7): $ {lx(e55)} + \\Lambda = \\kappa p_t$",
-    f"* hidden (x8): $ {lx(e88)} + \\Lambda = \\kappa p_8$",
-    "* off-diagonal (x4-x8 and all others): $0 = \\kappa T^\\mu{}_\\nu$",
+    f"* hidden (x0): $ {lx(e00)} + \\Lambda = \\kappa p_0$",
+    "* off-diagonal (x4-x0 and all others): $0 = \\kappa T^\\mu{}_\\nu$",
     f"* evolution (x1 - x5): $a_4''\\,F(a_4') = \\kappa (p_3 - p_t)$, $F = {lx(Fevo)}$",
-    "* algebraic: $p_3 + p_t = 2 p_8$; x8-dependence: every component of $T^\\mu{}_\\nu$ independent of x8",
+    "* algebraic: $p_3 + p_t = 2 p_0$; x0-dependence: every component of $T^\\mu{}_\\nu$ independent of x0",
     "",
     "## Einstein gravity ($\\alpha_1 = 1$, $\\alpha_2 = \\alpha_3 = 0$)",
     "",
-    f"* $ {lx(e44.subs(ein))} + \\Lambda = -\\kappa\\rho$, $2 a_4'' = \\kappa(p_3 - p_t)$, $ {lx(e88.subs(ein))} + \\Lambda = \\kappa p_8$",
-    f"* $\\kappa(\\rho + p_8) = {lx(nec8.subs(ein))} < 0$; no vacuum solution for $H > 0$ and any $\\Lambda$",
+    f"* $ {lx(e44.subs(ein))} + \\Lambda = -\\kappa\\rho$, $2 a_4'' = \\kappa(p_3 - p_t)$, $ {lx(e00.subs(ein))} + \\Lambda = \\kappa p_0$",
+    f"* $\\kappa(\\rho + p_0) = {lx(nec0.subs(ein))} < 0$; no vacuum solution for $H > 0$ and any $\\Lambda$",
     "",
     "## The linear member $a_4 = A H x_4 + a_0$",
     "",
     f"* $\\rho = {lx(rho_lin)}$",
-    f"* $p_3 = p_t = p_8 = p = {lx(p_lin)}$",
+    f"* $p_3 = p_t = p_0 = p = {lx(p_lin)}$",
     f"* vacuum needs $V = {lx(Vfac)} = 0$",
     "",
     r"## Field sources (convention $T^\mu{}_\nu = \sigma_T(-K^{(\mu}{}_{\nu)} + \delta^\mu_\nu \mathcal{L})$, $\sigma_T = +1$ per SPEC section 4)",
     "",
-    r"* lemmas: $\gamma^\mu\Omega_\mu = 3H\gamma^{x8}$; $\{\gamma^\mu,\Omega_\mu\}=0$ for each $\mu$ (no sum)",
-    r"* dirac16complex00, homogeneous condensate $\Phi(x_4)$: $S$ constant, $\rho = \sigma_T(mS+U)$, $p_3=p_t=p_8=\sigma_T(SU'-U)$;",
-    r"  the off-diagonal equations need the 15 bilinears $\bar\Phi\gamma^a\gamma^b\gamma^c\Phi$, $\{a,b,c\}=\{i,x4,x8\},\{i,j,x4\}$, to vanish (exact witnesses exist);",
+    r"* lemmas: $\gamma^\mu\Omega_\mu = 3H\gamma^{x0}$; $\{\gamma^\mu,\Omega_\mu\}=0$ for each $\mu$ (no sum)",
+    r"* dirac16complex00, homogeneous condensate $\Phi(x_4)$: $S$ constant, $\rho = \sigma_T(mS+U)$, $p_3=p_t=p_0=\sigma_T(SU'-U)$;",
+    r"  the off-diagonal equations need the 15 bilinears $\bar\Phi\gamma^a\gamma^b\gamma^c\Phi$, $\{a,b,c\}=\{i,x4,x0\},\{i,j,x4\}$, to vanish (exact witnesses exist);",
     r"  then $p_3 = p_t$ forces $a_4'' F(a_4') = 0$, hence $a_4 = A H x_4 + a_0$",
     r"* Einstein with $U = \lambda S^2/2$: $\kappa\sigma_T m S = -(36H^2 + 2\Lambda)$, $6(A^2+1)H^2 = -\kappa\sigma_T S(m+\lambda S)$",
     r"  ($A$ enters only as $A^2$: deflation of the extra times, $A > 0$, is a choice of sign, not selected by the equations; $A = 0$ is static)",
     r"* dirac16complex: the same with normal-ordered expectation values (the operator form of the on-shell trace identity, "
     r"$\sum_\mu\langle{:}k_\mu{:}\rangle = \langle{:}(m + U')S{:}\rangle$, is ASSUMED for the field on a whole slice; "
     r"`Revision/theory/fock_quartic` decides it only in a finite one-mode-set Fock model, where it holds exactly if the "
-    r"potential and the energy-momentum tensor are both Wick ordered and fails for every other tested ordering); a state with $\langle k_1\rangle \ne \langle k_5\rangle$ would drive $a_4''$ only if it also satisfied $p_3 + p_t = 2p_8$ and $x_8$-independence;",
+    r"potential and the energy-momentum tensor are both Wick ordered and fails for every other tested ordering); a state with $\langle k_1\rangle \ne \langle k_5\rangle$ would drive $a_4''$ only if it also satisfied $p_3 + p_t = 2p_0$ and $x_0$-independence;",
     r"  the recorded Kohn-Sham states violate both (reports/ks-source-conditions.json), and the Kohn-Sham history $a_4 = AHx_4$ is a prescribed background without back-reaction",
     "",
     "## Run",

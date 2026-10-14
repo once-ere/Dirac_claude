@@ -20,9 +20,9 @@
       "detail": "metric with b4, dirac16complex (Grassmann): T^mu_mu (no sum) = L0 - K_mu, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi), f_5..7 = E^-a4 b4^(1/2) Sin[z]^(1/6)"
     },
     {
-      "name": "T_x4_x8_component_G_b4",
+      "name": "T_x4_x0_component_G_b4",
       "verdict": "PASS",
-      "detail": "metric with b4, dirac16complex (Grassmann): T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8, as in field-theory.json"
+      "detail": "metric with b4, dirac16complex (Grassmann): T^x4_x0 = -(1/4)(B40 - Cot[z] B04) and T^x0_x4 = -Tan[z]^2 T^x4_x0, as in field-theory.json"
     }
   ]
 }

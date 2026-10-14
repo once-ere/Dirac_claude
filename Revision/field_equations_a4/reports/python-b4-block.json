@@ -4,12 +4,12 @@
   {
    "name": "b4_lovelock_components",
    "verdict": "PASS",
-   "detail": "E_(1), E_(2), E_(3) (components x1x1, x4x4, x5x5, x8x8, x4x8, x8x4) of b4.lovelockTensors equal the sympy tensors (permutation signs)"
+   "detail": "E_(1), E_(2), E_(3) (components x0x0, x1x1, x4x4, x5x5, x4x0, x0x4) of b4.lovelockTensors equal the sympy tensors (permutation signs)"
   },
   {
    "name": "b4_offdiagonal_factor_Q",
    "verdict": "PASS",
-   "detail": "sum_k alpha_k E^x4_x8 = cot z (b4'/b4) Q and E^x8_x4 = -tan z (b4'/b4) Q with Q of the JSON"
+   "detail": "sum_k alpha_k E^x4_x0 = cot z (b4'/b4) Q and E^x0_x4 = -tan z (b4'/b4) Q with Q of the JSON"
   },
   {
    "name": "b4_einstein_Q",
@@ -19,7 +19,7 @@
   {
    "name": "b4_identity",
    "verdict": "PASS",
-   "detail": "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x8_x8) equals the JSON and, for Einstein, (b4'/b4)^2/4 + b4''/(2 b4)"
+   "detail": "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x0_x0) equals the JSON and, for Einstein, (b4'/b4)^2/4 + b4''/(2 b4)"
   },
   {
    "name": "b4_equation_constraint_x4",
@@ -37,19 +37,19 @@
    "detail": "extraTime_x5_eq_x6_eq_x7: the left-hand side equals sum_k alpha_k E^mu_mu + Lambda"
   },
   {
-   "name": "b4_equation_hidden_x8",
+   "name": "b4_equation_hidden_x0",
    "verdict": "PASS",
-   "detail": "hidden_x8: the left-hand side equals sum_k alpha_k E^mu_mu + Lambda"
+   "detail": "hidden_x0: the left-hand side equals sum_k alpha_k E^mu_mu + Lambda"
   },
   {
    "name": "b4_conservation",
    "verdict": "PASS",
-   "detail": "nabla_mu T^mu_x4, nabla_mu T^mu_x8 equal the JSON; the other components vanish"
+   "detail": "nabla_mu T^mu_x4, nabla_mu T^mu_x0 equal the JSON; the other components vanish"
   },
   {
    "name": "b4_gravity_term",
    "verdict": "PASS",
-   "detail": "gamma^mu Omega_mu = 3 H gamma^x8 + (3/4)(b4'/b4) gamma^x4 (author's T16)"
+   "detail": "gamma^mu Omega_mu = 3 H gamma^x0 + (3/4)(b4'/b4) gamma^x4 (author's T16)"
   },
   {
    "name": "b4_condensate_matrix",

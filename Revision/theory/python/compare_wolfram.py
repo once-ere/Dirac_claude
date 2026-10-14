@@ -16,13 +16,13 @@ import re
 
 import sympy as sp
 
-from geometry import ETA, X4, X8, E, s, c, A1, A2, H, m, lam, cd_author, zero_author, canon_author
+from geometry import ETA, X0, X4, E, s, c, A1, A2, H, m, lam, cd_author, zero_author, canon_author
 from superalg import Alg, gen, CHI, PSI
 
-COORD = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
-x8s = sp.Symbol("x8", real=True)
+COORD = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # the author's coordinates; index k = xk
+x0s = sp.Symbol("x0", real=True)
 a4x = sp.Symbol("a4x", real=True)
-Z = 6 * H * x8s
+Z = 6 * H * x0s
 
 
 def to_wl_vars(expr):
@@ -42,7 +42,7 @@ def wl_parse(src):
         t = t.replace(f + "[", f.lower() + "(")
     t = t.replace("[", "(").replace("]", ")").replace("{", "[").replace("}", "]").replace("^", "**")
     names = {"sin": sp.sin, "cos": sp.cos, "tan": sp.tan, "cot": sp.cot, "sec": sp.sec, "csc": sp.csc, "E": sp.E,
-             "H": H, "x8": x8s,
+             "H": H, "x0": x0s,
              "a4x": a4x, "A1": A1, "A2": A2, "V": sp.Symbol("V"), "m": m}
     for k in set(re.findall(r"\b(dd_\d_\d+|P_\d+|G_\d)\b", t)):
         names[k] = sp.Symbol(k)
@@ -59,7 +59,7 @@ def wl_parse(src):
     return expr
 
 
-FIELD_NAMES = ("rho", "p3", "pt", "p8")  # the entries of the diagonal T of the formula energy_exchange
+FIELD_NAMES = ("rho", "p3", "pt", "p0")  # the entries of the diagonal T of the formula energy_exchange (p0: along x0)
 
 
 def wl_top_split(src):
@@ -83,29 +83,29 @@ def wl_top_split(src):
 
 
 def wl_parse_fields(src):
-    """wl_parse for expressions in the functions rho, p3, pt, p8 of (x4, x8) or of x4 alone:
-    Derivative[1, 0][f][x4, x8] and Derivative[1][f][x4] -> f_4, Derivative[0, 1][f][x4, x8] -> f_8, f[..] -> f."""
-    t = re.sub(r"Derivative\[1, 0\]\[(rho|p3|pt|p8)\]\[x4, x8\]", r"\1_4", src)
-    t = re.sub(r"Derivative\[0, 1\]\[(rho|p3|pt|p8)\]\[x4, x8\]", r"\1_8", t)
-    t = re.sub(r"Derivative\[1\]\[(rho|p3|pt|p8)\]\[x4\]", r"\1_4", t)
-    t = re.sub(r"\b(rho|p3|pt|p8)\[x4(?:, x8)?\]", r"\1", t)
+    """wl_parse for expressions in the functions rho, p3, pt, p0 of (x4, x0) or of x4 alone:
+    Derivative[1, 0][f][x4, x0] and Derivative[1][f][x4] -> f_4, Derivative[0, 1][f][x4, x0] -> f_0, f[..] -> f."""
+    t = re.sub(r"Derivative\[1, 0\]\[(rho|p3|pt|p0)\]\[x4, x0\]", r"\1_4", src)
+    t = re.sub(r"Derivative\[0, 1\]\[(rho|p3|pt|p0)\]\[x4, x0\]", r"\1_0", t)
+    t = re.sub(r"Derivative\[1\]\[(rho|p3|pt|p0)\]\[x4\]", r"\1_4", t)
+    t = re.sub(r"\b(rho|p3|pt|p0)\[x4(?:, x0)?\]", r"\1", t)
     return wl_parse(t)
 
 
 def energy_exchange_compare(ew, geo):
-    """Recompute nabla_mu T^mu_nu (all eight nu) for T = diag(p3, p3, p3, -rho, pt, pt, pt, p8), entries functions of
-    x4 and x8, from the sympy Christoffel symbols with the general mixed-tensor formula
+    """Recompute nabla_mu T^mu_nu (all eight nu) for T = diag(p0, p3, p3, p3, -rho, pt, pt, pt) (order x0..x7),
+    entries functions of x4 and x0, from the sympy Christoffel symbols with the general mixed-tensor formula
     d_mu T^mu_nu + Gamma^mu_(mu l) T^l_nu - Gamma^l_(mu nu) T^mu_l, and compare it with the Wolfram record
-    [complete identity, conservation equations, x8-independent case] (three InputForm strings)."""
+    [complete identity, conservation equations, x0-independent case] (three InputForm strings)."""
     f = {n: sp.Symbol(n) for n in FIELD_NAMES}
     f4 = {n: sp.Symbol(f"{n}_4") for n in FIELD_NAMES}
-    f8 = {n: sp.Symbol(f"{n}_8") for n in FIELD_NAMES}
-    T = sp.diag(f["p3"], f["p3"], f["p3"], -f["rho"], f["pt"], f["pt"], f["pt"], f["p8"])
+    f0 = {n: sp.Symbol(f"{n}_0") for n in FIELD_NAMES}
+    T = sp.diag(f["p0"], f["p3"], f["p3"], f["p3"], -f["rho"], f["pt"], f["pt"], f["pt"])
 
     def d(e, mu):  # coordinate derivative: the metric ring plus the jets of the four entries
         r = cd_author(e, mu)
-        if mu in (X4, X8):
-            jet = f4 if mu == X4 else f8
+        if mu in (X4, X0):
+            jet = f4 if mu == X4 else f0
             r += sum(sp.diff(e, f[n]) * jet[n] for n in FIELD_NAMES)
         return r
 
@@ -119,32 +119,32 @@ def energy_exchange_compare(ew, geo):
     shown = "; ".join(f"{COORD[nu]}: {sp.sstr(sp.expand(mine[nu]))}" for nu in range(8))
     if not isinstance(ew, list) or len(ew) != 3:
         return False, ("the Wolfram record energy_exchange is not the three-entry InputForm list [complete identity, "
-                       "conservation equations, x8-independent case]; sympy recomputation: " + shown)
+                       "conservation equations, x0-independent case]; sympy recomputation: " + shown)
     # entry 1: the complete identity, component by component
     theirs = wl_parse_fields(ew[0])
     ok1 = len(theirs) == 8 and all(same(theirs[nu], to_wl_vars(mine[nu])) for nu in range(8))
-    ok1 = ok1 and all(mine[nu] == 0 for nu in range(8) if nu not in (X4, X8))
+    ok1 = ok1 and all(mine[nu] == 0 for nu in range(8) if nu not in (X4, X0))
     # entry 2: conservation <=> the two solved equations (each component linear in the solved derivative, -1 / +1)
     eqs = [tuple(wl_parse_fields(side) for side in e.split("==")) for e in wl_top_split(ew[1])]
     ok2 = len(eqs) == 2 and all(len(e) == 2 for e in eqs)
-    ok2 = ok2 and eqs[0][0] == f4["rho"] and eqs[1][0] == f8["p8"]
-    ok2 = ok2 and sp.expand(sp.diff(mine[X4], f4["rho"]) + 1) == 0 and zero_author(sp.diff(mine[X8], f8["p8"]) - 1)
+    ok2 = ok2 and eqs[0][0] == f4["rho"] and eqs[1][0] == f0["p0"]
+    ok2 = ok2 and sp.expand(sp.diff(mine[X4], f4["rho"]) + 1) == 0 and zero_author(sp.diff(mine[X0], f0["p0"]) - 1)
     ok2 = ok2 and same(to_wl_vars(mine[X4]).subs(f4["rho"], eqs[0][1]), 0) and \
-        same(to_wl_vars(mine[X8]).subs(f8["p8"], eqs[1][1]), 0)
-    # entry 3: x8-independent entries; the x8 component is linear in p8 with coefficient 6 H cot z > 0
+        same(to_wl_vars(mine[X0]).subs(f0["p0"], eqs[1][1]), 0)
+    # entry 3: x0-independent entries; the x0 component is linear in p0 with coefficient 6 H cot z > 0
     eq3 = [tuple(wl_parse_fields(side) for side in e.split("==")) for e in wl_top_split(ew[2])]
-    m8 = mine[X8].subs({f8[n]: 0 for n in FIELD_NAMES})
-    ok3 = len(eq3) == 2 and all(len(e) == 2 for e in eq3) and eq3[0][0] == f4["rho"] and eq3[1][0] == f["p8"]
+    m0 = mine[X0].subs({f0[n]: 0 for n in FIELD_NAMES})
+    ok3 = len(eq3) == 2 and all(len(e) == 2 for e in eq3) and eq3[0][0] == f4["rho"] and eq3[1][0] == f["p0"]
     ok3 = ok3 and same(to_wl_vars(mine[X4]).subs(f4["rho"], eq3[0][1]), 0) and \
-        same(to_wl_vars(m8).subs(f["p8"], eq3[1][1]), 0) and zero_author(sp.diff(m8, f["p8"]) - 6 * H * cot)
-    detail = ("the complete identity nabla_mu T^mu_nu, nu = x1..x8, for T = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8) "
-              "with entries functions of x4 and x8, recomputed here from the sympy Christoffel symbols with the general "
-              "mixed-tensor formula (f_4 = d f/d x4, f_8 = d f/d x8; ring c/s^6 = cot z): " + shown + ". Wolfram entry 1 "
+        same(to_wl_vars(m0).subs(f["p0"], eq3[1][1]), 0) and zero_author(sp.diff(m0, f["p0"]) - 6 * H * cot)
+    detail = ("the complete identity nabla_mu T^mu_nu, nu = x0..x7, for T = diag(p0, p3, p3, p3, -rho, p_t, p_t, p_t) "
+              "with entries functions of x4 and x0, recomputed here from the sympy Christoffel symbols with the general "
+              "mixed-tensor formula (f_4 = d f/d x4, f_0 = d f/d x0; ring c/s^6 = cot z): " + shown + ". Wolfram entry 1 "
               f"(the eight components) {'equals' if ok1 else 'DIFFERS from'} it component by component; entry 2 "
-              f"(d rho/d x4 = -3 a4' (p3 - p_t), d p8/d x8 = -3 H cot z (2 p8 - p3 - p_t)) "
-              f"{'is' if ok2 else 'is NOT'} equivalent to its vanishing; entry 3 (x8-independent entries: d rho/d x4 = "
-              f"-3 a4' (p3 - p_t), p8 = (p3 + p_t)/2) {'is' if ok3 else 'is NOT'} equivalent to its vanishing "
-              "(coefficient of p8 in the x8 component 6 H cot z > 0). Same statement as the sympy check "
+              f"(d rho/d x4 = -3 a4' (p3 - p_t), d p0/d x0 = -3 H cot z (2 p0 - p3 - p_t)) "
+              f"{'is' if ok2 else 'is NOT'} equivalent to its vanishing; entry 3 (x0-independent entries: d rho/d x4 = "
+              f"-3 a4' (p3 - p_t), p0 = (p3 + p_t)/2) {'is' if ok3 else 'is NOT'} equivalent to its vanishing "
+              "(coefficient of p0 in the x0 component 6 H cot z > 0). Same statement as the sympy check "
               "energy_exchange_equation")
     return ok1 and ok2 and ok3, detail
 
@@ -169,88 +169,86 @@ def rec(out, name, ok, detail):
 # nineteenth, quantisation, is compared statement by statement (QUANTISATION_STATEMENTS).
 STATED = {
     'Omega_components': (
-        "Omega_xi = (1/2) E^a4[x4] Sin[6 H x8]^(1/6) (a4'[x4] g[xi].g[x4] + H g[xi].g[x8]) (i = 1, 2, 3); "
-        "Omega_xt = -(1/2) E^-a4[x4] Sin[6 H x8]^(1/6) (a4'[x4] g[x4].g[xt] + H g[xt].g[x8]) (t = 5, 6, "
-        '7); Omega_x4 = Omega_x8 = 0; g[xa] = gamma^(xa) (frame gammas of the fixture)'
+        "Omega_xi = (1/2) E^a4[x4] Sin[6 H x0]^(1/6) (a4'[x4] g[xi].g[x4] + H g[xi].g[x0]) (i = 1, 2, 3); "
+        "Omega_xt = -(1/2) E^-a4[x4] Sin[6 H x0]^(1/6) (a4'[x4] g[x4].g[xt] + H g[xt].g[x0]) (t = 5, 6, 7); "
+        'Omega_x0 = Omega_x4 = 0; g[xa] = gamma^(xa) (frame gammas of the fixture)'
     ),
     'Lagrangian': (
-        'L = Cos[z] [ (1/2) sum_mu (Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m S - U(S) ] '
-        '= Cos[z] [ (1/2) sum_a (1/f_a) (Psibar gamma^(a) d_a Psi - d_a Psibar gamma^(a) Psi) - m S - '
-        'U(S) ]; f_(1,2,3) = E^a4 Sin[z]^(1/6), f_4 = 1, f_(5,6,7) = E^-a4 Sin[z]^(1/6), f_8 = Cot[z]'
+        'L = Cos[z] [ (1/2) sum_mu (Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m S - U(S) ] = '
+        'Cos[z] [ (1/2) sum_a (1/f_a) (Psibar gamma^(a) d_a Psi - d_a Psibar gamma^(a) Psi) - m S - U(S) ]; f_0 = '
+        'Cot[z], f_(1,2,3) = E^a4 Sin[z]^(1/6), f_4 = 1, f_(5,6,7) = E^-a4 Sin[z]^(1/6)'
     ),
     'current': (
-        'J^mu = -i Psibar gamma^mu Psi; d_mu (Cos[z] J^mu) = -i Cos[z] (Ebar Psi + Psibar E); J^x4 = '
-        'Psi^dagger B Psi; Q = Integral Cos[z] Psi^dagger B Psi dx1 dx2 dx3 dx5 dx6 dx7 dx8'
+        'J^mu = -i Psibar gamma^mu Psi; d_mu (Cos[z] J^mu) = -i Cos[z] (Ebar Psi + Psibar E); J^x4 = Psi^dagger B '
+        'Psi; Q = Integral Cos[z] Psi^dagger B Psi dx0 dx1 dx2 dx3 dx5 dx6 dx7'
     ),
     'Lichnerowicz': (
-        '(gamma^mu D_mu)^2 Psi = g^mu,nu (D_mu D_nu - Gamma^l_mu,nu D_l) Psi - (R/4) Psi, R = 6 '
-        "(a4'[x4]^2 - 7 H^2)"
+        "(gamma^mu D_mu)^2 Psi = g^mu,nu (D_mu D_nu - Gamma^l_mu,nu D_l) Psi - (R/4) Psi, R = 6 (a4'[x4]^2 - 7 "
+        'H^2)'
     ),
     'T_variation': (
-        'T^nu_mu = delta^nu_mu L0 - (1/2) (Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi) - (1/4) '
-        'g_mu,rho nabla_l (Psibar {gamma^l, Sigma^(nu rho)} Psi), Sigma^(nu rho) = (1/4) [gamma^nu, '
-        'gamma^rho]'
+        'T^nu_mu = delta^nu_mu L0 - (1/2) (Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi) - (1/4) g_mu,rho '
+        'nabla_l (Psibar {gamma^l, Sigma^(nu rho)} Psi), Sigma^(nu rho) = (1/4) [gamma^nu, gamma^rho]'
     ),
     'T_symmetric': (
-        'T^nu_mu = delta^nu_mu L0 - (1/4) (Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi + Psibar '
-        'gamma_mu D^nu Psi - D^nu Psibar gamma_mu Psi)'
+        'T^nu_mu = delta^nu_mu L0 - (1/4) (Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi + Psibar gamma_mu '
+        'D^nu Psi - D^nu Psibar gamma_mu Psi)'
     ),
     'EMT_diagonal': (
-        'K_mu = (1/(2 f_mu)) (Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi); L0 = sum_mu K_mu '
-        '- m S - U(S); T^mu_mu = L0 - K_mu; rho = -T^x4_x4 = -sum_(mu != x4) K_mu + m S + U; p3 = T^x1_x1 '
-        '(= T^x2_x2 = T^x3_x3 for isotropic states) = sum_(mu != x1) K_mu - m S - U; p_t = T^x5_x5 = '
-        'sum_(mu != x5) K_mu - m S - U; p8 = T^x8_x8 = sum_(mu != x8) K_mu - m S - U'
+        'K_mu = (1/(2 f_mu)) (Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi); L0 = sum_mu K_mu - m S - '
+        'U(S); T^mu_mu = L0 - K_mu; rho = -T^x4_x4 = -sum_(mu != x4) K_mu + m S + U; p3 = T^x1_x1 (= T^x2_x2 = '
+        'T^x3_x3 for isotropic states) = sum_(mu != x1) K_mu - m S - U; p_t = T^x5_x5 = sum_(mu != x5) K_mu - m S '
+        '- U; p0 = T^x0_x0 = sum_(mu != x0) K_mu - m S - U'
     ),
     'EMT_kinetic_potential': (
-        'T^nu_mu = T_kin^nu_mu + T_pot^nu_mu, T_pot^nu_mu = -delta^nu_mu (m S + U(S)), T_kin^nu_mu = '
-        'delta^nu_mu sum_l K_l - (1/4)(Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi + Psibar '
-        'gamma_mu D^nu Psi - D^nu Psibar gamma_mu Psi); potential energy density rho_pot = m S + U, '
-        'potential pressure p_pot = -(m S + U) in every direction'
+        'T^nu_mu = T_kin^nu_mu + T_pot^nu_mu, T_pot^nu_mu = -delta^nu_mu (m S + U(S)), T_kin^nu_mu = delta^nu_mu '
+        'sum_l K_l - (1/4)(Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi + Psibar gamma_mu D^nu Psi - D^nu '
+        'Psibar gamma_mu Psi); potential energy density rho_pot = m S + U, potential pressure p_pot = -(m S + U) '
+        'in every direction'
     ),
     'EMT_trace': (
-        "T^mu_mu (sum) = 8 L0 - sum_mu K_mu = 7 sum_mu K_mu - 8 (m S + U); on shell = 7 (m + U') S - 8 (m "
-        "S + U) = -m S + 7 S U' - 8 U"
+        "T^mu_mu (sum) = 8 L0 - sum_mu K_mu = 7 sum_mu K_mu - 8 (m S + U); on shell = 7 (m + U') S - 8 (m S + U) "
+        "= -m S + 7 S U' - 8 U"
     ),
     'EMT_homogeneous_on_shell': (
-        "rho = m S + U(S); p3 = p_t = p8 = S U'(S) - U(S); w = (S U' - U)/(m S + U); for U = (lam/2) S^2: "
-        'rho = m S + lam S^2/2, p = lam S^2/2, w = lam S/(2 m + lam S)'
+        "rho = m S + U(S); p3 = p_t = p0 = S U'(S) - U(S); w = (S U' - U)/(m S + U); for U = (lam/2) S^2: rho = m "
+        'S + lam S^2/2, p = lam S^2/2, w = lam S/(2 m + lam S)'
     ),
-    'EMT_offdiagonal_x4_x8': (
-        'T^x4_x8 = -(1/4) (B48 - Cot[z] B84), B48 = Psibar gamma^(x4) d8 Psi - d8 Psibar gamma^(x4) Psi, '
-        'B84 = Psibar gamma^(x8) d4 Psi - d4 Psibar gamma^(x8) Psi; T^x8_x4 = -Tan[z]^2 T^x4_x8 (T_x4x8 = '
-        'T_x8x4)'
+    'EMT_offdiagonal_x4_x0': (
+        'T^x4_x0 = -(1/4) (B40 - Cot[z] B04), B40 = Psibar gamma^(x4) d0 Psi - d0 Psibar gamma^(x4) Psi, B04 = '
+        'Psibar gamma^(x0) d4 Psi - d4 Psibar gamma^(x0) Psi; T^x0_x4 = -Tan[z]^2 T^x4_x0 (T_x4x0 = T_x0x4)'
     ),
     'nontriviality': (
-        'gamma^mu D_mu Psi - gamma^mu d_mu Psi = gamma^mu Omega_mu Psi = 3 H gamma^(x8) Psi (nonzero for '
-        "every H > 0, every a4, every Psi != 0); per direction gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + "
-        "(H/2) gamma^(x8) (i = 1, 2, 3, inflating) and gamma^(xt) Omega_xt = -(a4'/2) gamma^(x4) + (H/2) "
-        "gamma^(x8) (t = 5, 6, 7, deflating): the time-direction terms cancel (3 a4'/2 - 3 a4'/2 = 0), "
-        "the hidden-direction terms add (6 H/2 = 3 H); Omega_mu = 0 for all mu iff a4' = 0 and H = 0 (H = "
-        '0 is a degenerate limit of the metric); [D_mu, D_nu] = (1/2) R_ab,mu,nu S^ab, and R^x8_x8 = -6 '
-        'H^2 != 0: no frame removes Omega, the metric is never flat for H > 0'
+        'gamma^mu D_mu Psi - gamma^mu d_mu Psi = gamma^mu Omega_mu Psi = 3 H gamma^(x0) Psi (nonzero for every H '
+        "> 0, every a4, every Psi != 0); per direction gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) "
+        "gamma^(x0) (i = 1, 2, 3, inflating) and gamma^(xt) Omega_xt = -(a4'/2) gamma^(x4) + (H/2) gamma^(x0) (t "
+        "= 5, 6, 7, deflating): the time-direction terms cancel (3 a4'/2 - 3 a4'/2 = 0), the hidden-direction "
+        "terms add (6 H/2 = 3 H); Omega_mu = 0 for all mu iff a4' = 0 and H = 0 (H = 0 is a degenerate limit of "
+        'the metric); [D_mu, D_nu] = (1/2) R_ab,mu,nu S^ab, and R^x0_x0 = -6 H^2 != 0: no frame removes Omega, '
+        'the metric is never flat for H > 0'
     ),
     'majorana_negative_control': (
-        'anticommuting real Psi: sqrt g Psi^T C gamma^mu D_mu Psi = d_mu ((1/2) sqrt g Psi^T C gamma^mu '
-        'Psi) (a total derivative; no field equation; Psi^T C Psi = 0); commuting real Phi: '
-        'Euler-Lagrange expression 2 sqrt g C gamma^mu D_mu Phi and Phi^T C gamma^mu Phi = 0'
+        'anticommuting real Psi: sqrt g Psi^T C gamma^mu D_mu Psi = d_mu ((1/2) sqrt g Psi^T C gamma^mu Psi) (a '
+        'total derivative; no field equation; Psi^T C Psi = 0); commuting real Phi: Euler-Lagrange expression 2 '
+        'sqrt g C gamma^mu D_mu Phi and Phi^T C gamma^mu Phi = 0'
     ),
     'exact_solutions': (
-        '(i) U = 0: Psi = Sin[z]^al (Cosh[k x4] + Sinh[k x4]/k M) chi, M = -m g[x4] + 3 H (2 al + 1) '
-        'g[x4].g[x8], k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4); (ii) U = (lam/2) S^2, homogeneous: Psi = '
-        '(Cosh[k x4] + Sinh[k x4]/k M) chi, M = -(m + lam S0) g[x4] + 3 H g[x4].g[x8], S0 = chi^dagger C '
-        'chi, k^2 = 9 H^2 - (m + lam S0)^2 (commuting); Grassmann: Psi = sum_k [exp(M_m x4) + lam S0 d/dm '
-        'exp(M_m x4)] chi_k theta_k, S0 = sum_kl thetabar_k theta_l chi_k^dagger C chi_l; at (ii): rho = '
-        'm S0 + lam S0^2/2, p3 = p_t = p8 = lam S0^2/2'
+        '(i) U = 0: Psi = Sin[z]^al (Cosh[k x4] + Sinh[k x4]/k M) chi, M = -m g[x4] + 3 H (2 al + 1) g[x4].g[x0], '
+        'k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4); (ii) U = (lam/2) S^2, homogeneous: Psi = (Cosh[k x4] + Sinh[k '
+        'x4]/k M) chi, M = -(m + lam S0) g[x4] + 3 H g[x4].g[x0], S0 = chi^dagger C chi, k^2 = 9 H^2 - (m + lam '
+        'S0)^2 (commuting); Grassmann: Psi = sum_k [exp(M_m x4) + lam S0 d/dm exp(M_m x4)] chi_k theta_k, S0 = '
+        'sum_kl thetabar_k theta_l chi_k^dagger C chi_l; at (ii): rho = m S0 + lam S0^2/2, p3 = p_t = p0 = lam '
+        'S0^2/2'
     ),
     'equation_of_state_definitions': (
-        'rho = -T^x4_x4, p3 = T^x1_x1, p_t = T^x5_x5, p8 = T^x8_x8; w3 = p3/rho, w_t = p_t/rho, w8 = '
-        "p8/rho; homogeneous on shell: w3 = w_t = w8 = (S U' - U)/(m S + U)"
+        'rho = -T^x4_x4, p3 = T^x1_x1, p_t = T^x5_x5, p0 = T^x0_x0; w3 = p3/rho, w_t = p_t/rho, w0 = p0/rho; '
+        "homogeneous on shell: w3 = w_t = w0 = (S U' - U)/(m S + U)"
     ),
     'hidden_direction_hermiticity': (
-        'Cos[z] [p (Tan[z] d8 + 3 H) q + ((Tan[z] d8 + 3 H) p) q] = d8 (Sin[z] p q): the operator Tan[z] '
-        'd8 + 3 H is antisymmetric for the measure Cos[z] dx8 up to the boundary term Sin[z] p q, which '
-        'does not vanish at z = Pi/2; without 3 H the mode operator is not formally Hermitian for this '
-        'measure and these variables (Psi = Sin[z]^(-1/2) chi with the measure dy needs no such term)'
+        'Cos[z] [p (Tan[z] d0 + 3 H) q + ((Tan[z] d0 + 3 H) p) q] = d0 (Sin[z] p q): the operator Tan[z] d0 + 3 H '
+        'is antisymmetric for the measure Cos[z] dx0 up to the boundary term Sin[z] p q, which does not vanish at '
+        'z = Pi/2; without 3 H the mode operator is not formally Hermitian for this measure and these variables '
+        '(Psi = Sin[z]^(-1/2) chi with the measure dy needs no such term)'
     ),
 }
 
@@ -292,35 +290,35 @@ def _prose_expr(t, loc):
 
 def parse_dirac_prose(text, adjoint):
     """The prose field equation (adjoint=False) or adjoint equation (adjoint=True) of field-theory.json ->
-    (coefficients c_a of gamma^(a) d_a Psi (resp. d_a Psibar gamma^(a)), a = x1..x8, coefficient of the term
-    without derivative (gamma^(x8) Psi resp. Psibar gamma^(x8)), right-hand side text, problems found)."""
+    (coefficients c_a of gamma^(a) d_a Psi (resp. d_a Psibar gamma^(a)), a = x0..x7, coefficient of the term
+    without derivative (gamma^(x0) Psi resp. Psibar gamma^(x0)), right-hand side text, problems found)."""
     problems = []
     lhs, rhs = text.split(" = ")
     if adjoint:
         problems += [f"d{a} Psibar g[x{b}]" for a, b in re.findall(r"d(\d) Psibar g\[x(\d)\]", lhs) if a != b]
-        t = re.sub(r"d(\d) Psibar g\[x\1\]", r"GD_\1", lhs).replace("Psibar g[x8]", "G_8")
+        t = re.sub(r"d(\d) Psibar g\[x\1\]", r"GD_\1", lhs).replace("Psibar g[x0]", "G_0")
     else:
         problems += [f"g[x{a}] d{b}" for a, b in re.findall(r"g\[x(\d)\] d(\d)", lhs) if a != b]
-        t = re.sub(r"g\[x(\d)\] d\1", r"GD_\1", lhs).replace("g[x8] Psi", "G_8")
+        t = re.sub(r"g\[x(\d)\] d\1", r"GD_\1", lhs).replace("g[x0] Psi", "G_0")
         t = re.sub(r"\bPsi\b", "", t)
     t = re.sub(r"\s+", " ", t).replace("( ", "(").replace(" )", ")").strip()
     t = re.sub(r"E\^-a4(\[x4\])?", "exp(-a4x)", t)
     t = re.sub(r"E\^a4(\[x4\])?", "exp(a4x)", t)
     t = t.replace("Sin[z]", "sin(Z)").replace("Tan[z]", "tan(Z)").replace("Cot[z]", "cot(Z)").replace("^", "**")
-    gd = [sp.Symbol(f"GD_{a + 1}") for a in range(8)]
-    g8 = sp.Symbol("G_8")
-    loc = {"Z": Z, "a4x": a4x, "H": H, "G_8": g8}
+    gd = [sp.Symbol(f"GD_{a}") for a in range(8)]  # GD_a: gamma^(xa) d_a, a = 0..7
+    g0 = sp.Symbol("G_0")
+    loc = {"Z": Z, "a4x": a4x, "H": H, "G_0": g0}
     loc.update({str(x): x for x in gd})
     try:
         e = sp.expand(_prose_expr(t, loc))
     except (SyntaxError, TypeError, ValueError, sp.SympifyError) as exc:
         return [sp.Integer(0)] * 8, sp.Integer(0), rhs.strip(), problems + [f"not parsed: {type(exc).__name__}"]
-    if not e.free_symbols <= set(gd) | {g8, H, x8s, a4x}:
+    if not e.free_symbols <= set(gd) | {g0, H, x0s, a4x}:
         problems.append(f"unparsed symbols {sorted(map(str, e.free_symbols))}")
     coef = [e.coeff(x) for x in gd]
     rest = sp.expand(e - sum(cf * x for cf, x in zip(coef, gd)))
-    const = rest.coeff(g8)
-    if sp.expand(rest - const * g8) != 0 or any(cf.has(*gd, g8) for cf in coef) or const.has(*gd, g8):
+    const = rest.coeff(g0)
+    if sp.expand(rest - const * g0) != 0 or any(cf.has(*gd, g0) for cf in coef) or const.has(*gd, g0):
         problems.append("terms of another form")
     return coef, const, rhs.strip(), problems
 
@@ -334,7 +332,7 @@ QUANTISATION_STATEMENTS = [
     ("no positive inner product with Psi^dagger the adjoint (Krein space, fundamental symmetry B)",
      ["no_positive_inner_product"]),
     ("positive representation chi = Psi^dagger B, {Psi_A, chi_C} = delta_AC", ["good_sector_positive_fock_realisation"]),
-    ("Heisenberg: d4 Psi = -i B (1/Cos[z]) dHd/dPsi^dagger = -gamma^(x4) [(m + U') Psi - sum_(a != 4) gamma^a D_a Psi]",
+    ("Heisenberg: d4 Psi = -i B (1/Cos[z]) dHd/dPsi^dagger = -gamma^(x4) [(m + U') Psi - sum_(a != x4) gamma^a D_a Psi]",
      ["hamiltonian_form_and_heisenberg_equation"]),
     ("good sector (no x5, x6, x7 dependence): h Hermitian for Cos[z] d^7x, positive Fock space, normal-ordered H = sum "
      "E (b^* b + d^* d) >= 0 per momentum", ["good_sector_spectrum_and_B_sectors", "good_sector_positive_fock_realisation"]),
@@ -384,9 +382,9 @@ CHECK_MAP = [
     ("christoffel_symmetric_metric_compatible", ["christoffel_count"]),
     ("spin_connection_antisymmetric", ["omega_antisymmetric"]),
     ("vielbein_postulate", ["vielbein_postulate"]),
-    ("Omega_x4_and_Omega_x8_vanish", ["Omega_components", "omega_components"]),
+    ("Omega_x0_and_Omega_x4_vanish", ["Omega_components", "omega_components"]),
     ("covariant_constancy_D_mu_gamma_nu", ["gamma_covariantly_constant", "S_rotates_gamma_with_omega"]),
-    ("gamma_mu_Omega_mu_equals_3H_gamma_x8", ["gammaOmega_equals_3H_gamma_x8"]),
+    ("gamma_mu_Omega_mu_equals_3H_gamma_x0", ["gammaOmega_equals_3H_gamma_x0"]),
     ("time_terms_cancel_hidden_term_survives", ["gammaOmega_x4_terms_cancel"]),
     ("anticommutator_gamma_Omega_vanishes", ["gammaOmega_divergence_form", "L_spin_connection_drops_out_G",
                                              "L_spin_connection_drops_out_C"]),
@@ -419,8 +417,8 @@ CHECK_MAP = [
     ("grassmann_homogeneous_on_shell_rho_p", ["T_diagonal_components_G", "kinetic_sum_on_shell_G"]),
     ("commuting_homogeneous_on_shell_rho_p", ["T_diagonal_components_C", "kinetic_sum_on_shell_C",
                                               "exact_solution_nonlinear_homogeneous_C"]),
-    ("grassmann_T_x4x8_homogeneous", ["T_x4_x8_component_G"]),
-    ("commuting_T_x4x8_homogeneous", ["T_x4_x8_component_C"]),
+    ("grassmann_T_x4x0_homogeneous", ["T_x4_x0_component_G"]),
+    ("commuting_T_x4x0_homogeneous", ["T_x4_x0_component_C"]),
     ("grassmann_emt_equals_general_vielbein_variation_on_shell", ["T_vielbein_variation_closed_form_G",
                                                                   "Noether_identity_local_Lorentz_G"]),
     ("commuting_emt_equals_general_vielbein_variation_on_shell", ["T_vielbein_variation_closed_form_C",
@@ -442,7 +440,7 @@ CHECK_MAP = [
     ("hamiltonian_form_and_heisenberg_equation", ["Heisenberg_equation_reproduces_field_equation",
                                                   "evolution_form_G", "evolution_form_C"]),
     ("energy_exchange_equation", ["energy_exchange_equation"]),
-    ("exact_solution_family_x4_x8", ["solution_matrix_square", "exact_solution_x4_x8_G", "exact_solution_x4_x8_C"]),
+    ("exact_solution_family_x4_x0", ["solution_matrix_square", "exact_solution_x4_x0_G", "exact_solution_x4_x0_C"]),
     ("exact_nonlinear_homogeneous_solution", ["exact_solution_nonlinear_homogeneous_C",
                                               "exact_solution_nonlinear_homogeneous_G"]),
 ]
@@ -467,9 +465,9 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     ok = all(same(gw[i][j], to_wl_vars(geo.g[i]) if i == j else 0) for i in range(8) for j in range(8))
     rec(out, "metric", ok, "the 8x8 metric of field-theory.json equals g = eta f^2 of the sympy side entry by entry")
     fw = wl_parse(F["vielbein_diagonal"])
-    rec(out, "vielbein_diagonal", all(same(fw[a], to_wl_vars(geo.f[a])) for a in range(8)), "f_a, a = x1..x8")
-    rec(out, "sqrt_det_g", same(wl_parse(F["sqrt_det_g"]), to_wl_vars(geo.sqrtg)), "sqrt|det g| = cos(6 H x8)")
-    rec(out, "eta", [int(x) for x in wl_parse(F["eta"])] == ETA, "eta = diag(1,1,1,-1,-1,-1,-1,1)")
+    rec(out, "vielbein_diagonal", all(same(fw[a], to_wl_vars(geo.f[a])) for a in range(8)), "f_a, a = x0..x7")
+    rec(out, "sqrt_det_g", same(wl_parse(F["sqrt_det_g"]), to_wl_vars(geo.sqrtg)), "sqrt|det g| = cos(6 H x0)")
+    rec(out, "eta", [int(x) for x in wl_parse(F["eta"])] == ETA, "eta = diag(1,1,1,1,-1,-1,-1,-1)")
     # ---- Christoffel symbols
     lst = wl_parse(F["christoffel_nonzero"])
     theirs = {(int(l) - 1, int(a) - 1, int(b) - 1): v for l, a, b, v in lst}
@@ -483,7 +481,7 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     rm = [geo.ginv[a] * geo.ricci[a][a] for a in range(8)]
     offd = all(geo.ricci[a][b] == 0 for a in range(8) for b in range(8) if a != b)
     rec(out, "ricci_mixed_diagonal", offd and all(same(rw[a], to_wl_vars(rm[a])) for a in range(8)),
-        "R^mu_mu (no sum) for mu = x1..x8 equal; off-diagonal Ricci components vanish on both sides "
+        "R^mu_mu (no sum) for mu = x0..x7 equal; off-diagonal Ricci components vanish on both sides "
         f"(sympy: {[sp.sstr(sp.expand(x)) for x in rm]})")
     rec(out, "ricci_scalar", same(wl_parse(F["ricci_scalar"]), to_wl_vars(geo.Rscalar)),
         f"R = 6 (a4'^2 - 7 H^2) on both sides (sympy: {sp.sstr(geo.Rscalar)})")
@@ -495,31 +493,31 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     ok = set(theirs) == set(mine) and all(same(theirs[k], to_wl_vars(mine[k])) for k in mine)
     rec(out, "omega_nonzero", ok, f"{len(theirs)} Wolfram vs {len(mine)} sympy nonzero omega_mu,ab (a < b), equal")
     ok = True
-    for i in range(3):
-        Mi = (E * s * (A1 * G[i] * G[3] + H * G[i] * G[7]) / 2)
+    for i in range(1, 4):  # x1, x2, x3
+        Mi = (E * s * (A1 * G[i] * G[X4] + H * G[i] * G[X0]) / 2)
         ok = ok and all(zero_author(x) for x in (Mi - geo.Om[i]))
-    for t in range(4, 7):
-        Mt = -(s / E) * (A1 * G[3] * G[t] + H * G[t] * G[7]) / 2
+    for t in range(5, 8):  # x5, x6, x7
+        Mt = -(s / E) * (A1 * G[X4] * G[t] + H * G[t] * G[X0]) / 2
         ok = ok and all(zero_author(x) for x in (Mt - geo.Om[t]))
-    ok = ok and geo.Om[3] == sp.zeros(16, 16) and geo.Om[7] == sp.zeros(16, 16)
+    ok = ok and geo.Om[X4] == sp.zeros(16, 16) and geo.Om[X0] == sp.zeros(16, 16)
     ok = ok and F["Omega_components"] == STATED["Omega_components"]
-    rec(out, "Omega_components", ok, "(statement verbatim) the stated Omega_xi = (1/2) E^a4 Sin^(1/6) (a4' g[xi].g[x4] + H g[xi].g[x8]), "
-        "Omega_xt = -(1/2) E^-a4 Sin^(1/6) (a4' g[x4].g[xt] + H g[xt].g[x8]), Omega_x4 = Omega_x8 = 0, rebuilt from "
+    rec(out, "Omega_components", ok, "(statement verbatim) the stated Omega_xi = (1/2) E^a4 Sin^(1/6) (a4' g[xi].g[x4] + H g[xi].g[x0]), "
+        "Omega_xt = -(1/2) E^-a4 Sin^(1/6) (a4' g[x4].g[xt] + H g[xt].g[x0]), Omega_x0 = Omega_x4 = 0, rebuilt from "
         "the gammas, equal the sympy Omega_mu exactly")
     lst = wl_parse(F["gammaOmega_per_direction"])
     ok = True
     for mu, a, b in lst:
         mu = int(mu) - 1
         M = (geo.gam[mu] * geo.Om[mu]).applyfunc(sp.expand)
-        ok = ok and all(zero_author(x) for x in (M - a * G[3] - b * G[7]))
+        ok = ok and all(zero_author(x) for x in (M - a * G[X4] - b * G[X0]))
     rec(out, "gammaOmega_per_direction", ok, "gamma^mu Omega_mu (no sum) = (stated coefficient) gamma^(x4) + "
-        "(stated coefficient) gamma^(x8) for all 8 mu, checked against the sympy matrices")
+        "(stated coefficient) gamma^(x0) for all 8 mu, checked against the sympy matrices")
     tot = sp.zeros(16, 16)
     for mu in range(8):
         tot += geo.gam[mu] * geo.Om[mu]
     gt = wl_parse(F["gammaOmega_total"])
-    ok = sp.expand(gt - 3 * H * sp.Symbol("G_8")) == 0 and all(zero_author(x) for x in (tot - 3 * H * G[7]))
-    rec(out, "gammaOmega_total", ok, "3 H gamma^(x8) on both sides")
+    ok = sp.expand(gt - 3 * H * sp.Symbol("G_0")) == 0 and all(zero_author(x) for x in (tot - 3 * H * G[X0]))
+    rec(out, "gammaOmega_total", ok, "3 H gamma^(x0) on both sides")
     # ---- Lagrangian, field equations
     res_L = True
     for stat in ("grassmann", "commuting"):
@@ -532,9 +530,9 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         Sx = sps.S()
         Lw = (K.scale(sp.Rational(1, 2)) - Sx.scale(m) - (Sx * Sx).scale(lam / 2)).scale(geo.sqrtg)
         res_L = res_L and (Lw - sps.lagrangian()).expand().is_zero(zero_author)[0]
-    # the stated f_a: f_(1,2,3) = E^a4 Sin[z]^(1/6), f_4 = 1, f_(5,6,7) = E^-a4 Sin[z]^(1/6), f_8 = Cot[z]
-    f_stated = [sp.exp(a4x) * sp.sin(Z) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)] + \
-        [sp.exp(-a4x) * sp.sin(Z) ** sp.Rational(1, 6)] * 3 + [sp.cot(Z)]
+    # the stated f_a: f_0 = Cot[z], f_(1,2,3) = E^a4 Sin[z]^(1/6), f_4 = 1, f_(5,6,7) = E^-a4 Sin[z]^(1/6)
+    f_stated = [sp.cot(Z)] + [sp.exp(a4x) * sp.sin(Z) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)] + \
+        [sp.exp(-a4x) * sp.sin(Z) ** sp.Rational(1, 6)] * 3
     res_L = res_L and all(same(f_stated[a], to_wl_vars(geo.f[a])) for a in range(8))
     res_L = res_L and F["Lagrangian"] == STATED["Lagrangian"]
     rec(out, "Lagrangian", res_L, "(statement verbatim) the stated L = Cos[z][(1/2) sum_a (1/f_a)(Psibar gamma^(a) d_a "
@@ -552,7 +550,7 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
             if len(key) != 1:
                 continue  # the lambda S Psi terms belong to V on the Wolfram side
             kind, B, d = key[0]
-            sym = sp.Symbol(f"dd_{d[0]+1}_{B+1}") if d else sp.Symbol(f"P_{B+1}")
+            sym = sp.Symbol(f"dd_{d[0]}_{B+1}") if d else sp.Symbol(f"P_{B+1}")  # dd_k_B: d Psi_B / d xk
             mine += to_wl_vars(v) * sym
         mine += m * sp.Symbol(f"P_{A+1}")  # move the mass term back to the right-hand side V
         ok = ok and same(lw, mine) and sp.expand(wl_parse(rhs) - sp.Symbol("V") * sp.Symbol(f"P_{A+1}")) == 0
@@ -566,16 +564,16 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     fe_coef, fe_const, fe_rhs, fe_prob = parse_dirac_prose(F["field_equation"], adjoint=False)
     ok = not fe_prob and fe_rhs == "(m + U'(S)) Psi" and ok_fec
     ok = ok and all(same(fe_coef[a], to_wl_vars(1 / geo.f[a])) for a in range(8))
-    ok = ok and all(same(to_wl_vars(x), y) for x, y in zip(tot, fe_const * G[7]))
+    ok = ok and all(same(to_wl_vars(x), y) for x, y in zip(tot, fe_const * G[X0]))
     rec(out, "field_equation", ok, "the prose equation parsed: the coefficient of gamma^(a) d_a Psi equals the sympy "
         f"1/f_a for all eight a ({', '.join(sp.sstr(x) for x in fe_coef)}), the term without derivative "
-        f"{sp.sstr(fe_const)} gamma^(x8) Psi equals the sympy gamma^mu Omega_mu Psi, and the right-hand side is (m + "
+        f"{sp.sstr(fe_const)} gamma^(x0) Psi equals the sympy gamma^mu Omega_mu Psi, and the right-hand side is (m + "
         "U'(S)) Psi; the 16 components of this operator are compared in field_equation_components"
         + (f"; problems: {fe_prob}" if fe_prob else ""))
     blocks = F["field_equation_blocks"]
     ok = True
     for entry in blocks:
-        a = int(re.search(r'"x(\d)"', entry).group(1)) - 1
+        a = int(re.search(r'"x(\d)"', entry).group(1))  # xa has index a
         tb, tt = wl_parse(re.sub(r'"x\d",\s*', "", entry, count=1))
         Mb = sp.zeros(16, 16)
         Mb[0:8, 8:16] = sp.Matrix(tb)
@@ -590,21 +588,21 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     ad_coef, ad_const, ad_rhs, ad_prob = parse_dirac_prose(F["adjoint_equation"], adjoint=True)
     ok = not ad_prob and ad_rhs == "-(m + U'(S)) Psibar"
     ok = ok and all(same(ad_coef[a], to_wl_vars(1 / geo.f[a])) for a in range(8))
-    # the stated non-derivative term Psibar (ad_const gamma^(x8)) must be -Psibar Omega_mu gamma^mu
-    ok = ok and all(same(to_wl_vars(x), y) for x, y in zip(-OmG, ad_const * G[7]))
+    # the stated non-derivative term Psibar (ad_const gamma^(x0)) must be -Psibar Omega_mu gamma^mu
+    ok = ok and all(same(to_wl_vars(x), y) for x, y in zip(-OmG, ad_const * G[X0]))
     ok = ok and not ad_const.free_symbols - {H}
     for stat in ("grassmann", "commuting"):
         sps = ctx["sps"][stat]
         pb = sps.psibar()
-        lhs = sps.vecmat(pb, ad_const * G[7])
+        lhs = sps.vecmat(pb, ad_const * G[X0])
         for a in range(8):
             lhs = sps.vadd(lhs, sps.vecmat(sps.psibar((a,)), G[a] / geo.f[a]))
         Mp = Alg.scalar(stat, m) + sps.S().scale(lam)
         Eb = sps.dirac_Ebar()
         ok = ok and all((lhs[B] + Mp * pb[B] + Eb[B]).expand().is_zero(zero_author)[0] for B in range(16))
     rec(out, "adjoint_equation", ok, "the prose equation parsed: the coefficient of d_a Psibar gamma^(a) equals the "
-        "sympy 1/f_a for all eight a, the term without derivative " + sp.sstr(ad_const) + " Psibar gamma^(x8) equals "
-        "-Psibar Omega_mu gamma^mu (sympy: sum_mu Omega_mu gamma^mu = -3 H gamma^(x8)), and the stated equation "
+        "sympy 1/f_a for all eight a, the term without derivative " + sp.sstr(ad_const) + " Psibar gamma^(x0) equals "
+        "-Psibar Omega_mu gamma^mu (sympy: sum_mu Omega_mu gamma^mu = -3 H gamma^(x0)), and the stated equation "
         "(... = -(m + U'(S)) Psibar), rebuilt in the jet algebra, equals the sympy D_mu Psibar gamma^mu = -(m + U') "
         "Psibar exactly, both statistics" + (f"; problems: {ad_prob}" if ad_prob else ""))
     # ---- current
@@ -694,11 +692,11 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         for a in range(8):
             tr = tr + T[a][a]
         okt = okt and (tr - sumK.scale(7) + V.scale(8)).expand().is_zero(zero_author)[0]
-        B48 = sps.dot(pb, sps.matvec(G[3], sps.psi((7,)))) - sps.dot(sps.vecmat(sps.psibar((7,)), G[3]), ps)
-        B84 = sps.dot(pb, sps.matvec(G[7], sps.psi((3,)))) - sps.dot(sps.vecmat(sps.psibar((3,)), G[7]), ps)
-        T48 = (B48 - B84.scale(c / s**6)).scale(-sp.Rational(1, 4))
-        okx = okx and (T48 - T[3][7]).expand().is_zero(zero_author)[0]
-        okx = okx and (T[7][3] + T[3][7].scale(s**12 / c**2)).expand().is_zero(zero_author)[0]
+        B40 = sps.dot(pb, sps.matvec(G[X4], sps.psi((X0,)))) - sps.dot(sps.vecmat(sps.psibar((X0,)), G[X4]), ps)
+        B04 = sps.dot(pb, sps.matvec(G[X0], sps.psi((X4,)))) - sps.dot(sps.vecmat(sps.psibar((X4,)), G[X0]), ps)
+        T40 = (B40 - B04.scale(c / s**6)).scale(-sp.Rational(1, 4))
+        okx = okx and (T40 - T[X4][X0]).expand().is_zero(zero_author)[0]
+        okx = okx and (T[X0][X4] + T[X4][X0].scale(s**12 / c**2)).expand().is_zero(zero_author)[0]
     rec(out, "T_variation", okv and F["T_variation"] == STATED["T_variation"],
         "(statement verbatim) the stated closed form T^nu_mu = delta L0 - (1/2)(Psibar gamma^nu D_mu Psi - D_mu "
         "Psibar gamma^nu Psi) - (1/4) g_mu rho nabla_l (Psibar {gamma^l, Sigma^(nu rho)} Psi), rebuilt in the "
@@ -734,19 +732,19 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     ok_h = ok_h and sp.expand(Sg * sp.diff(Uq, Sg) - Uq - lam * Sg**2 / 2) == 0
     ok_h = ok_h and sp.simplify((Sg * sp.diff(Uq, Sg) - Uq) / (m * Sg + Uq) - lam * Sg / (2 * m + lam * Sg)) == 0
     ok_h = ok_h and {"grassmann_homogeneous_on_shell_rho_p", "commuting_homogeneous_on_shell_rho_p"} <= passed
-    rec(out, "EMT_homogeneous_on_shell", ok_h, "(statement verbatim) rho = m S + U and p3 = p_t = p8 = S U' - U are the "
+    rec(out, "EMT_homogeneous_on_shell", ok_h, "(statement verbatim) rho = m S + U and p3 = p_t = p0 = S U' - U are the "
         "statements of the passing sympy checks grassmann_homogeneous_on_shell_rho_p and "
         "commuting_homogeneous_on_shell_rho_p (verified there for U = (lambda/2) S^2 by the prolonged on-shell "
         "substitution, with T_kin^x4_x4 = 0 and T_kin^mu_mu = (m + U') S for mu != x4); the specialisations rho = m S + "
         "lambda S^2/2, p = lambda S^2/2 and w = lambda S/(2 m + lambda S) are recomputed here")
-    rec(out, "EMT_offdiagonal_x4_x8", okx and {"grassmann_T_x4x8_homogeneous", "commuting_T_x4x8_homogeneous"} <= passed
-        and F["EMT_offdiagonal_x4_x8"] == STATED["EMT_offdiagonal_x4_x8"],
-        "(statement verbatim) T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal the sympy "
-        "components off shell, both statistics; on homogeneous on-shell states the sympy side finds T^x4_x8 = T^x8_x4 = "
-        "0 (passing checks grassmann_T_x4x8_homogeneous, commuting_T_x4x8_homogeneous); the Wolfram side states "
-        "T^x4_x8 = 0 at its exact solutions (exact_solution_x4_x8_*)")
-    # ---- energy exchange: the complete identity nabla_mu T^mu_nu (all eight nu) for T = diag(p3, p3, p3, -rho, pt,
-    # pt, pt, p8) with entries functions of x4 and x8, recomputed HERE from the sympy Christoffel symbols with the
+    rec(out, "EMT_offdiagonal_x4_x0", okx and {"grassmann_T_x4x0_homogeneous", "commuting_T_x4x0_homogeneous"} <= passed
+        and F["EMT_offdiagonal_x4_x0"] == STATED["EMT_offdiagonal_x4_x0"],
+        "(statement verbatim) T^x4_x0 = -(1/4)(B40 - Cot[z] B04) and T^x0_x4 = -Tan[z]^2 T^x4_x0 equal the sympy "
+        "components off shell, both statistics; on homogeneous on-shell states the sympy side finds T^x4_x0 = T^x0_x4 = "
+        "0 (passing checks grassmann_T_x4x0_homogeneous, commuting_T_x4x0_homogeneous); the Wolfram side states "
+        "T^x4_x0 = 0 at its exact solutions (exact_solution_x4_x0_*)")
+    # ---- energy exchange: the complete identity nabla_mu T^mu_nu (all eight nu) for T = diag(p0, p3, p3, p3, -rho,
+    # pt, pt, pt) with entries functions of x4 and x0, recomputed HERE from the sympy Christoffel symbols with the
     # general mixed-tensor formula d_mu T^mu_nu + Gamma^mu_(mu l) T^l_nu - Gamma^l_(mu nu) T^mu_l (the sympy check
     # uses the sqrt g form), and compared with the three InputForm entries of the Wolfram record
     okE, detE = energy_exchange_compare(F["energy_exchange"], geo)
@@ -757,22 +755,22 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     for mu in range(8):
         M = (geo.gam[mu] * geo.Om[mu]).applyfunc(sp.expand)
         tot_nt += M
-        if mu in (0, 1, 2):
-            want = A1 / 2 * G[3] + H / 2 * G[7]
-        elif mu in (4, 5, 6):
-            want = -A1 / 2 * G[3] + H / 2 * G[7]
+        if mu in (1, 2, 3):
+            want = A1 / 2 * G[X4] + H / 2 * G[X0]
+        elif mu in (5, 6, 7):
+            want = -A1 / 2 * G[X4] + H / 2 * G[X0]
         else:
             want = sp.zeros(16, 16)
         ok_nt = ok_nt and all(zero_author(x) for x in (M - want))
-    r88 = sp.expand(geo.ginv[X8] * geo.ricci[X8][X8])
-    ok_nt = ok_nt and all(zero_author(x) for x in (tot_nt - 3 * H * G[7])) and zero_author(r88 + 6 * H**2)
-    ok_nt = ok_nt and G[7] * G[7] == sp.eye(16)
-    ok_nt = ok_nt and {"gamma_mu_Omega_mu_equals_3H_gamma_x8", "time_terms_cancel_hidden_term_survives",
+    r00 = sp.expand(geo.ginv[X0] * geo.ricci[X0][X0])
+    ok_nt = ok_nt and all(zero_author(x) for x in (tot_nt - 3 * H * G[X0])) and zero_author(r00 + 6 * H**2)
+    ok_nt = ok_nt and G[X0] * G[X0] == sp.eye(16)
+    ok_nt = ok_nt and {"gamma_mu_Omega_mu_equals_3H_gamma_x0", "time_terms_cancel_hidden_term_survives",
                        "nontriviality_Omega_zero_iff_flat", "spinor_curvature_equals_riemann"} <= passed
     rec(out, "nontriviality", ok_nt, "(statement verbatim) recomputed here from the sympy matrices and Ricci tensor: "
-        "gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) gamma^(x8) (i = 1, 2, 3), gamma^(xt) Omega_xt = -(a4'/2) "
-        "gamma^(x4) + (H/2) gamma^(x8) (t = 5, 6, 7), gamma^(x4) Omega_x4 = gamma^(x8) Omega_x8 = 0, the sum 3 H "
-        "gamma^(x8) (nonzero on every Psi != 0 since (gamma^(x8))^2 = 1), R^x8_x8 = -6 H^2; the iff statement and "
+        "gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) gamma^(x0) (i = 1, 2, 3), gamma^(xt) Omega_xt = -(a4'/2) "
+        "gamma^(x4) + (H/2) gamma^(x0) (t = 5, 6, 7), gamma^(x0) Omega_x0 = gamma^(x4) Omega_x4 = 0, the sum 3 H "
+        "gamma^(x0) (nonzero on every Psi != 0 since (gamma^(x0))^2 = 1), R^x0_x0 = -6 H^2; the iff statement and "
         "[D_mu, D_nu] = curvature are the passing sympy checks nontriviality_Omega_zero_iff_flat and "
         "spinor_curvature_equals_riemann. Scope: the values belong to the diagonal vielbein (frame dependence: "
         "Revision/theory/reports/python-scope.json)")
@@ -789,8 +787,8 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         "negative_control_majorana_commuting_contrast; recomputed here: Psi^T C Psi = 0 for 16 real anticommuting "
         "components and Phi^T C gamma^(a) Phi = 0 for 16 real commuting components, all a")
     al, S0 = sp.symbols("alpha S0", real=True)
-    M1 = -m * G[3] + 3 * H * (2 * al + 1) * G[3] * G[7]
-    M2 = -(m + lam * S0) * G[3] + 3 * H * G[3] * G[7]
+    M1 = -m * G[X4] + 3 * H * (2 * al + 1) * G[X4] * G[X0]
+    M2 = -(m + lam * S0) * G[X4] + 3 * H * G[X4] * G[X0]
     I16 = sp.eye(16)
     ok_ex = (M1 * M1 - (9 * H**2 * (2 * al + 1)**2 - m**2) * I16).applyfunc(sp.expand) == sp.zeros(16, 16)
     ok_ex = ok_ex and (M2 * M2 - (9 * H**2 - (m + lam * S0)**2) * I16).applyfunc(sp.expand) == sp.zeros(16, 16)
@@ -799,12 +797,12 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     ok_ex = ok_ex and sp.expand((m * Sg + Uq).subs(Sg, S0) - (m * S0 + lam * S0**2 / 2)) == 0 and \
         sp.expand((Sg * sp.diff(Uq, Sg) - Uq).subs(Sg, S0) - lam * S0**2 / 2) == 0
     ok_ex = ok_ex and F["exact_solutions"] == STATED["exact_solutions"]
-    ok_ex = ok_ex and {"exact_solution_family_x4_x8", "exact_nonlinear_homogeneous_solution"} <= passed
+    ok_ex = ok_ex and {"exact_solution_family_x4_x0", "exact_nonlinear_homogeneous_solution"} <= passed
     rec(out, "exact_solutions", ok_ex, "(statement verbatim) with the sympy gammas: M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) "
         "I16 and M^2 = (9 H^2 - (m + lambda S0)^2) I16 for the two stated M, C M + M^T C = 0 for both (S constant), and "
         "rho = m S0 + lambda S0^2/2, p = S U' - U = lambda S0^2/2 for U = lambda S^2/2; the solutions themselves - (i), "
         "(ii) and the Grassmann solution in an explicit Grassmann algebra with N = 2 - are the passing sympy checks "
-        "exact_solution_family_x4_x8 and exact_nonlinear_homogeneous_solution")
+        "exact_solution_family_x4_x0 and exact_nonlinear_homogeneous_solution")
     wq = sp.simplify((Sg * sp.diff(Uq, Sg) - Uq) / (m * Sg + Uq) - lam * Sg / (2 * m + lam * Sg))
     ok_eo = F["equation_of_state_definitions"] == STATED["equation_of_state_definitions"] and wq == 0 and \
         {"grassmann_homogeneous_on_shell_rho_p", "commuting_homogeneous_on_shell_rho_p"} <= passed
@@ -812,21 +810,21 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         "the sympy record (rho = -T^x4_x4, p_mu = T^mu_mu); (S U' - U)/(m S + U) = lambda S/(2 m + lambda S) for U = "
         "lambda S^2/2 recomputed here; the homogeneous values from the passing sympy checks "
         "*_homogeneous_on_shell_rho_p")
-    pf, qf = sp.Function("p")(x8s), sp.Function("q")(x8s)
-    op = lambda f, k3: sp.tan(Z) * sp.diff(f, x8s) + k3 * f
-    lhs3 = sp.cos(Z) * (pf * op(qf, 3 * H) + op(pf, 3 * H) * qf) - sp.diff(sp.sin(Z) * pf * qf, x8s)
-    lhs0 = sp.cos(Z) * (pf * op(qf, 0) + op(pf, 0) * qf) - sp.diff(sp.sin(Z) * pf * qf, x8s)
+    pf, qf = sp.Function("p")(x0s), sp.Function("q")(x0s)
+    op = lambda f, k3: sp.tan(Z) * sp.diff(f, x0s) + k3 * f
+    lhs3 = sp.cos(Z) * (pf * op(qf, 3 * H) + op(pf, 3 * H) * qf) - sp.diff(sp.sin(Z) * pf * qf, x0s)
+    lhs0 = sp.cos(Z) * (pf * op(qf, 0) + op(pf, 0) * qf) - sp.diff(sp.sin(Z) * pf * qf, x0s)
     ok_hh = sp.simplify(lhs3) == 0 and sp.simplify(lhs0 + 6 * H * sp.cos(Z) * pf * qf) == 0 and \
         F["hidden_direction_hermiticity"] == STATED["hidden_direction_hermiticity"]
-    rec(out, "hidden_direction_hermiticity", ok_hh, "(statement verbatim) recomputed here: cos z [p (tan z d8 + 3H) q + "
-        "((tan z d8 + 3H) p) q] = d8(sin z p q) identically, and without the 3H term the same combination is d8(sin z "
-        "p q) - 6 H cos z p q. Scope: this is antisymmetry for the measure cos z dx8 in the field variables Psi, up to "
+    rec(out, "hidden_direction_hermiticity", ok_hh, "(statement verbatim) recomputed here: cos z [p (tan z d0 + 3H) q + "
+        "((tan z d0 + 3H) p) q] = d0(sin z p q) identically, and without the 3H term the same combination is d0(sin z "
+        "p q) - 6 H cos z p q. Scope: this is antisymmetry for the measure cos z dx0 in the field variables Psi, up to "
         "the boundary term sin z p q, which does not vanish at z = pi/2 (Revision/theory/reports/python-scope.json)")
     segs = F["quantisation"].split("; ")
     mine_pass = {x["name"]: x["verdict"] == "pass" for x in checks}
     okq = segs == [a for a, _ in QUANTISATION_STATEMENTS]
     okq = okq and all(mine_pass.get(b, False) for _, bs in QUANTISATION_STATEMENTS for b in bs)
-    okq = okq and (Cm * G[3] - sp.I * gm["B"]).applyfunc(sp.expand) == sp.zeros(16, 16)
+    okq = okq and (Cm * G[X4] - sp.I * gm["B"]).applyfunc(sp.expand) == sp.zeros(16, 16)
     rec(out, "quantisation", okq, f"the record consists of exactly these {len(QUANTISATION_STATEMENTS)} statements, "
         "each with passing sympy counterparts: " + "; ".join(f"'{a}' <-> {', '.join(bs)}"
                                                            for a, bs in QUANTISATION_STATEMENTS)

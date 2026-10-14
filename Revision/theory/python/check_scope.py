@@ -7,13 +7,14 @@ Revision/theory/reports/python-scope.json (deterministic, LF).
 
 Usage:  python Revision/theory/python/check_scope.py [--out PATH]
 
-Coordinates as the author names them (arrays index them 0..7): x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the
-three extra times, which DEFLATE exponentially (scale factor e^{-a4} sin^{1/6} z, a4 increasing); x8 = the hidden
-direction, z = 6 H x8 in (0, pi/2).
+Coordinates as the author names them, in his order x0..x7 (arrays index them 0..7, index k = xk): x0 = the hidden
+direction, z = 6 H x0 in (0, pi/2); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the three extra times, which DEFLATE
+exponentially (scale factor e^{-a4} sin^{1/6} z, a4 increasing).  (Until 2026-10-14 the withdrawn labels x1..x8 with the
+hidden direction x8 last were used.)
 
 Coefficient ring (exact): Ea = e^{a4(x4)}, A1, A2, A3 = a4', a4'', a4'''; s = sin(z)^(1/6), c = cos z; ch = cosh b,
-sh = sinh b for a frame boost of rapidity b(x4) = beta x4 + b0 in the (x4, x8) plane.  Derivatives:
-d4 Ea = Ea A1, d4 A1 = A2, d4 A2 = A3, d4 ch = beta sh, d4 sh = beta ch; d8 s = H c/s^5, d8 c = -6 H s^6.
+sh = sinh b for a frame boost of rapidity b(x4) = beta x4 + b0 in the (x4, x0) plane.  Derivatives:
+d4 Ea = Ea A1, d4 A1 = A2, d4 A2 = A3, d4 ch = beta sh, d4 sh = beta ch; d0 s = H c/s^5, d0 c = -6 H s^6.
 Zero test: numerator reduced with c^2 = 1 - s^12 and ch^2 = 1 + sh^2.
 """
 
@@ -28,8 +29,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REV = os.path.normpath(os.path.join(HERE, "..", ".."))
 GAMMAS = os.path.join(REV, "algebra", "gammas.json")
 OUT = os.path.join(REV, "theory", "reports", "python-scope.json")
-X4, X8 = 3, 7
-ETA = [1, 1, 1, -1, -1, -1, -1, 1]
+X0, X4 = 0, 4
+ETA = [1, 1, 1, 1, -1, -1, -1, -1]
 N = 16
 T0 = time.time()
 CHECKS = []
@@ -68,7 +69,7 @@ def cd(expr, mu, rate=beta):
     if mu == X4:
         r = sp.diff(expr, Ea) * Ea * A1 + sp.diff(expr, A1) * A2 + sp.diff(expr, A2) * A3 + sp.diff(expr, A3) * A4
         return r + sp.diff(expr, ch) * rate * sh + sp.diff(expr, sh) * rate * ch
-    if mu == X8:
+    if mu == X0:
         return sp.diff(expr, s) * H * c / s**5 + sp.diff(expr, c) * (-6 * H * s**6)
     return sp.Integer(0)
 
@@ -100,13 +101,13 @@ def mzero(M):
 
 
 # ------------------------------------------------------------------ a general vielbein e^a_mu (rows a, columns mu)
-DIAG = [Ea * s, Ea * s, Ea * s, sp.Integer(1), s / Ea, s / Ea, s / Ea, c / s**6]   # e^a_mu = f_a delta^a_mu
+DIAG = [c / s**6, Ea * s, Ea * s, Ea * s, sp.Integer(1), s / Ea, s / Ea, s / Ea]   # e^a_mu = f_a delta^a_mu
 
 
 def boost(chv, shv):
-    """Lorentz boost of the frame in the (x4, x8) plane: e'^(4) = ch e^(4) + sh e^(8), e'^(8) = sh e^(4) + ch e^(8)."""
+    """Lorentz boost of the frame in the (x4, x0) plane: e'^(4) = ch e^(4) + sh e^(0), e'^(0) = sh e^(4) + ch e^(0)."""
     L = sp.eye(8)
-    L[X4, X4], L[X4, X8], L[X8, X4], L[X8, X8] = chv, shv, shv, chv
+    L[X4, X4], L[X4, X0], L[X0, X4], L[X0, X0] = chv, shv, shv, chv
     return L
 
 
@@ -193,9 +194,9 @@ def main():
     fb = Frame(boost(ch, sh), boost(ch, -sh), beta)              # rapidity b = beta x4 + b0
     metric_ok = all(is0(fb.g[mu][nu] - (fb.gdiag[mu] if mu == nu else 0)) for mu in range(8) for nu in range(8))
     check("boosted_frame_reproduces_metric", metric_ok and mzero(fb.e * fb.E - sp.eye(8)),
-          "the frame boosted in the (x4, x8) plane, e'^(x4) = cosh b e^(x4) + sinh b e^(x8), e'^(x8) = sinh b e^(x4) + "
-          "cosh b e^(x8) (other e'^(a) = e^(a), b = b(x4) = beta x4 + b0), with e^(a) the diagonal vielbein "
-          "(e^a_mu = f_a delta^a_mu, f = (e^a4 sin^(1/6) z [x3], 1, e^-a4 sin^(1/6) z [x3], cot z)): "
+          "the frame boosted in the (x4, x0) plane, e'^(x4) = cosh b e^(x4) + sinh b e^(x0), e'^(x0) = sinh b e^(x4) + "
+          "cosh b e^(x0) (other e'^(a) = e^(a), b = b(x4) = beta x4 + b0), with e^(a) the diagonal vielbein "
+          "(e^a_mu = f_a delta^a_mu, f = (cot z, e^a4 sin^(1/6) z [x3], 1, e^-a4 sin^(1/6) z [x3]), order x0..x7): "
           "eta_ab e'^a_mu e'^b_nu equals the author's metric for all 64 (mu, nu), and e' E' = 1 for its inverse")
     nbad = fb.postulate_ok()
     check("boosted_frame_canonical_connection", nbad == 0 and fb.antisym_ok(),
@@ -203,34 +204,34 @@ def main():
           f"e'_b^lam): the vielbein postulate holds for all 512 (a, mu, nu) ({nbad} failures) and omega_mu ab = "
           "eta_ac omega_mu^c_b is antisymmetric in a, b for every mu (exact, symbolic a4, H, beta)")
     tot_b = fb.gamma_Omega()
-    want = (6 * H - beta) / 2 * (ch * G[X8] - sh * G[X4])
+    want = (6 * H - beta) / 2 * (ch * G[X0] - sh * G[X4])
     nz = [mu for mu in range(8) if not mzero(fb.Om[mu])]
     check("boosted_frame_gammaOmega_formula", mzero(tot_b - want),
-          "in the boosted frame gamma'^mu Omega'_mu = ((6 H - beta)/2) (cosh b gamma^(x8) - sinh b gamma^(x4)) "
+          "in the boosted frame gamma'^mu Omega'_mu = ((6 H - beta)/2) (cosh b gamma^(x0) - sinh b gamma^(x4)) "
           "exactly for every a4(x4), H > 0 and rapidity rate beta; at b = 0 (cosh b = 1, sinh b = 0, beta = 0) this is "
-          "the value 3 H gamma^(x8) of the diagonal frame (control: the same code reproduces the diagonal-frame "
+          "the value 3 H gamma^(x0) of the diagonal frame (control: the same code reproduces the diagonal-frame "
           "value). Equivalently gamma'^mu Omega'_mu = (1/2) div(e'_(a)) gamma^(a): div e'_(x4) = sinh b (beta - 6 H), "
-          "div e'_(x8) = cosh b (6 H - beta), all other frame divergences vanish, and the totally antisymmetric part "
+          "div e'_(x0) = cosh b (6 H - beta), all other frame divergences vanish, and the totally antisymmetric part "
           "of omega' vanishes")
     fz = Frame(boost(ch, sh), boost(ch, -sh), 6 * H)              # rapidity b = 6 H x4 + b0
     tot_z = fz.gamma_Omega()
     nz_z = [mu for mu in range(8) if not mzero(fz.Om[mu])]
-    check("boosted_frame_gammaOmega_vanishes", mzero(tot_z) and nz_z == [0, 1, 2, 3, 4, 5, 6] and fz.postulate_ok() == 0,
+    check("boosted_frame_gammaOmega_vanishes", mzero(tot_z) and nz_z == [1, 2, 3, 4, 5, 6, 7] and fz.postulate_ok() == 0,
           "with rapidity b = 6 H x4 + b0 the term of the Euler-Lagrange operator gamma'^mu D'_mu - gamma'^mu d_mu = "
           "gamma'^mu Omega'_mu is IDENTICALLY ZERO for every H > 0 and every a4(x4) (exact), although the metric is "
-          "the author's and curved (R^x8_x8 = -6 H^2): the value 3 H gamma^(x8) belongs to the diagonal vielbein, it "
+          "the author's and curved (R^x0_x0 = -6 H^2): the value 3 H gamma^(x0) belongs to the diagonal vielbein, it "
           "is not a frame-independent part of the field equation. Omega'_mu itself is nonzero for mu = "
-          + ", ".join(f"x{mu + 1}" for mu in nz_z) + " (zero only for x8), as it must be in every frame (its "
+          + ", ".join(f"x{mu}" for mu in nz_z) + " (zero only for x0), as it must be in every frame (its "
           "curvature is the Riemann tensor, next check)")
-    # curvature of Omega' in the boosted frame, component (x1, x8): nonzero (frame-independent obstruction)
-    F18 = sp.zeros(N, N)
+    # curvature of Omega' in the boosted frame, component (x1, x0): nonzero (frame-independent obstruction)
+    F10 = sp.zeros(N, N)
     for i_ in range(N):
         for j_ in range(N):
-            F18[i_, j_] = cd(fz.Om[X8][i_, j_], 0, 6 * H) - cd(fz.Om[0][i_, j_], X8, 6 * H)
-    F18 = (F18 + fz.Om[0] * fz.Om[X8] - fz.Om[X8] * fz.Om[0]).applyfunc(canon)
-    check("boosted_frame_curvature_nonzero", not mzero(F18) and nz_z != [],
-          "in the boosted frame (b = 6 H x4 + b0) the spinor curvature F'_x1x8 = d_x1 Omega'_x8 - d_x8 Omega'_x1 + "
-          "[Omega'_x1, Omega'_x8] is nonzero: Omega' cannot vanish in this frame, and in no frame, because its "
+            F10[i_, j_] = cd(fz.Om[X0][i_, j_], 1, 6 * H) - cd(fz.Om[1][i_, j_], X0, 6 * H)
+    F10 = (F10 + fz.Om[1] * fz.Om[X0] - fz.Om[X0] * fz.Om[1]).applyfunc(canon)
+    check("boosted_frame_curvature_nonzero", not mzero(F10) and nz_z != [],
+          "in the boosted frame (b = 6 H x4 + b0) the spinor curvature F'_x1x0 = d_x1 Omega'_x0 - d_x0 Omega'_x1 + "
+          "[Omega'_x1, Omega'_x0] is nonzero: Omega' cannot vanish in this frame, and in no frame, because its "
           "curvature is (1/2) R_ab,mu,nu S^ab and the metric is curved for H > 0; what vanishes in this frame is only "
           "the contraction gamma'^mu Omega'_mu")
 
@@ -239,11 +240,11 @@ def main():
     tot_d = fd.gamma_Omega()
     w = s**-3                                                      # sin(z)^(-1/2)
     Mres = sum((fd.gam[mu] * cd(w, mu, 0) for mu in range(8)), sp.zeros(N, N)) + w * tot_d
-    check("rescaling_removes_the_connection_term", mzero(tot_d - 3 * H * G[X8]) and mzero(Mres),
-          "diagonal frame: gamma^mu Omega_mu = 3 H gamma^(x8) (control), and for Psi = sin^(-1/2)(z) chi with any 16 "
-          "component functions chi(x1, ..., x8): gamma^mu D_mu Psi - sin^(-1/2)(z) gamma^mu d_mu chi = "
+    check("rescaling_removes_the_connection_term", mzero(tot_d - 3 * H * G[X0]) and mzero(Mres),
+          "diagonal frame: gamma^mu Omega_mu = 3 H gamma^(x0) (control), and for Psi = sin^(-1/2)(z) chi with any 16 "
+          "component functions chi(x0, ..., x7): gamma^mu D_mu Psi - sin^(-1/2)(z) gamma^mu d_mu chi = "
           "(gamma^mu d_mu sin^(-1/2) z + sin^(-1/2) z gamma^mu Omega_mu) chi = (tan z (-3 H sin^(-1/2) z) + 3 H "
-          "sin^(-1/2) z) gamma^(x8) chi = 0 exactly (the operator is first order, so this matrix identity is the "
+          "sin^(-1/2) z) gamma^(x0) chi = 0 exactly (the operator is first order, so this matrix identity is the "
           "identity for every chi). In the variables chi the field equation has no spin-connection term: "
           "gamma^mu d_mu chi = (m + U'(S)) chi")
     Ssym, St = sp.symbols("S St", real=True)
@@ -252,9 +253,9 @@ def main():
     check("rescaled_equation_quadratic_potential", is0(upr - lam * St / s**6),
           "with U = (lambda/2) S^2 and Psi = sin^(-1/2)(z) chi: S[Psi] = Psi^dagger C Psi = sin^(-1)(z) S[chi], so the "
           "rescaled equation is gamma^mu d_mu chi = (m + lambda S[chi]/sin z) chi exactly: for U = 0 the 3 H term is "
-          "removed completely, for U != 0 it becomes the x8-dependent coupling lambda S[chi]/sin z. The exact U = 0 "
+          "removed completely, for U != 0 it becomes the x0-dependent coupling lambda S[chi]/sin z. The exact U = 0 "
           "family of the theory record at alpha = -1/2 is the same statement: M = -m gamma^(x4) + 3 H (2 alpha + 1) "
-          "gamma^(x4) gamma^(x8) = -m gamma^(x4) and k^2 = -m^2 (no H)")
+          "gamma^(x4) gamma^(x0) = -m gamma^(x4) and k^2 = -m^2 (no H)")
     # a4 does not enter gamma^mu Omega_mu, although the a4 sector is curved
     Ric4 = 0
     Gd = fd.Gam
@@ -269,13 +270,13 @@ def main():
     def ric_mixed(a):
         return canon(sum(riem(r, a, r, a) for r in range(8)) / fd.gdiag[a])
 
-    R44, R11, R88 = ric_mixed(X4), ric_mixed(0), ric_mixed(X8)
+    R44, R11, R00 = ric_mixed(X4), ric_mixed(1), ric_mixed(X0)
     noa4 = all(sp.diff(x, v) == 0 for x in tot_d for v in (Ea, A1, A2))
     check("gammaOmega_blind_to_the_deflation", noa4 and is0(R44 - 6 * A1**2) and is0(R11 - (A2 - 6 * H**2))
-          and is0(R88 + 6 * H**2),
-          "diagonal frame: gamma^mu Omega_mu = 3 H gamma^(x8) contains neither e^a4 nor a4' nor a4'' (the "
+          and is0(R00 + 6 * H**2),
+          "diagonal frame: gamma^mu Omega_mu = 3 H gamma^(x0) contains neither e^a4 nor a4' nor a4'' (the "
           "time-direction terms of the 3 inflating and the 3 deflating directions cancel), while the a4 sector is "
-          "curved: R^x4_x4 = 6 a4'^2, R^x1_x1 = a4'' - 6 H^2, R^x8_x8 = -6 H^2 (own Riemann computation from the "
+          "curved: R^x4_x4 = 6 a4'^2, R^x1_x1 = a4'' - 6 H^2, R^x0_x0 = -6 H^2 (own Riemann computation from the "
           "Christoffel symbols, compared exactly). The deflation enters the field equation only through the frame "
           "factors e^(-+a4) sin^(-1/6) z of the derivative terms; in the formal limit H -> 0 gamma^mu Omega_mu = 0 "
           "although R^x4_x4 = 6 a4'^2 != 0")
@@ -288,36 +289,36 @@ def main():
           "the canonical spin connection drops out of the symmetrised Lagrangian: L(Omega) = L(Omega = 0) "
           "identically, and its Euler-Lagrange equations equal those of the connection-free symmetric Lagrangian, "
           "gamma^mu d_mu Psi + (1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) Psi = (m + U') Psi; the matrix identity "
-          "(1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) = gamma^mu Omega_mu = 3 H gamma^(x8) is recomputed here: the "
+          "(1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) = gamma^mu Omega_mu = 3 H gamma^(x0) is recomputed here: the "
           "surviving term is the half-density (volume and vielbein divergence) term")
     # the spin connection is visible in the energy-momentum tensor (diagonal frame, homogeneous configuration)
-    dK = (fd.gam[X4] * fd.Om[0] + fd.Om[0] * fd.gam[X4]) / 2       # Omega-part of K^x4_x1 for Phi = Phi(x4)
-    target = Ea * s * H * G[X4] * G[0] * G[X8] / 2
-    biln = C * G[X4] * G[0] * G[X8]
+    dK = (fd.gam[X4] * fd.Om[1] + fd.Om[1] * fd.gam[X4]) / 2       # Omega-part of K^x4_x1 for Phi = Phi(x4)
+    target = Ea * s * H * G[X4] * G[1] * G[X0] / 2
+    biln = C * G[X4] * G[1] * G[X0]
     check("spin_connection_in_the_energy_momentum_tensor", mzero(dK - target) and biln != Z16,
           "diagonal frame, homogeneous configuration Phi = Phi(x4): in K^x4_x1 = (1/2)(Phibar gamma^x4 D_x1 Phi - "
           "D_x1 Phibar gamma^x4 Phi) the derivative part vanishes and the connection part is (1/2) Phibar "
-          "{gamma^x4, Omega_x1} Phi = (1/2) e^a4 sin^(1/6) z H Phibar gamma^(x4) gamma^(x1) gamma^(x8) Phi (the a4' "
-          "part cancels exactly); C gamma^(x4) gamma^(x1) gamma^(x8) != 0, so the canonical spin connection "
+          "{gamma^x4, Omega_x1} Phi = (1/2) e^a4 sin^(1/6) z H Phibar gamma^(x4) gamma^(x1) gamma^(x0) Phi (the a4' "
+          "part cancels exactly); C gamma^(x4) gamma^(x1) gamma^(x0) != 0, so the canonical spin connection "
           "contributes to the off-diagonal energy-momentum tensor although it drops out of the Lagrangian")
 
     # ================================================================ 3. Hermiticity only up to the brane flux
     tz = s**6 / c
-    M8 = sp.I * G[X4] * G[X8]
-    Aop = -sp.I * m * G[X4] + 3 * sp.I * H * G[X4] * G[X8]          # h on x8-independent functions (k = 0)
-    Bop = sp.I * tz * G[X4] * G[X8]                                # coefficient of d_x8 in h
-    ident = mzero(c * Bop - s**6 * M8) and mzero(c * (Aop - Aop.H) - cd(s**6, X8, 0) * M8) and mzero(Bop + Bop.H)
-    v_ = G[X4] * G[X8]
-    evec = (v_ + I16).columnspace()[0]                             # gamma^(x4) gamma^(x8) u = u, M8 u = i u
-    flux = sp.simplify((evec.H * M8 * evec)[0, 0])
+    M0 = sp.I * G[X4] * G[X0]
+    Aop = -sp.I * m * G[X4] + 3 * sp.I * H * G[X4] * G[X0]          # h on x0-independent functions (k = 0)
+    Bop = sp.I * tz * G[X4] * G[X0]                                # coefficient of d_x0 in h
+    ident = mzero(c * Bop - s**6 * M0) and mzero(c * (Aop - Aop.H) - cd(s**6, X0, 0) * M0) and mzero(Bop + Bop.H)
+    v_ = G[X4] * G[X0]
+    evec = (v_ + I16).columnspace()[0]                             # gamma^(x4) gamma^(x0) u = u, M0 u = i u
+    flux = sp.simplify((evec.H * M0 * evec)[0, 0])
     check("good_sector_hermiticity_up_to_the_brane_flux", ident and flux != 0,
-          "curved good-sector mode operator at k = 0, h = -i m gamma^(x4) + i gamma^(x4) gamma^(x8) (tan z d_x8 + 3 H) "
-          "(i d_x4 Psi = h Psi for U = 0): cos z [u^dagger (h v) - (h u)^dagger v] = d_x8(sin z u^dagger M8 v), M8 = "
-          "i gamma^(x4) gamma^(x8), for all u(x8), v(x8) (matrix identities: cos z * (coefficient of d_x8) = sin z M8, "
-          "cos z (A - A^dagger) = (d_x8 sin z) M8 for the algebraic part A, coefficient of d_x8 anti-Hermitian). So h "
-          "is symmetric for int cos z u^dagger v dx8 only up to the boundary term [sin z u^dagger M8 v]: it vanishes "
+          "curved good-sector mode operator at k = 0, h = -i m gamma^(x4) + i gamma^(x4) gamma^(x0) (tan z d_x0 + 3 H) "
+          "(i d_x4 Psi = h Psi for U = 0): cos z [u^dagger (h v) - (h u)^dagger v] = d_x0(sin z u^dagger M0 v), M0 = "
+          "i gamma^(x4) gamma^(x0), for all u(x0), v(x0) (matrix identities: cos z * (coefficient of d_x0) = sin z M0, "
+          "cos z (A - A^dagger) = (d_x0 sin z) M0 for the algebraic part A, coefficient of d_x0 anti-Hermitian). So h "
+          "is symmetric for int cos z u^dagger v dx0 only up to the boundary term [sin z u^dagger M0 v]: it vanishes "
           "at the tip z -> 0 but not at the patch end z = pi/2 (finite proper distance, sin z = 1), e.g. "
-          f"u = v with gamma^(x4) gamma^(x8) u = u gives u^dagger M8 u = {sp.sstr(flux)} (|u|^2 = "
+          f"u = v with gamma^(x4) gamma^(x0) u = u gives u^dagger M0 u = {sp.sstr(flux)} (|u|^2 = "
           f"{sp.sstr((evec.H * evec)[0, 0])}); Hermiticity and Krein self-adjointness need boundary conditions there")
     A2op = (Aop * Aop).applyfunc(sp.expand)
     Anum = Aop.subs({m: 1, H: 1})
@@ -325,38 +326,38 @@ def main():
     a2n = (Anum * Anum).applyfunc(sp.expand)
     trn = sp.expand(Anum.trace())
     evs = {2 * sp.sqrt(2) * sp.I: 8, -2 * sp.sqrt(2) * sp.I: 8} if (a2n == -8 * I16 and trn == 0) else {}
-    x8 = sp.Symbol("x8", positive=True)
-    norm = sp.integrate(sp.cos(6 * H * x8), (x8, 0, sp.pi / (12 * H)))
+    x0s = sp.Symbol("x0", positive=True)
+    norm = sp.integrate(sp.cos(6 * H * x0s), (x0s, 0, sp.pi / (12 * H)))
     ok14 = A2op == ((m**2 - 9 * H**2) * I16).applyfunc(sp.expand) and Aop != Aop.H and \
         evs == {2 * sp.sqrt(2) * sp.I: 8, -2 * sp.sqrt(2) * sp.I: 8} and sp.simplify(norm - 1 / (6 * H)) == 0
-    check("good_sector_x8_independent_modes_without_boundary_condition", ok14,
-          "on x8-independent good-sector functions (k = 0; finite norm, int_0^(pi/(12 H)) cos(6 H x8) dx8 = "
+    check("good_sector_x0_independent_modes_without_boundary_condition", ok14,
+          "on x0-independent good-sector functions (k = 0; finite norm, int_0^(pi/(12 H)) cos(6 H x0) dx0 = "
           f"{sp.sstr(norm)}) the curved mode operator acts as the matrix A = -i m gamma^(x4) + 3 i H gamma^(x4) "
-          "gamma^(x8), which is not Hermitian, and A^2 = (m^2 - 9 H^2) I16 exactly: for m^2 < 9 H^2 the frequencies are "
+          "gamma^(x0), which is not Hermitian, and A^2 = (m^2 - 9 H^2) I16 exactly: for m^2 < 9 H^2 the frequencies are "
           "imaginary; at m = H = 1 the eigenvalues are +-2 sqrt(2) i (8 each), modes growing like e^(2 sqrt(2) x4). "
           "Without a boundary condition at z = pi/2 the good sector of the author's metric therefore contains growing "
-          "x8-independent modes for |m + U'| < 3 H (for U != 0: the exact homogeneous solutions with k^2 = 9 H^2 - "
+          "x0-independent modes for |m + U'| < 3 H (for U != 0: the exact homogeneous solutions with k^2 = 9 H^2 - "
           "(m + lambda S0)^2 of the theory record)")
 
     # ================================================================ 4. extra-time modes: no bound on the growth
-    ks = sp.symbols("k1 k2 k3 k5 k6 k7 k8", real=True)
-    idx = [0, 1, 2, 4, 5, 6, 7]
+    ks = sp.symbols("k0 k1 k2 k3 k5 k6 k7", real=True)   # the momenta along x0, x1, x2, x3, x5, x6, x7
+    idx = [0, 1, 2, 3, 5, 6, 7]
     hk = -sp.I * m * G[X4] - G[X4] * sum((ks[i] * G[j] for i, j in enumerate(idx)), sp.zeros(N, N))
-    E2 = m**2 + ks[0]**2 + ks[1]**2 + ks[2]**2 + ks[6]**2 - ks[3]**2 - ks[4]**2 - ks[5]**2
+    E2 = m**2 + ks[0]**2 + ks[1]**2 + ks[2]**2 + ks[3]**2 - ks[4]**2 - ks[5]**2 - ks[6]**2
     sq = (hk * hk - E2 * I16).applyfunc(sp.expand) == Z16
     K = sp.Symbol("K", positive=True)
-    rate = sp.sqrt(-E2.subs({ks[3]: K, ks[4]: 0, ks[5]: 0}))
+    rate = sp.sqrt(-E2.subs({ks[4]: K, ks[5]: 0, ks[6]: 0}))
     unb = sp.limit(rate, K, sp.oo) == sp.oo
     check("extra_time_growth_rates_unbounded", sq and unb,
           "flat 4+4 space (or frozen coefficients), plane waves e^(i k.x - i E x4) with h_k = -i m gamma^(x4) - "
           f"gamma^(x4) sum_a k_a gamma^(a): h_k^2 = ({sp.sstr(E2)}) I16 exactly; for an extra-time momentum k5 = K "
-          f"the growth rate is Im E = {sp.sstr(rate)} for K^2 > m^2 + k1^2 + k2^2 + k3^2 + k8^2, which has no upper "
+          f"the growth rate is Im E = {sp.sstr(rate)} for K^2 > m^2 + k0^2 + k1^2 + k2^2 + k3^2, which has no upper "
           "bound as K grows: the first-order system is not well posed in Hadamard's sense (no continuous dependence "
           "on the data in any Sobolev norm) for data that depend on x5, x6, x7. The slices x4 = const are "
           "non-characteristic, but that does not make the Cauchy problem well posed")
 
     # ================================================================ 5. the classical energy of dirac16complex00
-    sub = {m: 2, ks[0]: 1, ks[1]: 2, ks[2]: 0, ks[3]: 0, ks[4]: 0, ks[5]: 0, ks[6]: 4}
+    sub = {m: 2, ks[0]: 4, ks[1]: 1, ks[2]: 2, ks[3]: 0, ks[4]: 0, ks[5]: 0, ks[6]: 0}   # (k0, k1, k2, k3) = (4, 1, 2, 0)
     hs = hk.subs(sub)
     ok_comm = (B * hs - hs * B).applyfunc(sp.expand) == Z16
     Vp = (hs - 5 * I16).nullspace()
@@ -368,8 +369,8 @@ def main():
     uN, uP = neg[0], pos[0]
     uN, uP = uN / sp.sqrt((uN.H * uN)[0, 0]), uP / sp.sqrt((uP.H * uP)[0, 0])
     cc = sp.Symbol("cc", positive=True)                           # |c|
-    xs = sp.symbols("y1:9", real=True)
-    kvec = [1, 2, 0, 0, 0, 0, 0, 4]
+    xs = sp.symbols("y0:8", real=True)   # flat coordinates y0..y7; y4 = the time
+    kvec = [4, 1, 2, 0, 0, 0, 0, 0]
 
     def energy_density(u):
         phase = sp.exp(sp.I * (sum(kvec[a] * xs[a] for a in range(8) if a != X4) - 5 * xs[X4]))
@@ -394,7 +395,7 @@ def main():
     ok16 = ok_comm and len(Vp) == 8 and inert == (4, 4) and onN and onP and sp.simplify(rN + 5 * cc**2) == 0 and \
         sp.simplify(rP - 5 * cc**2) == 0 and sp.simplify(qN + cc**2) == 0 and sp.simplify(qP - cc**2) == 0
     check("commuting_field_energy_unbounded_below", ok16,
-          "dirac16complex00 (commuting), flat frame, good sector, U = 0, m = 2, k = (k1, k2, k3, k8) = (1, 2, 0, 4), "
+          "dirac16complex00 (commuting), flat frame, good sector, U = 0, m = 2, k = (k0, k1, k2, k3) = (4, 1, 2, 0), "
           "E = 5: h_k commutes with B; the E = +5 eigenspace has dimension 8 and B restricted to it has inertia "
           f"{inert}; for the positive-frequency solutions Phi = c u e^(i(k.x - 5 x4)) (field equation verified) with "
           f"B u = -u and B u = +u (|u| = 1) the energy density rho = -T^x4_x4 = -sum_(mu != x4) K_mu + m S is "
@@ -413,8 +414,8 @@ def main():
         "inputs": ["Revision/algebra/gammas.json"],
         "independence": "no code shared with Revision/theory/wolfram/verify_scope.wls or with the other Revision "
                         "verifiers; own coefficient ring, own vielbein, connection and Riemann computation",
-        "coordinates": "x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times; "
-                       "x8 = the hidden direction, z = 6 H x8 in (0, pi/2)",
+        "coordinates": "the author's coordinates x0..x7: x0 = the hidden direction, z = 6 H x0 in (0, pi/2); "
+                       "x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times",
         "summary": {"checks": len(CHECKS), "pass": npass, "fail": len(CHECKS) - npass},
         "checks": CHECKS,
     }

@@ -5,38 +5,38 @@ Computed by Revision code from the metric of `Revision/SPEC.md` section 1; every
 output `Revision/field_equations_a4/a4-equations.json`. Report: `reports/python-a4-report.json`.
 
 Field equations: $\sum_{k=1}^{3}\alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda\delta^\mu_\nu = \kappa T^\mu{}_\nu$,
-$E_{(k)} = -P_{(k)}/2^{k+1}$, $T = \mathrm{diag}(p_3,p_3,p_3,-\rho,p_t,p_t,p_t,p_8)$.
+$E_{(k)} = -P_{(k)}/2^{k+1}$, $T = \mathrm{diag}(p_0,p_3,p_3,p_3,-\rho,p_t,p_t,p_t)$ (order x0..x7).
 
 ## Independent components (general Lovelock)
 
 * constraint (x4): $ 2520 H^{6} \alpha_3 + 1080 H^{4} (a_4')^{2} \alpha_3 - 420 H^{4} \alpha_2 + 648 H^{2} (a_4')^{4} \alpha_3 - 120 H^{2} (a_4')^{2} \alpha_2 + 21 H^{2} \alpha_1 + 360 (a_4')^{6} \alpha_3 - 36 (a_4')^{4} \alpha_2 + 3 (a_4')^{2} \alpha_1 + \Lambda = -\kappa\rho$
 * 3-space (x1 = x2 = x3): $ 360 H^{6} \alpha_3 - 1944 H^{4} (a_4')^{2} \alpha_3 + 360 H^{4} a_4'' \alpha_3 - 180 H^{4} \alpha_2 - 648 H^{2} (a_4')^{4} \alpha_3 + 432 H^{2} (a_4')^{2} a_4'' \alpha_3 + 168 H^{2} (a_4')^{2} \alpha_2 - 40 H^{2} a_4'' \alpha_2 + 15 H^{2} \alpha_1 - 72 (a_4')^{6} \alpha_3 + 360 (a_4')^{4} a_4'' \alpha_3 + 12 (a_4')^{4} \alpha_2 - 24 (a_4')^{2} a_4'' \alpha_2 - 3 (a_4')^{2} \alpha_1 + a_4'' \alpha_1 + \Lambda = \kappa p_3$
 * extra times (x5 = x6 = x7): $ 360 H^{6} \alpha_3 - 1944 H^{4} (a_4')^{2} \alpha_3 - 360 H^{4} a_4'' \alpha_3 - 180 H^{4} \alpha_2 - 648 H^{2} (a_4')^{4} \alpha_3 - 432 H^{2} (a_4')^{2} a_4'' \alpha_3 + 168 H^{2} (a_4')^{2} \alpha_2 + 40 H^{2} a_4'' \alpha_2 + 15 H^{2} \alpha_1 - 72 (a_4')^{6} \alpha_3 - 360 (a_4')^{4} a_4'' \alpha_3 + 12 (a_4')^{4} \alpha_2 + 24 (a_4')^{2} a_4'' \alpha_2 - 3 (a_4')^{2} \alpha_1 - a_4'' \alpha_1 + \Lambda = \kappa p_t$
-* hidden (x8): $ 360 H^{6} \alpha_3 - 1944 H^{4} (a_4')^{2} \alpha_3 - 180 H^{4} \alpha_2 - 648 H^{2} (a_4')^{4} \alpha_3 + 168 H^{2} (a_4')^{2} \alpha_2 + 15 H^{2} \alpha_1 - 72 (a_4')^{6} \alpha_3 + 12 (a_4')^{4} \alpha_2 - 3 (a_4')^{2} \alpha_1 + \Lambda = \kappa p_8$
-* off-diagonal (x4-x8 and all others): $0 = \kappa T^\mu{}_\nu$
+* hidden (x0): $ 360 H^{6} \alpha_3 - 1944 H^{4} (a_4')^{2} \alpha_3 - 180 H^{4} \alpha_2 - 648 H^{2} (a_4')^{4} \alpha_3 + 168 H^{2} (a_4')^{2} \alpha_2 + 15 H^{2} \alpha_1 - 72 (a_4')^{6} \alpha_3 + 12 (a_4')^{4} \alpha_2 - 3 (a_4')^{2} \alpha_1 + \Lambda = \kappa p_0$
+* off-diagonal (x4-x0 and all others): $0 = \kappa T^\mu{}_\nu$
 * evolution (x1 - x5): $a_4''\,F(a_4') = \kappa (p_3 - p_t)$, $F = 720 H^{4} \alpha_3 + 864 H^{2} (a_4')^{2} \alpha_3 - 80 H^{2} \alpha_2 + 720 (a_4')^{4} \alpha_3 - 48 (a_4')^{2} \alpha_2 + 2 \alpha_1$
-* algebraic: $p_3 + p_t = 2 p_8$; x8-dependence: every component of $T^\mu{}_\nu$ independent of x8
+* algebraic: $p_3 + p_t = 2 p_0$; x0-dependence: every component of $T^\mu{}_\nu$ independent of x0
 
 ## Einstein gravity ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$)
 
-* $ 21 H^{2} + 3 (a_4')^{2} + \Lambda = -\kappa\rho$, $2 a_4'' = \kappa(p_3 - p_t)$, $ 15 H^{2} - 3 (a_4')^{2} + \Lambda = \kappa p_8$
-* $\kappa(\rho + p_8) = - 6 H^{2} - 6 (a_4')^{2} < 0$; no vacuum solution for $H > 0$ and any $\Lambda$
+* $ 21 H^{2} + 3 (a_4')^{2} + \Lambda = -\kappa\rho$, $2 a_4'' = \kappa(p_3 - p_t)$, $ 15 H^{2} - 3 (a_4')^{2} + \Lambda = \kappa p_0$
+* $\kappa(\rho + p_0) = - 6 H^{2} - 6 (a_4')^{2} < 0$; no vacuum solution for $H > 0$ and any $\Lambda$
 
 ## The linear member $a_4 = A H x_4 + a_0$
 
 * $\rho = - \frac{360 A^{6} H^{6} \alpha_3}{\kappa} - \frac{648 A^{4} H^{6} \alpha_3}{\kappa} + \frac{36 A^{4} H^{4} \alpha_2}{\kappa} - \frac{1080 A^{2} H^{6} \alpha_3}{\kappa} + \frac{120 A^{2} H^{4} \alpha_2}{\kappa} - \frac{3 A^{2} H^{2} \alpha_1}{\kappa} - \frac{2520 H^{6} \alpha_3}{\kappa} + \frac{420 H^{4} \alpha_2}{\kappa} - \frac{21 H^{2} \alpha_1}{\kappa} - \frac{\Lambda}{\kappa}$
-* $p_3 = p_t = p_8 = p = - \frac{72 A^{6} H^{6} \alpha_3}{\kappa} - \frac{648 A^{4} H^{6} \alpha_3}{\kappa} + \frac{12 A^{4} H^{4} \alpha_2}{\kappa} - \frac{1944 A^{2} H^{6} \alpha_3}{\kappa} + \frac{168 A^{2} H^{4} \alpha_2}{\kappa} - \frac{3 A^{2} H^{2} \alpha_1}{\kappa} + \frac{360 H^{6} \alpha_3}{\kappa} - \frac{180 H^{4} \alpha_2}{\kappa} + \frac{15 H^{2} \alpha_1}{\kappa} + \frac{\Lambda}{\kappa}$
+* $p_3 = p_t = p_0 = p = - \frac{72 A^{6} H^{6} \alpha_3}{\kappa} - \frac{648 A^{4} H^{6} \alpha_3}{\kappa} + \frac{12 A^{4} H^{4} \alpha_2}{\kappa} - \frac{1944 A^{2} H^{6} \alpha_3}{\kappa} + \frac{168 A^{2} H^{4} \alpha_2}{\kappa} - \frac{3 A^{2} H^{2} \alpha_1}{\kappa} + \frac{360 H^{6} \alpha_3}{\kappa} - \frac{180 H^{4} \alpha_2}{\kappa} + \frac{15 H^{2} \alpha_1}{\kappa} + \frac{\Lambda}{\kappa}$
 * vacuum needs $V = 72 A^{4} H^{4} \alpha_3 + 144 A^{2} H^{4} \alpha_3 - 8 A^{2} H^{2} \alpha_2 + 360 H^{4} \alpha_3 - 40 H^{2} \alpha_2 + \alpha_1 = 0$
 
 ## Field sources (convention $T^\mu{}_\nu = \sigma_T(-K^{(\mu}{}_{\nu)} + \delta^\mu_\nu \mathcal{L})$, $\sigma_T = +1$ per SPEC section 4)
 
-* lemmas: $\gamma^\mu\Omega_\mu = 3H\gamma^{x8}$; $\{\gamma^\mu,\Omega_\mu\}=0$ for each $\mu$ (no sum)
-* dirac16complex00, homogeneous condensate $\Phi(x_4)$: $S$ constant, $\rho = \sigma_T(mS+U)$, $p_3=p_t=p_8=\sigma_T(SU'-U)$;
-  the off-diagonal equations need the 15 bilinears $\bar\Phi\gamma^a\gamma^b\gamma^c\Phi$, $\{a,b,c\}=\{i,x4,x8\},\{i,j,x4\}$, to vanish (exact witnesses exist);
+* lemmas: $\gamma^\mu\Omega_\mu = 3H\gamma^{x0}$; $\{\gamma^\mu,\Omega_\mu\}=0$ for each $\mu$ (no sum)
+* dirac16complex00, homogeneous condensate $\Phi(x_4)$: $S$ constant, $\rho = \sigma_T(mS+U)$, $p_3=p_t=p_0=\sigma_T(SU'-U)$;
+  the off-diagonal equations need the 15 bilinears $\bar\Phi\gamma^a\gamma^b\gamma^c\Phi$, $\{a,b,c\}=\{i,x4,x0\},\{i,j,x4\}$, to vanish (exact witnesses exist);
   then $p_3 = p_t$ forces $a_4'' F(a_4') = 0$, hence $a_4 = A H x_4 + a_0$
 * Einstein with $U = \lambda S^2/2$: $\kappa\sigma_T m S = -(36H^2 + 2\Lambda)$, $6(A^2+1)H^2 = -\kappa\sigma_T S(m+\lambda S)$
   ($A$ enters only as $A^2$: deflation of the extra times, $A > 0$, is a choice of sign, not selected by the equations; $A = 0$ is static)
-* dirac16complex: the same with normal-ordered expectation values (the operator form of the on-shell trace identity, $\sum_\mu\langle{:}k_\mu{:}\rangle = \langle{:}(m + U')S{:}\rangle$, is ASSUMED for the field on a whole slice; `Revision/theory/fock_quartic` decides it only in a finite one-mode-set Fock model, where it holds exactly if the potential and the energy-momentum tensor are both Wick ordered and fails for every other tested ordering); a state with $\langle k_1\rangle \ne \langle k_5\rangle$ would drive $a_4''$ only if it also satisfied $p_3 + p_t = 2p_8$ and $x_8$-independence;
+* dirac16complex: the same with normal-ordered expectation values (the operator form of the on-shell trace identity, $\sum_\mu\langle{:}k_\mu{:}\rangle = \langle{:}(m + U')S{:}\rangle$, is ASSUMED for the field on a whole slice; `Revision/theory/fock_quartic` decides it only in a finite one-mode-set Fock model, where it holds exactly if the potential and the energy-momentum tensor are both Wick ordered and fails for every other tested ordering); a state with $\langle k_1\rangle \ne \langle k_5\rangle$ would drive $a_4''$ only if it also satisfied $p_3 + p_t = 2p_0$ and $x_0$-independence;
   the recorded Kohn-Sham states violate both (reports/ks-source-conditions.json), and the Kohn-Sham history $a_4 = AHx_4$ is a prescribed background without back-reaction
 
 ## Run

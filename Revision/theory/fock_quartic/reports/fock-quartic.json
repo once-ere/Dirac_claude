@@ -51,7 +51,7 @@
    "name": "mode_set_M0",
    "section": "A. construction",
    "verdict": "PASS",
-   "detail": "M0: rest frame k = 0, symbolic m > 0, h = m beta, energies +-m: columns u_j = (1 + sgn h/E)(1 + sgn beta) e_A / sqrt(nsq), nsq = 8 (one A per pair of beta's signed permutation; sgn = + for 8 modes, - for 8): U^dagger U = U U^dagger = 1 exactly, U^dagger h U = diag(E x8, -E x8); with psi = U a, a_j = b_j (j < 8), d_(j-8)^+ (j >= 8): {a_i, a_j^+} = delta_ij, {a_i, a_j} = 0 (engine), hence {psi_A, chi_C} = delta_AC and {psi_A, Psi^dagger_C} = (U U^dagger B)_AC = B_AC with Psi^dagger = chi B: the canonical anticommutator of the record (delta^7 replaced by its projection on the mode set, V = 1). Only Gaussian-rational matrices U^dagger M U enter (no square roots)"
+   "detail": "M0: rest frame k = 0, symbolic m > 0, h = m beta, energies +-m: columns u_j = (1 + sgn h/E)(1 + sgn beta) e_A / sqrt(nsq), nsq = 8 (one A per pair of beta's signed permutation; sgn = + for 8 modes, - for 8): U^dagger U = U U^dagger = 1 exactly, U^dagger h U = diag(E (8 times), -E (8 times)); with psi = U a, a_j = b_j (j < 8), d_(j-8)^+ (j >= 8): {a_i, a_j^+} = delta_ij, {a_i, a_j} = 0 (engine), hence {psi_A, chi_C} = delta_AC and {psi_A, Psi^dagger_C} = (U U^dagger B)_AC = B_AC with Psi^dagger = chi B: the canonical anticommutator of the record (delta^7 replaced by its projection on the mode set, V = 1). Only Gaussian-rational matrices U^dagger M U enter (no square roots)"
   },
   {
    "name": "psibar_gamma4_is_i_chi_M0",
@@ -63,7 +63,7 @@
    "name": "mode_set_M1",
    "section": "A. construction",
    "verdict": "PASS",
-   "detail": "M1: m = 3, k = (4, 0, 0, 0) along x1, h = 3 beta + 4 alpha^(x1), energies +-5 (the record's Wolfram example): columns u_j = (1 + sgn h/E)(1 + sgn beta) e_A / sqrt(nsq), nsq = 32/5 (one A per pair of beta's signed permutation; sgn = + for 8 modes, - for 8): U^dagger U = U U^dagger = 1 exactly, U^dagger h U = diag(E x8, -E x8); with psi = U a, a_j = b_j (j < 8), d_(j-8)^+ (j >= 8): {a_i, a_j^+} = delta_ij, {a_i, a_j} = 0 (engine), hence {psi_A, chi_C} = delta_AC and {psi_A, Psi^dagger_C} = (U U^dagger B)_AC = B_AC with Psi^dagger = chi B: the canonical anticommutator of the record (delta^7 replaced by its projection on the mode set, V = 1). Only Gaussian-rational matrices U^dagger M U enter (no square roots)"
+   "detail": "M1: m = 3, k = (4, 0, 0, 0) along x1, h = 3 beta + 4 alpha^(x1), energies +-5 (the record's Wolfram example): columns u_j = (1 + sgn h/E)(1 + sgn beta) e_A / sqrt(nsq), nsq = 32/5 (one A per pair of beta's signed permutation; sgn = + for 8 modes, - for 8): U^dagger U = U U^dagger = 1 exactly, U^dagger h U = diag(E (8 times), -E (8 times)); with psi = U a, a_j = b_j (j < 8), d_(j-8)^+ (j >= 8): {a_i, a_j^+} = delta_ij, {a_i, a_j} = 0 (engine), hence {psi_A, chi_C} = delta_AC and {psi_A, Psi^dagger_C} = (U U^dagger B)_AC = B_AC with Psi^dagger = chi B: the canonical anticommutator of the record (delta^7 replaced by its projection on the mode set, V = 1). Only Gaussian-rational matrices U^dagger M U enter (no square roots)"
   },
   {
    "name": "psibar_gamma4_is_i_chi_M1",
@@ -141,7 +141,7 @@
    "name": "homogeneous_rho_p_operator_identities_wick",
    "section": "D. homogeneous rho and p (M0, k = 0)",
    "verdict": "PASS",
-   "detail": "M0 (k = 0, the homogeneous sector), Wick ordering, K_mu as Wick products with the Heisenberg derivative: K_(a != x4) = 0 identically; rho = -T^x4_x4 = :H: = m :S: + (lam/2) :S S: = :m S + U(S): and p_mu = T^mu_mu = :K_4: - :m S + U: = (lam/2) :S S: = :S U'(S) - U(S): for every mu != x4 (p3 = p_t = p8): EXACT operator identities on the whole Fock space; [H, S] = 0 (S is conserved, the analogue of the classical S = S0); :S: = N_b + N_d =: n and :S S: = n^2 - n (operator identities)"
+   "detail": "M0 (k = 0, the homogeneous sector), Wick ordering, K_mu as Wick products with the Heisenberg derivative: K_(a != x4) = 0 identically; rho = -T^x4_x4 = :H: = m :S: + (lam/2) :S S: = :m S + U(S): and p_mu = T^mu_mu = :K_4: - :m S + U: = (lam/2) :S S: = :S U'(S) - U(S): for every mu != x4 (p3 = p_t = p0): EXACT operator identities on the whole Fock space; [H, S] = 0 (S is conserved, the analogue of the classical S = S0); :S: = N_b + N_d =: n and :S S: = n^2 - n (operator identities)"
   },
   {
    "name": "homogeneous_expectation_values_are_not_U_of_expectation",
@@ -405,7 +405,7 @@
  "conclusion": {
   "proved_in_the_model": [
    "Wick ordering: with H = :chi h psi: + (lam/2):S S: the Heisenberg field obeys the Wick-ordered operator field equation gamma^mu d_mu Psi = :(m + lam S) Psi: exactly, and with K_mu defined as Wick products :sum_mu K_mu: = :(m + U'(S)) S: is an operator identity on the whole Fock space (all states; slice x4 = 0)",
-   "homogeneous (k = 0): rho = :m S + U(S): and p3 = p_t = p8 = :S U' - U: = (lam/2):S S: as operator identities in the same (Wick) sense",
+   "homogeneous (k = 0): rho = :m S + U(S): and p3 = p_t = p0 = :S U' - U: = (lam/2):S S: as operator identities in the same (Wick) sense",
    "for every ordering: sum_mu K_mu = m S + lam S.S - (lam/2) Q + (U_W - (lam/2) S.S) + const (exact operator theorem with the plain operator products)"
   ],
   "fails": [
@@ -414,6 +414,6 @@
    "<:U(S):> = U(<:S:>): false (one quantum at k = 0: p = 0 versus lam/2)",
    "the identity for arbitrary d4 Psi (negative control): it needs the interacting operator field equation"
   ],
-  "scope": "one good-sector plane-wave mode set with frozen coefficients (flat frame, V = 1, 16 modes, 2^16 states); not the field on a whole slice, not the curved x8 dependence, not the extra-time sector; the one-body discrepancies scale with the number of sea modes (8 here) and would diverge in the continuum (remark, not computed)"
+  "scope": "one good-sector plane-wave mode set with frozen coefficients (flat frame, V = 1, 16 modes, 2^16 states); not the field on a whole slice, not the curved x0 dependence, not the extra-time sector; the one-body discrepancies scale with the number of sea modes (8 here) and would diverge in the continuum (remark, not computed)"
  }
 }

@@ -13,7 +13,7 @@
      directly (k = 1, 2, 3), and the same tensors rebuilt from the exact monomial lists of
      Revision/gkd_lovelock/results/lovelock-tensors.json;
      the gamma matrices: the author's real 16 x 16 matrices T16 (SPEC section 2), read from the Revision
-     fixture Revision/algebra/gammas.json (order x1..x8) with strict parsing, are the PRIMARY
+     fixture Revision/algebra/gammas.json (the author's order x0..x7) with strict parsing, are the PRIMARY
      representation (FEGammaFrame, FEC, FESab, FEOmega, FEGammaCoord); a second real 16 x 16
      representation of Cl(4,4) built here (Cl(1,1)^(x)4, FEGammaFrameComparison, FECComparison) is kept
      ONLY as a comparison representation (exact equivalence and representation independence checks);
@@ -22,25 +22,26 @@
    A missing or malformed gammas.json stops the run at once with a line "ERROR  ..." and exit code 1
    (never a fallback to another representation).
 
-   Notation of the outputs: ad1 = a4'[x4], ad2 = a4''[x4], cc = Cot[6 H x8] (> 0 on the patch
-   0 < 6 H x8 < Pi/2), coordinates x1..x8 indexed 1..8; since 2026-10-14 (the user's metric with b4[x4] in the
+   Notation of the outputs: ad1 = a4'[x4], ad2 = a4''[x4], cc = Cot[6 H x0] (> 0 on the patch
+   0 < 6 H x0 < Pi/2), the author's coordinates x0..x7 at Wolfram positions 1..8 (x0 = the hidden direction = 1,
+   x4 = 5; until 2026-10-14 the withdrawn labels x1..x8 with the hidden direction x8 last were used); since 2026-10-14 (the user's metric with b4[x4] in the
    extra-time components): bb = b4[x4] > 0, bd1 = b4'[x4], bd2 = b4''[x4], ...; FEB4One = {bb -> 1, bd1 -> 0, ...}
    restricts any result to b4 = 1, the metric before 2026-10-14.
 *)
 
-FECoords = {x1, x2, x3, x4, x5, x6, x7, x8};
+FECoords = {x0, x1, x2, x3, x4, x5, x6, x7};
 FEDim = 8;
 
-FEMetricDiag = {E^(2 a4[x4]) Sin[6 H x8]^(1/3), E^(2 a4[x4]) Sin[6 H x8]^(1/3),
-   E^(2 a4[x4]) Sin[6 H x8]^(1/3), -1, -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),
-   -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3), -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3), Cot[6 H x8]^2};
+FEMetricDiag = {Cot[6 H x0]^2, E^(2 a4[x4]) Sin[6 H x0]^(1/3), E^(2 a4[x4]) Sin[6 H x0]^(1/3),
+   E^(2 a4[x4]) Sin[6 H x0]^(1/3), -1, -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),
+   -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3), -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)};
 FEMetric = DiagonalMatrix[FEMetricDiag];
 FEMetricInv = DiagonalMatrix[1/FEMetricDiag];
 
-(* the patch 0 < z < Pi/2, z = 6 H x8: every trigonometric function written through cc = Cot[z] > 0 *)
-FETrigToCC = {Sin[6 H x8] -> 1/Sqrt[1 + cc^2], Cos[6 H x8] -> cc/Sqrt[1 + cc^2],
-   Cot[6 H x8] -> cc, Tan[6 H x8] -> 1/cc, Csc[6 H x8] -> Sqrt[1 + cc^2],
-   Sec[6 H x8] -> Sqrt[1 + cc^2]/cc};
+(* the patch 0 < z < Pi/2, z = 6 H x0: every trigonometric function written through cc = Cot[z] > 0 *)
+FETrigToCC = {Sin[6 H x0] -> 1/Sqrt[1 + cc^2], Cos[6 H x0] -> cc/Sqrt[1 + cc^2],
+   Cot[6 H x0] -> cc, Tan[6 H x0] -> 1/cc, Csc[6 H x0] -> Sqrt[1 + cc^2],
+   Sec[6 H x0] -> Sqrt[1 + cc^2]/cc};
 FEDerivToSym = {Derivative[1][a4][x4] -> ad1, Derivative[2][a4][x4] -> ad2,
    Derivative[3][a4][x4] -> ad3, Derivative[4][a4][x4] -> ad4,
    Derivative[1][b4][x4] -> bd1, Derivative[2][b4][x4] -> bd2, Derivative[3][b4][x4] -> bd3,
@@ -107,7 +108,7 @@ FELovelockScalarDirect[k_Integer] := Module[{acc = 0, up, low},
 
 (* ---------- the tensors rebuilt from the GKD branch's monomial lists ---------- *)
 (* exponent order of a monomial (Revision/gkd_lovelock/code/src/poly.rs; 13 exponents since 2026-10-14):
-   H, a4', a4'', a4''', a4'''', E = e^{a4}, S = Sin[6 H x8]^(1/3), C = Cot[6 H x8], Q = b4^(1/2), b4', b4'', b4''', b4'''' *)
+   H, a4', a4'', a4''', a4'''', E = e^{a4}, S = Sin[6 H x0]^(1/3), C = Cot[6 H x0], Q = b4^(1/2), b4', b4'', b4''', b4'''' *)
 FEMonomialVars = {H, ad1, ad2, ad3, ad4, Exp[a0], sthird, cc, Sqrt[bb], bd1, bd2, bd3, bd4};
 FEFromMonomials[mons_List] := Module[{e},
    If[! AllTrue[mons, Length[#[[3]]] == 13 &], Print["ERROR  a monomial of lovelock-tensors.json does not have 13 exponents (the format since 2026-10-14)"]; Exit[1]];
@@ -119,10 +120,10 @@ FERebuildMixed[json_Association, key_String] := Table[
    {h, FEDim}, {j, FEDim}];
 FERebuildScalar[json_Association, key_String] := FENormal[ToExpression[json[key]]];
 
-(* ---------- covariant divergence of a mixed tensor T^mu_nu (coordinate functions of x4, x8) ---------- *)
+(* ---------- covariant divergence of a mixed tensor T^mu_nu (coordinate functions of x4, x0) ---------- *)
 (* the input is expressed with a4[x4] (not ad1) so that it can be differentiated *)
 FESymToDeriv = {ad1 -> Derivative[1][a4][x4], ad2 -> Derivative[2][a4][x4], ad3 -> Derivative[3][a4][x4],
-   ad4 -> Derivative[4][a4][x4], cc -> Cot[6 H x8], bb -> b4[x4], bd1 -> Derivative[1][b4][x4],
+   ad4 -> Derivative[4][a4][x4], cc -> Cot[6 H x0], bb -> b4[x4], bd1 -> Derivative[1][b4][x4],
    bd2 -> Derivative[2][b4][x4], bd3 -> Derivative[3][b4][x4], bd4 -> Derivative[4][b4][x4]};
 FEDivergence[T_] := Table[
    Sum[D[T[[m, n]], FECoords[[m]]], {m, FEDim}] +
@@ -135,7 +136,7 @@ FEDivergence[T_] := Table[
    Revision/algebra/wolfram/RevisionAlgebra.wl): every matrix is a list of rows; an exact rational is a JSON
    integer when it is an integer and otherwise a JSON string "p/q" in lowest terms with q > 0 (so a string has
    q > 1); a complex matrix is {"re": ..., "im": ...}; indices
-   0..7 of gamma, eta and S stand for x1..x8.  Parsing is strict: anything else (a float, a boolean, a string that
+   0..7 of gamma, eta and S stand for x0..x7.  Parsing is strict: anything else (a float, a boolean, a string that
    is not "p/q" in lowest terms, a wrong shape, a missing key, a file that is not a JSON object, a missing file)
    prints one line "ERROR  ..." and exits with code 1. *)
 FEFixtureError[msg_String] := (Print["ERROR  ", msg]; Exit[1]);
@@ -184,10 +185,10 @@ FEReadFixture[path_String] := Module[{j, keys = {"coordinates", "notebookFrameIn
 
 FEFixturePath = FileNameJoin[{FileNameDrop[DirectoryName[$InputFileName], -2], "algebra", "gammas.json"}];
 FEFixture = FEReadFixture[FEFixturePath];
-(* gamma^(x1..x8) = the fixture's gamma[0..7] = T16[1..7], T16[0] (SPEC section 2) *)
+(* gamma^(x0..x7) = the fixture's gamma[0..7] = T16[0..7] (SPEC section 2); Wolfram position k + 1 holds xk *)
 FEGammaFrame = FEFixture["gamma"];
-FEEta = DiagonalMatrix[{1, 1, 1, -1, -1, -1, -1, 1}];
-FEC = FEGammaFrame[[8]] . FEGammaFrame[[1]] . FEGammaFrame[[2]] . FEGammaFrame[[3]];
+FEEta = DiagonalMatrix[{1, 1, 1, 1, -1, -1, -1, -1}];
+FEC = FEGammaFrame[[1]] . FEGammaFrame[[2]] . FEGammaFrame[[3]] . FEGammaFrame[[4]];
 FESabOf[g_List] := Table[(1/4) (g[[a]] . g[[b]] - g[[b]] . g[[a]]), {a, FEDim}, {b, FEDim}];
 FESab = FESabOf[FEGammaFrame];
 
@@ -195,10 +196,11 @@ FESab = FESabOf[FEGammaFrame];
 FEsig1 = {{0, 1}, {1, 0}}; FEeps = {{0, 1}, {-1, 0}}; FEomg = FEsig1 . FEeps; FEid2 = IdentityMatrix[2];
 FEKron[l_List] := Fold[KroneckerProduct, First[l], Rest[l]];
 FEGen[k_Integer, blk_] := FEKron[Join[ConstantArray[FEomg, k - 1], {blk}, ConstantArray[FEid2, 4 - k]]];
-(* space-like generators (square +1) on x1, x2, x3, x8; time-like (square -1) on x4, x5, x6, x7 *)
+(* space-like generators (square +1) on x0, x1, x2, x3; time-like (square -1) on x4, x5, x6, x7 (the same
+   generator for each coordinate as before 2026-10-14: plus[[4]] on the hidden direction) *)
 FEGammaFrameComparison = Module[{plus = Table[FEGen[k, FEsig1], {k, 4}], minus = Table[FEGen[k, FEeps], {k, 4}]},
-   {plus[[1]], plus[[2]], plus[[3]], minus[[1]], minus[[2]], minus[[3]], minus[[4]], plus[[4]]}];
-FECComparison = FEGammaFrameComparison[[8]] . FEGammaFrameComparison[[1]] . FEGammaFrameComparison[[2]] . FEGammaFrameComparison[[3]];
+   {plus[[4]], plus[[1]], plus[[2]], plus[[3]], minus[[1]], minus[[2]], minus[[3]], minus[[4]]}];
+FECComparison = FEGammaFrameComparison[[1]] . FEGammaFrameComparison[[2]] . FEGammaFrameComparison[[3]] . FEGammaFrameComparison[[4]];
 
 (* intertwiners: a basis of {X : X . from[[k]] == to[[k]] . X for all k}, exact (NullSpace over the rationals);
    row-major vec(X): vec(T . X - X . F) = (KroneckerProduct[T, I] - KroneckerProduct[I, Transpose[F]]) . vec(X) *)
@@ -209,8 +211,8 @@ FEIntertwinerBasis[from_List, to_List] /; Length[from] == Length[to] := Module[{
    Partition[#, n] & /@ (Normal /@ NullSpace[sys])];
 
 (* diagonal vielbein e^a_mu = Sqrt|g_mumu| delta^a_mu; inverse e_a^mu *)
-FEVielbeinPos = DiagonalMatrix[{E^(a4[x4]) Sin[6 H x8]^(1/6), E^(a4[x4]) Sin[6 H x8]^(1/6), E^(a4[x4]) Sin[6 H x8]^(1/6), 1,
-    E^(-a4[x4]) Sqrt[b4[x4]] Sin[6 H x8]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[6 H x8]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[6 H x8]^(1/6), Cot[6 H x8]}];
+FEVielbeinPos = DiagonalMatrix[{Cot[6 H x0], E^(a4[x4]) Sin[6 H x0]^(1/6), E^(a4[x4]) Sin[6 H x0]^(1/6), E^(a4[x4]) Sin[6 H x0]^(1/6), 1,
+    E^(-a4[x4]) Sqrt[b4[x4]] Sin[6 H x0]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[6 H x0]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[6 H x0]^(1/6)}];
 FEVielbeinInv = Inverse[FEVielbeinPos];
 (* omega_mu^a_b = e^a_nu (d_mu e_b^nu + Gamma^nu_{mu lambda} e_b^lambda) *)
 FESpinConnMixed = Table[
@@ -218,7 +220,7 @@ FESpinConnMixed = Table[
        Sum[FEChristoffel[[n, mu, l]] FEVielbeinInv[[l, b]], {l, FEDim}]), {n, FEDim}],
    {mu, FEDim}, {a, FEDim}, {b, FEDim}];
 FESpinConnLow = Table[Sum[FEEta[[a, c]] FESpinConnMixed[[mu, c, b]], {c, FEDim}], {mu, FEDim}, {a, FEDim}, {b, FEDim}];
-(* Omega_mu and gamma^mu in a representation g (list of the 8 frame gammas, order x1..x8) *)
+(* Omega_mu and gamma^mu in a representation g (list of the 8 frame gammas, order x0..x7) *)
 FEOmegaOf[g_List] := Module[{s = FESabOf[g]},
    Table[(1/2) Sum[FESpinConnLow[[mu, a, b]] s[[a, b]], {a, FEDim}, {b, FEDim}], {mu, FEDim}]];
 FEGammaCoordOf[g_List] := Table[Sum[FEVielbeinInv[[mu, a]] g[[a]], {a, FEDim}], {mu, FEDim}];

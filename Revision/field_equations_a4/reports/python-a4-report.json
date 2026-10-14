@@ -40,7 +40,7 @@
     {
       "name": "P1_structure",
       "verdict": "PASS",
-      "detail": "P_(1) diagonal (x4-x8 components 0), free of x8, x1 = x2 = x3, x5 = x6 = x7"
+      "detail": "P_(1) diagonal (x4-x0 components 0), free of x0, x1 = x2 = x3, x5 = x6 = x7"
     },
     {
       "name": "P2_trace_identity",
@@ -50,7 +50,7 @@
     {
       "name": "P2_structure",
       "verdict": "PASS",
-      "detail": "P_(2) diagonal (x4-x8 components 0), free of x8, x1 = x2 = x3, x5 = x6 = x7"
+      "detail": "P_(2) diagonal (x4-x0 components 0), free of x0, x1 = x2 = x3, x5 = x6 = x7"
     },
     {
       "name": "P3_trace_identity",
@@ -60,7 +60,7 @@
     {
       "name": "P3_structure",
       "verdict": "PASS",
-      "detail": "P_(3) diagonal (x4-x8 components 0), free of x8, x1 = x2 = x3, x5 = x6 = x7"
+      "detail": "P_(3) diagonal (x4-x0 components 0), free of x0, x1 = x2 = x3, x5 = x6 = x7"
     },
     {
       "name": "P1_equals_gkd_branch_monomials",
@@ -95,17 +95,17 @@
     {
       "name": "E1_divergence_free",
       "verdict": "PASS",
-      "detail": "nabla_mu E_(1)^mu_nu = 0 for nu = x1..x8 (Christoffel symbols of this file)"
+      "detail": "nabla_mu E_(1)^mu_nu = 0 for nu = x0..x7 (Christoffel symbols of this file)"
     },
     {
       "name": "E2_divergence_free",
       "verdict": "PASS",
-      "detail": "nabla_mu E_(2)^mu_nu = 0 for nu = x1..x8 (Christoffel symbols of this file)"
+      "detail": "nabla_mu E_(2)^mu_nu = 0 for nu = x0..x7 (Christoffel symbols of this file)"
     },
     {
       "name": "E3_divergence_free",
       "verdict": "PASS",
-      "detail": "nabla_mu E_(3)^mu_nu = 0 for nu = x1..x8 (Christoffel symbols of this file)"
+      "detail": "nabla_mu E_(3)^mu_nu = 0 for nu = x0..x7 (Christoffel symbols of this file)"
     },
     {
       "name": "evolution_factorises",
@@ -120,12 +120,12 @@
     {
       "name": "algebraic_identity",
       "verdict": "PASS",
-      "detail": "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x8_x8) = 0 identically: the equations force p3 + p_t = 2 p8"
+      "detail": "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x0_x0) = 0 identically: the equations force p3 + p_t = 2 p0"
     },
     {
-      "name": "constraint_and_x8_first_order",
+      "name": "constraint_and_x0_first_order",
       "verdict": "PASS",
-      "detail": "the x4 and x8 components contain a4' but not a4''"
+      "detail": "the x4 and x0 components contain a4' but not a4''"
     },
     {
       "name": "bianchi_x4",
@@ -135,37 +135,37 @@
     {
       "name": "other_components_vanish",
       "verdict": "PASS",
-      "detail": "every off-diagonal left-hand side (including x4-x8) is 0; x1 = x2 = x3 and x5 = x6 = x7"
+      "detail": "every off-diagonal left-hand side (including x4-x0) is 0; x1 = x2 = x3 and x5 = x6 = x7"
     },
     {
       "name": "conservation_components",
       "verdict": "PASS",
-      "detail": "nabla_mu T^mu_x4 = -d4 rho - 3 a4' (p3 - p_t) + d8 q84 - 6 H tan z q84; nabla_mu T^mu_x8 = d8 p8 + 3 H cot z (2 p8 - p3 - p_t) + d4 q48"
+      "detail": "nabla_mu T^mu_x4 = -d4 rho - 3 a4' (p3 - p_t) + d0 q04 - 6 H tan z q04; nabla_mu T^mu_x0 = d0 p0 + 3 H cot z (2 p0 - p3 - p_t) + d4 q40"
     },
     {
       "name": "einstein_components",
       "verdict": "PASS",
-      "detail": "G^x4_x4 = 3 a4'^2 + 21 H^2, G^x1_x1 = a4'' - 3 a4'^2 + 15 H^2, G^x5_x5 = -a4'' - 3 a4'^2 + 15 H^2, G^x8_x8 = -3 a4'^2 + 15 H^2"
+      "detail": "G^x4_x4 = 3 a4'^2 + 21 H^2, G^x1_x1 = a4'' - 3 a4'^2 + 15 H^2, G^x5_x5 = -a4'' - 3 a4'^2 + 15 H^2, G^x0_x0 = -3 a4'^2 + 15 H^2"
     },
     {
-      "name": "einstein_null_energy_x8",
+      "name": "einstein_null_energy_x0",
       "verdict": "PASS",
-      "detail": "Einstein: kappa (rho + p8) = -6 (a4'^2 + H^2) < 0 for every a4, Lambda"
+      "detail": "Einstein: kappa (rho + p0) = -6 (a4'^2 + H^2) < 0 for every a4, Lambda"
     },
     {
       "name": "einstein_no_vacuum",
       "verdict": "PASS",
-      "detail": "T = 0: the x4 and x8 equations give (x4 - x8) 6 (a4'^2 + H^2) = 0, impossible for real a4' and H > 0 (and 36 H^2 + 2 Lambda = 0)"
+      "detail": "T = 0: the x4 and x0 equations give (x4 - x0) 6 (a4'^2 + H^2) = 0, impossible for real a4' and H > 0 (and 36 H^2 + 2 Lambda = 0)"
     },
     {
       "name": "linear_member_equal_pressures",
       "verdict": "PASS",
-      "detail": "a4 = A H x4 + a0: p3 = p_t = p8 = p constant, rho constant (any alpha_k)"
+      "detail": "a4 = A H x4 + a0: p3 = p_t = p0 = p constant, rho constant (any alpha_k)"
     },
     {
       "name": "linear_member_vacuum_factor",
       "verdict": "PASS",
-      "detail": "sum_k alpha_k (E^x4_x4 - E^x8_x8) at a4' = A H = 6 (A^2 + 1) H^2 V, V = 72*AA**4*H**4*alpha3 + 144*AA**2*H**4*alpha3 - 8*AA**2*H**2*alpha2 + 360*H**4*alpha3 - 40*H**2*alpha2 + alpha1"
+      "detail": "sum_k alpha_k (E^x4_x4 - E^x0_x0) at a4' = A H = 6 (A^2 + 1) H^2 V, V = 72*AA**4*H**4*alpha3 + 144*AA**2*H**4*alpha3 - 8*AA**2*H**2*alpha2 + 360*H**4*alpha3 - 40*H**2*alpha2 + alpha1"
     },
     {
       "name": "einstein_gauss_bonnet_vacuum_linear",
@@ -180,12 +180,12 @@
     {
       "name": "json_lovelock_components",
       "verdict": "PASS",
-      "detail": "E_(1..3) components x1x1, x4x4, x5x5, x8x8, x4x8, x8x4 in a4-equations.json equal this file's"
+      "detail": "E_(1..3) components x0x0, x1x1, x4x4, x5x5, x4x0, x0x4 in a4-equations.json equal this file's"
     },
     {
       "name": "json_general_source_equations",
       "verdict": "PASS",
-      "detail": "constraint, x1, x5, x8, evolution (with F) and algebraic condition in a4-equations.json equal this file's"
+      "detail": "constraint, x1, x5, x0, evolution (with F) and algebraic condition in a4-equations.json equal this file's"
     },
     {
       "name": "json_required_source_and_null_combinations",
@@ -195,7 +195,7 @@
     {
       "name": "json_conservation",
       "verdict": "PASS",
-      "detail": "conservation_x4 and conservation_x8 in a4-equations.json equal this file's covariant divergence"
+      "detail": "conservation_x4 and conservation_x0 in a4-equations.json equal this file's covariant divergence"
     },
     {
       "name": "json_einstein",
@@ -210,17 +210,17 @@
     {
       "name": "ownrep_clifford",
       "verdict": "PASS",
-      "detail": "comparison representation (own_rep, built here; not used for any result): {gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"
+      "detail": "comparison representation (own_rep, built here; not used for any result): {gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,1,-1,-1,-1,-1)"
     },
     {
       "name": "ownrep_C_properties",
       "verdict": "PASS",
-      "detail": "comparison representation (own_rep, built here; not used for any result): C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 real symmetric, C^2 = 1, C gamma^a antisymmetric"
+      "detail": "comparison representation (own_rep, built here; not used for any result): C = gamma^x0 gamma^x1 gamma^x2 gamma^x3 real symmetric, C^2 = 1, C gamma^a antisymmetric"
     },
     {
-      "name": "ownrep_Omega_x4_x8_zero",
+      "name": "ownrep_Omega_x0_x4_zero",
       "verdict": "PASS",
-      "detail": "comparison representation (own_rep, built here; not used for any result): Omega_x4 = Omega_x8 = 0"
+      "detail": "comparison representation (own_rep, built here; not used for any result): Omega_x0 = Omega_x4 = 0"
     },
     {
       "name": "ownrep_anticommutator_no_sum",
@@ -230,7 +230,7 @@
     {
       "name": "ownrep_gravity_term",
       "verdict": "PASS",
-      "detail": "comparison representation (own_rep, built here; not used for any result): gamma^mu Omega_mu = 3 H gamma^x8"
+      "detail": "comparison representation (own_rep, built here; not used for any result): gamma^mu Omega_mu = 3 H gamma^x0"
     },
     {
       "name": "ownrep_condensate_S_constant",
@@ -245,12 +245,12 @@
     {
       "name": "ownrep_condensate_kinetic_diagonal",
       "verdict": "PASS",
-      "detail": "comparison representation (own_rep, built here; not used for any result): K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x8 = K^x8_x4 = 0"
+      "detail": "comparison representation (own_rep, built here; not used for any result): K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x0 = K^x0_x4 = 0"
     },
     {
       "name": "ownrep_condensate_offdiagonal_three_gamma",
       "verdict": "PASS",
-      "detail": "comparison representation (own_rep, built here; not used for any result): every nonzero off-diagonal kinetic component (42 ordered pairs) is a multiple of one of the 15 bilinears Phibar gamma^a gamma^b gamma^c Phi, {a,b,c} = {i,x4,x8} or {i,j,x4}"
+      "detail": "comparison representation (own_rep, built here; not used for any result): every nonzero off-diagonal kinetic component (42 ordered pairs) is a multiple of one of the 15 bilinears Phibar gamma^a gamma^b gamma^c Phi, {a,b,c} = {i,x4,x0} or {i,j,x4}"
     },
     {
       "name": "ownrep_condensate_witness",
@@ -260,22 +260,22 @@
     {
       "name": "authorT16_fixture_read",
       "verdict": "PASS",
-      "detail": "Revision/algebra/gammas.json (sha256 95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01) read with strict parsing (every entry a JSON integer or a string \"p/q\" in lowest terms; a missing or malformed file stops the run with an ERROR line and exit code 1): coordinates x1..x8, notebook frame index [1, 2, 3, 4, 5, 6, 7, 0] (gamma^(x1..x7) = T16[1..7], gamma^(x8) = T16[0]), eta = diag(1,1,1,-1,-1,-1,-1,1), the fixture's C equals gamma^x8 gamma^x1 gamma^x2 gamma^x3 (the notebook's sigma16), its S, Gamma and B equal (1/4)[gamma^a, gamma^b], gamma^x8 gamma^x1 ... gamma^x7 and -i C gamma^x4; the author's T16 is the primary representation (its coefficients are compared with a4-equations.json)"
+      "detail": "Revision/algebra/gammas.json (sha256 c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c) read with strict parsing (every entry a JSON integer or a string \"p/q\" in lowest terms; a missing or malformed file stops the run with an ERROR line and exit code 1): coordinates x0..x7 (the author's), notebook frame index [0, 1, 2, 3, 4, 5, 6, 7] (gamma^(xk) = T16[k]), eta = diag(1,1,1,1,-1,-1,-1,-1), the fixture's C equals gamma^x0 gamma^x1 gamma^x2 gamma^x3 (the notebook's sigma16), its S, Gamma and B equal (1/4)[gamma^a, gamma^b], gamma^x0 gamma^x1 ... gamma^x7 and -i C gamma^x4; the author's T16 is the primary representation (its coefficients are compared with a4-equations.json)"
     },
     {
       "name": "authorT16_clifford",
       "verdict": "PASS",
-      "detail": "{gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"
+      "detail": "{gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,1,-1,-1,-1,-1)"
     },
     {
       "name": "authorT16_C_properties",
       "verdict": "PASS",
-      "detail": "C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 real symmetric, C^2 = 1, C gamma^a antisymmetric"
+      "detail": "C = gamma^x0 gamma^x1 gamma^x2 gamma^x3 real symmetric, C^2 = 1, C gamma^a antisymmetric"
     },
     {
-      "name": "authorT16_Omega_x4_x8_zero",
+      "name": "authorT16_Omega_x0_x4_zero",
       "verdict": "PASS",
-      "detail": "Omega_x4 = Omega_x8 = 0"
+      "detail": "Omega_x0 = Omega_x4 = 0"
     },
     {
       "name": "authorT16_anticommutator_no_sum",
@@ -285,7 +285,7 @@
     {
       "name": "authorT16_gravity_term",
       "verdict": "PASS",
-      "detail": "gamma^mu Omega_mu = 3 H gamma^x8"
+      "detail": "gamma^mu Omega_mu = 3 H gamma^x0"
     },
     {
       "name": "authorT16_condensate_S_constant",
@@ -300,12 +300,12 @@
     {
       "name": "authorT16_condensate_kinetic_diagonal",
       "verdict": "PASS",
-      "detail": "K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x8 = K^x8_x4 = 0"
+      "detail": "K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x0 = K^x0_x4 = 0"
     },
     {
       "name": "authorT16_condensate_offdiagonal_three_gamma",
       "verdict": "PASS",
-      "detail": "every nonzero off-diagonal kinetic component (42 ordered pairs) is a multiple of one of the 15 bilinears Phibar gamma^a gamma^b gamma^c Phi, {a,b,c} = {i,x4,x8} or {i,j,x4}"
+      "detail": "every nonzero off-diagonal kinetic component (42 ordered pairs) is a multiple of one of the 15 bilinears Phibar gamma^a gamma^b gamma^c Phi, {a,b,c} = {i,x4,x0} or {i,j,x4}"
     },
     {
       "name": "authorT16_condensate_witness",
@@ -315,7 +315,7 @@
     {
       "name": "representations_equivalent_authorT16_ownrep",
       "verdict": "PASS",
-      "detail": "exact (sympy DomainMatrix nullspace over QQ): the intertwiners K with K gamma_own^a = gamma_T16^a K for a = x1..x8 (gamma_own the comparison representation) form a space of dimension 1, and K^T K = 8 I16 (K is sqrt(8) times an orthogonal matrix) with K C_own = C_T16 K: the comparison representation is equivalent to the author's T16, so every trace of a product of gammas is the same in both"
+      "detail": "exact (sympy DomainMatrix nullspace over QQ): the intertwiners K with K gamma_own^a = gamma_T16^a K for a = x0..x7 (gamma_own the comparison representation) form a space of dimension 1, and K^T K = 8 I16 (K is sqrt(8) times an orthogonal matrix) with K C_own = C_T16 K: the comparison representation is equivalent to the author's T16, so every trace of a product of gammas is the same in both"
     },
     {
       "name": "json_offdiagonal_coefficients",

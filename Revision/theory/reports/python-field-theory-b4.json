@@ -14,17 +14,17 @@
   {
    "name": "gammaOmega_per_direction",
    "verdict": "PASS",
-   "detail": "gamma^mu Omega_mu (no sum): (a4'/2) gamma^x4 + (H/2) gamma^x8 (mu = x1..x3), (-a4'/2 + b4'/(4 b4)) gamma^x4 + (H/2) gamma^x8 (x5..x7), 0 (x4, x8)"
+   "detail": "gamma^mu Omega_mu (no sum): (a4'/2) gamma^x4 + (H/2) gamma^x0 (mu = x1..x3), (-a4'/2 + b4'/(4 b4)) gamma^x4 + (H/2) gamma^x0 (x5..x7), 0 (x0, x4)"
   },
   {
    "name": "gammaOmega_total",
    "verdict": "PASS",
-   "detail": "gamma^mu Omega_mu = 3 H gamma^x8 + (3/4)(b4'/b4) gamma^x4 (author's T16)"
+   "detail": "gamma^mu Omega_mu = 3 H gamma^x0 + (3/4)(b4'/b4) gamma^x4 (author's T16)"
   },
   {
    "name": "gammaOmega_formula_text",
    "verdict": "PASS",
-   "detail": "field-theory-b4.json gammaOmega_total states 3 H gamma[x8] + (3/4)(b4'/b4) gamma[x4]: 3*H*gamma[\"x8\"] + (3*gamma[\"x4\"]*Derivative[1][b4][x4])/(4*b4[x4])"
+   "detail": "field-theory-b4.json gammaOmega_total states 3 H gamma[x0] + (3/4)(b4'/b4) gamma[x4]: 3*H*gamma[\"x0\"] + (3*gamma[\"x4\"]*Derivative[1][b4][x4])/(4*b4[x4])"
   }
  ],
  "checkCount": 5,

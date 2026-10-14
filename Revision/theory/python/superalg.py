@@ -6,7 +6,7 @@ Generators are field components and their coordinate derivatives on the jet spac
     key = (kind, A, deriv)   kind 0 = chi (= Psi^dagger component, i.e. the complex conjugate of psi),
                              kind 1 = psi, kind 2 = theta (a REAL field, used only for the negative control);
                              A = 0..15 the spinor index; deriv = sorted tuple of coordinate indices 0..7
-                             (0..7 stand for x1..x8).
+                             (0..7 stand for the author's x0..x7).
 An element is a dict  monomial -> sympy coefficient, a monomial being a sorted tuple of keys.
 
 stat = "grassmann": every generator is odd (anticommuting) - dirac16complex;

@@ -12,7 +12,7 @@
 		{
 			"name":"P2_T2_mirror_isometry_with_b4",
 			"verdict":"PASS",
-			"detail":"the map phi: x8 -> pi\/(6H) - x8 (z -> pi - z) pulls the metric with b4 back to itself (Sin and Cot^2 are symmetric under z -> pi - z, b4 depends on x4 only): the Z2 mirror of T2 is an isometry for every b4"
+			"detail":"the map phi: x0 -> pi\/(6H) - x0 (z -> pi - z) pulls the metric with b4 back to itself (Sin and Cot^2 are symmetric under z -> pi - z, b4 depends on x4 only): the Z2 mirror of T2 is an isometry for every b4"
 		},
 		{
 			"name":"P3_T3_kohn_sham_level",

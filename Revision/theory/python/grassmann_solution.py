@@ -3,7 +3,7 @@ U = (lambda/2) S^2) in an EXPLICIT Grassmann algebra with N = 2 generators theta
 thetabar_1, thetabar_2, verified exactly (written anew; no code shared with the Wolfram side).
 
     Psi = sum_k [P(m) + lambda S0 dP/dm] chi_k theta_k,   P(m) = cosh(k x4) I + (sinh(k x4)/k) M_m,
-    M_m = -m gamma^(x4) + 3 H gamma^(x4) gamma^(x8),   k^2 = 9 H^2 - m^2,
+    M_m = -m gamma^(x4) + 3 H gamma^(x4) gamma^(x0),   k^2 = 9 H^2 - m^2,
     S0 = sum_kl thetabar_k theta_l chi_k^dagger C chi_l   (even, nilpotent: S0^2 != 0, S0^2 Psi = 0),
 
 with 16 generic complex constants per generator (chi_k components q_Bk; their conjugates qc_Bk).  It is the
@@ -18,10 +18,10 @@ Verified here:
     T^mu_mu = (lambda/2) S0^2 for mu != x4, and nabla_mu T^mu_nu = 0 for all eight nu.  The kinetic part T_kin is
     a bilinear sum_AB N_AB chi_(A,d1) psi_(B,d2); at the solution Psi^(d) = U_d chi with real matrices
     U_d = U_d0 + sigma U_d1 (sigma = lambda S0 even, sigma^2 times any bilinear vanishes: degree 6 > 4), so
-    T_kin = B[X0] + lambda S0 B[X1] with B[X] = sum_kl thetabar_k theta_l chi_k^dagger X chi_l and the 16 x 16
-    matrices X0 = sum U_d1,0^T N U_d2,0, X1 = sum (U_d1,1^T N U_d2,0 + U_d1,0^T N U_d2,1); the statements follow from
+    T_kin = B[Y0] + lambda S0 B[Y1] with B[Y] = sum_kl thetabar_k theta_l chi_k^dagger Y chi_l and the 16 x 16
+    matrices Y0 = sum U_d1,0^T N U_d2,0, Y1 = sum (U_d1,1^T N U_d2,0 + U_d1,0^T N U_d2,1); the statements follow from
     exact matrix identities (sufficient conditions), and this contraction is cross-checked against the direct
-    evaluation in the explicit algebra for T_kin^x8_x8.  The potential part is -delta V, V = m S + (lambda/2) S^2,
+    evaluation in the explicit algebra for T_kin^x0_x0 (x0 = the hidden direction).  The potential part is -delta V, V = m S + (lambda/2) S^2,
     constant at the solution.
 
 Coefficients: x4, Ch = cosh(k x4), Sh = sinh(k x4), k with d/dx4: Ch -> k Sh, Sh -> k Ch; the exact zero test
@@ -30,7 +30,7 @@ reduces Ch^2 -> 1 + Sh^2, k^2 -> 9 H^2 - m^2 and c^2 -> 1 - s^12 (author's ring)
 import sympy as sp
 
 from superalg import Alg, gen, CHI, PSI
-from geometry import X4, H, m, lam, s, c, cd_author, zero_author
+from geometry import X0, X4, H, m, lam, s, c, cd_author, zero_author
 
 NG = 2
 GEN0 = 100  # generator keys (PSI, 100 + k) = theta_k, (CHI, 100 + k) = thetabar_k (conjugation maps PSI <-> CHI)
@@ -85,12 +85,12 @@ def verify(gm, geo, sps, Tk, Tp, V):
     def cconj(x):  # complex conjugation in the explicit algebra (q <-> qc; Alg.conj reverses products, I -> -I)
         return x.conj().map_coeffs(lambda v: v.xreplace(swap))
 
-    Mm = -m * G[3] + 3 * H * G[3] * G[7]
+    Mm = -m * G[X4] + 3 * H * G[X4] * G[X0]
     ok_sq = (Mm * Mm - K2 * I16).applyfunc(sp.expand) == sp.zeros(16, 16)
     ok_c = (Mm.T * Cm + Cm * Mm).applyfunc(sp.expand) == sp.zeros(16, 16)
     P = Ch * I16 + (Sh / kk) * Mm
     kp = -m / kk  # dk/dm
-    dP = kp * x4s * Sh * I16 + kp * (x4s * Ch / kk - Sh / kk**2) * Mm - (Sh / kk) * G[3]  # d P / d m
+    dP = kp * x4s * Sh * I16 + kp * (x4s * Ch / kk - Sh / kk**2) * Mm - (Sh / kk) * G[X4]  # d P / d m
     chi = [sp.Matrix([q[B][k] for B in range(16)]) for k in range(NG)]
     chic = [sp.Matrix([qc[B][k] for B in range(16)]) for k in range(NG)]
 
@@ -139,7 +139,7 @@ def verify(gm, geo, sps, Tk, Tp, V):
                 return Pv[A] if kind == PSI else Pvc[A]
             if d == (X4,):
                 return dPv[A] if kind == PSI else dPvc[A]
-            return Alg("grassmann")  # homogeneous: no dependence on x1..x3, x5..x8
+            return Alg("grassmann")  # homogeneous: no dependence on x0..x3, x5..x7
         return rule
 
     Ev = sps.dirac_E()
@@ -151,7 +151,7 @@ def verify(gm, geo, sps, Tk, Tp, V):
     U = {(): (P, dP), (X4,): (P.applyfunc(d4c), dP.applyfunc(d4c))}
 
     def at_solution(x):
-        X0, X1 = sp.zeros(16, 16), sp.zeros(16, 16)
+        Y0, Y1 = sp.zeros(16, 16), sp.zeros(16, 16)
         for mono, v in x.t.items():
             if len(mono) != 2 or mono[0][0] != CHI or mono[1][0] != PSI:
                 raise ValueError(f"T_kin is not a Psibar-Psi bilinear: {mono}")
@@ -162,9 +162,9 @@ def verify(gm, geo, sps, Tk, Tp, V):
             b0, b1 = U[d2]
             N = sp.zeros(16, 16)
             N[A, B] = v
-            X0 += a0.T * N * b0
-            X1 += a1.T * N * b0 + a0.T * N * b1
-        return X0.applyfunc(sp.expand), X1.applyfunc(sp.expand)
+            Y0 += a0.T * N * b0
+            Y1 += a1.T * N * b0 + a0.T * N * b1
+        return Y0.applyfunc(sp.expand), Y1.applyfunc(sp.expand)
 
     def mzt(M):
         return all(zt(e) for e in M)
@@ -179,7 +179,7 @@ def verify(gm, geo, sps, Tk, Tp, V):
     # -T_kin^x4_x4 = 0 and T_kin^i_i = m S0 + lambda S0^2 = B[m C] + lambda S0 B[C]
     ok_rp = mzt(Xs[X4][X4][0]) and mzt(Xs[X4][X4][1])
     ok_rp = ok_rp and all(mzt(Xs[i][i][0] - m * Cm) and mzt(Xs[i][i][1] - Cm) for i in range(8) if i != X4)
-    ctrl_rp = not mzt(Xs[0][0][1])  # the lambda S0^2 part of the pressure is not zero
+    ctrl_rp = not mzt(Xs[1][1][1])  # the lambda S0^2 part of the pressure (T^x1_x1) is not zero
 
     def dtot(v, mu):
         return cd_author(v, mu) + (d4c(v) if mu == X4 else 0)
@@ -197,14 +197,14 @@ def verify(gm, geo, sps, Tk, Tp, V):
     # the potential part -delta V (V constant at the solution) contributes d_nu V + V (d_nu ln sqrt g - Gamma^mu_mu nu) = 0
     ok_cons = ok_cons and all(zero_author(cd_author(geo.sqrtg, nu) / geo.sqrtg - sum(geo.Gam[mu][mu][nu] for mu in range(8)))
                               for nu in range(8))
-    # cross-check of the contraction against the direct evaluation in the explicit algebra (T_kin^x8_x8)
-    X0, X1 = Xs[7][7]
-    direct = Tk[7][7].subst(rule).expand()
-    ok_lemma = (direct - contract(X0) - (S0 * contract(X1)).scale(lam)).expand().is_zero(zt)[0]
+    # cross-check of the contraction against the direct evaluation in the explicit algebra (T_kin^x0_x0)
+    Y0, Y1 = Xs[X0][X0]
+    direct = Tk[X0][X0].subst(rule).expand()
+    ok_lemma = (direct - contract(Y0) - (S0 * contract(Y1)).scale(lam)).expand().is_zero(zt)[0]
     ok = all((ok_sq, ok_c, ok_alg, ok_S, ok_E, ctrl_E, ok_pot, ok_rp, ctrl_rp, ok_cons, ok_lemma))
     detail = (f"Grassmann (dirac16complex, explicit algebra with N = 2 generators theta_k and their conjugates, 16 "
               "generic complex constants per generator): Psi = sum_k [P(m) + lambda S0 dP/dm] chi_k theta_k, P(m) = "
-              "cosh(k x4) + sinh(k x4)/k M_m, M_m = -m gamma^(x4) + 3 H gamma^(x4) gamma^(x8), k^2 = 9 H^2 - m^2, "
+              "cosh(k x4) + sinh(k x4)/k M_m, M_m = -m gamma^(x4) + 3 H gamma^(x4) gamma^(x0), k^2 = 9 H^2 - m^2, "
               "S0 = sum_kl thetabar_k theta_l chi_k^dagger C chi_l (the expansion of exp(M_(m + lambda S0) x4) chi, "
               "which terminates since S0^2 Psi = 0): "
               f"M_m^2 = k^2 I16 and M^T C + C M = 0 [{ok_sq and ok_c}]; S0 real, S0^2 != 0, S0^2 Psi = 0 [{ok_alg}]; "
@@ -213,8 +213,8 @@ def verify(gm, geo, sps, Tk, Tp, V):
               "energy-momentum tensor (T_pot = -delta V, V = m S + (lambda/2) S^2 [" + str(ok_pot) + "]): -T^x4_x4 = "
               "m S0 + (lambda/2) S0^2 and T^mu_mu = (lambda/2) S0^2 for mu != x4 [" + str(ok_rp) + "] (control: the "
               f"lambda S0^2 part of the pressure is nonzero [{ctrl_rp}]), nabla_mu T^mu_nu = 0 for all 8 nu "
-              f"[{ok_cons}] (kinetic part evaluated as B[X0] + lambda S0 B[X1] with exact 16 x 16 matrices; this "
-              f"contraction equals the direct explicit-algebra evaluation of T_kin^x8_x8 [{ok_lemma}]); the values are "
+              f"[{ok_cons}] (kinetic part evaluated as B[Y0] + lambda S0 B[Y1] with exact 16 x 16 matrices; this "
+              f"contraction equals the direct explicit-algebra evaluation of T_kin^x0_x0 [{ok_lemma}]); the values are "
               "Grassmann-algebra elements (the classical Grassmann EMT; numbers come from the expectation values of "
               "the quantum theory)")
     return ok, detail

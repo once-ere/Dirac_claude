@@ -13,14 +13,16 @@
    (decoded by its own reader below, independent of the algebra package).
 
    Names.  The package defines global symbols with the prefix rft (functions, data) and uses the
-   global coordinate symbols x1 ... x8 (the author's names: x1, x2, x3 = 3-space, x4 = time,
-   x5, x6, x7 = the exponentially deflating extra times, x8 = the hidden direction), the metric
-   function a4[x4], the constant H > 0, the mass m, the coupling lam and z = 6 H x8 in (0, Pi/2).
+   global coordinate symbols x0 ... x7, the author's coordinates in his order (x0 = the hidden direction,
+   x1, x2, x3 = 3-space, x4 = time, x5, x6, x7 = the exponentially deflating extra times; Wolfram position
+   k + 1 holds xk), the metric function a4[x4], the constant H > 0, the mass m, the coupling lam and
+   z = 6 H x0 in (0, Pi/2).  (Until 2026-10-14 the package used the withdrawn labels x1 ... x8 with the
+   hidden direction x8 listed last.)
 
-   1. Geometry (SPEC section 1).  g = diag(f1^2, f2^2, f3^2, -1, -f5^2, -f6^2, -f7^2, f8^2) with
-        f1 = f2 = f3 = E^a4 Sin[z]^(1/6),  f4 = 1,  f5 = f6 = f7 = E^-a4 Sin[z]^(1/6),  f8 = Cot[z];
+   1. Geometry (SPEC section 1, at b4 = 1).  g = diag(f0^2, f1^2, f2^2, f3^2, -1, -f5^2, -f6^2, -f7^2) with
+        f0 = Cot[z],  f1 = f2 = f3 = E^a4 Sin[z]^(1/6),  f4 = 1,  f5 = f6 = f7 = E^-a4 Sin[z]^(1/6);
       diagonal vielbein e^a_mu = f_a delta^a_mu (row a = frame, column mu = coordinate), inverse
-      vielbein e_a^mu = delta / f_a; eta = diag(1,1,1,-1,-1,-1,-1,1); sqrt|g| = Cos[z].
+      vielbein e_a^mu = delta / f_a; eta = diag(1,1,1,1,-1,-1,-1,-1); sqrt|g| = Cos[z].
       Christoffel Gamma^l_mn = (1/2) g^lr (d_m g_rn + d_n g_rm - d_r g_mn);
       Riemann R^r_smn = d_m Gamma^r_ns - d_n Gamma^r_ms + Gamma^r_ml Gamma^l_ns - Gamma^r_nl Gamma^l_ms,
       Ricci R_sn = R^r_srn, R = g^sn R_sn.
@@ -30,7 +32,7 @@
         Omega_mu = (1/2) omega_mu,ab S^ab   (S^ab = (1/4)[gamma^a, gamma^b] from the fixture),
         gamma^mu = e_a^mu gamma^a,  D_mu Psi = d_mu Psi + Omega_mu Psi,  D_mu Psibar = d_mu Psibar - Psibar Omega_mu.
 
-   3. Fields.  Commuting (dirac16complex00): Phi_A = ph[A][x1..x8], PhiConj_A = phc[A][x1..x8] (phc is the
+   3. Fields.  Commuting (dirac16complex00): Phi_A = ph[A][x0..x7], PhiConj_A = phc[A][x0..x7] (phc is the
       complex conjugate of ph; the reality checks swap ph <-> phc and conjugate numbers).
       Anticommuting (dirac16complex): an explicit Grassmann algebra with generators 1..N (theta_k) and
       N+1..2N (thetabar_k = conj(theta_k)), N = 2 by default; an element is an Association
@@ -50,19 +52,20 @@
 *)
 
 (* ------------------------------------------------------------------ coordinates and metric *)
-rftX = {x1, x2, x3, x4, x5, x6, x7, x8};
-rftZ = 6 H x8;
-rftCoordNames = {"x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"};
-rftEta = DiagonalMatrix[{1, 1, 1, -1, -1, -1, -1, 1}];
-rftEtaD = {1, 1, 1, -1, -1, -1, -1, 1};
-rftF = {E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), 1,
-        E^(-a4[x4]) Sin[rftZ]^(1/6), E^(-a4[x4]) Sin[rftZ]^(1/6), E^(-a4[x4]) Sin[rftZ]^(1/6), Cot[rftZ]};
-(* the author's metric, typed as in SPEC section 1 *)
-rftMetricAuthor = {{E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0},
-  {0,0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0},{0,0,0,-1,0,0,0,0},
-  {0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x8]^(1/3),0,0},
-  {0,0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x8]^(1/3),0},{0,0,0,0,0,0,0,Cot[6 H x8]^2}};
-rftAssumptions = {H > 0, 0 < 6 H x8 < Pi/2, Element[a4[x4], Reals], Element[x4, Reals]};
+(* the author's coordinates x0..x7 in his order; Wolfram position k + 1 holds xk *)
+rftX = {x0, x1, x2, x3, x4, x5, x6, x7};
+rftZ = 6 H x0;
+rftCoordNames = {"x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"};
+rftEta = DiagonalMatrix[{1, 1, 1, 1, -1, -1, -1, -1}];
+rftEtaD = {1, 1, 1, 1, -1, -1, -1, -1};
+rftF = {Cot[rftZ], E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), 1,
+        E^(-a4[x4]) Sin[rftZ]^(1/6), E^(-a4[x4]) Sin[rftZ]^(1/6), E^(-a4[x4]) Sin[rftZ]^(1/6)};
+(* the author's metric, typed as in SPEC section 1, at b4 = 1 (the b4 supplements are verify_field_theory_b4*.wls) *)
+rftMetricAuthor = {{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},
+  {0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},
+  {0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x0]^(1/3),0,0},
+  {0,0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) Sin[6 H x0]^(1/3)}};
+rftAssumptions = {H > 0, 0 < 6 H x0 < Pi/2, Element[a4[x4], Reals], Element[x4, Reals]};
 
 rftE0 = DiagonalMatrix[rftF];                (* e^a_mu: row a (frame), column mu (coordinate) *)
 rftEinv0 = DiagonalMatrix[1/rftF];           (* e_a^mu stored as [[mu, a]] *)
@@ -72,8 +75,8 @@ rftSqrtG0 = Cos[rftZ];
 
 (* ------------------------------------------------------------------ exact zero test *)
 (* Sin z -> w^6 (w > 0), Cos z -> cw, cw^2 -> 1 - w^12 after clearing denominators. *)
-rftTrigRules = {Sin[6 H x8] -> rftw^6, Cos[6 H x8] -> rftcw, Cot[6 H x8] -> rftcw/rftw^6,
-  Tan[6 H x8] -> rftw^6/rftcw, Csc[6 H x8] -> 1/rftw^6, Sec[6 H x8] -> 1/rftcw};
+rftTrigRules = {Sin[6 H x0] -> rftw^6, Cos[6 H x0] -> rftcw, Cot[6 H x0] -> rftcw/rftw^6,
+  Tan[6 H x0] -> rftw^6/rftcw, Csc[6 H x0] -> 1/rftw^6, Sec[6 H x0] -> 1/rftcw};
 rftReduceCos[p_] := Expand[p /. rftcw^n_Integer /; n >= 2 :> (1 - rftw^12)^Quotient[n, 2] rftcw^Mod[n, 2]];
 rftNormal[e_] := Module[{t},
   t = PowerExpand[e /. rftTrigRules];
@@ -90,8 +93,8 @@ rftZeroQ[e_] := Module[{t, uexp, urules, vars, coefs},
   uexp = Union[Cases[t, (U | Derivative[_][U])[_], {0, Infinity}]];
   urules = Thread[uexp -> Array[rftUsym, Length[uexp]]];
   t = Expand[t /. urules];
-  (* field calls: compound heads such as ph[3][x1, ..., x8] or Derivative[..][phc[3, 1]][x1, ..., x8],
-     the scalar test functions pf[x8], qf[x8] and their derivatives, and the constants cA[..], cAc[..] *)
+  (* field calls: compound heads such as ph[3][x0, ..., x7] or Derivative[..][phc[3, 1]][x0, ..., x7],
+     the scalar test functions pf[x0], qf[x0] and their derivatives, and the constants cA[..], cAc[..] *)
   vars = Union[Cases[t, (hh_[__] /; (!AtomQ[hh] && !FreeQ[hh, rftFieldHeadPattern])) | (pf | qf)[_] | (cA | cAc)[__], {0, Infinity}]];
   coefs = If[vars === {}, {t}, Last /@ CoefficientRules[t, vars]];
   And @@ (rftReduceCos[Expand[Numerator[Together[#]]]] === 0 & /@ coefs)];
