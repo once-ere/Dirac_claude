@@ -84,3 +84,17 @@ Measured or estimated in the records of 2026-10-08 (HANDOFF.md sections 0.4u-0.4
 
 (appended as they occur)
 
+Since the kill of section A (about 12:05) every calculation of this work was started with `timeout 423`; none was
+killed by that limit, and no wall time exceeded 423 s (the longest: the refined-tolerance Rust run of the Kohn-Sham
+solver, 328 s; checked in the run logs and the session transcript on 2026-10-14 at about 15:55).
+
+| # | Calculation | Status | What was done instead / what remains |
+|---|---|---|---|
+| C1 | `Revision/theory/wolfram/verify_field_theory.wls` for GENERAL b4: its sections Noether identities, exact solutions and conservation, canonical quantisation | NOT COMPUTED (not attempted): serially these sections took 910.8 s, 1005.4 s and the whole verifier 1783-2508 s at b4 = 1 (2026-10-08) | The b4 = 1 verifier (84 checks) was re-run on 2026-10-14 in the author's coordinates with its slow zero tests on 16 parallel subkernels: 309 s and 310 s. For general b4 only the supplements `verify_field_theory_b4.wls` (19 checks) and `verify_field_theory_b4_emt.wls` C, G (4 + 4 checks) exist; the general-b4 Noether identities, exact solutions and canonical quantisation REMAIN UNCOMPUTED. |
+| C2 | `Revision/kohn_sham/reference/run_reference.py` as ONE run (578.3 s on 2026-10-01) | NOT RUN in one piece | Run in four parts with the new job cache (`--cache DIR --part i/4`, 12 processes): 234 s, 225 s, 258 s, 268 s, then the assembly from the cache, 3 s; outputs equal to a single run (pure jobs, fixed write order). |
+| C3 | `Revision/kohn_sham/checker/crosscheck_ks.py` with its own reference repeat in one run (721-777 s on 2026-10-08) | NOT RUN in one piece | The repeat computed beforehand in four parts into a separate job cache (`run_reference.py --cache DIR --part i/4`), the checker run with `--repeat-cache DIR`: parts 239 s, 232 s, 262 s, 267 s; checker 21 s, 31 of 31 PASS, the repeat byte-identical to the committed reference; report and table equal to those of 2026-10-08 after the renaming. |
+| C4 | `Revision/kohn_sham/tip_convergence/tip_convergence.py` at its former cap of 8 workers (541-553 s on 2026-10-08) | not run at 8 workers | Cap raised to 22 workers (outputs independent of it): 196 s, 7 of 7. |
+| C5 | Rust refined-tolerance Kohn-Sham run (618.6 s on 2026-10-07, in parallel with the repeat) | finished within the limit when run alone | 328 s. |
+| C6 | `gkd_lovelock` `gkd-selftest --exhaustive-max 4` (gate step, up to 900 s) | not run on 2026-10-14 | Not affected by the metric change or the relabelling (the generalized Kronecker delta is coordinate free); its committed result stands. |
+| C7 | The full Revision gate `verify_revision.ps1` / `.sh` (about 3 h) | not run as one calculation | Its steps are run one by one, each within 423 s, as each set is relabelled. |
+
