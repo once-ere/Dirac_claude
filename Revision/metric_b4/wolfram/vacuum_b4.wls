@@ -35,7 +35,7 @@ If[! FileExistsQ[src], Print["ERROR: run verify_metric_b4.wls first"]; Exit[1]];
 d = Import[src, "RawJSON"];
 toE[s_] := Block[{$Context = "MetricB4`", $ContextPath = {"MetricB4`", "System`"}}, ToExpression[s]];
 checks = {};
-check[name_, ok_, detail_] := (AppendTo[checks, <|"name" -> name, "pass" -> TrueQ[ok], "detail" -> detail|>];
+check[name_, ok_, detail_] := (AppendTo[checks, <|"name" -> name, "verdict" -> If[TrueQ[ok], "PASS", "FAIL"], "detail" -> detail|>];
   Print["check_", name, "=", If[TrueQ[ok], "PASS", "FAIL"]]);
 
 Hs = MetricB4`H; x4s = MetricB4`x4; x0s = MetricB4`x0;
@@ -78,7 +78,7 @@ out = <|"program" -> "Revision/metric_b4/wolfram/vacuum_b4.wls",
   "constraintE44" -> ToString[InputForm[Factor[E44]]], "offDiagonalQ" -> ToString[InputForm[Qpoly]],
   "isolatedPoints" -> ToString[InputForm[pts]], "constraintAtBeta0" -> ToString[InputForm[C0]],
   "theorem" -> "Every C^2 solution (a4, b4), b4 > 0, of the author's vacuum Einstein-Lovelock equations (w1 = 1, w2 = 1/32, w3 = 1/1152, Lambda = 10) for the metric with b4 has b4 = constant and a4 = +H x4 + const or -H x4 + const; a constant b4 is the rescaling x5,6,7 -> sqrt(b4) x5,6,7, so the vacuum history is the author's solution (b4 = 1, a4 = H x4) or its time reverse.",
-  "checks" -> checks, "checkCount" -> Length[checks], "failedCount" -> Count[checks, c_ /; ! c["pass"]]|>;
+  "checks" -> checks, "checkCount" -> Length[checks], "failedCount" -> Count[checks, c_ /; c["verdict"] =!= "PASS"]|>;
 s = ExportString[out, "JSON", "Compact" -> False];
 If[Quiet[BinaryWrite[FileNameJoin[{$res, "vacuum-b4.json"}], StringToByteArray[s <> "\n", "UTF-8"]]] === $Failed, Print["ERROR: cannot write vacuum-b4.json"]; Exit[1]];
 Close[FileNameJoin[{$res, "vacuum-b4.json"}]];

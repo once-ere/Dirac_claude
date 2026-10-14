@@ -45,7 +45,8 @@
 # (a --dry-run ends with revision_verification=NOT-RUN).
 #
 # Steps (dependency order; expected wall time on the development machine, Windows 11, 24 threads, from the
-# folder READMEs and provenance files or measured by this gate on 2026-10-08; "long" = skipped by --fast):
+# folder READMEs and provenance files or measured by this gate on 2026-10-08, the steps of the metric with b4 and
+# the split Kohn-Sham steps measured on 2026-10-14; "long" = skipped by --fast):
 #   algebra-wolfram                       10 s
 #   algebra-sympy                          5 s
 #   gkd-rust-build                        60 s
@@ -58,38 +59,58 @@
 #   gkd-notebook-image                    10 s
 #   gkd-author-extract                   120 s
 #   gkd-author-compare                    60 s
-#   theory-wolfram                      2700 s  long
+#   metric-b4-author-notebook              5 s
+#   metric-b4-author-extract              10 s
+#   metric-b4-wolfram                     90 s
+#   metric-b4-sympy                       40 s
+#   metric-b4-vacuum                      10 s
+#   theory-wolfram                       310 s  long
 #   theory-wolfram-scope                  60 s
 #   theory-sympy                         240 s
 #   theory-sympy-scope                     5 s
 #   theory-compare                         2 s
 #   theory-fock-quartic                   10 s
+#   theory-b4-wolfram                     15 s
+#   theory-b4-emt-c                      190 s
+#   theory-b4-emt-g                      110 s
+#   theory-b4-sympy                        5 s
 #   pairing-wolfram                      280 s
 #   pairing-sympy                        240 s
 #   a4-wolfram                            70 s
 #   a4-sympy                              30 s
+#   a4-b4-block-sympy                     35 s
 #   a4-ks-source-conditions                5 s
 #   a4-ks-source                          20 s
 #   a4-ks-source-unittest                 30 s
 #   ks-theory-wolfram                     60 s
 #   ks-theory-sympy                       60 s
+#   ks-b4-wolfram                          5 s
+#   metric-b4-consequences                 5 s
 #   ks-rust-build                         60 s
 #   ks-rust-test                          60 s
 #   ks-rust-canonical                    250 s
 #   ks-rust-mermin-roots                  30 s
 #   ks-rust-repeat                       250 s
 #   ks-rust-repeat-identical               5 s
-#   ks-rust-refined                      620 s  long
+#   ks-rust-refined                      330 s  long
 #   ks-rust-determinism                   30 s  long
-#   ks-reference                         750 s  long
+#   ks-reference-part1                   240 s
+#   ks-reference-part2                   235 s
+#   ks-reference-part3                   265 s
+#   ks-reference-part4                   270 s
+#   ks-reference                           5 s
 #   ks-rust-refinement                    90 s
-#   ks-crosscheck                        780 s  long
-#   ks-tip-convergence                   600 s  long
+#   ks-crosscheck-repeat-part1           240 s
+#   ks-crosscheck-repeat-part2           235 s
+#   ks-crosscheck-repeat-part3           265 s
+#   ks-crosscheck-repeat-part4           270 s
+#   ks-crosscheck                         25 s
+#   ks-tip-convergence                   200 s
 #   t3-wolfram                            15 s
 #   t3-sympy                              10 s
 #   t3-completion-wolfram                 20 s
-#   t3-rust-demo                         900 s  long
-#   t3-reference-demo                    600 s  long
+#   t3-rust-demo                         285 s
+#   t3-reference-demo                    170 s
 #   t3-completion-sympy                   10 s
 #   dark16-derive                         10 s
 #   dark16-ks-history                    150 s
@@ -117,6 +138,13 @@
 # that runs it; ks-rust-mermin-roots follows the canonical matrix (its check compares with it);
 # ks-rust-determinism needs the repeat and the refined run; t3-reference-demo reads the Rust demonstration;
 # t3-completion-sympy reads both demonstrations; the dark sector reads the Kohn-Sham and a4 records.
+# The metric with b4 (2026-10-14): metric-b4-author-notebook writes the author's notebook at the version of the
+# user's order (commit b13373c, sha256 pinned; the working tree may hold a later version) into its work folder for
+# metric-b4-author-extract; the field theory with b4 reads metric-b4.json; metric-b4-consequences reads
+# ks-b4-wolfram.json.  The Python reference runs in four parts (each about 4 to 4.5 minutes) into the job cache
+# build/revision/ks-reference-cache, which ks-reference then assembles into the record (ks-reference run alone
+# computes every job itself: about 10 minutes); the cross-check's own reference repeat runs the same way into the
+# separate cache build/revision/ks-crosscheck-cache, which ks-crosscheck passes to the repeat (--repeat-cache).
 
 if ($PSVersionTable.PSEdition -ne "Core") {
     $pwshCommand = Get-Command pwsh -CommandType Application -ErrorAction SilentlyContinue |
@@ -211,38 +239,58 @@ gkd-notebook-digest|5|0|-|Revision/gkd_lovelock/results/notebook-input-cells.txt
 gkd-notebook-image|10|0|-|Revision/gkd_lovelock/results/notebook-in68-image.png|-|{wolframscript} -file Revision/gkd_lovelock/notebook_reading/lovelock_export_nb_image.wls
 gkd-author-extract|120|0|-|Revision/gkd_lovelock/comparison/author-curvature-outputs.json|-|{wolframscript} -file Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls
 gkd-author-compare|60|0|-|Revision/gkd_lovelock/comparison/author-comparison-report.json|Revision/gkd_lovelock/comparison/author-comparison-report.json|{python} Revision/gkd_lovelock/comparison/compare_with_author.py
-theory-wolfram|2700|1|-|Revision/theory/field-theory.json,Revision/theory/reports/wolfram-field-theory.json|Revision/theory/reports/wolfram-field-theory.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls
+metric-b4-author-notebook|5|0|build/revision/metric-b4-author|-|-|{audit} git-blob b13373c:Dirac_Einstein-Lovelock_4+4_Nash.nb build/revision/metric-b4-author/Dirac_Einstein-Lovelock_4+4_Nash.nb 4f2d83b53e4a35696e1ed4d0569f4cabbfc7463d0036c36ae5534bd6e549aafb
+metric-b4-author-extract|10|0|-|Revision/metric_b4/results/author-b4-outputs.json|-|{wolframscript} -file Revision/metric_b4/wolfram/extract_author_b4_outputs.wls build/revision/metric-b4-author/Dirac_Einstein-Lovelock_4+4_Nash.nb
+metric-b4-wolfram|90|0|-|Revision/metric_b4/results/metric-b4.json,Revision/metric_b4/results/wolfram-metric-b4-report.json|Revision/metric_b4/results/wolfram-metric-b4-report.json|{wolframscript} -file Revision/metric_b4/wolfram/verify_metric_b4.wls
+metric-b4-sympy|40|0|-|Revision/metric_b4/results/python-metric-b4-report.json|Revision/metric_b4/results/python-metric-b4-report.json|{python} Revision/metric_b4/python/check_metric_b4.py
+metric-b4-vacuum|10|0|-|Revision/metric_b4/results/vacuum-b4.json|Revision/metric_b4/results/vacuum-b4.json|{wolframscript} -file Revision/metric_b4/wolfram/vacuum_b4.wls
+theory-wolfram|310|1|-|Revision/theory/field-theory.json,Revision/theory/reports/wolfram-field-theory.json|Revision/theory/reports/wolfram-field-theory.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls
 theory-wolfram-scope|60|0|-|Revision/theory/reports/wolfram-scope.json|Revision/theory/reports/wolfram-scope.json|{wolframscript} -file Revision/theory/wolfram/verify_scope.wls
 theory-sympy|240|0|-|Revision/theory/reports/python-field-theory.json|Revision/theory/reports/python-field-theory.json|{python} Revision/theory/python/check_field_theory.py
 theory-sympy-scope|5|0|-|Revision/theory/reports/python-scope.json|Revision/theory/reports/python-scope.json|{python} Revision/theory/python/check_scope.py
 theory-compare|2|0|-|-|-|{audit} json-equals Revision/theory/reports/python-field-theory.json comparison_with_wolfram.status agree
 theory-fock-quartic|10|0|-|Revision/theory/fock_quartic/reports/fock-quartic.json|Revision/theory/fock_quartic/reports/fock-quartic.json|{python} Revision/theory/fock_quartic/check_fock_quartic.py
+theory-b4-wolfram|15|0|-|Revision/theory/field-theory-b4.json,Revision/theory/reports/wolfram-field-theory-b4.json|Revision/theory/reports/wolfram-field-theory-b4.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory_b4.wls
+theory-b4-emt-c|190|0|-|Revision/theory/reports/wolfram-field-theory-b4-emt-C.json|Revision/theory/reports/wolfram-field-theory-b4-emt-C.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory_b4_emt.wls C
+theory-b4-emt-g|110|0|-|Revision/theory/reports/wolfram-field-theory-b4-emt-G.json|Revision/theory/reports/wolfram-field-theory-b4-emt-G.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory_b4_emt.wls G
+theory-b4-sympy|5|0|-|Revision/theory/reports/python-field-theory-b4.json|Revision/theory/reports/python-field-theory-b4.json|{python} Revision/theory/python/check_field_theory_b4.py
 pairing-wolfram|280|0|-|Revision/pairing/pairing-theory.json,Revision/pairing/reports/wolfram-pairing.json|Revision/pairing/reports/wolfram-pairing.json|{wolframscript} -file Revision/pairing/wolfram/verify_pairing.wls
 pairing-sympy|240|0|-|Revision/pairing/reports/python-pairing.json|Revision/pairing/reports/python-pairing.json|{python} Revision/pairing/python/check_pairing.py
 a4-wolfram|70|0|-|Revision/field_equations_a4/a4-equations.json,Revision/field_equations_a4/reports/wolfram-a4-report.json|Revision/field_equations_a4/reports/wolfram-a4-report.json|{wolframscript} -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
 a4-sympy|30|0|-|Revision/field_equations_a4/reports/python-a4-report.json,Revision/field_equations_a4/reports/a4-equations-summary.md|Revision/field_equations_a4/reports/python-a4-report.json|{python} Revision/field_equations_a4/python/check_field_equations_a4.py
+a4-b4-block-sympy|35|0|-|Revision/field_equations_a4/reports/python-b4-block.json|Revision/field_equations_a4/reports/python-b4-block.json|{python} Revision/field_equations_a4/python/check_b4_block.py
 a4-ks-source-conditions|5|0|-|Revision/field_equations_a4/reports/ks-source-conditions.json|Revision/field_equations_a4/reports/ks-source-conditions.json|{python} Revision/field_equations_a4/python/check_ks_source_conditions.py
 a4-ks-source|20|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|Revision/field_equations_a4/ks_source/reports/ks-source-a4.json|{python} Revision/field_equations_a4/ks_source/ks_source_a4.py
 a4-ks-source-unittest|30|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|-|{python} -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
 ks-theory-wolfram|60|0|-|Revision/kohn_sham/ks-theory.json,Revision/kohn_sham/reports/ks-theory-wolfram.json|Revision/kohn_sham/reports/ks-theory-wolfram.json|{wolframscript} -file Revision/kohn_sham/theory/verify_ks_theory.wls
 ks-theory-sympy|60|0|-|Revision/kohn_sham/reports/ks-theory-python.json|Revision/kohn_sham/reports/ks-theory-python.json|{python} Revision/kohn_sham/theory/check_ks_theory.py
+ks-b4-wolfram|5|0|-|Revision/kohn_sham/reports/ks-b4-wolfram.json|Revision/kohn_sham/reports/ks-b4-wolfram.json|{wolframscript} -file Revision/kohn_sham/theory/verify_ks_b4.wls
+metric-b4-consequences|5|0|-|Revision/metric_b4/results/consequences-b4.json|Revision/metric_b4/results/consequences-b4.json|{wolframscript} -file Revision/metric_b4/wolfram/consequences_b4.wls
 ks-rust-build|60|0|-|-|-|{cargo} build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml
 ks-rust-test|60|0|-|-|-|{cargo} test --release --manifest-path Revision/kohn_sham/solver/Cargo.toml
 ks-rust-canonical|250|0|-|Revision/kohn_sham/results,Revision/kohn_sham/reports/ks-rust-solver.json|Revision/kohn_sham/reports/ks-rust-solver.json|{ks_solver} all --out Revision/kohn_sham/results --report Revision/kohn_sham/reports/ks-rust-solver.json
 ks-rust-mermin-roots|30|0|build/revision/ks-mermin-roots|Revision/kohn_sham/reports/ks-rust-mermin-roots.json,Revision/kohn_sham/solver/tools/mermin-roots-40digit.json|Revision/kohn_sham/reports/ks-rust-mermin-roots.json|{python} Revision/kohn_sham/solver/tools/mermin_roots_mp.py --work build/revision/ks-mermin-roots
 ks-rust-repeat|250|0|build/revision/ks-repeat|-|-|{ks_solver} all --out build/revision/ks-repeat/results --report build/revision/ks-repeat/report.json
 ks-rust-repeat-identical|5|0|-|-|-|{audit} same build/revision/ks-repeat/results Revision/kohn_sham/results build/revision/ks-repeat/report.json Revision/kohn_sham/reports/ks-rust-solver.json
-ks-rust-refined|620|1|build/revision/ks-refined|-|-|{ks_solver} all --refined --out build/revision/ks-refined/results --report build/revision/ks-refined/report.json
+ks-rust-refined|330|1|build/revision/ks-refined|-|-|{ks_solver} all --refined --out build/revision/ks-refined/results --report build/revision/ks-refined/report.json
 ks-rust-determinism|30|1|-|Revision/kohn_sham/reports/ks-rust-determinism.json|Revision/kohn_sham/reports/ks-rust-determinism.json|{python} Revision/kohn_sham/solver/tools/compare_runs.py --canonical Revision/kohn_sham/results --canonical-report Revision/kohn_sham/reports/ks-rust-solver.json --repeat build/revision/ks-repeat/results --repeat-report build/revision/ks-repeat/report.json --refined build/revision/ks-refined/results --refined-report build/revision/ks-refined/report.json --report Revision/kohn_sham/reports/ks-rust-determinism.json
-ks-reference|750|1|-|Revision/kohn_sham/reference/results,Revision/kohn_sham/reports/ks-reference.json|Revision/kohn_sham/reports/ks-reference.json|{python} Revision/kohn_sham/reference/run_reference.py
+ks-reference-part1|240|0|build/revision/ks-reference-cache|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --part 1/4 --jobs 12
+ks-reference-part2|235|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --part 2/4 --jobs 12
+ks-reference-part3|265|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --part 3/4 --jobs 12
+ks-reference-part4|270|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --part 4/4 --jobs 12
+ks-reference|5|0|-|Revision/kohn_sham/reference/results,Revision/kohn_sham/reports/ks-reference.json|Revision/kohn_sham/reports/ks-reference.json|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache
 ks-rust-refinement|90|0|build/revision/ks-refinement|Revision/kohn_sham/checker/rust-refinement.json|-|{python} Revision/kohn_sham/checker/measure_rust_refinement.py --work build/revision/ks-refinement
-ks-crosscheck|780|1|build/revision/ks-crosscheck|Revision/kohn_sham/reports/ks-crosscheck.json,Revision/kohn_sham/reports/ks-crosscheck-table.csv|Revision/kohn_sham/reports/ks-crosscheck.json|{python} Revision/kohn_sham/checker/crosscheck_ks.py --work build/revision/ks-crosscheck
-ks-tip-convergence|600|1|build/revision/ks-tip-convergence|Revision/kohn_sham/tip_convergence/tip-convergence.json,Revision/kohn_sham/tip_convergence/tip-convergence-table.csv,Revision/kohn_sham/tip_convergence/tip-convergence-extrapolation.csv,Revision/kohn_sham/tip_convergence/fig-differences-EKS.png,Revision/kohn_sham/tip_convergence/fig-k0-spectrum.png,Revision/kohn_sham/tip_convergence/fig-recalibrated-interaction.png,Revision/kohn_sham/tip_convergence/fig-zero-modes-fixed-lambda.png|Revision/kohn_sham/tip_convergence/tip-convergence.json|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 8
+ks-crosscheck-repeat-part1|240|0|build/revision/ks-crosscheck-cache|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --part 1/4 --jobs 12
+ks-crosscheck-repeat-part2|235|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --part 2/4 --jobs 12
+ks-crosscheck-repeat-part3|265|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --part 3/4 --jobs 12
+ks-crosscheck-repeat-part4|270|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --part 4/4 --jobs 12
+ks-crosscheck|25|0|build/revision/ks-crosscheck|Revision/kohn_sham/reports/ks-crosscheck.json,Revision/kohn_sham/reports/ks-crosscheck-table.csv|Revision/kohn_sham/reports/ks-crosscheck.json|{python} Revision/kohn_sham/checker/crosscheck_ks.py --work build/revision/ks-crosscheck --jobs 22 --repeat-cache build/revision/ks-crosscheck-cache
+ks-tip-convergence|200|0|build/revision/ks-tip-convergence|Revision/kohn_sham/tip_convergence/tip-convergence.json,Revision/kohn_sham/tip_convergence/tip-convergence-table.csv,Revision/kohn_sham/tip_convergence/tip-convergence-extrapolation.csv,Revision/kohn_sham/tip_convergence/fig-differences-EKS.png,Revision/kohn_sham/tip_convergence/fig-k0-spectrum.png,Revision/kohn_sham/tip_convergence/fig-recalibrated-interaction.png,Revision/kohn_sham/tip_convergence/fig-zero-modes-fixed-lambda.png|Revision/kohn_sham/tip_convergence/tip-convergence.json|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22
 t3-wolfram|15|0|-|Revision/pairing/kohn_sham/t3-theory.json,Revision/pairing/kohn_sham/reports/wolfram-t3.json|Revision/pairing/kohn_sham/reports/wolfram-t3.json|{wolframscript} -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
 t3-sympy|10|0|-|Revision/pairing/kohn_sham/reports/python-t3.json|Revision/pairing/kohn_sham/reports/python-t3.json|{python} Revision/pairing/kohn_sham/python/check_t3.py
 t3-completion-wolfram|20|0|-|Revision/pairing/kohn_sham/t3-completion.json,Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json|Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json|{wolframscript} -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls
-t3-rust-demo|900|1|build/revision/t3-rust-demo|Revision/pairing/kohn_sham/reports/t3-rust-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv|Revision/pairing/kohn_sham/reports/t3-rust-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 8
-t3-reference-demo|600|1|-|Revision/pairing/kohn_sham/reports/t3-reference-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-reference-states.csv|Revision/pairing/kohn_sham/reports/t3-reference-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 8
+t3-rust-demo|285|0|build/revision/t3-rust-demo|Revision/pairing/kohn_sham/reports/t3-rust-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv|Revision/pairing/kohn_sham/reports/t3-rust-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10
+t3-reference-demo|170|0|-|Revision/pairing/kohn_sham/reports/t3-reference-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-reference-states.csv|Revision/pairing/kohn_sham/reports/t3-reference-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22
 t3-completion-sympy|10|0|-|Revision/pairing/kohn_sham/reports/python-t3-completion.json|Revision/pairing/kohn_sham/reports/python-t3-completion.json|{python} Revision/pairing/kohn_sham/python/check_t3_completion.py
 dark16-derive|10|0|-|Revision/dark_sector/dirac16complex/outputs/effective-formulas.json,Revision/dark_sector/dirac16complex/reports/derivation-checks.json|Revision/dark_sector/dirac16complex/reports/derivation-checks.json|{python} Revision/dark_sector/dirac16complex/derive/derive_effective.py
 dark16-ks-history|150|0|-|Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv,Revision/dark_sector/dirac16complex/reports/ks-history-run.json|Revision/dark_sector/dirac16complex/reports/ks-history-run.json|{python} Revision/dark_sector/dirac16complex/compute/run_ks_history.py --solver {ks_solver}
@@ -270,6 +318,7 @@ $auditSource = @'
 # build/revision/gate_audit.py; both twins embed this text byte for byte, Revision/tests/test_revision_gate.py
 # checks that).  Python standard library only.  Run from the repository root.
 import filecmp
+import hashlib
 import json
 import os
 import subprocess
@@ -595,9 +644,27 @@ def run_unittests(arguments):
     return 0 if result.wasSuccessful() else 1
 
 
+def git_blob(arguments):
+    # git-blob REV:PATH OUT SHA256: write the committed version REV of PATH to OUT (a work folder of the gate) and
+    # require its sha256 (the author's notebook at the version a verifier is pinned to; the working tree may hold a
+    # later version).  The repository stores every file byte for byte ('* -text'), so the blob is the file.
+    spec, out, expected = arguments
+    result = subprocess.run(["git", "cat-file", "blob", spec], capture_output=True)
+    if result.returncode != 0:
+        return fail("git cat-file blob %s failed: %s" % (spec, result.stderr.decode("utf-8", "replace").strip()))
+    digest = hashlib.sha256(result.stdout).hexdigest()
+    print("revision_git_blob=%s bytes=%d sha256=%s" % (spec, len(result.stdout), digest))
+    if digest != expected:
+        return fail("the sha256 of %s is %s, not the pinned %s" % (spec, digest, expected))
+    with open(out, "wb") as handle:
+        handle.write(result.stdout)
+    return 0
+
+
 COMMANDS = {
     "plan": plan, "precheck": precheck, "unchanged": unchanged, "reports": reports,
     "json-equals": json_equals, "same": same, "notebooks": notebooks, "unittest": run_unittests,
+    "git-blob": git_blob,
 }
 
 if __name__ == "__main__":

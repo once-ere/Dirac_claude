@@ -3,137 +3,137 @@
 	"checks":[
 		{
 			"name":"metric_equals_author_Out101",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"the metric of MetricB4.wl equals the author's stored MatrixMetric44 (Out[101]) component by component, in the author's coordinates x0..x7"
 		},
 		{
 			"name":"ricci_scalar_equals_author_Out119",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"R = the author's RicciScalarCD (Out[119])"
 		},
 		{
 			"name":"einstein_equals_author_Out120",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"G^h_j = the author's EinsteinCD[-a, b] (Out[120]), all 64 components (the author's coordinates; only the index placement is converted)"
 		},
 		{
 			"name":"ricci_mixed_equals_author_Out124",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"R^h_j = the author's RicciCD[-a, b] (Out[124])"
 		},
 		{
 			"name":"ricci_covariant_equals_author_Out123",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"R_hj = the author's RicciCD[-a, -b] (Out[123])"
 		},
 		{
 			"name":"lovelock1_equals_author_Out126",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"E_(1) = the author's allLovelock1 (Out[126])"
 		},
 		{
 			"name":"lovelock2_equals_author_Out127",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"E_(2) = the author's allLovelock2 (Out[127])"
 		},
 		{
 			"name":"lovelock3_equals_author_Out128",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"E_(3) = the author's allLovelock3 (Out[128])"
 		},
 		{
 			"name":"vacuum_equations_equal_author_Out129",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"-Lambda delta + w1 E_(1)\/H^2 + w2 E_(2)\/H^4 + w3 E_(3)\/H^6 = the author's EinsteinLovelockVacuumFieldEquations (Out[129])"
 		},
 		{
 			"name":"distinct_equations_equal_author_Out132",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"the distinct nonzero entries of the vacuum equations = the author's eqsELei00 (Out[132]): 6 entries"
 		},
 		{
 			"name":"author_solution_equations_Out134",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"with b4 = 1, a4 = H x4, w1 = 1, w2 = 1\/32 the equations reduce to the author's Out[134]: {12 - Lambda - 2304*w3, 6 - Lambda + 4608*w3}"
 		},
 		{
 			"name":"author_solution_Out135",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"Solve gives {{w3 -> 1\/1152, Lambda -> 10}} = the author's Out[135] (w3 = 1\/1152, Lambda = 10)"
 		},
 		{
 			"name":"reference_b4_1_files_are_the_earlier_record",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"Revision\/metric_b4\/reference_b4_1\/curvature.json (sha256 d5beb73a...) and lovelock-tensors.json (9278a0bf...) are the files of Revision\/gkd_lovelock\/results at commit e3e35fe, before the metric change (the sha256 pinned by Revision\/tests\/test_gkd_lovelock.py then)"
 		},
 		{
 			"name":"b4_one_ricci_scalar_equals_record",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"R at b4 = 1 = curvature.json ricciScalar (the record before 2026-10-14)"
 		},
 		{
 			"name":"b4_one_einstein_equals_record",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"G^h_j at b4 = 1 = curvature.json einsteinMixed"
 		},
 		{
 			"name":"b4_one_ricci_equals_record",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"R^h_j at b4 = 1 = curvature.json ricciMixed"
 		},
 		{
 			"name":"b4_one_lovelock1_equals_record",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"E_(1) at b4 = 1 = -P_(1)\/2^2 of lovelock-tensors.json"
 		},
 		{
 			"name":"b4_one_lovelock2_equals_record",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"E_(2) at b4 = 1 = -P_(2)\/2^3 of lovelock-tensors.json"
 		},
 		{
 			"name":"b4_one_lovelock3_equals_record",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"E_(3) at b4 = 1 = -P_(3)\/2^4 of lovelock-tensors.json"
 		},
 		{
 			"name":"lovelock1_divergence_free",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"nabla_h E_(1)^h_j = 0 for every j, general a4 and b4"
 		},
 		{
 			"name":"lovelock2_divergence_free",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"nabla_h E_(2)^h_j = 0 for every j, general a4 and b4"
 		},
 		{
 			"name":"lovelock3_divergence_free",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"nabla_h E_(3)^h_j = 0 for every j, general a4 and b4"
 		},
 		{
 			"name":"sqrt_det_g",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"sqrt|det g| = b4[x4]^(3\/2) Cos[6 H x0] (b4 = 1: Cos[6 H x0] as before; the 7-volume element is no longer constant in x4 unless b4 is)"
 		},
 		{
 			"name":"constant_b4_drops_out",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"a constant b4 = cB > 0 drops out of R, G and E_(2), E_(3) (it is the rescaling x5,6,7 -> sqrt(cB) x5,6,7)"
 		},
 		{
 			"name":"off_diagonal_entries_x0_x4_only",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"the only nonzero off-diagonal entries of E_(1), E_(2), E_(3) are (h, j) = x0,x4; x4,x0"
 		},
 		{
 			"name":"off_diagonal_proportional_to_b4prime",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"E_(k)^x0_x4 and E_(k)^x4_x0 vanish when b4' = 0 (k = 1, 2, 3)"
 		},
 		{
 			"name":"e1_equals_einstein",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"E_(1) = -P_(1)\/4 = G"
 		}
 	],

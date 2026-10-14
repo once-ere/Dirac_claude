@@ -10,32 +10,32 @@
 	"checks":[
 		{
 			"name":"V1_time_time_is_constraint",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"E^x4_x4 = C(alpha, beta) with no second derivative, no x0 and no b4 beyond beta: C = (8 + 24*al^2 - 72*al^4 + 40*al^6 - 12*al*be + 72*al^3*be - 60*al^5*be - 6*be^2 + 30*al^4*be^2 - 9*al*be^3 - 5*al^3*be^3)\/128"
 		},
 		{
 			"name":"V2_off_diagonal_is_beta_Q",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"E^x4_x0 = Cot[6 H x0] beta Q\/den, E^x0_x4 = -Tan[6 H x0] beta Q\/den, Q = 3*(4 - 24*al^2 + 20*al^4 + 12*al*be - 20*al^3*be + be^2 + 5*al^2*be^2)"
 		},
 		{
 			"name":"V3a_constraint_and_Q_isolated_points",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"the real solutions of {C = 0, Q = 0} are the points {{al -> -1, be -> 0}, {al -> 1, be -> 0}}"
 		},
 		{
 			"name":"V3b_no_solution_with_beta_nonzero",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"at every point with beta != 0 some equation fails (nonzero residuals): {}"
 		},
 		{
 			"name":"V4_b4_constant_branch",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"with b4' = 0 the constraint is 8*(-1 + al)^2*(1 + al)^2*(1 + 5*al^2) = 0; real roots alpha = {-1, -1, 1, 1}"
 		},
 		{
 			"name":"V5_author_solution_and_time_reverse",
-			"pass":true,
+			"verdict":"PASS",
 			"detail":"a4 = +-H x4 + a0, b4 = cB > 0 (any constants) solve all 64 equations with w1 = 1, w2 = 1\/32, w3 = 1\/1152, Lambda = 10"
 		}
 	],

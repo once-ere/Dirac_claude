@@ -101,7 +101,7 @@ checks = []
 
 
 def check(name, ok, detail):
-    checks.append({"name": name, "pass": bool(ok), "detail": detail})
+    checks.append({"name": name, "verdict": "PASS" if ok else "FAIL", "detail": detail})
     print("check_%s=%s" % (name, "PASS" if ok else "FAIL"), flush=True)
 
 
@@ -337,7 +337,7 @@ for k in (1, 2, 3):
           "E_(%d) at b4 = 1 = -P_(%d)/2^%d of lovelock-tensors.json" % (k, k, k + 1))
 
 report = {"program": "Revision/metric_b4/python/check_metric_b4.py", "checks": checks, "checkCount": len(checks),
-          "failedCount": sum(1 for x in checks if not x["pass"]), "sympyVersion": sp.__version__,
+          "failedCount": sum(1 for x in checks if x["verdict"] != "PASS"), "sympyVersion": sp.__version__,
           "riemannMixedNonzero": len(Rmix)}
 try:
     with open(os.path.join(RES, "python-metric-b4-report.json"), "w", encoding="utf-8", newline="\n") as fh:

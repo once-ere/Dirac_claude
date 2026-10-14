@@ -31,7 +31,7 @@ If[! ValueQ[MetricB4`MB4Coordinates], Print["ERROR: MetricB4.wl did not load"]; 
 lap[name_] := Print["time_", name, "=", Round[AbsoluteTime[] - $t0, 0.1]];
 
 checks = {};
-check[name_String, ok_, detail_String] := (AppendTo[checks, <|"name" -> name, "pass" -> TrueQ[ok], "detail" -> detail|>];
+check[name_String, ok_, detail_String] := (AppendTo[checks, <|"name" -> name, "verdict" -> If[TrueQ[ok], "PASS", "FAIL"], "detail" -> detail|>];
   Print["check_", name, "=", If[TrueQ[ok], "PASS", "FAIL"]]);
 zeroQ[e_] := TrueQ[MetricB4`MB4Simplify[e] === 0];
 sameQ[a_, b_] := And @@ Flatten[MapThread[zeroQ[#1 - #2] &, {a, b}, ArrayDepth[a]]];
@@ -151,7 +151,7 @@ out = <|
   "authorSolution" -> <|"substitution" -> "b4 = 1, a4 = H x4, w1 = 1, w2 = 1/32", "reduced" -> (str /@ DeleteCases[sol, 0]), "solve" -> str[solved]|>
 |>;
 report = <|"program" -> "Revision/metric_b4/wolfram/verify_metric_b4.wls", "checks" -> checks,
-  "checkCount" -> Length[checks], "failedCount" -> Count[checks, c_ /; ! c["pass"]],
+  "checkCount" -> Length[checks], "failedCount" -> Count[checks, c_ /; c["verdict"] =!= "PASS"],
   "authorNotebookSha256" -> author["notebookSha256"],
   "wolframVersion" -> ToString[$VersionNumber] <> "." <> ToString[$ReleaseNumber]|>;
 writeJSON[file_, data_] := Module[{s = ExportString[data, "JSON", "Compact" -> False]},
