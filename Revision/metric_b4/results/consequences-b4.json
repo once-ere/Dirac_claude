@@ -1,0 +1,28 @@
+{
+	"producer":"Revision\/metric_b4\/wolfram\/consequences_b4.wls",
+	"checkCount":4,
+	"failedCount":0,
+	"verdict":"PASS",
+	"checks":[
+		{
+			"name":"P1_T1_chirality_pairing_with_b4",
+			"verdict":"PASS",
+			"detail":"metric with b4: {Gamma, gamma^mu} = 0, [Gamma, Omega_mu] = 0 for every mu and gamma^mu D_mu (Gamma Psi) = -Gamma gamma^mu D_mu Psi for a general 16-component Psi: T1 holds unchanged (its hypothesis 'any gravitational field' covers the metric with b4)"
+		},
+		{
+			"name":"P2_T2_mirror_isometry_with_b4",
+			"verdict":"PASS",
+			"detail":"the map phi: x8 -> pi\/(6H) - x8 (z -> pi - z) pulls the metric with b4 back to itself (Sin and Cot^2 are symmetric under z -> pi - z, b4 depends on x4 only): the Z2 mirror of T2 is an isometry for every b4"
+		},
+		{
+			"name":"P3_T3_kohn_sham_level",
+			"verdict":"PASS",
+			"detail":"T3 concerns the good-sector Kohn-Sham problem, whose levels and orbitals are independent of b4 (Revision\/kohn_sham\/reports\/ks-b4-wolfram.json, K2 PASS): T3 holds unchanged"
+		},
+		{
+			"name":"P4_dark_sector_volume_factor",
+			"verdict":"PASS",
+			"detail":"sqrt|det g| = b4^(3\/2) cos z and the extra-time scale factor (without the warp) is c = e^(-a4) b4^(1\/2): the effective 4-dimensional density of a 3-space observer carries c^3 = e^(-3 a4) b4^(3\/2); at b4 = 1 (the background of the record) it is e^(-3 a4) as recorded"
+		}
+	]
+}
