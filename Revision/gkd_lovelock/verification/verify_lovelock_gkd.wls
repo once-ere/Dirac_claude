@@ -47,7 +47,7 @@
 
    5. Exact comparison with Revision/gkd_lovelock/results/lovelock-tensors.json, rebuilt from its exact
       monomial lists: FullSimplify[wolfram - rust] must be 0 for every component of P_(k) and of
-      A_(k) (A on the domain 0 < 6 H x8 < Pi/2 where sqrt(det g) = Cos[6 H x8]); plus
+      A_(k) (A on the domain 0 < 6 H x8 < Pi/2, b4 > 0, where sqrt|det g| = b4^(3/2) Cos[6 H x8]); plus
       P_(1) = -4 G (the Einstein tensor from the Ricci tensor), the traces against L_(k), and the
       numbers of nonzero k\[Delta] terms against the counters of lovelock-report.json.
 
@@ -369,8 +369,9 @@ riemannMatch = Length[entries] === 156 && entries[[All, 1]] === rustRiemannIndex
 addCheck["riemann_mixed_equals_rust_curvature", riemannMatch,
   "R^ab_cd computed here (Christoffel and Riemann from the metric with D, Inverse, Simplify; MTW convention) has " <> ToString[Length[entries]] <>
     " nonzero entries, the same index lists and exactly the same values as riemannMixedNonzero of curvature.json"];
-addCheck["sqrt_det_g_is_cos", Simplify[sqrtG - Cos[6 H x8]] === 0 && Simplify[Det[curvature["metric"]] - Cos[6 H x8]^2] === 0,
-  "det g = Cos[6 H x8]^2 and sqrt(det g) = Cos[6 H x8] on 0 < 6 H x8 < Pi/2 (the Rust program's S^3 C = Sin Cot)"];
+addCheck["sqrt_det_g_is_cos", Simplify[sqrtG - b4[x4]^(3/2) Cos[6 H x8], LGKDDomainAssumption] === 0 &&
+    Simplify[Det[curvature["metric"]] - b4[x4]^3 Cos[6 H x8]^2] === 0,
+  "det g = b4[x4]^3 Cos[6 H x8]^2 and sqrt|det g| = b4[x4]^(3/2) Cos[6 H x8] on 0 < 6 H x8 < Pi/2, b4 > 0 (the Rust program's Q^3 S^3 C = b4^(3/2) Sin Cot; b4 = 1 before 2026-10-14)"];
 step["curvature"];
 
 (* ============================================================================================ *)

@@ -62,13 +62,13 @@ SCRATCH = os.environ.get("REVISION_SCRATCH") or None
 
 # sha256 of the committed files.
 PINNED = {
-    "curvature.json": "d5beb73a32244ea938ca61eac3573f72061c0e329b78f7506dd983881638763e",
-    "lovelock-tensors.json": "9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567",
-    "lovelock-components.md": "65f95810d3b7b6696227670f03241c20758bcee4e408743803200cae68a1b8e7",
-    "lovelock-report.json": "5c919ea827a5e6822a7196bb66ead64fa0a3e70f01f35b2bbfb99a65ae028bb8",
+    "curvature.json": "f8d7969991af89dde0a007cfa2f48d928326a263c94946344a19c31ef843c96e",
+    "lovelock-tensors.json": "5dfd10de558904fa0845fe9035b4a3c8ef146dab250337b8ef9002d4274f99f0",
+    "lovelock-components.md": "1d729040a1a5e2fda51ef7537cc42e7b726cbe024dbca97d2b9a45d615a7e6ae",
+    "lovelock-report.json": "fbf9de79a0deb61eb7727e7b354cdce64f2ecc4fb503c14d30bc91ff6a9ba677",
     "gkd-selftest.json": "6cd72bd8d5d8d2f7acb4825ed0a975a26aaad343e323b9c96f6d1fc4f294d1dc",
-    "python-lovelock-report.json": "a4d6c0d5e2d063ce01611c06a98a4ba9cff0d61616b480b0b5828e2f3eee4d52",
-    "wolfram-gkd-report.json": "71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189",
+    "python-lovelock-report.json": "8b0356708bfeab7e23f6d0db210aa6684d5a293f5a2982d1b42744ec4d8f8cbe",
+    "wolfram-gkd-report.json": "891e7f6dbbe3b317fbd63948406515ac0a829e8be550815955f6fcfa56e1f186",
 }
 RUST_LOVELOCK_OUTPUTS = ["curvature.json", "lovelock-tensors.json", "lovelock-components.md", "lovelock-report.json"]
 PY_CHECK_COUNT = 49
@@ -172,13 +172,20 @@ class TestCanonAndReaders(unittest.TestCase):
 
     def test_negative_control_is_detected(self):
         comp = C.Comparator(C.Points())
-        good = C.from_monomials([[12, 1, [0, 2, 0, 0, 0, -2, 2, 1]], [-60, 1, [2, 0, 0, 0, 0, -2, 2, 1]]])
+        good = C.from_monomials([[12, 1, [0, 2, 0, 0, 0, -2, 2, 1, 0, 0, 0, 0, 0]], [-60, 1, [2, 0, 0, 0, 0, -2, 2, 1, 0, 0, 0, 0, 0]]])
         same = sp.cos(C.TH) * sp.exp(-2 * C.a4(C.x4)) * sp.sin(C.TH) ** sp.Rational(-1, 3) * (12 * C.DER[0] ** 2 - 60 * C.H ** 2)
         self.assertTrue(comp.compare("same", same, good))
-        bad = C.from_monomials([[12, 1, [0, 2, 0, 0, 0, -2, 1, 1]], [-60, 1, [2, 0, 0, 0, 0, -2, 2, 1]]])
+        bad = C.from_monomials([[12, 1, [0, 2, 0, 0, 0, -2, 1, 1, 0, 0, 0, 0, 0]], [-60, 1, [2, 0, 0, 0, 0, -2, 2, 1, 0, 0, 0, 0, 0]]])
         self.assertFalse(comp.compare("bad", same, bad))
         self.assertEqual(comp.detects(same, bad), (True, True, True))
         self.assertEqual(len(comp.failures), 1)
+
+    def test_b4_monomials(self):
+        # since 2026-10-14 the exponent vectors have 13 entries: ..., e_Q (Q = b4^(1/2)), e_b4', e_b4'', e_b4''', e_b4''''
+        e = C.from_monomials([[3, 2, [0, 0, 0, 0, 0, 0, 0, 0, -2, 1, 0, 0, 0]], [1, 1, [0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1, 0, 0]]])
+        self.assertEqual(sp.simplify(e - (sp.Rational(3, 2) * C.DERB[0] / C.b4(C.x4) + C.b4(C.x4) ** sp.Rational(3, 2) * C.DERB[1])), 0)
+        with self.assertRaises(ValueError):
+            C.from_monomials([[1, 1, [0, 0, 0, 0, 0, 0, 0, 0]]])  # the format before 2026-10-14 is refused
 
 
 class TestCommittedOutputs(unittest.TestCase):

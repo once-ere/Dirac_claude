@@ -144,30 +144,39 @@ H = sp.Symbol("H", positive=True)
 X = sp.symbols("x1:9", real=True)
 x4, x8 = X[3], X[7]
 a4 = sp.Function("a4")
+b4 = sp.Function("b4")  # the metric function of the extra-time components (user's metric of 2026-10-14)
 TH = 6 * H * x8
 THIRD = sp.Rational(1, 3)
 DER = [sp.Derivative(a4(x4), (x4, m)) for m in range(1, 5)]  # a4', a4'', a4''', a4''''
+DERB = [sp.Derivative(b4(x4), (x4, m)) for m in range(1, 5)]  # b4', b4'', b4''', b4''''
 
 E_, s_, c_ = sp.symbols("E s c", positive=True)
 A_ = sp.symbols("A1:5")
+B0_ = sp.Symbol("B0", positive=True)  # b4 > 0
+B_ = sp.symbols("B1:5")
+U_, V_ = sp.symbols("U V")  # U = b4'/b4, V = b4''/b4 inside the polynomial ring only
 ci_ = sp.Symbol("ci", positive=True)  # 1/c inside the polynomial ring only
-SYMBOL_FORM_SYMBOLS = {H, E_, s_, c_, *A_}
+SYMBOL_FORM_SYMBOLS = {H, E_, s_, c_, *A_, B0_, *B_}
 TO_A = {DER[m]: A_[m] for m in range(4)}
+TO_A.update({DERB[m]: B_[m] for m in range(4)})
 FROM_SYMBOLS = {A_[m]: DER[m] for m in range(4)}
-FROM_SYMBOLS.update({E_: sp.exp(a4(x4)), s_: sp.sin(TH) ** THIRD, c_: sp.cot(TH)})
+FROM_SYMBOLS.update({B_[m]: DERB[m] for m in range(4)})
+FROM_SYMBOLS.update({E_: sp.exp(a4(x4)), s_: sp.sin(TH) ** THIRD, c_: sp.cot(TH), B0_: b4(x4)})
 
-# The polynomial ring used for the Lovelock sums (mixed curvature is free of E and s).
-RING, _rH, _rA1, _rA2, _rC, rCI = ring([H, A_[0], A_[1], c_, ci_], sp.QQ)
+# The polynomial ring used for the Lovelock sums (mixed curvature is free of E and s, and depends on b4
+# only through U = b4'/b4 and V = b4''/b4: a constant factor of b4 is a rescaling of x5, x6, x7).
+RING, _rH, _rA1, _rA2, _rC, rCI, _rU, _rV = ring([H, A_[0], A_[1], c_, ci_, U_, V_], sp.QQ)
 I_C, I_CI = 3, 4  # positions of c and 1/c in the exponent vectors
 
 ZERO6 = (sp.Integer(0),) * 6
 
 
 def metric_diagonal():
-    """The author's metric, typed in from the task text (function form)."""
+    """The author's metric, typed in from the user's order of 2026-10-14 (function form; b4 = 1 is the
+    metric before 2026-10-14)."""
     warp = sp.sin(TH) ** THIRD
     return ([sp.exp(2 * a4(x4)) * warp] * 3 + [sp.Integer(-1)]
-            + [-sp.exp(-2 * a4(x4)) * warp] * 3 + [sp.cot(TH) ** 2])
+            + [-sp.exp(-2 * a4(x4)) * b4(x4) * warp] * 3 + [sp.cot(TH) ** 2])
 
 
 def _check_angle(arg):
@@ -176,8 +185,8 @@ def _check_angle(arg):
 
 
 def to_symbol_form(expr):
-    """Function form -> symbol form (E, s, c, A1..A4).  Exact, no simplification."""
-    expr = sp.sympify(expr).xreplace(TO_A)
+    """Function form -> symbol form (E, s, c, A1..A4, B0 = b4, B1..B4).  Exact, no simplification."""
+    expr = sp.sympify(expr).xreplace(TO_A).xreplace({b4(x4): B0_})
 
     def fexp(arg):
         q = sp.cancel(arg / a4(x4))
@@ -214,7 +223,7 @@ def to_symbol_form(expr):
                     (sp.csc, fcsc), (sp.sec, fsec)):
         expr = expr.replace(f, rule)
     extra = expr.free_symbols - SYMBOL_FORM_SYMBOLS
-    if extra or expr.has(sp.Function("a4")) or expr.has(sp.Derivative):
+    if extra or expr.has(sp.Function("a4")) or expr.has(sp.Function("b4")) or expr.has(sp.Derivative):
         raise ValueError(f"could not bring to symbol form: {expr} (left: {extra})")
     return expr
 
@@ -274,6 +283,10 @@ def ring_normalise(p):
 
 
 def ring_from_symbol_form(expr):
+    # b4 enters mixed curvature only through U = b4'/b4 and V = b4''/b4 (checked: B0 must cancel)
+    expr = sp.cancel(sp.sympify(expr).xreplace({B_[0]: U_ * B0_, B_[1]: V_ * B0_}))
+    if expr.has(B0_) or expr.has(B_[2]) or expr.has(B_[3]):
+        raise ValueError(f"mixed curvature not a function of b4'/b4 and b4''/b4 only: {expr}")
     num, den = sp.fraction(sp.cancel(sp.sympify(expr)))
     powers = sp.Poly(den, c_).as_dict() if den.has(c_) else {(0,): den}
     if len(powers) != 1:
@@ -285,7 +298,7 @@ def ring_from_symbol_form(expr):
 
 
 def ring_to_symbol_form(p):
-    return sp.sympify(p.as_expr()).xreplace({ci_: 1 / c_})
+    return sp.sympify(p.as_expr()).xreplace({ci_: 1 / c_, U_: B_[0] / B0_, V_: B_[1] / B0_})
 
 
 def ring_equal(p, q):
@@ -702,14 +715,14 @@ def geometry(rec):
     ok = all(is_zero((g * gi)[a, b] - (1 if a == b else 0)) for a in range(N) for b in range(N))
     rec.add("metric_inverse", ok, "g g^{-1} = 1 exactly (sympy Matrix.inv)")
     det = g.det()
-    sqrt_g = sp.cos(TH)
+    sqrt_g = b4(x4) ** sp.Rational(3, 2) * sp.cos(TH)
     pts = Points()
     literal_root = sp.sqrt(sp.Abs(det))
     numeric_ok = all(abs(pts.evaluate(literal_root, p) - pts.evaluate(sqrt_g, p)) < sp.Float("1e-50", 60)
                      and pts.evaluate(sqrt_g, p) > 0 for p in pts.points)
     rec.add("sqrt_abs_det_g", is_zero(det - sqrt_g ** 2) and numeric_ok,
-            "det g = cos^2(6 H x8) exactly, so sqrt|det g| = cos(6 H x8) on 0 < 6 H x8 < pi/2; sympy's "
-            "sqrt(Abs(det g)) equals cos(6 H x8) > 0 at the 5 random points (60 digits)")
+            "det g = b4^3 cos^2(6 H x8) exactly, so sqrt|det g| = b4^(3/2) cos(6 H x8) on 0 < 6 H x8 < pi/2, b4 > 0; "
+            "sympy's sqrt(Abs(det g)) equals b4^(3/2) cos(6 H x8) > 0 at the 5 random points (60 digits)")
     gamma = [[[sp.Integer(0)] * N for _ in range(N)] for _ in range(N)]
     for a in range(N):
         for b in range(N):
@@ -757,7 +770,7 @@ def geometry(rec):
                     if cf[0] != 0:
                         rud[a, b, c, d] = cf[0]
     rec.add("mixed_riemann_free_of_warp_and_exponential", free_ok,
-            "every R^{ab}_{cd} is free of sin(6 H x8)^(1/3) and of e^{a4}: a rational function of H, a4', a4'', cot(6 H x8)")
+            "every R^{ab}_{cd} is free of sin(6 H x8)^(1/3) and of e^{a4}: a rational function of H, a4', a4'', b4, b4', b4'', cot(6 H x8)")
     anti_ok = all(sp.cancel(v + rud.get((b, a, c, d), 0)) == 0 and sp.cancel(v + rud.get((a, b, d, c), 0)) == 0
                   for (a, b, c, d), v in rud.items())
     gsym = [to_symbol_form(x) for x in diag]
@@ -778,27 +791,32 @@ def index_pair(key):
 
 
 def from_monomials(monomials):
-    """Rebuild a component from [[num, den, [eH, ea1, ea2, ea3, ea4, eE, eS, eC]], ...] (function form)."""
+    """Rebuild a component from [[num, den, [eH, ea1, ea2, ea3, ea4, eE, eS, eC, eQ, eb1, eb2, eb3, eb4]], ...]
+    (function form; Q = b4^(1/2); 13 exponents since 2026-10-14)."""
     total = sp.Integer(0)
     for num, den, e in monomials:
-        if len(e) != 8:
-            raise ValueError(f"bad exponent vector {e}")
+        if len(e) != 13:
+            raise ValueError(f"bad exponent vector {e} (13 exponents expected since 2026-10-14)")
         term = sp.Rational(num, den) * H ** e[0]
         for m in range(4):
             term *= DER[m] ** e[1 + m]
         term *= sp.exp(a4(x4)) ** e[5] * (sp.sin(TH) ** THIRD) ** e[6] * sp.cot(TH) ** e[7]
+        term *= b4(x4) ** sp.Rational(e[8], 2)
+        for m in range(4):
+            term *= DERB[m] ** e[9 + m]
         total += term
     return total
 
 
-_MMA_LOCALS = {"H": H, "x8": x8, "E": sp.E, "a4x4": a4(x4), "sin": sp.sin, "cot": sp.cot,
-               **{f"Da4n{m + 1}": DER[m] for m in range(4)}}
+_MMA_LOCALS = {"H": H, "x8": x8, "E": sp.E, "a4x4": a4(x4), "b4x4": b4(x4), "sin": sp.sin, "cot": sp.cot,
+               **{f"Da4n{m + 1}": DER[m] for m in range(4)}, **{f"Db4n{m + 1}": DERB[m] for m in range(4)}}
 
 
 def from_mathematica(text):
     """Parse the Rust Mathematica text (InputForm subset) into a function-form sympy expression."""
     t = re.sub(r"Derivative\[(\d)\]\[a4\]\[x4\]", r"Da4n\1", text)
-    t = t.replace("a4[x4]", "a4x4").replace("Sin[6*H*x8]", "sin(6*H*x8)").replace("Cot[6*H*x8]", "cot(6*H*x8)")
+    t = re.sub(r"Derivative\[(\d)\]\[b4\]\[x4\]", r"Db4n\1", t)
+    t = t.replace("a4[x4]", "a4x4").replace("b4[x4]", "b4x4").replace("Sin[6*H*x8]", "sin(6*H*x8)").replace("Cot[6*H*x8]", "cot(6*H*x8)")
     if "[" in t or "]" in t:
         raise ValueError(f"unparsed Mathematica text: {text}")
     t = t.replace("^", "**")
@@ -824,16 +842,25 @@ class Points:
             x = theta / (6 * h)
             vals = [sp.Rational(rng.randint(-99, 99), 100) for _ in range(5)]
             self.points.append((h, x, vals))
+        # b4 > 0 and its derivatives (since 2026-10-14), from a second generator so that the values above
+        # stay the same as before
+        rng_b = random.Random(seed + 14)
+        self.bvals = [[sp.Rational(rng_b.randint(50, 200), 100)] + [sp.Rational(rng_b.randint(-99, 99), 100) for _ in range(4)]
+                      for _ in range(count)]
 
     def evaluate(self, expr, point):
         h, x, vals = point
+        bv = self.bvals[self.points.index(point)]
         e = sp.sympify(expr).xreplace({DER[m]: vals[m + 1] for m in range(4)})
-        e = e.xreplace({a4(x4): vals[0]}).xreplace({H: h, x8: x})
+        e = e.xreplace({DERB[m]: bv[m + 1] for m in range(4)})
+        e = e.xreplace({a4(x4): vals[0], b4(x4): bv[0]}).xreplace({H: h, x8: x})
         return sp.N(e, 60)
 
     def describe(self):
         return [{"H": str(h), "x8": str(x), "6Hx8": str(6 * h * x), "a4": str(v[0]), "a4'": str(v[1]),
-                 "a4''": str(v[2]), "a4'''": str(v[3]), "a4''''": str(v[4])} for h, x, v in self.points]
+                 "a4''": str(v[2]), "a4'''": str(v[3]), "a4''''": str(v[4]), "b4": str(bv[0]), "b4'": str(bv[1]),
+                 "b4''": str(bv[2]), "b4'''": str(bv[3]), "b4''''": str(bv[4])}
+                for (h, x, v), bv in zip(self.points, self.bvals)]
 
 
 class Comparator:

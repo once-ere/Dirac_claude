@@ -60,6 +60,9 @@ MAPPING_TEXT = {
     "function": "a4_Revision(x4) := a4_author(H*x4); therefore a4_author^(n)(H*x4) = H^(-n) a4_Revision^(n)(x4) "
                 "(chain rule; n = 0, 1, 2); only the argument H*x4 occurs in the author's outputs (checked)",
     "constant": "H is the same constant on both sides",
+    "b4": "the metric of 2026-10-14 has b4[x4] in the extra-time components; this author notebook (before 2026-10-14) "
+          "has no b4, so every comparison with it is made at b4 = 1, b4' = b4'' = 0 (the earlier metric); the "
+          "comparison of SPEC section 1 with curvature.json keeps b4",
     "status": "a definition fixed before the comparison and checked on the metric first; nothing is fitted",
 }
 
@@ -103,6 +106,11 @@ def sym(name):
 def a4_function(order):
     """Undefined function standing for the n-th derivative of a parsed a4, before any mapping."""
     return sp.Function("a4_parsed_d%d" % order)
+
+
+def b4_function(order):
+    """Undefined function standing for the n-th derivative of a parsed b4 (metric of 2026-10-14)."""
+    return sp.Function("b4_parsed_d%d" % order)
 
 
 def tokenize(s):
@@ -221,17 +229,17 @@ class Parser:
             self.take("op", "]")
             self.take("op", "[")
             a = self.args("]")
-            if len(n) != 1 or not n[0].is_Integer or f != "a4" or len(a) != 1:
+            if len(n) != 1 or not n[0].is_Integer or f not in ("a4", "b4") or len(a) != 1:
                 raise ParseError("unsupported Derivative form in %r" % self.text[:80])
-            return a4_function(int(n[0]))(a[0])
+            return (a4_function if f == "a4" else b4_function)(int(n[0]))(a[0])
         if k == "id" and self.i + 1 < len(self.toks) and self.toks[self.i + 1] == ("op", "["):
             name = self.take()[1]
             self.take("op", "[")
             a = self.args("]")
-            if name == "a4":
+            if name in ("a4", "b4"):
                 if len(a) != 1:
-                    raise ParseError("a4 with %d arguments" % len(a))
-                return a4_function(0)(a[0])
+                    raise ParseError("%s with %d arguments" % (name, len(a)))
+                return (a4_function if name == "a4" else b4_function)(0)(a[0])
             if name in FUNCTIONS:
                 if len(a) != 1:
                     raise ParseError("%s with %d arguments" % (name, len(a)))
@@ -291,8 +299,26 @@ def map_author(expr):
     return map_parsed_a4(e, H * x4, H)
 
 
-def map_revision(expr):
-    return map_parsed_a4(expr, x4, sp.Integer(1))
+B4REV = [sp.Function("b4_rev_d%d" % n) for n in range(3)]  # b4^(n), functions of x4
+
+
+def map_revision(expr, keep_b4=False):
+    """The Revision side.  The metric of 2026-10-14 contains b4[x4]; the author's notebook compared here (the
+    Pair_Creation notebook, before 2026-10-14) has no b4, so every comparison with it is made at b4 = 1
+    (b4' = b4'' = 0), the special case that notebook used.  keep_b4=True keeps b4 (Revision vs Revision)."""
+    e = map_parsed_a4(expr, x4, sp.Integer(1))
+
+    def is_b4(f):
+        return isinstance(f, sp.core.function.AppliedUndef) and f.func.__name__.startswith("b4_parsed_d")
+
+    def repl(f):
+        n = int(f.func.__name__[len("b4_parsed_d"):])
+        if sp.expand(f.args[0] - x4) != 0:
+            raise MappingError("b4 argument %s is not x4" % f.args[0])
+        if keep_b4:
+            return B4REV[n](x4)
+        return sp.Integer(1) if n == 0 else sp.Integer(0)
+    return e.replace(is_b4, repl)
 
 
 def exact_zero(diff):
@@ -330,7 +356,9 @@ def rel(path):
 def spec_metric():
     with open(SPEC_MD, encoding="utf-8") as f:
         text = f.read()
-    m = re.search(r"## 1\. The primordial gravitational field.*?```text\n(.*?)```", text, re.S)
+    # since 2026-10-14 section 1 shows the metric twice (the notebook's order with x0, then the Revision order
+    # as "g = ..."): the Revision-order block is the one compared here
+    m = re.search(r"## 1\. The primordial gravitational field.*?```text\n(g = .*?)```", text, re.S)
     if not m:
         raise ParseError("SPEC section 1 metric block not found")
     block = " ".join(line.strip() for line in m.group(1).splitlines())
@@ -378,7 +406,8 @@ def main():
     bad = []
     for i, a in enumerate(REVISION_ORDER):
         for j, b in enumerate(REVISION_ORDER):
-            ok, how = exact_zero(map_revision(spec[i][j]) - rev_g[(a, b)])
+            rev_b4 = map_revision(parse(curv["metricDiagonal"][i]), keep_b4=True) if i == j else sp.Integer(0)
+            ok, how = exact_zero(map_revision(spec[i][j], keep_b4=True) - rev_b4)
             if not ok:
                 bad.append("%s,%s: %s" % (a, b, how))
     add("revision-metric-spec-vs-curvature-json", "PASS" if not bad else "FAIL",

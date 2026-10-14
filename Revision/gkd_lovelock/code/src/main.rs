@@ -23,7 +23,7 @@ use std::fs;
 use std::path::PathBuf;
 use std::time::Instant;
 
-const METRIC_AS_GIVEN: &str = "{{exp^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0,0},{0,exp^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0},{0,0,exp^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0},{0,0,0,-1,0,0,0,0},{0,0,0,0,-exp^(-2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0},{0,0,0,0,0,-exp^(-2 a4[x4]) Sin[6 H x8]^(1/3),0,0},{0,0,0,0,0,0,-exp^(-2 a4[x4]) Sin[6 H x8]^(1/3),0},{0,0,0,0,0,0,0,Cot[6 H x8]^2}}";
+const METRIC_AS_GIVEN: &str = "{{E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0,0},{0,0,E^(2 a4[x4]) Sin[6 H x8]^(1/3),0,0,0,0,0},{0,0,0,-1,0,0,0,0},{0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0,0},{0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3),0},{0,0,0,0,0,0,0,Cot[6 H x8]^2}} (the user's metric of 2026-10-14 in the Revision order; the author's notebook Dirac_Einstein-Lovelock_4+4_Nash.nb lists the hidden direction x8 first as x0; b4 = 1 is the metric before 2026-10-14)";
 
 struct Check {
     name: String,
@@ -174,7 +174,7 @@ fn run_lovelock(out: &PathBuf, brute_k2: bool) -> i32 {
     println!("info - L_(4) (8 indices, the 8-dimensional Euler density, not zero in general; its field equations P_(4) vanish identically): {}", ls[3].to_mathematica());
 
     // brute force (no pruning) at a numerical point
-    let q = Point { h: 0.23, a4: 0.17, a1: 0.61, a2: -0.37, a3: 0.29, a4d4: 0.0, x8: 0.41 };
+    let q = Point { h: 0.23, a4: 0.17, a1: 0.61, a2: -0.37, a3: 0.29, a4d4: 0.0, b4: 1.37, b1: 0.31, b2: -0.23, b3: 0.0, b4d4: 0.0, x8: 0.41 };
     for k in 1..=(if brute_k2 { 2 } else { 1 }) {
         let tb = Instant::now();
         let (bf, calls) = brute_force_numeric(&geo, k, &q);
@@ -185,7 +185,7 @@ fn run_lovelock(out: &PathBuf, brute_k2: bool) -> i32 {
                 worst = worst.max((exact - bf[h][j]).abs() / exact.abs().max(1.0));
             }
         }
-        add(&format!("k{}_brute_force_numeric", k), worst < 1e-10, format!("literal sum over all {} index lists with GKD weights (no pruning) at H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, x8 = 0.41: max relative deviation from the exact P_({}) = {:.2e}", calls, k, worst));
+        add(&format!("k{}_brute_force_numeric", k), worst < 1e-10, format!("literal sum over all {} index lists with GKD weights (no pruning) at H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, b4 = 1.37, b4' = 0.31, b4'' = -0.23, x8 = 0.41: max relative deviation from the exact P_({}) = {:.2e}", calls, k, worst));
         println!("info - brute force k = {} took {:.1} s", k, tb.elapsed().as_secs_f64());
     }
 

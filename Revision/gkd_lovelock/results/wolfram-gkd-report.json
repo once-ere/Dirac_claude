@@ -85,7 +85,7 @@
 		{
 			"name":"sqrt_det_g_is_cos",
 			"verdict":"PASS",
-			"detail":"det g = Cos[6 H x8]^2 and sqrt(det g) = Cos[6 H x8] on 0 < 6 H x8 < Pi/2 (the Rust program's S^3 C = Sin Cot)"
+			"detail":"det g = b4[x4]^3 Cos[6 H x8]^2 and sqrt|det g| = b4[x4]^(3/2) Cos[6 H x8] on 0 < 6 H x8 < Pi/2, b4 > 0 (the Rust program's Q^3 S^3 C = b4^(3/2) Sin Cot; b4 = 1 before 2026-10-14)"
 		},
 		{
 			"name":"lovelock_kdelta_values_are_integers",
@@ -95,7 +95,7 @@
 		{
 			"name":"k1_P_equals_rust_all_64_components",
 			"verdict":"PASS",
-			"detail":"P_(1)^h_j from the verbatim kδ (every 1-tuple of nonzero R entries, no skip, 9984 calls of kδ) minus the Rust P_(1) rebuilt from its monomials: FullSimplify gives 0 for all 64 components; nonzero components: x1,x1; x2,x2; x3,x3; x4,x4; x5,x5; x6,x6; x7,x7; x8,x8"
+			"detail":"P_(1)^h_j from the verbatim kδ (every 1-tuple of nonzero R entries, no skip, 9984 calls of kδ) minus the Rust P_(1) rebuilt from its monomials: FullSimplify gives 0 for all 64 components; nonzero components: x1,x1; x2,x2; x3,x3; x4,x4; x4,x8; x5,x5; x6,x6; x7,x7; x8,x4; x8,x8"
 		},
 		{
 			"name":"k1_A_equals_rust_all_64_components",
@@ -105,7 +105,7 @@
 		{
 			"name":"k2_P_equals_rust_all_64_components",
 			"verdict":"PASS",
-			"detail":"P_(2)^h_j from the verbatim kδ (every 2-tuple of nonzero R entries, no skip, 1557504 calls of kδ) minus the Rust P_(2) rebuilt from its monomials: FullSimplify gives 0 for all 64 components; nonzero components: x1,x1; x2,x2; x3,x3; x4,x4; x5,x5; x6,x6; x7,x7; x8,x8"
+			"detail":"P_(2)^h_j from the verbatim kδ (every 2-tuple of nonzero R entries, no skip, 1557504 calls of kδ) minus the Rust P_(2) rebuilt from its monomials: FullSimplify gives 0 for all 64 components; nonzero components: x1,x1; x2,x2; x3,x3; x4,x4; x4,x8; x5,x5; x6,x6; x7,x7; x8,x4; x8,x8"
 		},
 		{
 			"name":"k2_A_equals_rust_all_64_components",
@@ -115,7 +115,7 @@
 		{
 			"name":"k3_P_equals_rust_all_64_components",
 			"verdict":"PASS",
-			"detail":"P_(3)^h_j from the verbatim kδ (lists repeating a label in a row skipped, kδ on every remaining list, 1128960 calls) minus the Rust P_(3) rebuilt from its monomials: FullSimplify gives 0 for all 64 components; nonzero components: x1,x1; x2,x2; x3,x3; x4,x4; x5,x5; x6,x6; x7,x7; x8,x8"
+			"detail":"P_(3)^h_j from the verbatim kδ (lists repeating a label in a row skipped, kδ on every remaining list, 1128960 calls) minus the Rust P_(3) rebuilt from its monomials: FullSimplify gives 0 for all 64 components; nonzero components: x1,x1; x2,x2; x3,x3; x4,x4; x4,x8; x5,x5; x6,x6; x7,x7; x8,x4; x8,x8"
 		},
 		{
 			"name":"k3_A_equals_rust_all_64_components",
@@ -135,17 +135,17 @@
 		{
 			"name":"k1_trace_equals_6_L1",
 			"verdict":"PASS",
-			"detail":"sum_h P_(1)^h_h computed here = (8 - 2) L_(1) with L_(1) = (12)*Derivative[1][a4][x4]^2 - (84)*H^2 of lovelock-tensors.json"
+			"detail":"sum_h P_(1)^h_h computed here = (8 - 2) L_(1) with L_(1) = (6)*b4[x4]^(-1)*Derivative[2][b4][x4] - (6)*Derivative[1][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] + (12)*Derivative[1][a4][x4]^2 - (84)*H^2 of lovelock-tensors.json"
 		},
 		{
 			"name":"k2_trace_equals_4_L2",
 			"verdict":"PASS",
-			"detail":"sum_h P_(2)^h_h computed here = (8 - 4) L_(2) with L_(2) = -(96)*Derivative[1][a4][x4]^4 - (2112)*H^2*Derivative[1][a4][x4]^2 + (3360)*H^4 of lovelock-tensors.json"
+			"detail":"sum_h P_(2)^h_h computed here = (8 - 4) L_(2) with L_(2) = -(6)*b4[x4]^(-4)*Derivative[1][b4][x4]^4 + (12)*b4[x4]^(-3)*Derivative[1][b4][x4]^2*Derivative[2][b4][x4] + (48)*Derivative[2][a4][x4]*b4[x4]^(-2)*Derivative[1][b4][x4]^2 - (36)*Derivative[1][a4][x4]*b4[x4]^(-3)*Derivative[1][b4][x4]^3 + (96)*Derivative[1][a4][x4]*b4[x4]^(-2)*Derivative[1][b4][x4]*Derivative[2][b4][x4] - (192)*Derivative[1][a4][x4]*Derivative[2][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] - (48)*Derivative[1][a4][x4]^2*b4[x4]^(-2)*Derivative[1][b4][x4]^2 - (96)*Derivative[1][a4][x4]^2*b4[x4]^(-1)*Derivative[2][b4][x4] + (96)*Derivative[1][a4][x4]^3*b4[x4]^(-1)*Derivative[1][b4][x4] - (96)*Derivative[1][a4][x4]^4 + (168)*H^2*b4[x4]^(-2)*Derivative[1][b4][x4]^2 - (720)*H^2*b4[x4]^(-1)*Derivative[2][b4][x4] + (1056)*H^2*Derivative[1][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] - (2112)*H^2*Derivative[1][a4][x4]^2 + (3360)*H^4 of lovelock-tensors.json"
 		},
 		{
 			"name":"k3_trace_equals_2_L3",
 			"verdict":"PASS",
-			"detail":"sum_h P_(3)^h_h computed here = (8 - 6) L_(3) with L_(3) = (1152)*Derivative[1][a4][x4]^6 + (31104)*H^2*Derivative[1][a4][x4]^4 + (100224)*H^4*Derivative[1][a4][x4]^2 - (40320)*H^6 of lovelock-tensors.json"
+			"detail":"sum_h P_(3)^h_h computed here = (8 - 6) L_(3) with L_(3) = (864)*Derivative[1][a4][x4]*Derivative[2][a4][x4]*b4[x4]^(-3)*Derivative[1][b4][x4]^3 - (648)*Derivative[1][a4][x4]^2*b4[x4]^(-4)*Derivative[1][b4][x4]^4 + (1296)*Derivative[1][a4][x4]^2*b4[x4]^(-3)*Derivative[1][b4][x4]^2*Derivative[2][b4][x4] - (5184)*Derivative[1][a4][x4]^2*Derivative[2][a4][x4]*b4[x4]^(-2)*Derivative[1][b4][x4]^2 + (720)*Derivative[1][a4][x4]^3*b4[x4]^(-3)*Derivative[1][b4][x4]^3 - (3456)*Derivative[1][a4][x4]^3*b4[x4]^(-2)*Derivative[1][b4][x4]*Derivative[2][b4][x4] + (6912)*Derivative[1][a4][x4]^3*Derivative[2][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] + (1728)*Derivative[1][a4][x4]^4*b4[x4]^(-2)*Derivative[1][b4][x4]^2 + (1728)*Derivative[1][a4][x4]^4*b4[x4]^(-1)*Derivative[2][b4][x4] - (1728)*Derivative[1][a4][x4]^5*b4[x4]^(-1)*Derivative[1][b4][x4] + (1152)*Derivative[1][a4][x4]^6 + (432)*H^2*b4[x4]^(-4)*Derivative[1][b4][x4]^4 - (864)*H^2*b4[x4]^(-3)*Derivative[1][b4][x4]^2*Derivative[2][b4][x4] - (3456)*H^2*Derivative[2][a4][x4]*b4[x4]^(-2)*Derivative[1][b4][x4]^2 + (5616)*H^2*Derivative[1][a4][x4]*b4[x4]^(-3)*Derivative[1][b4][x4]^3 - (6912)*H^2*Derivative[1][a4][x4]*b4[x4]^(-2)*Derivative[1][b4][x4]*Derivative[2][b4][x4] + (13824)*H^2*Derivative[1][a4][x4]*Derivative[2][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] + (3456)*H^2*Derivative[1][a4][x4]^2*b4[x4]^(-2)*Derivative[1][b4][x4]^2 + (6912)*H^2*Derivative[1][a4][x4]^2*b4[x4]^(-1)*Derivative[2][b4][x4] - (31104)*H^2*Derivative[1][a4][x4]^3*b4[x4]^(-1)*Derivative[1][b4][x4] + (31104)*H^2*Derivative[1][a4][x4]^4 - (12096)*H^4*b4[x4]^(-2)*Derivative[1][b4][x4]^2 + (25920)*H^4*b4[x4]^(-1)*Derivative[2][b4][x4] - (50112)*H^4*Derivative[1][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] + (100224)*H^4*Derivative[1][a4][x4]^2 - (40320)*H^6 of lovelock-tensors.json"
 		},
 		{
 			"name":"k1_nonzero_kdelta_terms_equal_rust_counter",
@@ -243,9 +243,11 @@
 			"x2,x2",
 			"x3,x3",
 			"x4,x4",
+			"x4,x8",
 			"x5,x5",
 			"x6,x6",
 			"x7,x7",
+			"x8,x4",
 			"x8,x8"
 		],
 		"k2NonzeroComponents":[
@@ -253,9 +255,11 @@
 			"x2,x2",
 			"x3,x3",
 			"x4,x4",
+			"x4,x8",
 			"x5,x5",
 			"x6,x6",
 			"x7,x7",
+			"x8,x4",
 			"x8,x8"
 		],
 		"k3NonzeroComponents":[
@@ -263,41 +267,43 @@
 			"x2,x2",
 			"x3,x3",
 			"x4,x4",
+			"x4,x8",
 			"x5,x5",
 			"x6,x6",
 			"x7,x7",
+			"x8,x4",
 			"x8,x8"
 		],
 		"wolframComponents":{
 			"P1_mixed_up_h_down_j":{
-				"x1,x1":"-60*H^2 + 12*Derivative[1][a4][x4]^2 - 4*Derivative[2][a4][x4]",
-				"x2,x2":"-60*H^2 + 12*Derivative[1][a4][x4]^2 - 4*Derivative[2][a4][x4]",
-				"x3,x3":"-60*H^2 + 12*Derivative[1][a4][x4]^2 - 4*Derivative[2][a4][x4]",
-				"x4,x4":"-84*H^2 - 12*Derivative[1][a4][x4]^2",
-				"x5,x5":"-60*H^2 + 12*Derivative[1][a4][x4]^2 + 4*Derivative[2][a4][x4]",
-				"x6,x6":"-60*H^2 + 12*Derivative[1][a4][x4]^2 + 4*Derivative[2][a4][x4]",
-				"x7,x7":"-60*H^2 + 12*Derivative[1][a4][x4]^2 + 4*Derivative[2][a4][x4]",
-				"x8,x8":"-60*H^2 + 12*Derivative[1][a4][x4]^2"
+				"x1,x1":"-60*H^2 + 12*Derivative[1][a4][x4]^2 - (12*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - 4*Derivative[2][a4][x4] + (6*Derivative[2][b4][x4])/b4[x4]",
+				"x2,x2":"-60*H^2 + 12*Derivative[1][a4][x4]^2 - (12*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - 4*Derivative[2][a4][x4] + (6*Derivative[2][b4][x4])/b4[x4]",
+				"x3,x3":"-60*H^2 + 12*Derivative[1][a4][x4]^2 - (12*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - 4*Derivative[2][a4][x4] + (6*Derivative[2][b4][x4])/b4[x4]",
+				"x4,x4":"-84*H^2 - 12*Derivative[1][a4][x4]^2 + (6*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] + (3*Derivative[1][b4][x4]^2)/b4[x4]^2",
+				"x5,x5":"-60*H^2 + 12*Derivative[1][a4][x4]^2 - Derivative[1][b4][x4]^2/b4[x4]^2 + 4*Derivative[2][a4][x4] + (4*Derivative[2][b4][x4])/b4[x4]",
+				"x6,x6":"-60*H^2 + 12*Derivative[1][a4][x4]^2 - Derivative[1][b4][x4]^2/b4[x4]^2 + 4*Derivative[2][a4][x4] + (4*Derivative[2][b4][x4])/b4[x4]",
+				"x7,x7":"-60*H^2 + 12*Derivative[1][a4][x4]^2 - Derivative[1][b4][x4]^2/b4[x4]^2 + 4*Derivative[2][a4][x4] + (4*Derivative[2][b4][x4])/b4[x4]",
+				"x8,x8":"-60*H^2 + 12*Derivative[1][a4][x4]^2 - (6*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] + (6*Derivative[2][b4][x4])/b4[x4]"
 			},
 			"P2_mixed_up_h_down_j":{
-				"x1,x1":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 + 320*H^2*Derivative[2][a4][x4] + 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4]",
-				"x2,x2":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 + 320*H^2*Derivative[2][a4][x4] + 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4]",
-				"x3,x3":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 + 320*H^2*Derivative[2][a4][x4] + 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4]",
-				"x4,x4":"3360*H^4 + 960*H^2*Derivative[1][a4][x4]^2 + 288*Derivative[1][a4][x4]^4",
-				"x5,x5":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 - 320*H^2*Derivative[2][a4][x4] - 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4]",
-				"x6,x6":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 - 320*H^2*Derivative[2][a4][x4] - 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4]",
-				"x7,x7":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 - 320*H^2*Derivative[2][a4][x4] - 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4]",
-				"x8,x8":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4"
+				"x1,x1":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 + (960*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] + (192*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] + (144*H^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (48*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (24*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 - (6*Derivative[1][b4][x4]^4)/b4[x4]^4 + 320*H^2*Derivative[2][a4][x4] + 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] - (192*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] + (24*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (480*H^2*Derivative[2][b4][x4])/b4[x4] - (96*Derivative[1][a4][x4]^2*Derivative[2][b4][x4])/b4[x4] + (48*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 + (12*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3",
+				"x2,x2":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 + (960*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] + (192*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] + (144*H^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (48*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (24*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 - (6*Derivative[1][b4][x4]^4)/b4[x4]^4 + 320*H^2*Derivative[2][a4][x4] + 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] - (192*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] + (24*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (480*H^2*Derivative[2][b4][x4])/b4[x4] - (96*Derivative[1][a4][x4]^2*Derivative[2][b4][x4])/b4[x4] + (48*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 + (12*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3",
+				"x3,x3":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 + (960*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] + (192*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] + (144*H^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (48*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (24*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 - (6*Derivative[1][b4][x4]^4)/b4[x4]^4 + 320*H^2*Derivative[2][a4][x4] + 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] - (192*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] + (24*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (480*H^2*Derivative[2][b4][x4])/b4[x4] - (96*Derivative[1][a4][x4]^2*Derivative[2][b4][x4])/b4[x4] + (48*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 + (12*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3",
+				"x4,x4":"3360*H^4 + 960*H^2*Derivative[1][a4][x4]^2 + 288*Derivative[1][a4][x4]^4 - (480*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - (288*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] - (240*H^2*Derivative[1][b4][x4]^2)/b4[x4]^2 + (36*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3",
+				"x5,x5":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 + (384*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] + (128*H^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (24*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 - 320*H^2*Derivative[2][a4][x4] - 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] + (24*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (320*H^2*Derivative[2][b4][x4])/b4[x4] + (48*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2",
+				"x6,x6":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 + (384*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] + (128*H^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (24*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 - 320*H^2*Derivative[2][a4][x4] - 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] + (24*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (320*H^2*Derivative[2][b4][x4])/b4[x4] + (48*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2",
+				"x7,x7":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 + (384*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] + (128*H^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (24*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 - 320*H^2*Derivative[2][a4][x4] - 192*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] + (24*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (320*H^2*Derivative[2][b4][x4])/b4[x4] + (48*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2",
+				"x8,x8":"1440*H^4 - 1344*H^2*Derivative[1][a4][x4]^2 - 96*Derivative[1][a4][x4]^4 + (672*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] + (96*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] + (96*H^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (48*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 - (36*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 - (6*Derivative[1][b4][x4]^4)/b4[x4]^4 - (192*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] + (48*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (480*H^2*Derivative[2][b4][x4])/b4[x4] - (96*Derivative[1][a4][x4]^2*Derivative[2][b4][x4])/b4[x4] + (96*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 + (12*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3"
 			},
 			"P3_mixed_up_h_down_j":{
-				"x1,x1":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 - 5760*H^4*Derivative[2][a4][x4] - 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] - 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4]",
-				"x2,x2":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 - 5760*H^4*Derivative[2][a4][x4] - 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] - 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4]",
-				"x3,x3":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 - 5760*H^4*Derivative[2][a4][x4] - 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] - 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4]",
-				"x4,x4":"-40320*H^6 - 17280*H^4*Derivative[1][a4][x4]^2 - 10368*H^2*Derivative[1][a4][x4]^4 - 5760*Derivative[1][a4][x4]^6",
-				"x5,x5":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 + 5760*H^4*Derivative[2][a4][x4] + 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] + 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4]",
-				"x6,x6":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 + 5760*H^4*Derivative[2][a4][x4] + 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] + 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4]",
-				"x7,x7":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 + 5760*H^4*Derivative[2][a4][x4] + 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] + 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4]",
-				"x8,x8":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6"
+				"x1,x1":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 - (17280*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - (6912*H^2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] - (3456*Derivative[1][a4][x4]^5*Derivative[1][b4][x4])/b4[x4] - (5184*H^4*Derivative[1][b4][x4]^2)/b4[x4]^2 - (3456*H^2*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 + (1728*Derivative[1][a4][x4]^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (2592*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 + (288*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]^3)/b4[x4]^3 + (216*H^2*Derivative[1][b4][x4]^4)/b4[x4]^4 - (216*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^4)/b4[x4]^4 - 5760*H^4*Derivative[2][a4][x4] - 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] - 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4] + (6912*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] + (6912*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] - (864*H^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (2592*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 + (288*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3*Derivative[2][a4][x4])/b4[x4]^3 + (8640*H^4*Derivative[2][b4][x4])/b4[x4] + (3456*H^2*Derivative[1][a4][x4]^2*Derivative[2][b4][x4])/b4[x4] + (1728*Derivative[1][a4][x4]^4*Derivative[2][b4][x4])/b4[x4] - (1728*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 - (1728*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 - (432*H^2*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3 + (432*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3",
+				"x2,x2":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 - (17280*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - (6912*H^2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] - (3456*Derivative[1][a4][x4]^5*Derivative[1][b4][x4])/b4[x4] - (5184*H^4*Derivative[1][b4][x4]^2)/b4[x4]^2 - (3456*H^2*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 + (1728*Derivative[1][a4][x4]^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (2592*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 + (288*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]^3)/b4[x4]^3 + (216*H^2*Derivative[1][b4][x4]^4)/b4[x4]^4 - (216*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^4)/b4[x4]^4 - 5760*H^4*Derivative[2][a4][x4] - 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] - 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4] + (6912*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] + (6912*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] - (864*H^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (2592*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 + (288*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3*Derivative[2][a4][x4])/b4[x4]^3 + (8640*H^4*Derivative[2][b4][x4])/b4[x4] + (3456*H^2*Derivative[1][a4][x4]^2*Derivative[2][b4][x4])/b4[x4] + (1728*Derivative[1][a4][x4]^4*Derivative[2][b4][x4])/b4[x4] - (1728*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 - (1728*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 - (432*H^2*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3 + (432*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3",
+				"x3,x3":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 - (17280*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - (6912*H^2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] - (3456*Derivative[1][a4][x4]^5*Derivative[1][b4][x4])/b4[x4] - (5184*H^4*Derivative[1][b4][x4]^2)/b4[x4]^2 - (3456*H^2*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 + (1728*Derivative[1][a4][x4]^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (2592*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 + (288*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]^3)/b4[x4]^3 + (216*H^2*Derivative[1][b4][x4]^4)/b4[x4]^4 - (216*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^4)/b4[x4]^4 - 5760*H^4*Derivative[2][a4][x4] - 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] - 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4] + (6912*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] + (6912*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] - (864*H^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (2592*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 + (288*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3*Derivative[2][a4][x4])/b4[x4]^3 + (8640*H^4*Derivative[2][b4][x4])/b4[x4] + (3456*H^2*Derivative[1][a4][x4]^2*Derivative[2][b4][x4])/b4[x4] + (1728*Derivative[1][a4][x4]^4*Derivative[2][b4][x4])/b4[x4] - (1728*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 - (1728*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 - (432*H^2*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3 + (432*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3",
+				"x4,x4":"-40320*H^6 - 17280*H^4*Derivative[1][a4][x4]^2 - 10368*H^2*Derivative[1][a4][x4]^4 - 5760*Derivative[1][a4][x4]^6 + (8640*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] + (10368*H^2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] + (8640*Derivative[1][a4][x4]^5*Derivative[1][b4][x4])/b4[x4] + (4320*H^4*Derivative[1][b4][x4]^2)/b4[x4]^2 - (4320*Derivative[1][a4][x4]^4*Derivative[1][b4][x4]^2)/b4[x4]^2 - (1296*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 + (720*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]^3)/b4[x4]^3",
+				"x5,x5":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 - (13824*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - (13824*H^2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] - (3168*H^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (5184*H^2*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 + (288*Derivative[1][a4][x4]^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (864*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 - (288*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]^3)/b4[x4]^3 + 5760*H^4*Derivative[2][a4][x4] + 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] + 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4] - (4608*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] - (864*H^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 + (864*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 + (5760*H^4*Derivative[2][b4][x4])/b4[x4] - (1152*Derivative[1][a4][x4]^4*Derivative[2][b4][x4])/b4[x4] - (1728*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 + (576*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2",
+				"x6,x6":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 - (13824*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - (13824*H^2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] - (3168*H^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (5184*H^2*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 + (288*Derivative[1][a4][x4]^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (864*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 - (288*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]^3)/b4[x4]^3 + 5760*H^4*Derivative[2][a4][x4] + 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] + 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4] - (4608*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] - (864*H^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 + (864*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 + (5760*H^4*Derivative[2][b4][x4])/b4[x4] - (1152*Derivative[1][a4][x4]^4*Derivative[2][b4][x4])/b4[x4] - (1728*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 + (576*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2",
+				"x7,x7":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 - (13824*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - (13824*H^2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] - (3168*H^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (5184*H^2*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 + (288*Derivative[1][a4][x4]^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (864*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 - (288*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]^3)/b4[x4]^3 + 5760*H^4*Derivative[2][a4][x4] + 6912*H^2*Derivative[1][a4][x4]^2*Derivative[2][a4][x4] + 5760*Derivative[1][a4][x4]^4*Derivative[2][a4][x4] - (4608*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] - (864*H^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 + (864*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 + (5760*H^4*Derivative[2][b4][x4])/b4[x4] - (1152*Derivative[1][a4][x4]^4*Derivative[2][b4][x4])/b4[x4] - (1728*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 + (576*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2",
+				"x8,x8":"-5760*H^6 + 31104*H^4*Derivative[1][a4][x4]^2 + 10368*H^2*Derivative[1][a4][x4]^4 + 1152*Derivative[1][a4][x4]^6 - (15552*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4])/b4[x4] - (10368*H^2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4])/b4[x4] - (1728*Derivative[1][a4][x4]^5*Derivative[1][b4][x4])/b4[x4] - (3456*H^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (1728*H^2*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2)/b4[x4]^2 + (1728*Derivative[1][a4][x4]^4*Derivative[1][b4][x4]^2)/b4[x4]^2 + (2160*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)/b4[x4]^3 + (720*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]^3)/b4[x4]^3 + (216*H^2*Derivative[1][b4][x4]^4)/b4[x4]^4 - (648*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^4)/b4[x4]^4 + (6912*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] + (6912*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][a4][x4])/b4[x4] - (1728*H^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 - (5184*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][a4][x4])/b4[x4]^2 + (864*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3*Derivative[2][a4][x4])/b4[x4]^3 + (8640*H^4*Derivative[2][b4][x4])/b4[x4] + (3456*H^2*Derivative[1][a4][x4]^2*Derivative[2][b4][x4])/b4[x4] + (1728*Derivative[1][a4][x4]^4*Derivative[2][b4][x4])/b4[x4] - (3456*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 - (3456*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*Derivative[2][b4][x4])/b4[x4]^2 - (432*H^2*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3 + (1296*Derivative[1][a4][x4]^2*Derivative[1][b4][x4]^2*Derivative[2][b4][x4])/b4[x4]^3"
 			}
 		},
 		"lovelockKDeltaCalls":{
@@ -320,22 +326,22 @@
 	},
 	"inputSha256":{
 		"Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md":"eb7011d650683737868b43422cfc6c6e311aa1647a3d2608af1c2fb4c8df3759",
-		"Revision/gkd_lovelock/results/curvature.json":"d5beb73a32244ea938ca61eac3573f72061c0e329b78f7506dd983881638763e",
-		"Revision/gkd_lovelock/results/lovelock-tensors.json":"9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567",
-		"Revision/gkd_lovelock/results/lovelock-report.json":"5c919ea827a5e6822a7196bb66ead64fa0a3e70f01f35b2bbfb99a65ae028bb8",
+		"Revision/gkd_lovelock/results/curvature.json":"f8d7969991af89dde0a007cfa2f48d928326a263c94946344a19c31ef843c96e",
+		"Revision/gkd_lovelock/results/lovelock-tensors.json":"5dfd10de558904fa0845fe9035b4a3c8ef146dab250337b8ef9002d4274f99f0",
+		"Revision/gkd_lovelock/results/lovelock-report.json":"fbf9de79a0deb61eb7727e7b354cdce64f2ecc4fb503c14d30bc91ff6a9ba677",
 		"Revision/gkd_lovelock/code/Cargo.toml":"c6719ffae8040c42034a903b7cf2aefbc2124fee7dd6750de0c455d7cb653d70",
-		"Revision/gkd_lovelock/code/src/geometry.rs":"ea7a77cef471610b909ba6f0300e78f582506bfc1125c36c1b2a772fefd96678",
+		"Revision/gkd_lovelock/code/src/geometry.rs":"4b444791c58a709696906d2f96845d8404794c78dcf51152e69617f9fb20a0dd",
 		"Revision/gkd_lovelock/code/src/gkd.rs":"3be0169f6c03d0d6afbd8361e6d80c5b802defb0878ddc2ffeb62e3dde106dd4",
 		"Revision/gkd_lovelock/code/src/lib.rs":"cccd024b5a559ce306d770e4a2674a1bc3eb7b6cf00e05dc0858fb3cc4991da6",
 		"Revision/gkd_lovelock/code/src/lovelock.rs":"1ce0c7e3a16acd1509890b7f7029cd9e258e72d4816235a0df4bf2f99f1acd1b",
-		"Revision/gkd_lovelock/code/src/main.rs":"ac56bbce5e2482caf57b316691ea8326ebd05bbd13cb7184bc07b900e91d66ac",
-		"Revision/gkd_lovelock/code/src/output.rs":"b33a257109e1cdc528fb32c08aa59d6e541d0791da235256258b94ae0cd59e15",
-		"Revision/gkd_lovelock/code/src/poly.rs":"c0e91c8b0ba8d4dcb542f48385b6e637b61373d6dcaf22913c70a7e54212b36d",
+		"Revision/gkd_lovelock/code/src/main.rs":"42157f9c74175595f8fcd5b7b3f477fef9b902841085fddf3f03a53e48511c31",
+		"Revision/gkd_lovelock/code/src/output.rs":"93f1c4e27d7df957c5187bbd7f26f132f1e888c28b4fc0d814046cbe58698c53",
+		"Revision/gkd_lovelock/code/src/poly.rs":"727f754818bd0ea8ad5b6ddf24d28fb29516de823c29a2aedeccd96d1b9b0e42",
 		"Revision/gkd_lovelock/code/src/rational.rs":"a8e9b54a655dc9e1d15ef0f4203cb55eda168efd93e52b337573fb6d8c5384ba"
 	},
 	"sourceSha256":{
-		"Revision/gkd_lovelock/verification/LovelockGKDCheck.wl":"2ea70c740c477fd7e89493d068d6f9e00e48e0faf354a9c50f5525560d0655f8",
-		"Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls":"bec6c8c5d25f62061b549a93fb5dc8e66c396cad1cd9bc6f08826129ae965a50"
+		"Revision/gkd_lovelock/verification/LovelockGKDCheck.wl":"ec71664ef98e142fccfb27bbed9b785e89f69ba503dca0bbec1cf3104fa77cf2",
+		"Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls":"a0cfacac1605a48f17c7f48e6bb05bd207c9eeda5ab72bb7c1b82abc458386bb"
 	},
 	"checkCount":29,
 	"expectedCheckCount":29,

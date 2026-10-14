@@ -8,15 +8,15 @@
     },
     {
       "path": "Revision/gkd_lovelock/results/curvature.json",
-      "sha256": "d5beb73a32244ea938ca61eac3573f72061c0e329b78f7506dd983881638763e"
+      "sha256": "f8d7969991af89dde0a007cfa2f48d928326a263c94946344a19c31ef843c96e"
     },
     {
       "path": "Revision/gkd_lovelock/results/lovelock-tensors.json",
-      "sha256": "9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567"
+      "sha256": "5dfd10de558904fa0845fe9035b4a3c8ef146dab250337b8ef9002d4274f99f0"
     },
     {
       "path": "Revision/SPEC.md",
-      "sha256": "9ae0f1a81117fd6d984b66f2f04b5db59f5fc4f9698f52aceaf90c9a6f1cfdea"
+      "sha256": "367ce5033b9c3102e29766d1ca7a3e991cd1d9a2145a8d9a265bcc2d4dd92dc3"
     },
     {
       "path": "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb",
@@ -36,6 +36,7 @@
     "coordinates": "author array position 1 (x0, hidden) -> Revision x8; author positions 2..8 (x1..x7) -> Revision x1..x7 (same names); tensor components are permuted accordingly",
     "function": "a4_Revision(x4) := a4_author(H*x4); therefore a4_author^(n)(H*x4) = H^(-n) a4_Revision^(n)(x4) (chain rule; n = 0, 1, 2); only the argument H*x4 occurs in the author's outputs (checked)",
     "constant": "H is the same constant on both sides",
+    "b4": "the metric of 2026-10-14 has b4[x4] in the extra-time components; this author notebook (before 2026-10-14) has no b4, so every comparison with it is made at b4 = 1, b4' = b4'' = 0 (the earlier metric); the comparison of SPEC section 1 with curvature.json keeps b4",
     "status": "a definition fixed before the comparison and checked on the metric first; nothing is fitted"
   },
   "normalisations": [
@@ -126,7 +127,7 @@
       "detail": {
         "author": "HoldForm[6*H^2*(-7 + Derivative[1][a4][H*x4]^2)]",
         "authorMapped": "-42*H**2 + 6*a4_rev_d1(x4)**2",
-        "revision": "(6)*Derivative[1][a4][x4]^2 - (42)*H^2",
+        "revision": "(3)*b4[x4]^(-1)*Derivative[2][b4][x4] - (3)*Derivative[1][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] + (6)*Derivative[1][a4][x4]^2 - (42)*H^2",
         "method": "expand"
       }
     },
@@ -136,7 +137,7 @@
       "detail": {
         "authorLowerMapped": "-H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 - a4_rev_d2(x4)/H**2)*exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
         "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 + a4_rev_d2(x4)",
-        "revision": "Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "revision": "-(3/2)*b4[x4]^(-1)*Derivative[2][b4][x4] + Derivative[2][a4][x4] + (3)*Derivative[1][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
         "method": "expand"
       }
     },
@@ -226,7 +227,7 @@
       "detail": {
         "authorLowerMapped": "-H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 - a4_rev_d2(x4)/H**2)*exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
         "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 + a4_rev_d2(x4)",
-        "revision": "Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "revision": "-(3/2)*b4[x4]^(-1)*Derivative[2][b4][x4] + Derivative[2][a4][x4] + (3)*Derivative[1][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
         "method": "expand"
       }
     },
@@ -316,7 +317,7 @@
       "detail": {
         "authorLowerMapped": "-H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 - a4_rev_d2(x4)/H**2)*exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
         "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 + a4_rev_d2(x4)",
-        "revision": "Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "revision": "-(3/2)*b4[x4]^(-1)*Derivative[2][b4][x4] + Derivative[2][a4][x4] + (3)*Derivative[1][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
         "method": "expand"
       }
     },
@@ -406,7 +407,7 @@
       "detail": {
         "authorLowerMapped": "-3*H**2*(7 + a4_rev_d1(x4)**2/H**2)",
         "authorMixed": "21*H**2 + 3*a4_rev_d1(x4)**2",
-        "revision": "(3)*Derivative[1][a4][x4]^2 + (21)*H^2",
+        "revision": "-(3/4)*b4[x4]^(-2)*Derivative[1][b4][x4]^2 - (3/2)*Derivative[1][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] + (3)*Derivative[1][a4][x4]^2 + (21)*H^2",
         "method": "expand"
       }
     },
@@ -446,7 +447,7 @@
       "detail": {
         "authorLowerMapped": "0",
         "authorMixed": "0",
-        "revision": "0",
+        "revision": "(3/2)*H*Cot[6*H*x8]*b4[x4]^(-1)*Derivative[1][b4][x4]",
         "method": "expand"
       }
     },
@@ -496,7 +497,7 @@
       "detail": {
         "authorLowerMapped": "H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 + a4_rev_d2(x4)/H**2)*exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
         "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 - a4_rev_d2(x4)",
-        "revision": "-Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "revision": "(1/4)*b4[x4]^(-2)*Derivative[1][b4][x4]^2 - b4[x4]^(-1)*Derivative[2][b4][x4] - Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
         "method": "expand"
       }
     },
@@ -586,7 +587,7 @@
       "detail": {
         "authorLowerMapped": "H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 + a4_rev_d2(x4)/H**2)*exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
         "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 - a4_rev_d2(x4)",
-        "revision": "-Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "revision": "(1/4)*b4[x4]^(-2)*Derivative[1][b4][x4]^2 - b4[x4]^(-1)*Derivative[2][b4][x4] - Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
         "method": "expand"
       }
     },
@@ -676,7 +677,7 @@
       "detail": {
         "authorLowerMapped": "H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 + a4_rev_d2(x4)/H**2)*exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
         "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 - a4_rev_d2(x4)",
-        "revision": "-Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "revision": "(1/4)*b4[x4]^(-2)*Derivative[1][b4][x4]^2 - b4[x4]^(-1)*Derivative[2][b4][x4] - Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
         "method": "expand"
       }
     },
@@ -726,7 +727,7 @@
       "detail": {
         "authorLowerMapped": "0",
         "authorMixed": "0",
-        "revision": "0",
+        "revision": "-(3/2)*H*Cot[6*H*x8]^(-1)*b4[x4]^(-1)*Derivative[1][b4][x4]",
         "method": "expand"
       }
     },
@@ -766,7 +767,7 @@
       "detail": {
         "authorLowerMapped": "-3*H**2*(-5 + a4_rev_d1(x4)**2/H**2)*cot(6*H*x8)**2",
         "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2",
-        "revision": "-(3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "revision": "-(3/2)*b4[x4]^(-1)*Derivative[2][b4][x4] + (3/2)*Derivative[1][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
         "method": "expand"
       }
     },
@@ -782,7 +783,7 @@
       "name": "lovelock-L1-vs-2-author-RS",
       "verdict": "PASS",
       "detail": {
-        "revision": "(12)*Derivative[1][a4][x4]^2 - (84)*H^2",
+        "revision": "(6)*b4[x4]^(-1)*Derivative[2][b4][x4] - (6)*Derivative[1][a4][x4]*b4[x4]^(-1)*Derivative[1][b4][x4] + (12)*Derivative[1][a4][x4]^2 - (84)*H^2",
         "twiceAuthorMapped": "-84*H**2 + 12*a4_rev_d1(x4)**2",
         "method": "expand"
       }

@@ -47,7 +47,8 @@ pub fn tensor_json(t: &[Vec<Poly>], indent: &str) -> String {
 }
 
 /// Exact machine-readable form: [[numerator, denominator, [e_H, e_a4', e_a4'', e_a4''',
-/// e_a4'''', e_E, e_S, e_C]], ...] (symbols as in poly.rs), so that an independent
+/// e_a4'''', e_E, e_S, e_C, e_Q, e_b4', e_b4'', e_b4''', e_b4'''']], ...] (symbols as in
+/// poly.rs; Q = b4^(1/2); 13 exponents since 2026-10-14, 8 before), so that an independent
 /// program can rebuild every term without parsing text.
 pub fn monomials_json(p: &Poly) -> String {
     let items: Vec<String> = p

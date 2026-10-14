@@ -1,10 +1,13 @@
 //! The test metric (exactly as given by the author, coordinates x1..x8 stored at
-//! indices 0..7) and its curvature, computed exactly.
+//! indices 0..7; since 2026-10-14 with the metric function b4[x4] of the user's order and
+//! the author's notebook Dirac_Einstein-Lovelock_4+4_Nash.nb) and its curvature, computed exactly.
 //!
-//!   g = diag( E^(2 a4[x4]) Sin[6 H x8]^(1/3)  (x1, x2, x3),
-//!             -1                              (x4),
-//!             -E^(-2 a4[x4]) Sin[6 H x8]^(1/3) (x5, x6, x7),
-//!             Cot[6 H x8]^2                   (x8) )
+//!   g = diag( E^(2 a4[x4]) Sin[6 H x8]^(1/3)        (x1, x2, x3),
+//!             -1                                    (x4),
+//!             -E^(-2 a4[x4]) b4[x4] Sin[6 H x8]^(1/3) (x5, x6, x7),
+//!             Cot[6 H x8]^2                         (x8) )
+//!
+//! (b4 = 1 is the metric before 2026-10-14; b4 is carried as Q = b4^(1/2), see poly.rs.)
 //!
 //! Conventions (stated once, used everywhere):
 //!   Christoffel  Γ^a_{bc} = (1/2) g^{ad} (∂_b g_dc + ∂_c g_db - ∂_d g_bc)
@@ -12,7 +15,7 @@
 //!                (Misner-Thorne-Wheeler; a 2-sphere of radius r has R^{12}_{12} = +1/r^2)
 //!   R^{ab}_{cd} = g^{be} R^a_{ecd},  Ricci R_{bd} = R^a_{bad},  R = g^{bd} R_{bd} = R^{ab}_{ab}.
 
-use crate::poly::{Poly, CV, EV, NVAR, SV};
+use crate::poly::{Poly, CV, EV, NVAR, QV, SV};
 use crate::rational::Rational;
 
 pub const DIM: usize = 8;
@@ -20,11 +23,12 @@ pub const DIM: usize = 8;
 /// Coordinate names of the test metric, index 0..7.
 pub const COORD: [&str; DIM] = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"];
 
-fn mono(c: i128, e: i32, s: i32, cot: i32) -> Poly {
+fn mono(c: i128, e: i32, s: i32, cot: i32, q: i32) -> Poly {
     let mut m = [0; NVAR];
     m[EV] = e;
     m[SV] = s;
     m[CV] = cot;
+    m[QV] = q;
     Poly::monomial(Rational::int(c), m)
 }
 
@@ -32,13 +36,13 @@ fn mono(c: i128, e: i32, s: i32, cot: i32) -> Poly {
 pub fn metric_diagonal() -> Vec<Poly> {
     let mut g = Vec::with_capacity(DIM);
     for _ in 0..3 {
-        g.push(mono(1, 2, 1, 0)); // E^(2 a4) Sin^(1/3)
+        g.push(mono(1, 2, 1, 0, 0)); // E^(2 a4) Sin^(1/3)
     }
     g.push(Poly::int(-1)); // x4
     for _ in 0..3 {
-        g.push(mono(-1, -2, 1, 0)); // -E^(-2 a4) Sin^(1/3)
+        g.push(mono(-1, -2, 1, 0, 2)); // -E^(-2 a4) b4 Sin^(1/3), b4 = Q^2
     }
-    g.push(mono(1, 0, 0, 2)); // Cot^2
+    g.push(mono(1, 0, 0, 2, 0)); // Cot^2
     g
 }
 
@@ -47,7 +51,7 @@ pub struct Geometry {
     pub g: Vec<Poly>,
     /// g^aa
     pub ginv: Vec<Poly>,
-    /// sqrt|det g| = Sin * Cot = S^3 C
+    /// sqrt|det g| = b4^(3/2) Sin * Cot = Q^3 S^3 C
     pub sqrt_g: Poly,
     /// Γ^a_{bc}, index [a][b][c]
     pub christoffel: Vec<Vec<Vec<Poly>>>,
@@ -65,13 +69,13 @@ impl Geometry {
     pub fn new() -> Geometry {
         let g = metric_diagonal();
         let ginv: Vec<Poly> = g.iter().map(|x| x.monomial_inverse()).collect();
-        // det g = product of the diagonal; |det g| = S^6 C^2, sqrt = S^3 C
+        // det g = product of the diagonal; |det g| = Q^6 S^6 C^2 (Q^6 = b4^3), sqrt = Q^3 S^3 C
         let mut det = Poly::int(1);
         for x in &g {
             det = &det * x;
         }
-        let sqrt_g = mono(1, 0, 3, 1);
-        assert_eq!(&sqrt_g * &sqrt_g, det, "det g must equal (S^3 C)^2");
+        let sqrt_g = mono(1, 0, 3, 1, 3);
+        assert_eq!(&sqrt_g * &sqrt_g, det, "det g must equal (Q^3 S^3 C)^2");
 
         // derivatives of the metric: dg[c][a] = ∂_c g_aa
         let dg: Vec<Vec<Poly>> = (0..DIM).map(|c| g.iter().map(|x| x.d(c)).collect()).collect();
@@ -216,7 +220,7 @@ mod tests {
     #[test]
     fn christoffel_numerical() {
         let geo = Geometry::new();
-        let q = Point { h: 0.4, a4: 0.3, a1: 0.7, a2: -0.2, a3: 0.1, a4d4: 0.0, x8: 0.31 };
+        let q = Point { h: 0.4, a4: 0.3, a1: 0.7, a2: -0.2, a3: 0.1, a4d4: 0.0, b4: 1.3, b1: 0.25, b2: -0.15, b3: 0.0, b4d4: 0.0, x8: 0.31 };
         // Γ^8_{88} = (1/2) g^88 ∂_8 g_88 by hand: g_88 = cot^2 z, z = 6 H x8
         let z = 6.0 * q.h * q.x8;
         let expect = 0.5 * (z.sin() / z.cos()).powi(2) * (2.0 * (z.cos() / z.sin()) * (-1.0 / z.sin().powi(2)) * 6.0 * q.h);
