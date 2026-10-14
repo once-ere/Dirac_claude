@@ -1,0 +1,1669 @@
+{
+	"program":"Revision\/metric_b4\/wolfram\/verify_metric_b4.wls",
+	"metricAsGiven":"{{Cot[6 H x0[]]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4[]]) Sin[6 H x0[]]^(1\/3),0,0,0,0,0,0},{0,0,E^(2 a4[x4[]]) Sin[6 H x0[]]^(1\/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4[]]) Sin[6 H x0[]]^(1\/3),0,0,0,0},{0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1\/3),0,0},{0,0,0,0,0,0,-E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1\/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4[]]) b4[x4[]] Sin[6 H x0[]]^(1\/3)}}",
+	"coordinates":[
+		"x1",
+		"x2",
+		"x3",
+		"x4",
+		"x5",
+		"x6",
+		"x7",
+		"x8"
+	],
+	"coordinateMap":"Revision x1..x7 = notebook x1..x7; Revision x8 = notebook x0 (the hidden direction)",
+	"metricDiagonal":[
+		"E^(2*a4[x4])*Sin[6*H*x8]^(1\/3)",
+		"E^(2*a4[x4])*Sin[6*H*x8]^(1\/3)",
+		"E^(2*a4[x4])*Sin[6*H*x8]^(1\/3)",
+		"-1",
+		"-((b4[x4]*Sin[6*H*x8]^(1\/3))\/E^(2*a4[x4]))",
+		"-((b4[x4]*Sin[6*H*x8]^(1\/3))\/E^(2*a4[x4]))",
+		"-((b4[x4]*Sin[6*H*x8]^(1\/3))\/E^(2*a4[x4]))",
+		"Cot[6*H*x8]^2"
+	],
+	"sqrtAbsDetG":"b4[x4]^(3\/2)*Cos[6*H*x8]",
+	"christoffelNonzero":[
+		{
+			"a":"x1",
+			"b":"x1",
+			"c":"x4",
+			"value":"Derivative[1][a4][x4]"
+		},
+		{
+			"a":"x1",
+			"b":"x1",
+			"c":"x8",
+			"value":"H*Cot[6*H*x8]"
+		},
+		{
+			"a":"x2",
+			"b":"x2",
+			"c":"x4",
+			"value":"Derivative[1][a4][x4]"
+		},
+		{
+			"a":"x2",
+			"b":"x2",
+			"c":"x8",
+			"value":"H*Cot[6*H*x8]"
+		},
+		{
+			"a":"x3",
+			"b":"x3",
+			"c":"x4",
+			"value":"Derivative[1][a4][x4]"
+		},
+		{
+			"a":"x3",
+			"b":"x3",
+			"c":"x8",
+			"value":"H*Cot[6*H*x8]"
+		},
+		{
+			"a":"x4",
+			"b":"x1",
+			"c":"x1",
+			"value":"E^(2*a4[x4])*Sin[6*H*x8]^(1\/3)*Derivative[1][a4][x4]"
+		},
+		{
+			"a":"x4",
+			"b":"x2",
+			"c":"x2",
+			"value":"E^(2*a4[x4])*Sin[6*H*x8]^(1\/3)*Derivative[1][a4][x4]"
+		},
+		{
+			"a":"x4",
+			"b":"x3",
+			"c":"x3",
+			"value":"E^(2*a4[x4])*Sin[6*H*x8]^(1\/3)*Derivative[1][a4][x4]"
+		},
+		{
+			"a":"x4",
+			"b":"x5",
+			"c":"x5",
+			"value":"(Sin[6*H*x8]^(1\/3)*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/(2*E^(2*a4[x4]))"
+		},
+		{
+			"a":"x4",
+			"b":"x6",
+			"c":"x6",
+			"value":"(Sin[6*H*x8]^(1\/3)*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/(2*E^(2*a4[x4]))"
+		},
+		{
+			"a":"x4",
+			"b":"x7",
+			"c":"x7",
+			"value":"(Sin[6*H*x8]^(1\/3)*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/(2*E^(2*a4[x4]))"
+		},
+		{
+			"a":"x5",
+			"b":"x4",
+			"c":"x5",
+			"value":"-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4])"
+		},
+		{
+			"a":"x5",
+			"b":"x5",
+			"c":"x8",
+			"value":"H*Cot[6*H*x8]"
+		},
+		{
+			"a":"x6",
+			"b":"x4",
+			"c":"x6",
+			"value":"-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4])"
+		},
+		{
+			"a":"x6",
+			"b":"x6",
+			"c":"x8",
+			"value":"H*Cot[6*H*x8]"
+		},
+		{
+			"a":"x7",
+			"b":"x4",
+			"c":"x7",
+			"value":"-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4])"
+		},
+		{
+			"a":"x7",
+			"b":"x7",
+			"c":"x8",
+			"value":"H*Cot[6*H*x8]"
+		},
+		{
+			"a":"x8",
+			"b":"x1",
+			"c":"x1",
+			"value":"-(E^(2*a4[x4])*H*Sec[6*H*x8]*Sin[6*H*x8]^(4\/3))"
+		},
+		{
+			"a":"x8",
+			"b":"x2",
+			"c":"x2",
+			"value":"-(E^(2*a4[x4])*H*Sec[6*H*x8]*Sin[6*H*x8]^(4\/3))"
+		},
+		{
+			"a":"x8",
+			"b":"x3",
+			"c":"x3",
+			"value":"-(E^(2*a4[x4])*H*Sec[6*H*x8]*Sin[6*H*x8]^(4\/3))"
+		},
+		{
+			"a":"x8",
+			"b":"x5",
+			"c":"x5",
+			"value":"(H*b4[x4]*Sec[6*H*x8]*Sin[6*H*x8]^(4\/3))\/E^(2*a4[x4])"
+		},
+		{
+			"a":"x8",
+			"b":"x6",
+			"c":"x6",
+			"value":"(H*b4[x4]*Sec[6*H*x8]*Sin[6*H*x8]^(4\/3))\/E^(2*a4[x4])"
+		},
+		{
+			"a":"x8",
+			"b":"x7",
+			"c":"x7",
+			"value":"(H*b4[x4]*Sec[6*H*x8]*Sin[6*H*x8]^(4\/3))\/E^(2*a4[x4])"
+		},
+		{
+			"a":"x8",
+			"b":"x8",
+			"c":"x8",
+			"value":"-12*H*Csc[12*H*x8]"
+		}
+	],
+	"riemannMixedNonzeroCount":156,
+	"riemannMixedNonzero":[
+		{
+			"index":[
+				"x1",
+				"x2",
+				"x1",
+				"x2"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x1",
+				"x2",
+				"x2",
+				"x1"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x1",
+				"x3",
+				"x1",
+				"x3"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x1",
+				"x3",
+				"x3",
+				"x1"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x1",
+				"x4",
+				"x1",
+				"x4"
+			],
+			"value":"Derivative[1][a4][x4]^2 + Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x1",
+				"x4",
+				"x1",
+				"x8"
+			],
+			"value":"H*Cot[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x1",
+				"x4",
+				"x4",
+				"x1"
+			],
+			"value":"-Derivative[1][a4][x4]^2 - Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x1",
+				"x4",
+				"x8",
+				"x1"
+			],
+			"value":"-(H*Cot[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x1",
+				"x5",
+				"x1",
+				"x5"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x1",
+				"x5",
+				"x5",
+				"x1"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x1",
+				"x6",
+				"x1",
+				"x6"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x1",
+				"x6",
+				"x6",
+				"x1"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x1",
+				"x7",
+				"x1",
+				"x7"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x1",
+				"x7",
+				"x7",
+				"x1"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x1",
+				"x8",
+				"x1",
+				"x4"
+			],
+			"value":"-(H*Tan[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x1",
+				"x8",
+				"x1",
+				"x8"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x1",
+				"x8",
+				"x4",
+				"x1"
+			],
+			"value":"H*Tan[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x1",
+				"x8",
+				"x8",
+				"x1"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x2",
+				"x1",
+				"x1",
+				"x2"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x2",
+				"x1",
+				"x2",
+				"x1"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x2",
+				"x3",
+				"x2",
+				"x3"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x2",
+				"x3",
+				"x3",
+				"x2"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x2",
+				"x4",
+				"x2",
+				"x4"
+			],
+			"value":"Derivative[1][a4][x4]^2 + Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x2",
+				"x4",
+				"x2",
+				"x8"
+			],
+			"value":"H*Cot[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x2",
+				"x4",
+				"x4",
+				"x2"
+			],
+			"value":"-Derivative[1][a4][x4]^2 - Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x2",
+				"x4",
+				"x8",
+				"x2"
+			],
+			"value":"-(H*Cot[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x2",
+				"x5",
+				"x2",
+				"x5"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x2",
+				"x5",
+				"x5",
+				"x2"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x2",
+				"x6",
+				"x2",
+				"x6"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x2",
+				"x6",
+				"x6",
+				"x2"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x2",
+				"x7",
+				"x2",
+				"x7"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x2",
+				"x7",
+				"x7",
+				"x2"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x2",
+				"x8",
+				"x2",
+				"x4"
+			],
+			"value":"-(H*Tan[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x2",
+				"x8",
+				"x2",
+				"x8"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x2",
+				"x8",
+				"x4",
+				"x2"
+			],
+			"value":"H*Tan[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x2",
+				"x8",
+				"x8",
+				"x2"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x3",
+				"x1",
+				"x1",
+				"x3"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x3",
+				"x1",
+				"x3",
+				"x1"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x3",
+				"x2",
+				"x2",
+				"x3"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x3",
+				"x2",
+				"x3",
+				"x2"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2"
+		},
+		{
+			"index":[
+				"x3",
+				"x4",
+				"x3",
+				"x4"
+			],
+			"value":"Derivative[1][a4][x4]^2 + Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x3",
+				"x4",
+				"x3",
+				"x8"
+			],
+			"value":"H*Cot[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x3",
+				"x4",
+				"x4",
+				"x3"
+			],
+			"value":"-Derivative[1][a4][x4]^2 - Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x3",
+				"x4",
+				"x8",
+				"x3"
+			],
+			"value":"-(H*Cot[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x3",
+				"x5",
+				"x3",
+				"x5"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x3",
+				"x5",
+				"x5",
+				"x3"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x3",
+				"x6",
+				"x3",
+				"x6"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x3",
+				"x6",
+				"x6",
+				"x3"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x3",
+				"x7",
+				"x3",
+				"x7"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x3",
+				"x7",
+				"x7",
+				"x3"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x3",
+				"x8",
+				"x3",
+				"x4"
+			],
+			"value":"-(H*Tan[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x3",
+				"x8",
+				"x3",
+				"x8"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x3",
+				"x8",
+				"x4",
+				"x3"
+			],
+			"value":"H*Tan[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x3",
+				"x8",
+				"x8",
+				"x3"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x4",
+				"x1",
+				"x1",
+				"x4"
+			],
+			"value":"-Derivative[1][a4][x4]^2 - Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x1",
+				"x1",
+				"x8"
+			],
+			"value":"-(H*Cot[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x1",
+				"x4",
+				"x1"
+			],
+			"value":"Derivative[1][a4][x4]^2 + Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x1",
+				"x8",
+				"x1"
+			],
+			"value":"H*Cot[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x2",
+				"x2",
+				"x4"
+			],
+			"value":"-Derivative[1][a4][x4]^2 - Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x2",
+				"x2",
+				"x8"
+			],
+			"value":"-(H*Cot[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x2",
+				"x4",
+				"x2"
+			],
+			"value":"Derivative[1][a4][x4]^2 + Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x2",
+				"x8",
+				"x2"
+			],
+			"value":"H*Cot[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x3",
+				"x3",
+				"x4"
+			],
+			"value":"-Derivative[1][a4][x4]^2 - Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x3",
+				"x3",
+				"x8"
+			],
+			"value":"-(H*Cot[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x3",
+				"x4",
+				"x3"
+			],
+			"value":"Derivative[1][a4][x4]^2 + Derivative[2][a4][x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x3",
+				"x8",
+				"x3"
+			],
+			"value":"H*Cot[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x5",
+				"x4",
+				"x5"
+			],
+			"value":"Derivative[1][a4][x4]^2 - Derivative[1][b4][x4]^2\/(4*b4[x4]^2) - Derivative[2][a4][x4] + (-2*Derivative[1][a4][x4]*Derivative[1][b4][x4] + Derivative[2][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x5",
+				"x5",
+				"x4"
+			],
+			"value":"-Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) + Derivative[2][a4][x4] - Derivative[2][b4][x4]\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x5",
+				"x5",
+				"x8"
+			],
+			"value":"(H*Cot[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x5",
+				"x8",
+				"x5"
+			],
+			"value":"-1\/2*(H*Cot[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/b4[x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x6",
+				"x4",
+				"x6"
+			],
+			"value":"Derivative[1][a4][x4]^2 - Derivative[1][b4][x4]^2\/(4*b4[x4]^2) - Derivative[2][a4][x4] + (-2*Derivative[1][a4][x4]*Derivative[1][b4][x4] + Derivative[2][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x6",
+				"x6",
+				"x4"
+			],
+			"value":"-Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) + Derivative[2][a4][x4] - Derivative[2][b4][x4]\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x6",
+				"x6",
+				"x8"
+			],
+			"value":"(H*Cot[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x6",
+				"x8",
+				"x6"
+			],
+			"value":"-1\/2*(H*Cot[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/b4[x4]"
+		},
+		{
+			"index":[
+				"x4",
+				"x7",
+				"x4",
+				"x7"
+			],
+			"value":"Derivative[1][a4][x4]^2 - Derivative[1][b4][x4]^2\/(4*b4[x4]^2) - Derivative[2][a4][x4] + (-2*Derivative[1][a4][x4]*Derivative[1][b4][x4] + Derivative[2][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x7",
+				"x7",
+				"x4"
+			],
+			"value":"-Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) + Derivative[2][a4][x4] - Derivative[2][b4][x4]\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x7",
+				"x7",
+				"x8"
+			],
+			"value":"(H*Cot[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x4",
+				"x7",
+				"x8",
+				"x7"
+			],
+			"value":"-1\/2*(H*Cot[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/b4[x4]"
+		},
+		{
+			"index":[
+				"x5",
+				"x1",
+				"x1",
+				"x5"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x5",
+				"x1",
+				"x5",
+				"x1"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x5",
+				"x2",
+				"x2",
+				"x5"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x5",
+				"x2",
+				"x5",
+				"x2"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x5",
+				"x3",
+				"x3",
+				"x5"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x5",
+				"x3",
+				"x5",
+				"x3"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x5",
+				"x4",
+				"x4",
+				"x5"
+			],
+			"value":"-Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) + Derivative[2][a4][x4] - Derivative[2][b4][x4]\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x5",
+				"x4",
+				"x5",
+				"x4"
+			],
+			"value":"Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] - (Derivative[1][b4][x4]^2 + 4*b4[x4]^2*Derivative[2][a4][x4] - 2*b4[x4]*Derivative[2][b4][x4])\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x5",
+				"x4",
+				"x5",
+				"x8"
+			],
+			"value":"H*Cot[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4]))"
+		},
+		{
+			"index":[
+				"x5",
+				"x4",
+				"x8",
+				"x5"
+			],
+			"value":"-(H*Cot[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4])))"
+		},
+		{
+			"index":[
+				"x5",
+				"x6",
+				"x5",
+				"x6"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x5",
+				"x6",
+				"x6",
+				"x5"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] - Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x5",
+				"x7",
+				"x5",
+				"x7"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x5",
+				"x7",
+				"x7",
+				"x5"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] - Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x5",
+				"x8",
+				"x4",
+				"x5"
+			],
+			"value":"H*Tan[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4]))"
+		},
+		{
+			"index":[
+				"x5",
+				"x8",
+				"x5",
+				"x4"
+			],
+			"value":"-(H*Tan[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4])))"
+		},
+		{
+			"index":[
+				"x5",
+				"x8",
+				"x5",
+				"x8"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x5",
+				"x8",
+				"x8",
+				"x5"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x6",
+				"x1",
+				"x1",
+				"x6"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x6",
+				"x1",
+				"x6",
+				"x1"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x6",
+				"x2",
+				"x2",
+				"x6"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x6",
+				"x2",
+				"x6",
+				"x2"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x6",
+				"x3",
+				"x3",
+				"x6"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x6",
+				"x3",
+				"x6",
+				"x3"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x6",
+				"x4",
+				"x4",
+				"x6"
+			],
+			"value":"-Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) + Derivative[2][a4][x4] - Derivative[2][b4][x4]\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x6",
+				"x4",
+				"x6",
+				"x4"
+			],
+			"value":"Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] - (Derivative[1][b4][x4]^2 + 4*b4[x4]^2*Derivative[2][a4][x4] - 2*b4[x4]*Derivative[2][b4][x4])\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x6",
+				"x4",
+				"x6",
+				"x8"
+			],
+			"value":"H*Cot[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4]))"
+		},
+		{
+			"index":[
+				"x6",
+				"x4",
+				"x8",
+				"x6"
+			],
+			"value":"-(H*Cot[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4])))"
+		},
+		{
+			"index":[
+				"x6",
+				"x5",
+				"x5",
+				"x6"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] - Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x6",
+				"x5",
+				"x6",
+				"x5"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x6",
+				"x7",
+				"x6",
+				"x7"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x6",
+				"x7",
+				"x7",
+				"x6"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] - Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x6",
+				"x8",
+				"x4",
+				"x6"
+			],
+			"value":"H*Tan[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4]))"
+		},
+		{
+			"index":[
+				"x6",
+				"x8",
+				"x6",
+				"x4"
+			],
+			"value":"-(H*Tan[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4])))"
+		},
+		{
+			"index":[
+				"x6",
+				"x8",
+				"x6",
+				"x8"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x6",
+				"x8",
+				"x8",
+				"x6"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x7",
+				"x1",
+				"x1",
+				"x7"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x7",
+				"x1",
+				"x7",
+				"x1"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x7",
+				"x2",
+				"x2",
+				"x7"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x7",
+				"x2",
+				"x7",
+				"x2"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x7",
+				"x3",
+				"x3",
+				"x7"
+			],
+			"value":"H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x7",
+				"x3",
+				"x7",
+				"x3"
+			],
+			"value":"-H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x7",
+				"x4",
+				"x4",
+				"x7"
+			],
+			"value":"-Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) + Derivative[2][a4][x4] - Derivative[2][b4][x4]\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x7",
+				"x4",
+				"x7",
+				"x4"
+			],
+			"value":"Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] - (Derivative[1][b4][x4]^2 + 4*b4[x4]^2*Derivative[2][a4][x4] - 2*b4[x4]*Derivative[2][b4][x4])\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x7",
+				"x4",
+				"x7",
+				"x8"
+			],
+			"value":"H*Cot[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4]))"
+		},
+		{
+			"index":[
+				"x7",
+				"x4",
+				"x8",
+				"x7"
+			],
+			"value":"-(H*Cot[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4])))"
+		},
+		{
+			"index":[
+				"x7",
+				"x5",
+				"x5",
+				"x7"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] - Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x7",
+				"x5",
+				"x7",
+				"x5"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x7",
+				"x6",
+				"x6",
+				"x7"
+			],
+			"value":"H^2 - Derivative[1][a4][x4]^2 + (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] - Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x7",
+				"x6",
+				"x7",
+				"x6"
+			],
+			"value":"-H^2 + Derivative[1][a4][x4]^2 - (Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[1][b4][x4]^2\/(4*b4[x4]^2)"
+		},
+		{
+			"index":[
+				"x7",
+				"x8",
+				"x4",
+				"x7"
+			],
+			"value":"H*Tan[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4]))"
+		},
+		{
+			"index":[
+				"x7",
+				"x8",
+				"x7",
+				"x4"
+			],
+			"value":"-(H*Tan[6*H*x8]*(-Derivative[1][a4][x4] + Derivative[1][b4][x4]\/(2*b4[x4])))"
+		},
+		{
+			"index":[
+				"x7",
+				"x8",
+				"x7",
+				"x8"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x7",
+				"x8",
+				"x8",
+				"x7"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x1",
+				"x1",
+				"x4"
+			],
+			"value":"H*Tan[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x8",
+				"x1",
+				"x1",
+				"x8"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x1",
+				"x4",
+				"x1"
+			],
+			"value":"-(H*Tan[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x8",
+				"x1",
+				"x8",
+				"x1"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x2",
+				"x2",
+				"x4"
+			],
+			"value":"H*Tan[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x8",
+				"x2",
+				"x2",
+				"x8"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x2",
+				"x4",
+				"x2"
+			],
+			"value":"-(H*Tan[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x8",
+				"x2",
+				"x8",
+				"x2"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x3",
+				"x3",
+				"x4"
+			],
+			"value":"H*Tan[6*H*x8]*Derivative[1][a4][x4]"
+		},
+		{
+			"index":[
+				"x8",
+				"x3",
+				"x3",
+				"x8"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x3",
+				"x4",
+				"x3"
+			],
+			"value":"-(H*Tan[6*H*x8]*Derivative[1][a4][x4])"
+		},
+		{
+			"index":[
+				"x8",
+				"x3",
+				"x8",
+				"x3"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x5",
+				"x4",
+				"x5"
+			],
+			"value":"(H*Tan[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x8",
+				"x5",
+				"x5",
+				"x4"
+			],
+			"value":"-1\/2*(H*Tan[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/b4[x4]"
+		},
+		{
+			"index":[
+				"x8",
+				"x5",
+				"x5",
+				"x8"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x5",
+				"x8",
+				"x5"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x6",
+				"x4",
+				"x6"
+			],
+			"value":"(H*Tan[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x8",
+				"x6",
+				"x6",
+				"x4"
+			],
+			"value":"-1\/2*(H*Tan[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/b4[x4]"
+		},
+		{
+			"index":[
+				"x8",
+				"x6",
+				"x6",
+				"x8"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x6",
+				"x8",
+				"x6"
+			],
+			"value":"-H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x7",
+				"x4",
+				"x7"
+			],
+			"value":"(H*Tan[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/(2*b4[x4])"
+		},
+		{
+			"index":[
+				"x8",
+				"x7",
+				"x7",
+				"x4"
+			],
+			"value":"-1\/2*(H*Tan[6*H*x8]*(2*b4[x4]*Derivative[1][a4][x4] - Derivative[1][b4][x4]))\/b4[x4]"
+		},
+		{
+			"index":[
+				"x8",
+				"x7",
+				"x7",
+				"x8"
+			],
+			"value":"H^2"
+		},
+		{
+			"index":[
+				"x8",
+				"x7",
+				"x8",
+				"x7"
+			],
+			"value":"-H^2"
+		}
+	],
+	"ricciMixed":{
+		"x1,x1":"-6*H^2 + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4]) + Derivative[2][a4][x4]",
+		"x2,x2":"-6*H^2 + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4]) + Derivative[2][a4][x4]",
+		"x3,x3":"-6*H^2 + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4]) + Derivative[2][a4][x4]",
+		"x4,x4":"6*Derivative[1][a4][x4]^2 - (3*Derivative[1][b4][x4]^2)\/(4*b4[x4]^2) + (3*(-2*Derivative[1][a4][x4]*Derivative[1][b4][x4] + Derivative[2][b4][x4]))\/(2*b4[x4])",
+		"x4,x8":"(3*H*Cot[6*H*x8]*Derivative[1][b4][x4])\/(2*b4[x4])",
+		"x5,x5":"(Derivative[1][b4][x4]^2 - 4*b4[x4]^2*(6*H^2 + Derivative[2][a4][x4]) + b4[x4]*(-6*Derivative[1][a4][x4]*Derivative[1][b4][x4] + 2*Derivative[2][b4][x4]))\/(4*b4[x4]^2)",
+		"x6,x6":"(Derivative[1][b4][x4]^2 - 4*b4[x4]^2*(6*H^2 + Derivative[2][a4][x4]) + b4[x4]*(-6*Derivative[1][a4][x4]*Derivative[1][b4][x4] + 2*Derivative[2][b4][x4]))\/(4*b4[x4]^2)",
+		"x7,x7":"(Derivative[1][b4][x4]^2 - 4*b4[x4]^2*(6*H^2 + Derivative[2][a4][x4]) + b4[x4]*(-6*Derivative[1][a4][x4]*Derivative[1][b4][x4] + 2*Derivative[2][b4][x4]))\/(4*b4[x4]^2)",
+		"x8,x4":"(-3*H*Tan[6*H*x8]*Derivative[1][b4][x4])\/(2*b4[x4])",
+		"x8,x8":"-6*H^2"
+	},
+	"ricciScalar":"(6*b4[x4]*(-7*H^2 + Derivative[1][a4][x4]^2) - 3*Derivative[1][a4][x4]*Derivative[1][b4][x4] + 3*Derivative[2][b4][x4])\/b4[x4]",
+	"einsteinMixed":{
+		"x1,x1":"15*H^2 - 3*Derivative[1][a4][x4]^2 + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[2][a4][x4] - (3*Derivative[2][b4][x4])\/(2*b4[x4])",
+		"x2,x2":"15*H^2 - 3*Derivative[1][a4][x4]^2 + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[2][a4][x4] - (3*Derivative[2][b4][x4])\/(2*b4[x4])",
+		"x3,x3":"15*H^2 - 3*Derivative[1][a4][x4]^2 + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[2][a4][x4] - (3*Derivative[2][b4][x4])\/(2*b4[x4])",
+		"x4,x4":"21*H^2 + 3*Derivative[1][a4][x4]^2 - (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4]) - (3*Derivative[1][b4][x4]^2)\/(4*b4[x4]^2)",
+		"x4,x8":"(3*H*Cot[6*H*x8]*Derivative[1][b4][x4])\/(2*b4[x4])",
+		"x5,x5":"15*H^2 - 3*Derivative[1][a4][x4]^2 + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) - Derivative[2][a4][x4] - Derivative[2][b4][x4]\/b4[x4]",
+		"x6,x6":"15*H^2 - 3*Derivative[1][a4][x4]^2 + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) - Derivative[2][a4][x4] - Derivative[2][b4][x4]\/b4[x4]",
+		"x7,x7":"15*H^2 - 3*Derivative[1][a4][x4]^2 + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) - Derivative[2][a4][x4] - Derivative[2][b4][x4]\/b4[x4]",
+		"x8,x4":"(-3*H*Tan[6*H*x8]*Derivative[1][b4][x4])\/(2*b4[x4])",
+		"x8,x8":"(3*(2*b4[x4]*(5*H^2 - Derivative[1][a4][x4]^2) + Derivative[1][a4][x4]*Derivative[1][b4][x4] - Derivative[2][b4][x4]))\/(2*b4[x4])"
+	},
+	"lovelockNormalisation":"E_(k)^h_j = -P_(k)^h_j \/ 2^(k+1), P_(k)^h_j = kdelta[{j,j1..j2k},{h,h1..h2k}] R^{j1j2}_{h1h2} ...; E_(1) = G",
+	"E1Mixed":{
+		"x1,x1":"15*H^2 - 3*Derivative[1][a4][x4]^2 + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[2][a4][x4] - (3*Derivative[2][b4][x4])\/(2*b4[x4])",
+		"x2,x2":"15*H^2 - 3*Derivative[1][a4][x4]^2 + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[2][a4][x4] - (3*Derivative[2][b4][x4])\/(2*b4[x4])",
+		"x3,x3":"15*H^2 - 3*Derivative[1][a4][x4]^2 + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/b4[x4] + Derivative[2][a4][x4] - (3*Derivative[2][b4][x4])\/(2*b4[x4])",
+		"x4,x4":"21*H^2 + 3*Derivative[1][a4][x4]^2 - (3*Derivative[1][a4][x4]*Derivative[1][b4][x4])\/(2*b4[x4]) - (3*Derivative[1][b4][x4]^2)\/(4*b4[x4]^2)",
+		"x4,x8":"(3*H*Cot[6*H*x8]*Derivative[1][b4][x4])\/(2*b4[x4])",
+		"x5,x5":"15*H^2 - 3*Derivative[1][a4][x4]^2 + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) - Derivative[2][a4][x4] - Derivative[2][b4][x4]\/b4[x4]",
+		"x6,x6":"15*H^2 - 3*Derivative[1][a4][x4]^2 + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) - Derivative[2][a4][x4] - Derivative[2][b4][x4]\/b4[x4]",
+		"x7,x7":"15*H^2 - 3*Derivative[1][a4][x4]^2 + Derivative[1][b4][x4]^2\/(4*b4[x4]^2) - Derivative[2][a4][x4] - Derivative[2][b4][x4]\/b4[x4]",
+		"x8,x4":"(-3*H*Tan[6*H*x8]*Derivative[1][b4][x4])\/(2*b4[x4])",
+		"x8,x8":"(3*(2*b4[x4]*(5*H^2 - Derivative[1][a4][x4]^2) + Derivative[1][a4][x4]*Derivative[1][b4][x4] - Derivative[2][b4][x4]))\/(2*b4[x4])"
+	},
+	"E2Mixed":{
+		"x1,x1":"(3*Derivative[1][b4][x4]^4)\/(4*b4[x4]^4) - 4*(-3*Derivative[1][a4][x4]^4 + 6*Derivative[1][a4][x4]^2*(-7*H^2 + Derivative[2][a4][x4]) + 5*H^2*(9*H^2 + 2*Derivative[2][a4][x4])) + (3*Derivative[1][b4][x4]^2*(2*Derivative[1][a4][x4]*Derivative[1][b4][x4] - Derivative[2][b4][x4]))\/(2*b4[x4]^3) - (3*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(6*H^2 - 2*Derivative[1][a4][x4]^2 + Derivative[2][a4][x4]) + 2*Derivative[1][a4][x4]*Derivative[2][b4][x4]))\/b4[x4]^2 - (12*(2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4] + 2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(5*H^2 - Derivative[2][a4][x4]) - 5*H^2*Derivative[2][b4][x4] - Derivative[1][a4][x4]^2*Derivative[2][b4][x4]))\/b4[x4]",
+		"x2,x2":"(3*Derivative[1][b4][x4]^4)\/(4*b4[x4]^4) - 4*(-3*Derivative[1][a4][x4]^4 + 6*Derivative[1][a4][x4]^2*(-7*H^2 + Derivative[2][a4][x4]) + 5*H^2*(9*H^2 + 2*Derivative[2][a4][x4])) + (3*Derivative[1][b4][x4]^2*(2*Derivative[1][a4][x4]*Derivative[1][b4][x4] - Derivative[2][b4][x4]))\/(2*b4[x4]^3) - (3*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(6*H^2 - 2*Derivative[1][a4][x4]^2 + Derivative[2][a4][x4]) + 2*Derivative[1][a4][x4]*Derivative[2][b4][x4]))\/b4[x4]^2 - (12*(2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4] + 2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(5*H^2 - Derivative[2][a4][x4]) - 5*H^2*Derivative[2][b4][x4] - Derivative[1][a4][x4]^2*Derivative[2][b4][x4]))\/b4[x4]",
+		"x3,x3":"(3*Derivative[1][b4][x4]^4)\/(4*b4[x4]^4) - 4*(-3*Derivative[1][a4][x4]^4 + 6*Derivative[1][a4][x4]^2*(-7*H^2 + Derivative[2][a4][x4]) + 5*H^2*(9*H^2 + 2*Derivative[2][a4][x4])) + (3*Derivative[1][b4][x4]^2*(2*Derivative[1][a4][x4]*Derivative[1][b4][x4] - Derivative[2][b4][x4]))\/(2*b4[x4]^3) - (3*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(6*H^2 - 2*Derivative[1][a4][x4]^2 + Derivative[2][a4][x4]) + 2*Derivative[1][a4][x4]*Derivative[2][b4][x4]))\/b4[x4]^2 - (12*(2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4] + 2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(5*H^2 - Derivative[2][a4][x4]) - 5*H^2*Derivative[2][b4][x4] - Derivative[1][a4][x4]^2*Derivative[2][b4][x4]))\/b4[x4]",
+		"x4,x4":"-12*(35*H^4 + 10*H^2*Derivative[1][a4][x4]^2 + 3*Derivative[1][a4][x4]^4) + (12*Derivative[1][a4][x4]*(5*H^2 + 3*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4])\/b4[x4] + (30*H^2*Derivative[1][b4][x4]^2)\/b4[x4]^2 - (9*Derivative[1][a4][x4]*Derivative[1][b4][x4]^3)\/(2*b4[x4]^3)",
+		"x4,x8":"(3*H*Cot[6*H*x8]*Derivative[1][b4][x4]*(-8*b4[x4]^2*(5*H^2 + 3*Derivative[1][a4][x4]^2) + 12*b4[x4]*Derivative[1][a4][x4]*Derivative[1][b4][x4] + Derivative[1][b4][x4]^2))\/(2*b4[x4]^3)",
+		"x5,x5":"-180*H^4 + 12*Derivative[1][a4][x4]^4 + 40*H^2*Derivative[2][a4][x4] + 24*Derivative[1][a4][x4]^2*(7*H^2 + Derivative[2][a4][x4]) - (Derivative[1][b4][x4]^2*(16*H^2 + 3*Derivative[2][a4][x4]))\/b4[x4]^2 + (40*H^2*Derivative[2][b4][x4])\/b4[x4] + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(-16*H^2*b4[x4]^2 + Derivative[1][b4][x4]^2 - 2*b4[x4]*Derivative[2][b4][x4]))\/b4[x4]^3",
+		"x6,x6":"-180*H^4 + 12*Derivative[1][a4][x4]^4 + 40*H^2*Derivative[2][a4][x4] + 24*Derivative[1][a4][x4]^2*(7*H^2 + Derivative[2][a4][x4]) - (Derivative[1][b4][x4]^2*(16*H^2 + 3*Derivative[2][a4][x4]))\/b4[x4]^2 + (40*H^2*Derivative[2][b4][x4])\/b4[x4] + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(-16*H^2*b4[x4]^2 + Derivative[1][b4][x4]^2 - 2*b4[x4]*Derivative[2][b4][x4]))\/b4[x4]^3",
+		"x7,x7":"-180*H^4 + 12*Derivative[1][a4][x4]^4 + 40*H^2*Derivative[2][a4][x4] + 24*Derivative[1][a4][x4]^2*(7*H^2 + Derivative[2][a4][x4]) - (Derivative[1][b4][x4]^2*(16*H^2 + 3*Derivative[2][a4][x4]))\/b4[x4]^2 + (40*H^2*Derivative[2][b4][x4])\/b4[x4] + (3*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(-16*H^2*b4[x4]^2 + Derivative[1][b4][x4]^2 - 2*b4[x4]*Derivative[2][b4][x4]))\/b4[x4]^3",
+		"x8,x4":"(3*H*Tan[6*H*x8]*Derivative[1][b4][x4]*(8*b4[x4]^2*(5*H^2 + 3*Derivative[1][a4][x4]^2) - 12*b4[x4]*Derivative[1][a4][x4]*Derivative[1][b4][x4] - Derivative[1][b4][x4]^2))\/(2*b4[x4]^3)",
+		"x8,x8":"(-3*(16*b4[x4]^4*(15*H^4 - 14*H^2*Derivative[1][a4][x4]^2 - Derivative[1][a4][x4]^4) - Derivative[1][b4][x4]^4 + 2*b4[x4]*Derivative[1][b4][x4]^2*(-3*Derivative[1][a4][x4]*Derivative[1][b4][x4] + Derivative[2][b4][x4]) + 8*b4[x4]^2*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(2*H^2 - Derivative[1][a4][x4]^2 + Derivative[2][a4][x4]) + 2*Derivative[1][a4][x4]*Derivative[2][b4][x4]) + 16*b4[x4]^3*(Derivative[1][a4][x4]^3*Derivative[1][b4][x4] + Derivative[1][a4][x4]*Derivative[1][b4][x4]*(7*H^2 - 2*Derivative[2][a4][x4]) - 5*H^2*Derivative[2][b4][x4] - Derivative[1][a4][x4]^2*Derivative[2][b4][x4])))\/(4*b4[x4]^4)"
+	},
+	"E3Mixed":{
+		"x1,x1":"(9*(3*(-H^2 + Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^4 + 16*b4[x4]^4*(-Derivative[1][a4][x4]^6 + 5*H^4*(H^2 + Derivative[2][a4][x4]) + Derivative[1][a4][x4]^4*(-9*H^2 + 5*Derivative[2][a4][x4]) + Derivative[1][a4][x4]^2*(-27*H^4 + 6*H^2*Derivative[2][a4][x4])) - 2*b4[x4]*Derivative[1][b4][x4]^2*(2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4] + 2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(9*H^2 + Derivative[2][a4][x4]) - 3*H^2*Derivative[2][b4][x4] + 3*Derivative[1][a4][x4]^2*Derivative[2][b4][x4]) + 24*b4[x4]^3*(2*Derivative[1][a4][x4]^5*Derivative[1][b4][x4] + 2*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(5*H^2 - 2*Derivative[2][a4][x4]) + 4*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*(H^2 - Derivative[2][a4][x4]) - 5*H^4*Derivative[2][b4][x4] - 2*H^2*Derivative[1][a4][x4]^2*Derivative[2][b4][x4] - Derivative[1][a4][x4]^4*Derivative[2][b4][x4]) + 12*b4[x4]^2*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(-2*Derivative[1][a4][x4]^4 + H^2*(6*H^2 + Derivative[2][a4][x4]) + Derivative[1][a4][x4]^2*(4*H^2 + 3*Derivative[2][a4][x4])) + 2*Derivative[1][a4][x4]*(H^2 + Derivative[1][a4][x4]^2)*Derivative[2][b4][x4])))\/(2*b4[x4]^4)",
+		"x2,x2":"(9*(3*(-H^2 + Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^4 + 16*b4[x4]^4*(-Derivative[1][a4][x4]^6 + 5*H^4*(H^2 + Derivative[2][a4][x4]) + Derivative[1][a4][x4]^4*(-9*H^2 + 5*Derivative[2][a4][x4]) + Derivative[1][a4][x4]^2*(-27*H^4 + 6*H^2*Derivative[2][a4][x4])) - 2*b4[x4]*Derivative[1][b4][x4]^2*(2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4] + 2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(9*H^2 + Derivative[2][a4][x4]) - 3*H^2*Derivative[2][b4][x4] + 3*Derivative[1][a4][x4]^2*Derivative[2][b4][x4]) + 24*b4[x4]^3*(2*Derivative[1][a4][x4]^5*Derivative[1][b4][x4] + 2*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(5*H^2 - 2*Derivative[2][a4][x4]) + 4*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*(H^2 - Derivative[2][a4][x4]) - 5*H^4*Derivative[2][b4][x4] - 2*H^2*Derivative[1][a4][x4]^2*Derivative[2][b4][x4] - Derivative[1][a4][x4]^4*Derivative[2][b4][x4]) + 12*b4[x4]^2*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(-2*Derivative[1][a4][x4]^4 + H^2*(6*H^2 + Derivative[2][a4][x4]) + Derivative[1][a4][x4]^2*(4*H^2 + 3*Derivative[2][a4][x4])) + 2*Derivative[1][a4][x4]*(H^2 + Derivative[1][a4][x4]^2)*Derivative[2][b4][x4])))\/(2*b4[x4]^4)",
+		"x3,x3":"(9*(3*(-H^2 + Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^4 + 16*b4[x4]^4*(-Derivative[1][a4][x4]^6 + 5*H^4*(H^2 + Derivative[2][a4][x4]) + Derivative[1][a4][x4]^4*(-9*H^2 + 5*Derivative[2][a4][x4]) + Derivative[1][a4][x4]^2*(-27*H^4 + 6*H^2*Derivative[2][a4][x4])) - 2*b4[x4]*Derivative[1][b4][x4]^2*(2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4] + 2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(9*H^2 + Derivative[2][a4][x4]) - 3*H^2*Derivative[2][b4][x4] + 3*Derivative[1][a4][x4]^2*Derivative[2][b4][x4]) + 24*b4[x4]^3*(2*Derivative[1][a4][x4]^5*Derivative[1][b4][x4] + 2*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(5*H^2 - 2*Derivative[2][a4][x4]) + 4*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*(H^2 - Derivative[2][a4][x4]) - 5*H^4*Derivative[2][b4][x4] - 2*H^2*Derivative[1][a4][x4]^2*Derivative[2][b4][x4] - Derivative[1][a4][x4]^4*Derivative[2][b4][x4]) + 12*b4[x4]^2*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(-2*Derivative[1][a4][x4]^4 + H^2*(6*H^2 + Derivative[2][a4][x4]) + Derivative[1][a4][x4]^2*(4*H^2 + 3*Derivative[2][a4][x4])) + 2*Derivative[1][a4][x4]*(H^2 + Derivative[1][a4][x4]^2)*Derivative[2][b4][x4])))\/(2*b4[x4]^4)",
+		"x4,x4":"(9*(8*b4[x4]^3*(35*H^6 + 15*H^4*Derivative[1][a4][x4]^2 + 9*H^2*Derivative[1][a4][x4]^4 + 5*Derivative[1][a4][x4]^6) - 12*b4[x4]^2*Derivative[1][a4][x4]*(5*H^4 + 6*H^2*Derivative[1][a4][x4]^2 + 5*Derivative[1][a4][x4]^4)*Derivative[1][b4][x4] - 30*b4[x4]*(H^4 - Derivative[1][a4][x4]^4)*Derivative[1][b4][x4]^2 + Derivative[1][a4][x4]*(9*H^2 - 5*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^3))\/b4[x4]^3",
+		"x4,x8":"(27*H*Cot[6*H*x8]*Derivative[1][b4][x4]*(4*b4[x4]^2*(5*H^4 + 6*H^2*Derivative[1][a4][x4]^2 + 5*Derivative[1][a4][x4]^4) - 4*b4[x4]*Derivative[1][a4][x4]*(3*H^2 + 5*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4] - (H^2 - 5*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^2))\/b4[x4]^3",
+		"x5,x5":"(-18*(-(Derivative[1][a4][x4]*(-3*H^2 + Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^3) + 4*b4[x4]^3*(-5*H^6 + Derivative[1][a4][x4]^6 + 5*H^4*Derivative[2][a4][x4] + Derivative[1][a4][x4]^4*(9*H^2 + 5*Derivative[2][a4][x4]) + 3*Derivative[1][a4][x4]^2*(9*H^4 + 2*H^2*Derivative[2][a4][x4])) - 4*b4[x4]^2*(12*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4] + 4*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*(3*H^2 + Derivative[2][a4][x4]) - 5*H^4*Derivative[2][b4][x4] + Derivative[1][a4][x4]^4*Derivative[2][b4][x4]) + b4[x4]*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(-11*H^4 + Derivative[1][a4][x4]^4 - 3*H^2*Derivative[2][a4][x4] + 3*Derivative[1][a4][x4]^2*(6*H^2 + Derivative[2][a4][x4])) + 2*Derivative[1][a4][x4]*(-3*H^2 + Derivative[1][a4][x4]^2)*Derivative[2][b4][x4])))\/b4[x4]^3",
+		"x6,x6":"(-18*(-(Derivative[1][a4][x4]*(-3*H^2 + Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^3) + 4*b4[x4]^3*(-5*H^6 + Derivative[1][a4][x4]^6 + 5*H^4*Derivative[2][a4][x4] + Derivative[1][a4][x4]^4*(9*H^2 + 5*Derivative[2][a4][x4]) + 3*Derivative[1][a4][x4]^2*(9*H^4 + 2*H^2*Derivative[2][a4][x4])) - 4*b4[x4]^2*(12*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4] + 4*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*(3*H^2 + Derivative[2][a4][x4]) - 5*H^4*Derivative[2][b4][x4] + Derivative[1][a4][x4]^4*Derivative[2][b4][x4]) + b4[x4]*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(-11*H^4 + Derivative[1][a4][x4]^4 - 3*H^2*Derivative[2][a4][x4] + 3*Derivative[1][a4][x4]^2*(6*H^2 + Derivative[2][a4][x4])) + 2*Derivative[1][a4][x4]*(-3*H^2 + Derivative[1][a4][x4]^2)*Derivative[2][b4][x4])))\/b4[x4]^3",
+		"x7,x7":"(-18*(-(Derivative[1][a4][x4]*(-3*H^2 + Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^3) + 4*b4[x4]^3*(-5*H^6 + Derivative[1][a4][x4]^6 + 5*H^4*Derivative[2][a4][x4] + Derivative[1][a4][x4]^4*(9*H^2 + 5*Derivative[2][a4][x4]) + 3*Derivative[1][a4][x4]^2*(9*H^4 + 2*H^2*Derivative[2][a4][x4])) - 4*b4[x4]^2*(12*H^4*Derivative[1][a4][x4]*Derivative[1][b4][x4] + 4*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*(3*H^2 + Derivative[2][a4][x4]) - 5*H^4*Derivative[2][b4][x4] + Derivative[1][a4][x4]^4*Derivative[2][b4][x4]) + b4[x4]*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(-11*H^4 + Derivative[1][a4][x4]^4 - 3*H^2*Derivative[2][a4][x4] + 3*Derivative[1][a4][x4]^2*(6*H^2 + Derivative[2][a4][x4])) + 2*Derivative[1][a4][x4]*(-3*H^2 + Derivative[1][a4][x4]^2)*Derivative[2][b4][x4])))\/b4[x4]^3",
+		"x8,x4":"(-27*H*Tan[6*H*x8]*Derivative[1][b4][x4]*(4*b4[x4]^2*(5*H^4 + 6*H^2*Derivative[1][a4][x4]^2 + 5*Derivative[1][a4][x4]^4) - 4*b4[x4]*Derivative[1][a4][x4]*(3*H^2 + 5*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4] - (H^2 - 5*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^2))\/b4[x4]^3",
+		"x8,x8":"(9*(16*b4[x4]^4*(5*H^6 - 27*H^4*Derivative[1][a4][x4]^2 - 9*H^2*Derivative[1][a4][x4]^4 - Derivative[1][a4][x4]^6) - 3*(H^2 - 3*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^4 - 2*b4[x4]*Derivative[1][b4][x4]^2*(5*Derivative[1][a4][x4]^3*Derivative[1][b4][x4] + 3*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(5*H^2 + 2*Derivative[2][a4][x4]) - 3*H^2*Derivative[2][b4][x4] + 9*Derivative[1][a4][x4]^2*Derivative[2][b4][x4]) + 24*b4[x4]^3*(Derivative[1][a4][x4]^5*Derivative[1][b4][x4] + H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(9*H^2 - 4*Derivative[2][a4][x4]) + 2*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*(3*H^2 - 2*Derivative[2][a4][x4]) - 5*H^4*Derivative[2][b4][x4] - 2*H^2*Derivative[1][a4][x4]^2*Derivative[2][b4][x4] - Derivative[1][a4][x4]^4*Derivative[2][b4][x4]) + 24*b4[x4]^2*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(-Derivative[1][a4][x4]^4 - Derivative[1][a4][x4]^2*(H^2 - 3*Derivative[2][a4][x4]) + H^2*(2*H^2 + Derivative[2][a4][x4])) + 2*Derivative[1][a4][x4]*(H^2 + Derivative[1][a4][x4]^2)*Derivative[2][b4][x4])))\/(2*b4[x4]^4)"
+	},
+	"kDeltaCalls":{
+		"k1":5616,
+		"k2":176640,
+		"k3":1128960
+	},
+	"vacuumEquations":"-Lambda delta^h_j + w1 E_(1)^h_j\/H^2 + w2 E_(2)^h_j\/H^4 + w3 E_(3)^h_j\/H^6 = 0 (the author's Out[129])",
+	"vacuumDistinctEntries":[
+		"(3*(H^2*(w2 - 18*w3) + 18*w3*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^4 - 4*b4[x4]^4*(H^6*(Lambda - 15*(w1 - 12*w2 + 24*w3)) + 72*w3*Derivative[1][a4][x4]^6 - H^4*(w1 - 40*(w2 - 9*w3))*Derivative[2][a4][x4] + 3*H^2*Derivative[1][a4][x4]^2*(H^2*(w1 - 56*w2 + 648*w3) + 8*(w2 - 18*w3)*Derivative[2][a4][x4]) - 12*Derivative[1][a4][x4]^4*(H^2*(w2 - 54*w3) + 30*w3*Derivative[2][a4][x4])) + 6*b4[x4]*Derivative[1][b4][x4]^2*(-12*w3*Derivative[1][a4][x4]^3*Derivative[1][b4][x4] + 2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(H^2*(w2 - 54*w3) - 6*w3*Derivative[2][a4][x4]) - H^2*(w2 - 18*w3)*Derivative[2][b4][x4] - 18*w3*Derivative[1][a4][x4]^2*Derivative[2][b4][x4]) + 6*b4[x4]^3*(144*w3*Derivative[1][a4][x4]^5*Derivative[1][b4][x4] + 2*H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(H^2*(w1 - 40*w2 + 360*w3) + 8*(w2 - 18*w3)*Derivative[2][a4][x4]) - 16*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*(H^2*(w2 - 18*w3) + 18*w3*Derivative[2][a4][x4]) - H^4*(w1 - 40*(w2 - 9*w3))*Derivative[2][b4][x4] + 8*H^2*(w2 - 18*w3)*Derivative[1][a4][x4]^2*Derivative[2][b4][x4] - 72*w3*Derivative[1][a4][x4]^4*Derivative[2][b4][x4]) - 12*b4[x4]^2*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(36*w3*Derivative[1][a4][x4]^4 + H^2*(w2 - 18*w3)*(6*H^2 + Derivative[2][a4][x4]) - 2*Derivative[1][a4][x4]^2*(H^2*(w2 + 36*w3) + 27*w3*Derivative[2][a4][x4])) + 2*Derivative[1][a4][x4]*(H^2*(w2 - 18*w3) - 18*w3*Derivative[1][a4][x4]^2)*Derivative[2][b4][x4]))\/(4*H^6*b4[x4]^4)",
+		"-1\/4*(4*b4[x4]^3*(H^6*(Lambda - 21*w1 + 420*(w2 - 6*w3)) - 3*H^4*(w1 - 40*(w2 - 9*w3))*Derivative[1][a4][x4]^2 + 36*H^2*(w2 - 18*w3)*Derivative[1][a4][x4]^4 - 360*w3*Derivative[1][a4][x4]^6) + 6*b4[x4]^2*Derivative[1][a4][x4]*(H^4*(w1 - 40*(w2 - 9*w3)) - 24*H^2*(w2 - 18*w3)*Derivative[1][a4][x4]^2 + 360*w3*Derivative[1][a4][x4]^4)*Derivative[1][b4][x4] + 3*b4[x4]*(H^4*(w1 - 40*(w2 - 9*w3)) - 360*w3*Derivative[1][a4][x4]^4)*Derivative[1][b4][x4]^2 + 18*Derivative[1][a4][x4]*(H^2*(w2 - 18*w3) + 10*w3*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^3)\/(H^6*b4[x4]^3)",
+		"(3*Cot[6*H*x8]*Derivative[1][b4][x4]*(b4[x4]^2*(H^4*(w1 - 40*w2 + 360*w3) - 24*H^2*(w2 - 18*w3)*Derivative[1][a4][x4]^2 + 360*w3*Derivative[1][a4][x4]^4) + 12*b4[x4]*Derivative[1][a4][x4]*(H^2*(w2 - 18*w3) - 30*w3*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4] + (H^2*(w2 - 18*w3) + 90*w3*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^2))\/(2*H^5*b4[x4]^3)",
+		"(12*Derivative[1][a4][x4]*(H^2*(w2 - 18*w3) + 6*w3*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^3 - 4*b4[x4]^3*(H^6*(Lambda - 15*(w1 - 12*w2 + 24*w3)) + 72*w3*Derivative[1][a4][x4]^6 + H^4*(w1 - 40*(w2 - 9*w3))*Derivative[2][a4][x4] + 3*H^2*Derivative[1][a4][x4]^2*(H^2*(w1 - 56*w2 + 648*w3) - 8*(w2 - 18*w3)*Derivative[2][a4][x4]) - 12*Derivative[1][a4][x4]^4*(H^2*(w2 - 54*w3) - 30*w3*Derivative[2][a4][x4])) - 4*b4[x4]^2*(48*H^4*(w2 - 18*w3)*Derivative[1][a4][x4]*Derivative[1][b4][x4] - 288*w3*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*(3*H^2 + Derivative[2][a4][x4]) + H^4*(w1 - 40*w2 + 360*w3)*Derivative[2][b4][x4] - 72*w3*Derivative[1][a4][x4]^4*Derivative[2][b4][x4]) + b4[x4]*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(H^4*(w1 - 64*w2 + 792*w3) - 72*w3*Derivative[1][a4][x4]^4 - 12*H^2*(w2 - 18*w3)*Derivative[2][a4][x4] - 216*w3*Derivative[1][a4][x4]^2*(6*H^2 + Derivative[2][a4][x4])) - 24*Derivative[1][a4][x4]*(H^2*(w2 - 18*w3) + 6*w3*Derivative[1][a4][x4]^2)*Derivative[2][b4][x4]))\/(4*H^6*b4[x4]^3)",
+		"(-3*Tan[6*H*x8]*Derivative[1][b4][x4]*(b4[x4]^2*(H^4*(w1 - 40*w2 + 360*w3) - 24*H^2*(w2 - 18*w3)*Derivative[1][a4][x4]^2 + 360*w3*Derivative[1][a4][x4]^4) + 12*b4[x4]*Derivative[1][a4][x4]*(H^2*(w2 - 18*w3) - 30*w3*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4] + (H^2*(w2 - 18*w3) + 90*w3*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^2))\/(2*H^5*b4[x4]^3)",
+		"(-4*b4[x4]^4*(H^6*(Lambda - 15*(w1 - 12*w2 + 24*w3)) + 3*H^4*(w1 - 56*w2 + 648*w3)*Derivative[1][a4][x4]^2 - 12*H^2*(w2 - 54*w3)*Derivative[1][a4][x4]^4 + 72*w3*Derivative[1][a4][x4]^6) + 3*(H^2*(w2 - 18*w3) + 54*w3*Derivative[1][a4][x4]^2)*Derivative[1][b4][x4]^4 + 6*b4[x4]*Derivative[1][b4][x4]^2*(-30*w3*Derivative[1][a4][x4]^3*Derivative[1][b4][x4] + 3*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(H^2*(w2 - 30*w3) - 12*w3*Derivative[2][a4][x4]) - H^2*(w2 - 18*w3)*Derivative[2][b4][x4] - 54*w3*Derivative[1][a4][x4]^2*Derivative[2][b4][x4]) + 6*b4[x4]^3*(72*w3*Derivative[1][a4][x4]^5*Derivative[1][b4][x4] + H^2*Derivative[1][a4][x4]*Derivative[1][b4][x4]*(H^2*(w1 - 56*w2 + 648*w3) + 16*(w2 - 18*w3)*Derivative[2][a4][x4]) - 8*Derivative[1][a4][x4]^3*Derivative[1][b4][x4]*(H^2*(w2 - 54*w3) + 36*w3*Derivative[2][a4][x4]) - H^4*(w1 - 40*(w2 - 9*w3))*Derivative[2][b4][x4] + 8*H^2*(w2 - 18*w3)*Derivative[1][a4][x4]^2*Derivative[2][b4][x4] - 72*w3*Derivative[1][a4][x4]^4*Derivative[2][b4][x4]) - 24*b4[x4]^2*Derivative[1][b4][x4]*(Derivative[1][b4][x4]*(18*w3*Derivative[1][a4][x4]^4 + H^2*(w2 - 18*w3)*(2*H^2 + Derivative[2][a4][x4]) - Derivative[1][a4][x4]^2*(H^2*(w2 - 18*w3) + 54*w3*Derivative[2][a4][x4])) + 2*Derivative[1][a4][x4]*(H^2*(w2 - 18*w3) - 18*w3*Derivative[1][a4][x4]^2)*Derivative[2][b4][x4]))\/(4*H^6*b4[x4]^4)"
+	],
+	"authorSolution":{
+		"substitution":"b4 = 1, a4 = H x4, w1 = 1, w2 = 1\/32",
+		"reduced":[
+			"12 - Lambda - 2304*w3",
+			"6 - Lambda + 4608*w3"
+		],
+		"solve":"{{w3 -> 1\/1152, Lambda -> 10}}"
+	}
+}

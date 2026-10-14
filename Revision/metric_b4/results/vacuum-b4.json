@@ -1,0 +1,44 @@
+{
+	"program":"Revision\/metric_b4\/wolfram\/vacuum_b4.wls",
+	"weights":"w1 = 1, w2 = 1\/32, w3 = 1\/1152, Lambda = 10 (the author's Out[135])",
+	"variables":"alpha = a4'\/H, beta = b4'\/(H b4), p = a4''\/H^2, q = b4''\/(H^2 b4)",
+	"constraintE44":"(8 + 24*al^2 - 72*al^4 + 40*al^6 - 12*al*be + 72*al^3*be - 60*al^5*be - 6*be^2 + 30*al^4*be^2 - 9*al*be^3 - 5*al^3*be^3)\/128",
+	"offDiagonalQ":"3*(4 - 24*al^2 + 20*al^4 + 12*al*be - 20*al^3*be + be^2 + 5*al^2*be^2)",
+	"isolatedPoints":"{{al -> -1, be -> 0}, {al -> 1, be -> 0}}",
+	"constraintAtBeta0":"8*(-1 + al)^2*(1 + al)^2*(1 + 5*al^2)",
+	"theorem":"Every C^2 solution (a4, b4), b4 > 0, of the author's vacuum Einstein-Lovelock equations (w1 = 1, w2 = 1\/32, w3 = 1\/1152, Lambda = 10) for the metric with b4 has b4 = constant and a4 = +H x4 + const or -H x4 + const; a constant b4 is the rescaling x5,6,7 -> sqrt(b4) x5,6,7, so the vacuum history is the author's solution (b4 = 1, a4 = H x4) or its time reverse.",
+	"checks":[
+		{
+			"name":"V1_time_time_is_constraint",
+			"pass":true,
+			"detail":"E^4_4 = C(alpha, beta) with no second derivative, no x8 and no b4 beyond beta: C = (8 + 24*al^2 - 72*al^4 + 40*al^6 - 12*al*be + 72*al^3*be - 60*al^5*be - 6*be^2 + 30*al^4*be^2 - 9*al*be^3 - 5*al^3*be^3)\/128"
+		},
+		{
+			"name":"V2_off_diagonal_is_beta_Q",
+			"pass":true,
+			"detail":"E^4_8 = Cot[6 H x8] beta Q\/den, E^8_4 = -Tan[6 H x8] beta Q\/den, Q = 3*(4 - 24*al^2 + 20*al^4 + 12*al*be - 20*al^3*be + be^2 + 5*al^2*be^2)"
+		},
+		{
+			"name":"V3a_constraint_and_Q_isolated_points",
+			"pass":true,
+			"detail":"the real solutions of {C = 0, Q = 0} are the points {{al -> -1, be -> 0}, {al -> 1, be -> 0}}"
+		},
+		{
+			"name":"V3b_no_solution_with_beta_nonzero",
+			"pass":true,
+			"detail":"at every point with beta != 0 some equation fails (nonzero residuals): {}"
+		},
+		{
+			"name":"V4_b4_constant_branch",
+			"pass":true,
+			"detail":"with b4' = 0 the constraint is 8*(-1 + al)^2*(1 + al)^2*(1 + 5*al^2) = 0; real roots alpha = {-1, -1, 1, 1}"
+		},
+		{
+			"name":"V5_author_solution_and_time_reverse",
+			"pass":true,
+			"detail":"a4 = +-H x4 + a0, b4 = cB > 0 (any constants) solve all 64 equations with w1 = 1, w2 = 1\/32, w3 = 1\/1152, Lambda = 10"
+		}
+	],
+	"checkCount":6,
+	"failedCount":0
+}

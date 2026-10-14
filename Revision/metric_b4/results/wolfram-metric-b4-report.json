@@ -1,0 +1,139 @@
+{
+	"program":"Revision\/metric_b4\/wolfram\/verify_metric_b4.wls",
+	"checks":[
+		{
+			"name":"metric_equals_author_Out101",
+			"pass":true,
+			"detail":"the metric of MetricB4.wl equals the author's stored MatrixMetric44 (Out[101]) with the author's x0 renamed x8 and listed last"
+		},
+		{
+			"name":"ricci_scalar_equals_author_Out119",
+			"pass":true,
+			"detail":"R = the author's RicciScalarCD (Out[119])"
+		},
+		{
+			"name":"einstein_equals_author_Out120",
+			"pass":true,
+			"detail":"G^h_j = the author's EinsteinCD[-a, b] (Out[120]), all 64 components after the coordinate renaming"
+		},
+		{
+			"name":"ricci_mixed_equals_author_Out124",
+			"pass":true,
+			"detail":"R^h_j = the author's RicciCD[-a, b] (Out[124])"
+		},
+		{
+			"name":"ricci_covariant_equals_author_Out123",
+			"pass":true,
+			"detail":"R_hj = the author's RicciCD[-a, -b] (Out[123])"
+		},
+		{
+			"name":"lovelock1_equals_author_Out126",
+			"pass":true,
+			"detail":"E_(1) = the author's allLovelock1 (Out[126])"
+		},
+		{
+			"name":"lovelock2_equals_author_Out127",
+			"pass":true,
+			"detail":"E_(2) = the author's allLovelock2 (Out[127])"
+		},
+		{
+			"name":"lovelock3_equals_author_Out128",
+			"pass":true,
+			"detail":"E_(3) = the author's allLovelock3 (Out[128])"
+		},
+		{
+			"name":"vacuum_equations_equal_author_Out129",
+			"pass":true,
+			"detail":"-Lambda delta + w1 E_(1)\/H^2 + w2 E_(2)\/H^4 + w3 E_(3)\/H^6 = the author's EinsteinLovelockVacuumFieldEquations (Out[129])"
+		},
+		{
+			"name":"distinct_equations_equal_author_Out132",
+			"pass":true,
+			"detail":"the distinct nonzero entries of the vacuum equations = the author's eqsELei00 (Out[132]): 6 entries"
+		},
+		{
+			"name":"author_solution_equations_Out134",
+			"pass":true,
+			"detail":"with b4 = 1, a4 = H x4, w1 = 1, w2 = 1\/32 the equations reduce to the author's Out[134]: {12 - Lambda - 2304*w3, 6 - Lambda + 4608*w3}"
+		},
+		{
+			"name":"author_solution_Out135",
+			"pass":true,
+			"detail":"Solve gives {{w3 -> 1\/1152, Lambda -> 10}} = the author's Out[135] (w3 = 1\/1152, Lambda = 10)"
+		},
+		{
+			"name":"b4_one_ricci_scalar_equals_record",
+			"pass":true,
+			"detail":"R at b4 = 1 = curvature.json ricciScalar (the record before 2026-10-14)"
+		},
+		{
+			"name":"b4_one_einstein_equals_record",
+			"pass":true,
+			"detail":"G^h_j at b4 = 1 = curvature.json einsteinMixed"
+		},
+		{
+			"name":"b4_one_ricci_equals_record",
+			"pass":true,
+			"detail":"R^h_j at b4 = 1 = curvature.json ricciMixed"
+		},
+		{
+			"name":"b4_one_lovelock1_equals_record",
+			"pass":true,
+			"detail":"E_(1) at b4 = 1 = -P_(1)\/2^2 of lovelock-tensors.json"
+		},
+		{
+			"name":"b4_one_lovelock2_equals_record",
+			"pass":true,
+			"detail":"E_(2) at b4 = 1 = -P_(2)\/2^3 of lovelock-tensors.json"
+		},
+		{
+			"name":"b4_one_lovelock3_equals_record",
+			"pass":true,
+			"detail":"E_(3) at b4 = 1 = -P_(3)\/2^4 of lovelock-tensors.json"
+		},
+		{
+			"name":"lovelock1_divergence_free",
+			"pass":true,
+			"detail":"nabla_h E_(1)^h_j = 0 for every j, general a4 and b4"
+		},
+		{
+			"name":"lovelock2_divergence_free",
+			"pass":true,
+			"detail":"nabla_h E_(2)^h_j = 0 for every j, general a4 and b4"
+		},
+		{
+			"name":"lovelock3_divergence_free",
+			"pass":true,
+			"detail":"nabla_h E_(3)^h_j = 0 for every j, general a4 and b4"
+		},
+		{
+			"name":"sqrt_det_g",
+			"pass":true,
+			"detail":"sqrt|det g| = b4[x4]^(3\/2) Cos[6 H x8] (b4 = 1: Cos[6 H x8] as before; the 7-volume element is no longer constant in x4 unless b4 is)"
+		},
+		{
+			"name":"constant_b4_drops_out",
+			"pass":true,
+			"detail":"a constant b4 = cB > 0 drops out of R, G and E_(2), E_(3) (it is the rescaling x5,6,7 -> sqrt(cB) x5,6,7)"
+		},
+		{
+			"name":"off_diagonal_entries_x4_x8_only",
+			"pass":true,
+			"detail":"the only nonzero off-diagonal entries of E_(1), E_(2), E_(3) are (h, j) = {{4, 8}, {8, 4}}"
+		},
+		{
+			"name":"off_diagonal_proportional_to_b4prime",
+			"pass":true,
+			"detail":"E_(k)^4_8 and E_(k)^8_4 vanish when b4' = 0 (k = 1, 2, 3)"
+		},
+		{
+			"name":"e1_equals_einstein",
+			"pass":true,
+			"detail":"E_(1) = -P_(1)\/4 = G"
+		}
+	],
+	"checkCount":26,
+	"failedCount":0,
+	"authorNotebookSha256":"4f2d83b53e4a35696e1ed4d0569f4cabbfc7463d0036c36ae5534bd6e549aafb",
+	"wolframVersion":"15..1"
+}

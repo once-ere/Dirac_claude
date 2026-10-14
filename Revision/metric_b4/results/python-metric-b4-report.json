@@ -1,0 +1,109 @@
+{
+ "program": "Revision/metric_b4/python/check_metric_b4.py",
+ "checks": [
+  {
+   "name": "ricci_scalar_equals_wolfram",
+   "pass": true,
+   "detail": "R (sympy) = R (Wolfram, metric-b4.json)"
+  },
+  {
+   "name": "einstein_equals_wolfram",
+   "pass": true,
+   "detail": "G^h_j (sympy) = Wolfram, 64 components"
+  },
+  {
+   "name": "lovelock1_equals_wolfram",
+   "pass": true,
+   "detail": "E_(1) (sympy, permutation signs) = Wolfram (determinant)"
+  },
+  {
+   "name": "lovelock2_equals_wolfram",
+   "pass": true,
+   "detail": "E_(2) (sympy, permutation signs) = Wolfram (determinant)"
+  },
+  {
+   "name": "lovelock3_equals_wolfram",
+   "pass": true,
+   "detail": "E_(3) (sympy, permutation signs) = Wolfram (determinant)"
+  },
+  {
+   "name": "riemann_nonzero_count_equals_wolfram",
+   "pass": true,
+   "detail": "nonzero R^{ab}_{cd}: sympy 156, Wolfram 156"
+  },
+  {
+   "name": "metric_equals_author_Out101",
+   "pass": true,
+   "detail": "the metric = the author's Out[101] (x0 -> x8)"
+  },
+  {
+   "name": "ricci_scalar_equals_author_Out119",
+   "pass": true,
+   "detail": "R = Out[119]"
+  },
+  {
+   "name": "einstein_equals_author_Out120",
+   "pass": true,
+   "detail": "G = Out[120]"
+  },
+  {
+   "name": "ricci_equals_author_Out124",
+   "pass": true,
+   "detail": "R^h_j = Out[124]"
+  },
+  {
+   "name": "lovelock1_equals_author_Out126",
+   "pass": true,
+   "detail": "E_(1) = the author's allLovelock1 (Out[126])"
+  },
+  {
+   "name": "lovelock2_equals_author_Out127",
+   "pass": true,
+   "detail": "E_(2) = the author's allLovelock2 (Out[127])"
+  },
+  {
+   "name": "lovelock3_equals_author_Out128",
+   "pass": true,
+   "detail": "E_(3) = the author's allLovelock3 (Out[128])"
+  },
+  {
+   "name": "vacuum_equations_equal_author_Out129",
+   "pass": true,
+   "detail": "vacuum equations = Out[129]"
+  },
+  {
+   "name": "author_solution_Out135",
+   "pass": true,
+   "detail": "b4 = 1, a4 = H x4, w1 = 1, w2 = 1/32: reduced [-Lambda - 2304*w3 + 12, -Lambda + 4608*w3 + 6], solve [{Lambda: 10, w3: 1/1152}] (the author's Out[135]: w3 = 1/1152, Lambda = 10)"
+  },
+  {
+   "name": "b4_one_ricci_scalar_equals_record",
+   "pass": true,
+   "detail": "R at b4 = 1 = curvature.json"
+  },
+  {
+   "name": "b4_one_einstein_equals_record",
+   "pass": true,
+   "detail": "G at b4 = 1 = curvature.json einsteinMixed"
+  },
+  {
+   "name": "b4_one_lovelock1_equals_record",
+   "pass": true,
+   "detail": "E_(1) at b4 = 1 = -P_(1)/2^2 of lovelock-tensors.json"
+  },
+  {
+   "name": "b4_one_lovelock2_equals_record",
+   "pass": true,
+   "detail": "E_(2) at b4 = 1 = -P_(2)/2^3 of lovelock-tensors.json"
+  },
+  {
+   "name": "b4_one_lovelock3_equals_record",
+   "pass": true,
+   "detail": "E_(3) at b4 = 1 = -P_(3)/2^4 of lovelock-tensors.json"
+  }
+ ],
+ "checkCount": 20,
+ "failedCount": 0,
+ "sympyVersion": "1.14.0",
+ "riemannMixedNonzero": 156
+}
