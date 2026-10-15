@@ -83,7 +83,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all five figure files of the notebook exist",
-        "ALL 19 CHECKS PASSED (notebook 11c)",
+        "ALL 20 CHECKS PASSED (notebook 11c)",
     ],
     "troubleshooting": [],
 }
@@ -121,8 +121,8 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates** $x_1, \dots, x_8$: $x_1, x_2, x_3$ ordinary space, $x_4$ the time,
-      $x_5, x_6, x_7$ the three extra times, $x_8$ the hidden direction.
+    - **Coordinates** $x_0, \dots, x_7$: $x_1, x_2, x_3$ ordinary space, $x_4$ the time,
+      $x_5, x_6, x_7$ the three extra times, $x_0$ the hidden direction.
     - **History** $a_4(x_4)$: the function of the time in the author's metric. The
       scale factor of ordinary space is $e^{a_4}$, that of the extra times $e^{-a_4}$
       (times the same factor $\sin^{1/6} z$ of the hidden direction). If $a_4$ grows,
@@ -152,7 +152,7 @@ CELLS = [
 
     **The tensors.** For the author's metric (Notebook 11b) the Lovelock tensors
     $P_{(k)}{}^h{}_j$, $k = 1, 2, 3$, are diagonal, contain only $H$, $a_4'$ and
-    $a_4''$, and do not depend on $x_8$. The field equations of $a_4$ (chapter 12) use
+    $a_4''$, and do not depend on $x_0$. The field equations of $a_4$ (chapter 12) use
     the normalised tensors
 
     $$E_{(k)}{}^h{}_j = -\frac{1}{2^{k+1}}\, P_{(k)}{}^h{}_j ,\qquad
@@ -162,7 +162,7 @@ CELLS = [
     with $E_{(1)} = G$, Einstein's tensor. The independent components are
     $E^{x1}_{x1}$ (equal to $E^{x2}_{x2}$ and $E^{x3}_{x3}$: ordinary space),
     $E^{x4}_{x4}$ (the time), $E^{x5}_{x5}$ (equal to $E^{x6}_{x6}$ and $E^{x7}_{x7}$:
-    the extra times) and $E^{x8}_{x8}$ (the hidden direction).
+    the extra times) and $E^{x0}_{x0}$ (the hidden direction).
 
     **The two conservation identities, derived line by line.** Every Lovelock tensor has
     zero covariant divergence (Lovelock's theorem; the Revision checked it exactly). For
@@ -181,25 +181,28 @@ CELLS = [
 
     The Christoffel symbols of the metric (Notebook 11b) are $\Gamma^h{}_{h4} = a_4'$ for
     the three space directions, $-a_4'$ for the three extra times, and 0 for $x_4$ and
-    $x_8$. So the sum is $3a_4'(P^4{}_4 - P^1{}_1) - 3a_4'(P^4{}_4 - P^5{}_5) =
+    $x_0$. So the sum is $3a_4'(P^4{}_4 - P^1{}_1) - 3a_4'(P^4{}_4 - P^5{}_5) =
     -3a_4'(P^1{}_1 - P^5{}_5)$, and the identity reads
 
     $$\frac{d}{dx_4} E^{x4}{}_{x4} = 3\, a_4'\, \big(E^{x1}{}_{x1} - E^{x5}{}_{x5}\big).
       \qquad (\text{I})$$
 
-    Take $j = x_8$. Nothing depends on $x_8$, and the same steps give
+    Take $j = x_0$. Nothing depends on $x_0$, and the same steps give
     $\sum_h \Gamma^h{}_{h8}(P^8{}_8 - P^h{}_h)$ with $\Gamma^h{}_{h8} = H \cot z$ for the
-    three space and the three extra-time directions, 0 for $x_4$, and the term $h = x_8$
+    three space and the three extra-time directions, 0 for $x_4$, and the term $h = x_0$
     is zero because $P^8{}_8 - P^8{}_8 = 0$. So $3H\cot z\,(2P^8{}_8 - P^1{}_1 -
     P^5{}_5) = 0$, that is
 
-    $$E^{x8}{}_{x8} = \tfrac12 \big(E^{x1}{}_{x1} + E^{x5}{}_{x5}\big).
+    $$E^{x0}{}_{x0} = \tfrac12 \big(E^{x1}{}_{x1} + E^{x5}{}_{x5}\big).
       \qquad (\text{II})$$
 
     The divergences along $x_1, x_2, x_3, x_5, x_6, x_7$ vanish because nothing depends
     on these coordinates and the tensors are diagonal. In the field equations (I) becomes
     the conservation of energy, $\rho' = -3a_4'(p_3 - p_t)$, and (II) the condition
-    $p_3 + p_t = 2p_8$ on the pressures (chapter 12).
+    $p_3 + p_t = 2p_0$ on the pressures (chapter 12), on the background $b_4 = 1$
+    of the author's metric of 2026-10-14 (with a changing second function $b_4(x_4)$ the
+    tensors also have the mixed components $x_4$-$x_0$ and $x_0$-$x_4$, proportional
+    to $b_4'$; section 5).
 
     **Status.** The components are PROVED by exact computation (Revision records); the
     structure and the identities are PROVED here with sympy; the test history of
@@ -209,46 +212,70 @@ CELLS = [
     ## 5. The components, from the Revision record
 
     The next cell reads `lovelock-tensors.json`, which lists every component of
-    $P_{(k)}$ as exact monomials `[numerator, denominator, [e_H, e_a4', e_a4'', e_a4''',
-    e_a4'''', e_E, e_S, e_C]]` (the exponents of $H$, of the four derivatives of $a_4$,
-    of $e^{a_4}$, of $\sin^{1/3} z$ and of $\cot z$). It rebuilds each component as a
-    sympy expression in `H`, `A1` ($a_4'$) and `A2` ($a_4''$); if any other exponent
-    were not zero the cell would stop, so the components are free of $x_8$, of
-    $e^{a_4}$ and of higher derivatives. It forms $E_{(k)} = -P_{(k)}/2^{k+1}$ and
-    prints the four independent components of each order.
+    $P_{(k)}$, for the author's metric with a general second function $b_4(x_4)$, as
+    exact monomials `[numerator, denominator, [e_H, e_a4', e_a4'', e_a4''', e_a4'''',
+    e_E, e_S, e_C, e_Q, e_b4', e_b4'', e_b4''', e_b4'''']]` (the exponents of $H$, of
+    the four derivatives of $a_4$, of $e^{a_4}$, of $\sin^{1/3} z$, of $\cot z$, of
+    $Q = b_4^{1/2}$ and of the four derivatives of $b_4$). It rebuilds each component as
+    a sympy expression in `H`, `A1` ($a_4'$), `A2` ($a_4''$), `c` ($\cot z$) and `B0`,
+    `B1`, `B2` ($b_4$, $b_4'$, $b_4''$); if any other exponent were not zero the cell
+    would stop, so the components are free of $e^{a_4}$, of $\sin^{1/3} z$ and of
+    higher derivatives. With $b_4$ exactly two components off the diagonal are not
+    zero, $x_4$-$x_0$ and $x_0$-$x_4$, and both contain $b_4'$. From here on the
+    notebook works on the background $b_4 = 1$ ($b_4' = b_4'' = 0$) of the Revision
+    records: `P` holds the components there, `P_B4` those with a general $b_4$. It forms
+    $E_{(k)} = -P_{(k)}/2^{k+1}$ and prints the four independent components of each
+    order at $b_4 = 1$.
     """),
     code(r'''
+    import re  # regular expressions: rewrites the record's names
+
     import numpy as np  # arrays of numbers
     import sympy as sp  # exact algebra
 
     H, A1, A2 = sp.symbols("H A1 A2")  # H, a4' and a4''
-    NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
+    B0, B1, B2, c = sp.symbols("B0 B1 B2 c")  # b4, b4', b4'' and cot z
+    NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
     tensors = json.loads(repository_file(
         "Revision/gkd_lovelock/results/lovelock-tensors.json").read_text(encoding="utf-8"))
 
 
     def from_monomials(monomials):
-        """A component of lovelock-tensors.json as a sympy expression in H, A1, A2."""
+        """A component of lovelock-tensors.json as a sympy expression in H, A1, A2, c,
+        B0, B1 and B2."""
         total = sp.Integer(0)
         for numerator, denominator, e in monomials:
-            if any(e[3:]):  # 3rd or 4th derivative, e^a4, sin^(1/3) z or cot z
-                raise ValueError("the component contains more than H, a4' and a4''")
-            monomial = H ** e[0] * A1 ** e[1] * A2 ** e[2]  # H^eH a4'^e1 a4''^e2
+            if e[3] or e[4] or e[5] or e[6] or e[11] or e[12]:
+                raise ValueError("the component contains a3, a4 derivatives, e^a4, "
+                                 "sin^(1/3) z or higher derivatives of b4")
+            monomial = (H ** e[0] * A1 ** e[1] * A2 ** e[2] * c ** e[7]
+                        * B0 ** sp.Rational(e[8], 2) * B1 ** e[9] * B2 ** e[10])
             total += sp.Rational(numerator, denominator) * monomial
         return total
 
 
-    P = {k: {(h, j): from_monomials(tensors[f"P{k}_mixed_up_h_down_j"][f"{a},{b}"]
-                                    ["monomials"])
-             for h, a in enumerate(NAMES) for j, b in enumerate(NAMES)} for k in (1, 2, 3)}
+    P_B4 = {k: {(h, j): from_monomials(tensors[f"P{k}_mixed_up_h_down_j"][f"{a},{b}"]
+                                       ["monomials"])
+                for h, a in enumerate(NAMES) for j, b in enumerate(NAMES)}
+            for k in (1, 2, 3)}
+    BACKGROUND = {B0: 1, B1: 0, B2: 0}  # the background b4 = 1 of the records
+    P = {k: {hj: sp.expand(value.subs(BACKGROUND)) for hj, value in P_B4[k].items()}
+         for k in (1, 2, 3)}
+    mixed_b4 = all({hj for hj, value in P_B4[k].items() if hj[0] != hj[1] and value != 0}
+                   == {(4, 0), (0, 4)} and P_B4[k][4, 0].has(B1) and P_B4[k][0, 4].has(B1)
+                   for k in (1, 2, 3))
+    check(mixed_b4 and all(not P[k][hj].has(c) for k in (1, 2, 3) for hj in P[k]),
+          "with b4 the only nonzero off-diagonal components are x4-x0 and x0-x4, both "
+          "with b4'; at b4 = 1 no component contains cot z")
     E = {k: {hj: sp.expand(-value / 2 ** (k + 1)) for hj, value in P[k].items()}
          for k in (1, 2, 3)}
     for k in (1, 2, 3):
-        for h in (0, 3, 4, 7):  # x1, x4, x5, x8
+        for h in (1, 4, 5, 0):  # x1, x4, x5, x0
             say(f"E({k})^{NAMES[h]}_{NAMES[h]} = {E[k][h, h]}")
     check(all(E[k][h, j] == 0 for k in (1, 2, 3) for h in range(8) for j in range(8)
               if h != j),
-          "every off-diagonal component of E(1), E(2), E(3) is zero, x4-x8 included")
+          "at b4 = 1 every off-diagonal component of E(1), E(2), E(3) is zero, x4-x0 "
+          "included")
     '''),
     md(r"""
     The next cell compares these components with two other Revision records. The record
@@ -273,8 +300,8 @@ CELLS = [
     same = True
     for k in (1, 2, 3):
         listed = a4_record["lovelockTensors"][f"E{k}"]
-        for key, (h, j) in (("x1x1", (0, 0)), ("x4x4", (3, 3)), ("x5x5", (4, 4)),
-                            ("x8x8", (7, 7)), ("x4x8", (3, 7)), ("x8x4", (7, 3))):
+        for key, (h, j) in (("x1x1", (1, 1)), ("x4x4", (4, 4)), ("x5x5", (5, 5)),
+                            ("x0x0", (0, 0)), ("x4x0", (4, 0)), ("x0x4", (0, 4))):
             same = same and sp.expand(from_text(listed[key]["input"]) - E[k][h, j]) == 0
     check(same, "E(1), E(2), E(3) equal the components recorded for the a4 equations",
           record="Revision/field_equations_a4/reports/python-a4-report.json, check "
@@ -284,12 +311,14 @@ CELLS = [
             encoding="utf-8"))
     independent = checker["independentResults"]
     same = all(
-        sp.expand(sp.sympify(text, locals={"A1": A1, "A2": A2, "H": H})
-                  - P[k][NAMES.index(key.split(",")[0]), NAMES.index(key.split(",")[1])])
-        == 0
+        sp.simplify(sp.sympify(text, locals={"A1": A1, "A2": A2, "H": H, "B0": B0,
+                                             "B1": B1, "B2": B2, "c": c})
+                    - P_B4[k][NAMES.index(key.split(",")[0]),
+                              NAMES.index(key.split(",")[1])]) == 0
         for k in (1, 2, 3) for key, text in independent[f"P{k}_mixed_nonzero"].items())
-    check(same and all(len(independent[f"P{k}_mixed_nonzero"]) == 8 for k in (1, 2, 3)),
-          "P(1), P(2), P(3) equal the independent sympy results (8 nonzero components each)",
+    check(same and all(len(independent[f"P{k}_mixed_nonzero"]) == 10 for k in (1, 2, 3)),
+          "P(1), P(2), P(3) equal the independent sympy results with b4 (10 nonzero "
+          "components each)",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, "
                  "independentResults")
     '''),
@@ -301,7 +330,7 @@ CELLS = [
     1. $E^{x1}_{x1} = E^{x2}_{x2} = E^{x3}_{x3}$ and $E^{x5}_{x5} = E^{x6}_{x6} =
        E^{x7}_{x7}$: the three space directions are alike, and so are the three extra
        times.
-    2. $E^{x4}_{x4}$ and $E^{x8}_{x8}$ contain no $a_4''$ (`expr.has(A2)` is False): the
+    2. $E^{x4}_{x4}$ and $E^{x0}_{x0}$ contain no $a_4''$ (`expr.has(A2)` is False): the
        time component of the field equations is a condition on $a_4'$ only (a
        constraint), not an equation for its change.
     3. $E^{x1}_{x1} - E^{x5}_{x5} = a_4''\, F_k(a_4')$ with a polynomial $F_k$ that
@@ -311,7 +340,7 @@ CELLS = [
        The record `a4-equations.json` lists
        $F = \alpha_1 F_1 + \alpha_2 F_2 + \alpha_3 F_3$ in its entry `evolution_F`; the
        cell compares the coefficient of each $\alpha_k$.
-    4. $E^{x8}_{x8} = \tfrac12 (E^{x1}_{x1} + E^{x5}_{x5})$: identity (II).
+    4. $E^{x0}_{x0} = \tfrac12 (E^{x1}_{x1} + E^{x5}_{x5})$: identity (II).
     5. Every component is even in $a_4'$: replacing $a_4'$ by $-a_4'$ changes nothing.
        Inflating ordinary space with deflating extra times ($a_4' > 0$) and the reverse
        ($a_4' < 0$) give the same components: deflation is a choice of sign that these
@@ -334,14 +363,14 @@ CELLS = [
                                          "even", "weight")}
     for k in (1, 2, 3):
         e = E[k]
-        structure["alike"] &= (e[0, 0] == e[1, 1] == e[2, 2]
-                               and e[4, 4] == e[5, 5] == e[6, 6])
-        structure["constraint"] &= not e[3, 3].has(A2) and not e[7, 7].has(A2)
-        F[k] = sp.factor(sp.cancel((e[0, 0] - e[4, 4]) / A2))
+        structure["alike"] &= (e[1, 1] == e[2, 2] == e[3, 3]
+                               and e[5, 5] == e[6, 6] == e[7, 7])
+        structure["constraint"] &= not e[4, 4].has(A2) and not e[0, 0].has(A2)
+        F[k] = sp.factor(sp.cancel((e[1, 1] - e[5, 5]) / A2))
         structure["evolution"] &= (not F[k].has(A2)
                                    and sp.expand(F[k] - recorded_F.coeff(alphas[k - 1]))
                                    == 0)
-        structure["mean"] &= sp.expand(e[7, 7] - (e[0, 0] + e[4, 4]) / 2) == 0
+        structure["mean"] &= sp.expand(e[0, 0] - (e[1, 1] + e[5, 5]) / 2) == 0
         structure["even"] &= all(sp.expand(e[h, h].subs(A1, -A1) - e[h, h]) == 0
                                  for h in range(8))
         weighted = {h: sp.expand(e[h, h].subs({H: u * H, A1: u * A1, A2: u ** 2 * A2}))
@@ -350,13 +379,13 @@ CELLS = [
                                    for h in range(8))
         report(f"F_{k}(a4') = (E({k})^x1_x1 - E({k})^x5_x5) / a4''", F[k])
     check(structure["alike"], "space components equal, extra-time components equal")
-    check(structure["constraint"], "the x4 and x8 components contain no a4''")
+    check(structure["constraint"], "the x4 and x0 components contain no a4''")
     check(structure["evolution"],
           "E^x1_x1 - E^x5_x5 = a4'' F_k(a4') with F_1 = 2, F_2 = -16 (3 a4'^2 + 5 H^2), "
           "F_3 = 144 (5 a4'^4 + 6 a4'^2 H^2 + 5 H^4)",
           record="Revision/field_equations_a4/reports/python-a4-report.json, check "
                  "evolution_factorises (a4-equations.json, evolution_F)")
-    check(structure["mean"], "E^x8_x8 is the mean of E^x1_x1 and E^x5_x5 (identity II)")
+    check(structure["mean"], "E^x0_x0 is the mean of E^x1_x1 and E^x5_x5 (identity II)")
     check(structure["even"] and structure["weight"],
           "every component is even in a4' and of weight 2k (dimension 1/length^(2k))")
     '''),
@@ -371,7 +400,7 @@ CELLS = [
     $\partial E^{x4}_{x4}/\partial a_4' = 3 a_4' F_k(a_4')$: the derivative of the
     constraint is $3a_4'$ times the evolution factor, the "constraint propagation" of
     the Revision record. The cell also checks the factorisation
-    $E^{x4}_{x4} - E^{x8}_{x8} = 6(a_4'^2 + H^2)\, V_k(a_4')$, with the polynomials $V_1 =
+    $E^{x4}_{x4} - E^{x0}_{x0} = 6(a_4'^2 + H^2)\, V_k(a_4')$, with the polynomials $V_1 =
     1$, $V_2 = -8(a_4'^2 + 5H^2)$, $V_3 = 72(a_4'^4 + 2a_4'^2 H^2 + 5H^4)$, which the
     Revision record of the field equations uses for the linear history
     (check `linear_member_vacuum_factor`).
@@ -380,16 +409,16 @@ CELLS = [
     V = {1: sp.Integer(1), 2: -8 * (A1 ** 2 + 5 * H ** 2),
          3: 72 * (A1 ** 4 + 2 * A1 ** 2 * H ** 2 + 5 * H ** 4)}
     identity_I = all(
-        sp.expand(sp.diff(E[k][3, 3], A1) * A2 - 3 * A1 * (E[k][0, 0] - E[k][4, 4])) == 0
+        sp.expand(sp.diff(E[k][4, 4], A1) * A2 - 3 * A1 * (E[k][1, 1] - E[k][5, 5])) == 0
         for k in (1, 2, 3))
     check(identity_I, "d/dx4 E^x4_x4 = 3 a4' (E^x1_x1 - E^x5_x5) for k = 1, 2, 3 "
                       "(identity I)",
           record="Revision/field_equations_a4/reports/python-a4-report.json, check "
                  "bianchi_x4; Revision/gkd_lovelock/results/lovelock-report.json, checks "
                  "k1_divergence_free, k2_divergence_free and k3_divergence_free")
-    factor_ok = all(sp.expand(E[k][3, 3] - E[k][7, 7] - 6 * (A1 ** 2 + H ** 2) * V[k]) == 0
+    factor_ok = all(sp.expand(E[k][4, 4] - E[k][0, 0] - 6 * (A1 ** 2 + H ** 2) * V[k]) == 0
                     for k in (1, 2, 3))
-    check(factor_ok, "E^x4_x4 - E^x8_x8 = 6 (a4'^2 + H^2) V_k for k = 1, 2, 3",
+    check(factor_ok, "E^x4_x4 - E^x0_x0 = 6 (a4'^2 + H^2) V_k for k = 1, 2, 3",
           record="Revision/field_equations_a4/reports/python-a4-report.json, check "
                  "linear_member_vacuum_factor")
     '''),
@@ -421,13 +450,13 @@ CELLS = [
     fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.0))
     symmetric = True
     for ax, k in zip(axes, (1, 2, 3)):
-        time_part = on_linear_history(E[k][3, 3])
-        other_part = on_linear_history(E[k][0, 0])
+        time_part = on_linear_history(E[k][4, 4])
+        other_part = on_linear_history(E[k][1, 1])
         symmetric &= np.allclose(time_part, time_part[::-1]) and np.allclose(
             other_part, other_part[::-1])
         ax.plot(A, time_part, label="$E^{x_4}{}_{x_4}$ (time)")
         ax.plot(A, other_part, "--", label="$E^{x_1}{}_{x_1} = E^{x_5}{}_{x_5} = "
-                                           "E^{x_8}{}_{x_8}$")
+                                           "E^{x_0}{}_{x_0}$")
         ax.axvline(0.0, color="0.5", lw=0.8)
         ax.axhline(0.0, color="0.5", lw=0.8)
         ax.set_xlabel("$A = a_4^{\\prime}/H$")
@@ -460,8 +489,14 @@ CELLS = [
     width and height as fractions of the big panel) for $-1 \le A \le 1$.
     """),
     code(r'''
-    L = {k: sp.sympify(tensors[f"L{k}"].replace("Derivative[1][a4][x4]", "A1")
-                       .replace("^", "**"), locals={"A1": A1, "H": H}) for k in (1, 2, 3)}
+    L_TEXT = {k: re.sub(r"Derivative\[(\d)\]\[b4\]\[x4\]", r"B\1",
+                        re.sub(r"Derivative\[(\d)\]\[a4\]\[x4\]", r"A\1",
+                               tensors[f"L{k}"])).replace("b4[x4]", "B0")
+              for k in (1, 2, 3)}
+    L = {k: sp.expand(sp.sympify(L_TEXT[k].replace("^", "**"),
+                                 locals={"A1": A1, "A2": A2, "H": H, "B0": B0, "B1": B1,
+                                         "B2": B2}).subs(BACKGROUND))
+         for k in (1, 2, 3)}  # the scalars at b4 = 1
     fig, axes = plt.subplots(1, 3, figsize=(12.0, 3.8))
     zeros = {}
     for ax, k in zip(axes, (1, 2, 3)):
@@ -569,7 +604,7 @@ CELLS = [
     E_{(3)}$ along the test history (with $H = 1$, so in units of $H^{2k}$) and draws
     them. Where $a_4''$ is not zero, the space component $E^{x1}_{x1}$ and the
     extra-time component $E^{x5}_{x5}$ separate (their difference is
-    $a_4'' F_k(a_4')$), and the hidden component $E^{x8}_{x8}$ runs exactly in the
+    $a_4'' F_k(a_4')$), and the hidden component $E^{x0}_{x0}$ runs exactly in the
     middle; far in the past and far in the future, where $a_4'' \to 0$, the three
     coincide again. The check confirms the middle position at all 1201 times.
     """),
@@ -584,12 +619,12 @@ CELLS = [
     middle = True
     curves = {}
     for ax, k in zip(axes, (1, 2, 3)):
-        curves[k] = {h: along_history(E[k][h, h]) for h in (0, 3, 4, 7)}
-        middle &= np.allclose(curves[k][7], (curves[k][0] + curves[k][4]) / 2,
+        curves[k] = {h: along_history(E[k][h, h]) for h in (1, 4, 5, 0)}
+        middle &= np.allclose(curves[k][0], (curves[k][1] + curves[k][5]) / 2,
                               rtol=1e-12, atol=1e-9)
-        for h, style in ((3, "-"), (0, "-"), (4, "--"), (7, ":")):
+        for h, style in ((4, "-"), (1, "-"), (5, "--"), (0, ":")):
             ax.plot(times, curves[k][h], style,
-                    label=f"$E^{{x_{h + 1}}}{{}}_{{x_{h + 1}}}$")
+                    label=f"$E^{{x_{h}}}{{}}_{{x_{h}}}$")
         ax.set_xlabel("time $H x_4$")
         ax.set_ylabel(f"$E_{{({k})}}$ in units of $H^{{{2 * k}}}$")
         ax.set_title(f"order k = {k}")
@@ -601,11 +636,11 @@ CELLS = [
                 "against the time $H x_4$: the time component $E^{x_4}_{\\ x_4}$, the "
                 "space component $E^{x_1}_{\\ x_1}$, the extra-time component "
                 "$E^{x_5}_{\\ x_5}$ (dashed) and the hidden component "
-                "$E^{x_8}_{\\ x_8}$ (dotted). Space and extra-time components separate "
+                "$E^{x_0}_{\\ x_0}$ (dotted). Space and extra-time components separate "
                 "where $a_4^{\\prime\\prime} \\neq 0$, by $a_4^{\\prime\\prime} "
                 "F_k(a_4^{\\prime})$, and the hidden one lies exactly halfway between "
                 "them; the time component depends on $a_4^{\\prime}$ only.")
-    check(middle, "along the test history E^x8_x8 is the mean of E^x1_x1 and E^x5_x5 "
+    check(middle, "along the test history E^x0_x0 is the mean of E^x1_x1 and E^x5_x5 "
                   "at all 1201 times")
     '''),
     md(r"""
@@ -623,8 +658,8 @@ CELLS = [
     fig, axes = plt.subplots(1, 3, figsize=(12.0, 3.8))
     worst = {}
     for ax, k in zip(axes, (1, 2, 3)):
-        left = np.gradient(curves[k][3], step)  # d/dx4 of the time component
-        right = 3 * a1_values * (curves[k][0] - curves[k][4])
+        left = np.gradient(curves[k][4], step)  # d/dx4 of the time component
+        right = 3 * a1_values * (curves[k][1] - curves[k][5])
         inner = slice(1, -1)  # the two end points use a one-sided difference
         worst[k] = float(np.max(np.abs(left[inner] - right[inner]))
                          / np.max(np.abs(right)))
@@ -701,12 +736,12 @@ CELLS = [
               f"the {len(names)} checks quoted from {path.split('/')[-1]} are there and "
               "PASS", record=f"{path}, checks " + ", ".join(names))
     general = a4_record["generalSource"]  # a4-equations.json, read in section 5
-    stated = (general["algebraic_condition"]["input"] == "p3 + pt == 2*p8"
+    stated = (general["algebraic_condition"]["input"] == "p3 + pt == 2*p0"
               and "rho' = -3 a4' (p3 - p_t)" in general["conservation_reduced"]
-              and "p3 + p_t = 2 p8" in general["conservation_reduced"]
+              and "p3 + p_t = 2 p0" in general["conservation_reduced"]
               and "d/dx4 (constraint) = 3 a4' (evolution)"
               in general["constraint_propagation"])
-    check(stated, "a4-equations.json states rho' = -3 a4' (p3 - p_t), p3 + p_t = 2 p8 and "
+    check(stated, "a4-equations.json states rho' = -3 a4' (p3 - p_t), p3 + p_t = 2 p0 and "
                   "the constraint propagation, as quoted",
           record="Revision/field_equations_a4/a4-equations.json, generalSource: "
                  "conservation_reduced, algebraic_condition, constraint_propagation")
@@ -729,7 +764,7 @@ CELLS = [
     - The normalised Lovelock tensors of the author's metric are diagonal polynomials in
       $H$, $a_4'$ and $a_4''$, for example Einstein's tensor
       $E^{x1}_{x1} = -3a_4'^2 + a_4'' + 15H^2$, $E^{x4}_{x4} = 3a_4'^2 + 21H^2$,
-      $E^{x5}_{x5} = -3a_4'^2 - a_4'' + 15H^2$, $E^{x8}_{x8} = -3a_4'^2 + 15H^2$; all
+      $E^{x5}_{x5} = -3a_4'^2 - a_4'' + 15H^2$, $E^{x0}_{x0} = -3a_4'^2 + 15H^2$; all
       three orders equal the components recorded for the field equations of $a_4$.
     - Their structure (PROVED): space components equal, extra-time components equal;
       time and hidden components free of $a_4''$; the space minus extra-time difference
@@ -738,7 +773,7 @@ CELLS = [
       components; everything is even in $a_4'$, so deflation of the extra times is not
       selected by these tensors; order $k$ has the dimension $1/\text{length}^{2k}$.
     - The two conservation identities, $\frac{d}{dx_4}E^{x4}_{x4} = 3a_4'(E^{x1}_{x1} -
-      E^{x5}_{x5})$ and $E^{x8}_{x8} = \frac12(E^{x1}_{x1} + E^{x5}_{x5})$, hold exactly
+      E^{x5}_{x5})$ and $E^{x0}_{x0} = \frac12(E^{x1}_{x1} + E^{x5}_{x5})$, hold exactly
       for every order and were confirmed numerically along a test history.
     - On the exponentially deflating linear history $a_4 = AHx_4$ only two different
       components remain (time, and all the others), even functions of $A$; the test

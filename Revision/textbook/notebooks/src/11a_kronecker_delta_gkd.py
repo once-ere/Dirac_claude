@@ -22,6 +22,9 @@ build computer (measured 2026-10-02: 555 s alone, about 430 to 500 s inside nbki
 scratch program that calls the crate's own compare_exhaustive and compare_random:
 p <= 4 exhaustive 10.5 s, random p = 5, 6, 7, 8, 9: 0.3, 1.6, 11.1, 79.5, 636.8 s,
 total 739.7 s), most of it in the 200,000 literal 9 x 9 determinants of the p = 9 test.
+That is longer than the limit of 7 minutes 3 seconds for one computation of this book
+(2026-10-15), so the notebook builds the program and prints the command, but reads the
+committed record gkd-selftest.json instead of running the self-test.
 """
 
 import sys
@@ -53,21 +56,21 @@ FACTS = {
         "shows why the delta of nine indices in eight dimensions is always zero, and "
         "builds the Revision Rust program lovelock_gkd with cargo inside the notebook "
         "when the program file is missing (a few seconds, up to a minute on a slow "
-        "computer; about a second when it is up to date), runs its GKD self-test "
-        "(16,777,216 pairs of length 4 compared exhaustively; this cell alone takes 7 "
-        "to 13 minutes) and checks that it reproduces the committed Revision record byte "
-        "for byte; it checks again that every check and number it quotes from the "
+        "computer; about a second when it is up to date), reads the record of its GKD "
+        "self-test (16,777,216 pairs of length 4 compared exhaustively, 200,000 random "
+        "pairs of each length 5 to 9) and checks every row of it; the self-test itself "
+        "takes 7 to 13 minutes, longer than the limit of 7 minutes set for one "
+        "computation, so the notebook does not run it and prints the command that "
+        "repeats it; it checks again that every check and number it quotes from the "
         "Revision records is there, with the verdict PASS; it draws six teaching "
-        "figures. The Rust program writes its result file gkd-selftest.json into the "
-        "folder `Revision/gkd_lovelock/code/target/textbook_11a`, inside the Rust build "
-        "folder, which git ignores."
+        "figures."
     ),
     "records": [
         ["Revision/gkd_lovelock/code",
          "the Rust crate lovelock_gkd: its function GKD in `src/gkd.rs` and its command "
-         "`gkd-selftest`, built and run by the notebook"],
+         "`gkd-selftest`; the notebook builds the program"],
         ["Revision/gkd_lovelock/results/gkd-selftest.json",
-         "the record of the GKD self-test; the notebook reproduces it byte for byte"],
+         "the record of the GKD self-test; the notebook reads it and checks every row"],
         ["Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md",
          "the author's definition of the generalized Kronecker delta, quoted from it"],
         ["Revision/gkd_lovelock/results/python-lovelock-report.json",
@@ -90,7 +93,7 @@ FACTS = {
         {"manifest": "Revision/gkd_lovelock/code/Cargo.toml",
          "binaries": ["lovelock_gkd"], "build_minutes": 1},
     ],
-    "expected_seconds": 780,
+    "expected_seconds": 60,
     "timeout_seconds": 3600,
     "files_written": ["Revision/textbook/figures/11a.captions.json"] + [
         f"Revision/textbook/figures/11a_{k}_{name}.png"
@@ -101,21 +104,14 @@ FACTS = {
         "ALL 24 CHECKS PASSED (notebook 11a)",
     ],
     "troubleshooting": [
-        ["The notebook seems to hang at the cell that runs the Rust self-test",
-         "It does not hang. The self-test compares 16,777,216 pairs of index lists of "
-         "length 4 and then 200,000 random pairs of each length 5 to 9 with the literal "
-         "determinant, and the 200,000 determinants of nine by nine matrices alone take "
-         "several minutes, because each one is a sum of 362,880 products. Wait until the "
-         "label to the left of the cell shows a number; the whole notebook takes 8 to "
-         "15 minutes, longer when the computer is busy with other work."],
-        ["AssertionError: check failed: the program wrote gkd-selftest.json equal to the "
-         "Revision record byte for byte",
-         "The file that the program wrote differs from the committed record. Run "
-         "git status in the repository folder to see whether the record or the Rust "
-         "source was changed, and restore both with the command below.",
-         ["git checkout -- Revision/gkd_lovelock"]],
+        ["AssertionError: check failed: the record of the Rust program lovelock_gkd "
+         "gkd-selftest has the verdict SUCCESS",
+         "The committed record differs from the one this notebook was written for. Run "
+         "git status in the repository folder to see whether the record was changed, and "
+         "restore it with the command below.",
+         ["git checkout -- Revision/gkd_lovelock/results/gkd-selftest.json"]],
     ],
-    "work_folders": ["Revision/gkd_lovelock/code/target/textbook_11a"],
+    "work_folders": [],
 }
 
 CELLS = [
@@ -133,7 +129,7 @@ CELLS = [
       by sympy) and evaluates it on examples;
     - proves that the determinant is always the sign of a permutation or zero, writes
       this rule (GKD) in Python, and checks that the two agree on all 266,304 pairs of
-      index lists of length 1, 2 and 3 over the eight labels $x_1, \dots, x_8$, and on
+      index lists of length 1, 2 and 3 over the eight labels $x_0, \dots, x_7$, and on
       12,000 pseudo-random pairs of length 4 to 9;
     - counts how often the values $+1$, $-1$ and $0$ occur, derives the counts with a
       formula, and reproduces the counts recorded by the Revision's Wolfram check;
@@ -141,25 +137,25 @@ CELLS = [
       (the pigeonhole principle), which is why the Lovelock sum stops at order 3;
     - measures that the rule is much faster than the determinant and draws the cost of
       both;
-    - builds the Revision Rust program `lovelock_gkd` with cargo and runs its GKD
-      self-test, which compares GKD with the literal determinant on 16,777,216 pairs of
-      length 4 and on 200,000 random pairs of each length 5 to 9, and checks that the
-      program writes exactly the committed Revision record
-      `Revision/gkd_lovelock/results/gkd-selftest.json`, byte for byte;
+    - builds the Revision Rust program `lovelock_gkd` with cargo and reads the record
+      `Revision/gkd_lovelock/results/gkd-selftest.json` of its GKD self-test, which
+      compares GKD with the literal determinant on 16,777,216 pairs of length 4 and on
+      200,000 random pairs of each length 5 to 9; the self-test itself takes 7 to 13
+      minutes, longer than the limit of 7 minutes for one computation of this book, so
+      the notebook prints the command that repeats it instead of running it;
     - reads the Revision records once more and checks that every check and number it
       quotes from them is there, every quoted check with the verdict PASS.
 
-    It draws six figures. The Rust self-test takes 7 to 13 minutes; everything else
-    takes about a minute.
+    It draws six figures and takes about a minute.
     """),
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinate label**: the name of one of the eight coordinates $x_1, \dots, x_8$ of
+    - **Coordinate label**: the name of one of the eight coordinates $x_0, \dots, x_7$ of
       the author's metric ($x_1, x_2, x_3$ ordinary space, $x_4$ the time, $x_5, x_6,
-      x_7$ the three extra times, which deflate exponentially, $x_8$ the hidden
+      x_7$ the three extra times, which deflate exponentially, $x_0$ the hidden
       direction). Programs number them
-      $0, 1, \dots, 7$: the number 0 stands for $x_1$, the number 7 for $x_8$.
+      $0, 1, \dots, 7$: the number 0 stands for $x_1$, the number 7 for $x_0$.
     - **Index list**: a list of labels such as $(x_2, x_1, x_4)$; its **length** $p$ is
       the number of entries. Two lists of the same length are a **pair**: the
       **lower** list $(l_1, \dots, l_p)$ and the **upper** list $(u_1, \dots, u_p)$.
@@ -318,13 +314,13 @@ CELLS = [
     code(r'''
     import itertools  # loops over all lists of labels, and over all permutations
     import math  # factorials n! and the numbers n!/(n-p)!
-    import re  # regular expressions: reads numbers out of a program's printed text
+    import re  # regular expressions: reads numbers out of the texts of the records
     import time  # a stopwatch (used inside one check; no time is ever printed)
 
     import numpy as np  # arrays of numbers and pseudo-random numbers
     import sympy as sp  # exact algebra: sympy computes determinants exactly
 
-    NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]  # the labels 0..7 by name
+    NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # the labels 0..7 by name
 
 
     def outer_delta(lower, upper):
@@ -379,7 +375,7 @@ CELLS = [
     and `ax.text(column, row, ...)` writes a number at the centre of a square.
     """),
     code(r'''
-    SHOWN = [  # (lower list, upper list) with labels 0..7 standing for x1..x8
+    SHOWN = [  # (lower list, upper list) with labels 0..7 standing for x0..x7
         ((0, 1, 2, 3), (1, 0, 3, 2)),  # x2 x1 x4 x3: two exchanges, even
         ((0, 1, 2, 3), (1, 2, 3, 0)),  # x2 x3 x4 x1: a cycle of four, odd
         ((0, 1, 2, 2), (0, 1, 2, 3)),  # x3 twice in the lower list
@@ -594,7 +590,7 @@ CELLS = [
     The next cell draws the value of GKD for all 4096 pairs of length 2 as one picture
     of $64 \times 64$ squares. Row number $8 l_1 + l_2$ belongs to the lower list
     $(l_1, l_2)$ and column number $8 u_1 + u_2$ to the upper list $(u_1, u_2)$ (so the
-    rows and columns run through $(x_1, x_1), (x_1, x_2), \dots, (x_8, x_8)$). A red
+    rows and columns run through $(x_0, x_0), (x_0, x_1), \dots, (x_7, x_7)$). A red
     square is $+1$, a blue square $-1$, white is $0$. The red squares lie on the
     diagonal (upper list = lower list), except at the 8 lists with $l_1 = l_2$; each
     blue square is the mirror of a red one (the two labels exchanged).
@@ -615,7 +611,7 @@ CELLS = [
     fig.colorbar(picture, ax=ax, ticks=[-1, 0, 1], shrink=0.8, label="value of GKD")
     save_figure(fig, "gkd_map_length_two",
                 "The value of the generalized Kronecker delta for all 4096 pairs of "
-                "index lists of length 2 over the labels $x_1, \\dots, x_8$; row "
+                "index lists of length 2 over the labels $x_0, \\dots, x_7$; row "
                 "$8 l_1 + l_2$ is the lower list $(l_1, l_2)$ and column $8 u_1 + u_2$ "
                 "the upper list, counted from 0. Red squares are +1, blue squares -1, "
                 "white squares 0. There are 56 red squares on the diagonal, where the "
@@ -835,7 +831,10 @@ CELLS = [
     It writes the result to the file `gkd-selftest.json` in the folder given by
     `--output`, without any time in it, so the file is the same on every run. The
     committed Revision record `Revision/gkd_lovelock/results/gkd-selftest.json` was
-    written by the same command.
+    written by the same command. The run takes 7 to 13 minutes, most of it in the
+    200,000 literal determinants of $9 \times 9$ matrices: longer than the limit of 7
+    minutes that this book sets for one computation. So this notebook builds the
+    program but does not run the self-test; it reads the record.
 
     The next cell builds the program with cargo, through the helper `rust_program` of the
     set-up cell, which runs `cargo build --release` for the crate and returns the path of
@@ -847,66 +846,49 @@ CELLS = [
     """),
     code(r'''
     program = rust_program("Revision/gkd_lovelock/code/Cargo.toml", "lovelock_gkd")
+    COMMAND = ["lovelock_gkd", "gkd-selftest", "--exhaustive-max", "4", "--output", "FOLDER"]
+    say("To repeat the self-test (7 to 13 minutes), run in the folder of the program: "
+        + " ".join(COMMAND))
     '''),
     md(r"""
-    The next cell runs `lovelock_gkd gkd-selftest --exhaustive-max 4 --output FOLDER`.
-    FOLDER is `Revision/gkd_lovelock/code/target/textbook_11a`, inside the crate's build
-    folder `target`, which cargo has just made and which git ignores; so the run adds no
-    file to the repository. **This cell takes several minutes** (on the computer on
-    which the book was built, between 7 and 13 minutes in different runs, depending on
-    how busy the computer was). Timed part by part on that computer, on a busy day: the
-    exhaustive tests of lengths 1 to 4 took about 10 seconds, the random tests of
-    lengths 5, 6, 7 and 8 about 0.3, 1.6, 11 and 79 seconds, and the 200,000
-    determinants of $9 \times 9$ matrices, each a sum of $9! = 362880$ products, about
-    640 seconds: more than four fifths of the whole. From one length to the next the
-    work of one literal determinant grows by the factor $p$ (from $(p-1)!$ to $p!$
-    products), and the measured times of lengths 7, 8 and 9 grow by about 7, 7 and 8.
-
-    `subprocess.run([...], capture_output=True, text=True)` runs the program and
-    collects what it prints. The program prints one line per length, such as
-    `PASS - GKD vs literal ..., all 64 pairs of index lists of length 1 ...: 0
-    mismatches`, and a last line with its run time. The cell reads the numbers out of
-    these lines with regular expressions (`re.search`) and prints them as a table,
-    without the run time (it differs from run to run). Then it checks the exit status
-    of the program (0 means success) and compares the written file with the Revision
-    record byte for byte.
+    The next cell reads the record `Revision/gkd_lovelock/results/gkd-selftest.json` of
+    the run of `lovelock_gkd gkd-selftest --exhaustive-max 4 --output FOLDER` (the cell
+    before prints this command). Its entry `results` holds one row per length: the mode
+    (`exhaustive` or `random`), the number of pairs, for the random lengths the number
+    of nonzero values, and the number of disagreements between GKD and the literal
+    determinant. The cell prints the rows as a table and checks the verdict SUCCESS of
+    the record, that the rows cover the lengths 1 to 9 with no disagreement and that
+    the length 4 was tested exhaustively on all 16,777,216 pairs, and that the program
+    file that repeats the run is built. To repeat the run yourself, run the printed
+    command in a terminal, in the folder `Revision/gkd_lovelock/code/target/release`,
+    with a folder of your choice in place of FOLDER: it writes `gkd-selftest.json` into
+    that folder, and the file must equal the record byte for byte.
     """),
     code(r'''
-    OUT_FOLDER = REPO / "Revision" / "gkd_lovelock" / "code" / "target" / "textbook_11a"
-    completed = subprocess.run(
-        [str(program), "gkd-selftest", "--exhaustive-max", "4", "--output",
-         str(OUT_FOLDER)],
-        capture_output=True, text=True, encoding="utf-8", errors="replace")
-    say("The Rust self-test printed (as a table; its run time is left out):")
+    SELFTEST = "Revision/gkd_lovelock/results/gkd-selftest.json"
+    written = repository_file(SELFTEST).read_bytes()  # the record of the Rust run
+    selftest_record = json.loads(written.decode("utf-8"))
+    say("The record of the Rust self-test (as a table):")
     rust_rows = {}  # p -> (mode, pairs, nonzero or None, mismatches)
-    for line in completed.stdout.splitlines():
-        found = re.search(r"all (\d+) pairs of index lists of length (\d+) .*: (\d+) "
-                          r"mismatches", line)
-        if found:  # an exhaustive length
-            pairs, p, bad = (int(v) for v in found.groups())
-            rust_rows[p] = ("exhaustive", pairs, None, bad)
-        found = re.search(r"(\d+) pseudo-random pairs of length (\d+) \((\d+) nonzero\)"
-                          r": (\d+) mismatches", line)
-        if found:  # a random length
-            pairs, p, nonzero, bad = (int(v) for v in found.groups())
-            rust_rows[p] = ("random", pairs, nonzero, bad)
+    for row in selftest_record["results"]:
+        rust_rows[row["p"]] = (row["mode"], row["pairs"], row.get("nonzero"),
+                               row["mismatches"])
     for p, (mode, pairs, nonzero, bad) in sorted(rust_rows.items()):
         extra = "" if nonzero is None else f", {nonzero:6d} nonzero"
         say(f"  p = {p}: {mode:10s} {pairs:9d} pairs{extra}; disagreements: {bad}")
-    check(completed.returncode == 0 and "gkd-selftest: SUCCESS" in completed.stdout,
-          "the Rust program lovelock_gkd gkd-selftest ended with SUCCESS")
+    check(selftest_record["program"] == "lovelock_gkd gkd-selftest"
+          and selftest_record["verdict"] == "SUCCESS",
+          "the record of the Rust program lovelock_gkd gkd-selftest has the verdict "
+          "SUCCESS", record=SELFTEST)
     check(sorted(rust_rows) == list(range(1, 10))
           and all(row[3] == 0 for row in rust_rows.values())
           and rust_rows[4][:2] == ("exhaustive", 16777216),
-          "Rust: GKD equals the literal determinant for every tested pair, p = 1 to 9")
-    written = (OUT_FOLDER / "gkd-selftest.json").read_bytes()
-    stored = repository_file("Revision/gkd_lovelock/results/gkd-selftest.json").read_bytes()
-    check(written == stored,
-          "the program wrote gkd-selftest.json equal to the Revision record byte for byte",
-          record="Revision/gkd_lovelock/results/gkd-selftest.json (the whole file)")
+          "Rust: GKD equals the literal determinant for every tested pair, p = 1 to 9",
+          record=SELFTEST)
+    check(program.is_file(), "the program lovelock_gkd that repeats the self-test is built")
     '''),
     md(r"""
-    The file just compared is now read as JSON (a text format of names and numbers),
+    The record just read is now read as JSON (a text format of names and numbers),
     and its numbers are compared with the birthday formula of section 8. In the
     program's random samples one half are rearrangements and one half independent lists,
     100,000 each, so the expected number of nonzero values of length $p$ is

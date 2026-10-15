@@ -18,7 +18,7 @@ Everything in this chapter is geometry of the given metric: no physical assumpti
 
 Each word is defined in plain terms here; the later sections make the definitions precise.
 
-- **Coordinates** $x_1, \dots, x_8$: the author's names of the eight directions. $x_1, x_2, x_3$: ordinary 3-space (they inflate). $x_4$: the time. $x_5, x_6, x_7$: the three **extra times**, time-like directions that **deflate exponentially** when $a_4$ grows. $x_8$: the hidden space direction, through the angle $z = 6Hx_8$ with $0 < z < \pi/2$. Programs number the coordinates $0, 1, \dots, 7$, so the number 3 stands for $x_4$ and the number 7 for $x_8$.
+- **Coordinates** $x_0, \dots, x_7$: the author's names of the eight directions. $x_1, x_2, x_3$: ordinary 3-space (they inflate). $x_4$: the time. $x_5, x_6, x_7$: the three **extra times**, time-like directions that **deflate exponentially** when $a_4$ grows. $x_0$: the hidden space direction, through the angle $z = 6Hx_0$ with $0 < z < \pi/2$. Programs number the coordinates $0, 1, \dots, 7$, so the number 3 stands for $x_4$ and the number 7 for $x_0$.
 - **Label**: the name of a coordinate. **Index list**: an ordered list of labels, such as $(x_2, x_1, x_4)$; its **length** $p$ is the number of entries. A **pair** of index lists is a **lower** list $(l_1, \dots, l_p)$ and an **upper** list $(u_1, \dots, u_p)$ of the same length.
 - **Kronecker delta** $\delta(a, b) = \delta^b_a$: the number 1 if the labels $a$ and $b$ are equal, 0 otherwise.
 - **Permutation**, **inversion**, **sign**: a permutation is a re-ordering of $p$ objects, written as the list $(\sigma(1), \dots, \sigma(p))$; an inversion is a pair of places $i < j$ with $\sigma(i) > \sigma(j)$; the sign is $(-1)^{\text{number of inversions}}$, $+1$ for an **even** and $-1$ for an **odd** permutation (Section 1.19).
@@ -207,11 +207,11 @@ $$
 \varepsilon_{a_1\dots a_8}\,\varepsilon^{b_1\dots b_8} = \sqrt{|\det g|}\cdot\frac{\sqrt{|\det g|}}{\det g}\,[a_1\dots a_8][b_1\dots b_8] = \frac{|\det g|}{\det g}\,[a_1\dots a_8][b_1\dots b_8]
 $$
 
-(the two definitions; $\sqrt{u}\sqrt{u} = u$), and $|\det g|/\det g$ is the sign of $\det g$. For the author's metric $\det g = \cos^2 z > 0$ for every $a_4$ (record `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`; `Revision/gkd_lovelock/results/wolfram-gkd-report.json`, check `sqrt_det_g_is_cos`; Section 1.21), so the sign is $+1$: the product of the two curved Levi-Civita tensors is exactly the product of the two symbols, and the author's second route gives, after the contraction over seven labels and the division by $7!$, the ordinary Kronecker delta $\delta^b_a$ with no extra sign. In a metric with an odd number of time-like directions, such as the four-dimensional spacetime of everyday physics, the sign would be $-1$. Notebook 01c checks the author's second route with the flat metric of signature (4,4) (Section 1.44).
+(the two definitions; $\sqrt{u}\sqrt{u} = u$), and $|\det g|/\det g$ is the sign of $\det g$. For the author's metric $\det g = \cos^2 z > 0$ for every $a_4$ (with the second function $b_4$ of the metric of 2026-10-14, $\det g = b_4^3\cos^2 z$, still positive) (record `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`; `Revision/gkd_lovelock/results/wolfram-gkd-report.json`, check `sqrt_det_g_is_cos`; Section 1.21), so the sign is $+1$: the product of the two curved Levi-Civita tensors is exactly the product of the two symbols, and the author's second route gives, after the contraction over seven labels and the division by $7!$, the ordinary Kronecker delta $\delta^b_a$ with no extra sign. In a metric with an odd number of time-like directions, such as the four-dimensional spacetime of everyday physics, the sign would be $-1$. Notebook 01c checks the author's second route with the flat metric of signature (4,4) (Section 1.44).
 
 ### 11.6 Example: the generalized Kronecker delta in Python and in Rust
 
-Notebook 11a puts Sections 11.3 and 11.4 to work. It writes the author's definition literally in Python, as an exact determinant computed by sympy; writes the rule GKD as a Python function; reproduces the record's five examples; draws three $4 \times 4$ matrices and all six arrangements of three labels; compares the rule with the determinant for all 266,304 pairs of lengths 1 to 3 and for 12,000 pseudo-random pairs of lengths 4 to 9; counts the values and compares the counts with the formula and with the Wolfram record; shows that every delta of nine labels vanishes; compares the cost of the two methods; builds the Revision Rust program `lovelock_gkd` with cargo and runs its GKD self-test, which must reproduce the record `Revision/gkd_lovelock/results/gkd-selftest.json` byte for byte; compares the self-test's counts with the birthday formula; and checks once more that every check and number it quotes from the Revision records is there. It needs Rust. The Rust self-test alone takes 7 to 13 minutes, because it computes 200,000 literal determinants of $9 \times 9$ matrices, each a sum of 362,880 products; the whole notebook took 789.3 seconds when it was built and 699.3 seconds in its verification run (the provenance file `Revision/textbook/notebooks/11a_kronecker_delta_gkd.PROVENANCE.md`). It prints 24 PASS lines, draws six figures and ends with the line ALL 24 CHECKS PASSED (notebook 11a).
+Notebook 11a puts Sections 11.3 and 11.4 to work. It writes the author's definition literally in Python, as an exact determinant computed by sympy; writes the rule GKD as a Python function; reproduces the record's five examples; draws three $4 \times 4$ matrices and all six arrangements of three labels; compares the rule with the determinant for all 266,304 pairs of lengths 1 to 3 and for 12,000 pseudo-random pairs of lengths 4 to 9; counts the values and compares the counts with the formula and with the Wolfram record; shows that every delta of nine labels vanishes; compares the cost of the two methods; builds the Revision Rust program `lovelock_gkd` with cargo and reads the record `Revision/gkd_lovelock/results/gkd-selftest.json` of its GKD self-test, checking every row; compares the self-test's counts with the birthday formula; and checks once more that every check and number it quotes from the Revision records is there. It needs Rust. The Rust self-test itself takes 7 to 13 minutes, because it computes 200,000 literal determinants of $9 \times 9$ matrices, each a sum of 362,880 products; that is longer than the limit of 7 minutes that this book sets for one computation, so the notebook prints the command that repeats it instead of running it (In [13]). The whole notebook took 8.2 seconds when it was built on 2026-10-15 (the provenance file `Revision/textbook/notebooks/11a_kronecker_delta_gkd.PROVENANCE.md`). It prints 24 PASS lines, draws six figures and ends with the line ALL 24 CHECKS PASSED (notebook 11a).
 
 <!-- NOTEBOOK 11a -->
 
@@ -397,7 +397,7 @@ The last line prints the cell's only output, Set-up of notebook 11a complete: re
 ```python
 import itertools  # loops over all lists of labels, and over all permutations
 import math  # factorials n! and the numbers n!/(n-p)!
-import re  # regular expressions: reads numbers out of a program's printed text
+import re  # regular expressions: reads numbers out of the texts of the records
 import time  # a stopwatch (used inside one check; no time is ever printed)
 
 import numpy as np  # arrays of numbers and pseudo-random numbers
@@ -407,10 +407,10 @@ import sympy as sp  # exact algebra: sympy computes determinants exactly
 Six more modules: `itertools` produces all lists of labels and all permutations; `math` has `math.factorial(p)` $= p!$ and `math.perm(n, p)` $= n!/(n - p)!$; `re` reads numbers out of text with **regular expressions** (patterns of characters); `time` provides a stopwatch; numpy (short name `np`) handles arrays of numbers and makes pseudo-random numbers; sympy (short name `sp`) does exact algebra.
 
 ```python
-NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]  # the labels 0..7 by name
+NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # the labels 0..7 by name
 ```
 
-The list of the eight coordinate names; `NAMES[0]` is `"x1"` and `NAMES[7]` is `"x8"`, because Python counts places from 0.
+The list of the eight coordinate names; `NAMES[0]` is `"x1"` and `NAMES[7]` is `"x0"`, because Python counts places from 0.
 
 ```python
 def outer_delta(lower, upper):
@@ -472,7 +472,7 @@ check(refused, "kdelta refuses two lists of different lengths")
 **In [3], three matrices drawn (Figure 11a.1).**
 
 ```python
-SHOWN = [  # (lower list, upper list) with labels 0..7 standing for x1..x8
+SHOWN = [  # (lower list, upper list) with labels 0..7 standing for x0..x7
     ((0, 1, 2, 3), (1, 0, 3, 2)),  # x2 x1 x4 x3: two exchanges, even
     ((0, 1, 2, 3), (1, 2, 3, 0)),  # x2 x3 x4 x1: a cycle of four, odd
     ((0, 1, 2, 2), (0, 1, 2, 3)),  # x3 twice in the lower list
@@ -480,7 +480,7 @@ SHOWN = [  # (lower list, upper list) with labels 0..7 standing for x1..x8
 fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.9))
 ```
 
-The three pairs of the examples of Section 11.3, written with the numbers 0 to 7 for $x_1$ to $x_8$. `plt.subplots(1, 3, ...)` makes a figure `fig` with one row of three panels, the **axes** (drawing areas) `axes[0]`, `axes[1]`, `axes[2]`, 10.5 by 3.9 inches in all.
+The three pairs of the examples of Section 11.3, written with the numbers 0 to 7 for $x_0$ to $x_7$. `plt.subplots(1, 3, ...)` makes a figure `fig` with one row of three panels, the **axes** (drawing areas) `axes[0]`, `axes[1]`, `axes[2]`, 10.5 by 3.9 inches in all.
 
 ```python
 for ax, (lower, upper) in zip(axes, SHOWN):
@@ -975,7 +975,7 @@ Two checks: the 200 values agree, and the determinants took more than ten times 
 
 *What Figure 11a.5 shows.* Three curves on a logarithmic axis against the length $p$. The circles ($p!$) rise ever more steeply, to 362,880 at $p = 9$; the squares ($p(p-1)/2$) stay small, 36 at $p = 9$; the triangles ($8^{2p}$) rise as a straight line, because a power $64^p$ is a straight line on a logarithmic axis, to $1.8 \times 10^{16}$. Right of the line at $p = 4.5$ only samples can be tested.
 
-**In [13], the Rust program is built.**
+**In [13], the Rust program is built, and the command of its self-test.**
 
 ```python
 program = rust_program("Revision/gkd_lovelock/code/Cargo.toml", "lovelock_gkd")
@@ -983,46 +983,39 @@ program = rust_program("Revision/gkd_lovelock/code/Cargo.toml", "lovelock_gkd")
 
 The helper of the set-up cell runs cargo for the crate `Revision/gkd_lovelock/code` and returns the path of the program `lovelock_gkd` (with `.exe` on Windows), named `program` here. When the program is up to date this takes about a second; a first build took a few seconds on the computer that built the book (the crate has no dependencies, so nothing is downloaded). Output: Rust program lovelock_gkd is built and ready.
 
-**In [14], the Rust self-test.** This is the cell that takes 7 to 13 minutes. The command it runs is
+```python
+COMMAND = ["lovelock_gkd", "gkd-selftest", "--exhaustive-max", "4", "--output", "FOLDER"]
+say("To repeat the self-test (7 to 13 minutes), run in the folder of the program: "
+    + " ".join(COMMAND))
+```
+
+`COMMAND` is the list of the words of the command that runs the self-test: the program, the command `gkd-selftest`, the option that makes the lengths 1 to 4 exhaustive, and the folder for the result file; `" ".join(COMMAND)` joins the words with spaces. The cell does not run the command. The self-test takes 7 to 13 minutes on the computer that built the book, most of it in the 200,000 literal determinants of $9 \times 9$ matrices, each a sum of $9! = 362880$ products; that is longer than the limit of 7 minutes that this book sets for one computation. Output: the line with the command
 
 ```text
 lovelock_gkd gkd-selftest --exhaustive-max 4 --output FOLDER
 ```
 
-with the option that makes the lengths 1 to 4 exhaustive and the folder for the result file.
+To repeat the self-test yourself, run this command in a terminal, in the folder `Revision/gkd_lovelock/code/target/release` (on Windows the program file is `lovelock_gkd.exe`), with a folder of your choice in place of FOLDER: the file `gkd-selftest.json` that it writes there must equal the record byte for byte.
+
+**In [14], the record of the Rust self-test.**
 
 ```python
-OUT_FOLDER = REPO / "Revision" / "gkd_lovelock" / "code" / "target" / "textbook_11a"
-completed = subprocess.run(
-    [str(program), "gkd-selftest", "--exhaustive-max", "4", "--output",
-     str(OUT_FOLDER)],
-    capture_output=True, text=True, encoding="utf-8", errors="replace")
-say("The Rust self-test printed (as a table; its run time is left out):")
+SELFTEST = "Revision/gkd_lovelock/results/gkd-selftest.json"
+written = repository_file(SELFTEST).read_bytes()  # the record of the Rust run
+selftest_record = json.loads(written.decode("utf-8"))
+say("The record of the Rust self-test (as a table):")
 ```
 
-The result goes into a folder inside the crate's build folder `target`, which git ignores, so the run adds no file to the repository. `subprocess.run` starts the program (its path as text, then the command words) and collects its printed lines in `completed.stdout`. Then a heading line is printed.
+`read_bytes()` reads the record as its raw bytes (the next cell uses them again), `decode("utf-8")` turns them into text and `json.loads` into a dictionary. Then a heading line is printed.
 
 ```python
 rust_rows = {}  # p -> (mode, pairs, nonzero or None, mismatches)
-for line in completed.stdout.splitlines():
-    found = re.search(r"all (\d+) pairs of index lists of length (\d+) .*: (\d+) "
-                      r"mismatches", line)
-    if found:  # an exhaustive length
-        pairs, p, bad = (int(v) for v in found.groups())
-        rust_rows[p] = ("exhaustive", pairs, None, bad)
+for row in selftest_record["results"]:
+    rust_rows[row["p"]] = (row["mode"], row["pairs"], row.get("nonzero"),
+                           row["mismatches"])
 ```
 
-`splitlines()` cuts the printed text into lines. `re.search(pattern, line)` looks for the pattern in a line; in the pattern, `(\d+)` captures a run of digits and `.*` stands for any characters. A line such as "PASS - GKD vs literal ..., all 64 pairs of index lists of length 1 over 8 values: 0 mismatches" matches, and `found.groups()` gives the three captured numbers: the number of pairs, the length and the number of mismatches. (The `r` before a string makes a **raw string**, in which a backslash stays a backslash.)
-
-```python
-    found = re.search(r"(\d+) pseudo-random pairs of length (\d+) \((\d+) nonzero\)"
-                      r": (\d+) mismatches", line)
-    if found:  # a random length
-        pairs, p, nonzero, bad = (int(v) for v in found.groups())
-        rust_rows[p] = ("random", pairs, nonzero, bad)
-```
-
-The same for the lines of the random lengths, which also state how many sampled values were nonzero; `\(` and `\)` are literal parentheses.
+The entry `results` of the record holds one row per length $p$: the mode (`exhaustive` or `random`), the number of pairs, for the random lengths the number of nonzero values, and the number of disagreements between GKD and the literal determinant. `row.get("nonzero")` gives the number of nonzero values, and `None` for an exhaustive row, which has no such entry. The dictionary `rust_rows` keeps each row as a tuple under its length.
 
 ```python
 for p, (mode, pairs, nonzero, bad) in sorted(rust_rows.items()):
@@ -1030,28 +1023,22 @@ for p, (mode, pairs, nonzero, bad) in sorted(rust_rows.items()):
     say(f"  p = {p}: {mode:10s} {pairs:9d} pairs{extra}; disagreements: {bad}")
 ```
 
-The collected rows are printed in the order of $p$ as a table, without the program's last line, which states its run time (a time differs from run to run). The output shows 64, 4096, 262144 and 16777216 pairs compared exhaustively for $p = 1$ to 4, and 200,000 random pairs for each $p = 5$ to 9 with 20538, 7812, 1949, 244 and 0 nonzero values; every disagreement count is 0.
+The rows are printed in the order of $p$ as a table. The output shows 64, 4096, 262144 and 16777216 pairs compared exhaustively for $p = 1$ to 4, and 200,000 random pairs for each $p = 5$ to 9 with 20538, 7812, 1949, 244 and 0 nonzero values; every disagreement count is 0.
 
 ```python
-check(completed.returncode == 0 and "gkd-selftest: SUCCESS" in completed.stdout,
-      "the Rust program lovelock_gkd gkd-selftest ended with SUCCESS")
+check(selftest_record["program"] == "lovelock_gkd gkd-selftest"
+      and selftest_record["verdict"] == "SUCCESS",
+      "the record of the Rust program lovelock_gkd gkd-selftest has the verdict "
+      "SUCCESS", record=SELFTEST)
 check(sorted(rust_rows) == list(range(1, 10))
       and all(row[3] == 0 for row in rust_rows.values())
       and rust_rows[4][:2] == ("exhaustive", 16777216),
-      "Rust: GKD equals the literal determinant for every tested pair, p = 1 to 9")
+      "Rust: GKD equals the literal determinant for every tested pair, p = 1 to 9",
+      record=SELFTEST)
+check(program.is_file(), "the program lovelock_gkd that repeats the self-test is built")
 ```
 
-The first check requires the return code 0 and the program's verdict SUCCESS. The second requires a row for every length 1 to 9, no disagreement in any row (`row[3]` is the fourth entry, the mismatches) and the exhaustive test of all 16,777,216 pairs of length 4 (`[:2]` takes the first two entries of the row).
-
-```python
-written = (OUT_FOLDER / "gkd-selftest.json").read_bytes()
-stored = repository_file("Revision/gkd_lovelock/results/gkd-selftest.json").read_bytes()
-check(written == stored,
-      "the program wrote gkd-selftest.json equal to the Revision record byte for byte",
-      record="Revision/gkd_lovelock/results/gkd-selftest.json (the whole file)")
-```
-
-`read_bytes()` reads a file as its raw bytes. The file just written and the committed record must be equal in every byte: the program, built on this computer, has reproduced the Revision record exactly. PASS lines sixteen to eighteen.
+The first check requires the program name of the record and its verdict SUCCESS. The second requires a row for every length 1 to 9, no disagreement in any row (`row[3]` is the fourth entry, the mismatches) and the exhaustive test of all 16,777,216 pairs of length 4 (`[:2]` takes the first two entries of the row). The third requires that the program file that repeats the self-test exists (`is_file()`). PASS lines sixteen to eighteen.
 
 **In [15], the self-test against the birthday formula (Figure 11a.6).**
 
@@ -1231,21 +1218,21 @@ $$
 | a 3-space direction and an extra time $(i, j)$ | 9 | $-(a_4'^2 + H^2)$ | $-5H^2$ |
 | a 3-space direction and the time $(i, x_4)$ | 3 | $a_4'^2 + a_4''$ | $4H^2$ |
 | an extra time and the time $(j, x_4)$ | 3 | $a_4'^2 - a_4''$ | $4H^2$ |
-| a transverse direction and the hidden one $(k, x_8)$ | 6 | $-H^2$ | $-H^2$ |
-| the time and the hidden direction $(x_4, x_8)$ | 1 | 0 | 0 |
+| a transverse direction and the hidden one $(k, x_0)$ | 6 | $-H^2$ | $-H^2$ |
+| the time and the hidden direction $(x_4, x_0)$ | 1 | 0 | 0 |
 
 Figure 11b.2 draws these 28 numbers as an $8 \times 8$ table at $a_4' = 2H$, once with $a_4'' = 0$ and once with $a_4'' = H^2$ (Notebook 11b, In [9]). Each plane with $K \ne 0$ gives four nonzero components, $R^{ab}{}_{ab} = R^{ba}{}_{ba} = K(a, b)$ and $R^{ab}{}_{ba} = R^{ba}{}_{ab} = -K(a, b)$: 27 planes, 108 components.
 
-**The components that mix the time and the hidden direction (PROVED).** The other nonzero components connect the plane of $x_4$ and $x_k$ with the plane of $x_8$ and $x_k$. We derive the first kind once more, line by line, writing the scale-factor exponent of the transverse direction $k$ as $\sigma_k$: the metric entry is $g_{kk} = \epsilon_k\,e^{2\sigma_ka_4}\sin^{1/3}z$ with $\sigma_k = +1$, $\epsilon_k = +1$ for 3-space (inflating, space-like) and $\sigma_k = -1$, $\epsilon_k = -1$ for an extra time (deflating, time-like). The formula for $R^a{}_{bcd}$ with $a = x_4$, $b = k$, $c = x_8$, $d = k$ reads
+**The components that mix the time and the hidden direction (PROVED).** The other nonzero components connect the plane of $x_4$ and $x_k$ with the plane of $x_0$ and $x_k$. We derive the first kind once more, line by line, writing the scale-factor exponent of the transverse direction $k$ as $\sigma_k$: the metric entry is $g_{kk} = \epsilon_k\,e^{2\sigma_ka_4}\sin^{1/3}z$ with $\sigma_k = +1$, $\epsilon_k = +1$ for 3-space (inflating, space-like) and $\sigma_k = -1$, $\epsilon_k = -1$ for an extra time (deflating, time-like). The formula for $R^a{}_{bcd}$ with $a = x_4$, $b = k$, $c = x_0$, $d = k$ reads
 
 $$
-R^4{}_{k8k} = \partial_8\Gamma^4{}_{kk} - \partial_k\Gamma^4{}_{8k} + \sum_e\Gamma^4{}_{8e}\Gamma^e{}_{kk} - \sum_e\Gamma^4{}_{ke}\Gamma^e{}_{8k}
+R^4{}_{k0k} = \partial_0\Gamma^4{}_{kk} - \partial_k\Gamma^4{}_{0k} + \sum_e\Gamma^4{}_{0e}\Gamma^e{}_{kk} - \sum_e\Gamma^4{}_{ke}\Gamma^e{}_{0k}
 $$
 
-(the definition with these four labels). Nothing depends on $x_k$, so $\partial_k(\dots) = 0$; every symbol $\Gamma^4{}_{8e}$ is zero (the only nonzero symbols with the upper label $x_4$ are $\Gamma^4{}_{kk}$, Section 3.23); and in the last sum only $e = k$ survives:
+(the definition with these four labels). Nothing depends on $x_k$, so $\partial_k(\dots) = 0$; every symbol $\Gamma^4{}_{0e}$ is zero (the only nonzero symbols with the upper label $x_4$ are $\Gamma^4{}_{kk}$, Section 3.23); and in the last sum only $e = k$ survives:
 
 $$
-R^4{}_{k8k} = \partial_8\Gamma^4{}_{kk} - \Gamma^4{}_{kk}\,\Gamma^k{}_{8k} .
+R^4{}_{k0k} = \partial_0\Gamma^4{}_{kk} - \Gamma^4{}_{kk}\,\Gamma^k{}_{0k} .
 $$
 
 The two symbols are, by the Christoffel formula with $g^{44} = -1$,
@@ -1255,39 +1242,47 @@ $$
 $$
 
 $$
-\Gamma^k{}_{8k} = \tfrac12\,g^{kk}\,\partial_8 g_{kk} = H\cot z
+\Gamma^k{}_{0k} = \tfrac12\,g^{kk}\,\partial_0 g_{kk} = H\cot z
 $$
 
-(the chain rule: $\partial_4 e^{2\sigma_ka_4} = 2\sigma_ka_4'e^{2\sigma_ka_4}$; and $\partial_8\ln\sin^{1/3}z = \tfrac13\cot z\cdot 6H = 2H\cot z$, half of which is $H\cot z$). Since $\partial_8\sin^{1/3}z = 2H\cot z\,\sin^{1/3}z$,
+(the chain rule: $\partial_4 e^{2\sigma_ka_4} = 2\sigma_ka_4'e^{2\sigma_ka_4}$; and $\partial_0\ln\sin^{1/3}z = \tfrac13\cot z\cdot 6H = 2H\cot z$, half of which is $H\cot z$). Since $\partial_0\sin^{1/3}z = 2H\cot z\,\sin^{1/3}z$,
 
 $$
-R^4{}_{k8k} = \epsilon_k\sigma_k\,a_4'\,e^{2\sigma_ka_4}\sin^{1/3}z\,\big(2H\cot z - H\cot z\big) = \epsilon_k\sigma_k\,Ha_4'\cot z\;e^{2\sigma_ka_4}\sin^{1/3}z
+R^4{}_{k0k} = \epsilon_k\sigma_k\,a_4'\,e^{2\sigma_ka_4}\sin^{1/3}z\,\big(2H\cot z - H\cot z\big) = \epsilon_k\sigma_k\,Ha_4'\cot z\;e^{2\sigma_ka_4}\sin^{1/3}z
 $$
 
 (the derivative of the product; then the common factor taken out). Raising the second label multiplies by $g^{kk} = 1/(\epsilon_k e^{2\sigma_ka_4}\sin^{1/3}z)$:
 
 $$
-R^{4k}{}_{8k} = \sigma_k\,Ha_4'\cot z
+R^{4k}{}_{0k} = \sigma_k\,Ha_4'\cot z
 $$
 
-($\epsilon_k/\epsilon_k = 1$ and the exponentials cancel). So the sign is set by $\sigma_k$ alone, that is by whether the direction inflates or deflates, not by whether it is space-like or time-like: $R^{4i}{}_{8i} = +Ha_4'\cot z$ for the three 3-space directions and $R^{4j}{}_{8j} = -Ha_4'\cot z$ for the three extra times, as Section 3.24 found. The same steps with $a = x_8$, $c = x_4$ give $R^{8i}{}_{4i} = -Ha_4'\tan z$ and $R^{8j}{}_{4j} = +Ha_4'\tan z$ (Section 3.24). With the antisymmetries each of the six transverse $k$ gives eight such components: 48. Together $108 + 48 = 156$ nonzero components of the 4096 (record check `riemann_antisymmetry`, "156 nonzero entries"; Notebook 11b, In [7], recomputes them; Figure 11b.3 draws all 4096 at one point).
+($\epsilon_k/\epsilon_k = 1$ and the exponentials cancel). So the sign is set by $\sigma_k$ alone, that is by whether the direction inflates or deflates, not by whether it is space-like or time-like: $R^{4i}{}_{0i} = +Ha_4'\cot z$ for the three 3-space directions and $R^{4j}{}_{0j} = -Ha_4'\cot z$ for the three extra times, as Section 3.24 found. The same steps with $a = x_0$, $c = x_4$ give $R^{0i}{}_{4i} = -Ha_4'\tan z$ and $R^{0j}{}_{4j} = +Ha_4'\tan z$ (Section 3.24). With the antisymmetries each of the six transverse $k$ gives eight such components: 48. Together $108 + 48 = 156$ nonzero components of the 4096 (record check `riemann_antisymmetry`, "156 nonzero entries"; Notebook 11b, In [7], recomputes them; Figure 11b.3 draws all 4096 at one point).
 
-**What this means for the Ricci tensor.** The off-diagonal Ricci component $R^{x_4}{}_{x_8} = \sum_c R^{x_4c}{}_{x_8c}$ is the sum of the seven terms $c = x_1, \dots, x_7$ (the term $c = x_8$ vanishes by antisymmetry):
+**What this means for the Ricci tensor.** The off-diagonal Ricci component $R^{x_4}{}_{x_0} = \sum_c R^{x_4c}{}_{x_0c}$ is the sum of the seven terms $c = x_1, \dots, x_7$ (the term $c = x_0$ vanishes by antisymmetry):
 
 $$
-R^{x_4}{}_{x_8} = 3\cdot(+Ha_4'\cot z) + 0 + 3\cdot(-Ha_4'\cot z) = 0
+R^{x_4}{}_{x_0} = 3\cdot(+Ha_4'\cot z) + 0 + 3\cdot(-Ha_4'\cot z) = 0
 $$
 
-(three inflating directions, the time itself, three deflating directions). The cancellation is exact for every $a_4$, because there are as many inflating as deflating directions (Notebook 11b, In [11], Figure 11b.4). Section 11.21 shows that the same cancellation leaves all three Lovelock tensors without an $x_4$-$x_8$ component.
+(three inflating directions, the time itself, three deflating directions). On the background $b_4 = 1$ the cancellation is exact for every $a_4$, because there are as many inflating as deflating directions (Notebook 11b, In [11], Figure 11b.4). Section 11.21 shows that the same cancellation leaves all three Lovelock tensors without an $x_4$-$x_0$ component.
 
-**Three facts used below (PROVED).**
+**With the second function $b_4$ (PROVED by exact computation).** The Revision records compute the curvature for the author's metric of 2026-10-14, whose extra-time components carry the second function $b_4(x_4)$: $g_{jj} = -e^{-2a_4}b_4\sin^{1/3}z$. The table and the components above are its background $b_4 = 1$ (and every constant $b_4$, which is a rescaling of the extra times). With a changing $b_4$ the same 156 components are nonzero, but those with an extra time contain $b_4'/b_4$ and $b_4''/b_4$ as well, and the three extra-time terms of $R^{x_4}{}_{x_0}$ no longer cancel the three space terms:
+
+$$
+R^{x_4}{}_{x_0} = \frac32\,H\cot z\,\frac{b_4'}{b_4},\qquad R = 6a_4'^2 - 42H^2 + 3\frac{b_4''}{b_4} - 3a_4'\frac{b_4'}{b_4}
+$$
+
+(record `curvature.json`, entries `einsteinMixed` and `ricciScalar`; Notebook 11b, In [8] and In [11], recomputes both with sympy). So with a changing $b_4$ the time and the hidden direction mix; Chapter 12 shows what this does to the field equations.
+
+**Three facts used below (PROVED, on the background $b_4 = 1$).**
 
 - Every nonzero $R^{ab}{}_{cd}$ is one of $a_4'^2 - H^2$, $-(a_4'^2 + H^2)$, $a_4'^2 \pm a_4''$, $-H^2$, $\pm Ha_4'\cot z$, $\pm Ha_4'\tan z$: a polynomial in $H$, $a_4'$, $a_4''$, $\cot z$ and $\tan z = 1/\cot z$, free of $e^{a_4}$ and of $\sin^{1/3}z$ (record check `mixed_riemann_free_of_sin_third`; `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `mixed_riemann_free_of_warp_and_exponential`; Notebook 11b, In [7]).
-- **Weight 2.** Count $H$ and $a_4'$ as 1 and $a_4''$ as 2 (each is one inverse length per count: $z = 6Hx_8$ is a pure number, so $H$ is an inverse length; $a_4$ is a pure number, so $a_4' = da_4/dx_4$ is an inverse length and $a_4''$ an inverse length squared), and $\cot z$ as 0. Then every one of the components just listed has the weight 2: curvature has the dimension $1/\text{length}^2$.
-- **The Ricci tensor, the Ricci scalar and the Einstein tensor** (Section 3.25): $R^i{}_i = a_4'' - 6H^2$, $R^4{}_4 = 6a_4'^2$, $R^j{}_j = -a_4'' - 6H^2$, $R^8{}_8 = -6H^2$, every off-diagonal entry zero; $R = 6a_4'^2 - 42H^2$; and
+- **Weight 2.** Count $H$ and $a_4'$ as 1 and $a_4''$ as 2 (each is one inverse length per count: $z = 6Hx_0$ is a pure number, so $H$ is an inverse length; $a_4$ is a pure number, so $a_4' = da_4/dx_4$ is an inverse length and $a_4''$ an inverse length squared), and $\cot z$ as 0. Then every one of the components just listed has the weight 2: curvature has the dimension $1/\text{length}^2$.
+- **The Ricci tensor, the Ricci scalar and the Einstein tensor** (Section 3.25): $R^i{}_i = a_4'' - 6H^2$, $R^4{}_4 = 6a_4'^2$, $R^j{}_j = -a_4'' - 6H^2$, $R^0{}_0 = -6H^2$, every off-diagonal entry zero; $R = 6a_4'^2 - 42H^2$; and
 
 $$
-G^i{}_i = -3a_4'^2 + a_4'' + 15H^2,\quad G^4{}_4 = 3a_4'^2 + 21H^2,\quad G^j{}_j = -3a_4'^2 - a_4'' + 15H^2,\quad G^8{}_8 = 15H^2 - 3a_4'^2
+G^i{}_i = -3a_4'^2 + a_4'' + 15H^2,\quad G^4{}_4 = 3a_4'^2 + 21H^2,\quad G^j{}_j = -3a_4'^2 - a_4'' + 15H^2,\quad G^0{}_0 = 15H^2 - 3a_4'^2
 $$
 
 (record `curvature.json`, its entries for the Ricci tensor, the Ricci scalar and the Einstein tensor; Notebook 11b, In [8], reproduces the Ricci scalar).
@@ -1556,7 +1551,7 @@ with the eight cubic invariants $T_1 = R^{ab}{}_{cd}R^{cd}{}_{ef}R^{ef}{}_{ab}$,
 
 ### 11.16 Example: the three Lovelock tensors computed twice
 
-Notebook 11b computes the three Lovelock tensors of the author's metric in two independent ways and checks Sections 11.10 to 11.15. It builds and runs the Revision Rust program `lovelock_gkd`, which computes everything exactly from the metric alone, runs its 19 checks and writes four files; the notebook compares three of the four files with the committed Revision records byte for byte, and the fourth, the report `lovelock-report.json`, apart from its two floating-point numbers (the rounding errors measured by its two brute-force checks, whose last digits may depend on the computer). Then it recomputes the Riemann tensor with sympy and compares all 156 nonzero components with the record; draws the plane curvatures, the whole Riemann tensor and the cancelling mixed terms; recomputes the three tensors and scalars with its own Python GKD sum and its own exact arithmetic, reproduces every counter of the Rust sums and all $3 \times 64$ components; repeats the sums of orders 1 and 2 literally; checks the expansion of Section 11.13, the identities $P_{(1)} = -4G$, $P_{(2)} = -8\mathcal{H}$, the cubic density, the trace identities and $P_{(4)} = 0$; draws the components of $E_{(1)}, E_{(2)}, E_{(3)}$ at one moment of a deflating history; and checks that every check it quotes from the records is there. It needs Rust and takes one and a half to two minutes (99.6 seconds when it was built, 95.6 seconds in its verification run; provenance file `Revision/textbook/notebooks/11b_lovelock_tensors.PROVENANCE.md`). It prints 36 PASS lines, draws five figures and ends with the line ALL 36 CHECKS PASSED (notebook 11b).
+Notebook 11b computes the three Lovelock tensors of the author's metric in two independent ways and checks Sections 11.10 to 11.15. It builds and runs the Revision Rust program `lovelock_gkd`, which computes everything exactly from the metric alone (the author's metric of 2026-10-14, with its second function $b_4(x_4)$), runs its 19 checks and writes four files; the notebook compares three of the four files with the committed Revision records byte for byte, and the fourth, the report `lovelock-report.json`, apart from its two floating-point numbers (the rounding errors measured by its two brute-force checks, whose last digits may depend on the computer). Then it recomputes the Riemann tensor with sympy, for a general $b_4$, and compares all 156 nonzero components with the record; from there on it works on the background $b_4 = 1$; draws the plane curvatures, the whole Riemann tensor and the mixed terms, which cancel at $b_4 = 1$ and leave $\frac32H\cot z\,b_4'/b_4$ with $b_4$; recomputes the three tensors and scalars with its own Python GKD sum and its own exact arithmetic, reproduces every counter of the Rust sums and all $3 \times 64$ components; repeats the sums of orders 1 and 2 literally; checks the expansion of Section 11.13, the identities $P_{(1)} = -4G$, $P_{(2)} = -8\mathcal{H}$, the cubic density, the trace identities and $P_{(4)} = 0$; draws the components of $E_{(1)}, E_{(2)}, E_{(3)}$ at one moment of a deflating history; and checks that every check it quotes from the records is there. It needs Rust and takes about a minute (45.7 seconds when it was built on 2026-10-15; provenance file `Revision/textbook/notebooks/11b_lovelock_tensors.PROVENANCE.md`). It prints 38 PASS lines, draws five figures and ends with the line ALL 38 CHECKS PASSED (notebook 11b).
 
 <!-- NOTEBOOK 11b -->
 
@@ -1760,20 +1755,21 @@ The check fixes the counters quoted in the text. Seventh PASS line.
 import sympy as sp  # exact algebra and calculus
 
 H = sp.Symbol("H", positive=True)  # the author's constant H > 0
-X = sp.symbols("x1:9", real=True)  # the coordinates x1, ..., x8
-a4 = sp.Function("a4")(X[3])  # the unknown function a4(x4)
-z = 6 * H * X[7]  # z = 6 H x8
+X = sp.symbols("x0:8", real=True)  # the coordinates x0, ..., x7
+a4 = sp.Function("a4")(X[4])  # the unknown function a4(x4)
+b4 = sp.Function("b4")(X[4])  # the unknown second function b4(x4) > 0
+z = 6 * H * X[0]  # z = 6 H x0
 warp = sp.sin(z) ** sp.Rational(1, 3)  # sin(z)^(1/3)
 ```
 
-`sp.Symbol` makes a symbol that sympy computes with exactly; `positive=True` tells sympy that $H > 0$. `sp.symbols("x1:9")` makes the eight symbols `x1` to `x8` (the range 1 to 8), stored in the tuple `X`, so `X[3]` is $x_4$ and `X[7]` is $x_8$. `sp.Function("a4")(X[3])` is an unknown function of $x_4$, which sympy can differentiate. `sp.Rational(1, 3)` is the exact fraction $1/3$, so `warp` is $\sin^{1/3}z$.
+`sp.Symbol` makes a symbol that sympy computes with exactly; `positive=True` tells sympy that $H > 0$. `sp.symbols("x0:8")` makes the eight symbols `x0` to `x7` (the range 0 to 7), stored in the tuple `X`, so `X[k]` is $x_k$: `X[4]` is $x_4$ and `X[0]` is $x_0$. `sp.Function("a4")(X[4])` and `sp.Function("b4")(X[4])` are unknown functions of $x_4$, which sympy can differentiate: the history $a_4$ and the second function $b_4$ of the author's metric of 2026-10-14. `sp.Rational(1, 3)` is the exact fraction $1/3$, so `warp` is $\sin^{1/3}z$.
 
 ```python
-METRIC = ([sp.exp(2 * a4) * warp] * 3 + [sp.Integer(-1)]
-          + [-sp.exp(-2 * a4) * warp] * 3 + [sp.cot(z) ** 2])  # g_11 ... g_88
+METRIC = ([sp.cot(z) ** 2] + [sp.exp(2 * a4) * warp] * 3 + [sp.Integer(-1)]
+          + [-sp.exp(-2 * a4) * b4 * warp] * 3)  # g_00, g_11, ..., g_77
 ```
 
-The diagonal of the author's metric as a list of eight entries: a list multiplied by 3 repeats it three times, and `+` joins lists. So `METRIC[0]` to `METRIC[2]` are $e^{2a_4}\sin^{1/3}z$, `METRIC[3]` is $-1$, `METRIC[4]` to `METRIC[6]` are $-e^{-2a_4}\sin^{1/3}z$, and `METRIC[7]` is $\cot^2z$.
+The diagonal of the author's metric as a list of eight entries: a list multiplied by 3 repeats it three times, and `+` joins lists. So `METRIC[0]` is $\cot^2z$, `METRIC[1]` to `METRIC[3]` are $e^{2a_4}\sin^{1/3}z$, `METRIC[4]` is $-1$, and `METRIC[5]` to `METRIC[7]` are $-e^{-2a_4}b_4\sin^{1/3}z$.
 
 ```python
 christoffel = {}  # (a, b, c) -> Gamma^a_bc, only the nonzero ones
@@ -1811,11 +1807,13 @@ check(all(christoffel.get((a, c, b)) == value
 
 ```python
 A1, A2, C = sp.symbols("A1 A2 C")  # a4', a4'' and cot(z)
-SYMBOLS = {sp.Derivative(a4, (X[3], 2)): A2, sp.Derivative(a4, X[3]): A1}
+B0, B1, B2 = sp.symbols("B0 B1 B2")  # b4, b4' and b4''
+SYMBOLS = {sp.Derivative(a4, (X[4], 2)): A2, sp.Derivative(a4, X[4]): A1,
+           sp.Derivative(b4, (X[4], 2)): B2, sp.Derivative(b4, X[4]): B1}
 RIEMANN = {}  # (a, b, c, d) -> R^ab_cd in the symbols H, A1, A2, C
 ```
 
-Three plain symbols stand for $a_4'$, $a_4''$ and $\cot z$. The dictionary `SYMBOLS` says which derivative becomes which symbol (the second derivative is listed first, so that it is replaced before the first derivative inside it). `RIEMANN` will hold the nonzero components.
+Three plain symbols stand for $a_4'$, $a_4''$ and $\cot z$, and three more, `B0`, `B1` and `B2`, for $b_4$, $b_4'$ and $b_4''$. The dictionary `SYMBOLS` says which derivative becomes which symbol (each second derivative is listed before the first, so that it is replaced before the first derivative inside it); $b_4$ itself becomes `B0` afterwards. `RIEMANN` will hold the nonzero components.
 
 ```python
 for a in range(8):
@@ -1833,7 +1831,8 @@ for a in range(8):
 The formula of Section 11.10 for $R^a{}_{bcd}$, for all $8^4 = 4096$ combinations of labels: two derivative terms and the sum over $e$ of the two products. `continue` skips to the next combination when the result is exactly zero.
 
 ```python
-                value = sp.simplify((value / METRIC[b]).subs(SYMBOLS))  # R^ab_cd
+                value = sp.simplify((value / METRIC[b]).subs(SYMBOLS)
+                                    .subs(b4, B0))  # R^ab_cd
                 value = sp.expand(value.subs({sp.tan(z): 1 / C, sp.cot(z): C,
                                               sp.cos(z): C * sp.sin(z)}))
                 if value != 0:
@@ -1841,31 +1840,34 @@ The formula of Section 11.10 for $R^a{}_{bcd}$, for all $8^4 = 4096$ combination
 report("nonzero components R^ab_cd", len(RIEMANN))
 ```
 
-Dividing by $g_{bb}$ raises the second label: $R^{ab}{}_{cd} = R^a{}_{bcd}/g_{bb}$. `.subs(SYMBOLS)` puts `A1` and `A2` in place of the derivatives, and `sp.simplify` simplifies (this takes most of the cell's ten seconds). Then $\tan z$, $\cot z$ and $\cos z$ are written with the symbol `C` ($\tan z = 1/C$, $\cos z = C\sin z$), and `sp.expand` multiplies out. The nonzero results are stored: 156 of them (RESULT line), as Section 11.10 counted.
+Dividing by $g_{bb}$ raises the second label: $R^{ab}{}_{cd} = R^a{}_{bcd}/g_{bb}$. `.subs(SYMBOLS)` puts `A1`, `A2`, `B1` and `B2` in place of the derivatives, `.subs(b4, B0)` puts `B0` in place of $b_4$, and `sp.simplify` simplifies (this takes most of the cell's fifteen seconds). Then $\tan z$, $\cot z$ and $\cos z$ are written with the symbol `C` ($\tan z = 1/C$, $\cos z = C\sin z$), and `sp.expand` multiplies out. The nonzero results are stored: 156 of them (RESULT line), as Section 11.10 counted.
 
 ```python
-check(all(v.free_symbols <= {H, A1, A2, C} for v in RIEMANN.values()),
-      "every R^ab_cd is a polynomial in H, a4', a4'' and cot z and its inverse, free "
-      "of sin(z)^(1/3) and e^a4",
+check(all(v.free_symbols <= {H, A1, A2, B0, B1, B2, C} for v in RIEMANN.values()),
+      "every R^ab_cd is a rational expression in H, a4', a4'', b4, b4', b4'' and "
+      "cot z, free of sin(z)^(1/3) and e^a4",
       record=f"{RESULTS}/lovelock-report.json, check mixed_riemann_free_of_sin_third")
 ```
 
-`v.free_symbols` is the set of symbols in a component; `<=` between two sets means "is contained in". If any component still contained $x_8$ (through $\sin z$) or $x_4$ (through $e^{a_4}$), the check would fail. Ninth PASS line.
+`v.free_symbols` is the set of symbols in a component; `<=` between two sets means "is contained in". If any component still contained $x_0$ (through $\sin z$) or $x_4$ (through $e^{a_4}$), the check would fail. Ninth PASS line.
 
 **In [8], sympy against the Rust record.**
 
 ```python
 curvature = json.loads((OUT_FOLDER / "curvature.json").read_text(encoding="utf-8"))
-NAMES = curvature["coordinates"]  # ["x1", ..., "x8"]
+NAMES = curvature["coordinates"]  # ["x0", ..., "x7"]
 
 
 def from_mathematica(text):
     text = re.sub(r"Derivative\[(\d)\]\[a4\]\[x4\]", r"A\1", text)  # a4' -> A1
-    text = text.replace("Cot[6*H*x8]", "C").replace("^", "**")
-    return sp.sympify(text, locals={"H": H, "A1": A1, "A2": A2, "C": C})
+    text = re.sub(r"Derivative\[(\d)\]\[b4\]\[x4\]", r"B\1", text)  # b4' -> B1
+    text = text.replace("b4[x4]", "B0")  # b4 -> B0
+    text = text.replace("Cot[6*H*x0]", "C").replace("^", "**")
+    return sp.sympify(text, locals={"H": H, "A1": A1, "A2": A2, "C": C, "B0": B0,
+                                    "B1": B1, "B2": B2})
 ```
 
-The program's file `curvature.json` is read; its list of coordinate names becomes `NAMES`. `from_mathematica` turns a component written in Mathematica's notation, for example `H*Derivative[1][a4][x4]*Cot[6*H*x8]^(-1)`, into a sympy expression: `re.sub` replaces `Derivative[1][a4][x4]` by `A1` and `Derivative[2][a4][x4]` by `A2` (the group `(\d)` captures the digit and `\1` puts it back), $\cot z$ becomes `C`, Mathematica's power sign `^` becomes Python's `**`, and `sp.sympify` reads the text with the four names bound to our symbols.
+The program's file `curvature.json` is read; its list of coordinate names becomes `NAMES`. `from_mathematica` turns a component written in Mathematica's notation, for example `H*Derivative[1][a4][x4]*Cot[6*H*x0]^(-1)`, into a sympy expression: `re.sub` replaces `Derivative[1][a4][x4]` by `A1` and `Derivative[2][a4][x4]` by `A2` (the group `(\d)` captures the digit and `\1` puts it back), and in the same way the derivatives of $b_4$ by `B1` and `B2`; `b4[x4]` becomes `B0`, $\cot z$ becomes `C`, Mathematica's power sign `^` becomes Python's `**`, and `sp.sympify` reads the text with the seven names bound to our symbols.
 
 ```python
 rust_riemann = {}
@@ -1874,8 +1876,9 @@ for item in curvature["riemannMixedNonzero"]:
     c, d = (NAMES.index(name) for name in item["down"])
     rust_riemann[a, b, c, d] = from_mathematica(item["value"])
 same_values = set(rust_riemann) == set(RIEMANN) and all(
-    sp.expand(RIEMANN[key] - rust_riemann[key]) == 0 for key in RIEMANN)
-check(same_values, "sympy and Rust give the same 156 nonzero R^ab_cd exactly",
+    sp.simplify(RIEMANN[key] - rust_riemann[key]) == 0 for key in RIEMANN)
+check(same_values, "sympy and Rust give the same 156 nonzero R^ab_cd exactly, "
+      "with b4",
       record="Revision/gkd_lovelock/results/python-lovelock-report.json, "
              "check rust_riemann_agrees")
 ```
@@ -1898,12 +1901,22 @@ The antisymmetry of Section 11.10: each component plus the component with the up
 ricci_scalar = sp.expand(sum(RIEMANN.get((a, b, a, b), 0) for a in range(8)
                              for b in range(8)))
 report("Ricci scalar R", ricci_scalar)
-check(sp.expand(ricci_scalar - from_mathematica(curvature["ricciScalar"])) == 0,
-      "the Ricci scalar is R = 6 a4'^2 - 42 H^2, as in the record",
+check(sp.simplify(ricci_scalar - from_mathematica(curvature["ricciScalar"])) == 0
+      and sp.expand(ricci_scalar.subs({B0: 1, B1: 0, B2: 0}))
+      == 6 * A1 ** 2 - 42 * H ** 2,
+      "the Ricci scalar is R = 6 a4'^2 - 42 H^2 + 3 b4''/b4 - 3 a4' b4'/b4, as in the "
+      "record (6 a4'^2 - 42 H^2 at b4 = 1)",
       record=f"{RESULTS}/curvature.json, ricciScalar")
+# From here on: the background b4 = 1 (b4' = b4'' = 0) of the Revision records.
+RIEMANN_B4 = RIEMANN  # the components with a general b4
+BACKGROUND = {B0: 1, B1: 0, B2: 0}
+RIEMANN = {key: sp.expand(value.subs(BACKGROUND)) for key, value in RIEMANN_B4.items()}
+RIEMANN = {key: value for key, value in RIEMANN.items() if value != 0}
+check(len(RIEMANN) == 156,
+      "on the background b4 = 1 the same 156 components are nonzero")
 ```
 
-$R = \sum_{a,b}R^{ab}{}_{ab}$, twice the sum of the 28 plane curvatures. The RESULT line prints `6*A1**2 - 42*H**2`, and the check compares it with the record. Thirteenth PASS line.
+$R = \sum_{a,b}R^{ab}{}_{ab}$, twice the sum of the 28 plane curvatures. The RESULT line prints `6*A1**2 - 3*A1*B1/B0 - 42*H**2 + 3*B2/B0`, and the check compares it with the record and requires $6a_4'^2 - 42H^2$ at $b_4 = 1$. Then the notebook turns to the background $b_4 = 1$ of the records: `RIEMANN_B4` keeps the components with a general $b_4$, `BACKGROUND` is the substitution $b_4 = 1$, $b_4' = b_4'' = 0$, and `RIEMANN` now holds the components there, dropping those that become 0 (none does: the second check requires the same 156). PASS lines thirteen and fourteen.
 
 **In [9], the plane curvatures (Figure 11b.2).**
 
@@ -1945,16 +1958,16 @@ The values off the diagonal are written into the squares (the format `:g` writes
 save_figure(fig, "curvature_of_planes",
             "The curvature $K(a, b) = R^{ab}_{\\ ab}$ of the plane of the coordinate "
             ...)
-check(planes[0.0][0, 1] == 3.0 and planes[0.0][0, 4] == -5.0
-      and planes[0.0][0, 7] == -1.0 and planes[1.0][0, 3] == 5.0
-      and planes[1.0][4, 3] == 3.0 and planes[0.0][3, 7] == 0.0,
+check(planes[0.0][1, 2] == 3.0 and planes[0.0][1, 5] == -5.0
+      and planes[0.0][1, 0] == -1.0 and planes[1.0][1, 4] == 5.0
+      and planes[1.0][5, 4] == 3.0 and planes[0.0][4, 0] == 0.0,
       "plane curvatures at a4' = 2H: 3, -5, -1; with x4: 4 + a4'' and 4 - a4''; "
-      "x4 with x8: 0")
+      "x4 with x0: 0")
 ```
 
-After saving, the check reads six entries: $K(x_1, x_2) = 4 - 1 = 3$, $K(x_1, x_5) = -(4 + 1) = -5$, $K(x_1, x_8) = -1$, $K(x_1, x_4) = 4 + 1 = 5$ and $K(x_5, x_4) = 4 - 1 = 3$ at $a_4'' = H^2$, and $K(x_4, x_8) = 0$ (in units of $H^2$), the table of Section 11.10. Fourteenth PASS line.
+After saving, the check reads six entries: $K(x_1, x_2) = 4 - 1 = 3$, $K(x_1, x_5) = -(4 + 1) = -5$, $K(x_1, x_0) = -1$, $K(x_1, x_4) = 4 + 1 = 5$ and $K(x_5, x_4) = 4 - 1 = 3$ at $a_4'' = H^2$, and $K(x_4, x_0) = 0$ (in units of $H^2$), the table of Section 11.10. Fifteenth PASS line.
 
-*What Figure 11b.2 shows.* Two $8 \times 8$ tables of the plane curvatures in units of $H^2$. Red blocks of 3 inside 3-space and inside the extra times, blue blocks of $-5$ between them, light blue $-1$ for every plane with $x_8$, and 0 for the plane of $x_4$ and $x_8$. The row and column of $x_4$ hold 4 on the left; on the right, with $a_4'' = H^2$, they hold 5 towards 3-space and 3 towards the extra times: the acceleration of $a_4$ enters 3-space and the extra times with opposite signs.
+*What Figure 11b.2 shows.* Two $8 \times 8$ tables of the plane curvatures in units of $H^2$. Red blocks of 3 inside 3-space and inside the extra times, blue blocks of $-5$ between them, light blue $-1$ for every plane with $x_0$, and 0 for the plane of $x_4$ and $x_0$. The row and column of $x_4$ hold 4 on the left; on the right, with $a_4'' = H^2$, they hold 5 towards 3-space and 3 towards the extra times: the acceleration of $a_4$ enters 3-space and the extra times with opposite signs.
 
 **In [10], the whole Riemann tensor (Figure 11b.3).**
 
@@ -1994,27 +2007,29 @@ check(int(np.count_nonzero(whole)) == 156,
       "156 of the 4096 components are not zero at this point")
 ```
 
-Marks at the middle of each block, axis titles, title, colour bar and the saved figure; the check counts the nonzero entries of the array: 156 (`np.count_nonzero`). Fifteenth PASS line.
+Marks at the middle of each block, axis titles, title, colour bar and the saved figure; the check counts the nonzero entries of the array: 156 (`np.count_nonzero`). Sixteenth PASS line.
 
-*What Figure 11b.3 shows.* A $64 \times 64$ table, mostly white. Along the main diagonal ($a = c$, $b = d$) lie the plane curvatures; along the second diagonal pattern ($a = d$, $b = c$) their sign-reversed copies. The scattered squares away from these lines are the 48 components that mix $x_4$ and $x_8$, such as $R^{x_1x_4}{}_{x_1x_8} = Ha_4'\cot z$.
+*What Figure 11b.3 shows.* A $64 \times 64$ table, mostly white. Along the main diagonal ($a = c$, $b = d$) lie the plane curvatures; along the second diagonal pattern ($a = d$, $b = c$) their sign-reversed copies. The scattered squares away from these lines are the 48 components that mix $x_4$ and $x_0$, such as $R^{x_1x_4}{}_{x_1x_0} = Ha_4'\cot z$.
 
 **In [11], the mixed terms cancel (Figure 11b.4).**
 
 ```python
-mixing = [sp.expand(RIEMANN.get((3, c, 7, c), 0)) for c in range(7)]  # c = x1..x7
-for c, term in enumerate(mixing):
-    say(f"R^(x4 {NAMES[c]})_(x8 {NAMES[c]}) = {term}")
+mixing = [sp.expand(RIEMANN.get((4, c, 0, c), 0)) for c in range(1, 8)]  # x1..x7
+for c, term in enumerate(mixing, 1):
+    say(f"R^(x4 {NAMES[c]})_(x0 {NAMES[c]}) = {term}")
 total = sp.expand(sum(mixing))
-say(f"sum over c = {total}")
+say(f"sum over c = {total} (b4 = 1)")
+total_b4 = sp.simplify(sum(RIEMANN_B4.get((4, c, 0, c), 0) for c in range(1, 8)))
+say(f"with a general b4: sum over c = {total_b4}")
 ```
 
-The seven terms $R^{x_4c}{}_{x_8c}$ of the Ricci component $R^{x_4}{}_{x_8}$, for $c = x_1$ to $x_7$ (numbers 3 and 7 are $x_4$ and $x_8$). The output: `A1*C*H` three times, 0 for $c = x_4$, `-A1*C*H` three times, and the sum 0, as derived in Section 11.10.
+The seven terms $R^{x_4c}{}_{x_0c}$ of the Ricci component $R^{x_4}{}_{x_0}$, for $c = x_1$ to $x_7$ (numbers 4 and 0 are $x_4$ and $x_0$; `enumerate(mixing, 1)` counts the terms from 1, so that `NAMES[c]` names the direction). The output: `A1*C*H` three times, 0 for $c = x_4$, `-A1*C*H` three times, and the sum 0 at $b_4 = 1$, as derived in Section 11.10. `total_b4` is the same sum with a general $b_4$ (from `RIEMANN_B4`): `3*B1*C*H/(2*B0)`, that is $\frac32H\cot z\,b_4'/b_4$; the second check compares it with this formula and with the record's mixed component of the Einstein tensor.
 
 ```python
 fig, ax = plt.subplots(figsize=(7.0, 4.0))
 heights = [value_at(term, h=1.0, a1=1.0, cot=1.0) for term in mixing]
 colours = ["tab:red"] * 3 + ["0.6"] + ["tab:blue"] * 3
-ax.bar(NAMES[:7], heights, color=colours)
+ax.bar(NAMES[1:], heights, color=colours)
 ax.text(3, 0.05, "0", ha="center", va="bottom")  # the term of c = x4 is zero
 ax.axhline(0.0, color="black", lw=0.8)
 ```
@@ -2022,18 +2037,24 @@ ax.axhline(0.0, color="black", lw=0.8)
 The seven terms at $H = 1$, $a_4' = 1$, $\cot z = 1$ as bars, red for 3-space, grey for $x_4$, blue for the extra times; `NAMES[:7]` are the first seven names. A small "0" marks the bar of height zero, and a black line marks the value 0.
 
 ```python
-ax.set_xlabel("the direction $c$ of the term $R^{x_4 c}{}_{x_8 c}$")
+ax.set_xlabel("the direction $c$ of the term $R^{x_4 c}{}_{x_0 c}$")
 ax.set_ylabel("value (units of $H^2$)")
-ax.set_title(f"Seven terms of $R^{{x_4}}{{}}_{{x_8}}$; their sum is {total}")
+ax.set_title(f"Seven terms of $R^{{x_4}}{{}}_{{x_0}}$; their sum is {total}")
 save_figure(fig, "mixing_terms_cancel",
-            "The seven terms $R^{x_4 c}_{\\ \\ x_8 c}$, $c = x_1$ to $x_7$, whose sum "
+            "The seven terms $R^{x_4 c}_{\\ \\ x_0 c}$, $c = x_1$ to $x_7$, whose sum "
+            "is the Ricci component $R^{x_4}_{\\ x_0}$, at $H = 1$, "
             ...)
 check(total == 0 and sp.expand(mixing[0] - H * A1 * C) == 0,
-      "the seven terms of R^x4_x8 are +H a4' cot z (three times), -H a4' cot z (three "
-      "times) and 0, and cancel exactly")
+      "the seven terms of R^x4_x0 are +H a4' cot z (three times), -H a4' cot z (three "
+      "times) and 0, and cancel exactly at b4 = 1")
+check(sp.simplify(total_b4 - sp.Rational(3, 2) * H * C * B1 / B0) == 0
+      and sp.simplify(total_b4 - from_mathematica(
+          curvature["einsteinMixed"]["x4,x0"]["mathematica"])) == 0,
+      "with b4: R^x4_x0 = (3/2) H cot z b4'/b4, the record's G^x4_x0",
+      record=f"{RESULTS}/curvature.json, einsteinMixed x4,x0")
 ```
 
-In an f-string a doubled brace `{{` prints one brace, so the title reads $R^{x_4}{}_{x_8}$ followed by the sum. The check requires the sum to be exactly 0 and the first term to be $Ha_4'\cot z$. Sixteenth PASS line.
+In an f-string a doubled brace `{{` prints one brace, so the title reads $R^{x_4}{}_{x_0}$ followed by the sum. The check requires the sum to be exactly 0 and the first term to be $Ha_4'\cot z$. PASS lines seventeen and eighteen.
 
 *What Figure 11b.4 shows.* Three red bars of height $+1$ ($x_1, x_2, x_3$), a grey bar of height 0 ($x_4$) and three blue bars of height $-1$ ($x_5, x_6, x_7$), in units of $H^2$: the three inflating and the three deflating directions cancel exactly.
 
@@ -2110,7 +2131,7 @@ check(gkd([0, 1, 2], [1, 2, 0]) == 1 and gkd([0, 1], [1, 0]) == -1,
       record=f"{RESULTS}/lovelock-report.json, gkdSelfCheck")
 ```
 
-RESULT: 156 entries. The check repeats the two values that the Rust program records for itself in the field `gkdSelfCheck` of its report: $+1$ for the cycle $(0, 1, 2) \to (1, 2, 0)$ and $-1$ for one exchange. Seventeenth PASS line.
+RESULT: 156 entries. The check repeats the two values that the Rust program records for itself in the field `gkdSelfCheck` of its report: $+1$ for the cycle $(0, 1, 2) \to (1, 2, 0)$ and $-1$ for one exchange. Nineteenth PASS line.
 
 **In [13], the Lovelock sum.** This cell only defines a function; it prints nothing.
 
@@ -2214,12 +2235,14 @@ same_counters = all(
     MY_COUNTERS[k] == (COUNTERS[k]["leaves"], COUNTERS[k]["gkdCalls"],
                        COUNTERS[k]["scalarGkdCalls"])
     and COUNTERS[k]["gkdNonzero"] == COUNTERS[k]["gkdCalls"]
-    and len(P[k]) == COUNTERS[k]["nonzeroComponents"] for k in (1, 2, 3))
-check(same_counters, "the Python sums reproduce the counters of the Rust sums",
+    and len(P[k]) == 8 and COUNTERS[k]["nonzeroComponents"] == 10
+    for k in (1, 2, 3))
+check(same_counters, "the Python sums reproduce the counters of the Rust sums; "
+      "nonzero components: 8 at b4 = 1, 10 (with x4-x0, x0-x4) for a general b4",
       record=f"{RESULTS}/lovelock-report.json, counters k = 1, 2, 3")
 ```
 
-The Python search, written independently, finds exactly the counters of the Rust search, every GKD call of the record is nonzero, and the numbers of nonzero components agree. Eighteenth PASS line.
+The Python search, written independently, finds exactly the counters of the Rust search, and every GKD call of the record is nonzero. The numbers of nonzero components differ in the expected way: 8 on the background $b_4 = 1$ in Python, 10 in the record of the Rust program, which keeps $b_4$ general and also finds the two mixed components $x_4$-$x_0$ and $x_0$-$x_4$. Twentieth PASS line.
 
 **In [15], every component against the record.**
 
@@ -2231,13 +2254,16 @@ tensors = json.loads((OUT_FOLDER / "lovelock-tensors.json").read_text(
 def from_monomials(monomials):
     out = {}
     for numerator, denominator, e in monomials:
+        if any(e[9:13]):  # a derivative of b4: zero on the background b4 = 1
+            continue
         if e[3] or e[4] or e[5] or e[6]:  # 3rd, 4th derivative, e^a4 or sin^(1/3)
             raise ValueError("unexpected symbol in a Lovelock component")
-        out[(e[0], e[1], e[2], e[7])] = Fraction(numerator, denominator)
-    return out
+        key = (e[0], e[1], e[2], e[7])  # e[8], the power of b4^(1/2), drops out
+        out[key] = out.get(key, 0) + Fraction(numerator, denominator)
+    return {key: value for key, value in out.items() if value != 0}
 ```
 
-The program's file lists every component as exact monomials, each a numerator, a denominator and eight exponents (of $H$, $a_4'$, $a_4''$, $a_4'''$, $a_4''''$, $e^{a_4}$, $\sin^{1/3}z$, $\cot z$). `from_monomials` rebuilds a component as a polynomial dictionary; if any of the exponents 3 to 6 were not 0 it would stop, so the components contain only $H$, $a_4'$, $a_4''$ and $\cot z$.
+The program's file lists every component as exact monomials, each a numerator, a denominator and thirteen exponents (of $H$, $a_4'$, $a_4''$, $a_4'''$, $a_4''''$, $e^{a_4}$, $\sin^{1/3}z$, $\cot z$, $Q = b_4^{1/2}$, $b_4'$, $b_4''$, $b_4'''$, $b_4''''$). `from_monomials` rebuilds a component on the background $b_4 = 1$ as a polynomial dictionary: a monomial with a derivative of $b_4$ (`any(e[9:13])`) is left out, and the power of $Q$ drops out because $Q = 1$, so that monomials which then agree are added (`out.get(key, 0) + ...`); if any of the exponents 3 to 6 were not 0 it would stop, so the components contain only $H$, $a_4'$, $a_4''$ and $\cot z$.
 
 ```python
 agree = {}
@@ -2249,7 +2275,7 @@ for k in (1, 2, 3):
     say(f"k = {k}: nonzero components (h, j): {nonzero}")
 ```
 
-For each order the record's 64 components, stored under keys such as `"x1,x1"`, are compared exactly with the Python components (a missing Python component is the empty polynomial, zero). The nonzero components are printed: for every order only the eight diagonal ones, $x_1x_1$ to $x_8x_8$.
+For each order the record's 64 components, stored under keys such as `"x1,x1"`, are compared exactly with the Python components (a missing Python component is the empty polynomial, zero). The nonzero components are printed: for every order only the eight diagonal ones, $x_0x_0$ to $x_7x_7$.
 
 ```python
 check(all(agree.values()),
@@ -2257,16 +2283,17 @@ check(all(agree.values()),
       record="Revision/gkd_lovelock/results/python-lovelock-report.json, checks "
              "rust_k1_mixed_components_agree, rust_k2_mixed_components_agree and "
              "rust_k3_mixed_components_agree")
-scalars_agree = all(to_poly(from_mathematica(tensors[f"L{k}"])) == L[k]
-                    for k in (1, 2, 3))
-check(scalars_agree, "the scalars L(1), L(2), L(3) equal the Rust scalars exactly",
+scalars_agree = all(to_poly(from_mathematica(tensors[f"L{k}"]).subs(BACKGROUND))
+                    == L[k] for k in (1, 2, 3))
+check(scalars_agree, "the scalars L(1), L(2), L(3) equal the Rust scalars exactly "
+      "(at b4 = 1)",
       record="Revision/gkd_lovelock/results/python-lovelock-report.json, checks "
              "rust_L1_agrees, rust_L2_agrees and rust_L3_agrees")
 check(all(set(P[k]) == {(h, h) for h in range(8)} for k in (1, 2, 3)),
       "only the 8 diagonal components are nonzero, for k = 1, 2, 3")
 ```
 
-Three checks: all $3 \times 64$ components agree exactly; the three scalars of the record (in Mathematica text, read with `from_mathematica`) equal the Python scalars; and the nonzero components are exactly the eight diagonal ones (a set comprehension in braces). PASS lines nineteen to twenty-one. In particular no Lovelock tensor has an $x_4$-$x_8$ component.
+Three checks: all $3 \times 64$ components agree exactly; the three scalars of the record (in Mathematica text, read with `from_mathematica`) equal the Python scalars; and the nonzero components are exactly the eight diagonal ones (a set comprehension in braces). PASS lines twenty-one to twenty-three. In particular no Lovelock tensor has an $x_4$-$x_0$ component at $b_4 = 1$ (the record's mixed components contain $b_4'$ and vanish there).
 
 **In [16], the literal sums of orders 1 and 2.**
 
@@ -2345,7 +2372,7 @@ For $k = 1$ and 2 the literal sum is computed (about 15 seconds in all), and the
                  f"k{k}_unpruned_literal_sum_agrees")
 ```
 
-`literal.pop(None, {})` takes the scalar out of the result; it must equal $L_{(k)}$, and every component, over the union (`|`) of the components of both results, must equal $P_{(k)}$. The check also requires the number of calls to be $65\cdot 156^k$ and the record's verdict PASS. PASS lines twenty-two and twenty-three: the skipping changes nothing.
+`literal.pop(None, {})` takes the scalar out of the result; it must equal $L_{(k)}$, and every component, over the union (`|`) of the components of both results, must equal $P_{(k)}$. The check also requires the number of calls to be $65\cdot 156^k$ and the record's verdict PASS. PASS lines twenty-four and twenty-five: the skipping changes nothing.
 
 **In [17], order 4 has no term.**
 
@@ -2374,7 +2401,7 @@ check(seven_labels and COUNTERS[4]["leaves"] == 0,
       record=f"{RESULTS}/lovelock-report.json, check k4_tensor_vanishes")
 ```
 
-The extension step as before. Since every leaf of order 3 already uses seven different lower labels, a fourth entry would need nine different labels out of eight; together with the record's counter of 0 leaves for $k = 4$ the check confirms $P_{(4)} = 0$. Twenty-fourth PASS line.
+The extension step as before. Since every leaf of order 3 already uses seven different lower labels, a fourth entry would need nine different labels out of eight; together with the record's counter of 0 leaves for $k = 4$ the check confirms $P_{(4)} = 0$. Twenty-sixth PASS line.
 
 **In [18], order 1 is Einstein's tensor.**
 
@@ -2410,7 +2437,7 @@ check(all(P[1].get(hj, {}) == poly_mul({(0, 0, 0, 0): Fraction(-4)}, EINSTEIN[hj
              "k1_equals_minus_4_einstein and L1_equals_2R")
 ```
 
-The check of Section 11.14: every component of $P_{(1)}$ equals $-4$ times the Einstein component (the constant polynomial $-4$ times $G$), and $L_{(1)} = 2R$. Twenty-fifth PASS line.
+The check of Section 11.14: every component of $P_{(1)}$ equals $-4$ times the Einstein component (the constant polynomial $-4$ times $G$), and $L_{(1)} = 2R$. Twenty-seventh PASS line.
 
 **In [19], order 2 is the Gauss-Bonnet tensor.**
 
@@ -2449,7 +2476,7 @@ check(all(P[2].get(hj, {}) == poly_mul({(0, 0, 0, 0): Fraction(-4)}, two_h[hj])
              "k2_equals_minus_8_gauss_bonnet and L2_equals_4_gauss_bonnet")
 ```
 
-$-4\cdot 2\mathcal{H} = -8\mathcal{H}$ must equal $P_{(2)}$ in all 64 components, and $L_{(2)} = 4\,\mathrm{GB}$: the result derived by hand in Section 11.15. Twenty-sixth PASS line.
+$-4\cdot 2\mathcal{H} = -8\mathcal{H}$ must equal $P_{(2)}$ in all 64 components, and $L_{(2)} = 4\,\mathrm{GB}$: the result derived by hand in Section 11.15. Twenty-eighth PASS line.
 
 **In [20], the cubic density.**
 
@@ -2496,7 +2523,7 @@ check(L[3] == poly_add({}, density, 8),
              "L3_equals_8_cubic_lovelock_density")
 ```
 
-The cubic density with the record's coefficients, and the check $L_{(3)} = 8\times$ density. Twenty-seventh PASS line.
+The cubic density with the record's coefficients, and the check $L_{(3)} = 8\times$ density. Twenty-ninth PASS line.
 
 **In [21], the expansion along the column of h.**
 
@@ -2567,7 +2594,7 @@ check(expansion_holds and all(Y[1][hj] == poly_add({}, RIC[hj], 2) for hj in RIC
       "P(k) = delta L(k) - 2k Y(k) for all 64 components, k = 1, 2, 3; Y(1) = 2 Ric")
 ```
 
-$Y_{(k)}$ for the three orders, and the check of the expansion $P_{(k)} = \delta L_{(k)} - 2kY_{(k)}$ in all $3 \times 64$ components, together with $Y_{(1)} = 2\,\mathrm{Ric}$ of Section 11.14. Twenty-eighth PASS line.
+$Y_{(k)}$ for the three orders, and the check of the expansion $P_{(k)} = \delta L_{(k)} - 2kY_{(k)}$ in all $3 \times 64$ components, together with $Y_{(1)} = 2\,\mathrm{Ric}$ of Section 11.14. Thirtieth PASS line.
 
 **In [22], the trace identity.**
 
@@ -2588,7 +2615,7 @@ for k in (1, 2, 3):
           record=f"{RESULTS}/lovelock-report.json, check k{k}_trace_identity")
 ```
 
-For each order the trace $\sum_hP_{(k)}{}^h{}_h$ is formed, the scalar is printed, and the trace identity of Section 11.14 is checked. The RESULT lines give $L_{(1)} = 12a_4'^2 - 84H^2$, $L_{(2)} = -96a_4'^4 - 2112a_4'^2H^2 + 3360H^4$ and $L_{(3)} = 1152a_4'^6 + 31104a_4'^4H^2 + 100224a_4'^2H^4 - 40320H^6$; no $a_4''$ and no $\cot z$ appear. PASS lines twenty-nine to thirty-one.
+For each order the trace $\sum_hP_{(k)}{}^h{}_h$ is formed, the scalar is printed, and the trace identity of Section 11.14 is checked. The RESULT lines give $L_{(1)} = 12a_4'^2 - 84H^2$, $L_{(2)} = -96a_4'^4 - 2112a_4'^2H^2 + 3360H^4$ and $L_{(3)} = 1152a_4'^6 + 31104a_4'^4H^2 + 100224a_4'^2H^4 - 40320H^6$; no $a_4''$ and no $\cot z$ appear. PASS lines thirty-one to thirty-three.
 
 **In [23], the components at one moment (Figure 11b.5).**
 
@@ -2651,23 +2678,23 @@ Marks, axis titles and the panel titles (the doubled braces print single braces,
 ```python
 diagonal_ok = all(
     np.count_nonzero(tables[k] - np.diag(np.diag(tables[k]))) == 0
-    and tables[k][0, 0] == tables[k][1, 1] == tables[k][2, 2]
-    and tables[k][4, 4] == tables[k][5, 5] == tables[k][6, 6]
-    and tables[k][7, 7] == (tables[k][0, 0] + tables[k][4, 4]) / 2
+    and tables[k][1, 1] == tables[k][2, 2] == tables[k][3, 3]
+    and tables[k][5, 5] == tables[k][6, 6] == tables[k][7, 7]
+    and tables[k][0, 0] == (tables[k][1, 1] + tables[k][5, 5]) / 2
     for k in (1, 2, 3))
 ```
 
 `np.diag(table)` takes the diagonal of a table, and `np.diag` of that diagonal builds a table with only this diagonal; their difference is the part off the diagonal, which must have no nonzero entry. Further, the three space entries must be equal, the three extra-time entries equal, and the hidden entry their mean.
 
 ```python
-say("diagonals (x1 ... x8): " + "; ".join(
+say("diagonals (x0 ... x7): " + "; ".join(
     f"E({k}): " + " ".join(f"{v:g}" for v in np.diag(tables[k])) for k in (1, 2, 3)))
-check(diagonal_ok and list(np.diag(tables[1])) == [4, 4, 4, 33, 2, 2, 2, 3],
+check(diagonal_ok and list(np.diag(tables[1])) == [3, 4, 4, 4, 33, 2, 2, 2],
       "at a4' = 2H, a4'' = H^2: only diagonal entries, space and extra-time entries "
-      "equal, hidden entry their mean; G = diag(4, 4, 4, 33, 2, 2, 2, 3) H^2")
+      "equal, hidden entry their mean; G = diag(3, 4, 4, 4, 33, 2, 2, 2) H^2")
 ```
 
-The three diagonals are printed: $E_{(1)}$: 4, 4, 4, 33, 2, 2, 2, 3; $E_{(2)}$: 548, 548, 548, $-1476$, 820, 820, 820, 684; $E_{(3)}$: $-14544$ (three times), 40248, $-30240$ (three times), $-22392$ (Section 11.20 recomputes every one of these entries by hand). With the Einstein tensor of Section 11.10 and $a_4' = 2H$, $a_4'' = H^2$: $G^{x_1}{}_{x_1} = -12 + 1 + 15 = 4$, $G^{x_4}{}_{x_4} = 12 + 21 = 33$, $G^{x_5}{}_{x_5} = -12 - 1 + 15 = 2$, $G^{x_8}{}_{x_8} = 15 - 12 = 3$, in units of $H^2$, which the check confirms. Thirty-second PASS line.
+The three diagonals are printed in the order $x_0, \dots, x_7$: $E_{(1)}$: 3, 4, 4, 4, 33, 2, 2, 2; $E_{(2)}$: 684, 548, 548, 548, $-1476$, 820, 820, 820; $E_{(3)}$: $-22392$, $-14544$ (three times), 40248, $-30240$ (three times) (Section 11.20 recomputes every one of these entries by hand). With the Einstein tensor of Section 11.10 and $a_4' = 2H$, $a_4'' = H^2$: $G^{x_1}{}_{x_1} = -12 + 1 + 15 = 4$, $G^{x_4}{}_{x_4} = 12 + 21 = 33$, $G^{x_5}{}_{x_5} = -12 - 1 + 15 = 2$, $G^{x_0}{}_{x_0} = 15 - 12 = 3$, in units of $H^2$, which the check confirms. Thirty-fourth PASS line.
 
 *What Figure 11b.5 shows.* Three $8 \times 8$ tables in units of $H^2$, $H^4$ and $H^6$, each filled only on its diagonal. In each table the first three diagonal squares are equal (3-space), the squares 5 to 7 are equal (extra times), and the last square (hidden direction) lies exactly halfway between them: $(4 + 2)/2 = 3$, $(548 + 820)/2 = 684$, $(-14544 - 30240)/2 = -22392$. The time square $x_4$ stands apart: in $E_{(1)}$ it is much larger than the others (33 against 2 to 4, all positive); in $E_{(2)}$ and $E_{(3)}$ it has the opposite sign to all the others ($-1476$ against positive entries, $+40248$ against negative ones). Section 11.21 proves these patterns for every history.
 
@@ -2716,7 +2743,7 @@ for report_name, names in QUOTED.items():
           record=f"{RESULTS}/{report_name}, checks " + ", ".join(names))
 ```
 
-For each report the list `missing` collects every quoted check that is absent or not PASS; it is printed ("none") and must be empty (`not missing` is true for an empty list). PASS lines thirty-three and thirty-four.
+For each report the list `missing` collects every quoted check that is absent or not PASS; it is printed ("none") and must be empty (`not missing` is true for an empty list). PASS lines thirty-five and thirty-six.
 
 ```python
 totals = {}
@@ -2740,7 +2767,7 @@ check(totals == {"python-lovelock-report.json": (49, 0, "SUCCESS"),
              "checkCount and failedCheckCount")
 ```
 
-The counts quoted in the notebook's text are fixed by this check, so a later change of either report would be noticed. Thirty-fifth PASS line.
+The counts quoted in the notebook's text are fixed by this check, so a later change of either report would be noticed. Thirty-seventh PASS line.
 
 **In [25], the end.**
 
@@ -2753,16 +2780,16 @@ check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_fi
 all_checks_passed()
 ```
 
-As in Notebook 11a, In [17]: the five figure files must exist (thirty-sixth PASS line), and the last line is ALL 36 CHECKS PASSED (notebook 11b). The 36 checks are: 2 in In [3], 4 in In [4], 1 each in In [5], In [6] and In [7], 4 in In [8], 1 each in In [9] to In [12], 1 in In [14], 3 in In [15], 2 in In [16], 1 each in In [17] to In [21], 3 in In [22], 1 in In [23], 3 in In [24] and 1 in In [25].
+As in Notebook 11a, In [17]: the five figure files must exist (thirty-eighth PASS line), and the last line is ALL 38 CHECKS PASSED (notebook 11b). The 38 checks are: 2 in In [3], 4 in In [4], 1 each in In [5], In [6] and In [7], 5 in In [8], 1 each in In [9] and In [10], 2 in In [11], 1 in In [12], 1 in In [14], 3 in In [15], 2 in In [16], 1 each in In [17] to In [21], 3 in In [22], 1 in In [23], 3 in In [24] and 1 in In [25].
 
 ### 11.20 The components of the three tensors for the author's metric
 
-**The result (PROVED by exact computation).** The Rust program of the record computes all $3 \times 64$ components of $P_{(1)}, P_{(2)}, P_{(3)}$ exactly and writes them into the record `lovelock-tensors.json`. The Revision's sympy and Wolfram verifications recompute every one of them independently and find the same (checks `rust_k1_mixed_components_agree` to `rust_k3_mixed_components_agree` of the sympy report, and `k1_P_equals_rust_all_64_components` to `k3_P_equals_rust_all_64_components` of the Wolfram report), and so does Notebook 11b (In [15]). Only the eight diagonal components are nonzero, for every order. With $E_{(k)} = -P_{(k)}/2^{k+1}$ and the abbreviations $a_4'$, $a_4''$ for the derivatives with respect to the time $x_4$, the independent components are
+**The result (PROVED by exact computation).** The Rust program of the record computes all $3 \times 64$ components of $P_{(1)}, P_{(2)}, P_{(3)}$ exactly and writes them into the record `lovelock-tensors.json`. The Revision's sympy and Wolfram verifications recompute every one of them independently and find the same (checks `rust_k1_mixed_components_agree` to `rust_k3_mixed_components_agree` of the sympy report, and `k1_P_equals_rust_all_64_components` to `k3_P_equals_rust_all_64_components` of the Wolfram report), and so does Notebook 11b (In [15]). Only the eight diagonal components are nonzero, for every order, on the background $b_4 = 1$; for the metric with a changing $b_4$ the record also has the mixed components $P^{x_4}{}_{x_0}$ and $P^{x_0}{}_{x_4}$, which contain $b_4'$ (Section 11.21). With $E_{(k)} = -P_{(k)}/2^{k+1}$ and the abbreviations $a_4'$, $a_4''$ for the derivatives with respect to the time $x_4$, the independent components are
 
 $$
 \begin{aligned}
 E_{(1)}{}^{x_1}{}_{x_1} &= -3a_4'^2 + a_4'' + 15H^2, \qquad E_{(1)}{}^{x_4}{}_{x_4} = 3a_4'^2 + 21H^2,\\
-E_{(1)}{}^{x_5}{}_{x_5} &= -3a_4'^2 - a_4'' + 15H^2, \qquad E_{(1)}{}^{x_8}{}_{x_8} = -3a_4'^2 + 15H^2,
+E_{(1)}{}^{x_5}{}_{x_5} &= -3a_4'^2 - a_4'' + 15H^2, \qquad E_{(1)}{}^{x_0}{}_{x_0} = -3a_4'^2 + 15H^2,
 \end{aligned}
 $$
 
@@ -2771,7 +2798,7 @@ $$
 E_{(2)}{}^{x_1}{}_{x_1} &= 12a_4'^4 - 24a_4'^2a_4'' + 168a_4'^2H^2 - 40a_4''H^2 - 180H^4,\\
 E_{(2)}{}^{x_4}{}_{x_4} &= -36a_4'^4 - 120a_4'^2H^2 - 420H^4,\\
 E_{(2)}{}^{x_5}{}_{x_5} &= 12a_4'^4 + 24a_4'^2a_4'' + 168a_4'^2H^2 + 40a_4''H^2 - 180H^4,\\
-E_{(2)}{}^{x_8}{}_{x_8} &= 12a_4'^4 + 168a_4'^2H^2 - 180H^4,
+E_{(2)}{}^{x_0}{}_{x_0} &= 12a_4'^4 + 168a_4'^2H^2 - 180H^4,
 \end{aligned}
 $$
 
@@ -2780,20 +2807,20 @@ $$
 E_{(3)}{}^{x_1}{}_{x_1} &= -72a_4'^6 + 360a_4'^4a_4'' - 648a_4'^4H^2 + 432a_4'^2a_4''H^2 - 1944a_4'^2H^4 + 360a_4''H^4 + 360H^6,\\
 E_{(3)}{}^{x_4}{}_{x_4} &= 360a_4'^6 + 648a_4'^4H^2 + 1080a_4'^2H^4 + 2520H^6,\\
 E_{(3)}{}^{x_5}{}_{x_5} &= -72a_4'^6 - 360a_4'^4a_4'' - 648a_4'^4H^2 - 432a_4'^2a_4''H^2 - 1944a_4'^2H^4 - 360a_4''H^4 + 360H^6,\\
-E_{(3)}{}^{x_8}{}_{x_8} &= -72a_4'^6 - 648a_4'^4H^2 - 1944a_4'^2H^4 + 360H^6,
+E_{(3)}{}^{x_0}{}_{x_0} &= -72a_4'^6 - 648a_4'^4H^2 - 1944a_4'^2H^4 + 360H^6,
 \end{aligned}
 $$
 
-with $E^{x_2}{}_{x_2} = E^{x_3}{}_{x_3} = E^{x_1}{}_{x_1}$ and $E^{x_6}{}_{x_6} = E^{x_7}{}_{x_7} = E^{x_5}{}_{x_5}$ for every order. These are exactly the components that the record of the field equations of $a_4$ lists (`Revision/field_equations_a4/a4-equations.json`, key `lovelockTensors`, compared in its sympy report `Revision/field_equations_a4/reports/python-a4-report.json`, check `json_lovelock_components`); Notebook 11c reads them from the Rust record and compares them with this list (In [2] and In [3]). The components contain only $H$, $a_4'$ and $a_4''$: no $x_8$ (no $\cot z$ and no $\sin^{1/3}z$), no $e^{a_4}$ and no higher derivative. The order-1 components are those of the Einstein tensor of Section 11.10, as Section 11.14 proved they must be.
+with $E^{x_2}{}_{x_2} = E^{x_3}{}_{x_3} = E^{x_1}{}_{x_1}$ and $E^{x_6}{}_{x_6} = E^{x_7}{}_{x_7} = E^{x_5}{}_{x_5}$ for every order. These are exactly the components that the record of the field equations of $a_4$ lists (`Revision/field_equations_a4/a4-equations.json`, key `lovelockTensors`, compared in its sympy report `Revision/field_equations_a4/reports/python-a4-report.json`, check `json_lovelock_components`); Notebook 11c reads them from the Rust record and compares them with this list (In [2] and In [3]). The components contain only $H$, $a_4'$ and $a_4''$: no $x_0$ (no $\cot z$ and no $\sin^{1/3}z$), no $e^{a_4}$ and no higher derivative. The order-1 components are those of the Einstein tensor of Section 11.10, as Section 11.14 proved they must be.
 
-**Every component checked by hand.** Take the moment $a_4' = 2H$, $a_4'' = H^2$ of a history in which the extra times deflate and the deflation speeds up. Then $a_4'^2 = 4H^2$, $a_4'^4 = 16H^4$ and $a_4'^6 = 64H^6$ (products of two, four and six factors $2H$). We insert these values into the twelve formulas above and add the whole numbers; because the components $x_2, x_3$ equal the component $x_1$ and the components $x_6, x_7$ equal the component $x_5$ (stated just above), it suffices to do the components $x_1$, $x_4$, $x_5$ and $x_8$ of each order. Order 1:
+**Every component checked by hand.** Take the moment $a_4' = 2H$, $a_4'' = H^2$ of a history in which the extra times deflate and the deflation speeds up. Then $a_4'^2 = 4H^2$, $a_4'^4 = 16H^4$ and $a_4'^6 = 64H^6$ (products of two, four and six factors $2H$). We insert these values into the twelve formulas above and add the whole numbers; because the components $x_2, x_3$ equal the component $x_1$ and the components $x_6, x_7$ equal the component $x_5$ (stated just above), it suffices to do the components $x_1$, $x_4$, $x_5$ and $x_0$ of each order. Order 1:
 
 $$
 \begin{aligned}
 E_{(1)}{}^{x_1}{}_{x_1} &= -3\cdot 4H^2 + H^2 + 15H^2 = (-12 + 1 + 15)H^2 = 4H^2,\\
 E_{(1)}{}^{x_4}{}_{x_4} &= 3\cdot 4H^2 + 21H^2 = (12 + 21)H^2 = 33H^2,\\
 E_{(1)}{}^{x_5}{}_{x_5} &= -3\cdot 4H^2 - H^2 + 15H^2 = (-12 - 1 + 15)H^2 = 2H^2,\\
-E_{(1)}{}^{x_8}{}_{x_8} &= -3\cdot 4H^2 + 15H^2 = (-12 + 15)H^2 = 3H^2.
+E_{(1)}{}^{x_0}{}_{x_0} &= -3\cdot 4H^2 + 15H^2 = (-12 + 15)H^2 = 3H^2.
 \end{aligned}
 $$
 
@@ -2809,7 +2836,7 @@ $$
 \begin{aligned}
 E_{(2)}{}^{x_4}{}_{x_4} &= (-36\cdot 16 - 120\cdot 4 - 420)H^4 = (-576 - 480 - 420)H^4 = -1476H^4,\\
 E_{(2)}{}^{x_5}{}_{x_5} &= (12\cdot 16 + 24\cdot 4 + 168\cdot 4 + 40 - 180)H^4 = (192 + 96 + 672 + 40 - 180)H^4 = 820H^4,\\
-E_{(2)}{}^{x_8}{}_{x_8} &= (12\cdot 16 + 168\cdot 4 - 180)H^4 = (192 + 672 - 180)H^4 = 684H^4.
+E_{(2)}{}^{x_0}{}_{x_0} &= (12\cdot 16 + 168\cdot 4 - 180)H^4 = (192 + 672 - 180)H^4 = 684H^4.
 \end{aligned}
 $$
 
@@ -2823,18 +2850,18 @@ E_{(3)}{}^{x_4}{}_{x_4} &= (360\cdot 64 + 648\cdot 16 + 1080\cdot 4 + 2520)H^6\\
 &= (23040 + 10368 + 4320 + 2520)H^6 = 40248H^6,\\
 E_{(3)}{}^{x_5}{}_{x_5} &= (-72\cdot 64 - 360\cdot 16 - 648\cdot 16 - 432\cdot 4 - 1944\cdot 4 - 360 + 360)H^6\\
 &= (-4608 - 5760 - 10368 - 1728 - 7776 - 360 + 360)H^6 = -30240H^6,\\
-E_{(3)}{}^{x_8}{}_{x_8} &= (-72\cdot 64 - 648\cdot 16 - 1944\cdot 4 + 360)H^6\\
+E_{(3)}{}^{x_0}{}_{x_0} &= (-72\cdot 64 - 648\cdot 16 - 1944\cdot 4 + 360)H^6\\
 &= (-4608 - 10368 - 7776 + 360)H^6 = -22392H^6.
 \end{aligned}
 $$
 
-For each component the first line inserts the products, the second line multiplies out each coefficient, and its last step adds the whole numbers. With $E^{x_2}{}_{x_2} = E^{x_3}{}_{x_3} = E^{x_1}{}_{x_1}$ and $E^{x_6}{}_{x_6} = E^{x_7}{}_{x_7} = E^{x_5}{}_{x_5}$ the diagonals at this moment are, in the order $x_1, \dots, x_8$,
+For each component the first line inserts the products, the second line multiplies out each coefficient, and its last step adds the whole numbers. With $E^{x_2}{}_{x_2} = E^{x_3}{}_{x_3} = E^{x_1}{}_{x_1}$ and $E^{x_6}{}_{x_6} = E^{x_7}{}_{x_7} = E^{x_5}{}_{x_5}$ the diagonals at this moment are, in the order $x_0, \dots, x_7$,
 
 $$
 \begin{aligned}
-E_{(1)} &= (4, 4, 4, 33, 2, 2, 2, 3)H^2,\\
-E_{(2)} &= (548, 548, 548, -1476, 820, 820, 820, 684)H^4,\\
-E_{(3)} &= (-14544, -14544, -14544, 40248, -30240, -30240, -30240, -22392)H^6,
+E_{(1)} &= (3, 4, 4, 4, 33, 2, 2, 2)H^2,\\
+E_{(2)} &= (684, 548, 548, 548, -1476, 820, 820, 820)H^4,\\
+E_{(3)} &= (-22392, -14544, -14544, -14544, 40248, -30240, -30240, -30240)H^6,
 \end{aligned}
 $$
 
@@ -2844,17 +2871,17 @@ exactly the numbers that Notebook 11b prints (In [23], Figure 11b.5).
 
 The components have a clear structure, which Chapter 12 uses at every step. We prove each part by hand from the curvature table of Section 11.10 and from the rule GKD; Notebook 11c confirms every part with exact algebra (In [2] for part (a), In [4] for parts (b) to (h)).
 
-**Three tools.** (i) **Relabelling.** If a bijection $\tau$ of the eight labels is applied to every label of both lists of a generalized delta, its matrix does not change, because $\delta(\tau l_i, \tau u_j) = \delta(l_i, u_j)$ ($\tau$ maps equal labels to equal labels and different labels to different labels); so $\delta^{\tau U}_{\tau L} = \delta^U_L$. And because $\tau$ runs through all labels exactly once, a sum over all values of the summed labels is unchanged when every summed label is replaced by its image. (ii) **The label 4 and the acceleration.** Every curvature entry that contains $a_4''$ is a plane entry of a plane $(k, x_4)$, so it carries the label $x_4$ in its upper pair and in its lower pair (Section 11.10). (iii) **The labels 4 and 8 in the mixed entries.** Every mixed entry, such as $R^{x_4k}{}_{x_8k}$ or $R^{x_8k}{}_{x_4k}$, has the label $x_4$ in one of its pairs and $x_8$ in the other; a plane entry has the same two labels in both pairs.
+**Three tools.** (i) **Relabelling.** If a bijection $\tau$ of the eight labels is applied to every label of both lists of a generalized delta, its matrix does not change, because $\delta(\tau l_i, \tau u_j) = \delta(l_i, u_j)$ ($\tau$ maps equal labels to equal labels and different labels to different labels); so $\delta^{\tau U}_{\tau L} = \delta^U_L$. And because $\tau$ runs through all labels exactly once, a sum over all values of the summed labels is unchanged when every summed label is replaced by its image. (ii) **The label 4 and the acceleration.** Every curvature entry that contains $a_4''$ is a plane entry of a plane $(k, x_4)$, so it carries the label $x_4$ in its upper pair and in its lower pair (Section 11.10). (iii) **The labels 4 and 0 in the mixed entries.** Every mixed entry, such as $R^{x_4k}{}_{x_0k}$ or $R^{x_0k}{}_{x_4k}$, has the label $x_4$ in one of its pairs and $x_0$ in the other; a plane entry has the same two labels in both pairs.
 
-**(a) Only diagonal components (PROVED).** In a term of $P_{(k)}{}^h{}_j$ the delta's lower list is $j$ followed by the upper pairs of the factors, and its upper list is $h$ followed by their lower pairs. A plane entry adds the same two labels to both lists. A mixed entry of the first kind ($x_4$ up, $x_8$ down) adds $x_4$ to the lower list and $x_8$ to the upper list; one of the second kind does the opposite. For a nonzero term the two lists must hold the same labels (case c). If $h \ne j$, the labels $j$ and $h$ must therefore be exactly $x_4$ and $x_8$ in some order, balanced by one more mixed entry of one kind than of the other. So every off-diagonal component other than $P^{x_4}{}_{x_8}$ and $P^{x_8}{}_{x_4}$ vanishes identically. Now take $P^{x_4}{}_{x_8}$: the label $x_8$ stands in the lower list (as $j$) and must appear once in the upper list, and $x_4$ stands in the upper list (as $h$) and must appear once in the lower list; so each term contains exactly one mixed entry, $R^{x_4k}{}_{x_8k}$ or one of its antisymmetric variants, and every other factor avoids both $x_4$ and $x_8$: it is a plane curvature among the six transverse directions, $a_4'^2 - H^2$ or $-(a_4'^2 + H^2)$. Apply the relabelling $\tau$ that exchanges $x_1 \leftrightarrow x_5$, $x_2 \leftrightarrow x_6$, $x_3 \leftrightarrow x_7$ and keeps $x_4$ and $x_8$. It leaves every factor among the transverse directions unchanged (the planes $(i, i')$ and $(j, j')$ have the same curvature, and the planes $(i, j)$ go to planes $(j, i)$), it leaves the delta unchanged (tool i), and it changes the sign of the mixed entry, because $R^{x_4i}{}_{x_8i} = +Ha_4'\cot z$ and $R^{x_4j}{}_{x_8j} = -Ha_4'\cot z$ (Section 11.10). Summing over all relabelled terms is the same sum, so $P^{x_4}{}_{x_8} = -P^{x_4}{}_{x_8}$, hence $P^{x_4}{}_{x_8} = 0$; the same for $P^{x_8}{}_{x_4}$ with the second kind of mixed entry, $R^{x_8i}{}_{x_4i} = -Ha_4'\tan z$ against $R^{x_8j}{}_{x_4j} = +Ha_4'\tan z$. This is the cancellation of three inflating against three deflating directions of Section 11.10, now for every order. The record finds the same eight nonzero components for every order (`wolfram-gkd-report.json`, field `measurements`, entries `k1NonzeroComponents` to `k3NonzeroComponents`).
+**(a) Only diagonal components (PROVED).** In a term of $P_{(k)}{}^h{}_j$ the delta's lower list is $j$ followed by the upper pairs of the factors, and its upper list is $h$ followed by their lower pairs. A plane entry adds the same two labels to both lists. A mixed entry of the first kind ($x_4$ up, $x_0$ down) adds $x_4$ to the lower list and $x_0$ to the upper list; one of the second kind does the opposite. For a nonzero term the two lists must hold the same labels (case c). If $h \ne j$, the labels $j$ and $h$ must therefore be exactly $x_4$ and $x_0$ in some order, balanced by one more mixed entry of one kind than of the other. So every off-diagonal component other than $P^{x_4}{}_{x_0}$ and $P^{x_0}{}_{x_4}$ vanishes identically. Now take $P^{x_4}{}_{x_0}$: the label $x_0$ stands in the lower list (as $j$) and must appear once in the upper list, and $x_4$ stands in the upper list (as $h$) and must appear once in the lower list; so each term contains exactly one mixed entry, $R^{x_4k}{}_{x_0k}$ or one of its antisymmetric variants, and every other factor avoids both $x_4$ and $x_0$: it is a plane curvature among the six transverse directions, $a_4'^2 - H^2$ or $-(a_4'^2 + H^2)$. Apply the relabelling $\tau$ that exchanges $x_1 \leftrightarrow x_5$, $x_2 \leftrightarrow x_6$, $x_3 \leftrightarrow x_7$ and keeps $x_4$ and $x_0$. It leaves every factor among the transverse directions unchanged (the planes $(i, i')$ and $(j, j')$ have the same curvature, and the planes $(i, j)$ go to planes $(j, i)$), it leaves the delta unchanged (tool i), and it changes the sign of the mixed entry, because $R^{x_4i}{}_{x_0i} = +Ha_4'\cot z$ and $R^{x_4j}{}_{x_0j} = -Ha_4'\cot z$ (Section 11.10). Summing over all relabelled terms is the same sum, so $P^{x_4}{}_{x_0} = -P^{x_4}{}_{x_0}$, hence $P^{x_4}{}_{x_0} = 0$; the same for $P^{x_0}{}_{x_4}$ with the second kind of mixed entry, $R^{x_0i}{}_{x_4i} = -Ha_4'\tan z$ against $R^{x_0j}{}_{x_4j} = +Ha_4'\tan z$. This is the cancellation of three inflating against three deflating directions of Section 11.10, now for every order. It holds on the background $b_4 = 1$, where the extra-time entries are the space entries with the sign of the mixed ones reversed; a changing $b_4$ changes only the extra-time entries, the cancellation is incomplete, and for the metric with $b_4$ the components $P^{x_4}{}_{x_0}$ and $P^{x_0}{}_{x_4}$ are not zero: they are proportional to $b_4'$ (record `lovelock-tensors.json`; Notebook 11c, In [2]; for Einstein's tensor $G^{x_4}{}_{x_0} = \frac32H\cot z\,b_4'/b_4$, Section 11.10). The record finds the same eight nonzero components for every order (`wolfram-gkd-report.json`, field `measurements`, entries `k1NonzeroComponents` to `k3NonzeroComponents`).
 
 **(b) The three space directions are alike, and so are the three extra times (PROVED).** The relabelling that exchanges $x_1$ and $x_2$ is a change of coordinates that leaves the author's metric unchanged ($g_{11} = g_{22}$), so it maps every curvature entry to the entry with the exchanged labels, of the same value. By tool (i) it maps the sum $P^{x_1}{}_{x_1}$ term by term onto $P^{x_2}{}_{x_2}$: the two are equal. The same holds for $x_3$, and for the extra times $x_5, x_6, x_7$.
 
 **(c) $a_4''$ appears at most once in each term (PROVED).** By tool (ii) an entry with $a_4''$ puts the label $x_4$ into both lists of the delta. Two such entries in one term would repeat $x_4$ in both lists, and GKD would be 0. So every component has the form $(\text{polynomial in } H, a_4') + a_4''\cdot(\text{polynomial in } H, a_4')$.
 
-**(d) The time component contains no $a_4''$ (PROVED).** In $P^{x_4}{}_{x_4}$ the label $x_4$ already stands in both lists (as $h$ and $j$), so no factor may carry $x_4$: no entry with $a_4''$ (tool ii) and no mixed entry (tool iii). The factors are plane curvatures among the directions $x_1, x_2, x_3, x_5, x_6, x_7, x_8$, that is $a_4'^2 - H^2$, $-(a_4'^2 + H^2)$ and $-H^2$. So $E^{x_4}{}_{x_4}$ is a polynomial in $a_4'^2$ and $H^2$ alone, as the list of Section 11.20 shows. In the field equations this component is the **constraint**, a condition on $a_4'$, not an equation for its change.
+**(d) The time component contains no $a_4''$ (PROVED).** In $P^{x_4}{}_{x_4}$ the label $x_4$ already stands in both lists (as $h$ and $j$), so no factor may carry $x_4$: no entry with $a_4''$ (tool ii) and no mixed entry (tool iii). The factors are plane curvatures among the directions $x_0, x_1, x_2, x_3, x_5, x_6, x_7$, that is $a_4'^2 - H^2$, $-(a_4'^2 + H^2)$ and $-H^2$. So $E^{x_4}{}_{x_4}$ is a polynomial in $a_4'^2$ and $H^2$ alone, as the list of Section 11.20 shows. In the field equations this component is the **constraint**, a condition on $a_4'$, not an equation for its change.
 
-**(e) Space against extra times: the evolution factor (PROVED).** Apply the relabelling $\tau$ of part (a) to $P^{x_1}{}_{x_1}$: it becomes $P^{x_5}{}_{x_5}$, term by term, with every factor replaced by its image. The image of a plane entry is the same entry with $a_4''$ replaced by $-a_4''$ (the table of Section 11.10: $(i, x_4)$ with $a_4'^2 + a_4''$ goes to $(j, x_4)$ with $a_4'^2 - a_4''$, and every other kind of plane goes to a plane with the same curvature). The image of a mixed entry has the opposite sign; but mixed entries occur in pairs in every nonzero term of a diagonal component other than $P^{x_4}{}_{x_4}$ and $P^{x_8}{}_{x_8}$ (the label $x_8$ must appear in both lists or in neither, so a mixed entry of one kind needs one of the other kind), and two sign changes cancel. Hence
+**(e) Space against extra times: the evolution factor (PROVED).** Apply the relabelling $\tau$ of part (a) to $P^{x_1}{}_{x_1}$: it becomes $P^{x_5}{}_{x_5}$, term by term, with every factor replaced by its image. The image of a plane entry is the same entry with $a_4''$ replaced by $-a_4''$ (the table of Section 11.10: $(i, x_4)$ with $a_4'^2 + a_4''$ goes to $(j, x_4)$ with $a_4'^2 - a_4''$, and every other kind of plane goes to a plane with the same curvature). The image of a mixed entry has the opposite sign; but mixed entries occur in pairs in every nonzero term of a diagonal component other than $P^{x_4}{}_{x_4}$ and $P^{x_0}{}_{x_0}$ (the label $x_0$ must appear in both lists or in neither, so a mixed entry of one kind needs one of the other kind), and two sign changes cancel. Hence
 
 $$
 E^{x_5}{}_{x_5}(H, a_4', a_4'') = E^{x_1}{}_{x_1}(H, a_4', -a_4'') .
@@ -2874,7 +2901,7 @@ $$
 
 (for example $E_{(2)}{}^{x_1}{}_{x_1} - E_{(2)}{}^{x_5}{}_{x_5} = -48a_4'^2a_4'' - 80a_4''H^2 = -16a_4''(3a_4'^2 + 5H^2)$: the terms without $a_4''$ cancel). The record lists $F = \alpha_1F_1 + \alpha_2F_2 + \alpha_3F_3$ (`a4-equations.json`, key `generalSource`, entry `evolution_F`; `python-a4-report.json`, check `evolution_factorises`); Notebook 11c, In [4], computes the $F_k$ and compares them with the record.
 
-**(f) The hidden component (PROVED).** The same relabelling maps $P^{x_8}{}_{x_8}$ to itself ($\tau$ keeps $x_8$), with $a_4''$ replaced by $-a_4''$; in its terms no factor carries $x_8$, so there are no mixed entries. So $E^{x_8}{}_{x_8}$ is unchanged when $a_4''$ changes sign, and by part (c) it is linear in $a_4''$: it contains no $a_4''$. Section 11.22 proves more: $E^{x_8}{}_{x_8} = \mathcal{A}_k$, the mean of the space and the extra-time components.
+**(f) The hidden component (PROVED).** The same relabelling maps $P^{x_0}{}_{x_0}$ to itself ($\tau$ keeps $x_0$), with $a_4''$ replaced by $-a_4''$; in its terms no factor carries $x_0$, so there are no mixed entries. So $E^{x_0}{}_{x_0}$ is unchanged when $a_4''$ changes sign, and by part (c) it is linear in $a_4''$: it contains no $a_4''$. Section 11.22 proves more: $E^{x_0}{}_{x_0} = \mathcal{A}_k$, the mean of the space and the extra-time components.
 
 **(g) Even in $a_4'$: deflation is a choice of sign (PROVED).** Reverse the time: use the coordinate $y_4 = -x_4$ instead of $x_4$. Since $dx_4^2 = dy_4^2$, the metric in the new coordinates has exactly the author's form, with the function $b(y_4) = a_4(-y_4)$ in place of $a_4$. Its Lovelock components are therefore given by the same polynomials, with $b'(y_4) = -a_4'(x_4)$ and $b''(y_4) = a_4''(x_4)$ (the chain rule: each derivative brings a factor $dx_4/dy_4 = -1$). On the other hand a diagonal component of a tensor with one upper and one lower label does not change under this reflection: the component $x_4x_4$ is multiplied by $(-1)(-1) = 1$, and the others are not touched (the tensor rule of Section 3.14; $P_{(k)}$ is a tensor, built from the Riemann tensor and the generalized delta, whose entries are the same in every system of coordinates). So every diagonal component satisfies $E(H, -a_4', a_4'') = E(H, a_4', a_4'')$ at every point and for every history. Any two numbers $u, v$ are the values $a_4'(0) = u$, $a_4''(0) = v$ of the history $a_4 = ux_4 + vx_4^2/2$, so the identity holds for all values: **every component is an even function of $a_4'$**. The list of Section 11.20 shows it: $a_4'$ appears only in even powers. The meaning: replacing $a_4$ by $-a_4$ along a linear history, $A \to -A$, turns deflating extra times and inflating 3-space into inflating extra times and deflating 3-space, and the Lovelock tensors do not notice. The gravitational side of the field equations does not prefer deflation; deflation of the extra times is a choice of sign (Chapter 12 draws the consequences). Notebook 11c checks the evenness exactly (In [4]) and draws it (In [6], Figure 11c.1).
 
@@ -2883,14 +2910,14 @@ $$
 **One more factorisation used in Chapter 12.** The difference of the time and the hidden component is
 
 $$
-E^{x_4}{}_{x_4} - E^{x_8}{}_{x_8} = 6\big(a_4'^2 + H^2\big)V_k,\qquad V_1 = 1,\quad V_2 = -8\big(a_4'^2 + 5H^2\big),\quad V_3 = 72\big(a_4'^4 + 2a_4'^2H^2 + 5H^4\big).
+E^{x_4}{}_{x_4} - E^{x_0}{}_{x_0} = 6\big(a_4'^2 + H^2\big)V_k,\qquad V_1 = 1,\quad V_2 = -8\big(a_4'^2 + 5H^2\big),\quad V_3 = 72\big(a_4'^4 + 2a_4'^2H^2 + 5H^4\big).
 $$
 
 For $k = 2$, line by line:
 
 $$
 \begin{aligned}
-E_{(2)}{}^{x_4}{}_{x_4} - E_{(2)}{}^{x_8}{}_{x_8} &= -36a_4'^4 - 120a_4'^2H^2 - 420H^4 - 12a_4'^4 - 168a_4'^2H^2 + 180H^4\\
+E_{(2)}{}^{x_4}{}_{x_4} - E_{(2)}{}^{x_0}{}_{x_0} &= -36a_4'^4 - 120a_4'^2H^2 - 420H^4 - 12a_4'^4 - 168a_4'^2H^2 + 180H^4\\
 &= -48a_4'^4 - 288a_4'^2H^2 - 240H^4
 \end{aligned}
 $$
@@ -2921,7 +2948,7 @@ $$
 
 (the second and third sums combined, since both now run over $h$).
 
-**The time direction, $j = x_4$.** The symbols $\Gamma^h{}_{hx_4}$ are $a_4'$ for the three space directions, $-a_4'$ for the three extra times, and 0 for $x_4$ and $x_8$ (Section 3.23). So
+**The time direction, $j = x_4$.** The symbols $\Gamma^h{}_{hx_4}$ are $a_4'$ for the three space directions, $-a_4'$ for the three extra times, and 0 for $x_4$ and $x_0$ (Section 3.23). So
 
 $$
 \nabla_hP^h{}_{x_4} = \partial_4P^{x_4}{}_{x_4} + 3a_4'\big(P^{x_4}{}_{x_4} - P^{x_1}{}_{x_1}\big) - 3a_4'\big(P^{x_4}{}_{x_4} - P^{x_5}{}_{x_5}\big) = \partial_4P^{x_4}{}_{x_4} - 3a_4'\big(P^{x_1}{}_{x_1} - P^{x_5}{}_{x_5}\big)
@@ -2933,21 +2960,21 @@ $$
 \frac{d}{dx_4}E^{x_4}{}_{x_4} = 3a_4'\big(E^{x_1}{}_{x_1} - E^{x_5}{}_{x_5}\big). \qquad\text{(I)}
 $$
 
-**The hidden direction, $j = x_8$.** Nothing depends on $x_8$, so $\partial_8P^{x_8}{}_{x_8} = 0$. The symbols $\Gamma^h{}_{hx_8}$ are $H\cot z$ for the six transverse directions and 0 for $x_4$; the term $h = x_8$ has the factor $P^{x_8}{}_{x_8} - P^{x_8}{}_{x_8} = 0$. So
+**The hidden direction, $j = x_0$.** Nothing depends on $x_0$, so $\partial_0P^{x_0}{}_{x_0} = 0$. The symbols $\Gamma^h{}_{hx_0}$ are $H\cot z$ for the six transverse directions and 0 for $x_4$; the term $h = x_0$ has the factor $P^{x_0}{}_{x_0} - P^{x_0}{}_{x_0} = 0$. So
 
 $$
-\nabla_hP^h{}_{x_8} = 3H\cot z\big(P^{x_8}{}_{x_8} - P^{x_1}{}_{x_1}\big) + 3H\cot z\big(P^{x_8}{}_{x_8} - P^{x_5}{}_{x_5}\big) = 3H\cot z\big(2P^{x_8}{}_{x_8} - P^{x_1}{}_{x_1} - P^{x_5}{}_{x_5}\big) .
+\nabla_hP^h{}_{x_0} = 3H\cot z\big(P^{x_0}{}_{x_0} - P^{x_1}{}_{x_1}\big) + 3H\cot z\big(P^{x_0}{}_{x_0} - P^{x_5}{}_{x_5}\big) = 3H\cot z\big(2P^{x_0}{}_{x_0} - P^{x_1}{}_{x_1} - P^{x_5}{}_{x_5}\big) .
 $$
 
 Since $H\cot z > 0$ on the patch $0 < z < \pi/2$, zero divergence gives
 
 $$
-E^{x_8}{}_{x_8} = \tfrac12\big(E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5}\big). \qquad\text{(II)}
+E^{x_0}{}_{x_0} = \tfrac12\big(E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5}\big). \qquad\text{(II)}
 $$
 
 **The transverse directions.** For $j$ one of $x_1, x_2, x_3, x_5, x_6, x_7$: nothing depends on $x_j$, and every $\Gamma^h{}_{hj}$ is zero (Section 3.23), so the divergence vanishes without any condition.
 
-**What the identities say about the components (PROVED).** With Section 11.21 (e), identity (II) gives $E^{x_8}{}_{x_8} = \frac12\big((\mathcal{A}_k + a_4''\mathcal{B}_k) + (\mathcal{A}_k - a_4''\mathcal{B}_k)\big) = \mathcal{A}_k$: the hidden component is the space component without its $a_4''$ part. For $k = 1$: $\frac12\big((-3a_4'^2 + a_4'' + 15H^2) + (-3a_4'^2 - a_4'' + 15H^2)\big) = -3a_4'^2 + 15H^2$. Identity (I) gives, since $E^{x_4}{}_{x_4}$ depends on $x_4$ only through $a_4'$ (Section 11.21 (d)) and by the chain rule $\frac{d}{dx_4}E^{x_4}{}_{x_4} = \frac{\partial E^{x_4}{}_{x_4}}{\partial a_4'}\,a_4''$,
+**What the identities say about the components (PROVED).** With Section 11.21 (e), identity (II) gives $E^{x_0}{}_{x_0} = \frac12\big((\mathcal{A}_k + a_4''\mathcal{B}_k) + (\mathcal{A}_k - a_4''\mathcal{B}_k)\big) = \mathcal{A}_k$: the hidden component is the space component without its $a_4''$ part. For $k = 1$: $\frac12\big((-3a_4'^2 + a_4'' + 15H^2) + (-3a_4'^2 - a_4'' + 15H^2)\big) = -3a_4'^2 + 15H^2$. Identity (I) gives, since $E^{x_4}{}_{x_4}$ depends on $x_4$ only through $a_4'$ (Section 11.21 (d)) and by the chain rule $\frac{d}{dx_4}E^{x_4}{}_{x_4} = \frac{\partial E^{x_4}{}_{x_4}}{\partial a_4'}\,a_4''$,
 
 $$
 \frac{\partial E^{x_4}{}_{x_4}}{\partial a_4'}\,a_4'' = 3a_4'\,a_4''\,F_k\qquad\Longrightarrow\qquad\frac{\partial E^{x_4}{}_{x_4}}{\partial a_4'} = 3a_4'\,F_k(a_4')
@@ -2955,7 +2982,7 @@ $$
 
 (identity (I) with Section 11.21 (e); both sides are polynomials that agree for every $a_4''$, so the factors of $a_4''$ agree). For $k = 2$: $\partial(-36a_4'^4 - 120a_4'^2H^2 - 420H^4)/\partial a_4' = -144a_4'^3 - 240a_4'H^2 = 3a_4'\cdot(-48a_4'^2 - 80H^2) = 3a_4'F_2$. The derivative of the constraint is $3a_4'$ times the evolution factor: this is the **constraint propagation** of the record (`a4-equations.json`, key `generalSource`, entry `constraint_propagation`; `python-a4-report.json`, check `bianchi_x4`). Notebook 11c checks (I) exactly for $k = 1, 2, 3$ (In [5]), and (II) both exactly (In [4]) and numerically along a test history (In [9]); In [10] checks (I) numerically as well, along the same history.
 
-**What they mean in the field equations (a preview of Chapter 12).** In $\sum_k\alpha_kE_{(k)} + \Lambda\delta = \kappa T$, with $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$, identity (I) becomes the conservation of energy $\rho' = -3a_4'(p_3 - p_t)$ (energy flows between 3-space and the extra times when their pressures differ), and identity (II) becomes the condition $p_3 + p_t = 2p_8$ on the pressures (record `a4-equations.json`, key `generalSource`, entries `conservation_reduced` and `algebraic_condition`; Notebook 11c, In [11], checks that the record states both).
+**What they mean in the field equations (a preview of Chapter 12).** In $\sum_k\alpha_kE_{(k)} + \Lambda\delta = \kappa T$, with $T = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)$ (in the order $x_0, \dots, x_7$), identity (I) becomes the conservation of energy $\rho' = -3a_4'(p_3 - p_t)$ (energy flows between 3-space and the extra times when their pressures differ), and identity (II) becomes the condition $p_3 + p_t = 2p_0$ on the pressures (record `a4-equations.json`, key `generalSource`, entries `conservation_reduced` and `algebraic_condition`; Notebook 11c, In [11], checks that the record states both).
 
 ### 11.23 Along the deflating history; an illustrative test history
 
@@ -3016,7 +3043,7 @@ $$
 
 ### 11.24 Example: the components and identities along the deflating history
 
-Notebook 11c reads the exact components of the three Lovelock tensors from the Revision record `lovelock-tensors.json`, forms the normalised tensors $E_{(k)}$ and checks that they are the components recorded for the field equations of $a_4$ (`a4-equations.json`) and by the Revision's sympy verification; proves with sympy the structure of Section 11.21 (space and extra-time components alike, the constraint free of $a_4''$, the evolution factors $F_k$, the hidden component as the mean, evenness in $a_4'$, weight $2k$) and the identities of Section 11.22; draws the components and the scalars along the linear history as functions of $A$, with the zeros of the scalars; and uses the illustrative test history to show where $a_4''$ enters and to check identity (I) numerically. It quotes the reports of the field equations of $a_4$ only by the names of their checks, never by their numbers of checks, so that it stays valid when these reports gain checks. It needs no Rust, takes about 15 seconds (27.3 seconds when it was built, 24.0 seconds in its verification run; provenance file `Revision/textbook/notebooks/11c_lovelock_components.PROVENANCE.md`), prints 19 PASS lines, draws five figures and ends with the line ALL 19 CHECKS PASSED (notebook 11c).
+Notebook 11c reads the exact components of the three Lovelock tensors from the Revision record `lovelock-tensors.json`, for the author's metric with a general second function $b_4$, forms the normalised tensors $E_{(k)}$ and checks that with $b_4$ they are the components of the Revision's sympy verification (including the two mixed components $x_4$-$x_0$ and $x_0$-$x_4$, proportional to $b_4'$) and that on the background $b_4 = 1$ they are the components recorded for the field equations of $a_4$ (`a4-equations.json`); proves with sympy the structure of Section 11.21 (space and extra-time components alike, the constraint free of $a_4''$, the evolution factors $F_k$, the hidden component as the mean, evenness in $a_4'$, weight $2k$) and the identities of Section 11.22; draws the components and the scalars along the linear history as functions of $A$, with the zeros of the scalars; and uses the illustrative test history to show where $a_4''$ enters and to check identity (I) numerically. It quotes the reports of the field equations of $a_4$ only by the names of their checks, never by their numbers of checks, so that it stays valid when these reports gain checks. It needs no Rust, takes a few seconds (4.7 seconds when it was built on 2026-10-15; provenance file `Revision/textbook/notebooks/11c_lovelock_components.PROVENANCE.md`), prints 20 PASS lines, draws five figures and ends with the line ALL 20 CHECKS PASSED (notebook 11c).
 
 <!-- NOTEBOOK 11c -->
 
@@ -3029,50 +3056,66 @@ The notebook has 12 code cells, In [1] to In [12]. As in Sections 11.9 and 11.19
 **In [2], the components from the Revision record.**
 
 ```python
+import re  # regular expressions: rewrites the record's names
+
 import numpy as np  # arrays of numbers
 import sympy as sp  # exact algebra
 
 H, A1, A2 = sp.symbols("H A1 A2")  # H, a4' and a4''
-NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
+B0, B1, B2, c = sp.symbols("B0 B1 B2 c")  # b4, b4', b4'' and cot z
+NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
 tensors = json.loads(repository_file(
     "Revision/gkd_lovelock/results/lovelock-tensors.json").read_text(encoding="utf-8"))
 ```
 
-numpy and sympy are loaded; three sympy symbols stand for $H$, $a_4'$ and $a_4''$; `NAMES` lists the coordinate names; and the Rust record of the Lovelock tensors is read as JSON (Section 11.9 explains `repository_file`, `read_text` and `json.loads`).
+`re` (regular expressions, used in In [7] to rewrite the names of the record), numpy and sympy are loaded; three sympy symbols stand for $H$, $a_4'$ and $a_4''$, and four more, `B0`, `B1`, `B2` and `c`, for $b_4$, $b_4'$, $b_4''$ and $\cot z$; `NAMES` lists the coordinate names; and the Rust record of the Lovelock tensors is read as JSON (Section 11.9 explains `repository_file`, `read_text` and `json.loads`).
 
 ```python
 def from_monomials(monomials):
     total = sp.Integer(0)
     for numerator, denominator, e in monomials:
-        if any(e[3:]):  # 3rd or 4th derivative, e^a4, sin^(1/3) z or cot z
-            raise ValueError("the component contains more than H, a4' and a4''")
-        monomial = H ** e[0] * A1 ** e[1] * A2 ** e[2]  # H^eH a4'^e1 a4''^e2
+        if e[3] or e[4] or e[5] or e[6] or e[11] or e[12]:
+            raise ValueError("the component contains a3, a4 derivatives, e^a4, "
+                             "sin^(1/3) z or higher derivatives of b4")
+        monomial = (H ** e[0] * A1 ** e[1] * A2 ** e[2] * c ** e[7]
+                    * B0 ** sp.Rational(e[8], 2) * B1 ** e[9] * B2 ** e[10])
         total += sp.Rational(numerator, denominator) * monomial
     return total
 ```
 
-A component of the record is a list of monomials, each a numerator, a denominator and eight exponents (of $H$, $a_4'$, $a_4''$, $a_4'''$, $a_4''''$, $e^{a_4}$, $\sin^{1/3}z$, $\cot z$). The function (docstring left out) rebuilds the component as a sympy expression. `any(e[3:])` is true if any of the last five exponents is not 0; the notebook would then stop. Since it does not stop, every component is free of $x_8$, of $e^{a_4}$ and of higher derivatives (Section 11.20). Each monomial is the exact fraction (`sp.Rational`) times $H^{e_0}a_4'^{e_1}a_4''^{e_2}$.
+A component of the record is a list of monomials, each a numerator, a denominator and thirteen exponents (of $H$, $a_4'$, $a_4''$, $a_4'''$, $a_4''''$, $e^{a_4}$, $\sin^{1/3}z$, $\cot z$, $Q = b_4^{1/2}$, $b_4'$, $b_4''$, $b_4'''$, $b_4''''$). The function (docstring left out) rebuilds the component as a sympy expression, for a general $b_4$. If one of the exponents of $a_4'''$, $a_4''''$, $e^{a_4}$, $\sin^{1/3}z$, $b_4'''$ or $b_4''''$ were not 0, the notebook would stop. Since it does not stop, every component is free of $e^{a_4}$, of $\sin^{1/3}z$ and of higher derivatives (Section 11.20). Each monomial is the exact fraction (`sp.Rational`) times $H^{e_0}a_4'^{e_1}a_4''^{e_2}\cot^{e_7}z\,b_4^{e_8/2}b_4'^{e_9}b_4''^{e_{10}}$.
 
 ```python
-P = {k: {(h, j): from_monomials(tensors[f"P{k}_mixed_up_h_down_j"][f"{a},{b}"]
-                                ["monomials"])
-         for h, a in enumerate(NAMES) for j, b in enumerate(NAMES)} for k in (1, 2, 3)}
+P_B4 = {k: {(h, j): from_monomials(tensors[f"P{k}_mixed_up_h_down_j"][f"{a},{b}"]
+                                   ["monomials"])
+            for h, a in enumerate(NAMES) for j, b in enumerate(NAMES)}
+        for k in (1, 2, 3)}
+BACKGROUND = {B0: 1, B1: 0, B2: 0}  # the background b4 = 1 of the records
+P = {k: {hj: sp.expand(value.subs(BACKGROUND)) for hj, value in P_B4[k].items()}
+     for k in (1, 2, 3)}
+mixed_b4 = all({hj for hj, value in P_B4[k].items() if hj[0] != hj[1] and value != 0}
+               == {(4, 0), (0, 4)} and P_B4[k][4, 0].has(B1) and P_B4[k][0, 4].has(B1)
+               for k in (1, 2, 3))
+check(mixed_b4 and all(not P[k][hj].has(c) for k in (1, 2, 3) for hj in P[k]),
+      "with b4 the only nonzero off-diagonal components are x4-x0 and x0-x4, both "
+      "with b4'; at b4 = 1 no component contains cot z")
 E = {k: {hj: sp.expand(-value / 2 ** (k + 1)) for hj, value in P[k].items()}
      for k in (1, 2, 3)}
 ```
 
-`P[k][h, j]` is the component $P_{(k)}{}^h{}_j$, built for all 64 pairs (`enumerate(NAMES)` gives each number with its name, used for the record's keys such as `"x1,x1"`); `E[k]` holds the normalised components $E_{(k)} = -P_{(k)}/2^{k+1}$, multiplied out.
+`P_B4[k][h, j]` is the component $P_{(k)}{}^h{}_j$ with a general $b_4$, built for all 64 pairs (`enumerate(NAMES)` gives each number with its name, used for the record's keys such as `"x1,x1"`). `BACKGROUND` is the substitution $b_4 = 1$, $b_4' = b_4'' = 0$, and `P[k][h, j]` the component there. The first check requires that with $b_4$ exactly the two mixed components $x_4$-$x_0$ and $x_0$-$x_4$ are nonzero off the diagonal, both containing $b_4'$, and that at $b_4 = 1$ no component contains $\cot z$. First PASS line. `E[k]` holds the normalised components $E_{(k)} = -P_{(k)}/2^{k+1}$ at $b_4 = 1$, multiplied out.
 
 ```python
 for k in (1, 2, 3):
-    for h in (0, 3, 4, 7):  # x1, x4, x5, x8
+    for h in (1, 4, 5, 0):  # x1, x4, x5, x0
         say(f"E({k})^{NAMES[h]}_{NAMES[h]} = {E[k][h, h]}")
 check(all(E[k][h, j] == 0 for k in (1, 2, 3) for h in range(8) for j in range(8)
           if h != j),
-      "every off-diagonal component of E(1), E(2), E(3) is zero, x4-x8 included")
+      "at b4 = 1 every off-diagonal component of E(1), E(2), E(3) is zero, x4-x0 "
+      "included")
 ```
 
-The four independent components of each order are printed: twelve lines that are exactly the list of Section 11.20 (sympy writes `A1**2` for $a_4'^2$). The check confirms that every off-diagonal component is zero (Section 11.21 (a)). First PASS line.
+The four independent components of each order are printed: twelve lines that are exactly the list of Section 11.20 (sympy writes `A1**2` for $a_4'^2$). The check confirms that at $b_4 = 1$ every off-diagonal component is zero (Section 11.21 (a)). Second PASS line.
 
 **In [3], against the other records.**
 
@@ -3092,15 +3135,15 @@ The record of the field equations of $a_4$ is read. It writes formulas in Wolfra
 same = True
 for k in (1, 2, 3):
     listed = a4_record["lovelockTensors"][f"E{k}"]
-    for key, (h, j) in (("x1x1", (0, 0)), ("x4x4", (3, 3)), ("x5x5", (4, 4)),
-                        ("x8x8", (7, 7)), ("x4x8", (3, 7)), ("x8x4", (7, 3))):
+    for key, (h, j) in (("x1x1", (1, 1)), ("x4x4", (4, 4)), ("x5x5", (5, 5)),
+                        ("x0x0", (0, 0)), ("x4x0", (4, 0)), ("x0x4", (0, 4))):
         same = same and sp.expand(from_text(listed[key]["input"]) - E[k][h, j]) == 0
 check(same, "E(1), E(2), E(3) equal the components recorded for the a4 equations",
       record="Revision/field_equations_a4/reports/python-a4-report.json, check "
              "json_lovelock_components")
 ```
 
-For each order the record's entry `lovelockTensors` lists six components, the four independent diagonal ones and the two $x_4$-$x_8$ ones (which are 0). Each must equal the notebook's component exactly. Second PASS line.
+For each order the record's entry `lovelockTensors` lists six components, the four independent diagonal ones and the two $x_4$-$x_0$ ones (which are 0). Each must equal the notebook's component exactly. Third PASS line.
 
 ```python
 checker = json.loads(repository_file(
@@ -3108,17 +3151,19 @@ checker = json.loads(repository_file(
         encoding="utf-8"))
 independent = checker["independentResults"]
 same = all(
-    sp.expand(sp.sympify(text, locals={"A1": A1, "A2": A2, "H": H})
-              - P[k][NAMES.index(key.split(",")[0]), NAMES.index(key.split(",")[1])])
-    == 0
+    sp.simplify(sp.sympify(text, locals={"A1": A1, "A2": A2, "H": H, "B0": B0,
+                                         "B1": B1, "B2": B2, "c": c})
+                - P_B4[k][NAMES.index(key.split(",")[0]),
+                          NAMES.index(key.split(",")[1])]) == 0
     for k in (1, 2, 3) for key, text in independent[f"P{k}_mixed_nonzero"].items())
-check(same and all(len(independent[f"P{k}_mixed_nonzero"]) == 8 for k in (1, 2, 3)),
-      "P(1), P(2), P(3) equal the independent sympy results (8 nonzero components each)",
+check(same and all(len(independent[f"P{k}_mixed_nonzero"]) == 10 for k in (1, 2, 3)),
+      "P(1), P(2), P(3) equal the independent sympy results with b4 (10 nonzero "
+      "components each)",
       record="Revision/gkd_lovelock/results/python-lovelock-report.json, "
              "independentResults")
 ```
 
-The Revision's sympy verification stores its own, independently computed nonzero components in the entry `independentResults`, under keys such as `"x1,x1"`; `key.split(",")` cuts a key into the two names. Every one must equal the notebook's $P_{(k)}$, and there must be exactly 8 for each order. Third PASS line.
+The Revision's sympy verification stores its own, independently computed nonzero components in the entry `independentResults`, under keys such as `"x1,x1"`; `key.split(",")` cuts a key into the two names. These are computed with a general $b_4$, in the symbols `B0`, `B1`, `B2` and `c`. Every one must equal the notebook's $P_{(k)}$ with $b_4$ exactly (`sp.simplify` of the difference must be 0), and there must be exactly 10 for each order: the eight diagonal ones and the two mixed ones. Fourth PASS line.
 
 **In [4], the structure.**
 
@@ -3144,15 +3189,15 @@ A dictionary of six true/false flags, one for each property of Section 11.21; ea
 ```python
 for k in (1, 2, 3):
     e = E[k]
-    structure["alike"] &= (e[0, 0] == e[1, 1] == e[2, 2]
-                           and e[4, 4] == e[5, 5] == e[6, 6])
-    structure["constraint"] &= not e[3, 3].has(A2) and not e[7, 7].has(A2)
+    structure["alike"] &= (e[1, 1] == e[2, 2] == e[3, 3]
+                           and e[5, 5] == e[6, 6] == e[7, 7])
+    structure["constraint"] &= not e[4, 4].has(A2) and not e[0, 0].has(A2)
 ```
 
 `&=` combines a flag with a new result by AND: it stays true only if both are true. "alike": the three space components are equal and the three extra-time components are equal (Section 11.21 (b)). "constraint": the time and the hidden component do not contain $a_4''$ (`expr.has(A2)` is true when the symbol occurs; parts (d) and (f)).
 
 ```python
-    F[k] = sp.factor(sp.cancel((e[0, 0] - e[4, 4]) / A2))
+    F[k] = sp.factor(sp.cancel((e[1, 1] - e[5, 5]) / A2))
     structure["evolution"] &= (not F[k].has(A2)
                                and sp.expand(F[k] - recorded_F.coeff(alphas[k - 1]))
                                == 0)
@@ -3161,7 +3206,7 @@ for k in (1, 2, 3):
 The space minus the extra-time component, divided by $a_4''$: `sp.cancel` divides exactly and `sp.factor` writes the result as a product. It must be free of $a_4''$ (part (e)) and equal to the coefficient of $\alpha_k$ in the record's $F$ (`.coeff(alphas[k - 1])`; Python counts the list `alphas` from 0).
 
 ```python
-    structure["mean"] &= sp.expand(e[7, 7] - (e[0, 0] + e[4, 4]) / 2) == 0
+    structure["mean"] &= sp.expand(e[0, 0] - (e[1, 1] + e[5, 5]) / 2) == 0
     structure["even"] &= all(sp.expand(e[h, h].subs(A1, -A1) - e[h, h]) == 0
                              for h in range(8))
 ```
@@ -3180,18 +3225,18 @@ The space minus the extra-time component, divided by $a_4''$: `sp.cancel` divide
 
 ```python
 check(structure["alike"], "space components equal, extra-time components equal")
-check(structure["constraint"], "the x4 and x8 components contain no a4''")
+check(structure["constraint"], "the x4 and x0 components contain no a4''")
 check(structure["evolution"],
       "E^x1_x1 - E^x5_x5 = a4'' F_k(a4') with F_1 = 2, F_2 = -16 (3 a4'^2 + 5 H^2), "
       "F_3 = 144 (5 a4'^4 + 6 a4'^2 H^2 + 5 H^4)",
       record="Revision/field_equations_a4/reports/python-a4-report.json, check "
              "evolution_factorises (a4-equations.json, evolution_F)")
-check(structure["mean"], "E^x8_x8 is the mean of E^x1_x1 and E^x5_x5 (identity II)")
+check(structure["mean"], "E^x0_x0 is the mean of E^x1_x1 and E^x5_x5 (identity II)")
 check(structure["even"] and structure["weight"],
       "every component is even in a4' and of weight 2k (dimension 1/length^(2k))")
 ```
 
-Five checks, one per flag (evenness and weight together). PASS lines four to eight.
+Five checks, one per flag (evenness and weight together). PASS lines five to nine.
 
 **In [5], identity (I) and the factor $V_k$.**
 
@@ -3199,7 +3244,7 @@ Five checks, one per flag (evenness and weight together). PASS lines four to eig
 V = {1: sp.Integer(1), 2: -8 * (A1 ** 2 + 5 * H ** 2),
      3: 72 * (A1 ** 4 + 2 * A1 ** 2 * H ** 2 + 5 * H ** 4)}
 identity_I = all(
-    sp.expand(sp.diff(E[k][3, 3], A1) * A2 - 3 * A1 * (E[k][0, 0] - E[k][4, 4])) == 0
+    sp.expand(sp.diff(E[k][4, 4], A1) * A2 - 3 * A1 * (E[k][1, 1] - E[k][5, 5])) == 0
     for k in (1, 2, 3))
 ```
 
@@ -3211,14 +3256,14 @@ check(identity_I, "d/dx4 E^x4_x4 = 3 a4' (E^x1_x1 - E^x5_x5) for k = 1, 2, 3 "
       record="Revision/field_equations_a4/reports/python-a4-report.json, check "
              "bianchi_x4; Revision/gkd_lovelock/results/lovelock-report.json, checks "
              "k1_divergence_free, k2_divergence_free and k3_divergence_free")
-factor_ok = all(sp.expand(E[k][3, 3] - E[k][7, 7] - 6 * (A1 ** 2 + H ** 2) * V[k]) == 0
+factor_ok = all(sp.expand(E[k][4, 4] - E[k][0, 0] - 6 * (A1 ** 2 + H ** 2) * V[k]) == 0
                 for k in (1, 2, 3))
-check(factor_ok, "E^x4_x4 - E^x8_x8 = 6 (a4'^2 + H^2) V_k for k = 1, 2, 3",
+check(factor_ok, "E^x4_x4 - E^x0_x0 = 6 (a4'^2 + H^2) V_k for k = 1, 2, 3",
       record="Revision/field_equations_a4/reports/python-a4-report.json, check "
              "linear_member_vacuum_factor")
 ```
 
-The two checks: identity (I) holds exactly, and the factorisation $E^{x_4}{}_{x_4} - E^{x_8}{}_{x_8} = 6(a_4'^2 + H^2)V_k$ holds for $k = 1, 2, 3$. PASS lines nine and ten.
+The two checks: identity (I) holds exactly, and the factorisation $E^{x_4}{}_{x_4} - E^{x_0}{}_{x_0} = 6(a_4'^2 + H^2)V_k$ holds for $k = 1, 2, 3$. PASS lines ten and eleven.
 
 **In [6], the linear history (Figure 11c.1).**
 
@@ -3238,8 +3283,8 @@ def on_linear_history(expr):
 fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.0))
 symmetric = True
 for ax, k in zip(axes, (1, 2, 3)):
-    time_part = on_linear_history(E[k][3, 3])
-    other_part = on_linear_history(E[k][0, 0])
+    time_part = on_linear_history(E[k][4, 4])
+    other_part = on_linear_history(E[k][1, 1])
     symmetric &= np.allclose(time_part, time_part[::-1]) and np.allclose(
         other_part, other_part[::-1])
 ```
@@ -3249,7 +3294,7 @@ One panel per order. `time_part` is $E^{x_4}{}_{x_4}$ and `other_part` the commo
 ```python
     ax.plot(A, time_part, label="$E^{x_4}{}_{x_4}$ (time)")
     ax.plot(A, other_part, "--", label="$E^{x_1}{}_{x_1} = E^{x_5}{}_{x_5} = "
-                                       "E^{x_8}{}_{x_8}$")
+                                       "E^{x_0}{}_{x_0}$")
     ax.axvline(0.0, color="0.5", lw=0.8)
     ax.axhline(0.0, color="0.5", lw=0.8)
     ax.set_xlabel("$A = a_4^{\\prime}/H$")
@@ -3268,20 +3313,26 @@ save_figure(fig, "components_linear_history",
 check(symmetric, "on the linear history every curve is symmetric under A -> -A")
 ```
 
-The figure is saved and the symmetry checked. Eleventh PASS line.
+The figure is saved and the symmetry checked. Twelfth PASS line.
 
 *What Figure 11c.1 shows.* Three panels, one per order, against $A$ from $-3$ to 3 in units of $H^{2k}$. For $k = 1$ the time component $3A^2 + 21$ is a parabola opening upward from 21, and the other component $15 - 3A^2$ one opening downward from 15, crossing 0 at $A = \pm\sqrt 5$. For $k = 2$ the curves open the other way, and the dashed one crosses 0 at $A = \pm 1$ ($12 + 168 - 180 = 0$). For $k = 3$ both grow like $A^6$. Every curve is a mirror image of itself about $A = 0$: deflating ($A > 0$) and inflating ($A < 0$) extra times give the same tensors.
 
 **In [7], the Lovelock scalars (Figure 11c.2).**
 
 ```python
-L = {k: sp.sympify(tensors[f"L{k}"].replace("Derivative[1][a4][x4]", "A1")
-                   .replace("^", "**"), locals={"A1": A1, "H": H}) for k in (1, 2, 3)}
+L_TEXT = {k: re.sub(r"Derivative\[(\d)\]\[b4\]\[x4\]", r"B\1",
+                    re.sub(r"Derivative\[(\d)\]\[a4\]\[x4\]", r"A\1",
+                           tensors[f"L{k}"])).replace("b4[x4]", "B0")
+          for k in (1, 2, 3)}
+L = {k: sp.expand(sp.sympify(L_TEXT[k].replace("^", "**"),
+                             locals={"A1": A1, "A2": A2, "H": H, "B0": B0, "B1": B1,
+                                     "B2": B2}).subs(BACKGROUND))
+     for k in (1, 2, 3)}  # the scalars at b4 = 1
 fig, axes = plt.subplots(1, 3, figsize=(12.0, 3.8))
 zeros = {}
 ```
 
-The three scalars of the record (keys `L1` to `L3`, in Mathematica text) are read as sympy expressions, with $a_4'$ written `A1`. Three panels and an empty dictionary for the zeros.
+The three scalars of the record (keys `L1` to `L3`, in Mathematica text, with $b_4$) are read as sympy expressions: `re.sub` writes the derivatives of $a_4$ as `A1`, `A2` and those of $b_4$ as `B1`, `B2`, `b4[x4]` becomes `B0`, and `.subs(BACKGROUND)` puts $b_4 = 1$. Three panels and an empty dictionary for the zeros.
 
 ```python
 for ax, k in zip(axes, (1, 2, 3)):
@@ -3335,7 +3386,7 @@ check(all(len(zeros[k]) == 1 for k in (1, 2, 3))
       "are -84, 3360, -40320")
 ```
 
-The caption written into the figure includes the computed zeros (the f-strings of the caption insert them, rounded to three decimals). The check: exactly one positive zero for each order, the first at $\sqrt 7$ to 12 digits, and the values $-84$, 3360, $-40320$ at $A = 0$. Twelfth PASS line.
+The caption written into the figure includes the computed zeros (the f-strings of the caption insert them, rounded to three decimals). The check: exactly one positive zero for each order, the first at $\sqrt 7$ to 12 digits, and the values $-84$, 3360, $-40320$ at $A = 0$. Thirteenth PASS line.
 
 *What Figure 11c.2 shows.* $L_{(1)} = 12A^2 - 84$ is a parabola with its lowest point $-84$ at $A = 0$ and zeros at $\pm\sqrt 7$. $L_{(2)}$ opens downward from its highest point 3360 and crosses 0 at $\pm 1.221$. $L_{(3)}$ has a shallow dip to $-40320$ at $A = 0$, visible only in the magnified inset, crosses 0 at $\pm 0.601$ and then grows to about $4 \times 10^6$ at $A = \pm 3$.
 
@@ -3351,7 +3402,7 @@ check(sp.simplify(first - (1 + sp.tanh(t) / 2)) == 0
       "the test history has a4' = 1 + tanh/2 > 0 and a4'' = sech^2/2 (H = 1)")
 ```
 
-The illustrative history of Section 11.23 with $H = 1$, in the variable $t = Hx_4$. sympy differentiates it once and twice (`sp.diff(history, t, 2)`), and the check confirms the derivatives derived by hand: $1 + \frac12\tanh t$ and $\frac12\mathrm{sech}^2t$. Thirteenth PASS line.
+The illustrative history of Section 11.23 with $H = 1$, in the variable $t = Hx_4$. sympy differentiates it once and twice (`sp.diff(history, t, 2)`), and the check confirms the derivatives derived by hand: $1 + \frac12\tanh t$ and $\frac12\mathrm{sech}^2t$. Fourteenth PASS line.
 
 ```python
 times = np.linspace(-6.0, 6.0, 1201)  # H x4 from -6 to 6
@@ -3407,17 +3458,17 @@ fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.0))
 middle = True
 curves = {}
 for ax, k in zip(axes, (1, 2, 3)):
-    curves[k] = {h: along_history(E[k][h, h]) for h in (0, 3, 4, 7)}
-    middle &= np.allclose(curves[k][7], (curves[k][0] + curves[k][4]) / 2,
+    curves[k] = {h: along_history(E[k][h, h]) for h in (1, 4, 5, 0)}
+    middle &= np.allclose(curves[k][0], (curves[k][1] + curves[k][5]) / 2,
                           rtol=1e-12, atol=1e-9)
 ```
 
-For each order the four independent components are evaluated along the history and kept in `curves` (keys 0, 3, 4, 7 for $x_1, x_4, x_5, x_8$). The hidden component must equal the mean of the space and extra-time components at every time, up to rounding (`rtol` and `atol` are the allowed relative and absolute differences).
+For each order the four independent components are evaluated along the history and kept in `curves` (keys 0, 3, 4, 7 for $x_1, x_4, x_5, x_0$). The hidden component must equal the mean of the space and extra-time components at every time, up to rounding (`rtol` and `atol` are the allowed relative and absolute differences).
 
 ```python
-    for h, style in ((3, "-"), (0, "-"), (4, "--"), (7, ":")):
+    for h, style in ((4, "-"), (1, "-"), (5, "--"), (0, ":")):
         ax.plot(times, curves[k][h], style,
-                label=f"$E^{{x_{h + 1}}}{{}}_{{x_{h + 1}}}$")
+                label=f"$E^{{x_{h}}}{{}}_{{x_{h}}}$")
     ax.set_xlabel("time $H x_4$")
     ax.set_ylabel(f"$E_{{({k})}}$ in units of $H^{{{2 * k}}}$")
     ax.set_title(f"order k = {k}")
@@ -3431,11 +3482,11 @@ fig.tight_layout()
 save_figure(fig, "components_test_history",
             "The four independent components of $E_{(1)}$, $E_{(2)}$ and $E_{(3)}$ "
             ...)
-check(middle, "along the test history E^x8_x8 is the mean of E^x1_x1 and E^x5_x5 "
+check(middle, "along the test history E^x0_x0 is the mean of E^x1_x1 and E^x5_x5 "
               "at all 1201 times")
 ```
 
-The figure is saved, and the check confirms identity (II) at all 1201 times. Fourteenth PASS line.
+The figure is saved, and the check confirms identity (II) at all 1201 times. Fifteenth PASS line.
 
 *What Figure 11c.4 shows.* In each panel the time component (blue) steps from one constant to another, for $k = 1$ from $21.75$ to $27.75$, because it depends on $a_4'$ alone. The space (orange) and extra-time (dashed green) components step the other way and separate only near $x_4 = 0$, where $a_4'' \ne 0$: for $k = 1$ and $k = 3$ the space component lies above ($F_1, F_3 > 0$), for $k = 2$ below ($F_2 < 0$). The dotted hidden component runs exactly between them.
 
@@ -3446,8 +3497,8 @@ step = times[1] - times[0]  # epsilon = 0.01
 fig, axes = plt.subplots(1, 3, figsize=(12.0, 3.8))
 worst = {}
 for ax, k in zip(axes, (1, 2, 3)):
-    left = np.gradient(curves[k][3], step)  # d/dx4 of the time component
-    right = 3 * a1_values * (curves[k][0] - curves[k][4])
+    left = np.gradient(curves[k][4], step)  # d/dx4 of the time component
+    right = 3 * a1_values * (curves[k][1] - curves[k][5])
 ```
 
 `step` is the spacing of the times, 0.01. `np.gradient(values, step)` estimates the derivative at every time by the central difference $(f(t + \epsilon) - f(t - \epsilon))/(2\epsilon)$ (at the two end points by a one-sided difference). `left` is the estimated derivative of the time component, `right` the right side of identity (I).
@@ -3486,7 +3537,7 @@ check(all(value < 1e-4 for value in worst.values()),
       "the finite-difference derivative agrees with identity (I) to 1e-4")
 ```
 
-The largest deviation of the three orders is written into the caption in the form $4.5 \times 10^{-5}$: `np.log10` is the logarithm to the base 10, and `np.floor` rounds it down, which gives the power of ten. The check requires every relative deviation to be below $10^{-4}$. Fifteenth PASS line.
+The largest deviation of the three orders is written into the caption in the form $4.5 \times 10^{-5}$: `np.log10` is the logarithm to the base 10, and `np.floor` rounds it down, which gives the power of ten. The check requires every relative deviation to be below $10^{-4}$. Sixteenth PASS line.
 
 *What Figure 11c.5 shows.* In each panel the dotted black line lies on the thick blue line: a bump at $x_4 = 0$, zero far away, where $a_4'' = 0$ and the time component is constant. The sign of the bump follows $F_k$ (positive for $k = 1, 3$, negative for $k = 2$), times the positive $3a_4'a_4''$.
 
@@ -3526,22 +3577,22 @@ for path, names in QUOTED.items():
           "PASS", record=f"{path}, checks " + ", ".join(names))
 ```
 
-Each quoted check is printed with its verdict (`path.split('/')[-1]` is the file name, the last part of the path) and must be present with PASS. The notebook asks only for these names, not for the number of checks of the report, so it stays valid when the report gains checks. PASS lines sixteen and seventeen.
+Each quoted check is printed with its verdict (`path.split('/')[-1]` is the file name, the last part of the path) and must be present with PASS. The notebook asks only for these names, not for the number of checks of the report, so it stays valid when the report gains checks. PASS lines seventeen and eighteen.
 
 ```python
 general = a4_record["generalSource"]  # a4-equations.json, read in section 5
-stated = (general["algebraic_condition"]["input"] == "p3 + pt == 2*p8"
+stated = (general["algebraic_condition"]["input"] == "p3 + pt == 2*p0"
           and "rho' = -3 a4' (p3 - p_t)" in general["conservation_reduced"]
-          and "p3 + p_t = 2 p8" in general["conservation_reduced"]
+          and "p3 + p_t = 2 p0" in general["conservation_reduced"]
           and "d/dx4 (constraint) = 3 a4' (evolution)"
           in general["constraint_propagation"])
-check(stated, "a4-equations.json states rho' = -3 a4' (p3 - p_t), p3 + p_t = 2 p8 and "
+check(stated, "a4-equations.json states rho' = -3 a4' (p3 - p_t), p3 + p_t = 2 p0 and "
               "the constraint propagation, as quoted",
       record="Revision/field_equations_a4/a4-equations.json, generalSource: "
              "conservation_reduced, algebraic_condition, constraint_propagation")
 ```
 
-The record of the field equations must state the three consequences quoted in Section 11.22: the algebraic condition $p_3 + p_t = 2p_8$ (in Wolfram's notation), the reduced conservation law $\rho' = -3a_4'(p_3 - p_t)$, and the constraint propagation. Eighteenth PASS line.
+The record of the field equations must state the three consequences quoted in Section 11.22: the algebraic condition $p_3 + p_t = 2p_0$ (in Wolfram's notation), the reduced conservation law $\rho' = -3a_4'(p_3 - p_t)$, and the constraint propagation. Nineteenth PASS line.
 
 **In [12], the end.**
 
@@ -3554,7 +3605,7 @@ check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_fi
 all_checks_passed()
 ```
 
-The five figure files must exist (nineteenth PASS line), and the last line is ALL 19 CHECKS PASSED (notebook 11c). The 19 checks are: 1 in In [2], 2 in In [3], 5 in In [4], 2 in In [5], 1 each in In [6] to In [10], 3 in In [11] and 1 in In [12].
+The five figure files must exist (twentieth PASS line), and the last line is ALL 20 CHECKS PASSED (notebook 11c). The 20 checks are: 2 in In [2], 2 in In [3], 5 in In [4], 2 in In [5], 1 each in In [6] to In [10], 3 in In [11] and 1 in In [12].
 
 ### 11.28 What we proved, what we computed, what we assumed
 
@@ -3562,16 +3613,16 @@ The five figure files must exist (nineteenth PASS line), and the last line is AL
 
 - **The generalized Kronecker delta** (Sections 11.3 and 11.4): the author's determinant $\det[\delta(l_i, u_j)]$ is 0 when a label repeats in either list or a lower label is missing above, and otherwise the sign of the permutation that carries the lower list into the upper list; so the rule GKD of the Revision program is exactly the author's definition (Notebook 11a, In [2] to In [6]; records `Revision/gkd_lovelock/results/wolfram-gkd-report.json`, checks `gkd_equals_kdelta_exhaustive_length_1` to `_length_3`, which compare the Rust function GKD with the literal determinant, and `gkd-selftest.json`; the literal determinant itself is checked in `python-lovelock-report.json`, checks `gkd_examples` and `gkd_literal_equals_cofactor_expansion`, the second of which compares it with an independent cofactor expansion). The number of nonzero values $8!/(8 - p)!\cdot p!$, half of them $+1$ and half $-1$ for $p \ge 2$, with the counts 8; 56 and 56; 1008 and 1008; 20160 and 20160 for $p = 1$ to 4 (In [6], In [7], In [9]; record `wolfram-gkd-report.json`, entry `gkdComparison`). Every delta with nine or more labels vanishes in eight dimensions (pigeonhole), so $P_{(4)} = 0$ and Lovelock's sum stops at order 3 (In [10]; record `lovelock-report.json`, check `k4_tensor_vanishes`). The rule needs $p(p - 1)/2$ comparisons instead of the $p!$ products of the determinant. The birthday probability $r_p = 8!/((8 - p)!\,8^p)$ of a nonzero rearranged random pair (with the assumed rules of probability).
 - **The author's second route** (Section 11.5): a determinant identity for the Levi-Civita symbol; raising all labels of the Levi-Civita tensor of a metric gives the factor $\sqrt{|\det g|}/\det g$, so the product of two Levi-Civita tensors is the sign of $\det g$ times the product of two symbols; for the author's metric $\det g = \cos^2z > 0$ (record `python-lovelock-report.json`, check `sqrt_abs_det_g`), the sign is $+1$, and the author's second route gives the generalized delta without an extra sign.
-- **The curvature that the sums use** (Section 11.10): the mixed components $R^{x_4k}{}_{x_8k} = \sigma_kHa_4'\cot z$ carry the sign $\sigma_k = \pm 1$ of inflation or deflation, not of the space-like or time-like character, and $R^{x_4}{}_{x_8} = 0$ because three inflating and three deflating directions cancel; every nonzero $R^{ab}{}_{cd}$ has the weight 2.
+- **The curvature that the sums use** (Section 11.10): the mixed components $R^{x_4k}{}_{x_0k} = \sigma_kHa_4'\cot z$ carry the sign $\sigma_k = \pm 1$ of inflation or deflation, not of the space-like or time-like character, and $R^{x_4}{}_{x_0} = 0$ because three inflating and three deflating directions cancel, on the background $b_4 = 1$ (with a changing $b_4$, $R^{x_4}{}_{x_0} = \frac32H\cot z\,b_4'/b_4$, record `curvature.json`); every nonzero $R^{ab}{}_{cd}$ has the weight 2.
 - **Laplace's rule** for determinants of every size, and **the expansion of every Lovelock tensor** along the column of its free upper label, $P_{(k)} = \delta\,L_{(k)} - 2k\,Y_{(k)}$ (Section 11.13; Notebook 11b, In [21]).
 - **For every metric** (Sections 11.14 and 11.15): $L_{(1)} = 2R$, $P_{(1)} = -4G$, so $E_{(1)} = G$; the trace identity $\sum_hP_{(k)}{}^h{}_h = (8 - 2k)L_{(k)}$; $L_{(2)} = 4\,\mathrm{GB}$ and $P_{(2)} = -8\mathcal{H}$ with Lanczos's Gauss-Bonnet tensor $\mathcal{H}$, so $E_{(2)} = \mathcal{H}$ (Notebook 11b, In [18], In [19], In [22]; records `lovelock-report.json`, checks `k1_equals_minus_4_einstein`, `k1_trace_identity` to `k3_trace_identity`, and `python-lovelock-report.json`, checks `L1_equals_2R`, `k2_equals_minus_8_gauss_bonnet`, `L2_equals_4_gauss_bonnet`).
-- **The structure of the components for the author's metric** (Section 11.21), for every history $a_4(x_4)$ and every order: only the diagonal is nonzero (in particular no $x_4$-$x_8$ component, by the relabelling that exchanges 3-space and the extra times); the three space components are equal, and so are the three extra-time components; $a_4''$ enters at most linearly; the time component is a polynomial in $a_4'^2$ and $H^2$ alone (the constraint); the extra-time component is the space component with $a_4''$ replaced by $-a_4''$, so their difference is $a_4''F_k(a_4')$ with $F_1 = 2$, $F_2 = -16(3a_4'^2 + 5H^2)$, $F_3 = 144(5a_4'^4 + 6a_4'^2H^2 + 5H^4)$ (the evolution factor; record `Revision/field_equations_a4/reports/python-a4-report.json`, check `evolution_factorises`); the hidden component contains no $a_4''$; every component is even in $a_4'$ (by reversing the time), so the tensors do not distinguish deflating from inflating extra times; order $k$ has the weight $2k$; and $E^{x_4}{}_{x_4} - E^{x_8}{}_{x_8} = 6(a_4'^2 + H^2)V_k$ (record check `linear_member_vacuum_factor`). Notebook 11c, In [2] to In [5], confirms each statement with exact algebra.
-- **The two conservation identities** (Section 11.22), from zero divergence: $\frac{d}{dx_4}E^{x_4}{}_{x_4} = 3a_4'(E^{x_1}{}_{x_1} - E^{x_5}{}_{x_5})$ (I) and $E^{x_8}{}_{x_8} = \frac12(E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5})$ (II), and the constraint propagation $\partial E^{x_4}{}_{x_4}/\partial a_4' = 3a_4'F_k$ (record `python-a4-report.json`, check `bianchi_x4`; Notebook 11c, In [4] and In [5]).
+- **The structure of the components for the author's metric** (Section 11.21), for every history $a_4(x_4)$ and every order: only the diagonal is nonzero (in particular no $x_4$-$x_0$ component, by the relabelling that exchanges 3-space and the extra times), on the background $b_4 = 1$; with a changing $b_4$ the two mixed components are proportional to $b_4'$; the three space components are equal, and so are the three extra-time components; $a_4''$ enters at most linearly; the time component is a polynomial in $a_4'^2$ and $H^2$ alone (the constraint); the extra-time component is the space component with $a_4''$ replaced by $-a_4''$, so their difference is $a_4''F_k(a_4')$ with $F_1 = 2$, $F_2 = -16(3a_4'^2 + 5H^2)$, $F_3 = 144(5a_4'^4 + 6a_4'^2H^2 + 5H^4)$ (the evolution factor; record `Revision/field_equations_a4/reports/python-a4-report.json`, check `evolution_factorises`); the hidden component contains no $a_4''$; every component is even in $a_4'$ (by reversing the time), so the tensors do not distinguish deflating from inflating extra times; order $k$ has the weight $2k$; and $E^{x_4}{}_{x_4} - E^{x_0}{}_{x_0} = 6(a_4'^2 + H^2)V_k$ (record check `linear_member_vacuum_factor`). Notebook 11c, In [2] to In [5], confirms each statement with exact algebra.
+- **The two conservation identities** (Section 11.22), from zero divergence: $\frac{d}{dx_4}E^{x_4}{}_{x_4} = 3a_4'(E^{x_1}{}_{x_1} - E^{x_5}{}_{x_5})$ (I) and $E^{x_0}{}_{x_0} = \frac12(E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5})$ (II), and the constraint propagation $\partial E^{x_4}{}_{x_4}/\partial a_4' = 3a_4'F_k$ (record `python-a4-report.json`, check `bianchi_x4`; Notebook 11c, In [4] and In [5]).
 - **Along the linear history** (Section 11.23): only two different components per order, even in the slope $A$; the scalars $L_{(1)}$ and $L_{(2)}$ vanish exactly at $A = \sqrt 7$ and $A = \sqrt{2\sqrt{39} - 11}$; the derivatives of the illustrative test history.
 
 **PROVED by exact computation** (no rounding; by the Revision's programs, recomputed by the notebooks):
 
-- GKD equals the author's determinant for every one of the 266,304 pairs of lengths 1 to 3 (Notebook 11a, In [6]; the Wolfram report, checks `gkd_equals_kdelta_exhaustive_length_1` to `_length_3`, and the Rust self-test record `gkd-selftest.json`, whose exhaustive part also covers these lengths; on the same pairs the sympy report's check `gkd_literal_equals_cofactor_expansion` confirms the determinant side: the literal determinant equals an independent cofactor expansion) and for every one of the 16,777,216 pairs of length 4 (the Rust self-test, rerun in Notebook 11a, In [14], which writes the record `gkd-selftest.json` again byte for byte).
+- GKD equals the author's determinant for every one of the 266,304 pairs of lengths 1 to 3 (Notebook 11a, In [6]; the Wolfram report, checks `gkd_equals_kdelta_exhaustive_length_1` to `_length_3`, and the Rust self-test record `gkd-selftest.json`, whose exhaustive part also covers these lengths; on the same pairs the sympy report's check `gkd_literal_equals_cofactor_expansion` confirms the determinant side: the literal determinant equals an independent cofactor expansion) and for every one of the 16,777,216 pairs of length 4 (the Rust self-test of the record `gkd-selftest.json`, read and checked by Notebook 11a, In [14]; the run itself takes 7 to 13 minutes).
 - The 25 nonzero Christoffel symbols, the 156 nonzero components $R^{ab}{}_{cd}$ and the Ricci scalar $R = 6a_4'^2 - 42H^2$ (Notebook 11b, In [6] to In [8]; records `curvature.json` and `python-lovelock-report.json`, check `rust_riemann_agrees`).
 - All $3 \times 64$ components of $P_{(1)}, P_{(2)}, P_{(3)}$ and the scalars $L_{(1)}, L_{(2)}, L_{(3)}$, computed by the Rust program and again by the notebook's own GKD sum (Notebook 11b, In [3], In [4], In [14], In [15]; record `lovelock-tensors.json`, written again byte for byte; `python-lovelock-report.json`, checks `rust_k1_mixed_components_agree` to `rust_k3_mixed_components_agree` and `rust_L1_agrees` to `rust_L3_agrees`); the counters of the sums, 696, 32,640 and 495,360 GKD calls (In [14]; record `lovelock-report.json`, field `counters`); the literal sums of orders 1 and 2 without any skipping, with 10,140 and 1,581,840 GKD calls (In [16]; checks `k1_unpruned_literal_sum_agrees` and `k2_unpruned_literal_sum_agrees`); the cubic identity $L_{(3)} = 8(2T_1 + 8T_2 + \dots + T_8)$ for the author's metric (In [20]; check `L3_equals_8_cubic_lovelock_density`); zero divergence and symmetry of all three tensors (record `lovelock-report.json`, checks `k1_divergence_free` to `k3_symmetric`); the 19 checks of the Rust program, the 49 of the sympy verification and the 29 of the Wolfram verification, none failed (In [3] and In [24]).
 - The components $E_{(1)}, E_{(2)}, E_{(3)}$ of Section 11.20 equal those recorded for the field equations of $a_4$ (Notebook 11c, In [3]; `Revision/field_equations_a4/reports/python-a4-report.json`, check `json_lovelock_components`).
@@ -3598,9 +3649,9 @@ The five figure files must exist (nineteenth PASS line), and the last line is AL
 
 ### 11.29 Exercises
 
-**Exercise 1.** Use the rule of Section 11.3 to compute (a) the delta with the lower list $(x_1, x_2, x_3, x_4)$ and the upper list $(x_3, x_1, x_4, x_2)$; (b) the delta with the lower list $(x_5, x_1, x_2)$ and the upper list $(x_1, x_2, x_5)$, and check (b) with the Leibniz formula; (c) the delta with the lower list $(x_1, x_2, x_8)$ and the upper list $(x_1, x_2, x_3)$.
+**Exercise 1.** Use the rule of Section 11.3 to compute (a) the delta with the lower list $(x_1, x_2, x_3, x_4)$ and the upper list $(x_3, x_1, x_4, x_2)$; (b) the delta with the lower list $(x_5, x_1, x_2)$ and the upper list $(x_1, x_2, x_5)$, and check (b) with the Leibniz formula; (c) the delta with the lower list $(x_1, x_2, x_0)$ and the upper list $(x_1, x_2, x_3)$.
 
-*Answer.* (a) The places of $x_1, x_2, x_3, x_4$ in the upper list are 2, 4, 1, 3, so $\sigma = (2, 4, 1, 3)$. Its inversions are the pairs of entries $(2, 1)$, $(4, 1)$ and $(4, 3)$: three, an odd number, so the value is $-1$. (b) The places of $x_5, x_1, x_2$ in the upper list $(x_1, x_2, x_5)$ are 3, 1, 2: $\sigma = (3, 1, 2)$ with the two inversions $(3, 1)$ and $(3, 2)$, so the value is $+1$. The matrix has the rows $(0, 0, 1)$ ($x_5$ is the third upper label), $(1, 0, 0)$ and $(0, 1, 0)$; in the Leibniz formula only the permutation $\pi = (3, 1, 2)$ picks three ones, and its sign is $+1$, so $\det = +1$. (c) The lower label $x_8$ is not among the upper labels: row 3 is all zeros, case (c), and the value is 0.
+*Answer.* (a) The places of $x_1, x_2, x_3, x_4$ in the upper list are 2, 4, 1, 3, so $\sigma = (2, 4, 1, 3)$. Its inversions are the pairs of entries $(2, 1)$, $(4, 1)$ and $(4, 3)$: three, an odd number, so the value is $-1$. (b) The places of $x_5, x_1, x_2$ in the upper list $(x_1, x_2, x_5)$ are 3, 1, 2: $\sigma = (3, 1, 2)$ with the two inversions $(3, 1)$ and $(3, 2)$, so the value is $+1$. The matrix has the rows $(0, 0, 1)$ ($x_5$ is the third upper label), $(1, 0, 0)$ and $(0, 1, 0)$; in the Leibniz formula only the permutation $\pi = (3, 1, 2)$ picks three ones, and its sign is $+1$, so $\det = +1$. (c) The lower label $x_0$ is not among the upper labels: row 3 is all zeros, case (c), and the value is 0.
 
 **Exercise 2.** (a) How many of the $8^{10}$ pairs of index lists of length 5 have the value $+1$, how many $-1$, how many 0? (b) For the Rust self-test of length 6 (100,000 rearranged and 100,000 independent pairs), compute the expected number of nonzero values and its standard deviation, and compare with the record's count 7812.
 
@@ -3643,7 +3694,7 @@ The record's 7812 lies $(7812 - 7711.6)/84.4 = 1.19$ standard deviations above t
 
 **Exercise 5.** On the author's history $a_4 = Hx_4$ ($A = 1$): (a) write the Einstein tensor and $P_{(1)}$; (b) check the trace identity of order 1 with $L_{(1)}$.
 
-*Answer.* (a) With $a_4' = H$ and $a_4'' = 0$ the components of Section 11.20 give $G^{x_1}{}_{x_1} = -3 + 15 = 12$, $G^{x_4}{}_{x_4} = 3 + 21 = 24$, $G^{x_5}{}_{x_5} = 12$, $G^{x_8}{}_{x_8} = 15 - 3 = 12$ (in units of $H^2$), so
+*Answer.* (a) With $a_4' = H$ and $a_4'' = 0$ the components of Section 11.20 give $G^{x_1}{}_{x_1} = -3 + 15 = 12$, $G^{x_4}{}_{x_4} = 3 + 21 = 24$, $G^{x_5}{}_{x_5} = 12$, $G^{x_0}{}_{x_0} = 15 - 3 = 12$ (in units of $H^2$), so
 
 $$
 \begin{aligned}
@@ -3656,15 +3707,15 @@ $$
 
 **Exercise 6.** On the same history $A = 1$: compute the four independent components of $E_{(2)}$, then $P_{(2)}$, $L_{(2)}$, and check the trace identity of order 2. What is special about the Gauss-Bonnet tensor on this history?
 
-*Answer.* With $a_4' = H$, $a_4'' = 0$ (units of $H^4$): $E_{(2)}{}^{x_1}{}_{x_1} = 12 + 168 - 180 = 0$; $E_{(2)}{}^{x_4}{}_{x_4} = -36 - 120 - 420 = -576$; $E_{(2)}{}^{x_5}{}_{x_5} = 12 + 168 - 180 = 0$; $E_{(2)}{}^{x_8}{}_{x_8} = 12 + 168 - 180 = 0$. So $P_{(2)} = -8E_{(2)} = \mathrm{diag}(0, 0, 0, 4608, 0, 0, 0, 0)H^4$ and its trace is $4608H^4$. $L_{(2)} = -96 - 2112 + 3360 = 1152$ (units of $H^4$), and $(8 - 4)L_{(2)} = 4608$: the identity holds. On the author's history the Gauss-Bonnet tensor $E_{(2)}$ has only its time component; all seven other components vanish, because $12A^4 + 168A^2 - 180 = 12(A^2 - 1)(A^2 + 15)$ is zero at $A = 1$ (multiply out: $12(A^4 + 14A^2 - 15)$).
+*Answer.* With $a_4' = H$, $a_4'' = 0$ (units of $H^4$): $E_{(2)}{}^{x_1}{}_{x_1} = 12 + 168 - 180 = 0$; $E_{(2)}{}^{x_4}{}_{x_4} = -36 - 120 - 420 = -576$; $E_{(2)}{}^{x_5}{}_{x_5} = 12 + 168 - 180 = 0$; $E_{(2)}{}^{x_0}{}_{x_0} = 12 + 168 - 180 = 0$. So $P_{(2)} = -8E_{(2)} = \mathrm{diag}(0, 0, 0, 4608, 0, 0, 0, 0)H^4$ and its trace is $4608H^4$. $L_{(2)} = -96 - 2112 + 3360 = 1152$ (units of $H^4$), and $(8 - 4)L_{(2)} = 4608$: the identity holds. On the author's history the Gauss-Bonnet tensor $E_{(2)}$ has only its time component; all seven other components vanish, because $12A^4 + 168A^2 - 180 = 12(A^2 - 1)(A^2 + 15)$ is zero at $A = 1$ (multiply out: $12(A^4 + 14A^2 - 15)$).
 
 **Exercise 7.** Check identity (I) of Section 11.22 for $k = 3$ by hand, from the components of Section 11.20.
 
 *Answer.* The time component $E_{(3)}{}^{x_4}{}_{x_4} = 360a_4'^6 + 648a_4'^4H^2 + 1080a_4'^2H^4 + 2520H^6$ depends on $x_4$ only through $a_4'$, so its derivative is $\frac{d}{dx_4}E^{x_4}{}_{x_4} = (2160a_4'^5 + 2592a_4'^3H^2 + 2160a_4'H^4)\,a_4''$ (the chain rule; $6\cdot 360 = 2160$, $4\cdot 648 = 2592$, $2\cdot 1080 = 2160$). The difference of the space and the extra-time component is $E^{x_1}{}_{x_1} - E^{x_5}{}_{x_5} = 720a_4'^4a_4'' + 864a_4'^2a_4''H^2 + 720a_4''H^4$ (every term without $a_4''$ cancels, every term with $a_4''$ doubles). Then $3a_4'(E^{x_1}{}_{x_1} - E^{x_5}{}_{x_5}) = (2160a_4'^5 + 2592a_4'^3H^2 + 2160a_4'H^4)a_4''$, which is the same. So (I) holds, and $F_3 = 720a_4'^4 + 864a_4'^2H^2 + 720H^4 = 144(5a_4'^4 + 6a_4'^2H^2 + 5H^4)$.
 
-**Exercise 8.** Check identity (II) for $k = 3$, and explain without any computation why $E^{x_8}{}_{x_8}$ contains no $\cot z$ for every order.
+**Exercise 8.** Check identity (II) for $k = 3$, and explain without any computation why $E^{x_0}{}_{x_0}$ contains no $\cot z$ for every order.
 
-*Answer.* $\frac12(E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5})$: the terms with $a_4''$ have opposite signs in the two components and cancel; the others are equal, so the mean is $-72a_4'^6 - 648a_4'^4H^2 - 1944a_4'^2H^4 + 360H^6$, which is $E_{(3)}{}^{x_8}{}_{x_8}$. Without computation: in $P^{x_8}{}_{x_8}$ the label $x_8$ already stands in both lists of the delta, so no curvature factor may carry $x_8$ (case a or b); every entry with $\cot z$ or $\tan z$ is a mixed entry and carries $x_8$ (Section 11.21, tool iii); so none occurs, and the factors are plane curvatures among $x_1, \dots, x_7$, which contain no $z$.
+*Answer.* $\frac12(E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5})$: the terms with $a_4''$ have opposite signs in the two components and cancel; the others are equal, so the mean is $-72a_4'^6 - 648a_4'^4H^2 - 1944a_4'^2H^4 + 360H^6$, which is $E_{(3)}{}^{x_0}{}_{x_0}$. Without computation: in $P^{x_0}{}_{x_0}$ the label $x_0$ already stands in both lists of the delta, so no curvature factor may carry $x_0$ (case a or b); every entry with $\cot z$ or $\tan z$ is a mixed entry and carries $x_0$ (Section 11.21, tool iii); so none occurs, and the factors are plane curvatures among $x_1, \dots, x_7$, which contain no $z$.
 
 **Exercise 9.** Show that $L_{(3)}$ has exactly one positive zero on the linear history, and locate it between two decimals.
 
@@ -3676,4 +3727,4 @@ $$
 
 **Exercise 11.** For the illustrative test history of Section 11.23, compute $a_4'$ and $a_4''$ at $x_4 = 0$, and the four components of $E_{(1)}$ there. Check identity (II).
 
-*Answer.* $a_4'(0) = H(1 + \frac12\tanh 0) = H$ and $a_4''(0) = \frac{H^2}{2}\mathrm{sech}^2\,0 = \frac{H^2}{2}$. Then (units of $H^2$): $E^{x_1}{}_{x_1} = -3 + \frac12 + 15 = 12.5$, $E^{x_4}{}_{x_4} = 3 + 21 = 24$, $E^{x_5}{}_{x_5} = -3 - \frac12 + 15 = 11.5$, $E^{x_8}{}_{x_8} = -3 + 15 = 12$. Identity (II): $\frac12(12.5 + 11.5) = 12 = E^{x_8}{}_{x_8}$. The space and extra-time components differ by $a_4''F_1 = \frac12\cdot 2 = 1$, as in Figure 11c.4 at $x_4 = 0$.
+*Answer.* $a_4'(0) = H(1 + \frac12\tanh 0) = H$ and $a_4''(0) = \frac{H^2}{2}\mathrm{sech}^2\,0 = \frac{H^2}{2}$. Then (units of $H^2$): $E^{x_1}{}_{x_1} = -3 + \frac12 + 15 = 12.5$, $E^{x_4}{}_{x_4} = 3 + 21 = 24$, $E^{x_5}{}_{x_5} = -3 - \frac12 + 15 = 11.5$, $E^{x_0}{}_{x_0} = -3 + 15 = 12$. Identity (II): $\frac12(12.5 + 11.5) = 12 = E^{x_0}{}_{x_0}$. The space and extra-time components differ by $a_4''F_1 = \frac12\cdot 2 = 1$, as in Figure 11c.4 at $x_4 = 0$.

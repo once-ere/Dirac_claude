@@ -100,7 +100,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all five figure files of the notebook exist",
-        "ALL 36 CHECKS PASSED (notebook 11b)",
+        "ALL 38 CHECKS PASSED (notebook 11b)",
     ],
     "troubleshooting": [
         ["AssertionError: check failed: the program wrote curvature.json equal to the "
@@ -134,7 +134,7 @@ CELLS = [
     - draws how much work the sums are, and how the program reduces it;
     - recomputes the Riemann tensor with sympy and compares all 156 nonzero components
       exactly with the record; draws the curvature of every coordinate plane and the
-      whole Riemann tensor, and shows why the mixed $x_4$-$x_8$ terms cancel;
+      whole Riemann tensor, and shows why the mixed $x_4$-$x_0$ terms cancel;
     - recomputes the three Lovelock tensors and the three Lovelock scalars in Python
       with its own GKD sum and its own exact polynomial arithmetic, reproduces the
       counters of the Rust sums, and compares all $3 \times 64$ components exactly;
@@ -157,11 +157,11 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates** $x_1, \dots, x_8$ of the author's metric: $x_1, x_2, x_3$ ordinary
-      space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times, $x_8$ the hidden
+    - **Coordinates** $x_0, \dots, x_7$ of the author's metric: $x_1, x_2, x_3$ ordinary
+      space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times, $x_0$ the hidden
       direction. The programs number them $0, \dots, 7$.
     - **Metric** $g_{ab}$: the table of numbers that gives lengths and times; here it is
-      diagonal (only $g_{11}, \dots, g_{88}$ are not zero). **Inverse metric**
+      diagonal (only $g_{11}, \dots, g_{00}$ are not zero). **Inverse metric**
       $g^{aa} = 1/g_{aa}$ for a diagonal metric.
     - **Index up, index down**: a tensor component carries upper and lower coordinate
       labels, such as $R^{ab}{}_{cd}$; a label is raised with the inverse metric.
@@ -197,19 +197,21 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    **The metric.** The author's primordial metric is diagonal,
+    **The metric.** The author's primordial metric of 2026-10-14 is diagonal,
 
-    $$g = \mathrm{diag}\big(e^{2a_4} s,\ e^{2a_4} s,\ e^{2a_4} s,\ -1,\
-      -e^{-2a_4} s,\ -e^{-2a_4} s,\ -e^{-2a_4} s,\ \cot^2 z\big),\qquad
-      s = \sin^{1/3} z,\quad z = 6 H x_8,$$
+    $$g = \mathrm{diag}\big(\cot^2 z,\ e^{2a_4} s,\ e^{2a_4} s,\ e^{2a_4} s,\ -1,\
+      -e^{-2a_4} b_4 s,\ -e^{-2a_4} b_4 s,\ -e^{-2a_4} b_4 s\big),\qquad
+      s = \sin^{1/3} z,\quad z = 6 H x_0,$$
 
-    in the order $x_1, \dots, x_8$, with a constant $H > 0$ and a function $a_4(x_4)$ of
-    the time; $0 < z < \pi/2$. Lengths along ordinary space carry the scale factor
-    $e^{a_4} \sin^{1/6} z$ (it INFLATES as $a_4$ grows), lengths along the three extra
-    times the factor $e^{-a_4} \sin^{1/6} z$ (they DEFLATE exponentially), and
-    $\sqrt{|\det g|} = \cos z$. Primes are derivatives with respect to the time:
-    $a_4' = da_4/dx_4$, $a_4'' = d^2a_4/dx_4^2$. Below, $A_1$ stands for $a_4'$, $A_2$
-    for $a_4''$ and $C$ for $\cot z$.
+    in the order $x_0, \dots, x_7$, with a constant $H > 0$ and two functions
+    $a_4(x_4)$ and $b_4(x_4) > 0$ of the time; $0 < z < \pi/2$. Lengths along ordinary
+    space carry the scale factor $e^{a_4} \sin^{1/6} z$ (it INFLATES as $a_4$ grows),
+    lengths along the three extra times the factor $e^{-a_4} b_4^{1/2} \sin^{1/6} z$
+    (they DEFLATE exponentially), and $\sqrt{|\det g|} = b_4^{3/2}\cos z$. The
+    background of the Revision records is $b_4 = 1$. Primes are derivatives with
+    respect to the time: $a_4' = da_4/dx_4$, $a_4'' = d^2a_4/dx_4^2$. Below, $A_1$
+    stands for $a_4'$, $A_2$ for $a_4''$, $B_0$, $B_1$, $B_2$ for $b_4$, $b_4'$,
+    $b_4''$, and $C$ for $\cot z$.
 
     **Curvature** (the convention of Misner, Thorne and Wheeler, used by the Revision):
 
@@ -431,8 +433,9 @@ CELLS = [
 
     The next two cells compute the curvature of the metric of section 4 with sympy, from
     the formulas of section 4, without using anything of the Rust program. The first one
-    defines the metric and its Christoffel symbols. `sp.Function("a4")(x4)` is an
-    unknown function of the time; `sp.diff` differentiates exactly. Because the metric is
+    defines the metric and its Christoffel symbols. `sp.Function("a4")(x4)` and
+    `sp.Function("b4")(x4)` are unknown functions of the time; `sp.diff`
+    differentiates exactly. Because the metric is
     diagonal, the formula $\Gamma^a{}_{bc} = \tfrac12 g^{aa}(\partial_b g_{ac} +
     \partial_c g_{ab} - \partial_a g_{bc})$ has at most three terms, each present only
     when two of the labels $a, b, c$ are equal; the cell adds exactly those and keeps the
@@ -442,12 +445,13 @@ CELLS = [
     import sympy as sp  # exact algebra and calculus
 
     H = sp.Symbol("H", positive=True)  # the author's constant H > 0
-    X = sp.symbols("x1:9", real=True)  # the coordinates x1, ..., x8
-    a4 = sp.Function("a4")(X[3])  # the unknown function a4(x4)
-    z = 6 * H * X[7]  # z = 6 H x8
+    X = sp.symbols("x0:8", real=True)  # the coordinates x0, ..., x7
+    a4 = sp.Function("a4")(X[4])  # the unknown function a4(x4)
+    b4 = sp.Function("b4")(X[4])  # the unknown second function b4(x4) > 0
+    z = 6 * H * X[0]  # z = 6 H x0
     warp = sp.sin(z) ** sp.Rational(1, 3)  # sin(z)^(1/3)
-    METRIC = ([sp.exp(2 * a4) * warp] * 3 + [sp.Integer(-1)]
-              + [-sp.exp(-2 * a4) * warp] * 3 + [sp.cot(z) ** 2])  # g_11 ... g_88
+    METRIC = ([sp.cot(z) ** 2] + [sp.exp(2 * a4) * warp] * 3 + [sp.Integer(-1)]
+              + [-sp.exp(-2 * a4) * b4 * warp] * 3)  # g_00, g_11, ..., g_77
 
     christoffel = {}  # (a, b, c) -> Gamma^a_bc, only the nonzero ones
     for a in range(8):
@@ -478,16 +482,18 @@ CELLS = [
     md(r"""
     The next cell computes the Riemann tensor from the formula of section 4 and raises
     its second label, $R^{ab}{}_{cd} = R^a{}_{bcd}/g_{bb}$. For every component it
-    replaces $a_4'$ and $a_4''$ by the symbols `A1` and `A2`, simplifies
-    (`sp.simplify`), and writes $\cot z$ as the symbol `C` (with $\tan z = 1/C$ and
-    $\cos z = C \sin z$). If a component still contained $x_8$, $\sin z$ or $e^{a_4}$,
-    the check at the end would fail: the warp factor $\sin^{1/3} z$ and the exponentials
-    cancel in every $R^{ab}{}_{cd}$. The cell takes about 10 seconds, almost all of it
-    in `sp.simplify`.
+    replaces $a_4'$, $a_4''$, $b_4'$, $b_4''$ and $b_4$ by the symbols `A1`, `A2`,
+    `B1`, `B2` and `B0`, simplifies (`sp.simplify`), and writes $\cot z$ as the symbol
+    `C` (with $\tan z = 1/C$ and $\cos z = C \sin z$). If a component still contained
+    $x_0$, $\sin z$ or $e^{a_4}$, the check at the end would fail: the warp factor
+    $\sin^{1/3} z$ and the exponentials cancel in every $R^{ab}{}_{cd}$. The cell takes
+    about 15 seconds, almost all of it in `sp.simplify`.
     """),
     code(r'''
     A1, A2, C = sp.symbols("A1 A2 C")  # a4', a4'' and cot(z)
-    SYMBOLS = {sp.Derivative(a4, (X[3], 2)): A2, sp.Derivative(a4, X[3]): A1}
+    B0, B1, B2 = sp.symbols("B0 B1 B2")  # b4, b4' and b4''
+    SYMBOLS = {sp.Derivative(a4, (X[4], 2)): A2, sp.Derivative(a4, X[4]): A1,
+               sp.Derivative(b4, (X[4], 2)): B2, sp.Derivative(b4, X[4]): B1}
     RIEMANN = {}  # (a, b, c, d) -> R^ab_cd in the symbols H, A1, A2, C
     for a in range(8):
         for b in range(8):
@@ -499,37 +505,42 @@ CELLS = [
                                   - gamma(a, d, e) * gamma(e, c, b))
                     if value == 0:
                         continue
-                    value = sp.simplify((value / METRIC[b]).subs(SYMBOLS))  # R^ab_cd
+                    value = sp.simplify((value / METRIC[b]).subs(SYMBOLS)
+                                        .subs(b4, B0))  # R^ab_cd
                     value = sp.expand(value.subs({sp.tan(z): 1 / C, sp.cot(z): C,
                                                   sp.cos(z): C * sp.sin(z)}))
                     if value != 0:
                         RIEMANN[a, b, c, d] = value
     report("nonzero components R^ab_cd", len(RIEMANN))
-    check(all(v.free_symbols <= {H, A1, A2, C} for v in RIEMANN.values()),
-          "every R^ab_cd is a polynomial in H, a4', a4'' and cot z and its inverse, free "
-          "of sin(z)^(1/3) and e^a4",
+    check(all(v.free_symbols <= {H, A1, A2, B0, B1, B2, C} for v in RIEMANN.values()),
+          "every R^ab_cd is a rational expression in H, a4', a4'', b4, b4', b4'' and "
+          "cot z, free of sin(z)^(1/3) and e^a4",
           record=f"{RESULTS}/lovelock-report.json, check mixed_riemann_free_of_sin_third")
     '''),
     md(r"""
     The next cell reads the 156 components that the Rust program wrote into
     `curvature.json` (as Mathematica text such as
-    `H*Derivative[1][a4][x4]*Cot[6*H*x8]^(-1)`), turns each into a sympy expression by
-    replacing the Mathematica names with `A1`, `A2`, `C` and `^` with `**`, and checks
-    that the two computations give the same nonzero components with EXACTLY the same
-    values (`sp.expand(mine - theirs) == 0`). It also checks the antisymmetry
+    `H*Derivative[1][a4][x4]*Cot[6*H*x0]^(-1)`), turns each into a sympy expression by
+    replacing the Mathematica names with `A1`, `A2`, `B0`, `B1`, `B2`, `C` and `^` with
+    `**`, and checks that the two computations give the same nonzero components with
+    EXACTLY the same values (`sp.simplify(mine - theirs) == 0`), for a general $b_4$.
+    It also checks the antisymmetry
     $R^{ab}{}_{cd} = -R^{ba}{}_{cd} = -R^{ab}{}_{dc}$, the number of Christoffel symbols
     and the Ricci scalar $R = \sum_{a,b} R^{ab}{}_{ab}$.
     """),
     code(r'''
     curvature = json.loads((OUT_FOLDER / "curvature.json").read_text(encoding="utf-8"))
-    NAMES = curvature["coordinates"]  # ["x1", ..., "x8"]
+    NAMES = curvature["coordinates"]  # ["x0", ..., "x7"]
 
 
     def from_mathematica(text):
         """A component written by the Rust program, as a sympy expression."""
         text = re.sub(r"Derivative\[(\d)\]\[a4\]\[x4\]", r"A\1", text)  # a4' -> A1
-        text = text.replace("Cot[6*H*x8]", "C").replace("^", "**")
-        return sp.sympify(text, locals={"H": H, "A1": A1, "A2": A2, "C": C})
+        text = re.sub(r"Derivative\[(\d)\]\[b4\]\[x4\]", r"B\1", text)  # b4' -> B1
+        text = text.replace("b4[x4]", "B0")  # b4 -> B0
+        text = text.replace("Cot[6*H*x0]", "C").replace("^", "**")
+        return sp.sympify(text, locals={"H": H, "A1": A1, "A2": A2, "C": C, "B0": B0,
+                                        "B1": B1, "B2": B2})
 
 
     rust_riemann = {}
@@ -538,8 +549,9 @@ CELLS = [
         c, d = (NAMES.index(name) for name in item["down"])
         rust_riemann[a, b, c, d] = from_mathematica(item["value"])
     same_values = set(rust_riemann) == set(RIEMANN) and all(
-        sp.expand(RIEMANN[key] - rust_riemann[key]) == 0 for key in RIEMANN)
-    check(same_values, "sympy and Rust give the same 156 nonzero R^ab_cd exactly",
+        sp.simplify(RIEMANN[key] - rust_riemann[key]) == 0 for key in RIEMANN)
+    check(same_values, "sympy and Rust give the same 156 nonzero R^ab_cd exactly, "
+          "with b4",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, "
                  "check rust_riemann_agrees")
     antisymmetric = all(sp.expand(v + RIEMANN.get((b, a, c, d), 0)) == 0 and
@@ -552,11 +564,25 @@ CELLS = [
     ricci_scalar = sp.expand(sum(RIEMANN.get((a, b, a, b), 0) for a in range(8)
                                  for b in range(8)))
     report("Ricci scalar R", ricci_scalar)
-    check(sp.expand(ricci_scalar - from_mathematica(curvature["ricciScalar"])) == 0,
-          "the Ricci scalar is R = 6 a4'^2 - 42 H^2, as in the record",
+    check(sp.simplify(ricci_scalar - from_mathematica(curvature["ricciScalar"])) == 0
+          and sp.expand(ricci_scalar.subs({B0: 1, B1: 0, B2: 0}))
+          == 6 * A1 ** 2 - 42 * H ** 2,
+          "the Ricci scalar is R = 6 a4'^2 - 42 H^2 + 3 b4''/b4 - 3 a4' b4'/b4, as in the "
+          "record (6 a4'^2 - 42 H^2 at b4 = 1)",
           record=f"{RESULTS}/curvature.json, ricciScalar")
+    # From here on: the background b4 = 1 (b4' = b4'' = 0) of the Revision records.
+    RIEMANN_B4 = RIEMANN  # the components with a general b4
+    BACKGROUND = {B0: 1, B1: 0, B2: 0}
+    RIEMANN = {key: sp.expand(value.subs(BACKGROUND)) for key, value in RIEMANN_B4.items()}
+    RIEMANN = {key: value for key, value in RIEMANN.items() if value != 0}
+    check(len(RIEMANN) == 156,
+          "on the background b4 = 1 the same 156 components are nonzero")
     '''),
     md(r"""
+    From here on the notebook works on the background $b_4 = 1$ of the Revision records
+    ($b_4' = b_4'' = 0$): `RIEMANN` now holds the 156 components there, and
+    `RIEMANN_B4` keeps those with a general $b_4$.
+
     The next cell draws the curvature of every coordinate plane, $K(a, b) =
     R^{ab}{}_{ab}$, as two $8 \times 8$ tables of coloured squares, in units of $H^2$
     (that is, with $H = 1$). The left table is a moment of the exponentially deflating
@@ -566,7 +592,7 @@ CELLS = [
     decimal number. The table is symmetric, $K(a, b) = K(b, a)$. Reading it: inside
     ordinary space and inside the extra times $K = a_4'^2 - H^2$; between them
     $K = -(a_4'^2 + H^2)$; with the time $x_4$, $K = a_4'^2 + a_4''$ for ordinary space
-    and $a_4'^2 - a_4''$ for the extra times; with the hidden direction $x_8$,
+    and $a_4'^2 - a_4''$ for the extra times; with the hidden direction $x_0$,
     $K = -H^2$; the time and the hidden direction together are flat.
     """),
     code(r'''
@@ -600,15 +626,15 @@ CELLS = [
                 "(right); red is positive, blue negative, the diagonal is left empty. "
                 "Planes inside ordinary space or inside the extra times have "
                 "$K = a_4^{\\prime 2} - H^2 = 3$, planes between them "
-                "$K = -(a_4^{\\prime 2} + H^2) = -5$, planes with $x_8$ have $K = -1$, "
+                "$K = -(a_4^{\\prime 2} + H^2) = -5$, planes with $x_0$ have $K = -1$, "
                 "and the time $x_4$ couples to space with $a_4^{\\prime 2} + "
                 "a_4^{\\prime\\prime}$ and to the extra times with $a_4^{\\prime 2} - "
                 "a_4^{\\prime\\prime}$: only these entries change on the right.")
-    check(planes[0.0][0, 1] == 3.0 and planes[0.0][0, 4] == -5.0
-          and planes[0.0][0, 7] == -1.0 and planes[1.0][0, 3] == 5.0
-          and planes[1.0][4, 3] == 3.0 and planes[0.0][3, 7] == 0.0,
+    check(planes[0.0][1, 2] == 3.0 and planes[0.0][1, 5] == -5.0
+          and planes[0.0][1, 0] == -1.0 and planes[1.0][1, 4] == 5.0
+          and planes[1.0][5, 4] == 3.0 and planes[0.0][4, 0] == 0.0,
           "plane curvatures at a4' = 2H: 3, -5, -1; with x4: 4 + a4'' and 4 - a4''; "
-          "x4 with x8: 0")
+          "x4 with x0: 0")
     '''),
     md(r"""
     The next cell draws the WHOLE tensor $R^{ab}{}_{cd}$ at one point as a
@@ -617,8 +643,8 @@ CELLS = [
     $a_4' = 2$, $a_4'' = 1$ and $z = \pi/3$, where $\cot z = 1/\sqrt{3}$. Thin lines
     separate the blocks of the first labels $a$ and $c$. Most squares are white: only 156
     of the 4096 components are not zero. The squares far from the two diagonals are the
-    terms that MIX the time $x_4$ and the hidden direction $x_8$, such as
-    $R^{x_1 x_4}{}_{x_1 x_8} = H a_4' \cot z$.
+    terms that MIX the time $x_4$ and the hidden direction $x_0$, such as
+    $R^{x_1 x_4}{}_{x_1 x_0} = H a_4' \cot z$.
     """),
     code(r'''
     point = {"h": 1.0, "a1": 2.0, "a2": 1.0, "cot": 1.0 / np.sqrt(3.0)}
@@ -648,52 +674,65 @@ CELLS = [
                 "156 components are not zero. The two diagonals hold the curvatures of "
                 "the coordinate planes and their sign-reversed copies; the scattered "
                 "squares between them mix the time $x_4$ with the hidden direction "
-                "$x_8$.")
+                "$x_0$.")
     check(int(np.count_nonzero(whole)) == 156,
           "156 of the 4096 components are not zero at this point")
     '''),
     md(r"""
-    Why do the mixed $x_4$-$x_8$ terms not enter Einstein's tensor? The Ricci component
-    $R^{x_4}{}_{x_8} = \sum_c R^{x_4 c}{}_{x_8 c}$ adds one term for each direction $c$.
+    Why do the mixed $x_4$-$x_0$ terms not enter Einstein's tensor? The Ricci component
+    $R^{x_4}{}_{x_0} = \sum_c R^{x_4 c}{}_{x_0 c}$ adds one term for each direction $c$.
     The next cell lists these seven terms: each of the three space directions gives
     $+H a_4' \cot z$, each of the three extra times $-H a_4' \cot z$, and the hidden
     direction itself gives 0. The sum vanishes EXACTLY, for every $a_4$, because there
-    are as many inflating as deflating directions. The cell draws the seven terms at the
-    point $H = 1$, $a_4' = 1$, $z = \pi/4$ ($\cot z = 1$).
+    are as many inflating as deflating directions, on the background $b_4 = 1$. With
+    a changing $b_4$ the three extra-time terms carry an additional piece with $b_4'$,
+    and the cell checks that the sum is then $R^{x_4}{}_{x_0} = \tfrac32 H\cot z\,
+    b_4'/b_4$, the mixed component of the Einstein tensor in the record (`einsteinMixed`
+    of `curvature.json`): with $b_4' \neq 0$ the time and the hidden direction DO mix.
+    The cell draws the seven terms at the point $H = 1$, $a_4' = 1$, $z = \pi/4$
+    ($\cot z = 1$), $b_4 = 1$.
     """),
     code(r'''
-    mixing = [sp.expand(RIEMANN.get((3, c, 7, c), 0)) for c in range(7)]  # c = x1..x7
-    for c, term in enumerate(mixing):
-        say(f"R^(x4 {NAMES[c]})_(x8 {NAMES[c]}) = {term}")
+    mixing = [sp.expand(RIEMANN.get((4, c, 0, c), 0)) for c in range(1, 8)]  # x1..x7
+    for c, term in enumerate(mixing, 1):
+        say(f"R^(x4 {NAMES[c]})_(x0 {NAMES[c]}) = {term}")
     total = sp.expand(sum(mixing))
-    say(f"sum over c = {total}")
+    say(f"sum over c = {total} (b4 = 1)")
+    total_b4 = sp.simplify(sum(RIEMANN_B4.get((4, c, 0, c), 0) for c in range(1, 8)))
+    say(f"with a general b4: sum over c = {total_b4}")
     fig, ax = plt.subplots(figsize=(7.0, 4.0))
     heights = [value_at(term, h=1.0, a1=1.0, cot=1.0) for term in mixing]
     colours = ["tab:red"] * 3 + ["0.6"] + ["tab:blue"] * 3
-    ax.bar(NAMES[:7], heights, color=colours)
+    ax.bar(NAMES[1:], heights, color=colours)
     ax.text(3, 0.05, "0", ha="center", va="bottom")  # the term of c = x4 is zero
     ax.axhline(0.0, color="black", lw=0.8)
-    ax.set_xlabel("the direction $c$ of the term $R^{x_4 c}{}_{x_8 c}$")
+    ax.set_xlabel("the direction $c$ of the term $R^{x_4 c}{}_{x_0 c}$")
     ax.set_ylabel("value (units of $H^2$)")
-    ax.set_title(f"Seven terms of $R^{{x_4}}{{}}_{{x_8}}$; their sum is {total}")
+    ax.set_title(f"Seven terms of $R^{{x_4}}{{}}_{{x_0}}$; their sum is {total}")
     save_figure(fig, "mixing_terms_cancel",
-                "The seven terms $R^{x_4 c}_{\\ \\ x_8 c}$, $c = x_1$ to $x_7$, whose sum "
-                "is the Ricci component $R^{x_4}_{\\ x_8}$, at $H = 1$, "
+                "The seven terms $R^{x_4 c}_{\\ \\ x_0 c}$, $c = x_1$ to $x_7$, whose sum "
+                "is the Ricci component $R^{x_4}_{\\ x_0}$, at $H = 1$, "
                 "$a_4^{\\prime} = 1$, $\\cot z = 1$, in units of $H^2$: the three space "
                 "directions (red) give $+H a_4^{\\prime} \\cot z$ each, the three extra "
                 "times (blue) $-H a_4^{\\prime} \\cot z$ each, and the time direction "
                 "itself (grey) gives 0. Three inflating and three deflating directions "
                 "cancel exactly, so Einstein's tensor and, as section 8 of this "
-                "notebook shows, all three Lovelock tensors have no $x_4$-$x_8$ "
+                "notebook shows, all three Lovelock tensors have no $x_4$-$x_0$ "
                 "component.")
     check(total == 0 and sp.expand(mixing[0] - H * A1 * C) == 0,
-          "the seven terms of R^x4_x8 are +H a4' cot z (three times), -H a4' cot z (three "
-          "times) and 0, and cancel exactly")
+          "the seven terms of R^x4_x0 are +H a4' cot z (three times), -H a4' cot z (three "
+          "times) and 0, and cancel exactly at b4 = 1")
+    check(sp.simplify(total_b4 - sp.Rational(3, 2) * H * C * B1 / B0) == 0
+          and sp.simplify(total_b4 - from_mathematica(
+              curvature["einsteinMixed"]["x4,x0"]["mathematica"])) == 0,
+          "with b4: R^x4_x0 = (3/2) H cot z b4'/b4, the record's G^x4_x0",
+          record=f"{RESULTS}/curvature.json, einsteinMixed x4,x0")
     '''),
     md(r"""
     ## 8. The three Lovelock tensors with a Python GKD sum
 
-    The next cell prepares the exact arithmetic. A polynomial in $H, A_1, A_2, C$ is
+    The next cell prepares the exact arithmetic, on the background $b_4 = 1$. A
+    polynomial in $H, A_1, A_2, C$ is
     stored as a Python dictionary that maps the exponents $(e_H, e_{A_1}, e_{A_2}, e_C)$
     of a monomial to its coefficient, a `Fraction` (an exact fraction of whole numbers);
     $e_C$ may be negative. `poly_mul` multiplies two polynomials (every monomial of the
@@ -837,7 +876,12 @@ CELLS = [
     md(r"""
     The next cell runs the sums for $k = 1, 2, 3$, the tensors and the scalars, and
     compares the counters with those of the Rust program (`lovelock-report.json`:
-    `leaves`, `gkdCalls`, `gkdNonzero` and `scalarGkdCalls`). It takes about 10 seconds,
+    `leaves`, `gkdCalls`, `gkdNonzero` and `scalarGkdCalls`). The numbers of leaves and
+    of GKD calls depend only on which entries are not zero, so they are the same for a
+    general $b_4$ and for $b_4 = 1$. The Rust program, which keeps $b_4$ general, finds
+    10 nonzero components of each tensor: the 8 diagonal ones and the two mixed
+    components $x_4$-$x_0$ and $x_0$-$x_4$, which contain $b_4'$; on the background
+    $b_4 = 1$ the Python sums find the 8 diagonal ones. It takes about 10 seconds,
     almost all of it for $k = 3$.
     """),
     code(r'''
@@ -853,20 +897,25 @@ CELLS = [
         MY_COUNTERS[k] == (COUNTERS[k]["leaves"], COUNTERS[k]["gkdCalls"],
                            COUNTERS[k]["scalarGkdCalls"])
         and COUNTERS[k]["gkdNonzero"] == COUNTERS[k]["gkdCalls"]
-        and len(P[k]) == COUNTERS[k]["nonzeroComponents"] for k in (1, 2, 3))
-    check(same_counters, "the Python sums reproduce the counters of the Rust sums",
+        and len(P[k]) == 8 and COUNTERS[k]["nonzeroComponents"] == 10
+        for k in (1, 2, 3))
+    check(same_counters, "the Python sums reproduce the counters of the Rust sums; "
+          "nonzero components: 8 at b4 = 1, 10 (with x4-x0, x0-x4) for a general b4",
           record=f"{RESULTS}/lovelock-report.json, counters k = 1, 2, 3")
     '''),
     md(r"""
     The next cell compares every one of the $3 \times 64$ components with the Rust
-    record `lovelock-tensors.json`, which stores each component as an exact list of
-    monomials `[numerator, denominator, [e_H, e_a4', e_a4'', e_a4''', e_a4'''', e_E, e_S,
-    e_C]]` (E is $e^{a_4}$, S is $\sin^{1/3} z$, C is $\cot z$). The comparison is exact
+    record `lovelock-tensors.json`, which stores each component, for a general $b_4$, as
+    an exact list of monomials `[numerator, denominator, [e_H, e_a4', e_a4'', e_a4''',
+    e_a4'''', e_E, e_S, e_C, e_Q, e_b4', e_b4'', e_b4''', e_b4'''']]` (E is $e^{a_4}$,
+    S is $\sin^{1/3} z$, C is $\cot z$, Q is $b_4^{1/2}$). The record is evaluated on
+    the background $b_4 = 1$: a monomial with a derivative of $b_4$ is dropped, and
+    $Q = 1$ (monomials that then agree are added). The comparison is exact
     (dictionaries of fractions must be equal). The components of the third and fourth
     derivatives of $a_4$, of $E$ and of $S$ must all be 0. Then it compares the three
     scalars with the record's `L1`, `L2`, `L3`, and prints the components that are not
     zero: only the eight diagonal ones $h = j$, for every $k$. In particular there is no
-    $x_4$-$x_8$ component.
+    $x_4$-$x_0$ component.
     """),
     code(r'''
     tensors = json.loads((OUT_FOLDER / "lovelock-tensors.json").read_text(
@@ -874,14 +923,17 @@ CELLS = [
 
 
     def from_monomials(monomials):
-        """A component of lovelock-tensors.json as a polynomial dict (only H, a4', a4''
-        and cot z may occur)."""
+        """A component of lovelock-tensors.json at b4 = 1 as a polynomial dict (only H,
+        a4', a4'' and cot z may then occur)."""
         out = {}
         for numerator, denominator, e in monomials:
+            if any(e[9:13]):  # a derivative of b4: zero on the background b4 = 1
+                continue
             if e[3] or e[4] or e[5] or e[6]:  # 3rd, 4th derivative, e^a4 or sin^(1/3)
                 raise ValueError("unexpected symbol in a Lovelock component")
-            out[(e[0], e[1], e[2], e[7])] = Fraction(numerator, denominator)
-        return out
+            key = (e[0], e[1], e[2], e[7])  # e[8], the power of b4^(1/2), drops out
+            out[key] = out.get(key, 0) + Fraction(numerator, denominator)
+        return {key: value for key, value in out.items() if value != 0}
 
 
     agree = {}
@@ -896,9 +948,10 @@ CELLS = [
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, checks "
                  "rust_k1_mixed_components_agree, rust_k2_mixed_components_agree and "
                  "rust_k3_mixed_components_agree")
-    scalars_agree = all(to_poly(from_mathematica(tensors[f"L{k}"])) == L[k]
-                        for k in (1, 2, 3))
-    check(scalars_agree, "the scalars L(1), L(2), L(3) equal the Rust scalars exactly",
+    scalars_agree = all(to_poly(from_mathematica(tensors[f"L{k}"]).subs(BACKGROUND))
+                        == L[k] for k in (1, 2, 3))
+    check(scalars_agree, "the scalars L(1), L(2), L(3) equal the Rust scalars exactly "
+          "(at b4 = 1)",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, checks "
                  "rust_L1_agrees, rust_L2_agrees and rust_L3_agrees")
     check(all(set(P[k]) == {(h, h) for h in range(8)} for k in (1, 2, 3)),
@@ -1268,9 +1321,9 @@ CELLS = [
     $H^2$, $H^4$ and $H^6$ (that is, with $H = 1$). Each square shows the number of row
     $h$ and column $j$; red is positive, blue negative, white zero, and each table has
     its own colour scale (its largest value is the darkest colour). The tables show what
-    sections 7 and 8 proved: only the diagonal is filled, the $x_4$-$x_8$ squares are
+    sections 7 and 8 proved: only the diagonal is filled, the $x_4$-$x_0$ squares are
     zero, the three space entries are equal, the three extra-time entries are equal,
-    and the hidden entry $x_8$ lies halfway between the space and the extra-time entry.
+    and the hidden entry $x_0$ lies halfway between the space and the extra-time entry.
     """),
     code(r'''
     def poly_value(p, h, a1, a2, cot=1):
@@ -1317,20 +1370,20 @@ CELLS = [
                 "$a_4^{\\prime\\prime} = H^2$ of a deflating history, in units of $H^2$, "
                 "$H^4$ and $H^6$; row $h$, column $j$; red positive, blue negative, white "
                 "zero, each table on its own colour scale. Only the diagonal is filled, "
-                "so the $x_4$-$x_8$ components vanish; the three space entries are equal, "
+                "so the $x_4$-$x_0$ components vanish; the three space entries are equal, "
                 "the three extra-time entries are equal, and the hidden entry is their "
                 "mean, for example $(4 + 2)/2 = 3$ for Einstein's tensor.")
     diagonal_ok = all(
         np.count_nonzero(tables[k] - np.diag(np.diag(tables[k]))) == 0
-        and tables[k][0, 0] == tables[k][1, 1] == tables[k][2, 2]
-        and tables[k][4, 4] == tables[k][5, 5] == tables[k][6, 6]
-        and tables[k][7, 7] == (tables[k][0, 0] + tables[k][4, 4]) / 2
+        and tables[k][1, 1] == tables[k][2, 2] == tables[k][3, 3]
+        and tables[k][5, 5] == tables[k][6, 6] == tables[k][7, 7]
+        and tables[k][0, 0] == (tables[k][1, 1] + tables[k][5, 5]) / 2
         for k in (1, 2, 3))
-    say("diagonals (x1 ... x8): " + "; ".join(
+    say("diagonals (x0 ... x7): " + "; ".join(
         f"E({k}): " + " ".join(f"{v:g}" for v in np.diag(tables[k])) for k in (1, 2, 3)))
-    check(diagonal_ok and list(np.diag(tables[1])) == [4, 4, 4, 33, 2, 2, 2, 3],
+    check(diagonal_ok and list(np.diag(tables[1])) == [3, 4, 4, 4, 33, 2, 2, 2],
           "at a4' = 2H, a4'' = H^2: only diagonal entries, space and extra-time entries "
-          "equal, hidden entry their mean; G = diag(4, 4, 4, 33, 2, 2, 2, 3) H^2")
+          "equal, hidden entry their mean; G = diag(3, 4, 4, 4, 33, 2, 2, 2) H^2")
     '''),
     md(r"""
     ## 11. The Revision records quoted in this notebook
@@ -1423,7 +1476,7 @@ CELLS = [
       components; they depend only on $H$, $a_4'$, $a_4''$ and $\cot z$. Planes inside
       ordinary space or inside the extra times have the curvature $a_4'^2 - H^2$, planes
       between them $-(a_4'^2 + H^2)$, planes with the hidden direction $-H^2$.
-    - The mixed $x_4$-$x_8$ curvature terms of the three inflating and the three
+    - The mixed $x_4$-$x_0$ curvature terms of the three inflating and the three
       deflating directions cancel exactly.
     - Pruning (only nonzero curvature entries, no repeated labels) reduces the sum of
       order 3 from about $4.4 \times 10^{12}$ terms to 495,360 GKD calls; a Python
