@@ -86,7 +86,8 @@ Measured or estimated in the records of 2026-10-08 (HANDOFF.md sections 0.4u-0.4
 
 Since the kill of section A (about 12:05) every calculation of this work was started with `timeout 423`; none was
 killed by that limit, and no wall time exceeded 423 s (the longest: the refined-tolerance Rust run of the Kohn-Sham
-solver, 328 s; checked in the run logs and the session transcript on 2026-10-14 at about 15:55).
+solver, 328 s; checked in the run logs and the session transcript on 2026-10-14 at about 15:55; in the gate run of
+C7 its batch, with the two audits, took 341 s).
 
 | # | Calculation | Status | What was done instead / what remains |
 |---|---|---|---|
@@ -96,5 +97,5 @@ solver, 328 s; checked in the run logs and the session transcript on 2026-10-14 
 | C4 | `Revision/kohn_sham/tip_convergence/tip_convergence.py` at its former cap of 8 workers (541-553 s on 2026-10-08) | not run at 8 workers | Cap raised to 22 workers (outputs independent of it): 196 s, 7 of 7. |
 | C5 | Rust refined-tolerance Kohn-Sham run (618.6 s on 2026-10-07, in parallel with the repeat) | finished within the limit when run alone | 328 s. |
 | C6 | `gkd_lovelock` `gkd-selftest --exhaustive-max 4` (gate step, up to 900 s) | not run on 2026-10-14 | Not affected by the metric change or the relabelling (the generalized Kronecker delta is coordinate free); its committed result stands. |
-| C7 | The full Revision gate `verify_revision.ps1` / `.sh` (about 3 h) | not run as one calculation | Its steps are run one by one, each within 423 s, as each set is relabelled. |
+| C7 | The full Revision gate `verify_revision.ps1` / `.sh` (85 steps, expected 8057 s by its own table) | not run as one calculation | Run on 2026-10-14 from about 16:49 to 18:15 as 37 batches `bash Revision/verify_revision.sh --steps ...`, each under `timeout 423`: the 82 work steps other than `gkd-rust-selftest` (C6), with the two audits `committed-unchanged` and `reports-pass` in every batch; every batch ended with `revision_verification=OK`, none was stopped; batch times 1 s to 341 s (the longest, `ks-rust-refined`), 5114 s in all. The step `gkd-rust-selftest` (expected 900 s) was not run: see C6. |
 
