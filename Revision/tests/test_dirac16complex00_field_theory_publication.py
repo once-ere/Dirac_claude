@@ -74,6 +74,13 @@ REPORTS = {
 }
 PASSING = {"PASS", "pass"}
 
+# The general-b4 supplements of the metric of 2026-10-14, cited by check name in the b4 section;
+# only their passing check names count as known.
+B4_REPORTS = (
+    "theory/reports/wolfram-field-theory-b4.json",
+    "theory/reports/python-field-theory-b4.json",
+)
+
 PRIVATE_MARKERS = (
     "Gmail",
     "prompt_Dirac",
@@ -425,6 +432,9 @@ class TestCitedChecks(unittest.TestCase):
             known.update(json_keys(load_json(source)))
         for relative in REPORTS:
             known.update(load_json(REVISION / relative))  # top-level sections of the reports
+        for relative in B4_REPORTS:
+            known.update(c["name"] for c in load_json(REVISION / relative)["checks"]
+                         if c["verdict"] in PASSING)
         text = markdown_text()
         unknown = []
         for token in re.findall(r"`([^`\s]+)`", text):
