@@ -44,7 +44,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's 16 x 16 gamma matrices in the order x1 to x8 (read)"],
+         "the author's 16 x 16 gamma matrices in the order x0 to x7 (read)"],
         ["Revision/kohn_sham/ks-theory.json",
          "the block basis and the exchange coefficients (read and reproduced)"],
         ["Revision/kohn_sham/reports/ks-theory-python.json",
@@ -114,7 +114,7 @@ CELLS = [
     - **Density**: an expectation value per unit volume. Number density
       $n = \langle\Psi^\dagger B\Psi\rangle$; scalar density
       $S = \langle\bar\Psi\Psi\rangle = \langle\Psi^\dagger C\Psi\rangle$; the
-      density $Q = \langle\Psi^\dagger B\gamma^{(x_8)}\Psi\rangle$. PROPER densities
+      density $Q = \langle\Psi^\dagger B\gamma^{(x_0)}\Psi\rangle$. PROPER densities
       are per proper 7-volume.
     - **Expectation-value rule**: for one quantum in the mode $u$,
       $\langle\Psi^\dagger X\Psi\rangle = u^\dagger BXu$; for many,
@@ -149,7 +149,7 @@ CELLS = [
     1. In flat space a plane wave $e^{-i\varepsilon x_4 + i\mathbf p\cdot\mathbf x}$
        of the good sector solves $h_{\mathbf p}u = \varepsilon u$ with
        $h_{\mathbf p} = M(-i\gamma^{(x_4)}) - p_a\gamma^{(x_4)}\gamma^{(a)}$, the sum
-       over the four space-like directions $x_1, x_2, x_3, x_8$.
+       over the four space-like directions $x_0, x_1, x_2, x_3$.
     2. $h_{\mathbf p}^2 = (M^2 + p^2)\,1$: the energies are $\pm E$,
        $E = \sqrt{M^2 + p^2}$, each 8 times.
     3. The interaction energy needs $\langle{:}S^2{:}\rangle$, which Wick's rule
@@ -166,8 +166,8 @@ CELLS = [
     ## 5. The gamma matrices, B and C
 
     The next cell reads the author's gamma matrices from the Revision record
-    `Revision/algebra/gammas.json` (`g1` is $\gamma^{(x_1)}$, ..., `g8` is
-    $\gamma^{(x_8)}$), builds $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}
+    `Revision/algebra/gammas.json` (`g0` is $\gamma^{(x_0)}$, ..., `g7` is
+    $\gamma^{(x_7)}$), builds $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}
     \gamma^{(x_3)}$ and $B = -iC\gamma^{(x_4)}$, and checks the facts used below:
     $B$ and $C$ square to 1, $\mathrm{Tr}\,B^2 = \mathrm{Tr}\,C^2 = 16$,
     $\mathrm{Tr}\,BC = 0$, $CBC = B$, and $(-i\gamma^{(x_4)})B = C$. It also defines
@@ -198,9 +198,9 @@ CELLS = [
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
     g = [sp.Matrix(m) for m in fixture["gamma"]]
-    g1, g2, g3, g4, g5, g6, g7, g8 = g
+    g0, g1, g2, g3, g4, g5, g6, g7 = g  # gN is gamma^(xN)
     I16, Z16 = sp.eye(16), sp.zeros(16)
-    C = g8 * g1 * g2 * g3
+    C = g0 * g1 * g2 * g3
     B = -sp.I * C * g4
     facts_ok = (B * B == I16 and C * C == I16 and (B * B).trace() == 16
                 and (C * C).trace() == 16 and (B * C).trace() == 0 and C * B * C == B
@@ -210,14 +210,14 @@ CELLS = [
     md(r"""
     ## 6. The plane waves of the good sector and their projector
 
-    The four space-like directions are $x_1, x_2, x_3, x_8$; their gammas square to
+    The four space-like directions are $x_0, x_1, x_2, x_3$; their gammas square to
     $+1$, and $\gamma^{(x_4)}$ squares to $-1$. Line by line:
 
     1. $h_{\mathbf p} = M(-i\gamma^{(x_4)}) - \sum_a p_a\gamma^{(x_4)}\gamma^{(a)}$.
     2. Squaring: $(-i\gamma^{(x_4)})^2 = -(\gamma^{(x_4)})^2 = 1$;
        $(\gamma^{(x_4)}\gamma^{(a)})^2 = -(\gamma^{(x_4)})^2(\gamma^{(a)})^2 = 1$;
        all mixed products anticommute and cancel in pairs. So
-       $h_{\mathbf p}^2 = (M^2 + p_1^2 + p_2^2 + p_3^2 + p_8^2)\,1 = E^2\,1$.
+       $h_{\mathbf p}^2 = (M^2 + p_1^2 + p_2^2 + p_3^2 + p_0^2)\,1 = E^2\,1$.
     3. Hence $G_{\mathbf p} = \frac12(1 + h_{\mathbf p}/E)$ satisfies
        $G_{\mathbf p}^2 = G_{\mathbf p}$: it projects on the energy $+E$; its trace
        is 8 because $h_{\mathbf p}$ is traceless: eight positive-energy modes.
@@ -226,10 +226,10 @@ CELLS = [
     """),
     code(r'''
     M = sp.symbols("M", positive=True)  # the mass
-    p1, p2, p3, p8 = sp.symbols("p1 p2 p3 p8", real=True)  # the momentum
+    p1, p2, p3, p0 = sp.symbols("p1 p2 p3 p0", real=True)  # the momentum
     E = sp.symbols("E", positive=True)  # stands for sqrt(M^2 + p^2)
-    h_p = M * (-sp.I * g4) - (p1 * g4 * g1 + p2 * g4 * g2 + p3 * g4 * g3 + p8 * g4 * g8)
-    E_squared = M ** 2 + p1 ** 2 + p2 ** 2 + p3 ** 2 + p8 ** 2
+    h_p = M * (-sp.I * g4) - (p1 * g4 * g1 + p2 * g4 * g2 + p3 * g4 * g3 + p0 * g4 * g0)
+    E_squared = M ** 2 + p1 ** 2 + p2 ** 2 + p3 ** 2 + p0 ** 2
     square_ok = (h_p * h_p - E_squared * I16).applyfunc(sp.expand).is_zero_matrix
     G_p = (I16 + h_p / E) / 2  # the projector on the positive energy
     projector_ok = ((G_p * G_p - G_p).subs(E, sp.sqrt(E_squared))
@@ -266,7 +266,7 @@ CELLS = [
     components (exact integrals), both mode types and the trace formulas.
     """),
     code(r'''
-    p_flip = {p1: -p1, p2: -p2, p3: -p3, p8: -p8}
+    p_flip = {p1: -p1, p2: -p2, p3: -p3, p0: -p0}
     pair_average = ((G_p * B + (G_p * B).subs(p_flip)) / 2).applyfunc(sp.simplify)
     pair_ok = (pair_average - (B + M / E * C) / 2).applyfunc(sp.simplify).is_zero_matrix
     th, ph = sp.symbols("vartheta varphi", real=True)  # angles on the sphere
@@ -297,7 +297,7 @@ CELLS = [
     $\mathbf p$ (right), which cancels between $\mathbf p$ and $-\mathbf p$.
     """),
     code(r'''
-    values = {M: 1, E: sp.sqrt(2), p1: 1, p2: 0, p3: 0, p8: 0}
+    values = {M: 1, E: sp.sqrt(2), p1: 1, p2: 0, p3: 0, p0: 0}
     one_mode = np.abs(np.array((G_p * B).subs(values).evalf(), dtype=complex))
     averaged = np.abs(np.array(pair_average.subs(values).evalf(), dtype=complex))
     odd_part = np.abs(np.array((G_p * B - pair_average).subs(values).evalf(),
@@ -501,7 +501,7 @@ CELLS = [
     3-space rotations (the 64-dimensional space of matrices that commute with
     $\gamma^{(x_1)}\gamma^{(x_2)}$, $\gamma^{(x_1)}\gamma^{(x_3)}$,
     $\gamma^{(x_2)}\gamma^{(x_3)}$). The result: $n = 8d_0$, $S = 8d_2$,
-    $Q = \langle\Psi^\dagger B\gamma^{(x_8)}\Psi\rangle = 8d_3$, the $y$-current
+    $Q = \langle\Psi^\dagger B\gamma^{(x_0)}\Psi\rangle = 8d_3$, the $y$-current
     $Y = 8d_1$, and
 
     $$e_x^{\rm exact} = -\frac{\lambda}{32}(n^2 + S^2 - Q^2 - Y^2).$$
@@ -542,7 +542,7 @@ CELLS = [
     G_avg = sp.simplify(sum((c_ * b_ for c_, b_ in zip(coefficients, basis)), Z16))
     rho_slab = G_avg * B
     n_s, S_s = sp.simplify((B * rho_slab).trace()), sp.simplify((C * rho_slab).trace())
-    Q_s = sp.simplify((B * g8 * rho_slab).trace())
+    Q_s = sp.simplify((B * g0 * rho_slab).trace())
     e_x_slab = sp.expand(-lam / 2 * (C * rho_slab * C * rho_slab).trace())
     say(f"commutant dimension {len(basis)}; n = {n_s}, S = {S_s}, Q = {Q_s}")
     say(f"V unitary: {sp.simplify(V.H * V) == I16}")

@@ -116,7 +116,7 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Hidden coordinate $y$**: proper length along the hidden direction $x_8$;
+    - **Hidden coordinate $y$**: proper length along the hidden direction $x_0$;
       the brane is at $y = 0$, the tip cutoff at $y = -L$ (here $L = 3$, $2$).
     - **Block equation**: in each of eight $2\times2$ blocks the Kohn-Sham
       equation is $h_j\chi = \varepsilon\chi$ with
@@ -130,7 +130,7 @@ CELLS = [
     - **Boundary condition**: a condition on the solution at an end of the interval.
     - **Z2 mirror brane**: the ASSUMED picture that the patch $y \le 0$ is glued at
       $y = 0$ to a mirror copy and the field obeys the parity relation
-      $\Psi(-y) = \pm\gamma^{(x_8)}\Psi(y)$; the relation (not the gluing alone)
+      $\Psi(-y) = \pm\gamma^{(x_0)}\Psi(y)$; the relation (not the gluing alone)
       gives the even parity ($b(0) = 0$) and the odd parity ($a(0) = 0$).
     - **Regular tip**: the chosen condition $b(-L) = 0$ at the cutoff.
     - **Current**: $\chi^\dagger\sigma_1\chi$, the flow of the U(1) charge along
@@ -238,8 +238,8 @@ CELLS = [
 
     **The brane (ASSUMED).** The Revision theory glues the patch $y \le 0$ at
     $y = 0$ to a mirror copy (a Z2 orbifold, with the mirror warp $e^{-H|y|}$) and
-    asks $\Psi(-y) = \pm\gamma^{(x_8)}\Psi(y)$. At $y = 0$ this says
-    $(1 \mp \gamma^{(x_8)})\chi(0) = 0$; since $\gamma^{(x_8)} = \sigma_3$ in every
+    asks $\Psi(-y) = \pm\gamma^{(x_0)}\Psi(y)$. At $y = 0$ this says
+    $(1 \mp \gamma^{(x_0)})\chi(0) = 0$; since $\gamma^{(x_0)} = \sigma_3$ in every
     block: EVEN parity $\chi_2(0) = 0$, i.e. $b(0) = 0$; ODD parity $\chi_1(0) = 0$,
     i.e. $a(0) = 0$. Line by line, what the mirror map does: if $\chi$ solves
     $\chi'(y) = N(y)\chi(y)$, then $\tilde\chi(y) = \sigma_3\chi(-y)$ has

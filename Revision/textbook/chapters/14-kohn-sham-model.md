@@ -10,7 +10,7 @@ Chapter 13 taught density functional theory from zero: how the hopeless problem 
 
 - The hidden coordinate $y$ and the warped form of the author's metric (Section 14.2).
 - The Kohn-Sham equation of dirac16complex, the good sector and the stationary-slice ansatz (Section 14.3).
-- The spin-connection term $3H\gamma^{(x_8)}$, why the time derivative of $a_4$ drops out of it, and the factor $W^{-3}$ that removes it (Section 14.4).
+- The spin-connection term $3H\gamma^{(x_0)}$, why the time derivative of $a_4$ drops out of it, and the factor $W^{-3}$ that removes it (Section 14.4).
 - The splitting of the 16 components into eight independent $2 \times 2$ blocks of two types (Section 14.5), and the chirality matrix $\Gamma$ and the rotations of 3-space on these blocks (Section 14.6).
 - The exact rescaling identity between the instants of the deflating history (Section 14.7).
 - The block equation in real form and its boundary conditions at the brane and at the tip (Section 14.12), the exact free levels at zero 3-momentum (Section 14.13) and the shooting method that finds every level by an integer label (Section 14.14).
@@ -36,7 +36,7 @@ None of them needs Rust: Notebooks 14b and 14c write the shooting function of th
 - OPEN: the justification of that convention (Section 14.21), the effect of the tip angle at the later slices (Section 14.20), and the behaviour of the gas when the history is not slow (the time-dependent problem, Chapter 15 and Chapter 22).
 - HYPOTHESIS: none in this chapter.
 
-**Notation and units.** The author's coordinates are $x_1, \dots, x_8$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which deflate exponentially; $x_8$ is the hidden space direction. The flat frame metric is $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in this order. The gamma matrix of the direction $x_4$ is written $\gamma^{(x_4)}$, and so on; these are the author's eight real $16 \times 16$ matrices of Chapters 4 and 5, read from the record `Revision/algebra/gammas.json`, with the Clifford relation $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}$. The matrices $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, $B = -iC\gamma^{(x_4)}$ and the chirality $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-1_8, 1_8)$ are those of Chapter 5. The three **Pauli matrices**, written row by row, are
+**Notation and units.** The author's coordinates are $x_0, \dots, x_7$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which deflate exponentially; $x_0$ is the hidden space direction. The flat frame metric is $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in this order. The gamma matrix of the direction $x_4$ is written $\gamma^{(x_4)}$, and so on; these are the author's eight real $16 \times 16$ matrices of Chapters 4 and 5, read from the record `Revision/algebra/gammas.json`, with the Clifford relation $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}$. The matrices $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, $B = -iC\gamma^{(x_4)}$ and the chirality $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-1_8, 1_8)$ are those of Chapter 5. The three **Pauli matrices**, written row by row, are
 
 $$
 \sigma_1 = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \qquad \sigma_2 = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \qquad \sigma_3 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} .
@@ -46,7 +46,7 @@ Each squares to the $2 \times 2$ unit matrix, two different ones anticommute, an
 
 ### 14.2 The author's field and the hidden coordinate y
 
-**The metric.** The author's primordial field is the diagonal metric whose entries, in the order $x_1, \dots, x_8$, are
+**The metric.** The author's primordial field is the diagonal metric whose entries, in the order $x_0, \dots, x_7$, are
 
 $$
 \begin{aligned}
@@ -55,24 +55,24 @@ g = \mathrm{diag}\big(&e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^
 \end{aligned}
 $$
 
-with $z = 6Hx_8$ between $0$ and $\pi/2$, the author's constant $H > 0$, and a function $a_4(x_4)$ of the time. A **scale factor** is the number by which a coordinate step must be multiplied to give a length: along $x_1$ a step $dx_1$ has the length $e^{a_4}\sin^{1/6}z\,dx_1$ (the square root of the entry). When $a_4$ grows with the time, the 3-space factor $e^{a_4}$ grows (3-space **inflates**) and the extra-time factor $e^{-a_4}$ shrinks exponentially (the extra times **deflate**). The history used in this book is $a_4 = AHx_4$ with $A = 1$ (Section 14.3).
+with $z = 6Hx_0$ between $0$ and $\pi/2$, the author's constant $H > 0$, and a function $a_4(x_4)$ of the time. A **scale factor** is the number by which a coordinate step must be multiplied to give a length: along $x_1$ a step $dx_1$ has the length $e^{a_4}\sin^{1/6}z\,dx_1$ (the square root of the entry). When $a_4$ grows with the time, the 3-space factor $e^{a_4}$ grows (3-space **inflates**) and the extra-time factor $e^{-a_4}$ shrinks exponentially (the extra times **deflate**). The history used in this book is $a_4 = AHx_4$ with $A = 1$ (Section 14.3).
 
-**The hidden coordinate.** The entry $g_{88} = \cot^2 z$ makes the hidden direction awkward. We replace $x_8$ by
+**The hidden coordinate.** The entry $g_{00} = \cot^2 z$ makes the hidden direction awkward. We replace $x_0$ by
 
 $$
-y = \frac{\ln(\sin z)}{6H}, \qquad z = 6Hx_8 .
+y = \frac{\ln(\sin z)}{6H}, \qquad z = 6Hx_0 .
 $$
 
 Line by line:
 
 $$
-\frac{dy}{dx_8} = \frac{1}{6H}\cdot\frac{\cos z}{\sin z}\cdot 6H = \cot z .
+\frac{dy}{dx_0} = \frac{1}{6H}\cdot\frac{\cos z}{\sin z}\cdot 6H = \cot z .
 $$
 
-Rule: the chain rule; the derivative of $\ln u$ is $1/u$ times the derivative of $u$, the derivative of $\sin z$ is $\cos z$, and $dz/dx_8 = 6H$.
+Rule: the chain rule; the derivative of $\ln u$ is $1/u$ times the derivative of $u$, the derivative of $\sin z$ is $\cos z$, and $dz/dx_0 = 6H$.
 
 $$
-dy^2 = \cot^2 z\, dx_8^2 = g_{88}\,dx_8^2 .
+dy^2 = \cot^2 z\, dx_0^2 = g_{00}\,dx_0^2 .
 $$
 
 Rule: square the previous line. So $y$ measures length along the hidden direction, and in the coordinate $y$ the metric entry is simply 1.
@@ -101,7 +101,7 @@ $$
 \sqrt{|g|} = (e^{a_4}W)^3\cdot 1\cdot(e^{-a_4}W)^3\cdot 1 = e^{3a_4}e^{-3a_4}W^6 = W^6 = e^{6Hy} .
 $$
 
-Rule: multiply the eight entries of $h$; the powers $e^{3a_4}$ and $e^{-3a_4}$ cancel. In the author's $x_8$ chart the same product is $\sin z\cdot\cot z = \cos z$; the two differ by the factor $dy/dx_8 = \cot z$, as they must. Neither contains $a_4$: while 3-space inflates and the extra times deflate, the volume of the seven directions other than the time stays the same. Toward the tip the factor $W^6$ goes to zero: at $y = -3$ it is $e^{-18}$. Status: PROVED; checks geometry_hidden_coordinate, geometry_sqrt_det and geometry_warped_form of `Revision/kohn_sham/reports/ks-theory-python.json` (the first two also in the Wolfram report `Revision/kohn_sham/reports/ks-theory-wolfram.json`).
+Rule: multiply the eight entries of $h$; the powers $e^{3a_4}$ and $e^{-3a_4}$ cancel. In the author's $x_0$ chart the same product is $\sin z\cdot\cot z = \cos z$; the two differ by the factor $dy/dx_0 = \cot z$, as they must. Neither contains $a_4$: while 3-space inflates and the extra times deflate, the volume of the seven directions other than the time stays the same. Toward the tip the factor $W^6$ goes to zero: at $y = -3$ it is $e^{-18}$. Status: PROVED; checks geometry_hidden_coordinate, geometry_sqrt_det and geometry_warped_form of `Revision/kohn_sham/reports/ks-theory-python.json` (the first two also in the Wolfram report `Revision/kohn_sham/reports/ks-theory-wolfram.json`).
 
 **The momentum weight.** A plane wave $e^{ik_1x_1}$ along 3-space has the coordinate momentum $k_1$; the length of a coordinate step is $e^{a_4}W\,dx_1$, so the momentum per unit length, the one a quantum feels, is $k_1/(e^{a_4}W)$. We write
 
@@ -147,13 +147,13 @@ $$
 
 The number $\varepsilon$ is the **level** (the energy of the orbital), and the hidden direction is cut at $y = -L$ ($L = 3$ in the runs). The Kohn-Sham state of the slice fills the lowest particle levels. This is the **adiabatic** picture: if $h$ changes slowly enough along the history, a quantum stays in the level it occupies. The exact evolution conserves the 3-momentum, the block and the brane parity of every orbital (all defined below), so a quantum can only make transitions between levels of the same kind; Chapter 15 measures how slowly $h$ changes. The record states this in `Revision/kohn_sham/ks-theory.json`, section adiabaticity.
 
-**The history is a PRESCRIBED BACKGROUND.** The slices are taken along the history $a_4 = AHx_4$ with $A = 1$, so $a_{4,0} = 0, 0.5, 1, 1.5, 2$ are five instants. This history is prescribed, not solved for: the field equations of $a_4$ (Chapter 12) allow the linear member $a_4 = AHx_4$ only with a source whose three pressures are equal and whose energy density is constant, and the Kohn-Sham states violate these conditions (their sources depend on $x_8$, and $p_3 \ne p_t$). The record `Revision/field_equations_a4/reports/ks-source-conditions.json` proves this with its checks ks_profiles_depend_on_x8, ks_profiles_violate_algebraic_condition and ks_history_is_a_prescribed_background (Chapter 17 explains it in full). So the Kohn-Sham gas is a **test field** on a given background: it feels the deflating field but does not act back on it.
+**The history is a PRESCRIBED BACKGROUND.** The Kohn-Sham record works on the backgrounds $b_4 = 1$ of the author's metric (the second function $b_4(x_4)$ of the metric of 2026-10-14 is put equal to 1; Chapter 3). The slices are taken along the history $a_4 = AHx_4$ with $A = 1$, so $a_{4,0} = 0, 0.5, 1, 1.5, 2$ are five instants. This history is prescribed, not solved for: the field equations of $a_4$ (Chapter 12) allow the linear member $a_4 = AHx_4$ only with a source whose three pressures are equal and whose energy density is constant, and the Kohn-Sham states violate these conditions (their sources depend on $x_0$, and $p_3 \ne p_t$). The record `Revision/field_equations_a4/reports/ks-source-conditions.json` proves this with its checks ks_profiles_depend_on_x0, ks_profiles_violate_algebraic_condition and ks_history_is_a_prescribed_background (Chapter 17 explains it in full). So the Kohn-Sham gas is a **test field** on a given background: it feels the deflating field but does not act back on it.
 
-### 14.4 The spin connection, the term 3H γ(x8) and the factor W^(-3)
+### 14.4 The spin connection, the term 3H γ(x0) and the factor W^(-3)
 
 **What we need.** The operator $\gamma^\mu D_\mu = \sum_\mu \gamma^\mu\partial_\mu + \sum_\mu\gamma^\mu\Omega_\mu$ contains the spin connection only through the matrix $\sum_\mu\gamma^\mu\Omega_\mu$. Chapter 6 derived the canonical spin connection in general; here we compute this one matrix for the diagonal vielbein $h$ of Section 14.2, with $a_4$ an arbitrary function of $x_4$, so that the result holds along every history.
 
-**Step 1: the Christoffel symbols of a diagonal metric.** For a metric $g = \mathrm{diag}(g_{11}, \dots, g_{88})$ the Christoffel symbols $\Gamma^n{}_{mk} = \tfrac12 g^{nl}(\partial_m g_{lk} + \partial_k g_{lm} - \partial_l g_{mk})$ (sum over $l$) reduce to
+**Step 1: the Christoffel symbols of a diagonal metric.** For a metric $g = \mathrm{diag}(g_{11}, \dots, g_{00})$ the Christoffel symbols $\Gamma^n{}_{mk} = \tfrac12 g^{nl}(\partial_m g_{lk} + \partial_k g_{lm} - \partial_l g_{mk})$ (sum over $l$) reduce to
 
 $$
 \Gamma^n{}_{mk} = \frac{\delta_{mn}\,\partial_k g_{nn} + \delta_{kn}\,\partial_m g_{nn} - \delta_{mk}\,\partial_n g_{mm}}{2g_{nn}} \qquad (\text{no sum}) .
@@ -195,21 +195,21 @@ $$
 
 Rule: $\gamma^{(l)}\gamma^{(l)} = \eta_{ll}$ (the Clifford relation), $\eta_{ll}\eta_{ll} = 1$, and $\partial_B h_l/h_l = \partial_B\ln h_l$.
 
-**Step 5: the author's field.** Here the scale factors depend only on $x_4$ (through $a_4$) and on $y$, and $h_{x_4} = h_y = 1$. For a 3-space direction, $\ln h_l = a_4 + Hy$, so $\partial_{x_4}\ln h_l = a_4'$ (the derivative $da_4/dx_4$) and $\partial_y\ln h_l = H$; Step 4 gives $\tfrac12 a_4'\gamma^{(x_4)} + \tfrac12 H\gamma^{(x_8)}$. For an extra time, $\ln h_l = -a_4 + Hy$, which gives $-\tfrac12 a_4'\gamma^{(x_4)} + \tfrac12 H\gamma^{(x_8)}$. For $x_4$ and $y$ themselves the scale factor is the constant 1, so $\Omega_{x_4} = \Omega_y = 0$. (In the vielbein language the frame direction of $y$ is that of $x_8$, so the gamma that goes with $y$ is $\gamma^{(x_8)}$.) Adding the eight contributions:
+**Step 5: the author's field.** Here the scale factors depend only on $x_4$ (through $a_4$) and on $y$, and $h_{x_4} = h_y = 1$. For a 3-space direction, $\ln h_l = a_4 + Hy$, so $\partial_{x_4}\ln h_l = a_4'$ (the derivative $da_4/dx_4$) and $\partial_y\ln h_l = H$; Step 4 gives $\tfrac12 a_4'\gamma^{(x_4)} + \tfrac12 H\gamma^{(x_0)}$. For an extra time, $\ln h_l = -a_4 + Hy$, which gives $-\tfrac12 a_4'\gamma^{(x_4)} + \tfrac12 H\gamma^{(x_0)}$. For $x_4$ and $y$ themselves the scale factor is the constant 1, so $\Omega_{x_4} = \Omega_y = 0$. (In the vielbein language the frame direction of $y$ is that of $x_0$, so the gamma that goes with $y$ is $\gamma^{(x_0)}$.) Adding the eight contributions:
 
 $$
-\sum_\mu\gamma^\mu\Omega_\mu = 3\cdot\tfrac12 a_4'\gamma^{(x_4)} - 3\cdot\tfrac12 a_4'\gamma^{(x_4)} + 6\cdot\tfrac12 H\gamma^{(x_8)} = 3H\gamma^{(x_8)} .
+\sum_\mu\gamma^\mu\Omega_\mu = 3\cdot\tfrac12 a_4'\gamma^{(x_4)} - 3\cdot\tfrac12 a_4'\gamma^{(x_4)} + 6\cdot\tfrac12 H\gamma^{(x_0)} = 3H\gamma^{(x_0)} .
 $$
 
-Rule: three inflating directions, three deflating directions, six warped directions. **The time-direction pieces of the three inflating directions, $+\tfrac32 a_4'\gamma^{(x_4)}$, and of the three deflating extra times, $-\tfrac32 a_4'\gamma^{(x_4)}$, cancel exactly**, for every history; what survives comes from the warp. Status: PROVED; checks `spin_connection_compatibility` (the curved gammas are covariantly constant, the proof that this is the right connection), `spin_connection_slash_3H`, `spin_connection_time_terms_cancel` and `spin_connection_time_term_value` of `Revision/kohn_sham/reports/ks-theory-python.json` (the first three also in the Wolfram report). Notebook 14a recomputes all of it with sympy and draws the eight contributions (its figure 3). That the surviving term $3H\gamma^{(x_8)}$ belongs to the diagonal vielbein, and can be removed by a change of frame or of the field, is the scope correction of Chapter 8.
+Rule: three inflating directions, three deflating directions, six warped directions. **The time-direction pieces of the three inflating directions, $+\tfrac32 a_4'\gamma^{(x_4)}$, and of the three deflating extra times, $-\tfrac32 a_4'\gamma^{(x_4)}$, cancel exactly**, for every history; what survives comes from the warp. Status: PROVED; checks `spin_connection_compatibility` (the curved gammas are covariantly constant, the proof that this is the right connection), `spin_connection_slash_3H`, `spin_connection_time_terms_cancel` and `spin_connection_time_term_value` of `Revision/kohn_sham/reports/ks-theory-python.json` (the first three also in the Wolfram report). Notebook 14a recomputes all of it with sympy and draws the eight contributions (its figure 3). That the surviving term $3H\gamma^{(x_0)}$ belongs to the diagonal vielbein, and can be removed by a change of frame or of the field, is the scope correction of Chapter 8.
 
-**Step 6: the factor $W^{-3}$ removes it.** Insert the ansatz $\Psi = e^{i\mathbf k\cdot\mathbf x}W^{-3}\chi(y, x_4)$ into $\gamma^\mu D_\mu\Psi = \sum_\mu\gamma^\mu\partial_\mu\Psi + 3H\gamma^{(x_8)}\Psi$, term by term.
+**Step 6: the factor $W^{-3}$ removes it.** Insert the ansatz $\Psi = e^{i\mathbf k\cdot\mathbf x}W^{-3}\chi(y, x_4)$ into $\gamma^\mu D_\mu\Psi = \sum_\mu\gamma^\mu\partial_\mu\Psi + 3H\gamma^{(x_0)}\Psi$, term by term.
 
 $$
-\gamma^{(x_8)}\partial_y\big(e^{-3Hy}\chi\big) = e^{-3Hy}\big(\gamma^{(x_8)}\partial_y\chi - 3H\gamma^{(x_8)}\chi\big) .
+\gamma^{(x_0)}\partial_y\big(e^{-3Hy}\chi\big) = e^{-3Hy}\big(\gamma^{(x_0)}\partial_y\chi - 3H\gamma^{(x_0)}\chi\big) .
 $$
 
-Rule: the product rule and $\partial_y e^{-3Hy} = -3He^{-3Hy}$. The term $-3H\gamma^{(x_8)}\chi$ cancels the $+3H\gamma^{(x_8)}\chi$ of the spin connection.
+Rule: the product rule and $\partial_y e^{-3Hy} = -3He^{-3Hy}$. The term $-3H\gamma^{(x_0)}\chi$ cancels the $+3H\gamma^{(x_0)}\chi$ of the spin connection.
 
 $$
 \frac{\gamma^{(x_j)}}{e^{a_4}W}\,\partial_j e^{i\mathbf k\cdot\mathbf x} = i\kappa k_j\gamma^{(x_j)}\,e^{i\mathbf k\cdot\mathbf x}, \qquad j = 1, 2, 3 .
@@ -218,41 +218,41 @@ $$
 Rule: $\partial_j e^{i\mathbf k\cdot\mathbf x} = ik_je^{i\mathbf k\cdot\mathbf x}$, and $1/(e^{a_4}W) = \kappa$ (Section 14.2). The time term is $\gamma^{(x_4)}\partial_{x_4}\chi$ (the scale factor of $x_4$ is 1), and the extra times give nothing (good sector). Dividing by the common factor $e^{i\mathbf k\cdot\mathbf x}e^{-3Hy}$, the Kohn-Sham equation becomes
 
 $$
-\gamma^{(x_8)}\partial_y\chi + \gamma^{(x_4)}\partial_{x_4}\chi + i\kappa k_j\gamma^{(x_j)}\chi = \big(M - iv\gamma^{(x_4)}\big)\chi \qquad (\text{sum over } j = 1, 2, 3) .
+\gamma^{(x_0)}\partial_y\chi + \gamma^{(x_4)}\partial_{x_4}\chi + i\kappa k_j\gamma^{(x_j)}\chi = \big(M - iv\gamma^{(x_4)}\big)\chi \qquad (\text{sum over } j = 1, 2, 3) .
 $$
 
-The spin connection has disappeared, exactly and for every history. Without the factor $W^{-3}$ the term $3H\gamma^{(x_8)}\chi$ would survive. Status: PROVED; checks ansatz_removes_spin_connection and ansatz_without_W3_term_survives.
+The spin connection has disappeared, exactly and for every history. Without the factor $W^{-3}$ the term $3H\gamma^{(x_0)}\chi$ would survive. Status: PROVED; checks ansatz_removes_spin_connection and ansatz_without_W3_term_survives.
 
 **Step 7: the Hamiltonian form.** Solve the last equation for the time derivative, line by line.
 
 $$
-\gamma^{(x_4)}\partial_{x_4}\chi = M\chi - iv\gamma^{(x_4)}\chi - \gamma^{(x_8)}\partial_y\chi - i\kappa k_j\gamma^{(x_j)}\chi .
+\gamma^{(x_4)}\partial_{x_4}\chi = M\chi - iv\gamma^{(x_4)}\chi - \gamma^{(x_0)}\partial_y\chi - i\kappa k_j\gamma^{(x_j)}\chi .
 $$
 
 Rule: move every term except the time term to the right side.
 
 $$
-\partial_{x_4}\chi = -M\gamma^{(x_4)}\chi - iv\chi + \gamma^{(x_4)}\gamma^{(x_8)}\partial_y\chi + i\kappa k_j\gamma^{(x_4)}\gamma^{(x_j)}\chi .
+\partial_{x_4}\chi = -M\gamma^{(x_4)}\chi - iv\chi + \gamma^{(x_4)}\gamma^{(x_0)}\partial_y\chi + i\kappa k_j\gamma^{(x_4)}\gamma^{(x_j)}\chi .
 $$
 
 Rule: multiply from the left by $-\gamma^{(x_4)}$; on the left $-\gamma^{(x_4)}\gamma^{(x_4)} = -\eta_{44} = 1$; on the right $-\gamma^{(x_4)}(-iv\gamma^{(x_4)}) = iv\gamma^{(x_4)}\gamma^{(x_4)} = -iv$.
 
 $$
-i\partial_{x_4}\chi = h\chi, \qquad h = i\gamma^{(x_4)}\gamma^{(x_8)}\partial_y - \kappa k_j\gamma^{(x_4)}\gamma^{(x_j)} + M\big(-i\gamma^{(x_4)}\big) + v .
+i\partial_{x_4}\chi = h\chi, \qquad h = i\gamma^{(x_4)}\gamma^{(x_0)}\partial_y - \kappa k_j\gamma^{(x_4)}\gamma^{(x_j)} + M\big(-i\gamma^{(x_4)}\big) + v .
 $$
 
 Rule: multiply by $i$ and use $i\cdot i = -1$.
 
-**Why $h$ is Hermitian.** A matrix $X$ is **Hermitian** when it equals its conjugate transpose, $X^\dagger = X$; an operator is Hermitian (self-adjoint) when $\int\varphi^\dagger(h\chi)\,dy = \int(h\varphi)^\dagger\chi\,dy$ for all allowed columns $\varphi$, $\chi$; then its levels are real and orbitals of different levels are orthogonal. Each piece of $h$ qualifies. (i) $\gamma^{(x_4)}\gamma^{(x_8)}$ is real and symmetric: $(\gamma^{(x_4)}\gamma^{(x_8)})^T = (\gamma^{(x_8)})^T(\gamma^{(x_4)})^T = \gamma^{(x_8)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_8)}$, by the symmetry pattern $(\gamma^a)^T = \eta_{aa}\gamma^a$ of Chapter 5 and the anticommutation of two different gammas; so $i\gamma^{(x_4)}\gamma^{(x_8)}$ is anti-Hermitian, $\partial_y$ is anti-Hermitian too (integration by parts, when the boundary terms vanish, Section 14.12), and the product of the two, which commute, is Hermitian. (ii) $\gamma^{(x_4)}\gamma^{(x_j)}$ for a 3-space direction is real and symmetric by the same rule, hence Hermitian. (iii) $(-i\gamma^{(x_4)})^\dagger = i(\gamma^{(x_4)})^T = -i\gamma^{(x_4)}$, and $(-i\gamma^{(x_4)})^2 = -\eta_{44} = 1$. (iv) $v$ is a real number times the unit matrix. Status: PROVED; check hamiltonian_16_hermitian.
+**Why $h$ is Hermitian.** A matrix $X$ is **Hermitian** when it equals its conjugate transpose, $X^\dagger = X$; an operator is Hermitian (self-adjoint) when $\int\varphi^\dagger(h\chi)\,dy = \int(h\varphi)^\dagger\chi\,dy$ for all allowed columns $\varphi$, $\chi$; then its levels are real and orbitals of different levels are orthogonal. Each piece of $h$ qualifies. (i) $\gamma^{(x_4)}\gamma^{(x_0)}$ is real and symmetric: $(\gamma^{(x_4)}\gamma^{(x_0)})^T = (\gamma^{(x_0)})^T(\gamma^{(x_4)})^T = \gamma^{(x_0)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_0)}$, by the symmetry pattern $(\gamma^a)^T = \eta_{aa}\gamma^a$ of Chapter 5 and the anticommutation of two different gammas; so $i\gamma^{(x_4)}\gamma^{(x_0)}$ is anti-Hermitian, $\partial_y$ is anti-Hermitian too (integration by parts, when the boundary terms vanish, Section 14.12), and the product of the two, which commute, is Hermitian. (ii) $\gamma^{(x_4)}\gamma^{(x_j)}$ for a 3-space direction is real and symmetric by the same rule, hence Hermitian. (iii) $(-i\gamma^{(x_4)})^\dagger = i(\gamma^{(x_4)})^T = -i\gamma^{(x_4)}$, and $(-i\gamma^{(x_4)})^2 = -\eta_{44} = 1$. (iv) $v$ is a real number times the unit matrix. Status: PROVED; check hamiltonian_16_hermitian.
 
 **The flat measure.** The Hilbert norm of the problem is $\int\chi^\dagger\chi\,dy$: since $\sqrt{|g|}\,\Psi^\dagger\Psi = e^{6Hy}e^{-6Hy}\chi^\dagger\chi$, it is the integral of $\sqrt{|g|}\,\Psi^\dagger\Psi$ over the hidden direction, with the plain measure $dy$. It does not contain $a_4$.
 
 ### 14.5 Eight blocks of two components
 
-**Only $|\mathbf k|$ matters.** Section 14.6 shows that a rotation of 3-space does not change the levels. So we may turn $\mathbf k$ into the direction $x_1$, $\mathbf k = (k, 0, 0)$. Then $h$ contains only the three gammas $\gamma^{(x_8)}$, $\gamma^{(x_1)}$, $\gamma^{(x_4)}$, and it is convenient to name three products:
+**Only $|\mathbf k|$ matters.** Section 14.6 shows that a rotation of 3-space does not change the levels. So we may turn $\mathbf k$ into the direction $x_1$, $\mathbf k = (k, 0, 0)$. Then $h$ contains only the three gammas $\gamma^{(x_0)}$, $\gamma^{(x_1)}$, $\gamma^{(x_4)}$, and it is convenient to name three products:
 
 $$
-A_0 = \gamma^{(x_8)}, \qquad A_1 = \gamma^{(x_8)}\gamma^{(x_1)}, \qquad A_4 = \gamma^{(x_8)}\gamma^{(x_4)} .
+A_0 = \gamma^{(x_0)}, \qquad A_1 = \gamma^{(x_0)}\gamma^{(x_1)}, \qquad A_4 = \gamma^{(x_0)}\gamma^{(x_4)} .
 $$
 
 **Two rules from Chapter 5.** Let $P$ be a product of $p$ different gammas. (Rule 1) Moving a gamma $\gamma^c$ from the left of $P$ to its right gives the sign $(-1)^{p-1}$ if $\gamma^c$ is one of the factors and $(-1)^p$ if it is not, because passing each different factor costs a sign. (Rule 2) $PP = (-1)^{p(p-1)/2}$ times the product of the $\eta$ of its factors.
@@ -260,13 +260,13 @@ $$
 **Three labels.** Define
 
 $$
-J = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_4)}, \qquad K_1 = \gamma^{(x_2)}\gamma^{(x_3)}, \qquad K_2 = \gamma^{(x_5)}\gamma^{(x_6)} .
+J = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_4)}, \qquad K_1 = \gamma^{(x_2)}\gamma^{(x_3)}, \qquad K_2 = \gamma^{(x_5)}\gamma^{(x_6)} .
 $$
 
-By Rule 1, $J$ ($p = 3$) commutes with its own three factors and anticommutes with the five other gammas; $K_1$ ($p = 2$) anticommutes with $\gamma^{(x_2)}$, $\gamma^{(x_3)}$ and commutes with the six others; $K_2$ anticommutes with $\gamma^{(x_5)}$, $\gamma^{(x_6)}$ and commutes with the others. A product of gammas commutes with $J$ when it contains an even number of factors that anticommute with $J$. Therefore all three commute with $A_0, A_1, A_4$ (built from $\gamma^{(x_8)}, \gamma^{(x_1)}, \gamma^{(x_4)}$), with $C$ (for $J$ the two anticommuting factors $\gamma^{(x_2)}, \gamma^{(x_3)}$ give two signs, which cancel), with $B = -iC\gamma^{(x_4)}$, and with each other. By Rule 2:
+By Rule 1, $J$ ($p = 3$) commutes with its own three factors and anticommutes with the five other gammas; $K_1$ ($p = 2$) anticommutes with $\gamma^{(x_2)}$, $\gamma^{(x_3)}$ and commutes with the six others; $K_2$ anticommutes with $\gamma^{(x_5)}$, $\gamma^{(x_6)}$ and commutes with the others. A product of gammas commutes with $J$ when it contains an even number of factors that anticommute with $J$. Therefore all three commute with $A_0, A_1, A_4$ (built from $\gamma^{(x_0)}, \gamma^{(x_1)}, \gamma^{(x_4)}$), with $C$ (for $J$ the two anticommuting factors $\gamma^{(x_2)}, \gamma^{(x_3)}$ give two signs, which cancel), with $B = -iC\gamma^{(x_4)}$, and with each other. By Rule 2:
 
 $$
-J^2 = (-1)^3\,\eta_{88}\eta_{11}\eta_{44} = (-1)(1)(1)(-1) = +1,
+J^2 = (-1)^3\,\eta_{00}\eta_{11}\eta_{44} = (-1)(1)(1)(-1) = +1,
 $$
 
 $$
@@ -289,10 +289,10 @@ $$
 
 The eight projectors have rank 2 and add up to the unit matrix: **the 16 components split into eight blocks of two**. Status: PROVED; check blocks_projectors.
 
-**A basis in each block.** Inside a block, $A_0 = \gamma^{(x_8)}$ squares to 1 and $A_1$ anticommutes with it ($A_1 = \gamma^{(x_8)}\gamma^{(x_1)}$ contains $\gamma^{(x_8)}$ once and $p = 2$, so by Rule 1 the sign is $-1$), so $A_0$ has the eigenvalue $+1$ once and $-1$ once in the block. The record chooses
+**A basis in each block.** Inside a block, $A_0 = \gamma^{(x_0)}$ squares to 1 and $A_1$ anticommutes with it ($A_1 = \gamma^{(x_0)}\gamma^{(x_1)}$ contains $\gamma^{(x_0)}$ once and $p = 2$, so by Rule 1 the sign is $-1$), so $A_0$ has the eigenvalue $+1$ once and $-1$ once in the block. The record chooses
 
 $$
-v_+ = 8\,P(j, s_2, s_3)\,\tfrac12\big(1 + \gamma^{(x_8)}\big)\,e_c, \qquad v_- = A_1v_+ ,
+v_+ = 8\,P(j, s_2, s_3)\,\tfrac12\big(1 + \gamma^{(x_0)}\big)\,e_c, \qquad v_- = A_1v_+ ,
 $$
 
 where $e_c$ is the first unit column (counting $c$ from 0) that gives a nonzero $v_+$. Then $A_0v_+ = v_+$ and $A_0v_- = A_0A_1v_+ = -A_1A_0v_+ = -v_-$. The 16 columns $v_+, v_-$ of the eight blocks, in the order $(j, s_2, s_3) = (1,1,1), (1,1,-1), (1,-1,1), (1,-1,-1), (-1,1,1), (-1,1,-1), (-1,-1,1), (-1,-1,-1)$, form the matrix $U$; every entry of $U$ is $0$, $\pm1$ or $\pm i$, every column has length $\sqrt8 = 2\sqrt2$, and $V = U/(2\sqrt2)$ is **unitary** ($V^\dagger V = 1$: a change of basis that keeps lengths). The seed columns are $c = 4, 0, 0, 4, 0, 4, 4, 0$. The record stores $U$ entry by entry in `Revision/kohn_sham/ks-theory.json` (blockBasis), and the Rust solver uses it. Status: PROVED; check blocks_basis_unitary.
@@ -315,13 +315,13 @@ $$
 A_4 \to j\sigma_1 .
 $$
 
-Rule: $A_4$ anticommutes with $A_0$ (Rule 1), so it has no diagonal entries; and $A_0A_1A_4 = \gamma^{(x_8)}\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_8)}\gamma^{(x_4)} = \gamma^{(x_1)}\gamma^{(x_8)}\gamma^{(x_4)} = -J$, which is the number $-j$ in the block; with $\sigma_3(-i\sigma_2) = -i\sigma_3\sigma_2 = -\sigma_1$ the condition $-\sigma_1A_4 = -j$ gives $A_4 = j\sigma_1$.
+Rule: $A_4$ anticommutes with $A_0$ (Rule 1), so it has no diagonal entries; and $A_0A_1A_4 = \gamma^{(x_0)}\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_0)}\gamma^{(x_4)} = \gamma^{(x_1)}\gamma^{(x_0)}\gamma^{(x_4)} = -J$, which is the number $-j$ in the block; with $\sigma_3(-i\sigma_2) = -i\sigma_3\sigma_2 = -\sigma_1$ the condition $-\sigma_1A_4 = -j$ gives $A_4 = j\sigma_1$.
 
 $$
 C = A_1K_1 \to (-i\sigma_2)(is_2) = s_2\sigma_2, \qquad B = -iJK_1 \to -i\,j\,(is_2) = js_2 .
 $$
 
-Rule: $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)} = A_1K_1$; and $JK_1 = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_4)}\gamma^{(x_2)}\gamma^{(x_3)} = C\gamma^{(x_4)}$ after moving $\gamma^{(x_4)}$ past two gammas (two signs), so $B = -iC\gamma^{(x_4)} = -iJK_1$. So $B$ is a number in every block, $+1$ or $-1$: the **Krein sign** $js_2$ of the block.
+Rule: $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)} = A_1K_1$; and $JK_1 = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_4)}\gamma^{(x_2)}\gamma^{(x_3)} = C\gamma^{(x_4)}$ after moving $\gamma^{(x_4)}$ past two gammas (two signs), so $B = -iC\gamma^{(x_4)} = -iJK_1$. So $B$ is a number in every block, $+1$ or $-1$: the **Krein sign** $js_2$ of the block.
 
 $$
 \gamma^{(x_4)} = A_0A_4 \to ij\sigma_2, \qquad \gamma^{(x_1)} = A_0A_1 \to -\sigma_1, \qquad \gamma^{(x_4)}\gamma^{(x_1)} \to (ij\sigma_2)(-\sigma_1) = -j\sigma_3 .
@@ -329,9 +329,9 @@ $$
 
 Rule: $A_0A_0 = 1$; the Pauli products $\sigma_3\sigma_1 = i\sigma_2$, $\sigma_3\sigma_2 = -i\sigma_1$, $\sigma_2\sigma_1 = -i\sigma_3$.
 
-The record lists eleven such forms (for $\gamma^{(x_8)}$, $A_1$, $A_4$, $B$, $C$, $BC = -i\gamma^{(x_4)} \to j\sigma_2$, $\gamma^{(x_4)}\gamma^{(x_1)}$, $B\gamma^{(x_8)} \to js_2\sigma_3$, $J$, $K_1$, $K_2$); Notebook 14a checks all of them. Not every matrix is block diagonal: $\gamma^{(x_2)}$, $\gamma^{(x_5)}$ and $\gamma^{(x_8)}\gamma^{(x_2)}$ anticommute with $J$ and connect different blocks, which is why $\mathbf k$ was turned along $x_1$. Status: PROVED; checks blocks_forms and blocks_not_everything_block_diagonal.
+The record lists eleven such forms (for $\gamma^{(x_0)}$, $A_1$, $A_4$, $B$, $C$, $BC = -i\gamma^{(x_4)} \to j\sigma_2$, $\gamma^{(x_4)}\gamma^{(x_1)}$, $B\gamma^{(x_0)} \to js_2\sigma_3$, $J$, $K_1$, $K_2$); Notebook 14a checks all of them. Not every matrix is block diagonal: $\gamma^{(x_2)}$, $\gamma^{(x_5)}$ and $\gamma^{(x_0)}\gamma^{(x_2)}$ anticommute with $J$ and connect different blocks, which is why $\mathbf k$ was turned along $x_1$. Status: PROVED; checks blocks_forms and blocks_not_everything_block_diagonal.
 
-**The block Hamiltonian.** Put the forms into $h$ of Section 14.4 with $\mathbf k = (k, 0, 0)$: $i\gamma^{(x_4)}\gamma^{(x_8)} = -iA_4 \to -ij\sigma_1$; $-\kappa k\gamma^{(x_4)}\gamma^{(x_1)} \to j\kappa k\sigma_3$; $M(-i\gamma^{(x_4)}) \to jM\sigma_2$. So in every block of type $j$
+**The block Hamiltonian.** Put the forms into $h$ of Section 14.4 with $\mathbf k = (k, 0, 0)$: $i\gamma^{(x_4)}\gamma^{(x_0)} = -iA_4 \to -ij\sigma_1$; $-\kappa k\gamma^{(x_4)}\gamma^{(x_1)} \to j\kappa k\sigma_3$; $M(-i\gamma^{(x_4)}) \to jM\sigma_2$. So in every block of type $j$
 
 $$
 h_j = j\left[-i\sigma_1\frac{d}{dy} + M\sigma_2 + \kappa k\,\sigma_3\right] + v .
@@ -412,7 +412,7 @@ $$
 R\gamma^{(x_1)}R^{-1} = \gamma^{(x_1)}(c - sG)^2 = \gamma^{(x_1)}\big(\cos\theta - \sin\theta\,G\big) = \cos\theta\,\gamma^{(x_1)} - \sin\theta\,\gamma^{(x_2)} .
 $$
 
-Rule: $(c - sG)^2 = c^2 - s^2 - 2csG$ (with $G^2 = -1$), the double-angle formulas $c^2 - s^2 = \cos\theta$, $2cs = \sin\theta$, and $\gamma^{(x_1)}G = \gamma^{(x_2)}$. So $R$ turns the momentum term $k\gamma^{(x_1)}$ into the same momentum in a rotated direction. And $R$ commutes with $\gamma^{(x_8)}$, $\gamma^{(x_4)}$, $B$ and $C$ (each contains $\gamma^{(x_1)}$ and $\gamma^{(x_2)}$ both or neither, so the signs cancel), so it changes nothing else in $h$. Hence the levels of the whole 16-component problem depend on $|\mathbf k|$ only, and $\mathbf k = (k, 0, 0)$ is no loss of generality. Status: PROVED; check rotation_invariance. (The labels $j$ themselves refer to the direction of $\mathbf k$: a rotation by $\pi$, $R = G$, anticommutes with $J$ and turns the blocks $(j, k)$ into $(-j, -k)$, in agreement with the $\sigma_3$ relation of Section 14.5.)
+Rule: $(c - sG)^2 = c^2 - s^2 - 2csG$ (with $G^2 = -1$), the double-angle formulas $c^2 - s^2 = \cos\theta$, $2cs = \sin\theta$, and $\gamma^{(x_1)}G = \gamma^{(x_2)}$. So $R$ turns the momentum term $k\gamma^{(x_1)}$ into the same momentum in a rotated direction. And $R$ commutes with $\gamma^{(x_0)}$, $\gamma^{(x_4)}$, $B$ and $C$ (each contains $\gamma^{(x_1)}$ and $\gamma^{(x_2)}$ both or neither, so the signs cancel), so it changes nothing else in $h$. Hence the levels of the whole 16-component problem depend on $|\mathbf k|$ only, and $\mathbf k = (k, 0, 0)$ is no loss of generality. Status: PROVED; check rotation_invariance. (The labels $j$ themselves refer to the direction of $\mathbf k$: a rotation by $\pi$, $R = G$, anticommutes with $J$ and turns the blocks $(j, k)$ into $(-j, -k)$, in agreement with the $\sigma_3$ relation of Section 14.5.)
 
 ### 14.7 The exact rescaling identity between the slices
 
@@ -439,7 +439,7 @@ In words: a later slice of the deflating history is the slice 0 with all 3-momen
 
 ### 14.8 Example: Notebook 14a, the block reduction and the rescaling identity
 
-Notebook 14a repeats Sections 14.2 to 14.7 with exact computer algebra. It reads the author's gammas from the Revision record, checks the Clifford relation and the matrices $C$, $B$, $\Gamma$, verifies the hidden coordinate and the determinant, computes the canonical spin connection of the warped metric with $a_4$ an arbitrary function of the time and shows that $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ with the time-direction pieces cancelling, verifies that $W^{-3}$ removes it, builds the Hamiltonian, the labels $J, K_1, K_2$, the projectors, the block basis (compared entry by entry with the record) and the block forms, checks the two block types, the matrix $\Gamma$ on the blocks, the rotations and the rescaling identity, and compares the partner spacings and volumes with all 60 rows of the Rust record. It draws five figures. It runs in about 30 seconds (two cells do exact algebra with $16 \times 16$ matrices of symbols and take about 10 seconds each), and its last line is ALL 28 CHECKS PASSED (notebook 14a).
+Notebook 14a repeats Sections 14.2 to 14.7 with exact computer algebra. It reads the author's gammas from the Revision record, checks the Clifford relation and the matrices $C$, $B$, $\Gamma$, verifies the hidden coordinate and the determinant, computes the canonical spin connection of the warped metric with $a_4$ an arbitrary function of the time and shows that $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ with the time-direction pieces cancelling, verifies that $W^{-3}$ removes it, builds the Hamiltonian, the labels $J, K_1, K_2$, the projectors, the block basis (compared entry by entry with the record) and the block forms, checks the two block types, the matrix $\Gamma$ on the blocks, the rotations and the rescaling identity, and compares the partner spacings and volumes with all 60 rows of the Rust record. It draws five figures. It runs in about 30 seconds (two cells do exact algebra with $16 \times 16$ matrices of symbols and take about 10 seconds each), and its last line is ALL 28 CHECKS PASSED (notebook 14a).
 
 <!-- NOTEBOOK 14a -->
 
@@ -621,16 +621,16 @@ def record_check(name):
 ```python
 fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                      .read_text(encoding="utf-8"))
-g = [sp.Matrix(m) for m in fixture["gamma"]]  # g[0] = gamma^(x1) ... g[7] = gamma^(x8)
+g = [sp.Matrix(m) for m in fixture["gamma"]]  # g[0] = gamma^(x0) ... g[7] = gamma^(x7)
 eta = [int(v) for v in fixture["eta"]]  # +1 space-like, -1 time-like
-g1, g2, g3, g4, g5, g6, g7, g8 = g  # gN is gamma^(xN)
+g0, g1, g2, g3, g4, g5, g6, g7 = g  # gN is gamma^(xN)
 I16, Z16 = sp.eye(16), sp.zeros(16)  # the 16 x 16 unit and zero matrices
 ```
 
-The record `Revision/algebra/gammas.json` stores the eight matrices as lists of rows of whole numbers, in the order $x_1, \dots, x_8$. `sp.Matrix(m)` turns each into an exact sympy matrix; `g[0]` is $\gamma^{(x_1)}$ and `g[7]` is $\gamma^{(x_8)}$ (Python counts from 0). `eta` is the list of the eight signs. The third line gives the eight matrices the names `g1` to `g8` (unpacking a list into names). `sp.eye(16)` is the unit matrix and `sp.zeros(16)` the zero matrix.
+The record `Revision/algebra/gammas.json` stores the eight matrices as lists of rows of whole numbers, in the order $x_0, \dots, x_7$. `sp.Matrix(m)` turns each into an exact sympy matrix; `g[0]` is $\gamma^{(x_0)}$ and `g[7]` is $\gamma^{(x_7)}$ (Python counts from 0, like the author's coordinates). `eta` is the list of the eight signs. The third line gives the eight matrices the names `g0` to `g7` (unpacking a list into names), so `gN` is $\gamma^{(x_N)}$. `sp.eye(16)` is the unit matrix and `sp.zeros(16)` the zero matrix.
 
 ```python
-say(f"eta in the order x1 ... x8: {eta}")
+say(f"eta in the order x0 ... x7: {eta}")
 entries = sorted({int(e) for m in g for e in m})  # the different entries
 say(f"the entries of the eight gamma matrices are the integers {entries}")
 ```
@@ -640,20 +640,20 @@ The first line prints the signs. The second collects every entry of every matrix
 ```python
 clifford = all(g[a] * g[b] + g[b] * g[a] == (2 * eta[a] if a == b else 0) * I16
                for a in range(8) for b in range(8))
-check(clifford and eta == [1, 1, 1, -1, -1, -1, -1, 1]
+check(clifford and eta == [1, 1, 1, 1, -1, -1, -1, -1]
       and record_check("clifford_relation"),
       "the Clifford relation gamma^a gamma^b + gamma^b gamma^a = 2 eta^ab",
       record=f"{PY_REPORT}, check clifford_relation")
 ```
 
-`range(8)` runs through 0 to 7, so the two `for` clauses visit all 64 pairs $(a, b)$; `all(...)` is true when every comparison is true. For each pair the anticommutator $\gamma^a\gamma^b + \gamma^b\gamma^a$ (the operator `*` multiplies sympy matrices) is compared exactly with $2\eta^{aa}$ times the unit matrix when $a = b$ and with the zero matrix otherwise. The check also requires the signs $\eta = (+,+,+,-,-,-,-,+)$ and the recorded verdict; Out [2] shows its PASS line and the record it reproduces.
+`range(8)` runs through 0 to 7, so the two `for` clauses visit all 64 pairs $(a, b)$; `all(...)` is true when every comparison is true. For each pair the anticommutator $\gamma^a\gamma^b + \gamma^b\gamma^a$ (the operator `*` multiplies sympy matrices) is compared exactly with $2\eta^{aa}$ times the unit matrix when $a = b$ and with the zero matrix otherwise. The check also requires the signs $\eta = (+,+,+,+,-,-,-,-)$ and the recorded verdict; Out [2] shows its PASS line and the record it reproduces.
 
 **In [3], the matrices C, B and Γ.**
 
 ```python
-C = g8 * g1 * g2 * g3  # the matrix of the Dirac adjoint
+C = g0 * g1 * g2 * g3  # the matrix of the Dirac adjoint
 B = -sp.I * C * g4  # the matrix of the positive inner product
-Gamma = g8 * g1 * g2 * g3 * g4 * g5 * g6 * g7  # the chirality matrix
+Gamma = g0 * g1 * g2 * g3 * g4 * g5 * g6 * g7  # the chirality matrix
 ```
 
 The three products of Chapter 5; `sp.I` is the imaginary unit $i$.
@@ -681,44 +681,44 @@ Three product rules used in Section 14.5 and in Notebook 14d. They follow from t
 ```python
 H = sp.symbols("H", positive=True)  # the author's constant H > 0
 y_neg = sp.symbols("y", negative=True)  # the hidden coordinate inside the patch
-x8, z = sp.symbols("x8 z", positive=True)
+x0, z = sp.symbols("x0 z", positive=True)
 ```
 
-`sp.symbols` makes symbols; the options tell sympy what it may assume: $H > 0$, $y < 0$ (inside the patch), $x_8 > 0$ and $z > 0$. With these assumptions sympy can simplify square roots and inverse sines correctly.
+`sp.symbols` makes symbols; the options tell sympy what it may assume: $H > 0$, $y < 0$ (inside the patch), $x_0 > 0$ and $z > 0$. With these assumptions sympy can simplify square roots and inverse sines correctly.
 
 ```python
 z_of_y = sp.asin(sp.exp(6 * H * y_neg))  # z(y): the solution of sin z = e^(6Hy)
-dx8_dy = sp.diff(z_of_y / (6 * H), y_neg)  # x8 = z/(6H) differentiated in y
-ok_line = sp.simplify(sp.cot(z_of_y) ** 2 * dx8_dy ** 2 - 1) == 0  # g88 dx8^2 = dy^2
+dx0_dy = sp.diff(z_of_y / (6 * H), y_neg)  # x0 = z/(6H) differentiated in y
+ok_line = sp.simplify(sp.cot(z_of_y) ** 2 * dx0_dy ** 2 - 1) == 0  # g00 dx0^2 = dy^2
 ```
 
-The first line solves $\sin z = e^{6Hy}$ for $z$ with the inverse sine, `sp.asin`. The second differentiates $x_8 = z/(6H)$ with respect to $y$ (`sp.diff(expression, variable)`). The third checks step 2 of Section 14.2 in the form $\cot^2 z\,(dx_8/dy)^2 = 1$, which is $\cot^2z\,dx_8^2 = dy^2$: `sp.simplify` brings the expression to its simplest form, and the comparison `== 0` asks whether it is exactly zero.
+The first line solves $\sin z = e^{6Hy}$ for $z$ with the inverse sine, `sp.asin`. The second differentiates $x_0 = z/(6H)$ with respect to $y$ (`sp.diff(expression, variable)`). The third checks step 2 of Section 14.2 in the form $\cot^2 z\,(dx_0/dy)^2 = 1$, which is $\cot^2z\,dx_0^2 = dy^2$: `sp.simplify` brings the expression to its simplest form, and the comparison `== 0` asks whether it is exactly zero.
 
 ```python
 ok_warp = sp.simplify(sp.sin(z_of_y) ** sp.Rational(1, 3)
                       - sp.exp(2 * H * y_neg)) == 0  # sin^(1/3) z = e^(2Hy)
-ok_dy = sp.simplify(sp.diff(sp.log(sp.sin(6 * H * x8)) / (6 * H), x8)
-                    - sp.cot(6 * H * x8)) == 0  # dy/dx8 = cot z
+ok_dy = sp.simplify(sp.diff(sp.log(sp.sin(6 * H * x0)) / (6 * H), x0)
+                    - sp.cot(6 * H * x0)) == 0  # dy/dx0 = cot z
 check(ok_line and ok_warp and ok_dy and record_check("geometry_hidden_coordinate"),
-      "y = ln(sin z)/(6H): dy = cot z dx8 and sin^(1/3) z = e^(2Hy)",
+      "y = ln(sin z)/(6H): dy = cot z dx0 and sin^(1/3) z = e^(2Hy)",
       record=f"{PY_REPORT}, check geometry_hidden_coordinate")
 ```
 
-`sp.Rational(1, 3)` is the exact fraction $1/3$ (the Python expression `1/3` would be a rounded floating-point number). The first test is step 3 of Section 14.2, $\sin^{1/3}z = e^{2Hy}$; the second is step 1, $dy/dx_8 = \cot z$, differentiating the definition $y = \ln(\sin 6Hx_8)/(6H)$ directly. The check combines the three tests.
+`sp.Rational(1, 3)` is the exact fraction $1/3$ (the Python expression `1/3` would be a rounded floating-point number). The first test is step 3 of Section 14.2, $\sin^{1/3}z = e^{2Hy}$; the second is step 1, $dy/dx_0 = \cot z$, differentiating the definition $y = \ln(\sin 6Hx_0)/(6H)$ directly. The check combines the three tests.
 
 ```python
 a0 = sp.symbols("a0", real=True)  # the value of a4 at one slice
 third = sp.Rational(1, 3)
-metric_x8 = ([sp.exp(2 * a0) * sp.sin(z) ** third] * 3 + [-1]
+metric_x0 = ([sp.exp(2 * a0) * sp.sin(z) ** third] * 3 + [-1]
              + [-sp.exp(-2 * a0) * sp.sin(z) ** third] * 3 + [sp.cot(z) ** 2])
-det_x8 = sp.simplify(sp.Abs(sp.prod(metric_x8)))  # |det g| in the x8 chart
-say(f"|det g| in the x8 chart of the author = {det_x8}")
-check(sp.simplify(det_x8 - sp.cos(z) ** 2) == 0 and record_check("geometry_sqrt_det"),
-      "|det g| = cos^2 z in the x8 chart; it does not contain a4",
+det_x0 = sp.simplify(sp.Abs(sp.prod(metric_x0)))  # |det g| in the x0 chart
+say(f"|det g| in the x0 chart of the author = {det_x0}")
+check(sp.simplify(det_x0 - sp.cos(z) ** 2) == 0 and record_check("geometry_sqrt_det"),
+      "|det g| = cos^2 z in the x0 chart; it does not contain a4",
       record=f"{PY_REPORT}, check geometry_sqrt_det")
 ```
 
-`metric_x8` is the list of the eight diagonal entries of the author's metric in his $x_8$ chart (a list times 3 repeats it three times; `+` joins lists). The determinant of a diagonal matrix is the product of its diagonal entries (`sp.prod`), and `sp.Abs` takes its absolute value. sympy prints `cos(z)**2` (Out [4]; `**` is the power): the cubes of the 3-space and extra-time entries give $e^{6a_0}\sin z$ and $-e^{-6a_0}\sin z$, the factors $e^{6a_0}$ and $e^{-6a_0}$ cancel, the signs $(-1)(-1) = 1$, and $\sin z\cdot\sin z\cdot\cot^2 z = \cos^2 z$. The square root is $\cos z$, as Section 14.2 says.
+`metric_x0` is the list of the eight diagonal entries of the author's metric in his $x_0$ chart (a list times 3 repeats it three times; `+` joins lists). The determinant of a diagonal matrix is the product of its diagonal entries (`sp.prod`), and `sp.Abs` takes its absolute value. sympy prints `cos(z)**2` (Out [4]; `**` is the power): the cubes of the 3-space and extra-time entries give $e^{6a_0}\sin z$ and $-e^{-6a_0}\sin z$, the factors $e^{6a_0}$ and $e^{-6a_0}$ cancel, the signs $(-1)(-1) = 1$, and $\sin z\cdot\sin z\cdot\cot^2 z = \cos^2 z$. The square root is $\cos z$, as Section 14.2 says.
 
 **In [5], figure 1.**
 
@@ -733,7 +733,7 @@ y_values = np.linspace(-3.0, 0.0, 301)  # the hidden coordinate from -L to 0
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
 left.plot(z_values, y_of_z, color="C0")
-left.set_xlabel("$z = 6 H x_8$ (radians)")
+left.set_xlabel("$z = 6 H x_0$ (radians)")
 left.set_ylabel("$y = \\ln(\\sin z)/(6H)$")
 left.set_title("the hidden coordinate $y$ ($H = 1$)")
 left.annotate("tip: $y \\to -\\infty$", (0.03, -1.0), fontsize=9)
@@ -804,17 +804,17 @@ The loop draws the momentum weight $\kappa = e^{-y - a}$ ($H = 1$) for each slic
 **In [7], the spin connection.** This cell carries out Steps 1 to 3 of Section 14.4 with sympy.
 
 ```python
-X = sp.symbols("x1:8", real=True) + (sp.Symbol("y", real=True),)  # x1..x7 and y
-Y, x4 = X[7], X[3]  # the hidden coordinate and the time
+X = (sp.Symbol("y", real=True),) + sp.symbols("x1:8", real=True)  # y, x1..x7
+Y, x4 = X[0], X[4]  # the hidden coordinate and the time
 a4 = sp.Function("a4", real=True)(x4)  # a4 is any function of the time x4
 a4p = sp.diff(a4, x4)  # its derivative a4'
 ```
 
-`sp.symbols("x1:8")` makes the seven symbols $x_1, \dots, x_7$; adding a one-element **tuple** (a list in round brackets) with the symbol $y$ gives the eight coordinates, with $y$ in the place of $x_8$. `sp.Function("a4")(x4)` is an unknown function $a_4(x_4)$, so everything below holds along every history; `a4p` is its derivative $a_4'$.
+`sp.symbols("x1:8")` makes the seven symbols $x_1, \dots, x_7$; a one-element **tuple** (a list in round brackets) with the symbol $y$ put in front of them gives the eight coordinates, with $y$ in the place of $x_0$ (position 0), so `X[k]` is $x_k$ for $k \ge 1$. The frame factors `vb` are in the same order: $1$ for $y$, $e^{a_4}W$ for $x_1, x_2, x_3$, $1$ for $x_4$ and $e^{-a_4}W$ for the extra times (the metric on the background $b_4 = 1$; the author's metric of 2026-10-14 has the factor $b_4^{1/2}$ in the extra times, Chapter 3). `sp.Function("a4")(x4)` is an unknown function $a_4(x_4)$, so everything below holds along every history; `a4p` is its derivative $a_4'$.
 
 ```python
 W = sp.exp(H * Y)  # the warp factor
-vb = [sp.exp(a4) * W] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * W] * 3 + [sp.Integer(1)]
+vb = [sp.Integer(1)] + [sp.exp(a4) * W] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * W] * 3
 gdiag = [eta[i] * vb[i] ** 2 for i in range(8)]  # the diagonal metric entries
 ```
 
@@ -873,19 +873,19 @@ The proof that $\Omega_\mu$ is the right connection: the **curved gammas** $\gam
 
 ```python
 slash = sp.simplify(sum((g[m] / vb[m] * Omega[m] for m in range(8)), Z16))
-check((slash - 3 * H * g8).is_zero_matrix and record_check("spin_connection_slash_3H"),
-      "gamma^mu Omega_mu = 3H gamma^(x8) exactly, for every history a4(x4)",
+check((slash - 3 * H * g0).is_zero_matrix and record_check("spin_connection_slash_3H"),
+      "gamma^mu Omega_mu = 3H gamma^(x0) exactly, for every history a4(x4)",
       record=f"{PY_REPORT}, check spin_connection_slash_3H")
 ```
 
-The sum $\sum_\mu\gamma^\mu\Omega_\mu$ (often written with a slash through $\Omega$, hence the name), compared with $3H\gamma^{(x_8)}$. Out [7] shows the two PASS lines.
+The sum $\sum_\mu\gamma^\mu\Omega_\mu$ (often written with a slash through $\Omega$, hence the name), compared with $3H\gamma^{(x_0)}$. Out [7] shows the two PASS lines.
 
-**In [8], where 3Hγ(x8) comes from.**
+**In [8], where 3Hγ(x0) comes from.**
 
 ```python
-names = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8 (y)"]
+names = ["x0 (y)", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
 PRIME = sp.Symbol("da4dx4")  # a name for the derivative da4/dx4 in the printout
-c4_list, c8_list = [], []  # the coefficients of gamma^(x4) and gamma^(x8)
+c4_list, c0_list = [], []  # the coefficients of gamma^(x4) and gamma^(x0)
 split_ok = True
 ```
 
@@ -895,33 +895,33 @@ Names for the printout, a symbol that stands for $a_4'$ when it is printed, two 
 for m in range(8):
     part = sp.simplify(g[m] / vb[m] * Omega[m])  # the contribution of direction m
     c4 = sp.simplify(-(part * g4).trace() / 16)
-    c8 = sp.simplify((part * g8).trace() / 16)
-    split_ok &= (part - c4 * g4 - c8 * g8).applyfunc(sp.simplify).is_zero_matrix
+    c0 = sp.simplify((part * g0).trace() / 16)
+    split_ok &= (part - c4 * g4 - c0 * g0).applyfunc(sp.simplify).is_zero_matrix
     c4_list.append(c4)
-    c8_list.append(c8)
+    c0_list.append(c0)
     shown_c4 = str(c4.subs(a4p, PRIME))  # write da4dx4 for da4/dx4
-    say(f"direction {names[m]:7}: c4 = {shown_c4:12} c8 = {c8}")
-check(split_ok, "every contribution is c4 gamma^(x4) + c8 gamma^(x8)")
+    say(f"direction {names[m]:7}: c4 = {shown_c4:12} c0 = {c0}")
+check(split_ok, "every contribution is c4 gamma^(x4) + c0 gamma^(x0)")
 ```
 
-For each direction the contribution $X = (\gamma^{(\mu)}/h_\mu)\Omega_\mu$ of Step 4. If $X = c_4\gamma^{(x_4)} + c_8\gamma^{(x_8)}$, then $X\gamma^{(x_4)} = -c_4 + c_8\gamma^{(x_8)}\gamma^{(x_4)}$, and since the **trace** (the sum of the diagonal entries) of the unit matrix is 16 and that of a product of two different gammas is 0, $\mathrm{tr}(X\gamma^{(x_4)}) = -16c_4$; in the same way $\mathrm{tr}(X\gamma^{(x_8)}) = 16c_8$. These are the second and third lines. The fourth line checks that $X$ is exactly $c_4\gamma^{(x_4)} + c_8\gamma^{(x_8)}$ (`&=` keeps the flag true only if every direction passes). `subs(a4p, PRIME)` replaces the derivative by the printable name, and the format `:7` and `:12` pads the texts to 7 and 12 characters, so that the printout forms columns. Out [8] shows $c_4 = a_4'/2$ and $c_8 = H/2$ for $x_1, x_2, x_3$; $c_4 = 0$, $c_8 = 0$ for $x_4$ and for $y$; $c_4 = -a_4'/2$ and $c_8 = H/2$ for $x_5, x_6, x_7$: exactly Step 5 of Section 14.4.
+For each direction the contribution $X = (\gamma^{(\mu)}/h_\mu)\Omega_\mu$ of Step 4. If $X = c_4\gamma^{(x_4)} + c_0\gamma^{(x_0)}$, then $X\gamma^{(x_4)} = -c_4 + c_0\gamma^{(x_0)}\gamma^{(x_4)}$, and since the **trace** (the sum of the diagonal entries) of the unit matrix is 16 and that of a product of two different gammas is 0, $\mathrm{tr}(X\gamma^{(x_4)}) = -16c_4$; in the same way $\mathrm{tr}(X\gamma^{(x_0)}) = 16c_0$. These are the second and third lines. The fourth line checks that $X$ is exactly $c_4\gamma^{(x_4)} + c_0\gamma^{(x_0)}$ (`&=` keeps the flag true only if every direction passes). `subs(a4p, PRIME)` replaces the derivative by the printable name, and the format `:7` and `:12` pads the texts to 7 and 12 characters, so that the printout forms columns. Out [8] shows $c_4 = a_4'/2$ and $c_0 = H/2$ for $x_1, x_2, x_3$; $c_4 = 0$, $c_0 = 0$ for $x_4$ and for $y$; $c_4 = -a_4'/2$ and $c_0 = H/2$ for $x_5, x_6, x_7$: exactly Step 5 of Section 14.4.
 
 ```python
-inflating = sp.simplify(sum(c4_list[0:3]))  # x1, x2, x3
-deflating = sp.simplify(sum(c4_list[4:7]))  # x5, x6, x7
+inflating = sp.simplify(sum(c4_list[1:4]))  # x1, x2, x3
+deflating = sp.simplify(sum(c4_list[5:8]))  # x5, x6, x7
 say("sum of c4 over the inflating directions x1, x2, x3: "
     f"{inflating.subs(a4p, PRIME)}")
 say("sum of c4 over the deflating directions x5, x6, x7: "
     f"{deflating.subs(a4p, PRIME)}")
-say(f"sum of c8 over all directions: {sp.simplify(sum(c8_list))}")
+say(f"sum of c0 over all directions: {sp.simplify(sum(c0_list))}")
 ```
 
-`c4_list[0:3]` is the part of the list from position 0 up to, but not including, position 3 (the directions $x_1, x_2, x_3$), and `c4_list[4:7]` the positions 4 to 6 ($x_5, x_6, x_7$). The printout: $3a_4'/2$, $-3a_4'/2$ and $3H$.
+`c4_list[1:4]` is the part of the list from position 1 up to, but not including, position 4 (the directions $x_1, x_2, x_3$), and `c4_list[5:8]` the positions 5 to 7 ($x_5, x_6, x_7$). The printout: $3a_4'/2$, $-3a_4'/2$ and $3H$.
 
 ```python
 check(sp.simplify(inflating - sp.Rational(3, 2) * a4p) == 0
       and sp.simplify(deflating + sp.Rational(3, 2) * a4p) == 0
-      and Omega[3].is_zero_matrix and Omega[7].is_zero_matrix
+      and Omega[4].is_zero_matrix and Omega[0].is_zero_matrix
       and record_check("spin_connection_time_terms_cancel")
       and record_check("spin_connection_time_term_value"),
       "the da4/dx4 pieces +3/2 and -3/2 cancel; Omega_x4 = Omega_y = 0",
@@ -935,7 +935,7 @@ The two facts of the record: the pieces $+\tfrac32a_4'$ of the inflating and $-\
 
 ```python
 c4_numbers = [float(c.subs(a4p, 1).subs(H, 1)) for c in c4_list]  # da4/dx4 = H = 1
-c8_numbers = [float(c.subs(a4p, 1).subs(H, 1)) for c in c8_list]
+c0_numbers = [float(c.subs(a4p, 1).subs(H, 1)) for c in c0_list]
 positions = np.arange(8)  # one group of two bars per direction
 ```
 
@@ -945,12 +945,12 @@ The coefficients become ordinary numbers by putting $a_4' = 1$ and $H = 1$ (`flo
 fig, ax = plt.subplots(figsize=(8.0, 4.0))
 ax.bar(positions - 0.2, c4_numbers, width=0.38,
        label="coefficient of $\\gamma^{(x_4)}$ (per unit $da_4/dx_4$)")
-ax.bar(positions + 0.2, c8_numbers, width=0.38,
-       label="coefficient of $\\gamma^{(x_8)}$ (per unit $H$)")
+ax.bar(positions + 0.2, c0_numbers, width=0.38,
+       label="coefficient of $\\gamma^{(x_0)}$ (per unit $H$)")
 ax.axhline(0.0, color="black", linewidth=0.8)
 ax.set_xticks(positions)
-ax.set_xticklabels(["$x_1$", "$x_2$", "$x_3$", "$x_4$", "$x_5$", "$x_6$", "$x_7$",
-                    "$x_8$"])
+ax.set_xticklabels(["$x_0$", "$x_1$", "$x_2$", "$x_3$", "$x_4$", "$x_5$", "$x_6$",
+                    "$x_7$"])
 ```
 
 `bar(x, heights, width=...)` draws bars; the two sets are shifted by $-0.2$ and $+0.2$ so that they stand side by side. `axhline` draws the horizontal line at 0; `set_xticks` and `set_xticklabels` put the names of the directions under the groups.
@@ -959,21 +959,21 @@ ax.set_xticklabels(["$x_1$", "$x_2$", "$x_3$", "$x_4$", "$x_5$", "$x_6$", "$x_7$
 ax.set_xlabel("direction $\\mu$ of the term $(\\gamma^{(\\mu)}/h_\\mu)\\,"
               "\\Omega_\\mu$")
 ax.set_ylabel("coefficient")
-ax.set_title("$\\gamma^\\mu\\Omega_\\mu = 3H\\gamma^{(x_8)}$: "
+ax.set_title("$\\gamma^\\mu\\Omega_\\mu = 3H\\gamma^{(x_0)}$: "
              "the $da_4/dx_4$ pieces cancel")
 ax.legend(fontsize=8)
 save_figure(fig, "spin_connection_terms",
             ...)
 ```
 
-Labels, title, legend and saving. **What figure 14a.3 shows.** Above $x_1$, $x_2$, $x_3$ two bars of height $+\tfrac12$; above $x_5$, $x_6$, $x_7$ a bar of height $-\tfrac12$ (the coefficient of $\gamma^{(x_4)}$) and one of $+\tfrac12$ (the coefficient of $\gamma^{(x_8)}$); nothing above $x_4$ and $x_8$. The six left bars of the $\gamma^{(x_4)}$ coefficient add to zero (inflation against deflation), the six bars of the $\gamma^{(x_8)}$ coefficient add to $3H$.
+Labels, title, legend and saving. **What figure 14a.3 shows.** Above $x_1$, $x_2$, $x_3$ two bars of height $+\tfrac12$; above $x_5$, $x_6$, $x_7$ a bar of height $-\tfrac12$ (the coefficient of $\gamma^{(x_4)}$) and one of $+\tfrac12$ (the coefficient of $\gamma^{(x_0)}$); nothing above $x_4$ and $x_0$. The six left bars of the $\gamma^{(x_4)}$ coefficient add to zero (inflation against deflation), the six bars of the $\gamma^{(x_0)}$ coefficient add to $3H$.
 
 **In [10], the factor W^(-3).**
 
 ```python
 k1, k2, k3 = sp.symbols("k1 k2 k3", real=True)  # the 3-momentum
 chi = sp.Matrix([sp.Function(f"chi{i}")(Y, x4) for i in range(16)])
-phase = sp.exp(sp.I * (k1 * X[0] + k2 * X[1] + k3 * X[2]))  # the plane wave
+phase = sp.exp(sp.I * (k1 * X[1] + k2 * X[2] + k3 * X[3]))  # the plane wave
 kappa = sp.exp(-H * Y - a4)  # the momentum weight
 ```
 
@@ -990,7 +990,7 @@ def dirac(Psi):
 The Dirac operator $\gamma^\mu D_\mu\Psi = \sum_\mu(\gamma^{(\mu)}/h_\mu)(\partial_\mu\Psi + \Omega_\mu\Psi)$ with the spin connection of In [7]; `sp.zeros(16, 1)` is a zero column.
 
 ```python
-reduced = (g8 * sp.diff(chi, Y) + g4 * sp.diff(chi, x4)
+reduced = (g0 * sp.diff(chi, Y) + g4 * sp.diff(chi, x4)
            + sp.I * kappa * (k1 * g1 + k2 * g2 + k3 * g3) * chi)
 with_W3 = sp.simplify(dirac(phase * W ** -3 * chi) / (phase * W ** -3))
 without_W3 = sp.simplify(dirac(phase * chi) / phase)
@@ -1001,15 +1001,15 @@ without_W3 = sp.simplify(dirac(phase * chi) / phase)
 ```python
 check((with_W3 - reduced).applyfunc(sp.simplify).is_zero_matrix
       and record_check("ansatz_removes_spin_connection"),
-      "with W^(-3): the reduced operator g8 d_y + g4 d_x4 + i kappa k.g, exactly",
+      "with W^(-3): the reduced operator g0 d_y + g4 d_x4 + i kappa k.g, exactly",
       record=f"{PY_REPORT}, check ansatz_removes_spin_connection")
-check((without_W3 - reduced - 3 * H * g8 * chi).applyfunc(sp.simplify)
+check((without_W3 - reduced - 3 * H * g0 * chi).applyfunc(sp.simplify)
       .is_zero_matrix and record_check("ansatz_without_W3_term_survives"),
-      "without W^(-3) the term 3H gamma^(x8) chi survives",
+      "without W^(-3) the term 3H gamma^(x0) chi survives",
       record=f"{PY_REPORT}, check ansatz_without_W3_term_survives")
 ```
 
-With the factor the result equals the reduced operator exactly; without it, the difference is exactly $3H\gamma^{(x_8)}\chi$. The cell takes about 5 seconds.
+With the factor the result equals the reduced operator exactly; without it, the difference is exactly $3H\gamma^{(x_0)}\chi$. The cell takes about 5 seconds.
 
 **In [11], the Hamiltonian and its Hermitian pieces.**
 
@@ -1024,33 +1024,33 @@ kg = kap * (k1 * g1 + k2 * g2 + k3 * g3)  # kappa k.gamma
 The derivation of Step 7 is pure algebra at one point, so $\chi$ and $\chi'$ are replaced by two columns of 16 independent symbols, and $\kappa$ by a positive symbol.
 
 ```python
-# line 1 and 2: d chi/dx4 = -g4 [(M - i v g4) chi - g8 chi' - i kappa k.g chi]
-dt_chi = -g4 * ((M * I16 - sp.I * v * g4) * chi_s - g8 * dchi_s - sp.I * kg * chi_s)
+# line 1 and 2: d chi/dx4 = -g4 [(M - i v g4) chi - g0 chi' - i kappa k.g chi]
+dt_chi = -g4 * ((M * I16 - sp.I * v * g4) * chi_s - g0 * dchi_s - sp.I * kg * chi_s)
 # line 3: h chi with the four pieces of h
-h_chi = (sp.I * g4 * g8 * dchi_s - kap * g4 * (k1 * g1 + k2 * g2 + k3 * g3) * chi_s
+h_chi = (sp.I * g4 * g0 * dchi_s - kap * g4 * (k1 * g1 + k2 * g2 + k3 * g3) * chi_s
          + M * (-sp.I * g4) * chi_s + v * chi_s)
 check((sp.I * dt_chi - h_chi).expand().is_zero_matrix,
-      "i d_x4 chi = h chi with h = i g4 g8 d_y - kappa k_j g4 g_j + M(-i g4) + v")
+      "i d_x4 chi = h chi with h = i g4 g0 d_y - kappa k_j g4 g_j + M(-i g4) + v")
 ```
 
 The two comment lines name the lines of Step 7 that the statement below each writes out. `dt_chi` is $\partial_{x_4}\chi$ from the first two lines of Step 7 (move the terms, multiply by $-\gamma^{(x_4)}$); `h_chi` is $h\chi$ with the four pieces of the third line. The check confirms $i\,\partial_{x_4}\chi = h\chi$ after multiplying out (`expand`).
 
 ```python
-hermitian = ((g4 * g8).T == g4 * g8 and all((-g4 * gj).H == -g4 * gj
+hermitian = ((g4 * g0).T == g4 * g0 and all((-g4 * gj).H == -g4 * gj
                                             for gj in (g1, g2, g3))
              and (-sp.I * g4).H == -sp.I * g4 and (-sp.I * g4) ** 2 == I16)
 check(hermitian and record_check("hamiltonian_16_hermitian"),
-      "g4 g8 real symmetric; g4 g_j and -i g4 Hermitian; (-i g4)^2 = 1",
+      "g4 g0 real symmetric; g4 g_j and -i g4 Hermitian; (-i g4)^2 = 1",
       record=f"{PY_REPORT}, check hamiltonian_16_hermitian")
 ```
 
-The Hermitian pieces of Section 14.4: $\gamma^{(x_4)}\gamma^{(x_8)}$ symmetric, $-\gamma^{(x_4)}\gamma^{(x_j)}$ Hermitian for the three 3-space directions, $-i\gamma^{(x_4)}$ Hermitian with square 1.
+The Hermitian pieces of Section 14.4: $\gamma^{(x_4)}\gamma^{(x_0)}$ symmetric, $-\gamma^{(x_4)}\gamma^{(x_j)}$ Hermitian for the three 3-space directions, $-i\gamma^{(x_4)}$ Hermitian with square 1.
 
 **In [12], the labels J, K1, K2 and the projectors.**
 
 ```python
-A0, A1, A4 = g8, g8 * g1, g8 * g4  # the matrices of the equation (k along x1)
-J, K1, K2 = g8 * g1 * g4, g2 * g3, g5 * g6
+A0, A1, A4 = g0, g0 * g1, g0 * g4  # the matrices of the equation (k along x1)
+J, K1, K2 = g0 * g1 * g4, g2 * g3, g5 * g6
 commute = all((P * Q - Q * P).is_zero_matrix for P in (J, K1, K2)
               for Q in (A0, A1, A4, B, C, J, K1, K2))
 check(commute and J * J == I16 and K1 * K1 == -I16 and K2 * K2 == -I16
@@ -1078,14 +1078,14 @@ check(all(P.rank() == 2 and (P * P - P).is_zero_matrix for P in projectors)
 ```python
 columns, seeds = [], []
 for P in projectors:
-    P_plus = P * (I16 + g8) / 2  # project on gamma^(x8) = +1 inside the block
+    P_plus = P * (I16 + g0) / 2  # project on gamma^(x0) = +1 inside the block
     c = next(c for c in range(16) if not P_plus[:, c].is_zero_matrix)
     seeds.append(c)
     v_plus = 8 * P_plus[:, c]
     columns += [v_plus, A1 * v_plus]  # v+ and v- = A1 v+
 ```
 
-For each block: `P_plus` projects onto the block and onto $\gamma^{(x_8)} = +1$. Its columns are the images of the unit columns $e_c$ (`P_plus[:, c]` is column $c$). `next(...)` returns the first $c$ whose column is not zero, the **seed**. Then $v_+ = 8\,P_+e_c$, and both $v_+$ and $v_- = A_1v_+$ are added to the list (`+=` appends a list to a list).
+For each block: `P_plus` projects onto the block and onto $\gamma^{(x_0)} = +1$. Its columns are the images of the unit columns $e_c$ (`P_plus[:, c]` is column $c$). `next(...)` returns the first $c$ whose column is not zero, the **seed**. Then $v_+ = 8\,P_+e_c$, and both $v_+$ and $v_- = A_1v_+$ are added to the list (`+=` appends a list to a list).
 
 ```python
 U = sp.Matrix.hstack(*columns)  # 16 x 16, entries 0, +-1, +-i
@@ -1143,21 +1143,21 @@ def blocks_of(Xm):
 
 ```python
 expected = [  # (name, matrix, the block form as a function of (j, s2, s3))
-    ("gamma^(x8)", g8, lambda j, a, b: s3, "sigma3"),
-    ("gamma^(x8) gamma^(x1)", A1, lambda j, a, b: -sp.I * s2m, "-i sigma2"),
-    ("gamma^(x8) gamma^(x4)", A4, lambda j, a, b: j * s1, "j sigma1"),
+    ("gamma^(x0)", g0, lambda j, a, b: s3, "sigma3"),
+    ("gamma^(x0) gamma^(x1)", A1, lambda j, a, b: -sp.I * s2m, "-i sigma2"),
+    ("gamma^(x0) gamma^(x4)", A4, lambda j, a, b: j * s1, "j sigma1"),
     ("B", B, lambda j, a, b: j * a * I2, "j s2"),
     ("C", C, lambda j, a, b: a * s2m, "s2 sigma2"),
     ("BC = -i gamma^(x4)", B * C, lambda j, a, b: j * s2m, "j sigma2"),
     ("gamma^(x4) gamma^(x1)", g4 * g1, lambda j, a, b: -j * s3, "-j sigma3"),
-    ("B gamma^(x8)", B * g8, lambda j, a, b: j * a * s3, "j s2 sigma3"),
+    ("B gamma^(x0)", B * g0, lambda j, a, b: j * a * s3, "j s2 sigma3"),
     ("J", J, lambda j, a, b: j * I2, "j"),
     ("K1", K1, lambda j, a, b: sp.I * a * I2, "i s2"),
     ("K2", K2, lambda j, a, b: sp.I * b * I2, "i s3"),
 ]
 ```
 
-A list of eleven entries, one per line: the name, the matrix, its expected block form and the text to print. A `lambda` is a short nameless function: `lambda j, a, b: j * s1` returns $j\sigma_1$ for the labels $(j, s_2, s_3) = (j, a, b)$; so the name `a` stands for $s_2$ and `b` for $s_3$ inside these lines (they are not the real-form components of Section 14.12). Line by line the expected forms are: $\gamma^{(x_8)} \to \sigma_3$; $A_1 \to -i\sigma_2$; $A_4 \to j\sigma_1$; $B \to js_2$ times the $2 \times 2$ unit matrix `I2`; $C \to s_2\sigma_2$; $BC \to j\sigma_2$; $\gamma^{(x_4)}\gamma^{(x_1)} \to -j\sigma_3$; $B\gamma^{(x_8)} \to js_2\sigma_3$; $J \to j$; $K_1 \to is_2$; $K_2 \to is_3$. These are the eleven forms of Section 14.5; the two not derived there follow from them: $BC = (js_2)(s_2\sigma_2) = j\sigma_2$ because $s_2^2 = 1$, and $B\gamma^{(x_8)} = (js_2)\sigma_3$.
+A list of eleven entries, one per line: the name, the matrix, its expected block form and the text to print. A `lambda` is a short nameless function: `lambda j, a, b: j * s1` returns $j\sigma_1$ for the labels $(j, s_2, s_3) = (j, a, b)$; so the name `a` stands for $s_2$ and `b` for $s_3$ inside these lines (they are not the real-form components of Section 14.12). Line by line the expected forms are: $\gamma^{(x_0)} \to \sigma_3$; $A_1 \to -i\sigma_2$; $A_4 \to j\sigma_1$; $B \to js_2$ times the $2 \times 2$ unit matrix `I2`; $C \to s_2\sigma_2$; $BC \to j\sigma_2$; $\gamma^{(x_4)}\gamma^{(x_1)} \to -j\sigma_3$; $B\gamma^{(x_0)} \to js_2\sigma_3$; $J \to j$; $K_1 \to is_2$; $K_2 \to is_3$. These are the eleven forms of Section 14.5; the two not derived there follow from them: $BC = (js_2)(s_2\sigma_2) = j\sigma_2$ because $s_2^2 = 1$, and $B\gamma^{(x_0)} = (js_2)\sigma_3$.
 
 ```python
 all_forms = True
@@ -1175,22 +1175,22 @@ For each matrix: block diagonal, and in block $i$ equal to the expected form at 
 
 ```python
 not_diagonal = (not blocks_of(g2)[1] and not blocks_of(g5)[1]
-                and not blocks_of(g8 * g2)[1] and blocks_of(g1)[1])
+                and not blocks_of(g0 * g2)[1] and blocks_of(g1)[1])
 check(not_diagonal and record_check("blocks_not_everything_block_diagonal"),
-      "gamma^(x2), gamma^(x5), gamma^(x8)gamma^(x2) connect blocks; gamma^(x1) not",
+      "gamma^(x2), gamma^(x5), gamma^(x0)gamma^(x2) connect blocks; gamma^(x1) not",
       record=f"{PY_REPORT}, check blocks_not_everything_block_diagonal")
 ```
 
-`blocks_of(X)[1]` is the second returned value, the yes-or-no answer. $\gamma^{(x_2)}$, $\gamma^{(x_5)}$ and $\gamma^{(x_8)}\gamma^{(x_2)}$ are not block diagonal; $\gamma^{(x_1)}$ is.
+`blocks_of(X)[1]` is the second returned value, the yes-or-no answer. $\gamma^{(x_2)}$, $\gamma^{(x_5)}$ and $\gamma^{(x_0)}\gamma^{(x_2)}$ are not block diagonal; $\gamma^{(x_1)}$ is.
 
 **In [15], figure 4.**
 
 ```python
-N16 = (1 * g8 + sp.I * sp.Rational(1, 2) * g8 * g4
-       - sp.I * sp.Rational(7, 10) * g8 * g1)  # M = 1, eps = 1/2, v = 0, kappa k = 7/10
+N16 = (1 * g0 + sp.I * sp.Rational(1, 2) * g0 * g4
+       - sp.I * sp.Rational(7, 10) * g0 * g1)  # M = 1, eps = 1/2, v = 0, kappa k = 7/10
 ```
 
-The first-order matrix of the stationary equation in 16 components, $N_{16} = M\gamma^{(x_8)} + i(\varepsilon - v)\gamma^{(x_8)}\gamma^{(x_4)} - i\kappa k\,\gamma^{(x_8)}\gamma^{(x_1)}$ (from Step 7 of Section 14.4 with $\partial_{x_4}\chi = -i\varepsilon\chi$, multiplied by $\gamma^{(x_8)}$), at sample values. With the block forms it becomes $N = M\sigma_3 - \kappa k\sigma_2 + ij(\varepsilon - v)\sigma_1$ in every block.
+The first-order matrix of the stationary equation in 16 components, $N_{16} = M\gamma^{(x_0)} + i(\varepsilon - v)\gamma^{(x_0)}\gamma^{(x_4)} - i\kappa k\,\gamma^{(x_0)}\gamma^{(x_1)}$ (from Step 7 of Section 14.4 with $\partial_{x_4}\chi = -i\varepsilon\chi$, multiplied by $\gamma^{(x_0)}$), at sample values. With the block forms it becomes $N = M\sigma_3 - \kappa k\sigma_2 + ij(\varepsilon - v)\sigma_1$ in every block.
 
 ```python
 pictures = [
@@ -1237,7 +1237,7 @@ In the second and third panels thin gray lines are drawn between rows and column
 ok_h = True
 for i, (j, a, b) in enumerate(labels):  # the three pieces of h in block i
     Vb = V[:, 2 * i:2 * i + 2]
-    ok_h &= sp.simplify(Vb.H * (sp.I * g4 * g8) * Vb + sp.I * j * s1).is_zero_matrix
+    ok_h &= sp.simplify(Vb.H * (sp.I * g4 * g0) * Vb + sp.I * j * s1).is_zero_matrix
     ok_h &= sp.simplify(Vb.H * (-g4 * g1) * Vb - j * s3).is_zero_matrix
     ok_h &= sp.simplify(Vb.H * (-sp.I * g4) * Vb - j * s2m).is_zero_matrix
 check(ok_h and record_check("block_hamiltonian"),
@@ -1245,7 +1245,7 @@ check(ok_h and record_check("block_hamiltonian"),
       record=f"{PY_REPORT}, check block_hamiltonian")
 ```
 
-`enumerate` gives each block its number `i` together with its labels. `Vb` holds the two basis columns of the block. The three lines check the three matrix pieces of $h$ (with $\mathbf k$ along $x_1$): $i\gamma^{(x_4)}\gamma^{(x_8)} \to -ij\sigma_1$, $-\gamma^{(x_4)}\gamma^{(x_1)} \to j\sigma_3$, $-i\gamma^{(x_4)} \to j\sigma_2$. Together they give $h_j$.
+`enumerate` gives each block its number `i` together with its labels. `Vb` holds the two basis columns of the block. The three lines check the three matrix pieces of $h$ (with $\mathbf k$ along $x_1$): $i\gamma^{(x_4)}\gamma^{(x_0)} \to -ij\sigma_1$, $-\gamma^{(x_4)}\gamma^{(x_1)} \to j\sigma_3$, $-i\gamma^{(x_4)} \to j\sigma_2$. Together they give $h_j$.
 
 ```python
 eps = sp.symbols("epsilon", real=True)  # the level
@@ -1337,13 +1337,13 @@ The spinor rotation of Section 14.6, its inverse, and the rotated momentum term 
 ok_rotation = (sp.simplify(R * R_inverse) == I16
                and sp.simplify(rotated - kk * (sp.cos(theta) * g1
                                                - sp.sin(theta) * g2)).is_zero_matrix
-               and all((R * Xm - Xm * R).is_zero_matrix for Xm in (g8, g4, B, C)))
+               and all((R * Xm - Xm * R).is_zero_matrix for Xm in (g0, g4, B, C)))
 check(ok_rotation and record_check("rotation_invariance"),
-      "a 3-space rotation commutes with g8, g4, B, C and rotates k: only |k| counts",
+      "a 3-space rotation commutes with g0, g4, B, C and rotates k: only |k| counts",
       record=f"{PY_REPORT}, check rotation_invariance")
 ```
 
-Three facts: $RR^{-1} = 1$; $R\,k\gamma^{(x_1)}R^{-1} = k(\cos\theta\,\gamma^{(x_1)} - \sin\theta\,\gamma^{(x_2)})$; $R$ commutes with $\gamma^{(x_8)}$, $\gamma^{(x_4)}$, $B$, $C$.
+Three facts: $RR^{-1} = 1$; $R\,k\gamma^{(x_1)}R^{-1} = k(\cos\theta\,\gamma^{(x_1)} - \sin\theta\,\gamma^{(x_2)})$; $R$ commutes with $\gamma^{(x_0)}$, $\gamma^{(x_4)}$, $B$, $C$.
 
 **In [18], the rescaling identity.**
 
@@ -1487,7 +1487,7 @@ $$
 
 Rule: multiply the row $(a, -ib)$ with each column; for example $\chi^\dagger\sigma_2\chi = a\cdot b + (-ib)(ia) = ab + ab$, and $\chi^\dagger\sigma_1\chi = a(ib) + (-ib)a = 0$. These four numbers become the number density, the scalar density, the density $Q$ and the current along $y$ of the orbital (Sections 14.26 and 14.27). Status: PROVED (the multiplication above); the record states the same four formulas as blockEquation.realFormDensities in `Revision/kohn_sham/ks-theory.json`.
 
-**The current along $y$ is the same at every point.** The number $\chi^\dagger\sigma_1\chi$ is the flow along the hidden direction of the U(1) charge of the field (the **current** along $y$). Of this charge only the local conservation law is proved; its total is constant only under the ASSUMED no-flux condition at the brane $z = \pi/2$ (Chapter 5, Section 5.6), and the brane parity conditions of the Kohn-Sham record assumed below ($\chi_2(0) = 0$ or $\chi_1(0) = 0$, which its Z2 mirror gives through the parity relation $\Psi(-y) = \pm\gamma^{(x_8)}\Psi(y)$) are such a condition: they make the current vanish at the brane. The gluing of the T2 mirror partner in Chapter 18, which imposes no parity condition (no matching of the field across the brane is derived there, Section 18.28), is not one: the exact solutions of Section 18.21 carry charge through the brane, and gluing does not stop that flow. For every solution of the block equation, complex or real:
+**The current along $y$ is the same at every point.** The number $\chi^\dagger\sigma_1\chi$ is the flow along the hidden direction of the U(1) charge of the field (the **current** along $y$). Of this charge only the local conservation law is proved; its total is constant only under the ASSUMED no-flux condition at the brane $z = \pi/2$ (Chapter 5, Section 5.6), and the brane parity conditions of the Kohn-Sham record assumed below ($\chi_2(0) = 0$ or $\chi_1(0) = 0$, which its Z2 mirror gives through the parity relation $\Psi(-y) = \pm\gamma^{(x_0)}\Psi(y)$) are such a condition: they make the current vanish at the brane. The gluing of the T2 mirror partner in Chapter 18, which imposes no parity condition (no matching of the field across the brane is derived there, Section 18.28), is not one: the exact solutions of Section 18.21 carry charge through the brane, and gluing does not stop that flow. For every solution of the block equation, complex or real:
 
 $$
 \frac{d}{dy}\big(\chi^\dagger\sigma_1\chi\big) = \chi'^\dagger\sigma_1\chi + \chi^\dagger\sigma_1\chi' = \chi^\dagger\big(N^\dagger\sigma_1 + \sigma_1N\big)\chi .
@@ -1521,7 +1521,7 @@ $$
 
 Rule: the integral of a derivative is the difference of its end values. So $h_j$ is self-adjoint (the two integrals are equal, the levels are real and orbitals of different levels are orthogonal, Section 14.4) exactly when the boundary conditions make $\varphi^\dagger\sigma_1\chi$ vanish at both ends: the conditions must **kill the current**. Status: PROVED; check bc_self_adjoint_boundary_term (both reports).
 
-**The brane at $y = 0$ (ASSUMED).** The author's coordinate patch ends at $y = 0$, where $z = \pi/2$. Something must be said about what lies beyond it. The Revision theory ASSUMES a **Z2 mirror** (also called an **orbifold**): the patch $y \le 0$ is glued at $y = 0$ to a mirror copy of itself, with the warp $e^{-H|y|}$ on both sides, and a field on the doubled interval obeys $\Psi(-y) = \pm\gamma^{(x_8)}\Psi(y)$. At $y = 0$ this relation says $\Psi(0) = \pm\gamma^{(x_8)}\Psi(0)$, that is $(1 \mp \gamma^{(x_8)})\chi(0) = 0$. In every block $\gamma^{(x_8)}$ is $\sigma_3$ (Section 14.5), and $1 - \sigma_3 = \mathrm{diag}(0, 2)$, $1 + \sigma_3 = \mathrm{diag}(2, 0)$. Hence two kinds of orbitals, called the two **parities**:
+**The brane at $y = 0$ (ASSUMED).** The author's coordinate patch ends at $y = 0$, where $z = \pi/2$. Something must be said about what lies beyond it. The Revision theory ASSUMES a **Z2 mirror** (also called an **orbifold**): the patch $y \le 0$ is glued at $y = 0$ to a mirror copy of itself, with the warp $e^{-H|y|}$ on both sides, and a field on the doubled interval obeys $\Psi(-y) = \pm\gamma^{(x_0)}\Psi(y)$. At $y = 0$ this relation says $\Psi(0) = \pm\gamma^{(x_0)}\Psi(0)$, that is $(1 \mp \gamma^{(x_0)})\chi(0) = 0$. In every block $\gamma^{(x_0)}$ is $\sigma_3$ (Section 14.5), and $1 - \sigma_3 = \mathrm{diag}(0, 2)$, $1 + \sigma_3 = \mathrm{diag}(2, 0)$. Hence two kinds of orbitals, called the two **parities**:
 
 - EVEN parity (upper sign): $\chi_2(0) = 0$; in real form $b(0) = 0$.
 - ODD parity (lower sign): $\chi_1(0) = 0$; in real form $a(0) = 0$.
@@ -2701,7 +2701,7 @@ Rule: $k_2 = 2k_1$, so $k_2^2 = 4k_1^2$, and the terms with $d$ cancel (**Richar
 
 **The position $L$ of the cutoff (measured by the Revision record).** The angle is one question; where the cutoff sits is another. The Revision record measures it in `Revision/kohn_sham/tip_convergence/` (its README, "Answer in brief"; the report `Revision/kohn_sham/tip_convergence/tip-convergence.json`, 7 of 7 checks PASS; `Revision/docs/KOHN_SHAM_DEFLATING_FIELD.md`, sections 5, 15.3 and 15.4): $L = 3$ to $6$ in steps of $0.5$, with the step $h = 1/300$ of the record and every run repeated at $h/2$; a copy of the solver that reads $L$ from the environment reproduces the committed matrix byte for byte at $L = 3$, and the independent reference solver agrees at $L = 3$ and $4$. No notebook of this chapter repeats the study; its findings, with the record's numbers:
 
-- The free results with $k \ne 0$ converge as $L$ grows, faster than exponentially, because of the suppression of Section 14.12 (at the cutoff it is $\exp(-|k|e^{L - a_{4,0}}/H)$). But the recorded $L = 3$ values are low by up to 1.4% in the Kohn-Sham energy $E_{\rm KS}$ and 12% in the $y$-pressure integral $2\mathrm{Vol}_7\int e^{6Hy}p_8\,dy$ at $a_{4,0} = 2$ ($N = 136$, $\lambda = 0$: $12.44507$ against the extrapolated $12.62207$, and $8.47270$ against $9.63839$): at the late slice the redshifted brane band reaches the tip. The gap of the free $N = 8$ state in the table above is low in the same way: $0.4307336786$ against the extrapolated $0.4307456266$ at the slice 0 ($2.8\times10^{-5}$ relative), but $0.06415941073$ against $0.06563459278$ at the slice 2 ($2.2\times10^{-2}$ relative).
+- The free results with $k \ne 0$ converge as $L$ grows, faster than exponentially, because of the suppression of Section 14.12 (at the cutoff it is $\exp(-|k|e^{L - a_{4,0}}/H)$). But the recorded $L = 3$ values are low by up to 1.4% in the Kohn-Sham energy $E_{\rm KS}$ and 12% in the $y$-pressure integral $2\mathrm{Vol}_7\int e^{6Hy}p_0\,dy$ at $a_{4,0} = 2$ ($N = 136$, $\lambda = 0$: $12.44507$ against the extrapolated $12.62207$, and $8.47270$ against $9.63839$): at the late slice the redshifted brane band reaches the tip. The gap of the free $N = 8$ state in the table above is low in the same way: $0.4307336786$ against the extrapolated $0.4307456266$ at the slice 0 ($2.8\times10^{-5}$ relative), but $0.06415941073$ against $0.06563459278$ at the slice 2 ($2.2\times10^{-2}$ relative).
 - The nonzero $k = 0$ levels approach $\pm m$ only algebraically, like $(n\pi)^2/(2mL^2)$ (for large $L$, from the exact levels of Section 14.13, $\sqrt{m^2 + (n\pi/L)^2} - m \approx (n\pi)^2/(2mL^2)$; the record verifies all 84 $k = 0$ levels of its scan against the exact formulas to $1.42\times10^{-10}\,m$). The bulk edge $1.2923\,m$ that defines $N = 688$ (Section 14.21) is an $L = 3$ value: $1.0977\,m$ at $L = 6$, and $m$ as $L \to \infty$. From $L = 3.5$ on, the $N = 688$ ground state at $a_{4,0} = 0$ occupies $k = 0$ bulk levels, its Kohn-Sham gap $0.0452$ closes, and its energy does not converge up to $L = 6$.
 - The interaction energy of the brane zero modes depends strongly on $L$. Their proper density grows toward the tip like $e^{(6H - 2m)|y|}$ (Section 14.27; exact, and verified by the record), so for $N = 8$ the recorded $E_{\rm KS} = \mp9.868\times10^{-4}$ at $L = 3$ ($\lambda = \pm\lambda_1$, every slice) is about one third of the large-$L$ value $\mp3.0046\times10^{-3}$ (extrapolated from $\lambda = -\lambda_1$ at $a_{4,0} = 2$, the only interacting $N = 8$ state solved up to $L = 6$). The self-consistent iteration fails at some larger $L$ for 13 of the 19 interacting states studied (a failure of the iteration, not a proof that no self-consistent state exists), and for 7 of them the limit of $E_{\rm KS}$ is not established.
 
@@ -3546,13 +3546,13 @@ $$
 
 Status: the rule is the expectation-value rule of the canonical quantisation (Chapter 10), stated in the record as exchange.expectationRule of `Revision/kohn_sham/ks-theory.json`; the two density formulas are the check gas_densities of both theory reports.
 
-**The plane waves of the good sector.** In flat space ($H = 0$, so $W = 1$ and $\kappa = 1$ at the slice 0) a plane wave $e^{-i\varepsilon x_4 + i\mathbf p\cdot\mathbf x}u$ with the momentum $\mathbf p = (p_1, p_2, p_3, p_8)$ along the four space-like directions $x_1, x_2, x_3, x_8$ (the good sector has no momentum along the extra times) solves $h_{\mathbf p}u = \varepsilon u$ with
+**The plane waves of the good sector.** In flat space ($H = 0$, so $W = 1$ and $\kappa = 1$ at the slice 0) a plane wave $e^{-i\varepsilon x_4 + i\mathbf p\cdot\mathbf x}u$ with the momentum $\mathbf p = (p_1, p_2, p_3, p_0)$ along the four space-like directions $x_0, x_1, x_2, x_3$ (the good sector has no momentum along the extra times) solves $h_{\mathbf p}u = \varepsilon u$ with
 
 $$
-h_{\mathbf p} = M(-i\gamma^{(x_4)}) - \sum_a p_a\,\gamma^{(x_4)}\gamma^{(a)} \qquad (a = x_1, x_2, x_3, x_8) .
+h_{\mathbf p} = M(-i\gamma^{(x_4)}) - \sum_a p_a\,\gamma^{(x_4)}\gamma^{(a)} \qquad (a = x_0, x_1, x_2, x_3) .
 $$
 
-Rule: the Hamiltonian $h$ of Section 14.4 with $v = 0$; its derivative term $i\gamma^{(x_4)}\gamma^{(x_8)}\partial_y$ acting on $e^{ip_8y}$ gives $i\gamma^{(x_4)}\gamma^{(x_8)}(ip_8) = -p_8\gamma^{(x_4)}\gamma^{(x_8)}$. Its square, line by line:
+Rule: the Hamiltonian $h$ of Section 14.4 with $v = 0$; its derivative term $i\gamma^{(x_4)}\gamma^{(x_0)}\partial_y$ acting on $e^{ip_8y}$ gives $i\gamma^{(x_4)}\gamma^{(x_0)}(ip_8) = -p_0\gamma^{(x_4)}\gamma^{(x_0)}$. Its square, line by line:
 
 $$
 \big(-i\gamma^{(x_4)}\big)^2 = -\big(\gamma^{(x_4)}\big)^2 = 1, \qquad \big(\gamma^{(x_4)}\gamma^{(a)}\big)^2 = -\big(\gamma^{(x_4)}\big)^2\big(\gamma^{(a)}\big)^2 = 1 .
@@ -3579,7 +3579,7 @@ $$
 Rule: add the two products; different gammas anticommute, $\gamma^{(a)}\gamma^{(b)} = -\gamma^{(b)}\gamma^{(a)}$. Hence
 
 $$
-h_{\mathbf p}^2 = \big(M^2 + p_1^2 + p_2^2 + p_3^2 + p_8^2\big)\,1 = E^2\,1, \qquad E = \sqrt{M^2 + p^2} .
+h_{\mathbf p}^2 = \big(M^2 + p_1^2 + p_2^2 + p_3^2 + p_0^2\big)\,1 = E^2\,1, \qquad E = \sqrt{M^2 + p^2} .
 $$
 
 Rule: multiply out the square of the sum; the squares of the five terms give $M^2$ and the $p_a^2$, and the mixed products cancel in pairs. Since $h_{\mathbf p}$ is Hermitian (Section 14.4), its eigenvalues are real numbers whose squares are $E^2$: they are $+E$ and $-E$. Its trace is zero (it is a sum of products of one or two different gammas, Chapter 5), so the two eigenvalues occur equally often: $+E$ eight times and $-E$ eight times. Every momentum carries eight positive-energy modes. The matrix
@@ -3710,7 +3710,7 @@ $$
 
 Rule: the Lagrangian of Chapter 7 is a kinetic part minus $mS$ minus the interaction, whose expectation value is $e_{\rm int}$. On shell (for orbitals that solve the Kohn-Sham equation $\gamma^\mu D_\mu\Psi = (M_{\rm eff} - iv_v\gamma^{(x_4)})\Psi$) the kinetic part is $\bar\Psi\gamma^\mu D_\mu\Psi = M_{\rm eff}\bar\Psi\Psi + v_v\Psi^\dagger(-iC\gamma^{(x_4)})\Psi = M_{\rm eff}S + v_vn$, because $\bar\Psi = \Psi^\dagger C$ and $B = -iC\gamma^{(x_4)}$ (the symmetrised form of the kinetic term has the same value on shell); then the line above gives $M_{\rm eff}S + v_vn = mS + 2e_{\rm int}$. This value of the Lagrangian enters the energy-momentum tensor (Chapter 15). Status: PROVED; check ks_onshell_lagrangian (both reports).
 
-**What the functional leaves out.** The Kohn-Sham functional of the Revision theory is Hartree plus this uniform-gas exchange, with no correlation energy. Its states, however, are not uniform along $y$. The record computes the EXACT Fock exchange of such a state (exchange.exactFockSlab in ks-theory.json): take one level, closed over a shell ($\mathbf k$ and $-\mathbf k$ equally filled), with the $2 \times 2$ block density $D = \tfrac12(d_0 + d_1\sigma_1 + d_2\sigma_2 + d_3\sigma_3)$ in each of the four blocks of type $j = +1$ and $\sigma_3D\sigma_3$ in each of the four of type $-1$ (their degenerate partners, Section 14.5), and average it over the directions of the shell. Two facts make this average simple. First, averaging a matrix over all the rotations of a group gives a matrix that no rotation of the group changes, that is, one that commutes with all of them; and a matrix that already commutes with them is its own average. So the average over all rotations of 3-space is the projection onto the matrices that commute with the rotations, a space of dimension 64. Second, a closed shell contains only a finite set of directions, which the 24 rotations of a cube carry into each other, not all directions. But under the rotations of 3-space the $16 \times 16$ matrices split into parts of spin 0 (unchanged by every rotation) and parts of spin 1 (turned like an arrow), and nothing else; and the average of an arrow over the 24 rotations of a cube is zero, just as its average over all rotations. So for these matrices the average over the cube equals the average over all rotations (both theory reports state this: the 16 x 16 matrices carry only spin 0 and spin 1). The result, with $Q = \langle\Psi^\dagger B\gamma^{(x_8)}\Psi\rangle$ and the $y$-current $Y$:
+**What the functional leaves out.** The Kohn-Sham functional of the Revision theory is Hartree plus this uniform-gas exchange, with no correlation energy. Its states, however, are not uniform along $y$. The record computes the EXACT Fock exchange of such a state (exchange.exactFockSlab in ks-theory.json): take one level, closed over a shell ($\mathbf k$ and $-\mathbf k$ equally filled), with the $2 \times 2$ block density $D = \tfrac12(d_0 + d_1\sigma_1 + d_2\sigma_2 + d_3\sigma_3)$ in each of the four blocks of type $j = +1$ and $\sigma_3D\sigma_3$ in each of the four of type $-1$ (their degenerate partners, Section 14.5), and average it over the directions of the shell. Two facts make this average simple. First, averaging a matrix over all the rotations of a group gives a matrix that no rotation of the group changes, that is, one that commutes with all of them; and a matrix that already commutes with them is its own average. So the average over all rotations of 3-space is the projection onto the matrices that commute with the rotations, a space of dimension 64. Second, a closed shell contains only a finite set of directions, which the 24 rotations of a cube carry into each other, not all directions. But under the rotations of 3-space the $16 \times 16$ matrices split into parts of spin 0 (unchanged by every rotation) and parts of spin 1 (turned like an arrow), and nothing else; and the average of an arrow over the 24 rotations of a cube is zero, just as its average over all rotations. So for these matrices the average over the cube equals the average over all rotations (both theory reports state this: the 16 x 16 matrices carry only spin 0 and spin 1). The result, with $Q = \langle\Psi^\dagger B\gamma^{(x_0)}\Psi\rangle$ and the $y$-current $Y$:
 
 $$
 n = 8d_0, \qquad S = 8d_2, \qquad Q = 8d_3, \qquad Y = 8d_1, \qquad e_x^{\rm exact} = -\frac{\lambda}{32}\big(n^2 + S^2 - Q^2 - Y^2\big) .
@@ -3784,9 +3784,9 @@ The `record_check` of Notebook 14a: true when the sympy report says PASS and the
 fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                      .read_text(encoding="utf-8"))
 g = [sp.Matrix(m) for m in fixture["gamma"]]
-g1, g2, g3, g4, g5, g6, g7, g8 = g
+g0, g1, g2, g3, g4, g5, g6, g7 = g  # gN is gamma^(xN)
 I16, Z16 = sp.eye(16), sp.zeros(16)
-C = g8 * g1 * g2 * g3
+C = g0 * g1 * g2 * g3
 B = -sp.I * C * g4
 ```
 
@@ -3805,10 +3805,10 @@ Every matrix fact used in Section 14.26, checked exactly: $B^2 = C^2 = 1$, their
 
 ```python
 M = sp.symbols("M", positive=True)  # the mass
-p1, p2, p3, p8 = sp.symbols("p1 p2 p3 p8", real=True)  # the momentum
+p1, p2, p3, p0 = sp.symbols("p1 p2 p3 p0", real=True)  # the momentum
 E = sp.symbols("E", positive=True)  # stands for sqrt(M^2 + p^2)
-h_p = M * (-sp.I * g4) - (p1 * g4 * g1 + p2 * g4 * g2 + p3 * g4 * g3 + p8 * g4 * g8)
-E_squared = M ** 2 + p1 ** 2 + p2 ** 2 + p3 ** 2 + p8 ** 2
+h_p = M * (-sp.I * g4) - (p1 * g4 * g1 + p2 * g4 * g2 + p3 * g4 * g3 + p0 * g4 * g0)
+E_squared = M ** 2 + p1 ** 2 + p2 ** 2 + p3 ** 2 + p0 ** 2
 square_ok = (h_p * h_p - E_squared * I16).applyfunc(sp.expand).is_zero_matrix
 ```
 
@@ -3829,7 +3829,7 @@ $G_{\mathbf p}$; the test $G_{\mathbf p}^2 = G_{\mathbf p}$ after replacing $E$ 
 **In [4], the symmetric one-body matrix.**
 
 ```python
-p_flip = {p1: -p1, p2: -p2, p3: -p3, p8: -p8}
+p_flip = {p1: -p1, p2: -p2, p3: -p3, p0: -p0}
 pair_average = ((G_p * B + (G_p * B).subs(p_flip)) / 2).applyfunc(sp.simplify)
 pair_ok = (pair_average - (B + M / E * C) / 2).applyfunc(sp.simplify).is_zero_matrix
 ```
@@ -3873,7 +3873,7 @@ Symbols for the two densities and the coupling, the matrix $\rho = (nB + SC)/16$
 **In [5], figure 1.**
 
 ```python
-values = {M: 1, E: sp.sqrt(2), p1: 1, p2: 0, p3: 0, p8: 0}
+values = {M: 1, E: sp.sqrt(2), p1: 1, p2: 0, p3: 0, p0: 0}
 one_mode = np.abs(np.array((G_p * B).subs(values).evalf(), dtype=complex))
 averaged = np.abs(np.array(pair_average.subs(values).evalf(), dtype=complex))
 odd_part = np.abs(np.array((G_p * B - pair_average).subs(values).evalf(),
@@ -4103,13 +4103,13 @@ The free unknowns, sorted by their numbers (`str(s_)[1:]` is the name without it
 ```python
 rho_slab = G_avg * B
 n_s, S_s = sp.simplify((B * rho_slab).trace()), sp.simplify((C * rho_slab).trace())
-Q_s = sp.simplify((B * g8 * rho_slab).trace())
+Q_s = sp.simplify((B * g0 * rho_slab).trace())
 e_x_slab = sp.expand(-lam / 2 * (C * rho_slab * C * rho_slab).trace())
 say(f"commutant dimension {len(basis)}; n = {n_s}, S = {S_s}, Q = {Q_s}")
 say(f"V unitary: {sp.simplify(V.H * V) == I16}")
 ```
 
-The averaged one-body matrix, its three densities $n$, $S$ and $Q = \langle\Psi^\dagger B\gamma^{(x_8)}\Psi\rangle$, and its exchange energy. Out [10] prints the dimension 64, $n = 8d_0$, $S = 8d_2$, $Q = 8d_3$, and that $V$ is unitary.
+The averaged one-body matrix, its three densities $n$, $S$ and $Q = \langle\Psi^\dagger B\gamma^{(x_0)}\Psi\rangle$, and its exchange energy. Out [10] prints the dimension 64, $n = 8d_0$, $S = 8d_2$, $Q = 8d_3$, and that $V$ is unitary.
 
 ```python
 check(len(basis) == 64 and n_s == 8 * d0 and S_s == 8 * d2 and Q_s == 8 * d3
@@ -4294,7 +4294,7 @@ The four figure files must exist; the last line prints ALL 16 CHECKS PASSED (not
 | statement (section; notebook) | record checks |
 | --- | --- |
 | the hidden coordinate, the warped form, the volume factor $e^{6Hy}$ without $a_4$ (Section 14.2; Notebook 14a) | `geometry_hidden_coordinate` and `geometry_sqrt_det` (both), `geometry_warped_form` |
-| $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ along every history; the pieces of the inflating and the deflating directions cancel (Section 14.4; Notebook 14a) | `spin_connection_compatibility`, `spin_connection_slash_3H`, `spin_connection_time_terms_cancel` (both), `spin_connection_time_term_value` |
+| $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ along every history; the pieces of the inflating and the deflating directions cancel (Section 14.4; Notebook 14a) | `spin_connection_compatibility`, `spin_connection_slash_3H`, `spin_connection_time_terms_cancel` (both), `spin_connection_time_term_value` |
 | the factor $W^{-3}$ removes the spin connection; the Hamiltonian is Hermitian (Section 14.4; Notebook 14a) | `ansatz_removes_spin_connection`, `ansatz_without_W3_term_survives`, `hamiltonian_16_hermitian` (both) |
 | eight blocks of two components, two block types, the block forms and the block Hamiltonian (Section 14.5; Notebook 14a) | `blocks_commuting_set`, `blocks_basis_unitary`, `blocks_forms`, `block_hamiltonian`, `block_ode_equivalent`, `block_type_relation` (both), `blocks_projectors`, `blocks_not_everything_block_diagonal` |
 | the chirality matrix $\Gamma$ pairs the block types and reverses the mass (Section 14.6; Notebook 14a) | `blocks_relation_to_Gamma`, `block_Gamma_map` (both) |
@@ -4319,7 +4319,7 @@ The four figure files must exist; the last line prints ALL 16 CHECKS PASSED (not
 | the rescaling identity solved as two separate problems (Notebook 14a, the partner parameters) | `Revision/kohn_sham/results/rescaling/rescaling.csv`; checks `rescaling_identity_between_slices` and `rescaling_identity_energy_profiles`; accuracy: levels to $1.5\times10^{-13}$, energies and profiles to $3.3\times10^{-13}$ |
 | the gap of the free $N = 8$ state, $0.4307$ to $0.0642\,m$ along the history (Notebook 14c) | `closed-shells.csv` (spectrum folder); accuracy: reproduced to $10^{-11}$ |
 | at the cutoff $L = 3$ and the slice 0 the band does not feel the tip angle for $k \ne 0$ (Notebook 14c; the later slices are not computed) | `tip-angle.csv` (spectrum folder); check `free_tip_angle_insensitivity`; accuracy: shifts below the suppression factor |
-| the dependence on the cutoff $L$ from 3 to 6 (Section 14.20; the Revision record, not repeated by a notebook of this chapter) | `Revision/kohn_sham/tip_convergence/` (README and `tip-convergence-table.csv`); report `tip-convergence.json`, 7 of 7 checks PASS; the step error of every run at most $5\times10^{-9}$; the free results with $k \ne 0$ at $L = 3$ low by up to 1.4% ($E_{\rm KS}$) and 12% (the $p_8$ integral) at $a_{4,0} = 2$; the interacting $N = 8$ energy at $L = 3$ about one third of its large-$L$ value |
+| the dependence on the cutoff $L$ from 3 to 6 (Section 14.20; the Revision record, not repeated by a notebook of this chapter) | `Revision/kohn_sham/tip_convergence/` (README and `tip-convergence-table.csv`); report `tip-convergence.json`, 7 of 7 checks PASS; the step error of every run at most $5\times10^{-9}$; the free results with $k \ne 0$ at $L = 3$ low by up to 1.4% ($E_{\rm KS}$) and 12% (the $p_0$ integral) at $a_{4,0} = 2$; the interacting $N = 8$ energy at $L = 3$ about one third of its large-$L$ value |
 | the particle labels, the closed shells, the bulk edge and $N = 8, 136, 688$ (Notebook 14c) | check `free_particle_branch_labels`; `closed-shells.csv`; `Revision/kohn_sham/results/parameters.json`; accuracy: exact agreement of the shells; energies to $10^{-11}$ |
 | the state $N = 8$: $n_{\max} = 82.2208638894$, $\lambda_1 = 0.01946$, $\lambda_2 = 0.05838$, exact-Fock energy 0 (Notebook 14d) | `Revision/kohn_sham/results/ground/summary.csv`; `parameters.json`; `Revision/kohn_sham/results/exx/exact-fock-variant.csv`; accuracy: $10^{-9}$ relative; energies below $10^{-12}$ |
 
@@ -4327,7 +4327,7 @@ The four figure files must exist; the last line prints ALL 16 CHECKS PASSED (not
 
 - The good sector: the orbitals do not depend on the extra times $x_5, x_6, x_7$ (Section 14.3; Chapters 8 and 10 give the reasons).
 - The Z2 mirror brane at $y = 0$, with its two parities; with it the weight $w = \tfrac12$ of the densities and the mirror copy with the mass $-m$ (Section 14.12).
-- The regular tip condition at the cutoff $y = -L$, $L = 3$: a choice of the numerical model. At this cutoff and the slice $a_{4,0} = 0$, where it was measured, its angle $\theta$ is harmless for the brane band at every lattice momentum $k \ne 0$ (for the other levels with $k \ne 0$ only the estimate of Section 14.12 applies; at the later slices, where the suppression factor of Section 14.12 is no longer small for the lowest lattice momenta, this is not computed), and it is decisive for the zero modes at $k = 0$ (Section 14.20). The cutoff $L$ itself matters, as the Revision record measured for $L = 3$ to $6$ (Section 14.20; `Revision/kohn_sham/tip_convergence/`): the free results with $k \ne 0$ converge, but the recorded $L = 3$ values are low by up to 1.4% in $E_{\rm KS}$ and 12% in the $p_8$ integral at $a_{4,0} = 2$ (the redshifted brane band reaches the tip); the nonzero $k = 0$ levels approach $\pm m$ only algebraically, so the bulk edge and $N = 688$ are $L = 3$ choices; the interaction energy of the brane zero modes depends strongly on $L$, and the couplings are calibrated at $L = 3$.
+- The regular tip condition at the cutoff $y = -L$, $L = 3$: a choice of the numerical model. At this cutoff and the slice $a_{4,0} = 0$, where it was measured, its angle $\theta$ is harmless for the brane band at every lattice momentum $k \ne 0$ (for the other levels with $k \ne 0$ only the estimate of Section 14.12 applies; at the later slices, where the suppression factor of Section 14.12 is no longer small for the lowest lattice momenta, this is not computed), and it is decisive for the zero modes at $k = 0$ (Section 14.20). The cutoff $L$ itself matters, as the Revision record measured for $L = 3$ to $6$ (Section 14.20; `Revision/kohn_sham/tip_convergence/`): the free results with $k \ne 0$ converge, but the recorded $L = 3$ values are low by up to 1.4% in $E_{\rm KS}$ and 12% in the $p_0$ integral at $a_{4,0} = 2$ (the redshifted brane band reaches the tip); the nonzero $k = 0$ levels approach $\pm m$ only algebraically, so the bulk edge and $N = 688$ are $L = 3$ choices; the interaction energy of the brane zero modes depends strongly on $L$, and the couplings are calibrated at $L = 3$.
 - The deflating history $a_4 = AHx_4$ with $A = 1$ is a **prescribed background**: the Kohn-Sham states are computed on it but are not its source in the field equations of $a_4$ (`Revision/field_equations_a4/reports/ks-source-conditions.json`; Chapter 17). The Kohn-Sham gas is a test field.
 - The stationary-slice (adiabatic) ansatz: at each slice the instantaneous Kohn-Sham states are computed (Section 14.3); whether the gas can follow the history is measured in Chapter 15.
 - The convention that counts the zero modes at $k = 0$ as particle levels (Section 14.21).
@@ -4348,7 +4348,7 @@ The four figure files must exist; the last line prints ALL 16 CHECKS PASSED (not
 
 **Exercise 14.2.** Using the two rules of Section 14.5, show that $A_0A_1A_4 = -J$, and deduce from it the block form $A_4 \to j\sigma_1$. Then derive the block form of $\gamma^{(x_4)} = A_0A_4$.
 
-**Answer 14.2.** $A_0A_1A_4 = \gamma^{(x_8)}\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_8)}\gamma^{(x_4)}$. The first two factors give $(\gamma^{(x_8)})^2 = \eta_{88} = 1$, so the product is $\gamma^{(x_1)}\gamma^{(x_8)}\gamma^{(x_4)}$. Exchanging the first two factors (they anticommute) gives $-\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_4)} = -J$. In a block of type $j$, $J$ is the number $j$, so $A_0A_1A_4 = -j$ there. With $A_0 \to \sigma_3$ and $A_1 \to -i\sigma_2$: $\sigma_3(-i\sigma_2) = -i\sigma_3\sigma_2 = -i(-i\sigma_1) = -\sigma_1$, so $-\sigma_1A_4 = -j$, and multiplying by $-\sigma_1$ from the left ($\sigma_1^2 = 1$): $A_4 = j\sigma_1$. Finally $\gamma^{(x_4)} = \gamma^{(x_8)}\gamma^{(x_8)}\gamma^{(x_4)} = A_0A_4 \to \sigma_3(j\sigma_1) = j\sigma_3\sigma_1 = ij\sigma_2$, as in Section 14.5.
+**Answer 14.2.** $A_0A_1A_4 = \gamma^{(x_0)}\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_0)}\gamma^{(x_4)}$. The first two factors give $(\gamma^{(x_0)})^2 = \eta_{00} = 1$, so the product is $\gamma^{(x_1)}\gamma^{(x_0)}\gamma^{(x_4)}$. Exchanging the first two factors (they anticommute) gives $-\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_4)} = -J$. In a block of type $j$, $J$ is the number $j$, so $A_0A_1A_4 = -j$ there. With $A_0 \to \sigma_3$ and $A_1 \to -i\sigma_2$: $\sigma_3(-i\sigma_2) = -i\sigma_3\sigma_2 = -i(-i\sigma_1) = -\sigma_1$, so $-\sigma_1A_4 = -j$, and multiplying by $-\sigma_1$ from the left ($\sigma_1^2 = 1$): $A_4 = j\sigma_1$. Finally $\gamma^{(x_4)} = \gamma^{(x_0)}\gamma^{(x_0)}\gamma^{(x_4)} = A_0A_4 \to \sigma_3(j\sigma_1) = j\sigma_3\sigma_1 = ij\sigma_2$, as in Section 14.5.
 
 **Exercise 14.3.** (a) Show that the column $\chi = (\cos\tfrac\theta2,\ i\sin\tfrac\theta2)$, that is $(a, b) = (\cos\tfrac\theta2, \sin\tfrac\theta2)$ in real form, satisfies $Q(\theta)\chi = \chi$ for $Q(\theta) = \cos\theta\,\sigma_3 + \sin\theta\,\sigma_2$. (b) Show that the tip condition with $\theta = \pi$ is $a(-L) = 0$, and that the matrix $\sigma_2$ of Section 14.6 turns the canonical tip condition $b(-L) = 0$ into it.
 

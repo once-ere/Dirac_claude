@@ -33,7 +33,7 @@ FACTS = {
         "that turns the 16-component Kohn-Sham equation of dirac16complex in the "
         "deflating primordial field into eight independent 2 x 2 equations in the "
         "hidden coordinate y: the warped form of the metric, the spin-connection term "
-        "3H gamma^(x8) (the time-direction pieces of the three inflating and the three "
+        "3H gamma^(x0) (the time-direction pieces of the three inflating and the three "
         "deflating directions cancel), the factor W^(-3) that removes it, the three "
         "commuting labels J, K1, K2 and the block basis V, the block forms of every "
         "matrix of the equation, the chirality matrix Gamma that pairs the blocks of "
@@ -43,7 +43,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's 16 x 16 gamma matrices in the order x1 to x8 (read)"],
+         "the author's 16 x 16 gamma matrices in the order x0 to x7 (read)"],
         ["Revision/kohn_sham/ks-theory.json",
          "the exact Kohn-Sham theory of dirac16complex: the block basis, the block "
          "forms and the rescaling identity (read and reproduced)"],
@@ -84,7 +84,7 @@ CELLS = [
     ## 1. What this notebook computes
 
     The Kohn-Sham equation of dirac16complex in the author's primordial field is an
-    equation for 16 complex functions of the eight coordinates $x_1, \dots, x_8$. This
+    equation for 16 complex functions of the eight coordinates $x_0, \dots, x_7$. This
     notebook turns it, step by exact step, into eight independent equations for TWO
     functions of ONE coordinate, the hidden coordinate $y$. Every step is computed here
     with exact algebra (sympy) from the author's gamma matrices and compared with the
@@ -94,7 +94,7 @@ CELLS = [
     - the hidden coordinate $y$ and the warped form of the author's metric
       (figures 1 and 2);
     - the spin connection: the only term that survives in the Dirac operator is
-      $3H\gamma^{(x_8)}$; the time-direction pieces of the three inflating and of the
+      $3H\gamma^{(x_0)}$; the time-direction pieces of the three inflating and of the
       three deflating directions cancel (figure 3);
     - the factor $W^{-3} = e^{-3Hy}$ in the orbital removes this term exactly;
     - the equation becomes $i\,\partial_{x_4}\chi = h\,\chi$ with a Hermitian $h$;
@@ -114,9 +114,9 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates $x_1, \dots, x_8$**: the author's names. $x_1, x_2, x_3$ are
+    - **Coordinates $x_0, \dots, x_7$**: the author's names. $x_1, x_2, x_3$ are
       ordinary 3-space; $x_4$ is the time; $x_5, x_6, x_7$ are the three EXTRA TIMES;
-      $x_8$ is the hidden space direction. In Python lists they have the positions
+      $x_0$ is the hidden space direction. In Python lists they have the positions
       0 to 7.
     - **Metric, scale factor**: the metric says how long a small step $dx_\mu$ is.
       A scale factor multiplies a coordinate step: along $x_1$ a step $dx_1$ has the
@@ -127,13 +127,13 @@ CELLS = [
     - **Slice**: one instant $x_4$ of the history; $a_{4,0} = a_4(x_4)$ is the value
       of $a_4$ there. The history $a_4 = A H x_4$ is a PRESCRIBED BACKGROUND (it is
       given, not solved for, and the Kohn-Sham gas does not act back on it).
-    - **Hidden coordinate $y$**: $y = \ln(\sin z)/(6H)$ with $z = 6 H x_8$; it measures
-      proper length along $x_8$.
+    - **Hidden coordinate $y$**: $y = \ln(\sin z)/(6H)$ with $z = 6 H x_0$; it measures
+      proper length along $x_0$.
     - **Warp factor $W$**: $W = e^{Hy}$; the scale factors of the six directions
       $x_1, x_2, x_3, x_5, x_6, x_7$ contain $W$.
-    - **Gamma matrices $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$**: the author's real
+    - **Gamma matrices $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$**: the author's real
       $16 \times 16$ matrices with $\gamma^a\gamma^b + \gamma^b\gamma^a =
-      2\eta^{ab}$ (the Clifford relation); in the code `g1`, ..., `g8`.
+      2\eta^{ab}$ (the Clifford relation); in the code `g1`, ..., `g0`.
     - **Spin connection $\Omega_\mu$**: the matrices that the curvature of space adds
       to the derivative of a spinor: $D_\mu = \partial_\mu + \Omega_\mu$.
     - **Hermitian matrix**: equal to its conjugate transpose, $X^\dagger = X$; its
@@ -146,7 +146,7 @@ CELLS = [
       nonzero entries in its rows and columns.
     - **Pauli matrices** $\sigma_1 = [[0,1],[1,0]]$, $\sigma_2 = [[0,-i],[i,0]]$,
       $\sigma_3 = [[1,0],[0,-1]]$ (written row by row).
-    - **Chirality matrix $\Gamma$** $= \gamma^{(x_8)}\gamma^{(x_1)}\cdots
+    - **Chirality matrix $\Gamma$** $= \gamma^{(x_0)}\gamma^{(x_1)}\cdots
       \gamma^{(x_7)}$: a MATRIX (not a complex conjugation); here it equals
       diag$(-1, \dots, -1, 1, \dots, 1)$.
     - **sympy**: computes exactly with symbols and fractions; a check made with
@@ -158,10 +158,10 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The author's metric is diagonal. In the order $x_1, \dots, x_8$ its entries are
+    The author's metric is diagonal. In the order $x_0, \dots, x_7$ its entries are
     $e^{2a_4}\sin^{1/3}z$ (three times), $-1$, $-e^{-2a_4}\sin^{1/3}z$ (three times)
-    and $\cot^2 z$, with $z = 6Hx_8$ between $0$ and $\pi/2$ and $H > 0$. The signs
-    $\eta = (+,+,+,-,-,-,-,+)$ say which directions are space-like ($+$) and which
+    and $\cot^2 z$, with $z = 6Hx_0$ between $0$ and $\pi/2$ and $H > 0$. The signs
+    $\eta = (+,+,+,+,-,-,-,-)$ say which directions are space-like ($+$) and which
     are time-like ($-$).
 
     In the Kohn-Sham model (the mean-field description of many quanta) every quantum
@@ -194,7 +194,7 @@ CELLS = [
     ## 5. The author's gamma matrices
 
     The Revision record `Revision/algebra/gammas.json` stores the eight matrices
-    $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$ as lists of rows; `gamma[a]` is
+    $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$ as lists of rows; `gamma[a]` is
     $\gamma^{(x_{a+1})}$. The next cell reads them, turns them into exact sympy
     matrices and checks the Clifford relation $\gamma^a\gamma^b + \gamma^b\gamma^a =
     2\eta^{ab}\,1$ for all 64 pairs $(a, b)$. It also defines the helper
@@ -224,16 +224,16 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    g = [sp.Matrix(m) for m in fixture["gamma"]]  # g[0] = gamma^(x1) ... g[7] = gamma^(x8)
+    g = [sp.Matrix(m) for m in fixture["gamma"]]  # g[0] = gamma^(x0) ... g[7] = gamma^(x7)
     eta = [int(v) for v in fixture["eta"]]  # +1 space-like, -1 time-like
-    g1, g2, g3, g4, g5, g6, g7, g8 = g  # gN is gamma^(xN)
+    g0, g1, g2, g3, g4, g5, g6, g7 = g  # gN is gamma^(xN)
     I16, Z16 = sp.eye(16), sp.zeros(16)  # the 16 x 16 unit and zero matrices
-    say(f"eta in the order x1 ... x8: {eta}")
+    say(f"eta in the order x0 ... x7: {eta}")
     entries = sorted({int(e) for m in g for e in m})  # the different entries
     say(f"the entries of the eight gamma matrices are the integers {entries}")
     clifford = all(g[a] * g[b] + g[b] * g[a] == (2 * eta[a] if a == b else 0) * I16
                    for a in range(8) for b in range(8))
-    check(clifford and eta == [1, 1, 1, -1, -1, -1, -1, 1]
+    check(clifford and eta == [1, 1, 1, 1, -1, -1, -1, -1]
           and record_check("clifford_relation"),
           "the Clifford relation gamma^a gamma^b + gamma^b gamma^a = 2 eta^ab",
           record=f"{PY_REPORT}, check clifford_relation")
@@ -241,12 +241,12 @@ CELLS = [
     md(r"""
     The next cell builds three products that the theory uses again and again:
 
-    - $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, the product of
+    - $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, the product of
       the four space-like gammas; the Dirac adjoint is $\bar\Psi = \Psi^\dagger C$.
     - $B = -i\,C\,\gamma^{(x_4)}$, the matrix of the positive inner product of the
       good sector ($\langle\Psi^\dagger X \Psi\rangle = u^\dagger B X u$ for one
       quantum in the mode $u$).
-    - $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$, the chirality
+    - $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$, the chirality
       matrix.
 
     It checks that $C$ is real and symmetric with $C^2 = 1$, that $B$ is Hermitian
@@ -256,9 +256,9 @@ CELLS = [
     $X^\dagger$ in sympy and `X.T` the transpose.)
     """),
     code(r'''
-    C = g8 * g1 * g2 * g3  # the matrix of the Dirac adjoint
+    C = g0 * g1 * g2 * g3  # the matrix of the Dirac adjoint
     B = -sp.I * C * g4  # the matrix of the positive inner product
-    Gamma = g8 * g1 * g2 * g3 * g4 * g5 * g6 * g7  # the chirality matrix
+    Gamma = g0 * g1 * g2 * g3 * g4 * g5 * g6 * g7  # the chirality matrix
     check(C.T == C and C * C == I16 and B.H == B and B * B == I16
           and Gamma == sp.diag(*([-1] * 8 + [1] * 8)) and record_check("C_B_Gamma"),
           "C real symmetric with C^2 = 1, B Hermitian with B^2 = 1, Gamma = diag(-1, 1)",
@@ -271,16 +271,16 @@ CELLS = [
     md(r"""
     ## 6. The hidden coordinate y and the warped form of the metric
 
-    Along $x_8$ the metric has the entry $g_{88} = \cot^2 z$ with $z = 6Hx_8$. We
-    replace $x_8$ by
+    Along $x_0$ the metric has the entry $g_{00} = \cot^2 z$ with $z = 6Hx_0$. We
+    replace $x_0$ by
 
     $$y = \frac{\ln(\sin z)}{6H}.$$
 
     Line by line:
 
-    1. Differentiate with the chain rule: $dy/dx_8 = \frac{1}{6H}\cdot\frac{\cos z}
+    1. Differentiate with the chain rule: $dy/dx_0 = \frac{1}{6H}\cdot\frac{\cos z}
        {\sin z}\cdot 6H = \cot z$.
-    2. Square: $dy^2 = \cot^2 z\, dx_8^2 = g_{88}\,dx_8^2$. So $y$ measures proper
+    2. Square: $dy^2 = \cot^2 z\, dx_0^2 = g_{00}\,dx_0^2$. So $y$ measures proper
        length along the hidden direction, and in the new coordinate the entry is 1.
     3. Exponentiate the definition: $e^{6Hy} = \sin z$, hence $\sin^{1/3} z =
        e^{2Hy} = W^2$ with the warp factor $W = e^{Hy}$.
@@ -295,8 +295,8 @@ CELLS = [
     Its scale factors (the vielbein entries) are $h = (e^{a_4}W, e^{a_4}W, e^{a_4}W,
     1, e^{-a_4}W, e^{-a_4}W, e^{-a_4}W, 1)$. The square root of the absolute value
     of the determinant is their product: $e^{3a_4}W^3\cdot e^{-3a_4}W^3 = W^6 =
-    e^{6Hy}$. In the author's $x_8$ chart it is $\sin z \cdot \cot z = \cos z$; the
-    two differ by the factor $dy/dx_8 = \cot z$ of step 1. Neither depends on $a_4$:
+    e^{6Hy}$. In the author's $x_0$ chart it is $\sin z \cdot \cot z = \cos z$; the
+    two differ by the factor $dy/dx_0 = \cot z$ of step 1. Neither depends on $a_4$:
     while 3-space inflates and the extra times deflate, the 7-volume stays the same.
 
     The next cell verifies steps 1 to 3 and the determinant with sympy.
@@ -304,25 +304,25 @@ CELLS = [
     code(r'''
     H = sp.symbols("H", positive=True)  # the author's constant H > 0
     y_neg = sp.symbols("y", negative=True)  # the hidden coordinate inside the patch
-    x8, z = sp.symbols("x8 z", positive=True)
+    x0, z = sp.symbols("x0 z", positive=True)
     z_of_y = sp.asin(sp.exp(6 * H * y_neg))  # z(y): the solution of sin z = e^(6Hy)
-    dx8_dy = sp.diff(z_of_y / (6 * H), y_neg)  # x8 = z/(6H) differentiated in y
-    ok_line = sp.simplify(sp.cot(z_of_y) ** 2 * dx8_dy ** 2 - 1) == 0  # g88 dx8^2 = dy^2
+    dx0_dy = sp.diff(z_of_y / (6 * H), y_neg)  # x0 = z/(6H) differentiated in y
+    ok_line = sp.simplify(sp.cot(z_of_y) ** 2 * dx0_dy ** 2 - 1) == 0  # g00 dx0^2 = dy^2
     ok_warp = sp.simplify(sp.sin(z_of_y) ** sp.Rational(1, 3)
                           - sp.exp(2 * H * y_neg)) == 0  # sin^(1/3) z = e^(2Hy)
-    ok_dy = sp.simplify(sp.diff(sp.log(sp.sin(6 * H * x8)) / (6 * H), x8)
-                        - sp.cot(6 * H * x8)) == 0  # dy/dx8 = cot z
+    ok_dy = sp.simplify(sp.diff(sp.log(sp.sin(6 * H * x0)) / (6 * H), x0)
+                        - sp.cot(6 * H * x0)) == 0  # dy/dx0 = cot z
     check(ok_line and ok_warp and ok_dy and record_check("geometry_hidden_coordinate"),
-          "y = ln(sin z)/(6H): dy = cot z dx8 and sin^(1/3) z = e^(2Hy)",
+          "y = ln(sin z)/(6H): dy = cot z dx0 and sin^(1/3) z = e^(2Hy)",
           record=f"{PY_REPORT}, check geometry_hidden_coordinate")
     a0 = sp.symbols("a0", real=True)  # the value of a4 at one slice
     third = sp.Rational(1, 3)
-    metric_x8 = ([sp.exp(2 * a0) * sp.sin(z) ** third] * 3 + [-1]
+    metric_x0 = ([sp.exp(2 * a0) * sp.sin(z) ** third] * 3 + [-1]
                  + [-sp.exp(-2 * a0) * sp.sin(z) ** third] * 3 + [sp.cot(z) ** 2])
-    det_x8 = sp.simplify(sp.Abs(sp.prod(metric_x8)))  # |det g| in the x8 chart
-    say(f"|det g| in the x8 chart of the author = {det_x8}")
-    check(sp.simplify(det_x8 - sp.cos(z) ** 2) == 0 and record_check("geometry_sqrt_det"),
-          "|det g| = cos^2 z in the x8 chart; it does not contain a4",
+    det_x0 = sp.simplify(sp.Abs(sp.prod(metric_x0)))  # |det g| in the x0 chart
+    say(f"|det g| in the x0 chart of the author = {det_x0}")
+    check(sp.simplify(det_x0 - sp.cos(z) ** 2) == 0 and record_check("geometry_sqrt_det"),
+          "|det g| = cos^2 z in the x0 chart; it does not contain a4",
           record=f"{PY_REPORT}, check geometry_sqrt_det")
     '''),
     md(r"""
@@ -342,7 +342,7 @@ CELLS = [
 
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
     left.plot(z_values, y_of_z, color="C0")
-    left.set_xlabel("$z = 6 H x_8$ (radians)")
+    left.set_xlabel("$z = 6 H x_0$ (radians)")
     left.set_ylabel("$y = \\ln(\\sin z)/(6H)$")
     left.set_title("the hidden coordinate $y$ ($H = 1$)")
     left.annotate("tip: $y \\to -\\infty$", (0.03, -1.0), fontsize=9)
@@ -358,7 +358,7 @@ CELLS = [
     right.legend(fontsize=8)
     save_figure(fig, "hidden_coordinate",
                 "Left: the hidden coordinate $y = \\ln(\\sin z)/(6H)$ against "
-                "$z = 6Hx_8$ (radians) for $H = 1$; $y$ tends to minus infinity at the "
+                "$z = 6Hx_0$ (radians) for $H = 1$; $y$ tends to minus infinity at the "
                 "tip $z \\to 0$ and is $0$ at the brane $z = \\pi/2$. Right: the warp "
                 "factor $W = e^{Hy}$ (solid), the metric factor $\\sin^{1/3} z = W^2$ "
                 "(dashed) and the volume factor $\\sqrt{|g|} = W^6$ (dotted) against "
@@ -411,7 +411,7 @@ CELLS = [
                 "factor $e^{-0.5}$, the redshift of the 3-momenta.")
     '''),
     md(r"""
-    ## 7. The spin connection and the term 3H gamma^(x8)
+    ## 7. The spin connection and the term 3H gamma^(x0)
 
     A spinor needs the covariant derivative $D_\mu\Psi = \partial_\mu\Psi +
     \Omega_\mu\Psi$. For the diagonal vielbein $h_a$ of section 6 the canonical spin
@@ -435,12 +435,12 @@ CELLS = [
     about 10 seconds.
     """),
     code(r'''
-    X = sp.symbols("x1:8", real=True) + (sp.Symbol("y", real=True),)  # x1..x7 and y
-    Y, x4 = X[7], X[3]  # the hidden coordinate and the time
+    X = (sp.Symbol("y", real=True),) + sp.symbols("x1:8", real=True)  # y, x1..x7
+    Y, x4 = X[0], X[4]  # the hidden coordinate and the time
     a4 = sp.Function("a4", real=True)(x4)  # a4 is any function of the time x4
     a4p = sp.diff(a4, x4)  # its derivative a4'
     W = sp.exp(H * Y)  # the warp factor
-    vb = [sp.exp(a4) * W] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * W] * 3 + [sp.Integer(1)]
+    vb = [sp.Integer(1)] + [sp.exp(a4) * W] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * W] * 3
     gdiag = [eta[i] * vb[i] ** 2 for i in range(8)]  # the diagonal metric entries
 
 
@@ -479,50 +479,50 @@ CELLS = [
           "the curved gammas are covariantly constant (64 matrix equations)",
           record=f"{PY_REPORT}, check spin_connection_compatibility")
     slash = sp.simplify(sum((g[m] / vb[m] * Omega[m] for m in range(8)), Z16))
-    check((slash - 3 * H * g8).is_zero_matrix and record_check("spin_connection_slash_3H"),
-          "gamma^mu Omega_mu = 3H gamma^(x8) exactly, for every history a4(x4)",
+    check((slash - 3 * H * g0).is_zero_matrix and record_check("spin_connection_slash_3H"),
+          "gamma^mu Omega_mu = 3H gamma^(x0) exactly, for every history a4(x4)",
           record=f"{PY_REPORT}, check spin_connection_slash_3H")
     '''),
     md(r"""
-    Where does $3H\gamma^{(x_8)}$ come from, and where did the time derivative $a_4'$
+    Where does $3H\gamma^{(x_0)}$ come from, and where did the time derivative $a_4'$
     go? The next cell splits $\gamma^\mu\Omega_\mu$ into the contributions of the
     eight directions. Each contribution $(\gamma^{(\mu)}/h_\mu)\Omega_\mu$ turns out
-    to be a combination $c_4\gamma^{(x_4)} + c_8\gamma^{(x_8)}$. Because
-    $\gamma^{(x_4)}\gamma^{(x_4)} = -1$, $\gamma^{(x_8)}\gamma^{(x_8)} = +1$ and the
-    trace of $\gamma^{(x_4)}\gamma^{(x_8)}$ is 0, the coefficients are found with
-    traces: $c_4 = -\mathrm{Tr}(X\gamma^{(x_4)})/16$ and $c_8 =
-    \mathrm{Tr}(X\gamma^{(x_8)})/16$. The cell checks that each contribution is
-    exactly $c_4\gamma^{(x_4)} + c_8\gamma^{(x_8)}$, prints the coefficients, and
+    to be a combination $c_4\gamma^{(x_4)} + c_0\gamma^{(x_0)}$. Because
+    $\gamma^{(x_4)}\gamma^{(x_4)} = -1$, $\gamma^{(x_0)}\gamma^{(x_0)} = +1$ and the
+    trace of $\gamma^{(x_4)}\gamma^{(x_0)}$ is 0, the coefficients are found with
+    traces: $c_4 = -\mathrm{Tr}(X\gamma^{(x_4)})/16$ and $c_0 =
+    \mathrm{Tr}(X\gamma^{(x_0)})/16$. The cell checks that each contribution is
+    exactly $c_4\gamma^{(x_4)} + c_0\gamma^{(x_0)}$, prints the coefficients, and
     checks the two facts of the Revision record: the three inflating directions give
     $+\frac32 a_4'\gamma^{(x_4)}$, the three deflating directions give
     $-\frac32 a_4'\gamma^{(x_4)}$, so the time-direction pieces cancel; and
     $\Omega_{x_4} = \Omega_y = 0$.
     """),
     code(r'''
-    names = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8 (y)"]
+    names = ["x0 (y)", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
     PRIME = sp.Symbol("da4dx4")  # a name for the derivative da4/dx4 in the printout
-    c4_list, c8_list = [], []  # the coefficients of gamma^(x4) and gamma^(x8)
+    c4_list, c0_list = [], []  # the coefficients of gamma^(x4) and gamma^(x0)
     split_ok = True
     for m in range(8):
         part = sp.simplify(g[m] / vb[m] * Omega[m])  # the contribution of direction m
         c4 = sp.simplify(-(part * g4).trace() / 16)
-        c8 = sp.simplify((part * g8).trace() / 16)
-        split_ok &= (part - c4 * g4 - c8 * g8).applyfunc(sp.simplify).is_zero_matrix
+        c0 = sp.simplify((part * g0).trace() / 16)
+        split_ok &= (part - c4 * g4 - c0 * g0).applyfunc(sp.simplify).is_zero_matrix
         c4_list.append(c4)
-        c8_list.append(c8)
+        c0_list.append(c0)
         shown_c4 = str(c4.subs(a4p, PRIME))  # write da4dx4 for da4/dx4
-        say(f"direction {names[m]:7}: c4 = {shown_c4:12} c8 = {c8}")
-    check(split_ok, "every contribution is c4 gamma^(x4) + c8 gamma^(x8)")
-    inflating = sp.simplify(sum(c4_list[0:3]))  # x1, x2, x3
-    deflating = sp.simplify(sum(c4_list[4:7]))  # x5, x6, x7
+        say(f"direction {names[m]:7}: c4 = {shown_c4:12} c0 = {c0}")
+    check(split_ok, "every contribution is c4 gamma^(x4) + c0 gamma^(x0)")
+    inflating = sp.simplify(sum(c4_list[1:4]))  # x1, x2, x3
+    deflating = sp.simplify(sum(c4_list[5:8]))  # x5, x6, x7
     say("sum of c4 over the inflating directions x1, x2, x3: "
         f"{inflating.subs(a4p, PRIME)}")
     say("sum of c4 over the deflating directions x5, x6, x7: "
         f"{deflating.subs(a4p, PRIME)}")
-    say(f"sum of c8 over all directions: {sp.simplify(sum(c8_list))}")
+    say(f"sum of c0 over all directions: {sp.simplify(sum(c0_list))}")
     check(sp.simplify(inflating - sp.Rational(3, 2) * a4p) == 0
           and sp.simplify(deflating + sp.Rational(3, 2) * a4p) == 0
-          and Omega[3].is_zero_matrix and Omega[7].is_zero_matrix
+          and Omega[4].is_zero_matrix and Omega[0].is_zero_matrix
           and record_check("spin_connection_time_terms_cancel")
           and record_check("spin_connection_time_term_value"),
           "the da4/dx4 pieces +3/2 and -3/2 cancel; Omega_x4 = Omega_y = 0",
@@ -532,50 +532,50 @@ CELLS = [
     md(r"""
     The next cell draws these coefficients as a bar chart, with the numbers
     $a_4' = 1$ and $H = 1$ put in: for each direction one bar for the coefficient of
-    $\gamma^{(x_4)}$ and one bar for the coefficient of $\gamma^{(x_8)}$.
+    $\gamma^{(x_4)}$ and one bar for the coefficient of $\gamma^{(x_0)}$.
     """),
     code(r'''
     c4_numbers = [float(c.subs(a4p, 1).subs(H, 1)) for c in c4_list]  # da4/dx4 = H = 1
-    c8_numbers = [float(c.subs(a4p, 1).subs(H, 1)) for c in c8_list]
+    c0_numbers = [float(c.subs(a4p, 1).subs(H, 1)) for c in c0_list]
     positions = np.arange(8)  # one group of two bars per direction
 
     fig, ax = plt.subplots(figsize=(8.0, 4.0))
     ax.bar(positions - 0.2, c4_numbers, width=0.38,
            label="coefficient of $\\gamma^{(x_4)}$ (per unit $da_4/dx_4$)")
-    ax.bar(positions + 0.2, c8_numbers, width=0.38,
-           label="coefficient of $\\gamma^{(x_8)}$ (per unit $H$)")
+    ax.bar(positions + 0.2, c0_numbers, width=0.38,
+           label="coefficient of $\\gamma^{(x_0)}$ (per unit $H$)")
     ax.axhline(0.0, color="black", linewidth=0.8)
     ax.set_xticks(positions)
-    ax.set_xticklabels(["$x_1$", "$x_2$", "$x_3$", "$x_4$", "$x_5$", "$x_6$", "$x_7$",
-                        "$x_8$"])
+    ax.set_xticklabels(["$x_0$", "$x_1$", "$x_2$", "$x_3$", "$x_4$", "$x_5$", "$x_6$",
+                        "$x_7$"])
     ax.set_xlabel("direction $\\mu$ of the term $(\\gamma^{(\\mu)}/h_\\mu)\\,"
                   "\\Omega_\\mu$")
     ax.set_ylabel("coefficient")
-    ax.set_title("$\\gamma^\\mu\\Omega_\\mu = 3H\\gamma^{(x_8)}$: "
+    ax.set_title("$\\gamma^\\mu\\Omega_\\mu = 3H\\gamma^{(x_0)}$: "
                  "the $da_4/dx_4$ pieces cancel")
     ax.legend(fontsize=8)
     save_figure(fig, "spin_connection_terms",
                 "The contribution of each direction $\\mu$ to "
                 "$\\gamma^\\mu\\Omega_\\mu$, written as "
-                "$c_4\\gamma^{(x_4)} + c_8\\gamma^{(x_8)}$: the bars show $c_4$ per "
-                "unit $da_4/dx_4$ (left bar of each pair) and $c_8$ per unit $H$ "
+                "$c_4\\gamma^{(x_4)} + c_0\\gamma^{(x_0)}$: the bars show $c_4$ per "
+                "unit $da_4/dx_4$ (left bar of each pair) and $c_0$ per unit $H$ "
                 "(right bar). The inflating directions $x_1, x_2, x_3$ give "
                 "$+(da_4/dx_4)/2$ each and the deflating extra times $x_5, x_6, x_7$ "
                 "give $-(da_4/dx_4)/2$ each, so "
                 "the time-direction pieces cancel; each of the six warped directions "
-                "gives $H/2$ to the coefficient of $\\gamma^{(x_8)}$, in total $3H$; "
+                "gives $H/2$ to the coefficient of $\\gamma^{(x_0)}$, in total $3H$; "
                 "the time $x_4$ and the hidden direction give nothing.")
     '''),
     md(r"""
     ## 8. The factor W^(-3) removes the spin connection
 
     Insert $\Psi = e^{i\mathbf k\cdot\mathbf x}W^{-3}\chi(y, x_4)$ into
-    $\gamma^\mu D_\mu\Psi = \sum_\mu\gamma^\mu\partial_\mu\Psi + 3H\gamma^{(x_8)}\Psi$
+    $\gamma^\mu D_\mu\Psi = \sum_\mu\gamma^\mu\partial_\mu\Psi + 3H\gamma^{(x_0)}\Psi$
     (section 7). Term by term:
 
     1. $y$: $\partial_y(W^{-3}\chi) = W^{-3}(\partial_y\chi - 3H\chi)$ because
-       $\partial_y e^{-3Hy} = -3He^{-3Hy}$. With $\gamma^y = \gamma^{(x_8)}$ the term
-       $-3H\gamma^{(x_8)}\chi$ cancels the $+3H\gamma^{(x_8)}\chi$ of the spin
+       $\partial_y e^{-3Hy} = -3He^{-3Hy}$. With $\gamma^y = \gamma^{(x_0)}$ the term
+       $-3H\gamma^{(x_0)}\chi$ cancels the $+3H\gamma^{(x_0)}\chi$ of the spin
        connection.
     2. 3-space: $\partial_j e^{i\mathbf k\cdot\mathbf x} = ik_j e^{i\mathbf k\cdot
        \mathbf x}$ and $\gamma^{x_j} = \gamma^{(x_j)}/(e^{a_4}W)$, so the term is
@@ -585,18 +585,18 @@ CELLS = [
 
     So, dividing by the common factor $e^{i\mathbf k\cdot\mathbf x}W^{-3}$:
 
-    $$\gamma^\mu D_\mu\Psi \to \gamma^{(x_8)}\partial_y\chi + \gamma^{(x_4)}
+    $$\gamma^\mu D_\mu\Psi \to \gamma^{(x_0)}\partial_y\chi + \gamma^{(x_4)}
     \partial_{x_4}\chi + i\kappa\,k_j\gamma^{(x_j)}\chi .$$
 
     The next cell verifies this with sympy for a column of 16 arbitrary functions
     $\chi_A(y, x_4)$ and an arbitrary history $a_4(x_4)$, and verifies that WITHOUT
-    the factor $W^{-3}$ the term $3H\gamma^{(x_8)}\chi$ survives. It takes about 5
+    the factor $W^{-3}$ the term $3H\gamma^{(x_0)}\chi$ survives. It takes about 5
     seconds.
     """),
     code(r'''
     k1, k2, k3 = sp.symbols("k1 k2 k3", real=True)  # the 3-momentum
     chi = sp.Matrix([sp.Function(f"chi{i}")(Y, x4) for i in range(16)])
-    phase = sp.exp(sp.I * (k1 * X[0] + k2 * X[1] + k3 * X[2]))  # the plane wave
+    phase = sp.exp(sp.I * (k1 * X[1] + k2 * X[2] + k3 * X[3]))  # the plane wave
     kappa = sp.exp(-H * Y - a4)  # the momentum weight
 
 
@@ -608,17 +608,17 @@ CELLS = [
         return result
 
 
-    reduced = (g8 * sp.diff(chi, Y) + g4 * sp.diff(chi, x4)
+    reduced = (g0 * sp.diff(chi, Y) + g4 * sp.diff(chi, x4)
                + sp.I * kappa * (k1 * g1 + k2 * g2 + k3 * g3) * chi)
     with_W3 = sp.simplify(dirac(phase * W ** -3 * chi) / (phase * W ** -3))
     without_W3 = sp.simplify(dirac(phase * chi) / phase)
     check((with_W3 - reduced).applyfunc(sp.simplify).is_zero_matrix
           and record_check("ansatz_removes_spin_connection"),
-          "with W^(-3): the reduced operator g8 d_y + g4 d_x4 + i kappa k.g, exactly",
+          "with W^(-3): the reduced operator g0 d_y + g4 d_x4 + i kappa k.g, exactly",
           record=f"{PY_REPORT}, check ansatz_removes_spin_connection")
-    check((without_W3 - reduced - 3 * H * g8 * chi).applyfunc(sp.simplify)
+    check((without_W3 - reduced - 3 * H * g0 * chi).applyfunc(sp.simplify)
           .is_zero_matrix and record_check("ansatz_without_W3_term_survives"),
-          "without W^(-3) the term 3H gamma^(x8) chi survives",
+          "without W^(-3) the term 3H gamma^(x0) chi survives",
           record=f"{PY_REPORT}, check ansatz_without_W3_term_survives")
     '''),
     md(r"""
@@ -626,24 +626,24 @@ CELLS = [
 
     With the reduced operator of section 8 the Kohn-Sham equation reads
 
-    $$\gamma^{(x_8)}\partial_y\chi + \gamma^{(x_4)}\partial_{x_4}\chi +
+    $$\gamma^{(x_0)}\partial_y\chi + \gamma^{(x_4)}\partial_{x_4}\chi +
     i\kappa k_j\gamma^{(x_j)}\chi = (M - iv\gamma^{(x_4)})\chi$$
 
     ($M$ the effective mass, $v$ the vector potential). Solve for the time
     derivative, line by line:
 
     1. Move everything except the time term to the right: $\gamma^{(x_4)}
-       \partial_{x_4}\chi = (M - iv\gamma^{(x_4)})\chi - \gamma^{(x_8)}\partial_y\chi
+       \partial_{x_4}\chi = (M - iv\gamma^{(x_4)})\chi - \gamma^{(x_0)}\partial_y\chi
        - i\kappa k_j\gamma^{(x_j)}\chi$.
     2. Multiply from the left by $-\gamma^{(x_4)}$; since $\gamma^{(x_4)}
        \gamma^{(x_4)} = -1$, the left side becomes $\partial_{x_4}\chi$.
     3. Multiply by $i$: $i\partial_{x_4}\chi = h\chi$ with
-       $h = i\gamma^{(x_4)}\gamma^{(x_8)}\partial_y - \kappa k_j\gamma^{(x_4)}
+       $h = i\gamma^{(x_4)}\gamma^{(x_0)}\partial_y - \kappa k_j\gamma^{(x_4)}
        \gamma^{(x_j)} + M(-i\gamma^{(x_4)}) + v$.
 
     $h$ is Hermitian (so the levels are real and the norm $\int\chi^\dagger\chi\,dy$
-    is conserved) because: $\gamma^{(x_4)}\gamma^{(x_8)}$ is real and symmetric, so
-    $i\gamma^{(x_4)}\gamma^{(x_8)}$ is anti-Hermitian, and $\partial_y$ is
+    is conserved) because: $\gamma^{(x_4)}\gamma^{(x_0)}$ is real and symmetric, so
+    $i\gamma^{(x_4)}\gamma^{(x_0)}$ is anti-Hermitian, and $\partial_y$ is
     anti-Hermitian too (integration by parts when the boundary terms vanish), so their
     product is Hermitian; $\gamma^{(x_4)}\gamma^{(x_j)}$ and $-i\gamma^{(x_4)}$ are
     Hermitian matrices. The next cell checks the three lines with 16-component
@@ -655,18 +655,18 @@ CELLS = [
     dchi_s = sp.Matrix(sp.symbols("d0:16"))  # d chi/dy at that point
     kap = sp.symbols("kappa", positive=True)
     kg = kap * (k1 * g1 + k2 * g2 + k3 * g3)  # kappa k.gamma
-    # line 1 and 2: d chi/dx4 = -g4 [(M - i v g4) chi - g8 chi' - i kappa k.g chi]
-    dt_chi = -g4 * ((M * I16 - sp.I * v * g4) * chi_s - g8 * dchi_s - sp.I * kg * chi_s)
+    # line 1 and 2: d chi/dx4 = -g4 [(M - i v g4) chi - g0 chi' - i kappa k.g chi]
+    dt_chi = -g4 * ((M * I16 - sp.I * v * g4) * chi_s - g0 * dchi_s - sp.I * kg * chi_s)
     # line 3: h chi with the four pieces of h
-    h_chi = (sp.I * g4 * g8 * dchi_s - kap * g4 * (k1 * g1 + k2 * g2 + k3 * g3) * chi_s
+    h_chi = (sp.I * g4 * g0 * dchi_s - kap * g4 * (k1 * g1 + k2 * g2 + k3 * g3) * chi_s
              + M * (-sp.I * g4) * chi_s + v * chi_s)
     check((sp.I * dt_chi - h_chi).expand().is_zero_matrix,
-          "i d_x4 chi = h chi with h = i g4 g8 d_y - kappa k_j g4 g_j + M(-i g4) + v")
-    hermitian = ((g4 * g8).T == g4 * g8 and all((-g4 * gj).H == -g4 * gj
+          "i d_x4 chi = h chi with h = i g4 g0 d_y - kappa k_j g4 g_j + M(-i g4) + v")
+    hermitian = ((g4 * g0).T == g4 * g0 and all((-g4 * gj).H == -g4 * gj
                                                 for gj in (g1, g2, g3))
                  and (-sp.I * g4).H == -sp.I * g4 and (-sp.I * g4) ** 2 == I16)
     check(hermitian and record_check("hamiltonian_16_hermitian"),
-          "g4 g8 real symmetric; g4 g_j and -i g4 Hermitian; (-i g4)^2 = 1",
+          "g4 g0 real symmetric; g4 g_j and -i g4 Hermitian; (-i g4)^2 = 1",
           record=f"{PY_REPORT}, check hamiltonian_16_hermitian")
     '''),
     md(r"""
@@ -674,20 +674,20 @@ CELLS = [
 
     Rotations of 3-space do not change the levels (section 14), so we may take
     $\mathbf k = (k, 0, 0)$ along $x_1$. Then $h$ is built from the three gammas
-    $\gamma^{(x_8)}$, $\gamma^{(x_1)}$, $\gamma^{(x_4)}$ only; the first-order form
+    $\gamma^{(x_0)}$, $\gamma^{(x_1)}$, $\gamma^{(x_4)}$ only; the first-order form
     $\chi' = N_{16}\chi$ of the equation (section 12) uses the three products
-    $A_0 = \gamma^{(x_8)}$, $A_1 = \gamma^{(x_8)}\gamma^{(x_1)}$,
-    $A_4 = \gamma^{(x_8)}\gamma^{(x_4)}$, and the densities contain $B$ and $C$.
+    $A_0 = \gamma^{(x_0)}$, $A_1 = \gamma^{(x_0)}\gamma^{(x_1)}$,
+    $A_4 = \gamma^{(x_0)}\gamma^{(x_4)}$, and the densities contain $B$ and $C$.
 
     A rule for products of different gammas: moving $\gamma^c$ through a product of
     $p$ different gammas gives the sign $(-1)^{p-1}$ if $\gamma^c$ is one of the
     factors and $(-1)^p$ if it is not. With it one finds three matrices that commute
     with $A_0, A_1, A_4, B, C$ and with each other:
 
-    $$J = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_4)},\quad K_1 = \gamma^{(x_2)}
+    $$J = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_4)},\quad K_1 = \gamma^{(x_2)}
     \gamma^{(x_3)},\quad K_2 = \gamma^{(x_5)}\gamma^{(x_6)} .$$
 
-    Their squares: $J^2 = (-1)^3(\gamma^{(x_8)})^2(\gamma^{(x_1)})^2(\gamma^{(x_4)})^2
+    Their squares: $J^2 = (-1)^3(\gamma^{(x_0)})^2(\gamma^{(x_1)})^2(\gamma^{(x_4)})^2
     = (-1)(1)(1)(-1) = +1$ (reversing three factors needs three swaps), $K_1^2 =
     -(\gamma^{(x_2)})^2(\gamma^{(x_3)})^2 = -1$, $K_2^2 = -(-1)(-1) = -1$. So $J$
     has the eigenvalues $j = \pm1$ and $K_1, K_2$ the eigenvalues $is_2, is_3$ with
@@ -702,8 +702,8 @@ CELLS = [
     eight add up to the unit matrix: the 16 components split into 8 blocks of 2.
     """),
     code(r'''
-    A0, A1, A4 = g8, g8 * g1, g8 * g4  # the matrices of the equation (k along x1)
-    J, K1, K2 = g8 * g1 * g4, g2 * g3, g5 * g6
+    A0, A1, A4 = g0, g0 * g1, g0 * g4  # the matrices of the equation (k along x1)
+    J, K1, K2 = g0 * g1 * g4, g2 * g3, g5 * g6
     commute = all((P * Q - Q * P).is_zero_matrix for P in (J, K1, K2)
                   for Q in (A0, A1, A4, B, C, J, K1, K2))
     check(commute and J * J == I16 and K1 * K1 == -I16 and K2 * K2 == -I16
@@ -722,11 +722,11 @@ CELLS = [
     ## 11. The block basis V
 
     In each eigenspace we choose two basis vectors adapted to the equation. Since
-    $A_0 = \gamma^{(x_8)}$ squares to 1, $\frac12(1 + \gamma^{(x_8)})$ projects on its
+    $A_0 = \gamma^{(x_0)}$ squares to 1, $\frac12(1 + \gamma^{(x_0)})$ projects on its
     eigenvalue $+1$. Take the first unit column $e_c$ (counting $c$ from 0) for which
-    $v_+ = 8\,P(j, s_2, s_3)\,\frac12(1 + \gamma^{(x_8)})\,e_c$ is not zero; then
-    $\gamma^{(x_8)}v_+ = v_+$. Put $v_- = A_1v_+$. Because $A_1$ anticommutes with
-    $A_0$, $\gamma^{(x_8)}v_- = -v_-$. The 16 columns $v_+, v_-$ of the eight blocks,
+    $v_+ = 8\,P(j, s_2, s_3)\,\frac12(1 + \gamma^{(x_0)})\,e_c$ is not zero; then
+    $\gamma^{(x_0)}v_+ = v_+$. Put $v_- = A_1v_+$. Because $A_1$ anticommutes with
+    $A_0$, $\gamma^{(x_0)}v_- = -v_-$. The 16 columns $v_+, v_-$ of the eight blocks,
     in the label order $(1,1,1), (1,1,-1), \dots, (-1,-1,-1)$, form the matrix $U$,
     and $V = U/(2\sqrt2)$.
 
@@ -738,7 +738,7 @@ CELLS = [
     code(r'''
     columns, seeds = [], []
     for P in projectors:
-        P_plus = P * (I16 + g8) / 2  # project on gamma^(x8) = +1 inside the block
+        P_plus = P * (I16 + g0) / 2  # project on gamma^(x0) = +1 inside the block
         c = next(c for c in range(16) if not P_plus[:, c].is_zero_matrix)
         seeds.append(c)
         v_plus = 8 * P_plus[:, c]
@@ -770,7 +770,7 @@ CELLS = [
     $(j, s_2, s_3)$ the forms are printed below. A number such as $js_2$ means that
     number times the $2\times2$ unit matrix. It also checks that NOT every matrix is
     block diagonal: $\gamma^{(x_2)}$, $\gamma^{(x_5)}$ and
-    $\gamma^{(x_8)}\gamma^{(x_2)}$ anticommute with $J$ and connect different blocks
+    $\gamma^{(x_0)}\gamma^{(x_2)}$ anticommute with $J$ and connect different blocks
     (that is why $\mathbf k$ was put along $x_1$), while $\gamma^{(x_1)}$ is block
     diagonal.
     """),
@@ -792,14 +792,14 @@ CELLS = [
 
 
     expected = [  # (name, matrix, the block form as a function of (j, s2, s3))
-        ("gamma^(x8)", g8, lambda j, a, b: s3, "sigma3"),
-        ("gamma^(x8) gamma^(x1)", A1, lambda j, a, b: -sp.I * s2m, "-i sigma2"),
-        ("gamma^(x8) gamma^(x4)", A4, lambda j, a, b: j * s1, "j sigma1"),
+        ("gamma^(x0)", g0, lambda j, a, b: s3, "sigma3"),
+        ("gamma^(x0) gamma^(x1)", A1, lambda j, a, b: -sp.I * s2m, "-i sigma2"),
+        ("gamma^(x0) gamma^(x4)", A4, lambda j, a, b: j * s1, "j sigma1"),
         ("B", B, lambda j, a, b: j * a * I2, "j s2"),
         ("C", C, lambda j, a, b: a * s2m, "s2 sigma2"),
         ("BC = -i gamma^(x4)", B * C, lambda j, a, b: j * s2m, "j sigma2"),
         ("gamma^(x4) gamma^(x1)", g4 * g1, lambda j, a, b: -j * s3, "-j sigma3"),
-        ("B gamma^(x8)", B * g8, lambda j, a, b: j * a * s3, "j s2 sigma3"),
+        ("B gamma^(x0)", B * g0, lambda j, a, b: j * a * s3, "j s2 sigma3"),
         ("J", J, lambda j, a, b: j * I2, "j"),
         ("K1", K1, lambda j, a, b: sp.I * a * I2, "i s2"),
         ("K2", K2, lambda j, a, b: sp.I * b * I2, "i s3"),
@@ -814,9 +814,9 @@ CELLS = [
           "all eleven matrices are block diagonal with the forms of the record",
           record=f"{PY_REPORT}, check blocks_forms")
     not_diagonal = (not blocks_of(g2)[1] and not blocks_of(g5)[1]
-                    and not blocks_of(g8 * g2)[1] and blocks_of(g1)[1])
+                    and not blocks_of(g0 * g2)[1] and blocks_of(g1)[1])
     check(not_diagonal and record_check("blocks_not_everything_block_diagonal"),
-          "gamma^(x2), gamma^(x5), gamma^(x8)gamma^(x2) connect blocks; gamma^(x1) not",
+          "gamma^(x2), gamma^(x5), gamma^(x0)gamma^(x2) connect blocks; gamma^(x1) not",
           record=f"{PY_REPORT}, check blocks_not_everything_block_diagonal")
     '''),
     md(r"""
@@ -824,8 +824,8 @@ CELLS = [
     without derivatives, it uses the matrix $N_{16}$ of the first-order form
     $\chi' = N_{16}\chi$ of the stationary equation at one point: from section 9 with
     $\partial_{x_4}\chi = -i\varepsilon\chi$ and $\mathbf k = (k,0,0)$ one gets
-    $N_{16} = M\gamma^{(x_8)} + i(\varepsilon - v)\gamma^{(x_8)}\gamma^{(x_4)}
-    - i\kappa k\,\gamma^{(x_8)}\gamma^{(x_1)}$. The cell takes the sample values
+    $N_{16} = M\gamma^{(x_0)} + i(\varepsilon - v)\gamma^{(x_0)}\gamma^{(x_4)}
+    - i\kappa k\,\gamma^{(x_0)}\gamma^{(x_1)}$. The cell takes the sample values
     $M = 1$, $\varepsilon = 0.5$, $v = 0$, $\kappa k = 0.7$ and shows the absolute
     values of the entries of $N_{16}$ in the original basis (left), of
     $V^\dagger N_{16}V$ in the block basis (middle; the thin lines mark the eight
@@ -834,8 +834,8 @@ CELLS = [
     (section 13).
     """),
     code(r'''
-    N16 = (1 * g8 + sp.I * sp.Rational(1, 2) * g8 * g4
-           - sp.I * sp.Rational(7, 10) * g8 * g1)  # M = 1, eps = 1/2, v = 0, kappa k = 7/10
+    N16 = (1 * g0 + sp.I * sp.Rational(1, 2) * g0 * g4
+           - sp.I * sp.Rational(7, 10) * g0 * g1)  # M = 1, eps = 1/2, v = 0, kappa k = 7/10
     pictures = [
         (np.abs(np.array(N16.evalf(), dtype=complex)), "$|N_{16}|$, original basis"),
         (np.abs(np.array(sp.simplify(V.H * N16 * V).evalf(), dtype=complex)),
@@ -904,7 +904,7 @@ CELLS = [
     ok_h = True
     for i, (j, a, b) in enumerate(labels):  # the three pieces of h in block i
         Vb = V[:, 2 * i:2 * i + 2]
-        ok_h &= sp.simplify(Vb.H * (sp.I * g4 * g8) * Vb + sp.I * j * s1).is_zero_matrix
+        ok_h &= sp.simplify(Vb.H * (sp.I * g4 * g0) * Vb + sp.I * j * s1).is_zero_matrix
         ok_h &= sp.simplify(Vb.H * (-g4 * g1) * Vb - j * s3).is_zero_matrix
         ok_h &= sp.simplify(Vb.H * (-sp.I * g4) * Vb - j * s2m).is_zero_matrix
     check(ok_h and record_check("block_hamiltonian"),
@@ -968,7 +968,7 @@ CELLS = [
     inverse is $\cos(\theta/2) - \sin(\theta/2)\gamma^{(x_1)}\gamma^{(x_2)}$: with
     $G = \gamma^{(x_1)}\gamma^{(x_2)}$, $c = \cos(\theta/2)$, $s = \sin(\theta/2)$
     and $G^2 = -1$ one gets $(c + sG)(c - sG) = c^2 - s^2G^2 = c^2 + s^2 = 1$.
-    The next cell checks this, and that $R$ commutes with $\gamma^{(x_8)}$,
+    The next cell checks this, and that $R$ commutes with $\gamma^{(x_0)}$,
     $\gamma^{(x_4)}$, $B$ and $C$ (so it does not change the rest of $h$) and that it
     turns $k\gamma^{(x_1)}$ into
     $k(\cos\theta\,\gamma^{(x_1)} - \sin\theta\,\gamma^{(x_2)})$, the same momentum
@@ -983,9 +983,9 @@ CELLS = [
     ok_rotation = (sp.simplify(R * R_inverse) == I16
                    and sp.simplify(rotated - kk * (sp.cos(theta) * g1
                                                    - sp.sin(theta) * g2)).is_zero_matrix
-                   and all((R * Xm - Xm * R).is_zero_matrix for Xm in (g8, g4, B, C)))
+                   and all((R * Xm - Xm * R).is_zero_matrix for Xm in (g0, g4, B, C)))
     check(ok_rotation and record_check("rotation_invariance"),
-          "a 3-space rotation commutes with g8, g4, B, C and rotates k: only |k| counts",
+          "a 3-space rotation commutes with g0, g4, B, C and rotates k: only |k| counts",
           record=f"{PY_REPORT}, check rotation_invariance")
     '''),
     md(r"""
@@ -1126,7 +1126,7 @@ CELLS = [
     - The hidden coordinate $y = \ln(\sin z)/(6H)$ turns the author's metric into the
       warped form with $W = e^{Hy}$; the 7-volume factor $W^6$ does not contain
       $a_4$ (PROVED; reproduces the Revision checks).
-    - In the Dirac operator the spin connection contributes only $3H\gamma^{(x_8)}$,
+    - In the Dirac operator the spin connection contributes only $3H\gamma^{(x_0)}$,
       for every history $a_4(x_4)$: the time-direction pieces $+\frac32 a_4'$ of the
       three inflating directions and $-\frac32 a_4'$ of the three deflating extra
       times cancel exactly (PROVED).

@@ -649,7 +649,7 @@ CELLS = [
     Revision record measures it for $L = 3$ to $6$
     (`Revision/kohn_sham/tip_convergence/`, report `tip-convergence.json`, 7 of 7
     checks PASS). The free results with $k \ne 0$ converge, but the recorded
-    $L = 3$ values are low by up to 1.4% in $E_{KS}$ and 12% in the $p_8$ integral at
+    $L = 3$ values are low by up to 1.4% in $E_{KS}$ and 12% in the $p_0$ integral at
     $a_{4,0} = 2$ (the redshifted brane band reaches the tip); the nonzero (bulk)
     $k = 0$ levels approach $\pm m$ only algebraically; and the interaction energy
     of the brane zero modes depends strongly on $L$.
