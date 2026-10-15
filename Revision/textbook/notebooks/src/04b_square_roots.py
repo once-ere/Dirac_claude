@@ -12,12 +12,12 @@ by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/04b_square_roots.py
 
 Sources (Revision records): Revision/algebra/gammas.json (the author's gammas in the order
-x1..x8, and the matrix B), Revision/theory/reports/python-field-theory.json (checks
+x0..x7, and the matrix B), Revision/theory/reports/python-field-theory.json (checks
 mode_hamiltonian_B_selfadjoint_dispersion, good_sector_spectrum_and_B_sectors and
 extra_time_modes_grow: the plane-wave relation
-h^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16, the full-space spectrum
-"8 each", the exact example m = 2, k = (1, 2, 0, k8 = 4) with E = +5 and -5 four times
-each in the sector B = +1, and the example m = 1, k5 = 2) and
+h^2 = (m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - k7^2) I16, the full-space spectrum
+"8 each", the exact example m = 2, k0 = 4, (k1, k2, k3) = (1, 2, 0) with E = +5 and -5
+four times each in the sector B = +1, and the example m = 1, k5 = 2) and
 Revision/theory/reports/python-scope.json (check extra_time_growth_rates_unbounded). The
 notebook asserts the words of these records, so a changed record fails the check.
 """
@@ -44,7 +44,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's eight gamma matrices in the order x1 to x8, and the matrix B "
+         "the author's eight gamma matrices in the order x0 to x7, and the matrix B "
          "(read; B is rebuilt from the gammas and compared)"],
         ["Revision/theory/reports/python-field-theory.json",
          "checks mode_hamiltonian_B_selfadjoint_dispersion (the formula for h squared), "
@@ -103,11 +103,11 @@ CELLS = [
       three space directions);
     - checks exactly that the author's eight $16 \times 16$ gammas give the square root
       of the quadratic form of his 4+4 dimensional space-time:
-      $(\sum_a p_a\gamma^{(x_a)})^2 = (p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2
-      - p_7^2 + p_8^2)\, I_{16}$;
+      $(\sum_a p_a\gamma^{(x_a)})^2 = (p_0^2 + p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2
+      - p_6^2 - p_7^2)\, I_{16}$;
     - derives, line by line, what the first-order field equation
       $\sum_a \gamma^{(x_a)} \partial_a \Psi = m\Psi$ says about plane waves in flat
-      4+4 dimensions: $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$,
+      4+4 dimensions: $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$,
       and reproduces the Revision record of this relation and of its exact example;
     - shows that a momentum along an extra time enters $E^2$ with a minus sign and
       makes the energies imaginary (waves that grow in time) when it is large enough,
@@ -149,8 +149,8 @@ CELLS = [
     - **Mass shell** (or *dispersion relation*): the relation between $E$, the $k_a$
       and the mass $m$ that a plane wave must obey.
     - **Flat 4+4 space**: space-time with the constant metric
-      $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order
-      $x_1, \dots, x_8$: no gravity, no inflation, no deflation.
+      $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order
+      $x_0, \dots, x_7$: no gravity, no inflation, no deflation.
     - **sympy, symbol**: sympy computes with letters (symbols) such as $p$ and $q$ that
       stand for any number; an identity that sympy proves holds for every value.
     - **Floating-point number**: a number stored with about 16 significant digits;
@@ -187,8 +187,8 @@ CELLS = [
     **The author's 4+4 space-time.** It has eight directions: 3-space $x_1, x_2, x_3$
     (space-like), the time $x_4$ and the three extra times $x_5, x_6, x_7$ (time-like;
     in the author's metric they deflate exponentially, with the scale factor
-    $e^{-a_4}\sin^{1/6} z$), and the hidden space direction $x_8$. In a local frame the
-    signs are $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$, and the author's
+    $e^{-a_4}\sin^{1/6} z$), and the hidden space direction $x_0$. In a local frame the
+    signs are $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$, and the author's
     eight real $16 \times 16$ matrices satisfy the Clifford relation with this $\eta$.
     The field equation of the theory is $\gamma^\mu D_\mu\Psi = (m + U'(S))\Psi$, in which
     $\gamma^\mu$ is $\gamma^{(x_\mu)}$ divided by the frame factor
@@ -491,10 +491,10 @@ CELLS = [
 
     The next cell reads the author's gammas from the Revision record file
     `Revision/algebra/gammas.json` (a list of eight matrices in the order
-    $x_1, \dots, x_8$, entries whole numbers) together with the signs $\eta$, and makes
-    a sympy copy. With eight symbols $p_1, \dots, p_8$ it forms
+    $x_0, \dots, x_7$, entries whole numbers) together with the signs $\eta$, and makes
+    a sympy copy. With eight symbols $p_0, \dots, p_7$ it forms
     $\not p = \sum_a p_a\gamma^{(x_a)}$ (read "p slash") and checks exactly that
-    $\not p^{\,2} = (p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2 - p_7^2 + p_8^2)
+    $\not p^{\,2} = (p_0^2 + p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2 - p_7^2)
     I_{16}$ for all values of the $p_a$. By the general rule of the situation section
     this identity is the same statement as the Clifford relation of the eight
     matrices.
@@ -502,7 +502,7 @@ CELLS = [
     code(r'''
     record = json.loads(repository_file("Revision/algebra/gammas.json")
                         .read_text(encoding="utf-8"))
-    eta = record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1] in the order x1..x8
+    eta = record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1] in the order x0..x7
     for matrix in record["gamma"]:  # the entries must be whole numbers
         if not all(isinstance(x, int) for row in matrix for x in row):
             raise ValueError("a gamma matrix of gammas.json has an entry that is not "
@@ -511,7 +511,7 @@ CELLS = [
     sympy_gamma = [sp.Matrix(matrix) for matrix in record["gamma"]]
     say("coordinates " + ", ".join(record["coordinates"]) + f"; eta = {eta}")
 
-    p_symbols = sp.symbols("p1:9", real=True)  # p1, p2, ..., p8
+    p_symbols = sp.symbols("p0:8", real=True)  # p0, ..., p7: p_symbols[a] is p_a
     p_slash = sp.zeros(16, 16)
     for a in range(8):
         p_slash += p_symbols[a] * sympy_gamma[a]
@@ -563,8 +563,8 @@ CELLS = [
                 "The author's gammas take the square root of the 4+4 quadratic form, "
                 "tested with 300 random vectors $p$ (pure numbers). Left: the diagonal "
                 "entry of the matrix $(\\sum_a p_a\\gamma^{(x_a)})^2$ against "
-                "$\\eta(p,p) = p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2 - p_7^2 + "
-                "p_8^2$; all points lie on the line of slope 1, for positive and "
+                "$\\eta(p,p) = p_0^2 + p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2 - "
+                "p_7^2$; all points lie on the line of slope 1, for positive and "
                 "negative $\\eta(p,p)$. Right: for each vector the largest deviation of "
                 "an entry of this matrix from $\\eta(p,p) I_{16}$, on a logarithmic "
                 "scale; it is of the size of floating-point rounding, far below the "
@@ -577,7 +577,7 @@ CELLS = [
     In flat 4+4 space the field equation without self-interaction is
     $\sum_a \gamma^{(x_a)}\partial_a\Psi = m\Psi$ ($\partial_a$ is the derivative with
     respect to $x_a$). Take a plane wave
-    $\Psi = u\,e^{i(k_1x_1 + k_2x_2 + k_3x_3 + k_5x_5 + k_6x_6 + k_7x_7 + k_8x_8 - Ex_4)}$
+    $\Psi = u\,e^{i(k_1x_1 + k_2x_2 + k_3x_3 + k_5x_5 + k_6x_6 + k_7x_7 + k_0x_0 - Ex_4)}$
     with a constant column $u$. Line by line:
 
     1. $\partial_a\Psi = ik_a\Psi$ for $a \neq 4$ and $\partial_4\Psi = -iE\Psi$ (the
@@ -609,8 +609,8 @@ CELLS = [
     So $\beta$ and the $\alpha_a$ obey a Clifford relation, and by the general rule of
     the situation section $h^2 = (m^2 + \sum_{a\neq4}\eta^{aa}k_a^2) I_{16}$, that is
 
-    $$h^2 = (m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2)\, I_{16},
-    \qquad E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2 .$$
+    $$h^2 = (m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2)\, I_{16},
+    \qquad E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2 .$$
 
     The next cell checks the formula for $h^2$ exactly with symbols. The Revision record
     verified the same formula (`Revision/theory/reports/python-field-theory.json`, check
@@ -633,17 +633,17 @@ CELLS = [
         return entry.get("detail", "") if passed else ""
 
 
-    m, k = sp.symbols("m", real=True), sp.symbols("k1:9", real=True)  # k[0] is k1
-    g4 = sympy_gamma[3]  # gamma^(x4)
+    m, k = sp.symbols("m", real=True), sp.symbols("k0:8", real=True)  # k[a] is k_a
+    g4 = sympy_gamma[4]  # gamma^(x4)
     h = -sp.I * m * g4
     for a in range(8):
-        if a != 3:  # every direction except the time x4
+        if a != 4:  # every direction except the time x4
             h -= k[a] * g4 * sympy_gamma[a]
-    dispersion = m**2 + k[0]**2 + k[1]**2 + k[2]**2 + k[7]**2 \
-        - k[4]**2 - k[5]**2 - k[6]**2
+    dispersion = m**2 + k[0]**2 + k[1]**2 + k[2]**2 + k[3]**2 \
+        - k[5]**2 - k[6]**2 - k[7]**2
     # h and h^2 in the words of the record, quoted exactly as the record writes them
     H_WORDS = "h = -i m gamma^(4) - sum_{a != x4} k_a gamma^(4) gamma^(a)"
-    H2_WORDS = "h^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16"
+    H2_WORDS = "h^2 = (m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - k7^2) I16"
     detail = recorded_detail("mode_hamiltonian_B_selfadjoint_dispersion")
     check((h * h).expand() == dispersion * sp.eye(16)
           and H_WORDS in detail and H2_WORDS in detail, H2_WORDS)
@@ -658,15 +658,15 @@ CELLS = [
     time-like directions). So $\beta^\dagger = i g_4^T = -i g_4 = \beta$, and
     $\alpha_a$ is real with $\alpha_a^T = -g_a^T g_4^T = \eta^{aa} g_a g_4
     = -\eta^{aa} g_4 g_a = \eta^{aa}\alpha_a$: Hermitian for the space-like
-    $a = x_1, x_2, x_3, x_8$ (and anti-Hermitian for the extra times, which is why
-    they are left out here). The record uses the example $m = 2$ and
-    $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$: $E^2 = 4 + 1 + 4 + 0 + 16 = 25$,
+    $a = x_0, x_1, x_2, x_3$ (and anti-Hermitian for the extra times, which is why
+    they are left out here). The record uses the example $m = 2$, $k_0 = 4$ and
+    $(k_1, k_2, k_3) = (1, 2, 0)$: $E^2 = 4 + 16 + 1 + 4 + 0 = 25$,
     $E = \pm 5$. The 16 eigenvalues add up to the trace of $h$ (true for every square
     matrix), which is 0 (every gamma product in $h$ has trace 0); with $n_+$ eigenvalues
     $+5$ and $n_-$ eigenvalues $-5$, $n_+ + n_- = 16$ and $5n_+ - 5n_- = 0$, so $+5$
     and $-5$ occur 8 times each. The record states exactly this for the full
     16-dimensional space: $h$ is Hermitian there, with the energies
-    $\pm\sqrt{m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2}$, "8 each". The next cell computes
+    $\pm\sqrt{m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2}$, "8 each". The next cell computes
     the eigenvalues numerically, counts the independent solutions $u$ at $E = +5$ and
     at $E = -5$ (the number of singular values of $EI_{16} - h$ below $10^{-9}$), checks
     them, and requires the record's words. It also computes, for 801 energies from
@@ -678,20 +678,20 @@ CELLS = [
 
 
     def h_matrix(mass_value, momenta):
-        """The numeric h for the mass and the eight momenta (momenta[3] is not used)."""
-        result = -1j * mass_value * gamma_complex[3]
+        """The numeric h for the mass and the eight momenta (momenta[4] is not used)."""
+        result = -1j * mass_value * gamma_complex[4]
         for a in range(8):
-            if a != 3:
-                result = result - momenta[a] * gamma_complex[3] @ gamma_complex[a]
+            if a != 4:
+                result = result - momenta[a] * gamma_complex[4] @ gamma_complex[a]
         return result
 
 
-    example = h_matrix(2.0, [1.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0])
+    example = h_matrix(2.0, [4.0, 1.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0])  # k0, k1, k2 = 4, 1, 2
     hermitian = np.array_equal(example, example.conj().T)  # h^dagger = h, exactly
     eigenvalues = np.linalg.eigvalsh(example)  # real eigenvalues, increasing order
     rounded = [float(x) for x in np.round(eigenvalues, 9)]  # 9 decimals
     multiplicities = {value: rounded.count(value) for value in sorted(set(rounded))}
-    report("eigenvalue: multiplicity of h for m = 2, k = (1, 2, 0, k8 = 4)",
+    report("eigenvalue: multiplicity of h for m = 2, k0 = 4, (k1, k2, k3) = (1, 2, 0)",
            multiplicities)
     solutions = [int(np.sum(np.linalg.svd(e * np.eye(16) - example, compute_uv=False)
                             < 1e-9)) for e in (5.0, -5.0)]  # singular values near 0
@@ -723,14 +723,15 @@ CELLS = [
         ax.axvline(e, color="#898781", linewidth=1, linestyle=":")
     ax.set_xlabel("energy $E$")
     ax.set_ylabel("smallest singular value of $E I_{16} - h$")
-    ax.set_title("plane waves in flat 4+4 space, $m = 2$, $k = (1, 2, 0;\\ k_8 = 4)$")
+    ax.set_title("plane waves in flat 4+4 space, $m = 2$, $k_0 = 4$, "
+                 "$(k_1, k_2, k_3) = (1, 2, 0)$")
     save_figure(fig, "mass_shell_4p4",
                 "Plane waves of the author's first-order equation in flat 4+4 space "
                 "without extra-time momentum: the smallest singular value of "
-                "$E I_{16} - h$ for $m = 2$, $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$ and "
+                "$E I_{16} - h$ for $m = 2$, $k_0 = 4$, $(k_1, k_2, k_3) = (1, 2, 0)$ and "
                 "energies $E$ from $-8$ to $8$ (pure numbers). It is the distance from "
                 "$E$ to the nearest of the eigenvalues $\\pm 5$ (dotted lines) and "
-                "vanishes only there, where $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 "
+                "vanishes only there, where $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 "
                 "= 25$; each of the two energies belongs to eight independent "
                 "solutions. The curve has the same shape as for Dirac's matrices: the "
                 "same algebra in more directions.")
@@ -739,7 +740,7 @@ CELLS = [
     **The record's exact example lives in the sector $B = +1$.** The Revision record
     states the spectrum of its example not on all 16 components but in a sector of the
     matrix $B = -iC\gamma^{(x_4)}$, where
-    $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ is the product of
+    $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ is the product of
     the four space-like gammas; the record file `Revision/algebra/gammas.json` stores
     $B$. $B$ is Hermitian with $B^2 = I_{16}$ and trace 0, so its eigenvalues are $+1$
     and $-1$, 8 times each. Without extra-time momentum $B$ commutes with $h$:
@@ -749,8 +750,8 @@ CELLS = [
     $\gamma^{(x_4)}\gamma^{(x_a)}$ for $a = x_5, x_6, x_7$, so such a momentum mixes the
     two sectors.
 
-    The next cell first checks exactly (sympy, for all values of $m, k_1, k_2, k_3,
-    k_8$): $B$ built from the gammas equals the stored $B$; $B^\dagger = B$,
+    The next cell first checks exactly (sympy, for all values of $m, k_0, k_1, k_2,
+    k_3$): $B$ built from the gammas equals the stored $B$; $B^\dagger = B$,
     $B^2 = I_{16}$, $\mathrm{tr}\, B = 0$; $Bh = hB$ without extra-time momentum; $B$
     anticommutes with $\gamma^{(x_4)}\gamma^{(x_a)}$ for the three extra times; and
     $\mathrm{tr}(hP) = 0$ for $P = (I_{16} + B)/2$, the matrix that keeps the $B = +1$
@@ -764,13 +765,13 @@ CELLS = [
     and requires the record's words for this example.
     """),
     code(r'''
-    C_exact = sympy_gamma[7] * sympy_gamma[0] * sympy_gamma[1] * sympy_gamma[2]
+    C_exact = sympy_gamma[0] * sympy_gamma[1] * sympy_gamma[2] * sympy_gamma[3]
     B_exact = -sp.I * C_exact * g4  # B = -i C gamma^(x4)
     B_stored = sp.Matrix(record["B"]["re"]) + sp.I * sp.Matrix(record["B"]["im"])
-    h_good = h.subs({k[4]: 0, k[5]: 0, k[6]: 0})  # no momentum along an extra time
+    h_good = h.subs({k[5]: 0, k[6]: 0, k[7]: 0})  # no momentum along an extra time
     P_exact = (sp.eye(16) + B_exact) / 2  # keeps the B = +1 part of a column
     mixes = all(B_exact * g4 * sympy_gamma[a] == -g4 * sympy_gamma[a] * B_exact
-                for a in (4, 5, 6))  # anticommutes with gamma^(x4) gamma^(x5, x6, x7)
+                for a in (5, 6, 7))  # anticommutes with gamma^(x4) gamma^(x5, x6, x7)
     check(B_exact == B_stored and B_exact.H == B_exact
           and B_exact * B_exact == sp.eye(16) and B_exact.trace() == 0
           and (B_exact * h_good - h_good * B_exact).expand() == sp.zeros(16, 16)
@@ -790,8 +791,8 @@ CELLS = [
     plus_counts = {value: plus_rounded.count(value)
                    for value in sorted(set(plus_rounded))}
     report("eigenvalue: multiplicity of h in the sector B = +1", plus_counts)
-    sector_words = (f"m = 2, k = (1,2,0,k8=4) on B = +1: +5 (x{plus_counts.get(5.0)}),"
-                    f" -5 (x{plus_counts.get(-5.0)})")  # as the record writes them
+    sector_words = (f"m = 2, k0 = 4, (k1, k2, k3) = (1, 2, 0) on B = +1: +5 "
+                    f"({plus_counts.get(5.0)} times), -5 ({plus_counts.get(-5.0)} times)")
     check(V.shape == (16, 8)
           and np.allclose(V @ V.conj().T, (np.eye(16) + B_numeric) / 2, atol=1e-12)
           and np.allclose(example @ V, V @ h_plus, atol=1e-12)
@@ -817,7 +818,7 @@ CELLS = [
     both energies are 0, is left out), checks that 8 of them are
     $+\sqrt{25 - k_5^2}$ and 8 are $-\sqrt{25 - k_5^2}$ (complex square root) to
     $10^{-10}$, and draws their real and imaginary parts. For $k_5 > 5$ the imaginary
-    part $\sqrt{k_5^2 - 25} = \sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$ is the
+    part $\sqrt{k_5^2 - 25} = \sqrt{k_5^2 - m^2 - k_0^2 - k_1^2 - k_2^2 - k_3^2}$ is the
     *growth rate* of the wave; the Revision record states this formula
     (`Revision/theory/reports/python-scope.json`, check
     `extra_time_growth_rates_unbounded`). The cell first lets sympy write the formula
@@ -833,7 +834,7 @@ CELLS = [
     scope_passed = scope_entry.get("verdict", "").upper() == "PASS"
     scope_detail = scope_entry.get("detail", "") if scope_passed else ""
     K = sp.symbols("K", positive=True)  # a momentum K along the extra time x5
-    rate = sp.sqrt(-dispersion.subs({k[4]: K, k[5]: 0, k[6]: 0}))  # Im E if E^2 < 0
+    rate = sp.sqrt(-dispersion.subs({k[5]: K, k[6]: 0, k[7]: 0}))  # Im E if E^2 < 0
     say(f"h^2 = ({dispersion}) I16")
     say(f"growth rate for k5 = K: Im E = {rate}")
     scope_ok = (f"h_k^2 = ({dispersion}) I16" in scope_detail
@@ -843,7 +844,7 @@ CELLS = [
     k5_values = np.linspace(0.025, 7.975, 160)  # steps of 0.05, avoiding k5 = 5
     real_parts, imaginary_parts, deviations, counts_ok = [], [], [], True
     for k5 in k5_values:
-        values = np.linalg.eigvals(h_matrix(2.0, [1.0, 2.0, 0.0, 0.0, k5, 0.0, 0.0, 4.0]))
+        values = np.linalg.eigvals(h_matrix(2.0, [4.0, 1.0, 2.0, 0.0, 0.0, k5, 0.0, 0.0]))
         root = np.sqrt(complex(25.0 - k5**2))  # +sqrt(25 - k5^2), complex if needed
         to_plus, to_minus = np.abs(values - root), np.abs(values + root)
         deviations.append(np.max(np.minimum(to_plus, to_minus)))
@@ -871,7 +872,7 @@ CELLS = [
     right.set_title("imaginary parts: $\\pm\\sqrt{k_5^2 - 25}$ for $k_5 > 5$")
     save_figure(fig, "extra_time_momentum",
                 "The 16 energies $E$ of the plane waves of the example ($m = 2$, "
-                "$(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$) when a momentum $k_5$ along the "
+                "$k_0 = 4$, $(k_1, k_2, k_3) = (1, 2, 0)$) when a momentum $k_5$ along the "
                 "extra time $x_5$ is added, for $k_5$ from 0 to 8 (pure numbers, flat "
                 "4+4 space). Left: real parts; right: imaginary parts. The energies "
                 "obey $E^2 = 25 - k_5^2$: eight equal $+\\sqrt{25 - k_5^2}$ and eight "
@@ -895,15 +896,16 @@ CELLS = [
 
     **Why the deflation matters here.** In the author's metric the extra times
     deflate. A wave with a fixed *coordinate* momentum $k_{x_5}$ along $x_5$ has the
-    *frame* momentum $e^{a_4}\sin^{-1/6}(z)\, k_{x_5}$: the derivative along the
-    coordinate $x_5$ is divided by the frame factor $e^{-a_4}\sin^{1/6} z$ of the
-    direction $x_5$. As $a_4$ grows this frame momentum grows like $e^{a_4}$, so,
+    *frame* momentum $b_4^{-1/2}e^{a_4}\sin^{-1/6}(z)\, k_{x_5}$: the derivative along
+    the coordinate $x_5$ is divided by the frame factor $b_4^{1/2}e^{-a_4}\sin^{1/6} z$
+    of the direction $x_5$. As $a_4$ grows (with $b_4$ constant; the record states it at
+    $b_4 = 1$) this frame momentum grows like $e^{a_4}$, so,
     in the local plane-wave reading that the same Revision check states, every wave
     along an extra time eventually reaches the region where $E$ is imaginary. This
     notebook computes only the flat algebra behind that statement.
     """),
     code(r'''
-    example_values = {m: 1, k[0]: 0, k[1]: 0, k[2]: 0, k[4]: 2, k[5]: 0, k[6]: 0,
+    example_values = {m: 1, k[0]: 0, k[1]: 0, k[2]: 0, k[3]: 0, k[5]: 2, k[6]: 0,
                       k[7]: 0}  # mass 1, momentum 2 along x5, nothing else
     h_example = h.subs(example_values)  # the exact 16 x 16 matrix h for these numbers
     exact_eigenvalues = h_example.eigenvals()  # {eigenvalue: multiplicity}
@@ -946,11 +948,11 @@ CELLS = [
       contains $E^2 = m^2 + k^2$.
     - PROVED (exact, sympy, with the gammas of the Revision record file
       `Revision/algebra/gammas.json`): $(\sum_a p_a\gamma^{(x_a)})^2 =
-      (p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2 - p_7^2 + p_8^2)I_{16}$ for all
+      (p_0^2 + p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2 - p_7^2)I_{16}$ for all
       $p$: the author's gammas take the square root of the quadratic form of his
       space-time.
     - PROVED (exact): plane waves of $\sum_a\gamma^{(x_a)}\partial_a\Psi = m\Psi$ in flat
-      4+4 space obey $Eu = hu$ with $h^2 = (m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2
+      4+4 space obey $Eu = hu$ with $h^2 = (m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2
       - k_6^2 - k_7^2) I_{16}$; this reproduces the Revision record
       (`Revision/theory/reports/python-field-theory.json`, check
       `mode_hamiltonian_B_selfadjoint_dispersion`).
@@ -959,13 +961,14 @@ CELLS = [
       a momentum along an extra time mixes the sectors $B = +1$ and $B = -1$ (check
       `good_sector_spectrum_and_B_sectors`).
     - COMPUTED (floating point; every deviation from the exact values is below
-      $10^{-9}$): the record's example ($m = 2$, $k = (1, 2, 0, k_8 = 4)$) has the
-      energies $+5$ and $-5$, eight each, with eight independent solutions each, on
-      all 16 components, and four each in the sector $B = +1$ (both statements of
+      $10^{-9}$): the record's example ($m = 2$, $k_0 = 4$,
+      $(k_1, k_2, k_3) = (1, 2, 0)$) has the energies $+5$ and $-5$, eight each, with
+      eight independent solutions each, on all 16 components, and four each in the
+      sector $B = +1$ (both statements of
       check `good_sector_spectrum_and_B_sectors`); a momentum along an extra time
       makes the energies imaginary when
-      $k_5^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$, with the growth rate
-      $\sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$
+      $k_5^2 > m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2$, with the growth rate
+      $\sqrt{k_5^2 - m^2 - k_0^2 - k_1^2 - k_2^2 - k_3^2}$
       (`Revision/theory/reports/python-scope.json`, check
       `extra_time_growth_rates_unbounded`). PROVED (exact, sympy): the record's example
       $m = 1$, $k_5 = 2$ has the energies $\pm i\sqrt3$, eight each (check

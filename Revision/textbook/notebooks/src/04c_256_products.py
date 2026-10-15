@@ -11,7 +11,7 @@ by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/04c_256_products.py
 
-Sources (Revision records): Revision/algebra/gammas.json (the gammas, order x1..x8),
+Sources (Revision records): Revision/algebra/gammas.json (the gammas, order x0..x7),
 Revision/algebra/reports/wolfram-algebra.json (checks
 Clifford_basis_spans_full_matrix_algebra, even_subalgebra_dimension) and
 Revision/algebra/reports/python-algebra.json (checks clifford_products_span_M16,
@@ -42,7 +42,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's eight gamma matrices in the order x1 to x8 (read), and the "
+         "the author's eight gamma matrices in the order x0 to x7 (read), and the "
          "64 matrices S, compared entry by entry"],
         ["Revision/algebra/reports/wolfram-algebra.json",
          "checks Clifford_basis_spans_full_matrix_algebra, "
@@ -88,7 +88,7 @@ CELLS = [
 
     The *Clifford algebra* Cl(4,4) of the author's space-time is the set of all real
     linear combinations of products of his eight gamma matrices
-    $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$. This notebook shows, exactly, that it is the
+    $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$. This notebook shows, exactly, that it is the
     set of ALL real $16 \times 16$ matrices, and why 16 is the smallest size that eight
     such matrices can have. It
 
@@ -150,8 +150,8 @@ CELLS = [
 
     The author's gammas satisfy the Clifford relation
     $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}I_{16}$ with
-    $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order of his coordinates
-    $x_1, \dots, x_8$: space-like 3-space $x_1, x_2, x_3$ and hidden direction $x_8$,
+    $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order of his coordinates
+    $x_0, \dots, x_7$: space-like hidden direction $x_0$ and 3-space $x_1, x_2, x_3$,
     time-like time $x_4$ and extra times $x_5, x_6, x_7$ (the extra times deflate
     exponentially in his metric; the gammas, which belong to the local frame, are
     constant). Everything below follows from this relation alone; the computer checks
@@ -206,10 +206,10 @@ CELLS = [
     ## 5. The 256 products
 
     The next cell reads the gammas from the Revision record file
-    `Revision/algebra/gammas.json` (eight matrices in the order $x_1, \dots, x_8$, whole
+    `Revision/algebra/gammas.json` (eight matrices in the order $x_0, \dots, x_7$, whole
     numbers), then forms the 256 products. `itertools.combinations(range(8), k)` lists the
-    sets of $k$ directions in increasing order (direction index 0 is $x_1$, ..., 7 is
-    $x_8$), for $k = 0, 1, \dots, 8$, which is also the order of the Revision verifier.
+    sets of $k$ directions in increasing order (direction index 0 is $x_0$, ..., 7 is
+    $x_7$), for $k = 0, 1, \dots, 8$, which is also the order of the Revision verifier.
     The products are kept in one numpy array `products` of shape (256, 16, 16): product
     number $i$ is `products[i]`. The cell then counts the products of each degree and
     compares with the binomial coefficients $\binom{8}{k}$.
@@ -225,7 +225,7 @@ CELLS = [
 
     record = json.loads(repository_file("Revision/algebra/gammas.json")
                         .read_text(encoding="utf-8"))
-    eta = record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1] in the order x1..x8
+    eta = record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1] in the order x0..x7
     gamma = [np.array(matrix, dtype=np.int64) for matrix in record["gamma"]]
     I16 = np.eye(16, dtype=np.int64)
 
@@ -241,8 +241,8 @@ CELLS = [
 
 
     def label(s):
-        """A short name of a set: its coordinate numbers, e.g. (1, 4) -> "25"."""
-        return "".join(str(a + 1) for a in s) if s else "I"
+        """A short name of a set: its coordinate numbers, e.g. (1, 4) -> "14"."""
+        return "".join(str(a) for a in s) if s else "I"
 
 
     counts = [int(np.sum(DEGREE == k)) for k in range(9)]
@@ -323,7 +323,7 @@ CELLS = [
     matrices.
     """),
     code(r'''
-    four = [s for s in SETS if all(a < 4 for a in s)]  # the 16 sets inside x1..x4
+    four = [s for s in SETS if set(s) <= {1, 2, 3, 4}]  # the 16 sets inside x1..x4
     table = np.array([[SIGN[INDEX[A], INDEX[B]] for B in four] for A in four])
     fig, ax = plt.subplots(figsize=(7.4, 7.0), layout="constrained")
     ax.imshow(table, cmap=ListedColormap(["#2a78d6", "#e34948"]),
@@ -451,8 +451,8 @@ CELLS = [
     the order of degree), on the right a magnified corner of the table
     $\mathrm{tr}(\gamma_A\gamma_B)/16$: the 37 products of degree 0, 1 and 2, each named
     by the numbers of its coordinates. In the corner one can read off the squares: $+1$
-    for $I_{16}$ and for the space-like $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)},
-    \gamma^{(x_8)}$, $-1$ for the time-like ones, and for a product of two gammas
+    for $I_{16}$ and for the space-like $\gamma^{(x_0)}, \gamma^{(x_1)}, \gamma^{(x_2)},
+    \gamma^{(x_3)}$, $-1$ for the time-like ones, and for a product of two gammas
     $(\gamma^a\gamma^b)^2 = -\eta^{aa}\eta^{bb}$ (rule R2 with $k = 2$).
     """),
     code(r'''
@@ -484,7 +484,7 @@ CELLS = [
                 "$\\mathrm{tr}(\\gamma_A\\gamma_B)/16$, the 37 products of degree 0, 1 "
                 "and 2 named by their coordinate numbers (I is the identity); it is "
                 "zero off the diagonal, and its diagonal shows the square of each "
-                "product: $+1$ for I, 1, 2, 3, 8, $-1$ for 4, 5, 6, 7, and "
+                "product: $+1$ for I, 0, 1, 2, 3, $-1$ for 4, 5, 6, 7, and "
                 "$-\\eta^{aa}\\eta^{bb}$ for a product $\\gamma^a\\gamma^b$.")
     '''),
     md(r"""
@@ -705,7 +705,7 @@ CELLS = [
     Z2, I2 = sp.zeros(2, 2), sp.eye(2)
     dirac = [sp.Matrix(sp.BlockMatrix([[I2, Z2], [Z2, -I2]]))] + [
         sp.Matrix(sp.BlockMatrix([[Z2, s], [-s, Z2]])) for s in (sigma_x, sigma_y, sigma_z)]
-    taus = [sp.Matrix(gamma[a][8:, :8].tolist()) for a in range(7)]  # tau[1..7]
+    taus = [sp.Matrix(gamma[a][8:, :8].tolist()) for a in range(1, 8)]  # tau[1..7]
     examples = {"n = 2, real 2 x 2": [sigma_x, N_matrix], "n = 4, Dirac 4 x 4": dirac,
                 "n = 7, tau 8 x 8": taus, "n = 8, gammas 16 x 16":
                     [sp.Matrix(g.tolist()) for g in gamma]}
@@ -764,7 +764,7 @@ CELLS = [
     ## 13. The 28 products of two different gammas
 
     The products of degree 2, $\gamma^a\gamma^b$ with $a$ before $b$ in the order
-    $x_1, \dots, x_8$, are $\binom{8}{2} = 28$ matrices. Half of each of them is a matrix
+    $x_0, \dots, x_7$, are $\binom{8}{2} = 28$ matrices. Half of each of them is a matrix
     that the Revision record names $S^{ab}$:
     $S^{ab} = \tfrac14(\gamma^a\gamma^b - \gamma^b\gamma^a)$. Line by line, for
     $a \neq b$: $\gamma^b\gamma^a = -\gamma^a\gamma^b$ (two different gammas
@@ -844,9 +844,9 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws the 28 products as a triangular table of heat maps: the panel
-    in row $x_a$ and column $x_b$ shows $\gamma^a\gamma^b$ (rows $x_1$ to $x_7$, columns
-    $x_2$ to $x_8$; the panels on the diagonal of the grid show $x_1x_2, x_2x_3, \dots,
-    x_7x_8$, and the panels below it stay empty). A black frame
+    in row $x_a$ and column $x_b$ shows $\gamma^a\gamma^b$ (rows $x_0$ to $x_6$, columns
+    $x_1$ to $x_7$; the panels on the diagonal of the grid show $x_0x_1, x_1x_2, \dots,
+    x_6x_7$, and the panels below it stay empty). A black frame
     marks a rotation plane (square $-I_{16}$), a green frame a boost plane (square
     $+I_{16}$).
     """),
@@ -857,7 +857,7 @@ CELLS = [
     fig, axes = plt.subplots(7, 7, figsize=(8.6, 8.9), layout="constrained")
     for r, c_ in itertools.product(range(7), repeat=2):
         ax = axes[r, c_]
-        a, b = r, c_ + 1  # row: first factor x_(a+1); column: second factor x_(b+1)
+        a, b = r, c_ + 1  # row: first factor x_a; column: second factor x_b
         if b <= a:
             ax.axis("off")  # no panel below the diagonal of the grid (c_ < r)
             continue
@@ -867,7 +867,7 @@ CELLS = [
         for spine in ax.spines.values():  # the frame of the panel
             spine.set_edgecolor(FRAME[square_of[(a, b)]])
             spine.set_linewidth(2.0)
-        ax.set_title(f"$x_{a + 1}\\,x_{b + 1}$", fontsize=8)
+        ax.set_title(f"$x_{a}\\,x_{b}$", fontsize=8)
     key = [Patch(facecolor="white", edgecolor=FRAME[-1], linewidth=2,
                  label="square $-I_{16}$: rotation plane (12)"),
            Patch(facecolor="white", edgecolor=FRAME[1], linewidth=2,
@@ -880,7 +880,7 @@ CELLS = [
                 "The 28 products $\\gamma^a\\gamma^b$ of two different gammas of the "
                 "author, each drawn as a $16 \\times 16$ heat map (blue $-1$, grey $0$, "
                 "red $+1$); the panel titled $x_a x_b$ shows $\\gamma^a\\gamma^b$, with "
-                "$x_a$ before $x_b$ in the order $x_1$ to $x_8$. Every product is block "
+                "$x_a$ before $x_b$ in the order $x_0$ to $x_7$. Every product is block "
                 "diagonal, with its 16 nonzero entries in the two diagonal "
                 "$8 \\times 8$ blocks. Black frames mark the 12 products that square to "
                 "$-I_{16}$ (two directions of the same kind: rotation planes), green "

@@ -1,12 +1,12 @@
 ## 4. Clifford algebra Cl(4,4) and the author's T16
 
-The field equations of this book contain eight real $16 \times 16$ matrices, the **gamma matrices** $\gamma^{(x_1)}, \gamma^{(x_2)}, \dots, \gamma^{(x_8)}$, one for each direction of the author's eight-dimensional space-time. This chapter explains from zero why such matrices are needed, why they must have at least 16 rows and 16 columns, how the author built his matrices (he calls them T16) in his Mathematica notebook, which rules they obey, and what all their products together make up: the **Clifford algebra** Cl(4,4). The chapter has four worked examples, each a complete notebook. Notebook 04a rebuilds T16 from the author's formulas with exact whole-number arithmetic and checks every rule. Notebook 04b follows the square-root idea from the matrices of Pauli and Dirac to the author's eight gammas and to the plane waves of the field. Notebook 04c forms all 256 products of the gammas and proves that they make up all real $16 \times 16$ matrices. Notebook 04d builds a second set of gammas from three $2 \times 2$ matrices and finds the one and only change of basis between the two sets. Everything in this chapter is the algebra of constant matrices; it makes no statement about the creation of universes or about matter and antimatter.
+The field equations of this book contain eight real $16 \times 16$ matrices, the **gamma matrices** $\gamma^{(x_0)}, \gamma^{(x_1)}, \dots, \gamma^{(x_7)}$, one for each direction of the author's eight-dimensional space-time. This chapter explains from zero why such matrices are needed, why they must have at least 16 rows and 16 columns, how the author built his matrices (he calls them T16) in his Mathematica notebook, which rules they obey, and what all their products together make up: the **Clifford algebra** Cl(4,4). The chapter has four worked examples, each a complete notebook. Notebook 04a rebuilds T16 from the author's formulas with exact whole-number arithmetic and checks every rule. Notebook 04b follows the square-root idea from the matrices of Pauli and Dirac to the author's eight gammas and to the plane waves of the field. Notebook 04c forms all 256 products of the gammas and proves that they make up all real $16 \times 16$ matrices. Notebook 04d builds a second set of gammas from three $2 \times 2$ matrices and finds the one and only change of basis between the two sets. Everything in this chapter is the algebra of constant matrices; it makes no statement about the creation of universes or about matter and antimatter.
 
 ### 4.1 Why matrices, and why sixteen components
 
 The length of an arrow in the plane with the components $p$ and $q$ is $\sqrt{p^2 + q^2}$ (Pythagoras). A square root is an awkward object in an equation: it is not linear, and it cannot be differentiated term by term. A **linear expression** in some variables $p, q, \dots$ is a sum of the variables, each multiplied by a fixed number (or, below, a fixed matrix), its **coefficient**: $\alpha p + \beta q$ is linear, while $p^2$, $pq$ and $\sqrt{p^2 + q^2}$ are not. A **quadratic form** is, in this book, a sum of the squares of the variables, each with a fixed sign $+$ or $-$: $p^2 + q^2$ and $p^2 - q^2$ are quadratic forms. In 1928 Paul Dirac looked for an equation for the electron that contains only first derivatives and whose square is the relation $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2$ between the energy $E$, the mass $m$ and the momentum $(k_1, k_2, k_3)$ of a particle in special relativity; its right-hand side is a quadratic form in $m, k_1, k_2, k_3$. He found that a quadratic form can be written as the square of a linear expression, provided that its coefficients are matrices that **anticommute**: $\alpha\beta = -\beta\alpha$. Such matrices are called gamma matrices, and the rule they obey is the **Clifford relation**. Dirac needed four of them, for the time and the three directions of space, and the smallest ones are $4 \times 4$; that is why Dirac's electron field has four components.
 
-The author's space-time has eight directions: the three directions $x_1, x_2, x_3$ of ordinary space, the time $x_4$, three **extra times** $x_5, x_6, x_7$, which deflate exponentially in the author's metric, and a hidden space direction $x_8$. Eight directions need eight gamma matrices, and Section 4.13 proves that eight such matrices must have at least $16 \times 16$ entries. This is why the fields dirac16complex and dirac16complex00 of this book have exactly sixteen components. The author's gamma matrices are **real**: every entry is $-1$, $0$ or $+1$. Later chapters use this fact (Chapter 5 and Chapter 7); this chapter only proves it.
+The author's space-time has eight directions $x_0, x_1, \dots, x_7$: a hidden space direction $x_0$, the three directions $x_1, x_2, x_3$ of ordinary space, the time $x_4$, and three **extra times** $x_5, x_6, x_7$, which deflate exponentially in the author's metric. Eight directions need eight gamma matrices, and Section 4.13 proves that eight such matrices must have at least $16 \times 16$ entries. This is why the fields dirac16complex and dirac16complex00 of this book have exactly sixteen components. The author's gamma matrices are **real**: every entry is $-1$, $0$ or $+1$. Later chapters use this fact (Chapter 5 and Chapter 7); this chapter only proves it.
 
 The chapter proceeds as follows.
 
@@ -177,29 +177,30 @@ By the block rule of Section 4.2: $(\gamma_D^0)^2 = \mathrm{diag}(I_2, I_2) = I_
 
 ### 4.4 The eight directions of the author's space-time and their signs
 
-The author's metric is the diagonal $8 \times 8$ matrix $g$ that gives the squared length of a small step: a step $dx_\mu$ along the coordinate $x_\mu$ has the squared length $g_{\mu\mu}\, dx_\mu^2$. Its diagonal entries, in the order of the author's coordinates $x_1, \dots, x_8$, are $e^{2a_4}\sin^{1/3} z$ three times, $-1$, $-e^{-2a_4}\sin^{1/3} z$ three times, and $\cot^2 z$, where $a_4$ is a function of the time $x_4$, $z = 6 H x_8$ lies between 0 and $\pi/2$, and $H > 0$ is the author's constant (Chapter 3 studies this metric in full). A direction with $g_{\mu\mu} > 0$ is **space-like**, one with $g_{\mu\mu} < 0$ is **time-like**. The **frame factor** of a direction is $\sqrt{\lvert g_{\mu\mu} \rvert}$: a coordinate step $dx_\mu$ is a step of the length $\sqrt{\lvert g_{\mu\mu} \rvert}\, \lvert dx_\mu \rvert$.
+The author's metric is the diagonal $8 \times 8$ matrix $g$ that gives the squared length of a small step: a step $dx_\mu$ along the coordinate $x_\mu$ has the squared length $g_{\mu\mu}\, dx_\mu^2$. Its diagonal entries, in the order of the author's coordinates $x_0, \dots, x_7$, are $\cot^2 z$, $e^{2a_4}\sin^{1/3} z$ three times, $-1$, and $-b_4e^{-2a_4}\sin^{1/3} z$ three times, where $a_4$ and $b_4 > 0$ are functions of the time $x_4$ (the metric functions; $b_4 = 1$ gives the metric used before 2026-10-14), $z = 6 H x_0$ lies between 0 and $\pi/2$, and $H > 0$ is the author's constant (Chapter 3 studies this metric in full). A direction with $g_{\mu\mu} > 0$ is **space-like**, one with $g_{\mu\mu} < 0$ is **time-like**. The **frame factor** of a direction is $\sqrt{\lvert g_{\mu\mu} \rvert}$: a coordinate step $dx_\mu$ is a step of the length $\sqrt{\lvert g_{\mu\mu} \rvert}\, \lvert dx_\mu \rvert$.
 
 | coordinate | role | metric entry | frame factor | sign $\eta$ |
 | --- | --- | --- | --- | --- |
+| $x_0$ | the hidden space direction | $\cot^2 z$ | $\cot z$ | $+1$ |
 | $x_1, x_2, x_3$ | ordinary 3-space, inflating | $e^{2a_4}\sin^{1/3} z$ | $e^{a_4}\sin^{1/6} z$ | $+1$ |
 | $x_4$ | the time | $-1$ | $1$ | $-1$ |
-| $x_5, x_6, x_7$ | the extra times, deflating exponentially | $-e^{-2a_4}\sin^{1/3} z$ | $e^{-a_4}\sin^{1/6} z$ | $-1$ |
-| $x_8$ | the hidden space direction | $\cot^2 z$ | $\cot z$ | $+1$ |
+| $x_5, x_6, x_7$ | the extra times, deflating exponentially | $-b_4e^{-2a_4}\sin^{1/3} z$ | $b_4^{1/2}e^{-a_4}\sin^{1/6} z$ | $-1$ |
 
-When $a_4$ grows with the time $x_4$, the frame factor $e^{a_4}$ of 3-space grows (3-space **inflates**) and the frame factor $e^{-a_4}$ of the extra times shrinks exponentially (the extra times **deflate**). Chapter 12 derives the equations that govern $a_4$.
+When $a_4$ grows with the time $x_4$ (and $b_4$ stays constant), the frame factor $e^{a_4}$ of 3-space grows (3-space **inflates**) and the frame factor $b_4^{1/2}e^{-a_4}$ of the extra times shrinks exponentially (the extra times **deflate**). Chapter 12 derives the equations that govern $a_4$ and $b_4$.
 
 At every point one can choose eight perpendicular directions of unit length, one along each coordinate: a **frame**. Measured in the frame, the metric becomes the diagonal matrix of signs
 
 $$
-\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1) \qquad (\text{order } x_1, \dots, x_8):
+\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1) \qquad (\text{order } x_0, \dots, x_7):
 $$
 
-four space-like directions ($x_1, x_2, x_3, x_8$) and four time-like ones ($x_4, x_5, x_6, x_7$), the **signature** (4,4). Because $\eta$ is diagonal with entries $\pm 1$, the entries of $\eta$ and of its inverse are the same numbers, $\eta^{ab} = \eta_{ab}$. The gamma matrices belong to the frame directions: $\gamma^{(x_a)}$ is the gamma matrix of the frame direction along $x_a$, and they satisfy the Clifford relation with this $\eta$. They are **constant**: the same matrices at every point and at every time. The inflation of 3-space and the deflation of the extra times reach the field equation only through the frame factors: the field equation contains $\gamma^\mu = \gamma^{(x_\mu)} / \sqrt{\lvert g_{\mu\mu} \rvert}$, for example $\gamma^{(x_5)}$ multiplied by $e^{a_4}\sin^{-1/6} z$, a factor that grows as the extra time $x_5$ deflates. The gamma matrices themselves never change.
+four space-like directions ($x_0, x_1, x_2, x_3$) and four time-like ones ($x_4, x_5, x_6, x_7$), the **signature** (4,4). Because $\eta$ is diagonal with entries $\pm 1$, the entries of $\eta$ and of its inverse are the same numbers, $\eta^{ab} = \eta_{ab}$. The gamma matrices belong to the frame directions: $\gamma^{(x_a)}$ is the gamma matrix of the frame direction along $x_a$, and they satisfy the Clifford relation with this $\eta$. They are **constant**: the same matrices at every point and at every time. The inflation of 3-space and the deflation of the extra times reach the field equation only through the frame factors: the field equation contains $\gamma^\mu = \gamma^{(x_\mu)} / \sqrt{\lvert g_{\mu\mu} \rvert}$, for example $\gamma^{(x_5)}$ multiplied by $b_4^{-1/2}e^{a_4}\sin^{-1/6} z$, a factor that grows as the extra time $x_5$ deflates. The gamma matrices themselves never change.
 
-The author's Mathematica notebook numbers the frame directions in its own order, $A = 0, \dots, 7$: $A = 0$ is the hidden direction, $A = 1, 2, 3$ are 3-space, $A = 4$ is the time and $A = 5, 6, 7$ are the extra times, and its matrix of signs is eta4488 $= \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)$ (his input cell In[45]). Translated to the author's coordinates (the coordinate map of the Revision record):
+The author's Mathematica notebook numbers the frame directions $A = 0, \dots, 7$ in the order of his coordinates: $A = 0$ is the hidden direction, $A = 1, 2, 3$ are 3-space, $A = 4$ is the time and $A = 5, 6, 7$ are the extra times, and its matrix of signs is eta4488 $= \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)$ (his input cell In[45]). The coordinate map of the Revision record:
 
 | coordinate | index $A$ of T16 in the author's notebook | sign $\eta$ |
 | --- | --- | --- |
+| $x_0$ (hidden direction) | 0 | $+1$ |
 | $x_1$ (3-space) | 1 | $+1$ |
 | $x_2$ (3-space) | 2 | $+1$ |
 | $x_3$ (3-space) | 3 | $+1$ |
@@ -207,9 +208,8 @@ The author's Mathematica notebook numbers the frame directions in its own order,
 | $x_5$ (extra time, deflating) | 5 | $-1$ |
 | $x_6$ (extra time, deflating) | 6 | $-1$ |
 | $x_7$ (extra time, deflating) | 7 | $-1$ |
-| $x_8$ (hidden direction) | 0 | $+1$ |
 
-So $\gamma^{(x_k)} = $ T16[$k$] for $k = 1, \dots, 7$ and $\gamma^{(x_8)} = $ T16[0], and the sign of each coordinate is the entry of eta4488 at its index $A$. Status: ASSUMED (the metric and the coordinate roles are the author's input; the map is the one the Revision record uses and checks: `Revision/algebra/reports/wolfram-algebra.json`, checks `coordinate_map` and `eta_in_author_order`).
+So $\gamma^{(x_k)} = $ T16[$k$] for $k = 0, \dots, 7$: the index $A$ of the author's notebook is the index of his coordinate, and the sign of each coordinate is the entry of eta4488 at that index. Status: ASSUMED (the metric and the coordinate roles are the author's input; the map is the one the Revision record uses and checks: `Revision/algebra/reports/wolfram-algebra.json`, checks `coordinate_map` and `eta_in_author_order`).
 
 ### 4.5 The author's construction of T16, step by step
 
@@ -308,10 +308,10 @@ $$
 
 This is the Clifford relation in the author's frame order. The product T16[8] is block diagonal (eight block off-diagonal factors). Its upper-left block is $\bar\tau_0\tau_1\,\bar\tau_2\tau_3\,\bar\tau_4\tau_5\,\bar\tau_6\tau_7 = \tau_1(-\tau_2)\tau_3(-\tau_4)\tau_5(-\tau_6)\tau_7 = -\tau_1\cdots\tau_7 = -I_8$ (pairs of factors multiplied with the block rule, line 10, line 9), and its lower-right block is $\tau_0\bar\tau_1\,\tau_2\bar\tau_3\,\tau_4\bar\tau_5\,\tau_6\bar\tau_7 = (+1)\tau_1\cdots\tau_7 = I_8$ (four minus signs). So T16[8] $= \mathrm{diag}(-I_8, I_8)$, and T16[0] T16[1] $\cdots$ T16[8] $=$ T16[8]$^2 = I_{16}$. Chapter 5 calls this product the **chirality**; here it is only a product.
 
-**Step 4: the author's coordinates.** With the map of Section 4.4, $\gamma^{(x_k)} = $ T16[$k$] for $k = 1, \dots, 7$ and $\gamma^{(x_8)} = $ T16[0], and the signs become $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$. Renaming does not change a matrix, so
+**Step 4: the author's coordinates.** With the map of Section 4.4, $\gamma^{(x_k)} = $ T16[$k$] for $k = 0, \dots, 7$, and the signs are $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$, the same list as eta4488. Naming does not change a matrix, so
 
 $$
-\gamma^{a}\gamma^{b} + \gamma^{b}\gamma^{a} = 2\eta^{ab} I_{16} \qquad (a, b = x_1, \dots, x_8).
+\gamma^{a}\gamma^{b} + \gamma^{b}\gamma^{a} = 2\eta^{ab} I_{16} \qquad (a, b = x_0, \dots, x_7).
 $$
 
 Three more properties follow. (i) Every $\gamma^a$ is a **signed permutation matrix**, hence orthogonal: $(\gamma^a)^T = (\gamma^a)^{-1}$. Proof, line by line, with the rules of Section 4.2:
@@ -322,7 +322,7 @@ Three more properties follow. (i) Every $\gamma^a$ is a **signed permutation mat
 4. $\bar\tau_0 = I_8$ and $\bar\tau_A = \sigma\,\tau_A^T\,\sigma$ are ones — a transpose and products of signed permutation matrices.
 5. T16[$A$] is one — it is block off-diagonal with the two blocks $\bar\tau_A$ and $\tau_A$ of lines 2 to 4.
 
-Renaming T16[$A$] as $\gamma^{(x_a)}$ changes no entry, so every $\gamma^a$ is a signed permutation matrix, and Section 4.2 showed that such a matrix is orthogonal. (ii) **Reality**: every entry of every $\gamma^a$ is $-1$, 0 or $+1$, by (i). (iii) The **symmetry pattern** $(\gamma^a)^T = \eta_{aa}\gamma^a$: symmetric for the space-like $x_1, x_2, x_3, x_8$, antisymmetric for the time-like $x_4, \dots, x_7$. Proof of (iii), line by line: $(\gamma^a)^2 = \eta_{aa} I_{16}$ (Clifford relation with $b = a$); multiplying by $\eta_{aa}$ and using $\eta_{aa}^2 = 1$ gives $\gamma^a(\eta_{aa}\gamma^a) = I_{16}$, so $(\gamma^a)^{-1} = \eta_{aa}\gamma^a$; with (i), $(\gamma^a)^T = (\gamma^a)^{-1} = \eta_{aa}\gamma^a$.
+Renaming T16[$A$] as $\gamma^{(x_a)}$ changes no entry, so every $\gamma^a$ is a signed permutation matrix, and Section 4.2 showed that such a matrix is orthogonal. (ii) **Reality**: every entry of every $\gamma^a$ is $-1$, 0 or $+1$, by (i). (iii) The **symmetry pattern** $(\gamma^a)^T = \eta_{aa}\gamma^a$: symmetric for the space-like $x_0, x_1, x_2, x_3$, antisymmetric for the time-like $x_4, \dots, x_7$. Proof of (iii), line by line: $(\gamma^a)^2 = \eta_{aa} I_{16}$ (Clifford relation with $b = a$); multiplying by $\eta_{aa}$ and using $\eta_{aa}^2 = 1$ gives $\gamma^a(\eta_{aa}\gamma^a) = I_{16}$, so $(\gamma^a)^{-1} = \eta_{aa}\gamma^a$; with (i), $(\gamma^a)^T = (\gamma^a)^{-1} = \eta_{aa}\gamma^a$.
 
 **Status.** PROVED, by hand above, and exactly by the computer in two independent Revision programs. The table names, for each statement of this section, the checks that confirm it in the WolframScript report `Revision/algebra/reports/wolfram-algebra.json` and in the Python report `Revision/algebra/reports/python-algebra.json`.
 
@@ -1043,15 +1043,15 @@ The centres of the four corners get their names, each on a white, slightly trans
 **In [17], the author's coordinates.**
 
 ```python
-COORDINATES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
-FRAME_INDEX = [1, 2, 3, 4, 5, 6, 7, 0]  # A of T16[A] for x1, ..., x8
-ROLE = ["3-space", "3-space", "3-space", "the time", "extra time (deflating)",
-        "extra time (deflating)", "extra time (deflating)", "hidden direction"]
-gamma = [T16[A] for A in FRAME_INDEX]  # gamma[0] = gamma^(x1), ...
-eta = np.array([eta4488[A, A] for A in FRAME_INDEX])  # signs in the order x1..x8
+COORDINATES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
+FRAME_INDEX = [0, 1, 2, 3, 4, 5, 6, 7]  # A of T16[A] for x0, ..., x7
+ROLE = ["hidden direction", "3-space", "3-space", "3-space", "the time",
+        "extra time (deflating)", "extra time (deflating)", "extra time (deflating)"]
+gamma = [T16[A] for A in FRAME_INDEX]  # gamma[0] = gamma^(x0), ...
+eta = np.array([eta4488[A, A] for A in FRAME_INDEX])  # signs in the order x0..x7
 ```
 
-The coordinate map of Section 4.4: `FRAME_INDEX` lists, for $x_1, \dots, x_8$, the index $A$ of the author's T16[$A$]. `gamma` is the list of the eight gamma matrices in the order of the coordinates (Python counts it from 0: `gamma[0]` is $\gamma^{(x_1)}$, `gamma[7]` is $\gamma^{(x_8)}$), and `eta` the list of their signs, read off from the diagonal of eta4488 at the same indices.
+The coordinate map of Section 4.4: `FRAME_INDEX` lists, for $x_0, \dots, x_7$, the index $A$ of the author's T16[$A$]: the numbers 0 to 7 themselves. `gamma` is the list of the eight gamma matrices in the order of the coordinates (Python counts it from 0, as the author counts his coordinates: `gamma[0]` is $\gamma^{(x_0)}$, `gamma[7]` is $\gamma^{(x_7)}$), and `eta` the list of their signs, read off from the diagonal of eta4488 at the same indices.
 
 ```python
 for a in range(8):
@@ -1063,14 +1063,14 @@ for a in range(8):
 One printed line per coordinate: its matrix, its sign, its kind and its role.
 
 ```python
-renamed = all(gamma[k - 1] is T16[k] for k in range(1, 8)) and gamma[7] is T16[0]
-check_record(list(eta) == [1, 1, 1, -1, -1, -1, -1, 1] and renamed,
-             "gamma^(xk) = T16[k], gamma^(x8) = T16[0], eta = diag(+,+,+,-,-,-,-,+)",
+renamed = all(gamma[k] is T16[k] for k in range(8))
+check_record(list(eta) == [1, 1, 1, 1, -1, -1, -1, -1] and renamed,
+             "gamma^(xk) = T16[k] for k = 0..7, eta = diag(+,+,+,+,-,-,-,-)",
              (WOLFRAM, "coordinate_map"), (WOLFRAM, "eta_in_author_order"),
              (PYTHON, "coordinate_map"))
 ```
 
-`is` tests that two names refer to the very same object (not only equal entries): `gamma[k - 1]` is T16[$k$] itself for $k = 1, \dots, 7$, and `gamma[7]` is T16[0]. The check requires these and $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$, reproducing three Revision checks.
+`is` tests that two names refer to the very same object (not only equal entries): `gamma[k]` is T16[$k$] itself for $k = 0, \dots, 7$. The check requires these and $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$, reproducing three Revision checks.
 
 **In [18], the eight gammas in code notation.**
 
@@ -1081,20 +1081,20 @@ for i in range(16):
     print(f"{i:3d}" + "".join(f"{gamma_codes[a][i]:>6}" for a in range(8)))
 ```
 
-`codes` (which also confirms that each is a signed permutation matrix) is applied to all eight gammas, and the table prints, for each row $i = 0, \dots, 15$, the code of row $i$ of each gamma. This table is the complete content of the eight matrices: for example the column x4 starts with $-13$, so $(\gamma^{(x_4)}u)_0 = -u_{13}$, and the column x8 reads $+8, +9, \dots, +15, +0, \dots, +7$: $\gamma^{(x_8)}$ exchanges the upper and the lower eight components. Every code of rows 0 to 7 is a column 8 to 15 and vice versa: the block form.
+`codes` (which also confirms that each is a signed permutation matrix) is applied to all eight gammas, and the table prints, for each row $i = 0, \dots, 15$, the code of row $i$ of each gamma. This table is the complete content of the eight matrices: for example the column x4 starts with $-13$, so $(\gamma^{(x_4)}u)_0 = -u_{13}$, and the column x0 reads $+8, +9, \dots, +15, +0, \dots, +7$: $\gamma^{(x_0)}$ exchanges the upper and the lower eight components. Every code of rows 0 to 7 is a column 8 to 15 and vice versa: the block form.
 
 **In [19], figure 4.**
 
 ```python
 fig, axes = plt.subplots(2, 4, figsize=(8.8, 5.0), layout="constrained")
 for a in range(8):
-    draw_signs(axes[a // 4, a % 4], gamma[a], f"$\\gamma^{{(x_{a + 1})}}$")
+    draw_signs(axes[a // 4, a % 4], gamma[a], f"$\\gamma^{{(x_{a})}}$")
 sign_legend(fig)
-save_figure(fig, "gammas_x1_to_x8",
+save_figure(fig, "gammas_x0_to_x7",
             ...)
 ```
 
-The eight gammas in two rows of four panels. In the f-string title, the doubled braces `{{` and `}}` print single braces and the doubled backslash prints one, so the title becomes the mathematical text $\gamma^{(x_1)}$, ..., $\gamma^{(x_8)}$. **What figure 4 shows and why:** each matrix has exactly one coloured square in every row and every column, all in the upper-right and lower-left $8 \times 8$ corners (signed permutations in block form); $\gamma^{(x_8)}$ consists of two red diagonal lines, because it is T16[0] $= \begin{pmatrix} 0 & I_8 \\ I_8 & 0 \end{pmatrix}$. These are the author's eight real $16 \times 16$ gamma matrices themselves.
+The eight gammas in two rows of four panels. In the f-string title, the doubled braces `{{` and `}}` print single braces and the doubled backslash prints one, so the title becomes the mathematical text $\gamma^{(x_0)}$, ..., $\gamma^{(x_7)}$. **What figure 4 shows and why:** each matrix has exactly one coloured square in every row and every column, all in the upper-right and lower-left $8 \times 8$ corners (signed permutations in block form); $\gamma^{(x_0)}$ consists of two red diagonal lines, because it is T16[0] $= \begin{pmatrix} 0 & I_8 \\ I_8 & 0 \end{pmatrix}$. These are the author's eight real $16 \times 16$ gamma matrices themselves.
 
 **In [20], the Clifford relation for all 64 pairs.**
 
@@ -1117,7 +1117,7 @@ squares = ", ".join(f"{COORDINATES[a]}:{c[a, a] // 2}" for a in range(8))
 say(f"squares (gamma^a)^2 / I16: {squares}")
 ```
 
-The table of the $c_{ab}$ is printed; the string `squares` lists, for each coordinate, $c_{aa}/2$, the number in $(\gamma^a)^2 = (c_{aa}/2) I_{16}$, in the form `x1:1, x2:1, ...`.
+The table of the $c_{ab}$ is printed; the string `squares` lists, for each coordinate, $c_{aa}/2$, the number in $(\gamma^a)^2 = (c_{aa}/2) I_{16}$, in the form `x0:1, x1:1, ...`.
 
 ```python
 recorded = RECORDED[WOLFRAM]["Clifford_relation"]["detail"]
@@ -1126,7 +1126,7 @@ check_record(all_multiples and (c == 2 * np.diag(eta)).all() and squares in reco
              (WOLFRAM, "Clifford_relation"), (PYTHON, "clifford_relation"))
 ```
 
-`recorded` is the detail text of the WolframScript check `Clifford_relation`. The check requires every anticommutator to be a multiple of $I_{16}$, the table to be $2\eta$, and the text `squares` to appear word for word in the Revision detail (`in` tests whether one string is part of another). The output shows the table: 2 on the diagonal for $x_1, x_2, x_3, x_8$, $-2$ for $x_4, \dots, x_7$, 0 elsewhere.
+`recorded` is the detail text of the WolframScript check `Clifford_relation`. The check requires every anticommutator to be a multiple of $I_{16}$, the table to be $2\eta$, and the text `squares` to appear word for word in the Revision detail (`in` tests whether one string is part of another). The output shows the table: 2 on the diagonal for $x_0, x_1, x_2, x_3$, $-2$ for $x_4, \dots, x_7$, 0 elsewhere.
 
 **In [21], the same with sympy.**
 
@@ -1159,7 +1159,7 @@ def signed(sign, letter, index):
 `follow(m, row)` reads one row of a signed permutation matrix the way a student reads the code table: it returns the sign and the column of the single nonzero entry, so that $(mu)_{\text{row}} = \text{sign}\cdot u_{\text{column}}$. `signed` writes such a term as a text, for example `-u_13`.
 
 ```python
-g4, g8 = gamma[3], gamma[7]  # gamma^(x4) and gamma^(x8)
+g4, g0 = gamma[4], gamma[0]  # gamma^(x4) and gamma^(x0)
 s1, c1 = follow(g4, 0)  # row 0 of gamma^(x4)
 s2, c2 = follow(g4, c1)  # row c1 of gamma^(x4)
 say(f"row 0 of gamma^(x4):  (gamma^(x4) v)_0 = {signed(s1, "v", c1)}")
@@ -1170,18 +1170,18 @@ say(f"with v = gamma^(x4) u: (gamma^(x4) gamma^(x4) u)_0 = {signed(s1 * s2, "u",
 Row 0 of $\gamma^{(x_4)}$ gives $(\gamma^{(x_4)}v)_0 = -v_{13}$; row 13 gives $(\gamma^{(x_4)}u)_{13} = +u_0$. With $v = \gamma^{(x_4)}u$: $(\gamma^{(x_4)}\gamma^{(x_4)}u)_0 = -v_{13} = -u_0$, row 0 of $(\gamma^{(x_4)})^2 = -I_{16}$. (The f-strings contain double quotes inside their braces, such as `signed(s1, "v", c1)`; Python allows this from version 3.12 on, one reason why the book needs Python 3.12 or newer.)
 
 ```python
-t1, d1 = follow(g8, 0)  # row 0 of gamma^(x8) gamma^(x4): first gamma^(x8) ...
+t1, d1 = follow(g0, 0)  # row 0 of gamma^(x0) gamma^(x4): first gamma^(x0) ...
 t2, d2 = follow(g4, d1)  # ... then row d1 of gamma^(x4)
-r1, e1 = follow(g4, 0)  # row 0 of gamma^(x4) gamma^(x8): first gamma^(x4) ...
-r2, e2 = follow(g8, e1)  # ... then row e1 of gamma^(x8)
-say(f"(gamma^(x8) gamma^(x4) u)_0 = {signed(t1 * t2, "u", d2)};  "
-    f"(gamma^(x4) gamma^(x8) u)_0 = {signed(r1 * r2, "u", e2)}")
+r1, e1 = follow(g4, 0)  # row 0 of gamma^(x4) gamma^(x0): first gamma^(x4) ...
+r2, e2 = follow(g0, e1)  # ... then row e1 of gamma^(x0)
+say(f"(gamma^(x0) gamma^(x4) u)_0 = {signed(t1 * t2, "u", d2)};  "
+    f"(gamma^(x4) gamma^(x0) u)_0 = {signed(r1 * r2, "u", e2)}")
 check(s1 * s2 == -1 and c2 == 0, "by hand: row 0 of (gamma^(x4))^2 is -u_0")
 check(d2 == e2 and t1 * t2 == -(r1 * r2),
-      "by hand: row 0 of gamma^(x8) gamma^(x4) is minus that of gamma^(x4) gamma^(x8)")
+      "by hand: row 0 of gamma^(x0) gamma^(x4) is minus that of gamma^(x4) gamma^(x0)")
 ```
 
-The same for the two orders of $\gamma^{(x_8)}$ and $\gamma^{(x_4)}$: row 0 of $\gamma^{(x_8)}$ points to component 8, and row 8 of $\gamma^{(x_4)}$ to $+u_5$, so $(\gamma^{(x_8)}\gamma^{(x_4)}u)_0 = +u_5$; row 0 of $\gamma^{(x_4)}$ points to $-$component 13, and row 13 of $\gamma^{(x_8)}$ to $+u_5$, so $(\gamma^{(x_4)}\gamma^{(x_8)}u)_0 = -u_5$. The two checks require the hand results: $-u_0$, and the same component with opposite signs.
+The same for the two orders of $\gamma^{(x_0)}$ and $\gamma^{(x_4)}$: row 0 of $\gamma^{(x_0)}$ points to component 8, and row 8 of $\gamma^{(x_4)}$ to $+u_5$, so $(\gamma^{(x_0)}\gamma^{(x_4)}u)_0 = +u_5$; row 0 of $\gamma^{(x_4)}$ points to $-$component 13, and row 13 of $\gamma^{(x_0)}$ to $+u_5$, so $(\gamma^{(x_4)}\gamma^{(x_0)}u)_0 = -u_5$. The two checks require the hand results: $-u_0$, and the same component with opposite signs.
 
 **In [23], figure 5.**
 
@@ -1197,7 +1197,7 @@ for (a, b), value in np.ndenumerate(c):
 The $8 \times 8$ table $c$ as a heat map with the boundaries $-3, -1, 1, 3$, so $-2$ is blue, 0 grey and $+2$ red; each number is written into its square (white on colour, dark grey on grey).
 
 ```python
-labels = [f"$x_{k}$" for k in range(1, 9)]
+labels = [f"$x_{k}$" for k in range(8)]
 ax.set_xticks(range(8), labels)
 ax.set_yticks(range(8), labels)
 ax.set_xlabel("direction $b$")
@@ -1208,7 +1208,7 @@ save_figure(fig, "anticommutator_table",
             ...)
 ```
 
-The rows and columns are labelled $x_1, \dots, x_8$, the axes named, the title set, and the figure saved. **What figure 5 shows and why:** a diagonal of three red, four blue and one red square: $c_{ab} = 2\eta^{ab}$, red for the space-like $x_1, x_2, x_3, x_8$, blue for the time-like $x_4$ to $x_7$, and grey off the diagonal because different gammas anticommute. It is the Clifford relation in one picture.
+The rows and columns are labelled $x_0, \dots, x_7$, the axes named, the title set, and the figure saved. **What figure 5 shows and why:** a diagonal of four red and four blue squares: $c_{ab} = 2\eta^{ab}$, red for the space-like $x_0, x_1, x_2, x_3$, blue for the time-like $x_4$ to $x_7$, and grey off the diagonal because different gammas anticommute. It is the Clifford relation in one picture.
 
 **In [24], reality, signed permutations and the symmetry pattern.**
 
@@ -1238,23 +1238,23 @@ symmetric = [COORDINATES[a] for a in range(8) if (gamma[a].T == gamma[a]).all()]
 antisymmetric = [COORDINATES[a] for a in range(8) if (gamma[a].T == -gamma[a]).all()]
 say("symmetric: " + ", ".join(symmetric) + ";  antisymmetric: "
     + ", ".join(antisymmetric))
-check_record(symmetric == ["x1", "x2", "x3", "x8"]
+check_record(symmetric == ["x0", "x1", "x2", "x3"]
              and antisymmetric == ["x4", "x5", "x6", "x7"]
              and all((gamma[a].T == eta[a] * gamma[a]).all() for a in range(8)),
-             "(gamma^a)^T = eta_aa gamma^a: symmetric for x1, x2, x3, x8 only",
+             "(gamma^a)^T = eta_aa gamma^a: symmetric for x0, x1, x2, x3 only",
              (WOLFRAM, "symmetry_pattern"), (PYTHON, "symmetry_pattern"))
 ```
 
-The lists of the symmetric and of the antisymmetric gammas are made and printed: $x_1, x_2, x_3, x_8$ and $x_4, x_5, x_6, x_7$. The check requires exactly these lists and $(\gamma^a)^T = \eta_{aa}\gamma^a$ for all eight: the symmetry pattern proved in Step 4 of Section 4.5.
+The lists of the symmetric and of the antisymmetric gammas are made and printed: $x_0, x_1, x_2, x_3$ and $x_4, x_5, x_6, x_7$. The check requires exactly these lists and $(\gamma^a)^T = \eta_{aa}\gamma^a$ for all eight: the symmetry pattern proved in Step 4 of Section 4.5.
 
 **In [25], figure 6.**
 
 ```python
 fig, axes = plt.subplots(2, 2, figsize=(6.4, 6.6), layout="constrained")
-draw_signs(axes[0, 0], gamma[0], "$\\gamma^{(x_1)}$ (space-like)")
-draw_signs(axes[0, 1], gamma[0].T, "its transpose: the same")
-draw_signs(axes[1, 0], gamma[3], "$\\gamma^{(x_4)}$ (time-like)")
-draw_signs(axes[1, 1], gamma[3].T, "its transpose: all signs flipped")
+draw_signs(axes[0, 0], gamma[1], "$\\gamma^{(x_1)}$ (space-like)")
+draw_signs(axes[0, 1], gamma[1].T, "its transpose: the same")
+draw_signs(axes[1, 0], gamma[4], "$\\gamma^{(x_4)}$ (time-like)")
+draw_signs(axes[1, 1], gamma[4].T, "its transpose: all signs flipped")
 sign_legend(fig)
 save_figure(fig, "symmetry_pattern",
             ...)
@@ -1299,8 +1299,8 @@ The two Revision files are read: `gammas.json`, written by the WolframScript pro
 
 ```python
 report("entries compared per file", 8 * 16 * 16)
-report("differing entries, gammas.json, per x1..x8", fixture_differ)
-report("differing entries, python-gammas.json, per x1..x8", python_differ)
+report("differing entries, gammas.json, per x0..x7", fixture_differ)
+report("differing entries, python-gammas.json, per x0..x7", python_differ)
 ```
 
 Three RESULT lines: 2048 entries are compared per file, and the number of differing entries is 0 for every one of the eight gammas, in both files.
@@ -1312,7 +1312,7 @@ check_record(fixture["coordinates"] == COORDINATES and fixture["eta"] == list(et
              "Revision/algebra/gammas.json holds exactly these eight gammas",
              (WOLFRAM, "fixture_round_trip"),
              (PYTHON, "fixture_comparison_gammas_json"))
-python_map = python_gammas["map_coordinate_to_T16_index"]  # {"x1": 1, ...}
+python_map = python_gammas["map_coordinate_to_T16_index"]  # {"x0": 0, ...}
 check(python_map == dict(zip(COORDINATES, FRAME_INDEX)) and sum(python_differ) == 0,
       "Revision/algebra/reports/python-gammas.json holds exactly these eight gammas")
 ```
@@ -1337,7 +1337,7 @@ For each report, the verdicts of all checks are collected (`.values()` gives the
 
 ```python
 names = ["04a_1_blocks_s4_t4.png", "04a_2_tau_matrices.png",
-         "04a_3_block_form_of_t16.png", "04a_4_gammas_x1_to_x8.png",
+         "04a_3_block_form_of_t16.png", "04a_4_gammas_x0_to_x7.png",
          "04a_5_anticommutator_table.png", "04a_6_symmetry_pattern.png"]
 check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in names),
       "all six figure files exist")
@@ -1351,22 +1351,22 @@ The check confirms that the six figure files were written, and `all_checks_passe
 Section 4.3 showed that the Clifford relation is the same statement as the square-root rule. For the author's gammas, whose Clifford relation Section 4.5 proved, the rule reads
 
 $$
-\Bigl(\sum_{a=1}^{8} p_a \gamma^{(x_a)}\Bigr)^2 = (p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2 - p_7^2 + p_8^2)\, I_{16}
+\Bigl(\sum_{a=0}^{7} p_a \gamma^{(x_a)}\Bigr)^2 = (p_0^2 + p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2 - p_7^2)\, I_{16}
 $$
 
-for all numbers $p_1, \dots, p_8$: the author's eight matrices take the square root of the quadratic form of his space-time, with a plus sign for 3-space and the hidden direction and a minus sign for the time and the three extra times. (Status: PROVED; Notebook 04b confirms it with sympy for all values of the $p_a$, and with floating-point numbers for 300 random vectors.) This section uses the rule to find what the field equation says about waves, and what a momentum along an extra time does.
+for all numbers $p_0, \dots, p_7$: the author's eight matrices take the square root of the quadratic form of his space-time, with a plus sign for the hidden direction and 3-space and a minus sign for the time and the three extra times. (Status: PROVED; Notebook 04b confirms it with sympy for all values of the $p_a$, and with floating-point numbers for 300 random vectors.) This section uses the rule to find what the field equation says about waves, and what a momentum along an extra time does.
 
 **Complex numbers and the conjugate transpose.** A **complex number** is $x + iy$ with real $x, y$ and $i^2 = -1$; its **complex conjugate** is $x - iy$. The **conjugate transpose** $M^\dagger$ of a matrix transposes it and conjugates every entry. A matrix is **Hermitian** if $M^\dagger = M$; a real symmetric matrix is Hermitian. An **eigenvalue** of $M$ is a number $\lambda$ for which a nonzero column $u$ (an **eigenvector**) has $Mu = \lambda u$. A Hermitian matrix has only real eigenvalues. Proof: from $Mu = \lambda u$ follows $u^\dagger M u = \lambda\, u^\dagger u$ (multiply from the left by the row $u^\dagger$); the number $u^\dagger M u$ equals its own complex conjugate, because its conjugate is $u^\dagger M^\dagger u = u^\dagger M u$, so it is real; and $u^\dagger u = \sum_i \lvert u_i \rvert^2$ is real and positive; so $\lambda$ is a real number divided by a positive one. We also use a fact that Section 1.34 proved for **every** square matrix, Hermitian or not: an $n \times n$ matrix $M$ has $n$ eigenvalues, the $n$ roots of its **characteristic polynomial** $\det(M - \lambda I_n)$, where a root that occurs several times is counted as often as it occurs (its **multiplicity**); and the sum of these $n$ eigenvalues is the trace of $M$. (The proof there compares two ways of writing the characteristic polynomial; it rests on the fundamental theorem of algebra, which Chapter 1 assumes.) Finally, the **smallest singular value** of a square matrix $M$ is the smallest length of $Mu$ over all columns $u$ of length 1; it is 0 exactly when some nonzero $u$ has $Mu = 0$. numpy computes it, and Notebook 04b uses it to locate the energies at which waves exist.
 
 **The model: flat 4+4 space.** The full field equation of the theory, $\gamma^\mu D_\mu\Psi = (m + U'(S))\Psi$, is derived in Chapter 7; it contains the frame factors of Section 4.4, the gravitational correction in $D_\mu$, and a self-interaction $U'(S)$. This section studies the simplest equation with the same algebra,
 
 $$
-\sum_{a=1}^{8} \gamma^{(x_a)}\, \partial_a \Psi = m\Psi ,
+\sum_{a=0}^{7} \gamma^{(x_a)}\, \partial_a \Psi = m\Psi ,
 $$
 
 in **flat 4+4 space**, where the metric is the constant $\eta$: no gravity, no inflation, no deflation and no self-interaction ($\partial_a$ is the derivative with respect to $x_a$). This is a model for the algebra only (status ASSUMED for this section): in the author's space-time the extra times deflate at every moment. What carries over is the algebra of the frame: in a region so small that the metric functions change little across it, waves with **frame momenta** $k_a$ obey the same matrix algebra; the Revision record uses this local plane-wave reading with the coefficients of the equation held fixed.
 
-**Plane waves, line by line.** A **plane wave** is $\Psi = u\, e^{i(k_1x_1 + k_2x_2 + k_3x_3 + k_5x_5 + k_6x_6 + k_7x_7 + k_8x_8 - Ex_4)}$ with a constant column $u$; $E$ is its **energy** (its frequency in the time $x_4$) and the $k_a$ are its **momenta**.
+**Plane waves, line by line.** A **plane wave** is $\Psi = u\, e^{i(k_0x_0 + k_1x_1 + k_2x_2 + k_3x_3 + k_5x_5 + k_6x_6 + k_7x_7 - Ex_4)}$ with a constant column $u$; $E$ is its **energy** (its frequency in the time $x_4$) and the $k_a$ are its **momenta**.
 
 1. $\partial_a\Psi = ik_a\Psi$ for $a \neq 4$ and $\partial_4\Psi = -iE\Psi$ — the derivative of $e^{cx}$ is $c\,e^{cx}$.
 2. $-iE\gamma^{(x_4)}u + i\sum_{a \neq 4} k_a\gamma^{(x_a)}u = mu$ — line 1 inserted into the equation, and both sides divided by the exponential, which is never zero.
@@ -1384,33 +1384,33 @@ So a plane wave exists exactly when $E$ is an eigenvalue of the $16 \times 16$ m
 So $\beta$ and the seven $\alpha_a$ obey a Clifford relation with the signs $+1$ for $\beta$ and $\eta^{aa}$ for $\alpha_a$, and the general rule of Section 4.3, applied with the numbers $m$ and $k_a$, gives
 
 $$
-h^2 = (m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2)\, I_{16} .
+h^2 = (m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2)\, I_{16} .
 $$
 
 If $hu = Eu$ with $u \neq 0$, then $h^2u = E^2u$, so
 
 $$
-E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2 ,
+E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2 ,
 $$
 
 the **mass shell** of the flat 4+4 equation. Status: PROVED (here, and exactly with sympy in Notebook 04b); it reproduces `Revision/theory/reports/python-field-theory.json`, check `mode_hamiltonian_B_selfadjoint_dispersion` (that check also verifies a statement about a matrix $B$, which Chapter 10 needs and this chapter does not).
 
-**Without momentum along the extra times.** When $k_5 = k_6 = k_7 = 0$ (the Revision record calls this the **good sector**), $h$ is Hermitian, so its eigenvalues are real. Proof: the gammas are real with $(g_a)^T = \eta_{aa} g_a$ (Section 4.5). Then $\beta^\dagger = i g_4^T = -i g_4 = \beta$ (conjugating $-i$ gives $i$, and $g_4$ is antisymmetric). $\alpha_a$ is real with $\alpha_a^T = -g_a^T g_4^T = -(\eta_{aa}g_a)(-g_4) = \eta_{aa} g_a g_4 = -\eta_{aa} g_4 g_a = \eta_{aa}\alpha_a$: symmetric, hence Hermitian, for the space-like $x_1, x_2, x_3, x_8$ (and antisymmetric for the extra times, which is why they are left out here). With real momenta, $h$ is then a sum of Hermitian matrices. The **example of the Revision record**: $m = 2$ and $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$ give $E^2 = 4 + 1 + 4 + 0 + 16 = 25$, so every eigenvalue is $+5$ or $-5$. How often each occurs follows from the trace: $\mathrm{tr}\, g_4 = 0$ (a block off-diagonal matrix has zeros on its diagonal) and $\mathrm{tr}(g_4 g_a) = -\mathrm{tr}(g_a g_4) = -\mathrm{tr}(g_4 g_a)$ (anticommuting, then the cyclic property), so $\mathrm{tr}(g_4g_a) = 0$ and $\mathrm{tr}\, h = 0$. With $n_+$ eigenvalues $+5$ and $n_-$ eigenvalues $-5$: $n_+ + n_- = 16$ and $5n_+ - 5n_- = \mathrm{tr}\, h = 0$ (the sum of the eigenvalues is the trace), so $n_+ = n_- = 8$: the energies $+5$ and $-5$, eight times each. Status: PROVED (this derivation) and COMPUTED (Notebook 04b finds the 16 eigenvalues numerically with deviations below $10^{-12}$, and eight independent solutions $u$ at each of the two energies). The Revision record `Revision/theory/reports/python-field-theory.json`, check `good_sector_spectrum_and_B_sectors`, states this result for all sixteen components in the words `h is Hermitian on the full 16-dim space with energies +-sqrt(m^2 + k1^2 + k2^2 + k3^2 + k8^2) (8 each)`, and Notebook 04b reproduces these words. The same check states its exact example in one half of the sixteen components, the subject of the next paragraph.
+**Without momentum along the extra times.** When $k_5 = k_6 = k_7 = 0$ (the Revision record calls this the **good sector**), $h$ is Hermitian, so its eigenvalues are real. Proof: the gammas are real with $(g_a)^T = \eta_{aa} g_a$ (Section 4.5). Then $\beta^\dagger = i g_4^T = -i g_4 = \beta$ (conjugating $-i$ gives $i$, and $g_4$ is antisymmetric). $\alpha_a$ is real with $\alpha_a^T = -g_a^T g_4^T = -(\eta_{aa}g_a)(-g_4) = \eta_{aa} g_a g_4 = -\eta_{aa} g_4 g_a = \eta_{aa}\alpha_a$: symmetric, hence Hermitian, for the space-like $x_0, x_1, x_2, x_3$ (and antisymmetric for the extra times, which is why they are left out here). With real momenta, $h$ is then a sum of Hermitian matrices. The **example of the Revision record**: $m = 2$, $k_0 = 4$ and $(k_1, k_2, k_3) = (1, 2, 0)$ give $E^2 = 4 + 16 + 1 + 4 + 0 = 25$, so every eigenvalue is $+5$ or $-5$. How often each occurs follows from the trace: $\mathrm{tr}\, g_4 = 0$ (a block off-diagonal matrix has zeros on its diagonal) and $\mathrm{tr}(g_4 g_a) = -\mathrm{tr}(g_a g_4) = -\mathrm{tr}(g_4 g_a)$ (anticommuting, then the cyclic property), so $\mathrm{tr}(g_4g_a) = 0$ and $\mathrm{tr}\, h = 0$. With $n_+$ eigenvalues $+5$ and $n_-$ eigenvalues $-5$: $n_+ + n_- = 16$ and $5n_+ - 5n_- = \mathrm{tr}\, h = 0$ (the sum of the eigenvalues is the trace), so $n_+ = n_- = 8$: the energies $+5$ and $-5$, eight times each. Status: PROVED (this derivation) and COMPUTED (Notebook 04b finds the 16 eigenvalues numerically with deviations below $10^{-12}$, and eight independent solutions $u$ at each of the two energies). The Revision record `Revision/theory/reports/python-field-theory.json`, check `good_sector_spectrum_and_B_sectors`, states this result for all sixteen components in the words `h is Hermitian on the full 16-dim space with energies +-sqrt(m^2 + k0^2 + k1^2 + k2^2 + k3^2) (8 each)`, and Notebook 04b reproduces these words. The same check states its exact example in one half of the sixteen components, the subject of the next paragraph.
 
-**The record's exact example: the sector $B = +1$.** The record uses the matrix $B = -i\,C g_4$, where $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ is the product of the four space-like gammas; the record file `Revision/algebra/gammas.json` stores both. Section 1.37 met $B$: it is Hermitian, $B^2 = I_{16}$, and its eigenvalues $+1$ and $-1$ occur eight times each (Chapter 5 studies $C$ and $B$ in full). Two rules move a gamma $g_a$ through $C$, a product of four different gammas: if $g_a$ is not one of the four factors, it anticommutes with each of them, so $g_a C = (-1)^4 C g_a = C g_a$; if $g_a$ is one of them, it anticommutes with the other three and commutes with itself, so $g_a C = (-1)^3 C g_a = -C g_a$. In particular $g_4 C = C g_4$. Now, line by line:
+**The record's exact example: the sector $B = +1$.** The record uses the matrix $B = -i\,C g_4$, where $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ is the product of the four space-like gammas; the record file `Revision/algebra/gammas.json` stores both. Section 1.37 met $B$: it is Hermitian, $B^2 = I_{16}$, and its eigenvalues $+1$ and $-1$ occur eight times each (Chapter 5 studies $C$ and $B$ in full). Two rules move a gamma $g_a$ through $C$, a product of four different gammas: if $g_a$ is not one of the four factors, it anticommutes with each of them, so $g_a C = (-1)^4 C g_a = C g_a$; if $g_a$ is one of them, it anticommutes with the other three and commutes with itself, so $g_a C = (-1)^3 C g_a = -C g_a$. In particular $g_4 C = C g_4$. Now, line by line:
 
 1. $B\beta = (-i\,C g_4)(-i\,g_4) = -C g_4 g_4 = C$ — the numbers moved to the front, $(-i)^2 = -1$, and $g_4^2 = -I$.
 2. $\beta B = (-i\,g_4)(-i\,C g_4) = -g_4 C g_4 = -C g_4 g_4 = C$ — the same steps and $g_4 C = C g_4$; so $B\beta = \beta B$.
 3. $B\alpha_a = (-i\,C g_4)(-g_4 g_a) = i\,C g_4 g_4 g_a = -i\,C g_a$ — the numbers moved to the front, and $g_4^2 = -I$.
 4. $\alpha_a B = (-g_4 g_a)(-i\,C g_4) = i\,g_4 g_a C g_4$ — the numbers moved to the front.
-5. For the space-like $a = x_1, x_2, x_3, x_8$, which are factors of $C$: $\alpha_a B = -i\,g_4 C g_a g_4 = -i\,C g_4 g_a g_4 = -i\,C g_a = B\alpha_a$ — line 4 with $g_a C = -C g_a$, then $g_4 C = C g_4$, then $g_4 g_a g_4 = -g_a g_4 g_4 = g_a$, then line 3.
+5. For the space-like $a = x_0, x_1, x_2, x_3$, which are factors of $C$: $\alpha_a B = -i\,g_4 C g_a g_4 = -i\,C g_4 g_a g_4 = -i\,C g_a = B\alpha_a$ — line 4 with $g_a C = -C g_a$, then $g_4 C = C g_4$, then $g_4 g_a g_4 = -g_a g_4 g_4 = g_a$, then line 3.
 6. For the extra times $a = x_5, x_6, x_7$, which are not factors of $C$: $\alpha_a B = +i\,C g_4 g_a g_4 = i\,C g_a = -B\alpha_a$ — the same steps with $g_a C = +C g_a$.
 
-So without extra-time momentum $h = m\beta + \sum_a k_a\alpha_a$ (with $a = x_1, x_2, x_3, x_8$) **commutes** with $B$: $Bh = hB$. A momentum along an extra time adds an $\alpha_a$ that **anticommutes** with $B$. The record states both, in the words `[B, h] = 0` and `B anticommutes with gamma^(4) gamma^(x5,x6,x7)` (the record writes `gamma^(4)` for $\gamma^{(x_4)}$, and $\gamma^{(x_4)}\gamma^{(x_a)} = -\alpha_a$). Call the columns $u$ with $Bu = u$ the **sector** $B = +1$. If $Bu = u$, then $B(hu) = h(Bu) = hu$: without extra-time momentum, $h$ maps the sector into itself. Notebook 04b takes eight **orthonormal** columns of the sector (columns of length 1 with $u^\dagger v = 0$ for two different ones; numpy finds them as eigenvectors of $B$) as the columns of a $16 \times 8$ matrix $V$, and checks $VV^\dagger = P$ with $P = \tfrac12(I_{16} + B)$, the matrix that keeps the $B = +1$ part of a column. Inside the sector $h$ acts as the $8 \times 8$ matrix $h_+ = V^\dagger h V$ (that is, $hV = Vh_+$), and $h_+^2 = V^\dagger h V V^\dagger h V = V^\dagger h P h V = V^\dagger h h P V = 25\, V^\dagger V = 25\, I_8$, because $hP = Ph$, $PV = V$ and $V^\dagger V = I_8$. Its trace is $\mathrm{tr}\, h_+ = \mathrm{tr}(V^\dagger h V) = \mathrm{tr}(h V V^\dagger) = \mathrm{tr}(hP)$ (the cyclic property; its proof in Section 4.2 works unchanged for an $8 \times 16$ and a $16 \times 8$ factor), and $\mathrm{tr}(hP) = \tfrac12(\mathrm{tr}\, h + \mathrm{tr}(hB)) = 0$: $\mathrm{tr}\, h = 0$ was shown above, and $hB = m\,\beta B + \sum_a k_a\alpha_a B = m\,C - i\sum_a k_a C g_a$ (lines 2, 3 and 5) is a combination of $C$, a product of four different gammas, and of $C g_a$, which is $\pm$ a product of three different gammas, all of trace 0 by the trace lemma of Section 4.13. With $n_+$ eigenvalues $+5$ and $n_-$ eigenvalues $-5$ of $h_+$: $n_+ + n_- = 8$ and $5n_+ - 5n_- = 0$, so the energies $+5$ and $-5$ occur **four times each** in the sector $B = +1$. Status: PROVED (by hand above; Notebook 04b confirms $Bh = hB$, the anticommutation for the extra times and $\mathrm{tr}(hP) = 0$ exactly with sympy, for all values of $m, k_1, k_2, k_3, k_8$) and COMPUTED (the eight eigenvalues of $h_+$ lie within $10^{-12}$ of $\pm 5$, four of each); it reproduces `Revision/theory/reports/python-field-theory.json`, check `good_sector_spectrum_and_B_sectors`, whose words for its exact example are `m = 2, k = (1,2,0,k8=4) on B = +1: +5 (x4), -5 (x4)`.
+So without extra-time momentum $h = m\beta + \sum_a k_a\alpha_a$ (with $a = x_0, x_1, x_2, x_3$) **commutes** with $B$: $Bh = hB$. A momentum along an extra time adds an $\alpha_a$ that **anticommutes** with $B$. The record states both, in the words `[B, h] = 0` and `B anticommutes with gamma^(4) gamma^(x5,x6,x7)` (the record writes `gamma^(4)` for $\gamma^{(x_4)}$, and $\gamma^{(x_4)}\gamma^{(x_a)} = -\alpha_a$). Call the columns $u$ with $Bu = u$ the **sector** $B = +1$. If $Bu = u$, then $B(hu) = h(Bu) = hu$: without extra-time momentum, $h$ maps the sector into itself. Notebook 04b takes eight **orthonormal** columns of the sector (columns of length 1 with $u^\dagger v = 0$ for two different ones; numpy finds them as eigenvectors of $B$) as the columns of a $16 \times 8$ matrix $V$, and checks $VV^\dagger = P$ with $P = \tfrac12(I_{16} + B)$, the matrix that keeps the $B = +1$ part of a column. Inside the sector $h$ acts as the $8 \times 8$ matrix $h_+ = V^\dagger h V$ (that is, $hV = Vh_+$), and $h_+^2 = V^\dagger h V V^\dagger h V = V^\dagger h P h V = V^\dagger h h P V = 25\, V^\dagger V = 25\, I_8$, because $hP = Ph$, $PV = V$ and $V^\dagger V = I_8$. Its trace is $\mathrm{tr}\, h_+ = \mathrm{tr}(V^\dagger h V) = \mathrm{tr}(h V V^\dagger) = \mathrm{tr}(hP)$ (the cyclic property; its proof in Section 4.2 works unchanged for an $8 \times 16$ and a $16 \times 8$ factor), and $\mathrm{tr}(hP) = \tfrac12(\mathrm{tr}\, h + \mathrm{tr}(hB)) = 0$: $\mathrm{tr}\, h = 0$ was shown above, and $hB = m\,\beta B + \sum_a k_a\alpha_a B = m\,C - i\sum_a k_a C g_a$ (lines 2, 3 and 5) is a combination of $C$, a product of four different gammas, and of $C g_a$, which is $\pm$ a product of three different gammas, all of trace 0 by the trace lemma of Section 4.13. With $n_+$ eigenvalues $+5$ and $n_-$ eigenvalues $-5$ of $h_+$: $n_+ + n_- = 8$ and $5n_+ - 5n_- = 0$, so the energies $+5$ and $-5$ occur **four times each** in the sector $B = +1$. Status: PROVED (by hand above; Notebook 04b confirms $Bh = hB$, the anticommutation for the extra times and $\mathrm{tr}(hP) = 0$ exactly with sympy, for all values of $m, k_0, k_1, k_2, k_3$) and COMPUTED (the eight eigenvalues of $h_+$ lie within $10^{-12}$ of $\pm 5$, four of each); it reproduces `Revision/theory/reports/python-field-theory.json`, check `good_sector_spectrum_and_B_sectors`, whose words for its exact example are `m = 2, k0 = 4, (k1, k2, k3) = (1, 2, 0) on B = +1: +5 (4 times), -5 (4 times)`.
 
-**A momentum along an extra time.** The extra times enter $E^2$ with a minus sign. Adding a momentum $k_5$ along $x_5$ to the example gives $E^2 = 25 - k_5^2$. For $k_5 < 5$ the energies $\pm\sqrt{25 - k_5^2}$ are real. For $k_5 > 5$ they are imaginary, $E = \pm i\kappa$ with $\kappa = \sqrt{k_5^2 - 25}$, and the factor $e^{-iEx_4}$ of the wave becomes, for $E = i\kappa$, $e^{-i \cdot i\kappa\, x_4} = e^{\kappa x_4}$ (because $-i \cdot i = 1$): the wave **grows exponentially** in the time instead of oscillating, and the one with $E = -i\kappa$ shrinks. In general the growth rate is $\kappa = \sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$ whenever this is real; it has no upper bound as $k_5$ grows. Status: PROVED (the formula) and COMPUTED (Notebook 04b checks all 16 eigenvalues for 160 values of $k_5$ to $10^{-10}$); it reproduces `Revision/theory/reports/python-scope.json`, check `extra_time_growth_rates_unbounded`. A problem of the kind "given the field at one time, find it at later times" is called **well posed** (in the sense of the mathematician Jacques Hadamard) when a solution exists, is unique, and changes only a little when the given data change a little. The Revision record draws from the missing upper bound the conclusion that the first-order equation is not well posed in this sense for data that depend on the extra times (`Revision/theory/reports/python-scope.json`, check `extra_time_growth_rates_unbounded`): a wave with a tiny amplitude but a large momentum $k_5$ grows like $e^{\kappa x_4}$ with an arbitrarily large $\kappa$, so arbitrarily small changes of the data cause large changes after any fixed time. Chapter 8 explains this. The record's smallest exact example is $m = 1$ with only $k_5 = 2$: $h^2 = (1 - 4) I_{16} = -3 I_{16}$, so every eigenvalue has $E^2 = -3$, $E = +i\sqrt3$ or $-i\sqrt3$, eight times each (the trace argument again: $\mathrm{tr}\, h = 0$ also with the momentum $k_5$, and the sum of the eigenvalues is the trace for every square matrix, also for this $h$, which is not Hermitian), and the wave with $E = i\sqrt3$ grows like $e^{\sqrt3\, x_4}$. Status: PROVED (exactly, with sympy, in Notebook 04b); it reproduces `Revision/theory/reports/python-field-theory.json`, check `extra_time_modes_grow`.
+**A momentum along an extra time.** The extra times enter $E^2$ with a minus sign. Adding a momentum $k_5$ along $x_5$ to the example gives $E^2 = 25 - k_5^2$. For $k_5 < 5$ the energies $\pm\sqrt{25 - k_5^2}$ are real. For $k_5 > 5$ they are imaginary, $E = \pm i\kappa$ with $\kappa = \sqrt{k_5^2 - 25}$, and the factor $e^{-iEx_4}$ of the wave becomes, for $E = i\kappa$, $e^{-i \cdot i\kappa\, x_4} = e^{\kappa x_4}$ (because $-i \cdot i = 1$): the wave **grows exponentially** in the time instead of oscillating, and the one with $E = -i\kappa$ shrinks. In general the growth rate is $\kappa = \sqrt{k_5^2 - m^2 - k_0^2 - k_1^2 - k_2^2 - k_3^2}$ whenever this is real; it has no upper bound as $k_5$ grows. Status: PROVED (the formula) and COMPUTED (Notebook 04b checks all 16 eigenvalues for 160 values of $k_5$ to $10^{-10}$); it reproduces `Revision/theory/reports/python-scope.json`, check `extra_time_growth_rates_unbounded`. A problem of the kind "given the field at one time, find it at later times" is called **well posed** (in the sense of the mathematician Jacques Hadamard) when a solution exists, is unique, and changes only a little when the given data change a little. The Revision record draws from the missing upper bound the conclusion that the first-order equation is not well posed in this sense for data that depend on the extra times (`Revision/theory/reports/python-scope.json`, check `extra_time_growth_rates_unbounded`): a wave with a tiny amplitude but a large momentum $k_5$ grows like $e^{\kappa x_4}$ with an arbitrarily large $\kappa$, so arbitrarily small changes of the data cause large changes after any fixed time. Chapter 8 explains this. The record's smallest exact example is $m = 1$ with only $k_5 = 2$: $h^2 = (1 - 4) I_{16} = -3 I_{16}$, so every eigenvalue has $E^2 = -3$, $E = +i\sqrt3$ or $-i\sqrt3$, eight times each (the trace argument again: $\mathrm{tr}\, h = 0$ also with the momentum $k_5$, and the sum of the eigenvalues is the trace for every square matrix, also for this $h$, which is not Hermitian), and the wave with $E = i\sqrt3$ grows like $e^{\sqrt3\, x_4}$. Status: PROVED (exactly, with sympy, in Notebook 04b); it reproduces `Revision/theory/reports/python-field-theory.json`, check `extra_time_modes_grow`.
 
-**Why the deflation matters here.** In the author's space-time a wave with a fixed **coordinate** momentum $k_{x_5}$ along $x_5$, a factor $e^{ik_{x_5}x_5}$, has a **frame** momentum that grows: the derivative along the frame direction is the coordinate derivative divided by the frame factor $e^{-a_4}\sin^{1/6} z$ of $x_5$ (Section 4.4), so the frame momentum is $e^{a_4}\sin^{-1/6}(z)\, k_{x_5}$. As the extra times deflate ($a_4$ grows), this frame momentum grows like $e^{a_4}$. In the local plane-wave reading that the same Revision check `extra_time_modes_grow` states, every wave along an extra time therefore reaches, sooner or later, the region where its energy is imaginary. Notebook 04b computes only the flat algebra behind this statement; the waves in the curved, deflating space-time are the subject of Chapter 8.
+**Why the deflation matters here.** In the author's space-time a wave with a fixed **coordinate** momentum $k_{x_5}$ along $x_5$, a factor $e^{ik_{x_5}x_5}$, has a **frame** momentum that grows: the derivative along the frame direction is the coordinate derivative divided by the frame factor $b_4^{1/2}e^{-a_4}\sin^{1/6} z$ of $x_5$ (Section 4.4), so the frame momentum is $b_4^{-1/2}e^{a_4}\sin^{-1/6}(z)\, k_{x_5}$. As the extra times deflate ($a_4$ grows, $b_4$ constant; the record states it for $b_4 = 1$), this frame momentum grows like $e^{a_4}$. In the local plane-wave reading that the same Revision check `extra_time_modes_grow` states, every wave along an extra time therefore reaches, sooner or later, the region where its energy is imaginary. Notebook 04b computes only the flat algebra behind this statement; the waves in the curved, deflating space-time are the subject of Chapter 8.
 
 The next three sections hold Notebook 04b.
 
@@ -1695,7 +1695,7 @@ The smallest singular value against the energy, with dotted vertical lines (`axv
 ```python
 record = json.loads(repository_file("Revision/algebra/gammas.json")
                     .read_text(encoding="utf-8"))
-eta = record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1] in the order x1..x8
+eta = record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1] in the order x0..x7
 for matrix in record["gamma"]:  # the entries must be whole numbers
     if not all(isinstance(x, int) for row in matrix for x in row):
         raise ValueError("a gamma matrix of gammas.json has an entry that is not "
@@ -1708,7 +1708,7 @@ say("coordinates " + ", ".join(record["coordinates"]) + f"; eta = {eta}")
 The author's gammas are read from the Revision record file `gammas.json` (the same matrices that Notebook 04a built from his formulas). The loop makes sure that every entry is a whole number (`isinstance(x, int)`). Then the eight matrices are kept twice: as numpy arrays of whole numbers (`gamma`) and as sympy matrices (`sympy_gamma`). The printed line lists the coordinates and the signs.
 
 ```python
-p_symbols = sp.symbols("p1:9", real=True)  # p1, p2, ..., p8
+p_symbols = sp.symbols("p0:8", real=True)  # p0, ..., p7: p_symbols[a] is p_a
 p_slash = sp.zeros(16, 16)
 for a in range(8):
     p_slash += p_symbols[a] * sympy_gamma[a]
@@ -1718,7 +1718,7 @@ check((p_slash * p_slash).expand() == quadratic_form * sp.eye(16),
       "(sum_a p_a gamma^(xa))^2 = eta(p, p) I16 for all p (exact)")
 ```
 
-`sp.symbols("p1:9")` makes the eight symbols $p_1, \dots, p_8$. The loop builds $\sum_a p_a\gamma^{(x_a)}$, read "p slash" (`+=` adds to a variable). `quadratic_form` is $\eta(p, p) = \sum_a \eta^{aa}p_a^2$, printed as `p1**2 + p2**2 + p3**2 - p4**2 - p5**2 - p6**2 - p7**2 + p8**2`. The check confirms exactly the square-root rule at the start of Section 4.9.
+`sp.symbols("p0:8")` makes the eight symbols $p_0, \dots, p_7$, so that `p_symbols[a]` is $p_a$. The loop builds $\sum_a p_a\gamma^{(x_a)}$, read "p slash" (`+=` adds to a variable). `quadratic_form` is $\eta(p, p) = \sum_a \eta^{aa}p_a^2$, printed as `p0**2 + p1**2 + p2**2 + p3**2 - p4**2 - p5**2 - p6**2 - p7**2`. The check confirms exactly the square-root rule at the start of Section 4.9.
 
 **In [11], the same with 300 random vectors, and figure 4.**
 
@@ -1796,22 +1796,22 @@ def recorded_detail(name):
 The theory report of the Revision record is read, and its checks are kept in a dictionary by name. Every check of the report has a name, a verdict and a **detail**, a text that says in words what was checked and found. `recorded_detail(name)` returns this text when the report holds the named check with the verdict pass, and otherwise the empty text `""`. The chained `.get(..., {})` and `.get("verdict", "")` return an empty dictionary or an empty text instead of an error when something is missing, `.upper()` writes the verdict in capital letters (the report writes `pass`), and `x if passed else ""` chooses between two values. The empty text contains no words at all, so every test "these words occur in the detail" fails when the check is missing or did not pass. The cells below use this function to compare the notebook's results with what the record **says**, not only with its verdict: if the record ever states a different formula or a different example, the check fails.
 
 ```python
-m, k = sp.symbols("m", real=True), sp.symbols("k1:9", real=True)  # k[0] is k1
-g4 = sympy_gamma[3]  # gamma^(x4)
+m, k = sp.symbols("m", real=True), sp.symbols("k0:8", real=True)  # k[a] is k_a
+g4 = sympy_gamma[4]  # gamma^(x4)
 h = -sp.I * m * g4
 for a in range(8):
-    if a != 3:  # every direction except the time x4
+    if a != 4:  # every direction except the time x4
         h -= k[a] * g4 * sympy_gamma[a]
-dispersion = m**2 + k[0]**2 + k[1]**2 + k[2]**2 + k[7]**2 \
-    - k[4]**2 - k[5]**2 - k[6]**2
+dispersion = m**2 + k[0]**2 + k[1]**2 + k[2]**2 + k[3]**2 \
+    - k[5]**2 - k[6]**2 - k[7]**2
 ```
 
-A real symbol $m$ and the eight momentum symbols $k_1, \dots, k_8$ (`k[0]` is $k_1$; $k_4$ is not used, because the time carries the energy). `h` is built exactly as in line 5 of Section 4.9: $-im\gamma^{(x_4)}$ minus $k_a\gamma^{(x_4)}\gamma^{(x_a)}$ for every $a$ other than the time (`-=` subtracts from a variable). `dispersion` is $m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$.
+A real symbol $m$ and the eight momentum symbols $k_0, \dots, k_7$ (`k[a]` is $k_a$; $k_4$ is not used, because the time carries the energy). `h` is built exactly as in line 5 of Section 4.9: $-im\gamma^{(x_4)}$ minus $k_a\gamma^{(x_4)}\gamma^{(x_a)}$ for every $a$ other than the time (`-=` subtracts from a variable). `dispersion` is $m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$.
 
 ```python
 # h and h^2 in the words of the record, quoted exactly as the record writes them
 H_WORDS = "h = -i m gamma^(4) - sum_{a != x4} k_a gamma^(4) gamma^(a)"
-H2_WORDS = "h^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16"
+H2_WORDS = "h^2 = (m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - k7^2) I16"
 detail = recorded_detail("mode_hamiltonian_B_selfadjoint_dispersion")
 check((h * h).expand() == dispersion * sp.eye(16)
       and H_WORDS in detail and H2_WORDS in detail, H2_WORDS)
@@ -1828,27 +1828,27 @@ gamma_complex = [g.astype(complex) for g in gamma]
 
 
 def h_matrix(mass_value, momenta):
-    """The numeric h for the mass and the eight momenta (momenta[3] is not used)."""
-    result = -1j * mass_value * gamma_complex[3]
+    """The numeric h for the mass and the eight momenta (momenta[4] is not used)."""
+    result = -1j * mass_value * gamma_complex[4]
     for a in range(8):
-        if a != 3:
-            result = result - momenta[a] * gamma_complex[3] @ gamma_complex[a]
+        if a != 4:
+            result = result - momenta[a] * gamma_complex[4] @ gamma_complex[a]
     return result
 ```
 
-Complex copies of the gammas (Python writes the imaginary unit `1j`), and the function `h_matrix` that builds the numeric $h$ for a mass and a list of eight momenta (`momenta[3]` is not used).
+Complex copies of the gammas (Python writes the imaginary unit `1j`), and the function `h_matrix` that builds the numeric $h$ for a mass and a list of eight momenta in the order $x_0, \dots, x_7$ (`momenta[4]` is not used).
 
 ```python
-example = h_matrix(2.0, [1.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0])
+example = h_matrix(2.0, [4.0, 1.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0])  # k0, k1, k2 = 4, 1, 2
 hermitian = np.array_equal(example, example.conj().T)  # h^dagger = h, exactly
 eigenvalues = np.linalg.eigvalsh(example)  # real eigenvalues, increasing order
 rounded = [float(x) for x in np.round(eigenvalues, 9)]  # 9 decimals
 multiplicities = {value: rounded.count(value) for value in sorted(set(rounded))}
-report("eigenvalue: multiplicity of h for m = 2, k = (1, 2, 0, k8 = 4)",
+report("eigenvalue: multiplicity of h for m = 2, k0 = 4, (k1, k2, k3) = (1, 2, 0)",
        multiplicities)
 ```
 
-The record's example $m = 2$, $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$. `example.conj().T` is the conjugate transpose, and `np.array_equal` compares exactly: $h$ is Hermitian. `np.linalg.eigvalsh` computes the eigenvalues of a Hermitian matrix (real numbers, in increasing order, each listed as often as its multiplicity). They are rounded to nine decimals and counted: the RESULT line reads `{-5.0: 8, 5.0: 8}`.
+The record's example $m = 2$, $k_0 = 4$, $(k_1, k_2, k_3) = (1, 2, 0)$, the list of momenta $[4, 1, 2, 0, 0, 0, 0, 0]$. `example.conj().T` is the conjugate transpose, and `np.array_equal` compares exactly: $h$ is Hermitian. `np.linalg.eigvalsh` computes the eigenvalues of a Hermitian matrix (real numbers, in increasing order, each listed as often as its multiplicity). They are rounded to nine decimals and counted: the RESULT line reads `{-5.0: 8, 5.0: 8}`.
 
 ```python
 solutions = [int(np.sum(np.linalg.svd(e * np.eye(16) - example, compute_uv=False)
@@ -1892,31 +1892,32 @@ for e in (-5.0, 5.0):
     ax.axvline(e, color="#898781", linewidth=1, linestyle=":")
 ax.set_xlabel("energy $E$")
 ax.set_ylabel("smallest singular value of $E I_{16} - h$")
-ax.set_title("plane waves in flat 4+4 space, $m = 2$, $k = (1, 2, 0;\\ k_8 = 4)$")
+ax.set_title("plane waves in flat 4+4 space, $m = 2$, $k_0 = 4$, "
+             "$(k_1, k_2, k_3) = (1, 2, 0)$")
 save_figure(fig, "mass_shell_4p4",
             ...)
 ```
 
-The same kind of figure as figure 3, now for the author's gammas. **What figure 5 shows and why:** a zigzag of straight lines, the distance from $E$ to the nearer of $\pm 5$, touching zero only at the dotted lines $E = \pm 5$, where $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 = 25$; each of the two energies belongs to eight independent solutions (In [13] counted them). It has the shape of the Dirac curve: the same algebra in more directions.
+The same kind of figure as figure 3, now for the author's gammas. **What figure 5 shows and why:** a zigzag of straight lines, the distance from $E$ to the nearer of $\pm 5$, touching zero only at the dotted lines $E = \pm 5$, where $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 = 25$; each of the two energies belongs to eight independent solutions (In [13] counted them). It has the shape of the Dirac curve: the same algebra in more directions.
 
 **In [15], the sector $B = +1$ and the record's exact example.**
 
 ```python
-C_exact = sympy_gamma[7] * sympy_gamma[0] * sympy_gamma[1] * sympy_gamma[2]
+C_exact = sympy_gamma[0] * sympy_gamma[1] * sympy_gamma[2] * sympy_gamma[3]
 B_exact = -sp.I * C_exact * g4  # B = -i C gamma^(x4)
 B_stored = sp.Matrix(record["B"]["re"]) + sp.I * sp.Matrix(record["B"]["im"])
 ```
 
-$C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ from the exact gammas (`sympy_gamma[7]` is $\gamma^{(x_8)}$, `sympy_gamma[0]` is $\gamma^{(x_1)}$), and $B = -iC\gamma^{(x_4)}$, exactly. `record` is the content of the record file `Revision/algebra/gammas.json`, read in In [10]; it stores $B$ as two tables of whole numbers, its real part `"re"` and its imaginary part `"im"`, and `B_stored` puts them together as the real part plus $i$ times the imaginary part.
+$C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ from the exact gammas (`sympy_gamma[a]` is $\gamma^{(x_a)}$), and $B = -iC\gamma^{(x_4)}$, exactly. `record` is the content of the record file `Revision/algebra/gammas.json`, read in In [10]; it stores $B$ as two tables of whole numbers, its real part `"re"` and its imaginary part `"im"`, and `B_stored` puts them together as the real part plus $i$ times the imaginary part.
 
 ```python
-h_good = h.subs({k[4]: 0, k[5]: 0, k[6]: 0})  # no momentum along an extra time
+h_good = h.subs({k[5]: 0, k[6]: 0, k[7]: 0})  # no momentum along an extra time
 P_exact = (sp.eye(16) + B_exact) / 2  # keeps the B = +1 part of a column
 mixes = all(B_exact * g4 * sympy_gamma[a] == -g4 * sympy_gamma[a] * B_exact
-            for a in (4, 5, 6))  # anticommutes with gamma^(x4) gamma^(x5, x6, x7)
+            for a in (5, 6, 7))  # anticommutes with gamma^(x4) gamma^(x5, x6, x7)
 ```
 
-`h_good` is the exact $h$ of In [12] with $k_5 = k_6 = k_7 = 0$ (the entries 4, 5 and 6 of the list `k`, counted from 0); the symbols $m, k_1, k_2, k_3, k_8$ stay free, so everything checked with `h_good` holds for all their values. `P_exact` is $P = \tfrac12(I_{16} + B)$: for a column with $Bu = u$ it gives $Pu = u$, for one with $Bu = -u$ it gives $Pu = 0$. `mixes` is true when $B\gamma^{(x_4)}\gamma^{(x_a)} = -\gamma^{(x_4)}\gamma^{(x_a)}B$ for $a = x_5, x_6, x_7$ (`sympy_gamma[4]` to `sympy_gamma[6]`); `all(...)` is true when the test holds for every value of `a` in the list.
+`h_good` is the exact $h$ of In [12] with $k_5 = k_6 = k_7 = 0$ (the entries 5, 6 and 7 of the list `k`, counted from 0 like the coordinates); the symbols $m, k_0, k_1, k_2, k_3$ stay free, so everything checked with `h_good` holds for all their values. `P_exact` is $P = \tfrac12(I_{16} + B)$: for a column with $Bu = u$ it gives $Pu = u$, for one with $Bu = -u$ it gives $Pu = 0$. `mixes` is true when $B\gamma^{(x_4)}\gamma^{(x_a)} = -\gamma^{(x_4)}\gamma^{(x_a)}B$ for $a = x_5, x_6, x_7$ (`sympy_gamma[5]` to `sympy_gamma[7]`); `all(...)` is true when the test holds for every value of `a` in the list.
 
 ```python
 check(B_exact == B_stored and B_exact.H == B_exact
@@ -1952,8 +1953,8 @@ report("eigenvalue: multiplicity of h in the sector B = +1", plus_counts)
 The eight eigenvalues of $h_+$, rounded and counted as in In [13]: the RESULT line reads `{-5.0: 4, 5.0: 4}`.
 
 ```python
-sector_words = (f"m = 2, k = (1,2,0,k8=4) on B = +1: +5 (x{plus_counts.get(5.0)}),"
-                f" -5 (x{plus_counts.get(-5.0)})")  # as the record writes them
+sector_words = (f"m = 2, k0 = 4, (k1, k2, k3) = (1, 2, 0) on B = +1: +5 "
+                f"({plus_counts.get(5.0)} times), -5 ({plus_counts.get(-5.0)} times)")
 check(V.shape == (16, 8)
       and np.allclose(V @ V.conj().T, (np.eye(16) + B_numeric) / 2, atol=1e-12)
       and np.allclose(example @ V, V @ h_plus, atol=1e-12)
@@ -1965,7 +1966,7 @@ print(f"     reproduces {THEORY}")
 print("         check good_sector_spectrum_and_B_sectors (its exact example)")
 ```
 
-`sector_words` writes the record's sentence for its exact example with the counts that the notebook found (two texts written next to each other inside round brackets are joined into one). The check requires: $V$ has 16 rows and 8 columns (`V.shape`); $VV^\dagger = P$; $hV = Vh_+$, so $h$ maps the sector into itself; $h_+^2 = 25 I_8$; the eight eigenvalues are four times $-5$ and four times $+5$ (`[-5.0] * 4 + [5.0] * 4` is the list of four $-5$ followed by four $+5$), all within $10^{-12}$; and the record's text contains `m = 2, k = (1,2,0,k8=4) on B = +1: +5 (x4), -5 (x4)`. This reproduces the record's exact example as the record states it.
+`sector_words` writes the record's sentence for its exact example with the counts that the notebook found (two texts written next to each other inside round brackets are joined into one). The check requires: $V$ has 16 rows and 8 columns (`V.shape`); $VV^\dagger = P$; $hV = Vh_+$, so $h$ maps the sector into itself; $h_+^2 = 25 I_8$; the eight eigenvalues are four times $-5$ and four times $+5$ (`[-5.0] * 4 + [5.0] * 4` is the list of four $-5$ followed by four $+5$), all within $10^{-12}$; and the record's text contains `m = 2, k0 = 4, (k1, k2, k3) = (1, 2, 0) on B = +1: +5 (4 times), -5 (4 times)`. This reproduces the record's exact example as the record states it.
 
 **In [16], a momentum along an extra time, and figure 6.**
 
@@ -1982,7 +1983,7 @@ The scope report of the Revision record is read. `scope_detail` is the text of i
 
 ```python
 K = sp.symbols("K", positive=True)  # a momentum K along the extra time x5
-rate = sp.sqrt(-dispersion.subs({k[4]: K, k[5]: 0, k[6]: 0}))  # Im E if E^2 < 0
+rate = sp.sqrt(-dispersion.subs({k[5]: K, k[6]: 0, k[7]: 0}))  # Im E if E^2 < 0
 say(f"h^2 = ({dispersion}) I16")
 say(f"growth rate for k5 = K: Im E = {rate}")
 scope_ok = (f"h_k^2 = ({dispersion}) I16" in scope_detail
@@ -1990,13 +1991,13 @@ scope_ok = (f"h_k^2 = ({dispersion}) I16" in scope_detail
             and "no upper bound" in scope_detail)  # the record's words
 ```
 
-A positive symbol $K$ for the momentum along $x_5$. With $k_5 = K$ and $k_6 = k_7 = 0$, `dispersion` is $E^2$; when $E^2 < 0$, $E = \pm i\sqrt{-E^2}$, so the imaginary part of the growing energy, the growth rate, is $\sqrt{-E^2}$: `rate`. sympy writes the two expressions in its own order, and the two printed lines show them: `h^2 = (k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + k8**2 + m**2) I16` and `growth rate for k5 = K: Im E = sqrt(K**2 - k1**2 - k2**2 - k3**2 - k8**2 - m**2)`, where `**` is a power. `scope_ok` is true when the record's text contains both expressions exactly as sympy writes them, and the words `no upper bound`.
+A positive symbol $K$ for the momentum along $x_5$. With $k_5 = K$ and $k_6 = k_7 = 0$, `dispersion` is $E^2$; when $E^2 < 0$, $E = \pm i\sqrt{-E^2}$, so the imaginary part of the growing energy, the growth rate, is $\sqrt{-E^2}$: `rate`. sympy writes the two expressions in its own order, and the two printed lines show them: `h^2 = (k0**2 + k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + m**2) I16` and `growth rate for k5 = K: Im E = sqrt(K**2 - k0**2 - k1**2 - k2**2 - k3**2 - m**2)`, where `**` is a power. `scope_ok` is true when the record's text contains both expressions exactly as sympy writes them, and the words `no upper bound`.
 
 ```python
 k5_values = np.linspace(0.025, 7.975, 160)  # steps of 0.05, avoiding k5 = 5
 real_parts, imaginary_parts, deviations, counts_ok = [], [], [], True
 for k5 in k5_values:
-    values = np.linalg.eigvals(h_matrix(2.0, [1.0, 2.0, 0.0, 0.0, k5, 0.0, 0.0, 4.0]))
+    values = np.linalg.eigvals(h_matrix(2.0, [4.0, 1.0, 2.0, 0.0, 0.0, k5, 0.0, 0.0]))
     root = np.sqrt(complex(25.0 - k5**2))  # +sqrt(25 - k5^2), complex if needed
     to_plus, to_minus = np.abs(values - root), np.abs(values + root)
     deviations.append(np.max(np.minimum(to_plus, to_minus)))
@@ -2005,7 +2006,7 @@ for k5 in k5_values:
     imaginary_parts.append(np.sort(values.imag))
 ```
 
-160 values of $k_5$ from 0.025 to 7.975 in steps of 0.05 (the value $k_5 = 5$, where both energies are 0, is skipped). For each, the 16 eigenvalues of $h$ with the momentum $k_5$ added (in position 4 of the list, the direction $x_5$; $h$ is no longer Hermitian, so the general `eigvals` is used); `root` is $\sqrt{25 - k_5^2}$, imaginary when $k_5 > 5$. For each eigenvalue its distance to $+$root and to $-$root is computed; the largest of the smaller distances is stored, and `counts_ok` stays true only if exactly eight eigenvalues lie nearer to $+$root. The sorted real and imaginary parts are kept for the figure.
+160 values of $k_5$ from 0.025 to 7.975 in steps of 0.05 (the value $k_5 = 5$, where both energies are 0, is skipped). For each, the 16 eigenvalues of $h$ with the momentum $k_5$ added (in position 5 of the list, the direction $x_5$; $h$ is no longer Hermitian, so the general `eigvals` is used); `root` is $\sqrt{25 - k_5^2}$, imaginary when $k_5 > 5$. For each eigenvalue its distance to $+$root and to $-$root is computed; the largest of the smaller distances is stored, and `counts_ok` stays true only if exactly eight eigenvalues lie nearer to $+$root. The sorted real and imaginary parts are kept for the figure.
 
 ```python
 # As above, the size of the deviations depends on the computer; the check requires
@@ -2045,7 +2046,7 @@ Both panels get a dotted line at $k_5 = 5$ and axis labels, then titles, and the
 **In [17], the exact example with growing modes.**
 
 ```python
-example_values = {m: 1, k[0]: 0, k[1]: 0, k[2]: 0, k[4]: 2, k[5]: 0, k[6]: 0,
+example_values = {m: 1, k[0]: 0, k[1]: 0, k[2]: 0, k[3]: 0, k[5]: 2, k[6]: 0,
                   k[7]: 0}  # mass 1, momentum 2 along x5, nothing else
 h_example = h.subs(example_values)  # the exact 16 x 16 matrix h for these numbers
 exact_eigenvalues = h_example.eigenvals()  # {eigenvalue: multiplicity}
@@ -2097,7 +2098,7 @@ The Clifford algebra Cl(4,4) is the set of all real combinations of products of 
 
 **The products.** For a set $A$ of directions write $\gamma_A$ for the product of their gammas in increasing order, for example $\gamma_{\{x_2, x_5\}} = \gamma^{(x_2)}\gamma^{(x_5)}$, and $\gamma_{\{\}} = I_{16}$. The number $k$ of factors is the **degree** of $\gamma_A$; the product is **even** if $k$ is even and **odd** if $k$ is odd. There are 256 products, $\binom{8}{k}$ of degree $k$, 128 even and 128 odd. The **symmetric difference** $A \triangle B$ is the set of the directions that lie in exactly one of $A$ and $B$. Three rules follow from the Clifford relation.
 
-**Rule R1: products multiply into products.** $\gamma_A\gamma_B = s(A, B)\,\gamma_{A \triangle B}$ with the sign $s(A, B) = (-1)^{N(A,B)}\prod_{c \in A \cap B}\eta^{cc}$, where $N(A, B)$ is the number of pairs $(a, b)$ with $a$ in $A$, $b$ in $B$ and $a$ later than $b$ in the order $x_1, \dots, x_8$, and $A \cap B$ is the set of the directions in both. Proof, step by step: in $\gamma_A\gamma_B$, take the factors of $\gamma_B$ one after the other, the earliest direction first, and move each to the left until it stands in increasing order. A factor $\gamma^b$ passes exactly the factors $\gamma^a$ of $A$ with $a$ later than $b$ (the factors of $B$ moved before it are earlier than $b$ and stay on its left); each of them is a different gamma, so each exchange gives a factor $-1$ (anticommutation). If $b$ also lies in $A$, $\gamma^b$ then stands next to its partner $\gamma^b$, and the two give $(\gamma^b)^2 = \eta^{bb} I_{16}$ and disappear. What remains is the product, in increasing order, of the directions in exactly one of $A$ and $B$, and the collected signs are $(-1)^{N(A,B)}$ and one $\eta^{cc}$ for each common direction.
+**Rule R1: products multiply into products.** $\gamma_A\gamma_B = s(A, B)\,\gamma_{A \triangle B}$ with the sign $s(A, B) = (-1)^{N(A,B)}\prod_{c \in A \cap B}\eta^{cc}$, where $N(A, B)$ is the number of pairs $(a, b)$ with $a$ in $A$, $b$ in $B$ and $a$ later than $b$ in the order $x_0, \dots, x_7$, and $A \cap B$ is the set of the directions in both. Proof, step by step: in $\gamma_A\gamma_B$, take the factors of $\gamma_B$ one after the other, the earliest direction first, and move each to the left until it stands in increasing order. A factor $\gamma^b$ passes exactly the factors $\gamma^a$ of $A$ with $a$ later than $b$ (the factors of $B$ moved before it are earlier than $b$ and stay on its left); each of them is a different gamma, so each exchange gives a factor $-1$ (anticommutation). If $b$ also lies in $A$, $\gamma^b$ then stands next to its partner $\gamma^b$, and the two give $(\gamma^b)^2 = \eta^{bb} I_{16}$ and disappear. What remains is the product, in increasing order, of the directions in exactly one of $A$ and $B$, and the collected signs are $(-1)^{N(A,B)}$ and one $\eta^{cc}$ for each common direction.
 
 **Rule R2: squares.** With $B = A$ the common directions are all of $A$, and $N(A, A)$ is the number of pairs in $A$ with the later one first, $k(k-1)/2$ for a product of degree $k$ (every pair of different elements of $A$ counts once). So
 
@@ -2176,7 +2177,7 @@ from sympy.polys.matrices import DomainMatrix  # exact matrices for the rank
 ```python
 record = json.loads(repository_file("Revision/algebra/gammas.json")
                     .read_text(encoding="utf-8"))
-eta = record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1] in the order x1..x8
+eta = record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1] in the order x0..x7
 gamma = [np.array(matrix, dtype=np.int64) for matrix in record["gamma"]]
 I16 = np.eye(16, dtype=np.int64)
 ```
@@ -2188,7 +2189,7 @@ SETS = [s for k in range(9) for s in itertools.combinations(range(8), k)]
 INDEX = {s: i for i, s in enumerate(SETS)}  # set -> its number in the list
 ```
 
-`itertools.combinations(range(8), k)` lists the sets of $k$ directions as tuples of increasing numbers (0 stands for $x_1$, ..., 7 for $x_8$); the list comprehension collects them for $k = 0, 1, \dots, 8$, so `SETS` holds the 256 sets ordered by degree, starting with the empty tuple `()`. `INDEX` gives the number of each set in this list.
+`itertools.combinations(range(8), k)` lists the sets of $k$ directions as tuples of increasing numbers (0 stands for $x_0$, ..., 7 for $x_7$); the list comprehension collects them for $k = 0, 1, \dots, 8$, so `SETS` holds the 256 sets ordered by degree, starting with the empty tuple `()`. `INDEX` gives the number of each set in this list.
 
 ```python
 products = np.zeros((256, 16, 16), dtype=np.int64)
@@ -2204,11 +2205,11 @@ DEGREE = np.array([len(s) for s in SETS])  # the number of factors of each produ
 
 ```python
 def label(s):
-    """A short name of a set: its coordinate numbers, e.g. (1, 4) -> "25"."""
-    return "".join(str(a + 1) for a in s) if s else "I"
+    """A short name of a set: its coordinate numbers, e.g. (1, 4) -> "14"."""
+    return "".join(str(a) for a in s) if s else "I"
 ```
 
-`label` writes a short name of a set: the coordinate numbers glued together, for example the set $\{x_2, x_5\}$, stored as `(1, 4)`, becomes `"25"`; the empty set (which Python reads as false) becomes `"I"`.
+`label` writes a short name of a set: the coordinate numbers glued together, for example the set $\{x_1, x_4\}$, stored as `(1, 4)`, becomes `"14"`; the empty set (which Python reads as false) becomes `"I"`.
 
 ```python
 counts = [int(np.sum(DEGREE == k)) for k in range(9)]
@@ -2274,7 +2275,7 @@ report("pairs with sign +1 and with sign -1",
 check(rule_r1, "gamma_A gamma_B = s(A,B) gamma_(A sym. diff. B) for all 65536 pairs")
 ```
 
-The RESULT line counts the pairs with sign $+1$ and $-1$: $(33280, 32256)$. The check confirms rule R1 for all pairs.
+The RESULT line counts the pairs with sign $+1$ and $-1$: $(33024, 32512)$. These two numbers depend on the order in which the directions are numbered, because $\gamma_A$ is the product in increasing order and $N(A, B)$ counts pairs in that order: with the hidden direction numbered last instead of first, the same rule gives $(33280, 32256)$. The rule itself holds in every numbering, and the check confirms it for all pairs.
 
 ```python
 signed_permutations = all(
@@ -2289,14 +2290,14 @@ For the products after $I_{16}$ (`products[1:]` skips the first; $I_{16}$ obviou
 **In [5], figure 2.**
 
 ```python
-four = [s for s in SETS if all(a < 4 for a in s)]  # the 16 sets inside x1..x4
+four = [s for s in SETS if set(s) <= {1, 2, 3, 4}]  # the 16 sets inside x1..x4
 table = np.array([[SIGN[INDEX[A], INDEX[B]] for B in four] for A in four])
 fig, ax = plt.subplots(figsize=(7.4, 7.0), layout="constrained")
 ax.imshow(table, cmap=ListedColormap(["#2a78d6", "#e34948"]),
           norm=BoundaryNorm([-2, 0, 2], 2))
 ```
 
-`four` keeps the 16 sets made only of $x_1, x_2, x_3, x_4$ (direction numbers below 4). `table` is the $16 \times 16$ table of their signs $s(A, B)$, painted with two colours: blue for $-1$, red for $+1$.
+`four` keeps the 16 sets made only of $x_1, x_2, x_3, x_4$ (direction numbers 1 to 4; `set(s) <= {1, 2, 3, 4}` tests "is a subset of"). `table` is the $16 \times 16$ table of their signs $s(A, B)$, painted with two colours: blue for $-1$, red for $+1$.
 
 ```python
 for r, A in enumerate(four):
@@ -2445,7 +2446,7 @@ save_figure(fig, "trace_products",
             ...)
 ```
 
-The right panel magnifies the corner of the table $\mathrm{tr}(\gamma_A\gamma_B)/16$ for the first 37 products ($1 + 8 + 28$, degrees 0, 1 and 2), labelled with their names (the column labels turned by 90 degrees). **What figure 4 shows and why:** on the left a single red diagonal line on grey: every product is perpendicular to every other, which is why they are independent. On the right the diagonal is red for I and for $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_8)}$ (squares $+I_{16}$), blue for $\gamma^{(x_4)}, \dots, \gamma^{(x_7)}$ (squares $-I_{16}$), and for the products of two gammas red for the 16 boost planes and blue for the 12 rotation planes, $-\eta^{aa}\eta^{bb}$ by rule R2.
+The right panel magnifies the corner of the table $\mathrm{tr}(\gamma_A\gamma_B)/16$ for the first 37 products ($1 + 8 + 28$, degrees 0, 1 and 2), labelled with their names (the column labels turned by 90 degrees). **What figure 4 shows and why:** on the left a single red diagonal line on grey: every product is perpendicular to every other, which is why they are independent. On the right the diagonal is red for I and for $\gamma^{(x_0)}, \gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}$ (squares $+I_{16}$), blue for $\gamma^{(x_4)}, \dots, \gamma^{(x_7)}$ (squares $-I_{16}$), and for the products of two gammas red for the 16 boost planes and blue for the 12 rotation planes, $-\eta^{aa}\eta^{bb}$ by rule R2.
 
 **In [10], the exact rank.**
 
@@ -2532,7 +2533,7 @@ check(nonzero == diagonal and len(nonzero) == 16
       "E00 has 16 coefficients +-1/16, on the 16 diagonal products")
 ```
 
-`nonzero` names the products with a nonzero coefficient in $E_{00}$; `diagonal` names the products that are diagonal matrices (a matrix equals the diagonal matrix of its own diagonal exactly when it is diagonal). The printed list is I, 16, 25, 34, 78, 1256, 1346, 1678, 2345, 2578, 3478, 123456, 125678, 134678, 234578, 12345678: exactly the 16 sets made of whole pairs $(x_1, x_6)$, $(x_2, x_5)$, $(x_3, x_4)$, $(x_7, x_8)$, each pair either in or out, a pattern that Section 4.17 explains. The check requires that the two lists agree, that there are 16, and that every nonzero coefficient is $\pm 1/16$. (The reason: $c_A = \mathrm{tr}(\gamma_A^T E_{00})/16 = (\gamma_A)_{00}/16$, which is nonzero only when row 0 of the signed permutation $\gamma_A$ points to column 0.)
+`nonzero` names the products with a nonzero coefficient in $E_{00}$; `diagonal` names the products that are diagonal matrices (a matrix equals the diagonal matrix of its own diagonal exactly when it is diagonal). The printed list is I, 07, 16, 25, 34, 0167, 0257, 0347, 1256, 1346, 2345, 012567, 013467, 023457, 123456, 01234567: exactly the 16 sets made of whole pairs $(x_1, x_6)$, $(x_2, x_5)$, $(x_3, x_4)$, $(x_0, x_7)$, each pair either in or out, a pattern that Section 4.17 explains. The check requires that the two lists agree, that there are 16, and that every nonzero coefficient is $\pm 1/16$. (The reason: $c_A = \mathrm{tr}(\gamma_A^T E_{00})/16 = (\gamma_A)_{00}/16$, which is nonzero only when row 0 of the signed permutation $\gamma_A$ points to column 0.)
 
 **In [12], figure 5.**
 
@@ -2652,7 +2653,7 @@ sigma_z, N_matrix = sp.Matrix([[1, 0], [0, -1]]), sp.Matrix([[0, 1], [-1, 0]])
 Z2, I2 = sp.zeros(2, 2), sp.eye(2)
 dirac = [sp.Matrix(sp.BlockMatrix([[I2, Z2], [Z2, -I2]]))] + [
     sp.Matrix(sp.BlockMatrix([[Z2, s], [-s, Z2]])) for s in (sigma_x, sigma_y, sigma_z)]
-taus = [sp.Matrix(gamma[a][8:, :8].tolist()) for a in range(7)]  # tau[1..7]
+taus = [sp.Matrix(gamma[a][8:, :8].tolist()) for a in range(1, 8)]  # tau[1..7]
 ```
 
 The Pauli matrices, $N$, and Dirac's four matrices (Section 4.3), rebuilt in three lines. `taus` takes the lower-left $8 \times 8$ blocks of $\gamma^{(x_1)}, \dots, \gamma^{(x_7)}$; by the author's construction these are $\tau_1, \dots, \tau_7$ (Section 4.5).
@@ -2806,7 +2807,7 @@ The frame colours: black for a rotation plane, green for a boost plane. The figu
 ```python
 for r, c_ in itertools.product(range(7), repeat=2):
     ax = axes[r, c_]
-    a, b = r, c_ + 1  # row: first factor x_(a+1); column: second factor x_(b+1)
+    a, b = r, c_ + 1  # row: first factor x_a; column: second factor x_b
     if b <= a:
         ax.axis("off")  # no panel below the diagonal of the grid (c_ < r)
         continue
@@ -2816,10 +2817,10 @@ for r, c_ in itertools.product(range(7), repeat=2):
     for spine in ax.spines.values():  # the frame of the panel
         spine.set_edgecolor(FRAME[square_of[(a, b)]])
         spine.set_linewidth(2.0)
-    ax.set_title(f"$x_{a + 1}\\,x_{b + 1}$", fontsize=8)
+    ax.set_title(f"$x_{a}\\,x_{b}$", fontsize=8)
 ```
 
-Panel $(r, c)$ shows the product of the directions $a = r$ and $b = c + 1$ (rows $x_1$ to $x_7$, columns $x_2$ to $x_8$). The panels on the diagonal of the grid ($c = r$, that is $b = a + 1$) show the neighbouring pairs $x_1x_2, x_2x_3, \dots, x_7x_8$. The panels below the diagonal ($c < r$, that is $b \le a$) would repeat a pair or pair a direction with itself; they are switched off, and `continue` jumps to the next panel. Each remaining panel shows $\gamma^a\gamma^b$ as a heat map without tick marks; its four border lines (`spines`) get the colour of its plane, two points wide, and its title names the two directions.
+Panel $(r, c)$ shows the product of the directions $a = r$ and $b = c + 1$ (rows $x_0$ to $x_6$, columns $x_1$ to $x_7$). The panels on the diagonal of the grid ($c = r$, that is $b = a + 1$) show the neighbouring pairs $x_0x_1, x_1x_2, \dots, x_6x_7$. The panels below the diagonal ($c < r$, that is $b \le a$) would repeat a pair or pair a direction with itself; they are switched off, and `continue` jumps to the next panel. Each remaining panel shows $\gamma^a\gamma^b$ as a heat map without tick marks; its four border lines (`spines`) get the colour of its plane, two points wide, and its title names the two directions.
 
 ```python
 key = [Patch(facecolor="white", edgecolor=FRAME[-1], linewidth=2,
@@ -2834,7 +2835,7 @@ save_figure(fig, "two_gamma_products",
             ...)
 ```
 
-The key below the figure explains the two frame colours and the two entry colours. **What figure 8 shows and why:** a triangle of 28 small heat maps, the products of two of the author's real gammas, each block diagonal with 16 nonzero entries (two of every four quadrants are empty), because each is an even product. The black frames sit where both directions are of the same kind (among $x_1, x_2, x_3, x_8$, or among $x_4, \dots, x_7$), the green ones where one is space-like and one time-like. Four panels are diagonal matrices: $x_1x_6$, $x_2x_5$, $x_3x_4$ and $x_7x_8$ (Section 4.17 explains why exactly these). Half of each product is the matrix $S^{ab}$ of the Revision record.
+The key below the figure explains the two frame colours and the two entry colours. **What figure 8 shows and why:** a triangle of 28 small heat maps, the products of two of the author's real gammas, each block diagonal with 16 nonzero entries (two of every four quadrants are empty), because each is an even product. The black frames sit where both directions are of the same kind (among $x_0, x_1, x_2, x_3$, or among $x_4, \dots, x_7$), the green ones where one is space-like and one time-like. Four panels are diagonal matrices: $x_0x_7$, $x_1x_6$, $x_2x_5$ and $x_3x_4$ (Section 4.17 explains why exactly these). Half of each product is the matrix $S^{ab}$ of the Revision record.
 
 **In [19], the last check.**
 
@@ -2877,7 +2878,7 @@ The **mixed-product rule** $(A \otimes B)(C \otimes D) = (AC) \otimes (BD)$ hold
 
 In the same way $(A \otimes B)^T = A^T \otimes B^T$ (exchange $i$ with $j$ and $k$ with $l$ in the index formula). A product of four $2 \times 2$ matrices, $M_1 \otimes M_2 \otimes M_3 \otimes M_4$, is a $16 \times 16$ matrix; $M_1$ stands in **slot** 1, ..., $M_4$ in slot 4, and products are computed slot by slot. The 16 components are numbered $j = 8b_1 + 4b_2 + 2b_3 + b_4$ by four binary digits (**bits**) $b_1, \dots, b_4$, each 0 or 1, one per slot; for example $j = 5$ has the bits 0101.
 
-**The recipe.** For a slot $k$ and $M = P$ or $N$, put $G$ into the slots before $k$, $M$ into slot $k$ and $I_2$ into the slots after $k$. Every space-like direction gets a $P$, every time-like direction an $N$, and each slot is shared by one space-like and one time-like direction. With the pairs $(x_1, x_6)$ in slot 1, $(x_2, x_5)$ in slot 2, $(x_3, x_4)$ in slot 3 and $(x_8, x_7)$ in slot 4 (why exactly these pairs is explained below):
+**The recipe.** For a slot $k$ and $M = P$ or $N$, put $G$ into the slots before $k$, $M$ into slot $k$ and $I_2$ into the slots after $k$. Every space-like direction gets a $P$, every time-like direction an $N$, and each slot is shared by one space-like and one time-like direction. With the pairs $(x_1, x_6)$ in slot 1, $(x_2, x_5)$ in slot 2, $(x_3, x_4)$ in slot 3 and $(x_0, x_7)$ in slot 4 (why exactly these pairs is explained below):
 
 | direction | slot 1 | slot 2 | slot 3 | slot 4 |
 | --- | --- | --- | --- | --- |
@@ -2887,7 +2888,7 @@ In the same way $(A \otimes B)^T = A^T \otimes B^T$ (exchange $i$ with $j$ and $
 | $\hat\gamma^{(x_5)}$ | $G$ | $N$ | $I_2$ | $I_2$ |
 | $\hat\gamma^{(x_3)}$ | $G$ | $G$ | $P$ | $I_2$ |
 | $\hat\gamma^{(x_4)}$ | $G$ | $G$ | $N$ | $I_2$ |
-| $\hat\gamma^{(x_8)}$ | $G$ | $G$ | $G$ | $P$ |
+| $\hat\gamma^{(x_0)}$ | $G$ | $G$ | $G$ | $P$ |
 | $\hat\gamma^{(x_7)}$ | $G$ | $G$ | $G$ | $N$ |
 
 for example $\hat\gamma^{(x_5)} = G \otimes N \otimes I_2 \otimes I_2$ (read "gamma hat").
@@ -2900,7 +2901,7 @@ for example $\hat\gamma^{(x_5)} = G \otimes N \otimes I_2 \otimes I_2$ (read "ga
 
 Each $\hat\gamma$ is a signed permutation matrix (a Kronecker product of signed permutation matrices is one: each row combines one row of each factor and so holds one nonzero product), and it has the author's symmetry pattern $(\hat\gamma^{(x_a)})^T = \eta_{aa}\hat\gamma^{(x_a)}$, because $P$, $G$ and $I_2$ are symmetric, $N$ is antisymmetric and the transpose works slot by slot. By Section 4.13 its 256 products are a basis of all real $16 \times 16$ matrices.
 
-**The product of all eight, in both sets.** The product of the two matrices of slot $k$ is, slot by slot, $GG = I_2$ before $k$, $PN = -G$ in slot $k$ and $I_2$ after $k$: minus the matrix with $G$ in slot $k$ and $I_2$ elsewhere. The product of all eight hat gammas in the author's order, $\hat\Gamma = \hat\gamma^{(x_8)}\hat\gamma^{(x_1)}\hat\gamma^{(x_2)}\cdots\hat\gamma^{(x_7)}$, can be reordered into the pairs $(x_1, x_6), (x_2, x_5), (x_3, x_4), (x_8, x_7)$; each exchange of two neighbouring (anticommuting) factors gives a factor $-1$ and changes the number of inversions by one, so the reordering multiplies the product by the permutation sign of the reordering, which is $+1$ (Notebook 04d counts the 12 inversions). The four pair products then give $(-1)^4\, G \otimes G \otimes G \otimes G = G \otimes G \otimes G \otimes G$. Since $G = \mathrm{diag}(+1, -1)$, its diagonal entry in row $j$ is $(-1)^{b_1 + b_2 + b_3 + b_4}$: $-1$ in the eight rows $1, 2, 4, 7, 8, 11, 13, 14$, whose bits contain an odd number of ones. The author's product is $\mathrm{diag}(-I_8, I_8)$ (Section 4.5). Both have eight entries of each sign, in different rows.
+**The product of all eight, in both sets.** The product of the two matrices of slot $k$ is, slot by slot, $GG = I_2$ before $k$, $PN = -G$ in slot $k$ and $I_2$ after $k$: minus the matrix with $G$ in slot $k$ and $I_2$ elsewhere. The product of all eight hat gammas in the author's order, $\hat\Gamma = \hat\gamma^{(x_0)}\hat\gamma^{(x_1)}\hat\gamma^{(x_2)}\cdots\hat\gamma^{(x_7)}$, can be reordered into the pairs $(x_1, x_6), (x_2, x_5), (x_3, x_4), (x_0, x_7)$; each exchange of two neighbouring (anticommuting) factors gives a factor $-1$ and changes the number of inversions by one, so the reordering multiplies the product by the permutation sign of the reordering, which is $+1$ (Notebook 04d counts the 12 inversions). The four pair products then give $(-1)^4\, G \otimes G \otimes G \otimes G = G \otimes G \otimes G \otimes G$. Since $G = \mathrm{diag}(+1, -1)$, its diagonal entry in row $j$ is $(-1)^{b_1 + b_2 + b_3 + b_4}$: $-1$ in the eight rows $1, 2, 4, 7, 8, 11, 13, 14$, whose bits contain an odd number of ones. The author's product is $\mathrm{diag}(-I_8, I_8)$ (Section 4.5). Both have eight entries of each sign, in different rows.
 
 **The change of basis, line by line.** Let $\gamma_A$ and $\hat\gamma_A$ be the products of the two sets for the 256 sets $A$ (Section 4.13). For any $16 \times 16$ matrix $M$ define
 
@@ -2929,9 +2930,9 @@ $$
 
 **What it means for the field equation.** In flat 4+4 space write $\Psi = Q\chi$. Then $\gamma^{(x_a)}\partial_a\Psi = Q\hat\gamma^{(x_a)}Q^TQ\,\partial_a\chi = Q\,\hat\gamma^{(x_a)}\partial_a\chi$, so $\sum_a\gamma^{(x_a)}\partial_a\Psi = m\Psi$ becomes $Q\bigl(\sum_a\hat\gamma^{(x_a)}\partial_a\chi - m\chi\bigr) = 0$, and, since $Q$ is invertible, $\sum_a\hat\gamma^{(x_a)}\partial_a\chi = m\chi$: the same equation in the other basis. The same argument applies to every equation of the book that is written with products of the gammas and numbers, because all 256 products transform with $Q$ (Notebook 04d checks them all). The choice between the two sets is a choice of how to number the sixteen components, not a choice of physics.
 
-**Why these pairs of directions.** A signed permutation $Q$ turns a diagonal matrix $D$ into a diagonal matrix $QDQ^T$ (it only renumbers the diagonal entries and multiplies each by $(\pm 1)^2 = 1$). So if $\gamma_A = Q\hat\gamma_AQ^T$ with a signed permutation $Q$, then $\gamma_A$ is diagonal exactly when $\hat\gamma_A$ is: both sets must have their diagonal products for the same sets $A$. The author's 16 diagonal products belong to the sets made of whole pairs $(x_1, x_6)$, $(x_2, x_5)$, $(x_3, x_4)$, $(x_7, x_8)$ (Notebook 04c, In [11]); the diagonal products of the hat set belong to the sets made of whole slot pairs (the pair product of a slot is $-G$ in that slot, a diagonal matrix). So the slot pairs must be the author's pairs. With other pairs, for example $(x_1, x_4), (x_2, x_5), (x_3, x_6), (x_8, x_7)$, the Clifford relation still holds and a change of basis still exists (the argument above did not use the pairs), but it cannot be a signed permutation: Notebook 04d finds $Q_2$ with two entries $\pm 1/\sqrt2$ in every row, which mixes the components two by two.
+**Why these pairs of directions.** A signed permutation $Q$ turns a diagonal matrix $D$ into a diagonal matrix $QDQ^T$ (it only renumbers the diagonal entries and multiplies each by $(\pm 1)^2 = 1$). So if $\gamma_A = Q\hat\gamma_AQ^T$ with a signed permutation $Q$, then $\gamma_A$ is diagonal exactly when $\hat\gamma_A$ is: both sets must have their diagonal products for the same sets $A$. The author's 16 diagonal products belong to the sets made of whole pairs $(x_1, x_6)$, $(x_2, x_5)$, $(x_3, x_4)$, $(x_0, x_7)$ (Notebook 04c, In [11]); the diagonal products of the hat set belong to the sets made of whole slot pairs (the pair product of a slot is $-G$ in that slot, a diagonal matrix). So the slot pairs must be the author's pairs. With other pairs, for example $(x_1, x_4), (x_2, x_5), (x_3, x_6), (x_0, x_7)$, the Clifford relation still holds and a change of basis still exists (the argument above did not use the pairs), but it cannot be a signed permutation: Notebook 04d finds $Q_2$ with two entries $\pm 1/\sqrt2$ in every row, which mixes the components two by two.
 
-**How strongly the equations reject every other matrix.** The equations $\gamma^{(x_a)}X - X\hat\gamma^{(x_a)} = 0$ for $a = 1, \dots, 8$ are $8 \times 256 = 2048$ linear equations for the 256 entries of $X$. Write $A$ for this system as a $2048 \times 256$ matrix, so that the sum of the squares of all 2048 left-hand sides is $v^T K v$ with $K = A^TA$, where $v$ lists the entries of $X$. $K$ has the exact eigenvectors $X_B = Q\hat\gamma_B$ for the 256 sets $B$. Line by line:
+**How strongly the equations reject every other matrix.** The equations $\gamma^{(x_a)}X - X\hat\gamma^{(x_a)} = 0$ for the eight directions $x_a = x_0, \dots, x_7$ are $8 \times 256 = 2048$ linear equations for the 256 entries of $X$. Write $A$ for this system as a $2048 \times 256$ matrix, so that the sum of the squares of all 2048 left-hand sides is $v^T K v$ with $K = A^TA$, where $v$ lists the entries of $X$. $K$ has the exact eigenvectors $X_B = Q\hat\gamma_B$ for the 256 sets $B$. Line by line:
 
 1. Write $L_a(X) = \gamma^{(a)}X - X\hat\gamma^{(a)}$ for the left-hand side of equation block $a$; $A$ is the stack of the eight blocks $L_a$, and $K = \sum_a L_a^TL_a$ (the product of a stack with its transpose adds up the products of the blocks).
 2. The transpose of the block $L_a$ is the map $Y \to (\gamma^{(a)})^TY - Y(\hat\gamma^{(a)})^T$ (the rows of the system become its columns). Both sets have $(\gamma^{(a)})^T = \eta_{aa}\gamma^{(a)}$ and $(\hat\gamma^{(a)})^T = \eta_{aa}\hat\gamma^{(a)}$, so $L_a^T = \eta_{aa}L_a$ and $K = \sum_a\eta_{aa}L_aL_a$.
@@ -3037,14 +3038,14 @@ Random $2 \times 2$ matrices of whole numbers from $-3$ to 3 (fixed seed) test t
 ```python
 record = json.loads(repository_file("Revision/algebra/gammas.json")
                     .read_text(encoding="utf-8"))
-COORDINATES = record["coordinates"]  # ["x1", ..., "x8"]
-eta = record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1]
+COORDINATES = record["coordinates"]  # ["x0", ..., "x7"]
+eta = record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1]
 gamma = [np.array(m, dtype=np.int64) for m in record["gamma"]]  # the author's
 I16 = np.eye(16, dtype=np.int64)
-SLOT = [1, 2, 3, 3, 2, 1, 4, 4]  # slots of x1..x8: (x1,x6) (x2,x5) (x3,x4) (x8,x7)
+SLOT = [4, 1, 2, 3, 3, 2, 1, 4]  # slots of x0..x7: (x1,x6) (x2,x5) (x3,x4) (x0,x7)
 ```
 
-The coordinate names, the signs and the author's gammas are read from `gammas.json`. `SLOT` gives the slot of each direction $x_1, \dots, x_8$: $x_1$ and $x_6$ in slot 1, $x_2$ and $x_5$ in slot 2, $x_3$ and $x_4$ in slot 3, $x_7$ and $x_8$ in slot 4.
+The coordinate names, the signs and the author's gammas are read from `gammas.json`. `SLOT` gives the slot of each direction $x_0, \dots, x_7$: $x_1$ and $x_6$ in slot 1, $x_2$ and $x_5$ in slot 2, $x_3$ and $x_4$ in slot 3, $x_0$ and $x_7$ in slot 4; so the list is $4, 1, 2, 3, 3, 2, 1, 4$.
 
 ```python
 def factor_names(slot, middle):
@@ -3057,15 +3058,15 @@ FACTORS = [factor_names(SLOT[a], "P" if eta[a] > 0 else "N") for a in range(8)]
 hat = [kron4(*[MATRIX_OF[name] for name in FACTORS[a]]) for a in range(8)]
 ```
 
-`factor_names` writes the recipe as a list of four letters: `"G"` repeated for the slots before the own slot, the letter `middle` in it, and `"I"` after it. `FACTORS` gives every direction its four letters, with `P` for a space-like and `N` for a time-like direction; `hat` turns the letters into matrices with `MATRIX_OF` and forms their Kronecker product: the eight hat gammas, in the order $x_1, \dots, x_8$.
+`factor_names` writes the recipe as a list of four letters: `"G"` repeated for the slots before the own slot, the letter `middle` in it, and `"I"` after it. `FACTORS` gives every direction its four letters, with `P` for a space-like and `N` for a time-like direction; `hat` turns the letters into matrices with `MATRIX_OF` and forms their Kronecker product: the eight hat gammas, in the order $x_0, \dots, x_7$.
 
 ```python
 for a in range(8):
     kind = "space-like" if eta[a] > 0 else "time-like "
     print(f"hat gamma^({COORDINATES[a]})  {kind}  = " + " (x) ".join(FACTORS[a]))
-check(COORDINATES == [f"x{k}" for k in range(1, 9)]
-      and eta == [1, 1, 1, -1, -1, -1, -1, 1],
-      "the record lists x1..x8 with eta = diag(+1, +1, +1, -1, -1, -1, -1, +1)")
+check(COORDINATES == [f"x{k}" for k in range(8)]
+      and eta == [1, 1, 1, 1, -1, -1, -1, -1],
+      "the record lists x0..x7 with eta = diag(+1, +1, +1, +1, -1, -1, -1, -1)")
 ```
 
 One printed line per direction with its four factors (the table of Section 4.17). The check confirms the coordinates and signs read from the record.
@@ -3073,9 +3074,9 @@ One printed line per direction with its four factors (the table of Section 4.17)
 **In [5], figure 1.**
 
 ```python
-PAIR_ORDER = [0, 5, 1, 4, 2, 3, 7, 6]  # x1, x6, x2, x5, x3, x4, x8, x7
-ROLE = ["3-space", "3-space", "3-space", "the time", "extra time", "extra time",
-        "extra time", "hidden"]
+PAIR_ORDER = [1, 6, 2, 5, 3, 4, 0, 7]  # x1, x6, x2, x5, x3, x4, x0, x7
+ROLE = ["hidden", "3-space", "3-space", "3-space", "the time", "extra time",
+        "extra time", "extra time"]
 CODE = {"I": 0, "G": 1, "P": 2, "N": 3}  # a number per letter, for the colours
 grid = np.array([[CODE[name] for name in FACTORS[a]] for a in PAIR_ORDER])
 slot_colours = ListedColormap(["#ffffff", "#c3c2b7", "#e34948", "#2a78d6"])
@@ -3100,7 +3101,7 @@ The table is painted, and every cell gets its letter ($I_2$ typeset as mathemati
 
 ```python
 ax.set_xticks(range(4), [f"slot {k}" for k in range(1, 5)])
-ax.set_yticks(range(8), [f"$x_{a + 1}$ ({ROLE[a]})" for a in PAIR_ORDER])
+ax.set_yticks(range(8), [f"$x_{a}$ ({ROLE[a]})" for a in PAIR_ORDER])
 for boundary in (1.5, 3.5, 5.5):  # lines between the four pairs
     ax.axhline(boundary, color="#0b0b0b", linewidth=1.2)
 ax.grid(False)
@@ -3141,7 +3142,7 @@ The three-colour heat map and its key, as in Notebook 04a (without the numbers i
 ```python
 fig, axes = plt.subplots(2, 4, figsize=(8.8, 5.0), layout="constrained")
 for a in range(8):  # a // 4 is the row of the panel, a % 4 its column
-    draw_signs(axes[a // 4, a % 4], hat[a], f"$\\hat\\gamma^{{(x_{a + 1})}}$")
+    draw_signs(axes[a // 4, a % 4], hat[a], f"$\\hat\\gamma^{{(x_{a})}}$")
 sign_legend(fig)
 save_figure(fig, "tensor_gammas",
             ...)
@@ -3236,7 +3237,7 @@ def permutation_sign(numbers):
 The permutation sign of Section 4.2, for lists without repetitions.
 
 ```python
-PAIRS = [(0, 5), (1, 4), (2, 3), (7, 6)]  # (x1,x6) (x2,x5) (x3,x4) (x8,x7)
+PAIRS = [(1, 6), (2, 5), (3, 4), (0, 7)]  # (x1,x6) (x2,x5) (x3,x4) (x0,x7)
 pair_ok = True
 for slot, (s, t) in enumerate(PAIRS, start=1):
     only_g = kron4(*[G if k == slot else I2 for k in range(1, 5)])
@@ -3246,16 +3247,16 @@ for slot, (s, t) in enumerate(PAIRS, start=1):
 For each slot (`enumerate(..., start=1)` numbers the pairs from 1), the product of its two hat gammas must be minus the matrix with $G$ in that slot and $I_2$ elsewhere.
 
 ```python
-AUTHOR_ORDER = [7, 0, 1, 2, 3, 4, 5, 6]  # x8, x1, x2, ..., x7
-paired_order = [a for pair in PAIRS for a in pair]  # x1, x6, x2, x5, x3, x4, x8, x7
+AUTHOR_ORDER = [0, 1, 2, 3, 4, 5, 6, 7]  # x0, x1, x2, ..., x7
+paired_order = [a for pair in PAIRS for a in pair]  # x1, x6, x2, x5, x3, x4, x0, x7
 # where each factor of the paired order stands in the author's order
 positions = [AUTHOR_ORDER.index(a) for a in paired_order]
 reorder_sign = permutation_sign(positions)
-say(f"positions of x1, x6, x2, x5, x3, x4, x8, x7 in the author's order: {positions}")
+say(f"positions of x1, x6, x2, x5, x3, x4, x0, x7 in the author's order: {positions}")
 say(f"permutation sign of the reordering: {reorder_sign:+d}")
 ```
 
-`AUTHOR_ORDER` is the order of the factors in the author's product $\gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$; `paired_order` lists the directions pair by pair; `.index(a)` finds where each stands in the author's order. The printed list of positions is $[1, 6, 2, 5, 3, 4, 0, 7]$; it has 12 inversions ($1$ before $0$; $6$ before $2, 5, 3, 4, 0$; $2$ before $0$; $5$ before $3, 4, 0$; $3$ before $0$; $4$ before $0$), an even number, so the sign is $+1$.
+`AUTHOR_ORDER` is the order of the factors in the author's product $\gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$; `paired_order` lists the directions pair by pair; `.index(a)` finds where each stands in the author's order. The printed list of positions is $[1, 6, 2, 5, 3, 4, 0, 7]$; it has 12 inversions ($1$ before $0$; $6$ before $2, 5, 3, 4, 0$; $2$ before $0$; $5$ before $3, 4, 0$; $3$ before $0$; $4$ before $0$), an even number, so the sign is $+1$.
 
 ```python
 chirality_hat = product(hat, AUTHOR_ORDER)
@@ -3277,7 +3278,7 @@ say("rows with -1 on the diagonal, author: "
 say("rows with -1 on the diagonal, hat:    "
     f"{[j for j in range(16) if chirality_hat[j, j] < 0]}")
 check_record((chirality_author == np.diag([-1] * 8 + [1] * 8)).all(),
-             "author: Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-I8, I8)",
+             "author: Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = diag(-I8, I8)",
              (WOLFRAM, "Gamma_diag"), (PYTHON, "chirality_diag"))
 ```
 
@@ -3289,7 +3290,7 @@ The same product of the author's gammas. The two printed lines list the rows wit
 fig, (top, bottom) = plt.subplots(2, 1, figsize=(8.0, 5.4), layout="constrained")
 for ax, values, title in (
         (top, np.diag(chirality_author), "author: $\\Gamma = $ "
-         "$\\gamma^{(x_8)}\\gamma^{(x_1)}\\cdots\\gamma^{(x_7)}$"),
+         "$\\gamma^{(x_0)}\\gamma^{(x_1)}\\cdots\\gamma^{(x_7)}$"),
         (bottom, np.diag(chirality_hat), "tensor picture: $\\hat\\Gamma = "
          "G \\otimes G \\otimes G \\otimes G$")):
     colours = ["#2a78d6" if v < 0 else "#e34948" for v in values]
@@ -3508,7 +3509,7 @@ A bar chart of the multiplicities against the eigenvalues, the bar of the eigenv
 **In [16], another way to fill the slots.**
 
 ```python
-SLOT_2 = [1, 2, 3, 1, 2, 3, 4, 4]  # pairs (x1,x4) (x2,x5) (x3,x6) (x8,x7)
+SLOT_2 = [4, 1, 2, 3, 1, 2, 3, 4]  # pairs (x1,x4) (x2,x5) (x3,x6) (x0,x7)
 FACTORS_2 = [factor_names(SLOT_2[a], "P" if eta[a] > 0 else "N") for a in range(8)]
 hat_2 = [kron4(*[MATRIX_OF[name] for name in FACTORS_2[a]]) for a in range(8)]
 clifford_2 = all(
@@ -3519,7 +3520,7 @@ check(clifford_2 and all((hat_2[a].T == eta[a] * hat_2[a]).all() for a in range(
 hat_2_products = np.array([product(hat_2, s) for s in SETS])
 ```
 
-The second assignment of directions to slots, with the pairs $(x_1, x_4)$, $(x_2, x_5)$, $(x_3, x_6)$, $(x_8, x_7)$; the same recipe builds `hat_2`; the check confirms the Clifford relation and the symmetry pattern; and the 256 products of the new set are formed.
+The second assignment of directions to slots, with the pairs $(x_1, x_4)$, $(x_2, x_5)$, $(x_3, x_6)$, $(x_0, x_7)$; the same recipe builds `hat_2`; the check confirms the Clifford relation and the symmetry pattern; and the 256 products of the new set are formed.
 
 ```python
 def diagonal_sets(products):
@@ -3542,7 +3543,7 @@ check(len(diagonal_author) == 16 and diagonal_sets(hat_products) == diagonal_aut
       "the first assignment has the author's 16 diagonal products, the second not")
 ```
 
-The first five diagonal products of each set are printed by their coordinate numbers (`n[1]` is the digit of a name such as `"x6"`; `or "I"` names the empty set): I, 16, 25, 34, 78 for the author, but I, 14, 25, 36, 78 for the second assignment. The check requires 16 diagonal products for the author, the same sets for the first hat set, and different sets for the second: by the argument of Section 4.17, no signed permutation can relate the second set to the author's.
+The first five diagonal products of each set are printed by their coordinate numbers (`n[1]` is the digit of a name such as `"x6"`; `or "I"` names the empty set): I, 07, 16, 25, 34 for the author, but I, 07, 14, 25, 36 for the second assignment. The check requires 16 diagonal products for the author, the same sets for the first hat set, and different sets for the second: by the argument of Section 4.17, no signed permutation can relate the second set to the author's.
 
 ```python
 i2, j2, S_2 = first_nonzero(author_products, hat_2_products)
@@ -3563,8 +3564,8 @@ The same formula gives a change of basis $S_2$ for the second set: entries $-8$,
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(8.8, 4.6), layout="constrained")
 for ax, matrix, title in (
-        (left, Q, "pairs (x1,x6) (x2,x5) (x3,x4) (x8,x7): $Q$"),
-        (right, Q_2, "pairs (x1,x4) (x2,x5) (x3,x6) (x8,x7): $Q_2$")):
+        (left, Q, "pairs (x1,x6) (x2,x5) (x3,x4) (x0,x7): $Q$"),
+        (right, Q_2, "pairs (x1,x4) (x2,x5) (x3,x6) (x0,x7): $Q_2$")):
     image = ax.imshow(matrix, cmap="RdBu_r", vmin=-1.0, vmax=1.0)
     ax.set_title(title, fontsize=9)
     ax.set_xticks(range(0, 16, 4))
@@ -3597,8 +3598,8 @@ The six figure files must exist; the last line reads ALL 18 CHECKS PASSED (noteb
 **PROVED** (exact; the proof is in this chapter, and the computer confirms it with exact arithmetic in the notebook named):
 
 - The square of a linear expression $\sum_a p_a\gamma^a$ is the quadratic form $\sum_a\eta^{aa}p_a^2$ exactly when the coefficients satisfy the Clifford relation; no ordinary numbers do (Section 4.3; Notebook 04b).
-- The author's formulas give six $4 \times 4$ blocks equal to the six matrices his notebook displays; they are the right (s4) and minus the left (t4) multiplications by the quaternion units, which gives all their rules; the $8 \times 8$ matrices satisfy $\tau_1\tau_2\tau_3 = \tau_4\tau_5\tau_6\tau_7 = \sigma$, $\tau_7 = \mathrm{diag}(-I_4, I_4)$, $\bar\tau_A = -\tau_A$ and the key rule; the sixteen-by-sixteen matrices T16 satisfy the Clifford relation, and T16[8] $= \mathrm{diag}(-I_8, I_8)$; renamed with the coordinate map ($\gamma^{(x_8)} = $ T16[0], $\gamma^{(x_k)} = $ T16[$k$]) they satisfy $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}I_{16}$ with $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$; they are real signed permutation matrices, symmetric for $x_1, x_2, x_3, x_8$ and antisymmetric for the time $x_4$ and the deflating extra times $x_5, x_6, x_7$ (Section 4.5; Notebook 04a).
-- The author's gammas take the square root of the 4+4 quadratic form; plane waves of the flat equation $\sum_a\gamma^{(x_a)}\partial_a\Psi = m\Psi$ obey $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$; without extra-time momentum $h$ is Hermitian and commutes with the record's matrix $B = -iC\gamma^{(x_4)}$, while a momentum along an extra time mixes the sectors $B = +1$ and $B = -1$; the record's example has the energies $\pm 5$, eight times each on all sixteen components and four times each in the sector $B = +1$; with a momentum along an extra time the energies become imaginary once $k_5^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$, with the growth rate $\sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$, which has no upper bound; the record's example $m = 1$, $k_5 = 2$ has $E = \pm i\sqrt3$, eight times each (Section 4.9; Notebook 04b).
+- The author's formulas give six $4 \times 4$ blocks equal to the six matrices his notebook displays; they are the right (s4) and minus the left (t4) multiplications by the quaternion units, which gives all their rules; the $8 \times 8$ matrices satisfy $\tau_1\tau_2\tau_3 = \tau_4\tau_5\tau_6\tau_7 = \sigma$, $\tau_7 = \mathrm{diag}(-I_4, I_4)$, $\bar\tau_A = -\tau_A$ and the key rule; the sixteen-by-sixteen matrices T16 satisfy the Clifford relation, and T16[8] $= \mathrm{diag}(-I_8, I_8)$; named with the coordinate map ($\gamma^{(x_k)} = $ T16[$k$] for $k = 0, \dots, 7$) they satisfy $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}I_{16}$ with $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$; they are real signed permutation matrices, symmetric for $x_0, x_1, x_2, x_3$ and antisymmetric for the time $x_4$ and the deflating extra times $x_5, x_6, x_7$ (Section 4.5; Notebook 04a).
+- The author's gammas take the square root of the 4+4 quadratic form; plane waves of the flat equation $\sum_a\gamma^{(x_a)}\partial_a\Psi = m\Psi$ obey $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$; without extra-time momentum $h$ is Hermitian and commutes with the record's matrix $B = -iC\gamma^{(x_4)}$, while a momentum along an extra time mixes the sectors $B = +1$ and $B = -1$; the record's example has the energies $\pm 5$, eight times each on all sixteen components and four times each in the sector $B = +1$; with a momentum along an extra time the energies become imaginary once $k_5^2 > m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2$, with the growth rate $\sqrt{k_5^2 - m^2 - k_0^2 - k_1^2 - k_2^2 - k_3^2}$, which has no upper bound; the record's example $m = 1$, $k_5 = 2$ has $E = \pm i\sqrt3$, eight times each (Section 4.9; Notebook 04b).
 - The 256 products of the gammas multiply by rule R1, square to $\pm I_{16}$ by rule R2, have trace 0 except $I_{16}$, are perpendicular in the trace sense and independent: Cl(4,4) is the set of all real $16 \times 16$ matrices; 136 products are symmetric and 120 antisymmetric; the 128 even ones span the block diagonal matrices and the 128 odd ones the block off-diagonal matrices; eight gamma matrices need at least sixteen components; $S^{ab} = \tfrac14[\gamma^a, \gamma^b] = \tfrac12\gamma^a\gamma^b$, with 12 rotation planes and 16 boost planes (Section 4.13; Notebook 04c).
 - A second set of real gammas, built from $P$, $N$ and $G$ with Kronecker products, satisfies the same Clifford relation; the author's gammas are this set with the sixteen components renumbered and some signs flipped, $\gamma^{(x_a)} = Q\hat\gamma^{(x_a)}Q^T$ with a signed permutation $Q$; this change of basis is unique up to a factor; and only the multiples of $I_{16}$ commute with all eight of the author's gammas (Section 4.17; Notebook 04d).
 
@@ -3646,14 +3647,14 @@ The Revision record confirms these statements independently. The table names the
 
 *Answer.* $P \otimes N = \begin{pmatrix} 0 \cdot N & 1 \cdot N \\ 1 \cdot N & 0 \cdot N \end{pmatrix} = \begin{pmatrix} 0 & 0 & 0 & 1 \\ 0 & 0 & -1 & 0 \\ 0 & 1 & 0 & 0 \\ -1 & 0 & 0 & 0 \end{pmatrix}$. By the mixed-product rule, $(P \otimes N)^2 = P^2 \otimes N^2 = I_2 \otimes (-I_2) = -I_4$. In code notation, row 0 is $+3$ and row 3 is $-0$, so $((P \otimes N)^2u)_0 = +((P \otimes N)u)_3 = -u_0$, row 0 of $-I_4$.
 
-**Exercise 5.** Take $m = 1$, no momentum in $x_1, x_2, x_3, x_8$, and a wave $e^{ik_{x_5}x_5}$ along the extra time $x_5$ with the coordinate momentum $k_{x_5} = 1$, at a point where $\sin z = 1/64$. Using the frame factor of Section 4.4, find the frame momentum and $E^2$ (a) when $a_4 = 0$ and (b) when $a_4 = \ln 2$. What happens to the growth rate as the extra times deflate?
+**Exercise 5.** Take $m = 1$, no momentum in $x_0, x_1, x_2, x_3$, and a wave $e^{ik_{x_5}x_5}$ along the extra time $x_5$ with the coordinate momentum $k_{x_5} = 1$, at a point where $\sin z = 1/64$ and $b_4 = 1$. Using the frame factor of Section 4.4, find the frame momentum and $E^2$ (a) when $a_4 = 0$ and (b) when $a_4 = \ln 2$. What happens to the growth rate as the extra times deflate?
 
-*Answer.* The frame factor of $x_5$ is $e^{-a_4}\sin^{1/6} z = e^{-a_4}(1/64)^{1/6} = e^{-a_4}/2$, since $2^6 = 64$. The frame momentum is the coordinate momentum divided by it: $k_5 = 2e^{a_4}$. (a) $a_4 = 0$: $k_5 = 2$, and $E^2 = m^2 - k_5^2 = 1 - 4 = -3$, so $E = \pm i\sqrt3$: the exact example of the Revision record, with the growth rate $\sqrt3 \approx 1.73$. (b) $a_4 = \ln 2$: $e^{a_4} = 2$, $k_5 = 4$, $E^2 = 1 - 16 = -15$, growth rate $\sqrt{15} \approx 3.87$. As $a_4$ grows the extra times deflate, the frame momentum grows like $e^{a_4}$, and the growth rate grows with it. (This is the local plane-wave reading of Section 4.9, with the coefficients held fixed near the point.)
+*Answer.* The frame factor of $x_5$ is $b_4^{1/2}e^{-a_4}\sin^{1/6} z = e^{-a_4}(1/64)^{1/6} = e^{-a_4}/2$, since $b_4 = 1$ and $2^6 = 64$. The frame momentum is the coordinate momentum divided by it: $k_5 = 2e^{a_4}$. (a) $a_4 = 0$: $k_5 = 2$, and $E^2 = m^2 - k_5^2 = 1 - 4 = -3$, so $E = \pm i\sqrt3$: the exact example of the Revision record, with the growth rate $\sqrt3 \approx 1.73$. (b) $a_4 = \ln 2$: $e^{a_4} = 2$, $k_5 = 4$, $E^2 = 1 - 16 = -15$, growth rate $\sqrt{15} \approx 3.87$. As $a_4$ grows the extra times deflate, the frame momentum grows like $e^{a_4}$, and the growth rate grows with it. (This is the local plane-wave reading of Section 4.9, with the coefficients held fixed near the point.)
 
-**Exercise 6.** For which of the pairs $(x_1, x_2)$, $(x_1, x_4)$, $(x_5, x_6)$, $(x_4, x_8)$ does $(2S^{ab})^2$ equal $-I_{16}$, and for which $+I_{16}$? Which are rotation planes and which boost planes? Show also that $S^{ba} = -S^{ab}$.
+**Exercise 6.** For which of the pairs $(x_1, x_2)$, $(x_1, x_4)$, $(x_5, x_6)$, $(x_4, x_0)$ does $(2S^{ab})^2$ equal $-I_{16}$, and for which $+I_{16}$? Which are rotation planes and which boost planes? Show also that $S^{ba} = -S^{ab}$.
 
-*Answer.* $2S^{ab} = \gamma^a\gamma^b$ for $a \neq b$ (Section 4.13), and $(\gamma^a\gamma^b)^2 = -\eta^{aa}\eta^{bb}I_{16}$. $(x_1, x_2)$: both space-like, $\eta^{aa}\eta^{bb} = +1$, square $-I_{16}$, a rotation plane. $(x_1, x_4)$: space-like and time-like, $-1$, square $+I_{16}$, a boost plane. $(x_5, x_6)$: both time-like, $(-1)(-1) = +1$, square $-I_{16}$, a rotation plane. $(x_4, x_8)$: time-like and space-like, square $+I_{16}$, a boost plane. Finally $S^{ba} = \tfrac14(\gamma^b\gamma^a - \gamma^a\gamma^b) = -\tfrac14(\gamma^a\gamma^b - \gamma^b\gamma^a) = -S^{ab}$.
+*Answer.* $2S^{ab} = \gamma^a\gamma^b$ for $a \neq b$ (Section 4.13), and $(\gamma^a\gamma^b)^2 = -\eta^{aa}\eta^{bb}I_{16}$. $(x_1, x_2)$: both space-like, $\eta^{aa}\eta^{bb} = +1$, square $-I_{16}$, a rotation plane. $(x_1, x_4)$: space-like and time-like, $-1$, square $+I_{16}$, a boost plane. $(x_5, x_6)$: both time-like, $(-1)(-1) = +1$, square $-I_{16}$, a rotation plane. $(x_4, x_0)$: time-like and space-like, square $+I_{16}$, a boost plane. Finally $S^{ba} = \tfrac14(\gamma^b\gamma^a - \gamma^a\gamma^b) = -\tfrac14(\gamma^a\gamma^b - \gamma^b\gamma^a) = -S^{ab}$.
 
-**Exercise 7.** Without a computer, find the energies of the plane waves of the flat equation for $m = 3$, $(k_1, k_2, k_3, k_8) = (0, 0, 4, 0)$ and no momentum along the extra times, and how often each occurs.
+**Exercise 7.** Without a computer, find the energies of the plane waves of the flat equation for $m = 3$, $k_0 = 0$, $(k_1, k_2, k_3) = (0, 0, 4)$ and no momentum along the extra times, and how often each occurs.
 
 *Answer.* $h^2 = (m^2 + k_3^2)I_{16} = (9 + 16)I_{16} = 25I_{16}$ (Section 4.9), so every eigenvalue is $+5$ or $-5$. Without extra-time momentum $h$ is Hermitian, and its trace is 0 (every term of $h$ is a multiple of $\gamma^{(x_4)}$ or of $\gamma^{(x_4)}\gamma^{(x_a)}$ with $a \neq x_4$, which have trace 0). With $n_+$ eigenvalues $+5$ and $n_-$ eigenvalues $-5$: $n_+ + n_- = 16$ and $5n_+ - 5n_- = 0$, so $E = +5$ and $E = -5$ occur eight times each.

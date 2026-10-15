@@ -12,7 +12,7 @@ by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/04d_tensor_gammas.py
 
 Sources (Revision records): Revision/algebra/gammas.json (the author's gammas in the order
-x1..x8), Revision/algebra/reports/wolfram-algebra.json (checks Gamma_diag and
+x0..x7), Revision/algebra/reports/wolfram-algebra.json (checks Gamma_diag and
 Pin44_irreducible_commutant_dim_1) and Revision/algebra/reports/python-algebra.json
 (checks chirality_diag and pin_commutant_dimension_1).  The tensor-product construction
 and the change of basis are computed by this notebook itself (exact integer arithmetic).
@@ -43,7 +43,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's eight gamma matrices in the order x1 to x8 (read)"],
+         "the author's eight gamma matrices in the order x0 to x7 (read)"],
         ["Revision/algebra/reports/wolfram-algebra.json",
          "checks Gamma_diag and Pin44_irreducible_commutant_dim_1, reproduced"],
         ["Revision/algebra/reports/python-algebra.json",
@@ -83,8 +83,8 @@ CELLS = [
 
     The author's eight gamma matrices are ONE solution of the Clifford relation
     $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab} I_{16}$ with
-    $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order of his
-    coordinates $x_1, \dots, x_8$. Are they special? This notebook answers the question
+    $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order of his
+    coordinates $x_0, \dots, x_7$. Are they special? This notebook answers the question
     exactly. It
 
     - builds a second set of eight real $16 \times 16$ matrices $\hat\gamma^{(x_a)}$
@@ -150,7 +150,7 @@ CELLS = [
     - **Eigenvalue, eigenvector, multiplicity**: $Mv = \lambda v$ with $v \neq 0$; the
       multiplicity of $\lambda$ is the number of independent eigenvectors that belong to it.
     - **Chirality product**: the product
-      $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)} \cdots \gamma^{(x_7)}$ of all
+      $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)} \cdots \gamma^{(x_7)}$ of all
       eight gammas, in this order (the author's order); the Revision record calls it the
       chirality. Here it is only a product of eight matrices.
     - **Diagonal matrix**: all entries off the diagonal are 0.
@@ -158,10 +158,11 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The author's space-time has the coordinates $x_1, x_2, x_3$ (3-space, inflating),
-    $x_4$ (the time), $x_5, x_6, x_7$ (three extra times, which deflate exponentially:
-    scale factor $e^{-a_4}\sin^{1/6} z$) and $x_8$ (the hidden direction). In a local
-    frame the signs are $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$: four
+    The author's space-time has the coordinates $x_0$ (the hidden direction),
+    $x_1, x_2, x_3$ (3-space, inflating), $x_4$ (the time) and $x_5, x_6, x_7$ (three
+    extra times, which deflate exponentially: scale factor
+    $b_4^{1/2}e^{-a_4}\sin^{1/6} z$). In a local
+    frame the signs are $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$: four
     space-like and four time-like directions. The gamma matrices are constant matrices
     of the frame; the inflation and the deflation enter the field equation through the
     frame factors, never through the gammas. So the question of this notebook is pure
@@ -190,11 +191,11 @@ CELLS = [
     slots before $k$, $M$ into slot $k$ and $I_2$ into the slots after $k$. Every
     space-like direction gets a $P$ and every time-like direction an $N$, and each slot
     is shared by one space-like and one time-like direction. This notebook uses the
-    pairs (x1, x6) in slot 1, (x2, x5) in slot 2, (x3, x4) in slot 3 and (x8, x7) in
+    pairs (x1, x6) in slot 1, (x2, x5) in slot 2, (x3, x4) in slot 3 and (x0, x7) in
     slot 4; for example
     $\hat\gamma^{(x_1)} = P \otimes I_2 \otimes I_2 \otimes I_2$,
     $\hat\gamma^{(x_5)} = G \otimes N \otimes I_2 \otimes I_2$ and
-    $\hat\gamma^{(x_8)} = G \otimes G \otimes G \otimes P$. (Section 12 of this notebook,
+    $\hat\gamma^{(x_0)} = G \otimes G \otimes G \otimes P$. (Section 12 of this notebook,
     below, explains why these pairs are the ones that match the author's matrices.)
 
     **Why the recipe satisfies the Clifford relation** (by the mixed-product rule, every
@@ -340,19 +341,19 @@ CELLS = [
     The next cell reads the coordinate names and the signs $\eta$ from the Revision
     record file `Revision/algebra/gammas.json` (and the author's eight gammas, used from
     section 9 on), and builds the eight hat gammas with the recipe. The list `SLOT`
-    holds the slot of $x_1, \dots, x_8$: slot 1 for $x_1$ and $x_6$, slot 2 for $x_2$ and
-    $x_5$, slot 3 for $x_3$ and $x_4$, slot 4 for $x_8$ and $x_7$. A space-like direction
+    holds the slot of $x_0, \dots, x_7$: slot 1 for $x_1$ and $x_6$, slot 2 for $x_2$ and
+    $x_5$, slot 3 for $x_3$ and $x_4$, slot 4 for $x_0$ and $x_7$. A space-like direction
     ($\eta = +1$) gets P, a time-like one N. The cell prints the four factors of each
     matrix.
     """),
     code(r'''
     record = json.loads(repository_file("Revision/algebra/gammas.json")
                         .read_text(encoding="utf-8"))
-    COORDINATES = record["coordinates"]  # ["x1", ..., "x8"]
-    eta = record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1]
+    COORDINATES = record["coordinates"]  # ["x0", ..., "x7"]
+    eta = record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1]
     gamma = [np.array(m, dtype=np.int64) for m in record["gamma"]]  # the author's
     I16 = np.eye(16, dtype=np.int64)
-    SLOT = [1, 2, 3, 3, 2, 1, 4, 4]  # slots of x1..x8: (x1,x6) (x2,x5) (x3,x4) (x8,x7)
+    SLOT = [4, 1, 2, 3, 3, 2, 1, 4]  # slots of x0..x7: (x1,x6) (x2,x5) (x3,x4) (x0,x7)
 
 
     def factor_names(slot, middle):
@@ -366,9 +367,9 @@ CELLS = [
     for a in range(8):
         kind = "space-like" if eta[a] > 0 else "time-like "
         print(f"hat gamma^({COORDINATES[a]})  {kind}  = " + " (x) ".join(FACTORS[a]))
-    check(COORDINATES == [f"x{k}" for k in range(1, 9)]
-          and eta == [1, 1, 1, -1, -1, -1, -1, 1],
-          "the record lists x1..x8 with eta = diag(+1, +1, +1, -1, -1, -1, -1, +1)")
+    check(COORDINATES == [f"x{k}" for k in range(8)]
+          and eta == [1, 1, 1, 1, -1, -1, -1, -1],
+          "the record lists x0..x7 with eta = diag(+1, +1, +1, +1, -1, -1, -1, -1)")
     '''),
     md(r"""
     The next cell draws the recipe as a table: one row per direction, one column per
@@ -377,9 +378,9 @@ CELLS = [
     $I_2$ (white) forms a staircase.
     """),
     code(r'''
-    PAIR_ORDER = [0, 5, 1, 4, 2, 3, 7, 6]  # x1, x6, x2, x5, x3, x4, x8, x7
-    ROLE = ["3-space", "3-space", "3-space", "the time", "extra time", "extra time",
-            "extra time", "hidden"]
+    PAIR_ORDER = [1, 6, 2, 5, 3, 4, 0, 7]  # x1, x6, x2, x5, x3, x4, x0, x7
+    ROLE = ["hidden", "3-space", "3-space", "3-space", "the time", "extra time",
+            "extra time", "extra time"]
     CODE = {"I": 0, "G": 1, "P": 2, "N": 3}  # a number per letter, for the colours
     grid = np.array([[CODE[name] for name in FACTORS[a]] for a in PAIR_ORDER])
     slot_colours = ListedColormap(["#ffffff", "#c3c2b7", "#e34948", "#2a78d6"])
@@ -394,7 +395,7 @@ CELLS = [
             ax.text(column, row, text, ha="center", va="center", fontsize=12,
                     color=colour)
     ax.set_xticks(range(4), [f"slot {k}" for k in range(1, 5)])
-    ax.set_yticks(range(8), [f"$x_{a + 1}$ ({ROLE[a]})" for a in PAIR_ORDER])
+    ax.set_yticks(range(8), [f"$x_{a}$ ({ROLE[a]})" for a in PAIR_ORDER])
     for boundary in (1.5, 3.5, 5.5):  # lines between the four pairs
         ax.axhline(boundary, color="#0b0b0b", linewidth=1.2)
     ax.grid(False)
@@ -406,12 +407,12 @@ CELLS = [
                 "(G grey, P red, N blue, $I_2$ white). The rows are grouped in the pairs "
                 "that share a slot, one space-like direction (P) and one time-like "
                 "direction (N) each: ($x_1$, $x_6$), ($x_2$, $x_5$), ($x_3$, $x_4$), "
-                "($x_8$, $x_7$). Every matrix has G before its own slot and $I_2$ after "
+                "($x_0$, $x_7$). Every matrix has G before its own slot and $I_2$ after "
                 "it, the staircase that makes all eight anticommute.")
     '''),
     md(r"""
     The next cell draws the eight hat gammas as heat maps (blue $-1$, light grey 0,
-    red $+1$; rows and columns numbered 0 to 15), in the order $x_1, \dots, x_8$.
+    red $+1$; rows and columns numbered 0 to 15), in the order $x_0, \dots, x_7$.
     """),
     code(r'''
     SIGN_COLOURS = ListedColormap(["#2a78d6", "#f0efec", "#e34948"])  # -1, 0, +1
@@ -437,11 +438,11 @@ CELLS = [
 
     fig, axes = plt.subplots(2, 4, figsize=(8.8, 5.0), layout="constrained")
     for a in range(8):  # a // 4 is the row of the panel, a % 4 its column
-        draw_signs(axes[a // 4, a % 4], hat[a], f"$\\hat\\gamma^{{(x_{a + 1})}}$")
+        draw_signs(axes[a // 4, a % 4], hat[a], f"$\\hat\\gamma^{{(x_{a})}}$")
     sign_legend(fig)
     save_figure(fig, "tensor_gammas",
-                "The eight tensor-product gammas $\\hat\\gamma^{(x_1)}$ to "
-                "$\\hat\\gamma^{(x_8)}$ (rows and columns numbered 0 to 15; blue $-1$, "
+                "The eight tensor-product gammas $\\hat\\gamma^{(x_0)}$ to "
+                "$\\hat\\gamma^{(x_7)}$ (rows and columns numbered 0 to 15; blue $-1$, "
                 "grey 0, red $+1$). Each is a signed permutation matrix, like the "
                 "author's, but the pattern is different: a factor P or N in slot $k$ "
                 "exchanges components whose numbers differ in bit $k$, so the nonzero "
@@ -455,7 +456,7 @@ CELLS = [
     ordered pairs (each anticommutator is $2\eta^{ab} I_{16}$); that every hat gamma is a
     signed permutation matrix; and that it has the author's symmetry pattern
     $(\hat\gamma^{(x_a)})^T = \eta_{aa}\hat\gamma^{(x_a)}$ (symmetric for
-    $x_1, x_2, x_3, x_8$, antisymmetric for $x_4, \dots, x_7$; P, G and $I_2$ are
+    $x_0, x_1, x_2, x_3$, antisymmetric for $x_4, \dots, x_7$; P, G and $I_2$ are
     symmetric and N antisymmetric, so this follows from $(A \otimes B)^T = A^T \otimes
     B^T$). Then it forms the 256 ordered products of BOTH sets (sets of directions in
     increasing order, as `itertools.combinations` lists them) and computes the exact
@@ -505,8 +506,8 @@ CELLS = [
     of the two matrices of one slot $k$: slot by slot, $G \cdot G = I_2$ before $k$,
     $PN = -G$ in slot $k$, and $I_2$ after $k$; so it is $-(G$ in slot $k$, $I_2$
     elsewhere$)$. Second, the chirality product $\hat\Gamma$ takes the factors in the
-    author's order $x_8, x_1, x_2, \dots, x_7$; reordering them into the pairs
-    $(x_1, x_6), (x_2, x_5), (x_3, x_4), (x_8, x_7)$ exchanges neighbours that
+    author's order $x_0, x_1, x_2, \dots, x_7$; reordering them into the pairs
+    $(x_1, x_6), (x_2, x_5), (x_3, x_4), (x_0, x_7)$ exchanges neighbours that
     anticommute, so it multiplies the product by the *permutation sign* of the
     reordering: $+1$ if the number of *inversions* (pairs of factors whose order is
     reversed) is even and $-1$ if it is odd, because each exchange of two neighbours
@@ -552,17 +553,17 @@ CELLS = [
         return -1 if inversions % 2 else 1
 
 
-    PAIRS = [(0, 5), (1, 4), (2, 3), (7, 6)]  # (x1,x6) (x2,x5) (x3,x4) (x8,x7)
+    PAIRS = [(1, 6), (2, 5), (3, 4), (0, 7)]  # (x1,x6) (x2,x5) (x3,x4) (x0,x7)
     pair_ok = True
     for slot, (s, t) in enumerate(PAIRS, start=1):
         only_g = kron4(*[G if k == slot else I2 for k in range(1, 5)])
         pair_ok &= bool((hat[s] @ hat[t] == -only_g).all())
-    AUTHOR_ORDER = [7, 0, 1, 2, 3, 4, 5, 6]  # x8, x1, x2, ..., x7
-    paired_order = [a for pair in PAIRS for a in pair]  # x1, x6, x2, x5, x3, x4, x8, x7
+    AUTHOR_ORDER = [0, 1, 2, 3, 4, 5, 6, 7]  # x0, x1, x2, ..., x7
+    paired_order = [a for pair in PAIRS for a in pair]  # x1, x6, x2, x5, x3, x4, x0, x7
     # where each factor of the paired order stands in the author's order
     positions = [AUTHOR_ORDER.index(a) for a in paired_order]
     reorder_sign = permutation_sign(positions)
-    say(f"positions of x1, x6, x2, x5, x3, x4, x8, x7 in the author's order: {positions}")
+    say(f"positions of x1, x6, x2, x5, x3, x4, x0, x7 in the author's order: {positions}")
     say(f"permutation sign of the reordering: {reorder_sign:+d}")
     chirality_hat = product(hat, AUTHOR_ORDER)
     gggg = kron4(G, G, G, G)
@@ -578,7 +579,7 @@ CELLS = [
     say("rows with -1 on the diagonal, hat:    "
         f"{[j for j in range(16) if chirality_hat[j, j] < 0]}")
     check_record((chirality_author == np.diag([-1] * 8 + [1] * 8)).all(),
-                 "author: Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-I8, I8)",
+                 "author: Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = diag(-I8, I8)",
                  (WOLFRAM, "Gamma_diag"), (PYTHON, "chirality_diag"))
     '''),
     md(r"""
@@ -590,7 +591,7 @@ CELLS = [
     fig, (top, bottom) = plt.subplots(2, 1, figsize=(8.0, 5.4), layout="constrained")
     for ax, values, title in (
             (top, np.diag(chirality_author), "author: $\\Gamma = $ "
-             "$\\gamma^{(x_8)}\\gamma^{(x_1)}\\cdots\\gamma^{(x_7)}$"),
+             "$\\gamma^{(x_0)}\\gamma^{(x_1)}\\cdots\\gamma^{(x_7)}$"),
             (bottom, np.diag(chirality_hat), "tensor picture: $\\hat\\Gamma = "
              "G \\otimes G \\otimes G \\otimes G$")):
         colours = ["#2a78d6" if v < 0 else "#e34948" for v in values]
@@ -856,8 +857,8 @@ CELLS = [
     Any assignment of the eight directions to the slots works for the Clifford
     relation, as long as every slot gets one P and one N. Take the simpler-looking one:
     $x_1, x_2, x_3$ in slots 1, 2, 3 with P, $x_4, x_5, x_6$ in slots 1, 2, 3 with N,
-    and $x_8$ (P) and $x_7$ (N) in slot 4. The pairs are now (x1, x4), (x2, x5),
-    (x3, x6) and (x8, x7). By the theorem a change of basis must exist again. Is it a
+    and $x_0$ (P) and $x_7$ (N) in slot 4. The pairs are now (x1, x4), (x2, x5),
+    (x3, x6) and (x0, x7). By the theorem a change of basis must exist again. Is it a
     signed permutation?
 
     A signed permutation $Q$ turns a diagonal matrix $D$ into a diagonal matrix
@@ -866,7 +867,7 @@ CELLS = [
     then $\gamma_A$ is diagonal exactly when $\hat\gamma_A$ is: the two sets must have
     their diagonal products for the SAME sets $A$. The next cell lists these sets. For
     the author's gammas they are the 16 sets made of whole pairs (x1, x6), (x2, x5),
-    (x3, x4), (x8, x7) (the products of the two matrices of one pair are diagonal, as
+    (x3, x4), (x0, x7) (the products of the two matrices of one pair are diagonal, as
     section 9 showed for the hat gammas); the first assignment has the same pairs, the
     second has different ones. The cell then builds the second set, checks its Clifford
     relation, and computes its change of basis $S_2$ with the same formula: $S_2^T S_2 =
@@ -875,7 +876,7 @@ CELLS = [
     orthogonal matrix that mixes the components in pairs, not a signed permutation.
     """),
     code(r'''
-    SLOT_2 = [1, 2, 3, 1, 2, 3, 4, 4]  # pairs (x1,x4) (x2,x5) (x3,x6) (x8,x7)
+    SLOT_2 = [4, 1, 2, 3, 1, 2, 3, 4]  # pairs (x1,x4) (x2,x5) (x3,x6) (x0,x7)
     FACTORS_2 = [factor_names(SLOT_2[a], "P" if eta[a] > 0 else "N") for a in range(8)]
     hat_2 = [kron4(*[MATRIX_OF[name] for name in FACTORS_2[a]]) for a in range(8)]
     clifford_2 = all(
@@ -919,8 +920,8 @@ CELLS = [
     code(r'''
     fig, (left, right) = plt.subplots(1, 2, figsize=(8.8, 4.6), layout="constrained")
     for ax, matrix, title in (
-            (left, Q, "pairs (x1,x6) (x2,x5) (x3,x4) (x8,x7): $Q$"),
-            (right, Q_2, "pairs (x1,x4) (x2,x5) (x3,x6) (x8,x7): $Q_2$")):
+            (left, Q, "pairs (x1,x6) (x2,x5) (x3,x4) (x0,x7): $Q$"),
+            (right, Q_2, "pairs (x1,x4) (x2,x5) (x3,x6) (x0,x7): $Q_2$")):
         image = ax.imshow(matrix, cmap="RdBu_r", vmin=-1.0, vmax=1.0)
         ax.set_title(title, fontsize=9)
         ax.set_xticks(range(0, 16, 4))
@@ -960,7 +961,7 @@ CELLS = [
     - PROVED (exact integer arithmetic): Kronecker products of the three $2 \times 2$
       matrices P, N and G give eight real $16 \times 16$ signed permutation matrices
       $\hat\gamma^{(x_a)}$ that satisfy the Clifford relation of the author's 4+4
-      space-time, $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$, with the
+      space-time, $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$, with the
       author's symmetry pattern; their 256 products are a basis of all real
       $16 \times 16$ matrices (exact rank 256).
     - PROVED: the chirality product of the tensor set is
@@ -969,7 +970,7 @@ CELLS = [
       `Revision/algebra/reports/wolfram-algebra.json`, check `Gamma_diag`, and
       `python-algebra.json`, check `chirality_diag`).
     - PROVED: the formula $S = \sum_A \gamma_A M \hat\gamma_A^T$ produces a change of
-      basis; with the pairs (x1, x6), (x2, x5), (x3, x4), (x8, x7) it is $16\,Q$ with a
+      basis; with the pairs (x1, x6), (x2, x5), (x3, x4), (x0, x7) it is $16\,Q$ with a
       signed permutation matrix $Q$, and $\gamma_A = Q\hat\gamma_A Q^T$ for all 256
       products. The author's T16 are the tensor-product gammas with the 16 components
       renumbered and some signs flipped.

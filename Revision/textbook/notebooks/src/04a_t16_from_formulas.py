@@ -32,7 +32,7 @@ FACTS = {
         "It rebuilds, with exact integer arithmetic, the author's eight real 16 by 16 "
         "gamma matrices T16 from his own formulas (the 4 by 4 blocks s4 and t4, the 8 "
         "by 8 matrices sigma, tau and taubar), names them after the author's "
-        "coordinates x1 to x8, checks the Clifford relation for all 64 pairs and every "
+        "coordinates x0 to x7, checks the Clifford relation for all 64 pairs and every "
         "other property that the Revision record checks, compares every entry with the "
         "Revision record files, and draws six heat maps."
     ),
@@ -41,7 +41,7 @@ FACTS = {
          "the author's formulas for Qa, Qb, s4, t4, sigma, tau, taubar and T16, re-typed "
          "from his Mathematica notebook (read for the formulas only)"],
         ["Revision/algebra/gammas.json",
-         "the WolframScript fixture: the eight gammas in the order x1 to x8, compared "
+         "the WolframScript fixture: the eight gammas in the order x0 to x7, compared "
          "entry by entry"],
         ["Revision/algebra/reports/python-gammas.json",
          "the gammas of the independent Python construction, compared entry by entry"],
@@ -59,7 +59,7 @@ FACTS = {
         "Revision/textbook/figures/04a_1_blocks_s4_t4.png",
         "Revision/textbook/figures/04a_2_tau_matrices.png",
         "Revision/textbook/figures/04a_3_block_form_of_t16.png",
-        "Revision/textbook/figures/04a_4_gammas_x1_to_x8.png",
+        "Revision/textbook/figures/04a_4_gammas_x0_to_x7.png",
         "Revision/textbook/figures/04a_5_anticommutator_table.png",
         "Revision/textbook/figures/04a_6_symmetry_pattern.png",
     ],
@@ -83,8 +83,8 @@ CELLS = [
     ## 1. What this notebook computes
 
     The field equations of the theory contain eight real $16 \times 16$ matrices, the
-    *gamma matrices* $\gamma^{(x_1)}, \gamma^{(x_2)}, \dots, \gamma^{(x_8)}$, one for each
-    direction $x_1, \dots, x_8$ of the author's 4+4 dimensional space-time. The author
+    *gamma matrices* $\gamma^{(x_0)}, \gamma^{(x_1)}, \dots, \gamma^{(x_7)}$, one for each
+    direction $x_0, \dots, x_7$ of the author's 4+4 dimensional space-time. The author
     built them in his Mathematica notebook
     `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`
     from a few small building blocks, and he calls the finished $16 \times 16$ matrices
@@ -98,8 +98,8 @@ CELLS = [
     - builds the $8 \times 8$ matrices sigma, tau[A] and taubar[A] (A = 0, ..., 7) and
       checks their rules;
     - assembles the $16 \times 16$ matrices T16[A] (A = 0, ..., 8);
-    - names them after the author's coordinates: $\gamma^{(x_8)}$ = T16[0] and
-      $\gamma^{(x_k)}$ = T16[k] for k = 1, ..., 7;
+    - names them after the author's coordinates: $\gamma^{(x_k)}$ = T16[k] for
+      k = 0, ..., 7;
     - checks the Clifford relation
       $\gamma^a \gamma^b + \gamma^b \gamma^a = 2 \eta^{ab} I_{16}$ for all 64 pairs
       $(a, b)$, and that every gamma matrix is real, a signed permutation matrix, and
@@ -139,7 +139,7 @@ CELLS = [
       matrices *anticommute* if $\{A, B\} = 0$ and *commute* if $[A, B] = 0$.
     - **Frame metric** $\eta$: the diagonal matrix of signs that says which directions
       are space-like ($+1$) and which are time-like ($-1$); here, in the order
-      $x_1, \dots, x_8$, $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$.
+      $x_0, \dots, x_7$, $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$.
       Because $\eta$ is diagonal with entries $\pm 1$, $\eta^{ab} = \eta_{ab}$.
     - **Clifford relation**: $\gamma^a \gamma^b + \gamma^b \gamma^a = 2 \eta^{ab} I_{16}$
       for all $a, b$: each gamma matrix squares to $+I_{16}$ (space-like direction) or
@@ -153,29 +153,31 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The author's space-time has eight coordinates. In his metric (a diagonal $8 \times 8$
-    matrix $g$ that measures lengths and durations)
+    The author's space-time has eight coordinates $x_0, x_1, \dots, x_7$. In his metric
+    (a diagonal $8 \times 8$ matrix $g$ that measures lengths and durations, with the two
+    metric functions $a_4(x_4)$ and $b_4(x_4) > 0$)
 
+    - $x_0$ is a hidden space direction, $z = 6 H x_0$ lies between 0 and $\pi/2$, and
+      $g_{00} = \cot^2 z$;
     - $x_1, x_2, x_3$ are ordinary 3-space; lengths along them carry the scale factor
       $e^{a_4} \sin^{1/6} z$, which grows (inflates) as $a_4$ grows;
     - $x_4$ is the time, with $g_{44} = -1$;
     - $x_5, x_6, x_7$ are three *extra times* (time-like, like $x_4$); they carry the scale
-      factor $e^{-a_4} \sin^{1/6} z$, so they **deflate exponentially** while 3-space
-      inflates;
-    - $x_8$ is a hidden space direction, $z = 6 H x_8$ lies between 0 and $\pi/2$, and
-      $g_{88} = \cot^2 z$.
+      factor $b_4^{1/2} e^{-a_4} \sin^{1/6} z$, so they **deflate exponentially** while
+      3-space inflates.
 
     At every point one can choose eight perpendicular unit directions, a *frame*, one
     along each coordinate. In the frame the metric becomes the matrix of signs
-    $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$: $+1$ for the space-like
-    directions $x_1, x_2, x_3, x_8$ and $-1$ for the time-like directions
+    $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$: $+1$ for the space-like
+    directions $x_0, x_1, x_2, x_3$ and $-1$ for the time-like directions
     $x_4, x_5, x_6, x_7$. Four of each kind: the signature is (4,4). The gamma matrices
     belong to these frame directions. They are constant matrices, the same at every point
     and at every time. The inflation of 3-space and the deflation of the extra times
     enter the field equations through the *frame factors* $\sqrt{|g_{\mu\mu}|}$ that
-    convert coordinate directions into frame directions ($e^{a_4}\sin^{1/6} z$ for
-    $x_1, x_2, x_3$, 1 for $x_4$, $e^{-a_4}\sin^{1/6} z$ for $x_5, x_6, x_7$ and
-    $\cot z$ for $x_8$), never through the gamma matrices.
+    convert coordinate directions into frame directions ($\cot z$ for $x_0$,
+    $e^{a_4}\sin^{1/6} z$ for $x_1, x_2, x_3$, 1 for $x_4$ and
+    $b_4^{1/2}e^{-a_4}\sin^{1/6} z$ for $x_5, x_6, x_7$), never through the gamma
+    matrices.
 
     The gamma matrices must satisfy the Clifford relation
     $\gamma^a \gamma^b + \gamma^b \gamma^a = 2 \eta^{ab} I_{16}$. The author builds them in
@@ -196,10 +198,11 @@ CELLS = [
        T16[A] = $\begin{pmatrix} 0 & \mathrm{taubar}[A] \\ \mathrm{tau}[A] & 0
        \end{pmatrix}$ for A = 0, ..., 7, and T16[8] = T16[0] T16[1] ... T16[7].
     4. The author's Mathematica notebook numbers its frame directions A = 0, ..., 7 in
-       its own order: A = 0 is the hidden direction, A = 1, 2, 3 are 3-space, A = 4 is
-       the time and A = 5, 6, 7 are the extra times; its frame metric is
-       eta4488 = diag(1, 1, 1, 1, -1, -1, -1, -1) (In[45]). So
-       $\gamma^{(x_k)}$ = T16[k] for k = 1, ..., 7 and $\gamma^{(x_8)}$ = T16[0].
+       the order of his coordinates: A = 0 is the hidden direction $x_0$, A = 1, 2, 3 are
+       3-space, A = 4 is the time and A = 5, 6, 7 are the extra times; its frame metric
+       is eta4488 = diag(1, 1, 1, 1, -1, -1, -1, -1) (In[45]). So
+       $\gamma^{(x_k)}$ = T16[k] for k = 0, ..., 7: the frame index A is the index of
+       the coordinate.
 
     The Revision record re-typed these formulas from the author's notebook (the file
     `Revision/algebra/wolfram/RevisionAlgebra.wl`), built the matrices twice, with
@@ -790,31 +793,33 @@ CELLS = [
                 "holds exactly one nonzero entry.")
     '''),
     md(r"""
-    ## 11. Step 4: the author's coordinates x1, ..., x8
+    ## 11. Step 4: the author's coordinates x0, ..., x7
 
-    The next cell renames the matrices after the author's coordinates. The list
-    `FRAME_INDEX` holds, for $x_1, \dots, x_8$ in this order, the index A of T16[A] in the
-    author's Mathematica notebook: 1, 2, 3, 4, 5, 6, 7, 0. The frame metric in the order
-    $x_1, \dots, x_8$ is read off from eta4488 through the same list. The cell prints one
-    line per coordinate and checks that $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1,
-    +1)$: space-like $x_1, x_2, x_3, x_8$ and time-like $x_4, x_5, x_6, x_7$, as the
-    author's metric requires. From here on, `gamma[0]` is $\gamma^{(x_1)}$, ...,
-    `gamma[7]` is $\gamma^{(x_8)}$ (a Python list counts from 0).
+    The next cell names the matrices after the author's coordinates. The list
+    `FRAME_INDEX` holds, for $x_0, \dots, x_7$ in this order, the index A of T16[A] in the
+    author's Mathematica notebook: 0, 1, 2, 3, 4, 5, 6, 7, because his frame directions
+    come in the order of his coordinates. The frame metric in the order
+    $x_0, \dots, x_7$ is read off from eta4488 through the same list. The cell prints one
+    line per coordinate and checks that $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1,
+    -1)$: space-like $x_0, x_1, x_2, x_3$ and time-like $x_4, x_5, x_6, x_7$, as the
+    author's metric requires. From here on, `gamma[0]` is $\gamma^{(x_0)}$, ...,
+    `gamma[7]` is $\gamma^{(x_7)}$ (a Python list counts from 0, like the author's
+    coordinates).
     """),
     code(r'''
-    COORDINATES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
-    FRAME_INDEX = [1, 2, 3, 4, 5, 6, 7, 0]  # A of T16[A] for x1, ..., x8
-    ROLE = ["3-space", "3-space", "3-space", "the time", "extra time (deflating)",
-            "extra time (deflating)", "extra time (deflating)", "hidden direction"]
-    gamma = [T16[A] for A in FRAME_INDEX]  # gamma[0] = gamma^(x1), ...
-    eta = np.array([eta4488[A, A] for A in FRAME_INDEX])  # signs in the order x1..x8
+    COORDINATES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
+    FRAME_INDEX = [0, 1, 2, 3, 4, 5, 6, 7]  # A of T16[A] for x0, ..., x7
+    ROLE = ["hidden direction", "3-space", "3-space", "3-space", "the time",
+            "extra time (deflating)", "extra time (deflating)", "extra time (deflating)"]
+    gamma = [T16[A] for A in FRAME_INDEX]  # gamma[0] = gamma^(x0), ...
+    eta = np.array([eta4488[A, A] for A in FRAME_INDEX])  # signs in the order x0..x7
     for a in range(8):
         kind = "space-like" if eta[a] > 0 else "time-like"
         print(f"gamma^({COORDINATES[a]}) = T16[{FRAME_INDEX[a]}]   eta = {eta[a]:+d}   "
               f"{kind:10}   {ROLE[a]}")
-    renamed = all(gamma[k - 1] is T16[k] for k in range(1, 8)) and gamma[7] is T16[0]
-    check_record(list(eta) == [1, 1, 1, -1, -1, -1, -1, 1] and renamed,
-                 "gamma^(xk) = T16[k], gamma^(x8) = T16[0], eta = diag(+,+,+,-,-,-,-,+)",
+    renamed = all(gamma[k] is T16[k] for k in range(8))
+    check_record(list(eta) == [1, 1, 1, 1, -1, -1, -1, -1] and renamed,
+                 "gamma^(xk) = T16[k] for k = 0..7, eta = diag(+,+,+,+,-,-,-,-)",
                  (WOLFRAM, "coordinate_map"), (WOLFRAM, "eta_in_author_order"),
                  (PYTHON, "coordinate_map"))
     '''),
@@ -836,16 +841,16 @@ CELLS = [
     code(r'''
     fig, axes = plt.subplots(2, 4, figsize=(8.8, 5.0), layout="constrained")
     for a in range(8):
-        draw_signs(axes[a // 4, a % 4], gamma[a], f"$\\gamma^{{(x_{a + 1})}}$")
+        draw_signs(axes[a // 4, a % 4], gamma[a], f"$\\gamma^{{(x_{a})}}$")
     sign_legend(fig)
-    save_figure(fig, "gammas_x1_to_x8",
+    save_figure(fig, "gammas_x0_to_x7",
                 "The author's eight real $16 \\times 16$ gamma matrices in the order of "
-                "his coordinates: 3-space $x_1, x_2, x_3$, the time $x_4$, the "
-                "deflating extra times $x_5, x_6, x_7$ (lower row, first three) and the "
-                "hidden direction $x_8$ (rows and columns numbered 0 to 15; blue $-1$, "
-                "grey $0$, red $+1$). Every matrix has exactly one nonzero entry in each "
-                "row and column, all of them in the upper-right and lower-left "
-                "$8 \\times 8$ corners; $\\gamma^{(x_8)}$ simply exchanges the upper and "
+                "his coordinates: the hidden direction $x_0$ and 3-space $x_1, x_2, x_3$ "
+                "(upper row), the time $x_4$ and the deflating extra times "
+                "$x_5, x_6, x_7$ (lower row) (rows and columns numbered 0 to 15; blue "
+                "$-1$, grey $0$, red $+1$). Every matrix has exactly one nonzero entry in "
+                "each row and column, all of them in the upper-right and lower-left "
+                "$8 \\times 8$ corners; $\\gamma^{(x_0)}$ simply exchanges the upper and "
                 "the lower eight components.")
     '''),
     md(r"""
@@ -854,7 +859,7 @@ CELLS = [
     The next cell computes the anticommutator $\gamma^a\gamma^b + \gamma^b\gamma^a$ for
     all 64 ordered pairs $(a, b)$ of coordinates, checks that each one is a whole number
     times $I_{16}$, prints these numbers as a table (row $a$, column $b$), and checks that
-    the table is $2\eta$: 2 on the diagonal for $x_1, x_2, x_3, x_8$, $-2$ on the diagonal
+    the table is $2\eta$: 2 on the diagonal for $x_0, x_1, x_2, x_3$, $-2$ on the diagonal
     for $x_4, \dots, x_7$, and 0 off the diagonal. It also checks that the squares
     $(\gamma^a)^2$, written as the record writes them ("x1:1, x2:1, ..."), appear word
     for word in the detail text of the WolframScript check.
@@ -900,7 +905,7 @@ CELLS = [
       $(\gamma^{(x_4)} v)_0 = s_1 v_{c_1}$; with $v = \gamma^{(x_4)} u$, row $c_1$ says
       $v_{c_1} = s_2 u_{c_2}$; so $(\gamma^{(x_4)}\gamma^{(x_4)} u)_0 = s_1 s_2 u_{c_2}$,
       which must be $-u_0$;
-    - $\gamma^{(x_8)}\gamma^{(x_4)} = -\gamma^{(x_4)}\gamma^{(x_8)}$: the two orders
+    - $\gamma^{(x_0)}\gamma^{(x_4)} = -\gamma^{(x_4)}\gamma^{(x_0)}$: the two orders
       must give row 0 with the same column and opposite signs.
     """),
     code(r'''
@@ -915,21 +920,21 @@ CELLS = [
         return ("+" if sign > 0 else "-") + letter + "_" + str(index)
 
 
-    g4, g8 = gamma[3], gamma[7]  # gamma^(x4) and gamma^(x8)
+    g4, g0 = gamma[4], gamma[0]  # gamma^(x4) and gamma^(x0)
     s1, c1 = follow(g4, 0)  # row 0 of gamma^(x4)
     s2, c2 = follow(g4, c1)  # row c1 of gamma^(x4)
     say(f"row 0 of gamma^(x4):  (gamma^(x4) v)_0 = {signed(s1, "v", c1)}")
     say(f"row {c1} of gamma^(x4): (gamma^(x4) u)_{c1} = {signed(s2, "u", c2)}")
     say(f"with v = gamma^(x4) u: (gamma^(x4) gamma^(x4) u)_0 = {signed(s1 * s2, "u", c2)}")
-    t1, d1 = follow(g8, 0)  # row 0 of gamma^(x8) gamma^(x4): first gamma^(x8) ...
+    t1, d1 = follow(g0, 0)  # row 0 of gamma^(x0) gamma^(x4): first gamma^(x0) ...
     t2, d2 = follow(g4, d1)  # ... then row d1 of gamma^(x4)
-    r1, e1 = follow(g4, 0)  # row 0 of gamma^(x4) gamma^(x8): first gamma^(x4) ...
-    r2, e2 = follow(g8, e1)  # ... then row e1 of gamma^(x8)
-    say(f"(gamma^(x8) gamma^(x4) u)_0 = {signed(t1 * t2, "u", d2)};  "
-        f"(gamma^(x4) gamma^(x8) u)_0 = {signed(r1 * r2, "u", e2)}")
+    r1, e1 = follow(g4, 0)  # row 0 of gamma^(x4) gamma^(x0): first gamma^(x4) ...
+    r2, e2 = follow(g0, e1)  # ... then row e1 of gamma^(x0)
+    say(f"(gamma^(x0) gamma^(x4) u)_0 = {signed(t1 * t2, "u", d2)};  "
+        f"(gamma^(x4) gamma^(x0) u)_0 = {signed(r1 * r2, "u", e2)}")
     check(s1 * s2 == -1 and c2 == 0, "by hand: row 0 of (gamma^(x4))^2 is -u_0")
     check(d2 == e2 and t1 * t2 == -(r1 * r2),
-          "by hand: row 0 of gamma^(x8) gamma^(x4) is minus that of gamma^(x4) gamma^(x8)")
+          "by hand: row 0 of gamma^(x0) gamma^(x4) is minus that of gamma^(x4) gamma^(x0)")
     '''),
     md(r"""
     The next cell draws the table of the numbers $c_{ab}$ in
@@ -943,7 +948,7 @@ CELLS = [
     for (a, b), value in np.ndenumerate(c):
         ax.text(b, a, f"{value:+d}" if value else "0", ha="center", va="center",
                 color="white" if value else "#52514e", fontsize=10)
-    labels = [f"$x_{k}$" for k in range(1, 9)]
+    labels = [f"$x_{k}$" for k in range(8)]
     ax.set_xticks(range(8), labels)
     ax.set_yticks(range(8), labels)
     ax.set_xlabel("direction $b$")
@@ -953,9 +958,9 @@ CELLS = [
     save_figure(fig, "anticommutator_table",
                 "The Clifford relation of the author's gammas: the number $c_{ab}$ in "
                 "$\\gamma^a\\gamma^b + \\gamma^b\\gamma^a = c_{ab} I_{16}$ for all 64 "
-                "pairs of directions, row $a$ and column $b$ running over $x_1$ to "
-                "$x_8$ (red $+2$, blue $-2$, grey $0$). The table is $2\\eta$: $+2$ on "
-                "the diagonal for the space-like directions $x_1, x_2, x_3, x_8$, $-2$ "
+                "pairs of directions, row $a$ and column $b$ running over $x_0$ to "
+                "$x_7$ (red $+2$, blue $-2$, grey $0$). The table is $2\\eta$: $+2$ on "
+                "the diagonal for the space-like directions $x_0, x_1, x_2, x_3$, $-2$ "
                 "for the time-like directions $x_4$ to $x_7$, and $0$ off the diagonal, "
                 "because two different gamma matrices anticommute.")
     '''),
@@ -968,7 +973,7 @@ CELLS = [
     2. every $\gamma^a$ is a **signed permutation matrix** (one nonzero entry in each row
        and in each column); such a matrix is *orthogonal*: $M^T M = I$;
     3. the **symmetry pattern**: $\gamma^a$ is symmetric for the space-like directions
-       $x_1, x_2, x_3, x_8$ and antisymmetric for the time-like directions
+       $x_0, x_1, x_2, x_3$ and antisymmetric for the time-like directions
        $x_4, \dots, x_7$; in one formula $(\gamma^a)^T = \eta_{aa}\gamma^a$.
 
     Point 3 follows from point 2 and the Clifford relation, line by line:
@@ -993,10 +998,10 @@ CELLS = [
     antisymmetric = [COORDINATES[a] for a in range(8) if (gamma[a].T == -gamma[a]).all()]
     say("symmetric: " + ", ".join(symmetric) + ";  antisymmetric: "
         + ", ".join(antisymmetric))
-    check_record(symmetric == ["x1", "x2", "x3", "x8"]
+    check_record(symmetric == ["x0", "x1", "x2", "x3"]
                  and antisymmetric == ["x4", "x5", "x6", "x7"]
                  and all((gamma[a].T == eta[a] * gamma[a]).all() for a in range(8)),
-                 "(gamma^a)^T = eta_aa gamma^a: symmetric for x1, x2, x3, x8 only",
+                 "(gamma^a)^T = eta_aa gamma^a: symmetric for x0, x1, x2, x3 only",
                  (WOLFRAM, "symmetry_pattern"), (PYTHON, "symmetry_pattern"))
     '''),
     md(r"""
@@ -1006,10 +1011,10 @@ CELLS = [
     """),
     code(r'''
     fig, axes = plt.subplots(2, 2, figsize=(6.4, 6.6), layout="constrained")
-    draw_signs(axes[0, 0], gamma[0], "$\\gamma^{(x_1)}$ (space-like)")
-    draw_signs(axes[0, 1], gamma[0].T, "its transpose: the same")
-    draw_signs(axes[1, 0], gamma[3], "$\\gamma^{(x_4)}$ (time-like)")
-    draw_signs(axes[1, 1], gamma[3].T, "its transpose: all signs flipped")
+    draw_signs(axes[0, 0], gamma[1], "$\\gamma^{(x_1)}$ (space-like)")
+    draw_signs(axes[0, 1], gamma[1].T, "its transpose: the same")
+    draw_signs(axes[1, 0], gamma[4], "$\\gamma^{(x_4)}$ (time-like)")
+    draw_signs(axes[1, 1], gamma[4].T, "its transpose: all signs flipped")
     sign_legend(fig)
     save_figure(fig, "symmetry_pattern",
                 "The symmetry pattern of the gammas (rows and columns numbered 0 to 15; "
@@ -1056,15 +1061,15 @@ CELLS = [
     fixture_differ = [differing(fixture["gamma"][a], gamma[a]) for a in range(8)]
     python_differ = [differing(python_gammas["gamma"][a], gamma[a]) for a in range(8)]
     report("entries compared per file", 8 * 16 * 16)
-    report("differing entries, gammas.json, per x1..x8", fixture_differ)
-    report("differing entries, python-gammas.json, per x1..x8", python_differ)
+    report("differing entries, gammas.json, per x0..x7", fixture_differ)
+    report("differing entries, python-gammas.json, per x0..x7", python_differ)
     check_record(fixture["coordinates"] == COORDINATES and fixture["eta"] == list(eta)
                  and fixture["notebookFrameIndex"] == FRAME_INDEX
                  and sum(fixture_differ) == 0,
                  "Revision/algebra/gammas.json holds exactly these eight gammas",
                  (WOLFRAM, "fixture_round_trip"),
                  (PYTHON, "fixture_comparison_gammas_json"))
-    python_map = python_gammas["map_coordinate_to_T16_index"]  # {"x1": 1, ...}
+    python_map = python_gammas["map_coordinate_to_T16_index"]  # {"x0": 0, ...}
     check(python_map == dict(zip(COORDINATES, FRAME_INDEX)) and sum(python_differ) == 0,
           "Revision/algebra/reports/python-gammas.json holds exactly these eight gammas")
     '''),
@@ -1089,7 +1094,7 @@ CELLS = [
     """),
     code(r'''
     names = ["04a_1_blocks_s4_t4.png", "04a_2_tau_matrices.png",
-             "04a_3_block_form_of_t16.png", "04a_4_gammas_x1_to_x8.png",
+             "04a_3_block_form_of_t16.png", "04a_4_gammas_x0_to_x7.png",
              "04a_5_anticommutator_table.png", "04a_6_symmetry_pattern.png"]
     check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in names),
           "all six figure files exist")
@@ -1110,12 +1115,12 @@ CELLS = [
       (A = 1, ..., 7), and the key rule tau[A] taubar[B] + tau[B] taubar[A] =
       $2\,$eta4488$_{AB} I_8$ for all 64 pairs.
     - PROVED: the $16 \times 16$ matrices T16[A] = ((0, taubar[A]), (tau[A], 0)) satisfy
-      the Clifford relation; renamed after the author's coordinates
-      ($\gamma^{(x_8)}$ = T16[0], $\gamma^{(x_k)}$ = T16[k] for k = 1, ..., 7) they
-      satisfy $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab} I_{16}$ with
-      $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ for all 64 pairs (numpy and
-      sympy); they are real signed permutation matrices, symmetric for $x_1, x_2, x_3,
-      x_8$ and antisymmetric for the time $x_4$ and the deflating extra times
+      the Clifford relation; named after the author's coordinates
+      ($\gamma^{(x_k)}$ = T16[k] for k = 0, ..., 7) they satisfy
+      $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab} I_{16}$ with
+      $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ for all 64 pairs (numpy and
+      sympy); they are real signed permutation matrices, symmetric for $x_0, x_1, x_2,
+      x_3$ and antisymmetric for the time $x_4$ and the deflating extra times
       $x_5, x_6, x_7$.
     - The matrices agree entry by entry with the Revision record files
       `Revision/algebra/gammas.json` and `Revision/algebra/reports/python-gammas.json`;
