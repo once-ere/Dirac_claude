@@ -6,6 +6,80 @@ in this repository; nothing depends on the old session's scratch directory.
 
 ## 0. Exact restart procedure
 
+### 0.6 STATE 2026-10-15 04:30 (Claude stopped; GPT-6.1 takes over) — START HERE
+
+**Binding conventions.**
+- The author's coordinates are {x0, x1, ..., x7}:
+  - x0 is the hidden direction (z = 6 H x0) and comes FIRST;
+  - x1, x2, x3 are 3-space, x4 is the time, x5, x6, x7 are the extra times;
+  - the Python index k is xk, and gamma^(xk) = T16[k] (T16[8] = Gamma);
+  - the Revision record files number the directions from 1 in the order x0..x7, so subtract 1.
+- Never write x8.
+- The metric of 2026-10-14 has b4(x4): `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`.
+- The backgrounds of the record (Kohn-Sham, pairing, scope reports, lead checks) have b4 = 1.
+- No single calculation may wait longer than 423 s (7 min 3 s). Bound every command with `timeout 423`, and `git push` with `timeout 120`.
+- The user's modified `Dirac_Einstein-Lovelock_4+4_Nash.nb` is NOT committed; stage specific paths only. The pinned version of the author's notebook is 4f2d83b5 (commit b13373c).
+
+**Done and pushed (HEAD fccfdb3 and the handoff commit after it; origin/main equals HEAD).**
+- The Revision record in the author's coordinates and with b4: earlier commits; gate run of 2026-10-14, 84 of 85 steps OK.
+- General-b4 sympy checks: `check_field_theory_b4.py`, 8 of 8, including `gravity_term_square_b4`, MM = (9H^2 - (9/16)(b4'/b4)^2) 1.
+- DIRAC16COMPLEX(00)_FIELD_THEORY PDFs rebuilt and registered. Revision unit tests: 200, OK.
+- Textbook chapters 00-10 and 13-16 moved to x0..x7, with every builder fixed by position, every notebook rebuilt, and the chapter text and walk-throughs updated:
+  - chapters 06 and 07 for the general b4;
+  - chapter 08 at b4 = 1, with the general forms quoted from chapters 6 and 7;
+  - chapter 09 with the record's x4 energy identity for b4;
+  - chapters 10 and 13-16 on the b4 = 1 backgrounds, as stated in the text.
+- The assembly `--only 00..10 13..16 --allow-missing` passes 13 of 13 checks.
+- Tools for continuing: `Revision/textbook/tools/relabel/` (README.md gives the procedure per chapter, and `examples/` holds the fix scripts used).
+
+**Remaining work (in this order).** The status of every notebook of chapters 09-23 against the relabelled records was measured with `tools/relabel/check_all.py` (nbkit check, 8 in parallel, each under 423 s) on 2026-10-14 at about 20:30. Chapters 09-10 and 13-16 have been fixed since then; the rest:
+
+1. **Chapter 12** (12a, 12b, 12c, 12d fail).
+   - The a4 records are relabelled: keys `x0x0` (it was `x8x8`), "independent of x0", and gammas.json in the order x0..x7.
+   - Some a4 records also have b4 blocks (`Revision/field_equations_a4/a4-equations.json`, key `b4`).
+   - Fix the positions as in chapters 08-10; keep b4 = 1 where the records are b4 = 1.
+2. **Chapter 17** (17a, 17b).
+   - The Kohn-Sham source-condition record changed (5 checks); `conservation_x8` is now `conservation_x0`.
+3. **Chapters 18 and 19** (18a, 18b, 18c, 19a, 19b).
+   - Gamma, C and B by position, with the chirality as the product g0 g1 ... g7.
+   - The record texts "g^(x8) g^(x1) ..." are now "g^(x0) ...".
+4. **Chapters 20 and 21** (20a, 20b, 21a, 21b, 21c, 21d).
+   - Gammas by position; record keys `x0x0` and `x0`; Omega_components in the order x0..x7.
+5. **Chapter 11.**
+   - The Rust Lovelock program (`Revision/gkd_lovelock`) was rerun with the b4 metric. Its `curvature.json` and `lovelock-tensors.json` contain b4[x4], b4' and b4''.
+   - 11b's exact polynomial engine (exponent tuples in H, A1, A2, C) needs three more variables (b4, b4', b4''), or every record value must be put at b4 = 1 before the comparison.
+   - `examples/fix_11b_partial.py` holds the first part of the work: positions, METRIC order, and the mixing terms (4, c, 0, c).
+   - 11a needs only the relabel; 11c reads the same tensors.
+6. **Chapter 22**: the notebooks pass; only the chapter text needs the relabel.
+7. **Chapter 23.**
+   - 23a fails nbkit: In [9] prints 90 lines (at most 80).
+   - Regenerate chapter 23 with `Revision/textbook/tools/chapter23/run_all.py` after all other chapters.
+8. Then:
+   - `Revision/textbook/TEXTBOOK_SPEC.md`: the relabel and the b4 rule;
+   - the full book assembly and PDF (`Book.test_assembled_book_is_current` fails until then; it compares with the last assembled edition, which still has the old labels);
+   - `provenance/EXECUTION_PROVENANCE_INDEX.md` rows for the b4 scripts;
+   - section 0.4 and later of this file still say "gate 65 steps"; the gate has 85;
+   - the full tests (each bounded: run the textbook test classes one by one; replace the serial byte-for-byte rebuild test with `check_all.py`);
+   - a fresh-clone verification.
+
+**Per-chapter procedure (it worked for chapters 03-16).**
+1. `tb_relabel.py` on the builders.
+2. Fix every position by hand. The patterns:
+   - `G[3]` -> `G[4]` (x4), `G[7]` -> `G[0]` (x0), `x[3]` -> `x[4]`, `x[7]` -> `x[0]`;
+   - frame lists start with the hidden factor;
+   - `range(1, 9)` over directions -> `range(8)`; `fixture["gamma"][a - 1]` -> `[a]`;
+   - unpacking `g1, ..., g8 = g` -> `g0, ..., g7 = g`;
+   - record texts with k8/x8/p8/M8 -> k0/x0/p0/M0, and momentum samples in the order (k0, k1, k2, k3) = (4, 1, 2, 0).
+3. Rebuild each notebook with `nbkit.py build ... --date YYYY-MM-DD` under `timeout 423`.
+4. Check that the RESULT lines are unchanged except for labels (`nb_out_diff.py`).
+5. Run `tb_relabel.py` and `wt_remap.py` on the chapter, then `walkthrough_diff.py`, `wt_contiguous.py` (compare with HEAD), `prose_indices.py`, `scan_old.py`, `prov_hashes.py` and the assembly.
+6. Commit the specific paths and push.
+
+Never edit with bash heredocs that contain backslashes: one turned `\frac` into a form feed. Check for control characters after every edit.
+
+**Failures and overruns:** `claude_failures.md`, section D.
+
+
 ### 0.1 Resume the same conversation (preferred: keeps all context)
 
 ```powershell
