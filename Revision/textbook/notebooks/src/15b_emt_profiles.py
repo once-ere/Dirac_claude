@@ -198,7 +198,7 @@ CELLS = [
     $$p_0' + 6H p_0 - 3H p_3 - 3H p_t = 0, \quad\text{that is}\quad
     (e^{6Hy} p_0)' = 3H\,e^{6Hy}(p_3 + p_t),$$
 
-    because $(e^{6Hy}p_0)' = e^{6Hy}(p_0' + 6Hp_8)$ (product and chain rule). Integrated
+    because $(e^{6Hy}p_0)' = e^{6Hy}(p_0' + 6Hp_0)$ (product and chain rule). Integrated
     from tip to brane: $[e^{6Hy}p_0]_{-L}^{0} = 3H \int_{-L}^{0} e^{6Hy}(p_3 + p_t)\,dy$.
 
     **Energy change along the history.** The $x_4$ component of the same law reads
@@ -815,7 +815,7 @@ CELLS = [
     - The integrated ratio $\int p_3/\int\rho$ rises toward $1/3$ as the momenta
       redshift; the energy moves toward the tip.
     - The history is PRESCRIBED: these components are not an admissible source of the
-      equations for $a_4$ (they depend on $y$, $p_3 + p_t \ne 2p_8$, and along the
+      equations for $a_4$ (they depend on $y$, $p_3 + p_t \ne 2p_0$, and along the
       history $\rho$ changes and $p_3 \ne p_t$; checked here on the notebook's own
       numbers), and no equation of state seen by an observer is claimed here.
     """),
