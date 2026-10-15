@@ -185,18 +185,18 @@ CELLS = [
     - **Coordinates** (the author's names): $x_1, x_2, x_3$ = ordinary 3-space, which
       inflates (scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ = the time; $x_5, x_6, x_7$ =
       the three **extra times**, which **deflate exponentially** (scale factor
-      $e^{-a_4}\sin^{1/6}z$); $x_8$ = the hidden space direction, $z = 6Hx_8$ between
+      $e^{-a_4}\sin^{1/6}z$); $x_0$ = the hidden space direction, $z = 6Hx_0$ between
       $0$ and $\pi/2$.
     - **Hidden coordinate** $y = \ln(\sin z)/(6H)$: it runs from the **tip** $y = -L$
       (the model cuts the hidden direction there, $L = 3$) to the **brane** $y = 0$.
     - **Slice** $a_{4,0}$: one instant of the history $a_4 = AHx_4$ ($A = 1$), the value
       of $a_4$ at that instant. The slices are $a_{4,0} = 0, 0.5, 1, 1.5, 2$.
-    - **Gamma matrices** $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$: the author's eight
+    - **Gamma matrices** $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$: the author's eight
       real $16 \times 16$ matrices, one for each coordinate, with
       $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}$ times the unit matrix, where
-      $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order
-      $x_1, \dots, x_8$. **Chirality** $\Gamma$: their product
-      $\gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$.
+      $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order
+      $x_0, \dots, x_7$. **Chirality** $\Gamma$: their product
+      $\gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$.
     - **Pauli matrices** $\sigma_1, \sigma_2, \sigma_3$: the three $2 \times 2$ matrices
       $\begin{pmatrix}0&1\\1&0\end{pmatrix}$, $\begin{pmatrix}0&-i\\i&0\end{pmatrix}$,
       $\begin{pmatrix}1&0\\0&-1\end{pmatrix}$.
@@ -220,7 +220,7 @@ CELLS = [
       density $Q(y)$; **proper** means per unit of proper 7-volume; the **coordinate
       density** $e^{6Hy}n(y)$ is the density per unit of $y$.
     - **Energy-momentum profiles**: the energy density $\rho(y)$ and the pressures
-      $p_3(y)$ (3-space), $p_t(y)$ (extra times), $p_8(y)$ (hidden direction).
+      $p_3(y)$ (3-space), $p_t(y)$ (extra times), $p_0(y)$ (hidden direction).
     - **Tip angle** $\theta$: the angle of the boundary condition at the tip.
     - **Zero mode**: an orbital with the level $\varepsilon = 0$ at zero momentum.
     - **Partner**: the image of a state under the map of theorem T3. **Negative
@@ -236,7 +236,9 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    **The geometry.** In the hidden coordinate $y$ the author's metric is
+    **The geometry.** The Kohn-Sham record works on the background $b_4 = 1$ of the author's
+    metric of 2026-10-14 (the second function $b_4(x_4)$ of the metric, which multiplies the
+    extra-time components, is put equal to 1). In the hidden coordinate $y$ this metric is
     $ds^2 = e^{2Hy}[e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2) - e^{-2a_4}(dx_5^2 + dx_6^2 +
     dx_7^2)] - dx_4^2 + dy^2$. While $a_4$ grows, 3-space inflates by $e^{a_4}$ and the
     three extra times deflate by $e^{-a_4}$; the proper 7-volume factor
@@ -271,7 +273,7 @@ CELLS = [
     Kohn-Sham state with $(m, \lambda, \theta)$ to a self-consistent state with
     $(-m, +\lambda, \pi - \theta)$: equal levels with degeneracies, occupations, chemical
     potential, entropy, Kohn-Sham energy $E_{KS}$, grand potential and free energy,
-    equal $n$, $v_v$, $\rho$, $p_3$, $p_t$, $p_8$; opposite $S$, $Q$ and $M_{eff}$. With
+    equal $n$, $v_v$, $\rho$, $p_3$, $p_t$, $p_0$; opposite $S$, $Q$ and $M_{eff}$. With
     $(-m, -\lambda)$ the map fails, and with the untransformed tip it fails too.
 
     **The four universes of this notebook** ($m = 1$):
@@ -301,7 +303,7 @@ CELLS = [
     and imaginary parts, so a plain list means a real matrix) and checks three things:
     (1) every entry is $-1$, $0$ or $+1$, so the matrices are real; (2) the
     anticommutation rule $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}\mathbf{1}$ for
-    all 64 pairs; (3) the product $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}
+    all 64 pairs; (3) the product $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}
     \cdots\gamma^{(x_7)}$ is the diagonal matrix with $-1$ eight times and then $+1$ eight
     times, the matrix stored in the record, and anticommutes with every gamma.
     """),
@@ -316,8 +318,8 @@ CELLS = [
     ALGEBRA = "Revision/algebra/reports/wolfram-algebra.json"  # its check report
     fixture = json.loads(repository_file(GAMMAS).read_text(encoding="utf-8"))
     stored_real = all(isinstance(g, list) for g in fixture["gamma"])  # no complex part
-    gamma = [np.array(g, dtype=float) for g in fixture["gamma"]]  # gamma[0] is x1
-    eta = np.array(fixture["eta"], dtype=float)  # +1 +1 +1 -1 -1 -1 -1 +1
+    gamma = [np.array(g, dtype=float) for g in fixture["gamma"]]  # gamma[k] is xk
+    eta = np.array(fixture["eta"], dtype=float)  # +1 +1 +1 +1 -1 -1 -1 -1 (x0, ..., x7)
     entries = sorted({float(x) for g in gamma for x in g.flat})  # all values used
     say(f"{len(gamma)} matrices of size {gamma[0].shape}; their entries: {entries}")
     worst = 0.0  # largest violation of the anticommutation rule
@@ -326,8 +328,8 @@ CELLS = [
             anti = gamma[a] @ gamma[b] + gamma[b] @ gamma[a]
             rule = 2.0 * eta[a] * (a == b) * np.eye(16)  # 2 eta^ab times the unit
             worst = max(worst, float(np.max(np.abs(anti - rule))))
-    Gamma = gamma[7]  # gamma^(x8) first ...
-    for a in range(7):
+    Gamma = gamma[0]  # gamma^(x0) first ...
+    for a in range(1, 8):
         Gamma = Gamma @ gamma[a]  # ... times gamma^(x1), gamma^(x2), ..., gamma^(x7)
     diagonal = np.diag([-1.0] * 8 + [1.0] * 8)
     anticommutes = all(np.array_equal(Gamma @ g, -(g @ Gamma)) for g in gamma)
@@ -336,7 +338,7 @@ CELLS = [
           record=f"{ALGEBRA}, checks reality and Clifford_relation")
     check(np.array_equal(Gamma, diagonal) and anticommutes
           and np.array_equal(Gamma, np.array(fixture["Gamma"], dtype=float)),
-          "Gamma = g^(x8) g^(x1) ... g^(x7) = diag(-1 (8 times), +1 (8 times))",
+          "Gamma = g^(x0) g^(x1) ... g^(x7) = diag(-1 (8 times), +1 (8 times))",
           record=f"{ALGEBRA}, check Gamma_diag")
     '''),
     md(r"""
@@ -345,7 +347,7 @@ CELLS = [
     block, block $b$ in the columns $2b$ and $2b + 1$), and the label $(j, s_2, s_3)$ of
     every block. The entries are written as text: `0`, `1`, `-1`, `I`, `-I` times
     $1/(2\sqrt2)$. The next cell checks that $V$ is unitary, that in every block
-    $\gamma^{(x_8)}$ acts as $\sigma_3$ and $\gamma^{(x_8)}\gamma^{(x_4)}$ as
+    $\gamma^{(x_0)}$ acts as $\sigma_3$ and $\gamma^{(x_0)}\gamma^{(x_4)}$ as
     $j\sigma_1$, and that $\Gamma$ maps the two columns of block $(j, s_2, s_3)$ onto
     the two columns of block $(-j, s_2, s_3)$ times $s_2\sigma_2$. That last statement
     is the map $(\chi, j) \to (\sigma_2\chi, -j)$ of T3 (up to the sign $s_2$).
@@ -367,10 +369,10 @@ CELLS = [
         p = labels.index((-j, s2, s3))  # the partner block
         Vb, Vp = V[:, 2 * b:2 * b + 2], V[:, 2 * p:2 * p + 2]  # their two columns
         worst_map = max(worst_map, float(np.max(np.abs(Gamma @ Vb - Vp @ (s2 * sig2)))))
-        g8 = Vb.conj().T @ gamma[7] @ Vb  # gamma^(x8) inside block b
-        g84 = Vb.conj().T @ gamma[7] @ gamma[3] @ Vb  # gamma^(x8) gamma^(x4) there
-        worst_form = max(worst_form, float(np.max(np.abs(g8 - sig3))),
-                         float(np.max(np.abs(g84 - j * sig1))))
+        g0 = Vb.conj().T @ gamma[0] @ Vb  # gamma^(x0) inside block b
+        g04 = Vb.conj().T @ gamma[0] @ gamma[4] @ Vb  # gamma^(x0) gamma^(x4) there
+        worst_form = max(worst_form, float(np.max(np.abs(g0 - sig3))),
+                         float(np.max(np.abs(g04 - j * sig1))))
         if b < 4:
             say(f"block {b} {labels[b]} <-> block {p} {labels[p]}: matrix "
                 f"{s2:+d} sigma2")
@@ -520,7 +522,7 @@ CELLS = [
     slice $a_{4,0} = 1$ with the coupling $\lambda_1$ and the record's margin $0.45$
     (six runs of the solver). Then it compares, as the self-test does: the sorted lists
     of $(\varepsilon, g, f)$ of A and B, the energies $E_{KS}$, the integrals of
-    $\rho, p_3, p_t, p_8$ over the hidden direction and the scalar densities
+    $\rho, p_3, p_t, p_0$ over the hidden direction and the scalar densities
     ($S_A + S_B$ must vanish). It prints each largest difference.
     """),
     code(r'''
@@ -545,7 +547,7 @@ CELLS = [
         """Largest relative difference of the four integrated EMT components."""
         a, b = first["emtIntegrals_2Vol7_int_e6Hy"], second["emtIntegrals_2Vol7_int_e6Hy"]
         return max(abs(a[c] - b[c]) / max(abs(a[c]), 1.0) for c in ("rho", "p3", "p_t",
-                                                                    "p8"))
+                                                                    "p0"))
 
 
     def scalar_sum(first, second):
@@ -637,7 +639,7 @@ CELLS = [
     new_int = A["emtIntegrals_2Vol7_int_e6Hy"]  # the new integrals
     worst_integral = max(abs(new_int[c] - float(emt_row[f"int_{c}"]))
                          / max(abs(float(emt_row[f"int_{c}"])), 1.0)
-                         for c in ("rho", "p3", "p_t", "p8", "n"))
+                         for c in ("rho", "p3", "p_t", "p0", "n"))
     committed = read_profile(repository_file(f"{GROUND}/profiles/N136_lamp1_a10.csv"))
     worst_profile = max(float(np.max(np.abs(A["profile"][c] - committed[c]))
                               / max(np.max(np.abs(committed[c])), 1e-300))
@@ -792,7 +794,7 @@ CELLS = [
     $S^2$.
     """),
     code(r'''
-    EVEN = ("n", "v_v", "e_int", "rho", "p3", "p_t", "p8")  # unchanged by the map
+    EVEN = ("n", "v_v", "e_int", "rho", "p3", "p_t", "p0")  # unchanged by the map
     ODD = ("S", "Q", "M_eff")  # change sign under the map
 
 
@@ -812,7 +814,7 @@ CELLS = [
         control = profile_mismatch(SELF[(N, "A")], SELF[(N, "C")])
         say(f"N = {N}: T3 rule for B: {mismatch:.2e}; the same rule for C: {control:.3g}")
         check(mismatch < TOL and control > 0.1,
-              f"N = {N}: n, v_v, e_int, rho, p3, p_t, p8 equal; S, Q, M_eff opposite",
+              f"N = {N}: n, v_v, e_int, rho, p3, p_t, p0 equal; S, Q, M_eff opposite",
               record="Revision/pairing/kohn_sham/t3-theory.json, statements S3 and S4")
     '''),
     md(r"""
@@ -889,19 +891,19 @@ CELLS = [
     ## 12. The energy-momentum profiles
 
     The energy density and the three pressures are the source terms that the gravity
-    equations would need. The next cell draws $\rho$, $p_3$, $p_t$ and $p_8$ for
+    equations would need. The next cell draws $\rho$, $p_3$, $p_t$ and $p_0$ for
     $N = 136$, each multiplied by the volume factor $e^{6Hy}$ (so the area under each
     curve is proportional to the integral over the hidden direction). The cell also
-    checks the identity $p_8' + 6Hp_8 = 3H(p_3 + p_t)$ (the conservation law along
+    checks the identity $p_0' + 6Hp_0 = 3H(p_3 + p_t)$ (the conservation law along
     $y$), which the solver measures for every state, for B.
     """),
     code(r'''
     weight = np.exp(6.0 * y)  # the proper-volume factor e^{6 H y}, H = 1
     fig, axes = plt.subplots(2, 2, figsize=(9.0, 6.0), sharex=True)
-    for ax, column, title in zip(axes.flat, ("rho", "p3", "p_t", "p8"),
+    for ax, column, title in zip(axes.flat, ("rho", "p3", "p_t", "p0"),
                                  ("energy density $\\rho$", "pressure $p_3$ (3-space)",
                                   "pressure $p_t$ (extra times)",
-                                  "pressure $p_8$ (hidden direction)")):
+                                  "pressure $p_0$ (hidden direction)")):
         for kind in "ABC":
             prof = SELF[(136, kind)]["profile"]
             ax.plot(y, weight * prof[column], color=COLOUR[kind], label=NAME[kind],
@@ -916,7 +918,7 @@ CELLS = [
                 "The energy-momentum profiles of A (blue), B (orange, dashed) and C "
                 "(aqua, dotted) for $N = 136$, $\\lambda = \\lambda_1$, $a_{4,0} = 1$: "
                 "energy density $\\rho$, pressures $p_3$ (3-space), $p_t$ (the "
-                "deflating extra times) and $p_8$ (hidden direction), each times the "
+                "deflating extra times) and $p_0$ (hidden direction), each times the "
                 "volume factor $e^{6Hy}$, against the hidden coordinate $y$ (units "
                 "$|m|^8$ with $H = 1$). The four profiles of the partner B coincide "
                 "with those of A at every point (T3, statement S4); the control C "
@@ -928,7 +930,7 @@ CELLS = [
         say(f"N = {N}, B: y-conservation, integrated {integrated:.1e}, pointwise "
             f"{pointwise:.1e} (relative)")
         check(integrated < 1e-8 and pointwise < 1e-6,
-              f"N = {N}: the partner B obeys p8' + 6H p8 = 3H (p3 + p_t)",
+              f"N = {N}: the partner B obeys p0' + 6H p0 = 3H (p3 + p_t)",
               record=f"{SOLVER_REPORT}, checks emt_y_conservation_integrated, pointwise")
     '''),
     md(r"""
@@ -1422,7 +1424,7 @@ CELLS = [
         image = [(B["E_KS"], row["E_KS_image"]), (B["mu_or_fermi_level"],
                  row["mu_image"]), (B["entropy"], row["entropy_image"])]
         image += [(B["emtIntegrals_2Vol7_int_e6Hy"][c], row[f"int_{c}_image"])
-                  for c in ("rho", "p3", "p_t", "p8")]
+                  for c in ("rho", "p3", "p_t", "p0")]
         worst_B = max([worst_B] + [relative(x, float(r)) for x, r in image])
         control = float(row["E_KS_control_untransformed_tip"])
         worst_C = max(worst_C, relative(C["E_KS"], control))
@@ -1488,7 +1490,7 @@ CELLS = [
     - PROVED in the records and re-checked here exactly: the author's eight gamma
       matrices are real $16 \times 16$ matrices with entries $-1$, $0$, $+1$ that obey
       $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}\mathbf{1}$; their product
-      $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ is
+      $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ is
       $\mathrm{diag}(-1, \dots, -1, +1, \dots, +1)$ and maps every Kohn-Sham block
       $(j, s_2, s_3)$ onto the block $(-j, s_2, s_3)$ as $s_2\sigma_2$: the map of T3.
     - COMPUTED (62 runs of the Rust Kohn-Sham solver, which compare A and B in 19
@@ -1498,7 +1500,7 @@ CELLS = [
       the same Kohn-Sham levels, level by level with the block type and the brane
       parity exchanged, the same occupations, chemical potential, entropy, energy and
       free energy, and the same particle density, potential and energy-momentum
-      profiles $\rho$, $p_3$, $p_t$, $p_8$ as the universe of mass $+m$ (A), while its
+      profiles $\rho$, $p_3$, $p_t$, $p_0$ as the universe of mass $+m$ (A), while its
       scalar density, density $Q$ and effective mass are exactly opposite. The largest
       deviations (section 17) are about $10^{-13}$ for the ground states and the
       history and below $10^{-12}$ for the thermal states: the rounding of the

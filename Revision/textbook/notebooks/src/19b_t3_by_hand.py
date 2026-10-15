@@ -130,18 +130,18 @@ CELLS = [
 
     - **Coordinates** (the author's names): $x_1, x_2, x_3$ = ordinary 3-space, which
       inflates; $x_4$ = the time; $x_5, x_6, x_7$ = the three **extra times**, which
-      **deflate exponentially**; $x_8$ = the hidden space direction.
+      **deflate exponentially**; $x_0$ = the hidden space direction.
     - **Hidden coordinate** $y$: it runs from the **tip** $y = -L$ ($L = 3$) to the
       **brane** $y = 0$.
     - **Matrix**: a square table of numbers; **heat map**: a picture of a matrix in which
       every entry is a coloured square. **Real** matrix: all entries are real numbers.
       **Signed permutation matrix**: every row and every column holds exactly one entry
       $\pm 1$, all others are $0$.
-    - **Gamma matrices** $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$: the author's eight real
+    - **Gamma matrices** $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$: the author's eight real
       $16 \times 16$ matrices with $\gamma^a\gamma^b + \gamma^b\gamma^a =
-      2\eta^{ab}\mathbf{1}$, where $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$
-      in the order $x_1, \dots, x_8$ and $\mathbf{1}$ is the unit matrix.
-      **Chirality** $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$.
+      2\eta^{ab}\mathbf{1}$, where $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$
+      in the order $x_0, \dots, x_7$ and $\mathbf{1}$ is the unit matrix.
+      **Chirality** $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$.
     - **Pauli matrices** $\sigma_1 = \begin{pmatrix}0&1\\1&0\end{pmatrix}$,
       $\sigma_2 = \begin{pmatrix}0&-i\\i&0\end{pmatrix}$,
       $\sigma_3 = \begin{pmatrix}1&0\\0&-1\end{pmatrix}$. Each squares to $\mathbf{1}$,
@@ -234,9 +234,9 @@ CELLS = [
     ALGEBRA = "Revision/algebra/reports/wolfram-algebra.json"  # its check report
     fixture = json.loads(repository_file(GAMMAS).read_text(encoding="utf-8"))
     stored_real = all(isinstance(g, list) for g in fixture["gamma"])  # no complex part
-    gamma = [np.array(g, dtype=int) for g in fixture["gamma"]]  # gamma[0] is x1
-    eta = [int(e) for e in fixture["eta"]]  # +1 +1 +1 -1 -1 -1 -1 +1
-    names = fixture["coordinates"]  # "x1", ..., "x8"
+    gamma = [np.array(g, dtype=int) for g in fixture["gamma"]]  # gamma[k] is xk
+    eta = [int(e) for e in fixture["eta"]]  # +1 +1 +1 +1 -1 -1 -1 -1 (x0, ..., x7)
+    names = fixture["coordinates"]  # "x0", ..., "x7"
     values = sorted({int(x) for g in gamma for x in g.flat})  # the values that occur
     one_per_line = all(
         np.array_equal(np.abs(g).sum(axis=0), np.ones(16, dtype=int))
@@ -267,7 +267,7 @@ CELLS = [
     fig.tight_layout()
     save_figure(fig, "eight_gammas",
                 "The author's eight real $16 \\times 16$ gamma matrices "
-                "$\\gamma^{(x_1)}, \\dots, \\gamma^{(x_8)}$ as heat maps (row index "
+                "$\\gamma^{(x_0)}, \\dots, \\gamma^{(x_7)}$ as heat maps (row index "
                 "down, column index across, both from 0 to 15): blue is $-1$, white "
                 "$0$, orange $+1$. Each matrix has exactly one nonzero entry in every "
                 "row and every column. The four with $\\eta = +1$ (3-space and the "
@@ -303,7 +303,7 @@ CELLS = [
     ## 6. The chirality and the map of T3
 
     The next cell multiplies the eight matrices in the author's order,
-    $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\cdots\gamma^{(x_7)}$, and checks:
+    $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\cdots\gamma^{(x_7)}$, and checks:
     $\Gamma$ is the diagonal matrix with $-1$ in the first eight places and $+1$ in the
     last eight (the matrix stored in the record), $\Gamma^2 = \mathbf{1}$, and $\Gamma$
     anticommutes with every gamma matrix. Then it reads the block basis $V$ of the
@@ -314,8 +314,8 @@ CELLS = [
     $(j, s_2, s_3)$ to the two columns of block $(-j, s_2, s_3)$ times $s_2\sigma_2$.
     """),
     code(r'''
-    Gamma = gamma[7]  # gamma^(x8) first ...
-    for a in range(7):
+    Gamma = gamma[0]  # gamma^(x0) first ...
+    for a in range(1, 8):
         Gamma = Gamma @ gamma[a]  # ... times gamma^(x1), ..., gamma^(x7)
     diagonal = np.diag([-1] * 8 + [1] * 8)
     anticommutes = all(np.array_equal(Gamma @ g, -(g @ Gamma)) for g in gamma)
@@ -341,12 +341,12 @@ CELLS = [
         Vb, Vp = V[:, 2 * b:2 * b + 2], V[:, 2 * p:2 * p + 2]
         worst_map = max(worst_map, float(np.max(np.abs(Gamma @ Vb
                                                         - Vp @ (s2 * pauli2)))))
-        g8 = Vb.conj().T @ gamma[7] @ Vb  # gamma^(x8) inside block b
-        g84 = Vb.conj().T @ gamma[7] @ gamma[3] @ Vb  # gamma^(x8) gamma^(x4) there
-        worst_form = max(worst_form, float(np.max(np.abs(g8 - pauli3))),
-                         float(np.max(np.abs(g84 - j * pauli1))))
+        g0 = Vb.conj().T @ gamma[0] @ Vb  # gamma^(x0) inside block b
+        g04 = Vb.conj().T @ gamma[0] @ gamma[4] @ Vb  # gamma^(x0) gamma^(x4) there
+        worst_form = max(worst_form, float(np.max(np.abs(g0 - pauli3))),
+                         float(np.max(np.abs(g04 - j * pauli1))))
     say(f"largest deviations: unitarity {unitary:.1e}, block map {worst_map:.1e}, "
-        f"forms gamma^(x8) = sigma3 and gamma^(x8) gamma^(x4) = j sigma1 "
+        f"forms gamma^(x0) = sigma3 and gamma^(x0) gamma^(x4) = j sigma1 "
         f"{worst_form:.1e}")
     check(unitary < 1e-12 and worst_map < 1e-12 and worst_form < 1e-12,
           "Gamma maps block (j, s2, s3) onto block (-j, s2, s3) as s2 sigma2",
@@ -365,7 +365,7 @@ CELLS = [
     real_part = float(np.max(np.abs(in_blocks.real)))
     fig, (left, right) = plt.subplots(1, 2, figsize=(9.0, 4.4))
     left.imshow(Gamma, cmap=THREE, vmin=-1, vmax=1, interpolation="nearest")
-    left.set_title("$\\Gamma = \\gamma^{(x_8)}\\gamma^{(x_1)}\\cdots\\gamma^{(x_7)}$",
+    left.set_title("$\\Gamma = \\gamma^{(x_0)}\\gamma^{(x_1)}\\cdots\\gamma^{(x_7)}$",
                    fontsize=10)
     right.imshow(in_blocks.imag, cmap=THREE, vmin=-1, vmax=1, interpolation="nearest")
     right.set_title("imaginary part of $V^\\dagger\\Gamma V$ (block basis)", fontsize=10)
@@ -1067,7 +1067,7 @@ CELLS = [
     - PROVED in the records and re-checked here exactly (integers and sympy): the
       author's eight gamma matrices are real $16 \times 16$ signed permutation matrices
       with $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}\mathbf{1}$; the chirality
-      $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ is
+      $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ is
       $\mathrm{diag}(-1, \dots, -1, +1, \dots, +1)$ and maps each Kohn-Sham block
       $(j, s_2, s_3)$ onto $(-j, s_2, s_3)$ as $s_2\sigma_2$.
     - PROVED (sympy, reproducing the checks of `python-t3.json`): the four steps of T3:

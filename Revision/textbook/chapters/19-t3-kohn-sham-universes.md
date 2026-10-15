@@ -32,11 +32,11 @@ Notebook 19b is placed first, because it follows the proof step by step; Noteboo
 - PROVED: theorem T3 itself, with every step derived line by line in Sections 19.5 to 19.12. In the Revision record T3 is proved by WolframScript (`Revision/pairing/kohn_sham/reports/wolfram-t3.json`, 10 of 10 checks PASS) and by sympy (`Revision/pairing/kohn_sham/reports/python-t3.json`, 13 of 13 checks PASS); the theorem record with its hypotheses, statement, proof and limits is `Revision/pairing/kohn_sham/t3-theory.json`. An adversarial verification (2026-10-08) found no error in the statement or the proof, but gaps in its verification; the **completion** record `Revision/pairing/kohn_sham/t3-completion.json` closes the three exact ones (`Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json`, 3 of 3 checks PASS; `Revision/pairing/kohn_sham/reports/python-t3-completion.json`, 7 of 7): the Kohn-Sham coefficients read from the record in both engines (Section 19.8), the filling convention carried onto the partner (Section 19.9), and statement S6, the 16-component expectation rule (Section 19.10). The facts about the blocks come from the Kohn-Sham theory reports `Revision/kohn_sham/reports/ks-theory-python.json` (in its present state 58 of 58 checks PASS) and `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 of 46).
 - COMPUTED: every number of the Rust solver and of the notebooks, with its measured difference. The record's two numerical demonstrations of T3 (Section 19.10): `Revision/pairing/kohn_sham/reports/t3-rust-demo.json` (the Rust solver on all 210 states of the canonical matrix, 7 of 7 checks PASS) and `Revision/pairing/kohn_sham/reports/t3-reference-demo.json` (the independent reference solver on 18 states, 7 of 7). The solver's own T3 self-test is the check t3_block_map_solver_selftest of `Revision/kohn_sham/reports/ks-rust-solver.json` (in its present state 42 of 42 checks PASS). All of them are demonstrations, not part of the proof, and the Rust agreement is at the rounding level by construction (Section 19.17).
 - ASSUMED: the good sector (no dependence on the extra times); the Z2 mirror construction at the brane $y = 0$; the cut of the hidden direction at the tip $y = -L$ with $L = 3$ and the chosen tip condition (T3 needs its transformed form); the mean field of Hartree plus the exact exchange of the uniform gas, without correlation. CONVENTION: which levels count as particles (the filling convention, Section 19.4); its justification is OPEN.
-- PRESCRIBED BACKGROUND: the history $a_4 = AHx_4$ with $A = 1$; the Kohn-Sham states are not an admissible source of the $a_4$ field equations (`Revision/field_equations_a4/reports/ks-source-conditions.json`, checks ks_profiles_violate_algebraic_condition and ks_history_is_a_prescribed_background).
+- PRESCRIBED BACKGROUND: the history $a_4 = AHx_4$ with $A = 1$, on the background $b_4 = 1$ of the author's metric of 2026-10-14 (Chapter 14); the Kohn-Sham states are not an admissible source of the $a_4$ field equations (`Revision/field_equations_a4/reports/ks-source-conditions.json`, checks ks_profiles_violate_algebraic_condition and ks_history_is_a_prescribed_background).
 - OPEN: the time-dependent (non-adiabatic) Kohn-Sham problem; the justification of the filling convention.
 - HYPOTHESIS: the author's statement that universes are created in pairs is a HYPOTHESIS. This chapter neither uses it nor proves it.
 
-**Notation and units.** The author's coordinates are $x_1, \dots, x_8$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which are time-like and deflate exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$ while $a_4$ grows; $x_8$ is the hidden space direction, with $z = 6Hx_8$ between 0 and $\pi/2$ and the author's constant $H > 0$. The frame metric is $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in this order, and $\gamma^{(x_a)}$ is the author's real $16 \times 16$ gamma matrix of the direction $x_a$ (Chapters 4 and 5), with $\gamma^{(x_a)}\gamma^{(x_b)} + \gamma^{(x_b)}\gamma^{(x_a)} = 2\eta_{ab}$ times the unit matrix. The **universe of mass $+M$** of the title is the Kohn-Sham problem with the bare mass $m = +M$, the **universe of mass $-M$** the one with $m = -M$; in all numbers $M = 1$ and $H = 1$, so energies, momenta and temperatures are in units of $|m|$, lengths in units of $1/H$. A state of the record is named like N136_lamp1_a10: $N = 136$ quanta, the coupling $+\lambda_1$ (the tags lam0, lamp1, lamm1, lamp2, lamm2 stand for $\lambda = 0, +\lambda_1, -\lambda_1, +\lambda_2, -\lambda_2$), the slice $a_{4,0} = 1.0$ (the two digits are ten times the slice). The two couplings are fixed per particle number in `Revision/kohn_sham/results/parameters.json` so that the first-order mean field stays below $0.1$ and $0.3$ along the whole history: for $N = 8$, $\lambda_1 = 0.01946$ and $\lambda_2 = 0.05838$; for $N = 136$, $\lambda_1 = 0.0009298$ and $\lambda_2 = 0.002789$; for $N = 688$, $\lambda_1 = 0.0001846$ and $\lambda_2 = 0.0005538$.
+**Notation and units.** The author's coordinates are $x_0, \dots, x_7$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which are time-like and deflate exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$ while $a_4$ grows; $x_0$ is the hidden space direction, with $z = 6Hx_0$ between 0 and $\pi/2$ and the author's constant $H > 0$. The frame metric is $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in this order, and $\gamma^{(x_a)}$ is the author's real $16 \times 16$ gamma matrix of the direction $x_a$ (Chapters 4 and 5), with $\gamma^{(x_a)}\gamma^{(x_b)} + \gamma^{(x_b)}\gamma^{(x_a)} = 2\eta_{ab}$ times the unit matrix. The **universe of mass $+M$** of the title is the Kohn-Sham problem with the bare mass $m = +M$, the **universe of mass $-M$** the one with $m = -M$; in all numbers $M = 1$ and $H = 1$, so energies, momenta and temperatures are in units of $|m|$, lengths in units of $1/H$. A state of the record is named like N136_lamp1_a10: $N = 136$ quanta, the coupling $+\lambda_1$ (the tags lam0, lamp1, lamm1, lamp2, lamm2 stand for $\lambda = 0, +\lambda_1, -\lambda_1, +\lambda_2, -\lambda_2$), the slice $a_{4,0} = 1.0$ (the two digits are ten times the slice). The two couplings are fixed per particle number in `Revision/kohn_sham/results/parameters.json` so that the first-order mean field stays below $0.1$ and $0.3$ along the whole history: for $N = 8$, $\lambda_1 = 0.01946$ and $\lambda_2 = 0.05838$; for $N = 136$, $\lambda_1 = 0.0009298$ and $\lambda_2 = 0.002789$; for $N = 688$, $\lambda_1 = 0.0001846$ and $\lambda_2 = 0.0005538$.
 
 ### 19.2 The words of this chapter
 
@@ -64,7 +64,7 @@ $$
 ds^2 = e^{2Hy}\left[e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2) - e^{-2a_4}(dx_5^2 + dx_6^2 + dx_7^2)\right] - dx_4^2 + dy^2 ,
 $$
 
-the volume factor is $\sqrt{|g|} = e^{6Hy}$ (the inflation $e^{3a_4}$ of 3-space and the deflation $e^{-3a_4}$ of the extra times cancel), and a 3-momentum $k$ enters every equation through the **momentum weight**
+the volume factor is $\sqrt{|g|} = e^{6Hy}$ (the inflation $e^{3a_4}$ of 3-space and the deflation $e^{-3a_4}$ of the extra times cancel). This is the author's metric on the background $b_4 = 1$, on which the Kohn-Sham record works (Chapter 14): the metric of 2026-10-14 has a second function $b_4(x_4)$ that multiplies the extra-time components (Chapter 3), and T3 and all its records are statements on this background. A 3-momentum $k$ enters every equation through the **momentum weight**
 
 $$
 \kappa(y) = e^{-Hy - a_{4,0}} .
@@ -80,16 +80,16 @@ $$
 
 where $V_\beta$ are the two columns of the block $\beta$ in the unitary $16 \times 16$ matrix $V$ of the record, $\ell$ is the size of the 3-torus of 3-space and $v_t$ the coordinate volume of the extra times. A rotation of 3-space does not change the levels, so turning $\mathbf k$ along $x_1$ loses nothing (check rotation_invariance). The allowed momenta are $\Delta k$ times triples of whole numbers, with $\Delta k = 0.25$; a **shell** is the set of momenta with the same $|\mathbf k|^2 = \Delta k^2 n_2$.
 
-**The eight blocks.** The three matrices $J = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_4)}$, $K_1 = \gamma^{(x_2)}\gamma^{(x_3)}$ and $K_2 = \gamma^{(x_5)}\gamma^{(x_6)}$ commute with each other and with the Hamiltonian; their eigenvalues $j = \pm1$, $is_2$ and $is_3$ ($s_2, s_3 = \pm1$) label eight blocks of two components each (checks blocks_commuting_set, blocks_projectors, blocks_basis_unitary; Section 14.5). In the basis $V_\beta$ of the block $(j, s_2, s_3)$ the matrices that the proof needs act as $2 \times 2$ matrices or numbers (check blocks_forms):
+**The eight blocks.** The three matrices $J = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_4)}$, $K_1 = \gamma^{(x_2)}\gamma^{(x_3)}$ and $K_2 = \gamma^{(x_5)}\gamma^{(x_6)}$ commute with each other and with the Hamiltonian; their eigenvalues $j = \pm1$, $is_2$ and $is_3$ ($s_2, s_3 = \pm1$) label eight blocks of two components each (checks blocks_commuting_set, blocks_projectors, blocks_basis_unitary; Section 14.5). In the basis $V_\beta$ of the block $(j, s_2, s_3)$ the matrices that the proof needs act as $2 \times 2$ matrices or numbers (check blocks_forms):
 
 | matrix | in the block $(j, s_2, s_3)$ |
 | --- | --- |
-| $\gamma^{(x_8)}$ | $\sigma_3$ |
-| $\gamma^{(x_8)}\gamma^{(x_4)}$ | $j\sigma_1$ |
+| $\gamma^{(x_0)}$ | $\sigma_3$ |
+| $\gamma^{(x_0)}\gamma^{(x_4)}$ | $j\sigma_1$ |
 | $B = -iC\gamma^{(x_4)}$ | the number $js_2$ |
 | $C$ | $s_2\sigma_2$ |
 | $BC$ | $j\sigma_2$ |
-| $B\gamma^{(x_8)}$ | $js_2\sigma_3$ |
+| $B\gamma^{(x_0)}$ | $js_2\sigma_3$ |
 
 Here $\sigma_1, \sigma_2, \sigma_3$ are the Pauli matrices
 
@@ -117,7 +117,7 @@ $$
 \frac{da}{dy} = M a - \big(\kappa k + j(\varepsilon - v)\big)\, b, \qquad \frac{db}{dy} = \big(j(\varepsilon - v) - \kappa k\big)\, a - M b .
 $$
 
-**The boundary conditions.** At the brane the record ASSUMES the Z2 mirror (orbifold) construction: the field on the mirror side $y > 0$ is the reflected field, $\Psi(-y) = \pm\gamma^{(x_8)}\Psi(y)$, and continuity at $y = 0$ gives $(1 \mp \gamma^{(x_8)})\chi(0) = 0$, that is, in every block,
+**The boundary conditions.** At the brane the record ASSUMES the Z2 mirror (orbifold) construction: the field on the mirror side $y > 0$ is the reflected field, $\Psi(-y) = \pm\gamma^{(x_0)}\Psi(y)$, and continuity at $y = 0$ gives $(1 \mp \gamma^{(x_0)})\chi(0) = 0$, that is, in every block,
 
 $$
 \text{even parity: } \chi_2(0) = 0 \quad (b(0) = 0), \qquad \text{odd parity: } \chi_1(0) = 0 \quad (a(0) = 0) .
@@ -160,10 +160,10 @@ n = \langle\Psi^\dagger B\Psi\rangle = \sum f\,u^\dagger BBu = \sum f\,u^\dagger
 $$
 
 $$
-Q = \langle\Psi^\dagger B\gamma^{(x_8)}\Psi\rangle = \sum f\,u^\dagger BB\gamma^{(x_8)}u = \sum f\,u^\dagger\gamma^{(x_8)}u .
+Q = \langle\Psi^\dagger B\gamma^{(x_0)}\Psi\rangle = \sum f\,u^\dagger BB\gamma^{(x_0)}u = \sum f\,u^\dagger\gamma^{(x_0)}u .
 $$
 
-Rule: $X = B$, $C$, $B\gamma^{(x_8)}$ in the line above, and $BB = B^2 = 1$.
+Rule: $X = B$, $C$, $B\gamma^{(x_0)}$ in the line above, and $BB = B^2 = 1$.
 
 **The densities of one orbital.** Put in $u = \Psi_{16}$ of Section 19.3. The phases $e^{-i\varepsilon x_4}e^{ikx_1}$ cancel against their conjugates, and $e^{-3Hy}$ appears twice, so
 
@@ -171,7 +171,7 @@ $$
 u^\dagger Xu = \frac{e^{-6Hy}}{\ell^3v_t}\;\chi^\dagger\big(V_\beta^\dagger XV_\beta\big)\chi = P\,\chi^\dagger\big(V_\beta^\dagger XV_\beta\big)\chi, \qquad P = \frac{e^{-6Hy}}{\ell^3v_t} .
 $$
 
-The middle matrix is the block form of $X$ (the table of Section 19.3). With $V_\beta^\dagger V_\beta = \mathbf 1$, $BC \to j\sigma_2$ and $\gamma^{(x_8)} \to \sigma_3$:
+The middle matrix is the block form of $X$ (the table of Section 19.3). With $V_\beta^\dagger V_\beta = \mathbf 1$, $BC \to j\sigma_2$ and $\gamma^{(x_0)} \to \sigma_3$:
 
 $$
 n_o = P\,\chi^\dagger\chi, \qquad s_o = P\,\chi^\dagger j\sigma_2\chi, \qquad q_o = P\,\chi^\dagger\sigma_3\chi .
@@ -232,10 +232,10 @@ $$
 $$
 
 $$
-p_8 = \sum w g f\Big[(\varepsilon - v_v)\,n_o - M_{\rm eff}\,s_o - \kappa|k|\,t_o\Big] + e_{\rm int} :
+p_0 = \sum w g f\Big[(\varepsilon - v_v)\,n_o - M_{\rm eff}\,s_o - \kappa|k|\,t_o\Big] + e_{\rm int} :
 $$
 
-$\rho$ is the energy density, $p_3$ the pressure of 3-space, $p_t$ the pressure of the deflating extra times and $p_8$ the pressure of the hidden direction. Every self-consistent state obeys the conservation law along $y$, $p_8' + 6Hp_8 = 3H(p_3 + p_t)$ (check emt_y_conservation_selfconsistent).
+$\rho$ is the energy density, $p_3$ the pressure of 3-space, $p_t$ the pressure of the deflating extra times and $p_0$ the pressure of the hidden direction. Every self-consistent state obeys the conservation law along $y$, $p_0' + 6Hp_0 = 3H(p_3 + p_t)$ (check emt_y_conservation_selfconsistent).
 
 **The loop.** A self-consistent state is found by repeating: from $n(y)$ and $S(y)$ build $M_{\rm eff}(y)$ and $v_v(y)$; solve $h_j\chi = \varepsilon\chi$ for both block types, every momentum shell and both parities with the boundary conditions; fill the levels; compute new $n(y)$ and $S(y)$. A state that reproduces itself is a **fixed point** of this loop. Chapter 15 describes how the Rust solver does it.
 
@@ -244,12 +244,12 @@ $\rho$ is the energy density, $p_3$ the pressure of 3-space, $p_t$ the pressure 
 **Γ and the gammas.** The chirality is the product of all eight gammas in the author's order,
 
 $$
-\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}\gamma^{(x_4)}\gamma^{(x_5)}\gamma^{(x_6)}\gamma^{(x_7)} = \mathrm{diag}(-1, \dots, -1, +1, \dots, +1) ,
+\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}\gamma^{(x_4)}\gamma^{(x_5)}\gamma^{(x_6)}\gamma^{(x_7)} = \mathrm{diag}(-1, \dots, -1, +1, \dots, +1) ,
 $$
 
 with $-1$ eight times and then $+1$ eight times (`Revision/algebra/reports/wolfram-algebra.json`, check Gamma_diag). Moving one gamma $\gamma^{(x_c)}$ from the left of $\Gamma$ to its right passes the seven other factors, each with a sign $-1$, and itself, without a sign: $\gamma^{(x_c)}\Gamma = (-1)^7\Gamma\gamma^{(x_c)} = -\Gamma\gamma^{(x_c)}$. So $\Gamma$ **anticommutes with every gamma**, hence with every product of an odd number of gammas, and **commutes with every product of an even number**. It is real and diagonal, so $\Gamma^\dagger = \Gamma$ and $\Gamma^2 = 1$.
 
-**Γ moves every block to its partner block.** $J = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_4)}$ has three factors, $K_1$ and $K_2$ have two. Let $v$ be a column of the block $(j, s_2, s_3)$, that is $Jv = jv$, $K_1v = is_2v$, $K_2v = is_3v$. Then, line by line:
+**Γ moves every block to its partner block.** $J = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_4)}$ has three factors, $K_1$ and $K_2$ have two. Let $v$ be a column of the block $(j, s_2, s_3)$, that is $Jv = jv$, $K_1v = is_2v$, $K_2v = is_3v$. Then, line by line:
 
 $$
 J(\Gamma v) = -\Gamma Jv = -j\,(\Gamma v), \qquad K_1(\Gamma v) = \Gamma K_1v = is_2\,(\Gamma v), \qquad K_2(\Gamma v) = is_3\,(\Gamma v) .
@@ -257,22 +257,22 @@ $$
 
 Rule: $\Gamma$ anticommutes with the odd product $J$ and commutes with the even products $K_1$, $K_2$; then use the eigenvalue equations of $v$. So $\Gamma v$ lies in the block $(-j, s_2, s_3)$: the **partner block**, with the opposite type and the same $s_2$, $s_3$ (check blocks_relation_to_Gamma).
 
-**Γ acts as ±σ2 between the partner blocks.** Let $V_b$ be the two basis columns of the block $b = (j, s_2, s_3)$ and $V_p$ those of the partner block $p = (-j, s_2, s_3)$. Because $\Gamma V_b$ lies in the block $p$, it is a combination of the columns $V_p$: $\Gamma V_b = V_pG$ for some $2 \times 2$ matrix $G$. The block forms say $\gamma^{(x_8)}V_b = V_b\sigma_3$ and $\gamma^{(x_8)}V_p = V_p\sigma_3$ (in both blocks $\gamma^{(x_8)}$ is $\sigma_3$), and $\gamma^{(x_8)}\gamma^{(x_4)}V_b = V_b(j\sigma_1)$, $\gamma^{(x_8)}\gamma^{(x_4)}V_p = V_p(-j\sigma_1)$ (the type of $p$ is $-j$). Now line by line:
+**Γ acts as ±σ2 between the partner blocks.** Let $V_b$ be the two basis columns of the block $b = (j, s_2, s_3)$ and $V_p$ those of the partner block $p = (-j, s_2, s_3)$. Because $\Gamma V_b$ lies in the block $p$, it is a combination of the columns $V_p$: $\Gamma V_b = V_pG$ for some $2 \times 2$ matrix $G$. The block forms say $\gamma^{(x_0)}V_b = V_b\sigma_3$ and $\gamma^{(x_0)}V_p = V_p\sigma_3$ (in both blocks $\gamma^{(x_0)}$ is $\sigma_3$), and $\gamma^{(x_0)}\gamma^{(x_4)}V_b = V_b(j\sigma_1)$, $\gamma^{(x_0)}\gamma^{(x_4)}V_p = V_p(-j\sigma_1)$ (the type of $p$ is $-j$). Now line by line:
 
 $$
-\Gamma\gamma^{(x_8)}V_b = \Gamma V_b\sigma_3 = V_pG\sigma_3, \qquad -\gamma^{(x_8)}\Gamma V_b = -\gamma^{(x_8)}V_pG = -V_p\sigma_3G .
+\Gamma\gamma^{(x_0)}V_b = \Gamma V_b\sigma_3 = V_pG\sigma_3, \qquad -\gamma^{(x_0)}\Gamma V_b = -\gamma^{(x_0)}V_pG = -V_p\sigma_3G .
 $$
 
-Rule: the block forms and the definition of $G$. The two left sides are equal, because $\Gamma$ anticommutes with $\gamma^{(x_8)}$; the columns of $V_p$ are independent, so
+Rule: the block forms and the definition of $G$. The two left sides are equal, because $\Gamma$ anticommutes with $\gamma^{(x_0)}$; the columns of $V_p$ are independent, so
 
 $$
 G\sigma_3 = -\sigma_3G .
 $$
 
-The same with the even product $\gamma^{(x_8)}\gamma^{(x_4)}$, which commutes with $\Gamma$:
+The same with the even product $\gamma^{(x_0)}\gamma^{(x_4)}$, which commutes with $\Gamma$:
 
 $$
-\Gamma\big(\gamma^{(x_8)}\gamma^{(x_4)}\big)V_b = V_pG\,(j\sigma_1), \qquad \big(\gamma^{(x_8)}\gamma^{(x_4)}\big)\Gamma V_b = V_p(-j\sigma_1)\,G, \qquad\text{so}\qquad G\sigma_1 = -\sigma_1G .
+\Gamma\big(\gamma^{(x_0)}\gamma^{(x_4)}\big)V_b = V_pG\,(j\sigma_1), \qquad \big(\gamma^{(x_0)}\gamma^{(x_4)}\big)\Gamma V_b = V_p(-j\sigma_1)\,G, \qquad\text{so}\qquad G\sigma_1 = -\sigma_1G .
 $$
 
 Rule: equate the two lines and divide by $j = \pm1$. Every $2 \times 2$ matrix can be written as $G = g_0\mathbf 1 + g_1\sigma_1 + g_2\sigma_2 + g_3\sigma_3$ with four numbers $g_0, \dots, g_3$ (four numbers for four entries). Multiply $G\sigma_3 = -\sigma_3G$ from the left by $\sigma_3$: $\sigma_3G\sigma_3 = -G$. Line by line:
@@ -479,7 +479,7 @@ Applying the map twice gives back A, because $\sigma_2^2 = \mathbf 1$ and $(-(-m
 - $\rho = \sum wgf\,\varepsilon n_o - e_{\rm int}$: $n_o$ and $e_{\rm int}$ are unchanged, so $\rho(y)$ is unchanged.
 - $p_3 = \sum wgf\,\frac{\kappa|k|}{3}t_o + e_{\rm int}$: $t_o$ is unchanged, and so are $\kappa$ and $|k|$; $p_3(y)$ is unchanged.
 - $p_t = e_{\rm int}$: unchanged.
-- $p_8 = \sum wgf[(\varepsilon - v_v)n_o - M_{\rm eff}s_o - \kappa|k|t_o] + e_{\rm int}$: the only term with odd factors is $M_{\rm eff}s_o$, and it becomes $(-M_{\rm eff})(-s_o) = M_{\rm eff}s_o$, a product of two odd factors; $p_8(y)$ is unchanged.
+- $p_0 = \sum wgf[(\varepsilon - v_v)n_o - M_{\rm eff}s_o - \kappa|k|t_o] + e_{\rm int}$: the only term with odd factors is $M_{\rm eff}s_o$, and it becomes $(-M_{\rm eff})(-s_o) = M_{\rm eff}s_o$, a product of two odd factors; $p_0(y)$ is unchanged.
 
 So the four profiles are equal at every point $y$, while $S(y)$, $Q(y)$ and $M_{\rm eff}(y)$ change sign and $n(y)$, $t(y)$, $v_v(y)$, $e_{\rm int}(y)$ do not. The Kohn-Sham gap (the lowest empty level minus the highest occupied level) is a difference of two levels and is the same as well. Status: PROVED; checks `T3_energies_and_emt_profiles_equal` of `wolfram-t3.json` and `T3.energies_and_emt_profiles_equal` of `python-t3.json`; the sympy check takes three general occupied orbitals of both block types with arbitrary complex $\chi$, levels, occupations, degeneracies and momenta, and also verifies the control: with $(-m, -\lambda)$ the energy density differs. These are the four diagonal components of the energy-momentum tensor of the $2 \times 2$ reduction; that every other component and the current are equal too is statement S6 of the completion (Section 19.10; the third gap of the adversarial verification).
 
@@ -499,7 +499,7 @@ So the four profiles are equal at every point $y$, while $S(y)$, $Q(y)$ and $M_{
 - S1: the same levels, orbital by orbital: the orbital of the type $j$ and the parity $p$ goes to the type $-j$ and the other parity, at the same momentum and the same level;
 - S2: with the untransformed tip the spectra differ (Section 19.12);
 - S3: the densities transform as $n \to n$, $t \to t$, $S \to -S$, $Q \to -Q$, so $M_{\rm eff} \to -M_{\rm eff}$ and $v_v \to v_v$; with $(-m, -\lambda)$ instead of $(-m, +\lambda)$ the map fails;
-- S4: equal levels with their degeneracies, occupations, chemical potential, particle number, entropy, Kohn-Sham energy $E_{KS}$, grand potential $\Omega$ and free energy $F$, and equal profiles $\rho(y)$, $p_3(y)$, $p_t(y)$, $p_8(y)$; $S(y)$ and $Q(y)$ change sign;
+- S4: equal levels with their degeneracies, occupations, chemical potential, particle number, entropy, Kohn-Sham energy $E_{KS}$, grand potential $\Omega$ and free energy $F$, and equal profiles $\rho(y)$, $p_3(y)$, $p_t(y)$, $p_0(y)$; $S(y)$ and $Q(y)$ change sign;
 - S5: inside the ASSUMED Z2 orbifold the mirror copy of a self-consistent state carries $(-m, +\lambda)$ (Section 19.11).
 
 **The records.** Each step of the proof is a named check of two independent verifiers that share no code (with one exception at the time of the adversarial verification, the $v_v$ clause of Step 3, Section 19.8, closed by the completion below). Every check below has the verdict PASS.
@@ -529,7 +529,7 @@ So `wolfram-t3.json` has 10 checks and `python-t3.json` 13 (the ten counterparts
 | 5 | `t3-theory.json` does not name the history of the numerical states a PRESCRIBED BACKGROUND; the completion record does | none | none |
 | all | the T3 reports pass; the sympy side confirms the completion record | none | `T3C.t3_reports_pass`, `compare.t3_completion` |
 
-**Statement S6: the 16-component expectation rule.** Steps 3 and 4 work with the $2 \times 2$ blocks and the four diagonal components $\rho$, $p_3$, $p_t$, $p_8$. S6 says: with the expectation rule $\rho = \sum f\,uu^\dagger B$ of Section 19.4 (here $\rho$ is the $16 \times 16$ matrix of the rule, not the energy density), the image state, whose orbitals are $u' = \Gamma u$, has $\rho' = -\Gamma\rho\Gamma$, so $n$ is unchanged, $S$ and $Q$ change sign, and every component of the energy-momentum tensor and of the current $J^a = \langle\bar\Psi\gamma^{(x_a)}\Psi\rangle$ is unchanged. The derivation, line by line. First, because $B^2 = 1$, multiplying $\rho = \sum f\,uu^\dagger B$ from the right by $B$ gives
+**Statement S6: the 16-component expectation rule.** Steps 3 and 4 work with the $2 \times 2$ blocks and the four diagonal components $\rho$, $p_3$, $p_t$, $p_0$. S6 says: with the expectation rule $\rho = \sum f\,uu^\dagger B$ of Section 19.4 (here $\rho$ is the $16 \times 16$ matrix of the rule, not the energy density), the image state, whose orbitals are $u' = \Gamma u$, has $\rho' = -\Gamma\rho\Gamma$, so $n$ is unchanged, $S$ and $Q$ change sign, and every component of the energy-momentum tensor and of the current $J^a = \langle\bar\Psi\gamma^{(x_a)}\Psi\rangle$ is unchanged. The derivation, line by line. First, because $B^2 = 1$, multiplying $\rho = \sum f\,uu^\dagger B$ from the right by $B$ gives
 
 $$
 \sum f\,uu^\dagger = \rho B .
@@ -559,12 +559,12 @@ Rule: the trace does not change when the factors are moved around in a circle; h
 | --- | --- | --- | --- |
 | charge density $n$ | $B = -iC\gamma^{(x_4)}$ | 5, odd | unchanged |
 | scalar density $S$ | $C$ | 4, even | sign reversed |
-| density $Q$ | $B\gamma^{(x_8)}$ | 6, even | sign reversed |
+| density $Q$ | $B\gamma^{(x_0)}$ | 6, even | sign reversed |
 | current $J^a$ | $C\gamma^{(x_a)}$ | 5, odd | unchanged |
 | kinetic bilinears $\bar\Psi\gamma^{(x_a)}\partial\Psi$ | $C\gamma^{(x_a)}$ | 5, odd | unchanged |
 | spin-connection bilinears $\bar\Psi\gamma^{(x_a)}S^{bc}\Psi$ | $C\gamma^{(x_a)}S^{bc}$ | 7, odd | unchanged |
 
-Rule for the table: $C$ has four gammas, so $B = -iC\gamma^{(x_4)}$ has five, $B\gamma^{(x_8)}$ six and $C\gamma^{(x_a)}$ five, and $S^{bc} = \frac14(\gamma^{(x_b)}\gamma^{(x_c)} - \gamma^{(x_c)}\gamma^{(x_b)})$ adds two; a constant factor such as $-i$ or $\frac14$ does not matter, and $\Gamma$ is constant, so it passes through the derivative $\partial$. The energy-momentum tensor is built from the kinetic and spin-connection bilinears (unchanged), from the mass term $mS$ and from $U = \frac{\lambda}{2}S^2$: with $m \to -m$ and $S \to -S$ the product $mS$ is unchanged, and with the same $\lambda$ so is $U$. So every component of the 16-component energy-momentum tensor and every component of the current are the same in the two members, while $S$ and $Q$ change sign. The record verifies each ingredient with the author's matrices of `Revision/algebra/gammas.json`: $\Gamma^2 = 1$, $\Gamma B\Gamma = -B$, $\Gamma C\Gamma = C$, $\Gamma\gamma^{(x_a)}\Gamma = -\gamma^{(x_a)}$ for all eight $a$, $\Gamma S^{ab}\Gamma = S^{ab}$ for all 64 pairs, $(\Gamma u)(\Gamma u)^\dagger B = -\Gamma(uu^\dagger B)\Gamma$ for a general 16-component $u$, and the 8 + 512 kinetic bilinears. Status: PROVED; checks T3C_krein_rule_16_component and T3C.krein_rule_16_component. S6 is an equality of expectation values in Kohn-Sham (quasi-free) states with the fixed Krein matrix $B$, not a statement about two independently quantised universes.
+Rule for the table: $C$ has four gammas, so $B = -iC\gamma^{(x_4)}$ has five, $B\gamma^{(x_0)}$ six and $C\gamma^{(x_a)}$ five, and $S^{bc} = \frac14(\gamma^{(x_b)}\gamma^{(x_c)} - \gamma^{(x_c)}\gamma^{(x_b)})$ adds two; a constant factor such as $-i$ or $\frac14$ does not matter, and $\Gamma$ is constant, so it passes through the derivative $\partial$. The energy-momentum tensor is built from the kinetic and spin-connection bilinears (unchanged), from the mass term $mS$ and from $U = \frac{\lambda}{2}S^2$: with $m \to -m$ and $S \to -S$ the product $mS$ is unchanged, and with the same $\lambda$ so is $U$. So every component of the 16-component energy-momentum tensor and every component of the current are the same in the two members, while $S$ and $Q$ change sign. The record verifies each ingredient with the author's matrices of `Revision/algebra/gammas.json`: $\Gamma^2 = 1$, $\Gamma B\Gamma = -B$, $\Gamma C\Gamma = C$, $\Gamma\gamma^{(x_a)}\Gamma = -\gamma^{(x_a)}$ for all eight $a$, $\Gamma S^{ab}\Gamma = S^{ab}$ for all 64 pairs, $(\Gamma u)(\Gamma u)^\dagger B = -\Gamma(uu^\dagger B)\Gamma$ for a general 16-component $u$, and the 8 + 512 kinetic bilinears. Status: PROVED; checks T3C_krein_rule_16_component and T3C.krein_rule_16_component. S6 is an equality of expectation values in Kohn-Sham (quasi-free) states with the fixed Krein matrix $B$, not a statement about two independently quantised universes.
 
 **The two numerical demonstrations** (status COMPUTED; demonstrations, not part of the proof). Each solves, at the slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$ of the PRESCRIBED BACKGROUND history, three members of every state: **plus**, the universe $(m, \lambda)$ with the tip angle $0$ (the A of Section 19.17); **image**, the universe $(-m, +\lambda)$ with the tip angle $\pi$ (B); and **control**, $(-m, +\lambda)$ with the untransformed tip angle $0$ (C).
 
@@ -857,13 +857,13 @@ GAMMAS = "Revision/algebra/gammas.json"  # the record of the gamma matrices
 ALGEBRA = "Revision/algebra/reports/wolfram-algebra.json"  # its check report
 fixture = json.loads(repository_file(GAMMAS).read_text(encoding="utf-8"))
 stored_real = all(isinstance(g, list) for g in fixture["gamma"])  # no complex part
-gamma = [np.array(g, dtype=int) for g in fixture["gamma"]]  # gamma[0] is x1
-eta = [int(e) for e in fixture["eta"]]  # +1 +1 +1 -1 -1 -1 -1 +1
-names = fixture["coordinates"]  # "x1", ..., "x8"
+gamma = [np.array(g, dtype=int) for g in fixture["gamma"]]  # gamma[k] is xk
+eta = [int(e) for e in fixture["eta"]]  # +1 +1 +1 +1 -1 -1 -1 -1 (x0, ..., x7)
+names = fixture["coordinates"]  # "x0", ..., "x7"
 values = sorted({int(x) for g in gamma for x in g.flat})  # the values that occur
 ```
 
-`GAMMAS` and `ALGEBRA` are the repository paths of the gamma record and of its Wolfram check report. `read_text` reads the record as text and `json.loads` turns it into Python objects: `fixture` is a dictionary whose keys are the names stored in the record. The record stores a real matrix as a plain list of rows and a complex one as a pair of real and imaginary parts (a dictionary), so `stored_real` is true when all eight entries of `fixture["gamma"]` are plain lists (`isinstance(g, list)` asks whether `g` is a list; `all` is true when every one is). `gamma` is the list of the eight matrices as numpy arrays of whole numbers (`dtype=int`), so that every product below is exact; Python counts list positions from 0, so `gamma[0]` is $\gamma^{(x_1)}$ and `gamma[7]` is $\gamma^{(x_8)}$. `eta` holds the eight signs of the frame metric, `names` the coordinate names. The **set comprehension** `{int(x) for g in gamma for x in g.flat}` collects every value that occurs in any matrix (`g.flat` runs through all 256 entries; a set keeps each value once), and `sorted` puts them in order.
+`GAMMAS` and `ALGEBRA` are the repository paths of the gamma record and of its Wolfram check report. `read_text` reads the record as text and `json.loads` turns it into Python objects: `fixture` is a dictionary whose keys are the names stored in the record. The record stores a real matrix as a plain list of rows and a complex one as a pair of real and imaginary parts (a dictionary), so `stored_real` is true when all eight entries of `fixture["gamma"]` are plain lists (`isinstance(g, list)` asks whether `g` is a list; `all` is true when every one is). `gamma` is the list of the eight matrices as numpy arrays of whole numbers (`dtype=int`), so that every product below is exact; the record lists the matrices in the order $x_0, \dots, x_7$ and Python counts list positions from 0, so `gamma[k]` is $\gamma^{(x_k)}$: `gamma[0]` is $\gamma^{(x_0)}$ of the hidden direction and `gamma[7]` is $\gamma^{(x_7)}$. `eta` holds the eight signs of the frame metric, `names` the coordinate names. The **set comprehension** `{int(x) for g in gamma for x in g.flat}` collects every value that occurs in any matrix (`g.flat` runs through all 256 entries; a set keeps each value once), and `sorted` puts them in order.
 
 ```python
 one_per_line = all(
@@ -900,7 +900,7 @@ A colour is written `"#rrggbb"`, three two-digit numbers in base 16 for its red,
 ```python
 save_figure(fig, "eight_gammas",
             "The author's eight real $16 \\times 16$ gamma matrices "
-            "$\\gamma^{(x_1)}, \\dots, \\gamma^{(x_8)}$ as heat maps (row index "
+            "$\\gamma^{(x_0)}, \\dots, \\gamma^{(x_7)}$ as heat maps (row index "
             "down, column index across, both from 0 to 15): blue is $-1$, white "
             "$0$, orange $+1$. Each matrix has exactly one nonzero entry in every "
             "row and every column. The four with $\\eta = +1$ (3-space and the "
@@ -909,7 +909,7 @@ save_figure(fig, "eight_gammas",
             "antisymmetric.")
 ```
 
-`save_figure` saves Figure 19b.1 with its caption (Python joins strings written next to each other into one; a doubled backslash writes one backslash). What the student should see: eight square pictures of $16 \times 16$ coloured squares; in each row and each column exactly one square is coloured, the rest white; the four pictures of $x_1, x_2, x_3$ and $x_8$ are mirror-symmetric about the diagonal from top left to bottom right, and the four of $x_4, \dots, x_7$ are antisymmetric (a blue square on one side of the diagonal faces an orange one on the other). In [4] explains why.
+`save_figure` saves Figure 19b.1 with its caption (Python joins strings written next to each other into one; a doubled backslash writes one backslash). What the student should see: eight square pictures of $16 \times 16$ coloured squares; in each row and each column exactly one square is coloured, the rest white; the four pictures of $x_0, x_1, x_2$ and $x_3$ are mirror-symmetric about the diagonal from top left to bottom right, and the four of $x_4, \dots, x_7$ are antisymmetric (a blue square on one side of the diagonal faces an orange one on the other). In [4] explains why.
 
 **In [4], the anticommutation rule, exactly.**
 
@@ -933,8 +933,8 @@ check(worst == 0 and pattern,
 **In [5], the chirality and the block map (Section 19.5).**
 
 ```python
-Gamma = gamma[7]  # gamma^(x8) first ...
-for a in range(7):
+Gamma = gamma[0]  # gamma^(x0) first ...
+for a in range(1, 8):
     Gamma = Gamma @ gamma[a]  # ... times gamma^(x1), ..., gamma^(x7)
 diagonal = np.diag([-1] * 8 + [1] * 8)
 anticommutes = all(np.array_equal(Gamma @ g, -(g @ Gamma)) for g in gamma)
@@ -944,7 +944,7 @@ check(np.array_equal(Gamma, diagonal) and np.array_equal(Gamma @ Gamma, unit)
       record=f"{ALGEBRA}, checks Gamma_diag and Gamma_anticommutes_with_gammas")
 ```
 
-`Gamma` starts as $\gamma^{(x_8)}$ and is multiplied from the right by $\gamma^{(x_1)}, \dots, \gamma^{(x_7)}$ in turn: the author's order of Section 19.5. `[-1] * 8 + [1] * 8` is the list of eight $-1$ followed by eight $+1$, and `np.diag` makes the diagonal matrix with these entries. `anticommutes` tests $\Gamma\gamma^a = -\gamma^a\Gamma$ for all eight. The check requires all four facts: $\Gamma$ is this diagonal matrix, $\Gamma^2 = \mathbf 1$, it equals the matrix stored in the record under the key `Gamma`, and it anticommutes with every gamma; it reproduces the checks Gamma_diag and Gamma_anticommutes_with_gammas of `wolfram-algebra.json`.
+`Gamma` starts as $\gamma^{(x_0)}$ and is multiplied from the right by $\gamma^{(x_1)}, \dots, \gamma^{(x_7)}$ in turn: the author's order of Section 19.5. `[-1] * 8 + [1] * 8` is the list of eight $-1$ followed by eight $+1$, and `np.diag` makes the diagonal matrix with these entries. `anticommutes` tests $\Gamma\gamma^a = -\gamma^a\Gamma$ for all eight. The check requires all four facts: $\Gamma$ is this diagonal matrix, $\Gamma^2 = \mathbf 1$, it equals the matrix stored in the record under the key `Gamma`, and it anticommutes with every gamma; it reproduces the checks Gamma_diag and Gamma_anticommutes_with_gammas of `wolfram-algebra.json`.
 
 ```python
 KS_THEORY = "Revision/kohn_sham/ks-theory.json"
@@ -969,17 +969,17 @@ for b, (j, s2, s3) in enumerate(labels):
     Vb, Vp = V[:, 2 * b:2 * b + 2], V[:, 2 * p:2 * p + 2]
     worst_map = max(worst_map, float(np.max(np.abs(Gamma @ Vb
                                                     - Vp @ (s2 * pauli2)))))
-    g8 = Vb.conj().T @ gamma[7] @ Vb  # gamma^(x8) inside block b
-    g84 = Vb.conj().T @ gamma[7] @ gamma[3] @ Vb  # gamma^(x8) gamma^(x4) there
-    worst_form = max(worst_form, float(np.max(np.abs(g8 - pauli3))),
-                     float(np.max(np.abs(g84 - j * pauli1))))
+    g0 = Vb.conj().T @ gamma[0] @ Vb  # gamma^(x0) inside block b
+    g04 = Vb.conj().T @ gamma[0] @ gamma[4] @ Vb  # gamma^(x0) gamma^(x4) there
+    worst_form = max(worst_form, float(np.max(np.abs(g0 - pauli3))),
+                     float(np.max(np.abs(g04 - j * pauli1))))
 ```
 
-The loop runs over the eight blocks: `b` is the number of the block and `(j, s2, s3)` its label. `labels.index((-j, s2, s3))` finds the number `p` of the partner block. `V[:, 2 * b:2 * b + 2]` takes all rows and the two columns $2b$ and $2b + 1$ (a **slice** `start:stop` runs up to, but not including, `stop`): the basis $V_b$ of the block, and $V_p$ likewise. `worst_map` keeps the largest entry of $|\Gamma V_b - V_p(s_2\sigma_2)|$: the statement $\Gamma V_b = V_p\,s_2\sigma_2$ of Section 19.5. `g8` is $V_b^\dagger\gamma^{(x_8)}V_b$, the block form of $\gamma^{(x_8)}$, and `g84` the block form of $\gamma^{(x_8)}\gamma^{(x_4)}$ (`gamma[3]` is $\gamma^{(x_4)}$); `worst_form` keeps their largest deviations from $\sigma_3$ and $j\sigma_1$, the two block forms that the proof of Section 19.5 uses.
+The loop runs over the eight blocks: `b` is the number of the block and `(j, s2, s3)` its label. `labels.index((-j, s2, s3))` finds the number `p` of the partner block. `V[:, 2 * b:2 * b + 2]` takes all rows and the two columns $2b$ and $2b + 1$ (a **slice** `start:stop` runs up to, but not including, `stop`): the basis $V_b$ of the block, and $V_p$ likewise. `worst_map` keeps the largest entry of $|\Gamma V_b - V_p(s_2\sigma_2)|$: the statement $\Gamma V_b = V_p\,s_2\sigma_2$ of Section 19.5. `g0` is $V_b^\dagger\gamma^{(x_0)}V_b$, the block form of $\gamma^{(x_0)}$, and `g04` the block form of $\gamma^{(x_0)}\gamma^{(x_4)}$ (`gamma[4]` is $\gamma^{(x_4)}$); `worst_form` keeps their largest deviations from $\sigma_3$ and $j\sigma_1$, the two block forms that the proof of Section 19.5 uses.
 
 ```python
 say(f"largest deviations: unitarity {unitary:.1e}, block map {worst_map:.1e}, "
-    f"forms gamma^(x8) = sigma3 and gamma^(x8) gamma^(x4) = j sigma1 "
+    f"forms gamma^(x0) = sigma3 and gamma^(x0) gamma^(x4) = j sigma1 "
     f"{worst_form:.1e}")
 check(unitary < 1e-12 and worst_map < 1e-12 and worst_form < 1e-12,
       "Gamma maps block (j, s2, s3) onto block (-j, s2, s3) as s2 sigma2",
@@ -996,7 +996,7 @@ in_blocks = V.conj().T @ Gamma @ V  # Gamma in the block basis
 real_part = float(np.max(np.abs(in_blocks.real)))
 fig, (left, right) = plt.subplots(1, 2, figsize=(9.0, 4.4))
 left.imshow(Gamma, cmap=THREE, vmin=-1, vmax=1, interpolation="nearest")
-left.set_title("$\\Gamma = \\gamma^{(x_8)}\\gamma^{(x_1)}\\cdots\\gamma^{(x_7)}$",
+left.set_title("$\\Gamma = \\gamma^{(x_0)}\\gamma^{(x_1)}\\cdots\\gamma^{(x_7)}$",
                fontsize=10)
 right.imshow(in_blocks.imag, cmap=THREE, vmin=-1, vmax=1, interpolation="nearest")
 right.set_title("imaginary part of $V^\\dagger\\Gamma V$ (block basis)", fontsize=10)
@@ -1751,7 +1751,7 @@ Rule: $\cos(\pi - x) = -\cos x$ and $\sin(\pi - x) = \sin x$. The two right side
 
 By T3, B must agree with A in every level, occupation, energy and energy-momentum profile, with the opposite $S$, $Q$ and $M_{\rm eff}$; C must differ (Section 19.12); and D, which is the T3 partner of the state of A with the coupling $-\lambda$, must agree with A at $-\lambda$, not at $\lambda$.
 
-**What is compared, and the tolerance.** The solver writes for every state a record with the list of levels (each with its momentum shell $n_2$, block type $j$, brane parity, label, level $\varepsilon$, degeneracy $g$ and occupation $f$), the energy $E_{KS}$, the chemical potential or Fermi level, the entropy, the four integrals $2\,\mathrm{Vol}_7\int e^{6Hy}X\,dy$ of $X = \rho, p_3, p_t, p_8$ and of $n$, the measured residuals of the conservation law along $y$, and a table of the profiles $n, S, Q, M_{\rm eff}, v_v, e_{\rm int}, \rho, p_3, p_t, p_8$ at the 151 points $y = -3, -2.98, \dots, 0$. The notebook compares A and B in exactly the way the solver's self-test of the record does: the sorted lists of $(\varepsilon, g, f)$, the energies, the integrals and the scalar densities, with the tolerance $10^{-9}$ that the record fixed before its comparison. It adds the orbital-by-orbital pairing of statement S1 and a point-by-point comparison of every profile column. The differences between A and B that the notebook measures are $6.88\times10^{-14}$ ($N = 8$) and $9.86\times10^{-14}$ ($N = 136$) for the levels at the slice $a_{4,0} = 1$ (Notebook 19a, Out [7]) and, over all the 19 pairs it shares with the record, at most $9.9\times10^{-14}$ for the ground states, $1.0\times10^{-13}$ along the history and $8.1\times10^{-13}$ for the thermal states (Notebook 19a, Out [27]). The largest is the entropy of the thermal state at $T = 0.01$, a number near $42$ that the solver adds up level by level from the occupations. The record's own demonstration finds at most $2.179\times10^{-13}$ (ground states) and $3.877\times10^{-12}$ (thermal states) in its 210 states (`Revision/pairing/kohn_sham/reports/t3-rust-demo.json`, printed again in Out [27]). All of these are rounding errors: a computer carries about sixteen significant digits, and the tiny rounding errors of the many arithmetic steps of the shooting and of the self-consistency loop add up. They lie far below the tolerance $10^{-9}$, and the paragraph "What the agreement of two universes tests" above explains why the agreement stays at the rounding level by construction.
+**What is compared, and the tolerance.** The solver writes for every state a record with the list of levels (each with its momentum shell $n_2$, block type $j$, brane parity, label, level $\varepsilon$, degeneracy $g$ and occupation $f$), the energy $E_{KS}$, the chemical potential or Fermi level, the entropy, the four integrals $2\,\mathrm{Vol}_7\int e^{6Hy}X\,dy$ of $X = \rho, p_3, p_t, p_0$ and of $n$, the measured residuals of the conservation law along $y$, and a table of the profiles $n, S, Q, M_{\rm eff}, v_v, e_{\rm int}, \rho, p_3, p_t, p_0$ at the 151 points $y = -3, -2.98, \dots, 0$. The notebook compares A and B in exactly the way the solver's self-test of the record does: the sorted lists of $(\varepsilon, g, f)$, the energies, the integrals and the scalar densities, with the tolerance $10^{-9}$ that the record fixed before its comparison. It adds the orbital-by-orbital pairing of statement S1 and a point-by-point comparison of every profile column. The differences between A and B that the notebook measures are $6.88\times10^{-14}$ ($N = 8$) and $9.86\times10^{-14}$ ($N = 136$) for the levels at the slice $a_{4,0} = 1$ (Notebook 19a, Out [7]) and, over all the 19 pairs it shares with the record, at most $9.9\times10^{-14}$ for the ground states, $1.0\times10^{-13}$ along the history and $8.1\times10^{-13}$ for the thermal states (Notebook 19a, Out [27]). The largest is the entropy of the thermal state at $T = 0.01$, a number near $42$ that the solver adds up level by level from the occupations. The record's own demonstration finds at most $2.179\times10^{-13}$ (ground states) and $3.877\times10^{-12}$ (thermal states) in its 210 states (`Revision/pairing/kohn_sham/reports/t3-rust-demo.json`, printed again in Out [27]). All of these are rounding errors: a computer carries about sixteen significant digits, and the tiny rounding errors of the many arithmetic steps of the shooting and of the self-consistency loop add up. They lie far below the tolerance $10^{-9}$, and the paragraph "What the agreement of two universes tests" above explains why the agreement stays at the rounding level by construction.
 
 **The margin.** The solver keeps, above the highest occupied level, empty levels up to a **margin**; the record uses $0.25 + 2\sigma$ with $\sigma = 0$, $0.1$ and $0.3$ for $\lambda = 0$, $\pm\lambda_1$, $\pm\lambda_2$, that is the margins $0.25$, $0.45$, $0.85$, for its ground states, and $0.2 + 2\sigma$ for its thermal states, that is $0.4$ for the coupling $\lambda_1$ used here (`Revision/kohn_sham/solver/src/runs.rs`, functions margin_for and the thermal run). The notebook uses the same margins, so that its runs are the record's runs.
 
@@ -1820,8 +1820,8 @@ GAMMAS = "Revision/algebra/gammas.json"  # the record of the gamma matrices
 ALGEBRA = "Revision/algebra/reports/wolfram-algebra.json"  # its check report
 fixture = json.loads(repository_file(GAMMAS).read_text(encoding="utf-8"))
 stored_real = all(isinstance(g, list) for g in fixture["gamma"])  # no complex part
-gamma = [np.array(g, dtype=float) for g in fixture["gamma"]]  # gamma[0] is x1
-eta = np.array(fixture["eta"], dtype=float)  # +1 +1 +1 -1 -1 -1 -1 +1
+gamma = [np.array(g, dtype=float) for g in fixture["gamma"]]  # gamma[k] is xk
+eta = np.array(fixture["eta"], dtype=float)  # +1 +1 +1 +1 -1 -1 -1 -1 (x0, ..., x7)
 entries = sorted({float(x) for g in gamma for x in g.flat})  # all values used
 say(f"{len(gamma)} matrices of size {gamma[0].shape}; their entries: {entries}")
 ```
@@ -1835,8 +1835,8 @@ for a in range(8):
         anti = gamma[a] @ gamma[b] + gamma[b] @ gamma[a]
         rule = 2.0 * eta[a] * (a == b) * np.eye(16)  # 2 eta^ab times the unit
         worst = max(worst, float(np.max(np.abs(anti - rule))))
-Gamma = gamma[7]  # gamma^(x8) first ...
-for a in range(7):
+Gamma = gamma[0]  # gamma^(x0) first ...
+for a in range(1, 8):
     Gamma = Gamma @ gamma[a]  # ... times gamma^(x1), gamma^(x2), ..., gamma^(x7)
 diagonal = np.diag([-1.0] * 8 + [1.0] * 8)
 anticommutes = all(np.array_equal(Gamma @ g, -(g @ Gamma)) for g in gamma)
@@ -1850,7 +1850,7 @@ check(stored_real and entries == [-1.0, 0.0, 1.0] and worst == 0.0,
       record=f"{ALGEBRA}, checks reality and Clifford_relation")
 check(np.array_equal(Gamma, diagonal) and anticommutes
       and np.array_equal(Gamma, np.array(fixture["Gamma"], dtype=float)),
-      "Gamma = g^(x8) g^(x1) ... g^(x7) = diag(-1 (8 times), +1 (8 times))",
+      "Gamma = g^(x0) g^(x1) ... g^(x7) = diag(-1 (8 times), +1 (8 times))",
       record=f"{ALGEBRA}, check Gamma_diag")
 ```
 
@@ -1875,13 +1875,13 @@ for b, (j, s2, s3) in enumerate(labels):
     p = labels.index((-j, s2, s3))  # the partner block
     Vb, Vp = V[:, 2 * b:2 * b + 2], V[:, 2 * p:2 * p + 2]  # their two columns
     worst_map = max(worst_map, float(np.max(np.abs(Gamma @ Vb - Vp @ (s2 * sig2)))))
-    g8 = Vb.conj().T @ gamma[7] @ Vb  # gamma^(x8) inside block b
-    g84 = Vb.conj().T @ gamma[7] @ gamma[3] @ Vb  # gamma^(x8) gamma^(x4) there
-    worst_form = max(worst_form, float(np.max(np.abs(g8 - sig3))),
-                     float(np.max(np.abs(g84 - j * sig1))))
+    g0 = Vb.conj().T @ gamma[0] @ Vb  # gamma^(x0) inside block b
+    g04 = Vb.conj().T @ gamma[0] @ gamma[4] @ Vb  # gamma^(x0) gamma^(x4) there
+    worst_form = max(worst_form, float(np.max(np.abs(g0 - sig3))),
+                     float(np.max(np.abs(g04 - j * sig1))))
 ```
 
-These lines are In [5] of Notebook 19b (the second half), with the Pauli matrices called `sig1`, `sig2`, `sig3`: the block basis $V$ read from the record, its unitarity, and for every block the deviation of $\Gamma V_b$ from $V_p\,s_2\sigma_2$ and of the block forms of $\gamma^{(x_8)}$ and $\gamma^{(x_8)}\gamma^{(x_4)}$ from $\sigma_3$ and $j\sigma_1$.
+These lines are In [5] of Notebook 19b (the second half), with the Pauli matrices called `sig1`, `sig2`, `sig3`: the block basis $V$ read from the record, its unitarity, and for every block the deviation of $\Gamma V_b$ from $V_p\,s_2\sigma_2$ and of the block forms of $\gamma^{(x_0)}$ and $\gamma^{(x_0)}\gamma^{(x_4)}$ from $\sigma_3$ and $j\sigma_1$.
 
 ```python
     if b < 4:
@@ -2070,7 +2070,7 @@ def integral_difference(first, second):
     """Largest relative difference of the four integrated EMT components."""
     a, b = first["emtIntegrals_2Vol7_int_e6Hy"], second["emtIntegrals_2Vol7_int_e6Hy"]
     return max(abs(a[c] - b[c]) / max(abs(a[c]), 1.0) for c in ("rho", "p3", "p_t",
-                                                                "p8"))
+                                                                "p0"))
 
 
 def scalar_sum(first, second):
@@ -2079,7 +2079,7 @@ def scalar_sum(first, second):
     return float(np.max(np.abs(sa + sb)) / max(np.max(np.abs(sa)), 1e-300))
 ```
 
-`integral_difference` compares the four integrals $2\,\mathrm{Vol}_7\int e^{6Hy}X\,dy$ of $X = \rho, p_3, p_t, p_8$, each relative to $\max(|a|, 1)$. `scalar_sum` measures how well $S_B = -S_A$ holds: the largest $|S_A + S_B|$ over the 151 points, divided by the largest $|S_A|$ (the `1e-300` avoids a division by zero).
+`integral_difference` compares the four integrals $2\,\mathrm{Vol}_7\int e^{6Hy}X\,dy$ of $X = \rho, p_3, p_t, p_0$, each relative to $\max(|a|, 1)$. `scalar_sum` measures how well $S_B = -S_A$ holds: the largest $|S_A + S_B|$ over the 151 points, divided by the largest $|S_A|$ (the `1e-300` avoids a division by zero).
 
 ```python
 for N in (8, 136):
@@ -2159,10 +2159,10 @@ emt_row = integrals["N136_lamp1_a10"]
 new_int = A["emtIntegrals_2Vol7_int_e6Hy"]  # the new integrals
 worst_integral = max(abs(new_int[c] - float(emt_row[f"int_{c}"]))
                      / max(abs(float(emt_row[f"int_{c}"])), 1.0)
-                     for c in ("rho", "p3", "p_t", "p8", "n"))
+                     for c in ("rho", "p3", "p_t", "p0", "n"))
 ```
 
-The record's summary table and integral table are read. For the run A at $N = 136$, $\lambda_1$, $a_{4,0} = 1$, the four numbers energy, HOMO, LUMO and the Kohn-Sham gap (LUMO minus HOMO) are compared with the row N136_lamp1_a10 of the summary, and the five integrals ($\rho$, $p_3$, $p_t$, $p_8$ and $n$) with the same row of the integral table (columns `int_rho` and so on).
+The record's summary table and integral table are read. For the run A at $N = 136$, $\lambda_1$, $a_{4,0} = 1$, the four numbers energy, HOMO, LUMO and the Kohn-Sham gap (LUMO minus HOMO) are compared with the row N136_lamp1_a10 of the summary, and the five integrals ($\rho$, $p_3$, $p_t$, $p_0$ and $n$) with the same row of the integral table (columns `int_rho` and so on).
 
 ```python
 committed = read_profile(repository_file(f"{GROUND}/profiles/N136_lamp1_a10.csv"))
@@ -2327,7 +2327,7 @@ The numbers behind the picture (Out [12]): A and B differ by at most $9.86\times
 **In [13], the densities point by point (statements S3 and S4).**
 
 ```python
-EVEN = ("n", "v_v", "e_int", "rho", "p3", "p_t", "p8")  # unchanged by the map
+EVEN = ("n", "v_v", "e_int", "rho", "p3", "p_t", "p0")  # unchanged by the map
 ODD = ("S", "Q", "M_eff")  # change sign under the map
 
 
@@ -2350,7 +2350,7 @@ for N in (8, 136):
     control = profile_mismatch(SELF[(N, "A")], SELF[(N, "C")])
     say(f"N = {N}: T3 rule for B: {mismatch:.2e}; the same rule for C: {control:.3g}")
     check(mismatch < TOL and control > 0.1,
-          f"N = {N}: n, v_v, e_int, rho, p3, p_t, p8 equal; S, Q, M_eff opposite",
+          f"N = {N}: n, v_v, e_int, rho, p3, p_t, p0 equal; S, Q, M_eff opposite",
           record="Revision/pairing/kohn_sham/t3-theory.json, statements S3 and S4")
 ```
 
@@ -2443,10 +2443,10 @@ save_figure(fig, "mass_and_potential",
 ```python
 weight = np.exp(6.0 * y)  # the proper-volume factor e^{6 H y}, H = 1
 fig, axes = plt.subplots(2, 2, figsize=(9.0, 6.0), sharex=True)
-for ax, column, title in zip(axes.flat, ("rho", "p3", "p_t", "p8"),
+for ax, column, title in zip(axes.flat, ("rho", "p3", "p_t", "p0"),
                              ("energy density $\\rho$", "pressure $p_3$ (3-space)",
                               "pressure $p_t$ (extra times)",
-                              "pressure $p_8$ (hidden direction)")):
+                              "pressure $p_0$ (hidden direction)")):
     for kind in "ABC":
         prof = SELF[(136, kind)]["profile"]
         ax.plot(y, weight * prof[column], color=COLOUR[kind], label=NAME[kind],
@@ -2459,14 +2459,14 @@ axes[0, 0].legend(fontsize=7, loc="upper left")
 fig.tight_layout()
 ```
 
-`weight` is the volume factor $e^{6Hy}$ at the 151 points; multiplying a proper density by it gives a density per unit of $y$, so the area under each curve is proportional to the integral over the hidden direction. A grid of $2 \times 2$ axes with a common horizontal axis (`sharex=True`) shows $\rho$, $p_3$, $p_t$, $p_8$ times the weight, one per axes, for the three universes; `zip` runs through the axes, the column names and the titles together. Only the lower row gets the horizontal label (`axes[1]` is the second row), and only the first axes the legend.
+`weight` is the volume factor $e^{6Hy}$ at the 151 points; multiplying a proper density by it gives a density per unit of $y$, so the area under each curve is proportional to the integral over the hidden direction. A grid of $2 \times 2$ axes with a common horizontal axis (`sharex=True`) shows $\rho$, $p_3$, $p_t$, $p_0$ times the weight, one per axes, for the three universes; `zip` runs through the axes, the column names and the titles together. Only the lower row gets the horizontal label (`axes[1]` is the second row), and only the first axes the legend.
 
 ```python
 save_figure(fig, "emt_profiles",
             "The energy-momentum profiles of A (blue), B (orange, dashed) and C "
             "(aqua, dotted) for $N = 136$, $\\lambda = \\lambda_1$, $a_{4,0} = 1$: "
             "energy density $\\rho$, pressures $p_3$ (3-space), $p_t$ (the "
-            "deflating extra times) and $p_8$ (hidden direction), each times the "
+            "deflating extra times) and $p_0$ (hidden direction), each times the "
             "volume factor $e^{6Hy}$, against the hidden coordinate $y$ (units "
             "$|m|^8$ with $H = 1$). The four profiles of the partner B coincide "
             "with those of A at every point (T3, statement S4); the control C "
@@ -2483,11 +2483,11 @@ for N in (8, 136):
     say(f"N = {N}, B: y-conservation, integrated {integrated:.1e}, pointwise "
         f"{pointwise:.1e} (relative)")
     check(integrated < 1e-8 and pointwise < 1e-6,
-          f"N = {N}: the partner B obeys p8' + 6H p8 = 3H (p3 + p_t)",
+          f"N = {N}: the partner B obeys p0' + 6H p0 = 3H (p3 + p_t)",
           record=f"{SOLVER_REPORT}, checks emt_y_conservation_integrated, pointwise")
 ```
 
-The solver measures for every state how well the conservation law $p_8' + 6Hp_8 = 3H(p_3 + p_t)$ of Section 19.4 holds, after integration over $y$ and point by point. For the partner B the residuals are $3.9\times10^{-13}$ and $2.2\times10^{-9}$ ($N = 8$) and $1.7\times10^{-12}$ and $8.4\times10^{-11}$ ($N = 136$) (Out [16]), below the tolerances $10^{-8}$ and $10^{-6}$ used here; B is a genuine self-consistent state of its own problem.
+The solver measures for every state how well the conservation law $p_0' + 6Hp_0 = 3H(p_3 + p_t)$ of Section 19.4 holds, after integration over $y$ and point by point. For the partner B the residuals are $3.9\times10^{-13}$ and $2.2\times10^{-9}$ ($N = 8$) and $1.7\times10^{-12}$ and $8.4\times10^{-11}$ ($N = 136$) (Out [16]), below the tolerances $10^{-8}$ and $10^{-6}$ used here; B is a genuine self-consistent state of its own problem.
 
 **In [17], where the zero modes live: three free runs.**
 
@@ -2992,7 +2992,7 @@ for state_id, (A, B, C) in PAIRS.items():
     image = [(B["E_KS"], row["E_KS_image"]), (B["mu_or_fermi_level"],
              row["mu_image"]), (B["entropy"], row["entropy_image"])]
     image += [(B["emtIntegrals_2Vol7_int_e6Hy"][c], row[f"int_{c}_image"])
-              for c in ("rho", "p3", "p_t", "p8")]
+              for c in ("rho", "p3", "p_t", "p0")]
     worst_B = max([worst_B] + [relative(x, float(r)) for x, r in image])
     control = float(row["E_KS_control_untransformed_tip"])
     worst_C = max(worst_C, relative(C["E_KS"], control))
@@ -3082,7 +3082,7 @@ all_checks_passed()
 - **An assumed brane and a chosen tip.** The Z2 mirror at the brane is ASSUMED; the tip condition is a choice of the model, and T3 needs its transformed form $\pi - \theta$ (Section 19.12 shows what fails without it).
 - **Mean field only.** Hartree plus the exchange of the uniform gas, no correlation, quasi-free states, and the filling convention whose justification is OPEN.
 - **Not two independently quantised universes.** The pairing is between two Kohn-Sham problems, $(m, \lambda)$ and $(-m, +\lambda)$; it is not the T1 pairing $(m, \lambda) \to (-m, -\lambda)$, and it says nothing about two separately quantised universes (that question is the quantum reading Q of Chapter 18).
-- **No back-reaction.** The Kohn-Sham energy-momentum tensor is not an admissible source of the $a_4$ field equations: it depends on $x_8$, and $p_3 + p_t \ne 2p_8$ (`Revision/field_equations_a4/reports/ks-source-conditions.json`, checks ks_profiles_depend_on_x8 and ks_profiles_violate_algebraic_condition). So T3 says nothing about how the geometry of either universe would respond.
+- **No back-reaction.** The Kohn-Sham energy-momentum tensor is not an admissible source of the $a_4$ field equations: it depends on $x_0$, and $p_3 + p_t \ne 2p_0$ (`Revision/field_equations_a4/reports/ks-source-conditions.json`, checks ks_profiles_depend_on_x0 and ks_profiles_violate_algebraic_condition). So T3 says nothing about how the geometry of either universe would respond.
 - **Numbers only where they were computed.** The numerical demonstrations show the equalities only on the states they solved, to their stated tolerances. Control states for which a solver found no self-consistent solution (14 states in the Rust demonstration, 3 in the reference demonstration, all with $\lambda < 0$) are reported as such, not as a proof that no such state exists (the completion record `t3-completion.json`, entry not_established).
 
 **Matter and antimatter.** T3 does not touch the matter-antimatter question. The partner has the same charge density $n(y)$ and the same particle number $N$, not the opposite ones, and by S6 every component of its current $J^a$ is the same, not the opposite; it also has the same, not the opposite, energy: a T3 pair has twice the charge and twice the energy of one member; nothing cancels. (The pair-level statement with zero total charge belongs to T1 and the classical bilinears, Chapter 18.) Nothing in the Kohn-Sham model contains baryons, a violation of baryon number, a violation of CP, or a departure from equilibrium, the ingredients that an explanation of the observed excess of matter over antimatter would need. Chapter 21 teaches the observations and these conditions from zero and states what the theory of this book does and does not say about them; Chapter 20 collects what the pairing theorems T1, T2, Q and T3 together prove about pairs of universes and what they do not.
@@ -3092,7 +3092,7 @@ all_checks_passed()
 - PROVED, line by line in this chapter and in the records `Revision/pairing/kohn_sham/reports/wolfram-t3.json` (10 of 10 checks) and `Revision/pairing/kohn_sham/reports/python-t3.json` (13 of 13), theorem record `Revision/pairing/kohn_sham/t3-theory.json`: the chirality $\Gamma$ maps every block $(j, s_2, s_3)$ onto $(-j, s_2, s_3)$ and acts there as $s_2\sigma_2$ (Section 19.5; also blocks_relation_to_Gamma of `ks-theory-python.json`); $\sigma_2h_j(M, v)\sigma_2 = h_{-j}(-M, v)$ and $\sigma_2N_j(M)\sigma_2 = N_{-j}(-M)$ (Section 19.6); the tip angle goes to $\pi - \theta$, the brane parities are exchanged, norm and current are kept (Section 19.7); $n$, $t$ are even and $S$, $Q$ odd, and the mean field closes exactly for $(-m, +\lambda)$, not for $(-m, -\lambda)$ (Section 19.8); every self-consistent state has its partner with equal levels, occupations, energies and energy-momentum profiles (Section 19.9): theorem T3 (Section 19.10). Also PROVED, by the completion `Revision/pairing/kohn_sham/t3-completion.json` (`reports/wolfram-t3-completion.json` 3 of 3, `reports/python-t3-completion.json` 7 of 7): the mean-field coefficients read from `ks-theory.json` in both engines, with $M_{\rm eff} - m = \partial e_{\rm int}/\partial S$ and $v_v = \partial e_{\rm int}/\partial n$ (Section 19.8); the filling convention carried onto the partner (Section 19.9); statement S6, $\rho' = -\Gamma\rho\Gamma$, so that every component of the energy-momentum tensor and of the current is unchanged and $S$, $Q$ change sign (Section 19.10). Also PROVED: $\Gamma B\Gamma = -B$, the reason why T3 differs from T1 (Sections 19.5 and 19.11; check Q.image_krein_metric of `Revision/pairing/reports/python-pairing.json`); the mirror copy inside the assumed orbifold carries $(-m, +\lambda)$ (Section 19.11); the exact zero-momentum spectra, the zero modes, the control's level in the gap $\varepsilon_b = M/\cosh(qL)$ with $\tanh(qL) = q/M$, and the slopes $c$ and $c_{\rm ctrl}$ (Section 19.12; checks T3_exact_k0_spectra, bc_exact_k0_spectra, brane_band_slope).
 - COMPUTED: Notebook 19b (19 checks) reproduces the proof checks with sympy, the analytic levels of `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv` to $8.9\times10^{-16}$, the same levels by shooting to $5.9\times10^{-12}$, and the slope $c = 1.9051482536$ of the record; $c_{\rm ctrl} = 13.4219751976$. The record's demonstrations (Section 19.10): Rust, `Revision/pairing/kohn_sham/reports/t3-rust-demo.json` (210 states, 7 of 7), image equal to plus to $2.179\times10^{-13}$ (ground) and $3.877\times10^{-12}$ (thermal), at the rounding level by construction (the covariance of the shooting, Section 19.17); reference, `Revision/pairing/kohn_sham/reports/t3-reference-demo.json` (18 states, 7 of 7), equal to $2.043\times10^{-14}$ and $3.038\times10^{-14}$ after Richardson extrapolation against $2.23\times10^{-4}$ on a single grid, the discretisation-independent test; controls off by at least $4.750$ (untransformed tip) and $1.21\times10^{-2}$ (T1 parameters). Notebook 19a (37 checks, 62 runs of the Rust solver, 19 states with A and B) reproduces the solver's T3 self-test of `Revision/kohn_sham/reports/ks-rust-solver.json` (check t3_block_map_solver_selftest), the committed canonical states and, in its 19 states, the record's demonstration `t3-rust-demo.json`; it finds the partner B equal to A to $9.9\times10^{-14}$ (ground states), $1.0\times10^{-13}$ (history) and $8.1\times10^{-13}$ (thermal states) and $4.0\times10^{-14}$ relative in the energy along the whole history; the control C off by $0.8$ to $9.6$ percent along the history and by $1.15$ to $3.43$ across the couplings; the wrong partner D equal to A at the opposite coupling; the control's Kohn-Sham gap equal to $\varepsilon_b = 0.100851121375$ to twelve digits.
 - ASSUMED: the good sector; the Z2 mirror at the brane; the cut at $L = 3$ with a chosen tip condition (T3 needs the transformed one); the mean field of Hartree plus uniform-gas exchange without correlation. CONVENTION: the filling of the particle levels.
-- PRESCRIBED BACKGROUND: the history $a_4 = AHx_4$, $A = 1$; the Kohn-Sham states are not an admissible source of the $a_4$ equations.
+- PRESCRIBED BACKGROUND: the history $a_4 = AHx_4$, $A = 1$, on the background $b_4 = 1$ of the author's metric of 2026-10-14; the Kohn-Sham states are not an admissible source of the $a_4$ equations.
 - OPEN: the time-dependent Kohn-Sham problem; the justification of the filling convention.
 - HYPOTHESIS: that universes are created in pairs. Not proved here, and not provable from these equations, which contain no creation process.
 
