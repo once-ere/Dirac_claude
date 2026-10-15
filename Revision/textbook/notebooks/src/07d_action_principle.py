@@ -1033,13 +1033,13 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    G = [sp.Matrix(g) for g in fixture["gamma"]]  # gamma^(x1) .. gamma^(x8)
-    signs = [1, 1, 1, -1, -1, -1, -1, 1]  # eta in the order x1 .. x8
-    ks = sp.symbols("k1:9", real=True)  # a frame momentum with 8 components
+    G = [sp.Matrix(g) for g in fixture["gamma"]]  # gamma^(x0) .. gamma^(x7)
+    signs = [1, 1, 1, 1, -1, -1, -1, -1]  # eta in the order x0 .. x7
+    ks = sp.symbols("k0:8", real=True)  # a frame momentum with 8 components, k0 .. k7
     slash = sum((ks[a] * G[a] for a in range(8)), sp.zeros(16, 16))  # gamma^(a) k_a
     norm = sum(signs[a] * ks[a] ** 2 for a in range(8))  # eta^ab k_a k_b
     check((slash * slash - norm * sp.eye(16)).applyfunc(sp.expand) == sp.zeros(16, 16),
-          "(gamma^a k_a)^2 = (k1^2 + k2^2 + k3^2 - k4^2 - k5^2 - k6^2 - k7^2 + k8^2) I16",
+          "(gamma^a k_a)^2 = (k0^2 + k1^2 + k2^2 + k3^2 - k4^2 - k5^2 - k6^2 - k7^2) I16",
           record=reproduces("Revision/theory/reports/python-field-theory.json",
                             "clifford_relations"))
 
@@ -1049,8 +1049,8 @@ CELLS = [
     say(f"growth rate in the record: {formula}")
     K = sp.Symbol("K", positive=True)
     rate = sp.sympify(formula, locals={"K": K, "m": m,
-                                       **{f"k{i}": sp.Symbol(f"k{i}") for i in range(9)}})
-    along_x5 = rate.subs({sp.Symbol(f"k{i}"): 0 for i in (1, 2, 3, 8)}).subs(K, k)
+                                       **{f"k{i}": sp.Symbol(f"k{i}") for i in range(8)}})
+    along_x5 = rate.subs({sp.Symbol(f"k{i}"): 0 for i in (0, 1, 2, 3)}).subs(K, k)
     check(sp.simplify(along_x5 - sp.sqrt(k**2 - m**2)) == 0,
           "the record's rate for a momentum along x5 only is sqrt(k^2 - m^2) = kappa",
           record=reproduces(SCOPE, "extra_time_growth_rates_unbounded"))

@@ -27,6 +27,9 @@ None of them takes more than a few seconds.
 | `scan_old.py` | Counts the old labels left in textbook files; `--lines` lists them. False positives: `M8`/`w8` (an 8x8 matrix, an 8-vector) in 01e, and `axvspan`/`axhspan` in 05f. | `scan_old.py FILE... [--lines]` |
 | `risk_scan.py` | Flags lines that may still use the old numbering 1..8 or the old order. Read each flagged line; most are correct (e.g. `eta = diag(+1,+1,+1,+1,-1,-1,-1,-1)` IS the x0..x7 order). | `risk_scan.py FILE...` |
 | `wt_remap.py` | After a notebook is rebuilt, re-maps the quoted ```python blocks of a chapter's walk-through to the new cells, using the HEAD notebook as the old reference. Run it BEFORE committing the rebuilt notebook. | `wt_remap.py CHAPTER NB_ID [--dry]` |
+| `wt_contiguous.py` | Reports the walk-through blocks whose lines are not one contiguous run of their notebook cell (a fuzzy re-mapping can misplace a line). Run it after `wt_remap.py`; it must report 0. | `wt_contiguous.py CHAPTER NB_ID` |
+| `wt_fill.py` | Lists, or appends, the cell lines that follow a block directly and that no block quotes. Use `--dry` and apply only genuine gaps: the walk-throughs leave plotting code out ON PURPOSE. | `wt_fill.py CHAPTER NB_ID [--dry]` |
+| `wrap_long.py` | Wraps the builder source lines longer than 93 characters (cell lines may have at most 89 after the 4-space dedent); a string literal is split into two. | `wrap_long.py BUILDER.py` |
 | `nb_outputs.py` | Prints every code cell's text output of a notebook (for RESULT lines and counts). | `nb_outputs.py NB.ipynb` |
 | `nb_out_diff.py` | Shows the output lines of rebuilt notebooks that changed against HEAD. | `nb_out_diff.py 06a 06b` |
 | `prov_hashes.py` | Checks the sha256 and size of every file in the "writes" tables of the notebook PROVENANCE files. | `prov_hashes.py 05 06` |

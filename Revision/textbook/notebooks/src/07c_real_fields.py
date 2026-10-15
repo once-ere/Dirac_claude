@@ -122,7 +122,7 @@ CELLS = [
       \bar\Psi^T$ with a fixed $16\times16$ matrix $\mathcal{C}$, the
       **charge-conjugation matrix**; since $\bar\Psi^T = (\Psi^\dagger C)^T =
       C\Psi^*$, it is $\Psi^c = \mathcal{C}C\,\Psi^*$.
-    - **Chirality matrix** $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$:
+    - **Chirality matrix** $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$:
       the product of all eight gammas; it anticommutes with every $\gamma^{(a)}$ and
       $\Gamma^2 = 1$.
     - **Majorana (reality) condition**: a condition $\Psi = M\Psi^*$ that makes a
@@ -191,7 +191,7 @@ CELLS = [
     together), defines the helper `reproduces` (it makes sure that a Revision report
     contains a check with the verdict PASS before a PASS line names it), and reads the
     gammas, $C$ and $\Gamma$ from Revision/algebra/gammas.json. It checks that all of
-    them are real, that $C$ is symmetric with $C^2 = 1$, that $\Gamma = \gamma^{(x_8)}
+    them are real, that $C$ is symmetric with $C^2 = 1$, that $\Gamma = \gamma^{(x_0)}
     \gamma^{(x_1)}\cdots\gamma^{(x_7)}$ anticommutes with every gamma and $\Gamma^2 =
     1$, and that the charge matrix $B = -iC\gamma^{(x_4)}$ is purely imaginary and
     Hermitian with $B^2 = 1$. Finally it takes a column of 16 real symbols and checks
@@ -221,6 +221,7 @@ CELLS = [
     PYREP = "Revision/theory/reports/python-field-theory.json"
     WLREP = "Revision/theory/reports/wolfram-field-theory.json"
     LEAD = "Revision/lead_checks/reports/charge-conjugation-and-u1.json"
+    PYREP_B4 = "Revision/theory/reports/python-field-theory-b4.json"  # the metric with b4
 
 
     def revision_check(report, name):
@@ -241,11 +242,11 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    G = [sp.Matrix(g) for g in fixture["gamma"]]  # gamma^(x1) .. gamma^(x8)
+    G = [sp.Matrix(g) for g in fixture["gamma"]]  # gamma^(x0) .. gamma^(x7)
     C = sp.Matrix(fixture["C"])
-    GAMMA = G[7] * G[0] * G[1] * G[2] * G[3] * G[4] * G[5] * G[6]  # chirality
+    GAMMA = G[0] * G[1] * G[2] * G[3] * G[4] * G[5] * G[6] * G[7]  # chirality
     I16, Z16 = sp.eye(16), sp.zeros(16, 16)
-    X4, X8 = 3, 7  # list positions of x4 and x8
+    X0, X4 = 0, 4  # list positions of x0 and x4
     B = -sp.I * C * G[X4]
     real = all(v.is_real for M in G + [C, GAMMA] for v in M)
     check(real and C.T == C and C * C == I16 and GAMMA == sp.Matrix(fixture["Gamma"])
@@ -263,23 +264,30 @@ CELLS = [
     ## 6. The author's metric and its spin connection, in brief
 
     The next cell rebuilds, exactly as Notebook 07b does step by step, the coefficient
-    ring, the diagonal frame $f = (Es, Es, Es, 1, s/E, s/E, s/E, c/s^6)$, the
-    Christoffel symbols of the diagonal metric, the canonical spin connection
-    $\omega_{\mu ab}$, the spinor connection $\Omega_\mu = \sum_{a<b}\omega_{\mu ab}
-    S^{ab}$ and the coordinate gammas $\gamma^\mu = \gamma^{(\mu)}/f_\mu$. It then
-    checks two things. First, every entry of every $\Omega_\mu$ and $\gamma^\mu$ is real
-    (real gammas times the real functions $e^{\pm a_4}$, $\sin^{1/6}z$, $\cot z$, $a_4'$
-    and $H$; no imaginary unit $i$ anywhere): the operator $\gamma^\mu D_\mu$ is REAL,
-    so the complex conjugate of a solution is again a solution, and real fields are a
-    consistent restriction. Second, as a consistency check, $\gamma^\mu\Omega_\mu =
-    3H\gamma^{(x_8)}$, the value of the Revision record.
+    ring, the diagonal frame $f = (c/s^6, Es, Es, Es, 1, s\sqrt{b_4}/E, s\sqrt{b_4}/E,
+    s\sqrt{b_4}/E)$ of the metric with $b_4$ (in the order $x_0, \dots, x_7$; the
+    symbol `b4` stands for $b_4(x_4)$ and `b4p`, `b4pp`, `b4ppp` for its first three
+    derivatives), the Christoffel symbols of
+    the diagonal metric, the canonical spin connection $\omega_{\mu ab}$, the spinor
+    connection $\Omega_\mu = \sum_{a<b}\omega_{\mu ab}S^{ab}$ and the coordinate gammas
+    $\gamma^\mu = \gamma^{(\mu)}/f_\mu$. It then checks two things, for arbitrary
+    functions $a_4$ and $b_4 > 0$. First, every entry of every $\Omega_\mu$ and
+    $\gamma^\mu$ is real (real gammas times the real functions $e^{\pm a_4}$,
+    $\sin^{1/6}z$, $\cot z$, $b_4^{1/2}$, $a_4'$, $b_4'$ and $H$; no imaginary unit $i$
+    anywhere): the operator $\gamma^\mu D_\mu$ is REAL, so the complex conjugate of a
+    solution is again a solution, and real fields are a consistent restriction. Second,
+    as a consistency check, $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} +
+    \frac34(b_4'/b_4)\gamma^{(x_4)}$, the value of the Revision record with $b_4$, which
+    is $3H\gamma^{(x_0)}$ at $b_4 = 1$.
     """),
     code(r'''
     E, s, c = sp.symbols("E s c", positive=True)  # e^a4, sin(z)^(1/6), cos z
     A1, A2, A3 = sp.symbols("A1 A2 A3", real=True)  # derivatives of a4 (1st to 3rd)
+    b4 = sp.Symbol("b4", positive=True)  # b4(x4) > 0
+    b4p, b4pp, b4ppp = sp.symbols("b4p b4pp b4ppp", real=True)  # its 1st to 3rd derivative
     H = sp.Symbol("H", positive=True)
     m, lam = sp.symbols("m lambda", real=True)
-    ETA = [1, 1, 1, -1, -1, -1, -1, 1]
+    ETA = [1, 1, 1, 1, -1, -1, -1, -1]
 
 
     def cd(expression, mu):
@@ -287,8 +295,9 @@ CELLS = [
         expression = sp.sympify(expression)
         if mu == X4:
             return (sp.diff(expression, E) * E * A1 + sp.diff(expression, A1) * A2
-                    + sp.diff(expression, A2) * A3)
-        if mu == X8:
+                    + sp.diff(expression, A2) * A3 + sp.diff(expression, b4) * b4p
+                    + sp.diff(expression, b4p) * b4pp + sp.diff(expression, b4pp) * b4ppp)
+        if mu == X0:
             return (sp.diff(expression, s) * H * c / s**5
                     + sp.diff(expression, c) * (-6 * H * s**6))
         return sp.Integer(0)
@@ -304,9 +313,9 @@ CELLS = [
         return sp.expand(remainder.as_expr()) == 0
 
 
-    f = [E * s] * 3 + [sp.Integer(1)] + [s / E] * 3 + [c / s**6]  # the frame
+    f = [c / s**6] + [E * s] * 3 + [sp.Integer(1)] + [s * sp.sqrt(b4) / E] * 3  # frame
     g = [ETA[a] * f[a] ** 2 for a in range(8)]  # the diagonal metric
-    sqrt_g = sp.prod(f)  # = c = cos z
+    sqrt_g = sp.prod(f)  # = b4^(3/2) c = b4^(3/2) cos z
     Gam = [[[sp.Integer(0)] * 8 for _ in range(8)] for _ in range(8)]
     for l in range(8):
         for mu in range(8):
@@ -329,12 +338,18 @@ CELLS = [
     # real: no imaginary unit, and sympy does not find the entry non-real
     real_entries = all(not v.has(sp.I) and v.is_real is not False
                        for M in Om + gam for v in M)
-    check(real_entries, "every entry of every Omega_mu and gamma^mu is real: gamma^mu "
-          "D_mu is a real operator", record=reproduces(LEAD, "spinor_connection_real"))
+    check(real_entries, "every entry of every Omega_mu and gamma^mu is real, for every "
+          "b4: gamma^mu D_mu is a real operator",
+          record=reproduces(PYREP_B4, "spinor_connection_real_b4") + "; at b4 = 1 "
+          + reproduces(LEAD, "spinor_connection_real"))
     total = sum((gam[mu] * Om[mu] for mu in range(8)), Z16)
-    check(all(is_zero(v) for v in (total - 3 * H * G[X8])),
-          "gamma^mu Omega_mu = 3 H gamma^(x8), the value of the Revision record",
-          record=reproduces(PYREP, "gamma_mu_Omega_mu_equals_3H_gamma_x8"))
+    at_b4_1 = {b4: 1, b4p: 0, b4pp: 0, b4ppp: 0}  # the background b4 = 1
+    check(all(is_zero(v) for v in (total - 3 * H * G[X0] - 3 * b4p / (4 * b4) * G[X4]))
+          and all(is_zero(v) for v in (total.subs(at_b4_1) - 3 * H * G[X0])),
+          "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4), and "
+          "3 H gamma^(x0) at b4 = 1: the values of the Revision records",
+          record=reproduces(PYREP_B4, "gammaOmega_total") + "; at b4 = 1 "
+          + reproduces(PYREP, "gamma_mu_Omega_mu_equals_3H_gamma_x0"))
     '''),
     md(r"""
     In the cell above only the off-diagonal entries $a \ne b$ of the spin connection
@@ -644,8 +659,8 @@ CELLS = [
           record=reproduces(LEAD, "intertwiners_reversed_mass"))
     '''),
     md(r"""
-    The product of all eight gammas in the order $x_1, \dots, x_8$ is $\pm\Gamma$ (the
-    sign depends only on the order of the factors), so the second space is spanned by
+    The product of all eight gammas in the order $x_0, \dots, x_7$ is $\Gamma$ (in
+    another order of the factors it may be $-\Gamma$), so the second space is spanned by
     $\Gamma$. Figure 2 shows the whole pattern: for a product of $k$ gammas, the number
     of gammas it commutes with is $k$ when $k$ is odd and $8 - k$ when $k$ is even. Only
     the empty product ($k = 0$) commutes with all eight, and only the full product ($k
@@ -839,14 +854,16 @@ CELLS = [
     md(r"""
     **A real solution and its image.** Notebook 07b verified the exact family $\Psi =
     \sin^\alpha z\,(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ with $M = -m\gamma^{(x_4)} +
-    3H(2\alpha + 1)\gamma^{(x_4)}\gamma^{(x_8)}$. For a real $\chi_0$ and real $k$ it is
+    3H(2\alpha + 1)\gamma^{(x_4)}\gamma^{(x_0)}$ on the background $b_4 = 1$ (for a
+    changing $b_4$ the extra term $\frac34(b_4'/b_4)\gamma^{(x_4)}$ of the field equation
+    changes the family; this cell stays at $b_4 = 1$). For a real $\chi_0$ and real $k$ it is
     a real solution. Because $\Gamma$ anticommutes with $\gamma^{(x_4)}$ and commutes
-    with $\gamma^{(x_4)}\gamma^{(x_8)}$, $\Gamma M_m\Gamma = M_{-m}$: the image $\Gamma
+    with $\gamma^{(x_4)}\gamma^{(x_0)}$, $\Gamma M_m\Gamma = M_{-m}$: the image $\Gamma
     \Psi$ is the member of the family with mass $-m$ and the column $\Gamma\chi_0$. The
     next cell checks $\Gamma M_m\Gamma = M_{-m}$ exactly, then evaluates, for the
     illustration values $H = 1$, $m = 2$, $\alpha = 0$ ($k = \sqrt5$), $\chi_0 = e_1 +
     2e_{13}$, $z = \pi/4$ and $x_4$ from 0 to 2, the residuals
-    $\gamma^{(x_4)}\partial_4\Psi + 3H\gamma^{(x_8)}\Psi - \mu\Psi$ of $\Phi$ and of
+    $\gamma^{(x_4)}\partial_4\Psi + 3H\gamma^{(x_0)}\Psi - \mu\Psi$ of $\Phi$ and of
     $\Gamma\Phi$ in the equations with $\mu = +m$ and $\mu = -m$ (Figure 4).
     """),
     code(r'''
@@ -854,7 +871,7 @@ CELLS = [
 
 
     def M_of(mass):
-        return -mass * G[X4] + 3 * H * G[X4] * G[X8]  # alpha = 0
+        return -mass * G[X4] + 3 * H * G[X4] * G[X0]  # alpha = 0, b4 = 1
 
 
     check((GAMMA * M_of(mass_symbol) * GAMMA - M_of(-mass_symbol)).applyfunc(sp.expand)
@@ -865,7 +882,7 @@ CELLS = [
     chi0 = np.zeros(16)
     chi0[0], chi0[12] = 1.0, 2.0  # e_1 + 2 e_13: one component in each chiral half
     times = np.linspace(0.0, 2.0, 201)
-    Mf = -2.0 * Gf[X4] + 3.0 * Gf[X4] @ Gf[X8]  # m = 2, H = 1
+    Mf = -2.0 * Gf[X4] + 3.0 * Gf[X4] @ Gf[X0]  # m = 2, H = 1, b4 = 1
     kk = np.sqrt(5.0)
     Phi = np.array([(np.cosh(kk * t) * np.eye(16) + np.sinh(kk * t) / kk * Mf) @ chi0
                     for t in times])
@@ -874,8 +891,8 @@ CELLS = [
 
 
     def residual_size(values, derivatives, mass):
-        """The largest component of gamma4 d4 Psi + 3 gamma8 Psi - mass Psi."""
-        return np.array([np.abs(Gf[X4] @ d + 3.0 * Gf[X8] @ v - mass * v).max()
+        """The largest component of gamma4 d4 Psi + 3 gamma0 Psi - mass Psi."""
+        return np.array([np.abs(Gf[X4] @ d + 3.0 * Gf[X0] @ v - mass * v).max()
                          for v, d in zip(values, derivatives)])
 
 

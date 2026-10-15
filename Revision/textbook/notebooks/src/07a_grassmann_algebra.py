@@ -147,10 +147,10 @@ CELLS = [
       the transpose with every entry complex-conjugated.
     - **Bilinear form**: an expression $\sum_{A,B} x_A M_{AB} y_B$ that contains one
       factor from the column $x$ and one from the column $y$ in every term.
-    - **The matrix $C$**: the author's $16 \times 16$ matrix $C = \gamma^{(x_8)}
+    - **The matrix $C$**: the author's $16 \times 16$ matrix $C = \gamma^{(x_0)}
       \gamma^{(x_1)} \gamma^{(x_2)} \gamma^{(x_3)}$ (his $\sigma_{16}$), read from the
       Revision file Revision/algebra/gammas.json together with the eight gamma
-      matrices $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$.
+      matrices $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$.
     - **Scalar density** $S = \bar\Psi\Psi = \Psi^\dagger C \Psi$: the bilinear that
       the mass term and the potential of the Lagrangian contain.
     - **Euler-Lagrange equation**: the field equation obtained from a Lagrangian
@@ -758,16 +758,16 @@ CELLS = [
     The author's matrix $C$ is symmetric and each $C\gamma^{(a)}$ is antisymmetric.
     The next cell reads $C$ and the eight gamma matrices from the Revision record
     Revision/algebra/gammas.json, checks these two properties, and computes the nine
-    forms $\Theta^T C \Theta$ and $\Theta^T C \gamma^{(a)} \Theta$ ($a = x_1, \dots,
-    x_8$) both for real Grassmann $\Theta$ (with the program) and for real ordinary
+    forms $\Theta^T C \Theta$ and $\Theta^T C \gamma^{(a)} \Theta$ ($a = x_0, \dots,
+    x_7$) both for real Grassmann $\Theta$ (with the program) and for real ordinary
     numbers $q$ (with sympy), counting the monomials that survive.
     """),
     code(r'''
     gammas_file = "Revision/algebra/gammas.json"
     fixture = json.loads(repository_file(gammas_file).read_text(encoding="utf-8"))
-    G = [np.array(g, dtype=int) for g in fixture["gamma"]]  # gamma^(x1) .. gamma^(x8)
-    C = np.array(fixture["C"], dtype=int)  # C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3)
-    check(np.array_equal(C, G[7] @ G[0] @ G[1] @ G[2]), "C = gamma^(x8) gamma^(x1) "
+    G = [np.array(g, dtype=int) for g in fixture["gamma"]]  # gamma^(x0) .. gamma^(x7)
+    C = np.array(fixture["C"], dtype=int)  # C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)
+    check(np.array_equal(C, G[0] @ G[1] @ G[2] @ G[3]), "C = gamma^(x0) gamma^(x1) "
           "gamma^(x2) gamma^(x3) (read from Revision/algebra/gammas.json)")
     check(np.array_equal(C.T, C) and np.array_equal(C @ C, np.eye(16, dtype=int))
           and all(np.array_equal((C @ g).T, -(C @ g)) for g in G),
@@ -776,7 +776,7 @@ CELLS = [
 
     Theta = [theta(A) for A in range(16)]  # a real Grassmann column
     q = sp.Matrix(sp.symbols("q0:16"))  # a real column of ordinary numbers
-    labels = ["$C$"] + [f"$C\\gamma^{{(x_{a + 1})}}$" for a in range(8)]
+    labels = ["$C$"] + [f"$C\\gamma^{{(x_{a})}}$" for a in range(8)]
     matrices = [sp.Matrix(C)] + [sp.Matrix(C @ g) for g in G]  # exact sympy matrices
     grassmann_counts, commuting_counts = [], []
     for M in matrices:
@@ -819,7 +819,7 @@ CELLS = [
     save_figure(fig, "bilinear_survivors",
                 "The number of monomials that survive in the bilinear form $v^T M v$ "
                 "of a real 16-component column $v$, for the nine matrices $M = C$ "
-                "and $M = C\\gamma^{(a)}$, $a = x_1, \\dots, x_8$ (horizontal axis), "
+                "and $M = C\\gamma^{(a)}$, $a = x_0, \\dots, x_7$ (horizontal axis), "
                 "when $v$ consists of real Grassmann generators (blue) or of real "
                 "ordinary numbers (orange). The symmetric $C$ survives only for "
                 "ordinary numbers, the antisymmetric $C\\gamma^{(a)}$ only for "
@@ -827,7 +827,7 @@ CELLS = [
                 "matrix.")
 
     fig, axes = plt.subplots(1, 2, figsize=(9.0, 4.2))
-    for ax, M, title in zip(axes, [C, C @ G[0]],
+    for ax, M, title in zip(axes, [C, C @ G[1]],
                             ["$C$ (symmetric)", "$C\\gamma^{(x_1)}$ (antisymmetric)"]):
         image = ax.imshow(M, cmap="coolwarm", vmin=-1, vmax=1)
         ax.set_xticks(range(0, 16, 3), [str(k + 1) for k in range(0, 16, 3)])
