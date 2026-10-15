@@ -25,12 +25,16 @@ R1 THE NEW BOOK: `Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.{md,tex,pdf}`, t
    "Universes in Pairs — A Deep-Dive Course on the dirac16complex Fields in the Author's 4+4
    Primordial Universe, with a Complete Jupyter Notebook for Every Example".
 R2 CORRECT PHYSICS = the Revision record.  The author's coordinates and roles (Revision/SPEC.md
-   section 1): x1, x2, x3 = 3-space (inflating, scale factor e^{a4} sin^{1/6} z); x4 = the time;
-   x5, x6, x7 = the three EXTRA TIMES, time-like, which DEFLATE EXPONENTIALLY (scale factor
-   e^{-a4} sin^{1/6} z); x8 = the hidden space direction, z = 6 H x8 in (0, pi/2), g88 = cot^2 z;
-   signature (4,4); eta = diag(+,+,+,-,-,-,-,+) in the order x1..x8.  NEVER the old static /
-   frozen / window models, never the old numbering x0..x7 (the original textbook used it: when
-   you reuse its pedagogy, translate every index).  Every formula and number comes from a
+   section 1; binding by the user's order of 2026-10-14): X = {x0, x1, ..., x7}, with x0 = the
+   hidden space direction listed FIRST, z = 6 H x0 in (0, pi/2), g00 = cot^2 z; x1, x2, x3 =
+   3-space (inflating, scale factor e^{a4} sin^{1/6} z); x4 = the time; x5, x6, x7 = the three
+   EXTRA TIMES, time-like, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} b4^{1/2} sin^{1/6} z);
+   signature (4,4); eta = diag(+,+,+,+,-,-,-,-) in the order x0..x7.  Python index k = xk and
+   gamma^(xk) = T16[k] (T16[8] is Gamma).  Never write x8, x1..x8 or any list with the hidden
+   direction last.  The metric of 2026-10-14 has a second function b4(x4) > 0 in the three
+   extra-time components (b4 = 1 is the earlier metric; Revision/metric_b4): treat the general b4
+   wherever the record has it, and say b4 = 1 wherever a chapter or a notebook works on that
+   background.  NEVER the old static / frozen / window models.  Every formula and number comes from a
    Revision record (Revision/algebra, theory, field_equations_a4, pairing (incl. kohn_sham/),
    gkd_lovelock, kohn_sham, lead_checks, docs) or is computed by the book's own notebooks; old
    stages (artifacts/, provenance/ results, studies/, wolfram/, notebooks/) are never a source of
@@ -69,7 +73,7 @@ R4 PRIVATE inputs (the Gmail PDF, prompt files, dirac-main/, vendor/, Generalize
 R5 CHARGE CONJUGATION IS A MATRIX (the user's error report of 2026-10-02): the author's gammas are REAL, so for a
    REAL field plain complex conjugation is the identity and is NOT charge conjugation.  The book derives, step by
    step and with notebooks, the charge-conjugation MATRICES: every matrix M with M (gamma^a)* = s gamma^a M is a
-   multiple of 1 (s = +1) or of Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) (s = -1); hence the two
+   multiple of 1 (s = +1) or of Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) (s = -1); hence the two
    charge-conjugation matrices calC_+ = C (the author's sigma16; calC_+^-1 gamma^a calC_+ = -(gamma^a)^T; same
    mass; Psi^c = calC_+ Psibar^T = Psi*) and calC_- = Gamma C (calC_-^-1 gamma^a calC_- = +(gamma^a)^T; mass
    reversed; Psi^c = Gamma Psi*); both Majorana (reality) conditions are consistent; for REAL commuting fields
@@ -212,7 +216,7 @@ Part II — Spinors and fields
    properties (spectra, heat maps); NB 05b commutant dimensions (rank plots); NB 05c the
    charge-conjugation matrices.  Sources: Revision/algebra, Revision/lead_checks.
 06 Spinors in curved 4+4 space: vielbein, spin connection, covariant derivative, gamma^mu Omega_mu
-   = 3 H gamma^(x8), the negative control, frame dependence.  NB 06a.  Sources: Revision/theory,
+   = 3 H gamma^(x0) (+ (3/4)(b4'/b4) gamma^(x4) with b4), the negative control, frame dependence.  NB 06a.  Sources: Revision/theory,
    Revision/lead_checks.
 07 The two fields and their Lagrangians: Grassmann numbers from zero; dirac16complex (Grassmann) and
    dirac16complex00 (commuting); reality; Euler-Lagrange equations written out in the author's
@@ -222,8 +226,8 @@ Part II — Spinors and fields
    rescaling that removes it, the extra-time growth rates (Hadamard ill-posedness).  NB 08a (plots
    of growth rates versus extra-time momentum).  Sources: Revision/theory (scope checks), docs.
 09 The energy-momentum tensor: kinetic and potential energy, energy density, the pressures p3, p_t,
-   p8, equations of state, the two conservation identities (x4: energy exchange between 3-space and
-   the extra times; x8).  NB 09a the EMT and the identities; NB 09b condensates (w versus
+   p0, equations of state, the two conservation identities (x4: energy exchange between 3-space and
+   the extra times; x0).  NB 09a the EMT and the identities; NB 09b condensates (w versus
    parameters; energy exchange plots).  Sources: Revision/theory, lead_checks, docs.
 10 Canonical quantisation in 4+4: the Krein space, the indefinite form, the good sector, Krein
    inertia.  NB 10a one-particle spectra and Krein signatures (plots).  Sources: Revision/theory
@@ -234,7 +238,7 @@ Part III — Gravity's field equations
    counts); NB 11b the Lovelock tensors (run lovelock_gkd; plots of components).  Sources:
    Revision/gkd_lovelock (all of it, incl. PROVENANCE_OF_THE_COMPUTATION.md).
 12 The field equations for a4: Einstein and Einstein-Lovelock; constraint, evolution, hidden and
-   off-diagonal components; no vacuum for H > 0; the null energy condition along x8; the linear
+   off-diagonal components; no vacuum for H > 0; the null energy condition along x0; the linear
    member a4 = A H x4 (A -> -A symmetry: deflation is a choice of sign); the source each choice
    requires.  NB 12a the equations (sympy); NB 12b required source versus A, alpha_2, alpha_3
    (plots); NB 12c integrating the a4 evolution equation for given sources (plots of a4(x4) and of
@@ -260,7 +264,7 @@ Part IV — Density functional theory
    cross-check with tolerances fixed in advance.  NB 16a run a reference subset and the checker
    (plots: agreement ratios, convergence).  Sources: Revision/kohn_sham/reference, checker, reports.
 17 The a4 equations with the Kohn-Sham source: why the Kohn-Sham history is a prescribed
-   background (x8 dependence, p3 + p_t != 2 p8).  NB 17a (plots of the violation profiles).
+   background (x0 dependence, p3 + p_t != 2 p0).  NB 17a (plots of the violation profiles).
    Sources: Revision/field_equations_a4/reports/ks-source-conditions.json and its checker.
 Part V — Pairs of universes, matter and antimatter
 18 The pairing theorems T1, T2 and Q with complete proofs.  NB 18a T1 and T2 verified symbolically

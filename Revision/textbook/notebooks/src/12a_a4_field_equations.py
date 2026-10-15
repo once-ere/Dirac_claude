@@ -159,11 +159,14 @@ CELLS = [
 
     The author's metric (the primordial gravitational field) is diagonal:
 
-    $$g = \mathrm{diag}\big(e^{2a_4}s,\ e^{2a_4}s,\ e^{2a_4}s,\ -1,\
-    -e^{-2a_4}s,\ -e^{-2a_4}s,\ -e^{-2a_4}s,\ \cot^2 z\big),\qquad
+    $$g = \mathrm{diag}\big(\cot^2 z,\ e^{2a_4}s,\ e^{2a_4}s,\ e^{2a_4}s,\ -1,\
+    -e^{-2a_4}s,\ -e^{-2a_4}s,\ -e^{-2a_4}s\big),\qquad
     s = \sin^{1/3} z,\quad z = 6 H x_0 \in (0, \pi/2),$$
 
-    with $a_4 = a_4(x_4)$ and a constant $H > 0$. Its signs are
+    in the order $x_0, \dots, x_7$, with $a_4 = a_4(x_4)$ and a constant $H > 0$. This is
+    the metric of 2026-10-14 on its background $b_4 = 1$: the second function
+    $b_4(x_4)$ multiplies the three extra-time components (section 10 says how the
+    notebook reads the Rust record, which keeps $b_4$ general). Its signs are
     $(+,+,+,+,-,-,-,-)$: four space-like directions ($x_0, x_1, x_2, x_3$) and four
     time-like ones ($x_4, \dots, x_7$), the signature (4,4).
 

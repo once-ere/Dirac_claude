@@ -315,7 +315,7 @@ The key numbers are printed as RESULT lines:
 In [6]  RESULT notebooks (without 23a) = 90
 In [6]  RESULT checks in these notebooks = 2244
 In [6]  RESULT figures of these notebooks = 563
-In [6]  RESULT recorded check time, one after the other = 1097.5 s
+In [6]  RESULT recorded check time, one after the other = 1097.9 s
 In [7]  RESULT share of the three slowest notebooks = 22.2 %
 In [9]  RESULT gate steps = 85
 In [9]  RESULT long steps (skipped by --fast) = 4
@@ -355,13 +355,13 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | file | bytes | sha256 |
 | --- | --- | --- |
 | `Revision/textbook/figures/23a.captions.json` | 1598 | `9df544c29df2b8f8416d75a48ec5dc9740800f900d30ff82ccff0407e8bc269c` |
-| `Revision/textbook/figures/23a_1_check_time_per_notebook.png` | 50088 | `52c21935974643ab335af2a901ba0eec7667d5e4a167c3486b404036e050ba74` |
-| `Revision/textbook/figures/23a_2_cumulative_check_time.png` | 31926 | `8c5ec56fa22b5c7057f53d877afa28447af5c0d79b261208644fbe786ce378e7` |
+| `Revision/textbook/figures/23a_1_check_time_per_notebook.png` | 50093 | `c31b8921fb67d3cefc82e362c2d0622d03485a666798f83d0ba12f0b17402781` |
+| `Revision/textbook/figures/23a_2_cumulative_check_time.png` | 31959 | `1f18dfe9498d90c9df0920bf7095a9fa3496a906af403ed9d419dea73a68f075` |
 | `Revision/textbook/figures/23a_3_checks_per_chapter.png` | 23551 | `bf94686a86f41fd8c219adbf7db42116339fb811b252114e5f700b12e346c6c5` |
 | `Revision/textbook/figures/23a_4_figures_per_chapter.png` | 19560 | `2c9f81b4bdd2b8e8ec8ff2cefe0c418e95e199bcb799b5fd67b26caa078c97c6` |
 | `Revision/textbook/figures/23a_5_check_time_per_chapter.png` | 24343 | `17e77715087f55febda6a031819e079db9f007f248e92fd8c3ffd51d6221a167` |
 | `Revision/textbook/figures/23a_6_gate_step_times.png` | 156635 | `81338525086258c00aa016805337fe18ae9e7f30970d0d9df1d7f2f534674141` |
-| `Revision/textbook/data/23a_notebooks.csv` | 14454 | `0eccb50182bf87df6e668fbbfe1294e406ad5efa45a1285cc7dd4ac5ca627f94` |
+| `Revision/textbook/data/23a_notebooks.csv` | 14454 | `fc89470ba28a2659616740889576454033a352de34507b620d82aa657ddcbfcd` |
 | `Revision/textbook/data/23a_check_index.csv` | 121136 | `41412474e87a7d9debacab94c3b7bcc6112ecf186509e680f525e07c16806e27` |
 | `Revision/textbook/data/23a_gate_steps.csv` | 3729 | `c2bc11ae1983822f22bae0033d21be5c7f14d70b92b76f3b2a512e0046826660` |
 
@@ -386,8 +386,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.9 s, peak memory of the kernel process 173 MiB;
-- the check run: 5.7 s, peak memory of the kernel process 173 MiB.
+- the build run: 5.7 s, peak memory of the kernel process 173 MiB;
+- the check run: 5.2 s, peak memory of the kernel process 173 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -399,16 +399,16 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/23a_reproduce_everything.ipynb`: `00d9a8e4105808449eac86fa33b2eabcf80007fc58fbfb1a78df0d80848f902a`
+- `Revision/textbook/notebooks/23a_reproduce_everything.ipynb`: `d208c811b51f191f2a81f1853b0efbf17dd77d85102468abaa8fcb0487a08382`
 - `Revision/textbook/notebooks/src/23a_reproduce_everything.py`: `aecf30b2f2da635b23723c356b8322b39ca2a08d6667dd4ede33fe680a3219d7`
 - `Revision/textbook/figures/23a.captions.json`: `9df544c29df2b8f8416d75a48ec5dc9740800f900d30ff82ccff0407e8bc269c`
-- `Revision/textbook/figures/23a_1_check_time_per_notebook.png`: `52c21935974643ab335af2a901ba0eec7667d5e4a167c3486b404036e050ba74`
-- `Revision/textbook/figures/23a_2_cumulative_check_time.png`: `8c5ec56fa22b5c7057f53d877afa28447af5c0d79b261208644fbe786ce378e7`
+- `Revision/textbook/figures/23a_1_check_time_per_notebook.png`: `c31b8921fb67d3cefc82e362c2d0622d03485a666798f83d0ba12f0b17402781`
+- `Revision/textbook/figures/23a_2_cumulative_check_time.png`: `1f18dfe9498d90c9df0920bf7095a9fa3496a906af403ed9d419dea73a68f075`
 - `Revision/textbook/figures/23a_3_checks_per_chapter.png`: `bf94686a86f41fd8c219adbf7db42116339fb811b252114e5f700b12e346c6c5`
 - `Revision/textbook/figures/23a_4_figures_per_chapter.png`: `2c9f81b4bdd2b8e8ec8ff2cefe0c418e95e199bcb799b5fd67b26caa078c97c6`
 - `Revision/textbook/figures/23a_5_check_time_per_chapter.png`: `17e77715087f55febda6a031819e079db9f007f248e92fd8c3ffd51d6221a167`
 - `Revision/textbook/figures/23a_6_gate_step_times.png`: `81338525086258c00aa016805337fe18ae9e7f30970d0d9df1d7f2f534674141`
-- `Revision/textbook/data/23a_notebooks.csv`: `0eccb50182bf87df6e668fbbfe1294e406ad5efa45a1285cc7dd4ac5ca627f94`
+- `Revision/textbook/data/23a_notebooks.csv`: `fc89470ba28a2659616740889576454033a352de34507b620d82aa657ddcbfcd`
 - `Revision/textbook/data/23a_check_index.csv`: `41412474e87a7d9debacab94c3b7bcc6112ecf186509e680f525e07c16806e27`
 - `Revision/textbook/data/23a_gate_steps.csv`: `c2bc11ae1983822f22bae0033d21be5c7f14d70b92b76f3b2a512e0046826660`
 
@@ -418,4 +418,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-15: a second, independent execution reproduced the notebook and the 10 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":173.0,"seconds":5.9},"check":{"date":"2026-10-15","files":10,"peak_mb":173.0,"result":"passed","seconds":5.7},"date":"2026-10-15","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":173.0,"seconds":5.7},"check":{"date":"2026-10-15","files":10,"peak_mb":173.0,"result":"passed","seconds":5.2},"date":"2026-10-15","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

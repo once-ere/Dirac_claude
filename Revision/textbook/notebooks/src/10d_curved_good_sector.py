@@ -90,12 +90,12 @@ CELLS = [
     - writes the mode operator $h$ of the field equation for waves that depend only on
       $x_4$ and $x_0$: $i\,\partial_4\Psi = h\Psi$;
     - proves exactly (sympy) that $h$ is symmetric for the volume $\cos z\,dx_0$ only up
-      to a boundary term $\partial_0(\sin z\,u^\dagger M_8v)$, and that the Krein form is
+      to a boundary term $\partial_0(\sin z\,u^\dagger M_0v)$, and that the Krein form is
       conserved only up to a similar term; the term vanishes at the tip but NOT at
       $z = \pi/2$;
     - shows that the spin-connection term $3H\gamma^{(x_0)}$ of the field equation is
       exactly what makes the hidden-direction operator symmetric up to that boundary
-      term (without it a remainder $-6H\cos z\,u^\dagger M_8v$ survives);
+      term (without it a remainder $-6H\cos z\,u^\dagger M_0v$ survives);
     - shows that the waves that do not depend on $x_0$ (they have a finite norm) see the
       matrix $A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_0)}$, with $A^2 = (m^2 -
       9H^2)I_{16}$: for $m^2 < 9H^2$ their frequencies are imaginary and they grow;
@@ -174,11 +174,11 @@ CELLS = [
     $$\cos z\,\big[u^\dagger(hv) - (hu)^\dagger v\big] = \partial_0\big(\sin z\;
     u^\dagger M_0 v\big).$$
 
-    Integrated over $0 < z < \pi/2$ this is $[\sin z\,u^\dagger M_8v]$ at $z = \pi/2$
+    Integrated over $0 < z < \pi/2$ this is $[\sin z\,u^\dagger M_0v]$ at $z = \pi/2$
     minus its value at $z = 0$. At the tip $\sin z = 0$; at the patch end $\sin z = 1$,
-    so the flux $u^\dagger M_8v$ there does not vanish in general. The term
+    so the flux $u^\dagger M_0v$ there does not vanish in general. The term
     $3iH\gamma^{(x_4)}\gamma^{(x_0)}$ of $A$ (the spin-connection term $3H\gamma^{(x_0)}$
-    of the field equation) supplies exactly $A - A^\dagger = 6HM_8$, which is needed
+    of the field equation) supplies exactly $A - A^\dagger = 6HM_0$, which is needed
     because $(\sin z)' = 6H\cos z$.
 
     **Waves that do not depend on $x_0$.** For them $\partial_0\Psi = 0$ and $h$ acts as
@@ -203,7 +203,7 @@ CELLS = [
     commutes with $\gamma^{(x_4)}$ and $\gamma^{(x_0)}$. The last fact gives the Krein
     version: $B$ then commutes with $A$, $A^\dagger$, $D$ and $M_0$, so the same steps
     with $u^\dagger B$ in place of $u^\dagger$ give $\cos z\,[u^\dagger B(hv) -
-    (hu)^\dagger Bv] = \partial_0(\sin z\,u^\dagger BM_8v)$.
+    (hu)^\dagger Bv] = \partial_0(\sin z\,u^\dagger BM_0v)$.
     """),
     code(r'''
     import contextlib  # lets a block of code print into a text buffer
@@ -277,11 +277,11 @@ CELLS = [
     fixed seed). It computes, exactly,
 
     - the defect $\cos z\,[u^\dagger(hv) - (hu)^\dagger v] - \partial_0(\sin z\,u^\dagger
-      M_8v)$, which must be 0;
+      M_0v)$, which must be 0;
     - the same with the operator WITHOUT the spin-connection term, which must equal
-      $-6H\cos z\,u^\dagger M_8v$ instead;
+      $-6H\cos z\,u^\dagger M_0v$ instead;
     - the Krein version $\cos z\,[u^\dagger B(hv) - (hu)^\dagger Bv] - \partial_0(\sin z
-      \,u^\dagger BM_8v)$, which must be 0.
+      \,u^\dagger BM_0v)$, which must be 0.
 
     To let sympy recognise the zeros, $x_0$ is replaced by $z/(6H)$ and the
     trigonometric functions are expanded before simplifying.
@@ -336,12 +336,12 @@ CELLS = [
     md(r"""
     ## 7. The flux at the two ends
 
-    The bracket $\sin z\,u^\dagger M_8v$ vanishes at the tip ($\sin 0 = 0$) for wave
+    The bracket $\sin z\,u^\dagger M_0v$ vanishes at the tip ($\sin 0 = 0$) for wave
     functions that stay finite there, but at the patch end $z = \pi/2$ it is
-    $u^\dagger M_8v$. The Revision record gives an example: the matrix
+    $u^\dagger M_0v$. The Revision record gives an example: the matrix
     $\gamma^{(x_4)}\gamma^{(x_0)}$ is real, symmetric and squares to $I$, so it has the
     eigenvalue $+1$; for a column with $\gamma^{(x_4)}\gamma^{(x_0)}u = u$ and
-    $u^\dagger u = 2$ the flux is $u^\dagger M_8u = i\,u^\dagger u = 2i$, not 0. The next
+    $u^\dagger u = 2$ the flux is $u^\dagger M_0u = i\,u^\dagger u = 2i$, not 0. The next
     cell builds such a column ($u = e_A + \gamma^{(x_4)}\gamma^{(x_0)}e_A$ for the first
     unit column $e_A$) and draws the volume factor $\cos z$ and the flux factor
     $\sin z$ along the hidden direction.
@@ -395,7 +395,7 @@ CELLS = [
     The next cell makes the role of the spin-connection term visible for one pair of
     wave functions, here $u = v$ (the test function $u$ of Section 6) at $m = H = 1$:
     it evaluates along $0 < z < \pi/2$ the left-hand side $\cos z\,[u^\dagger(hu) -
-    (hu)^\dagger u]$, the right-hand side $\partial_0(\sin z\,u^\dagger M_8u)$, and the
+    (hu)^\dagger u]$, the right-hand side $\partial_0(\sin z\,u^\dagger M_0u)$, and the
     left-hand side computed WITHOUT the term $3H$. For $u = v$ all three are purely
     imaginary (a number minus its complex conjugate), so their imaginary parts are
     plotted. The exact expressions are turned into fast numerical functions with
@@ -430,12 +430,12 @@ CELLS = [
                 "b\\sin z + c\\cos z$) and $m = H = 1$: the imaginary parts of the "
                 "symmetry defect $\\cos z\\,(u^\\dagger(hu) - (hu)^\\dagger u)$ of the "
                 "curved good-sector mode operator (blue), of the derivative "
-                "$\\partial_0(\\sin z\\,u^\\dagger M_8u)$ (green dashed, on top of the "
+                "$\\partial_0(\\sin z\\,u^\\dagger M_0u)$ (green dashed, on top of the "
                 "blue curve), and of the defect of the operator without the "
                 "spin-connection term $3H$ (orange), against $z$ (horizontal axis). "
                 "With the term the defect is exactly a derivative, whose integral "
                 "is the flux at the ends; without it a remainder $-6H\\cos z\\,"
-                "u^\\dagger M_8u$ survives.")
+                "u^\\dagger M_0u$ survives.")
     '''),
     md(r"""
     ## 8. Waves that do not depend on $x_0$: growth for $m^2 < 9H^2$
@@ -555,7 +555,7 @@ CELLS = [
     $Q(x_4) = \int\cos z\,\Psi^\dagger B\Psi\,dx_0 = \Psi^\dagger B\Psi/(6H)$. By
     Section 6 (with $u = v = \Psi$ and $\partial_0\Psi = 0$) the charge changes at the
     rate of the flux through the patch end:
-    $dQ/dx_4 = -i\,[\sin z\,\Psi^\dagger BM_8\Psi]_{z = \pi/2} =
+    $dQ/dx_4 = -i\,[\sin z\,\Psi^\dagger BM_0\Psi]_{z = \pi/2} =
     \Psi^\dagger B\gamma^{(x_4)}\gamma^{(x_0)}\Psi$. The cell checks that $Q(x_4) - Q(0)$
     equals the flux added up over time (trapezoidal sums on a fine grid).
     """),
@@ -655,13 +655,13 @@ CELLS = [
     - PROVED (exactly): in the author's metric the good-sector mode operator along the
       hidden direction, $h = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_0)} +
       i\tan z\,\gamma^{(x_4)}\gamma^{(x_0)}\partial_0$, satisfies $\cos z\,[u^\dagger(hv)
-      - (hu)^\dagger v] = \partial_0(\sin z\,u^\dagger M_8v)$: it is symmetric for the
+      - (hu)^\dagger v] = \partial_0(\sin z\,u^\dagger M_0v)$: it is symmetric for the
       volume $\cos z\,dx_0$ only up to a boundary term, which vanishes at the tip but
       not at the patch end $z = \pi/2$ (flux $2i$ for the recorded column). The Krein
       form is conserved up to the analogous term.
     - PROVED: the spin-connection term $3H\gamma^{(x_0)}$ is what makes the defect a pure
       boundary term in these variables and this volume; without it the remainder
-      $-6H\cos z\,u^\dagger M_8v$ survives. (In other variables, $\Psi = \sin^{-1/2}z\,
+      $-6H\cos z\,u^\dagger M_0v$ survives. (In other variables, $\Psi = \sin^{-1/2}z\,
       \chi$ with the volume $dy$, no such term is needed: this role of $3H$ depends on
       the variables, as the Revision record states.)
     - PROVED: the good-sector waves that do not depend on $x_0$ have a finite norm and

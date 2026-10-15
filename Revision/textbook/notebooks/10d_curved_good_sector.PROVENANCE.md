@@ -303,7 +303,7 @@ ALL 16 CHECKS PASSED (notebook 10d)
 The notebook shows 5 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
 - `Revision/textbook/figures/10d_1_volume_and_flux.png` (920 x 611 pixels): Along the hidden direction, $z = 6Hx_0$ from the tip $z = 0$ to the patch end $z = \pi/2$ (horizontal axis): the volume factor $\sqrt{|g|} = \cos z$ of the author's metric (blue) and the factor $\sin z$ of the boundary bracket $\sin z\,u^\dagger M_0 v$ (orange); vertical axis: pure numbers. The volume vanishes at the patch end, but the bracket there is $u^\dagger M_0 v$, for example $2i$ for the recorded column: the mode operator is symmetric, and the Krein charge conserved, only if a boundary condition removes this flux at $z = \pi/2$.
-- `Revision/textbook/figures/10d_2_symmetry_defect.png` (932 x 611 pixels): For one concrete wave function $u(x_0)$ (16 entries of the form $a + b\sin z + c\cos z$) and $m = H = 1$: the imaginary parts of the symmetry defect $\cos z\,(u^\dagger(hu) - (hu)^\dagger u)$ of the curved good-sector mode operator (blue), of the derivative $\partial_0(\sin z\,u^\dagger M_8u)$ (green dashed, on top of the blue curve), and of the defect of the operator without the spin-connection term $3H$ (orange), against $z$ (horizontal axis). With the term the defect is exactly a derivative, whose integral is the flux at the ends; without it a remainder $-6H\cos z\,u^\dagger M_8u$ survives.
+- `Revision/textbook/figures/10d_2_symmetry_defect.png` (932 x 611 pixels): For one concrete wave function $u(x_0)$ (16 entries of the form $a + b\sin z + c\cos z$) and $m = H = 1$: the imaginary parts of the symmetry defect $\cos z\,(u^\dagger(hu) - (hu)^\dagger u)$ of the curved good-sector mode operator (blue), of the derivative $\partial_0(\sin z\,u^\dagger M_0u)$ (green dashed, on top of the blue curve), and of the defect of the operator without the spin-connection term $3H$ (orange), against $z$ (horizontal axis). With the term the defect is exactly a derivative, whose integral is the flux at the ends; without it a remainder $-6H\cos z\,u^\dagger M_0u$ survives.
 - `Revision/textbook/figures/10d_3_frequency_paths.png` (1182 x 649 pixels): The 16 eigenvalues of the matrix $A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_0)}$, which governs the good-sector waves that do not depend on $x_0$, in the complex plane (horizontal axis: real part, vertical axis: imaginary part, units of $H$) for $H = 1$ and the mass $m$ from 0 to 5. For $m < 3H$ (orange) they are $\pm i\sqrt{9H^2 - m^2}$ on the imaginary axis: these finite-norm waves grow. For $m > 3H$ (blue) they are real. Green circles: the recorded values $\pm 2\sqrt{2}\,i$ at $m = H = 1$.
 - `Revision/textbook/figures/10d_4_growth_rate.png` (920 x 611 pixels): The growth rate $\kappa = \sqrt{9H^2 - m^2}$ (vertical axis, units of $H$) of the good-sector waves that do not depend on $x_0$ in the author's metric, against the mass $m$ (horizontal axis, units of $H$). It is positive for $m < 3H$ (left of the dotted line) and zero for $m \geq 3H$; the green dot is the recorded value $2\sqrt{2}$ at $m = H = 1$. These waves have a finite norm, so without a boundary condition at $z = \pi/2$ the curved good sector contains growing waves.
 - `Revision/textbook/figures/10d_5_krein_leak.png` (1369 x 611 pixels): The exact good-sector solution $\Psi(x_4) = (\cosh kx_4 + \sinh(kx_4)/k\,M)\chi$, independent of $x_0$, for $m = H = 1$ ($k = 2\sqrt{2}$) and a column $\chi$ with $B\chi = \chi$; horizontal axes: the time $x_4$ in units of $1/H$. Left: the logarithm of its squared length grows with the slope $2k$ (grey dashed line). Right: its Krein charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,dx_0$ (orange) is not constant; it equals its starting value plus the flux through the patch end $z = \pi/2$ added up over time (green dashed). Without a boundary condition at $z = \pi/2$ the Krein charge is not conserved: it changes by exactly what passes through the patch end.
@@ -316,7 +316,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/10d.captions.json` | 2999 | `85b3a3c3509306f9a3a0b4228ffb49674f6a34a88501df4a6e34e1d17c09baf3` |
+| `Revision/textbook/figures/10d.captions.json` | 2999 | `6d492d3f8568187704c8bb3d7c133c75b91def57d7b7e2a79d7af998ebc448d0` |
 | `Revision/textbook/figures/10d_1_volume_and_flux.png` | 75024 | `044766d5472de3630af9735bdddb21e4075861f01e405f3317b934c4dff98faf` |
 | `Revision/textbook/figures/10d_2_symmetry_defect.png` | 76714 | `95083c5a030630870e7ad7c43cba61134a4eacab90e2752afbcbdbf6248b8b83` |
 | `Revision/textbook/figures/10d_3_frequency_paths.png` | 53003 | `670317290da0d2db60d58f4034c804698ab1829fb205129bbe443c2442983c24` |
@@ -344,8 +344,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.5 s, peak memory of the kernel process 203 MiB;
-- the check run: 5.3 s, peak memory of the kernel process 203 MiB.
+- the build run: 6.1 s, peak memory of the kernel process 203 MiB;
+- the check run: 5.5 s, peak memory of the kernel process 203 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -357,9 +357,9 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/10d_curved_good_sector.ipynb`: `c1abf91eb7c8b58ab3b20efaacbfb90a568b284af1adb2587dbe48e31f2fc6d6`
-- `Revision/textbook/notebooks/src/10d_curved_good_sector.py`: `1259aabbbd45baf8d2de9151fc44b2c30ae19d1a1fc9aa0f9449097d39e02730`
-- `Revision/textbook/figures/10d.captions.json`: `85b3a3c3509306f9a3a0b4228ffb49674f6a34a88501df4a6e34e1d17c09baf3`
+- `Revision/textbook/notebooks/10d_curved_good_sector.ipynb`: `9f5b0105c11e2dd0314001fd16aa3166b562ccb68fc490d22c113b24c6142581`
+- `Revision/textbook/notebooks/src/10d_curved_good_sector.py`: `7f447c9db5d6997b53736e024e97471ce29f8705d4a195fd5219fbc490e90e10`
+- `Revision/textbook/figures/10d.captions.json`: `6d492d3f8568187704c8bb3d7c133c75b91def57d7b7e2a79d7af998ebc448d0`
 - `Revision/textbook/figures/10d_1_volume_and_flux.png`: `044766d5472de3630af9735bdddb21e4075861f01e405f3317b934c4dff98faf`
 - `Revision/textbook/figures/10d_2_symmetry_defect.png`: `95083c5a030630870e7ad7c43cba61134a4eacab90e2752afbcbdbf6248b8b83`
 - `Revision/textbook/figures/10d_3_frequency_paths.png`: `670317290da0d2db60d58f4034c804698ab1829fb205129bbe443c2442983c24`
@@ -372,4 +372,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-15: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":203.0,"seconds":5.5},"check":{"date":"2026-10-15","files":6,"peak_mb":203.0,"result":"passed","seconds":5.3},"date":"2026-10-15","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":203.0,"seconds":6.1},"check":{"date":"2026-10-15","files":6,"peak_mb":203.0,"result":"passed","seconds":5.5},"date":"2026-10-15","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

@@ -45,14 +45,14 @@ id,chapter,title,checks,figures,date,result,seconds,section,builder
 10a,10,One-particle spectra and Krein signatures,28,6,2026-10-14,passed,3.8,10.8,Revision/textbook/notebooks/src/10a_krein_spectra.py
 10b,10,The canonical anticommutator forces a Krein space,25,5,2026-10-14,passed,4.0,10.17,Revision/textbook/notebooks/src/10b_canonical_krein.py
 10c,10,The good sector: a positive Fock space for one momentum,14,5,2026-10-14,passed,3.1,10.24,Revision/textbook/notebooks/src/10c_good_sector_fock.py
-10d,10,The curved good sector and the boundary at z = pi/2,16,5,2026-10-15,passed,5.3,10.30,Revision/textbook/notebooks/src/10d_curved_good_sector.py
+10d,10,The curved good sector and the boundary at z = pi/2,16,5,2026-10-15,passed,5.5,10.30,Revision/textbook/notebooks/src/10d_curved_good_sector.py
 10e,10,Invariant forms and Krein-unitary symmetries,15,5,2026-10-14,passed,2.7,10.36,Revision/textbook/notebooks/src/10e_invariant_forms.py
 10f,10,The Krein structure along the deflating history,19,5,2026-10-14,passed,3.7,10.41,Revision/textbook/notebooks/src/10f_krein_along_history.py
 10g,10,The quantum reading of the pairing: one system or two universes,30,5,2026-10-14,passed,4.3,10.47,Revision/textbook/notebooks/src/10g_quantum_pair_reading.py
 11a,11,The generalized Kronecker delta GKD in Python and in Rust,24,6,2026-10-15,passed,7.6,11.7,Revision/textbook/notebooks/src/11a_kronecker_delta_gkd.py
 11b,11,"The three Lovelock tensors of the author's metric, computed with GKD",38,5,2026-10-15,passed,36.1,11.17,Revision/textbook/notebooks/src/11b_lovelock_tensors.py
 11c,11,The Lovelock tensors along the deflating history: components and identities,20,5,2026-10-15,passed,4.3,11.25,Revision/textbook/notebooks/src/11c_lovelock_components.py
-12a,12,The field equations for a4 derived with sympy,59,5,2026-10-15,passed,5.7,12.14,Revision/textbook/notebooks/src/12a_a4_field_equations.py
+12a,12,The field equations for a4 derived with sympy,59,5,2026-10-15,passed,5.9,12.14,Revision/textbook/notebooks/src/12a_a4_field_equations.py
 12b,12,The source that the linear member a4 = A H x4 requires,24,8,2026-10-15,passed,4.0,12.18,Revision/textbook/notebooks/src/12b_required_source.py
 12c,12,Integrating the evolution equation of a4 for prescribed sources,30,6,2026-10-15,passed,4.1,12.23,Revision/textbook/notebooks/src/12c_a4_evolution.py
 12d,12,An exact solution: a condensate of dirac16complex00 as the source of the deflating member,40,6,2026-10-15,passed,6.2,12.28,Revision/textbook/notebooks/src/12d_condensate_solution.py

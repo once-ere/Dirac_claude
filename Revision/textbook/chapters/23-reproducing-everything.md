@@ -192,7 +192,7 @@ check_00a=PASSED
 
 (the seconds and megabytes differ from run to run), and at the end `nbkit_seconds=...` and `nbkit=OK`. The number of compared files counts the notebook itself together with the files it writes: Notebook 00a writes three files, so nbkit compares 3 + 1 = 4 files with the stored ones. A check changes no file of the repository.
 
-**How long it takes.** The recorded check times of the notebooks of each chapter, added up, are printed by Notebook 23a in Out [6] of Section 23.11 and drawn in Figure 23a.5. On the development machine the Kohn-Sham chapters 14, 15 and 16 take the most, 88.1 s, 240.4 s and 121.2 s; chapter 11 takes 48.0 s (Notebook 11a only 7.6 s: it reads the record of the Rust GKD self-test, whose run takes 7 to 13 minutes, instead of running it); every other chapter takes between 9.8 s (chapter 17) and 87.2 s (chapter 6). All 90 notebooks of chapters 0 to 22 take 1097.5 s, about 18 minutes, one after the other (Out [6]); Notebook 23a adds about 6.5 s (its recorded check). The seven notebooks that run a Rust program (11a, 11b, 15a, 15b, 15d, 16a and 19a) build it with cargo the first time, which takes a few minutes more.
+**How long it takes.** The recorded check times of the notebooks of each chapter, added up, are printed by Notebook 23a in Out [6] of Section 23.11 and drawn in Figure 23a.5. On the development machine the Kohn-Sham chapters 14, 15 and 16 take the most, 88.1 s, 240.4 s and 121.2 s; chapter 11 takes 48.0 s (Notebook 11a only 7.6 s: it reads the record of the Rust GKD self-test, whose run takes 7 to 13 minutes, instead of running it); every other chapter takes between 9.8 s (chapter 17) and 87.2 s (chapter 6). All 90 notebooks of chapters 0 to 22 take 1097.9 s, about 18 minutes, one after the other (Out [6]); Notebook 23a adds about 6.5 s (its recorded check). The seven notebooks that run a Rust program (11a, 11b, 15a, 15b, 15d, 16a and 19a) build it with cargo the first time, which takes a few minutes more.
 
 **When it fails.** A failed check prints `check_NNx=FAILED` and, before it, lines that start with `problem=`. The most likely causes:
 
@@ -482,7 +482,7 @@ check(sorted(PER_CHAPTER) == list(range(23)),
       "every chapter 0 to 22 has at least one notebook")
 ```
 
-`ALL_SECONDS` is the sum of all recorded check times. The four RESULT lines of Out [6]: 90 notebooks, 2244 checks, 563 figures and 1097.5 s, the time of all checks one after the other. The check demands that the chapter numbers are exactly 0 to 22 (`list(range(23))` is the list 0, 1, ..., 22).
+`ALL_SECONDS` is the sum of all recorded check times. The four RESULT lines of Out [6]: 90 notebooks, 2244 checks, 563 figures and 1097.9 s, the time of all checks one after the other. The check demands that the chapter numbers are exactly 0 to 22 (`list(range(23))` is the list 0, 1, ..., 22).
 
 **In [7], two figures of the run times.**
 
@@ -911,7 +911,7 @@ The index of the notebooks is the table of Out [4] and Out [5] in Section 23.11,
 ### 23.15 What we proved, what we computed, what we assumed
 
 - PROVED: nothing new about physics; this chapter is bookkeeping. Notebook 23a checks facts about files: every builder has a provenance file, every notebook is placed exactly once in its own chapter, every recorded nbkit check passed, every report named by the gate is in the index, and every one of the 1357 checks of the 51 reports is PASS or NOT-AVAILABLE (the 5 NOT-AVAILABLE checks are outputs that the author's notebook does not store).
-- COMPUTED (counted from files on 2026-10-15): 90 notebooks in chapters 0 to 22 with 2244 checks and 563 figures; their recorded checks take 1097.5 s one after the other, and the three slowest take 22.2 % of it; the gate has 85 steps, 4 of them long, with expected wall times of 8057 s in full and 6487 s with the fast option; 760 checks of the record are cited by at least one chapter. MEASURED once with `BOOK_RERUN_ALL=1` on 2026-10-08: all 90 other notebooks passed a fresh nbkit check, 8 at a time, in 406 s of wall time; the fresh time of each chapter was between 0.89 and 1.50 times its recorded time (chapter 8: 129.9 s against 86.5 s), because 8 notebooks shared the processor.
+- COMPUTED (counted from files on 2026-10-15): 90 notebooks in chapters 0 to 22 with 2244 checks and 563 figures; their recorded checks take 1097.9 s one after the other, and the three slowest take 22.2 % of it; the gate has 85 steps, 4 of them long, with expected wall times of 8057 s in full and 6487 s with the fast option; 760 checks of the record are cited by at least one chapter. MEASURED once with `BOOK_RERUN_ALL=1` on 2026-10-08: all 90 other notebooks passed a fresh nbkit check, 8 at a time, in 406 s of wall time; the fresh time of each chapter was between 0.89 and 1.50 times its recorded time (chapter 8: 129.9 s against 86.5 s), because 8 notebooks shared the processor.
 - MEASURED elsewhere and quoted: the recorded check times (provenance files), the gate's expected times (its step table, from the folder READMEs and provenance files), the fast option's measured 20 minutes (Revision README), the assembler's 4 seconds and the 287 s of the first pass of the whole-book test build, a pass that ended FAILED on LaTeX warnings in the text of other chapters as it stood then (runs made for this chapter on 2026-10-08).
 - ASSUMED: that the files read are the committed ones. The notebook reads whatever is in the working folder; after any other notebook is rebuilt or any chapter changes a citation, Notebook 23a must be rebuilt, or its nbkit check fails because its outputs changed.
 - What "cited" means is a DEFINITION of this chapter (one paragraph, or one cell's output, names both the report's file name and the check), not a reading of the author's intention; a chapter may discuss a check in other words without being counted.
@@ -931,7 +931,7 @@ bash Revision/verify_revision.sh --dry-run --fast
 
 **Exercise 2.** Using Out [6], how long does the nbkit check of all notebooks of chapters 14, 15 and 16 take, one after the other, and what fraction of the whole book's check time is that?
 
-*Answer.* The three chapter totals are 88.1 s, 240.4 s and 121.2 s; their sum is $88.1 + 240.4 + 121.2 = 449.7$ s. The whole book takes 1097.5 s, so the fraction is $449.7 / 1097.5 = 0.4097$, about 41 %: three chapters of the Kohn-Sham part take almost a third of the time, because their notebooks run the Rust solver and the reference solver.
+*Answer.* The three chapter totals are 88.1 s, 240.4 s and 121.2 s; their sum is $88.1 + 240.4 + 121.2 = 449.7$ s. The whole book takes 1097.9 s, so the fraction is $449.7 / 1097.9 = 0.4096$, about 41 %: three chapters of the Kohn-Sham part take almost a third of the time, because their notebooks run the Rust solver and the reference solver.
 
 **Exercise 3.** Why does Notebook 23a leave itself out of its table, and why does it leave chapter 23 out of the citation search? What would go wrong otherwise?
 
@@ -943,7 +943,7 @@ bash Revision/verify_revision.sh --dry-run --fast
 
 **Exercise 5.** You run Notebook 23a with `BOOK_RERUN_ALL=1` on a computer with 4 processor threads. How many notebooks run at the same time, and can the re-run take less time than the slowest notebook, 11a, alone?
 
-*Answer.* `workers = max(1, min(8, 4 // 2)) = max(1, min(8, 2)) = 2`: two at a time (`//` divides and drops the remainder). No: every notebook runs on one worker from start to end, so the re-run lasts at least as long as the slowest notebook, 7.6 s on the development machine. That is why the slowest are started first: with two workers, 11a runs on one while the other works through the rest, and the total is close to the larger of 7.6 s and half of the total time, $1097.5 / 2 \approx 549$ s, plus the time the two workers slow each other down.
+*Answer.* `workers = max(1, min(8, 4 // 2)) = max(1, min(8, 2)) = 2`: two at a time (`//` divides and drops the remainder). No: every notebook runs on one worker from start to end, so the re-run lasts at least as long as the slowest notebook, 7.6 s on the development machine. That is why the slowest are started first: with two workers, 11a runs on one while the other works through the rest, and the total is close to the larger of 7.6 s and half of the total time, $1097.9 / 2 \approx 549$ s, plus the time the two workers slow each other down.
 
 **Exercise 6.** The gate prints `revision_failed_step=precheck`. What happened, what must you NOT do, and what are two correct ways forward?
 
