@@ -163,8 +163,8 @@
 # machine is faster.  "Stage-4 analogue" marks a figure of the matching
 # Stage-4 gate step (its TIMING), "estimate" a figure that was not measured.)
 #   00 seconds (estimate: about 230 MB of committed files are copied; the
-#   Stage-4 gate copied 205 MB in 2.4 s).  01 @@W00@@.  02 @@WPAIR@@.
-#   03 @@C00@@.  04 @@CPAIR@@.  05 seconds.
+#   Stage-4 gate copied 205 MB in 2.4 s).  01 about 4-12 min (its provenance file, part 4.3).  02 about 4-12 min (its provenance file, part 4.5).
+#   03 about 3.5 min (213 s on 2026-10-15, under load).  04 about 1 min (68 s on 2026-10-15, under load).  05 seconds.
 #   06-10 Stage-4 analogue: fmt 3 s, clippy 3 s, test 35-79 s (the crate now
 #   also holds the pairs tests: estimate 1-2 min), build 1 s warm, print-config
 #   1 s.  11 Stage-4 analogue: spectrum about 1 min, scf --quick 434 s and
@@ -180,7 +180,7 @@
 #   21 minutes (estimate, not measured: the checker reads both committed trees
 #   and runs its own small solver computations).  22 seconds.
 #   23-24 not measured (the figures script is written after the runs).
-#   25-26 Stage-3 analogue under 1 min each.  27 seconds.  28 @@UNIT@@.
+#   25-26 Stage-3 analogue under 1 min each.  27 seconds.  28 about 4 min (225 s on 2026-10-15).
 #   29 seconds.  Total: about 4-6 h (estimate), dominated by step 14.
 #
 # PYTHONUTF8=1 and a UTF-8 console encoding are set for this process only.
@@ -489,14 +489,14 @@ if (-not $partial -and -not $DryRun) {
 
 # Expected wall time per step (TIMING above; the bash twin prints the same).
 $expect = @{
-    "00" = "seconds"; "01" = "@@W00@@"; "02" = "@@WPAIR@@"; "03" = "@@C00@@"; "04" = "@@CPAIR@@";
+    "00" = "seconds"; "01" = "about 4-12 min (its provenance file, part 4.3)"; "02" = "about 4-12 min (its provenance file, part 4.5)"; "03" = "about 3.5 min (213 s on 2026-10-15, under load)"; "04" = "about 1 min (68 s on 2026-10-15, under load)";
     "05" = "seconds"; "06" = "seconds"; "07" = "seconds"; "08" = "about 1-2 min (estimate)"; "09" = "seconds";
     "10" = "seconds"; "11" = "about 7 min (estimate, see TIMING)"; "12" = "seconds"; "13" = "seconds";
     "14" = "about 3-5 h (estimate, see TIMING)"; "15" = "seconds"; "16" = "under 1 min (estimate)"; "17" = "seconds";
     "18" = "minutes (estimate, not measured)"; "19" = "seconds"; "20" = "minutes (estimate, not measured)";
     "21" = "minutes (estimate, not measured)"; "22" = "seconds"; "23" = "not measured (script written after the runs)";
     "24" = "seconds"; "25" = "under 1 min (Stage-3 analogue)"; "26" = "under 1 min (Stage-3 analogue)";
-    "27" = "seconds"; "28" = "@@UNIT@@"; "29" = "seconds"
+    "27" = "seconds"; "28" = "about 4 min (225 s on 2026-10-15)"; "29" = "seconds"
 }
 
 # build/stage5 belongs to this gate: start from an empty directory (a partial

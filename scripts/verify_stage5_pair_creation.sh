@@ -292,10 +292,10 @@ skip_step() {
 # Expected wall time per step (TIMING in the PowerShell twin; same strings).
 expect() {
     case "$1" in
-        01) printf '%s' "@@W00@@" ;;
-        02) printf '%s' "@@WPAIR@@" ;;
-        03) printf '%s' "@@C00@@" ;;
-        04) printf '%s' "@@CPAIR@@" ;;
+        01) printf '%s' "about 4-12 min (its provenance file, part 4.3)" ;;
+        02) printf '%s' "about 4-12 min (its provenance file, part 4.5)" ;;
+        03) printf '%s' "about 3.5 min (213 s on 2026-10-15, under load)" ;;
+        04) printf '%s' "about 1 min (68 s on 2026-10-15, under load)" ;;
         08) printf '%s' "about 1-2 min (estimate)" ;;
         11) printf '%s' "about 7 min (estimate, see TIMING)" ;;
         14) printf '%s' "about 3-5 h (estimate, see TIMING)" ;;
@@ -303,7 +303,7 @@ expect() {
         18 | 20 | 21) printf '%s' "minutes (estimate, not measured)" ;;
         23) printf '%s' "not measured (script written after the runs)" ;;
         25 | 26) printf '%s' "under 1 min (Stage-3 analogue)" ;;
-        28) printf '%s' "@@UNIT@@" ;;
+        28) printf '%s' "about 4 min (225 s on 2026-10-15)" ;;
         *) printf '%s' "seconds" ;;
     esac
 }
