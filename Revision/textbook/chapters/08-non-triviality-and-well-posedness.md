@@ -1,6 +1,6 @@
 ## 8. Non-triviality, its exact scope, and well-posedness
 
-When the author coupled the fields dirac16complex and dirac16complex00 to his primordial gravitational field, he asked for a test: the field equations must contain gravity through the canonical spin connection, unless spacetime is flat. This chapter answers that request exactly, and it answers a second question that every field equation must face before anyone can trust its solutions: does the equation decide the future from the present in a stable way? Both answers are more interesting than a plain yes. The gravitational term of the field equation is $3H\gamma^{(8)}\Psi$ in the natural frame, but a different, equally valid frame makes it vanish, and a change of the field variables removes it too; what no choice removes is the spin connection itself, because its curvature is the curvature of spacetime. And the field equation, with its four time-like directions, is not a well-posed evolution equation: waves along the three extra times grow, with growth rates that have no upper bound, and the deflation of the extra times pushes every such wave into growth. (This is proved exactly in flat 4+4 space and, for the author's metric, with coefficients frozen at one point; carrying it over to the author's varying coefficients needs a standard theorem that this chapter quotes without proof. Section 8.18 gives each status.) Four notebooks compute every statement anew from the definitions and reproduce the Revision record: Notebook 08c (the term in two frames), Notebook 08a (the growth rates), Notebook 08b (the onset of growth along the deflating history) and Notebook 08d (the rescaling and the two ends of the hidden direction).
+When the author coupled the fields dirac16complex and dirac16complex00 to his primordial gravitational field, he asked for a test: the field equations must contain gravity through the canonical spin connection, unless spacetime is flat. This chapter answers that request exactly, and it answers a second question that every field equation must face before anyone can trust its solutions: does the equation decide the future from the present in a stable way? Both answers are more interesting than a plain yes. The gravitational term of the field equation is $3H\gamma^{(0)}\Psi$ in the natural frame on the backgrounds $b_4 = 1$ of the Revision record ($(3H\gamma^{(0)} + \frac34(b_4'/b_4)\gamma^{(4)})\Psi$ for the general metric with $b_4$), but a different, equally valid frame makes it vanish, and a change of the field variables removes it too; what no choice removes is the spin connection itself, because its curvature is the curvature of spacetime. And the field equation, with its four time-like directions, is not a well-posed evolution equation: waves along the three extra times grow, with growth rates that have no upper bound, and the deflation of the extra times pushes every such wave into growth. (This is proved exactly in flat 4+4 space and, for the author's metric, with coefficients frozen at one point; carrying it over to the author's varying coefficients needs a standard theorem that this chapter quotes without proof. Section 8.18 gives each status.) Four notebooks compute every statement anew from the definitions and reproduce the Revision record: Notebook 08c (the term in two frames), Notebook 08a (the growth rates), Notebook 08b (the onset of growth along the deflating history) and Notebook 08d (the rescaling and the two ends of the hidden direction).
 
 ### 8.1 What this chapter does
 
@@ -8,13 +8,13 @@ When the author coupled the fields dirac16complex and dirac16complex00 to his pr
 
 **The answers in brief.** Each item carries its label (the labels are explained at the end of this section).
 
-- In the diagonal frame of the author's metric the gravitational term of the field equation is $\gamma^\mu\Omega_\mu\Psi = 3H\gamma^{(8)}\Psi$, for every history $a_4(x_4)$. The time-direction pieces of the three inflating and the three deflating directions cancel; the six hidden-direction pieces add up to $3H$. The term is not zero for any field $\Psi \neq 0$ (PROVED; Sections 8.4 to 8.6).
-- The spin connection vanishes only in the formal flat limit $a_4' = 0$ and $H = 0$, which is not a member of the author's family of metrics (PROVED; Section 8.6).
-- The value $3H\gamma^{(8)}$ belongs to one frame and to one choice of field variables. In a frame boosted in the $(x_4, x_8)$ plane with the rapidity $6Hx_4$ the term is identically zero, and the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it in the diagonal frame (PROVED; Sections 8.9 and 8.30).
-- What no choice removes: the spin connection itself vanishes in no frame, because its curvature is the curvature of spacetime, which is not zero for $H > 0$; and the frame factors $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$ multiply every derivative in the field equation except the one along the time $x_4$ (whose factor is $1/f_4 = 1$). This is the exact, frame-independent content of the tests [1] and [2] (PROVED; Sections 8.7 and 8.10). The Revision record states this as a correction for the author: the tests hold in this qualified sense.
+- In the diagonal frame of the author's metric the gravitational term of the field equation is $\gamma^\mu\Omega_\mu\Psi = 3H\gamma^{(0)}\Psi$, for every history $a_4(x_4)$ and a constant $b_4$, as on the backgrounds $b_4 = 1$ (for a changing $b_4$ the term $\frac34(b_4'/b_4)\gamma^{(4)}\Psi$ is added; Chapters 6 and 7). The time-direction pieces of the three inflating and the three deflating directions cancel; the six hidden-direction pieces add up to $3H$. The term is not zero for any field $\Psi \neq 0$ (PROVED; Sections 8.4 to 8.6; for a changing $b_4$ except at times where $|b_4'/b_4| = 4H$, Section 7.23).
+- The spin connection vanishes only in the formal flat limit $a_4' = 0$ and $H = 0$ (at $b_4 = 1$; for every $b_4$ it vanishes only for $H = 0$), which is not a member of the author's family of metrics (PROVED; Section 8.6).
+- The value $3H\gamma^{(0)}$ belongs to one frame and to one choice of field variables. In a frame boosted in the $(x_4, x_0)$ plane with the rapidity $6Hx_4$ the term is identically zero (for a constant $b_4$), and the rescaling $\Psi = \sin^{-1/2}z\,\chi$ ($\sin^{-1/2}z\,b_4^{-3/4}\chi$ for a changing $b_4$) removes it in the diagonal frame (PROVED; Sections 8.9 and 8.30; Sections 6.16 and 6.18).
+- What no choice removes: the spin connection itself vanishes in no frame, because its curvature is the curvature of spacetime, which is not zero for $H > 0$; and the frame factors $e^{-a_4}\sin^{-1/6}z$, $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ and $\tan z$ multiply every derivative in the field equation except the one along the time $x_4$ (whose factor is $1/f_4 = 1$). This is the exact, frame-independent content of the tests [1] and [2] (PROVED; Sections 8.7 and 8.10). The Revision record states this as a correction for the author: the tests hold in this qualified sense.
 - The field equation can be solved for the time derivative $\partial_4\Psi$, but its initial-value problem is NOT well posed for data that depend on the extra times $x_5, x_6, x_7$: such waves grow, and their growth rates have no upper bound (PROVED in flat 4+4 space and, for the author's metric, with frozen coefficients, a MODEL; for the author's varying coefficients it follows from the Lax-Mizohata theorem, a standard theorem quoted without proof, so that step is ASSUMED; Sections 8.16 to 8.19).
 - Along the deflating history every wave along an extra time eventually starts to grow (PROVED with frozen coefficients; followed numerically through the onset in a labelled model, COMPUTED; Sections 8.24 and 8.25).
-- Even without extra-time dependence, the hidden direction has an open end at $z = \pi/2$; there the Revision record imposes no boundary condition, and fields that do not depend on $x_8$ grow when $m < 3H$, fed through that end. Which boundary condition is physical is OPEN (Sections 8.31 and 8.32).
+- Even without extra-time dependence, the hidden direction has an open end at $z = \pi/2$; there the Revision record imposes no boundary condition, and fields that do not depend on $x_0$ grow when $m < 3H$, fed through that end. Which boundary condition is physical is OPEN (Sections 8.31 and 8.32).
 
 **What the chapter does, section by section.** Section 8.2 sets the stage. Sections 8.3 to 8.11 compute the spin connection, the gravitational term, its frame dependence and the curvature, with Notebook 08c as the worked example (Sections 8.12 to 8.15). Sections 8.16 to 8.19 define well-posedness and show, with plane waves, that it fails; Notebook 08a is the example (Sections 8.20 to 8.23). Sections 8.24 and 8.25 follow waves along the deflating history; Notebook 08b is the example (Sections 8.26 to 8.29). Sections 8.30 to 8.32 change the field variables and study the two ends of the hidden direction; Notebook 08d is the example (Sections 8.33 to 8.36). Section 8.37 collects the exact scope in one table, Section 8.38 lists what we proved, computed and assumed, and Section 8.39 has the exercises.
 
@@ -25,39 +25,43 @@ When the author coupled the fields dirac16complex and dirac16complex00 to his pr
 | 08c | the Christoffel symbols and the canonical spin connection of the diagonal frame and of a boosted frame, from the definitions; what cancels and what survives in $\gamma^\mu\Omega_\mu$; the connection vanishes only in flat space; the term in two frames; the curvature in both frames; the connection in the energy-momentum tensor | 32 checks, 5 figures | `python-field-theory.json`, `wolfram-field-theory.json`, `python-scope.json` (all in `Revision/theory/reports/`), `Revision/kohn_sham/results/parameters.json` |
 | 08a | the mode matrix of a plane wave and its square; the growth rates of the extra-time waves; the Hadamard amplification; the Krein form | 30 checks, 6 figures | `python-scope.json`, `wolfram-scope.json`, `python-field-theory.json`, `wolfram-field-theory.json`, `Revision/algebra/reports/python-algebra.json`, `Revision/pairing/reports/python-pairing.json` |
 | 08b | the scale factors along the deflating history; the frame momenta of a wave and its onset time; one wave followed through the onset with RK4 and compared with WKB formulas | 25 checks, 5 figures | `parameters.json`, `python-field-theory.json`, `python-scope.json` |
-| 08d | the rescaling that removes the term; an exact family of solutions; the growing modes that do not depend on $x_8$; the boundary term at the patch end | 23 checks, 5 figures | `python-field-theory.json`, `Revision/theory/field-theory.json`, `python-scope.json`, `parameters.json` |
+| 08d | the rescaling that removes the term; an exact family of solutions; the growing modes that do not depend on $x_0$; the boundary term at the patch end | 23 checks, 5 figures | `python-field-theory.json`, `Revision/theory/field-theory.json`, `python-scope.json`, `parameters.json` |
 
 The chapter places the notebooks in the order in which it uses them: 08c, 08a, 08b, 08d.
 
-**How this chapter relates to Chapter 6.** Chapter 6 introduces the vielbein, the canonical spin connection, the contraction $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$, and, with its Notebook 06b, a first look at the boosted frame, the curvature and the rescaling; it also proves local spin covariance in general. This chapter recomputes everything it needs, so that it can be read on its own, and goes further: what cancels and what survives direction by direction, the proof that the connection vanishes only in the flat limit, the boosted term derived from the uniqueness of the connection, the curvature compared in two frames, the exact family with its growing finite-norm members, the flux through the patch end, and, above all, the question of well-posedness, which Chapter 6 does not treat.
+**How this chapter relates to Chapter 6.** Chapter 6 introduces the vielbein, the canonical spin connection, the contraction $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$, and, with its Notebook 06b, a first look at the boosted frame, the curvature and the rescaling; it also proves local spin covariance in general. This chapter recomputes everything it needs, so that it can be read on its own, and goes further: what cancels and what survives direction by direction, the proof that the connection vanishes only in the flat limit, the boosted term derived from the uniqueness of the connection, the curvature compared in two frames, the exact family with its growing finite-norm members, the flux through the patch end, and, above all, the question of well-posedness, which Chapter 6 does not treat.
+
+**The metric with $b_4$.** The author's metric of 2026-10-14 has a second function $b_4(x_4) > 0$ in the extra-time entries (Chapter 3; `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). The Revision record's scope reports and the backgrounds of its numerical work have $b_4 = 1$, and the four notebooks of this chapter compare with those reports, so their exact checks are made at $b_4 = 1$; Notebooks 06a and 06b and Chapter 7 treat a general $b_4$. Where a statement of this chapter changes for a changing $b_4$, the change is stated with it.
 
 **Labels.** As everywhere in the book, every statement carries one of five labels. **PROVED** means exact: derived here line by line and confirmed by an exact check of a notebook, and, where the Revision record proves the same, the record file and its check are named. **COMPUTED** means a number obtained numerically by a notebook, with its measured accuracy. **ASSUMED** marks the inputs we choose or quote: standard theorems quoted without proof (each is named where it is used), the deflating history $a_4 = AHx_4$, which the Revision record calls a PRESCRIBED BACKGROUND, and two approximations that the notebooks label MODEL (frozen coefficients, and the local-frame model of Section 8.25). **OPEN** marks questions this record does not answer. No HYPOTHESIS enters this chapter. Nothing in this chapter concerns pairs of universes, their creation, or matter and antimatter; those questions belong to Chapters 18 to 21, which state precisely what is and what is not proved about them.
 
 ### 8.2 The stage: coordinates, metric, frame and the field equation
 
-**Coordinates.** A point of the author's spacetime has eight coordinates, named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space; $x_4$ is the time in which everything evolves; $x_5, x_6, x_7$ are the three **extra times**, directions that behave like time (they are time-like) and that deflate exponentially; $x_8$ is the **hidden** space direction. We write $z = 6Hx_8$, where $H > 0$ is a constant of the author; $z$ runs from $0$ (the **tip**) to $\pi/2$ (the **patch end**). In formulas the letter $i$ always stands for one of the 3-space directions $x_1, x_2, x_3$ and the letter $t$ for one of the extra times $x_5, x_6, x_7$. In Python, lists are counted from 0, so position 0 holds $x_1$, position 3 the time $x_4$ and position 7 the hidden coordinate $x_8$.
+**Coordinates.** A point of the author's spacetime has eight coordinates, named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space; $x_4$ is the time in which everything evolves; $x_5, x_6, x_7$ are the three **extra times**, directions that behave like time (they are time-like) and that deflate exponentially; $x_0$ is the **hidden** space direction. We write $z = 6Hx_0$, where $H > 0$ is a constant of the author; $z$ runs from $0$ (the **tip**) to $\pi/2$ (the **patch end**). In formulas the letter $i$ always stands for one of the 3-space directions $x_1, x_2, x_3$ and the letter $t$ for one of the extra times $x_5, x_6, x_7$. In Python, lists are counted from 0, like the author's coordinates: position $k$ holds $x_k$, so position 0 is the hidden coordinate $x_0$ and position 4 the time $x_4$.
 
-**The metric.** The author's metric is diagonal (Chapter 3). We write it with eight positive **scale factors** $f_1, \dots, f_8$:
-
-$$
-g = \mathrm{diag}\big(f_1^2,\ f_2^2,\ f_3^2,\ -f_4^2,\ -f_5^2,\ -f_6^2,\ -f_7^2,\ f_8^2\big),
-$$
+**The metric.** The author's metric is diagonal (Chapter 3). We write it with eight positive **scale factors** $f_0, \dots, f_7$:
 
 $$
-f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z, \quad f_4 = 1, \quad f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z, \quad f_8 = \cot z .
+g = \mathrm{diag}\big(f_0^2,\ f_1^2,\ f_2^2,\ f_3^2,\ -f_4^2,\ -f_5^2,\ -f_6^2,\ -f_7^2\big),
 $$
 
-A small step $dx_\mu$ along the direction $x_\mu$ has the proper length (the length measured with the metric) $f_\mu|dx_\mu|$. The function $a_4(x_4)$, the **metric function**, increases with the time: then the 3-space factor $e^{a_4}$ grows (3-space **inflates**) and the extra-time factor $e^{-a_4}$ shrinks (the extra times **deflate**). We write $a_4' = da_4/dx_4$ and $a_4'' = d^2a_4/dx_4^2$. With the **frame metric** $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ (in the order $x_1, \dots, x_8$) every diagonal entry is $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$. The signs say which directions are space-like ($+$: $x_1, x_2, x_3, x_8$) and which are time-like ($-$: $x_4, x_5, x_6, x_7$); there are four of each, the signature (4,4). The product of the eight factors is the volume factor, $\sqrt{|g|} = f_1f_2\cdots f_8 = \cos z$; it does not depend on the time, because the inflation $e^{3a_4}$ of 3-space and the deflation $e^{-3a_4}$ of the extra times cancel (PROVED; `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`). The value $H = 0$ is not a member of the author's family: at fixed $x_8$ the factor $\sin^{1/3}z$ goes to $0$ and $\cot^2 z$ to infinity, so the metric degenerates (`Revision/theory/reports/wolfram-field-theory.json`, check `degenerate_at_H_0`). Every statement of this chapter assumes $H > 0$ and $0 < z < \pi/2$.
+$$
+f_0 = \cot z, \quad f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z, \quad f_4 = 1, \quad f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}\sin^{1/6}z ,
+$$
 
-**The diagonal frame.** A **frame** (also called a **vielbein**) is a set of eight vectors, one for each direction $a = 1, \dots, 8$, that have length 1 and are perpendicular to each other when measured with the metric. Its components $e^a{}_\mu$ (frame direction $a$, coordinate direction $\mu$) obey $\sum_a \eta_{aa}e^a{}_\mu e^a{}_\nu = g_{\mu\nu}$. The **diagonal frame** is $e^a{}_\mu = f_a\delta^a_\mu$, where $\delta^a_\mu$ is 1 for $a = \mu$ and 0 otherwise; its inverse is $E_a{}^\mu = \delta^\mu_a/f_a$. Indeed $\sum_a\eta_{aa}f_a\delta^a_\mu f_a\delta^a_\nu$ is zero for $\mu \neq \nu$ and $\eta_{\mu\mu}f_\mu^2 = g_{\mu\mu}$ for $\mu = \nu$.
+with $b_4 = 1$ on the backgrounds of the record (and in the checks of this chapter's notebooks).
 
-**The gamma matrices.** The book uses the author's eight **real** $16 \times 16$ gamma matrices (Chapter 4), stored in the Revision file `Revision/algebra/gammas.json` in the order $x_1, \dots, x_8$; we write them $\gamma^{(1)}, \dots, \gamma^{(8)}$ ($\gamma^{(4)}$ means the gamma of the direction $x_4$, and so on). Their entries are $0$, $1$ and $-1$. They obey the **Clifford relations**
+A small step $dx_\mu$ along the direction $x_\mu$ has the proper length (the length measured with the metric) $f_\mu|dx_\mu|$. The function $a_4(x_4)$, the **metric function**, increases with the time: then the 3-space factor $e^{a_4}$ grows (3-space **inflates**) and the extra-time factor $e^{-a_4}$ shrinks (the extra times **deflate**). We write $a_4' = da_4/dx_4$ and $a_4'' = d^2a_4/dx_4^2$. With the **frame metric** $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ (in the order $x_0, \dots, x_7$) every diagonal entry is $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$. The signs say which directions are space-like ($+$: $x_0, x_1, x_2, x_3$) and which are time-like ($-$: $x_4, x_5, x_6, x_7$); there are four of each, the signature (4,4). The product of the eight factors is the volume factor, $\sqrt{|g|} = f_0f_1\cdots f_7 = b_4^{3/2}\cos z$, which is $\cos z$ at $b_4 = 1$; it does not depend on the time there, because the inflation $e^{3a_4}$ of 3-space and the deflation $e^{-3a_4}$ of the extra times cancel (PROVED; `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`; for $b_4$, `wolfram-field-theory-b4.json`, check `sqrt_det_g`). The value $H = 0$ is not a member of the author's family: at fixed $x_0$ the factor $\sin^{1/3}z$ goes to $0$ and $\cot^2 z$ to infinity, so the metric degenerates (`Revision/theory/reports/wolfram-field-theory.json`, check `degenerate_at_H_0`). Every statement of this chapter assumes $H > 0$ and $0 < z < \pi/2$.
+
+**The diagonal frame.** A **frame** (also called a **vielbein**) is a set of eight vectors, one for each direction $a = 0, \dots, 7$, that have length 1 and are perpendicular to each other when measured with the metric. Its components $e^a{}_\mu$ (frame direction $a$, coordinate direction $\mu$) obey $\sum_a \eta_{aa}e^a{}_\mu e^a{}_\nu = g_{\mu\nu}$. The **diagonal frame** is $e^a{}_\mu = f_a\delta^a_\mu$, where $\delta^a_\mu$ is 1 for $a = \mu$ and 0 otherwise; its inverse is $E_a{}^\mu = \delta^\mu_a/f_a$. Indeed $\sum_a\eta_{aa}f_a\delta^a_\mu f_a\delta^a_\nu$ is zero for $\mu \neq \nu$ and $\eta_{\mu\mu}f_\mu^2 = g_{\mu\mu}$ for $\mu = \nu$.
+
+**The gamma matrices.** The book uses the author's eight **real** $16 \times 16$ gamma matrices (Chapter 4), stored in the Revision file `Revision/algebra/gammas.json` in the order $x_0, \dots, x_7$; we write them $\gamma^{(0)}, \dots, \gamma^{(7)}$ ($\gamma^{(4)}$ means the gamma of the direction $x_4$, and so on). Their entries are $0$, $1$ and $-1$. They obey the **Clifford relations**
 
 $$
 \gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}\,I_{16},
 $$
 
-where $I_{16}$ is the $16 \times 16$ unit matrix and $\eta^{ab} = \eta_{ab}$ (PROVED; `Revision/algebra/reports/python-algebra.json`, check `clifford_relation`). Two consequences are used in almost every line of this chapter: the square of each gamma is $\eta_{aa}I_{16}$, that is $+I_{16}$ for $x_1, x_2, x_3, x_8$ and $-I_{16}$ for $x_4, x_5, x_6, x_7$; and two different gammas **anticommute**, $\gamma^{(a)}\gamma^{(b)} = -\gamma^{(b)}\gamma^{(a)}$ for $a \neq b$. A third fact: the gammas of the space-like directions are symmetric matrices and those of the time-like directions antisymmetric, $(\gamma^{(a)})^T = \eta_{aa}\gamma^{(a)}$ (the $T$ means the transpose: rows become columns). The **coordinate gammas** are $\gamma^\mu = \sum_a E_a{}^\mu\gamma^{(a)}$; in the diagonal frame $\gamma^\mu = \gamma^{(\mu)}/f_\mu$. The matrix $C = \gamma^{(8)}\gamma^{(1)}\gamma^{(2)}\gamma^{(3)}$ (Chapter 5) and the matrix $B = -iC\gamma^{(4)}$ (Chapters 5 and 10) appear in the notebooks; $B$ is Hermitian, $B^2 = I_{16}$, with eight eigenvalues $+1$ and eight $-1$.
+where $I_{16}$ is the $16 \times 16$ unit matrix and $\eta^{ab} = \eta_{ab}$ (PROVED; `Revision/algebra/reports/python-algebra.json`, check `clifford_relation`). Two consequences are used in almost every line of this chapter: the square of each gamma is $\eta_{aa}I_{16}$, that is $+I_{16}$ for $x_0, x_1, x_2, x_3$ and $-I_{16}$ for $x_4, x_5, x_6, x_7$; and two different gammas **anticommute**, $\gamma^{(a)}\gamma^{(b)} = -\gamma^{(b)}\gamma^{(a)}$ for $a \neq b$. A third fact: the gammas of the space-like directions are symmetric matrices and those of the time-like directions antisymmetric, $(\gamma^{(a)})^T = \eta_{aa}\gamma^{(a)}$ (the $T$ means the transpose: rows become columns). The **coordinate gammas** are $\gamma^\mu = \sum_a E_a{}^\mu\gamma^{(a)}$; in the diagonal frame $\gamma^\mu = \gamma^{(\mu)}/f_\mu$. The matrix $C = \gamma^{(0)}\gamma^{(1)}\gamma^{(2)}\gamma^{(3)}$ (Chapter 5) and the matrix $B = -iC\gamma^{(4)}$ (Chapters 5 and 10) appear in the notebooks; $B$ is Hermitian, $B^2 = I_{16}$, with eight eigenvalues $+1$ and eight $-1$.
 
 **The two fields and their field equation.** dirac16complex is a column $\Psi$ of 16 complex **anticommuting** (Grassmann) components; dirac16complex00 is a column of 16 ordinary complex numbers (Chapter 7). Their Lagrangians have the same form, and so do their field equations (Chapter 7 derives them):
 
@@ -65,16 +69,16 @@ $$
 \gamma^\mu D_\mu\Psi = \big(m + U'(S)\big)\Psi, \qquad D_\mu\Psi = \partial_\mu\Psi + \Omega_\mu\Psi .
 $$
 
-Here $\partial_\mu$ is the partial derivative with respect to $x_\mu$, the sum over $\mu = 1, \dots, 8$ is understood (a repeated upper and lower index is summed), $m$ is the mass, $S = \bar\Psi\Psi = \Psi^\dagger C\Psi$ is the scalar built from the field and its **Dirac adjoint** $\bar\Psi = \Psi^\dagger C$ (the dagger means: transpose and take the complex conjugate of every entry), $U(S) = \frac{\lambda}{2}S^2$ is the potential, and $U'(S) = \lambda S$. The matrices $\Omega_\mu$ are the **spinor connection**, built from the canonical spin connection in Section 8.4. Everything in this chapter is a statement about this matrix equation; it holds for both fields (for the Grassmann field, "$\Psi \neq 0$" means a configuration that is not identically zero). Written out in the diagonal frame the equation reads (`Revision/theory/field-theory.json`, formula key `field_equation`; Section 8.5 derives the last term on the left):
+Here $\partial_\mu$ is the partial derivative with respect to $x_\mu$, the sum over $\mu = 0, \dots, 7$ is understood (a repeated upper and lower index is summed), $m$ is the mass, $S = \bar\Psi\Psi = \Psi^\dagger C\Psi$ is the scalar built from the field and its **Dirac adjoint** $\bar\Psi = \Psi^\dagger C$ (the dagger means: transpose and take the complex conjugate of every entry), $U(S) = \frac{\lambda}{2}S^2$ is the potential, and $U'(S) = \lambda S$. The matrices $\Omega_\mu$ are the **spinor connection**, built from the canonical spin connection in Section 8.4. Everything in this chapter is a statement about this matrix equation; it holds for both fields (for the Grassmann field, "$\Psi \neq 0$" means a configuration that is not identically zero). Written out in the diagonal frame at $b_4 = 1$ the equation reads (`Revision/theory/field-theory.json`, formula key `field_equation`; Section 8.5 derives the last term on the left; for a general $b_4$ the extra-time factor is $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ and the term $\frac34(b_4'/b_4)\gamma^{(4)}\Psi$ is added on the left, `Revision/theory/field-theory-b4.json`, key `field_equation`):
 
 $$
 \begin{aligned}
 &e^{-a_4}\sin^{-1/6}z\,\big(\gamma^{(1)}\partial_1 + \gamma^{(2)}\partial_2 + \gamma^{(3)}\partial_3\big)\Psi + \gamma^{(4)}\partial_4\Psi \\
-&\quad + e^{a_4}\sin^{-1/6}z\,\big(\gamma^{(5)}\partial_5 + \gamma^{(6)}\partial_6 + \gamma^{(7)}\partial_7\big)\Psi + \tan z\,\gamma^{(8)}\partial_8\Psi + 3H\gamma^{(8)}\Psi = \big(m + U'(S)\big)\Psi .
+&\quad + e^{a_4}\sin^{-1/6}z\,\big(\gamma^{(5)}\partial_5 + \gamma^{(6)}\partial_6 + \gamma^{(7)}\partial_7\big)\Psi + \tan z\,\gamma^{(0)}\partial_0\Psi + 3H\gamma^{(0)}\Psi = \big(m + U'(S)\big)\Psi .
 \end{aligned}
 $$
 
-The derivative terms are $\sum_\mu\gamma^\mu\partial_\mu\Psi = \sum_\mu(\gamma^{(\mu)}/f_\mu)\partial_\mu\Psi$, with $1/f_i = e^{-a_4}\sin^{-1/6}z$, $1/f_4 = 1$, $1/f_t = e^{a_4}\sin^{-1/6}z$ and $1/f_8 = \tan z$. These factors are the **frame factors**: they carry the metric into every derivative term.
+The derivative terms are $\sum_\mu\gamma^\mu\partial_\mu\Psi = \sum_\mu(\gamma^{(\mu)}/f_\mu)\partial_\mu\Psi$, with $1/f_0 = \tan z$, $1/f_i = e^{-a_4}\sin^{-1/6}z$, $1/f_4 = 1$ and $1/f_t = e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ ($e^{a_4}\sin^{-1/6}z$ at $b_4 = 1$). These factors are the **frame factors**: they carry the metric into every derivative term.
 
 **Units.** $H$, $m$ and every momentum are measured in one unit, an inverse length, and the coordinates in its inverse; every printed number is a pure number in this unit. The examples use $H = m = 1$, the values of the Kohn-Sham record.
 
@@ -94,52 +98,52 @@ $$
 
 The first line inserts the new frame; the second reorders the finite sums; the third uses the condition on $\Lambda$ and then the frame condition of the old frame.
 
-**The boost in the $(x_4, x_8)$ plane.** The **hyperbolic functions** are $\cosh b = (e^b + e^{-b})/2$ and $\sinh b = (e^b - e^{-b})/2$. They obey
+**The boost in the $(x_4, x_0)$ plane.** The **hyperbolic functions** are $\cosh b = (e^b + e^{-b})/2$ and $\sinh b = (e^b - e^{-b})/2$. They obey
 
 $$
 \cosh^2 b - \sinh^2 b = \frac{(e^b + e^{-b})^2 - (e^b - e^{-b})^2}{4} = \frac{4e^be^{-b}}{4} = 1 ,
 $$
 
-where the middle step expands both squares ($e^{2b} + 2 + e^{-2b}$ minus $e^{2b} - 2 + e^{-2b}$ leaves $4$). The **boost** with **rapidity** $b$ mixes the time-like frame vector of $x_4$ and the space-like frame vector of $x_8$:
+where the middle step expands both squares ($e^{2b} + 2 + e^{-2b}$ minus $e^{2b} - 2 + e^{-2b}$ leaves $4$). The **boost** with **rapidity** $b$ mixes the time-like frame vector of $x_4$ and the space-like frame vector of $x_0$:
 
 $$
-e'^{(4)} = \cosh b\;e^{(4)} + \sinh b\;e^{(8)}, \qquad e'^{(8)} = \sinh b\;e^{(4)} + \cosh b\;e^{(8)},
+e'^{(4)} = \cosh b\;e^{(4)} + \sinh b\;e^{(0)}, \qquad e'^{(0)} = \sinh b\;e^{(4)} + \cosh b\;e^{(0)},
 $$
 
-and keeps the other six. It keeps the frame metric: the two mixed vectors enter the metric as $-e'^{(4)}e'^{(4)} + e'^{(8)}e'^{(8)}$ (products of components at the same $\mu$ and $\nu$), and
+and keeps the other six. It keeps the frame metric: the two mixed vectors enter the metric as $-e'^{(4)}e'^{(4)} + e'^{(0)}e'^{(0)}$ (products of components at the same $\mu$ and $\nu$), and
 
 $$
 \begin{aligned}
--e'^{(4)}e'^{(4)} + e'^{(8)}e'^{(8)} &= -\big(\cosh^2 b\,e^{(4)}e^{(4)} + 2\cosh b\sinh b\,e^{(4)}e^{(8)} + \sinh^2 b\,e^{(8)}e^{(8)}\big) \\
-&\quad + \big(\sinh^2 b\,e^{(4)}e^{(4)} + 2\sinh b\cosh b\,e^{(4)}e^{(8)} + \cosh^2 b\,e^{(8)}e^{(8)}\big) \\
-&= -(\cosh^2 b - \sinh^2 b)\,e^{(4)}e^{(4)} + (\cosh^2 b - \sinh^2 b)\,e^{(8)}e^{(8)} \\
-&= -e^{(4)}e^{(4)} + e^{(8)}e^{(8)} .
+-e'^{(4)}e'^{(4)} + e'^{(0)}e'^{(0)} &= -\big(\cosh^2 b\,e^{(4)}e^{(4)} + 2\cosh b\sinh b\,e^{(4)}e^{(0)} + \sinh^2 b\,e^{(0)}e^{(0)}\big) \\
+&\quad + \big(\sinh^2 b\,e^{(4)}e^{(4)} + 2\sinh b\cosh b\,e^{(4)}e^{(0)} + \cosh^2 b\,e^{(0)}e^{(0)}\big) \\
+&= -(\cosh^2 b - \sinh^2 b)\,e^{(4)}e^{(4)} + (\cosh^2 b - \sinh^2 b)\,e^{(0)}e^{(0)} \\
+&= -e^{(4)}e^{(4)} + e^{(0)}e^{(0)} .
 \end{aligned}
 $$
 
-The first two lines multiply out the two squares (here $e^{(4)}e^{(8)}$ stands for the symmetric combination of the two orders), the third collects the terms (the mixed terms cancel), and the fourth uses $\cosh^2 b - \sinh^2 b = 1$. The rapidity may change from point to point; we take $b = \beta x_4 + b_0$ with two constants $\beta$ (the **rapidity rate**) and $b_0$, a different boost at every time. Every such frame describes the author's metric exactly (PROVED; `Revision/theory/reports/python-scope.json`, check `boosted_frame_reproduces_metric`, and the same check of `wolfram-scope.json`).
+The first two lines multiply out the two squares (here $e^{(4)}e^{(0)}$ stands for the symmetric combination of the two orders), the third collects the terms (the mixed terms cancel), and the fourth uses $\cosh^2 b - \sinh^2 b = 1$. The rapidity may change from point to point; we take $b = \beta x_4 + b_0$ with two constants $\beta$ (the **rapidity rate**) and $b_0$, a different boost at every time. Every such frame describes the author's metric exactly (PROVED; `Revision/theory/reports/python-scope.json`, check `boosted_frame_reproduces_metric`, and the same check of `wolfram-scope.json`).
 
 **The principle.** A change of frame changes the spin connection and the coordinate gammas, and the field changes with it, $\Psi' = S\Psi$ with an invertible $16 \times 16$ matrix $S(x)$ (Section 8.9 finds $S$ for the boost). A statement about the field equation is a property of the equation itself only if it holds in every frame. A statement that holds in one frame only describes how we chose to write the equation.
 
 ### 8.4 The Christoffel symbols and the canonical spin connection of the diagonal frame
 
-**Christoffel symbols.** The **Christoffel symbols** $\Gamma^\lambda{}_{\mu\nu}$ say how the coordinate directions turn from point to point (Chapter 3). For a diagonal metric they are
+**Christoffel symbols.** The **Christoffel symbols** $\Gamma^\lambda{}_{\mu\nu}$ say how the coordinate directions turn from point to point (Chapter 3). In this section and the next five the metric is taken at $b_4 = 1$, as in the record's scope reports and in Notebook 08c; Sections 7.18 and 6.3 to 6.8 give the same objects for a general $b_4$, where the extra-time rate $-a_4'$ becomes $-a_4' + b_4'/(2b_4)$ and the frame factor of the extra times gets the factor $b_4^{1/2}$. For a diagonal metric they are
 
 $$
 \Gamma^\lambda{}_{\mu\nu} = \frac{1}{2g_{\lambda\lambda}}\big(\partial_\mu g_{\lambda\nu} + \partial_\nu g_{\lambda\mu} - \partial_\lambda g_{\mu\nu}\big),
 $$
 
-and they are symmetric in the two lower indices. The author's metric depends only on $x_4$ (through $a_4$) and on $x_8$ (through $z$), and $dz/dx_8 = 6H$. It has 25 independent nonzero symbols (PROVED; `Revision/theory/reports/python-field-theory.json`, check `christoffel_symmetric_metric_compatible`):
+and they are symmetric in the two lower indices. The author's metric depends only on $x_4$ (through $a_4$) and on $x_0$ (through $z$), and $dz/dx_0 = 6H$. It has 25 independent nonzero symbols (PROVED; `Revision/theory/reports/python-field-theory.json`, check `christoffel_symmetric_metric_compatible`):
 
 | symbol | value | symbol | value |
 | --- | --- | --- | --- |
-| $\Gamma^{x_i}{}_{x_ix_4}$ | $a_4'$ | $\Gamma^{x_i}{}_{x_ix_8}$ | $H\cot z$ |
-| $\Gamma^{x_t}{}_{x_tx_4}$ | $-a_4'$ | $\Gamma^{x_t}{}_{x_tx_8}$ | $H\cot z$ |
+| $\Gamma^{x_i}{}_{x_ix_4}$ | $a_4'$ | $\Gamma^{x_i}{}_{x_ix_0}$ | $H\cot z$ |
+| $\Gamma^{x_t}{}_{x_tx_4}$ | $-a_4'$ | $\Gamma^{x_t}{}_{x_tx_0}$ | $H\cot z$ |
 | $\Gamma^{x_4}{}_{x_ix_i}$ | $e^{2a_4}\sin^{1/3}z\,a_4'$ | $\Gamma^{x_4}{}_{x_tx_t}$ | $e^{-2a_4}\sin^{1/3}z\,a_4'$ |
-| $\Gamma^{x_8}{}_{x_ix_i}$ | $-e^{2a_4}H\sin^{4/3}z/\cos z$ | $\Gamma^{x_8}{}_{x_tx_t}$ | $e^{-2a_4}H\sin^{4/3}z/\cos z$ |
-| $\Gamma^{x_8}{}_{x_8x_8}$ | $-6H/(\sin z\cos z)$ | | |
+| $\Gamma^{x_0}{}_{x_ix_i}$ | $-e^{2a_4}H\sin^{4/3}z/\cos z$ | $\Gamma^{x_0}{}_{x_tx_t}$ | $e^{-2a_4}H\sin^{4/3}z/\cos z$ |
+| $\Gamma^{x_0}{}_{x_0x_0}$ | $-6H/(\sin z\cos z)$ | | |
 
-(each of the eight entries of the first four rows stands for three symbols, one for each value of $i$ or of $t$: 24 symbols, plus the last one: 25). Chapter 3 derives all of them from the metric, and Notebook 08c computes all of them again; here we repeat the three that this chapter needs most. First, $\Gamma^{x_1}{}_{x_1x_4}$: only the term $\partial_4 g_{11}$ survives, and $g_{11} = e^{2a_4}\sin^{1/3}z$ has $\partial_4 g_{11} = 2a_4'g_{11}$ (chain rule), so $\Gamma^{x_1}{}_{x_1x_4} = 2a_4'g_{11}/(2g_{11}) = a_4'$. Second, $\Gamma^{x_1}{}_{x_1x_8} = \partial_8 g_{11}/(2g_{11})$, and $\partial_8\sin^{1/3}z = \frac13\sin^{-2/3}z\cos z\cdot 6H$, so $\Gamma^{x_1}{}_{x_1x_8} = \frac12\cdot\frac13\cdot\frac{\cos z}{\sin z}\cdot 6H = H\cot z$. Third, $\Gamma^{x_5}{}_{x_5x_4} = \partial_4 g_{55}/(2g_{55})$ with $g_{55} = -e^{-2a_4}\sin^{1/3}z$, $\partial_4 g_{55} = -2a_4'g_{55}$, so $\Gamma^{x_5}{}_{x_5x_4} = -a_4'$: the sign is opposite to that of 3-space because the extra times deflate. A useful rule follows the same way: for a diagonal metric, $\Gamma^\mu{}_{\mu\nu} = \partial_\nu g_{\mu\mu}/(2g_{\mu\mu}) = \partial_\nu\ln f_\mu$ (no sum over $\mu$), because $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$ gives $\partial_\nu g_{\mu\mu}/(2g_{\mu\mu}) = 2\eta_{\mu\mu}f_\mu\partial_\nu f_\mu/(2\eta_{\mu\mu}f_\mu^2) = \partial_\nu f_\mu/f_\mu$.
+(each of the eight entries of the first four rows stands for three symbols, one for each value of $i$ or of $t$: 24 symbols, plus the last one: 25). Chapter 3 derives all of them from the metric, and Notebook 08c computes all of them again; here we repeat the three that this chapter needs most. First, $\Gamma^{x_1}{}_{x_1x_4}$: only the term $\partial_4 g_{11}$ survives, and $g_{11} = e^{2a_4}\sin^{1/3}z$ has $\partial_4 g_{11} = 2a_4'g_{11}$ (chain rule), so $\Gamma^{x_1}{}_{x_1x_4} = 2a_4'g_{11}/(2g_{11}) = a_4'$. Second, $\Gamma^{x_1}{}_{x_1x_0} = \partial_0 g_{11}/(2g_{11})$, and $\partial_0\sin^{1/3}z = \frac13\sin^{-2/3}z\cos z\cdot 6H$, so $\Gamma^{x_1}{}_{x_1x_0} = \frac12\cdot\frac13\cdot\frac{\cos z}{\sin z}\cdot 6H = H\cot z$. Third, $\Gamma^{x_5}{}_{x_5x_4} = \partial_4 g_{55}/(2g_{55})$ with $g_{55} = -e^{-2a_4}\sin^{1/3}z$, $\partial_4 g_{55} = -2a_4'g_{55}$, so $\Gamma^{x_5}{}_{x_5x_4} = -a_4'$: the sign is opposite to that of 3-space because the extra times deflate. A useful rule follows the same way: for a diagonal metric, $\Gamma^\mu{}_{\mu\nu} = \partial_\nu g_{\mu\mu}/(2g_{\mu\mu}) = \partial_\nu\ln f_\mu$ (no sum over $\mu$), because $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$ gives $\partial_\nu g_{\mu\mu}/(2g_{\mu\mu}) = 2\eta_{\mu\mu}f_\mu\partial_\nu f_\mu/(2\eta_{\mu\mu}f_\mu^2) = \partial_\nu f_\mu/f_\mu$.
 
 **The canonical spin connection.** The **canonical spin connection** of a frame is (Chapter 6)
 
@@ -161,12 +165,12 @@ The first line inserts $e^a{}_\nu = f_a\delta^a_\nu$ and $E_b{}^\nu = \delta^\nu
 - $a = b$: $\omega_\mu{}^a{}_a = f_a\partial_\mu(1/f_a) + \Gamma^a{}_{\mu a} = -\partial_\mu\ln f_a + \partial_\mu\ln f_a = 0$, by the derivative of $1/f$ ($f\,\partial(1/f) = -\partial f/f$) and the rule $\Gamma^a{}_{\mu a} = \partial_\mu\ln f_a$ above.
 - $a \neq b$: $\delta^a_b = 0$, so $\omega_\mu{}^a{}_b = (f_a/f_b)\,\Gamma^a{}_{\mu b}$.
 
-So a component with $a \neq b$ is nonzero exactly when the Christoffel symbol $\Gamma^a{}_{\mu b}$ is. The table shows that for $\mu = x_4$ and $\mu = x_8$ every symbol $\Gamma^a{}_{\mu b}$ with $a \neq b$ vanishes (the nonzero symbols with a lower index $x_4$ or $x_8$ all have $a = b$, like $\Gamma^{x_i}{}_{x_ix_4}$), so $\omega_{x_4} = \omega_{x_8} = 0$. For $\mu = x_i$ the symbols with $a \neq b$ are $\Gamma^{x_i}{}_{x_ix_4}$, $\Gamma^{x_i}{}_{x_ix_8}$, $\Gamma^{x_4}{}_{x_ix_i}$ and $\Gamma^{x_8}{}_{x_ix_i}$; for $\mu = x_t$ the same with $t$. We compute one member of each antisymmetric pair, with $a < b$, line by line:
+So a component with $a \neq b$ is nonzero exactly when the Christoffel symbol $\Gamma^a{}_{\mu b}$ is. The table shows that for $\mu = x_4$ and $\mu = x_0$ every symbol $\Gamma^a{}_{\mu b}$ with $a \neq b$ vanishes (the nonzero symbols with a lower index $x_4$ or $x_0$ all have $a = b$, like $\Gamma^{x_i}{}_{x_ix_4}$), so $\omega_{x_4} = \omega_{x_0} = 0$. For $\mu = x_i$ the symbols with $a \neq b$ are $\Gamma^{x_i}{}_{x_ix_4}$, $\Gamma^{x_i}{}_{x_ix_0}$, $\Gamma^{x_4}{}_{x_ix_i}$ and $\Gamma^{x_0}{}_{x_ix_i}$; for $\mu = x_t$ the same with $t$. We compute one member of each antisymmetric pair, with $a < b$, line by line:
 
 - $\omega_{x_i}{}^{(i)}{}_{(4)} = (f_i/f_4)\,\Gamma^{x_i}{}_{x_ix_4} = e^{a_4}\sin^{1/6}z\cdot a_4'$, and lowering with $\eta_{ii} = +1$: $\omega_{x_i\,(i)(4)} = a_4'e^{a_4}\sin^{1/6}z$.
-- $\omega_{x_i}{}^{(i)}{}_{(8)} = (f_i/f_8)\,\Gamma^{x_i}{}_{x_ix_8} = e^{a_4}\sin^{1/6}z\,\tan z\cdot H\cot z = He^{a_4}\sin^{1/6}z$ (because $\tan z\cot z = 1$), so $\omega_{x_i\,(i)(8)} = He^{a_4}\sin^{1/6}z$.
+- $\omega_{x_i}{}^{(i)}{}_{(0)} = (f_i/f_0)\,\Gamma^{x_i}{}_{x_ix_0} = e^{a_4}\sin^{1/6}z\,\tan z\cdot H\cot z = He^{a_4}\sin^{1/6}z$ (because $\tan z\cot z = 1$), so $\omega_{x_i\,(i)(0)} = He^{a_4}\sin^{1/6}z$.
 - $\omega_{x_t}{}^{(4)}{}_{(t)} = (f_4/f_t)\,\Gamma^{x_4}{}_{x_tx_t} = e^{a_4}\sin^{-1/6}z\cdot e^{-2a_4}\sin^{1/3}z\,a_4' = a_4'e^{-a_4}\sin^{1/6}z$, and lowering with $\eta_{44} = -1$: $\omega_{x_t\,(4)(t)} = -a_4'e^{-a_4}\sin^{1/6}z$.
-- $\omega_{x_t}{}^{(t)}{}_{(8)} = (f_t/f_8)\,\Gamma^{x_t}{}_{x_tx_8} = e^{-a_4}\sin^{1/6}z\,\tan z\cdot H\cot z = He^{-a_4}\sin^{1/6}z$, and lowering with $\eta_{tt} = -1$: $\omega_{x_t\,(t)(8)} = -He^{-a_4}\sin^{1/6}z$.
+- $\omega_{x_t}{}^{(t)}{}_{(0)} = (f_t/f_0)\,\Gamma^{x_t}{}_{x_tx_0} = e^{-a_4}\sin^{1/6}z\,\tan z\cdot H\cot z = He^{-a_4}\sin^{1/6}z$, and lowering with $\eta_{tt} = -1$: $\omega_{x_t\,(t)(0)} = -He^{-a_4}\sin^{1/6}z$.
 
 Antisymmetry can be seen on one example: $\omega_{x_i}{}^{(4)}{}_{(i)} = (f_4/f_i)\Gamma^{x_4}{}_{x_ix_i} = e^{-a_4}\sin^{-1/6}z\cdot e^{2a_4}\sin^{1/3}z\,a_4' = a_4'e^{a_4}\sin^{1/6}z$, and lowering with $\eta_{44} = -1$ gives $\omega_{x_i\,(4)(i)} = -a_4'e^{a_4}\sin^{1/6}z = -\omega_{x_i\,(i)(4)}$. With three values of $i$ and three of $t$ this gives exactly 12 independent nonzero components $\omega_{\mu ab}$ with $a < b$ (PROVED; `Revision/theory/reports/wolfram-field-theory.json`, check `omega_components`).
 
@@ -174,15 +178,15 @@ Antisymmetry can be seen on one example: $\omega_{x_i}{}^{(4)}{}_{(i)} = (f_4/f_
 
 $$
 \begin{aligned}
-\Omega_{x_i} &= \omega_{x_i(i)(4)}S^{i4} + \omega_{x_i(i)(8)}S^{i8} = \tfrac12 e^{a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(8)}\big), \\
-\Omega_{x_t} &= \omega_{x_t(4)(t)}S^{4t} + \omega_{x_t(t)(8)}S^{t8} = -\tfrac12 e^{-a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(8)}\big), \\
-\Omega_{x_4} &= \Omega_{x_8} = 0 .
+\Omega_{x_i} &= \omega_{x_i(i)(4)}S^{i4} + \omega_{x_i(i)(0)}S^{i0} = \tfrac12 e^{a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(0)}\big), \\
+\Omega_{x_t} &= \omega_{x_t(4)(t)}S^{4t} + \omega_{x_t(t)(0)}S^{t0} = -\tfrac12 e^{-a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(0)}\big), \\
+\Omega_{x_4} &= \Omega_{x_0} = 0 .
 \end{aligned}
 $$
 
 These are the formulas of the record (`Revision/theory/field-theory.json`, formula key `Omega_components`). Two exact properties of this connection are used below. It makes the gammas **covariantly constant**: $\partial_\mu\gamma^\nu + \sum_\lambda\Gamma^\nu{}_{\mu\lambda}\gamma^\lambda + [\Omega_\mu, \gamma^\nu] = 0$ for all 64 pairs $(\mu, \nu)$ (PROVED; `python-field-theory.json`, check `covariant_constancy_D_mu_gamma_nu`). And its **curvature** $F_{\mu\nu} = \partial_\mu\Omega_\nu - \partial_\nu\Omega_\mu + [\Omega_\mu, \Omega_\nu]$ equals $\frac14\sum_{\rho,\sigma}R_{\rho\sigma\mu\nu}\gamma^\rho\gamma^\sigma$, where $R_{\rho\sigma\mu\nu}$ is the Riemann tensor of the metric with its first index lowered (PROVED; `python-field-theory.json`, check `spinor_curvature_equals_riemann`, and `wolfram-field-theory.json`, check `spin_curvature_equals_Riemann`).
 
-### 8.5 What cancels and what survives: the term $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$
+### 8.5 What cancels and what survives: the term $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$
 
 The gravitational term of the field equation is $\gamma^\mu D_\mu\Psi - \gamma^\mu\partial_\mu\Psi = \gamma^\mu\Omega_\mu\Psi$. We compute the matrix $\gamma^\mu\Omega_\mu$ direction by direction (no sum), then add.
 
@@ -190,9 +194,9 @@ The gravitational term of the field equation is $\gamma^\mu D_\mu\Psi - \gamma^\
 
 $$
 \begin{aligned}
-\gamma^{x_i}\Omega_{x_i} &= \frac{\gamma^{(i)}}{e^{a_4}\sin^{1/6}z}\cdot\tfrac12 e^{a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(8)}\big) \\
-&= \tfrac12\big(a_4'\gamma^{(i)}\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(i)}\gamma^{(8)}\big) \\
-&= \tfrac12 a_4'\gamma^{(4)} + \tfrac12 H\gamma^{(8)} .
+\gamma^{x_i}\Omega_{x_i} &= \frac{\gamma^{(i)}}{e^{a_4}\sin^{1/6}z}\cdot\tfrac12 e^{a_4}\sin^{1/6}z\,\big(a_4'\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(0)}\big) \\
+&= \tfrac12\big(a_4'\gamma^{(i)}\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(i)}\gamma^{(0)}\big) \\
+&= \tfrac12 a_4'\gamma^{(4)} + \tfrac12 H\gamma^{(0)} .
 \end{aligned}
 $$
 
@@ -202,26 +206,26 @@ The first line inserts $\gamma^{x_i} = \gamma^{(i)}/f_i$ and $\Omega_{x_i}$; the
 
 $$
 \begin{aligned}
-\gamma^{x_t}\Omega_{x_t} &= \frac{\gamma^{(t)}}{e^{-a_4}\sin^{1/6}z}\cdot\Big(-\tfrac12 e^{-a_4}\sin^{1/6}z\Big)\big(a_4'\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(8)}\big) \\
-&= -\tfrac12\big(a_4'\gamma^{(t)}\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(t)}\gamma^{(8)}\big) \\
-&= -\tfrac12\big(-a_4'\gamma^{(4)}\gamma^{(t)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(t)}\gamma^{(8)}\big) \\
-&= -\tfrac12\big(a_4'\gamma^{(4)} - H\gamma^{(8)}\big) = -\tfrac12 a_4'\gamma^{(4)} + \tfrac12 H\gamma^{(8)} .
+\gamma^{x_t}\Omega_{x_t} &= \frac{\gamma^{(t)}}{e^{-a_4}\sin^{1/6}z}\cdot\Big(-\tfrac12 e^{-a_4}\sin^{1/6}z\Big)\big(a_4'\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(0)}\big) \\
+&= -\tfrac12\big(a_4'\gamma^{(t)}\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(t)}\gamma^{(0)}\big) \\
+&= -\tfrac12\big(-a_4'\gamma^{(4)}\gamma^{(t)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(t)}\gamma^{(0)}\big) \\
+&= -\tfrac12\big(a_4'\gamma^{(4)} - H\gamma^{(0)}\big) = -\tfrac12 a_4'\gamma^{(4)} + \tfrac12 H\gamma^{(0)} .
 \end{aligned}
 $$
 
 The first line inserts $\gamma^{x_t} = \gamma^{(t)}/f_t$ and $\Omega_{x_t}$; the second cancels the scale factors; the third moves $\gamma^{(t)}$ to the right past $\gamma^{(4)}$, which changes the sign (they anticommute); the fourth uses $(\gamma^{(t)})^2 = -I_{16}$ (a time-like direction) in both terms.
 
-**The time $x_4$ and the hidden direction $x_8$.** $\Omega_{x_4} = \Omega_{x_8} = 0$, so $\gamma^{x_4}\Omega_{x_4} = \gamma^{x_8}\Omega_{x_8} = 0$.
+**The time $x_4$ and the hidden direction $x_0$.** $\Omega_{x_4} = \Omega_{x_0} = 0$, so $\gamma^{x_4}\Omega_{x_4} = \gamma^{x_0}\Omega_{x_0} = 0$.
 
-**The sum.** The coefficient of $\gamma^{(4)}$ is $3\cdot\frac12 a_4' + 3\cdot(-\frac12 a_4') = 0$: the three inflating directions and the three deflating extra times cancel exactly. The coefficient of $\gamma^{(8)}$ is $6\cdot\frac12 H = 3H$: the six directions that carry the warp $\sin^{1/6}z$ add up. Hence
+**The sum.** The coefficient of $\gamma^{(4)}$ is $3\cdot\frac12 a_4' + 3\cdot(-\frac12 a_4') = 0$: the three inflating directions and the three deflating extra times cancel exactly. The coefficient of $\gamma^{(0)}$ is $6\cdot\frac12 H = 3H$: the six directions that carry the warp $\sin^{1/6}z$ add up. Hence
 
 $$
-\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}
+\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}
 $$
 
-for every history $a_4(x_4)$, every $H > 0$ and every point. This is PROVED, and the Revision record proves it twice: the sympy report `python-field-theory.json` has the checks `time_terms_cancel_hidden_term_survives` and `gamma_mu_Omega_mu_equals_3H_gamma_x8`, and the independent Wolfram report `wolfram-field-theory.json` has the checks `gammaOmega_x4_terms_cancel` and `gammaOmega_equals_3H_gamma_x8`. The cancellation happens because 3-space inflates at exactly the rate at which the extra times deflate: the same balance makes the volume factor $\cos z$ independent of the time. Exercise 2 of Section 8.39 shows what would happen if the extra times inflated too.
+for every history $a_4(x_4)$, every $H > 0$ and every point. This is PROVED, and the Revision record proves it twice: the sympy report `python-field-theory.json` has the checks `time_terms_cancel_hidden_term_survives` and `gamma_mu_Omega_mu_equals_3H_gamma_x0`, and the independent Wolfram report `wolfram-field-theory.json` has the checks `gammaOmega_x4_terms_cancel` and `gammaOmega_equals_3H_gamma_x0`. The cancellation happens because 3-space inflates at exactly the rate at which the extra times deflate: the same balance makes the volume factor $\cos z$ independent of the time. Exercise 2 of Section 8.39 shows what would happen if the extra times inflated too. For a changing $b_4$ the extra times deflate at the rate $a_4' - b_4'/(2b_4)$, and the sum is $3H\gamma^{(0)} + \frac34(b_4'/b_4)\gamma^{(4)}$ (Section 7.18; `python-field-theory-b4.json`, check `gammaOmega_total`).
 
-**The divergence form.** The same matrix has a second, shorter formula. The rule $\Gamma^\mu{}_{\mu\nu} = \partial_\nu\ln f_\mu$ of Section 8.4, summed over $\mu$, gives $\sum_\mu\Gamma^\mu{}_{\mu\nu} = \partial_\nu\ln(f_1\cdots f_8) = \partial_\nu\ln\sqrt{|g|}$. Now sum the covariant constancy of Section 8.4 over $\mu = \nu$:
+**The divergence form.** The same matrix has a second, shorter formula. The rule $\Gamma^\mu{}_{\mu\nu} = \partial_\nu\ln f_\mu$ of Section 8.4, summed over $\mu$, gives $\sum_\mu\Gamma^\mu{}_{\mu\nu} = \partial_\nu\ln(f_0\cdots f_7) = \partial_\nu\ln\sqrt{|g|}$. Now sum the covariant constancy of Section 8.4 over $\mu = \nu$:
 
 $$
 \begin{aligned}
@@ -237,7 +241,7 @@ $$
 \gamma^\mu\Omega_\mu = \frac{1}{2\sqrt{|g|}}\sum_\mu\partial_\mu\big(\sqrt{|g|}\gamma^\mu\big) .
 $$
 
-For the author's metric only $\mu = x_8$ contributes: $\sqrt{|g|}\gamma^{x_8} = \cos z\tan z\,\gamma^{(8)} = \sin z\,\gamma^{(8)}$, whose $x_8$ derivative is $6H\cos z\,\gamma^{(8)}$, and dividing by $2\cos z$ gives $3H\gamma^{(8)}$ again; the term with $\mu = x_4$ is $\partial_4(\cos z\,\gamma^{(4)}) = 0$ because $\cos z$ does not depend on the time, and the other six vanish because nothing depends on $x_1, x_2, x_3, x_5, x_6, x_7$ (PROVED; `python-field-theory.json`, check `divergence_of_sqrtg_gamma`). In words: the term is half the divergence of the coordinate gammas weighted with the volume factor, a **half-density term**.
+For the author's metric only $\mu = x_0$ contributes: $\sqrt{|g|}\gamma^{x_0} = \cos z\tan z\,\gamma^{(0)} = \sin z\,\gamma^{(0)}$, whose $x_0$ derivative is $6H\cos z\,\gamma^{(0)}$, and dividing by $2\cos z$ gives $3H\gamma^{(0)}$ again; the term with $\mu = x_4$ is $\partial_4(\cos z\,\gamma^{(4)}) = 0$ because $\cos z$ does not depend on the time (for a changing $b_4$, $\sqrt{|g|} = b_4^{3/2}\cos z$ and this term gives $\frac34(b_4'/b_4)\gamma^{(4)}$), and the other six vanish because nothing depends on $x_1, x_2, x_3, x_5, x_6, x_7$ (PROVED; `python-field-theory.json`, check `divergence_of_sqrtg_gamma`). In words: the term is half the divergence of the coordinate gammas weighted with the volume factor, a **half-density term**.
 
 ### 8.6 Non-triviality: the connection vanishes only in flat space
 
@@ -249,23 +253,23 @@ For the author's metric only $\mu = x_8$ contributes: $\sqrt{|g|}\gamma^{x_8} = 
 
 The case $H = 0$ is the formal flat limit; it is not a member of the author's family (Section 8.2). For every metric of the family the canonical spin connection is therefore not zero. This is PROVED; in the Revision record it is the check `nontriviality_Omega_zero_iff_flat` of the sympy report `python-field-theory.json` and the check `Omega_vanishes_iff_a4prime_and_H_vanish` of the Wolfram report `wolfram-field-theory.json`.
 
-**The term is not zero for any field that is not zero.** Suppose $3H\gamma^{(8)}\Psi = 0$ at some point. Multiply from the left by $\gamma^{(8)}/(3H)$ (allowed, since $H > 0$): $\gamma^{(8)}\gamma^{(8)}\Psi = 0$, and $(\gamma^{(8)})^2 = I_{16}$ gives $\Psi = 0$. So in the diagonal frame the gravitational term $3H\gamma^{(8)}\Psi$ is nonzero wherever the field is nonzero (PROVED; `wolfram-field-theory.json`, checks `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00`).
+**The term is not zero for any field that is not zero.** Suppose $3H\gamma^{(0)}\Psi = 0$ at some point. Multiply from the left by $\gamma^{(0)}/(3H)$ (allowed, since $H > 0$): $\gamma^{(0)}\gamma^{(0)}\Psi = 0$, and $(\gamma^{(0)})^2 = I_{16}$ gives $\Psi = 0$. So in the diagonal frame the gravitational term $3H\gamma^{(0)}\Psi$ is nonzero wherever the field is nonzero (PROVED; `wolfram-field-theory.json`, checks `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00`).
 
-**What this proves, and what it does not.** Read literally, in the diagonal frame and for the field variables $\Psi$, the tests [1] and [2] hold: the field equations always contain the nonzero gravitational term $3H\gamma^{(8)}\Psi$, and the spin connection vanishes only in flat 4+4 space. Sections 8.7 to 8.10 and 8.30 make precise which parts of this statement survive a change of frame or of variables.
+**What this proves, and what it does not.** Read literally, in the diagonal frame and for the field variables $\Psi$, the tests [1] and [2] hold: the field equations always contain the nonzero gravitational term $3H\gamma^{(0)}\Psi$, and the spin connection vanishes only in flat 4+4 space. Sections 8.7 to 8.10 and 8.30 make precise which parts of this statement survive a change of frame or of variables.
 
 ### 8.7 The deflation is invisible in the term, but not in the curvature
 
-**No $a_4$ in the term.** The result $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$ contains neither $a_4$ nor $a_4'$ nor $a_4''$: the deflation of the extra times leaves no trace in this term (PROVED; `Revision/theory/reports/python-scope.json`, check `gammaOmega_blind_to_the_deflation`). Along the deflating history the separate pieces do change: the components $\omega_{x_1\,(1)(4)}$ and $\omega_{x_1\,(1)(8)}$ of the inflating direction grow like $e^{a_4}$, those of a deflating extra time shrink like $e^{-a_4}$. Contracted with the coordinate gammas, which carry the inverse factors, each piece becomes constant, and the pieces then cancel; Notebook 08c draws this (Figure 08c.2).
+**No $a_4$ in the term.** The result $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$ contains neither $a_4$ nor $a_4'$ nor $a_4''$: the deflation of the extra times leaves no trace in this term (PROVED; `Revision/theory/reports/python-scope.json`, check `gammaOmega_blind_to_the_deflation`). Along the deflating history the separate pieces do change: the components $\omega_{x_1\,(1)(4)}$ and $\omega_{x_1\,(1)(8)}$ of the inflating direction grow like $e^{a_4}$, those of a deflating extra time shrink like $e^{-a_4}$. Contracted with the coordinate gammas, which carry the inverse factors, each piece becomes constant, and the pieces then cancel; Notebook 08c draws this (Figure 08c.2).
 
 **The geometry of the $a_4$ sector is curved.** The mixed Ricci tensor of the author's metric (Chapter 3) is diagonal, with
 
 $$
-R^{x_i}{}_{x_i} = a_4'' - 6H^2, \quad R^{x_4}{}_{x_4} = 6(a_4')^2, \quad R^{x_t}{}_{x_t} = -a_4'' - 6H^2, \quad R^{x_8}{}_{x_8} = -6H^2,
+R^{x_i}{}_{x_i} = a_4'' - 6H^2, \quad R^{x_4}{}_{x_4} = 6(a_4')^2, \quad R^{x_t}{}_{x_t} = -a_4'' - 6H^2, \quad R^{x_0}{}_{x_0} = -6H^2,
 $$
 
-and the Ricci scalar is $R = 3(a_4'' - 6H^2) + 6(a_4')^2 + 3(-a_4'' - 6H^2) - 6H^2 = 6\big((a_4')^2 - 7H^2\big)$ (adding the eight diagonal entries: the $a_4''$ terms cancel and $-18H^2 - 18H^2 - 6H^2 = -42H^2$). (PROVED; `wolfram-field-theory.json`, check `ricci_mixed_components`, and `python-field-theory.json`, check `curvature_nonzero_flat_only_formally`.) Since $R^{x_8}{}_{x_8} = -6H^2 < 0$ for every $H > 0$ and every $a_4$, the metric is never flat (`wolfram-field-theory.json`, check `never_flat_for_H_positive`). And $R^{x_4}{}_{x_4} = 6(a_4')^2$ is not zero whenever $a_4$ changes: the deflation is real curvature, which the term $\gamma^\mu\Omega_\mu$ does not see.
+and the Ricci scalar is $R = 3(a_4'' - 6H^2) + 6(a_4')^2 + 3(-a_4'' - 6H^2) - 6H^2 = 6\big((a_4')^2 - 7H^2\big)$ (adding the eight diagonal entries: the $a_4''$ terms cancel and $-18H^2 - 18H^2 - 6H^2 = -42H^2$). (PROVED; `wolfram-field-theory.json`, check `ricci_mixed_components`, and `python-field-theory.json`, check `curvature_nonzero_flat_only_formally`.) Since $R^{x_0}{}_{x_0} = -6H^2 < 0$ for every $H > 0$ and every $a_4$, the metric is never flat (`wolfram-field-theory.json`, check `never_flat_for_H_positive`). And $R^{x_4}{}_{x_4} = 6(a_4')^2$ is not zero whenever $a_4$ changes: the deflation is real curvature, which the term $\gamma^\mu\Omega_\mu$ does not see.
 
-**Where the deflation does enter.** It enters the field equation through the frame factors of the derivative terms (Section 8.2): the 3-space derivatives carry $e^{-a_4}\sin^{-1/6}z$, which shrinks as 3-space inflates, and the extra-time derivatives carry $e^{a_4}\sin^{-1/6}z$, which grows as the extra times deflate. Sections 8.24 and 8.25 show what this growth does to waves along the extra times.
+**Where the deflation does enter.** It enters the field equation through the frame factors of the derivative terms (Section 8.2): the 3-space derivatives carry $e^{-a_4}\sin^{-1/6}z$, which shrinks as 3-space inflates, and the extra-time derivatives carry $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ ($e^{a_4}\sin^{-1/6}z$ at $b_4 = 1$), which grows as the extra times deflate. Sections 8.24 and 8.25 show what this growth does to waves along the extra times.
 
 ### 8.8 The connection drops out of the Lagrangian but not out of the field equation
 
@@ -277,7 +281,7 @@ $$
 \end{aligned}
 $$
 
-using $(\gamma^{(i)})^2 = I_{16}$, then moving $\gamma^{(i)}$ past $\gamma^{(4)}$ (one sign change), then $(\gamma^{(i)})^2 = I_{16}$ again. For the second product the same three steps read $\gamma^{(i)}\gamma^{(i)}\gamma^{(8)} + \gamma^{(i)}\gamma^{(8)}\gamma^{(i)} = \gamma^{(8)} - \gamma^{(8)}\gamma^{(i)}\gamma^{(i)} = \gamma^{(8)} - \gamma^{(8)} = 0$. For $\mu = x_t$ the products are $\gamma^{(4)}\gamma^{(t)}$ and $\gamma^{(t)}\gamma^{(8)}$: $\gamma^{(t)}\gamma^{(4)}\gamma^{(t)} + \gamma^{(4)}\gamma^{(t)}\gamma^{(t)} = -\gamma^{(4)}\gamma^{(t)}\gamma^{(t)} + \gamma^{(4)}\gamma^{(t)}\gamma^{(t)} = 0$, and $\gamma^{(t)}\gamma^{(t)}\gamma^{(8)} + \gamma^{(t)}\gamma^{(8)}\gamma^{(t)} = \gamma^{(t)}\gamma^{(t)}\gamma^{(8)} - \gamma^{(t)}\gamma^{(t)}\gamma^{(8)} = 0$. For $\mu = x_4, x_8$ the connection is zero. (PROVED; `python-scope.json`, check `connection_free_lagrangian_same_equations`, and `python-field-theory.json`, check `anticommutator_gamma_Omega_vanishes`.)
+using $(\gamma^{(i)})^2 = I_{16}$, then moving $\gamma^{(i)}$ past $\gamma^{(4)}$ (one sign change), then $(\gamma^{(i)})^2 = I_{16}$ again. For the second product the same three steps read $\gamma^{(i)}\gamma^{(i)}\gamma^{(0)} + \gamma^{(i)}\gamma^{(0)}\gamma^{(i)} = \gamma^{(0)} - \gamma^{(0)}\gamma^{(i)}\gamma^{(i)} = \gamma^{(0)} - \gamma^{(0)} = 0$. For $\mu = x_t$ the products are $\gamma^{(4)}\gamma^{(t)}$ and $\gamma^{(t)}\gamma^{(0)}$: $\gamma^{(t)}\gamma^{(4)}\gamma^{(t)} + \gamma^{(4)}\gamma^{(t)}\gamma^{(t)} = -\gamma^{(4)}\gamma^{(t)}\gamma^{(t)} + \gamma^{(4)}\gamma^{(t)}\gamma^{(t)} = 0$, and $\gamma^{(t)}\gamma^{(t)}\gamma^{(0)} + \gamma^{(t)}\gamma^{(0)}\gamma^{(t)} = \gamma^{(t)}\gamma^{(t)}\gamma^{(0)} - \gamma^{(t)}\gamma^{(t)}\gamma^{(0)} = 0$. For $\mu = x_4, x_0$ the connection is zero. (PROVED; `python-scope.json`, check `connection_free_lagrangian_same_equations`, and `python-field-theory.json`, check `anticommutator_gamma_Omega_vanishes`.)
 
 **The connection drops out of the Lagrangian.** The kinetic part of the Lagrangian (Chapter 7) is $\sqrt{|g|}\cdot\frac12\big(\bar\Psi\gamma^\mu D_\mu\Psi - (D_\mu\bar\Psi)\gamma^\mu\Psi\big)$ with $D_\mu\bar\Psi = \partial_\mu\bar\Psi - \bar\Psi\Omega_\mu$. Its connection part is, line by line,
 
@@ -298,38 +302,38 @@ $$
 \end{aligned}
 $$
 
-The first line differentiates the terms that contain $\bar\Psi$ without a derivative ($\partial S/\partial\bar\Psi = \Psi$ and $\partial U/\partial\bar\Psi = U'(S)\Psi$); the second differentiates the one term that contains $\partial_\mu\bar\Psi$; the third subtracts the derivative of the second line, using the product rule $\partial_\mu(\sqrt{|g|}\gamma^\mu\Psi) = \partial_\mu(\sqrt{|g|}\gamma^\mu)\Psi + \sqrt{|g|}\gamma^\mu\partial_\mu\Psi$; the fourth collects the two halves of $\gamma^\mu\partial_\mu\Psi$. Setting it to zero and using the divergence form of Section 8.5 gives exactly $\gamma^\mu\partial_\mu\Psi + 3H\gamma^{(8)}\Psi = (m + U')\Psi$, the field equation of Section 8.2. (The record proves the same for the Grassmann field with left derivatives: `python-field-theory.json`, check `grassmann_euler_lagrange_psibar_variation`.)
+The first line differentiates the terms that contain $\bar\Psi$ without a derivative ($\partial S/\partial\bar\Psi = \Psi$ and $\partial U/\partial\bar\Psi = U'(S)\Psi$); the second differentiates the one term that contains $\partial_\mu\bar\Psi$; the third subtracts the derivative of the second line, using the product rule $\partial_\mu(\sqrt{|g|}\gamma^\mu\Psi) = \partial_\mu(\sqrt{|g|}\gamma^\mu)\Psi + \sqrt{|g|}\gamma^\mu\partial_\mu\Psi$; the fourth collects the two halves of $\gamma^\mu\partial_\mu\Psi$. Setting it to zero and using the divergence form of Section 8.5 gives exactly $\gamma^\mu\partial_\mu\Psi + 3H\gamma^{(0)}\Psi = (m + U')\Psi$, the field equation of Section 8.2. (The record proves the same for the Grassmann field with left derivatives: `python-field-theory.json`, check `grassmann_euler_lagrange_psibar_variation`.)
 
-So the gravitational term $3H\gamma^{(8)}\Psi$ is at the same time the term that the canonical spin connection produces and the half-density term that the volume factor produces when a Lagrangian without any spin connection is varied (PROVED; `python-scope.json`, check `connection_free_lagrangian_same_equations`, both engines). This is the first hint that the value $3H\gamma^{(8)}$ is not a deep property of gravity's coupling: the next two sections make that precise.
+So the gravitational term $3H\gamma^{(0)}\Psi$ is at the same time the term that the canonical spin connection produces and the half-density term that the volume factor produces when a Lagrangian without any spin connection is varied (PROVED; `python-scope.json`, check `connection_free_lagrangian_same_equations`, both engines). This is the first hint that the value $3H\gamma^{(0)}$ is not a deep property of gravity's coupling: the next two sections make that precise.
 
 ### 8.9 Another frame: the boosted frame and its term
 
-Take the boosted frame of Section 8.3, with rapidity $b = \beta x_4 + b_0$. Its canonical spin connection (computed from the definition of Section 8.4 with the new frame) satisfies the vielbein postulate and is antisymmetric (PROVED; `python-scope.json`, check `boosted_frame_canonical_connection`). The record then finds, exactly, for every $a_4$, every $H > 0$ and every $\beta$:
+Take the boosted frame of Section 8.3, with rapidity $b = \beta x_4 + b_0$. Its canonical spin connection (computed from the definition of Section 8.4 with the new frame) satisfies the vielbein postulate and is antisymmetric (PROVED; `python-scope.json`, check `boosted_frame_canonical_connection`). The record then finds, exactly, for every $a_4$, every $H > 0$ and every $\beta$ (at $b_4 = 1$; for a general $b_4$ the term $\frac34(b_4'/b_4)(\cosh b\,\gamma^{(4)} - \sinh b\,\gamma^{(0)})$ is added, Section 6.16):
 
 $$
-\gamma'^\mu\Omega'_\mu = \frac{6H - \beta}{2}\big(\cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)}\big)
+\gamma'^\mu\Omega'_\mu = \frac{6H - \beta}{2}\big(\cosh b\,\gamma^{(0)} - \sinh b\,\gamma^{(4)}\big)
 $$
 
 (PROVED; `python-scope.json`, check `boosted_frame_gammaOmega_formula`, and the same check of `wolfram-scope.json`). Notebook 08c computes it from the definitions, with sympy. Here we derive it by a shorter route that also explains it.
 
-**Step 1: the matrix that moves the gammas.** Let $J = \gamma^{(4)}\gamma^{(8)}$. Its square is $J^2 = \gamma^{(4)}\gamma^{(8)}\gamma^{(4)}\gamma^{(8)} = -\gamma^{(4)}\gamma^{(4)}\gamma^{(8)}\gamma^{(8)} = -(-I_{16})(I_{16}) = I_{16}$ (anticommute the middle pair, then use the two squares). For a matrix with $J^2 = I_{16}$ the exponential series splits into even and odd powers, and $e^{\theta J} = \cosh\theta\,I_{16} + \sinh\theta\,J$. Define
+**Step 1: the matrix that moves the gammas.** Let $J = \gamma^{(4)}\gamma^{(0)}$. Its square is $J^2 = \gamma^{(4)}\gamma^{(0)}\gamma^{(4)}\gamma^{(0)} = -\gamma^{(4)}\gamma^{(4)}\gamma^{(0)}\gamma^{(0)} = -(-I_{16})(I_{16}) = I_{16}$ (anticommute the middle pair, then use the two squares). For a matrix with $J^2 = I_{16}$ the exponential series splits into even and odd powers, and $e^{\theta J} = \cosh\theta\,I_{16} + \sinh\theta\,J$. Define
 
 $$
 S = e^{-(b/2)J} = \cosh\tfrac b2\,I_{16} - \sinh\tfrac b2\,J, \qquad S^{-1} = e^{(b/2)J} = \cosh\tfrac b2\,I_{16} + \sinh\tfrac b2\,J .
 $$
 
-**Step 2: what $S$ does to each gamma.** $J$ commutes with $\gamma^{(a)}$ for $a \neq 4, 8$ (moving $\gamma^{(a)}$ past the two factors of $J$ changes the sign twice), so $S\gamma^{(a)}S^{-1} = \gamma^{(a)}$ for those six directions. $J$ anticommutes with $\gamma^{(4)}$ and with $\gamma^{(8)}$. To see it for $\gamma^{(4)}$, move $\gamma^{(4)}$ from the left of $J = \gamma^{(4)}\gamma^{(8)}$ to its right: passing the factor $\gamma^{(4)}$ (itself) changes nothing, and passing the factor $\gamma^{(8)}$ changes the sign once, so $\gamma^{(4)}J = \gamma^{(4)}\gamma^{(4)}\gamma^{(8)} = -\gamma^{(4)}\gamma^{(8)}\gamma^{(4)} = -J\gamma^{(4)}$. For $\gamma^{(8)}$ it is the same with the roles exchanged: passing $\gamma^{(4)}$ changes the sign once and passing $\gamma^{(8)}$ changes nothing, so $\gamma^{(8)}J = \gamma^{(8)}\gamma^{(4)}\gamma^{(8)} = -\gamma^{(4)}\gamma^{(8)}\gamma^{(8)} = -J\gamma^{(8)}$. Because $\gamma^{(4)}$ anticommutes with $J$, it turns every power $J^n$ into $(-J)^n$ when it is moved past it, so $\gamma^{(4)}e^{\theta J} = e^{-\theta J}\gamma^{(4)}$ for every number $\theta$; in particular $S\gamma^{(4)} = e^{-(b/2)J}\gamma^{(4)} = \gamma^{(4)}e^{(b/2)J} = \gamma^{(4)}S^{-1}$, and line by line
+**Step 2: what $S$ does to each gamma.** $J$ commutes with $\gamma^{(a)}$ for $a \neq 4, 8$ (moving $\gamma^{(a)}$ past the two factors of $J$ changes the sign twice), so $S\gamma^{(a)}S^{-1} = \gamma^{(a)}$ for those six directions. $J$ anticommutes with $\gamma^{(4)}$ and with $\gamma^{(0)}$. To see it for $\gamma^{(4)}$, move $\gamma^{(4)}$ from the left of $J = \gamma^{(4)}\gamma^{(0)}$ to its right: passing the factor $\gamma^{(4)}$ (itself) changes nothing, and passing the factor $\gamma^{(0)}$ changes the sign once, so $\gamma^{(4)}J = \gamma^{(4)}\gamma^{(4)}\gamma^{(0)} = -\gamma^{(4)}\gamma^{(0)}\gamma^{(4)} = -J\gamma^{(4)}$. For $\gamma^{(0)}$ it is the same with the roles exchanged: passing $\gamma^{(4)}$ changes the sign once and passing $\gamma^{(0)}$ changes nothing, so $\gamma^{(0)}J = \gamma^{(0)}\gamma^{(4)}\gamma^{(0)} = -\gamma^{(4)}\gamma^{(0)}\gamma^{(0)} = -J\gamma^{(0)}$. Because $\gamma^{(4)}$ anticommutes with $J$, it turns every power $J^n$ into $(-J)^n$ when it is moved past it, so $\gamma^{(4)}e^{\theta J} = e^{-\theta J}\gamma^{(4)}$ for every number $\theta$; in particular $S\gamma^{(4)} = e^{-(b/2)J}\gamma^{(4)} = \gamma^{(4)}e^{(b/2)J} = \gamma^{(4)}S^{-1}$, and line by line
 
 $$
 \begin{aligned}
-S\gamma^{(4)}S^{-1} &= \gamma^{(4)}S^{-1}S^{-1} = \gamma^{(4)}e^{bJ} = \gamma^{(4)}\big(\cosh b\,I_{16} + \sinh b\,\gamma^{(4)}\gamma^{(8)}\big) \\
-&= \cosh b\,\gamma^{(4)} + \sinh b\,(\gamma^{(4)})^2\gamma^{(8)} = \cosh b\,\gamma^{(4)} - \sinh b\,\gamma^{(8)} .
+S\gamma^{(4)}S^{-1} &= \gamma^{(4)}S^{-1}S^{-1} = \gamma^{(4)}e^{bJ} = \gamma^{(4)}\big(\cosh b\,I_{16} + \sinh b\,\gamma^{(4)}\gamma^{(0)}\big) \\
+&= \cosh b\,\gamma^{(4)} + \sinh b\,(\gamma^{(4)})^2\gamma^{(0)} = \cosh b\,\gamma^{(4)} - \sinh b\,\gamma^{(0)} .
 \end{aligned}
 $$
 
-The first line moves $S$ to the right of $\gamma^{(4)}$ (it becomes $S^{-1}$), multiplies the two exponentials ($e^{(b/2)J}e^{(b/2)J} = e^{bJ}$) and writes out $e^{bJ}$; the second multiplies out and uses $(\gamma^{(4)})^2 = -I_{16}$. In the same way $S\gamma^{(8)}S^{-1} = \gamma^{(8)}e^{bJ} = \cosh b\,\gamma^{(8)} + \sinh b\,\gamma^{(8)}\gamma^{(4)}\gamma^{(8)} = \cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)}$ (here $\gamma^{(8)}\gamma^{(4)}\gamma^{(8)} = -\gamma^{(4)}(\gamma^{(8)})^2 = -\gamma^{(4)}$).
+The first line moves $S$ to the right of $\gamma^{(4)}$ (it becomes $S^{-1}$), multiplies the two exponentials ($e^{(b/2)J}e^{(b/2)J} = e^{bJ}$) and writes out $e^{bJ}$; the second multiplies out and uses $(\gamma^{(4)})^2 = -I_{16}$. In the same way $S\gamma^{(0)}S^{-1} = \gamma^{(0)}e^{bJ} = \cosh b\,\gamma^{(0)} + \sinh b\,\gamma^{(0)}\gamma^{(4)}\gamma^{(0)} = \cosh b\,\gamma^{(0)} - \sinh b\,\gamma^{(4)}$ (here $\gamma^{(0)}\gamma^{(4)}\gamma^{(0)} = -\gamma^{(4)}(\gamma^{(0)})^2 = -\gamma^{(4)}$).
 
-**Step 3: the coordinate gammas of the boosted frame.** The boosted frame is $e' = Le$, with the boost matrix $L$; its inverse is $E' = EL^{-1}$ (the inverse of a product is the product of the inverses in reverse order), and $L^{-1}$ is the boost with $-b$. So $\gamma'^\mu = \sum_a E'_a{}^\mu\gamma^{(a)} = \sum_b E_b{}^\mu\tilde\gamma^{(b)}$, where $\tilde\gamma^{(4)} = \cosh b\,\gamma^{(4)} - \sinh b\,\gamma^{(8)}$, $\tilde\gamma^{(8)} = \cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)}$ and $\tilde\gamma^{(a)} = \gamma^{(a)}$ otherwise. By Step 2, $\tilde\gamma^{(b)} = S\gamma^{(b)}S^{-1}$ for every $b$, and therefore $\gamma'^\mu = S\gamma^\mu S^{-1}$.
+**Step 3: the coordinate gammas of the boosted frame.** The boosted frame is $e' = Le$, with the boost matrix $L$; its inverse is $E' = EL^{-1}$ (the inverse of a product is the product of the inverses in reverse order), and $L^{-1}$ is the boost with $-b$. So $\gamma'^\mu = \sum_a E'_a{}^\mu\gamma^{(a)} = \sum_b E_b{}^\mu\tilde\gamma^{(b)}$, where $\tilde\gamma^{(4)} = \cosh b\,\gamma^{(4)} - \sinh b\,\gamma^{(0)}$, $\tilde\gamma^{(0)} = \cosh b\,\gamma^{(0)} - \sinh b\,\gamma^{(4)}$ and $\tilde\gamma^{(a)} = \gamma^{(a)}$ otherwise. By Step 2, $\tilde\gamma^{(b)} = S\gamma^{(b)}S^{-1}$ for every $b$, and therefore $\gamma'^\mu = S\gamma^\mu S^{-1}$.
 
 **Step 4: the connection of the boosted frame.** Chapter 6 proves in general (in its section on local spin covariance) that the canonical spinor connection of the turned frame is $S\Omega_\mu S^{-1} - (\partial_\mu S)S^{-1}$. Here is a shorter argument for the same result. It rests on two facts: the canonical spin connection of every frame makes that frame's coordinate gammas covariantly constant (a consequence of the vielbein postulate), and it is a combination of the $S^{ab}$, so its trace (the sum of its diagonal entries) is zero. Both are established in Chapter 6; we quote them here, and the direct computation of the record and of Notebook 08c confirms their consequence. We show that $\Omega'_\mu = S\Omega_\mu S^{-1} - (\partial_\mu S)S^{-1}$ has both properties, and that only one matrix has them. First, covariant constancy, line by line (with $\partial_\mu S^{-1} = -S^{-1}(\partial_\mu S)S^{-1}$, which follows from differentiating $SS^{-1} = I_{16}$):
 
@@ -341,7 +345,7 @@ $$
 \end{aligned}
 $$
 
-The first line is the product rule for $S\gamma^\nu S^{-1}$; the second inserts $\Omega'_\mu$ and $\gamma'^\nu$ into the commutator and multiplies out; the third adds the two lines and the Christoffel term ($\Gamma$ belongs to the metric, the same in both frames), sees the four terms with $\partial_\mu S$ cancel in pairs, and uses the covariant constancy of the diagonal frame. Second, the trace: $\mathrm{tr}(S\Omega_\mu S^{-1}) = \mathrm{tr}\,\Omega_\mu = 0$, and $(\partial_\mu S)S^{-1}$ is a multiple of $J$ (Step 5 below), whose trace is zero (the trace of a product of two different gammas is zero: $\mathrm{tr}(\gamma^{(4)}\gamma^{(8)}) = \mathrm{tr}(\gamma^{(8)}\gamma^{(4)}) = -\mathrm{tr}(\gamma^{(4)}\gamma^{(8)})$, by the cyclic rule of the trace and then anticommutation). Third, uniqueness: if two traceless matrices $\Omega'_1$, $\Omega'_2$ both make the $\gamma'^\nu$ covariantly constant, their difference commutes with every $\gamma'^\nu$; then $S^{-1}(\Omega'_1 - \Omega'_2)S$ commutes with every $\gamma^{(a)}$, so it is a multiple of $I_{16}$ (the gammas form an irreducible representation, Chapter 5; `Revision/algebra/reports/python-algebra.json`, check `pin_commutant_dimension_1`), and a traceless multiple of $I_{16}$ is zero. Hence the canonical connection of the boosted frame is $\Omega'_\mu = S\Omega_\mu S^{-1} - (\partial_\mu S)S^{-1}$.
+The first line is the product rule for $S\gamma^\nu S^{-1}$; the second inserts $\Omega'_\mu$ and $\gamma'^\nu$ into the commutator and multiplies out; the third adds the two lines and the Christoffel term ($\Gamma$ belongs to the metric, the same in both frames), sees the four terms with $\partial_\mu S$ cancel in pairs, and uses the covariant constancy of the diagonal frame. Second, the trace: $\mathrm{tr}(S\Omega_\mu S^{-1}) = \mathrm{tr}\,\Omega_\mu = 0$, and $(\partial_\mu S)S^{-1}$ is a multiple of $J$ (Step 5 below), whose trace is zero (the trace of a product of two different gammas is zero: $\mathrm{tr}(\gamma^{(4)}\gamma^{(0)}) = \mathrm{tr}(\gamma^{(0)}\gamma^{(4)}) = -\mathrm{tr}(\gamma^{(4)}\gamma^{(0)})$, by the cyclic rule of the trace and then anticommutation). Third, uniqueness: if two traceless matrices $\Omega'_1$, $\Omega'_2$ both make the $\gamma'^\nu$ covariantly constant, their difference commutes with every $\gamma'^\nu$; then $S^{-1}(\Omega'_1 - \Omega'_2)S$ commutes with every $\gamma^{(a)}$, so it is a multiple of $I_{16}$ (the gammas form an irreducible representation, Chapter 5; `Revision/algebra/reports/python-algebra.json`, check `pin_commutant_dimension_1`), and a traceless multiple of $I_{16}$ is zero. Hence the canonical connection of the boosted frame is $\Omega'_\mu = S\Omega_\mu S^{-1} - (\partial_\mu S)S^{-1}$.
 
 **Step 5: the term.** Line by line:
 
@@ -349,48 +353,48 @@ $$
 \begin{aligned}
 \gamma'^\mu\Omega'_\mu &= S\gamma^\mu S^{-1}\big(S\Omega_\mu S^{-1} - (\partial_\mu S)S^{-1}\big) = S\big(\gamma^\mu\Omega_\mu - \gamma^\mu S^{-1}\partial_\mu S\big)S^{-1}, \\
 S^{-1}\partial_\mu S &= -\tfrac{\beta}{2}J \ \text{for}\ \mu = x_4, \quad 0 \ \text{otherwise}, \\
-\gamma^{x_4}S^{-1}\partial_4 S &= \gamma^{(4)}\big(-\tfrac{\beta}{2}\gamma^{(4)}\gamma^{(8)}\big) = -\tfrac{\beta}{2}(\gamma^{(4)})^2\gamma^{(8)} = \tfrac{\beta}{2}\gamma^{(8)}, \\
-\gamma'^\mu\Omega'_\mu &= S\big(3H\gamma^{(8)} - \tfrac{\beta}{2}\gamma^{(8)}\big)S^{-1} = \frac{6H - \beta}{2}\,S\gamma^{(8)}S^{-1} = \frac{6H - \beta}{2}\big(\cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)}\big) .
+\gamma^{x_4}S^{-1}\partial_4 S &= \gamma^{(4)}\big(-\tfrac{\beta}{2}\gamma^{(4)}\gamma^{(0)}\big) = -\tfrac{\beta}{2}(\gamma^{(4)})^2\gamma^{(0)} = \tfrac{\beta}{2}\gamma^{(0)}, \\
+\gamma'^\mu\Omega'_\mu &= S\big(3H\gamma^{(0)} - \tfrac{\beta}{2}\gamma^{(0)}\big)S^{-1} = \frac{6H - \beta}{2}\,S\gamma^{(0)}S^{-1} = \frac{6H - \beta}{2}\big(\cosh b\,\gamma^{(0)} - \sinh b\,\gamma^{(4)}\big) .
 \end{aligned}
 $$
 
-The first line inserts Steps 3 and 4 and cancels $S^{-1}S$; the second differentiates $S = e^{-(b/2)J}$ with $\partial_4 b = \beta$ (only $b$ depends on the coordinates, and only on $x_4$); the third uses $\gamma^{x_4} = \gamma^{(4)}$ ($f_4 = 1$) and $(\gamma^{(4)})^2 = -I_{16}$; the fourth uses $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$ (Section 8.5) and Step 2. This is the record's formula.
+The first line inserts Steps 3 and 4 and cancels $S^{-1}S$; the second differentiates $S = e^{-(b/2)J}$ with $\partial_4 b = \beta$ (only $b$ depends on the coordinates, and only on $x_4$); the third uses $\gamma^{x_4} = \gamma^{(4)}$ ($f_4 = 1$) and $(\gamma^{(4)})^2 = -I_{16}$; the fourth uses $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$ (Section 8.5) and Step 2. This is the record's formula.
 
-**The consequence.** For $\beta = 6H$, that is with the rapidity $b = 6Hx_4 + b_0$, the term $\gamma'^\mu\Omega'_\mu$ is identically zero, for every $H > 0$ and every history $a_4$, although the metric is the author's curved metric (PROVED; `python-scope.json`, check `boosted_frame_gammaOmega_vanishes`, both engines). The connection itself is not zero in that frame: $\Omega'_\mu \neq 0$ for $\mu = x_1, \dots, x_7$ (zero only for $x_8$; the same check). So the sentence "the field equation contains the gravitational term $3H\gamma^{(8)}\Psi$" is true in the diagonal frame and false in this frame: it is a statement about one frame, not about the field equation as such. In the boosted frame gravity enters the field equation through the boosted frame vectors $E'_a{}^\mu$ alone.
+**The consequence.** For $\beta = 6H$, that is with the rapidity $b = 6Hx_4 + b_0$, the term $\gamma'^\mu\Omega'_\mu$ is identically zero, for every $H > 0$ and every history $a_4$, although the metric is the author's curved metric (PROVED; `python-scope.json`, check `boosted_frame_gammaOmega_vanishes`, both engines). The connection itself is not zero in that frame: $\Omega'_\mu \neq 0$ for $\mu = x_0, \dots, x_6$ (zero only for $x_7$; the same check). So the sentence "the field equation contains the gravitational term $3H\gamma^{(0)}\Psi$" is true in the diagonal frame and false in this frame: it is a statement about one frame, not about the field equation as such. In the boosted frame gravity enters the field equation through the boosted frame vectors $E'_a{}^\mu$ alone.
 
 ### 8.10 What no frame removes: the curvature of the connection
 
-**The curvature in two frames.** The curvature of the spinor connection equals the Riemann tensor contracted with two coordinate gammas, $F_{\mu\nu} = \frac14\sum_{\rho,\sigma}R_{\rho\sigma\mu\nu}\gamma^\rho\gamma^\sigma$ (Section 8.4). This identity holds in every frame (a standard theorem, quoted without proof here as in Chapter 6, so ASSUMED in general; the record proves it for this metric in the diagonal frame, and Notebook 08c checks it in the diagonal and in the boosted frame for $(\mu, \nu) = (x_1, x_8)$). Chapter 6 also derives the relation below directly from local spin covariance, without this identity. The Riemann tensor belongs to the metric and is the same in both frames, and $\gamma'^\rho = S\gamma^\rho S^{-1}$ (Section 8.9). Hence, line by line,
+**The curvature in two frames.** The curvature of the spinor connection equals the Riemann tensor contracted with two coordinate gammas, $F_{\mu\nu} = \frac14\sum_{\rho,\sigma}R_{\rho\sigma\mu\nu}\gamma^\rho\gamma^\sigma$ (Section 8.4). This identity holds in every frame (a standard theorem, quoted without proof here as in Chapter 6, so ASSUMED in general; the record proves it for this metric in the diagonal frame, and Notebook 08c checks it in the diagonal and in the boosted frame for $(\mu, \nu) = (x_1, x_0)$). Chapter 6 also derives the relation below directly from local spin covariance, without this identity. The Riemann tensor belongs to the metric and is the same in both frames, and $\gamma'^\rho = S\gamma^\rho S^{-1}$ (Section 8.9). Hence, line by line,
 
 $$
 F'_{\mu\nu} = \tfrac14\sum_{\rho,\sigma}R_{\rho\sigma\mu\nu}\,S\gamma^\rho S^{-1}S\gamma^\sigma S^{-1} = S\Big(\tfrac14\sum_{\rho,\sigma}R_{\rho\sigma\mu\nu}\gamma^\rho\gamma^\sigma\Big)S^{-1} = SF_{\mu\nu}S^{-1} .
 $$
 
-**It is never zero.** In the diagonal frame Notebook 08c finds $F_{x_1x_8} = c_{14}\,\gamma^{(1)}\gamma^{(4)} + c_{18}\,\gamma^{(1)}\gamma^{(8)}$ with
+**It is never zero.** In the diagonal frame Notebook 08c finds $F_{x_1x_0} = c_{14}\,\gamma^{(1)}\gamma^{(4)} + c_{10}\,\gamma^{(1)}\gamma^{(0)}$ with
 
 $$
-c_{14} = -\frac{Ha_4'e^{a_4}\cos z}{2\sin^{5/6}z}, \qquad c_{18} = -\frac{H^2e^{a_4}\cos z}{2\sin^{5/6}z} .
+c_{14} = -\frac{Ha_4'e^{a_4}\cos z}{2\sin^{5/6}z}, \qquad c_{10} = -\frac{H^2e^{a_4}\cos z}{2\sin^{5/6}z} .
 $$
 
-The coefficient $c_{18}$ is never zero for $H > 0$ and $0 < z < \pi/2$, and $\gamma^{(1)}\gamma^{(4)}$ and $\gamma^{(1)}\gamma^{(8)}$ are linearly independent, so $F_{x_1x_8} \neq 0$ for every history $a_4$. Since $S$ is invertible, $F'_{x_1x_8} = SF_{x_1x_8}S^{-1} \neq 0$ too. If the connection $\Omega'_\mu$ vanished at all points of a region in some frame, its curvature would vanish there; it does not. So the spin connection vanishes in no frame of this kind (PROVED; `python-scope.json`, check `boosted_frame_curvature_nonzero`, both engines, which argues in general: the curvature of the connection is $\frac12R_{ab\mu\nu}S^{ab}$ in every frame, and the metric is curved for $H > 0$).
+The coefficient $c_{10}$ is never zero for $H > 0$ and $0 < z < \pi/2$, and $\gamma^{(1)}\gamma^{(4)}$ and $\gamma^{(1)}\gamma^{(0)}$ are linearly independent, so $F_{x_1x_0} \neq 0$ for every history $a_4$. Since $S$ is invertible, $F'_{x_1x_0} = SF_{x_1x_0}S^{-1} \neq 0$ too. If the connection $\Omega'_\mu$ vanished at all points of a region in some frame, its curvature would vanish there; it does not. So the spin connection vanishes in no frame of this kind (PROVED; `python-scope.json`, check `boosted_frame_curvature_nonzero`, both engines, which argues in general: the curvature of the connection is $\frac12R_{ab\mu\nu}S^{ab}$ in every frame, and the metric is curved for $H > 0$).
 
-**Two frames, one curvature.** The square of $F_{x_1x_8}$ is the same in both frames, $F^2 = (c_{14}^2 - c_{18}^2)I_{16} = H^2\big((a_4')^2 - H^2\big)e^{2a_4}\cos^2 z/(4\sin^{5/3}z)\cdot I_{16}$: the products $\gamma^{(1)}\gamma^{(4)}$ and $\gamma^{(1)}\gamma^{(8)}$ square to $+I_{16}$ and $-I_{16}$ and anticommute, so the cross terms cancel, and $F'^2 = SF^2S^{-1} = F^2$ because $F^2$ is a multiple of $I_{16}$. On the canonical history $a_4 = x_4$ (where $a_4' = H = 1$) this square is zero although $F$ is not: $F$ is then **nilpotent** (its square is the zero matrix, like the $2 \times 2$ matrix with rows $(0, 1)$ and $(0, 0)$), and in the boosted frame with $\beta = 6H$ it is $F' = e^{-b}F$ (Exercise 6 of Section 8.39 derives this).
+**Two frames, one curvature.** The square of $F_{x_1x_0}$ is the same in both frames, $F^2 = (c_{14}^2 - c_{10}^2)I_{16} = H^2\big((a_4')^2 - H^2\big)e^{2a_4}\cos^2 z/(4\sin^{5/3}z)\cdot I_{16}$: the products $\gamma^{(1)}\gamma^{(4)}$ and $\gamma^{(1)}\gamma^{(0)}$ square to $+I_{16}$ and $-I_{16}$ and anticommute, so the cross terms cancel, and $F'^2 = SF^2S^{-1} = F^2$ because $F^2$ is a multiple of $I_{16}$. On the canonical history $a_4 = x_4$ (where $a_4' = H = 1$) this square is zero although $F$ is not: $F$ is then **nilpotent** (its square is the zero matrix, like the $2 \times 2$ matrix with rows $(0, 1)$ and $(0, 0)$), and in the boosted frame with $\beta = 6H$ it is $F' = e^{-b}F$ (Exercise 6 of Section 8.39 derives this).
 
-**The frame-independent content of non-triviality.** Putting Sections 8.6 to 8.10 together: the canonical spin connection is nonzero in every frame, because its curvature is the curvature of spacetime, which is nonzero for every $H > 0$; and the frame factors $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$, none of which is identically 1, multiply every derivative term of the field equation except the one along the time $x_4$ (the derivatives along $x_1, x_2, x_3, x_5, x_6, x_7, x_8$; the factor of $\partial_4$ is $1/f_4 = 1$). These two facts do not depend on any choice. The value $3H\gamma^{(8)}$ of the term $\gamma^\mu\Omega_\mu$ does.
+**The frame-independent content of non-triviality.** Putting Sections 8.6 to 8.10 together: the canonical spin connection is nonzero in every frame, because its curvature is the curvature of spacetime, which is nonzero for every $H > 0$; and the frame factors $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$, none of which is identically 1, multiply every derivative term of the field equation except the one along the time $x_4$ (the derivatives along $x_1, x_2, x_3, x_5, x_6, x_7, x_0$; the factor of $\partial_4$ is $1/f_4 = 1$). These two facts do not depend on any choice. The value $3H\gamma^{(0)}$ of the term $\gamma^\mu\Omega_\mu$ does.
 
 ### 8.11 The connection in the energy-momentum tensor
 
-The spin connection drops out of the Lagrangian (Section 8.8), but it does reach the energy-momentum tensor, the source of gravity (Chapter 9). For a field that depends only on the time, $\Phi = \Phi(x_4)$, the entry $K^{x_4}{}_{x_1} = \frac12\big(\bar\Phi\gamma^{x_4}D_{x_1}\Phi - (D_{x_1}\bar\Phi)\gamma^{x_4}\Phi\big)$ has no derivative part ($\partial_1\Phi = 0$), and its connection part is $\frac12\bar\Phi\{\gamma^{x_4}, \Omega_{x_1}\}\Phi$. Line by line, with $\gamma^{x_4} = \gamma^{(4)}$ and $\Omega_{x_1} = \frac12f_1(a_4'\gamma^{(1)}\gamma^{(4)} + H\gamma^{(1)}\gamma^{(8)})$, $f_1 = e^{a_4}\sin^{1/6}z$:
+The spin connection drops out of the Lagrangian (Section 8.8), but it does reach the energy-momentum tensor, the source of gravity (Chapter 9). For a field that depends only on the time, $\Phi = \Phi(x_4)$, the entry $K^{x_4}{}_{x_1} = \frac12\big(\bar\Phi\gamma^{x_4}D_{x_1}\Phi - (D_{x_1}\bar\Phi)\gamma^{x_4}\Phi\big)$ has no derivative part ($\partial_1\Phi = 0$), and its connection part is $\frac12\bar\Phi\{\gamma^{x_4}, \Omega_{x_1}\}\Phi$. Line by line, with $\gamma^{x_4} = \gamma^{(4)}$ and $\Omega_{x_1} = \frac12f_1(a_4'\gamma^{(1)}\gamma^{(4)} + H\gamma^{(1)}\gamma^{(0)})$, $f_1 = e^{a_4}\sin^{1/6}z$:
 
 $$
 \begin{aligned}
 \gamma^{(4)}\gamma^{(1)}\gamma^{(4)} + \gamma^{(1)}\gamma^{(4)}\gamma^{(4)} &= -\gamma^{(1)}\gamma^{(4)}\gamma^{(4)} + \gamma^{(1)}\gamma^{(4)}\gamma^{(4)} = 0, \\
-\gamma^{(4)}\gamma^{(1)}\gamma^{(8)} + \gamma^{(1)}\gamma^{(8)}\gamma^{(4)} &= \gamma^{(4)}\gamma^{(1)}\gamma^{(8)} + \gamma^{(4)}\gamma^{(1)}\gamma^{(8)} = 2\gamma^{(4)}\gamma^{(1)}\gamma^{(8)}, \\
-\tfrac12\{\gamma^{x_4}, \Omega_{x_1}\} &= \tfrac12\cdot\tfrac12 f_1\big(a_4'\cdot 0 + H\cdot 2\gamma^{(4)}\gamma^{(1)}\gamma^{(8)}\big) = \tfrac12 e^{a_4}\sin^{1/6}z\,H\,\gamma^{(4)}\gamma^{(1)}\gamma^{(8)} .
+\gamma^{(4)}\gamma^{(1)}\gamma^{(0)} + \gamma^{(1)}\gamma^{(0)}\gamma^{(4)} &= \gamma^{(4)}\gamma^{(1)}\gamma^{(0)} + \gamma^{(4)}\gamma^{(1)}\gamma^{(0)} = 2\gamma^{(4)}\gamma^{(1)}\gamma^{(0)}, \\
+\tfrac12\{\gamma^{x_4}, \Omega_{x_1}\} &= \tfrac12\cdot\tfrac12 f_1\big(a_4'\cdot 0 + H\cdot 2\gamma^{(4)}\gamma^{(1)}\gamma^{(0)}\big) = \tfrac12 e^{a_4}\sin^{1/6}z\,H\,\gamma^{(4)}\gamma^{(1)}\gamma^{(0)} .
 \end{aligned}
 $$
 
-The first line moves the first $\gamma^{(4)}$ past $\gamma^{(1)}$ (one sign) and finds that the $a_4'$ part cancels; the second moves $\gamma^{(4)}$ in the second product to the front past two gammas (two signs); the third collects. The bilinear matrix $C\gamma^{(4)}\gamma^{(1)}\gamma^{(8)}$ is not the zero matrix, so this entry is not zero in general (PROVED; `python-scope.json`, check `spin_connection_in_the_energy_momentum_tensor`, both engines). Chapter 9 uses this entry (Section 9.12).
+The first line moves the first $\gamma^{(4)}$ past $\gamma^{(1)}$ (one sign) and finds that the $a_4'$ part cancels; the second moves $\gamma^{(4)}$ in the second product to the front past two gammas (two signs); the third collects. The bilinear matrix $C\gamma^{(4)}\gamma^{(1)}\gamma^{(0)}$ is not the zero matrix, so this entry is not zero in general (PROVED; `python-scope.json`, check `spin_connection_in_the_energy_momentum_tensor`, both engines). Chapter 9 uses this entry (Section 9.12).
 
 ### 8.12 Example: the term in two frames, computed from the definitions
 
@@ -603,31 +607,31 @@ def check_record(condition, title, report_file, check_names, *pieces):
 ```python
 gammas_record = json.loads(
     repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
-G = [sp.Matrix(rows) for rows in gammas_record["gamma"]]  # gamma^(x1) ... (x8)
-ETA = gammas_record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1]
-C = sp.Matrix(gammas_record["C"])  # C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3)
+G = [sp.Matrix(rows) for rows in gammas_record["gamma"]]  # gamma^(x0) ... (x7)
+ETA = gammas_record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1]
+C = sp.Matrix(gammas_record["C"])  # C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)
 ```
 
-The file `gammas.json` of the Revision record holds the eight gamma matrices as lists of rows of whole numbers, the frame metric `eta` and the matrix `C`. The **list comprehension** `[sp.Matrix(rows) for rows in ...]` turns each gamma into an exact sympy matrix; `G[0]` is $\gamma^{(1)}$, `G[3]` is $\gamma^{(4)}$ and `G[7]` is $\gamma^{(8)}$.
+The file `gammas.json` of the Revision record holds the eight gamma matrices as lists of rows of whole numbers, the frame metric `eta` and the matrix `C`. The **list comprehension** `[sp.Matrix(rows) for rows in ...]` turns each gamma into an exact sympy matrix; `G[k]` is $\gamma^{(k)}$: `G[0]` is $\gamma^{(0)}$, `G[1]` is $\gamma^{(1)}$ and `G[4]` is $\gamma^{(4)}$.
 
 ```python
-x = sp.symbols("x1:9", real=True)  # the coordinates; x[0] is x1, x[7] is x8
+x = sp.symbols("x0:8", real=True)  # the coordinates; x[k] is xk
 H = sp.Symbol("H", positive=True)
 beta, b0 = sp.symbols("beta b0", real=True)  # the boost: rapidity beta x4 + b0
-a4 = sp.Function("a4")(x[3])  # the metric function: ANY function of x4
-z = 6 * H * x[7]
+a4 = sp.Function("a4")(x[4])  # the metric function: ANY function of x4
+z = 6 * H * x[0]
 sixth = sp.sin(z) ** sp.Rational(1, 6)  # sin(z)^(1/6)
 ```
 
-`sp.symbols("x1:9")` makes the eight symbols `x1`, ..., `x8` (the range 1 to 8; the end 9 is not included); `real=True` tells sympy they are real numbers, and `positive=True` that $H > 0$. `sp.Function("a4")(x[3])` is an unknown function $a_4(x_4)$: nothing is assumed about it, so every check below holds for every history. `z` is the expression $6Hx_8$ and `sixth` the expression $\sin^{1/6}z$ (`sp.Rational(1, 6)` is the exact fraction $1/6$, not the decimal number $0.1666\ldots$).
+`sp.symbols("x0:8")` makes the eight symbols `x0`, ..., `x7` (the range 0 to 7; the end 8 is not included), so `x[k]` is $x_k$; `real=True` tells sympy they are real numbers, and `positive=True` that $H > 0$. `sp.Function("a4")(x[4])` is an unknown function $a_4(x_4)$: nothing is assumed about it, so every check below holds for every history. `z` is the expression $6Hx_0$ and `sixth` the expression $\sin^{1/6}z$ (`sp.Rational(1, 6)` is the exact fraction $1/6$, not the decimal number $0.1666\ldots$).
 
 ```python
-f = [sp.exp(a4) * sixth] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * sixth] * 3 \
-    + [sp.cot(z)]  # the scale factors f_1, ..., f_8
+f = [sp.cot(z)] + [sp.exp(a4) * sixth] * 3 + [sp.Integer(1)] \
+    + [sp.exp(-a4) * sixth] * 3  # the scale factors f_0, ..., f_7 (b4 = 1)
 g = [ETA[a] * f[a] ** 2 for a in range(8)]  # the diagonal entries g_aa
 third = sp.sin(z) ** sp.Rational(1, 3)
-authors_metric = [sp.exp(2 * a4) * third] * 3 + [-1] \
-    + [-sp.exp(-2 * a4) * third] * 3 + [sp.cot(z) ** 2]
+authors_metric = [sp.cot(z) ** 2] + [sp.exp(2 * a4) * third] * 3 + [-1] \
+    + [-sp.exp(-2 * a4) * third] * 3  # the author's metric at b4 = 1
 ```
 
 `[value] * 3` is a list with three copies of the value, and `+` joins lists; so `f` is the list of the eight scale factors of Section 8.2 (the backslash at the end of a line continues the statement on the next line). `g` holds the diagonal entries $g_{aa} = \eta_{aa}f_a^2$ (`range(8)` runs through 0, 1, ..., 7). `authors_metric` is the author's metric typed directly from his formula, as a second, independent copy.
@@ -645,20 +649,20 @@ def is_zero(expr):
 `is_zero` decides whether an exact expression is zero. `sp.sympify` turns plain Python numbers into sympy numbers; if the expression is already the number 0, the answer is yes. Otherwise sympy's general simplifier `sp.simplify` is tried, and if that does not reach 0, the trigonometric simplifier `sp.fu` followed by `simplify` again. (An answer "no" would only mean that sympy did not find a proof; every check of the notebook that uses `is_zero` needs the answer "yes", or that a quantity is NOT zero; for the latter the notebook also prints the expression, so that the reader can see it.)
 
 ```python
-# The record prints each entry as sympy writes it, e.g. "g_x8x8 = cot(6*H*x8)**2".
-metric_texts = [f"g_x{a + 1}x{a + 1} = {sp.sstr(authors_metric[a])}" for a in range(8)]
+# The record prints each entry as sympy writes it, e.g. "g_x0x0 = cot(6*H*x0)**2".
+metric_texts = [f"g_x{a}x{a} = {sp.sstr(authors_metric[a])}" for a in range(8)]
 say(metric_texts[0])
 say(metric_texts[4])
 check_record(all(is_zero(g[a] - authors_metric[a]) for a in range(8)),
              "eta_aa f_a^2 is the author's metric (all 8 diagonal entries)",
              "Revision/theory/reports/python-field-theory.json",
              "metric_from_vielbein_equals_SPEC", *metric_texts)
-check_record(is_zero(sp.prod(f) - sp.cos(z)), "sqrt|g| = f1 f2 ... f8 = cos z",
+check_record(is_zero(sp.prod(f) - sp.cos(z)), "sqrt|g| = f0 f1 ... f7 = cos z (b4 = 1)",
              "Revision/theory/reports/python-field-theory.json",
-             "sqrt_det_g_equals_cos_z", "cos(6 H x8)")
+             "sqrt_det_g_equals_cos_z", "cos(6 H x0)")
 ```
 
-`sp.sstr` writes an expression as sympy's text (powers with `**`). The list `metric_texts` holds the eight entries in the form in which the record prints them, for example `g_x1x1 = exp(2*a4(x4))*sin(6*H*x8)**(1/3)`; two of them are printed. The first check compares the eight entries $\eta_{aa}f_a^2$ with the author's entries exactly, and it requires the record's check `metric_from_vielbein_equals_SPEC` to contain all eight texts (`*metric_texts` passes the list as eight separate arguments). The second check multiplies the eight scale factors (`sp.prod`) and compares with $\cos z$. Output: the two entries and two PASS lines, each with its `reproduces` line.
+`sp.sstr` writes an expression as sympy's text (powers with `**`). The list `metric_texts` holds the eight entries in the form in which the record prints them, for example `g_x1x1 = exp(2*a4(x4))*sin(6*H*x0)**(1/3)`; two of them are printed. The first check compares the eight entries $\eta_{aa}f_a^2$ with the author's entries exactly, and it requires the record's check `metric_from_vielbein_equals_SPEC` to contain all eight texts (`*metric_texts` passes the list as eight separate arguments). The second check multiplies the eight scale factors (`sp.prod`) and compares with $\cos z$. Output: the two entries and two PASS lines, each with its `reproduces` line.
 
 **In [3], the Christoffel symbols.**
 
@@ -684,15 +688,15 @@ for lam in range(8):
 independent = sum(1 for lam in range(8) for mu in range(8) for nu in range(mu, 8)
                   if Gam[lam][mu][nu] != 0)
 report("independent nonzero Christoffel symbols", independent)
-for lam, mu, nu in ((0, 0, 3), (4, 3, 4), (0, 0, 7), (7, 7, 7)):
-    say(f"Gamma^x{lam + 1}_x{mu + 1} x{nu + 1} = {Gam[lam][mu][nu]}")
+for lam, mu, nu in ((1, 1, 4), (5, 4, 5), (1, 0, 1), (0, 0, 0)):
+    say(f"Gamma^x{lam}_x{mu} x{nu} = {Gam[lam][mu][nu]}")
 check_record(independent == 25, "25 independent nonzero Christoffel symbols",
              "Revision/theory/reports/python-field-theory.json",
              "christoffel_symmetric_metric_compatible",
              f"{independent} independent nonzero symbols")
 ```
 
-The **generator expression** counts 1 for every nonzero symbol with $\mu \le \nu$ (the symbols are symmetric in the two lower indices, so the pairs with $\nu < \mu$ are not new); the count is printed as a RESULT line: 25. The loop prints four symbols (index positions from 0, printed as names from 1): $\Gamma^{x_1}{}_{x_1x_4} = a_4'$, which sympy writes `Derivative(a4(x4), x4)`; $\Gamma^{x_5}{}_{x_4x_5} = -a_4'$; $\Gamma^{x_1}{}_{x_1x_8} = H/\tan z = H\cot z$; and $\Gamma^{x_8}{}_{x_8x_8} = -12H/\sin(2z)$, which is the table's $-6H/(\sin z\cos z)$ because $\sin 2z = 2\sin z\cos z$. The check requires 25 and the record's text "25 independent nonzero symbols".
+The **generator expression** counts 1 for every nonzero symbol with $\mu \le \nu$ (the symbols are symmetric in the two lower indices, so the pairs with $\nu < \mu$ are not new); the count is printed as a RESULT line: 25. The loop prints four symbols (index positions from 0, printed as names from 1): $\Gamma^{x_1}{}_{x_1x_4} = a_4'$, which sympy writes `Derivative(a4(x4), x4)`; $\Gamma^{x_5}{}_{x_4x_5} = -a_4'$; $\Gamma^{x_1}{}_{x_1x_0} = H/\tan z = H\cot z$; and $\Gamma^{x_0}{}_{x_0x_0} = -12H/\sin(2z)$, which is the table's $-6H/(\sin z\cos z)$ because $\sin 2z = 2\sin z\cos z$. The check requires 25 and the record's text "25 independent nonzero symbols".
 
 **In [4], the frame, its connection and the vielbein postulate.**
 
@@ -701,15 +705,15 @@ S_AB = [[(G[a] * G[c] - G[c] * G[a]) / 4 for c in range(8)] for a in range(8)]
 
 
 def boost(b):
-    """The boost by the rapidity b in the frame plane (x4, x8), and its inverse."""
+    """The boost by the rapidity b in the frame plane (x4, x0), and its inverse."""
     L, L_inverse = sp.eye(8), sp.eye(8)
-    L[3, 3] = L[7, 7] = L_inverse[3, 3] = L_inverse[7, 7] = sp.cosh(b)
-    L[3, 7] = L[7, 3] = sp.sinh(b)
-    L_inverse[3, 7] = L_inverse[7, 3] = -sp.sinh(b)
+    L[4, 4] = L[0, 0] = L_inverse[4, 4] = L_inverse[0, 0] = sp.cosh(b)
+    L[4, 0] = L[0, 4] = sp.sinh(b)
+    L_inverse[4, 0] = L_inverse[0, 4] = -sp.sinh(b)
     return L, L_inverse
 ```
 
-`S_AB[a][c]` is the generator $S^{ac} = \frac14[\gamma^{(a)}, \gamma^{(c)}]$ for all 64 pairs (the letter `c` is used for the second frame index because `b` is the rapidity). `boost(b)` starts from two $8 \times 8$ unit matrices (`sp.eye(8)`) and fills the entries of the $(x_4, x_8)$ plane (rows and columns 3 and 7): $\cosh b$ on the diagonal and $\sinh b$ off it for the boost $L$ of Section 8.3, and $-\sinh b$ off the diagonal for its inverse, the boost with $-b$ (multiply the two: $\cosh^2 b - \sinh^2 b = 1$ on the diagonal, $-\cosh b\sinh b + \sinh b\cosh b = 0$ off it).
+`S_AB[a][c]` is the generator $S^{ac} = \frac14[\gamma^{(a)}, \gamma^{(c)}]$ for all 64 pairs (the letter `c` is used for the second frame index because `b` is the rapidity). `boost(b)` starts from two $8 \times 8$ unit matrices (`sp.eye(8)`) and fills the entries of the $(x_4, x_0)$ plane (rows and columns 4 and 0): $\cosh b$ on the diagonal and $\sinh b$ off it for the boost $L$ of Section 8.3, and $-\sinh b$ off the diagonal for its inverse, the boost with $-b$ (multiply the two: $\cosh^2 b - \sinh^2 b = 1$ on the diagonal, $-\cosh b\sinh b + \sinh b\cosh b = 0$ off it).
 
 ```python
 def frame(b):
@@ -794,19 +798,20 @@ nonzero = [(mu, a, c) for mu in range(8) for a in range(8) for c in range(a + 1,
            if not is_zero(diagonal["omega"][mu, a, c])]
 omega_diagonal = diagonal["omega"]
 for mu, a, c in nonzero:
-    say(f"omega_x{mu + 1},(x{a + 1})(x{c + 1}) = "
+    say(f"omega_x{mu},(x{a})(x{c}) = "
         f"{sp.simplify(ETA[a] * omega_diagonal[mu, a, c])}")
 check_record(len(nonzero) == 12, "12 independent nonzero components omega_mu,ab (a < b)",
              "Revision/theory/reports/wolfram-field-theory.json", "omega_components",
-             f"exactly {len(nonzero)} independent nonzero omega_mu,ab (a < b)")
+             f"exactly {len(nonzero)} independent nonzero omega_mu,ab "
+             "(a < b in the order x0..x7)")
 ```
 
-`nonzero` lists every index triple $(\mu, a, c)$ with $a < c$ whose component is not zero, and the loop prints each lowered component $\omega_{\mu ac}$. The output shows exactly the 12 components of Section 8.4, in sympy's notation: for $x_1, x_2, x_3$ the pair `exp(a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4)` and `H*exp(a4(x4))*sin(6*H*x8)**(1/6)`, and for $x_5, x_6, x_7$ the same with $e^{-a_4}$ and a minus sign. The check requires 12 and the Wolfram record's text with the number 12.
+`nonzero` lists every index triple $(\mu, a, c)$ with $a < c$ whose component is not zero, and the loop prints each lowered component $\omega_{\mu ac}$. The output shows exactly the 12 components of Section 8.4, in sympy's notation: for $x_1, x_2, x_3$ the pair `exp(a4(x4))*sin(6*H*x0)**(1/6)*Derivative(a4(x4), x4)` and `H*exp(a4(x4))*sin(6*H*x0)**(1/6)`, and for $x_5, x_6, x_7$ the same with $e^{-a_4}$ and a minus sign. The check requires 12 and the Wolfram record's text with the number 12.
 
 **In [5], the connection vanishes only in flat space.**
 
 ```python
-a4_prime = sp.diff(a4, x[3])  # a4' = d a4 / d x4
+a4_prime = sp.diff(a4, x[4])  # a4' = d a4 / d x4
 A1 = sp.Symbol("A1", real=True)  # a letter that stands for a4'
 allowed = [sign * sp.exp(power * a4) * sixth for sign in (1, -1) for power in (1, -1)]
 kinds = []  # for each component: "A1" (a4' times a factor) or "H" (H times a factor)
@@ -853,78 +858,78 @@ The comment repeats the three-line argument of Section 8.6, and the check combin
 ```python
 per_direction = [(diagonal["gamma"][mu] * diagonal["Omega"][mu]).applyfunc(sp.simplify)
                  for mu in range(8)]
-coefficient_4 = [sp.simplify(-(G[3] * M).trace() / 16) for M in per_direction]
-coefficient_8 = [sp.simplify((G[7] * M).trace() / 16) for M in per_direction]
+coefficient_4 = [sp.simplify(-(G[4] * M).trace() / 16) for M in per_direction]
+coefficient_0 = [sp.simplify((G[0] * M).trace() / 16) for M in per_direction]
 ```
 
-`per_direction[mu]` is the product $\gamma^{x_\mu}\Omega_{x_\mu}$ (no sum); `.applyfunc(sp.simplify)` simplifies each of its 256 entries. The **trace** (`.trace()`) of a matrix is the sum of its diagonal entries. If $M = c_4\gamma^{(4)} + c_8\gamma^{(8)}$, then $\mathrm{tr}(\gamma^{(8)}M) = c_4\,\mathrm{tr}(\gamma^{(8)}\gamma^{(4)}) + c_8\,\mathrm{tr}(I_{16}) = 16c_8$ and $\mathrm{tr}(\gamma^{(4)}M) = c_4\,\mathrm{tr}(-I_{16}) + c_8\,\mathrm{tr}(\gamma^{(4)}\gamma^{(8)}) = -16c_4$, because the trace of a product of two different gammas is zero (Section 8.9, Step 4). So the two lists hold the coefficients $c_4$ and $c_8$ of every direction.
+`per_direction[mu]` is the product $\gamma^{x_\mu}\Omega_{x_\mu}$ (no sum); `.applyfunc(sp.simplify)` simplifies each of its 256 entries. The **trace** (`.trace()`) of a matrix is the sum of its diagonal entries. If $M = c_4\gamma^{(4)} + c_0\gamma^{(0)}$, then $\mathrm{tr}(\gamma^{(0)}M) = c_4\,\mathrm{tr}(\gamma^{(0)}\gamma^{(4)}) + c_0\,\mathrm{tr}(I_{16}) = 16c_0$ and $\mathrm{tr}(\gamma^{(4)}M) = c_4\,\mathrm{tr}(-I_{16}) + c_0\,\mathrm{tr}(\gamma^{(4)}\gamma^{(0)}) = -16c_4$, because the trace of a product of two different gammas is zero (Section 8.9, Step 4). So the two lists hold the coefficients $c_4$ and $c_0$ of every direction.
 
 ```python
 nothing_else = all(
     all(is_zero(entry) for entry in
-        per_direction[mu] - coefficient_4[mu] * G[3] - coefficient_8[mu] * G[7])
+        per_direction[mu] - coefficient_4[mu] * G[4] - coefficient_0[mu] * G[0])
     for mu in range(8))
 for mu in range(8):
-    say(f"gamma^x{mu + 1} Omega_x{mu + 1} = ({coefficient_4[mu]}) gamma^(x4) "
-        f"+ ({coefficient_8[mu]}) gamma^(x8)")
+    say(f"gamma^x{mu} Omega_x{mu} = ({coefficient_4[mu]}) gamma^(x4) "
+        f"+ ({coefficient_0[mu]}) gamma^(x0)")
 check(nothing_else, "each gamma^mu Omega_mu (no sum) is a combination of gamma^(x4) "
-      "and gamma^(x8)")
+      "and gamma^(x0)")
 ```
 
-`nothing_else` subtracts $c_4\gamma^{(4)} + c_8\gamma^{(8)}$ from each product and asks whether every entry of the remainder is zero: the trace formula is valid only if nothing else is left. The loop prints the eight products: $(a_4'/2)\gamma^{(4)} + (H/2)\gamma^{(8)}$ for $x_1, x_2, x_3$; zero for $x_4$ and $x_8$; $(-a_4'/2)\gamma^{(4)} + (H/2)\gamma^{(8)}$ for $x_5, x_6, x_7$, exactly the results of Section 8.5. The check prints its PASS line.
+`nothing_else` subtracts $c_4\gamma^{(4)} + c_0\gamma^{(0)}$ from each product and asks whether every entry of the remainder is zero: the trace formula is valid only if nothing else is left. The loop prints the eight products: $(a_4'/2)\gamma^{(4)} + (H/2)\gamma^{(0)}$ for $x_1, x_2, x_3$; zero for $x_4$ and $x_0$; $(-a_4'/2)\gamma^{(4)} + (H/2)\gamma^{(0)}$ for $x_5, x_6, x_7$, exactly the results of Section 8.5. The check prints its PASS line.
 
 ```python
 THEORY = "Revision/theory/reports/python-field-theory.json"  # the sympy record
 # The record writes A1 for a4'; the partial sums in the record's notation:
-inflating_sum = sp.simplify(sum(coefficient_4[:3])).subs(a4_prime, A1)  # 3*A1/2
-deflating_sum = sp.simplify(sum(coefficient_4[4:7])).subs(a4_prime, A1)  # -3*A1/2
-hidden_sum = sp.simplify(sum(coefficient_8))  # 3*H
+inflating_sum = sp.simplify(sum(coefficient_4[1:4])).subs(a4_prime, A1)  # 3*A1/2
+deflating_sum = sp.simplify(sum(coefficient_4[5:8])).subs(a4_prime, A1)  # -3*A1/2
+hidden_sum = sp.simplify(sum(coefficient_0))  # 3*H
 say(f"sums: inflating {inflating_sum}, deflating {deflating_sum}, hidden {hidden_sum}")
 ```
 
-`THEORY` is a short name for the path of the sympy field-theory report. `coefficient_4[:3]` is the part of the list with positions 0, 1, 2 (the directions $x_1, x_2, x_3$) and `coefficient_4[4:7]` the part with positions 4, 5, 6 ($x_5, x_6, x_7$). The three partial sums are printed in the record's notation: `sums: inflating 3*A1/2, deflating -3*A1/2, hidden 3*H`.
+`THEORY` is a short name for the path of the sympy field-theory report. `coefficient_4[1:4]` is the part of the list with positions 1, 2, 3 (the directions $x_1, x_2, x_3$) and `coefficient_4[5:8]` the part with positions 5, 6, 7 ($x_5, x_6, x_7$). The three partial sums are printed in the record's notation: `sums: inflating 3*A1/2, deflating -3*A1/2, hidden 3*H`.
 
 ```python
 check_record([sp.simplify(c4 / a4_prime) for c4 in coefficient_4]
-             == [sp.Rational(1, 2)] * 3 + [0] + [-sp.Rational(1, 2)] * 3 + [0]
-             and [sp.simplify(c8 / H) for c8 in coefficient_8]
-             == [sp.Rational(1, 2)] * 3 + [0] + [sp.Rational(1, 2)] * 3 + [0],
+             == [0] + [sp.Rational(1, 2)] * 3 + [0] + [-sp.Rational(1, 2)] * 3
+             and [sp.simplify(c0 / H) for c0 in coefficient_0]
+             == [0] + [sp.Rational(1, 2)] * 3 + [0] + [sp.Rational(1, 2)] * 3,
              "per direction: +a4'/2 and -a4'/2 cancel, six times H/2 add up",
              THEORY, "time_terms_cancel_hidden_term_survives",
              f"inflating sum {inflating_sum}, deflating sum {deflating_sum}",
-             f"the six hidden-direction terms add to {hidden_sum} gamma^(x8)")
+             f"the six hidden-direction terms add to {hidden_sum} gamma^(x0)")
 ```
 
-The coefficients of $\gamma^{(4)}$ are divided by $a_4'$ and must be exactly $\frac12$ for $x_1, x_2, x_3$, then $0$ for $x_4$, $-\frac12$ for $x_5, x_6, x_7$ and $0$ for $x_8$; the coefficients of $\gamma^{(8)}$ are divided by $H$ and must be $\frac12$ for the same six directions and $0$ for $x_4$ and $x_8$. The record's check must contain the printed partial sums.
+The coefficients of $\gamma^{(4)}$ are divided by $a_4'$ and must be exactly $\frac12$ for $x_1, x_2, x_3$, then $0$ for $x_4$, $-\frac12$ for $x_5, x_6, x_7$ and $0$ for $x_0$; the coefficients of $\gamma^{(0)}$ are divided by $H$ and must be $\frac12$ for the same six directions and $0$ for $x_4$ and $x_0$. The record's check must contain the printed partial sums.
 
 ```python
 total = sum(per_direction, sp.zeros(16, 16))
-check_record(all(is_zero(entry) for entry in total - 3 * H * G[7]),
-             "gamma^mu Omega_mu = 3 H gamma^(x8) in the diagonal frame",
-             THEORY, "gamma_mu_Omega_mu_equals_3H_gamma_x8",
-             "gamma^mu Omega_mu = 3 H gamma^(x8) exactly")
-# gamma^(x8) squares to 1, so it is invertible: 3 H gamma^(x8) Psi = 0 only for
+check_record(all(is_zero(entry) for entry in total - 3 * H * G[0]),
+             "gamma^mu Omega_mu = 3 H gamma^(x0) in the diagonal frame",
+             THEORY, "gamma_mu_Omega_mu_equals_3H_gamma_x0",
+             "gamma^mu Omega_mu = 3 H gamma^(x0) exactly")
+# gamma^(x0) squares to 1, so it is invertible: 3 H gamma^(x0) Psi = 0 only for
 # Psi = 0. The gravitational term is not zero for any field Psi that is not zero.
-check_record(G[7] * G[7] == sp.eye(16),
-             "(gamma^(x8))^2 = 1: 3 H gamma^(x8) Psi != 0 for every Psi != 0 (H > 0)",
+check_record(G[0] * G[0] == sp.eye(16),
+             "(gamma^(x0))^2 = 1: 3 H gamma^(x0) Psi != 0 for every Psi != 0 (H > 0)",
              "Revision/theory/reports/wolfram-field-theory.json",
              "nontriviality_1_dirac16complex",
-             "every Psi != 0 (gamma^(x8) is invertible)")
+             "every Psi != 0 (gamma^(x0) is invertible)")
 ```
 
-`total` adds the eight products: the matrix $\gamma^\mu\Omega_\mu$. The first check compares it entry by entry with $3H\gamma^{(8)}$. The second checks $(\gamma^{(8)})^2 = I_{16}$, the argument of Section 8.6 that $3H\gamma^{(8)}\Psi = 0$ only for $\Psi = 0$, together with the Wolfram record's non-triviality check.
+`total` adds the eight products: the matrix $\gamma^\mu\Omega_\mu$. The first check compares it entry by entry with $3H\gamma^{(0)}$. The second checks $(\gamma^{(0)})^2 = I_{16}$, the argument of Section 8.6 that $3H\gamma^{(0)}\Psi = 0$ only for $\Psi = 0$, together with the Wolfram record's non-triviality check.
 
 ```python
-sqrt_g = sp.cos(z)
+sqrt_g = sp.cos(z)  # sqrt|g| = b4^(3/2) cos z, at b4 = 1
 divergence = sum((sp.diff(sqrt_g * diagonal["gamma"][mu], x[mu]) for mu in range(8)),
                  sp.zeros(16, 16)) / (2 * sqrt_g)
-check_record(all(is_zero(entry) for entry in divergence - 3 * H * G[7]),
-             "(1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) = 3 H gamma^(x8) (divergence "
+check_record(all(is_zero(entry) for entry in divergence - 3 * H * G[0]),
+             "(1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) = 3 H gamma^(x0) (divergence "
              "form)", THEORY, "divergence_of_sqrtg_gamma",
-             "= 3 H gamma^(x8) = gamma^mu Omega_mu")
+             "= 3 H gamma^(x0) = gamma^mu Omega_mu")
 ```
 
-`divergence` is the half-density term $\frac{1}{2\sqrt{|g|}}\sum_\mu\partial_\mu(\sqrt{|g|}\gamma^\mu)$ of Section 8.5, computed with $\sqrt{|g|} = \cos z$ (sympy differentiates a matrix entry by entry); the check compares it with $3H\gamma^{(8)}$.
+`divergence` is the half-density term $\frac{1}{2\sqrt{|g|}}\sum_\mu\partial_\mu(\sqrt{|g|}\gamma^\mu)$ of Section 8.5, computed with $\sqrt{|g|} = \cos z$ (sympy differentiates a matrix entry by entry); the check compares it with $3H\gamma^{(0)}$.
 
 ```python
 check_record(all(all(is_zero(entry) for entry in
@@ -940,35 +945,35 @@ check_record(all(all(is_zero(entry) for entry in
 This check computes the anticommutator $\{\gamma^\mu, \Omega_\mu\}$ for each of the eight directions separately and requires every entry to be zero: the fact of Section 8.8 that removes the connection from the Lagrangian.
 
 ```python
-names = [f"$x_{mu + 1}$" for mu in range(8)] + ["sum"]
+names = [f"$x_{mu}$" for mu in range(8)] + ["sum"]
 values_4 = [float(sp.simplify(c4 / a4_prime)) for c4 in coefficient_4]
-values_8 = [float(sp.simplify(c8 / H)) for c8 in coefficient_8]
+values_0 = [float(sp.simplify(c0 / H)) for c0 in coefficient_0]
 values_4.append(sum(values_4))
-values_8.append(sum(values_8))
-colours = ["tab:blue"] * 3 + ["gray"] + ["tab:red"] * 3 + ["gray", "black"]
+values_0.append(sum(values_0))
+colours = ["gray"] + ["tab:blue"] * 3 + ["gray"] + ["tab:red"] * 3 + ["black"]
 ```
 
-For the bar chart: nine bar labels (the directions, written as LaTeX for matplotlib, and `"sum"`), the coefficients in units of $a_4'$ and of $H$ as decimal numbers, each list extended by its sum (`append` adds one element at the end), and nine colours (blue for 3-space, red for the extra times, gray for $x_4$ and $x_8$, black for the sum).
+For the bar chart: nine bar labels (the directions, written as LaTeX for matplotlib, and `"sum"`), the coefficients in units of $a_4'$ and of $H$ as decimal numbers, each list extended by its sum (`append` adds one element at the end), and nine colours (blue for 3-space, red for the extra times, gray for $x_4$ and $x_0$, black for the sum).
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0), sharey=True)
 left.bar(names, values_4, color=colours)
 left.set_title("coefficient of $\\gamma^{(4)}$, in units of $a_4'$")
 left.set_ylabel("coefficient")
-right.bar(names, values_8, color=colours)
-right.set_title("coefficient of $\\gamma^{(8)}$, in units of $H$")
+right.bar(names, values_0, color=colours)
+right.set_title("coefficient of $\\gamma^{(0)}$, in units of $H$")
 for panel in (left, right):
     panel.axhline(0.0, color="black", linewidth=0.8)
     panel.set_xlabel("direction $\\mu$ of $\\gamma^{\\mu}\\Omega_{\\mu}$")
 save_figure(fig, "cancel_and_survive",
             "The term $\\gamma^\\mu\\Omega_\\mu$ of the field equation in the "
             ...
-            "history $a_4$ and every $H > 0$.")
+            "history $a_4$ and every $H > 0$, on the background $b_4 = 1$.")
 ```
 
 `plt.subplots(1, 2, ...)` makes a figure with one row of two panels (axes), `left` and `right`, 10 by 4 inches, with a shared vertical axis. `bar` draws one bar per label with the given heights and colours. The titles and labels are LaTeX text between dollar signs (in a Python string a backslash is written twice). `axhline(0.0, ...)` draws a horizontal line at zero in both panels. `save_figure` saves the figure as Figure 08c.1 with its caption.
 
-**What Figure 08c.1 shows.** Two bar charts with the eight directions $x_1, \dots, x_8$ and their sum on the horizontal axis; the vertical axis is a pure number. Left: the coefficient of $\gamma^{(4)}$ in units of $a_4'$: three blue bars at $+\frac12$ (3-space), a gray bar at 0 ($x_4$), three red bars at $-\frac12$ (the extra times), a gray bar at 0 ($x_8$), and a black sum bar at 0. Right: the coefficient of $\gamma^{(8)}$ in units of $H$: six bars at $+\frac12$ and a sum bar at $3$. The student should see the cancellation of the time-direction pieces (because the extra times deflate at the rate at which 3-space inflates) and the addition of the six hidden-direction pieces. The values are exact and hold for every history.
+**What Figure 08c.1 shows.** Two bar charts with the eight directions $x_0, \dots, x_7$ and their sum on the horizontal axis; the vertical axis is a pure number. Left: the coefficient of $\gamma^{(4)}$ in units of $a_4'$: three blue bars at $+\frac12$ (3-space), a gray bar at 0 ($x_4$), three red bars at $-\frac12$ (the extra times), a gray bar at 0 ($x_0$), and a black sum bar at 0. Right: the coefficient of $\gamma^{(0)}$ in units of $H$: six bars at $+\frac12$ and a sum bar at $3$. The student should see the cancellation of the time-direction pieces (because the extra times deflate at the rate at which 3-space inflates) and the addition of the six hidden-direction pieces. The values are exact and hold for every history.
 
 **In [7], the curvature, and the pieces along the history.**
 
@@ -986,18 +991,18 @@ def riemann(rho, sigma, mu, nu):
 
 ```python
 ricci = [sum(riemann(rho, a, rho, a) for rho in range(8)) / g[a] for a in range(8)]
-a4_second = sp.diff(a4, x[3], 2)
-expected = [a4_second - 6 * H**2] * 3 + [6 * a4_prime**2] \
-    + [-a4_second - 6 * H**2] * 3 + [-6 * H**2]
+a4_second = sp.diff(a4, x[4], 2)
+expected = [-6 * H**2] + [a4_second - 6 * H**2] * 3 + [6 * a4_prime**2] \
+    + [-a4_second - 6 * H**2] * 3
 check_record(all(is_zero(ricci[a] - expected[a]) for a in range(8)),
              "R^x1_x1 = a4'' - 6H^2, R^x4_x4 = 6 a4'^2, R^x5_x5 = -a4'' - 6H^2, "
-             "R^x8_x8 = -6H^2", "Revision/theory/reports/wolfram-field-theory.json",
-             "ricci_mixed_components", "R^1_1 = R^2_2 = R^3_3 = a4'' - 6 H^2",
-             "R^4_4 = 6 a4'^2", "R^5_5 = R^6_6 = R^7_7 = -a4'' - 6 H^2",
-             "R^8_8 = -6 H^2")
+             "R^x0_x0 = -6H^2", "Revision/theory/reports/wolfram-field-theory.json",
+             "ricci_mixed_components", "R^x0_x0 = -6 H^2",
+             "R^x1_x1 = R^x2_x2 = R^x3_x3 = a4'' - 6 H^2", "R^x4_x4 = 6 a4'^2",
+             "R^x5_x5 = R^x6_x6 = R^x7_x7 = -a4'' - 6 H^2")
 ```
 
-The Ricci tensor is $R_{aa} = \sum_\rho R^\rho{}_{a\rho a}$, and for a diagonal metric its mixed form is $R^a{}_a = R_{aa}/g_{aa}$; `ricci` holds the eight diagonal entries. `sp.diff(a4, x[3], 2)` is $a_4''$. The check compares them with the values of Section 8.7 and with the four texts of the Wolfram record.
+The Ricci tensor is $R_{aa} = \sum_\rho R^\rho{}_{a\rho a}$, and for a diagonal metric its mixed form is $R^a{}_a = R_{aa}/g_{aa}$; `ricci` holds the eight diagonal entries. `sp.diff(a4, x[4], 2)` is $a_4''$. The check compares them with the values of Section 8.7 and with the four texts of the Wolfram record.
 
 ```python
 ricci_scalar = sp.factor(sp.simplify(sum(ricci)).subs(a4_prime, A1))  # A1 for a4'
@@ -1006,7 +1011,7 @@ check_record(is_zero(sum(ricci) - 6 * (a4_prime**2 - 7 * H**2)),
              "Ricci scalar R = 6 (a4'^2 - 7 H^2): curved for every H > 0",
              THEORY, "curvature_nonzero_flat_only_formally",
              f"Ricci scalar R = {sp.sstr(ricci_scalar)}")
-check_record(not total.applyfunc(sp.simplify).has(a4) and not is_zero(ricci[3]),
+check_record(not total.applyfunc(sp.simplify).has(a4) and not is_zero(ricci[4]),
              "gamma^mu Omega_mu contains no a4, although R^x4_x4 = 6 a4'^2 is not zero",
              "Revision/theory/reports/python-scope.json",
              "gammaOmega_blind_to_the_deflation",
@@ -1019,29 +1024,29 @@ The Ricci scalar is the sum of the eight entries; `sp.factor` writes it as a pro
 parameters = json.loads(repository_file(
     "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
 A_history = parameters["physics"]["historyA"]  # the canonical history a4 = A H x4
-history = sp.Lambda(x[3], A_history * x[3])  # with H = 1: a4 = x4
+history = sp.Lambda(x[4], A_history * x[4])  # with H = 1: a4 = x4
 ```
 
-The parameters of the Revision Kohn-Sham record hold the constant $A$ of the canonical history $a_4 = AHx_4$ (here $A = 1$), the prescribed background of the book's Kohn-Sham chapters. `sp.Lambda(x[3], A_history * x[3])` is the function $x_4 \mapsto Ax_4$, which is $a_4$ when $H = 1$.
+The parameters of the Revision Kohn-Sham record hold the constant $A$ of the canonical history $a_4 = AHx_4$ (here $A = 1$), the prescribed background of the book's Kohn-Sham chapters. `sp.Lambda(x[4], A_history * x[4])` is the function $x_4 \mapsto Ax_4$, which is $a_4$ when $H = 1$.
 
 ```python
 def along_history(expr):
     """A numpy function of x4 for expr with H = 1, a4 = A x4, z = pi/4."""
     concrete = expr.replace(sp.Function("a4"), history).doit()
-    concrete = concrete.subs({H: 1, x[7]: sp.pi / 24})  # z = 6 x8 = pi/4
-    return sp.lambdify(x[3], concrete, "numpy")
+    concrete = concrete.subs({H: 1, x[0]: sp.pi / 24})  # z = 6 x0 = pi/4
+    return sp.lambdify(x[4], concrete, "numpy")
 ```
 
-`along_history` turns an exact expression into a numerical function of the time: `replace` puts the history in place of the unknown function $a_4$, `doit()` carries out the derivatives that then become computable ($a_4' = A$), `subs` puts in $H = 1$ and $x_8 = \pi/24$, so that $z = 6x_8 = \pi/4$, and `sp.lambdify` makes a numpy function of $x_4$.
+`along_history` turns an exact expression into a numerical function of the time: `replace` puts the history in place of the unknown function $a_4$, `doit()` carries out the derivatives that then become computable ($a_4' = A$), `subs` puts in $H = 1$ and $x_0 = \pi/24$, so that $z = 6x_0 = \pi/4$, and `sp.lambdify` makes a numpy function of $x_4$.
 
 ```python
 times = np.linspace(0.0, 4.0, 201)
-pieces = {"$\\omega_{x_1,(1)(4)} = a_4'e^{a_4}\\sin^{1/6}z$": diagonal["omega"][0, 0, 3],
-          "$\\omega_{x_1,(1)(8)} = He^{a_4}\\sin^{1/6}z$": diagonal["omega"][0, 0, 7],
+pieces = {"$\\omega_{x_1,(1)(4)} = a_4'e^{a_4}\\sin^{1/6}z$": diagonal["omega"][1, 1, 4],
+          "$\\omega_{x_1,(1)(0)} = He^{a_4}\\sin^{1/6}z$": diagonal["omega"][1, 1, 0],
           "$|\\omega_{x_5,(4)(5)}| = a_4'e^{-a_4}\\sin^{1/6}z$":
-              -ETA[3] * diagonal["omega"][4, 3, 4],
-          "$|\\omega_{x_5,(5)(8)}| = He^{-a_4}\\sin^{1/6}z$":
-              ETA[4] * diagonal["omega"][4, 4, 7]}
+              -ETA[4] * diagonal["omega"][5, 4, 5],
+          "$|\\omega_{x_5,(5)(0)}| = He^{-a_4}\\sin^{1/6}z$":
+              ETA[5] * diagonal["omega"][5, 5, 0]}
 ```
 
 `np.linspace(0.0, 4.0, 201)` is an array of 201 equally spaced times from 0 to 4. The dictionary `pieces` maps four legend labels to four components of the connection: the two of the inflating direction $x_1$ and the two of the extra time $x_5$ (the factors `-ETA[3]` and `ETA[4]` turn the stored mixed components into the sizes named in the labels; the plot takes absolute values anyway).
@@ -1061,8 +1066,8 @@ left.legend(fontsize=7)
 `zip` pairs each (label, expression) with a line style: one minus sign in quotes for a solid line, two minus signs for a dashed one. Each component is evaluated along the history at the 201 times; `np.abs` takes the size, and multiplying by `np.ones_like(times)` (an array of ones) makes sure that an expression that happens to be constant is still drawn as a full curve. The vertical axis is logarithmic (`set_yscale("log")`), so an exponential is a straight line.
 
 ```python
-inflating = along_history(sum(coefficient_4[:3]))(times) * np.ones_like(times)
-deflating = along_history(sum(coefficient_4[4:7]))(times) * np.ones_like(times)
+inflating = along_history(sum(coefficient_4[1:4]))(times) * np.ones_like(times)
+deflating = along_history(sum(coefficient_4[5:8]))(times) * np.ones_like(times)
 right.plot(times, inflating, color="tab:blue", label="$x_1, x_2, x_3$: $+3a_4'/2$")
 right.plot(times, deflating, color="tab:red", label="$x_5, x_6, x_7$: $-3a_4'/2$")
 right.plot(times, inflating + deflating, color="black", label="sum: $0$")
@@ -1084,7 +1089,7 @@ The right panel draws the two partial sums of the $\gamma^{(4)}$ coefficients (3
 **In [8], the boosted frame.**
 
 ```python
-rapidity = beta * x[3] + b0
+rapidity = beta * x[4] + b0
 boosted = frame(rapidity)
 e_b = boosted["e"]
 same_metric = all(
@@ -1112,11 +1117,11 @@ The vielbein postulate and the antisymmetry for the boosted frame; the record's 
 ```python
 total_boosted = sum((boosted["gamma"][mu] * boosted["Omega"][mu] for mu in range(8)),
                     sp.zeros(16, 16))
-formula = (6 * H - beta) / 2 * (sp.cosh(rapidity) * G[7] - sp.sinh(rapidity) * G[3])
+formula = (6 * H - beta) / 2 * (sp.cosh(rapidity) * G[0] - sp.sinh(rapidity) * G[4])
 check_record(all(is_zero(entry) for entry in total_boosted - formula),
-             "gamma'^mu Omega'_mu = ((6H - beta)/2) (cosh b gamma^(x8) - sinh b "
+             "gamma'^mu Omega'_mu = ((6H - beta)/2) (cosh b gamma^(x0) - sinh b "
              "gamma^(x4))", SCOPE, "boosted_frame_gammaOmega_formula",
-             "gamma'^mu Omega'_mu = ((6 H - beta)/2) (cosh b gamma^(x8) - sinh b "
+             "gamma'^mu Omega'_mu = ((6 H - beta)/2) (cosh b gamma^(x0) - sinh b "
              "gamma^(x4))")
 ```
 
@@ -1127,7 +1132,7 @@ at_6H = {beta: 6 * H}
 nonzero_Omega = [mu for mu in range(8) if not all(
     is_zero(ETA[a] * boosted["omega"][mu, a, c].subs(at_6H))
     for a in range(8) for c in range(a + 1, 8))]
-nonzero_text = ", ".join(f"x{mu + 1}" for mu in nonzero_Omega)  # "x1, x2, ..."
+nonzero_text = ", ".join(f"x{mu}" for mu in nonzero_Omega)  # "x1, x2, ..."
 say("beta = 6H: Omega'_mu is nonzero for mu = " + nonzero_text)
 ```
 
@@ -1136,10 +1141,10 @@ say("beta = 6H: Omega'_mu is nonzero for mu = " + nonzero_text)
 ```python
 check_record(all(is_zero(entry.subs(at_6H)) for entry in total_boosted - formula)
              and formula.subs(at_6H) == sp.zeros(16, 16)
-             and nonzero_Omega == [0, 1, 2, 3, 4, 5, 6],
+             and nonzero_Omega == [1, 2, 3, 4, 5, 6, 7],
              "beta = 6H: gamma'^mu Omega'_mu = 0 identically, Omega'_mu != 0 for "
              "x1..x7", SCOPE, "boosted_frame_gammaOmega_vanishes", "IDENTICALLY ZERO",
-             f"nonzero for mu = {nonzero_text} (zero only for x8)")
+             f"nonzero for mu = {nonzero_text} (zero only for x0)")
 ```
 
 The last check of the cell: at $\beta = 6H$ the computed term equals the formula, the formula is the zero matrix, and the connection is nonzero in the seven directions $x_1, \dots, x_7$; the record must say "IDENTICALLY ZERO" and list the same directions. The cell prints four PASS lines and the line about $\Omega'_\mu$.
@@ -1147,31 +1152,31 @@ The last check of the cell: at $\beta = 6H$ the computed term equals the formula
 **In [9], the size of the term in the boosted frames.**
 
 ```python
-term = sp.lambdify((beta, x[3], b0), formula.subs(H, 1), "numpy")
+term = sp.lambdify((beta, x[4], b0), formula.subs(H, 1), "numpy")
 
 
 def size(matrix):
-    """sqrt(tr(M^T M)/16): the size of a 16 x 16 matrix, 1 for gamma^(x8)."""
+    """sqrt(tr(M^T M)/16): the size of a 16 x 16 matrix, 1 for gamma^(x0)."""
     matrix = np.array(matrix, dtype=float)
     return np.sqrt(np.trace(matrix.T @ matrix) / 16)
 ```
 
-`term` is a numerical function of $(\beta, x_4, b_0)$ that returns the $16 \times 16$ matrix $\gamma'^\mu\Omega'_\mu$ at $H = 1$, from the formula that In [8] proved equal to the computed matrix. `size` measures a matrix by $\sqrt{\mathrm{tr}(M^TM)/16}$: $\mathrm{tr}(M^TM)$ is the sum of the squares of all 256 entries, so the size is the square root of that sum divided by 16 (for $\gamma^{(8)}$, a matrix with sixteen entries 1 and no others, it is 1); `@` is numpy's matrix product and `.T` the transpose.
+`term` is a numerical function of $(\beta, x_4, b_0)$ that returns the $16 \times 16$ matrix $\gamma'^\mu\Omega'_\mu$ at $H = 1$, from the formula that In [8] proved equal to the computed matrix. `size` measures a matrix by $\sqrt{\mathrm{tr}(M^TM)/16}$: $\mathrm{tr}(M^TM)$ is the sum of the squares of all 256 entries, so the size is the square root of that sum divided by 16 (for $\gamma^{(0)}$, a matrix with sixteen entries 1 and no others, it is 1); `@` is numpy's matrix product and `.T` the transpose.
 
 ```python
 beta_values = np.linspace(0.0, 12.0, 241)
 sizes_beta = [size(term(bv, 0.0, 0.0)) for bv in beta_values]
 check(abs(size(term(0.0, 0.0, 0.0)) - 3.0) < 1e-12 and size(term(6.0, 0.7, 0.3)) == 0,
-      "size 3 in the diagonal frame (3 H gamma^(x8), H = 1), 0 for beta = 6H")
+      "size 3 in the diagonal frame (3 H gamma^(x0), H = 1), 0 for beta = 6H")
 ```
 
-The sizes at 241 rapidity rates from 0 to 12, at $x_4 = 0$, $b_0 = 0$. The check: the diagonal frame ($\beta = 0$) gives size 3 to $10^{-12}$ (the term is $3\gamma^{(8)}$), and $\beta = 6H = 6$ gives exactly 0 at another point ($x_4 = 0.7$, $b_0 = 0.3$), because the factor $(6H - \beta)/2$ is exactly zero.
+The sizes at 241 rapidity rates from 0 to 12, at $x_4 = 0$, $b_0 = 0$. The check: the diagonal frame ($\beta = 0$) gives size 3 to $10^{-12}$ (the term is $3\gamma^{(0)}$), and $\beta = 6H = 6$ gives exactly 0 at another point ($x_4 = 0.7$, $b_0 = 0.3$), because the factor $(6H - \beta)/2$ is exactly zero.
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
 left.plot(beta_values, sizes_beta)
 left.plot([0.0, 6.0], [3.0, 0.0], "o", color="black")
-left.annotate("diagonal frame: $3H\\gamma^{(8)}$", (0.0, 3.0), (1.0, 3.3))
+left.annotate("diagonal frame: $3H\\gamma^{(0)}$", (0.0, 3.0), (1.0, 3.3))
 left.annotate("$\\beta = 6H$: zero", (6.0, 0.0), (6.6, 0.4))
 left.set_xlabel("rapidity rate $\\beta$ (units of $H$)")
 left.set_ylabel("size of $\\gamma'^\\mu\\Omega'_\\mu$ (units of $H$)")
@@ -1231,46 +1236,46 @@ save_figure(fig, "heat_maps",
 
 `imshow` draws a matrix as a grid of coloured squares; the colour map `"RdBu_r"` runs from blue (negative) through white (zero) to red (positive), on the same scale $-3.5$ to $3.5$ in all three panels (`vmin`, `vmax`). The ticks mark rows and columns 0, 5, 10, 15. One colour bar serves all three panels. The figure is Figure 08c.4; the cell prints only the figure line.
 
-**What Figure 08c.4 shows.** Three $16 \times 16$ colour maps (rows and columns numbered from 0; entries in units of $H$). Left, the diagonal frame: $3H\gamma^{(8)}$, sixteen red squares of value 3, in rows 0 to 7 at columns 8 to 15 and in rows 8 to 15 at columns 0 to 7, along two diagonal lines ($\gamma^{(8)}$ has the entries 1 at the places (row, column) = $(k, k + 8)$ and $(k + 8, k)$, $k = 0, \dots, 7$, and no others). Middle, the frame boosted with $\beta = 3H$ at $b = 0.9$: $\frac{3H}{2}(\cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)})$, more nonzero entries of both signs. Right, $\beta = 6H$: a white square, the zero matrix. The student should see one metric and one field equation producing three different matrices in three frames.
+**What Figure 08c.4 shows.** Three $16 \times 16$ colour maps (rows and columns numbered from 0; entries in units of $H$). Left, the diagonal frame: $3H\gamma^{(0)}$, sixteen red squares of value 3, in rows 0 to 7 at columns 8 to 15 and in rows 8 to 15 at columns 0 to 7, along two diagonal lines ($\gamma^{(0)}$ has the entries 1 at the places (row, column) = $(k, k + 8)$ and $(k + 8, k)$, $k = 0, \dots, 7$, and no others). Middle, the frame boosted with $\beta = 3H$ at $b = 0.9$: $\frac{3H}{2}(\cosh b\,\gamma^{(0)} - \sinh b\,\gamma^{(4)})$, more nonzero entries of both signs. Right, $\beta = 6H$: a white square, the zero matrix. The student should see one metric and one field equation producing three different matrices in three frames.
 
 **In [11], the spinor curvature in two frames.**
 
 ```python
 def spinor_curvature(fr):
-    """F_x1x8 = d_1 Omega_8 - d_8 Omega_1 + [Omega_1, Omega_8]."""
-    O1, O8 = fr["Omega"][0], fr["Omega"][7]
-    return sp.diff(O8, x[0]) - sp.diff(O1, x[7]) + O1 * O8 - O8 * O1
+    """F_x1x0 = d_1 Omega_0 - d_0 Omega_1 + [Omega_1, Omega_0]."""
+    O1, O0 = fr["Omega"][1], fr["Omega"][0]
+    return sp.diff(O0, x[1]) - sp.diff(O1, x[0]) + O1 * O0 - O0 * O1
 ```
 
-`spinor_curvature` computes the curvature component $F_{x_1x_8} = \partial_1\Omega_8 - \partial_8\Omega_1 + [\Omega_1, \Omega_8]$ of a frame.
+`spinor_curvature` computes the curvature component $F_{x_1x_0} = \partial_1\Omega_0 - \partial_0\Omega_1 + [\Omega_1, \Omega_0]$ of a frame.
 
 ```python
 def riemann_side(fr):
-    """(1/4) sum R_rho,sigma,x1,x8 gamma^rho gamma^sigma in the frame fr."""
+    """(1/4) sum R_rho,sigma,x1,x0 gamma^rho gamma^sigma in the frame fr."""
     result = sp.zeros(16, 16)
     for rho in range(8):
         for sigma in range(8):
-            value = g[rho] * riemann(rho, sigma, 0, 7)  # lower the first index
+            value = g[rho] * riemann(rho, sigma, 1, 0)  # lower the first index
             if value != 0:
                 result += value * fr["gamma"][rho] * fr["gamma"][sigma] / 4
     return result
 ```
 
-`riemann_side` computes the other side of the identity of Section 8.10, $\frac14\sum_{\rho,\sigma}R_{\rho\sigma x_1x_8}\gamma^\rho\gamma^\sigma$ with the coordinate gammas of the given frame; for a diagonal metric, lowering the first index multiplies by $g_{\rho\rho}$.
+`riemann_side` computes the other side of the identity of Section 8.10, $\frac14\sum_{\rho,\sigma}R_{\rho\sigma x_1x_0}\gamma^\rho\gamma^\sigma$ with the coordinate gammas of the given frame; for a diagonal metric, lowering the first index multiplies by $g_{\rho\rho}$.
 
 ```python
-P14, P18 = G[0] * G[3], G[0] * G[7]  # gamma^(1) gamma^(4) and gamma^(1) gamma^(8)
+P14, P10 = G[1] * G[4], G[1] * G[0]  # gamma^(1) gamma^(4) and gamma^(1) gamma^(0)
 
 
 def two_coefficients(F):
-    """c14, c18 with F = c14 P14 + c18 P18 (P14^2 = 1, P18^2 = -1), and whether
+    """c14, c10 with F = c14 P14 + c10 P10 (P14^2 = 1, P10^2 = -1), and whether
     nothing else is left."""
     c14 = sp.simplify((P14 * F).trace() / 16)
-    c18 = sp.simplify(-(P18 * F).trace() / 16)
-    return c14, c18, all(is_zero(v) for v in F - c14 * P14 - c18 * P18)
+    c10 = sp.simplify(-(P10 * F).trace() / 16)
+    return c14, c10, all(is_zero(v) for v in F - c14 * P14 - c10 * P10)
 ```
 
-`P14` and `P18` are the products $\gamma^{(1)}\gamma^{(4)}$ and $\gamma^{(1)}\gamma^{(8)}$. Their squares are $+I_{16}$ and $-I_{16}$ ($\gamma^{(1)}\gamma^{(4)}\gamma^{(1)}\gamma^{(4)} = -(\gamma^{(1)})^2(\gamma^{(4)})^2 = -(1)(-1) = 1$, and $\gamma^{(1)}\gamma^{(8)}\gamma^{(1)}\gamma^{(8)} = -(\gamma^{(1)})^2(\gamma^{(8)})^2 = -1$), and the trace of their product is zero, so the two coefficients are found by traces exactly as in In [6]; the third returned value says whether $F$ is exactly $c_{14}P_{14} + c_{18}P_{18}$.
+`P14` and `P10` are the products $\gamma^{(1)}\gamma^{(4)}$ and $\gamma^{(1)}\gamma^{(0)}$. Their squares are $+I_{16}$ and $-I_{16}$ ($\gamma^{(1)}\gamma^{(4)}\gamma^{(1)}\gamma^{(4)} = -(\gamma^{(1)})^2(\gamma^{(4)})^2 = -(1)(-1) = 1$, and $\gamma^{(1)}\gamma^{(0)}\gamma^{(1)}\gamma^{(0)} = -(\gamma^{(1)})^2(\gamma^{(0)})^2 = -1$), and the trace of their product is zero, so the two coefficients are found by traces exactly as in In [6]; the third returned value says whether $F$ is exactly $c_{14}P_{14} + c_{10}P_{10}$.
 
 ```python
 zero_frame = {"Omega": [M.subs(at_6H) for M in boosted["Omega"]],  # beta = 6H
@@ -1278,50 +1283,50 @@ zero_frame = {"Omega": [M.subs(at_6H) for M in boosted["Omega"]],  # beta = 6H
 F_diagonal = spinor_curvature(diagonal)
 F_zero = spinor_curvature(zero_frame)
 check_record(all(is_zero(v) for v in F_diagonal - riemann_side(diagonal)),
-             "diagonal frame: F_x1x8 = (1/4) R_rho,sigma,x1,x8 gamma^rho gamma^sigma",
+             "diagonal frame: F_x1x0 = (1/4) R_rho,sigma,x1,x0 gamma^rho gamma^sigma",
              THEORY, "spinor_curvature_equals_riemann",
              "= (1/4) R_{rho sigma mu nu} gamma^rho gamma^sigma")
 check(all(is_zero(v) for v in F_zero - riemann_side(zero_frame)),
-      "boosted frame (beta = 6H): F'_x1x8 = (1/4) R gamma'^rho gamma'^sigma")
+      "boosted frame (beta = 6H): F'_x1x0 = (1/4) R gamma'^rho gamma'^sigma")
 ```
 
 `zero_frame` is the boosted frame at $\beta = 6H$, the frame in which $\gamma'^\mu\Omega'_\mu = 0$ (only its connection and gammas are needed). The two curvatures are computed, and the identity $F = \frac14 R\gamma\gamma$ is checked in both frames; the first check also requires the record's check `spinor_curvature_equals_riemann`.
 
 ```python
-c14, c18, only_two = two_coefficients(F_diagonal)
-c14_b, c18_b, only_two_b = two_coefficients(F_zero)
+c14, c10, only_two = two_coefficients(F_diagonal)
+c14_b, c10_b, only_two_b = two_coefficients(F_zero)
 say(f"diagonal frame: c14 = {c14}")
-say(f"diagonal frame: c18 = {c18}")
+say(f"diagonal frame: c10 = {c10}")
 say(f"boosted frame:  c14 = {c14_b}")
-say(f"boosted frame:  c18 = {c18_b}")
+say(f"boosted frame:  c10 = {c10_b}")
 check(only_two and only_two_b,
-      "in both frames F_x1x8 = c14 gamma^(1) gamma^(4) + c18 gamma^(1) gamma^(8)")
+      "in both frames F_x1x0 = c14 gamma^(1) gamma^(4) + c10 gamma^(1) gamma^(0)")
 ```
 
-The four coefficients are printed in sympy's notation. In the diagonal frame they are $c_{14} = -Ha_4'e^{a_4}\cos z/(2\sin^{5/6}z)$ and $c_{18} = -H^2e^{a_4}\cos z/(2\sin^{5/6}z)$, the values quoted in Section 8.10; in the boosted frame they contain $\cosh(6Hx_4 + b_0)$ and $\sinh(6Hx_4 + b_0)$. The check confirms that nothing else is left in either frame.
+The four coefficients are printed in sympy's notation. In the diagonal frame they are $c_{14} = -Ha_4'e^{a_4}\cos z/(2\sin^{5/6}z)$ and $c_{10} = -H^2e^{a_4}\cos z/(2\sin^{5/6}z)$, the values quoted in Section 8.10; in the boosted frame they contain $\cosh(6Hx_4 + b_0)$ and $\sinh(6Hx_4 + b_0)$. The check confirms that nothing else is left in either frame.
 
 ```python
 kappa_F = H**2 * (a4_prime**2 - H**2) * sp.exp(2 * a4) * sp.cos(z) ** 2 \
     / (4 * sp.sin(z) ** sp.Rational(5, 3))
-check(is_zero(c14**2 - c18**2 - kappa_F) and is_zero(c14_b**2 - c18_b**2 - kappa_F),
+check(is_zero(c14**2 - c10**2 - kappa_F) and is_zero(c14_b**2 - c10_b**2 - kappa_F),
       "F^2 = F'^2 = H^2 (a4'^2 - H^2) e^(2 a4) cos^2 z / (4 sin^(5/3) z) I16 in "
       "both frames")
 ```
 
-`kappa_F` is the number $H^2((a_4')^2 - H^2)e^{2a_4}\cos^2 z/(4\sin^{5/3}z)$ of Section 8.10, and the check confirms that $c_{14}^2 - c_{18}^2$ equals it in both frames: the square of the curvature is the same in both frames.
+`kappa_F` is the number $H^2((a_4')^2 - H^2)e^{2a_4}\cos^2 z/(4\sin^{5/3}z)$ of Section 8.10, and the check confirms that $c_{14}^2 - c_{10}^2$ equals it in both frames: the square of the curvature is the same in both frames.
 
 ```python
 entries_nonzero = sum(1 for v in F_zero if not is_zero(v))
-report("nonzero entries of F'_x1x8 in the frame with gamma'^mu Omega'_mu = 0",
+report("nonzero entries of F'_x1x0 in the frame with gamma'^mu Omega'_mu = 0",
        entries_nonzero)
-check_record(entries_nonzero > 0, "beta = 6H: the spinor curvature F'_x1x8 is not "
+check_record(entries_nonzero > 0, "beta = 6H: the spinor curvature F'_x1x0 is not "
              "zero", "Revision/theory/reports/python-scope.json",
              "boosted_frame_curvature_nonzero",
-             "F'_x1x8 = d_x1 Omega'_x8 - d_x8 Omega'_x1 + [Omega'_x1, Omega'_x8] is "
+             "F'_x1x0 = d_x1 Omega'_x0 - d_x0 Omega'_x1 + [Omega'_x1, Omega'_x0] is "
              "nonzero")
 ```
 
-The number of nonzero entries of $F'_{x_1x_8}$ in the frame where the term vanishes is counted and printed: 32. The last check of the cell requires at least one, together with the record's check `boosted_frame_curvature_nonzero`. The cell prints five PASS lines (two with `reproduces` lines), the four coefficients and the RESULT line.
+The number of nonzero entries of $F'_{x_1x_0}$ in the frame where the term vanishes is counted and printed: 32. The last check of the cell requires at least one, together with the record's check `boosted_frame_curvature_nonzero`. The cell prints five PASS lines (two with `reproduces` lines), the four coefficients and the RESULT line.
 
 **In [12], the curvature as colour maps.**
 
@@ -1329,20 +1334,20 @@ The number of nonzero entries of $F'_{x_1x_8}$ in the frame where the term vanis
 def at_point(matrix):
     """The numbers of a symbolic matrix at H = 1, a4 = x4, z = pi/4, x4 = 0.5."""
     concrete = matrix.replace(sp.Function("a4"), history).doit()
-    concrete = concrete.subs({H: 1, x[7]: sp.pi / 24, x[3]: sp.Rational(1, 2), b0: 0})
+    concrete = concrete.subs({H: 1, x[0]: sp.pi / 24, x[4]: sp.Rational(1, 2), b0: 0})
     return np.array(concrete.evalf(), dtype=float)
 ```
 
 `at_point` puts the history, $H = 1$, $z = \pi/4$, $x_4 = \frac12$ and $b_0 = 0$ into a symbolic matrix, evaluates it as decimal numbers (`evalf`) and returns a numpy array.
 
 ```python
-F_numbers = [("diagonal frame: $F_{x_1x_8}$", at_point(F_diagonal)),
-             ("boosted, $\\beta = 6H$: $F'_{x_1x_8}$", at_point(F_zero))]
-report("largest entry of F_x1x8 at the point (diagonal, boosted)",
+F_numbers = [("diagonal frame: $F_{x_1x_0}$", at_point(F_diagonal)),
+             ("boosted, $\\beta = 6H$: $F'_{x_1x_0}$", at_point(F_zero))]
+report("largest entry of F_x1x0 at the point (diagonal, boosted)",
        ", ".join(f"{np.abs(matrix).max():.6f}" for _, matrix in F_numbers))
 ranks = [int(np.linalg.matrix_rank(matrix)) for _, matrix in F_numbers]
 squares = [np.abs(matrix @ matrix).max() for _, matrix in F_numbers]
-report("rank of F_x1x8 at the point (diagonal, boosted)", ranks)
+report("rank of F_x1x0 at the point (diagonal, boosted)", ranks)
 ```
 
 The two curvature matrices at the point. The first RESULT line prints the largest entry of each (`:.6f` prints six decimals): 0.778093 and 0.038739. `ranks` holds their ranks and `squares` the largest entry of each square $F^2$; the second RESULT line prints the ranks, `[8, 8]`.
@@ -1353,7 +1358,7 @@ check(ranks == [8, 8] and max(squares) < 1e-14 and
       "a4 = x4: F and F' have rank 8 and square 0, and F' = e^(-3) F at x4 = 0.5")
 ```
 
-On this history $a_4' = H$, so $c_{14}^2 - c_{18}^2 = 0$ and $F^2 = 0$: the check requires rank 8 for both, squares below $10^{-14}$ (rounding), and $F' = e^{-3}F$ entry by entry ($b = 6Hx_4 = 3$; `np.allclose` compares two arrays within the tolerance `atol`). Indeed $0.778093\cdot e^{-3} = 0.038739$.
+On this history $a_4' = H$, so $c_{14}^2 - c_{10}^2 = 0$ and $F^2 = 0$: the check requires rank 8 for both, squares below $10^{-14}$ (rounding), and $F' = e^{-3}F$ entry by entry ($b = 6Hx_4 = 3$; `np.allclose` compares two arrays within the tolerance `atol`). Indeed $0.778093\cdot e^{-3} = 0.038739$.
 
 ```python
 fig, panels = plt.subplots(1, 2, figsize=(10.0, 4.2))
@@ -1368,32 +1373,33 @@ for panel, (title, matrix) in zip(panels, F_numbers):
     panel.grid(False)  # no grid lines over the coloured squares
 panels[0].set_ylabel("row")
 save_figure(fig, "curvature_maps",
-            "The spinor curvature $F_{x_1x_8} = \\partial_1\\Omega_8 - "
+            "The spinor curvature $F_{x_1x_0} = \\partial_1\\Omega_0 - "
+            "\\partial_0\\Omega_1 + \\Omega_1\\Omega_0 - \\Omega_0\\Omega_1$ as a "
             ...
             "vanish. On this history both matrices have rank 8 and square zero.")
 ```
 
 Two colour maps, each with its own symmetric colour scale from minus to plus its largest entry and its own colour bar. The figure is Figure 08c.5. Output: two RESULT lines, one PASS line, the figure line.
 
-**What Figure 08c.5 shows.** Two $16 \times 16$ colour maps of the curvature $F_{x_1x_8}$ (entries in units of $H^2$) at $H = 1$, $z = \pi/4$, $x_4 = 0.5$ on the history $a_4 = x_4$. Left: the diagonal frame, entries up to 0.778. Right: the frame boosted with $\beta = 6H$, where the term of the field equation is zero; the pattern is the same and the entries are $e^{-3}$ times smaller (up to 0.0387; the colour scales differ). The student should see that the curvature is not zero in the frame in which the term vanishes: no frame can make the spin connection vanish.
+**What Figure 08c.5 shows.** Two $16 \times 16$ colour maps of the curvature $F_{x_1x_0}$ (entries in units of $H^2$) at $H = 1$, $z = \pi/4$, $x_4 = 0.5$ on the history $a_4 = x_4$. Left: the diagonal frame, entries up to 0.778. Right: the frame boosted with $\beta = 6H$, where the term of the field equation is zero; the pattern is the same and the entries are $e^{-3}$ times smaller (up to 0.0387; the colour scales differ). The student should see that the curvature is not zero in the frame in which the term vanishes: no frame can make the spin connection vanish.
 
 **In [13], the connection in the energy-momentum tensor.**
 
 ```python
-g4_up, Omega_1 = diagonal["gamma"][3], diagonal["Omega"][0]
+g4_up, Omega_1 = diagonal["gamma"][4], diagonal["Omega"][1]
 connection_part = (g4_up * Omega_1 + Omega_1 * g4_up) / 2
-target = sp.exp(a4) * sixth * H * G[3] * G[0] * G[7] / 2
+target = sp.exp(a4) * sixth * H * G[4] * G[1] * G[0] / 2
 check_record(all(is_zero(v) for v in connection_part - target)
-             and C * G[3] * G[0] * G[7] != sp.zeros(16, 16),
+             and C * G[4] * G[1] * G[0] != sp.zeros(16, 16),
              "(1/2){gamma^x4, Omega_x1} = (1/2) e^a4 sin^(1/6) z H gamma^(4) "
-             "gamma^(1) gamma^(8), and C gamma^(4) gamma^(1) gamma^(8) != 0",
+             "gamma^(1) gamma^(0), and C gamma^(4) gamma^(1) gamma^(0) != 0",
              "Revision/theory/reports/python-scope.json",
              "spin_connection_in_the_energy_momentum_tensor",
-             "(1/2) e^a4 sin^(1/6) z H Phibar gamma^(x4) gamma^(x1) gamma^(x8) Phi",
-             "C gamma^(x4) gamma^(x1) gamma^(x8) != 0")
+             "(1/2) e^a4 sin^(1/6) z H Phibar gamma^(x4) gamma^(x1) gamma^(x0) Phi",
+             "C gamma^(x4) gamma^(x1) gamma^(x0) != 0")
 ```
 
-`connection_part` is $\frac12\{\gamma^{x_4}, \Omega_{x_1}\}$ in the diagonal frame, `target` the result of Section 8.11. The check compares them entry by entry, requires the bilinear matrix $C\gamma^{(4)}\gamma^{(1)}\gamma^{(8)}$ to be nonzero (`!=` means "is not equal to"), and requires the record's check with its two texts. Output: one PASS line with its `reproduces` line.
+`connection_part` is $\frac12\{\gamma^{x_4}, \Omega_{x_1}\}$ in the diagonal frame, `target` the result of Section 8.11. The check compares them entry by entry, requires the bilinear matrix $C\gamma^{(4)}\gamma^{(1)}\gamma^{(0)}$ to be nonzero (`!=` means "is not equal to"), and requires the record's check with its two texts. Output: one PASS line with its `reproduces` line.
 
 **In [14], the last check.**
 
@@ -1409,7 +1415,7 @@ The loop checks that each of the five figure files exists, and the last line pri
 
 ### 8.16 Well-posedness: what a good evolution equation must do
 
-**The initial-value problem.** A field equation that contains the time derivative $\partial_4\Psi$ is used like this: one gives the field on the slice $x_4 = 0$ (a seven-dimensional set with the coordinates $x_1, x_2, x_3, x_5, x_6, x_7, x_8$), the **data**, and asks for the field at later times. This is the **initial-value problem**, also called the **Cauchy problem**. The French mathematician Jacques Hadamard called such a problem **well posed** if three things hold: a solution exists; it is unique; and it depends **continuously** on the data, which means: for every later time and every tolerance, data that are close enough to each other give solutions that stay within that tolerance of each other up to that time. "Close" is measured by a **norm**, a number that measures the size of a function (for example its largest value, or the square root of the integral of its square). The third condition is what makes an equation useful for prediction: data are never known exactly, and an equation in which an arbitrarily small error of the data can produce an arbitrarily large error of the solution predicts nothing.
+**The initial-value problem.** A field equation that contains the time derivative $\partial_4\Psi$ is used like this: one gives the field on the slice $x_4 = 0$ (a seven-dimensional set with the coordinates $x_1, x_2, x_3, x_5, x_6, x_7, x_0$), the **data**, and asks for the field at later times. This is the **initial-value problem**, also called the **Cauchy problem**. The French mathematician Jacques Hadamard called such a problem **well posed** if three things hold: a solution exists; it is unique; and it depends **continuously** on the data, which means: for every later time and every tolerance, data that are close enough to each other give solutions that stay within that tolerance of each other up to that time. "Close" is measured by a **norm**, a number that measures the size of a function (for example its largest value, or the square root of the integral of its square). The third condition is what makes an equation useful for prediction: data are never known exactly, and an equation in which an arbitrarily small error of the data can produce an arbitrarily large error of the solution predicts nothing.
 
 **A toy example with two time directions.** Take a function $\varphi(x_4, x_5)$ of the time $x_4$ and of one extra time $x_5$, and the equation
 
@@ -1435,14 +1441,14 @@ $$
 \begin{aligned}
 \Big(\sum_a\gamma^{(a)}\partial_a\Big)\Big(\sum_b\gamma^{(b)}\partial_b\Big)\Psi &= \sum_{a,b}\gamma^{(a)}\gamma^{(b)}\partial_a\partial_b\Psi \\
 &= \sum_a(\gamma^{(a)})^2\partial_a^2\Psi + \sum_{a<b}\big(\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)}\big)\partial_a\partial_b\Psi \\
-&= \big(\partial_1^2 + \partial_2^2 + \partial_3^2 + \partial_8^2 - \partial_4^2 - \partial_5^2 - \partial_6^2 - \partial_7^2\big)\Psi .
+&= \big(\partial_1^2 + \partial_2^2 + \partial_3^2 + \partial_0^2 - \partial_4^2 - \partial_5^2 - \partial_6^2 - \partial_7^2\big)\Psi .
 \end{aligned}
 $$
 
 The first line multiplies out (the gammas are constant matrices); the second separates the terms with $a = b$ from the pairs $a \neq b$, using $\partial_a\partial_b = \partial_b\partial_a$; the third uses $(\gamma^{(a)})^2 = \eta_{aa}I_{16}$ and the anticommutation of different gammas. On the other side, applying the operator to $m\Psi$ gives $m\sum_a\gamma^{(a)}\partial_a\Psi = m^2\Psi$. Solving for the second time derivative:
 
 $$
-\partial_4^2\Psi = \big(\partial_1^2 + \partial_2^2 + \partial_3^2 + \partial_8^2 - \partial_5^2 - \partial_6^2 - \partial_7^2 - m^2\big)\Psi .
+\partial_4^2\Psi = \big(\partial_1^2 + \partial_2^2 + \partial_3^2 + \partial_0^2 - \partial_5^2 - \partial_6^2 - \partial_7^2 - m^2\big)\Psi .
 $$
 
 The three extra-time derivatives enter with the sign of the toy example. This is the root of everything that follows.
@@ -1450,16 +1456,16 @@ The three extra-time derivatives enter with the sign of the toy example. This is
 **Non-characteristic slices.** In the author's metric the field equation of Section 8.2 can be solved for $\partial_4\Psi$. Write it as $\gamma^{(4)}\partial_4\Psi + R = V\Psi$, where $R$ holds all the other terms on the left and $V = m + U'(S)$. Multiplying from the left by $\gamma^{(4)}$ and using $(\gamma^{(4)})^2 = -I_{16}$ gives $-\partial_4\Psi + \gamma^{(4)}R = \gamma^{(4)}V\Psi$, so
 
 $$
-\partial_4\Psi = -\gamma^{(4)}\Big[V\Psi - \sum_{a\neq 4}\frac{1}{f_a}\gamma^{(a)}\partial_a\Psi - 3H\gamma^{(8)}\Psi\Big]
+\partial_4\Psi = -\gamma^{(4)}\Big[V\Psi - \sum_{a\neq 4}\frac{1}{f_a}\gamma^{(a)}\partial_a\Psi - 3H\gamma^{(0)}\Psi\Big]
 $$
 
 (PROVED; `Revision/theory/reports/wolfram-field-theory.json`, check `evolution_form_G`). A slice is called **non-characteristic** when the matrix in front of the time derivative is invertible, as here: the equation then tells how the field changes in time from its values on the slice. This is necessary for a good evolution equation, but not sufficient: the toy example can be solved for $\partial_4^2\varphi$ too. Sections 8.17 and 8.18 show that the field equation fails the third condition of Hadamard: exactly in flat 4+4 space and with frozen coefficients, and, through a standard theorem quoted without proof, in the author's metric itself (Section 8.18 states each status).
 
 ### 8.17 Plane waves with frozen coefficients and the mode matrix
 
-**Frozen coefficients.** In the author's metric the frame factors $1/f_a$ change from point to point and in time. Near one point and for a short time one may replace them by their values at that point; this is the method of **frozen coefficients**, a device for studying an equation near one point (labelled MODEL in the notebooks, ASSUMED in the five-label scheme). It does not say that the extra times stop deflating: in the author's metric they always deflate, and Section 8.24 follows a wave along the deflating history. In flat 4+4 space the coefficients are constant and nothing is frozen. With frozen coefficients the factors are absorbed into the **frame momenta** $k_a$, and the term $3H\gamma^{(8)}$ is left out; it is absent exactly in the field variables $\chi$ of Section 8.30.
+**Frozen coefficients.** In the author's metric the frame factors $1/f_a$ change from point to point and in time. Near one point and for a short time one may replace them by their values at that point; this is the method of **frozen coefficients**, a device for studying an equation near one point (labelled MODEL in the notebooks, ASSUMED in the five-label scheme). It does not say that the extra times stop deflating: in the author's metric they always deflate, and Section 8.24 follows a wave along the deflating history. In flat 4+4 space the coefficients are constant and nothing is frozen. With frozen coefficients the factors are absorbed into the **frame momenta** $k_a$, and the term $3H\gamma^{(0)}$ is left out; it is absent exactly in the field variables $\chi$ of Section 8.30.
 
-**Plane waves.** A **plane wave** is a field $\Psi = u\,e^{i(k_1x_1 + k_2x_2 + k_3x_3 + k_5x_5 + k_6x_6 + k_7x_7 + k_8x_8) - iEx_4}$ with a constant column $u$ of 16 complex numbers. The number $k_a$ is the **momentum** (or wave number) along $x_a$: radians of phase per unit length; $E$ is the **frequency**. Inserting it into $\sum_a\gamma^{(a)}\partial_a\Psi = m\Psi$, line by line:
+**Plane waves.** A **plane wave** is a field $\Psi = u\,e^{i(k_1x_1 + k_2x_2 + k_3x_3 + k_5x_5 + k_6x_6 + k_7x_7 + k_0x_0) - iEx_4}$ with a constant column $u$ of 16 complex numbers. The number $k_a$ is the **momentum** (or wave number) along $x_a$: radians of phase per unit length; $E$ is the **frequency**. Inserting it into $\sum_a\gamma^{(a)}\partial_a\Psi = m\Psi$, line by line:
 
 1. $\gamma^{(4)}(-iE)u + \sum_{a\neq4}ik_a\gamma^{(a)}u = mu$, because $\partial_4$ of the exponential gives the factor $-iE$ and $\partial_a$ gives $ik_a$ (the common exponential is divided out).
 2. Multiply from the left by $\gamma^{(4)}$ and use $(\gamma^{(4)})^2 = -I_{16}$: $iEu + i\sum_{a\neq4}k_a\gamma^{(4)}\gamma^{(a)}u = m\gamma^{(4)}u$.
@@ -1477,14 +1483,14 @@ $$
 \begin{aligned}
 h_k^2 &= \gamma^{(4)}(im + K)\gamma^{(4)}(im + K) = \gamma^{(4)}\gamma^{(4)}(im - K)(im + K) \\
 &= -\big((im)^2 + imK - imK - K^2\big) = m^2 + K^2, \\
-K^2 &= \sum_{a\neq4}k_a^2(\gamma^{(a)})^2 + \sum_{a<b}k_ak_b\big(\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)}\big) = \big(k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2\big)I_{16} .
+K^2 &= \sum_{a\neq4}k_a^2(\gamma^{(a)})^2 + \sum_{a<b}k_ak_b\big(\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)}\big) = \big(k_1^2 + k_2^2 + k_3^2 + k_0^2 - k_5^2 - k_6^2 - k_7^2\big)I_{16} .
 \end{aligned}
 $$
 
 The first line uses $(-1)^2 = 1$ and moves $(im + K)$ past $\gamma^{(4)}$; the second uses $(\gamma^{(4)})^2 = -I_{16}$ and multiplies out (the number $im$ commutes with $K$); the third line computes $K^2$ as in Section 8.16. Hence
 
 $$
-h_k^2 = E^2\,I_{16}, \qquad E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2
+h_k^2 = E^2\,I_{16}, \qquad E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_0^2 - k_5^2 - k_6^2 - k_7^2
 $$
 
 (PROVED; `Revision/theory/reports/python-scope.json` and `wolfram-scope.json`, check `extra_time_growth_rates_unbounded`). The extra-time momenta enter with a MINUS sign, because the extra times are time-like. Every eigenvalue $\lambda$ of $h_k$ obeys $\lambda^2 = E^2$ (apply $h_k^2 = E^2$ to an eigenvector), so the eigenvalues are $+E$ and $-E$. The **trace** of $h_k$ (the sum of its diagonal entries, which is also the sum of its eigenvalues, each counted as often as it occurs) is zero, because the trace of $\gamma^{(4)}$ and of each product of two different gammas is zero. With $n_+$ eigenvalues $+E$ and $n_-$ eigenvalues $-E$, $n_+ + n_- = 16$ and $n_+E - n_-E = 0$; for $E \neq 0$ this gives $n_+ = n_- = 8$.
@@ -1523,7 +1529,7 @@ $$
 
 the same for every $\epsilon$. The right-hand side grows without bound as $K$ grows, because the logarithm grows more slowly than any multiple of $K$. So for every order $s$ data as small as we like give, after one unit of time, solutions as large as we like: the solution does not depend continuously on the data. So, in flat 4+4 space and with frozen coefficients, the initial-value problem is NOT well posed in the sense of Hadamard for data that depend on the extra times, although the slices $x_4 = $ const are non-characteristic (PROVED in this setting; `python-scope.json`, check `extra_time_growth_rates_unbounded`, both engines, whose detail names exactly this setting: "flat 4+4 space (or frozen coefficients)"). With $m = 1$ the ratio first exceeds $10^6$ at $K = 13.9$ for $s = 0$, at $K = 19.9$ for $s = 2$, at $K = 27.1$ for $s = 4$ and at $K = 44.2$ for $s = 8$ (COMPUTED by Notebook 08a on a grid of step 0.1): a stronger norm only delays the rise.
 
-**From frozen coefficients to the author's metric (an ASSUMED step).** In the author's metric the frame factors change from point to point, and a plane wave is not an exact solution of the field equation; so the argument above, by itself, proves nothing about the field equation in that metric. The step is made by a standard theorem of the theory of partial differential equations, the **Lax-Mizohata theorem** (P. D. Lax, 1957; S. Mizohata, 1961), which this book quotes without proof, so it is ASSUMED here. It says: if the initial-value problem of a linear system of first-order equations with smooth coefficients is well posed near a point, then at that point the frequencies of its **principal part** (the derivative terms alone, with their coefficients taken at that point) are real for every real momentum. For the field equation with $U = 0$ (then the equation is linear) the principal part at a point is the mode matrix of Section 8.17 without the mass term, with the frame momenta of that point: a wave with the coordinate momentum $q_a$ along $x_a$ has there the frame momentum $k_a = q_a/f_a$, with the frame factors of that point (the term $3H\gamma^{(8)}$ contains no derivative, so it does not belong to the principal part). By the formula of Section 8.17 with $m = 0$, its frequencies obey $E^2 = k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$, which is negative for a wave along an extra time alone ($k_5 \neq 0$, all other momenta zero), at every point. So, granted the theorem, the initial-value problem of the field equation in the author's metric is not well posed for data that depend on the extra times. Status: the statements in flat 4+4 space and with frozen coefficients are PROVED, and they are what the Revision record checks; the step to the author's varying coefficients rests on the quoted theorem (ASSUMED) and is not checked by the record; for $U \neq 0$ nothing more is claimed.
+**From frozen coefficients to the author's metric (an ASSUMED step).** In the author's metric the frame factors change from point to point, and a plane wave is not an exact solution of the field equation; so the argument above, by itself, proves nothing about the field equation in that metric. The step is made by a standard theorem of the theory of partial differential equations, the **Lax-Mizohata theorem** (P. D. Lax, 1957; S. Mizohata, 1961), which this book quotes without proof, so it is ASSUMED here. It says: if the initial-value problem of a linear system of first-order equations with smooth coefficients is well posed near a point, then at that point the frequencies of its **principal part** (the derivative terms alone, with their coefficients taken at that point) are real for every real momentum. For the field equation with $U = 0$ (then the equation is linear) the principal part at a point is the mode matrix of Section 8.17 without the mass term, with the frame momenta of that point: a wave with the coordinate momentum $q_a$ along $x_a$ has there the frame momentum $k_a = q_a/f_a$, with the frame factors of that point (the term $3H\gamma^{(0)}$ contains no derivative, so it does not belong to the principal part). By the formula of Section 8.17 with $m = 0$, its frequencies obey $E^2 = k_1^2 + k_2^2 + k_3^2 + k_0^2 - k_5^2 - k_6^2 - k_7^2$, which is negative for a wave along an extra time alone ($k_5 \neq 0$, all other momenta zero), at every point. So, granted the theorem, the initial-value problem of the field equation in the author's metric is not well posed for data that depend on the extra times. Status: the statements in flat 4+4 space and with frozen coefficients are PROVED, and they are what the Revision record checks; the step to the author's varying coefficients rests on the quoted theorem (ASSUMED) and is not checked by the record; for $U \neq 0$ nothing more is claimed.
 
 ### 8.19 The Krein form is conserved; the growing waves carry Krein form zero
 
@@ -1588,14 +1594,14 @@ gammas_record = json.loads(
     repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
 # The record stores every matrix as a list of rows of whole numbers.
 GAMMA = [np.array(rows, dtype=int) for rows in gammas_record["gamma"]]
-ETA = gammas_record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1] in the order x1 ... x8
+ETA = gammas_record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1] in the order x0 ... x7
 # B = -i C gamma^(x4) is stored as its real part and its imaginary part.
 B = np.array(gammas_record["B"]["re"]) + 1j * np.array(gammas_record["B"]["im"])
 I16 = np.eye(16, dtype=int)  # the 16 x 16 unit matrix
 say(f"eta = {ETA}; each gamma is a {GAMMA[0].shape[0]} x {GAMMA[0].shape[1]} matrix")
 ```
 
-The gammas are read from the record and turned into numpy arrays of whole numbers (`dtype=int`), so that the products below are exact. `ETA` is the list of the eight signs. The matrix $B$ is complex; the record stores its real part (`"re"`) and its imaginary part (`"im"`) separately, and the line adds them, `1j` being Python's imaginary unit $i$. `np.eye(16, dtype=int)` is the unit matrix. The `say` line prints the signs and the shape of a gamma (`.shape` gives the number of rows and columns): `eta = [1, 1, 1, -1, -1, -1, -1, 1]; each gamma is a 16 x 16 matrix`.
+The gammas are read from the record and turned into numpy arrays of whole numbers (`dtype=int`), so that the products below are exact. `ETA` is the list of the eight signs. The matrix $B$ is complex; the record stores its real part (`"re"`) and its imaginary part (`"im"`) separately, and the line adds them, `1j` being Python's imaginary unit $i$. `np.eye(16, dtype=int)` is the unit matrix. The `say` line prints the signs and the shape of a gamma (`.shape` gives the number of rows and columns): `eta = [1, 1, 1, 1, -1, -1, -1, -1]; each gamma is a 16 x 16 matrix`.
 
 ```python
 clifford_ok = all(
@@ -1614,7 +1620,7 @@ check(np.allclose(B, B.conj().T) and np.allclose(B @ B, np.eye(16)),
       "B is Hermitian and B^2 = 1")
 # (gamma^(x4))^2 = -1: the field equation can be solved for d4 Psi (multiply it by
 # -gamma^(x4)), so the slices x4 = const are non-characteristic.
-check_record(np.array_equal(GAMMA[3] @ GAMMA[3], -I16),
+check_record(np.array_equal(GAMMA[4] @ GAMMA[4], -I16),
              "(gamma^(x4))^2 = -1: the slices x4 = const are non-characteristic",
              "Revision/theory/reports/wolfram-field-theory.json", "evolution_form_G",
              "the slices x4 = const are non-characteristic")
@@ -1626,39 +1632,39 @@ check_record(np.array_equal(GAMMA[3] @ GAMMA[3], -I16),
 
 ```python
 m = sp.Symbol("m", real=True)  # the mass
-k = {a: sp.Symbol(f"k{a}", real=True) for a in (1, 2, 3, 5, 6, 7, 8)}  # momenta
+k = {a: sp.Symbol(f"k{a}", real=True) for a in (0, 1, 2, 3, 5, 6, 7)}  # momenta
 G = [sp.Matrix(rows) for rows in gammas_record["gamma"]]  # the gammas, exact
 B_exact = sp.I * sp.Matrix(gammas_record["B"]["im"])  # B is purely imaginary
-g4 = G[3]  # gamma^(x4)
+g4 = G[4]  # gamma^(x4)
 ```
 
 The mass and the seven momenta are exact symbols (a dictionary that maps each direction number $a$ to the symbol $k_a$; there is no $k_4$). `G` holds the gammas as exact sympy matrices. The real part of $B$ is zero (because $C\gamma^{(4)}$ is real), so `B_exact` is $i$ times the stored imaginary part. `g4` is $\gamma^{(4)}$.
 
 ```python
 momentum_part = sp.zeros(16, 16)
-for a, k_a in k.items():  # a runs over 1, 2, 3, 5, 6, 7, 8
-    momentum_part += k_a * g4 * G[a - 1]  # k_a gamma^(x4) gamma^(xa)
+for a, k_a in k.items():  # a runs over 0, 1, 2, 3, 5, 6, 7
+    momentum_part += k_a * g4 * G[a]  # k_a gamma^(x4) gamma^(xa)
 h = -sp.I * m * g4 - momentum_part  # the mode matrix h_k
-E2 = m**2 + k[1]**2 + k[2]**2 + k[3]**2 + k[8]**2 - k[5]**2 - k[6]**2 - k[7]**2
+E2 = m**2 + k[0]**2 + k[1]**2 + k[2]**2 + k[3]**2 - k[5]**2 - k[6]**2 - k[7]**2
 say(f"E^2 = {E2}")
 ```
 
-`k.items()` gives the pairs (direction, symbol); `G[a - 1]` is the gamma of direction $x_a$ (lists count from 0). The loop adds up $\sum_{a\neq4}k_a\gamma^{(4)}\gamma^{(a)}$, and `h` is the mode matrix $h_k = -im\gamma^{(4)} - \gamma^{(4)}\sum_ak_a\gamma^{(a)}$ of Section 8.17 (`sp.I` is the exact $i$). `E2` is the expected $E^2$; it is printed in sympy's order: `E^2 = k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + k8**2 + m**2`.
+`k.items()` gives the pairs (direction, symbol); `G[a]` is the gamma of direction $x_a$ (lists count from 0, like the coordinates). The loop adds up $\sum_{a\neq4}k_a\gamma^{(4)}\gamma^{(a)}$, and `h` is the mode matrix $h_k = -im\gamma^{(4)} - \gamma^{(4)}\sum_ak_a\gamma^{(a)}$ of Section 8.17 (`sp.I` is the exact $i$). `E2` is the expected $E^2$; it is printed in sympy's order: `E^2 = k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + k8**2 + m**2`.
 
 ```python
 square_minus_E2 = (h * h - E2 * sp.eye(16)).applyfunc(sp.expand)
 square_ok = square_minus_E2 == sp.zeros(16, 16)
 # The two independent Revision verifiers print E^2 in their own notations: sympy
 # writes powers with **, the Wolfram verifier with ^. Both texts must hold this E^2.
-E2_sympy_text = sp.sstr(E2)  # "k1**2 + k2**2 + ... + m**2"
-E2_wolfram_text = E2_sympy_text.replace("**", "^")  # "k1^2 + k2^2 + ... + m^2"
+E2_sympy_text = sp.sstr(E2)  # "k0**2 + k1**2 + ... + m**2"
+E2_wolfram_text = E2_sympy_text.replace("**", "^")  # "k0^2 + k1^2 + ... + m^2"
 ```
 
 The matrix $h_k^2 - E^2I_{16}$ is computed and every entry multiplied out (`sp.expand`); `square_ok` is true when all 256 entries are exactly zero. The two texts are $E^2$ as the sympy record writes it and as the Wolfram record writes it (`replace` swaps `**` for `^`).
 
 ```python
 check_record(square_ok,
-             "h_k^2 = E^2 I16, E^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 "
+             "h_k^2 = E^2 I16, E^2 = m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 "
              "- k7^2", "Revision/theory/reports/python-scope.json",
              "extra_time_growth_rates_unbounded", f"h_k^2 = ({E2_sympy_text}) I16")
 check_record(square_ok, "the same E^2 in the independent Wolfram verifier",
@@ -1682,7 +1688,7 @@ check_record(krein == sp.zeros(16, 16), "B h_k = h_k^dagger B (Krein self-adjoin
 
 ```python
 anti = ((h - h.H) / 2).applyfunc(sp.expand)  # the anti-Hermitian part of h_k
-extra_time_part = -(k[5] * g4 * G[4] + k[6] * g4 * G[5] + k[7] * g4 * G[6])
+extra_time_part = -(k[5] * g4 * G[5] + k[6] * g4 * G[6] + k[7] * g4 * G[7])
 check((anti - extra_time_part).applyfunc(sp.expand) == sp.zeros(16, 16),
       "the anti-Hermitian part of h_k is the extra-time part")
 anti_square = (anti * anti).applyfunc(sp.expand)
@@ -1695,7 +1701,7 @@ Every matrix is the sum of its Hermitian part $(h + h^\dagger)/2$ and its anti-H
 **In [5], the exact example $m = 1$, $k_5 = 2$.**
 
 ```python
-sample = {m: 1, k[5]: 2, k[1]: 0, k[2]: 0, k[3]: 0, k[6]: 0, k[7]: 0, k[8]: 0}
+sample = {m: 1, k[5]: 2, k[0]: 0, k[1]: 0, k[2]: 0, k[3]: 0, k[6]: 0, k[7]: 0}
 h_sample = h.subs(sample)  # an exact matrix of numbers
 check(h_sample * h_sample == -3 * sp.eye(16), "m = 1, k5 = 2: h^2 = -3 I16")
 dimension = 16 - (h_sample - sp.I * sp.sqrt(3) * sp.eye(16)).rank()
@@ -1735,10 +1741,10 @@ check_record(dimension == 8 and np.max(np.abs(eigenvalues.real)) < 1e-9
 ```python
 def mode_matrix(mass, momenta):
     """h_k = -i m gamma^(x4) - gamma^(x4) sum_a k_a gamma^(xa); momenta: {a: k_a}."""
-    g4n = GAMMA[3]
+    g4n = GAMMA[4]
     result = -1j * mass * g4n.astype(complex)
-    for a, k_a in momenta.items():
-        result = result - k_a * (g4n @ GAMMA[a - 1])
+    for a, k_a in momenta.items():  # a is the direction: GAMMA[a] is gamma^(xa)
+        result = result - k_a * (g4n @ GAMMA[a])
     return result
 
 
@@ -2017,25 +2023,25 @@ check_record(V_grow.shape[1] == 8 and np.max(np.abs(form_grow)) < 1e-12,
              "m = 1, k5 = 2: the 8-dim eigenspace of +i sqrt(3) is Krein-neutral",
              "Revision/pairing/reports/python-pairing.json",
              "Q.one_particle_complex_frequency_Krein_neutral",
-             "(0, 0, 0, 2, 0, 0, 0): w^2 = -3, eigenspace dimensions "
+             "(0, 0, 0, 0, 2, 0, 0): w^2 = -3, eigenspace dimensions "
              f"[{V_grow.shape[1]}, {V_grow.shape[1]}], B-form identically zero: True")
 ```
 
-The eigenspace of the growing frequency $+i\sqrt3$ ($m = 1$, $k_5 = 2$) has 8 basis columns. The $8 \times 8$ matrix `form_grow` holds every value $v^\dagger Bu$ for two basis columns; the check requires dimension 8 and all 64 values below $10^{-12}$ (the Krein-neutrality of Section 8.19), and the pairing record's text for the same sample (it lists the momenta in the order $k_1, k_2, k_3, k_5, k_6, k_7, k_8$ and calls the frequency $w$).
+The eigenspace of the growing frequency $+i\sqrt3$ ($m = 1$, $k_5 = 2$) has 8 basis columns. The $8 \times 8$ matrix `form_grow` holds every value $v^\dagger Bu$ for two basis columns; the check requires dimension 8 and all 64 values below $10^{-12}$ (the Krein-neutrality of Section 8.19), and the pairing record's text for the same sample (it lists the momenta in the order $k_1, k_2, k_3, k_5, k_6, k_7, k_0$ and calls the frequency $w$).
 
 ```python
-V_real = eigenspace(mode_matrix(1.0, {1: 2.0, 8: 2.0}), 3.0)
+V_real = eigenspace(mode_matrix(1.0, {0: 2.0, 1: 2.0}), 3.0)
 form_real = np.linalg.eigvalsh(V_real.conj().T @ B @ V_real)  # Hermitian 8 x 8
 inertia = (int(np.sum(form_real > 1e-9)), int(np.sum(form_real < -1e-9)))
-report("Krein inertia of the eigenspace of E = 3 (m = 1, k1 = k8 = 2)", inertia)
+report("Krein inertia of the eigenspace of E = 3 (m = 1, k0 = k1 = 2)", inertia)
 check_record(V_real.shape[1] == 8 and inertia == (4, 4),
-             "m = 1, k1 = k8 = 2: the eigenspace of E = 3 has Krein inertia (4, 4)",
+             "m = 1, k0 = k1 = 2: the eigenspace of E = 3 has Krein inertia (4, 4)",
              "Revision/pairing/reports/python-pairing.json",
              "Q.one_particle_Krein_inertia",
              f"w = 3: dim {V_real.shape[1]}, Krein inertia ({inertia[0]},{inertia[1]})")
 ```
 
-For the good-sector wave $m = 1$, $k_1 = k_8 = 2$ ($E^2 = 1 + 4 + 4 = 9$) the eigenspace of $E = 3$ is found; the Krein form restricted to it is a Hermitian $8 \times 8$ matrix, whose eigenvalues `np.linalg.eigvalsh` computes. Counting the positive and the negative ones gives the inertia, printed as `(4, 4)`; the check also requires the pairing record's text.
+For the good-sector wave $m = 1$, $k_1 = k_0 = 2$ ($E^2 = 1 + 4 + 4 = 9$) the eigenspace of $E = 3$ is found; the Krein form restricted to it is a Hermitian $8 \times 8$ matrix, whose eigenvalues `np.linalg.eigvalsh` computes. Counting the positive and the negative ones gives the inertia, printed as `(4, 4)`; the check also requires the pairing record's text.
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
@@ -2062,7 +2068,7 @@ Left: $\ln(u^\dagger u)$ against the time. Right: the Krein form, with a gray da
 **In [12], the good sector, and the eigenvalue paths.**
 
 ```python
-good = mode_matrix(1.3, {1: 0.4, 2: -1.1, 3: 0.7, 8: 2.2})  # no k5, k6, k7
+good = mode_matrix(1.3, {0: 2.2, 1: 0.4, 2: -1.1, 3: 0.7})  # no k5, k6, k7
 good_eigenvalues = np.linalg.eigvals(good)
 E_good = np.sqrt(1.3**2 + 0.4**2 + 1.1**2 + 0.7**2 + 2.2**2)
 check_record(np.allclose(good, good.conj().T) and np.allclose(good @ B, B @ good)
@@ -2073,7 +2079,7 @@ check_record(np.allclose(good, good.conj().T) and np.allclose(good @ B, B @ good
              "good_sector_spectrum_and_B_sectors", "h is Hermitian", "[B, h] = 0")
 ```
 
-A good-sector mode matrix with $m = 1.3$ and four space momenta (no extra-time momentum). The check requires: $h_k$ Hermitian, commuting with $B$, every eigenvalue of size $E = \sqrt{m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2}$ and with imaginary part below $10^{-12}$, so the eigenvalues are $\pm E$, real; and the record's texts.
+A good-sector mode matrix with $m = 1.3$ and four space momenta (no extra-time momentum). The check requires: $h_k$ Hermitian, commuting with $B$, every eigenvalue of size $E = \sqrt{m^2 + k_1^2 + k_2^2 + k_3^2 + k_0^2}$ and with imaginary part below $10^{-12}$, so the eigenvalues are $\pm E$, real; and the record's texts.
 
 ```python
 path_values = np.linspace(0.0, 2.5, 26)  # the momenta 0, 0.1, ..., 2.5
@@ -2123,7 +2129,7 @@ Six checks that the figure files exist, and the last line. The 30 checks come fr
 
 Sections 8.17 to 8.19 froze the coefficients. In the author's metric they are not frozen: the extra times deflate, and this changes the momentum that a wave has along them. This section follows the change exactly.
 
-**The hidden coordinate $y$.** A second way to label the points of the hidden direction is $y = \ln(\sin z)/(6H)$. At the patch end $z = \pi/2$, $\sin z = 1$ and $y = 0$; towards the tip $z \to 0$, $\sin z \to 0$ and $y \to -\infty$. Two facts make $y$ useful, each derived in one line. First, $\sin z = e^{6Hy}$ (undo the logarithm), so $\sin^{1/6}z = e^{Hy}$ and $\sin^{1/3}z = e^{2Hy}$. Second, $dy/dx_8 = \frac{1}{6H}\cdot\frac{\cos z}{\sin z}\cdot 6H = \cot z$ (chain rule with $dz/dx_8 = 6H$), so $\cot^2 z\,dx_8^2 = dy^2$. The author's metric therefore reads
+**The hidden coordinate $y$.** A second way to label the points of the hidden direction is $y = \ln(\sin z)/(6H)$. At the patch end $z = \pi/2$, $\sin z = 1$ and $y = 0$; towards the tip $z \to 0$, $\sin z \to 0$ and $y \to -\infty$. Two facts make $y$ useful, each derived in one line. First, $\sin z = e^{6Hy}$ (undo the logarithm), so $\sin^{1/6}z = e^{Hy}$ and $\sin^{1/3}z = e^{2Hy}$. Second, $dy/dx_0 = \frac{1}{6H}\cdot\frac{\cos z}{\sin z}\cdot 6H = \cot z$ (chain rule with $dz/dx_0 = 6H$), so $\cot^2 z\,dx_0^2 = dy^2$. The author's metric therefore reads
 
 $$
 ds^2 = e^{2Hy}\big(e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2) - e^{-2a_4}(dx_5^2 + dx_6^2 + dx_7^2)\big) - dx_4^2 + dy^2 ,
@@ -2164,7 +2170,7 @@ At $y = 0$ with $A = H = m = 1$ this is $\ln(1/q_5)$: $x_4^\ast = \ln 20 = 2.995
 
 ### 8.25 Following one wave through the onset: the local-frame model and WKB
 
-**The local-frame model (labelled MODEL; ASSUMED).** The field also depends on $y$, and the factor $e^{-Hy}$ in the frame momenta makes the exact equation couple neighbouring values of $y$. The **local-frame model** holds the hidden position fixed (it freezes the coefficients in $y$ only), works in the variables $\chi$ of Section 8.30 (in which the term $3H\gamma^{(8)}$ is absent exactly), takes no momentum along the hidden direction, and keeps the exact time dependence of the frame momenta:
+**The local-frame model (labelled MODEL; ASSUMED).** The field also depends on $y$, and the factor $e^{-Hy}$ in the frame momenta makes the exact equation couple neighbouring values of $y$. The **local-frame model** holds the hidden position fixed (it freezes the coefficients in $y$ only), works in the variables $\chi$ of Section 8.30 (in which the term $3H\gamma^{(0)}$ is absent exactly), takes no momentum along the hidden direction, and keeps the exact time dependence of the frame momenta:
 
 $$
 i\,\frac{du}{dx_4} = h(x_4)\,u, \qquad h(x_4) = -im\gamma^{(4)} - \gamma^{(4)}\big(k_{(1)}(x_4)\gamma^{(1)} + k_{(5)}(x_4)\gamma^{(5)}\big).
@@ -2172,7 +2178,7 @@ $$
 
 Its solutions are not exact solutions of the field equation; they show how a wave behaves near one hidden position as the extra times deflate. The position enters only through $q_5e^{-Hy}$, so the runs use $y = 0$. At every instant $h(x_4)^2 = E^2(x_4)I_{16}$ with the $E^2$ of Section 8.24 (Section 8.17 with the frame momenta of that instant).
 
-**A clean starting column.** Take $q_1 = 0$. The matrix $C = \gamma^{(8)}\gamma^{(1)}\gamma^{(2)}\gamma^{(3)}$ commutes with $\gamma^{(4)}$ and with $\gamma^{(5)}$ (moving either of them through the four factors of $C$ changes the sign four times), hence with $h(x_4)$. A column $u$ can therefore be an eigenvector of $h(0)$ for the positive frequency $E_0 = \sqrt{m^2 - q_5^2}$ and at the same time of $C$ for the eigenvalue $\sigma = +1$ or $-1$ ($C$ is real, symmetric, and $C^2 = I_{16}$). For such a column of size $u^\dagger u = 1$ the Krein form is $u^\dagger Bu = \sigma E_0/m$. Line by line:
+**A clean starting column.** Take $q_1 = 0$. The matrix $C = \gamma^{(0)}\gamma^{(1)}\gamma^{(2)}\gamma^{(3)}$ commutes with $\gamma^{(4)}$ and with $\gamma^{(5)}$ (moving either of them through the four factors of $C$ changes the sign four times), hence with $h(x_4)$. A column $u$ can therefore be an eigenvector of $h(0)$ for the positive frequency $E_0 = \sqrt{m^2 - q_5^2}$ and at the same time of $C$ for the eigenvalue $\sigma = +1$ or $-1$ ($C$ is real, symmetric, and $C^2 = I_{16}$). For such a column of size $u^\dagger u = 1$ the Krein form is $u^\dagger Bu = \sigma E_0/m$. Line by line:
 
 1. $B = -iC\gamma^{(4)} = C(-i\gamma^{(4)})$, and since $C$ is Hermitian with $Cu = \sigma u$, $u^\dagger C = \sigma u^\dagger$; so $u^\dagger Bu = \sigma\,u^\dagger(-i\gamma^{(4)})u$.
 2. $E_0 = E_0u^\dagger u = u^\dagger h(0)u = m\,u^\dagger(-i\gamma^{(4)})u - q_5\,u^\dagger\gamma^{(4)}\gamma^{(5)}u$ (at $x_4 = 0$, $a_4 = 0$ and $k_{(5)} = q_5$ at $y = 0$).
@@ -2203,7 +2209,7 @@ because $\frac{d}{dx_4}\ln Q = AH$ and $\frac{d}{dx_4}\ln\kappa = \frac{Q}{\kapp
 
 ### 8.26 Example: the onset of growth along the deflating history
 
-Notebook 08b puts Sections 8.24 and 8.25 to work along the prescribed history of the Kohn-Sham record. It reads $A$, $H$, $m$ and $L$ from the record; checks exactly that $dy/dx_8 = \cot z$, $e^{Hy} = \sin^{1/6}z$ and that the product of the scale factors is $\cos z$ for every $a_4$; draws the scale factors along the history; computes the frame momenta and the exact onset time and compares it with a numerical root search; shows that the onset time is finite for every $q_5 > 0$; builds the model's mode matrix, checks $h(x_4)^2 = E^2(x_4)I_{16}$ against the record's formula, chooses clean starting columns, follows two waves through the onset with RK4 (with a convergence test), and compares with both WKB formulas; and checks the Krein form. It needs no Rust and runs in well under a minute; the times measured on the build computer, which depend on how busy that computer is, are recorded in the notebook's provenance file `Revision/textbook/notebooks/08b_deflation_onset.PROVENANCE.md`. It ends with the line ALL 25 CHECKS PASSED (notebook 08b).
+Notebook 08b puts Sections 8.24 and 8.25 to work along the prescribed history of the Kohn-Sham record. It reads $A$, $H$, $m$ and $L$ from the record; checks exactly that $dy/dx_0 = \cot z$, $e^{Hy} = \sin^{1/6}z$ and that the product of the scale factors is $\cos z$ for every $a_4$; draws the scale factors along the history; computes the frame momenta and the exact onset time and compares it with a numerical root search; shows that the onset time is finite for every $q_5 > 0$; builds the model's mode matrix, checks $h(x_4)^2 = E^2(x_4)I_{16}$ against the record's formula, chooses clean starting columns, follows two waves through the onset with RK4 (with a convergence test), and compares with both WKB formulas; and checks the Krein form. It needs no Rust and runs in well under a minute; the times measured on the build computer, which depend on how busy that computer is, are recorded in the notebook's provenance file `Revision/textbook/notebooks/08b_deflation_onset.PROVENANCE.md`. It ends with the line ALL 25 CHECKS PASSED (notebook 08b).
 
 <!-- NOTEBOOK 08b -->
 
@@ -2248,28 +2254,32 @@ def a4_of(x4):
 **In [3], the scale factors and the constant volume.**
 
 ```python
-x8, H_symbol = sp.symbols("x8 H", positive=True)
+x0, H_symbol = sp.symbols("x0 H", positive=True)
 a4_symbol = sp.Symbol("a4", real=True)
-z = 6 * H_symbol * x8
-y_of_x8 = sp.log(sp.sin(z)) / (6 * H_symbol)  # the hidden coordinate y
-check(sp.simplify(sp.diff(y_of_x8, x8) - sp.cot(z)) == 0, "dy/dx8 = cot z")
-check(sp.simplify(sp.exp(H_symbol * y_of_x8) - sp.sin(z) ** sp.Rational(1, 6)) == 0,
+z = 6 * H_symbol * x0
+y_of_x0 = sp.log(sp.sin(z)) / (6 * H_symbol)  # the hidden coordinate y
+check(sp.simplify(sp.diff(y_of_x0, x0) - sp.cot(z)) == 0, "dy/dx0 = cot z")
+check(sp.simplify(sp.exp(H_symbol * y_of_x0) - sp.sin(z) ** sp.Rational(1, 6)) == 0,
       "e^(H y) = sin(z)^(1/6)")
 ```
 
-Exact symbols for $x_8$, $H$ and $a_4$ (here a plain number-like symbol, because only its value enters). `y_of_x8` is $y = \ln(\sin z)/(6H)$. The two checks are the two facts of Section 8.24: $dy/dx_8 = \cot z$ and $e^{Hy} = \sin^{1/6}z$.
+Exact symbols for $x_0$, $H$ and $a_4$ (here a plain number-like symbol, because only its value enters). `y_of_x0` is $y = \ln(\sin z)/(6H)$. The two checks are the two facts of Section 8.24: $dy/dx_0 = \cot z$ and $e^{Hy} = \sin^{1/6}z$.
 
 ```python
 space_factor = sp.exp(a4_symbol) * sp.sin(z) ** sp.Rational(1, 6)  # x1, x2, x3
-extra_factor = sp.exp(-a4_symbol) * sp.sin(z) ** sp.Rational(1, 6)  # x5, x6, x7
-volume = space_factor**3 * 1 * extra_factor**3 * sp.cot(z)  # x4 has the factor 1
-check_record(sp.simplify(volume - sp.cos(z)) == 0,
-             "sqrt|g| = product of the scale factors = cos z, for every a4",
+b4_symbol = sp.Symbol("b4", positive=True)  # the second function of the metric
+extra_factor = (sp.exp(-a4_symbol) * sp.sqrt(b4_symbol)
+                * sp.sin(z) ** sp.Rational(1, 6))  # x5, x6, x7
+volume = sp.cot(z) * space_factor**3 * 1 * extra_factor**3  # x4 has the factor 1
+check_record(sp.simplify(volume - b4_symbol ** sp.Rational(3, 2) * sp.cos(z)) == 0
+             and sp.simplify(volume.subs(b4_symbol, 1) - sp.cos(z)) == 0,
+             "sqrt|g| = product of the scale factors = b4^(3/2) cos z, for every a4; "
+             "cos z at b4 = 1",
              "Revision/theory/reports/python-field-theory.json",
-             "sqrt_det_g_equals_cos_z", "cos(6 H x8)")
+             "sqrt_det_g_equals_cos_z", "cos(6 H x0)")
 ```
 
-The product of the eight scale factors is compared with $\cos z$ for a symbolic $a_4$, together with the record's check, whose detail contains `cos(6 H x8)`.
+The product of the eight scale factors is compared with $b_4^{3/2}\cos z$ for a symbolic $a_4$ and a symbol `b4_symbol` for $b_4$, and at $b_4 = 1$ with $\cos z$, together with the record's check, whose detail contains `cos(6 H x0)`.
 
 ```python
 times = np.linspace(0.0, 6.0, 601)
@@ -2439,13 +2449,13 @@ A logarithmic horizontal axis, labels, Figure 08b.3, and the check, which requir
 gammas_record = json.loads(
     repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
 GAMMA = [np.array(rows, dtype=int) for rows in gammas_record["gamma"]]
-C = np.array(gammas_record["C"], dtype=int)  # C = g^(x8) g^(x1) g^(x2) g^(x3)
+C = np.array(gammas_record["C"], dtype=int)  # C = g^(x0) g^(x1) g^(x2) g^(x3)
 B = np.array(gammas_record["B"]["re"]) + 1j * np.array(gammas_record["B"]["im"])
-g4 = GAMMA[3].astype(complex)  # gamma^(x4)
-g4g1 = (GAMMA[3] @ GAMMA[0]).astype(complex)  # gamma^(x4) gamma^(x1)
-g4g5 = (GAMMA[3] @ GAMMA[4]).astype(complex)  # gamma^(x4) gamma^(x5)
-check(np.array_equal(C @ GAMMA[3], GAMMA[3] @ C) and
-      np.array_equal(C @ GAMMA[4], GAMMA[4] @ C),
+g4 = GAMMA[4].astype(complex)  # gamma^(x4)
+g4g1 = (GAMMA[4] @ GAMMA[1]).astype(complex)  # gamma^(x4) gamma^(x1)
+g4g5 = (GAMMA[4] @ GAMMA[5]).astype(complex)  # gamma^(x4) gamma^(x5)
+check(np.array_equal(C @ GAMMA[4], GAMMA[4] @ C) and
+      np.array_equal(C @ GAMMA[5], GAMMA[5] @ C),
       "C commutes with gamma^(x4) and gamma^(x5)")
 ```
 
@@ -2464,12 +2474,12 @@ def h_local(x4, q1, q5, y):
 # At every instant h(x4)^2 = E^2(x4) I16, where E^2 is the frozen-coefficient E^2 of
 # the record with k1 = k_(1)(x4), k5 = k_(5)(x4) and all other momenta 0.
 m_s = sp.Symbol("m", real=True)
-k_s = {a: sp.Symbol(f"k{a}", real=True) for a in (1, 2, 3, 5, 6, 7, 8)}
-E2_record = m_s**2 + sum(k_s[a] ** 2 for a in (1, 2, 3, 8)) \
+k_s = {a: sp.Symbol(f"k{a}", real=True) for a in (0, 1, 2, 3, 5, 6, 7)}
+E2_record = m_s**2 + sum(k_s[a] ** 2 for a in (0, 1, 2, 3)) \
     - sum(k_s[a] ** 2 for a in (5, 6, 7))
 ```
 
-`E2_record` is the record's general formula $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$, built with exact symbols.
+`E2_record` is the record's general formula $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_0^2 - k_5^2 - k_6^2 - k_7^2$, built with exact symbols.
 
 ```python
 squares_ok = True
@@ -2739,28 +2749,28 @@ Five checks that the figure files exist, and the last line. The 25 checks come f
 
 Section 8.9 changed the frame. This section keeps the diagonal frame and changes the field variables instead: we write the field as a known function times a new field, $\Psi = w\,\chi$ with $w = \sin^{-1/2}z$, and ask which equation $\chi$ obeys.
 
-**The derivative of the factor.** $w$ depends only on $x_8$. Line by line:
+**The derivative of the factor.** $w$ depends only on $x_0$. Line by line:
 
 $$
 \begin{aligned}
-\partial_8 w &= -\tfrac12\sin^{-3/2}z\cdot\cos z\cdot 6H = -3H\sin^{-3/2}z\cos z, \\
-\tan z\,\partial_8 w &= \frac{\sin z}{\cos z}\cdot\big(-3H\sin^{-3/2}z\cos z\big) = -3H\sin^{-1/2}z = -3H\,w .
+\partial_0 w &= -\tfrac12\sin^{-3/2}z\cdot\cos z\cdot 6H = -3H\sin^{-3/2}z\cos z, \\
+\tan z\,\partial_0 w &= \frac{\sin z}{\cos z}\cdot\big(-3H\sin^{-3/2}z\cos z\big) = -3H\sin^{-1/2}z = -3H\,w .
 \end{aligned}
 $$
 
-The first line is the chain rule (the power rule for $\sin^{-1/2}$, the derivative $\cos z$ of $\sin z$, and $dz/dx_8 = 6H$); the second multiplies by $\tan z = \sin z/\cos z$ and combines the powers of $\sin z$ ($\sin z\cdot\sin^{-3/2}z = \sin^{-1/2}z$).
+The first line is the chain rule (the power rule for $\sin^{-1/2}$, the derivative $\cos z$ of $\sin z$, and $dz/dx_0 = 6H$); the second multiplies by $\tan z = \sin z/\cos z$ and combines the powers of $\sin z$ ($\sin z\cdot\sin^{-3/2}z = \sin^{-1/2}z$).
 
-**The term disappears.** For $\mu \neq 8$, $\partial_\mu(w\chi) = w\,\partial_\mu\chi$, because $w$ does not depend on $x_\mu$. For $\mu = 8$ the product rule gives $\partial_8(w\chi) = (\partial_8 w)\chi + w\,\partial_8\chi$. So, line by line,
+**The term disappears.** For $\mu \neq 8$, $\partial_\mu(w\chi) = w\,\partial_\mu\chi$, because $w$ does not depend on $x_\mu$. For $\mu = 8$ the product rule gives $\partial_0(w\chi) = (\partial_0 w)\chi + w\,\partial_0\chi$. So, line by line,
 
 $$
 \begin{aligned}
-\gamma^\mu D_\mu(w\chi) &= \sum_\mu\gamma^\mu\partial_\mu(w\chi) + 3H\gamma^{(8)}w\chi \\
-&= w\sum_\mu\gamma^\mu\partial_\mu\chi + \tan z\,\gamma^{(8)}(\partial_8 w)\chi + 3H\gamma^{(8)}w\chi \\
-&= w\sum_\mu\gamma^\mu\partial_\mu\chi + \big(-3Hw + 3Hw\big)\gamma^{(8)}\chi = w\sum_\mu\gamma^\mu\partial_\mu\chi .
+\gamma^\mu D_\mu(w\chi) &= \sum_\mu\gamma^\mu\partial_\mu(w\chi) + 3H\gamma^{(0)}w\chi \\
+&= w\sum_\mu\gamma^\mu\partial_\mu\chi + \tan z\,\gamma^{(0)}(\partial_0 w)\chi + 3H\gamma^{(0)}w\chi \\
+&= w\sum_\mu\gamma^\mu\partial_\mu\chi + \big(-3Hw + 3Hw\big)\gamma^{(0)}\chi = w\sum_\mu\gamma^\mu\partial_\mu\chi .
 \end{aligned}
 $$
 
-The first line uses $\gamma^\mu D_\mu = \gamma^\mu\partial_\mu + \gamma^\mu\Omega_\mu$ and $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$ (Section 8.5); the second applies the two derivative rules, with $\gamma^{x_8} = \tan z\,\gamma^{(8)}$; the third inserts $\tan z\,\partial_8 w = -3Hw$. For every column $\chi$ of 16 functions the spin-connection term is gone: in the variables $\chi$ the derivative part of the field equation is $w\,\gamma^\mu\partial_\mu\chi$, with no term $3H\gamma^{(8)}$ (PROVED; `Revision/theory/reports/python-scope.json`, check `rescaling_removes_the_connection_term`, both engines). The frame factors $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$ stay: they are part of $\gamma^\mu$.
+The first line uses $\gamma^\mu D_\mu = \gamma^\mu\partial_\mu + \gamma^\mu\Omega_\mu$ and $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$ (Section 8.5); the second applies the two derivative rules, with $\gamma^{x_0} = \tan z\,\gamma^{(0)}$; the third inserts $\tan z\,\partial_0 w = -3Hw$. For every column $\chi$ of 16 functions the spin-connection term is gone: in the variables $\chi$ the derivative part of the field equation is $w\,\gamma^\mu\partial_\mu\chi$, with no term $3H\gamma^{(0)}$ (PROVED; `Revision/theory/reports/python-scope.json`, check `rescaling_removes_the_connection_term`, both engines). The frame factors $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$ stay: they are part of $\gamma^\mu$.
 
 **The potential.** $S$ is quadratic in the field and $w$ is real, so $S[w\chi] = (w\chi)^\dagger C(w\chi) = w^2\,\chi^\dagger C\chi = S[\chi]/\sin z$ (because $w^2 = \sin^{-1}z$). With $U = \frac\lambda2S^2$, $U'(S[\Psi]) = \lambda S[\Psi] = \lambda S[\chi]/\sin z$. The field equation $\gamma^\mu D_\mu\Psi = (m + \lambda S[\Psi])\Psi$ becomes $w\,\gamma^\mu\partial_\mu\chi = (m + \lambda S[\chi]/\sin z)\,w\chi$, and dividing by $w > 0$:
 
@@ -2768,101 +2778,101 @@ $$
 \gamma^\mu\partial_\mu\chi = \Big(m + \frac{\lambda S[\chi]}{\sin z}\Big)\chi .
 $$
 
-For $U = 0$ the term $3H\gamma^{(8)}$ is removed completely; for $U \neq 0$ it reappears in a new form, as the $x_8$-dependent coupling $\lambda S[\chi]/\sin z$ (PROVED; `python-scope.json`, check `rescaled_equation_quadratic_potential`, both engines).
+For $U = 0$ the term $3H\gamma^{(0)}$ is removed completely; for $U \neq 0$ it reappears in a new form, as the $x_0$-dependent coupling $\lambda S[\chi]/\sin z$ (PROVED; `python-scope.json`, check `rescaled_equation_quadratic_potential`, both engines).
 
-**The weight moves into the measure.** The norm of a field along the hidden direction is $\int\cos z\,\Psi^\dagger\Psi\,dx_8$ ($\cos z = \sqrt{|g|}$ is the volume factor). In the new variables $\cos z\,\Psi^\dagger\Psi\,dx_8 = \cos z\,w^2\,\chi^\dagger\chi\,dx_8 = \cot z\,\chi^\dagger\chi\,dx_8 = \chi^\dagger\chi\,dy$, by $dy = \cot z\,dx_8$ (Section 8.24). So the norm of $\Psi$ is the plain $y$-integral of $\chi^\dagger\chi$.
+**The weight moves into the measure.** The norm of a field along the hidden direction is $\int\cos z\,\Psi^\dagger\Psi\,dx_0$ ($\cos z = \sqrt{|g|}$ is the volume factor). In the new variables $\cos z\,\Psi^\dagger\Psi\,dx_0 = \cos z\,w^2\,\chi^\dagger\chi\,dx_0 = \cot z\,\chi^\dagger\chi\,dx_0 = \chi^\dagger\chi\,dy$, by $dy = \cot z\,dx_0$ (Section 8.24). So the norm of $\Psi$ is the plain $y$-integral of $\chi^\dagger\chi$.
 
-**The scope of "the field equation contains $3H\gamma^{(8)}$".** Together with Section 8.9: the value $3H\gamma^{(8)}$ belongs to one frame (the diagonal one) AND to one choice of field variables ($\Psi$). A boosted frame removes it, and so does the rescaling. Interpretation (labelled as such, not a theorem): in the variables $\Psi$ with the measure $\cos z\,dx_8$ the term makes the hidden-direction operator $\tan z\,\partial_8 + 3H$ antisymmetric up to a boundary term (Section 8.32); in the variables $\chi$ with the measure $dy$ the plain $\partial_y$ has the same property without any $H$ term. The role of $3H$ therefore depends on the variables and the measure.
+**The scope of "the field equation contains $3H\gamma^{(0)}$".** Together with Section 8.9: the value $3H\gamma^{(0)}$ belongs to one frame (the diagonal one) AND to one choice of field variables ($\Psi$). A boosted frame removes it, and so does the rescaling (for a changing $b_4$ the rescaling $\Psi = \sin^{-1/2}z\,b_4^{-3/4}\chi$ removes the whole term $3H\gamma^{(0)} + \frac34(b_4'/b_4)\gamma^{(4)}$, Section 6.18). Interpretation (labelled as such, not a theorem): in the variables $\Psi$ with the measure $\cos z\,dx_0$ the term makes the hidden-direction operator $\tan z\,\partial_0 + 3H$ antisymmetric up to a boundary term (Section 8.32); in the variables $\chi$ with the measure $dy$ the plain $\partial_y$ has the same property without any $H$ term. The role of $3H$ therefore depends on the variables and the measure.
 
 ### 8.31 The two ends of the hidden direction and an exact family of solutions
 
-**The two ends.** Proper length along the hidden direction is $\sqrt{g_{88}}\,dx_8 = \cot z\,dx_8 = dy$. The **tip** $z \to 0$ is $y \to -\infty$: infinitely far from every point. The **patch end** $z = \pi/2$ is $y = 0$: at the finite proper distance $|y|$ from the point $y$. At the patch end $g_{88} = \cot^2 z = 0$ and $\sqrt{|g|} = \cos z = 0$: the surface is degenerate, and the Revision record claims nothing about it and imposes no boundary condition there. (The Kohn-Sham record ASSUMES a **$Z_2$ brane** at $z = \pi/2$. A **brane** is a boundary surface of spacetime, here the surface $z = \pi/2$ where the author's coordinate patch ends; "$Z_2$" says that the patch is glued there to a mirror copy of itself, and the mirror fixes a boundary condition for the field at that surface. Chapter 14 works it out. This chapter does not use it.)
+**The two ends.** Proper length along the hidden direction is $\sqrt{g_{00}}\,dx_0 = \cot z\,dx_0 = dy$. The **tip** $z \to 0$ is $y \to -\infty$: infinitely far from every point. The **patch end** $z = \pi/2$ is $y = 0$: at the finite proper distance $|y|$ from the point $y$. At the patch end $g_{00} = \cot^2 z = 0$ and $\sqrt{|g|} = \cos z = 0$: the surface is degenerate, and the Revision record claims nothing about it and imposes no boundary condition there. (The Kohn-Sham record ASSUMES a **$Z_2$ brane** at $z = \pi/2$. A **brane** is a boundary surface of spacetime, here the surface $z = \pi/2$ where the author's coordinate patch ends; "$Z_2$" says that the patch is glued there to a mirror copy of itself, and the mirror fixes a boundary condition for the field at that surface. Chapter 14 works it out. This chapter does not use it.)
 
-**An exact family.** For $U = 0$ and a field that depends only on $x_4$ and $x_8$, the field equation of Section 8.2 is $\gamma^{(4)}\partial_4\Psi + \tan z\,\gamma^{(8)}\partial_8\Psi + 3H\gamma^{(8)}\Psi = m\Psi$. The record gives a family of exact solutions (`Revision/theory/reports/python-field-theory.json`, check `exact_solution_family_x4_x8`):
+**An exact family.** For $U = 0$ and a field that depends only on $x_4$ and $x_0$, the field equation of Section 8.2 is $\gamma^{(4)}\partial_4\Psi + \tan z\,\gamma^{(0)}\partial_0\Psi + 3H\gamma^{(0)}\Psi = m\Psi$. The record gives a family of exact solutions (`Revision/theory/reports/python-field-theory.json`, check `exact_solution_family_x4_x0`):
 
 $$
-\Psi = \sin^\alpha z\;e^{Mx_4}\chi_0, \qquad M = -m\gamma^{(4)} + c\,\gamma^{(4)}\gamma^{(8)}, \qquad c = 3H(2\alpha + 1),
+\Psi = \sin^\alpha z\;e^{Mx_4}\chi_0, \qquad M = -m\gamma^{(4)} + c\,\gamma^{(4)}\gamma^{(0)}, \qquad c = 3H(2\alpha + 1),
 $$
 
 with any real exponent $\alpha$ and any constant column $\chi_0$. We derive it line by line. First, $M^2$:
 
 $$
 \begin{aligned}
-M^2 &= m^2(\gamma^{(4)})^2 - mc\big((\gamma^{(4)})^2\gamma^{(8)} + \gamma^{(4)}\gamma^{(8)}\gamma^{(4)}\big) + c^2\gamma^{(4)}\gamma^{(8)}\gamma^{(4)}\gamma^{(8)} \\
-&= -m^2 - mc\big(-\gamma^{(8)} + \gamma^{(8)}\big) - c^2(\gamma^{(4)})^2(\gamma^{(8)})^2 \\
+M^2 &= m^2(\gamma^{(4)})^2 - mc\big((\gamma^{(4)})^2\gamma^{(0)} + \gamma^{(4)}\gamma^{(0)}\gamma^{(4)}\big) + c^2\gamma^{(4)}\gamma^{(0)}\gamma^{(4)}\gamma^{(0)} \\
+&= -m^2 - mc\big(-\gamma^{(0)} + \gamma^{(0)}\big) - c^2(\gamma^{(4)})^2(\gamma^{(0)})^2 \\
 &= (c^2 - m^2)\,I_{16} = k^2I_{16}, \qquad k^2 = 9H^2(2\alpha + 1)^2 - m^2 .
 \end{aligned}
 $$
 
-The first line multiplies out; the second uses $(\gamma^{(4)})^2 = -I_{16}$, $\gamma^{(4)}\gamma^{(8)}\gamma^{(4)} = -(\gamma^{(4)})^2\gamma^{(8)} = \gamma^{(8)}$ and, in the last term, one anticommutation and the two squares. As in Section 8.18, $M^2 = k^2I_{16}$ makes the exponential series collapse: $e^{Mx_4} = \cosh(kx_4)I_{16} + \frac{\sinh(kx_4)}{k}M$. Second, the equation. With $s = \sin z$: $\partial_8 s^\alpha = \alpha s^{\alpha-1}\cos z\cdot 6H$, so $\tan z\,\partial_8 s^\alpha = 6H\alpha\,s^\alpha$; and $\partial_4 e^{Mx_4} = Me^{Mx_4}$. Inserting, and dividing by the common factor $s^\alpha$:
+The first line multiplies out; the second uses $(\gamma^{(4)})^2 = -I_{16}$, $\gamma^{(4)}\gamma^{(0)}\gamma^{(4)} = -(\gamma^{(4)})^2\gamma^{(0)} = \gamma^{(0)}$ and, in the last term, one anticommutation and the two squares. As in Section 8.18, $M^2 = k^2I_{16}$ makes the exponential series collapse: $e^{Mx_4} = \cosh(kx_4)I_{16} + \frac{\sinh(kx_4)}{k}M$. Second, the equation. With $s = \sin z$: $\partial_0 s^\alpha = \alpha s^{\alpha-1}\cos z\cdot 6H$, so $\tan z\,\partial_0 s^\alpha = 6H\alpha\,s^\alpha$; and $\partial_4 e^{Mx_4} = Me^{Mx_4}$. Inserting, and dividing by the common factor $s^\alpha$:
 
 $$
 \begin{aligned}
-&\gamma^{(4)}Me^{Mx_4}\chi_0 + 6H\alpha\,\gamma^{(8)}e^{Mx_4}\chi_0 + 3H\gamma^{(8)}e^{Mx_4}\chi_0 = \big(\gamma^{(4)}M + c\,\gamma^{(8)}\big)e^{Mx_4}\chi_0, \\
-&\gamma^{(4)}M = -m(\gamma^{(4)})^2 + c(\gamma^{(4)})^2\gamma^{(8)} = m - c\,\gamma^{(8)}, \\
-&\big(\gamma^{(4)}M + c\,\gamma^{(8)}\big)e^{Mx_4}\chi_0 = m\,e^{Mx_4}\chi_0 .
+&\gamma^{(4)}Me^{Mx_4}\chi_0 + 6H\alpha\,\gamma^{(0)}e^{Mx_4}\chi_0 + 3H\gamma^{(0)}e^{Mx_4}\chi_0 = \big(\gamma^{(4)}M + c\,\gamma^{(0)}\big)e^{Mx_4}\chi_0, \\
+&\gamma^{(4)}M = -m(\gamma^{(4)})^2 + c(\gamma^{(4)})^2\gamma^{(0)} = m - c\,\gamma^{(0)}, \\
+&\big(\gamma^{(4)}M + c\,\gamma^{(0)}\big)e^{Mx_4}\chi_0 = m\,e^{Mx_4}\chi_0 .
 \end{aligned}
 $$
 
-The first line collects the two $\gamma^{(8)}$ terms ($6H\alpha + 3H = 3H(2\alpha + 1) = c$); the second multiplies out $\gamma^{(4)}M$; the third inserts it: the left side equals $m\Psi$ after the factor $s^\alpha$ is put back. So every member solves the field equation, for every history $a_4$ (nothing in the solution depends on $a_4$, because the term $3H\gamma^{(8)}$ does not; PROVED).
+The first line collects the two $\gamma^{(0)}$ terms ($6H\alpha + 3H = 3H(2\alpha + 1) = c$); the second multiplies out $\gamma^{(4)}M$; the third inserts it: the left side equals $m\Psi$ after the factor $s^\alpha$ is put back. So every member solves the field equation, for every history $a_4$ (nothing in the solution depends on $a_4$, because the term $3H\gamma^{(0)}$ does not; PROVED).
 
-**Which members grow.** A member grows like $e^{kx_4}$ when $k^2 > 0$, that is when $3H|2\alpha + 1| > m$, and oscillates when $k^2 < 0$. The member $\alpha = -\frac12$ has $c = 0$, $M = -m\gamma^{(4)}$ without any $H$, and $k^2 = -m^2$: it oscillates with the frequency $m$. It is the rescaled field of Section 8.30, $\Psi = \sin^{-1/2}z\,\chi$ with $\chi$ independent of $x_8$ (PROVED; `python-scope.json`, check `rescaled_equation_quadratic_potential`, whose detail states this member). The member $\alpha = 0$, the fields that do not depend on $x_8$, has $k^2 = 9H^2 - m^2$ and grows exactly when $m < 3H$.
+**Which members grow.** A member grows like $e^{kx_4}$ when $k^2 > 0$, that is when $3H|2\alpha + 1| > m$, and oscillates when $k^2 < 0$. The member $\alpha = -\frac12$ has $c = 0$, $M = -m\gamma^{(4)}$ without any $H$, and $k^2 = -m^2$: it oscillates with the frequency $m$. It is the rescaled field of Section 8.30, $\Psi = \sin^{-1/2}z\,\chi$ with $\chi$ independent of $x_0$ (PROVED; `python-scope.json`, check `rescaled_equation_quadratic_potential`, whose detail states this member). The member $\alpha = 0$, the fields that do not depend on $x_0$, has $k^2 = 9H^2 - m^2$ and grows exactly when $m < 3H$.
 
-**Which members have a finite norm.** The norm of a member along the hidden direction is a function of $x_4$ times the integral of $\cos z\,\sin^{2\alpha}z$ over $x_8$ from the tip to the patch end (where $z = 6Hx_8 = \pi/2$, that is $x_8 = \pi/(12H)$). We substitute $s = \sin z$, so that $ds = 6H\cos z\,dx_8$. Line by line:
+**Which members have a finite norm.** The norm of a member along the hidden direction is a function of $x_4$ times the integral of $\cos z\,\sin^{2\alpha}z$ over $x_0$ from the tip to the patch end (where $z = 6Hx_0 = \pi/2$, that is $x_0 = \pi/(12H)$). We substitute $s = \sin z$, so that $ds = 6H\cos z\,dx_0$. Line by line:
 
 $$
-\int_0^{\pi/(12H)}\cos z\,\sin^{2\alpha}z\,dx_8 = \frac{1}{6H}\int_0^1 s^{2\alpha}\,ds = \frac{1}{6H}\Big[\frac{s^{2\alpha+1}}{2\alpha + 1}\Big]_0^1 = \frac{1}{6H(2\alpha + 1)} \quad (2\alpha + 1 > 0).
+\int_0^{\pi/(12H)}\cos z\,\sin^{2\alpha}z\,dx_0 = \frac{1}{6H}\int_0^1 s^{2\alpha}\,ds = \frac{1}{6H}\Big[\frac{s^{2\alpha+1}}{2\alpha + 1}\Big]_0^1 = \frac{1}{6H(2\alpha + 1)} \quad (2\alpha + 1 > 0).
 $$
 
-The first step changes the variable ($s$ runs from 0 to 1 as $x_8$ runs over the patch); the second takes the antiderivative of a power; the third evaluates it, and $s^{2\alpha+1} \to 0$ at $s = 0$ exactly when $2\alpha + 1 > 0$. For $2\alpha + 1 \le 0$ the integral diverges at the tip; at $\alpha = -\frac12$ it is $\int ds/s$, which grows like $\ln(1/\epsilon)$ as the lower limit $\epsilon$ goes to 0. So the member without $H$ has an infinite norm, and the growing members with a finite norm are those with $2\alpha + 1 > m/(3H)$ and $\alpha > -\frac12$.
+The first step changes the variable ($s$ runs from 0 to 1 as $x_0$ runs over the patch); the second takes the antiderivative of a power; the third evaluates it, and $s^{2\alpha+1} \to 0$ at $s = 0$ exactly when $2\alpha + 1 > 0$. For $2\alpha + 1 \le 0$ the integral diverges at the tip; at $\alpha = -\frac12$ it is $\int ds/s$, which grows like $\ln(1/\epsilon)$ as the lower limit $\epsilon$ goes to 0. So the member without $H$ has an infinite norm, and the growing members with a finite norm are those with $2\alpha + 1 > m/(3H)$ and $\alpha > -\frac12$.
 
 **For every mass some member grows and has a finite norm.** Take $\alpha = m/(3H)$, which is $> -\frac12$. Then $2\alpha + 1 = (2m + 3H)/(3H)$, $c = 2m + 3H$, and $k^2 = (2m + 3H)^2 - m^2 = (2m + 3H - m)(2m + 3H + m) = (m + 3H)(3m + 3H) = 3(m + H)(m + 3H) > 0$ (a difference of two squares). The record states the case $\alpha = 0$, $m < 3H$; the statement for every mass is this book's own exact consequence of the record's family, proved here and checked by Notebook 08d (PROVED).
 
 ### 8.32 The boundary term at the patch end and the growing modes of the good sector
 
-**The fields that do not depend on $x_8$.** Such a field of the good sector depends only on $x_4$, and the field equation, multiplied by $\gamma^{(4)}$ as in Section 8.16, becomes $i\,\partial_4\Psi = A\Psi$ with the constant matrix $A = -im\gamma^{(4)} + 3iH\gamma^{(4)}\gamma^{(8)}$, which is $i$ times the matrix $M$ of the family at $\alpha = 0$. Its square is $A^2 = -M^2 = (m^2 - 9H^2)I_{16}$, so for $m < 3H$ its eigenvalues are $\pm i\sqrt{9H^2 - m^2}$, eight each, and half of the modes grow; at $m = H = 1$ the eigenvalues are $\pm 2\sqrt2\,i$. $A$ is not Hermitian (its second term is anti-Hermitian, see below). These modes have the finite norm factor $\int_0^{\pi/(12H)}\cos(6Hx_8)\,dx_8 = \frac{1}{6H}$ (the case $\alpha = 0$ above). (PROVED; `python-scope.json`, check `good_sector_x8_independent_modes_without_boundary_condition`, both engines.) So even the good sector, without any extra-time dependence, contains growing modes of finite norm, as long as nothing is imposed at the patch end.
+**The fields that do not depend on $x_0$.** Such a field of the good sector depends only on $x_4$, and the field equation, multiplied by $\gamma^{(4)}$ as in Section 8.16, becomes $i\,\partial_4\Psi = A\Psi$ with the constant matrix $A = -im\gamma^{(4)} + 3iH\gamma^{(4)}\gamma^{(0)}$, which is $i$ times the matrix $M$ of the family at $\alpha = 0$. Its square is $A^2 = -M^2 = (m^2 - 9H^2)I_{16}$, so for $m < 3H$ its eigenvalues are $\pm i\sqrt{9H^2 - m^2}$, eight each, and half of the modes grow; at $m = H = 1$ the eigenvalues are $\pm 2\sqrt2\,i$. $A$ is not Hermitian (its second term is anti-Hermitian, see below). These modes have the finite norm factor $\int_0^{\pi/(12H)}\cos(6Hx_0)\,dx_0 = \frac{1}{6H}$ (the case $\alpha = 0$ above). (PROVED; `python-scope.json`, check `good_sector_x0_independent_modes_without_boundary_condition`, both engines.) So even the good sector, without any extra-time dependence, contains growing modes of finite norm, as long as nothing is imposed at the patch end.
 
-**The mode operator.** For fields of $x_4$ and $x_8$ (and $U = 0$), multiplying the field equation $\gamma^{(4)}\partial_4\Psi + \gamma^{(8)}(\tan z\,\partial_8 + 3H)\Psi = m\Psi$ from the left by $\gamma^{(4)}$ gives $-\partial_4\Psi + \gamma^{(4)}\gamma^{(8)}(\tan z\,\partial_8 + 3H)\Psi = m\gamma^{(4)}\Psi$, and multiplying by $-i$ and rearranging: $i\,\partial_4\Psi = h\Psi$ with the **mode operator**
+**The mode operator.** For fields of $x_4$ and $x_0$ (and $U = 0$), multiplying the field equation $\gamma^{(4)}\partial_4\Psi + \gamma^{(0)}(\tan z\,\partial_0 + 3H)\Psi = m\Psi$ from the left by $\gamma^{(4)}$ gives $-\partial_4\Psi + \gamma^{(4)}\gamma^{(0)}(\tan z\,\partial_0 + 3H)\Psi = m\gamma^{(4)}\Psi$, and multiplying by $-i$ and rearranging: $i\,\partial_4\Psi = h\Psi$ with the **mode operator**
 
 $$
-h = -im\gamma^{(4)} + i\gamma^{(4)}\gamma^{(8)}\big(\tan z\,\partial_8 + 3H\big) = A + P\,\partial_8, \qquad P = i\tan z\,\gamma^{(4)}\gamma^{(8)} .
+h = -im\gamma^{(4)} + i\gamma^{(4)}\gamma^{(0)}\big(\tan z\,\partial_0 + 3H\big) = A + P\,\partial_0, \qquad P = i\tan z\,\gamma^{(4)}\gamma^{(0)} .
 $$
 
-**Three matrix facts.** Let $M_8 = i\gamma^{(4)}\gamma^{(8)}$. The real matrix $\gamma^{(4)}\gamma^{(8)}$ is symmetric: $(\gamma^{(4)}\gamma^{(8)})^T = (\gamma^{(8)})^T(\gamma^{(4)})^T = \gamma^{(8)}(-\gamma^{(4)}) = \gamma^{(4)}\gamma^{(8)}$. Hence:
+**Three matrix facts.** Let $M_0 = i\gamma^{(4)}\gamma^{(0)}$. The real matrix $\gamma^{(4)}\gamma^{(0)}$ is symmetric: $(\gamma^{(4)}\gamma^{(0)})^T = (\gamma^{(0)})^T(\gamma^{(4)})^T = \gamma^{(0)}(-\gamma^{(4)}) = \gamma^{(4)}\gamma^{(0)}$. Hence:
 
-1. $P^\dagger = -i\tan z\,(\gamma^{(4)}\gamma^{(8)})^T = -P$: the coefficient of $\partial_8$ is anti-Hermitian.
-2. $\cos z\,P = i\sin z\,\gamma^{(4)}\gamma^{(8)} = \sin z\,M_8$.
-3. $(-im\gamma^{(4)})^\dagger = im(\gamma^{(4)})^T = -im\gamma^{(4)}$ (Hermitian) and $(3iH\gamma^{(4)}\gamma^{(8)})^\dagger = -3iH\gamma^{(4)}\gamma^{(8)}$ (anti-Hermitian), so $A - A^\dagger = 6iH\gamma^{(4)}\gamma^{(8)} = 6H\,M_8$, and $\cos z\,(A - A^\dagger) = 6H\cos z\,M_8 = (\partial_8\sin z)\,M_8$.
+1. $P^\dagger = -i\tan z\,(\gamma^{(4)}\gamma^{(0)})^T = -P$: the coefficient of $\partial_0$ is anti-Hermitian.
+2. $\cos z\,P = i\sin z\,\gamma^{(4)}\gamma^{(0)} = \sin z\,M_0$.
+3. $(-im\gamma^{(4)})^\dagger = im(\gamma^{(4)})^T = -im\gamma^{(4)}$ (Hermitian) and $(3iH\gamma^{(4)}\gamma^{(0)})^\dagger = -3iH\gamma^{(4)}\gamma^{(0)}$ (anti-Hermitian), so $A - A^\dagger = 6iH\gamma^{(4)}\gamma^{(0)} = 6H\,M_0$, and $\cos z\,(A - A^\dagger) = 6H\cos z\,M_0 = (\partial_0\sin z)\,M_0$.
 
-**The boundary identity.** For any two columns $u(x_8)$, $v(x_8)$, line by line (a prime is $\partial_8$ here):
+**The boundary identity.** For any two columns $u(x_0)$, $v(x_0)$, line by line (a prime is $\partial_0$ here):
 
 $$
 \begin{aligned}
 \cos z\big[u^\dagger(hv) - (hu)^\dagger v\big] &= \cos z\,u^\dagger(A - A^\dagger)v + \cos z\big[u^\dagger Pv' - u'^\dagger P^\dagger v\big] \\
 &= \cos z\,u^\dagger(A - A^\dagger)v + \cos z\big[u^\dagger Pv' + u'^\dagger Pv\big] \\
-&= (\partial_8\sin z)\,u^\dagger M_8v + \sin z\big[u^\dagger M_8v' + u'^\dagger M_8v\big] = \partial_8\big(\sin z\,u^\dagger M_8v\big) .
+&= (\partial_0\sin z)\,u^\dagger M_0v + \sin z\big[u^\dagger M_0v' + u'^\dagger M_0v\big] = \partial_0\big(\sin z\,u^\dagger M_0v\big) .
 \end{aligned}
 $$
 
-The first line inserts $h = A + P\partial_8$ and uses $(hu)^\dagger = u^\dagger A^\dagger + u'^\dagger P^\dagger$; the second uses fact 1; the third uses facts 3 and 2 and then recognises the product rule for the three factors $\sin z$, $u^\dagger$ and $v$ ($M_8$ is constant). (PROVED; `python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux`, both engines.) Integrated over the hidden direction, the left side is the failure of $h$ to be symmetric for the norm $\int\cos z\,u^\dagger v\,dx_8$, and the right side gives the **boundary term** (or **flux**) $[\sin z\,u^\dagger M_8v]$, taken between the tip and the patch end. At the tip $\sin z \to 0$; at the patch end $\sin z = 1$, and the flux need not vanish: for a column with $\gamma^{(4)}\gamma^{(8)}u = u$ (such columns exist, because $(\gamma^{(4)}\gamma^{(8)})^2 = -(\gamma^{(4)})^2(\gamma^{(8)})^2 = I_{16}$ and the matrix is not $\pm I_{16}$), $u^\dagger M_8u = i\,u^\dagger u \neq 0$; the record's example has $u^\dagger u = 2$ and $u^\dagger M_8u = 2i$.
+The first line inserts $h = A + P\partial_0$ and uses $(hu)^\dagger = u^\dagger A^\dagger + u'^\dagger P^\dagger$; the second uses fact 1; the third uses facts 3 and 2 and then recognises the product rule for the three factors $\sin z$, $u^\dagger$ and $v$ ($M_0$ is constant). (PROVED; `python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux`, both engines.) Integrated over the hidden direction, the left side is the failure of $h$ to be symmetric for the norm $\int\cos z\,u^\dagger v\,dx_0$, and the right side gives the **boundary term** (or **flux**) $[\sin z\,u^\dagger M_0v]$, taken between the tip and the patch end. At the tip $\sin z \to 0$; at the patch end $\sin z = 1$, and the flux need not vanish: for a column with $\gamma^{(4)}\gamma^{(0)}u = u$ (such columns exist, because $(\gamma^{(4)}\gamma^{(0)})^2 = -(\gamma^{(4)})^2(\gamma^{(0)})^2 = I_{16}$ and the matrix is not $\pm I_{16}$), $u^\dagger M_0u = i\,u^\dagger u \neq 0$; the record's example has $u^\dagger u = 2$ and $u^\dagger M_0u = 2i$.
 
-**The norm changes only through the patch end.** For a solution of $i\,\partial_4\Psi = h\Psi$ let $N(x_4) = \int_0^{\pi/(12H)}\cos z\,\Psi^\dagger\Psi\,dx_8$. Line by line:
+**The norm changes only through the patch end.** For a solution of $i\,\partial_4\Psi = h\Psi$ let $N(x_4) = \int_0^{\pi/(12H)}\cos z\,\Psi^\dagger\Psi\,dx_0$. Line by line:
 
 $$
 \begin{aligned}
-\frac{dN}{dx_4} &= \int\cos z\big[(\partial_4\Psi)^\dagger\Psi + \Psi^\dagger\partial_4\Psi\big]dx_8 = \int\cos z\big[(-ih\Psi)^\dagger\Psi + \Psi^\dagger(-ih\Psi)\big]dx_8 \\
-&= -i\int\cos z\big[\Psi^\dagger(h\Psi) - (h\Psi)^\dagger\Psi\big]dx_8 = -i\big[\sin z\,\Psi^\dagger M_8\Psi\big]_{\text{tip}}^{\text{end}} \\
-&= -i\,\Psi^\dagger M_8\Psi\big|_{z=\pi/2} = \Psi^\dagger\gamma^{(4)}\gamma^{(8)}\Psi\big|_{z=\pi/2} .
+\frac{dN}{dx_4} &= \int\cos z\big[(\partial_4\Psi)^\dagger\Psi + \Psi^\dagger\partial_4\Psi\big]dx_0 = \int\cos z\big[(-ih\Psi)^\dagger\Psi + \Psi^\dagger(-ih\Psi)\big]dx_0 \\
+&= -i\int\cos z\big[\Psi^\dagger(h\Psi) - (h\Psi)^\dagger\Psi\big]dx_0 = -i\big[\sin z\,\Psi^\dagger M_0\Psi\big]_{\text{tip}}^{\text{end}} \\
+&= -i\,\Psi^\dagger M_0\Psi\big|_{z=\pi/2} = \Psi^\dagger\gamma^{(4)}\gamma^{(0)}\Psi\big|_{z=\pi/2} .
 \end{aligned}
 $$
 
-The first line differentiates under the integral and inserts the equation; the second collects the factors $\mp i$ and uses the boundary identity with $u = v = \Psi$ (the integral of a derivative is the difference of its end values); the third uses $\sin z = 0$ at the tip and $1$ at the end, and $-i\cdot i = 1$. The norm of a solution changes ONLY by the flux through the patch end. For a field that does not depend on $x_8$, $N = \Psi^\dagger\Psi/(6H)$. Notebook 08d follows such a growing mode at $m = H = 1$: its norm first dips (the flux is briefly negative) and then grows by a factor $N(1.5)/N(0) = 2094.786$ in $1.5$ time units, and $dN/dx_4$ equals the flux at every time to rounding (COMPUTED).
+The first line differentiates under the integral and inserts the equation; the second collects the factors $\mp i$ and uses the boundary identity with $u = v = \Psi$ (the integral of a derivative is the difference of its end values); the third uses $\sin z = 0$ at the tip and $1$ at the end, and $-i\cdot i = 1$. The norm of a solution changes ONLY by the flux through the patch end. For a field that does not depend on $x_0$, $N = \Psi^\dagger\Psi/(6H)$. Notebook 08d follows such a growing mode at $m = H = 1$: its norm first dips (the flux is briefly negative) and then grows by a factor $N(1.5)/N(0) = 2094.786$ in $1.5$ time units, and $dN/dx_4$ equals the flux at every time to rounding (COMPUTED).
 
 **What this means (labelled).** Interpretation: the growth of the good-sector modes is fed through the patch end. A boundary condition at $z = \pi/2$ that stops the flux would make $h$ symmetric and would change the spectrum; which condition is physical is OPEN. Without one, the initial-value problem of the good sector has growing solutions: this is the second way, besides the extra-time waves of Sections 8.17 to 8.25, in which the field equation as recorded fails to define a stable evolution.
 
 ### 8.33 Example: the rescaling and the modes of the hidden direction
 
-Notebook 08d puts Sections 8.30 to 8.32 to work, exactly, with sympy. It takes the spin connection of the diagonal frame from the record's formula and verifies it (the gammas are covariantly constant); proves the rescaling for sixteen arbitrary component functions; draws the rescaling factor and the hidden coordinate $y$ with the tip cutoff of the Kohn-Sham record; verifies the exact family for symbolic $\alpha$, $m$, $H$ and every $a_4$, and maps which members grow and which have a finite norm; checks the matrix $A$ of the modes that do not depend on $x_8$; proves the boundary identity on explicit columns; and follows a growing mode whose norm changes exactly by the flux through the patch end. It needs no Rust and runs in one to two minutes; the times measured on the build computer, which depend on how busy that computer is, are recorded in the notebook's provenance file `Revision/textbook/notebooks/08d_rescaling_modes.PROVENANCE.md`. It ends with the line ALL 23 CHECKS PASSED (notebook 08d).
+Notebook 08d puts Sections 8.30 to 8.32 to work, exactly, with sympy. It takes the spin connection of the diagonal frame from the record's formula and verifies it (the gammas are covariantly constant); proves the rescaling for sixteen arbitrary component functions; draws the rescaling factor and the hidden coordinate $y$ with the tip cutoff of the Kohn-Sham record; verifies the exact family for symbolic $\alpha$, $m$, $H$ and every $a_4$, and maps which members grow and which have a finite norm; checks the matrix $A$ of the modes that do not depend on $x_0$; proves the boundary identity on explicit columns; and follows a growing mode whose norm changes exactly by the flux through the patch end. It needs no Rust and runs in one to two minutes; the times measured on the build computer, which depend on how busy that computer is, are recorded in the notebook's provenance file `Revision/textbook/notebooks/08d_rescaling_modes.PROVENANCE.md`. It ends with the line ALL 23 CHECKS PASSED (notebook 08d).
 
 <!-- NOTEBOOK 08d -->
 
@@ -2879,9 +2889,9 @@ THEORY = "Revision/theory/reports/python-field-theory.json"  # the sympy records
 SCOPE = "Revision/theory/reports/python-scope.json"
 gammas_record = json.loads(
     repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
-G = [sp.Matrix(rows) for rows in gammas_record["gamma"]]  # gamma^(x1) ... (x8)
-ETA = gammas_record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1]
-C = sp.Matrix(gammas_record["C"])  # C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3)
+G = [sp.Matrix(rows) for rows in gammas_record["gamma"]]  # gamma^(x0) ... (x7)
+ETA = gammas_record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1]
+C = sp.Matrix(gammas_record["C"])  # C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)
 B = sp.Matrix(gammas_record["B"]["re"]) + sp.I * sp.Matrix(gammas_record["B"]["im"])
 ```
 
@@ -2897,15 +2907,15 @@ say("record Omega_components: " + formulas["Omega_components"]["wl"])
 The formula file of the field-theory record holds a list `formulas`, each with a `key` and the formula as text; the dictionary comprehension makes a table key: entry. The `say` line prints the record's formula of the spinor connection in the Wolfram language (`g[xi]` is $\gamma^{(x_i)}$, `a4'[x4]` is $a_4'$, `E^a4[x4]` is $e^{a_4}$), which the next lines enter in sympy.
 
 ```python
-x = sp.symbols("x1:9", real=True)  # the coordinates; x[3] is x4, x[7] is x8
+x = sp.symbols("x0:8", real=True)  # the coordinates; x[k] is xk
 H = sp.Symbol("H", positive=True)
 m = sp.Symbol("m", real=True)
-a4 = sp.Function("a4")(x[3])  # any function of the time x4
-a4_prime = sp.diff(a4, x[3])
-z = 6 * H * x[7]
+a4 = sp.Function("a4")(x[4])  # any function of the time x4
+a4_prime = sp.diff(a4, x[4])
+z = 6 * H * x[0]
 sixth = sp.sin(z) ** sp.Rational(1, 6)
-f = [sp.exp(a4) * sixth] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * sixth] * 3 \
-    + [sp.cot(z)]
+f = [sp.cot(z)] + [sp.exp(a4) * sixth] * 3 + [sp.Integer(1)] \
+    + [sp.exp(-a4) * sixth] * 3  # the frame factors at b4 = 1
 g = [ETA[a] * f[a] ** 2 for a in range(8)]  # the diagonal metric
 gamma_up = [G[mu] / f[mu] for mu in range(8)]  # gamma^mu = gamma^(mu) / f_mu
 ```
@@ -2914,19 +2924,17 @@ The symbols, the unknown history $a_4(x_4)$ and its derivative, $z$, $\sin^{1/6}
 
 ```python
 Omega = [sp.zeros(16, 16) for _ in range(8)]
-for i in (0, 1, 2):  # x1, x2, x3 (inflating)
-    Omega[i] = sp.exp(a4) * sixth * (a4_prime * G[i] * G[3] + H * G[i] * G[7]) / 2
-for t in (4, 5, 6):  # x5, x6, x7 (deflating extra times)
-    Omega[t] = -sp.exp(-a4) * sixth * (a4_prime * G[3] * G[t] + H * G[t] * G[7]) / 2
+for i in (1, 2, 3):  # x1, x2, x3 (inflating)
+    Omega[i] = sp.exp(a4) * sixth * (a4_prime * G[i] * G[4] + H * G[i] * G[0]) / 2
+for t in (5, 6, 7):  # x5, x6, x7 (deflating extra times)
+    Omega[t] = -sp.exp(-a4) * sixth * (a4_prime * G[4] * G[t] + H * G[t] * G[0]) / 2
 ```
 
-The record's formula entered in sympy: $\Omega_{x_i} = \frac12e^{a_4}\sin^{1/6}z(a_4'\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(8)})$, $\Omega_{x_t} = -\frac12e^{-a_4}\sin^{1/6}z(a_4'\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(8)})$, and zero for $x_4$ and $x_8$ (the starting zero matrices are kept). These are the formulas derived in Section 8.4.
+The record's formula entered in sympy: $\Omega_{x_i} = \frac12e^{a_4}\sin^{1/6}z(a_4'\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(0)})$, $\Omega_{x_t} = -\frac12e^{-a_4}\sin^{1/6}z(a_4'\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(0)})$, and zero for $x_4$ and $x_0$ (the starting zero matrices are kept). These are the formulas derived in Section 8.4.
 
 ```python
 def is_zero(expr):
     ...
-
-
 Gam = [[[sp.Integer(0)] * 8 for _ in range(8)] for _ in range(8)]
 for lam in range(8):  # Christoffel symbols of the diagonal metric
     ...
@@ -2950,25 +2958,25 @@ For all 64 pairs $(\mu, \nu)$ the covariant derivative of the coordinate gamma, 
 
 ```python
 gamma_Omega = sum((gamma_up[mu] * Omega[mu] for mu in range(8)), sp.zeros(16, 16))
-check_record(all(is_zero(v) for v in gamma_Omega - 3 * H * G[7]),
-             "gamma^mu Omega_mu = 3 H gamma^(x8) (diagonal frame)",
-             THEORY, "gamma_mu_Omega_mu_equals_3H_gamma_x8",
-             "gamma^mu Omega_mu = 3 H gamma^(x8) exactly")
+check_record(all(is_zero(v) for v in gamma_Omega - 3 * H * G[0]),
+             "gamma^mu Omega_mu = 3 H gamma^(x0) (diagonal frame)",
+             THEORY, "gamma_mu_Omega_mu_equals_3H_gamma_x0",
+             "gamma^mu Omega_mu = 3 H gamma^(x0) exactly")
 ```
 
-The sum $\gamma^\mu\Omega_\mu$, compared with $3H\gamma^{(8)}$. Output: the formula line and two PASS lines with their `reproduces` lines.
+The sum $\gamma^\mu\Omega_\mu$, compared with $3H\gamma^{(0)}$. Output: the formula line and two PASS lines with their `reproduces` lines.
 
 **In [3], the rescaling removes the term.**
 
 ```python
 w = sp.sin(z) ** sp.Rational(-1, 2)  # the rescaling factor sin(z)^(-1/2)
-check_record(is_zero(sp.tan(z) * sp.diff(w, x[7]) + 3 * H * w),
-             "tan z d8 sin(z)^(-1/2) = -3 H sin(z)^(-1/2)", SCOPE,
+check_record(is_zero(sp.tan(z) * sp.diff(w, x[0]) + 3 * H * w),
+             "tan z d0 sin(z)^(-1/2) = -3 H sin(z)^(-1/2)", SCOPE,
              "rescaling_removes_the_connection_term",
-             "(tan z (-3 H sin^(-1/2) z) + 3 H sin^(-1/2) z) gamma^(x8) chi = 0")
+             "(tan z (-3 H sin^(-1/2) z) + 3 H sin^(-1/2) z) gamma^(x0) chi = 0")
 ```
 
-The one-line identity $\tan z\,\partial_8w = -3Hw$ of Section 8.30, with the record's text of the same identity.
+The one-line identity $\tan z\,\partial_0w = -3Hw$ of Section 8.30, with the record's text of the same identity.
 
 ```python
 chi = sp.Matrix([sp.Function(f"chi{A}")(*x) for A in range(1, 17)])  # arbitrary
@@ -2993,13 +3001,13 @@ check_record(is_zero(lam * S_Psi - lam * S_chi / sp.sin(z)),
              "U = (lambda/2) S^2: lambda S[Psi] = lambda S[chi]/sin z (the new "
              "coupling)", SCOPE, "rescaled_equation_quadratic_potential",
              "gamma^mu d_mu chi = (m + lambda S[chi]/sin z) chi")
-y_of_x8 = sp.log(sp.sin(z)) / (6 * H)
+y_of_x0 = sp.log(sp.sin(z)) / (6 * H)
 check(is_zero(sp.cos(z) * w**2 - sp.cot(z)) and
-      is_zero(sp.diff(y_of_x8, x[7]) - sp.cot(z)),
-      "cos z w^2 = cot z = dy/dx8: the norm of Psi is the y-norm of chi")
+      is_zero(sp.diff(y_of_x0, x[0]) - sp.cot(z)),
+      "cos z w^2 = cot z = dy/dx0: the norm of Psi is the y-norm of chi")
 ```
 
-The potential: with a symbol `S_chi` for $S[\chi]$, $\lambda S[\Psi] = \lambda w^2S[\chi]$ is compared with $\lambda S[\chi]/\sin z$. The measure: $\cos z\,w^2 = \cot z = dy/dx_8$. Output: four PASS lines, three with `reproduces` lines.
+The potential: with a symbol `S_chi` for $S[\chi]$, $\lambda S[\Psi] = \lambda w^2S[\chi]$ is compared with $\lambda S[\chi]/\sin z$. The measure: $\cos z\,w^2 = \cot z = dy/dx_0$. Output: four PASS lines, three with `reproduces` lines.
 
 **In [4], the rescaling factors and the hidden coordinate.**
 
@@ -3025,7 +3033,7 @@ fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
 left.plot(zs, np.sin(zs) ** -0.5, label="rescaling factor $\\sin^{-1/2}z$")
 left.plot(zs, 1 / np.sin(zs), "--", label="coupling factor $1/\\sin z$")
 left.set_yscale("log")
-left.set_xlabel("$z = 6Hx_8$ (tip at 0, patch end at $\\pi/2$)")
+left.set_xlabel("$z = 6Hx_0$ (tip at 0, patch end at $\\pi/2$)")
 left.set_ylabel("factor")
 left.set_title("The rescaling $\\Psi = \\sin^{-1/2}z\\,\\chi$")
 left.legend()
@@ -3047,11 +3055,11 @@ right.text(2e-8, -L_tip + 0.15, "tip cutoff $y = -L$ of the Kohn-Sham record",
 The cutoff value is written with one decimal in powers of ten and split at the letter `e` into the two parts that the caption prints (`1.5` and `-8`). The right panel draws $y = \ln(\sin z)/(6H)$ for 400 values of $z$ from $10^{-10}$ to $\pi/2$, equally spaced on a logarithmic axis (`semilogx`; `np.log10` is the base-10 logarithm), a dotted line at $y = -L$, a black dot where $y$ reaches it, and a label.
 
 ```python
-right.set_xlabel("$z = 6Hx_8$ (logarithmic axis)")
+right.set_xlabel("$z = 6Hx_0$ (logarithmic axis)")
 right.set_ylabel("$y = \\ln(\\sin z)/(6H)$")
 right.set_title("The hidden coordinate $y$, $H = 1$")
 save_figure(fig, "rescaling_factors",
-            "Left, on a logarithmic axis, against $z = 6Hx_8$ from the tip (near 0) "
+            "Left, on a logarithmic axis, against $z = 6Hx_0$ from the tip (near 0) "
             ...
             "lies in a tiny neighbourhood of the tip.")
 ```
@@ -3066,13 +3074,13 @@ Labels, a title, and Figure 08d.1; the caption is an f-string, so the values rea
 alpha = sp.Symbol("alpha", real=True)
 c = 3 * H * (2 * alpha + 1)
 k = sp.sqrt(c**2 - m**2)  # k^2 = 9 H^2 (2 alpha + 1)^2 - m^2
-M = -m * G[3] + c * G[3] * G[7]
+M = -m * G[4] + c * G[4] * G[0]
 check_record((M * M - (c**2 - m**2) * sp.eye(16)).applyfunc(sp.expand)
              == sp.zeros(16, 16)
              and (M.T * C + C * M).applyfunc(sp.expand) == sp.zeros(16, 16),
              "M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) I16 and M^T C + C M = 0",
-             THEORY, "exact_solution_family_x4_x8",
-             "M = -m gamma^(x4) + 3 H (2 alpha + 1) gamma^(x4) gamma^(x8)",
+             THEORY, "exact_solution_family_x4_x0",
+             "M = -m gamma^(x4) + 3 H (2 alpha + 1) gamma^(x4) gamma^(x0)",
              "k^2 = 9 H^2 (2 alpha + 1)^2 - m^2", "(M^2 = k^2 I16, M^T C + C M = 0")
 ```
 
@@ -3080,13 +3088,13 @@ The exponent $\alpha$, the number $c = 3H(2\alpha + 1)$, $k$ and the matrix $M$ 
 
 ```python
 chi0 = sp.Matrix(sp.symbols("q1:17"))  # 16 arbitrary constants
-family = sp.sin(z) ** alpha * (sp.cosh(k * x[3]) * chi0
-                               + sp.sinh(k * x[3]) / k * (M * chi0))
+family = sp.sin(z) ** alpha * (sp.cosh(k * x[4]) * chi0
+                               + sp.sinh(k * x[4]) / k * (M * chi0))
 residual = sum((gamma_up[mu] * (sp.diff(family, x[mu]) + Omega[mu] * family)
                 for mu in range(8)), sp.zeros(16, 1)) - m * family
 check_record(all(is_zero(v) for v in residual),
              "Psi = sin(z)^alpha (cosh(k x4) + sinh(k x4)/k M) chi0 solves the field "
-             "equation", THEORY, "exact_solution_family_x4_x8",
+             "equation", THEORY, "exact_solution_family_x4_x0",
              "solves gamma^mu D_mu Psi = m Psi exactly for every a4(x4) and every "
              "alpha")
 ```
@@ -3152,7 +3160,7 @@ save_figure(fig, "family_k_squared",
 
 The vertical range, labels, and Figure 08d.2. Output: two PASS lines, the factored $k^2$, the figure line.
 
-**What Figure 08d.2 shows.** The number $k^2$ (vertical, units of $H^2$) against the exponent $\alpha$ (horizontal) for $m = H, 2H, 4H$: three upward parabolas with their lowest point $-m^2$ at $\alpha = -\frac12$ (black dots at $-1$, $-4$, $-16$); at $\alpha = 0$ the dots are at $8$, $5$ and $-7$. The shaded band $\alpha \le -\frac12$ is where the norm diverges at the tip. The student should see that to the right of the band every parabola eventually becomes positive: for every mass, some members with a finite norm grow; and that the $x_8$-independent member $\alpha = 0$ grows for $m = H$ and $2H$ but not for $4H$.
+**What Figure 08d.2 shows.** The number $k^2$ (vertical, units of $H^2$) against the exponent $\alpha$ (horizontal) for $m = H, 2H, 4H$: three upward parabolas with their lowest point $-m^2$ at $\alpha = -\frac12$ (black dots at $-1$, $-4$, $-16$); at $\alpha = 0$ the dots are at $8$, $5$ and $-7$. The shaded band $\alpha \le -\frac12$ is where the norm diverges at the tip. The student should see that to the right of the band every parabola eventually becomes positive: for every mass, some members with a finite norm grow; and that the $x_0$-independent member $\alpha = 0$ grows for $m = H$ and $2H$ but not for $4H$.
 
 **In [7], the plane of mass and exponent.**
 
@@ -3201,19 +3209,19 @@ The fraction of the drawn rectangle where members grow with a finite norm is pri
 
 **What Figure 08d.3 shows.** The plane of the mass $m$ (horizontal, 0 to $6H$) and the exponent $\alpha$ (vertical, $-1$ to $1.5$). Light blue, above the rising black line $2\alpha + 1 = m/(3H)$: growing members with a finite norm. Light gray, a wedge below the dashed line $\alpha = -\frac12$ at small masses: growing members whose norm diverges at the tip. White: oscillating members. The red line $\alpha = 0$ lies in the blue region exactly for $m < 3H$ (red dot). The student should see that every vertical line (every mass) meets the blue region.
 
-**In [8], the modes that do not depend on $x_8$.**
+**In [8], the modes that do not depend on $x_0$.**
 
 ```python
-A = -sp.I * m * G[3] + 3 * sp.I * H * G[3] * G[7]
+A = -sp.I * m * G[4] + 3 * sp.I * H * G[4] * G[0]
 A_squared = (A * A).applyfunc(sp.expand)
 A_one = A.subs({m: 1, H: 1})
 dimension = 16 - (A_one - 2 * sp.sqrt(2) * sp.I * sp.eye(16)).rank()
-norm_factor = sp.integrate(sp.cos(6 * H * x[7]), (x[7], 0, sp.pi / (12 * H)))
+norm_factor = sp.integrate(sp.cos(6 * H * x[0]), (x[0], 0, sp.pi / (12 * H)))
 report("dimension of the eigenspace of +2 sqrt(2) i at m = H = 1", dimension)
-report("int_0^(pi/(12H)) cos(6 H x8) dx8", norm_factor)
+report("int_0^(pi/(12H)) cos(6 H x0) dx0", norm_factor)
 ```
 
-The matrix $A = -im\gamma^{(4)} + 3iH\gamma^{(4)}\gamma^{(8)}$ of Section 8.32, its square, its value at $m = H = 1$, the dimension of the eigenspace of $+2\sqrt2\,i$ (16 minus a rank, as in Notebook 08a), and the norm factor $\int_0^{\pi/(12H)}\cos(6Hx_8)\,dx_8$ integrated exactly. RESULT lines: 8 and `1/(6*H)`.
+The matrix $A = -im\gamma^{(4)} + 3iH\gamma^{(4)}\gamma^{(0)}$ of Section 8.32, its square, its value at $m = H = 1$, the dimension of the eigenspace of $+2\sqrt2\,i$ (16 minus a rank, as in Notebook 08a), and the norm factor $\int_0^{\pi/(12H)}\cos(6Hx_0)\,dx_0$ integrated exactly. RESULT lines: 8 and `1/(6*H)`.
 
 ```python
 all_true = ((A - sp.I * M.subs(alpha, 0)).applyfunc(sp.expand) == sp.zeros(16, 16)
@@ -3223,11 +3231,11 @@ all_true = ((A - sp.I * M.subs(alpha, 0)).applyfunc(sp.expand) == sp.zeros(16, 1
             and dimension == 8 and sp.simplify(norm_factor - 1 / (6 * H)) == 0)
 # The record states the same matrix, square, eigenvalues and norm in its text:
 check_record(all_true,
-             "A = -i m g4 + 3 i H g4 g8: not Hermitian, A^2 = (m^2 - 9H^2) I16, "
+             "A = -i m g4 + 3 i H g4 g0: not Hermitian, A^2 = (m^2 - 9H^2) I16, "
              "eigenvalues +-2 sqrt(2) i at m = H = 1, finite norm 1/(6H)",
-             SCOPE, "good_sector_x8_independent_modes_without_boundary_condition",
-             f"cos(6 H x8) dx8 = {sp.sstr(norm_factor)})",
-             "A = -i m gamma^(x4) + 3 i H gamma^(x4) gamma^(x8)",
+             SCOPE, "good_sector_x0_independent_modes_without_boundary_condition",
+             f"cos(6 H x0) dx0 = {sp.sstr(norm_factor)})",
+             "A = -i m gamma^(x4) + 3 i H gamma^(x4) gamma^(x0)",
              "A^2 = (m^2 - 9 H^2) I16 exactly",
              f"the eigenvalues are +-2 sqrt(2) i ({dimension} each)")
 ```
@@ -3282,56 +3290,56 @@ save_figure(fig, "patch_end_modes",
 
 The right panel draws the growth rate $k = \sqrt{9(2\alpha + 1)^2 - m^2}$ (0 where the bracket is negative) of the members $\alpha = 0, 0.5, 1$ against the mass, with a gray vertical line at $m = 3H$. Figure 08d.4. Output: one RESULT line, one PASS line, the figure line.
 
-**What Figure 08d.4 shows.** Left: the eigenvalues of $A$ (units of $H$) in the complex plane, coloured by the mass from 0 to $5H$: for small masses they sit on the imaginary axis at $\pm 3i$ (dark), move towards 0 as $m$ grows, meet at 0 for $m = 3H$, and then move out along the real axis to $\pm 4$ at $m = 5H$ ($\sqrt{25 - 9} = 4$). Right: the growth rates (units of $H$) against the mass: the member $\alpha = 0$ falls from 3 to 0 at $m = 3H$ (gray line) and stays 0; the members $\alpha = 0.5$ and $\alpha = 1$ start at 6 and 9 and still grow at $m = 5H$ (about 3.3 and 7.5). The student should see that the $x_8$-independent modes stop growing above $m = 3H$, but members that vary along $x_8$ do not.
+**What Figure 08d.4 shows.** Left: the eigenvalues of $A$ (units of $H$) in the complex plane, coloured by the mass from 0 to $5H$: for small masses they sit on the imaginary axis at $\pm 3i$ (dark), move towards 0 as $m$ grows, meet at 0 for $m = 3H$, and then move out along the real axis to $\pm 4$ at $m = 5H$ ($\sqrt{25 - 9} = 4$). Right: the growth rates (units of $H$) against the mass: the member $\alpha = 0$ falls from 3 to 0 at $m = 3H$ (gray line) and stays 0; the members $\alpha = 0.5$ and $\alpha = 1$ start at 6 and 9 and still grow at $m = 5H$ (about 3.3 and 7.5). The student should see that the $x_0$-independent modes stop growing above $m = 3H$, but members that vary along $x_0$ do not.
 
 **In [10], the boundary term at the patch end.**
 
 ```python
-M8 = sp.I * G[3] * G[7]
-d8_coefficient = sp.I * sp.tan(z) * G[3] * G[7]  # the matrix in front of d8 in h
-fact_1 = all(is_zero(v) for v in sp.cos(z) * d8_coefficient - sp.sin(z) * M8)
-fact_2 = all(is_zero(v) for v in sp.cos(z) * (A - A.H) - sp.diff(sp.sin(z), x[7]) * M8)
-fact_3 = (d8_coefficient + d8_coefficient.H).applyfunc(sp.simplify) == sp.zeros(16, 16)
+M0 = sp.I * G[4] * G[0]
+d0_coefficient = sp.I * sp.tan(z) * G[4] * G[0]  # the matrix in front of d0 in h
+fact_1 = all(is_zero(v) for v in sp.cos(z) * d0_coefficient - sp.sin(z) * M0)
+fact_2 = all(is_zero(v) for v in sp.cos(z) * (A - A.H) - sp.diff(sp.sin(z), x[0]) * M0)
+fact_3 = (d0_coefficient + d0_coefficient.H).applyfunc(sp.simplify) == sp.zeros(16, 16)
 ```
 
-$M_8 = i\gamma^{(4)}\gamma^{(8)}$ and the coefficient $P$ of $\partial_8$ in $h$. The three facts of Section 8.32, in the order of the notebook: $\cos z\,P = \sin z\,M_8$; $\cos z\,(A - A^\dagger) = (\partial_8\sin z)M_8$; and $P + P^\dagger = 0$.
+$M_0 = i\gamma^{(4)}\gamma^{(0)}$ and the coefficient $P$ of $\partial_0$ in $h$. The three facts of Section 8.32, in the order of the notebook: $\cos z\,P = \sin z\,M_0$; $\cos z\,(A - A^\dagger) = (\partial_0\sin z)M_0$; and $P + P^\dagger = 0$.
 
 ```python
-X8 = x[7]
-u_col = sp.Matrix([(A_ + 1) + sp.I * (2 * A_ - 3) * X8 + (A_ - 5) * X8**2 / 3
-                   for A_ in range(16)])  # a column of polynomials in x8
-v_col = sp.Matrix([(3 - A_) * X8 + sp.I * (A_ + 2) + sp.I * A_ * X8**3 / 7
+X0 = x[0]
+u_col = sp.Matrix([(A_ + 1) + sp.I * (2 * A_ - 3) * X0 + (A_ - 5) * X0**2 / 3
+                   for A_ in range(16)])  # a column of polynomials in x0
+v_col = sp.Matrix([(3 - A_) * X0 + sp.I * (A_ + 2) + sp.I * A_ * X0**3 / 7
                    for A_ in range(16)])
 
 
 def h_of(column):
-    """The mode operator h applied to a column of functions of x8 (U = 0)."""
-    return -sp.I * m * G[3] * column + sp.I * G[3] * G[7] * (
-        sp.tan(z) * sp.diff(column, X8) + 3 * H * column)
+    """The mode operator h applied to a column of functions of x0 (U = 0)."""
+    return -sp.I * m * G[4] * column + sp.I * G[4] * G[0] * (
+        sp.tan(z) * sp.diff(column, X0) + 3 * H * column)
 ```
 
-Two explicit columns of polynomials in $x_8$ with complex coefficients that differ from entry to entry (the loop variable `A_` runs from 0 to 15; its name has an underscore so that it does not overwrite the matrix `A`), and the mode operator $h$ applied to a column.
+Two explicit columns of polynomials in $x_0$ with complex coefficients that differ from entry to entry (the loop variable `A_` runs from 0 to 15; its name has an underscore so that it does not overwrite the matrix `A`), and the mode operator $h$ applied to a column.
 
 ```python
 left_side = sp.cos(z) * ((u_col.H * h_of(v_col))[0] - (h_of(u_col).H * v_col)[0])
-right_side = sp.diff(sp.sin(z) * (u_col.H * M8 * v_col)[0], X8)
-u0 = (G[3] * G[7] - sp.eye(16)).nullspace()[0]  # gamma^(4) gamma^(8) u0 = u0
-flux = sp.simplify((u0.H * M8 * u0)[0])
+right_side = sp.diff(sp.sin(z) * (u_col.H * M0 * v_col)[0], X0)
+u0 = (G[4] * G[0] - sp.eye(16)).nullspace()[0]  # gamma^(4) gamma^(0) u0 = u0
+flux = sp.simplify((u0.H * M0 * u0)[0])
 size_u0 = (u0.H * u0)[0]
-report("u0^dagger M8 u0 and u0^dagger u0", f"{flux}, {size_u0}")
+report("u0^dagger M0 u0 and u0^dagger u0", f"{flux}, {size_u0}")
 ```
 
-The two sides of the boundary identity for these columns (a row times a column is a $1 \times 1$ matrix, and `[0]` takes its entry). `nullspace()` returns a list of independent columns $u$ with $(\gamma^{(4)}\gamma^{(8)} - I)u = 0$; the first one is `u0`. RESULT: $u_0^\dagger M_8u_0 = 2i$ (sympy writes `2*I`) and $u_0^\dagger u_0 = 2$.
+The two sides of the boundary identity for these columns (a row times a column is a $1 \times 1$ matrix, and `[0]` takes its entry). `nullspace()` returns a list of independent columns $u$ with $(\gamma^{(4)}\gamma^{(0)} - I)u = 0$; the first one is `u0`. RESULT: $u_0^\dagger M_0u_0 = 2i$ (sympy writes `2*I`) and $u_0^\dagger u_0 = 2$.
 
 ```python
 # The record states the same identity and the same flux (sympy writes i as I):
 check_record(fact_1 and fact_2 and fact_3 and is_zero(left_side - right_side)
              and flux == 2 * sp.I and size_u0 == 2,
-             "cos z (u^dagger h v - (h u)^dagger v) = d8(sin z u^dagger M8 v); at "
-             "z = pi/2 the flux u0^dagger M8 u0 = 2 i is not zero",
+             "cos z (u^dagger h v - (h u)^dagger v) = d0(sin z u^dagger M0 v); at "
+             "z = pi/2 the flux u0^dagger M0 u0 = 2 i is not zero",
              SCOPE, "good_sector_hermiticity_up_to_the_brane_flux",
-             "cos z [u^dagger (h v) - (h u)^dagger v] = d_x8(sin z u^dagger M8 v)",
-             f"u^dagger M8 u = {sp.sstr(flux)} (|u|^2 = {sp.sstr(size_u0)})")
+             "cos z [u^dagger (h v) - (h u)^dagger v] = d_x0(sin z u^dagger M0 v)",
+             f"u^dagger M0 u = {sp.sstr(flux)} (|u|^2 = {sp.sstr(size_u0)})")
 ```
 
 The check combines the three facts, the identity for the two columns, and the flux; the record's detail must contain the identity and the same flux. (The record proves the identity for all columns; here it is confirmed on one explicit pair, and the three facts are what make it general, Section 8.32.) Output: one RESULT line and one PASS line with its `reproduces` line.
@@ -3340,7 +3348,7 @@ The check combines the three facts, the identity for the two columns, and the fl
 
 ```python
 A_num = np.array(A_number(1.0, 1.0), dtype=complex)  # m = H = 1
-g4g8 = np.array(G[3] * G[7], dtype=float)  # real symmetric
+g4g0 = np.array(G[4] * G[0], dtype=float)  # real symmetric
 rng = np.random.default_rng(12345)  # fixed seed: the same column in every run
 chi_start = rng.normal(size=16) + 1j * rng.normal(size=16)
 chi_start = chi_start / np.linalg.norm(chi_start)
@@ -3348,7 +3356,7 @@ omega = np.sqrt(complex(1.0 - 9.0))  # A^2 = (m^2 - 9 H^2) = -8: omega = 2 sqrt(
 times = np.linspace(0.0, 1.5, 151)
 ```
 
-The matrix $A$ at $m = H = 1$, the real symmetric matrix $\gamma^{(4)}\gamma^{(8)}$, a random starting column of size 1 (fixed seed, as in Notebook 08a), the frequency $\omega = \sqrt{m^2 - 9H^2} = \sqrt{-8} = 2\sqrt2\,i$ (here the name `omega` is a frequency, not the spin connection), and 151 times from 0 to 1.5.
+The matrix $A$ at $m = H = 1$, the real symmetric matrix $\gamma^{(4)}\gamma^{(0)}$, a random starting column of size 1 (fixed seed, as in Notebook 08a), the frequency $\omega = \sqrt{m^2 - 9H^2} = \sqrt{-8} = 2\sqrt2\,i$ (here the name `omega` is a frequency, not the spin connection), and 151 times from 0 to 1.5.
 
 ```python
 norms, slopes, fluxes = [], [], []
@@ -3357,11 +3365,11 @@ for x4 in times:
         - 1j * np.sin(omega * x4) / omega * (A_num @ chi_start)  # e^(-i A x4) chi
     norms.append(np.vdot(state, state).real / 6.0)  # N = Psi^dagger Psi / (6 H)
     slopes.append(2 * np.vdot(state, -1j * (A_num @ state)).real / 6.0)  # dN/dx4
-    fluxes.append(np.vdot(state, g4g8 @ state).real)  # flux at z = pi/2
+    fluxes.append(np.vdot(state, g4g0 @ state).real)  # flux at z = pi/2
 norms, slopes, fluxes = map(np.array, (norms, slopes, fluxes))
 ```
 
-At each time the mode $\Psi = e^{-iAx_4}\chi_0$ is computed with the closed formula of Section 8.18 (valid because $A^2 = \omega^2I_{16}$). Three numbers are recorded: the norm $N = \Psi^\dagger\Psi/(6H)$; its rate of change $dN/dx_4 = 2\,\mathrm{Re}\big(\Psi^\dagger(-iA\Psi)\big)/(6H)$ (the derivative of $\Psi^\dagger\Psi$ is twice the real part of $\Psi^\dagger\partial_4\Psi$, and $\partial_4\Psi = -iA\Psi$); and the flux $\Psi^\dagger\gamma^{(4)}\gamma^{(8)}\Psi$ at the patch end (a field that does not depend on $x_8$ has the same value there). `map(np.array, ...)` turns the three lists into arrays.
+At each time the mode $\Psi = e^{-iAx_4}\chi_0$ is computed with the closed formula of Section 8.18 (valid because $A^2 = \omega^2I_{16}$). Three numbers are recorded: the norm $N = \Psi^\dagger\Psi/(6H)$; its rate of change $dN/dx_4 = 2\,\mathrm{Re}\big(\Psi^\dagger(-iA\Psi)\big)/(6H)$ (the derivative of $\Psi^\dagger\Psi$ is twice the real part of $\Psi^\dagger\partial_4\Psi$, and $\partial_4\Psi = -iA\Psi$); and the flux $\Psi^\dagger\gamma^{(4)}\gamma^{(0)}\Psi$ at the patch end (a field that does not depend on $x_0$ has the same value there). `map(np.array, ...)` turns the three lists into arrays.
 
 ```python
 agreement = np.max(np.abs(slopes - fluxes) / np.maximum(np.abs(fluxes), 1.0))
@@ -3377,7 +3385,7 @@ fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
 left.semilogy(times, norms)
 left.set_xlabel("time $x_4$ (units of $1/H$)")
 left.set_ylabel("norm $N(x_4)$")
-left.set_title("The $x_8$-independent mode, $m = H = 1$")
+left.set_title("The $x_0$-independent mode, $m = H = 1$")
 right.plot(times, slopes, label="$dN/dx_4$")
 right.plot(times[::10], fluxes[::10], "o", color="black", markersize=4,
            label="flux at $z = \\pi/2$")
@@ -3389,7 +3397,7 @@ right.set_ylabel("rate (units of $H$)")
 right.set_title("Rate of change of the norm = flux")
 right.legend();
 save_figure(fig, "norm_and_flux",
-            "An $x_8$-independent mode of the good sector, $\\Psi = e^{-iAx_4}"
+            "An $x_0$-independent mode of the good sector, $\\Psi = e^{-iAx_4}"
             ...
             "condition.")
 ```
@@ -3421,27 +3429,32 @@ Revision/theory/reports/wolfram-field-theory.json    (wolfram-field-theory)
 Revision/theory/reports/python-scope.json            (python-scope)
 Revision/theory/reports/wolfram-scope.json           (wolfram-scope)
 Revision/pairing/reports/python-pairing.json         (python-pairing)
+Revision/theory/reports/python-field-theory-b4.json  (python-field-theory-b4)
 ```
+
+The rows that concern the metric are statements at $b_4 = 1$, as in the scope reports (Section 8.1, "The metric with $b_4$"); the last two rows give the general-$b_4$ forms.
 
 | statement | status | Revision check; notebook |
 | --- | --- | --- |
-| diagonal frame: $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$ for every $a_4$; the $\pm a_4'/2$ pieces cancel, six pieces $H/2$ add | PROVED | `gamma_mu_Omega_mu_equals_3H_gamma_x8`, `time_terms_cancel_hidden_term_survives` (python-field-theory); 08c |
-| $3H\gamma^{(8)}\Psi \neq 0$ for every $\Psi \neq 0$ | PROVED | `nontriviality_1_dirac16complex`, `nontriviality_2_dirac16complex00` (wolfram-field-theory); 08c |
+| diagonal frame: $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$ for every $a_4$; the $\pm a_4'/2$ pieces cancel, six pieces $H/2$ add | PROVED | `gamma_mu_Omega_mu_equals_3H_gamma_x0`, `time_terms_cancel_hidden_term_survives` (python-field-theory); 08c |
+| $3H\gamma^{(0)}\Psi \neq 0$ for every $\Psi \neq 0$ | PROVED | `nontriviality_1_dirac16complex`, `nontriviality_2_dirac16complex00` (wolfram-field-theory); 08c |
 | $\Omega_\mu = 0$ for every $\mu$ only if $a_4' = 0$ and $H = 0$ (not a member of the family) | PROVED | `nontriviality_Omega_zero_iff_flat` (python-field-theory); 08c |
 | the term contains no $a_4$, although $R^{x_4}{}_{x_4} = 6(a_4')^2$ | PROVED | `gammaOmega_blind_to_the_deflation` (python-scope); 08c |
 | the connection drops out of the Lagrangian; the term is the half-density term | PROVED | `connection_free_lagrangian_same_equations` (python-scope); 08c |
-| boosted frame: $\gamma'^\mu\Omega'_\mu = \frac{6H - \beta}{2}(\cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)})$, zero for $\beta = 6H$ | PROVED | `boosted_frame_gammaOmega_formula`, `boosted_frame_gammaOmega_vanishes` (python-scope, wolfram-scope); 08c |
+| boosted frame: $\gamma'^\mu\Omega'_\mu = \frac{6H - \beta}{2}(\cosh b\,\gamma^{(0)} - \sinh b\,\gamma^{(4)})$, zero for $\beta = 6H$ | PROVED | `boosted_frame_gammaOmega_formula`, `boosted_frame_gammaOmega_vanishes` (python-scope, wolfram-scope); 08c |
 | the spin connection vanishes in no frame: its curvature is the Riemann tensor, nonzero for $H > 0$ | PROVED | `boosted_frame_curvature_nonzero` (python-scope); `spinor_curvature_equals_riemann` (python-field-theory); 08c |
 | the connection enters the energy-momentum tensor | PROVED | `spin_connection_in_the_energy_momentum_tensor` (python-scope); 08c |
 | the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes the term; for $U \neq 0$ it becomes $\lambda S[\chi]/\sin z$ | PROVED | `rescaling_removes_the_connection_term`, `rescaled_equation_quadratic_potential` (python-scope); 08d |
 | the slices $x_4 = $ const are non-characteristic | PROVED | `evolution_form_G` (wolfram-field-theory); 08a |
+| general $b_4$: $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)} + \frac34(b_4'/b_4)\gamma^{(4)}$ | PROVED | `gammaOmega_total` (python-field-theory-b4); Notebook 06a, Chapter 7 |
+| general $b_4$: $MM = (9H^2 - \frac{9}{16}(b_4'/b_4)^2)I_{16}$, so $M\Psi \neq 0$ for $\Psi \neq 0$ unless $\lvert b_4'/b_4\rvert = 4H$ | PROVED | `gravity_term_square_b4` (python-field-theory-b4); Notebook 06a, Section 7.23 |
 | $h_k^2 = E^2I_{16}$; the growth rates of extra-time waves have no upper bound; in flat 4+4 space and with frozen coefficients the Cauchy problem is not well posed in Hadamard's sense | PROVED | `extra_time_growth_rates_unbounded` (python-scope, wolfram-scope); 08a |
 | in the author's metric itself (varying coefficients, $U = 0$) the Cauchy problem is not well posed for data that depend on the extra times | ASSUMED (a quoted theorem) | not checked by the record; the Lax-Mizohata theorem, quoted without proof, applied to the frequencies of the principal part (Section 8.18) |
 | the Krein form is conserved; growing eigenspaces are Krein-neutral; real-frequency eigenspaces have inertia (4,4) | PROVED | `mode_hamiltonian_B_selfadjoint_dispersion` (python-field-theory); `Q.one_particle_complex_frequency_Krein_neutral`, `Q.one_particle_Krein_inertia_proof` (python-pairing); 08a |
 | along the deflating history every extra-time wave reaches the onset of growth (frozen coefficients at each instant) | PROVED | `extra_time_modes_grow` (python-field-theory); 08b |
 | through the onset the growth follows the WKB formulas and is faster than any exponential (local-frame model) | COMPUTED | 08b: agreement $1.03 \times 10^{-3}$ (leading), $2.48 \times 10^{-4}$ (first order), late rate $10^{-5}$ |
-| the exact family $\sin^\alpha z\,e^{Mx_4}\chi_0$; for every mass a growing member with finite norm | PROVED | `exact_solution_family_x4_x8` (python-field-theory); 08d |
-| the $x_8$-independent good-sector modes grow for $m < 3H$; the mode operator is symmetric only up to the flux at $z = \pi/2$ | PROVED | `good_sector_x8_independent_modes_without_boundary_condition`, `good_sector_hermiticity_up_to_the_brane_flux` (python-scope); 08d |
+| the exact family $\sin^\alpha z\,e^{Mx_4}\chi_0$; for every mass a growing member with finite norm | PROVED | `exact_solution_family_x4_x0` (python-field-theory); 08d |
+| the $x_0$-independent good-sector modes grow for $m < 3H$; the mode operator is symmetric only up to the flux at $z = \pi/2$ | PROVED | `good_sector_x0_independent_modes_without_boundary_condition`, `good_sector_hermiticity_up_to_the_brane_flux` (python-scope); 08d |
 | the history $a_4 = AHx_4$ ($A = 1$) | ASSUMED | prescribed background (`Revision/kohn_sham/results/parameters.json`) |
 | frozen coefficients; the local-frame model | ASSUMED | labelled MODEL in 08a and 08b |
 | which boundary condition at $z = \pi/2$ is physical; a well-posed formulation of the full field equation | OPEN | none imposed in the record |
@@ -3450,12 +3463,12 @@ Revision/pairing/reports/python-pairing.json         (python-pairing)
 
 **PROVED in this chapter, line by line** (and in the Revision record, with the file and check named in the section):
 
-- The canonical spin connection of the diagonal frame: the rule $\omega_\mu{}^a{}_b = (f_a/f_b)\Gamma^a{}_{\mu b}$ for $a \neq b$, its 12 independent nonzero components, and the spinor connections $\Omega_{x_i}$, $\Omega_{x_t}$, $\Omega_{x_4} = \Omega_{x_8} = 0$ (Section 8.4).
-- $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$, direction by direction: the time-direction pieces of the three inflating and the three deflating directions cancel, the six hidden-direction pieces add; and the divergence form $\gamma^\mu\Omega_\mu = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$ (Section 8.5).
-- $\Omega_\mu = 0$ for every $\mu$ if and only if $a_4' = 0$ and $H = 0$; $3H\gamma^{(8)}\Psi \neq 0$ for every $\Psi \neq 0$ (Section 8.6). The term contains no $a_4$, while $R^{x_4}{}_{x_4} = 6(a_4')^2$ and $R = 6((a_4')^2 - 7H^2)$ (Section 8.7).
+- The canonical spin connection of the diagonal frame: the rule $\omega_\mu{}^a{}_b = (f_a/f_b)\Gamma^a{}_{\mu b}$ for $a \neq b$, its 12 independent nonzero components, and the spinor connections $\Omega_{x_i}$, $\Omega_{x_t}$, $\Omega_{x_4} = \Omega_{x_0} = 0$ (Section 8.4).
+- $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$, direction by direction: the time-direction pieces of the three inflating and the three deflating directions cancel, the six hidden-direction pieces add; and the divergence form $\gamma^\mu\Omega_\mu = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$ (Section 8.5).
+- $\Omega_\mu = 0$ for every $\mu$ if and only if $a_4' = 0$ and $H = 0$; $3H\gamma^{(0)}\Psi \neq 0$ for every $\Psi \neq 0$ (Section 8.6). The term contains no $a_4$, while $R^{x_4}{}_{x_4} = 6(a_4')^2$ and $R = 6((a_4')^2 - 7H^2)$ (Section 8.7).
 - $\{\gamma^\mu, \Omega_\mu\} = 0$ for each $\mu$; the connection drops out of the Lagrangian, and the Euler-Lagrange equation of the connection-free symmetric Lagrangian contains the same term as its half-density term (Section 8.8).
-- The boost keeps the metric; the spin transformation $S = e^{-(b/2)\gamma^{(4)}\gamma^{(8)}}$ moves the gammas of the boosted frame; the connection of the boosted frame and the formula $\gamma'^\mu\Omega'_\mu = \frac{6H - \beta}{2}(\cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)})$, zero for $\beta = 6H$ (Sections 8.3 and 8.9).
-- $F' = SFS^{-1}$; $F_{x_1x_8} \neq 0$ in every frame of this kind; the square of the curvature is the same in both frames (Section 8.10). The connection part $\frac12 e^{a_4}\sin^{1/6}z\,H\,\gamma^{(4)}\gamma^{(1)}\gamma^{(8)}$ of $K^{x_4}{}_{x_1}$ (Section 8.11).
+- The boost keeps the metric; the spin transformation $S = e^{-(b/2)\gamma^{(4)}\gamma^{(0)}}$ moves the gammas of the boosted frame; the connection of the boosted frame and the formula $\gamma'^\mu\Omega'_\mu = \frac{6H - \beta}{2}(\cosh b\,\gamma^{(0)} - \sinh b\,\gamma^{(4)})$, zero for $\beta = 6H$ (Sections 8.3 and 8.9).
+- $F' = SFS^{-1}$; $F_{x_1x_0} \neq 0$ in every frame of this kind; the square of the curvature is the same in both frames (Section 8.10). The connection part $\frac12 e^{a_4}\sin^{1/6}z\,H\,\gamma^{(4)}\gamma^{(1)}\gamma^{(0)}$ of $K^{x_4}{}_{x_1}$ (Section 8.11).
 - The Hadamard toy example; the second-order form with the extra-time derivatives of the "wrong" sign; the evolution form (Section 8.16). The mode matrix, $h_k^2 = E^2I_{16}$, its eigenvalues $\pm E$ eight each, its anti-Hermitian part (Section 8.17). Unbounded growth rates ($\kappa \ge K - c$), the closed solution in time, and the failure of continuous dependence in every Sobolev norm, in flat 4+4 space and with frozen coefficients (Section 8.18); the frequencies of the principal part, which are not real for a wave along an extra time at any point of the author's metric (Section 8.18). Conservation of the Krein form and the Krein-neutrality of the growing eigenspaces (Section 8.19).
 - Conserved coordinate wave numbers, growing frame momenta, the exact onset time and its finiteness for every $q_5 > 0$ (Section 8.24). The Krein form $\sigma E_0/m$ of the starting columns and the leading and first-order WKB formulas (Section 8.25).
 - The rescaling removes the term for every field, and turns the quadratic potential into $\lambda S[\chi]/\sin z$; the norm becomes $\int\chi^\dagger\chi\,dy$ (Section 8.30). The exact family, its growth condition, its finite-norm condition, and a growing finite-norm member for every mass (Section 8.31). The matrix $A$ and its growing modes; the boundary identity; the change of the norm only through the flux at the patch end (Section 8.32).
@@ -3464,47 +3477,47 @@ Revision/pairing/reports/python-pairing.json         (python-pairing)
 
 **COMPUTED by the notebooks** (every exact statement is also checked there, and every number reproduces the record where they overlap): Notebook 08c, 32 checks, computes everything of Sections 8.4 to 8.11 exactly with sympy, including the curvature in both frames, and at one point of the history $a_4 = x_4$ the largest curvature entries 0.778093 and 0.038739 ($= e^{-3}\cdot 0.778093$) and ranks 8. Notebook 08a, 30 checks, confirms $h_k^2 = E^2$ exactly, the growth rates against the eigenvalues to $10^{-10}$, the closed formula against RK4 to $10^{-9}$, the Hadamard ratio (first above $10^6$ at $K = 13.9, 19.9, 27.1, 44.2$ for $s = 0, 2, 4, 8$), the Krein drift below $10^{-12}$. Notebook 08b, 25 checks, confirms the onset times against bisection to $10^{-12}$, RK4 with the error ratio 15.89 and accuracy $10^{-8}$, the WKB agreement ($1.03 \times 10^{-3}$, $2.48 \times 10^{-4}$, late rate $10^{-5}$), the slow growth of the size before the onset (to $u^\dagger u = 1.52$ and $1.54$ at the onset), and growth to $u^\dagger u \approx 1.26 \times 10^{16}$ with the Krein drift below $10^{-9}$. Notebook 08d, 23 checks, proves the rescaling for arbitrary functions, the family for symbolic $\alpha$, the boundary identity on explicit columns, and finds $N(1.5)/N(0) = 2094.786$ with $dN/dx_4$ equal to the flux to $10^{-12}$. Run times: 08a and 08b run in well under a minute, 08c and 08d in one to two minutes; the provenance file of each notebook (in the folder `Revision/textbook/notebooks`, named after the notebook, for example `08c_frame_dependence.PROVENANCE.md`) records the times measured on the build computer in its build and check runs, which depend on how busy that computer is.
 
-**ASSUMED, chosen, or an interpretation.** The history $a_4 = AHx_4$ with $A = H = m = 1$ is a PRESCRIBED BACKGROUND (the Kohn-Sham record's own label); every exact identity of the chapter holds for every history. Frozen coefficients (Sections 8.17 to 8.19) and the local-frame model (Section 8.25) are labelled MODEL: they describe a wave near one point, not exact solutions of the field equation in the author's metric. Facts taken from Chapter 6 (where local spin covariance is proved): the canonical spin connection of every frame makes its gammas covariantly constant and is a combination of the $S^{ab}$. Standard theorems quoted without proof: the Lax-Mizohata theorem, which carries the failure of well-posedness from frozen coefficients to the author's varying coefficients (Section 8.18; so that conclusion is ASSUMED, not PROVED, and the record does not check it); the general curvature identity $F = \frac14R\gamma\gamma$ in every frame (proved for this metric by the record); the trace of a matrix is the sum of its eigenvalues; the dimension of an eigenspace is 16 minus the rank of $h - \lambda I$. Treating $\bar\Psi$ and $\Psi$ as independent variables in the Euler-Lagrange equations is the method of Chapter 7. Two statements are interpretations, labelled as such: that the role of the term $3H$ depends on the variables and the measure (Section 8.30), and that the growth of the good-sector modes is "fed through the patch end" (Section 8.32).
+**ASSUMED, chosen, or an interpretation.** The history $a_4 = AHx_4$ with $A = H = m = 1$ is a PRESCRIBED BACKGROUND (the Kohn-Sham record's own label); every exact identity of the chapter holds for every history. The second function of the metric is put equal to $b_4 = 1$ in every exact check of this chapter, as in the Revision record's scope reports; the general-$b_4$ forms of the gravitational term and of the non-triviality statement are quoted from Chapters 6 and 7 (Sections 8.1 and 8.37). Frozen coefficients (Sections 8.17 to 8.19) and the local-frame model (Section 8.25) are labelled MODEL: they describe a wave near one point, not exact solutions of the field equation in the author's metric. Facts taken from Chapter 6 (where local spin covariance is proved): the canonical spin connection of every frame makes its gammas covariantly constant and is a combination of the $S^{ab}$. Standard theorems quoted without proof: the Lax-Mizohata theorem, which carries the failure of well-posedness from frozen coefficients to the author's varying coefficients (Section 8.18; so that conclusion is ASSUMED, not PROVED, and the record does not check it); the general curvature identity $F = \frac14R\gamma\gamma$ in every frame (proved for this metric by the record); the trace of a matrix is the sum of its eigenvalues; the dimension of an eigenspace is 16 minus the rank of $h - \lambda I$. Treating $\bar\Psi$ and $\Psi$ as independent variables in the Euler-Lagrange equations is the method of Chapter 7. Two statements are interpretations, labelled as such: that the role of the term $3H$ depends on the variables and the measure (Section 8.30), and that the growth of the good-sector modes is "fed through the patch end" (Section 8.32).
 
-**OPEN.** Which boundary condition at the patch end $z = \pi/2$ is physical (the Kohn-Sham record ASSUMES a $Z_2$ brane there; this record imposes none). Whether and how the full field equation can be given a well-posed evolution: restricting to the good sector removes the extra-time growth but is a choice, not a consequence, and even the good sector needs a boundary condition. A positive-norm quantum theory of the full field with the growing modes present, and a stable vacuum, are not constructed (Chapter 10 states what is). Whether the frame-dependent term $3H\gamma^{(8)}$ has any observable effect is not claimed.
+**OPEN.** Which boundary condition at the patch end $z = \pi/2$ is physical (the Kohn-Sham record ASSUMES a $Z_2$ brane there; this record imposes none). Whether and how the full field equation can be given a well-posed evolution: restricting to the good sector removes the extra-time growth but is a choice, not a consequence, and even the good sector needs a boundary condition. A positive-norm quantum theory of the full field with the growing modes present, and a stable vacuum, are not constructed (Chapter 10 states what is). Whether the frame-dependent term $3H\gamma^{(0)}$ has any observable effect is not claimed.
 
 ### 8.39 Exercises
 
-**Exercise 1.** Compute $\gamma^{x_6}\Omega_{x_6}$ directly from $\Omega_{x_6} = -\frac12e^{-a_4}\sin^{1/6}z\,(a_4'\gamma^{(4)}\gamma^{(6)} + H\gamma^{(6)}\gamma^{(8)})$, line by line.
+**Exercise 1.** At $b_4 = 1$, compute $\gamma^{x_6}\Omega_{x_6}$ directly from $\Omega_{x_6} = -\frac12e^{-a_4}\sin^{1/6}z\,(a_4'\gamma^{(4)}\gamma^{(6)} + H\gamma^{(6)}\gamma^{(0)})$, line by line.
 
-*Answer.* $\gamma^{x_6} = \gamma^{(6)}/f_6$ with $f_6 = e^{-a_4}\sin^{1/6}z$. Then $\gamma^{x_6}\Omega_{x_6} = -\frac12(a_4'\gamma^{(6)}\gamma^{(4)}\gamma^{(6)} + H\gamma^{(6)}\gamma^{(6)}\gamma^{(8)})$ (the scale factors cancel). Anticommuting $\gamma^{(6)}$ past $\gamma^{(4)}$: $\gamma^{(6)}\gamma^{(4)}\gamma^{(6)} = -\gamma^{(4)}(\gamma^{(6)})^2 = -\gamma^{(4)}(-I_{16}) = \gamma^{(4)}$; and $(\gamma^{(6)})^2 = -I_{16}$. So $\gamma^{x_6}\Omega_{x_6} = -\frac12(a_4'\gamma^{(4)} - H\gamma^{(8)}) = -\frac12a_4'\gamma^{(4)} + \frac12H\gamma^{(8)}$, the value of every extra time in Section 8.5.
+*Answer.* $\gamma^{x_6} = \gamma^{(6)}/f_6$ with $f_6 = e^{-a_4}\sin^{1/6}z$. Then $\gamma^{x_6}\Omega_{x_6} = -\frac12(a_4'\gamma^{(6)}\gamma^{(4)}\gamma^{(6)} + H\gamma^{(6)}\gamma^{(6)}\gamma^{(0)})$ (the scale factors cancel). Anticommuting $\gamma^{(6)}$ past $\gamma^{(4)}$: $\gamma^{(6)}\gamma^{(4)}\gamma^{(6)} = -\gamma^{(4)}(\gamma^{(6)})^2 = -\gamma^{(4)}(-I_{16}) = \gamma^{(4)}$; and $(\gamma^{(6)})^2 = -I_{16}$. So $\gamma^{x_6}\Omega_{x_6} = -\frac12(a_4'\gamma^{(4)} - H\gamma^{(0)}) = -\frac12a_4'\gamma^{(4)} + \frac12H\gamma^{(0)}$, the value of every extra time in Section 8.5.
 
 **Exercise 2.** Suppose the extra times inflated like 3-space, $f_5 = f_6 = f_7 = e^{+a_4}\sin^{1/6}z$ (this is NOT the author's metric). Compute $\gamma^{x_t}\Omega_{x_t}$ and $\gamma^\mu\Omega_\mu$, and confirm the result with the divergence form.
 
-*Answer.* Now $g_{tt} = -e^{2a_4}\sin^{1/3}z$, so $\Gamma^{x_t}{}_{x_tx_4} = \partial_4\ln f_t = +a_4'$ and $\Gamma^{x_4}{}_{x_tx_t} = -\partial_4g_{tt}/(2g_{44}) = -(2a_4'g_{tt})/(-2) = a_4'g_{tt} = -a_4'f_t^2$. By the rule of Section 8.4, $\omega_{x_t}{}^{(4)}{}_{(t)} = (f_4/f_t)\Gamma^{x_4}{}_{x_tx_t} = -a_4'f_t$, and lowering with $\eta_{44} = -1$, $\omega_{x_t\,(4)(t)} = +a_4'f_t$ (the opposite sign of the author's metric). The $H$ component is unchanged, $\omega_{x_t\,(t)(8)} = -Hf_t$. So $\Omega_{x_t} = \frac12f_t(a_4'\gamma^{(4)}\gamma^{(t)} - H\gamma^{(t)}\gamma^{(8)})$, and $\gamma^{x_t}\Omega_{x_t} = \frac12(a_4'\gamma^{(t)}\gamma^{(4)}\gamma^{(t)} - H(\gamma^{(t)})^2\gamma^{(8)}) = \frac12(a_4'\gamma^{(4)} + H\gamma^{(8)})$, the same as a 3-space direction. The six directions then give $\gamma^\mu\Omega_\mu = 3a_4'\gamma^{(4)} + 3H\gamma^{(8)}$: nothing cancels. Divergence form: $\sqrt{|g|} = e^{6a_4}\cos z$, so $\frac{1}{2\sqrt{|g|}}\partial_4(\sqrt{|g|}\gamma^{(4)}) = \frac{6a_4'e^{6a_4}\cos z}{2e^{6a_4}\cos z}\gamma^{(4)} = 3a_4'\gamma^{(4)}$, and $\frac{1}{2\sqrt{|g|}}\partial_8(e^{6a_4}\sin z\,\gamma^{(8)}) = 3H\gamma^{(8)}$. The cancellation of Section 8.5 happens because in the author's metric the volume factor does not depend on the time.
+*Answer.* Now $g_{tt} = -e^{2a_4}\sin^{1/3}z$, so $\Gamma^{x_t}{}_{x_tx_4} = \partial_4\ln f_t = +a_4'$ and $\Gamma^{x_4}{}_{x_tx_t} = -\partial_4g_{tt}/(2g_{44}) = -(2a_4'g_{tt})/(-2) = a_4'g_{tt} = -a_4'f_t^2$. By the rule of Section 8.4, $\omega_{x_t}{}^{(4)}{}_{(t)} = (f_4/f_t)\Gamma^{x_4}{}_{x_tx_t} = -a_4'f_t$, and lowering with $\eta_{44} = -1$, $\omega_{x_t\,(4)(t)} = +a_4'f_t$ (the opposite sign of the author's metric). The $H$ component is unchanged, $\omega_{x_t\,(t)(0)} = -Hf_t$. So $\Omega_{x_t} = \frac12f_t(a_4'\gamma^{(4)}\gamma^{(t)} - H\gamma^{(t)}\gamma^{(0)})$, and $\gamma^{x_t}\Omega_{x_t} = \frac12(a_4'\gamma^{(t)}\gamma^{(4)}\gamma^{(t)} - H(\gamma^{(t)})^2\gamma^{(0)}) = \frac12(a_4'\gamma^{(4)} + H\gamma^{(0)})$, the same as a 3-space direction. The six directions then give $\gamma^\mu\Omega_\mu = 3a_4'\gamma^{(4)} + 3H\gamma^{(0)}$: nothing cancels. Divergence form: $\sqrt{|g|} = e^{6a_4}\cos z$, so $\frac{1}{2\sqrt{|g|}}\partial_4(\sqrt{|g|}\gamma^{(4)}) = \frac{6a_4'e^{6a_4}\cos z}{2e^{6a_4}\cos z}\gamma^{(4)} = 3a_4'\gamma^{(4)}$, and $\frac{1}{2\sqrt{|g|}}\partial_0(e^{6a_4}\sin z\,\gamma^{(0)}) = 3H\gamma^{(0)}$. The cancellation of Section 8.5 happens because in the author's metric the volume factor does not depend on the time.
 
 **Exercise 3.** (a) Show that $\varphi = \epsilon\cosh(Kx_4)\cos(Kx_5)$ solves $\partial_4^2\varphi = -\partial_5^2\varphi$. (b) For data of largest value $\epsilon$, compute the ratio of the largest value of the solution at $x_4 = 1$ to $\epsilon$ for $K = 10$ and $K = 20$. (c) Show that $\varphi = \epsilon\cos(Kx_4)\cos(Kx_1)$ solves the ordinary wave equation $\partial_4^2\varphi = \partial_1^2\varphi$, and compare.
 
 *Answer.* (a) Section 8.16: both sides equal $\epsilon K^2\cosh(Kx_4)\cos(Kx_5)$. (b) The ratio is $\cosh K$: $\cosh 10 = 11013.2$ and $\cosh 20 = 2.4258 \times 10^8$. Doubling $K$ multiplies the amplification by about $e^{10} \approx 22000$; data of the same size give ever larger solutions. (c) $\partial_4^2\varphi = -\epsilon K^2\cos(Kx_4)\cos(Kx_1) = \partial_1^2\varphi$; the largest value stays $\epsilon$ at every time, for every $K$: the ordinary wave equation depends continuously on its data.
 
-**Exercise 4.** With frozen coefficients and $m = 1$, decide whether the waves oscillate or grow, and give the frequency or the growth rate: (a) $k_1 = 2$, $k_5 = 3$; (b) $k_5 = 2$, $k_8 = 1$; (c) $k_6 = k_7 = 0.5$. (d) With $k_1 = 4$, how large must $k_5$ be for growth? Compare with Figure 08a.1.
+**Exercise 4.** With frozen coefficients and $m = 1$, decide whether the waves oscillate or grow, and give the frequency or the growth rate: (a) $k_1 = 2$, $k_5 = 3$; (b) $k_5 = 2$, $k_0 = 1$; (c) $k_6 = k_7 = 0.5$. (d) With $k_1 = 4$, how large must $k_5$ be for growth? Compare with Figure 08a.1.
 
-*Answer.* $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$. (a) $E^2 = 1 + 4 - 9 = -4$: growth with $\kappa = 2$. (b) $E^2 = 1 + 1 - 4 = -2$: growth with $\kappa = \sqrt2 = 1.414214$. (c) $E^2 = 1 - 0.25 - 0.25 = 0.5$: oscillation with $E = \pm0.707107$. (d) Growth needs $k_5^2 > 1 + 16 = 17$, that is $k_5 > \sqrt{17} = 4.123106$; in the right panel of Figure 08a.1 the dotted curve ($k_1 = 4$) leaves zero there.
+*Answer.* $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_0^2 - k_5^2 - k_6^2 - k_7^2$. (a) $E^2 = 1 + 4 - 9 = -4$: growth with $\kappa = 2$. (b) $E^2 = 1 + 1 - 4 = -2$: growth with $\kappa = \sqrt2 = 1.414214$. (c) $E^2 = 1 - 0.25 - 0.25 = 0.5$: oscillation with $E = \pm0.707107$. (d) Growth needs $k_5^2 > 1 + 16 = 17$, that is $k_5 > \sqrt{17} = 4.123106$; in the right panel of Figure 08a.1 the dotted curve ($k_1 = 4$) leaves zero there.
 
-**Exercise 5.** Show that the size $\sqrt{\mathrm{tr}(M^TM)/16}$ of $M = c\,(\cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)})$ is $|c|\sqrt{\cosh 2b}$. Evaluate it for the boosted frame with $\beta = 3H$, $H = 1$, $b_0 = 0$ at $x_4 = 0$, $0.3$ and $0.5$, and for $\beta = 9H$ at $x_4 = 0.5$, and compare with Figure 08c.3.
+**Exercise 5.** Show that the size $\sqrt{\mathrm{tr}(M^TM)/16}$ of $M = c\,(\cosh b\,\gamma^{(0)} - \sinh b\,\gamma^{(4)})$ is $|c|\sqrt{\cosh 2b}$. Evaluate it for the boosted frame with $\beta = 3H$, $H = 1$, $b_0 = 0$ at $x_4 = 0$, $0.3$ and $0.5$, and for $\beta = 9H$ at $x_4 = 0.5$, and compare with Figure 08c.3.
 
-*Answer.* $(\gamma^{(8)})^T = \gamma^{(8)}$ and $(\gamma^{(4)})^T = -\gamma^{(4)}$, so $M^T = c(\cosh b\,\gamma^{(8)} + \sinh b\,\gamma^{(4)})$ and $M^TM = c^2\big(\cosh^2 b\,(\gamma^{(8)})^2 - \sinh^2 b\,(\gamma^{(4)})^2 + \cosh b\sinh b\,(\gamma^{(4)}\gamma^{(8)} - \gamma^{(8)}\gamma^{(4)})\big) = c^2\big((\cosh^2 b + \sinh^2 b)I_{16} + 2\cosh b\sinh b\,\gamma^{(4)}\gamma^{(8)}\big)$. The trace of $\gamma^{(4)}\gamma^{(8)}$ is zero, so $\mathrm{tr}(M^TM)/16 = c^2(\cosh^2 b + \sinh^2 b) = c^2\cosh 2b$ (because $\cosh^2 b + \sinh^2 b = \frac{(e^b + e^{-b})^2 + (e^b - e^{-b})^2}{4} = \frac{e^{2b} + e^{-2b}}{2}$). For $\beta = 3H$, $c = (6 - 3)/2 = 1.5$ and $b = 3x_4$: at $x_4 = 0$ the size is $1.5$; at $x_4 = 0.3$ ($b = 0.9$) it is $1.5\sqrt{\cosh 1.8} = 2.644204$; at $x_4 = 0.5$ ($b = 1.5$) it is $1.5\sqrt{\cosh 3} = 4.759437$. For $\beta = 9H$, $|c| = 1.5$, $b = 4.5$: $1.5\sqrt{\cosh 9} = 95.477587$. The orange and red curves of the right panel of Figure 08c.3 end near 4.8 and 95.
+*Answer.* $(\gamma^{(0)})^T = \gamma^{(0)}$ and $(\gamma^{(4)})^T = -\gamma^{(4)}$, so $M^T = c(\cosh b\,\gamma^{(0)} + \sinh b\,\gamma^{(4)})$ and $M^TM = c^2\big(\cosh^2 b\,(\gamma^{(0)})^2 - \sinh^2 b\,(\gamma^{(4)})^2 + \cosh b\sinh b\,(\gamma^{(4)}\gamma^{(0)} - \gamma^{(0)}\gamma^{(4)})\big) = c^2\big((\cosh^2 b + \sinh^2 b)I_{16} + 2\cosh b\sinh b\,\gamma^{(4)}\gamma^{(0)}\big)$. The trace of $\gamma^{(4)}\gamma^{(0)}$ is zero, so $\mathrm{tr}(M^TM)/16 = c^2(\cosh^2 b + \sinh^2 b) = c^2\cosh 2b$ (because $\cosh^2 b + \sinh^2 b = \frac{(e^b + e^{-b})^2 + (e^b - e^{-b})^2}{4} = \frac{e^{2b} + e^{-2b}}{2}$). For $\beta = 3H$, $c = (6 - 3)/2 = 1.5$ and $b = 3x_4$: at $x_4 = 0$ the size is $1.5$; at $x_4 = 0.3$ ($b = 0.9$) it is $1.5\sqrt{\cosh 1.8} = 2.644204$; at $x_4 = 0.5$ ($b = 1.5$) it is $1.5\sqrt{\cosh 3} = 4.759437$. For $\beta = 9H$, $|c| = 1.5$, $b = 4.5$: $1.5\sqrt{\cosh 9} = 95.477587$. The orange and red curves of the right panel of Figure 08c.3 end near 4.8 and 95.
 
-**Exercise 6.** On the history $a_4 = x_4$ ($a_4' = H = 1$), use the coefficients $c_{14}$, $c_{18}$ printed by Notebook 08c in both frames to show that $F' = e^{-b}F$ and $F^2 = 0$; check the largest entries 0.778093 and 0.038739 at $x_4 = 0.5$.
+**Exercise 6.** On the history $a_4 = x_4$ ($a_4' = H = 1$), use the coefficients $c_{14}$, $c_{10}$ printed by Notebook 08c in both frames to show that $F' = e^{-b}F$ and $F^2 = 0$; check the largest entries 0.778093 and 0.038739 at $x_4 = 0.5$.
 
-*Answer.* Write $Q = e^{a_4}\cos z/(2\sin^{5/6}z)$. Diagonal frame: $c_{14} = -Ha_4'Q = -H^2Q$ and $c_{18} = -H^2Q$, equal. Boosted frame ($b = 6Hx_4 + b_0$): $c_{14}' = H(H\sinh b - a_4'\cosh b)Q = H^2(\sinh b - \cosh b)Q = -H^2e^{-b}Q$ and $c_{18}' = -H(H\cosh b - a_4'\sinh b)Q = -H^2(\cosh b - \sinh b)Q = -H^2e^{-b}Q$, using $\cosh b - \sinh b = e^{-b}$. Both coefficients are $e^{-b}$ times the diagonal ones, and both frames use the same matrices $\gamma^{(1)}\gamma^{(4)}$, $\gamma^{(1)}\gamma^{(8)}$, so $F' = e^{-b}F$. Since $c_{14} = c_{18}$, $F^2 = (c_{14}^2 - c_{18}^2)I_{16} = 0$. At $x_4 = 0.5$, $b_0 = 0$: $b = 3$ and $0.778093\cdot e^{-3} = 0.778093 \times 0.049787 = 0.038739$, the printed value.
+*Answer.* Write $Q = e^{a_4}\cos z/(2\sin^{5/6}z)$. Diagonal frame: $c_{14} = -Ha_4'Q = -H^2Q$ and $c_{10} = -H^2Q$, equal. Boosted frame ($b = 6Hx_4 + b_0$): $c_{14}' = H(H\sinh b - a_4'\cosh b)Q = H^2(\sinh b - \cosh b)Q = -H^2e^{-b}Q$ and $c_{10}' = -H(H\cosh b - a_4'\sinh b)Q = -H^2(\cosh b - \sinh b)Q = -H^2e^{-b}Q$, using $\cosh b - \sinh b = e^{-b}$. Both coefficients are $e^{-b}$ times the diagonal ones, and both frames use the same matrices $\gamma^{(1)}\gamma^{(4)}$, $\gamma^{(1)}\gamma^{(0)}$, so $F' = e^{-b}F$. Since $c_{14} = c_{10}$, $F^2 = (c_{14}^2 - c_{10}^2)I_{16} = 0$. At $x_4 = 0.5$, $b_0 = 0$: $b = 3$ and $0.778093\cdot e^{-3} = 0.778093 \times 0.049787 = 0.038739$, the printed value.
 
 **Exercise 7.** Along $a_4 = x_4$ with $m = H = 1$, compute the onset times of the waves (a) $q_1 = 0$, $q_5 = 0.01$, $y = 0$; (b) the same at $y = -3$; (c) $q_1 = 0$, $q_5 = 10^{-4}$, $y = 0$; (d) $q_1 = 1$, $q_5 = 0.05$, $y = 0$.
 
 *Answer.* For $q_1 = 0$, $x_4^\ast = (Hy + \ln(m/q_5))/(AH) = y + \ln(1/q_5)$. (a) $\ln 100 = 4.605170$. (b) $-3 + 4.605170 = 1.605170$. (c) $\ln 10^4 = 9.210340$, the left end of the top curve in Figure 08b.3. (d) $w = 1$, $X^\ast = (1 + \sqrt{1 + 4\cdot 1\cdot 0.0025})/(2\cdot 0.0025) = (1 + \sqrt{1.01})/0.005 = 400.997512$, and $x_4^\ast = \frac12\ln X^\ast = 2.996978$, slightly later than the 2.995732 of the same wave without space momentum: the space term dies away like $e^{-2a_4}$ and hardly matters.
 
-**Exercise 8.** For the rescaling $\Psi = \sin^p z\,\chi$ with any real power $p$, find the term that replaces $3H\gamma^{(8)}$ in the equation for $\chi$, and the power that removes it. What does the norm become for that power?
+**Exercise 8.** For the rescaling $\Psi = \sin^p z\,\chi$ with any real power $p$, find the term that replaces $3H\gamma^{(0)}$ in the equation for $\chi$, and the power that removes it. What does the norm become for that power?
 
-*Answer.* $\tan z\,\partial_8\sin^p z = \tan z\cdot p\sin^{p-1}z\cos z\cdot 6H = 6Hp\sin^p z$. As in Section 8.30, $\gamma^\mu D_\mu(\sin^p z\,\chi) = \sin^p z\big(\gamma^\mu\partial_\mu\chi + (6Hp + 3H)\gamma^{(8)}\chi\big)$, so the term becomes $3H(2p + 1)\gamma^{(8)}$. It vanishes exactly for $p = -\frac12$. For $p = 0$ it is the original $3H\gamma^{(8)}$. For $p = -\frac12$ the norm is $\int\cos z\,\sin^{-1}z\,\chi^\dagger\chi\,dx_8 = \int\chi^\dagger\chi\,dy$. (The exact family of Section 8.31 is this computation with $\chi = e^{Mx_4}\chi_0$: its $c = 3H(2\alpha + 1)$ is the same factor.)
+*Answer.* $\tan z\,\partial_0\sin^p z = \tan z\cdot p\sin^{p-1}z\cos z\cdot 6H = 6Hp\sin^p z$. As in Section 8.30, $\gamma^\mu D_\mu(\sin^p z\,\chi) = \sin^p z\big(\gamma^\mu\partial_\mu\chi + (6Hp + 3H)\gamma^{(0)}\chi\big)$, so the term becomes $3H(2p + 1)\gamma^{(0)}$. It vanishes exactly for $p = -\frac12$. For $p = 0$ it is the original $3H\gamma^{(0)}$. For $p = -\frac12$ the norm is $\int\cos z\,\sin^{-1}z\,\chi^\dagger\chi\,dx_0 = \int\chi^\dagger\chi\,dy$. (The exact family of Section 8.31 is this computation with $\chi = e^{Mx_4}\chi_0$: its $c = 3H(2\alpha + 1)$ is the same factor.)
 
-**Exercise 9.** For $m = H = 1$ take the member $\alpha = m/(3H) = \frac13$ of the exact family. Compute $k^2$ in two ways, the growth factor of $e^{Mx_4}$ over one unit of time for large $k x_4$, and the norm factor $\int_0^{\pi/(12H)}\cos z\sin^{2\alpha}z\,dx_8$.
+**Exercise 9.** For $m = H = 1$ take the member $\alpha = m/(3H) = \frac13$ of the exact family. Compute $k^2$ in two ways, the growth factor of $e^{Mx_4}$ over one unit of time for large $k x_4$, and the norm factor $\int_0^{\pi/(12H)}\cos z\sin^{2\alpha}z\,dx_0$.
 
-*Answer.* $k^2 = 9H^2(2\alpha + 1)^2 - m^2 = 9\cdot(5/3)^2 - 1 = 25 - 1 = 24$, and also $3(m + H)(m + 3H) = 3\cdot 2\cdot 4 = 24$. So $k = 2\sqrt6 = 4.898979$, and the member grows by the factor $e^{k} = 134.15$ per unit of time once $\cosh$ and $\sinh$ are both close to $\frac12e^{kx_4}$. The norm factor is $\frac{1}{6H(2\alpha + 1)} = \frac{1}{6\cdot 5/3} = 0.1$: finite. This member varies along $x_8$ like $\sin^{1/3}z$. Unlike the $x_8$-independent member, whose growth needs $m < 3H$, the members $\alpha = m/(3H)$ grow for every mass.
+*Answer.* $k^2 = 9H^2(2\alpha + 1)^2 - m^2 = 9\cdot(5/3)^2 - 1 = 25 - 1 = 24$, and also $3(m + H)(m + 3H) = 3\cdot 2\cdot 4 = 24$. So $k = 2\sqrt6 = 4.898979$, and the member grows by the factor $e^{k} = 134.15$ per unit of time once $\cosh$ and $\sinh$ are both close to $\frac12e^{kx_4}$. The norm factor is $\frac{1}{6H(2\alpha + 1)} = \frac{1}{6\cdot 5/3} = 0.1$: finite. This member varies along $x_0$ like $\sin^{1/3}z$. Unlike the $x_0$-independent member, whose growth needs $m < 3H$, the members $\alpha = m/(3H)$ grow for every mass.
 
 **Exercise 10.** Prove the Krein-neutrality of a growing eigenvector algebraically: if $h_ku = i\kappa u$ with $\kappa > 0$ and $Bh_k = h_k^\dagger B$, then $u^\dagger Bu = 0$.
 

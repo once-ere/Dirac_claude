@@ -81,7 +81,9 @@ CELLS = [
     ## 1. What this notebook computes
 
     In the author's metric the three extra times $x_5, x_6, x_7$ DEFLATE: their lengths
-    carry the factor $e^{-a_4}\sin^{1/6}z$, and $a_4$ increases with the time $x_4$.
+    carry the factor $e^{-a_4}b_4^{1/2}\sin^{1/6}z$, and $a_4$ increases with the time
+    $x_4$ ($b_4(x_4) > 0$ is the second function of the metric; this notebook works on
+    the background $b_4 = 1$ of the record, where the factor is $e^{-a_4}\sin^{1/6}z$).
     A wave that wiggles a fixed number of times per unit of the coordinate $x_5$
     therefore wiggles more and more often per unit of PROPER length (length measured
     with the metric): its frame momentum grows like $e^{a_4}$. This notebook uses the
@@ -89,8 +91,8 @@ CELLS = [
     $H = m = 1$ (a PRESCRIBED background, not a solution of the $a_4$ equations), and
 
     - draws the scale factors of 3-space (inflating) and of the extra times (deflating)
-      and checks exactly that the volume factor $\sqrt{|g|} = \cos z$ does not change
-      in time;
+      and checks exactly that the volume factor $\sqrt{|g|} = b_4^{3/2}\cos z$ is
+      $\cos z$ at $b_4 = 1$ and does not change in time;
     - computes the frame momenta of a wave with fixed wave numbers $q_1$ along $x_1$
       and $q_5$ along $x_5$, and the exact time $x_4^\ast$ at which $E^2 = m^2 +
       k_{(1)}^2 - k_{(5)}^2$ turns negative (the *onset*), checked against a numerical
@@ -110,8 +112,8 @@ CELLS = [
     ## 3. The words used in this notebook
 
     - **Coordinates** (the author's names): $x_1, x_2, x_3$ ordinary space; $x_4$ the
-      time; $x_5, x_6, x_7$ the three extra times (time-like, deflating); $x_8$ the
-      hidden direction, $z = 6Hx_8$ between $0$ and $\pi/2$.
+      time; $x_5, x_6, x_7$ the three extra times (time-like, deflating); $x_0$ the
+      hidden direction, $z = 6Hx_0$ between $0$ and $\pi/2$.
     - **Hidden coordinate** $y = \ln(\sin z)/(6H)$: a second way to label the points of
       the hidden direction. $y = 0$ at $z = \pi/2$ (the *patch end*, where the author's
       coordinate patch ends) and $y \to -\infty$ at the *tip* $z \to 0$; the Kohn-Sham
@@ -119,7 +121,8 @@ CELLS = [
       $\sin^{1/6}z = e^{Hy}$.
     - **Scale factor**: the factor by which a coordinate length must be multiplied to
       give the proper length; $e^{a_4}\sin^{1/6}z$ for $x_1, x_2, x_3$ and
-      $e^{-a_4}\sin^{1/6}z$ for $x_5, x_6, x_7$. **Inflating** means growing,
+      $e^{-a_4}b_4^{1/2}\sin^{1/6}z$ for $x_5, x_6, x_7$ ($e^{-a_4}\sin^{1/6}z$ at
+      $b_4 = 1$). **Inflating** means growing,
       **deflating** shrinking.
     - **History** $a_4(x_4)$: how $a_4$ changes with time. Here $a_4 = A H x_4$ with
       $A = 1$ (the canonical history of the Kohn-Sham record). It is PRESCRIBED: chosen,
@@ -148,7 +151,7 @@ CELLS = [
     In the hidden coordinate $y$ the author's metric reads
     $ds^2 = e^{2Hy}\big(e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2) - e^{-2a_4}(dx_5^2 + dx_6^2
     + dx_7^2)\big) - dx_4^2 + dy^2$, because $\sin^{1/3}z = e^{2Hy}$ and $dy = \cot z\,
-    dx_8$. Its coefficients do not depend on $x_1, x_2, x_3, x_5, x_6, x_7$, so a wave
+    dx_0$. Its coefficients do not depend on $x_1, x_2, x_3, x_5, x_6, x_7$, so a wave
     $e^{i(q_1x_1 + q_5x_5)}$ keeps its coordinate wave numbers $q_1, q_5$ exactly for
     all times. Its frame momenta are, line by line:
 
@@ -170,7 +173,7 @@ CELLS = [
     the frame momenta makes the exact equation couple neighbouring values of $y$. The
     *local-frame model* holds the hidden position fixed (it freezes the coefficients
     in $y$, the WKB statement of the Revision record), works in the variables
-    $\chi = \sin^{1/2}z\,\Psi$ (in which the term $3H\gamma^{(8)}$ of the diagonal
+    $\chi = \sin^{1/2}z\,\Psi$ (in which the term $3H\gamma^{(0)}$ of the diagonal
     frame is absent exactly), takes no momentum along the hidden direction, and keeps
     the exact time dependence of the frame momenta: $i\,du/dx_4 = h(x_4)u$ with
     $h(x_4) = -im\gamma^{(4)} - \gamma^{(4)}\big(k_{(1)}(x_4)\gamma^{(1)} +
@@ -244,28 +247,33 @@ CELLS = [
     md(r"""
     ## 6. The scale factors and the constant volume
 
-    The next cell first checks three exact statements with sympy: $dy/dx_8 = \cot z$
+    The next cell first checks three exact statements with sympy: $dy/dx_0 = \cot z$
     for $y = \ln(\sin z)/(6H)$; $e^{Hy} = \sin^{1/6}z$; and the product of the eight
-    scale factors, $(e^{a_4}\sin^{1/6}z)^3 \cdot 1 \cdot (e^{-a_4}\sin^{1/6}z)^3 \cdot
-    \cot z$, equals $\cos z$ for every $a_4$: the inflation of 3-space and the deflation
-    of the extra times compensate exactly. Then it draws the scale factors along the
+    scale factors, $\cot z \cdot (e^{a_4}\sin^{1/6}z)^3 \cdot 1 \cdot
+    (e^{-a_4}b_4^{1/2}\sin^{1/6}z)^3$, equals $b_4^{3/2}\cos z$ for every $a_4$, and
+    $\cos z$ at $b_4 = 1$: the inflation of 3-space and the deflation of the extra
+    times compensate exactly. Then it draws the scale factors along the
     history at two hidden positions.
     """),
     code(r'''
-    x8, H_symbol = sp.symbols("x8 H", positive=True)
+    x0, H_symbol = sp.symbols("x0 H", positive=True)
     a4_symbol = sp.Symbol("a4", real=True)
-    z = 6 * H_symbol * x8
-    y_of_x8 = sp.log(sp.sin(z)) / (6 * H_symbol)  # the hidden coordinate y
-    check(sp.simplify(sp.diff(y_of_x8, x8) - sp.cot(z)) == 0, "dy/dx8 = cot z")
-    check(sp.simplify(sp.exp(H_symbol * y_of_x8) - sp.sin(z) ** sp.Rational(1, 6)) == 0,
+    z = 6 * H_symbol * x0
+    y_of_x0 = sp.log(sp.sin(z)) / (6 * H_symbol)  # the hidden coordinate y
+    check(sp.simplify(sp.diff(y_of_x0, x0) - sp.cot(z)) == 0, "dy/dx0 = cot z")
+    check(sp.simplify(sp.exp(H_symbol * y_of_x0) - sp.sin(z) ** sp.Rational(1, 6)) == 0,
           "e^(H y) = sin(z)^(1/6)")
     space_factor = sp.exp(a4_symbol) * sp.sin(z) ** sp.Rational(1, 6)  # x1, x2, x3
-    extra_factor = sp.exp(-a4_symbol) * sp.sin(z) ** sp.Rational(1, 6)  # x5, x6, x7
-    volume = space_factor**3 * 1 * extra_factor**3 * sp.cot(z)  # x4 has the factor 1
-    check_record(sp.simplify(volume - sp.cos(z)) == 0,
-                 "sqrt|g| = product of the scale factors = cos z, for every a4",
+    b4_symbol = sp.Symbol("b4", positive=True)  # the second function of the metric
+    extra_factor = (sp.exp(-a4_symbol) * sp.sqrt(b4_symbol)
+                    * sp.sin(z) ** sp.Rational(1, 6))  # x5, x6, x7
+    volume = sp.cot(z) * space_factor**3 * 1 * extra_factor**3  # x4 has the factor 1
+    check_record(sp.simplify(volume - b4_symbol ** sp.Rational(3, 2) * sp.cos(z)) == 0
+                 and sp.simplify(volume.subs(b4_symbol, 1) - sp.cos(z)) == 0,
+                 "sqrt|g| = product of the scale factors = b4^(3/2) cos z, for every a4; "
+                 "cos z at b4 = 1",
                  "Revision/theory/reports/python-field-theory.json",
-                 "sqrt_det_g_equals_cos_z", "cos(6 H x8)")
+                 "sqrt_det_g_equals_cos_z", "cos(6 H x0)")
 
     times = np.linspace(0.0, 6.0, 601)
     fig, ax = plt.subplots()
@@ -431,10 +439,10 @@ CELLS = [
     $h(x_4)$ of the local-frame model. It checks at five instants, for a wave with
     $q_1 = 0.3$ and $q_5 = 0.1$, that $h(x_4)^2 = E^2(x_4)\,I_{16}$, where $E^2$ is the
     formula of the Revision record for frozen coefficients, $E^2 = m^2 + k_1^2 + k_2^2 +
-    k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$, taken at the frame momenta of that instant
+    k_3^2 + k_0^2 - k_5^2 - k_6^2 - k_7^2$, taken at the frame momenta of that instant
     (and checks that the record holds exactly this formula). Then it chooses the
     starting column for $q_1 = 0$.
-    With $q_1 = 0$ the matrix $C = \gamma^{(8)}\gamma^{(1)}\gamma^{(2)}\gamma^{(3)}$
+    With $q_1 = 0$ the matrix $C = \gamma^{(0)}\gamma^{(1)}\gamma^{(2)}\gamma^{(3)}$
     commutes with $h$ ($\gamma^{(4)}$ and $\gamma^{(5)}$ each anticommute with all four
     factors of $C$), so there are columns that are eigenvectors of $h(0)$ for the
     positive frequency $E_0 = \sqrt{m^2 - q_5^2}$ AND of $C$ for $+1$ or $-1$. The
@@ -450,13 +458,13 @@ CELLS = [
     gammas_record = json.loads(
         repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
     GAMMA = [np.array(rows, dtype=int) for rows in gammas_record["gamma"]]
-    C = np.array(gammas_record["C"], dtype=int)  # C = g^(x8) g^(x1) g^(x2) g^(x3)
+    C = np.array(gammas_record["C"], dtype=int)  # C = g^(x0) g^(x1) g^(x2) g^(x3)
     B = np.array(gammas_record["B"]["re"]) + 1j * np.array(gammas_record["B"]["im"])
-    g4 = GAMMA[3].astype(complex)  # gamma^(x4)
-    g4g1 = (GAMMA[3] @ GAMMA[0]).astype(complex)  # gamma^(x4) gamma^(x1)
-    g4g5 = (GAMMA[3] @ GAMMA[4]).astype(complex)  # gamma^(x4) gamma^(x5)
-    check(np.array_equal(C @ GAMMA[3], GAMMA[3] @ C) and
-          np.array_equal(C @ GAMMA[4], GAMMA[4] @ C),
+    g4 = GAMMA[4].astype(complex)  # gamma^(x4)
+    g4g1 = (GAMMA[4] @ GAMMA[1]).astype(complex)  # gamma^(x4) gamma^(x1)
+    g4g5 = (GAMMA[4] @ GAMMA[5]).astype(complex)  # gamma^(x4) gamma^(x5)
+    check(np.array_equal(C @ GAMMA[4], GAMMA[4] @ C) and
+          np.array_equal(C @ GAMMA[5], GAMMA[5] @ C),
           "C commutes with gamma^(x4) and gamma^(x5)")
 
 
@@ -469,8 +477,8 @@ CELLS = [
     # At every instant h(x4)^2 = E^2(x4) I16, where E^2 is the frozen-coefficient E^2 of
     # the record with k1 = k_(1)(x4), k5 = k_(5)(x4) and all other momenta 0.
     m_s = sp.Symbol("m", real=True)
-    k_s = {a: sp.Symbol(f"k{a}", real=True) for a in (1, 2, 3, 5, 6, 7, 8)}
-    E2_record = m_s**2 + sum(k_s[a] ** 2 for a in (1, 2, 3, 8)) \
+    k_s = {a: sp.Symbol(f"k{a}", real=True) for a in (0, 1, 2, 3, 5, 6, 7)}
+    E2_record = m_s**2 + sum(k_s[a] ** 2 for a in (0, 1, 2, 3)) \
         - sum(k_s[a] ** 2 for a in (5, 6, 7))
     squares_ok = True
     for x4 in (0.0, 1.0, 2.0, 3.0, 4.0):
@@ -734,7 +742,8 @@ CELLS = [
 
     - Along the prescribed deflating history $a_4 = AHx_4$ of the Kohn-Sham record
       ($A = H = m = 1$) 3-space inflates like $e^{a_4}$ and the extra times deflate like
-      $e^{-a_4}$, while the volume factor $\sqrt{|g|} = \cos z$ stays constant (PROVED,
+      $e^{-a_4}$, while the volume factor $\sqrt{|g|} = \cos z$ (at $b_4 = 1$; $b_4^{3/2}
+      \cos z$ in general) stays constant (PROVED,
       exact sympy; Revision check `sqrt_det_g_equals_cos_z`).
     - A wave $e^{i(q_1x_1 + q_5x_5)}$ keeps its coordinate wave numbers; its frame
       momentum along the extra time grows like $q_5e^{a_4}e^{-Hy}$ and along 3-space it

@@ -12,10 +12,10 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/08d_rescaling_modes.py
 
 It reproduces the checks rescaling_removes_the_connection_term,
-rescaled_equation_quadratic_potential, good_sector_x8_independent_modes_without_
+rescaled_equation_quadratic_potential, good_sector_x0_independent_modes_without_
 boundary_condition and good_sector_hermiticity_up_to_the_brane_flux of
 Revision/theory/reports/python-scope.json, and covariant_constancy_D_mu_gamma_nu and
-exact_solution_family_x4_x8 of Revision/theory/reports/python-field-theory.json.
+exact_solution_family_x4_x0 of Revision/theory/reports/python-field-theory.json.
 """
 
 import sys
@@ -39,10 +39,10 @@ FACTS = {
     "purpose": (
         "It takes the spin connection of the diagonal frame from the Revision record and "
         "verifies it, proves exactly that the rescaling Psi = sin(z)^(-1/2) chi removes "
-        "the term 3 H gamma^(x8) from the field equation (for 16 arbitrary component "
+        "the term 3 H gamma^(x0) from the field equation (for 16 arbitrary component "
         "functions) and turns the quadratic potential into the coupling lambda S/sin z, "
         "verifies the exact family of solutions sin(z)^alpha exp(M x4) chi0, finds which "
-        "of them grow and which have a finite norm, verifies the growing x8-independent "
+        "of them grow and which have a finite norm, verifies the growing x0-independent "
         "modes of the good sector, proves that the norm of the hidden direction changes "
         "only through a boundary term at the patch end z = pi/2, and draws five "
         "teaching plots."
@@ -57,12 +57,12 @@ FACTS = {
          "the constant H = 1 and the tip cutoff L = 3 of the Kohn-Sham record, used for "
          "one plot (read)"],
         ["Revision/theory/reports/python-field-theory.json",
-         "checks covariant_constancy_D_mu_gamma_nu, gamma_mu_Omega_mu_equals_3H_gamma_x8 "
-         "and exact_solution_family_x4_x8 (reproduced)"],
+         "checks covariant_constancy_D_mu_gamma_nu, gamma_mu_Omega_mu_equals_3H_gamma_x0 "
+         "and exact_solution_family_x4_x0 (reproduced)"],
         ["Revision/theory/reports/python-scope.json",
          "checks rescaling_removes_the_connection_term, "
          "rescaled_equation_quadratic_potential, "
-         "good_sector_x8_independent_modes_without_boundary_condition and "
+         "good_sector_x0_independent_modes_without_boundary_condition and "
          "good_sector_hermiticity_up_to_the_brane_flux (reproduced)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
@@ -88,14 +88,18 @@ CELLS = [
     ## 1. What this notebook computes
 
     In the diagonal frame the field equation of dirac16complex (and of dirac16complex00)
-    in the author's metric contains the term $3H\gamma^{(8)}\Psi$. This notebook shows,
+    in the author's metric contains the term $3H\gamma^{(0)}\Psi$ (on the background
+    $b_4 = 1$ of the Revision record's scope reports, with which this notebook compares;
+    for a general $b_4(x_4)$ the term is $(3H\gamma^{(0)} + \frac34(b_4'/b_4)
+    \gamma^{(4)})\Psi$ and the rescaling $\sin^{-1/2}z\,b_4^{-3/4}$ removes it, Notebook
+    06b). This notebook shows,
     exactly, that a change of the field VARIABLES removes it, and then studies the
-    hidden direction $x_8$ near its two ends: the tip $z \to 0$ and the patch end
+    hidden direction $x_0$ near its two ends: the tip $z \to 0$ and the patch end
     $z = \pi/2$. It
 
     - takes the spin connection of the diagonal frame from the Revision record and
       verifies it (the gammas are covariantly constant), and recomputes
-      $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$;
+      $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$;
     - proves that for $\Psi = \sin^{-1/2}z\,\chi$ the field equation becomes
       $\gamma^\mu\partial_\mu\chi = (m + U')\chi$ with no spin-connection term, for
       sixteen arbitrary component functions, and that the quadratic potential turns
@@ -103,7 +107,7 @@ CELLS = [
     - verifies the exact family of solutions $\Psi = \sin^\alpha z\,e^{Mx_4}\chi_0$ with
       $k^2 = 9H^2(2\alpha + 1)^2 - m^2$, and finds which members grow ($k^2 > 0$) and
       which have a finite norm at the tip ($\alpha > -\frac12$);
-    - verifies the growing $x_8$-independent modes of the good sector ($m < 3H$) and
+    - verifies the growing $x_0$-independent modes of the good sector ($m < 3H$) and
       their finite norm;
     - proves that the norm in the hidden direction changes only through a boundary
       term at the patch end $z = \pi/2$, and shows a growing mode whose norm grows
@@ -117,10 +121,10 @@ CELLS = [
 
     - **Coordinates** (the author's names): $x_1, x_2, x_3$ ordinary space (inflating);
       $x_4$ the time; $x_5, x_6, x_7$ the three extra times (time-like, DEFLATING);
-      $x_8$ the hidden direction, $z = 6Hx_8$ between $0$ (the *tip*) and $\pi/2$ (the
-      *patch end*, at $x_8 = \pi/(12H)$).
+      $x_0$ the hidden direction, $z = 6Hx_0$ between $0$ (the *tip*) and $\pi/2$ (the
+      *patch end*, at $x_0 = \pi/(12H)$).
     - **Diagonal frame**, scale factors $f_a$: $f_{1,2,3} = e^{a_4}\sin^{1/6}z$,
-      $f_4 = 1$, $f_{5,6,7} = e^{-a_4}\sin^{1/6}z$, $f_8 = \cot z$; $\gamma^\mu =
+      $f_4 = 1$, $f_{5,6,7} = e^{-a_4}\sin^{1/6}z$, $f_0 = \cot z$; $\gamma^\mu =
       \gamma^{(\mu)}/f_\mu$.
     - **Spin connection** $\Omega_\mu$ and **covariant derivative** $D_\mu\Psi =
       \partial_\mu\Psi + \Omega_\mu\Psi$; the gammas are *covariantly constant*:
@@ -131,18 +135,18 @@ CELLS = [
       $w = \sin^{-1/2}z$.
     - **Bilinear** $S = \bar\Psi\Psi = \Psi^\dagger C\Psi$ and the quadratic potential
       $U = \frac{\lambda}{2}S^2$, $U' = \lambda S$.
-    - **Norm** of a field in the hidden direction: $\int \cos z\,\Psi^\dagger\Psi\,dx_8$
+    - **Norm** of a field in the hidden direction: $\int \cos z\,\Psi^\dagger\Psi\,dx_0$
       ($\cos z = \sqrt{|g|}$ is the volume factor). It is *finite* when the integral
       does not diverge at the ends.
-    - **Hidden coordinate** $y = \ln(\sin z)/(6H)$, $dy = \cot z\,dx_8$; $y = 0$ at the
+    - **Hidden coordinate** $y = \ln(\sin z)/(6H)$, $dy = \cot z\,dx_0$; $y = 0$ at the
       patch end and $y \to -\infty$ at the tip.
     - **Good sector**: fields that do not depend on the extra times $x_5, x_6, x_7$.
     - **Mode operator** $h$: the field equation written as $i\,\partial_4\Psi = h\Psi$;
-      for fields that depend only on $x_4$ and $x_8$ (and $U = 0$),
-      $h = -im\gamma^{(4)} + i\gamma^{(4)}\gamma^{(8)}(\tan z\,\partial_8 + 3H)$.
+      for fields that depend only on $x_4$ and $x_0$ (and $U = 0$),
+      $h = -im\gamma^{(4)} + i\gamma^{(4)}\gamma^{(0)}(\tan z\,\partial_0 + 3H)$.
     - **Hermitian, anti-Hermitian**: $M^\dagger = M$ or $M^\dagger = -M$
       ($M^\dagger$: the conjugate transpose).
-    - **Boundary term (flux)**: a total derivative $\partial_8(\dots)$ whose integral is
+    - **Boundary term (flux)**: a total derivative $\partial_0(\dots)$ whose integral is
       the difference of its values at the two ends.
     - **$Z_2$ brane**: a boundary surface of spacetime, here the patch end
       $z = \pi/2$, at which the patch is glued to a mirror copy of itself; the mirror
@@ -152,22 +156,22 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    For a field that depends only on $x_4$ and $x_8$ the field equation (with $U = 0$)
-    is $\gamma^{(4)}\partial_4\Psi + \tan z\,\gamma^{(8)}\partial_8\Psi +
-    3H\gamma^{(8)}\Psi = m\Psi$. The rescaling works because, line by line,
+    For a field that depends only on $x_4$ and $x_0$ the field equation (with $U = 0$)
+    is $\gamma^{(4)}\partial_4\Psi + \tan z\,\gamma^{(0)}\partial_0\Psi +
+    3H\gamma^{(0)}\Psi = m\Psi$. The rescaling works because, line by line,
 
-    1. $\partial_8\sin^{-1/2}z = -\frac12\sin^{-3/2}z\cos z \cdot 6H$ (chain rule, with
-       $dz/dx_8 = 6H$);
-    2. so $\tan z\,\partial_8\sin^{-1/2}z = -3H\,\sin^{-1/2}z$ (because $\tan z\cos z =
+    1. $\partial_0\sin^{-1/2}z = -\frac12\sin^{-3/2}z\cos z \cdot 6H$ (chain rule, with
+       $dz/dx_0 = 6H$);
+    2. so $\tan z\,\partial_0\sin^{-1/2}z = -3H\,\sin^{-1/2}z$ (because $\tan z\cos z =
        \sin z$);
-    3. so $\tan z\,\gamma^{(8)}\partial_8(w\chi) + 3H\gamma^{(8)}w\chi =
-       w\tan z\,\gamma^{(8)}\partial_8\chi$: the product rule produces exactly
-       $-3H\gamma^{(8)}w\chi$, which cancels the spin-connection term.
+    3. so $\tan z\,\gamma^{(0)}\partial_0(w\chi) + 3H\gamma^{(0)}w\chi =
+       w\tan z\,\gamma^{(0)}\partial_0\chi$: the product rule produces exactly
+       $-3H\gamma^{(0)}w\chi$, which cancels the spin-connection term.
 
-    The weight moves into the measure: $\cos z\,\Psi^\dagger\Psi\,dx_8 = \cos z\,
-    \sin^{-1}z\,\chi^\dagger\chi\,dx_8 = \chi^\dagger\chi\,dy$.
+    The weight moves into the measure: $\cos z\,\Psi^\dagger\Psi\,dx_0 = \cos z\,
+    \sin^{-1}z\,\chi^\dagger\chi\,dx_0 = \chi^\dagger\chi\,dy$.
 
-    Proper lengths along the hidden direction are $\sqrt{g_{88}}\,dx_8 = \cot z\,dx_8 =
+    Proper lengths along the hidden direction are $\sqrt{g_{00}}\,dx_0 = \cot z\,dx_0 =
     dy$. So the *patch end* $z = \pi/2$ ($y = 0$) lies at the finite proper distance
     $|y|$ from every point, while the tip $z \to 0$ ($y \to -\infty$) is infinitely far
     away. The Revision
@@ -196,7 +200,7 @@ CELLS = [
     $\gamma^{(x_i)}$, `a4'[x4]` is $a_4'$), enters the same formula in sympy, computes
     the Christoffel symbols of the author's metric, and checks that the gammas are
     covariantly constant for all 64 pairs $(\mu, \nu)$ and that $\gamma^\mu\Omega_\mu =
-    3H\gamma^{(8)}$. The helper `is_zero` asks sympy to simplify twice (the second time
+    3H\gamma^{(0)}$. The helper `is_zero` asks sympy to simplify twice (the second time
     with its trigonometric simplifier `fu`).
     """),
     code(r'''
@@ -231,31 +235,31 @@ CELLS = [
     SCOPE = "Revision/theory/reports/python-scope.json"
     gammas_record = json.loads(
         repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
-    G = [sp.Matrix(rows) for rows in gammas_record["gamma"]]  # gamma^(x1) ... (x8)
-    ETA = gammas_record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1]
-    C = sp.Matrix(gammas_record["C"])  # C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3)
+    G = [sp.Matrix(rows) for rows in gammas_record["gamma"]]  # gamma^(x0) ... (x7)
+    ETA = gammas_record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1]
+    C = sp.Matrix(gammas_record["C"])  # C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)
     B = sp.Matrix(gammas_record["B"]["re"]) + sp.I * sp.Matrix(gammas_record["B"]["im"])
     theory = json.loads(
         repository_file("Revision/theory/field-theory.json").read_text(encoding="utf-8"))
     formulas = {entry["key"]: entry for entry in theory["formulas"]}
     say("record Omega_components: " + formulas["Omega_components"]["wl"])
 
-    x = sp.symbols("x1:9", real=True)  # the coordinates; x[3] is x4, x[7] is x8
+    x = sp.symbols("x0:8", real=True)  # the coordinates; x[k] is xk
     H = sp.Symbol("H", positive=True)
     m = sp.Symbol("m", real=True)
-    a4 = sp.Function("a4")(x[3])  # any function of the time x4
-    a4_prime = sp.diff(a4, x[3])
-    z = 6 * H * x[7]
+    a4 = sp.Function("a4")(x[4])  # any function of the time x4
+    a4_prime = sp.diff(a4, x[4])
+    z = 6 * H * x[0]
     sixth = sp.sin(z) ** sp.Rational(1, 6)
-    f = [sp.exp(a4) * sixth] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * sixth] * 3 \
-        + [sp.cot(z)]
+    f = [sp.cot(z)] + [sp.exp(a4) * sixth] * 3 + [sp.Integer(1)] \
+        + [sp.exp(-a4) * sixth] * 3  # the frame factors at b4 = 1
     g = [ETA[a] * f[a] ** 2 for a in range(8)]  # the diagonal metric
     gamma_up = [G[mu] / f[mu] for mu in range(8)]  # gamma^mu = gamma^(mu) / f_mu
     Omega = [sp.zeros(16, 16) for _ in range(8)]
-    for i in (0, 1, 2):  # x1, x2, x3 (inflating)
-        Omega[i] = sp.exp(a4) * sixth * (a4_prime * G[i] * G[3] + H * G[i] * G[7]) / 2
-    for t in (4, 5, 6):  # x5, x6, x7 (deflating extra times)
-        Omega[t] = -sp.exp(-a4) * sixth * (a4_prime * G[3] * G[t] + H * G[t] * G[7]) / 2
+    for i in (1, 2, 3):  # x1, x2, x3 (inflating)
+        Omega[i] = sp.exp(a4) * sixth * (a4_prime * G[i] * G[4] + H * G[i] * G[0]) / 2
+    for t in (5, 6, 7):  # x5, x6, x7 (deflating extra times)
+        Omega[t] = -sp.exp(-a4) * sixth * (a4_prime * G[4] * G[t] + H * G[t] * G[0]) / 2
 
 
     def is_zero(expr):
@@ -289,28 +293,28 @@ CELLS = [
                  "constant (64 pairs)", THEORY, "covariant_constancy_D_mu_gamma_nu",
                  "= 0 for all 64 (mu, nu)")
     gamma_Omega = sum((gamma_up[mu] * Omega[mu] for mu in range(8)), sp.zeros(16, 16))
-    check_record(all(is_zero(v) for v in gamma_Omega - 3 * H * G[7]),
-                 "gamma^mu Omega_mu = 3 H gamma^(x8) (diagonal frame)",
-                 THEORY, "gamma_mu_Omega_mu_equals_3H_gamma_x8",
-                 "gamma^mu Omega_mu = 3 H gamma^(x8) exactly")
+    check_record(all(is_zero(v) for v in gamma_Omega - 3 * H * G[0]),
+                 "gamma^mu Omega_mu = 3 H gamma^(x0) (diagonal frame)",
+                 THEORY, "gamma_mu_Omega_mu_equals_3H_gamma_x0",
+                 "gamma^mu Omega_mu = 3 H gamma^(x0) exactly")
     '''),
     md(r"""
     ## 6. The rescaling removes the term
 
-    The next cell checks the one-line identity $\tan z\,\partial_8\sin^{-1/2}z =
+    The next cell checks the one-line identity $\tan z\,\partial_0\sin^{-1/2}z =
     -3H\sin^{-1/2}z$, and then the full statement on sixteen ARBITRARY component
-    functions $\chi_A(x_1, \dots, x_8)$ (sympy `Function` objects, about which nothing
+    functions $\chi_A(x_0, \dots, x_7)$ (sympy `Function` objects, about which nothing
     is assumed): $\gamma^\mu D_\mu(w\chi) - w\,\gamma^\mu\partial_\mu\chi = 0$ for all 16
     components. Then it checks the potential: $S[w\chi] = w^2S[\chi] = S[\chi]/\sin z$
     ($w$ is real), so $\lambda S[\Psi]\Psi = w\,\frac{\lambda S[\chi]}{\sin z}\chi$, and
-    the measure: $\cos z\,w^2 = \cot z = dy/dx_8$.
+    the measure: $\cos z\,w^2 = \cot z = dy/dx_0$.
     """),
     code(r'''
     w = sp.sin(z) ** sp.Rational(-1, 2)  # the rescaling factor sin(z)^(-1/2)
-    check_record(is_zero(sp.tan(z) * sp.diff(w, x[7]) + 3 * H * w),
-                 "tan z d8 sin(z)^(-1/2) = -3 H sin(z)^(-1/2)", SCOPE,
+    check_record(is_zero(sp.tan(z) * sp.diff(w, x[0]) + 3 * H * w),
+                 "tan z d0 sin(z)^(-1/2) = -3 H sin(z)^(-1/2)", SCOPE,
                  "rescaling_removes_the_connection_term",
-                 "(tan z (-3 H sin^(-1/2) z) + 3 H sin^(-1/2) z) gamma^(x8) chi = 0")
+                 "(tan z (-3 H sin^(-1/2) z) + 3 H sin^(-1/2) z) gamma^(x0) chi = 0")
     chi = sp.Matrix([sp.Function(f"chi{A}")(*x) for A in range(1, 17)])  # arbitrary
     Psi = w * chi
     D_Psi = sum((gamma_up[mu] * (sp.diff(Psi, x[mu]) + Omega[mu] * Psi)
@@ -328,10 +332,10 @@ CELLS = [
                  "U = (lambda/2) S^2: lambda S[Psi] = lambda S[chi]/sin z (the new "
                  "coupling)", SCOPE, "rescaled_equation_quadratic_potential",
                  "gamma^mu d_mu chi = (m + lambda S[chi]/sin z) chi")
-    y_of_x8 = sp.log(sp.sin(z)) / (6 * H)
+    y_of_x0 = sp.log(sp.sin(z)) / (6 * H)
     check(is_zero(sp.cos(z) * w**2 - sp.cot(z)) and
-          is_zero(sp.diff(y_of_x8, x[7]) - sp.cot(z)),
-          "cos z w^2 = cot z = dy/dx8: the norm of Psi is the y-norm of chi")
+          is_zero(sp.diff(y_of_x0, x[0]) - sp.cot(z)),
+          "cos z w^2 = cot z = dy/dx0: the norm of Psi is the y-norm of chi")
     '''),
     md(r"""
     The next cell draws the rescaling factor $w = \sin^{-1/2}z$, the new coupling factor
@@ -360,7 +364,7 @@ CELLS = [
     left.plot(zs, np.sin(zs) ** -0.5, label="rescaling factor $\\sin^{-1/2}z$")
     left.plot(zs, 1 / np.sin(zs), "--", label="coupling factor $1/\\sin z$")
     left.set_yscale("log")
-    left.set_xlabel("$z = 6Hx_8$ (tip at 0, patch end at $\\pi/2$)")
+    left.set_xlabel("$z = 6Hx_0$ (tip at 0, patch end at $\\pi/2$)")
     left.set_ylabel("factor")
     left.set_title("The rescaling $\\Psi = \\sin^{-1/2}z\\,\\chi$")
     left.legend()
@@ -372,14 +376,14 @@ CELLS = [
     right.plot([z_cut], [-L_tip], "o", color="black")  # where y reaches the cutoff
     right.text(2e-8, -L_tip + 0.15, "tip cutoff $y = -L$ of the Kohn-Sham record",
                fontsize=8)
-    right.set_xlabel("$z = 6Hx_8$ (logarithmic axis)")
+    right.set_xlabel("$z = 6Hx_0$ (logarithmic axis)")
     right.set_ylabel("$y = \\ln(\\sin z)/(6H)$")
     right.set_title("The hidden coordinate $y$, $H = 1$")
     save_figure(fig, "rescaling_factors",
-                "Left, on a logarithmic axis, against $z = 6Hx_8$ from the tip (near 0) "
+                "Left, on a logarithmic axis, against $z = 6Hx_0$ from the tip (near 0) "
                 "to the patch end ($\\pi/2$): the rescaling factor $\\sin^{-1/2}z$ "
                 "(solid) of $\\Psi = \\sin^{-1/2}z\\,\\chi$, which removes the term "
-                "$3H\\gamma^{(8)}$, and the factor $1/\\sin z$ (dashed) of the new "
+                "$3H\\gamma^{(0)}$, and the factor $1/\\sin z$ (dashed) of the new "
                 "coupling $\\lambda S_\\chi/\\sin z$; both equal 1 at the patch end and "
                 "diverge at the tip. Right: the hidden coordinate $y = \\ln(\\sin z)/"
                 "(6H)$ for $H = 1$, in which the norm of $\\Psi$ is $\\int\\chi^\\dagger"
@@ -393,9 +397,9 @@ CELLS = [
     md(r"""
     ## 7. An exact family of solutions
 
-    For $U = 0$ and a field that depends only on $x_4$ and $x_8$ the record gives the
+    For $U = 0$ and a field that depends only on $x_4$ and $x_0$ the record gives the
     family $\Psi = \sin^\alpha z\,\big(\cosh(kx_4) + \frac{\sinh(kx_4)}{k}M\big)\chi_0$
-    with a constant column $\chi_0$, $M = -m\gamma^{(4)} + c\,\gamma^{(4)}\gamma^{(8)}$,
+    with a constant column $\chi_0$, $M = -m\gamma^{(4)} + c\,\gamma^{(4)}\gamma^{(0)}$,
     $c = 3H(2\alpha + 1)$ and $k^2 = c^2 - m^2$. The bracket is $e^{Mx_4}$, because
     $M^2 = k^2 I_{16}$. The next cell checks $M^2 = (c^2 - m^2)I_{16}$ and
     $M^TC + CM = 0$ (so $S$ does not change in time), and then that $\Psi$ solves the
@@ -409,22 +413,22 @@ CELLS = [
     alpha = sp.Symbol("alpha", real=True)
     c = 3 * H * (2 * alpha + 1)
     k = sp.sqrt(c**2 - m**2)  # k^2 = 9 H^2 (2 alpha + 1)^2 - m^2
-    M = -m * G[3] + c * G[3] * G[7]
+    M = -m * G[4] + c * G[4] * G[0]
     check_record((M * M - (c**2 - m**2) * sp.eye(16)).applyfunc(sp.expand)
                  == sp.zeros(16, 16)
                  and (M.T * C + C * M).applyfunc(sp.expand) == sp.zeros(16, 16),
                  "M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) I16 and M^T C + C M = 0",
-                 THEORY, "exact_solution_family_x4_x8",
-                 "M = -m gamma^(x4) + 3 H (2 alpha + 1) gamma^(x4) gamma^(x8)",
+                 THEORY, "exact_solution_family_x4_x0",
+                 "M = -m gamma^(x4) + 3 H (2 alpha + 1) gamma^(x4) gamma^(x0)",
                  "k^2 = 9 H^2 (2 alpha + 1)^2 - m^2", "(M^2 = k^2 I16, M^T C + C M = 0")
     chi0 = sp.Matrix(sp.symbols("q1:17"))  # 16 arbitrary constants
-    family = sp.sin(z) ** alpha * (sp.cosh(k * x[3]) * chi0
-                                   + sp.sinh(k * x[3]) / k * (M * chi0))
+    family = sp.sin(z) ** alpha * (sp.cosh(k * x[4]) * chi0
+                                   + sp.sinh(k * x[4]) / k * (M * chi0))
     residual = sum((gamma_up[mu] * (sp.diff(family, x[mu]) + Omega[mu] * family)
                     for mu in range(8)), sp.zeros(16, 1)) - m * family
     check_record(all(is_zero(v) for v in residual),
                  "Psi = sin(z)^alpha (cosh(k x4) + sinh(k x4)/k M) chi0 solves the field "
-                 "equation", THEORY, "exact_solution_family_x4_x8",
+                 "equation", THEORY, "exact_solution_family_x4_x0",
                  "solves gamma^mu D_mu Psi = m Psi exactly for every a4(x4) and every "
                  "alpha")
     M_half = M.subs(alpha, -sp.Rational(1, 2))
@@ -438,15 +442,15 @@ CELLS = [
     ## 8. Which members grow, and which have a finite norm
 
     A member GROWS when $k^2 > 0$, that is when $3H|2\alpha + 1| > m$. Its norm in the
-    hidden direction is $\int_0^{\pi/(12H)}\cos z\,\sin^{2\alpha}z\,dx_8$ times a
-    function of $x_4$; with $s = \sin z$, $ds = 6H\cos z\,dx_8$, this is
+    hidden direction is $\int_0^{\pi/(12H)}\cos z\,\sin^{2\alpha}z\,dx_0$ times a
+    function of $x_4$; with $s = \sin z$, $ds = 6H\cos z\,dx_0$, this is
     $\frac{1}{6H}\int_0^1 s^{2\alpha}ds$, which is $\frac{1}{6H(2\alpha + 1)}$ for
     $\alpha > -\frac12$ and infinite for $\alpha \le -\frac12$ (at $\alpha = -\frac12$
     the integral of $1/s$ diverges like $\ln$ at the tip). So the H-free member
     $\alpha = -\frac12$ has an infinite norm, and the growing members with a finite norm
     are those with $2\alpha + 1 > m/(3H)$. For EVERY mass $m > 0$ there are such
     members: $\alpha = m/(3H)$ gives $k^2 = (2m + 3H)^2 - m^2 = 3(m + H)(m + 3H) > 0$.
-    The Revision record states the $x_8$-independent case $\alpha = 0$, which grows when
+    The Revision record states the $x_0$-independent case $\alpha = 0$, which grows when
     $m < 3H$; the statement for every mass is this notebook's own exact consequence of
     the record's family. The next cell checks the integrals and this example, and draws
     $k^2$ against $\alpha$ for three masses.
@@ -482,7 +486,7 @@ CELLS = [
                 "units of $H^2$). Where $k^2 > 0$ the member grows like $e^{kx_4}$, "
                 "where $k^2 < 0$ it oscillates. The black dots mark $\\alpha = -1/2$ "
                 "($k^2 = -m^2$, no $H$: the rescaled field) and $\\alpha = 0$ ($k^2 = "
-                "9H^2 - m^2$, the $x_8$-independent modes). In the gray region "
+                "9H^2 - m^2$, the $x_0$-independent modes). In the gray region "
                 "$\\alpha \\le -1/2$ the norm diverges at the tip; to the right of it "
                 "every parabola becomes positive, so for every mass some member with a "
                 "finite norm grows.")
@@ -524,30 +528,30 @@ CELLS = [
                 "e^{Mx_4}\\chi_0$. Blue: the member grows ($k^2 > 0$) and has a finite "
                 "norm at the tip ($\\alpha > -1/2$, above the dashed line). Gray: it "
                 "grows but its norm diverges. White: it oscillates. The black line is "
-                "$2\\alpha + 1 = m/(3H)$. The red line $\\alpha = 0$ (the $x_8$-"
+                "$2\\alpha + 1 = m/(3H)$. The red line $\\alpha = 0$ (the $x_0$-"
                 "independent modes) is blue exactly for $m < 3H$; above the black line "
                 "every mass has growing finite-norm members.")
     '''),
     md(r"""
-    ## 9. The $x_8$-independent modes of the good sector
+    ## 9. The $x_0$-independent modes of the good sector
 
     On fields that depend only on $x_4$ (good sector, $\alpha = 0$) the mode operator
-    acts as the matrix $A = -im\gamma^{(4)} + 3iH\gamma^{(4)}\gamma^{(8)}$, and
+    acts as the matrix $A = -im\gamma^{(4)} + 3iH\gamma^{(4)}\gamma^{(0)}$, and
     $i\,\partial_4\Psi = A\Psi$ is the same as $\partial_4\Psi = M\Psi$ at $\alpha = 0$,
     because $A = iM$. The next cell checks $A = iM|_{\alpha = 0}$, that $A$ is not
     Hermitian, that $A^2 = (m^2 - 9H^2)I_{16}$, that at $m = H = 1$ the eigenvalues are
     $\pm 2\sqrt2\,i$ (eight each; a solution with $e^{-i(2\sqrt2 i)x_4} = e^{2\sqrt2
     x_4}$ grows), and that such a mode has the finite norm factor
-    $\int_0^{\pi/(12H)}\cos(6Hx_8)\,dx_8 = \frac{1}{6H}$.
+    $\int_0^{\pi/(12H)}\cos(6Hx_0)\,dx_0 = \frac{1}{6H}$.
     """),
     code(r'''
-    A = -sp.I * m * G[3] + 3 * sp.I * H * G[3] * G[7]
+    A = -sp.I * m * G[4] + 3 * sp.I * H * G[4] * G[0]
     A_squared = (A * A).applyfunc(sp.expand)
     A_one = A.subs({m: 1, H: 1})
     dimension = 16 - (A_one - 2 * sp.sqrt(2) * sp.I * sp.eye(16)).rank()
-    norm_factor = sp.integrate(sp.cos(6 * H * x[7]), (x[7], 0, sp.pi / (12 * H)))
+    norm_factor = sp.integrate(sp.cos(6 * H * x[0]), (x[0], 0, sp.pi / (12 * H)))
     report("dimension of the eigenspace of +2 sqrt(2) i at m = H = 1", dimension)
-    report("int_0^(pi/(12H)) cos(6 H x8) dx8", norm_factor)
+    report("int_0^(pi/(12H)) cos(6 H x0) dx0", norm_factor)
     all_true = ((A - sp.I * M.subs(alpha, 0)).applyfunc(sp.expand) == sp.zeros(16, 16)
                 and A != A.H
                 and A_squared == ((m**2 - 9 * H**2) * sp.eye(16)).applyfunc(sp.expand)
@@ -555,11 +559,11 @@ CELLS = [
                 and dimension == 8 and sp.simplify(norm_factor - 1 / (6 * H)) == 0)
     # The record states the same matrix, square, eigenvalues and norm in its text:
     check_record(all_true,
-                 "A = -i m g4 + 3 i H g4 g8: not Hermitian, A^2 = (m^2 - 9H^2) I16, "
+                 "A = -i m g4 + 3 i H g4 g0: not Hermitian, A^2 = (m^2 - 9H^2) I16, "
                  "eigenvalues +-2 sqrt(2) i at m = H = 1, finite norm 1/(6H)",
-                 SCOPE, "good_sector_x8_independent_modes_without_boundary_condition",
-                 f"cos(6 H x8) dx8 = {sp.sstr(norm_factor)})",
-                 "A = -i m gamma^(x4) + 3 i H gamma^(x4) gamma^(x8)",
+                 SCOPE, "good_sector_x0_independent_modes_without_boundary_condition",
+                 f"cos(6 H x0) dx0 = {sp.sstr(norm_factor)})",
+                 "A = -i m gamma^(x4) + 3 i H gamma^(x4) gamma^(x0)",
                  "A^2 = (m^2 - 9 H^2) I16 exactly",
                  f"the eigenvalues are +-2 sqrt(2) i ({dimension} each)")
     '''),
@@ -599,8 +603,8 @@ CELLS = [
     right.legend();
     save_figure(fig, "patch_end_modes",
                 "Left: the eigenvalues $\\pm\\sqrt{m^2 - 9H^2}$ of the matrix $A = "
-                "-im\\gamma^{(4)} + 3iH\\gamma^{(4)}\\gamma^{(8)}$, which acts on the "
-                "$x_8$-independent fields of the good sector, in the complex plane, "
+                "-im\\gamma^{(4)} + 3iH\\gamma^{(4)}\\gamma^{(0)}$, which acts on the "
+                "$x_0$-independent fields of the good sector, in the complex plane, "
                 "coloured by the mass $m$ from 0 to $5H$ ($H = 1$). For $m < 3H$ they "
                 "lie on the imaginary axis (the mode $e^{-iEx_4}$ grows, at most like "
                 "$e^{3Hx_4}$ at $m = 0$); at $m = 3H$ they meet at 0; for $m > 3H$ they "
@@ -612,77 +616,77 @@ CELLS = [
     md(r"""
     ## 10. The boundary term at the patch end
 
-    For fields of $x_4$ and $x_8$ the mode operator is $h = -im\gamma^{(4)} +
-    i\gamma^{(4)}\gamma^{(8)}(\tan z\,\partial_8 + 3H)$. With $M_8 = i\gamma^{(4)}
-    \gamma^{(8)}$ the record proves, for all columns $u(x_8)$, $v(x_8)$,
-    $$\cos z\,\big[u^\dagger(hv) - (hu)^\dagger v\big] = \partial_8\big(\sin z\,
-    u^\dagger M_8 v\big).$$
-    It follows from three matrix facts: $\cos z\cdot(i\tan z\,\gamma^{(4)}\gamma^{(8)})
-    = \sin z\,M_8$ (the coefficient of $\partial_8$); $\cos z\,(A - A^\dagger) =
-    (\partial_8\sin z)\,M_8$ for the algebraic part $A$; and the coefficient of
-    $\partial_8$ is anti-Hermitian. The next cell checks the three facts, the identity
+    For fields of $x_4$ and $x_0$ the mode operator is $h = -im\gamma^{(4)} +
+    i\gamma^{(4)}\gamma^{(0)}(\tan z\,\partial_0 + 3H)$. With $M_0 = i\gamma^{(4)}
+    \gamma^{(0)}$ the record proves, for all columns $u(x_0)$, $v(x_0)$,
+    $$\cos z\,\big[u^\dagger(hv) - (hu)^\dagger v\big] = \partial_0\big(\sin z\,
+    u^\dagger M_0 v\big).$$
+    It follows from three matrix facts: $\cos z\cdot(i\tan z\,\gamma^{(4)}\gamma^{(0)})
+    = \sin z\,M_0$ (the coefficient of $\partial_0$); $\cos z\,(A - A^\dagger) =
+    (\partial_0\sin z)\,M_0$ for the algebraic part $A$; and the coefficient of
+    $\partial_0$ is anti-Hermitian. The next cell checks the three facts, the identity
     itself for two explicit columns of polynomials with complex coefficients, and the
-    value at the patch end: for $u$ with $\gamma^{(4)}\gamma^{(8)}u = u$,
-    $u^\dagger M_8u = i\,u^\dagger u \neq 0$. So $h$ is symmetric for the norm
-    $\int\cos z\,u^\dagger v\,dx_8$ only up to $[\sin z\,u^\dagger M_8v]$, which
+    value at the patch end: for $u$ with $\gamma^{(4)}\gamma^{(0)}u = u$,
+    $u^\dagger M_0u = i\,u^\dagger u \neq 0$. So $h$ is symmetric for the norm
+    $\int\cos z\,u^\dagger v\,dx_0$ only up to $[\sin z\,u^\dagger M_0v]$, which
     vanishes at the tip ($\sin z \to 0$) but not at $z = \pi/2$ ($\sin z = 1$).
     """),
     code(r'''
-    M8 = sp.I * G[3] * G[7]
-    d8_coefficient = sp.I * sp.tan(z) * G[3] * G[7]  # the matrix in front of d8 in h
-    fact_1 = all(is_zero(v) for v in sp.cos(z) * d8_coefficient - sp.sin(z) * M8)
-    fact_2 = all(is_zero(v) for v in sp.cos(z) * (A - A.H) - sp.diff(sp.sin(z), x[7]) * M8)
-    fact_3 = (d8_coefficient + d8_coefficient.H).applyfunc(sp.simplify) == sp.zeros(16, 16)
-    X8 = x[7]
-    u_col = sp.Matrix([(A_ + 1) + sp.I * (2 * A_ - 3) * X8 + (A_ - 5) * X8**2 / 3
-                       for A_ in range(16)])  # a column of polynomials in x8
-    v_col = sp.Matrix([(3 - A_) * X8 + sp.I * (A_ + 2) + sp.I * A_ * X8**3 / 7
+    M0 = sp.I * G[4] * G[0]
+    d0_coefficient = sp.I * sp.tan(z) * G[4] * G[0]  # the matrix in front of d0 in h
+    fact_1 = all(is_zero(v) for v in sp.cos(z) * d0_coefficient - sp.sin(z) * M0)
+    fact_2 = all(is_zero(v) for v in sp.cos(z) * (A - A.H) - sp.diff(sp.sin(z), x[0]) * M0)
+    fact_3 = (d0_coefficient + d0_coefficient.H).applyfunc(sp.simplify) == sp.zeros(16, 16)
+    X0 = x[0]
+    u_col = sp.Matrix([(A_ + 1) + sp.I * (2 * A_ - 3) * X0 + (A_ - 5) * X0**2 / 3
+                       for A_ in range(16)])  # a column of polynomials in x0
+    v_col = sp.Matrix([(3 - A_) * X0 + sp.I * (A_ + 2) + sp.I * A_ * X0**3 / 7
                        for A_ in range(16)])
 
 
     def h_of(column):
-        """The mode operator h applied to a column of functions of x8 (U = 0)."""
-        return -sp.I * m * G[3] * column + sp.I * G[3] * G[7] * (
-            sp.tan(z) * sp.diff(column, X8) + 3 * H * column)
+        """The mode operator h applied to a column of functions of x0 (U = 0)."""
+        return -sp.I * m * G[4] * column + sp.I * G[4] * G[0] * (
+            sp.tan(z) * sp.diff(column, X0) + 3 * H * column)
 
 
     left_side = sp.cos(z) * ((u_col.H * h_of(v_col))[0] - (h_of(u_col).H * v_col)[0])
-    right_side = sp.diff(sp.sin(z) * (u_col.H * M8 * v_col)[0], X8)
-    u0 = (G[3] * G[7] - sp.eye(16)).nullspace()[0]  # gamma^(4) gamma^(8) u0 = u0
-    flux = sp.simplify((u0.H * M8 * u0)[0])
+    right_side = sp.diff(sp.sin(z) * (u_col.H * M0 * v_col)[0], X0)
+    u0 = (G[4] * G[0] - sp.eye(16)).nullspace()[0]  # gamma^(4) gamma^(0) u0 = u0
+    flux = sp.simplify((u0.H * M0 * u0)[0])
     size_u0 = (u0.H * u0)[0]
-    report("u0^dagger M8 u0 and u0^dagger u0", f"{flux}, {size_u0}")
+    report("u0^dagger M0 u0 and u0^dagger u0", f"{flux}, {size_u0}")
     # The record states the same identity and the same flux (sympy writes i as I):
     check_record(fact_1 and fact_2 and fact_3 and is_zero(left_side - right_side)
                  and flux == 2 * sp.I and size_u0 == 2,
-                 "cos z (u^dagger h v - (h u)^dagger v) = d8(sin z u^dagger M8 v); at "
-                 "z = pi/2 the flux u0^dagger M8 u0 = 2 i is not zero",
+                 "cos z (u^dagger h v - (h u)^dagger v) = d0(sin z u^dagger M0 v); at "
+                 "z = pi/2 the flux u0^dagger M0 u0 = 2 i is not zero",
                  SCOPE, "good_sector_hermiticity_up_to_the_brane_flux",
-                 "cos z [u^dagger (h v) - (h u)^dagger v] = d_x8(sin z u^dagger M8 v)",
-                 f"u^dagger M8 u = {sp.sstr(flux)} (|u|^2 = {sp.sstr(size_u0)})")
+                 "cos z [u^dagger (h v) - (h u)^dagger v] = d_x0(sin z u^dagger M0 v)",
+                 f"u^dagger M0 u = {sp.sstr(flux)} (|u|^2 = {sp.sstr(size_u0)})")
     '''),
     md(r"""
     ## 11. A growing mode is fed through the patch end
 
     Integrate the identity of section 10 over the hidden direction. For a solution of
     $i\,\partial_4\Psi = h\Psi$ the norm $N(x_4) = \int_0^{\pi/(12H)}\cos z\,
-    \Psi^\dagger\Psi\,dx_8$ changes, line by line, as
+    \Psi^\dagger\Psi\,dx_0$ changes, line by line, as
     $\frac{dN}{dx_4} = \int\cos z\,\big[(-ih\Psi)^\dagger\Psi + \Psi^\dagger(-ih\Psi)
-    \big]dx_8 = -i\int\cos z\,\big[\Psi^\dagger h\Psi - (h\Psi)^\dagger\Psi\big]dx_8
-    = -i\big[\sin z\,\Psi^\dagger M_8\Psi\big]_{\rm tip}^{\rm end} =
-    \Psi^\dagger\gamma^{(4)}\gamma^{(8)}\Psi\big|_{z = \pi/2}$:
+    \big]dx_0 = -i\int\cos z\,\big[\Psi^\dagger h\Psi - (h\Psi)^\dagger\Psi\big]dx_0
+    = -i\big[\sin z\,\Psi^\dagger M_0\Psi\big]_{\rm tip}^{\rm end} =
+    \Psi^\dagger\gamma^{(4)}\gamma^{(0)}\Psi\big|_{z = \pi/2}$:
     the norm changes ONLY through the patch end. The next cell follows the
-    $x_8$-independent mode $\Psi = e^{-iAx_4}\chi_0$ with $m = H = 1$ (so
+    $x_0$-independent mode $\Psi = e^{-iAx_4}\chi_0$ with $m = H = 1$ (so
     $N = \Psi^\dagger\Psi/(6H)$) from a fixed random column $\chi_0$, computes
     $dN/dx_4 = 2\,\mathrm{Re}\big(\Psi^\dagger(-iA\Psi)\big)/(6H)$ and the flux
-    $\Psi^\dagger\gamma^{(4)}\gamma^{(8)}\Psi$, checks that they agree, and draws them.
+    $\Psi^\dagger\gamma^{(4)}\gamma^{(0)}\Psi$, checks that they agree, and draws them.
     Interpretation (labelled): the growth is fed through the patch end; a boundary
     condition at $z = \pi/2$ that stops this flux would change the spectrum, and which
     condition is physical is a question this notebook does not decide.
     """),
     code(r'''
     A_num = np.array(A_number(1.0, 1.0), dtype=complex)  # m = H = 1
-    g4g8 = np.array(G[3] * G[7], dtype=float)  # real symmetric
+    g4g0 = np.array(G[4] * G[0], dtype=float)  # real symmetric
     rng = np.random.default_rng(12345)  # fixed seed: the same column in every run
     chi_start = rng.normal(size=16) + 1j * rng.normal(size=16)
     chi_start = chi_start / np.linalg.norm(chi_start)
@@ -694,7 +698,7 @@ CELLS = [
             - 1j * np.sin(omega * x4) / omega * (A_num @ chi_start)  # e^(-i A x4) chi
         norms.append(np.vdot(state, state).real / 6.0)  # N = Psi^dagger Psi / (6 H)
         slopes.append(2 * np.vdot(state, -1j * (A_num @ state)).real / 6.0)  # dN/dx4
-        fluxes.append(np.vdot(state, g4g8 @ state).real)  # flux at z = pi/2
+        fluxes.append(np.vdot(state, g4g0 @ state).real)  # flux at z = pi/2
     norms, slopes, fluxes = map(np.array, (norms, slopes, fluxes))
     agreement = np.max(np.abs(slopes - fluxes) / np.maximum(np.abs(fluxes), 1.0))
     check(agreement < 1e-12, "dN/dx4 equals the flux through the patch end at every x4")
@@ -705,7 +709,7 @@ CELLS = [
     left.semilogy(times, norms)
     left.set_xlabel("time $x_4$ (units of $1/H$)")
     left.set_ylabel("norm $N(x_4)$")
-    left.set_title("The $x_8$-independent mode, $m = H = 1$")
+    left.set_title("The $x_0$-independent mode, $m = H = 1$")
     right.plot(times, slopes, label="$dN/dx_4$")
     right.plot(times[::10], fluxes[::10], "o", color="black", markersize=4,
                label="flux at $z = \\pi/2$")
@@ -717,14 +721,14 @@ CELLS = [
     right.set_title("Rate of change of the norm = flux")
     right.legend();
     save_figure(fig, "norm_and_flux",
-                "An $x_8$-independent mode of the good sector, $\\Psi = e^{-iAx_4}"
+                "An $x_0$-independent mode of the good sector, $\\Psi = e^{-iAx_4}"
                 "\\chi_0$ with $m = H = 1$ and a fixed random start $\\chi_0$, against "
                 "the time $x_4$ in units of $1/H$. Left, on a logarithmic axis: its "
-                "norm $N = \\int\\cos z\\,\\Psi^\\dagger\\Psi\\,dx_8$, which first dips "
+                "norm $N = \\int\\cos z\\,\\Psi^\\dagger\\Psi\\,dx_0$, which first dips "
                 "and then grows like $e^{4\\sqrt2\\,x_4}$. Right, on an axis that is "
                 "linear between $-1$ and $1$ and logarithmic outside: the rate of "
                 "change $dN/dx_4$ (line) and the flux $\\Psi^\\dagger\\gamma^{(4)}"
-                "\\gamma^{(8)}\\Psi$ through the patch end $z = \\pi/2$ (dots). They "
+                "\\gamma^{(0)}\\Psi$ through the patch end $z = \\pi/2$ (dots). They "
                 "coincide at every time, also in the short first phase in which the "
                 "flux is negative and the norm decreases: the norm changes only "
                 "through the patch end, where the Revision record imposes no boundary "
@@ -748,25 +752,25 @@ CELLS = [
     ## 13. What this notebook showed
 
     - The spin connection of the record makes the gammas covariantly constant, and
-      $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$ in the diagonal frame (PROVED).
+      $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$ in the diagonal frame (PROVED).
     - The rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes this term exactly: $\gamma^\mu
       D_\mu\Psi = \sin^{-1/2}z\,\gamma^\mu\partial_\mu\chi$ for every $\chi$, so for
       $U = 0$ the equation for $\chi$ has no spin-connection term, and for $U =
-      \frac{\lambda}{2}S^2$ the term reappears as the $x_8$-dependent coupling
+      \frac{\lambda}{2}S^2$ the term reappears as the $x_0$-dependent coupling
       $\lambda S[\chi]/\sin z$ (PROVED). The weight moves into the measure: the norm of
       $\Psi$ is $\int\chi^\dagger\chi\,dy$. Together with the frame dependence of
       the term, this is the exact scope of the statement "the field equation contains
-      $3H\gamma^{(8)}$": it belongs to one frame AND one choice of field variables.
+      $3H\gamma^{(0)}$": it belongs to one frame AND one choice of field variables.
     - The exact family $\sin^\alpha z\,e^{Mx_4}\chi_0$ solves the field equation for
       every $a_4$ (PROVED); its member $\alpha = -\frac12$ contains no $H$. Members with
       $3H|2\alpha + 1| > m$ grow; members with $\alpha > -\frac12$ have a finite norm at
       the tip; for every mass some member does both (PROVED here; the record states the
       case $\alpha = 0$, $m < 3H$).
-    - The $x_8$-independent modes of the good sector grow for $m < 3H$ (at $m = H = 1$
+    - The $x_0$-independent modes of the good sector grow for $m < 3H$ (at $m = H = 1$
       with rate $2\sqrt2$) and have a finite norm (PROVED; Revision check
-      `good_sector_x8_independent_modes_without_boundary_condition`).
+      `good_sector_x0_independent_modes_without_boundary_condition`).
     - The mode operator is symmetric only up to the boundary term $[\sin z\,u^\dagger
-      M_8v]$, which does not vanish at the patch end $z = \pi/2$ (PROVED), and the norm
+      M_0v]$, which does not vanish at the patch end $z = \pi/2$ (PROVED), and the norm
       of the growing mode changes exactly by the flux through the patch end (COMPUTED,
       to rounding). Without a boundary condition at $z = \pi/2$ the initial-value
       problem of the good sector therefore has growing solutions; which boundary

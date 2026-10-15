@@ -101,10 +101,10 @@ CELLS = [
       checks the 64 Clifford relations;
     - builds the *mode matrix* $h_k$ of a plane wave with frozen coefficients and proves
       exactly (with sympy) that $h_k^2 = E^2\,I_{16}$ with
-      $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$;
+      $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$;
     - shows that a wave with a large momentum $K$ along an extra time does not oscillate
       but GROWS like $e^{\kappa x_4}$ with the growth rate
-      $\kappa = \sqrt{K^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$, and that $\kappa$ has
+      $\kappa = \sqrt{K^2 - m^2 - k_0^2 - k_1^2 - k_2^2 - k_3^2}$, and that $\kappa$ has
       no upper bound;
     - solves the wave equation in time in two independent ways (an exact formula and a
       step-by-step numerical method) and compares them;
@@ -122,17 +122,18 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates** $x_1, \dots, x_8$ (the author's names): $x_1, x_2, x_3$ ordinary
+    - **Coordinates** $x_0, \dots, x_7$ (the author's names): $x_1, x_2, x_3$ ordinary
       space (it inflates); $x_4$ the time; $x_5, x_6, x_7$ the three *extra times*,
       time-like directions that DEFLATE exponentially (their lengths carry the factor
-      $e^{-a_4}\sin^{1/6} z$ with $a_4$ increasing); $x_8$ the hidden space direction,
-      $z = 6 H x_8$ between $0$ and $\pi/2$.
-    - **Gamma matrices** $\gamma^{(1)}, \dots, \gamma^{(8)}$: sixteen-by-sixteen matrices
+      $e^{-a_4}\sin^{1/6} z$ with $a_4$ increasing); $x_0$ the hidden space direction,
+      $z = 6 H x_0$ between $0$ and $\pi/2$.
+    - **Gamma matrices** $\gamma^{(0)}, \dots, \gamma^{(7)}$: sixteen-by-sixteen matrices
       of the numbers $0, 1, -1$ with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)}
       = 2\eta^{ab} I_{16}$ (the *Clifford relation*), $\eta = \mathrm{diag}(+1, +1, +1,
-      -1, -1, -1, -1, +1)$: a gamma squares to $+1$ for a space-like direction and to
+      +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$: a gamma squares to $+1$ for a
+      space-like direction and to
       $-1$ for a time-like one. $I_{16}$ is the unit matrix.
-    - **Plane wave**: a field of the form $\Psi = u\, e^{i(k_1 x_1 + \dots + k_8 x_8)
+    - **Plane wave**: a field of the form $\Psi = u\, e^{i(k_0 x_0 + \dots + k_7 x_7)
       - i E x_4}$ (no $k_4$ term) with a constant column $u$ of 16 complex numbers.
       $k_a$ is the *wave number* or *momentum* along $x_a$ (radians of phase per unit
       length) and $E$ the *frequency*.
@@ -174,18 +175,22 @@ CELLS = [
 
     The field equation (with $U = 0$) in the author's metric, in the diagonal frame, is
 
-    $$e^{-a_4}\sin^{-1/6}z\,\gamma^{(i)}\partial_i\Psi + \gamma^{(4)}\partial_4\Psi
-    + e^{a_4}\sin^{-1/6}z\,\gamma^{(t)}\partial_t\Psi + \tan z\,\gamma^{(8)}\partial_8\Psi
-    + 3H\gamma^{(8)}\Psi = m\Psi$$
+    $$\tan z\,\gamma^{(0)}\partial_0\Psi + e^{-a_4}\sin^{-1/6}z\,\gamma^{(i)}\partial_i\Psi
+    + \gamma^{(4)}\partial_4\Psi + e^{a_4}b_4^{-1/2}\sin^{-1/6}z\,\gamma^{(t)}\partial_t\Psi
+    + M\Psi = m\Psi$$
 
-    (sums over $i = 1, 2, 3$ and $t = 5, 6, 7$). The term $3H\gamma^{(8)}\Psi$ disappears
-    exactly in the variables $\chi = \sin^{1/2}z\,\Psi$ (Revision check
-    `rescaling_removes_the_connection_term`). With frozen coefficients the factors
-    $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$ become constants and are absorbed into the
-    frame momenta $k_a$; in flat 4 + 4 space they are exactly 1. (Freezing them is a
-    local MODEL: along the history $a_4(x_4)$ the extra-time factor $e^{a_4}$ keeps
-    growing, so the frame momentum of a given wave along an extra time keeps growing
-    too; Notebook 08b computes that.) So for a plane wave the equation reads, line by
+    (sums over $i = 1, 2, 3$ and $t = 5, 6, 7$; $b_4(x_4) > 0$ is the second function
+    of the author's metric, and the backgrounds of the record have $b_4 = 1$). $M =
+    3H\gamma^{(0)} + \frac34(b_4'/b_4)\gamma^{(4)}$ is the gravitational term (Chapter
+    6); it has no derivative, so it does not change the growth of short waves. It
+    disappears exactly in the variables $\chi = \sin^{1/2}z\,b_4^{3/4}\Psi$ (Revision
+    check `rescaling_removes_the_connection_term`, at $b_4 = 1$). With frozen
+    coefficients the factors $e^{-a_4}\sin^{-1/6}z$, $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ and
+    $\tan z$ become constants and are absorbed into the frame momenta $k_a$; in flat
+    4 + 4 space they are exactly 1. (Freezing them is a local MODEL: along the history
+    $a_4(x_4)$ the extra-time factor $e^{a_4}$ keeps growing, so the frame momentum of
+    a given wave along an extra time keeps growing too; Notebook 08b computes that on
+    the background $b_4 = 1$.) So for a plane wave the equation reads, line by
     line:
 
     1. $\gamma^{(4)}(-iE)u + \sum_{a \neq 4} i k_a \gamma^{(a)} u = m u$, because
@@ -197,9 +202,9 @@ CELLS = [
        k_a\gamma^{(a)}$.
 
     Squaring $h_k$ with the Clifford relation gives $h_k^2 = E^2 I_{16}$ with
-    $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$: the
+    $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$: the
     extra-time momenta enter with a MINUS sign, because the extra times are time-like.
-    When $k_5^2 + k_6^2 + k_7^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$, $E^2 < 0$, the
+    When $k_5^2 + k_6^2 + k_7^2 > m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2$, $E^2 < 0$, the
     frequencies are $\pm i\kappa$, and half of the waves grow like $e^{\kappa x_4}$.
 
     Units: $m$, every $k_a$ and $\kappa$ are measured in the same unit (an inverse
@@ -219,7 +224,8 @@ CELLS = [
     `Revision/algebra/gammas.json`, turns the eight gamma matrices and the matrix $B$
     into numpy arrays and checks the Clifford relation for all $8 \times 8 = 64$
     ordered pairs $(a, b)$ with exact integer arithmetic. In Python lists count from 0,
-    so $\gamma^{(x_1)}$ is `GAMMA[0]` and $\gamma^{(x_4)}$ is `GAMMA[3]`. Last, it
+    like the author's coordinates: $\gamma^{(x_0)}$ is `GAMMA[0]` and $\gamma^{(x_4)}$
+    is `GAMMA[4]`. Last, it
     checks $(\gamma^{(x_4)})^2 = -I_{16}$: multiplying the field equation by
     $-\gamma^{(x_4)}$ solves it for $\partial_4\Psi$, so the field equation says how the
     field changes in the time $x_4$ (the slices $x_4 = $ const are *non-characteristic*).
@@ -257,7 +263,7 @@ CELLS = [
         repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
     # The record stores every matrix as a list of rows of whole numbers.
     GAMMA = [np.array(rows, dtype=int) for rows in gammas_record["gamma"]]
-    ETA = gammas_record["eta"]  # [1, 1, 1, -1, -1, -1, -1, 1] in the order x1 ... x8
+    ETA = gammas_record["eta"]  # [1, 1, 1, 1, -1, -1, -1, -1] in the order x0 ... x7
     # B = -i C gamma^(x4) is stored as its real part and its imaginary part.
     B = np.array(gammas_record["B"]["re"]) + 1j * np.array(gammas_record["B"]["im"])
     I16 = np.eye(16, dtype=int)  # the 16 x 16 unit matrix
@@ -273,7 +279,7 @@ CELLS = [
           "B is Hermitian and B^2 = 1")
     # (gamma^(x4))^2 = -1: the field equation can be solved for d4 Psi (multiply it by
     # -gamma^(x4)), so the slices x4 = const are non-characteristic.
-    check_record(np.array_equal(GAMMA[3] @ GAMMA[3], -I16),
+    check_record(np.array_equal(GAMMA[4] @ GAMMA[4], -I16),
                  "(gamma^(x4))^2 = -1: the slices x4 = const are non-characteristic",
                  "Revision/theory/reports/wolfram-field-theory.json", "evolution_form_G",
                  "the slices x4 = const are non-characteristic")
@@ -294,24 +300,24 @@ CELLS = [
     """),
     code(r'''
     m = sp.Symbol("m", real=True)  # the mass
-    k = {a: sp.Symbol(f"k{a}", real=True) for a in (1, 2, 3, 5, 6, 7, 8)}  # momenta
+    k = {a: sp.Symbol(f"k{a}", real=True) for a in (0, 1, 2, 3, 5, 6, 7)}  # momenta
     G = [sp.Matrix(rows) for rows in gammas_record["gamma"]]  # the gammas, exact
     B_exact = sp.I * sp.Matrix(gammas_record["B"]["im"])  # B is purely imaginary
-    g4 = G[3]  # gamma^(x4)
+    g4 = G[4]  # gamma^(x4)
     momentum_part = sp.zeros(16, 16)
-    for a, k_a in k.items():  # a runs over 1, 2, 3, 5, 6, 7, 8
-        momentum_part += k_a * g4 * G[a - 1]  # k_a gamma^(x4) gamma^(xa)
+    for a, k_a in k.items():  # a runs over 0, 1, 2, 3, 5, 6, 7
+        momentum_part += k_a * g4 * G[a]  # k_a gamma^(x4) gamma^(xa)
     h = -sp.I * m * g4 - momentum_part  # the mode matrix h_k
-    E2 = m**2 + k[1]**2 + k[2]**2 + k[3]**2 + k[8]**2 - k[5]**2 - k[6]**2 - k[7]**2
+    E2 = m**2 + k[0]**2 + k[1]**2 + k[2]**2 + k[3]**2 - k[5]**2 - k[6]**2 - k[7]**2
     say(f"E^2 = {E2}")
     square_minus_E2 = (h * h - E2 * sp.eye(16)).applyfunc(sp.expand)
     square_ok = square_minus_E2 == sp.zeros(16, 16)
     # The two independent Revision verifiers print E^2 in their own notations: sympy
     # writes powers with **, the Wolfram verifier with ^. Both texts must hold this E^2.
-    E2_sympy_text = sp.sstr(E2)  # "k1**2 + k2**2 + ... + m**2"
-    E2_wolfram_text = E2_sympy_text.replace("**", "^")  # "k1^2 + k2^2 + ... + m^2"
+    E2_sympy_text = sp.sstr(E2)  # "k0**2 + k1**2 + ... + m**2"
+    E2_wolfram_text = E2_sympy_text.replace("**", "^")  # "k0^2 + k1^2 + ... + m^2"
     check_record(square_ok,
-                 "h_k^2 = E^2 I16, E^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 "
+                 "h_k^2 = E^2 I16, E^2 = m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 "
                  "- k7^2", "Revision/theory/reports/python-scope.json",
                  "extra_time_growth_rates_unbounded", f"h_k^2 = ({E2_sympy_text}) I16")
     check_record(square_ok, "the same E^2 in the independent Wolfram verifier",
@@ -335,7 +341,7 @@ CELLS = [
     """),
     code(r'''
     anti = ((h - h.H) / 2).applyfunc(sp.expand)  # the anti-Hermitian part of h_k
-    extra_time_part = -(k[5] * g4 * G[4] + k[6] * g4 * G[5] + k[7] * g4 * G[6])
+    extra_time_part = -(k[5] * g4 * G[5] + k[6] * g4 * G[6] + k[7] * g4 * G[7])
     check((anti - extra_time_part).applyfunc(sp.expand) == sp.zeros(16, 16),
           "the anti-Hermitian part of h_k is the extra-time part")
     anti_square = (anti * anti).applyfunc(sp.expand)
@@ -354,7 +360,7 @@ CELLS = [
     `-sqrt(3)*I` and `sqrt(3)*I` (`I` is sympy's $i$); the check compares with that text.
     """),
     code(r'''
-    sample = {m: 1, k[5]: 2, k[1]: 0, k[2]: 0, k[3]: 0, k[6]: 0, k[7]: 0, k[8]: 0}
+    sample = {m: 1, k[5]: 2, k[0]: 0, k[1]: 0, k[2]: 0, k[3]: 0, k[6]: 0, k[7]: 0}
     h_sample = h.subs(sample)  # an exact matrix of numbers
     check(h_sample * h_sample == -3 * sp.eye(16), "m = 1, k5 = 2: h^2 = -3 I16")
     dimension = 16 - (h_sample - sp.I * sp.sqrt(3) * sp.eye(16)).rank()
@@ -392,10 +398,10 @@ CELLS = [
     code(r'''
     def mode_matrix(mass, momenta):
         """h_k = -i m gamma^(x4) - gamma^(x4) sum_a k_a gamma^(xa); momenta: {a: k_a}."""
-        g4n = GAMMA[3]
+        g4n = GAMMA[4]
         result = -1j * mass * g4n.astype(complex)
-        for a, k_a in momenta.items():
-            result = result - k_a * (g4n @ GAMMA[a - 1])
+        for a, k_a in momenta.items():  # a is the direction: GAMMA[a] is gamma^(xa)
+            result = result - k_a * (g4n @ GAMMA[a])
         return result
 
 
@@ -633,7 +639,7 @@ CELLS = [
     up to $x_4 = 4$ and compares both, then checks two exact statements of the pairing
     record on its samples: the eight-dimensional eigenspace of a growing frequency
     ($m = 1$, $k_5 = 2$) carries the Krein form zero (every $u^\dagger B v$ vanishes on
-    it), while an eigenspace of a real frequency ($m = 1$, $k_1 = 2$, $k_8 = 2$, $E = 3$)
+    it), while an eigenspace of a real frequency ($m = 1$, $k_1 = 2$, $k_0 = 2$, $E = 3$)
     carries a Krein form with four positive and four negative directions (*inertia*
     (4, 4)). Both checks compare the dimensions and the inertia found here with the
     text of the pairing record (which calls the frequency $w$).
@@ -664,14 +670,14 @@ CELLS = [
                  "m = 1, k5 = 2: the 8-dim eigenspace of +i sqrt(3) is Krein-neutral",
                  "Revision/pairing/reports/python-pairing.json",
                  "Q.one_particle_complex_frequency_Krein_neutral",
-                 "(0, 0, 0, 2, 0, 0, 0): w^2 = -3, eigenspace dimensions "
+                 "(0, 0, 0, 0, 2, 0, 0): w^2 = -3, eigenspace dimensions "
                  f"[{V_grow.shape[1]}, {V_grow.shape[1]}], B-form identically zero: True")
-    V_real = eigenspace(mode_matrix(1.0, {1: 2.0, 8: 2.0}), 3.0)
+    V_real = eigenspace(mode_matrix(1.0, {0: 2.0, 1: 2.0}), 3.0)
     form_real = np.linalg.eigvalsh(V_real.conj().T @ B @ V_real)  # Hermitian 8 x 8
     inertia = (int(np.sum(form_real > 1e-9)), int(np.sum(form_real < -1e-9)))
-    report("Krein inertia of the eigenspace of E = 3 (m = 1, k1 = k8 = 2)", inertia)
+    report("Krein inertia of the eigenspace of E = 3 (m = 1, k0 = k1 = 2)", inertia)
     check_record(V_real.shape[1] == 8 and inertia == (4, 4),
-                 "m = 1, k1 = k8 = 2: the eigenspace of E = 3 has Krein inertia (4, 4)",
+                 "m = 1, k0 = k1 = 2: the eigenspace of E = 3 has Krein inertia (4, 4)",
                  "Revision/pairing/reports/python-pairing.json",
                  "Q.one_particle_Krein_inertia",
                  f"w = 3: dim {V_real.shape[1]}, Krein inertia ({inertia[0]},{inertia[1]})")
@@ -708,7 +714,7 @@ CELLS = [
     along the second they meet at 0 when $K = 1$ and then leave the real axis.
     """),
     code(r'''
-    good = mode_matrix(1.3, {1: 0.4, 2: -1.1, 3: 0.7, 8: 2.2})  # no k5, k6, k7
+    good = mode_matrix(1.3, {0: 2.2, 1: 0.4, 2: -1.1, 3: 0.7})  # no k5, k6, k7
     good_eigenvalues = np.linalg.eigvals(good)
     E_good = np.sqrt(1.3**2 + 0.4**2 + 1.1**2 + 0.7**2 + 2.2**2)
     check_record(np.allclose(good, good.conj().T) and np.allclose(good @ B, B @ good)
@@ -762,7 +768,7 @@ CELLS = [
 
     - With the author's gamma matrices the mode matrix of a plane wave (frozen
       coefficients) satisfies $h_k^2 = E^2 I_{16}$ exactly, with
-      $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$ (PROVED, exact
+      $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_0^2 - k_5^2 - k_6^2 - k_7^2$ (PROVED, exact
       sympy; Revision check `extra_time_growth_rates_unbounded`).
     - $h_k$ is Hermitian exactly when there is no extra-time momentum; in the good
       sector every frequency is real (PROVED).
