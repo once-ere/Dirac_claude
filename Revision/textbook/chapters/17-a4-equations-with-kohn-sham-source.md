@@ -11,9 +11,9 @@ Chapters 14 to 16 computed the Kohn-Sham states of the field dirac16complex in t
 **What is derived, in order.**
 
 - The field equations of $a_4$ and the most general source they allow (Section 17.3).
-- The three **source conditions**: no dependence on the hidden coordinate $x_8$ (C1, Section 17.4), the algebraic condition $p_3 + p_t = 2p_8$ (C2, Section 17.5), and, for the linear history $a_4 = AHx_4 + a_0$, equal pressures and a constant energy density (C3, Section 17.6).
+- The three **source conditions**: no dependence on the hidden coordinate $x_0$ (C1, Section 17.4), the algebraic condition $p_3 + p_t = 2p_0$ (C2, Section 17.5), and, for the linear history $a_4 = AHx_4 + a_0$, equal pressures and a constant energy density (C3, Section 17.6). They are derived on the background $b_4 = 1$ of the author's metric of 2026-10-14, on which the Kohn-Sham states are computed; the record states that the verdict holds for every second function $b_4(x_4)$: C1 holds unchanged, so the $x_0$-dependent Kohn-Sham profiles are not an admissible source for any $b_4$ (`Revision/field_equations_a4/reports/ks-source-conditions.json`, check `ks_verdict_holds_for_every_b4`; Section 12.12 gives the field equations with $b_4$).
 - What the 75 recorded Kohn-Sham ground states are and which numbers of them we use (Section 17.7); then Notebook 17a, which evaluates C1, C2 and C3 on all of them (Sections 17.8 to 17.11).
-- Why the states fail: every source of the field equations must be conserved, and what the Kohn-Sham states conserve (Section 17.12); the conservation law in the hidden coordinate $y$ (Section 17.13); for a conserved source C2 says exactly that the hidden pressure $p_8$ is flat (Section 17.14); the integrated form and the averaged ratio (Section 17.15); the energy exchange along the history and the propagation of the constraint, which turn C3 into $p_3 = p_t$ (Section 17.16).
+- Why the states fail: every source of the field equations must be conserved, and what the Kohn-Sham states conserve (Section 17.12); the conservation law in the hidden coordinate $y$ (Section 17.13); for a conserved source C2 says exactly that the hidden pressure $p_0$ is flat (Section 17.14); the integrated form and the averaged ratio (Section 17.15); the energy exchange along the history and the propagation of the constraint, which turn C3 into $p_3 = p_t$ (Section 17.16).
 - The field equations averaged over the hidden direction: the moment equations, which of them can hold together, their first integral, and what can and cannot be integrated with the Kohn-Sham source, within a stated approximation (Section 17.17); then Notebook 17b (Sections 17.18 to 17.21).
 - What "prescribed background" means, and what remains open (Section 17.22); the summary of statuses (Section 17.23); exercises with complete answers (Section 17.24).
 
@@ -40,12 +40,12 @@ Neither needs Rust: both read the stored results of the Revision Rust solver and
 
 Each word is defined in plain terms here; the later sections make each definition precise with formulas.
 
-- **Coordinates** $x_1, \dots, x_8$, in the author's order: $x_1, x_2, x_3$ are ordinary 3-space, which inflates; $x_4$ is the time; $x_5, x_6, x_7$ are the three **extra times**, which behave like time and **deflate exponentially**; $x_8$ is the hidden space direction. The angle $z = 6Hx_8$ runs from $0$ to $\pi/2$; $H > 0$ is a constant of the author's metric, with the unit of an inverse length.
+- **Coordinates** $x_0, \dots, x_7$, in the author's order: $x_1, x_2, x_3$ are ordinary 3-space, which inflates; $x_4$ is the time; $x_5, x_6, x_7$ are the three **extra times**, which behave like time and **deflate exponentially**; $x_0$ is the hidden space direction. The angle $z = 6Hx_0$ runs from $0$ to $\pi/2$; $H > 0$ is a constant of the author's metric, with the unit of an inverse length.
 - **Prime**: on $a_4$ it means the derivative with respect to the time, $a_4' = da_4/dx_4$, $a_4'' = d^2a_4/dx_4^2$; the code writes them `ad1` and `ad2`. On a function of the hidden coordinate it means $d/dy$; we always say which.
-- **Hidden coordinate** $y = \ln(\sin z)/(6H)$: a second way to number the points of the hidden direction, used by the Kohn-Sham computations. It grows when $x_8$ grows. $y = 0$ is the end $z = \pi/2$, called the **brane**; $y \to -\infty$ is the end $z \to 0$, called the **tip**. The Kohn-Sham computations stop at $y = -L = -3$, the **tip cutoff**; the region $-3 \le y \le 0$ is the **patch**.
+- **Hidden coordinate** $y = \ln(\sin z)/(6H)$: a second way to number the points of the hidden direction, used by the Kohn-Sham computations. It grows when $x_0$ grows. $y = 0$ is the end $z = \pi/2$, called the **brane**; $y \to -\infty$ is the end $z \to 0$, called the **tip**. The Kohn-Sham computations stop at $y = -L = -3$, the **tip cutoff**; the region $-3 \le y \le 0$ is the **patch**.
 - **Metric**, **scale factor**: the table $g_{\mu\nu}$ that turns coordinate steps into squared lengths, and the number $\sqrt{|g_{\mu\mu}|}$ by which a step along one direction must be multiplied to give a length.
 - **Field equations of gravity**: $\sum_{k=1}^{3}\alpha_kE_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu_\nu = \kappa\,T^\mu{}_\nu$. On the left are the three **Lovelock tensors** $E_{(1)}$ (the Einstein tensor), $E_{(2)}$ (the Gauss-Bonnet tensor) and $E_{(3)}$, built from the curvature of the metric, weighted by the **couplings** $\alpha_1, \alpha_2, \alpha_3$, and the **cosmological constant** $\Lambda$. $\kappa > 0$ measures the strength of gravity. **Einstein gravity** is $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$. The symbol $\delta^\mu_\nu$ is 1 when $\mu = \nu$ and 0 otherwise.
-- **Energy-momentum tensor** $T^\mu{}_\nu$, also called the **source**: an $8 \times 8$ table at every point that says how much energy and momentum the matter has and how they flow. Its diagonal parts are the **energy density** $\rho = -T^{x_4}{}_{x_4}$ and the **pressures** $p_3$ (each direction of 3-space), $p_t$ (each extra time) and $p_8$ (the hidden direction); its possible **mixed** parts are $q_{48} = T^{x_4}{}_{x_8}$ and $q_{84} = T^{x_8}{}_{x_4}$.
+- **Energy-momentum tensor** $T^\mu{}_\nu$, also called the **source**: an $8 \times 8$ table at every point that says how much energy and momentum the matter has and how they flow. Its diagonal parts are the **energy density** $\rho = -T^{x_4}{}_{x_4}$ and the **pressures** $p_3$ (each direction of 3-space), $p_t$ (each extra time) and $p_0$ (the hidden direction); its possible **mixed** parts are $q_{40} = T^{x_4}{}_{x_0}$ and $q_{04} = T^{x_0}{}_{x_4}$.
 - **Admissible source**: a source for which the field equations of the author's metric can hold. **Source conditions** C1, C2, C3: the three conditions that an admissible source must meet (Sections 17.4 to 17.6).
 - **Linear member**: the history $a_4 = AHx_4 + a_0$ with constants $A$ (the **slope**) and $a_0$. For $A > 0$ the extra-time scale factor $e^{-a_4}$ shrinks exponentially. The history of the Kohn-Sham computations is $A = 1$, $a_0 = 0$.
 - **Slice**: one instant of the history, labelled by the value $a_{4,0}$ of $a_4$ there; the Kohn-Sham states were computed at the five slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$.
@@ -53,9 +53,9 @@ Each word is defined in plain terms here; the later sections make each definitio
 - Words of the Kohn-Sham method used again here (Chapters 13 to 15 define them in full): an **orbital** is the wave of one quantum, and an **eigen-orbital** one that solves the Kohn-Sham equation with a definite energy; the **Fermi level** is the energy that separates the occupied orbitals from the empty ones; a state is **self-consistent** when the potentials computed from its own density are the potentials its orbitals were computed with; the **good sector** is the set of orbitals that do not depend on the extra times $x_5, x_6, x_7$; the **Z2 mirror** is the ASSUMED rule that the hidden direction continues beyond the brane as a mirror image of the computed patch, with the field there fixed by the field on the computed side (Chapter 14 states the rule; record `Revision/kohn_sham/ks-theory.json`, key `boundaryConditions.brane`).
 - More words of the Kohn-Sham computations: a **shell** is a group of orbitals with the same energy, and a **closed shell** is a particle number $N$ that fills every orbital up to some energy completely and none above it (so the ground state is unique); the **first-order mean-field potential** is the potential that one quantum feels from the others when the interaction is counted once, to first order in the coupling $\lambda$, with the density of the free gas; **fixed occupations** means that the same orbitals stay filled when $a_4$ is changed a little, even if their energies move.
 - **Least squares**: the straight line through a set of points that makes the sum of the squared vertical distances of the points from the line as small as possible.
-- **Moment** of a field equation: the equation multiplied by the volume weight $e^{6Hy}$ and integrated over the patch; it involves the source only through its weighted means $\bar\rho$, $\bar p_3$, $\bar p_t$, $\bar p_8$. **First integral**: an equation with only first derivatives that every solution of a second-order equation obeys. **Cubic Hermite interpolation**: between two tabulated points, the cubic polynomial with the given values and the given slopes at both ends. **Turning point**: the value of $a_4$ where $a_4'$ reaches 0. **Branch point**: a value of $a_4'$ where $F(a_4') = 0$, so that the evolution equation cannot be solved for $a_4''$.
+- **Moment** of a field equation: the equation multiplied by the volume weight $e^{6Hy}$ and integrated over the patch; it involves the source only through its weighted means $\bar\rho$, $\bar p_3$, $\bar p_t$, $\bar p_0$. **First integral**: an equation with only first derivatives that every solution of a second-order equation obeys. **Cubic Hermite interpolation**: between two tabulated points, the cubic polynomial with the given values and the given slopes at both ends. **Turning point**: the value of $a_4$ where $a_4'$ reaches 0. **Branch point**: a value of $a_4'$ where $F(a_4') = 0$, so that the evolution equation cannot be solved for $a_4''$.
 - **Profile**: a component of the source as a function of $y$, stored at 151 points. **Proper density**: an amount per unit of proper volume, the volume that rulers measure.
-- **max|T|**: the largest absolute value of $\rho$, $p_3$, $p_t$ and $p_8$ of a state over the whole patch. We divide by it to compare states of very different size.
+- **max|T|**: the largest absolute value of $\rho$, $p_3$, $p_t$ and $p_0$ of a state over the whole patch. We divide by it to compare states of very different size.
 - **Integral over the patch** $\int X$: the total amount of a density $X$ in the computed region, $2\,\mathrm{Vol}_7\int_{-3}^{0}e^{6Hy}X\,dy$ (Section 17.7). **Weighted mean** $\bar X$: the integral divided by the proper volume of the patch.
 - **Covariant divergence** $\nabla_\mu T^\mu{}_\nu$: the curved-space form of "the change of a quantity in time plus its outflow through the walls of a small box". **Conservation**: zero covariant divergence. **Christoffel symbols** $\Gamma^\lambda{}_{\mu\nu}$: combinations of first derivatives of the metric that say how the coordinate directions turn and stretch from point to point. **Bianchi identity**: the left-hand side of the field equations has zero covariant divergence for every metric.
 - **Constraint**: the $x_4$ component of the field equations (it contains $a_4'$ but no $a_4''$). **Evolution equation**: the 3-space component minus the extra-time component, $a_4''F(a_4') = \kappa(p_3 - p_t)$.
@@ -67,7 +67,7 @@ Each word is defined in plain terms here; the later sections make each definitio
 
 ### 17.3 The field equations of a4 and their source
 
-**The metric.** The author's metric is diagonal; in the order $x_1, \dots, x_8$ its entries are
+**The metric.** The author's metric is diagonal; in the order $x_0, \dots, x_7$ its entries are
 
 $$
 \begin{aligned}
@@ -76,22 +76,22 @@ g = \mathrm{diag}\big(&e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^
 \end{aligned}
 $$
 
-with $z = 6Hx_8$ and one free function $a_4(x_4)$. The 3-space scale factor is $e^{a_4}\sin^{1/6}z$ and the extra-time scale factor $e^{-a_4}\sin^{1/6}z$: when $a_4$ grows, 3-space inflates and the extra times deflate.
+with $z = 6Hx_0$ and one free function $a_4(x_4)$. The 3-space scale factor is $e^{a_4}\sin^{1/6}z$ and the extra-time scale factor $e^{-a_4}\sin^{1/6}z$: when $a_4$ grows, 3-space inflates and the extra times deflate.
 
 **The source.** Chapter 12 allowed the most general source that the symmetry of the metric suggests:
 
 $$
-T^\mu{}_\nu = \mathrm{diag}\big(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8\big) + q_{48}\ (\mu = x_4, \nu = x_8) + q_{84}\ (\mu = x_8, \nu = x_4),
+T^\mu{}_\nu = \mathrm{diag}\big(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_0\big) + q_{40}\ (\mu = x_4, \nu = x_0) + q_{04}\ (\mu = x_0, \nu = x_4),
 $$
 
-where every one of $\rho, p_3, p_t, p_8, q_{48}, q_{84}$ may a priori depend on $x_4$ and on $x_8$.
+where every one of $\rho, p_3, p_t, p_0, q_{40}, q_{04}$ may a priori depend on $x_4$ and on $x_0$.
 
 **The left-hand sides.** The Revision record `Revision/field_equations_a4/a4-equations.json` (key `lovelockTensors`) stores every component of the three Lovelock tensors of the author's metric. Writing $a' = a_4'$ and $a'' = a_4''$ for short, the components we need are:
 
 $$
 \begin{aligned}
 E_{(1)}{}^{x_1}{}_{x_1} &= 15H^2 - 3a'^2 + a'', \qquad E_{(1)}{}^{x_5}{}_{x_5} = 15H^2 - 3a'^2 - a'', \\
-E_{(1)}{}^{x_8}{}_{x_8} &= 15H^2 - 3a'^2, \qquad E_{(1)}{}^{x_4}{}_{x_4} = 3a'^2 + 21H^2,
+E_{(1)}{}^{x_0}{}_{x_0} &= 15H^2 - 3a'^2, \qquad E_{(1)}{}^{x_4}{}_{x_4} = 3a'^2 + 21H^2,
 \end{aligned}
 $$
 
@@ -99,7 +99,7 @@ $$
 \begin{aligned}
 E_{(2)}{}^{x_1}{}_{x_1} &= 12a'^4 + 168a'^2H^2 - 180H^4 + a''\big(-24a'^2 - 40H^2\big), \\
 E_{(2)}{}^{x_5}{}_{x_5} &= 12a'^4 + 168a'^2H^2 - 180H^4 - a''\big(-24a'^2 - 40H^2\big), \\
-E_{(2)}{}^{x_8}{}_{x_8} &= 12a'^4 + 168a'^2H^2 - 180H^4, \\
+E_{(2)}{}^{x_0}{}_{x_0} &= 12a'^4 + 168a'^2H^2 - 180H^4, \\
 E_{(2)}{}^{x_4}{}_{x_4} &= -36a'^4 - 120a'^2H^2 - 420H^4,
 \end{aligned}
 $$
@@ -110,17 +110,17 @@ E_{(3)}{}^{x_1}{}_{x_1} &= -72a'^6 - 648a'^4H^2 - 1944a'^2H^4 + 360H^6 \\
 &\quad + a''\big(360a'^4 + 432a'^2H^2 + 360H^4\big), \\
 E_{(3)}{}^{x_5}{}_{x_5} &= -72a'^6 - 648a'^4H^2 - 1944a'^2H^4 + 360H^6 \\
 &\quad - a''\big(360a'^4 + 432a'^2H^2 + 360H^4\big), \\
-E_{(3)}{}^{x_8}{}_{x_8} &= -72a'^6 - 648a'^4H^2 - 1944a'^2H^4 + 360H^6, \\
+E_{(3)}{}^{x_0}{}_{x_0} &= -72a'^6 - 648a'^4H^2 - 1944a'^2H^4 + 360H^6, \\
 E_{(3)}{}^{x_4}{}_{x_4} &= 360a'^6 + 648a'^4H^2 + 1080a'^2H^4 + 2520H^6 .
 \end{aligned}
 $$
 
-We have only regrouped the record's terms: in each $x_1x_1$ and $x_5x_5$ component we collected the terms that contain $a''$ (Exercise 1 asks you to check this against the record's formulas term by term). The components $x_2x_2$ and $x_3x_3$ equal $x_1x_1$, the components $x_6x_6$ and $x_7x_7$ equal $x_5x_5$, and every off-diagonal component, $x_4x_8$ included, is zero (record: `allOtherComponents`; PROVED, Wolfram report `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `independent_components`; sympy report `Revision/field_equations_a4/reports/python-a4-report.json`, check `other_components_vanish`).
+We have only regrouped the record's terms: in each $x_1x_1$ and $x_5x_5$ component we collected the terms that contain $a''$ (Exercise 1 asks you to check this against the record's formulas term by term). The components $x_2x_2$ and $x_3x_3$ equal $x_1x_1$, the components $x_6x_6$ and $x_7x_7$ equal $x_5x_5$, and every off-diagonal component, $x_4x_0$ included, is zero (record: `allOtherComponents`; PROVED, Wolfram report `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `independent_components`; sympy report `Revision/field_equations_a4/reports/python-a4-report.json`, check `other_components_vanish`).
 
 **A pattern.** Look at the three blocks. For every order $k$ there are two polynomials, $P_k$ in $a'$ and $H$ and $Q_k$ in $a'$ and $H$, such that
 
 $$
-E_{(k)}{}^{x_1}{}_{x_1} = P_k + a''Q_k, \qquad E_{(k)}{}^{x_5}{}_{x_5} = P_k - a''Q_k, \qquad E_{(k)}{}^{x_8}{}_{x_8} = P_k ,
+E_{(k)}{}^{x_1}{}_{x_1} = P_k + a''Q_k, \qquad E_{(k)}{}^{x_5}{}_{x_5} = P_k - a''Q_k, \qquad E_{(k)}{}^{x_0}{}_{x_0} = P_k ,
 $$
 
 namely $P_1 = 15H^2 - 3a'^2$, $Q_1 = 1$; $P_2 = 12a'^4 + 168a'^2H^2 - 180H^4$, $Q_2 = -24a'^2 - 40H^2$; $P_3 = -72a'^6 - 648a'^4H^2 - 1944a'^2H^4 + 360H^6$, $Q_3 = 360a'^4 + 432a'^2H^2 + 360H^4$. We write the weighted sums as
@@ -138,8 +138,8 @@ $$
 &\text{constraint } (x_4): & e_{44} + \Lambda &= -\kappa\rho, \\
 &\text{3-space } (x_1 = x_2 = x_3): & \mathcal P + a''\mathcal Q + \Lambda &= \kappa p_3, \\
 &\text{extra times } (x_5 = x_6 = x_7): & \mathcal P - a''\mathcal Q + \Lambda &= \kappa p_t, \\
-&\text{hidden } (x_8): & \mathcal P + \Lambda &= \kappa p_8, \\
-&\text{mixed } (x_4x_8 \text{ and } x_8x_4): & 0 &= \kappa q_{48}, \quad 0 = \kappa q_{84} .
+&\text{hidden } (x_0): & \mathcal P + \Lambda &= \kappa p_0, \\
+&\text{mixed } (x_4x_0 \text{ and } x_0x_4): & 0 &= \kappa q_{40}, \quad 0 = \kappa q_{04} .
 \end{aligned}
 $$
 
@@ -157,31 +157,31 @@ $$
 
 (rule: $\mathcal P$ and $\Lambda$ cancel; $a''\mathcal Q - (-a''\mathcal Q) = 2a''\mathcal Q$). Written out, $F = 2\alpha_1 - \alpha_2(48a'^2 + 80H^2) + \alpha_3(720a'^4 + 864a'^2H^2 + 720H^4)$, the record's `evolution_F` (PROVED: checks `evolution_factorises` of the sympy report and `evolution_factorises_a4pp_times_F` of the Wolfram report). In Einstein gravity $F = 2$ and the evolution equation is $2a_4'' = \kappa(p_3 - p_t)$.
 
-### 17.4 Condition C1: a source must not depend on x8
+### 17.4 Condition C1: a source must not depend on x0
 
-**The argument.** Read the left-hand side of each equation of Section 17.3. It is built from $a_4'(x_4)$, $a_4''(x_4)$, the constant $H$ and the constants $\alpha_k$ and $\Lambda$; it contains no $x_8$, not even through $\cot z$ or $\sin z$. (The metric itself depends on $x_8$ through $z$; these components of the Lovelock tensors, with one index up and one down, do not. PROVED: Wolfram report, checks `P1_structure`, `P2_structure`, `P3_structure`, which state that each tensor $P_{(k)}$ is diagonal and free of $x_8$; the record defines $E_{(k)} = -P_{(k)}/2^{k+1}$, a constant multiple, so the same holds for $E_{(k)}$ (record `a4-equations.json`, key `conventions.lovelock`); reproduced in Notebook 17a, In [4].) Now take the hidden equation at two points with the same time $x_4$ and two different hidden coordinates $x_8$ and $\tilde x_8$:
-
-$$
-\kappa\,p_8(x_4, x_8) = \mathcal P(x_4) + \Lambda = \kappa\,p_8(x_4, \tilde x_8)
-$$
-
-(rule: the hidden equation at both points; its left-hand side is the same number at both, because it does not depend on $x_8$)
+**The argument.** Read the left-hand side of each equation of Section 17.3. It is built from $a_4'(x_4)$, $a_4''(x_4)$, the constant $H$ and the constants $\alpha_k$ and $\Lambda$; it contains no $x_0$, not even through $\cot z$ or $\sin z$. (The metric itself depends on $x_0$ through $z$; these components of the Lovelock tensors, with one index up and one down, do not. PROVED: Wolfram report, checks `P1_structure`, `P2_structure`, `P3_structure`, which state that each tensor $P_{(k)}$ is diagonal and free of $x_0$; the record defines $E_{(k)} = -P_{(k)}/2^{k+1}$, a constant multiple, so the same holds for $E_{(k)}$ (record `a4-equations.json`, key `conventions.lovelock`); reproduced in Notebook 17a, In [4].) Now take the hidden equation at two points with the same time $x_4$ and two different hidden coordinates $x_0$ and $\tilde x_0$:
 
 $$
-p_8(x_4, x_8) = p_8(x_4, \tilde x_8)
+\kappa\,p_0(x_4, x_0) = \mathcal P(x_4) + \Lambda = \kappa\,p_0(x_4, \tilde x_0)
 $$
 
-(rule: divide by $\kappa$, which is not zero). The same three lines with the constraint, the 3-space and the extra-time equations give the same for $\rho$, $p_3$ and $p_t$. The mixed equations say $q_{48} = q_{84} = 0$ outright. So:
+(rule: the hidden equation at both points; its left-hand side is the same number at both, because it does not depend on $x_0$)
 
-**C1.** Every component of an admissible source is independent of $x_8$, and the mixed components $q_{48}$ and $q_{84}$ vanish. (PROVED; record `Revision/field_equations_a4/a4-equations.json`, key `generalSource.x8_dependence`.)
+$$
+p_0(x_4, x_0) = p_0(x_4, \tilde x_0)
+$$
+
+(rule: divide by $\kappa$, which is not zero). The same three lines with the constraint, the 3-space and the extra-time equations give the same for $\rho$, $p_3$ and $p_t$. The mixed equations say $q_{40} = q_{04} = 0$ outright. So:
+
+**C1.** Every component of an admissible source is independent of $x_0$, and the mixed components $q_{40}$ and $q_{04}$ vanish. (PROVED; record `Revision/field_equations_a4/a4-equations.json`, key `generalSource.x0_dependence`.)
 
 **The same in the coordinate $y$.** The Kohn-Sham states are stored as functions of $y = \ln(\sin z)/(6H)$. By the chain rule
 
 $$
-\frac{dy}{dx_8} = \frac{1}{6H}\cdot\frac{\cos z}{\sin z}\cdot 6H = \cot z ,
+\frac{dy}{dx_0} = \frac{1}{6H}\cdot\frac{\cos z}{\sin z}\cdot 6H = \cot z ,
 $$
 
-(rule: the chain rule; the derivative of $\ln u$ is $1/u$ times the derivative of $u$, the derivative of $\sin z$ is $\cos z$, and $dz/dx_8 = 6H$) and $\cot z > 0$ for $0 < z < \pi/2$. So $y$ grows strictly with $x_8$: every value of $y$ belongs to exactly one value of $x_8$. A function that takes different values at two values of $y$ takes different values at the two corresponding values of $x_8$. "Depends on $y$" and "depends on $x_8$" are the same statement.
+(rule: the chain rule; the derivative of $\ln u$ is $1/u$ times the derivative of $u$, the derivative of $\sin z$ is $\cos z$, and $dz/dx_0 = 6H$) and $\cot z > 0$ for $0 < z < \pi/2$. So $y$ grows strictly with $x_0$: every value of $y$ belongs to exactly one value of $x_0$. A function that takes different values at two values of $y$ takes different values at the two corresponding values of $x_0$. "Depends on $y$" and "depends on $x_0$" are the same statement.
 
 **How the record measures it.** For a state with a nonzero source the record computes the **spread** of the energy density,
 
@@ -189,39 +189,39 @@ $$
 \frac{\max_y\rho - \min_y\rho}{\max|T|} ,
 $$
 
-which is $0$ exactly when $\rho$ does not depend on $y$. C1 needs $0$; the record calls a state dependent on $x_8$ when the spread exceeds its tolerance $10^{-6}$.
+which is $0$ exactly when $\rho$ does not depend on $y$. C1 needs $0$; the record calls a state dependent on $x_0$ when the spread exceeds its tolerance $10^{-6}$.
 
 ### 17.5 Condition C2: the algebraic condition
 
 **The derivation.** Add the 3-space and the extra-time equations and subtract twice the hidden equation:
 
 $$
-(\mathcal P + a''\mathcal Q + \Lambda) + (\mathcal P - a''\mathcal Q + \Lambda) - 2(\mathcal P + \Lambda) = \kappa p_3 + \kappa p_t - 2\kappa p_8
+(\mathcal P + a''\mathcal Q + \Lambda) + (\mathcal P - a''\mathcal Q + \Lambda) - 2(\mathcal P + \Lambda) = \kappa p_3 + \kappa p_t - 2\kappa p_0
 $$
 
 (rule: add and subtract the equations side by side; the same operation on both sides keeps an equation true)
 
 $$
-(\mathcal P + \mathcal P - 2\mathcal P) + (a''\mathcal Q - a''\mathcal Q) + (\Lambda + \Lambda - 2\Lambda) = \kappa(p_3 + p_t - 2p_8)
+(\mathcal P + \mathcal P - 2\mathcal P) + (a''\mathcal Q - a''\mathcal Q) + (\Lambda + \Lambda - 2\Lambda) = \kappa(p_3 + p_t - 2p_0)
 $$
 
 (rule: collect equal kinds of terms on the left; take out the common factor $\kappa$ on the right)
 
 $$
-0 = \kappa(p_3 + p_t - 2p_8)
+0 = \kappa(p_3 + p_t - 2p_0)
 $$
 
 (rule: each bracket on the left is zero). Divided by $\kappa \ne 0$:
 
-**C2.** Every admissible source has $p_3 + p_t = 2p_8$ at every point and every time. (PROVED; Wolfram report, check `algebraic_identity_x1_plus_x5_minus_2x8`; sympy report, check `algebraic_identity`; reproduced in Notebook 17a, In [4].)
+**C2.** Every admissible source has $p_3 + p_t = 2p_0$ at every point and every time. (PROVED; Wolfram report, check `algebraic_identity_x1_plus_x5_minus_2x0`; sympy report, check `algebraic_identity`; reproduced in Notebook 17a, In [4].)
 
 **Remarks.** C2 holds for every choice of the couplings $\alpha_k$, of $\Lambda$ and of the history $a_4$: it is a condition on the matter alone. It does not involve the energy density. For Einstein gravity the identity behind it is a two-line computation: $(15H^2 - 3a'^2 + a'') + (15H^2 - 3a'^2 - a'') - 2(15H^2 - 3a'^2) = 30H^2 - 6a'^2 - 30H^2 + 6a'^2 = 0$. We call
 
 $$
-V = p_3 + p_t - 2p_8
+V = p_3 + p_t - 2p_0
 $$
 
-the **violation** of C2. The record measures its size by $\max_y|V|/\max|T|$ and, for a source averaged over the hidden direction, by the ratio $R = (\int p_3 + \int p_t)/(2\int p_8)$, which an averaged source satisfying C2 would have equal to 1.
+the **violation** of C2. The record measures its size by $\max_y|V|/\max|T|$ and, for a source averaged over the hidden direction, by the ratio $R = (\int p_3 + \int p_t)/(2\int p_0)$, which an averaged source satisfying C2 would have equal to 1.
 
 ### 17.6 Condition C3: what the linear member demands
 
@@ -242,24 +242,24 @@ $$
 (rule: insert $a_4'' = 0$; zero times any number is zero; divide by $\kappa$). With C2:
 
 $$
-p_3 + p_3 = 2p_8 \quad\Longrightarrow\quad p_8 = p_3
+p_3 + p_3 = 2p_0 \quad\Longrightarrow\quad p_0 = p_3
 $$
 
-(rule: insert $p_t = p_3$ into $p_3 + p_t = 2p_8$ and divide by 2). So $p_3 = p_t = p_8$; we call the common value $p$.
+(rule: insert $p_t = p_3$ into $p_3 + p_t = 2p_0$ and divide by 2). So $p_3 = p_t = p_0$; we call the common value $p$.
 
 **The energy density and the pressure are constant.** In the constraint, $e_{44} = \sum_k\alpha_kE_{(k)}{}^{x_4}{}_{x_4}$ contains only $a'$ and $H$ (Section 17.3), and $a' = AH$ is a constant. So $-\kappa\rho = e_{44}(AH) + \Lambda$ is the same number at every time. In the same way the hidden equation gives $\kappa p = \mathcal P(AH) + \Lambda$, the same number at every time.
 
-**C3.** Along the linear member $a_4 = AHx_4 + a_0$ an admissible source has $p_3 = p_t = p_8$, and $\rho$ and these pressures do not change with $x_4$. (PROVED; sympy and Wolfram reports, check `linear_member_equal_pressures`; reproduced in Notebook 17a, In [4].) In Einstein gravity the record gives the values: $\kappa\rho = -(21 + 3A^2)H^2 - \Lambda$ and $\kappa p = (15 - 3A^2)H^2 + \Lambda$ (record `a4-equations.json`, keys `linearMember.rhoEinstein` and `linearMember.pEinstein`). For the history of the Kohn-Sham computations, $A = 1$, this is $\kappa\rho = -24H^2 - \Lambda$ and $\kappa p = 12H^2 + \Lambda$.
+**C3.** Along the linear member $a_4 = AHx_4 + a_0$ an admissible source has $p_3 = p_t = p_0$, and $\rho$ and these pressures do not change with $x_4$. (PROVED; sympy and Wolfram reports, check `linear_member_equal_pressures`; reproduced in Notebook 17a, In [4].) In Einstein gravity the record gives the values: $\kappa\rho = -(21 + 3A^2)H^2 - \Lambda$ and $\kappa p = (15 - 3A^2)H^2 + \Lambda$ (record `a4-equations.json`, keys `linearMember.rhoEinstein` and `linearMember.pEinstein`). For the history of the Kohn-Sham computations, $A = 1$, this is $\kappa\rho = -24H^2 - \Lambda$ and $\kappa p = 12H^2 + \Lambda$.
 
 **What C3 asks of a gas.** A gas on the linear history must keep its energy density constant while 3-space inflates and the extra times deflate, and it must push equally hard along 3-space, along the extra times and along the hidden direction, at every instant. Section 17.16 shows that the first demand follows from the second: once the pressures $p_3$ and $p_t$ are equal, conservation keeps $\rho$ constant.
 
-**No source at all.** Could the empty source $T = 0$ be admissible? In Einstein gravity the constraint and the hidden equation read $3a'^2 + 21H^2 + \Lambda = -\kappa\rho$ and $15H^2 - 3a'^2 + \Lambda = \kappa p_8$. With $\rho = p_8 = 0$:
+**No source at all.** Could the empty source $T = 0$ be admissible? In Einstein gravity the constraint and the hidden equation read $3a'^2 + 21H^2 + \Lambda = -\kappa\rho$ and $15H^2 - 3a'^2 + \Lambda = \kappa p_0$. With $\rho = p_0 = 0$:
 
 $$
 (3a'^2 + 21H^2 + \Lambda) - (15H^2 - 3a'^2 + \Lambda) = 0 - 0
 $$
 
-(rule: subtract the second equation from the first, with $\rho = p_8 = 0$ on the right)
+(rule: subtract the second equation from the first, with $\rho = p_0 = 0$ on the right)
 
 $$
 6a'^2 + 6H^2 = 0
@@ -277,11 +277,11 @@ $$
 
 That makes $3 \times 5 \times 5 = 75$ states. They are the ground states, at zero temperature, of the canonical matrix of Chapter 15. That matrix also holds 135 thermal states, at the three temperatures $0.01$, $0.02$ and $0.05$ (Chapter 15); the record stores no profiles for them (the folder `Revision/kohn_sham/results/thermo` holds only the table `thermodynamics.csv`), so they are not tested in this chapter (Section 17.17). In this chapter "the recorded states" are the 75 ground states.
 
-**What is stored for each state.** A **profile** file `Revision/kohn_sham/results/ground/profiles/<name>.csv` with the proper densities at the 151 points $y = -3, -2.98, \dots, 0$ (step $0.02$), among them the four columns `rho`, `p3`, `p_t`, `p8`; and a row of the table `Revision/kohn_sham/results/ground/emt-integrals.csv` with the integrals over the patch, the values at the brane and at the tip, and check columns of the solver.
+**What is stored for each state.** A **profile** file `Revision/kohn_sham/results/ground/profiles/<name>.csv` with the proper densities at the 151 points $y = -3, -2.98, \dots, 0$ (step $0.02$), among them the four columns `rho`, `p3`, `p_t`, `p0`; and a row of the table `Revision/kohn_sham/results/ground/emt-integrals.csv` with the integrals over the patch, the values at the brane and at the tip, and check columns of the solver.
 
-**Why the profiles can be compared with the field equations directly.** The field equations use $T^\mu{}_\nu$ with one index up and one down. In the frame of rulers (the diagonal vielbein of Chapter 6) a component is $T^a{}_b = e^a{}_\mu\,e_b{}^\nu\,T^\mu{}_\nu$, and for a diagonal vielbein a diagonal component picks up one factor and its inverse: $T^a{}_a = T^\mu{}_\mu$ (no sum). So the proper densities of the profiles are exactly the $\rho$, $p_3$, $p_t$, $p_8$ of the field equations.
+**Why the profiles can be compared with the field equations directly.** The field equations use $T^\mu{}_\nu$ with one index up and one down. In the frame of rulers (the diagonal vielbein of Chapter 6) a component is $T^a{}_b = e^a{}_\mu\,e_b{}^\nu\,T^\mu{}_\nu$, and for a diagonal vielbein a diagonal component picks up one factor and its inverse: $T^a{}_a = T^\mu{}_\mu$ (no sum). So the proper densities of the profiles are exactly the $\rho$, $p_3$, $p_t$, $p_0$ of the field equations.
 
-**The Kohn-Sham source in words.** The record `Revision/kohn_sham/ks-theory.json` (key `emt`) gives the four components as sums over the occupied orbitals. Two facts matter here. First, $p_t = e_{\rm int}$, the interaction energy density: in the good sector no orbital moves along the extra times, so there is no extra-time kinetic pressure; for $\lambda = 0$ the interaction vanishes and $p_t = 0$ exactly. Second, $p_3$ is the kinetic pressure of the motion along 3-space plus $e_{\rm int}$, so for a gas whose quanta move along 3-space $p_3$ is in general not zero; for the recorded states with $\lambda = 0$ its integral over the patch is positive at every slice (Notebook 17a, In [16] and figure 7). The mixed component, there written $T^{x_4}{}_y$, vanishes for every eigen-orbital (key `emt.offDiagonal`), so the Kohn-Sham states meet the part $q_{48} = q_{84} = 0$ of C1. The question is the dependence on $x_8$, and conditions C2 and C3.
+**The Kohn-Sham source in words.** The record `Revision/kohn_sham/ks-theory.json` (key `emt`) gives the four components as sums over the occupied orbitals. Two facts matter here. First, $p_t = e_{\rm int}$, the interaction energy density: in the good sector no orbital moves along the extra times, so there is no extra-time kinetic pressure; for $\lambda = 0$ the interaction vanishes and $p_t = 0$ exactly. Second, $p_3$ is the kinetic pressure of the motion along 3-space plus $e_{\rm int}$, so for a gas whose quanta move along 3-space $p_3$ is in general not zero; for the recorded states with $\lambda = 0$ its integral over the patch is positive at every slice (Notebook 17a, In [16] and figure 7). The mixed component, there written $T^{x_4}{}_y$, vanishes for every eigen-orbital (key `emt.offDiagonal`), so the Kohn-Sham states meet the part $q_{40} = q_{04} = 0$ of C1. The question is the dependence on $x_0$, and conditions C2 and C3.
 
 **The integral over the patch.** A small region of the hidden direction between $y$ and $y + dy$, times the coordinate box of 3-space and of the extra times, has the proper 7-volume
 
@@ -295,7 +295,7 @@ $$
 \int X \;=\; 2\,\mathrm{Vol}_7\int_{-3}^{0}e^{6Hy}\,X(y)\,dy ,
 $$
 
-the columns `int_rho`, `int_p3`, `int_p_t`, `int_p8` of the table. The factor 2 counts the mirror copy of the ASSUMED Z2 brane. For $X = \rho$ the integral is the energy $E$ of the Kohn-Sham state (`ks-theory.json`, key `emt.integrated`). The proper volume of the patch and its copy is
+the columns `int_rho`, `int_p3`, `int_p_t`, `int_p0` of the table. The factor 2 counts the mirror copy of the ASSUMED Z2 brane. For $X = \rho$ the integral is the energy $E$ of the Kohn-Sham state (`ks-theory.json`, key `emt.integrated`). The proper volume of the patch and its copy is
 
 $$
 2\,\mathrm{Vol}_7\int_{-L}^{0}e^{6Hy}\,dy = 2\,\mathrm{Vol}_7\left[\frac{e^{6Hy}}{6H}\right]_{-L}^{0} = 2\,\mathrm{Vol}_7\,\frac{1 - e^{-6HL}}{6H}
@@ -313,7 +313,7 @@ Note how fast the weight $e^{6Hy}$ falls toward the tip: at $y = -L = -3$ (with 
 
 ### 17.8 Example: the three conditions tested on 75 recorded ground states
 
-The first notebook derives the three conditions from the Lovelock components stored in the record, with exact computer algebra; reads the 75 recorded ground states; and reproduces every number of the five checks of `Revision/field_equations_a4/reports/ks-source-conditions.json`. It prints 16 PASS lines and draws seven figures: the hidden coordinate and the energy profiles; a heat map of the spread of $\rho$ (C1); the violation profiles and a heat map of their size (C2); three points of one state as bars; the averaged ratio $R$; and the integrals along the history (C3). It runs in about 15 seconds on a typical laptop and needs no Rust.
+The first notebook derives the three conditions from the Lovelock components stored in the record, with exact computer algebra; reads the 75 recorded ground states; and reproduces every number of the five checks on the Kohn-Sham states of `Revision/field_equations_a4/reports/ks-source-conditions.json` (its sixth check, `ks_verdict_holds_for_every_b4`, is about the metric with $b_4$). It prints 16 PASS lines and draws seven figures: the hidden coordinate and the energy profiles; a heat map of the spread of $\rho$ (C1); the violation profiles and a heat map of their size (C2); three points of one state as bars; the averaged ratio $R$; and the integrals along the history (C3). It runs in about 15 seconds on a typical laptop and needs no Rust.
 
 <!-- NOTEBOOK 17a -->
 
@@ -543,11 +543,11 @@ summary = source_record["summary"]  # how many checks the record has, how many p
 passed, total = summary["pass"], summary["checks"]
 report("checks of the record ks-source-conditions.json", f"{passed} of {total} PASS")
 say("its conclusion: " + source_record["conclusion"])
-check(summary == {"checks": 5, "pass": 5, "fail": 0},
-      "the record on the Kohn-Sham source conditions has 5 checks, all PASS")
+check(summary == {"checks": 6, "pass": 6, "fail": 0},
+      "the record on the Kohn-Sham source conditions has 6 checks, all PASS")
 ```
 
-The record is read; its `summary` dictionary says how many checks it has and how many passed. `passed, total = a, b` gives two names at once. The cell prints the count and the record's conclusion, and checks that the record has 5 checks, all PASS. Output: RESULT checks of the record ks-source-conditions.json = 5 of 5 PASS, the record's conclusion (no recorded Kohn-Sham state is an admissible source; C1 and C2 fail for every nonzero state, C2 also after integration over $x_8$; the history is a prescribed background without back-reaction), and the first PASS line.
+The record is read; its `summary` dictionary says how many checks it has and how many passed. `passed, total = a, b` gives two names at once. The cell prints the count and the record's conclusion, and checks that the record has 6 checks, all PASS. Output: RESULT checks of the record ks-source-conditions.json = 6 of 6 PASS, the record's conclusion (no recorded Kohn-Sham state is an admissible source; C1 and C2 fail for every nonzero state, C2 also after integration over $x_0$; the history is a prescribed background without back-reaction), and the first PASS line.
 
 **In [3], the Lovelock components of the record as sympy expressions.**
 
@@ -569,7 +569,7 @@ def parse(text):
 The record stores its formulas as text in the Wolfram Language, where a power is written `^`; Python writes `**`. `parse` replaces the one by the other and lets `sp.sympify` read the text as a sympy expression, with the names of `NAMES`.
 
 ```python
-COMPONENTS = ("x1x1", "x4x4", "x5x5", "x8x8", "x4x8")
+COMPONENTS = ("x1x1", "x4x4", "x5x5", "x0x0", "x4x0")
 E = {k: {c: parse(equations["lovelockTensors"][f"E{k}"][c]["input"])
          for c in COMPONENTS}
      for k in (1, 2, 3)}  # E[k][component]: the Lovelock tensor of order k
@@ -577,34 +577,34 @@ for c in COMPONENTS:
     say(f"E_(1)^{c[:2]}_{c[2:]} = {E[1][c]}")
 ```
 
-`COMPONENTS` is a **tuple** (a fixed list in round brackets) of the five components needed. The next line is a **dictionary comprehension** inside another: for each order $k = 1, 2, 3$ and each component `c` it reads the record's text `equations["lovelockTensors"]["E1"]["x1x1"]["input"]` (and so on) and parses it. `E[2]["x5x5"]` is then $E_{(2)}{}^{x_5}{}_{x_5}$. The loop prints the five components of Einstein's tensor; `c[:2]` is the first two characters of the name (`x1`) and `c[2:]` the rest. Output: `E_(1)^x1_x1 = 15*H**2 - 3*ad1**2 + ad2`, `E_(1)^x4_x4 = 21*H**2 + 3*ad1**2`, `E_(1)^x5_x5 = 15*H**2 - 3*ad1**2 - ad2`, `E_(1)^x8_x8 = 15*H**2 - 3*ad1**2` and `E_(1)^x4_x8 = 0`, the Einstein components of Section 17.3.
+`COMPONENTS` is a **tuple** (a fixed list in round brackets) of the five components needed. The next line is a **dictionary comprehension** inside another: for each order $k = 1, 2, 3$ and each component `c` it reads the record's text `equations["lovelockTensors"]["E1"]["x1x1"]["input"]` (and so on) and parses it. `E[2]["x5x5"]` is then $E_{(2)}{}^{x_5}{}_{x_5}$. The loop prints the five components of Einstein's tensor; `c[:2]` is the first two characters of the name (`x1`) and `c[2:]` the rest. Output: `E_(1)^x1_x1 = 15*H**2 - 3*ad1**2 + ad2`, `E_(1)^x4_x4 = 21*H**2 + 3*ad1**2`, `E_(1)^x5_x5 = 15*H**2 - 3*ad1**2 - ad2`, `E_(1)^x0_x0 = 15*H**2 - 3*ad1**2` and `E_(1)^x4_x0 = 0`, the Einstein components of Section 17.3.
 
 **In [4], the three conditions on the left-hand sides.**
 
 ```python
 allowed = {ad1, ad2, H}  # the only symbols a left-hand side may contain
-no_x8 = all(E[k][c].free_symbols <= allowed for k in E for c in COMPONENTS)
-reproduces(no_x8 and all(E[k]["x4x8"] == 0 for k in E),
-           "C1: the left-hand sides are free of x8 and the x4-x8 one is 0",
+no_x0 = all(E[k][c].free_symbols <= allowed for k in E for c in COMPONENTS)
+reproduces(no_x0 and all(E[k]["x4x0"] == 0 for k in E),
+           "C1: the left-hand sides are free of x0 and the x4-x0 one is 0",
            WL_A4, ["P1_structure", "P2_structure", "P3_structure"])
 ```
 
-`{ad1, ad2, H}` is a **set**, a collection without order. `.free_symbols` is the set of symbols that an expression contains, and `<=` between sets means "is contained in". So `no_x8` is true when no component of any order contains anything but $a_4'$, $a_4''$ and $H$. (A dependence on $x_8$ would have to appear as a symbol such as `x8` or `cc`.) Together with "every $x_4x_8$ component is zero" this is the left-hand side of C1 (Section 17.4); the check also requires the three structure checks of the Wolfram report to be PASS.
+`{ad1, ad2, H}` is a **set**, a collection without order. `.free_symbols` is the set of symbols that an expression contains, and `<=` between sets means "is contained in". So `no_x0` is true when no component of any order contains anything but $a_4'$, $a_4''$ and $H$. (A dependence on $x_0$ would have to appear as a symbol such as `x0` or `cc`.) Together with "every $x_4x_0$ component is zero" this is the left-hand side of C1 (Section 17.4); the check also requires the three structure checks of the Wolfram report to be PASS.
 
 ```python
-identity = [sp.expand(E[k]["x1x1"] + E[k]["x5x5"] - 2 * E[k]["x8x8"]) for k in E]
-say(f"E^x1_x1 + E^x5_x5 - 2 E^x8_x8 for k = 1, 2, 3: {identity}")
+identity = [sp.expand(E[k]["x1x1"] + E[k]["x5x5"] - 2 * E[k]["x0x0"]) for k in E]
+say(f"E^x1_x1 + E^x5_x5 - 2 E^x0_x0 for k = 1, 2, 3: {identity}")
 reproduces(all(value == 0 for value in identity),
-           "C2: E^x1_x1 + E^x5_x5 = 2 E^x8_x8 for every order k",
-           WL_A4, ["algebraic_identity_x1_plus_x5_minus_2x8"])
+           "C2: E^x1_x1 + E^x5_x5 = 2 E^x0_x0 for every order k",
+           WL_A4, ["algebraic_identity_x1_plus_x5_minus_2x0"])
 ```
 
-For each order, `sp.expand` multiplies out $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_8}{}_{x_8}$ and collects equal terms. The printed list is `[0, 0, 0]`: the identity behind C2 (Section 17.5) holds for each order separately.
+For each order, `sp.expand` multiplies out $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_0}{}_{x_0}$ and collects equal terms. The printed list is `[0, 0, 0]`: the identity behind C2 (Section 17.5) holds for each order separately.
 
 ```python
 linear = {ad2: 0}  # the linear member: a4'' = 0 (and a4' = A H, a constant)
-equal = all(sp.expand((E[k]["x1x1"] - E[k]["x8x8"]).subs(linear)) == 0
-            and sp.expand((E[k]["x5x5"] - E[k]["x8x8"]).subs(linear)) == 0
+equal = all(sp.expand((E[k]["x1x1"] - E[k]["x0x0"]).subs(linear)) == 0
+            and sp.expand((E[k]["x5x5"] - E[k]["x0x0"]).subs(linear)) == 0
             for k in E)
 rho_side = all(E[k]["x4x4"].free_symbols <= {ad1, H} for k in E)
 reproduces(equal and rho_side,
@@ -612,12 +612,12 @@ reproduces(equal and rho_side,
            PY_A4, ["linear_member_equal_pressures"])
 ```
 
-`.subs(linear)` replaces $a_4''$ by 0. Then `equal` is true when, for every order, the $x_1$ and $x_5$ components both equal the $x_8$ component; so the three pressure equations have the same left-hand side and give $p_3 = p_t = p_8$. `rho_side` is true when the $x_4$ components contain only $a_4'$ and $H$; with $a_4' = AH$ constant the constraint then gives a constant $\rho$. That is C3 (Section 17.6), reproduced from the sympy report. Output: three PASS lines, each followed by the record it reproduces.
+`.subs(linear)` replaces $a_4''$ by 0. Then `equal` is true when, for every order, the $x_1$ and $x_5$ components both equal the $x_0$ component; so the three pressure equations have the same left-hand side and give $p_3 = p_t = p_0$. `rho_side` is true when the $x_4$ components contain only $a_4'$ and $H$; with $a_4' = AH$ constant the constraint then gives a constant $\rho$. That is C3 (Section 17.6), reproduced from the sympy report. Output: three PASS lines, each followed by the record it reproduces.
 
 **In [5], the recorded Kohn-Sham states.**
 
 ```python
-COLUMNS = ("rho", "p3", "p_t", "p8")  # the four diagonal components of the source
+COLUMNS = ("rho", "p3", "p_t", "p0")  # the four diagonal components of the source
 
 
 def read_profile(path):
@@ -634,7 +634,7 @@ files = sorted(repository_file(f"{GROUND}/profiles").glob("*.csv"),
 profiles = {path.stem: read_profile(path) for path in files}
 ```
 
-`.glob("*.csv")` finds every file whose name ends in `.csv` in the folder of profiles; `sorted(..., key=lambda path: path.name)` puts them in alphabetical order of their names (a `lambda` is a one-line function without a name; here it returns the file name). `path.stem` is the file name without `.csv`, the name of the state, such as `N136_lam0_a10`. So `profiles["N136_lam0_a10"]["p8"]` is the hidden pressure of that state at the 151 points.
+`.glob("*.csv")` finds every file whose name ends in `.csv` in the folder of profiles; `sorted(..., key=lambda path: path.name)` puts them in alphabetical order of their names (a `lambda` is a one-line function without a name; here it returns the file name). `path.stem` is the file name without `.csv`, the name of the state, such as `N136_lam0_a10`. So `profiles["N136_lam0_a10"]["p0"]` is the hidden pressure of that state at the 151 points.
 
 ```python
 with repository_file(f"{GROUND}/emt-integrals.csv").open(
@@ -710,7 +710,7 @@ left.axvspan(z_tip, np.pi / 2, color="#1baf7a", alpha=0.15,
              label="computed patch, $-3 \\leq y \\leq 0$")
 left.axhline(-3.0, color="0.4", ls="--", lw=1.0)
 left.set_xscale("log")
-left.set_xlabel("$z = 6Hx_8$ (logarithmic axis)")
+left.set_xlabel("$z = 6Hx_0$ (logarithmic axis)")
 left.set_ylabel("hidden coordinate $y$ (units of $1/H$)")
 left.set_title("$y = \\ln(\\sin z)/(6H)$, $H = 1$")
 left.legend(loc="lower right", fontsize=8)
@@ -736,7 +736,7 @@ fig.tight_layout()
 
 ```python
 save_figure(fig, "rho_profiles",
-            "Left: the hidden coordinate $y = \\ln(\\sin z)/(6H)$ against $z = 6Hx_8$ "
+            "Left: the hidden coordinate $y = \\ln(\\sin z)/(6H)$ against $z = 6Hx_0$ "
             "(logarithmic axis, $H = 1$); the shaded band is the computed patch from "
             "the tip cutoff $y = -3$ to the brane $y = 0$, which covers $z$ from "
             f"${z_tip / 1e-8:.1f} \\times 10^{{-8}}$ to $\\pi/2$. Right: the energy "
@@ -759,8 +759,8 @@ save_figure(fig, "rho_profiles",
 TOL = 1e-6  # the relative tolerance of the record
 spread = {sid: float(np.max(profiles[sid]["rho"]) - np.min(profiles[sid]["rho"]))
           / scale[sid] for sid in nonzero}
-smallest = min(spread, key=spread.get)  # the state that depends least on x8
-largest = max(spread, key=spread.get)  # the state that depends most on x8
+smallest = min(spread, key=spread.get)  # the state that depends least on x0
+largest = max(spread, key=spread.get)  # the state that depends most on x0
 report("smallest spread of rho / max|T|", f"{spread[smallest]:.6g} ({smallest})")
 report("largest spread of rho / max|T|", f"{spread[largest]:.6g} ({largest})")
 ```
@@ -768,16 +768,16 @@ report("largest spread of rho / max|T|", f"{spread[largest]:.6g} ({largest})")
 `TOL` is the record's tolerance. `spread` holds, for each of the 70 nonzero states, the spread of $\rho$ divided by max|T| (Section 17.4). `min(spread, key=spread.get)` returns the name whose value is smallest (`spread.get` looks a value up by its name), and `max` the largest. Output: the smallest spread is 0.0497329 (state `N136_lamm2_a20`), the largest 0.995037 (`N8_lamm1_a00`).
 
 ```python
-detail = record_entry(SOURCE_REPORT, "ks_profiles_depend_on_x8")["detail"]
+detail = record_entry(SOURCE_REPORT, "ks_profiles_depend_on_x0")["detail"]
 text = f">= {spread[smallest]:.6g} (smallest: {smallest})"  # as the record prints it
 reproduces(all(value > TOL for value in spread.values()) and text in detail
            and "75 ground-state profiles" in detail
            and "70 with a nonzero" in detail,
-           "C1 fails: every nonzero state depends on x8",
-           SOURCE_REPORT, ["ks_profiles_depend_on_x8"])
+           "C1 fails: every nonzero state depends on x0",
+           SOURCE_REPORT, ["ks_profiles_depend_on_x0"])
 ```
 
-`detail` is the record's text for its check `ks_profiles_depend_on_x8`. `text` is our smallest value written exactly as the record writes it; `text in detail` is true when the record contains this text. The check passes when every spread exceeds the tolerance and the record states our numbers and counts. Output: PASS C1 fails: every nonzero state depends on x8, reproducing the record's check. (COMPUTED; the smallest spread, 0.0497, is fifty thousand times the tolerance.)
+`detail` is the record's text for its check `ks_profiles_depend_on_x0`. `text` is our smallest value written exactly as the record writes it; `text in detail` is true when the record contains this text. The check passes when every spread exceeds the tolerance and the record states our numbers and counts. Output: PASS C1 fails: every nonzero state depends on x0, reproducing the record's check. (COMPUTED; the smallest spread, 0.0497, is fifty thousand times the tolerance.)
 
 **In [8], the map of C1 (figure 2).**
 
@@ -892,7 +892,7 @@ The caption, joined from its strings as in In [6], inserts three computed pieces
 
 ```python
 violation = {sid: profiles[sid]["p3"] + profiles[sid]["p_t"]
-             - 2.0 * profiles[sid]["p8"] for sid in nonzero}  # V(y)
+             - 2.0 * profiles[sid]["p0"] for sid in nonzero}  # V(y)
 size = {sid: float(np.max(np.abs(violation[sid]))) / scale[sid] for sid in nonzero}
 low = min(size, key=size.get)  # the state closest to C2
 high = max(size, key=size.get)  # the state farthest from C2
@@ -900,7 +900,7 @@ report("smallest max|V| / max|T|", f"{size[low]:.6g} ({low})")
 report("largest max|V| / max|T|", f"{size[high]:.6g} ({high})")
 ```
 
-For each nonzero state, `violation` is the array $V(y) = p_3 + p_t - 2p_8$ at the 151 points (numpy adds and multiplies arrays entry by entry), and `size` its largest absolute value divided by max|T|. Output: the smallest size is 2.09192 (`N136_lamp2_a20`) and the largest 3.99006 (`N8_lamm1_a00`).
+For each nonzero state, `violation` is the array $V(y) = p_3 + p_t - 2p_0$ at the 151 points (numpy adds and multiplies arrays entry by entry), and `size` its largest absolute value divided by max|T|. Output: the smallest size is 2.09192 (`N136_lamp2_a20`) and the largest 3.99006 (`N8_lamm1_a00`).
 
 ```python
 detail = record_entry(SOURCE_REPORT, "ks_profiles_violate_algebraic_condition")[
@@ -946,7 +946,7 @@ for ax, n in zip(axes, (136, 688)):
     ax.set_yticks([-1e-1, -1e-3, -1e-5, -1e-7, 0.0, 1e-7, 1e-5, 1e-3, 1e-1, 1e1])
     ax.set_xlabel("hidden coordinate $y$")
     ax.set_title(f"$N = {n}$, $\\lambda = 0$")
-axes[0].set_ylabel("$V = p_3 + p_t - 2p_8$, divided by max|T|")
+axes[0].set_ylabel("$V = p_3 + p_t - 2p_0$, divided by max|T|")
 axes[1].legend(fontsize=7, loc="upper right")
 fig.tight_layout()
 ```
@@ -955,7 +955,7 @@ Two panels that share their vertical axis (`sharey=True`), one per particle numb
 
 ```python
 save_figure(fig, "violation_profiles",
-            "The violation profiles $V(y) = p_3 + p_t - 2p_8$ of the Kohn-Sham ground "
+            "The violation profiles $V(y) = p_3 + p_t - 2p_0$ of the Kohn-Sham ground "
             "states with $\\lambda = 0$, divided by the largest component of each "
             "state, for $N = 136$ (left) and $N = 688$ (right) at the five slices "
             "$a_{4,0}$ (horizontal axis: the hidden coordinate $y$; vertical axis "
@@ -969,7 +969,7 @@ save_figure(fig, "violation_profiles",
 
 The caption, joined from its strings as in In [6], inserts the range of $|V|/\max|T|$ at the tip with two decimals, 2.36 to 2.37, and at the brane in powers of ten, $7.1 \times 10^{-7}$ to $4.0 \times 10^{-3}$. Output: figure 17a.3 and its saved line.
 
-**What figure 17a.3 shows.** Horizontal axis: $y$ from the tip cutoff to the brane (units of $1/H$); vertical axis: $V/\max|T|$, a pure number, on the symmetric logarithmic scale. Every profile starts at the tip with $V$ about 2.4 times max|T| and positive, drops steeply through zero once, near $y \approx -2.2$ (for the first slice at $y \approx -2.05$ when $N = 136$ and $y \approx -1.75$ when $N = 688$), stays negative, and rises toward zero at the brane without reaching it. C2 demands the red dashed line. Section 17.14 will explain the single change of sign: $V$ is the slope of $p_8$, and $p_8$ has one maximum.
+**What figure 17a.3 shows.** Horizontal axis: $y$ from the tip cutoff to the brane (units of $1/H$); vertical axis: $V/\max|T|$, a pure number, on the symmetric logarithmic scale. Every profile starts at the tip with $V$ about 2.4 times max|T| and positive, drops steeply through zero once, near $y \approx -2.2$ (for the first slice at $y \approx -2.05$ when $N = 136$ and $y \approx -1.75$ when $N = 688$), stays negative, and rises toward zero at the brane without reaching it. C2 demands the red dashed line. Section 17.14 will explain the single change of sign: $V$ is the slope of $p_0$, and $p_0$ has one maximum.
 
 **In [11], the map of C2 (figure 4).**
 
@@ -978,10 +978,10 @@ from matplotlib.colors import Normalize  # a linear colour scale
 
 fig, ax = plt.subplots(figsize=(6.4, 6.0))
 image = draw_table(ax, state_table(size), Normalize(2.0, 4.0), ".3f")
-fig.colorbar(image, ax=ax, label="max$|p_3 + p_t - 2p_8|$ / max|T| (C2 needs 0)")
-ax.set_title("Condition C2: $p_3 + p_t = 2p_8$ point by point")
+fig.colorbar(image, ax=ax, label="max$|p_3 + p_t - 2p_0|$ / max|T| (C2 needs 0)")
+ax.set_title("Condition C2: $p_3 + p_t = 2p_0$ point by point")
 save_figure(fig, "c2_map",
-            "The size $\\max_y|p_3 + p_t - 2p_8|/\\max|T|$ of the violation of "
+            "The size $\\max_y|p_3 + p_t - 2p_0|/\\max|T|$ of the violation of "
             "condition C2 for all 75 recorded Kohn-Sham ground states (rows: particle "
             "number and coupling; columns: the slice $a_{4,0}$; linear colour scale, "
             "pure numbers). C2 needs $0$; every nonzero state violates it by "
@@ -1010,15 +1010,15 @@ The state $N = 136$, $\lambda = 0$, $a_{4,0} = 1$, which the record uses as its 
 for target in POINTS:
     i = int(np.argmin(np.abs(example["y"] - target)))  # nearest grid point
     values = {c: float(example[c][i]) for c in ("y",) + COLUMNS}
-    values["V"] = values["p3"] + values["p_t"] - 2.0 * values["p8"]
+    values["V"] = values["p3"] + values["p_t"] - 2.0 * values["p0"]
     rows.append(values)
     text = ("y = {y:.6g}: rho = {rho:.6g}, p3 = {p3:.6g}, p_t = {p_t:.6g}, "
-            "p8 = {p8:.6g}, p3 + p_t - 2 p8 = {V:.6g}").format(**values)
+            "p0 = {p0:.6g}, p3 + p_t - 2 p0 = {V:.6g}").format(**values)
     say(text)
     values["in_record"] = text in detail  # the record prints the same text?
 ```
 
-For each target value of $y$: `np.abs(example["y"] - target)` is the distance of every grid point from it, and `np.argmin` the position of the smallest distance, the nearest grid point $i$. `values` collects $y$, $\rho$, $p_3$, $p_t$, $p_8$ there (`("y",) + COLUMNS` joins two tuples) and $V$. `"...".format(**values)` fills the named places `{y:.6g}` and so on from the dictionary, with six significant digits as the record prints them. The line is printed, and `in_record` notes whether the record contains exactly this text.
+For each target value of $y$: `np.abs(example["y"] - target)` is the distance of every grid point from it, and `np.argmin` the position of the smallest distance, the nearest grid point $i$. `values` collects $y$, $\rho$, $p_3$, $p_t$, $p_0$ there (`("y",) + COLUMNS` joins two tuples) and $V$. `"...".format(**values)` fills the named places `{y:.6g}` and so on from the dictionary, with six significant digits as the record prints them. The line is printed, and `in_record` notes whether the record contains exactly this text.
 
 ```python
 reproduces(all(r["in_record"] for r in rows) and all(r["V"] != 0 for r in rows),
@@ -1028,7 +1028,7 @@ reproduces(all(r["in_record"] for r in rows) and all(r["V"] != 0 for r in rows),
 
 The check passes when the record contains all three lines and $V \ne 0$ at all three points. Output:
 
-| point | $\rho$ | $p_3$ | $p_t$ | $p_8$ | $V = p_3 + p_t - 2p_8$ |
+| point | $\rho$ | $p_3$ | $p_t$ | $p_0$ | $V = p_3 + p_t - 2p_0$ |
 | --- | --- | --- | --- | --- | --- |
 | tip, $y = -3$ | 43.0702 | 158.268 | $-0$ | $-431.733$ | 1021.73 |
 | middle, $y = -1.5$ | 0.707818 | 0.498835 | 0 | 0.643324 | $-0.787813$ |
@@ -1041,8 +1041,8 @@ The check passes when the record contains all three lines and $V \ne 0$ at all t
 ```python
 fig, axes = plt.subplots(1, 3, figsize=(9.0, 3.4))
 for ax, values, where in zip(axes, rows, ("tip", "middle", "brane")):
-    sides = [values["p3"] + values["p_t"], 2.0 * values["p8"]]
-    bars = ax.bar(["$p_3 + p_t$", "$2p_8$"], sides, color=["#2a78d6", "#eb6834"])
+    sides = [values["p3"] + values["p_t"], 2.0 * values["p0"]]
+    bars = ax.bar(["$p_3 + p_t$", "$2p_0$"], sides, color=["#2a78d6", "#eb6834"])
 ```
 
 Three panels, one per point. In each, `sides` holds the two sides of C2, and `ax.bar` draws them as a blue and an orange bar with mathematical labels under them; `bars` keeps the two drawn bars.
@@ -1064,29 +1064,29 @@ axes[0].set_ylabel("pressure (units of $m^8$)")
 fig.suptitle("$N = 136$, $\\lambda = 0$, $a_{4,0} = 1$: the two sides of C2")
 fig.tight_layout()
 tip, middle, brane = rows
-factors = [2.0 * r["p8"] / (r["p3"] + r["p_t"]) for r in (middle, brane)]
-tip_left, tip_right = tip["p3"] + tip["p_t"], 2.0 * tip["p8"]  # the two sides
+factors = [2.0 * r["p0"] / (r["p3"] + r["p_t"]) for r in (middle, brane)]
+tip_left, tip_right = tip["p3"] + tip["p_t"], 2.0 * tip["p0"]  # the two sides
 ```
 
-`suptitle` writes a title over the whole figure. `tip, middle, brane = rows` gives the three dictionaries names. `factors` holds $2p_8/(p_3 + p_t)$ at the middle and at the brane, and `tip_left`, `tip_right` the two sides at the tip.
+`suptitle` writes a title over the whole figure. `tip, middle, brane = rows` gives the three dictionaries names. `factors` holds $2p_0/(p_3 + p_t)$ at the middle and at the brane, and `tip_left`, `tip_right` the two sides at the tip.
 
 ```python
 save_figure(fig, "three_points",
-            "The two sides of condition C2, $p_3 + p_t$ (blue) and $2p_8$ (orange), "
+            "The two sides of condition C2, $p_3 + p_t$ (blue) and $2p_0$ (orange), "
             "of the Kohn-Sham state $N = 136$, $\\lambda = 0$, $a_{4,0} = 1$ at the "
             "tip $y = -3$, in the middle $y = -1.5$ and at the brane $y = 0$ "
             "(vertical axes: proper pressure in units of $m^8$, each panel with its "
             "own scale). C2 demands equal bars; near the tip the two sides even have "
             f"opposite signs (${tip_left:.1f}$ against "
-            f"${tip_right:.1f}$), in the middle $2p_8$ is {factors[0]:.2f} "
+            f"${tip_right:.1f}$), in the middle $2p_0$ is {factors[0]:.2f} "
             f"times $p_3 + p_t$ and at the brane {factors[1]:.2f} times.")
 ```
 
 The caption, joined from its strings as in In [6], inserts the two sides at the tip with one decimal, 158.3 against $-863.5$, and the two factors with two decimals, 2.58 and 4.82. Output: figure 17a.5 and its saved line.
 
-**What figure 17a.5 shows.** Three panels for the tip, the middle and the brane of the state $N = 136$, $\lambda = 0$, $a_{4,0} = 1$; vertical axes: pressure in units of $m^8$, each with its own scale. C2 demands two bars of equal height in each panel. At the tip the two sides do not even have the same sign; in the middle $2p_8$ is 2.58 times $p_3 + p_t$ (since $1.286648/0.498835 = 2.579$); at the brane it is 4.82 times. Exercise 2 repeats this arithmetic.
+**What figure 17a.5 shows.** Three panels for the tip, the middle and the brane of the state $N = 136$, $\lambda = 0$, $a_{4,0} = 1$; vertical axes: pressure in units of $m^8$, each with its own scale. C2 demands two bars of equal height in each panel. At the tip the two sides do not even have the same sign; in the middle $2p_0$ is 2.58 times $p_3 + p_t$ (since $1.286648/0.498835 = 2.579$); at the brane it is 4.82 times. Exercise 2 repeats this arithmetic.
 
-**In [14], condition C2 after integration over x8.**
+**In [14], condition C2 after integration over x0.**
 
 ```python
 def integral(sid, column):
@@ -1098,14 +1098,14 @@ def integral(sid, column):
 
 ```python
 ratio = {sid: (integral(sid, "int_p3") + integral(sid, "int_p_t"))
-         / (2.0 * integral(sid, "int_p8"))
-         for sid in nonzero if integral(sid, "int_p8") != 0.0}
+         / (2.0 * integral(sid, "int_p0"))
+         for sid in nonzero if integral(sid, "int_p0") != 0.0}
 closest = min(ratio, key=lambda sid: abs(ratio[sid] - 1.0))
 report("ratio closest to 1", f"{ratio[closest]:.6g} ({closest})")
 report("range of the ratio", f"{min(ratio.values()):.4f} to {max(ratio.values()):.4f}")
 ```
 
-`ratio` holds $R = (\int p_3 + \int p_t)/(2\int p_8)$ for every nonzero state (skipping, as a precaution, a state with $\int p_8 = 0$, which would make the division impossible; there is none). `closest` is the state whose ratio is nearest to 1: the `lambda` returns the distance from 1. Output: the ratio closest to 1 is 0.414328 (`N688_lamm2_a00`), and all ratios lie between 0.1072 and 0.4143.
+`ratio` holds $R = (\int p_3 + \int p_t)/(2\int p_0)$ for every nonzero state (skipping, as a precaution, a state with $\int p_0 = 0$, which would make the division impossible; there is none). `closest` is the state whose ratio is nearest to 1: the `lambda` returns the distance from 1. Output: the ratio closest to 1 is 0.414328 (`N688_lamm2_a00`), and all ratios lie between 0.1072 and 0.4143.
 
 ```python
 history_text = ", ".join(f"{sid}: {ratio[sid]:.6g}" for sid in
@@ -1117,11 +1117,11 @@ reproduces(len(ratio) == len(nonzero)
            and all(abs(r - 1.0) > TOL for r in ratio.values())
            and f"(closest to 1: {ratio[closest]:.6g} at {closest})" in detail
            and history_text in detail,
-           "C2 fails also after integration over x8, for every nonzero state",
+           "C2 fails also after integration over x0, for every nonzero state",
            SOURCE_REPORT, ["ks_integrals_violate_algebraic_condition"])
 ```
 
-The ratios of three states of the history are printed as the record prints them: 0.339767, 0.25969 and 0.239714 at the slices 0, 1 and 2. The check requires a ratio for every nonzero state, every ratio away from 1, and the record's text to contain our numbers. Output: PASS C2 fails also after integration over x8, for every nonzero state. (COMPUTED.) So even a source averaged over the hidden direction, a "dimensionally reduced" source, would violate C2.
+The ratios of three states of the history are printed as the record prints them: 0.339767, 0.25969 and 0.239714 at the slices 0, 1 and 2. The check requires a ratio for every nonzero state, every ratio away from 1, and the record's text to contain our numbers. Output: PASS C2 fails also after integration over x0, for every nonzero state. (COMPUTED.) So even a source averaged over the hidden direction, a "dimensionally reduced" source, would violate C2.
 
 **In [15], the averaged ratio (figure 6).**
 
@@ -1161,7 +1161,7 @@ A red dashed line at 1 with a short text under it. The two loops draw nothing (`
 
 ```python
 ax.set_xlabel("slice $a_{4,0}$")
-ax.set_ylabel("$(\\int p_3 + \\int p_t) / (2\\int p_8)$")
+ax.set_ylabel("$(\\int p_3 + \\int p_t) / (2\\int p_0)$")
 ax.set_ylim(0.0, 1.1)
 ax.legend(fontsize=7, ncol=2, loc="center right")
 near = max(max(ratio[f"N{n}_lam{tag}_{s}"] for tag, _ in TAGS)
@@ -1173,11 +1173,11 @@ Axis labels, the vertical range 0 to 1.1, a legend in two columns. `near` is, ov
 
 ```python
 save_figure(fig, "integrated_ratio",
-            "The ratio $(\\int p_3 + \\int p_t)/(2\\int p_8)$ of the pressures "
+            "The ratio $(\\int p_3 + \\int p_t)/(2\\int p_0)$ of the pressures "
             "integrated over the patch with the proper-volume weight, for every "
             "nonzero recorded Kohn-Sham state, against the slice $a_{4,0}$ "
             "(colours: particle number; line styles and markers: coupling; pure "
-            "numbers). A source averaged over $x_8$ would need the value $1$ (red "
+            "numbers). A source averaged over $x_0$ would need the value $1$ (red "
             "dashed line); the states lie between "
             f"${min(ratio.values()):.3f}$ and ${max(ratio.values()):.3f}$, so even "
             "the average violates condition C2. For $N = 136$ and $N = 688$ the "
@@ -1187,7 +1187,7 @@ save_figure(fig, "integrated_ratio",
 
 The caption, joined from its strings as in In [6], inserts the range of the ratios with three decimals, 0.107 to 0.414, and `near` with four decimals, 0.0045. Output: figure 17a.6 and its saved line.
 
-**What figure 17a.6 shows.** Horizontal axis: the slice $a_{4,0}$; vertical axis: $R$, a pure number. A source averaged over $x_8$ would need the red dashed line at 1. The $N = 8$ states lie flat between 0.107 and 0.110 (the same value at every slice; the four nonzero couplings differ slightly); the $N = 136$ states fall from 0.34 to 0.24 and the $N = 688$ states from 0.41 to 0.25 along the history; the five couplings of each of these two $N$ lie on top of each other. All points are far below 1. Section 17.15 explains why: by the integrated conservation law, $R = b_8/\bar p_8$ exactly, where $b_8 = [p_8(0) - e^{-6HL}p_8(-L)]/(1 - e^{-6HL})$ is the brane value of $p_8$ with a tip term; for $N = 136$ and $688$ the tip term supplies at most a few per cent of $R$, for $N = 8$ about a third.
+**What figure 17a.6 shows.** Horizontal axis: the slice $a_{4,0}$; vertical axis: $R$, a pure number. A source averaged over $x_0$ would need the red dashed line at 1. The $N = 8$ states lie flat between 0.107 and 0.110 (the same value at every slice; the four nonzero couplings differ slightly); the $N = 136$ states fall from 0.34 to 0.24 and the $N = 688$ states from 0.41 to 0.25 along the history; the five couplings of each of these two $N$ lie on top of each other. All points are far below 1. Section 17.15 explains why: by the integrated conservation law, $R = b_0/\bar p_0$ exactly, where $b_0 = [p_0(0) - e^{-6HL}p_0(-L)]/(1 - e^{-6HL})$ is the brane value of $p_0$ with a tip term; for $N = 136$ and $688$ the tip term supplies at most a few per cent of $R$, for $N = 8$ about a third.
 
 **In [16], condition C3 along the history.**
 
@@ -1242,7 +1242,7 @@ The check passes when both C3 tests fail and the record prints the same six line
 PARTS = [("int_rho", "$\\int\\rho$", "#2a78d6", "o"),
          ("int_p3", "$\\int p_3$", "#eb6834", "s"),
          ("int_p_t", "$\\int p_t$", "#1baf7a", "^"),
-         ("int_p8", "$\\int p_8$", "#4a3aa7", "D")]
+         ("int_p0", "$\\int p_0$", "#4a3aa7", "D")]
 fig, axes = plt.subplots(1, 2, figsize=(9.0, 3.8))
 for ax, n in zip(axes, (136, 688)):
     ids = [f"N{n}_lam0_{s}" for s in SLICES]
@@ -1276,43 +1276,43 @@ save_figure(fig, "history_integrals",
             "needs a constant $\\rho$ and equal pressures (condition C3); instead "
             f"$\\int\\rho$ falls by a factor of {drop[0]:.2f} ($N = 136$) and "
             f"{drop[1]:.2f} ($N = 688$) from $a_{{4,0}} = 0$ to $2$, $\\int p_3$ stays "
-            "above $\\int p_t = 0$, and $\\int p_8$ is different again.")
+            "above $\\int p_t = 0$, and $\\int p_0$ is different again.")
 ```
 
 The caption, joined from its strings as in In [6], inserts both factors with two decimals. In the f-string the subscript is written `a_{{4,0}}`, because inside an f-string a single brace would start a computed piece; the doubled braces print as one pair. Output: figure 17a.7 and its saved line.
 
-**What figure 17a.7 shows.** Horizontal axis: the slice $a_{4,0}$ of the history $a_4 = Hx_4$ (3-space inflates as $e^{a_4}$, the extra times deflate as $e^{-a_4}$); vertical axis: the integrals over the patch in units of $m$. C3 needs a horizontal blue line ($\int\rho$ constant) and the three pressure lines on top of each other. Instead $\int\rho$ falls by a factor of about 6 over the history, $\int p_3$ (orange) lies well above $\int p_t = 0$ (green, on the axis: without interaction the extra times carry no pressure), and $\int p_8$ (purple) is different again. Section 17.16 shows that the fall of the energy is exactly the work done by the unbalanced pressure, $\int p_3 > \int p_t$.
+**What figure 17a.7 shows.** Horizontal axis: the slice $a_{4,0}$ of the history $a_4 = Hx_4$ (3-space inflates as $e^{a_4}$, the extra times deflate as $e^{-a_4}$); vertical axis: the integrals over the patch in units of $m$. C3 needs a horizontal blue line ($\int\rho$ constant) and the three pressure lines on top of each other. Instead $\int\rho$ falls by a factor of about 6 over the history, $\int p_3$ (orange) lies well above $\int p_t = 0$ (green, on the axis: without interaction the extra times carry no pressure), and $\int p_0$ (purple) is different again. Section 17.16 shows that the fall of the energy is exactly the work done by the unbalanced pressure, $\int p_3 > \int p_t$.
 
 **In [18], the states N = 8.**
 
 ```python
-same, p3_equals_pt, p8_differs = True, True, True
+same, p3_equals_pt, p0_differs = True, True, True
 for tag in ("m2", "m1", "p1", "p2"):
     first = profiles[f"N8_lam{tag}_a00"]
     for slice_tag in SLICES:
         prof = profiles[f"N8_lam{tag}_{slice_tag}"]
         same = same and all(np.array_equal(prof[c], first[c]) for c in COLUMNS)
     p3_equals_pt = p3_equals_pt and np.array_equal(first["p3"], first["p_t"])
-    p8_differs = p8_differs and float(np.max(np.abs(first["p8"] - first["p3"]))) > 0
+    p0_differs = p0_differs and float(np.max(np.abs(first["p0"] - first["p3"]))) > 0
 ```
 
-Three flags start true. For each nonzero coupling of $N = 8$, the profiles of all five slices are compared with the first, column by column and bit for bit (`np.array_equal`); then the cell tests $p_3 = p_t$ exactly and $p_8 \ne p_3$ somewhere. The `and` keeps a flag true only if it stays true for every case.
+Three flags start true. For each nonzero coupling of $N = 8$, the profiles of all five slices are compared with the first, column by column and bit for bit (`np.array_equal`); then the cell tests $p_3 = p_t$ exactly and $p_0 \ne p_3$ somewhere. The `and` keeps a flag true only if it stays true for every case.
 
 ```python
 int_p3_n8 = integral("N8_lamp1_a00", "int_p3")  # N = 8, lambda = +lambda_1
-int_p8_n8 = integral("N8_lamp1_a00", "int_p8")
-say(f"N = 8, lambda = +lambda_1: int p3 = {int_p3_n8:.6g}, int p8 = {int_p8_n8:.6g}")
-check(same and p3_equals_pt and p8_differs,
-      "N = 8: the same state at every slice, p3 = p_t, but p8 differs from p3")
+int_p0_n8 = integral("N8_lamp1_a00", "int_p0")
+say(f"N = 8, lambda = +lambda_1: int p3 = {int_p3_n8:.6g}, int p0 = {int_p0_n8:.6g}")
+check(same and p3_equals_pt and p0_differs,
+      "N = 8: the same state at every slice, p3 = p_t, but p0 differs from p3")
 ```
 
-Two integrals of one $N = 8$ state are printed as an example: $\int p_3 = -0.000977659$ and $\int p_8 = -0.00889138$, so $p_8$ is not $p_3$. Output: that line and a PASS line. Why these states do not change: the eight zero modes have zero 3-momentum, and the slice enters the Kohn-Sham equations only through the redshifted momentum $ke^{-a_{4,0}}$ (the exact rescaling identity of Chapter 14), so for $k = 0$ nothing changes. They satisfy the part "constant $\rho$ and $p_3 = p_t$" of C3, but they fail C1 and C2 (In [7] and In [9]) and have $p_8 \ne p_3$.
+Two integrals of one $N = 8$ state are printed as an example: $\int p_3 = -0.000977659$ and $\int p_0 = -0.00889138$, so $p_0$ is not $p_3$. Output: that line and a PASS line. Why these states do not change: the eight zero modes have zero 3-momentum, and the slice enters the Kohn-Sham equations only through the redshifted momentum $ke^{-a_{4,0}}$ (the exact rescaling identity of Chapter 14), so for $k = 0$ nothing changes. They satisfy the part "constant $\rho$ and $p_3 = p_t$" of C3, but they fail C1 and C2 (In [7] and In [9]) and have $p_0 \ne p_3$.
 
 **In [19], the states with no source at all.**
 
 ```python
-kappa, rho, p8, Lam = sp.symbols("kappa rho p8 Lam", real=True)
-NAMES.update({"kappa": kappa, "rho": rho, "p8": p8, "Lam": Lam})
+kappa, rho, p0, Lam = sp.symbols("kappa rho p0 Lam", real=True)
+NAMES.update({"kappa": kappa, "rho": rho, "p0": p0, "Lam": Lam})
 
 
 def equation(text):
@@ -1321,18 +1321,18 @@ def equation(text):
     return parse(left) - parse(right)
 ```
 
-Four more real symbols ($\kappa$, $\rho$, $p_8$, $\Lambda$) are made and added to the names that `parse` knows (`update` adds pairs to a dictionary). The record writes an equation as `left == right`; `equation` cuts the text at `==` and returns left minus right, which is zero exactly when the equation holds.
+Four more real symbols ($\kappa$, $\rho$, $p_0$, $\Lambda$) are made and added to the names that `parse` knows (`update` adds pairs to a dictionary). The record writes an equation as `left == right`; `equation` cuts the text at `==` and returns left minus right, which is zero exactly when the equation holds.
 
 ```python
 einstein = equations["einstein"]
 x4_equation = equation(einstein["constraint_x4"]["input"]).subs({rho: 0})
-x8_equation = equation(einstein["hidden_x8"]["input"]).subs({p8: 0})
-difference = sp.expand(x4_equation - x8_equation)  # Lambda cancels
-say(f"x4 equation minus x8 equation with rho = p8 = 0: {difference} = 0")
+x0_equation = equation(einstein["hidden_x0"]["input"]).subs({p0: 0})
+difference = sp.expand(x4_equation - x0_equation)  # Lambda cancels
+say(f"x4 equation minus x0 equation with rho = p0 = 0: {difference} = 0")
 say(f"is the left side positive for real a4' and H > 0? {difference.is_positive}")
 ```
 
-The record's Einstein constraint `3*ad1^2 + 21*H^2 + Lam == -(kappa*rho)` and hidden equation `-3*ad1^2 + 15*H^2 + Lam == kappa*p8` become expressions with $\rho = 0$ and $p_8 = 0$; their difference, multiplied out, is the derivation of Section 17.6. `.is_positive` asks sympy whether the expression is positive for all allowed values of its symbols ($a_4'$ real, $H$ positive); sympy answers `True`. Output: `6*H**2 + 6*ad1**2 = 0` and `True`.
+The record's Einstein constraint `3*ad1^2 + 21*H^2 + Lam == -(kappa*rho)` and hidden equation `-3*ad1^2 + 15*H^2 + Lam == kappa*p0` become expressions with $\rho = 0$ and $p_0 = 0$; their difference, multiplied out, is the derivation of Section 17.6. `.is_positive` asks sympy whether the expression is positive for all allowed values of its symbols ($a_4'$ real, $H$ positive); sympy answers `True`. Output: `6*H**2 + 6*ad1**2 = 0` and `True`.
 
 ```python
 reproduces(difference == 6 * ad1 ** 2 + 6 * H ** 2 and difference.is_positive is True,
@@ -1437,7 +1437,7 @@ $$
 
 (rule: $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$ and the chain rule $\partial_\nu(f_\mu^2) = 2f_\mu\,\partial_\nu f_\mu$; cancel $2\eta_{\mu\mu}f_\mu$; the derivative of $\ln f$ is $f'/f$).
 
-**The divergence of a diagonal tensor.** (Section 9.9 derived this formula for every diagonal metric and applied it in the coordinate $x_8$; here we apply it in the coordinate $y$, and we repeat the short derivation so that this section can be read on its own.) Let $T^\mu{}_\nu$ be diagonal ($T^\mu{}_\nu = 0$ for $\mu \ne \nu$). In the three sums of the divergence only the terms with a diagonal entry survive: in the first only $\mu = \nu$; in the second only $\lambda = \nu$; in the third only $\lambda = \mu$. So
+**The divergence of a diagonal tensor.** (Section 9.9 derived this formula for every diagonal metric and applied it in the coordinate $x_0$; here we apply it in the coordinate $y$, and we repeat the short derivation so that this section can be read on its own.) Let $T^\mu{}_\nu$ be diagonal ($T^\mu{}_\nu = 0$ for $\mu \ne \nu$). In the three sums of the divergence only the terms with a diagonal entry survive: in the first only $\mu = \nu$; in the second only $\lambda = \nu$; in the third only $\lambda = \mu$. So
 
 $$
 \nabla_\mu T^\mu{}_\nu = \partial_\nu T^\nu{}_\nu + \sum_\mu\Gamma^\mu{}_{\mu\nu}\,T^\nu{}_\nu - \sum_\mu\Gamma^\mu{}_{\mu\nu}\,T^\mu{}_\mu
@@ -1463,21 +1463,21 @@ $$
 \partial_4\ln f_i = a_4', \quad \partial_4\ln f_t = -a_4', \quad \partial_y\ln f_i = \partial_y\ln f_t = H, \quad \text{all others } 0 .
 $$
 
-Take a diagonal source $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ whose entries depend on $x_4$ and $y$.
+Take a diagonal source $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_0)$ whose entries depend on $x_4$ and $y$.
 
-**The component $\nu = y$.** Here $T^y{}_y = p_8$. The three 3-space directions contribute $H(p_8 - p_3)$ each, the three extra times $H(p_8 - p_t)$ each, and $x_4$ and $y$ contribute nothing (their weight $\partial_y\ln f$ is zero):
+**The component $\nu = y$.** Here $T^y{}_y = p_0$. The three 3-space directions contribute $H(p_0 - p_3)$ each, the three extra times $H(p_0 - p_t)$ each, and $x_4$ and $y$ contribute nothing (their weight $\partial_y\ln f$ is zero):
 
 $$
-\nabla_\mu T^\mu{}_y = \partial_y p_8 + 3H(p_8 - p_3) + 3H(p_8 - p_t)
+\nabla_\mu T^\mu{}_y = \partial_y p_0 + 3H(p_0 - p_3) + 3H(p_0 - p_t)
 $$
 
 (rule: the formula above with $\nu = y$)
 
 $$
-= p_8' + 6Hp_8 - 3H(p_3 + p_t)
+= p_0' + 6Hp_0 - 3H(p_3 + p_t)
 $$
 
-(rule: multiply out and collect; the prime on $p_8$ is $\partial/\partial y$).
+(rule: multiply out and collect; the prime on $p_0$ is $\partial/\partial y$).
 
 **The component $\nu = x_4$.** Here $T^{x_4}{}_{x_4} = -\rho$:
 
@@ -1498,133 +1498,133 @@ $$
 **The conservation law.** A diagonal source in the author's metric is conserved exactly when
 
 $$
-\partial_4\rho = -3a_4'\,(p_3 - p_t) \qquad\text{and}\qquad p_8' + 6Hp_8 = 3H(p_3 + p_t).
+\partial_4\rho = -3a_4'\,(p_3 - p_t) \qquad\text{and}\qquad p_0' + 6Hp_0 = 3H(p_3 + p_t).
 $$
 
 (PROVED: `Revision/kohn_sham/reports/ks-theory-python.json`, checks `emt_y_conservation_selfconsistent` and `emt_x4_component`; recorded in `Revision/kohn_sham/ks-theory.json`, keys `emt.conservationY` and `emt.energyChange`; derived again with sympy in Notebook 17b, In [9].)
 
-**The same in the author's coordinate $x_8$.** The record of the $a_4$ equations writes the law in the coordinate $x_8$, for the general source with mixed entries (key `generalSource`, equations `conservation_x4` and `conservation_x8`):
+**The same in the author's coordinate $x_0$.** The record of the $a_4$ equations writes the law in the coordinate $x_0$, for the general source with mixed entries (key `generalSource`, equations `conservation_x4` and `conservation_x0`):
 
 $$
 \begin{aligned}
-\nabla_\mu T^\mu{}_{x_4} &= -\partial_4\rho - 3a_4'(p_3 - p_t) + \partial_8 q_{84} - 6H\tan z\;q_{84}, \\
-\nabla_\mu T^\mu{}_{x_8} &= \partial_8 p_8 + 3H\cot z\,\big(2p_8 - p_3 - p_t\big) + \partial_4 q_{48}
+\nabla_\mu T^\mu{}_{x_4} &= -\partial_4\rho - 3a_4'(p_3 - p_t) + \partial_0 q_{04} - 6H\tan z\;q_{04}, \\
+\nabla_\mu T^\mu{}_{x_0} &= \partial_0 p_0 + 3H\cot z\,\big(2p_0 - p_3 - p_t\big) + \partial_4 q_{40}
 \end{aligned}
 $$
 
-(PROVED: Wolfram and sympy reports, check `conservation_components`; sympy report, check `json_conservation`; derived again in Notebook 17b, In [7] and In [8]). With $q_{48} = q_{84} = 0$ the two forms agree. By the chain rule of Section 17.4, $\partial_8 = (dy/dx_8)\,\partial_y = \cot z\,\partial_y$, so
+(PROVED: Wolfram and sympy reports, check `conservation_components`; sympy report, check `json_conservation`; derived again in Notebook 17b, In [7] and In [8]). With $q_{40} = q_{04} = 0$ the two forms agree. By the chain rule of Section 17.4, $\partial_0 = (dy/dx_0)\,\partial_y = \cot z\,\partial_y$, so
 
 $$
-\partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t) = \cot z\,\big[p_8' + 6Hp_8 - 3H(p_3 + p_t)\big]
+\partial_0 p_0 + 3H\cot z\,(2p_0 - p_3 - p_t) = \cot z\,\big[p_0' + 6Hp_0 - 3H(p_3 + p_t)\big]
 $$
 
-(rule: write $\partial_8 p_8 = \cot z\,p_8'$ and take out the common factor $\cot z$; $3H\cdot 2p_8 = 6Hp_8$). Since $\cot z > 0$ on the patch, the $x_8$ law and the $y$ law say the same.
+(rule: write $\partial_0 p_0 = \cot z\,p_0'$ and take out the common factor $\cot z$; $3H\cdot 2p_0 = 6Hp_0$). Since $\cot z > 0$ on the patch, the $x_0$ law and the $y$ law say the same.
 
-### 17.14 For a conserved source, C2 says that p8 is flat
+### 17.14 For a conserved source, C2 says that p0 is flat
 
 **The key step.** Take a conserved diagonal source and solve the $y$ law for $p_3 + p_t$:
 
 $$
-p_3 + p_t = \frac{p_8' + 6Hp_8}{3H}
+p_3 + p_t = \frac{p_0' + 6Hp_0}{3H}
 $$
 
-(rule: divide both sides of $p_8' + 6Hp_8 = 3H(p_3 + p_t)$ by $3H$, which is not zero). Insert this into the violation of C2:
+(rule: divide both sides of $p_0' + 6Hp_0 = 3H(p_3 + p_t)$ by $3H$, which is not zero). Insert this into the violation of C2:
 
 $$
-V = p_3 + p_t - 2p_8
+V = p_3 + p_t - 2p_0
 $$
 
 (rule: the definition of $V$, Section 17.5)
 
 $$
-= \frac{p_8' + 6Hp_8}{3H} - 2p_8
+= \frac{p_0' + 6Hp_0}{3H} - 2p_0
 $$
 
 (rule: replace $p_3 + p_t$ by its value from the conservation law)
 
 $$
-= \frac{p_8'}{3H} + 2p_8 - 2p_8 = \frac{p_8'}{3H}
+= \frac{p_0'}{3H} + 2p_0 - 2p_0 = \frac{p_0'}{3H}
 $$
 
-(rule: split the fraction, $6Hp_8/(3H) = 2p_8$, and cancel). So, for EVERY conserved diagonal source,
+(rule: split the fraction, $6Hp_0/(3H) = 2p_0$, and cancel). So, for EVERY conserved diagonal source,
 
 $$
-p_3 + p_t - 2p_8 = \frac{1}{3H}\,\frac{\partial p_8}{\partial y} .
+p_3 + p_t - 2p_0 = \frac{1}{3H}\,\frac{\partial p_0}{\partial y} .
 $$
 
 (PROVED: Notebook 17b, In [10], with sympy, from the conservation law of In [9].)
 
 **What it means.**
 
-- For a conserved source, C2 holds at a point exactly when $p_8$ is flat there ($\partial p_8/\partial y = 0$). C2 is not an extra demand on top of conservation: it is the $p_8$ part of C1. A conserved source that meets C1 meets C2 automatically.
-- For the Kohn-Sham states the violation of C2 is, point by point, the slope of their hidden pressure divided by $3H$. Their $p_8$ changes by several powers of ten along $y$ (figure 2 of Notebook 17b: the largest $|p_8|$ is 2933 to $2.3 \times 10^{6}$ times the smallest, for $N = 136$, $\lambda = 0$), so $V$ cannot be small.
-- The single change of sign of $V$ in figure 17a.3 is now clear: $V$ is zero exactly where $p_8$ has its maximum. The Kohn-Sham $p_8$ is negative near the tip, rises steeply, has one maximum (near $y \approx -2.2$ for most slices), and then falls toward the brane; so $V > 0$ on the tip side of the maximum and $V < 0$ on the brane side.
-- The identity is COMPUTED on all 70 nonzero states with fourth-order finite differences of the stored profiles: $|p_8'/(3H) - V|$ is at most $1.05 \times 10^{-4}$ of max|T|, and the difference falls like the fourth power of the step, as an error of the differences must (Notebook 17b, In [11] and In [13]).
+- For a conserved source, C2 holds at a point exactly when $p_0$ is flat there ($\partial p_0/\partial y = 0$). C2 is not an extra demand on top of conservation: it is the $p_0$ part of C1. A conserved source that meets C1 meets C2 automatically.
+- For the Kohn-Sham states the violation of C2 is, point by point, the slope of their hidden pressure divided by $3H$. Their $p_0$ changes by several powers of ten along $y$ (figure 2 of Notebook 17b: the largest $|p_0|$ is 2933 to $2.3 \times 10^{6}$ times the smallest, for $N = 136$, $\lambda = 0$), so $V$ cannot be small.
+- The single change of sign of $V$ in figure 17a.3 is now clear: $V$ is zero exactly where $p_0$ has its maximum. The Kohn-Sham $p_0$ is negative near the tip, rises steeply, has one maximum (near $y \approx -2.2$ for most slices), and then falls toward the brane; so $V > 0$ on the tip side of the maximum and $V < 0$ on the brane side.
+- The identity is COMPUTED on all 70 nonzero states with fourth-order finite differences of the stored profiles: $|p_0'/(3H) - V|$ is at most $1.05 \times 10^{-4}$ of max|T|, and the difference falls like the fourth power of the step, as an error of the differences must (Notebook 17b, In [11] and In [13]).
 
-**A conserved profile that is not flat.** Exercise 6 shows that, when $p_3 + p_t = P$ is a constant, every conserved $p_8$ has the form $p_8 = P/2 + c\,e^{-6Hy}$ with a constant $c$, and only $c = 0$ satisfies C2. Conservation allows many profiles; the field equations of the author's metric allow only the flat one.
+**A conserved profile that is not flat.** Exercise 6 shows that, when $p_3 + p_t = P$ is a constant, every conserved $p_0$ has the form $p_0 = P/2 + c\,e^{-6Hy}$ with a constant $c$, and only $c = 0$ satisfies C2. Conservation allows many profiles; the field equations of the author's metric allow only the flat one.
 
 ### 17.15 The integrated law and the averaged condition
 
 **The integrated law.** Multiply the $y$ law by $e^{6Hy}$:
 
 $$
-e^{6Hy}p_8' + 6He^{6Hy}p_8 = 3H\,e^{6Hy}(p_3 + p_t)
+e^{6Hy}p_0' + 6He^{6Hy}p_0 = 3H\,e^{6Hy}(p_3 + p_t)
 $$
 
 (rule: multiply both sides by the positive number $e^{6Hy}$)
 
 $$
-\frac{d}{dy}\big(e^{6Hy}p_8\big) = 3H\,e^{6Hy}(p_3 + p_t)
+\frac{d}{dy}\big(e^{6Hy}p_0\big) = 3H\,e^{6Hy}(p_3 + p_t)
 $$
 
-(rule: the product rule read backwards, $(e^{6Hy}p_8)' = e^{6Hy}p_8' + 6He^{6Hy}p_8$). Integrate from the tip cutoff $y = -L$ to the brane $y = 0$:
+(rule: the product rule read backwards, $(e^{6Hy}p_0)' = e^{6Hy}p_0' + 6He^{6Hy}p_0$). Integrate from the tip cutoff $y = -L$ to the brane $y = 0$:
 
 $$
-e^{0}\,p_8(0) - e^{-6HL}\,p_8(-L) = 3H\int_{-L}^{0}e^{6Hy}(p_3 + p_t)\,dy
+e^{0}\,p_0(0) - e^{-6HL}\,p_0(-L) = 3H\int_{-L}^{0}e^{6Hy}(p_3 + p_t)\,dy
 $$
 
 (rule: the fundamental theorem of calculus, the integral of a derivative is the difference of the values at the ends). Multiply by $2\,\mathrm{Vol}_7$ and use the notation $\int X$ of Section 17.7:
 
 $$
-2\,\mathrm{Vol}_7\big[p_8(0) - e^{-6HL}p_8(-L)\big] = 3H\Big(\int p_3 + \int p_t\Big) .
+2\,\mathrm{Vol}_7\big[p_0(0) - e^{-6HL}p_0(-L)\big] = 3H\Big(\int p_3 + \int p_t\Big) .
 $$
 
 (PROVED from the $y$ law. COMPUTED on the 70 nonzero states with the brane values, tip values and integrals of the record's table: the two sides agree to a relative difference of at most $1.421 \times 10^{-11}$; the solver's own relative difference of the same two sides, column `ycons_integrated_rel` (computed from its unrounded numbers and divided by the largest of the terms involved), is at most $1.422 \times 10^{-11}$, the value of the solver check `emt_y_conservation_integrated`; Notebook 17b, In [14].)
 
-**Why the averaged ratio is not 1.** The averaged form of C2 asks for $R = (\int p_3 + \int p_t)/(2\int p_8) = 1$. By the definition of the weighted mean (Section 17.7),
+**Why the averaged ratio is not 1.** The averaged form of C2 asks for $R = (\int p_3 + \int p_t)/(2\int p_0) = 1$. By the definition of the weighted mean (Section 17.7),
 
 $$
-\int p_8 = 2\,\mathrm{Vol}_7\,\bar p_8\,\frac{1 - e^{-6HL}}{6H} .
+\int p_0 = 2\,\mathrm{Vol}_7\,\bar p_0\,\frac{1 - e^{-6HL}}{6H} .
 $$
 
-Divide the integrated law by $2\int p_8$:
+Divide the integrated law by $2\int p_0$:
 
 $$
-R = \frac{\int p_3 + \int p_t}{2\int p_8} = \frac{2\,\mathrm{Vol}_7\big[p_8(0) - e^{-6HL}p_8(-L)\big]/(3H)}{2\cdot 2\,\mathrm{Vol}_7\,\bar p_8\,(1 - e^{-6HL})/(6H)}
+R = \frac{\int p_3 + \int p_t}{2\int p_0} = \frac{2\,\mathrm{Vol}_7\big[p_0(0) - e^{-6HL}p_0(-L)\big]/(3H)}{2\cdot 2\,\mathrm{Vol}_7\,\bar p_0\,(1 - e^{-6HL})/(6H)}
 $$
 
 (rule: the numerator from the integrated law divided by $3H$; the denominator from the line above)
 
 $$
-= \frac{p_8(0) - e^{-6HL}\,p_8(-L)}{(1 - e^{-6HL})\,\bar p_8}
+= \frac{p_0(0) - e^{-6HL}\,p_0(-L)}{(1 - e^{-6HL})\,\bar p_0}
 $$
 
-(rule: cancel $2\,\mathrm{Vol}_7$; $\frac{1/(3H)}{2/(6H)} = \frac{6H}{6H} = 1$). We call the numerator, divided by $1 - e^{-6HL}$, the **boundary value** of $p_8$,
+(rule: cancel $2\,\mathrm{Vol}_7$; $\frac{1/(3H)}{2/(6H)} = \frac{6H}{6H} = 1$). We call the numerator, divided by $1 - e^{-6HL}$, the **boundary value** of $p_0$,
 
 $$
-b_8 = \frac{p_8(0) - e^{-6HL}\,p_8(-L)}{1 - e^{-6HL}}, \qquad R = \frac{b_8}{\bar p_8} \quad\text{exactly.}
+b_0 = \frac{p_0(0) - e^{-6HL}\,p_0(-L)}{1 - e^{-6HL}}, \qquad R = \frac{b_0}{\bar p_0} \quad\text{exactly.}
 $$
 
-The averaged C2 asks that the boundary value of the hidden pressure equal its weighted mean. That is true for a flat $p_8$ and false for the Kohn-Sham states, for two different reasons.
+The averaged C2 asks that the boundary value of the hidden pressure equal its weighted mean. That is true for a flat $p_0$ and false for the Kohn-Sham states, for two different reasons.
 
-- For the states with 3-momentum ($N = 136$ and $N = 688$) the weight $e^{6Hy}$ puts most of the mean in the last stretch before the brane (at $y = -1$ the weight is already $e^{-6} \approx 0.0025$): Notebook 17b, In [15], finds that the last unit, $-1 \le y \le 0$, supplies between 0.812 and 0.932 of the integral of $e^{6Hy}p_8$ for $N = 136$ and between 0.816 and 0.969 for $N = 688$. There their $p_8$ falls toward the brane, so its boundary value lies below its mean.
-- For the $N = 8$ brane zero modes the size of $p_8$ falls almost like $e^{-6Hy}$ over most of the patch (the shape of the term $c\,e^{-6Hy}$ in Exercise 6), so the product $e^{6Hy}p_8$ is nearly flat there and the mean comes from the whole patch: the last unit supplies only 0.439 to 0.441 of the integral (In [15]). A nearly flat $e^{6Hy}p_8$ makes the mean much larger than the brane value. To see the size, suppose $e^{6Hy}p_8$ were exactly a constant $c$; then $p_8(0) = c$, while $\bar p_8 = cL/[(1 - e^{-6HL})/(6H)] \approx 6HL\,c = 18\,c$ (rule: the integral of the constant $c$ from $-L$ to $0$ is $cL$; then divide by the volume factor of Section 17.7, use $1 - e^{-6HL} \approx 1$, and $H = 1$, $L = 3$). The brane value alone would then give the ratio $1/18 \approx 0.056$; the recorded states give $0.074$ (next paragraph). For these states the tip term is not small either: at the tip $e^{6Hy}p_8$ is not tiny compared with its brane value (it has the opposite sign there), so the term $-e^{-6HL}p_8(-L)$ supplies about a third of $b_8$ (next paragraph). This is the difference from the states with 3-momentum, whose $e^{6Hy}p_8$ is concentrated near the brane.
+- For the states with 3-momentum ($N = 136$ and $N = 688$) the weight $e^{6Hy}$ puts most of the mean in the last stretch before the brane (at $y = -1$ the weight is already $e^{-6} \approx 0.0025$): Notebook 17b, In [15], finds that the last unit, $-1 \le y \le 0$, supplies between 0.812 and 0.932 of the integral of $e^{6Hy}p_0$ for $N = 136$ and between 0.816 and 0.969 for $N = 688$. There their $p_0$ falls toward the brane, so its boundary value lies below its mean.
+- For the $N = 8$ brane zero modes the size of $p_0$ falls almost like $e^{-6Hy}$ over most of the patch (the shape of the term $c\,e^{-6Hy}$ in Exercise 6), so the product $e^{6Hy}p_0$ is nearly flat there and the mean comes from the whole patch: the last unit supplies only 0.439 to 0.441 of the integral (In [15]). A nearly flat $e^{6Hy}p_0$ makes the mean much larger than the brane value. To see the size, suppose $e^{6Hy}p_0$ were exactly a constant $c$; then $p_0(0) = c$, while $\bar p_0 = cL/[(1 - e^{-6HL})/(6H)] \approx 6HL\,c = 18\,c$ (rule: the integral of the constant $c$ from $-L$ to $0$ is $cL$; then divide by the volume factor of Section 17.7, use $1 - e^{-6HL} \approx 1$, and $H = 1$, $L = 3$). The brane value alone would then give the ratio $1/18 \approx 0.056$; the recorded states give $0.074$ (next paragraph). For these states the tip term is not small either: at the tip $e^{6Hy}p_0$ is not tiny compared with its brane value (it has the opposite sign there), so the term $-e^{-6HL}p_0(-L)$ supplies about a third of $b_0$ (next paragraph). This is the difference from the states with 3-momentum, whose $e^{6Hy}p_0$ is concentrated near the brane.
 
-**Is the tip term small?** The factor $e^{-6HL} = e^{-18} \approx 1.5 \times 10^{-8}$ is tiny, but near the tip $|p_8|$ is enormous, so the answer depends on the state. Notebook 17b, In [15], measures the share $1 - p_8(0)/b_8$ of $R$ that the tip term supplies: from $4.1 \times 10^{-5}$ to $0.039$ for $N = 136$, from $5.3 \times 10^{-6}$ to $0.025$ for $N = 688$, but $0.31$ to $0.33$ for the 20 nonzero $N = 8$ states. So $R \approx p_8(\text{brane})/\bar p_8$ is a fair description of the states with 3-momentum and a poor one for the brane zero modes: for them the brane value alone would give ratios from $0.074$ (the caption of figure 17b.4), and the tip term raises them to the values $R = 0.107$ to $0.110$ of figure 17a.6. The exact formula reproduces every ratio of Notebook 17a to a relative difference of $1.4 \times 10^{-11}$ (Notebook 17b, In [15]); Exercise 5 computes one by hand.
+**Is the tip term small?** The factor $e^{-6HL} = e^{-18} \approx 1.5 \times 10^{-8}$ is tiny, but near the tip $|p_0|$ is enormous, so the answer depends on the state. Notebook 17b, In [15], measures the share $1 - p_0(0)/b_0$ of $R$ that the tip term supplies: from $4.1 \times 10^{-5}$ to $0.039$ for $N = 136$, from $5.3 \times 10^{-6}$ to $0.025$ for $N = 688$, but $0.31$ to $0.33$ for the 20 nonzero $N = 8$ states. So $R \approx p_0(\text{brane})/\bar p_0$ is a fair description of the states with 3-momentum and a poor one for the brane zero modes: for them the brane value alone would give ratios from $0.074$ (the caption of figure 17b.4), and the tip term raises them to the values $R = 0.107$ to $0.110$ of figure 17a.6. The exact formula reproduces every ratio of Notebook 17a to a relative difference of $1.4 \times 10^{-11}$ (Notebook 17b, In [15]); Exercise 5 computes one by hand.
 
 ### 17.16 The time direction: energy exchange and the propagation of the constraint
 
-**The energy-change law.** For a source that does not depend on $x_8$, the $x_4$ law of Section 17.13 reads
+**The energy-change law.** For a source that does not depend on $x_0$, the $x_4$ law of Section 17.13 reads
 
 $$
 \rho' = -3a_4'\,(p_3 - p_t)
@@ -1652,7 +1652,7 @@ $$
 
 (Solver check `emt_energy_change_dE_da4` of the report named in Section 17.12: the derivative that the solver computes from extra self-consistent states at $a_4 \pm \delta$ and $a_4 \pm 2\delta$ around each slice, with $\delta = 0.002$ and fixed occupations, agrees with the right-hand side in all 75 cases; the difference, divided by the larger of the sum of the absolute orbital energies and $m$, is at most $1.505 \times 10^{-10}$.) For $\lambda = 0$, $\int p_t = 0$ and $\int p_3 > 0$, so the energy must FALL along the history. For $N = 136$ at the first slice the rate is $-3 \times 23.8133 = -71.44$ (units of $m$ per unit of $a_{4,0}$). Over the whole history the energy falls from $80.2822$ to $12.4451$; Simpson's rule applied to the five recorded rates reproduces the change $-67.8372$ to a relative error of $2.1 \times 10^{-4}$, and for all ten series that change, to at most $2.2 \times 10^{-4}$ (COMPUTED; Notebook 17b, In [18]; Exercise 7).
 
-**Point by point the time law fails.** Notebook 17b, In [20], tests $\partial\rho/\partial a_4 = -3(p_3 - p_t)$ at every grid point of the slice $a_{4,0} = 1$, with a fourth-order difference in $a_4$ over the five slices. For $N = 136$, $\lambda = 0$ it finds at the tip $\partial\rho/\partial a_4 = 82.97$ against $-3(p_3 - p_t) = -474.8$ (opposite signs: the energy density near the tip GROWS along the history while its pressure says it should fall), in the middle ($y = -1.5$) $-0.4505$ against $-1.497$, and at the brane $-0.002068$ against $-0.001174$. In all ten series with 3-momentum the ratio of the two sides at the tip is negative ($-0.327$ to $-0.106$), while the two sides integrated over the patch with the weight $e^{6Hy}$ agree to $1.3 \times 10^{-3}$, the accuracy of a difference with step $0.5$ (COMPUTED). The reason is the one given in Section 17.12: an instantaneous state has no energy flux $q_{84}$ along $y$, so the energy of each layer of the patch cannot be balanced by flow into its neighbours; only the total is balanced. A genuinely time-dependent state of the gas would need such a flux, $q_{84} \ne 0$, and C1 forbids it: a further reason why the history is only a prescribed background.
+**Point by point the time law fails.** Notebook 17b, In [20], tests $\partial\rho/\partial a_4 = -3(p_3 - p_t)$ at every grid point of the slice $a_{4,0} = 1$, with a fourth-order difference in $a_4$ over the five slices. For $N = 136$, $\lambda = 0$ it finds at the tip $\partial\rho/\partial a_4 = 82.97$ against $-3(p_3 - p_t) = -474.8$ (opposite signs: the energy density near the tip GROWS along the history while its pressure says it should fall), in the middle ($y = -1.5$) $-0.4505$ against $-1.497$, and at the brane $-0.002068$ against $-0.001174$. In all ten series with 3-momentum the ratio of the two sides at the tip is negative ($-0.327$ to $-0.106$), while the two sides integrated over the patch with the weight $e^{6Hy}$ agree to $1.3 \times 10^{-3}$, the accuracy of a difference with step $0.5$ (COMPUTED). The reason is the one given in Section 17.12: an instantaneous state has no energy flux $q_{04}$ along $y$, so the energy of each layer of the patch cannot be balanced by flow into its neighbours; only the total is balanced. A genuinely time-dependent state of the gas would need such a flux, $q_{04} \ne 0$, and C1 forbids it: a further reason why the history is only a prescribed background.
 
 **The constraint propagates.** Write the constraint and the evolution equation of Section 17.3 as two expressions that must vanish:
 
@@ -1698,25 +1698,25 @@ $$
 \frac{d\mathcal C}{dx_4} = -3AH\kappa\,(p_3 - p_t) .
 $$
 
-A conserved source with $p_3 \ne p_t$ therefore makes the constraint drift: even if it held at one instant, it would fail at the next. The constraint of the linear member can hold at all times only if $p_3 = p_t$; then $\rho' = 0$ and, with C2, $p_8 = p_3$. For a conserved source along the linear member, C3 therefore reduces to the single demand $p_3 = p_t$: the constant $\rho$ then follows from conservation, and $p_8 = p_3$ from C2. The Kohn-Sham gas at $\lambda = 0$ has $p_t = 0$ and $\int p_3 > 0$: its energy falls along the history, which the linear member forbids.
+A conserved source with $p_3 \ne p_t$ therefore makes the constraint drift: even if it held at one instant, it would fail at the next. The constraint of the linear member can hold at all times only if $p_3 = p_t$; then $\rho' = 0$ and, with C2, $p_0 = p_3$. For a conserved source along the linear member, C3 therefore reduces to the single demand $p_3 = p_t$: the constant $\rho$ then follows from conservation, and $p_0 = p_3$ from C2. The Kohn-Sham gas at $\lambda = 0$ has $p_t = 0$ and $\int p_3 > 0$: its energy falls along the history, which the linear member forbids.
 
 **Summary of Sections 17.12 to 17.16.** For a conserved diagonal source in the author's metric:
 
 | condition | what it says in general | what it says for a conserved source | the Kohn-Sham states |
 | --- | --- | --- | --- |
-| C1 | no component depends on $x_8$ | $\rho$, $p_3$, $p_t$ flat; $p_8$ flat is C2 | fail: profiles vary by powers of ten |
-| C2 | $p_3 + p_t = 2p_8$ | $p_8$ flat | fail: $V = p_8'/(3H)$ is large |
-| C3 | $p_3 = p_t = p_8$, $\rho$ constant | $p_3 = p_t$ (then $\rho$ constant, $p_8 = p_3$) | fail: $\int p_3 > \int p_t$, $E$ falls by a factor of about 6 |
+| C1 | no component depends on $x_0$ | $\rho$, $p_3$, $p_t$ flat; $p_0$ flat is C2 | fail: profiles vary by powers of ten |
+| C2 | $p_3 + p_t = 2p_0$ | $p_0$ flat | fail: $V = p_0'/(3H)$ is large |
+| C3 | $p_3 = p_t = p_0$, $\rho$ constant | $p_3 = p_t$ (then $\rho$ constant, $p_0 = p_3$) | fail: $\int p_3 > \int p_t$, $E$ falls by a factor of about 6 |
 
 The Kohn-Sham source is conserved along the hidden direction at every point ($y$ law), and in the time direction only for the total energy of the patch ($dE/dx_4$ law); it is NOT ADMISSIBLE.
 
 ### 17.17 The equations averaged over the hidden direction: what can and cannot be integrated
 
-Sections 17.4 to 17.16 show that the field equations of the author's metric cannot hold, point by point, with any recorded Kohn-Sham ground state as the source. The Revision record `Revision/field_equations_a4/ks_source/` (script `ks_source_a4.py`, report `reports/ks-source-a4.json` with 23 checks, all PASS) asks the next questions. How far is the source from one that does not depend on $x_8$? Which weaker, averaged equations can it satisfy? And what do those averaged equations say about $a_4(x_4)$, in particular about the exponential deflation of the extra times? This section derives the answers; Notebook 17b, In [21] to In [23], reproduces the numbers it needs.
+Sections 17.4 to 17.16 show that the field equations of the author's metric cannot hold, point by point, with any recorded Kohn-Sham ground state as the source. The Revision record `Revision/field_equations_a4/ks_source/` (script `ks_source_a4.py`, report `reports/ks-source-a4.json` with 23 checks, all PASS) asks the next questions. How far is the source from one that does not depend on $x_0$? Which weaker, averaged equations can it satisfy? And what do those averaged equations say about $a_4(x_4)$, in particular about the exponential deflation of the extra times? This section derives the answers; Notebook 17b, In [21] to In [23], reproduces the numbers it needs.
 
-**The $x_8$ identity once more.** The record proves for every Lovelock order $k$ that $E_{(k)}{}^{x_1}{}_{x_1} + E_{(k)}{}^{x_5}{}_{x_5} - 2E_{(k)}{}^{x_8}{}_{x_8} = 0$ (check `A1_lovelock_identity_x1_plus_x5_equals_2x8`; it is the identity behind C2 in Section 17.5), and that the $y$ law of Section 17.13 gives, for a source that obeys it, $p_3 + p_t - 2p_8 = p_8'(y)/(3H)$ exactly (check `A6_x8_conservation_in_y`; it is Section 17.14). The record then evaluates the $y$ law on all 70 nonzero profiles with fourth-order differences and finds it satisfied to $6.63404 \times 10^{-5}$ of the largest term (check `B2_x8_conservation_on_every_profile`). This refines the wording of the first record `ks-source-conditions.json` (check `B0_wave1_report_verified`): the recorded states do NOT violate the conservation identity of the hidden direction; what they violate is $p_3 + p_t = 2p_8$, which is that identity combined with the independence of $x_8$ (PROVED and COMPUTED, as stated).
+**The $x_0$ identity once more.** The record proves for every Lovelock order $k$ that $E_{(k)}{}^{x_1}{}_{x_1} + E_{(k)}{}^{x_5}{}_{x_5} - 2E_{(k)}{}^{x_0}{}_{x_0} = 0$ (check `A1_lovelock_identity_x1_plus_x5_equals_2x8`; it is the identity behind C2 in Section 17.5), and that the $y$ law of Section 17.13 gives, for a source that obeys it, $p_3 + p_t - 2p_0 = p_0'(y)/(3H)$ exactly (check `A6_x0_conservation_in_y`; it is Section 17.14). The record then evaluates the $y$ law on all 70 nonzero profiles with fourth-order differences and finds it satisfied to $6.63404 \times 10^{-5}$ of the largest term (check `B2_x0_conservation_on_every_profile`). This refines the wording of the first record `ks-source-conditions.json` (check `B0_wave1_report_verified`): the recorded states do NOT violate the conservation identity of the hidden direction; what they violate is $p_3 + p_t = 2p_0$, which is that identity combined with the independence of $x_0$ (PROVED and COMPUTED, as stated).
 
-**How far from an $x_8$-independent source? The projection mismatch.** Among all functions that do not depend on $y$, which one is closest to a profile $X(y)$? Measure the distance with the volume weight, $D(c) = \int_{-L}^{0}e^{6Hy}\,(X - c)^2\,dy$ for a constant $c$. Its derivative with respect to $c$ is
+**How far from an $x_0$-independent source? The projection mismatch.** Among all functions that do not depend on $y$, which one is closest to a profile $X(y)$? Measure the distance with the volume weight, $D(c) = \int_{-L}^{0}e^{6Hy}\,(X - c)^2\,dy$ for a constant $c$. Its derivative with respect to $c$ is
 
 $$
 \frac{dD}{dc} = -2\int_{-L}^{0}e^{6Hy}\,(X - c)\,dy
@@ -1728,7 +1728,7 @@ $$
 \int_{-L}^{0}e^{6Hy}X\,dy = c\int_{-L}^{0}e^{6Hy}\,dy, \qquad c = \frac{\int_{-L}^{0}e^{6Hy}X\,dy}{\int_{-L}^{0}e^{6Hy}\,dy} = \bar X
 $$
 
-(rule: split the integral, take the constant $c$ out, divide by the positive number $\int e^{6Hy}dy$). So the closest flat profile is the weighted mean $\bar X$ of Section 17.7; it is called the **orthogonal projection** of $X$ on the flat functions. The record measures the remaining part in two ways: $\mu_1 = \int e^{6Hy}|X - \bar X|\,dy/\int e^{6Hy}|X|\,dy$ (the **L1 measure**) and $\mu = \sqrt{D(\bar X)/D(0)}$ (the **L2 measure**); both are 0 for a flat profile. Over the 70 nonzero states the energy density has $\mu_1$ between $0.583068$ and $0.763572$ and $\mu$ between $0.754082$ and $1$ (check `B4_hidden_direction_mismatch`; the record prefers the L1 measure, because the L2 measure is dominated by the large values near the tip and so depends more on the tip cutoff). At least about 58 per cent of the energy density deviates from its average: the source is not close to an $x_8$-independent one (COMPUTED).
+(rule: split the integral, take the constant $c$ out, divide by the positive number $\int e^{6Hy}dy$). So the closest flat profile is the weighted mean $\bar X$ of Section 17.7; it is called the **orthogonal projection** of $X$ on the flat functions. The record measures the remaining part in two ways: $\mu_1 = \int e^{6Hy}|X - \bar X|\,dy/\int e^{6Hy}|X|\,dy$ (the **L1 measure**) and $\mu = \sqrt{D(\bar X)/D(0)}$ (the **L2 measure**); both are 0 for a flat profile. Over the 70 nonzero states the energy density has $\mu_1$ between $0.583068$ and $0.763572$ and $\mu$ between $0.754082$ and $1$ (check `B4_hidden_direction_mismatch`; the record prefers the L1 measure, because the L2 measure is dominated by the large values near the tip and so depends more on the tip cutoff). At least about 58 per cent of the energy density deviates from its average: the source is not close to an $x_0$-independent one (COMPUTED).
 
 **The moment equations.** Take any one of the field equations of Section 17.3, say the constraint $e_{44} + \Lambda = -\kappa\rho$, multiply it by $e^{6Hy}$ and integrate over the patch:
 
@@ -1748,7 +1748,7 @@ $$
 e_{44} + \Lambda = -\kappa\,\bar\rho
 $$
 
-(rule: divide by $W > 0$). Each field equation gives in this way its **moment**: the same equation with every component of the source replaced by its weighted mean. Every exact solution would satisfy all of them, so they are NECESSARY conditions, weaker than the field equations themselves (PROVED: it is one line of algebra). The combination $x_1 + x_5 - 2x_8$ of the moments reads $0 = \kappa(\bar p_3 + \bar p_t - 2\bar p_8)$, the averaged C2. The record measures its failure by the relative defect $|\bar p_3 + \bar p_t - 2\bar p_8|/(|\bar p_3| + |\bar p_t| + 2|\bar p_8|)$, which lies between $0.414086$ (`N688_lamm2_a00`) and $0.806379$ over the 70 nonzero states (check `C1_averaged_algebraic_condition_fails`; reproduced in Notebook 17b, In [21]). No choice of $\kappa \ne 0$ satisfies all the moments: even after averaging, the Kohn-Sham source is not admissible (COMPUTED).
+(rule: divide by $W > 0$). Each field equation gives in this way its **moment**: the same equation with every component of the source replaced by its weighted mean. Every exact solution would satisfy all of them, so they are NECESSARY conditions, weaker than the field equations themselves (PROVED: it is one line of algebra). The combination $x_1 + x_5 - 2x_0$ of the moments reads $0 = \kappa(\bar p_3 + \bar p_t - 2\bar p_0)$, the averaged C2. The record measures its failure by the relative defect $|\bar p_3 + \bar p_t - 2\bar p_0|/(|\bar p_3| + |\bar p_t| + 2|\bar p_0|)$, which lies between $0.414086$ (`N688_lamm2_a00`) and $0.806379$ over the 70 nonzero states (check `C1_averaged_algebraic_condition_fails`; reproduced in Notebook 17b, In [21]). No choice of $\kappa \ne 0$ satisfies all the moments: even after averaging, the Kohn-Sham source is not admissible (COMPUTED).
 
 **Which moments can hold together.** Write $P(X) = \sum_k\alpha_kE_{(k)}{}^{x_4}{}_{x_4}$ evaluated at $a_4'^2 = X$ (the $x_4$ components contain $a_4'$ only through its square, Section 17.3). In Einstein gravity $P(X) = 3X + 21H^2$. The record proves $3F(a_4') = 2\,dP/dX$ at $X = a_4'^2$ for all couplings (check `A3_F_equals_two_thirds_dP_dX`; in Einstein gravity $3 \times 2 = 2 \times 3$), the fact $de_{44}/da' = 3a'F$ of Section 17.16 in another form. The averaged source obeys the averaged energy relation $d\bar\rho/da_4 = -3(\bar p_3 - \bar p_t)$, because the time law holds for the total energy of the patch (check `C2_averaged_energy_relation`: the solver's derivative agrees with it to $1.53537 \times 10^{-10}$, Simpson's rule over the slices to $2.70425 \times 10^{-4}$, and there are no Fermi-level crossings along the history). Then the derivation of Section 17.16 goes through with the averages:
 
@@ -1756,21 +1756,21 @@ $$
 \frac{d}{dx_4}\Big[P(a_4'^2) + \Lambda + \kappa\bar\rho(a_4)\Big] = 3a_4'\Big[a_4''F(a_4') - \kappa(\bar p_3 - \bar p_t)\Big]
 $$
 
-(PROVED: check `A4_constraint_propagation_with_averaged_source`). So the $x_4$ moment (the constraint) and the $x_1 - x_5$ moment (the evolution equation) are consistent with each other. The $x_8$ moment is not. In Einstein gravity the $x_4$ and $x_8$ moments read
+(PROVED: check `A4_constraint_propagation_with_averaged_source`). So the $x_4$ moment (the constraint) and the $x_1 - x_5$ moment (the evolution equation) are consistent with each other. The $x_0$ moment is not. In Einstein gravity the $x_4$ and $x_0$ moments read
 
 $$
-3a_4'^2 + 21H^2 + \Lambda = -\kappa\bar\rho, \qquad 15H^2 - 3a_4'^2 + \Lambda = \kappa\bar p_8 ;
+3a_4'^2 + 21H^2 + \Lambda = -\kappa\bar\rho, \qquad 15H^2 - 3a_4'^2 + \Lambda = \kappa\bar p_0 ;
 $$
 
 adding them gives
 
 $$
-36H^2 + 2\Lambda = \kappa(\bar p_8 - \bar\rho)
+36H^2 + 2\Lambda = \kappa(\bar p_0 - \bar\rho)
 $$
 
-(rule: add the two equations side by side and move $-\kappa\bar\rho$ to the right; $3a_4'^2 - 3a_4'^2 = 0$, $21H^2 + 15H^2 = 36H^2$). The left side is a constant, so $\bar p_8 - \bar\rho$ would have to stay constant along the history. In the ten series with 3-momentum it changes by $0.909317$ to $0.915045$ of its largest value (check `C3_x8_moment_inconsistent_with_history`): every set of moments that contains the $x_8$ moment is inconsistent for them (COMPUTED). For the $N = 8$ states the averages do not change along the history, but their averaged C2 still fails.
+(rule: add the two equations side by side and move $-\kappa\bar\rho$ to the right; $3a_4'^2 - 3a_4'^2 = 0$, $21H^2 + 15H^2 = 36H^2$). The left side is a constant, so $\bar p_0 - \bar\rho$ would have to stay constant along the history. In the ten series with 3-momentum it changes by $0.909317$ to $0.915045$ of its largest value (check `C3_x0_moment_inconsistent_with_history`): every set of moments that contains the $x_0$ moment is inconsistent for them (COMPUTED). For the $N = 8$ states the averages do not change along the history, but their averaged C2 still fails.
 
-**The approximation, stated.** The record therefore keeps the consistent pair, the $x_4$ moment and the $x_1 - x_5$ moment, and drops the $x_8$ moment and the $x_1 + x_5 - 2x_8$ moment. This is an APPROXIMATION (ASSUMED), and its error is not small: the dropped averaged C2 fails by the defects $0.41$ to $0.81$ quoted above, and the dropped $x_8$ moment, evaluated along the solved histories, fails by $0.109607$ to $1.87301$ of the largest term of that equation (check `D7_dropped_x8_moment_residual_and_adiabaticity`). Everything below holds only within this approximation, for the zero-temperature instantaneous states at the computed slices $0 \le a_4 \le 2$.
+**The approximation, stated.** The record therefore keeps the consistent pair, the $x_4$ moment and the $x_1 - x_5$ moment, and drops the $x_0$ moment and the $x_1 + x_5 - 2x_0$ moment. This is an APPROXIMATION (ASSUMED), and its error is not small: the dropped averaged C2 fails by the defects $0.41$ to $0.81$ quoted above, and the dropped $x_0$ moment, evaluated along the solved histories, fails by $0.109607$ to $1.87301$ of the largest term of that equation (check `D7_dropped_x0_moment_residual_and_adiabaticity`). Everything below holds only within this approximation, for the zero-temperature instantaneous states at the computed slices $0 \le a_4 \le 2$.
 
 **The first integral.** For $a_4' \ne 0$ the pair is equivalent to the single first-order equation $P(a_4'^2) + \Lambda = -\kappa\bar\rho(a_4)$ (the bracket of the identity above is constant, and the constraint makes the constant zero). In Einstein gravity, with the initial rate $a_4'(0) = H$ (the rate of the history on which the states were computed) and the **source strength** $\sigma_0 = \kappa\bar\rho(0)/H^2$, the constraint at $a_4 = 0$ fixes $\Lambda$:
 
@@ -1799,13 +1799,13 @@ $$
 - In Einstein-Gauss-Bonnet gravity $F = 1 - \tfrac35 a_4'^2/H^2$ vanishes at $a_4'^2 = \tfrac53H^2$ (check `D0_gravity_branches`; in Einstein gravity $F = 2$ and in the cubic case $F > 0$ never vanish). For $\sigma_0 = 1$ and $\sigma_0 = 10$ the first integral drives $a_4'^2$ up to this **branch point** inside the computed range, where the evolution equation cannot be solved for $a_4''$ (8 cases: the four integrated series with 3-momentum, two strengths each): for $N = 136$, $\lambda = 0$ at $a_4 = 0.249607$ ($\sigma_0 = 1$) and $0.0226924$ ($\sigma_0 = 10$) (check `D6_branch_points_only_for_egb`). For $\sigma_0 = 1/10$ these four series stay regular up to $a_4 = 2$, where $a_4'/H$ is between $1.07629$ and $1.07705$, and the $N = 8$ series keeps $a_4' = H$ for every strength (record table, columns `event` and `rate_end`).
 - For the $N = 8$ states the averages do not change with $a_4$ and $\bar p_3 = \bar p_t$, so the evolution equation gives $a_4'' = 0$: exactly the linear member $a_4 = A_0Hx_4 + a_0$, with the rate $A_0$ chosen initially and $\Lambda$ absorbing $\kappa\bar\rho$ (check `D4_constant_source_gives_linear_member`); their averaged C2 still fails.
 
-**What cannot be integrated, or was not computed.** The full coupled problem, the author's metric with the Kohn-Sham source, has no solution at all (C1 fails), so nothing about $a_4$ is DERIVED from it (PROVED, Sections 17.4 to 17.14). The $x_8$ moment cannot be kept (shown above). Not computed (OPEN): the source beyond $a_4 = 2$, where no Kohn-Sham states exist (the record states only a CONDITIONAL: if $\bar\rho$ tended to 0 there, Einstein gravity would give $a_4'^2 \to (-\Lambda - 21H^2)/3$, a late-time exponential deflation at a rate set by $\Lambda$ and $H$ alone); the evolution after a turning point; the six series with 3-momentum that are not integrated; thermal states (only the ground states, at zero temperature, are used); the time-dependent, non-adiabatic problem; and a source with the profile the equations require, or a metric with $x_8$-dependent warp functions that could carry the Kohn-Sham profile.
+**What cannot be integrated, or was not computed.** The full coupled problem, the author's metric with the Kohn-Sham source, has no solution at all (C1 fails), so nothing about $a_4$ is DERIVED from it (PROVED, Sections 17.4 to 17.14). The $x_0$ moment cannot be kept (shown above). Not computed (OPEN): the source beyond $a_4 = 2$, where no Kohn-Sham states exist (the record states only a CONDITIONAL: if $\bar\rho$ tended to 0 there, Einstein gravity would give $a_4'^2 \to (-\Lambda - 21H^2)/3$, a late-time exponential deflation at a rate set by $\Lambda$ and $H$ alone); the evolution after a turning point; the six series with 3-momentum that are not integrated; thermal states (only the ground states, at zero temperature, are used); the time-dependent, non-adiabatic problem; and a source with the profile the equations require, or a metric with $x_0$-dependent warp functions that could carry the Kohn-Sham profile.
 
 **So, does the dirac16complex source drive the exponential deflation of the extra times?** Exactly: the question has no solution to examine, because no recorded Kohn-Sham ground state is an admissible source. Within the stated approximation: no. The equations are unchanged under $x_4 \to -x_4$, because $F$ and $P$ contain $a_4'$ only through even powers (check `A3_F_equals_two_thirds_dP_dX`); that reversal turns deflation of the extra times into inflation, so the sign of the rate and its size are initial data, and $\Lambda$ is fixed by them through the constraint. The gas only modifies a deflation that is already there, by a bounded amount set by the energy it loses; with $\Lambda = 0$ it even halts it at a turning point, where the integration stops (what follows is not computed). Exponential deflation at a constant rate is allowed (the $N = 8$ states give exactly the linear member) but not selected. This is the answer of the record `Revision/field_equations_a4/ks_source/README.md`, reproduced here step by step.
 
 ### 17.18 Example: the conservation laws, the averaged equations, and why the states fail
 
-The second notebook makes Sections 17.12 to 17.17 concrete. It first checks that the Kohn-Sham source rests on the author's eight real $16 \times 16$ gamma matrices, the very file that the Rust solver read; then it derives with sympy the covariant divergence of a general source in the author's metric, in the coordinate $x_8$ and in the coordinate $y$, and compares it with the two Revision records; it proves $V = p_8'/(3H)$ and $d\mathcal C/dx_4 = 3a_4'\mathcal E$; and it tests the identities on the 75 recorded ground states, point by point with a convergence study, integrated over the patch, and along the deflating history, where it also shows that the time law fails point by point; finally it computes the hidden-direction averages, the defect of the averaged C2 and the first integral of the averaged equations of Einstein gravity, and reproduces the record's rates and turning points. It prints 20 PASS lines and draws six figures. It runs in about 20 seconds on a typical laptop and needs no Rust.
+The second notebook makes Sections 17.12 to 17.17 concrete. It first checks that the Kohn-Sham source rests on the author's eight real $16 \times 16$ gamma matrices, the very file that the Rust solver read; then it derives with sympy the covariant divergence of a general source in the author's metric, in the coordinate $x_0$ and in the coordinate $y$, and compares it with the two Revision records; it proves $V = p_0'/(3H)$ and $d\mathcal C/dx_4 = 3a_4'\mathcal E$; and it tests the identities on the 75 recorded ground states, point by point with a convergence study, integrated over the patch, and along the deflating history, where it also shows that the time law fails point by point; finally it computes the hidden-direction averages, the defect of the averaged C2 and the first integral of the averaged equations of Einstein gravity, and reproduces the record's rates and turning points. It prints 20 PASS lines and draws six figures. It runs in about 20 seconds on a typical laptop and needs no Rust.
 
 <!-- NOTEBOOK 17b -->
 
@@ -1894,7 +1894,7 @@ gamma_record = read_json(GAMMAS)
 entries = [v for matrix in gamma_record["gamma"] for row in matrix for v in row]
 real_integers = all(isinstance(v, int) for v in entries)  # no complex entries
 gamma = [np.array(matrix, dtype=float) for matrix in gamma_record["gamma"]]
-eta = np.array(gamma_record["eta"], dtype=float)  # +1 or -1 for x1, ..., x8
+eta = np.array(gamma_record["eta"], dtype=float)  # +1 or -1 for x0, ..., x7
 ```
 
 The record `gammas.json` stores the eight matrices as lists of rows of numbers. The list comprehension with three `for` parts walks through every matrix, every row of it and every entry of the row, and collects all $8 \times 16 \times 16 = 2048$ entries. `isinstance(v, int)` is true when an entry is a whole number; a complex entry would be stored differently, so `real_integers` confirms that the matrices are REAL. Then each matrix becomes a numpy array of decimal numbers (`dtype=float`), and `eta` holds the eight signs of the frame metric.
@@ -1913,14 +1913,14 @@ one_per_line = all(np.all(np.count_nonzero(matrix, axis=0) == 1)
 report("number of gamma matrices", len(gamma))
 report("their shapes", shapes)
 report("the entries that occur", values)
-report("eta in the order x1, ..., x8", [int(v) for v in eta])
+report("eta in the order x0, ..., x7", [int(v) for v in eta])
 reproduces(len(gamma) == 8 and shapes == [(16, 16)] and real_integers
            and values == [-1, 0, 1] and one_per_line,
            "eight real 16 x 16 signed permutation matrices",
            ALGEBRA, ["reality_signed_permutations"])
 ```
 
-Output: 8 matrices, the single shape (16, 16), the entries $-1$, $0$, $1$, $\eta = (1, 1, 1, -1, -1, -1, -1, 1)$ in the order $x_1, \dots, x_8$, and the PASS line, reproducing the algebra report's check `reality_signed_permutations`.
+Output: 8 matrices, the single shape (16, 16), the entries $-1$, $0$, $1$, $\eta = (1, 1, 1, 1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$, and the PASS line, reproducing the algebra report's check `reality_signed_permutations`.
 
 **In [4], the Clifford relation and the fingerprint of the file.**
 
@@ -1948,12 +1948,12 @@ reproduces(f"(sha256 {fingerprint[:16]})" in solver_detail,
            KS_RUST, ["gamma_fixture_numeric", "block_reduction_numeric"])
 ```
 
-`read_bytes()` reads the file as raw bytes, `hashlib.sha256(...)` computes its fingerprint and `.hexdigest()` writes it as 64 hexadecimal digits (the digits 0 to 9 and the letters a to f). The Rust solver printed the first 16 digits of the fingerprint of the file it read into its check `gamma_fixture_numeric`; the check passes when the solver's text contains exactly ours, and when the solver's check `block_reduction_numeric` passed (it confirms that the solver's $2 \times 2$ blocks are the 16-component Hamiltonian written in another basis). Output: the 16 digits `95d8cbdd0682fd30` and PASS the Rust Kohn-Sham solver read exactly this file of gammas. So the Kohn-Sham source of this chapter was computed with the author's eight real $16 \times 16$ matrices and no others.
+`read_bytes()` reads the file as raw bytes, `hashlib.sha256(...)` computes its fingerprint and `.hexdigest()` writes it as 64 hexadecimal digits (the digits 0 to 9 and the letters a to f). The Rust solver printed the first 16 digits of the fingerprint of the file it read into its check `gamma_fixture_numeric`; the check passes when the solver's text contains exactly ours, and when the solver's check `block_reduction_numeric` passed (it confirms that the solver's $2 \times 2$ blocks are the 16-component Hamiltonian written in another basis). Output: the 16 digits `c99277bab4793c42` and PASS the Rust Kohn-Sham solver read exactly this file of gammas. So the Kohn-Sham source of this chapter was computed with the author's eight real $16 \times 16$ matrices and no others.
 
 **In [5], the eight matrices as heat maps (figure 1).**
 
 ```python
-LABELS = ["x_1", "x_2", "x_3", "x_4", "x_5", "x_6", "x_7", "x_8"]
+LABELS = ["x_1", "x_2", "x_3", "x_4", "x_5", "x_6", "x_7", "x_0"]
 fig, axes = plt.subplots(2, 4, figsize=(9.6, 5.4))
 for a, ax in enumerate(axes.flat):
     image = ax.imshow(gamma[a], cmap="RdBu_r", vmin=-1.0, vmax=1.0)
@@ -1977,11 +1977,11 @@ Only the first and the last row and column are numbered (Python counts from 0, t
 ```python
 save_figure(fig, "eight_gammas",
             "The author's eight real $16 \\times 16$ gamma matrices "
-            "$\\gamma^{(x_1)}$ to $\\gamma^{(x_8)}$ as heat maps (rows 1 to 16 down, "
+            "$\\gamma^{(x_0)}$ to $\\gamma^{(x_7)}$ as heat maps (rows 1 to 16 down, "
             "columns 1 to 16 across; red $+1$, blue $-1$, white $0$). Each row and "
             "each column holds exactly one nonzero entry, so the eight matrices "
             f"have {nonzero_count} nonzero entries in all; the squares are $+1$ "
-            "for the space-like directions $x_1, x_2, x_3, x_8$ and $-1$ for the "
+            "for the space-like directions $x_0, x_1, x_2, x_3$ and $-1$ for the "
             "time $x_4$ and the deflating extra times $x_5, x_6, x_7$. These are "
             "the matrices with which the Kohn-Sham source of this chapter was "
             "computed.")
@@ -1989,21 +1989,21 @@ save_figure(fig, "eight_gammas",
 
 The caption is joined from its strings, as in Notebook 17a, In [6]; its one computed piece is `nonzero_count`, $8 \times 16 = 128$. Output: figure 17b.1 and its saved line.
 
-**What figure 17b.1 shows.** Eight $16 \times 16$ tables, rows 1 to 16 downwards and columns 1 to 16 across, entries coloured red ($+1$), blue ($-1$) or white ($0$). Every panel has exactly 16 coloured squares, one in each row and each column; the patterns and the signs differ from matrix to matrix (some lie along the diagonal from the lower left to the upper right, others in two blocks away from the diagonal). The squares are $+1$ for the space-like directions $x_1, x_2, x_3, x_8$ and $-1$ for the time $x_4$ and the deflating extra times $x_5, x_6, x_7$. The student should see that these are honest real matrices of whole numbers, the same that the Kohn-Sham source was computed with.
+**What figure 17b.1 shows.** Eight $16 \times 16$ tables, rows 1 to 16 downwards and columns 1 to 16 across, entries coloured red ($+1$), blue ($-1$) or white ($0$). Every panel has exactly 16 coloured squares, one in each row and each column; the patterns and the signs differ from matrix to matrix (some lie along the diagonal from the lower left to the upper right, others in two blocks away from the diagonal). The squares are $+1$ for the space-like directions $x_0, x_1, x_2, x_3$ and $-1$ for the time $x_4$ and the deflating extra times $x_5, x_6, x_7$. The student should see that these are honest real matrices of whole numbers, the same that the Kohn-Sham source was computed with.
 
 **In [6], the hidden coordinate y, derived.**
 
 ```python
 H = sp.symbols("H", positive=True)  # the constant H of the metric
-X8 = sp.symbols("x8", positive=True)  # the author's hidden coordinate
-z = 6 * H * X8  # the angle z = 6 H x8
-y_of_x8 = sp.log(sp.sin(z)) / (6 * H)  # the hidden coordinate y
-dy_dx8 = sp.simplify(sp.diff(y_of_x8, X8))  # chain rule
-g_yy = sp.simplify(sp.cot(z) ** 2 / dy_dx8 ** 2)  # g88 times (dx8/dy)^2
-say(f"dy/dx8 = {dy_dx8},  g_yy = {g_yy}")
+X0 = sp.symbols("x0", positive=True)  # the author's hidden coordinate
+z = 6 * H * X0  # the angle z = 6 H x0
+y_of_x0 = sp.log(sp.sin(z)) / (6 * H)  # the hidden coordinate y
+dy_dx0 = sp.simplify(sp.diff(y_of_x0, X0))  # chain rule
+g_yy = sp.simplify(sp.cot(z) ** 2 / dy_dx0 ** 2)  # g00 times (dx0/dy)^2
+say(f"dy/dx0 = {dy_dx0},  g_yy = {g_yy}")
 ```
 
-Symbols for $H$ and $x_8$, both positive; the angle $z$ and $y = \ln(\sin z)/(6H)$ as sympy expressions. `sp.diff` differentiates with respect to $x_8$ (sympy applies the chain rule) and `sp.simplify` simplifies: the result is $\cot z$, printed as `1/tan(6*H*x8)`. The metric entry in the new coordinate is $g_{yy} = g_{88}\,(dx_8/dy)^2 = \cot^2 z/\cot^2 z = 1$ (rule: a length $\sqrt{g_{88}}\,dx_8$ is the same in both coordinates, and $dx_8 = dy/(dy/dx_8)$). Output: `dy/dx8 = 1/tan(6*H*x8),  g_yy = 1`.
+Symbols for $H$ and $x_0$, both positive; the angle $z$ and $y = \ln(\sin z)/(6H)$ as sympy expressions. `sp.diff` differentiates with respect to $x_0$ (sympy applies the chain rule) and `sp.simplify` simplifies: the result is $\cot z$, printed as `1/tan(6*H*x0)`. The metric entry in the new coordinate is $g_{yy} = g_{00}\,(dx_0/dy)^2 = \cot^2 z/\cot^2 z = 1$ (rule: a length $\sqrt{g_{00}}\,dx_0$ is the same in both coordinates, and $dx_0 = dy/(dy/dx_0)$). Output: `dy/dx0 = 1/tan(6*H*x0),  g_yy = 1`.
 
 ```python
 s, c, a4_value = sp.symbols("s c a4", positive=True)  # s = sin z, c = cos z
@@ -2017,24 +2017,24 @@ To let sympy simplify powers safely, $\sin z$ and $\cos z$ are replaced by posit
 ```python
 factors = ([sp.exp(2 * a4_value) * s ** sp.Rational(1, 3)] * 3 + [1]
            + [sp.exp(-2 * a4_value) * s ** sp.Rational(1, 3)] * 3)  # |g_ii|, i < 8
-root_x8 = sp.simplify(sp.sqrt(sp.prod(factors) * (c / s) ** 2))  # g88 = cot^2 z
+root_x0 = sp.simplify(sp.sqrt(sp.prod(factors) * (c / s) ** 2))  # g00 = cot^2 z
 root_y = sp.simplify(sp.sqrt(sp.prod(factors) * 1))  # g_yy = 1
-say(f"sqrt|det g| in the x8 chart = {root_x8};  in the y chart = {root_y}")
+say(f"sqrt|det g| in the x0 chart = {root_x0};  in the y chart = {root_y}")
 ```
 
-`factors` lists the absolute values of the seven diagonal entries other than $g_{88}$ (`[x] * 3` repeats an entry three times; `sp.Rational(1, 3)` is the exact fraction 1/3). `sp.prod` multiplies them: $e^{6a_4}s\cdot 1\cdot e^{-6a_4}s = s^2$. Times $g_{88} = \cot^2 z = (c/s)^2$ this is $c^2$, whose square root is $c = \cos z$; times $g_{yy} = 1$ it is $s^2$, whose square root is $s = \sin z = e^{6Hy}$. Output: `sqrt|det g| in the x8 chart = c;  in the y chart = s`.
+`factors` lists the absolute values of the seven diagonal entries other than $g_{00}$ (`[x] * 3` repeats an entry three times; `sp.Rational(1, 3)` is the exact fraction 1/3). `sp.prod` multiplies them: $e^{6a_4}s\cdot 1\cdot e^{-6a_4}s = s^2$. Times $g_{00} = \cot^2 z = (c/s)^2$ this is $c^2$, whose square root is $c = \cos z$; times $g_{yy} = 1$ it is $s^2$, whose square root is $s = \sin z = e^{6Hy}$. Output: `sqrt|det g| in the x0 chart = c;  in the y chart = s`.
 
 ```python
-reproduces(sp.simplify(dy_dx8 - sp.cot(z)) == 0 and g_yy == 1
-           and warp == s ** sp.Rational(1, 3) and root_x8 == c and root_y == s,
-           "dy/dx8 = cot z, g_yy = 1, sin^(1/3) z = e^(2Hy), sqrt|g| = cos z or e^(6Hy)",
+reproduces(sp.simplify(dy_dx0 - sp.cot(z)) == 0 and g_yy == 1
+           and warp == s ** sp.Rational(1, 3) and root_x0 == c and root_y == s,
+           "dy/dx0 = cot z, g_yy = 1, sin^(1/3) z = e^(2Hy), sqrt|g| = cos z or e^(6Hy)",
            KS_PY, ["geometry_hidden_coordinate", "geometry_sqrt_det",
                    "geometry_warped_form"])
 ```
 
 The check collects the four results and reproduces three checks of the Kohn-Sham theory report. Output: the PASS line.
 
-**In [7], the covariant divergence of a general source in the coordinate x8.**
+**In [7], the covariant divergence of a general source in the coordinate x0.**
 
 ```python
 def christoffel(metric, chart):
@@ -2067,42 +2067,42 @@ def divergence(T, metric, chart):
 `divergence` programs the definition of Section 17.13 term by term, without the shortcut of the lemma: for each $\nu$ it adds $\partial_\mu T^\mu{}_\nu$, adds $\Gamma^\mu{}_{\mu\lambda}T^\lambda{}_\nu$ and subtracts $\Gamma^\lambda{}_{\mu\nu}T^\mu{}_\lambda$ over all $\mu$ and $\lambda$ (`+=` adds to the running total, `-=` subtracts), simplifies, and appends the result. The table may be any $8 \times 8$ matrix, with mixed entries too.
 
 ```python
-coords = sp.symbols("x1:9", real=True)  # x1, ..., x8 (the x8 chart)
-x4, x8 = coords[3], coords[7]
+coords = sp.symbols("x0:8", real=True)  # x0, ..., x7 (the x0 chart)
+x4, x0 = coords[4], coords[0]
 a4 = sp.Function("a4")(x4)  # the free function of the metric
-zz = 6 * H * x8  # z = 6 H x8
+zz = 6 * H * x0  # z = 6 H x0
 wz = sp.sin(zz) ** sp.Rational(1, 3)  # the warp factor sin^(1/3) z
-metric_x8 = sp.diag(*([sp.exp(2 * a4) * wz] * 3 + [-1]
-                      + [-sp.exp(-2 * a4) * wz] * 3 + [sp.cot(zz) ** 2]))
+metric_x0 = sp.diag(*([sp.cot(zz) ** 2] + [sp.exp(2 * a4) * wz] * 3 + [-1]
+                      + [-sp.exp(-2 * a4) * wz] * 3))  # x0, ..., x7 (b4 = 1)
 ```
 
-`sp.symbols("x1:9")` makes the eight symbols `x1` to `x8` (the range 1:9 stops before 9); position 3 is $x_4$ and position 7 is $x_8$. `sp.Function("a4")(x4)` is an unknown function $a_4(x_4)$, which sympy differentiates as $a_4'$. `sp.diag(*list)` builds the diagonal matrix of the author's metric from the list of its eight entries (the star passes the entries one by one).
+`sp.symbols("x0:8")` makes the eight symbols `x0` to `x7` (the range 1:9 stops before 9); position 3 is $x_4$ and position 7 is $x_0$. `sp.Function("a4")(x4)` is an unknown function $a_4(x_4)$, which sympy differentiates as $a_4'$. `sp.diag(*list)` builds the diagonal matrix of the author's metric from the list of its eight entries (the star passes the entries one by one).
 
 ```python
-names = ("rho", "p3", "pt", "p8", "q48", "q84")
-rho, p3, pt, p8, q48, q84 = (sp.Function(n)(x4, x8) for n in names)
-T_x8 = sp.diag(p3, p3, p3, -rho, pt, pt, pt, p8)  # the diagonal part
-T_x8[3, 7] = q48  # T^x4_x8
-T_x8[7, 3] = q84  # T^x8_x4
-div_x8 = divergence(T_x8, metric_x8, coords)
+names = ("rho", "p3", "pt", "p0", "q40", "q04")
+rho, p3, pt, p0, q40, q04 = (sp.Function(n)(x4, x0) for n in names)
+T_x0 = sp.diag(p0, p3, p3, p3, -rho, pt, pt, pt)  # the diagonal part
+T_x0[4, 0] = q40  # T^x4_x0
+T_x0[0, 4] = q04  # T^x0_x4
+div_x0 = divergence(T_x0, metric_x0, coords)
 ```
 
-The six parts of the most general source are unknown functions of $x_4$ and $x_8$. The table is the diagonal matrix with the two mixed entries placed in row $x_4$, column $x_8$ and the reverse. `div_x8` is the list of the eight components of its divergence.
+The six parts of the most general source are unknown functions of $x_4$ and $x_0$. The table is the diagonal matrix with the two mixed entries placed in row $x_4$, column $x_0$ and the reverse. `div_x0` is the list of the eight components of its divergence.
 
 ```python
 notation = {sp.Derivative(f, v): sp.Symbol(f"d{v.name[1]}{f.func.__name__}")
-            for f in (rho, p3, pt, p8, q48, q84) for v in (x4, x8)}
+            for f in (rho, p3, pt, p0, q40, q04) for v in (x4, x0)}
 notation[sp.Derivative(a4, x4)] = sp.Symbol("ad1")  # a4'
 
 
 def in_record_notation(expression):
-    """Write derivatives as d4rho, d8p8, ... and functions as plain symbols."""
+    """Write derivatives as d4rho, d0p0, ... and functions as plain symbols."""
     expression = expression.subs(notation)
     return expression.subs({f: sp.Symbol(f.func.__name__)
-                            for f in (rho, p3, pt, p8, q48, q84)})
+                            for f in (rho, p3, pt, p0, q40, q04)})
 ```
 
-To print the result in the record's notation, each partial derivative is replaced by a short symbol: `v.name[1]` is the digit of the coordinate (`4` or `8`) and `f.func.__name__` the name of the function, so $\partial\rho/\partial x_4$ becomes `d4rho` and $\partial p_8/\partial x_8$ becomes `d8p8`; $a_4'$ becomes `ad1`. `in_record_notation` makes these replacements and then writes each function as a plain symbol.
+To print the result in the record's notation, each partial derivative is replaced by a short symbol: `v.name[1]` is the digit of the coordinate (`4` or `8`) and `f.func.__name__` the name of the function, so $\partial\rho/\partial x_4$ becomes `d4rho` and $\partial p_0/\partial x_0$ becomes `d0p0`; $a_4'$ becomes `ad1`. `in_record_notation` makes these replacements and then writes each function as a plain symbol.
 
 ```python
 cc = sp.Symbol("cc")  # the record writes cot z as cc
@@ -2111,7 +2111,7 @@ cc = sp.Symbol("cc")  # the record writes cot z as cc
 def readable(expression):
     """A component as a sum of source symbols times simplified coefficients."""
     plain = sp.expand(in_record_notation(expression))
-    sources = sorted(plain.free_symbols - {H, x8, sp.Symbol("ad1")}, key=str)
+    sources = sorted(plain.free_symbols - {H, x0, sp.Symbol("ad1")}, key=str)
     total = sp.Integer(0)  # the sum, built term by term
     for symbol, factor in sp.collect(plain, sources, evaluate=False).items():
         factor = factor.subs(sp.sin(2 * zz), 2 * sp.sin(zz) * sp.cos(zz))
@@ -2121,27 +2121,27 @@ def readable(expression):
     return total.subs(sp.tan(zz), 1 / cc)
 ```
 
-`readable` writes a component as a sum "coefficient times source quantity", with the coefficients in terms of `cc` $= \cot z$ as in the record. After multiplying out, `sources` is the sorted list of the source symbols that occur (all symbols except $H$, $x_8$ and `ad1`; `key=str` sorts by name). `sp.collect(..., evaluate=False)` returns a dictionary from each source symbol to its coefficient. Each coefficient is rewritten with $\sin 2z = 2\sin z\cos z$ and $\tan z = \sin z/\cos z$, simplified, and then written with $\sin z = \cos z/\cot z$, so that only $\cot z$ remains; the terms are added up, and a remaining $\tan z$ is written as $1/\cot z$.
+`readable` writes a component as a sum "coefficient times source quantity", with the coefficients in terms of `cc` $= \cot z$ as in the record. After multiplying out, `sources` is the sorted list of the source symbols that occur (all symbols except $H$, $x_0$ and `ad1`; `key=str` sorts by name). `sp.collect(..., evaluate=False)` returns a dictionary from each source symbol to its coefficient. Each coefficient is rewritten with $\sin 2z = 2\sin z\cos z$ and $\tan z = \sin z/\cos z$, simplified, and then written with $\sin z = \cos z/\cot z$, so that only $\cot z$ remains; the terms are added up, and a remaining $\tan z$ is written as $1/\cot z$.
 
 ```python
-for nu, component in enumerate(div_x8):
-    say(f"nabla_mu T^mu_x{nu + 1} = {readable(component)}")
+for nu, component in enumerate(div_x0):
+    say(f"nabla_mu T^mu_x{nu} = {readable(component)}")
 ```
 
 The eight components are printed. Output: six zeros, and
 
-`nabla_mu T^mu_x4 = -6*H*q84/cc - 3*ad1*p3 + 3*ad1*pt - d4rho + d8q84`,
+`nabla_mu T^mu_x0 = 6*H*cc*p0 - 3*H*cc*p3 - 3*H*cc*pt + d0p0 + d4q40`,
 
-`nabla_mu T^mu_x8 = -3*H*cc*p3 + 6*H*cc*p8 - 3*H*cc*pt + d4q48 + d8p8`,
+`nabla_mu T^mu_x4 = -6*H*q04/cc - 3*ad1*p3 + 3*ad1*pt + d0q04 - d4rho`,
 
-which are the two laws of Section 17.13 in the coordinate $x_8$ (since $1/\cot z = \tan z$).
+which are the two laws of Section 17.13 in the coordinate $x_0$ (since $1/\cot z = \tan z$).
 
 **In [8], comparison with the record.**
 
 ```python
 equations = read_json(EQUATIONS)
 RECORD_NAMES = {"ad1": sp.Derivative(a4, x4), "H": H, "cc": sp.cot(zz),
-                "rho": rho, "p3": p3, "pt": pt, "p8": p8, "q48": q48, "q84": q84}
+                "rho": rho, "p3": p3, "pt": pt, "p0": p0, "q40": q40, "q04": q04}
 RECORD_NAMES.update({str(symbol): derivative
                      for derivative, symbol in notation.items()})
 ```
@@ -2160,88 +2160,88 @@ As `equation` in Notebook 17a: the record's text `left == right` becomes the exp
 
 ```python
 same = []
-for key, nu in (("conservation_x4", 3), ("conservation_x8", 7)):
+for key, nu in (("conservation_x4", 4), ("conservation_x0", 0)):
     recorded = record_equation(equations["generalSource"][key]["input"])
-    difference = sp.simplify((div_x8[nu] - recorded).rewrite(sp.cos))
+    difference = sp.simplify((div_x0[nu] - recorded).rewrite(sp.cos))
     same.append(difference == 0)
     say(f"{key}: ours minus the record = {difference}")
-zero_components = all(div_x8[nu] == 0 for nu in (0, 1, 2, 4, 5, 6))
+zero_components = all(div_x0[nu] == 0 for nu in (1, 2, 3, 5, 6, 7))
 reproduces(all(same) and zero_components,
-           "our divergence equals the record: x4 and x8 laws, six zero components",
+           "our divergence equals the record: x4 and x0 laws, six zero components",
            PY_A4, ["conservation_components", "json_conservation"])
 ```
 
-For the record's two laws (positions 3 and 7 are $x_4$ and $x_8$) the difference between our component and the record's is rewritten with cosines only (`.rewrite(sp.cos)`) and simplified; sympy finds 0 (one term needs the identity $\tan z + \cot z = 2/\sin 2z$, which the rewriting handles). Output: `conservation_x4: ours minus the record = 0`, the same for `conservation_x8`, and the PASS line reproducing the sympy report's checks `conservation_components` and `json_conservation`. (PROVED.)
+For the record's two laws (positions 3 and 7 are $x_4$ and $x_0$) the difference between our component and the record's is rewritten with cosines only (`.rewrite(sp.cos)`) and simplified; sympy finds 0 (one term needs the identity $\tan z + \cot z = 2/\sin 2z$, which the rewriting handles). Output: `conservation_x4: ours minus the record = 0`, the same for `conservation_x0`, and the PASS line reproducing the sympy report's checks `conservation_components` and `json_conservation`. (PROVED.)
 
 **In [9], the conservation law in the coordinate y.**
 
 ```python
 yc = sp.symbols("y", real=True)  # the hidden coordinate y
-chart_y = list(coords[:7]) + [yc]  # x1, ..., x7, y
+chart_y = [yc] + list(coords[1:])  # y (for x0), x1, ..., x7
 wy = sp.exp(2 * H * yc)  # the warp factor e^{2Hy} = sin^(1/3) z
-metric_y = sp.diag(*([sp.exp(2 * a4) * wy] * 3 + [-1]
-                     + [-sp.exp(-2 * a4) * wy] * 3 + [1]))
+metric_y = sp.diag(*([1] + [sp.exp(2 * a4) * wy] * 3 + [-1]
+                     + [-sp.exp(-2 * a4) * wy] * 3))
 ```
 
-The coordinate $y$ replaces $x_8$ (`coords[:7]` are the first seven coordinates); the metric is the warped form of Section 17.13, with $g_{yy} = 1$.
+The coordinate $y$ replaces $x_0$ (`coords[:7]` are the first seven coordinates); the metric is the warped form of Section 17.13, with $g_{yy} = 1$.
 
 ```python
-RHO, P3, PT, P8 = (sp.Function(n)(x4, yc) for n in ("rho", "p3", "pt", "p8"))
-T_y = sp.diag(P3, P3, P3, -RHO, PT, PT, PT, P8)  # a diagonal source T(x4, y)
+RHO, P3, PT, P0 = (sp.Function(n)(x4, yc) for n in ("rho", "p3", "pt", "p0"))
+T_y = sp.diag(P0, P3, P3, P3, -RHO, PT, PT, PT)  # a diagonal source T(x4, y)
 div_y = divergence(T_y, metric_y, chart_y)
 law_x4 = -sp.diff(RHO, x4) - 3 * sp.diff(a4, x4) * (P3 - PT)
-law_y = sp.diff(P8, yc) + 6 * H * P8 - 3 * H * (P3 + PT)
+law_y = sp.diff(P0, yc) + 6 * H * P0 - 3 * H * (P3 + PT)
 ```
 
 A diagonal source whose four parts are unknown functions of $x_4$ and $y$ (capital names, to keep them apart from those of In [7]); its divergence with the same helper; and the two laws of Section 17.13 typed in by hand, for comparison.
 
 ```python
 derivatives = {sp.Derivative(RHO, x4): sp.Symbol("d4rho"),
-               sp.Derivative(P8, yc): sp.Symbol("dyp8"),
+               sp.Derivative(P0, yc): sp.Symbol("dyp0"),
                sp.Derivative(a4, x4): sp.Symbol("ad1")}  # short names
-functions = {f: sp.Symbol(f.func.__name__) for f in (RHO, P3, PT, P8)}
+functions = {f: sp.Symbol(f.func.__name__) for f in (RHO, P3, PT, P0)}
 
 
 def short(expression):
-    """Write the derivatives as d4rho, dyp8, ad1 and the functions as symbols."""
+    """Write the derivatives as d4rho, dyp0, ad1 and the functions as symbols."""
     return expression.subs(derivatives).subs(functions)
 ```
 
-Short names for printing, as in In [7]: `dyp8` is $\partial p_8/\partial y$.
+Short names for printing, as in In [7]: `dyp0` is $\partial p_0/\partial y$.
 
 ```python
-say(f"nabla_mu T^mu_x4 = {short(div_y[3])}")
-say(f"nabla_mu T^mu_y = {short(div_y[7])}")
-others_zero = all(div_y[nu] == 0 for nu in (0, 1, 2, 4, 5, 6))
+say(f"nabla_mu T^mu_x4 = {short(div_y[4])}")
+say(f"nabla_mu T^mu_y = {short(div_y[0])}")
+others_zero = all(div_y[nu] == 0 for nu in (1, 2, 3, 5, 6, 7))
 theory = read_json(KS_THEORY)["emt"]  # the energy-momentum part of the record
 say("ks-theory.json, emt.conservationY: " + theory["conservationY"])
-reproduces(sp.simplify(div_y[3] - law_x4) == 0 and sp.simplify(div_y[7] - law_y) == 0
+reproduces(sp.simplify(div_y[4] - law_x4) == 0 and sp.simplify(div_y[0] - law_y) == 0
            and others_zero
-           and "6H p8 = 3H (p3 + p_t)" in theory["conservationY"],
-           "in the y chart: the x4 law and dp8/dy + 6H p8 = 3H (p3 + p_t)",
+           and "6H p0 = 3H (p3 + p_t)" in theory["conservationY"],
+           "in the y chart: the x4 law and dp0/dy + 6H p0 = 3H (p3 + p_t)",
            KS_PY, ["emt_y_conservation_selfconsistent", "emt_x4_component"])
 ```
 
-The two surviving components are printed, the six others are confirmed to vanish, the record's statement of the $y$ law is printed, and the check requires our components to equal the hand-typed laws and the record to state the same law. Output: `nabla_mu T^mu_x4 = -3*ad1*p3 + 3*ad1*pt - d4rho`, `nabla_mu T^mu_y = -3*H*p3 + 6*H*p8 - 3*H*pt + dyp8`, the record's line `p8' + 6H p8 = 3H (p3 + p_t) for every self-consistent state`, and the PASS line. (PROVED.)
+The two surviving components are printed, the six others are confirmed to vanish, the record's statement of the $y$ law is printed, and the check requires our components to equal the hand-typed laws and the record to state the same law. Output: `nabla_mu T^mu_x4 = -3*ad1*p3 + 3*ad1*pt - d4rho`, `nabla_mu T^mu_y = -3*H*p3 + 6*H*p0 - 3*H*pt + dyp0`, the record's line `p0' + 6H p0 = 3H (p3 + p_t) for every self-consistent state`, and the PASS line. (PROVED.)
 
 **In [10], the key identity.**
 
 ```python
 p3_from_law = sp.solve(sp.Eq(law_y, 0), P3)[0]  # p3 from the y conservation law
-V = P3 + PT - 2 * P8  # the violation of C2
+V = P3 + PT - 2 * P0  # the violation of C2
 V_conserved = sp.simplify(V.subs(P3, p3_from_law))
 say(f"p3 from the conservation law: {short(p3_from_law)}")
-say(f"V = p3 + p_t - 2 p8 for a conserved source: {short(V_conserved)}")
-check(sp.simplify(V_conserved - sp.diff(P8, yc) / (3 * H)) == 0,
-      "PROVED: for a conserved source V = p3 + p_t - 2 p8 = (dp8/dy) / (3H)")
+say(f"V = p3 + p_t - 2 p0 for a conserved source: {short(V_conserved)}")
+check(sp.simplify(V_conserved - sp.diff(P0, yc) / (3 * H)) == 0,
+      "PROVED: for a conserved source V = p3 + p_t - 2 p0 = (dp0/dy) / (3H)")
 ```
 
-`sp.Eq(law_y, 0)` is the equation "the $y$ law equals 0", and `sp.solve(..., P3)` solves it for $p_3$; it returns a list of solutions, of which `[0]` takes the first (and only) one: $p_3 = 2p_8 - p_t + p_8'/(3H)$. Inserting it into $V$ gives $p_8'/(3H)$, the derivation of Section 17.14. Output: `p3 from the conservation law: 2*p8 - pt + dyp8/(3*H)`, `V = p3 + p_t - 2 p8 for a conserved source: dyp8/(3*H)` and the PASS line. (PROVED.)
+`sp.Eq(law_y, 0)` is the equation "the $y$ law equals 0", and `sp.solve(..., P3)` solves it for $p_3$; it returns a list of solutions, of which `[0]` takes the first (and only) one: $p_3 = 2p_0 - p_t + p_0'/(3H)$. Inserting it into $V$ gives $p_0'/(3H)$, the derivation of Section 17.14. Output: `p3 from the conservation law: 2*p0 - pt + dyp0/(3*H)`, `V = p3 + p_t - 2 p0 for a conserved source: dyp0/(3*H)` and the PASS line. (PROVED.)
 
 **In [11], the identity on the recorded states.**
 
 ```python
-COLUMNS = ("rho", "p3", "p_t", "p8")  # the four diagonal components
+COLUMNS = ("rho", "p3", "p_t", "p0")  # the four diagonal components
 
 
 def read_profile(path):
@@ -2302,25 +2302,25 @@ $$
 
 ```python
 def violation(prof):
-    """V(y) = p3 + p_t - 2 p8 of a profile."""
-    return prof["p3"] + prof["p_t"] - 2.0 * prof["p8"]
+    """V(y) = p3 + p_t - 2 p0 of a profile."""
+    return prof["p3"] + prof["p_t"] - 2.0 * prof["p0"]
 
 
-residual = {sid: float(np.max(np.abs(slope(profiles[sid]["p8"]) / (3 * H_value)
+residual = {sid: float(np.max(np.abs(slope(profiles[sid]["p0"]) / (3 * H_value)
                                       - violation(profiles[sid])[2:-2])))
             / scale[sid] for sid in nonzero}
 worst = max(residual, key=residual.get)  # the state with the largest difference
 ```
 
-`violation` returns $V(y)$ of a profile. For each nonzero state, `residual` is the largest difference between $p_8'/(3H)$ (from `slope` with $s = 1$) and $V$ at the inner points (`[2:-2]` drops two points at each end, to match), divided by max|T|. `worst` is the state with the largest value.
+`violation` returns $V(y)$ of a profile. For each nonzero state, `residual` is the largest difference between $p_0'/(3H)$ (from `slope` with $s = 1$) and $V$ at the inner points (`[2:-2]` drops two points at each end, to match), divided by max|T|. `worst` is the state with the largest value.
 
 ```python
 report("states with a nonzero tensor", len(nonzero))
 report("grid step h", f"{h:.2f}")
-report("largest |(dp8/dy)/(3H) - V| / max|T| over 70 states", f"{residual[worst]:.2e}",
+report("largest |(dp0/dy)/(3H) - V| / max|T| over 70 states", f"{residual[worst]:.2e}",
        f"({worst})")
 check(len(nonzero) == 70 and residual[worst] < 1e-3,
-      "V = (dp8/dy)/(3H) on every state to 1e-3 of max|T| (fourth-order differences)")
+      "V = (dp0/dy)/(3H) on every state to 1e-3 of max|T| (fourth-order differences)")
 ```
 
 The third `report` passes the state's name in brackets as its third argument, the place of the unit, so that it is printed after the number. `:.2e` writes a number with two decimals in the computer's power-of-ten form, `1.05e-04` for $1.05 \times 10^{-4}$. Output: 70 states, $h = 0.02$, the largest difference $1.05 \times 10^{-4}$ of max|T| (state `N8_lamm1_a00`), and the PASS line. (COMPUTED; the bound $10^{-3}$ was fixed before the run. The solver, on its own grid of 900 steps of $3/900 = 1/300$ (six times finer than the stored grid of 150 steps of $0.02$), checks the same law with fourth-order differences to a relative residual of at most $1.951 \times 10^{-8}$: `Revision/kohn_sham/reports/ks-rust-solver.json`, check `emt_y_conservation_pointwise`; the number of steps is the record `Revision/kohn_sham/results/parameters.json`, key `numerics.rk4Steps`.)
@@ -2333,25 +2333,25 @@ SHADES = ["#86b6ef", "#5598e7", "#2a78d6", "#1c5cab", "#104281"]  # light to dar
 history136 = [f"N136_lam0_{tag}" for tag in SLICES]
 fig, (left, right) = plt.subplots(1, 2, figsize=(9.6, 4.0))
 for shade, sid, a40 in zip(SHADES, history136, SLICES.values()):
-    left.plot(y, profiles[sid]["p8"] / scale[sid], color=shade, lw=1.8,
+    left.plot(y, profiles[sid]["p0"] / scale[sid], color=shade, lw=1.8,
               label=f"$a_{{4,0}} = {a40:g}$")
 left.set_yscale("symlog", linthresh=1e-6)
 left.set_xlabel("hidden coordinate $y$ (tip $-3$, brane $0$)")
-left.set_ylabel("$p_8(y)$ / max|T|")
-left.set_title("$N = 136$, $\\lambda = 0$: $p_8$ is far from flat")
+left.set_ylabel("$p_0(y)$ / max|T|")
+left.set_title("$N = 136$, $\\lambda = 0$: $p_0$ is far from flat")
 left.legend(fontsize=7, loc="upper right")
 ```
 
-The slices, shades and the history $N = 136$, $\lambda = 0$ as in Notebook 17a. The left panel draws $p_8/\max|T|$ of the five states on a symmetric logarithmic axis, linear between $-10^{-6}$ and $10^{-6}$.
+The slices, shades and the history $N = 136$, $\lambda = 0$ as in Notebook 17a. The left panel draws $p_0/\max|T|$ of the five states on a symmetric logarithmic axis, linear between $-10^{-6}$ and $10^{-6}$.
 
 ```python
 example = profiles["N136_lam0_a10"]
 inner = y[2:-2]  # the points where the slope is known
 right.plot(y, violation(example) / scale["N136_lam0_a10"], color="#2a78d6",
-           lw=2.0, label="$V = p_3 + p_t - 2p_8$")
-right.plot(inner[::5], (slope(example["p8"]) / (3 * H_value))[::5]
+           lw=2.0, label="$V = p_3 + p_t - 2p_0$")
+right.plot(inner[::5], (slope(example["p0"]) / (3 * H_value))[::5]
            / scale["N136_lam0_a10"], "o", color="#eb6834", ms=3.5,
-           label="$p_8'(y)/(3H)$")
+           label="$p_0'(y)/(3H)$")
 right.axhline(0.0, color="#e34948", ls="--", lw=1.0, label="C2: $V = 0$")
 right.set_yscale("symlog", linthresh=1e-6)
 right.set_xlabel("hidden coordinate $y$")
@@ -2361,34 +2361,34 @@ right.legend(fontsize=7, loc="upper right")
 fig.tight_layout()
 ```
 
-The right panel draws, for the slice $a_{4,0} = 1$, the violation $V$ as a blue line over all points and $p_8'/(3H)$ as orange dots at every fifth inner point (`[::5]` takes every fifth entry), both divided by max|T|, with the red dashed line $V = 0$ and the same kind of axis.
+The right panel draws, for the slice $a_{4,0} = 1$, the violation $V$ as a blue line over all points and $p_0'/(3H)$ as orange dots at every fifth inner point (`[::5]` takes every fifth entry), both divided by max|T|, with the red dashed line $V = 0$ and the same kind of axis.
 
 ```python
-p8_range = [float(np.max(np.abs(profiles[s]["p8"])) / np.min(np.abs(profiles[s]["p8"])))
-            for s in history136]  # how far p8 is from flat, per slice
+p0_range = [float(np.max(np.abs(profiles[s]["p0"])) / np.min(np.abs(profiles[s]["p0"])))
+            for s in history136]  # how far p0 is from flat, per slice
 ```
 
-`p8_range` holds, per slice, the largest $|p_8|$ divided by the smallest.
+`p0_range` holds, per slice, the largest $|p_0|$ divided by the smallest.
 
 ```python
 save_figure(fig, "slope_identity",
-            "Left: the hidden-direction pressure $p_8(y)$ of the Kohn-Sham states "
+            "Left: the hidden-direction pressure $p_0(y)$ of the Kohn-Sham states "
             "$N = 136$, $\\lambda = 0$ at the five slices $a_{4,0} = 0$ to $2$, "
             "divided by the largest component of each state (horizontal axis: the "
             "hidden coordinate $y$; vertical axis symmetric logarithmic, linear "
-            "between $-10^{-6}$ and $10^{-6}$); the largest $|p_8|$ is "
-            f"{min(p8_range):.0f} to ${tex_number(max(p8_range))}$ times the "
+            "between $-10^{-6}$ and $10^{-6}$); the largest $|p_0|$ is "
+            f"{min(p0_range):.0f} to ${tex_number(max(p0_range))}$ times the "
             "smallest, while "
-            "condition C2 of a conserved source demands a flat $p_8$. Right: for "
-            "$a_{4,0} = 1$ the violation $V = p_3 + p_t - 2p_8$ (blue line) and the "
-            "slope $p_8'(y)/(3H)$ from fourth-order differences (orange dots) lie "
+            "condition C2 of a conserved source demands a flat $p_0$. Right: for "
+            "$a_{4,0} = 1$ the violation $V = p_3 + p_t - 2p_0$ (blue line) and the "
+            "slope $p_0'(y)/(3H)$ from fourth-order differences (orange dots) lie "
             "on top of each other, as the conservation law demands; the dashed "
             "line is the value $0$ that C2 needs.")
 ```
 
-The caption, joined from its strings, inserts the range of `p8_range`: the smallest with no decimals, 2933, and the largest in powers of ten, $2.3 \times 10^{6}$. The prime in the text $p_8'(y)$ is an ordinary character of a string written in double quotation marks. Output: figure 17b.2 and its saved line.
+The caption, joined from its strings, inserts the range of `p0_range`: the smallest with no decimals, 2933, and the largest in powers of ten, $2.3 \times 10^{6}$. The prime in the text $p_0'(y)$ is an ordinary character of a string written in double quotation marks. Output: figure 17b.2 and its saved line.
 
-**What figure 17b.2 shows.** Left: horizontal axis $y$ (units of $1/H$), vertical axis $p_8/\max|T|$ (a pure number, symmetric logarithmic). At the tip $p_8$ is negative and as large as max|T| (the $-10^0$ at the lower left); it rises steeply, crosses zero between $y \approx -2.6$ and $y \approx -2.35$, reaches a maximum and falls toward the brane by several powers of ten. For C2, by Section 17.14, every curve would have to be horizontal. Right: the blue line $V$ and the orange dots $p_8'/(3H)$ lie on top of each other along the whole patch, positive on the tip side of the maximum of $p_8$ and negative on the brane side: the student sees the identity $V = p_8'/(3H)$ at work, and why $V$ changes sign once.
+**What figure 17b.2 shows.** Left: horizontal axis $y$ (units of $1/H$), vertical axis $p_0/\max|T|$ (a pure number, symmetric logarithmic). At the tip $p_0$ is negative and as large as max|T| (the $-10^0$ at the lower left); it rises steeply, crosses zero between $y \approx -2.6$ and $y \approx -2.35$, reaches a maximum and falls toward the brane by several powers of ten. For C2, by Section 17.14, every curve would have to be horizontal. Right: the blue line $V$ and the orange dots $p_0'/(3H)$ lie on top of each other along the whole patch, positive on the tip side of the maximum of $p_0$ and negative on the brane side: the student sees the identity $V = p_0'/(3H)$ at work, and why $V$ changes sign once.
 
 **In [13], the differences have order 4 (figure 3).**
 
@@ -2403,14 +2403,14 @@ Five step multipliers $s$; four grid points (index $i$ is $y = -3 + 0.02\,i$: in
 
 ```python
 def difference_at_points(sid, s):
-    """max over POINTS of |(dp8/dy)/(3H) - V| / max|T| with the step s h."""
+    """max over POINTS of |(dp0/dy)/(3H) - V| / max|T| with the step s h."""
     prof = profiles[sid]
-    derivative = slope(prof["p8"], s) / (3 * H_value)  # index i - 2s is point i
+    derivative = slope(prof["p0"], s) / (3 * H_value)  # index i - 2s is point i
     return max(abs(float(derivative[i - 2 * s] - violation(prof)[i]))
                for i in POINTS) / scale[sid]
 ```
 
-For one state and one step: the slope array starts at the grid point $2s$, so its entry `i - 2*s` belongs to the grid point $i$; the function returns the largest difference $|p_8'/(3H) - V|$ at the four points, divided by max|T|.
+For one state and one step: the slope array starts at the grid point $2s$, so its entry `i - 2*s` belongs to the grid point $i$; the function returns the largest difference $|p_0'/(3H) - V|$ at the four points, divided by max|T|.
 
 ```python
 errors = {sid: np.array([difference_at_points(sid, s) for s in STEPS])
@@ -2434,7 +2434,7 @@ for sid in STUDY:
 reference = errors["N136_lam0_a10"][0] * (STEPS / STEPS[0]) ** 4.0
 ax.loglog(STEPS * h, reference, "k--", lw=1.0, label="slope 4 (reference)")
 ax.set_xlabel("step of the difference $s h$ (units of $1/H$)")
-ax.set_ylabel("max $|p_8'/(3H) - V|$ / max|T|")
+ax.set_ylabel("max $|p_0'/(3H) - V|$ / max|T|")
 ax.legend(fontsize=7)
 ```
 
@@ -2442,9 +2442,9 @@ ax.legend(fontsize=7)
 
 ```python
 save_figure(fig, "difference_order",
-            "The difference between $p_8'(y)/(3H)$, computed with fourth-order "
+            "The difference between $p_0'(y)/(3H)$, computed with fourth-order "
             "differences of step $sh$ ($h = 0.02$, $s = 1, 2, 3, 5, 6$), and the "
-            "violation $V = p_3 + p_t - 2p_8$, at the four points $y = -2.4$, "
+            "violation $V = p_3 + p_t - 2p_0$, at the four points $y = -2.4$, "
             "$-1.8$, $-1.2$, $-0.6$, divided by the largest component of the state, "
             "for five recorded Kohn-Sham states (logarithmic axes; the step in units "
             "of $1/H$). The fitted slopes lie between "
@@ -2468,7 +2468,7 @@ def number(sid, column):
 tip_weight = float(np.exp(-6.0 * H_value * L_cut))  # e^{-6HL}, about 1.5e-8
 integrated = {}
 for sid in nonzero:
-    left_side = 2 * VOL7 * (number(sid, "p8_brane") - tip_weight * number(sid, "p8_tip"))
+    left_side = 2 * VOL7 * (number(sid, "p0_brane") - tip_weight * number(sid, "p0_tip"))
     right_side = 3 * H_value * (number(sid, "int_p3") + number(sid, "int_p_t"))
     integrated[sid] = abs(left_side - right_side) / abs(right_side)
 worst_integrated = max(integrated, key=integrated.get)
@@ -2476,7 +2476,7 @@ report("largest relative difference of the integrated law",
        f"{integrated[worst_integrated]:.3e} ({worst_integrated})")
 ```
 
-`number` reads a number of the table. `tip_weight` is $e^{-6HL} = e^{-18}$. For each nonzero state the two sides of the integrated law of Section 17.15 are computed from the table's columns `p8_brane`, `p8_tip`, `int_p3` and `int_p_t`, and their relative difference is stored. Output: the largest relative difference is $1.421 \times 10^{-11}$ (state `N8_lamm2_a00`).
+`number` reads a number of the table. `tip_weight` is $e^{-6HL} = e^{-18}$. For each nonzero state the two sides of the integrated law of Section 17.15 are computed from the table's columns `p0_brane`, `p0_tip`, `int_p3` and `int_p_t`, and their relative difference is stored. Output: the largest relative difference is $1.421 \times 10^{-11}$ (state `N8_lamm2_a00`).
 
 ```python
 column = {sid: number(sid, "ycons_integrated_rel") for sid in nonzero}
@@ -2505,18 +2505,18 @@ The state named by the record is cut out of its text: after `worst value `, afte
 **In [15], why the averaged ratio is not 1.**
 
 ```python
-mean_p8 = {sid: number(sid, "int_p8") / (2 * VOL7 * (1 - tip_weight) / (6 * H_value))
-           for sid in nonzero}  # the weighted mean of p8
+mean_p0 = {sid: number(sid, "int_p0") / (2 * VOL7 * (1 - tip_weight) / (6 * H_value))
+           for sid in nonzero}  # the weighted mean of p0
 ratio = {sid: (number(sid, "int_p3") + number(sid, "int_p_t"))
-         / (2 * number(sid, "int_p8")) for sid in nonzero}  # as in Notebook 17a
-boundary = {sid: (number(sid, "p8_brane") - tip_weight * number(sid, "p8_tip"))
-            / (1 - tip_weight) for sid in nonzero}  # the boundary value b8
-from_brane = {sid: boundary[sid] / mean_p8[sid] for sid in nonzero}  # R = b8/mean
-brane_only = {sid: number(sid, "p8_brane") / mean_p8[sid] for sid in nonzero}
+         / (2 * number(sid, "int_p0")) for sid in nonzero}  # as in Notebook 17a
+boundary = {sid: (number(sid, "p0_brane") - tip_weight * number(sid, "p0_tip"))
+            / (1 - tip_weight) for sid in nonzero}  # the boundary value b0
+from_brane = {sid: boundary[sid] / mean_p0[sid] for sid in nonzero}  # R = b0/mean
+brane_only = {sid: number(sid, "p0_brane") / mean_p0[sid] for sid in nonzero}
 tip_share = {sid: 1.0 - brane_only[sid] / from_brane[sid] for sid in nonzero}
 ```
 
-Six dictionaries: the weighted mean $\bar p_8$ of Section 17.7; the ratio $R$ as Notebook 17a computed it; the boundary value $b_8 = [p_8(0) - e^{-6HL}p_8(-L)]/(1 - e^{-6HL})$ of Section 17.15; $R$ computed the other way, $b_8/\bar p_8$; the ratio that the brane value alone would give, $p_8(0)/\bar p_8$; and the share of $R$ that the tip term supplies, $1 - p_8(0)/b_8$ (the quotient of the last two ratios, subtracted from 1).
+Six dictionaries: the weighted mean $\bar p_0$ of Section 17.7; the ratio $R$ as Notebook 17a computed it; the boundary value $b_0 = [p_0(0) - e^{-6HL}p_0(-L)]/(1 - e^{-6HL})$ of Section 17.15; $R$ computed the other way, $b_0/\bar p_0$; the ratio that the brane value alone would give, $p_0(0)/\bar p_0$; and the share of $R$ that the tip term supplies, $1 - p_0(0)/b_0$ (the quotient of the last two ratios, subtracted from 1).
 
 ```python
 step = float(y[1] - y[0])  # the grid step of y, 0.02
@@ -2540,37 +2540,37 @@ In the code, `values[0]` and `values[-1]` are the first and the last value (the 
 last_unit = y >= -1.0 - 1e-9  # the last unit before the brane: 51 points
 near_share, table_gap = {}, {}
 for sid in nonzero:
-    weighted = np.exp(6 * H_value * y) * profiles[sid]["p8"]  # e^{6Hy} p8
+    weighted = np.exp(6 * H_value * y) * profiles[sid]["p0"]  # e^{6Hy} p0
     whole = simpson_rule(weighted)  # the integral over the whole patch
     near_share[sid] = simpson_rule(weighted[last_unit]) / whole
-    table_gap[sid] = abs(2 * VOL7 * whole / number(sid, "int_p8") - 1.0)
+    table_gap[sid] = abs(2 * VOL7 * whole / number(sid, "int_p0") - 1.0)
 ```
 
-`y >= -1.0 - 1e-9` compares every point of the grid with $-1$ and gives an array of `True` and `False` values, `True` for the 51 points $y = -1, -0.98, \dots, 0$ (the tiny $10^{-9}$ makes sure that the point $y = -1$ counts even if the file stores it with a rounding error in the last digit). These 51 points have 50 steps, an even number, as Simpson's rule needs; the whole grid has 151 points and 150 steps. Two empty dictionaries are made, and the loop fills them for every nonzero state. `weighted` holds the 151 values of $e^{6Hy}p_8$; `whole` is its integral from $y = -3$ to $0$. `weighted[last_unit]` keeps only the values at the points where `last_unit` is `True`, so `near_share` is the integral over $-1 \le y \le 0$ divided by the integral over the whole patch. Because the weighted mean $\bar p_8$ is this integral divided by a fixed number (Section 17.7), `near_share` is also the share of $\bar p_8$ that comes from the last unit before the brane. `table_gap` is a control: the table's `int_p8` is $2\,\mathrm{Vol}_7\int e^{6Hy}p_8\,dy$ (Section 17.7), so `2 * VOL7 * whole` should equal it, and the relative difference is stored.
+`y >= -1.0 - 1e-9` compares every point of the grid with $-1$ and gives an array of `True` and `False` values, `True` for the 51 points $y = -1, -0.98, \dots, 0$ (the tiny $10^{-9}$ makes sure that the point $y = -1$ counts even if the file stores it with a rounding error in the last digit). These 51 points have 50 steps, an even number, as Simpson's rule needs; the whole grid has 151 points and 150 steps. Two empty dictionaries are made, and the loop fills them for every nonzero state. `weighted` holds the 151 values of $e^{6Hy}p_0$; `whole` is its integral from $y = -3$ to $0$. `weighted[last_unit]` keeps only the values at the points where `last_unit` is `True`, so `near_share` is the integral over $-1 \le y \le 0$ divided by the integral over the whole patch. Because the weighted mean $\bar p_0$ is this integral divided by a fixed number (Section 17.7), `near_share` is also the share of $\bar p_0$ that comes from the last unit before the brane. `table_gap` is a control: the table's `int_p0` is $2\,\mathrm{Vol}_7\int e^{6Hy}p_0\,dy$ (Section 17.7), so `2 * VOL7 * whole` should equal it, and the relative difference is stored.
 
 ```python
 agreement = max(abs(from_brane[sid] / ratio[sid] - 1.0) for sid in nonzero)
 closest = min(ratio, key=lambda sid: abs(ratio[sid] - 1.0))
 report("largest relative difference of the two forms of R", f"{agreement:.1e}")
 report("R closest to 1", f"{ratio[closest]:.6g} ({closest})")
-report("largest relative difference, Simpson's integral of p8 and int_p8",
+report("largest relative difference, Simpson's integral of p0 and int_p0",
        f"{max(table_gap.values()):.1e}")
 for n in (8, 136, 688):
     shares = [tip_share[sid] for sid in nonzero if sid.startswith(f"N{n}_")]
     report(f"share of R from the tip term, N = {n}",
            f"{min(shares):.2g} to {max(shares):.2g}")
     nears = [near_share[sid] for sid in nonzero if sid.startswith(f"N{n}_")]
-    report(f"share of the mean of p8 from -1 <= y <= 0, N = {n}",
+    report(f"share of the mean of p0 from -1 <= y <= 0, N = {n}",
            f"{min(nears):.3f} to {max(nears):.3f}")
 detail = record_entry(SOURCE_REPORT, "ks_integrals_violate_algebraic_condition")[
     "detail"]
 reproduces(agreement < 1e-9
            and f"(closest to 1: {ratio[closest]:.6g} at {closest})" in detail,
-           "R = b8 / mean of p8 (b8: brane value with the tip term), 70 states",
+           "R = b0 / mean of p0 (b0: brane value with the tip term), 70 states",
            SOURCE_REPORT, ["ks_integrals_violate_algebraic_condition"])
 ```
 
-`agreement` is the largest relative difference of the two forms of $R$ over all nonzero states. The third `report` prints the largest value of `table_gap`. The loop collects, for each particle number, the tip shares of its states (`startswith` tests the beginning of the name) and prints the smallest and the largest with two significant digits (`.2g`); then it does the same for the shares of the mean from the last unit, with three decimals (`.3f`). Output: $1.4 \times 10^{-11}$; the ratio closest to 1 is again 0.414328 (`N688_lamm2_a00`), the record's number; $4.7 \times 10^{-9}$, so the notebook's integral of the profile and the solver's table describe the same number; then, for each particle number, two lines: the tip shares, $0.31$ to $0.33$ for $N = 8$, $4.1 \times 10^{-5}$ to $0.039$ for $N = 136$ and $5.3 \times 10^{-6}$ to $0.025$ for $N = 688$, and the shares of the mean from $-1 \le y \le 0$, $0.439$ to $0.441$ for $N = 8$, $0.812$ to $0.932$ for $N = 136$ and $0.816$ to $0.969$ for $N = 688$; and the PASS line. (COMPUTED. So for the states with 3-momentum most of the mean of $p_8$ comes from the last unit before the brane and the tip term matters little; for the brane zero modes $N = 8$ less than half of the mean comes from there, and the tip term supplies about a third of $R$, Section 17.15.)
+`agreement` is the largest relative difference of the two forms of $R$ over all nonzero states. The third `report` prints the largest value of `table_gap`. The loop collects, for each particle number, the tip shares of its states (`startswith` tests the beginning of the name) and prints the smallest and the largest with two significant digits (`.2g`); then it does the same for the shares of the mean from the last unit, with three decimals (`.3f`). Output: $1.4 \times 10^{-11}$; the ratio closest to 1 is again 0.414328 (`N688_lamm2_a00`), the record's number; $4.7 \times 10^{-9}$, so the notebook's integral of the profile and the solver's table describe the same number; then, for each particle number, two lines: the tip shares, $0.31$ to $0.33$ for $N = 8$, $4.1 \times 10^{-5}$ to $0.039$ for $N = 136$ and $5.3 \times 10^{-6}$ to $0.025$ for $N = 688$, and the shares of the mean from $-1 \le y \le 0$, $0.439$ to $0.441$ for $N = 8$, $0.812$ to $0.932$ for $N = 136$ and $0.816$ to $0.969$ for $N = 688$; and the PASS line. (COMPUTED. So for the states with 3-momentum most of the mean of $p_0$ comes from the last unit before the brane and the tip term matters little; for the brane zero modes $N = 8$ less than half of the mean comes from there, and the tip term supplies about a third of $R$, Section 17.15.)
 
 **In [16], the boundary value against the mean (figure 4).**
 
@@ -2580,46 +2580,46 @@ fig, ax = plt.subplots(figsize=(6.4, 5.0))
 for n, colour in N_COLOURS.items():
     for positive in (True, False):
         ids = [sid for sid in nonzero if sid.startswith(f"N{n}_")
-               and (mean_p8[sid] > 0) == positive]  # one sign at a time
+               and (mean_p0[sid] > 0) == positive]  # one sign at a time
         if not ids:
             continue
-        ax.loglog([abs(mean_p8[sid]) for sid in ids],
+        ax.loglog([abs(mean_p0[sid]) for sid in ids],
                   [abs(boundary[sid]) for sid in ids], "o",
                   ms=5 if positive else 10,  # rings around the mirror states
                   color=colour, mfc=colour if positive else "none",
                   label=f"$N = {n}$" + ("" if positive else ", mean $< 0$"))
 ```
 
-For each particle number and each sign of $\bar p_8$, the states of that kind are collected (`(mean > 0) == positive` selects one sign); an empty group is skipped. The points are drawn on logarithmic axes, which need positive numbers, so absolute values are used: horizontal $|\bar p_8|$, vertical the boundary value $|b_8|$ of In [15]. Their ratio is exactly $R$. States with a positive mean get small filled circles; states with a negative mean get larger rings (`mfc`, the marker face colour, is `"none"`, so only the outline is drawn).
+For each particle number and each sign of $\bar p_0$, the states of that kind are collected (`(mean > 0) == positive` selects one sign); an empty group is skipped. The points are drawn on logarithmic axes, which need positive numbers, so absolute values are used: horizontal $|\bar p_0|$, vertical the boundary value $|b_0|$ of In [15]. Their ratio is exactly $R$. States with a positive mean get small filled circles; states with a negative mean get larger rings (`mfc`, the marker face colour, is `"none"`, so only the outline is drawn).
 
 ```python
 line = np.array([1e-7, 1.0])  # the range of the diagonal
 ax.loglog(line, line, "--", color="#e34948", lw=1.2,
           label="averaged C2: boundary value = mean")
-ax.set_xlabel("weighted mean $|\\bar p_8|$ (units of $m^8$)")
-ax.set_ylabel("boundary value $|b_8|$ (units of $m^8$)")
+ax.set_xlabel("weighted mean $|\\bar p_0|$ (units of $m^8$)")
+ax.set_ylabel("boundary value $|b_0|$ (units of $m^8$)")
 ax.legend(fontsize=8, loc="upper left")
-negative = sorted(sid for sid in nonzero if mean_p8[sid] < 0)  # mean of p8 < 0
-say("states with a negative mean of p8: " + ", ".join(negative))
+negative = sorted(sid for sid in nonzero if mean_p0[sid] < 0)  # mean of p0 < 0
+say("states with a negative mean of p0: " + ", ".join(negative))
 expected = sorted(sid for sid in nonzero if sid.startswith("N8_lamp"))
 ```
 
 The red dashed diagonal is where the boundary value equals the mean, the averaged C2 ($R = 1$). The cell prints the states with a negative mean, and `expected` lists the ten $N = 8$ states with $\lambda > 0$ (their names start with `N8_lamp`).
 
 ```python
-plotted = {sid: boundary[sid] / mean_p8[sid] for sid in nonzero}  # = R
+plotted = {sid: boundary[sid] / mean_p0[sid] for sid in nonzero}  # = R
 save_figure(fig, "brane_and_mean",
-            "The boundary value $b_8 = (p_8(0) - e^{-6HL}p_8(-L))/(1 - e^{-6HL})$ "
+            "The boundary value $b_0 = (p_0(0) - e^{-6HL}p_0(-L))/(1 - e^{-6HL})$ "
             "of the hidden-direction pressure against its weighted mean, for the "
             ...)
 check(negative == expected and all(0.0 < plotted[sid] < 1.0 for sid in nonzero),
-      "every point lies below the diagonal; mean of p8 < 0 only for N = 8, "
+      "every point lies below the diagonal; mean of p0 < 0 only for N = 8, "
       "lambda > 0")
 ```
 
-`plotted` holds the ratio of the vertical to the horizontal value of every point, $b_8/\bar p_8$, which is $R$. The caption is quoted shortened (it is printed in full under the figure); joined from its strings, it inserts the range of the plotted ratios with three decimals, 0.107 to 0.414, and the range that the brane value alone would give, 0.074 to 0.414 (`min` and `max` of the dictionaries `plotted` and `brane_only`). The check confirms that the states with a negative mean are exactly the expected ten, and that every plotted ratio lies strictly between 0 and 1 (Python allows the chained comparison `0.0 < r < 1.0`). Output: the list `N8_lamp1_a00` to `N8_lamp2_a20`, figure 17b.4 with its saved line, and then the PASS line (the check comes after the figure).
+`plotted` holds the ratio of the vertical to the horizontal value of every point, $b_0/\bar p_0$, which is $R$. The caption is quoted shortened (it is printed in full under the figure); joined from its strings, it inserts the range of the plotted ratios with three decimals, 0.107 to 0.414, and the range that the brane value alone would give, 0.074 to 0.414 (`min` and `max` of the dictionaries `plotted` and `brane_only`). The check confirms that the states with a negative mean are exactly the expected ten, and that every plotted ratio lies strictly between 0 and 1 (Python allows the chained comparison `0.0 < r < 1.0`). Output: the list `N8_lamp1_a00` to `N8_lamp2_a20`, figure 17b.4 with its saved line, and then the PASS line (the check comes after the figure).
 
-**What figure 17b.4 shows.** Both axes logarithmic, in units of $m^8$. The averaged C2 would put every point on the dashed diagonal. All 70 points lie below it: the boundary value of $p_8$ is between about a tenth and four tenths of its mean, the ratios $R$ = 0.107 to 0.414 of Notebook 17a. For the $N = 136$ and $N = 688$ states the boundary value is practically the brane value; for the $N = 8$ states the brane value alone would be only 0.074 of the mean, and the tip term raises the ratio to about 0.11 (near the tip $p_8$ has the sign opposite to its mean, so $-e^{-6HL}p_8(-L)$ has the sign of the mean). The blue ($N = 136$) and orange ($N = 688$) points form two short chains, one point per slice (the couplings overlap); the 20 nonzero $N = 8$ states, equal at every slice, fall on only two places, where the filled points of $-\lambda_1$ and $-\lambda_2$ sit inside the rings of $+\lambda_1$ and $+\lambda_2$ (same size, opposite sign: for $+\lambda$ the mean and the brane value of $p_8$ are negative, while $p_8$ at the tip is positive).
+**What figure 17b.4 shows.** Both axes logarithmic, in units of $m^8$. The averaged C2 would put every point on the dashed diagonal. All 70 points lie below it: the boundary value of $p_0$ is between about a tenth and four tenths of its mean, the ratios $R$ = 0.107 to 0.414 of Notebook 17a. For the $N = 136$ and $N = 688$ states the boundary value is practically the brane value; for the $N = 8$ states the brane value alone would be only 0.074 of the mean, and the tip term raises the ratio to about 0.11 (near the tip $p_0$ has the sign opposite to its mean, so $-e^{-6HL}p_0(-L)$ has the sign of the mean). The blue ($N = 136$) and orange ($N = 688$) points form two short chains, one point per slice (the couplings overlap); the 20 nonzero $N = 8$ states, equal at every slice, fall on only two places, where the filled points of $-\lambda_1$ and $-\lambda_2$ sit inside the rings of $+\lambda_1$ and $+\lambda_2$ (same size, opposite sign: for $+\lambda$ the mean and the brane value of $p_0$ are negative, while $p_0$ at the tip is positive).
 
 **In [17], the constraint propagates.**
 
@@ -2865,8 +2865,8 @@ The record's table is read into a dictionary by state name, as the table of inte
 ```python
 defect = {}
 for sid in nonzero:
-    p3b, ptb, p8b = (mean(sid, column) for column in ("p3", "p_t", "p8"))
-    defect[sid] = abs(p3b + ptb - 2 * p8b) / (abs(p3b) + abs(ptb) + 2 * abs(p8b))
+    p3b, ptb, p0b = (mean(sid, column) for column in ("p3", "p_t", "p0"))
+    defect[sid] = abs(p3b + ptb - 2 * p0b) / (abs(p3b) + abs(ptb) + 2 * abs(p0b))
 low, high = min(defect, key=defect.get), max(defect, key=defect.get)
 ```
 
@@ -3039,7 +3039,7 @@ As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file 
 
 ### 17.22 What a prescribed background is, and what remains open
 
-**What the record establishes.** In the words of the record `Revision/field_equations_a4/reports/ks-source-conditions.json`: no Kohn-Sham state recorded in `Revision/kohn_sham` is an admissible source of the author's metric; C1 and C2 fail for every nonzero state (C2 also after integration over $x_8$), and the Kohn-Sham history uses the linear member as a prescribed background, without back-reaction. The record of the $a_4$ equations says the same (`Revision/field_equations_a4/a4-equations.json`, key `fields.dirac16complex.kohnSham`), and so does the Kohn-Sham theory record (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyStatus`). Sections 17.12 to 17.16 add the reason: the Kohn-Sham source is conserved along the hidden direction at every point, and in the time direction for the total energy of the patch (not point by point); but its hidden pressure is far from flat and its 3-space pressure is not balanced by an equal extra-time pressure ($\int p_3 > \int p_t$ along the history), and for a conserved source these are exactly the failures of C2 and C3. Section 17.17 adds that averaging over the hidden direction does not rescue it: the averaged C2 still fails, and the averaged equations can be integrated only after two of them are dropped, an approximation whose error is of order 1.
+**What the record establishes.** In the words of the record `Revision/field_equations_a4/reports/ks-source-conditions.json`: no Kohn-Sham state recorded in `Revision/kohn_sham` is an admissible source of the author's metric; C1 and C2 fail for every nonzero state (C2 also after integration over $x_0$), and the Kohn-Sham history uses the linear member as a prescribed background, without back-reaction. The record of the $a_4$ equations says the same (`Revision/field_equations_a4/a4-equations.json`, key `fields.dirac16complex.kohnSham`), and so does the Kohn-Sham theory record (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyStatus`). Sections 17.12 to 17.16 add the reason: the Kohn-Sham source is conserved along the hidden direction at every point, and in the time direction for the total energy of the patch (not point by point); but its hidden pressure is far from flat and its 3-space pressure is not balanced by an equal extra-time pressure ($\int p_3 > \int p_t$ along the history), and for a conserved source these are exactly the failures of C2 and C3. Section 17.17 adds that averaging over the hidden direction does not rescue it: the averaged C2 still fails, and the averaged equations can be integrated only after two of them are dropped, an approximation whose error is of order 1.
 
 **What "prescribed background" means.** A prescribed background is a metric chosen by hand, in which matter is placed and studied while its own gravity is ignored. The matter is then a **test field**, and the effect it would have on the metric, its **back-reaction**, is left out. This is a common and useful approximation in physics, much like computing the motion of a cork on a river whose flow is given: the cork follows the flow, and nobody asks how the cork changes the river. Quantum fields in a given expanding universe are usually studied this way. The approximation is good when the matter is too dilute to change the metric noticeably; whether that holds here cannot be decided without the back-reaction itself.
 
@@ -3047,12 +3047,12 @@ As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file 
 
 **What this chapter does NOT say.**
 
-- It does not say that the author's metric cannot be a solution of the field equations. Chapter 12 shows what source the linear member requires, and builds exact examples with a condensate of the commuting field dirac16complex00, whose pressures are equal and do not depend on $x_8$ (a computation of the book, Section 12.26).
-- It does not say that no state of dirac16complex can be an admissible source. Only the 75 recorded ground states (zero temperature), whose profiles the record stores, are tested; the 135 thermal states of the canonical matrix (Chapter 15) store no profiles and are not tested. The record of the $a_4$ equations states what such a state would need: $p_3 + p_t = 2p_8$, every expectation value independent of $x_8$, and every off-diagonal expectation value zero (keys `fields.dirac16complex.kohnSham` and `fields.dirac16complex.offDiagonal`); for the linear member, in addition, equal expectation values of the 3-space and the extra-time kinetic terms (key `fields.dirac16complex.homogeneousSingleMode`). It also states that no state with unequal kinetic terms that meets the other conditions, and so would drive $a_4''$, is constructed in the Revision record (key `fields.dirac16complex.evolution`); and the many-quantum states of dirac16complex that the Revision record does construct, the Kohn-Sham states, fail the conditions (this chapter). Whether an admissible state exists is OPEN.
+- It does not say that the author's metric cannot be a solution of the field equations. Chapter 12 shows what source the linear member requires, and builds exact examples with a condensate of the commuting field dirac16complex00, whose pressures are equal and do not depend on $x_0$ (a computation of the book, Section 12.26).
+- It does not say that no state of dirac16complex can be an admissible source. Only the 75 recorded ground states (zero temperature), whose profiles the record stores, are tested; the 135 thermal states of the canonical matrix (Chapter 15) store no profiles and are not tested. The record of the $a_4$ equations states what such a state would need: $p_3 + p_t = 2p_0$, every expectation value independent of $x_0$, and every off-diagonal expectation value zero (keys `fields.dirac16complex.kohnSham` and `fields.dirac16complex.offDiagonal`); for the linear member, in addition, equal expectation values of the 3-space and the extra-time kinetic terms (key `fields.dirac16complex.homogeneousSingleMode`). It also states that no state with unequal kinetic terms that meets the other conditions, and so would drive $a_4''$, is constructed in the Revision record (key `fields.dirac16complex.evolution`); and the many-quantum states of dirac16complex that the Revision record does construct, the Kohn-Sham states, fail the conditions (this chapter). Whether an admissible state exists is OPEN.
 - It does not say what metric the Kohn-Sham gas would produce. That needs back-reaction, which nobody has computed. It is OPEN.
 - It says nothing about the creation of universes, about pairs of universes of masses $+m$ and $-m$, or about matter and antimatter. Those questions are treated, with the precise statement of what is proved and what is not, in Chapters 18 to 21.
 
-**What back-reaction would require.** By C1, a source that depends on $x_8$ cannot sit on the right-hand side of the field equations of a metric whose left-hand side does not depend on $x_8$. A self-consistent treatment therefore needs a metric with more freedom: functions of both the time $x_4$ and the hidden coordinate (for example separate warp factors for 3-space and for the extra times that depend on $y$), the Kohn-Sham equations in that metric, and the field equations, all solved together. Beyond that, the Kohn-Sham states themselves are instantaneous (adiabatic) states; the time-dependent problem along the history is also OPEN. Chapter 22 describes how a student could attack both.
+**What back-reaction would require.** By C1, a source that depends on $x_0$ cannot sit on the right-hand side of the field equations of a metric whose left-hand side does not depend on $x_0$. A self-consistent treatment therefore needs a metric with more freedom: functions of both the time $x_4$ and the hidden coordinate (for example separate warp factors for 3-space and for the extra times that depend on $y$), the Kohn-Sham equations in that metric, and the field equations, all solved together. Beyond that, the Kohn-Sham states themselves are instantaneous (adiabatic) states; the time-dependent problem along the history is also OPEN. Chapter 22 describes how a student could attack both.
 
 ### 17.23 What we proved, what we computed, what we assumed
 
@@ -3060,15 +3060,15 @@ As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file 
 
 | statement | where verified | notebook |
 | --- | --- | --- |
-| C1: the left-hand sides are diagonal and free of $x_8$, so a source must be independent of $x_8$ with $q_{48} = q_{84} = 0$ | `wolfram-a4-report.json`: `P1_structure`, `P2_structure`, `P3_structure`, `independent_components` | 17a, In [4] |
-| C2: $p_3 + p_t = 2p_8$ for every source | `wolfram-a4-report.json`: `algebraic_identity_x1_plus_x5_minus_2x8`; `python-a4-report.json`: `algebraic_identity` | 17a, In [4] |
-| C3: the linear member needs $p_3 = p_t = p_8$ and constant $\rho$ | `python-a4-report.json` and `wolfram-a4-report.json`: `linear_member_equal_pressures` | 17a, In [4] |
+| C1: the left-hand sides are diagonal and free of $x_0$, so a source must be independent of $x_0$ with $q_{40} = q_{04} = 0$ | `wolfram-a4-report.json`: `P1_structure`, `P2_structure`, `P3_structure`, `independent_components` | 17a, In [4] |
+| C2: $p_3 + p_t = 2p_0$ for every source | `wolfram-a4-report.json`: `algebraic_identity_x1_plus_x5_minus_2x0`; `python-a4-report.json`: `algebraic_identity` | 17a, In [4] |
+| C3: the linear member needs $p_3 = p_t = p_0$ and constant $\rho$ | `python-a4-report.json` and `wolfram-a4-report.json`: `linear_member_equal_pressures` | 17a, In [4] |
 | Einstein gravity: $T = 0$ has no solution for $H > 0$ | `wolfram-a4-report.json`: `einstein_no_vacuum_solution` | 17a, In [19] |
 | the Bianchi identity: every source must be conserved | both reports: `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free` | (Section 17.12) |
-| the conservation law in the coordinates $x_8$ and $y$ | `python-a4-report.json`: `conservation_components`, `json_conservation`; `ks-theory-python.json`: `emt_y_conservation_selfconsistent`, `emt_x4_component` | 17b, In [7] to In [9] |
-| for a conserved source $p_3 + p_t - 2p_8 = p_8'(y)/(3H)$ | derived in Section 17.14 | 17b, In [10] |
+| the conservation law in the coordinates $x_0$ and $y$ | `python-a4-report.json`: `conservation_components`, `json_conservation`; `ks-theory-python.json`: `emt_y_conservation_selfconsistent`, `emt_x4_component` | 17b, In [7] to In [9] |
+| for a conserved source $p_3 + p_t - 2p_0 = p_0'(y)/(3H)$ | derived in Section 17.14 | 17b, In [10] |
 | $d\mathcal C/dx_4 = 3a_4'\,\mathcal E$ for all couplings; along the linear member $-3AH\kappa(p_3 - p_t)$ | `wolfram-a4-report.json`: `constraint_propagation_bianchi`; `python-a4-report.json`: `bianchi_x4` | 17b, In [17] |
-| the moment equations; $3F = 2\,dP/dX$; the constraint propagates with the averaged source; the Einstein first integral | `ks-source-a4.json`: `A1_lovelock_identity_x1_plus_x5_equals_2x8`, `A3_F_equals_two_thirds_dP_dX`, `A4_constraint_propagation_with_averaged_source`, `A6_x8_conservation_in_y`, `D2_einstein_first_integral` | (Section 17.17); 17b, In [22] |
+| the moment equations; $3F = 2\,dP/dX$; the constraint propagates with the averaged source; the Einstein first integral | `ks-source-a4.json`: `A1_lovelock_identity_x1_plus_x5_equals_2x8`, `A3_F_equals_two_thirds_dP_dX`, `A4_constraint_propagation_with_averaged_source`, `A6_x0_conservation_in_y`, `D2_einstein_first_integral` | (Section 17.17); 17b, In [22] |
 
 (The report files lie in `Revision/field_equations_a4/reports/`, `Revision/field_equations_a4/ks_source/reports/` and `Revision/kohn_sham/reports/`.)
 
@@ -3076,15 +3076,15 @@ As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file 
 
 | result | measured value | record and check | notebook |
 | --- | --- | --- | --- |
-| every nonzero state depends on $x_8$ | spread of $\rho$ at least 0.0497329 of $\max\lvert T\rvert$ | `ks-source-conditions.json`: `ks_profiles_depend_on_x8` | 17a, In [7] |
+| every nonzero state depends on $x_0$ | spread of $\rho$ at least 0.0497329 of $\max\lvert T\rvert$ | `ks-source-conditions.json`: `ks_profiles_depend_on_x0` | 17a, In [7] |
 | C2 fails point by point | $\max\lvert V\rvert/\max\lvert T\rvert$ from 2.09192 to 3.99006 | `ks_profiles_violate_algebraic_condition` | 17a, In [9], In [12] |
-| C2 fails after integration over $x_8$ | $R$ from 0.1072 to 0.4143 (closest to 1: 0.414328) | `ks_integrals_violate_algebraic_condition` | 17a, In [14] |
+| C2 fails after integration over $x_0$ | $R$ from 0.1072 to 0.4143 (closest to 1: 0.414328) | `ks_integrals_violate_algebraic_condition` | 17a, In [14] |
 | C3 fails along the history | $\int\rho$ falls by factors 6.45 and 6.16; $\int p_3 > \int p_t = 0$ | `ks_history_is_a_prescribed_background` | 17a, In [16], In [17] |
 | five states have no source at all | $N = 8$, $\lambda = 0$, all slices | `ks_zero_source_states_listed` | 17a, In [19] |
-| the source rests on the author's real gammas | Clifford deviation exactly 0; sha256 prefix 95d8cbdd0682fd30 | `python-algebra.json`: `reality_signed_permutations`, `clifford_relation`; `ks-rust-solver.json`: `gamma_fixture_numeric` | 17b, In [3], In [4] |
-| $V = p_8'/(3H)$ on the stored grid | at most $1.05 \times 10^{-4}$ of $\max\lvert T\rvert$; fitted order 4.02 to 4.08 | (the book's own test) | 17b, In [11], In [13] |
+| the source rests on the author's real gammas | Clifford deviation exactly 0; sha256 prefix c99277bab4793c42 | `python-algebra.json`: `reality_signed_permutations`, `clifford_relation`; `ks-rust-solver.json`: `gamma_fixture_numeric` | 17b, In [3], In [4] |
+| $V = p_0'/(3H)$ on the stored grid | at most $1.05 \times 10^{-4}$ of $\max\lvert T\rvert$; fitted order 4.02 to 4.08 | (the book's own test) | 17b, In [11], In [13] |
 | the integrated conservation law | relative difference at most $1.421 \times 10^{-11}$ | `ks-rust-solver.json`: `emt_y_conservation_integrated` | 17b, In [14] |
-| $R$ equals the boundary value $b_8$ of $p_8$ over its mean | agreement to $1.4 \times 10^{-11}$; tip share $0.31$ to $0.33$ for $N = 8$, at most $0.039$ otherwise; share of $\bar p_8$ from $-1 \le y \le 0$: $0.439$ to $0.441$ for $N = 8$, at least $0.812$ otherwise | `ks_integrals_violate_algebraic_condition` | 17b, In [15] |
+| $R$ equals the boundary value $b_0$ of $p_0$ over its mean | agreement to $1.4 \times 10^{-11}$; tip share $0.31$ to $0.33$ for $N = 8$, at most $0.039$ otherwise; share of $\bar p_0$ from $-1 \le y \le 0$: $0.439$ to $0.441$ for $N = 8$, at least $0.812$ otherwise | `ks_integrals_violate_algebraic_condition` | 17b, In [15] |
 | the energy-change law of the patch along the history | Simpson's rule to at most $2.2 \times 10^{-4}$ | `ks-rust-solver.json`: `emt_energy_change_dE_da4` | 17b, In [18] |
 | the time law fails point by point | tip ratio of the two sides $-0.327$ to $-0.106$; patch integrals agree to $1.3 \times 10^{-3}$ | `ks-theory-python.json`: `emt_x4_component` | 17b, In [20] |
 | the averaged C2 fails | defect $0.414086$ to $0.806379$ | `ks-source-a4.json`: `C1_averaged_algebraic_condition_fails` | 17b, In [21] |
@@ -3103,29 +3103,29 @@ As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file 
 
 ### 17.24 Exercises
 
-**Exercise 1 (the pattern of the Lovelock components).** The record stores $E_{(2)}{}^{x_1}{}_{x_1} = 12a'^4 - 24a'^2a'' + 168a'^2H^2 - 40a''H^2 - 180H^4$, $E_{(2)}{}^{x_5}{}_{x_5} = 12a'^4 + 24a'^2a'' + 168a'^2H^2 + 40a''H^2 - 180H^4$ and $E_{(2)}{}^{x_8}{}_{x_8} = 12a'^4 + 168a'^2H^2 - 180H^4$. (a) Show that they have the form $P_2 + a''Q_2$, $P_2 - a''Q_2$, $P_2$, and find $P_2$ and $Q_2$. (b) Verify C2 for $k = 2$. (c) Find the Gauss-Bonnet part of $F$.
+**Exercise 1 (the pattern of the Lovelock components).** The record stores $E_{(2)}{}^{x_1}{}_{x_1} = 12a'^4 - 24a'^2a'' + 168a'^2H^2 - 40a''H^2 - 180H^4$, $E_{(2)}{}^{x_5}{}_{x_5} = 12a'^4 + 24a'^2a'' + 168a'^2H^2 + 40a''H^2 - 180H^4$ and $E_{(2)}{}^{x_0}{}_{x_0} = 12a'^4 + 168a'^2H^2 - 180H^4$. (a) Show that they have the form $P_2 + a''Q_2$, $P_2 - a''Q_2$, $P_2$, and find $P_2$ and $Q_2$. (b) Verify C2 for $k = 2$. (c) Find the Gauss-Bonnet part of $F$.
 
-*Answer.* (a) In $E_{(2)}{}^{x_1}{}_{x_1}$ the terms without $a''$ are $12a'^4 + 168a'^2H^2 - 180H^4$, which is exactly $E_{(2)}{}^{x_8}{}_{x_8}$; call it $P_2$. The terms with $a''$ are $-24a'^2a'' - 40a''H^2 = a''(-24a'^2 - 40H^2)$ (rule: take out the common factor $a''$); call the bracket $Q_2 = -24a'^2 - 40H^2$. In $E_{(2)}{}^{x_5}{}_{x_5}$ the terms without $a''$ are again $P_2$, and the terms with $a''$ are $+24a'^2a'' + 40a''H^2 = -a''Q_2$. (b) $(P_2 + a''Q_2) + (P_2 - a''Q_2) - 2P_2 = 0$: the $a''$ terms cancel and $P_2 + P_2 - 2P_2 = 0$. (c) $E_{(2)}{}^{x_1}{}_{x_1} - E_{(2)}{}^{x_5}{}_{x_5} = 2a''Q_2 = a''(-48a'^2 - 80H^2)$, so the Gauss-Bonnet part of $F$ is $\alpha_2(-48a'^2 - 80H^2)$, as in the record's `evolution_F`.
+*Answer.* (a) In $E_{(2)}{}^{x_1}{}_{x_1}$ the terms without $a''$ are $12a'^4 + 168a'^2H^2 - 180H^4$, which is exactly $E_{(2)}{}^{x_0}{}_{x_0}$; call it $P_2$. The terms with $a''$ are $-24a'^2a'' - 40a''H^2 = a''(-24a'^2 - 40H^2)$ (rule: take out the common factor $a''$); call the bracket $Q_2 = -24a'^2 - 40H^2$. In $E_{(2)}{}^{x_5}{}_{x_5}$ the terms without $a''$ are again $P_2$, and the terms with $a''$ are $+24a'^2a'' + 40a''H^2 = -a''Q_2$. (b) $(P_2 + a''Q_2) + (P_2 - a''Q_2) - 2P_2 = 0$: the $a''$ terms cancel and $P_2 + P_2 - 2P_2 = 0$. (c) $E_{(2)}{}^{x_1}{}_{x_1} - E_{(2)}{}^{x_5}{}_{x_5} = 2a''Q_2 = a''(-48a'^2 - 80H^2)$, so the Gauss-Bonnet part of $F$ is $\alpha_2(-48a'^2 - 80H^2)$, as in the record's `evolution_F`.
 
-**Exercise 2 (the two sides of C2 at three points).** Use the three lines printed by Notebook 17a, In [12], for the state $N = 136$, $\lambda = 0$, $a_{4,0} = 1$. (a) Compute $V$ in the middle and at the brane. (b) Compute $2p_8/(p_3 + p_t)$ at both points. (c) At the tip, compute $V/\max|T|$, given that the largest component of this state is $|p_8|$ at the tip (figure 2 of Notebook 17b shows $p_8/\max|T| = -1$ there).
+**Exercise 2 (the two sides of C2 at three points).** Use the three lines printed by Notebook 17a, In [12], for the state $N = 136$, $\lambda = 0$, $a_{4,0} = 1$. (a) Compute $V$ in the middle and at the brane. (b) Compute $2p_0/(p_3 + p_t)$ at both points. (c) At the tip, compute $V/\max|T|$, given that the largest component of this state is $|p_0|$ at the tip (figure 2 of Notebook 17b shows $p_0/\max|T| = -1$ there).
 
 *Answer.* (a) Middle: $V = 0.498835 + 0 - 2 \times 0.643324 = 0.498835 - 1.286648 = -0.787813$. Brane: $V = 0.000391237 + 0 - 2 \times 0.000942049 = 0.000391237 - 0.001884098 = -0.001492861$, printed as $-0.00149286$. (b) Middle: $1.286648/0.498835 = 2.579$, the 2.58 of figure 17a.5; brane: $0.001884098/0.000391237 = 4.816$, the 4.82. (c) $\max|T| = 431.733$, so $V/\max|T| = 1021.73/431.733 = 2.367$, inside the range 2.36 to 2.37 quoted in the caption of figure 17a.3.
 
-**Exercise 3 (the two forms of the hidden conservation law).** Starting from the record's law in the coordinate $x_8$ for a diagonal source, $\partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t) = 0$, derive the law in the coordinate $y$. Why may you divide by $\cot z$?
+**Exercise 3 (the two forms of the hidden conservation law).** Starting from the record's law in the coordinate $x_0$ for a diagonal source, $\partial_0 p_0 + 3H\cot z\,(2p_0 - p_3 - p_t) = 0$, derive the law in the coordinate $y$. Why may you divide by $\cot z$?
 
-*Answer.* By the chain rule, $\partial_8 p_8 = (dy/dx_8)\,dp_8/dy = \cot z\,p_8'$, because $dy/dx_8 = \cot z$ (Section 17.4). The law becomes $\cot z\,p_8' + 3H\cot z\,(2p_8 - p_3 - p_t) = 0$, that is $\cot z\,[p_8' + 6Hp_8 - 3H(p_3 + p_t)] = 0$ (rule: take out the common factor; $3H\cdot 2p_8 = 6Hp_8$). On the patch $0 < z < \pi/2$ both $\cos z$ and $\sin z$ are positive, so $\cot z > 0$ and we may divide by it: $p_8' + 6Hp_8 = 3H(p_3 + p_t)$.
+*Answer.* By the chain rule, $\partial_0 p_0 = (dy/dx_0)\,dp_0/dy = \cot z\,p_0'$, because $dy/dx_0 = \cot z$ (Section 17.4). The law becomes $\cot z\,p_0' + 3H\cot z\,(2p_0 - p_3 - p_t) = 0$, that is $\cot z\,[p_0' + 6Hp_0 - 3H(p_3 + p_t)] = 0$ (rule: take out the common factor; $3H\cdot 2p_0 = 6Hp_0$). On the patch $0 < z < \pi/2$ both $\cos z$ and $\sin z$ are positive, so $\cot z > 0$ and we may divide by it: $p_0' + 6Hp_0 = 3H(p_3 + p_t)$.
 
-**Exercise 4 (C2 and C1 for a conserved source).** A conserved diagonal source in the author's metric has $p_8 = 5$ at every point (units of $m^8$, $H = 1$) and $p_t = 1$. (a) What is $p_3$? (b) Does it satisfy C2? (c) Can a conserved source with a flat $p_8$ still fail C1?
+**Exercise 4 (C2 and C1 for a conserved source).** A conserved diagonal source in the author's metric has $p_0 = 5$ at every point (units of $m^8$, $H = 1$) and $p_t = 1$. (a) What is $p_3$? (b) Does it satisfy C2? (c) Can a conserved source with a flat $p_0$ still fail C1?
 
-*Answer.* (a) The $y$ law with $p_8' = 0$: $0 + 6 \times 5 = 3(p_3 + 1)$, so $p_3 + 1 = 10$ and $p_3 = 9$. (b) $p_3 + p_t = 10 = 2p_8$: yes, as Section 17.14 predicts for a flat $p_8$. (c) Yes. C1 also asks that $\rho$, $p_3$ and $p_t$ do not depend on $x_8$. The hidden law fixes only the sum $p_3 + p_t$ and says nothing about $\rho$. For example $p_8 = 5$, $p_t = 1 + \sin y$ and $p_3 = 9 - \sin y$ satisfy the hidden law ($6 \times 5 = 3 \times 10$) and C2, but $p_3$ and $p_t$ depend on $y$, so C1 fails. C2 is only the $p_8$ part of C1.
+*Answer.* (a) The $y$ law with $p_0' = 0$: $0 + 6 \times 5 = 3(p_3 + 1)$, so $p_3 + 1 = 10$ and $p_3 = 9$. (b) $p_3 + p_t = 10 = 2p_0$: yes, as Section 17.14 predicts for a flat $p_0$. (c) Yes. C1 also asks that $\rho$, $p_3$ and $p_t$ do not depend on $x_0$. The hidden law fixes only the sum $p_3 + p_t$ and says nothing about $\rho$. For example $p_0 = 5$, $p_t = 1 + \sin y$ and $p_3 = 9 - \sin y$ satisfy the hidden law ($6 \times 5 = 3 \times 10$) and C2, but $p_3$ and $p_t$ depend on $y$, so C1 fails. C2 is only the $p_0$ part of C1.
 
-**Exercise 5 (the averaged ratio by hand).** For the state $N = 136$, $\lambda = 0$, $a_{4,0} = 0$ the record's table `Revision/kohn_sham/results/ground/emt-integrals.csv` gives $\int p_3 = 23.8133$, $\int p_t = 0$, $\int p_8 = 35.0435$, $p_8(\text{brane}) = 0.00224994$ and $p_8(\text{tip}) = -6.59995$; and $\mathrm{Vol}_7 = 15875.2$, $H = 1$, $L = 3$. (a) Compute $R$ from the integrals. (b) Compute the weighted mean $\bar p_8$. (c) Compute $R$ from the brane and tip values and the mean, with the formula of Section 17.15. (d) Check the integrated conservation law.
+**Exercise 5 (the averaged ratio by hand).** For the state $N = 136$, $\lambda = 0$, $a_{4,0} = 0$ the record's table `Revision/kohn_sham/results/ground/emt-integrals.csv` gives $\int p_3 = 23.8133$, $\int p_t = 0$, $\int p_0 = 35.0435$, $p_0(\text{brane}) = 0.00224994$ and $p_0(\text{tip}) = -6.59995$; and $\mathrm{Vol}_7 = 15875.2$, $H = 1$, $L = 3$. (a) Compute $R$ from the integrals. (b) Compute the weighted mean $\bar p_0$. (c) Compute $R$ from the brane and tip values and the mean, with the formula of Section 17.15. (d) Check the integrated conservation law.
 
-*Answer.* (a) $R = (23.8133 + 0)/(2 \times 35.0435) = 23.8133/70.0870 = 0.33977$, the 0.339767 of the record. (b) The volume factor is $2\,\mathrm{Vol}_7(1 - e^{-18})/6 = 31750.4 \times (1 - 1.5 \times 10^{-8})/6 = 5291.73$ (the $e^{-18}$ changes nothing at this precision), so $\bar p_8 = 35.0435/5291.73 = 0.0066223$. (c) $e^{-18} \times (-6.59995) = -1.005 \times 10^{-7}$, so the numerator is $0.00224994 + 0.0000001005 = 0.00225004$, and $R = 0.00225004/0.0066223 = 0.33977$: the same number, as the conservation law demands. The brane value is about a third of the mean. (d) Left side: $2\,\mathrm{Vol}_7 \times 0.00225004 = 31750.4 \times 0.00225004 = 71.440$; right side: $3H \times 23.8133 = 71.440$. They agree to the digits given.
+*Answer.* (a) $R = (23.8133 + 0)/(2 \times 35.0435) = 23.8133/70.0870 = 0.33977$, the 0.339767 of the record. (b) The volume factor is $2\,\mathrm{Vol}_7(1 - e^{-18})/6 = 31750.4 \times (1 - 1.5 \times 10^{-8})/6 = 5291.73$ (the $e^{-18}$ changes nothing at this precision), so $\bar p_0 = 35.0435/5291.73 = 0.0066223$. (c) $e^{-18} \times (-6.59995) = -1.005 \times 10^{-7}$, so the numerator is $0.00224994 + 0.0000001005 = 0.00225004$, and $R = 0.00225004/0.0066223 = 0.33977$: the same number, as the conservation law demands. The brane value is about a third of the mean. (d) Left side: $2\,\mathrm{Vol}_7 \times 0.00225004 = 31750.4 \times 0.00225004 = 71.440$; right side: $3H \times 23.8133 = 71.440$. They agree to the digits given.
 
-**Exercise 6 (every conserved profile with a constant sum).** Suppose $p_3 + p_t = P$ is a constant. (a) Find every $p_8(y)$ that satisfies the $y$ law. (b) Which of them satisfies C2? (c) Write the answer in the coordinate $z$.
+**Exercise 6 (every conserved profile with a constant sum).** Suppose $p_3 + p_t = P$ is a constant. (a) Find every $p_0(y)$ that satisfies the $y$ law. (b) Which of them satisfies C2? (c) Write the answer in the coordinate $z$.
 
-*Answer.* (a) The law is $p_8' + 6Hp_8 = 3HP$. Multiply by $e^{6Hy}$: $(e^{6Hy}p_8)' = 3HPe^{6Hy}$ (rule: the product rule read backwards). Integrate: $e^{6Hy}p_8 = 3HP\,e^{6Hy}/(6H) + c = \tfrac{P}{2}e^{6Hy} + c$ with a constant $c$ (rule: an antiderivative of $e^{6Hy}$ is $e^{6Hy}/(6H)$; integration adds a constant). Divide by $e^{6Hy}$: $p_8 = \tfrac{P}{2} + c\,e^{-6Hy}$. Check: $p_8' = -6Hc\,e^{-6Hy}$, and $p_8' + 6Hp_8 = -6Hce^{-6Hy} + 3HP + 6Hce^{-6Hy} = 3HP$. (b) $V = p_8'/(3H) = -2c\,e^{-6Hy}$, which is zero everywhere only for $c = 0$: only the flat profile $p_8 = P/2$ satisfies C2. (c) Since $e^{6Hy} = \sin z$, $p_8 = P/2 + c/\sin z$: every non-flat conserved profile grows like $1/\sin z$ toward the tip.
+*Answer.* (a) The law is $p_0' + 6Hp_0 = 3HP$. Multiply by $e^{6Hy}$: $(e^{6Hy}p_0)' = 3HPe^{6Hy}$ (rule: the product rule read backwards). Integrate: $e^{6Hy}p_0 = 3HP\,e^{6Hy}/(6H) + c = \tfrac{P}{2}e^{6Hy} + c$ with a constant $c$ (rule: an antiderivative of $e^{6Hy}$ is $e^{6Hy}/(6H)$; integration adds a constant). Divide by $e^{6Hy}$: $p_0 = \tfrac{P}{2} + c\,e^{-6Hy}$. Check: $p_0' = -6Hc\,e^{-6Hy}$, and $p_0' + 6Hp_0 = -6Hce^{-6Hy} + 3HP + 6Hce^{-6Hy} = 3HP$. (b) $V = p_0'/(3H) = -2c\,e^{-6Hy}$, which is zero everywhere only for $c = 0$: only the flat profile $p_0 = P/2$ satisfies C2. (c) Since $e^{6Hy} = \sin z$, $p_0 = P/2 + c/\sin z$: every non-flat conserved profile grows like $1/\sin z$ toward the tip.
 
 **Exercise 7 (Simpson's rule along the history).** The record's table gives, for $N = 136$, $\lambda = 0$ at $a_{4,0} = 0, 0.5, 1, 1.5, 2$: $\int p_3 = 23.8133$, $15.4903$, $10.0397$, $6.44655$, $4.06205$ and $\int p_t = 0$; and $E(0) = 80.2822$, $E(2) = 12.4451$. (a) Compute the five rates $dE/da_{4,0}$. (b) Integrate them with Simpson's rule from 0 to 2 and compare with $E(2) - E(0)$. (c) Do the same with the trapezoidal rule, $h[\tfrac12f_0 + f_1 + f_2 + f_3 + \tfrac12f_4]$, and compare.
 
@@ -3141,4 +3141,4 @@ As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file 
 
 **Exercise 10 (the size of the patch).** (a) Compute $e^{-18}$ from $e^{-6} \approx 0.0024788$, and the angle $z$ of the tip cutoff. (b) What fraction of the proper volume of the patch lies in $-1 \le y \le 0$?
 
-*Answer.* (a) $e^{-18} = (e^{-6})^3 \approx 0.0024788^3 = 1.523 \times 10^{-8}$ (rule: $e^{3u} = (e^u)^3$). The tip cutoff has $\sin z = e^{6Hy} = e^{-18}$; for so small a number $\arcsin u \approx u$, so $z \approx 1.5 \times 10^{-8}$, the value in the caption of figure 17a.1. (b) The proper volume between $y = a$ and $y = 0$ is proportional to $\int_a^0 e^{6y}dy = (1 - e^{6a})/6$. For $a = -1$: $(1 - e^{-6})/6$; for the whole patch, $a = -3$: $(1 - e^{-18})/6$. The fraction is $(1 - 0.0024788)/(1 - 1.5 \times 10^{-8}) = 0.9975$: more than 99.7 per cent of the volume lies within one unit of the brane. The integral of a density, however, also depends on how large the density is where the volume is. For the states with 3-momentum ($N = 136$ and $N = 688$) the volume wins: Notebook 17b, In [15], finds that the last unit supplies between 0.812 and 0.969 of the integral of $e^{6Hy}p_8$, so their weighted mean $\bar p_8$ is decided near the brane. For the $N = 8$ brane zero modes it does not: their $p_8$ grows toward the tip almost like $e^{-6Hy}$, so $e^{6Hy}p_8$ is nearly flat, the last unit supplies only 0.439 to 0.441 of the integral, and the whole patch, the tip included, matters (Section 17.15).
+*Answer.* (a) $e^{-18} = (e^{-6})^3 \approx 0.0024788^3 = 1.523 \times 10^{-8}$ (rule: $e^{3u} = (e^u)^3$). The tip cutoff has $\sin z = e^{6Hy} = e^{-18}$; for so small a number $\arcsin u \approx u$, so $z \approx 1.5 \times 10^{-8}$, the value in the caption of figure 17a.1. (b) The proper volume between $y = a$ and $y = 0$ is proportional to $\int_a^0 e^{6y}dy = (1 - e^{6a})/6$. For $a = -1$: $(1 - e^{-6})/6$; for the whole patch, $a = -3$: $(1 - e^{-18})/6$. The fraction is $(1 - 0.0024788)/(1 - 1.5 \times 10^{-8}) = 0.9975$: more than 99.7 per cent of the volume lies within one unit of the brane. The integral of a density, however, also depends on how large the density is where the volume is. For the states with 3-momentum ($N = 136$ and $N = 688$) the volume wins: Notebook 17b, In [15], finds that the last unit supplies between 0.812 and 0.969 of the integral of $e^{6Hy}p_0$, so their weighted mean $\bar p_0$ is decided near the brane. For the $N = 8$ brane zero modes it does not: their $p_0$ grows toward the tip almost like $e^{-6Hy}$, so $e^{6Hy}p_0$ is nearly flat, the last unit supplies only 0.439 to 0.441 of the integral, and the whole patch, the tip included, matters (Section 17.15).

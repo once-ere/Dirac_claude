@@ -195,7 +195,7 @@ CELLS = [
 
     The Revision record `Revision/algebra/gammas.json` stores the eight matrices
     $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$ as lists of rows; `gamma[a]` is
-    $\gamma^{(x_{a+1})}$. The next cell reads them, turns them into exact sympy
+    $\gamma^{(x_a)}$. The next cell reads them, turns them into exact sympy
     matrices and checks the Clifford relation $\gamma^a\gamma^b + \gamma^b\gamma^a =
     2\eta^{ab}\,1$ for all 64 pairs $(a, b)$. It also defines the helper
     `record_check`, which reads the verdict of a named check from a Revision report;

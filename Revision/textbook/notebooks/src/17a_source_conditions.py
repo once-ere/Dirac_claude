@@ -43,8 +43,8 @@ FACTS = {
     "purpose": (
         "It derives with sympy, from the Lovelock components stored in the Revision "
         "record of the a4 field equations, the three conditions that every source of "
-        "the author's metric must meet (C1: no dependence on the hidden coordinate x8; "
-        "C2: p3 + p_t = 2 p8; C3: for the linear member a4 = A H x4, equal pressures "
+        "the author's metric must meet (C1: no dependence on the hidden coordinate x0; "
+        "C2: p3 + p_t = 2 p0; C3: for the linear member a4 = A H x4, equal pressures "
         "and a constant energy density). It then evaluates the three conditions on the "
         "75 committed Kohn-Sham ground states of dirac16complex, reproduces every number "
         "of the five checks of the Revision record ks-source-conditions.json, shows "
@@ -100,22 +100,22 @@ CELLS = [
     The author's metric has one free function, $a_4(x_4)$, and the Einstein-Lovelock
     field equations decide which **source** (energy density and pressures of matter)
     can produce it. The Revision record of these equations shows that their left-hand
-    sides do not depend on the hidden coordinate $x_8$ and obey one algebraic identity.
+    sides do not depend on the hidden coordinate $x_0$ and obey one algebraic identity.
     So every admissible source must satisfy three conditions:
 
-    - **C1**: no component of the source depends on $x_8$ (and the mixed components
-      $q_{48}$ and $q_{84}$ are zero);
-    - **C2**: $p_3 + p_t = 2p_8$ (3-space pressure plus extra-time pressure equals
+    - **C1**: no component of the source depends on $x_0$ (and the mixed components
+      $q_{40}$ and $q_{04}$ are zero);
+    - **C2**: $p_3 + p_t = 2p_0$ (3-space pressure plus extra-time pressure equals
       twice the hidden-direction pressure);
     - **C3**: for the linear member $a_4 = AHx_4 + a_0$ (the history used by the
-      Kohn-Sham computations): $p_3 = p_t = p_8$ and a constant energy density.
+      Kohn-Sham computations): $p_3 = p_t = p_0$ and a constant energy density.
 
     This notebook
 
     - derives C1, C2 and C3 with sympy from the Lovelock components of the record;
     - reads the 75 Kohn-Sham ground states of the Revision record (their profiles
       along the hidden coordinate and their integrals);
-    - evaluates C1, C2 (point by point and after integration over $x_8$) and C3 on
+    - evaluates C1, C2 (point by point and after integration over $x_0$) and C3 on
       every state and reproduces every number of the five checks of the record
       `ks-source-conditions.json`;
     - concludes, as the record does, that no recorded Kohn-Sham ground state is an
@@ -129,20 +129,20 @@ CELLS = [
     - **Coordinates** (the author's names): $x_1, x_2, x_3$ = ordinary 3-space,
       which inflates (scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ = the time;
       $x_5, x_6, x_7$ = the three **extra times**, which **deflate exponentially**
-      (scale factor $e^{-a_4}\sin^{1/6}z$, with $a_4$ increasing); $x_8$ = the hidden
-      space direction, with $z = 6Hx_8$ between $0$ and $\pi/2$.
+      (scale factor $e^{-a_4}\sin^{1/6}z$, with $a_4$ increasing); $x_0$ = the hidden
+      space direction, with $z = 6Hx_0$ between $0$ and $\pi/2$.
     - **Hidden coordinate** $y = \ln(\sin z)/(6H)$: another way to number the points
       of the hidden direction. $y = 0$ is the end $z = \pi/2$ (the **brane**), and
       $y \to -\infty$ is the end $z \to 0$ (the **tip**). The computations stop at
-      $y = -L = -3$ (the **tip cutoff**). Since $y$ grows when $x_8$ grows, "depends
-      on $y$" and "depends on $x_8$" mean the same thing.
+      $y = -L = -3$ (the **tip cutoff**). Since $y$ grows when $x_0$ grows, "depends
+      on $y$" and "depends on $x_0$" mean the same thing.
     - **Energy-momentum tensor** $T^\mu{}_\nu$: an $8 \times 8$ table at each point
       that says how much energy and momentum matter has and how they flow. For our
       sources it is diagonal: $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t,
-      p_8)$ in the order $x_1, \dots, x_8$, plus possible mixed entries $q_{48}$ (row
-      $x_4$, column $x_8$) and $q_{84}$ (row $x_8$, column $x_4$).
+      p_0)$ in the order $x_0, \dots, x_7$, plus possible mixed entries $q_{40}$ (row
+      $x_4$, column $x_0$) and $q_{04}$ (row $x_0$, column $x_4$).
     - **Energy density** $\rho$ and **pressures** $p_3$ (each direction of 3-space),
-      $p_t$ (each extra time), $p_8$ (the hidden direction).
+      $p_t$ (each extra time), $p_0$ (the hidden direction).
     - **Source**: the matter whose $T$ stands on the right-hand side of the field
       equations. **Admissible source**: a $T$ for which the field equations of the
       author's metric can hold.
@@ -169,7 +169,7 @@ CELLS = [
       $\ell$) and $x_5, x_6, x_7$ (coordinate volume $v_t$); times $e^{6Hy}\,dy$ it is
       the proper 7-volume of a thin slab of the hidden direction. The factor 2 counts
       the mirror copy of the ASSUMED $Z_2$ brane.
-    - **max|T|**: the largest absolute value of $\rho$, $p_3$, $p_t$, $p_8$ of a state
+    - **max|T|**: the largest absolute value of $\rho$, $p_3$, $p_t$, $p_0$ of a state
       over all $y$; we divide by it to compare states of very different size.
     - **Status labels**: PROVED (exact), COMPUTED (numerical), ASSUMED (a choice),
       OPEN (not known).
@@ -180,7 +180,7 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The author's metric (order $x_1, \dots, x_8$, $z = 6Hx_8$) is diagonal with entries
+    The author's metric (order $x_0, \dots, x_7$, $z = 6Hx_0$) is diagonal with entries
     $e^{2a_4}\sin^{1/3}z$ (three times), $-1$, $-e^{-2a_4}\sin^{1/3}z$ (three times),
     $\cot^2 z$. The Einstein-Lovelock field equations are
 
@@ -196,14 +196,14 @@ CELLS = [
     $$\textstyle\sum_k\alpha_kE_{(k)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\rho,\quad
     \sum_k\alpha_kE_{(k)}{}^{x_1}{}_{x_1} + \Lambda = \kappa p_3,$$
     $$\textstyle\sum_k\alpha_kE_{(k)}{}^{x_5}{}_{x_5} + \Lambda = \kappa p_t,\quad
-    \sum_k\alpha_kE_{(k)}{}^{x_8}{}_{x_8} + \Lambda = \kappa p_8 .$$
+    \sum_k\alpha_kE_{(k)}{}^{x_0}{}_{x_0} + \Lambda = \kappa p_0 .$$
 
-    The left-hand sides contain no $x_8$, so the right-hand sides cannot either (C1).
-    The left-hand sides obey $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} = 2E^{x_8}{}_{x_8}$
-    for every $k$; adding the $x_1$ and $x_5$ equations and subtracting twice the $x_8$
-    equation gives $\kappa(p_3 + p_t - 2p_8) = 0$ (C2; $\Lambda$ cancels because
+    The left-hand sides contain no $x_0$, so the right-hand sides cannot either (C1).
+    The left-hand sides obey $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} = 2E^{x_0}{}_{x_0}$
+    for every $k$; adding the $x_1$ and $x_5$ equations and subtracting twice the $x_0$
+    equation gives $\kappa(p_3 + p_t - 2p_0) = 0$ (C2; $\Lambda$ cancels because
     $\Lambda + \Lambda - 2\Lambda = 0$). For $a_4 = AHx_4 + a_0$ we have $a_4' = AH$
-    (a constant) and $a_4'' = 0$; then the $x_1$, $x_5$ and $x_8$ left-hand sides
+    (a constant) and $a_4'' = 0$; then the $x_1$, $x_5$ and $x_0$ left-hand sides
     coincide and none of them changes with $x_4$ (C3).
 
     The Kohn-Sham computations of the Revision record use exactly this linear member:
@@ -223,7 +223,11 @@ CELLS = [
     holds AND the named checks of the report have the verdict PASS; it prints the
     report file and the check names. `tex_number` writes a number in powers of ten for
     the captions of the figures. The cell then reads the record on the Kohn-Sham
-    source conditions, prints its conclusion and checks that its five checks passed.
+    source conditions, prints its conclusion and checks that its six checks passed:
+    the five on the Kohn-Sham states, which this notebook reproduces, and the sixth,
+    `ks_verdict_holds_for_every_b4`, which states that the verdict holds for the
+    author's metric with any second function $b_4(x_4)$ of 2026-10-14 (the conditions
+    C1 to C3 below are derived on the background $b_4 = 1$).
     """),
     code(r'''
     import csv  # reads tables stored as CSV files (comma-separated values)
@@ -270,15 +274,15 @@ CELLS = [
     passed, total = summary["pass"], summary["checks"]
     report("checks of the record ks-source-conditions.json", f"{passed} of {total} PASS")
     say("its conclusion: " + source_record["conclusion"])
-    check(summary == {"checks": 5, "pass": 5, "fail": 0},
-          "the record on the Kohn-Sham source conditions has 5 checks, all PASS")
+    check(summary == {"checks": 6, "pass": 6, "fail": 0},
+          "the record on the Kohn-Sham source conditions has 6 checks, all PASS")
     '''),
     md(r"""
     ## 6. The three conditions, derived from the a4 equations
 
     The record stores each Lovelock component as a formula in the Wolfram Language:
     `ad1` stands for $a_4'$, `ad2` for $a_4''$, `^` for a power. The next cell turns
-    the components $x_1x_1$, $x_4x_4$, $x_5x_5$, $x_8x_8$ and $x_4x_8$ of
+    the components $x_1x_1$, $x_4x_4$, $x_5x_5$, $x_0x_0$ and $x_4x_0$ of
     $E_{(1)}, E_{(2)}, E_{(3)}$ into sympy expressions and prints those of Einstein's
     tensor $E_{(1)}$ (they are the left-hand sides of Einstein gravity).
     """),
@@ -294,7 +298,7 @@ CELLS = [
         return sp.sympify(text.replace("^", "**"), locals=NAMES)
 
 
-    COMPONENTS = ("x1x1", "x4x4", "x5x5", "x8x8", "x4x8")
+    COMPONENTS = ("x1x1", "x4x4", "x5x5", "x0x0", "x4x0")
     E = {k: {c: parse(equations["lovelockTensors"][f"E{k}"][c]["input"])
              for c in COMPONENTS}
          for k in (1, 2, 3)}  # E[k][component]: the Lovelock tensor of order k
@@ -305,27 +309,27 @@ CELLS = [
     The next cell checks the three conditions on the left-hand sides, for all three
     Lovelock orders.
 
-    - C1: every component contains only the symbols $a_4'$, $a_4''$, $H$ (no $x_8$,
-      not even through $\cot z$), and the mixed $x_4x_8$ and $x_8x_4$ components are
-      zero, so the source must have $q_{48} = q_{84} = 0$.
-    - C2: $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_8}{}_{x_8}$ expands to zero.
-    - C3: with $a_4'' = 0$ the $x_1$, $x_5$, $x_8$ components are equal, and the
+    - C1: every component contains only the symbols $a_4'$, $a_4''$, $H$ (no $x_0$,
+      not even through $\cot z$), and the mixed $x_4x_0$ and $x_0x_4$ components are
+      zero, so the source must have $q_{40} = q_{04} = 0$.
+    - C2: $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_0}{}_{x_0}$ expands to zero.
+    - C3: with $a_4'' = 0$ the $x_1$, $x_5$, $x_0$ components are equal, and the
       $x_4$ component contains $a_4'$ and $H$ only (constant when $a_4' = AH$).
     """),
     code(r'''
     allowed = {ad1, ad2, H}  # the only symbols a left-hand side may contain
-    no_x8 = all(E[k][c].free_symbols <= allowed for k in E for c in COMPONENTS)
-    reproduces(no_x8 and all(E[k]["x4x8"] == 0 for k in E),
-               "C1: the left-hand sides are free of x8 and the x4-x8 one is 0",
+    no_x0 = all(E[k][c].free_symbols <= allowed for k in E for c in COMPONENTS)
+    reproduces(no_x0 and all(E[k]["x4x0"] == 0 for k in E),
+               "C1: the left-hand sides are free of x0 and the x4-x0 one is 0",
                WL_A4, ["P1_structure", "P2_structure", "P3_structure"])
-    identity = [sp.expand(E[k]["x1x1"] + E[k]["x5x5"] - 2 * E[k]["x8x8"]) for k in E]
-    say(f"E^x1_x1 + E^x5_x5 - 2 E^x8_x8 for k = 1, 2, 3: {identity}")
+    identity = [sp.expand(E[k]["x1x1"] + E[k]["x5x5"] - 2 * E[k]["x0x0"]) for k in E]
+    say(f"E^x1_x1 + E^x5_x5 - 2 E^x0_x0 for k = 1, 2, 3: {identity}")
     reproduces(all(value == 0 for value in identity),
-               "C2: E^x1_x1 + E^x5_x5 = 2 E^x8_x8 for every order k",
-               WL_A4, ["algebraic_identity_x1_plus_x5_minus_2x8"])
+               "C2: E^x1_x1 + E^x5_x5 = 2 E^x0_x0 for every order k",
+               WL_A4, ["algebraic_identity_x1_plus_x5_minus_2x0"])
     linear = {ad2: 0}  # the linear member: a4'' = 0 (and a4' = A H, a constant)
-    equal = all(sp.expand((E[k]["x1x1"] - E[k]["x8x8"]).subs(linear)) == 0
-                and sp.expand((E[k]["x5x5"] - E[k]["x8x8"]).subs(linear)) == 0
+    equal = all(sp.expand((E[k]["x1x1"] - E[k]["x0x0"]).subs(linear)) == 0
+                and sp.expand((E[k]["x5x5"] - E[k]["x0x0"]).subs(linear)) == 0
                 for k in E)
     rho_side = all(E[k]["x4x4"].free_symbols <= {ad1, H} for k in E)
     reproduces(equal and rho_side,
@@ -336,16 +340,16 @@ CELLS = [
     ## 7. The recorded Kohn-Sham states and the hidden coordinate
 
     The next cell reads the 75 profile files of the record (one per state; columns
-    `y`, `rho`, `p3`, `p_t`, `p8` among others), the table of integrals, and the
+    `y`, `rho`, `p3`, `p_t`, `p0` among others), the table of integrals, and the
     parameters of the computations. For every state it computes max|T|, the largest
     absolute value of the four components, and sorts the states into those with a
     nonzero tensor and those with $T = 0$ everywhere (no source at all). It also prints
     what the Kohn-Sham theory record says about the mixed components (there written
     $T^{x_4}{}_y$): they vanish for every eigen-orbital, so the Kohn-Sham states meet
-    the part $q_{48} = q_{84} = 0$ of C1; the question is the $x_8$ dependence.
+    the part $q_{40} = q_{04} = 0$ of C1; the question is the $x_0$ dependence.
     """),
     code(r'''
-    COLUMNS = ("rho", "p3", "p_t", "p8")  # the four diagonal components of the source
+    COLUMNS = ("rho", "p3", "p_t", "p0")  # the four diagonal components of the source
 
 
     def read_profile(path):
@@ -381,7 +385,7 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws two pictures. Left: the hidden coordinate
-    $y = \ln(\sin z)/(6H)$ against $z = 6Hx_8$ (logarithmic horizontal axis), with the
+    $y = \ln(\sin z)/(6H)$ against $z = 6Hx_0$ (logarithmic horizontal axis), with the
     computed patch from the tip cutoff $y = -3$ to the brane $y = 0$; the cutoff sits
     at $z = \arcsin(e^{-18})$, so the patch covers almost all of the hidden direction.
     Right: the energy density $\rho(y)$, divided by max|T|, of the state $N = 136$,
@@ -405,7 +409,7 @@ CELLS = [
                  label="computed patch, $-3 \\leq y \\leq 0$")
     left.axhline(-3.0, color="0.4", ls="--", lw=1.0)
     left.set_xscale("log")
-    left.set_xlabel("$z = 6Hx_8$ (logarithmic axis)")
+    left.set_xlabel("$z = 6Hx_0$ (logarithmic axis)")
     left.set_ylabel("hidden coordinate $y$ (units of $1/H$)")
     left.set_title("$y = \\ln(\\sin z)/(6H)$, $H = 1$")
     left.legend(loc="lower right", fontsize=8)
@@ -421,7 +425,7 @@ CELLS = [
     right.legend(fontsize=7, loc="upper right")
     fig.tight_layout()
     save_figure(fig, "rho_profiles",
-                "Left: the hidden coordinate $y = \\ln(\\sin z)/(6H)$ against $z = 6Hx_8$ "
+                "Left: the hidden coordinate $y = \\ln(\\sin z)/(6H)$ against $z = 6Hx_0$ "
                 "(logarithmic axis, $H = 1$); the shaded band is the computed patch from "
                 "the tip cutoff $y = -3$ to the brane $y = 0$, which covers $z$ from "
                 f"${z_tip / 1e-8:.1f} \\times 10^{{-8}}$ to $\\pi/2$. Right: the energy "
@@ -434,9 +438,9 @@ CELLS = [
                 "equations demands a horizontal line such as the dotted one.")
     '''),
     md(r"""
-    ## 8. Condition C1: the source must not depend on $x_8$
+    ## 8. Condition C1: the source must not depend on $x_0$
 
-    The record measures the $x_8$ dependence of a state by the spread of its energy
+    The record measures the $x_0$ dependence of a state by the spread of its energy
     density, $(\max_y\rho - \min_y\rho)/\max|T|$. For an admissible source this number
     is $0$. The next cell computes it for the 70 nonzero states, finds the smallest
     value, and checks that it is far above the record's tolerance $10^{-6}$ and that
@@ -447,17 +451,17 @@ CELLS = [
     TOL = 1e-6  # the relative tolerance of the record
     spread = {sid: float(np.max(profiles[sid]["rho"]) - np.min(profiles[sid]["rho"]))
               / scale[sid] for sid in nonzero}
-    smallest = min(spread, key=spread.get)  # the state that depends least on x8
-    largest = max(spread, key=spread.get)  # the state that depends most on x8
+    smallest = min(spread, key=spread.get)  # the state that depends least on x0
+    largest = max(spread, key=spread.get)  # the state that depends most on x0
     report("smallest spread of rho / max|T|", f"{spread[smallest]:.6g} ({smallest})")
     report("largest spread of rho / max|T|", f"{spread[largest]:.6g} ({largest})")
-    detail = record_entry(SOURCE_REPORT, "ks_profiles_depend_on_x8")["detail"]
+    detail = record_entry(SOURCE_REPORT, "ks_profiles_depend_on_x0")["detail"]
     text = f">= {spread[smallest]:.6g} (smallest: {smallest})"  # as the record prints it
     reproduces(all(value > TOL for value in spread.values()) and text in detail
                and "75 ground-state profiles" in detail
                and "70 with a nonzero" in detail,
-               "C1 fails: every nonzero state depends on x8",
-               SOURCE_REPORT, ["ks_profiles_depend_on_x8"])
+               "C1 fails: every nonzero state depends on x0",
+               SOURCE_REPORT, ["ks_profiles_depend_on_x0"])
     '''),
     md(r"""
     The next cell draws the spread for all 75 states as a coloured table (a **heat
@@ -536,16 +540,16 @@ CELLS = [
                 "size of the tensor. Grey cells: the five states with no source at all.")
     '''),
     md(r"""
-    ## 9. Condition C2 point by point: $p_3 + p_t = 2p_8$
+    ## 9. Condition C2 point by point: $p_3 + p_t = 2p_0$
 
-    The next cell forms the **violation profile** $V(y) = p_3 + p_t - 2p_8$ of every
+    The next cell forms the **violation profile** $V(y) = p_3 + p_t - 2p_0$ of every
     nonzero state (an admissible source has $V = 0$ at every $y$) and its size
     $\max_y|V|/\max|T|$. It checks that the size is far from zero for every state and
     that the smallest and largest values, with their states, are those of the record.
     """),
     code(r'''
     violation = {sid: profiles[sid]["p3"] + profiles[sid]["p_t"]
-                 - 2.0 * profiles[sid]["p8"] for sid in nonzero}  # V(y)
+                 - 2.0 * profiles[sid]["p0"] for sid in nonzero}  # V(y)
     size = {sid: float(np.max(np.abs(violation[sid]))) / scale[sid] for sid in nonzero}
     low = min(size, key=size.get)  # the state closest to C2
     high = max(size, key=size.get)  # the state farthest from C2
@@ -589,11 +593,11 @@ CELLS = [
         ax.set_yticks([-1e-1, -1e-3, -1e-5, -1e-7, 0.0, 1e-7, 1e-5, 1e-3, 1e-1, 1e1])
         ax.set_xlabel("hidden coordinate $y$")
         ax.set_title(f"$N = {n}$, $\\lambda = 0$")
-    axes[0].set_ylabel("$V = p_3 + p_t - 2p_8$, divided by max|T|")
+    axes[0].set_ylabel("$V = p_3 + p_t - 2p_0$, divided by max|T|")
     axes[1].legend(fontsize=7, loc="upper right")
     fig.tight_layout()
     save_figure(fig, "violation_profiles",
-                "The violation profiles $V(y) = p_3 + p_t - 2p_8$ of the Kohn-Sham ground "
+                "The violation profiles $V(y) = p_3 + p_t - 2p_0$ of the Kohn-Sham ground "
                 "states with $\\lambda = 0$, divided by the largest component of each "
                 "state, for $N = 136$ (left) and $N = 688$ (right) at the five slices "
                 "$a_{4,0}$ (horizontal axis: the hidden coordinate $y$; vertical axis "
@@ -613,10 +617,10 @@ CELLS = [
 
     fig, ax = plt.subplots(figsize=(6.4, 6.0))
     image = draw_table(ax, state_table(size), Normalize(2.0, 4.0), ".3f")
-    fig.colorbar(image, ax=ax, label="max$|p_3 + p_t - 2p_8|$ / max|T| (C2 needs 0)")
-    ax.set_title("Condition C2: $p_3 + p_t = 2p_8$ point by point")
+    fig.colorbar(image, ax=ax, label="max$|p_3 + p_t - 2p_0|$ / max|T| (C2 needs 0)")
+    ax.set_title("Condition C2: $p_3 + p_t = 2p_0$ point by point")
     save_figure(fig, "c2_map",
-                "The size $\\max_y|p_3 + p_t - 2p_8|/\\max|T|$ of the violation of "
+                "The size $\\max_y|p_3 + p_t - 2p_0|/\\max|T|$ of the violation of "
                 "condition C2 for all 75 recorded Kohn-Sham ground states (rows: particle "
                 "number and coupling; columns: the slice $a_{4,0}$; linear colour scale, "
                 "pure numbers). C2 needs $0$; every nonzero state violates it by "
@@ -643,10 +647,10 @@ CELLS = [
     for target in POINTS:
         i = int(np.argmin(np.abs(example["y"] - target)))  # nearest grid point
         values = {c: float(example[c][i]) for c in ("y",) + COLUMNS}
-        values["V"] = values["p3"] + values["p_t"] - 2.0 * values["p8"]
+        values["V"] = values["p3"] + values["p_t"] - 2.0 * values["p0"]
         rows.append(values)
         text = ("y = {y:.6g}: rho = {rho:.6g}, p3 = {p3:.6g}, p_t = {p_t:.6g}, "
-                "p8 = {p8:.6g}, p3 + p_t - 2 p8 = {V:.6g}").format(**values)
+                "p0 = {p0:.6g}, p3 + p_t - 2 p0 = {V:.6g}").format(**values)
         say(text)
         values["in_record"] = text in detail  # the record prints the same text?
     reproduces(all(r["in_record"] for r in rows) and all(r["V"] != 0 for r in rows),
@@ -655,13 +659,13 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws, for each of the three points, the two sides of C2 as bars:
-    $p_3 + p_t$ and $2p_8$. C2 demands two bars of equal height at every point.
+    $p_3 + p_t$ and $2p_0$. C2 demands two bars of equal height at every point.
     """),
     code(r'''
     fig, axes = plt.subplots(1, 3, figsize=(9.0, 3.4))
     for ax, values, where in zip(axes, rows, ("tip", "middle", "brane")):
-        sides = [values["p3"] + values["p_t"], 2.0 * values["p8"]]
-        bars = ax.bar(["$p_3 + p_t$", "$2p_8$"], sides, color=["#2a78d6", "#eb6834"])
+        sides = [values["p3"] + values["p_t"], 2.0 * values["p0"]]
+        bars = ax.bar(["$p_3 + p_t$", "$2p_0$"], sides, color=["#2a78d6", "#eb6834"])
         for bar, value in zip(bars, sides):
             ax.annotate(f"{value:.4g}", (bar.get_x() + bar.get_width() / 2, value),
                         ha="center", va="bottom" if value >= 0 else "top", fontsize=8)
@@ -673,26 +677,26 @@ CELLS = [
     fig.suptitle("$N = 136$, $\\lambda = 0$, $a_{4,0} = 1$: the two sides of C2")
     fig.tight_layout()
     tip, middle, brane = rows
-    factors = [2.0 * r["p8"] / (r["p3"] + r["p_t"]) for r in (middle, brane)]
-    tip_left, tip_right = tip["p3"] + tip["p_t"], 2.0 * tip["p8"]  # the two sides
+    factors = [2.0 * r["p0"] / (r["p3"] + r["p_t"]) for r in (middle, brane)]
+    tip_left, tip_right = tip["p3"] + tip["p_t"], 2.0 * tip["p0"]  # the two sides
     save_figure(fig, "three_points",
-                "The two sides of condition C2, $p_3 + p_t$ (blue) and $2p_8$ (orange), "
+                "The two sides of condition C2, $p_3 + p_t$ (blue) and $2p_0$ (orange), "
                 "of the Kohn-Sham state $N = 136$, $\\lambda = 0$, $a_{4,0} = 1$ at the "
                 "tip $y = -3$, in the middle $y = -1.5$ and at the brane $y = 0$ "
                 "(vertical axes: proper pressure in units of $m^8$, each panel with its "
                 "own scale). C2 demands equal bars; near the tip the two sides even have "
                 f"opposite signs (${tip_left:.1f}$ against "
-                f"${tip_right:.1f}$), in the middle $2p_8$ is {factors[0]:.2f} "
+                f"${tip_right:.1f}$), in the middle $2p_0$ is {factors[0]:.2f} "
                 f"times $p_3 + p_t$ and at the brane {factors[1]:.2f} times.")
     '''),
     md(r"""
-    ## 11. Condition C2 after integration over $x_8$
+    ## 11. Condition C2 after integration over $x_0$
 
     Could an average over the hidden direction rescue C2? A source that is averaged
-    over $x_8$ (a "dimensionally reduced" source) would need
-    $\int p_3 + \int p_t = 2\int p_8$, the integrals taken over the patch with the
+    over $x_0$ (a "dimensionally reduced" source) would need
+    $\int p_3 + \int p_t = 2\int p_0$, the integrals taken over the patch with the
     proper-volume weight. The next cell computes the ratio
-    $(\int p_3 + \int p_t)/(2\int p_8)$ from the record's table of integrals for every
+    $(\int p_3 + \int p_t)/(2\int p_0)$ from the record's table of integrals for every
     nonzero state. C2 would need the ratio $1$.
     """),
     code(r'''
@@ -702,8 +706,8 @@ CELLS = [
 
 
     ratio = {sid: (integral(sid, "int_p3") + integral(sid, "int_p_t"))
-             / (2.0 * integral(sid, "int_p8"))
-             for sid in nonzero if integral(sid, "int_p8") != 0.0}
+             / (2.0 * integral(sid, "int_p0"))
+             for sid in nonzero if integral(sid, "int_p0") != 0.0}
     closest = min(ratio, key=lambda sid: abs(ratio[sid] - 1.0))
     report("ratio closest to 1", f"{ratio[closest]:.6g} ({closest})")
     report("range of the ratio", f"{min(ratio.values()):.4f} to {max(ratio.values()):.4f}")
@@ -716,7 +720,7 @@ CELLS = [
                and all(abs(r - 1.0) > TOL for r in ratio.values())
                and f"(closest to 1: {ratio[closest]:.6g} at {closest})" in detail
                and history_text in detail,
-               "C2 fails also after integration over x8, for every nonzero state",
+               "C2 fails also after integration over x0, for every nonzero state",
                SOURCE_REPORT, ["ks_integrals_violate_algebraic_condition"])
     '''),
     md(r"""
@@ -745,18 +749,18 @@ CELLS = [
         marker, style = STYLES[tag]
         ax.plot([], [], color="0.3", marker=marker, ls=style, label=f"$\\lambda = {label}$")
     ax.set_xlabel("slice $a_{4,0}$")
-    ax.set_ylabel("$(\\int p_3 + \\int p_t) / (2\\int p_8)$")
+    ax.set_ylabel("$(\\int p_3 + \\int p_t) / (2\\int p_0)$")
     ax.set_ylim(0.0, 1.1)
     ax.legend(fontsize=7, ncol=2, loc="center right")
     near = max(max(ratio[f"N{n}_lam{tag}_{s}"] for tag, _ in TAGS)
                - min(ratio[f"N{n}_lam{tag}_{s}"] for tag, _ in TAGS)
                for n in (136, 688) for s in SLICES)  # spread over the couplings
     save_figure(fig, "integrated_ratio",
-                "The ratio $(\\int p_3 + \\int p_t)/(2\\int p_8)$ of the pressures "
+                "The ratio $(\\int p_3 + \\int p_t)/(2\\int p_0)$ of the pressures "
                 "integrated over the patch with the proper-volume weight, for every "
                 "nonzero recorded Kohn-Sham state, against the slice $a_{4,0}$ "
                 "(colours: particle number; line styles and markers: coupling; pure "
-                "numbers). A source averaged over $x_8$ would need the value $1$ (red "
+                "numbers). A source averaged over $x_0$ would need the value $1$ (red "
                 "dashed line); the states lie between "
                 f"${min(ratio.values()):.3f}$ and ${max(ratio.values()):.3f}$, so even "
                 "the average violates condition C2. For $N = 136$ and $N = 688$ the "
@@ -767,7 +771,7 @@ CELLS = [
     ## 12. Condition C3: the linear member along the history
 
     The Kohn-Sham history is the linear member $a_4 = AHx_4$ with $A = 1$. For it the
-    field equations need $p_3 = p_t = p_8$ and a constant $\rho$ (C3). The record tests
+    field equations need $p_3 = p_t = p_0$ and a constant $\rho$ (C3). The record tests
     this on the integrals of the six states $N = 136$ and $N = 688$ with $\lambda = 0$
     at the slices $0$, $1$ and $2$. The next cell prints their integrated $\rho$,
     $p_3$, $p_t$, checks that $\rho$ changes from slice to slice and that $p_3 \ne p_t$
@@ -806,7 +810,7 @@ CELLS = [
     PARTS = [("int_rho", "$\\int\\rho$", "#2a78d6", "o"),
              ("int_p3", "$\\int p_3$", "#eb6834", "s"),
              ("int_p_t", "$\\int p_t$", "#1baf7a", "^"),
-             ("int_p8", "$\\int p_8$", "#4a3aa7", "D")]
+             ("int_p0", "$\\int p_0$", "#4a3aa7", "D")]
     fig, axes = plt.subplots(1, 2, figsize=(9.0, 3.8))
     for ax, n in zip(axes, (136, 688)):
         ids = [f"N{n}_lam0_{s}" for s in SLICES]
@@ -830,7 +834,7 @@ CELLS = [
                 "needs a constant $\\rho$ and equal pressures (condition C3); instead "
                 f"$\\int\\rho$ falls by a factor of {drop[0]:.2f} ($N = 136$) and "
                 f"{drop[1]:.2f} ($N = 688$) from $a_{{4,0}} = 0$ to $2$, $\\int p_3$ stays "
-                "above $\\int p_t = 0$, and $\\int p_8$ is different again.")
+                "above $\\int p_t = 0$, and $\\int p_0$ is different again.")
     '''),
     md(r"""
     The states $N = 8$ need a separate remark. They consist of the eight brane zero
@@ -840,32 +844,32 @@ CELLS = [
     $k = 0$ nothing changes: these states are the same at every slice. The next cell
     confirms that their profiles are identical at all five slices and that they have
     $p_3 = p_t$; so they satisfy the part "constant $\rho$ and $p_3 = p_t$" of C3. They
-    are nevertheless not admissible: $p_8$ differs from $p_3$, and they fail C1 and C2
+    are nevertheless not admissible: $p_0$ differs from $p_3$, and they fail C1 and C2
     (the maps of sections 8 and 9).
     """),
     code(r'''
-    same, p3_equals_pt, p8_differs = True, True, True
+    same, p3_equals_pt, p0_differs = True, True, True
     for tag in ("m2", "m1", "p1", "p2"):
         first = profiles[f"N8_lam{tag}_a00"]
         for slice_tag in SLICES:
             prof = profiles[f"N8_lam{tag}_{slice_tag}"]
             same = same and all(np.array_equal(prof[c], first[c]) for c in COLUMNS)
         p3_equals_pt = p3_equals_pt and np.array_equal(first["p3"], first["p_t"])
-        p8_differs = p8_differs and float(np.max(np.abs(first["p8"] - first["p3"]))) > 0
+        p0_differs = p0_differs and float(np.max(np.abs(first["p0"] - first["p3"]))) > 0
     int_p3_n8 = integral("N8_lamp1_a00", "int_p3")  # N = 8, lambda = +lambda_1
-    int_p8_n8 = integral("N8_lamp1_a00", "int_p8")
-    say(f"N = 8, lambda = +lambda_1: int p3 = {int_p3_n8:.6g}, int p8 = {int_p8_n8:.6g}")
-    check(same and p3_equals_pt and p8_differs,
-          "N = 8: the same state at every slice, p3 = p_t, but p8 differs from p3")
+    int_p0_n8 = integral("N8_lamp1_a00", "int_p0")
+    say(f"N = 8, lambda = +lambda_1: int p3 = {int_p3_n8:.6g}, int p0 = {int_p0_n8:.6g}")
+    check(same and p3_equals_pt and p0_differs,
+          "N = 8: the same state at every slice, p3 = p_t, but p0 differs from p3")
     '''),
     md(r"""
     ## 13. The states with no source at all
 
     Five states have $T = 0$ at every point: $N = 8$ with $\lambda = 0$ (zero modes
     with zero energy and no interaction). Is "no source" admissible? In Einstein
-    gravity ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$) the record's $x_4$ and $x_8$
+    gravity ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$) the record's $x_4$ and $x_0$
     equations read $3a_4'^2 + 21H^2 + \Lambda = -\kappa\rho$ and
-    $-3a_4'^2 + 15H^2 + \Lambda = \kappa p_8$. With $\rho = p_8 = 0$, subtracting the
+    $-3a_4'^2 + 15H^2 + \Lambda = \kappa p_0$. With $\rho = p_0 = 0$, subtracting the
     second from the first gives $6a_4'^2 + 6H^2 = 0$, impossible for real $a_4'$ and
     $H > 0$: the left side is a square times 6 plus a positive number. The next cell
     repeats this with sympy, from the record's text of the two equations (sympy is told
@@ -873,8 +877,8 @@ CELLS = [
     positive), and checks the list of zero states against the record.
     """),
     code(r'''
-    kappa, rho, p8, Lam = sp.symbols("kappa rho p8 Lam", real=True)
-    NAMES.update({"kappa": kappa, "rho": rho, "p8": p8, "Lam": Lam})
+    kappa, rho, p0, Lam = sp.symbols("kappa rho p0 Lam", real=True)
+    NAMES.update({"kappa": kappa, "rho": rho, "p0": p0, "Lam": Lam})
 
 
     def equation(text):
@@ -885,9 +889,9 @@ CELLS = [
 
     einstein = equations["einstein"]
     x4_equation = equation(einstein["constraint_x4"]["input"]).subs({rho: 0})
-    x8_equation = equation(einstein["hidden_x8"]["input"]).subs({p8: 0})
-    difference = sp.expand(x4_equation - x8_equation)  # Lambda cancels
-    say(f"x4 equation minus x8 equation with rho = p8 = 0: {difference} = 0")
+    x0_equation = equation(einstein["hidden_x0"]["input"]).subs({p0: 0})
+    difference = sp.expand(x4_equation - x0_equation)  # Lambda cancels
+    say(f"x4 equation minus x0 equation with rho = p0 = 0: {difference} = 0")
     say(f"is the left side positive for real a4' and H > 0? {difference.is_positive}")
     reproduces(difference == 6 * ad1 ** 2 + 6 * H ** 2 and difference.is_positive is True,
                "Einstein gravity: no source at all (T = 0) has no solution for H > 0",
@@ -918,15 +922,15 @@ CELLS = [
     - PROVED (exact algebra with sympy on the Lovelock components stored in the a4
       record): the left-hand sides of the Einstein-Lovelock equations of the author's
       metric are free of
-      $x_8$ and have no $x_4x_8$ component (C1), obey
-      $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} = 2E^{x_8}{}_{x_8}$ for every order (C2:
-      $p_3 + p_t = 2p_8$), and for the linear member need equal pressures and a
+      $x_0$ and have no $x_4x_0$ component (C1), obey
+      $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} = 2E^{x_0}{}_{x_0}$ for every order (C2:
+      $p_3 + p_t = 2p_0$), and for the linear member need equal pressures and a
       constant energy density (C3).
     - COMPUTED (the 75 recorded Kohn-Sham ground states; every number of the five
       checks of the record `ks-source-conditions.json` reproduced): every nonzero
-      state depends on $x_8$ (the spread of $\rho$ is at least $0.0497$ of max|T|),
+      state depends on $x_0$ (the spread of $\rho$ is at least $0.0497$ of max|T|),
       violates C2 point by point (by $2.09$ to $3.99$ times max|T|) and after
-      integration over $x_8$ (ratios between $0.107$ and $0.414$ instead of $1$), and
+      integration over $x_0$ (ratios between $0.107$ and $0.414$ instead of $1$), and
       along the history $\rho$ changes and $p_3 \ne p_t$. The $N = 8$ states do not
       change along the history, but they too fail C1 and C2.
     - PROVED (Einstein gravity): $T = 0$ is not a solution for $H > 0$, so the five
@@ -938,12 +942,12 @@ CELLS = [
       pressures and equations of state computed along it are not consequences of the
       coupled field equations.
     - WHY (worked out in Notebook 17b): every source of the field equations must be
-      conserved, and for a conserved source C2 says exactly that $p_8$ does not
-      change along $x_8$, while C3 says exactly that no energy is exchanged with the
+      conserved, and for a conserved source C2 says exactly that $p_0$ does not
+      change along $x_0$, while C3 says exactly that no energy is exchanged with the
       inflating 3-space and the deflating extra times ($p_3 = p_t$). The Kohn-Sham
       states obey the conservation law of the hidden direction at every point, and
       the energy law of the time direction only for the total energy of the patch;
-      their $p_8$ varies strongly along $x_8$ and their $p_3$ exceeds $p_t$.
+      their $p_0$ varies strongly along $x_0$ and their $p_3$ exceeds $p_t$.
     - NOT shown: that no state of dirac16complex could ever be a source of the
       author's metric, or what metric the Kohn-Sham gas would produce with
       back-reaction (OPEN).

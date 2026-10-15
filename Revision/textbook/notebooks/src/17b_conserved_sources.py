@@ -14,9 +14,9 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
 
 It checks that the Kohn-Sham source rests on the author's eight real 16 x 16 gamma
 matrices (Revision/algebra/gammas.json, the file the Rust solver read), derives with sympy
-the covariant divergence of a source in the author's metric (x8 chart and hidden
+the covariant divergence of a source in the author's metric (x0 chart and hidden
 coordinate y) and compares it with the a4 record and the Kohn-Sham theory record, proves
-that for a conserved source the violation of C2 is p8'/(3H) and that the time derivative
+that for a conserved source the violation of C2 is p0'/(3H) and that the time derivative
 of the constraint is 3 a4' times the evolution equation, and tests these identities on
 the 75 committed Kohn-Sham ground states (pointwise with fourth-order differences and a
 convergence study, integrated with the brane and tip values, and along the history with
@@ -51,9 +51,9 @@ FACTS = {
         "It checks that the Kohn-Sham source of chapter 17 rests on the eight real "
         "16 x 16 gamma matrices of the author (the very file the Rust solver read), "
         "derives with sympy the conservation law of a source in the author's metric, "
-        "in the coordinate x8 and in the hidden coordinate y, and compares it with the "
+        "in the coordinate x0 and in the hidden coordinate y, and compares it with the "
         "Revision records. It proves that for a conserved source the violation "
-        "p3 + p_t - 2 p8 of condition C2 equals the slope of p8 along y divided by 3H, "
+        "p3 + p_t - 2 p0 of condition C2 equals the slope of p0 along y divided by 3H, "
         "and that the time derivative of the constraint is 3 a4' times the evolution "
         "equation, so that the linear member needs p3 = p_t. It then tests these "
         "identities on the 75 recorded Kohn-Sham ground states: point by point with "
@@ -142,10 +142,10 @@ CELLS = [
     - checks that the Kohn-Sham source is built on the author's eight REAL
       $16 \times 16$ gamma matrices (the very file that the Rust solver read);
     - derives with sympy the conservation law of a source in the author's metric, in
-      the coordinate $x_8$ and in the hidden coordinate $y$, and compares it with the
+      the coordinate $x_0$ and in the hidden coordinate $y$, and compares it with the
       Revision records;
-    - PROVES that for a conserved source the violation of C2 is the slope of $p_8$:
-      $p_3 + p_t - 2p_8 = p_8'(y)/(3H)$; so C2 holds exactly where $p_8$ is flat;
+    - PROVES that for a conserved source the violation of C2 is the slope of $p_0$:
+      $p_3 + p_t - 2p_0 = p_0'(y)/(3H)$; so C2 holds exactly where $p_0$ is flat;
     - PROVES that the time derivative of the constraint equation is $3a_4'$ times the
       evolution equation, so that the linear member $a_4 = AHx_4$ needs $p_3 = p_t$;
     - tests these identities on the 75 recorded Kohn-Sham ground states: point by
@@ -163,23 +163,23 @@ CELLS = [
     - **Coordinates** (the author's names): $x_1, x_2, x_3$ = ordinary 3-space,
       which inflates (scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ = the time;
       $x_5, x_6, x_7$ = the three **extra times**, which **deflate exponentially**
-      (scale factor $e^{-a_4}\sin^{1/6}z$, with $a_4$ increasing); $x_8$ = the hidden
-      space direction, $z = 6Hx_8$ between $0$ and $\pi/2$.
+      (scale factor $e^{-a_4}\sin^{1/6}z$, with $a_4$ increasing); $x_0$ = the hidden
+      space direction, $z = 6Hx_0$ between $0$ and $\pi/2$.
     - **Hidden coordinate** $y = \ln(\sin z)/(6H)$: another way to number the points
       of the hidden direction; $y = 0$ is the **brane** ($z = \pi/2$), $y = -3$ the
       **tip cutoff** of the computations. A **chart** is a choice of coordinates.
-    - **Gamma matrices** $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$: eight square tables
+    - **Gamma matrices** $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$: eight square tables
       of numbers with $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}\,1$ (the
-      **Clifford relation**), $\eta = \mathrm{diag}(+1,+1,+1,-1,-1,-1,-1,+1)$. The
+      **Clifford relation**), $\eta = \mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$. The
       author's are real $16 \times 16$ **signed permutation matrices**: each row and
       each column holds exactly one nonzero entry, $+1$ or $-1$.
     - **sha256 fingerprint**: a 64-digit code computed from the bytes of a file; two
       files with the same fingerprint are, for all practical purposes, identical.
     - **Energy-momentum tensor** $T^\mu{}_\nu$ (the **source**): here
-      $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ in the order
-      $x_1, \dots, x_8$, with energy density $\rho$ and pressures $p_3$ (3-space),
-      $p_t$ (extra times), $p_8$ (hidden direction); possibly mixed entries $q_{48}$
-      (row $x_4$, column $x_8$) and $q_{84}$.
+      $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_0)$ in the order
+      $x_0, \dots, x_7$, with energy density $\rho$ and pressures $p_3$ (3-space),
+      $p_t$ (extra times), $p_0$ (hidden direction); possibly mixed entries $q_{40}$
+      (row $x_4$, column $x_0$) and $q_{04}$.
     - **Christoffel symbols** $\Gamma^\lambda{}_{\mu\nu} = \tfrac12 g^{\lambda\kappa}
       (\partial_\mu g_{\kappa\nu} + \partial_\nu g_{\kappa\mu} -
       \partial_\kappa g_{\mu\nu})$: numbers built from the first derivatives of the
@@ -193,8 +193,8 @@ CELLS = [
       have zero covariant divergence for EVERY metric; hence every source of the
       equations must be conserved.
     - **Source conditions** (from the $a_4$ equations): **C1** no component of the
-      source depends on $x_8$ and $q_{48} = q_{84} = 0$; **C2** $p_3 + p_t = 2p_8$;
-      **C3** for the linear member $a_4 = AHx_4 + a_0$: $p_3 = p_t = p_8$ and a
+      source depends on $x_0$ and $q_{40} = q_{04} = 0$; **C2** $p_3 + p_t = 2p_0$;
+      **C3** for the linear member $a_4 = AHx_4 + a_0$: $p_3 = p_t = p_0$ and a
       constant $\rho$. **Admissible source**: one that meets them.
     - **Constraint** (the $x_4$ equation, no $a_4''$) and **evolution equation**
       ($a_4''\,F(a_4') = \kappa(p_3 - p_t)$) of the $a_4$ equations.
@@ -204,8 +204,8 @@ CELLS = [
       like $h^4$ when the step $h$ shrinks (**order of accuracy** 4).
     - **Simpson's rule**: the integral of a function over $[a, a+2h]$ is about
       $(h/3)[f(a) + 4f(a+h) + f(a+2h)]$; error like $h^4$.
-    - **Weighted mean**: $\int e^{6Hy}p_8\,dy / \int e^{6Hy}dy$, the average of
-      $p_8$ over the proper volume.
+    - **Weighted mean**: $\int e^{6Hy}p_0\,dy / \int e^{6Hy}dy$, the average of
+      $p_0$ over the proper volume.
     - **Kohn-Sham state**, **slice** $a_{4,0}$, **history** $a_4 = AHx_4$ with
       $A = 1$, **prescribed background**, **test field**, **back-reaction**: as in
       Notebook 17a; a state name such as `N136_lamp2_a20` means $N = 136$,
@@ -251,10 +251,10 @@ CELLS = [
     see:
 
     1. in the hidden direction, conservation reads
-       $p_8' + 6Hp_8 = 3H(p_3 + p_t)$ (the prime is $d/dy$); hence the violation of
-       C2 is $V = p_3 + p_t - 2p_8 = p_8'/(3H)$. For a conserved source without mixed
-       entries, C2 and "$p_8$ does not depend on $x_8$" (part of C1) are the SAME
-       condition. The Kohn-Sham $p_8$ changes by orders of magnitude along $y$, so C2
+       $p_0' + 6Hp_0 = 3H(p_3 + p_t)$ (the prime is $d/dy$); hence the violation of
+       C2 is $V = p_3 + p_t - 2p_0 = p_0'/(3H)$. For a conserved source without mixed
+       entries, C2 and "$p_0$ does not depend on $x_0$" (part of C1) are the SAME
+       condition. The Kohn-Sham $p_0$ changes by orders of magnitude along $y$, so C2
        must fail;
     2. in the time direction, conservation reads $\rho' = -3a_4'(p_3 - p_t)$ (the
        prime is $d/dx_4$): energy flows between the source and the expanding and
@@ -349,7 +349,7 @@ CELLS = [
     entries = [v for matrix in gamma_record["gamma"] for row in matrix for v in row]
     real_integers = all(isinstance(v, int) for v in entries)  # no complex entries
     gamma = [np.array(matrix, dtype=float) for matrix in gamma_record["gamma"]]
-    eta = np.array(gamma_record["eta"], dtype=float)  # +1 or -1 for x1, ..., x8
+    eta = np.array(gamma_record["eta"], dtype=float)  # +1 or -1 for x0, ..., x7
     shapes = sorted({matrix.shape for matrix in gamma})  # should be one shape only
     values = sorted({int(v) for v in entries})  # the entries that occur
     one_per_line = all(np.all(np.count_nonzero(matrix, axis=0) == 1)
@@ -358,7 +358,7 @@ CELLS = [
     report("number of gamma matrices", len(gamma))
     report("their shapes", shapes)
     report("the entries that occur", values)
-    report("eta in the order x1, ..., x8", [int(v) for v in eta])
+    report("eta in the order x0, ..., x7", [int(v) for v in eta])
     reproduces(len(gamma) == 8 and shapes == [(16, 16)] and real_integers
                and values == [-1, 0, 1] and one_per_line,
                "eight real 16 x 16 signed permutation matrices",
@@ -397,7 +397,7 @@ CELLS = [
     the matrix belongs to and the sign of its square, $(\gamma^a)^2 = \eta^{aa}\,1$.
     """),
     code(r'''
-    LABELS = ["x_1", "x_2", "x_3", "x_4", "x_5", "x_6", "x_7", "x_8"]
+    LABELS = ["x_1", "x_2", "x_3", "x_4", "x_5", "x_6", "x_7", "x_0"]
     fig, axes = plt.subplots(2, 4, figsize=(9.6, 5.4))
     for a, ax in enumerate(axes.flat):
         image = ax.imshow(gamma[a], cmap="RdBu_r", vmin=-1.0, vmax=1.0)
@@ -411,11 +411,11 @@ CELLS = [
     nonzero_count = int(sum(np.count_nonzero(matrix) for matrix in gamma))
     save_figure(fig, "eight_gammas",
                 "The author's eight real $16 \\times 16$ gamma matrices "
-                "$\\gamma^{(x_1)}$ to $\\gamma^{(x_8)}$ as heat maps (rows 1 to 16 down, "
+                "$\\gamma^{(x_0)}$ to $\\gamma^{(x_7)}$ as heat maps (rows 1 to 16 down, "
                 "columns 1 to 16 across; red $+1$, blue $-1$, white $0$). Each row and "
                 "each column holds exactly one nonzero entry, so the eight matrices "
                 f"have {nonzero_count} nonzero entries in all; the squares are $+1$ "
-                "for the space-like directions $x_1, x_2, x_3, x_8$ and $-1$ for the "
+                "for the space-like directions $x_0, x_1, x_2, x_3$ and $-1$ for the "
                 "time $x_4$ and the deflating extra times $x_5, x_6, x_7$. These are "
                 "the matrices with which the Kohn-Sham source of this chapter was "
                 "computed.")
@@ -423,17 +423,17 @@ CELLS = [
     md(r"""
     ## 7. The hidden coordinate $y$
 
-    The author's metric has $g_{88} = \cot^2 z$ with $z = 6Hx_8$, and the warp factor
+    The author's metric has $g_{00} = \cot^2 z$ with $z = 6Hx_0$, and the warp factor
     $\sin^{1/3}z$ in front of the six directions $x_1, x_2, x_3, x_5, x_6, x_7$. The
-    Kohn-Sham computations use $y = \ln(\sin z)/(6H)$ instead of $x_8$. The next cell
+    Kohn-Sham computations use $y = \ln(\sin z)/(6H)$ instead of $x_0$. The next cell
     derives, step by step with sympy:
 
-    1. $dy/dx_8 = \cot z$ (the chain rule: $d\ln(\sin z)/dz = \cot z$ and
-       $dz/dx_8 = 6H$);
-    2. $g_{yy} = g_{88}\,(dx_8/dy)^2 = \cot^2 z/\cot^2 z = 1$: $y$ measures proper
+    1. $dy/dx_0 = \cot z$ (the chain rule: $d\ln(\sin z)/dz = \cot z$ and
+       $dz/dx_0 = 6H$);
+    2. $g_{yy} = g_{00}\,(dx_0/dy)^2 = \cot^2 z/\cot^2 z = 1$: $y$ measures proper
        length along the hidden direction;
     3. $\sin z = e^{6Hy}$, so the warp factor is $\sin^{1/3}z = e^{2Hy}$;
-    4. $\sqrt{|\det g|} = \cos z$ in the $x_8$ chart and $e^{6Hy}$ in the $y$ chart
+    4. $\sqrt{|\det g|} = \cos z$ in the $x_0$ chart and $e^{6Hy}$ in the $y$ chart
        (the factors $e^{\pm 2a_4}$ of 3-space and of the extra times cancel in the
        determinant: the 7-volume does not change while 3-space inflates and the
        extra times deflate).
@@ -443,24 +443,24 @@ CELLS = [
     """),
     code(r'''
     H = sp.symbols("H", positive=True)  # the constant H of the metric
-    X8 = sp.symbols("x8", positive=True)  # the author's hidden coordinate
-    z = 6 * H * X8  # the angle z = 6 H x8
-    y_of_x8 = sp.log(sp.sin(z)) / (6 * H)  # the hidden coordinate y
-    dy_dx8 = sp.simplify(sp.diff(y_of_x8, X8))  # chain rule
-    g_yy = sp.simplify(sp.cot(z) ** 2 / dy_dx8 ** 2)  # g88 times (dx8/dy)^2
-    say(f"dy/dx8 = {dy_dx8},  g_yy = {g_yy}")
+    X0 = sp.symbols("x0", positive=True)  # the author's hidden coordinate
+    z = 6 * H * X0  # the angle z = 6 H x0
+    y_of_x0 = sp.log(sp.sin(z)) / (6 * H)  # the hidden coordinate y
+    dy_dx0 = sp.simplify(sp.diff(y_of_x0, X0))  # chain rule
+    g_yy = sp.simplify(sp.cot(z) ** 2 / dy_dx0 ** 2)  # g00 times (dx0/dy)^2
+    say(f"dy/dx0 = {dy_dx0},  g_yy = {g_yy}")
     s, c, a4_value = sp.symbols("s c a4", positive=True)  # s = sin z, c = cos z
     y_of_s = sp.log(s) / (6 * H)  # y written with s = sin z
     warp = sp.simplify(sp.exp(2 * H * y_of_s))  # e^{2Hy} in terms of s
     say(f"e^(2Hy) = {warp}  (the warp factor sin^(1/3) z)")
     factors = ([sp.exp(2 * a4_value) * s ** sp.Rational(1, 3)] * 3 + [1]
                + [sp.exp(-2 * a4_value) * s ** sp.Rational(1, 3)] * 3)  # |g_ii|, i < 8
-    root_x8 = sp.simplify(sp.sqrt(sp.prod(factors) * (c / s) ** 2))  # g88 = cot^2 z
+    root_x0 = sp.simplify(sp.sqrt(sp.prod(factors) * (c / s) ** 2))  # g00 = cot^2 z
     root_y = sp.simplify(sp.sqrt(sp.prod(factors) * 1))  # g_yy = 1
-    say(f"sqrt|det g| in the x8 chart = {root_x8};  in the y chart = {root_y}")
-    reproduces(sp.simplify(dy_dx8 - sp.cot(z)) == 0 and g_yy == 1
-               and warp == s ** sp.Rational(1, 3) and root_x8 == c and root_y == s,
-               "dy/dx8 = cot z, g_yy = 1, sin^(1/3) z = e^(2Hy), sqrt|g| = cos z or e^(6Hy)",
+    say(f"sqrt|det g| in the x0 chart = {root_x0};  in the y chart = {root_y}")
+    reproduces(sp.simplify(dy_dx0 - sp.cot(z)) == 0 and g_yy == 1
+               and warp == s ** sp.Rational(1, 3) and root_x0 == c and root_y == s,
+               "dy/dx0 = cot z, g_yy = 1, sin^(1/3) z = e^(2Hy), sqrt|g| = cos z or e^(6Hy)",
                KS_PY, ["geometry_hidden_coordinate", "geometry_sqrt_det",
                        "geometry_warped_form"])
     '''),
@@ -472,11 +472,11 @@ CELLS = [
     the formula of section 3, and `divergence` computes the eight components
     $\nabla_\mu T^\mu{}_\nu$, $\nu = 1, \dots, 8$, of the covariant divergence of a
     table $T^\mu{}_\nu$ (stored as `T[mu, nu]`). It then builds the author's metric in
-    the $x_8$ chart with a general function $a_4(x_4)$, and the most general source
-    the $a_4$ record allows: $\rho, p_3, p_t, p_8, q_{48}, q_{84}$, each a function of
-    $x_4$ and $x_8$. Finally it prints the eight components of the divergence, written
+    the $x_0$ chart with a general function $a_4(x_4)$, and the most general source
+    the $a_4$ record allows: $\rho, p_3, p_t, p_0, q_{40}, q_{04}$, each a function of
+    $x_4$ and $x_0$. Finally it prints the eight components of the divergence, written
     in the record's notation: `ad1` is $a_4'$, `d4rho` is $\partial\rho/\partial x_4$,
-    `d8p8` is $\partial p_8/\partial x_8$, `cc` is $\cot z$, and so on (the helper
+    `d0p0` is $\partial p_0/\partial x_0$, `cc` is $\cot z$, and so on (the helper
     `readable` collects the terms of each source quantity and simplifies the factor in
     front of it with $\sin 2z = 2\sin z\cos z$ and $\tan z = \sin z/\cos z$).
     """),
@@ -505,29 +505,29 @@ CELLS = [
         return result
 
 
-    coords = sp.symbols("x1:9", real=True)  # x1, ..., x8 (the x8 chart)
-    x4, x8 = coords[3], coords[7]
+    coords = sp.symbols("x0:8", real=True)  # x0, ..., x7 (the x0 chart)
+    x4, x0 = coords[4], coords[0]
     a4 = sp.Function("a4")(x4)  # the free function of the metric
-    zz = 6 * H * x8  # z = 6 H x8
+    zz = 6 * H * x0  # z = 6 H x0
     wz = sp.sin(zz) ** sp.Rational(1, 3)  # the warp factor sin^(1/3) z
-    metric_x8 = sp.diag(*([sp.exp(2 * a4) * wz] * 3 + [-1]
-                          + [-sp.exp(-2 * a4) * wz] * 3 + [sp.cot(zz) ** 2]))
-    names = ("rho", "p3", "pt", "p8", "q48", "q84")
-    rho, p3, pt, p8, q48, q84 = (sp.Function(n)(x4, x8) for n in names)
-    T_x8 = sp.diag(p3, p3, p3, -rho, pt, pt, pt, p8)  # the diagonal part
-    T_x8[3, 7] = q48  # T^x4_x8
-    T_x8[7, 3] = q84  # T^x8_x4
-    div_x8 = divergence(T_x8, metric_x8, coords)
+    metric_x0 = sp.diag(*([sp.cot(zz) ** 2] + [sp.exp(2 * a4) * wz] * 3 + [-1]
+                          + [-sp.exp(-2 * a4) * wz] * 3))  # x0, ..., x7 (b4 = 1)
+    names = ("rho", "p3", "pt", "p0", "q40", "q04")
+    rho, p3, pt, p0, q40, q04 = (sp.Function(n)(x4, x0) for n in names)
+    T_x0 = sp.diag(p0, p3, p3, p3, -rho, pt, pt, pt)  # the diagonal part
+    T_x0[4, 0] = q40  # T^x4_x0
+    T_x0[0, 4] = q04  # T^x0_x4
+    div_x0 = divergence(T_x0, metric_x0, coords)
     notation = {sp.Derivative(f, v): sp.Symbol(f"d{v.name[1]}{f.func.__name__}")
-                for f in (rho, p3, pt, p8, q48, q84) for v in (x4, x8)}
+                for f in (rho, p3, pt, p0, q40, q04) for v in (x4, x0)}
     notation[sp.Derivative(a4, x4)] = sp.Symbol("ad1")  # a4'
 
 
     def in_record_notation(expression):
-        """Write derivatives as d4rho, d8p8, ... and functions as plain symbols."""
+        """Write derivatives as d4rho, d0p0, ... and functions as plain symbols."""
         expression = expression.subs(notation)
         return expression.subs({f: sp.Symbol(f.func.__name__)
-                                for f in (rho, p3, pt, p8, q48, q84)})
+                                for f in (rho, p3, pt, p0, q40, q04)})
 
 
     cc = sp.Symbol("cc")  # the record writes cot z as cc
@@ -536,7 +536,7 @@ CELLS = [
     def readable(expression):
         """A component as a sum of source symbols times simplified coefficients."""
         plain = sp.expand(in_record_notation(expression))
-        sources = sorted(plain.free_symbols - {H, x8, sp.Symbol("ad1")}, key=str)
+        sources = sorted(plain.free_symbols - {H, x0, sp.Symbol("ad1")}, key=str)
         total = sp.Integer(0)  # the sum, built term by term
         for symbol, factor in sp.collect(plain, sources, evaluate=False).items():
             factor = factor.subs(sp.sin(2 * zz), 2 * sp.sin(zz) * sp.cos(zz))
@@ -546,21 +546,21 @@ CELLS = [
         return total.subs(sp.tan(zz), 1 / cc)
 
 
-    for nu, component in enumerate(div_x8):
-        say(f"nabla_mu T^mu_x{nu + 1} = {readable(component)}")
+    for nu, component in enumerate(div_x0):
+        say(f"nabla_mu T^mu_x{nu} = {readable(component)}")
     '''),
     md(r"""
     Six of the eight components vanish identically. The two others are the
-    conservation laws in the time direction $x_4$ and in the hidden direction $x_8$.
+    conservation laws in the time direction $x_4$ and in the hidden direction $x_0$.
     The next cell reads the record's two equations `conservation_x4` and
-    `conservation_x8` (Wolfram Language text; `cc` stands for $\cot z$) and checks
+    `conservation_x0` (Wolfram Language text; `cc` stands for $\cot z$) and checks
     that they equal ours (the difference is rewritten with cosines and simplified to
     zero; one term needs the identity $\tan z + \cot z = 2/\sin 2z$).
     """),
     code(r'''
     equations = read_json(EQUATIONS)
     RECORD_NAMES = {"ad1": sp.Derivative(a4, x4), "H": H, "cc": sp.cot(zz),
-                    "rho": rho, "p3": p3, "pt": pt, "p8": p8, "q48": q48, "q84": q84}
+                    "rho": rho, "p3": p3, "pt": pt, "p0": p0, "q40": q40, "q04": q04}
     RECORD_NAMES.update({str(symbol): derivative
                          for derivative, symbol in notation.items()})
 
@@ -573,20 +573,20 @@ CELLS = [
 
 
     same = []
-    for key, nu in (("conservation_x4", 3), ("conservation_x8", 7)):
+    for key, nu in (("conservation_x4", 4), ("conservation_x0", 0)):
         recorded = record_equation(equations["generalSource"][key]["input"])
-        difference = sp.simplify((div_x8[nu] - recorded).rewrite(sp.cos))
+        difference = sp.simplify((div_x0[nu] - recorded).rewrite(sp.cos))
         same.append(difference == 0)
         say(f"{key}: ours minus the record = {difference}")
-    zero_components = all(div_x8[nu] == 0 for nu in (0, 1, 2, 4, 5, 6))
+    zero_components = all(div_x0[nu] == 0 for nu in (1, 2, 3, 5, 6, 7))
     reproduces(all(same) and zero_components,
-               "our divergence equals the record: x4 and x8 laws, six zero components",
+               "our divergence equals the record: x4 and x0 laws, six zero components",
                PY_A4, ["conservation_components", "json_conservation"])
     '''),
     md(r"""
     ## 9. The conservation law in the coordinate $y$, and what it does to C2
 
-    The Kohn-Sham states have $q_{48} = q_{84} = 0$ (their mixed component vanishes
+    The Kohn-Sham states have $q_{40} = q_{04} = 0$ (their mixed component vanishes
     for every eigen-orbital) and depend on $y$. In the $y$ chart the author's metric
     is, by section 7,
     $e^{2Hy}[e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2) - e^{-2a_4}(dx_5^2 + dx_6^2 +
@@ -595,81 +595,81 @@ CELLS = [
     surviving components against the formulas
 
     $$\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t), \qquad
-    \nabla_\mu T^\mu{}_y = p_8' + 6Hp_8 - 3H(p_3 + p_t)$$
+    \nabla_\mu T^\mu{}_y = p_0' + 6Hp_0 - 3H(p_3 + p_t)$$
 
-    of the Kohn-Sham theory record (the prime on $p_8$ is $\partial/\partial y$). It
+    of the Kohn-Sham theory record (the prime on $p_0$ is $\partial/\partial y$). It
     prints the components with short names: `ad1` is $a_4'$, `d4rho` is
-    $\partial\rho/\partial x_4$ and `dyp8` is $\partial p_8/\partial y$.
+    $\partial\rho/\partial x_4$ and `dyp0` is $\partial p_0/\partial y$.
     """),
     code(r'''
     yc = sp.symbols("y", real=True)  # the hidden coordinate y
-    chart_y = list(coords[:7]) + [yc]  # x1, ..., x7, y
+    chart_y = [yc] + list(coords[1:])  # y (for x0), x1, ..., x7
     wy = sp.exp(2 * H * yc)  # the warp factor e^{2Hy} = sin^(1/3) z
-    metric_y = sp.diag(*([sp.exp(2 * a4) * wy] * 3 + [-1]
-                         + [-sp.exp(-2 * a4) * wy] * 3 + [1]))
-    RHO, P3, PT, P8 = (sp.Function(n)(x4, yc) for n in ("rho", "p3", "pt", "p8"))
-    T_y = sp.diag(P3, P3, P3, -RHO, PT, PT, PT, P8)  # a diagonal source T(x4, y)
+    metric_y = sp.diag(*([1] + [sp.exp(2 * a4) * wy] * 3 + [-1]
+                         + [-sp.exp(-2 * a4) * wy] * 3))
+    RHO, P3, PT, P0 = (sp.Function(n)(x4, yc) for n in ("rho", "p3", "pt", "p0"))
+    T_y = sp.diag(P0, P3, P3, P3, -RHO, PT, PT, PT)  # a diagonal source T(x4, y)
     div_y = divergence(T_y, metric_y, chart_y)
     law_x4 = -sp.diff(RHO, x4) - 3 * sp.diff(a4, x4) * (P3 - PT)
-    law_y = sp.diff(P8, yc) + 6 * H * P8 - 3 * H * (P3 + PT)
+    law_y = sp.diff(P0, yc) + 6 * H * P0 - 3 * H * (P3 + PT)
     derivatives = {sp.Derivative(RHO, x4): sp.Symbol("d4rho"),
-                   sp.Derivative(P8, yc): sp.Symbol("dyp8"),
+                   sp.Derivative(P0, yc): sp.Symbol("dyp0"),
                    sp.Derivative(a4, x4): sp.Symbol("ad1")}  # short names
-    functions = {f: sp.Symbol(f.func.__name__) for f in (RHO, P3, PT, P8)}
+    functions = {f: sp.Symbol(f.func.__name__) for f in (RHO, P3, PT, P0)}
 
 
     def short(expression):
-        """Write the derivatives as d4rho, dyp8, ad1 and the functions as symbols."""
+        """Write the derivatives as d4rho, dyp0, ad1 and the functions as symbols."""
         return expression.subs(derivatives).subs(functions)
 
 
-    say(f"nabla_mu T^mu_x4 = {short(div_y[3])}")
-    say(f"nabla_mu T^mu_y = {short(div_y[7])}")
-    others_zero = all(div_y[nu] == 0 for nu in (0, 1, 2, 4, 5, 6))
+    say(f"nabla_mu T^mu_x4 = {short(div_y[4])}")
+    say(f"nabla_mu T^mu_y = {short(div_y[0])}")
+    others_zero = all(div_y[nu] == 0 for nu in (1, 2, 3, 5, 6, 7))
     theory = read_json(KS_THEORY)["emt"]  # the energy-momentum part of the record
     say("ks-theory.json, emt.conservationY: " + theory["conservationY"])
-    reproduces(sp.simplify(div_y[3] - law_x4) == 0 and sp.simplify(div_y[7] - law_y) == 0
+    reproduces(sp.simplify(div_y[4] - law_x4) == 0 and sp.simplify(div_y[0] - law_y) == 0
                and others_zero
-               and "6H p8 = 3H (p3 + p_t)" in theory["conservationY"],
-               "in the y chart: the x4 law and dp8/dy + 6H p8 = 3H (p3 + p_t)",
+               and "6H p0 = 3H (p3 + p_t)" in theory["conservationY"],
+               "in the y chart: the x4 law and dp0/dy + 6H p0 = 3H (p3 + p_t)",
                KS_PY, ["emt_y_conservation_selfconsistent", "emt_x4_component"])
     '''),
     md(r"""
     Now the key step. Solve the $y$ law for $p_3$:
-    $p_3 = (p_8' + 6Hp_8)/(3H) - p_t$. Put this into the violation of C2:
+    $p_3 = (p_0' + 6Hp_0)/(3H) - p_t$. Put this into the violation of C2:
 
-    $$V = p_3 + p_t - 2p_8 = \frac{p_8' + 6Hp_8}{3H} - 2p_8 = \frac{p_8'}{3H}.$$
+    $$V = p_3 + p_t - 2p_0 = \frac{p_0' + 6Hp_0}{3H} - 2p_0 = \frac{p_0'}{3H}.$$
 
     The first equality is the definition of $V$; the second replaces $p_3 + p_t$ by
-    its value from the conservation law; the third cancels $6Hp_8/(3H) = 2p_8$
-    against $-2p_8$. So, for EVERY conserved diagonal source: **C2 holds at a point
-    exactly when $p_8$ is flat there.** C2 is not an extra demand on a conserved
-    source; it is the $p_8$ part of C1. The next cell repeats the algebra with
+    its value from the conservation law; the third cancels $6Hp_0/(3H) = 2p_0$
+    against $-2p_0$. So, for EVERY conserved diagonal source: **C2 holds at a point
+    exactly when $p_0$ is flat there.** C2 is not an extra demand on a conserved
+    source; it is the $p_0$ part of C1. The next cell repeats the algebra with
     sympy.
     """),
     code(r'''
     p3_from_law = sp.solve(sp.Eq(law_y, 0), P3)[0]  # p3 from the y conservation law
-    V = P3 + PT - 2 * P8  # the violation of C2
+    V = P3 + PT - 2 * P0  # the violation of C2
     V_conserved = sp.simplify(V.subs(P3, p3_from_law))
     say(f"p3 from the conservation law: {short(p3_from_law)}")
-    say(f"V = p3 + p_t - 2 p8 for a conserved source: {short(V_conserved)}")
-    check(sp.simplify(V_conserved - sp.diff(P8, yc) / (3 * H)) == 0,
-          "PROVED: for a conserved source V = p3 + p_t - 2 p8 = (dp8/dy) / (3H)")
+    say(f"V = p3 + p_t - 2 p0 for a conserved source: {short(V_conserved)}")
+    check(sp.simplify(V_conserved - sp.diff(P0, yc) / (3 * H)) == 0,
+          "PROVED: for a conserved source V = p3 + p_t - 2 p0 = (dp0/dy) / (3H)")
     '''),
     md(r"""
-    ## 10. Testing $V = p_8'/(3H)$ on the recorded Kohn-Sham states
+    ## 10. Testing $V = p_0'/(3H)$ on the recorded Kohn-Sham states
 
     The next cell reads the 75 profile files of the Kohn-Sham record (151 points
-    $y = -3, -2.98, \dots, 0$; columns `rho`, `p3`, `p_t`, `p8` among others), the
+    $y = -3, -2.98, \dots, 0$; columns `rho`, `p3`, `p_t`, `p0` among others), the
     table of integrals and the parameters. It defines `slope`, the fourth-order
     difference of section 3 with the step $s \cdot h$ ($h = 0.02$, $s = 1, 2, \dots$),
     evaluated at the inner points (two points at each end have no neighbours on one
-    side). For every state with a nonzero tensor it compares $V$ with $p_8'/(3H)$ and
+    side). For every state with a nonzero tensor it compares $V$ with $p_0'/(3H)$ and
     divides the largest difference by max|T| (the largest absolute value of $\rho$,
-    $p_3$, $p_t$, $p_8$ of the state).
+    $p_3$, $p_t$, $p_0$ of the state).
     """),
     code(r'''
-    COLUMNS = ("rho", "p3", "p_t", "p8")  # the four diagonal components
+    COLUMNS = ("rho", "p3", "p_t", "p0")  # the four diagonal components
 
 
     def read_profile(path):
@@ -700,25 +700,25 @@ CELLS = [
 
 
     def violation(prof):
-        """V(y) = p3 + p_t - 2 p8 of a profile."""
-        return prof["p3"] + prof["p_t"] - 2.0 * prof["p8"]
+        """V(y) = p3 + p_t - 2 p0 of a profile."""
+        return prof["p3"] + prof["p_t"] - 2.0 * prof["p0"]
 
 
-    residual = {sid: float(np.max(np.abs(slope(profiles[sid]["p8"]) / (3 * H_value)
+    residual = {sid: float(np.max(np.abs(slope(profiles[sid]["p0"]) / (3 * H_value)
                                           - violation(profiles[sid])[2:-2])))
                 / scale[sid] for sid in nonzero}
     worst = max(residual, key=residual.get)  # the state with the largest difference
     report("states with a nonzero tensor", len(nonzero))
     report("grid step h", f"{h:.2f}")
-    report("largest |(dp8/dy)/(3H) - V| / max|T| over 70 states", f"{residual[worst]:.2e}",
+    report("largest |(dp0/dy)/(3H) - V| / max|T| over 70 states", f"{residual[worst]:.2e}",
            f"({worst})")
     check(len(nonzero) == 70 and residual[worst] < 1e-3,
-          "V = (dp8/dy)/(3H) on every state to 1e-3 of max|T| (fourth-order differences)")
+          "V = (dp0/dy)/(3H) on every state to 1e-3 of max|T| (fourth-order differences)")
     '''),
     md(r"""
     The next cell draws the identity for the history $N = 136$, $\lambda = 0$. Left:
-    $p_8(y)$ at the five slices (divided by max|T|): for C2, by section 9, these
-    curves would have to be horizontal. Right: $V(y)$ (lines) and $p_8'(y)/(3H)$
+    $p_0(y)$ at the five slices (divided by max|T|): for C2, by section 9, these
+    curves would have to be horizontal. Right: $V(y)$ (lines) and $p_0'(y)/(3H)$
     (dots, every fifth grid point) of the slice $a_{4,0} = 1$. Both vertical axes are
     symmetric logarithmic (logarithmic for large positive and negative values,
     linear near zero), so that both signs and many orders of magnitude are visible.
@@ -729,20 +729,20 @@ CELLS = [
     history136 = [f"N136_lam0_{tag}" for tag in SLICES]
     fig, (left, right) = plt.subplots(1, 2, figsize=(9.6, 4.0))
     for shade, sid, a40 in zip(SHADES, history136, SLICES.values()):
-        left.plot(y, profiles[sid]["p8"] / scale[sid], color=shade, lw=1.8,
+        left.plot(y, profiles[sid]["p0"] / scale[sid], color=shade, lw=1.8,
                   label=f"$a_{{4,0}} = {a40:g}$")
     left.set_yscale("symlog", linthresh=1e-6)
     left.set_xlabel("hidden coordinate $y$ (tip $-3$, brane $0$)")
-    left.set_ylabel("$p_8(y)$ / max|T|")
-    left.set_title("$N = 136$, $\\lambda = 0$: $p_8$ is far from flat")
+    left.set_ylabel("$p_0(y)$ / max|T|")
+    left.set_title("$N = 136$, $\\lambda = 0$: $p_0$ is far from flat")
     left.legend(fontsize=7, loc="upper right")
     example = profiles["N136_lam0_a10"]
     inner = y[2:-2]  # the points where the slope is known
     right.plot(y, violation(example) / scale["N136_lam0_a10"], color="#2a78d6",
-               lw=2.0, label="$V = p_3 + p_t - 2p_8$")
-    right.plot(inner[::5], (slope(example["p8"]) / (3 * H_value))[::5]
+               lw=2.0, label="$V = p_3 + p_t - 2p_0$")
+    right.plot(inner[::5], (slope(example["p0"]) / (3 * H_value))[::5]
                / scale["N136_lam0_a10"], "o", color="#eb6834", ms=3.5,
-               label="$p_8'(y)/(3H)$")
+               label="$p_0'(y)/(3H)$")
     right.axhline(0.0, color="#e34948", ls="--", lw=1.0, label="C2: $V = 0$")
     right.set_yscale("symlog", linthresh=1e-6)
     right.set_xlabel("hidden coordinate $y$")
@@ -750,26 +750,26 @@ CELLS = [
     right.set_title("$a_{4,0} = 1$: the two sides of the identity")
     right.legend(fontsize=7, loc="upper right")
     fig.tight_layout()
-    p8_range = [float(np.max(np.abs(profiles[s]["p8"])) / np.min(np.abs(profiles[s]["p8"])))
-                for s in history136]  # how far p8 is from flat, per slice
+    p0_range = [float(np.max(np.abs(profiles[s]["p0"])) / np.min(np.abs(profiles[s]["p0"])))
+                for s in history136]  # how far p0 is from flat, per slice
     save_figure(fig, "slope_identity",
-                "Left: the hidden-direction pressure $p_8(y)$ of the Kohn-Sham states "
+                "Left: the hidden-direction pressure $p_0(y)$ of the Kohn-Sham states "
                 "$N = 136$, $\\lambda = 0$ at the five slices $a_{4,0} = 0$ to $2$, "
                 "divided by the largest component of each state (horizontal axis: the "
                 "hidden coordinate $y$; vertical axis symmetric logarithmic, linear "
-                "between $-10^{-6}$ and $10^{-6}$); the largest $|p_8|$ is "
-                f"{min(p8_range):.0f} to ${tex_number(max(p8_range))}$ times the "
+                "between $-10^{-6}$ and $10^{-6}$); the largest $|p_0|$ is "
+                f"{min(p0_range):.0f} to ${tex_number(max(p0_range))}$ times the "
                 "smallest, while "
-                "condition C2 of a conserved source demands a flat $p_8$. Right: for "
-                "$a_{4,0} = 1$ the violation $V = p_3 + p_t - 2p_8$ (blue line) and the "
-                "slope $p_8'(y)/(3H)$ from fourth-order differences (orange dots) lie "
+                "condition C2 of a conserved source demands a flat $p_0$. Right: for "
+                "$a_{4,0} = 1$ the violation $V = p_3 + p_t - 2p_0$ (blue line) and the "
+                "slope $p_0'(y)/(3H)$ from fourth-order differences (orange dots) lie "
                 "on top of each other, as the conservation law demands; the dashed "
                 "line is the value $0$ that C2 needs.")
     '''),
     md(r"""
     How do we know that the small differences of the last test are errors of the
     finite differences and not a failure of conservation? By changing the step. The
-    next cell evaluates $|p_8'/(3H) - V|/\max|T|$ at the four points
+    next cell evaluates $|p_0'/(3H) - V|/\max|T|$ at the four points
     $y = -2.4, -1.8, -1.2, -0.6$ (grid indices 30, 60, 90, 120) with the steps
     $s \cdot h$, $s = 1, 2, 3, 5, 6$, for five states, and fits a straight line to
     $\log(\text{difference})$ against $\log(\text{step})$. A fourth-order difference
@@ -783,9 +783,9 @@ CELLS = [
 
 
     def difference_at_points(sid, s):
-        """max over POINTS of |(dp8/dy)/(3H) - V| / max|T| with the step s h."""
+        """max over POINTS of |(dp0/dy)/(3H) - V| / max|T| with the step s h."""
         prof = profiles[sid]
-        derivative = slope(prof["p8"], s) / (3 * H_value)  # index i - 2s is point i
+        derivative = slope(prof["p0"], s) / (3 * H_value)  # index i - 2s is point i
         return max(abs(float(derivative[i - 2 * s] - violation(prof)[i]))
                    for i in POINTS) / scale[sid]
 
@@ -806,12 +806,12 @@ CELLS = [
     reference = errors["N136_lam0_a10"][0] * (STEPS / STEPS[0]) ** 4.0
     ax.loglog(STEPS * h, reference, "k--", lw=1.0, label="slope 4 (reference)")
     ax.set_xlabel("step of the difference $s h$ (units of $1/H$)")
-    ax.set_ylabel("max $|p_8'/(3H) - V|$ / max|T|")
+    ax.set_ylabel("max $|p_0'/(3H) - V|$ / max|T|")
     ax.legend(fontsize=7)
     save_figure(fig, "difference_order",
-                "The difference between $p_8'(y)/(3H)$, computed with fourth-order "
+                "The difference between $p_0'(y)/(3H)$, computed with fourth-order "
                 "differences of step $sh$ ($h = 0.02$, $s = 1, 2, 3, 5, 6$), and the "
-                "violation $V = p_3 + p_t - 2p_8$, at the four points $y = -2.4$, "
+                "violation $V = p_3 + p_t - 2p_0$, at the four points $y = -2.4$, "
                 "$-1.8$, $-1.2$, $-0.6$, divided by the largest component of the state, "
                 "for five recorded Kohn-Sham states (logarithmic axes; the step in units "
                 "of $1/H$). The fitted slopes lie between "
@@ -822,12 +822,12 @@ CELLS = [
     md(r"""
     ## 11. The integrated form, and why the integrated ratio of C2 is not 1
 
-    Multiply the $y$ law by $e^{6Hy}$: since $(e^{6Hy}p_8)' = e^{6Hy}(p_8' + 6Hp_8)$
-    (product rule), the law becomes $(e^{6Hy}p_8)' = 3He^{6Hy}(p_3 + p_t)$. Integrate
+    Multiply the $y$ law by $e^{6Hy}$: since $(e^{6Hy}p_0)' = e^{6Hy}(p_0' + 6Hp_0)$
+    (product rule), the law becomes $(e^{6Hy}p_0)' = 3He^{6Hy}(p_3 + p_t)$. Integrate
     from the tip $y = -L$ to the brane $y = 0$ (fundamental theorem of calculus) and
     multiply by $2\,\mathrm{Vol}_7$ (the volume factor of the record's integrals):
 
-    $$2\,\mathrm{Vol}_7\left[p_8(0) - e^{-6HL}p_8(-L)\right] =
+    $$2\,\mathrm{Vol}_7\left[p_0(0) - e^{-6HL}p_0(-L)\right] =
     3H\left(\textstyle\int p_3 + \int p_t\right),$$
 
     where $\int X$ means $2\,\mathrm{Vol}_7\int_{-L}^{0}e^{6Hy}X\,dy$, the column
@@ -853,7 +853,7 @@ CELLS = [
     tip_weight = float(np.exp(-6.0 * H_value * L_cut))  # e^{-6HL}, about 1.5e-8
     integrated = {}
     for sid in nonzero:
-        left_side = 2 * VOL7 * (number(sid, "p8_brane") - tip_weight * number(sid, "p8_tip"))
+        left_side = 2 * VOL7 * (number(sid, "p0_brane") - tip_weight * number(sid, "p0_tip"))
         right_side = 3 * H_value * (number(sid, "int_p3") + number(sid, "int_p_t"))
         integrated[sid] = abs(left_side - right_side) / abs(right_side)
     worst_integrated = max(integrated, key=integrated.get)
@@ -876,32 +876,32 @@ CELLS = [
     '''),
     md(r"""
     Notebook 17a found that the integrated ratio $R = (\int p_3 + \int p_t)/(2\int
-    p_8)$ lies between about $0.1$ and $0.4$ instead of $1$. The integrated law
-    explains this number. Divide it by $2\int p_8$ and write $\int p_8 =
-    2\,\mathrm{Vol}_7\,\bar p_8\,(1 - e^{-6HL})/(6H)$, where $\bar p_8$ is the
-    weighted mean of $p_8$ (because $\int_{-L}^0 e^{6Hy}dy = (1 - e^{-6HL})/(6H)$):
+    p_0)$ lies between about $0.1$ and $0.4$ instead of $1$. The integrated law
+    explains this number. Divide it by $2\int p_0$ and write $\int p_0 =
+    2\,\mathrm{Vol}_7\,\bar p_0\,(1 - e^{-6HL})/(6H)$, where $\bar p_0$ is the
+    weighted mean of $p_0$ (because $\int_{-L}^0 e^{6Hy}dy = (1 - e^{-6HL})/(6H)$):
 
-    $$R = \frac{b_8}{\bar p_8}, \qquad b_8 = \frac{p_8(0) - e^{-6HL}p_8(-L)}
+    $$R = \frac{b_0}{\bar p_0}, \qquad b_0 = \frac{p_0(0) - e^{-6HL}p_0(-L)}
     {1 - e^{-6HL}}.$$
 
-    We call $b_8$ the **boundary value** of $p_8$: the brane value with the small tip
-    term. So the averaged C2 asks that the boundary value of $p_8$ equal its mean:
-    true for a flat $p_8$, false for the Kohn-Sham states. Is the tip term negligible,
-    so that $b_8 \approx p_8(0)$? The weight $e^{-6HL} = e^{-18}$ is tiny, but near the
-    tip $|p_8|$ is enormous. The next cell computes $R$ both ways for every nonzero
+    We call $b_0$ the **boundary value** of $p_0$: the brane value with the small tip
+    term. So the averaged C2 asks that the boundary value of $p_0$ equal its mean:
+    true for a flat $p_0$, false for the Kohn-Sham states. Is the tip term negligible,
+    so that $b_0 \approx p_0(0)$? The weight $e^{-6HL} = e^{-18}$ is tiny, but near the
+    tip $|p_0|$ is enormous. The next cell computes $R$ both ways for every nonzero
     state, checks the record's closest value, and measures the share of $R$ that the
     tip term supplies. It also measures, from the profiles, which part of the weighted
-    mean of $p_8$ comes from the last unit before the brane, $-1 \le y \le 0$.
+    mean of $p_0$ comes from the last unit before the brane, $-1 \le y \le 0$.
     """),
     code(r'''
-    mean_p8 = {sid: number(sid, "int_p8") / (2 * VOL7 * (1 - tip_weight) / (6 * H_value))
-               for sid in nonzero}  # the weighted mean of p8
+    mean_p0 = {sid: number(sid, "int_p0") / (2 * VOL7 * (1 - tip_weight) / (6 * H_value))
+               for sid in nonzero}  # the weighted mean of p0
     ratio = {sid: (number(sid, "int_p3") + number(sid, "int_p_t"))
-             / (2 * number(sid, "int_p8")) for sid in nonzero}  # as in Notebook 17a
-    boundary = {sid: (number(sid, "p8_brane") - tip_weight * number(sid, "p8_tip"))
-                / (1 - tip_weight) for sid in nonzero}  # the boundary value b8
-    from_brane = {sid: boundary[sid] / mean_p8[sid] for sid in nonzero}  # R = b8/mean
-    brane_only = {sid: number(sid, "p8_brane") / mean_p8[sid] for sid in nonzero}
+             / (2 * number(sid, "int_p0")) for sid in nonzero}  # as in Notebook 17a
+    boundary = {sid: (number(sid, "p0_brane") - tip_weight * number(sid, "p0_tip"))
+                / (1 - tip_weight) for sid in nonzero}  # the boundary value b0
+    from_brane = {sid: boundary[sid] / mean_p0[sid] for sid in nonzero}  # R = b0/mean
+    brane_only = {sid: number(sid, "p0_brane") / mean_p0[sid] for sid in nonzero}
     tip_share = {sid: 1.0 - brane_only[sid] / from_brane[sid] for sid in nonzero}
     step = float(y[1] - y[0])  # the grid step of y, 0.02
 
@@ -915,37 +915,37 @@ CELLS = [
     last_unit = y >= -1.0 - 1e-9  # the last unit before the brane: 51 points
     near_share, table_gap = {}, {}
     for sid in nonzero:
-        weighted = np.exp(6 * H_value * y) * profiles[sid]["p8"]  # e^{6Hy} p8
+        weighted = np.exp(6 * H_value * y) * profiles[sid]["p0"]  # e^{6Hy} p0
         whole = simpson_rule(weighted)  # the integral over the whole patch
         near_share[sid] = simpson_rule(weighted[last_unit]) / whole
-        table_gap[sid] = abs(2 * VOL7 * whole / number(sid, "int_p8") - 1.0)
+        table_gap[sid] = abs(2 * VOL7 * whole / number(sid, "int_p0") - 1.0)
     agreement = max(abs(from_brane[sid] / ratio[sid] - 1.0) for sid in nonzero)
     closest = min(ratio, key=lambda sid: abs(ratio[sid] - 1.0))
     report("largest relative difference of the two forms of R", f"{agreement:.1e}")
     report("R closest to 1", f"{ratio[closest]:.6g} ({closest})")
-    report("largest relative difference, Simpson's integral of p8 and int_p8",
+    report("largest relative difference, Simpson's integral of p0 and int_p0",
            f"{max(table_gap.values()):.1e}")
     for n in (8, 136, 688):
         shares = [tip_share[sid] for sid in nonzero if sid.startswith(f"N{n}_")]
         report(f"share of R from the tip term, N = {n}",
                f"{min(shares):.2g} to {max(shares):.2g}")
         nears = [near_share[sid] for sid in nonzero if sid.startswith(f"N{n}_")]
-        report(f"share of the mean of p8 from -1 <= y <= 0, N = {n}",
+        report(f"share of the mean of p0 from -1 <= y <= 0, N = {n}",
                f"{min(nears):.3f} to {max(nears):.3f}")
     detail = record_entry(SOURCE_REPORT, "ks_integrals_violate_algebraic_condition")[
         "detail"]
     reproduces(agreement < 1e-9
                and f"(closest to 1: {ratio[closest]:.6g} at {closest})" in detail,
-               "R = b8 / mean of p8 (b8: brane value with the tip term), 70 states",
+               "R = b0 / mean of p0 (b0: brane value with the tip term), 70 states",
                SOURCE_REPORT, ["ks_integrals_violate_algebraic_condition"])
     '''),
     md(r"""
-    The next cell draws the boundary value $|b_8|$ against the mean $|\bar p_8|$ for
-    all 70 states (logarithmic axes; filled markers where $\bar p_8$ is positive,
+    The next cell draws the boundary value $|b_0|$ against the mean $|\bar p_0|$ for
+    all 70 states (logarithmic axes; filled markers where $\bar p_0$ is positive,
     larger open rings where it is negative). Their ratio is exactly $R$, so the
     averaged C2 would put every point on the diagonal. The cell also lists the states
-    with a negative mean $\bar p_8$ and checks that every point lies below the
-    diagonal ($0 < b_8/\bar p_8 < 1$).
+    with a negative mean $\bar p_0$ and checks that every point lies below the
+    diagonal ($0 < b_0/\bar p_0 < 1$).
     """),
     code(r'''
     N_COLOURS = {8: "#1baf7a", 136: "#2a78d6", 688: "#eb6834"}
@@ -953,10 +953,10 @@ CELLS = [
     for n, colour in N_COLOURS.items():
         for positive in (True, False):
             ids = [sid for sid in nonzero if sid.startswith(f"N{n}_")
-                   and (mean_p8[sid] > 0) == positive]  # one sign at a time
+                   and (mean_p0[sid] > 0) == positive]  # one sign at a time
             if not ids:
                 continue
-            ax.loglog([abs(mean_p8[sid]) for sid in ids],
+            ax.loglog([abs(mean_p0[sid]) for sid in ids],
                       [abs(boundary[sid]) for sid in ids], "o",
                       ms=5 if positive else 10,  # rings around the mirror states
                       color=colour, mfc=colour if positive else "none",
@@ -964,23 +964,23 @@ CELLS = [
     line = np.array([1e-7, 1.0])  # the range of the diagonal
     ax.loglog(line, line, "--", color="#e34948", lw=1.2,
               label="averaged C2: boundary value = mean")
-    ax.set_xlabel("weighted mean $|\\bar p_8|$ (units of $m^8$)")
-    ax.set_ylabel("boundary value $|b_8|$ (units of $m^8$)")
+    ax.set_xlabel("weighted mean $|\\bar p_0|$ (units of $m^8$)")
+    ax.set_ylabel("boundary value $|b_0|$ (units of $m^8$)")
     ax.legend(fontsize=8, loc="upper left")
-    negative = sorted(sid for sid in nonzero if mean_p8[sid] < 0)  # mean of p8 < 0
-    say("states with a negative mean of p8: " + ", ".join(negative))
+    negative = sorted(sid for sid in nonzero if mean_p0[sid] < 0)  # mean of p0 < 0
+    say("states with a negative mean of p0: " + ", ".join(negative))
     expected = sorted(sid for sid in nonzero if sid.startswith("N8_lamp"))
-    plotted = {sid: boundary[sid] / mean_p8[sid] for sid in nonzero}  # = R
+    plotted = {sid: boundary[sid] / mean_p0[sid] for sid in nonzero}  # = R
     save_figure(fig, "brane_and_mean",
-                "The boundary value $b_8 = (p_8(0) - e^{-6HL}p_8(-L))/(1 - e^{-6HL})$ "
+                "The boundary value $b_0 = (p_0(0) - e^{-6HL}p_0(-L))/(1 - e^{-6HL})$ "
                 "of the hidden-direction pressure against its weighted mean, for the "
                 "70 recorded Kohn-Sham states with a nonzero source (logarithmic "
                 "axes, units of $m^8$; colours: particle number; open rings: the "
                 "$N = 8$ states with $\\lambda > 0$, whose mean and brane value of "
-                "$p_8$ are negative; they enclose their partners with $-\\lambda$, "
+                "$p_0$ are negative; they enclose their partners with $-\\lambda$, "
                 "which have the same absolute values; the 20 nonzero $N = 8$ states "
                 "fall on only two places). By the integrated "
-                "conservation law $b_8/\\bar p_8$ is exactly the averaged ratio $R$, "
+                "conservation law $b_0/\\bar p_0$ is exactly the averaged ratio $R$, "
                 "and the averaged condition C2 holds only on the dashed diagonal; "
                 "every state lies below it, with ratios between "
                 f"{min(plotted.values()):.3f} and {max(plotted.values()):.3f}. The brane "
@@ -988,13 +988,13 @@ CELLS = [
                 f"{min(brane_only.values()):.3f} to {max(brane_only.values()):.3f}: for "
                 "the $N = 8$ states the tip term supplies about a third of $R$.")
     check(negative == expected and all(0.0 < plotted[sid] < 1.0 for sid in nonzero),
-          "every point lies below the diagonal; mean of p8 < 0 only for N = 8, "
+          "every point lies below the diagonal; mean of p0 < 0 only for N = 8, "
           "lambda > 0")
     '''),
     md(r"""
     ## 12. The time direction: energy exchange and condition C3
 
-    The $x_4$ law of section 9 for a source that does not depend on $x_8$ reads
+    The $x_4$ law of section 9 for a source that does not depend on $x_0$ reads
     $\rho' = -3a_4'(p_3 - p_t)$. In words: when 3-space inflates ($a_4' > 0$) a
     3-space pressure $p_3$ takes energy out of the source, and when the extra times
     deflate an extra-time pressure $p_t$ puts energy in. For the linear member
@@ -1195,9 +1195,9 @@ CELLS = [
     solution obeys them. The next cell computes the averages
     $\bar X = \int X / (2\,\mathrm{Vol}_7 W)$, $W = (1 - e^{-6HL})/(6H)$, of every
     state from the record's integrals, compares $\bar\rho$ with the record's table of
-    averages, and evaluates the averaged C2 (the $x_1 + x_5 - 2x_8$ moment) through
+    averages, and evaluates the averaged C2 (the $x_1 + x_5 - 2x_0$ moment) through
     its relative defect
-    $|\bar p_3 + \bar p_t - 2\bar p_8|/(|\bar p_3| + |\bar p_t| + 2|\bar p_8|)$,
+    $|\bar p_3 + \bar p_t - 2\bar p_0|/(|\bar p_3| + |\bar p_t| + 2|\bar p_0|)$,
     which is $0$ when the averaged C2 holds.
     """),
     code(r'''
@@ -1216,8 +1216,8 @@ CELLS = [
                 for sid in nonzero)
     defect = {}
     for sid in nonzero:
-        p3b, ptb, p8b = (mean(sid, column) for column in ("p3", "p_t", "p8"))
-        defect[sid] = abs(p3b + ptb - 2 * p8b) / (abs(p3b) + abs(ptb) + 2 * abs(p8b))
+        p3b, ptb, p0b = (mean(sid, column) for column in ("p3", "p_t", "p0"))
+        defect[sid] = abs(p3b + ptb - 2 * p0b) / (abs(p3b) + abs(ptb) + 2 * abs(p0b))
     low, high = min(defect, key=defect.get), max(defect, key=defect.get)
     report("largest relative difference of rho_bar from the record", f"{agree:.1e}")
     report("defect of the averaged C2",
@@ -1231,11 +1231,11 @@ CELLS = [
     md(r"""
     Which moment equations can hold together? The Revision record proves (checks
     `A4_constraint_propagation_with_averaged_source`, `C2_averaged_energy_relation`
-    and `C3_x8_moment_inconsistent_with_history`) that the $x_4$ moment (the
+    and `C3_x0_moment_inconsistent_with_history`) that the $x_4$ moment (the
     constraint) and the $x_1 - x_5$ moment (the evolution equation) are consistent,
     because the averages obey $d\bar\rho/da_4 = -3(\bar p_3 - \bar p_t)$; every set
-    that contains the $x_8$ moment is not. Keeping the consistent pair and dropping
-    the $x_8$ and $x_1 + x_5 - 2x_8$ moments is an APPROXIMATION; its error is the
+    that contains the $x_0$ moment is not. Keeping the consistent pair and dropping
+    the $x_0$ and $x_1 + x_5 - 2x_0$ moments is an APPROXIMATION; its error is the
     dropped residuals, which the record finds to be of order 1. In Einstein gravity
     the constraint is $3a_4'^2 + 21H^2 + \Lambda = -\kappa\bar\rho(a_4)$. At $a_4 = 0$
     with the initial rate $a_4'(0) = H$ it fixes $\Lambda = -24H^2 - \sigma_0H^2$,
@@ -1339,7 +1339,7 @@ CELLS = [
                 "The rate $a_4'/H$ of the deflation of the extra times against $a_4$ "
                 "(pure numbers), from the first integral of the averaged $a_4$ "
                 "equations of Einstein gravity with the Kohn-Sham source $N = 136$, "
-                "$\\lambda = 0$ (an APPROXIMATION: the $x_8$ moments are dropped), "
+                "$\\lambda = 0$ (an APPROXIMATION: the $x_0$ moments are dropped), "
                 "initial rate $a_4'(0) = H$, for the source strengths "
                 "$\\sigma_0 = \\kappa\\bar\\rho(0)/H^2 = 10, 1, -1, -10$ and for "
                 "$\\Lambda = 0$ ($\\sigma_0 = -24$). The dashed line is the constant "
@@ -1376,9 +1376,9 @@ CELLS = [
     - PROVED (sympy, equal to the $a_4$ record and to the Kohn-Sham theory record):
       in the author's metric a diagonal source is conserved when
       $\rho' = -3a_4'(p_3 - p_t)$ (time direction) and
-      $p_8' + 6Hp_8 = 3H(p_3 + p_t)$ (hidden direction, coordinate $y$).
+      $p_0' + 6Hp_0 = 3H(p_3 + p_t)$ (hidden direction, coordinate $y$).
     - PROVED: for a conserved source the violation of C2 is
-      $p_3 + p_t - 2p_8 = p_8'(y)/(3H)$, so C2 is the statement "$p_8$ is flat"; and
+      $p_3 + p_t - 2p_0 = p_0'(y)/(3H)$, so C2 is the statement "$p_0$ is flat"; and
       $d\mathcal C/dx_4 = 3a_4'\,\mathcal E$, so the linear member needs $p_3 = p_t$
       and a constant $\rho$.
     - COMPUTED (the 75 recorded ground states): the Kohn-Sham states obey the conservation
@@ -1389,8 +1389,8 @@ CELLS = [
       history (Simpson's rule, to about $2 \times 10^{-4}$), but NOT point by point:
       at the tip its two sides even have opposite signs. The instantaneous states
       carry no energy flux along $y$; a genuinely time-dependent state would need one
-      ($q_{84} \neq 0$), and C1 forbids it.
-    - Hence the Kohn-Sham source is NOT ADMISSIBLE: its $p_8$ is far from flat (so
+      ($q_{04} \neq 0$), and C1 forbids it.
+    - Hence the Kohn-Sham source is NOT ADMISSIBLE: its $p_0$ is far from flat (so
       C1 and C2 fail together) and its $p_3 > p_t$ makes its energy change along the
       history (so C3 fails). Conservation is necessary for a source of the $a_4$
       equations, not sufficient. The history $a_4 = Hx_4$ remains a PRESCRIBED
