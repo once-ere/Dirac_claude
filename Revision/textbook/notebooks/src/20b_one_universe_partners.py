@@ -60,9 +60,9 @@ FACTS = {
         ["Revision/field_equations_a4/reports/python-a4-report.json",
          "checks authorT16_gravity_term, authorT16_condensate_S_constant, "
          "authorT16_condensate_kinetic_diagonal, condensate_einstein_quadratic_U and "
-         "einstein_null_energy_x8 (reproduced)"],
+         "einstein_null_energy_x0 (reproduced)"],
         ["Revision/field_equations_a4/reports/wolfram-a4-report.json",
-         "checks condensate_equation_x8_consistent and condensate_diagonal_witness_exact "
+         "checks condensate_equation_x0_consistent and condensate_diagonal_witness_exact "
          "(reproduced)"],
         ["Revision/pairing/reports/python-pairing.json",
          "checks T1.metric.commuting.euler_lagrange_map, T1.metric.commuting.emt, "
@@ -110,7 +110,7 @@ CELLS = [
       density and charge density, and is NOT a source of the author's metric;
     - the **T1 pair** (universe plus T1 partner) as the only source: its source is
       zero, and the Einstein equations fail (corollary C1);
-    - the **T2 mirror copy** $\gamma^{(x_8)}\Phi$ with the mass reversed and the same
+    - the **T2 mirror copy** $\gamma^{(x_0)}\Phi$ with the mass reversed and the same
       coupling, placed on the mirror patch across the Z2 brane: it solves the coupled
       equations there, with the SAME energy density and charge density.
 
@@ -123,14 +123,14 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates** $x_1, \dots, x_8$ (the author's names): $x_1, x_2, x_3$ ordinary
+    - **Coordinates** $x_0, \dots, x_7$ (the author's names): $x_1, x_2, x_3$ ordinary
       3-space (inflating), $x_4$ the time, $x_5, x_6, x_7$ the three EXTRA TIMES
-      (deflating exponentially: scale factor $e^{-a_4}\sin^{1/6}z$), $x_8$ the hidden
-      direction with $z = 6Hx_8$; the **patch** $0 < z < \pi/2$, the **mirror patch**
+      (deflating exponentially: scale factor $e^{-a_4}\sin^{1/6}z$), $x_0$ the hidden
+      direction with $z = 6Hx_0$; the **patch** $0 < z < \pi/2$, the **mirror patch**
       $\pi/2 < z < \pi$, the **brane** $z = \pi/2$ between them (the Z2 construction
-      across it is ASSUMED). In the code positions 0 to 7 stand for $x_1$ to $x_8$.
-    - **Gamma matrices** $\gamma^{(a)}$, $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}
-      \gamma^{(x_3)}$, **chirality** $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots
+      across it is ASSUMED). In the code positions 0 to 7 stand for $x_0$ to $x_7$.
+    - **Gamma matrices** $\gamma^{(a)}$, $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}
+      \gamma^{(x_3)}$, **chirality** $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots
       \gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$, $B = -iC\gamma^{(x_4)}$.
     - **Spinor** $\Phi$: 16 complex numbers (here functions of $x_4$);
       $\bar\Phi = \Phi^\dagger C$; **density** $S = \bar\Phi\Phi$; **charge density**
@@ -146,29 +146,29 @@ CELLS = [
       the **residual** $R^\mu{}_\nu = G^\mu{}_\nu + \Lambda\delta^\mu_\nu - \kappa
       T^\mu{}_\nu$ is zero exactly when they hold.
     - **Linear member** $a_4 = AHx_4$: $A = 1$ is the author's deflating history.
-    - **Null combination** $\rho + p_8$; **units** $H = \kappa = 1$.
+    - **Null combination** $\rho + p_0$; **units** $H = \kappa = 1$.
     """),
     md(r"""
     ## 4. The physical and mathematical situation
 
     **The coupled equations.** The field: $\gamma^\mu D_\mu\Phi = (m + \lambda S)\Phi$.
     For a condensate only the $x_4$ derivative survives, and with the spin-connection
-    term $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ of the record the equation
+    term $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ of the record the equation
     becomes $\Phi' = \mathcal{A}\Phi$ with $\mathcal{A} = -\gamma^{(x_4)}(M -
-    3H\gamma^{(x_8)})$ (the record's `condensate_equation_x8_consistent`). Gravity: the
+    3H\gamma^{(x_0)})$ (the record's `condensate_equation_x0_consistent`). Gravity: the
     record gives, for the linear member and a condensate with all 15 three-gamma
-    bilinears zero, $\rho = mS + \tfrac\lambda2S^2$, $p_3 = p_t = p_8 = \tfrac\lambda2
+    bilinears zero, $\rho = mS + \tfrac\lambda2S^2$, $p_3 = p_t = p_0 = \tfrac\lambda2
     S^2$, and the Einstein equations reduce to two conditions:
 
     $$\kappa MS = -6(A^2 + 1)H^2,\qquad \kappa mS = -(36H^2 + 2\Lambda).$$
 
     **The theorems used (PROVED in the Revision record).** T1: $\Gamma\Phi$ solves the
-    $(-m, -\lambda)$ field equation, $T \to -T$, $J \to -J$. T2: $\gamma^{(x_8)}\Phi$
+    $(-m, -\lambda)$ field equation, $T \to -T$, $J \to -J$. T2: $\gamma^{(x_0)}\Phi$
     placed at the mirror point solves the $(-m, \lambda)$ field equation on the mirror
     patch, with the pulled-back (equal) $T$ and $J$. C1: a T1 pair as the only source
     is a zero source and has no Einstein solution. The record's null combination:
     in Einstein gravity every source of the author's metric must have
-    $\kappa(\rho + p_8) = -6(a_4'^2 + H^2) < 0$.
+    $\kappa(\rho + p_0) = -6(a_4'^2 + H^2) < 0$.
 
     **What is new here (COMPUTED in this notebook, not a Revision record).** The
     explicit universe and its partners, and the conclusions of sections 10 to 12.
@@ -235,12 +235,12 @@ CELLS = [
 
     The next cell reads the author's gammas (exact whole numbers), builds $C$,
     $\Gamma$, $B$ and $S^{ab}$, and computes the canonical spin connection of the
-    author's metric exactly as Notebook 20a does: lengths $E = (e^{a_4}s, e^{a_4}s,
-    e^{a_4}s, 1, e^{-a_4}s, e^{-a_4}s, e^{-a_4}s, s_8\cot z)$ with $s = \sin^{1/6}z$,
-    $s_8 = +1$ on the patch and $-1$ on the mirror patch, Christoffel symbols of the
+    author's metric exactly as Notebook 20a does: lengths $E = (s_0\cot z, e^{a_4}s,
+    e^{a_4}s, e^{a_4}s, 1, e^{-a_4}s, e^{-a_4}s, e^{-a_4}s)$ with $s = \sin^{1/6}z$,
+    $s_0 = +1$ on the patch and $-1$ on the mirror patch, Christoffel symbols of the
     diagonal metric, and $\omega_{\mu ab} = \eta_{aa}(E_a/E_b)\Gamma^a{}_{\mu b}$ for
-    $a \neq b$. It checks the record's $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$
-    on the patch and finds $-3H\gamma^{(x_8)}$ on the mirror patch.
+    $a \neq b$. It checks the record's $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$
+    on the patch and finds $-3H\gamma^{(x_0)}$ on the mirror patch.
     """),
     code(r'''
     import itertools  # loops over all combinations of indices
@@ -248,16 +248,16 @@ CELLS = [
     import numpy as np  # floating-point arrays
     import sympy as sp  # exact algebra
 
-    NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]  # positions 0..7
-    ETA = [1, 1, 1, -1, -1, -1, -1, 1]  # the frame metric eta, x1..x8
+    NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # positions 0..7
+    ETA = [1, 1, 1, 1, -1, -1, -1, -1]  # the frame metric eta, x0..x7
     I16, Z16 = sp.eye(16), sp.zeros(16, 16)
     gamma = [sp.Matrix([[sp.Rational(x) for x in row] for row in matrix])
-             for matrix in read_json(GAMMAS)["gamma"]]  # gamma[a] = gamma^(x_(a+1))
-    C = gamma[7] * gamma[0] * gamma[1] * gamma[2]  # C = g^(x8) g^(x1) g^(x2) g^(x3)
-    chirality = gamma[7]  # Gamma = g^(x8) g^(x1) ... g^(x7), factor by factor
-    for a in range(7):
+             for matrix in read_json(GAMMAS)["gamma"]]  # gamma[a] = gamma^(x_a)
+    C = gamma[0] * gamma[1] * gamma[2] * gamma[3]  # C = g^(x0) g^(x1) g^(x2) g^(x3)
+    chirality = gamma[0]  # Gamma = g^(x0) g^(x1) ... g^(x7), factor by factor
+    for a in range(1, 8):
         chirality = chirality * gamma[a]
-    B = -sp.I * C * gamma[3]  # the Krein matrix B = -i C gamma^(x4)
+    B = -sp.I * C * gamma[4]  # the Krein matrix B = -i C gamma^(x4)
     S_exact = [[(gamma[a] * gamma[b] - gamma[b] * gamma[a]) / 4 for b in range(8)]
                for a in range(8)]
     H = sp.symbols("H", positive=True)
@@ -269,18 +269,18 @@ CELLS = [
 
     def d(expr, mu):
         """The partial derivative along the coordinate at position mu."""
-        if mu == 3:
+        if mu == 4:
             return sp.diff(expr, x4)
-        if mu == 7:
-            return 6 * H * sp.diff(expr, z)  # d/dx8 = 6 H d/dz
+        if mu == 0:
+            return 6 * H * sp.diff(expr, z)  # d/dx0 = 6 H d/dz
         return sp.Integer(0)
 
 
-    def spin_connection(s8):
-        """The lengths E_a and omega[mu][a][b] = omega_mu ab (s8 = +1 patch, -1 mirror)."""
+    def spin_connection(s0):
+        """The lengths E_a and omega[mu][a][b] = omega_mu ab (s0 = +1 patch, -1 mirror)."""
         s = sp.sin(z) ** sp.Rational(1, 6)
-        E = [sp.exp(a4) * s] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * s] * 3
-        E = E + [s8 * sp.cot(z)]
+        E = [s0 * sp.cot(z)] + [sp.exp(a4) * s] * 3 + [sp.Integer(1)]
+        E = E + [sp.exp(-a4) * s] * 3  # x0, x1, ..., x7
         g = [ETA[a] * E[a] ** 2 for a in range(8)]
         christoffel = {}
         for a, b, c in itertools.product(range(8), repeat=3):
@@ -301,18 +301,18 @@ CELLS = [
         return [length.subs(a4, a4_value) for length in E], omega
 
 
-    CONNECTION = {s8: spin_connection(s8) for s8 in (1, -1)}
-    gravity_term = {}  # s8 -> sum over mu of gamma^mu Omega_mu
-    for s8, (E, omega) in CONNECTION.items():
+    CONNECTION = {s0: spin_connection(s0) for s0 in (1, -1)}
+    gravity_term = {}  # s0 -> sum over mu of gamma^mu Omega_mu
+    for s0, (E, omega) in CONNECTION.items():
         Omega = [sum((omega[mu][a][b] * S_exact[a][b] / 2 for a in range(8)
                       for b in range(8) if omega[mu][a][b] != 0), Z16)
                  for mu in range(8)]
-        gravity_term[s8] = sum((gamma[mu] / E[mu] * Omega[mu] for mu in range(8)),
+        gravity_term[s0] = sum((gamma[mu] / E[mu] * Omega[mu] for mu in range(8)),
                                Z16).applyfunc(sp.simplify)
-    reproduces(gravity_term[1] == 3 * H * gamma[7],
-               "patch: gamma^mu Omega_mu = 3 H gamma^(x8)", A4_PY, "authorT16_gravity_term")
-    check(gravity_term[-1] == -3 * H * gamma[7],
-          "mirror patch: gamma^mu Omega_mu = -3 H gamma^(x8)")
+    reproduces(gravity_term[1] == 3 * H * gamma[0],
+               "patch: gamma^mu Omega_mu = 3 H gamma^(x0)", A4_PY, "authorT16_gravity_term")
+    check(gravity_term[-1] == -3 * H * gamma[0],
+          "mirror patch: gamma^mu Omega_mu = -3 H gamma^(x0)")
     '''),
     md(r"""
     ## 7. Choosing the universe: the two Einstein conditions
@@ -345,11 +345,11 @@ CELLS = [
         return sp.sympify(text, locals={"ad1": ad1, "ad2": ad2, "H": H})
 
 
-    G = {key: einstein(key) for key in ("x1x1", "x4x4", "x5x5", "x8x8")}
+    G = {key: einstein(key) for key in ("x1x1", "x4x4", "x5x5", "x0x0")}
     LINEAR = {ad1: A * H, ad2: 0}  # the linear member a4 = A H x4
     rho_c, p_c = m * S_sym + lam * S_sym ** 2 / 2, lam * S_sym ** 2 / 2  # condensate
     time_eq = G["x4x4"].subs(LINEAR) + Lam + kappa * rho_c  # = 0
-    hidden_eq = G["x8x8"].subs(LINEAR) + Lam - kappa * p_c  # = 0
+    hidden_eq = G["x0x0"].subs(LINEAR) + Lam - kappa * p_c  # = 0
     first = sp.expand(time_eq - hidden_eq)  # kappa (m + lambda S) S + 6 (A^2 + 1) H^2
     second = sp.expand(time_eq + hidden_eq)  # kappa m S + 36 H^2 + 2 Lambda
     reproduces(sp.expand(first - (kappa * (m + lam * S_sym) * S_sym
@@ -385,18 +385,18 @@ CELLS = [
     universe is $\Phi(x_4) = e^{-iwx_4}\Phi_0$. The next cell builds it, checks the 15
     bilinears and $S$, checks that $S$ is constant ($C\mathcal{A} + \mathcal{A}^TC =
     0$), checks the 16 components of the field equation $\gamma^{(x_4)}\Phi' +
-    3H\gamma^{(x_8)}\Phi = (m + \lambda S)\Phi$ EXACTLY at every time $x_4$, and
+    3H\gamma^{(x_0)}\Phi = (m + \lambda S)\Phi$ EXACTLY at every time $x_4$, and
     computes the charge density $J^{x_4} = \Phi^\dagger B\Phi$.
     """),
     code(r'''
     w = sp.sqrt(M_VALUE ** 2 - 9)  # the frequency, H = 1
-    A_matrix = -gamma[3] * (M_VALUE * I16 - 3 * gamma[7])  # Phi' = A Phi
+    A_matrix = -gamma[4] * (M_VALUE * I16 - 3 * gamma[0])  # Phi' = A Phi
     spaces = []
     for sign in (-1, 1):  # the value of g^(x1)g^(x5) = g^(x2)g^(x6) = g^(x3)g^(x7)
         stack = sp.Matrix.vstack(A_matrix + sp.I * w * I16,
-                                 gamma[0] * gamma[4] - sign * I16,
                                  gamma[1] * gamma[5] - sign * I16,
-                                 gamma[2] * gamma[6] - sign * I16)
+                                 gamma[2] * gamma[6] - sign * I16,
+                                 gamma[3] * gamma[7] - sign * I16)
         spaces.append(stack.nullspace())  # every solution of stack * v = 0
     v1, v2 = spaces[0][0], spaces[1][0]
     c = sp.conjugate(sp.expand((v1.H * C * v2)[0]))  # c = conj(v1^dagger C v2)
@@ -412,8 +412,8 @@ CELLS = [
     t_value = sp.solve(bilinear(family, I16) - S_value, t)[0]
     phi0 = family.subs(t, t_value).applyfunc(sp.expand)  # the universe at x4 = 0
     report("t", t_value)
-    NEEDED = sorted({tuple(sorted((i, 3, 7))) for i in (0, 1, 2, 4, 5, 6)}
-                    | {tuple(sorted((i, j, 3))) for i in (0, 1, 2) for j in (4, 5, 6)})
+    NEEDED = sorted({tuple(sorted((i, 4, 0))) for i in (1, 2, 3, 5, 6, 7)}
+                    | {tuple(sorted((i, j, 4))) for i in (1, 2, 3) for j in (5, 6, 7)})
     zero_15 = all(bilinear(family, gamma[a] * gamma[b] * gamma[e]) == 0
                   for a, b, e in NEEDED)  # for every real t, so also for t_value
     reproduces([len(space) for space in spaces] == [1, 1] and zero_15
@@ -428,14 +428,14 @@ CELLS = [
 
     def field_residual(field, term, mass, coupling, density):
         """gamma^(x4) field' + term field - (mass + coupling density) field."""
-        return (gamma[3] * sp.diff(field, x4) + term * field
+        return (gamma[4] * sp.diff(field, x4) + term * field
                 - (mass + coupling * density) * field).applyfunc(sp.simplify)
 
 
     universe_ok = field_residual(Phi, gravity_term[1].subs(H, 1), m_value, lam_value,
                                  S_value) == sp.zeros(16, 1)
     reproduces(universe_ok, "the universe solves its field equation (16 components)",
-               A4_WL, "condensate_equation_x8_consistent")
+               A4_WL, "condensate_equation_x0_consistent")
     charge_value = sp.simplify((phi0.H * B * phi0)[0])  # J^x4, constant in time
     report("charge density J^x4 of the universe", charge_value)
     '''),
@@ -462,16 +462,16 @@ CELLS = [
     Gamma_num = np.array(chirality.tolist(), dtype=float)
     B_num = np.array(B.tolist(), dtype=complex)
     NUMERIC = {}
-    for s8, (E, omega) in CONNECTION.items():
+    for s0, (E, omega) in CONNECTION.items():
         pieces = [(mu, a, b, sp.lambdify(point_symbols, omega[mu][a][b], "numpy"))
                   for mu in range(8) for a in range(8) for b in range(8)
                   if omega[mu][a][b] != 0]
-        NUMERIC[s8] = (sp.lambdify(point_symbols, E, "numpy"), pieces)
+        NUMERIC[s0] = (sp.lambdify(point_symbols, E, "numpy"), pieces)
 
 
-    def geometry_at(s8, z_value, a4_number, slope_number):
+    def geometry_at(s0, z_value, a4_number, slope_number):
         """Metric, Omega_mu and curved gammas at one point (H = 1)."""
-        lengths_f, pieces = NUMERIC[s8]
+        lengths_f, pieces = NUMERIC[s0]
         values = (z_value, a4_number, slope_number, 1.0)
         E = np.array([float(x) for x in lengths_f(*values)])
         Om = [np.zeros((16, 16)) for _ in range(8)]
@@ -504,8 +504,8 @@ CELLS = [
 
 
     G_numeric = np.diag([float(G[k].subs({ad1: 1, ad2: 0, H: 1})) for k in
-                         ("x1x1", "x1x1", "x1x1", "x4x4", "x5x5", "x5x5", "x5x5",
-                          "x8x8")])  # G^mu_nu at a4' = H, H = 1
+                         ("x0x0", "x1x1", "x1x1", "x1x1", "x4x4", "x5x5", "x5x5",
+                          "x5x5")])  # G^mu_nu at a4' = H, H = 1, in the order x0..x7
     LAMBDA = -36.0
     phi0_num = np.array([complex(entry) for entry in phi0])
     W = float(w)
@@ -518,7 +518,7 @@ CELLS = [
         if matrix is not None:
             value = matrix @ value
         jet = [np.zeros(16, dtype=complex) for _ in range(8)]
-        jet[3] = -1j * W * value  # d Phi / d x4 = -i w Phi
+        jet[4] = -1j * W * value  # d Phi / d x4 = -i w Phi
         return value, jet
 
 
@@ -530,11 +530,11 @@ CELLS = [
         residual = G_numeric + LAMBDA * np.eye(8) - T  # kappa = 1
         worst_residual = max(worst_residual, np.abs(residual).max())
         wanted = np.zeros(8)
-        wanted[3] = M_VALUE * float(S_value)  # K^x4_x4 = M S, all others 0
+        wanted[4] = M_VALUE * float(S_value)  # K^x4_x4 = M S, all others 0
         worst_kinetic = max(worst_kinetic, np.abs(kinetic - wanted).max())
     T_universe = T  # the tensor at the last point (it is the same at every point)
-    report("rho of the universe", f"{-T_universe[3, 3]:.10f}")
-    report("p of the universe", f"{T_universe[0, 0]:.10f}")
+    report("rho of the universe", f"{-T_universe[4, 4]:.10f}")
+    report("p of the universe", f"{T_universe[1, 1]:.10f}")
     reproduces(worst_kinetic < 1e-10, "K^x4_x4 = M S and K^mu_mu = 0 otherwise (9 points)",
                A4_PY, "authorT16_condensate_kinetic_diagonal")
     check(worst_residual < 1e-10,
@@ -546,7 +546,7 @@ CELLS = [
     By T1 the partner $\Gamma\Phi$ solves the field equation with $(-m, -\lambda) =
     (-15, 25/3)$. Its density is $S' = S$ (the scalar is unchanged), so its effective
     mass is $M' = -m - \lambda S = -M = 5$. Its matrix $\mathcal{A}' =
-    -\gamma^{(x_4)}(M' - 3H\gamma^{(x_8)})$ equals $\Gamma\mathcal{A}\Gamma$, so it
+    -\gamma^{(x_4)}(M' - 3H\gamma^{(x_0)})$ equals $\Gamma\mathcal{A}\Gamma$, so it
     has the SAME eigenvalues $\pm iw$: the partner oscillates with the same frequency
     (similar matrices have equal spectra; the record proves the same for the
     one-particle Hamiltonians, $\Gamma h_m\Gamma = h_{-m}$). Its tensor is $T' = -T$
@@ -554,10 +554,10 @@ CELLS = [
     where possible, and numerically for the tensor.
 
     Can the partner ALONE be the source of the author's metric? The record's null
-    combination says that every source must have $\kappa(\rho + p_8) =
-    -6(a_4'^2 + H^2)$, which is at most $-6H^2$. The universe has $\kappa(\rho + p_8)
-    = 12 - 24 = -12$, which fits $a_4' = \pm H$. The partner has $\rho' + p_8' =
-    -(\rho + p_8) = +12$: positive, so it fits NO rate $a_4'$ and no $\Lambda$, in
+    combination says that every source must have $\kappa(\rho + p_0) =
+    -6(a_4'^2 + H^2)$, which is at most $-6H^2$. The universe has $\kappa(\rho + p_0)
+    = 12 - 24 = -12$, which fits $a_4' = \pm H$. The partner has $\rho' + p_0' =
+    -(\rho + p_0) = +12$: positive, so it fits NO rate $a_4'$ and no $\Lambda$, in
     Einstein gravity. (Its tensor does not depend on $a_4$, so this holds for every
     member of the author's family.)
     """),
@@ -568,7 +568,7 @@ CELLS = [
     reproduces(partner_ok and bilinear(chirality * phi0, I16) == S_value,
                "Gamma Phi solves the (-m, -lambda) field equation; S' = S",
                PAIR_PY, "T1.metric.commuting.euler_lagrange_map")
-    A_partner = -gamma[3] * (-M_VALUE * I16 - 3 * gamma[7])  # M' = -M
+    A_partner = -gamma[4] * (-M_VALUE * I16 - 3 * gamma[0])  # M' = -M
     same_spectrum = (chirality * A_matrix * chirality == A_partner
                      and (A_partner * A_partner + w ** 2 * I16) == Z16)
     reproduces(same_spectrum, "A' = Gamma A Gamma: the partner has the same frequency",
@@ -591,23 +591,23 @@ CELLS = [
                PAIR_PY, "T1.metric.commuting.emt")
     check(worst_partner < 1e-10 and np.abs(2 * T_one).max() > 1.0,
           "partner alone: the Einstein residual is 2 kappa T, not zero")
-    null_universe = -T_universe[3, 3] + T_universe[7, 7]  # kappa (rho + p8)
-    null_partner = -T_partner[3, 3] + T_partner[7, 7]
-    report("kappa (rho + p8) of the universe", f"{null_universe:.10f}")
-    report("kappa (rho + p8) of the partner", f"{null_partner:.10f}")
+    null_universe = -T_universe[4, 4] + T_universe[0, 0]  # kappa (rho + p0)
+    null_partner = -T_partner[4, 4] + T_partner[0, 0]
+    report("kappa (rho + p0) of the universe", f"{null_universe:.10f}")
+    report("kappa (rho + p0) of the partner", f"{null_partner:.10f}")
     rate = sp.symbols("rate", real=True)  # a real value of a4'/H
-    required = sp.expand(-(einstein("x4x4") - einstein("x8x8")).subs(
+    required = sp.expand(-(einstein("x4x4") - einstein("x0x0")).subs(
         {ad1: rate, ad2: 0, H: 1}))  # the requirement -6 (a4'^2 + 1)
     universe_null = rho_value + p_value  # exact: 12 - 24 = -12
     partner_null = -(rho_value + p_value)  # exact: T' = -T gives +12
     check(abs(null_universe - float(universe_null)) < 1e-10
           and abs(null_partner - float(partner_null)) < 1e-10,
-          "kappa (rho + p8): universe -12, partner +12 (numbers = exact values)")
+          "kappa (rho + p0): universe -12, partner +12 (numbers = exact values)")
     reproduces(required == -6 * rate ** 2 - 6
                and sorted(sp.solve(required - universe_null, rate)) == [-1, 1]
                and sp.solve(required - partner_null, rate) == [],
                "the universe fits a4' = +-H; the partner fits no real rate",
-               A4_PY, "einstein_null_energy_x8")
+               A4_PY, "einstein_null_energy_x0")
     '''),
     md(r"""
     ## 11. The T1 pair as the only source (corollary C1)
@@ -627,7 +627,7 @@ CELLS = [
         T_two, _ = mixed_tensor(at, *universe_jet(x_value, Gamma_num),
                                 -float(m_value), -float(lam_value))
         residual = G_numeric + LAMBDA * np.eye(8) - (T_one + T_two)
-        expected = np.diag([-24.0, -24, -24, -12, -24, -24, -24, -24])
+        expected = np.diag([-24.0, -24, -24, -24, -12, -24, -24, -24])
         worst_pair = max(worst_pair, np.abs(residual - expected).max())
     check(worst_pair < 1e-10,
           "T1 pair alone: residual = G + Lambda = diag(-24, ..., -12, ...), not zero")
@@ -635,15 +635,15 @@ CELLS = [
     md(r"""
     ## 12. The T2 mirror copy across the brane
 
-    By T2 (with $m \to -m$) the field $\Phi'(\pi - z) = \gamma^{(x_8)}\Phi(z)$ on the
+    By T2 (with $m \to -m$) the field $\Phi'(\pi - z) = \gamma^{(x_0)}\Phi(z)$ on the
     mirror patch solves the $(-m, \lambda) = (-15, -25/3)$ field equation there. For
     the condensate $\Phi$ does not depend on $z$, so the copy is simply
-    $\gamma^{(x_8)}\Phi(x_4)$. Its density is $S' = -S$, so its effective mass is
+    $\gamma^{(x_0)}\Phi(x_4)$. Its density is $S' = -S$, so its effective mass is
     $M' = -m + \lambda S' = -M$. On the mirror patch the spin-connection term is
-    $-3H\gamma^{(x_8)}$ (section 6). Its tensor is the pulled-back one, $R_8TR_8$,
+    $-3H\gamma^{(x_0)}$ (section 6). Its tensor is the pulled-back one, $R_0TR_0$,
     which for the diagonal $T$ of the condensate is $T$ itself: the SAME energy
     density $12$ and pressure $-24$. Its charge density is $+J^{x_4}$ (the record:
-    $\gamma^{(x_8)}B\gamma^{(x_8)\dagger} = +B$). Because the mirror is an isometry, the
+    $\gamma^{(x_0)}B\gamma^{(x_0)\dagger} = +B$). Because the mirror is an isometry, the
     Einstein tensor is the same on both patches. So the copy is a complete solution
     of the coupled equations on the mirror patch: together with the universe it
     fills the Z2-doubled geometry, with twice the energy, NOT zero. Whether the two
@@ -651,28 +651,28 @@ CELLS = [
     derived in the record (OPEN); the Z2 construction is ASSUMED.
     """),
     code(r'''
-    copy = gamma[7] * Phi  # gamma^(x8) Phi on the mirror patch
+    copy = gamma[0] * Phi  # gamma^(x0) Phi on the mirror patch
     copy_ok = field_residual(copy, gravity_term[-1].subs(H, 1), -m_value, lam_value,
                              -S_value) == sp.zeros(16, 1)
-    reproduces(copy_ok and bilinear(gamma[7] * phi0, I16) == -S_value,
+    reproduces(copy_ok and bilinear(gamma[0] * phi0, I16) == -S_value,
                "the mirror copy solves the (-m, lambda) equation there; S' = -S",
                PAIR_PY, "T2.metric.commuting.euler_lagrange_map")
-    copy_charge = sp.simplify(((gamma[7] * phi0).H * B * (gamma[7] * phi0))[0])
+    copy_charge = sp.simplify(((gamma[0] * phi0).H * B * (gamma[0] * phi0))[0])
     reproduces(copy_charge == charge_value, "the copy's charge density is +J^x4",
                PAIR_PY, "Q.T2_image_keeps_B")
     worst_copy, worst_pull = 0.0, 0.0
-    R8 = np.diag([1.0, 1, 1, 1, 1, 1, 1, -1])
+    R0 = np.diag([-1.0, 1, 1, 1, 1, 1, 1, 1])  # the reflection of x0
     for z_value, x_value in POINTS:
         there = geometry_at(-1, np.pi - z_value, x_value, 1.0)  # the mirror point
-        T_copy, _ = mixed_tensor(there, *universe_jet(x_value, gamma_num[7]),
+        T_copy, _ = mixed_tensor(there, *universe_jet(x_value, gamma_num[0]),
                                  -float(m_value), float(lam_value))
         T_one, _ = mixed_tensor(geometry_at(1, z_value, x_value, 1.0),
                                 *universe_jet(x_value), float(m_value), float(lam_value))
-        worst_pull = max(worst_pull, np.abs(T_copy - R8 @ T_one @ R8).max())
+        worst_pull = max(worst_pull, np.abs(T_copy - R0 @ T_one @ R0).max())
         residual = G_numeric + LAMBDA * np.eye(8) - T_copy
         worst_copy = max(worst_copy, np.abs(residual).max())
     T_mirror = T_copy
-    reproduces(worst_pull < 1e-10, "the copy's tensor is R8 T R8 = T at 9 mirror points",
+    reproduces(worst_pull < 1e-10, "the copy's tensor is R0 T R0 = T at 9 mirror points",
                PAIR_PY, "T2.metric.commuting.emt")
     check(worst_copy < 1e-10,
           "the mirror copy ALONE solves the 64 Einstein equations on the mirror patch")
@@ -708,18 +708,18 @@ CELLS = [
     save_figure(fig, "einstein_residuals",
                 "The residual $G^\\mu{}_\\nu + \\Lambda\\delta^\\mu_\\nu - \\kappa "
                 "T^\\mu{}_\\nu$ of the Einstein equations (rows $\\mu$, columns $\\nu$, "
-                "$x_1$ to $x_8$; units $H = \\kappa = 1$; white means zero, the numbers "
+                "$x_0$ to $x_7$; units $H = \\kappa = 1$; white means zero, the numbers "
                 "are the nonzero diagonal entries) for the author's metric with the "
                 "deflating history $a_4 = Hx_4$ and $\\Lambda = -36H^2$, with four "
                 "different sources: the universe $\\Phi$ (a condensate with "
                 "$m = 15$, $\\lambda = -25/3$) alone, which solves all 64 equations; "
                 "its T1 partner $\\Gamma\\Phi$ alone, residual $2\\kappa T$; the T1 pair, "
                 "residual $G + \\Lambda$ (corollary C1); and the T2 mirror copy "
-                "$\\gamma^{(x_8)}\\Phi$ alone on the mirror patch, which solves all 64 "
+                "$\\gamma^{(x_0)}\\Phi$ alone on the mirror patch, which solves all 64 "
                 "equations there.")
     '''),
     md(r"""
-    The next cell draws the null combination: the curve $\kappa(\rho + p_8) =
+    The next cell draws the null combination: the curve $\kappa(\rho + p_0) =
     -6(a_4'^2 + H^2)$ that Einstein gravity requires of any source, against the rate
     $a_4'/H$, and the values that the universe, the T1 partner, the T1 pair and the
     T2 copy supply (each a constant, a horizontal line).
@@ -732,20 +732,20 @@ CELLS = [
     supplied = (("universe $\\Phi$", null_universe, "tab:blue", "-"),
                 ("T1 partner $\\Gamma\\Phi$", null_partner, "tab:red", "-"),
                 ("T1 pair", null_universe + null_partner, "tab:purple", "--"),
-                ("T2 copy", -T_mirror[3, 3] + T_mirror[7, 7], "tab:green", ":"))
+                ("T2 copy", -T_mirror[4, 4] + T_mirror[0, 0], "tab:green", ":"))
     for label, value, colour, style in supplied:
         ax.axhline(value, color=colour, linestyle=style, linewidth=1.6,
                    label=f"{label} supplies {value:+.0f}")
     ax.plot([-1.0, 1.0], [-12.0, -12.0], "o", color="tab:blue", markersize=8,
             label="solutions: $a_4' = \\pm H$")
     ax.set_xlabel("rate $a_4'/H$ of the metric function")
-    ax.set_ylabel("$\\kappa(\\rho + p_8)/H^2$")
+    ax.set_ylabel("$\\kappa(\\rho + p_0)/H^2$")
     ax.set_ylim(-45, 18)
     ax.set_title("What Einstein gravity requires, and what each source supplies")
     ax.legend(fontsize=7.5, loc="lower center", ncol=2)
     save_figure(fig, "null_requirement",
-                "The null combination $\\kappa(\\rho + p_8)$ (energy density plus the "
-                "pressure along $x_8$; vertical, units $H^2$) that Einstein gravity "
+                "The null combination $\\kappa(\\rho + p_0)$ (energy density plus the "
+                "pressure along $x_0$; vertical, units $H^2$) that Einstein gravity "
                 "requires of every source of the author's metric, $-6(a_4'^2 + H^2)$ "
                 "(black curve), against the rate $a_4'/H$ (horizontal), and the "
                 "constant values supplied by the universe ($-12$, blue), its T1 "
@@ -765,14 +765,14 @@ CELLS = [
     density $J^{x_4}$ and the density $S$, and draws them as bars.
     """),
     code(r'''
-    rho_u, p_u = -T_universe[3, 3], T_universe[0, 0]
-    rho_m, p_m = -T_mirror[3, 3], T_mirror[0, 0]
+    rho_u, p_u = -T_universe[4, 4], T_universe[1, 1]
+    rho_m, p_m = -T_mirror[4, 4], T_mirror[1, 1]
     J_u = float(charge_value)
     rows = {
         "universe": (rho_u, p_u, J_u, float(S_value)),
-        "T1 partner": (-T_partner[3, 3], T_partner[0, 0], float(partner_charge),
+        "T1 partner": (-T_partner[4, 4], T_partner[1, 1], float(partner_charge),
                        float(S_value)),
-        "T1 pair": (rho_u - T_partner[3, 3], p_u + T_partner[0, 0],
+        "T1 pair": (rho_u - T_partner[4, 4], p_u + T_partner[1, 1],
                     J_u + float(partner_charge), 2 * float(S_value)),
         "T2 copy": (rho_m, p_m, float(copy_charge), -float(S_value)),
         "T2 pair": (rho_u + rho_m, p_u + p_m, J_u + float(copy_charge), 0.0),
@@ -805,7 +805,7 @@ CELLS = [
                 "Energy density $\\rho$, pressure $p$, charge density $J^{x_4}$ and "
                 "density $S$ (groups of bars; units $H = \\kappa = 1$) of the universe "
                 "$\\Phi$ (blue), its T1 partner $\\Gamma\\Phi$ (red), the T1 pair "
-                "(purple), the T2 mirror copy $\\gamma^{(x_8)}\\Phi$ (green) and the "
+                "(purple), the T2 mirror copy $\\gamma^{(x_0)}\\Phi$ (green) and the "
                 "T2 pair (olive). The T1 partner has $\\rho$, $p$ and $J^{x_4}$ "
                 "reversed and the same $S$, so the T1 pair has zero energy, pressure "
                 "and charge; the T2 copy has the same $\\rho$, $p$ and $J^{x_4}$ and "
@@ -878,7 +878,7 @@ CELLS = [
     2. The T1 partner exists as a solution of ITS field equation (mass $-15$,
        coupling $25/3$), with the same frequency and opposite energy and charge. It is
        not a source of the author's metric in Einstein gravity, for any rate and any
-       $\Lambda$, because its $\rho + p_8$ is positive.
+       $\Lambda$, because its $\rho + p_0$ is positive.
     3. The T1 pair has zero energy and zero charge, and therefore (C1) it cannot be the
        source of the author's metric in Einstein gravity.
     4. The T2 mirror copy (mass $-15$, coupling $-25/3$) is a solution on the mirror
@@ -917,11 +917,11 @@ CELLS = [
       and, alone, all 64 Einstein equations (figure 1).
     - Its T1 partner $\Gamma\Phi$ solves the $(-15, 25/3)$ field equation with the
       same frequency $w = 4H$ (figure 4) and has $\rho' = -12$, $p' = 24$,
-      $J' = +3$; with $\kappa(\rho' + p_8') = +12 > -6$ it is the source of no member
+      $J' = +3$; with $\kappa(\rho' + p_0') = +12 > -6$ it is the source of no member
       of the author's family in Einstein gravity (figure 2).
     - The T1 pair has zero energy, pressure and charge, and its Einstein residual is
       $G + \Lambda \neq 0$: corollary C1 on an example (figures 1 and 3).
-    - The T2 mirror copy $\gamma^{(x_8)}\Phi$ with $(-15, -25/3)$ solves the coupled
+    - The T2 mirror copy $\gamma^{(x_0)}\Phi$ with $(-15, -25/3)$ solves the coupled
       equations on the mirror patch with the same $\rho = 12$ and $J^{x_4} = -3$; the
       T2 pair has $\rho = 24$ and $J^{x_4} = -6$ (figure 3).
     - The equations pair solutions; they neither require nor create the partner.

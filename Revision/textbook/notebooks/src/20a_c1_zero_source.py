@@ -75,17 +75,17 @@ FACTS = {
          "the components of the three Lovelock tensors, the null combinations and the "
          "vacuum factor of the linear member (read)"],
         ["Revision/field_equations_a4/reports/wolfram-a4-report.json",
-         "checks einstein_no_vacuum_solution, einstein_null_energy_x8, "
+         "checks einstein_no_vacuum_solution, einstein_null_energy_x0, "
          "linear_member_vacuum_factor and einstein_gauss_bonnet_vacuum_linear "
          "(reproduced)"],
         ["Revision/field_equations_a4/reports/python-a4-report.json",
-         "checks einstein_no_vacuum, einstein_null_energy_x8, "
+         "checks einstein_no_vacuum, einstein_null_energy_x0, "
          "linear_member_vacuum_factor and einstein_gauss_bonnet_vacuum_linear "
          "(reproduced)"],
         ["Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json",
          "checks no_vacuum_for_H_positive and einstein_null_energy (reproduced)"],
         ["Revision/lead_checks/reports/emt-divergence-and-spin-connection.json",
-         "check gamma_Omega_equals_3H_gamma8 (reproduced)"],
+         "check gamma_Omega_equals_3H_gamma0 (reproduced)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -121,7 +121,7 @@ CELLS = [
     - it rebuilds the canonical spin connection of the author's metric (on the patch
       $0 < z < \pi/2$ of the hidden direction and on the mirror patch
       $\pi/2 < z < \pi$) and reproduces the record's twelve components and the term
-      $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$;
+      $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$;
     - it evaluates, for a configuration of the commuting field dirac16complex00, the
       energy-momentum tensor (all 64 components), the current and the field equation,
       and the same for its T1 partner $\Gamma\Psi$: the totals vanish at every point
@@ -138,27 +138,27 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates** $x_1, \dots, x_8$ (the author's names): $x_1, x_2, x_3$ ordinary
+    - **Coordinates** $x_0, \dots, x_7$ (the author's names): $x_1, x_2, x_3$ ordinary
       3-space (inflating), $x_4$ the time, $x_5, x_6, x_7$ the three EXTRA TIMES (they
       deflate exponentially: their scale factor is $e^{-a_4}\sin^{1/6}z$ with $a_4$
-      increasing), $x_8$ the hidden space direction with $z = 6Hx_8$. In the code the
-      positions 0 to 7 of a list stand for $x_1$ to $x_8$.
+      increasing), $x_0$ the hidden space direction with $z = 6Hx_0$. In the code the
+      positions 0 to 7 of a list stand for $x_0$ to $x_7$.
     - **Patch and mirror patch**: the author's metric is used on $0 < z < \pi/2$ (the
       patch). The map $z \to \pi - z$ carries it onto $\pi/2 < z < \pi$ (the mirror
       patch). The surface $z = \pi/2$ between them is called the **brane**; extending
       the field across it (the Z2 construction) is an ASSUMPTION of the record.
-    - **Gamma matrices** $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$: the author's real
+    - **Gamma matrices** $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$: the author's real
       $16 \times 16$ matrices with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)}
-      = 2\eta^{ab}$, $\eta = \mathrm{diag}(+1,+1,+1,-1,-1,-1,-1,+1)$.
-    - **$C$** $= \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$; the adjoint
-      is $\bar\Psi = \Psi^\dagger C$. **Chirality** $\Gamma = \gamma^{(x_8)}
+      = 2\eta^{ab}$, $\eta = \mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$.
+    - **$C$** $= \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$; the adjoint
+      is $\bar\Psi = \Psi^\dagger C$. **Chirality** $\Gamma = \gamma^{(x_0)}
       \gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$.
     - **Configuration**: a field $\Psi$ given by its 16 complex values and their 8
       first derivatives at a point (its first **jet**). A configuration need not solve
       the field equation; it is **on shell** when it does, **off shell** otherwise.
     - **Pair** (in this notebook): a configuration together with a partner.
       **T1 partner**: $\Gamma\Psi$ with $(-m, -\lambda)$, at the same point.
-      **T2 mirror copy**: $\gamma^{(x_8)}\Psi$ with $(-m, \lambda)$, placed at the
+      **T2 mirror copy**: $\gamma^{(x_0)}\Psi$ with $(-m, \lambda)$, placed at the
       mirror point $\pi - z$.
     - **Energy-momentum tensor** $T_{\mu\nu}$: the source of gravity, 64 numbers at
       each point. **Energy density** $\rho$, **current** $J^\mu = -i\bar\Psi\gamma^\mu
@@ -171,8 +171,8 @@ CELLS = [
     - **Linear member**: $a_4 = AHx_4 + a_0$; for $A > 0$ the extra times deflate as
       $e^{-AHx_4}$ while 3-space inflates as $e^{AHx_4}$. The author's history is
       $A = 1$.
-    - **Null combination** $\rho + p_8$: the energy density plus the pressure along
-      $x_8$.
+    - **Null combination** $\rho + p_0$: the energy density plus the pressure along
+      $x_0$.
     - **Corollary**: a statement that follows from a theorem in a few lines.
     """),
     md(r"""
@@ -214,7 +214,7 @@ CELLS = [
     2. By (T1c) the second term is minus the first, so the source is $0$.
     3. The field equations become $G^\mu{}_\nu + \Lambda\delta^\mu_\nu = 0$.
     4. The record gives $G^{x_4}{}_{x_4} = 3a_4'^2 + 21H^2$ and
-       $G^{x_8}{}_{x_8} = -3a_4'^2 + 15H^2$, so two of the equations read
+       $G^{x_0}{}_{x_0} = -3a_4'^2 + 15H^2$, so two of the equations read
        $3a_4'^2 + 21H^2 + \Lambda = 0$ and $-3a_4'^2 + 15H^2 + \Lambda = 0$.
     5. Subtracting the second from the first removes $\Lambda$:
        $6a_4'^2 + 6H^2 = 0$.
@@ -308,22 +308,22 @@ CELLS = [
     import numpy as np  # floating-point arrays
     import sympy as sp  # exact algebra
 
-    NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]  # positions 0..7
-    ETA = [1, 1, 1, -1, -1, -1, -1, 1]  # the frame metric eta, in the order x1..x8
+    NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # positions 0..7
+    ETA = [1, 1, 1, 1, -1, -1, -1, -1]  # the frame metric eta, in the order x0..x7
     I16 = sp.eye(16)  # the 16 by 16 unit matrix
     fixture = read_json(GAMMAS)
     gamma = [sp.Matrix([[sp.Rational(x) for x in row] for row in matrix])
-             for matrix in fixture["gamma"]]  # gamma[a] = gamma^(x_(a+1)), exact
+             for matrix in fixture["gamma"]]  # gamma[a] = gamma^(x_a), exact
     clifford = all(gamma[a] * gamma[b] + gamma[b] * gamma[a]
                    == (2 * ETA[a] if a == b else 0) * I16
                    for a in range(8) for b in range(8))
-    C = gamma[7] * gamma[0] * gamma[1] * gamma[2]  # C = g^(x8) g^(x1) g^(x2) g^(x3)
+    C = gamma[0] * gamma[1] * gamma[2] * gamma[3]  # C = g^(x0) g^(x1) g^(x2) g^(x3)
     reproduces(clifford and C == C.T and C * C == I16
                and all((C * g).T == -(C * g) for g in gamma),
                "Clifford relation; C real symmetric, C^2 = 1, C gamma antisymmetric",
                PAIR_PY, "gammas.C")
-    chirality = gamma[7]  # the product g^(x8) g^(x1) ... g^(x7), built factor by factor
-    for a in range(7):
+    chirality = gamma[0]  # the product g^(x0) g^(x1) ... g^(x7), built factor by factor
+    for a in range(1, 8):
         chirality = chirality * gamma[a]
     reproduces(chirality == sp.diag(*([-1] * 8 + [1] * 8)),
                "Gamma = diag(-I8, I8)", PAIR_PY, "gammas.Gamma")
@@ -337,16 +337,17 @@ CELLS = [
     gamma_num = [to_numpy(g) for g in gamma]  # floating-point copies
     C_num, Gamma_num = to_numpy(C), to_numpy(chirality)
     S_num = [[to_numpy(S_exact[a][b]) for b in range(8)] for a in range(8)]
-    B_num = -1j * C_num @ gamma_num[3]  # B = -i C gamma^(x4): J^x4 = Psi^dagger B Psi
+    B_num = -1j * C_num @ gamma_num[4]  # B = -i C gamma^(x4): J^x4 = Psi^dagger B Psi
     '''),
     md(r"""
     ## 7. The author's metric and its spin connection, on both patches
 
-    The vielbein of the author's diagonal metric is diagonal, $e^a{}_\mu =
-    E_a\delta^a_\mu$, with the lengths $E = (e^{a_4}s, e^{a_4}s, e^{a_4}s, 1,
-    e^{-a_4}s, e^{-a_4}s, e^{-a_4}s, s_8\cot z)$, $s = \sin^{1/6}z$. On the patch
-    $\cot z > 0$ and $s_8 = +1$; on the mirror patch $\cot z < 0$, and its own
-    positive vielbein has $s_8 = -1$ (the record's construction). The canonical spin
+    The vielbein of the author's diagonal metric (on the background $b_4 = 1$ of the
+    metric of 2026-10-14) is diagonal, $e^a{}_\mu = E_a\delta^a_\mu$, with the lengths
+    $E = (s_0\cot z, e^{a_4}s, e^{a_4}s, e^{a_4}s, 1, e^{-a_4}s, e^{-a_4}s, e^{-a_4}s)$
+    in the order $x_0, \dots, x_7$, $s = \sin^{1/6}z$. On the patch
+    $\cot z > 0$ and $s_0 = +1$; on the mirror patch $\cot z < 0$, and its own
+    positive vielbein has $s_0 = -1$ (the record's construction). The canonical spin
     connection is $\omega_\mu{}^a{}_b = e^a{}_\nu(\partial_\mu e_b{}^\nu +
     \Gamma^\nu{}_{\mu\lambda}e_b{}^\lambda)$ with the inverse vielbein $e_b{}^\nu =
     \delta^\nu_b/E_b$. For $a = b$ the two terms cancel; for $a \neq b$ only the second
@@ -357,40 +358,40 @@ CELLS = [
 
     The Christoffel symbols of a diagonal metric are
     $\Gamma^a{}_{bc} = (\delta_{ac}\partial_bg_{aa} + \delta_{ab}\partial_cg_{aa} -
-    \delta_{bc}\partial_ag_{bb})/(2g_{aa})$ (no sum), and $\partial/\partial x_8 =
-    6H\,\partial/\partial z$ because $z = 6Hx_8$. The next cell computes all
+    \delta_{bc}\partial_ag_{bb})/(2g_{aa})$ (no sum), and $\partial/\partial x_0 =
+    6H\,\partial/\partial z$ because $z = 6Hx_0$. The next cell computes all
     $\omega_{\mu ab}$ with sympy for an arbitrary function $a_4(x_4)$, on both patches;
     at a point $a_4$ and $a_4'$ become the numbers `a4_value` and `slope`.
     """),
     code(r'''
     H = sp.symbols("H", positive=True)  # the author's constant H > 0
-    z = sp.symbols("z", real=True)  # the hidden coordinate z = 6 H x8
+    z = sp.symbols("z", real=True)  # the hidden coordinate z = 6 H x0
     x4 = sp.symbols("x4", real=True)  # the time
     a4 = sp.Function("a4")(x4)  # the metric function a4(x4), arbitrary
     a4_value, slope = sp.symbols("a4_value slope", real=True)  # a4 and a4' at a point
 
 
-    def lengths(s8):
-        """The lengths E_a of the diagonal vielbein; s8 = +1 on the patch, -1 on the
+    def lengths(s0):
+        """The lengths E_a of the diagonal vielbein; s0 = +1 on the patch, -1 on the
         mirror patch (where cot z < 0, so -cot z is the positive length)."""
         s = sp.sin(z) ** sp.Rational(1, 6)  # the warp sin(z)^(1/6) of a length
-        return ([sp.exp(a4) * s] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * s] * 3
-                + [s8 * sp.cot(z)])
+        return ([s0 * sp.cot(z)] + [sp.exp(a4) * s] * 3 + [sp.Integer(1)]
+                + [sp.exp(-a4) * s] * 3)  # x0, x1, ..., x7
 
 
     def d(expr, mu):
         """The partial derivative along the coordinate at position mu."""
-        if mu == 3:
+        if mu == 4:
             return sp.diff(expr, x4)
-        if mu == 7:
-            return 6 * H * sp.diff(expr, z)  # d/dx8 = 6 H d/dz
+        if mu == 0:
+            return 6 * H * sp.diff(expr, z)  # d/dx0 = 6 H d/dz
         return sp.Integer(0)  # nothing depends on x1, x2, x3, x5, x6, x7
 
 
-    def spin_connection(s8):
+    def spin_connection(s0):
         """The lengths E_a and omega[mu][a][b] = omega_mu ab at a point (a4 and a4'
         replaced by the symbols a4_value and slope)."""
-        E = lengths(s8)
+        E = lengths(s0)
         g = [ETA[a] * E[a] ** 2 for a in range(8)]  # the metric g_aa
         christoffel = {}
         for a, b, c in itertools.product(range(8), repeat=3):
@@ -421,23 +422,23 @@ CELLS = [
     md(r"""
     The record lists the twelve nonzero components on the patch ($a < b$; with
     $u = e^{a_4}\sin^{1/6}z$ and $v = e^{-a_4}\sin^{1/6}z$): $\omega_{x_i,\,x_ix_4} =
-    a_4'u$ and $\omega_{x_i,\,x_ix_8} = Hu$ for the three inflating directions
-    $i = 1, 2, 3$; $\omega_{x_t,\,x_4x_t} = -a_4'v$ and $\omega_{x_t,\,x_tx_8} = -Hv$
+    a_4'u$ and $\omega_{x_i,\,x_0x_i} = -Hu$ for the three inflating directions
+    $i = 1, 2, 3$; $\omega_{x_t,\,x_4x_t} = -a_4'v$ and $\omega_{x_t,\,x_0x_t} = Hv$
     for the three DEFLATING extra times $t = 5, 6, 7$. The next cell compares, builds
     $\Omega_\mu = \tfrac12\sum_{a,b}\omega_{\mu ab}S^{ab}$, and checks the record's
-    $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ on the patch ($\gamma^\mu =
-    \gamma^{(\mu)}/E_\mu$). On the mirror patch the $x_8$ components change sign and
-    the sum is $-3H\gamma^{(x_8)}$ (computed here). It also checks that $z \to \pi - z$
+    $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ on the patch ($\gamma^\mu =
+    \gamma^{(\mu)}/E_\mu$). On the mirror patch the $x_0$ components change sign and
+    the sum is $-3H\gamma^{(x_0)}$ (computed here). It also checks that $z \to \pi - z$
     leaves every metric component unchanged (the mirror is an isometry).
     """),
     code(r'''
     s = sp.sin(z) ** sp.Rational(1, 6)
     u, v = sp.exp(a4_value) * s, sp.exp(-a4_value) * s
     expected = {}  # (mu, a, b) -> the record's component, on the patch
-    for i in (0, 1, 2):  # the inflating 3-space directions
-        expected[i, i, 3], expected[i, i, 7] = slope * u, H * u
-    for t in (4, 5, 6):  # the deflating extra times
-        expected[t, 3, t], expected[t, t, 7] = -slope * v, -H * v
+    for i in (1, 2, 3):  # the inflating 3-space directions
+        expected[i, i, 4], expected[i, 0, i] = slope * u, -H * u
+    for t in (5, 6, 7):  # the deflating extra times
+        expected[t, 4, t], expected[t, 0, t] = -slope * v, H * v
 
 
     def components(omega):
@@ -454,23 +455,23 @@ CELLS = [
     reproduces(same_components(components(omega_patch), expected),
                "the twelve spin-connection components of the record (patch)",
                PAIR_PY, "geometry.spin_connection_components")
-    flipped = {key: (-value if 7 in key[1:] else value)
-               for key, value in expected.items()}  # x8 components change sign
+    flipped = {key: (-value if 0 in key[1:] else value)
+               for key, value in expected.items()}  # x0 components change sign
     reproduces(same_components(components(omega_mirror), flipped),
-               "mirror patch: the x8 components change sign, the others do not",
+               "mirror patch: the x0 components change sign, the others do not",
                PAIR_WL, "connection_mirror_patch")
-    Omega = {}  # s8 -> the eight matrices Omega_mu
-    for s8, omega in ((1, omega_patch), (-1, omega_mirror)):
-        Omega[s8] = [sum((omega[mu][a][b] * S_exact[a][b] / 2 for a in range(8)
+    Omega = {}  # s0 -> the eight matrices Omega_mu
+    for s0, omega in ((1, omega_patch), (-1, omega_mirror)):
+        Omega[s0] = [sum((omega[mu][a][b] * S_exact[a][b] / 2 for a in range(8)
                           for b in range(8) if omega[mu][a][b] != 0), sp.zeros(16))
                      for mu in range(8)]
-    term = {}  # s8 -> sum over mu of gamma^mu Omega_mu
-    for s8, E in ((1, E_patch), (-1, E_mirror)):
-        term[s8] = sum((gamma[mu] / E[mu] * Omega[s8][mu] for mu in range(8)),
+    term = {}  # s0 -> sum over mu of gamma^mu Omega_mu
+    for s0, E in ((1, E_patch), (-1, E_mirror)):
+        term[s0] = sum((gamma[mu] / E[mu] * Omega[s0][mu] for mu in range(8)),
                        sp.zeros(16)).applyfunc(sp.simplify)
-    reproduces(term[1] == 3 * H * gamma[7], "patch: gamma^mu Omega_mu = 3 H gamma^(x8)",
-               LEAD_EMT, "gamma_Omega_equals_3H_gamma8")
-    check(term[-1] == -3 * H * gamma[7], "mirror patch: gamma^mu Omega_mu = -3 H gamma^(x8)")
+    reproduces(term[1] == 3 * H * gamma[0], "patch: gamma^mu Omega_mu = 3 H gamma^(x0)",
+               LEAD_EMT, "gamma_Omega_equals_3H_gamma0")
+    check(term[-1] == -3 * H * gamma[0], "mirror patch: gamma^mu Omega_mu = -3 H gamma^(x0)")
     g_patch = [ETA[a] * E_patch[a] ** 2 for a in range(8)]
     reproduces(all(sp.simplify(entry.subs(z, sp.pi - z) - entry) == 0
                    for entry in g_patch),
@@ -482,7 +483,7 @@ CELLS = [
 
     From here on we work with floating-point numbers. The next cell turns the
     lengths and the connection into numpy functions (`sp.lambdify`) and defines two
-    helpers. `geometry_at(s8, z, a4, a4', H)` returns, at one point, the lengths, the
+    helpers. `geometry_at(s0, z, a4, a4', H)` returns, at one point, the lengths, the
     metric, the eight $\Omega_\mu$ and the curved gammas $\gamma^\mu = \gamma^{(\mu)}/
     E_\mu$ and $\gamma_\mu = g_{\mu\mu}\gamma^\mu$. `bilinears(at, psi, dpsi, m, lam)`
     evaluates, for the first jet (the value `psi` and the eight first derivatives
@@ -495,18 +496,18 @@ CELLS = [
     """),
     code(r'''
     point_symbols = (z, a4_value, slope, H)
-    NUMERIC = {}  # s8 -> (the function of the lengths, the connection pieces)
-    for s8, E, omega in ((1, E_patch, omega_patch), (-1, E_mirror, omega_mirror)):
+    NUMERIC = {}  # s0 -> (the function of the lengths, the connection pieces)
+    for s0, E, omega in ((1, E_patch, omega_patch), (-1, E_mirror, omega_mirror)):
         lengths_f = sp.lambdify(point_symbols, E, "numpy")
         pieces = [(mu, a, b, sp.lambdify(point_symbols, omega[mu][a][b], "numpy"))
                   for mu in range(8) for a in range(8) for b in range(8)
                   if omega[mu][a][b] != 0]
-        NUMERIC[s8] = (lengths_f, pieces)
+        NUMERIC[s0] = (lengths_f, pieces)
 
 
-    def geometry_at(s8, z_value, a4_number, slope_number, H_number=1.0):
+    def geometry_at(s0, z_value, a4_number, slope_number, H_number=1.0):
         """Lengths, metric, Omega_mu and the curved gammas at one point."""
-        lengths_f, pieces = NUMERIC[s8]
+        lengths_f, pieces = NUMERIC[s0]
         values = (z_value, a4_number, slope_number, H_number)
         E = np.array([float(x) for x in lengths_f(*values)])
         Om = [np.zeros((16, 16)) for _ in range(8)]
@@ -560,9 +561,10 @@ CELLS = [
     """),
     code(r'''
     rng = np.random.default_rng(20261007)  # a fixed seed: the same numbers every run
-    R8_SIGNS = [1, 1, 1, 1, 1, 1, 1, -1]  # the mirror reverses the direction x8
+    R0_SIGNS = [-1, 1, 1, 1, 1, 1, 1, 1]  # the mirror reverses the direction x0
     psi = rng.normal(size=16) + 1j * rng.normal(size=16)  # the 16 complex values
     dpsi = [rng.normal(size=16) + 1j * rng.normal(size=16) for _ in range(8)]
+    dpsi = dpsi[7:] + dpsi[:7]  # drawn hidden direction last, as before; now x0 first
     Z0, A4_0, M0, LAM0 = 0.6, 0.5, 2.0, 0.5  # the point and the parameters (H = 1)
     at = geometry_at(1, Z0, A4_0, 1.0)  # a4' = 1: the deflating history A = 1
     one = bilinears(at, psi, dpsi, M0, LAM0)  # Psi with (m, lambda)
@@ -613,7 +615,7 @@ CELLS = [
     fig.colorbar(image, ax=list(axes), shrink=0.8, label="value (units $H = 1$)")
     save_figure(fig, "t1_pair_tensor",
                 "The energy-momentum tensor $T_{\\mu\\nu}$ (rows $\\mu$, columns $\\nu$, "
-                "$x_1$ to $x_8$) of an arbitrary configuration $\\Psi$ of "
+                "$x_0$ to $x_7$) of an arbitrary configuration $\\Psi$ of "
                 "dirac16complex00 with $m = 2$, $\\lambda = 1/2$ at one point of the "
                 "author's metric ($z = 0.6$, $a_4 = 0.5$, $a_4' = H$, units $H = 1$; "
                 "colour scale red positive, blue negative), of its T1 partner "
@@ -628,22 +630,22 @@ CELLS = [
     T1 holds at EVERY point. To see it along a line, the next cell uses a field that
     varies along the hidden direction, $\Psi(z) = \Psi_0 + \tfrac{3}{10}(\pi/2 - z)^2
     \Psi_1$, with the values $\Psi_0$ and the derivatives along $x_1, \dots, x_7$ of
-    section 8 and a second random spinor $\Psi_1$. Its derivative along $x_8$ is
-    $\partial_8\Psi = 6H\,d\Psi/dz = -\tfrac{18}{5}H(\pi/2 - z)\Psi_1$; it vanishes at
+    section 8 and a second random spinor $\Psi_1$. Its derivative along $x_0$ is
+    $\partial_0\Psi = 6H\,d\Psi/dz = -\tfrac{18}{5}H(\pi/2 - z)\Psi_1$; it vanishes at
     the brane like $\pi/2 - z$, which keeps the term
-    $\tan z\,\gamma^{(x_8)}\partial_8\Psi$ of the field equation finite there (the
-    factor $\tan z = 1/E_8$ grows without bound at $z = \pi/2$, where
-    $g_{88} = \cot^2z$ vanishes). The field is not a solution (T1 and T2 hold off
+    $\tan z\,\gamma^{(x_0)}\partial_0\Psi$ of the field equation finite there (the
+    factor $\tan z = 1/E_0$ grows without bound at $z = \pi/2$, where
+    $g_{00} = \cot^2z$ vanishes). The field is not a solution (T1 and T2 hold off
     shell). The geometry changes with $z$ through $\sin^{1/6}z$ and $\cot z$. The cell
     evaluates three objects:
 
     - the field $\Psi$ with $(m, \lambda)$ on the patch, $0 < z < \pi/2$;
     - its T1 partner $\Gamma\Psi$ with $(-m, -\lambda)$ at the same points;
     - its T2 mirror copy: by theorem T2 (with $m$ replaced by $-m$), the field
-      $\Psi'(\pi - z) = \gamma^{(x_8)}\Psi(z)$ on the mirror patch solves the
+      $\Psi'(\pi - z) = \gamma^{(x_0)}\Psi(z)$ on the mirror patch solves the
       $(-m, \lambda)$ equations if and only if $\Psi$ solves the $(m, \lambda)$
-      equations. Its derivatives are $\gamma^{(x_8)}$ times those of $\Psi$, with the
-      $x_8$ derivative reversed (the mirror reverses the direction $x_8$).
+      equations. Its derivatives are $\gamma^{(x_0)}$ times those of $\Psi$, with the
+      $x_0$ derivative reversed (the mirror reverses the direction $x_0$).
 
     It computes the energy density $\rho = -T_{x_4x_4}$ and the charge density
     $J^{x_4}$ of each, and checks: the T1 partner has $-\rho$ and $-J^{x_4}$; the
@@ -657,20 +659,20 @@ CELLS = [
     for z_value in z_patch:
         field = psi + 0.3 * (np.pi / 2 - z_value) ** 2 * psi_1  # Psi(z)
         slopes_here = [row.copy() for row in dpsi]  # the derivatives along x1 .. x7
-        slopes_here[7] = -3.6 * (np.pi / 2 - z_value) * psi_1  # 6 H dPsi/dz, H = 1
-        mirror_slopes = [R8_SIGNS[mu] * (gamma_num[7] @ slopes_here[mu])
-                         for mu in range(8)]  # the mirror reverses d/dx8
+        slopes_here[0] = -3.6 * (np.pi / 2 - z_value) * psi_1  # 6 H dPsi/dz, H = 1
+        mirror_slopes = [R0_SIGNS[mu] * (gamma_num[0] @ slopes_here[mu])
+                         for mu in range(8)]  # the mirror reverses d/dx0
         here = geometry_at(1, z_value, A4_0, 1.0)
         there = geometry_at(-1, np.pi - z_value, A4_0, 1.0)  # the mirror point
         results = {
             "one": bilinears(here, field, slopes_here, M0, LAM0),
             "T1": bilinears(here, Gamma_num @ field,
                             [Gamma_num @ row for row in slopes_here], -M0, -LAM0),
-            "T2": bilinears(there, gamma_num[7] @ field, mirror_slopes, -M0, LAM0),
+            "T2": bilinears(there, gamma_num[0] @ field, mirror_slopes, -M0, LAM0),
         }
         for key, result in results.items():
-            rho[key].append(-result["T"][3, 3])  # rho = -T_x4x4
-            charge[key].append(result["J"][3])  # J^x4
+            rho[key].append(-result["T"][4, 4])  # rho = -T_x4x4
+            charge[key].append(result["J"][4])  # J^x4
     rho = {key: np.array(values) for key, values in rho.items()}
     charge = {key: np.array(values) for key, values in charge.items()}
     size = max(np.abs(rho["one"]).max(), np.abs(charge["one"]).max())
@@ -696,10 +698,10 @@ CELLS = [
         ax.plot(z_patch, data["one"] + data["T1"], color="black", linewidth=2.0,
                 label="T1 pair: sum")
         ax.plot(np.pi - z_patch, data["T2"], color="tab:green",
-                label="T2 copy $\\gamma^{(x_8)}\\Psi$, $(-m, \\lambda)$")
+                label="T2 copy $\\gamma^{(x_0)}\\Psi$, $(-m, \\lambda)$")
         ax.axvline(np.pi / 2, color="grey", linestyle=":", linewidth=1.5)
         ax.text(np.pi / 2, ax.get_ylim()[1], " brane", va="top", fontsize=8)
-        ax.set_xlabel("hidden coordinate $z = 6Hx_8$")
+        ax.set_xlabel("hidden coordinate $z = 6Hx_0$")
         ax.set_ylabel(label + " (units $H = 1$)")
     handles, names = axes[0].get_legend_handles_labels()
     fig.legend(handles, names, loc="lower center", ncol=4, fontsize=8.5,
@@ -716,7 +718,7 @@ CELLS = [
                 "the patch (blue), "
                 "its T1 partner $\\Gamma\\Psi$ with $(-m, -\\lambda)$ (red dashed) and "
                 "their sum (black, zero everywhere), and the T2 mirror copy "
-                "$\\gamma^{(x_8)}\\Psi$ with $(-m, \\lambda)$ on the mirror patch "
+                "$\\gamma^{(x_0)}\\Psi$ with $(-m, \\lambda)$ on the mirror patch "
                 "(green). The T1 partner is the blue curve reflected in the horizontal "
                 "axis; the T2 copy is the blue curve reflected in the vertical line of "
                 "the brane, with the same sign: T1 pairs cancel, T2 pairs add.")
@@ -726,31 +728,31 @@ CELLS = [
 
     Theorem T2 in the author's field says more than equal energy densities: at the
     mirror point the whole tensor of the copy is the pulled-back tensor,
-    $T_{\mu\nu}[\Psi'](\pi - z) = (R_8\,T[\Psi](z)\,R_8)_{\mu\nu}$ with $R_8 =
-    \mathrm{diag}(1,1,1,1,1,1,1,-1)$: the components with exactly one index $x_8$
-    change sign (the direction $x_8$ is reversed by the mirror), all others are EQUAL.
-    Likewise $J'^\mu = (R_8)^\mu{}_\nu J^\nu$, $S' = -S$, and the field-equation
-    residuals obey $E_{-m,\lambda}[\Psi'] = -\gamma^{(x_8)}E_{m,\lambda}[\Psi]$. The
+    $T_{\mu\nu}[\Psi'](\pi - z) = (R_0\,T[\Psi](z)\,R_0)_{\mu\nu}$ with $R_0 =
+    \mathrm{diag}(-1,1,1,1,1,1,1,1)$: the components with exactly one index $x_0$
+    change sign (the direction $x_0$ is reversed by the mirror), all others are EQUAL.
+    Likewise $J'^\mu = (R_0)^\mu{}_\nu J^\nu$, $S' = -S$, and the field-equation
+    residuals obey $E_{-m,\lambda}[\Psi'] = -\gamma^{(x_0)}E_{m,\lambda}[\Psi]$. The
     next cell checks all of this at the point $z = 0.6$ with the full configuration
-    (including its derivative along $x_8$, which the mirror reverses) and draws the
+    (including its derivative along $x_0$, which the mirror reverses) and draws the
     three tables.
     """),
     code(r'''
-    R8 = np.array(R8_SIGNS, dtype=float)  # the reflection R8 of the x8 direction
-    mirror_dpsi = [R8[mu] * (gamma_num[7] @ dpsi[mu]) for mu in range(8)]
-    copy = bilinears(geometry_at(-1, np.pi - Z0, A4_0, 1.0), gamma_num[7] @ psi,
+    R0 = np.array(R0_SIGNS, dtype=float)  # the reflection R0 of the x0 direction
+    mirror_dpsi = [R0[mu] * (gamma_num[0] @ dpsi[mu]) for mu in range(8)]
+    copy = bilinears(geometry_at(-1, np.pi - Z0, A4_0, 1.0), gamma_num[0] @ psi,
                      mirror_dpsi, -M0, LAM0)  # the T2 copy at the mirror point
-    pulled_back = np.outer(R8, R8) * one["T"]  # R8 T R8
+    pulled_back = np.outer(R0, R0) * one["T"]  # R0 T R0
     reproduces(np.abs(copy["T"] - pulled_back).max() < 1e-10 * scale,
-               "T2 copy: T' = R8 T R8 at the mirror point (64 components)",
+               "T2 copy: T' = R0 T R0 at the mirror point (64 components)",
                PAIR_PY, "T2.metric.commuting.emt")
-    reproduces(np.abs(copy["J"] - R8 * one["J"]).max() < 1e-10 * scale,
-               "T2 copy: J' = R8 J (the charge density is unchanged)",
+    reproduces(np.abs(copy["J"] - R0 * one["J"]).max() < 1e-10 * scale,
+               "T2 copy: J' = R0 J (the charge density is unchanged)",
                PAIR_PY, "T2.metric.commuting.current")
     reproduces(abs(copy["S"] + one["S"]) < 1e-10 * scale, "T2 copy: S' = -S",
                PAIR_PY, "T2.metric.commuting.S_odd")
-    reproduces(np.abs(copy["E"] + gamma_num[7] @ one["E"]).max() < 1e-10 * scale,
-               "T2 copy: E_(-m,lambda)[Psi'] = -gamma^(x8) E_(m,lambda)[Psi]",
+    reproduces(np.abs(copy["E"] + gamma_num[0] @ one["E"]).max() < 1e-10 * scale,
+               "T2 copy: E_(-m,lambda)[Psi'] = -gamma^(x0) E_(m,lambda)[Psi]",
                PAIR_PY, "T2.metric.commuting.euler_lagrange_map")
     reproduces(np.abs(copy["T"] + one["T"]).max() > 0.1 * scale,
                "T2 pair: the tensors do NOT cancel",
@@ -758,7 +760,7 @@ CELLS = [
     fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.3))
     panels = ((one["T"], "$T_{\\mu\\nu}[\\Psi]$ at $z$"),
               (copy["T"], "$T_{\\mu\\nu}$ of the T2 copy at $\\pi - z$"),
-              (copy["T"] - pulled_back, "copy minus $R_8TR_8$"))
+              (copy["T"] - pulled_back, "copy minus $R_0TR_0$"))
     for ax, (values, title) in zip(axes, panels):
         image = ax.imshow(values, cmap="RdBu_r", vmin=-scale, vmax=scale)
         ax.set_xticks(range(8))
@@ -771,11 +773,11 @@ CELLS = [
     save_figure(fig, "t2_mirror_tensor",
                 "Left: the energy-momentum tensor $T_{\\mu\\nu}$ of the configuration "
                 "$\\Psi$ with $(m, \\lambda) = (2, 1/2)$ at $z = 0.6$ on the patch "
-                "(rows and columns $x_1$ to $x_8$, units $H = 1$). Middle: the tensor "
-                "of its T2 mirror copy $\\gamma^{(x_8)}\\Psi$ with $(-m, \\lambda)$ at "
+                "(rows and columns $x_0$ to $x_7$, units $H = 1$). Middle: the tensor "
+                "of its T2 mirror copy $\\gamma^{(x_0)}\\Psi$ with $(-m, \\lambda)$ at "
                 "the mirror point $z = \\pi - 0.6$. The two tables are equal except "
-                "for the last row and column, whose off-diagonal entries (one index "
-                "$x_8$) change sign. Right: the copy minus $R_8TR_8$, zero everywhere. "
+                "for the first row and column, whose off-diagonal entries (one index "
+                "$x_0$) change sign. Right: the copy minus $R_0TR_0$, zero everywhere. "
                 "Unlike the T1 partner, the mirror copy carries the SAME energy, so "
                 "the T2 pair has twice the source of one member.")
     '''),
@@ -787,18 +789,18 @@ CELLS = [
     equations. The next cell reads the four independent components of the Einstein
     tensor $G = E_{(1)}$ from the record `a4-equations.json` (the symbols `ad1` and
     `ad2` there are $a_4'$ and $a_4''$), forms the vacuum equations
-    $G^\mu{}_\mu + \Lambda = 0$ for $\mu = x_1, x_4, x_5, x_8$ (the other diagonal
+    $G^\mu{}_\mu + \Lambda = 0$ for $\mu = x_0, x_1, x_4, x_5$ (the other diagonal
     components repeat these, the off-diagonal ones are identically zero), and lets
     sympy solve them for $a_4'$, $a_4''$ and $\Lambda$ WITHOUT assuming that $a_4'$
     is real. It also forms the two combinations of the proof: the $x_4$ equation minus
-    the $x_8$ equation, and their sum.
+    the $x_0$ equation, and their sum.
     """),
     code(r'''
     record = read_json(A4_RECORD)
     ad1, ad2 = sp.symbols("ad1 ad2")  # a4' and a4'' (complex allowed)
     Lam = sp.symbols("Lambda")  # the cosmological constant
     alpha2, alpha3, A = sp.symbols("alpha2 alpha3 A", real=True)
-    KEYS = ["x1x1", "x4x4", "x5x5", "x8x8"]  # the independent diagonal components
+    KEYS = ["x0x0", "x1x1", "x4x4", "x5x5"]  # the independent diagonal components
 
 
     def lovelock(order, key):
@@ -817,10 +819,10 @@ CELLS = [
     reproduces(found == {(sp.I * H, 0, -18 * H ** 2), (-sp.I * H, 0, -18 * H ** 2)},
                "the only solutions have a4' = +i H or -i H: none is real",
                LEAD_EGB, "no_vacuum_for_H_positive")
-    difference = sp.expand(vacuum[1] - vacuum[3])  # x4 equation minus x8 equation
-    total = sp.expand(vacuum[1] + vacuum[3])  # x4 equation plus x8 equation
-    report("x4 equation minus x8 equation", difference)
-    report("x4 equation plus x8 equation", total)
+    difference = sp.expand(vacuum[2] - vacuum[0])  # x4 equation minus x0 equation
+    total = sp.expand(vacuum[2] + vacuum[0])  # x4 equation plus x0 equation
+    report("x4 equation minus x0 equation", difference)
+    report("x4 equation plus x0 equation", total)
     reproduces(difference == 6 * ad1 ** 2 + 6 * H ** 2
                and total == 36 * H ** 2 + 2 * Lam,
                "6 a4'^2 + 6 H^2 = 0 and 36 H^2 + 2 Lambda = 0 (record's lines)",
@@ -833,7 +835,7 @@ CELLS = [
     md(r"""
     The next cell draws the two vacuum conditions as curves in the plane of $a_4'/H$
     (horizontal) and $\Lambda/H^2$ (vertical): the $x_4$ equation holds on the
-    parabola $\Lambda = -(3a_4'^2 + 21H^2)$, which opens downwards, the $x_8$ equation
+    parabola $\Lambda = -(3a_4'^2 + 21H^2)$, which opens downwards, the $x_0$ equation
     on $\Lambda = 3a_4'^2 - 15H^2$, which opens upwards. A vacuum would be a point on
     both. The vertical distance between them is $6a_4'^2 + 6H^2 \geq 6H^2$: they
     never meet. At the author's history $a_4' = H$ the gap is $12H^2$.
@@ -841,11 +843,11 @@ CELLS = [
     code(r'''
     slopes = np.linspace(-3.0, 3.0, 601)  # a4'/H
     lower = -(3 * slopes ** 2 + 21)  # Lambda/H^2 where the x4 equation holds
-    upper = 3 * slopes ** 2 - 15  # Lambda/H^2 where the x8 equation holds
+    upper = 3 * slopes ** 2 - 15  # Lambda/H^2 where the x0 equation holds
     check(np.min(upper - lower) >= 6.0 - 1e-12, "the two curves stay 6 H^2 apart or more")
     fig, ax = plt.subplots(figsize=(7.0, 4.6))
     ax.plot(slopes, lower, color="tab:red", label="$x_4$: $\\Lambda = -(3a_4'^2 + 21H^2)$")
-    ax.plot(slopes, upper, color="tab:blue", label="$x_8$: $\\Lambda = 3a_4'^2 - 15H^2$")
+    ax.plot(slopes, upper, color="tab:blue", label="$x_0$: $\\Lambda = 3a_4'^2 - 15H^2$")
     ax.fill_between(slopes, lower, upper, color="grey", alpha=0.2,
                     label="gap $6a_4'^2 + 6H^2$")
     ax.annotate("", xy=(1.0, -12.0), xytext=(1.0, -24.0),
@@ -863,7 +865,7 @@ CELLS = [
                 "The vacuum equations of Einstein gravity for the author's metric, the "
                 "situation of a T1 pair as the only source: horizontal axis the rate "
                 "$a_4'/H$, vertical axis the cosmological constant $\\Lambda/H^2$. The "
-                "$x_4$ component holds on the red parabola, the $x_8$ component on the "
+                "$x_4$ component holds on the red parabola, the $x_0$ component on the "
                 "blue one; a vacuum solution would lie on both. They are separated by "
                 "$6a_4'^2 + 6H^2 \\geq 6H^2$ (grey band), $12H^2$ at the author's "
                 "deflating history $a_4' = H$, so no real rate and no $\\Lambda$ solve "
@@ -873,23 +875,23 @@ CELLS = [
     md(r"""
     ## 12. What the geometry requires and what a pair supplies
 
-    Line 5 of the proof is a statement about the source. Write the $x_4$ and $x_8$
+    Line 5 of the proof is a statement about the source. Write the $x_4$ and $x_0$
     equations with a source: $\sum_k\alpha_kE_{(k)}{}^{x_4}{}_{x_4} + \Lambda =
-    -\kappa\rho$ and $\sum_k\alpha_kE_{(k)}{}^{x_8}{}_{x_8} + \Lambda = \kappa p_8$
+    -\kappa\rho$ and $\sum_k\alpha_kE_{(k)}{}^{x_0}{}_{x_0} + \Lambda = \kappa p_0$
     (the record's sign convention). Subtracting the first from the second removes
     $\Lambda$ and gives the **null combination** the geometry REQUIRES of any source:
 
-    $$\kappa(\rho + p_8) = -\sum_k\alpha_k\big(E_{(k)}{}^{x_4}{}_{x_4} -
-    E_{(k)}{}^{x_8}{}_{x_8}\big).$$
+    $$\kappa(\rho + p_0) = -\sum_k\alpha_k\big(E_{(k)}{}^{x_4}{}_{x_4} -
+    E_{(k)}{}^{x_0}{}_{x_0}\big).$$
 
     In Einstein gravity this is $-6(a_4'^2 + H^2) < 0$ (the record's
-    `einstein_null_energy_x8`). For the linear member $a_4' = AH$ the record writes
+    `einstein_null_energy_x0`). For the linear member $a_4' = AH$ the record writes
     the right-hand side as $-6(A^2 + 1)H^2V$ with the **vacuum factor**
 
     $$V = \alpha_1 - 40\alpha_2H^2 - 8A^2\alpha_2H^2 + 360\alpha_3H^4 +
     144A^2\alpha_3H^4 + 72A^4\alpha_3H^4 .$$
 
-    A T1 pair SUPPLIES $\rho + p_8 = 0$; so it can be the only source only where the
+    A T1 pair SUPPLIES $\rho + p_0 = 0$; so it can be the only source only where the
     requirement is zero, that is where $V = 0$. The next cell reads the record's null
     combination and vacuum factor, checks both against the Lovelock components, and
     checks the Einstein case.
@@ -897,31 +899,31 @@ CELLS = [
     code(r'''
     couplings = {"alpha1": 1, "alpha2": alpha2, "alpha3": alpha3, "H": H, "ad1": ad1,
                  "ad2": ad2, "AA": A}  # alpha1 = 1 throughout
-    null_text = record["generalSource"]["nullCombinations"]["kappa(rho+p8)"]["input"]
+    null_text = record["generalSource"]["nullCombinations"]["kappa(rho+p0)"]["input"]
     null_required = sp.sympify(null_text.replace("^", "**"), locals=couplings)
     V_text = record["linearMember"]["vacuumFactor"]["input"]
     V = sp.sympify(V_text.replace("^", "**"), locals=couplings)
     lovelock_sum = {key: lovelock(1, key) + alpha2 * lovelock(2, key)
                     + alpha3 * lovelock(3, key) for key in KEYS}
-    own_null = -(lovelock_sum["x4x4"] - lovelock_sum["x8x8"])
+    own_null = -(lovelock_sum["x4x4"] - lovelock_sum["x0x0"])
     check(sp.expand(own_null - null_required) == 0,
-          "the null combination of the record equals -(E^x4_x4 - E^x8_x8)")
+          "the null combination of the record equals -(E^x4_x4 - E^x0_x0)")
     linear = {ad1: A * H, ad2: 0}  # the linear member a4 = A H x4 + a0
     reproduces(sp.expand(own_null.subs(linear) + 6 * (A ** 2 + 1) * H ** 2 * V) == 0,
-               "linear member: kappa (rho + p8) = -6 (A^2 + 1) H^2 V",
+               "linear member: kappa (rho + p0) = -6 (A^2 + 1) H^2 V",
                A4_WL, "linear_member_vacuum_factor")
     reproduces(sp.expand(V.subs({alpha2: 0, alpha3: 0})) == 1
                and sp.expand(null_required.subs({alpha2: 0, alpha3: 0})
                              + 6 * ad1 ** 2 + 6 * H ** 2) == 0,
-               "Einstein: V = 1 and kappa (rho + p8) = -6 (a4'^2 + H^2)",
-               A4_PY, "einstein_null_energy_x8")
+               "Einstein: V = 1 and kappa (rho + p0) = -6 (a4'^2 + H^2)",
+               A4_PY, "einstein_null_energy_x0")
     reproduces(sp.expand(null_required.subs({alpha2: 0, alpha3: 0})
                          + 6 * ad1 ** 2 + 6 * H ** 2) == 0,
                "the same null combination from the lead's independent Einstein tensor",
                LEAD_EGB, "einstein_null_energy")
     '''),
     md(r"""
-    The next cell draws the required null combination $\kappa(\rho + p_8)/H^2$ for the
+    The next cell draws the required null combination $\kappa(\rho + p_0)/H^2$ for the
     linear member as a function of the slope $A$, in Einstein gravity and in two
     Einstein-Gauss-Bonnet theories ($\alpha_3 = 0$; $\alpha_2H^2 = 1/48$ and $1/40$).
     The black line is what a T1 pair supplies: zero. In Einstein gravity the curve
@@ -940,12 +942,12 @@ CELLS = [
     ax.plot([1.0, 0.0], [0.0, 0.0], "o", color="tab:red", markersize=7,
             label="a T1 pair fits: $V = 0$")
     ax.set_xlabel("slope $A$ of the linear member $a_4 = AHx_4$")
-    ax.set_ylabel("required $\\kappa(\\rho + p_8)/H^2$")
+    ax.set_ylabel("required $\\kappa(\\rho + p_0)/H^2$")
     ax.set_title("The source the geometry requires, and the zero of a T1 pair")
     ax.legend(fontsize=8, loc="lower left")
     save_figure(fig, "null_combination",
-                "The null combination $\\kappa(\\rho + p_8)$ (energy density plus the "
-                "pressure along $x_8$, times the gravitational coupling; vertical, "
+                "The null combination $\\kappa(\\rho + p_0)$ (energy density plus the "
+                "pressure along $x_0$, times the gravitational coupling; vertical, "
                 "units $H^2$) that the field equations require of ANY source of the "
                 "linear member $a_4 = AHx_4$, against its slope $A$ (horizontal), for "
                 "Einstein gravity (solid) and two Einstein-Gauss-Bonnet theories with "
@@ -994,8 +996,8 @@ CELLS = [
                "a4 = H x4 solves the Gauss-Bonnet vacuum equations exactly",
                A4_PY, "einstein_gauss_bonnet_vacuum_linear")
     zero_off = all(record["lovelockTensors"][f"E{k}"][key]["input"] == "0"
-                   for k in (1, 2, 3) for key in ("x4x8", "x8x4"))
-    check(zero_off, "the mixed components x4x8 and x8x4 of E_(1..3) are 0 in the record")
+                   for k in (1, 2, 3) for key in ("x4x0", "x0x4"))
+    check(zero_off, "the mixed components x4x0 and x0x4 of E_(1..3) are 0 in the record")
     Lam_curve = sp.simplify(-(lovelock(1, "x4x4") + alpha2 * lovelock(2, "x4x4"))
                             .subs({ad1: A * H, ad2: 0}).subs(A ** 2, A_squared))
     say(f"Lambda along the vacuum curve: {sp.factor(Lam_curve)}")
@@ -1099,7 +1101,7 @@ CELLS = [
       $\alpha_2H^2 = 1/48$ and $\Lambda = -12H^2$ the author's history $a_4 = Hx_4$ is
       a vacuum (checked exactly in section 13). So C1(a) depends on Einstein gravity.
     - **C1 does not apply to T2 pairs:** the mirror copy carries the pulled-back,
-      EQUAL tensor $R_8TR_8$, so the sources add (sections 9 and 10).
+      EQUAL tensor $R_0TR_0$, so the sources add (sections 9 and 10).
     - **C1 does not apply to two independently quantised universes** (the record's
       statement Q3): their generators add without cancelling.
     - **C1 is not a creation statement.** It concerns the sum of two classical sources
@@ -1132,19 +1134,19 @@ CELLS = [
     ## 17. What this notebook showed
 
     - The canonical spin connection of the author's metric has the twelve components
-      of the record, and $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ on the patch
-      ($-3H\gamma^{(x_8)}$ on the mirror patch, with its own positive vielbein).
+      of the record, and $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ on the patch
+      ($-3H\gamma^{(x_0)}$ on the mirror patch, with its own positive vielbein).
     - For an arbitrary configuration of dirac16complex00 at a point of the deflating
       history, its T1 partner $\Gamma\Psi$ with $(-m, -\lambda)$ has exactly the
       opposite energy-momentum tensor (64 components) and current: the pair's source
       is zero at every point (figures 1 and 2). The wrong partners do not cancel.
     - The T2 mirror copy across the brane has the SAME energy density and charge
-      density at the mirror point; its tensor is $R_8TR_8$ (figures 2 and 3): mirror
+      density at the mirror point; its tensor is $R_0TR_0$ (figures 2 and 3): mirror
       pairs add, they do not cancel.
     - With the pair as the only source, Einstein's equations for the author's metric
       reduce to $6a_4'^2 + 6H^2 = 0$ and $36H^2 + 2\Lambda = 0$; the only solutions
       are $a_4' = \pm iH$, not real (figure 4). The geometry requires
-      $\kappa(\rho + p_8) = -6(a_4'^2 + H^2) < 0$ of every source; a T1 pair supplies
+      $\kappa(\rho + p_0) = -6(a_4'^2 + H^2) < 0$ of every source; a T1 pair supplies
       zero (figure 5).
     - In Einstein-Gauss-Bonnet gravity the linear member is a vacuum for
       $A^2 = (1 - 40\alpha_2H^2)/(8\alpha_2H^2)$; the author's history $A = 1$ for

@@ -47,16 +47,16 @@ T1, T2, Q, T3 and C1 are exact **maps between solution sets** and one consequenc
 
 The counts in the table are those printed by Notebook 20a (In [2]) for the two pairing reports and those of the reports' own summaries for T3; a report is named below by its file name only, for example "`python-pairing.json`, check `gammas.Gamma`". Every check cited in this chapter has the verdict PASS.
 
-**Notation.** The author's coordinates are $x_1, \dots, x_8$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates (scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ is the time; $x_5, x_6, x_7$ are the three EXTRA TIMES, time-like, which DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}\sin^{1/6}z$, with $a_4$ increasing); $x_8$ is the hidden space direction, with $z = 6Hx_8$ between 0 and $\pi/2$ and $H > 0$ the author's constant. The metric is
+**Notation.** The author's coordinates are $x_0, \dots, x_7$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates (scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ is the time; $x_5, x_6, x_7$ are the three EXTRA TIMES, time-like, which DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}\sin^{1/6}z$, with $a_4$ increasing); $x_0$ is the hidden space direction, with $z = 6Hx_0$ between 0 and $\pi/2$ and $H > 0$ the author's constant. The metric is
 
 $$
 \begin{aligned}
-ds^2 = {} & e^{2a_4}\sin^{1/3}z\,(dx_1^2 + dx_2^2 + dx_3^2) - dx_4^2 \\
-& - e^{-2a_4}\sin^{1/3}z\,(dx_5^2 + dx_6^2 + dx_7^2) + \cot^2 z\,dx_8^2 ,
+ds^2 = {} & \cot^2 z\,dx_0^2 + e^{2a_4}\sin^{1/3}z\,(dx_1^2 + dx_2^2 + dx_3^2) - dx_4^2 \\
+& - e^{-2a_4}\sin^{1/3}z\,(dx_5^2 + dx_6^2 + dx_7^2) ,
 \end{aligned}
 $$
 
-with $a_4 = a_4(x_4)$ and $a_4' = da_4/dx_4$; its signature is (4,4) and $\sqrt{|g|} = \cos z$. The frame metric is $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order $x_1, \dots, x_8$. The gamma matrix of the direction $x_a$ is $\gamma^{(x_a)}$, a real $16 \times 16$ matrix, with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}I_{16}$. The **deflating history** is the linear member $a_4 = AHx_4$ with $A = 1$: 3-space grows like $e^{Hx_4}$ and the extra times shrink like $e^{-Hx_4}$.
+with $a_4 = a_4(x_4)$ and $a_4' = da_4/dx_4$; its signature is (4,4) and $\sqrt{|g|} = \cos z$. This is the author's metric of 2026-10-14 on its background $b_4 = 1$: the metric has a second function $b_4(x_4) > 0$ that multiplies the three extra-time components (Chapter 3). The records of the pairing theorems and the notebooks of this chapter work at $b_4 = 1$; Section 20.7 shows that corollary C1 holds for every $b_4$. The frame metric is $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$. The gamma matrix of the direction $x_a$ is $\gamma^{(x_a)}$, a real $16 \times 16$ matrix, with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}I_{16}$. The **deflating history** is the linear member $a_4 = AHx_4$ with $A = 1$: 3-space grows like $e^{Hx_4}$ and the extra times shrink like $e^{-Hx_4}$.
 
 ### 20.2 The words of this chapter
 
@@ -64,17 +64,17 @@ with $a_4 = a_4(x_4)$ and $a_4' = da_4/dx_4$; its signature is (4,4) and $\sqrt{
 - **Solution**: a configuration that obeys the field equation $\gamma^\mu D_\mu\Psi = (m + \lambda S)\Psi$, where $S = \bar\Psi\Psi$ and $\bar\Psi = \Psi^\dagger C$.
 - **Universe of mass $m$** (the meaning used by the Revision record): a solution of one of the two fields with mass parameter $m$ and coupling $\lambda$ in the author's primordial gravitational field. It is NOT the total gravitational mass or energy of that universe.
 - **Parameter set** $(m, \lambda)$: the mass and the coupling of the potential $U(S) = \frac{\lambda}{2}S^2$. The theory with $(m, \lambda)$ and the theory with $(-m, -\lambda)$ are two DIFFERENT theories: their Lagrangians are different functions of the field.
-- **Map between solution sets**: a rule that takes EVERY solution of one theory to a solution of another theory (here: multiply the field by a fixed matrix, possibly together with a change of the coordinate $x_8$).
-- **Partner**: the image of a solution under such a map. **T1 partner**: $\Gamma\Psi$ with $(-m, -\lambda)$ at the same point. **T2 mirror copy**: $\gamma^{(x_8)}\Psi$ placed at the mirror point $\pi - z$, with $(-m, \lambda)$.
+- **Map between solution sets**: a rule that takes EVERY solution of one theory to a solution of another theory (here: multiply the field by a fixed matrix, possibly together with a change of the coordinate $x_0$).
+- **Partner**: the image of a solution under such a map. **T1 partner**: $\Gamma\Psi$ with $(-m, -\lambda)$ at the same point. **T2 mirror copy**: $\gamma^{(x_0)}\Psi$ placed at the mirror point $\pi - z$, with $(-m, \lambda)$.
 - **Pair**: a solution together with one partner. A **T1 pair** has opposite energy-momentum tensors; a **T2 pair** has equal ones.
-- **Chirality**: the product of all eight gammas in the record's order, $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$, which equals the diagonal matrix $\mathrm{diag}(-I_8, I_8)$ (eight entries $-1$, then eight entries $+1$).
-- **Charge matrix** $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, which defines the adjoint $\bar\Psi = \Psi^\dagger C$; **Krein matrix** $B = -iC\gamma^{(x_4)}$.
-- **Energy-momentum tensor** $T_{\mu\nu}$: the source of gravity, 64 numbers at every point. **Energy density** $\rho = -T^{x_4}{}_{x_4}$; **pressure** along a direction $\mu$: $p_\mu = T^\mu{}_\mu$ (no sum); $p_3$ for 3-space, $p_t$ for the extra times, $p_8$ for the hidden direction.
+- **Chirality**: the product of all eight gammas in the record's order, $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$, which equals the diagonal matrix $\mathrm{diag}(-I_8, I_8)$ (eight entries $-1$, then eight entries $+1$).
+- **Charge matrix** $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, which defines the adjoint $\bar\Psi = \Psi^\dagger C$; **Krein matrix** $B = -iC\gamma^{(x_4)}$.
+- **Energy-momentum tensor** $T_{\mu\nu}$: the source of gravity, 64 numbers at every point. **Energy density** $\rho = -T^{x_4}{}_{x_4}$; **pressure** along a direction $\mu$: $p_\mu = T^\mu{}_\mu$ (no sum); $p_3$ for 3-space, $p_t$ for the extra times, $p_0$ for the hidden direction.
 - **Current** $J^\mu = -i\bar\Psi\gamma^\mu\Psi$; **charge density** $J^{x_4} = \Psi^\dagger B\Psi$; **charge** $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$, the integral over the seven directions other than $x_4$.
 - **Patch, mirror patch, brane**: $0 < z < \pi/2$ is the **patch**; the map $z \to \pi - z$ takes it to the **mirror patch** $\pi/2 < z < \pi$; the surface $z = \pi/2$ between them is the **brane**. Gluing the two patches at the brane is the **Z2 construction**; it is ASSUMED.
 - **Einstein-Lovelock equations**: $\sum_{k=1}^{3}\alpha_kE_{(k)}{}^\mu{}_\nu + \Lambda\delta^\mu_\nu = \kappa T^\mu{}_\nu$, with the three Lovelock tensors $E_{(k)}$ (Chapter 12), couplings $\alpha_k$, the **cosmological constant** $\Lambda$ and the gravitational coupling $\kappa$. **Einstein gravity** is $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$; then $E_{(1)} = G$ is the Einstein tensor. **Einstein-Gauss-Bonnet gravity** is $\alpha_1 = 1$, $\alpha_3 = 0$.
 - **Vacuum equations**: the field equations of gravity with zero source, $\sum_k\alpha_kE_{(k)}{}^\mu{}_\nu + \Lambda\delta^\mu_\nu = 0$. A **vacuum** is a solution of them.
-- **Null combination** $\rho + p_8$: the energy density plus the pressure along $x_8$.
+- **Null combination** $\rho + p_0$: the energy density plus the pressure along $x_0$.
 - **Corollary**: a statement that follows from a theorem in a few lines.
 - **Process**: a solution of a dynamical equation that connects an initial state with a different final state. **Creation** of a universe: a process whose initial state has fewer universes than its final state.
 - **Rate, probability, amplitude**: numbers that say how often a process happens; they come from a dynamical theory. An **amplitude** is the complex number whose squared modulus is a probability.
@@ -118,7 +118,7 @@ $$
 The same rule with $-2a_4$ in the exponent.
 
 $$
-g_{x_8x_8} = \cot^2 z,\qquad 0 < g_{x_8x_8} < \infty ,
+g_{x_0x_0} = \cot^2 z,\qquad 0 < g_{x_0x_0} < \infty ,
 $$
 
 because $\cot z = \cos z/\sin z$ is finite and positive for $0 < z < \pi/2$.
@@ -127,9 +127,9 @@ $$
 \sqrt{|g|} = \cos z > 0 .
 $$
 
-This is the record's volume factor (`python-pairing.json`, check `geometry.brane_degenerate`, which also records that it and $g_{x_8x_8}$ vanish at the brane $z = \pi/2$, the edge of the patch). So at every finite time the metric is finite and non-degenerate at every point of the patch. Its curvature is finite as well: every component $R^{ab}{}_{cd}$ is a Laurent polynomial in $\cot z$ (a sum of powers $\cot^kz$ with whole, possibly negative, $k$) whose coefficients are polynomials in $H$, $a_4'$ and $a_4''$ (`python-a4-report.json`, checks `riemann_entries_laurent` and `mixed_riemann_free_of_warp_and_a4`), and such an expression is finite where $\cot z$ is finite and not zero. For the prescribed deflating history $a_4 = Hx_4$ the three numbers $a_4 = Hx_4$, $a_4' = H$ and $a_4'' = 0$ are finite at every finite time $x_4$, so the metric and its curvature are finite at every finite time on the patch; and its 3-space scale factor $e^{Hx_4}\sin^{1/6}z$ tends to zero only as $x_4 \to -\infty$, never at a finite time. Status: PROVED for the prescribed deflating history $a_4 = AHx_4$, and for any history whose $a_4$, $a_4'$ and $a_4''$ stay finite (derived here from the metric and the two record checks). The degenerate places of the metric are the edges of the patch, not a moment of time: the brane $z = \pi/2$ ($g_{x_8x_8} = 0$ and $\sqrt{|g|} = 0$) and the tip $z \to 0$.
+This is the record's volume factor (`python-pairing.json`, check `geometry.brane_degenerate`, which also records that it and $g_{x_0x_0}$ vanish at the brane $z = \pi/2$, the edge of the patch). So at every finite time the metric is finite and non-degenerate at every point of the patch. Its curvature is finite as well: every component $R^{ab}{}_{cd}$ is a Laurent polynomial in $\cot z$ (a sum of powers $\cot^kz$ with whole, possibly negative, $k$) whose coefficients are polynomials in $H$, $a_4'$ and $a_4''$ (`python-a4-report.json`, checks `riemann_entries_laurent` and `mixed_riemann_free_of_warp_and_a4`), and such an expression is finite where $\cot z$ is finite and not zero. For the prescribed deflating history $a_4 = Hx_4$ the three numbers $a_4 = Hx_4$, $a_4' = H$ and $a_4'' = 0$ are finite at every finite time $x_4$, so the metric and its curvature are finite at every finite time on the patch; and its 3-space scale factor $e^{Hx_4}\sin^{1/6}z$ tends to zero only as $x_4 \to -\infty$, never at a finite time. Status: PROVED for the prescribed deflating history $a_4 = AHx_4$, and for any history whose $a_4$, $a_4'$ and $a_4''$ stay finite (derived here from the metric and the two record checks). The degenerate places of the metric are the edges of the patch, not a moment of time: the brane $z = \pi/2$ ($g_{x_0x_0} = 0$ and $\sqrt{|g|} = 0$) and the tip $z \to 0$.
 
-What this proof does NOT show: that the equations of this book exclude a big-bang moment. It assumed that $a_4$, $a_4'$ and $a_4''$ are finite, and it says nothing about a history in which one of them becomes infinite at a finite time. The history used in this book is prescribed, not computed: the Kohn-Sham history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND, because the Kohn-Sham states violate the source conditions of the $a_4$ equations (`ks-source-conditions.json`, checks `ks_profiles_depend_on_x8` and `ks_history_is_a_prescribed_background`). And when the $a_4$ equations are solved with a given source, they can break down at a finite time: Chapter 12 integrates the evolution equation of Einstein-Gauss-Bonnet gravity with a given constant source and finds that the rate $a_4'$ reaches a critical value at a finite time $x_4^\star$, where $a_4''$ becomes infinite and no solution with a smooth $a_4'$ continues. The curvature contains $a_4''$ (for example the Einstein tensor component $G^{x_1}{}_{x_1} = -3a_4'^2 + a_4'' + 15H^2$, `a4-equations.json`, key `lovelockTensors`, entry `E1`, `x1x1`), so it becomes infinite there too: a singularity at a finite time. In Einstein gravity the record allows every history $a_4$ that has a continuous second derivative, each with the source that it requires (`a4-equations.json`, key `einstein`, entry `allowedA4`), so a history in which $a_4 \to -\infty$ at a finite time, that is in which the 3-space scale factor goes to zero, is not excluded either. So: the PRESCRIBED history contains no big-bang moment; whether the coupled equations of the fields and of $a_4$, solved together, contain one is not decided (OPEN).
+What this proof does NOT show: that the equations of this book exclude a big-bang moment. It assumed that $a_4$, $a_4'$ and $a_4''$ are finite, and it says nothing about a history in which one of them becomes infinite at a finite time. The history used in this book is prescribed, not computed: the Kohn-Sham history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND, because the Kohn-Sham states violate the source conditions of the $a_4$ equations (`ks-source-conditions.json`, checks `ks_profiles_depend_on_x0` and `ks_history_is_a_prescribed_background`). And when the $a_4$ equations are solved with a given source, they can break down at a finite time: Chapter 12 integrates the evolution equation of Einstein-Gauss-Bonnet gravity with a given constant source and finds that the rate $a_4'$ reaches a critical value at a finite time $x_4^\star$, where $a_4''$ becomes infinite and no solution with a smooth $a_4'$ continues. The curvature contains $a_4''$ (for example the Einstein tensor component $G^{x_1}{}_{x_1} = -3a_4'^2 + a_4'' + 15H^2$, `a4-equations.json`, key `lovelockTensors`, entry `E1`, `x1x1`), so it becomes infinite there too: a singularity at a finite time. In Einstein gravity the record allows every history $a_4$ that has a continuous second derivative, each with the source that it requires (`a4-equations.json`, key `einstein`, entry `allowedA4`), so a history in which $a_4 \to -\infty$ at a finite time, that is in which the 3-space scale factor goes to zero, is not excluded either. So: the PRESCRIBED history contains no big-bang moment; whether the coupled equations of the fields and of $a_4$, solved together, contain one is not decided (OPEN).
 
 ### 20.4 Three questions: is it allowed, does it happen, how often?
 
@@ -173,7 +173,7 @@ with $D_\mu\Psi = \partial_\mu\Psi + \Omega_\mu\Psi$, $D_\mu\bar\Psi = \partial_
 **Proof, step 1: the chirality anticommutes with every gamma.** Take one direction $b$ and move $\gamma^{(b)}$ from the left of $\Gamma$ to its right:
 
 $$
-\gamma^{(b)}\Gamma = \gamma^{(b)}\gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = (-1)^7\,\gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}\gamma^{(b)} = -\Gamma\gamma^{(b)} .
+\gamma^{(b)}\Gamma = \gamma^{(b)}\gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = (-1)^7\,\gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}\gamma^{(b)} = -\Gamma\gamma^{(b)} .
 $$
 
 On its way $\gamma^{(b)}$ passes the eight factors of $\Gamma$: seven of them belong to other directions and each exchange gives a factor $-1$ (the Clifford relation $\gamma^{(a)}\gamma^{(b)} = -\gamma^{(b)}\gamma^{(a)}$ for $a \neq b$); one of them is $\gamma^{(b)}$ itself, which commutes with itself.
@@ -181,7 +181,7 @@ On its way $\gamma^{(b)}$ passes the eight factors of $\Gamma$: seven of them be
 **Step 2: the chirality commutes with $C$, with every $S^{ab}$ and with every $\Omega_\mu$.**
 
 $$
-\Gamma C = \Gamma\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)} = (-1)^4\,\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}\Gamma = C\Gamma .
+\Gamma C = \Gamma\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)} = (-1)^4\,\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}\Gamma = C\Gamma .
 $$
 
 Step 1 was applied four times, once for each factor of $C$. In the same way $\Gamma S^{ab} = S^{ab}\Gamma$ (two factors, $(-1)^2 = 1$), and therefore $\Gamma\Omega_\mu = \Omega_\mu\Gamma$, because $\Omega_\mu$ is a sum of numbers times the $S^{ab}$.
@@ -261,7 +261,7 @@ Notebook 20a reproduces T1 at a point of the deflating history (In [7]) and alon
 
 ### 20.6 What is proved (2): theorem T2, the quantum reading Q and theorem T3
 
-**Theorem T2 (the mirror pairing).** Hypotheses (`pairing-theory.json`, theorem T2): $n$ is a space-like frame direction ($x_1$, $x_2$, $x_3$ or $x_8$); in a general field the frame is reflected, $e' = R_ne$, where $R_n$ is the $8 \times 8$ diagonal matrix with $-1$ in place $n$ (this is the same metric, because $R_n\eta R_n = \eta$), and $\Psi' = \gamma^{(n)}\Psi$ at the same point; in the author's field the reflection of $x_8$ is the mirror $x_8 \to \pi/(6H) - x_8$, that is $z \to \pi - z$, across the brane, with the ASSUMED Z2 construction; both statistics; $U(S) = \frac{\lambda}{2}S^2$. Statement: $\mathcal{L}_{m,\lambda}[\gamma^{(n)}\Psi; R_ne] = +\mathcal{L}_{-m,\lambda}[\Psi; e]$; $S' = -S$; $\Psi$ solves the $(-m, \lambda)$ equation exactly when its image solves the $(m, \lambda)$ equation; in the author's field the image carries, at the mirror point, the pulled-back tensor $T' = R_8TR_8$ and the current $J' = R_8J$: the energy density and the charge are EQUAL, not opposite.
+**Theorem T2 (the mirror pairing).** Hypotheses (`pairing-theory.json`, theorem T2): $n$ is a space-like frame direction ($x_0$, $x_1$, $x_2$ or $x_3$); in a general field the frame is reflected, $e' = R_ne$, where $R_n$ is the $8 \times 8$ diagonal matrix with $-1$ in place $n$ (this is the same metric, because $R_n\eta R_n = \eta$), and $\Psi' = \gamma^{(n)}\Psi$ at the same point; in the author's field the reflection of $x_0$ is the mirror $x_0 \to \pi/(6H) - x_0$, that is $z \to \pi - z$, across the brane, with the ASSUMED Z2 construction; both statistics; $U(S) = \frac{\lambda}{2}S^2$. Statement: $\mathcal{L}_{m,\lambda}[\gamma^{(n)}\Psi; R_ne] = +\mathcal{L}_{-m,\lambda}[\Psi; e]$; $S' = -S$; $\Psi$ solves the $(-m, \lambda)$ equation exactly when its image solves the $(m, \lambda)$ equation; in the author's field the image carries, at the mirror point, the pulled-back tensor $T' = R_0TR_0$ and the current $J' = R_0J$: the energy density and the charge are EQUAL, not opposite.
 
 The proof, derived here line by line. First, the charge matrix obeys $C\gamma^{(n)}C^{-1} = -(\gamma^{(n)})^T$ (Chapter 5), that is $(\gamma^{(n)})^TC = -C\gamma^{(n)}$, so
 
@@ -313,7 +313,7 @@ $$
 J'^\mu = -i\,\overline{\gamma^{(n)}\Psi}\,\gamma'^\mu\gamma^{(n)}\Psi = +i\,\bar\Psi\,\gamma^{(n)}\gamma'^\mu\gamma^{(n)}\,\Psi = -i\bar\Psi\gamma^\mu\Psi = J^\mu ;
 $$
 
-each kinetic term of $T_{\mu\nu}$ is unchanged in the same way (with the lemma for the derivatives), and so is $\mathcal{L}/\sqrt{|g|}$ by the Lagrangian line, so $T'_{\mu\nu} = T_{\mu\nu}$ in the reflected frame. In the author's field the mirror $z \to \pi - z$ leaves every metric component unchanged ($\sin(\pi - z) = \sin z$ and $\cot^2(\pi - z) = \cot^2 z$), and its pulled-back positive vielbein is $R_8e$; this turns the frame statement into the mirror statement. Status: PROVED; the Z2 construction across the brane is ASSUMED, the metric is degenerate at the brane, and no junction condition there is derived. Records: the Wolfram pairing report has 28 checks of T2 and the sympy pairing report 16; among them:
+each kinetic term of $T_{\mu\nu}$ is unchanged in the same way (with the lemma for the derivatives), and so is $\mathcal{L}/\sqrt{|g|}$ by the Lagrangian line, so $T'_{\mu\nu} = T_{\mu\nu}$ in the reflected frame. In the author's field the mirror $z \to \pi - z$ leaves every metric component unchanged ($\sin(\pi - z) = \sin z$ and $\cot^2(\pi - z) = \cot^2 z$), and its pulled-back positive vielbein is $R_0e$; this turns the frame statement into the mirror statement. Status: PROVED; the Z2 construction across the brane is ASSUMED, the metric is degenerate at the brane, and no junction condition there is derived. Records: the Wolfram pairing report has 28 checks of T2 and the sympy pairing report 16; among them:
 
 | statement | report | check |
 | --- | --- | --- |
@@ -340,7 +340,7 @@ $$
 \Gamma B\Gamma = -i\,\Gamma C\gamma^{(x_4)}\Gamma = -i\,C\,\Gamma\gamma^{(x_4)}\Gamma = -i\,C(-\gamma^{(x_4)}) = -B ,
 $$
 
-by step 2 and then step 1 of Section 20.5. The statements (`pairing-theory.json`, theorem Q): (Q1) the T1 image carries the Krein metric $-B$, which is also what its own Lagrangian demands; (Q2) its generators coincide with those of $\Psi$: $\Psi$ and $\Gamma\Psi$ are ONE quantum system relabelled, and the T1 identity $T' = -T$ is an identity between operators of that one system; (Q3) an independently quantised $(-m, -\lambda)$ universe has the anticommutator $+B$, cannot be identified with $\Gamma\Psi$, and on the product of the two state spaces the generators ADD, so no cancellation follows; (Q4) the one-particle ($\lambda = 0$) spectra of $+m$ and $-m$ are IDENTICAL (similar matrices, $\Gamma h_m\Gamma = h_{-m}$), in flat 4+4 space or in a general field at a point with frozen coefficients (the coefficients of the equation taken constant, equal to their values at that point); (Q5) the T2 image keeps $+B$ ($\gamma^{(x_8)}B\gamma^{(x_8)\dagger} = +B$): the mirror universe is an ordinary, independently quantisable copy with equal energies. Records: `wolfram-pairing.json`, `Q_Krein_metric_of_images`, `Q_no_identification_of_independent_universes`, `Q_one_particle_maps` (12 Q checks); `python-pairing.json`, `Q.no_cancellation_independent_universes`, `Q.T2_image_keeps_B` (10 Q checks). Status: PROVED. The quantum reading therefore removes the one place where a zero total could have looked like "a pair that costs nothing": for two independent quantum universes the energies do not cancel.
+by step 2 and then step 1 of Section 20.5. The statements (`pairing-theory.json`, theorem Q): (Q1) the T1 image carries the Krein metric $-B$, which is also what its own Lagrangian demands; (Q2) its generators coincide with those of $\Psi$: $\Psi$ and $\Gamma\Psi$ are ONE quantum system relabelled, and the T1 identity $T' = -T$ is an identity between operators of that one system; (Q3) an independently quantised $(-m, -\lambda)$ universe has the anticommutator $+B$, cannot be identified with $\Gamma\Psi$, and on the product of the two state spaces the generators ADD, so no cancellation follows; (Q4) the one-particle ($\lambda = 0$) spectra of $+m$ and $-m$ are IDENTICAL (similar matrices, $\Gamma h_m\Gamma = h_{-m}$), in flat 4+4 space or in a general field at a point with frozen coefficients (the coefficients of the equation taken constant, equal to their values at that point); (Q5) the T2 image keeps $+B$ ($\gamma^{(x_0)}B\gamma^{(x_0)\dagger} = +B$): the mirror universe is an ordinary, independently quantisable copy with equal energies. Records: `wolfram-pairing.json`, `Q_Krein_metric_of_images`, `Q_no_identification_of_independent_universes`, `Q_one_particle_maps` (12 Q checks); `python-pairing.json`, `Q.no_cancellation_independent_universes`, `Q.T2_image_keeps_B` (10 Q checks). Status: PROVED. The quantum reading therefore removes the one place where a zero total could have looked like "a pair that costs nothing": for two independent quantum universes the energies do not cancel.
 
 **Theorem T3 (the Kohn-Sham level, dirac16complex).** At the level of the Kohn-Sham model of Chapters 14 and 15 (instantaneous mean-field states at a fixed slice $a_{4,0}$ of the deflating history, good sector, Hartree plus the exact uniform-gas exchange), the block map of $\Gamma$, with the two brane parities exchanged and the tip angle $\theta \to \pi - \theta$, maps every self-consistent Kohn-Sham state with $(m, \lambda, \theta)$ onto one with $(-m, +\lambda, \pi - \theta)$, with equal levels, occupations, Kohn-Sham energy, grand potential and energy-momentum profiles, and $S \to -S$ (`t3-theory.json`; `wolfram-t3.json` 10 of 10 and `python-t3.json` 13 of 13 checks PASS). The Z2 brane is ASSUMED; the tip condition is a choice and must be transformed; in its parameters the map is of the T2 type (equal energies), although its matrix is the chirality of T1. Status: PROVED under these hypotheses. The proof in outline (`t3-theory.json`, key `proof`; the check names below are those of `wolfram-t3.json`, and `python-t3.json` has the same checks with a dot after `T3`; Chapter 19 gives the proof line by line and runs the Rust solver for both members): the $2 \times 2$ block form of $\Gamma$ maps each block Hamiltonian with the effective mass $M_{\mathrm{eff}}$ onto the block Hamiltonian of the other block with $-M_{\mathrm{eff}}$ at the same level (check `T3_block_hamiltonian_map`); it turns the tip condition with angle $\theta$ into the one with $\pi - \theta$ and exchanges the brane parities (checks `T3_tip_condition_map`, `T3_brane_parities_exchanged`); the densities that enter the energies are even under the map and $S$ is odd, so $M_{\mathrm{eff}} \to -M_{\mathrm{eff}}$ exactly when $(m, \lambda) \to (-m, +\lambda)$ (checks `T3_orbital_densities`, `T3_mean_field_map`); a one-to-one map between the orbitals with equal levels then gives equal occupations, energies and energy-momentum profiles (check `T3_energies_and_emt_profiles_equal`). T3's own list of what it does not establish begins with "No creation process, rate or amplitude" and adds: instantaneous states only (the time-dependent problem is OPEN), the brane ASSUMED, mean-field level only, and no back-reaction.
 
@@ -359,33 +359,33 @@ $$
 1. By hypothesis (ii) the source is $T^\mu{}_\nu[\Psi; m, \lambda] + T^\mu{}_\nu[\Gamma\Psi; -m, -\lambda]$.
 2. By (T1c) the second term is minus the first, so the source is zero at every point.
 3. With $\alpha_1 = 1$ and $\alpha_2 = \alpha_3 = 0$ the field equations become $G^\mu{}_\nu + \Lambda\delta^\mu_\nu = 0$.
-4. The record gives $G^{x_4}{}_{x_4} = 3a_4'^2 + 21H^2$ and $G^{x_8}{}_{x_8} = -3a_4'^2 + 15H^2$ (`python-a4-report.json`, check `einstein_components`), so two of the equations read $3a_4'^2 + 21H^2 + \Lambda = 0$ and $-3a_4'^2 + 15H^2 + \Lambda = 0$.
+4. The record gives $G^{x_4}{}_{x_4} = 3a_4'^2 + 21H^2$ and $G^{x_0}{}_{x_0} = -3a_4'^2 + 15H^2$ (`python-a4-report.json`, check `einstein_components`), so two of the equations read $3a_4'^2 + 21H^2 + \Lambda = 0$ and $-3a_4'^2 + 15H^2 + \Lambda = 0$.
 5. Subtracting the second from the first removes $\Lambda$: $6a_4'^2 + 6H^2 = 0$.
 6. For a real function $a_4$ the left side is at least $6H^2$, which is positive for $H > 0$; line 5 is false, so no real $a_4$ solves the equations. QED.
 
 Adding the two equations of line 4 instead gives $36H^2 + 2\Lambda = 0$, so a solution would need $\Lambda = -18H^2$ and $a_4'^2 = -H^2$, that is $a_4' = \pm iH$: not a real rate. The other two independent equations, $15H^2 - 3a_4'^2 \pm a_4'' + \Lambda = 0$ for 3-space ($+$) and the extra times ($-$), then give $a_4'' = 0$. Records: `wolfram-a4-report.json`, check `einstein_no_vacuum_solution`; `python-a4-report.json`, check `einstein_no_vacuum`; `einstein-gauss-bonnet-a4.json`, check `no_vacuum_for_H_positive`. Notebook 20a, In [12], derives all of this with sympy from the record's components.
 
-**What the geometry requires of any source.** With a source, the $x_4$ and $x_8$ equations read $\sum_k\alpha_kE_{(k)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\rho$ and $\sum_k\alpha_kE_{(k)}{}^{x_8}{}_{x_8} + \Lambda = \kappa p_8$, because $T^{x_4}{}_{x_4} = -\rho$ and $T^{x_8}{}_{x_8} = p_8$. Subtracting the first from the second:
+**What the geometry requires of any source.** With a source, the $x_4$ and $x_0$ equations read $\sum_k\alpha_kE_{(k)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\rho$ and $\sum_k\alpha_kE_{(k)}{}^{x_0}{}_{x_0} + \Lambda = \kappa p_0$, because $T^{x_4}{}_{x_4} = -\rho$ and $T^{x_0}{}_{x_0} = p_0$. Subtracting the first from the second:
 
 $$
-\sum_k\alpha_k\big(E_{(k)}{}^{x_8}{}_{x_8} - E_{(k)}{}^{x_4}{}_{x_4}\big) = \kappa p_8 + \kappa\rho .
+\sum_k\alpha_k\big(E_{(k)}{}^{x_0}{}_{x_0} - E_{(k)}{}^{x_4}{}_{x_4}\big) = \kappa p_0 + \kappa\rho .
 $$
 
 $\Lambda$ cancels in the difference. So every source must have the null combination
 
 $$
-\kappa(\rho + p_8) = -\sum_k\alpha_k\big(E_{(k)}{}^{x_4}{}_{x_4} - E_{(k)}{}^{x_8}{}_{x_8}\big) .
+\kappa(\rho + p_0) = -\sum_k\alpha_k\big(E_{(k)}{}^{x_4}{}_{x_4} - E_{(k)}{}^{x_0}{}_{x_0}\big) .
 $$
 
 In Einstein gravity, with the components of line 4,
 
 $$
-\kappa(\rho + p_8) = -\big(3a_4'^2 + 21H^2 + 3a_4'^2 - 15H^2\big) = -6(a_4'^2 + H^2) \le -6H^2 < 0 .
+\kappa(\rho + p_0) = -\big(3a_4'^2 + 21H^2 + 3a_4'^2 - 15H^2\big) = -6(a_4'^2 + H^2) \le -6H^2 < 0 .
 $$
 
-The first equality inserts the components; the second collects the terms; the inequality holds because $a_4'^2 \ge 0$ (`python-a4-report.json` and `wolfram-a4-report.json`, check `einstein_null_energy_x8`). A T1 pair supplies $\rho + p_8 = 0$, which is never $\le -6H^2$: this is C1(a) once more, now as a statement about the source.
+The first equality inserts the components; the second collects the terms; the inequality holds because $a_4'^2 \ge 0$ (`python-a4-report.json` and `wolfram-a4-report.json`, check `einstein_null_energy_x0`). A T1 pair supplies $\rho + p_0 = 0$, which is never $\le -6H^2$: this is C1(a) once more, now as a statement about the source.
 
-**Proof of (b), line by line.** For the linear member $a_4' = AH$ the record writes the right-hand side as $-6(A^2 + 1)H^2V$ with the vacuum factor $V$ above (`wolfram-a4-report.json` and `python-a4-report.json`, check `linear_member_vacuum_factor`). A vacuum has $\rho = p_8 = 0$, and $6(A^2 + 1)H^2 > 0$, so it needs $V = 0$. In Einstein-Gauss-Bonnet gravity ($\alpha_1 = 1$, $\alpha_3 = 0$):
+**Proof of (b), line by line.** For the linear member $a_4' = AH$ the record writes the right-hand side as $-6(A^2 + 1)H^2V$ with the vacuum factor $V$ above (`wolfram-a4-report.json` and `python-a4-report.json`, check `linear_member_vacuum_factor`). A vacuum has $\rho = p_0 = 0$, and $6(A^2 + 1)H^2 > 0$, so it needs $V = 0$. In Einstein-Gauss-Bonnet gravity ($\alpha_1 = 1$, $\alpha_3 = 0$):
 
 $$
 V = 1 - 40\alpha_2H^2 - 8A^2\alpha_2H^2 = 1 - 8\alpha_2H^2(A^2 + 5) .
@@ -425,9 +425,11 @@ a straight line in the plane of the two couplings; Einstein gravity ($x = y = 0$
 
 **What C1 says, and what it does not say.** PROVED: a T1 pair as the only source of the author's metric is a zero source; in Einstein gravity the metric then has no solution for $H > 0$, whatever $a_4$ and $\Lambda$. PROVED: in Einstein-Gauss-Bonnet gravity with $\alpha_2H^2 = 1/48$ and $\Lambda = -12H^2$ the author's deflating history IS a vacuum, so C1(a) depends on Einstein gravity. C1 does not apply to T2 pairs: the mirror copy carries the pulled-back, EQUAL tensor, so the sources add. C1 does not apply to two independently quantised universes (statement Q3). And C1 is not a creation statement: it compares two sources in ONE given geometry and derives no process, rate or amplitude. In Einstein gravity it says the opposite of "a pair makes the universe": a T1 pair alone cannot be the source of the author's metric at all.
 
+**With the second function $b_4$.** The records state C1 on the background $b_4 = 1$; C1(a) holds for every $b_4(x_4)$. A zero source has $T^{x_4}{}_{x_0} = 0$, and in Einstein gravity the mixed component of the metric with $b_4$ is $G^{x_4}{}_{x_0} = \frac32H\cot z\,b_4'/b_4$, so the mixed equation forces $b_4' = 0$ (`wolfram-a4-report.json`, check `b4_einstein_offdiagonal_forces_b4_constant`). A constant $b_4$ is the rescaling $x_{5,6,7} \to \sqrt{b_4}\,x_{5,6,7}$ of the extra times, which changes none of the components used in lines 3 to 6, so the proof of (a) applies unchanged. For the Einstein-Lovelock weights of the author's notebook, $w_1 = 1$, $w_2 = 1/32$, $w_3 = 1/1152$ and the author's $\Lambda = 10$ (in units $H = 1$: $\alpha_k = w_k$, and $\Lambda = -10$ in the convention of this chapter), the record proves that every vacuum of the metric with $b_4$ has a constant $b_4$ and $a_4 = \pm Hx_4 + \mathrm{const}$ (`Revision/metric_b4/results/vacuum-b4.json`; `wolfram-a4-report.json`, check `b4_author_weights_vacuum`). This is the case (b) of C1: with these weights $V = 1 - 48/32 + 576/1152 = 0$ at $A = 1$, so the author's deflating history is a vacuum of the author's own weights, and a T1 pair as the only source is compatible with it.
+
 ### 20.8 Example: corollary C1 made visible
 
-Notebook 20a turns every line of Sections 20.5 and 20.7 into a computation. It reads the author's gamma matrices, builds $C$, $\Gamma$ and the generators $S^{ab}$, and computes with sympy the canonical spin connection of the author's metric on the patch and on the mirror patch; it reproduces the record's twelve components and $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$, and finds $-3H\gamma^{(x_8)}$ on the mirror patch (a computation of this book, not a record). It then takes an arbitrary configuration of dirac16complex00 at one point of the deflating history, evaluates its 64-component energy-momentum tensor, its current and its field equation, and does the same for its T1 partner and its T2 mirror copy: the T1 pair cancels component by component, the T2 pair does not. Finally it derives the vacuum equations of Einstein and Einstein-Lovelock gravity from the record's Lovelock tensors and draws why Einstein gravity has no vacuum and which couplings do. It prints 37 PASS lines, 25 of which reproduce a named check of a Revision report, and draws seven figures. It needs numpy, sympy and matplotlib, no Rust, and runs in about 30 seconds (its recorded check run on the build computer took 16.1 seconds; the notebook's provenance file, which lies next to it, records every run).
+Notebook 20a turns every line of Sections 20.5 and 20.7 into a computation. It reads the author's gamma matrices, builds $C$, $\Gamma$ and the generators $S^{ab}$, and computes with sympy the canonical spin connection of the author's metric on the patch and on the mirror patch; it reproduces the record's twelve components and $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$, and finds $-3H\gamma^{(x_0)}$ on the mirror patch (a computation of this book, not a record). It then takes an arbitrary configuration of dirac16complex00 at one point of the deflating history, evaluates its 64-component energy-momentum tensor, its current and its field equation, and does the same for its T1 partner and its T2 mirror copy: the T1 pair cancels component by component, the T2 pair does not. Finally it derives the vacuum equations of Einstein and Einstein-Lovelock gravity from the record's Lovelock tensors and draws why Einstein gravity has no vacuum and which couplings do. It prints 37 PASS lines, 25 of which reproduce a named check of a Revision report, and draws seven figures. It needs numpy, sympy and matplotlib, no Rust, and runs in about 30 seconds (its recorded check run on the build computer took 16.1 seconds; the notebook's provenance file, which lies next to it, records every run).
 
 <!-- NOTEBOOK 20a -->
 
@@ -682,21 +684,21 @@ import sympy as sp  # exact algebra
 `itertools.product` (used below) runs over all combinations of indices. **numpy**, short `np`, computes with arrays of floating-point numbers (numbers with about 16 significant digits). **sympy**, short `sp`, computes exactly with whole numbers, fractions and symbols.
 
 ```python
-NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]  # positions 0..7
-ETA = [1, 1, 1, -1, -1, -1, -1, 1]  # the frame metric eta, in the order x1..x8
+NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # positions 0..7
+ETA = [1, 1, 1, 1, -1, -1, -1, -1]  # the frame metric eta, in the order x0..x7
 I16 = sp.eye(16)  # the 16 by 16 unit matrix
 fixture = read_json(GAMMAS)
 gamma = [sp.Matrix([[sp.Rational(x) for x in row] for row in matrix])
-         for matrix in fixture["gamma"]]  # gamma[a] = gamma^(x_(a+1)), exact
+         for matrix in fixture["gamma"]]  # gamma[a] = gamma^(x_a), exact
 ```
 
-Python counts list positions from 0, so position 0 stands for $x_1$ and position 7 for $x_8$; `NAMES` holds the labels for the figures and `ETA` the diagonal of $\eta$ in the same order. `sp.eye(16)` is the exact unit matrix $I_{16}$. The file `gammas.json` stores, under the key `"gamma"`, the eight matrices as lists of rows of whole numbers. The double **list comprehension** `[[... for x in row] for row in matrix]` builds, row by row, a list of lists in which every entry is turned into an exact sympy number by `sp.Rational`; `sp.Matrix` makes a sympy matrix of it; the outer comprehension does this for each of the eight matrices. So `gamma[0]` is $\gamma^{(x_1)}$ and `gamma[7]` is $\gamma^{(x_8)}$.
+Python counts list positions from 0, and position $k$ stands for $x_k$: position 0 for the hidden direction $x_0$, position 4 for the time $x_4$; `NAMES` holds the labels for the figures and `ETA` the diagonal of $\eta$ in the same order. `sp.eye(16)` is the exact unit matrix $I_{16}$. The file `gammas.json` stores, under the key `"gamma"`, the eight matrices as lists of rows of whole numbers. The double **list comprehension** `[[... for x in row] for row in matrix]` builds, row by row, a list of lists in which every entry is turned into an exact sympy number by `sp.Rational`; `sp.Matrix` makes a sympy matrix of it; the outer comprehension does this for each of the eight matrices. The record lists the matrices in the order $x_0, \dots, x_7$, so `gamma[0]` is $\gamma^{(x_0)}$ and `gamma[7]` is $\gamma^{(x_7)}$.
 
 ```python
 clifford = all(gamma[a] * gamma[b] + gamma[b] * gamma[a]
                == (2 * ETA[a] if a == b else 0) * I16
                for a in range(8) for b in range(8))
-C = gamma[7] * gamma[0] * gamma[1] * gamma[2]  # C = g^(x8) g^(x1) g^(x2) g^(x3)
+C = gamma[0] * gamma[1] * gamma[2] * gamma[3]  # C = g^(x0) g^(x1) g^(x2) g^(x3)
 reproduces(clifford and C == C.T and C * C == I16
            and all((C * g).T == -(C * g) for g in gamma),
            "Clifford relation; C real symmetric, C^2 = 1, C gamma antisymmetric",
@@ -706,8 +708,8 @@ reproduces(clifford and C == C.T and C * C == I16
 `*` between sympy matrices is the matrix product. `all(...)` is true when the comparison holds for all 64 pairs $(a, b)$: the anticommutator $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)}$ must equal $2\eta_{aa}I_{16}$ when $a = b$ and the zero matrix otherwise (`x if condition else y` chooses one of two values). The next line builds $C$ from the record's definition. The check requires the Clifford relation, $C^T = C$ (`.T` is the transpose; the entries are real, so $C$ is real symmetric), $C^2 = I_{16}$, and that every $C\gamma^{(a)}$ is antisymmetric; it reproduces `python-pairing.json`, check `gammas.C`.
 
 ```python
-chirality = gamma[7]  # the product g^(x8) g^(x1) ... g^(x7), built factor by factor
-for a in range(7):
+chirality = gamma[0]  # the product g^(x0) g^(x1) ... g^(x7), built factor by factor
+for a in range(1, 8):
     chirality = chirality * gamma[a]
 reproduces(chirality == sp.diag(*([-1] * 8 + [1] * 8)),
            "Gamma = diag(-I8, I8)", PAIR_PY, "gammas.Gamma")
@@ -717,7 +719,7 @@ reproduces(all(chirality * g == -g * chirality for g in gamma)
            PAIR_WL, "Gamma_properties")
 ```
 
-The loop multiplies $\gamma^{(x_8)}$ from the right by $\gamma^{(x_1)}, \dots, \gamma^{(x_7)}$, in the record's order. `[-1] * 8 + [1] * 8` is the list of eight entries $-1$ followed by eight entries $+1$, and `sp.diag(*list)` is the diagonal matrix with these entries: the check is $\Gamma = \mathrm{diag}(-I_8, I_8)$. The second check is steps 1 and 2 of Section 20.5: $\Gamma\gamma^{(a)} = -\gamma^{(a)}\Gamma$ for all eight gammas and $\Gamma C = C\Gamma$.
+The loop multiplies $\gamma^{(x_0)}$ from the right by $\gamma^{(x_1)}, \dots, \gamma^{(x_7)}$, in the record's order. `[-1] * 8 + [1] * 8` is the list of eight entries $-1$ followed by eight entries $+1$, and `sp.diag(*list)` is the diagonal matrix with these entries: the check is $\Gamma = \mathrm{diag}(-I_8, I_8)$. The second check is steps 1 and 2 of Section 20.5: $\Gamma\gamma^{(a)} = -\gamma^{(a)}\Gamma$ for all eight gammas and $\Gamma C = C\Gamma$.
 
 ```python
 S_exact = [[(gamma[a] * gamma[b] - gamma[b] * gamma[a]) / 4 for b in range(8)]
@@ -726,16 +728,16 @@ to_numpy = lambda matrix: np.array(matrix.tolist(), dtype=float)  # noqa: E731
 gamma_num = [to_numpy(g) for g in gamma]  # floating-point copies
 C_num, Gamma_num = to_numpy(C), to_numpy(chirality)
 S_num = [[to_numpy(S_exact[a][b]) for b in range(8)] for a in range(8)]
-B_num = -1j * C_num @ gamma_num[3]  # B = -i C gamma^(x4): J^x4 = Psi^dagger B Psi
+B_num = -1j * C_num @ gamma_num[4]  # B = -i C gamma^(x4): J^x4 = Psi^dagger B Psi
 ```
 
-`S_exact[a][b]` is the generator $S^{ab} = \frac14[\gamma^{(a)}, \gamma^{(b)}]$, exactly, for all 64 pairs. `lambda matrix: ...` is a one-line function: it turns a sympy matrix into a numpy array of floating-point numbers (`tolist()` gives the list of rows); the comment `noqa: E731` tells a style checker that the one-line form is intended. The next lines make floating-point copies of the gammas, of $C$, of $\Gamma$ and of the $S^{ab}$. In numpy, `@` is the matrix product and `1j` is the imaginary unit $i$; `B_num` is $B = -iC\gamma^{(x_4)}$ (position 3 is $x_4$). The cell prints the three PASS lines with their records.
+`S_exact[a][b]` is the generator $S^{ab} = \frac14[\gamma^{(a)}, \gamma^{(b)}]$, exactly, for all 64 pairs. `lambda matrix: ...` is a one-line function: it turns a sympy matrix into a numpy array of floating-point numbers (`tolist()` gives the list of rows); the comment `noqa: E731` tells a style checker that the one-line form is intended. The next lines make floating-point copies of the gammas, of $C$, of $\Gamma$ and of the $S^{ab}$. In numpy, `@` is the matrix product and `1j` is the imaginary unit $i$; `B_num` is $B = -iC\gamma^{(x_4)}$ (position 4 is $x_4$). The cell prints the three PASS lines with their records.
 
 **In [4], the spin connection on both patches.**
 
 ```python
 H = sp.symbols("H", positive=True)  # the author's constant H > 0
-z = sp.symbols("z", real=True)  # the hidden coordinate z = 6 H x8
+z = sp.symbols("z", real=True)  # the hidden coordinate z = 6 H x0
 x4 = sp.symbols("x4", real=True)  # the time
 a4 = sp.Function("a4")(x4)  # the metric function a4(x4), arbitrary
 a4_value, slope = sp.symbols("a4_value slope", real=True)  # a4 and a4' at a point
@@ -744,33 +746,33 @@ a4_value, slope = sp.symbols("a4_value slope", real=True)  # a4 and a4' at a poi
 `sp.symbols` makes sympy symbols, letters that sympy computes with; `positive=True` and `real=True` tell sympy what kind of number they stand for, which lets it simplify correctly (for example $\sqrt{H^2} = H$). `sp.Function("a4")(x4)` is an unknown function $a_4(x_4)$: sympy can differentiate it without knowing it. The last two symbols will replace $a_4$ and $a_4'$ at a point.
 
 ```python
-def lengths(s8):
-    """The lengths E_a of the diagonal vielbein; s8 = +1 on the patch, -1 on the
+def lengths(s0):
+    """The lengths E_a of the diagonal vielbein; s0 = +1 on the patch, -1 on the
     mirror patch (where cot z < 0, so -cot z is the positive length)."""
     s = sp.sin(z) ** sp.Rational(1, 6)  # the warp sin(z)^(1/6) of a length
-    return ([sp.exp(a4) * s] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * s] * 3
-            + [s8 * sp.cot(z)])
+    return ([s0 * sp.cot(z)] + [sp.exp(a4) * s] * 3 + [sp.Integer(1)]
+            + [sp.exp(-a4) * s] * 3)  # x0, x1, ..., x7
 ```
 
-The lengths $E_a$ (written $f_a$ in Sections 20.5 and 20.6) of the diagonal vielbein, in the order $x_1, \dots, x_8$: three times $e^{a_4}\sin^{1/6}z$ for the inflating 3-space, 1 for the time, three times $e^{-a_4}\sin^{1/6}z$ for the DEFLATING extra times, and $s_8\cot z$ for the hidden direction. `**` is the power and `sp.Rational(1, 6)` the exact fraction $1/6$. `[x] * 3` is a list of three copies of `x`, and `+` joins lists. On the mirror patch $\cot z$ is negative, so the positive length there is $-\cot z$: the argument `s8` is $+1$ on the patch and $-1$ on the mirror patch.
+The lengths $E_a$ (written $f_a$ in Sections 20.5 and 20.6) of the diagonal vielbein, in the order $x_0, \dots, x_7$: $s_0\cot z$ for the hidden direction, three times $e^{a_4}\sin^{1/6}z$ for the inflating 3-space, 1 for the time, and three times $e^{-a_4}\sin^{1/6}z$ for the DEFLATING extra times (on the background $b_4 = 1$). `**` is the power and `sp.Rational(1, 6)` the exact fraction $1/6$. `[x] * 3` is a list of three copies of `x`, and `+` joins lists. On the mirror patch $\cot z$ is negative, so the positive length there is $-\cot z$: the argument `s0` is $+1$ on the patch and $-1$ on the mirror patch.
 
 ```python
 def d(expr, mu):
     """The partial derivative along the coordinate at position mu."""
-    if mu == 3:
+    if mu == 4:
         return sp.diff(expr, x4)
-    if mu == 7:
-        return 6 * H * sp.diff(expr, z)  # d/dx8 = 6 H d/dz
+    if mu == 0:
+        return 6 * H * sp.diff(expr, z)  # d/dx0 = 6 H d/dz
     return sp.Integer(0)  # nothing depends on x1, x2, x3, x5, x6, x7
 ```
 
-The partial derivative $\partial_\mu$ of an expression: along $x_4$ (position 3) it is `sp.diff(expr, x4)`; along $x_8$ (position 7) the chain rule gives $\partial/\partial x_8 = (dz/dx_8)\,\partial/\partial z = 6H\,\partial/\partial z$; along the other six directions it is zero, because the metric does not depend on them.
+The partial derivative $\partial_\mu$ of an expression: along $x_4$ (position 4) it is `sp.diff(expr, x4)`; along $x_0$ (position 0) the chain rule gives $\partial/\partial x_0 = (dz/dx_0)\,\partial/\partial z = 6H\,\partial/\partial z$; along the other six directions it is zero, because the metric does not depend on them.
 
 ```python
-def spin_connection(s8):
+def spin_connection(s0):
     """The lengths E_a and omega[mu][a][b] = omega_mu ab at a point (a4 and a4'
     replaced by the symbols a4_value and slope)."""
-    E = lengths(s8)
+    E = lengths(s0)
     g = [ETA[a] * E[a] ** 2 for a in range(8)]  # the metric g_aa
     christoffel = {}
     for a, b, c in itertools.product(range(8), repeat=3):
@@ -815,13 +817,13 @@ The connection is computed on both patches. For each, `sum(1 for ... if ...)` co
 s = sp.sin(z) ** sp.Rational(1, 6)
 u, v = sp.exp(a4_value) * s, sp.exp(-a4_value) * s
 expected = {}  # (mu, a, b) -> the record's component, on the patch
-for i in (0, 1, 2):  # the inflating 3-space directions
-    expected[i, i, 3], expected[i, i, 7] = slope * u, H * u
-for t in (4, 5, 6):  # the deflating extra times
-    expected[t, 3, t], expected[t, t, 7] = -slope * v, -H * v
+for i in (1, 2, 3):  # the inflating 3-space directions
+    expected[i, i, 4], expected[i, 0, i] = slope * u, -H * u
+for t in (5, 6, 7):  # the deflating extra times
+    expected[t, 4, t], expected[t, 0, t] = -slope * v, H * v
 ```
 
-`u` and `v` are the two lengths $e^{a_4}\sin^{1/6}z$ and $e^{-a_4}\sin^{1/6}z$ at a point. The dictionary `expected` holds the record's twelve components: for each inflating direction $i$, $\omega_{x_i,x_ix_4} = a_4'u$ and $\omega_{x_i,x_ix_8} = Hu$; for each deflating extra time $t$, $\omega_{x_t,x_4x_t} = -a_4'v$ and $\omega_{x_t,x_tx_8} = -Hv$.
+`u` and `v` are the two lengths $e^{a_4}\sin^{1/6}z$ and $e^{-a_4}\sin^{1/6}z$ at a point. The dictionary `expected` holds the record's twelve components: for each inflating direction $i$, $\omega_{x_i,x_ix_4} = a_4'u$ and $\omega_{x_i,x_0x_i} = -Hu$; for each deflating extra time $t$, $\omega_{x_t,x_4x_t} = -a_4'v$ and $\omega_{x_t,x_0x_t} = Hv$ (with $a < b$ in the order $x_0, \dots, x_7$, so the hidden index comes first, and $\omega_{\mu,ba} = -\omega_{\mu,ab}$).
 
 ```python
 def components(omega):
@@ -841,33 +843,33 @@ def same_components(found, wanted):
 reproduces(same_components(components(omega_patch), expected),
            "the twelve spin-connection components of the record (patch)",
            PAIR_PY, "geometry.spin_connection_components")
-flipped = {key: (-value if 7 in key[1:] else value)
-           for key, value in expected.items()}  # x8 components change sign
+flipped = {key: (-value if 0 in key[1:] else value)
+           for key, value in expected.items()}  # x0 components change sign
 reproduces(same_components(components(omega_mirror), flipped),
-           "mirror patch: the x8 components change sign, the others do not",
+           "mirror patch: the x0 components change sign, the others do not",
            PAIR_WL, "connection_mirror_patch")
 ```
 
-The first check compares the patch with the record. On the mirror patch the length $E_8 = -\cot z$ has the opposite sign, so every component with a frame index $x_8$ changes sign: `flipped` is `expected` with the sign reversed wherever the position 7 occurs among the two frame indices `key[1:]`. The second check compares the mirror patch with it.
+The first check compares the patch with the record. On the mirror patch the length $E_0 = -\cot z$ has the opposite sign, so every component with a frame index $x_0$ changes sign: `flipped` is `expected` with the sign reversed wherever the position 0 occurs among the two frame indices `key[1:]`. The second check compares the mirror patch with it.
 
 ```python
-Omega = {}  # s8 -> the eight matrices Omega_mu
-for s8, omega in ((1, omega_patch), (-1, omega_mirror)):
-    Omega[s8] = [sum((omega[mu][a][b] * S_exact[a][b] / 2 for a in range(8)
+Omega = {}  # s0 -> the eight matrices Omega_mu
+for s0, omega in ((1, omega_patch), (-1, omega_mirror)):
+    Omega[s0] = [sum((omega[mu][a][b] * S_exact[a][b] / 2 for a in range(8)
                       for b in range(8) if omega[mu][a][b] != 0), sp.zeros(16))
                  for mu in range(8)]
-term = {}  # s8 -> sum over mu of gamma^mu Omega_mu
-for s8, E in ((1, E_patch), (-1, E_mirror)):
-    term[s8] = sum((gamma[mu] / E[mu] * Omega[s8][mu] for mu in range(8)),
+term = {}  # s0 -> sum over mu of gamma^mu Omega_mu
+for s0, E in ((1, E_patch), (-1, E_mirror)):
+    term[s0] = sum((gamma[mu] / E[mu] * Omega[s0][mu] for mu in range(8)),
                    sp.zeros(16)).applyfunc(sp.simplify)
 ```
 
-For each patch, `Omega[s8][mu]` is the matrix $\Omega_\mu = \frac12\sum_{a,b}\omega_{\mu ab}S^{ab}$; `sum(..., sp.zeros(16))` adds matrices starting from the $16 \times 16$ zero matrix. `term[s8]` is $\sum_\mu\gamma^\mu\Omega_\mu$ with $\gamma^\mu = \gamma^{(\mu)}/E_\mu$; `.applyfunc(sp.simplify)` simplifies each of its 256 entries.
+For each patch, `Omega[s0][mu]` is the matrix $\Omega_\mu = \frac12\sum_{a,b}\omega_{\mu ab}S^{ab}$; `sum(..., sp.zeros(16))` adds matrices starting from the $16 \times 16$ zero matrix. `term[s0]` is $\sum_\mu\gamma^\mu\Omega_\mu$ with $\gamma^\mu = \gamma^{(\mu)}/E_\mu$; `.applyfunc(sp.simplify)` simplifies each of its 256 entries.
 
 ```python
-reproduces(term[1] == 3 * H * gamma[7], "patch: gamma^mu Omega_mu = 3 H gamma^(x8)",
-           LEAD_EMT, "gamma_Omega_equals_3H_gamma8")
-check(term[-1] == -3 * H * gamma[7], "mirror patch: gamma^mu Omega_mu = -3 H gamma^(x8)")
+reproduces(term[1] == 3 * H * gamma[0], "patch: gamma^mu Omega_mu = 3 H gamma^(x0)",
+           LEAD_EMT, "gamma_Omega_equals_3H_gamma0")
+check(term[-1] == -3 * H * gamma[0], "mirror patch: gamma^mu Omega_mu = -3 H gamma^(x0)")
 g_patch = [ETA[a] * E_patch[a] ** 2 for a in range(8)]
 reproduces(all(sp.simplify(entry.subs(z, sp.pi - z) - entry) == 0
                for entry in g_patch),
@@ -875,27 +877,27 @@ reproduces(all(sp.simplify(entry.subs(z, sp.pi - z) - entry) == 0
            PAIR_PY, "geometry.mirror_isometry")
 ```
 
-On the patch the sum is $3H\gamma^{(x_8)}$, the record's spin-connection term, with no $a_4$ or $a_4'$ left: the terms of the three inflating and the three deflating directions along $\gamma^{(x_4)}$ cancel. On the mirror patch it is $-3H\gamma^{(x_8)}$; this check has no record (a computation of this notebook). The last check substitutes $z \to \pi - z$ into the eight metric components and finds each unchanged: the mirror is an isometry.
+On the patch the sum is $3H\gamma^{(x_0)}$, the record's spin-connection term, with no $a_4$ or $a_4'$ left: the terms of the three inflating and the three deflating directions along $\gamma^{(x_4)}$ cancel. On the mirror patch it is $-3H\gamma^{(x_0)}$; this check has no record (a computation of this notebook). The last check substitutes $z \to \pi - z$ into the eight metric components and finds each unchanged: the mirror is an isometry.
 
 **In [6], the geometry at a point and the bilinears.**
 
 ```python
 point_symbols = (z, a4_value, slope, H)
-NUMERIC = {}  # s8 -> (the function of the lengths, the connection pieces)
-for s8, E, omega in ((1, E_patch, omega_patch), (-1, E_mirror, omega_mirror)):
+NUMERIC = {}  # s0 -> (the function of the lengths, the connection pieces)
+for s0, E, omega in ((1, E_patch, omega_patch), (-1, E_mirror, omega_mirror)):
     lengths_f = sp.lambdify(point_symbols, E, "numpy")
     pieces = [(mu, a, b, sp.lambdify(point_symbols, omega[mu][a][b], "numpy"))
               for mu in range(8) for a in range(8) for b in range(8)
               if omega[mu][a][b] != 0]
-    NUMERIC[s8] = (lengths_f, pieces)
+    NUMERIC[s0] = (lengths_f, pieces)
 ```
 
 `sp.lambdify(symbols, expression, "numpy")` turns a sympy expression into an ordinary Python function of the listed symbols that computes with numpy. For each patch, `lengths_f` computes the eight lengths and `pieces` is a list of the nonzero components $(\mu, a, b)$, each with its own function; they are stored under the key $+1$ or $-1$.
 
 ```python
-def geometry_at(s8, z_value, a4_number, slope_number, H_number=1.0):
+def geometry_at(s0, z_value, a4_number, slope_number, H_number=1.0):
     """Lengths, metric, Omega_mu and the curved gammas at one point."""
-    lengths_f, pieces = NUMERIC[s8]
+    lengths_f, pieces = NUMERIC[s0]
     values = (z_value, a4_number, slope_number, H_number)
     E = np.array([float(x) for x in lengths_f(*values)])
     Om = [np.zeros((16, 16)) for _ in range(8)]
@@ -906,7 +908,7 @@ def geometry_at(s8, z_value, a4_number, slope_number, H_number=1.0):
             "down": [ETA[mu] * E[mu] * gamma_num[mu] for mu in range(8)]}
 ```
 
-`geometry_at` evaluates the geometry at one point: the patch (`s8`), $z$, $a_4$, $a_4'$ and $H$ (1 unless given). `f(*values)` calls a function with the four numbers as its arguments. It returns a dictionary with the metric $g_{\mu\mu}$, the eight matrices $\Omega_\mu$ (built from the pieces), the curved gammas with an upper index $\gamma^\mu = \gamma^{(\mu)}/E_\mu$ and with a lower index $\gamma_\mu = g_{\mu\mu}\gamma^\mu = \eta_{\mu\mu}E_\mu\gamma^{(\mu)}$.
+`geometry_at` evaluates the geometry at one point: the patch (`s0`), $z$, $a_4$, $a_4'$ and $H$ (1 unless given). `f(*values)` calls a function with the four numbers as its arguments. It returns a dictionary with the metric $g_{\mu\mu}$, the eight matrices $\Omega_\mu$ (built from the pieces), the curved gammas with an upper index $\gamma^\mu = \gamma^{(\mu)}/E_\mu$ and with a lower index $\gamma_\mu = g_{\mu\mu}\gamma^\mu = \eta_{\mu\mu}E_\mu\gamma^{(\mu)}$.
 
 ```python
 def bilinears(at, psi, dpsi, m, lam):
@@ -952,13 +954,14 @@ $S$, $K$, $T_{\mu\nu}$ and $J^\mu$ must be real numbers (Chapter 7 proves it); i
 
 ```python
 rng = np.random.default_rng(20261007)  # a fixed seed: the same numbers every run
-R8_SIGNS = [1, 1, 1, 1, 1, 1, 1, -1]  # the mirror reverses the direction x8
+R0_SIGNS = [-1, 1, 1, 1, 1, 1, 1, 1]  # the mirror reverses the direction x0
 psi = rng.normal(size=16) + 1j * rng.normal(size=16)  # the 16 complex values
 dpsi = [rng.normal(size=16) + 1j * rng.normal(size=16) for _ in range(8)]
+dpsi = dpsi[7:] + dpsi[:7]  # drawn hidden direction last, as before; now x0 first
 Z0, A4_0, M0, LAM0 = 0.6, 0.5, 2.0, 0.5  # the point and the parameters (H = 1)
 ```
 
-`np.random.default_rng(20261007)` is a random-number generator started from a fixed **seed**, so that every run draws the same numbers and the notebook is reproducible. `rng.normal(size=16)` draws 16 numbers from the bell-shaped normal distribution; real part plus $i$ times another 16 such numbers gives 16 random complex values $\Psi$, and the comprehension draws eight more such columns, the derivatives $\partial_\mu\Psi$. `R8_SIGNS` is the diagonal of $R_8$, used later. The point is $z = 0.6$, $a_4 = 0.5$, and the parameters are $m = 2$, $\lambda = 1/2$, in units $H = 1$.
+`np.random.default_rng(20261007)` is a random-number generator started from a fixed **seed**, so that every run draws the same numbers and the notebook is reproducible. `rng.normal(size=16)` draws 16 numbers from the bell-shaped normal distribution; real part plus $i$ times another 16 such numbers gives 16 random complex values $\Psi$, and the comprehension draws eight more such columns, the derivatives $\partial_\mu\Psi$. They are drawn in the order in which this notebook drew them before it moved to the author's coordinates, with the hidden direction last; `dpsi[7:] + dpsi[:7]` moves that last column to the front, so that `dpsi[mu]` is $\partial_\mu\Psi$ for $x_\mu$ and every number of the notebook stays the same. `R0_SIGNS` is the diagonal of $R_0$, used later. The point is $z = 0.6$, $a_4 = 0.5$, and the parameters are $m = 2$, $\lambda = 1/2$, in units $H = 1$.
 
 ```python
 at = geometry_at(1, Z0, A4_0, 1.0)  # a4' = 1: the deflating history A = 1
@@ -1026,7 +1029,7 @@ for ax, (values, title) in zip(axes, panels):
 fig.colorbar(image, ax=list(axes), shrink=0.8, label="value (units $H = 1$)")
 ```
 
-`zip` walks through the panels and the tables together. `ax.imshow` draws an $8 \times 8$ table as coloured squares (a **heat map**): the colour map `RdBu_r` runs from blue (negative) through white (zero) to red (positive), and `vmin=-scale, vmax=scale` uses the same scale in all three panels, so that equal colours mean equal numbers. The tick lines put the labels $x_1$ to $x_8$ on both axes; `ax.grid(False)` switches off the grid lines. `fig.colorbar` draws the colour scale beside the panels.
+`zip` walks through the panels and the tables together. `ax.imshow` draws an $8 \times 8$ table as coloured squares (a **heat map**): the colour map `RdBu_r` runs from blue (negative) through white (zero) to red (positive), and `vmin=-scale, vmax=scale` uses the same scale in all three panels, so that equal colours mean equal numbers. The tick lines put the labels $x_0$ to $x_7$ on both axes; `ax.grid(False)` switches off the grid lines. `fig.colorbar` draws the colour scale beside the panels.
 
 ```python
 save_figure(fig, "t1_pair_tensor",
@@ -1035,7 +1038,7 @@ save_figure(fig, "t1_pair_tensor",
             "says, although the configuration is not even a solution.")
 ```
 
-(The caption string, nine lines, is shown here by its first and last line with `...` between them; it is printed in full in the complete text of the notebook and under the figure. The same is done for every caption below.) `save_figure` saves the figure as `20a_1_t1_pair_tensor.png` and shows it. **What figure 1 shows.** Three heat maps of the 64 components $T_{\mu\nu}$ (rows $\mu$, columns $\nu$, from $x_1$ to $x_8$; colour scale in units $H = 1$): left the random configuration, middle its T1 partner, right their sum. The student should see that the middle map is the left one with every colour reversed (red becomes blue of the same depth), and that the right map is white everywhere: the source of the T1 pair is zero, component by component, even though the configuration does not solve the field equation. This is theorem T1 (T1c and T1d) at one point of the deflating history.
+(The caption string, nine lines, is shown here by its first and last line with `...` between them; it is printed in full in the complete text of the notebook and under the figure. The same is done for every caption below.) `save_figure` saves the figure as `20a_1_t1_pair_tensor.png` and shows it. **What figure 1 shows.** Three heat maps of the 64 components $T_{\mu\nu}$ (rows $\mu$, columns $\nu$, from $x_0$ to $x_7$; colour scale in units $H = 1$): left the random configuration, middle its T1 partner, right their sum. The student should see that the middle map is the left one with every colour reversed (red becomes blue of the same depth), and that the right map is white everywhere: the source of the T1 pair is zero, component by component, even though the configuration does not solve the field equation. This is theorem T1 (T1c and T1d) at one point of the deflating history.
 
 **In [9], along the hidden direction: the T1 partner and the T2 mirror copy.**
 
@@ -1051,12 +1054,12 @@ A second random spinor $\Psi_1$ (the generator continues where it stopped, so th
 for z_value in z_patch:
     field = psi + 0.3 * (np.pi / 2 - z_value) ** 2 * psi_1  # Psi(z)
     slopes_here = [row.copy() for row in dpsi]  # the derivatives along x1 .. x7
-    slopes_here[7] = -3.6 * (np.pi / 2 - z_value) * psi_1  # 6 H dPsi/dz, H = 1
-    mirror_slopes = [R8_SIGNS[mu] * (gamma_num[7] @ slopes_here[mu])
-                     for mu in range(8)]  # the mirror reverses d/dx8
+    slopes_here[0] = -3.6 * (np.pi / 2 - z_value) * psi_1  # 6 H dPsi/dz, H = 1
+    mirror_slopes = [R0_SIGNS[mu] * (gamma_num[0] @ slopes_here[mu])
+                     for mu in range(8)]  # the mirror reverses d/dx0
 ```
 
-At each point the field is $\Psi(z) = \Psi_0 + \frac{3}{10}(\pi/2 - z)^2\Psi_1$. Its derivatives along $x_1, \dots, x_7$ are those of In [7] (`row.copy()` makes independent copies); its derivative along $x_8$ is $6H\,d\Psi/dz = 6 \cdot \frac{3}{10} \cdot 2(\pi/2 - z)(-1)\Psi_1 = -3.6(\pi/2 - z)\Psi_1$ (chain rule, $H = 1$), which vanishes at the brane and keeps the term $\tan z\,\gamma^{(x_8)}\partial_8\Psi$ finite there. The mirror copy has the derivatives $\gamma^{(x_8)}\partial_\mu\Psi$, with the sign of the $x_8$ derivative reversed, because the mirror $x_8 \to \pi/(6H) - x_8$ reverses that direction.
+At each point the field is $\Psi(z) = \Psi_0 + \frac{3}{10}(\pi/2 - z)^2\Psi_1$. Its derivatives along $x_1, \dots, x_7$ are those of In [7] (`row.copy()` makes independent copies); its derivative along $x_0$ is $6H\,d\Psi/dz = 6 \cdot \frac{3}{10} \cdot 2(\pi/2 - z)(-1)\Psi_1 = -3.6(\pi/2 - z)\Psi_1$ (chain rule, $H = 1$), which vanishes at the brane and keeps the term $\tan z\,\gamma^{(x_0)}\partial_0\Psi$ finite there. The mirror copy has the derivatives $\gamma^{(x_0)}\partial_\mu\Psi$, with the sign of the $x_0$ derivative reversed, because the mirror $x_0 \to \pi/(6H) - x_0$ reverses that direction.
 
 ```python
     here = geometry_at(1, z_value, A4_0, 1.0)
@@ -1065,14 +1068,14 @@ At each point the field is $\Psi(z) = \Psi_0 + \frac{3}{10}(\pi/2 - z)^2\Psi_1$.
         "one": bilinears(here, field, slopes_here, M0, LAM0),
         "T1": bilinears(here, Gamma_num @ field,
                         [Gamma_num @ row for row in slopes_here], -M0, -LAM0),
-        "T2": bilinears(there, gamma_num[7] @ field, mirror_slopes, -M0, LAM0),
+        "T2": bilinears(there, gamma_num[0] @ field, mirror_slopes, -M0, LAM0),
     }
     for key, result in results.items():
-        rho[key].append(-result["T"][3, 3])  # rho = -T_x4x4
-        charge[key].append(result["J"][3])  # J^x4
+        rho[key].append(-result["T"][4, 4])  # rho = -T_x4x4
+        charge[key].append(result["J"][4])  # J^x4
 ```
 
-The geometry at the point $z$ of the patch and at the mirror point $\pi - z$ of the mirror patch. The three objects: the field with $(m, \lambda)$, its T1 partner with $(-m, -\lambda)$ at the same point, and its T2 mirror copy $\gamma^{(x_8)}\Psi$ with $(-m, \lambda)$ at the mirror point. For each, the energy density $\rho = -T_{x_4x_4}$ (position 3, 3; the notebook computes the tensor $T_{\mu\nu}$ of the pairing records; because $g^{x_4x_4} = -1$, $T^{x_4}{}_{x_4} = g^{x_4x_4}T_{x_4x_4} = -T_{x_4x_4}$, so $-T_{x_4x_4} = +T^{x_4}{}_{x_4}$ in the pairing convention, which is $-T^{x_4}{}_{x_4}$ in the field-theory convention of Section 20.2, that is $\rho$) and the charge density $J^{x_4}$ are appended to their lists.
+The geometry at the point $z$ of the patch and at the mirror point $\pi - z$ of the mirror patch. The three objects: the field with $(m, \lambda)$, its T1 partner with $(-m, -\lambda)$ at the same point, and its T2 mirror copy $\gamma^{(x_0)}\Psi$ with $(-m, \lambda)$ at the mirror point. For each, the energy density $\rho = -T_{x_4x_4}$ (position 4, 4; the notebook computes the tensor $T_{\mu\nu}$ of the pairing records; because $g^{x_4x_4} = -1$, $T^{x_4}{}_{x_4} = g^{x_4x_4}T_{x_4x_4} = -T_{x_4x_4}$, so $-T_{x_4x_4} = +T^{x_4}{}_{x_4}$ in the pairing convention, which is $-T^{x_4}{}_{x_4}$ in the field-theory convention of Section 20.2, that is $\rho$) and the charge density $J^{x_4}$ are appended to their lists.
 
 ```python
 rho = {key: np.array(values) for key, values in rho.items()}
@@ -1086,7 +1089,7 @@ check(np.abs(rho["T2"] - rho["one"]).max() < 1e-10 * size
       "along z: the T2 copy has the same rho and J^x4 at the mirror point")
 ```
 
-The dictionary comprehension `{key: np.array(values) for ...}` turns each list into a numpy array, so that whole arrays can be added and compared. `size` is the largest modulus of the field's energy density or charge density along the line; the tolerances are measured relative to it. Two checks at all 160 points: the T1 partner has exactly $-\rho$ and $-J^{x_4}$; the T2 copy has, at the mirror point, the SAME $\rho$ and the SAME $J^{x_4}$. The second tolerance is $10^{-10}$ rather than $10^{-12}$ because the copy is evaluated with a different (mirror-patch) geometry, whose numbers $\sin^{1/6}(\pi - z)$ and $-\cot(\pi - z)$ agree with those of the patch only up to rounding, and near the brane the factor $\tan z = 1/E_8$ is large and amplifies these rounding differences. The cell prints the two PASS lines.
+The dictionary comprehension `{key: np.array(values) for ...}` turns each list into a numpy array, so that whole arrays can be added and compared. `size` is the largest modulus of the field's energy density or charge density along the line; the tolerances are measured relative to it. Two checks at all 160 points: the T1 partner has exactly $-\rho$ and $-J^{x_4}$; the T2 copy has, at the mirror point, the SAME $\rho$ and the SAME $J^{x_4}$. The second tolerance is $10^{-10}$ rather than $10^{-12}$ because the copy is evaluated with a different (mirror-patch) geometry, whose numbers $\sin^{1/6}(\pi - z)$ and $-\cot(\pi - z)$ agree with those of the patch only up to rounding, and near the brane the factor $\tan z = 1/E_0$ is large and amplifies these rounding differences. The cell prints the two PASS lines.
 
 **In [10], figure 2: the profiles across the brane.**
 
@@ -1100,7 +1103,7 @@ for ax, data, label in ((axes[0], rho, "energy density $\\rho$"),
     ax.plot(z_patch, data["one"] + data["T1"], color="black", linewidth=2.0,
             label="T1 pair: sum")
     ax.plot(np.pi - z_patch, data["T2"], color="tab:green",
-            label="T2 copy $\\gamma^{(x_8)}\\Psi$, $(-m, \\lambda)$")
+            label="T2 copy $\\gamma^{(x_0)}\\Psi$, $(-m, \\lambda)$")
 ```
 
 Two panels, the energy density on the left and the charge density on the right; the loop draws the same four curves in each. `ax.plot(x, y, ...)` draws a curve through the points; the style string of two minus signs makes it dashed, `color` sets its colour and `label` its name in the legend. The first three curves live on the patch (the field, its T1 partner and their sum); the fourth, the T2 copy, is drawn at its own points $\pi - z$ on the mirror patch.
@@ -1108,7 +1111,7 @@ Two panels, the energy density on the left and the charge density on the right; 
 ```python
     ax.axvline(np.pi / 2, color="grey", linestyle=":", linewidth=1.5)
     ax.text(np.pi / 2, ax.get_ylim()[1], " brane", va="top", fontsize=8)
-    ax.set_xlabel("hidden coordinate $z = 6Hx_8$")
+    ax.set_xlabel("hidden coordinate $z = 6Hx_0$")
     ax.set_ylabel(label + " (units $H = 1$)")
 handles, names = axes[0].get_legend_handles_labels()
 fig.legend(handles, names, loc="lower center", ncol=4, fontsize=8.5,
@@ -1127,39 +1130,39 @@ save_figure(fig, "pair_profiles",
 **In [11], the T2 mirror copy does not cancel; figure 3.**
 
 ```python
-R8 = np.array(R8_SIGNS, dtype=float)  # the reflection R8 of the x8 direction
-mirror_dpsi = [R8[mu] * (gamma_num[7] @ dpsi[mu]) for mu in range(8)]
-copy = bilinears(geometry_at(-1, np.pi - Z0, A4_0, 1.0), gamma_num[7] @ psi,
+R0 = np.array(R0_SIGNS, dtype=float)  # the reflection R0 of the x0 direction
+mirror_dpsi = [R0[mu] * (gamma_num[0] @ dpsi[mu]) for mu in range(8)]
+copy = bilinears(geometry_at(-1, np.pi - Z0, A4_0, 1.0), gamma_num[0] @ psi,
                  mirror_dpsi, -M0, LAM0)  # the T2 copy at the mirror point
-pulled_back = np.outer(R8, R8) * one["T"]  # R8 T R8
+pulled_back = np.outer(R0, R0) * one["T"]  # R0 T R0
 ```
 
-`R8` is the diagonal of $R_8 = \mathrm{diag}(1, 1, 1, 1, 1, 1, 1, -1)$. The copy of the configuration of In [7] (with its full jet, including the $x_8$ derivative, which the mirror reverses) is evaluated at the mirror point $\pi - 0.6$. `np.outer(R8, R8)` is the $8 \times 8$ table of products $R_{8,\mu}R_{8,\nu}$; multiplying it entry by entry with $T$ gives $(R_8TR_8)_{\mu\nu}$: the entries with exactly one index $x_8$ change sign, all others stay.
+`R0` is the diagonal of $R_0 = \mathrm{diag}(-1, 1, 1, 1, 1, 1, 1, 1)$. The copy of the configuration of In [7] (with its full jet, including the $x_0$ derivative, which the mirror reverses) is evaluated at the mirror point $\pi - 0.6$. `np.outer(R0, R0)` is the $8 \times 8$ table of products $R_{0,\mu}R_{0,\nu}$; multiplying it entry by entry with $T$ gives $(R_0TR_0)_{\mu\nu}$: the entries with exactly one index $x_0$ change sign, all others stay.
 
 ```python
 reproduces(np.abs(copy["T"] - pulled_back).max() < 1e-10 * scale,
-           "T2 copy: T' = R8 T R8 at the mirror point (64 components)",
+           "T2 copy: T' = R0 T R0 at the mirror point (64 components)",
            PAIR_PY, "T2.metric.commuting.emt")
-reproduces(np.abs(copy["J"] - R8 * one["J"]).max() < 1e-10 * scale,
-           "T2 copy: J' = R8 J (the charge density is unchanged)",
+reproduces(np.abs(copy["J"] - R0 * one["J"]).max() < 1e-10 * scale,
+           "T2 copy: J' = R0 J (the charge density is unchanged)",
            PAIR_PY, "T2.metric.commuting.current")
 reproduces(abs(copy["S"] + one["S"]) < 1e-10 * scale, "T2 copy: S' = -S",
            PAIR_PY, "T2.metric.commuting.S_odd")
-reproduces(np.abs(copy["E"] + gamma_num[7] @ one["E"]).max() < 1e-10 * scale,
-           "T2 copy: E_(-m,lambda)[Psi'] = -gamma^(x8) E_(m,lambda)[Psi]",
+reproduces(np.abs(copy["E"] + gamma_num[0] @ one["E"]).max() < 1e-10 * scale,
+           "T2 copy: E_(-m,lambda)[Psi'] = -gamma^(x0) E_(m,lambda)[Psi]",
            PAIR_PY, "T2.metric.commuting.euler_lagrange_map")
 reproduces(np.abs(copy["T"] + one["T"]).max() > 0.1 * scale,
            "T2 pair: the tensors do NOT cancel",
            PAIR_WL, "T2_mirror_energy_momentum_and_current_commuting")
 ```
 
-Five checks of theorem T2 at the point: the copy's tensor is the pulled-back one, $T' = R_8TR_8$; its current is $J' = R_8J$ (so the charge density $J^{x_4}$ is unchanged); its scalar is $S' = -S$; its residual is $-\gamma^{(x_8)}$ times that of the configuration (so it solves the $(-m, \lambda)$ equation on the mirror patch exactly when the configuration solves the $(m, \lambda)$ equation on the patch); and the sum $T + T'$ is NOT small (more than a tenth of the size of the tensor): a T2 pair has no zero source.
+Five checks of theorem T2 at the point: the copy's tensor is the pulled-back one, $T' = R_0TR_0$; its current is $J' = R_0J$ (so the charge density $J^{x_4}$ is unchanged); its scalar is $S' = -S$; its residual is $-\gamma^{(x_0)}$ times that of the configuration (so it solves the $(-m, \lambda)$ equation on the mirror patch exactly when the configuration solves the $(m, \lambda)$ equation on the patch); and the sum $T + T'$ is NOT small (more than a tenth of the size of the tensor): a T2 pair has no zero source.
 
 ```python
 fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.3))
 panels = ((one["T"], "$T_{\\mu\\nu}[\\Psi]$ at $z$"),
           (copy["T"], "$T_{\\mu\\nu}$ of the T2 copy at $\\pi - z$"),
-          (copy["T"] - pulled_back, "copy minus $R_8TR_8$"))
+          (copy["T"] - pulled_back, "copy minus $R_0TR_0$"))
 for ax, (values, title) in zip(axes, panels):
     image = ax.imshow(values, cmap="RdBu_r", vmin=-scale, vmax=scale)
     ax.set_xticks(range(8))
@@ -1175,7 +1178,7 @@ save_figure(fig, "t2_mirror_tensor",
             "the T2 pair has twice the source of one member.")
 ```
 
-Three new panels: the tensor of the configuration, the tensor of its T2 copy, and the copy minus the pulled-back tensor. The drawing loop is the one of In [8], line for line: a heat map with the same colour scale in each panel, the labels $x_1$ to $x_8$ on both axes, no grid, a title; then the common colour bar, and `save_figure` saves `20a_3_t2_mirror_tensor.png`. **What figure 3 shows.** Three heat maps of $T_{\mu\nu}$ (rows and columns $x_1$ to $x_8$, units $H = 1$, red positive, blue negative): left the configuration at $z = 0.6$, middle its T2 copy at $\pi - 0.6$, right their difference after the pull-back. The student should see that the left and middle maps are equal except in the last row and the last column, whose off-diagonal entries (one index $x_8$) have the opposite colour, and that the right map is white. Unlike the T1 partner, the mirror copy carries the SAME energy: a T2 pair has twice the source of one member.
+Three new panels: the tensor of the configuration, the tensor of its T2 copy, and the copy minus the pulled-back tensor. The drawing loop is the one of In [8], line for line: a heat map with the same colour scale in each panel, the labels $x_0$ to $x_7$ on both axes, no grid, a title; then the common colour bar, and `save_figure` saves `20a_3_t2_mirror_tensor.png`. **What figure 3 shows.** Three heat maps of $T_{\mu\nu}$ (rows and columns $x_0$ to $x_7$, units $H = 1$, red positive, blue negative): left the configuration at $z = 0.6$, middle its T2 copy at $\pi - 0.6$, right their difference after the pull-back. The student should see that the left and middle maps are equal except in the last row and the last column, whose off-diagonal entries (one index $x_0$) have the opposite colour, and that the right map is white. Unlike the T1 partner, the mirror copy carries the SAME energy: a T2 pair has twice the source of one member.
 
 **In [12], the T1 pair as the only source: Einstein's vacuum equations.**
 
@@ -1184,7 +1187,7 @@ record = read_json(A4_RECORD)
 ad1, ad2 = sp.symbols("ad1 ad2")  # a4' and a4'' (complex allowed)
 Lam = sp.symbols("Lambda")  # the cosmological constant
 alpha2, alpha3, A = sp.symbols("alpha2 alpha3 A", real=True)
-KEYS = ["x1x1", "x4x4", "x5x5", "x8x8"]  # the independent diagonal components
+KEYS = ["x0x0", "x1x1", "x4x4", "x5x5"]  # the independent diagonal components
 ```
 
 The record of the field equations for $a_4$ is read. Its formulas use the names `ad1` and `ad2` for $a_4'$ and $a_4''$; the notebook makes symbols with the same names and, on purpose, does NOT declare them real, so that sympy may find complex solutions if there are any. `Lam` is $\Lambda$; `alpha2`, `alpha3` and `A` are the two higher Lovelock couplings and the slope of the linear member. `KEYS` names the four independent diagonal components (the others repeat these).
@@ -1207,20 +1210,20 @@ solutions = sp.solve(vacuum, [ad1, ad2, Lam], dict=True)
 say(f"all solutions of the vacuum equations: {solutions}")
 ```
 
-`G` holds the four components of the Einstein tensor $E_{(1)} = G$; the loop prints them (`key[:2]` and `key[2:]` are the first two and the last two letters of the key). Output: $G^{x_1}{}_{x_1} = 15H^2 - 3a_4'^2 + a_4''$, $G^{x_4}{}_{x_4} = 21H^2 + 3a_4'^2$, $G^{x_5}{}_{x_5} = 15H^2 - 3a_4'^2 - a_4''$, $G^{x_8}{}_{x_8} = 15H^2 - 3a_4'^2$. `vacuum` is the list of the four vacuum equations $G^\mu{}_\mu + \Lambda = 0$, and `sp.solve` finds ALL solutions for the three unknowns $a_4'$, $a_4''$, $\Lambda$, each as a dictionary. Output: two solutions, $\Lambda = -18H^2$, $a_4'' = 0$ and $a_4' = -iH$ or $+iH$.
+`G` holds the four components of the Einstein tensor $E_{(1)} = G$; the loop prints them (`key[:2]` and `key[2:]` are the first two and the last two letters of the key). Output: $G^{x_0}{}_{x_0} = 15H^2 - 3a_4'^2$, $G^{x_1}{}_{x_1} = 15H^2 - 3a_4'^2 + a_4''$, $G^{x_4}{}_{x_4} = 21H^2 + 3a_4'^2$, $G^{x_5}{}_{x_5} = 15H^2 - 3a_4'^2 - a_4''$. `vacuum` is the list of the four vacuum equations $G^\mu{}_\mu + \Lambda = 0$, and `sp.solve` finds ALL solutions for the three unknowns $a_4'$, $a_4''$, $\Lambda$, each as a dictionary. Output: two solutions, $\Lambda = -18H^2$, $a_4'' = 0$ and $a_4' = -iH$ or $+iH$.
 
 ```python
 found = {(s[ad1], s[ad2], s[Lam]) for s in solutions}
 reproduces(found == {(sp.I * H, 0, -18 * H ** 2), (-sp.I * H, 0, -18 * H ** 2)},
            "the only solutions have a4' = +i H or -i H: none is real",
            LEAD_EGB, "no_vacuum_for_H_positive")
-difference = sp.expand(vacuum[1] - vacuum[3])  # x4 equation minus x8 equation
-total = sp.expand(vacuum[1] + vacuum[3])  # x4 equation plus x8 equation
-report("x4 equation minus x8 equation", difference)
-report("x4 equation plus x8 equation", total)
+difference = sp.expand(vacuum[2] - vacuum[0])  # x4 equation minus x0 equation
+total = sp.expand(vacuum[2] + vacuum[0])  # x4 equation plus x0 equation
+report("x4 equation minus x0 equation", difference)
+report("x4 equation plus x0 equation", total)
 ```
 
-`found` is the set of the solutions as triples; the check requires exactly the two triples $(\pm iH, 0, -18H^2)$ (`sp.I` is sympy's $i$): no real rate. Then the two combinations of the proof of C1(a): the $x_4$ equation minus the $x_8$ equation and their sum, multiplied out by `sp.expand`. Output: $6H^2 + 6a_4'^2$ and $36H^2 + 2\Lambda$, lines 5 and the remark after line 6 of Section 20.7.
+`found` is the set of the solutions as triples; the check requires exactly the two triples $(\pm iH, 0, -18H^2)$ (`sp.I` is sympy's $i$): no real rate. Then the two combinations of the proof of C1(a): the $x_4$ equation minus the $x_0$ equation and their sum, multiplied out by `sp.expand`. Output: $6H^2 + 6a_4'^2$ and $36H^2 + 2\Lambda$, lines 5 and the remark after line 6 of Section 20.7.
 
 ```python
 reproduces(difference == 6 * ad1 ** 2 + 6 * H ** 2
@@ -1240,16 +1243,16 @@ The first check compares the two combinations with the record's lines. The secon
 ```python
 slopes = np.linspace(-3.0, 3.0, 601)  # a4'/H
 lower = -(3 * slopes ** 2 + 21)  # Lambda/H^2 where the x4 equation holds
-upper = 3 * slopes ** 2 - 15  # Lambda/H^2 where the x8 equation holds
+upper = 3 * slopes ** 2 - 15  # Lambda/H^2 where the x0 equation holds
 check(np.min(upper - lower) >= 6.0 - 1e-12, "the two curves stay 6 H^2 apart or more")
 ```
 
-601 values of $a_4'/H$ from $-3$ to $3$. Solving the $x_4$ equation for $\Lambda$ gives $\Lambda = -(3a_4'^2 + 21H^2)$, a parabola that opens downwards; solving the $x_8$ equation gives $\Lambda = 3a_4'^2 - 15H^2$, a parabola that opens upwards (in units of $H^2$). Their vertical distance is $6a_4'^2 + 6H^2 \ge 6H^2$; the check confirms it at all 601 points.
+601 values of $a_4'/H$ from $-3$ to $3$. Solving the $x_4$ equation for $\Lambda$ gives $\Lambda = -(3a_4'^2 + 21H^2)$, a parabola that opens downwards; solving the $x_0$ equation gives $\Lambda = 3a_4'^2 - 15H^2$, a parabola that opens upwards (in units of $H^2$). Their vertical distance is $6a_4'^2 + 6H^2 \ge 6H^2$; the check confirms it at all 601 points.
 
 ```python
 fig, ax = plt.subplots(figsize=(7.0, 4.6))
 ax.plot(slopes, lower, color="tab:red", label="$x_4$: $\\Lambda = -(3a_4'^2 + 21H^2)$")
-ax.plot(slopes, upper, color="tab:blue", label="$x_8$: $\\Lambda = 3a_4'^2 - 15H^2$")
+ax.plot(slopes, upper, color="tab:blue", label="$x_0$: $\\Lambda = 3a_4'^2 - 15H^2$")
 ax.fill_between(slopes, lower, upper, color="grey", alpha=0.2,
                 label="gap $6a_4'^2 + 6H^2$")
 ax.annotate("", xy=(1.0, -12.0), xytext=(1.0, -24.0),
@@ -1276,34 +1279,34 @@ The two parabolas are drawn in red and blue; `fill_between` shades the band betw
 ```python
 couplings = {"alpha1": 1, "alpha2": alpha2, "alpha3": alpha3, "H": H, "ad1": ad1,
              "ad2": ad2, "AA": A}  # alpha1 = 1 throughout
-null_text = record["generalSource"]["nullCombinations"]["kappa(rho+p8)"]["input"]
+null_text = record["generalSource"]["nullCombinations"]["kappa(rho+p0)"]["input"]
 null_required = sp.sympify(null_text.replace("^", "**"), locals=couplings)
 V_text = record["linearMember"]["vacuumFactor"]["input"]
 V = sp.sympify(V_text.replace("^", "**"), locals=couplings)
 ```
 
-`couplings` tells `sympify` what the names in the record's texts mean; $\alpha_1 = 1$ throughout (the record writes the slope as `AA`). The record's null combination $\kappa(\rho + p_8)$ for a general source and its vacuum factor $V$ of the linear member are read as sympy expressions.
+`couplings` tells `sympify` what the names in the record's texts mean; $\alpha_1 = 1$ throughout (the record writes the slope as `AA`). The record's null combination $\kappa(\rho + p_0)$ for a general source and its vacuum factor $V$ of the linear member are read as sympy expressions.
 
 ```python
 lovelock_sum = {key: lovelock(1, key) + alpha2 * lovelock(2, key)
                 + alpha3 * lovelock(3, key) for key in KEYS}
-own_null = -(lovelock_sum["x4x4"] - lovelock_sum["x8x8"])
+own_null = -(lovelock_sum["x4x4"] - lovelock_sum["x0x0"])
 check(sp.expand(own_null - null_required) == 0,
-      "the null combination of the record equals -(E^x4_x4 - E^x8_x8)")
+      "the null combination of the record equals -(E^x4_x4 - E^x0_x0)")
 ```
 
-`lovelock_sum` is $\sum_k\alpha_kE_{(k)}$ for the four components. `own_null` is the notebook's own null combination, $-\sum_k\alpha_k(E_{(k)}{}^{x_4}{}_{x_4} - E_{(k)}{}^{x_8}{}_{x_8})$, derived in Section 20.7; the check finds it equal to the record's.
+`lovelock_sum` is $\sum_k\alpha_kE_{(k)}$ for the four components. `own_null` is the notebook's own null combination, $-\sum_k\alpha_k(E_{(k)}{}^{x_4}{}_{x_4} - E_{(k)}{}^{x_0}{}_{x_0})$, derived in Section 20.7; the check finds it equal to the record's.
 
 ```python
 linear = {ad1: A * H, ad2: 0}  # the linear member a4 = A H x4 + a0
 reproduces(sp.expand(own_null.subs(linear) + 6 * (A ** 2 + 1) * H ** 2 * V) == 0,
-           "linear member: kappa (rho + p8) = -6 (A^2 + 1) H^2 V",
+           "linear member: kappa (rho + p0) = -6 (A^2 + 1) H^2 V",
            A4_WL, "linear_member_vacuum_factor")
 reproduces(sp.expand(V.subs({alpha2: 0, alpha3: 0})) == 1
            and sp.expand(null_required.subs({alpha2: 0, alpha3: 0})
                          + 6 * ad1 ** 2 + 6 * H ** 2) == 0,
-           "Einstein: V = 1 and kappa (rho + p8) = -6 (a4'^2 + H^2)",
-           A4_PY, "einstein_null_energy_x8")
+           "Einstein: V = 1 and kappa (rho + p0) = -6 (a4'^2 + H^2)",
+           A4_PY, "einstein_null_energy_x0")
 reproduces(sp.expand(null_required.subs({alpha2: 0, alpha3: 0})
                      + 6 * ad1 ** 2 + 6 * H ** 2) == 0,
            "the same null combination from the lead's independent Einstein tensor",
@@ -1325,18 +1328,19 @@ for x2, style, label in ((0.0, "-", "Einstein ($\\alpha_2 = 0$)"),
     ax.plot(A_axis, required, style, label=label)
 ```
 
-401 slopes $A$ from 0 to 2. `V_numeric` is $V$ as a numpy function of $A$, $\alpha_2$ and $\alpha_3$ in units $H = 1$. The loop draws the required $\kappa(\rho + p_8)/H^2 = -6(A^2 + 1)V$ for three theories: Einstein gravity (solid), Gauss-Bonnet with $\alpha_2H^2 = 1/48$ (dashed) and with $1/40$ (dash-dotted).
+401 slopes $A$ from 0 to 2. `V_numeric` is $V$ as a numpy function of $A$, $\alpha_2$ and $\alpha_3$ in units $H = 1$. The loop draws the required $\kappa(\rho + p_0)/H^2 = -6(A^2 + 1)V$ for three theories: Einstein gravity (solid), Gauss-Bonnet with $\alpha_2H^2 = 1/48$ (dashed) and with $1/40$ (dash-dotted).
 
 ```python
 ax.axhline(0.0, color="black", linewidth=2.0, label="what a T1 pair supplies: 0")
 ax.plot([1.0, 0.0], [0.0, 0.0], "o", color="tab:red", markersize=7,
         label="a T1 pair fits: $V = 0$")
 ax.set_xlabel("slope $A$ of the linear member $a_4 = AHx_4$")
-ax.set_ylabel("required $\\kappa(\\rho + p_8)/H^2$")
+ax.set_ylabel("required $\\kappa(\\rho + p_0)/H^2$")
 ax.set_title("The source the geometry requires, and the zero of a T1 pair")
 ax.legend(fontsize=8, loc="lower left")
 save_figure(fig, "null_combination",
-            "The null combination $\\kappa(\\rho + p_8)$ (energy density plus the "
+            "The null combination $\\kappa(\\rho + p_0)$ (energy density plus the "
+            "pressure along $x_0$, times the gravitational coupling; vertical, "
             ...
             "$\\alpha_2H^2 = 1/48$, and $A = 0$ for $1/40$).")
 ```
@@ -1374,11 +1378,11 @@ reproduces(x2_author == sp.Rational(1, 48) and Lam_author == -12 * H ** 2
            "a4 = H x4 solves the Gauss-Bonnet vacuum equations exactly",
            A4_PY, "einstein_gauss_bonnet_vacuum_linear")
 zero_off = all(record["lovelockTensors"][f"E{k}"][key]["input"] == "0"
-               for k in (1, 2, 3) for key in ("x4x8", "x8x4"))
-check(zero_off, "the mixed components x4x8 and x8x4 of E_(1..3) are 0 in the record")
+               for k in (1, 2, 3) for key in ("x4x0", "x0x4"))
+check(zero_off, "the mixed components x4x0 and x0x4 of E_(1..3) are 0 in the record")
 ```
 
-The check requires $\alpha_2H^2 = 1/48$, $\Lambda = -12H^2$, and that ALL FOUR independent vacuum equations vanish exactly for the deflating history. The second check confirms that the record has no mixed component $x_4x_8$ in any of the three Lovelock tensors, so no further equation remains: in this theory the author's deflating history is a vacuum, and a T1 pair CAN be its only source.
+The check requires $\alpha_2H^2 = 1/48$, $\Lambda = -12H^2$, and that ALL FOUR independent vacuum equations vanish exactly for the deflating history. The second check confirms that the record has no mixed component $x_4x_0$ in any of the three Lovelock tensors, so no further equation remains: in this theory the author's deflating history is a vacuum, and a T1 pair CAN be its only source.
 
 ```python
 Lam_curve = sp.simplify(-(lovelock(1, "x4x4") + alpha2 * lovelock(2, "x4x4"))
@@ -1479,32 +1483,32 @@ all_checks_passed()
 
 **Why an example.** The pairing theorems speak about ALL solutions at once, and so they are easy to misread. One exact solution makes every statement a number that can be checked. We build one **universe** of the commuting field dirac16complex00: a solution of its field equation that is, by itself, the COMPLETE source of the author's metric with the exponentially deflating history $a_4 = Hx_4$ in Einstein gravity. Then we build its T1 partner, the T1 pair and its T2 mirror copy, and ask of each whether it solves its own field equation and whether it can be the source of the author's metric. The answer teaches the lesson of the whole chapter in one example: the universe needs no partner, and the partners exist as solutions of OTHER equations, which nothing in the theory forces anyone to realise.
 
-**Status.** The universe below and the statements about its partners are COMPUTED by Notebook 20b and derived by hand in this section (exact arithmetic for the field equations and for the two Einstein conditions; floating point, to $10^{-10}$, for the 64 components of the Einstein equations at nine points). They are a result of this book, not a Revision record. They rest on PROVED record statements, which are named at each step, and on these ASSUMED inputs: Einstein gravity ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$); the classical commuting field dirac16complex00 (not the quantised dirac16complex); the sign convention $\sigma_T = +1$ of the record of the field equations for $a_4$ (it fixes the overall sign of the energy-momentum tensor; Chapter 12); the chosen numbers $A = 1$, $\Lambda = -36H^2$ and $M = -5H$; and, for the mirror copy, the Z2 construction across the brane. Units: $H = \kappa = 1$.
+**Status.** The universe below and the statements about its partners are COMPUTED by Notebook 20b and derived by hand in this section (exact arithmetic for the field equations and for the two Einstein conditions; floating point, to $10^{-10}$, for the 64 components of the Einstein equations at nine points). They are a result of this book, not a Revision record. They rest on PROVED record statements, which are named at each step, and on these ASSUMED inputs: Einstein gravity ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$); the background $b_4 = 1$ of the author's metric (the condensate below has $T^{x_4}{}_{x_0} = 0$, and in Einstein gravity such a source forces a constant $b_4$, which is $b_4 = 1$ after a rescaling of the extra times; Section 20.7); the classical commuting field dirac16complex00 (not the quantised dirac16complex); the sign convention $\sigma_T = +1$ of the record of the field equations for $a_4$ (it fixes the overall sign of the energy-momentum tensor; Chapter 12); the chosen numbers $A = 1$, $\Lambda = -36H^2$ and $M = -5H$; and, for the mirror copy, the Z2 construction across the brane. Units: $H = \kappa = 1$.
 
-**Step 1: the field equation of a condensate.** A **condensate** is a field that depends on the time $x_4$ only, $\Phi = \Phi(x_4)$. Its derivatives along the seven other directions vanish, $\gamma^{x_4} = \gamma^{(x_4)}$ because $g_{x_4x_4} = -1$, and the spin connection enters the field equation only through $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ (`python-a4-report.json`, check `authorT16_gravity_term`; `emt-divergence-and-spin-connection.json`, check `gamma_Omega_equals_3H_gamma8`). So the field equation $\gamma^\mu D_\mu\Phi = (m + \lambda S)\Phi$ becomes
-
-$$
-\gamma^{(x_4)}\Phi' + 3H\gamma^{(x_8)}\Phi = M\Phi,\qquad M = m + \lambda S ,
-$$
-
-where $\Phi' = d\Phi/dx_4$ and $M$ is the **effective mass**. Subtracting $3H\gamma^{(x_8)}\Phi$ from both sides,
+**Step 1: the field equation of a condensate.** A **condensate** is a field that depends on the time $x_4$ only, $\Phi = \Phi(x_4)$. Its derivatives along the seven other directions vanish, $\gamma^{x_4} = \gamma^{(x_4)}$ because $g_{x_4x_4} = -1$, and the spin connection enters the field equation only through $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ (`python-a4-report.json`, check `authorT16_gravity_term`; `emt-divergence-and-spin-connection.json`, check `gamma_Omega_equals_3H_gamma0`). So the field equation $\gamma^\mu D_\mu\Phi = (m + \lambda S)\Phi$ becomes
 
 $$
-\gamma^{(x_4)}\Phi' = \big(M - 3H\gamma^{(x_8)}\big)\Phi .
+\gamma^{(x_4)}\Phi' + 3H\gamma^{(x_0)}\Phi = M\Phi,\qquad M = m + \lambda S ,
+$$
+
+where $\Phi' = d\Phi/dx_4$ and $M$ is the **effective mass**. Subtracting $3H\gamma^{(x_0)}\Phi$ from both sides,
+
+$$
+\gamma^{(x_4)}\Phi' = \big(M - 3H\gamma^{(x_0)}\big)\Phi .
 $$
 
 Multiplying from the left by $-\gamma^{(x_4)}$, and using $(-\gamma^{(x_4)})\gamma^{(x_4)} = -\eta^{x_4x_4}I_{16} = I_{16}$ (the Clifford relation with $\eta^{x_4x_4} = -1$),
 
 $$
-\Phi' = \mathcal{A}\Phi,\qquad \mathcal{A} = -\gamma^{(x_4)}\big(M - 3H\gamma^{(x_8)}\big)
+\Phi' = \mathcal{A}\Phi,\qquad \mathcal{A} = -\gamma^{(x_4)}\big(M - 3H\gamma^{(x_0)}\big)
 $$
 
-(`wolfram-a4-report.json`, check `condensate_equation_x8_consistent`). Chapter 12 derives line by line two facts about $\mathcal{A}$, which we use here: $\mathcal{A}^2 = -(M^2 - 9H^2)I_{16}$, so for $M^2 > 9H^2$ every eigenvalue of $\mathcal{A}$ is $+iw$ or $-iw$ with the **frequency** $w = \sqrt{M^2 - 9H^2}$; and $C\mathcal{A} + \mathcal{A}^TC = 0$, so the density $S = \bar\Phi\Phi$ does not change in time (`python-a4-report.json`, check `authorT16_condensate_S_constant`). An eigenvector $\Phi_0$ with $\mathcal{A}\Phi_0 = -iw\Phi_0$ gives the solution $\Phi(x_4) = e^{-iwx_4}\Phi_0$, because its derivative is $-iw\Phi = \mathcal{A}\Phi$.
+(`wolfram-a4-report.json`, check `condensate_equation_x0_consistent`). Chapter 12 derives line by line two facts about $\mathcal{A}$, which we use here: $\mathcal{A}^2 = -(M^2 - 9H^2)I_{16}$, so for $M^2 > 9H^2$ every eigenvalue of $\mathcal{A}$ is $+iw$ or $-iw$ with the **frequency** $w = \sqrt{M^2 - 9H^2}$; and $C\mathcal{A} + \mathcal{A}^TC = 0$, so the density $S = \bar\Phi\Phi$ does not change in time (`python-a4-report.json`, check `authorT16_condensate_S_constant`). An eigenvector $\Phi_0$ with $\mathcal{A}\Phi_0 = -iw\Phi_0$ gives the solution $\Phi(x_4) = e^{-iwx_4}\Phi_0$, because its derivative is $-iw\Phi = \mathcal{A}\Phi$.
 
 **Step 2: its source.** The record proves for a condensate that the diagonal of the kinetic tensor is $K^{x_4}{}_{x_4} = MS$ and zero in the seven other directions (`python-a4-report.json`, check `authorT16_condensate_kinetic_diagonal`), and that the off-diagonal components of its energy-momentum tensor are multiples of 15 **three-gamma bilinears** $\bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$ (`wolfram-a4-report.json`, check `condensate_offdiagonal_are_three_gamma_bilinears`). When these 15 numbers vanish, the tensor is diagonal with
 
 $$
-\rho = mS + \tfrac{\lambda}{2}S^2,\qquad p_3 = p_t = p_8 = p = \tfrac{\lambda}{2}S^2
+\rho = mS + \tfrac{\lambda}{2}S^2,\qquad p_3 = p_t = p_0 = p = \tfrac{\lambda}{2}S^2
 $$
 
 (Chapter 12 derives both lines from $L = MS - mS - \frac{\lambda}{2}S^2 = \frac{\lambda}{2}S^2$). Two combinations will be needed. Adding,
@@ -1521,7 +1525,7 @@ $$
 
 because the two terms $\frac{\lambda}{2}S^2$ cancel.
 
-**Step 3: the two Einstein conditions.** For the linear member $a_4 = AHx_4$ we have $a_4' = AH$ and $a_4'' = 0$. The record's Einstein tensor (`python-a4-report.json`, check `einstein_components`) then gives $G^{x_4}{}_{x_4} = (3A^2 + 21)H^2$ and $G^{x_1}{}_{x_1} = G^{x_5}{}_{x_5} = G^{x_8}{}_{x_8} = (15 - 3A^2)H^2$. With $T^{x_4}{}_{x_4} = -\rho$ and $T^{x_8}{}_{x_8} = p$, the time equation and the hidden equation are
+**Step 3: the two Einstein conditions.** For the linear member $a_4 = AHx_4$ we have $a_4' = AH$ and $a_4'' = 0$. The record's Einstein tensor (`python-a4-report.json`, check `einstein_components`) then gives $G^{x_4}{}_{x_4} = (3A^2 + 21)H^2$ and $G^{x_1}{}_{x_1} = G^{x_5}{}_{x_5} = G^{x_0}{}_{x_0} = (15 - 3A^2)H^2$. With $T^{x_4}{}_{x_4} = -\rho$ and $T^{x_0}{}_{x_0} = p$, the time equation and the hidden equation are
 
 $$
 (3A^2 + 21)H^2 + \Lambda = -\kappa\rho,\qquad (15 - 3A^2)H^2 + \Lambda = \kappa p ;
@@ -1569,22 +1573,22 @@ $$
 M' = -m + (-\lambda)S' = -(m + \lambda S) = -M = 5 .
 $$
 
-Its matrix is $\mathcal{A}' = -\gamma^{(x_4)}(M' - 3H\gamma^{(x_8)}) = -\gamma^{(x_4)}(-M - 3H\gamma^{(x_8)})$. We show that it equals $\Gamma\mathcal{A}\Gamma$, line by line:
+Its matrix is $\mathcal{A}' = -\gamma^{(x_4)}(M' - 3H\gamma^{(x_0)}) = -\gamma^{(x_4)}(-M - 3H\gamma^{(x_0)})$. We show that it equals $\Gamma\mathcal{A}\Gamma$, line by line:
 
 $$
-\Gamma\mathcal{A}\Gamma = -\Gamma\gamma^{(x_4)}\big(M - 3H\gamma^{(x_8)}\big)\Gamma = -\Gamma\gamma^{(x_4)}\Gamma\;\Gamma\big(M - 3H\gamma^{(x_8)}\big)\Gamma ,
+\Gamma\mathcal{A}\Gamma = -\Gamma\gamma^{(x_4)}\big(M - 3H\gamma^{(x_0)}\big)\Gamma = -\Gamma\gamma^{(x_4)}\Gamma\;\Gamma\big(M - 3H\gamma^{(x_0)}\big)\Gamma ,
 $$
 
 by inserting $\Gamma\Gamma = I_{16}$ in the middle;
 
 $$
-= -\big(-\gamma^{(x_4)}\big)\big(M + 3H\gamma^{(x_8)}\big) = \gamma^{(x_4)}\big(M + 3H\gamma^{(x_8)}\big) ,
+= -\big(-\gamma^{(x_4)}\big)\big(M + 3H\gamma^{(x_0)}\big) = \gamma^{(x_4)}\big(M + 3H\gamma^{(x_0)}\big) ,
 $$
 
 because $\Gamma\gamma^{(a)}\Gamma = -\gamma^{(a)}\Gamma\Gamma = -\gamma^{(a)}$ for every gamma (step 1 of Section 20.5) and $\Gamma M\Gamma = M$ for the number $M$;
 
 $$
-= -\gamma^{(x_4)}\big(-M - 3H\gamma^{(x_8)}\big) = \mathcal{A}' ,
+= -\gamma^{(x_4)}\big(-M - 3H\gamma^{(x_0)}\big) = \mathcal{A}' ,
 $$
 
 by taking out the factor $-1$. Two matrices related by $\mathcal{A}' = \Gamma\mathcal{A}\Gamma^{-1}$ are called **similar**; they have the same eigenvalues, because $\mathcal{A}v = \mu v$ gives $\mathcal{A}'(\Gamma v) = \Gamma\mathcal{A}v = \mu\,\Gamma v$. So the partner oscillates with the SAME frequency $w = 4$: the opposite sign of its energy is not an opposite frequency. (The record proves the same kind of statement for the one-particle Hamiltonians, $\Gamma h_m\Gamma = h_{-m}$: `wolfram-pairing.json`, check `Q_one_particle_maps`.) By (T1c) its tensor is $T' = -T$: $\rho' = -12$, $p' = +24$, and its charge density is $+3$.
@@ -1592,10 +1596,10 @@ by taking out the factor $-1$. Two matrices related by $\mathcal{A}' = \Gamma\ma
 **Step 7: the partner alone is not a source of the author's metric.** In Section 20.7 we derived what Einstein gravity requires of every source of the author's metric, for every $a_4$:
 
 $$
-\kappa(\rho + p_8) = -6(a_4'^2 + H^2) \le -6H^2 .
+\kappa(\rho + p_0) = -6(a_4'^2 + H^2) \le -6H^2 .
 $$
 
-The universe supplies $\kappa(\rho + p_8) = 12 - 24 = -12$, which meets the requirement exactly when $a_4'^2 + 1 = 2$, that is $a_4' = \pm H$: the deflating history $+H$ (and its mirror choice $-H$; the equations do not select the sign, Chapter 12). The partner supplies $\kappa(\rho' + p_8') = -12 + 24 = +12$, which is larger than $-6H^2$, the largest value the requirement can take. So no real rate $a_4'$ and no $\Lambda$ make the partner alone a source of the author's metric. The partner's tensor does not depend on $a_4$ (the condensate does not feel the deflation, step 1), so this holds for every member of the author's family $a_4(x_4)$, not only for the linear one. The partner is a solution of ITS field equation in the author's geometry, as T1 says, but it cannot produce that geometry. (Status: PROVED here by hand from the record's null combination, `python-a4-report.json`, check `einstein_null_energy_x8`; checked by Notebook 20b, In [7].)
+The universe supplies $\kappa(\rho + p_0) = 12 - 24 = -12$, which meets the requirement exactly when $a_4'^2 + 1 = 2$, that is $a_4' = \pm H$: the deflating history $+H$ (and its mirror choice $-H$; the equations do not select the sign, Chapter 12). The partner supplies $\kappa(\rho' + p_0') = -12 + 24 = +12$, which is larger than $-6H^2$, the largest value the requirement can take. So no real rate $a_4'$ and no $\Lambda$ make the partner alone a source of the author's metric. The partner's tensor does not depend on $a_4$ (the condensate does not feel the deflation, step 1), so this holds for every member of the author's family $a_4(x_4)$, not only for the linear one. The partner is a solution of ITS field equation in the author's geometry, as T1 says, but it cannot produce that geometry. (Status: PROVED here by hand from the record's null combination, `python-a4-report.json`, check `einstein_null_energy_x0`; checked by Notebook 20b, In [7].)
 
 **Step 8: the T1 pair.** With the universe and its partner as the only source, the source is $T + T' = 0$ (T1d), and the Einstein residual is $G^\mu{}_\nu + \Lambda\delta^\mu_\nu$. At $a_4' = H$ and $\Lambda = -36H^2$ it is
 
@@ -1608,25 +1612,25 @@ $$
 
 where the first matrix is $G$ (step 3 with $A = 1$: $15 - 3 = 12$ and $3 + 21 = 24$). This is corollary C1 on the example: the pair does not solve the equations that the universe alone solves.
 
-**Step 9: the T2 mirror copy.** By theorem T2 (Section 20.6, with $m$ replaced by $-m$) the field $\Phi''(\pi - z) = \gamma^{(x_8)}\Phi(z)$ on the mirror patch solves the field equation with $(-m, \lambda) = (-15, -25/3)$ there. For the condensate, which does not depend on $z$, the copy is simply $\gamma^{(x_8)}\Phi(x_4)$. Its density is $S'' = -S$ (Section 20.6), so its effective mass is
+**Step 9: the T2 mirror copy.** By theorem T2 (Section 20.6, with $m$ replaced by $-m$) the field $\Phi''(\pi - z) = \gamma^{(x_0)}\Phi(z)$ on the mirror patch solves the field equation with $(-m, \lambda) = (-15, -25/3)$ there. For the condensate, which does not depend on $z$, the copy is simply $\gamma^{(x_0)}\Phi(x_4)$. Its density is $S'' = -S$ (Section 20.6), so its effective mass is
 
 $$
 M'' = -m + \lambda S'' = -m - \lambda S = -M = 5 .
 $$
 
-On the mirror patch the spin-connection term is $-3H\gamma^{(x_8)}$ (computed by Notebook 20a, In [5]; there the positive length of the hidden direction is $-\cot z$). We check the copy's field equation by hand. Multiply the universe's equation $\gamma^{(x_4)}\Phi' + 3H\gamma^{(x_8)}\Phi = M\Phi$ from the left by $-\gamma^{(x_8)}$:
+On the mirror patch the spin-connection term is $-3H\gamma^{(x_0)}$ (computed by Notebook 20a, In [5]; there the positive length of the hidden direction is $-\cot z$). We check the copy's field equation by hand. Multiply the universe's equation $\gamma^{(x_4)}\Phi' + 3H\gamma^{(x_0)}\Phi = M\Phi$ from the left by $-\gamma^{(x_0)}$:
 
 $$
--\gamma^{(x_8)}\gamma^{(x_4)}\Phi' - 3H\gamma^{(x_8)}\gamma^{(x_8)}\Phi = -M\gamma^{(x_8)}\Phi .
+-\gamma^{(x_0)}\gamma^{(x_4)}\Phi' - 3H\gamma^{(x_0)}\gamma^{(x_0)}\Phi = -M\gamma^{(x_0)}\Phi .
 $$
 
-In the first term use $-\gamma^{(x_8)}\gamma^{(x_4)} = \gamma^{(x_4)}\gamma^{(x_8)}$ (the Clifford relation for the two different directions $x_4$ and $x_8$) and $\gamma^{(x_8)}\Phi' = (\gamma^{(x_8)}\Phi)'$ (a constant matrix comes out of the derivative); in the second term group the factors as $(-3H\gamma^{(x_8)})(\gamma^{(x_8)}\Phi)$; on the right write $-M = M''$:
+In the first term use $-\gamma^{(x_0)}\gamma^{(x_4)} = \gamma^{(x_4)}\gamma^{(x_0)}$ (the Clifford relation for the two different directions $x_4$ and $x_0$) and $\gamma^{(x_0)}\Phi' = (\gamma^{(x_0)}\Phi)'$ (a constant matrix comes out of the derivative); in the second term group the factors as $(-3H\gamma^{(x_0)})(\gamma^{(x_0)}\Phi)$; on the right write $-M = M''$:
 
 $$
-\gamma^{(x_4)}\big(\gamma^{(x_8)}\Phi\big)' + \big(-3H\gamma^{(x_8)}\big)\big(\gamma^{(x_8)}\Phi\big) = M''\big(\gamma^{(x_8)}\Phi\big) ,
+\gamma^{(x_4)}\big(\gamma^{(x_0)}\Phi\big)' + \big(-3H\gamma^{(x_0)}\big)\big(\gamma^{(x_0)}\Phi\big) = M''\big(\gamma^{(x_0)}\Phi\big) ,
 $$
 
-which is exactly the condensate equation on the mirror patch for the field $\gamma^{(x_8)}\Phi$ with the effective mass $M'' = -M$. (Status: PROVED here by hand; checked exactly by Notebook 20b, In [9].) Its tensor is the pulled-back one, $R_8TR_8$, which for the diagonal tensor of a condensate is $T$ itself: the SAME energy density $12$ and pressure $-24$. Its charge density is $(\gamma^{(x_8)}\Phi)^\dagger B(\gamma^{(x_8)}\Phi) = \Phi^\dagger\gamma^{(x_8)}B\gamma^{(x_8)}\Phi = \Phi^\dagger B\Phi = -3$, the SAME as the universe's, because $\gamma^{(x_8)}$ is real and symmetric and $\gamma^{(x_8)}B\gamma^{(x_8)\dagger} = +B$ (`python-pairing.json`, check `Q.T2_image_keeps_B`). The mirror is an isometry, so the Einstein tensor is the same on both patches, and the copy alone solves all 64 Einstein equations on the mirror patch. The universe on the patch and its copy on the mirror patch together fill the Z2-doubled geometry with twice the energy and twice the charge, not zero. Whether the two halves can be joined at the brane (a junction condition, a brane tension) is not derived anywhere in the record: OPEN; the Z2 construction is ASSUMED.
+which is exactly the condensate equation on the mirror patch for the field $\gamma^{(x_0)}\Phi$ with the effective mass $M'' = -M$. (Status: PROVED here by hand; checked exactly by Notebook 20b, In [9].) Its tensor is the pulled-back one, $R_0TR_0$, which for the diagonal tensor of a condensate is $T$ itself: the SAME energy density $12$ and pressure $-24$. Its charge density is $(\gamma^{(x_0)}\Phi)^\dagger B(\gamma^{(x_0)}\Phi) = \Phi^\dagger\gamma^{(x_0)}B\gamma^{(x_0)}\Phi = \Phi^\dagger B\Phi = -3$, the SAME as the universe's, because $\gamma^{(x_0)}$ is real and symmetric and $\gamma^{(x_0)}B\gamma^{(x_0)\dagger} = +B$ (`python-pairing.json`, check `Q.T2_image_keeps_B`). The mirror is an isometry, so the Einstein tensor is the same on both patches, and the copy alone solves all 64 Einstein equations on the mirror patch. The universe on the patch and its copy on the mirror patch together fill the Z2-doubled geometry with twice the energy and twice the charge, not zero. Whether the two halves can be joined at the brane (a junction condition, a brane tension) is not derived anywhere in the record: OPEN; the Z2 construction is ASSUMED.
 
 **The bookkeeping.** In units $H = \kappa = 1$:
 
@@ -1638,7 +1642,7 @@ which is exactly the condensate equation on the mirror patch for the field $\gam
 | T2 copy | $-15$ | $-25/3$ | $12$ | $-24$ | $-3$ | $-12/5$ | yes (mirror) |
 | T2 pair | both | both | $24$ | $-48$ | $-6$ | $0$ | each half |
 
-The objects are the universe $\Phi$, its T1 partner $\Gamma\Phi$ and its T2 copy $\gamma^{(x_8)}\Phi$. The last column says whether the object alone is a source of the author's metric in Einstein gravity: the universe with $a_4 = \pm Hx_4$ and $\Lambda = -36H^2$ on the patch; its T1 partner for no $a_4$ and no $\Lambda$; the T2 copy on the mirror patch. The universe and its T1 partner live on the patch, the T2 copy on the mirror patch. The row of the T1 pair adds the two members at the same point; the row of the T2 pair adds the two members each at its own point (so its $\rho$ is a total of two halves, not a density at one point).
+The objects are the universe $\Phi$, its T1 partner $\Gamma\Phi$ and its T2 copy $\gamma^{(x_0)}\Phi$. The last column says whether the object alone is a source of the author's metric in Einstein gravity: the universe with $a_4 = \pm Hx_4$ and $\Lambda = -36H^2$ on the patch; its T1 partner for no $a_4$ and no $\Lambda$; the T2 copy on the mirror patch. The universe and its T1 partner live on the patch, the T2 copy on the mirror patch. The row of the T1 pair adds the two members at the same point; the row of the T2 pair adds the two members each at its own point (so its $\rho$ is a total of two halves, not a density at one point).
 
 **What the example shows, and what it does not.** It shows: (1) a universe of this theory can be a complete solution of the coupled equations with no partner at all; (2) its T1 partner exists as a solution of a DIFFERENT field equation (mass $-15$, coupling $25/3$), with the same frequency and the opposite energy and charge, and it cannot be the source of the author's metric in Einstein gravity; (3) the T1 pair has zero energy and charge and therefore cannot be that source either (C1); (4) the T2 copy is an ordinary solution with the same energy and charge on the mirror patch. It does NOT show that the partner or the copy is created, or must exist; it derives no process, rate or amplitude; it says nothing about the quantised field dirac16complex; and it does not address the stability of the condensate (OPEN).
 
@@ -1722,21 +1726,21 @@ import itertools  # loops over all combinations of indices
 import numpy as np  # floating-point arrays
 import sympy as sp  # exact algebra
 
-NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]  # positions 0..7
-ETA = [1, 1, 1, -1, -1, -1, -1, 1]  # the frame metric eta, x1..x8
+NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # positions 0..7
+ETA = [1, 1, 1, 1, -1, -1, -1, -1]  # the frame metric eta, x0..x7
 I16, Z16 = sp.eye(16), sp.zeros(16, 16)
 gamma = [sp.Matrix([[sp.Rational(x) for x in row] for row in matrix])
-         for matrix in read_json(GAMMAS)["gamma"]]  # gamma[a] = gamma^(x_(a+1))
-C = gamma[7] * gamma[0] * gamma[1] * gamma[2]  # C = g^(x8) g^(x1) g^(x2) g^(x3)
-chirality = gamma[7]  # Gamma = g^(x8) g^(x1) ... g^(x7), factor by factor
-for a in range(7):
+         for matrix in read_json(GAMMAS)["gamma"]]  # gamma[a] = gamma^(x_a)
+C = gamma[0] * gamma[1] * gamma[2] * gamma[3]  # C = g^(x0) g^(x1) g^(x2) g^(x3)
+chirality = gamma[0]  # Gamma = g^(x0) g^(x1) ... g^(x7), factor by factor
+for a in range(1, 8):
     chirality = chirality * gamma[a]
-B = -sp.I * C * gamma[3]  # the Krein matrix B = -i C gamma^(x4)
+B = -sp.I * C * gamma[4]  # the Krein matrix B = -i C gamma^(x4)
 S_exact = [[(gamma[a] * gamma[b] - gamma[b] * gamma[a]) / 4 for b in range(8)]
            for a in range(8)]
 ```
 
-The same objects as in Notebook 20a, In [3], built the same way: the labels, the diagonal of $\eta$, the exact unit matrix $I_{16}$ and the exact $16 \times 16$ zero matrix `Z16` (`sp.zeros(16, 16)`; two names are assigned at once), the eight exact gammas read from `gammas.json` (here the reading and the conversion are written in one comprehension), $C$, the chirality $\Gamma$ (called `chirality`) multiplied factor by factor in the record's order, the Krein matrix $B = -iC\gamma^{(x_4)}$ (`sp.I` is the exact imaginary unit; position 3 is $x_4$), and the 64 generators $S^{ab}$.
+The same objects as in Notebook 20a, In [3], built the same way: the labels, the diagonal of $\eta$, the exact unit matrix $I_{16}$ and the exact $16 \times 16$ zero matrix `Z16` (`sp.zeros(16, 16)`; two names are assigned at once), the eight exact gammas read from `gammas.json` (here the reading and the conversion are written in one comprehension), $C$, the chirality $\Gamma$ (called `chirality`) multiplied factor by factor in the record's order, the Krein matrix $B = -iC\gamma^{(x_4)}$ (`sp.I` is the exact imaginary unit; position 4 is $x_4$), and the 64 generators $S^{ab}$.
 
 ```python
 H = sp.symbols("H", positive=True)
@@ -1748,21 +1752,21 @@ a4_value, slope = sp.symbols("a4_value slope", real=True)
 
 def d(expr, mu):
     """The partial derivative along the coordinate at position mu."""
-    if mu == 3:
+    if mu == 4:
         return sp.diff(expr, x4)
-    if mu == 7:
-        return 6 * H * sp.diff(expr, z)  # d/dx8 = 6 H d/dz
+    if mu == 0:
+        return 6 * H * sp.diff(expr, z)  # d/dx0 = 6 H d/dz
     return sp.Integer(0)
 ```
 
-The symbols $H > 0$, $z$, $x_4$, the unknown function $a_4(x_4)$, the two symbols that replace $a_4$ and $a_4'$ at a point, and the partial derivative `d(expr, mu)` with $\partial/\partial x_8 = 6H\,\partial/\partial z$ (Notebook 20a, In [4]).
+The symbols $H > 0$, $z$, $x_4$, the unknown function $a_4(x_4)$, the two symbols that replace $a_4$ and $a_4'$ at a point, and the partial derivative `d(expr, mu)` with $\partial/\partial x_0 = 6H\,\partial/\partial z$ (Notebook 20a, In [4]).
 
 ```python
-def spin_connection(s8):
-    """The lengths E_a and omega[mu][a][b] = omega_mu ab (s8 = +1 patch, -1 mirror)."""
+def spin_connection(s0):
+    """The lengths E_a and omega[mu][a][b] = omega_mu ab (s0 = +1 patch, -1 mirror)."""
     s = sp.sin(z) ** sp.Rational(1, 6)
-    E = [sp.exp(a4) * s] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * s] * 3
-    E = E + [s8 * sp.cot(z)]
+    E = [s0 * sp.cot(z)] + [sp.exp(a4) * s] * 3 + [sp.Integer(1)]
+    E = E + [sp.exp(-a4) * s] * 3  # x0, x1, ..., x7
     g = [ETA[a] * E[a] ** 2 for a in range(8)]
     christoffel = {}
     for a, b, c in itertools.product(range(8), repeat=3):
@@ -1783,24 +1787,24 @@ def spin_connection(s8):
     return [length.subs(a4, a4_value) for length in E], omega
 ```
 
-The canonical spin connection on the patch (`s8 = 1`) or on the mirror patch (`s8 = -1`), exactly as in Notebook 20a, In [4]: the lengths $E_a$ (three inflating $e^{a_4}\sin^{1/6}z$, the time 1, three DEFLATING $e^{-a_4}\sin^{1/6}z$, and $s_8\cot z$), the diagonal metric $g_{aa} = \eta_{aa}E_a^2$, the Christoffel symbols term by term, and $\omega_{\mu ab} = \eta_{aa}(E_a/E_b)\Gamma^a{}_{\mu b}$ for $a \neq b$ with $a_4$ and $a_4'$ replaced by the point symbols. The only difference from 20a is that the list of lengths is built inside the function in two lines (the first seven lengths, then `E + [s8 * sp.cot(z)]` appends the eighth).
+The canonical spin connection on the patch (`s0 = 1`) or on the mirror patch (`s0 = -1`), exactly as in Notebook 20a, In [4]: the lengths $E_a$ ($s_0\cot z$, three inflating $e^{a_4}\sin^{1/6}z$, the time 1, three DEFLATING $e^{-a_4}\sin^{1/6}z$), the diagonal metric $g_{aa} = \eta_{aa}E_a^2$, the Christoffel symbols term by term, and $\omega_{\mu ab} = \eta_{aa}(E_a/E_b)\Gamma^a{}_{\mu b}$ for $a \neq b$ with $a_4$ and $a_4'$ replaced by the point symbols. The only difference from 20a is that the list of lengths is built inside the function in two lines (the first five lengths, then `E + [sp.exp(-a4) * s] * 3` appends the three of the extra times).
 
 ```python
-CONNECTION = {s8: spin_connection(s8) for s8 in (1, -1)}
-gravity_term = {}  # s8 -> sum over mu of gamma^mu Omega_mu
-for s8, (E, omega) in CONNECTION.items():
+CONNECTION = {s0: spin_connection(s0) for s0 in (1, -1)}
+gravity_term = {}  # s0 -> sum over mu of gamma^mu Omega_mu
+for s0, (E, omega) in CONNECTION.items():
     Omega = [sum((omega[mu][a][b] * S_exact[a][b] / 2 for a in range(8)
                   for b in range(8) if omega[mu][a][b] != 0), Z16)
              for mu in range(8)]
-    gravity_term[s8] = sum((gamma[mu] / E[mu] * Omega[mu] for mu in range(8)),
+    gravity_term[s0] = sum((gamma[mu] / E[mu] * Omega[mu] for mu in range(8)),
                            Z16).applyfunc(sp.simplify)
-reproduces(gravity_term[1] == 3 * H * gamma[7],
-           "patch: gamma^mu Omega_mu = 3 H gamma^(x8)", A4_PY, "authorT16_gravity_term")
-check(gravity_term[-1] == -3 * H * gamma[7],
-      "mirror patch: gamma^mu Omega_mu = -3 H gamma^(x8)")
+reproduces(gravity_term[1] == 3 * H * gamma[0],
+           "patch: gamma^mu Omega_mu = 3 H gamma^(x0)", A4_PY, "authorT16_gravity_term")
+check(gravity_term[-1] == -3 * H * gamma[0],
+      "mirror patch: gamma^mu Omega_mu = -3 H gamma^(x0)")
 ```
 
-`{s8: spin_connection(s8) for s8 in (1, -1)}` computes the connection on both patches and stores the pair (lengths, components) under the key $+1$ or $-1$; `.items()` walks through the keys and values of a dictionary. For each patch, `Omega` holds the eight matrices $\Omega_\mu = \frac12\sum_{a,b}\omega_{\mu ab}S^{ab}$, and `gravity_term[s8]` is $\sum_\mu\gamma^\mu\Omega_\mu$ with $\gamma^\mu = \gamma^{(\mu)}/E_\mu$, simplified entry by entry. The checks: $3H\gamma^{(x_8)}$ on the patch (the record's term, `python-a4-report.json`, check `authorT16_gravity_term`) and $-3H\gamma^{(x_8)}$ on the mirror patch (a computation of this book). Output: two PASS lines.
+`{s0: spin_connection(s0) for s0 in (1, -1)}` computes the connection on both patches and stores the pair (lengths, components) under the key $+1$ or $-1$; `.items()` walks through the keys and values of a dictionary. For each patch, `Omega` holds the eight matrices $\Omega_\mu = \frac12\sum_{a,b}\omega_{\mu ab}S^{ab}$, and `gravity_term[s0]` is $\sum_\mu\gamma^\mu\Omega_\mu$ with $\gamma^\mu = \gamma^{(\mu)}/E_\mu$, simplified entry by entry. The checks: $3H\gamma^{(x_0)}$ on the patch (the record's term, `python-a4-report.json`, check `authorT16_gravity_term`) and $-3H\gamma^{(x_0)}$ on the mirror patch (a computation of this book). Output: two PASS lines.
 
 **In [4], choosing the universe: the two Einstein conditions.**
 
@@ -1823,16 +1827,16 @@ def einstein(key):
 `einstein(key)` reads one component of the Einstein tensor $E_{(1)} = G$ from the record's text in Wolfram's input form and turns it into a sympy expression (`^` becomes `**`; `locals` binds the names `ad1`, `ad2` and `H` to the notebook's symbols), as `lovelock` did in Notebook 20a, In [12].
 
 ```python
-G = {key: einstein(key) for key in ("x1x1", "x4x4", "x5x5", "x8x8")}
+G = {key: einstein(key) for key in ("x1x1", "x4x4", "x5x5", "x0x0")}
 LINEAR = {ad1: A * H, ad2: 0}  # the linear member a4 = A H x4
 rho_c, p_c = m * S_sym + lam * S_sym ** 2 / 2, lam * S_sym ** 2 / 2  # condensate
 time_eq = G["x4x4"].subs(LINEAR) + Lam + kappa * rho_c  # = 0
-hidden_eq = G["x8x8"].subs(LINEAR) + Lam - kappa * p_c  # = 0
+hidden_eq = G["x0x0"].subs(LINEAR) + Lam - kappa * p_c  # = 0
 first = sp.expand(time_eq - hidden_eq)  # kappa (m + lambda S) S + 6 (A^2 + 1) H^2
 second = sp.expand(time_eq + hidden_eq)  # kappa m S + 36 H^2 + 2 Lambda
 ```
 
-`G` holds the four independent diagonal components. `LINEAR` is the substitution of the linear member, $a_4' = AH$ and $a_4'' = 0$. `rho_c` and `p_c` are the condensate's $\rho = mS + \frac{\lambda}{2}S^2$ and $p = \frac{\lambda}{2}S^2$ (step 2 of Section 20.12). `time_eq` is the time equation written as "left side minus right side", $G^{x_4}{}_{x_4} + \Lambda + \kappa\rho = 0$, and `hidden_eq` the hidden equation, $G^{x_8}{}_{x_8} + \Lambda - \kappa p = 0$. `first` is their difference and `second` their sum, multiplied out by `sp.expand`: exactly the two combinations of step 3.
+`G` holds the four independent diagonal components. `LINEAR` is the substitution of the linear member, $a_4' = AH$ and $a_4'' = 0$. `rho_c` and `p_c` are the condensate's $\rho = mS + \frac{\lambda}{2}S^2$ and $p = \frac{\lambda}{2}S^2$ (step 2 of Section 20.12). `time_eq` is the time equation written as "left side minus right side", $G^{x_4}{}_{x_4} + \Lambda + \kappa\rho = 0$, and `hidden_eq` the hidden equation, $G^{x_0}{}_{x_0} + \Lambda - \kappa p = 0$. `first` is their difference and `second` their sum, multiplied out by `sp.expand`: exactly the two combinations of step 3.
 
 ```python
 reproduces(sp.expand(first - (kappa * (m + lam * S_sym) * S_sym
@@ -1871,18 +1875,18 @@ The loop prints the five numbers as RESULT lines, and the check compares them wi
 
 ```python
 w = sp.sqrt(M_VALUE ** 2 - 9)  # the frequency, H = 1
-A_matrix = -gamma[3] * (M_VALUE * I16 - 3 * gamma[7])  # Phi' = A Phi
+A_matrix = -gamma[4] * (M_VALUE * I16 - 3 * gamma[0])  # Phi' = A Phi
 spaces = []
 for sign in (-1, 1):  # the value of g^(x1)g^(x5) = g^(x2)g^(x6) = g^(x3)g^(x7)
     stack = sp.Matrix.vstack(A_matrix + sp.I * w * I16,
-                             gamma[0] * gamma[4] - sign * I16,
                              gamma[1] * gamma[5] - sign * I16,
-                             gamma[2] * gamma[6] - sign * I16)
+                             gamma[2] * gamma[6] - sign * I16,
+                             gamma[3] * gamma[7] - sign * I16)
     spaces.append(stack.nullspace())  # every solution of stack * v = 0
 v1, v2 = spaces[0][0], spaces[1][0]
 ```
 
-`w` is the frequency $\sqrt{M^2 - 9} = 4$ (exactly; `sp.sqrt` of 16). `A_matrix` is $\mathcal{A} = -\gamma^{(x_4)}(M - 3\gamma^{(x_8)})$ with $H = 1$. For each of the two values $\mp1$ (`sign`), `sp.Matrix.vstack` stacks four $16 \times 16$ matrices on top of each other into one $64 \times 16$ matrix: $\mathcal{A} + iwI_{16}$ and the three matrices $\gamma^{(x_1)}\gamma^{(x_5)} - \text{sign}\,I_{16}$, $\gamma^{(x_2)}\gamma^{(x_6)} - \text{sign}\,I_{16}$, $\gamma^{(x_3)}\gamma^{(x_7)} - \text{sign}\,I_{16}$. A column $v$ with `stack * v = 0` satisfies all four conditions at once: $\mathcal{A}v = -iwv$ and each of the three products has the value `sign` on $v$. `stack.nullspace()` returns a list of columns that span all such $v$ (the **null space**). `v1` is the first column for the value $-1$, `v2` the first for $+1$.
+`w` is the frequency $\sqrt{M^2 - 9} = 4$ (exactly; `sp.sqrt` of 16). `A_matrix` is $\mathcal{A} = -\gamma^{(x_4)}(M - 3\gamma^{(x_0)})$ with $H = 1$. For each of the two values $\mp1$ (`sign`), `sp.Matrix.vstack` stacks four $16 \times 16$ matrices on top of each other into one $64 \times 16$ matrix: $\mathcal{A} + iwI_{16}$ and the three matrices $\gamma^{(x_1)}\gamma^{(x_5)} - \text{sign}\,I_{16}$, $\gamma^{(x_2)}\gamma^{(x_6)} - \text{sign}\,I_{16}$, $\gamma^{(x_3)}\gamma^{(x_7)} - \text{sign}\,I_{16}$. A column $v$ with `stack * v = 0` satisfies all four conditions at once: $\mathcal{A}v = -iwv$ and each of the three products has the value `sign` on $v$. `stack.nullspace()` returns a list of columns that span all such $v$ (the **null space**). `v1` is the first column for the value $-1$, `v2` the first for $+1$.
 
 ```python
 c = sp.conjugate(sp.expand((v1.H * C * v2)[0]))  # c = conj(v1^dagger C v2)
@@ -1906,8 +1910,8 @@ report("t", t_value)
 `bilinear(phi, matrix)` is $\bar\phi\,M\phi = \phi^\dagger CM\phi$, exact. The equation $S(t) = 12/5$ is solved for $t$, the universe at $x_4 = 0$, `phi0`, is the family at that $t$, and the value is printed. Output: RESULT t = 15/512.
 
 ```python
-NEEDED = sorted({tuple(sorted((i, 3, 7))) for i in (0, 1, 2, 4, 5, 6)}
-                | {tuple(sorted((i, j, 3))) for i in (0, 1, 2) for j in (4, 5, 6)})
+NEEDED = sorted({tuple(sorted((i, 4, 0))) for i in (1, 2, 3, 5, 6, 7)}
+                | {tuple(sorted((i, j, 4))) for i in (1, 2, 3) for j in (5, 6, 7)})
 zero_15 = all(bilinear(family, gamma[a] * gamma[b] * gamma[e]) == 0
               for a, b, e in NEEDED)  # for every real t, so also for t_value
 reproduces([len(space) for space in spaces] == [1, 1] and zero_15
@@ -1916,7 +1920,7 @@ reproduces([len(space) for space in spaces] == [1, 1] and zero_15
            A4_WL, "condensate_diagonal_witness_exact")
 ```
 
-`NEEDED` lists the 15 index triples of the three-gamma bilinears that must vanish: the six triples $\{i, x_4, x_8\}$ with $i$ one of $x_1, x_2, x_3, x_5, x_6, x_7$ (positions 0, 1, 2, 4, 5, 6 together with 3 and 7), and the nine triples $\{i, j, x_4\}$ with $i$ in 3-space and $j$ an extra time. Each triple is sorted, the braces `{...}` make a **set** (a collection without repetitions), `|` joins two sets, and `sorted` puts the triples in a fixed order. `zero_15` is true when all 15 bilinears of the family vanish for the SYMBOL $t$, so for every real $t$, in particular for $15/512$. The check requires the two null spaces to be one-dimensional, the 15 zeros, and $S = 12/5$ for `phi0`; it reproduces the record's witness (`wolfram-a4-report.json`, check `condensate_diagonal_witness_exact`).
+`NEEDED` lists the 15 index triples of the three-gamma bilinears that must vanish: the six triples $\{i, x_4, x_0\}$ with $i$ one of $x_1, x_2, x_3, x_5, x_6, x_7$ (positions 1, 2, 3, 5, 6, 7 together with 4 and 0), and the nine triples $\{i, j, x_4\}$ with $i$ in 3-space and $j$ an extra time. Each triple is sorted, the braces `{...}` make a **set** (a collection without repetitions), `|` joins two sets, and `sorted` puts the triples in a fixed order. `zero_15` is true when all 15 bilinears of the family vanish for the SYMBOL $t$, so for every real $t$, in particular for $15/512$. The check requires the two null spaces to be one-dimensional, the 15 zeros, and $S = 12/5$ for `phi0`; it reproduces the record's witness (`wolfram-a4-report.json`, check `condensate_diagonal_witness_exact`).
 
 ```python
 reproduces((C * A_matrix + A_matrix.T * C).applyfunc(sp.expand) == Z16,
@@ -1930,7 +1934,7 @@ The check $C\mathcal{A} + \mathcal{A}^TC = 0$ (`.T` is the transpose) shows that
 ```python
 def field_residual(field, term, mass, coupling, density):
     """gamma^(x4) field' + term field - (mass + coupling density) field."""
-    return (gamma[3] * sp.diff(field, x4) + term * field
+    return (gamma[4] * sp.diff(field, x4) + term * field
             - (mass + coupling * density) * field).applyfunc(sp.simplify)
 ```
 
@@ -1940,12 +1944,12 @@ def field_residual(field, term, mass, coupling, density):
 universe_ok = field_residual(Phi, gravity_term[1].subs(H, 1), m_value, lam_value,
                              S_value) == sp.zeros(16, 1)
 reproduces(universe_ok, "the universe solves its field equation (16 components)",
-           A4_WL, "condensate_equation_x8_consistent")
+           A4_WL, "condensate_equation_x0_consistent")
 charge_value = sp.simplify((phi0.H * B * phi0)[0])  # J^x4, constant in time
 report("charge density J^x4 of the universe", charge_value)
 ```
 
-The universe's residual with the patch term $3\gamma^{(x_8)}$ (`gravity_term[1].subs(H, 1)`), $m = 15$, $\lambda = -25/3$ and $S = 12/5$ must be the zero column, at every time $x_4$ (the time is a symbol). The last lines compute the charge density $\Phi_0^\dagger B\Phi_0$ exactly; the factor $e^{-iwx_4}$ drops out of it. Output: RESULT t = 15/512, three PASS lines with their records, and RESULT charge density J^x4 of the universe = -3.
+The universe's residual with the patch term $3\gamma^{(x_0)}$ (`gravity_term[1].subs(H, 1)`), $m = 15$, $\lambda = -25/3$ and $S = 12/5$ must be the zero column, at every time $x_4$ (the time is a symbol). The last lines compute the charge density $\Phi_0^\dagger B\Phi_0$ exactly; the factor $e^{-iwx_4}$ drops out of it. Output: RESULT t = 15/512, three PASS lines with their records, and RESULT charge density J^x4 of the universe = -3.
 
 **In [6], the universe alone solves the Einstein equations.**
 
@@ -1958,19 +1962,19 @@ C_num = np.array(C.tolist(), dtype=float)
 Gamma_num = np.array(chirality.tolist(), dtype=float)
 B_num = np.array(B.tolist(), dtype=complex)
 NUMERIC = {}
-for s8, (E, omega) in CONNECTION.items():
+for s0, (E, omega) in CONNECTION.items():
     pieces = [(mu, a, b, sp.lambdify(point_symbols, omega[mu][a][b], "numpy"))
               for mu in range(8) for a in range(8) for b in range(8)
               if omega[mu][a][b] != 0]
-    NUMERIC[s8] = (sp.lambdify(point_symbols, E, "numpy"), pieces)
+    NUMERIC[s0] = (sp.lambdify(point_symbols, E, "numpy"), pieces)
 ```
 
 The floating-point copies of the generators, the gammas, $C$, $\Gamma$ and $B$ (`dtype=complex` because $B$ is imaginary), and, for both patches, the numpy functions of the lengths and of the nonzero connection components (`sp.lambdify`, as in Notebook 20a, In [6]).
 
 ```python
-def geometry_at(s8, z_value, a4_number, slope_number):
+def geometry_at(s0, z_value, a4_number, slope_number):
     """Metric, Omega_mu and curved gammas at one point (H = 1)."""
-    lengths_f, pieces = NUMERIC[s8]
+    lengths_f, pieces = NUMERIC[s0]
     values = (z_value, a4_number, slope_number, 1.0)
     E = np.array([float(x) for x in lengths_f(*values)])
     Om = [np.zeros((16, 16)) for _ in range(8)]
@@ -2014,15 +2018,15 @@ For each of the 64 pairs $(\mu, \nu)$, `low` is the tensor $T_{\mu\nu}$ of the p
 
 ```python
 G_numeric = np.diag([float(G[k].subs({ad1: 1, ad2: 0, H: 1})) for k in
-                     ("x1x1", "x1x1", "x1x1", "x4x4", "x5x5", "x5x5", "x5x5",
-                      "x8x8")])  # G^mu_nu at a4' = H, H = 1
+                     ("x0x0", "x1x1", "x1x1", "x1x1", "x4x4", "x5x5", "x5x5",
+                      "x5x5")])  # G^mu_nu at a4' = H, H = 1, in the order x0..x7
 LAMBDA = -36.0
 phi0_num = np.array([complex(entry) for entry in phi0])
 W = float(w)
 POINTS = [(zv, xv) for zv in (0.3, 0.8, 1.3) for xv in (0.0, 0.7, 2.0)]
 ```
 
-`G_numeric` is the diagonal matrix of $G^\mu{}_\nu$ at $a_4' = H = 1$, $a_4'' = 0$, in the order $x_1, \dots, x_8$ (components 1 to 3 equal $G^{x_1}{}_{x_1}$, 5 to 7 equal $G^{x_5}{}_{x_5}$): $\mathrm{diag}(12, 12, 12, 24, 12, 12, 12, 12)$. `LAMBDA` is $\Lambda = -36$, `phi0_num` the universe at $x_4 = 0$ as 16 complex floating-point numbers, `W` the frequency 4.0, and `POINTS` the nine points: $z = 0.3, 0.8, 1.3$ combined with $x_4 = 0, 0.7, 2$.
+`G_numeric` is the diagonal matrix of $G^\mu{}_\nu$ at $a_4' = H = 1$, $a_4'' = 0$, in the order $x_0, \dots, x_7$ (components 1 to 3 equal $G^{x_1}{}_{x_1}$, 5 to 7 equal $G^{x_5}{}_{x_5}$): $\mathrm{diag}(12, 12, 12, 12, 24, 12, 12, 12)$. `LAMBDA` is $\Lambda = -36$, `phi0_num` the universe at $x_4 = 0$ as 16 complex floating-point numbers, `W` the frequency 4.0, and `POINTS` the nine points: $z = 0.3, 0.8, 1.3$ combined with $x_4 = 0, 0.7, 2$.
 
 ```python
 def universe_jet(x_value, matrix=None):
@@ -2031,7 +2035,7 @@ def universe_jet(x_value, matrix=None):
     if matrix is not None:
         value = matrix @ value
     jet = [np.zeros(16, dtype=complex) for _ in range(8)]
-    jet[3] = -1j * W * value  # d Phi / d x4 = -i w Phi
+    jet[4] = -1j * W * value  # d Phi / d x4 = -i w Phi
     return value, jet
 ```
 
@@ -2046,7 +2050,7 @@ for z_value, x_value in POINTS:
     residual = G_numeric + LAMBDA * np.eye(8) - T  # kappa = 1
     worst_residual = max(worst_residual, np.abs(residual).max())
     wanted = np.zeros(8)
-    wanted[3] = M_VALUE * float(S_value)  # K^x4_x4 = M S, all others 0
+    wanted[4] = M_VALUE * float(S_value)  # K^x4_x4 = M S, all others 0
     worst_kinetic = max(worst_kinetic, np.abs(kinetic - wanted).max())
 ```
 
@@ -2054,8 +2058,8 @@ At each of the nine points: the geometry on the patch with $a_4 = x_4$ (the hist
 
 ```python
 T_universe = T  # the tensor at the last point (it is the same at every point)
-report("rho of the universe", f"{-T_universe[3, 3]:.10f}")
-report("p of the universe", f"{T_universe[0, 0]:.10f}")
+report("rho of the universe", f"{-T_universe[4, 4]:.10f}")
+report("p of the universe", f"{T_universe[1, 1]:.10f}")
 reproduces(worst_kinetic < 1e-10, "K^x4_x4 = M S and K^mu_mu = 0 otherwise (9 points)",
            A4_PY, "authorT16_condensate_kinetic_diagonal")
 check(worst_residual < 1e-10,
@@ -2078,14 +2082,14 @@ reproduces(partner_ok and bilinear(chirality * phi0, I16) == S_value,
 `partner` is $\Gamma\Phi$, exact. Its residual with the patch term, the parameters $(-m, -\lambda)$ and the density $S$ must vanish at every time, and its density must equal $S$: step 6 of Section 20.12, reproducing `python-pairing.json`, check `T1.metric.commuting.euler_lagrange_map`.
 
 ```python
-A_partner = -gamma[3] * (-M_VALUE * I16 - 3 * gamma[7])  # M' = -M
+A_partner = -gamma[4] * (-M_VALUE * I16 - 3 * gamma[0])  # M' = -M
 same_spectrum = (chirality * A_matrix * chirality == A_partner
                  and (A_partner * A_partner + w ** 2 * I16) == Z16)
 reproduces(same_spectrum, "A' = Gamma A Gamma: the partner has the same frequency",
            PAIR_WL, "Q_one_particle_maps")
 ```
 
-`A_partner` is $\mathcal{A}' = -\gamma^{(x_4)}(-M - 3\gamma^{(x_8)})$. The check requires $\Gamma\mathcal{A}\Gamma = \mathcal{A}'$, the similarity derived by hand in step 6, and $\mathcal{A}'^2 + w^2I_{16} = 0$, so that every eigenvalue of the partner's matrix is $\pm iw$: the same frequency.
+`A_partner` is $\mathcal{A}' = -\gamma^{(x_4)}(-M - 3\gamma^{(x_0)})$. The check requires $\Gamma\mathcal{A}\Gamma = \mathcal{A}'$, the similarity derived by hand in step 6, and $\mathcal{A}'^2 + w^2I_{16} = 0$, so that every eigenvalue of the partner's matrix is $\pm iw$: the same frequency.
 
 ```python
 partner_charge = sp.simplify(((chirality * phi0).H * B * (chirality * phi0))[0])
@@ -2116,31 +2120,31 @@ check(worst_partner < 1e-10 and np.abs(2 * T_one).max() > 1.0,
 At the nine points: the tensor of the universe (`T_one`) and of the partner (`T_two`, the jet of $\Gamma\Phi$ with $(-m, -\lambda)$; `_` receives the kinetic terms, which are not needed). `worst_sum` is the largest component of $T + T'$, and `worst_partner` the largest deviation of the partner's Einstein residual from $2T$: with the partner as the only source the residual is $G + \Lambda - T' = (G + \Lambda - T) + 2T = 2T$, because the universe makes $G + \Lambda - T$ vanish and $T' = -T$. The checks: $T' = -T$ to $10^{-10}$ at all points (`python-pairing.json`, check `T1.metric.commuting.emt`), and the partner's residual is $2T$, whose largest entry is larger than 1, so NOT zero.
 
 ```python
-null_universe = -T_universe[3, 3] + T_universe[7, 7]  # kappa (rho + p8)
-null_partner = -T_partner[3, 3] + T_partner[7, 7]
-report("kappa (rho + p8) of the universe", f"{null_universe:.10f}")
-report("kappa (rho + p8) of the partner", f"{null_partner:.10f}")
+null_universe = -T_universe[4, 4] + T_universe[0, 0]  # kappa (rho + p0)
+null_partner = -T_partner[4, 4] + T_partner[0, 0]
+report("kappa (rho + p0) of the universe", f"{null_universe:.10f}")
+report("kappa (rho + p0) of the partner", f"{null_partner:.10f}")
 ```
 
-The null combination $\kappa(\rho + p_8) = -T^{x_4}{}_{x_4} + T^{x_8}{}_{x_8}$ of the universe and of the partner, printed with ten decimals. Output: $-12.0000000000$ and $12.0000000000$.
+The null combination $\kappa(\rho + p_0) = -T^{x_4}{}_{x_4} + T^{x_0}{}_{x_0}$ of the universe and of the partner, printed with ten decimals. Output: $-12.0000000000$ and $12.0000000000$.
 
 ```python
 rate = sp.symbols("rate", real=True)  # a real value of a4'/H
-required = sp.expand(-(einstein("x4x4") - einstein("x8x8")).subs(
+required = sp.expand(-(einstein("x4x4") - einstein("x0x0")).subs(
     {ad1: rate, ad2: 0, H: 1}))  # the requirement -6 (a4'^2 + 1)
 universe_null = rho_value + p_value  # exact: 12 - 24 = -12
 partner_null = -(rho_value + p_value)  # exact: T' = -T gives +12
 check(abs(null_universe - float(universe_null)) < 1e-10
       and abs(null_partner - float(partner_null)) < 1e-10,
-      "kappa (rho + p8): universe -12, partner +12 (numbers = exact values)")
+      "kappa (rho + p0): universe -12, partner +12 (numbers = exact values)")
 reproduces(required == -6 * rate ** 2 - 6
            and sorted(sp.solve(required - universe_null, rate)) == [-1, 1]
            and sp.solve(required - partner_null, rate) == [],
            "the universe fits a4' = +-H; the partner fits no real rate",
-           A4_PY, "einstein_null_energy_x8")
+           A4_PY, "einstein_null_energy_x0")
 ```
 
-`rate` is a real symbol for $a_4'/H$, and `required` is the requirement $-(G^{x_4}{}_{x_4} - G^{x_8}{}_{x_8}) = -6(a_4'^2 + 1)$ with $H = 1$, computed from the record's components. `universe_null` and `partner_null` are the exact values $-12$ and $+12$. The first check compares the floating-point values with the exact ones. The second requires the requirement to be $-6\,\text{rate}^2 - 6$, the universe's value to be met exactly at the two real rates $-1$ and $+1$, and the partner's value at no real rate (`sp.solve` returns the empty list `[]`): step 7 of Section 20.12, reproducing `python-a4-report.json`, check `einstein_null_energy_x8`. Output of the cell: six PASS lines (five of them with their records) and the two RESULT lines.
+`rate` is a real symbol for $a_4'/H$, and `required` is the requirement $-(G^{x_4}{}_{x_4} - G^{x_0}{}_{x_0}) = -6(a_4'^2 + 1)$ with $H = 1$, computed from the record's components. `universe_null` and `partner_null` are the exact values $-12$ and $+12$. The first check compares the floating-point values with the exact ones. The second requires the requirement to be $-6\,\text{rate}^2 - 6$, the universe's value to be met exactly at the two real rates $-1$ and $+1$, and the partner's value at no real rate (`sp.solve` returns the empty list `[]`): step 7 of Section 20.12, reproducing `python-a4-report.json`, check `einstein_null_energy_x0`. Output of the cell: six PASS lines (five of them with their records) and the two RESULT lines.
 
 **In [8], the T1 pair as the only source.**
 
@@ -2153,55 +2157,55 @@ for z_value, x_value in POINTS:
     T_two, _ = mixed_tensor(at, *universe_jet(x_value, Gamma_num),
                             -float(m_value), -float(lam_value))
     residual = G_numeric + LAMBDA * np.eye(8) - (T_one + T_two)
-    expected = np.diag([-24.0, -24, -24, -12, -24, -24, -24, -24])
+    expected = np.diag([-24.0, -24, -24, -24, -12, -24, -24, -24])
     worst_pair = max(worst_pair, np.abs(residual - expected).max())
 check(worst_pair < 1e-10,
       "T1 pair alone: residual = G + Lambda = diag(-24, ..., -12, ...), not zero")
 ```
 
-At the nine points the residual with the T1 pair as the only source, $G + \Lambda - (T + T')$, must equal the matrix $\mathrm{diag}(-24, -24, -24, -12, -24, -24, -24, -24)$ of step 8 (`np.diag` makes a diagonal matrix from a list). Output: PASS T1 pair alone: residual = G + Lambda = diag(-24, ..., -12, ...), not zero. This is corollary C1 on the example.
+At the nine points the residual with the T1 pair as the only source, $G + \Lambda - (T + T')$, must equal the matrix $\mathrm{diag}(-24, -24, -24, -24, -12, -24, -24, -24)$ of step 8 (`np.diag` makes a diagonal matrix from a list). Output: PASS T1 pair alone: residual = G + Lambda = diag(-24, ..., -12, ...), not zero. This is corollary C1 on the example.
 
 **In [9], the T2 mirror copy across the brane.**
 
 ```python
-copy = gamma[7] * Phi  # gamma^(x8) Phi on the mirror patch
+copy = gamma[0] * Phi  # gamma^(x0) Phi on the mirror patch
 copy_ok = field_residual(copy, gravity_term[-1].subs(H, 1), -m_value, lam_value,
                          -S_value) == sp.zeros(16, 1)
-reproduces(copy_ok and bilinear(gamma[7] * phi0, I16) == -S_value,
+reproduces(copy_ok and bilinear(gamma[0] * phi0, I16) == -S_value,
            "the mirror copy solves the (-m, lambda) equation there; S' = -S",
            PAIR_PY, "T2.metric.commuting.euler_lagrange_map")
-copy_charge = sp.simplify(((gamma[7] * phi0).H * B * (gamma[7] * phi0))[0])
+copy_charge = sp.simplify(((gamma[0] * phi0).H * B * (gamma[0] * phi0))[0])
 reproduces(copy_charge == charge_value, "the copy's charge density is +J^x4",
            PAIR_PY, "Q.T2_image_keeps_B")
 ```
 
-`copy` is $\gamma^{(x_8)}\Phi$ (position 7 is $x_8$). Its residual is computed with the MIRROR-patch term $-3\gamma^{(x_8)}$ (`gravity_term[-1]`), the parameters $(-m, \lambda)$ and the density $-S$; it must vanish at every time, and its density must be $-S$: step 9 of Section 20.12, reproducing `python-pairing.json`, check `T2.metric.commuting.euler_lagrange_map`. The copy's charge density, exact, must equal the universe's $-3$ (`python-pairing.json`, check `Q.T2_image_keeps_B`).
+`copy` is $\gamma^{(x_0)}\Phi$ (position 0 is $x_0$). Its residual is computed with the MIRROR-patch term $-3\gamma^{(x_0)}$ (`gravity_term[-1]`), the parameters $(-m, \lambda)$ and the density $-S$; it must vanish at every time, and its density must be $-S$: step 9 of Section 20.12, reproducing `python-pairing.json`, check `T2.metric.commuting.euler_lagrange_map`. The copy's charge density, exact, must equal the universe's $-3$ (`python-pairing.json`, check `Q.T2_image_keeps_B`).
 
 ```python
 worst_copy, worst_pull = 0.0, 0.0
-R8 = np.diag([1.0, 1, 1, 1, 1, 1, 1, -1])
+R0 = np.diag([-1.0, 1, 1, 1, 1, 1, 1, 1])  # the reflection of x0
 for z_value, x_value in POINTS:
     there = geometry_at(-1, np.pi - z_value, x_value, 1.0)  # the mirror point
-    T_copy, _ = mixed_tensor(there, *universe_jet(x_value, gamma_num[7]),
+    T_copy, _ = mixed_tensor(there, *universe_jet(x_value, gamma_num[0]),
                              -float(m_value), float(lam_value))
     T_one, _ = mixed_tensor(geometry_at(1, z_value, x_value, 1.0),
                             *universe_jet(x_value), float(m_value), float(lam_value))
-    worst_pull = max(worst_pull, np.abs(T_copy - R8 @ T_one @ R8).max())
+    worst_pull = max(worst_pull, np.abs(T_copy - R0 @ T_one @ R0).max())
     residual = G_numeric + LAMBDA * np.eye(8) - T_copy
     worst_copy = max(worst_copy, np.abs(residual).max())
 T_mirror = T_copy
 ```
 
-`R8` is the diagonal matrix $R_8 = \mathrm{diag}(1, 1, 1, 1, 1, 1, 1, -1)$. At each of the nine points, `there` is the geometry at the mirror point $\pi - z$ of the mirror patch (`s8 = -1`), and `T_copy` the tensor of the copy there, with $(-m, \lambda)$. `T_one` is the universe's tensor at the original point. `worst_pull` is the largest deviation of the copy's tensor from the pulled-back tensor $R_8TR_8$ (`@` is the matrix product), and `worst_copy` the largest Einstein residual of the copy alone on the mirror patch. The last value of `T_copy` is kept as `T_mirror`.
+`R0` is the diagonal matrix $R_0 = \mathrm{diag}(-1, 1, 1, 1, 1, 1, 1, 1)$. At each of the nine points, `there` is the geometry at the mirror point $\pi - z$ of the mirror patch (`s0 = -1`), and `T_copy` the tensor of the copy there, with $(-m, \lambda)$. `T_one` is the universe's tensor at the original point. `worst_pull` is the largest deviation of the copy's tensor from the pulled-back tensor $R_0TR_0$ (`@` is the matrix product), and `worst_copy` the largest Einstein residual of the copy alone on the mirror patch. The last value of `T_copy` is kept as `T_mirror`.
 
 ```python
-reproduces(worst_pull < 1e-10, "the copy's tensor is R8 T R8 = T at 9 mirror points",
+reproduces(worst_pull < 1e-10, "the copy's tensor is R0 T R0 = T at 9 mirror points",
            PAIR_PY, "T2.metric.commuting.emt")
 check(worst_copy < 1e-10,
       "the mirror copy ALONE solves the 64 Einstein equations on the mirror patch")
 ```
 
-The checks: the copy's tensor is $R_8TR_8$, which equals $T$ because $T$ is diagonal (`python-pairing.json`, check `T2.metric.commuting.emt`), and the copy ALONE solves all 64 Einstein equations on the mirror patch. Output: four PASS lines, three with their records.
+The checks: the copy's tensor is $R_0TR_0$, which equals $T$ because $T$ is diagonal (`python-pairing.json`, check `T2.metric.commuting.emt`), and the copy ALONE solves all 64 Einstein equations on the mirror patch. Output: four PASS lines, three with their records.
 
 **In [10], figure 1: the Einstein residuals of the four sources.**
 
@@ -2243,7 +2247,7 @@ save_figure(fig, "einstein_residuals",
             "equations there.")
 ```
 
-`save_figure` saves `20b_1_einstein_residuals.png` and shows it (the eleven-line caption is shown here by its first and last lines). **What figure 1 shows.** Four $8 \times 8$ tables of the residual $G^\mu{}_\nu + \Lambda\delta^\mu_\nu - \kappa T^\mu{}_\nu$ (rows $\mu$, columns $\nu$, $x_1$ to $x_8$; colour scale in units $H^2$, white means zero), for the author's metric with $a_4 = Hx_4$ and $\Lambda = -36H^2$. The universe alone gives a white table: it solves all 64 equations. The T1 partner alone gives $2\kappa T$, with $-48$ on the diagonal except $-24$ at $x_4$. The T1 pair gives $G + \Lambda$, with $-24$ on the diagonal except $-12$ at $x_4$. The T2 copy alone on the mirror patch gives a white table again. The student should see that only the universe and its mirror copy solve the equations; the T1 partner and the T1 pair do not.
+`save_figure` saves `20b_1_einstein_residuals.png` and shows it (the eleven-line caption is shown here by its first and last lines). **What figure 1 shows.** Four $8 \times 8$ tables of the residual $G^\mu{}_\nu + \Lambda\delta^\mu_\nu - \kappa T^\mu{}_\nu$ (rows $\mu$, columns $\nu$, $x_0$ to $x_7$; colour scale in units $H^2$, white means zero), for the author's metric with $a_4 = Hx_4$ and $\Lambda = -36H^2$. The universe alone gives a white table: it solves all 64 equations. The T1 partner alone gives $2\kappa T$, with $-48$ on the diagonal except $-24$ at $x_4$. The T1 pair gives $G + \Lambda$, with $-24$ on the diagonal except $-12$ at $x_4$. The T2 copy alone on the mirror patch gives a white table again. The student should see that only the universe and its mirror copy solve the equations; the T1 partner and the T1 pair do not.
 
 **In [11], figure 2: what Einstein gravity requires and what each source supplies.**
 
@@ -2260,7 +2264,7 @@ ax.plot(rates, -6 * (rates ** 2 + 1), color="black", linewidth=2.0,
 supplied = (("universe $\\Phi$", null_universe, "tab:blue", "-"),
             ("T1 partner $\\Gamma\\Phi$", null_partner, "tab:red", "-"),
             ("T1 pair", null_universe + null_partner, "tab:purple", "--"),
-            ("T2 copy", -T_mirror[3, 3] + T_mirror[7, 7], "tab:green", ":"))
+            ("T2 copy", -T_mirror[4, 4] + T_mirror[0, 0], "tab:green", ":"))
 for label, value, colour, style in supplied:
     ax.axhline(value, color=colour, linestyle=style, linewidth=1.6,
                label=f"{label} supplies {value:+.0f}")
@@ -2268,11 +2272,11 @@ ax.plot([-1.0, 1.0], [-12.0, -12.0], "o", color="tab:blue", markersize=8,
         label="solutions: $a_4' = \\pm H$")
 ```
 
-`supplied` lists four (label, value, colour, line style) entries: the universe's $-12$, the partner's $+12$, the pair's $0$ and the copy's $-T^{x_4}{}_{x_4} + T^{x_8}{}_{x_8} = -12$. Each is drawn as a horizontal line (`ax.axhline`); the label prints the value with its sign (`:+.0f`). Two blue dots mark the two places where the universe's line meets the curve, $a_4' = \pm H$.
+`supplied` lists four (label, value, colour, line style) entries: the universe's $-12$, the partner's $+12$, the pair's $0$ and the copy's $-T^{x_4}{}_{x_4} + T^{x_0}{}_{x_0} = -12$. Each is drawn as a horizontal line (`ax.axhline`); the label prints the value with its sign (`:+.0f`). Two blue dots mark the two places where the universe's line meets the curve, $a_4' = \pm H$.
 
 ```python
 ax.set_xlabel("rate $a_4'/H$ of the metric function")
-ax.set_ylabel("$\\kappa(\\rho + p_8)/H^2$")
+ax.set_ylabel("$\\kappa(\\rho + p_0)/H^2$")
 ax.set_ylim(-45, 18)
 ax.set_title("What Einstein gravity requires, and what each source supplies")
 ax.legend(fontsize=7.5, loc="lower center", ncol=2)
@@ -2282,24 +2286,25 @@ The axis labels, the vertical range from $-45$ to $18$ (`set_ylim`), the title a
 
 ```python
 save_figure(fig, "null_requirement",
-            "The null combination $\\kappa(\\rho + p_8)$ (energy density plus the "
+            "The null combination $\\kappa(\\rho + p_0)$ (energy density plus the "
+            "pressure along $x_0$; vertical, units $H^2$) that Einstein gravity "
 ...
             "nowhere.")
 ```
 
-**What figure 2 shows.** Horizontal axis: the rate $a_4'/H$; vertical axis: the null combination $\kappa(\rho + p_8)$ in units $H^2$. The black parabola is what Einstein gravity requires of every source; its highest point is $-6$, at $a_4' = 0$. The blue line of the universe ($-12$) meets it at $a_4' = \pm H$; the green dotted line of the T2 copy lies on top of the blue one. The red line of the T1 partner ($+12$) and the purple dashed line of the T1 pair ($0$) lie above the parabola's highest point and meet it nowhere. The student should see in one picture why the partner and the pair cannot be the source of the author's metric for any rate, while the universe and its mirror copy can.
+**What figure 2 shows.** Horizontal axis: the rate $a_4'/H$; vertical axis: the null combination $\kappa(\rho + p_0)$ in units $H^2$. The black parabola is what Einstein gravity requires of every source; its highest point is $-6$, at $a_4' = 0$. The blue line of the universe ($-12$) meets it at $a_4' = \pm H$; the green dotted line of the T2 copy lies on top of the blue one. The red line of the T1 partner ($+12$) and the purple dashed line of the T1 pair ($0$) lie above the parabola's highest point and meet it nowhere. The student should see in one picture why the partner and the pair cannot be the source of the author's metric for any rate, while the universe and its mirror copy can.
 
 **In [12], figure 3: the bookkeeping.**
 
 ```python
-rho_u, p_u = -T_universe[3, 3], T_universe[0, 0]
-rho_m, p_m = -T_mirror[3, 3], T_mirror[0, 0]
+rho_u, p_u = -T_universe[4, 4], T_universe[1, 1]
+rho_m, p_m = -T_mirror[4, 4], T_mirror[1, 1]
 J_u = float(charge_value)
 rows = {
     "universe": (rho_u, p_u, J_u, float(S_value)),
-    "T1 partner": (-T_partner[3, 3], T_partner[0, 0], float(partner_charge),
+    "T1 partner": (-T_partner[4, 4], T_partner[1, 1], float(partner_charge),
                    float(S_value)),
-    "T1 pair": (rho_u - T_partner[3, 3], p_u + T_partner[0, 0],
+    "T1 pair": (rho_u - T_partner[4, 4], p_u + T_partner[1, 1],
                 J_u + float(partner_charge), 2 * float(S_value)),
     "T2 copy": (rho_m, p_m, float(copy_charge), -float(S_value)),
     "T2 pair": (rho_u + rho_m, p_u + p_m, J_u + float(copy_charge), 0.0),
@@ -2807,7 +2812,7 @@ From it we find WHEN the charge $Q = \int\cos z\,J^{x_4}\,d^7x$ is constant in t
 1. Write the sum over $\mu$ as the $x_4$ term plus the seven others: $\partial_4(\cos z\,J^{x_4}) = -\sum_{i \neq 4}\partial_i(\cos z\,J^{x_i})$.
 2. Integrate both sides over the seven coordinates other than $x_4$, on a slice $x_4 = \text{const}$; on the left the derivative with respect to $x_4$ may be taken out of the integral over the other coordinates: $\frac{dQ}{dx_4} = -\sum_{i \neq 4}\int\partial_i(\cos z\,J^{x_i})\,d^7x$.
 3. Each term on the right is, by the fundamental theorem of calculus in the variable $x_i$, the difference of the values of $\cos z\,J^{x_i}$ at the two ends of the range of $x_i$, integrated over the six remaining coordinates.
-4. ASSUMED: these **boundary terms** vanish. This is so, for example, when each of the coordinates $x_1, x_2, x_3, x_5, x_6, x_7$ is periodic, so that its two ends are the same place, and when no current flows through the two ends of the hidden direction. Then $dQ/dx_4 = 0$. At the tip $z = 0$ the flux density $\cos z\,J^{x_8}$ vanishes for the exact solutions of Sections 18.21 and 21.18 (it contains the factor $\sin z$). At the brane $z = \pi/2$ it does NOT vanish in general: for the homogeneous solutions of Section 18.21, $\cos z\,J^{x_8} = \sin z\,q_8$ with the frame current $q_8 = -i\bar\Psi\gamma^{(x_8)}\Psi$, which on the solution of Notebook 18c runs from $-0.3454$ to $0.3454$, so the charge of a patch of coordinate volume $V_6$ in the six directions changes at the rate $dQ/dx_4 = -V_6\,q_8$; Section 21.18 shows another exact solution whose charge changes by what flows out through the brane. The **no-flux condition** at the brane is therefore a real restriction, and no equation of the Revision record derives it (it would be part of the junction condition at the brane, which is OPEN).
+4. ASSUMED: these **boundary terms** vanish. This is so, for example, when each of the coordinates $x_1, x_2, x_3, x_5, x_6, x_7$ is periodic, so that its two ends are the same place, and when no current flows through the two ends of the hidden direction. Then $dQ/dx_4 = 0$. At the tip $z = 0$ the flux density $\cos z\,J^{x_0}$ vanishes for the exact solutions of Sections 18.21 and 21.18 (it contains the factor $\sin z$). At the brane $z = \pi/2$ it does NOT vanish in general: for the homogeneous solutions of Section 18.21, $\cos z\,J^{x_0} = \sin z\,q_0$ with the frame current $q_0 = -i\bar\Psi\gamma^{(x_0)}\Psi$, which on the solution of Notebook 18c runs from $-0.3454$ to $0.3454$, so the charge of a patch of coordinate volume $V_6$ in the six directions changes at the rate $dQ/dx_4 = -V_6\,q_0$; Section 21.18 shows another exact solution whose charge changes by what flows out through the brane. The **no-flux condition** at the brane is therefore a real restriction, and no equation of the Revision record derives it (it would be part of the junction condition at the brane, which is OPEN).
 
 Status: the local law is PROVED (records above): no process creates or destroys charge at any point inside the patch; charge can only flow from one place to another. The constancy of the integrated charge holds only under the boundary conditions of line 4, which are ASSUMED; at the brane this no-flux condition is not derived and fails on the exact solutions just cited, so whether the total charge of a universe is conserved is OPEN. Under the no-flux condition no net charge can be generated inside one universe.
 
@@ -2821,7 +2826,7 @@ Status: the local law is PROVED (records above): no process creates or destroys 
 4. The members of a T1 pair have opposite charges, $Q_- = -Q_+$ (T1c).
 5. Hence a T1 pair whose members carry the charges $Q$ and $-Q$ with $Q \neq 0$ cannot evolve out of zero fields in the theory as built.
 
-The zero TOTAL charge of a T1 pair does not make its appearance allowed, because the separate charges are conserved too (under the no-flux condition). Example: the universe of Section 20.12 has the constant charge density $J^{x_4} = -3$ and $\cos z > 0$ on the patch, so its charge over any region of the patch is negative, not zero; neither it nor its T1 pair can evolve out of zero fields. (This universe is homogeneous and its $J^{x_4}$ does not change, so by the law $dJ^{x_4}/dx_4 = -6Hq_8$ of Section 18.21 its frame current $q_8$ is zero: nothing flows through its brane. And for every homogeneous field (f) below gives the same conclusion without any boundary condition.) Status: derived here in five lines from the PROVED local law (a), with the ASSUMED boundary conditions of (a), including the no-flux condition at the brane; for fields that are not homogeneous the argument needs that condition; it is a consequence of the record's identity, not a record of its own (Notebook 20c, section 9, states it in the same words).
+The zero TOTAL charge of a T1 pair does not make its appearance allowed, because the separate charges are conserved too (under the no-flux condition). Example: the universe of Section 20.12 has the constant charge density $J^{x_4} = -3$ and $\cos z > 0$ on the patch, so its charge over any region of the patch is negative, not zero; neither it nor its T1 pair can evolve out of zero fields. (This universe is homogeneous and its $J^{x_4}$ does not change, so by the law $dJ^{x_4}/dx_4 = -6Hq_0$ of Section 18.21 its frame current $q_0$ is zero: nothing flows through its brane. And for every homogeneous field (f) below gives the same conclusion without any boundary condition.) Status: derived here in five lines from the PROVED local law (a), with the ASSUMED boundary conditions of (a), including the no-flux condition at the brane; for fields that are not homogeneous the argument needs that condition; it is a consequence of the record's identity, not a record of its own (Notebook 20c, section 9, states it in the same words).
 
 **(d) The energy of a universe is not conserved in the deflating metric.** The metric depends on the time $x_4$ through $a_4$, so the energy of one universe is not a conserved quantity. The local law $\nabla_\mu T^\mu{}_\nu = 0$ holds on shell (Chapter 9; `python-field-theory.json`, check `commuting_emt_conservation_on_shell`), and for a homogeneous diagonal source its $x_4$ component reads $-d\rho/dx_4 - 3a_4'(p_3 - p_t) = 0$ (`emt-divergence-and-spin-connection.json`, check `divergence_x4_component`). Adding $d\rho/dx_4$ to both sides,
 
@@ -2843,7 +2848,7 @@ The same holds for the rotations of 3-space (in the planes of $x_1, x_2, x_3$, w
 
 **(e) The totals of the two kinds of pair.** A T1 pair has $T + T' = 0$ and $Q_+ + Q_- = 0$: its totals are those of the empty state, so the conservation of the TOTALS does not forbid its appearance; (c) shows that the separate charges do (under the ASSUMED no-flux condition), unless $Q_+ = 0$. A T2 pair has the total charge $2Q_+$ (the copy carries the SAME charge): under the same condition already its total forbids its appearance from zero fields unless $Q_+ = 0$. (Without that condition the charge of the glued pair of patches changes at twice the rate of one patch: Section 18.21.)
 
-**(f) A classical condensate cannot grow out of zero.** The zero field solves every field equation of this book, because every term of the field equation contains $\Psi$. For a condensate the field equation is the ordinary differential equation $\Phi' = -\gamma^{(x_4)}(m + \lambda S - 3H\gamma^{(x_8)})\Phi$ (Section 20.12, step 1), whose right side is a polynomial in the real and imaginary parts of the 16 components that vanishes at $\Phi = 0$. The uniqueness theorem for ordinary differential equations with such a smooth right side (the theorem of Picard and Lindelöf, quoted without proof in Chapter 2) says that near every time only one solution has a given value at that time. The zero function is a solution with the value zero. So a condensate that is zero at one time $t_0$ is zero on a small interval around $t_0$. Suppose it were not zero at some later time $t_2$. Let $t^*$ be the least upper bound of the times $s$ (the smallest number that none of them exceeds) such that the condensate is zero at every time from $t_0$ to $s$. Because the solution is continuous, it is zero at $t^*$ itself, so $t^* \neq t_2$ and hence $t^* < t_2$; by the theorem, applied at $t^*$, it is zero on a small interval beyond $t^*$, which contradicts the choice of $t^*$. The same argument runs backwards in time. So the condensate is zero at every time. For the full field equation in 4+4 dimensions, whose initial-value problem is not well posed in the extra-time directions (Chapter 8), no such uniqueness theorem is proved in this book: OPEN.
+**(f) A classical condensate cannot grow out of zero.** The zero field solves every field equation of this book, because every term of the field equation contains $\Psi$. For a condensate the field equation is the ordinary differential equation $\Phi' = -\gamma^{(x_4)}(m + \lambda S - 3H\gamma^{(x_0)})\Phi$ (Section 20.12, step 1), whose right side is a polynomial in the real and imaginary parts of the 16 components that vanishes at $\Phi = 0$. The uniqueness theorem for ordinary differential equations with such a smooth right side (the theorem of Picard and Lindelöf, quoted without proof in Chapter 2) says that near every time only one solution has a given value at that time. The zero function is a solution with the value zero. So a condensate that is zero at one time $t_0$ is zero on a small interval around $t_0$. Suppose it were not zero at some later time $t_2$. Let $t^*$ be the least upper bound of the times $s$ (the smallest number that none of them exceeds) such that the condensate is zero at every time from $t_0$ to $s$. Because the solution is continuous, it is zero at $t^*$ itself, so $t^* \neq t_2$ and hence $t^* < t_2$; by the theorem, applied at $t^*$, it is zero on a small interval beyond $t^*$, which contradicts the choice of $t^*$. The same argument runs backwards in time. So the condensate is zero at every time. For the full field equation in 4+4 dimensions, whose initial-value problem is not well posed in the extra-time directions (Chapter 8), no such uniqueness theorem is proved in this book: OPEN.
 
 **Summary of Q1 for universes.** The totals of a T1 pair are those of the empty state; the separate conservation of each member's charge and momenta, which holds because nothing couples the two universes and under the ASSUMED no-flux condition at the brane, forbids the appearance of a T1 pair with charged members, or with members of nonzero momentum, out of zero fields; under the same condition a T2 pair is forbidden already by its total charge unless it is neutral. Two things could change this, and the record contains neither: an interaction between the two universes, which could leave the totals as the only conserved charges, and a flow through the brane, which the record neither excludes nor describes (both OPEN). And even where the conservation laws allow something, that is not a creation (Section 20.17, lesson 1).
 
@@ -2855,7 +2860,7 @@ The request for this book also speaks of matter-antimatter mysteries. Chapter 21
 
 **What is PROVED in this theory.**
 
-1. The U(1) charge of one universe obeys an exact LOCAL conservation law (Section 20.22 (a)): no process creates or destroys it at any point inside the patch. Its total is constant only under the no-flux condition at the brane $z = \pi/2$, which is ASSUMED, not proved (OPEN; the homogeneous solutions of Section 18.21 have a patch charge that changes at the rate $-V_6q_8$); under that condition no net charge of this kind can be generated inside one universe.
+1. The U(1) charge of one universe obeys an exact LOCAL conservation law (Section 20.22 (a)): no process creates or destroys it at any point inside the patch. Its total is constant only under the no-flux condition at the brane $z = \pi/2$, which is ASSUMED, not proved (OPEN; the homogeneous solutions of Section 18.21 have a patch charge that changes at the rate $-V_6q_0$); under that condition no net charge of this kind can be generated inside one universe.
 2. The pair-level statement: by (T1c) a T1 partner carries the OPPOSITE charge, $J^\mu[\Gamma\Psi] = -J^\mu[\Psi]$, so a T1 pair of universes of masses $+m$ and $-m$ has zero total charge; a T2 mirror copy carries the SAME charge (Section 20.6). Example: the universe of Section 20.12 has $J^{x_4} = -3$, its T1 partner $+3$, its mirror copy $-3$.
 3. Charge conjugation is a MATRIX (rule of this book, from the lead's record `charge-conjugation-and-u1.json`, 12 checks, all PASS; Chapters 5 and 21 derive it step by step). The author's gammas are real, so for a REAL field plain complex conjugation is the identity and is NOT charge conjugation. Solving exactly for every matrix that maps solutions to solutions gives two charge-conjugation matrices: $\mathcal{C}_+ = C$, with $\mathcal{C}_+^{-1}\gamma^{(a)}\mathcal{C}_+ = -(\gamma^{(a)})^T$, which keeps the mass; and $\mathcal{C}_- = \Gamma C$, with $\mathcal{C}_-^{-1}\gamma^{(a)}\mathcal{C}_- = +(\gamma^{(a)})^T$, which reverses the mass (checks `charge_conjugation_matrix_plus` and `charge_conjugation_matrix_minus`). For real commuting fields the current vanishes identically and $\mathcal{C}_+$ acts as the identity; the nontrivial real matrix map is $\Gamma$ with $(m, \lambda) \to (-m, -\lambda)$, which reverses the current and the kinetic term: theorem T1 (check `real_fields_charge_conjugation`). For the quantised Grassmann field the conjugation that preserves the canonical anticommutator is $\Psi \to \Gamma\Psi^{\dagger T}$, and it reverses the mass (check `quantum_charge_conjugation_unitary_type`).
 
@@ -2919,7 +2924,7 @@ The first line is where the pairing theorems stand. The last three lines are the
 
 ### 20.26 The answer to the question of the title
 
-**Do universes come in pairs?** For each of the two fields, dirac16complex and dirac16complex00, the equations of this book PROVE: to every solution with mass $m$ the explicit map $\Gamma$ assigns a solution with mass $-m$ and coupling $-\lambda$, with the opposite energy-momentum tensor and charge, in every gravitational field (T1); the map $\gamma^{(x_8)}$ with the ASSUMED Z2 mirror assigns a solution with mass $-m$ and the same coupling, with the SAME energy-momentum and charge, in the author's primordial field (T2); for dirac16complex at the Kohn-Sham level the block map of $\Gamma$ with the transformed boundary conditions assigns to every self-consistent instantaneous state with $(m, \lambda)$ one with $(-m, +\lambda)$ at equal energies (T3); at the quantum level the T1 partner is the same quantum system relabelled, and two independently quantised universes have identical one-particle spectra (the $\lambda = 0$ spectra, in flat 4+4 space or in a general field at a point with frozen coefficients) and energies that add (Q); and a T1 pair as the only source of the author's metric is a zero source, which in Einstein gravity admits no solution for $H > 0$ (C1). These are exact maps between solution sets, with their stated hypotheses.
+**Do universes come in pairs?** For each of the two fields, dirac16complex and dirac16complex00, the equations of this book PROVE: to every solution with mass $m$ the explicit map $\Gamma$ assigns a solution with mass $-m$ and coupling $-\lambda$, with the opposite energy-momentum tensor and charge, in every gravitational field (T1); the map $\gamma^{(x_0)}$ with the ASSUMED Z2 mirror assigns a solution with mass $-m$ and the same coupling, with the SAME energy-momentum and charge, in the author's primordial field (T2); for dirac16complex at the Kohn-Sham level the block map of $\Gamma$ with the transformed boundary conditions assigns to every self-consistent instantaneous state with $(m, \lambda)$ one with $(-m, +\lambda)$ at equal energies (T3); at the quantum level the T1 partner is the same quantum system relabelled, and two independently quantised universes have identical one-particle spectra (the $\lambda = 0$ spectra, in flat 4+4 space or in a general field at a point with frozen coefficients) and energies that add (Q); and a T1 pair as the only source of the author's metric is a zero source, which in Einstein gravity admits no solution for $H > 0$ (C1). These are exact maps between solution sets, with their stated hypotheses.
 
 The equations do NOT prove that universes come in pairs: a single universe with mass $+m$ is an equally valid solution without its partner, and Section 20.12 builds one, exactly. They do NOT prove that any universe is created, in pairs or otherwise: they contain no creation process, no rate, no probability and no amplitude, and in the theory as built, under the ASSUMED no-flux condition at the brane $z = \pi/2$ (not derived; it fails on the homogeneous solutions of Section 18.21), the separate conservation of each universe's charge forbids a charged T1 pair from appearing out of zero fields; without that condition this is OPEN for fields that are not homogeneous (Section 20.22 (c) and (f)). They do NOT solve the matter-antimatter problem.
 
@@ -2934,9 +2939,9 @@ The equations do NOT prove that universes come in pairs: a single universe with 
 | Q: the T1 image carries $-B$ and is the same quantum system; independent universes do not cancel; equal one-particle spectra ($\lambda = 0$; flat 4+4 space, or a general field at a point with frozen coefficients); the T2 image keeps $+B$ | PROVED | `wolfram-pairing.json` (12 Q checks), `python-pairing.json` (10 Q checks); Section 20.6 |
 | T3: Kohn-Sham states with $(m, \lambda, \theta)$ and $(-m, +\lambda, \pi - \theta)$ have equal levels, energies and energy-momentum profiles | PROVED; brane ASSUMED, tip transformed, instantaneous mean-field states | `wolfram-t3.json` (10 checks), `python-t3.json` (13 checks); Section 20.6; Chapter 19 |
 | C1(a): a T1 pair as the only source; Einstein gravity has no real solution for $H > 0$; the only solutions are $a_4' = \pm iH$, $\Lambda = -18H^2$ | PROVED | `wolfram-a4-report.json`, check `einstein_no_vacuum_solution`; `python-a4-report.json`, check `einstein_no_vacuum`; `einstein-gauss-bonnet-a4.json`, check `no_vacuum_for_H_positive`; Section 20.7; Notebook 20a, In [12] |
-| every source of the author's metric needs $\kappa(\rho + p_8) = -6(a_4'^2 + H^2)$ in Einstein gravity | PROVED | both a4 reports, check `einstein_null_energy_x8`; Notebook 20a, In [14] |
+| every source of the author's metric needs $\kappa(\rho + p_0) = -6(a_4'^2 + H^2)$ in Einstein gravity | PROVED | both a4 reports, check `einstein_null_energy_x0`; Notebook 20a, In [14] |
 | C1(b): the linear member is a vacuum exactly when $V = 0$; with $\alpha_2H^2 = 1/48$ and $\Lambda = -12H^2$ the deflating history is a Gauss-Bonnet vacuum | PROVED | both a4 reports, checks `linear_member_vacuum_factor` and `einstein_gauss_bonnet_vacuum_linear`; exact check in Notebook 20a, In [16] |
-| $\sum_\mu\gamma^\mu\Omega_\mu = -3H\gamma^{(x_8)}$ on the mirror patch | COMPUTED exactly (a result of this book, not a record) | Notebook 20a, In [5]; Notebook 20b, In [3] |
+| $\sum_\mu\gamma^\mu\Omega_\mu = -3H\gamma^{(x_0)}$ on the mirror patch | COMPUTED exactly (a result of this book, not a record) | Notebook 20a, In [5]; Notebook 20b, In [3] |
 | the author's metric and its curvature are finite and non-degenerate at every finite time on the patch for the prescribed history $a_4 = AHx_4$ (and any history with finite $a_4$, $a_4'$, $a_4''$): no big-bang moment in the prescribed history | PROVED for the prescribed history; for computed histories OPEN (with a given source the $a_4$ equations can break down at a finite time, Chapter 12) | Section 20.3, from `python-pairing.json`, check `geometry.brane_degenerate`, and `python-a4-report.json`, check `riemann_entries_laurent` |
 | the universe $m = 15$, $\lambda = -25/3$, $A = 1$, $\Lambda = -36H^2$: $S = 12/5$, $\rho = 12$, $p = -24$, $J^{x_4} = -3$, frequency $4H$, a complete solution without a partner | COMPUTED (exact for the field equation; Einstein equations to $10^{-10}$ at nine points); a result of this book | Section 20.12; Notebook 20b, In [4] to In [6] |
 | its T1 partner solves its own equation with the same frequency but is the source of no member of the author's family in Einstein gravity | PROVED here by hand (record's null combination); checked numerically | Section 20.12, steps 6 and 7; Notebook 20b, In [7] |
@@ -2947,13 +2952,14 @@ The equations do NOT prove that universes come in pairs: a single universe with 
 | a condensate that vanishes at one time vanishes always | PROVED here with the quoted uniqueness theorem for ODEs | Section 20.22 (f) |
 | the threshold lemma; one photon makes no pair; $E_\gamma \ge 2m(1 + m/M)$; $E_aE_b \ge 2m^2/(1 - \cos\theta)$ | PROVED here from ASSUMED special relativity | Section 20.17; Notebook 20c, In [2] to In [8] |
 | the rates of pair creation by light | quoted from the literature (Bethe-Heitler, Breit-Wheeler), not computed | Section 20.17 |
-| a T1 pair has zero total charge; a T2 copy has the same charge | PROVED | (T1c) in Section 20.5 and the statement of T2 in Section 20.6 ($J' = R_8J$) |
+| a T1 pair has zero total charge; a T2 copy has the same charge | PROVED | (T1c) in Section 20.5 and the statement of T2 in Section 20.6 ($J' = R_0J$) |
 | the two charge-conjugation matrices $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$; for real fields the nontrivial real map is $\Gamma$ (T1) | PROVED | `charge-conjugation-and-u1.json` (12 checks); Chapters 5 and 21 |
 | a partner universe explains the matter excess of our universe | HYPOTHESIS | Section 20.23 |
 | the theory solves the matter-antimatter problem | NOT ESTABLISHED: no baryons, no baryon-number violation, no CP violation, no departure from equilibrium computed | Section 20.23 |
 | a creation process, rate, probability or amplitude for universes | NOT ESTABLISHED (OPEN) | `pairing-theory.json`, key `not_established`; Sections 20.24 and 20.25 |
 | Hypothesis P: "the big bang creates universes of masses $+M$ and $-M$ in pairs" | HYPOTHESIS | Sections 20.3 and 20.26 |
-| Einstein gravity in the example; the sign convention $\sigma_T = +1$; the classical field dirac16complex00 in the examples; the units $H = \kappa = 1$; the Z2 brane and the mirror patch | ASSUMED | Sections 20.12 and 20.6 |
+| C1(a) for every second function $b_4(x_4)$ of the metric of 2026-10-14 (a zero source forces $b_4$ constant); for the author's Einstein-Lovelock weights every vacuum has $b_4$ constant and $a_4 = \pm Hx_4 + \mathrm{const}$ | PROVED | `wolfram-a4-report.json`, checks `b4_einstein_offdiagonal_forces_b4_constant` and `b4_author_weights_vacuum`; `Revision/metric_b4/results/vacuum-b4.json`; Section 20.7 |
+| Einstein gravity in the example; the background $b_4 = 1$ of the pairing records and of the notebooks; the sign convention $\sigma_T = +1$; the classical field dirac16complex00 in the examples; the units $H = \kappa = 1$; the Z2 brane and the mirror patch | ASSUMED | Sections 20.12 and 20.6 |
 | the junction at the brane; the stability of the condensate; uniqueness for the full 4+4 field equation; a coupling between universes; whether the coupled equations of the fields and of $a_4$ contain a big-bang moment | OPEN | Sections 20.3, 20.12, 20.22 and 20.25 |
 
 ### 20.28 Exercises
@@ -2968,7 +2974,7 @@ The equations do NOT prove that universes come in pairs: a single universe with 
 
 **Exercise 20.3 (another universe and its partner).** Repeat steps 4 and 7 of Section 20.12 with $A = 1$, $\Lambda = -30H^2$ and $M = -5H$ (units $H = \kappa = 1$). Find $S$, $m$, $\lambda$, $\rho$, $p$ and the equation of state $p/\rho$, and decide whether the T1 partner can be the source of the author's metric.
 
-*Answer.* First condition: $MS = -12$, so $S = 12/5$ (as before; it does not involve $\Lambda$). Second: $mS = -(36 + 2(-30)) = -(36 - 60) = 24$, so $m = 24 \cdot 5/12 = 10$. Then $\lambda = (M - m)/S = (-5 - 10) \cdot 5/12 = -75/12 = -25/4$. $\rho = mS + \frac{\lambda}{2}S^2 = 24 + (-\frac{25}{8})\cdot\frac{144}{25} = 24 - 18 = 6$, and $p = \frac{\lambda}{2}S^2 = -18$, so $p/\rho = -3$. (These are the numbers of the third example of Chapter 12.) Check: $\rho + p = -12 = MS$ and $\rho - p = 24 = mS$. The partner has $\rho' = -6$, $p' = 18$, so $\kappa(\rho' + p_8') = -6 + 18 = +12 > -6$: it meets the requirement $-6(a_4'^2 + 1)$ at no real rate, and it cannot be the source of any member of the author's family in Einstein gravity. (The partner's null combination is minus the universe's, $-(\rho + p) = -MS = +12$, whatever $\Lambda$ is: the result does not depend on the choice of $\Lambda$.)
+*Answer.* First condition: $MS = -12$, so $S = 12/5$ (as before; it does not involve $\Lambda$). Second: $mS = -(36 + 2(-30)) = -(36 - 60) = 24$, so $m = 24 \cdot 5/12 = 10$. Then $\lambda = (M - m)/S = (-5 - 10) \cdot 5/12 = -75/12 = -25/4$. $\rho = mS + \frac{\lambda}{2}S^2 = 24 + (-\frac{25}{8})\cdot\frac{144}{25} = 24 - 18 = 6$, and $p = \frac{\lambda}{2}S^2 = -18$, so $p/\rho = -3$. (These are the numbers of the third example of Chapter 12.) Check: $\rho + p = -12 = MS$ and $\rho - p = 24 = mS$. The partner has $\rho' = -6$, $p' = 18$, so $\kappa(\rho' + p_0') = -6 + 18 = +12 > -6$: it meets the requirement $-6(a_4'^2 + 1)$ at no real rate, and it cannot be the source of any member of the author's family in Einstein gravity. (The partner's null combination is minus the universe's, $-(\rho + p) = -MS = +12$, whatever $\Lambda$ is: the result does not depend on the choice of $\Lambda$.)
 
 **Exercise 20.4 (a Gauss-Bonnet vacuum with a faster deflation).** In Einstein-Gauss-Bonnet gravity ($\alpha_1 = 1$, $\alpha_3 = 0$), find the coupling $\alpha_2H^2$ for which the linear member with $A = 2$ (3-space grows like $e^{2Hx_4}$, the extra times shrink like $e^{-2Hx_4}$) is a vacuum, and the cosmological constant it needs.
 
