@@ -44,6 +44,41 @@ the user's modified `Dirac_Einstein-Lovelock_4+4_Nash.nb` is never staged by han
 
 **Tests and verification of 2026-10-15:** section 0.7b below.
 
+### 0.7b Tests and fresh-clone verification, 2026-10-15
+
+**Unit tests.** Every module of `tests/` and `Revision/tests/` was run separately, and every class of
+`test_universes_in_pairs_textbook` separately; six ran at a time, each under 423 s. The longest was
+`tests.test_d16c_stage5_dirac16complex00`, 167 s. Results: 43 units, 39 OK at first.
+- Two new failures, both fixed in 0025743:
+  - nine relabel tool files had been committed with CRLF (`test_revision_files_are_stored_with_lf`);
+  - the Stage-5 gate twins held five unfilled `@@...@@` time placeholders from the run killed on
+    2026-10-14. They are now filled with recorded or measured times, and
+    `tests.test_d16c_stage5_gate` passes 13 of 13.
+- Two failures are older and were left as they are (both first-edition material, recorded in
+  `claude_failures.md` A6):
+  - `tests.test_d16c_kohn_sham_notebook.TestCommittedReport`, 4 tests: the old Stage-4 notebook
+    report has had verdict FAILURE since 2026-09-30. Whether to finish old Stage 4 or mark it
+    superseded is the user's decision.
+  - `tests.test_d16c_matter_antimatter_publication`, 4 hash pins: the pairing artifacts of
+    `artifacts/dirac16complex/pair-creation` changed on 2026-10-08 (6b5936f) after the
+    matter-antimatter record was made. Repairing the pins honestly needs the matter-antimatter
+    Wolfram verifier re-run, which takes 7 to 8.5 min, longer than the 423 s limit. Changing the
+    recorded hashes without that run would falsify the record.
+
+**Notebooks.** `Revision/textbook/tools/relabel/check_all.py` with all chapters ran `nbkit check` on all
+91 notebooks: 91 OK, every notebook, written file and provenance file byte-identical. The slowest
+was 16a, 115 s; the wall time was 242 s.
+
+**Fresh clone** of https://github.com/once-ere/Dirac_claude.git at 0025743 (48 s):
+- `git status` clean; no private file tracked. `Generalized _Kronecker_Delta_4+4.nb` is tracked at the
+  author's request, as `.gitignore` says.
+- 51 tests OK, 9 skipped: the textbook classes Book, Files and Tools, `test_revision_gate`,
+  `test_execution_provenance` and `test_d16c_stage5_gate`.
+- `chapter23/run_all.py --check`: byte-identical. `walkthrough_all.py`: 91 notebooks, no drift.
+- The registered book PDF: 6539 pages, sha256 equal to the registry.
+- `nbkit check` of 00a, 06a, 07b, 11a, 18a and 23a: all OK.
+- The tree was still clean after every check.
+
 **Still open (not done, with the reason).**
 - The general-b4 forms of three sections of `Revision/theory/wolfram/verify_field_theory.wls` were
   never derived (`METRIC_CHANGE_PROVENANCE.md`, section 7). These are the Noether identities, the
