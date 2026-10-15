@@ -34,7 +34,7 @@ FACTS = {
         "a4, reduces them to the constraint, the evolution equation, the hidden equation "
         "and the conditions on the source, checks the Bianchi identity, the conservation "
         "law of the source, the Einstein case (no vacuum, the null energy condition along "
-        "x8) and the linear member a4 = A H x4, compares every result with the Revision "
+        "x0) and the linear member a4 = A H x4, compares every result with the Revision "
         "records, and draws five teaching plots."
     ),
     "records": [
@@ -104,7 +104,7 @@ CELLS = [
       conditions every source must satisfy;
     - checks the Bianchi identity and the conservation law of the source;
     - specialises to Einstein gravity: no vacuum solution exists for $H > 0$, and every
-      source violates the null energy condition along $x_8$;
+      source violates the null energy condition along $x_0$;
     - specialises to the linear member $a_4 = A H x_4 + a_0$ (exponentially deflating
       extra times for $A > 0$) and shows that the equations do not see the sign of $A$;
     - compares every result with the Revision records and draws five teaching plots.
@@ -112,12 +112,12 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates** $x_1, \dots, x_8$ (the author's names): $x_1, x_2, x_3$ are
+    - **Coordinates** $x_0, \dots, x_7$ (the author's names): $x_1, x_2, x_3$ are
       ordinary 3-space; $x_4$ is the time; $x_5, x_6, x_7$ are the three **extra
-      times** (time-like directions); $x_8$ is the **hidden** space direction. In the
-      code the positions 0 to 7 of a list stand for $x_1$ to $x_8$.
+      times** (time-like directions); $x_0$ is the **hidden** space direction. In the
+      code the positions 0 to 7 of a list stand for $x_0$ to $x_7$.
     - **Metric** $g_{\mu\nu}$: the table of numbers that turns small coordinate steps
-      into squared lengths. Here it is **diagonal**: only $g_{11}, \dots, g_{88}$ are
+      into squared lengths. Here it is **diagonal**: only $g_{11}, \dots, g_{00}$ are
       not zero.
     - **Scale factor**: the factor by which a length along a direction grows. 3-space
       has $e^{a_4}\sin^{1/6} z$, the extra times have $e^{-a_4}\sin^{1/6} z$.
@@ -137,8 +137,8 @@ CELLS = [
       Gauss-Bonnet tensor. In 8 dimensions only $k = 1, 2, 3$ exist.
     - **Source**, **energy-momentum tensor** $T^\mu{}_\nu$: the matter that bends the
       metric. Its parts: the energy density $\rho = -T^{x_4}{}_{x_4}$, the pressures
-      $p_3$ (3-space), $p_t$ (extra times), $p_8$ (hidden direction), and the mixed
-      components $q_{48} = T^{x_4}{}_{x_8}$, $q_{84} = T^{x_8}{}_{x_4}$.
+      $p_3$ (3-space), $p_t$ (extra times), $p_0$ (hidden direction), and the mixed
+      components $q_{40} = T^{x_4}{}_{x_0}$, $q_{04} = T^{x_0}{}_{x_4}$.
     - **Couplings**: $\alpha_1, \alpha_2, \alpha_3$ (the weights of the three Lovelock
       tensors), $\Lambda$ (the cosmological constant), $\kappa$ (the strength of
       gravity). **Einstein gravity** is $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$.
@@ -147,8 +147,8 @@ CELLS = [
     - **Bianchi identity**: the left-hand side of the field equations has zero
       divergence for every metric; **conservation**: the source must then have zero
       divergence too.
-    - **Vacuum**: no source, $T = 0$. **Null energy condition** along $x_8$:
-      $\rho + p_8 \ge 0$.
+    - **Vacuum**: no source, $T = 0$. **Null energy condition** along $x_0$:
+      $\rho + p_0 \ge 0$.
     - **sympy symbol**: a letter that stands for any number; `ad1` and `ad2` stand for
       $a_4' = da_4/dx_4$ and $a_4'' = d^2a_4/dx_4^2$.
     - **PASS line**: a printed line that says a check passed; "reproduces" names the
@@ -161,10 +161,10 @@ CELLS = [
 
     $$g = \mathrm{diag}\big(e^{2a_4}s,\ e^{2a_4}s,\ e^{2a_4}s,\ -1,\
     -e^{-2a_4}s,\ -e^{-2a_4}s,\ -e^{-2a_4}s,\ \cot^2 z\big),\qquad
-    s = \sin^{1/3} z,\quad z = 6 H x_8 \in (0, \pi/2),$$
+    s = \sin^{1/3} z,\quad z = 6 H x_0 \in (0, \pi/2),$$
 
     with $a_4 = a_4(x_4)$ and a constant $H > 0$. Its signs are
-    $(+,+,+,-,-,-,-,+)$: four space-like directions ($x_1, x_2, x_3, x_8$) and four
+    $(+,+,+,+,-,-,-,-)$: four space-like directions ($x_0, x_1, x_2, x_3$) and four
     time-like ones ($x_4, \dots, x_7$), the signature (4,4).
 
     The field equations of Einstein-Lovelock gravity are
@@ -177,8 +177,8 @@ CELLS = [
 
     (a sum over every repeated index), with the source
 
-    $$T^\mu{}_\nu = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)
-    + q_{48}\ (\mu = x_4, \nu = x_8) + q_{84}\ (\mu = x_8, \nu = x_4).$$
+    $$T^\mu{}_\nu = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_0)
+    + q_{40}\ (\mu = x_4, \nu = x_0) + q_{04}\ (\mu = x_0, \nu = x_4).$$
 
     Every statement this notebook checks is an exact algebraic identity (status
     PROVED): sympy computes with symbols, not with rounded numbers. The plots
@@ -246,10 +246,10 @@ CELLS = [
     md(r"""
     ## 6. The metric in sympy
 
-    The next cell makes the symbols: $H$ (positive), $z = 6Hx_8$ (positive; we work on
+    The next cell makes the symbols: $H$ (positive), $z = 6Hx_0$ (positive; we work on
     the patch $0 < z < \pi/2$), the time $x_4$ and the unknown function $a_4(x_4)$. Then
     it writes the eight diagonal entries of the metric as a Python list `g` (position 0
-    is $g_{11}$, position 7 is $g_{88}$) and prints them. sympy writes a power as `**`
+    is $g_{11}$, position 7 is $g_{00}$) and prints them. sympy writes a power as `**`
     and the function $a_4(x_4)$ as `a4(x4)`.
     """),
     code(r'''
@@ -259,22 +259,22 @@ CELLS = [
     import sympy as sp  # exact algebra with symbols
 
     H = sp.symbols("H", positive=True)  # the constant H of the metric, H > 0
-    z = sp.symbols("z", positive=True)  # the hidden angle z = 6 H x8, 0 < z < pi/2
+    z = sp.symbols("z", positive=True)  # the hidden angle z = 6 H x0, 0 < z < pi/2
     x4 = sp.symbols("x4", real=True)  # the time x4
     a4 = sp.Function("a4")(x4)  # the unknown function a4(x4)
-    NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]  # positions 0..7
+    NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # positions 0..7
     N = 8  # the number of dimensions
     warp = sp.sin(z) ** sp.Rational(1, 3)  # the warp factor sin(z)^(1/3)
-    g = ([sp.exp(2 * a4) * warp] * 3  # g11 = g22 = g33: 3-space, factor e^(2 a4)
+    g = ([sp.cot(z) ** 2]  # g00 = cot(z)^2: the hidden direction
+         + [sp.exp(2 * a4) * warp] * 3  # g11 = g22 = g33: 3-space, factor e^(2 a4)
          + [sp.Integer(-1)]  # g44 = -1: the time x4
-         + [-sp.exp(-2 * a4) * warp] * 3  # g55 = g66 = g77: extra times, e^(-2 a4)
-         + [sp.cot(z) ** 2])  # g88 = cot(z)^2: the hidden direction
+         + [-sp.exp(-2 * a4) * warp] * 3)  # g55 = g66 = g77: extra times, e^(-2 a4)
     for name, entry in zip(NAMES, g):
         say(f"g[{name},{name}] = {entry}")
     '''),
     md(r"""
     The next cell checks two facts. (1) The signs of the diagonal entries, at any
-    point (here $a_4 = 0$, $z = \pi/4$), are $(+,+,+,-,-,-,-,+)$. (2) The determinant
+    point (here $a_4 = 0$, $z = \pi/4$), are $(+,+,+,+,-,-,-,-)$. (2) The determinant
     of a diagonal matrix is the product of its diagonal entries:
     $\det g = (e^{2a_4}s)^3 \cdot (-1) \cdot (-e^{-2a_4}s)^3 \cot^2 z
     = s^6 \cot^2 z = \sin^2 z \cot^2 z = \cos^2 z$, because $e^{6a_4} e^{-6a_4} = 1$ and
@@ -286,8 +286,8 @@ CELLS = [
     point = {a4: 0, z: sp.pi / 4}  # any point of the patch gives the same signs
     signs = [int(sp.sign(entry.subs(point))) for entry in g]
     say(f"signs of the diagonal entries: {signs}")
-    check(signs == [1, 1, 1, -1, -1, -1, -1, 1],
-          "the signature is (4,4): eta = diag(+,+,+,-,-,-,-,+) in the order x1..x8")
+    check(signs == [1, 1, 1, 1, -1, -1, -1, -1],
+          "the signature is (4,4): eta = diag(+,+,+,+,-,-,-,-) in the order x0..x7")
     det_g = sp.Mul(*g)  # the product of the eight diagonal entries
     say(f"det g = {sp.simplify(det_g)}")
     reproduces(sp.simplify(det_g - sp.cos(z) ** 2) == 0,
@@ -297,8 +297,8 @@ CELLS = [
     md(r"""
     ## 7. Derivatives and the Christoffel symbols
 
-    The metric depends on $x_4$ and on $x_8$ only, and on $x_8$ only through
-    $z = 6Hx_8$. By the chain rule $\partial/\partial x_8 = (dz/dx_8)\,\partial/\partial z
+    The metric depends on $x_4$ and on $x_0$ only, and on $x_0$ only through
+    $z = 6Hx_0$. By the chain rule $\partial/\partial x_0 = (dz/dx_0)\,\partial/\partial z
     = 6H\,\partial/\partial z$. The function `d(expr, mu)` below takes the partial
     derivative with respect to the coordinate at position `mu`.
 
@@ -317,10 +317,10 @@ CELLS = [
     code(r'''
     def d(expr, mu):
         """The partial derivative of expr with respect to the coordinate at position
-        mu (0..7 for x1..x8); d/dx8 = 6 H d/dz by the chain rule."""
-        if mu == 3:
+        mu (0..7 for x0..x7); d/dx0 = 6 H d/dz by the chain rule."""
+        if mu == 4:
             return sp.diff(expr, x4)
-        if mu == 7:
+        if mu == 0:
             return 6 * H * sp.diff(expr, z)
         return sp.Integer(0)  # nothing depends on x1, x2, x3, x5, x6, x7
 
@@ -452,7 +452,7 @@ CELLS = [
     direction with the time has $(a_4')^2 + a_4''$ and an extra time with the time
     $(a_4')^2 - a_4''$. The two remaining groups (12 components, written with `cz`
     for $\cot z$) connect a pair that contains the time $x_4$ with the pair in which
-    $x_4$ is replaced by $x_8$; they are proportional to $H a_4'$, so they vanish when
+    $x_4$ is replaced by $x_0$; they are proportional to $H a_4'$, so they vanish when
     $a_4$ is constant.
     """),
     code(r'''
@@ -506,7 +506,7 @@ CELLS = [
                 "on the "
                 "diagonal, one number per pair of directions; the only entries off the "
                 "diagonal couple a pair that contains the time $x_4$ to the pair in "
-                "which $x_4$ is replaced by $x_8$ (for example $x_1x_4$ and $x_1x_8$), "
+                "which $x_4$ is replaced by $x_0$ (for example $x_1x_4$ and $x_1x_0$), "
                 "and they are proportional to $H a_4'$.")
     '''),
     md(r"""
@@ -529,27 +529,27 @@ CELLS = [
     '''),
     md(r"""
     The next cell checks the structure of $G$ and compares it with the records: every
-    off-diagonal component is zero (in particular $G^{x_4}{}_{x_8} = 0$); the three
+    off-diagonal component is zero (in particular $G^{x_4}{}_{x_0} = 0$); the three
     3-space components are equal, and so are the three extra-time components; nothing
-    depends on $x_8$ (no $\cot z$ is left); and the four distinct components are
+    depends on $x_0$ (no $\cot z$ is left); and the four distinct components are
 
     $$G^{x_4}{}_{x_4} = 3(a_4')^2 + 21H^2,\quad
     G^{x_1}{}_{x_1} = a_4'' - 3(a_4')^2 + 15H^2,$$
     $$G^{x_5}{}_{x_5} = -a_4'' - 3(a_4')^2 + 15H^2,\quad
-    G^{x_8}{}_{x_8} = -3(a_4')^2 + 15H^2.$$
+    G^{x_0}{}_{x_0} = -3(a_4')^2 + 15H^2.$$
     """),
     code(r'''
     reproduces(all(G[h][j] == 0 for h in range(N) for j in range(N) if h != j),
-               "G^h_j is diagonal (in particular G^x4_x8 = G^x8_x4 = 0)",
+               "G^h_j is diagonal (in particular G^x4_x0 = G^x0_x4 = 0)",
                LEAD, "einstein_off_diagonal_zero")
-    reproduces(G[0][0] == G[1][1] == G[2][2] and G[4][4] == G[5][5] == G[6][6],
+    reproduces(G[1][1] == G[2][2] == G[3][3] and G[5][5] == G[6][6] == G[7][7],
                "G^x1_x1 = G^x2_x2 = G^x3_x3 and G^x5_x5 = G^x6_x6 = G^x7_x7",
                LEAD, "einstein_isotropy")
     reproduces(not any(G[h][j].has(cz) for h in range(N) for j in range(N)),
-               "every component of G is independent of x8",
-               LEAD, "einstein_x8_independent")
-    expected = {3: 3 * ad1 ** 2 + 21 * H ** 2, 0: ad2 - 3 * ad1 ** 2 + 15 * H ** 2,
-                4: -ad2 - 3 * ad1 ** 2 + 15 * H ** 2, 7: -3 * ad1 ** 2 + 15 * H ** 2}
+               "every component of G is independent of x0",
+               LEAD, "einstein_x0_independent")
+    expected = {4: 3 * ad1 ** 2 + 21 * H ** 2, 1: ad2 - 3 * ad1 ** 2 + 15 * H ** 2,
+                5: -ad2 - 3 * ad1 ** 2 + 15 * H ** 2, 0: -3 * ad1 ** 2 + 15 * H ** 2}
     reproduces(all(sp.expand(G[i][i] - v) == 0 for i, v in expected.items()),
                "the four Einstein components agree with the record",
                PY, "einstein_components")
@@ -567,7 +567,7 @@ CELLS = [
     fig, ax = plt.subplots()
     ax.plot(u, 3 * u ** 2 + 21, label="$G^{x_4}{}_{x_4}$ (constraint)")
     ax.plot(u, 15 - 3 * u ** 2, color="black",
-            label="$G^{x_8}{}_{x_8}$ $=$ $G^{x_1}{}_{x_1}$ $=$ $G^{x_5}{}_{x_5}$ "
+            label="$G^{x_0}{}_{x_0}$ $=$ $G^{x_1}{}_{x_1}$ $=$ $G^{x_5}{}_{x_5}$ "
                   "at $a_4''=0$")
     ax.plot(u, 15 - 3 * u ** 2 + 1, "--", label="$G^{x_1}{}_{x_1}$ at $a_4''=H^2$")
     ax.plot(u, 15 - 3 * u ** 2 - 1, "--", label="$G^{x_5}{}_{x_5}$ at $a_4''=H^2$")
@@ -579,7 +579,7 @@ CELLS = [
                 "The four distinct components of the Einstein tensor of the author's "
                 "metric as functions of $a_4'/H$, in units of $H^2$: the time component "
                 "$G^{x_4}{}_{x_4} = 3(a_4')^2 + 21H^2$ (top curve), the hidden "
-                "component $G^{x_8}{}_{x_8} = 15H^2 - 3(a_4')^2$ (black), and the "
+                "component $G^{x_0}{}_{x_0} = 15H^2 - 3(a_4')^2$ (black), and the "
                 "3-space and extra-time components, which equal the hidden one when "
                 "the second derivative $a_4^{\\prime\\prime}$ is zero and split by "
                 "$+a_4^{\\prime\\prime}$ and $-a_4^{\\prime\\prime}$ (dashed, drawn for "
@@ -674,7 +674,7 @@ CELLS = [
     md(r"""
     The next cell checks what the Revision record found about these tensors:
     $E_{(1)} = G$ in all 64 components ($P_{(1)} = -4G$); each $E_{(k)}$ is diagonal,
-    free of $x_8$, equal in the three 3-space directions and in the three extra
+    free of $x_0$, equal in the three 3-space directions and in the three extra
     times; the trace identity $\sum_h P_{(k)}{}^h{}_h = (8 - 2k) L_{(k)}$; and the
     scalars $L_{(k)}$ agree with the Rust program of the GKD record.
     """),
@@ -687,23 +687,32 @@ CELLS = [
     for k in (1, 2, 3):
         Ek = E[k]
         structure = (all(Ek[h][j] == 0 for h in range(N) for j in range(N) if h != j)
-                     and Ek[0][0] == Ek[1][1] == Ek[2][2]
-                     and Ek[4][4] == Ek[5][5] == Ek[6][6]
+                     and Ek[1][1] == Ek[2][2] == Ek[3][3]
+                     and Ek[5][5] == Ek[6][6] == Ek[7][7]
                      and not any(Ek[h][h].has(cz) for h in range(N)))
-        reproduces(structure, f"E_({k}) diagonal, free of x8, isotropic in each group",
+        reproduces(structure, f"E_({k}) diagonal, free of x0, isotropic in each group",
                    PY, f"P{k}_structure")
         trace = sp.expand(sum(P[k][h][h] for h in range(N)) - (8 - 2 * k) * Lscalar[k])
         reproduces(trace == 0, f"trace identity sum_h P_({k})^h_h = (8 - {2 * k}) L_({k})",
                    PY, f"P{k}_trace_identity")
-        text = lovelock_json[f"L{k}"].replace("Derivative[1][a4][x4]", "ad1")
-        rust = sp.sympify(text.replace("^", "**"), locals={"H": H, "ad1": ad1})
+        text = (lovelock_json[f"L{k}"].replace("Derivative[1][a4][x4]", "ad1")
+                .replace("Derivative[2][a4][x4]", "ad2"))
+        for b4_text, value in (("Derivative[2][b4][x4]", "0"),
+                               ("Derivative[1][b4][x4]", "0"), ("b4[x4]", "1")):
+            text = text.replace(b4_text, value)  # the record at b4 = 1
+        rust = sp.sympify(text.replace("^", "**"), locals={"H": H, "ad1": ad1, "ad2": ad2})
         reproduces(sp.expand(rust - Lscalar[k]) == 0,
                    f"L_({k}) equals the Rust GKD program", PY, f"L{k}_equals_gkd_branch")
     '''),
     md(r"""
     The Rust program `lovelock_gkd` of the GKD record stored every component of
-    $P_{(k)}{}^h{}_j$ as a list of monomials: a fraction and the exponents of $H$,
-    $a_4', a_4'', a_4''', a_4''''$, $e^{a_4}$, $\sin^{1/3} z$ and $\cot z$. The next
+    $P_{(k)}{}^h{}_j$ as a list of monomials: a fraction and the 13 exponents of $H$,
+    $a_4', a_4'', a_4''', a_4''''$, $e^{a_4}$, $\sin^{1/3} z$, $\cot z$, $b_4^{1/2}$ and
+    $b_4', b_4'', b_4''', b_4''''$. The program computes the author's metric with the
+    second function $b_4(x_4)$ of 2026-10-14; this notebook works at $b_4 = 1$, so
+    `from_monomials` keeps only the monomials without a derivative of $b_4$ (the others
+    vanish at $b_4 = 1$) and sets $b_4^{1/2} = 1$. The same is done with the scalars
+    $L_{(k)}$ in the cell before (`b4[x4]` becomes 1, its derivatives 0). The next
     cell rebuilds all $3 \times 64$ components from those lists and compares them with
     ours; it also compares the four distinct components of each $E_{(k)}$ with the
     Wolfram record `a4-equations.json`.
@@ -717,8 +726,10 @@ CELLS = [
         """A component of the Rust record as a sympy expression."""
         total = sp.Integer(0)
         for numerator, denominator, exponents in monomials:
-            term = sp.Rational(numerator, denominator)
-            for symbol, power in zip(symbols_of_monomial, exponents):
+            if any(exponents[9:13]):  # a derivative of b4: zero at b4 = 1
+                continue
+            term = sp.Rational(numerator, denominator)  # b4^(1/2) = 1 (exponent 8)
+            for symbol, power in zip(symbols_of_monomial, exponents[:8]):
                 term *= symbol ** power
             total += term
         return total
@@ -739,8 +750,8 @@ CELLS = [
         return sp.sympify(text.replace("^", "**"), locals=names or LOCALS)
 
 
-    POSITIONS = {"x1x1": (0, 0), "x4x4": (3, 3), "x5x5": (4, 4), "x8x8": (7, 7),
-                 "x4x8": (3, 7), "x8x4": (7, 3)}
+    POSITIONS = {"x1x1": (1, 1), "x4x4": (4, 4), "x5x5": (5, 5), "x0x0": (0, 0),
+                 "x4x0": (4, 0), "x0x4": (0, 4)}
     same = all(sp.expand(parse(equations_json["lovelockTensors"][f"E{k}"][key]["input"])
                          - E[k][h][j]) == 0
                for k in (1, 2, 3) for key, (h, j) in POSITIONS.items())
@@ -787,11 +798,11 @@ CELLS = [
           "E_(2) (GKD) equals the classical Gauss-Bonnet tensor for every a4")
     A = sp.symbols("A", real=True)  # the slope of the linear member, a4' = A H
     LINEAR = {ad1: A * H, ad2: 0}
-    reproduces(sp.expand(lanczos[3][3].subs(LINEAR)
+    reproduces(sp.expand(lanczos[4][4].subs(LINEAR)
                          + H ** 4 * (36 * A ** 4 + 120 * A ** 2 + 420)) == 0,
                "linear member: Gauss-Bonnet H^x4_x4 = -H^4 (36 A^4 + 120 A^2 + 420)",
                LEAD, "gauss_bonnet_rho_alpha2")
-    reproduces(sp.expand(lanczos[0][0].subs(LINEAR)
+    reproduces(sp.expand(lanczos[1][1].subs(LINEAR)
                          - 12 * H ** 4 * (A ** 4 + 14 * A ** 2 - 15)) == 0,
                "linear member: Gauss-Bonnet H^x1_x1 = 12 H^4 (A^4 + 14 A^2 - 15)",
                LEAD, "gauss_bonnet_p_alpha2")
@@ -801,12 +812,12 @@ CELLS = [
     divergence for every metric. The next cell checks this directly: it computes
     $\nabla_\mu E^\mu{}_\nu = \partial_\mu E^\mu{}_\nu + \Gamma^\mu{}_{\mu l}
     E^l{}_\nu - \Gamma^l{}_{\mu\nu} E^\mu{}_l$ (sums over $\mu$ and $l$) for
-    $\nu = x_1, \dots, x_8$, with $a_4'$ and $a_4''$ written back as derivatives of
+    $\nu = x_0, \dots, x_7$, with $a_4'$ and $a_4''$ written back as derivatives of
     the function $a_4(x_4)$ so that $\partial_4$ can act on them.
     """),
     code(r'''
     def divergence(T):
-        """nabla_mu T^mu_nu of a mixed tensor T (8 x 8 list), for nu = x1..x8."""
+        """nabla_mu T^mu_nu of a mixed tensor T (8 x 8 list), for nu = x0..x7."""
         return [clean(sum(d(T[m][n], m) for m in range(N))
                       + sum(Gamma[m][m][l] * T[l][n] for m in range(N) for l in range(N))
                       - sum(Gamma[l][m][n] * T[m][l] for m in range(N) for l in range(N)))
@@ -818,7 +829,7 @@ CELLS = [
         Ek_functions = [[E[k][h][j].subs(AS_FUNCTIONS) for j in range(N)]
                         for h in range(N)]
         reproduces(all(value == 0 for value in divergence(Ek_functions)),
-                   f"nabla_mu E_({k})^mu_nu = 0 for nu = x1..x8",
+                   f"nabla_mu E_({k})^mu_nu = 0 for nu = x0..x7",
                    PY, f"E{k}_divergence_free")
     '''),
     md(r"""
@@ -826,7 +837,7 @@ CELLS = [
     $H = 1$, $a_4' = 0.6$, $a_4'' = 0.3$ as three 8 by 8 heat maps, with the value
     written in each diagonal cell. Each panel has its own colour scale. All three
     tensors have the same pattern: diagonal, one value for $x_1 = x_2 = x_3$, one for
-    $x_4$, one for $x_5 = x_6 = x_7$, one for $x_8$.
+    $x_4$, one for $x_5 = x_6 = x_7$, one for $x_0$.
     """),
     code(r'''
     fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.4))
@@ -851,7 +862,7 @@ CELLS = [
     save_figure(fig, "lovelock_heat_maps",
                 "The three Lovelock tensors $E_{(1)}$ (the Einstein tensor), $E_{(2)}$ "
                 "(the Gauss-Bonnet tensor) and $E_{(3)}$ of the author's metric as 8 by "
-                "8 tables, row $h$ and column $j$ running over $x_1$ to $x_8$, evaluated "
+                "8 tables, row $h$ and column $j$ running over $x_0$ to $x_7$, evaluated "
                 "at $H = 1$, $a_4' = 0.6$, $a_4^{\\prime\\prime} = 0.3$; the colour is "
                 "the value (each panel with its own scale, red positive, blue negative, "
                 "white zero) and "
@@ -867,32 +878,32 @@ CELLS = [
     The next cell writes the left-hand side
     $\sum_k \alpha_k E_{(k)}{}^h{}_j + \Lambda\delta^h_j$ and the source $T^h{}_j$ and
     checks that every off-diagonal left-hand side is zero (so the field equations
-    there read $0 = \kappa T^h{}_j$: the source must have $q_{48} = q_{84} = 0$ and no
+    there read $0 = \kappa T^h{}_j$: the source must have $q_{40} = q_{04} = 0$ and no
     other mixed component), and that the diagonal reduces to four independent
     components. It names the four: `e44` (time), `e11` (3-space), `e55` (extra times),
-    `e88` (hidden), each without the $\Lambda$.
+    `e00` (hidden), each without the $\Lambda$.
     """),
     code(r'''
     alpha1, alpha2, alpha3 = sp.symbols("alpha1 alpha2 alpha3", real=True)
     Lam, kappa = sp.symbols("Lam kappa", real=True)  # Lambda and kappa
-    rho, p3, pt, p8, q48, q84 = sp.symbols("rho p3 pt p8 q48 q84", real=True)
+    rho, p3, pt, p0, q40, q04 = sp.symbols("rho p3 pt p0 q40 q04", real=True)
     ALPHA = {1: alpha1, 2: alpha2, 3: alpha3}
     LHS = [[sp.expand(sum(ALPHA[k] * E[k][h][j] for k in (1, 2, 3))
                       + (Lam if h == j else 0)) for j in range(N)] for h in range(N)]
     T = [[sp.Integer(0)] * N for _ in range(N)]
-    for i, value in enumerate([p3, p3, p3, -rho, pt, pt, pt, p8]):
-        T[i][i] = value  # the diagonal of the source
-    T[3][7], T[7][3] = q48, q84  # the two mixed components x4-x8 and x8-x4
+    for i, value in enumerate([p0, p3, p3, p3, -rho, pt, pt, pt]):
+        T[i][i] = value  # the diagonal of the source, in the order x0..x7
+    T[4][0], T[0][4] = q40, q04  # the two mixed components x4-x0 and x0-x4
     off_diagonal_zero = all(LHS[h][j] == 0 for h in range(N) for j in range(N)
                             if h != j)
-    groups_equal = (LHS[0][0] == LHS[1][1] == LHS[2][2]
-                    and LHS[4][4] == LHS[5][5] == LHS[6][6])
+    groups_equal = (LHS[1][1] == LHS[2][2] == LHS[3][3]
+                    and LHS[5][5] == LHS[6][6] == LHS[7][7])
     reproduces(off_diagonal_zero and groups_equal,
                "every off-diagonal left-hand side is 0; four independent components",
                WL, "independent_components")
-    e11, e44, e55, e88 = (sp.expand(LHS[i][i] - Lam) for i in (0, 3, 4, 7))
+    e11, e44, e55, e00 = (sp.expand(LHS[i][i] - Lam) for i in (1, 4, 5, 0))
     say(f"constraint (x4): {e44} + Lam = -kappa*rho")
-    say(f"hidden (x8): {e88} + Lam = kappa*p8")
+    say(f"hidden (x0): {e00} + Lam = kappa*p0")
     '''),
     md(r"""
     **The evolution equation.** The 3-space equation minus the extra-time equation
@@ -900,7 +911,7 @@ CELLS = [
     $e_{11} - e_{55}$ is $a_4''$ times a polynomial $F(a_4')$, that $F$ vanishes for
     every $a_4'$ and $H$ only when $\alpha_1 = \alpha_2 = \alpha_3 = 0$, and that the
     3-space plus the extra-time equation is exactly twice the hidden equation
-    (so the source must satisfy $p_3 + p_t = 2p_8$). It also checks that the time
+    (so the source must satisfy $p_3 + p_t = 2p_0$). It also checks that the time
     and hidden components contain no $a_4''$.
     """),
     code(r'''
@@ -914,12 +925,12 @@ CELLS = [
     reproduces(solutions == [{alpha1: 0, alpha2: 0, alpha3: 0}],
                "F vanishes identically only for alpha1 = alpha2 = alpha3 = 0",
                PY, "evolution_F_not_identically_zero")
-    reproduces(sp.expand(e11 + e55 - 2 * e88) == 0,
-               "e11 + e55 = 2 e88 identically: the source needs p3 + pt = 2 p8",
+    reproduces(sp.expand(e11 + e55 - 2 * e00) == 0,
+               "e11 + e55 = 2 e00 identically: the source needs p3 + pt = 2 p0",
                PY, "algebraic_identity")
-    reproduces(not e44.has(ad2) and not e88.has(ad2),
-               "the x4 (constraint) and x8 components contain a4' but not a4''",
-               PY, "constraint_and_x8_first_order")
+    reproduces(not e44.has(ad2) and not e00.has(ad2),
+               "the x4 (constraint) and x0 components contain a4' but not a4''",
+               PY, "constraint_and_x0_first_order")
     '''),
     md(r"""
     **The constraint and the evolution equation are linked (Bianchi identity).**
@@ -938,7 +949,7 @@ CELLS = [
     general = equations_json["generalSource"]
     NAMES_RECORD = {"ad1": ad1, "ad2": ad2, "H": H, "alpha1": alpha1, "alpha2": alpha2,
                     "alpha3": alpha3, "Lam": Lam, "kappa": kappa, "rho": rho, "p3": p3,
-                    "pt": pt, "p8": p8, "AA": A}
+                    "pt": pt, "p0": p0, "AA": A}
 
 
     def parse_equation(text):
@@ -950,9 +961,9 @@ CELLS = [
     mine = {"constraint_x4": e44 + Lam + kappa * rho,
             "space_x1_eq_x2_eq_x3": e11 + Lam - kappa * p3,
             "extraTime_x5_eq_x6_eq_x7": e55 + Lam - kappa * pt,
-            "hidden_x8": e88 + Lam - kappa * p8,
+            "hidden_x0": e00 + Lam - kappa * p0,
             "evolution_x1_minus_x5": ad2 * F - kappa * (p3 - pt),
-            "algebraic_condition": p3 + pt - 2 * p8}
+            "algebraic_condition": p3 + pt - 2 * p0}
     same = all(sp.expand(parse_equation(general[key]["input"]) - value) == 0
                for key, value in mine.items())
     same = same and sp.expand(parse(general["evolution_F"]["input"], NAMES_RECORD)
@@ -1006,66 +1017,66 @@ CELLS = [
     The Bianchi identity makes the divergence of the left-hand side zero, so the field
     equations can hold only if the source has zero divergence too. The next cell
     computes $\nabla_\mu T^\mu{}_\nu$ for a general source whose seven parts
-    $\rho, p_3, p_t, p_8, q_{48}, q_{84}$ are arbitrary functions of $x_4$ and $x_8$,
+    $\rho, p_3, p_t, p_0, q_{40}, q_{04}$ are arbitrary functions of $x_4$ and $x_0$,
     and compares it with the record:
 
     $$\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t)
-    + \partial_8 q_{84} - 6H\tan z\, q_{84},$$
-    $$\nabla_\mu T^\mu{}_{x_8} = \partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t)
-    + \partial_4 q_{48},$$
+    + \partial_0 q_{04} - 6H\tan z\, q_{04},$$
+    $$\nabla_\mu T^\mu{}_{x_0} = \partial_0 p_0 + 3H\cot z\,(2p_0 - p_3 - p_t)
+    + \partial_4 q_{40},$$
 
-    and zero for the six other $\nu$. With an $x_8$-independent source and
-    $q_{48} = q_{84} = 0$ this is $\rho' = -3a_4'(p_3 - p_t)$ and
-    $p_3 + p_t = 2p_8$: the energy of the source changes only when the 3-space and the
+    and zero for the six other $\nu$. With an $x_0$-independent source and
+    $q_{40} = q_{04} = 0$ this is $\rho' = -3a_4'(p_3 - p_t)$ and
+    $p_3 + p_t = 2p_0$: the energy of the source changes only when the 3-space and the
     extra-time pressures differ, and the hidden equation repeats the algebraic
     condition.
     """),
     code(r'''
     source = {name: sp.Function(name)(x4, z)
-              for name in ("rho", "p3", "pt", "p8", "q48", "q84")}  # f(x4, z)
+              for name in ("rho", "p3", "pt", "p0", "q40", "q04")}  # f(x4, z)
     Tgeneral = [[sp.Integer(0)] * N for _ in range(N)]
-    for i, name in enumerate(["p3", "p3", "p3", "rho", "pt", "pt", "pt", "p8"]):
+    for i, name in enumerate(["p0", "p3", "p3", "p3", "rho", "pt", "pt", "pt"]):
         Tgeneral[i][i] = source[name]
-    Tgeneral[3][3] = -source["rho"]  # T^x4_x4 = -rho
-    Tgeneral[3][7], Tgeneral[7][3] = source["q48"], source["q84"]
+    Tgeneral[4][4] = -source["rho"]  # T^x4_x4 = -rho
+    Tgeneral[4][0], Tgeneral[0][4] = source["q40"], source["q04"]
     divT = divergence(Tgeneral)
     a4p = sp.Derivative(a4, x4)  # a4' as a derivative, for the comparison
-    expect_x4 = (-d(source["rho"], 3) - 3 * a4p * (source["p3"] - source["pt"])
-                 + d(source["q84"], 7) - 6 * H * sp.tan(z) * source["q84"])
-    expect_x8 = (d(source["p8"], 7) + d(source["q48"], 3)
-                 + 3 * H * sp.cot(z) * (2 * source["p8"] - source["p3"] - source["pt"]))
-    reproduces(clean(divT[3] - expect_x4) == 0, "nabla_mu T^mu_x4 as in the record",
+    expect_x4 = (-d(source["rho"], 4) - 3 * a4p * (source["p3"] - source["pt"])
+                 + d(source["q04"], 0) - 6 * H * sp.tan(z) * source["q04"])
+    expect_x0 = (d(source["p0"], 0) + d(source["q40"], 4)
+                 + 3 * H * sp.cot(z) * (2 * source["p0"] - source["p3"] - source["pt"]))
+    reproduces(clean(divT[4] - expect_x4) == 0, "nabla_mu T^mu_x4 as in the record",
                EMT, "divergence_x4_component")
-    reproduces(clean(divT[7] - expect_x8) == 0, "nabla_mu T^mu_x8 as in the record",
-               EMT, "divergence_x8_component")
-    reproduces(all(divT[n] == 0 for n in (0, 1, 2, 4, 5, 6)),
+    reproduces(clean(divT[0] - expect_x0) == 0, "nabla_mu T^mu_x0 as in the record",
+               EMT, "divergence_x0_component")
+    reproduces(all(divT[n] == 0 for n in (1, 2, 3, 5, 6, 7)),
                "nabla_mu T^mu_nu = 0 identically for the six other nu",
                PY, "conservation_components")
     '''),
     md(r"""
-    ## 13. Einstein gravity: no vacuum, and the null energy condition along $x_8$
+    ## 13. Einstein gravity: no vacuum, and the null energy condition along $x_0$
 
     In Einstein gravity ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$) the equations read
 
     $$3(a_4')^2 + 21H^2 + \Lambda = -\kappa\rho,\qquad 2a_4'' = \kappa(p_3 - p_t),
-    \qquad -3(a_4')^2 + 15H^2 + \Lambda = \kappa p_8.$$
+    \qquad -3(a_4')^2 + 15H^2 + \Lambda = \kappa p_0.$$
 
-    Adding the first and the third: $-\kappa\rho + \kappa p_8 = 36H^2 + 2\Lambda$.
-    Subtracting the first from the third: $\kappa(\rho + p_8) = -6(a_4')^2 - 6H^2$,
+    Adding the first and the third: $-\kappa\rho + \kappa p_0 = 36H^2 + 2\Lambda$.
+    Subtracting the first from the third: $\kappa(\rho + p_0) = -6(a_4')^2 - 6H^2$,
     which is negative for every $a_4$ and every $\Lambda$: the source always violates
-    the null energy condition along the null direction $x_4 + x_8$ (for $\kappa > 0$).
+    the null energy condition along the null direction $x_4 + x_0$ (for $\kappa > 0$).
     A vacuum ($T = 0$) would need $6(a_4')^2 + 6H^2 = 0$, impossible for real $a_4'$
     and $H > 0$. The next cell checks both and lets sympy solve the vacuum equations:
     the only solutions have the imaginary slope $a_4' = \pm iH$.
     """),
     code(r'''
     EINSTEIN = {alpha1: 1, alpha2: 0, alpha3: 0}
-    null_x8 = sp.expand((e88 - e44).subs(EINSTEIN))  # kappa (rho + p8)
-    report("Einstein: kappa (rho + p8)", null_x8)
-    reproduces(sp.expand(null_x8 + 6 * ad1 ** 2 + 6 * H ** 2) == 0,
-               "Einstein: kappa (rho + p8) = -6 (a4'^2 + H^2) < 0",
-               PY, "einstein_null_energy_x8")
-    vacuum = [LHS[i][i].subs(EINSTEIN) for i in (0, 3, 4, 7)]  # T = 0
+    null_x0 = sp.expand((e00 - e44).subs(EINSTEIN))  # kappa (rho + p0)
+    report("Einstein: kappa (rho + p0)", null_x0)
+    reproduces(sp.expand(null_x0 + 6 * ad1 ** 2 + 6 * H ** 2) == 0,
+               "Einstein: kappa (rho + p0) = -6 (a4'^2 + H^2) < 0",
+               PY, "einstein_null_energy_x0")
+    vacuum = [LHS[i][i].subs(EINSTEIN) for i in (1, 4, 5, 0)]  # T = 0
     real_solutions = sp.solve(vacuum, [Lam, ad1, ad2], dict=True)  # ad1, ad2 real
     say(f"real solutions of the vacuum equations: {real_solutions}")
     w1, w2 = sp.symbols("w1 w2")  # a4' and a4'' again, now allowed to be complex
@@ -1078,7 +1089,7 @@ CELLS = [
                LEAD, "no_vacuum_for_H_positive")
     einstein_record = equations_json["einstein"]
     mine_einstein = {"constraint_x4": e44.subs(EINSTEIN) + Lam + kappa * rho,
-                     "hidden_x8": e88.subs(EINSTEIN) + Lam - kappa * p8,
+                     "hidden_x0": e00.subs(EINSTEIN) + Lam - kappa * p0,
                      "evolution": 2 * ad2 - kappa * (p3 - pt)}
     same = all(sp.expand(parse_equation(einstein_record[key]["input"]) - value) == 0
                for key, value in mine_einstein.items())
@@ -1089,17 +1100,17 @@ CELLS = [
     constraint asks for $\Lambda = -(3(a_4')^2 + 21H^2)$ and the hidden equation for
     $\Lambda = 3(a_4')^2 - 15H^2$. As functions of $a_4'$ the two curves never meet:
     the first is never above $-21H^2$, the second never below $-15H^2$. The vertical
-    distance between them is $6(a_4')^2 + 6H^2 = -\kappa(\rho + p_8)$.
+    distance between them is $6(a_4')^2 + 6H^2 = -\kappa(\rho + p_0)$.
     """),
     code(r'''
     u = np.linspace(-3.0, 3.0, 301)  # a4'/H
     lam_constraint = -(3 * u ** 2 + 21)  # Lambda/H^2 that the x4 equation needs
-    lam_hidden = 3 * u ** 2 - 15  # Lambda/H^2 that the x8 equation needs
+    lam_hidden = 3 * u ** 2 - 15  # Lambda/H^2 that the x0 equation needs
     fig, ax = plt.subplots()
     ax.plot(u, lam_constraint, label="$\\Lambda$ needed by the constraint ($x_4$)")
-    ax.plot(u, lam_hidden, label="$\\Lambda$ needed by the hidden equation ($x_8$)")
+    ax.plot(u, lam_hidden, label="$\\Lambda$ needed by the hidden equation ($x_0$)")
     ax.fill_between(u, lam_constraint, lam_hidden, color="grey", alpha=0.25,
-                    label="gap $6(a_4')^2+6H^2=-\\kappa(\\rho+p_8)$")
+                    label="gap $6(a_4')^2+6H^2=-\\kappa(\\rho+p_0)$")
     ax.set_xlabel("$a_4'/H$")
     ax.set_ylabel("$\\Lambda/H^2$")
     ax.set_title("Einstein gravity: the vacuum equations have no common solution")
@@ -1107,18 +1118,18 @@ CELLS = [
     save_figure(fig, "no_vacuum_gap",
                 "Einstein gravity without a source: the value of $\\Lambda/H^2$ that the "
                 "time equation (constraint) requires, $-(3(a_4')^2 + 21H^2)$, and the "
-                "value that the hidden $x_8$ equation requires, $3(a_4')^2 - 15H^2$, as "
+                "value that the hidden $x_0$ equation requires, $3(a_4')^2 - 15H^2$, as "
                 "functions of $a_4'/H$. The two curves never meet, so there is no vacuum "
                 "solution for $H > 0$ and any $\\Lambda$; the grey gap between them, "
-                "$6(a_4')^2 + 6H^2$, equals $-\\kappa(\\rho + p_8)$, so every source of the "
-                "metric violates the null energy condition along $x_8$.")
+                "$6(a_4')^2 + 6H^2$, equals $-\\kappa(\\rho + p_0)$, so every source of the "
+                "metric violates the null energy condition along $x_0$.")
     '''),
     md(r"""
     ## 14. The linear member $a_4 = A H x_4 + a_0$
 
     For $a_4 = AHx_4 + a_0$ we have $a_4' = AH$ and $a_4'' = 0$: 3-space grows like
     $e^{AHx_4}$ and the extra times shrink like $e^{-AHx_4}$ (exponential deflation
-    for $A > 0$). The next cell checks that then $p_3 = p_t = p_8 =: p$ (the three
+    for $A > 0$). The next cell checks that then $p_3 = p_t = p_0 =: p$ (the three
     pressures are equal) and that $\rho$ and $p$ are constants; it prints $\kappa\rho$
     and $\kappa p$ and checks that they contain $A$ only through $A^2$: the equations
     do not distinguish deflating extra times ($A > 0$) from inflating ones
@@ -1126,12 +1137,12 @@ CELLS = [
     of the equations.
     """),
     code(r'''
-    reproduces(sp.expand((e11 - e88).subs(LINEAR)) == 0
-               and sp.expand((e55 - e88).subs(LINEAR)) == 0,
-               "linear member: p3 = pt = p8 = p (any alpha_k)",
+    reproduces(sp.expand((e11 - e00).subs(LINEAR)) == 0
+               and sp.expand((e55 - e00).subs(LINEAR)) == 0,
+               "linear member: p3 = pt = p0 = p (any alpha_k)",
                PY, "linear_member_equal_pressures")
     rho_linear = sp.expand(-(e44 + Lam).subs(LINEAR) / kappa)  # from the constraint
-    p_linear = sp.expand((e88 + Lam).subs(LINEAR) / kappa)  # from the hidden equation
+    p_linear = sp.expand((e00 + Lam).subs(LINEAR) / kappa)  # from the hidden equation
     say(f"kappa rho = {sp.expand(kappa * rho_linear)}")
     say(f"kappa p = {sp.expand(kappa * p_linear)}")
     check(not rho_linear.has(x4) and not p_linear.has(x4),
@@ -1142,33 +1153,33 @@ CELLS = [
     '''),
     md(r"""
     **The vacuum of the linear member.** A vacuum needs $\rho = p = 0$, so in
-    particular $e_{44} = e_{88}$. The next cell factors
-    $e_{44} - e_{88} = 6(A^2 + 1)H^2\,V$ with the polynomial
+    particular $e_{44} = e_{00}$. The next cell factors
+    $e_{44} - e_{00} = 6(A^2 + 1)H^2\,V$ with the polynomial
 
     $$V = \alpha_1 - 8\alpha_2H^2(A^2 + 5) + \alpha_3 H^4(72A^4 + 144A^2 + 360).$$
 
     In Einstein gravity $V = 1$: no vacuum. In Einstein-Gauss-Bonnet gravity
     ($\alpha_1 = 1$, $\alpha_3 = 0$) $V = 0$ gives
     $A^2 = (1 - 40\alpha_2H^2)/(8\alpha_2H^2)$, a real $A$ only for
-    $0 < \alpha_2H^2 \le 1/40$. Because $e_{44}$ and $e_{88}$ contain no $a_4''$, the
+    $0 < \alpha_2H^2 \le 1/40$. Because $e_{44}$ and $e_{00}$ contain no $a_4''$, the
     same factorisation holds for EVERY $a_4$ with $AH$ replaced by $a_4'$:
-    $\kappa(\rho + p_8) = -6((a_4')^2 + H^2)\,V$. The cell also compares $\rho$, $p$
+    $\kappa(\rho + p_0) = -6((a_4')^2 + H^2)\,V$. The cell also compares $\rho$, $p$
     and $V$ with the record.
     """),
     code(r'''
-    V = sp.expand(sp.cancel((e44 - e88).subs(LINEAR) / (6 * (A ** 2 + 1) * H ** 2)))
+    V = sp.expand(sp.cancel((e44 - e00).subs(LINEAR) / (6 * (A ** 2 + 1) * H ** 2)))
     report("vacuum factor V", V)
     reproduces(V.is_polynomial(A) and sp.expand(6 * (A ** 2 + 1) * H ** 2 * V
-                                                 - (e44 - e88).subs(LINEAR)) == 0,
-               "e44 - e88 = 6 (A^2 + 1) H^2 V with a polynomial V",
+                                                 - (e44 - e00).subs(LINEAR)) == 0,
+               "e44 - e00 = 6 (A^2 + 1) H^2 V with a polynomial V",
                PY, "linear_member_vacuum_factor")
     V_gauss_bonnet = sp.expand(V.subs({alpha1: 1, alpha3: 0}))
     reproduces(sp.expand(V_gauss_bonnet - (1 - 8 * alpha2 * H ** 2 * (A ** 2 + 5))) == 0,
                "Gauss-Bonnet: V = 1 - 8 alpha2 H^2 (A^2 + 5)",
                PY, "einstein_gauss_bonnet_vacuum_linear")
     V_any = V.subs(A, ad1 / H)  # the same polynomial with A H -> a4'
-    check(sp.expand((e88 - e44) + 6 * (ad1 ** 2 + H ** 2) * V_any) == 0,
-          "for every a4: kappa (rho + p8) = -6 (a4'^2 + H^2) V(a4')")
+    check(sp.expand((e00 - e44) + 6 * (ad1 ** 2 + H ** 2) * V_any) == 0,
+          "for every a4: kappa (rho + p0) = -6 (a4'^2 + H^2) V(a4')")
     linear_record = equations_json["linearMember"]
     same = (sp.expand(parse(linear_record["rho"]["input"], NAMES_RECORD) - rho_linear)
             == 0
@@ -1204,13 +1215,13 @@ CELLS = [
       components, with the Rust program and the Wolfram record; $E_{(2)}$ equals the
       classical Gauss-Bonnet tensor; each $E_{(k)}$ has zero divergence (PROVED).
     - The field equations reduce to a constraint ($x_4$), an evolution equation
-      $a_4''F(a_4') = \kappa(p_3 - p_t)$, a hidden equation ($x_8$), and conditions on
-      the source: $p_3 + p_t = 2p_8$, no dependence on $x_8$, no mixed components
+      $a_4''F(a_4') = \kappa(p_3 - p_t)$, a hidden equation ($x_0$), and conditions on
+      the source: $p_3 + p_t = 2p_0$, no dependence on $x_0$, no mixed components
       (PROVED).
     - The derivative of the constraint is $3a_4'$ times the evolution equation, and
       the source must obey $\rho' = -3a_4'(p_3 - p_t)$ (PROVED).
     - In Einstein gravity there is no vacuum for $H > 0$, and every source has
-      $\kappa(\rho + p_8) = -6((a_4')^2 + H^2) < 0$ (PROVED).
+      $\kappa(\rho + p_0) = -6((a_4')^2 + H^2) < 0$ (PROVED).
     - For the linear member $a_4 = AHx_4 + a_0$ the three pressures are equal and
       constant, and the equations contain $A$ only as $A^2$: the exponential deflation
       of the extra times ($A > 0$) is a choice of sign, not selected by the equations

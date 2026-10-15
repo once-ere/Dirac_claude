@@ -155,17 +155,17 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    For a source that does not depend on $x_8$ and has no mixed components, the
+    For a source that does not depend on $x_0$ and has no mixed components, the
     field equations of the author's metric are (Revision record `a4-equations.json`)
 
     $$\kappa\rho = -\Big(\sum_k\alpha_k E_{(k)}{}^{x_4}{}_{x_4}(a_4') + \Lambda\Big),
-    \qquad \kappa p_8 = \sum_k\alpha_k E_{(k)}{}^{x_8}{}_{x_8}(a_4') + \Lambda,$$
-    $$a_4''\,F(a_4') = \kappa(p_3 - p_t),\qquad p_3 + p_t = 2p_8.$$
+    \qquad \kappa p_0 = \sum_k\alpha_k E_{(k)}{}^{x_0}{}_{x_0}(a_4') + \Lambda,$$
+    $$a_4''\,F(a_4') = \kappa(p_3 - p_t),\qquad p_3 + p_t = 2p_0.$$
 
     We choose (prescribe) the anisotropic stress $\Delta(x_4) = p_3 - p_t$ and the
     starting values $a_4(0)$, $a_4'(0)$. The evolution equation then determines
     $a_4(x_4)$; the first equation gives the energy density, the second the hidden
-    pressure, and $p_3 = p_8 + \Delta/2$, $p_t = p_8 - \Delta/2$. The record proves
+    pressure, and $p_3 = p_0 + \Delta/2$, $p_t = p_0 - \Delta/2$. The record proves
     that the derivative of the constraint is $3a_4'$ times the evolution equation; so
     along a solution the energy density must obey $\rho' = -3a_4'\Delta$, which this
     notebook checks numerically.
@@ -188,7 +188,7 @@ CELLS = [
     entries of `a4-equations.json` into Python functions of the rate $v = a_4'$ and
     the couplings, with $H = 1$:
     `rho_side(v, a1, a2, a3)` $= \sum_k\alpha_kE_{(k)}{}^{x_4}{}_{x_4}$,
-    `p8_side(v, a1, a2, a3)` $= \sum_k\alpha_kE_{(k)}{}^{x_8}{}_{x_8}$ and
+    `p0_side(v, a1, a2, a3)` $= \sum_k\alpha_kE_{(k)}{}^{x_0}{}_{x_0}$ and
     `F_of(v, a1, a2, a3)` $= F$. `sp.lambdify` turns a sympy formula into a fast
     numpy function.
     """),
@@ -247,16 +247,16 @@ CELLS = [
 
 
     def lovelock_sum(component):
-        """sum_k alpha_k E_(k) of one component ("x4x4" or "x8x8") of the record."""
+        """sum_k alpha_k E_(k) of one component ("x4x4" or "x0x0") of the record."""
         return sum(weights[k] * from_record(lovelock[f"E{k}"][component]["input"])
                    for k in (1, 2, 3))
 
 
     e44 = lovelock_sum("x4x4")  # the time component (constraint)
-    e88 = lovelock_sum("x8x8")  # the hidden component
+    e00 = lovelock_sum("x0x0")  # the hidden component
     F_expr = from_record(record["generalSource"]["evolution_F"]["input"])
     rho_side = sp.lambdify((ad1, a1, a2, a3), e44, "numpy")
-    p8_side = sp.lambdify((ad1, a1, a2, a3), e88, "numpy")
+    p0_side = sp.lambdify((ad1, a1, a2, a3), e00, "numpy")
     F_of = sp.lambdify((ad1, a1, a2, a3), F_expr, "numpy")
     say(f"F(a4') with H = 1: {F_expr}")
     EINSTEIN = (1.0, 0.0, 0.0)  # alpha1, alpha2, alpha3 of Einstein gravity
@@ -264,14 +264,14 @@ CELLS = [
     md(r"""
     The next cell checks that for Einstein gravity these functions are what the record
     says: $F = 2$ (the evolution equation is $2a_4'' = \kappa(p_3 - p_t)$),
-    $E^{x_4}{}_{x_4} = 3(a_4')^2 + 21$ and $E^{x_8}{}_{x_8} = 15 - 3(a_4')^2$ (with
+    $E^{x_4}{}_{x_4} = 3(a_4')^2 + 21$ and $E^{x_0}{}_{x_0} = 15 - 3(a_4')^2$ (with
     $H = 1$), at five rates $a_4'$.
     """),
     code(r'''
     rates = np.array([-2.0, -0.5, 0.0, 1.0, 3.0])  # a few values of a4'
     ok = (np.allclose(F_of(rates, *EINSTEIN), 2.0)
           and np.allclose(rho_side(rates, *EINSTEIN), 3 * rates ** 2 + 21)
-          and np.allclose(p8_side(rates, *EINSTEIN), 15 - 3 * rates ** 2))
+          and np.allclose(p0_side(rates, *EINSTEIN), 15 - 3 * rates ** 2))
     reproduces(ok, "Einstein: F = 2, E44 = 3 a4'^2 + 21, E88 = 15 - 3 a4'^2 (H = 1)",
                PY, "einstein_components")
     '''),
@@ -369,7 +369,7 @@ CELLS = [
     $e^{a_4}$ of 3-space and $e^{-a_4}$ of the extra times on a logarithmic vertical
     axis (on which an exponential is a straight line). The product of their cubes,
     $e^{3a_4}e^{-3a_4} = 1$, is the only way $a_4$ enters the volume of the seven
-    directions $x_1, x_2, x_3, x_5, x_6, x_7, x_8$ (the 7-volume; the hidden
+    directions $x_1, x_2, x_3, x_5, x_6, x_7, x_0$ (the 7-volume; the hidden
     direction's factor does not depend on $a_4$), and it stays constant: 3-space gains
     exactly what the extra times lose.
     """),
@@ -518,9 +518,9 @@ CELLS = [
     Along the pulse history the field equations fix the whole source (with
     $\Lambda = 0$):
 
-    $$\kappa\rho = -(3(a_4')^2 + 21),\quad \kappa p_8 = 15 - 3(a_4')^2,\quad
-    \kappa p_3 = \kappa p_8 + \tfrac12\kappa\Delta,\quad
-    \kappa p_t = \kappa p_8 - \tfrac12\kappa\Delta.$$
+    $$\kappa\rho = -(3(a_4')^2 + 21),\quad \kappa p_0 = 15 - 3(a_4')^2,\quad
+    \kappa p_3 = \kappa p_0 + \tfrac12\kappa\Delta,\quad
+    \kappa p_t = \kappa p_0 - \tfrac12\kappa\Delta.$$
 
     The third component of our state, $\kappa\rho$ integrated from the conservation law
     $\rho' = -3a_4'\Delta$, must agree with the $\kappa\rho$ that the constraint gives
@@ -543,23 +543,23 @@ CELLS = [
 
     rate = y_pulse[:, 1]
     rho_constraint = -(rho_side(rate, *EINSTEIN) + 0.0)  # kappa rho, Lambda = 0
-    p8_values = p8_side(rate, *EINSTEIN) + 0.0  # kappa p8
-    p3_values = p8_values + stress_values / 2  # kappa p3
-    pt_values = p8_values - stress_values / 2  # kappa pt
+    p0_values = p0_side(rate, *EINSTEIN) + 0.0  # kappa p0
+    p3_values = p0_values + stress_values / 2  # kappa p3
+    pt_values = p0_values - stress_values / 2  # kappa pt
     mismatch = np.abs(y_pulse[:, 2] - rho_constraint)  # conservation versus constraint
     say(f"largest difference of the two energy densities: {mismatch.max():.0e}")
     reproduces(mismatch.max() < 1e-8,
                "the energy density from conservation equals the constraint along x4",
                WL, "constraint_propagation_bianchi")
-    check(abs(rho_constraint[0] + 24) < 1e-6 and abs(p8_values[0] - 12) < 1e-6,
+    check(abs(rho_constraint[0] + 24) < 1e-6 and abs(p0_values[0] - 12) < 1e-6,
           "before the pulse: kappa rho = -24, kappa p = 12 (the linear member A = 1)")
-    check(abs(rho_constraint[-1] + 33) < 1e-6 and abs(p8_values[-1] - 3) < 1e-6,
+    check(abs(rho_constraint[-1] + 33) < 1e-6 and abs(p0_values[-1] - 3) < 1e-6,
           "after the pulse: kappa rho = -33, kappa p = 3 (the linear member A = 2)")
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
     left.plot(x4_pulse, rho_constraint, label="$\\kappa\\rho$")
     left.plot(x4_pulse, p3_values, label="$\\kappa p_3$")
     left.plot(x4_pulse, pt_values, "--", label="$\\kappa p_t$")
-    left.plot(x4_pulse, p8_values, ":", color="black", label="$\\kappa p_8$")
+    left.plot(x4_pulse, p0_values, ":", color="black", label="$\\kappa p_0$")
     left.set_xlabel("time $x_4$ (units $1/H$)")
     left.set_ylabel("required source (units $H^2$)")
     left.set_title("the source of the pulse history")
@@ -572,7 +572,7 @@ CELLS = [
                 "Left: the source that the pulse history requires in Einstein gravity "
                 "with $\\Lambda = 0$, in units of $H^2$: the energy density $\\kappa\\rho$, "
                 "the pressures $\\kappa p_3$ (3-space), $\\kappa p_t$ (extra times, "
-                "dashed) and $\\kappa p_8$ (hidden direction, dotted). During the pulse "
+                "dashed) and $\\kappa p_0$ (hidden direction, dotted). During the pulse "
                 "$p_3$ and $p_t$ split by the prescribed stress; before it the source "
                 "is that of the linear member $A = 1$ ($\\kappa\\rho = -24$, "
                 "$\\kappa p = 12$), after it that of the linear member $A = 2$ "
@@ -806,8 +806,8 @@ CELLS = [
     question for the only many-particle states it has computed, the Kohn-Sham states
     of dirac16complex: can they be the source of the author's metric? The next cell
     reads the record's answer, prints how many of its checks passed and checks that
-    every one did. The answer is no: every nonzero Kohn-Sham state depends on $x_8$
-    and violates $p_3 + p_t = 2p_8$, so the Kohn-Sham history $a_4 = AHx_4$ is a
+    every one did. The answer is no: every nonzero Kohn-Sham state depends on $x_0$
+    and violates $p_3 + p_t = 2p_0$, so the Kohn-Sham history $a_4 = AHx_4$ is a
     prescribed background, not a solution of these equations with that source.
     """),
     code(r'''
@@ -830,9 +830,9 @@ CELLS = [
     particles, coupling $\lambda = 0$, slice $a_{4,0} = 1$) and the integrals over
     the hidden direction, $2\,\mathrm{Vol}_7\int e^{6Hy}\,T\,dy$, of the energy
     density and of the three pressures (columns `int_rho`, `int_p3`, `int_p_t`,
-    `int_p8`). If the source obeyed $p_3 + p_t = 2p_8$ at every point, it would also
+    `int_p0`). If the source obeyed $p_3 + p_t = 2p_0$ at every point, it would also
     obey it after the integration, and the ratio
-    $$r = \frac{\int p_3 + \int p_t}{2\int p_8}$$
+    $$r = \frac{\int p_3 + \int p_t}{2\int p_0}$$
     would be exactly 1. The next cell
 
     - counts the states, and those whose four integrals are not all zero (a state
@@ -849,7 +849,7 @@ CELLS = [
     TABLE = "Revision/kohn_sham/results/ground/emt-integrals.csv"
     with repository_file(TABLE).open(encoding="utf-8", newline="") as handle:
         table = {row["id"]: row for row in csv.DictReader(handle)}
-    INTEGRALS = ("int_rho", "int_p3", "int_p_t", "int_p8")  # 2 Vol_7 int e^(6Hy) T dy
+    INTEGRALS = ("int_rho", "int_p3", "int_p_t", "int_p0")  # 2 Vol_7 int e^(6Hy) T dy
     zero = sorted(name for name, row in table.items()
                   if all(float(row[column]) == 0.0 for column in INTEGRALS))
     nonzero = [name for name in table if name not in zero]
@@ -858,22 +858,22 @@ CELLS = [
     say("states with a zero energy-momentum tensor: " + ", ".join(zero))
 
     counted = re.search(r"(\d+) ground-state profiles .*?\((\d+) with a nonzero",
-                        detail["ks_profiles_depend_on_x8"])
+                        detail["ks_profiles_depend_on_x0"])
     reproduces(counted is not None
                and counted.groups() == (str(len(table)), str(len(nonzero))),
                f"{len(nonzero)} of the {len(table)} states have a nonzero tensor",
-               KS, "ks_profiles_depend_on_x8")
+               KS, "ks_profiles_depend_on_x0")
     listed = detail["ks_zero_source_states_listed"].rsplit(": ", 1)[-1].split(", ")
     reproduces(sorted(listed) == zero,
                "the states with a zero tensor are the ones the record lists",
                KS, "ks_zero_source_states_listed")
 
-    ratio = {}  # r = (int p3 + int p_t)/(2 int p8) of every nonzero state
+    ratio = {}  # r = (int p3 + int p_t)/(2 int p0) of every nonzero state
     for name in nonzero:
         row = table[name]
-        if float(row["int_p8"]) != 0.0:
+        if float(row["int_p0"]) != 0.0:
             ratio[name] = ((float(row["int_p3"]) + float(row["int_p_t"]))
-                           / (2 * float(row["int_p8"])))
+                           / (2 * float(row["int_p0"])))
     closest = min(ratio, key=lambda name: abs(ratio[name] - 1.0))
     report(f"closest to 1: r of {closest}", f"{ratio[closest]:.6g}")
     HISTORY = ["N136_lam0_a00", "N136_lam0_a10", "N136_lam0_a20"]  # N = 136, lambda = 0
@@ -932,7 +932,7 @@ CELLS = [
       shows that the Kohn-Sham states of the repository are not admissible sources
       (record ks-source-conditions.json). The notebook recomputes the record's
       numbers from the Kohn-Sham table: the integrated ratio
-      $(\int p_3 + \int p_t)/(2\int p_8)$, which must be 1 for an admissible source,
+      $(\int p_3 + \int p_t)/(2\int p_0)$, which must be 1 for an admissible source,
       differs from 1 for every recorded state with a nonzero energy-momentum tensor
       (COMPUTED from the record's table; equal to the record).
     """),

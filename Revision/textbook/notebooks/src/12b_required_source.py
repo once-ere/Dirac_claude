@@ -108,7 +108,7 @@ CELLS = [
       $x_5, x_6, x_7$ deflate exponentially; $A < 0$: the opposite; $A = 0$: static.
     - **Source**: the matter whose energy-momentum tensor stands on the right-hand side
       of the field equations: energy density $\rho$, pressures $p_3$ (3-space), $p_t$
-      (extra times), $p_8$ (hidden direction $x_8$).
+      (extra times), $p_0$ (hidden direction $x_0$).
     - **Required source**: the $\rho$ and $p$ that the field equations demand for a
       given $a_4$; we read them off the equations instead of assuming a kind of matter.
     - **Couplings**: $\alpha_1$ (Einstein), $\alpha_2$ (Gauss-Bonnet), $\alpha_3$ (third
@@ -118,7 +118,7 @@ CELLS = [
       and $\Lambda$ are in units of $H^2$; $\alpha_2 H^2$ and $\alpha_3 H^4$ are pure
       numbers.
     - **Equation of state** $w = p/\rho$.
-    - **Null energy condition** (NEC) along $x_8$: $\rho + p_8 \ge 0$. Ordinary matter
+    - **Null energy condition** (NEC) along $x_0$: $\rho + p_0 \ge 0$. Ordinary matter
       satisfies it; a source with $w < -1$ and $\rho > 0$ (called *phantom*) violates
       it.
     - **Vacuum**: $\rho = p = 0$, no source at all.
@@ -131,12 +131,12 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    For a source that does not depend on $x_8$ and has no mixed components, the
+    For a source that does not depend on $x_0$ and has no mixed components, the
     Einstein-Lovelock field equations of the author's metric reduce to (the Revision
     record `a4-equations.json`):
 
     $$\sum_k \alpha_k E_{(k)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\rho,\qquad
-    \sum_k \alpha_k E_{(k)}{}^{x_8}{}_{x_8} + \Lambda = \kappa p_8,$$
+    \sum_k \alpha_k E_{(k)}{}^{x_0}{}_{x_0} + \Lambda = \kappa p_0,$$
     $$\sum_k \alpha_k E_{(k)}{}^{x_1}{}_{x_1} + \Lambda = \kappa p_3,\qquad
     \sum_k \alpha_k E_{(k)}{}^{x_5}{}_{x_5} + \Lambda = \kappa p_t.$$
 
@@ -204,7 +204,7 @@ CELLS = [
     $a_4' = AH$, $a_4'' = 0$. Then it reads off
 
     $$\kappa\rho = -\Big(\sum_k \alpha_k E_{(k)}{}^{x_4}{}_{x_4} + \Lambda\Big),\qquad
-    \kappa p_8 = \sum_k \alpha_k E_{(k)}{}^{x_8}{}_{x_8} + \Lambda,$$
+    \kappa p_0 = \sum_k \alpha_k E_{(k)}{}^{x_0}{}_{x_0} + \Lambda,$$
 
     and the same for $p_3$ and $p_t$.
     """),
@@ -229,19 +229,19 @@ CELLS = [
     ALPHA = {1: alpha1, 2: alpha2, 3: alpha3}
     lovelock = record["lovelockTensors"]
     side = {key: sum(ALPHA[k] * parse(lovelock[f"E{k}"][key]["input"]) for k in (1, 2, 3))
-            for key in ("x1x1", "x4x4", "x5x5", "x8x8")}  # sum_k alpha_k E_(k)
+            for key in ("x1x1", "x4x4", "x5x5", "x0x0")}  # sum_k alpha_k E_(k)
     LINEAR = {ad1: A * H, ad2: 0}  # a4' = A H, a4'' = 0
     kappa_rho = sp.expand(-(side["x4x4"] + Lam).subs(LINEAR))
     kappa_p3 = sp.expand((side["x1x1"] + Lam).subs(LINEAR))
     kappa_pt = sp.expand((side["x5x5"] + Lam).subs(LINEAR))
-    kappa_p8 = sp.expand((side["x8x8"] + Lam).subs(LINEAR))
+    kappa_p0 = sp.expand((side["x0x0"] + Lam).subs(LINEAR))
     say(f"kappa rho = {kappa_rho}")
-    say(f"kappa p8 = {kappa_p8}")
+    say(f"kappa p0 = {kappa_p0}")
     '''),
     md(r"""
     The next cell checks four things. (1) The three pressures are equal,
-    $p_3 = p_t = p_8 =: p$ (for $a_4'' = 0$ the components $E^{x_1}{}_{x_1}$,
-    $E^{x_5}{}_{x_5}$, $E^{x_8}{}_{x_8}$ coincide). (2) $\kappa\rho$ and $\kappa p$ equal
+    $p_3 = p_t = p_0 =: p$ (for $a_4'' = 0$ the components $E^{x_1}{}_{x_1}$,
+    $E^{x_5}{}_{x_5}$, $E^{x_0}{}_{x_0}$ coincide). (2) $\kappa\rho$ and $\kappa p$ equal
     the linear-member formulas stored in the record. (3) Both contain $A$ only through
     $A^2$: replacing $A$ by $-A$ changes nothing, so the equations accept deflating
     extra times ($A > 0$) and inflating ones ($A < 0$) on the same footing. (4) The
@@ -249,9 +249,9 @@ CELLS = [
     independent check found.
     """),
     code(r'''
-    reproduces(sp.expand(kappa_p3 - kappa_p8) == 0 and sp.expand(kappa_pt - kappa_p8) == 0,
-               "linear member: p3 = pt = p8 = p", PY, "linear_member_equal_pressures")
-    kappa_p = kappa_p8  # the common pressure, times kappa
+    reproduces(sp.expand(kappa_p3 - kappa_p0) == 0 and sp.expand(kappa_pt - kappa_p0) == 0,
+               "linear member: p3 = pt = p0 = p", PY, "linear_member_equal_pressures")
+    kappa_p = kappa_p0  # the common pressure, times kappa
     linear_record = record["linearMember"]
     same = (sp.expand(kappa * parse(linear_record["rho"]["input"]) - kappa_rho) == 0
             and sp.expand(kappa * parse(linear_record["p"]["input"]) - kappa_p) == 0)
@@ -725,7 +725,7 @@ CELLS = [
     ## 11. What this notebook showed
 
     - The linear member $a_4 = AHx_4 + a_0$ needs a source with equal pressures
-      $p_3 = p_t = p_8 = p$ and constant $\rho$ and $p$, given by the record formulas
+      $p_3 = p_t = p_0 = p$ and constant $\rho$ and $p$, given by the record formulas
       (PROVED).
     - $\rho$ and $p$ contain $A$ only as $A^2$: the field equations accept deflating
       extra times ($A > 0$) and inflating ones ($A < 0$) equally; deflation is a choice

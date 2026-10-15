@@ -58,7 +58,7 @@ FACTS = {
         ["Revision/field_equations_a4/reports/wolfram-a4-report.json",
          "the Wolfram checks of the condensate that the notebook reproduces"],
         ["Revision/lead_checks/reports/emt-divergence-and-spin-connection.json",
-         "the independent check of the spin-connection term 3 H gamma^(x8)"],
+         "the independent check of the spin-connection term 3 H gamma^(x0)"],
         ["Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md",
          "the document of the record that says that no check combines a condensate "
          "with the Einstein conditions"],
@@ -109,7 +109,7 @@ CELLS = [
     does that combination, with exact arithmetic (rational and complex-rational
     numbers, never rounded) and the author's gamma matrices. It
 
-    - rebuilds the spin-connection term $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ and
+    - rebuilds the spin-connection term $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ and
       the condensate equation, and solves it for every starting spinor;
     - builds a one-parameter family of condensates with all 15 bilinears zero and a
       density $S$ of either sign;
@@ -125,17 +125,17 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates** $x_1, \dots, x_8$ (the author's names): $x_1, x_2, x_3$ ordinary
+    - **Coordinates** $x_0, \dots, x_7$ (the author's names): $x_1, x_2, x_3$ ordinary
       3-space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times (which deflate
-      exponentially), $x_8$ the hidden direction with $z = 6Hx_8$ in $(0, \pi/2)$. In the
-      code the positions 0 to 7 of a list stand for $x_1$ to $x_8$.
-    - **Gamma matrices** $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$: the author's eight real
+      exponentially), $x_0$ the hidden direction with $z = 6Hx_0$ in $(0, \pi/2)$. In the
+      code the positions 0 to 7 of a list stand for $x_0$ to $x_7$.
+    - **Gamma matrices** $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$: the author's eight real
       16 by 16 matrices with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} =
-      2\eta^{ab}$, $\eta = \mathrm{diag}(+,+,+,-,-,-,-,+)$ (the Clifford relation).
+      2\eta^{ab}$, $\eta = \mathrm{diag}(+,+,+,+,-,-,-,-)$ (the Clifford relation).
     - **Spinor** $\Phi$: a column of 16 complex numbers (here: functions of $x_4$).
       dirac16complex00 is a field of such spinors whose components are ordinary
       (commuting) complex numbers.
-    - **Adjoint** $\bar\Phi = \Phi^\dagger C$ with $C = \gamma^{(x_8)}\gamma^{(x_1)}
+    - **Adjoint** $\bar\Phi = \Phi^\dagger C$ with $C = \gamma^{(x_0)}\gamma^{(x_1)}
       \gamma^{(x_2)}\gamma^{(x_3)}$; $\Phi^\dagger$ is the row of complex conjugates.
     - **Density** $S = \bar\Phi\Phi$, a real number. **Bilinear**: a number
       $\bar\Phi X \Phi$ with a 16 by 16 matrix $X$; a **three-gamma bilinear** has
@@ -246,7 +246,7 @@ CELLS = [
     The next cell reads the eight gamma matrices from the Revision record
     `gammas.json` (each entry an integer or a fraction written as text, which
     `sp.Rational` turns into an exact number), checks the Clifford relation for all 64
-    pairs, builds $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$,
+    pairs, builds $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$,
     compares it with the $C$ stored in the record, and checks the three properties the
     adjoint needs: $C$ is real and symmetric, $C^2 = 1$, and every $C\gamma^{(a)}$ is
     antisymmetric.
@@ -257,18 +257,18 @@ CELLS = [
     import numpy as np  # floating-point arrays, used only for the plots
     import sympy as sp  # exact algebra
 
-    NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]  # positions 0..7
-    ETA = [1, 1, 1, -1, -1, -1, -1, 1]  # the frame metric eta, x1..x8
+    NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # positions 0..7
+    ETA = [1, 1, 1, 1, -1, -1, -1, -1]  # the frame metric eta, x0..x7
     I16, Z16 = sp.eye(16), sp.zeros(16, 16)  # the 16 by 16 unit and zero matrices
     fixture = read_json(GAMMAS)
     gamma = [sp.Matrix([[sp.Rational(x) for x in row] for row in matrix])
-             for matrix in fixture["gamma"]]  # gamma[a] = gamma^(x_(a+1))
+             for matrix in fixture["gamma"]]  # gamma[a] = gamma^(xa)
     clifford = all(gamma[a] * gamma[b] + gamma[b] * gamma[a]
                    == 2 * ETA[a] * (1 if a == b else 0) * I16
                    for a in range(8) for b in range(8))
     reproduces(clifford, "the author's gammas satisfy the Clifford relation",
                PY, "authorT16_clifford")
-    C = gamma[7] * gamma[0] * gamma[1] * gamma[2]  # C = g^(x8) g^(x1) g^(x2) g^(x3)
+    C = gamma[0] * gamma[1] * gamma[2] * gamma[3]  # C = g^(x0) g^(x1) g^(x2) g^(x3)
     stored_C = sp.Matrix([[sp.Rational(x) for x in row] for row in fixture["C"]])
     properties = (C == stored_C and C == C.T and C * C == I16
                   and all((C * g).T == -(C * g) for g in gamma))
@@ -276,7 +276,7 @@ CELLS = [
                "antisymmetric", PY, "authorT16_C_properties")
     '''),
     md(r"""
-    ## 7. The spin connection and the term $3H\gamma^{(x_8)}$
+    ## 7. The spin connection and the term $3H\gamma^{(x_0)}$
 
     The vielbein of the author's diagonal metric is diagonal: $e^a{}_\mu = E_a
     \delta^a_\mu$ with $E_a = \sqrt{|g_{aa}|}$, that is $E = (e^{a_4}s, e^{a_4}s,
@@ -292,20 +292,20 @@ CELLS = [
 
     and $\Omega_\mu = \tfrac12\sum_{a,b}\omega_{\mu\,ab}S^{ab}$ with
     $S^{ab} = \tfrac14[\gamma^{(a)}, \gamma^{(b)}]$. The next cell computes the
-    Christoffel symbols of the diagonal metric (with $\partial/\partial x_8 =
+    Christoffel symbols of the diagonal metric (with $\partial/\partial x_0 =
     6H\,\partial/\partial z$), the connection and the eight matrices $\Omega_\mu$ for an
     arbitrary function $a_4(x_4)$, writing every function of $z$ through
     $\cot z$ (the helper `clean`, as in Notebook 12a).
     """),
     code(r'''
     H = sp.symbols("H", positive=True)  # the constant H of the metric
-    z = sp.symbols("z", positive=True)  # z = 6 H x8 in (0, pi/2)
+    z = sp.symbols("z", positive=True)  # z = 6 H x0 in (0, pi/2)
     x4 = sp.symbols("x4", real=True)  # the time
     a4 = sp.Function("a4")(x4)  # an arbitrary function a4(x4)
     cz = sp.symbols("cz", positive=True)  # cot z > 0 on the patch
     ad1, ad2 = sp.symbols("ad1 ad2", real=True)  # a4' and a4''
     s6 = sp.sin(z) ** sp.Rational(1, 6)  # the warp sin(z)^(1/6) of a length
-    E = [sp.exp(a4) * s6] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * s6] * 3 + [sp.cot(z)]
+    E = [sp.cot(z)] + [sp.exp(a4) * s6] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * s6] * 3
     g = [ETA[a] * E[a] ** 2 for a in range(8)]  # g_aa = eta_aa E_a^2
     TRIG = {sp.sin(z): 1 / sp.sqrt(1 + cz ** 2), sp.cos(z): cz / sp.sqrt(1 + cz ** 2),
             sp.tan(z): 1 / cz, sp.cot(z): cz}  # every function of z through cot z
@@ -320,10 +320,10 @@ CELLS = [
 
     def d(expr, mu):
         """The partial derivative with respect to the coordinate at position mu."""
-        if mu == 3:
+        if mu == 4:
             return sp.diff(expr, x4)
-        if mu == 7:
-            return 6 * H * sp.diff(expr, z)  # d/dx8 = (dz/dx8) d/dz = 6 H d/dz
+        if mu == 0:
+            return 6 * H * sp.diff(expr, z)  # d/dx0 = (dz/dx0) d/dz = 6 H d/dz
         return sp.Integer(0)  # nothing depends on x1, x2, x3, x5, x6, x7
 
 
@@ -353,42 +353,42 @@ CELLS = [
     md(r"""
     The next cell forms the curved-space gammas $\gamma^\mu = \gamma^{(\mu)}/E_\mu$
     (no sum) and checks three facts that the Revision record proved with the author's
-    gammas: $\Omega_{x_4} = \Omega_{x_8} = 0$; $\gamma^\mu\Omega_\mu +
+    gammas: $\Omega_{x_4} = \Omega_{x_0} = 0$; $\gamma^\mu\Omega_\mu +
     \Omega_\mu\gamma^\mu = 0$ for each $\mu$ separately; and the sum
-    $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$, which contains neither $a_4$
+    $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$, which contains neither $a_4$
     nor $z$: the time-direction terms of the three inflating 3-space directions and
     of the three deflating extra times cancel.
     """),
     code(r'''
     gamma_curved = [gamma[mu] / E[mu] for mu in range(8)]  # gamma^mu = gamma^(mu)/E_mu
-    reproduces(Omega[3] == Z16 and Omega[7] == Z16, "Omega_x4 = Omega_x8 = 0",
-               PY, "authorT16_Omega_x4_x8_zero")
+    reproduces(Omega[4] == Z16 and Omega[0] == Z16, "Omega_x4 = Omega_x0 = 0",
+               PY, "authorT16_Omega_x0_x4_zero")
     anticommute = all((gamma_curved[mu] * Omega[mu] + Omega[mu] * gamma_curved[mu])
                       .applyfunc(clean) == Z16 for mu in range(8))
     reproduces(anticommute, "{gamma^mu, Omega_mu} = 0 for each mu (no sum)",
                PY, "authorT16_anticommutator_no_sum")
     gravity_term = sum((gamma_curved[mu] * Omega[mu] for mu in range(8)), Z16)
     gravity_term = gravity_term.applyfunc(clean)
-    reproduces(gravity_term == 3 * H * gamma[7], "gamma^mu Omega_mu = 3 H gamma^(x8)",
+    reproduces(gravity_term == 3 * H * gamma[0], "gamma^mu Omega_mu = 3 H gamma^(x0)",
                PY, "authorT16_gravity_term")
-    reproduces(gravity_term == 3 * H * gamma[7], "the same, the lead's independent check",
-               EMT, "gamma_Omega_equals_3H_gamma8")
+    reproduces(gravity_term == 3 * H * gamma[0], "the same, the lead's independent check",
+               EMT, "gamma_Omega_equals_3H_gamma0")
     '''),
     md(r"""
     ## 8. The condensate equation and its solution for every starting spinor
 
     For $\Phi = \Phi(x_4)$ only the $x_4$ derivative survives, and $\gamma^{x_4} =
     \gamma^{(x_4)}$ (because $E_4 = 1$). With the term of section 7 the field equation
-    becomes $\gamma^{(x_4)}\Phi' + 3H\gamma^{(x_8)}\Phi = M\Phi$, $M = m + U'(S)$.
+    becomes $\gamma^{(x_4)}\Phi' + 3H\gamma^{(x_0)}\Phi = M\Phi$, $M = m + U'(S)$.
     Multiplying by $\gamma^{(x_4)}$ and using $(\gamma^{(x_4)})^2 = -1$:
 
     $$\Phi' = \mathcal{A}\,\Phi,\qquad \mathcal{A} = -\gamma^{(x_4)}\big(M -
-    3H\gamma^{(x_8)}\big).$$
+    3H\gamma^{(x_0)}\big).$$
 
     The matrix $\mathcal{A}$ contains neither $a_4$ nor $z$: the condensate does not
     feel the deflation at all. Squaring, with $(\gamma^{(x_4)})^2 = -1$,
-    $(\gamma^{(x_8)})^2 = 1$ and $\gamma^{(x_4)}\gamma^{(x_8)} =
-    -\gamma^{(x_8)}\gamma^{(x_4)}$, the mixed terms cancel and
+    $(\gamma^{(x_0)})^2 = 1$ and $\gamma^{(x_4)}\gamma^{(x_0)} =
+    -\gamma^{(x_0)}\gamma^{(x_4)}$, the mixed terms cancel and
 
     $$\mathcal{A}^2 = -(M^2 - 9H^2)\cdot 1 .$$
 
@@ -405,14 +405,14 @@ CELLS = [
 
     def condensate_matrix(M_value, H_value):
         """The matrix A of Phi' = A Phi for given M and H."""
-        return -gamma[3] * (M_value * I16 - 3 * H_value * gamma[7])
+        return -gamma[4] * (M_value * I16 - 3 * H_value * gamma[0])
 
 
     A_sym = condensate_matrix(MM, H)
-    reduced = (gamma[3] * A_sym + gravity_term - MM * I16).applyfunc(sp.expand)
+    reduced = (gamma[4] * A_sym + gravity_term - MM * I16).applyfunc(sp.expand)
     reproduces(reduced == Z16 and not A_sym.has(z),
-               "gamma^(x4) A + 3 H gamma^(x8) = M: the equation is Phi' = A Phi",
-               WL, "condensate_equation_x8_consistent")
+               "gamma^(x4) A + 3 H gamma^(x0) = M: the equation is Phi' = A Phi",
+               WL, "condensate_equation_x0_consistent")
     check((A_sym * A_sym + (MM ** 2 - 9 * H ** 2) * I16).applyfunc(sp.expand) == Z16,
           "A^2 = -(M^2 - 9 H^2): every condensate oscillates with w = sqrt(M^2 - 9 H^2)")
     reproduces((C * A_sym + A_sym.T * C).applyfunc(sp.expand) == Z16,
@@ -470,7 +470,7 @@ CELLS = [
                 "equal to $-iw$). In the grey band $|M| < 3H$ the eigenvalues are real and "
                 "the condensate grows or decays instead of oscillating. The red squares "
                 "mark $M = \\pm 5H$, $w = 4H$, the masses used in this notebook. The "
-                "hidden-direction term $3H\\gamma^{(x_8)}$ of the field equation shifts "
+                "hidden-direction term $3H\\gamma^{(x_0)}$ of the field equation shifts "
                 "the threshold from $0$ to $3H$.")
     '''),
     md(r"""
@@ -479,7 +479,7 @@ CELLS = [
     The Revision record shows that the off-diagonal parts of the kinetic tensor of a
     condensate are multiples of 15 three-gamma bilinears
     $B_{abc} = \bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$: the six with
-    $\{a, b, c\} = \{i, x_4, x_8\}$ ($i$ a 3-space direction or an extra time) and the
+    $\{a, b, c\} = \{i, x_4, x_0\}$ ($i$ a 3-space direction or an extra time) and the
     nine with $\{i, j, x_4\}$ ($i$ in 3-space, $j$ an extra time). The off-diagonal
     Einstein equations $0 = \kappa T^\mu{}_\nu$ need all 15 to vanish. The record's
     recipe for such a condensate, at $M = -5$, $H = 1$, $w = 4$: take the spinor $v_1$
@@ -500,8 +500,8 @@ CELLS = [
     code(r'''
     t = sp.symbols("t", real=True)  # the free real parameter of the family
     TRIPLES = list(itertools.combinations(range(8), 3))  # all 56 sets {a, b, c}
-    NEEDED = sorted({tuple(sorted((i, 3, 7))) for i in (0, 1, 2, 4, 5, 6)}
-                    | {tuple(sorted((i, j, 3))) for i in (0, 1, 2) for j in (4, 5, 6)})
+    NEEDED = sorted({tuple(sorted((i, 4, 0))) for i in (1, 2, 3, 5, 6, 7)}
+                    | {tuple(sorted((i, j, 4))) for i in (1, 2, 3) for j in (5, 6, 7)})
 
 
     def witness_parts(M_value, H_value):
@@ -511,9 +511,9 @@ CELLS = [
         spaces = []
         for sign in (-1, 1):  # the eigenvalue of g^(x1)g^(x5) = g^(x2)g^(x6) = ...
             stack = sp.Matrix.vstack(A_value + sp.I * w_value * I16,
-                                     gamma[0] * gamma[4] - sign * I16,
                                      gamma[1] * gamma[5] - sign * I16,
-                                     gamma[2] * gamma[6] - sign * I16)
+                                     gamma[2] * gamma[6] - sign * I16,
+                                     gamma[3] * gamma[7] - sign * I16)
             spaces.append(stack.nullspace())  # all solutions of stack * v = 0
         v1, v2 = spaces[0][0], spaces[1][0]
         c = sp.conjugate(sp.expand((v1.H * C * v2)[0]))  # c = conj(v1^dagger C v2)
@@ -587,8 +587,8 @@ CELLS = [
     nonzero = [triple for triple, value in zip(TRIPLES, all_values) if value != 0]
     say("nonzero bilinears: " + ", ".join(
         "".join(NAMES[i][1] for i in triple) for triple in nonzero))
-    check(all(3 not in triple and 7 not in triple for triple in nonzero),
-          "every nonzero one avoids x4 and x8")
+    check(all(4 not in triple and 0 not in triple for triple in nonzero),
+          "every nonzero one avoids x4 and x0")
     labels = ["".join(NAMES[i][1] for i in triple) for triple in TRIPLES]
     numbers = np.array([float(value) for value in all_values])
     is_needed = np.array([triple in NEEDED for triple in TRIPLES])
@@ -602,7 +602,7 @@ CELLS = [
     ax.set_xticks(positions)
     ax.set_xticklabels(labels, rotation=90, fontsize=6.5)
     ax.set_xlabel("directions $abc$ of $\\bar\\Phi\\gamma^{(a)}\\gamma^{(b)}"
-                  "\\gamma^{(c)}\\Phi$ (digits: $x_1$ = 1, ..., $x_8$ = 8)")
+                  "\\gamma^{(c)}\\Phi$ (digits: $x_0$ = 1, ..., $x_7$ = 8)")
     ax.set_ylabel("value of the bilinear")
     ax.set_title("The 56 three-gamma bilinears of the condensate $\\Phi_0(1)$, "
                  "$M = -5H$")
@@ -611,10 +611,10 @@ CELLS = [
                 "The 56 three-gamma bilinears $\\bar\\Phi\\gamma^{(a)}\\gamma^{(b)}"
                 "\\gamma^{(c)}\\Phi$ of the condensate $\\Phi_0(1) = v_1 + c\\,v_2$ at "
                 "$M = -5H$, $H = 1$, one for each set of three directions $a < b < c$ "
-                "(horizontal axis, labelled by the digits of $x_1$ to $x_8$); vertical "
+                "(horizontal axis, labelled by the digits of $x_0$ to $x_7$); vertical "
                 "axis the exact value (a real number). Red crosses: the 15 bilinears "
                 "whose vanishing the off-diagonal Einstein equations require (they "
-                "contain $x_4$ together with $x_8$ or with a 3-space direction and an "
+                "contain $x_4$ together with $x_0$ or with a 3-space direction and an "
                 "extra time); all are exactly zero. Blue bars: the other 41, of which "
                 "only eight are not zero, all built from 3-space directions and extra "
                 "times.")
@@ -644,12 +644,12 @@ CELLS = [
 
     def D_phi(nu):
         """The matrix that gives D_nu Phi from Phi."""
-        return (A_witness if nu == 3 else Z16) + Omega_1[nu]
+        return (A_witness if nu == 4 else Z16) + Omega_1[nu]
 
 
     def D_phibar(nu):
         """The matrix that gives D_nu Phibar from Phi^dagger (row times matrix)."""
-        return (A_witness.T * C if nu == 3 else Z16) - C * Omega_1[nu]
+        return (A_witness.T * C if nu == 4 else Z16) - C * Omega_1[nu]
 
 
     K = [[(phi_t.H * ((C * gamma_1[mu] * D_phi(nu) - D_phibar(nu) * gamma_1[mu]) / 2)
@@ -662,8 +662,8 @@ CELLS = [
                WL, "condensate_diagonal_witness_exact")
     diagonal = [K_sym[mu][mu] for mu in range(8)]
     say(f"diagonal of K: {diagonal}")
-    reproduces(all(diagonal[mu] == 0 for mu in range(8) if mu != 3)
-               and sp.expand(diagonal[3] - (-5) * S_t) == 0,
+    reproduces(all(diagonal[mu] == 0 for mu in range(8) if mu != 4)
+               and sp.expand(diagonal[4] - (-5) * S_t) == 0,
                "K^x4_x4 = M S and every other diagonal entry is 0",
                PY, "authorT16_condensate_kinetic_diagonal")
     '''),
@@ -674,7 +674,7 @@ CELLS = [
     and therefore
 
     $$\rho = -T^{x_4}{}_{x_4} = MS - L = mS + \tfrac\lambda2S^2,\qquad
-    p_3 = p_t = p_8 = L = \tfrac\lambda2 S^2,$$
+    p_3 = p_t = p_0 = L = \tfrac\lambda2 S^2,$$
 
     with all mixed components zero. The next cell builds this tensor with symbols $m$
     and $\lambda$ (and $M = -5 = m + \lambda S$) and checks these formulas.
@@ -693,11 +693,11 @@ CELLS = [
 
     on_shell = {m: -5 - lam * S_t}  # M = m + lambda S = -5
     T_family = source_tensor(K_sym, S_t, m, lam)
-    rho_family = sp.expand(-T_family[3][3].subs(on_shell))
-    pressures = [sp.expand(T_family[mu][mu].subs(on_shell)) for mu in (0, 4, 7)]
+    rho_family = sp.expand(-T_family[4][4].subs(on_shell))
+    pressures = [sp.expand(T_family[mu][mu].subs(on_shell)) for mu in (1, 5, 0)]
     check(sp.expand(rho_family - ((-5 - lam * S_t) * S_t + lam * S_t ** 2 / 2)) == 0
           and all(sp.expand(p - lam * S_t ** 2 / 2) == 0 for p in pressures),
-          "rho = m S + (lambda/2) S^2 and p3 = pt = p8 = (lambda/2) S^2 on shell")
+          "rho = m S + (lambda/2) S^2 and p3 = pt = p0 = (lambda/2) S^2 on shell")
     '''),
     md(r"""
     ## 11. The two Einstein conditions and their solution
@@ -730,9 +730,9 @@ CELLS = [
 
 
     G_time, G_space = from_record("x4x4"), from_record("x1x1")
-    G_extra, G_hidden = from_record("x5x5"), from_record("x8x8")
+    G_extra, G_hidden = from_record("x5x5"), from_record("x0x0")
     check(sp.expand(G_space - G_hidden) == 0 and sp.expand(G_extra - G_hidden) == 0,
-          "linear member: G^x1_x1 = G^x5_x5 = G^x8_x8 (the record's components)")
+          "linear member: G^x1_x1 = G^x5_x5 = G^x0_x0 (the record's components)")
     S_sym, rho_sym, p_sym = sp.symbols("S rho p", real=True)
     time_equation = G_time + Lam + kappa * rho_sym  # = 0
     space_equation = G_hidden + Lam - kappa * p_sym  # = 0
@@ -842,15 +842,15 @@ CELLS = [
         phi0 = (v1_e + t_value * c_e * v2_e).applyfunc(sp.expand)
         phi = phi0 * sp.exp(-sp.I * w_e * x4)  # the condensate Phi(x4)
         # 1. the field equation, with the full spin-connection sum of section 7:
-        residual = (gamma[3] * sp.diff(phi, x4) + gravity_term.subs(UNIT_H) * phi
+        residual = (gamma[4] * sp.diff(phi, x4) + gravity_term.subs(UNIT_H) * phi
                     - (m_value + lam_value * S_value) * phi).applyfunc(sp.simplify)
         field_ok = residual == sp.zeros(16, 1) and bilinear(phi0, I16) == S_value
         # 2. the Einstein equations, all 64 components, for +A and for -A:
         K_e = K_sym if M_example == -5 else None
         if K_e is None:  # example 2 has its own condensate matrix A (M = +5)
-            K_raw = [[(phi0.H * ((C * gamma_1[mu] * ((A_e if nu == 3 else Z16)
+            K_raw = [[(phi0.H * ((C * gamma_1[mu] * ((A_e if nu == 4 else Z16)
                                                      + Omega_1[nu])
-                                  - ((A_e.T * C if nu == 3 else Z16) - C * Omega_1[nu])
+                                  - ((A_e.T * C if nu == 4 else Z16) - C * Omega_1[nu])
                                   * gamma_1[mu]) / 2) * phi0)[0]
                       for nu in range(8)] for mu in range(8)]
             K_e = [[clean((K_raw[mu][nu] + (g_1[nu] / g_1[mu]) * K_raw[nu][mu]) / 2)
@@ -860,13 +860,13 @@ CELLS = [
         T_e = source_tensor(K_e, S_value, m_value, lam_value)
         einstein_ok = {}
         for sign in (1, -1):
-            G_diag = [G_space] * 3 + [G_time] + [G_extra] * 3 + [G_hidden]
+            G_diag = [G_hidden] + [G_space] * 3 + [G_time] + [G_extra] * 3
             values = {A: sign * slope, H: 1}
             einstein_ok[sign] = all(
                 sp.simplify((G_diag[mu].subs(values) + cosmological if mu == nu else 0)
                             - T_e[mu][nu]) == 0
                 for mu in range(8) for nu in range(8))
-        rho_e, p_e = -T_e[3][3], T_e[0][0]
+        rho_e, p_e = -T_e[4][4], T_e[1][1]
         solutions[name] = {"A": slope, "Lambda": cosmological, "M": M_example,
                            "S": S_value, "m": m_value, "lambda": lam_value, "t": t_value,
                            "rho": rho_e, "p": p_e, "phi0": phi0, "w": w_e, "T": T_e}
@@ -902,7 +902,7 @@ CELLS = [
     """),
     code(r'''
     sol = solutions["example 3"]
-    G_diag = [G_space] * 3 + [G_time] + [G_extra] * 3 + [G_hidden]
+    G_diag = [G_hidden] + [G_space] * 3 + [G_time] + [G_extra] * 3
     left_side = np.array([[float(G_diag[mu].subs({A: 1, H: 1}) + sol["Lambda"])
                            if mu == nu else 0.0 for nu in range(8)] for mu in range(8)])
     right_side = np.array([[float(sol["T"][mu][nu]) for nu in range(8)]
@@ -935,7 +935,7 @@ CELLS = [
                 "\\Lambda\\delta^\\mu_\\nu$ of the Einstein equations; middle, the "
                 "right-hand side $\\kappa T^\\mu{}_\\nu$ computed from the condensate "
                 "$\\Phi = e^{-4ix_4}\\Phi_0$; right, their difference. Rows $\\mu$ and "
-                "columns $\\nu$ run over $x_1$ to $x_8$; the colour is the value (red "
+                "columns $\\nu$ run over $x_0$ to $x_7$; the colour is the value (red "
                 "positive, blue negative, white zero) and the numbers are the diagonal "
                 "entries: $-6$ (minus the energy density, $x_4$) and $-18$ (the "
                 "pressure, every other direction). All 64 entries agree exactly; every "
@@ -1099,14 +1099,14 @@ CELLS = [
     ## 17. What this notebook showed
 
     - With the author's gammas, the spin connection of the author's metric gives
-      $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$, and a homogeneous condensate
+      $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$, and a homogeneous condensate
       obeys $\Phi' = \mathcal{A}\Phi$ with $\mathcal{A}^2 = -(M^2 - 9H^2)$: it
       oscillates with $w = \sqrt{M^2 - 9H^2}$ and keeps $S$ constant, whatever $a_4$
       does (PROVED, reproducing the Revision record).
     - The family $\Phi_0(t) = v_1 + t\,c\,v_2$ has all 15 three-gamma bilinears zero for
       every real $t$ and the density $S(t) = 2t|v_1^\dagger Cv_2|^2$ of either sign
       (PROVED); its energy-momentum tensor is diagonal, $\rho = mS + \lambda S^2/2$,
-      $p_3 = p_t = p_8 = \lambda S^2/2$, for every $a_4$ (PROVED).
+      $p_3 = p_t = p_0 = \lambda S^2/2$, for every $a_4$ (PROVED).
     - Three exact solutions of the coupled Einstein and dirac16complex00 equations,
       two with the extra times deflating as $e^{-Hx_4}$: all 16 + 64 components hold
       exactly (PROVED for the stated numbers, under the ASSUMED convention
