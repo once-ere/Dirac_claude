@@ -1,12 +1,14 @@
 # Relabel tools: the author's coordinates x0..x7 and the metric with b4
 
-These are the scripts that were used on 2026-10-14 to move chapters 00 to 06 of the textbook
-"Universes in Pairs" (chapters, notebook builders, notebooks, figures) to two things:
+These are the scripts that were used on 2026-10-14 and 2026-10-15 to move every chapter (00 to 23)
+of the textbook "Universes in Pairs" (chapters, notebook builders, notebooks, figures) to two things:
 
 * the author's coordinates $\{x0, x1, \dots, x7\}$;
 * the metric with $b_4(x_4)$ (Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md).
 
-Chapters 07 to 23 still use the old labels. HANDOFF.md, section 0.6, lists what remains.
+All chapters are done (chapters 00 to 06 on 2026-10-14, the rest by 2026-10-15; HANDOFF.md, section
+0.7). `scan_old.py` misses an old label glued to a digit or a letter (`2p_8`, `ip_8`, `e_{88}`,
+`dx8`, `M_8`, a check name with `2x8`): after it, also grep for `8` next to such neighbours.
 
 The coordinates:
 

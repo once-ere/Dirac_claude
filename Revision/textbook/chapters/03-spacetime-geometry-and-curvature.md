@@ -136,7 +136,10 @@ The Rust program `lovelock_gkd`, which computed the curvature of the metric for 
 It is written in the notation of Mathematica: braces enclose a list (the matrix is a list of eight rows of eight entries, the rows and columns in the order $x_0, x_1, \dots, x_7$), `E^(...)` is $e$ to the power in brackets, `Sin` and `Cot` are the sine and the cotangent, `a4[x4]` and `b4[x4]` are the values of the functions $a_4$ and $b_4$ at $x_4$, and a blank between two factors means times. The note of the record says that this is the user's metric of 2026-10-14 in the author's coordinates $x_0, \dots, x_7$, as in the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb`, and that $b_4 = 1$ is the metric before 2026-10-14. Only the eight diagonal entries are non-zero; the line element is therefore
 
 $$
-ds^2 = \cot^2 z\, dx_0^2 + e^{2a_4}\sin^{1/3}z\,\bigl(dx_1^2 + dx_2^2 + dx_3^2\bigr) - dx_4^2 - b_4e^{-2a_4}\sin^{1/3}z\,\bigl(dx_5^2 + dx_6^2 + dx_7^2\bigr) ,\qquad z = 6Hx_0 .
+\begin{aligned}
+ds^2 = {} & \cot^2 z\, dx_0^2 + e^{2a_4}\sin^{1/3}z\,\bigl(dx_1^2 + dx_2^2 + dx_3^2\bigr) - dx_4^2\\
+& - b_4e^{-2a_4}\sin^{1/3}z\,\bigl(dx_5^2 + dx_6^2 + dx_7^2\bigr) ,\qquad z = 6Hx_0 .
+\end{aligned}
 $$
 
 **Reading it term by term.** A step $dx_1$ in 3-space has the true (proper) length $e^{a_4}\sin^{1/6}z\,dx_1$, the square root of its coefficient: when $a_4$ grows, 3-space **inflates**. A step $dx_5$ along an extra time has the proper duration $b_4^{1/2}e^{-a_4}\sin^{1/6}z\,dx_5$: when $a_4$ grows and $b_4$ stays constant, the three extra times **deflate exponentially** (in general their rate of change is $-a_4' + b_4'/(2b_4)$, Section 3.7). A step $dx_4$ has $ds^2 = -dx_4^2$, so a clock at rest shows exactly $x_4$: the coordinate $x_4$ is the proper time of an observer at rest (Section 3.23 shows that such an observer is in free fall). The hidden direction has the coefficient $\cot^2 z$, which depends on $x_0$ only.
@@ -224,7 +227,10 @@ $$
 **Scale factors.** Write each diagonal entry as a sign times a square, $g_{aa} = \eta_{aa}\,h_a^2$ with a positive number $h_a$, the **scale factor** of the direction $x_a$: a coordinate interval $\Delta x_a$ over which $h_a$ does not change has the proper length (or, for a time-like direction, the proper duration) $h_a\,\Delta x_a$. For the author's metric, inside the patch,
 
 $$
-h = \bigl(\cot z,\ e^{a_4}\sin^{1/6}z,\ e^{a_4}\sin^{1/6}z,\ e^{a_4}\sin^{1/6}z,\ 1,\ b_4^{1/2}e^{-a_4}\sin^{1/6}z,\ b_4^{1/2}e^{-a_4}\sin^{1/6}z,\ b_4^{1/2}e^{-a_4}\sin^{1/6}z\bigr)
+\begin{aligned}
+h = \bigl(&\cot z,\ e^{a_4}\sin^{1/6}z,\ e^{a_4}\sin^{1/6}z,\ e^{a_4}\sin^{1/6}z,\ 1,\\
+&b_4^{1/2}e^{-a_4}\sin^{1/6}z,\ b_4^{1/2}e^{-a_4}\sin^{1/6}z,\ b_4^{1/2}e^{-a_4}\sin^{1/6}z\bigr)
+\end{aligned}
 $$
 
 in the order $x_0, \dots, x_7$ (the positive square roots of the absolute values of the diagonal entries: $\sqrt{\cot^2 z} = \cot z$ because $\cot z > 0$ in the patch, $\sqrt{e^{2a_4}\sin^{1/3}z} = e^{a_4}\sin^{1/6}z$, and $\sqrt{b_4e^{-2a_4}\sin^{1/3}z} = b_4^{1/2}e^{-a_4}\sin^{1/6}z$ because the root of a product is the product of the roots).
@@ -4842,7 +4848,7 @@ The five figure files must exist; the last line prints ALL 23 CHECKS PASSED (not
 
 - standard theorems quoted without proof: Sylvester's law of inertia (Section 3.4); the volume factor of a metric that is not diagonal (not needed); that the Christoffel symbols of two systems of coordinates describe the same covariant derivative (Section 3.15); that a space with zero Riemann tensor has constant metrics locally (Section 3.17); the symmetries (S3) and (S4) and the contracted Bianchi identity for a general metric (Sections 3.17 and 3.25; for the author's metric all three are checked or proved); the uniqueness of solutions of ordinary differential equations (Section 3.16); the geodesic deviation equation of a general surface, and its form $d^2\xi/d\tau^2 = +\sigma\,\xi$ for free-fall paths along a time-like direction (Section 3.18; for the observers at rest in the author's metric it is proved in Section 3.24);
 - from physics: that a body in free fall moves on a time-like geodesic, and that the bodies of Section 3.31 are test particles; the form of Einstein's field equations and the null energy condition as the mark of ordinary matter (Section 3.26; derived and discussed in Chapters 9 and 12);
-- the history $a_4 = AHx_4$, $b_4 = 1$ with $A = 1$ and $H = 1$, used for every picture and every number along the history: a PRESCRIBED BACKGROUND, not a solution of the field equations with a source of this book (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyStatus`; `Revision/field_equations_a4/reports/ks-source-conditions.json`); $b_4 = 1$ is the choice of the Revision record for every background (`Revision/SPEC.md`, section 1; Section 3.8). Every formula written with general $a_4(x_4)$ and $b_4(x_4)$ is exact without it.
+- the history $a_4 = AHx_4$, $b_4 = 1$ with $A = 1$ and $H = 1$, used for every picture and every number along the history: a PRESCRIBED BACKGROUND, not a solution of the field equations with a source of this book (key `adiabaticity.historyStatus` of `Revision/kohn_sham/ks-theory.json`, and `Revision/field_equations_a4/reports/ks-source-conditions.json`); $b_4 = 1$ is the choice of the Revision record for every background (`Revision/SPEC.md`, section 1; Section 3.8). Every formula written with general $a_4(x_4)$ and $b_4(x_4)$ is exact without it.
 
 **HYPOTHESIS.** None enters this chapter.
 

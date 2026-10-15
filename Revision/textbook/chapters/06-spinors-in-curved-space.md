@@ -457,7 +457,10 @@ $$
 **The author's metric.** With the table of Section 6.6 and $S^{ab} = \frac12\gamma^a\gamma^b$:
 
 $$
-\Omega_{x_i} = e^{a_4}s\big(a_4'\,S^{x_i\,x4} + H\,S^{x_i\,x0}\big), \qquad \Omega_{x_t} = -e^{-a_4}b_4^{1/2}s\Big(\big(a_4' - \tfrac{b_4'}{2b_4}\big)S^{x4\,x_t} + H\,S^{x_t\,x0}\Big), \qquad \Omega_{x0} = \Omega_{x4} = 0
+\begin{aligned}
+\Omega_{x_i} &= e^{a_4}s\big(a_4'\,S^{x_i\,x4} + H\,S^{x_i\,x0}\big), \qquad \Omega_{x0} = \Omega_{x4} = 0,\\
+\Omega_{x_t} &= -e^{-a_4}b_4^{1/2}s\Big(\big(a_4' - \tfrac{b_4'}{2b_4}\big)S^{x4\,x_t} + H\,S^{x_t\,x0}\Big)
+\end{aligned}
 $$
 
 (with $S^{x_i\,x0} = -S^{x0\,x_i}$ and $S^{x_t\,x0} = -S^{x0\,x_t}$, the components of the table).
@@ -575,13 +578,19 @@ The right side is built from the volume factor and the vielbein alone.
 **Fact 2: the product structure.** For the diagonal vielbein $\sqrt{\lvert g\rvert}\,\gamma^\mu = \big(\prod_c f_c\big)\gamma^{(\mu)}/f_\mu = \big(\prod_{c\neq\mu}f_c\big)\gamma^{(\mu)}$ (no sum over $\mu$). The term $\partial_\mu$ of this product can be nonzero only if the product depends on its own coordinate $x_\mu$, that is only for $\mu = x0$ or $\mu = x4$. For the hidden direction:
 
 $$
-\prod_{c\neq x0}f_c = e^{3a_4}s^3\cdot1\cdot e^{-3a_4}b_4^{3/2}s^3 = b_4^{3/2}s^6 = b_4^{3/2}\sin z, \qquad \frac{1}{2b_4^{3/2}\cos z}\,\partial_0\big(b_4^{3/2}\sin z\big)\;\gamma^{(x0)} = \frac{6H\cos z}{2\cos z}\gamma^{(x0)} = 3H\,\gamma^{(x0)}
+\begin{aligned}
+\prod_{c\neq x0}f_c &= e^{3a_4}s^3\cdot1\cdot e^{-3a_4}b_4^{3/2}s^3 = b_4^{3/2}s^6 = b_4^{3/2}\sin z,\\
+\frac{1}{2b_4^{3/2}\cos z}\,\partial_0\big(b_4^{3/2}\sin z\big)\;\gamma^{(x0)} &= \frac{6H\cos z}{2\cos z}\gamma^{(x0)} = 3H\,\gamma^{(x0)}
+\end{aligned}
 $$
 
 (the chain rule with $dz/dx_0 = 6H$; $b_4$ does not depend on $x_0$; then cancel $b_4^{3/2}\cos z$). For the time:
 
 $$
-\prod_{c\neq x4}f_c = \cot z\cdot e^{3a_4}s^3\cdot e^{-3a_4}b_4^{3/2}s^3 = b_4^{3/2}\sin z\cot z = b_4^{3/2}\cos z, \qquad \frac{1}{2b_4^{3/2}\cos z}\,\partial_4\big(b_4^{3/2}\cos z\big)\;\gamma^{(x4)} = \frac{\frac32 b_4^{1/2}b_4'}{2b_4^{3/2}}\gamma^{(x4)} = \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x4)}
+\begin{aligned}
+\prod_{c\neq x4}f_c &= \cot z\cdot e^{3a_4}s^3\cdot e^{-3a_4}b_4^{3/2}s^3 = b_4^{3/2}\sin z\cot z = b_4^{3/2}\cos z,\\
+\frac{1}{2b_4^{3/2}\cos z}\,\partial_4\big(b_4^{3/2}\cos z\big)\;\gamma^{(x4)} &= \frac{\frac32 b_4^{1/2}b_4'}{2b_4^{3/2}}\gamma^{(x4)} = \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x4)}
+\end{aligned}
 $$
 
 (Section 6.2; the factors $e^{\pm3a_4}$ cancel, so $a_4$ is gone; the power rule gives $\partial_4 b_4^{3/2} = \frac32 b_4^{1/2}b_4'$). **The time direction contributes only through $b_4$**, and nothing when $b_4$ is constant. This is the deeper reason for the cancellation of the $a_4'$ terms in Section 6.8: the 7-volume of a slice does not change with the inflation of 3-space and the deflation of the extra times, only with $b_4$. So the divergence form gives $3H\gamma^{(x0)} + \frac34(b_4'/b_4)\gamma^{(x4)}$ again, by a second and much shorter route. Notebook 06a checks Fact 1 for every $\mu$, the divergence form and the eight products (In [18]), and once more with a calculator's method, a central difference (In [19]).
@@ -1436,7 +1445,20 @@ for (mu, a, b), value in omega_nonzero.items():
     say(f"omega_{NAMES[mu]},{NAMES[a]}{NAMES[b]} = {value}")
 ```
 
-The nonzero components with $a < b$ are collected and printed, one line each: twelve lines such as `omega_x1,x1x4 = exp(a4(x4))*sin(6*H*x0)**(1/6)*Derivative(a4(x4), x4)`, which is $a_4'e^{a_4}s$, and `omega_x5,x4x5 = (-b4(x4)*Derivative(a4(x4), x4) + Derivative(b4(x4), x4)/2)*exp(-a4(x4))*sin(6*H*x0)**(1/6)/sqrt(b4(x4))`, which is $-(a_4' - b_4'/(2b_4))e^{-a_4}b_4^{1/2}s$: exactly the table of Section 6.6.
+The nonzero components with $a < b$ are collected and printed, one line each (a long line continues, indented, on the next): twelve lines such as
+
+```text
+omega_x1,x1x4 = exp(a4(x4))*sin(6*H*x0)**(1/6)*Derivative(a4(x4), x4)
+```
+
+which is $a_4'e^{a_4}s$, and
+
+```text
+omega_x5,x4x5 = (-b4(x4)*Derivative(a4(x4), x4) + Derivative(b4(x4),
+    x4)/2)*exp(-a4(x4))*sin(6*H*x0)**(1/6)/sqrt(b4(x4))
+```
+
+which is $-(a_4' - b_4'/(2b_4))e^{-a_4}b_4^{1/2}s$: exactly the table of Section 6.6.
 
 ```python
 omega_record = as_dictionary(record_formula("omega_nonzero", RECORD_NAMES,

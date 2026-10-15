@@ -191,7 +191,7 @@ $$
 \gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} + \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)}
 $$
 
-(`python-field-theory-b4.json` and `wolfram-field-theory-b4.json`, checks `gammaOmega_per_direction` and `gammaOmega_total`; Chapter 7). The extra term vanishes on the background $b_4 = 1$ and for every constant $b_4$.
+(Chapter 7; the checks `gammaOmega_per_direction` and `gammaOmega_total` of `python-field-theory-b4.json` and of `wolfram-field-theory-b4.json`). The extra term vanishes on the background $b_4 = 1$ and for every constant $b_4$.
 
 ### 18.4 The Lagrangian, the field equation, the energy-momentum tensor and the current
 

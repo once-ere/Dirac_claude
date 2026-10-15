@@ -174,7 +174,10 @@ $$
 **The length factors of the author's metric (PROVED).** The metric $g$ of Section 1.1 is **diagonal**: it has one entry $g_{\mu\mu}$ for each direction $x_\mu$ ($\mu = 0, \dots, 7$), and the squared length of a small step $dx_\mu$ along that one direction is $g_{\mu\mu}\, dx_\mu^2$. A negative entry marks a **time-like** direction ($x_4$ to $x_7$), a positive entry a **space-like** one ($x_0, x_1, x_2, x_3$). The **length factor** of a direction is $\sqrt{|g_{\mu\mu}|}$: the length of the step is the factor times $|dx_\mu|$. For $0 < z < \pi/2$ both $\sin z$ and $\cos z$ are positive, so the laws of powers apply and give
 
 $$
-\sqrt{\cot^2 z} = \cot z,\qquad \sqrt{e^{2a_4}\sin^{1/3} z} = e^{a_4}\sin^{1/6} z,\qquad \sqrt{1} = 1,\qquad \sqrt{b_4 e^{-2a_4}\sin^{1/3} z} = b_4^{1/2} e^{-a_4}\sin^{1/6} z
+\begin{aligned}
+&\sqrt{\cot^2 z} = \cot z,\qquad \sqrt{e^{2a_4}\sin^{1/3} z} = e^{a_4}\sin^{1/6} z,\qquad \sqrt{1} = 1,\\
+&\sqrt{b_4 e^{-2a_4}\sin^{1/3} z} = b_4^{1/2} e^{-a_4}\sin^{1/6} z
+\end{aligned}
 $$
 
 (the root of a product is the product of the roots; $\sqrt{e^{2a_4}} = e^{a_4}$ and $\sqrt{\sin^{1/3} z} = \sin^{1/6} z$ by $(a^p)^q = a^{pq}$; $\sqrt{b_4} = b_4^{1/2}$; $\cot z > 0$). The hidden direction has the factor $\cot z$; the three space directions have $e^{a_4}\sin^{1/6} z$, which grows as $a_4$ grows; the time has 1; the three extra times have $b_4^{1/2} e^{-a_4}\sin^{1/6} z$, which shrinks exponentially when $b_4$ is constant. The product of all eight factors is

@@ -2392,7 +2392,10 @@ The $a_4'$ terms of the three inflating directions and the three deflating extra
 **Two more facts about $\Omega_\mu$.** (i) For each direction separately, $\gamma^\mu$ and $\Omega_\mu$ anticommute: $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu = 0$ (no sum). The reason: $\Omega_\mu$ contains only products $\gamma^{(\mu)}\gamma^{(b)}$ that share the index $\mu$ with $\gamma^{(\mu)}$, and $\gamma^{(\mu)}\gamma^{(\mu)}\gamma^{(b)} = \eta_{\mu\mu}\gamma^{(b)}$ while $\gamma^{(\mu)}\gamma^{(b)}\gamma^{(\mu)} = -\gamma^{(\mu)}\gamma^{(\mu)}\gamma^{(b)} = -\eta_{\mu\mu}\gamma^{(b)}$; the two add to 0. (ii) The same matrix is a derivative of the volume factor and the coordinate gammas:
 
 $$
-\frac{1}{2\sqrt{|g|}}\,\partial_\mu\big(\sqrt{|g|}\,\gamma^\mu\big) = \frac{1}{2b_4^{3/2}\cos z}\Big[\partial_0\Big(b_4^{3/2}\cos z\cdot\frac{\sin z}{\cos z}\Big)\gamma^{(x_0)} + \partial_4\big(b_4^{3/2}\cos z\big)\gamma^{(x_4)}\Big] = 3H\gamma^{(x_0)} + \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)} = \gamma^\mu\Omega_\mu .
+\begin{aligned}
+\frac{1}{2\sqrt{|g|}}\,\partial_\mu\big(\sqrt{|g|}\,\gamma^\mu\big) &= \frac{1}{2b_4^{3/2}\cos z}\Big[\partial_0\Big(b_4^{3/2}\cos z\cdot\frac{\sin z}{\cos z}\Big)\gamma^{(x_0)} + \partial_4\big(b_4^{3/2}\cos z\big)\gamma^{(x_4)}\Big]\\
+&= 3H\gamma^{(x_0)} + \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)} = \gamma^\mu\Omega_\mu .
+\end{aligned}
 $$
 
 The first equality: $\sqrt{|g|}\gamma^\mu = b_4^{3/2}\cos z\,\gamma^{(\mu)}/f_\mu$ depends only on $x_4$ and $x_0$, so only $\mu = x_0$ (with $1/f_0 = \tan z = \sin z/\cos z$) and $\mu = x_4$ (with $f_4 = 1$) contribute. The second: $\cos z\cdot\sin z/\cos z = \sin z$, whose derivative along $x_0$ is $6H\cos z$, which gives $6Hb_4^{3/2}\cos z/(2b_4^{3/2}\cos z) = 3H$; and $\partial_4b_4^{3/2} = \frac32b_4^{1/2}b_4'$, which gives $\frac32b_4^{1/2}b_4'/(2b_4^{3/2}) = \frac34b_4'/b_4$. So $\partial_\mu(\sqrt{|g|}\gamma^\mu) = 2\sqrt{|g|}\,\gamma^\mu\Omega_\mu$ in this metric (PROVED; Notebook 07b, In [11]). Both facts are used in the next three sections.
@@ -2565,18 +2568,24 @@ $$
 **The explicit form.** Since $\gamma^\mu = \gamma^{(\mu)}/f_\mu$ and $\gamma^\mu\Omega_\mu = M = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$ (Section 7.18), the Dirac operator is $\gamma^\mu D_\mu\Psi = \sum_a\frac{1}{f_a}\gamma^{(a)}\partial_a\Psi + M\Psi$, and the field equation in the author's metric reads
 
 $$
-\tan z\,\gamma^{(x_0)}\partial_0\Psi + \frac{1}{e^{a_4}\sin^{1/6}z}\sum_{i=1}^{3}\gamma^{(x_i)}\partial_i\Psi + \gamma^{(x_4)}\partial_4\Psi + \frac{e^{a_4}}{b_4^{1/2}\sin^{1/6}z}\sum_{t=5}^{7}\gamma^{(x_t)}\partial_t\Psi + 3H\gamma^{(x_0)}\Psi + \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)}\Psi = (m + \lambda S)\Psi
+\begin{aligned}
+&\tan z\,\gamma^{(x_0)}\partial_0\Psi + \frac{1}{e^{a_4}\sin^{1/6}z}\sum_{i=1}^{3}\gamma^{(x_i)}\partial_i\Psi + \gamma^{(x_4)}\partial_4\Psi + \frac{e^{a_4}}{b_4^{1/2}\sin^{1/6}z}\sum_{t=5}^{7}\gamma^{(x_t)}\partial_t\Psi\\
+&\qquad + 3H\gamma^{(x_0)}\Psi + \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)}\Psi = (m + \lambda S)\Psi
+\end{aligned}
 $$
 
 (PROVED; Notebook 07b, In [17]; `wolfram-field-theory-b4.json`, checks `Dirac_operator_explicit_G` and `Dirac_operator_explicit_C`; formula records, key `field_equation`; at $b_4 = 1$ the same checks of `wolfram-field-theory.json`). The coefficient $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ of the extra-time derivatives GROWS as the extra times deflate, while that of the 3-space derivatives shrinks.
 
-**One component equation, read off the gamma tables.** Every frame gamma is a signed permutation matrix: row 1 of $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}, \gamma^{(x_5)}, \gamma^{(x_6)}, \gamma^{(x_7)}, \gamma^{(x_0)}$ has its single entry in the columns $-16, +15, -14, -14, +15, +16, +9, +9$ (the sign of the entry and its column; the tables of Chapter 5, read from the record `Revision/algebra/gammas.json`). So the first of the 16 component equations is
+**One component equation, read off the gamma tables.** Every frame gamma is a signed permutation matrix: row 1 of $\gamma^{(x_0)}, \gamma^{(x_1)}, \dots, \gamma^{(x_7)}$ has its single entry in the columns $+9, -16, +15, -14, -14, +15, +16, +9$ (the sign of the entry and its column; the tables of Chapter 5, read from the record `Revision/algebra/gammas.json`). So the first of the 16 component equations is
 
 $$
-\tan z\,\partial_0\Psi_9 + \frac{-\partial_1\Psi_{16} + \partial_2\Psi_{15} - \partial_3\Psi_{14}}{e^{a_4}\sin^{1/6}z} - \partial_4\Psi_{14} + \frac{e^{a_4}(\partial_5\Psi_{15} + \partial_6\Psi_{16} + \partial_7\Psi_9)}{b_4^{1/2}\sin^{1/6}z} + 3H\Psi_9 - \frac34\,\frac{b_4'}{b_4}\,\Psi_{14} = (m + \lambda S)\Psi_1 .
+\begin{aligned}
+&\tan z\,\partial_0\Psi_9 + \frac{-\partial_1\Psi_{16} + \partial_2\Psi_{15} - \partial_3\Psi_{14}}{e^{a_4}\sin^{1/6}z} - \partial_4\Psi_{14} + \frac{e^{a_4}(\partial_5\Psi_{15} + \partial_6\Psi_{16} + \partial_7\Psi_9)}{b_4^{1/2}\sin^{1/6}z}\\
+&\qquad + 3H\Psi_9 - \frac34\,\frac{b_4'}{b_4}\,\Psi_{14} = (m + \lambda S)\Psi_1 .
+\end{aligned}
 $$
 
-Notebook 07b prints this equation in its own symbols and the same equation read from the formula record (`Revision/theory/field-theory-b4.json`, key `field_equation_components`), and checks that all 16 equations agree term by term with it and, at $b_4 = 1$, with the record `Revision/theory/field-theory.json` (In [17]). Each equation contains four components, each with derivatives along two directions (here $\Psi_{16}$ along $x_1$ and $x_6$, $\Psi_{15}$ along $x_2$ and $x_5$, $\Psi_{14}$ along $x_3$ and $x_4$, $\Psi_9$ along $x_7$ and $x_0$), and the gravitational term $3H\Psi_B$ stands next to the hidden-direction derivative $\tan z\,\partial_0\Psi_B$ of the same component, the term $-\frac34(b_4'/b_4)\Psi_B$ next to the time derivative $-\partial_4\Psi_B$ (Figure 07b.4).
+Notebook 07b prints this equation in its own symbols and the same equation read from the formula record (`Revision/theory/field-theory-b4.json`, key `field_equation_components`), and checks that all 16 equations agree term by term with it and, at $b_4 = 1$, with the record `Revision/theory/field-theory.json` (In [17]). Each equation contains four components, each with derivatives along two directions (here $\Psi_9$ along $x_0$ and $x_7$, $\Psi_{16}$ along $x_1$ and $x_6$, $\Psi_{15}$ along $x_2$ and $x_5$, $\Psi_{14}$ along $x_3$ and $x_4$), and the gravitational term $3H\Psi_B$ stands next to the hidden-direction derivative $\tan z\,\partial_0\Psi_B$ of the same component, the term $-\frac34(b_4'/b_4)\Psi_B$ next to the time derivative $-\partial_4\Psi_B$ (Figure 07b.4).
 
 **The chiral block form.** Split $\Psi$ into its upper half $\psi_-$ (components 1 to 8, where the chirality matrix $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$ is $-1$; Chapter 5) and its lower half $\psi_+$ (components 9 to 16, $\Gamma = +1$). Every frame gamma anticommutes with $\Gamma$, and therefore has the block form
 
@@ -3608,7 +3617,13 @@ check(len(theirs) == len(theirs_1) == 16
       record=f"{FORMULAS_B4} and {FORMULAS}, formula field_equation_components")
 ```
 
-`as_sympy` names the derivative of component $B$ along the direction at position $a$ `d<a>_<B>` (so `d0_9` is $\partial_0\Psi_9$, as in the records). `ours` are our 16 Dirac-operator components, `theirs` and `theirs_1` the left sides of the 16 component equations of the record with $b_4$ and of the record of $b_4 = 1$ (each text is split at `==` and its first part translated and put into the ring). The first equation is printed in both forms, and the check compares all 16 with the exact zero test: ours with the first record, and ours at $b_4 = 1$ with the second. **Out [17]:** two PASS lines with their "reproduces" lines, the first equation twice (identical: `E*d5_15/(sqrt(b4)*s) + E*d6_16/(sqrt(b4)*s) + E*d7_9/(sqrt(b4)*s) + 3*H*P9 - 3*P14*b4p/(4*b4) - d4_14 + d0_9*s**6/c - d1_16/(E*s) + d2_15/(E*s) - d3_14/(E*s) = V P1`, the equation of Section 7.22 in ring symbols), and the third PASS line.
+`as_sympy` names the derivative of component $B$ along the direction at position $a$ `d<a>_<B>` (so `d0_9` is $\partial_0\Psi_9$, as in the records). `ours` are our 16 Dirac-operator components, `theirs` and `theirs_1` the left sides of the 16 component equations of the record with $b_4$ and of the record of $b_4 = 1$ (each text is split at `==` and its first part translated and put into the ring). The first equation is printed in both forms, and the check compares all 16 with the exact zero test: ours with the first record, and ours at $b_4 = 1$ with the second. **Out [17]:** two PASS lines with their "reproduces" lines, the first equation twice (identical, the equation of Section 7.22 in ring symbols), and the third PASS line. The first equation is printed as
+
+```text
+equation 1, this notebook: E*d5_15/(sqrt(b4)*s) + E*d6_16/(sqrt(b4)*s) +
+    E*d7_9/(sqrt(b4)*s) + 3*H*P9 - 3*P14*b4p/(4*b4) - d4_14 + d0_9*s**6/c - d1_16/(E*s) +
+    d2_15/(E*s) - d3_14/(E*s) = V P1
+```
 
 **In [18]: the coupling map, Figure 07b.4.**
 
