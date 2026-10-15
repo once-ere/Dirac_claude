@@ -62,7 +62,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's eight real gamma matrices in the coordinate order x1 to x8, "
+         "the author's eight real gamma matrices in the coordinate order x0 to x7, "
          "and C, Gamma (read; C and Gamma are recomputed and compared)"],
         ["Revision/lead_checks/reports/charge-conjugation-and-u1.json",
          "the lead checks of the charge-conjugation matrices (reproduced: "
@@ -75,7 +75,7 @@ FACTS = {
          "in the author's metric and its exact solution with U = 0 (read, compared word "
          "for word, reproduced and conjugated)"],
         ["Revision/theory/reports/python-field-theory.json",
-         "check exact_solution_family_x4_x8 (read and reproduced)"],
+         "check exact_solution_family_x4_x0 (read and reproduced)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -121,7 +121,7 @@ CELLS = [
     1. checks that the Revision record holds **eight real $16 \times 16$ gamma
        matrices** that obey the Clifford relation of signature (4,4), and draws them;
     2. solves the linear equations $M(\gamma^a)^* = s\,\gamma^a M$
-       ($a = x1, \dots, x8$) for all $16 \times 16$ matrices $M = \mathcal{C}C$: for
+       ($a = x0, \dots, x7$) for all $16 \times 16$ matrices $M = \mathcal{C}C$: for
        $s = +1$ (same mass) the solutions are the multiples of $1$, for $s = -1$ (mass
        reversed) the multiples of the chirality $\Gamma$; it also shows how each of
        the eight equations halves the space of solutions;
@@ -141,7 +141,7 @@ CELLS = [
     `Revision/lead_checks/reports/charge-conjugation-and-u1.json`; two more read the
     field equation and its exact solution from the Revision field-theory record
     `Revision/theory/field-theory.json` and reproduce the check
-    exact_solution_family_x4_x8 of `Revision/theory/reports/python-field-theory.json`.
+    exact_solution_family_x4_x0 of `Revision/theory/reports/python-field-theory.json`.
     Seven teaching plots.
     """),
     md(r"""
@@ -158,16 +158,16 @@ CELLS = [
       transpose** $M^\dagger = (M^*)^T$; **Hermitian**: $M^\dagger = M$.
     - **Spinor field** $\Psi$: at every point a column of 16 numbers (components).
       The author's coordinates are $x1, x2, x3$ (ordinary space), $x4$ (the time),
-      $x5, x6, x7$ (the three extra times, which deflate exponentially) and $x8$ (the
+      $x5, x6, x7$ (the three extra times, which deflate exponentially) and $x0$ (the
       hidden direction).
-    - **Gamma matrices** $\gamma^{(x1)}, \dots, \gamma^{(x8)}$: eight fixed
+    - **Gamma matrices** $\gamma^{(x0)}, \dots, \gamma^{(x7)}$: eight fixed
       $16 \times 16$ matrices with the **Clifford relation** $\gamma^a\gamma^b +
-      \gamma^b\gamma^a = 2\eta^{ab}\,1$, where $\eta = \mathrm{diag}(+1, +1, +1, -1, -1,
-      -1, -1, +1)$ in the order $x1, \dots, x8$ (**signature (4,4)**: four plus signs,
+      \gamma^b\gamma^a = 2\eta^{ab}\,1$, where $\eta = \mathrm{diag}(+1, +1, +1, +1, -1,
+      -1, -1, -1)$ in the order $x0, \dots, x7$ (**signature (4,4)**: four plus signs,
       four minus signs).
-    - **Charge matrix** $C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$
+    - **Charge matrix** $C = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$
       (the product of the four space-like gammas); **Dirac adjoint**
-      $\bar\Psi = \Psi^\dagger C$; **chirality** $\Gamma = \gamma^{(x8)}\gamma^{(x1)}
+      $\bar\Psi = \Psi^\dagger C$; **chirality** $\Gamma = \gamma^{(x0)}\gamma^{(x1)}
       \cdots\gamma^{(x7)}$ (all eight); **Krein matrix** $B = -iC\gamma^{(x4)}$.
     - **Field equation**: $(\gamma^\mu D_\mu - V)\Psi = 0$ with $V = m + U'(S)$ real,
       $m$ the **mass**, $S = \bar\Psi\Psi$ the **scalar**; $D_\mu$ is the derivative
@@ -254,7 +254,7 @@ CELLS = [
 
     The next cell reads the Revision record `Revision/algebra/gammas.json`, which holds
     the author's eight gamma matrices (rebuilt in Revision code from the author's
-    formulas) in the order $x1, \dots, x8$, and the frame metric $\eta$. It stores
+    formulas) in the order $x0, \dots, x7$, and the frame metric $\eta$. It stores
     each gamma as a numpy array of whole numbers, defines a helper for products of
     gammas, and reads the Revision record of the lead checks, whose verdicts the
     notebook will reproduce.
@@ -266,7 +266,7 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    COORDS = fixture["coordinates"]  # the list "x1", ..., "x8"
+    COORDS = fixture["coordinates"]  # the list "x0", ..., "x7"
     ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
     # gamma["x4"] is gamma^(x4), a 16 x 16 array of whole numbers (int64)
     gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
@@ -362,7 +362,7 @@ CELLS = [
     save_figure(fig, "eight_gammas",
                 "The eight real $16 \\times 16$ gamma matrices of the Revision record, "
                 "in the author's coordinate order $x1, x2, x3$ (ordinary space), $x4$ "
-                "(the time), $x5, x6, x7$ (the deflating extra times), $x8$ (the hidden "
+                "(the time), $x5, x6, x7$ (the deflating extra times), $x0$ (the hidden "
                 "direction); horizontal axis the column, vertical axis the row, colour "
                 "the entry (red $+1$, blue $-1$, pale $0$). Every matrix has exactly one "
                 "nonzero entry in each row and column, and only in the two off-diagonal "
@@ -372,8 +372,8 @@ CELLS = [
     md(r"""
     ## 6. C, the chirality Gamma, B and the generators S^ab
 
-    The next cell builds, from the gammas, the charge matrix $C = \gamma^{(x8)}
-    \gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$, the chirality $\Gamma = \gamma^{(x8)}
+    The next cell builds, from the gammas, the charge matrix $C = \gamma^{(x0)}
+    \gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$, the chirality $\Gamma = \gamma^{(x0)}
     \gamma^{(x1)}\cdots\gamma^{(x7)}$, the Krein matrix $B = -iC\gamma^{(x4)}$ (`1j` is
     Python's imaginary unit $i$) and the 28 generators $S^{ab} = \tfrac14[\gamma^a,
     \gamma^b]$ of the rotations and boosts. It compares $C$ and $\Gamma$ with the
@@ -383,8 +383,8 @@ CELLS = [
     Hermitian and $B^2 = 1$ (record check B_imaginary_hermitian).
     """),
     code(r'''
-    C = product(["x8", "x1", "x2", "x3"])  # the charge matrix (the author's sigma16)
-    Gamma = product(["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # the chirality
+    C = product(["x0", "x1", "x2", "x3"])  # the charge matrix (the author's sigma16)
+    Gamma = product(["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # the chirality
     B = -1j * (C @ gamma["x4"])  # B = -i C gamma^(x4), a complex matrix
     pairs = [(a, b) for i, a in enumerate(COORDS) for b in COORDS[i + 1:]]  # 28 pairs
     S_gen = {(a, b): (gamma[a] @ gamma[b] - gamma[b] @ gamma[a]) / 4 for a, b in pairs}
@@ -630,23 +630,23 @@ CELLS = [
     exact_solutions, item (i)) gives an exact solution of the field equation with
     $U = 0$ in the author's curved metric:
     $$\Psi = \sin^\alpha z\,\Big(\cosh(kx_4)\,1 + \frac{\sinh(kx_4)}{k}\,M_m\Big)\chi,
-    \quad M_m = -m\gamma^{(x4)} + b\,\gamma^{(x4)}\gamma^{(x8)},\quad b = 3H(2\alpha+1),
+    \quad M_m = -m\gamma^{(x4)} + b\,\gamma^{(x4)}\gamma^{(x0)},\quad b = 3H(2\alpha+1),
     \quad k^2 = b^2 - m^2,$$
-    with $z = 6Hx_8$ and a constant column $\chi$. It depends only on $x_4$ and $x_8$.
+    with $z = 6Hx_0$ and a constant column $\chi$. It depends only on $x_4$ and $x_0$.
     The field equation of the record reads
     $$e^{-a_4}\sin^{-1/6}z\,(\gamma^{(x1)}\partial_1 + \gamma^{(x2)}\partial_2 +
     \gamma^{(x3)}\partial_3)\Psi + \gamma^{(x4)}\partial_4\Psi + e^{a_4}\sin^{-1/6}z
     \,(\gamma^{(x5)}\partial_5 + \gamma^{(x6)}\partial_6 + \gamma^{(x7)}\partial_7)\Psi
-    + \tan z\,\gamma^{(x8)}\partial_8\Psi + 3H\gamma^{(x8)}\Psi = m\Psi .$$
+    + \tan z\,\gamma^{(x0)}\partial_0\Psi + 3H\gamma^{(x0)}\Psi = m\Psi .$$
     The derivatives along $x1, x2, x3, x5, x6, x7$ vanish for this $\Psi$, so the
     factors $e^{\mp a_4}$ drop out: the solution holds for **every** history
     $a_4(x_4)$, in particular for the one in which the three extra times deflate
     exponentially. What remains is
-    $$E_m[\Psi] = \gamma^{(x4)}\partial_4\Psi + 6H\tan z\,\gamma^{(x8)}\partial_z\Psi
-    + 3H\gamma^{(x8)}\Psi - m\Psi = 0 ,$$
-    where $\partial_8 = 6H\,\partial_z$ by the chain rule ($z = 6Hx_8$).
+    $$E_m[\Psi] = \gamma^{(x4)}\partial_4\Psi + 6H\tan z\,\gamma^{(x0)}\partial_z\Psi
+    + 3H\gamma^{(x0)}\Psi - m\Psi = 0 ,$$
+    where $\partial_0 = 6H\,\partial_z$ by the chain rule ($z = 6Hx_0$).
 
-    We take $H = 1/6$ (so that $z = x_8$), $\alpha = 1$ and $m = 2$. Then $b = 3/2$
+    We take $H = 1/6$ (so that $z = x_0$), $\alpha = 1$ and $m = 2$. Then $b = 3/2$
     and $k^2 = 9/4 - 4 = -7/4 < 0$, so $k = i\sqrt7/2$ is imaginary; with
     $\cosh(i\theta) = \cos\theta$ and $\sinh(i\theta)/i = \sin\theta$ the solution
     oscillates: $\cosh(kx_4) = \cos(wx_4)$ and $\sinh(kx_4)/k = \sin(wx_4)/w$ with
@@ -657,7 +657,7 @@ CELLS = [
     $\alpha$, `E^a4[x4]` is $e^{a_4}$) and checks that they are, word for word, the
     formulas written above, so that any later change of the record is caught. Then it
     builds $\Psi$ with sympy for a fixed complex $\chi$ and checks, exactly, that
-    $E_m[\Psi] = 0$ (Revision check exact_solution_family_x4_x8).
+    $E_m[\Psi] = 0$ (Revision check exact_solution_family_x4_x0).
     """),
     code(r'''
     THEORY = {f["key"]: f["wl"] for f in json.loads(repository_file(
@@ -667,13 +667,14 @@ CELLS = [
         encoding="utf-8"))["checks"]}
     # the left side of the record's field equation, word for word (right side m + U')
     FIELD_EQUATION_LEFT = (
-        "E^-a4[x4] Sin[z]^(-1/6) (g[x1] d1 + g[x2] d2 + g[x3] d3) Psi + g[x4] d4 Psi"
+        "Tan[z] g[x0] d0 Psi"
+        " + E^-a4[x4] Sin[z]^(-1/6) (g[x1] d1 + g[x2] d2 + g[x3] d3) Psi + g[x4] d4 Psi"
         " + E^a4[x4] Sin[z]^(-1/6) (g[x5] d5 + g[x6] d6 + g[x7] d7) Psi"
-        " + Tan[z] g[x8] d8 Psi + 3 H g[x8] Psi")
+        " + 3 H g[x0] Psi")
     # item (i) of the record's formula exact_solutions, word for word
     SOLUTION_I = (
         "(i) U = 0: Psi = Sin[z]^al (Cosh[k x4] + Sinh[k x4]/k M) chi, M = -m g[x4]"
-        " + 3 H (2 al + 1) g[x4].g[x8], k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4)")
+        " + 3 H (2 al + 1) g[x4].g[x0], k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4)")
     left, right = THEORY["field_equation"].split(" = ")  # the two sides
     say("record, exact solution " + SOLUTION_I)
     check(left == FIELD_EQUATION_LEFT and right.startswith("(m + U")
@@ -682,7 +683,7 @@ CELLS = [
           record="Revision/theory/field-theory.json, formulas field_equation and "
           "exact_solutions")
 
-    x4, z = sp.symbols("x4 z", real=True)  # the time x4 and the angle z = 6 H x8
+    x4, z = sp.symbols("x4 z", real=True)  # the time x4 and the angle z = 6 H x0
     H, alpha, m = sp.Rational(1, 6), 1, 2  # the parameters chosen above
     b = 3 * H * (2 * alpha + 1)  # b = 3/2
     w = sp.sqrt(m ** 2 - b ** 2)  # k = i w with w = sqrt(7)/2
@@ -691,16 +692,16 @@ CELLS = [
 
 
     def M_of(mass):
-        """M_m = -m gamma^(x4) + b gamma^(x4) gamma^(x8)."""
-        return -mass * G["x4"] + b * G["x4"] * G["x8"]
+        """M_m = -m gamma^(x4) + b gamma^(x4) gamma^(x0)."""
+        return -mass * G["x4"] + b * G["x4"] * G["x0"]
 
 
     def E(mass, field):
-        """E_m[Psi] = gamma^(x4) d4 Psi + 6H tan z gamma^(x8) dz Psi + 3H gamma^(x8) Psi
+        """E_m[Psi] = gamma^(x4) d4 Psi + 6H tan z gamma^(x0) dz Psi + 3H gamma^(x0) Psi
         - m Psi (the field equation of the record for fields of x4 and z only)."""
         tan_z = sp.sin(z) / sp.cos(z)  # tan z written as sin z / cos z
-        return (G["x4"] * field.diff(x4) + 6 * H * tan_z * G["x8"] * field.diff(z)
-                + 3 * H * G["x8"] * field - mass * field)
+        return (G["x4"] * field.diff(x4) + 6 * H * tan_z * G["x0"] * field.diff(z)
+                + 3 * H * G["x0"] * field - mass * field)
 
 
     # a fixed complex column chi with exact entries (j + i (17 - j)) / 16, j = 1..16
@@ -710,10 +711,10 @@ CELLS = [
     Psi = sp.sin(z) ** alpha * U * chi
     check(E(m, Psi).expand() == sp.zeros(16, 1)
           and sp.simplify(M_of(m) ** 2 + w ** 2 * sp.eye(16)) == sp.zeros(16, 16)
-          and PY_THEORY["exact_solution_family_x4_x8"] == "PASS",
+          and PY_THEORY["exact_solution_family_x4_x0"] == "PASS",
           "the record's exact solution solves the field equation (mass m = 2)",
           record="Revision/theory/reports/python-field-theory.json, check "
-          "exact_solution_family_x4_x8")
+          "exact_solution_family_x4_x0")
     '''),
     md(r"""
     The next cell forms the two conjugates. Because the matrix $U$ in $\Psi =
@@ -876,7 +877,7 @@ CELLS = [
     md(r"""
     **All 256 bilinears.** Every $16 \times 16$ matrix is a combination of the 256
     products $\Gamma_A = \gamma^{a_1}\gamma^{a_2}\cdots\gamma^{a_k}$ ($a_1 < \dots <
-    a_k$ in the order $x1, \dots, x8$, $k = 0, \dots, 8$; $\Gamma_\emptyset = 1$), so
+    a_k$ in the order $x0, \dots, x7$, $k = 0, \dots, 8$; $\Gamma_\emptyset = 1$), so
     the bilinears $\bar\Psi\Gamma_A\Psi = \Psi^\dagger C\Gamma_A\Psi$ are a complete
     list. The next cell computes the sign of each of them for the four cases. The
     result depends only on the number $k$ of gammas (the *degree*): for commuting
@@ -957,7 +958,7 @@ CELLS = [
 
     for label, p in (("Psi", psi), ("Psi*", np.conj(psi)),
                      ("Gamma Psi*", Gamma @ np.conj(psi))):
-        say(f"{label:10}: S = {S_of(p).real:+.4f}, J^(x4) = {J_of(p)[3].real:+.4f}")
+        say(f"{label:10}: S = {S_of(p).real:+.4f}, J^(x4) = {J_of(p)[4].real:+.4f}")
     check(np.isclose(S_of(np.conj(psi)), S_of(psi))
           and np.allclose(J_of(np.conj(psi)), -J_of(psi))
           and np.isclose(S_of(Gamma @ np.conj(psi)), S_of(psi))
@@ -1081,8 +1082,8 @@ CELLS = [
 
     - PROVED (exact, whole-number arithmetic): the calculation uses **eight real
       $16 \times 16$ gamma matrices** (signed permutation matrices) that obey the
-      Clifford relation of signature (4,4), $\eta = \mathrm{diag}(+1, +1, +1, -1, -1,
-      -1, -1, +1)$ in the order $x1, \dots, x8$.
+      Clifford relation of signature (4,4), $\eta = \mathrm{diag}(+1, +1, +1, +1, -1,
+      -1, -1, -1)$ in the order $x0, \dots, x7$.
     - PROVED (exact rational linear algebra): the only matrices $M$ with
       $M(\gamma^a)^* = s\,\gamma^a M$ for all eight gammas are the multiples of $1$
       ($s = +1$, same mass) and of $\Gamma$ ($s = -1$, mass reversed); each gamma
@@ -1111,7 +1112,7 @@ CELLS = [
     - Reproduced: nine checks of `Revision/lead_checks/reports/
       charge-conjugation-and-u1.json`, the formulas field_equation and exact_solutions
       of `Revision/theory/field-theory.json` (compared word for word) and the check
-      exact_solution_family_x4_x8 of `Revision/theory/reports/python-field-theory.json`.
+      exact_solution_family_x4_x0 of `Revision/theory/reports/python-field-theory.json`.
     """),
 ]
 

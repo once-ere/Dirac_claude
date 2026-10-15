@@ -58,7 +58,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's eight real gamma matrices in the coordinate order x1 to x8 (read)"],
+         "the author's eight real gamma matrices in the coordinate order x0 to x7 (read)"],
         ["Revision/lead_checks/reports/charge-conjugation-and-u1.json",
          "checks B_imaginary_hermitian and quantum_charge_conjugation_unitary_type "
          "(reproduced)"],
@@ -217,9 +217,9 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+    COORDS = fixture["coordinates"]  # "x0", ..., "x7"
     ETA = fixture["eta"]
-    gamma = [np.array(mat, dtype=np.int64) for mat in fixture["gamma"]]  # x1 .. x8
+    gamma = [np.array(mat, dtype=np.int64) for mat in fixture["gamma"]]  # x0 .. x7
     I16 = np.eye(16, dtype=np.int64)
     check(len(gamma) == 8
           and all(g.shape == (16, 16) and set(np.unique(g)) <= {-1, 0, 1} for g in gamma)
@@ -227,9 +227,9 @@ CELLS = [
                                  2 * (ETA[a] if a == b else 0) * I16)
                   for a in range(8) for b in range(8)),
           "eight real 16 x 16 gamma matrices with the Clifford relation, signature (4,4)")
-    C = gamma[7] @ gamma[0] @ gamma[1] @ gamma[2]  # C = g(x8) g(x1) g(x2) g(x3)
-    Gamma = C @ gamma[3] @ gamma[4] @ gamma[5] @ gamma[6]  # the chirality
-    B = -1j * (C @ gamma[3])  # the Krein matrix B = -i C gamma^(x4)
+    C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # C = g(x0) g(x1) g(x2) g(x3)
+    Gamma = C @ gamma[4] @ gamma[5] @ gamma[6] @ gamma[7]  # the chirality
+    B = -1j * (C @ gamma[4])  # the Krein matrix B = -i C gamma^(x4)
 
 
     def load_checks(path):
@@ -572,8 +572,8 @@ CELLS = [
     md(r"""
     ## 9. The mass is reversed, the spectra are equal
 
-    In flat 4+4 space a plane wave $u\,e^{ik\cdot x}$ ($k$ the momenta $k_1, k_2, k_3,
-    k_5, k_6, k_7, k_8$ along the directions other than the time) evolves by
+    In flat 4+4 space a plane wave $u\,e^{ik\cdot x}$ ($k$ the momenta $k_0, k_1, k_2,
+    k_3, k_5, k_6, k_7$ along the directions other than the time) evolves by
     $i\,\partial_4u = h_m(k)u$ with the one-particle Hamiltonian of the Revision
     pairing record
     $$h_m(k) = -im\gamma^{(x4)} - \gamma^{(x4)}\sum_{a \ne x4}k_a\gamma^a .$$
@@ -588,7 +588,7 @@ CELLS = [
     2. $\Gamma h_m(k)\Gamma = h_{-m}(k)$: the two Hamiltonians are *similar*, so the
        one-particle spectra of the masses $+m$ and $-m$ are **identical**, not opposite
        (record check Q_one_particle_maps);
-    3. $h_m(k)^2 = w^2\,1$ with $w^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 -
+    3. $h_m(k)^2 = w^2\,1$ with $w^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 -
        k_6^2 - k_7^2$ (record check Q_one_particle_flat_dispersion): the frequencies
        are $\pm w$;
     4. $Bh_m = h_m^\dagger B$ for real $m$ and $k$: $h_m$ is self-adjoint for the Krein
@@ -596,25 +596,25 @@ CELLS = [
     """),
     code(r'''
     m = sp.symbols("m", real=True)
-    k = sp.symbols("k1:9", real=True)  # k[3] (the x4 entry) is not used
+    k = sp.symbols("k0:8", real=True)  # k[a] along xa; k[4] (the x4 entry) is not used
     G = [sp.Matrix(g.tolist()) for g in gamma]
-    Gamma_s, B_s = sp.Matrix(Gamma.tolist()), -sp.I * sp.Matrix(C.tolist()) * G[3]
+    Gamma_s, B_s = sp.Matrix(Gamma.tolist()), -sp.I * sp.Matrix(C.tolist()) * G[4]
 
 
     def h(mass, momenta):
         """h_m(k) = -i m gamma^(x4) - gamma^(x4) sum_(a != x4) k_a gamma^a."""
-        total = -sp.I * mass * G[3]
+        total = -sp.I * mass * G[4]
         for a in range(8):
-            if a != 3:
-                total -= momenta[a] * G[3] * G[a]
+            if a != 4:
+                total -= momenta[a] * G[4] * G[a]
         return total
 
 
     zero = sp.zeros(16, 16)
     h_m = h(m, k)
     minus_k = [-q for q in k]
-    w2 = m ** 2 + k[0] ** 2 + k[1] ** 2 + k[2] ** 2 + k[7] ** 2 - k[4] ** 2 - k[5] ** 2 \
-        - k[6] ** 2
+    w2 = m ** 2 + k[0] ** 2 + k[1] ** 2 + k[2] ** 2 + k[3] ** 2 - k[5] ** 2 - k[6] ** 2 \
+        - k[7] ** 2
     check((-Gamma_s * h_m.conjugate() * Gamma_s - h(-m, minus_k)).expand() == zero,
           "-Gamma conj(h_m(k)) Gamma = h_(-m)(-k): the conjugated mode has the reversed "
           "mass")
@@ -644,10 +644,10 @@ CELLS = [
     code(r'''
     def numeric_h(mass, momenta):
         """h_m(k) as a numpy array."""
-        total = -1j * mass * gamma[3].astype(complex)
+        total = -1j * mass * gamma[4].astype(complex)
         for a in range(8):
-            if a != 3:
-                total = total - momenta[a] * (gamma[3] @ gamma[a])
+            if a != 4:
+                total = total - momenta[a] * (gamma[4] @ gamma[a])
         return total
 
 
@@ -703,7 +703,7 @@ CELLS = [
     code(r'''
     def spectrum(mass, k1=0.0, k5=0.0):
         """The 16 eigenvalues of h_m with momenta k1 (x1) and k5 (x5), sorted."""
-        momenta = [k1, 0, 0, 0, k5, 0, 0, 0]
+        momenta = [0, k1, 0, 0, 0, k5, 0, 0]  # k0, ..., k7
         values = np.linalg.eigvals(numeric_h(mass, momenta))
         return np.sort_complex(np.round(values, 9))
 
@@ -764,7 +764,7 @@ CELLS = [
     code(r'''
     def leading_inertia(k5):
         """Dimension and Krein inertia of the eigenspace of the leading eigenvalue."""
-        H_mat = numeric_h(1, [0, 0, 0, 0, k5, 0, 0, 0])
+        H_mat = numeric_h(1, [0, 0, 0, 0, 0, k5, 0, 0])  # k5 along x5
         w2_here = 1 - k5 ** 2
         w = np.sqrt(w2_here) if w2_here > 0 else 1j * np.sqrt(-w2_here)
         return eigenspace_facts(H_mat, w)

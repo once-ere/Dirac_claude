@@ -61,14 +61,14 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's eight real gamma matrices in the coordinate order x1 to x8 (read)"],
+         "the author's eight real gamma matrices in the coordinate order x0 to x7 (read)"],
         ["Revision/lead_checks/reports/charge-conjugation-and-u1.json",
          "checks spinor_connection_real and u1_noether_matrix_identity (reproduced)"],
         ["Revision/theory/field-theory.json",
          "the formulas Omega_components, gammaOmega_total, current and exact_solutions "
          "(read and reproduced)"],
         ["Revision/theory/reports/python-field-theory.json",
-         "checks exact_solution_family_x4_x8 and commuting_current_conservation "
+         "checks exact_solution_family_x4_x0 and commuting_current_conservation "
          "(reproduced)"],
         ["Revision/pairing/reports/wolfram-pairing.json",
          "check T1_current_primordial_commuting (reproduced)"],
@@ -116,7 +116,7 @@ CELLS = [
     exponentially. It
 
     1. builds the canonical spin connection of the author's metric with sympy and
-       checks that it is real and gives $\gamma^\mu\Omega_\mu = 3H\gamma^{(x8)}$;
+       checks that it is real and gives $\gamma^\mu\Omega_\mu = 3H\gamma^{(x0)}$;
     2. reduces the conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ (on solutions)
        to one $16 \times 16$ matrix identity and verifies it exactly, with a negative
        control (no spin connection: the identity fails) and a control metric (the
@@ -149,8 +149,8 @@ CELLS = [
       integrated over space is the **charge** $Q$, which changes only by what flows
       through the boundary of the region (it is constant when nothing flows
       through it).
-    - **Current** $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ (eight components, $\mu = x1,
-      \dots, x8$), with $\bar\Psi = \Psi^\dagger C$ and the curved gammas
+    - **Current** $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ (eight components, $\mu = x0,
+      \dots, x7$), with $\bar\Psi = \Psi^\dagger C$ and the curved gammas
       $\gamma^\mu = e^\mu{}_a\gamma^a$; its time component is the **charge density**
       $J^{(x4)} = \Psi^\dagger B\Psi$, $B = -iC\gamma^{(x4)}$.
     - **Divergence** $\partial_\mu(\cos z\,J^\mu) = \sum_\mu \partial(\cos z\,J^\mu)
@@ -161,15 +161,15 @@ CELLS = [
       through its boundary.
     - **Vielbein** $e^a{}_\mu$: the eight scale factors $f_a$ of the author's metric,
       $f_{1,2,3} = e^{a_4}\sin^{1/6}z$ (ordinary space), $f_4 = 1$ (the time),
-      $f_{5,6,7} = e^{-a_4}\sin^{1/6}z$ (the deflating extra times), $f_8 = \cot z$
-      (the hidden direction), with $z = 6Hx_8$.
+      $f_{5,6,7} = e^{-a_4}\sin^{1/6}z$ (the deflating extra times), $f_0 = \cot z$
+      (the hidden direction), with $z = 6Hx_0$.
     - **Spin connection** $\Omega_\mu = \tfrac12\omega_{\mu ab}S^{ab}$: the matrices
       that make the derivative $D_\mu = \partial_\mu + \Omega_\mu$ of a spinor
       covariant; $\omega_{\mu ab}$ are built from the vielbein and the Christoffel
       symbols, and $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$.
     - **Brane**: the end $z = \pi/2$ of the patch $0 < z < \pi/2$ of the hidden
       direction.
-    - **Chirality partner**: $\Gamma\Psi$ with $\Gamma = \gamma^{(x8)}\gamma^{(x1)}
+    - **Chirality partner**: $\Gamma\Psi$ with $\Gamma = \gamma^{(x0)}\gamma^{(x1)}
       \cdots\gamma^{(x7)}$; by theorem T1 of the Revision pairing record it solves the
       field equation with the mass reversed.
     - **Indefinite**: a quadratic expression that can take both signs.
@@ -234,8 +234,8 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    COORDS = fixture["coordinates"]  # "x1", ..., "x8"
-    ETA = fixture["eta"]  # +1 space-like, -1 time-like, in the order x1..x8
+    COORDS = fixture["coordinates"]  # "x0", ..., "x7"
+    ETA = fixture["eta"]  # +1 space-like, -1 time-like, in the order x0..x7
     gamma = [np.array(mat, dtype=np.int64) for mat in fixture["gamma"]]  # index 0..7
     I16 = np.eye(16, dtype=np.int64)
     real_ok = all(g.shape == (16, 16) and set(np.unique(g)) <= {-1, 0, 1} for g in gamma)
@@ -245,13 +245,13 @@ CELLS = [
     check(len(gamma) == 8 and real_ok and clifford_ok,
           "eight real 16 x 16 gamma matrices with the Clifford relation, signature (4,4)")
 
-    G = [sp.Matrix(g.tolist()) for g in gamma]  # exact sympy copies, G[0] = gamma^(x1)
-    C_s = G[7] * G[0] * G[1] * G[2]  # C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3)
+    G = [sp.Matrix(g.tolist()) for g in gamma]  # exact sympy copies, G[k] = gamma^(xk)
+    C_s = G[0] * G[1] * G[2] * G[3]  # C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)
     C = np.array(C_s.tolist(), dtype=np.int64)
-    Gamma = gamma[7] @ gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5] \
-        @ gamma[6]  # the chirality (index 7 is x8)
-    B = -1j * (C @ gamma[3])  # B = -i C gamma^(x4); index 3 is x4
-    K8 = -1j * (C @ gamma[7])  # the matrix of the x8 current: -i C gamma^(x8)
+    Gamma = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5] \
+        @ gamma[6] @ gamma[7]  # the chirality (index 0 is x0)
+    B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4); index 4 is x4
+    K0 = -1j * (C @ gamma[0])  # the matrix of the x0 current: -i C gamma^(x0)
     S_gen = [[(G[a] * G[b] - G[b] * G[a]) / 4 for b in range(8)] for a in range(8)]
 
     LEAD_FILE = "Revision/lead_checks/reports/charge-conjugation-and-u1.json"
@@ -296,10 +296,10 @@ CELLS = [
     inflate. (About 7 seconds.)
     """),
     code(r'''
-    x = sp.symbols("x1:9", real=True)  # the coordinates x1, ..., x8
+    x = sp.symbols("x0:8", real=True)  # the coordinates x0, ..., x7
     H = sp.symbols("H", positive=True)  # the author's constant H > 0
-    a4 = sp.Function("a4", real=True)(x[3])  # an unspecified history a4(x4)
-    z = 6 * H * x[7]  # z = 6 H x8
+    a4 = sp.Function("a4", real=True)(x[4])  # an unspecified history a4(x4)
+    z = 6 * H * x[0]  # z = 6 H x0
     eta = sp.diag(*ETA)
 
 
@@ -307,9 +307,9 @@ CELLS = [
         """Scale factors, volume factor and the eight matrices Omega_mu of the metric
         whose extra-time factors are exp(extra_sign a4) sin^(1/6) z (extra_sign = -1:
         the author's deflating extra times)."""
-        f = ([sp.exp(a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)]
-             + [sp.exp(extra_sign * a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3
-             + [sp.cot(z)])
+        f = ([sp.cot(z)] + [sp.exp(a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3
+             + [sp.Integer(1)]
+             + [sp.exp(extra_sign * a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3)
         g = sp.diag(*[ETA[a] * f[a] ** 2 for a in range(8)])  # the diagonal metric
         g_inv = g.inv()
         chris = [[[sp.simplify(sum(g_inv[l, m] * (sp.diff(g[m, i], x[j])
@@ -347,16 +347,16 @@ CELLS = [
        record check spinor_connection_real), and not all of them vanish;
     2. $\Omega_\mu$ agrees with the record's formula Omega_components:
        $\Omega_{x_i} = \tfrac12 e^{a_4}\sin^{1/6}z\,(a_4'\gamma^{(xi)}\gamma^{(x4)} +
-       H\gamma^{(xi)}\gamma^{(x8)})$ for $i = 1, 2, 3$, $\Omega_{x_t} = -\tfrac12
+       H\gamma^{(xi)}\gamma^{(x0)})$ for $i = 1, 2, 3$, $\Omega_{x_t} = -\tfrac12
        e^{-a_4}\sin^{1/6}z\,(a_4'\gamma^{(x4)}\gamma^{(xt)} + H\gamma^{(xt)}
-       \gamma^{(x8)})$ for $t = 5, 6, 7$, and $\Omega_{x_4} = \Omega_{x_8} = 0$ (the
+       \gamma^{(x0)})$ for $t = 5, 6, 7$, and $\Omega_{x_4} = \Omega_{x_0} = 0$ (the
        cell also checks that the record's text, in Wolfram notation with `g[x4]` for
        $\gamma^{(x4)}$, states exactly these pieces);
     3. the contraction $\gamma^\mu\Omega_\mu = \sum_\mu f_\mu^{-1}\gamma^\mu
-       \Omega_\mu = 3H\gamma^{(x8)}$ (record formula gammaOmega_total).
+       \Omega_\mu = 3H\gamma^{(x0)}$ (record formula gammaOmega_total).
     """),
     code(r'''
-    a4p = sp.Derivative(a4, x[3])  # a4' = d a4 / d x4
+    a4p = sp.Derivative(a4, x[4])  # a4' = d a4 / d x4
     real_ok = all(not entry.has(sp.I) for Om in Omega for entry in Om)
     nonzero = any(Om != sp.zeros(16, 16) for Om in Omega)
     check(real_ok and nonzero and LEAD["spinor_connection_real"] == "PASS",
@@ -366,20 +366,20 @@ CELLS = [
     s16 = sp.sin(z) ** sp.Rational(1, 6)
     expected = []
     for mu in range(8):
-        if mu in (0, 1, 2):  # x1, x2, x3: inflating ordinary space
-            expected.append(sp.exp(a4) * s16 / 2 * (a4p * G[mu] * G[3] + H * G[mu] * G[7]))
-        elif mu in (4, 5, 6):  # x5, x6, x7: the deflating extra times
-            expected.append(-sp.exp(-a4) * s16 / 2 * (a4p * G[3] * G[mu]
-                                                       + H * G[mu] * G[7]))
-        else:  # x4 and x8
+        if mu in (1, 2, 3):  # x1, x2, x3: inflating ordinary space
+            expected.append(sp.exp(a4) * s16 / 2 * (a4p * G[mu] * G[4] + H * G[mu] * G[0]))
+        elif mu in (5, 6, 7):  # x5, x6, x7: the deflating extra times
+            expected.append(-sp.exp(-a4) * s16 / 2 * (a4p * G[4] * G[mu]
+                                                       + H * G[mu] * G[0]))
+        else:  # x4 and x0
             expected.append(sp.zeros(16, 16))
     record_text = THEORY["Omega_components"]["wl"]  # the record's statement
     pieces_of_record = [  # the formula above, piece by piece, in the record's notation
-        "Omega_xi = (1/2) E^a4[x4] Sin[6 H x8]^(1/6) (a4",
-        "g[xi].g[x4] + H g[xi].g[x8]) (i = 1, 2, 3)",
-        "Omega_xt = -(1/2) E^-a4[x4] Sin[6 H x8]^(1/6) (a4",
-        "g[x4].g[xt] + H g[xt].g[x8]) (t = 5, 6, 7)",
-        "Omega_x4 = Omega_x8 = 0"]
+        "Omega_xi = (1/2) E^a4[x4] Sin[6 H x0]^(1/6) (a4",
+        "g[xi].g[x4] + H g[xi].g[x0]) (i = 1, 2, 3)",
+        "Omega_xt = -(1/2) E^-a4[x4] Sin[6 H x0]^(1/6) (a4",
+        "g[x4].g[xt] + H g[xt].g[x0]) (t = 5, 6, 7)",
+        "Omega_x0 = Omega_x4 = 0"]
     check(all((Omega[mu] - expected[mu]).applyfunc(sp.simplify) == sp.zeros(16, 16)
               for mu in range(8))
           and all(piece in record_text for piece in pieces_of_record),
@@ -387,9 +387,9 @@ CELLS = [
           record="Revision/theory/field-theory.json, formula Omega_components")
     gamma_up = [G[mu] / f_dfl[mu] for mu in range(8)]  # gamma^mu = gamma^a / f_a
     contraction = sum((gamma_up[mu] * Omega[mu] for mu in range(8)), sp.zeros(16, 16))
-    check((contraction - 3 * H * G[7]).applyfunc(sp.simplify) == sp.zeros(16, 16)
-          and THEORY["gammaOmega_total"]["wl"] == '3*H*gamma["x8"]',
-          "gamma^mu Omega_mu = 3 H gamma^(x8) for every history a4",
+    check((contraction - 3 * H * G[0]).applyfunc(sp.simplify) == sp.zeros(16, 16)
+          and THEORY["gammaOmega_total"]["wl"] == '3*H*gamma["x0"]',
+          "gamma^mu Omega_mu = 3 H gamma^(x0) for every history a4",
           record="Revision/theory/field-theory.json, formula gammaOmega_total")
     '''),
     md(r"""
@@ -401,7 +401,7 @@ CELLS = [
     (\gamma^\mu)^TC\big),$$
     checks that their difference simplifies to the zero matrix (record check
     u1_noether_matrix_identity), and checks that the left side is exactly $6H\cos z\,
-    C\gamma^{(x8)}$. As a **negative control** it sets the spin connection to zero:
+    C\gamma^{(x0)}$. As a **negative control** it sets the spin connection to zero:
     then the right side vanishes while the left side does not, so without the spin
     connection the current would not be conserved.
     """),
@@ -416,8 +416,8 @@ CELLS = [
           and LEAD["u1_noether_matrix_identity"] == "PASS",
           "the U(1) Noether matrix identity holds exactly for a general history a4",
           record=f"{LEAD_FILE}, check u1_noether_matrix_identity")
-    check((lhs - 6 * H * sp.cos(z) * C_s * G[7]).applyfunc(sp.simplify)
-          == sp.zeros(16, 16), "the left side is exactly 6 H cos z C gamma^(x8)")
+    check((lhs - 6 * H * sp.cos(z) * C_s * G[0]).applyfunc(sp.simplify)
+          == sp.zeros(16, 16), "the left side is exactly 6 H cos z C gamma^(x0)")
     check(lhs.applyfunc(sp.simplify) != sp.zeros(16, 16),
           "negative control: with Omega = 0 the right side is 0 but the left side is "
           "not")
@@ -425,7 +425,7 @@ CELLS = [
     md(r"""
     **Why the $a_4'$ terms cancel.** The next cell splits the right side into the
     contributions of the eight directions. Each is a combination of $C\gamma^{(x4)}$
-    and $C\gamma^{(x8)}$; the cell extracts the two coefficients (divided by the
+    and $C\gamma^{(x0)}$; the cell extracts the two coefficients (divided by the
     volume factor $\sqrt{|g|}$) by the trace formula $c = \mathrm{tr}(P\,Y^T)/16$ for
     $P = c\,Y + \dots$ (the products of gammas are orthogonal under this trace). Each
     direction of ordinary space contributes $+a_4'$ to the $C\gamma^{(x4)}$
@@ -439,16 +439,16 @@ CELLS = [
     and the time-derivative terms drop out. (About 7 seconds.)
     """),
     code(r'''
-    CG4, CG8 = C_s * G[3], C_s * G[7]
+    CG4, CG0 = C_s * G[4], C_s * G[0]
 
 
     def coefficients(matrix, volume):
-        """The coefficients of C gamma^(x4) and C gamma^(x8) in matrix, divided by the
+        """The coefficients of C gamma^(x4) and C gamma^(x0) in matrix, divided by the
         volume factor (trace formula; checked to leave no remainder)."""
         c4 = sp.simplify((matrix * CG4.T).trace() / 16 / volume)
-        c8 = sp.simplify((matrix * CG8.T).trace() / 16 / volume)
-        remainder = (matrix - volume * (c4 * CG4 + c8 * CG8)).applyfunc(sp.simplify)
-        return c4, c8, remainder == sp.zeros(16, 16)
+        c0 = sp.simplify((matrix * CG0.T).trace() / 16 / volume)
+        remainder = (matrix - volume * (c4 * CG4 + c0 * CG0)).applyfunc(sp.simplify)
+        return c4, c0, remainder == sp.zeros(16, 16)
 
 
     dfl = [coefficients(p, cos_z) for p in pieces]  # the author's metric
@@ -466,8 +466,8 @@ CELLS = [
     for mu in range(8):  # the coefficients in units of a4' (sympy divides exactly)
         say(f"{COORDS[mu]}: author's metric {str(sp.simplify(dfl[mu][0] / a4p)):>2} a4'"
             f" | control metric {str(sp.simplify(ctl[mu][0] / a4p)):>2} a4'")
-    expected_dfl = [a4p] * 3 + [0] + [-a4p] * 3 + [0]  # +a4' space, -a4' extra times
-    expected_ctl = [a4p] * 3 + [0] + [a4p] * 3 + [0]  # all six +a4'
+    expected_dfl = [0] + [a4p] * 3 + [0] + [-a4p] * 3  # +a4' space, -a4' extra times
+    expected_ctl = [0] + [a4p] * 3 + [0] + [a4p] * 3  # all six +a4'
     check(all(c[2] for c in dfl + ctl)
           and all(sp.simplify(c[0] - e) == 0 for c, e in zip(dfl, expected_dfl))
           and all(sp.simplify(c[0] - e) == 0 for c, e in zip(ctl, expected_ctl))
@@ -511,13 +511,13 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws the three $16 \times 16$ matrices of the identity, divided by
-    $H\cos z$: the left side ($6C\gamma^{(x8)}$), the right side (the same matrix),
+    $H\cos z$: the left side ($6C\gamma^{(x0)}$), the right side (the same matrix),
     and the right side of the negative control without spin connection (zero).
     """),
     code(r'''
     from matplotlib.colors import TwoSlopeNorm
 
-    sample = {a4p: 0.7, a4: 0.3, H: sp.Rational(1, 6), x[7]: 0.5}  # any point
+    sample = {a4p: 0.7, a4: 0.3, H: sp.Rational(1, 6), x[0]: 0.5}  # any point
 
 
     def sampled(matrix):
@@ -550,7 +550,7 @@ CELLS = [
                 "and the right side of the negative control with the spin connection "
                 "removed (right); horizontal axis the column, vertical axis the row, "
                 "colour the entry (red positive, blue negative). The first two are the "
-                "same matrix $6C\\gamma^{(x8)}$ for every history $a_4$; without the "
+                "same matrix $6C\\gamma^{(x0)}$ for every history $a_4$; without the "
                 "spin connection the right side would be zero and the current would "
                 "not be conserved.")
     '''),
@@ -575,7 +575,7 @@ CELLS = [
     does not change at all.
     """),
     code(r'''
-    point = {x[7]: 0.7, H: sp.Rational(1, 6)}  # z = 0.7 (H = 1/6, so z = x8)
+    point = {x[0]: 0.7, H: sp.Rational(1, 6)}  # z = 0.7 (H = 1/6, so z = x0)
     A4_value, A4_slope = 0.4, 0.25  # a4 and a4' at the point (any values)
 
 
@@ -595,6 +595,8 @@ CELLS = [
     psi = rng.normal(size=16) + 1j * rng.normal(size=16)  # Psi at the point
     dpsi = rng.normal(size=(8, 16)) + 1j * rng.normal(size=(8, 16))  # d_mu Psi
     alpha_mu = rng.normal(size=8)  # the slopes d_mu alpha of the phase
+    # drawn with x0 last, as before the move to x0..x7; the roll puts x0 first
+    dpsi, alpha_mu = np.roll(dpsi, 1, axis=0), np.roll(alpha_mu, 1)
 
 
     def lagrangian(p, dp):
@@ -631,30 +633,30 @@ CELLS = [
     The Revision field-theory record (formula exact_solutions, item (i)) gives the
     exact solution with $U = 0$
     $$\Psi = \sin^\alpha z\,\Big(\cos(wx_4)\,1 + \frac{\sin(wx_4)}{w}M\Big)\chi,\quad
-    M = -m\gamma^{(x4)} + b\,\gamma^{(x4)}\gamma^{(x8)},\quad b = 3H(2\alpha + 1),$$
+    M = -m\gamma^{(x4)} + b\,\gamma^{(x4)}\gamma^{(x0)},\quad b = 3H(2\alpha + 1),$$
     written here for $k^2 = b^2 - m^2 = -w^2 < 0$ (then $\cosh(kx_4) = \cos(wx_4)$
     and $\sinh(kx_4)/k = \sin(wx_4)/w$). It does not depend on $x1, x2, x3, x5, x6,
     x7$, so the factors $e^{\pm a_4}$ of the field equation multiply derivatives that
     vanish: it solves the field equation for **every** history $a_4$, the deflating
-    one included. We take $H = 1/6$ (so $z = x_8$), $\alpha = 1$, $m = 2$, so $b =
+    one included. We take $H = 1/6$ (so $z = x_0$), $\alpha = 1$, $m = 2$, so $b =
     3/2$ and $w = \sqrt7/2$, and a fixed complex column $\chi$ with exact rational
     entries. The current has two nonzero components:
     $$\cos z\,J^{(x4)} = \cos z\,\Psi^\dagger B\Psi,\qquad
-    \cos z\,J^{(x8)} = \cos z\tan z\,\Psi^\dagger K_8\Psi = \sin z\,\Psi^\dagger K_8
-    \Psi,\quad K_8 = -iC\gamma^{(x8)},$$
-    because $\gamma^{x8} = \gamma^{(x8)}/f_8 = \tan z\,\gamma^{(x8)}$. The next cell
+    \cos z\,J^{(x0)} = \cos z\tan z\,\Psi^\dagger K_0\Psi = \sin z\,\Psi^\dagger K_0
+    \Psi,\quad K_0 = -iC\gamma^{(x0)},$$
+    because $\gamma^{x0} = \gamma^{(x0)}/f_0 = \tan z\,\gamma^{(x0)}$. The next cell
     checks that the record states item (i) word for word as used here (in Wolfram
     notation, `al` is $\alpha$ and $k^2 = 9H^2(2\alpha + 1)^2 - m^2 = b^2 - m^2$),
     builds $\Psi$, checks the field equation exactly, and checks the local
-    conservation law $\partial_4(\cos z\,J^{(x4)}) + \partial_z(\cos z\,J^{(x8)}) = 0$
-    exactly ($\partial_8 = \partial_z$ for $H = 1/6$).
+    conservation law $\partial_4(\cos z\,J^{(x4)}) + \partial_z(\cos z\,J^{(x0)}) = 0$
+    exactly ($\partial_0 = \partial_z$ for $H = 1/6$).
     """),
     code(r'''
-    x4, zz = sp.symbols("x4 z", real=True)  # the time and the angle z = x8
+    x4, zz = sp.symbols("x4 z", real=True)  # the time and the angle z = x0
     Hn, al, m_sol = sp.Rational(1, 6), 1, 2
     b_sol = 3 * Hn * (2 * al + 1)  # 3/2
     w = sp.sqrt(m_sol ** 2 - b_sol ** 2)  # sqrt(7)/2
-    M_sol = -m_sol * G[3] + b_sol * G[3] * G[7]
+    M_sol = -m_sol * G[4] + b_sol * G[4] * G[0]
     U_sol = sp.cos(w * x4) * sp.eye(16) + sp.sin(w * x4) / w * M_sol  # a real matrix
     chi_values = [(0.62, -0.31), (0.15, 0.88), (-0.47, 0.26), (0.93, -0.05),
                   (-0.21, -0.64), (0.38, 0.12), (0.07, -0.93), (-0.85, 0.44),
@@ -664,25 +666,25 @@ CELLS = [
         round(100 * im), 100) for re, im in chi_values])  # exact rational entries
     Psi = sp.sin(zz) ** al * U_sol * chi
     tan_z = sp.sin(zz) / sp.cos(zz)
-    E = (G[3] * Psi.diff(x4) + 6 * Hn * tan_z * G[7] * Psi.diff(zz)
-         + 3 * Hn * G[7] * Psi - m_sol * Psi)  # the field equation, U = 0
+    E = (G[4] * Psi.diff(x4) + 6 * Hn * tan_z * G[0] * Psi.diff(zz)
+         + 3 * Hn * G[0] * Psi - m_sol * Psi)  # the field equation, U = 0
     SOLUTION_I = (  # item (i) of the record's formula exact_solutions, word for word
         "(i) U = 0: Psi = Sin[z]^al (Cosh[k x4] + Sinh[k x4]/k M) chi, M = -m g[x4]"
-        " + 3 H (2 al + 1) g[x4].g[x8], k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4)")
+        " + 3 H (2 al + 1) g[x4].g[x0], k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4)")
     check(E.expand() == sp.zeros(16, 1)
           and THEORY["exact_solutions"]["wl"].startswith(SOLUTION_I + "; ")
-          and PY_THEORY["exact_solution_family_x4_x8"] == "PASS",
+          and PY_THEORY["exact_solution_family_x4_x0"] == "PASS",
           "the record's exact solution solves the field equation (m = 2)",
           record="Revision/theory/reports/python-field-theory.json, check "
-          "exact_solution_family_x4_x8")
-    B_s = -sp.I * C_s * G[3]
-    K8_s = -sp.I * C_s * G[7]
+          "exact_solution_family_x4_x0")
+    B_s = -sp.I * C_s * G[4]
+    K0_s = -sp.I * C_s * G[0]
     density = sp.cos(zz) * (Psi.H * B_s * Psi)[0, 0]  # cos z J^(x4)
-    flux = sp.sin(zz) * (Psi.H * K8_s * Psi)[0, 0]  # cos z J^(x8)
+    flux = sp.sin(zz) * (Psi.H * K0_s * Psi)[0, 0]  # cos z J^(x0)
     divergence = sp.expand(sp.diff(density, x4) + sp.diff(flux, zz))
     check(sp.simplify(divergence) == 0
           and PY_THEORY["commuting_current_conservation"] == "PASS",
-          "d4(cos z J^(x4)) + dz(cos z J^(x8)) = 0 exactly for the exact solution",
+          "d4(cos z J^(x4)) + dz(cos z J^(x0)) = 0 exactly for the exact solution",
           record="Revision/theory/reports/python-field-theory.json, check "
           "commuting_current_conservation")
     '''),
@@ -698,10 +700,10 @@ CELLS = [
     code(r'''
     Gamma_s = sp.Matrix(Gamma.tolist())
     partner = Gamma_s * Psi
-    E_partner = (G[3] * partner.diff(x4) + 6 * Hn * tan_z * G[7] * partner.diff(zz)
-                 + 3 * Hn * G[7] * partner + m_sol * partner)  # mass -2
+    E_partner = (G[4] * partner.diff(x4) + 6 * Hn * tan_z * G[0] * partner.diff(zz)
+                 + 3 * Hn * G[0] * partner + m_sol * partner)  # mass -2
     density_p = sp.cos(zz) * (partner.H * B_s * partner)[0, 0]
-    flux_p = sp.sin(zz) * (partner.H * K8_s * partner)[0, 0]
+    flux_p = sp.sin(zz) * (partner.H * K0_s * partner)[0, 0]
     check(E_partner.expand() == sp.zeros(16, 1)
           and sp.expand(density_p + density) == 0 and sp.expand(flux_p + flux) == 0
           and WL_PAIR["T1_current_primordial_commuting"] == "PASS"
@@ -725,14 +727,14 @@ CELLS = [
                               shading="auto")
         ax.set_title(title)
         ax.set_xlabel("time $x_4$")
-    axes[0].set_ylabel("angle $z = 6Hx_8$ (brane at $\\pi/2$)")
+    axes[0].set_ylabel("angle $z = 6Hx_0$ (brane at $\\pi/2$)")
     fig.colorbar(image, ax=axes, shrink=0.85, label="charge density $\\cos z\\,J^{(x4)}$")
     save_figure(fig, "charge_density_maps",
                 "The charge density $\\cos z\\,J^{(x4)}$ of an exact solution of the "
                 "field equation in the author's metric ($H = 1/6$, $\\alpha = 1$, mass "
                 "$+2$; left), of its chirality partner $\\Gamma\\Psi$ (a solution with "
                 "mass $-2$; middle) and of the pair (right); horizontal axis the time "
-                "$x_4$, vertical axis the angle $z = 6Hx_8$ from the tip $0$ to the "
+                "$x_4$, vertical axis the angle $z = 6Hx_0$ from the tip $0$ to the "
                 "brane $\\pi/2$, colour the density (red positive, blue negative, pure "
                 "numbers). The partner carries exactly the opposite density at every "
                 "point, so the pair carries none.")
@@ -745,7 +747,7 @@ CELLS = [
     $\cos z\,\sin^2z\,f(x_4)$ with $f = \chi^\dagger U^TBU\chi$, and the charge is
     $$Q(x_4) = \int_0^{\pi/2}\cos z\,\sin^2 z\,dz\;f(x_4) = \tfrac13 f(x_4)$$
     (substitute $u = \sin z$: $\int_0^1 u^2\,du = 1/3$). The flux $\sin^3z\,g(x_4)$,
-    $g = \chi^\dagger U^TK_8U\chi$, vanishes at the tip $z = 0$ and equals $g(x_4)$ at
+    $g = \chi^\dagger U^TK_0U\chi$, vanishes at the tip $z = 0$ and equals $g(x_4)$ at
     the brane $z = \pi/2$. The fundamental theorem of calculus gives the **charge
     balance**
     $$Q(x_4) - Q(0) = -\int_0^{x_4} g(t)\,dt :$$
@@ -764,7 +766,7 @@ CELLS = [
     code(r'''
     t = sp.symbols("t", real=True)
     f_of = sp.expand((U_sol * chi).H * B_s * (U_sol * chi))[0, 0]  # f(x4)
-    g_of = sp.expand((U_sol * chi).H * K8_s * (U_sol * chi))[0, 0]  # g(x4)
+    g_of = sp.expand((U_sol * chi).H * K0_s * (U_sol * chi))[0, 0]  # g(x4)
     Q_of = f_of / 3
     balance = sp.simplify(Q_of - Q_of.subs(x4, 0)
                           + sp.integrate(g_of.subs(x4, t), (t, 0, x4)))
@@ -773,7 +775,7 @@ CELLS = [
 
     P_stat = (sp.eye(16) - sp.I * M_sol / w) / 2  # projector onto M chi = i w chi
     chi0 = P_stat * chi  # the single-frequency part of chi
-    g0 = sp.simplify(sp.expand((U_sol * chi0).H * K8_s * (U_sol * chi0))[0, 0])
+    g0 = sp.simplify(sp.expand((U_sol * chi0).H * K0_s * (U_sol * chi0))[0, 0])
     Q0 = sp.simplify(sp.expand((U_sol * chi0).H * B_s * (U_sol * chi0))[0, 0] / 3)
     check((P_stat * P_stat - P_stat).applyfunc(sp.simplify) == sp.zeros(16, 16)
           and (M_sol * chi0 - sp.I * w * chi0).applyfunc(sp.simplify) == sp.zeros(16, 1)
@@ -836,7 +838,7 @@ CELLS = [
     numbers on a grid, replacing each derivative by a *central difference*
     $\partial_x F \approx (F(x + h) - F(x - h))/(2h)$, whose error is proportional to
     $h^2$. The next cell evaluates the divergence $\partial_4(\cos z\,J^{(x4)}) +
-    \partial_z(\cos z\,J^{(x8)})$ this way at the point $(x_4, z) = (1.3, 0.7)$ for
+    \partial_z(\cos z\,J^{(x0)})$ this way at the point $(x_4, z) = (1.3, 0.7)$ for
     steps $h = 0.2, 0.1, \dots$: the result is not zero, but it shrinks by a factor 4
     each time $h$ is halved (second-order convergence) towards the exact value 0.
     """),
@@ -863,7 +865,7 @@ CELLS = [
     ax.legend()
     save_figure(fig, "local_conservation",
                 "The local conservation law $\\partial_4(\\cos z\\,J^{(x4)}) + "
-                "\\partial_z(\\cos z\\,J^{(x8)}) = 0$ tested with central differences "
+                "\\partial_z(\\cos z\\,J^{(x0)}) = 0$ tested with central differences "
                 "of step $h$ at the point $x_4 = 1.3$, $z = 0.7$ for the exact solution "
                 "of the author's metric; horizontal axis the step $h$, vertical axis "
                 "the size of the computed divergence, both on logarithmic scales "
@@ -880,7 +882,7 @@ CELLS = [
     solution, which stays constant. Any other history gives the same constant charge:
     the stationary solution does not depend on $x1, x2, x3, x5, x6, x7$, so it solves
     the field equation for every history $a_4$ (Section 9; record check
-    exact_solution_family_x4_x8), and its charge density
+    exact_solution_family_x4_x0), and its charge density
     $\cos z\sin^2z\,\chi_0^\dagger B\chi_0$ contains no $a_4$.
     """),
     code(r'''
@@ -939,7 +941,7 @@ CELLS = [
     from fractions import Fraction
 
     eig_B = np.linalg.eigvalsh(B)
-    plus_space = (I16 - 1j * gamma[3]) / 2  # projector onto -i gamma^(x4) = +1
+    plus_space = (I16 - 1j * gamma[4]) / 2  # projector onto -i gamma^(x4) = +1
     # B restricted to that space: an 8-dimensional block, eigenvalues +-1
     values, vectors = np.linalg.eigh(plus_space @ B @ plus_space)
     u_plus = vectors[:, np.argmax(values)]  # a vector with -i g4 u = u, B u = +u
@@ -948,7 +950,7 @@ CELLS = [
     rest_density = np.conj(u) @ B @ u
     restricted = np.linalg.eigvalsh(plus_space @ B @ plus_space)
     check(np.allclose(sorted(eig_B), [-1] * 8 + [1] * 8)
-          and np.allclose(-1j * gamma[3] @ u, u)
+          and np.allclose(-1j * gamma[4] @ u, u)
           and np.sum(restricted > 0.5) == 4 and np.sum(restricted < -0.5) == 4
           and abs(rest_density - (-7 / 25)) < 1e-12,
           "B has signature (8,8); a positive-frequency rest state has charge density "
@@ -1048,10 +1050,10 @@ CELLS = [
 
     - PROVED (exact, sympy, for a general history $a_4(x_4)$): the canonical spin
       connection of the author's metric is real and gives $\gamma^\mu\Omega_\mu =
-      3H\gamma^{(x8)}$; the U(1) Noether identity reduces to the matrix identity
+      3H\gamma^{(x0)}$; the U(1) Noether identity reduces to the matrix identity
       $\sum_\mu\partial_\mu(\cos z\,C\gamma^\mu) = \cos z\sum_\mu(C\gamma^\mu
       \Omega_\mu - \Omega_\mu^T(\gamma^\mu)^TC)$, which holds; both sides equal
-      $6H\cos z\,C\gamma^{(x8)}$. Without the spin connection it fails.
+      $6H\cos z\,C\gamma^{(x0)}$. Without the spin connection it fails.
     - PROVED: the $a_4'$ terms cancel because the three deflating extra times
       compensate the three inflating space directions, so that the volume factor
       $\sqrt{|g|} = \cos z$ does not depend on the time; in a control metric with

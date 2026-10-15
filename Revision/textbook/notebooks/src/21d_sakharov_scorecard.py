@@ -68,7 +68,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's eight real gamma matrices in the coordinate order x1 to x8 (read)"],
+         "the author's eight real gamma matrices in the coordinate order x0 to x7 (read)"],
         ["Revision/lead_checks/reports/charge-conjugation-and-u1.json",
          "checks u1_noether_matrix_identity, representation_real, "
          "spinor_connection_real, bilinears_under_charge_conjugation and "
@@ -725,32 +725,32 @@ CELLS = [
     code(r'''
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    gamma = [np.array(mat, dtype=np.int64) for mat in fixture["gamma"]]  # x1 .. x8
-    C = gamma[7] @ gamma[0] @ gamma[1] @ gamma[2]  # C = g(x8) g(x1) g(x2) g(x3)
-    Gamma = C @ gamma[3] @ gamma[4] @ gamma[5] @ gamma[6]  # the chirality
+    gamma = [np.array(mat, dtype=np.int64) for mat in fixture["gamma"]]  # x0 .. x7
+    C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # C = g(x0) g(x1) g(x2) g(x3)
+    Gamma = C @ gamma[4] @ gamma[5] @ gamma[6] @ gamma[7]  # the chirality
     THEORY = {f["key"]: f["wl"] for f in json.loads(repository_file(
         "Revision/theory/field-theory.json").read_text(encoding="utf-8"))["formulas"]}
     lagrangian_text = ("L = Cos[z] [ (1/2) sum_mu (Psibar gamma^mu D_mu Psi - (D_mu "
                        "Psibar) gamma^mu Psi) - m S - U(S) ]")
-    omega_text = ["(1/2) E^a4[x4] Sin[6 H x8]^(1/6) (a4",
-                  "g[xi].g[x4] + H g[xi].g[x8]) (i = 1, 2, 3)",
-                  "-(1/2) E^-a4[x4] Sin[6 H x8]^(1/6) (a4",
-                  "g[x4].g[xt] + H g[xt].g[x8]) (t = 5, 6, 7)", "Omega_x4 = Omega_x8 = 0"]
+    omega_text = ["(1/2) E^a4[x4] Sin[6 H x0]^(1/6) (a4",
+                  "g[xi].g[x4] + H g[xi].g[x0]) (i = 1, 2, 3)",
+                  "-(1/2) E^-a4[x4] Sin[6 H x0]^(1/6) (a4",
+                  "g[x4].g[xt] + H g[xt].g[x0]) (t = 5, 6, 7)", "Omega_x0 = Omega_x4 = 0"]
     record_ok = (THEORY["Lagrangian"].startswith(lagrangian_text)
                  and all(piece in THEORY["Omega_components"] for piece in omega_text))
 
     H, z, a4, a4p = 1 / 6, 0.7, 0.4, 0.25  # the point of the author's metric
     s16 = np.sin(z) ** (1 / 6)
-    f = [np.exp(a4) * s16] * 3 + [1.0] + [np.exp(-a4) * s16] * 3 + [1 / np.tan(z)]
+    f = [1 / np.tan(z)] + [np.exp(a4) * s16] * 3 + [1.0] + [np.exp(-a4) * s16] * 3
     Omega = []  # the record's formula Omega_components at the point
     for mu in range(8):
-        if mu < 3:  # x1, x2, x3
-            Omega.append(np.exp(a4) * s16 / 2 * (a4p * gamma[mu] @ gamma[3]
-                                                 + H * gamma[mu] @ gamma[7]))
-        elif mu in (4, 5, 6):  # x5, x6, x7: the deflating extra times
-            Omega.append(-np.exp(-a4) * s16 / 2 * (a4p * gamma[3] @ gamma[mu]
-                                                   + H * gamma[mu] @ gamma[7]))
-        else:  # x4 and x8
+        if mu in (1, 2, 3):  # x1, x2, x3
+            Omega.append(np.exp(a4) * s16 / 2 * (a4p * gamma[mu] @ gamma[4]
+                                                 + H * gamma[mu] @ gamma[0]))
+        elif mu in (5, 6, 7):  # x5, x6, x7: the deflating extra times
+            Omega.append(-np.exp(-a4) * s16 / 2 * (a4p * gamma[4] @ gamma[mu]
+                                                   + H * gamma[mu] @ gamma[0]))
+        else:  # x4 and x0
             Omega.append(np.zeros((16, 16)))
     gamma_up = [gamma[mu] / f[mu] for mu in range(8)]  # curved gammas at the point
 
@@ -771,6 +771,7 @@ CELLS = [
     rng = np.random.default_rng(2104)  # fixed seed: the same numbers in every run
     psi = rng.normal(size=16) + 1j * rng.normal(size=16)
     dpsi = rng.normal(size=(8, 16)) + 1j * rng.normal(size=(8, 16))
+    dpsi = np.roll(dpsi, 1, axis=0)  # drawn with x0 last, as before; now x0 first
     m_value, lam_value = 0.7, 0.3
     values = {
         "L[Psi]": lagrangian(psi, dpsi, m_value, lam_value),
@@ -868,7 +869,7 @@ CELLS = [
           "invariant Majorana-type matrices: a 2-dimensional space spanned by C, C Gamma",
           record=f"{ALGEBRA_FILE}, check spin_commutant_dimension_2")
 
-    ETA = [1, 1, 1, -1, -1, -1, -1, 1]
+    ETA = [1, 1, 1, 1, -1, -1, -1, -1]
 
 
     def exp_generator(a, b, theta):
@@ -879,7 +880,7 @@ CELLS = [
         return np.cosh(theta / 2) * np.eye(16) + 2 * np.sinh(theta / 2) * S  # a boost
 
 
-    R = exp_generator(0, 1, 0.7) @ exp_generator(0, 3, 0.4) @ exp_generator(4, 7, -1.1)
+    R = exp_generator(1, 2, 0.7) @ exp_generator(1, 4, 0.4) @ exp_generator(0, 5, 1.1)
     check(np.allclose(R.T @ C @ R, C) and np.allclose(R.T @ CG @ R, CG)
           and not np.allclose(R.T @ R, np.eye(16)),
           "a finite rotation-boost R keeps C and C Gamma (R^T M R = M), not the identity")
