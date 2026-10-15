@@ -145,7 +145,7 @@ CELLS = [
 
     The Kohn-Sham states of dirac16complex live in the author's metric, with 3-space
     $x_1, x_2, x_3$ inflating like $e^{a_4}$, the three extra times $x_5, x_6, x_7$
-    deflating like $e^{-a_4}$, the time $x_4$ and the hidden direction $x_8$ (coordinate
+    deflating like $e^{-a_4}$, the time $x_4$ and the hidden direction $x_0$ (coordinate
     $y$). The history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND, and each thermal state
     is an instantaneous state at one slice $a_{4,0}$.
 

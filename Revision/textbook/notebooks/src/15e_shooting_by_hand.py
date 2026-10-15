@@ -140,7 +140,7 @@ CELLS = [
 
     The author's metric has 3-space $x_1, x_2, x_3$ (scale factor $e^{a_4}\sin^{1/6} z$),
     the time $x_4$, three extra times $x_5, x_6, x_7$ that deflate exponentially (scale
-    factor $e^{-a_4}\sin^{1/6} z$) and the hidden direction $x_8$, with $z = 6 H x_8$.
+    factor $e^{-a_4}\sin^{1/6} z$) and the hidden direction $x_0$, with $z = 6 H x_0$.
     In the hidden coordinate $y = \ln(\sin z)/(6H)$, from the tip $y = -L$ to the brane
     $y = 0$, the Kohn-Sham equation of dirac16complex reduces exactly (Revision record
     Revision/kohn_sham/ks-theory.json) to eight $2 \times 2$ blocks. With the orbital

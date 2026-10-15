@@ -291,8 +291,8 @@ In [5]  PASS the solver's E_KS equals the record
 In [5]       reproduces Revision/kohn_sham/results/ground/summary.csv, N136_lam0_a10
 In [5]  PASS Simpson's rule on the profile gives E_KS and the recorded integrals
 In [5]       reproduces Revision/kohn_sham/results/ground/emt-integrals.csv, columns int_rho,
-In [5]      int_p3, int_p8
-In [6]  PASS (e^{6Hy} p8)' = 3H e^{6Hy} (p3 + p_t) holds for N136_lam0_a10
+In [5]      int_p3, int_p0
+In [6]  PASS (e^{6Hy} p0)' = 3H e^{6Hy} (p3 + p_t) holds for N136_lam0_a10
 In [6]       reproduces Revision/kohn_sham/reports/ks-rust-solver.json, checks
 In [6]      emt_y_conservation_pointwise and emt_y_conservation_integrated
 In [7]  PASS E_KS and the integrals at the five slices equal the record
@@ -315,7 +315,7 @@ In [11]  PASS the integrated extra-time pressure takes both signs
 In [11]       reproduces Revision/kohn_sham/results/ground/emt-integrals.csv, column int_p_t
 In [12]  PASS C1 and C2 fail for N136_lam0_a10; the record's example values reproduced
 In [12]       reproduces Revision/field_equations_a4/reports/ks-source-conditions.json, checks
-In [12]      ks_profiles_depend_on_x8 and ks_profiles_violate_algebraic_condition
+In [12]      ks_profiles_depend_on_x0 and ks_profiles_violate_algebraic_condition
 In [12]  PASS C2 fails after integration at all 17 slices; the record's ratios reproduced
 In [12]       reproduces Revision/field_equations_a4/reports/ks-source-conditions.json, check
 In [12]      ks_integrals_violate_algebraic_condition
@@ -340,7 +340,7 @@ In [7]  RESULT largest relative difference of E and int p3 to the record = 0.0e+
 In [7]  RESULT largest relative difference of the slopes = 3.7e-12
 In [8]  RESULT E(2) - E(0) / integral of the slopes = -67.837152 / -67.837207
 In [9]  RESULT int p3 / int rho of N = 136 at a4,0 = 0, 1, 2 = 0.2966, 0.3100, 0.3264
-In [9]  RESULT int p8 / int rho of N = 136 at a4,0 = 0, 1, 2 = 0.4365, 0.5969, 0.6808
+In [9]  RESULT int p0 / int rho of N = 136 at a4,0 = 0, 1, 2 = 0.4365, 0.5969, 0.6808
 In [10]  RESULT mean position <y> of the energy at the five slices = -0.3873, -0.4263, -0.4556,
 In [10]      -0.4746, -0.4849
 In [11]  RESULT largest |e_int - (15/32 lambda S^2 - 1/32 lambda n^2)| / max|e_int| = 6.8e-16
@@ -348,7 +348,7 @@ In [11]  RESULT conservation law with interaction: pointwise / integrated residu
 In [11]      2.3e-08
 In [11]  RESULT interacting states with integrated p_t > 0 / < 0 = 29 / 31
 In [12]  RESULT C1: (max rho - min rho) / max|T| for N136_lam0_a10 = 0.0998
-In [12]  RESULT C2 integrated: (int p3 + int p_t)/(2 int p8) at a4,0 = 0, 1, 2 = 0.339767,
+In [12]  RESULT C2 integrated: (int p3 + int p_t)/(2 int p0) at a4,0 = 0, 1, 2 = 0.339767,
 In [12]      0.259690, 0.239714
 In [12]  RESULT C3: int rho at a4,0 = 0 and 2; int p3 and int p_t at a4,0 = 1 = 80.2822, 12.4451;
 In [12]      10.0397, 0.0
@@ -367,9 +367,9 @@ ALL 18 CHECKS PASSED (notebook 15b)
 
 The notebook shows 7 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
-- `Revision/textbook/figures/15b_1_proper_emt.png` (958 x 611 pixels): The energy density $\rho$ and the pressures $p_3$, $p_t$, $p_8$ of the Kohn-Sham state $N = 136$, $\lambda = 0$, $a_{4,0} = 1$ as proper densities (vertical axis, symmetric logarithmic, units of $m^8$) against the hidden coordinate $y$ (horizontal axis). All are largest at the tip, where the proper volume is small; $p_8$ is negative near the tip and changes sign near $y = -2.45$, and $p_t$ is zero without interaction.
+- `Revision/textbook/figures/15b_1_proper_emt.png` (958 x 611 pixels): The energy density $\rho$ and the pressures $p_3$, $p_t$, $p_0$ of the Kohn-Sham state $N = 136$, $\lambda = 0$, $a_{4,0} = 1$ as proper densities (vertical axis, symmetric logarithmic, units of $m^8$) against the hidden coordinate $y$ (horizontal axis). All are largest at the tip, where the proper volume is small; $p_0$ is negative near the tip and changes sign near $y = -2.45$, and $p_t$ is zero without interaction.
 - `Revision/textbook/figures/15b_2_coordinate_emt.png` (917 x 611 pixels): The energy density and the pressures of the state $N = 136$, $\lambda = 0$, $a_{4,0} = 1$ multiplied by $2\,\mathrm{Vol}_7 e^{6Hy}$ (vertical axis, linear, units of $m$ per unit $y$) against $y$ (horizontal axis). In this form the energy and the pressures sit near the brane; the area under $\rho$ is the Kohn-Sham energy $E_{KS} = 32.384$.
-- `Revision/textbook/figures/15b_3_y_conservation.png` (1517 x 617 pixels): Left: the two sides of the conservation law along the hidden direction, $(e^{6Hy}p_8)'$ (solid) and $3H e^{6Hy}(p_3 + p_t)$ (dashed), for $N = 136$, $\lambda = 0$, $a_{4,0} = 1$ (vertical axis, units of $m^9$; horizontal axis $y$); the curves lie on top of each other. Right: their difference relative to the largest value (logarithmic), the error of the finite difference on the coarse profile grid, far below the tolerance.
+- `Revision/textbook/figures/15b_3_y_conservation.png` (1517 x 617 pixels): Left: the two sides of the conservation law along the hidden direction, $(e^{6Hy}p_0)'$ (solid) and $3H e^{6Hy}(p_3 + p_t)$ (dashed), for $N = 136$, $\lambda = 0$, $a_{4,0} = 1$ (vertical axis, units of $m^9$; horizontal axis $y$); the curves lie on top of each other. Right: their difference relative to the largest value (logarithmic), the error of the finite difference on the coarse profile grid, far below the tolerance.
 - `Revision/textbook/figures/15b_4_energy_slopes.png` (913 x 611 pixels): The Kohn-Sham energy $E_{KS}$ of $N = 136$ without interaction (vertical axis, units of $m$) at 17 slices $a_{4,0}$ of the history (horizontal axis), with short tangent lines whose slopes are computed from the pressures alone, $dE/da_4 = -3 \cdot 2\,\mathrm{Vol}_7 \int e^{6Hy}(p_3 - p_t)\,dy$: every line touches the curve of the energies, which falls from $80.3$ to $12.4$.
 - `Revision/textbook/figures/15b_5_integrated_ratios.png` (933 x 611 pixels): The integrated 3-space pressure (blue) and hidden-direction pressure (orange), each divided by the integrated energy density (vertical axis, pure numbers), against the slice $a_{4,0}$ (horizontal axis), for $N = 136$ without interaction at 17 slices (lines) and for $N = 136$ (circles) and $N = 688$ (squares) from the record. The 3-space ratio rises from about $0.30$ toward the value $1/3$ of a gas of massless particles as the momenta redshift. These are integrated components on a prescribed background, not an observed equation of state.
 - `Revision/textbook/figures/15b_6_energy_spreading.png` (924 x 611 pixels): The energy per unit $y$ divided by the total energy, $2\,\mathrm{Vol}_7 e^{6Hy}\rho(y)/E_{KS}$ (vertical axis, area 1), of $N = 136$ without interaction at the five slices $a_{4,0} = 0$ to $2$ (light to dark blue), against $y$ (horizontal axis). The energy is concentrated near the brane, and its distribution moves toward the tip as the history proceeds.
@@ -383,12 +383,12 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/15b.captions.json` | 3159 | `16fdfe3cfa1911ce8023a2330e5713c32cd0633615d67dd1a1b5da91a8520fc3` |
-| `Revision/textbook/figures/15b_1_proper_emt.png` | 71638 | `2dcc8fb15bc93798feeedc22746968c0e427e2d425190b36a1bb28fa6c7c1039` |
-| `Revision/textbook/figures/15b_2_coordinate_emt.png` | 58478 | `60f53db227e0173590260401109d0537fe3dca00c2cd11fd8b43e2e313f0560b` |
-| `Revision/textbook/figures/15b_3_y_conservation.png` | 95806 | `d697557b68a957d7d25681bdb74afd53de99797c38029e54bd825f61af2a0c48` |
+| `Revision/textbook/figures/15b.captions.json` | 3159 | `d98188b26fc8223e7c1557809c958fc45e8db6974904401ee56c0ee65124568a` |
+| `Revision/textbook/figures/15b_1_proper_emt.png` | 71612 | `5a03f28c646817c80310c1120264ad461bf81aadee4d802bb03be321248da4dc` |
+| `Revision/textbook/figures/15b_2_coordinate_emt.png` | 58438 | `a428c35f2ef1c6f179462de29e36c297ed99b7ba74b7c16f6b3273310a19e18b` |
+| `Revision/textbook/figures/15b_3_y_conservation.png` | 95807 | `4434b76ca8979a0a0af3798b338dd4f2b17b2796fd314acf2aaf79ddcaf59cc6` |
 | `Revision/textbook/figures/15b_4_energy_slopes.png` | 60970 | `141a9f034c0c9b9d4c5b63da06f87b172870d84dec797af836e3395f68a278b6` |
-| `Revision/textbook/figures/15b_5_integrated_ratios.png` | 64185 | `f545020b4ef15045495bf1e5cc86efd99d30a8073d9e730b8269c0d2575053f9` |
+| `Revision/textbook/figures/15b_5_integrated_ratios.png` | 64174 | `b8d4ea629b1a3f67e2db25a755d9a5bc63a0276eac51b0d1225658e8b8df0578` |
 | `Revision/textbook/figures/15b_6_energy_spreading.png` | 61639 | `5815b1c6505ae30378d28b4b8c61571f8aee2b00ae318ca19a7b1aa0224cf119` |
 | `Revision/textbook/figures/15b_7_interaction_terms.png` | 70669 | `144ff33cdd5ea9b24d67067daf9ede4b3d7fcd7aaa761848c33357224a30f7ce` |
 
@@ -415,8 +415,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 28.9 s, peak memory of the kernel process 164 MiB;
-- the check run: 27.2 s, peak memory of the kernel process 165 MiB.
+- the build run: 13.5 s, peak memory of the kernel process 166 MiB;
+- the check run: 73.7 s, peak memory of the kernel process 167 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -428,14 +428,14 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/15b_emt_profiles.ipynb`: `8f061c845ea04cfb88654ae2fdf9650c11a2e8a9ae1e88e5b8dc904a6e2d62c8`
-- `Revision/textbook/notebooks/src/15b_emt_profiles.py`: `79b232ab791dcc55ae26b855daf23a5e3b7201768546794aa605c6de93decf95`
-- `Revision/textbook/figures/15b.captions.json`: `16fdfe3cfa1911ce8023a2330e5713c32cd0633615d67dd1a1b5da91a8520fc3`
-- `Revision/textbook/figures/15b_1_proper_emt.png`: `2dcc8fb15bc93798feeedc22746968c0e427e2d425190b36a1bb28fa6c7c1039`
-- `Revision/textbook/figures/15b_2_coordinate_emt.png`: `60f53db227e0173590260401109d0537fe3dca00c2cd11fd8b43e2e313f0560b`
-- `Revision/textbook/figures/15b_3_y_conservation.png`: `d697557b68a957d7d25681bdb74afd53de99797c38029e54bd825f61af2a0c48`
+- `Revision/textbook/notebooks/15b_emt_profiles.ipynb`: `405ab115deb6770970ab52154e58b6138bc29a3220f21485a4ce338d27eb7224`
+- `Revision/textbook/notebooks/src/15b_emt_profiles.py`: `b23a007f3cc7f7101f8e0385aa927f1c36051a35bfa6cfb2fbda92e9dbea6b31`
+- `Revision/textbook/figures/15b.captions.json`: `d98188b26fc8223e7c1557809c958fc45e8db6974904401ee56c0ee65124568a`
+- `Revision/textbook/figures/15b_1_proper_emt.png`: `5a03f28c646817c80310c1120264ad461bf81aadee4d802bb03be321248da4dc`
+- `Revision/textbook/figures/15b_2_coordinate_emt.png`: `a428c35f2ef1c6f179462de29e36c297ed99b7ba74b7c16f6b3273310a19e18b`
+- `Revision/textbook/figures/15b_3_y_conservation.png`: `4434b76ca8979a0a0af3798b338dd4f2b17b2796fd314acf2aaf79ddcaf59cc6`
 - `Revision/textbook/figures/15b_4_energy_slopes.png`: `141a9f034c0c9b9d4c5b63da06f87b172870d84dec797af836e3395f68a278b6`
-- `Revision/textbook/figures/15b_5_integrated_ratios.png`: `f545020b4ef15045495bf1e5cc86efd99d30a8073d9e730b8269c0d2575053f9`
+- `Revision/textbook/figures/15b_5_integrated_ratios.png`: `b8d4ea629b1a3f67e2db25a755d9a5bc63a0276eac51b0d1225658e8b8df0578`
 - `Revision/textbook/figures/15b_6_energy_spreading.png`: `5815b1c6505ae30378d28b4b8c61571f8aee2b00ae318ca19a7b1aa0224cf119`
 - `Revision/textbook/figures/15b_7_interaction_terms.png`: `144ff33cdd5ea9b24d67067daf9ede4b3d7fcd7aaa761848c33357224a30f7ce`
 
@@ -445,4 +445,4 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-14: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":164.0,"seconds":28.9},"check":{"date":"2026-10-14","files":8,"peak_mb":165.0,"result":"passed","seconds":27.2},"date":"2026-10-14","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":166.0,"seconds":13.5},"check":{"date":"2026-10-14","files":8,"peak_mb":167.0,"result":"passed","seconds":73.7},"date":"2026-10-14","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

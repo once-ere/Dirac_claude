@@ -162,12 +162,12 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    **The field and the metric.** The author's metric has eight coordinates $x_1$ to
-    $x_8$. The directions $x_1, x_2, x_3$ are ordinary 3-space, with the scale factor
+    **The field and the metric.** The author's metric has eight coordinates $x_0$ to
+    $x_7$. The directions $x_1, x_2, x_3$ are ordinary 3-space, with the scale factor
     $e^{a_4} \sin^{1/6} z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three **extra
     times**, with the scale factor $e^{-a_4} \sin^{1/6} z$, so they **deflate
-    exponentially** while $a_4$ grows; $x_8$ is the hidden space direction, with
-    $z = 6 H x_8$ between $0$ and $\pi/2$. The Kohn-Sham model uses the hidden
+    exponentially** while $a_4$ grows; $x_0$ is the hidden space direction, with
+    $z = 6 H x_0$ between $0$ and $\pi/2$. The Kohn-Sham model uses the hidden
     coordinate $y = \ln(\sin z)/(6H)$, which runs from the tip $y = -L$ (the model cuts
     the space there, with $L = 3$) to the brane $y = 0$ (the end $z = \pi/2$ of the
     patch).

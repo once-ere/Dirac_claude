@@ -41,7 +41,7 @@ The notebooks are placed in the order in which the ideas are needed: 15e first, 
 
 **What this chapter does not touch.** No statement of this chapter concerns pairs of universes, their creation or matter and antimatter. One check of the solver's report, `t3_block_map_solver_selftest`, solves a state with the mass $m$ and a state with the mass $-m$ and finds equal energies; the report itself calls it a numerical self-test of the program and NOT a proof of the theorem T3, which belongs to Chapter 19. Nothing computed here says that any universe is created, in pairs or otherwise. Where Section 15.26 speaks of thermal holes in the sea, it means excitations inside one universe, not pairs of universes.
 
-**Notation and units.** The author's coordinates are $x_1, \dots, x_8$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which deflate exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$; $x_8$ is the hidden space direction, with $z = 6Hx_8$ between 0 and $\pi/2$. The hidden coordinate is $y = \ln(\sin z)/(6H)$ (Chapter 14); it runs from the **tip** $y = -L$ (where the model cuts the space) to the **brane** $y = 0$. A **slice** is one instant of the history, and $a_{4,0}$ is the value of $a_4$ there. In all numbers $H = 1$ and $m = 1$, so energies, momenta and temperatures are in units of $m$ (which equals $H$) and lengths in units of $1/H$; Boltzmann's constant is 1, so a temperature is an energy.
+**Notation and units.** The author's coordinates are $x_0, \dots, x_7$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which deflate exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$; $x_0$ is the hidden space direction, with $z = 6Hx_0$ between 0 and $\pi/2$. The hidden coordinate is $y = \ln(\sin z)/(6H)$ (Chapter 14); it runs from the **tip** $y = -L$ (where the model cuts the space) to the **brane** $y = 0$. A **slice** is one instant of the history, and $a_{4,0}$ is the value of $a_4$ there. In all numbers $H = 1$ and $m = 1$, so energies, momenta and temperatures are in units of $m$ (which equals $H$) and lengths in units of $1/H$; Boltzmann's constant is 1, so a temperature is an energy.
 
 ### 15.2 The equations the solver must solve
 
@@ -119,7 +119,7 @@ $$
 
 Rule: $L_{max}$ is the last $L$ of this run and $d_{last}$ the last difference, so the next differences would be $d_{last}r, d_{last}r^2, \dots$; the sum $s = r + r^2 + r^3 + \dots$ obeys $s = r + r\,s$ (take the factor $r$ out of every term after the first), so $s = r/(1 - r)$ for $0 < r < 1$. In every other case, and when this run holds fewer than three values of $L$ (as for $N = 688$, $+\lambda_1$, $a_{4,0} = 0$, which converges at $L = 3$ and fails at $L = 3.5$; its converged values at $L = 4$, $4.5$ and $5$ come after the failure and are not used), the study takes no limit: the limit is not established. This condition on the last two ratios is the one change of the rules (section 9 of the README). The first analysis accepted a geometric tail whenever the last ratio was below 0.9. That gave $N = 688$, $\lambda = 0$, $a_{4,0} = 0$ an extrapolated value, although its ratios 0.77 to 0.79 are those of a tail that falls like the power $L^{-3}$, not geometrically. The rule above is the stricter one, and the change only removed extrapolations. This rule follows the dependence on $L$; it is not the Richardson extrapolation of Chapter 2, which combines two values so that their leading error term cancels. What the study finds:
 
-- The free results with $k \ne 0$ converge faster than exponentially, because an orbital with momentum $k$ is suppressed toward the tip like $\exp\big(-|k|(\kappa(-L) - \kappa(y))/H\big)$. The recorded $L = 3$ values are low by up to 1.4 per cent in $E_{KS}$ and 12 per cent in the integrated pressure along the hidden direction, $2\,\mathrm{Vol}_7\int e^{6Hy}p_8\,dy$ (the record's column `int_p8`, Section 15.16): for $N = 136$, $\lambda = 0$, $a_{4,0} = 2$ they are $12.44507$ against the extrapolated $12.62207$, and $8.47270$ against $9.63839$.
+- The free results with $k \ne 0$ converge faster than exponentially, because an orbital with momentum $k$ is suppressed toward the tip like $\exp\big(-|k|(\kappa(-L) - \kappa(y))/H\big)$. The recorded $L = 3$ values are low by up to 1.4 per cent in $E_{KS}$ and 12 per cent in the integrated pressure along the hidden direction, $2\,\mathrm{Vol}_7\int e^{6Hy}p_0\,dy$ (the record's column `int_p0`, Section 15.16): for $N = 136$, $\lambda = 0$, $a_{4,0} = 2$ they are $12.44507$ against the extrapolated $12.62207$, and $8.47270$ against $9.63839$.
 - The levels at $k = 0$ other than the zero mode approach $\pm m$ only slowly, like $(n\pi)^2/(2mL^2)$ (Section 15.3 derives this for the even levels from their exact formula; the record verifies the exact levels at every $L$ of the study, 84 levels, to $1.42 \times 10^{-10}\,m$). So the bulk edge $1.2922928$ that defines $N = 688$ is a value at $L = 3$: it is $1.0977$ at $L = 6$ and tends to $m$ as $L \to \infty$. From $L = 3.5$ on, the ground state of $N = 688$ at $a_{4,0} = 0$ occupies levels of the bulk at $k = 0$, its gap $0.0452$ closes, and its energy does not converge up to $L = 6$.
 - The interacting results depend strongly on $L$. The proper density of the zero modes grows toward the tip like $e^{(6H - 2m)|y|} = e^{4|y|}$ (exact, and verified by the record; Figure 15e.6 shows the potential it makes). For $N = 8$ the record finds $E_{KS} = \mp9.868 \times 10^{-4}$ at $L = 3$ ($\lambda = \pm\lambda_1$, every slice) against $\mp3.0046 \times 10^{-3}$ at large $L$, extrapolated from $\lambda = -\lambda_1$ at $a_{4,0} = 2$, the only interacting $N = 8$ state solved up to $L = 6$ (the $\pm\lambda_1$ partners are negatives of each other to $1.1 \times 10^{-12}$ relative at every $L$ where both converge; the other interacting $N = 8$ states extrapolate to $\mp3.007 \times 10^{-3}$ from $L \le 4.5$, because their self-consistent iteration fails from $L = 5$): the recorded value is about one third of the large-$L$ value. For $N = 136$ at $a_{4,0} = 2$ the interaction shift $E_{KS}(\pm\lambda_1) - E_{KS}(0)$ is about 21 times its value at $L = 3$ at large $L$ for $-\lambda_1$ (extrapolated), and about 28 times at $L = 5.5$ for $+\lambda_1$ (the last $L$ before its iteration fails; its limit is not established).
 - The self-consistent iteration fails at some larger $L$ for 13 of the 19 interacting states studied; this is a failure of the iteration, not a proof that no self-consistent state exists. For 7 of them the successive differences of $E_{KS}$ do not meet the geometric-tail rule of the study before the iteration fails, so their limit is not established; for the other 6 the values before the failure still end in a geometric tail.
@@ -2056,7 +2056,7 @@ How to read it. For $N = 8$ the eight particles sit in the zero modes at $\varep
 
 ### 15.16 The energy-momentum tensor of the gas, and why the gas cannot drive the history
 
-**What the tensor is.** Chapter 9 introduced the **energy-momentum tensor** $T^\mu{}_\nu$: at every point a table of $8 \times 8$ numbers that says how much energy and momentum there is and how it flows. For the Kohn-Sham states it is diagonal, and its diagonal holds the **energy density** $\rho = -T^{x_4}{}_{x_4}$ and the **pressures** $p_\mu = T^\mu{}_\mu$ (no sum over $\mu$; the sign convention of the Revision record). Because of the symmetries of the states only four different numbers occur at each $y$: $p_3$, the pressure along each of the three directions of 3-space; $p_t$, the pressure along each of the three extra times; $p_8$, the pressure along the hidden direction; and $\rho$. They are proper densities (per proper 7-volume) and depend on $y$.
+**What the tensor is.** Chapter 9 introduced the **energy-momentum tensor** $T^\mu{}_\nu$: at every point a table of $8 \times 8$ numbers that says how much energy and momentum there is and how it flows. For the Kohn-Sham states it is diagonal, and its diagonal holds the **energy density** $\rho = -T^{x_4}{}_{x_4}$ and the **pressures** $p_\mu = T^\mu{}_\mu$ (no sum over $\mu$; the sign convention of the Revision record). Because of the symmetries of the states only four different numbers occur at each $y$: $p_3$, the pressure along each of the three directions of 3-space; $p_t$, the pressure along each of the three extra times; $p_0$, the pressure along the hidden direction; and $\rho$. They are proper densities (per proper 7-volume) and depend on $y$.
 
 **The formulas** (ks-theory.json, emt; checks emt_orbital_components and emt_trace_identity). With the orbital densities $n_o = P(a^2 + b^2)$, $s_o = P\,j\,2ab$ and $t_o = P\,j\,(a^2 - b^2)$ (the last one is the current along the momentum; $P = e^{-6Hy}/\mathrm{Vol}_7$ as in Section 15.2) and sums over the occupied levels with the weights $wgf$:
 
@@ -2065,7 +2065,7 @@ $$
 $$
 
 $$
-p_8 = \sum wgf\,\big[(\varepsilon - v)\,n_o - M s_o - \kappa k\,t_o\big] + e_{int} .
+p_0 = \sum wgf\,\big[(\varepsilon - v)\,n_o - M s_o - \kappa k\,t_o\big] + e_{int} .
 $$
 
 Three remarks make these formulas plausible. (1) The energy density is the level times the number density, summed, minus the interaction energy density (the same double counting as in Section 15.5). (2) A quantum moving along $x_1$ pushes on a wall across $x_1$ with $\kappa k\,t_o$; a closed shell of momenta contains every direction equally often (a cube has the same number of vectors along each axis), so the pressure along each of the three directions is one third of it. (3) The states belong to the **good sector**: they have no momentum along the extra times, so the extra-time pressure has no kinetic part at all, and only the interaction contributes, $p_t = e_{int}$. Without interaction $p_t = 0$.
@@ -2097,16 +2097,16 @@ $$
 Rule: the same formula for one value of $\nu$ (no sum) gives half the derivative of $\ln|g_{\nu\nu}|$; the six warped directions carry the factor $e^{2Hy}$ in the line element $ds^2 = e^{2Hy}[e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2) - e^{-2a_4}(dx_5^2 + dx_6^2 + dx_7^2)] - dx_4^2 + dy^2$, and $\tfrac12\partial_y\ln e^{2Hy} = H$; $g_{x_4x_4} = -1$ and $g_{yy} = 1$ are constant.
 
 $$
-p_8' + 6H\,p_8 - 3H\,p_3 - 3H\,p_t = 0 .
+p_0' + 6H\,p_0 - 3H\,p_3 - 3H\,p_t = 0 .
 $$
 
-Rule: $T^y{}_y = p_8$; the six warped terms give $H$ times $p_3$ three times and $H$ times $p_t$ three times.
+Rule: $T^y{}_y = p_0$; the six warped terms give $H$ times $p_3$ three times and $H$ times $p_t$ three times.
 
 $$
-\big(e^{6Hy}p_8\big)' = 3H\,e^{6Hy}\,(p_3 + p_t) .
+\big(e^{6Hy}p_0\big)' = 3H\,e^{6Hy}\,(p_3 + p_t) .
 $$
 
-Rule: $(e^{6Hy}p_8)' = e^{6Hy}(p_8' + 6Hp_8)$ (product and chain rule); multiply the previous line by $e^{6Hy}$. This is the **conservation law along $y$** (ks-theory.json, emt.conservationY). Integrated from the tip to the brane it reads $[e^{6Hy}p_8]_{-L}^{0} = 3H\int_{-L}^{0}e^{6Hy}(p_3 + p_t)\,dy$. It is PROVED for every self-consistent state (check emt_y_conservation_selfconsistent of `Revision/kohn_sham/reports/ks-theory-python.json`: the force terms $-M'S - v'n$ of the orbitals cancel exactly against the derivative of $e_{int}$ when the potentials are the self-consistent ones) and COMPUTED for all 75 ground states of the record (checks emt_y_conservation_pointwise, worst relative residual $1.95 \times 10^{-8}$, and emt_y_conservation_integrated, worst $1.42 \times 10^{-11}$, of `Revision/kohn_sham/reports/ks-rust-solver.json`).
+Rule: $(e^{6Hy}p_0)' = e^{6Hy}(p_0' + 6Hp_8)$ (product and chain rule); multiply the previous line by $e^{6Hy}$. This is the **conservation law along $y$** (ks-theory.json, emt.conservationY). Integrated from the tip to the brane it reads $[e^{6Hy}p_0]_{-L}^{0} = 3H\int_{-L}^{0}e^{6Hy}(p_3 + p_t)\,dy$. It is PROVED for every self-consistent state (check emt_y_conservation_selfconsistent of `Revision/kohn_sham/reports/ks-theory-python.json`: the force terms $-M'S - v'n$ of the orbitals cancel exactly against the derivative of $e_{int}$ when the potentials are the self-consistent ones) and COMPUTED for all 75 ground states of the record (checks emt_y_conservation_pointwise, worst relative residual $1.95 \times 10^{-8}$, and emt_y_conservation_integrated, worst $1.42 \times 10^{-11}$, of `Revision/kohn_sham/reports/ks-rust-solver.json`).
 
 **The energy change along the history.** Now the $x_4$ component. The metric depends on $x_4$ through $a_4(x_4)$, and the states are instantaneous states that follow it. Line by line:
 
@@ -2144,11 +2144,11 @@ Rule: along the history $\partial_{x_4} = a_4'\,\partial/\partial a_4$ (chain ru
 
 **Why the gas cannot be the source of the history.** In the author's theory the function $a_4(x_4)$ is not free: it must solve the field equations for $a_4$ (Chapter 12), whose right-hand side is the energy-momentum tensor of the matter. The record `Revision/field_equations_a4/reports/ks-source-conditions.json` lists, under its key conditions, what a source must satisfy:
 
-- (C1) every component of the source is independent of $x_8$, that is, of $y$;
+- (C1) every component of the source is independent of $x_0$, that is, of $y$;
 - (C2) $p_3 + p_t = 2p_8$ at every point (an algebraic identity of the left-hand side of the $a_4$ equations, which every source must share);
-- (C3) for the linear history $a_4 = AHx_4 + a_0$ used here: $p_3 = p_t = p_8$ and a constant $\rho$.
+- (C3) for the linear history $a_4 = AHx_4 + a_0$ used here: $p_3 = p_t = p_0$ and a constant $\rho$.
 
-The Kohn-Sham gas fails all three. C1: its densities vary strongly with $y$ (Figure 15a.5); the record finds $(\max\rho - \min\rho)/\max|T| \ge 0.0497$ in every state with a nonzero tensor (check ks_profiles_depend_on_x8). C2: $\max|p_3 + p_t - 2p_8|/\max|T|$ lies between 2.09 and 3.99 (check ks_profiles_violate_algebraic_condition), and even the integrated components violate it: $(\int p_3 + \int p_t)/(2\int p_8)$ is $0.339767$, $0.259690$, $0.239714$ for $N = 136$, $\lambda = 0$ at $a_{4,0} = 0, 1, 2$, never close to 1 (check ks_integrals_violate_algebraic_condition). C3: along the history $\rho$ falls (the integral from $80.28$ to $12.45$ for $N = 136$) and $p_3 \ne p_t$ (check ks_history_is_a_prescribed_background); indeed the energy-change law says that $\rho$ can only stay constant if $p_3 = p_t$. The five free states of $N = 8$ are not covered by these checks: their tensor vanishes identically (only the zero modes are filled), a zero source, for which Einstein gravity has no vacuum solution with $H > 0$ (check ks_zero_source_states_listed). Notebook 15b reproduces these numbers from its own computations (Out [12]). Hence the status: the history $a_4 = AHx_4$ is a **PRESCRIBED BACKGROUND**, and the gas is a **test field** on it, without back-reaction; quantities derived along the history, such as the ratios of integrated pressures below, are not consequences of the coupled field equations. Chapter 17 returns to this question with the full source conditions.
+The Kohn-Sham gas fails all three. C1: its densities vary strongly with $y$ (Figure 15a.5); the record finds $(\max\rho - \min\rho)/\max|T| \ge 0.0497$ in every state with a nonzero tensor (check ks_profiles_depend_on_x0). C2: $\max|p_3 + p_t - 2p_8|/\max|T|$ lies between 2.09 and 3.99 (check ks_profiles_violate_algebraic_condition), and even the integrated components violate it: $(\int p_3 + \int p_t)/(2\int p_0)$ is $0.339767$, $0.259690$, $0.239714$ for $N = 136$, $\lambda = 0$ at $a_{4,0} = 0, 1, 2$, never close to 1 (check ks_integrals_violate_algebraic_condition). C3: along the history $\rho$ falls (the integral from $80.28$ to $12.45$ for $N = 136$) and $p_3 \ne p_t$ (check ks_history_is_a_prescribed_background); indeed the energy-change law says that $\rho$ can only stay constant if $p_3 = p_t$. The five free states of $N = 8$ are not covered by these checks: their tensor vanishes identically (only the zero modes are filled), a zero source, for which Einstein gravity has no vacuum solution with $H > 0$ (check ks_zero_source_states_listed). Notebook 15b reproduces these numbers from its own computations (Out [12]). Hence the status: the history $a_4 = AHx_4$ is a **PRESCRIBED BACKGROUND**, and the gas is a **test field** on it, without back-reaction; quantities derived along the history, such as the ratios of integrated pressures below, are not consequences of the coupled field equations. Chapter 17 returns to this question with the full source conditions.
 
 **Integrated pressures.** The ratio $\int p_3/\int\rho$ of the free gas is $0.2966$, $0.3100$, $0.3264$ for $N = 136$ at $a_{4,0} = 0, 1, 2$ (Notebook 15b, Out [9]; `Revision/kohn_sham/results/ground/emt-integrals.csv`). It rises toward $1/3$, the value for massless particles, because the band levels are nearly linear in the momentum ($\varepsilon \approx c\,k\,e^{-a_{4,0}}$), like massless particles, and become more so as the momenta redshift. These are integrated components on a prescribed background, not an equation of state that an observer in 3-space would measure.
 
@@ -2156,7 +2156,7 @@ The Kohn-Sham gas fails all three. C1: its densities vary strongly with $y$ (Fig
 
 Notebook 15b runs the solver's command `single` for two states, $N = 136$ without interaction at $a_{4,0} = 1$ and $N = 136$ with $+\lambda_2$ at $a_{4,0} = 2$, and checks that their profiles equal the committed ones. It draws the four components as proper densities (Figure 15b.1) and as the densities that are integrated over $y$ (Figure 15b.2), checks the conservation law along $y$ point by point and integrated (Figure 15b.3), solves $N = 136$ at 17 slices and checks the energy-change law at every slice and integrated over the whole history (Figure 15b.4), draws the integrated pressure ratios (Figure 15b.5) and the spreading of the energy toward the tip (Figure 15b.6), shows the interaction terms (Figure 15b.7), and tests the three source conditions on its own numbers. It needs Rust, takes about half a minute, and ends with ALL 18 CHECKS PASSED (notebook 15b).
 
-What to look for: in Figure 15b.1 that the proper densities are huge at the tip and that $p_8$ changes sign; in Figure 15b.2 that the same quantities times the volume factor sit near the brane; in Figure 15b.3 two curves that lie on top of each other; in Figure 15b.4 short orange lines, computed from the pressures alone, that touch the curve of the energies.
+What to look for: in Figure 15b.1 that the proper densities are huge at the tip and that $p_0$ changes sign; in Figure 15b.2 that the same quantities times the volume factor sit near the brane; in Figure 15b.3 two curves that lie on top of each other; in Figure 15b.4 short orange lines, computed from the pressures alone, that touch the curve of the energies.
 
 <!-- NOTEBOOK 15b -->
 
@@ -2256,7 +2256,7 @@ check(worst < 1e-9, "the new profiles equal the committed profiles within 1e-9",
       record=f"{RECORD_PROFILES}/N136_lam0_a10.csv and N136_lamp2_a20.csv")
 ```
 
-Out [3] lists the twelve columns ($y$, $n$, $S$, $Q$, $M$, $v$, $w_Q$, $e_{int}$, $\rho$, $p_3$, $p_t$, $p_8$; $Q$ and $w_Q$ belong to the exact-Fock variant), a difference of 0.0, the files byte-identical, and PASS.
+Out [3] lists the twelve columns ($y$, $n$, $S$, $Q$, $M$, $v$, $w_Q$, $e_{int}$, $\rho$, $p_3$, $p_t$, $p_0$; $Q$ and $w_Q$ belong to the exact-Fock variant), a difference of 0.0, the files byte-identical, and PASS.
 
 **In [4], the proper densities.**
 
@@ -2264,14 +2264,14 @@ Out [3] lists the twelve columns ($y$, $n$, $S$, $Q$, $M$, $v$, $w_Q$, $e_{int}$
 prof = read_profile(RUN_FOLDER / "N136_lam0_a10.csv")
 y = prof["y"]
 step = float(y[1] - y[0])  # 0.02
-COMPONENTS = [("rho", "$\\rho$"), ("p3", "$p_3$"), ("p_t", "$p_t$"), ("p8", "$p_8$")]
+COMPONENTS = [("rho", "$\\rho$"), ("p3", "$p_3$"), ("p_t", "$p_t$"), ("p0", "$p_0$")]
 fig, ax = plt.subplots()
 for colour, (column, label) in zip(PALETTE, COMPONENTS):
     ax.plot(y, prof[column], color=colour, lw=2.0, label=label)
 ax.set_yscale("symlog", linthresh=1e-3)
 ```
 
-The free profile is read; `y` are its 151 coordinates with the spacing `step` $= 0.02$. `COMPONENTS` pairs the column names with their labels, and the four components are drawn on a symmetric logarithmic axis (linear between $-10^{-3}$ and $10^{-3}$), because they span six powers of ten and $p_8$ changes sign.
+The free profile is read; `y` are its 151 coordinates with the spacing `step` $= 0.02$. `COMPONENTS` pairs the column names with their labels, and the four components are drawn on a symmetric logarithmic axis (linear between $-10^{-3}$ and $10^{-3}$), because they span six powers of ten and $p_0$ changes sign.
 
 ```python
 ax.set_xlabel("hidden coordinate $y$ (tip at $-3$, brane at $0$)")
@@ -2279,13 +2279,13 @@ ax.set_ylabel("proper density (units of $m^8$)")
 ax.set_title("Energy density and pressures, $N = 136$, $\\lambda = 0$, $a_{4,0} = 1$")
 ax.legend()
 save_figure(fig, "proper_emt",
-            "The energy density $\\rho$ and the pressures $p_3$, $p_t$, $p_8$ of the "
+            "The energy density $\\rho$ and the pressures $p_3$, $p_t$, $p_0$ of the "
 ...)
 report("p_t without interaction: largest |p_t|", float(np.max(np.abs(prof["p_t"]))))
 check(float(np.max(np.abs(prof["p_t"]))) == 0.0, "p_t = e_int = 0 when lambda = 0")
 ```
 
-The labels (a proper energy density has the unit $m^8$ in eight dimensions), Figure 15b.1, and the check that $p_t$ is exactly zero without interaction (Out [4]). In the figure all components are largest at the tip, and $p_8$ is negative near the tip and changes sign near $y = -2.45$.
+The labels (a proper energy density has the unit $m^8$ in eight dimensions), Figure 15b.1, and the check that $p_t$ is exactly zero without interaction (Out [4]). In the figure all components are largest at the tip, and $p_0$ is negative near the tip and changes sign near $y = -2.45$.
 
 **In [5], the coordinate densities and their integrals.**
 
@@ -2329,10 +2329,10 @@ save_figure(fig, "coordinate_emt",
 ...)
 row = emt_rows["N136_lam0_a10"]
 rel = lambda a, b: abs(a - b) / max(abs(b), 1e-300)
-worst_int = max(rel(integrals[c], float(row[f"int_{c}"])) for c in ("rho", "p3", "p8"))
+worst_int = max(rel(integrals[c], float(row[f"int_{c}"])) for c in ("rho", "p3", "p0"))
 ```
 
-A zero line, labels, Figure 15b.2. `rel` is the relative difference of two numbers, and `worst_int` the largest relative difference between this notebook's integrals of $\rho$, $p_3$, $p_8$ and the record's columns `int_rho`, `int_p3`, `int_p8`.
+A zero line, labels, Figure 15b.2. `rel` is the relative difference of two numbers, and `worst_int` the largest relative difference between this notebook's integrals of $\rho$, $p_3$, $p_0$ and the record's columns `int_rho`, `int_p3`, `int_p0`.
 
 ```python
 report("E_KS from the profile / from the solver",
@@ -2343,7 +2343,7 @@ check(rel(free_state["E_KS"], float(summary_rows["N136_lam0_a10"]["E_KS"])) < 1e
       record="Revision/kohn_sham/results/ground/summary.csv, N136_lam0_a10")
 check(rel(integrals["rho"], free_state["E_KS"]) < 1e-6 and worst_int < 1e-6,
       "Simpson's rule on the profile gives E_KS and the recorded integrals",
-      record=f"{EMT_TABLE}, columns int_rho, int_p3, int_p8")
+      record=f"{EMT_TABLE}, columns int_rho, int_p3, int_p0")
 ```
 
 Out [5]: the integral of the energy density over the 151 profile points is $32.38411614$ against the solver's $E_{KS} = 32.38411569$ (a relative difference of $1.4 \times 10^{-8}$, the error of Simpson's rule on the coarse profile grid); both checks pass. In Figure 15b.2 the energy and the pressures sit near the brane.
@@ -2366,20 +2366,20 @@ def derivative4(f, h):
 ```python
 def conservation(p):
     e6 = np.exp(6.0 * H * p["y"])
-    left = derivative4(e6 * p["p8"], step)
+    left = derivative4(e6 * p["p0"], step)
     right = 3.0 * H * e6 * (p["p3"] + p["p_t"])
     scale = max(float(np.max(np.abs(left))), float(np.max(np.abs(right))))
-    jump = e6[-1] * p["p8"][-1] - e6[0] * p["p8"][0]
+    jump = e6[-1] * p["p0"][-1] - e6[0] * p["p0"][0]
     integral = simpson(right, step)
     return left, right, np.abs(left - right) / scale, abs(jump - integral) / abs(jump)
 ```
 
-`conservation` returns, for a profile, the left side $(e^{6Hy}p_8)'$, the right side $3H\,e^{6Hy}(p_3 + p_t)$, their difference at every point divided by the largest value of the two sides, and the integrated residual: the jump $[e^{6Hy}p_8]_{-3}^{0}$ compared with the integral of the right side, relative to the jump.
+`conservation` returns, for a profile, the left side $(e^{6Hy}p_0)'$, the right side $3H\,e^{6Hy}(p_3 + p_t)$, their difference at every point divided by the largest value of the two sides, and the integrated residual: the jump $[e^{6Hy}p_0]_{-3}^{0}$ compared with the integral of the right side, relative to the jump.
 
 ```python
 left, right, residual, integrated = conservation(prof)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10.0, 4.0), layout="constrained")
-ax1.plot(y, left, color=PALETTE[0], lw=3.0, label="$(e^{6Hy}p_8)'$")
+ax1.plot(y, left, color=PALETTE[0], lw=3.0, label="$(e^{6Hy}p_0)'$")
 ax1.plot(y, right, color=PALETTE[1], lw=1.5, ls="--",
          label="$3H\\,e^{6Hy}(p_3 + p_t)$")
 ax1.set_xlabel("hidden coordinate $y$")
@@ -2403,7 +2403,7 @@ save_figure(fig, "y_conservation",
 report("largest pointwise residual / integrated residual",
        f"{float(np.max(residual)):.1e} / {integrated:.1e}")
 check(float(np.max(residual)) < 1e-4 and integrated < 1e-6,
-      "(e^{6Hy} p8)' = 3H e^{6Hy} (p3 + p_t) holds for N136_lam0_a10",
+      "(e^{6Hy} p0)' = 3H e^{6Hy} (p3 + p_t) holds for N136_lam0_a10",
       record="Revision/kohn_sham/reports/ks-rust-solver.json, checks "
              "emt_y_conservation_pointwise and emt_y_conservation_integrated")
 ```
@@ -2419,7 +2419,7 @@ for a4 in DENSE:
     record = solve_state(f"N136_lam0_dense_{round(1000 * a4):04d}", 136, 0.0, a4)
     ints = record["emtIntegrals_2Vol7_int_e6Hy"]  # 2 Vol_7 int e^{6Hy} (...) dy
     history.append({"a4": a4, "E": record["E_KS"], "rho": ints["rho"],
-                    "p3": ints["p3"], "p_t": ints["p_t"], "p8": ints["p8"],
+                    "p3": ints["p3"], "p_t": ints["p_t"], "p0": ints["p0"],
                     "slope": -3.0 * (ints["p3"] - ints["p_t"])})
 ```
 
@@ -2498,22 +2498,22 @@ Figure 15b.4; Out [8]: $E(2) - E(0) = -67.837152$ and the integral of the slopes
 
 ```python
 ratio3 = np.array([item["p3"] / item["rho"] for item in history])
-ratio8 = np.array([item["p8"] / item["rho"] for item in history])
+ratio8 = np.array([item["p0"] / item["rho"] for item in history])
 fig, ax = plt.subplots()
 ax.plot(DENSE, ratio3, color=PALETTE[0], lw=2.0,
         label="$\\int p_3 / \\int \\rho$, $N = 136$")
 ax.plot(DENSE, ratio8, color=PALETTE[1], lw=2.0,
-        label="$\\int p_8 / \\int \\rho$, $N = 136$")
+        label="$\\int p_0 / \\int \\rho$, $N = 136$")
 ```
 
-The ratios $\int p_3/\int\rho$ and $\int p_8/\int\rho$ at the 17 slices, drawn as lines.
+The ratios $\int p_3/\int\rho$ and $\int p_0/\int\rho$ at the 17 slices, drawn as lines.
 
 ```python
 worst_ratio = 0.0
 for marker, n in (("o", 136), ("s", 688)):
     keys = [f"N{n}_lam0_a{round(10 * a):02d}" for a in (0.0, 0.5, 1.0, 1.5, 2.0)]
     r3 = [float(emt_rows[k]["int_p3"]) / float(emt_rows[k]["int_rho"]) for k in keys]
-    r8 = [float(emt_rows[k]["int_p8"]) / float(emt_rows[k]["int_rho"]) for k in keys]
+    r8 = [float(emt_rows[k]["int_p0"]) / float(emt_rows[k]["int_rho"]) for k in keys]
     ax.plot([0, 0.5, 1, 1.5, 2], r3, marker, color=PALETTE[0], ms=8,
             markerfacecolor="white", label=f"record, $N = {n}$")
     ax.plot([0, 0.5, 1, 1.5, 2], r8, marker, color=PALETTE[1], ms=8,
@@ -2535,7 +2535,7 @@ save_figure(fig, "integrated_ratios",
 ...)
 report("int p3 / int rho of N = 136 at a4,0 = 0, 1, 2",
        ", ".join(f"{ratio3[i]:.4f}" for i in (0, 8, 16)))
-report("int p8 / int rho of N = 136 at a4,0 = 0, 1, 2",
+report("int p0 / int rho of N = 136 at a4,0 = 0, 1, 2",
        ", ".join(f"{ratio8[i]:.4f}" for i in (0, 8, 16)))
 check(worst_ratio < 1e-12, "the ratios at the five slices equal the record",
       record=f"{EMT_TABLE}, int_p3 / int_rho")
@@ -2543,7 +2543,7 @@ check(bool(np.all(np.diff(ratio3) > 0.0)) and ratio3[-1] < 1.0 / 3.0,
       "int p3 / int rho rises along the history and stays below 1/3")
 ```
 
-A dotted line at $1/3$, Figure 15b.5, the ratios at $a_{4,0} = 0, 1, 2$ (the dense indices 0, 8, 16) and two checks. Out [9]: $\int p_3/\int\rho = 0.2966$, $0.3100$, $0.3264$ and $\int p_8/\int\rho = 0.4365$, $0.5969$, $0.6808$; the ratios equal the record, and the 3-space ratio rises at every slice but stays below $1/3$ (Section 15.16 explains why).
+A dotted line at $1/3$, Figure 15b.5, the ratios at $a_{4,0} = 0, 1, 2$ (the dense indices 0, 8, 16) and two checks. Out [9]: $\int p_3/\int\rho = 0.2966$, $0.3100$, $0.3264$ and $\int p_0/\int\rho = 0.4365$, $0.5969$, $0.6808$; the ratios equal the record, and the 3-space ratio rises at every slice but stays below $1/3$ (Section 15.16 explains why).
 
 **In [10], where the energy sits.**
 
@@ -2645,9 +2645,9 @@ details = {item["name"]: item["detail"] for item in source["checks"]}
 `re` is Python's module for **regular expressions**, patterns that find pieces of text. The source-conditions record is read, and `details` files the detail text of each of its checks under the check name.
 
 ```python
-t_scale = max(float(np.max(np.abs(prof[c]))) for c in ("rho", "p3", "p_t", "p8"))
+t_scale = max(float(np.max(np.abs(prof[c]))) for c in ("rho", "p3", "p_t", "p0"))
 c1 = (float(np.max(prof["rho"])) - float(np.min(prof["rho"]))) / t_scale  # C1 test
-c2 = prof["p3"] + prof["p_t"] - 2.0 * prof["p8"]  # zero everywhere if C2 held
+c2 = prof["p3"] + prof["p_t"] - 2.0 * prof["p0"]  # zero everywhere if C2 held
 ```
 
 For the free profile at $a_{4,0} = 1$: `t_scale` is the largest size of any component, `c1` the variation of $\rho$ along $y$ relative to it (zero if C1 held), and `c2` the array $p_3 + p_t - 2p_8$ (zero everywhere if C2 held).
@@ -2656,20 +2656,20 @@ For the free profile at $a_{4,0} = 1$: `t_scale` is the largest size of any comp
 number = r"(-?[0-9.]+(?:e[-+]?[0-9]+)?)"  # a number as the record prints it
 examples = re.findall(
     rf"y = {number}: rho = {number}, p3 = {number}, p_t = {number}, "
-    rf"p8 = {number}, p3 \+ p_t - 2 p8 = {number}",
+    rf"p0 = {number}, p3 \+ p_t - 2 p0 = {number}",
     details["ks_profiles_violate_algebraic_condition"])
 ```
 
-`number` is a pattern for a number as the record prints it: an optional minus sign (`-?`), digits and points (`[0-9.]+`), and an optional exponent such as `e-05`; the parentheses mark the part to be returned. A string with the prefix `rf` is both raw (backslashes are kept) and an f-string, so `{number}` is replaced by the pattern; `\+` stands for a literal plus sign. `re.findall` returns, for every place in the detail text that matches, the six numbers: $y$, $\rho$, $p_3$, $p_t$, $p_8$ and $p_3 + p_t - 2p_8$. The record prints three such examples, at $y = -3$, $-1.5$ and $0$.
+`number` is a pattern for a number as the record prints it: an optional minus sign (`-?`), digits and points (`[0-9.]+`), and an optional exponent such as `e-05`; the parentheses mark the part to be returned. A string with the prefix `rf` is both raw (backslashes are kept) and an f-string, so `{number}` is replaced by the pattern; `\+` stands for a literal plus sign. `re.findall` returns, for every place in the detail text that matches, the six numbers: $y$, $\rho$, $p_3$, $p_t$, $p_0$ and $p_3 + p_t - 2p_8$. The record prints three such examples, at $y = -3$, $-1.5$ and $0$.
 
 ```python
-say("    y         rho          p3      p_t          p8  p3 + p_t - 2 p8")
+say("    y         rho          p3      p_t          p0  p3 + p_t - 2 p0")
 worst_example = 0.0
 for example in examples:
     y0, values = float(example[0]), [float(v) for v in example[1:]]
     i = int(np.argmin(np.abs(y - y0)))  # the profile point at this y
     mine = [float(prof["rho"][i]), float(prof["p3"][i]), float(prof["p_t"][i]),
-            float(prof["p8"][i]), float(c2[i])]
+            float(prof["p0"][i]), float(c2[i])]
     say(f"{y[i] + 0.0:5.1f}  {mine[0]:10.6g}  {mine[1]:10.6g}"  # + 0.0 turns -0 into 0
         f"  {mine[2] + 0.0:7.3g}  {mine[3]:10.6g}  {mine[4]:15.6g}")
     for a, b in zip(mine, values):  # 6 significant digits: relative 5e-6
@@ -2680,7 +2680,7 @@ for example in examples:
 For each example the profile point nearest to its $y$ is found (`np.argmin` gives the position of the smallest distance), this notebook's five values there are printed (the format `g` chooses the shorter of the fixed and the exponent form; adding 0.0 turns a negative zero into 0), and the largest relative difference to the record's six-digit numbers is kept (an absolute difference where the record's value is 0).
 
 ```python
-ratios_c2 = {item["a4"]: (item["p3"] + item["p_t"]) / (2.0 * item["p8"])
+ratios_c2 = {item["a4"]: (item["p3"] + item["p_t"]) / (2.0 * item["p0"])
              for item in history}
 recorded_c2 = {int(key[-2:]) / 10.0: float(value) for key, value in re.findall(
     r"(N136_lam0_a[0-9][0-9]): ([0-9.]+)",
@@ -2688,11 +2688,11 @@ recorded_c2 = {int(key[-2:]) / 10.0: float(value) for key, value in re.findall(
 worst_c2 = max(abs(ratios_c2[a4] / value - 1.0) for a4, value in recorded_c2.items())
 ```
 
-`ratios_c2` holds $(\int p_3 + \int p_t)/(2\int p_8)$ at the 17 slices; C2 integrated would make it 1. The record prints this ratio for `N136_lam0_a00`, `a10` and `a20`; the pattern finds the three names and numbers, the slice is read from the last two digits of the name (`key[-2:]`), and `worst_c2` is the largest relative difference to this notebook's values.
+`ratios_c2` holds $(\int p_3 + \int p_t)/(2\int p_0)$ at the 17 slices; C2 integrated would make it 1. The record prints this ratio for `N136_lam0_a00`, `a10` and `a20`; the pattern finds the three names and numbers, the slice is read from the last two digits of the name (`key[-2:]`), and `worst_c2` is the largest relative difference to this notebook's values.
 
 ```python
 report("C1: (max rho - min rho) / max|T| for N136_lam0_a10", f"{c1:.4f}")
-report("C2 integrated: (int p3 + int p_t)/(2 int p8) at a4,0 = 0, 1, 2",
+report("C2 integrated: (int p3 + int p_t)/(2 int p0) at a4,0 = 0, 1, 2",
        ", ".join(f"{ratios_c2[a]:.6f}" for a in (0.0, 1.0, 2.0)))
 report("C3: int rho at a4,0 = 0 and 2; int p3 and int p_t at a4,0 = 1",
        f"{history[0]['rho']:.4f}, {history[-1]['rho']:.4f}; "
@@ -2705,7 +2705,7 @@ Three RESULT lines: the C1 measure, the C2 ratios at three slices, and the numbe
 check(c1 > 0.01 and len(examples) == 3 and worst_example < 5e-6
       and float(np.min(np.abs(c2[[0, len(c2) // 2, -1]]))) > 0.0,
       "C1 and C2 fail for N136_lam0_a10; the record's example values reproduced",
-      record=f"{SOURCE}, checks ks_profiles_depend_on_x8 and "
+      record=f"{SOURCE}, checks ks_profiles_depend_on_x0 and "
              "ks_profiles_violate_algebraic_condition")
 check(len(recorded_c2) == 3 and worst_c2 < 5e-6
       and all(abs(r - 1.0) > 0.5 for r in ratios_c2.values()),
@@ -2718,7 +2718,7 @@ check(history[-1]["rho"] < 0.2 * history[0]["rho"]
       record=f"{SOURCE}, check ks_history_is_a_prescribed_background")
 ```
 
-The three checks: C1 and C2 fail for this profile (the variation is more than 1 per cent, and $p_3 + p_t - 2p_8$ is nonzero at the tip, the middle point and the brane; `c2[[0, len(c2) // 2, -1]]` picks these three entries), and the record's three examples are reproduced to six digits; C2 fails after integration at all 17 slices (the ratio differs from 1 by more than 0.5) and the record's three ratios are reproduced; C3 fails ($\int\rho$ falls to less than a fifth, and $\int p_3$ is more than a quarter of $\int\rho$ while $\int p_t = 0$). Out [12] prints the table: at the tip $\rho = 43.07$, $p_3 = 158.3$, $p_8 = -431.7$ and $p_3 + p_t - 2p_8 = 1021.7$; the C1 measure $0.0998$; the C2 ratios $0.339767$, $0.259690$, $0.239714$; and $\int\rho = 80.2822$ and $12.4451$.
+The three checks: C1 and C2 fail for this profile (the variation is more than 1 per cent, and $p_3 + p_t - 2p_8$ is nonzero at the tip, the middle point and the brane; `c2[[0, len(c2) // 2, -1]]` picks these three entries), and the record's three examples are reproduced to six digits; C2 fails after integration at all 17 slices (the ratio differs from 1 by more than 0.5) and the record's three ratios are reproduced; C3 fails ($\int\rho$ falls to less than a fifth, and $\int p_3$ is more than a quarter of $\int\rho$ while $\int p_t = 0$). Out [12] prints the table: at the tip $\rho = 43.07$, $p_3 = 158.3$, $p_0 = -431.7$ and $p_3 + p_t - 2p_8 = 1021.7$; the C1 measure $0.0998$; the C2 ratios $0.339767$, $0.259690$, $0.239714$; and $\int\rho = 80.2822$ and $12.4451$.
 
 **In [13], the last check.**
 
@@ -4146,7 +4146,7 @@ As in Notebook 15e (Section 15.9, In [15]), with the seven figure names of this 
 | $E_{KS} = \sum gf\varepsilon - 2\,\mathrm{Vol}_7\int e^{6Hy}e_{int}\,dy$ (double counting) | Section 15.5 | `ks_onshell_lagrangian` |
 | $E_{KS}(-\lambda) = -E_{KS}(\lambda)$ for the mapped zero-mode state of $N = 8$ | Section 15.5 | derived here |
 | the energy-momentum tensor of the states | Section 15.16 | `emt_orbital_components`, `emt_trace_identity` |
-| the conservation law $(e^{6Hy}p_8)' = 3H\,e^{6Hy}(p_3 + p_t)$ | Section 15.16 | `emt_y_conservation_selfconsistent` |
+| the conservation law $(e^{6Hy}p_0)' = 3H\,e^{6Hy}(p_3 + p_t)$ | Section 15.16 | `emt_y_conservation_selfconsistent` |
 | the energy-change law $dE/da_4 = -3\cdot2\,\mathrm{Vol}_7\int e^{6Hy}(p_3 - p_t)\,dy$ | Section 15.16 | `emt_x4_component` |
 | the Hellmann-Feynman theorem and the first-order estimate $Q_{nm}$ | Section 15.21 | `adiabatic_hellmann_feynman`, `adiabatic_offdiagonal_identity` |
 | the closed form of $C_V$, $C_V = T\,dS/dT$, $-dF/dT = S$, $\Omega = F - \mu N$, the balance form of $\sum gf = N$ | Section 15.26, Exercise 5 | derived here |
@@ -4166,7 +4166,7 @@ As in Notebook 15e (Section 15.9, In [15]), with the seven figure names of this 
 **ASSUMED**:
 
 - the good sector (no dependence on the extra times) and the Z2 mirror brane at $y = 0$;
-- CHOSEN: the regular tip $b(-L) = 0$ at the cutoff $L = 3$. Its effect is COMPUTED in the record (`Revision/kohn_sham/tip_convergence/`, $L = 3$ to $6$, 7 of 7 checks PASS; Section 15.2, the paragraph on the cutoff): the recorded free results, except $N = 688$ at $a_{4,0} = 0$, lie within 1.4 per cent ($E_{KS}$) and 12 per cent (the integral of $p_8$) of their large-$L$ values; the interaction effects do not, because the proper zero-mode density grows toward the tip like $e^{(6H - 2m)|y|}$: the recorded $N = 8$ interaction energy $\mp9.868 \times 10^{-4}$ ($\lambda = \pm\lambda_1$) is about one third of its large-$L$ value $\mp3.0046 \times 10^{-3}$, the interaction shift of $N = 136$ at $a_{4,0} = 2$ is about 21 times its $L = 3$ value at large $L$ ($-\lambda_1$) and about 28 times at $L = 5.5$ ($+\lambda_1$, limit not established), and the self-consistent iteration fails at some larger $L$ for 13 of the 19 interacting states studied. The couplings (calibrated at $L = 3$; the same rule at larger $L$ drives $\lambda_1$ to zero) and $N = 688$ (bulk edge at $L = 3$) are themselves choices at $L = 3$;
+- CHOSEN: the regular tip $b(-L) = 0$ at the cutoff $L = 3$. Its effect is COMPUTED in the record (`Revision/kohn_sham/tip_convergence/`, $L = 3$ to $6$, 7 of 7 checks PASS; Section 15.2, the paragraph on the cutoff): the recorded free results, except $N = 688$ at $a_{4,0} = 0$, lie within 1.4 per cent ($E_{KS}$) and 12 per cent (the integral of $p_0$) of their large-$L$ values; the interaction effects do not, because the proper zero-mode density grows toward the tip like $e^{(6H - 2m)|y|}$: the recorded $N = 8$ interaction energy $\mp9.868 \times 10^{-4}$ ($\lambda = \pm\lambda_1$) is about one third of its large-$L$ value $\mp3.0046 \times 10^{-3}$, the interaction shift of $N = 136$ at $a_{4,0} = 2$ is about 21 times its $L = 3$ value at large $L$ ($-\lambda_1$) and about 28 times at $L = 5.5$ ($+\lambda_1$, limit not established), and the self-consistent iteration fails at some larger $L$ for 13 of the 19 interacting states studied. The couplings (calibrated at $L = 3$; the same rule at larger $L$ drives $\lambda_1$ to zero) and $N = 688$ (bulk edge at $L = 3$) are themselves choices at $L = 3$;
 - CONVENTION: particles fill the positive branch and the zero modes, the sea is never occupied, not even thermally; its justification is OPEN, and the sea-hole diagnostic shows where it fails;
 - PRESCRIBED BACKGROUND: the history $a_4 = AHx_4$ with $A = 1$; the gas is a test field on it and cannot be its source (it violates the conditions C1, C2, C3 of `Revision/field_equations_a4/reports/ks-source-conditions.json`);
 - the functional: Hartree plus the exact local exchange of the uniform gas, no correlation; the instantaneous (adiabatic) states, supported but not proved by $Q_{max} \ll 1$.

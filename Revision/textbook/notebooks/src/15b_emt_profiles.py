@@ -100,7 +100,7 @@ CELLS = [
     A Kohn-Sham state of dirac16complex carries energy and momentum. The
     **energy-momentum tensor** of the state has four different diagonal components: the
     energy density $\rho$ and the pressures $p_3$ (along 3-space), $p_t$ (along the
-    three extra times) and $p_8$ (along the hidden direction). They depend on the
+    three extra times) and $p_0$ (along the hidden direction). They depend on the
     hidden coordinate $y$. This notebook
 
     - runs the Rust Kohn-Sham solver for two states and checks that the profiles it
@@ -108,14 +108,14 @@ CELLS = [
     - draws the four components, as proper densities and as the densities that are
       integrated over $y$;
     - checks the **conservation law along the hidden direction**,
-      $(e^{6Hy} p_8)' = 3H e^{6Hy}(p_3 + p_t)$, point by point and integrated;
+      $(e^{6Hy} p_0)' = 3H e^{6Hy}(p_3 + p_t)$, point by point and integrated;
     - integrates the energy density to the total Kohn-Sham energy;
     - solves the state $N = 136$ at 17 slices of the deflating history and checks the
       **energy-change identity**
       $dE/da_4 = -3 \cdot 2\,\mathrm{Vol}_7 \int e^{6Hy}(p_3 - p_t)\,dy$: the energy of
       the gas changes only through the difference between the 3-space pressure and the
       extra-time pressure;
-    - shows how the interaction adds the same energy density to $p_3$, $p_t$ and $p_8$;
+    - shows how the interaction adds the same energy density to $p_3$, $p_t$ and $p_0$;
     - tests, on its own numbers, the three conditions that a source of the equations
       for $a_4$ must meet, and reproduces the Revision record that shows they fail.
 
@@ -130,7 +130,7 @@ CELLS = [
       **pressures** $p_\mu = T^{\mu}{}_{\mu}$ (no sum), the force per area in the
       direction $\mu$ (the sign convention of the Revision record).
     - $p_3$: the pressure along each of the three directions of 3-space ($x_1, x_2,
-      x_3$); $p_t$: along each extra time ($x_5, x_6, x_7$); $p_8$: along the hidden
+      x_3$); $p_t$: along each extra time ($x_5, x_6, x_7$); $p_0$: along the hidden
       direction.
     - **Interaction energy density** $e_{int} = \lambda(\tfrac{15}{32}S^2 -
       \tfrac{1}{32}n^2)$: the energy of the contact interaction per proper 7-volume.
@@ -174,7 +174,7 @@ CELLS = [
 
     $$\rho = \sum w g f\,\varepsilon\,n_o - e_{int}, \qquad
     p_3 = \sum w g f\,\tfrac{\kappa |k|}{3}\,t_o + e_{int}, \qquad p_t = e_{int},$$
-    $$p_8 = \sum w g f\left[(\varepsilon - v)\,n_o - M s_o - \kappa|k|\,t_o\right]
+    $$p_0 = \sum w g f\left[(\varepsilon - v)\,n_o - M s_o - \kappa|k|\,t_o\right]
     + e_{int} .$$
 
     The extra-time pressure contains no kinetic part: the states belong to the *good
@@ -195,11 +195,11 @@ CELLS = [
     $0$ for $x_4$ and $y$; the six warped terms are $3H p_3$ (3-space) and $3H p_t$
     (extra times); so
 
-    $$p_8' + 6H p_8 - 3H p_3 - 3H p_t = 0, \quad\text{that is}\quad
-    (e^{6Hy} p_8)' = 3H\,e^{6Hy}(p_3 + p_t),$$
+    $$p_0' + 6H p_0 - 3H p_3 - 3H p_t = 0, \quad\text{that is}\quad
+    (e^{6Hy} p_0)' = 3H\,e^{6Hy}(p_3 + p_t),$$
 
-    because $(e^{6Hy}p_8)' = e^{6Hy}(p_8' + 6Hp_8)$ (product and chain rule). Integrated
-    from tip to brane: $[e^{6Hy}p_8]_{-L}^{0} = 3H \int_{-L}^{0} e^{6Hy}(p_3 + p_t)\,dy$.
+    because $(e^{6Hy}p_0)' = e^{6Hy}(p_0' + 6Hp_8)$ (product and chain rule). Integrated
+    from tip to brane: $[e^{6Hy}p_0]_{-L}^{0} = 3H \int_{-L}^{0} e^{6Hy}(p_3 + p_t)\,dy$.
 
     **Energy change along the history.** The $x_4$ component of the same law reads
     $\partial_{x_4} T^{x_4}{}_{x_4} + \Gamma^\mu{}_{\mu x_4} T^{x_4}{}_{x_4}
@@ -230,8 +230,8 @@ CELLS = [
 
     **Status.** The tensor is COMPUTED by the solver; the two identities are exact and
     are checked here numerically. The history $a_4 = A H x_4$ is a PRESCRIBED
-    BACKGROUND: the Kohn-Sham tensor depends on $y$ (hence on $x_8$) and has
-    $p_3 + p_t \ne 2 p_8$, so it is not an admissible source of the equations for $a_4$
+    BACKGROUND: the Kohn-Sham tensor depends on $y$ (hence on $x_0$) and has
+    $p_3 + p_t \ne 2 p_0$, so it is not an admissible source of the equations for $a_4$
     (Revision record Revision/field_equations_a4/reports/ks-source-conditions.json).
     Units: $H = m = 1$, $L = 3$, $\mathrm{Vol}_7 = (2\pi/0.25)^3$.
     """),
@@ -321,9 +321,9 @@ CELLS = [
     md(r"""
     ## 6. The four components as proper densities
 
-    The next cell draws $\rho$, $p_3$, $p_t$ and $p_8$ of the state $N = 136$,
+    The next cell draws $\rho$, $p_3$, $p_t$ and $p_0$ of the state $N = 136$,
     $\lambda = 0$, $a_{4,0} = 1$ against $y$. The values span six orders of magnitude and
-    $p_8$ changes sign, so the vertical axis is symmetric logarithmic (linear between
+    $p_0$ changes sign, so the vertical axis is symmetric logarithmic (linear between
     $-10^{-3}$ and $10^{-3}$). Without interaction $p_t = e_{int} = 0$ exactly; the
     check confirms it.
     """),
@@ -331,7 +331,7 @@ CELLS = [
     prof = read_profile(RUN_FOLDER / "N136_lam0_a10.csv")
     y = prof["y"]
     step = float(y[1] - y[0])  # 0.02
-    COMPONENTS = [("rho", "$\\rho$"), ("p3", "$p_3$"), ("p_t", "$p_t$"), ("p8", "$p_8$")]
+    COMPONENTS = [("rho", "$\\rho$"), ("p3", "$p_3$"), ("p_t", "$p_t$"), ("p0", "$p_0$")]
     fig, ax = plt.subplots()
     for colour, (column, label) in zip(PALETTE, COMPONENTS):
         ax.plot(y, prof[column], color=colour, lw=2.0, label=label)
@@ -341,11 +341,11 @@ CELLS = [
     ax.set_title("Energy density and pressures, $N = 136$, $\\lambda = 0$, $a_{4,0} = 1$")
     ax.legend()
     save_figure(fig, "proper_emt",
-                "The energy density $\\rho$ and the pressures $p_3$, $p_t$, $p_8$ of the "
+                "The energy density $\\rho$ and the pressures $p_3$, $p_t$, $p_0$ of the "
                 "Kohn-Sham state $N = 136$, $\\lambda = 0$, $a_{4,0} = 1$ as proper "
                 "densities (vertical axis, symmetric logarithmic, units of $m^8$) "
                 "against the hidden coordinate $y$ (horizontal axis). All are largest "
-                "at the tip, where the proper volume is small; $p_8$ is negative near "
+                "at the tip, where the proper volume is small; $p_0$ is negative near "
                 "the tip and changes sign near $y = -2.45$, and $p_t$ is zero without "
                 "interaction.")
     report("p_t without interaction: largest |p_t|", float(np.max(np.abs(prof["p_t"]))))
@@ -401,7 +401,7 @@ CELLS = [
                 "$E_{KS} = 32.384$.")
     row = emt_rows["N136_lam0_a10"]
     rel = lambda a, b: abs(a - b) / max(abs(b), 1e-300)
-    worst_int = max(rel(integrals[c], float(row[f"int_{c}"])) for c in ("rho", "p3", "p8"))
+    worst_int = max(rel(integrals[c], float(row[f"int_{c}"])) for c in ("rho", "p3", "p0"))
     report("E_KS from the profile / from the solver",
            f"{integrals['rho']:.8f} / {free_state['E_KS']:.8f}")
     report("largest relative difference of the integrals to the record", f"{worst_int:.1e}")
@@ -410,16 +410,16 @@ CELLS = [
           record="Revision/kohn_sham/results/ground/summary.csv, N136_lam0_a10")
     check(rel(integrals["rho"], free_state["E_KS"]) < 1e-6 and worst_int < 1e-6,
           "Simpson's rule on the profile gives E_KS and the recorded integrals",
-          record=f"{EMT_TABLE}, columns int_rho, int_p3, int_p8")
+          record=f"{EMT_TABLE}, columns int_rho, int_p3, int_p0")
     '''),
     md(r"""
     ## 8. The conservation law along the hidden direction
 
-    The next cell computes the left side $(e^{6Hy}p_8)'$ by the fourth-order finite
+    The next cell computes the left side $(e^{6Hy}p_0)'$ by the fourth-order finite
     difference (one-sided fourth-order formulas at the two ends, as in the solver) and
     the right side $3H e^{6Hy}(p_3 + p_t)$, draws both, and draws their difference
     divided by the largest of the two sides. It also compares the jump
-    $[e^{6Hy}p_8]_{-3}^{0}$ with the integral of the right side. The solver checked the
+    $[e^{6Hy}p_0]_{-3}^{0}$ with the integral of the right side. The solver checked the
     same law on its fine grid (record checks `emt_y_conservation_pointwise` and
     `emt_y_conservation_integrated`); on the 151 points of the profile the finite
     difference is less accurate, so the tolerances here are $10^{-4}$ (point by point)
@@ -440,17 +440,17 @@ CELLS = [
     def conservation(p):
         """(left side, right side, pointwise residual, integrated residual) of the law."""
         e6 = np.exp(6.0 * H * p["y"])
-        left = derivative4(e6 * p["p8"], step)
+        left = derivative4(e6 * p["p0"], step)
         right = 3.0 * H * e6 * (p["p3"] + p["p_t"])
         scale = max(float(np.max(np.abs(left))), float(np.max(np.abs(right))))
-        jump = e6[-1] * p["p8"][-1] - e6[0] * p["p8"][0]
+        jump = e6[-1] * p["p0"][-1] - e6[0] * p["p0"][0]
         integral = simpson(right, step)
         return left, right, np.abs(left - right) / scale, abs(jump - integral) / abs(jump)
 
 
     left, right, residual, integrated = conservation(prof)
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10.0, 4.0), layout="constrained")
-    ax1.plot(y, left, color=PALETTE[0], lw=3.0, label="$(e^{6Hy}p_8)'$")
+    ax1.plot(y, left, color=PALETTE[0], lw=3.0, label="$(e^{6Hy}p_0)'$")
     ax1.plot(y, right, color=PALETTE[1], lw=1.5, ls="--",
              label="$3H\\,e^{6Hy}(p_3 + p_t)$")
     ax1.set_xlabel("hidden coordinate $y$")
@@ -465,7 +465,7 @@ CELLS = [
     ax2.legend()
     save_figure(fig, "y_conservation",
                 "Left: the two sides of the conservation law along the hidden "
-                "direction, $(e^{6Hy}p_8)'$ (solid) and $3H e^{6Hy}(p_3 + p_t)$ "
+                "direction, $(e^{6Hy}p_0)'$ (solid) and $3H e^{6Hy}(p_3 + p_t)$ "
                 "(dashed), for $N = 136$, $\\lambda = 0$, $a_{4,0} = 1$ (vertical axis, "
                 "units of $m^9$; horizontal axis $y$); the curves lie on top of each "
                 "other. Right: their difference relative to the largest value "
@@ -474,7 +474,7 @@ CELLS = [
     report("largest pointwise residual / integrated residual",
            f"{float(np.max(residual)):.1e} / {integrated:.1e}")
     check(float(np.max(residual)) < 1e-4 and integrated < 1e-6,
-          "(e^{6Hy} p8)' = 3H e^{6Hy} (p3 + p_t) holds for N136_lam0_a10",
+          "(e^{6Hy} p0)' = 3H e^{6Hy} (p3 + p_t) holds for N136_lam0_a10",
           record="Revision/kohn_sham/reports/ks-rust-solver.json, checks "
                  "emt_y_conservation_pointwise and emt_y_conservation_integrated")
     '''),
@@ -484,7 +484,7 @@ CELLS = [
     The next cell solves the state $N = 136$ without interaction at 17 slices,
     $a_{4,0} = 0, 0.125, 0.25, \dots, 2$ (about a third of a second each), and reads
     from each JSON record the energy $E_{KS}$ and the integrals
-    $2\,\mathrm{Vol}_7\int e^{6Hy}(\cdot)\,dy$ of $\rho$, $p_3$, $p_t$, $p_8$ that the
+    $2\,\mathrm{Vol}_7\int e^{6Hy}(\cdot)\,dy$ of $\rho$, $p_3$, $p_t$, $p_0$ that the
     solver computed on its fine grid. From them it forms the slope
     $-3(\int p_3 - \int p_t)$ of the energy-change identity. At the five slices of the
     canonical matrix the energies and integrals must equal the committed tables, and
@@ -499,7 +499,7 @@ CELLS = [
         record = solve_state(f"N136_lam0_dense_{round(1000 * a4):04d}", 136, 0.0, a4)
         ints = record["emtIntegrals_2Vol7_int_e6Hy"]  # 2 Vol_7 int e^{6Hy} (...) dy
         history.append({"a4": a4, "E": record["E_KS"], "rho": ints["rho"],
-                        "p3": ints["p3"], "p_t": ints["p_t"], "p8": ints["p8"],
+                        "p3": ints["p3"], "p_t": ints["p_t"], "p0": ints["p0"],
                         "slope": -3.0 * (ints["p3"] - ints["p_t"])})
     adiabatic_rows = read_rows("Revision/kohn_sham/results/adiabatic/adiabaticity.csv")
     worst_e, worst_slope = 0.0, 0.0
@@ -566,23 +566,23 @@ CELLS = [
     an equation of state is not computed here (it needs the averaging over the hidden
     direction and the extra times, which is the subject of the Revision dark-sector
     work), and the history is a prescribed background. The figure shows
-    $\int p_3/\int\rho$ and $\int p_8/\int\rho$ for $N = 136$ at the 17 slices (lines)
+    $\int p_3/\int\rho$ and $\int p_0/\int\rho$ for $N = 136$ at the 17 slices (lines)
     and for $N = 136$ and $N = 688$ at the five slices of the record (markers). The check
     compares the ratios of $N = 136$ at the five slices with the committed table.
     """),
     code(r'''
     ratio3 = np.array([item["p3"] / item["rho"] for item in history])
-    ratio8 = np.array([item["p8"] / item["rho"] for item in history])
+    ratio8 = np.array([item["p0"] / item["rho"] for item in history])
     fig, ax = plt.subplots()
     ax.plot(DENSE, ratio3, color=PALETTE[0], lw=2.0,
             label="$\\int p_3 / \\int \\rho$, $N = 136$")
     ax.plot(DENSE, ratio8, color=PALETTE[1], lw=2.0,
-            label="$\\int p_8 / \\int \\rho$, $N = 136$")
+            label="$\\int p_0 / \\int \\rho$, $N = 136$")
     worst_ratio = 0.0
     for marker, n in (("o", 136), ("s", 688)):
         keys = [f"N{n}_lam0_a{round(10 * a):02d}" for a in (0.0, 0.5, 1.0, 1.5, 2.0)]
         r3 = [float(emt_rows[k]["int_p3"]) / float(emt_rows[k]["int_rho"]) for k in keys]
-        r8 = [float(emt_rows[k]["int_p8"]) / float(emt_rows[k]["int_rho"]) for k in keys]
+        r8 = [float(emt_rows[k]["int_p0"]) / float(emt_rows[k]["int_rho"]) for k in keys]
         ax.plot([0, 0.5, 1, 1.5, 2], r3, marker, color=PALETTE[0], ms=8,
                 markerfacecolor="white", label=f"record, $N = {n}$")
         ax.plot([0, 0.5, 1, 1.5, 2], r8, marker, color=PALETTE[1], ms=8,
@@ -605,7 +605,7 @@ CELLS = [
                 "on a prescribed background, not an observed equation of state.")
     report("int p3 / int rho of N = 136 at a4,0 = 0, 1, 2",
            ", ".join(f"{ratio3[i]:.4f}" for i in (0, 8, 16)))
-    report("int p8 / int rho of N = 136 at a4,0 = 0, 1, 2",
+    report("int p0 / int rho of N = 136 at a4,0 = 0, 1, 2",
            ", ".join(f"{ratio8[i]:.4f}" for i in (0, 8, 16)))
     check(worst_ratio < 1e-12, "the ratios at the five slices equal the record",
           record=f"{EMT_TABLE}, int_p3 / int_rho")
@@ -652,7 +652,7 @@ CELLS = [
     ## 12. The interaction terms
 
     With interaction the energy density $e_{int}$ enters every component: it is
-    subtracted in $\rho$ and added to $p_3$, $p_8$ and, alone, forms $p_t$. The next
+    subtracted in $\rho$ and added to $p_3$, $p_0$ and, alone, forms $p_t$. The next
     cell uses the strongly interacting state $N = 136$, $+\lambda_2$, $a_{4,0} = 2$: it
     draws $e_{int}$ and its two parts $\tfrac{15}{32}\lambda S^2$ and
     $-\tfrac{1}{32}\lambda n^2$ (computed here from the profile columns $S$ and $n$),
@@ -716,16 +716,16 @@ CELLS = [
     metric) accept a source only under three conditions (Revision record
     Revision/field_equations_a4/reports/ks-source-conditions.json, key `conditions`):
 
-    - (C1) every component of the source is independent of $x_8$, that is, of $y$;
-    - (C2) $p_3 + p_t = 2 p_8$ at every point;
-    - (C3) for the linear history $a_4 = AHx_4 + a_0$ used here: $p_3 = p_t = p_8$
+    - (C1) every component of the source is independent of $x_0$, that is, of $y$;
+    - (C2) $p_3 + p_t = 2 p_0$ at every point;
+    - (C3) for the linear history $a_4 = AHx_4 + a_0$ used here: $p_3 = p_t = p_0$
       and a constant $\rho$.
 
     The next cell tests the three conditions on this notebook's own numbers: the
     profile of $N = 136$, $\lambda = 0$, $a_{4,0} = 1$ for C1 and C2 point by point,
     and the 17 slices of the history for C2 after the integration over $y$ and for C3.
     It prints the profile at $y = -3, -1.5, 0$ and checks these values and the
-    integrated ratios $(\int p_3 + \int p_t)/(2\int p_8)$ at $a_{4,0} = 0, 1, 2$
+    integrated ratios $(\int p_3 + \int p_t)/(2\int p_0)$ at $a_{4,0} = 0, 1, 2$
     against the numbers printed in the record's checks (6 significant digits). All
     three conditions fail, as the record says: the Kohn-Sham gas is a test field on a
     PRESCRIBED BACKGROUND, not a source that would produce the deflating history.
@@ -736,34 +736,34 @@ CELLS = [
     SOURCE = "Revision/field_equations_a4/reports/ks-source-conditions.json"
     source = json.loads(repository_file(SOURCE).read_text(encoding="utf-8"))
     details = {item["name"]: item["detail"] for item in source["checks"]}
-    t_scale = max(float(np.max(np.abs(prof[c]))) for c in ("rho", "p3", "p_t", "p8"))
+    t_scale = max(float(np.max(np.abs(prof[c]))) for c in ("rho", "p3", "p_t", "p0"))
     c1 = (float(np.max(prof["rho"])) - float(np.min(prof["rho"]))) / t_scale  # C1 test
-    c2 = prof["p3"] + prof["p_t"] - 2.0 * prof["p8"]  # zero everywhere if C2 held
+    c2 = prof["p3"] + prof["p_t"] - 2.0 * prof["p0"]  # zero everywhere if C2 held
     number = r"(-?[0-9.]+(?:e[-+]?[0-9]+)?)"  # a number as the record prints it
     examples = re.findall(
         rf"y = {number}: rho = {number}, p3 = {number}, p_t = {number}, "
-        rf"p8 = {number}, p3 \+ p_t - 2 p8 = {number}",
+        rf"p0 = {number}, p3 \+ p_t - 2 p0 = {number}",
         details["ks_profiles_violate_algebraic_condition"])
-    say("    y         rho          p3      p_t          p8  p3 + p_t - 2 p8")
+    say("    y         rho          p3      p_t          p0  p3 + p_t - 2 p0")
     worst_example = 0.0
     for example in examples:
         y0, values = float(example[0]), [float(v) for v in example[1:]]
         i = int(np.argmin(np.abs(y - y0)))  # the profile point at this y
         mine = [float(prof["rho"][i]), float(prof["p3"][i]), float(prof["p_t"][i]),
-                float(prof["p8"][i]), float(c2[i])]
+                float(prof["p0"][i]), float(c2[i])]
         say(f"{y[i] + 0.0:5.1f}  {mine[0]:10.6g}  {mine[1]:10.6g}"  # + 0.0 turns -0 into 0
             f"  {mine[2] + 0.0:7.3g}  {mine[3]:10.6g}  {mine[4]:15.6g}")
         for a, b in zip(mine, values):  # 6 significant digits: relative 5e-6
             worst_example = max(worst_example, abs(a - b) / max(abs(b), 1e-300)
                                 if b != 0.0 else abs(a))
-    ratios_c2 = {item["a4"]: (item["p3"] + item["p_t"]) / (2.0 * item["p8"])
+    ratios_c2 = {item["a4"]: (item["p3"] + item["p_t"]) / (2.0 * item["p0"])
                  for item in history}
     recorded_c2 = {int(key[-2:]) / 10.0: float(value) for key, value in re.findall(
         r"(N136_lam0_a[0-9][0-9]): ([0-9.]+)",
         details["ks_integrals_violate_algebraic_condition"])}
     worst_c2 = max(abs(ratios_c2[a4] / value - 1.0) for a4, value in recorded_c2.items())
     report("C1: (max rho - min rho) / max|T| for N136_lam0_a10", f"{c1:.4f}")
-    report("C2 integrated: (int p3 + int p_t)/(2 int p8) at a4,0 = 0, 1, 2",
+    report("C2 integrated: (int p3 + int p_t)/(2 int p0) at a4,0 = 0, 1, 2",
            ", ".join(f"{ratios_c2[a]:.6f}" for a in (0.0, 1.0, 2.0)))
     report("C3: int rho at a4,0 = 0 and 2; int p3 and int p_t at a4,0 = 1",
            f"{history[0]['rho']:.4f}, {history[-1]['rho']:.4f}; "
@@ -771,7 +771,7 @@ CELLS = [
     check(c1 > 0.01 and len(examples) == 3 and worst_example < 5e-6
           and float(np.min(np.abs(c2[[0, len(c2) // 2, -1]]))) > 0.0,
           "C1 and C2 fail for N136_lam0_a10; the record's example values reproduced",
-          record=f"{SOURCE}, checks ks_profiles_depend_on_x8 and "
+          record=f"{SOURCE}, checks ks_profiles_depend_on_x0 and "
                  "ks_profiles_violate_algebraic_condition")
     check(len(recorded_c2) == 3 and worst_c2 < 5e-6
           and all(abs(r - 1.0) > 0.5 for r in ratios_c2.values()),
@@ -804,7 +804,7 @@ CELLS = [
       reproduced on this computer, and their integrals give the Kohn-Sham energy
       (COMPUTED).
     - The conservation law along the hidden direction,
-      $(e^{6Hy}p_8)' = 3H e^{6Hy}(p_3 + p_t)$, holds point by point and integrated, with
+      $(e^{6Hy}p_0)' = 3H e^{6Hy}(p_3 + p_t)$, holds point by point and integrated, with
       and without interaction (an exact identity, checked numerically).
     - Along the deflating history the energy of the gas changes exactly by the work of
       the pressure difference, $dE/da_4 = -3 \cdot 2\,\mathrm{Vol}_7\int e^{6Hy}(p_3 -
