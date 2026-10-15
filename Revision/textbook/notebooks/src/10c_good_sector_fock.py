@@ -93,7 +93,7 @@ CELLS = [
     recorded number:
 
     - the mode Hamiltonian $h$ of a good-sector momentum is Hermitian, with eigenvalues
-      $+E$ and $-E$ (eight each), $E = \sqrt{m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2}$;
+      $+E$ and $-E$ (eight each), $E = \sqrt{m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2}$;
     - the field is expanded in particle operators $b_s$ and antiparticle operators
       $d_s$ on a positive Fock space, and the canonical conjugate is realised as
       $\Psi^\dagger = \chi B$ with $\chi$ the Hilbert adjoint; then
@@ -233,8 +233,8 @@ CELLS = [
     BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
     fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
         encoding="utf-8"))
-    gamma = {a: np.array(fixture["gamma"][a - 1], dtype=int) for a in range(1, 9)}
-    C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
+    gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
+    C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
     B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4)
 
 
@@ -263,10 +263,10 @@ CELLS = [
     say("gammas, C, B and the mode Hamiltonian are ready")
     '''),
     md(r"""
-    ## 6. One good-sector momentum: $m = 2$, $k = (1, 2, 0, 4)$, $E = 5$
+    ## 6. One good-sector momentum: $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$
 
     The sympy verifier of the Revision record uses the mass $m = 2$ and the momenta
-    $k_1 = 1$, $k_2 = 2$, $k_3 = 0$, $k_8 = 4$, so $E = \sqrt{4 + 1 + 4 + 0 + 16} = 5$.
+    $k_1 = 1$, $k_2 = 2$, $k_3 = 0$, $k_0 = 4$, so $E = \sqrt{4 + 1 + 4 + 0 + 16} = 5$.
     The next cell builds $h$, checks that it is Hermitian, that $h^2 = 25 I_{16}$ and
     that it commutes with $B$, and computes the eigenvectors as the orthonormal columns
     of the projectors $\frac12(I \pm h/E)$ (the same procedure as in the first notebook
@@ -283,8 +283,8 @@ CELLS = [
         return h, E, np.hstack([U_plus, V_minus])
 
 
-    h, E, W = good_sector_modes(2, {1: 1, 2: 2, 8: 4})
-    report("E for m = 2, k = (1, 2, 0, 4)", f"{E:.12f}")
+    h, E, W = good_sector_modes(2, {0: 4, 1: 1, 2: 2})
+    report("E for m = 2, k = (4, 1, 2, 0)", f"{E:.12f}")
     hermitian = np.max(np.abs(h - h.conj().T)) < 1e-15
     square_ok = np.max(np.abs(h @ h - 25 * np.eye(16))) < 1e-13
     commutes = np.max(np.abs(B @ h - h @ B)) < 1e-15
@@ -441,7 +441,7 @@ CELLS = [
     expected_charges = np.array([1] * 8 + [-1] * 8)  # 8 particles, 8 antiparticles
     check_record(abs(vacuum_energy + 40) < 1e-12 and np.max(np.abs(energies - 5)) < 1e-12
                  and np.max(np.abs(charges - expected_charges)) < 1e-12,
-                 "m = 2, k = (1, 2, 0, 4): vacuum -40, every quantum +5, charges +1, -1",
+                 "m = 2, k = (4, 1, 2, 0): vacuum -40, every quantum +5, charges +1, -1",
                  record="Revision/theory/reports/python-field-theory.json, check "
                         "good_sector_positive_fock_realisation")
     '''),
@@ -627,7 +627,8 @@ CELLS = [
     fig.colorbar(image, ax=ax, label="$\\log_{10}$ of the number of states")
     save_figure(fig, "fock_spectrum",
                 "All $2^{16} = 65536$ quantum states of one good-sector momentum ($m = "
-                "2$, $k = (1, 2, 0, 4)$, $E = 5$), sorted by their normal-ordered charge "
+                "2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$), sorted by their "
+                "normal-ordered charge "
                 "$N_b - N_d$ (horizontal axis) and their number of quanta $N_b + N_d$ "
                 "(vertical axis; the energy is $5(N_b + N_d)$). The colour is the "
                 "base-10 logarithm of the number of states in each square (lightest "
@@ -667,7 +668,7 @@ CELLS = [
     energy_projector = (np.eye(16) + h / E) / 2  # onto the eigenspace of +E
     plus_part = orthonormal_columns(energy_projector @ (np.eye(16) + B) / 2)
     minus_part = orthonormal_columns(energy_projector @ (np.eye(16) - B) / 2)
-    k_sample = {1: 1, 2: 2, 8: 4}  # the momenta of the sample, m = 2
+    k_sample = {0: 4, 1: 1, 2: 2}  # the momenta of the sample, m = 2
 
 
     def energy_density(u, m=2.0, k=k_sample):
@@ -726,7 +727,8 @@ CELLS = [
     axes[1].set_xlabel("quantum (1 to 8 particles, 9 to 16 antiparticles)")
     axes[1].set_title("quantised fermion: every quantum $+5$")
     save_figure(fig, "commuting_energy",
-                "The same momentum $m = 2$, $k = (1, 2, 0, 4)$, $E = 5$ in the two "
+                "The same momentum $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$ "
+                "in the two "
                 "fields of the theory; vertical axes: energy in units of $m$. Left: "
                 "the classical COMMUTING field dirac16complex00, energy density of the 8 "
                 "positive-frequency waves $\\Phi = u\\,e^{i(k\\cdot x - 5x_4)}$ of a "
@@ -782,7 +784,8 @@ CELLS = [
     ## 13. What this notebook showed
 
     - CONSTRUCTED and CHECKED (for the two exact examples of the Revision record,
-      $m = 2$, $k = (1, 2, 0, 4)$ and $m = 3$, $k_1 = 4$, both with $E = 5$): in the good
+      $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$ and $m = 3$, $k_1 = 4$, both with $E =
+      5$): in the good
       sector the mode Hamiltonian is Hermitian with eigenvalues $\pm E$, the field is
       expanded in particle and antiparticle operators on a POSITIVE Fock space, and with
       $\Psi^\dagger = \chi B$ the canonical rule $\{\Psi, \Psi^\dagger\} = B$ holds.

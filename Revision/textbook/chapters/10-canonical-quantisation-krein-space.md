@@ -8,7 +8,7 @@ Chapters 7 to 9 treated the field dirac16complex as a classical field: 16 comple
 
 **What happens in signature (4,4).** The recipe has three steps: read off from the Lagrangian the term with the time derivative; turn it into an anticommutator of the field operators; find a space of quantum states on which operators with this anticommutator act. In ordinary 3+1 dimensional physics the anticommutator is the identity matrix and the state space is an ordinary Hilbert space. Here the anticommutator is the matrix $B = -iC\gamma^{(x_4)}$, and the chapter proves that no space with a positive inner product carries it when $\Psi^\dagger$ is read as the ordinary adjoint. That is the central fact of the chapter, and everything else is built around it:
 
-- one-particle waves: the evolution of a plane wave conserves the Krein form $u^\dagger Bu$, its frequencies are real or imaginary according to the sign of $w^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$, and at every real frequency the waves of one frequency carry four directions of positive and four of negative Krein form (Sections 10.2 to 10.6, Notebook 10a);
+- one-particle waves: the evolution of a plane wave conserves the Krein form $u^\dagger Bu$, its frequencies are real or imaginary according to the sign of $w^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$, and at every real frequency the waves of one frequency carry four directions of positive and four of negative Krein form (Sections 10.2 to 10.6, Notebook 10a);
 - quantum states, fermion modes and the Fock space from zero, the canonical rule, the theorem that forces the Krein space, and the conjugation of the quantised field (Sections 10.11 to 10.15, Notebook 10b);
 - the good sector and its positive Fock space (one momentum with frozen coefficients), the Dirac sea and normal ordering, the energy-momentum tensor operator, and the contrast with the classical commuting field (Sections 10.20 to 10.22, Notebook 10c);
 - the curved good sector of the author's metric, where Hermiticity needs a boundary condition at the patch end $z = \pi/2$ (Sections 10.27 and 10.28, Notebook 10d);
@@ -30,7 +30,7 @@ The chapter closes with "What we proved, what we computed, what we assumed" (Sec
 | 10f | the Krein structure along the deflating history | 19 | 5 |
 | 10g | the quantum reading of the pairing | 30 | 5 |
 
-**Notation.** The author's coordinates are written $x_1, \dots, x_8$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates (scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which are time-like and DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}\sin^{1/6}z$ with $a_4$ increasing); $x_8$ is the hidden space direction, with $z = 6Hx_8$ between 0 and $\pi/2$ and $H > 0$ the author's constant. The flat frame metric is $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order $x_1, \dots, x_8$. The gamma matrices are the author's eight real $16 \times 16$ matrices; the one of the direction $x_a$ is written $\gamma^{(x_a)}$, and they obey the Clifford relation $\gamma^{(x_a)}\gamma^{(x_b)} + \gamma^{(x_b)}\gamma^{(x_a)} = 2\eta_{ab}I_{16}$ (Chapter 4), where $I_{16}$ is the $16 \times 16$ identity matrix and $\eta_{ab}$ is $\eta_{aa}$ for $a = b$ and 0 otherwise. So a space-like gamma ($x_1, x_2, x_3, x_8$) squares to $+I_{16}$, a time-like one ($x_4, \dots, x_7$) to $-I_{16}$, and two different gammas anticommute. Chapter 5 built from them the charge matrix $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ (the author's sigma16), the chirality $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$ and the matrix $B = -iC\gamma^{(x_4)}$. For a matrix $M$, $M^T$ is its transpose, $M^*$ the matrix of the complex conjugate entries and $M^\dagger = (M^T)^*$ its conjugate transpose; for a column $u$, $u^\dagger$ is the row of the conjugated entries. The letter $m$ is the mass. The words used for the status of a statement are those of the whole book: PROVED (exact, with the verifying record and check), COMPUTED (a numerical result with its accuracy), ASSUMED, HYPOTHESIS and OPEN.
+**Notation.** The author's coordinates are written $x_0, \dots, x_7$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates (scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which are time-like and DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}\sin^{1/6}z$ with $a_4$ increasing); $x_0$ is the hidden space direction, with $z = 6Hx_0$ between 0 and $\pi/2$ and $H > 0$ the author's constant. The flat frame metric is $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$. The gamma matrices are the author's eight real $16 \times 16$ matrices; the one of the direction $x_a$ is written $\gamma^{(x_a)}$, and they obey the Clifford relation $\gamma^{(x_a)}\gamma^{(x_b)} + \gamma^{(x_b)}\gamma^{(x_a)} = 2\eta_{ab}I_{16}$ (Chapter 4), where $I_{16}$ is the $16 \times 16$ identity matrix and $\eta_{ab}$ is $\eta_{aa}$ for $a = b$ and 0 otherwise. So a space-like gamma ($x_0, x_1, x_2, x_3$) squares to $+I_{16}$, a time-like one ($x_4, \dots, x_7$) to $-I_{16}$, and two different gammas anticommute. Chapter 5 built from them the charge matrix $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ (the author's sigma16), the chirality $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$ and the matrix $B = -iC\gamma^{(x_4)}$. For a matrix $M$, $M^T$ is its transpose, $M^*$ the matrix of the complex conjugate entries and $M^\dagger = (M^T)^*$ its conjugate transpose; for a column $u$, $u^\dagger$ is the row of the conjugated entries. The letter $m$ is the mass. The words used for the status of a statement are those of the whole book: PROVED (exact, with the verifying record and check), COMPUTED (a numerical result with its accuracy), ASSUMED, HYPOTHESIS and OPEN.
 
 **The records this chapter uses.** Every formula and number comes from these Revision records or from the chapter's own notebooks, which reproduce the records where they overlap:
 
@@ -58,14 +58,14 @@ $$
 J^{(x_4)} = -i\Psi^\dagger C\gamma^{(x_4)}\Psi = \Psi^\dagger B\Psi,\qquad B = -iC\gamma^{(x_4)} .
 $$
 
-The Revision record proves the **local conservation law** $\partial_\mu(\cos z\,J^\mu) = 0$ (summed over the eight directions $\mu$, as in Chapter 1) for every solution of the field equation (`charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`), and that $J^{(x_4)}$ is the density of the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$, the integral over a slice $x_4 = $ const (`wolfram-field-theory.json`, check `charge_density_is_Krein_form_G`). A local law does not by itself make $Q$ constant. Write it as $\partial_4(\cos z\,J^{(x_4)}) = -\sum_{a \neq 4}\partial_a(\cos z\,J^{(x_a)})$ and integrate over the slice: the left side gives $dQ/dx_4$, and each term on the right is the integral of a derivative along one direction, which by the fundamental theorem of calculus equals the difference of the values at the two ends of that direction. So $Q$ changes by exactly the charge that flows out through the boundary of the slice, and it is constant only when this **flux** vanishes. In flat space it vanishes for fields that die away at large distances. In the author's patch the boundary includes the patch end $z = \pi/2$, and there the flux vanishes only under a boundary condition, an ASSUMED no-flux condition that the quantisation of the Revision record does not impose; without it the constancy of $Q$ is OPEN (Revision theory document, section 11). Sections 10.27 and 10.28 show an exact solution whose charge $Q$ grows from $1/6$ to 454.007. For two columns $u$ and $v$ of 16 complex numbers the number $u^\dagger Bv$ is called their **Krein form**, and $u^\dagger Bu$ the **Krein norm** of $u$ (a name, not a length: it can be negative).
+The Revision record proves the **local conservation law** $\partial_\mu(\cos z\,J^\mu) = 0$ (for the author's metric with a changing $b_4$ the weight is $\sqrt{|g|} = b_4^{3/2}\cos z$: `python-field-theory-b4.json`, check `u1_noether_matrix_identity_b4`) (summed over the eight directions $\mu$, as in Chapter 1) for every solution of the field equation (`charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`), and that $J^{(x_4)}$ is the density of the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$, the integral over a slice $x_4 = $ const (`wolfram-field-theory.json`, check `charge_density_is_Krein_form_G`). A local law does not by itself make $Q$ constant. Write it as $\partial_4(\cos z\,J^{(x_4)}) = -\sum_{a \neq 4}\partial_a(\cos z\,J^{(x_a)})$ and integrate over the slice: the left side gives $dQ/dx_4$, and each term on the right is the integral of a derivative along one direction, which by the fundamental theorem of calculus equals the difference of the values at the two ends of that direction. So $Q$ changes by exactly the charge that flows out through the boundary of the slice, and it is constant only when this **flux** vanishes. In flat space it vanishes for fields that die away at large distances. In the author's patch the boundary includes the patch end $z = \pi/2$, and there the flux vanishes only under a boundary condition, an ASSUMED no-flux condition that the quantisation of the Revision record does not impose; without it the constancy of $Q$ is OPEN (Revision theory document, section 11). Sections 10.27 and 10.28 show an exact solution whose charge $Q$ grows from $1/6$ to 454.007. For two columns $u$ and $v$ of 16 complex numbers the number $u^\dagger Bv$ is called their **Krein form**, and $u^\dagger Bu$ the **Krein norm** of $u$ (a name, not a length: it can be negative).
 
 **Five properties of B, derived line by line.** We use only the Clifford relation, the reality of the gammas, $C^T = C$, $CC = I_{16}$ and $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$ (Chapter 5).
 
-(B1) $C\gamma^{(x_4)} = \gamma^{(x_4)}C$. Move $\gamma^{(x_4)}$ from the right of $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ to its left, one factor at a time:
+(B1) $C\gamma^{(x_4)} = \gamma^{(x_4)}C$. Move $\gamma^{(x_4)}$ from the right of $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ to its left, one factor at a time:
 
 $$
-\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}\gamma^{(x_4)} = (-1)^4\,\gamma^{(x_4)}\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)} .
+\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}\gamma^{(x_4)} = (-1)^4\,\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)} .
 $$
 
 Each of the four steps exchanges $\gamma^{(x_4)}$ with a different gamma, which costs a sign by the Clifford relation; four signs give $+1$.
@@ -111,12 +111,12 @@ So the Krein norm $u^\dagger Bu$ is a real number for every column (because $B$ 
 | 7 | 16 | $+i$ | 15 | 8 | $+i$ |
 | 8 | 15 | $-i$ | 16 | 7 | $-i$ |
 
-**Which gammas commute with B.** $B$ is $-i$ times the product of the five gammas of $x_8, x_1, x_2, x_3, x_4$. A gamma among these five passes four different gammas and itself when it is moved through the product, sign $(-1)^4 = +1$: it commutes with $B$. A gamma of $x_5, x_6, x_7$ passes five different gammas, sign $(-1)^5 = -1$: it anticommutes with $B$. Hence $B$ commutes with $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}, \gamma^{(x_8)}$ and anticommutes with $\gamma^{(x_5)}, \gamma^{(x_6)}, \gamma^{(x_7)}$, and by the same counting $\Gamma B\Gamma = -B$.
+**Which gammas commute with B.** $B$ is $-i$ times the product of the five gammas of $x_0, x_1, x_2, x_3, x_4$. A gamma among these five passes four different gammas and itself when it is moved through the product, sign $(-1)^4 = +1$: it commutes with $B$. A gamma of $x_5, x_6, x_7$ passes five different gammas, sign $(-1)^5 = -1$: it anticommutes with $B$. Hence $B$ commutes with $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}, \gamma^{(x_0)}$ and anticommutes with $\gamma^{(x_5)}, \gamma^{(x_6)}, \gamma^{(x_7)}$, and by the same counting $\Gamma B\Gamma = -B$.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
 | $B$ purely imaginary, Hermitian, $BB = I_{16}$, $\mathrm{tr}\,B = 0$, signature (8,8) | PROVED | `python-field-theory.json`, check `B_properties`; `wolfram-algebra.json`, check `B_signature_8_8` |
-| $B$ commutes with the gammas of $x_1, x_2, x_3, x_4, x_8$, anticommutes with those of $x_5, x_6, x_7$ | PROVED | `python-algebra.json`, check `B_gamma_relations` |
+| $B$ commutes with the gammas of $x_1, x_2, x_3, x_4, x_0$, anticommutes with those of $x_5, x_6, x_7$ | PROVED | `python-algebra.json`, check `B_gamma_relations` |
 | the local conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ on shell; $J^{(x_4)} = \Psi^\dagger B\Psi$ | PROVED | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; `wolfram-field-theory.json`, check `charge_density_is_Krein_form_G` |
 | the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ is constant in time | OPEN (true only when no charge flows through the boundary; at $z = \pi/2$ this is an ASSUMED no-flux condition that the quantisation record does not impose, Sections 10.27 and 10.28) | Revision theory document, section 11 |
 
@@ -156,15 +156,15 @@ $$
 
 The $16 \times 16$ matrix $h$ is the **mode Hamiltonian** of the wave. The equation $i\,du/dx_4 = hu$ has the form of the Schrödinger equation of quantum mechanics; its solutions with $u(x_4) = u_0e^{-iwx_4}$ are the eigenvectors $hu_0 = wu_0$, and the eigenvalue $w$ is the **frequency** of the wave. A real $w$ means oscillation; an imaginary $w = i\kappa$ means $e^{-iwx_4} = e^{\kappa x_4}$, growth.
 
-**Frame momenta and the deflating extra times.** In the author's metric each derivative of the field equation is divided by the scale factor $f_a$ of its direction (Chapter 6): $f_a = e^{a_4}\sin^{1/6}z$ for $x_1, x_2, x_3$, $f_4 = 1$, $f_a = e^{-a_4}\sin^{1/6}z$ for $x_5, x_6, x_7$ and $f_8 = \cot z$ (record `Revision/theory/field-theory.json`, formula `vielbein_diagonal`). A wave $e^{iq_ax_a}$ with the **coordinate momentum** $q_a$ therefore enters the equation with the **frame momentum** $k_a = q_a/f_a$. Along 3-space $k_a = q_ae^{-a_4}\sin^{-1/6}z$ shrinks as 3-space inflates; along an extra time $k_a = q_ae^{a_4}\sin^{-1/6}z$ GROWS as the extra times deflate.
+**Frame momenta and the deflating extra times.** In the author's metric each derivative of the field equation is divided by the scale factor $f_a$ of its direction (Chapter 6): $f_a = e^{a_4}\sin^{1/6}z$ for $x_1, x_2, x_3$, $f_4 = 1$, $f_a = e^{-a_4}\sin^{1/6}z$ for $x_5, x_6, x_7$ and $f_0 = \cot z$ (record `Revision/theory/field-theory.json`, formula `vielbein_diagonal`). A wave $e^{iq_ax_a}$ with the **coordinate momentum** $q_a$ therefore enters the equation with the **frame momentum** $k_a = q_a/f_a$. Along 3-space $k_a = q_ae^{-a_4}\sin^{-1/6}z$ shrinks as 3-space inflates; along an extra time $k_a = q_ae^{a_4}\sin^{-1/6}z$ GROWS as the extra times deflate.
 
-**The frozen-coefficient model, and what it leaves out.** The model evaluates the scale factors at one instant and one hidden position, so that the equation of that instant has constant coefficients and the plane waves above solve it with the frame momenta $k_a$; the extra times are never treated as static (Section 10.39 and Notebook 10f follow the frame momenta along the deflating history). But the author's field equation also contains two terms of the hidden direction (Section 10.27; record `Revision/theory/field-theory.json`, formula `field_equation`): the derivative $\tan z\,\gamma^{(x_8)}\partial_8\Psi$, whose coefficient changes along $x_8$, and the spin-connection term $3H\gamma^{(x_8)}\Psi$ (Chapter 6). The model leaves both out, so it is an ASSUMPTION, an approximation whose error this chapter does not estimate. The connection term matters. Kept in the equation, it adds to $h$ the matrix $h_c = 3iH\gamma^{(x_4)}\gamma^{(x_8)}$ (multiply $3H\gamma^{(x_8)}\Psi$ by $\gamma^{(x_4)}$ and by $i$, as in Steps 1 to 4). The real matrix $\gamma^{(x_4)}\gamma^{(x_8)}$ is symmetric (Chapter 5: $(\gamma^{(x_8)})^T = \gamma^{(x_8)}$ and $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$), $(\gamma^{(x_4)}\gamma^{(x_8)})^T = (\gamma^{(x_8)})^T(\gamma^{(x_4)})^T = \gamma^{(x_8)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_8)}$, so $h_c^\dagger = -h_c$; and $h_c$ commutes with $B$, because $\gamma^{(x_4)}$ and $\gamma^{(x_8)}$ do (Section 10.2). Section 10.4 proves $Bh = h^\dagger B$ for the flat $h$; for $h + h_c$ this becomes
+**The frozen-coefficient model, and what it leaves out.** The model evaluates the scale factors at one instant and one hidden position, so that the equation of that instant has constant coefficients and the plane waves above solve it with the frame momenta $k_a$; the extra times are never treated as static (Section 10.39 and Notebook 10f follow the frame momenta along the deflating history). But the author's field equation also contains two terms of the hidden direction (Section 10.27; record `Revision/theory/field-theory.json`, formula `field_equation`): the derivative $\tan z\,\gamma^{(x_0)}\partial_0\Psi$, whose coefficient changes along $x_0$, and the spin-connection term $3H\gamma^{(x_0)}\Psi$ (Chapter 6). The model leaves both out, so it is an ASSUMPTION, an approximation whose error this chapter does not estimate. The connection term matters. Kept in the equation, it adds to $h$ the matrix $h_c = 3iH\gamma^{(x_4)}\gamma^{(x_0)}$ (multiply $3H\gamma^{(x_0)}\Psi$ by $\gamma^{(x_4)}$ and by $i$, as in Steps 1 to 4). The real matrix $\gamma^{(x_4)}\gamma^{(x_0)}$ is symmetric (Chapter 5: $(\gamma^{(x_0)})^T = \gamma^{(x_0)}$ and $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$), $(\gamma^{(x_4)}\gamma^{(x_0)})^T = (\gamma^{(x_0)})^T(\gamma^{(x_4)})^T = \gamma^{(x_0)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_0)}$, so $h_c^\dagger = -h_c$; and $h_c$ commutes with $B$, because $\gamma^{(x_4)}$ and $\gamma^{(x_0)}$ do (Section 10.2). Section 10.4 proves $Bh = h^\dagger B$ for the flat $h$; for $h + h_c$ this becomes
 
 $$
-B(h + h_c) - (h + h_c)^\dagger B = (Bh - h^\dagger B) + Bh_c + h_cB = 2Bh_c = 6iH\,B\gamma^{(x_4)}\gamma^{(x_8)} \neq 0 ,
+B(h + h_c) - (h + h_c)^\dagger B = (Bh - h^\dagger B) + Bh_c + h_cB = 2Bh_c = 6iH\,B\gamma^{(x_4)}\gamma^{(x_0)} \neq 0 ,
 $$
 
-by $h_c^\dagger = -h_c$ and $h_cB = Bh_c$; the right side is not zero because $B$, $\gamma^{(x_4)}$ and $\gamma^{(x_8)}$ are invertible. So with the connection term the Krein form of a single wave is no longer conserved, Theorem 10.1 below does not apply, and the frequencies can be complex: Section 10.28 finds $\pm2\sqrt2\,i$ for the waves that do not depend on $x_8$ at $m = H = 1$. Everything in Sections 10.4 to 10.6 and 10.20 holds exactly in flat 4+4 space and in the frozen-coefficient model; Sections 10.27 and 10.28 show what the terms of the hidden direction change.
+by $h_c^\dagger = -h_c$ and $h_cB = Bh_c$; the right side is not zero because $B$, $\gamma^{(x_4)}$ and $\gamma^{(x_0)}$ are invertible. So with the connection term the Krein form of a single wave is no longer conserved, Theorem 10.1 below does not apply, and the frequencies can be complex: Section 10.28 finds $\pm2\sqrt2\,i$ for the waves that do not depend on $x_0$ at $m = H = 1$. Everything in Sections 10.4 to 10.6 and 10.20 holds exactly in flat 4+4 space and in the frozen-coefficient model; Sections 10.27 and 10.28 show what the terms of the hidden direction change.
 
 ### 10.4 The square of h, the Krein form, and three kinds of waves
 
@@ -187,7 +187,7 @@ $$
 and in the same way $E_aE_b + E_bE_a = -\gamma^{(x_4)}\gamma^{(x_4)}(\gamma^{(x_a)}\gamma^{(x_b)} + \gamma^{(x_b)}\gamma^{(x_a)}) = 0$ for $a \neq b$. Now multiply out $hh$: the products of a term with itself give $m^2I_{16}$ and $k_a^2\eta_{aa}I_{16}$, and the products of two different terms come in pairs $c_ic_j(E_iE_j + E_jE_i) = 0$. Therefore
 
 $$
-h^2 = w^2I_{16},\qquad w^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2 .
+h^2 = w^2I_{16},\qquad w^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2 .
 $$
 
 The space-like momenta enter with $+$, the extra-time momenta with $-$ (because $\eta_{aa} = -1$ for $a = 5, 6, 7$). Every eigenvalue $w'$ of $h$ obeys $w'^2 = w^2$ (if $hu = w'u$ then $w^2u = hhu = w'^2u$), so the eigenvalues are $+w$ and $-w$; since $\mathrm{tr}\,h = 0$ (the traces of $\gamma^{(x_4)}$ and of $\gamma^{(x_4)}\gamma^{(x_a)}$ vanish, by the argument of (B5) for a product of an odd number of gammas and by $\mathrm{tr}(\gamma^{(x_4)}\gamma^{(x_a)}) = \mathrm{tr}(\gamma^{(x_a)}\gamma^{(x_4)}) = -\mathrm{tr}(\gamma^{(x_4)}\gamma^{(x_a)})$ for two), each occurs eight times when $w \neq 0$.
@@ -205,7 +205,7 @@ $$
 So $-i\gamma^{(x_4)}$ and $\gamma^{(x_4)}\gamma^{(x_a)}$ for the space-like $a = 1, 2, 3, 8$ are Hermitian, while $\gamma^{(x_4)}\gamma^{(x_a)}$ for the extra times $a = 5, 6, 7$ is anti-Hermitian. Write $h = h_H + h_A$ with
 
 $$
-h_H = -im\gamma^{(x_4)} - \gamma^{(x_4)}\big(k_1\gamma^{(x_1)} + k_2\gamma^{(x_2)} + k_3\gamma^{(x_3)} + k_8\gamma^{(x_8)}\big),
+h_H = -im\gamma^{(x_4)} - \gamma^{(x_4)}\big(k_1\gamma^{(x_1)} + k_2\gamma^{(x_2)} + k_3\gamma^{(x_3)} + k_0\gamma^{(x_0)}\big),
 $$
 
 $$
@@ -235,7 +235,7 @@ by the power series of the cosine and the sine. Three cases follow:
 
 - $w^2 > 0$: real frequencies $\pm w$, the wave oscillates;
 - $w^2 = 0$ with $h \neq 0$: $h^2 = 0$ and $e^{-ihx_4} = I_{16} - ihx_4$, the wave grows linearly;
-- $w^2 < 0$, that is $k_5^2 + k_6^2 + k_7^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$: $w = i\kappa$ with $\kappa = \sqrt{-w^2}$, and since $\cos(i\kappa x_4) = \cosh(\kappa x_4)$ and $\sin(i\kappa x_4)/(i\kappa) = \sinh(\kappa x_4)/\kappa$, half of the waves grow like $e^{\kappa x_4}$.
+- $w^2 < 0$, that is $k_5^2 + k_6^2 + k_7^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_0^2$: $w = i\kappa$ with $\kappa = \sqrt{-w^2}$, and since $\cos(i\kappa x_4) = \cosh(\kappa x_4)$ and $\sin(i\kappa x_4)/(i\kappa) = \sinh(\kappa x_4)/\kappa$, half of the waves grow like $e^{\kappa x_4}$.
 
 A large enough extra-time momentum always produces growth, and the growth rate $\kappa$ has no upper bound as that momentum grows: the initial-value problem with data that depend on the extra times is not well posed (Chapter 8).
 
@@ -281,7 +281,7 @@ $$
 
 because $\mathrm{tr}\,B = 0$ (Section 10.2) and $Bh = mC - i\sum_ak_aC\gamma^{(x_a)}$ is a combination of $C$ (a product of four different gammas) and of products of three or five different gammas, all of trace 0: a product of an odd number of different gammas has trace 0 by the argument of (B5), and a product of an even number $k$ of different gammas has trace 0 because moving its first factor to the end does not change the trace but costs the sign $(-1)^{k-1} = -1$. Eight numbers $\pm1$ with the sum 0 are four $+1$ and four $-1$: inertia (4,4).
 
-*Step (iii): every real frequency.* Start in the good sector and turn on the extra-time momenta slowly, keeping $m, k_1, k_2, k_3, k_8$ fixed. As long as $w^2 > 0$ the projectors $P_\pm$ change continuously, and by step (i) the Gram matrix of each eigenspace never has a zero eigenvalue. An eigenvalue of a continuously changing Gram matrix can change its sign only by passing through 0, which is forbidden, so the inertia stays (4,4). Every real-frequency point can be reached in this way (lowering $k_5, k_6, k_7$ to 0 only increases $w^2$).
+*Step (iii): every real frequency.* Start in the good sector and turn on the extra-time momenta slowly, keeping $m, k_1, k_2, k_3, k_0$ fixed. As long as $w^2 > 0$ the projectors $P_\pm$ change continuously, and by step (i) the Gram matrix of each eigenspace never has a zero eigenvalue. An eigenvalue of a continuously changing Gram matrix can change its sign only by passing through 0, which is forbidden, so the inertia stays (4,4). Every real-frequency point can be reached in this way (lowering $k_5, k_6, k_7$ to 0 only increases $w^2$).
 
 *Imaginary frequencies.* Let $w$ be an eigenvalue that is not real, and $hu = wu$, $hv = wv$. Compute $u^\dagger Bhv$ in two ways: it is $w\,u^\dagger Bv$; and with $Bh = h^\dagger B$ it is $u^\dagger h^\dagger Bv = (hu)^\dagger Bv = w^*\,u^\dagger Bv$. Subtracting, $(w - w^*)\,u^\dagger Bv = 0$, and $w - w^* \neq 0$, so $u^\dagger Bv = 0$ on the whole eigenspace. *Zero frequency:* $h^2 = 0$ and $(hx)^\dagger B(hy) = x^\dagger h^\dagger Bhy = x^\dagger Bhhy = 0$. QED.
 
@@ -307,7 +307,7 @@ $$
 \Gamma h_m(k)\Gamma = +im\gamma^{(x_4)} - \gamma^{(x_4)}\sum_{a \neq 4}k_a\gamma^{(x_a)} = h_{-m}(k) .
 $$
 
-**The mirror map.** In the same way, with $\gamma^{(x_8)}\gamma^{(x_8)} = I_{16}$: $\gamma^{(x_8)}\gamma^{(x_4)}\gamma^{(x_8)} = -\gamma^{(x_4)}$; $\gamma^{(x_8)}\gamma^{(x_4)}\gamma^{(x_a)}\gamma^{(x_8)} = \gamma^{(x_4)}\gamma^{(x_a)}$ for $a \neq 4, 8$ (two sign changes); and $\gamma^{(x_8)}\gamma^{(x_4)}\gamma^{(x_8)}\gamma^{(x_8)} = -\gamma^{(x_4)}\gamma^{(x_8)}$ (one sign change). So $\gamma^{(x_8)}h_m(k)\gamma^{(x_8)} = h_{-m}(R_8k)$, where $R_8k$ is $k$ with $k_8$ replaced by $-k_8$.
+**The mirror map.** In the same way, with $\gamma^{(x_0)}\gamma^{(x_0)} = I_{16}$: $\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_0)} = -\gamma^{(x_4)}$; $\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_a)}\gamma^{(x_0)} = \gamma^{(x_4)}\gamma^{(x_a)}$ for $a \neq 4, 8$ (two sign changes); and $\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_0)} = -\gamma^{(x_4)}\gamma^{(x_0)}$ (one sign change). So $\gamma^{(x_0)}h_m(k)\gamma^{(x_0)} = h_{-m}(R_0k)$, where $R_0k$ is $k$ with $k_0$ replaced by $-k_0$.
 
 **Equal spectra.** If $h_mu = w'u$, then $h_{-m}(\Gamma u) = \Gamma h_m\Gamma\Gamma u = \Gamma h_mu = w'\,\Gamma u$: the matrix $\Gamma$ carries every eigenvector of $h_m$ to an eigenvector of $h_{-m}$ with the same eigenvalue. Matrices related in this way ($N = SMS^{-1}$) are called **similar**, and similar matrices have the same eigenvalues. So the one-particle spectra of the universes of masses $+m$ and $-m$ are IDENTICAL, not opposite; the same follows from $w^2$, which contains the mass only as $m^2$. (PROVED: `wolfram-pairing.json`, checks `Q_one_particle_maps` and `Q_one_particle_Krein_signatures`; `python-pairing.json`, check `Q.one_particle_maps`.) This is statement Q4 of the quantum reading of the Revision record; Sections 10.44 and 10.45 discuss the whole quantum reading and what it does not establish.
 
@@ -508,21 +508,21 @@ def check_record(condition, name, record):
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
     encoding="utf-8"))
 # gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 1, ..., 8.
-gamma = {a: np.array(fixture["gamma"][a - 1], dtype=int) for a in range(1, 9)}
-eta = {a: fixture["eta"][a - 1] for a in range(1, 9)}  # +1 space-like, -1 time-like
+gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
+eta = {a: fixture["eta"][a] for a in range(8)}  # +1 space-like, -1 time-like
 identity = np.eye(16, dtype=int)
-say(f"eta = {[eta[a] for a in range(1, 9)]} for x1, ..., x8")
+say(f"eta = {[eta[a] for a in range(8)]} for x0, ..., x7")
 ```
 
-`read_text` reads the record file as text, and `json.loads` turns that text into Python objects: `fixture` is a dictionary whose keys are the names stored in the record. `fixture["gamma"]` is a list of eight matrices, each a list of 16 rows of 16 whole numbers, in the order $x_1, \dots, x_8$; Python counts list positions from 0, so the matrix of $x_a$ is at position `a - 1`. The **dictionary comprehension** `{a: ... for a in range(1, 9)}` builds a dictionary in one line: for $a = 1, \dots, 8$ (`range(1, 9)` runs from 1 up to, but not including, 9) it stores the matrix as a numpy array of whole numbers (`dtype=int`), so that every product below is exact. `eta` stores the eight signs of the frame metric in the same way, and `np.eye(16, dtype=int)` is the identity matrix $I_{16}$. The `say` line prints the list of the eight signs; its output, `eta = [1, 1, 1, -1, -1, -1, -1, 1] for x1, ..., x8`, is the frame metric $\eta$ of the notation paragraph of Section 10.1.
+`read_text` reads the record file as text, and `json.loads` turns that text into Python objects: `fixture` is a dictionary whose keys are the names stored in the record. `fixture["gamma"]` is a list of eight matrices, each a list of 16 rows of 16 whole numbers, in the order $x_0, \dots, x_7$; Python counts list positions from 0, like the author's coordinates, so the matrix of $x_a$ is at position `a`. The **dictionary comprehension** `{a: ... for a in range(8)}` builds a dictionary in one line: for $a = 0, \dots, 7$ (`range(8)` runs from 0 up to, but not including, 8) it stores the matrix as a numpy array of whole numbers (`dtype=int`), so that every product below is exact. `eta` stores the eight signs of the frame metric in the same way, and `np.eye(16, dtype=int)` is the identity matrix $I_{16}$. The `say` line prints the list of the eight signs; its output, `eta = [1, 1, 1, 1, -1, -1, -1, -1] for x0, ..., x7`, is the frame metric $\eta$ of the notation paragraph of Section 10.1.
 
 ```python
 clifford_ok = all(
     np.array_equal(gamma[a] @ gamma[b] + gamma[b] @ gamma[a],
                    2 * (eta[a] if a == b else 0) * identity)
-    for a in range(1, 9) for b in range(1, 9))  # all 64 pairs (a, b)
+    for a in range(8) for b in range(8))  # all 64 pairs (a, b)
 check(clifford_ok,
-      "the 64 Clifford relations hold exactly (eta = diag(+,+,+,-,-,-,-,+))")
+      "the 64 Clifford relations hold exactly (eta = diag(+,+,+,+,-,-,-,-))")
 ```
 
 In Python the sign `@` multiplies two matrices. For each of the $8 \times 8 = 64$ pairs $(a, b)$ the expression compares $\gamma^{(x_a)}\gamma^{(x_b)} + \gamma^{(x_b)}\gamma^{(x_a)}$ with $2\eta_{ab}I_{16}$ (the factor is $\eta_{aa}$ when $a = b$ and 0 otherwise); `np.array_equal` is true only when all 256 entries agree. `all(...)` is true when the comparison holds for every pair. The check prints PASS: the Clifford relation of Section 10.1 holds exactly.
@@ -530,7 +530,7 @@ In Python the sign `@` multiplies two matrices. For each of the $8 \times 8 = 64
 **In [3], the matrices C and B.**
 
 ```python
-C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
+C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
 B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4), a complex 16 x 16 matrix
 B_file = np.array(fixture["B"]["re"]) + 1j * np.array(fixture["B"]["im"])
 check_record(np.array_equal(B, B_file),
@@ -538,7 +538,7 @@ check_record(np.array_equal(B, B_file),
              record="Revision/algebra/gammas.json, entry B")
 ```
 
-The first two lines build $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ and $B = -iC\gamma^{(x_4)}$; Python writes the imaginary unit $i$ as `1j`. The record stores $B$ too, its real and imaginary parts as two tables of numbers; `B_file` puts them together. The check compares the two matrices entry by entry and reproduces the record's entry `B`.
+The first two lines build $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ and $B = -iC\gamma^{(x_4)}$; Python writes the imaginary unit $i$ as `1j`. The record stores $B$ too, its real and imaginary parts as two tables of numbers; `B_file` puts them together. The check compares the two matrices entry by entry and reproduces the record's entry `B`.
 
 ```python
 purely_imaginary = np.all(B.real == 0)  # every entry is 0, +i or -i
@@ -636,7 +636,7 @@ def frequency_squared(m, k):
 `mode_hamiltonian(m, k)` builds $h = -im\gamma^{(x_4)} - \gamma^{(x_4)}\sum_ak_a\gamma^{(x_a)}$ of Section 10.3; `k` is a dictionary that gives the momenta of some of the directions, for example `{1: 0.3, 5: 0.4}`, and `k.items()` runs through its pairs (direction, momentum). Directions that are not listed have momentum 0. `frequency_squared(m, k)` returns $w^2 = m^2 + \sum_a\eta_{aa}k_a^2$ (`**` is the power in Python): the space-like momenta enter with $+$, the extra-time momenta with $-$.
 
 ```python
-example = {1: 0.3, 2: -1.1, 3: 0.7, 5: 0.4, 6: 0.2, 7: -0.9, 8: 1.3}  # any numbers
+example = {0: 1.3, 1: 0.3, 2: -1.1, 3: 0.7, 5: 0.4, 6: 0.2, 7: -0.9}  # any numbers
 h_example = mode_hamiltonian(1.7, example)
 w2_example = frequency_squared(1.7, example)
 report("w^2 for m = 1.7 and the example momenta", f"{w2_example:.6f}")
@@ -650,14 +650,14 @@ For the mass 1.7 and momenta along all seven slice directions the cell computes 
 **In [6], the same, exactly.**
 
 ```python
-g = {a: sp.Matrix(fixture["gamma"][a - 1]) for a in range(1, 9)}  # exact gammas
-C_exact = g[8] * g[1] * g[2] * g[3]
+g = {a: sp.Matrix(fixture["gamma"][a]) for a in range(8)}  # exact gammas
+C_exact = g[0] * g[1] * g[2] * g[3]
 B_exact = -sp.I * C_exact * g[4]
 m = sp.Symbol("m", real=True)  # the mass: any real number
-k_sym = {a: sp.Symbol(f"k{a}", real=True) for a in (1, 2, 3, 5, 6, 7, 8)}
+k_sym = {a: sp.Symbol(f"k{a}", real=True) for a in (0, 1, 2, 3, 5, 6, 7)}
 ```
 
-The same gammas are stored as sympy matrices, which hold exact whole numbers; for sympy matrices `*` is the matrix product and `sp.I` is the imaginary unit. `sp.Symbol("m", real=True)` is a letter $m$ that stands for any real number, and `k_sym` holds the seven letters $k_1, k_2, k_3, k_5, k_6, k_7, k_8$. A computation with these letters holds for all their values at once: it is a proof.
+The same gammas are stored as sympy matrices, which hold exact whole numbers; for sympy matrices `*` is the matrix product and `sp.I` is the imaginary unit. `sp.Symbol("m", real=True)` is a letter $m$ that stands for any real number, and `k_sym` holds the seven letters $k_1, k_2, k_3, k_5, k_6, k_7, k_0$. A computation with these letters holds for all their values at once: it is a proof.
 
 ```python
 def mode_hamiltonian_exact(mass, k):
@@ -673,7 +673,7 @@ w2_sym = m ** 2 + sum(eta[a] * k_sym[a] ** 2 for a in k_sym)
 say(f"w^2 = {w2_sym}")
 ```
 
-The function builds $h$ exactly; `h_sym` is $h$ for the letters, `w2_sym` the expression $w^2$, which the cell prints: `k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + k8**2 + m**2` (sympy writes the power as `**`).
+The function builds $h$ exactly; `h_sym` is $h$ for the letters, `w2_sym` the expression $w^2$, which the cell prints: `k0**2 + k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + m**2` (sympy writes the power as `**`).
 
 ```python
 square_ok = (h_sym * h_sym - w2_sym * sp.eye(16)).applyfunc(sp.expand) == zero
@@ -848,12 +848,12 @@ all_agree = True
 say("   m  nonzero momenta         w      dims   inertia(+w)  inertia(-w)")
 ```
 
-The cell reads the pairing record and takes the list of eight samples stored under `data`, `one_particle_flat`, `samples`. Each sample is a dictionary with a mass `m`, a list `k` of eight momenta $(k_1, \dots, k_8)$ (the entry $k_4$ is not used), the frequency `w` as text, the dimensions of the two eigenspaces and their Krein inertia. The `say` line prints the header of the table.
+The cell reads the pairing record and takes the list of eight samples stored under `data`, `one_particle_flat`, `samples`. Each sample is a dictionary with a mass `m`, a list `k` of eight momenta $(k_0, \dots, k_7)$ (the entry $k_4$ is not used), the frequency `w` as text, the dimensions of the two eigenspaces and their Krein inertia. The `say` line prints the header of the table.
 
 ```python
 for sample in samples:
     m_value, k_list = sample["m"], sample["k"]
-    k = {a: k_list[a - 1] for a in (1, 2, 3, 5, 6, 7, 8) if k_list[a - 1] != 0}
+    k = {a: k_list[a] for a in (0, 1, 2, 3, 5, 6, 7) if k_list[a] != 0}
     # "Sqrt[2]" (Wolfram notation) -> the number sqrt(2)
     w_recorded = float(sp.sympify(sample["w"].replace("Sqrt[", "sqrt(")
                                   .replace("]", ")")))
@@ -893,22 +893,22 @@ check_record(all_agree,
              record="Revision/pairing/pairing-theory.json, data one_particle_flat")
 ```
 
-`", ".join(...)` writes the momenta as one text separated by commas, or the word `none` when there is no momentum (an empty text counts as false, so `or` takes the second value). The format codes fix the widths of the columns: `:4d` a whole number in 4 places, `:22s` a text in 22 places, `:7.4f` a decimal number in 7 places with 4 decimals. The printed table has one line per sample: for the masses $\pm2$ with $(k_1, k_2, k_8) = (1, 2, 4)$ the frequency is $5 = \sqrt{4 + 1 + 4 + 16}$; for $\pm3$ at rest it is 3; for $\pm1$ with $k_1 = 1$ it is $1.4142 = \sqrt2$; for $\pm2$ with the extra-time momentum $k_5 = 1$ it is $1.7321 = \sqrt3$. Every line shows the dimensions 8 and 8 and the inertia (4, 4) on both eigenspaces, the same for $+m$ and $-m$, and the check reproduces the record's data `one_particle_flat`.
+`", ".join(...)` writes the momenta as one text separated by commas, or the word `none` when there is no momentum (an empty text counts as false, so `or` takes the second value). The format codes fix the widths of the columns: `:4d` a whole number in 4 places, `:22s` a text in 22 places, `:7.4f` a decimal number in 7 places with 4 decimals. The printed table has one line per sample: for the masses $\pm2$ with $(k_0, k_1, k_2) = (4, 1, 2)$ the frequency is $5 = \sqrt{4 + 16 + 1 + 4}$; for $\pm3$ at rest it is 3; for $\pm1$ with $k_1 = 1$ it is $1.4142 = \sqrt2$; for $\pm2$ with the extra-time momentum $k_5 = 1$ it is $1.7321 = \sqrt3$. Every line shows the dimensions 8 and 8 and the inertia (4, 4) on both eigenspaces, the same for $+m$ and $-m$, and the check reproduces the record's data `one_particle_flat`.
 
 **In [12], one more real-frequency sample and the neutral eigenspaces.**
 
 ```python
-sample_3 = {1: 2, 8: 2}
+sample_3 = {0: 2, 1: 2}
 inertias_3 = [krein_inertia(eigenspace(1, sample_3, s))[0] for s in (+1, -1)]
-report("w for m = 1, k1 = 2, k8 = 2", f"{np.sqrt(frequency_squared(1, sample_3)):.6f}")
+report("w for m = 1, k0 = 2, k1 = 2", f"{np.sqrt(frequency_squared(1, sample_3)):.6f}")
 say(f"inertia of the +w and -w eigenspaces: {inertias_3}")
 check_record(inertias_3 == [(4, 4, 0), (4, 4, 0)],
-             "m = 1, k1 = 2, k8 = 2 (w = 3): inertia (4, 4) on both eigenspaces",
+             "m = 1, k0 = 2, k1 = 2 (w = 3): inertia (4, 4) on both eigenspaces",
              record="Revision/pairing/reports/python-pairing.json, check "
                     "Q.one_particle_Krein_inertia")
 ```
 
-The sympy pairing verifier uses the sample $m = 1$, $k_1 = 2$, $k_8 = 2$, so $w = \sqrt{1 + 4 + 4} = 3$, printed as `3.000000`. The inertia of both eigenspaces is printed as `[(4, 4, 0), (4, 4, 0)]` and reproduces the check `Q.one_particle_Krein_inertia`.
+The sympy pairing verifier uses the sample $m = 1$, $k_1 = 2$, $k_0 = 2$, so $w = \sqrt{1 + 4 + 4} = 3$, printed as `3.000000`. The inertia of both eigenspaces is printed as `[(4, 4, 0), (4, 4, 0)]` and reproduces the check `Q.one_particle_Krein_inertia`.
 
 ```python
 neutral_ok = True
@@ -1032,7 +1032,7 @@ The dotted line marks the threshold; the vertical axis is labelled 0 to 8 and ex
 **In [15], the Gram matrices of three waves.**
 
 ```python
-cases = [(2, {1: 1, 2: 2, 8: 4}, "$m = 2$, $k = (1, 2, 0, 4)$: $w = 5$"),
+cases = [(2, {0: 4, 1: 1, 2: 2}, "$m = 2$, $k = (4, 1, 2, 0)$: $w = 5$"),
          (2, {5: 1}, "$m = 2$, $k_5 = 1$: $w = \\sqrt{3}$"),
          (1, {5: 2}, "$m = 1$, $k_5 = 2$: $w = i\\sqrt{3}$")]
 fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.2))
@@ -1076,24 +1076,24 @@ The check states the same in numbers.
 **In [16], the universes of masses $+m$ and $-m$.**
 
 ```python
-Gamma_exact = g[8] * g[1] * g[2] * g[3] * g[4] * g[5] * g[6] * g[7]
+Gamma_exact = g[0] * g[1] * g[2] * g[3] * g[4] * g[5] * g[6] * g[7]
 h_minus = mode_hamiltonian_exact(-m, k_sym)  # the same momenta, mass -m
 k_reflected = dict(k_sym)
-k_reflected[8] = -k_sym[8]  # R_8: k8 -> -k8
+k_reflected[0] = -k_sym[0]  # R_0: k0 -> -k0
 h_minus_reflected = mode_hamiltonian_exact(-m, k_reflected)
 ```
 
-The exact chirality $\Gamma$ is the product of the eight gammas in the author's order. `h_minus` is $h_{-m}(k)$; `dict(k_sym)` makes a copy of the dictionary of momenta, in which $k_8$ is replaced by $-k_8$, and `h_minus_reflected` is $h_{-m}(R_8k)$.
+The exact chirality $\Gamma$ is the product of the eight gammas in the author's order. `h_minus` is $h_{-m}(k)$; `dict(k_sym)` makes a copy of the dictionary of momenta, in which $k_0$ is replaced by $-k_0$, and `h_minus_reflected` is $h_{-m}(R_0k)$.
 
 ```python
 chirality_ok = (Gamma_exact * h_sym * Gamma_exact - h_minus).applyfunc(
     sp.expand) == zero
-mirror_ok = (g[8] * h_sym * g[8] - h_minus_reflected).applyfunc(sp.expand) == zero
+mirror_ok = (g[0] * h_sym * g[0] - h_minus_reflected).applyfunc(sp.expand) == zero
 check_record(Gamma_exact * Gamma_exact == I16 and chirality_ok,
              "exact: Gamma h_m(k) Gamma = h_-m(k)",
              record="Revision/pairing/reports/python-pairing.json, check "
                     "Q.one_particle_maps")
-check_record(mirror_ok, "exact: gamma^(x8) h_m(k) gamma^(x8) = h_-m(R_8 k)",
+check_record(mirror_ok, "exact: gamma^(x0) h_m(k) gamma^(x0) = h_-m(R_0 k)",
              record="Revision/pairing/reports/wolfram-pairing.json, check "
                     "Q_one_particle_maps")
 ```
@@ -1103,13 +1103,13 @@ The two identities of Section 10.6 are checked exactly, for all $m$ and $k$, wit
 **In [17], the B-sectors of the good sector and the two spectra.**
 
 ```python
-h_sample = mode_hamiltonian(2, {1: 1, 2: 2, 8: 4})
+h_sample = mode_hamiltonian(2, {0: 4, 1: 1, 2: 2})
 P_B = (np.eye(16) + B) / 2  # projector onto the eigenvalue +1 of B
 sector_values = np.round(np.linalg.eigvals(P_B @ h_sample @ P_B).real, 10)
 multiplicities = {v: int(np.sum(sector_values == v)) for v in (5.0, -5.0, 0.0)}
 say(f"eigenvalues of P_B h P_B and how often each occurs: {multiplicities}")
 check_record(multiplicities == {5.0: 4, -5.0: 4, 0.0: 8},
-             "good sector, m = 2, k = (1, 2, 0, 4): on B = +1 energies +5, -5 (4 each)",
+             "good sector, m = 2, k = (4, 1, 2, 0): on B = +1 energies +5, -5 (4 each)",
              record="Revision/theory/reports/python-field-theory.json, check "
                     "good_sector_spectrum_and_B_sectors")
 ```
@@ -1247,7 +1247,7 @@ Why the sign: take two modes and write a pattern as $|o_0o_1\rangle$. Then $f_0|
 
 ### 10.12 The canonical rule from the Lagrangian
 
-To **quantise** dirac16complex means to replace its 16 components $\Psi_A$ by operators and to fix their anticommutators. *Canonical quantisation* reads the rule off the Lagrangian, with the time $x_4$ as the evolution time. The slices $x_4 = $ const are seven-dimensional, with the coordinates $x_1, x_2, x_3, x_5, x_6, x_7, x_8$.
+To **quantise** dirac16complex means to replace its 16 components $\Psi_A$ by operators and to fix their anticommutators. *Canonical quantisation* reads the rule off the Lagrangian, with the time $x_4$ as the evolution time. The slices $x_4 = $ const are seven-dimensional, with the coordinates $x_1, x_2, x_3, x_5, x_6, x_7, x_0$.
 
 **The time-derivative term, line by line.** In the author's metric the Lagrangian density of dirac16complex is (Chapter 7, record `Revision/theory/field-theory.json`)
 
@@ -1255,7 +1255,7 @@ $$
 \mathcal{L} = \cos z\,\Big[\tfrac12\sum_{a}f_a^{-1}\big(\bar\Psi\gamma^{(x_a)}\partial_a\Psi - \partial_a\bar\Psi\gamma^{(x_a)}\Psi\big) - mS - U(S)\Big],
 $$
 
-with $\sqrt{|g|} = \cos z$, the scale factors $f_a$ of Section 10.3 ($f_4 = 1$), $\bar\Psi = \Psi^\dagger C$ and $S = \bar\Psi\Psi$; in this metric the spin connection drops out of the Lagrangian (`wolfram-field-theory.json`, check `L_spin_connection_drops_out_G`). The only terms with a derivative in $x_4$ are those with $a = 4$:
+with $\sqrt{|g|} = \cos z$ (on the backgrounds $b_4 = 1$ of the record, on which this chapter works; $b_4^{3/2}\cos z$ for the general metric of Chapter 3), the scale factors $f_a$ of Section 10.3 ($f_4 = 1$), $\bar\Psi = \Psi^\dagger C$ and $S = \bar\Psi\Psi$; in this metric the spin connection drops out of the Lagrangian (`wolfram-field-theory.json`, check `L_spin_connection_drops_out_G`). The only terms with a derivative in $x_4$ are those with $a = 4$:
 
 $$
 \tfrac12\cos z\,\big(\Psi^\dagger C\gamma^{(x_4)}\partial_4\Psi - \partial_4\Psi^\dagger C\gamma^{(x_4)}\Psi\big).
@@ -1435,12 +1435,12 @@ For the chirality, $\Gamma$ is real and symmetric and $\Gamma B\Gamma = -B$ (Sec
 | map $M$ | sign $\sigma$ in $MBM^\dagger = \sigma B$ |
 | --- | --- |
 | $\Gamma$ | $-1$ |
-| $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}, \gamma^{(x_8)}$ | $+1$ |
+| $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}, \gamma^{(x_0)}$ | $+1$ |
 | $\gamma^{(x_5)}, \gamma^{(x_6)}, \gamma^{(x_7)}$ | $-1$ |
-| $P_1, P_2, P_3, P_4, P_8$ | $-1$ |
+| $P_1, P_2, P_3, P_4, P_0$ | $-1$ |
 | $P_5, P_6, P_7$ | $+1$ |
 
-The chirality image $\Gamma\Psi$ of the pairing theorem T1 therefore carries the Krein metric $-B$ (statement Q1 of the quantum reading of the pairing record, Section 10.44), while the mirror image $\gamma^{(x_8)}\Psi$ of theorem T2 keeps $+B$ (statement Q5).
+The chirality image $\Gamma\Psi$ of the pairing theorem T1 therefore carries the Krein metric $-B$ (statement Q1 of the quantum reading of the pairing record, Section 10.44), while the mirror image $\gamma^{(x_0)}\Psi$ of theorem T2 keeps $+B$ (statement Q5).
 
 **The conjugation of the quantised field.** Charge conjugation is a MATRIX map (Chapter 5): the two charge-conjugation matrices are $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$, and for a classical field they give $\Psi^c = \mathcal{C}_+\bar\Psi^T = CC\Psi^* = \Psi^*$ (same mass) and $\Psi^c = \mathcal{C}_-\bar\Psi^T = \Gamma\Psi^*$ (mass reversed), since $\bar\Psi^T = (\Psi^\dagger C)^T = C^T\Psi^* = C\Psi^*$. (For a REAL field $\Psi^* = \Psi$, so the first map is the identity: a real field is its own conjugate, and plain complex conjugation does nothing to it; the nontrivial real map is $\Gamma$, Chapter 5.) For the QUANTISED field the role of $\Psi^*$ is played by the column of conjugate operators $\Psi^{\dagger T}$, and the candidate conjugations are $\Psi^c = M\Psi^{\dagger T}$, that is $\Psi^c_A = \sum_DM_{AD}\Psi^\dagger_D$. Its conjugate is $\Psi^{c\dagger}_C = \sum_FM^*_{CF}\Psi_F$ (the conjugate of $\Psi^\dagger$ is $\Psi$). Line by line,
 
@@ -1519,14 +1519,14 @@ def check_record(condition, name, record):
 ```python
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
     encoding="utf-8"))
-gamma = {a: np.array(fixture["gamma"][a - 1], dtype=int) for a in range(1, 9)}
-C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
-Gamma = (gamma[8] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
+gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
+C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
+Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
          @ gamma[6] @ gamma[7])  # the chirality matrix
 B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4)
 ```
 
-The record `Revision/algebra/gammas.json` is read and the eight gammas are stored as whole-number arrays, `gamma[a]` being $\gamma^{(x_a)}$. `C` is $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, `Gamma` the chirality $\Gamma$, the product of all eight gammas in the author's order (the parentheses let the product run over two lines), and `B` is $B = -iC\gamma^{(x_4)}$.
+The record `Revision/algebra/gammas.json` is read and the eight gammas are stored as whole-number arrays, `gamma[a]` being $\gamma^{(x_a)}$. `C` is $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, `Gamma` the chirality $\Gamma$, the product of all eight gammas in the author's order (the parentheses let the product run over two lines), and `B` is $B = -iC\gamma^{(x_4)}$.
 
 ```python
 check(np.array_equal(C @ gamma[4], 1j * B), "C gamma^(x4) = i B")
@@ -1680,7 +1680,7 @@ For all 256 pairs $(A, C)$ the loop computes $\{\Psi_A, \Psi^\dagger_C\}\phi$ an
 
 ```python
 m_value = 1.3  # any mass and momenta (here with momenta along the extra times too)
-k = {1: 0.4, 2: -0.7, 3: 0.2, 5: 0.9, 6: -0.3, 7: 0.5, 8: 1.1}
+k = {0: 1.1, 1: 0.4, 2: -0.7, 3: 0.2, 5: 0.9, 6: -0.3, 7: 0.5}
 h_prime = m_value * C - 1j * sum(k_a * (C @ gamma[a]) for a, k_a in k.items())
 h_mode = -1j * m_value * gamma[4] - sum(k_a * (gamma[4] @ gamma[a])
                                          for a, k_a in k.items())
@@ -2045,7 +2045,7 @@ pairing = json.loads(repository_file("Revision/pairing/pairing-theory.json")
                      .read_text(encoding="utf-8"))
 rows = pairing["data"]["Krein_signs_M_B_Mdagger"]
 maps = {"Gamma": Gamma}
-for a in range(1, 9):
+for a in range(8):
     maps[f"gamma^x{a}"] = gamma[a]
     maps[f"P_x{a}"] = Gamma @ gamma[a]  # the reflection P_a = Gamma gamma^(x_a)
 ```
@@ -2075,20 +2075,20 @@ check_record(agree and len(rows) == 17,
                     "Krein_signs_M_B_Mdagger")
 ```
 
-The format code `+d` prints a whole number with its sign. The printed list is the table of Section 10.15: `Gamma: -1`, the gammas of $x_1$ to $x_4$ and $x_8$ with $+1$, those of $x_5$ to $x_7$ with $-1$, the reflections $P_1$ to $P_4$ and $P_8$ with $-1$ and $P_5$ to $P_7$ with $+1$. The check reproduces the record's data.
+The format code `+d` prints a whole number with its sign. The printed list is the table of Section 10.15: `Gamma: -1`, the gammas of $x_0$ to $x_3$ and $x_7$ with $+1$, those of $x_5$ to $x_7$ with $-1$, the reflections $P_1$ to $P_4$ and $P_0$ with $-1$ and $P_5$ to $P_7$ with $+1$. The check reproduces the record's data.
 
 ```python
 check_record(np.array_equal(Gamma @ B @ Gamma.T, -B),
              "the chirality image Gamma Psi carries the Krein metric -B",
              record="Revision/pairing/reports/python-pairing.json, check "
                     "Q.image_krein_metric")
-check_record(np.array_equal(gamma[8] @ B @ gamma[8].T, B),
-             "the mirror image gamma^(x8) Psi keeps +B",
+check_record(np.array_equal(gamma[0] @ B @ gamma[0].T, B),
+             "the mirror image gamma^(x0) Psi keeps +B",
              record="Revision/pairing/reports/python-pairing.json, check "
                     "Q.T2_image_keeps_B")
 ```
 
-The two maps of the pairing theorems separately: $\Gamma B\Gamma^T = -B$ and $\gamma^{(x_8)}B(\gamma^{(x_8)})^T = +B$ (for real matrices the conjugate transpose is the transpose). They reproduce the sympy record checks `Q.image_krein_metric` and `Q.T2_image_keeps_B`.
+The two maps of the pairing theorems separately: $\Gamma B\Gamma^T = -B$ and $\gamma^{(x_0)}B(\gamma^{(x_0)})^T = +B$ (for real matrices the conjugate transpose is the transpose). They reproduce the sympy record checks `Q.image_krein_metric` and `Q.T2_image_keeps_B`.
 
 ```python
 identity = np.eye(16)
@@ -2118,7 +2118,7 @@ The previous `check_record` has just read the lead-check report into the diction
 
 ```python
 mass_reversed = all(np.array_equal(Gamma @ gamma[a] @ Gamma, -gamma[a])
-                    for a in range(1, 9))
+                    for a in range(8))
 check(mass_reversed, "Gamma anticommutes with every gamma: the conjugation reverses m")
 ```
 
@@ -2187,7 +2187,7 @@ $$
 h = m\beta + \sum_{a = 1, 2, 3, 8}k_a\alpha^a,\qquad \beta = -i\gamma^{(x_4)},\qquad \alpha^a = -\gamma^{(x_4)}\gamma^{(x_a)} .
 $$
 
-All five matrices are Hermitian (Section 10.4), so $h$ is Hermitian. By Section 10.4, $hh = E^2I_{16}$ with $E = \sqrt{m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2} > 0$ and $\mathrm{tr}\,h = 0$, so $h$ has the eigenvalue $+E$ eight times and $-E$ eight times. Choose orthonormal eigenvectors $u_1, \dots, u_8$ with $hu_s = Eu_s$ and $v_1, \dots, v_8$ with $hv_s = -Ev_s$ (for example by the Gram-Schmidt method applied to the columns of the projectors $\frac12(I_{16} \pm h/E)$ of Section 10.5). A $u$ and a $v$ are orthogonal:
+All five matrices are Hermitian (Section 10.4), so $h$ is Hermitian. By Section 10.4, $hh = E^2I_{16}$ with $E = \sqrt{m^2 + k_1^2 + k_2^2 + k_3^2 + k_0^2} > 0$ and $\mathrm{tr}\,h = 0$, so $h$ has the eigenvalue $+E$ eight times and $-E$ eight times. Choose orthonormal eigenvectors $u_1, \dots, u_8$ with $hu_s = Eu_s$ and $v_1, \dots, v_8$ with $hv_s = -Ev_s$ (for example by the Gram-Schmidt method applied to the columns of the projectors $\frac12(I_{16} \pm h/E)$ of Section 10.5). A $u$ and a $v$ are orthogonal:
 
 $$
 E\,v^\dagger u = v^\dagger hu = (h^\dagger v)^\dagger u = (hv)^\dagger u = -E\,v^\dagger u ,
@@ -2245,9 +2245,9 @@ After normal ordering a particle has the charge $+1$ and an antiparticle $-1$.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| good sector, one momentum with frozen coefficients: positive Fock space, $\Psi^\dagger = \chi B$, $\{\Psi, \Psi^\dagger\} = B$; vacuum $-8E$; every quantum $+E$; charges $\pm1$ | PROVED (derivation above) and checked for $m = 2$, $k = (1, 2, 0, 4)$, $E = 5$ (vacuum $-40$) and for $m = 3$, $k_1 = 4$, $E = 5$ | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` |
+| good sector, one momentum with frozen coefficients: positive Fock space, $\Psi^\dagger = \chi B$, $\{\Psi, \Psi^\dagger\} = B$; vacuum $-8E$; every quantum $+E$; charges $\pm1$ | PROVED (derivation above) and checked for $m = 2$, $k = (k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$ (vacuum $-40$) and for $m = 3$, $k_1 = 4$, $E = 5$ | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` |
 | normal ordering (dropping the vacuum value) | ASSUMED | a prescription, as in Dirac's theory |
-| scope: single good-sector momenta, in flat 4+4 space or in the frozen-coefficient model of Section 10.3 (ASSUMED: it leaves out the hidden-direction terms, including the connection term $3H\gamma^{(x_8)}$) | OPEN beyond it | a positive-norm Hilbert space for the whole field in the deflating background, the extra-time sector and the operator theory for $\lambda \neq 0$ beyond the finite model of Section 10.21 are not constructed; in the author's metric the curved good-sector mode operator is Hermitian only up to a boundary term at $z = \pi/2$ (Section 10.27; Revision theory document, section 11) |
+| scope: single good-sector momenta, in flat 4+4 space or in the frozen-coefficient model of Section 10.3 (ASSUMED: it leaves out the hidden-direction terms, including the connection term $3H\gamma^{(x_0)}$) | OPEN beyond it | a positive-norm Hilbert space for the whole field in the deflating background, the extra-time sector and the operator theory for $\lambda \neq 0$ beyond the finite model of Section 10.21 are not constructed; in the author's metric the curved good-sector mode operator is Hermitian only up to a boundary term at $z = \pi/2$ (Section 10.27; Revision theory document, section 11) |
 
 ### 10.21 The expectation-value rule and the energy-momentum tensor operator
 
@@ -2279,13 +2279,13 @@ $$
 
 with the kinetic part ${:}(-\sum_{\mu \neq x_4}\hat K_\mu){:}$ and the potential part ${:}(m\hat S + U(\hat S)){:}$ of the energy density. For $\lambda = 0$ every component is a normal-ordered bilinear, and its one-particle expectation values follow the rule just derived. For $\lambda \neq 0$ the potential term is quartic in the field, and the expectation value of ${:}U(S){:}$ is not $U$ of the expectation value of ${:}S{:}$ in general.
 
-**The case $\lambda \neq 0$ in a finite model.** The operator form of the on-shell identity $\sum_\mu\langle{:}K_\mu{:}\rangle = \langle{:}(m + U')S{:}\rangle$, and with it $\rho = mS + U$ and $p = SU' - U$, is verified by the Revision record in one finite model only (`Revision/theory/fock_quartic/`, one Python checker with sympy and an exact engine for the anticommutation rules, no Wolfram counterpart; 21 of 21 checks pass). The model is the positive Fock space of Section 10.20 ($\Psi^\dagger = \chi B$) for one good-sector plane-wave mode set with frozen coefficients: flat frame, volume 1, 16 modes and $2^{16}$ states, at rest ($k = 0$, symbolic $m$) and for $m = 3$, $k = (4, 0, 0, 0)$. There, for solutions of the interacting operator field equation, ${:}\sum_\mu K_\mu{:} = {:}(m + U'(S))S{:}$ holds as an exact operator identity on every state if and only if the potential $U = \frac{\lambda}{2}{:}SS{:}$ and the energy-momentum tensor are both Wick (normal) ordered, and at rest $\hat\rho = {:}mS + U{:}$ and $\hat p = {:}SU' - U{:}$ hold in the same sense (checks `trace_identity_operator_identity_wick` and `homogeneous_rho_p_operator_identities_wick`). Every other tested combination (four orderings of the potential, two definitions of the left-hand side, two right-hand sides; 30 combinations on the two mode sets) violates the identity by a nonzero one-body operator, sometimes plus a constant, that is linear in $\lambda$ (check `trace_identity_fails_for_every_other_combination`), and it fails already in expectation values: at rest on every state except the vacuum of the mode set (check `expectation_classes_M0`), and for $k = (4, 0, 0, 0)$ in a state with a single particle or a single antiparticle (check `expectation_values_M1`). An occupation state with $n$ quanta at rest has $\rho = mn + \frac{\lambda}{2}n(n - 1)$ and $p = \frac{\lambda}{2}n(n - 1)$, so $\langle{:}U(S){:}\rangle = \frac{\lambda}{2}n(n - 1)$ differs from $U(\langle{:}S{:}\rangle) = \frac{\lambda}{2}n^2$ (check `homogeneous_expectation_values_are_not_U_of_expectation`). For the field on a whole slice (many momenta), for the curved $x_8$ dependence with its boundary term at $z = \pi/2$ and for the extra-time sector the operator form stays OPEN, and symmetry and conservation of the quartic operator are not verified. Numerical expectation values of $\hat T$ for many-fermion states of the field on a whole slice are computed only in the Kohn-Sham approximation (Chapters 14 and 15); the finite model gives none for a physical many-fermion state.
+**The case $\lambda \neq 0$ in a finite model.** The operator form of the on-shell identity $\sum_\mu\langle{:}K_\mu{:}\rangle = \langle{:}(m + U')S{:}\rangle$, and with it $\rho = mS + U$ and $p = SU' - U$, is verified by the Revision record in one finite model only (`Revision/theory/fock_quartic/`, one Python checker with sympy and an exact engine for the anticommutation rules, no Wolfram counterpart; 21 of 21 checks pass). The model is the positive Fock space of Section 10.20 ($\Psi^\dagger = \chi B$) for one good-sector plane-wave mode set with frozen coefficients: flat frame, volume 1, 16 modes and $2^{16}$ states, at rest ($k = 0$, symbolic $m$) and for $m = 3$, $k = (4, 0, 0, 0)$. There, for solutions of the interacting operator field equation, ${:}\sum_\mu K_\mu{:} = {:}(m + U'(S))S{:}$ holds as an exact operator identity on every state if and only if the potential $U = \frac{\lambda}{2}{:}SS{:}$ and the energy-momentum tensor are both Wick (normal) ordered, and at rest $\hat\rho = {:}mS + U{:}$ and $\hat p = {:}SU' - U{:}$ hold in the same sense (checks `trace_identity_operator_identity_wick` and `homogeneous_rho_p_operator_identities_wick`). Every other tested combination (four orderings of the potential, two definitions of the left-hand side, two right-hand sides; 30 combinations on the two mode sets) violates the identity by a nonzero one-body operator, sometimes plus a constant, that is linear in $\lambda$ (check `trace_identity_fails_for_every_other_combination`), and it fails already in expectation values: at rest on every state except the vacuum of the mode set (check `expectation_classes_M0`), and for $k = (4, 0, 0, 0)$ in a state with a single particle or a single antiparticle (check `expectation_values_M1`). An occupation state with $n$ quanta at rest has $\rho = mn + \frac{\lambda}{2}n(n - 1)$ and $p = \frac{\lambda}{2}n(n - 1)$, so $\langle{:}U(S){:}\rangle = \frac{\lambda}{2}n(n - 1)$ differs from $U(\langle{:}S{:}\rangle) = \frac{\lambda}{2}n^2$ (check `homogeneous_expectation_values_are_not_U_of_expectation`). For the field on a whole slice (many momenta), for the curved $x_0$ dependence with its boundary term at $z = \pi/2$ and for the extra-time sector the operator form stays OPEN, and symmetry and conservation of the quartic operator are not verified. Numerical expectation values of $\hat T$ for many-fermion states of the field on a whole slice are computed only in the Kohn-Sham approximation (Chapters 14 and 15); the finite model gives none for a physical many-fermion state.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
 | expectation-value rule $u^\dagger BMu$ (particle), $-v^\dagger BMv$ (antiparticle) | PROVED (above) and checked for a generic matrix and five recorded matrices | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` |
 | $\hat T = {:}T[\hat\Psi, \hat\Psi^\dagger C]{:}$; normal ordering removes the vacuum value $-8E$ per momentum | definition; the vacuum value PROVED (Section 10.20) and checked in the exact examples | Revision theory document, section 12; `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` |
-| operator form of the on-shell identity for $\lambda \neq 0$ (at rest also $\hat\rho = {:}mS + U{:}$, $\hat p = {:}SU' - U{:}$) | PROVED (exact, sympy and an exact engine for the anticommutation rules) in the finite model of one good-sector mode set with frozen coefficients only, where, of the tested orderings, it holds if and only if $U$ and $\hat T$ are Wick ordered; OPEN for the field on a whole slice, the curved $x_8$ dependence and the extra-time sector; symmetry and conservation of the quartic operator not verified | `fock-quartic.json`, checks `trace_identity_operator_identity_wick`, `trace_identity_fails_for_every_other_combination` and `homogeneous_rho_p_operator_identities_wick` |
+| operator form of the on-shell identity for $\lambda \neq 0$ (at rest also $\hat\rho = {:}mS + U{:}$, $\hat p = {:}SU' - U{:}$) | PROVED (exact, sympy and an exact engine for the anticommutation rules) in the finite model of one good-sector mode set with frozen coefficients only, where, of the tested orderings, it holds if and only if $U$ and $\hat T$ are Wick ordered; OPEN for the field on a whole slice, the curved $x_0$ dependence and the extra-time sector; symmetry and conservation of the quartic operator not verified | `fock-quartic.json`, checks `trace_identity_operator_identity_wick`, `trace_identity_fails_for_every_other_combination` and `homogeneous_rho_p_operator_identities_wick` |
 
 ### 10.22 The commuting field dirac16complex00: an energy unbounded below
 
@@ -2302,11 +2302,11 @@ $$
 \rho = E\,|c|^2\,u^\dagger Bu .
 $$
 
-The charge density is $\Phi^\dagger B\Phi = |c|^2u^\dagger Bu$. In the good sector $B$ commutes with $h$, and by Theorem 10.1 the eigenspace of $+E$ contains four orthonormal columns with $Bu = u$ and four with $Bu = -u$. The first four have $\rho = +E|c|^2$, the other four $\rho = -E|c|^2$, although all eight have the positive frequency $E$. Multiplying the wave by a large number $c$ makes its energy density as negative as one likes: **the classical energy of dirac16complex00 is unbounded below**, already for $U = 0$ in the good sector, and its charge density $\Phi^\dagger B\Phi$ is an indefinite form. For its charge, as for that of dirac16complex (Section 10.2), only the local conservation law is proved; the total over a slice is constant only if no charge flows through the boundary, which at $z = \pi/2$ is an ASSUMED no-flux condition that the record does not impose (`wolfram-field-theory.json`, check `charge_density_is_Krein_form_C`). Dirac's wave function of 1928 has the positive density $\psi^\dagger\psi$; dirac16complex00 does not. For the recorded momentum $m = 2$, $k = (1, 2, 0, 4)$, $E = 5$ and $|c| = 1$ the energy densities are $+5$ and $-5$ and the charge densities $+1$ and $-1$ (`python-scope.json`, check `commuting_field_energy_unbounded_below`). Quantising the fermion field with anticommutators and normal ordering makes the good-sector energy positive; for the classical commuting field there is no such mechanism, and no quantum statement is made for dirac16complex00 in this book.
+The charge density is $\Phi^\dagger B\Phi = |c|^2u^\dagger Bu$. In the good sector $B$ commutes with $h$, and by Theorem 10.1 the eigenspace of $+E$ contains four orthonormal columns with $Bu = u$ and four with $Bu = -u$. The first four have $\rho = +E|c|^2$, the other four $\rho = -E|c|^2$, although all eight have the positive frequency $E$. Multiplying the wave by a large number $c$ makes its energy density as negative as one likes: **the classical energy of dirac16complex00 is unbounded below**, already for $U = 0$ in the good sector, and its charge density $\Phi^\dagger B\Phi$ is an indefinite form. For its charge, as for that of dirac16complex (Section 10.2), only the local conservation law is proved; the total over a slice is constant only if no charge flows through the boundary, which at $z = \pi/2$ is an ASSUMED no-flux condition that the record does not impose (`wolfram-field-theory.json`, check `charge_density_is_Krein_form_C`). Dirac's wave function of 1928 has the positive density $\psi^\dagger\psi$; dirac16complex00 does not. For the recorded momentum $m = 2$, $k = (k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$ and $|c| = 1$ the energy densities are $+5$ and $-5$ and the charge densities $+1$ and $-1$ (`python-scope.json`, check `commuting_field_energy_unbounded_below`). Quantising the fermion field with anticommutators and normal ordering makes the good-sector energy positive; for the classical commuting field there is no such mechanism, and no quantum statement is made for dirac16complex00 in this book.
 
 ### 10.23 Example: Notebook 10c builds the positive Fock space of one momentum
 
-Notebook 10c builds the good-sector waves of the recorded momentum $m = 2$, $k = (1, 2, 0, 4)$, $E = 5$, the positive Fock space with the operators $b_s$ and $d_s$, and the field $\Psi$ with $\Psi^\dagger = \chi B$ (Section 10.20); it checks the canonical rule, computes the vacuum energy $-40$, the normal-ordered energies $+5$ and charges $\pm1$ of all 16 one-quantum states, checks the expectation-value rule of Section 10.21 for 100 random matrices and for the second recorded momentum $m = 3$, $k_1 = 4$, counts all 65536 states of one momentum, and computes the energy densities $\pm5$ of the commuting field (Section 10.22). It draws five figures and ends with the line ALL 14 CHECKS PASSED (notebook 10c).
+Notebook 10c builds the good-sector waves of the recorded momentum $m = 2$, $k = (k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$, the positive Fock space with the operators $b_s$ and $d_s$, and the field $\Psi$ with $\Psi^\dagger = \chi B$ (Section 10.20); it checks the canonical rule, computes the vacuum energy $-40$, the normal-ordered energies $+5$ and charges $\pm1$ of all 16 one-quantum states, checks the expectation-value rule of Section 10.21 for 100 random matrices and for the second recorded momentum $m = 3$, $k_1 = 4$, counts all 65536 states of one momentum, and computes the energy densities $\pm5$ of the commuting field (Section 10.22). It draws five figures and ends with the line ALL 14 CHECKS PASSED (notebook 10c).
 
 <!-- NOTEBOOK 10c -->
 
@@ -2354,8 +2354,8 @@ The imports and the functions `record_says_pass` and `check_record` of In [2] of
 BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
     encoding="utf-8"))
-gamma = {a: np.array(fixture["gamma"][a - 1], dtype=int) for a in range(1, 9)}
-C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
+gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
+C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
 B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4)
 ```
 
@@ -2404,14 +2404,14 @@ def good_sector_modes(m, k):
 For a good-sector momentum (only the directions 1, 2, 3, 8 in `k`) the function computes $h$, the energy $E = \sqrt{m^2 + \sum_ak_a^2}$, and orthonormal bases of the ranges of the projectors $\frac12(I_{16} \pm h/E)$: the eigenvectors $u_1, \dots, u_8$ of $+E$ and $v_1, \dots, v_8$ of $-E$ (Section 10.20). It returns $h$, $E$ and the matrix $W$ with these 16 columns.
 
 ```python
-h, E, W = good_sector_modes(2, {1: 1, 2: 2, 8: 4})
-report("E for m = 2, k = (1, 2, 0, 4)", f"{E:.12f}")
+h, E, W = good_sector_modes(2, {0: 4, 1: 1, 2: 2})
+report("E for m = 2, k = (4, 1, 2, 0)", f"{E:.12f}")
 hermitian = np.max(np.abs(h - h.conj().T)) < 1e-15
 square_ok = np.max(np.abs(h @ h - 25 * np.eye(16))) < 1e-13
 commutes = np.max(np.abs(B @ h - h @ B)) < 1e-15
 ```
 
-The recorded momentum $m = 2$, $k_1 = 1$, $k_2 = 2$, $k_8 = 4$ gives $E = \sqrt{4 + 1 + 4 + 16} = 5$, printed as `5.000000000000`. The three truth values test that $h$ is Hermitian, that $hh = 25I_{16}$ and that $h$ commutes with $B$.
+The recorded momentum $m = 2$, $k_1 = 1$, $k_2 = 2$, $k_0 = 4$ gives $E = \sqrt{4 + 1 + 4 + 16} = 5$, printed as `5.000000000000`. The three truth values test that $h$ is Hermitian, that $hh = 25I_{16}$ and that $h$ commutes with $B$.
 
 ```python
 eigen_ok = (np.max(np.abs(h @ W[:, :8] - E * W[:, :8])) < 1e-13
@@ -2570,7 +2570,7 @@ The energy is $\chi h\Psi$ ($N = h$) and the charge $\chi\Psi$ ($N = I_{16}$). T
 expected_charges = np.array([1] * 8 + [-1] * 8)  # 8 particles, 8 antiparticles
 check_record(abs(vacuum_energy + 40) < 1e-12 and np.max(np.abs(energies - 5)) < 1e-12
              and np.max(np.abs(charges - expected_charges)) < 1e-12,
-             "m = 2, k = (1, 2, 0, 4): vacuum -40, every quantum +5, charges +1, -1",
+             "m = 2, k = (4, 1, 2, 0): vacuum -40, every quantum +5, charges +1, -1",
              record="Revision/theory/reports/python-field-theory.json, check "
                     "good_sector_positive_fock_realisation")
 ```
@@ -2784,7 +2784,7 @@ Two arrows label the vacuum and the largest group, 4900 states with 8 quanta and
 energy_projector = (np.eye(16) + h / E) / 2  # onto the eigenspace of +E
 plus_part = orthonormal_columns(energy_projector @ (np.eye(16) + B) / 2)
 minus_part = orthonormal_columns(energy_projector @ (np.eye(16) - B) / 2)
-k_sample = {1: 1, 2: 2, 8: 4}  # the momenta of the sample, m = 2
+k_sample = {0: 4, 1: 1, 2: 2}  # the momenta of the sample, m = 2
 ```
 
 In the good sector $B$ commutes with $h$, so the product of the projector onto the eigenspace of $+E$ with the projector $\frac12(I_{16} \pm B)$ projects onto the columns that have both $hu = Eu$ and $Bu = \pm u$. Their orthonormal bases are `plus_part` and `minus_part`.
@@ -2908,84 +2908,84 @@ The five figure files exist, and the last line prints ALL 14 CHECKS PASSED (note
 
 ### 10.27 The curved good sector: symmetric only up to a boundary term
 
-The positive Fock space of Section 10.20 was built for one plane wave with frozen coefficients. In the author's curved metric the waves of the good sector depend on the hidden coordinate $x_8$, with $z = 6Hx_8$ between the **tip** $z = 0$ and the **patch end** $z = \pi/2$, where $g_{88} = \cot^2z$ and the volume factor $\sqrt{|g|} = \cos z$ vanish. Is the evolution there still Hermitian, and is the Krein charge still conserved?
+The positive Fock space of Section 10.20 was built for one plane wave with frozen coefficients. In the author's curved metric the waves of the good sector depend on the hidden coordinate $x_0$, with $z = 6Hx_0$ between the **tip** $z = 0$ and the **patch end** $z = \pi/2$, where $g_{00} = \cot^2z$ and the volume factor $\sqrt{|g|} = \cos z$ vanish. Is the evolution there still Hermitian, and is the Krein charge still conserved?
 
-**The field equation for waves in $x_4$ and $x_8$.** In the author's metric the field equation of dirac16complex with $U = 0$ is (Chapter 7, record `Revision/theory/field-theory.json`)
-
-$$
-e^{-a_4}\sin^{-1/6}z\sum_{i=1}^{3}\gamma^{(x_i)}\partial_i\Psi + \gamma^{(x_4)}\partial_4\Psi + e^{a_4}\sin^{-1/6}z\sum_{t=5}^{7}\gamma^{(x_t)}\partial_t\Psi + \tan z\,\gamma^{(x_8)}\partial_8\Psi + 3H\gamma^{(x_8)}\Psi = m\Psi .
-$$
-
-Each derivative is divided by the scale factor of its direction ($1/f_8 = 1/\cot z = \tan z$), and $3H\gamma^{(x_8)}$ is the term $\gamma^\mu\Omega_\mu$ of the canonical spin connection (Chapter 6). For a wave of the good sector that depends only on $x_4$ and $x_8$ the first and the third sums vanish:
+**The field equation for waves in $x_4$ and $x_0$.** In the author's metric the field equation of dirac16complex with $U = 0$ is (Chapter 7, record `Revision/theory/field-theory.json`)
 
 $$
-\gamma^{(x_4)}\partial_4\Psi + \tan z\,\gamma^{(x_8)}\partial_8\Psi + 3H\gamma^{(x_8)}\Psi = m\Psi .
+e^{-a_4}\sin^{-1/6}z\sum_{i=1}^{3}\gamma^{(x_i)}\partial_i\Psi + \gamma^{(x_4)}\partial_4\Psi + e^{a_4}\sin^{-1/6}z\sum_{t=5}^{7}\gamma^{(x_t)}\partial_t\Psi + \tan z\,\gamma^{(x_0)}\partial_0\Psi + 3H\gamma^{(x_0)}\Psi = m\Psi .
+$$
+
+Each derivative is divided by the scale factor of its direction ($1/f_0 = 1/\cot z = \tan z$), and $3H\gamma^{(x_0)}$ is the term $\gamma^\mu\Omega_\mu$ of the canonical spin connection (Chapter 6). For a wave of the good sector that depends only on $x_4$ and $x_0$ the first and the third sums vanish:
+
+$$
+\gamma^{(x_4)}\partial_4\Psi + \tan z\,\gamma^{(x_0)}\partial_0\Psi + 3H\gamma^{(x_0)}\Psi = m\Psi .
 $$
 
 Multiply from the left by $\gamma^{(x_4)}$, use $\gamma^{(x_4)}\gamma^{(x_4)} = -I_{16}$, solve for $\partial_4\Psi$ (as in Section 10.3) and multiply by $i$:
 
 $$
-i\,\partial_4\Psi = h\Psi,\qquad h = A + D\,\partial_8,
+i\,\partial_4\Psi = h\Psi,\qquad h = A + D\,\partial_0,
 $$
 
 with the matrices
 
 $$
-A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_8)},\qquad D = \tan z\,M_8,\qquad M_8 = i\gamma^{(x_4)}\gamma^{(x_8)} .
+A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_0)},\qquad D = \tan z\,M_0,\qquad M_0 = i\gamma^{(x_4)}\gamma^{(x_0)} .
 $$
 
-**Four matrix facts.** With $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$, $(\gamma^{(x_8)})^T = \gamma^{(x_8)}$ and $\gamma^{(x_8)}\gamma^{(x_4)} = -\gamma^{(x_4)}\gamma^{(x_8)}$:
+**Four matrix facts.** With $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$, $(\gamma^{(x_0)})^T = \gamma^{(x_0)}$ and $\gamma^{(x_0)}\gamma^{(x_4)} = -\gamma^{(x_4)}\gamma^{(x_0)}$:
 
-(D1) $M_8^\dagger = -i(\gamma^{(x_8)})^T(\gamma^{(x_4)})^T = -i\gamma^{(x_8)}(-\gamma^{(x_4)}) = i\gamma^{(x_8)}\gamma^{(x_4)} = -i\gamma^{(x_4)}\gamma^{(x_8)} = -M_8$: $M_8$ is anti-Hermitian, and so is $D$ ($\tan z$ is real).
+(D1) $M_0^\dagger = -i(\gamma^{(x_0)})^T(\gamma^{(x_4)})^T = -i\gamma^{(x_0)}(-\gamma^{(x_4)}) = i\gamma^{(x_0)}\gamma^{(x_4)} = -i\gamma^{(x_4)}\gamma^{(x_0)} = -M_0$: $M_0$ is anti-Hermitian, and so is $D$ ($\tan z$ is real).
 
-(D2) $\cos z\,D = \cos z\tan z\,M_8 = \sin z\,M_8$.
+(D2) $\cos z\,D = \cos z\tan z\,M_0 = \sin z\,M_0$.
 
-(D3) $A^\dagger = im(\gamma^{(x_4)})^T - 3iH(\gamma^{(x_8)})^T(\gamma^{(x_4)})^T = -im\gamma^{(x_4)} + 3iH\gamma^{(x_8)}\gamma^{(x_4)} = -im\gamma^{(x_4)} - 3iH\gamma^{(x_4)}\gamma^{(x_8)}$, so $A - A^\dagger = 6iH\gamma^{(x_4)}\gamma^{(x_8)} = 6HM_8$. Since $\partial_8\sin z = 6H\cos z$ (chain rule, $z = 6Hx_8$), this is $\cos z\,(A - A^\dagger) = (\partial_8\sin z)\,M_8$.
+(D3) $A^\dagger = im(\gamma^{(x_4)})^T - 3iH(\gamma^{(x_0)})^T(\gamma^{(x_4)})^T = -im\gamma^{(x_4)} + 3iH\gamma^{(x_0)}\gamma^{(x_4)} = -im\gamma^{(x_4)} - 3iH\gamma^{(x_4)}\gamma^{(x_0)}$, so $A - A^\dagger = 6iH\gamma^{(x_4)}\gamma^{(x_0)} = 6HM_0$. Since $\partial_0\sin z = 6H\cos z$ (chain rule, $z = 6Hx_0$), this is $\cos z\,(A - A^\dagger) = (\partial_0\sin z)\,M_0$.
 
-(D4) $B$ commutes with $\gamma^{(x_4)}$ and $\gamma^{(x_8)}$ (Section 10.2), hence with $A$, $A^\dagger$, $D$ and $M_8$.
+(D4) $B$ commutes with $\gamma^{(x_4)}$ and $\gamma^{(x_0)}$ (Section 10.2), hence with $A$, $A^\dagger$, $D$ and $M_0$.
 
-**Symmetric up to a boundary term, line by line.** Write $u'$ for $\partial_8u$, for two wave functions $u(x_8)$ and $v(x_8)$. Then
+**Symmetric up to a boundary term, line by line.** Write $u'$ for $\partial_0u$, for two wave functions $u(x_0)$ and $v(x_0)$. Then
 
 $$
 u^\dagger(hv) - (hu)^\dagger v = u^\dagger Av + u^\dagger Dv' - u^\dagger A^\dagger v - u'^\dagger D^\dagger v = u^\dagger(A - A^\dagger)v + u^\dagger Dv' + u'^\dagger Dv .
 $$
 
-The first step inserts $h = A + D\partial_8$ and uses $(Xw)^\dagger = w^\dagger X^\dagger$; the second collects the $A$ terms and uses $D^\dagger = -D$ (D1). Multiply by $\cos z$ and write $G = \cos z\,D = \sin z\,M_8$ (D2):
+The first step inserts $h = A + D\partial_0$ and uses $(Xw)^\dagger = w^\dagger X^\dagger$; the second collects the $A$ terms and uses $D^\dagger = -D$ (D1). Multiply by $\cos z$ and write $G = \cos z\,D = \sin z\,M_0$ (D2):
 
 $$
-\cos z\,\big[u^\dagger(hv) - (hu)^\dagger v\big] = \cos z\,u^\dagger(A - A^\dagger)v + u^\dagger Gv' + u'^\dagger Gv = (\partial_8\sin z)\,u^\dagger M_8v + \partial_8\big(u^\dagger Gv\big) - u^\dagger(\partial_8G)v .
+\cos z\,\big[u^\dagger(hv) - (hu)^\dagger v\big] = \cos z\,u^\dagger(A - A^\dagger)v + u^\dagger Gv' + u'^\dagger Gv = (\partial_0\sin z)\,u^\dagger M_0v + \partial_0\big(u^\dagger Gv\big) - u^\dagger(\partial_0G)v .
 $$
 
-The second step uses (D3) for the first term and the product rule $\partial_8(u^\dagger Gv) = u'^\dagger Gv + u^\dagger G'v + u^\dagger Gv'$ for the other two. Since $\partial_8G = (\partial_8\sin z)M_8$, the first and the last terms cancel:
+The second step uses (D3) for the first term and the product rule $\partial_0(u^\dagger Gv) = u'^\dagger Gv + u^\dagger G'v + u^\dagger Gv'$ for the other two. Since $\partial_0G = (\partial_0\sin z)M_0$, the first and the last terms cancel:
 
 $$
-\cos z\,\big[u^\dagger(hv) - (hu)^\dagger v\big] = \partial_8\big(\sin z\;u^\dagger M_8v\big) .
+\cos z\,\big[u^\dagger(hv) - (hu)^\dagger v\big] = \partial_0\big(\sin z\;u^\dagger M_0v\big) .
 $$
 
-The left side, integrated over the hidden direction with the volume $\cos z\,dx_8$, is the difference between $\int\cos z\,u^\dagger(hv)\,dx_8$ and $\int\cos z\,(hu)^\dagger v\,dx_8$; the right side is a **boundary term**: its integral over $0 < z < \pi/2$ is the bracket $\sin z\,u^\dagger M_8v$ at $z = \pi/2$ minus its value at $z = 0$. At the tip $\sin z = 0$, so for wave functions that stay finite there the bracket vanishes. At the patch end $\sin z = 1$, and the bracket $u^\dagger M_8v$, the **flux** through $z = \pi/2$, does not vanish in general. Example: $\gamma^{(x_4)}\gamma^{(x_8)}$ is real and symmetric ($(\gamma^{(x_4)}\gamma^{(x_8)})^T = \gamma^{(x_8)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_8)}$) and squares to $-\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_8)}\gamma^{(x_8)} = I_{16}$, so it has the eigenvalue $+1$; for a column with $\gamma^{(x_4)}\gamma^{(x_8)}u = u$ and $u^\dagger u = 2$ the flux is $u^\dagger M_8u = i\,u^\dagger u = 2i$. The patch end is not infinitely far away: its proper distance from a point $z_0$ is $\int\sqrt{g_{88}}\,dx_8 = \frac{1}{6H}\int_{z_0}^{\pi/2}\cot z\,dz = -\frac{1}{6H}\ln\sin z_0$, a finite number.
+The left side, integrated over the hidden direction with the volume $\cos z\,dx_0$, is the difference between $\int\cos z\,u^\dagger(hv)\,dx_0$ and $\int\cos z\,(hu)^\dagger v\,dx_0$; the right side is a **boundary term**: its integral over $0 < z < \pi/2$ is the bracket $\sin z\,u^\dagger M_0v$ at $z = \pi/2$ minus its value at $z = 0$. At the tip $\sin z = 0$, so for wave functions that stay finite there the bracket vanishes. At the patch end $\sin z = 1$, and the bracket $u^\dagger M_0v$, the **flux** through $z = \pi/2$, does not vanish in general. Example: $\gamma^{(x_4)}\gamma^{(x_0)}$ is real and symmetric ($(\gamma^{(x_4)}\gamma^{(x_0)})^T = \gamma^{(x_0)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_0)}$) and squares to $-\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_0)} = I_{16}$, so it has the eigenvalue $+1$; for a column with $\gamma^{(x_4)}\gamma^{(x_0)}u = u$ and $u^\dagger u = 2$ the flux is $u^\dagger M_0u = i\,u^\dagger u = 2i$. The patch end is not infinitely far away: its proper distance from a point $z_0$ is $\int\sqrt{g_{00}}\,dx_0 = \frac{1}{6H}\int_{z_0}^{\pi/2}\cot z\,dz = -\frac{1}{6H}\ln\sin z_0$, a finite number.
 
 **The Krein version.** Because $B$ commutes with every matrix in $h$ (D4) and is constant, $B(hu) = h(Bu)$, so $(hu)^\dagger Bv = (Bhu)^\dagger v = (h(Bu))^\dagger v$, while $u^\dagger B(hv) = (Bu)^\dagger(hv)$. The derivation above with $u$ replaced by $Bu$ gives
 
 $$
-\cos z\,\big[u^\dagger B(hv) - (hu)^\dagger Bv\big] = \partial_8\big(\sin z\;u^\dagger BM_8v\big) .
+\cos z\,\big[u^\dagger B(hv) - (hu)^\dagger Bv\big] = \partial_0\big(\sin z\;u^\dagger BM_0v\big) .
 $$
 
-**The role of the spin-connection term.** Without the term $3H\gamma^{(x_8)}$ the matrix $A$ would be $A_0 = -im\gamma^{(x_4)}$ with $A_0 - A_0^\dagger = 0$, and the same steps would leave
+**The role of the spin-connection term.** Without the term $3H\gamma^{(x_0)}$ the matrix $A$ would be $A_0 = -im\gamma^{(x_4)}$ with $A_0 - A_0^\dagger = 0$, and the same steps would leave
 
 $$
-\cos z\,\big[u^\dagger(h_0v) - (h_0u)^\dagger v\big] = \partial_8\big(\sin z\,u^\dagger M_8v\big) - 6H\cos z\,u^\dagger M_8v :
+\cos z\,\big[u^\dagger(h_0v) - (h_0u)^\dagger v\big] = \partial_0\big(\sin z\,u^\dagger M_0v\big) - 6H\cos z\,u^\dagger M_0v :
 $$
 
 a remainder that is not a boundary term. In these variables and with this volume, the spin-connection term is exactly what makes the hidden-direction operator symmetric up to the boundary term. (This role depends on the variables: with $\Psi = \sin^{-1/2}z\,\chi$ the connection term disappears from the equation altogether; `python-scope.json`, check `rescaling_removes_the_connection_term`.)
 
 **What follows.** The good-sector evolution in the author's metric is Hermitian, and the Krein charge $\int\cos z\,\Psi^\dagger B\Psi\,d^7x$ conserved, only if a **boundary condition** at $z = \pi/2$ removes the flux. The Kohn-Sham record imposes such a condition, the Z2 brane condition, which is ASSUMED (Chapter 14); the quantisation of the Revision record imposes none.
 
-### 10.28 Waves that do not depend on $x_8$, and where their Krein charge goes
+### 10.28 Waves that do not depend on $x_0$, and where their Krein charge goes
 
-**Finite norm.** A wave of the good sector that depends on $x_4$ only has $\partial_8\Psi = 0$, so $h$ acts on it as the constant matrix $A$. Its norm is finite: on the patch $0 < z < \pi/2$, that is $0 < x_8 < \pi/(12H)$,
+**Finite norm.** A wave of the good sector that depends on $x_4$ only has $\partial_0\Psi = 0$, so $h$ acts on it as the constant matrix $A$. Its norm is finite: on the patch $0 < z < \pi/2$, that is $0 < x_0 < \pi/(12H)$,
 
 $$
-\int_0^{\pi/(12H)}\cos(6Hx_8)\,dx_8 = \Big[\frac{\sin(6Hx_8)}{6H}\Big]_0^{\pi/(12H)} = \frac{\sin(\pi/2) - \sin 0}{6H} = \frac{1}{6H},
+\int_0^{\pi/(12H)}\cos(6Hx_0)\,dx_0 = \Big[\frac{\sin(6Hx_0)}{6H}\Big]_0^{\pi/(12H)} = \frac{\sin(\pi/2) - \sin 0}{6H} = \frac{1}{6H},
 $$
 
 by the antiderivative of the cosine and the chain rule. So these waves are honest members of the good sector.
@@ -2993,36 +2993,36 @@ by the antiderivative of the cosine and the chain rule. So these waves are hones
 **Growth for $m^2 < 9H^2$.** Square $A$:
 
 $$
-(-im\gamma^{(x_4)})^2 = -m^2\gamma^{(x_4)}\gamma^{(x_4)} = m^2I_{16},\qquad (3iH\gamma^{(x_4)}\gamma^{(x_8)})^2 = -9H^2(\gamma^{(x_4)}\gamma^{(x_8)})^2 = -9H^2I_{16},
+(-im\gamma^{(x_4)})^2 = -m^2\gamma^{(x_4)}\gamma^{(x_4)} = m^2I_{16},\qquad (3iH\gamma^{(x_4)}\gamma^{(x_0)})^2 = -9H^2(\gamma^{(x_4)}\gamma^{(x_0)})^2 = -9H^2I_{16},
 $$
 
 and the mixed terms cancel:
 
 $$
-(-im\gamma^{(x_4)})(3iH\gamma^{(x_4)}\gamma^{(x_8)}) + (3iH\gamma^{(x_4)}\gamma^{(x_8)})(-im\gamma^{(x_4)}) = 3mH\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_8)} + \gamma^{(x_4)}\gamma^{(x_8)}\gamma^{(x_4)}\big)
+(-im\gamma^{(x_4)})(3iH\gamma^{(x_4)}\gamma^{(x_0)}) + (3iH\gamma^{(x_4)}\gamma^{(x_0)})(-im\gamma^{(x_4)}) = 3mH\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)} + \gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_4)}\big)
 $$
 
 $$
-= 3mH\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_8)} - \gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_8)}\big) = 0 ,
+= 3mH\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)} - \gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)}\big) = 0 ,
 $$
 
-by multiplying out ($(-i)(3i) = 3$) and by exchanging $\gamma^{(x_8)}\gamma^{(x_4)}$ in the second product. Hence
+by multiplying out ($(-i)(3i) = 3$) and by exchanging $\gamma^{(x_0)}\gamma^{(x_4)}$ in the second product. Hence
 
 $$
 AA = (m^2 - 9H^2)\,I_{16} .
 $$
 
-For $m^2 < 9H^2$, that is $-3H < m < 3H$, the eigenvalues of $A$ are $\pm i\sqrt{9H^2 - m^2}$ (eight of each, because $\mathrm{tr}\,A = 0$), and half of these finite-norm waves grow like $e^{\kappa x_4}$ with $\kappa = \sqrt{9H^2 - m^2}$. At $m = H = 1$ the eigenvalues are $\pm\sqrt{-8} = \pm2\sqrt2\,i$ (`python-scope.json`, check `good_sector_x8_independent_modes_without_boundary_condition`). For $m^2 > 9H^2$ they are real. So without a boundary condition the curved good sector of the author's metric contains growing waves whenever $|m| < 3H$.
+For $m^2 < 9H^2$, that is $-3H < m < 3H$, the eigenvalues of $A$ are $\pm i\sqrt{9H^2 - m^2}$ (eight of each, because $\mathrm{tr}\,A = 0$), and half of these finite-norm waves grow like $e^{\kappa x_4}$ with $\kappa = \sqrt{9H^2 - m^2}$. At $m = H = 1$ the eigenvalues are $\pm\sqrt{-8} = \pm2\sqrt2\,i$ (`python-scope.json`, check `good_sector_x0_independent_modes_without_boundary_condition`). For $m^2 > 9H^2$ they are real. So without a boundary condition the curved good sector of the author's metric contains growing waves whenever $|m| < 3H$.
 
-**An exact growing solution.** The equation $i\,\partial_4\Psi = A\Psi$ is $\partial_4\Psi = M\Psi$ with $M = -iA = -m\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_8)}$, and $MM = -AA = (9H^2 - m^2)I_{16} = k^2I_{16}$ with $k = \sqrt{9H^2 - m^2}$. As in Section 10.4 the exponential series collapses (even powers $M^{2j} = k^{2j}I_{16}$, odd powers $M^{2j+1} = k^{2j}M$), and
+**An exact growing solution.** The equation $i\,\partial_4\Psi = A\Psi$ is $\partial_4\Psi = M\Psi$ with $M = -iA = -m\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_0)}$, and $MM = -AA = (9H^2 - m^2)I_{16} = k^2I_{16}$ with $k = \sqrt{9H^2 - m^2}$. As in Section 10.4 the exponential series collapses (even powers $M^{2j} = k^{2j}I_{16}$, odd powers $M^{2j+1} = k^{2j}M$), and
 
 $$
 \Psi(x_4) = e^{Mx_4}\chi = \Big(\cosh(kx_4)\,I_{16} + \frac{\sinh(kx_4)}{k}\,M\Big)\chi
 $$
 
-for any constant column $\chi$, by the power series of $\cosh$ and $\sinh$. Check: $\partial_4\Psi = (k\sinh(kx_4)\,I_{16} + \cosh(kx_4)\,M)\chi$, while $M\Psi = (\cosh(kx_4)\,M + \frac{\sinh(kx_4)}{k}MM)\chi = (\cosh(kx_4)\,M + k\sinh(kx_4)\,I_{16})\chi$: equal. This is the member $\alpha = 0$ of the exact family of the Revision theory record (`python-field-theory.json`, check `exact_solution_family_x4_x8`). For large $x_4$ both $\cosh$ and $\sinh$ grow like $\frac12e^{kx_4}$, so the ordinary squared length $\Psi^\dagger\Psi$ grows like $e^{2kx_4}$.
+for any constant column $\chi$, by the power series of $\cosh$ and $\sinh$. Check: $\partial_4\Psi = (k\sinh(kx_4)\,I_{16} + \cosh(kx_4)\,M)\chi$, while $M\Psi = (\cosh(kx_4)\,M + \frac{\sinh(kx_4)}{k}MM)\chi = (\cosh(kx_4)\,M + k\sinh(kx_4)\,I_{16})\chi$: equal. This is the member $\alpha = 0$ of the exact family of the Revision theory record (`python-field-theory.json`, check `exact_solution_family_x4_x0`). For large $x_4$ both $\cosh$ and $\sinh$ grow like $\frac12e^{kx_4}$, so the ordinary squared length $\Psi^\dagger\Psi$ grows like $e^{2kx_4}$.
 
-**Where the Krein charge goes, line by line.** The Krein charge of this wave is $Q(x_4) = \int\cos z\,\Psi^\dagger B\Psi\,dx_8 = \Psi^\dagger B\Psi/(6H)$, because $\Psi$ does not depend on $x_8$. Its rate of change: from $\partial_4\Psi = -ih\Psi$ and $\partial_4\Psi^\dagger = i(h\Psi)^\dagger$,
+**Where the Krein charge goes, line by line.** The Krein charge of this wave is $Q(x_4) = \int\cos z\,\Psi^\dagger B\Psi\,dx_0 = \Psi^\dagger B\Psi/(6H)$, because $\Psi$ does not depend on $x_0$. Its rate of change: from $\partial_4\Psi = -ih\Psi$ and $\partial_4\Psi^\dagger = i(h\Psi)^\dagger$,
 
 $$
 \partial_4(\Psi^\dagger B\Psi) = i(h\Psi)^\dagger B\Psi - i\Psi^\dagger B(h\Psi) = -i\big[\Psi^\dagger B(h\Psi) - (h\Psi)^\dagger B\Psi\big] .
@@ -3031,18 +3031,18 @@ $$
 Multiply by $\cos z$, integrate over the patch, and use the Krein version of Section 10.27 with $u = v = \Psi$:
 
 $$
-\frac{dQ}{dx_4} = -i\int\partial_8\big(\sin z\,\Psi^\dagger BM_8\Psi\big)\,dx_8 = -i\,\Psi^\dagger BM_8\Psi\Big|_{z = \pi/2} = \Psi^\dagger B\gamma^{(x_4)}\gamma^{(x_8)}\Psi .
+\frac{dQ}{dx_4} = -i\int\partial_0\big(\sin z\,\Psi^\dagger BM_0\Psi\big)\,dx_0 = -i\,\Psi^\dagger BM_0\Psi\Big|_{z = \pi/2} = \Psi^\dagger B\gamma^{(x_4)}\gamma^{(x_0)}\Psi .
 $$
 
-The second step integrates the derivative (the bracket vanishes at the tip and is $\Psi^\dagger BM_8\Psi$ at $z = \pi/2$); the third inserts $M_8 = i\gamma^{(x_4)}\gamma^{(x_8)}$ and $-i \cdot i = 1$. The charge is not conserved: it changes by exactly the flux through the patch end. Notebook 10d follows it for $m = H = 1$ ($k = 2\sqrt2$) and a column $\chi$ with $B\chi = \chi$ and $\chi^\dagger\chi = 1$: $Q(0) = \chi^\dagger B\chi/6 = 1/6$, printed as 0.166667, and $Q(1.5) = 454.007$; the change agrees with the flux added up over time to a relative accuracy of $6.7 \times 10^{-7}$.
+The second step integrates the derivative (the bracket vanishes at the tip and is $\Psi^\dagger BM_0\Psi$ at $z = \pi/2$); the third inserts $M_0 = i\gamma^{(x_4)}\gamma^{(x_0)}$ and $-i \cdot i = 1$. The charge is not conserved: it changes by exactly the flux through the patch end. Notebook 10d follows it for $m = H = 1$ ($k = 2\sqrt2$) and a column $\chi$ with $B\chi = \chi$ and $\chi^\dagger\chi = 1$: $Q(0) = \chi^\dagger B\chi/6 = 1/6$, printed as 0.166667, and $Q(1.5) = 454.007$; the change agrees with the flux added up over time to a relative accuracy of $6.7 \times 10^{-7}$.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| $\cos z\,[u^\dagger(hv) - (hu)^\dagger v] = \partial_8(\sin z\,u^\dagger M_8v)$; flux $2i$ at $z = \pi/2$ for the recorded column | PROVED | `python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux`; `wolfram-field-theory.json`, check `good_sector_hermiticity_curved` |
-| without $3H\gamma^{(x_8)}$ the remainder $-6H\cos z\,u^\dagger M_8v$ survives | PROVED | `wolfram-field-theory.json`, check `good_sector_hermiticity_curved` |
+| $\cos z\,[u^\dagger(hv) - (hu)^\dagger v] = \partial_0(\sin z\,u^\dagger M_0v)$; flux $2i$ at $z = \pi/2$ for the recorded column | PROVED | `python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux`; `wolfram-field-theory.json`, check `good_sector_hermiticity_curved` |
+| without $3H\gamma^{(x_0)}$ the remainder $-6H\cos z\,u^\dagger M_0v$ survives | PROVED | `wolfram-field-theory.json`, check `good_sector_hermiticity_curved` |
 | the Krein form is conserved only up to boundary terms | PROVED | `wolfram-field-theory.json`, check `Krein_form_conserved_curved` |
-| $x_8$-independent waves: norm $1/(6H)$, $AA = (m^2 - 9H^2)I_{16}$, $\pm2\sqrt2\,i$ at $m = H = 1$ | PROVED | `python-scope.json`, check `good_sector_x8_independent_modes_without_boundary_condition` |
-| the exact solution $(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi$ | PROVED | `python-field-theory.json`, check `exact_solution_family_x4_x8` |
+| $x_0$-independent waves: norm $1/(6H)$, $AA = (m^2 - 9H^2)I_{16}$, $\pm2\sqrt2\,i$ at $m = H = 1$ | PROVED | `python-scope.json`, check `good_sector_x0_independent_modes_without_boundary_condition` |
+| the exact solution $(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi$ | PROVED | `python-field-theory.json`, check `exact_solution_family_x4_x0` |
 | its Krein charge changes by the flux through $z = \pi/2$ | COMPUTED (relative accuracy $6.7 \times 10^{-7}$) | Notebook 10d, In [8] |
 | a boundary condition at $z = \pi/2$ for the quantised field | OPEN (the Kohn-Sham record ASSUMES the Z2 brane condition) | Revision theory document, section 11 |
 
@@ -3097,11 +3097,11 @@ The imports and the helpers `REPORT_CHECKS`, `record_says_pass` and `check_recor
 BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
     encoding="utf-8"))
-gamma = {a: np.array(fixture["gamma"][a - 1], dtype=float) for a in range(1, 9)}
-C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]
+gamma = {a: np.array(fixture["gamma"][a], dtype=float) for a in range(8)}
+C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]
 B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4)
-g = {a: sp.Matrix(fixture["gamma"][a - 1]) for a in range(1, 9)}  # exact gammas
-B_exact = -sp.I * g[8] * g[1] * g[2] * g[3] * g[4]
+g = {a: sp.Matrix(fixture["gamma"][a]) for a in range(8)}  # exact gammas
+B_exact = -sp.I * g[0] * g[1] * g[2] * g[3] * g[4]
 ```
 
 The colours; the gammas as numpy arrays of decimal numbers (`dtype=float`, because they will be combined with decimal numbers such as the mass 1.0), $C$ and $B$; and the same gammas and $B$ as exact sympy matrices.
@@ -3109,31 +3109,31 @@ The colours; the gammas as numpy arrays of decimal numbers (`dtype=float`, becau
 ```python
 m = sp.Symbol("m", real=True)  # the mass
 H = sp.Symbol("H", positive=True)  # the author's constant H > 0
-x8 = sp.Symbol("x8", real=True)  # the hidden coordinate
-z = 6 * H * x8  # z = 6 H x8
-M8 = sp.I * g[4] * g[8]  # M_8 = i gamma^(x4) gamma^(x8)
-A = -sp.I * m * g[4] + 3 * sp.I * H * g[4] * g[8]  # the part without derivative
+x0 = sp.Symbol("x0", real=True)  # the hidden coordinate
+z = 6 * H * x0  # z = 6 H x0
+M0 = sp.I * g[4] * g[0]  # M_0 = i gamma^(x4) gamma^(x0)
+A = -sp.I * m * g[4] + 3 * sp.I * H * g[4] * g[0]  # the part without derivative
 A_no_connection = -sp.I * m * g[4]  # the same without the term 3 H
-D = sp.tan(z) * M8  # the coefficient of the derivative d/dx8
+D = sp.tan(z) * M0  # the coefficient of the derivative d/dx0
 zero = sp.zeros(16, 16)
 ```
 
-The letters $m$ (any real number), $H$ (positive) and $x_8$, and the expression $z = 6Hx_8$. Then the matrices of Section 10.27: $M_8 = i\gamma^{(x_4)}\gamma^{(x_8)}$, $A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_8)}$, the matrix $A_0 = -im\gamma^{(x_4)}$ without the spin-connection term, and $D = \tan z\,M_8$; `zero` is the $16 \times 16$ zero matrix.
+The letters $m$ (any real number), $H$ (positive) and $x_0$, and the expression $z = 6Hx_0$. Then the matrices of Section 10.27: $M_0 = i\gamma^{(x_4)}\gamma^{(x_0)}$, $A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_0)}$, the matrix $A_0 = -im\gamma^{(x_4)}$ without the spin-connection term, and $D = \tan z\,M_0$; `zero` is the $16 \times 16$ zero matrix.
 
 ```python
-anti_hermitian = M8.H == -M8
-identity_D = (sp.cos(z) * D - sp.sin(z) * M8).applyfunc(sp.simplify) == zero
-identity_A = (sp.cos(z) * (A - A.H) - sp.diff(sp.sin(z), x8) * M8).applyfunc(
+anti_hermitian = M0.H == -M0
+identity_D = (sp.cos(z) * D - sp.sin(z) * M0).applyfunc(sp.simplify) == zero
+identity_A = (sp.cos(z) * (A - A.H) - sp.diff(sp.sin(z), x0) * M0).applyfunc(
     sp.simplify) == zero
-B_commutes = (B_exact * g[4] == g[4] * B_exact) and (B_exact * g[8] == g[8] * B_exact)
+B_commutes = (B_exact * g[4] == g[4] * B_exact) and (B_exact * g[0] == g[0] * B_exact)
 ```
 
-The four matrix facts: (D1) $M_8^\dagger = -M_8$ (`.H` is the conjugate transpose); (D2) $\cos z\,D - \sin z\,M_8 = 0$, every entry simplified; (D3) $\cos z\,(A - A^\dagger) - (\partial_8\sin z)M_8 = 0$, where `sp.diff(sp.sin(z), x8)` is the derivative $6H\cos z$; (D4) $B$ commutes with $\gamma^{(x_4)}$ and with $\gamma^{(x_8)}$.
+The four matrix facts: (D1) $M_0^\dagger = -M_0$ (`.H` is the conjugate transpose); (D2) $\cos z\,D - \sin z\,M_0 = 0$, every entry simplified; (D3) $\cos z\,(A - A^\dagger) - (\partial_0\sin z)M_0 = 0$, where `sp.diff(sp.sin(z), x0)` is the derivative $6H\cos z$; (D4) $B$ commutes with $\gamma^{(x_4)}$ and with $\gamma^{(x_0)}$.
 
 ```python
-say(f"M8 anti-Hermitian: {anti_hermitian}; cos z D = sin z M8: {identity_D}; "
-    f"cos z (A - A^dagger) = d8(sin z) M8: {identity_A}; B commutes with "
-    f"gamma^(x4) and gamma^(x8): {B_commutes}")
+say(f"M0 anti-Hermitian: {anti_hermitian}; cos z D = sin z M0: {identity_D}; "
+    f"cos z (A - A^dagger) = d0(sin z) M0: {identity_A}; B commutes with "
+    f"gamma^(x4) and gamma^(x0): {B_commutes}")
 check(anti_hermitian and identity_D and identity_A and B_commutes,
       "exact: the four matrix identities of the hidden direction")
 ```
@@ -3153,52 +3153,52 @@ def test_function():
                       for _ in range(16)])
 ```
 
-A random generator with the fixed seed 12345. `test_function` builds a column of 16 exact functions of $x_8$, each of the form $a + b\sin z + c\cos z$. The inner function `number` returns a complex whole number whose real and imaginary parts are drawn from $-3$ to 3 (`rng.integers(-3, 4)` excludes the upper end 4).
+A random generator with the fixed seed 12345. `test_function` builds a column of 16 exact functions of $x_0$, each of the form $a + b\sin z + c\cos z$. The inner function `number` returns a complex whole number whose real and imaginary parts are drawn from $-3$ to 3 (`rng.integers(-3, 4)` excludes the upper end 4).
 
 ```python
 def apply_h(matrix_A, w):
-    return matrix_A * w + D * w.diff(x8)
+    return matrix_A * w + D * w.diff(x0)
 
 
 def is_zero(expression):
     zz = sp.Symbol("zz")
-    rewritten = sp.expand_trig(sp.expand(expression.subs(x8, zz / (6 * H))))
+    rewritten = sp.expand_trig(sp.expand(expression.subs(x0, zz / (6 * H))))
     return sp.simplify(rewritten) == 0
 ```
 
-`apply_h(matrix_A, w)` applies the operator $h = A + D\partial_8$ (or $h_0$ when the matrix $A_0$ is given) to a column $w$ of functions; `w.diff(x8)` differentiates every entry. `is_zero` decides exactly whether an expression vanishes: it writes $x_8 = zz/(6H)$ with a new letter $zz$, so that $z$ becomes $zz$ and $H$ drops out of the trigonometric functions, multiplies out, expands the trigonometric functions of sums (`sp.expand_trig`), and simplifies.
+`apply_h(matrix_A, w)` applies the operator $h = A + D\partial_0$ (or $h_0$ when the matrix $A_0$ is given) to a column $w$ of functions; `w.diff(x0)` differentiates every entry. `is_zero` decides exactly whether an expression vanishes: it writes $x_0 = zz/(6H)$ with a new letter $zz$, so that $z$ becomes $zz$ and $H$ drops out of the trigonometric functions, multiplies out, expands the trigonometric functions of sums (`sp.expand_trig`), and simplifies.
 
 ```python
 u, v = test_function(), test_function()
 hv, hu = apply_h(A, v), apply_h(A, u)
 defect = (sp.cos(z) * ((u.H * hv)[0] - (hu.H * v)[0])
-          - sp.diff(sp.sin(z) * (u.H * M8 * v)[0], x8))
+          - sp.diff(sp.sin(z) * (u.H * M0 * v)[0], x0))
 ```
 
-Two test functions $u$ and $v$, and $hv$, $hu$. `u.H * hv` is the row $u^\dagger$ times the column $hv$, a $1 \times 1$ matrix, and `[0]` takes its single entry. `defect` is $\cos z\,[u^\dagger(hv) - (hu)^\dagger v] - \partial_8(\sin z\,u^\dagger M_8v)$, which must vanish (Section 10.27).
+Two test functions $u$ and $v$, and $hv$, $hu$. `u.H * hv` is the row $u^\dagger$ times the column $hv$, a $1 \times 1$ matrix, and `[0]` takes its single entry. `defect` is $\cos z\,[u^\dagger(hv) - (hu)^\dagger v] - \partial_0(\sin z\,u^\dagger M_0v)$, which must vanish (Section 10.27).
 
 ```python
 hv0, hu0 = apply_h(A_no_connection, v), apply_h(A_no_connection, u)
 defect_without = (sp.cos(z) * ((u.H * hv0)[0] - (hu0.H * v)[0])
-                  - sp.diff(sp.sin(z) * (u.H * M8 * v)[0], x8))
-remainder_ok = is_zero(defect_without + 6 * H * sp.cos(z) * (u.H * M8 * v)[0])
+                  - sp.diff(sp.sin(z) * (u.H * M0 * v)[0], x0))
+remainder_ok = is_zero(defect_without + 6 * H * sp.cos(z) * (u.H * M0 * v)[0])
 krein_defect = (sp.cos(z) * ((u.H * B_exact * hv)[0] - (hu.H * B_exact * v)[0])
-                - sp.diff(sp.sin(z) * (u.H * B_exact * M8 * v)[0], x8))
+                - sp.diff(sp.sin(z) * (u.H * B_exact * M0 * v)[0], x0))
 ```
 
-The variable `defect_without` is the same defect for the operator without the spin-connection term. By Section 10.27 it must equal $-6H\cos z\,u^\dagger M_8v$, so `remainder_ok` tests that it plus $6H\cos z\,u^\dagger M_8v$ vanishes. The variable `krein_defect` is the Krein version, with $u^\dagger B$ in place of $u^\dagger$.
+The variable `defect_without` is the same defect for the operator without the spin-connection term. By Section 10.27 it must equal $-6H\cos z\,u^\dagger M_0v$, so `remainder_ok` tests that it plus $6H\cos z\,u^\dagger M_0v$ vanishes. The variable `krein_defect` is the Krein version, with $u^\dagger B$ in place of $u^\dagger$.
 
 ```python
 check_record(is_zero(defect),
-             "exact: cos z (u^dagger h v - (h u)^dagger v) = d8(sin z u^dagger M8 v)",
+             "exact: cos z (u^dagger h v - (h u)^dagger v) = d0(sin z u^dagger M0 v)",
              record="Revision/theory/reports/python-scope.json, check "
                     "good_sector_hermiticity_up_to_the_brane_flux")
 check_record(remainder_ok,
-             "exact: without the term 3 H the remainder -6 H cos z u^dagger M8 v stays",
+             "exact: without the term 3 H the remainder -6 H cos z u^dagger M0 v stays",
              record="Revision/theory/reports/wolfram-field-theory.json, check "
                     "good_sector_hermiticity_curved")
 check_record(is_zero(krein_defect),
-             "exact: the Krein form is conserved up to d8(sin z u^dagger B M8 v)",
+             "exact: the Krein form is conserved up to d0(sin z u^dagger B M0 v)",
              record="Revision/theory/reports/wolfram-field-theory.json, check "
                     "Krein_form_conserved_curved")
 ```
@@ -3208,24 +3208,24 @@ Three exact checks, reproducing the record checks `good_sector_hermiticity_up_to
 **In [4], the flux at the two ends.**
 
 ```python
-G48 = gamma[4] @ gamma[8]  # gamma^(x4) gamma^(x8), real
-symmetric_square = np.array_equal(G48, G48.T) and np.array_equal(G48 @ G48,
+G40 = gamma[4] @ gamma[0]  # gamma^(x4) gamma^(x0), real
+symmetric_square = np.array_equal(G40, G40.T) and np.array_equal(G40 @ G40,
                                                                   np.eye(16))
 e_first = np.eye(16)[:, 0]
-u_flux = e_first + G48 @ e_first  # an eigenvector of G48 with eigenvalue +1
-M8_numbers = 1j * G48
-flux_value = u_flux.conj() @ M8_numbers @ u_flux
+u_flux = e_first + G40 @ e_first  # an eigenvector of G40 with eigenvalue +1
+M0_numbers = 1j * G40
+flux_value = u_flux.conj() @ M0_numbers @ u_flux
 ```
 
-`G48` is $\gamma^{(x_4)}\gamma^{(x_8)}$; `symmetric_square` tests that it is symmetric and squares to $I_{16}$ (Section 10.27). `e_first` is the first unit column $e_1$ (the first column of the identity matrix), and `u_flux` $= e_1 + \gamma^{(x_4)}\gamma^{(x_8)}e_1$ is an eigenvector with eigenvalue $+1$: applying $\gamma^{(x_4)}\gamma^{(x_8)}$ gives $\gamma^{(x_4)}\gamma^{(x_8)}e_1 + e_1$, the same column, because the matrix squares to $I_{16}$. `flux_value` is $u^\dagger M_8u$.
+`G48` is $\gamma^{(x_4)}\gamma^{(x_0)}$; `symmetric_square` tests that it is symmetric and squares to $I_{16}$ (Section 10.27). `e_first` is the first unit column $e_1$ (the first column of the identity matrix), and `u_flux` $= e_1 + \gamma^{(x_4)}\gamma^{(x_0)}e_1$ is an eigenvector with eigenvalue $+1$: applying $\gamma^{(x_4)}\gamma^{(x_0)}$ gives $\gamma^{(x_4)}\gamma^{(x_0)}e_1 + e_1$, the same column, because the matrix squares to $I_{16}$. `flux_value` is $u^\dagger M_0u$.
 
 ```python
-report("u^dagger u for the column u = e_1 + gamma4 gamma8 e_1", f"{u_flux @ u_flux:.1f}")
-report("flux u^dagger M8 u at z = pi/2",
+report("u^dagger u for the column u = e_1 + gamma4 gamma0 e_1", f"{u_flux @ u_flux:.1f}")
+report("flux u^dagger M0 u at z = pi/2",
        f"{flux_value.imag:.1f} i (real part {abs(flux_value.real):.1f})")
-check_record(symmetric_square and np.allclose(G48 @ u_flux, u_flux)
+check_record(symmetric_square and np.allclose(G40 @ u_flux, u_flux)
              and abs(flux_value - 2j) < 1e-14,
-             "the flux at z = pi/2 is u^dagger M8 u = 2 i for gamma4 gamma8 u = u",
+             "the flux at z = pi/2 is u^dagger M0 u = 2 i for gamma4 gamma0 u = u",
              record="Revision/theory/reports/python-scope.json, check "
                     "good_sector_hermiticity_up_to_the_brane_flux")
 ```
@@ -3250,7 +3250,7 @@ ax.annotate("tip: the flux vanishes", (0.0, 0.0), xytext=(0.15, 0.25),
             arrowprops={"arrowstyle": "->", "color": GREY})
 ax.annotate("patch end: the flux remains", (np.pi / 2, 1.0), xytext=(0.55, 1.08),
             arrowprops={"arrowstyle": "->", "color": GREY})
-ax.set_xlabel("$z = 6 H x_8$ (from the tip $z = 0$ to the patch end $z = \\pi/2$)")
+ax.set_xlabel("$z = 6 H x_0$ (from the tip $z = 0$ to the patch end $z = \\pi/2$)")
 ax.set_ylabel("value")
 ax.set_ylim(-0.05, 1.25)
 ax.set_title("The hidden direction: volume and boundary flux")
@@ -3264,35 +3264,35 @@ Two arrows explain the two dots. Figure 1 of Notebook 10d shows the volume falli
 **In [5], the role of the spin-connection term in a picture.**
 
 ```python
-numbers = {m: 1, H: 1}  # m = H = 1, so z = 6 x8
+numbers = {m: 1, H: 1}  # m = H = 1, so z = 6 x0
 hu_full, hu_bare = apply_h(A, u), apply_h(A_no_connection, u)
 left = sp.cos(z) * ((u.H * hu_full)[0] - (hu_full.H * u)[0])
-right = sp.diff(sp.sin(z) * (u.H * M8 * u)[0], x8)
+right = sp.diff(sp.sin(z) * (u.H * M0 * u)[0], x0)
 left_bare = sp.cos(z) * ((u.H * hu_bare)[0] - (hu_bare.H * u)[0])
 ```
 
-For $u = v$ and $m = H = 1$ the cell forms the three exact expressions: the defect with the term $3H$ (`left`), the derivative $\partial_8(\sin z\,u^\dagger M_8u)$ (`right`) and the defect without the term (`left_bare`).
+For $u = v$ and $m = H = 1$ the cell forms the three exact expressions: the defect with the term $3H$ (`left`), the derivative $\partial_0(\sin z\,u^\dagger M_0u)$ (`right`) and the defect without the term (`left_bare`).
 
 ```python
-x8_values = np.linspace(0.002, np.pi / 12 - 0.002, 300)  # inside 0 < z < pi/2
-curves = [np.imag(sp.lambdify(x8, e.subs(numbers), "numpy")(x8_values))
+x0_values = np.linspace(0.002, np.pi / 12 - 0.002, 300)  # inside 0 < z < pi/2
+curves = [np.imag(sp.lambdify(x0, e.subs(numbers), "numpy")(x0_values))
           for e in (left, right, left_bare)]
 difference = np.max(np.abs(curves[0] - curves[1]))
 report("largest |left - right| on the grid", f"{difference:.1e}")
 check(difference < 1e-9, "numerical: the two sides agree along the hidden direction")
 ```
 
-For $H = 1$ the patch is $0 < x_8 < \pi/12$; the 300 points stay a little inside it. `e.subs(numbers)` puts $m = H = 1$ into an expression, and `sp.lambdify(x8, ..., "numpy")` turns it into a fast numpy function of $x_8$, which is evaluated at all points at once. For $u = v$ each expression is a number minus its complex conjugate, purely imaginary, so `np.imag` keeps the imaginary parts. The largest difference between the left and the right side is printed as `5.7e-13`, rounding only.
+For $H = 1$ the patch is $0 < x_0 < \pi/12$; the 300 points stay a little inside it. `e.subs(numbers)` puts $m = H = 1$ into an expression, and `sp.lambdify(x0, ..., "numpy")` turns it into a fast numpy function of $x_0$, which is evaluated at all points at once. For $u = v$ each expression is a number minus its complex conjugate, purely imaginary, so `np.imag` keeps the imaginary parts. The largest difference between the left and the right side is printed as `5.7e-13`, rounding only.
 
 ```python
 fig, ax = plt.subplots()
-ax.plot(6 * x8_values, curves[0], color=BLUE, linewidth=3,
+ax.plot(6 * x0_values, curves[0], color=BLUE, linewidth=3,
         label="left side, with the term $3H$")
-ax.plot(6 * x8_values, curves[1], "--", color=GREEN, linewidth=2,
-        label="right side $\\partial_8(\\sin z\\,u^\\dagger M_8 u)$")
-ax.plot(6 * x8_values, curves[2], color=ORANGE, linewidth=2,
+ax.plot(6 * x0_values, curves[1], "--", color=GREEN, linewidth=2,
+        label="right side $\\partial_0(\\sin z\\,u^\\dagger M_0 u)$")
+ax.plot(6 * x0_values, curves[2], color=ORANGE, linewidth=2,
         label="left side WITHOUT the term $3H$")
-ax.set_xlabel("$z = 6 H x_8$ ($m = H = 1$)")
+ax.set_xlabel("$z = 6 H x_0$ ($m = H = 1$)")
 ax.set_ylabel("imaginary part")
 ax.set_title("The spin-connection term makes the defect a pure boundary term")
 ax.legend(fontsize=8)
@@ -3300,24 +3300,24 @@ save_figure(fig, "symmetry_defect",
 ...)
 ```
 
-The three curves against $z = 6x_8$. Figure 2 of Notebook 10d shows the green dashed curve exactly on the thick blue one, and the orange curve away from both: with the spin-connection term the defect is a derivative, whose integral is the flux at the ends; without it the remainder $-6H\cos z\,u^\dagger M_8u$ of Section 10.27 separates the curves.
+The three curves against $z = 6x_0$. Figure 2 of Notebook 10d shows the green dashed curve exactly on the thick blue one, and the orange curve away from both: with the spin-connection term the defect is a derivative, whose integral is the flux at the ends; without it the remainder $-6H\cos z\,u^\dagger M_0u$ of Section 10.27 separates the curves.
 
-**In [6], the waves that do not depend on $x_8$.**
+**In [6], the waves that do not depend on $x_0$.**
 
 ```python
-norm_integral = sp.integrate(sp.cos(6 * H * x8), (x8, 0, sp.pi / (12 * H)))
-say(f"integral of cos(6 H x8) over the patch: {norm_integral}")
+norm_integral = sp.integrate(sp.cos(6 * H * x0), (x0, 0, sp.pi / (12 * H)))
+say(f"integral of cos(6 H x0) over the patch: {norm_integral}")
 A_square_ok = (A * A - (m ** 2 - 9 * H ** 2) * sp.eye(16)).applyfunc(
     sp.expand) == zero
 A_not_hermitian = (A - A.H).applyfunc(sp.expand) != zero
-G48_numbers = gamma[4] @ gamma[8]  # gamma^(x4) gamma^(x8) as numbers
+G40_numbers = gamma[4] @ gamma[0]  # gamma^(x4) gamma^(x0) as numbers
 ```
 
-`sp.integrate(f, (x8, a, b))` computes the definite integral exactly; the printed value is `1/(6*H)`, the norm of Section 10.28. The two truth values test $AA = (m^2 - 9H^2)I_{16}$ and that $A$ is not Hermitian ($A - A^\dagger$ is not the zero matrix). `G48_numbers` is $\gamma^{(x_4)}\gamma^{(x_8)}$ again, for the numerical part.
+`sp.integrate(f, (x0, a, b))` computes the definite integral exactly; the printed value is `1/(6*H)`, the norm of Section 10.28. The two truth values test $AA = (m^2 - 9H^2)I_{16}$ and that $A$ is not Hermitian ($A - A^\dagger$ is not the zero matrix). `G48_numbers` is $\gamma^{(x_4)}\gamma^{(x_0)}$ again, for the numerical part.
 
 ```python
 def A_numbers_of(mass, H_value=1.0):
-    return -1j * mass * gamma[4] + 3j * H_value * G48_numbers
+    return -1j * mass * gamma[4] + 3j * H_value * G40_numbers
 
 
 A_numbers = A_numbers_of(1.0)
@@ -3333,12 +3333,12 @@ report("eigenvalues 2 sqrt(2) i and -2 sqrt(2) i at m = H = 1, how many",
 ```python
 check_record(norm_integral == 1 / (6 * H) and A_square_ok and A_not_hermitian
              and (upper, lower) == (8, 8),
-             "x8-independent waves: A^2 = (m^2 - 9 H^2) I, at m = H = 1: +-2 sqrt(2) i",
+             "x0-independent waves: A^2 = (m^2 - 9 H^2) I, at m = H = 1: +-2 sqrt(2) i",
              record="Revision/theory/reports/python-scope.json, check "
-                    "good_sector_x8_independent_modes_without_boundary_condition")
+                    "good_sector_x0_independent_modes_without_boundary_condition")
 ```
 
-The check reproduces the record check `good_sector_x8_independent_modes_without_boundary_condition`.
+The check reproduces the record check `good_sector_x0_independent_modes_without_boundary_condition`.
 
 **In [7], the frequencies against the mass.**
 
@@ -3376,7 +3376,7 @@ ax.plot([0, 0], [2 * np.sqrt(2), -2 * np.sqrt(2)], "o", color=GREEN, markersize=
 ax.set_xlabel("real part of the eigenvalue of $A$ (units of $H$)")
 ax.set_ylabel("imaginary part (units of $H$)")
 ax.set_aspect("equal")
-ax.set_title("Frequencies of the $x_8$-independent waves, $m$ from 0 to 5")
+ax.set_title("Frequencies of the $x_0$-independent waves, $m$ from 0 to 5")
 ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1.0), fontsize=8)  # outside
 save_figure(fig, "frequency_paths",
 ...)
@@ -3406,13 +3406,13 @@ The growth rate $\kappa = \sqrt{9 - m^2}$ for $m < 3$ and 0 beyond (`np.maximum(
 
 ```python
 x4, k = sp.symbols("x4 k", positive=True)
-M_exact = -m * g[4] + 3 * H * g[4] * g[8]
+M_exact = -m * g[4] + 3 * H * g[4] * g[0]
 chi = sp.Matrix(sp.symbols("q1:17"))  # any constant column
 Psi = (sp.cosh(k * x4) * sp.eye(16) + sp.sinh(k * x4) / k * M_exact) * chi
-field_equation = g[4] * Psi.diff(x4) + 3 * H * g[8] * Psi - m * Psi  # d8 Psi = 0
+field_equation = g[4] * Psi.diff(x4) + 3 * H * g[0] * Psi - m * Psi  # d0 Psi = 0
 ```
 
-`sp.symbols("x4 k", positive=True)` makes two positive letters at once, and `sp.symbols("q1:17")` the 16 letters $q_1, \dots, q_{16}$, the entries of an arbitrary constant column $\chi$. `M_exact` is $M = -m\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_8)}$ and `Psi` the solution of Section 10.28. `field_equation` is the left side minus the right side of the field equation of Section 10.27 for a wave with $\partial_8\Psi = 0$, which must vanish.
+`sp.symbols("x4 k", positive=True)` makes two positive letters at once, and `sp.symbols("q1:17")` the 16 letters $q_1, \dots, q_{16}$, the entries of an arbitrary constant column $\chi$. `M_exact` is $M = -m\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_0)}$ and `Psi` the solution of Section 10.28. `field_equation` is the left side minus the right side of the field equation of Section 10.27 for a wave with $\partial_0\Psi = 0$, which must vanish.
 
 ```python
 # multiply by k, then replace k^2 by 9 H^2 - m^2 (the definition of k)
@@ -3423,13 +3423,13 @@ square_ok = (M_exact * M_exact - (9 * H ** 2 - m ** 2) * sp.eye(16)).applyfunc(
 check_record(square_ok and residual == sp.zeros(16, 1),
              "exact: Psi = (cosh kx4 + sinh(kx4)/k M) chi solves the field equation",
              record="Revision/theory/reports/python-field-theory.json, check "
-                    "exact_solution_family_x4_x8")
+                    "exact_solution_family_x4_x0")
 ```
 
-The expression contains $1/k$ (from $\sinh(kx_4)/k$); as the comment says, every entry is multiplied by $k$ to clear it, multiplied out, and every $k^2$ is replaced by $9H^2 - m^2$, the definition of $k$; then every entry must be 0. `square_ok` checks $MM = (9H^2 - m^2)I_{16}$. The check reproduces the record check `exact_solution_family_x4_x8`.
+The expression contains $1/k$ (from $\sinh(kx_4)/k$); as the comment says, every entry is multiplied by $k$ to clear it, multiplied out, and every $k^2$ is replaced by $9H^2 - m^2$, the definition of $k$; then every entry must be 0. `square_ok` checks $MM = (9H^2 - m^2)I_{16}$. The check reproduces the record check `exact_solution_family_x4_x0`.
 
 ```python
-M_numbers = -1.0 * gamma[4] + 3.0 * G48  # m = H = 1
+M_numbers = -1.0 * gamma[4] + 3.0 * G40  # m = H = 1
 k_number = np.sqrt(8.0)  # k = sqrt(9 - 1) = 2 sqrt(2)
 plus_columns = (np.eye(16) + B) / 2  # columns with B chi = chi (after scaling)
 chi_number = plus_columns[:, 0] / np.linalg.norm(plus_columns[:, 0])
@@ -3445,11 +3445,11 @@ for t in x4_values:
              + np.sinh(k_number * t) / k_number * M_numbers) @ chi_number
     lengths.append((Psi_t.conj() @ Psi_t).real)
     charges.append((Psi_t.conj() @ B @ Psi_t).real / 6.0)  # 6 H = 6
-    fluxes.append((Psi_t.conj() @ B @ G48 @ Psi_t).real)
+    fluxes.append((Psi_t.conj() @ B @ G40 @ Psi_t).real)
 lengths, charges, fluxes = map(np.array, (lengths, charges, fluxes))
 ```
 
-At each time the loop computes $\Psi(x_4)$, its ordinary squared length $\Psi^\dagger\Psi$, its Krein charge $Q = \Psi^\dagger B\Psi/(6H)$ and the flux $\Psi^\dagger B\gamma^{(x_4)}\gamma^{(x_8)}\Psi$, the rate $dQ/dx_4$ of Section 10.28. `map(np.array, ...)` turns each of the three lists into an array.
+At each time the loop computes $\Psi(x_4)$, its ordinary squared length $\Psi^\dagger\Psi$, its Krein charge $Q = \Psi^\dagger B\Psi/(6H)$ and the flux $\Psi^\dagger B\gamma^{(x_4)}\gamma^{(x_0)}\Psi$, the rate $dQ/dx_4$ of Section 10.28. `map(np.array, ...)` turns each of the three lists into an array.
 
 ```python
 step = x4_values[1] - x4_values[0]
@@ -3587,14 +3587,14 @@ $$
 (\gamma^{(x_a)}\gamma^{(x_b)})^\dagger = (\gamma^{(x_b)})^\dagger(\gamma^{(x_a)})^\dagger = \eta_{aa}\eta_{bb}\,\gamma^{(x_b)}\gamma^{(x_a)} = -\eta_{aa}\eta_{bb}\,\gamma^{(x_a)}\gamma^{(x_b)} .
 $$
 
-So $S^{ab}$ is anti-Hermitian when $\eta_{aa}\eta_{bb} = +1$ (both directions space-like or both time-like: a **rotation**), and Hermitian when $\eta_{aa}\eta_{bb} = -1$ (one space-like and one time-like: a **boost**). The space-like directions are $x_1, x_2, x_3, x_8$ and the time-like ones $x_4, x_5, x_6, x_7$, so there are $6 + 6 = 12$ rotations (pairs within each group of four, $\binom42 = 6$) and $4 \times 4 = 16$ boosts.
+So $S^{ab}$ is anti-Hermitian when $\eta_{aa}\eta_{bb} = +1$ (both directions space-like or both time-like: a **rotation**), and Hermitian when $\eta_{aa}\eta_{bb} = -1$ (one space-like and one time-like: a **boost**). The space-like directions are $x_0, x_1, x_2, x_3$ and the time-like ones $x_4, x_5, x_6, x_7$, so there are $6 + 6 = 12$ rotations (pairs within each group of four, $\binom42 = 6$) and $4 \times 4 = 16$ boosts.
 
 **Which generators commute with B.** $\gamma^{(x_a)}B = s_aB\gamma^{(x_a)}$ with $s_a = +1$ for $a = 1, 2, 3, 4, 8$ and $-1$ for $a = 5, 6, 7$ (Section 10.2), so $\gamma^{(x_a)}\gamma^{(x_b)}B = s_as_b\,B\gamma^{(x_a)}\gamma^{(x_b)}$: $S^{ab}$ commutes with $B$ when $s_as_b = +1$, that is both in $\{1, 2, 3, 4, 8\}$ ($\binom52 = 10$ pairs) or both in $\{5, 6, 7\}$ (3 pairs), 13 in all, and anticommutes otherwise ($5 \times 3 = 15$ pairs).
 
 **The Krein condition.** For an anti-Hermitian $S$ the condition $S^\dagger B + BS = 0$ reads $BS - SB = 0$: $S$ must commute with $B$. For a Hermitian $S$ it reads $SB + BS = 0$: $S$ must anticommute with $B$. Counting:
 
-- rotations that commute with $B$: the 6 among $x_1, x_2, x_3, x_8$ and the 3 among $x_5, x_6, x_7$; the 3 rotations $S^{(x_4x_t)}$, $t = 5, 6, 7$, anticommute and fail;
-- boosts that anticommute with $B$: one direction among $x_1, x_2, x_3, x_8$ and one among $x_5, x_6, x_7$, $4 \times 3 = 12$; the 4 boosts $S^{(x_ax_4)}$, $a = 1, 2, 3, 8$, commute and fail.
+- rotations that commute with $B$: the 6 among $x_0, x_1, x_2, x_3$ and the 3 among $x_5, x_6, x_7$; the 3 rotations $S^{(x_4x_t)}$, $t = 5, 6, 7$, anticommute and fail;
+- boosts that anticommute with $B$: one direction among $x_0, x_1, x_2, x_3$ and one among $x_5, x_6, x_7$, $4 \times 3 = 12$; the 4 boosts $S^{(x_ax_4)}$, $a = 1, 2, 3, 8$, commute and fail.
 
 So exactly $9 + 12 = 21$ generators are Krein-unitary: precisely the $\binom72 = 21$ pairs that do not contain $x_4$. They generate **Spin(4,3)**, the spin group of the seven slice directions (four space-like, three time-like). For the 7 generators with $x_4$ written first, $S^{(x_4x_b)} = \frac12\gamma^{(x_4)}\gamma^{(x_b)}$, the condition fails by $S^\dagger B + BS = 2BS = -iC\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_b)} = iC\gamma^{(x_b)}$ (in both cases the left side equals $2BS$, because either $S^\dagger = S$ and $SB = BS$, or $S^\dagger = -S$ and $SB = -BS$; then $\gamma^{(x_4)}\gamma^{(x_4)} = -I_{16}$). Of the 21, the 9 rotations are also unitary; the 12 boosts mixing a space direction with an extra time keep the canonical rule but change the ordinary squared length (and so the length). The canonical structure singles out the time $x_4$, as $\psi^\dagger\psi$ does in ordinary Dirac theory: a transformation that turns $x_4$ into another direction also changes the slices $x_4 = $ const on which the field is quantised.
 
@@ -3667,16 +3667,16 @@ DIVERGING = LinearSegmentedColormap.from_list(
     "blue_grey_red", ["#184f95", "#f0efec", "#e34948"])
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
     encoding="utf-8"))
-gamma = {a: np.array(fixture["gamma"][a - 1], dtype=float) for a in range(1, 9)}
-eta = {a: fixture["eta"][a - 1] for a in range(1, 9)}
+gamma = {a: np.array(fixture["gamma"][a], dtype=float) for a in range(8)}
+eta = {a: fixture["eta"][a] for a in range(8)}
 I16 = np.eye(16)
 ```
 
 The colours and the blue-grey-red colour scale of Notebook 10a; the gammas of the record as decimal numbers, the signs $\eta_{aa}$ of the frame metric, and the identity $I_{16}$.
 
 ```python
-C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]
-Gamma = (gamma[8] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
+C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]
+Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
          @ gamma[6] @ gamma[7])
 B = -1j * (C @ gamma[4])
 P_minus, P_plus = (I16 - Gamma) / 2, (I16 + Gamma) / 2  # the chiral projectors
@@ -3685,25 +3685,25 @@ P_minus, P_plus = (I16 - Gamma) / 2, (I16 + Gamma) / 2  # the chiral projectors
 $C$, the chirality $\Gamma$, $B$, and the projectors $P_\mp = \frac12(I_{16} \mp \Gamma)$; since $\Gamma = \mathrm{diag}(-I_8, I_8)$, $P_-$ keeps the components 1 to 8 and $P_+$ the components 9 to 16.
 
 ```python
-pairs = list(itertools.combinations(range(1, 9), 2))  # (1, 2), (1, 3), ..., (7, 8)
+pairs = list(itertools.combinations(range(8), 2))  # (0, 1), (0, 2), ..., (6, 7)
 S = {(a, b): (gamma[a] @ gamma[b] - gamma[b] @ gamma[a]) / 4 for a, b in pairs}
 report("number of generators S^ab", len(S))
 ```
 
-`itertools.combinations(range(1, 9), 2)` lists every pair $(a, b)$ with $a < b$ from 1 to 8, $\binom82 = 28$ pairs. The dictionary `S` stores $S^{ab} = \frac14(\gamma^{(x_a)}\gamma^{(x_b)} - \gamma^{(x_b)}\gamma^{(x_a)})$ for each pair; the RESULT line prints 28.
+`itertools.combinations(range(8), 2)` lists every pair $(a, b)$ with $a < b$ from 0 to 7, $\binom82 = 28$ pairs. The dictionary `S` stores $S^{ab} = \frac14(\gamma^{(x_a)}\gamma^{(x_b)} - \gamma^{(x_b)}\gamma^{(x_a)})$ for each pair; the RESULT line prints 28.
 
 ```python
-commuting = [a for a in range(1, 9) if np.array_equal(B @ gamma[a], gamma[a] @ B)]
-anticommuting = [a for a in range(1, 9) if np.array_equal(B @ gamma[a], -gamma[a] @ B)]
+commuting = [a for a in range(8) if np.array_equal(B @ gamma[a], gamma[a] @ B)]
+anticommuting = [a for a in range(8) if np.array_equal(B @ gamma[a], -gamma[a] @ B)]
 say(f"B commutes with gamma^(x_a) for a = {commuting}, anticommutes for a = "
     f"{anticommuting}")
-check_record(commuting == [1, 2, 3, 4, 8] and anticommuting == [5, 6, 7],
-             "B commutes with the gammas of x1, x2, x3, x4, x8, anticommutes with x5-x7",
+check_record(commuting == [0, 1, 2, 3, 4] and anticommuting == [5, 6, 7],
+             "B commutes with the gammas of x0, x1, x2, x3, x4, anticommutes with x5-x7",
              record="Revision/algebra/reports/python-algebra.json, check "
                     "B_gamma_relations")
 ```
 
-The lists of the directions whose gamma commutes or anticommutes with $B$. The printed line shows `[1, 2, 3, 4, 8]` and `[5, 6, 7]`, as Section 10.2 derived, and the check reproduces the record check `B_gamma_relations`.
+The lists of the directions whose gamma commutes or anticommutes with $B$. The printed line shows `[0, 1, 2, 3, 4]` and `[5, 6, 7]`, as Section 10.2 derived, and the check reproduces the record check `B_gamma_relations`.
 
 **In [3], every invariant bilinear form.**
 
@@ -3908,7 +3908,7 @@ ax.imshow(grid, cmap=colours, vmin=-0.5, vmax=2.5)
 An $8 \times 8$ table, empty (NaN, drawn white) on and below the diagonal; above it, the square of row $a$ and column $b$ gets 0 for a generator that is unitary and Krein-unitary, 1 for Krein-unitary only, 2 otherwise. `ListedColormap` is a colour scale of three fixed colours; with the range from $-0.5$ to $2.5$ the values 0, 1 and 2 fall into its three thirds: blue, green and orange.
 
 ```python
-names = [f"$x_{a}$" for a in range(1, 9)]
+names = [f"$x_{a}$" for a in range(8)]
 ax.set_xticks(range(8), names)
 ax.set_yticks(range(8), names)
 ax.grid(False)
@@ -3917,7 +3917,7 @@ for (a, b), (anti_hermitian, _, krein) in kinds.items():
     ax.text(b - 1, a - 1, mark, ha="center", va="center", color="white", fontsize=7)
 ```
 
-The rows and columns are labelled $x_1$ to $x_8$, and each square gets the word `rot` (an anti-Hermitian generator, a rotation) or `boost` (a Hermitian one), written in white at its centre.
+The rows and columns are labelled $x_0$ to $x_7$, and each square gets the word `rot` (an anti-Hermitian generator, a rotation) or `boost` (a Hermitian one), written in white at its centre.
 
 ```python
 ax.plot([], [], "s", color=BLUE, label="unitary and Krein-unitary (9)")
@@ -3931,7 +3931,7 @@ save_figure(fig, "generator_types",
 ...)
 ```
 
-Empty plots with square markers create the three legend entries, placed in the empty lower left corner. Figure 4 of Notebook 10e shows the column and the row of $x_4$ orange (the 7 generators that break the canonical rule), blue rotations among $x_1, x_2, x_3$ and $x_8$ and among $x_5, x_6, x_7$, and green boosts between those two groups.
+Empty plots with square markers create the three legend entries, placed in the empty lower left corner. Figure 4 of Notebook 10e shows the column and the row of $x_4$ orange (the 7 generators that break the canonical rule), blue rotations among $x_1, x_2, x_3$ and $x_0$ and among $x_5, x_6, x_7$, and green boosts between those two groups.
 
 **In [8], finite rotations and boosts.**
 
@@ -4225,21 +4225,21 @@ a4_symbol, z_symbol = sp.symbols("a4 z", real=True)
 The theory record holds a list of formulas, each a dictionary with a key and the formula as text in the Wolfram Language (entry `wl`). `next(...)` returns the first item of the generator expression in the parentheses: the text of the formula whose key is `vielbein_diagonal`, the eight scale factors. `a4_symbol` and `z_symbol` are two real sympy letters.
 
 ```python
-translated = (text.replace("E^a4[x4]", "exp(a4)").replace("Sin[6*H*x8]", "sin(z)")
-              .replace("Cot[6*H*x8]", "cot(z)").replace("^", "**")
+translated = (text.replace("E^a4[x4]", "exp(a4)").replace("Sin[6*H*x0]", "sin(z)")
+              .replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
               .replace("{", "[").replace("}", "]"))
 f_record = sp.sympify(translated, locals={"a4": a4_symbol, "z": z_symbol})
 ```
 
-The Wolfram text, for example `E^a4[x4]*Sin[6*H*x8]^(1/6)`, is translated step by step into sympy notation: $e^{a_4}$, $\sin z$ and $\cot z$ are written with the letters $a_4$ and $z$, `^` becomes `**` and the curly brackets of a Wolfram list become square brackets. `sp.sympify` reads the text as a list of eight exact expressions; `locals` tells it which letters to use.
+The Wolfram text, for example `E^a4[x4]*Sin[6*H*x0]^(1/6)`, is translated step by step into sympy notation: $e^{a_4}$, $\sin z$ and $\cot z$ are written with the letters $a_4$ and $z$, `^` becomes `**` and the curly brackets of a Wolfram list become square brackets. `sp.sympify` reads the text as a list of eight exact expressions; `locals` tells it which letters to use.
 
 ```python
 sixth_root = sp.sin(z_symbol) ** sp.Rational(1, 6)  # sin(z)^(1/6)
-f_expected = ([sp.exp(a4_symbol) * sixth_root] * 3 + [sp.Integer(1)]
-              + [sp.exp(-a4_symbol) * sixth_root] * 3 + [sp.cot(z_symbol)])
+f_expected = ([sp.cot(z_symbol)] + [sp.exp(a4_symbol) * sixth_root] * 3
+              + [sp.Integer(1)] + [sp.exp(-a4_symbol) * sixth_root] * 3)  # x0, ..., x7
 same = all(sp.simplify(r - e) == 0 for r, e in zip(f_record, f_expected))
-say(f"scale factor of x1: {f_record[0]}")
-say(f"scale factor of x5: {f_record[4]}")
+say(f"scale factor of x1: {f_record[1]}")
+say(f"scale factor of x5: {f_record[5]}")
 check_record(len(f_record) == 8 and same,
              "the record's scale factors: e^a4 sin^(1/6) z (3-space), e^-a4 ... (x5-x7)",
              record="Revision/theory/field-theory.json, formula vielbein_diagonal")
@@ -4262,10 +4262,10 @@ The frame momenta of Section 10.39: $k_1 = q_1/(e^{a_4}e^{Hy})$ and $k_5 = q_5/(
 ```python
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
     encoding="utf-8"))
-gamma = {a: np.array(fixture["gamma"][a - 1], dtype=float) for a in range(1, 9)}
-C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
+gamma = {a: np.array(fixture["gamma"][a], dtype=float) for a in range(8)}
+C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
 B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4)
-Gamma = (gamma[8] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
+Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
          @ gamma[6] @ gamma[7])  # the chirality matrix
 ```
 
@@ -4286,8 +4286,8 @@ def w_squared(x4, q1, q5, y, m=mass):
 The mode Hamiltonian $h(x_4)$ of Section 10.39 and its squared frequency $w^2 = m^2 + k_1^2 - k_5^2$. The argument `m=mass` has a **default value**: when the call does not name `m`, the mass of the record is used.
 
 ```python
-g = {a: sp.Matrix(fixture["gamma"][a - 1]) for a in range(1, 9)}  # exact gammas
-B_exact = -sp.I * g[8] * g[1] * g[2] * g[3] * g[4]
+g = {a: sp.Matrix(fixture["gamma"][a]) for a in range(8)}  # exact gammas
+B_exact = -sp.I * g[0] * g[1] * g[2] * g[3] * g[4]
 m_s, q1_s, q5_s, y_s = sp.symbols("m q1 q5 y", real=True)
 x4_s, H_s = sp.symbols("x4 H", positive=True)
 a4_s = A * H_s * x4_s  # the history, with the record's A = 1
@@ -4767,7 +4767,7 @@ The five figure files exist, and the last line prints ALL 19 CHECKS PASSED (note
 
 ### 10.44 The quantum reading of the pairing
 
-The pairing theorem T1 of the Revision record (proved in Chapter 18) says that the chirality matrix maps every solution $\Psi$ of the field with mass $m$ and coupling $\lambda$ to a solution $\Gamma\Psi$ of the field with $-m$ and $-\lambda$, with the energy-momentum tensor and the current reversed: $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$, $T \to -T$, $J \to -J$. Theorem T2 combines $\Gamma$ with a reflection; in the author's field it is the mirror $\gamma^{(x_8)}$ across the ASSUMED Z2 brane, and it pairs $(m, \lambda)$ with $(-m, \lambda)$ at equal energy. What do these maps mean once dirac16complex is QUANTISED? The Revision pairing record answers with five statements, the **quantum reading Q** (record `Revision/pairing/pairing-theory.json`, theorem entry `Q`; Revision proof document, section 6). This section derives them, in flat 4+4 space at one point with $U = 0$ (so $\lambda = 0$; the record states them for general $\lambda$).
+The pairing theorem T1 of the Revision record (proved in Chapter 18) says that the chirality matrix maps every solution $\Psi$ of the field with mass $m$ and coupling $\lambda$ to a solution $\Gamma\Psi$ of the field with $-m$ and $-\lambda$, with the energy-momentum tensor and the current reversed: $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$, $T \to -T$, $J \to -J$. Theorem T2 combines $\Gamma$ with a reflection; in the author's field it is the mirror $\gamma^{(x_0)}$ across the ASSUMED Z2 brane, and it pairs $(m, \lambda)$ with $(-m, \lambda)$ at equal energy. What do these maps mean once dirac16complex is QUANTISED? The Revision pairing record answers with five statements, the **quantum reading Q** (record `Revision/pairing/pairing-theory.json`, theorem entry `Q`; Revision proof document, section 6). This section derives them, in flat 4+4 space at one point with $U = 0$ (so $\lambda = 0$; the record states them for general $\lambda$).
 
 **The hypotheses.** (HQ1) dirac16complex is canonically quantised with $x_4$ as the evolution time; the $x_4$-derivative kernel of its Lagrangian is $N = B$ and the canonical anticommutator is $\{\Psi, \Psi^\dagger\} = N^{-1} = B$ at one point (Section 10.12). (HQ2) dirac16complex00 is a classical field and has no quantum reading.
 
@@ -4817,7 +4817,7 @@ $$
 
 the wave equation of mass $-m$. Written back in the variable $\Psi = \Gamma\chi$, the same motion is $\Gamma h_{-m}\Gamma = (\Gamma B\Gamma)(\Gamma h'_{-m}\Gamma) = (-B)(-h'_m) = Bh'_m = h_m$ (insert $\Gamma\Gamma = I_{16}$ between the factors; $\Gamma h'_{-m}\Gamma = -h'_m$ is the identity $\Gamma h'_m\Gamma = -h'_{-m}$ with $m$ replaced by $-m$): the dynamics of $\Psi$ itself. The Revision record states the same identity in the other direction, for the image of a field of mass $-m$: that image carries the metric $-B$ and the generator density $-h'_m$ and evolves by $(-B)(-h'_m) = Bh'_m = h_m$, the dynamics of mass $m$ (`python-pairing.json`, check `Q.image_generators_same_dynamics`). In terms of the image field, $i\,\partial_4(\Gamma\Psi) = \Gamma h_m\Psi = (\Gamma h_m\Gamma)(\Gamma\Psi) = h_{-m}\Gamma\Psi$: the image obeys the wave equation of mass $-m$ and is moved by the SAME energy operator $H_m[\Psi]$.
 
-**(Q3) An independent universe of mass $-m$, and no cancellation.** An independently quantised universe of mass $-m$ is a NEW field $\Psi_2$ with its own Lagrangian $\mathcal{L}_{-m}[\Psi_2]$. The mass does not enter the time-derivative kernel, so its kernel is $+B$ and $\{\Psi_2, \Psi_2^\dagger\} = +B$; being independent of the first universe $\Psi_1$, it anticommutes with it: $\{\Psi_{2A}, \Psi^\dagger_{1C}\} = 0$ and $\{\Psi_{2A}, \Psi_{1C}\} = 0$. The image $\Gamma\Psi_1$ fails both requirements: it carries $-B$, not $+B$, and $\{(\Gamma\Psi_1)_A, \Psi^\dagger_{1C}\} = \sum_D\Gamma_{AD}B_{DC} = (\Gamma B)_{AC}$, a matrix of rank 16 (it is invertible), not 0. So no identification $\Psi_2 = \Gamma\Psi_1$ exists. The same holds for the other images built from $\Psi_1$: the mirror image $\gamma^{(x_8)}\Psi_1$ has the right rule $+B$ but $\{\gamma^{(x_8)}\Psi_1, \Psi_1^\dagger\} = \gamma^{(x_8)}B \neq 0$, and the conjugate field $\Psi^c = \Gamma\Psi_1^{\dagger T}$ has $+B$ (Section 10.15) but $\{\Psi^c_A, \Psi_{1C}\} = \sum_D\Gamma_{AD}B_{CD} = (\Gamma B^T)_{AC} = -(\Gamma B)_{AC} \neq 0$. A second universe must live on a larger state space. There the total energy is $H_1 + H_2$, the generators ADD ($P_{\mathrm{total}} = P_1 \otimes 1 + 1 \otimes P_2$ on the product space), and the T1 identity relates operators of universe 1 only; it gives no relation $P_2 = -P_1$. The one-particle generator of the two universes is the block matrix $\mathrm{diag}(Bh'_m, Bh'_{-m})$. At zero momentum $Bh'_{\pm m} = \pm mBC$, and
+**(Q3) An independent universe of mass $-m$, and no cancellation.** An independently quantised universe of mass $-m$ is a NEW field $\Psi_2$ with its own Lagrangian $\mathcal{L}_{-m}[\Psi_2]$. The mass does not enter the time-derivative kernel, so its kernel is $+B$ and $\{\Psi_2, \Psi_2^\dagger\} = +B$; being independent of the first universe $\Psi_1$, it anticommutes with it: $\{\Psi_{2A}, \Psi^\dagger_{1C}\} = 0$ and $\{\Psi_{2A}, \Psi_{1C}\} = 0$. The image $\Gamma\Psi_1$ fails both requirements: it carries $-B$, not $+B$, and $\{(\Gamma\Psi_1)_A, \Psi^\dagger_{1C}\} = \sum_D\Gamma_{AD}B_{DC} = (\Gamma B)_{AC}$, a matrix of rank 16 (it is invertible), not 0. So no identification $\Psi_2 = \Gamma\Psi_1$ exists. The same holds for the other images built from $\Psi_1$: the mirror image $\gamma^{(x_0)}\Psi_1$ has the right rule $+B$ but $\{\gamma^{(x_0)}\Psi_1, \Psi_1^\dagger\} = \gamma^{(x_0)}B \neq 0$, and the conjugate field $\Psi^c = \Gamma\Psi_1^{\dagger T}$ has $+B$ (Section 10.15) but $\{\Psi^c_A, \Psi_{1C}\} = \sum_D\Gamma_{AD}B_{CD} = (\Gamma B^T)_{AC} = -(\Gamma B)_{AC} \neq 0$. A second universe must live on a larger state space. There the total energy is $H_1 + H_2$, the generators ADD ($P_{\mathrm{total}} = P_1 \otimes 1 + 1 \otimes P_2$ on the product space), and the T1 identity relates operators of universe 1 only; it gives no relation $P_2 = -P_1$. The one-particle generator of the two universes is the block matrix $\mathrm{diag}(Bh'_m, Bh'_{-m})$. At zero momentum $Bh'_{\pm m} = \pm mBC$, and
 
 $$
 BC = -iC\gamma^{(x_4)}C = -iCC\gamma^{(x_4)} = -i\gamma^{(x_4)},\qquad (BC)^2 = -\gamma^{(x_4)}\gamma^{(x_4)} = I_{16},\qquad \mathrm{tr}(BC) = 0,
@@ -4825,9 +4825,9 @@ $$
 
 by (B1) of Section 10.2 and $CC = I_{16}$; so $BC$ has the eigenvalues $+1$ and $-1$, eight each, and the block generator has the eigenvalues $+m$ and $-m$, sixteen each: none is 0 for $m \neq 0$. With a momentum they are $\pm\sqrt{m^2 + k^2}$, sixteen each. After normal ordering each universe has quanta of energy $+E > 0$ (Section 10.20), so every state of the two universes has a total energy of at least 0, and only the vacuum has 0. A particle in universe 1 (charge $+1$) and an antiparticle in universe 2 (charge $-1$) have the total charge 0 and the total energy $2E$, NOT 0.
 
-**(Q4) Identical one-particle spectra.** $\Gamma h_m\Gamma = h_{-m}$ and $\gamma^{(x_8)}h_m(k)\gamma^{(x_8)} = h_{-m}(R_8k)$, so the one-particle spectra of the universes of masses $+m$ and $-m$ are identical, not opposite (Section 10.6), and along the deflating history at every instant (Section 10.39).
+**(Q4) Identical one-particle spectra.** $\Gamma h_m\Gamma = h_{-m}$ and $\gamma^{(x_0)}h_m(k)\gamma^{(x_0)} = h_{-m}(R_0k)$, so the one-particle spectra of the universes of masses $+m$ and $-m$ are identical, not opposite (Section 10.6), and along the deflating history at every instant (Section 10.39).
 
-**(Q5) The mirror image keeps $+B$.** $\gamma^{(x_8)}B(\gamma^{(x_8)})^\dagger = +B$ (Section 10.15): the mirror universe of T2, with $(-m, \lambda)$, can be quantised as an ordinary independent copy with equal energies.
+**(Q5) The mirror image keeps $+B$.** $\gamma^{(x_0)}B(\gamma^{(x_0)})^\dagger = +B$ (Section 10.15): the mirror universe of T2, with $(-m, \lambda)$, can be quantised as an ordinary independent copy with equal energies.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
@@ -4920,9 +4920,9 @@ The colours and the blue-grey-red colour scale of Notebook 10a.
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
     encoding="utf-8"))
 # gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 1, ..., 8.
-gamma = {a: np.array(fixture["gamma"][a - 1], dtype=int) for a in range(1, 9)}
-C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
-Gamma = (gamma[8] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
+gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
+C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
+Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
          @ gamma[6] @ gamma[7])  # the chirality matrix
 B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4)
 I16 = np.eye(16)
@@ -4935,7 +4935,7 @@ diagonal = np.array([-1] * 8 + [1] * 8)  # the expected diagonal of Gamma
 sign_rules = (np.array_equal(Gamma, np.diag(diagonal))
               and np.array_equal(Gamma @ C @ Gamma, C)
               and all(np.array_equal(Gamma @ C @ gamma[a] @ Gamma, -C @ gamma[a])
-                      for a in range(1, 9)))
+                      for a in range(8)))
 check(sign_rules, "Gamma = diag(-I8, I8), Gamma C Gamma = C, Gamma C g^a Gamma = -C g^a")
 ```
 
@@ -4977,13 +4977,13 @@ The sympy pairing report `python-pairing.json` holds, besides its own checks, ch
 
 ```python
 image_metric = Gamma @ B @ Gamma.conj().T  # Gamma B Gamma^dagger
-mirror_metric = gamma[8] @ B @ gamma[8].conj().T  # gamma8 B gamma8^dagger
+mirror_metric = gamma[0] @ B @ gamma[0].conj().T  # gamma0 B gamma0^dagger
 signature = np.round(np.linalg.eigvalsh(image_metric)).astype(int)
 report("eigenvalues -1 and +1 of Gamma B Gamma^dagger",
        f"{int(np.sum(signature == -1))} and {int(np.sum(signature == 1))}")
 ```
 
-The anticommutator matrices of the two images (Section 10.15): $\Gamma B\Gamma^\dagger$ and $\gamma^{(x_8)}B(\gamma^{(x_8)})^\dagger$. The eigenvalues of the first are rounded to whole numbers (`astype(int)`) and counted: 8 and 8, so $-B$ also has the signature (8,8).
+The anticommutator matrices of the two images (Section 10.15): $\Gamma B\Gamma^\dagger$ and $\gamma^{(x_0)}B(\gamma^{(x_0)})^\dagger$. The eigenvalues of the first are rounded to whole numbers (`astype(int)`) and counted: 8 and 8, so $-B$ also has the signature (8,8).
 
 ```python
 check_record(np.array_equal(image_metric, -B)
@@ -4992,11 +4992,11 @@ check_record(np.array_equal(image_metric, -B)
              record="Revision/pairing/reports/python-pairing.json, check "
                     "Q.image_krein_metric")
 check_record(np.array_equal(mirror_metric, B),
-             "the mirror image gamma^(x8) Psi keeps the Krein metric +B",
+             "the mirror image gamma^(x0) Psi keeps the Krein metric +B",
              record="Revision/pairing/reports/python-pairing.json, check "
                     "Q.T2_image_keeps_B")
 check_record(np.array_equal(image_metric, -B) and np.array_equal(mirror_metric, B),
-             "Krein signs: Gamma gives -1, gamma^(x8) gives +1",
+             "Krein signs: Gamma gives -1, gamma^(x0) gives +1",
              record="Revision/pairing/reports/wolfram-pairing.json, check "
                     "Q_Krein_metric_of_images")
 ```
@@ -5024,7 +5024,7 @@ draw_matrix(axes[0], B.imag, "field $\\Psi$: $B$")
 draw_matrix(axes[1], image_metric.imag,
             "image $\\Gamma\\Psi$: $\\Gamma B\\Gamma^\\dagger = -B$")
 image = draw_matrix(axes[2], mirror_metric.imag,
-                    "mirror $\\gamma^{(x_8)}\\Psi$: $+B$")
+                    "mirror $\\gamma^{(x_0)}\\Psi$: $+B$")
 fig.colorbar(image, ax=list(axes), shrink=0.8, label="imaginary part of the entry")
 save_figure(fig, "krein_metrics",
 ...)
@@ -5035,8 +5035,8 @@ The three matrices are purely imaginary; their imaginary parts are drawn. Figure
 **In [4], the Lagrangian identity and the three kernels, exactly.**
 
 ```python
-g = {a: sp.Matrix(fixture["gamma"][a - 1]) for a in range(1, 9)}  # exact gammas
-C_exact = g[8] * g[1] * g[2] * g[3]
+g = {a: sp.Matrix(fixture["gamma"][a]) for a in range(8)}  # exact gammas
+C_exact = g[0] * g[1] * g[2] * g[3]
 Gamma_exact = sp.diag(*[int(x) for x in diagonal])  # diag(-I8, I8), exact
 B_exact = -sp.I * C_exact * g[4]
 m = sp.Symbol("m", real=True)  # the mass: any real number
@@ -5048,8 +5048,8 @@ Exact gammas, $C$, $\Gamma$ (`sp.diag` with the 16 whole numbers of the diagonal
 field = sp.Matrix(sp.symbols("c1:17"))  # chi_A, A = 1, ..., 16
 field_conj = sp.Matrix(sp.symbols("cc1:17"))  # their complex conjugates chi_A^*
 # d[a] and d_conj[a]: the derivatives of chi and of chi^* along x_a
-d = {a: sp.Matrix(sp.symbols(f"d{a}c1:17")) for a in range(1, 9)}
-d_conj = {a: sp.Matrix(sp.symbols(f"d{a}cc1:17")) for a in range(1, 9)}
+d = {a: sp.Matrix(sp.symbols(f"d{a}c1:17")) for a in range(8)}
+d_conj = {a: sp.Matrix(sp.symbols(f"d{a}cc1:17")) for a in range(8)}
 ```
 
 Letters for the 16 components $\chi_A$ (`c1` to `c16`), for their complex conjugates (`cc1` to `cc16`), and for the derivatives of both along each of the eight directions (`d1c1` to `d8c16` and `d1cc1` to `d8cc16`): $16 \times 2 + 128 \times 2 = 288$ independent letters. sympy treats a component and its conjugate as independent letters, which is how a Lagrangian uses them.
@@ -5058,7 +5058,7 @@ Letters for the 16 components $\chi_A$ (`c1` to `c16`), for their complex conjug
 def lagrangian(mass, M):
     psi, psi_conj = M * field, M * field_conj  # M is real: (M chi)^* = M chi^*
     total = sp.Integer(0)
-    for a in range(1, 9):
+    for a in range(8):
         kinetic = C_exact * g[a]  # the matrix C gamma^(x_a)
         dpsi, dpsi_conj = M * d[a], M * d_conj[a]
         total += sp.Rational(1, 2) * ((psi_conj.T * kinetic * dpsi)[0]
@@ -5219,8 +5219,8 @@ phi = random_state(6, 16)
 own_rule = anticommutator_matrix(Psi, Psi_dagger, phi)
 image_rule = anticommutator_matrix(mapped(Gamma, Psi),
                                    mapped_conjugate(Gamma, Psi_dagger), phi)
-mirror_rule = anticommutator_matrix(mapped(gamma[8], Psi),
-                                    mapped_conjugate(gamma[8], Psi_dagger), phi)
+mirror_rule = anticommutator_matrix(mapped(gamma[0], Psi),
+                                    mapped_conjugate(gamma[0], Psi_dagger), phi)
 errors = [np.max(np.abs(own_rule - B)), np.max(np.abs(image_rule + B)),
           np.max(np.abs(mirror_rule - B))]
 report("largest deviations from B, -B and +B", ", ".join(f"{e:.1e}" for e in errors))
@@ -5234,7 +5234,7 @@ One universe on the modes 0 to 15 and a random normalised state. The three $16 \
 
 ```python
 m_value = 1.3  # any mass and momenta (here with momenta along the extra times too)
-k = {1: 0.4, 2: -0.7, 3: 0.2, 5: 0.9, 6: -0.3, 7: 0.5, 8: 1.1}
+k = {0: 1.1, 1: 0.4, 2: -0.7, 3: 0.2, 5: 0.9, 6: -0.3, 7: 0.5}
 
 
 def h_prime(mass):
@@ -5306,7 +5306,7 @@ With the energy $H = H_m[\Psi]$ of the system, the commutator $[H, (\Gamma\Psi)_
 **In [7], the same exactly, and a picture.**
 
 ```python
-k_symbol = {a: sp.Symbol(f"k{a}", real=True) for a in (1, 2, 3, 5, 6, 7, 8)}
+k_symbol = {a: sp.Symbol(f"k{a}", real=True) for a in (0, 1, 2, 3, 5, 6, 7)}
 
 
 def h_prime_exact(mass):
@@ -5377,7 +5377,7 @@ The conjugate field $\Psi^c = \Gamma\Psi^{\dagger T}$ of Section 10.15 and, as t
 ```python
 candidates = {
     "Gamma Psi": (image_field, image_conjugate),
-    "gamma8 Psi": (mapped(gamma[8], Psi), mapped_conjugate(gamma[8], Psi_dagger)),
+    "gamma0 Psi": (mapped(gamma[0], Psi), mapped_conjugate(gamma[0], Psi_dagger)),
     "Psi^c = Gamma Psi^dag T": (conjugate_field, conjugate_field_dagger),
 }
 phi = random_state(6, 16)
@@ -5398,7 +5398,7 @@ for label, (X, X_dagger) in candidates.items():
         f"rank of {{X, Psi}} = {ranks[1]:2d}")
 ```
 
-For each candidate: its own anticommutator matrix (its sign, $+1$ for $B$ and $-1$ for $-B$), and the two cross matrices with the first field, with their ranks. In an f-string a doubled brace prints a single brace. The printed lines show: $\Gamma\Psi$ with the metric $-B$ and the ranks 16 and 0; $\gamma^{(x_8)}\Psi$ with $+B$ and the ranks 16 and 0; $\Psi^c$ with $+B$ and the ranks 0 and 16. Independence would need both ranks to be 0; every candidate has a cross matrix of rank 16.
+For each candidate: its own anticommutator matrix (its sign, $+1$ for $B$ and $-1$ for $-B$), and the two cross matrices with the first field, with their ranks. In an f-string a doubled brace prints a single brace. The printed lines show: $\Gamma\Psi$ with the metric $-B$ and the ranks 16 and 0; $\gamma^{(x_0)}\Psi$ with $+B$ and the ranks 16 and 0; $\Psi^c$ with $+B$ and the ranks 0 and 16. Independence would need both ranks to be 0; every candidate has a cross matrix of rank 16.
 
 ```python
 chirality = results["Gamma Psi"]
@@ -5413,8 +5413,8 @@ check_record(conjugate[0] == 1 and conjugate[1] == (0, 16)
              "Psi^c keeps +B (Gamma B^T Gamma^dag = B) but {Psi^c, Psi} = -Gamma B",
              record="Revision/lead_checks/reports/charge-conjugation-and-u1.json, "
                     "check quantum_charge_conjugation_unitary_type")
-check(results["gamma8 Psi"][0] == 1 and results["gamma8 Psi"][1] == (16, 0),
-      "gamma8 Psi keeps +B; as an operator of the same field it is not independent")
+check(results["gamma0 Psi"][0] == 1 and results["gamma0 Psi"][1] == (16, 0),
+      "gamma0 Psi keeps +B; as an operator of the same field it is not independent")
 ```
 
 Three checks: the chirality image has $-B$ and $\{\Gamma\Psi, \Psi^\dagger\} = \Gamma B$ (Q3, reproducing `Q_no_identification_of_independent_universes`); the conjugate field keeps $+B$ but $\{\Psi^c, \Psi\} = -\Gamma B$ (reproducing `quantum_charge_conjugation_unitary_type`); the mirror image keeps $+B$ but is built from the same field.
@@ -5548,7 +5548,7 @@ def mode_hamiltonian(mass, momenta):
 The Gram-Schmidt function (Section 10.19) and the mode Hamiltonian of Section 10.3, as in the earlier notebooks.
 
 ```python
-sample = {1: 1, 2: 2, 8: 4}  # the recorded good-sector momentum, with m = 2
+sample = {0: 4, 1: 1, 2: 2}  # the recorded good-sector momentum, with m = 2
 h_plus, h_minus = mode_hamiltonian(2, sample), mode_hamiltonian(-2, sample)
 E = 5.0  # sqrt(4 + 1 + 4 + 16)
 W1 = np.hstack([orthonormal_columns((I16 + h_plus / E) / 2),
@@ -5560,7 +5560,7 @@ check(np.allclose(h_minus @ W2[:, :8], E * W2[:, :8])
       "Gamma u_s and Gamma v_s are orthonormal eigenvectors of h_-m, energies +-E")
 ```
 
-The recorded good-sector momentum $m = 2$, $k = (1, 2, 0, 4)$, $E = 5$. Universe 1 uses the orthonormal eigenvectors $u_s$ and $v_s$ of $h_m$ (Section 10.20); universe 2 uses $\Gamma u_s$ and $\Gamma v_s$, which are eigenvectors of $h_{-m} = \Gamma h_m\Gamma$ with the same eigenvalues ($h_{-m}\Gamma u = \Gamma h_mu = E\,\Gamma u$) and orthonormal ($\Gamma$ keeps lengths). The check confirms both.
+The recorded good-sector momentum $m = 2$, $k = (k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$. Universe 1 uses the orthonormal eigenvectors $u_s$ and $v_s$ of $h_m$ (Section 10.20); universe 2 uses $\Gamma u_s$ and $\Gamma v_s$, which are eigenvectors of $h_{-m} = \Gamma h_m\Gamma$ with the same eigenvalues ($h_{-m}\Gamma u = \Gamma h_mu = E\,\Gamma u$) and orthonormal ($\Gamma$ keeps lengths). The check confirms both.
 
 ```python
 def universe(W, offset):
@@ -5742,12 +5742,12 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 
 | statement | where it is verified | notebook |
 | --- | --- | --- |
-| $B = -iC\gamma^{(x_4)}$ is purely imaginary and Hermitian, $BB = I_{16}$, $\mathrm{tr}\,B = 0$, signature (8,8); it commutes with the gammas of $x_1, x_2, x_3, x_4, x_8$ and anticommutes with those of $x_5, x_6, x_7$ | `python-field-theory.json`, check `B_properties`; `wolfram-algebra.json`, check `B_signature_8_8`; `python-algebra.json`, check `B_gamma_relations` | 10a, 10e |
+| $B = -iC\gamma^{(x_4)}$ is purely imaginary and Hermitian, $BB = I_{16}$, $\mathrm{tr}\,B = 0$, signature (8,8); it commutes with the gammas of $x_1, x_2, x_3, x_4, x_0$ and anticommutes with those of $x_5, x_6, x_7$ | `python-field-theory.json`, check `B_properties`; `wolfram-algebra.json`, check `B_signature_8_8`; `python-algebra.json`, check `B_gamma_relations` | 10a, 10e |
 | the local conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ on shell; the charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ is an indefinite (Krein) form (it is constant in time only when no charge flows through the boundary of the slice, which at $z = \pi/2$ is an ASSUMED no-flux condition that the record does not impose) | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; `wolfram-field-theory.json`, check `charge_density_is_Krein_form_G` | none |
 | one plane wave: $hh = w^2I_{16}$, $Bh = h^\dagger B$ (the Krein form is conserved, also by growing waves); $h$ Hermitian and $[B, h] = 0$ exactly in the good sector | `wolfram-pairing.json`, check `Q_one_particle_flat_dispersion`; `python-field-theory.json`, checks `mode_hamiltonian_B_selfadjoint_dispersion` and `good_sector_spectrum_and_B_sectors`; `wolfram-field-theory.json`, checks `mode_hamiltonian_good_sector` and `mode_hamiltonian_Krein_selfadjoint` | 10a |
 | waves with $w^2 < 0$ grow, with rates that have no upper bound | `python-field-theory.json`, check `extra_time_modes_grow`; `python-scope.json`, check `extra_time_growth_rates_unbounded` | 10a, 10f |
 | Theorem 10.1: Krein inertia (4,4) of every real-frequency eigenspace; Krein-neutral eigenspaces at imaginary and zero frequency | `wolfram-pairing.json`, checks `Q_one_particle_Krein_inertia_real_frequencies` and `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`; `python-pairing.json`, checks `Q.one_particle_Krein_inertia_proof` and `Q.one_particle_complex_frequency_Krein_neutral` | 10a, 10f |
-| $\Gamma h_m\Gamma = h_{-m}$ and $\gamma^{(x_8)}h_m(k)\gamma^{(x_8)} = h_{-m}(R_8k)$: identical one-particle spectra for $+m$ and $-m$ | `python-pairing.json` and `wolfram-pairing.json`, check `Q.one_particle_maps` / `Q_one_particle_maps` | 10a, 10f |
+| $\Gamma h_m\Gamma = h_{-m}$ and $\gamma^{(x_0)}h_m(k)\gamma^{(x_0)} = h_{-m}(R_0k)$: identical one-particle spectra for $+m$ and $-m$ | `python-pairing.json` and `wolfram-pairing.json`, check `Q.one_particle_maps` / `Q_one_particle_maps` | 10a, 10f |
 | the canonical rule $\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\delta^7(x - y)/\cos z$; the Heisenberg equation is the field equation | `python-field-theory.json`, check `canonical_anticommutator_B`; `wolfram-field-theory.json`, checks `first_order_form_and_anticommutator` and `Heisenberg_equation_reproduces_field_equation` | 10b |
 | Theorem 10.2: no positive inner product with $\Psi^\dagger$ the Hilbert adjoint; the state space is a Krein space with fundamental symmetry $B$ | `python-field-theory.json` and `wolfram-field-theory.json`, check `no_positive_inner_product` | 10b |
 | the expectation-value rule $\epsilon_nu_n^\dagger Mu_n$ (Krein-Fock), $u^\dagger BMu$ and $-v^\dagger BMv$ (positive realisation) | `python-field-theory.json`, checks `expectation_value_rule` and `good_sector_positive_fock_realisation` | 10b, 10c |
@@ -5755,7 +5755,7 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 | good sector, one momentum with frozen coefficients: positive Fock space with $\Psi^\dagger = \chi B$, vacuum $-8E$, quanta $+E$, charges $\pm1$ | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` | 10c, 10f, 10g |
 | the classical commuting field dirac16complex00 has an energy unbounded below and an indefinite charge | `python-scope.json`, check `commuting_field_energy_unbounded_below` | 10c |
 | $\lambda \neq 0$, in the finite Fock model of one good-sector mode set with frozen coefficients (16 modes; symbolic $\lambda$; at rest with symbolic $m$, and $m = 3$, $k = (4, 0, 0, 0)$): ${:}\sum_\mu K_\mu{:} = {:}(m + U'(S))S{:}$ and, at rest, $\hat\rho = {:}mS + U{:}$, $\hat p = {:}SU' - U{:}$ are exact operator identities for solutions of the interacting operator field equation if and only if $U$ and $\hat T$ are Wick ordered | `fock-quartic.json`, checks `trace_identity_operator_identity_wick`, `trace_identity_fails_for_every_other_combination` and `homogeneous_rho_p_operator_identities_wick` | none |
-| curved good sector: symmetric, and the Krein form conserved, only up to the boundary term $\partial_8(\sin z\,u^\dagger M_8v)$; flux $2i$; role of $3H\gamma^{(x_8)}$; $x_8$-independent waves grow for $m^2 < 9H^2$; the exact solution | `python-scope.json`, checks `good_sector_hermiticity_up_to_the_brane_flux` and `good_sector_x8_independent_modes_without_boundary_condition`; `wolfram-field-theory.json`, checks `good_sector_hermiticity_curved` and `Krein_form_conserved_curved`; `python-field-theory.json`, check `exact_solution_family_x4_x8` | 10d |
+| curved good sector: symmetric, and the Krein form conserved, only up to the boundary term $\partial_0(\sin z\,u^\dagger M_0v)$; flux $2i$; role of $3H\gamma^{(x_0)}$; $x_0$-independent waves grow for $m^2 < 9H^2$; the exact solution | `python-scope.json`, checks `good_sector_hermiticity_up_to_the_brane_flux` and `good_sector_x0_independent_modes_without_boundary_condition`; `wolfram-field-theory.json`, checks `good_sector_hermiticity_curved` and `Krein_form_conserved_curved`; `python-field-theory.json`, check `exact_solution_family_x4_x0` | 10d |
 | the invariant forms are $r_-CP_- + r_+CP_+$; every invariant charge density is indefinite; exactly the 21 generators without $x_4$ keep $B$ (Spin(4,3)) | `python-algebra.json`, checks `spin_commutant_dimension_2` and `S_preserves_C_and_commutes_with_Gamma`; `wolfram-algebra.json`, checks `S_preserves_C` and `S_preserves_B_only_off_x4` | 10e |
 | along the deflating history (local-frame model): $h(x_4)^2 = w(x_4)^2I_{16}$, $\lVert h_A\rVert = k_5$, $\lVert Bh - hB\rVert = 2k_5$; every wave with extra-time momentum reaches the onset time $\ln X^\ast/(2AH)$; the good sector stays Hermitian | this chapter, Section 10.39 (the book's own derivation, exact in sympy) | 10f |
 | the quantum reading Q1 to Q5 of the pairing | `wolfram-pairing.json`, checks `Q_Krein_metric_of_images`, `Q_symplectic_kernel_grassmann`, `Q_generators_of_the_image_grassmann`, `Q_no_identification_of_independent_universes`; `python-pairing.json`, checks `Q.image_krein_metric`, `Q.image_own_quantisation`, `Q.image_generators_same_dynamics`, `Q.no_cancellation_independent_universes`, `Q.T2_image_keeps_B`, `compare.theory.theorem_Q` | 10g |
@@ -5764,7 +5764,7 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 
 - Notebook 10a: the 16 eigenvalues of $h$ agree with $\pm w$ to $3.6 \times 10^{-15}$; in the scan across the threshold the inertia is $(4, 4, 0)$ at all 110 real-frequency points and $(0, 0, 8)$ at all 137 imaginary-frequency points, with the smallest nonzero Gram eigenvalue 0.2225 below the threshold.
 - Notebook 10b: the canonical rule holds on the Fock space exactly ($0.0$) and the Heisenberg equation to $1.6 \times 10^{-17}$; the Krein norms of 5000 random unit columns lie between $-0.777$ and $0.704$; for the boosted mode the rule $\epsilon u^\dagger Mu$ holds to $1.3 \times 10^{-15}$, while $u^\dagger BMu$ misses by up to 5.82.
-- Notebook 10c: vacuum $-40$, every quantum $+5$, charges $\pm1$ (to $10^{-12}$), for $m = 2$, $k = (1, 2, 0, 4)$ and for $m = 3$, $k_1 = 4$; the 65536 states of one momentum, one of them of energy 0; the commuting field: densities $\pm5$, and from $-4.364$ to $4.333$ for 4000 random waves.
+- Notebook 10c: vacuum $-40$, every quantum $+5$, charges $\pm1$ (to $10^{-12}$), for $m = 2$, $k = (k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$ and for $m = 3$, $k_1 = 4$; the 65536 states of one momentum, one of them of energy 0; the commuting field: densities $\pm5$, and from $-4.364$ to $4.333$ for 4000 random waves.
 - Notebook 10d: the Krein charge of the exact growing solution rises from $1/6$ to 454.007 between $x_4 = 0$ and 1.5 and equals the flux added up over time to a relative $6.7 \times 10^{-7}$; the late growth slope 5.6600 approaches $2k = 5.6569$.
 - Notebook 10e: exactly two zero eigenvalues of $M^TM$ (at most $1.3 \times 10^{-15}$) below the smallest nonzero one, 7.0.
 - Notebook 10f: the onset time 2.996044 of the wave $q_1 = 0.5$, $q_5 = 0.05$ (agreement with bisection $8.9 \times 10^{-16}$ for 48 waves); onset times from 6.9078 to 0.0941 for $10^{-3} \leq q_5 \leq 1$; the good-sector energies at the five slices (for $q_1 = 1$ from 1.414214 down to 1.009116).
@@ -5774,7 +5774,7 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 
 - Anticommutators (not commutators) for dirac16complex: part of its definition as a fermion field; no spin-statistics theorem for signature (4,4) is proved.
 - Normal ordering: a prescription that drops the energy $-8E$ of the filled sea per momentum.
-- Flat 4+4 space, or the frozen-coefficient model of Section 10.3 (the coefficients of one point and one instant, without the two hidden-direction terms of the author's field equation, among them the spin-connection term $3H\gamma^{(x_8)}$; keeping that term breaks $Bh = h^\dagger B$), for the one-particle statements and the Fock spaces; the good sector itself is a restriction imposed by hand (no mechanism that removes the extra-time waves is derived).
+- Flat 4+4 space, or the frozen-coefficient model of Section 10.3 (the coefficients of one point and one instant, without the two hidden-direction terms of the author's field equation, among them the spin-connection term $3H\gamma^{(x_0)}$; keeping that term breaks $Bh = h^\dagger B$), for the one-particle statements and the Fock spaces; the good sector itself is a restriction imposed by hand (no mechanism that removes the extra-time waves is derived).
 - The deflating history $a_4 = AHx_4$ ($A = H = m = 1$) is a PRESCRIBED BACKGROUND, and the local-frame model of Section 10.39 evaluates the coefficients at one instant and one hidden position (`parameters.json`; `ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`).
 - The Z2 brane condition at $z = \pi/2$ is ASSUMED by the Kohn-Sham record (Chapter 14); the quantisation of this chapter imposes no boundary condition there. The total charge $Q$ is constant in time only under such an ASSUMED no-flux condition at $z = \pi/2$; what is proved is its local conservation law (Section 10.2).
 
@@ -5784,7 +5784,7 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 
 - A positive Hilbert space for the whole quantised field (all momenta, the curved metric), and the quantisation of the extra-time sector, whose waves grow and become Krein-neutral along the deflating history.
 - A boundary condition at the patch end $z = \pi/2$ that makes the curved good-sector evolution Hermitian and conserves the Krein charge.
-- The interacting theory $\lambda \neq 0$, in particular the operator form of the on-shell identity of the energy-momentum tensor beyond the finite model of one good-sector mode set with frozen coefficients (where it holds with Wick ordering only, Section 10.21): for the field on a whole slice, with the curved $x_8$ dependence and in the extra-time sector; symmetry and conservation of the quartic operator are not verified.
+- The interacting theory $\lambda \neq 0$, in particular the operator form of the on-shell identity of the energy-momentum tensor beyond the finite model of one good-sector mode set with frozen coefficients (where it holds with Wick ordering only, Section 10.21): for the field on a whole slice, with the curved $x_0$ dependence and in the extra-time sector; symmetry and conservation of the quartic operator are not verified.
 - The evolution of the quantum state through the changing background (whether the instantaneous vacuum of one time contains quanta of a later time).
 - Any creation process, rate or amplitude for universes, which these equations do not contain.
 
@@ -5792,7 +5792,7 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 
 **Exercise 10.1.** Use the table of $B$ in Section 10.2. (a) Compute $Be_1$ and $Be_{10}$, where $e_j$ is the unit column with 1 in place $j$. (b) Find the two columns $u = ae_1 + be_{10}$ of length 1 that are eigenvectors of $B$, with their eigenvalues. (c) Compute the Krein norms of $e_1$ and of the two eigenvectors.
 
-**Exercise 10.2.** For each wave compute $w^2$, say whether it oscillates, grows linearly or grows exponentially, and give the growth rate where there is one: (a) $m = 2$, $k_1 = 1$, $k_6 = 2$; (b) $m = 1$, $k_8 = 1$, $k_5 = 1$, $k_7 = 1$; (c) $m = 1$, $k_5 = 3$. In case (a), what is the Krein inertia of the eigenspaces?
+**Exercise 10.2.** For each wave compute $w^2$, say whether it oscillates, grows linearly or grows exponentially, and give the growth rate where there is one: (a) $m = 2$, $k_1 = 1$, $k_6 = 2$; (b) $m = 1$, $k_0 = 1$, $k_5 = 1$, $k_7 = 1$; (c) $m = 1$, $k_5 = 3$. In case (a), what is the Krein inertia of the eigenspaces?
 
 **Exercise 10.3.** A two-dimensional model of a Krein space: $B = \mathrm{diag}(1, -1)$ and $h = \begin{pmatrix}0 & 1\\ -1 & 0\end{pmatrix}$. (a) Show $h^\dagger B = Bh$ and $hh = -I_2$. (b) Solve $i\,du/dt = hu$ with $u(0) = (1, 0)$. (c) Compute $u^\dagger u$ and $u^\dagger Bu$ as functions of $t$.
 
@@ -5806,13 +5806,13 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 
 **Exercise 10.8.** On the deflating history with $A = H = m = 1$ and $y = 0$: (a) find the onset time of the waves with $q_1 = 0$ and $q_5 = 0.05$, and $q_5 = 0.001$; (b) at what time does the wave $q_1 = 0$, $q_5 = 0.05$ reach the frame momentum $k_5 = 2$? (c) Compute $X^\ast$ and the onset time for $q_1 = 0.5$, $q_5 = 0.05$, and explain why it is later than in (a).
 
-**Exercise 10.9.** For the good-sector waves that do not depend on $x_8$ (Section 10.28), with $H = 1$: find the eigenvalues of $A$ and the growth rate for $m = 2$ and for $m = 4$.
+**Exercise 10.9.** For the good-sector waves that do not depend on $x_0$ (Section 10.28), with $H = 1$: find the eigenvalues of $A$ and the growth rate for $m = 2$ and for $m = 4$.
 
 ### 10.52 Answers to the exercises
 
 **Answer 10.1.** (a) $(Be_1)_r = B_{r1}$, the entries of column 1: by the table only row 10 has its nonzero entry in column 1, with the value $-i$, so $Be_1 = -ie_{10}$. Row 1 has its entry $+i$ in column 10, so $Be_{10} = ie_1$. (b) For $u = ae_1 + be_{10}$, $Bu = aBe_1 + bBe_{10} = ib\,e_1 - ia\,e_{10}$, by (a). $Bu = \lambda u$ means $ib = \lambda a$ and $-ia = \lambda b$. The first gives $b = -i\lambda a$ (multiply by $-i$); insert it into the second: $-ia = \lambda(-i\lambda a) = -i\lambda^2a$, so $\lambda^2 = 1$. For $\lambda = +1$: $b = -ia$, and with length 1, $u_+ = (e_1 - ie_{10})/\sqrt2$. For $\lambda = -1$: $b = ia$, $u_- = (e_1 + ie_{10})/\sqrt2$. Check: $Bu_- = (i \cdot i\,e_1 - ie_{10})/\sqrt2 = (-e_1 - ie_{10})/\sqrt2 = -u_-$. (c) $e_1^\dagger Be_1 = B_{11} = 0$: the unit column $e_1$ has length 1 but Krein norm 0. $u_\pm^\dagger Bu_\pm = \pm u_\pm^\dagger u_\pm = \pm1$.
 
-**Answer 10.2.** $w^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$ (Section 10.4). (a) $w^2 = 4 + 1 - 4 = 1$: the frequencies $\pm1$ are real and the wave oscillates, although $h$ is not Hermitian ($k_6 \neq 0$). By Theorem 10.1 both eigenspaces have the Krein inertia $(4, 4)$. (b) $w^2 = 1 + 1 - 1 - 1 = 0$ with $h \neq 0$: $hh = 0$, $e^{-ihx_4} = I_{16} - ihx_4$, and the wave grows linearly unless $hu(0) = 0$; the range of $h$ is Krein-neutral. (c) $w^2 = 1 - 9 = -8$: $w = \pm i\sqrt8 = \pm2\sqrt2\,i$, half of the waves grow like $e^{2\sqrt2\,x_4}$ (rate $2\sqrt2 \approx 2.828$), and both eigenspaces are Krein-neutral.
+**Answer 10.2.** $w^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$ (Section 10.4). (a) $w^2 = 4 + 1 - 4 = 1$: the frequencies $\pm1$ are real and the wave oscillates, although $h$ is not Hermitian ($k_6 \neq 0$). By Theorem 10.1 both eigenspaces have the Krein inertia $(4, 4)$. (b) $w^2 = 1 + 1 - 1 - 1 = 0$ with $h \neq 0$: $hh = 0$, $e^{-ihx_4} = I_{16} - ihx_4$, and the wave grows linearly unless $hu(0) = 0$; the range of $h$ is Krein-neutral. (c) $w^2 = 1 - 9 = -8$: $w = \pm i\sqrt8 = \pm2\sqrt2\,i$, half of the waves grow like $e^{2\sqrt2\,x_4}$ (rate $2\sqrt2 \approx 2.828$), and both eigenspaces are Krein-neutral.
 
 **Answer 10.3.** (a) $h^\dagger = \begin{pmatrix}0 & -1\\ 1 & 0\end{pmatrix}$ (transpose; the entries are real). $h^\dagger B = \begin{pmatrix}0 & 1\\ 1 & 0\end{pmatrix}$ (the second column of $h^\dagger$ is multiplied by $-1$) and $Bh = \begin{pmatrix}0 & 1\\ 1 & 0\end{pmatrix}$ (the second row of $h$ is multiplied by $-1$): equal. $hh = \begin{pmatrix}0\cdot0 + 1\cdot(-1) & 0\cdot1 + 1\cdot0\\ (-1)\cdot0 + 0\cdot(-1) & (-1)\cdot1 + 0\cdot0\end{pmatrix} = -I_2$, so $w^2 = -1$. (b) As in Section 10.4, $e^{-iht} = \cos(wt)I_2 - i\frac{\sin(wt)}{w}h$ with $w = i$; $\cos(it) = \cosh t$ and $\sin(it)/i = \sinh t$, so $e^{-iht} = \cosh t\,I_2 - i\sinh t\,h$. With $hu(0) = (0, -1)$ (the first column of $h$): $u(t) = (\cosh t, i\sinh t)$. Check: $i\,du/dt = i(\sinh t, i\cosh t) = (i\sinh t, -\cosh t)$ and $hu = (i\sinh t, -\cosh t)$. (c) $u^\dagger u = \cosh^2t + \sinh^2t = \cosh 2t$, which grows; $u^\dagger Bu = \cosh^2t - \sinh^2t = 1$, constant: the Krein norm is conserved by a growing wave, as Section 10.4 proved for dirac16complex.
 

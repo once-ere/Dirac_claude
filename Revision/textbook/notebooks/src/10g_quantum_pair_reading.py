@@ -94,7 +94,7 @@ CELLS = [
     ## 1. What this notebook computes
 
     The pairing theorem T1 of the Revision record says that the chirality matrix
-    $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ turns every solution
+    $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ turns every solution
     $\Psi$ of the field of mass $m$ (and coupling $\lambda$) into a solution
     $\Gamma\Psi$ of the field of mass $-m$ (and coupling $-\lambda$), with the
     energy-momentum tensor and the current reversed: $T \to -T$, $J \to -J$. What
@@ -111,7 +111,7 @@ CELLS = [
       independent universe of mass $-m$; they force the canonical anticommutators
       $+B$, $-B$ and $+B$;
     - checks on a Fock space that the image $\Gamma\Psi$ carries the Krein metric $-B$,
-      while the mirror image $\gamma^{(x_8)}\Psi$ of theorem T2 keeps $+B$;
+      while the mirror image $\gamma^{(x_0)}\Psi$ of theorem T2 keeps $+B$;
     - checks that the energy and the charge of the field are MINUS the energy and the
       charge that the mass $-m$ theory assigns to the image: $T \to -T$ and $J \to -J$
       hold as identities between operators of ONE quantum system;
@@ -134,7 +134,7 @@ CELLS = [
     - **Chirality image**: for a field $\Psi$, the field $\chi = \Gamma\Psi$. Because
       $\Gamma^2 = I_{16}$, also $\Psi = \Gamma\chi$: the image carries exactly the
       same information, written in other variables.
-    - **Mirror image**: the field $\gamma^{(x_8)}\Psi$ (with the hidden direction
+    - **Mirror image**: the field $\gamma^{(x_0)}\Psi$ (with the hidden direction
       reflected) of the pairing theorem T2.
     - **Lagrangian $\mathcal{L}_m[\Psi]$**: the Lagrangian density of dirac16complex
       with mass $m$, evaluated on the field $\Psi$. Here (flat 4+4 space, $U = 0$) it is
@@ -170,8 +170,8 @@ CELLS = [
     frozen-coefficient model, an ASSUMPTION that leaves out the hidden-direction terms
     of the author's field equation), $U = 0$, and with the conventions of the earlier
     notebooks of this chapter: $C =
-    \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, $B = -iC\gamma^{(x_4)}$,
-    $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8,
+    \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, $B = -iC\gamma^{(x_4)}$,
+    $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8,
     I_8)$, real, symmetric, $\Gamma^2 = I_{16}$.
 
     **Two sign rules.** $\Gamma$ anticommutes with every gamma. Moving $\Gamma$ through
@@ -180,9 +180,9 @@ CELLS = [
     $$\Gamma C\Gamma = C\ (n = 4),\qquad \Gamma C\gamma^{(x_a)}\Gamma = -C\gamma^{(x_a)}\
     (n = 5),\qquad \Gamma B\Gamma = -B\ (n = 5).$$
 
-    The mirror matrix $\gamma^{(x_8)}$ commutes with itself and anticommutes with the
-    four other gammas in $B = -i\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}
-    \gamma^{(x_4)}$, so $\gamma^{(x_8)}B\gamma^{(x_8)} = (-1)^4B = +B$.
+    The mirror matrix $\gamma^{(x_0)}$ commutes with itself and anticommutes with the
+    four other gammas in $B = -i\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}
+    \gamma^{(x_4)}$, so $\gamma^{(x_0)}B\gamma^{(x_0)} = (-1)^4B = +B$.
 
     **The Lagrangian identity, line by line.** Insert $\Psi = \Gamma\chi$ (and
     $\Psi^\dagger = \chi^\dagger\Gamma$, because $\Gamma$ is real and symmetric) into
@@ -308,9 +308,9 @@ CELLS = [
     fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
         encoding="utf-8"))
     # gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 1, ..., 8.
-    gamma = {a: np.array(fixture["gamma"][a - 1], dtype=int) for a in range(1, 9)}
-    C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
-    Gamma = (gamma[8] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
+    gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
+    C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
+    Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
              @ gamma[6] @ gamma[7])  # the chirality matrix
     B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4)
     I16 = np.eye(16)
@@ -318,7 +318,7 @@ CELLS = [
     sign_rules = (np.array_equal(Gamma, np.diag(diagonal))
                   and np.array_equal(Gamma @ C @ Gamma, C)
                   and all(np.array_equal(Gamma @ C @ gamma[a] @ Gamma, -C @ gamma[a])
-                          for a in range(1, 9)))
+                          for a in range(8)))
     check(sign_rules, "Gamma = diag(-I8, I8), Gamma C Gamma = C, Gamma C g^a Gamma = -C g^a")
 
     pairing = json.loads(repository_file("Revision/pairing/pairing-theory.json")
@@ -347,14 +347,14 @@ CELLS = [
     '''),
     md(r"""
     The next cell computes the Krein metrics carried by the two images,
-    $\Gamma B\Gamma^\dagger$ and $\gamma^{(x_8)}B(\gamma^{(x_8)})^\dagger$, compares
+    $\Gamma B\Gamma^\dagger$ and $\gamma^{(x_0)}B(\gamma^{(x_0)})^\dagger$, compares
     them with $-B$ and $+B$, and draws the three matrices $B$, $\Gamma B\Gamma^\dagger$
-    and $\gamma^{(x_8)}B(\gamma^{(x_8)})^\dagger$ as heat maps. All three are purely
+    and $\gamma^{(x_0)}B(\gamma^{(x_0)})^\dagger$ as heat maps. All three are purely
     imaginary, so their imaginary parts are drawn (blue $-1$, light grey 0, red $+1$).
     """),
     code(r'''
     image_metric = Gamma @ B @ Gamma.conj().T  # Gamma B Gamma^dagger
-    mirror_metric = gamma[8] @ B @ gamma[8].conj().T  # gamma8 B gamma8^dagger
+    mirror_metric = gamma[0] @ B @ gamma[0].conj().T  # gamma0 B gamma0^dagger
     signature = np.round(np.linalg.eigvalsh(image_metric)).astype(int)
     report("eigenvalues -1 and +1 of Gamma B Gamma^dagger",
            f"{int(np.sum(signature == -1))} and {int(np.sum(signature == 1))}")
@@ -364,11 +364,11 @@ CELLS = [
                  record="Revision/pairing/reports/python-pairing.json, check "
                         "Q.image_krein_metric")
     check_record(np.array_equal(mirror_metric, B),
-                 "the mirror image gamma^(x8) Psi keeps the Krein metric +B",
+                 "the mirror image gamma^(x0) Psi keeps the Krein metric +B",
                  record="Revision/pairing/reports/python-pairing.json, check "
                         "Q.T2_image_keeps_B")
     check_record(np.array_equal(image_metric, -B) and np.array_equal(mirror_metric, B),
-                 "Krein signs: Gamma gives -1, gamma^(x8) gives +1",
+                 "Krein signs: Gamma gives -1, gamma^(x0) gives +1",
                  record="Revision/pairing/reports/wolfram-pairing.json, check "
                         "Q_Krein_metric_of_images")
 
@@ -391,14 +391,14 @@ CELLS = [
     draw_matrix(axes[1], image_metric.imag,
                 "image $\\Gamma\\Psi$: $\\Gamma B\\Gamma^\\dagger = -B$")
     image = draw_matrix(axes[2], mirror_metric.imag,
-                        "mirror $\\gamma^{(x_8)}\\Psi$: $+B$")
+                        "mirror $\\gamma^{(x_0)}\\Psi$: $+B$")
     fig.colorbar(image, ax=list(axes), shrink=0.8, label="imaginary part of the entry")
     save_figure(fig, "krein_metrics",
                 "The Krein metrics, that is the matrices of the canonical anticommutator, "
                 "carried by the field $\\Psi$ (left: $B = -iC\\gamma^{(x_4)}$), by its "
                 "chirality image $\\Gamma\\Psi$ (middle: $\\Gamma B\\Gamma^\\dagger$) "
-                "and by its mirror image $\\gamma^{(x_8)}\\Psi$ (right: $\\gamma^{(x_8)}"
-                "B\\gamma^{(x_8)\\dagger}$), drawn as heat maps of their imaginary parts "
+                "and by its mirror image $\\gamma^{(x_0)}\\Psi$ (right: $\\gamma^{(x_0)}"
+                "B\\gamma^{(x_0)\\dagger}$), drawn as heat maps of their imaginary parts "
                 "(the real parts are zero). Horizontal axis: column number, vertical "
                 "axis: row number; red is $+1$, blue is $-1$, light grey is 0. The "
                 "middle picture is the left one with every colour exchanged: the "
@@ -426,23 +426,23 @@ CELLS = [
       $\mathcal{L}_{-m}[\chi]$, and the anticommutators $N^{-1} = B, -B, B$.
     """),
     code(r'''
-    g = {a: sp.Matrix(fixture["gamma"][a - 1]) for a in range(1, 9)}  # exact gammas
-    C_exact = g[8] * g[1] * g[2] * g[3]
+    g = {a: sp.Matrix(fixture["gamma"][a]) for a in range(8)}  # exact gammas
+    C_exact = g[0] * g[1] * g[2] * g[3]
     Gamma_exact = sp.diag(*[int(x) for x in diagonal])  # diag(-I8, I8), exact
     B_exact = -sp.I * C_exact * g[4]
     m = sp.Symbol("m", real=True)  # the mass: any real number
     field = sp.Matrix(sp.symbols("c1:17"))  # chi_A, A = 1, ..., 16
     field_conj = sp.Matrix(sp.symbols("cc1:17"))  # their complex conjugates chi_A^*
     # d[a] and d_conj[a]: the derivatives of chi and of chi^* along x_a
-    d = {a: sp.Matrix(sp.symbols(f"d{a}c1:17")) for a in range(1, 9)}
-    d_conj = {a: sp.Matrix(sp.symbols(f"d{a}cc1:17")) for a in range(1, 9)}
+    d = {a: sp.Matrix(sp.symbols(f"d{a}c1:17")) for a in range(8)}
+    d_conj = {a: sp.Matrix(sp.symbols(f"d{a}cc1:17")) for a in range(8)}
 
 
     def lagrangian(mass, M):
         """L_mass evaluated on the field M chi (M a constant real matrix)."""
         psi, psi_conj = M * field, M * field_conj  # M is real: (M chi)^* = M chi^*
         total = sp.Integer(0)
-        for a in range(1, 9):
+        for a in range(8):
             kinetic = C_exact * g[a]  # the matrix C gamma^(x_a)
             dpsi, dpsi_conj = M * d[a], M * d_conj[a]
             total += sp.Rational(1, 2) * ((psi_conj.T * kinetic * dpsi)[0]
@@ -500,7 +500,7 @@ CELLS = [
     $\langle\phi|\{X_i, Y_j\}|\phi\rangle$ for a normalised state $\phi$; when the
     anticommutators are numbers (as here), these entries ARE those numbers. The cell
     computes it for the image $\Gamma\Psi$ and for the mirror image
-    $\gamma^{(x_8)}\Psi$.
+    $\gamma^{(x_0)}\Psi$.
     """),
     code(r'''
     def sign_below(n, p):
@@ -598,8 +598,8 @@ CELLS = [
     own_rule = anticommutator_matrix(Psi, Psi_dagger, phi)
     image_rule = anticommutator_matrix(mapped(Gamma, Psi),
                                        mapped_conjugate(Gamma, Psi_dagger), phi)
-    mirror_rule = anticommutator_matrix(mapped(gamma[8], Psi),
-                                        mapped_conjugate(gamma[8], Psi_dagger), phi)
+    mirror_rule = anticommutator_matrix(mapped(gamma[0], Psi),
+                                        mapped_conjugate(gamma[0], Psi_dagger), phi)
     errors = [np.max(np.abs(own_rule - B)), np.max(np.abs(image_rule + B)),
               np.max(np.abs(mirror_rule - B))]
     report("largest deviations from B, -B and +B", ", ".join(f"{e:.1e}" for e in errors))
@@ -629,7 +629,7 @@ CELLS = [
     """),
     code(r'''
     m_value = 1.3  # any mass and momenta (here with momenta along the extra times too)
-    k = {1: 0.4, 2: -0.7, 3: 0.2, 5: 0.9, 6: -0.3, 7: 0.5, 8: 1.1}
+    k = {0: 1.1, 1: 0.4, 2: -0.7, 3: 0.2, 5: 0.9, 6: -0.3, 7: 0.5}
 
 
     def h_prime(mass):
@@ -687,12 +687,12 @@ CELLS = [
     and for all momenta: a field of mass $-m$ moves with the generator $Bh'_{-m}$; its
     image under $\Gamma$ carries the metric $-B$ and the energy matrix $-h'_m$, and the
     two signs compensate, $(-B)(-h'_m) = \Gamma(Bh'_{-m})\Gamma = Bh'_m$. The next cell
-    checks this with sympy for symbolic $m$ and $k_1, \dots, k_8$, together with
+    checks this with sympy for symbolic $m$ and $k_0, \dots, k_7$, together with
     $\Gamma h'_m\Gamma = -h'_{-m}$, and then draws the expectation values of the
     previous cell.
     """),
     code(r'''
-    k_symbol = {a: sp.Symbol(f"k{a}", real=True) for a in (1, 2, 3, 5, 6, 7, 8)}
+    k_symbol = {a: sp.Symbol(f"k{a}", real=True) for a in (0, 1, 2, 3, 5, 6, 7)}
 
 
     def h_prime_exact(mass):
@@ -755,7 +755,7 @@ CELLS = [
     first field $\Psi$:
 
     - the chirality image $\Gamma\Psi$ (T1);
-    - the mirror image $\gamma^{(x_8)}\Psi$ (T2, here without the reflection of the
+    - the mirror image $\gamma^{(x_0)}\Psi$ (T2, here without the reflection of the
       hidden coordinate, which does not change the anticommutators at one point);
     - the conjugate field $\Psi^c = \Gamma\Psi^{\dagger T}$, that is
       $\Psi^c_A = \sum_D\Gamma_{AD}\Psi^\dagger_D$, the conjugation of the quantised
@@ -773,7 +773,7 @@ CELLS = [
     conjugate_field_dagger = mapped(Gamma, Psi)
     candidates = {
         "Gamma Psi": (image_field, image_conjugate),
-        "gamma8 Psi": (mapped(gamma[8], Psi), mapped_conjugate(gamma[8], Psi_dagger)),
+        "gamma0 Psi": (mapped(gamma[0], Psi), mapped_conjugate(gamma[0], Psi_dagger)),
         "Psi^c = Gamma Psi^dag T": (conjugate_field, conjugate_field_dagger),
     }
     phi = random_state(6, 16)
@@ -799,8 +799,8 @@ CELLS = [
                  "Psi^c keeps +B (Gamma B^T Gamma^dag = B) but {Psi^c, Psi} = -Gamma B",
                  record="Revision/lead_checks/reports/charge-conjugation-and-u1.json, "
                         "check quantum_charge_conjugation_unitary_type")
-    check(results["gamma8 Psi"][0] == 1 and results["gamma8 Psi"][1] == (16, 0),
-          "gamma8 Psi keeps +B; as an operator of the same field it is not independent")
+    check(results["gamma0 Psi"][0] == 1 and results["gamma0 Psi"][1] == (16, 0),
+          "gamma0 Psi keeps +B; as an operator of the same field it is not independent")
     '''),
     md(r"""
     The result in words. The chirality image has the wrong canonical rule ($-B$
@@ -931,7 +931,8 @@ CELLS = [
 
     The last computation repeats, for the two universes together, the positive Fock
     construction of the third notebook of this chapter, for the recorded good-sector
-    momentum $m = 2$, $k = (1, 2, 0, 4)$ along $(x_1, x_2, x_3, x_8)$, $E = 5$.
+    momentum $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$ along $(x_0, x_1, x_2, x_3)$,
+    $E = 5$.
     Universe 1 uses the orthonormal eigenvectors $u_s$ ($+E$) and $v_s$ ($-E$) of $h_m$;
     universe 2 uses $\Gamma u_s$ and $\Gamma v_s$, which are eigenvectors of $h_{-m} =
     \Gamma h_m\Gamma$ with the same eigenvalues. In each universe modes 0 to 7 of its
@@ -969,7 +970,7 @@ CELLS = [
         return h
 
 
-    sample = {1: 1, 2: 2, 8: 4}  # the recorded good-sector momentum, with m = 2
+    sample = {0: 4, 1: 1, 2: 2}  # the recorded good-sector momentum, with m = 2
     h_plus, h_minus = mode_hamiltonian(2, sample), mode_hamiltonian(-2, sample)
     E = 5.0  # sqrt(4 + 1 + 4 + 16)
     W1 = np.hstack([orthonormal_columns((I16 + h_plus / E) / 2),

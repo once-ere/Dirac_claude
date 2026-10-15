@@ -105,7 +105,7 @@ CELLS = [
     - writes the field equation of one plane wave as $i\,du/dx_4 = h\,u$ with a
       $16 \times 16$ matrix $h$, the *mode Hamiltonian*;
     - proves with exact algebra (sympy) that $h^2 = w^2 I_{16}$ with
-      $w^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$, and that
+      $w^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$, and that
       $B h = h^\dagger B$;
     - follows the eigenvalues of $h$ as the momentum $k_5$ along the extra time $x_5$
       grows: they are real (oscillation) while $w^2 > 0$ and imaginary (growth) when
@@ -148,7 +148,7 @@ CELLS = [
       imaginary $w = i\kappa$ means growth like $e^{\kappa x_4}$.
     - **Good sector**: waves that do not depend on the extra times $x_5, x_6, x_7$,
       that is $k_5 = k_6 = k_7 = 0$.
-    - **Chirality** $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$: the
+    - **Chirality** $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$: the
       product of all eight gammas in the author's order.
     - **sympy, numpy**: sympy computes EXACTLY with symbols (a proof for all values);
       numpy computes with floating-point numbers (about 16 digits), so its checks
@@ -159,10 +159,10 @@ CELLS = [
 
     The author's coordinates are $x_1, x_2, x_3$ (ordinary 3-space), $x_4$ (the time),
     $x_5, x_6, x_7$ (the three EXTRA TIMES, which deflate exponentially in the author's
-    metric) and $x_8$ (the hidden space direction). The frame metric is
-    $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order $x_1, \dots, x_8$:
+    metric) and $x_0$ (the hidden space direction). The frame metric is
+    $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$:
     the gammas obey $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} =
-    2\eta^{ab} I_{16}$, so $(\gamma^{(a)})^2 = +1$ for $x_1, x_2, x_3, x_8$ and $-1$
+    2\eta^{ab} I_{16}$, so $(\gamma^{(a)})^2 = +1$ for $x_0, x_1, x_2, x_3$ and $-1$
     for $x_4, \dots, x_7$.
 
     **From the field equation to the mode Hamiltonian, line by line.** With $U = 0$ and
@@ -206,10 +206,10 @@ CELLS = [
     time $x_4$ and one hidden position, so that the wave equation of that instant has
     constant coefficients, AND it leaves out the two terms of the hidden direction that
     the author's field equation also contains: the derivative $\tan z\,
-    \gamma^{(x_8)}\partial_8\Psi$ with its coefficient that changes along $x_8$, and the
-    spin-connection term $3H\gamma^{(x_8)}\Psi$ (Revision theory record, formula
+    \gamma^{(x_0)}\partial_0\Psi$ with its coefficient that changes along $x_0$, and the
+    spin-connection term $3H\gamma^{(x_0)}\Psi$ (Revision theory record, formula
     `field_equation`). The model is therefore an ASSUMPTION. Kept in the equation, the
-    connection term would add $3iH\gamma^{(x_4)}\gamma^{(x_8)}$ to the matrix $h$ above;
+    connection term would add $3iH\gamma^{(x_4)}\gamma^{(x_0)}$ to the matrix $h$ above;
     that matrix commutes with $B$ and is anti-Hermitian, so it would spoil the identity
     $Bh = h^\dagger B$ that this notebook proves, and the frequencies could become
     complex. The extra times are not static: the notebook "The Krein structure along the
@@ -217,7 +217,7 @@ CELLS = [
     notebook computes, along the deflating history.
 
     **The Krein form is conserved.** The charge density of the field is
-    $\Psi^\dagger B\Psi$ with $B = -iC\gamma^{(x_4)}$, $C = \gamma^{(x_8)}\gamma^{(x_1)}
+    $\Psi^\dagger B\Psi$ with $B = -iC\gamma^{(x_4)}$, $C = \gamma^{(x_0)}\gamma^{(x_1)}
     \gamma^{(x_2)}\gamma^{(x_3)}$ (the author's sigma16). From $i\,du/dx_4 = hu$ we get
     $du/dx_4 = -ihu$ and, taking the dagger, $du^\dagger/dx_4 = i u^\dagger h^\dagger$.
     By the product rule
@@ -242,7 +242,7 @@ CELLS = [
 
     The next cell reads the author's gamma matrices from the Revision record
     `Revision/algebra/gammas.json` (16 x 16 matrices of whole numbers), stores them as
-    `gamma[1]`, ..., `gamma[8]` so that `gamma[a]` is $\gamma^{(x_a)}$, and checks the
+    `gamma[1]`, ..., `gamma[0]` so that `gamma[a]` is $\gamma^{(x_a)}$, and checks the
     64 Clifford relations exactly (whole numbers, no rounding).
 
     It also defines `check_record(condition, name, record)`. It does what
@@ -297,19 +297,19 @@ CELLS = [
     fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
         encoding="utf-8"))
     # gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 1, ..., 8.
-    gamma = {a: np.array(fixture["gamma"][a - 1], dtype=int) for a in range(1, 9)}
-    eta = {a: fixture["eta"][a - 1] for a in range(1, 9)}  # +1 space-like, -1 time-like
+    gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
+    eta = {a: fixture["eta"][a] for a in range(8)}  # +1 space-like, -1 time-like
     identity = np.eye(16, dtype=int)
-    say(f"eta = {[eta[a] for a in range(1, 9)]} for x1, ..., x8")
+    say(f"eta = {[eta[a] for a in range(8)]} for x0, ..., x7")
     clifford_ok = all(
         np.array_equal(gamma[a] @ gamma[b] + gamma[b] @ gamma[a],
                        2 * (eta[a] if a == b else 0) * identity)
-        for a in range(1, 9) for b in range(1, 9))  # all 64 pairs (a, b)
+        for a in range(8) for b in range(8))  # all 64 pairs (a, b)
     check(clifford_ok,
-          "the 64 Clifford relations hold exactly (eta = diag(+,+,+,-,-,-,-,+))")
+          "the 64 Clifford relations hold exactly (eta = diag(+,+,+,+,-,-,-,-))")
     '''),
     md(r"""
-    The next cell builds $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$
+    The next cell builds $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$
     and $B = -iC\gamma^{(x_4)}$ (in Python the imaginary unit is written `1j`), and
     compares $B$ with the matrix `B` stored in the same record (its real and imaginary
     parts are stored separately). Then it checks the four properties of $B$ that the
@@ -319,7 +319,7 @@ CELLS = [
     the signature $(8, 8)$. The cell confirms this by computing the eigenvalues.
     """),
     code(r'''
-    C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
+    C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
     B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4), a complex 16 x 16 matrix
     B_file = np.array(fixture["B"]["re"]) + 1j * np.array(fixture["B"]["im"])
     check_record(np.array_equal(B, B_file),
@@ -393,7 +393,7 @@ CELLS = [
     fig.colorbar(image, ax=list(axes), shrink=0.8, label="entry")
     save_figure(fig, "gamma4_c_and_b",
                 "Heat maps of three 16 by 16 matrices: the time gamma $\\gamma^{(x_4)}$ "
-                "(left), the matrix $C = \\gamma^{(x_8)}\\gamma^{(x_1)}\\gamma^{(x_2)}"
+                "(left), the matrix $C = \\gamma^{(x_0)}\\gamma^{(x_1)}\\gamma^{(x_2)}"
                 "\\gamma^{(x_3)}$ (middle) and the imaginary part of $B = -iC"
                 "\\gamma^{(x_4)}$ (right; its real part is zero). Horizontal axis: "
                 "column number, vertical axis: row number; red is $+1$, blue is $-1$, "
@@ -426,11 +426,11 @@ CELLS = [
 
 
     def frequency_squared(m, k):
-        """w^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2."""
+        """w^2 = m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - k7^2."""
         return m ** 2 + sum(eta[a] * k_a ** 2 for a, k_a in k.items())
 
 
-    example = {1: 0.3, 2: -1.1, 3: 0.7, 5: 0.4, 6: 0.2, 7: -0.9, 8: 1.3}  # any numbers
+    example = {0: 1.3, 1: 0.3, 2: -1.1, 3: 0.7, 5: 0.4, 6: 0.2, 7: -0.9}  # any numbers
     h_example = mode_hamiltonian(1.7, example)
     w2_example = frequency_squared(1.7, example)
     report("w^2 for m = 1.7 and the example momenta", f"{w2_example:.6f}")
@@ -440,7 +440,7 @@ CELLS = [
     '''),
     md(r"""
     A numerical example is not a proof. The next cell repeats the computation EXACTLY
-    with sympy, for symbols $m, k_1, k_2, k_3, k_5, k_6, k_7, k_8$ that stand for any
+    with sympy, for symbols $m, k_1, k_2, k_3, k_5, k_6, k_7, k_0$ that stand for any
     real numbers. It checks two identities for all values at once:
 
     - $h^2 = w^2 I_{16}$ (so every eigenvalue of $h$ is $+w$ or $-w$);
@@ -454,11 +454,11 @@ CELLS = [
     $\gamma^{(x_4)}$ and $\gamma^{(x_4)}\gamma^{(x_a)}$ anticommute with each other.
     """),
     code(r'''
-    g = {a: sp.Matrix(fixture["gamma"][a - 1]) for a in range(1, 9)}  # exact gammas
-    C_exact = g[8] * g[1] * g[2] * g[3]
+    g = {a: sp.Matrix(fixture["gamma"][a]) for a in range(8)}  # exact gammas
+    C_exact = g[0] * g[1] * g[2] * g[3]
     B_exact = -sp.I * C_exact * g[4]
     m = sp.Symbol("m", real=True)  # the mass: any real number
-    k_sym = {a: sp.Symbol(f"k{a}", real=True) for a in (1, 2, 3, 5, 6, 7, 8)}
+    k_sym = {a: sp.Symbol(f"k{a}", real=True) for a in (0, 1, 2, 3, 5, 6, 7)}
 
 
     def mode_hamiltonian_exact(mass, k):
@@ -515,7 +515,7 @@ CELLS = [
     ## 7. The three cases: real, zero and imaginary frequency
 
     Since $h^2 = w^2 I_{16}$, everything depends on the sign of
-    $w^2 = m^2 + k_s^2 - k_t^2$, where $k_s^2 = k_1^2 + k_2^2 + k_3^2 + k_8^2$ collects the
+    $w^2 = m^2 + k_s^2 - k_t^2$, where $k_s^2 = k_0^2 + k_1^2 + k_2^2 + k_3^2$ collects the
     space-like momenta and $k_t^2 = k_5^2 + k_6^2 + k_7^2$ the extra-time momenta:
 
     - $w^2 > 0$: the frequencies $\pm w$ are real and the wave oscillates;
@@ -661,7 +661,7 @@ CELLS = [
     md(r"""
     The Revision pairing record `Revision/pairing/pairing-theory.json` stores eight
     samples (entry `data`, `one_particle_flat`, `samples`): for each a mass $m$, a
-    momentum list $(k_1, \dots, k_8)$ (the entry $k_4$ is not used), the frequency $w$
+    momentum list $(k_0, \dots, k_7)$ (the entry $k_4$ is not used), the frequency $w$
     (written in the notation of the Wolfram Language, for example `Sqrt[2]`), the
     dimensions of the two eigenspaces and their Krein inertia. The next cell reads them,
     recomputes every number, prints one line per sample and checks that everything
@@ -675,7 +675,7 @@ CELLS = [
     say("   m  nonzero momenta         w      dims   inertia(+w)  inertia(-w)")
     for sample in samples:
         m_value, k_list = sample["m"], sample["k"]
-        k = {a: k_list[a - 1] for a in (1, 2, 3, 5, 6, 7, 8) if k_list[a - 1] != 0}
+        k = {a: k_list[a] for a in (0, 1, 2, 3, 5, 6, 7) if k_list[a] != 0}
         # "Sqrt[2]" (Wolfram notation) -> the number sqrt(2)
         w_recorded = float(sp.sympify(sample["w"].replace("Sqrt[", "sqrt(")
                                       .replace("]", ")")))
@@ -701,7 +701,7 @@ CELLS = [
     '''),
     md(r"""
     Two more recorded statements. The sympy pairing verifier uses the sample $m = 1$,
-    $k_1 = 2$, $k_8 = 2$ (so $w = \sqrt{1 + 4 + 4} = 3$). Its imaginary-frequency samples
+    $k_1 = 2$, $k_0 = 2$ (so $w = \sqrt{1 + 4 + 4} = 3$). Its imaginary-frequency samples
     are $m = 1$ with $k_5 = 2$ ($w^2 = -3$) and with $k_1 = 1$, $k_5 = 2$ ($w^2 = -2$):
     there both eigenspaces must be *neutral*, inertia $(0, 0, 8)$. For $m = 1$, $k_5 = 1$
     the frequency is zero: $h^2 = 0$, the range of $h$ has dimension 8, and since
@@ -709,12 +709,12 @@ CELLS = [
     $h$ is neutral as well. The next cell checks all of this.
     """),
     code(r'''
-    sample_3 = {1: 2, 8: 2}
+    sample_3 = {0: 2, 1: 2}
     inertias_3 = [krein_inertia(eigenspace(1, sample_3, s))[0] for s in (+1, -1)]
-    report("w for m = 1, k1 = 2, k8 = 2", f"{np.sqrt(frequency_squared(1, sample_3)):.6f}")
+    report("w for m = 1, k0 = 2, k1 = 2", f"{np.sqrt(frequency_squared(1, sample_3)):.6f}")
     say(f"inertia of the +w and -w eigenspaces: {inertias_3}")
     check_record(inertias_3 == [(4, 4, 0), (4, 4, 0)],
-                 "m = 1, k1 = 2, k8 = 2 (w = 3): inertia (4, 4) on both eigenspaces",
+                 "m = 1, k0 = 2, k1 = 2 (w = 3): inertia (4, 4) on both eigenspaces",
                  record="Revision/pairing/reports/python-pairing.json, check "
                         "Q.one_particle_Krein_inertia")
     neutral_ok = True
@@ -761,7 +761,7 @@ CELLS = [
     such numbers is 0 only with four of each: inertia $(4, 4)$.
 
     **Step (iii).** Turning on the extra-time momenta slowly at fixed $m, k_1, k_2, k_3,
-    k_8$ keeps $w^2$ positive as long as $k_t^2 < m^2 + k_s^2$, the projectors change
+    k_0$ keeps $w^2$ positive as long as $k_t^2 < m^2 + k_s^2$, the projectors change
     continuously, and the Krein form stays nondegenerate on their ranges by step (i).
     An eigenvalue of the Gram matrix could change sign only by passing through 0, which
     nondegeneracy forbids: the inertia stays $(4, 4)$ at every real frequency.
@@ -856,7 +856,8 @@ CELLS = [
     eigenspace side by side as the 16 columns of a matrix $W$, and draws the sizes of the
     entries of the Gram matrix $W^\dagger B W$ for three waves:
 
-    - the good-sector sample $m = 2$, $k = (1, 2, 0, 4)$ along $(x_1, x_2, x_3, x_8)$,
+    - the good-sector sample $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$ along $(x_0,
+    x_1, x_2, x_3)$,
       $w = 5$;
     - $m = 2$ with the extra-time momentum $k_5 = 1$: still a real frequency,
       $w = \sqrt3$;
@@ -868,7 +869,7 @@ CELLS = [
     growing wave has nonzero Krein form only with a decaying one.
     """),
     code(r'''
-    cases = [(2, {1: 1, 2: 2, 8: 4}, "$m = 2$, $k = (1, 2, 0, 4)$: $w = 5$"),
+    cases = [(2, {0: 4, 1: 1, 2: 2}, "$m = 2$, $k = (4, 1, 2, 0)$: $w = 5$"),
              (2, {5: 1}, "$m = 2$, $k_5 = 1$: $w = \\sqrt{3}$"),
              (1, {5: 2}, "$m = 1$, $k_5 = 2$: $w = i\\sqrt{3}$")]
     fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.2))
@@ -908,28 +909,28 @@ CELLS = [
 
     - $\Gamma h_m(k)\Gamma = h_{-m}(k)$, because $\Gamma$ anticommutes with
       $\gamma^{(x_4)}$ and commutes with every product $\gamma^{(x_4)}\gamma^{(x_a)}$;
-    - $\gamma^{(x_8)} h_m(k)\gamma^{(x_8)} = h_{-m}(R_8 k)$, where $R_8$ reverses the
-      hidden momentum $k_8$.
+    - $\gamma^{(x_0)} h_m(k)\gamma^{(x_0)} = h_{-m}(R_0 k)$, where $R_0$ reverses the
+      hidden momentum $k_0$.
 
-    Since $\Gamma^2 = I$ and $(\gamma^{(x_8)})^2 = I$, these are *similarity*
+    Since $\Gamma^2 = I$ and $(\gamma^{(x_0)})^2 = I$, these are *similarity*
     transformations: $h_{-m}$ has exactly the eigenvalues of $h_m$. The one-particle
     spectra of the two universes are IDENTICAL, not opposite. The next cell checks both
     identities exactly.
     """),
     code(r'''
-    Gamma_exact = g[8] * g[1] * g[2] * g[3] * g[4] * g[5] * g[6] * g[7]
+    Gamma_exact = g[0] * g[1] * g[2] * g[3] * g[4] * g[5] * g[6] * g[7]
     h_minus = mode_hamiltonian_exact(-m, k_sym)  # the same momenta, mass -m
     k_reflected = dict(k_sym)
-    k_reflected[8] = -k_sym[8]  # R_8: k8 -> -k8
+    k_reflected[0] = -k_sym[0]  # R_0: k0 -> -k0
     h_minus_reflected = mode_hamiltonian_exact(-m, k_reflected)
     chirality_ok = (Gamma_exact * h_sym * Gamma_exact - h_minus).applyfunc(
         sp.expand) == zero
-    mirror_ok = (g[8] * h_sym * g[8] - h_minus_reflected).applyfunc(sp.expand) == zero
+    mirror_ok = (g[0] * h_sym * g[0] - h_minus_reflected).applyfunc(sp.expand) == zero
     check_record(Gamma_exact * Gamma_exact == I16 and chirality_ok,
                  "exact: Gamma h_m(k) Gamma = h_-m(k)",
                  record="Revision/pairing/reports/python-pairing.json, check "
                         "Q.one_particle_maps")
-    check_record(mirror_ok, "exact: gamma^(x8) h_m(k) gamma^(x8) = h_-m(R_8 k)",
+    check_record(mirror_ok, "exact: gamma^(x0) h_m(k) gamma^(x0) = h_-m(R_0 k)",
                  record="Revision/pairing/reports/wolfram-pairing.json, check "
                         "Q_one_particle_maps")
     '''),
@@ -938,20 +939,21 @@ CELLS = [
     the two eigenspaces of $B$. In the good sector $B$ commutes with $h$, so the
     projector $P_B = \frac12(I + B)$ onto the eigenvalue $+1$ of $B$ (8 directions)
     commutes with $h$, and $h$ acts inside that 8-dimensional space. For the exact
-    example $m = 2$, $k = (1, 2, 0, 4)$, $w = 5$, the matrix $P_B h P_B$ must have the
+    example $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $w = 5$, the matrix $P_B h P_B$
+    must have the
     eigenvalue $+5$ four times, $-5$ four times and $0$ eight times (the 0 belongs to the
     other 8 directions, which $P_B$ removes). The next cell checks this and then draws
     the spectra of $h_m$ and $h_{-m}$ for $m = 2$ against $k_1$ and, at fixed $k_1 = 1$,
     against $m$ from $-3$ to $3$.
     """),
     code(r'''
-    h_sample = mode_hamiltonian(2, {1: 1, 2: 2, 8: 4})
+    h_sample = mode_hamiltonian(2, {0: 4, 1: 1, 2: 2})
     P_B = (np.eye(16) + B) / 2  # projector onto the eigenvalue +1 of B
     sector_values = np.round(np.linalg.eigvals(P_B @ h_sample @ P_B).real, 10)
     multiplicities = {v: int(np.sum(sector_values == v)) for v in (5.0, -5.0, 0.0)}
     say(f"eigenvalues of P_B h P_B and how often each occurs: {multiplicities}")
     check_record(multiplicities == {5.0: 4, -5.0: 4, 0.0: 8},
-                 "good sector, m = 2, k = (1, 2, 0, 4): on B = +1 energies +5, -5 (4 each)",
+                 "good sector, m = 2, k = (4, 1, 2, 0): on B = +1 energies +5, -5 (4 each)",
                  record="Revision/theory/reports/python-field-theory.json, check "
                         "good_sector_spectrum_and_B_sectors")
 
@@ -1012,7 +1014,7 @@ CELLS = [
 
     - PROVED (exactly, with sympy, for all real $m$ and momenta): the mode Hamiltonian
       of a plane wave obeys $h^2 = w^2 I_{16}$ with $w^2 = m^2 + k_1^2 + k_2^2 + k_3^2 +
-      k_8^2 - k_5^2 - k_6^2 - k_7^2$, and $Bh = h^\dagger B$, so the Krein form
+      k_0^2 - k_5^2 - k_6^2 - k_7^2$, and $Bh = h^\dagger B$, so the Krein form
       $u^\dagger B u$ (the charge) of every wave is conserved, also of a growing one;
       $h$ is Hermitian and commutes with $B$ exactly in the good sector.
     - PROVED (steps (i) and (ii) exactly, step (iii) by continuity; flat 4+4 space or
@@ -1022,7 +1024,7 @@ CELLS = [
       frequency, and the range of $h$ at zero frequency, is Krein-neutral. So the
       positive and negative charges are mixed half and half at every real frequency;
       the good sector does not remove this indefiniteness of the one-particle waves.
-    - PROVED (exactly): $\Gamma h_m\Gamma = h_{-m}$ and $\gamma^{(x_8)}h_m(k)\gamma^{(x_8)}
+    - PROVED (exactly): $\Gamma h_m\Gamma = h_{-m}$ and $\gamma^{(x_0)}h_m(k)\gamma^{(x_0)}
       = h_{-m}(R_8k)$: the universes of masses $+m$ and $-m$ have identical
       one-particle spectra.
     - REPRODUCED: the properties of $B$ (signature $(8, 8)$), the eight recorded

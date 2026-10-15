@@ -116,7 +116,7 @@ CELLS = [
       matrix $X$; it is real for every $\Psi$. A charge density is the time component
       of a current.
     - **Chiral projectors**: $P_\mp = \frac12(I \mp \Gamma)$ with the chirality $\Gamma =
-      \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$;
+      \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$;
       $P_-$ keeps components 1 to 8, $P_+$ components 9 to 16.
     - **Singular values**: for a matrix $M$ the square roots of the eigenvalues of
       $M^TM$. The number of zero singular values of $M$ is the number of independent
@@ -152,8 +152,8 @@ CELLS = [
     The canonical choice is $B = -iC\gamma^{(x_4)}$ ($r_- = r_+ = 1$, $c = -i$).
 
     **Which transformations keep $B$.** $B$ is $-i$ times the product of the five gammas
-    $\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}\gamma^{(x_4)}$. A gamma of
-    $x_1, x_2, x_3, x_4, x_8$ anticommutes with four of the five factors and commutes
+    $\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}\gamma^{(x_4)}$. A gamma of
+    $x_1, x_2, x_3, x_4, x_0$ anticommutes with four of the five factors and commutes
     with itself, so it commutes with $B$; a gamma of $x_5, x_6, x_7$ anticommutes with
     all five and so anticommutes with $B$. For an anti-Hermitian generator the Krein
     condition $S^\dagger B + BS = 0$ means $[B, S] = 0$; for a Hermitian one it means
@@ -213,23 +213,23 @@ CELLS = [
         "blue_grey_red", ["#184f95", "#f0efec", "#e34948"])
     fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
         encoding="utf-8"))
-    gamma = {a: np.array(fixture["gamma"][a - 1], dtype=float) for a in range(1, 9)}
-    eta = {a: fixture["eta"][a - 1] for a in range(1, 9)}
+    gamma = {a: np.array(fixture["gamma"][a], dtype=float) for a in range(8)}
+    eta = {a: fixture["eta"][a] for a in range(8)}
     I16 = np.eye(16)
-    C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]
-    Gamma = (gamma[8] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
+    C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]
+    Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
              @ gamma[6] @ gamma[7])
     B = -1j * (C @ gamma[4])
     P_minus, P_plus = (I16 - Gamma) / 2, (I16 + Gamma) / 2  # the chiral projectors
-    pairs = list(itertools.combinations(range(1, 9), 2))  # (1, 2), (1, 3), ..., (7, 8)
+    pairs = list(itertools.combinations(range(8), 2))  # (0, 1), (0, 2), ..., (6, 7)
     S = {(a, b): (gamma[a] @ gamma[b] - gamma[b] @ gamma[a]) / 4 for a, b in pairs}
     report("number of generators S^ab", len(S))
-    commuting = [a for a in range(1, 9) if np.array_equal(B @ gamma[a], gamma[a] @ B)]
-    anticommuting = [a for a in range(1, 9) if np.array_equal(B @ gamma[a], -gamma[a] @ B)]
+    commuting = [a for a in range(8) if np.array_equal(B @ gamma[a], gamma[a] @ B)]
+    anticommuting = [a for a in range(8) if np.array_equal(B @ gamma[a], -gamma[a] @ B)]
     say(f"B commutes with gamma^(x_a) for a = {commuting}, anticommutes for a = "
         f"{anticommuting}")
-    check_record(commuting == [1, 2, 3, 4, 8] and anticommuting == [5, 6, 7],
-                 "B commutes with the gammas of x1, x2, x3, x4, x8, anticommutes with x5-x7",
+    check_record(commuting == [0, 1, 2, 3, 4] and anticommuting == [5, 6, 7],
+                 "B commutes with the gammas of x0, x1, x2, x3, x4, anticommutes with x5-x7",
                  record="Revision/algebra/reports/python-algebra.json, check "
                         "B_gamma_relations")
     '''),
@@ -424,9 +424,9 @@ CELLS = [
     md(r"""
     The next cell draws the 28 generators as the squares above the diagonal of an
     $8 \times 8$ grid (row $a$, column $b$, $a < b$), coloured by their kind: blue for
-    the 9 that are unitary AND Krein-unitary (rotations among $x_1, x_2, x_3, x_8$ and
+    the 9 that are unitary AND Krein-unitary (rotations among $x_0, x_1, x_2, x_3$ and
     among $x_5, x_6, x_7$), green for the 12 that are Krein-unitary but not unitary
-    (boosts mixing $x_1, x_2, x_3, x_8$ with $x_5, x_6, x_7$), orange for the 7 that
+    (boosts mixing $x_0, x_1, x_2, x_3$ with $x_5, x_6, x_7$), orange for the 7 that
     involve $x_4$ and break the canonical anticommutator.
     """),
     code(r'''
@@ -436,7 +436,7 @@ CELLS = [
     colours = ListedColormap([BLUE, GREEN, ORANGE])
     fig, ax = plt.subplots(figsize=(6.0, 5.4))
     ax.imshow(grid, cmap=colours, vmin=-0.5, vmax=2.5)
-    names = [f"$x_{a}$" for a in range(1, 9)]
+    names = [f"$x_{a}$" for a in range(8)]
     ax.set_xticks(range(8), names)
     ax.set_yticks(range(8), names)
     ax.grid(False)
@@ -576,7 +576,7 @@ CELLS = [
     - REPRODUCED: exactly the 21 generators that do not involve $x_4$ are
       Krein-unitary (they generate Spin(4,3), the transformations that keep the
       canonical anticommutator), and for the 7 generators $S^{(x_4b)}$ the defect is
-      $iC\gamma^{(x_b)}$; of the 21, the 9 rotations among $x_1, x_2, x_3, x_8$ and among
+      $iC\gamma^{(x_b)}$; of the 21, the 9 rotations among $x_0, x_1, x_2, x_3$ and among
       $x_5, x_6, x_7$ are also unitary. COMPUTED: the counts 12 (anti-Hermitian) and 13
       (commuting with $B$).
     - The canonical structure singles out the time $x_4$, as $\Psi^\dagger\Psi$ does in

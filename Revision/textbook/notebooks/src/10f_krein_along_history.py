@@ -166,7 +166,7 @@ CELLS = [
 
     $$e^{-a_4}\sin^{-1/6}z\sum_{i=1}^{3}\gamma^{(x_i)}\partial_i\Psi + \gamma^{(x_4)}
     \partial_4\Psi + e^{a_4}\sin^{-1/6}z\sum_{t=5}^{7}\gamma^{(x_t)}\partial_t\Psi +
-    \tan z\,\gamma^{(x_8)}\partial_8\Psi + 3H\gamma^{(x_8)}\Psi = m\Psi .$$
+    \tan z\,\gamma^{(x_0)}\partial_0\Psi + 3H\gamma^{(x_0)}\Psi = m\Psi .$$
 
     Each derivative $\partial_a$ is divided by the scale factor $f_a$ of its direction.
     In the local-frame model take a wave $\Psi = u(x_4)\,e^{i(q_1x_1 + q_5x_5)}$ at one
@@ -307,12 +307,12 @@ CELLS = [
 
     The Revision theory record `Revision/theory/field-theory.json` stores the scale
     factors $f_a$ of the eight directions (formula key `vielbein_diagonal`) in the
-    notation of the Wolfram Language, for example `E^a4[x4]*Sin[6*H*x8]^(1/6)`. The
+    notation of the Wolfram Language, for example `E^a4[x4]*Sin[6*H*x0]^(1/6)`. The
     next cell translates this text into sympy (`E^a4[x4]` becomes `exp(a4)`,
-    `Sin[6*H*x8]` becomes `sin(z)`, `^` becomes `**`, curly brackets become square
+    `Sin[6*H*x0]` becomes `sin(z)`, `^` becomes `**`, curly brackets become square
     brackets), and checks EXACTLY that it equals $e^{a_4}\sin^{1/6}z$ for $x_1, x_2,
     x_3$, 1 for $x_4$, $e^{-a_4}\sin^{1/6}z$ for the extra times and $\cot z$ for
-    $x_8$. Then it defines the frame momenta $k_1 = q_1/f_1$ and $k_5 = q_5/f_5$ at
+    $x_0$. Then it defines the frame momenta $k_1 = q_1/f_1$ and $k_5 = q_5/f_5$ at
     the time $x_4$ and the hidden position $y$ (with $\sin^{1/6}z = e^{Hy}$).
     """),
     code(r'''
@@ -320,16 +320,16 @@ CELLS = [
         encoding="utf-8"))
     text = next(f["wl"] for f in theory["formulas"] if f["key"] == "vielbein_diagonal")
     a4_symbol, z_symbol = sp.symbols("a4 z", real=True)
-    translated = (text.replace("E^a4[x4]", "exp(a4)").replace("Sin[6*H*x8]", "sin(z)")
-                  .replace("Cot[6*H*x8]", "cot(z)").replace("^", "**")
+    translated = (text.replace("E^a4[x4]", "exp(a4)").replace("Sin[6*H*x0]", "sin(z)")
+                  .replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
                   .replace("{", "[").replace("}", "]"))
     f_record = sp.sympify(translated, locals={"a4": a4_symbol, "z": z_symbol})
     sixth_root = sp.sin(z_symbol) ** sp.Rational(1, 6)  # sin(z)^(1/6)
-    f_expected = ([sp.exp(a4_symbol) * sixth_root] * 3 + [sp.Integer(1)]
-                  + [sp.exp(-a4_symbol) * sixth_root] * 3 + [sp.cot(z_symbol)])
+    f_expected = ([sp.cot(z_symbol)] + [sp.exp(a4_symbol) * sixth_root] * 3
+                  + [sp.Integer(1)] + [sp.exp(-a4_symbol) * sixth_root] * 3)  # x0, ..., x7
     same = all(sp.simplify(r - e) == 0 for r, e in zip(f_record, f_expected))
-    say(f"scale factor of x1: {f_record[0]}")
-    say(f"scale factor of x5: {f_record[4]}")
+    say(f"scale factor of x1: {f_record[1]}")
+    say(f"scale factor of x5: {f_record[5]}")
     check_record(len(f_record) == 8 and same,
                  "the record's scale factors: e^a4 sin^(1/6) z (3-space), e^-a4 ... (x5-x7)",
                  record="Revision/theory/field-theory.json, formula vielbein_diagonal")
@@ -361,10 +361,10 @@ CELLS = [
     code(r'''
     fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
         encoding="utf-8"))
-    gamma = {a: np.array(fixture["gamma"][a - 1], dtype=float) for a in range(1, 9)}
-    C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
+    gamma = {a: np.array(fixture["gamma"][a], dtype=float) for a in range(8)}
+    C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
     B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4)
-    Gamma = (gamma[8] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
+    Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
              @ gamma[6] @ gamma[7])  # the chirality matrix
 
 
@@ -381,8 +381,8 @@ CELLS = [
         return m ** 2 + k1 ** 2 - k5 ** 2
 
 
-    g = {a: sp.Matrix(fixture["gamma"][a - 1]) for a in range(1, 9)}  # exact gammas
-    B_exact = -sp.I * g[8] * g[1] * g[2] * g[3] * g[4]
+    g = {a: sp.Matrix(fixture["gamma"][a]) for a in range(8)}  # exact gammas
+    B_exact = -sp.I * g[0] * g[1] * g[2] * g[3] * g[4]
     m_s, q1_s, q5_s, y_s = sp.symbols("m q1 q5 y", real=True)
     x4_s, H_s = sp.symbols("x4 H", positive=True)
     a4_s = A * H_s * x4_s  # the history, with the record's A = 1

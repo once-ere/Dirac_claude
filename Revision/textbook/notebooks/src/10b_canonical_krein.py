@@ -156,7 +156,7 @@ CELLS = [
     **The time-derivative term of the Lagrangian, line by line.** The Lagrangian of
     dirac16complex in the author's metric (the Revision theory record) is
     $\mathcal{L} = \cos z\,\big[\frac12\sum_a f_a^{-1}(\bar\Psi\gamma^{(x_a)}\partial_a
-    \Psi - \partial_a\bar\Psi\gamma^{(x_a)}\Psi) - mS - U(S)\big]$ with $z = 6Hx_8$,
+    \Psi - \partial_a\bar\Psi\gamma^{(x_a)}\Psi) - mS - U(S)\big]$ with $z = 6Hx_0$,
     $\bar\Psi = \Psi^\dagger C$ and $f_4 = 1$. Its only terms with a derivative in the
     time $x_4$ are
 
@@ -207,7 +207,7 @@ CELLS = [
     ## 5. The time-derivative kernel and the canonical rule, exactly
 
     The next cell reads the gammas, builds $C$, $B$ and the chirality $\Gamma =
-    \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ with numpy (whole numbers and the
+    \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ with numpy (whole numbers and the
     imaginary unit `1j`), and checks $C\gamma^{(x_4)} = iB$ and $B^{-1} = B$. Then it
     repeats the rule $iK^{-1} = B/\cos z$ with sympy, keeping $\cos z$ as a positive
     symbol `c`.
@@ -259,9 +259,9 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
         encoding="utf-8"))
-    gamma = {a: np.array(fixture["gamma"][a - 1], dtype=int) for a in range(1, 9)}
-    C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
-    Gamma = (gamma[8] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
+    gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
+    C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
+    Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
              @ gamma[6] @ gamma[7])  # the chirality matrix
     B = -1j * (C @ gamma[4])  # B = -i C gamma^(x4)
     check(np.array_equal(C @ gamma[4], 1j * B), "C gamma^(x4) = i B")
@@ -412,7 +412,7 @@ CELLS = [
                         "canonical_anticommutator_B")
 
     m_value = 1.3  # any mass and momenta (here with momenta along the extra times too)
-    k = {1: 0.4, 2: -0.7, 3: 0.2, 5: 0.9, 6: -0.3, 7: 0.5, 8: 1.1}
+    k = {0: 1.1, 1: 0.4, 2: -0.7, 3: 0.2, 5: 0.9, 6: -0.3, 7: 0.5}
     h_prime = m_value * C - 1j * sum(k_a * (C @ gamma[a]) for a, k_a in k.items())
     h_mode = -1j * m_value * gamma[4] - sum(k_a * (gamma[4] @ gamma[a])
                                              for a, k_a in k.items())
@@ -771,7 +771,7 @@ CELLS = [
     $\gamma^{(x_a)}$ and the eight reflections $P_a = \Gamma\gamma^{(x_a)}$. A map with
     $\sigma = -1$ turns the canonical rule into its negative: the chirality image
     $\Gamma\Psi$ of the pairing theorem T1 carries the Krein metric $-B$ (statement Q1
-    of the quantum reading), while the mirror map $\gamma^{(x_8)}$ of theorem T2 keeps
+    of the quantum reading), while the mirror map $\gamma^{(x_0)}$ of theorem T2 keeps
     $+B$.
 
     **Conjugation of the quantised field.** Charge conjugation is a MATRIX map. For the
@@ -798,7 +798,7 @@ CELLS = [
                          .read_text(encoding="utf-8"))
     rows = pairing["data"]["Krein_signs_M_B_Mdagger"]
     maps = {"Gamma": Gamma}
-    for a in range(1, 9):
+    for a in range(8):
         maps[f"gamma^x{a}"] = gamma[a]
         maps[f"P_x{a}"] = Gamma @ gamma[a]  # the reflection P_a = Gamma gamma^(x_a)
     signs, agree = [], True
@@ -820,8 +820,8 @@ CELLS = [
                  "the chirality image Gamma Psi carries the Krein metric -B",
                  record="Revision/pairing/reports/python-pairing.json, check "
                         "Q.image_krein_metric")
-    check_record(np.array_equal(gamma[8] @ B @ gamma[8].T, B),
-                 "the mirror image gamma^(x8) Psi keeps +B",
+    check_record(np.array_equal(gamma[0] @ B @ gamma[0].T, B),
+                 "the mirror image gamma^(x0) Psi keeps +B",
                  record="Revision/pairing/reports/python-pairing.json, check "
                         "Q.T2_image_keeps_B")
 
@@ -842,7 +842,7 @@ CELLS = [
     check(lead_verdicts == ["PASS"] * 12,
           "the lead-check report charge-conjugation-and-u1.json holds 12 checks, all PASS")
     mass_reversed = all(np.array_equal(Gamma @ gamma[a] @ Gamma, -gamma[a])
-                        for a in range(1, 9))
+                        for a in range(8))
     check(mass_reversed, "Gamma anticommutes with every gamma: the conjugation reverses m")
     '''),
     md(r"""
@@ -876,7 +876,7 @@ CELLS = [
                 "Left: the sign $\\sigma$ (vertical axis) with $MBM^\\dagger = \\sigma B$ "
                 "for the 17 matrix maps of the Revision pairing record (horizontal "
                 "axis: Gam is the chirality $\\Gamma$, g1 to g8 the gammas "
-                "$\\gamma^{(x_1)}$ to $\\gamma^{(x_8)}$, P1 to P8 the reflections "
+                "$\\gamma^{(x_0)}$ to $\\gamma^{(x_7)}$, P1 to P0 the reflections "
                 "$\\Gamma\\gamma^{(x_a)}$); blue bars keep the canonical rule "
                 "$\\{\\Psi, \\Psi^\\dagger\\} = B\\delta$, orange bars reverse it to "
                 "$-B$. Right: the two candidate conjugations $\\Psi \\to "
@@ -918,7 +918,7 @@ CELLS = [
       $\epsilon_n u_n^\dagger M u_n$, which equals $u_n^\dagger BMu_n$ only when the mode
       is an eigenvector of $B$.
     - PROVED: the chirality image $\Gamma\Psi$ carries $-B$, the mirror image
-      $\gamma^{(x_8)}\Psi$ keeps $+B$ (all 17 recorded signs reproduced); the
+      $\gamma^{(x_0)}\Psi$ keeps $+B$ (all 17 recorded signs reproduced); the
       conjugation of the quantised field that preserves the canonical rule is the
       MATRIX map $\Psi \to \Gamma\Psi^{\dagger T}$, which reverses the mass; the map
       with $M = I$ would reverse the sign of the rule.
