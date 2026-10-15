@@ -80,7 +80,7 @@ with `REVISION_NOTEBOOKS_FULL=1`.
 
 ## 5. The notebooks of the textbook "Universes in Pairs"
 
-The 89 notebooks `Revision/textbook/notebooks/<name>.ipynb` are not listed one by one: each has its own
+The 91 notebooks `Revision/textbook/notebooks/<name>.ipynb` are not listed one by one: each has its own
 execution-provenance file `Revision/textbook/notebooks/<name>.PROVENANCE.md`, written by the notebook
 tool from the builder `Revision/textbook/notebooks/src/<name>.py` (Revision/textbook/TEXTBOOK_SPEC.md,
 rule R6). `python Revision/textbook/tools/nbkit.py check Revision/textbook/notebooks/src/<name>.py`
@@ -88,3 +88,17 @@ executes a notebook again in a scratch folder and compares the notebook, every f
 provenance file byte for byte; `Revision/tests/test_universes_in_pairs_textbook.py` checks the book.
 `tests/test_execution_provenance.py` checks that every textbook notebook has its builder and its
 provenance file.
+
+## 6. The WolframScript sets of the metric with b4 (2026-10-14)
+
+The metric change of 2026-10-14 (the second function b4(x4) of the author's metric) added seven
+WolframScript files. Their record is part 9 of `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`. It
+lists the sha256 of every script and output, the commands in order (the extractor reads the pinned
+version of the author's notebook, commit b13373c), what each prints and writes, and the run of
+2026-10-15.
+
+| # | set | scripts | provenance file | latest record | checks | byte identity | run time | open discrepancies |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 28 | rev-metric-b4 (fast) | `Revision/metric_b4/wolfram/extract_author_b4_outputs.wls`<br>`Revision/metric_b4/wolfram/verify_metric_b4.wls`<br>`Revision/metric_b4/wolfram/vacuum_b4.wls`<br>`Revision/metric_b4/wolfram/consequences_b4.wls` | `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md` | part 9 (2026-10-15); parts 4 and 6 (2026-10-14) | 13 author cells read; 27 of 27; 6 of 6; 4 of 4 | yes (the run of 2026-10-15 reproduced the committed files of 2026-10-14 byte for byte, in the working tree) | 3 s, 82 s, 3 s, 3 s | none (what was never computed for general b4: part 7) |
+| 29 | rev-theory-b4 | `Revision/theory/wolfram/verify_field_theory_b4.wls`<br>`Revision/theory/wolfram/verify_field_theory_b4_emt.wls` | `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md` | part 9 (2026-10-15) | 19 of 19; the energy-momentum tensor 4 of 4 for C and 4 of 4 for G | yes (as row 28) | 6 s; 201 s (C) and 113 s (G) | three sections of `verify_field_theory.wls` were never derived for general b4 (part 7) |
+| 30 | rev-ks-b4 (fast) | `Revision/kohn_sham/theory/verify_ks_b4.wls` | `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md` | part 9 (2026-10-15) | 4 of 4 | yes (as row 28) | 4 s | none |

@@ -6,7 +6,54 @@ in this repository; nothing depends on the old session's scratch directory.
 
 ## 0. Exact restart procedure
 
-### 0.6 STATE 2026-10-15 04:30 (Claude stopped; GPT-6.1 takes over) — START HERE
+### 0.7 STATE 2026-10-15 07:00 PDT — START HERE
+
+The binding conventions of section 0.6 hold unchanged: X = {x0, ..., x7} with x0 the hidden
+direction first, never x8; the metric with b4(x4); no single calculation longer than 423 s;
+the user's modified `Dirac_Einstein-Lovelock_4+4_Nash.nb` is never staged by hand.
+
+**Done and pushed since 0.6 (origin/main equals HEAD).**
+- Every textbook chapter, 00 to 23, is in the author's coordinates x0..x7 and states where it
+  uses the general b4 and where the background b4 = 1. The commits:
+  - chapters: 12 efe22e7, 17 90e51f3, 18 882228c, 19 ef4eeb0, 20 8cb4588, 21 0b87507,
+    11 3130b6c, 22 be3411d, 23 96b20cc;
+  - TEXTBOOK_SPEC, 12a and 10d: faad793;
+  - the book and its PDF: 04f9bbb.
+  Every notebook was rebuilt under `timeout 423`. Chapter 23 was regenerated last
+  (`Revision/textbook/tools/chapter23/run_all.py --check`: byte-identical). The walk-through
+  audit finds no drift in any of the 91 notebooks.
+- Notebook 11a no longer runs the Rust GKD self-test, which takes 7 to 13 minutes. It prints the
+  command and reads the committed record `Revision/gkd_lovelock/results/gkd-selftest.json`.
+- Notebook 23a writes the full step table of the gate to `Revision/textbook/data/23a_gate_steps.csv`.
+  It prints only the long steps and the audits.
+- The gate has 85 steps, 4 of them long; the expected time is 8057 s in full and 6487 s with
+  `--fast`. Sections 0.4w and older say "65 steps": that was the gate of 2026-10-08, before the
+  b4 steps. The gate run of 2026-10-14 (`Revision/README.md`) covered every step except
+  gkd-rust-selftest; nothing of the Revision record outside the textbook has changed since.
+- The book `Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.md`:
+  - assembly: 13 of 13 checks;
+  - PDF: 6539 pages, 0 LaTeX warnings, both builds byte-identical;
+  - registered in `Revision/pdf-specifications.json` (sha256 7d935e3e...).
+  The first build had 18 warnings (`claude_failures.md`, E9). `tools/relabel/README.md` is
+  updated.
+- The seven WolframScript files of the metric with b4 were re-run on 2026-10-15. Their committed
+  outputs were reproduced byte for byte. They now have rows 28 to 30 in
+  `provenance/EXECUTION_PROVENANCE_INDEX.md` and their record is in section 9 of
+  `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`.
+- `claude_failures.md`, section E: every failure and overrun of this continuation.
+
+**Tests and verification of 2026-10-15:** section 0.7b below.
+
+**Still open (not done, with the reason).**
+- The general-b4 forms of three sections of `Revision/theory/wolfram/verify_field_theory.wls` were
+  never derived (`METRIC_CHANGE_PROVENANCE.md`, section 7). These are the Noether identities, the
+  exact solutions with conservation, and the canonical quantisation.
+- gkd-rust-selftest (900 s expected) cannot run within 423 s and was not re-run. The generalized
+  Kronecker delta it tests does not depend on the metric.
+- The serial byte-for-byte rebuild test of the textbook notebooks takes longer than 423 s; it is
+  replaced by `Revision/textbook/tools/relabel/check_all.py`.
+
+### 0.6 STATE 2026-10-15 04:30 (superseded by 0.7)
 
 **Binding conventions.**
 - The author's coordinates are {x0, x1, ..., x7}:

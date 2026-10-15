@@ -121,11 +121,88 @@ the good-sector Kohn-Sham problem is independent of b4: `verify_ks_b4.wls`).
 ## 8. Reproduction (repository root)
 
 ```text
-wolframscript -file Revision/metric_b4/wolfram/extract_author_b4_outputs.wls
+git show b13373c:Dirac_Einstein-Lovelock_4+4_Nash.nb > <scratch>/nb.nb
+wolframscript -file Revision/metric_b4/wolfram/extract_author_b4_outputs.wls <scratch>/nb.nb
 wolframscript -file Revision/metric_b4/wolfram/verify_metric_b4.wls
 python Revision/metric_b4/python/check_metric_b4.py
 wolframscript -file Revision/metric_b4/wolfram/vacuum_b4.wls
 wolframscript -file Revision/metric_b4/wolfram/consequences_b4.wls
 ```
 
-Each prints its checks and ends with a line `...=OK` or `N/N checks passed`; exit code 0.
+Each prints its checks and ends with a line `...=OK` or `N/N checks passed`; exit code 0.  The extractor
+needs the pinned version of the author's notebook (sha256 `4f2d83b5...`, commit b13373c).  It stops with an
+ERROR line and exit code 1 for any other version.  The file at the repository root has been the user's
+later edit since commit 7264cc2 (sha256 `74ccb822...` on 2026-10-15), so pass the pinned version as the
+argument, as above.
+
+## 9. Execution record of the WolframScript files of the metric with b4 (2026-10-15)
+
+This part is the execution-provenance record of rows 28 to 30 of `provenance/EXECUTION_PROVENANCE_INDEX.md`.
+It covers seven scripts: the four of `metric_b4/wolfram`, the two b4 verifiers of `theory/wolfram` and
+`kohn_sham/theory/verify_ks_b4.wls`.
+
+**The scripts (sha256, bytes).**
+
+| script | sha256 | bytes |
+| --- | --- | --- |
+| `Revision/metric_b4/wolfram/extract_author_b4_outputs.wls` | `0b173c337c98d75af0a2ccc2c287fbf15baf01156db1483e78383a89eb00ed80` | 5075 |
+| `Revision/metric_b4/wolfram/verify_metric_b4.wls` | `ec5a557e28da223ea49981b958a0bcb4614b9134720f1cd2bc603cad5e74d1d7` | 14314 |
+| `Revision/metric_b4/wolfram/vacuum_b4.wls` | `98ebcdaf919ba674e07374c9b0316d766c051209eb7527fc590efdd0f12f7c1d` | 7122 |
+| `Revision/metric_b4/wolfram/consequences_b4.wls` | `56812c29910e8e4845c709efc0355ce4f824329d631806cb482ad59edcd67ac7` | 5953 |
+| `Revision/theory/wolfram/verify_field_theory_b4.wls` | `38d7b35dd26a41375efc839d606a4c135c49f02daa1eb669fb14c2d592a6b4c9` | 16667 |
+| `Revision/theory/wolfram/verify_field_theory_b4_emt.wls` | `a987e1d86b459f7f6db4a888c889c56bd1a57417c8d210329776863f096cdd76` | 9194 |
+| `Revision/kohn_sham/theory/verify_ks_b4.wls` | `c8c7d880be57378599f2c56ba90397587922e004aca28c2c23b7c0c526f3a0d3` | 6407 |
+
+They load two packages:
+- `Revision/metric_b4/wolfram/MetricB4.wl` (sha256 `55d6eabb90771d5e615f3e0b6b1fe5d0e669af4cd88490b69baada1cd933a691`),
+  loaded by `verify_metric_b4.wls` and `vacuum_b4.wls`;
+- `Revision/theory/wolfram/RevisionFieldTheory.wl` (sha256
+  `313e617d6df3cad7f1d389d9d85681af176e655f0a103a015bdb5b99c4c4e88f`), loaded by `consequences_b4.wls`,
+  both theory verifiers and `verify_ks_b4.wls`.
+
+**How to run them, from nothing.** Install Wolfram Language 15.0.1 with WolframScript 1.14 (a licensed
+kernel), clone the repository into a short folder, and from the repository root run, in this order (each
+reads what the one before it wrote):
+
+```text
+git show b13373c:Dirac_Einstein-Lovelock_4+4_Nash.nb > <scratch>/nb.nb
+wolframscript -file Revision/metric_b4/wolfram/extract_author_b4_outputs.wls <scratch>/nb.nb
+wolframscript -file Revision/metric_b4/wolfram/verify_metric_b4.wls
+wolframscript -file Revision/metric_b4/wolfram/vacuum_b4.wls
+wolframscript -file Revision/metric_b4/wolfram/consequences_b4.wls
+wolframscript -file Revision/theory/wolfram/verify_field_theory_b4.wls
+wolframscript -file Revision/theory/wolfram/verify_field_theory_b4_emt.wls C
+wolframscript -file Revision/theory/wolfram/verify_field_theory_b4_emt.wls G
+wolframscript -file Revision/kohn_sham/theory/verify_ks_b4.wls
+```
+
+**What each prints, writes and takes.** The run of 2026-10-15 was made on the verification machine
+(Windows 11, 24 logical processors, Wolfram Language 15.0.1, WolframScript 1.14.0), in the working tree
+at commit 04f9bbb, one script at a time, each under `timeout 423`.
+
+| script | last printed lines | files written (sha256, bytes) | wall time 2026-10-15 |
+| --- | --- | --- | --- |
+| extract (pinned notebook) | `author_b4_outputs=OK cells=13` | `metric_b4/results/author-b4-outputs.json` (`0bc38e0b...`, 41671) | 3.2 s |
+| `verify_metric_b4.wls` | `checks=27 failed=0`, `metric_b4_wolfram=OK` | `metric_b4/results/metric-b4.json` (`7a57e570...`, 49637), `wolfram-metric-b4-report.json` (`be1ae4d9...`, 4763) | 81.9 s |
+| `vacuum_b4.wls` | `checks=6 failed=0`, `vacuum_b4=OK` | `metric_b4/results/vacuum-b4.json` (`7d974e0f...`, 2297) | 3.0 s |
+| `consequences_b4.wls` | `4/4 checks passed` | `metric_b4/results/consequences-b4.json` (`cc7fd53b...`, 1380) | 3.3 s |
+| `verify_field_theory_b4.wls` | `19/19 checks passed` | `theory/field-theory-b4.json` (`46e50598...`, 12477), `theory/reports/wolfram-field-theory-b4.json` (`c289397d...`, 5407) | 6.4 s |
+| `verify_field_theory_b4_emt.wls C` | `4/4 checks passed` | `theory/reports/wolfram-field-theory-b4-emt-C.json` (`57d699ec...`, 1321) | 200.9 s |
+| `verify_field_theory_b4_emt.wls G` | `4/4 checks passed` | `theory/reports/wolfram-field-theory-b4-emt-G.json` (`04e0080e...`, 1313) | 112.8 s |
+| `verify_ks_b4.wls` | `4/4 checks passed` | `kohn_sham/reports/ks-b4-wolfram.json` (`c8ed29ce...`, 1530) | 3.8 s |
+
+Every exit code was 0. The record of 2026-10-14 (section 4) gave the same check counts. The times are
+close too, except for the energy-momentum tensor: 185 s and 107 s then.
+
+**Side effects.** In the repository each script writes only the files listed (UTF-8, LF, no time
+stamps). Outside the repository: the Wolfram kernel processes of each run (ended by the script) and
+the scratch copy of the pinned notebook. Nothing else on the computer changes.
+
+**Verification (byte identity).** After the run `git status --porcelain Revision/metric_b4 Revision/theory
+Revision/kohn_sham` printed nothing. Every written file equals the committed file of the record of
+2026-10-14 byte for byte, which makes two runs, on two days, with identical outputs. These runs were
+made in the working tree, not in fresh clones. An earlier attempt the same morning was aborted:
+`claude_failures.md`, E10. It changed no committed file.
+
+**Open discrepancies.** None in these scripts. What was never computed for general b4 is listed in
+section 7.

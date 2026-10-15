@@ -109,3 +109,22 @@ C7 its batch, with the two audits, took 341 s).
 | D4 | Full book assembly and PDF, TEXTBOOK_SPEC.md, EXECUTION_PROVENANCE_INDEX rows for the b4 scripts, a fresh-clone verification | NOT DONE | See HANDOFF.md section 0.6, item 8. |
 
 Every notebook build and check of this window ran under `timeout 423`. The longest was 16a_reference_crosscheck, 193 s for the build together with its check; 11a's check took 362 s.
+
+D3 and D4 were done on 2026-10-15 (section E; HANDOFF.md section 0.7).
+
+## E. The continuation of 2026-10-15 (chapters 11, 12 and 17-23, the book, the PDF; times are PDT)
+
+| # | Calculation or step | Status | What happened / what was done |
+|---|---|---|---|
+| E1 | Notebook 11a, `nbkit.py build` (its cell ran the Rust GKD self-test `lovelock_gkd gkd-selftest --exhaustive-max 4`, which checks every pair of index lists up to length 4, 16777216 pairs at length 4), started 05:25 under `timeout 423` | KILLED at 423 s (exit 124), not completed | The self-test alone takes longer than the limit (the record: 7 to 13 minutes). |
+| E2 | The Rust self-test alone, started 05:39 under `timeout 300` to measure it | KILLED at 300 s, not completed | It had printed the PASS lines up to length 3; length 4 had not finished. |
+| E3 | Notebook 11a, `nbkit.py build` again, started 05:46 under `timeout 423` (my edit script for the fix had failed, so the old builder ran) | KILLED at 423 s (exit 124), not completed | Fixed: Notebook 11a no longer runs the self-test. It prints the command to repeat it and reads the committed record `Revision/gkd_lovelock/results/gkd-selftest.json` (verdict SUCCESS; lengths 1 to 9 with 0 mismatches; length 4 exhaustive). Its build now takes 17 s, its check 7.6 s. |
+| E4 | Two edit scripts written as bash heredocs (the 11a fix and a chapter 11 text fix) | FAILED | The heredoc changed backslashes (`\rho` became a carriage return plus `ho`). `strict_replace` stopped both before anything was written. Both scripts were rewritten with a file-writing tool. Rule: never write text with backslashes through a heredoc. |
+| E5 | Python fix scripts with `'''` inside an `r'''` string | FAILED (syntax error, nothing written) | Rewritten with `r"""` strings or placeholders. |
+| E6 | The label scanners `scan_old.py` and `risk_scan.py` | MISSED labels | Old labels glued to a digit or a letter (`2p_8`, `6q_8`, `ip_8`, check names with `2x8`, `e_{88}`, `dx8`, `M_8`) were found later by grep and fixed in the chapter commits. The README of the relabel tools now names this gap. |
+| E7 | Relabel artifacts in the chapter text, not caught by any scanner | FOUND BY READING, fixed | `f_0f_2\cdots f_7`; "c = x_0 ... x_6"; "x_0x_1 to x_7x_0"; diagonal lists said to be in the order x0..x7 that listed x0 last (chapters 11 and 21, the markdown of 12a); "P_{x_0}, ..., P_{x_3} and P_{x_7}"; and in chapter 07 row 1 of the frame gammas was still listed in the old order (x1..x7, x0). Fixed in the chapter commits and in 04f9bbb. |
+| E8 | Builders that failed after the relabel, because of literal lists in the old order | FAILED at build, fixed | 18a product signs; 18c the lists LAM and k; 21b the Omega record text; 11b counters (8 against 10 components); 23a printed more than 80 lines (now it writes `Revision/textbook/data/23a_gate_steps.csv` and prints only the long steps and the audits). |
+| E9 | The first PDF build of the whole book (06:16, 284 s) | FAILED: 18 LaTeX warnings (9 Overfull displays, 9 Underfull lines), not registered | The relabel and the b4 text had made 9 displays too wide and 9 lines underfull. Fixed in 04f9bbb. The second build (06:29, 293 s) passed 11 of 11 checks: 0 warnings, 6539 pages, both builds byte-identical, registered. |
+| E10 | The light b4 WolframScript re-run (06:30): I edited its bash runner while bash was executing it | ABORTED, re-run | The task was stopped and the `wolframscript` tree it had started killed (`taskkill /T`). That stray run had already finished two short scripts, out of order. No committed file changed (`git status` clean). Everything was re-run from a frozen copy of the runner (section 9 of `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). |
+
+No calculation of this continuation waited longer than 423 s, apart from E1 and E3, which were killed at 423 s.

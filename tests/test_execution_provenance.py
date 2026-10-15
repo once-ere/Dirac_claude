@@ -118,6 +118,21 @@ class FastSetsReproduce(unittest.TestCase):
     def test_rev_pairing_ks(self):
         self.run_and_compare([["wolframscript", "-file", "Revision/pairing/kohn_sham/wolfram/verify_t3.wls"]])
 
+    def test_rev_metric_b4(self):
+        # the extractor reads the pinned version of the author's notebook (commit b13373c), not the file at the root
+        notebook = ROOT / SCRATCH / "Dirac_Einstein-Lovelock_4+4_Nash.nb"
+        notebook.parent.mkdir(parents=True, exist_ok=True)
+        notebook.write_bytes(subprocess.run(["git", "show", "b13373c:Dirac_Einstein-Lovelock_4+4_Nash.nb"], cwd=ROOT,
+                                            capture_output=True, check=True).stdout)
+        self.run_and_compare([["wolframscript", "-file", "Revision/metric_b4/wolfram/extract_author_b4_outputs.wls",
+                               str(notebook)],
+                              ["wolframscript", "-file", "Revision/metric_b4/wolfram/verify_metric_b4.wls"],
+                              ["wolframscript", "-file", "Revision/metric_b4/wolfram/vacuum_b4.wls"],
+                              ["wolframscript", "-file", "Revision/metric_b4/wolfram/consequences_b4.wls"]])
+
+    def test_rev_ks_b4(self):
+        self.run_and_compare([["wolframscript", "-file", "Revision/kohn_sham/theory/verify_ks_b4.wls"]])
+
     @unittest.skipUnless((ROOT / "dirac-main").is_dir(), "the private folder dirac-main/ is not present")
     def test_old_algebra(self):
         self.run_and_compare([["wolframscript", "-file", "scripts/verify_dirac16complex_algebra.wls",
