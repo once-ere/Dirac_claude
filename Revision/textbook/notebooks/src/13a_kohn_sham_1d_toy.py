@@ -159,7 +159,7 @@ CELLS = [
     $w(x, x') = g_c\,\delta(x - x')$ of strength $g_c = 2$. The exact ground state would
     be a wave function of eight variables; Kohn-Sham theory replaces it by orbitals of
     one variable. (In this notebook the letter $x$ is the position on the line of the
-    toy model; it is not one of the author's spacetime coordinates $x_1, \dots, x_8$.)
+    toy model; it is not one of the author's spacetime coordinates $x_0, \dots, x_7$.)
 
     **The Kohn-Sham equations of this model.** The orbitals obey
 

@@ -175,8 +175,8 @@ CELLS = [
     matrix $\rho(x, x') = \sum_{a\,occupied}\phi_a(x)\phi_a^*(x')$, where $x$ stands for
     the position $\mathbf r$ and the label $\sigma$ together (this $x$, and the $x$ of
     the line in section 10, is not one of the author's spacetime coordinates
-    $x_1, \dots, x_8$; those appear only in section 12, as the labels of the gamma
-    matrices $\gamma^{(x1)}, \dots, \gamma^{(x8)}$), the interaction energy is
+    $x_0, \dots, x_7$; those appear only in section 12, as the labels of the gamma
+    matrices $\gamma^{(x0)}, \dots, \gamma^{(x7)}$), the interaction energy is
     $E_H + E_x$ with
 
     $$E_H = \tfrac12\iint n(x)\,w(x,x')\,n(x')\,dx\,dx', \qquad
@@ -731,9 +731,9 @@ CELLS = [
         return sp.Matrix([[sp.Rational(str(entry)) for entry in row] for row in rows])
 
 
-    gamma = [exact_matrix(rows) for rows in gamma_record["gamma"]]  # x1 .. x8
-    C = gamma[7] * gamma[0] * gamma[1] * gamma[2]  # C = g(x8) g(x1) g(x2) g(x3)
-    B = -sp.I * C * gamma[3]  # B = -i C g(x4)
+    gamma = [exact_matrix(rows) for rows in gamma_record["gamma"]]  # x0 .. x7
+    C = gamma[0] * gamma[1] * gamma[2] * gamma[3]  # C = g(x0) g(x1) g(x2) g(x3)
+    B = -sp.I * C * gamma[4]  # B = -i C g(x4)
     B_record = (exact_matrix(gamma_record["B"]["re"])
                 + sp.I * exact_matrix(gamma_record["B"]["im"]))
     check(C == exact_matrix(gamma_record["C"]) and B == B_record,
@@ -833,7 +833,7 @@ CELLS = [
     save_figure(fig, "dirac_matrices",
                 "Heat maps of the $16 \\times 16$ matrices of the contact interaction "
                 "of dirac16complex, built exactly from the author's gamma matrices of "
-                "the Revision record: the vertex $C = \\gamma^{(x8)}\\gamma^{(x1)}"
+                "the Revision record: the vertex $C = \\gamma^{(x0)}\\gamma^{(x1)}"
                 "\\gamma^{(x2)}\\gamma^{(x3)}$ (left; red $+1$, blue $-1$, grey 0) "
                 "and the imaginary part of $B = -i\\,C\\gamma^{(x4)}$ (right); rows and "
                 "columns are the 16 spinor components. Each row of either matrix has "
@@ -950,8 +950,8 @@ CELLS = [
     - the report on the source conditions of the $a_4$ field equations: the checks
       ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition
       (the Kohn-Sham states violate the condition $p_3 + p_t = 2p_8$ that the $a_4$
-      equations put on their source) and ks_profiles_depend_on_x8 (their profiles
-      depend on the hidden coordinate $x_8$) are PASS;
+      equations put on their source) and ks_profiles_depend_on_x0 (their profiles
+      depend on the hidden coordinate $x_0$) are PASS;
     - the pairing theorem T3 (the Kohn-Sham universes of mass $+M$ and $-M$ have equal
       energies and energy-momentum tensors) is checked by two independent programs, a
       Python one and a Wolfram one; ten checks of the theorem that are present in
@@ -977,9 +977,9 @@ CELLS = [
     source = verdicts(SOURCE)
     check(all(source[name] == "PASS" for name in
               ("ks_history_is_a_prescribed_background",
-               "ks_profiles_violate_algebraic_condition", "ks_profiles_depend_on_x8")),
+               "ks_profiles_violate_algebraic_condition", "ks_profiles_depend_on_x0")),
           f"{SOURCE}: ks_history_is_a_prescribed_background, "
-          "ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8 are PASS")
+          "ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x0 are PASS")
     T3_CHECKS = ("block_hamiltonian_map", "ode_map", "tip_condition_map",
                  "brane_parities_exchanged", "orbital_densities", "mean_field_map",
                  "energies_and_emt_profiles_equal", "exact_k0_spectra",

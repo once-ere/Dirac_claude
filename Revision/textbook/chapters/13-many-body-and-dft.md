@@ -14,7 +14,7 @@ This chapter builds, from zero, the tool with which Chapters 14 to 16 compute th
 
 **Units.** In this chapter Planck's constant divided by $2\pi$ and the particle mass are set to 1 ($\hbar = m = 1$), so the kinetic-energy operator of one particle on a line is $-\tfrac12\,d^2/dx^2$. Each notebook states its other units (the hopping $t$ of the two-site model, the trap frequency of Notebook 13a). A temperature is measured as an energy (Boltzmann's constant is 1).
 
-**Symbols with a local meaning.** Several letters mean something else in this chapter than in the rest of the book. (i) $x$ is the position of a particle, or a point of a grid, or (in Section 13.21) the excess of charge on one site; it is never one of the author's spacetime coordinates $x_1, \dots, x_8$, which appear only in Sections 13.16 and 13.37 and are named there. (ii) $\Psi$ is the wave function of $N$ particles, except in Sections 13.16 and 13.37, where it is the dirac16complex field, as those sections say. (iii) $\rho$ is a density matrix (Section 13.4) or a density operator (Section 13.26), not an energy density. (iv) $t$ is the hopping between two sites, $T$ the temperature and $T_s$ a kinetic energy. (v) $S$ is a one-body quantity $\sum V_{pq}a_p^\dagger a_q$ in Section 13.4, the symmetric two-site state in Section 13.7, the scalar density of dirac16complex in Sections 13.16 to 13.20 and 13.37, and the entropy in Sections 13.26 to 13.31. (vi) $U$ is the repulsion of two electrons on one site in the two-site model, $U_{kp}$ the entries of a unitary matrix, and $U(S)$ the interaction potential of dirac16complex in Section 13.16. (vii) $g$ counts the internal labels of a particle and $g_c$ is the strength of a contact interaction; neither is the metric. (viii) $H$ and $\hat H$ are Hamiltonians (energy operators); the author's constant $H$ of the metric appears only in Section 13.37.
+**Symbols with a local meaning.** Several letters mean something else in this chapter than in the rest of the book. (i) $x$ is the position of a particle, or a point of a grid, or (in Section 13.21) the excess of charge on one site; it is never one of the author's spacetime coordinates $x_0, \dots, x_7$, which appear only in Sections 13.16 and 13.37 and are named there. (ii) $\Psi$ is the wave function of $N$ particles, except in Sections 13.16 and 13.37, where it is the dirac16complex field, as those sections say. (iii) $\rho$ is a density matrix (Section 13.4) or a density operator (Section 13.26), not an energy density. (iv) $t$ is the hopping between two sites, $T$ the temperature and $T_s$ a kinetic energy. (v) $S$ is a one-body quantity $\sum V_{pq}a_p^\dagger a_q$ in Section 13.4, the symmetric two-site state in Section 13.7, the scalar density of dirac16complex in Sections 13.16 to 13.20 and 13.37, and the entropy in Sections 13.26 to 13.31. (vi) $U$ is the repulsion of two electrons on one site in the two-site model, $U_{kp}$ the entries of a unitary matrix, and $U(S)$ the interaction potential of dirac16complex in Section 13.16. (vii) $g$ counts the internal labels of a particle and $g_c$ is the strength of a contact interaction; neither is the metric. (viii) $H$ and $\hat H$ are Hamiltonians (energy operators); the author's constant $H$ of the metric appears only in Section 13.37.
 
 ### 13.2 One quantum particle: states, operators and the variational principle
 
@@ -1483,15 +1483,15 @@ which is negative (the unpolarised gas is unstable) exactly when $g_c\,n^{1/3} >
 
 ### 13.16 The exchange of the 16-component field dirac16complex
 
-This section carries Section 13.15 over to the field of this book. In this section and in Section 13.37, $\Psi$ is the dirac16complex field and $x_1, \dots, x_8$ are the author's coordinates: $x_1, x_2, x_3$ ordinary space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times, which deflate exponentially, and $x_8$ the hidden direction.
+This section carries Section 13.15 over to the field of this book. In this section and in Section 13.37, $\Psi$ is the dirac16complex field and $x_0, \dots, x_7$ are the author's coordinates: $x_1, x_2, x_3$ ordinary space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times, which deflate exponentially, and $x_0$ the hidden direction.
 
-**The matrices.** The author's gamma matrices $\gamma^{(x1)}, \dots, \gamma^{(x8)}$ are eight REAL $16 \times 16$ matrices (entries $0$ and $\pm1$) with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}\,1$, $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order $x_1, \dots, x_8$ (Chapter 4 builds them; `Revision/algebra/reports/wolfram-algebra.json`, checks reality and Clifford_relation, both PASS, as Notebook 13b checks in In [21]). So each space-like gamma squares to $+1$, $\gamma^{(x4)}$ squares to $-1$, and two different gammas anticommute. From them,
+**The matrices.** The author's gamma matrices $\gamma^{(x0)}, \dots, \gamma^{(x7)}$ are eight REAL $16 \times 16$ matrices (entries $0$ and $\pm1$) with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}\,1$, $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$ (Chapter 4 builds them; `Revision/algebra/reports/wolfram-algebra.json`, checks reality and Clifford_relation, both PASS, as Notebook 13b checks in In [21]). So each space-like gamma squares to $+1$, $\gamma^{(x4)}$ squares to $-1$, and two different gammas anticommute. From them,
 
 $$
-C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}, \qquad B = -i\,C\,\gamma^{(x4)} .
+C = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}, \qquad B = -i\,C\,\gamma^{(x4)} .
 $$
 
-$C$ is real and symmetric (check C_real_symmetric of the same report, PASS); $B$ is the indefinite (Krein) form of Chapter 10, with the number density $n = \langle\Psi^\dagger B\Psi\rangle$. Four facts, line by line. (a) $C^2 = 1$: in $C^2 = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$ move the second $\gamma^{(x8)}$ to the left past three gammas (sign $(-1)^3$) and use $(\gamma^{(x8)})^2 = 1$; then move the second $\gamma^{(x1)}$ past two (sign $+1$), then the second $\gamma^{(x2)}$ past one (sign $-1$); the signs multiply to $(-1)(+1)(-1) = +1$ and every square is $+1$. (b) $\gamma^{(x4)}$ commutes with $C$: moving it through the four factors of $C$ costs four sign changes, $(-1)^4 = 1$. (c) $B^2 = 1$: $B^2 = (-i)^2\,C\gamma^{(x4)}C\gamma^{(x4)} = -\,C\,C\,\gamma^{(x4)}\gamma^{(x4)} = -(+1)(-1) = 1$, by (b), (a) and $(\gamma^{(x4)})^2 = -1$. (d) $CBC = -i\,C\,C\,\gamma^{(x4)}C = -i\,\gamma^{(x4)}C = -i\,C\gamma^{(x4)} = B$ by (a) and (b); and $\mathrm{Tr}(BC) = -i\,\mathrm{Tr}(C\gamma^{(x4)}C) = -i\,\mathrm{Tr}(\gamma^{(x4)}C^2) = -i\,\mathrm{Tr}\,\gamma^{(x4)} = 0$, using that a trace does not change when the first factor is moved to the end, and that the trace of a single gamma vanishes ($\mathrm{Tr}\,\gamma^{(x4)} = \mathrm{Tr}(\gamma^{(x4)}\gamma^{(x1)}\gamma^{(x1)}) = -\mathrm{Tr}(\gamma^{(x1)}\gamma^{(x4)}\gamma^{(x1)}) = -\mathrm{Tr}(\gamma^{(x4)}\gamma^{(x1)}\gamma^{(x1)}) = -\mathrm{Tr}\,\gamma^{(x4)}$). Finally $\mathrm{Tr}\,1 = 16$.
+$C$ is real and symmetric (check C_real_symmetric of the same report, PASS); $B$ is the indefinite (Krein) form of Chapter 10, with the number density $n = \langle\Psi^\dagger B\Psi\rangle$. Four facts, line by line. (a) $C^2 = 1$: in $C^2 = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$ move the second $\gamma^{(x0)}$ to the left past three gammas (sign $(-1)^3$) and use $(\gamma^{(x0)})^2 = 1$; then move the second $\gamma^{(x1)}$ past two (sign $+1$), then the second $\gamma^{(x2)}$ past one (sign $-1$); the signs multiply to $(-1)(+1)(-1) = +1$ and every square is $+1$. (b) $\gamma^{(x4)}$ commutes with $C$: moving it through the four factors of $C$ costs four sign changes, $(-1)^4 = 1$. (c) $B^2 = 1$: $B^2 = (-i)^2\,C\gamma^{(x4)}C\gamma^{(x4)} = -\,C\,C\,\gamma^{(x4)}\gamma^{(x4)} = -(+1)(-1) = 1$, by (b), (a) and $(\gamma^{(x4)})^2 = -1$. (d) $CBC = -i\,C\,C\,\gamma^{(x4)}C = -i\,\gamma^{(x4)}C = -i\,C\gamma^{(x4)} = B$ by (a) and (b); and $\mathrm{Tr}(BC) = -i\,\mathrm{Tr}(C\gamma^{(x4)}C) = -i\,\mathrm{Tr}(\gamma^{(x4)}C^2) = -i\,\mathrm{Tr}\,\gamma^{(x4)} = 0$, using that a trace does not change when the first factor is moved to the end, and that the trace of a single gamma vanishes ($\mathrm{Tr}\,\gamma^{(x4)} = \mathrm{Tr}(\gamma^{(x4)}\gamma^{(x1)}\gamma^{(x1)}) = -\mathrm{Tr}(\gamma^{(x1)}\gamma^{(x4)}\gamma^{(x1)}) = -\mathrm{Tr}(\gamma^{(x4)}\gamma^{(x1)}\gamma^{(x1)}) = -\mathrm{Tr}\,\gamma^{(x4)}$). Finally $\mathrm{Tr}\,1 = 16$.
 
 **The interaction and Wick's theorem.** The Kohn-Sham model of Chapter 14 has the contact interaction $U(S) = \tfrac{\lambda}{2}S^2$ with the scalar density $S = \bar\Psi\Psi = \Psi^\dagger C\,\Psi$ (normal ordered, $\lambda > 0$ repulsive). Its expectation values follow the rule $\langle\Psi^\dagger M\Psi\rangle = \mathrm{Tr}(M\rho)$ with a local $16 \times 16$ one-body matrix $\rho$ (Chapter 10), and the identity of Section 13.4 with the vertex $V = C$ gives, per unit volume,
 
@@ -2057,9 +2057,9 @@ def exact_matrix(rows):
 `sympy` computes with exact fractions and symbols. The Revision record `Revision/algebra/gammas.json` is read as text (`read_text`) and turned into Python lists and dictionaries by `json.loads`. `exact_matrix` turns a list of rows of numbers into a sympy matrix of exact fractions: `str(entry)` writes each number as text and `sp.Rational` reads that text as a fraction, so no rounding can occur.
 
 ```python
-gamma = [exact_matrix(rows) for rows in gamma_record["gamma"]]  # x1 .. x8
-C = gamma[7] * gamma[0] * gamma[1] * gamma[2]  # C = g(x8) g(x1) g(x2) g(x3)
-B = -sp.I * C * gamma[3]  # B = -i C g(x4)
+gamma = [exact_matrix(rows) for rows in gamma_record["gamma"]]  # x0 .. x7
+C = gamma[0] * gamma[1] * gamma[2] * gamma[3]  # C = g(x0) g(x1) g(x2) g(x3)
+B = -sp.I * C * gamma[4]  # B = -i C g(x4)
 B_record = (exact_matrix(gamma_record["B"]["re"])
             + sp.I * exact_matrix(gamma_record["B"]["im"]))
 check(C == exact_matrix(gamma_record["C"]) and B == B_record,
@@ -2068,7 +2068,7 @@ check(C * C == sp.eye(16) and B * B == sp.eye(16) and C == C.T,
       "C is symmetric with C^2 = 1, and B^2 = 1")
 ```
 
-The record lists the eight gammas in the order $x_1, \dots, x_8$, so `gamma[7]` is $\gamma^{(x8)}$ and `gamma[3]` is $\gamma^{(x4)}$; for sympy matrices `*` is the matrix product and `sp.I` is $i$. The first check compares $C$ and $B$ with the matrices stored in the same record ($B$ is stored as its real and imaginary parts); the second checks exactly the facts $C^2 = 1$, $B^2 = 1$ and $C$ symmetric (`C.T` is the transpose) of Section 13.16.
+The record lists the eight gammas in the order $x_0, \dots, x_7$, so `gamma[k]` is $\gamma^{(xk)}$: `gamma[0]` is $\gamma^{(x0)}$ and `gamma[4]` is $\gamma^{(x4)}$; for sympy matrices `*` is the matrix product and `sp.I` is $i$. The first check compares $C$ and $B$ with the matrices stored in the same record ($B$ is stored as its real and imaginary parts); the second checks exactly the facts $C^2 = 1$, $B^2 = 1$ and $C$ symmetric (`C.T` is the transpose) of Section 13.16.
 
 **In [17], the exchange of the uniform gas, exactly.**
 
@@ -2324,12 +2324,12 @@ SOURCE = "Revision/field_equations_a4/reports/ks-source-conditions.json"
 source = verdicts(SOURCE)
 check(all(source[name] == "PASS" for name in
           ("ks_history_is_a_prescribed_background",
-           "ks_profiles_violate_algebraic_condition", "ks_profiles_depend_on_x8")),
+           "ks_profiles_violate_algebraic_condition", "ks_profiles_depend_on_x0")),
       f"{SOURCE}: ks_history_is_a_prescribed_background, "
-      "ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8 are PASS")
+      "ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x0 are PASS")
 ```
 
-The report on the source conditions of the $a_4$ field equations must have the three checks named in Section 13.38 as PASS: the history is a prescribed background, the Kohn-Sham profiles violate the algebraic condition $p_3 + p_t = 2p_8$, and they depend on the hidden coordinate $x_8$.
+The report on the source conditions of the $a_4$ field equations must have the three checks named in Section 13.38 as PASS: the history is a prescribed background, the Kohn-Sham profiles violate the algebraic condition $p_3 + p_t = 2p_8$, and they depend on the hidden coordinate $x_0$.
 
 ```python
 T3_CHECKS = ("block_hamiltonian_map", "ode_map", "tip_condition_map",
@@ -4669,7 +4669,7 @@ The same lines as In [19] of Notebook 13c (Section 13.14), with the ten figure n
 
 ### 13.37 From the toy models to dirac16complex
 
-This section says which ideas of the chapter the Kohn-Sham model of dirac16complex (Chapters 14 to 16) uses, and what is different there. As in Section 13.16, $x_1, x_2, x_3$ are the directions of ordinary space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times, which deflate exponentially (scale factor $e^{-a_4}\sin^{1/6}z$ while ordinary space inflates with $e^{a_4}\sin^{1/6}z$), and $x_8$ the hidden direction, $z = 6Hx_8$, with the author's constant $H > 0$.
+This section says which ideas of the chapter the Kohn-Sham model of dirac16complex (Chapters 14 to 16) uses, and what is different there. As in Section 13.16, $x_1, x_2, x_3$ are the directions of ordinary space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times, which deflate exponentially (scale factor $e^{-a_4}\sin^{1/6}z$ while ordinary space inflates with $e^{a_4}\sin^{1/6}z$), and $x_0$ the hidden direction, $z = 6Hx_0$, with the author's constant $H > 0$.
 
 **What carries over.**
 
@@ -4725,7 +4725,7 @@ This section says which ideas of the chapter the Kohn-Sham model of dirac16compl
 
 **HYPOTHESIS:** none is used in this chapter. **OPEN:** an exact density functional for the quantised dirac16complex field, the justification of its filling convention, and its time-dependent (non-adiabatic) problem (Section 13.37).
 
-**Where the background status is recorded.** That the history $a_4 = AHx_4$ is a prescribed background, not a solution of the $a_4$ field equations with the Kohn-Sham source, is recorded in the Revision report `Revision/field_equations_a4/reports/ks-source-conditions.json` by its checks ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8, each with the verdict PASS (Notebook 13b, In [22], reads the report and checks the three verdicts).
+**Where the background status is recorded.** That the history $a_4 = AHx_4$ is a prescribed background, not a solution of the $a_4$ field equations with the Kohn-Sham source, is recorded in the Revision report `Revision/field_equations_a4/reports/ks-source-conditions.json` by its checks ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x0, each with the verdict PASS (Notebook 13b, In [22], reads the report and checks the three verdicts).
 
 ### 13.39 Exercises
 
