@@ -4,6 +4,15 @@ Written by the lead from scratch; they import no other Revision code (they read 
 `Revision/algebra/gammas.json`).  They check, independently of the Wolfram and sympy records of
 `Revision/theory`, `Revision/field_equations_a4` and `Revision/kohn_sham`, three facts those records use:
 
+**Metric.** All three use the author's metric at b4 = 1 (the background of the record; the coordinates are the
+author's x0..x7).  For the metric of 2026-10-14 with a general b4(x4) the corresponding statements are recorded
+elsewhere (`Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`, section 6): the divergence of a diagonal source gains
+-(3/2)(b4'/b4)(rho + p_t) in the x4 component and gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4)
+(`Revision/theory/reports/wolfram-field-theory-b4.json`); the Einstein tensor gains the off-diagonal components
+G^x4_x0 and G^x0_x4, proportional to b4' (`Revision/metric_b4/results/wolfram-metric-b4-report.json`); the spin
+connection stays real and the U(1) identity holds with sqrt|g| = b4^(3/2) cos z
+(`Revision/theory/reports/python-field-theory-b4.json`).
+
 | check | statement |
 |---|---|
 | `divergence_x4_component` | nabla_mu T^mu_x4 = -d rho/d x4 - 3 a4' (p3 - p_t) for the homogeneous diagonal source |
@@ -12,7 +21,7 @@ Written by the lead from scratch; they import no other Revision code (they read 
 | `ks_coordinate_jacobian`, `ks_coordinate_form` | in y = ln(sin z)/(6H) the x0 component is cot z [p0'(y) + 6 H p0 - 3 H (p3 + p_t)], the form the Kohn-Sham solver checks (`emt_y_conservation_*`) |
 | `fixture_clifford`, `vielbein_reproduces_metric` | the inputs |
 | `gamma_Omega_equals_3H_gamma0` | gamma^mu Omega_mu = 3 H gamma^(x0) exactly, from the canonical spin connection |
-| `gamma_Omega_divergence_formula` | the same from (1/2) gamma^a (1/sqrt|g|) d_mu (sqrt|g| e_a^mu) |
+| `gamma_Omega_divergence_formula` | the same from (1/2) gamma^a (1/sqrt(det g)) d_mu (sqrt(det g) e_a^mu) |
 | `negative_control_inflating_extra_times` | with inflating extra times an a4' gamma^(x4) term survives: the cancellation is due to the deflation |
 
 ```

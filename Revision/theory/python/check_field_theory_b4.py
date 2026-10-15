@@ -4,8 +4,12 @@ formulas of the field theory for the user's metric of 2026-10-14, g55 = g66 = g7
 Recomputed here from the metric with sympy (no Wolfram code): the nonzero Christoffel symbols (formula
 christoffel_nonzero), the 12 nonzero spin-connection components omega_mu,ab (omega_nonzero), the per-direction
 matrices gamma^mu Omega_mu and their sum (with the author's gamma matrices of Revision/algebra/gammas.json:
-3 H gamma^x0 + (3/4)(b4'/b4) gamma^x4), the Ricci scalar (ricci_scalar) and the conservation identity of a diagonal
-source (energy_exchange).  Coordinates: the author's x0..x7 (index k = xk; x0 = the hidden direction).  Exact: functions -> symbols, zero test modulo c^2 = 1 - S^6 (S = sin^{1/3} z, c = cos z).
+3 H gamma^x0 + (3/4)(b4'/b4) gamma^x4) and the text of the formula gammaOmega_total.  Two further checks are made
+here only (the Wolfram verifier of field-theory-b4.json does not make them): the spin connection is real for every
+b4 (spinor_connection_real_b4), and the U(1) Noether matrix identity with sqrt|g| = b4^(3/2) cos z
+(u1_noether_matrix_identity_b4; Revision/lead_checks/charge_conjugation_and_u1.py checks it at b4 = 1).  The Ricci
+scalar and the conservation identity of a diagonal source are checked by the Wolfram verifier
+(Revision/theory/reports/wolfram-field-theory-b4.json), not here.  Coordinates: the author's x0..x7 (index k = xk; x0 = the hidden direction).  Exact: functions -> symbols, zero test modulo c^2 = 1 - S^6 (S = sin^{1/3} z, c = cos z).
 Writes Revision/theory/reports/python-field-theory-b4.json; exit 0 iff every check passes.
 Usage (repository root): python Revision/theory/python/check_field_theory_b4.py
 """
@@ -178,7 +182,28 @@ gexpr = eval(re.sub(r"(?<![\w.])(\d+)(?![\w.])", r"Integer(\1)", F["gammaOmega_t
              {"Integer": sp.Integer, "G4": G4, "G0": G0, "H": H, "bd1": bd1, "BB": BB})
 check("gammaOmega_formula_text", sp.simplify(gexpr - (3 * H * G0 + sp.Rational(3, 4) * bd1 / BB * G4)) == 0,
       "field-theory-b4.json gammaOmega_total states 3 H gamma[x0] + (3/4)(b4'/b4) gamma[x4]: " + F["gammaOmega_total"])
-failed = sum(1 for x in checks if x["verdict"] != "PASS")
+# the spin connection is real: every entry of every Omega_mu is a real expression (b4 > 0, 0 < z < pi/2)
+Om_sym = [O.applyfunc(sym) for O in Om]
+check("spinor_connection_real_b4", all(not e.has(sp.I) for O in Om_sym for e in O) and any(O != sp.zeros(16, 16) for O in Om_sym),
+      "metric with b4 (general a4(x4), b4(x4) > 0): every entry of Omega_mu = sum_(a<b) omega_mu,ab (1/2) gamma^a gamma^b is a "
+      "real expression on the patch 0 < z < pi/2 (real gammas, exp(+-a4), b4^(1/2), sin z > 0, cot z; no imaginary unit): "
+      "gamma^mu D_mu is a REAL operator for every b4")
+# U(1): the Noether identity d_mu(sqrt|g| J^mu) = -i sqrt|g| (Psi^dagger C E - E^dagger C Psi), E = (gamma^mu D_mu - V) Psi,
+# with J^mu = -i Psi^dagger C gamma^mu Psi and V real, reduces to the 16 x 16 matrix identity
+# sum_mu d_mu(sqrt|g| C gamma^mu) = sqrt|g| sum_mu (C gamma^mu Omega_mu - Omega_mu^T (gamma^mu)^T C)
+# (the reduction is the one of Revision/lead_checks/charge_conjugation_and_u1.py, check u1_noether_matrix_identity).
+Cm = gam[0] * gam[1] * gam[2] * gam[3]  # C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)
+sqg = b4f(x4) ** sp.Rational(3, 2) * sp.cos(z)  # sqrt|det g| = b4^(3/2) cos z
+gup = [gam[mu] / f[mu] for mu in range(N)]  # gamma^mu = e_a^mu gamma^a (diagonal vielbein)
+u1_lhs = sum((sp.diff(sqg / f[mu], X[mu]) * Cm * gam[mu] for mu in range(N)), sp.zeros(16, 16))
+u1_rhs = sum((sqg * (Cm * gup[mu] * Om[mu] - Om[mu].T * gup[mu].T * Cm) for mu in range(N)), sp.zeros(16, 16))
+check("u1_noether_matrix_identity_b4", all(zero(sym(v)) for v in (u1_lhs - u1_rhs)),
+      "metric with b4 (general a4(x4), b4(x4)): sum_mu d_mu(sqrt|g| C gamma^mu) = sqrt|g| sum_mu (C gamma^mu Omega_mu - "
+      "Omega_mu^T (gamma^mu)^T C) with sqrt|g| = b4^(3/2) cos z, verified exactly; with V real this is the Noether identity "
+      "d_mu(sqrt|g| J^mu) = -i sqrt|g| (Psi^dagger C E - E^dagger C Psi), E = (gamma^mu D_mu - V) Psi (the reduction of "
+      "Revision/lead_checks/charge_conjugation_and_u1.py, which checks the case b4 = 1); on shell the LOCAL law "
+      "d_mu(b4^(3/2) cos z J^mu) = 0 holds; constancy of the total charge is NOT established by this check")
+failed =sum(1 for x in checks if x["verdict"] != "PASS")
 rep = {"producer": "Revision/theory/python/check_field_theory_b4.py", "checks": checks, "checkCount": len(checks),
        "failedCount": failed, "verdict": "PASS" if failed == 0 else "FAIL"}
 try:

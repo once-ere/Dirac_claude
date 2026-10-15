@@ -62,7 +62,7 @@ and `Revision/README.md`, state the new metric.
 | `field_equations_a4/python/check_ks_source_conditions.py`, `ks_source/ks_source_a4.py` | the Kohn-Sham source verdict holds for every b4 | 6/6, 23/23 | 1 s, 2 s |
 | `theory/wolfram/verify_field_theory_b4.wls` | geometry, spin connection, gamma^mu Omega_mu, Dirac operator, evolution form, conservation, both statistics | 19/19 | 7 s |
 | `theory/wolfram/verify_field_theory_b4_emt.wls C`, `G` | EMT by vielbein variation, Belinfante part, diagonal components, T^x4_x0 | 4/4, 4/4 | 185 s, 107 s |
-| `theory/python/check_field_theory_b4.py` | sympy twin (Christoffel, spin connection, gamma^mu Omega_mu) | 5/5 | 2 s |
+| `theory/python/check_field_theory_b4.py` | sympy twin (Christoffel, spin connection, gamma^mu Omega_mu); the spin connection is real and the U(1) Noether matrix identity holds with sqrt(det g) = b4^(3/2) cos z for general b4 (added 2026-10-14; `lead_checks/charge_conjugation_and_u1.py` checks the case b4 = 1); negative control: with sqrt(det g) = cos z the identity fails | 7/7 | 2 s |
 | `kohn_sham/theory/verify_ks_b4.wls` | b4 enters the Dirac operator only through b4^(-3/4) and the extra-time derivatives; the good-sector Kohn-Sham problem is independent of b4 | 4/4 | 4 s |
 
 ## 5. What the change does (the recomputed physics)
@@ -93,7 +93,11 @@ Updated for b4 and re-verified: `Revision/SPEC.md` (sections 1, 5, 11), `Revisio
 (package, driver, both sympy checks, the Kohn-Sham source conditions), `Revision/theory/` (supplement scripts and outputs),
 `Revision/kohn_sham/theory/verify_ks_b4.wls`.  Kept as the record of the case b4 = 1 (valid there, and b4 = 1 is the
 vacuum background): `Revision/theory/field-theory.json` with its 84-check verifier, the Kohn-Sham numerics, the
-pairing numerics, the dark-sector numerics.  The documents, the Revision notebooks, the textbook and the gate are updated
+pairing numerics, the dark-sector numerics, and the three lead checks of `Revision/lead_checks` (their general-b4
+counterparts: the Einstein and Lovelock tensors in `metric_b4` and the key `b4` of `field_equations_a4`; the
+divergence of a diagonal source and gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) in
+`theory/reports/wolfram-field-theory-b4.json`; the reality of the spin connection and the U(1) Noether matrix
+identity with sqrt|g| = b4^(3/2) cos z in `theory/reports/python-field-theory-b4.json`, added 2026-10-14).  The documents, the Revision notebooks, the textbook and the gate are updated
 in later commits (this file is extended as they are done; see HANDOFF.md section 0.5b).
 
 Relabelled to the author's coordinates x0..x7 the same day and re-run (each run within 423 s; record in the
