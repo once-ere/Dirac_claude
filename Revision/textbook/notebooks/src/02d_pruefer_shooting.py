@@ -129,7 +129,7 @@ CELLS = [
     - **Orbital**: a single-particle state of the Kohn-Sham model. Here it is
       described by two real functions $a(y)$ and $b(y)$, its *components*.
     - **Hidden coordinate** $y$: the book's coordinate along the hidden direction
-      $x_8$, $y = \ln(\sin z)/(6H)$ with $z = 6 H x_8$; $y = 0$ is the end of the
+      $x_0$, $y = \ln(\sin z)/(6H)$ with $z = 6 H x_0$; $y = 0$ is the end of the
       patch $z = \pi/2$ (the *brane*), and the interval is cut off at $y = -L$ (the
       *tip*).
     - **Energy level** $\varepsilon$: a value of the energy for which the equations

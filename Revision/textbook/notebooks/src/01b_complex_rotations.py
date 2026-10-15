@@ -138,7 +138,7 @@ CELLS = [
     the powers of $i$ repeat as $1, i, -1, -i, 1, \dots$, so the even terms build the
     series of $\cos\theta$ and the odd terms $i$ times the series of $\sin\theta$.
 
-    The author's spacetime has four space-like directions ($x_1, x_2, x_3, x_8$,
+    The author's spacetime has four space-like directions ($x_0, x_1, x_2, x_3$,
     where the frame metric $\eta$ has $+1$) and four time-like ones ($x_4$ to $x_7$,
     where $\eta$ has $-1$). A transformation that mixes two directions of the same
     kind is a rotation, which keeps $x^2 + y^2$; one that mixes a time-like with a
@@ -567,7 +567,7 @@ CELLS = [
     \end{pmatrix} \begin{pmatrix} t \\ x \end{pmatrix}.$$
 
     With the frame metric of this pair, $\eta = \mathrm{diag}(-1, +1)$ ($t$ is
-    time-like, $x$ space-like, as $x_4$ and $x_8$ in the author's coordinates), the
+    time-like, $x$ space-like, as $x_4$ and $x_0$ in the author's coordinates), the
     boost $\Lambda$ satisfies $\Lambda^T \eta \Lambda = \eta$, which says that
     $-t'^2 + x'^2 = -t^2 + x^2$; it follows from $\cosh^2 - \sinh^2 = 1$. The next
     cell checks exactly with sympy:

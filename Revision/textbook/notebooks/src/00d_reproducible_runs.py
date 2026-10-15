@@ -662,14 +662,14 @@ CELLS = [
 
     The next cell starts Python twelve times as a subprocess, each time with another
     value 0, 1, ..., 11 of the environment variable PYTHONHASHSEED, and lets it print
-    the eight names $x_1, \ldots, x_8$ of a set. `sys.executable` is the Python program
+    the eight names $x_0, \ldots, x_7$ of a set. `sys.executable` is the Python program
     that runs this notebook; `-c` tells it to run the program text that follows;
     the names are given to that program as its arguments `sys.argv[1:]`, and
     `print(*names)` prints them separated by blanks. `dict(os.environ,
     PYTHONHASHSEED=...)` is a copy of the environment variables with one of them set.
     The cell runs the seed 0 a second time, collects the orders, and checks three
     statements: the same seed gives the same order; the twelve seeds give different
-    orders; and sorted with `sorted`, every order becomes $x_1, \ldots, x_8$.
+    orders; and sorted with `sorted`, every order becomes $x_0, \ldots, x_7$.
 
     This is why no notebook of the book prints a set without sorting it first: the
     checking tool runs every notebook a second time with another hash seed, and an
@@ -678,7 +678,7 @@ CELLS = [
     code(r'''
     import subprocess  # starts another program and reads what it prints
 
-    NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
+    NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
     PROGRAM = "import sys; print(*set(sys.argv[1:]))"  # print the names of a set
 
 
@@ -695,14 +695,14 @@ CELLS = [
     for seed, order in enumerate(orders):
         printed = " ".join(order)  # the eight names separated by blanks
         say(f"PYTHONHASHSEED={seed:<2}  {printed}")
-    in_order = " ".join(sorted(orders[0]))  # sorted: x1 x2 ... x8
+    in_order = " ".join(sorted(orders[0]))  # sorted: x0 x1 ... x7
     say(f"sorted              {in_order}")
     different = len({tuple(order) for order in orders})  # the number of distinct orders
     report("distinct orders among the 12 runs", different)
     check(set_order(0) == orders[0], "the same hash seed gives the same order")
     check(different >= 2, "different hash seeds give different orders of the same set")
     check(all(sorted(order) == NAMES for order in orders),
-          "sorted, the names come in the same order x1 ... x8 in every run")
+          "sorted, the names come in the same order x0 ... x7 in every run")
     '''),
     md(r"""
     The next cell draws the twelve orders as a picture: one row per run, one column
@@ -711,7 +711,7 @@ CELLS = [
     """),
     code(r'''
     table = orders + [sorted(orders[0])]  # 13 rows of 8 names: 12 runs and the sorted
-    # Each name replaced by its number in NAMES: x1 -> 0, x2 -> 1, ..., x8 -> 7.
+    # Each name replaced by its number in NAMES: x0 -> 0, x1 -> 1, ..., x7 -> 7.
     numbers = np.array([[NAMES.index(name) for name in row] for row in table])
     colours = matplotlib.colormaps["viridis"].resampled(8)  # 8 colours, violet to yellow
     fig, ax = plt.subplots(figsize=(7.0, 6.0))
@@ -732,10 +732,10 @@ CELLS = [
     ax.set_title("The same set of eight names, printed by twelve runs of Python")
     save_figure(fig, "set_orders",
                 r"The order in which twelve separate runs of Python print the same set "
-                r"of the eight names $x_1, \ldots, x_8$ (one row per run, labelled by "
+                r"of the eight names $x_0, \ldots, x_7$ (one row per run, labelled by "
                 r"its hash seed PYTHONHASHSEED from 0 to 11; horizontal axis the place 1 "
                 r"to 8 in the printed order; each square coloured by its name, from "
-                r"dark violet for $x_1$ to yellow for $x_8$). Every run prints another "
+                r"dark violet for $x_0$ to yellow for $x_7$). Every run prints another "
                 r"order, so the rows are scrambled differently; the bottom row, the "
                 r"sorted order, is the same in every run.")
     '''),
@@ -880,7 +880,7 @@ CELLS = [
         "today's files",
         f"{CROSS}, check reference_manifest")
     rust_repeat = determinism_checks["repeat_byte_identical"]  # the Rust second run
-    # The part of its detail that counts, e.g. "244 files (5857791 bytes) compared, ...".
+    # The part of its detail that counts, e.g. "244 files (5857843 bytes) compared, ...".
     found = re.search(r"(\d+) files \((\d+) bytes\) compared, same file set: (\w+), "
                       r"differing files: (\w+)", rust_repeat["detail"])
     say(f"the record (Rust): {found.group(0)}")

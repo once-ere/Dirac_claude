@@ -149,7 +149,7 @@ CELLS = [
     This equation describes the extra times of the author's metric. Lengths along the
     three extra times $x_5, x_6, x_7$ carry the scale factor $e^{-a_4}\sin^{1/6}z$
     and lengths along 3-space $x_1, x_2, x_3$ the factor $e^{a_4}\sin^{1/6}z$, where
-    $a_4(x_4)$ depends on the time $x_4$ and $z = 6 H x_8$ on the hidden coordinate.
+    $a_4(x_4)$ depends on the time $x_4$ and $z = 6 H x_0$ on the hidden coordinate.
     Along the linear history $a_4 = A H x_4$, which the book uses as a prescribed
     background (here $A = 1$ and $H = 1$), at a fixed hidden position the factor
     $\sin^{1/6}z$ does not change with $x_4$, so we leave it out and follow

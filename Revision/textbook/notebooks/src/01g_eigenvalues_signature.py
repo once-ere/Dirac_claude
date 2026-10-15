@@ -197,15 +197,17 @@ CELLS = [
     **sum** of the eigenvalues is the trace.
 
     **The course.** The author's spacetime has the frame metric
-    $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order
-    $x_1, \dots, x_8$ ($x_1, x_2, x_3$ space, $x_4$ time, $x_5, x_6, x_7$ the
-    three extra times, $x_8$ the hidden direction) and the metric
+    $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order
+    $x_0, \dots, x_7$ ($x_1, x_2, x_3$ space, $x_4$ time, $x_5, x_6, x_7$ the
+    three extra times, $x_0$ the hidden direction) and the metric
 
-    $$g = \mathrm{diag}\big(e^{2a_4} s, e^{2a_4} s, e^{2a_4} s, -1,
-    -e^{-2a_4} s, -e^{-2a_4} s, -e^{-2a_4} s, \cot^2 z\big),\quad
-    s = \sin^{1/3} z,\ z = 6 H x_8,$$
+    $$g = \mathrm{diag}\big(\cot^2 z, e^{2a_4} s, e^{2a_4} s, e^{2a_4} s, -1,
+    -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),\quad
+    s = \sin^{1/3} z,\ z = 6 H x_0,$$
 
-    whose extra-time entries shrink like $e^{-2a_4}$ as $a_4$ grows: the extra
+    with a function $a_4(x_4)$ and a positive function $b_4(x_4)$ of the time
+    ($b_4 = 1$ in the background of the Revision record), whose extra-time entries
+    shrink like $e^{-2a_4}$ as $a_4$ grows (for constant $b_4$): the extra
     times deflate exponentially. "Signature (4,4)" means: four positive and four
     negative eigenvalues. The eight real $16 \times 16$ gamma matrices obey
     $(\gamma^a)^2 = \eta^{aa} I$, which fixes their eigenvalues; and the matrix
@@ -665,13 +667,13 @@ CELLS = [
     larger than 1000 times the rounding error, $2.2 \times 10^{-16}$ times the
     largest size). Then it reads the author's metric
     from the record and counts the signs of its eigenvalues on a grid of 61 values
-    of $a_4$ from $-3$ to 3 and 50 values of $z$ in $(0, \pi/2)$; their product
-    must be $\det g = \cos^2 z > 0$.
+    of $a_4$ from $-3$ to 3, 50 values of $z$ in $(0, \pi/2)$ and the three values
+    $b_4 = 0.5$, 1 and 2; their product must be $\det g = b_4^3 \cos^2 z > 0$.
     """),
     code(r'''
     algebra = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    names = algebra["coordinates"]  # ["x1", ..., "x8"]
+    names = algebra["coordinates"]  # ["x0", ..., "x7"]
     eta = algebra["eta"]  # the diagonal of the frame metric
     eta_matrix = np.diag(np.array(eta, dtype=float))
     eta_values = np.linalg.eigvalsh(eta_matrix)  # eigenvalues from the smallest up
@@ -709,44 +711,52 @@ CELLS = [
     """),
     code(r'''
     a4 = sp.Symbol("a4", real=True)  # the value of a4(x4) at one time
-    z = sp.Symbol("z", positive=True)  # z = 6 H x8, between 0 and pi/2
+    b4 = sp.Symbol("b4", positive=True)  # the value of b4(x4) at one time
+    z = sp.Symbol("z", positive=True)  # z = 6 H x0, between 0 and pi/2
     curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
                            .read_text(encoding="utf-8"))
 
 
     def from_record(text):
         """The record's Mathematica text as a sympy expression."""
-        text = text.replace("a4[x4]", "a4").replace("Sin[6*H*x8]", "sin(z)")
-        text = text.replace("Cot[6*H*x8]", "cot(z)").replace("^", "**")
-        return sp.sympify(text, locals={"a4": a4, "z": z, "E": sp.E})
+        text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
+        text = text.replace("Sin[6*H*x0]", "sin(z)")
+        text = text.replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
+        return sp.sympify(text, locals={"a4": a4, "b4": b4, "z": z, "E": sp.E})
 
 
     g_record = [from_record(text) for text in curvature["metricDiagonal"]]
-    metric_numbers = sp.lambdify((a4, z), g_record, "numpy")  # a4, z -> 8 numbers
-    signs_ok, product_error = True, 0.0
-    for a4_value in np.linspace(-3.0, 3.0, 61):
-        for z_value in np.linspace(0.05, np.pi / 2 - 0.05, 50):
-            g_values = np.linalg.eigvalsh(np.diag(np.array(
-                metric_numbers(a4_value, z_value), dtype=float)))
-            signs_ok &= (int((g_values > 0).sum()), int((g_values < 0).sum())) == (4, 4)
-            product_error = max(product_error,
-                                abs(np.prod(g_values) - np.cos(z_value) ** 2))
-    check(signs_ok, "the author's metric has the signature (4,4) at all 3050 grid "
-          "points (a4, z)")
+    # a4, b4, z -> the 8 numbers on the diagonal
+    metric_numbers = sp.lambdify((a4, b4, z), g_record, "numpy")
+    signs_ok, product_error, points = True, 0.0, 0
+    for b4_value in (0.5, 1.0, 2.0):
+        for a4_value in np.linspace(-3.0, 3.0, 61):
+            for z_value in np.linspace(0.05, np.pi / 2 - 0.05, 50):
+                g_values = np.linalg.eigvalsh(np.diag(np.array(
+                    metric_numbers(a4_value, b4_value, z_value), dtype=float)))
+                signs_ok &= ((int((g_values > 0).sum()), int((g_values < 0).sum()))
+                             == (4, 4))
+                product_error = max(product_error, abs(
+                    np.prod(g_values) / b4_value ** 3 - np.cos(z_value) ** 2))
+                points += 1
+    check(signs_ok and points == 9150, "the author's metric has the signature (4,4) "
+          "at all 9150 grid points (a4, z, b4)")
     lovelock_report = json.loads(repository_file(
         "Revision/gkd_lovelock/results/python-lovelock-report.json")
         .read_text(encoding="utf-8"))
     root_verdict = {c["name"]: c["verdict"]
                     for c in lovelock_report["checks"]}["sqrt_abs_det_g"]
     check(product_error < 1e-12 and root_verdict == "PASS",
-          "the product of the eight eigenvalues is det g = cos(z)^2 at every grid point",
+          "the product of the eight eigenvalues is det g = b4^3 cos(z)^2 at every grid "
+          "point",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
                  "sqrt_abs_det_g")
     '''),
     md(r"""
     The next cell draws both results. Left: the eight eigenvalues of
     $P^T \eta P$ for 40 random $P$ (one column per $P$). Right: the eight
-    eigenvalues of the author's metric at $z = 0.9$ against $a_4$. Both vertical
+    eigenvalues of the author's metric at $z = 0.9$, $b_4 = 1$ against $a_4$. Both
+    vertical
     axes are *symmetric logarithmic*: linear in a small band around 0 (between
     $-0.001$ and 0.001 on the left, between $-0.1$ and 0.1 on the right) and
     logarithmic outside, so that large and small values of both signs fit.
@@ -762,10 +772,10 @@ CELLS = [
     left.set_ylabel("eigenvalues of $P^T \\eta P$")
     left.set_title("always 4 positive (red) and 4 negative (blue)")
     a4_line = np.linspace(-3.0, 3.0, 301)
-    curves = np.array([metric_numbers(value, 0.9) for value in a4_line], dtype=float)
-    styles = [("tab:red", "space $x_1, x_2, x_3$", 0), ("tab:gray", "time $x_4$", 3),
-              ("tab:blue", "extra times $x_5, x_6, x_7$", 4),
-              ("tab:green", "hidden $x_8$", 7)]
+    curves = np.array([metric_numbers(value, 1.0, 0.9) for value in a4_line],
+                      dtype=float)  # at b4 = 1
+    styles = [("tab:green", "hidden $x_0$", 0), ("tab:red", "space $x_1, x_2, x_3$", 1),
+              ("tab:gray", "time $x_4$", 4), ("tab:blue", "extra times $x_5, x_6, x_7$", 5)]
     for color, label, index in styles:
         right.plot(a4_line, curves[:, index], color=color, lw=2, label=label)
     right.axhline(0.0, color="black", lw=0.8)
@@ -786,8 +796,9 @@ CELLS = [
                 "positive and four negative eigenvalues (Sylvester's law of inertia); "
                 f"{tiny_text} smaller than 0.001 in size {tiny_verb} on the zero "
                 "line, but none is zero. "
-                "Right: the eigenvalues of the author's metric $g$ at $z = 6 H x_8 = "
-                "0.9$ against $a_4$: the three space entries $e^{2a_4} s$ (red, "
+                "Right: the eigenvalues of the author's metric $g$ at $z = 6 H x_0 = "
+                "0.9$ and $b_4 = 1$ against $a_4$: the three space entries "
+                "$e^{2a_4} s$ (red, "
                 "growing), the time entry $-1$ (grey), the three extra-time entries "
                 "$-e^{-2a_4} s$ (blue, shrinking towards 0 as the extra times deflate, "
                 "but never crossing it) and the hidden entry $\\cot^2 z$ (green). The "
@@ -806,7 +817,7 @@ CELLS = [
 
     (apply $\gamma^a$ twice; a number can be moved in front), and also
     $(\gamma^a)^2 v = \eta^{aa} v$. So $\lambda^2 = \eta^{aa}$:
-    $\lambda = \pm 1$ for the space-like directions $x_1, x_2, x_3, x_8$ and
+    $\lambda = \pm 1$ for the space-like directions $x_0, x_1, x_2, x_3$ and
     $\lambda = \pm i$ for the time-like directions $x_4, \dots, x_7$.
 
     How many of each? The trace is 0: for any $b \neq a$,
@@ -850,7 +861,7 @@ CELLS = [
           "(lambda^2 - eta_aa)^8", record="Revision/algebra/reports/python-algebra.json, "
           "check clifford_relation (the relations with equal indices)")
     check(numeric_ok and verdicts["symmetry_pattern"] == "pass",
-          "numpy: +1 and -1 (x1, x2, x3, x8: symmetric matrices) or +i and -i "
+          "numpy: +1 and -1 (x0, x1, x2, x3: symmetric matrices) or +i and -i "
           "(x4 ... x7: antisymmetric matrices), 8 times each",
           record="Revision/algebra/reports/python-algebra.json, check symmetry_pattern")
     '''),
@@ -878,7 +889,7 @@ CELLS = [
 
 
     unit = np.eye(8, dtype=int)
-    examples = [("e(x1)", unit[0]), ("e(x5)", unit[4]), ("e(x1) + e(x5)", unit[0] + unit[4]),
+    examples = [("e(x1)", unit[1]), ("e(x5)", unit[5]), ("e(x1) + e(x5)", unit[1] + unit[5]),
                 ("(1, 2, ..., 8)", np.arange(1, 9))]
     example_spectra = {}
     squares_ok, nilpotent_ok = True, True
@@ -918,7 +929,7 @@ CELLS = [
         found = np.linalg.eigvals(g_a.astype(float))
         color = "tab:red" if eta_aa == 1 else "tab:blue"
         left.plot(found.real, found.imag, "o", color=color, ms=10, alpha=0.3)
-    left.text(1.0, 0.18, "$+1$: 8 times\n($x_1, x_2, x_3, x_8$)", ha="center",
+    left.text(1.0, 0.18, "$+1$: 8 times\n($x_0, x_1, x_2, x_3$)", ha="center",
               fontsize=8)
     left.text(-1.0, 0.18, "$-1$: 8 times", ha="center", fontsize=8)
     left.text(0.08, 1.0, "$+i$: 8 times ($x_4 \\dots x_7$)", fontsize=8)
@@ -946,7 +957,7 @@ CELLS = [
                 "Eigenvalues in the complex plane (horizontal axis real part, vertical "
                 "axis imaginary part, pure numbers). Left: the 16 eigenvalues of each "
                 "of the eight real gamma matrices of the Revision record: $\\pm 1$, "
-                "eight times each, for the space-like $x_1, x_2, x_3, x_8$ (red) and "
+                "eight times each, for the space-like $x_0, x_1, x_2, x_3$ (red) and "
                 "$\\pm i$, eight times each, for the time-like $x_4$ to $x_7$ (blue). "
                 "Right: the eigenvalues of $\\gamma(v) = v_a \\gamma^a$ for four "
                 "vectors: $\\pm 1$ for the unit vector along $x_1$ ($Q = 1$), "
@@ -958,7 +969,7 @@ CELLS = [
     ## 11. A Hermitian matrix of the record: B and its signature (8,8)
 
     The record stores the matrix $B = -i\, C\gamma^{(x_4)}$, where
-    $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ is real. $B$ is
+    $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ is real. $B$ is
     complex: its real part is 0, its imaginary part a real $16 \times 16$ matrix of
     entries $-1$, 0, 1. In the theory of the course $B$ gives the charge density
     $J^{(x_4)} = \Psi^\dagger B \Psi$ of the fields. Its properties, line by line:
@@ -984,7 +995,7 @@ CELLS = [
     code(r'''
     B = sp.Matrix(algebra["B"]["re"]) + sp.I * sp.Matrix(algebra["B"]["im"])
     C = sp.Matrix(algebra["C"])
-    check(B == -sp.I * C * sp.Matrix(algebra["gamma"][3]),
+    check(B == -sp.I * C * sp.Matrix(algebra["gamma"][4]),
           "the record's B equals -i C gamma^(x4) computed from its C and gamma^(x4)")
     poly_B = sp.factor(B.charpoly(lam).as_expr())
     real_part_zero = sp.Matrix(algebra["B"]["re"]).is_zero_matrix  # True or False
@@ -1151,7 +1162,7 @@ CELLS = [
     - The frame metric $\eta$ and the author's metric $g$ have four positive and
       four negative eigenvalues, the signature (4,4), at every point; the deflation
       of the extra times shrinks their eigenvalues towards 0 without changing their
-      sign, and the product of the eigenvalues is $\det g = \cos^2 z$. No change of
+      sign, and the product of the eigenvalues is $\det g = b_4^3 \cos^2 z$. No change of
       coordinates changes the signature (Sylvester's law of inertia, checked on 2000
       random coordinate changes).
     - The real gamma matrices of the record have the eigenvalues $\pm 1$

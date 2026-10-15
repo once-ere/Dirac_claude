@@ -158,7 +158,7 @@ CELLS = [
     ## 4. The physical and mathematical situation
 
     The generalized Kronecker delta of two index lists of the same length $p$ over
-    the eight coordinates $x_1, \dots, x_8$ (labels $0, \dots, 7$ for the computer)
+    the eight coordinates $x_0, \dots, x_7$ (labels $0, \dots, 7$ for the computer)
     is the determinant of the matrix $M_{ij} = \delta(l_i, u_j)$; the program GKD
     computes it as 0 for a repeated or missing label and otherwise as the sign of the
     permutation that turns the upper list into the lower one (notebook 01c proves

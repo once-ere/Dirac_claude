@@ -4,7 +4,7 @@ This chapter is the map of the book. It says what the book teaches and, just as 
 
 ### 0.1 What this book teaches
 
-The book is about a model of the very early universe proposed by the author. The universe of the model has eight directions instead of the four of everyday space and time. They are named $x_1$ to $x_8$, as the author names them. Three of them, $x_1$, $x_2$ and $x_3$, are the directions of ordinary space. One, $x_4$, is the time in which everything evolves. Three more, $x_5$, $x_6$ and $x_7$, behave like time as well; they are called the **extra times**. The last one, $x_8$, is a **hidden** direction of space. The author's **metric** (the rule that gives the length of a small step in each direction; Section 0.14 introduces it from zero) makes ordinary space grow (**inflate**) and the three extra times shrink (**deflate**) exponentially as the time $x_4$ runs.
+The book is about a model of the very early universe proposed by the author. The universe of the model has eight directions instead of the four of everyday space and time. They are named $x_0$ to $x_7$, as the author names them. The first, $x_0$, is a **hidden** direction of space. Three of them, $x_1$, $x_2$ and $x_3$, are the directions of ordinary space. One, $x_4$, is the time in which everything evolves. The last three, $x_5$, $x_6$ and $x_7$, behave like time as well; they are called the **extra times**. The author's **metric** (the rule that gives the length of a small step in each direction; Section 0.14 introduces it from zero) makes ordinary space grow (**inflate**) and the three extra times shrink (**deflate**) exponentially as the time $x_4$ runs.
 
 Two fields live in this universe. A **field** is a rule that attaches numbers to every point of space and time: the temperature in a room attaches one number to every point, the wind three. The field **dirac16complex** attaches sixteen complex numbers of a special kind (anticommuting numbers, defined in Chapter 7) to every point; the field **dirac16complex00** attaches sixteen ordinary complex numbers. The book sets up the mathematics of both fields from zero, derives their equations and the equations of the gravitational field that they produce, introduces the density-functional (DFT) approximation, and solves the equations as far as present knowledge allows. Then it asks two questions and answers them honestly: do the equations prove that the big bang creates universes in pairs, and does the theory solve the puzzle of matter and antimatter? Section 0.2 gives the short answers; Part V of the book gives the complete proofs of what is proved and a precise list of what is not.
 
@@ -27,8 +27,8 @@ Read the chapters in order. Run each notebook when you reach it: reading a compu
 The book answers a request of the author (2026-10-02) for a teaching book that describes every step of the formalism, derives the field equations, introduces and derives approximations of the DFT type, solves the equations as far as possible, and proves "that the ‘big bang’ creates universes in pairs" and that "this theory solves matter anti-matter mysteries". The first four parts of the request are carried out in Parts I to IV of the book. The last two cannot be delivered as they are worded, because the equations do not prove them, and a book that wrote them as established would teach something false. The book therefore follows one rule above every other, the **honesty rule**: it teaches exactly what the Revision record proves and computes, with every assumption, and it never writes "proved" for a statement that is not proved. The author was told this on 2026-10-02. Here is what the equations give, in plain words. Many words of this section are new. Each is defined from zero in a later chapter or a later section of this chapter; the list below gives each one a one-line meaning and names that place, so that you can follow the story now.
 
 - **gravitational field**: in this book, the author's metric of Section 0.1, the rule for the lengths of small steps; since Einstein, gravity is described by such a rule (Chapter 3);
-- $a_4$, $H$ **and** $z$: $a_4$ is the function of the time $x_4$ in the author's metric that makes ordinary space inflate and the extra times deflate; $H$ is a positive constant of the author; $z = 6 H x_8$ measures the position along the hidden direction, and it lies between $z = 0$ and the edge $z = \pi/2$ (Section 0.14);
-- **space-like** and **time-like**: a direction along which a step is measured like a distance, or like a duration; $x_1$, $x_2$, $x_3$ and $x_8$ are space-like, $x_4$ to $x_7$ time-like (Section 0.14);
+- $a_4$, $H$ **and** $z$: $a_4$ is the function of the time $x_4$ in the author's metric that makes ordinary space inflate and the extra times deflate; $H$ is a positive constant of the author; $z = 6 H x_0$ measures the position along the hidden direction, and it lies between $z = 0$ and the edge $z = \pi/2$ (Section 0.14);
+- **space-like** and **time-like**: a direction along which a step is measured like a distance, or like a duration; $x_0$, $x_1$, $x_2$ and $x_3$ are space-like, $x_4$ to $x_7$ time-like (Section 0.14);
 - **solution**, **boundary condition**: a solution of a field's equations is a field that satisfies them at every point; a boundary condition is a further condition that a solution must satisfy at the edge of the region in which it is defined (Chapters 2 and 14);
 - $\Psi$ (the Greek capital letter psi): a field, its sixteen components written as one column of sixteen numbers (Chapter 7);
 - **commuting** and **complex conjugation**: ordinary numbers are commuting, the order of a product does not matter ($ab = ba$), while the anticommuting numbers of Chapter 7 have $ab = -ba$; complex conjugation changes the sign of the imaginary part of every complex number, $a + i b \to a - i b$ (Chapter 1);
@@ -124,9 +124,9 @@ The answer `(12, 12)` says that 12 of the 12 checks of this report passed; the l
 
 These conventions hold on every page. They are choices, not results (ASSUMED).
 
-- **The names of the coordinates** are the author's: $x_1, x_2, \ldots, x_8$. In Python lists and arrays the entries are counted from 0, so the entry of $x_1$ has the index 0 and that of $x_8$ the index 7. The book never uses the numbering $x_0, \ldots, x_7$ of older documents.
-- **The roles of the coordinates.** $x_1, x_2, x_3$: ordinary space, which inflates; $x_4$: the time; $x_5, x_6, x_7$: the three extra times, which deflate exponentially; $x_8$: the hidden direction of space, through the variable $z = 6 H x_8$ with $0 < z < \pi/2$, where $H > 0$ is a constant of the author.
-- **The signs of the directions** are $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order $x_1, \ldots, x_8$: the directions $x_1, x_2, x_3, x_8$ are space-like and $x_4, x_5, x_6, x_7$ time-like; the **signature** is (4,4). (Section 0.14 explains these words; the Revision record states the signs in the file `Revision/algebra/gammas.json`, and its Wolfram verifier checks them: `Revision/algebra/reports/wolfram-algebra.json`, check `eta_in_author_order`.)
+- **The names of the coordinates** are the author's: $x_0, x_1, \ldots, x_7$, always in this order. In Python lists and arrays the entries are counted from 0, so the entry of $x_k$ has the index $k$: $x_0$ has the index 0 and $x_7$ the index 7. The book uses no other names or order of the coordinates.
+- **The roles of the coordinates.** $x_0$: the hidden direction of space, through the variable $z = 6 H x_0$ with $0 < z < \pi/2$, where $H > 0$ is a constant of the author; $x_1, x_2, x_3$: ordinary space, which inflates; $x_4$: the time; $x_5, x_6, x_7$: the three extra times, which deflate exponentially.
+- **The signs of the directions** are $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \ldots, x_7$: the directions $x_0, x_1, x_2, x_3$ are space-like and $x_4, x_5, x_6, x_7$ time-like; the **signature** is (4,4). (Section 0.14 explains these words; the Revision record states the signs in the file `Revision/algebra/gammas.json`, and its Wolfram verifier checks them: `Revision/algebra/reports/wolfram-algebra.json`, check `eta_in_author_order`.)
 - **Units.** The formulas of the Revision record contain no speed of light and no Planck constant: they are written in units in which both are 1, as is usual in this kind of physics. A chapter that computes numbers says in which unit it measures them (for example in units of the mass $m$).
 - **Files** are named by their path in the repository, written with `/` and starting at the repository folder, for example `Revision/README.md`; the book prints such names in typewriter type.
 
@@ -672,37 +672,37 @@ The loop runs over a **tuple** (a list in round brackets that cannot be changed)
 
 Every later chapter lives in the author's universe, so we take a first look at it now, with nothing but school algebra. Chapter 3 returns to it with the full mathematics of curved space; here we need only four facts: which directions are like space and which are like time, how lengths along each direction change as the time runs, why ordinary space inflates while the extra times deflate, and why the volume does not change.
 
-**Steps and their sizes.** On a flat sheet of paper with the coordinates $x$ and $y$, a small step $dx$ to the right and $dy$ upwards has a length $ds$ with $ds^2 = dx^2 + dy^2$: this is the theorem of Pythagoras for the right-angled triangle with the sides $dx$ and $dy$. In ordinary space with the coordinates $x_1$, $x_2$, $x_3$ the same theorem, used twice, gives $ds^2 = dx_1^2 + dx_2^2 + dx_3^2$. A **metric** is a rule of this kind: it turns the small steps $dx_1, dx_2, \ldots, dx_8$ along the eight coordinates into one number $ds^2$, the squared size of the step. The rules of this book are **diagonal**: each squared step is multiplied by its own number $g_{ii}$, called the entry of the metric for the direction $x_i$, and the results are added:
+**Steps and their sizes.** On a flat sheet of paper with the coordinates $x$ and $y$, a small step $dx$ to the right and $dy$ upwards has a length $ds$ with $ds^2 = dx^2 + dy^2$: this is the theorem of Pythagoras for the right-angled triangle with the sides $dx$ and $dy$. In ordinary space with the coordinates $x_1$, $x_2$, $x_3$ the same theorem, used twice, gives $ds^2 = dx_1^2 + dx_2^2 + dx_3^2$. A **metric** is a rule of this kind: it turns the small steps $dx_0, dx_1, \ldots, dx_7$ along the eight coordinates into one number $ds^2$, the squared size of the step. The rules of this book are **diagonal**: each squared step is multiplied by its own number $g_{ii}$, called the entry of the metric for the direction $x_i$, and the results are added:
 
 $$
-ds^2 = g_{11}\, dx_1^2 + g_{22}\, dx_2^2 + \cdots + g_{88}\, dx_8^2 .
+ds^2 = g_{00}\, dx_0^2 + g_{11}\, dx_1^2 + \cdots + g_{77}\, dx_7^2 .
 $$
 
-The entries $g_{11}, \ldots, g_{88}$ may change from place to place and from time to time; that is what can make a space curved (Chapter 3).
+The entries $g_{00}, \ldots, g_{77}$ may change from place to place and from time to time; that is what can make a space curved (Chapter 3).
 
 **Space-like and time-like.** In the special relativity of Einstein (1905), in the form that Minkowski gave it in 1908, a step in space and time is measured with a minus sign in front of the time step: in units in which the speed of light is 1, the squared size of a step is $dx_1^2 + dx_2^2 + dx_3^2 - dx_4^2$ when $x_4$ is the time. A direction whose entry is positive is called **space-like** (a step along it is measured like a distance); a direction whose entry is negative is called **time-like** (a step along it is measured like a duration). The list of the signs of the eight directions is called $\eta$ (the Greek letter eta), and the numbers of plus and minus signs form the **signature**. In the author's universe
 
 $$
-\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)
+\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)
 $$
 
-in the order $x_1, \ldots, x_8$: the four directions $x_1$, $x_2$, $x_3$ and $x_8$ are space-like, the four directions $x_4$, $x_5$, $x_6$ and $x_7$ are time-like, and the signature is (4,4). Here $\mathrm{diag}(\ldots)$ is the square table of numbers (a **matrix**, Chapter 1) that has the listed numbers on its diagonal, from the top left to the bottom right, and zeros everywhere else.
+in the order $x_0, \ldots, x_7$: the four directions $x_0$, $x_1$, $x_2$ and $x_3$ are space-like, the four directions $x_4$, $x_5$, $x_6$ and $x_7$ are time-like, and the signature is (4,4). Here $\mathrm{diag}(\ldots)$ is the square table of numbers (a **matrix**, Chapter 1) that has the listed numbers on its diagonal, from the top left to the bottom right, and zeros everywhere else.
 
-**The author's metric.** The author gave the metric of his primordial universe as an $8 \times 8$ diagonal matrix (`Revision/SPEC.md`, section 1). Its eight entries are
-
-$$
-g_{11} = g_{22} = g_{33} = e^{2 a_4} \sin^{1/3} z , \qquad g_{44} = -1 ,
-$$
+**The author's metric.** The author gave the metric of their primordial universe as an $8 \times 8$ diagonal matrix (`Revision/SPEC.md`, section 1). Its eight entries, in the order $x_0, x_1, \ldots, x_7$, are
 
 $$
-g_{55} = g_{66} = g_{77} = -e^{-2 a_4} \sin^{1/3} z , \qquad g_{88} = \cot^2 z ,
+g_{00} = \cot^2 z , \qquad g_{11} = g_{22} = g_{33} = e^{2 a_4} \sin^{1/3} z , \qquad g_{44} = -1 ,
 $$
 
-where $z = 6 H x_8$, $H > 0$ is a constant of the author, and $a_4$ is a function of the time $x_4$ alone, the **metric function** (its own field equations are the subject of Chapter 12). The hidden coordinate is restricted so that $0 < z < \pi/2$; this interval is called the **patch**. Here $\sin^{1/3} z$ means $(\sin z)^{1/3}$, the cube root of $\sin z$, and $\cot z = \cos z / \sin z$. Status: ASSUMED. The metric is the author's input; the book does not derive it, and Chapter 12 asks which source it would need.
+$$
+g_{55} = g_{66} = g_{77} = -b_4\, e^{-2 a_4} \sin^{1/3} z ,
+$$
+
+where $z = 6 H x_0$, $H > 0$ is a constant of the author, and $a_4$ and $b_4$ are functions of the time $x_4$ alone, the **metric functions** (their field equations are the subject of Chapter 12); $b_4$ is positive. The function $b_4$ is the author's change of 2026-10-14: with $b_4 = 1$ the metric is the one used before that date. With the author's own weights every vacuum history has $b_4$ constant (`Revision/metric_b4/results/vacuum-b4.json`), and a constant $b_4$ is removed by rescaling $x_5$, $x_6$, $x_7$; the backgrounds of the later chapters therefore take $b_4 = 1$, as the Revision record does, and say so where they do (the record of the change: `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). The hidden coordinate is restricted so that $0 < z < \pi/2$; this interval is called the **patch**. Here $\sin^{1/3} z$ means $(\sin z)^{1/3}$, the cube root of $\sin z$, and $\cot z = \cos z / \sin z$. Status: ASSUMED. The metric is the author's input; the book does not derive it, and Chapter 12 asks which source it would need.
 
 We now derive the four facts. Each line of a derivation is followed, in brackets, by the rule that produced it from the line before.
 
-**Fact 1: the signs.** Take any point of the patch, $0 < z < \pi/2$, and any value of $a_4$.
+**Fact 1: the signs.** Take any point of the patch, $0 < z < \pi/2$, any value of $a_4$ and any positive value of $b_4$.
 
 $$
 \sin z > 0 \quad \text{and} \quad \cos z > 0
@@ -723,16 +723,16 @@ $$
 (the exponential function $e^{u}$ is positive for every number $u$),
 
 $$
-g_{11} = e^{2 a_4} \sin^{1/3} z > 0 \quad \text{and} \quad g_{55} = -e^{-2 a_4} \sin^{1/3} z < 0
+g_{11} = e^{2 a_4} \sin^{1/3} z > 0 \quad \text{and} \quad g_{55} = -b_4\, e^{-2 a_4} \sin^{1/3} z < 0
 $$
 
-(a product of two positive numbers is positive, and a positive number with a minus sign in front is negative),
+(a product of positive numbers is positive, $b_4 > 0$, and a positive number with a minus sign in front is negative),
 
 $$
-\cot z = \frac{\cos z}{\sin z} > 0 , \quad \text{so} \quad g_{88} = \cot^2 z > 0
+\cot z = \frac{\cos z}{\sin z} > 0 , \quad \text{so} \quad g_{00} = \cot^2 z > 0
 $$
 
-(a quotient of two positive numbers is positive, and the square of a nonzero number is positive). Together with $g_{44} = -1 < 0$ the signs of the eight entries are $(+, +, +, -, -, -, -, +)$, exactly the list $\eta$, at every point of the patch and for every value of $a_4$. Status: PROVED (by the school algebra above). The Revision record states the signs in the file `Revision/algebra/gammas.json`, and its Wolfram verifier checks them (`Revision/algebra/reports/wolfram-algebra.json`, check `eta_in_author_order`); Notebook 00b confirms the signs of the eight entries at 4819 points (COMPUTED).
+(a quotient of two positive numbers is positive, and the square of a nonzero number is positive). Together with $g_{44} = -1 < 0$ the signs of the eight entries are $(+, +, +, +, -, -, -, -)$, exactly the list $\eta$, at every point of the patch and for every value of $a_4$ and of $b_4 > 0$. Status: PROVED (by the school algebra above). The Revision record states the signs in the file `Revision/algebra/gammas.json`, and its Wolfram verifier checks them (`Revision/algebra/reports/wolfram-algebra.json`, check `eta_in_author_order`); Notebook 00b confirms the signs of the eight entries at 14457 points (COMPUTED).
 
 **Fact 2: the length factors.** A step $dx_1$ along $x_1$ alone (all other steps zero) has $ds^2 = g_{11}\, dx_1^2$, so its size is $|ds| = \sqrt{|g_{11}|}\, |dx_1|$. The number $f_i = \sqrt{|g_{ii}|}$ is called the **length factor** (or scale factor) of the direction $x_i$: it converts a step of the coordinate into a length. For $x_1$:
 
@@ -752,21 +752,21 @@ $$
 f_1 = e^{a_4} \sin^{1/6} z
 $$
 
-(first, $\sqrt{e^{2 a_4}} = e^{a_4}$, because $e^{a_4}$ is positive and its square is $e^{a_4} e^{a_4} = e^{2 a_4}$; second, $\sqrt{u^{1/3}} = (u^{1/3})^{1/2} = u^{1/6}$ by the power rule $(u^p)^q = u^{pq}$). The same three lines give $f_2 = f_3 = e^{a_4} \sin^{1/6} z$. For the extra times, $|g_{55}| = e^{-2 a_4} \sin^{1/3} z$ (a minus sign in front of a positive number is removed by the absolute value), and the same steps give
+(first, $\sqrt{e^{2 a_4}} = e^{a_4}$, because $e^{a_4}$ is positive and its square is $e^{a_4} e^{a_4} = e^{2 a_4}$; second, $\sqrt{u^{1/3}} = (u^{1/3})^{1/2} = u^{1/6}$ by the power rule $(u^p)^q = u^{pq}$). The same three lines give $f_2 = f_3 = e^{a_4} \sin^{1/6} z$. For the extra times, $|g_{55}| = b_4\, e^{-2 a_4} \sin^{1/3} z$ (a minus sign in front of a positive number is removed by the absolute value), and the same steps, with $\sqrt{b_4}$ as one more factor, give
 
 $$
-f_5 = f_6 = f_7 = e^{-a_4} \sin^{1/6} z .
+f_5 = f_6 = f_7 = b_4^{1/2}\, e^{-a_4} \sin^{1/6} z .
 $$
 
-Finally $f_4 = \sqrt{|-1|} = 1$, and $f_8 = \sqrt{\cot^2 z} = |\cot z| = \cot z$ (the square root of a square is the absolute value, and $\cot z > 0$ on the patch). Status: PROVED.
+Finally $f_4 = \sqrt{|-1|} = 1$, and $f_0 = \sqrt{\cot^2 z} = |\cot z| = \cot z$ (the square root of a square is the absolute value, and $\cot z > 0$ on the patch). Status: PROVED.
 
-**Fact 3: ordinary space inflates, the extra times deflate.** Fix the hidden coordinate, so that $\sin^{1/6} z$ is a fixed positive number. When $a_4$ grows, $e^{a_4}$ grows and $e^{-a_4} = 1/e^{a_4}$ shrinks (Section 0.10): the length factors of $x_1$, $x_2$, $x_3$ grow (ordinary space **inflates**) and those of $x_5$, $x_6$, $x_7$ shrink (the extra times **deflate**). The simplest history is $a_4 = A H x_4$ with a positive constant $A$. It is the history that the Kohn-Sham chapters use, where it is ASSUMED as a **prescribed background** (`Revision/field_equations_a4/reports/ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`), and Chapter 12 shows that the sign of $A$ is a choice: with $-A$ in place of $A$ the roles of growth and shrinking are exchanged. Along this history
+**Fact 3: ordinary space inflates, the extra times deflate.** Fix the hidden coordinate, so that $\sin^{1/6} z$ is a fixed positive number, and let $b_4$ be constant. When $a_4$ grows, $e^{a_4}$ grows and $e^{-a_4} = 1/e^{a_4}$ shrinks (Section 0.10): the length factors of $x_1$, $x_2$, $x_3$ grow (ordinary space **inflates**) and those of $x_5$, $x_6$, $x_7$ shrink (the extra times **deflate**). The simplest history is $a_4 = A H x_4$ with a positive constant $A$, and $b_4 = 1$. It is the history that the Kohn-Sham chapters use, where it is ASSUMED as a **prescribed background** (`Revision/field_equations_a4/reports/ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`), and Chapter 12 shows that the sign of $A$ is a choice: with $-A$ in place of $A$ the roles of growth and shrinking are exchanged. Along this history
 
 $$
 f_5 = e^{-A H x_4} \sin^{1/6} z
 $$
 
-(substitution of $a_4 = A H x_4$ into Fact 2),
+(substitution of $a_4 = A H x_4$ and $b_4 = 1$ into Fact 2),
 
 $$
 \frac{d f_5}{d x_4} = -A H\, e^{-A H x_4} \sin^{1/6} z
@@ -778,18 +778,18 @@ $$
 \frac{d f_5}{d x_4} = -A H\, f_5
 $$
 
-(the previous line contains $f_5$ itself, by the first line). A quantity whose rate of change is a fixed negative multiple of itself decreases **exponentially**: in every interval of time of length $1/(AH)$ it is multiplied by the same factor $e^{-1} = 0.3679$. The same steps give $d f_1 / d x_4 = +A H\, f_1$: ordinary space inflates exponentially. Status: PROVED (for the ASSUMED history). In every history the product of an inflating and a deflating factor is constant in time:
+(the previous line contains $f_5$ itself, by the first line). A quantity whose rate of change is a fixed negative multiple of itself decreases **exponentially**: in every interval of time of length $1/(AH)$ it is multiplied by the same factor $e^{-1} = 0.3679$. The same steps give $d f_1 / d x_4 = +A H\, f_1$: ordinary space inflates exponentially. Status: PROVED (for the ASSUMED history). In every history the product of an inflating and a deflating factor contains no $a_4$:
 
 $$
-f_1 f_5 = e^{a_4} e^{-a_4} \sin^{1/6} z \, \sin^{1/6} z = \sin^{1/3} z
+f_1 f_5 = b_4^{1/2}\, e^{a_4} e^{-a_4} \sin^{1/6} z \, \sin^{1/6} z = b_4^{1/2} \sin^{1/3} z
 $$
 
-(the law of exponents $e^{u} e^{v} = e^{u + v}$ gives $e^{a_4 - a_4} = e^{0} = 1$, and $u^{1/6} u^{1/6} = u^{1/3}$).
+(the law of exponents $e^{u} e^{v} = e^{u + v}$ gives $e^{a_4 - a_4} = e^{0} = 1$, and $u^{1/6} u^{1/6} = u^{1/3}$); it is constant in time whenever $b_4$ is.
 
 **Fact 4: the determinant and the volume factor.** The **determinant** is one number computed from a square matrix (Chapter 1 defines it in general); for a diagonal matrix it is the product of the diagonal entries (a fact proved in Chapter 1 and used here). For the author's metric:
 
 $$
-\det g = \left(e^{2 a_4} \sin^{1/3} z\right)^3 \cdot (-1) \cdot \left(-e^{-2 a_4} \sin^{1/3} z\right)^3 \cdot \cot^2 z
+\det g = \cot^2 z \cdot \left(e^{2 a_4} \sin^{1/3} z\right)^3 \cdot (-1) \cdot \left(-b_4\, e^{-2 a_4} \sin^{1/3} z\right)^3
 $$
 
 (the product of the eight entries, the three equal entries of ordinary space and the three equal entries of the extra times collected as cubes),
@@ -801,48 +801,48 @@ $$
 (the rule $(uv)^3 = u^3 v^3$, then $(e^{2 a_4})^3 = e^{6 a_4}$ and $(\sin^{1/3} z)^3 = \sin z$, both by the power rule $(u^p)^q = u^{pq}$),
 
 $$
-\left(-e^{-2 a_4} \sin^{1/3} z\right)^3 = (-1)^3\, e^{-6 a_4} \sin z = -e^{-6 a_4} \sin z
+\left(-b_4\, e^{-2 a_4} \sin^{1/3} z\right)^3 = (-1)^3\, b_4^3\, e^{-6 a_4} \sin z = -b_4^3\, e^{-6 a_4} \sin z
 $$
 
 (the same rules, and $(-1)^3 = -1$),
 
 $$
-\det g = e^{6 a_4} \sin z \cdot (-1) \cdot \left(-e^{-6 a_4} \sin z\right) \cdot \cot^2 z
+\det g = \cot^2 z \cdot e^{6 a_4} \sin z \cdot (-1) \cdot \left(-b_4^3\, e^{-6 a_4} \sin z\right)
 $$
 
 (substitution of the two cubes into the first line),
 
 $$
-\det g = e^{6 a_4} e^{-6 a_4} \cdot (-1)(-1) \cdot \sin^2 z \cot^2 z
+\det g = b_4^3 \cdot e^{6 a_4} e^{-6 a_4} \cdot (-1)(-1) \cdot \sin^2 z \cot^2 z
 $$
 
 (the factors of a product may be taken in any order),
 
 $$
-\det g = \sin^2 z \cot^2 z
+\det g = b_4^3 \sin^2 z \cot^2 z
 $$
 
 ($e^{6 a_4} e^{-6 a_4} = e^{0} = 1$ by the law of exponents, and $(-1)(-1) = 1$),
 
 $$
-\det g = \sin^2 z \cdot \frac{\cos^2 z}{\sin^2 z} = \cos^2 z
+\det g = b_4^3 \sin^2 z \cdot \frac{\cos^2 z}{\sin^2 z} = b_4^3 \cos^2 z
 $$
 
 (the definition $\cot z = \cos z / \sin z$, then cancelling $\sin^2 z$, which is not zero on the patch). The determinant does not contain $a_4$. Its square root is
 
 $$
-\sqrt{|\det g|} = \sqrt{\cos^2 z} = \cos z
+\sqrt{|\det g|} = \sqrt{b_4^3 \cos^2 z} = b_4^{3/2} \cos z
 $$
 
-(the determinant is positive, and the square root of a square is the absolute value, $|\cos z| = \cos z$ on the patch). This number is the **volume factor**: a small box with the coordinate sides $dx_1, \ldots, dx_8$ has the sides $f_1\, dx_1, \ldots, f_8\, dx_8$ in length, so its volume is $f_1 f_2 \cdots f_8 \, dx_1 \cdots dx_8$, and the product of the length factors is $f_1 \cdots f_8 = \sqrt{|g_{11}| \cdots |g_{88}|} = \sqrt{|\det g|}$ (a product of square roots is the square root of the product). Written with the length factors of Fact 2, $f_1 f_2 f_3 f_5 f_6 f_7 = (f_1 f_5)^3 = \sin z$ by Fact 3, and $f_4 f_8 = \cot z$, so the volume factor is $\sin z \cot z = \cos z$ once more. The inflation of the three directions of ordinary space and the deflation of the three extra times cancel exactly in the volume. Status: PROVED, by the derivation above and by three exact symbolic computations of the Revision record that hold for every function $a_4$:
+(the determinant is positive, the square root of a product of nonnegative numbers is the product of their square roots, $\sqrt{b_4^3} = b_4^{3/2}$, and the square root of a square is the absolute value, $|\cos z| = \cos z$ on the patch). This number is the **volume factor**: a small box with the coordinate sides $dx_0, \ldots, dx_7$ has the sides $f_0\, dx_0, \ldots, f_7\, dx_7$ in length, so its volume is $f_0 f_1 \cdots f_7 \, dx_0 \cdots dx_7$, and the product of the length factors is $f_0 \cdots f_7 = \sqrt{|g_{00}| \cdots |g_{77}|} = \sqrt{|\det g|}$ (a product of square roots is the square root of the product). Written with the length factors of Fact 2, $f_1 f_2 f_3 f_5 f_6 f_7 = (f_1 f_5)^3 = b_4^{3/2} \sin z$ by Fact 3, and $f_0 f_4 = \cot z$, so the volume factor is $b_4^{3/2} \sin z \cot z = b_4^{3/2} \cos z$ once more. The inflation of the three directions of ordinary space and the deflation of the three extra times cancel exactly in the volume; the volume factor changes in time only through $b_4$, and at $b_4 = 1$ it is $\cos z$. Status: PROVED, by the derivation above and by exact symbolic computations of the Revision record that hold for every function $a_4$:
 
-- the Wolfram verifier of the field theory, in its report `Revision/theory/reports/wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z`;
-- the Python verifier of the field theory, in its report `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`;
-- the Wolfram verifier of the field equations for $a_4$, in its report `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g_is_cos_z`.
+- the Wolfram verifier of the field theory with $b_4$, in its report `Revision/theory/reports/wolfram-field-theory-b4.json`, check `sqrt_det_g` ($\det g = b_4^3 \cos^2 z$);
+- the Wolfram verifier of the field equations for $a_4$ and $b_4$, in its report `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g_is_cos_z` ($\sqrt{|\det g|} = b_4^{3/2} \cos z$);
+- at $b_4 = 1$, the Wolfram verifier of the field theory, in its report `Revision/theory/reports/wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z`, and the Python verifier of the field theory, in its report `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`.
 
-**Numbers to check by hand.** At $z = \pi/4$ we have $\sin(\pi/4) = 1/\sqrt{2} = 2^{-1/2}$, so $\sin^{1/6}(\pi/4) = 2^{-1/12} = 0.9439$, and $\cot(\pi/4) = 1$, $\cos(\pi/4) = 0.7071$. With $a_4 = 0.5$ the factor of ordinary space is $e^{0.5} \cdot 0.9439 = 1.6487 \cdot 0.9439 = 1.5562$ and that of an extra time $e^{-0.5} \cdot 0.9439 = 0.6065 \cdot 0.9439 = 0.5725$; with $a_4 = 1$ they are $2.7183 \cdot 0.9439 = 2.5657$ and $0.3679 \cdot 0.9439 = 0.3472$. In every case the product of the eight factors is $\cos(\pi/4) = 0.7071$. Notebook 00b prints exactly these numbers.
+**Numbers to check by hand.** Take $b_4 = 1$. At $z = \pi/4$ we have $\sin(\pi/4) = 1/\sqrt{2} = 2^{-1/2}$, so $\sin^{1/6}(\pi/4) = 2^{-1/12} = 0.9439$, and $\cot(\pi/4) = 1$, $\cos(\pi/4) = 0.7071$. With $a_4 = 0.5$ the factor of ordinary space is $e^{0.5} \cdot 0.9439 = 1.6487 \cdot 0.9439 = 1.5562$ and that of an extra time $e^{-0.5} \cdot 0.9439 = 0.6065 \cdot 0.9439 = 0.5725$; with $a_4 = 1$ they are $2.7183 \cdot 0.9439 = 2.5657$ and $0.3679 \cdot 0.9439 = 0.3472$. In every case the product of the eight factors is $\cos(\pi/4) = 0.7071$. With $b_4 = 2$ every extra-time factor is multiplied by $\sqrt{2}$ and the product by $2^{3/2} = 2.8284$. Notebook 00b prints exactly these numbers.
 
-**Example: the eight directions in numbers and pictures.** Notebook 00b reads the names and the signs of the eight coordinates from the Revision record, writes the author's metric with the package sympy and compares its eight entries, one by one, with the formulas that the Revision verifier recorded, checks the signs of the entries at 4819 points, computes the determinant exactly, prints the table of the length factors above, and draws four figures: the signs as a picture, the growing and the shrinking factor, the eight length factors as bars, and the volume factor. It checks every fact of this section and ends with ALL 14 CHECKS PASSED (notebook 00b).
+**Example: the eight directions in numbers and pictures.** Notebook 00b reads the names and the signs of the eight coordinates from the Revision record, writes the author's metric with the package sympy and compares its eight entries, one by one, with the formulas that the Revision verifiers recorded (the metric with $b_4$, and the metric at $b_4 = 1$), checks the signs of the entries at 14457 points, computes the determinant exactly, prints the table of the length factors above, and draws four figures: the signs as a picture, the growing and the shrinking factor, the eight length factors as bars, and the volume factor. It checks every fact of this section and ends with ALL 17 CHECKS PASSED (notebook 00b).
 
 <!-- NOTEBOOK 00b -->
 
@@ -866,14 +866,15 @@ The module `sys` of Python gives access to the running Python itself; the notebo
 ```python
 GAMMAS_FILE = "Revision/algebra/gammas.json"  # coordinates, signs and gammas
 gammas_record = json.loads(repository_file(GAMMAS_FILE).read_text(encoding="utf-8"))
-coordinates = gammas_record["coordinates"]  # the names x1 ... x8, in order
+coordinates = gammas_record["coordinates"]  # the names x0 ... x7, in order
 eta = gammas_record["eta"]  # the sign of each direction: +1 or -1
 ```
 
-The first line names the record file. In the second line, `repository_file(GAMMAS_FILE)` is its full path (Section 0.13), `.read_text(encoding="utf-8")` reads the whole file as one string, and `json.loads` turns that JSON text into Python's dictionaries and lists. The file is one big dictionary; `gammas_record["coordinates"]` takes the value stored under the key `coordinates`, the list of the eight names `["x1", ..., "x8"]`, and `gammas_record["eta"]` the list of the eight signs `[1, 1, 1, -1, -1, -1, -1, 1]`. (The same file also holds the gamma matrices of Chapter 4.)
+The first line names the record file. In the second line, `repository_file(GAMMAS_FILE)` is its full path (Section 0.13), `.read_text(encoding="utf-8")` reads the whole file as one string, and `json.loads` turns that JSON text into Python's dictionaries and lists. The file is one big dictionary; `gammas_record["coordinates"]` takes the value stored under the key `coordinates`, the list of the eight names `["x0", ..., "x7"]`, and `gammas_record["eta"]` the list of the eight signs `[1, 1, 1, 1, -1, -1, -1, -1]`. (The same file also holds the gamma matrices of Chapter 4.)
 
 ```python
 ROLES = {  # the role of each coordinate in the author's universe
+    "x0": "hidden direction of space",
     "x1": "ordinary space (inflates)",
     "x2": "ordinary space (inflates)",
     "x3": "ordinary space (inflates)",
@@ -881,7 +882,6 @@ ROLES = {  # the role of each coordinate in the author's universe
     "x5": "extra time (deflates)",
     "x6": "extra time (deflates)",
     "x7": "extra time (deflates)",
-    "x8": "hidden direction of space",
 }
 ```
 
@@ -895,7 +895,7 @@ for name, sign in zip(coordinates, eta):
     say(f"{name:10}  {sign:+d}    {kind:10}  {ROLES[name]}")
 ```
 
-The first line prints the header of a table. `zip(coordinates, eta)` pairs the two lists entry by entry: `("x1", 1)`, `("x2", 1)`, and so on; the loop names the two parts of each pair `name` and `sign`. The **conditional expression** `"space-like" if sign > 0 else "time-like"` has the first value when the condition holds and the second otherwise. In the f-string, `{name:10}` pads the name to 10 characters, `{sign:+d}` writes the whole number with its sign (`+1` or `-1`), `{kind:10}` pads the kind, and `{ROLES[name]}` looks up the role. The eight lines of the table are the first eight lines of Out [2].
+The first line prints the header of a table. `zip(coordinates, eta)` pairs the two lists entry by entry: `("x0", 1)`, `("x1", 1)`, and so on; the loop names the two parts of each pair `name` and `sign`. The **conditional expression** `"space-like" if sign > 0 else "time-like"` has the first value when the condition holds and the second otherwise. In the f-string, `{name:10}` pads the name to 10 characters, `{sign:+d}` writes the whole number with its sign (`+1` or `-1`), `{kind:10}` pads the kind, and `{ROLES[name]}` looks up the role. The eight lines of the table are the first eight lines of Out [2].
 
 ```python
 def recorded_check(path, name):
@@ -925,13 +925,13 @@ verdict, detail = recorded_check(ALGEBRA_REPORT, "eta_in_author_order")
 say(f"The Wolfram verifier recorded for eta_in_author_order: {verdict}")
 ```
 
-These lines read what the Wolfram verifier of the algebra recorded for its check `eta_in_author_order` (that the signs are $(+, +, +, -, -, -, -, +)$ in the order $x_1, \ldots, x_8$). The two returned values are named `verdict` and `detail`, and the verdict is printed: PASS (Out [2], ninth line).
+These lines read what the Wolfram verifier of the algebra recorded for its check `eta_in_author_order` (that the signs are $(+, +, +, +, -, -, -, -)$ in the order $x_0, \ldots, x_7$). The two returned values are named `verdict` and `detail`, and the verdict is printed: PASS (Out [2], ninth line).
 
 ```python
-check(coordinates == ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"],
-      "the record names the eight coordinates x1 to x8 in this order")
-check(eta == [1, 1, 1, -1, -1, -1, -1, 1],
-      "the record gives the signs (+,+,+,-,-,-,-,+) in the order x1..x8")
+check(coordinates == ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"],
+      "the record names the eight coordinates x0 to x7 in this order")
+check(eta == [1, 1, 1, 1, -1, -1, -1, -1],
+      "the record gives the signs (+,+,+,+,-,-,-,-) in the order x0..x7")
 check(eta.count(1) == 4 and eta.count(-1) == 4,
       "four space-like and four time-like directions: the signature is (4,4)")
 check(verdict == "PASS",
@@ -978,8 +978,8 @@ for row in range(8):
 Two loops, one inside the other, visit all 64 squares; `range(8)` gives the numbers 0 to 7. `eta_matrix[row, column]` is the entry in that row and column (counted from 0), turned into a whole number with `int`. The text is `0`, or the entry with its sign. Dark grey letters are used on the light grey squares and white letters on the coloured ones. `ax.text(column, row, ...)` writes the text centred (`ha` and `va`: horizontal and vertical alignment) in the square; the horizontal position comes first, so the column comes before the row.
 
 ```python
-ax.set_xticks(range(8), labels=coordinates)  # label the columns x1 ... x8
-ax.set_yticks(range(8), labels=coordinates)  # label the rows x1 ... x8
+ax.set_xticks(range(8), labels=coordinates)  # label the columns x0 ... x7
+ax.set_yticks(range(8), labels=coordinates)  # label the rows x0 ... x7
 ax.grid(False)  # no grid lines across the squares
 ax.set_title(r"The signs $\eta$ of the eight directions (signature (4,4))")
 legend_squares = [Patch(color=RED, label="+1: space-like"),
@@ -995,143 +995,198 @@ save_figure(fig, "eta_heat_map",
             r"The signs of the author's eight directions drawn as a heat map: the "
             r"8 by 8 diagonal matrix $\eta$ with the sign of each coordinate on its "
             r"diagonal and 0 everywhere else; rows and columns are labelled by the "
-            r"coordinates $x_1$ to $x_8$, and the entries are pure numbers. Red "
-            r"squares are $+1$ (space-like: $x_1$, $x_2$, $x_3$, $x_8$), blue "
+            r"coordinates $x_0$ to $x_7$, and the entries are pure numbers. Red "
+            r"squares are $+1$ (space-like: $x_0$, $x_1$, $x_2$, $x_3$), blue "
             r"squares $-1$ (time-like: the time $x_4$ and the extra times $x_5$, "
             r"$x_6$, $x_7$), grey squares 0. Four entries are $+1$ and four are "
             r"$-1$: the signature is (4,4).")
 ```
 
-The figure is saved as `00b_1_eta_heat_map.png` with this caption (the raw strings written next to each other are joined into one) and shown; Out [3] is the figure and the line Figure 00b.1 saved as .... What Figure 00b.1 shows: the diagonal of the matrix, from the top left, has three red squares, four blue squares and a last red square, the pattern $(+, +, +, -, -, -, -, +)$ of Fact 1 of Section 0.14.
+The figure is saved as `00b_1_eta_heat_map.png` with this caption (the raw strings written next to each other are joined into one) and shown; Out [3] is the figure and the line Figure 00b.1 saved as .... What Figure 00b.1 shows: the diagonal of the matrix, from the top left, has four red squares followed by four blue squares, the pattern $(+, +, +, +, -, -, -, -)$ of Fact 1 of Section 0.14.
 
 **In [4], the author's metric written with sympy.**
 
 ```python
-x4, x8, H = sp.symbols("x4 x8 H", positive=True)  # time, hidden coordinate, H
+x4, x0, H = sp.symbols("x4 x0 H", positive=True)  # time, hidden coordinate, H
 a4 = sp.Function("a4")(x4)  # the metric function a4, an unknown function of x4
-z = 6 * H * x8  # the combination z = 6 H x8
+b4 = sp.Function("b4", positive=True)(x4)  # the metric function b4 > 0 of x4
+z = 6 * H * x0  # the combination z = 6 H x0
 third = sp.Rational(1, 3)  # the exact fraction 1/3
 ```
 
-`sp.symbols` makes three symbols at once; `positive=True` tells sympy that they stand for positive numbers, which lets it simplify more. `sp.Function("a4")` makes an unknown function called `a4`, and `(x4)` makes it a function of $x_4$: sympy knows nothing about it except that it depends on $x_4$, so every result below holds for every history $a_4(x_4)$. `z` is the expression $6 H x_8$. `sp.Rational(1, 3)` is the exact fraction $1/3$; the decimal number 0.3333 would be rounded and not exact.
+`sp.symbols` makes three symbols at once; `positive=True` tells sympy that they stand for positive numbers, which lets it simplify more. `sp.Function("a4")` makes an unknown function called `a4`, and `(x4)` makes it a function of $x_4$: sympy knows nothing about it except that it depends on $x_4$, so every result below holds for every history $a_4(x_4)$. `sp.Function("b4", positive=True)(x4)` makes the second metric function $b_4(x_4)$ in the same way, and tells sympy that its values are positive. `z` is the expression $6 H x_0$. `sp.Rational(1, 3)` is the exact fraction $1/3$; the decimal number 0.3333 would be rounded and not exact.
 
 ```python
 grow = sp.exp(2 * a4) * sp.sin(z) ** third  # e^(2 a4) sin^(1/3) z
-shrink = sp.exp(-2 * a4) * sp.sin(z) ** third  # e^(-2 a4) sin^(1/3) z
-g = sp.diag(grow, grow, grow, -1, -shrink, -shrink, -shrink, sp.cot(z) ** 2)
+shrink = b4 * sp.exp(-2 * a4) * sp.sin(z) ** third  # b4 e^(-2 a4) sin^(1/3) z
+# the author's order x0, x1, ..., x7: the hidden direction x0 first
+g = sp.diag(sp.cot(z) ** 2, grow, grow, grow, -1, -shrink, -shrink, -shrink)
 ```
 
-The two kinds of entry of the metric, and the diagonal $8 \times 8$ matrix `g` with the eight entries of Section 0.14 in the order $x_1, \ldots, x_8$.
+The two kinds of entry of the metric, and the diagonal $8 \times 8$ matrix `g` with the eight entries of Section 0.14 in the order $x_0, \ldots, x_7$: the hidden direction first, then ordinary space, the time and the three extra times.
+
+```python
+METRIC_B4_FILE = "Revision/metric_b4/results/metric-b4.json"
+metric_b4 = json.loads(repository_file(METRIC_B4_FILE).read_text(encoding="utf-8"))
+```
+
+The file `Revision/metric_b4/results/metric-b4.json` is the record of the metric with $b_4$, written by the Wolfram program of the Revision record; its key `metricDiagonal` holds the eight diagonal entries as texts in the notation of the program Mathematica, for example `-((b4[x4]*Sin[6*H*x0]^(1/3))/E^(2*a4[x4]))` for $-b_4 e^{-2a_4} \sin^{1/3} z$, and its key `coordinates` the names of the coordinates.
+
+```python
+# The Mathematica texts in Python notation: a4[x4] -> a4(x4), ^ -> **, and so on.
+MATHEMATICA = [("a4[x4]", "a4(x4)"), ("b4[x4]", "b4(x4)"), ("Sin[", "sin("),
+               ("Cot[", "cot("), ("]", ")"), ("^", "**")]
+letters = {"a4": sp.Function("a4"), "b4": sp.Function("b4", positive=True),
+           "x4": x4, "x0": x0, "H": H, "E": sp.E}
+different = []  # the entries whose difference from ours is not zero
+```
+
+`MATHEMATICA` is a list of pairs (old text, new text): Mathematica writes a function value with square brackets, `a4[x4]`, and a power with `^`; Python writes `a4(x4)` and `**`. The dictionary `letters` tells sympy what each name in the translated texts means: `a4` and `b4` are the two functions, `x4`, `x0` and `H` our symbols, and `E` the number $e$ (`sp.E`). The empty list `different` will collect the positions of entries that differ from ours.
+
+```python
+for k, text in enumerate(metric_b4["metricDiagonal"]):
+    for old, new in MATHEMATICA:
+        text = text.replace(old, new)
+    if sp.simplify(sp.sympify(text, locals=letters) - g[k, k]) != 0:
+        different.append(k)
+    say(f"metric-b4.json g_x{k}x{k} = {text}")
+```
+
+`enumerate(...)` gives each recorded text together with its position `k` = 0, 1, ..., 7. The inner loop makes the replacements of `MATHEMATICA` one after the other (`.replace(old, new)` replaces every occurrence of `old`). `sp.sympify` turns the translated text into a sympy expression, reading the names with the dictionary `letters`; `g[k, k]` is our diagonal entry number `k`; `sp.simplify` simplifies the difference of the two, and if it is not exactly zero, the position is noted. The loop prints each translated text: the eight lines metric-b4.json g_x0x0 = cot(6*H*x0)**2 to metric-b4.json g_x7x7 = ... of Out [4]. (In the printed formulas `**` is the power, `*` the product, and `/E**(2*a4(x4))` divides by $e^{2a_4}$, which is the same as multiplying by $e^{-2a_4}$.)
+
+```python
+verdict, detail = recorded_check(
+    "Revision/metric_b4/results/wolfram-metric-b4-report.json",
+    "metric_equals_author_Out101")
+check_reproduces(
+    metric_b4["coordinates"] == coordinates and len(metric_b4["metricDiagonal"]) == 8
+    and different == [] and verdict == "PASS",
+    "our eight entries equal the metric with b4 of the Revision record, which the "
+    "Wolfram verifier found equal to the metric in the author's notebook",
+    "Revision/metric_b4/results/wolfram-metric-b4-report.json, check "
+    "metric_equals_author_Out101")
+```
+
+The Wolfram verifier of the metric with $b_4$ compared this metric, component by component, with the metric stored in the author's own notebook (the output Out[101] of `Dirac_Einstein-Lovelock_4+4_Nash.nb`) and recorded the verdict of its check `metric_equals_author_Out101`. The check requires the same coordinate names in the same order as in `gammas.json`, eight entries, no difference, and the verdict PASS; Out [4] prints the PASS line and the record it reproduces.
 
 ```python
 THEORY_REPORT = "Revision/theory/reports/python-field-theory.json"
 verdict, detail = recorded_check(THEORY_REPORT, "metric_from_vielbein_equals_SPEC")
 formulas = detail.split("exactly: ", 1)[1].split("; ")  # the 8 texts "g_.. = ..."
+g_at_b4_1 = g.subs(b4, 1)  # the metric at b4 = 1
 ```
 
-The Python verifier of the field theory recorded, in the detail of its check `metric_from_vielbein_equals_SPEC`, the eight entries of the metric that it rebuilt from its own construction (the vielbein of Chapter 6). The detail is a sentence that ends with `exactly:` followed by the eight formulas separated by a semicolon and a blank. `detail.split("exactly: ", 1)` cuts the text at the first `exactly: ` into two pieces; `[1]` keeps the second piece (Python counts from 0), and `.split("; ")` cuts it into the list of the eight texts such as `g_x1x1 = exp(2*a4(x4))*sin(6*H*x8)**(1/3)`.
+The Python verifier of the field theory works with the metric at $b_4 = 1$, the background of the record. It recorded, in the detail of its check `metric_from_vielbein_equals_SPEC`, the eight entries that it rebuilt from its own construction (the vielbein of Chapter 6). The detail is a sentence that ends with `exactly:` followed by the eight formulas separated by a semicolon and a blank. `detail.split("exactly: ", 1)` cuts the text at the first `exactly: ` into two pieces; `[1]` keeps the second piece (Python counts from 0), and `.split("; ")` cuts it into the list of the eight texts such as `g_x1x1 = exp(2*a4(x4))*sin(6*H*x0)**(1/3)`. `g.subs(b4, 1)` is our matrix with the function $b_4$ replaced by the number 1.
 
 ```python
-# How sympify must read the letters of the formulas: a4 is a function, x4, x8 and
-# H are our symbols.
-letters = {"a4": sp.Function("a4"), "x4": x4, "x8": x8, "H": H}
-labels = []  # the names g_x1x1, g_x2x2, ... in the order of the record
+labels = []  # the names g_x0x0, g_x1x1, ... in the order of the record
 different = []  # the entries whose difference from ours is not zero
-```
-
-A dictionary that tells sympy what each name in the recorded formulas means, and two empty lists to be filled by the loop.
-
-```python
 for k, text in enumerate(formulas):
-    label, formula = text.split(" = ")  # "g_x1x1" and its formula
+    label, formula = text.split(" = ")  # "g_x0x0" and its formula
     labels.append(label)
     recorded = sp.sympify(formula, locals=letters)  # the text as a sympy formula
-    if sp.simplify(recorded - g[k, k]) != 0:
+    if sp.simplify(recorded - g_at_b4_1[k, k]) != 0:
         different.append(label)
-    say(f"recorded {label} = {formula}")
 ```
 
-`enumerate(formulas)` gives each text together with its position `k` = 0, 1, ..., 7. Each text is cut at ` = ` into the name and the formula. `sp.sympify` turns the formula text into a sympy expression, reading the names with the dictionary `letters`. `g[k, k]` is our diagonal entry number `k`; `sp.simplify` simplifies the difference of the two, and if it is not exactly zero, the name is noted in `different`. The loop prints each recorded formula: the eight lines recorded g_x1x1 = ... of Out [4]. (In the printed formulas `**` is the power and `*` the product.)
+Two empty lists, and a loop like the one above: each text is cut at ` = ` into the name and the formula, the name is noted in `labels`, the formula is turned into a sympy expression, and if it differs from our entry at $b_4 = 1$, the name is noted in `different`.
 
 ```python
-in_order = [f"g_x{k}x{k}" for k in range(1, 9)]  # g_x1x1, ..., g_x8x8
+in_order = [f"g_x{k}x{k}" for k in range(8)]  # g_x0x0, ..., g_x7x7
 check_reproduces(
     verdict == "PASS" and labels == in_order and different == [],
-    "our eight entries equal the eight entries recorded by the Revision verifier",
+    "at b4 = 1 our eight entries equal the eight entries recorded by the Revision "
+    "verifier of the field theory",
     f"{THEORY_REPORT}, check metric_from_vielbein_equals_SPEC")
 ```
 
-`range(1, 9)` gives 1 to 8, so `in_order` is the list of the names `g_x1x1` to `g_x8x8`. The check requires the recorded verdict PASS, the names in the order $x_1, \ldots, x_8$, and no difference; it names the record it reproduces, and Out [4] ends with the PASS line and the line reproduces Revision/theory/reports/python-field-theory.json, check metric_from_vielbein_equals_SPEC.
+`range(8)` gives 0 to 7, so `in_order` is the list of the names `g_x0x0` to `g_x7x7`. The check requires the recorded verdict PASS, the names in the order $x_0, \ldots, x_7$, and no difference; Out [4] ends with the PASS line and the line reproduces Revision/theory/reports/python-field-theory.json, check metric_from_vielbein_equals_SPEC.
 
-**In [5], the signs at 4819 points.**
+**In [5], the signs at 14457 points.**
 
 ```python
-a, zeta = sp.symbols("a zeta", real=True)  # plain numbers for a4 and for 6 H x8
-# x8 = zeta / (6 H) makes 6 H x8 = zeta; sympy cancels the 6 H automatically.
-entries = [g[k, k].subs(a4, a).subs(x8, zeta / (6 * H)) for k in range(8)]
-# entry_functions[k](a, zeta) computes the entry g_kk with numpy.
-entry_functions = [sp.lambdify((a, zeta), entry, "numpy") for entry in entries]
+# plain numbers for a4, for b4 (positive) and for 6 H x0
+a, zeta = sp.symbols("a zeta", real=True)
+b = sp.Symbol("b", positive=True)
+# x0 = zeta / (6 H) makes 6 H x0 = zeta; sympy cancels the 6 H automatically.
+entries = [g[k, k].subs({a4: a, b4: b}).subs(x0, zeta / (6 * H)) for k in range(8)]
+# entry_functions[k](a, b, zeta) computes the entry g_kk with numpy.
+entry_functions = [sp.lambdify((a, b, zeta), entry, "numpy") for entry in entries]
 ```
 
-Two new symbols, $a$ for a value of the metric function and $\zeta$ (zeta) for a value of $z$. `.subs(a4, a)` replaces the function $a_4(x_4)$ by the plain symbol $a$, and `.subs(x8, zeta / (6 * H))` replaces $x_8$ by $\zeta/(6H)$, so that $z = 6 H x_8$ becomes $\zeta$. The list `entries` holds the eight diagonal entries as formulas in $a$ and $\zeta$ alone. `sp.lambdify((a, zeta), entry, "numpy")` turns a formula into an ordinary Python function of two numbers that computes it with numpy, fast and for whole arrays at once.
+Three new symbols, $a$ for a value of $a_4$, $b$ for a (positive) value of $b_4$, and $\zeta$ (zeta) for a value of $z$. `.subs({a4: a, b4: b})` replaces the two functions by the plain symbols, and `.subs(x0, zeta / (6 * H))` replaces $x_0$ by $\zeta/(6H)$, so that $z = 6 H x_0$ becomes $\zeta$. The list `entries` holds the eight diagonal entries as formulas in $a$, $b$ and $\zeta$ alone. `sp.lambdify((a, b, zeta), entry, "numpy")` turns a formula into an ordinary Python function of three numbers that computes it with numpy, fast and for whole arrays at once.
 
 ```python
 # Two arrays of shape 79 x 61: every combination of the 61 values of a and the 79
 # values of zeta.
 a_grid, zeta_grid = np.meshgrid(np.linspace(-3.0, 3.0, 61),
                                 np.linspace(0.01, np.pi / 2 - 0.01, 79))
+b_values = (0.5, 1.0, 2.0)  # three values of b4
 wrong_signs = 0  # the number of (point, entry) pairs with a wrong sign
 ```
 
-`np.linspace(-3.0, 3.0, 61)` gives 61 equally spaced values of $a$ from $-3$ to $3$ (steps of 0.1) and the second `np.linspace` 79 values of $\zeta$ inside the patch, from 0.01 to $\pi/2 - 0.01$. `np.meshgrid` makes two tables of 79 rows and 61 columns: in `a_grid` every row is the list of the 61 values of $a$, in `zeta_grid` every column is the list of the 79 values of $\zeta$; read together, the two tables list all $61 \cdot 79 = 4819$ pairs $(a, \zeta)$. The counter of wrong signs starts at 0.
+`np.linspace(-3.0, 3.0, 61)` gives 61 equally spaced values of $a$ from $-3$ to $3$ (steps of 0.1) and the second `np.linspace` 79 values of $\zeta$ inside the patch, from 0.01 to $\pi/2 - 0.01$. `np.meshgrid` makes two tables of 79 rows and 61 columns: in `a_grid` every row is the list of the 61 values of $a$, in `zeta_grid` every column is the list of the 79 values of $\zeta$; read together, the two tables list all $61 \cdot 79 = 4819$ pairs $(a, \zeta)$. The grid is used for each of the three values $b = 0.5$, 1 and 2, so $3 \cdot 4819 = 14457$ points are tested. The counter of wrong signs starts at 0.
 
 ```python
-for k in range(8):
-    # np.full_like makes an array of the grid's shape; a constant entry such as
-    # -1 is then repeated at every point.
-    values = np.full_like(a_grid, 1.0) * entry_functions[k](a_grid, zeta_grid)
-    wrong_signs += int(np.sum(np.sign(values) != eta[k]))
+for b_value in b_values:
+    for k in range(8):
+        # np.full_like makes an array of the grid's shape; a constant entry such as
+        # -1 is then repeated at every point.
+        values = (np.full_like(a_grid, 1.0)
+                  * entry_functions[k](a_grid, b_value, zeta_grid))
+        wrong_signs += int(np.sum(np.sign(values) != eta[k]))
 ```
 
-For each entry $k$, `entry_functions[k](a_grid, zeta_grid)` computes the entry at all 4819 points at once. For the constant entry $g_{44} = -1$ the function returns the single number $-1$; multiplying by `np.full_like(a_grid, 1.0)`, a table of the grid's shape filled with 1.0, makes every result a table of 4819 values. `np.sign` gives $+1$ for a positive and $-1$ for a negative number; `!= eta[k]` compares each sign with the recorded sign of the direction, giving a table of `True` (wrong) and `False` (right); `np.sum` counts the `True` entries, and `+=` adds the count to the counter.
+For each value of $b$ and each entry $k$, `entry_functions[k](a_grid, b_value, zeta_grid)` computes the entry at all 4819 points of the grid at once. For the constant entry $g_{44} = -1$ the function returns the single number $-1$; multiplying by `np.full_like(a_grid, 1.0)`, a table of the grid's shape filled with 1.0, makes every result a table of 4819 values. `np.sign` gives $+1$ for a positive and $-1$ for a negative number; `!= eta[k]` compares each sign with the recorded sign of the direction, giving a table of `True` (wrong) and `False` (right); `np.sum` counts the `True` entries, and `+=` adds the count to the counter.
 
 ```python
-report("points of the grid", a_grid.size)
+report("points of the grid", a_grid.size * len(b_values))
 report("(point, entry) pairs with a sign different from eta", wrong_signs)
 check_reproduces(
     wrong_signs == 0,
-    "every entry has the recorded sign at all 4819 points: (+,+,+,-,-,-,-,+)",
+    "every entry has the recorded sign at all 14457 points: (+,+,+,+,-,-,-,-)",
     f"{ALGEBRA_REPORT}, check eta_in_author_order")
 ```
 
-`a_grid.size` is the number of entries of the table, 4819. Out [5] prints this number, then 0 wrong signs, then the PASS line, which reproduces the Wolfram check `eta_in_author_order`. This is the COMPUTED confirmation of Fact 1 of Section 0.14.
+`a_grid.size` is the number of entries of the table, 4819, and `len(b_values)` is 3. Out [5] prints 14457, then 0 wrong signs, then the PASS line, which reproduces the Wolfram check `eta_in_author_order`. This is the COMPUTED confirmation of Fact 1 of Section 0.14.
 
 **In [6], the determinant.**
 
 ```python
 determinant = g.det()  # the product of the eight diagonal entries
-determinant_zeta = determinant.subs(x8, zeta / (6 * H))  # 6 H x8 replaced by zeta
+determinant_zeta = determinant.subs(x0, zeta / (6 * H))  # 6 H x0 replaced by zeta
 say(f"det g = {determinant_zeta}")
-say(f"    = {sp.trigsimp(determinant_zeta)}   (zeta stands for z = 6 H x8)")
+say(f"    = {sp.trigsimp(determinant_zeta)}   (zeta stands for z = 6 H x0)")
 ```
 
-`g.det()` computes the determinant of the sympy matrix exactly; sympy multiplies the eight entries and cancels $e^{6 a_4} e^{-6 a_4}$ by itself, as in Fact 4 of Section 0.14. For a short printout $6 H x_8$ is replaced by $\zeta$; sympy prints `sin(zeta)**2*cot(zeta)**2`, and `sp.trigsimp` (simplification with the rules of trigonometry) turns it into `cos(zeta)**2`. These are the first two lines of Out [6], the last two lines of the derivation of Fact 4.
+`g.det()` computes the determinant of the sympy matrix exactly; sympy multiplies the eight entries and cancels $e^{6 a_4} e^{-6 a_4}$ by itself, as in Fact 4 of Section 0.14. For a short printout $6 H x_0$ is replaced by $\zeta$; sympy prints `b4(x4)**3*sin(zeta)**2*cot(zeta)**2`, and `sp.trigsimp` (simplification with the rules of trigonometry) turns it into `b4(x4)**3*cos(zeta)**2`. These are the first two lines of Out [6], the last two lines of the derivation of Fact 4.
+
+```python
+WOLFRAM_THEORY_B4 = "Revision/theory/reports/wolfram-field-theory-b4.json"
+verdict, detail = recorded_check(WOLFRAM_THEORY_B4, "sqrt_det_g")
+say(f"The Wolfram verifier recorded for sqrt_det_g: {verdict}")
+check_reproduces(
+    sp.simplify(determinant - b4 ** 3 * sp.cos(z) ** 2) == 0 and verdict == "PASS",
+    "det g = b4^3 cos^2 z exactly, so sqrt|det g| = b4^(3/2) cos z on 0 < z < pi/2",
+    f"{WOLFRAM_THEORY_B4}, check sqrt_det_g")
+```
+
+The verdict of the Wolfram verifier of the field theory with $b_4$ for the same statement is read and printed (PASS). The check requires that the difference between our determinant and $b_4^3 \cos^2 z$, written with $x_0$ and $H$, simplifies to exactly 0, and that the Wolfram verifier recorded PASS.
 
 ```python
 WOLFRAM_THEORY = "Revision/theory/reports/wolfram-field-theory.json"
 verdict, detail = recorded_check(WOLFRAM_THEORY, "sqrt_det_g_is_cos_z")
-say(f"The Wolfram verifier recorded for sqrt_det_g_is_cos_z: {verdict}")
 check_reproduces(
-    sp.simplify(determinant - sp.cos(z) ** 2) == 0 and verdict == "PASS",
-    "det g = cos^2 z exactly, so sqrt|det g| = cos z on 0 < z < pi/2",
+    sp.simplify(determinant.subs(b4, 1) - sp.cos(z) ** 2) == 0 and verdict == "PASS",
+    "at b4 = 1: det g = cos^2 z, so sqrt|det g| = cos z",
     f"{WOLFRAM_THEORY}, check sqrt_det_g_is_cos_z")
 ```
 
-The verdict of the Wolfram verifier for the same statement is read and printed (PASS). The check requires that the difference between our determinant and $\cos^2 z$, written with $x_8$ and $H$, simplifies to exactly 0, and that the Wolfram verifier recorded PASS.
+The same at $b_4 = 1$: the determinant with the function $b_4$ replaced by 1 must be $\cos^2 z$, and the Wolfram verifier of the field theory at $b_4 = 1$ must have recorded PASS for its check `sqrt_det_g_is_cos_z`.
 
 ```python
-check(sp.diff(determinant, x4) == 0,
-      "det g does not depend on the time x4: no a4 in the volume factor")
+check(sp.simplify(sp.diff(determinant / b4 ** 3, x4)) == 0,
+      "det g / b4^3 does not depend on the time x4: no a4 in the volume factor")
 verdict, detail = recorded_check(
     "Revision/field_equations_a4/reports/wolfram-a4-report.json",
     "metric_is_SPEC_section_1")
@@ -1139,7 +1194,7 @@ check(verdict == "PASS",
       "the field-equation verifier recorded PASS for metric_is_SPEC_section_1")
 ```
 
-`sp.diff(determinant, x4)` is the derivative of the determinant with respect to the time; it is exactly zero, although the entries contain the unknown function $a_4(x_4)$. The last check reads the verdict that the Wolfram verifier of the field equations for $a_4$ recorded for its check that it used exactly this metric. Out [6] ends with three PASS lines.
+`sp.diff(determinant / b4 ** 3, x4)` is the derivative of $\det g / b_4^3$ with respect to the time; after simplification it is exactly zero, although the entries contain the unknown function $a_4(x_4)$: the determinant changes in time only through $b_4$. The last check reads the verdict that the Wolfram verifier of the field equations for $a_4$ and $b_4$ recorded for its check that it used exactly this metric. Out [6] ends with four PASS lines.
 
 **In [7], inflation and deflation.**
 
@@ -1150,7 +1205,7 @@ shrinking = np.exp(-a4_values)  # the extra-time factor e^(-a4)
 six_factors = growing ** 3 * shrinking ** 3  # three of each: e^(3 a4) e^(-3 a4)
 ```
 
-301 values of $a_4$ from 0 to 3 in steps of 0.01; at each, the factor $e^{a_4}$ of a direction of ordinary space and the factor $e^{-a_4}$ of an extra time (both divided by the common number $\sin^{1/6} z$), and the product of three of each.
+301 values of $a_4$ from 0 to 3 in steps of 0.01; at each, the factor $e^{a_4}$ of a direction of ordinary space and the factor $e^{-a_4}$ of an extra time at $b_4 = 1$ (both divided by the common number $\sin^{1/6} z$; a constant $b_4$ would only multiply the second by $b_4^{1/2}$), and the product of three of each.
 
 ```python
 ORANGE = "#eb6834"
@@ -1190,7 +1245,8 @@ ax.legend(loc="upper left")
 ```python
 save_figure(fig, "scale_factors",
             r"The length factors of the author's metric at a fixed hidden "
-            r"coordinate, divided by $\sin^{1/6} z$, against the metric function "
+            r"coordinate and $b_4 = 1$, divided by $\sin^{1/6} z$, against the "
+            r"metric function "
             r"$a_4$ from 0 to 3 (horizontal axis, a pure number; vertical axis "
             r"logarithmic, a pure number). Solid blue: $e^{a_4}$, the factor of "
             r"each direction of ordinary space, which grows to $e^3 = 20.09$; "
@@ -1220,13 +1276,14 @@ The first check requires the product to be 1 at all 301 points up to $10^{-12}$ 
 AQUA = "#1baf7a"
 z_fixed = np.pi / 4  # the hidden coordinate z = pi/4
 a4_choices = [0.0, 0.5, 1.0]
-factors = {}  # a4 -> the list of the eight length factors f1 ... f8
+factors = {}  # a4 -> the list of the eight length factors f0 ... f7
 for a4_value in a4_choices:
-    factors[a4_value] = [float(np.sqrt(abs(entry_functions[k](a4_value, z_fixed))))
-                         for k in range(8)]
+    factors[a4_value] = [float(np.sqrt(abs(entry_functions[k](a4_value, 1.0,
+                                                              z_fixed))))
+                         for k in range(8)]  # at b4 = 1
 ```
 
-A third colour, the fixed hidden coordinate $z = \pi/4$, and three values of $a_4$. For each value the list of the eight length factors $f_i = \sqrt{|g_{ii}|}$ of Fact 2 is computed with the numpy functions of In [5] (`abs` is the absolute value, `np.sqrt` the square root, `float` makes a plain Python number) and stored in the dictionary `factors` under the value of $a_4$.
+A third colour, the fixed hidden coordinate $z = \pi/4$, and three values of $a_4$. For each value the list of the eight length factors $f_i = \sqrt{|g_{ii}|}$ of Fact 2 is computed at $b_4 = 1$ (the middle argument 1.0) with the numpy functions of In [5] (`abs` is the absolute value, `np.sqrt` the square root, `float` makes a plain Python number) and stored in the dictionary `factors` under the value of $a_4$.
 
 ```python
 say("a4    " + "  ".join(f"{name:>6}" for name in coordinates) + "  product")
@@ -1235,7 +1292,7 @@ for a4_value in a4_choices:
     say(f"{a4_value:<4}  {row}  {np.prod(factors[a4_value]):.4f}")
 ```
 
-The table of Out [8]. `"  ".join(...)` joins texts with two blanks between them; `{name:>6}` writes a name right-aligned in 6 characters, `{value:6.4f}` a number with 4 decimals in 6 characters, and `{a4_value:<4}` the value of $a_4$ left-aligned in 4 characters. `np.prod` multiplies all entries of a list. The printed rows are the numbers of Section 0.14: 0.9439 for every direction except $x_4$ and $x_8$ at $a_4 = 0$; 1.5562 and 0.5725 at $a_4 = 0.5$; 2.5657 and 0.3472 at $a_4 = 1$; the factors of $x_4$ and $x_8$ are 1.0000, and the product is 0.7071 in each row.
+The table of Out [8]. `"  ".join(...)` joins texts with two blanks between them; `{name:>6}` writes a name right-aligned in 6 characters, `{value:6.4f}` a number with 4 decimals in 6 characters, and `{a4_value:<4}` the value of $a_4$ left-aligned in 4 characters. `np.prod` multiplies all entries of a list. The printed rows are the numbers of Section 0.14: the factors of $x_0$ and $x_4$ are 1.0000; the other six are 0.9439 at $a_4 = 0$; 1.5562 and 0.5725 at $a_4 = 0.5$; 2.5657 and 0.3472 at $a_4 = 1$; and the product is 0.7071 in each row.
 
 ```python
 fig, ax = plt.subplots()
@@ -1253,21 +1310,23 @@ A bar chart. `np.arange(8)` is the array 0, 1, ..., 7, one position per directio
 ax.set_xticks(positions, labels=coordinates)
 ax.set_xlabel("direction")
 ax.set_ylabel(r"length factor $f_i = \sqrt{|g_{ii}|}$ (pure number)")
-ax.set_title(r"The eight length factors at $z = \pi/4$ for three values of $a_4$")
+ax.set_title(r"The eight length factors at $z = \pi/4$, $b_4 = 1$, for three "
+             r"values of $a_4$")
 ax.legend(loc="upper center")
 save_figure(fig, "length_factors",
             r"The eight length factors $f_i = \sqrt{|g_{ii}|}$ of the author's "
-            r"metric at the hidden coordinate $z = \pi/4$ for $a_4 = 0$ (blue), "
+            r"metric at the hidden coordinate $z = \pi/4$ and $b_4 = 1$ for $a_4 = 0$ "
+            r"(blue), "
             r"$a_4 = 0.5$ (orange) and $a_4 = 1$ (aqua); horizontal axis the "
-            r"directions $x_1$ to $x_8$, vertical axis the factor (a pure number). "
+            r"directions $x_0$ to $x_7$, vertical axis the factor (a pure number). "
             r"The factors of ordinary space $x_1$, $x_2$, $x_3$ grow from 0.94 to "
             r"2.57 as $a_4$ grows from 0 to 1, those of the extra times $x_5$, "
-            r"$x_6$, $x_7$ shrink from 0.94 to 0.35, and those of the time $x_4$ "
-            r"and of the hidden direction $x_8$ stay 1. The product of the eight "
+            r"$x_6$, $x_7$ shrink from 0.94 to 0.35, and those of the hidden "
+            r"direction $x_0$ and of the time $x_4$ stay 1. The product of the eight "
             r"factors is $\cos(\pi/4) = 0.7071$ in all three cases.")
 ```
 
-Labels, title, legend, and the figure `00b_3_length_factors.png`. What Figure 00b.3 shows: over $x_1$, $x_2$, $x_3$ the bars rise from blue to orange to aqua; over $x_5$, $x_6$, $x_7$ they fall; over $x_4$ and $x_8$ all three bars have the height 1.
+Labels, title, legend, and the figure `00b_3_length_factors.png`. What Figure 00b.3 shows: over $x_0$ and $x_4$ all three bars have the height 1; over $x_1$, $x_2$, $x_3$ the bars rise from blue to orange to aqua; over $x_5$, $x_6$, $x_7$ they fall.
 
 ```python
 products = [float(np.prod(factors[a4_value])) for a4_value in a4_choices]
@@ -1275,71 +1334,105 @@ A4_REPORT = "Revision/field_equations_a4/reports/wolfram-a4-report.json"
 verdict, detail = recorded_check(A4_REPORT, "sqrt_abs_det_g_is_cos_z")
 check_reproduces(
     all(abs(p - np.cos(z_fixed)) < 1e-12 for p in products) and verdict == "PASS",
-    "the product of the eight factors is cos(pi/4) = 0.7071 for a4 = 0, 0.5, 1",
+    "the product of the eight factors is cos(pi/4) = 0.7071 for a4 = 0, 0.5, 1 "
+    "(b4 = 1)",
     f"{A4_REPORT}, check sqrt_abs_det_g_is_cos_z")
 ```
 
-The three products, and the verdict of the Wolfram check `sqrt_abs_det_g_is_cos_z` of the field equations for $a_4$. `all(...)` is true when the condition holds for every product: each must equal $\cos(\pi/4)$ up to $10^{-12}$. Out [8] ends with the PASS line and the record it reproduces.
+The three products, and the verdict of the Wolfram check `sqrt_abs_det_g_is_cos_z` of the field equations for $a_4$ and $b_4$ (it states $\sqrt{|\det g|} = b_4^{3/2} \cos z$, which is $\cos z$ at $b_4 = 1$). `all(...)` is true when the condition holds for every product: each must equal $\cos(\pi/4)$ up to $10^{-12}$. Out [8] ends with the PASS line and the record it reproduces.
 
-**In [9], the volume factor for three values of $a_4$.**
+**In [9], the volume factor for three values of $a_4$ and two values of $b_4$.**
 
 ```python
 z_values = np.linspace(0.005, np.pi / 2 - 0.005, 200)  # 200 values inside (0, pi/2)
-volume = {}  # a4 -> the product of the eight factors at every z
-for a4_value in (0.0, 1.0, 2.0):
-    product = np.ones_like(z_values)
-    for k in range(8):
-        values = np.full_like(z_values, 1.0) * entry_functions[k](a4_value, z_values)
-        product = product * np.sqrt(np.abs(values))
-    volume[a4_value] = product
 ```
 
-200 values of $z$ inside the patch. For each of $a_4 = 0$, 1 and 2, `product` starts as an array of 200 ones (`np.ones_like`) and is multiplied in turn by the eight length factors, computed at all 200 values of $z$ at once (the factor 1.0-array again makes the constant entry an array). The result, the volume factor $f_1 \cdots f_8$ at every $z$, is stored under the value of $a_4$.
+200 values of $z$ inside the patch.
+
+```python
+def volume_factor(a4_value, b4_value):
+    """The product of the eight length factors at every z of z_values."""
+    product = np.ones_like(z_values)
+    for k in range(8):
+        values = (np.full_like(z_values, 1.0)
+                  * entry_functions[k](a4_value, b4_value, z_values))
+        product = product * np.sqrt(np.abs(values))
+    return product
+```
+
+A function of a value of $a_4$ and a value of $b_4$. `product` starts as an array of 200 ones (`np.ones_like`) and is multiplied in turn by the eight length factors, computed at all 200 values of $z$ at once (the 1.0-array again makes the constant entry an array). The result is the volume factor $f_0 \cdots f_7$ at every $z$.
+
+```python
+volume = {a4_value: volume_factor(a4_value, 1.0) for a4_value in (0.0, 1.0, 2.0)}
+volume_b4_2 = volume_factor(1.0, 2.0)  # a4 = 1, b4 = 2
+```
+
+A **dictionary comprehension** (a dictionary written with a `for` inside its braces) stores the volume factor at $b_4 = 1$ under each of $a_4 = 0$, 1 and 2; `volume_b4_2` is the volume factor at $a_4 = 1$, $b_4 = 2$.
 
 ```python
 fig, ax = plt.subplots()
 ax.plot(z_values, np.cos(z_values), color="black", linewidth=1.5,
         label=r"$\cos z$")
+ax.plot(z_values, 2.0 ** 1.5 * np.cos(z_values), color="black", linewidth=1.0,
+        linestyle="--", label=r"$2^{3/2} \cos z$")
 markers = {0.0: ("o", BLUE), 1.0: ("s", ORANGE), 2.0: ("^", AQUA)}
 for start, a4_value in enumerate((0.0, 1.0, 2.0)):
     marker, colour = markers[a4_value]
     chosen = slice(4 * start, None, 12)  # every 12th point, shifted by 4
     ax.plot(z_values[chosen], volume[a4_value][chosen], marker, color=colour,
-            markersize=6, label=rf"$f_1 \cdots f_8$ for $a_4 = {a4_value:g}$")
+            markersize=6,
+            label=rf"$f_0 \cdots f_7$ for $a_4 = {a4_value:g}$, $b_4 = 1$")
+ax.plot(z_values[::12], volume_b4_2[::12], "D", color="#7a4fb0", markersize=5,
+        label=r"$f_0 \cdots f_7$ for $a_4 = 1$, $b_4 = 2$")
 ```
 
-The black curve $\cos z$, then the computed points. The dictionary `markers` gives each value of $a_4$ a marker shape (`"o"` circles, `"s"` squares, `"^"` triangles) and a colour. `slice(4 * start, None, 12)` selects the entries number `4 * start`, `4 * start + 12`, `4 * start + 24`, and so on to the end: every 12th point, starting at 0, 4 or 8, so that the three sets of markers do not hide each other. A string with both `r` and `f` in front is a raw f-string.
+The solid black curve $\cos z$ and the dashed curve $2^{3/2} \cos z$, then the computed points. The dictionary `markers` gives each value of $a_4$ a marker shape (`"o"` circles, `"s"` squares, `"^"` triangles) and a colour. `slice(4 * start, None, 12)` selects the entries number `4 * start`, `4 * start + 12`, `4 * start + 24`, and so on to the end: every 12th point, starting at 0, 4 or 8, so that the three sets of markers do not hide each other. A string with both `r` and `f` in front is a raw f-string. The last `ax.plot` draws every 12th point of the volume factor at $b_4 = 2$ as purple diamonds (`"D"`; `[::12]` takes every 12th entry from the first).
 
 ```python
-ax.set_xlabel(r"hidden coordinate $z = 6 H x_8$ (radians)")
+ax.set_xlabel(r"hidden coordinate $z = 6 H x_0$ (radians)")
 ax.set_ylabel(r"volume factor $\sqrt{|\det g|}$ (pure number)")
-ax.set_title(r"The volume factor is $\cos z$ for every value of $a_4$")
-ax.legend()
+ax.set_title(r"The volume factor is $b_4^{3/2} \cos z$ for every value of $a_4$")
+ax.legend(fontsize=8)
 save_figure(fig, "volume_factor",
-            r"The volume factor $\sqrt{|\det g|} = f_1 f_2 \cdots f_8$ of the "
-            r"author's metric against the hidden coordinate $z = 6 H x_8$ from 0 to "
+            r"The volume factor $\sqrt{|\det g|} = f_0 f_1 \cdots f_7$ of the "
+            r"author's metric against the hidden coordinate $z = 6 H x_0$ from 0 to "
             r"$\pi/2$ (horizontal axis, in radians; vertical axis a pure number), "
-            r"computed from the eight entries for $a_4 = 0$ (blue circles), "
-            r"$a_4 = 1$ (orange squares) and $a_4 = 2$ (aqua triangles), with the "
-            r"curve $\cos z$ (black line). All three sets of points lie on the "
-            r"curve: the volume factor does not depend on $a_4$, because the "
-            r"inflation of ordinary space and the deflation of the extra times "
-            r"cancel; it falls from 1 at $z = 0$ to 0 at $z = \pi/2$.")
+            r"computed from the eight entries at $b_4 = 1$ for $a_4 = 0$ (blue "
+            r"circles), $a_4 = 1$ (orange squares) and $a_4 = 2$ (aqua triangles), "
+            r"with the curve $\cos z$ (black line), and at $a_4 = 1$, $b_4 = 2$ "
+            r"(purple diamonds) with the curve $2^{3/2} \cos z$ (dashed). The three "
+            r"sets at $b_4 = 1$ lie on $\cos z$: the volume factor does not depend "
+            r"on $a_4$, because the inflation of ordinary space and the deflation "
+            r"of the extra times cancel; it falls from 1 at $z = 0$ to 0 at "
+            r"$z = \pi/2$. The set at $b_4 = 2$ lies on $2^{3/2} \cos z$: $b_4$ "
+            r"enters only as the factor $b_4^{3/2}$.")
 ```
 
-Labels, title, legend and the figure `00b_4_volume_factor.png`. What Figure 00b.4 shows: circles, squares and triangles all sit on the one black curve $\cos z$, although the three values of $a_4$ stretch ordinary space by the factors 1, $e = 2.72$ and $e^2 = 7.39$; this is Fact 4 of Section 0.14.
+Labels, title, legend (in a smaller font, `fontsize=8`) and the figure `00b_4_volume_factor.png`. What Figure 00b.4 shows: circles, squares and triangles all sit on the one black curve $\cos z$, although the three values of $a_4$ stretch ordinary space by the factors 1, $e = 2.72$ and $e^2 = 7.39$; the diamonds sit on the dashed curve $2^{3/2} \cos z$, 2.83 times higher. This is Fact 4 of Section 0.14.
 
 ```python
 largest = max(float(np.max(np.abs(volume[v] - np.cos(z_values)))) for v in volume)
-report("largest difference from cos z", f"{largest:.1e}")
+largest_b4_2 = float(np.max(np.abs(volume_b4_2 - 2.0 ** 1.5 * np.cos(z_values))))
+report("largest difference from cos z (b4 = 1)", f"{largest:.1e}")
+report("largest difference from 2^(3/2) cos z (b4 = 2)", f"{largest_b4_2:.1e}")
+```
+
+For each value of $a_4$ the largest distance of the 200 computed values from $\cos z$, and `max(...)` takes the largest of the three; likewise the largest distance of the values at $b_4 = 2$ from $2^{3/2} \cos z$. Out [9] prints $1.0 \times 10^{-15}$ and $2.7 \times 10^{-15}$, a few times the machine epsilon of Section 0.22: only rounding.
+
+```python
 verdict, detail = recorded_check(THEORY_REPORT, "sqrt_det_g_equals_cos_z")
 check_reproduces(
     largest < 1e-12 and verdict == "PASS",
-    "the volume factor equals cos z at 200 points for a4 = 0, 1 and 2",
+    "at b4 = 1 the volume factor equals cos z at 200 points for a4 = 0, 1 and 2",
     f"{THEORY_REPORT}, check sqrt_det_g_equals_cos_z")
+verdict, detail = recorded_check(WOLFRAM_THEORY_B4, "sqrt_det_g")
+check_reproduces(
+    largest_b4_2 < 1e-12 and verdict == "PASS",
+    "at a4 = 1, b4 = 2 the volume factor equals 2^(3/2) cos z at 200 points",
+    f"{WOLFRAM_THEORY_B4}, check sqrt_det_g")
 ```
 
-For each value of $a_4$ the largest distance of the 200 computed values from $\cos z$; `max(...)` takes the largest of the three. Out [9] prints $8.9 \times 10^{-16}$, four times the machine epsilon of Section 0.22: only rounding. The check also reads the verdict of the Python verifier's check `sqrt_det_g_equals_cos_z`.
+Two checks: at $b_4 = 1$ against the verdict of the Python verifier's check `sqrt_det_g_equals_cos_z`, and at $b_4 = 2$ against the verdict of the Wolfram verifier's check `sqrt_det_g` of the field theory with $b_4$.
 
 **In [10], the last check.**
 
@@ -1351,25 +1444,25 @@ check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_na
 all_checks_passed()
 ```
 
-The four figure files must exist in the folder of the figures (in a check run of nbkit, in its scratch folder, which `output_file` points to). The last line prints ALL 14 CHECKS PASSED (notebook 00b): four checks in In [2], one in In [4], one in In [5], three in In [6], two in In [7], one each in In [8], In [9] and In [10].
+The four figure files must exist in the folder of the figures (in a check run of nbkit, in its scratch folder, which `output_file` points to). The last line prints ALL 17 CHECKS PASSED (notebook 00b): four checks in In [2], two in In [4], one in In [5], four in In [6], two in In [7], one in In [8], two in In [9] and one in In [10].
 
 ### 0.18 The honesty ledger, and how a report is tied to its files
 
-The **honesty ledger** is the table of the main statements of the book, each with its label (Section 0.3), a short note where one is needed, and the reports of the Revision record that verify it. It is the book's promise in one page: whatever a later chapter says, its label is the one given here, and every reader can open the named reports and read the verdicts (Section 0.4, level 2). The ledger below has twenty rows. Every one of the 41 verifier reports of the Revision record belongs to exactly one row, and the five rows labelled HYPOTHESIS or OPEN have no report at all, because nothing in the record establishes them. Notebook 00c checks all of this and counts the checks of each row; the ledger describes the record on the date of the notebook's last verified run, which its provenance file records. (Reports in the folder `Revision/kohn_sham/reports` are written below with the short folder name `kohn_sham/reports`, and so on; every path starts in the folder `Revision`.)
+The **honesty ledger** is the table of the main statements of the book, each with its label (Section 0.3), a short note where one is needed, and the reports of the Revision record that verify it. It is the book's promise in one page: whatever a later chapter says, its label is the one given here, and every reader can open the named reports and read the verdicts (Section 0.4, level 2). The ledger below has twenty rows. Every one of the 51 verifier reports of the Revision record belongs to exactly one row, and the five rows labelled HYPOTHESIS or OPEN have no report at all, because nothing in the record establishes them. Notebook 00c checks all of this and counts the checks of each row; the ledger describes the record on the date of the notebook's last verified run, which its provenance file records. (Reports in the folder `Revision/kohn_sham/reports` are written below with the short folder name `kohn_sham/reports`, and so on; every path starts in the folder `Revision`.)
 
 | statement (with its row number) | label | verified in (folder Revision) |
 | --- | --- | --- |
 | (1) the gamma matrices, $C$, $\Gamma$, $B$; Pin(4,4) and Spin(4,4) (Chapters 4 and 5) | PROVED | `algebra/reports/wolfram-algebra.json`, `algebra/reports/python-algebra.json` |
-| (2) the Lagrangians, field equations and energy-momentum tensor of both fields, and the canonical quantisation of dirac16complex (dirac16complex00 is a classical field and is not quantised) (Chapters 7, 9 and 10) | PROVED; for a self-coupling $\lambda \neq 0$ the operator form of the energy-momentum tensor is proved only in a finite model of one set of 16 modes, and for the field on a whole slice of space it is OPEN (the field-equations record of Chapter 12 ASSUMES it) | `theory/reports/wolfram-field-theory.json`, `theory/reports/python-field-theory.json`, `theory/fock_quartic/reports/fock-quartic.json` |
+| (2) the Lagrangians, field equations and energy-momentum tensor of both fields, and the canonical quantisation of dirac16complex (dirac16complex00 is a classical field and is not quantised); the geometry, the Dirac operator and the energy-momentum tensor also for a changing $b_4$ (Chapters 6, 7, 9 and 10) | PROVED; for a self-coupling $\lambda \neq 0$ the operator form of the energy-momentum tensor is proved only in a finite model of one set of 16 modes, and for the field on a whole slice of space it is OPEN (the field-equations record of Chapter 12 ASSUMES it) | `theory/reports/wolfram-field-theory.json`, `theory/reports/python-field-theory.json`, `theory/fock_quartic/reports/fock-quartic.json`, `theory/reports/wolfram-field-theory-b4.json`, `theory/reports/python-field-theory-b4.json`, `theory/reports/wolfram-field-theory-b4-emt-C.json`, `theory/reports/wolfram-field-theory-b4-emt-G.json` |
 | (3) the exact scope of the non-triviality (Chapter 8) | PROVED | `theory/reports/wolfram-scope.json`, `theory/reports/python-scope.json` |
 | (4) the conservation identities of the energy-momentum tensor; the spin connection (Chapters 6 and 9) | PROVED | `lead_checks/reports/emt-divergence-and-spin-connection.json` |
-| (5) the field equations for $a_4$ (Chapter 12) | PROVED | `field_equations_a4/reports/wolfram-a4-report.json`, `field_equations_a4/reports/python-a4-report.json`, `lead_checks/reports/einstein-gauss-bonnet-a4.json` |
+| (5) the field equations for $a_4$ and $b_4$; every vacuum history has $b_4$ constant and $a_4 = \pm H x_4$ plus a constant (Chapter 12) | PROVED | `field_equations_a4/reports/wolfram-a4-report.json`, `field_equations_a4/reports/python-a4-report.json`, `field_equations_a4/reports/python-b4-block.json`, `metric_b4/results/vacuum-b4.json`, `lead_checks/reports/einstein-gauss-bonnet-a4.json` |
 | (6) the generalized Kronecker delta (GKD) and the three Lovelock tensors (Chapter 11) | PROVED | `gkd_lovelock/results/lovelock-report.json`, `gkd_lovelock/results/gkd-selftest.json`, `gkd_lovelock/results/wolfram-gkd-report.json`, `gkd_lovelock/results/python-lovelock-report.json` |
-| (7) the curvature of the Revision record agrees with the values stored in the author's own notebook (Chapters 3 and 11) | PROVED; 5 of its 78 comparisons are NOT-AVAILABLE: the author's notebook stores no value to compare with | `gkd_lovelock/comparison/author-comparison-report.json` |
-| (8) the Kohn-Sham theory: the blocks, the rescaling, the exact exchange (Chapter 14) | PROVED | `kohn_sham/reports/ks-theory-wolfram.json`, `kohn_sham/reports/ks-theory-python.json` |
+| (7) the curvature of the Revision record agrees with the values stored in the author's own notebooks, the earlier one ($b_4 = 1$) and the one with the metric function $b_4$ (Chapters 3 and 11) | PROVED; 5 of the 78 comparisons with the earlier notebook are NOT-AVAILABLE: that notebook stores no value to compare with | `gkd_lovelock/comparison/author-comparison-report.json`, `metric_b4/results/wolfram-metric-b4-report.json`, `metric_b4/results/python-metric-b4-report.json` |
+| (8) the Kohn-Sham theory: the blocks, the rescaling, the exact exchange; the good-sector problem does not contain $b_4$ (Chapter 14) | PROVED | `kohn_sham/reports/ks-theory-wolfram.json`, `kohn_sham/reports/ks-theory-python.json`, `kohn_sham/reports/ks-b4-wolfram.json` |
 | (9) the Kohn-Sham states along the deflating history (Chapters 15 and 16) | COMPUTED; at the chosen cutoff $L = 3$ of the hidden direction; the limit of large $L$ is not established for every state | `kohn_sham/reports/ks-rust-solver.json`, `kohn_sham/reports/ks-reference.json`, `kohn_sham/reports/ks-crosscheck.json`, `kohn_sham/reports/ks-rust-determinism.json`, `kohn_sham/reports/ks-rust-mermin-roots.json`, `kohn_sham/tip_convergence/tip-convergence.json` |
 | (10) the Kohn-Sham history of $a_4$ is a prescribed background (Chapter 17) | ASSUMED | `field_equations_a4/reports/ks-source-conditions.json`, `field_equations_a4/ks_source/reports/ks-source-a4.json` |
-| (11) the pairing theorems T1, T2 (with the Z2 mirror ASSUMED) and Q (Chapter 18) | PROVED | `pairing/reports/wolfram-pairing.json`, `pairing/reports/python-pairing.json` |
+| (11) the pairing theorems T1, T2 (with the Z2 mirror ASSUMED) and Q, also with $b_4$ (Chapter 18) | PROVED | `pairing/reports/wolfram-pairing.json`, `pairing/reports/python-pairing.json`, `metric_b4/results/consequences-b4.json` |
 | (12) T3 and its completion (with the Z2 mirror and the Kohn-Sham approximation ASSUMED): the Kohn-Sham universes of mass $+M$ and $-M$ (Chapter 19) | PROVED | `pairing/kohn_sham/reports/wolfram-t3.json`, `pairing/kohn_sham/reports/python-t3.json`, `pairing/kohn_sham/reports/wolfram-t3-completion.json`, `pairing/kohn_sham/reports/python-t3-completion.json` |
 | (13) T3 shown on computed Kohn-Sham states of mass $+M$ and $-M$ (Chapter 19; demonstrations, not proofs) | COMPUTED | `pairing/kohn_sham/reports/t3-rust-demo.json`, `pairing/kohn_sham/reports/t3-reference-demo.json` |
 | (14) the charge-conjugation matrices $C$ and $\Gamma C$; the local conservation law of the U(1) charge (Chapters 5, 10 and 21) | PROVED | `lead_checks/reports/charge-conjugation-and-u1.json` |
@@ -1386,8 +1479,8 @@ Twelve remarks make the table exact.
 - Rows 8, 9, 12 and 13 rest on the **Kohn-Sham approximation**, which is ASSUMED, not derived. It consists of four simplifications, each explained from zero in Chapters 13 to 15: (i) the problem is solved at one fixed instant $x_4$ at a time, as if the universe stood still at that instant (the stationary-slice, or adiabatic, ansatz); (ii) the action of the field on itself is replaced by an average potential computed from the field's own density, made of the Hartree term (the interaction of the field with its own average density) and the exchange term of a uniform gas (a correction that comes from the anticommuting numbers of the field, computed exactly for a gas of the same density everywhere), while everything beyond these two terms, called correlation, is left out; (iii) only the states of such an average potential, called mean-field states, are used; (iv) the condition at the tip, the far end of the hidden direction, is chosen. The record states these hypotheses in `Revision/pairing/kohn_sham/t3-theory.json`, key `hypotheses`, and in `Revision/kohn_sham/ks-theory.json`. Rows 8 and 12 are exact statements about this approximation, and rows 9 and 13 are numbers computed in it: if the approximation is made, they hold, and a statement proved within an approximation says nothing about what lies outside it.
 - Row 2 holds one report without a Wolfram counterpart, `theory/fock_quartic/reports/fock-quartic.json` (21 checks, written by one Python program with sympy and its own exact engine for the anticommutation rules of the quantum theory). It asks whether the energy-momentum tensor of dirac16complex with a self-coupling $\lambda \neq 0$ obeys, as an operator of the quantum theory, the exact relations that it obeys before quantisation (among them the relations between its energy density, its pressure and the potential of the self-coupling, Chapter 9). The answer is proved only in a finite model: one set of 16 modes (plane waves of one momentum in a flat frame, with frozen coefficients), whose quantum states number $2^{16}$. There, for the solutions of the quantum field equation, the relations hold exactly, on every state, if and only if the operators are written in one particular order (the Wick, or normal, order), and they fail for every other order tested. For the field on a whole slice of space, for the dependence on the hidden direction and for the extra times nothing is proved: there the operator form is OPEN, and the field-equations record of Chapter 12 ASSUMES it; the symmetry and the conservation of this operator are not verified (Chapters 9 and 10).
 - Row 9 holds, besides the two solvers and their comparisons, the report `kohn_sham/tip_convergence/tip-convergence.json` (7 checks). The Kohn-Sham states are computed with the hidden direction cut off at the tip $L = 3$, a choice (item (iv) above). This study repeats the computation for $L$ from 3 to 6 and finds that the recorded energies of the states without self-interaction lie within 1.4% of their values at large $L$, except for one state, while the effects of the self-interaction depend strongly on $L$, and that the limit of large $L$ is not established for every state (Chapter 14). So the numbers of row 9 are COMPUTED at $L = 3$, and the note of the row says so.
-- Row 7 compares the curvature computed in the Revision record with the values that the author's own Mathematica notebook stores. 73 of its 78 checks are PASS: four checks of the inputs (one that the file holding the author's stored outputs was taken from exactly his notebook, and three of the metric, the last of which finds the author's metric equal to the Revision's in all 64 components), the Ricci scalar, all 64 components of the Einstein tensor, the first Lovelock tensor and its scalar, which all agree exactly, and two negative controls (deliberate errors that the comparison must detect, and does): $4 + 1 + 64 + 2 + 2 = 73$. For five quantities the author's notebook stores no value (for the second and third Lovelock tensors no stored output was found there, and the Christoffel symbols, the Riemann tensor and the Ricci tensor are computed there but their printing is switched off), so nothing can be compared: their verdict is NOT-AVAILABLE, which is neither PASS nor FAIL. The comparison says nothing about these five quantities; the Revision's own computation of them is checked by the reports of row 6.
-- Row 10 is labelled ASSUMED although 28 checks belong to it. Those checks show that the computed Kohn-Sham states cannot be the source of the history $a_4 = A H x_4$ in the field equations (their energy-momentum tensor depends on $x_8$, and it violates an algebraic condition of the field equations), and, in the second report, that no recorded Kohn-Sham state is an admissible source, so that nothing about $a_4$ is derived from the coupled problem. So the history cannot be derived from them and is assumed.
+- Row 7 compares the curvature computed in the Revision record with the values that the author's own Mathematica notebooks store. Its first report compares with the earlier notebook, whose metric is the case $b_4 = 1$; 73 of its 78 checks are PASS: four checks of the inputs (one that the file holding the author's stored outputs was taken from exactly their notebook, and three of the metric, the last of which finds the author's metric equal to the Revision's in all 64 components), the Ricci scalar, all 64 components of the Einstein tensor, the first Lovelock tensor and its scalar, which all agree exactly, and two negative controls (deliberate errors that the comparison must detect, and does): $4 + 1 + 64 + 2 + 2 = 73$. For five quantities the author's notebook stores no value (for the second and third Lovelock tensors no stored output was found there, and the Christoffel symbols, the Riemann tensor and the Ricci tensor are computed there but their printing is switched off), so nothing can be compared: their verdict is NOT-AVAILABLE, which is neither PASS nor FAIL. The comparison says nothing about these five quantities; the Revision's own computation of them is checked by the reports of row 6. Its other two reports, by the Wolfram verifier (27 checks) and the independent Python verifier (21 checks) of the metric with $b_4$, compare with the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb` of 2026-10-14: the metric, the Ricci tensor and scalar, the Einstein tensor, the three Lovelock tensors and the vacuum equations equal the outputs stored there, and at $b_4 = 1$ they equal the earlier record.
+- Row 10 is labelled ASSUMED although 29 checks belong to it. Those checks show that the computed Kohn-Sham states cannot be the source of the history $a_4 = A H x_4$ in the field equations (their energy-momentum tensor depends on $x_0$, and it violates an algebraic condition of the field equations), and, in the second report, that no recorded Kohn-Sham state is an admissible source, so that nothing about $a_4$ is derived from the coupled problem. So the history cannot be derived from them and is assumed.
 - Row 13 is COMPUTED, next to the PROVED row 12: its two reports solve the Kohn-Sham equations numerically for mass $+M$ and $-M$ (with the Rust solver and with the Python reference solver) and compare the two members as T3 predicts. A numerical demonstration illustrates a theorem; it does not prove it.
 - Row 15 is COMPUTED. The investigation derives exact identities (with sympy), but its results, the equations of state that each field can give, are computed numbers, and they depend on an ASSUMED way in which an observer in 3-space normalises over the extra times. It states what each field can and cannot produce; it establishes neither hypothesis, which is why row 16 stays a HYPOTHESIS.
 - Corollary C1 of Section 0.2 has no row of its own: it is T1 (row 11) combined with the checks `einstein_no_vacuum_solution` of `Revision/field_equations_a4/reports/wolfram-a4-report.json` and `einstein_no_vacuum` of `Revision/field_equations_a4/reports/python-a4-report.json` (row 5).
@@ -1397,7 +1490,7 @@ Twelve remarks make the table exact.
 
 The ledger is the state of the record on the date of the last verified run of Notebook 00c. The Revision record may still grow (verifier reports may be added or gain checks), and the final ledger of the book is completed when the book is assembled; Notebook 00c is the tool that keeps the table honest, because it fails when a new report appears that no row claims.
 
-**Two independent verifiers.** For nine subjects (rows 1 to 3, 5, 6, 8 and 11, and the two subjects of row 12: T3 and its completion) the exact statements were checked twice: by a verifier written in the Wolfram Language and by an independent one written in Python with sympy, sharing no code. (The finite model of row 2 is the exception: one Python program checks it.) The two do not check exactly the same list of statements, but where they overlap, an error would have to be made twice, in two languages, by two separate programs, to go unnoticed. The Kohn-Sham numbers (row 9) were computed twice in the same spirit, by the Rust solver and by an independent Python reference solver, and compared with tolerances fixed in advance (Chapter 16); the study of the tip cutoff ran the reference solver for two of its states at two of its values of $L$, 3 and 4 (28 comparisons, check `reference_solver_at_two_L` of `kohn_sham/tip_convergence/tip-convergence.json`).
+**Two independent verifiers.** For eleven subjects (rows 1 to 3, 5, 6, 8 and 11, the two subjects of row 12, T3 and its completion, the metric with $b_4$ of row 7, and the geometry and the Dirac operator with $b_4$ of row 2) the exact statements were checked twice: by a verifier written in the Wolfram Language and by an independent one written in Python with sympy, sharing no code. (The finite model of row 2 is the exception: one Python program checks it.) The two do not check exactly the same list of statements, but where they overlap, an error would have to be made twice, in two languages, by two separate programs, to go unnoticed. The Kohn-Sham numbers (row 9) were computed twice in the same spirit, by the Rust solver and by an independent Python reference solver, and compared with tolerances fixed in advance (Chapter 16); the study of the tip cutoff ran the reference solver for two of its states at two of its values of $L$, 3 and 4 (28 comparisons, check `reference_solver_at_two_L` of `kohn_sham/tip_convergence/tip-convergence.json`).
 
 **Fingerprints.** A report is worth something only for the exact files it was computed from. To tie the two together, a report writes down a **fingerprint** of each file it read. The fingerprint used here is **sha256**: a fixed recipe that turns the bytes of a file, however many there are, into a number of 256 binary digits, written as 64 **hexadecimal** characters. Hexadecimal digits are the sixteen symbols 0 to 9 and a to f, standing for the numbers 0 to 15; each one carries 4 binary digits, and $64 \cdot 4 = 256$. The recipe has three properties that matter here:
 
@@ -1431,7 +1524,7 @@ $$
 
 A report of the Revision record records the fingerprints of its input files in dedicated keys (the Wolfram check of the Lovelock tensors lists 15 files in its keys `inputSha256` and `sourceSha256`, and several reports have a key `inputs`, a list of files each with its fingerprint), or inside the detail text of a check, written as (sha256 followed by the 64 characters, or only their first 16). When the fingerprint of today's file equals the recorded one, the report was computed from exactly today's file, byte for byte. Notebook 00c compares 24 of the recorded fingerprints with today's files (those of the two reports on the Lovelock tensors in Python and in the Wolfram Language, and seven in the details of five Kohn-Sham reports; it does not compare the others), and Notebook 00d compares 582 more (Section 0.22).
 
-**Example: the ledger checked by the computer.** Notebook 00c does at level 2 (Section 0.4) what a careful reader would do by hand, but for every report at once. It opens the charge-conjugation report, reads its twelve checks and confirms that three of them state the charge-conjugation matrices of Section 0.2 word for word, and that a fourth proves the local conservation law of the charge and says itself that it does not establish a constant total charge; writes one function that counts the checks of a report in each of the three layouts that occur in the record; searches the folder `Revision` (without the book's own folder and the records of the workflows) for reports and finds exactly the 41 of its list; confirms that no check has the verdict FAIL (all are PASS except five comparisons with the author's own notebook that are NOT-AVAILABLE) and that the counts agree with what the reports say about themselves, with the table of `Revision/README.md`, with the Kohn-Sham cross-check and with the dark-sector summary file; builds the ledger above and checks that every report belongs to exactly one row; prints the twelve sentences of the pairing record about what it does not establish; and compares fingerprints. It draws four figures and ends with ALL 18 CHECKS PASSED (notebook 00c).
+**Example: the ledger checked by the computer.** Notebook 00c does at level 2 (Section 0.4) what a careful reader would do by hand, but for every report at once. It opens the charge-conjugation report, reads its twelve checks and confirms that three of them state the charge-conjugation matrices of Section 0.2 word for word, and that a fourth proves the local conservation law of the charge and says itself that it does not establish a constant total charge; writes one function that counts the checks of a report in each of the three layouts that occur in the record; searches the folder `Revision` (without the book's own folder and the records of the workflows) for reports and finds exactly the 51 of its list; confirms that no check has the verdict FAIL (all are PASS except five comparisons with the author's own notebook that are NOT-AVAILABLE) and that the counts agree with what the reports say about themselves, with the table of `Revision/README.md`, with the Kohn-Sham cross-check and with the dark-sector summary file; builds the ledger above and checks that every report belongs to exactly one row; prints the twelve sentences of the pairing record about what it does not establish; and compares fingerprints. It draws four figures and ends with ALL 18 CHECKS PASSED (notebook 00c).
 
 <!-- NOTEBOOK 00c -->
 
@@ -1649,7 +1742,7 @@ for relative in not_reports:
     say("    " + relative)
 ```
 
-`SKIPPED` is a **tuple** (a list in round brackets that cannot be changed) of two folder names. `rglob("*.json")` lists every file ending in `.json` in the folder `Revision` and in all its sub-folders, and `sorted` puts the list in a fixed order. `path.relative_to(REPO)` is the path from the repository folder on, and `.as_posix()` writes it with `/` on every operating system. `relative.startswith(SKIPPED)` is true when the path starts with either of the two names (`startswith` accepts a tuple and tries each of its entries). `continue` skips the rest of the loop for this file. Three kinds of folders are skipped, because they are not part of the record: the book's own folder `Revision/textbook`; the folder `Revision/workflows`, which holds the records of the programs that organised the work (they are rewritten while those programs run, so a half-written file could stop the notebook, and the Revision record says itself that no result depends on them); and the build folders `target` of the Rust programs. Every other report is collected. `elif` ("else if") collects, in the second list, every file that is not a report but still has a key `checks`, so that no such file is dropped silently. Out [5] begins with the number found, 41, and the one file of the second list, `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`.
+`SKIPPED` is a **tuple** (a list in round brackets that cannot be changed) of two folder names. `rglob("*.json")` lists every file ending in `.json` in the folder `Revision` and in all its sub-folders, and `sorted` puts the list in a fixed order. `path.relative_to(REPO)` is the path from the repository folder on, and `.as_posix()` writes it with `/` on every operating system. `relative.startswith(SKIPPED)` is true when the path starts with either of the two names (`startswith` accepts a tuple and tries each of its entries). `continue` skips the rest of the loop for this file. Three kinds of folders are skipped, because they are not part of the record: the book's own folder `Revision/textbook`; the folder `Revision/workflows`, which holds the records of the programs that organised the work (they are rewritten while those programs run, so a half-written file could stop the notebook, and the Revision record says itself that no result depends on them); and the build folders `target` of the Rust programs. Every other report is collected. `elif` ("else if") collects, in the second list, every file that is not a report but still has a key `checks`, so that no such file is dropped silently. Out [5] begins with the number found, 51, and the one file of the second list, `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`.
 
 ```python
 REPORTS = [  # (report, engine)
@@ -1658,7 +1751,17 @@ REPORTS = [  # (report, engine)
     ("Revision/algebra/reports/python-algebra.json", "Python"),
 ```
 
-The list `REPORTS` holds the 41 reports of the record, each as a pair: the path of the report and the **engine** that did its computation, that is, the language of the program that wrote the report: `"Wolfram"` (the Wolfram Language), `"Python"`, `"Rust"`, or `"lead"` for the lead's short independent Python checks. A comment line before each group names its subject. The first group is the algebra of Chapters 4 and 5 (the gamma matrices, $C$, $\Gamma$, $B$ and the groups), checked by a Wolfram verifier and by an independent Python verifier.
+The list `REPORTS` holds the 51 reports of the record, each as a pair: the path of the report and the **engine** that did its computation, that is, the language of the program that wrote the report: `"Wolfram"` (the Wolfram Language), `"Python"`, `"Rust"`, or `"lead"` for the lead's short independent Python checks. A comment line before each group names its subject. The first group is the algebra of Chapters 4 and 5 (the gamma matrices, $C$, $\Gamma$, $B$ and the groups), checked by a Wolfram verifier and by an independent Python verifier.
+
+```python
+    # the metric with b4 (2026-10-14): curvature, the author's outputs, vacuum
+    ("Revision/metric_b4/results/wolfram-metric-b4-report.json", "Wolfram"),
+    ("Revision/metric_b4/results/python-metric-b4-report.json", "Python"),
+    ("Revision/metric_b4/results/vacuum-b4.json", "Wolfram"),
+    ("Revision/metric_b4/results/consequences-b4.json", "Wolfram"),
+```
+
+The folder `Revision/metric_b4` holds the record of the author's change of 2026-10-14, the metric function $b_4$ (Section 0.14): a Wolfram and an independent Python verifier compute the curvature and the Lovelock tensors of the metric with $b_4$ and compare them with the outputs stored in the author's notebook; a Wolfram program solves the vacuum equations (every vacuum history has $b_4$ constant); and a Wolfram program checks the consequences of $b_4$ for the pairing theorems, the Kohn-Sham level and the dark sector.
 
 ```python
     # the Lagrangians, field equations, EMT, quantisation; the scope; a Fock model
@@ -1667,19 +1770,24 @@ The list `REPORTS` holds the 41 reports of the record, each as a pair: the path 
     ("Revision/theory/reports/wolfram-scope.json", "Wolfram"),
     ("Revision/theory/reports/python-scope.json", "Python"),
     ("Revision/theory/fock_quartic/reports/fock-quartic.json", "Python"),
+    ("Revision/theory/reports/wolfram-field-theory-b4.json", "Wolfram"),
+    ("Revision/theory/reports/python-field-theory-b4.json", "Python"),
+    ("Revision/theory/reports/wolfram-field-theory-b4-emt-C.json", "Wolfram"),
+    ("Revision/theory/reports/wolfram-field-theory-b4-emt-G.json", "Wolfram"),
 ```
 
-The folder `Revision/theory` holds the field theory of Chapters 7, 9 and 10 (the Lagrangians, the field equations, the energy-momentum tensor, abbreviated EMT, and the quantisation of dirac16complex) and the exact scope of the non-triviality (Chapter 8), each in a Wolfram and in a Python version: four reports. A fifth report, of its sub-folder `fock_quartic`, comes from one Python program only: the energy-momentum tensor operator of dirac16complex with a self-coupling $\lambda \neq 0$ in a finite model of the quantum theory (Section 0.18, the remark on row 2).
+The folder `Revision/theory` holds the field theory of Chapters 7, 9 and 10 (the Lagrangians, the field equations, the energy-momentum tensor, abbreviated EMT, and the quantisation of dirac16complex) and the exact scope of the non-triviality (Chapter 8), each in a Wolfram and in a Python version: four reports. A fifth report, of its sub-folder `fock_quartic`, comes from one Python program only: the energy-momentum tensor operator of dirac16complex with a self-coupling $\lambda \neq 0$ in a finite model of the quantum theory (Section 0.18, the remark on row 2). The last four reports redo the geometry, the spin connection, the Dirac operator and the energy-momentum tensor for a changing $b_4$: a Wolfram and a Python verifier, and two Wolfram reports on the energy-momentum tensor obtained by varying the vielbein, one for each kind of field (C for dirac16complex, G for dirac16complex00).
 
 ```python
-    # the field equations for a4; the Kohn-Sham states as a source
+    # the field equations for a4 and b4; the Kohn-Sham states as a source
     ("Revision/field_equations_a4/reports/wolfram-a4-report.json", "Wolfram"),
     ("Revision/field_equations_a4/reports/python-a4-report.json", "Python"),
+    ("Revision/field_equations_a4/reports/python-b4-block.json", "Python"),
     ("Revision/field_equations_a4/reports/ks-source-conditions.json", "Python"),
     ("Revision/field_equations_a4/ks_source/reports/ks-source-a4.json", "Python"),
 ```
 
-The field equations for $a_4$ (Chapter 12), in Wolfram and in Python; the report of a Python program that tests whether the computed Kohn-Sham states can be the source of the history $a_4 = A H x_4$ (Chapter 17; its five checks show that they cannot); and the report of the folder `ks_source`, which writes the equations for $a_4$ with the Kohn-Sham states as their source (exact identities, the averages over the hidden direction, and the integration of a stated simplified system) and finds that no recorded Kohn-Sham state is an admissible source.
+The field equations for $a_4$ and $b_4$ (Chapter 12), in Wolfram and in Python, and a second Python report that checks the equations of $b_4$ with the author's gamma matrices; the report of a Python program that tests whether the computed Kohn-Sham states can be the source of the history $a_4 = A H x_4$ (Chapter 17; its six checks show that they cannot, for every $b_4$); and the report of the folder `ks_source`, which writes the equations for $a_4$ with the Kohn-Sham states as their source (exact identities, the averages over the hidden direction, and the integration of a stated simplified system) and finds that no recorded Kohn-Sham state is an admissible source.
 
 ```python
     # GKD and the Lovelock tensors; the comparison with the author's outputs
@@ -1696,6 +1804,7 @@ The generalized Kronecker delta and the Lovelock tensors (Chapter 11): the Rust 
     # the Kohn-Sham theory, solvers and comparisons; the tip-cutoff study
     ("Revision/kohn_sham/reports/ks-theory-wolfram.json", "Wolfram"),
     ("Revision/kohn_sham/reports/ks-theory-python.json", "Python"),
+    ("Revision/kohn_sham/reports/ks-b4-wolfram.json", "Wolfram"),
     ("Revision/kohn_sham/reports/ks-rust-solver.json", "Rust"),
     ("Revision/kohn_sham/reports/ks-rust-determinism.json", "Python"),
     ("Revision/kohn_sham/reports/ks-rust-mermin-roots.json", "Python"),
@@ -1704,7 +1813,7 @@ The generalized Kronecker delta and the Lovelock tensors (Chapter 11): the Rust 
     ("Revision/kohn_sham/tip_convergence/tip-convergence.json", "Python"),
 ```
 
-The Kohn-Sham model (Chapters 14 to 16): its theory in Wolfram and in Python; the Rust solver; two Python programs that examine the results of the Rust solver (the repeated and the refined run of Section 0.22, and the roots of the Mermin equation for the chemical potential, computed with 40 digits; Chapter 15); the independent Python reference solver; the cross-check that compares the two solvers (Chapter 16); and the study of the tip cutoff $L$ of the hidden direction, a Python program that runs the Rust solver (and, for two of its states at $L = 3$ and 4, the reference solver) for $L$ from 3 to 6 (Chapter 14; Section 0.18, the remark on row 9). The determinism report, the report on the roots and the tip-cutoff study concern the Rust solver, but their own checks are computed in Python, so their engine is Python.
+The Kohn-Sham model (Chapters 14 to 16): its theory in Wolfram and in Python; a Wolfram report showing that the Kohn-Sham problem of the good sector does not contain $b_4$; the Rust solver; two Python programs that examine the results of the Rust solver (the repeated and the refined run of Section 0.22, and the roots of the Mermin equation for the chemical potential, computed with 40 digits; Chapter 15); the independent Python reference solver; the cross-check that compares the two solvers (Chapter 16); and the study of the tip cutoff $L$ of the hidden direction, a Python program that runs the Rust solver (and, for two of its states at $L = 3$ and 4, the reference solver) for $L$ from 3 to 6 (Chapter 14; Section 0.18, the remark on row 9). The determinism report, the report on the roots and the tip-cutoff study concern the Rust solver, but their own checks are computed in Python, so their engine is Python.
 
 ```python
     # the dark-sector hypotheses of the two fields, investigated
@@ -1762,7 +1871,7 @@ for path, engine in REPORTS:
     say(f"{short:69} {engine:7} {passed:4d} of {total:3d}")
 ```
 
-Every report is read and counted; the pair (passed, total) is stored in the dictionary `counted` under its path. `removeprefix` removes `Revision/` from the front of the path to keep the table narrow; `{short:69}` writes the path filled with blanks to 69 characters (the longest path has 69), and `{passed:4d}` writes a whole number right-aligned in 4 characters, so that a line of the table has at most 89 characters. The 41 lines of the table in Out [5] are printed here. One line shows fewer passed checks than checks: the comparison with the author's notebook, 73 of 78.
+Every report is read and counted; the pair (passed, total) is stored in the dictionary `counted` under its path. `removeprefix` removes `Revision/` from the front of the path to keep the table narrow; `{short:69}` writes the path filled with blanks to 69 characters (the longest path has 69), and `{passed:4d}` writes a whole number right-aligned in 4 characters, so that a line of the table has at most 89 characters. The 51 lines of the table in Out [5] are printed here. One line shows fewer passed checks than checks: the comparison with the author's notebook, 73 of 78.
 
 ```python
 all_checks = sum(total for _, total in counted.values())
@@ -1777,7 +1886,7 @@ for engine in ("Wolfram", "Python", "Rust", "lead"):
     report(f"checks done with the engine {engine}", engine_totals[engine])
 ```
 
-The totals over all reports, the number of passed checks, and the total per engine: for each engine the numbers of checks of its reports are added (`counted[path][1]` is the total of a report). These are the RESULT lines of Out [5]. The numbers are not written into the notebook: they are counted from the record each time, so they follow the record. In the run printed in Section 0.20 (2026-10-08, the date of the notebook's last verified run, which its provenance file records) they are 1236 checks in all, of which 1231 have the verdict PASS: 385 done with the Wolfram Language, 744 with Python, 70 with Rust and 37 by the lead's checks.
+The totals over all reports, the number of passed checks, and the total per engine: for each engine the numbers of checks of its reports are added (`counted[path][1]` is the total of a report). These are the RESULT lines of Out [5]. The numbers are not written into the notebook: they are counted from the record each time, so they follow the record. In the run printed in Section 0.20 (2026-10-14, the date of the notebook's last verified run, which its provenance file records) they are 1354 checks in all, of which 1349 have the verdict PASS: 465 done with the Wolfram Language, 782 with Python, 70 with Rust and 37 by the lead's checks.
 
 ```python
 COMPARISON = "Revision/gkd_lovelock/comparison/author-comparison-report.json"
@@ -1798,7 +1907,7 @@ check(not_pass == [COMPARISON] and len(other_verdicts) == not_available == 5
       f"{all_checks} in all")
 ```
 
-The check requires four things: the only report with a check that is not PASS is the comparison; its checks that are not PASS are exactly five, and all five are NOT-AVAILABLE; the passed and the not-available checks together are all the checks, so not a single check of the 41 reports has the verdict FAIL; and the four engine totals add up to the total (each report has exactly one engine). Its PASS line prints the three numbers: 1231 PASS, 5 NOT-AVAILABLE, 1236 in all.
+The check requires four things: the only report with a check that is not PASS is the comparison; its checks that are not PASS are exactly five, and all five are NOT-AVAILABLE; the passed and the not-available checks together are all the checks, so not a single check of the 51 reports has the verdict FAIL; and the four engine totals add up to the total (each report has exactly one engine). Its PASS line prints the three numbers: 1349 PASS, 5 NOT-AVAILABLE, 1354 in all.
 
 ```python
 disagree = []  # reports whose own summary differs from our count
@@ -1822,9 +1931,13 @@ README_ORDER = [  # the reports whose counts the README table quotes, in its ord
     R + "gkd_lovelock/results/lovelock-report.json",  # row gkd_lovelock/
     R + "gkd_lovelock/results/python-lovelock-report.json",
     R + "gkd_lovelock/results/wolfram-gkd-report.json",
+    R + "metric_b4/results/wolfram-metric-b4-report.json",  # row metric_b4/
+    R + "metric_b4/results/python-metric-b4-report.json",
+    R + "metric_b4/results/vacuum-b4.json",
+    R + "metric_b4/results/consequences-b4.json",
 ```
 
-`R + "..."` joins two strings. The list `README_ORDER` names, in the order in which they appear in the table of the file `Revision/README.md`, the reports of the 39 counts that table quotes: 36 different reports, three of which stand there twice, as the last lines of the list show. The first row of the table, `gkd_lovelock/`, quotes three counts: that of the Rust report on the Lovelock tensors, then those of the Python and of the Wolfram verifier.
+`R + "..."` joins two strings. The list `README_ORDER` names, in the order in which they appear in the table of the file `Revision/README.md`, the reports of the 49 counts that table quotes: 46 different reports, three of which stand there twice, as the last lines of the list show. The first row of the table, `gkd_lovelock/`, quotes three counts: that of the Rust report on the Lovelock tensors, then those of the Python and of the Wolfram verifier. The second row, `metric_b4/`, quotes four: the Wolfram and the Python verifier of the metric with $b_4$, the vacuum and the consequences.
 
 ```python
     R + "algebra/reports/wolfram-algebra.json",  # row algebra/
@@ -1834,17 +1947,23 @@ README_ORDER = [  # the reports whose counts the README table quotes, in its ord
     R + "theory/reports/wolfram-scope.json",
     R + "theory/reports/python-scope.json",
     R + "theory/fock_quartic/reports/fock-quartic.json",
+    R + "theory/reports/wolfram-field-theory-b4.json",
+    R + "theory/reports/python-field-theory-b4.json",
+    R + "theory/reports/wolfram-field-theory-b4-emt-C.json",
+    R + "theory/reports/wolfram-field-theory-b4-emt-G.json",
 ```
 
-The rows `algebra/` (two counts, Wolfram then Python) and `theory/` (five counts: the field theory, then the scope, each Wolfram then Python, and last the finite Fock model of the folder `theory/fock_quartic`).
+The rows `algebra/` (two counts, Wolfram then Python) and `theory/` (nine counts: the field theory, then the scope, each Wolfram then Python, the finite Fock model of the folder `theory/fock_quartic`, and the four reports with $b_4$).
 
 ```python
     R + "field_equations_a4/reports/wolfram-a4-report.json",  # row field_equations_a4/
     R + "field_equations_a4/reports/python-a4-report.json",
+    R + "field_equations_a4/reports/python-b4-block.json",
     R + "field_equations_a4/reports/ks-source-conditions.json",
     R + "field_equations_a4/ks_source/reports/ks-source-a4.json",
     R + "kohn_sham/reports/ks-theory-wolfram.json",  # row kohn_sham/
     R + "kohn_sham/reports/ks-theory-python.json",
+    R + "kohn_sham/reports/ks-b4-wolfram.json",
     R + "kohn_sham/reports/ks-rust-solver.json",
     R + "kohn_sham/reports/ks-rust-determinism.json",
     R + "kohn_sham/reports/ks-rust-mermin-roots.json",
@@ -1853,7 +1972,7 @@ The rows `algebra/` (two counts, Wolfram then Python) and `theory/` (five counts
     R + "kohn_sham/tip_convergence/tip-convergence.json",
 ```
 
-The rows `field_equations_a4/` (four counts: Wolfram, Python, the Kohn-Sham source conditions, and the folder `ks_source`) and `kohn_sham/` (eight counts: the theory in Wolfram and in Python, the Rust solver, its determinism, the Mermin roots, the reference solver, the cross-check and the tip-cutoff study).
+The rows `field_equations_a4/` (five counts: Wolfram, Python, the block of $b_4$, the Kohn-Sham source conditions, and the folder `ks_source`) and `kohn_sham/` (nine counts: the theory in Wolfram and in Python, the report on $b_4$, the Rust solver, its determinism, the Mermin roots, the reference solver, the cross-check and the tip-cutoff study).
 
 ```python
     R + "dark_sector/dirac16complex/reports/derivation-checks.json",  # dark_sector/
@@ -1897,7 +2016,7 @@ say("the README quotes: " + ", ".join(f"{p}/{t}" for p, t in quoted_readme))
 report("counts quoted in the README table", len(quoted_readme))
 ```
 
-The file is read and cut into lines; the lines of the table of the folders start with a vertical bar, a blank and a backtick, and they are joined again. A **regular expression** is a pattern that describes a family of texts: in `(\d+)/(\d+)`, `\d` means one digit, `+` means one or more of what stands before it, and the round brackets mark the parts to return. `re.findall` returns every match as a pair of the two marked parts, such as `("19", "19")`; `int` turns them into numbers. Out [6] prints the 39 counts found.
+The file is read and cut into lines; the lines of the table of the folders start with a vertical bar, a blank and a backtick, and they are joined again. A **regular expression** is a pattern that describes a family of texts: in `(\d+)/(\d+)`, `\d` means one digit, `+` means one or more of what stands before it, and the round brackets mark the parts to return. `re.findall` returns every match as a pair of the two marked parts, such as `("19", "19")`; `int` turns them into numbers. Out [6] prints the 49 counts found.
 
 ```python
 check_reproduces(quoted_readme == [counted[path] for path in README_ORDER],
@@ -1905,7 +2024,7 @@ check_reproduces(quoted_readme == [counted[path] for path in README_ORDER],
                  "Revision/README.md, the table of the folders")
 ```
 
-The 39 quoted counts must equal our counts of the 39 entries of the list, in this order.
+The 49 quoted counts must equal our counts of the 49 entries of the list, in this order.
 
 ```python
 CROSS = "Revision/kohn_sham/reports/ks-crosscheck.json"
@@ -1960,7 +2079,7 @@ longest = counted[largest][1]
 `max(..., key=...)` returns the path whose value under the key function is largest; `lambda path: counted[path][1]` is a function without a name that gives the number of checks of a report. `longest` is that largest number of checks (101, of the Wolfram pairing report, in the run printed in Section 0.20).
 
 ```python
-fig, ax = plt.subplots(figsize=(7.6, 9.9))
+fig, ax = plt.subplots(figsize=(7.6, 11.6))
 rows = np.arange(len(REPORTS))[::-1]  # the first report at the top
 for row, (path, engine) in zip(rows, REPORTS):
     total = counted[path][1]
@@ -1968,7 +2087,7 @@ for row, (path, engine) in zip(rows, REPORTS):
     ax.text(total + 0.015 * longest, row, str(total), va="center", fontsize=9)
 ```
 
-A tall figure, 7.6 by 9.9 inches, one row per report. `np.arange(41)` is 0 to 40, and `[::-1]` reverses it (a step of $-1$), so that the first report gets the highest row and stands at the top. `ax.barh` draws a horizontal bar of the given length in the given row, coloured by the engine; `ax.text` writes the number just after the end of the bar, at a distance of 1.5 per cent of the longest bar.
+A tall figure, 7.6 by 11.6 inches, one row per report. `np.arange(51)` is 0 to 50, and `[::-1]` reverses it (a step of $-1$), so that the first report gets the highest row and stands at the top. `ax.barh` draws a horizontal bar of the given length in the given row, coloured by the engine; `ax.text` writes the number just after the end of the bar, at a distance of 1.5 per cent of the longest bar.
 
 ```python
 # The name of each report without its folder and without the ending .json:
@@ -1983,7 +2102,7 @@ ax.legend(handles=[Patch(color=ENGINE_COLOURS[e], label=ENGINE_NAMES[e])
                    for e in ENGINE_COLOURS], loc="lower right", fontsize=8)
 ```
 
-`rsplit("/", 1)[1]` keeps the part after the last `/`, the file name, and `removesuffix` removes the ending. The names label the rows, in a font of 8.5 points so that 41 names fit. The horizontal axis runs from 0 to 1.12 times the longest bar, which leaves room for the longest bar and its number; because the limit is computed from the counts, the picture stays complete when a report gains checks. Only vertical grid lines are drawn; the axis label says that no check has the verdict FAIL (a bar counts all checks of its report, the five NOT-AVAILABLE ones of the comparison with the author's notebook included); the title contains the total; the legend names the four engines.
+`rsplit("/", 1)[1]` keeps the part after the last `/`, the file name, and `removesuffix` removes the ending. The names label the rows, in a font of 8.5 points so that 51 names fit. The horizontal axis runs from 0 to 1.12 times the longest bar, which leaves room for the longest bar and its number; because the limit is computed from the counts, the picture stays complete when a report gains checks. Only vertical grid lines are drawn; the axis label says that no check has the verdict FAIL (a bar counts all checks of its report, the five NOT-AVAILABLE ones of the comparison with the author's notebook included); the title contains the total; the legend names the four engines.
 
 ```python
 largest_name = largest.rsplit("/", 1)[1]  # its file name without the folders
@@ -1999,9 +2118,10 @@ The file name of the largest report, for the caption. The four engine totals are
 save_figure(fig, "checks_by_report",
             f"The number of checks in each of the {len(REPORTS)} verifier reports "
             r"of the Revision record (horizontal axis, a count; one bar per report, "
-            r"named on the vertical axis and grouped by folder: algebra, theory, "
-            r"field equations for $a_4$, GKD and Lovelock with the comparison with "
-            r"the author's outputs, Kohn-Sham, dark sector, pairing, lead checks). "
+            r"named on the vertical axis and grouped by folder: algebra, the metric "
+            r"with $b_4$, theory, field equations for $a_4$ and $b_4$, GKD and "
+            r"Lovelock with the comparison with the author's outputs, Kohn-Sham, "
+            r"dark sector, pairing, lead checks). "
             r"The colour gives the engine: blue Wolfram Language, orange Python, "
             r"aqua Rust, yellow the lead's independent Python checks. Of the "
             f"{all_checks} checks ({totals_text}) {all_passed} have the verdict "
@@ -2018,6 +2138,11 @@ The figure `00c_1_checks_by_report.png` with its caption, partly raw strings and
 SUBJECTS = [  # (subject, Wolfram report, Python report)
     ("the gammas, Pin(4,4), Spin(4,4)", "algebra/reports/wolfram-algebra.json",
      "algebra/reports/python-algebra.json"),
+    ("the metric with b4", "metric_b4/results/wolfram-metric-b4-report.json",
+     "metric_b4/results/python-metric-b4-report.json"),
+    ("geometry and Dirac operator with b4",
+     "theory/reports/wolfram-field-theory-b4.json",
+     "theory/reports/python-field-theory-b4.json"),
     ("Lagrangians, field equations, EMT", "theory/reports/wolfram-field-theory.json",
      "theory/reports/python-field-theory.json"),
     ("scope of the non-triviality", "theory/reports/wolfram-scope.json",
@@ -2026,7 +2151,7 @@ SUBJECTS = [  # (subject, Wolfram report, Python report)
      "field_equations_a4/reports/python-a4-report.json"),
 ```
 
-The list `SUBJECTS` names the nine subjects that have two independent verifiers, each as a group of three: a short name, the Wolfram report and the Python report (paths without `Revision/`). Its first four entries are the four subjects of the algebra and the field theory: the gammas and the groups, the field theory (Lagrangians, field equations, energy-momentum tensor), the scope of the non-triviality, and the field equations for $a_4$.
+The list `SUBJECTS` names the eleven subjects that have two independent verifiers, each as a group of three: a short name, the Wolfram report and the Python report (paths without `Revision/`). Its first six entries are the gammas and the groups, the metric with $b_4$ compared with the author's notebook, the geometry and the Dirac operator with $b_4$, the field theory (Lagrangians, field equations, energy-momentum tensor), the scope of the non-triviality, and the field equations for $a_4$.
 
 ```python
     ("GKD and the Lovelock tensors", "gkd_lovelock/results/wolfram-gkd-report.json",
@@ -2042,7 +2167,7 @@ The list `SUBJECTS` names the nine subjects that have two independent verifiers,
 ]
 ```
 
-The other five: GKD and the Lovelock tensors (the Rust results checked by Wolfram and by Python), the Kohn-Sham theory, the pairing theorems T1, T2 and Q, the theorem T3, and its completion. These are the nine subjects of the remark "Two independent verifiers" of Section 0.18 (rows 1 to 3, 5, 6, 8 and 11 of the ledger, and two subjects of row 12).
+The other five: GKD and the Lovelock tensors (the Rust results checked by Wolfram and by Python), the Kohn-Sham theory, the pairing theorems T1, T2 and Q, the theorem T3, and its completion. These are the eleven subjects of the remark "Two independent verifiers" of Section 0.18 (rows 1 to 3, 5, 6, 8 and 11 of the ledger, two subjects of row 12, one of row 7 and one more of row 2).
 
 ```python
 say("subject                              Wolfram  Python")
@@ -2056,8 +2181,8 @@ for subject, wolfram, python in SUBJECTS:
 For each subject the totals of its two reports are taken from `counted` and printed: the table of Out [8]. `[-1]` is the entry just appended.
 
 ```python
-widest = max(wolfram_numbers + python_numbers)  # the longest of the 18 bars
-fig, ax = plt.subplots(figsize=(7.0, 5.6))
+widest = max(wolfram_numbers + python_numbers)  # the longest of the 22 bars
+fig, ax = plt.subplots(figsize=(7.0, 6.6))
 rows = np.arange(len(SUBJECTS))[::-1]
 height = 0.38  # two bars in each row
 ax.barh(rows + height / 2, wolfram_numbers, height, color="#2a78d6",
@@ -2069,17 +2194,17 @@ for row, w, p in zip(rows, wolfram_numbers, python_numbers):
     ax.text(p + 0.015 * widest, row - height / 2, str(p), va="center", fontsize=8)
 ```
 
-`wolfram_numbers + python_numbers` joins the two lists of nine numbers into one list of eighteen, and `max` finds the longest bar. The figure is 7.0 by 5.6 inches. Two bars in each row, the Wolfram bar half a bar height above the middle of the row and the Python bar half a bar height below it; the numbers are written after the ends of the bars, at a distance of 1.5 per cent of the longest bar.
+`wolfram_numbers + python_numbers` joins the two lists of eleven numbers into one list of twenty-two, and `max` finds the longest bar. The figure is 7.0 by 6.6 inches. Two bars in each row, the Wolfram bar half a bar height above the middle of the row and the Python bar half a bar height below it; the numbers are written after the ends of the bars, at a distance of 1.5 per cent of the longest bar.
 
 ```python
 ax.set_yticks(rows, labels=[subject for subject, _, _ in SUBJECTS])
 ax.set_xlim(0, 1.12 * widest)  # room for the longest bar and its number
 ax.grid(False, axis="y")
 ax.set_xlabel("number of checks (every one has the verdict PASS)")
-ax.set_title("Nine subjects, each checked by two independent verifiers")
+ax.set_title("Eleven subjects, each checked by two independent verifiers")
 ax.legend(loc="lower right")
 save_figure(fig, "two_verifiers",
-            r"For each of nine subjects of the Revision record (vertical axis), "
+            r"For each of eleven subjects of the Revision record (vertical axis), "
             r"the number of checks of its Wolfram Language verifier (blue, upper "
             r"bar) and of its independent Python verifier (orange, lower bar); "
             r"horizontal axis a count. The two verifiers share no code; each also "
@@ -2091,13 +2216,14 @@ save_figure(fig, "two_verifiers",
 Labels, a horizontal axis from 0 to 1.12 times the longest bar (computed from the counts, as in In [7]), title, legend and the figure `00c_2_two_verifiers.png`. What Figure 00c.2 shows: every subject has two bars, so every subject was checked twice, in two languages; the bars differ in length because the two verifiers were written independently and test partly different statements.
 
 ```python
-report("checks of the Wolfram verifiers of the nine subjects", sum(wolfram_numbers))
-report("checks of the Python verifiers of the nine subjects", sum(python_numbers))
+report("checks of the Wolfram verifiers of the eleven subjects",
+       sum(wolfram_numbers))
+report("checks of the Python verifiers of the eleven subjects", sum(python_numbers))
 check(all(w > 0 and p > 0 for w, p in zip(wolfram_numbers, python_numbers)),
-      "each of the nine subjects has a Wolfram and a Python verifier")
+      "each of the eleven subjects has a Wolfram and a Python verifier")
 ```
 
-The two sums are printed (385 Wolfram and 375 Python checks in the run printed in Section 0.20), and the check requires a nonzero number of checks in both verifiers of every subject.
+The two sums are printed (443 Wolfram and 401 Python checks in the run printed in Section 0.20), and the check requires a nonzero number of checks in both verifiers of every subject.
 
 **In [9], the honesty ledger.**
 
@@ -2118,20 +2244,26 @@ LEDGER = [  # (statement, label, note, the reports that verify it)
      "the EMT operator for lambda != 0: proved only in a finite Fock model",
      [R + "theory/reports/wolfram-field-theory.json",
       R + "theory/reports/python-field-theory.json",
-      R + "theory/fock_quartic/reports/fock-quartic.json"]),
+      R + "theory/fock_quartic/reports/fock-quartic.json",
+      R + "theory/reports/wolfram-field-theory-b4.json",
+      R + "theory/reports/python-field-theory-b4.json",
+      R + "theory/reports/wolfram-field-theory-b4-emt-C.json",
+      R + "theory/reports/wolfram-field-theory-b4-emt-G.json"]),
     ("the exact scope of the non-triviality", "PROVED", "",
      [R + "theory/reports/wolfram-scope.json",
       R + "theory/reports/python-scope.json"]),
 ```
 
-The list `LEDGER` holds the twenty rows of the table of Section 0.18, each as a group of four: the statement, the label, the note (an empty string `""` for a row that needs none), and the list of the reports that verify the row. Rows 1 to 3 are the exact results of the algebra and of the field theory, each verified by a Wolfram and a Python report. Row 2 names the quantisation of dirac16complex only, because the field dirac16complex00 is a classical field and is not quantised. Row 2 also holds the report of the finite Fock model (`lambda != 0` is $\lambda \neq 0$ written with plain characters: `!=` means "is not equal to"), and its note says how far that report reaches: the energy-momentum tensor (EMT) operator for $\lambda \neq 0$ is proved only in that finite model (Section 0.18).
+The list `LEDGER` holds the twenty rows of the table of Section 0.18, each as a group of four: the statement, the label, the note (an empty string `""` for a row that needs none), and the list of the reports that verify the row. Rows 1 to 3 are the exact results of the algebra and of the field theory, each verified by a Wolfram and a Python report. Row 2 names the quantisation of dirac16complex only, because the field dirac16complex00 is a classical field and is not quantised. Row 2 also holds the report of the finite Fock model (`lambda != 0` is $\lambda \neq 0$ written with plain characters: `!=` means "is not equal to"), and its note says how far that report reaches: the energy-momentum tensor (EMT) operator for $\lambda \neq 0$ is proved only in that finite model (Section 0.18); its last four reports are those of the field theory with $b_4$.
 
 ```python
     ("EMT conservation identities; the spin connection", "PROVED", "",
      [R + "lead_checks/reports/emt-divergence-and-spin-connection.json"]),
-    ("the field equations for a4", "PROVED", "",
+    ("the field equations for a4 and b4; the vacuum", "PROVED", "",
      [R + "field_equations_a4/reports/wolfram-a4-report.json",
       R + "field_equations_a4/reports/python-a4-report.json",
+      R + "field_equations_a4/reports/python-b4-block.json",
+      R + "metric_b4/results/vacuum-b4.json",
       R + "lead_checks/reports/einstein-gauss-bonnet-a4.json"]),
     ("GKD and the three Lovelock tensors", "PROVED", "",
      [R + "gkd_lovelock/results/lovelock-report.json",
@@ -2140,18 +2272,21 @@ The list `LEDGER` holds the twenty rows of the table of Section 0.18, each as a 
       R + "gkd_lovelock/results/python-lovelock-report.json"]),
 ```
 
-Rows 4 to 6, all PROVED: the conservation identities (one report of the lead), the field equations for $a_4$ (the Wolfram and the Python verifier and the lead's independent check, three reports), and GKD and the Lovelock tensors (the four reports of the folder `gkd_lovelock/results`).
+Rows 4 to 6, all PROVED: the conservation identities (one report of the lead), the field equations for $a_4$ and $b_4$ with the vacuum (the Wolfram and the Python verifier, the block of $b_4$, the vacuum of the metric with $b_4$ and the lead's independent check, five reports), and GKD and the Lovelock tensors (the four reports of the folder `gkd_lovelock/results`).
 
 ```python
     ("the curvature agrees with the author's stored outputs", "PROVED",
      "5 of 78 comparisons NOT-AVAILABLE: the author's notebook stores no value",
-     [R + "gkd_lovelock/comparison/author-comparison-report.json"]),
+     [R + "gkd_lovelock/comparison/author-comparison-report.json",
+      R + "metric_b4/results/wolfram-metric-b4-report.json",
+      R + "metric_b4/results/python-metric-b4-report.json"]),
     ("Kohn-Sham theory: blocks, rescaling, exchange", "PROVED", "",
      [R + "kohn_sham/reports/ks-theory-wolfram.json",
-      R + "kohn_sham/reports/ks-theory-python.json"]),
+      R + "kohn_sham/reports/ks-theory-python.json",
+      R + "kohn_sham/reports/ks-b4-wolfram.json"]),
 ```
 
-Row 7, PROVED, has both a report and a note, like row 2: the note says that five of the 78 comparisons with the author's notebook could not be made (Section 0.18). Row 8 holds the exact parts of the Kohn-Sham theory.
+Row 7, PROVED, has both reports and a note, like row 2: the note says that five of the 78 comparisons with the author's earlier notebook could not be made (Section 0.18); its other two reports compare the metric with $b_4$ with the author's notebook of 2026-10-14. Row 8 holds the exact parts of the Kohn-Sham theory, with the report that the good-sector problem does not contain $b_4$.
 
 ```python
     ("Kohn-Sham states along the deflating history", "COMPUTED",
@@ -2172,7 +2307,8 @@ Row 9 is COMPUTED: the numerical Kohn-Sham states, with the five reports of the 
 ```python
     ("pairing T1, T2 (Z2 mirror ASSUMED) and Q", "PROVED", "",
      [R + "pairing/reports/wolfram-pairing.json",
-      R + "pairing/reports/python-pairing.json"]),
+      R + "pairing/reports/python-pairing.json",
+      R + "metric_b4/results/consequences-b4.json"]),
     ("T3 and its completion (Z2 mirror ASSUMED): +M and -M", "PROVED", "",
      [K + "wolfram-t3.json", K + "python-t3.json",
       K + "wolfram-t3-completion.json", K + "python-t3-completion.json"]),
@@ -2182,7 +2318,7 @@ Row 9 is COMPUTED: the numerical Kohn-Sham states, with the five reports of the 
      [R + "lead_checks/reports/charge-conjugation-and-u1.json"]),
 ```
 
-Rows 11 to 14. Rows 11 and 12, PROVED: the pairing theorems, whose statements name the ASSUMED Z2 mirror where it enters; row 12 holds the four reports on T3 and on its completion. Row 13, COMPUTED: the two numerical demonstrations of T3, labelled in their statement as what they are, not a proof. Row 14, PROVED: the charge-conjugation matrices with the local conservation law of the charge; its statement says "the local U(1) law" because only the local law is proved (In [3]).
+Rows 11 to 14. Rows 11 and 12, PROVED: the pairing theorems, whose statements name the ASSUMED Z2 mirror where it enters (row 11 also holds the report that T1 and T2 hold unchanged with $b_4$); row 12 holds the four reports on T3 and on its completion. Row 13, COMPUTED: the two numerical demonstrations of T3, labelled in their statement as what they are, not a proof. Row 14, PROVED: the charge-conjugation matrices with the local conservation law of the charge; its statement says "the local U(1) law" because only the local law is proved (In [3]).
 
 ```python
     ("the dark-sector investigation: what each field gives", "COMPUTED", "",
@@ -2223,7 +2359,7 @@ for number, (statement, label, note, paths) in enumerate(LEDGER, 1):
     say(f"{number:3d} {label:10} {passed:7d} of {total:3d}  {statement}")
 ```
 
-`enumerate(LEDGER, 1)` numbers the rows from 1. For each row, the passed checks and the checks of its reports are added (a sum over an empty list is 0), kept in the lists `row_passed` and `row_totals` for the checks below and for the picture of In [10], and a line of the table of Out [9] is printed. Row 7 shows 73 of 78.
+`enumerate(LEDGER, 1)` numbers the rows from 1. For each row, the passed checks and the checks of its reports are added (a sum over an empty list is 0), kept in the lists `row_passed` and `row_totals` for the checks below and for the picture of In [10], and a line of the table of Out [9] is printed. Row 7 shows 121 of 126 (the 73 of 78 of the earlier comparison and the 48 checks of the comparison with $b_4$).
 
 ```python
 say("The notes of the rows:")
@@ -2240,7 +2376,7 @@ check(used == sorted(path for path, _ in REPORTS),
       f"every one of the {len(REPORTS)} reports belongs to exactly one row")
 ```
 
-`used` is the sorted list of all reports named in all rows (a comprehension with two `for` parts runs through the rows and, inside each row, through its reports). It must equal the sorted list of the 41 reports: every report appears, and none twice (a report named twice would appear twice in `used`).
+`used` is the sorted list of all reports named in all rows (a comprehension with two `for` parts runs through the rows and, inside each row, through its reports). It must equal the sorted list of the 51 reports: every report appears, and none twice (a report named twice would appear twice in `used`).
 
 ```python
 check(all((label in ("HYPOTHESIS", "OPEN")) == (paths == [] and note != "")
@@ -2282,7 +2418,7 @@ fig, ax = plt.subplots(figsize=(8.6, 9.0))
 rows = np.arange(len(LEDGER))[::-1]  # the first row of the ledger at the top
 ```
 
-A colour for each label that has reports, the largest number of checks of a row (175, row 2, in the run printed in Section 0.20), a tall figure of 8.6 by 9.0 inches, and the row positions with the first row at the top.
+A colour for each label that has reports, the largest number of checks of a row (207, row 2, in the run printed in Section 0.20), a tall figure of 8.6 by 9.0 inches, and the row positions with the first row at the top.
 
 ```python
 for number, row, (statement, label, note, paths), passed, total in zip(
@@ -3186,7 +3322,7 @@ The figure `00d_5_seeded_walks.png` and two checks: `np.array_equal` is true whe
 ```python
 import subprocess  # starts another program and reads what it prints
 
-NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
+NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
 PROGRAM = "import sys; print(*set(sys.argv[1:]))"  # print the names of a set
 ```
 
@@ -3209,7 +3345,7 @@ orders = [set_order(seed) for seed in range(12)]  # the seeds 0, 1, ..., 11
 for seed, order in enumerate(orders):
     printed = " ".join(order)  # the eight names separated by blanks
     say(f"PYTHONHASHSEED={seed:<2}  {printed}")
-in_order = " ".join(sorted(orders[0]))  # sorted: x1 x2 ... x8
+in_order = " ".join(sorted(orders[0]))  # sorted: x0 x1 ... x7
 say(f"sorted              {in_order}")
 different = len({tuple(order) for order in orders})  # the number of distinct orders
 report("distinct orders among the 12 runs", different)
@@ -3221,16 +3357,16 @@ Twelve runs with the hash seeds 0 to 11; the order of each is printed (the first
 check(set_order(0) == orders[0], "the same hash seed gives the same order")
 check(different >= 2, "different hash seeds give different orders of the same set")
 check(all(sorted(order) == NAMES for order in orders),
-      "sorted, the names come in the same order x1 ... x8 in every run")
+      "sorted, the names come in the same order x0 ... x7 in every run")
 ```
 
-Three checks: a thirteenth run with the seed 0 repeats the order of the first; at least two of the orders differ; and every order, sorted, is $x_1, \ldots, x_8$. This is why the notebooks sort before they print.
+Three checks: a thirteenth run with the seed 0 repeats the order of the first; at least two of the orders differ; and every order, sorted, is $x_0, \ldots, x_7$. This is why the notebooks sort before they print.
 
 **In [13], the twelve orders as a picture.**
 
 ```python
 table = orders + [sorted(orders[0])]  # 13 rows of 8 names: 12 runs and the sorted
-# Each name replaced by its number in NAMES: x1 -> 0, x2 -> 1, ..., x8 -> 7.
+# Each name replaced by its number in NAMES: x0 -> 0, x1 -> 1, ..., x7 -> 7.
 numbers = np.array([[NAMES.index(name) for name in row] for row in table])
 colours = matplotlib.colormaps["viridis"].resampled(8)  # 8 colours, violet to yellow
 ```
@@ -3266,10 +3402,10 @@ A thick white line separates the sorted row from the twelve runs; the columns ar
 ```python
 save_figure(fig, "set_orders",
             r"The order in which twelve separate runs of Python print the same set "
-            r"of the eight names $x_1, \ldots, x_8$ (one row per run, labelled by "
+            r"of the eight names $x_0, \ldots, x_7$ (one row per run, labelled by "
             r"its hash seed PYTHONHASHSEED from 0 to 11; horizontal axis the place 1 "
             r"to 8 in the printed order; each square coloured by its name, from "
-            r"dark violet for $x_1$ to yellow for $x_8$). Every run prints another "
+            r"dark violet for $x_0$ to yellow for $x_7$). Every run prints another "
             r"order, so the rows are scrambled differently; the bottom row, the "
             r"sorted order, is the same in every run.")
 ```
@@ -3331,7 +3467,7 @@ report("size of the reference result files",
 report("reference result files with CR LF line ends", reference_crlf)
 ```
 
-The numbers of files, their total sizes (`p.stat().st_size` is the size of a file in bytes) and the numbers of files with CR LF: Out [15] reports 244 Rust result files with 5857791 bytes and 340 reference result files, none with CR LF line ends.
+The numbers of files, their total sizes (`p.stat().st_size` is the size of a file in bytes) and the numbers of files with CR LF: Out [15] reports 244 Rust result files with 5857843 bytes and 340 reference result files, none with CR LF line ends.
 
 ```python
 lf_rust = determinism_checks["outputs_lf_only"]  # the record's check (Rust)
@@ -3430,7 +3566,7 @@ The same for the reference folder, together with the record's own check `referen
 
 ```python
 rust_repeat = determinism_checks["repeat_byte_identical"]  # the Rust second run
-# The part of its detail that counts, e.g. "244 files (5857791 bytes) compared, ...".
+# The part of its detail that counts, e.g. "244 files (5857843 bytes) compared, ...".
 found = re.search(r"(\d+) files \((\d+) bytes\) compared, same file set: (\w+), "
                   r"differing files: (\w+)", rust_repeat["detail"])
 say(f"the record (Rust): {found.group(0)}")
@@ -3444,7 +3580,7 @@ check_reproduces(
     f"{DETERMINISM}, check repeat_byte_identical")
 ```
 
-The record's comparison of a second run of the Rust solver with the first. The regular expression picks out four parts of its detail: the number of files, the number of bytes, whether the two runs wrote the same set of files, and the differing files. `found.group(0)` is the whole matched text, printed in Out [16]: 244 files (5857791 bytes) compared, same file set: True, differing files: none. The check requires that the record compared as many files and bytes as the folder holds today, with the same file set and no differing file.
+The record's comparison of a second run of the Rust solver with the first. The regular expression picks out four parts of its detail: the number of files, the number of bytes, whether the two runs wrote the same set of files, and the differing files. `found.group(0)` is the whole matched text, printed in Out [16]: 244 files (5857843 bytes) compared, same file set: True, differing files: none. The check requires that the record compared as many files and bytes as the folder holds today, with the same file set and no differing file.
 
 ```python
 repeat = cross_checks["reference_repeat_byte_identical"]  # the reference second run
@@ -3482,9 +3618,9 @@ This chapter is mostly a map; the few results it derives are elementary, but eac
 **PROVED in this chapter** (by school algebra and one-variable calculus):
 
 - the tangent line of $y = x^2$ at $x = 1$ is $y = 2x - 1$, and it lies below the parabola because $x^2 - (2x - 1) = (x - 1)^2 \ge 0$; and $e^{t} e^{-t} = 1$ for every $t$ (Section 0.10);
-- the signs of the eight entries of the author's metric are $(+, +, +, -, -, -, -, +)$ at every point of the patch $0 < z < \pi/2$ and for every $a_4$, so the signature is (4,4) (Section 0.14, Fact 1);
-- the length factors are $e^{a_4} \sin^{1/6} z$ for $x_1$, $x_2$, $x_3$, $1$ for $x_4$, $e^{-a_4} \sin^{1/6} z$ for $x_5$, $x_6$, $x_7$ and $\cot z$ for $x_8$ (Fact 2); along the history $a_4 = A H x_4$ the extra-time factors obey $d f_5 / d x_4 = -A H f_5$ (exponential deflation) and the space factors $d f_1/dx_4 = +A H f_1$ (exponential inflation), and $f_1 f_5 = \sin^{1/3} z$ in every history (Fact 3);
-- $\det g = \cos^2 z$ and the volume factor $\sqrt{|\det g|} = \cos z$, for every function $a_4$: the inflation and the deflation cancel in the volume (Fact 4; also by the exact symbolic checks `sqrt_det_g_is_cos_z`, `sqrt_det_g_equals_cos_z` and `sqrt_abs_det_g_is_cos_z` of the three Revision reports listed at the end of Fact 4);
+- the signs of the eight entries of the author's metric are $(+, +, +, +, -, -, -, -)$ at every point of the patch $0 < z < \pi/2$, for every $a_4$ and every $b_4 > 0$, so the signature is (4,4) (Section 0.14, Fact 1);
+- the length factors are $\cot z$ for $x_0$, $e^{a_4} \sin^{1/6} z$ for $x_1$, $x_2$, $x_3$, $1$ for $x_4$ and $b_4^{1/2} e^{-a_4} \sin^{1/6} z$ for $x_5$, $x_6$, $x_7$ (Fact 2); along the history $a_4 = A H x_4$, $b_4 = 1$ the extra-time factors obey $d f_5 / d x_4 = -A H f_5$ (exponential deflation) and the space factors $d f_1/dx_4 = +A H f_1$ (exponential inflation), and $f_1 f_5 = b_4^{1/2} \sin^{1/3} z$ contains no $a_4$ in every history (Fact 3);
+- $\det g = b_4^3 \cos^2 z$ and the volume factor $\sqrt{|\det g|} = b_4^{3/2} \cos z$, for every function $a_4$: the inflation and the deflation cancel in the volume, which changes in time only through $b_4$ (Fact 4; also by the exact symbolic checks `sqrt_det_g` and `sqrt_abs_det_g_is_cos_z`, and at $b_4 = 1$ `sqrt_det_g_is_cos_z` and `sqrt_det_g_equals_cos_z`, of the Revision reports listed at the end of Fact 4);
 - the expected number of changed characters of a random 64-character hexadecimal fingerprint is $64 \cdot 15/16 = 60$ (Section 0.18);
 - $1/10$ has no finite binary expansion; the computer stores 0.1 as $3602879701896397/2^{55}$ and computes $0.1 + 0.2$ as $5404319552844596/2^{54}$, which exceeds the stored 0.3 by $2^{-54}$; the machine epsilon is $2^{-52}$, and the gap between neighbouring stored numbers lies between $\epsilon x/2$ and $\epsilon x$; $(1 + 2^{-53}) + 2^{-53} \ne 1 + (2^{-53} + 2^{-53})$ in floating-point arithmetic; and $1/(N+1) < \pi^2/6 - \sum_{k \le N} 1/k^2 < 1/N$ (Section 0.22).
 
@@ -3493,8 +3629,8 @@ The chapter also states, without proof, the theorems that later chapters prove: 
 **COMPUTED by the notebooks** (each number in the cell named; where a Revision record is reproduced, the record file and its check):
 
 - Notebook 00a: the installed versions (In [2] to In [4]); the determinant $-2.000000000000$ (In [5]); the derivative $2 \sin x \cos x$ (In [6]); 30 digits of $\pi$ (In [7]); the tangent line and the two exponentials at 401 points each (In [8], In [9]).
-- Notebook 00b: the names and the signs of the coordinates (In [2]; reproduces `Revision/algebra/reports/wolfram-algebra.json`, check `eta_in_author_order`); the eight entries of the metric (In [4]; reproduces `Revision/theory/reports/python-field-theory.json`, check `metric_from_vielbein_equals_SPEC`); no wrong sign at 4819 points (In [5]); $\det g = \cos^2 z$ (In [6]; reproduces `Revision/theory/reports/wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z`); $e^{3} = 20.0855$ and $e^{-3} = 0.049787$ (In [7]); the table of the length factors at $z = \pi/4$ with the product 0.7071 (In [8]; reproduces `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g_is_cos_z`); the volume factor equal to $\cos z$ within $8.9 \times 10^{-16}$ at 200 points for three values of $a_4$ (In [9]; reproduces `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`).
-- Notebook 00c: 12 of 12 checks of the charge-conjugation report (In [2]); the statements $\mathcal{C}_+ = C$, $\mathcal{C}_- = \Gamma C$ and $J = 0$ for a real field, word for word in the details of that report (In [3]; checks `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus` and `real_fields_charge_conjugation`); the local conservation law of the charge, and the report's own statement that a constant total charge is not established (In [3]; check `u1_noether_matrix_identity`); the 41 reports of the record, all found by the search, no check FAIL (1231 PASS and 5 NOT-AVAILABLE of 1236 checks in the run of 2026-10-08; the counts follow the record), and each report's own totals equal to the counted ones (In [5]); the 39 counts of the table of `Revision/README.md`, the 3 counts quoted by `Revision/kohn_sham/reports/ks-crosscheck.json`, check `inputs_all_pass`, and the 13 of 13 quoted by `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`, key `checks` (In [6]); the ledger with 11 PROVED, 3 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 3 OPEN rows, every report in exactly one row, and only row 7 with checks that are not PASS, its five NOT-AVAILABLE comparisons (In [9]); the twelve sentences of `Revision/pairing/reports/python-pairing.json`, key `not_established` (In [11]); 54 to 64 changed characters, mean 60.03, for one-character changes (In [12]); 24 recorded fingerprints equal to today's files (In [13]).
+- Notebook 00b: the names and the signs of the coordinates (In [2]; reproduces `Revision/algebra/reports/wolfram-algebra.json`, check `eta_in_author_order`); the eight entries of the metric with $b_4$ (In [4]; reproduces `Revision/metric_b4/results/wolfram-metric-b4-report.json`, check `metric_equals_author_Out101`) and at $b_4 = 1$ (In [4]; reproduces `Revision/theory/reports/python-field-theory.json`, check `metric_from_vielbein_equals_SPEC`); no wrong sign at 14457 points (In [5]); $\det g = b_4^3 \cos^2 z$ (In [6]; reproduces `Revision/theory/reports/wolfram-field-theory-b4.json`, check `sqrt_det_g`) and $\det g = \cos^2 z$ at $b_4 = 1$ (In [6]; reproduces `Revision/theory/reports/wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z`); $e^{3} = 20.0855$ and $e^{-3} = 0.049787$ (In [7]); the table of the length factors at $z = \pi/4$, $b_4 = 1$ with the product 0.7071 (In [8]; reproduces `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g_is_cos_z`); the volume factor equal to $\cos z$ within $1.0 \times 10^{-15}$ at 200 points for three values of $a_4$ at $b_4 = 1$ (In [9]; reproduces `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`), and equal to $2^{3/2} \cos z$ within $2.7 \times 10^{-15}$ at $a_4 = 1$, $b_4 = 2$ (In [9]; reproduces `Revision/theory/reports/wolfram-field-theory-b4.json`, check `sqrt_det_g`).
+- Notebook 00c: 12 of 12 checks of the charge-conjugation report (In [2]); the statements $\mathcal{C}_+ = C$, $\mathcal{C}_- = \Gamma C$ and $J = 0$ for a real field, word for word in the details of that report (In [3]; checks `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus` and `real_fields_charge_conjugation`); the local conservation law of the charge, and the report's own statement that a constant total charge is not established (In [3]; check `u1_noether_matrix_identity`); the 51 reports of the record, all found by the search, no check FAIL (1349 PASS and 5 NOT-AVAILABLE of 1354 checks in the run of 2026-10-14; the counts follow the record), and each report's own totals equal to the counted ones (In [5]); the 49 counts of the table of `Revision/README.md`, the 3 counts quoted by `Revision/kohn_sham/reports/ks-crosscheck.json`, check `inputs_all_pass`, and the 13 of 13 quoted by `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`, key `checks` (In [6]); the ledger with 11 PROVED, 3 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 3 OPEN rows, every report in exactly one row, and only row 7 with checks that are not PASS, its five NOT-AVAILABLE comparisons (In [9]); the twelve sentences of `Revision/pairing/reports/python-pairing.json`, key `not_established` (In [11]); 54 to 64 changed characters, mean 60.03, for one-character changes (In [12]); 24 recorded fingerprints equal to today's files (In [13]).
 - Notebook 00d: the forward, backward and pairwise errors of 196, 1 and 3 ulps, and the method error $9.999995 \times 10^{-7}$ (In [5]); the relative difference $2.65 \times 10^{-14}$ of the three sums (In [6]); the eight measured differences of the Kohn-Sham solver below their tolerances with the margins 4.7 to 7692 (In [7]; reproduces `Revision/kohn_sham/reports/ks-rust-determinism.json`, its eight comparison checks named in Section 0.22, from `refined_ground_energies` to `refined_heat_capacity` without the negative control `refined_mermin_root_path`); the negative control with a hidden error up to $8.267 \times 10^{-10}$ in units of $m$ (In [9]; check `refined_mermin_root_path` of the same report); 12 distinct set orders for 12 hash seeds (In [12]); no CR LF line end in the 244 Rust and the 340 reference result files (In [15]; checks `outputs_lf_only` and `reference_outputs_lf_only`); 582 manifest fingerprints equal to today's files, and the record's repeat runs of both solvers byte-identical (In [16]; checks `reference_manifest`, `repeat_byte_identical` and `reference_repeat_byte_identical`).
 
 **ASSUMED** (used, not derived here):
@@ -3512,17 +3648,17 @@ The chapter also states, without proof, the theorems that later chapters prove: 
 
 **Exercise 1.** Give each statement one of the five labels and one sentence of reason. (a) The author's metric has the signature (4,4). (b) The ground-state energies of the canonical and the refined run of the Revision record's Kohn-Sham solver differ by at most $1.901 \times 10^{-12}$ (relative). (c) The metric function grows in proportion to the time, $a_4 = A H x_4$, in the Kohn-Sham chapters. (d) Our universe has a partner universe of opposite charge. (e) At the big bang, a pair of universes of masses $+M$ and $-M$ was created.
 
-*Answer.* (a) PROVED: Fact 1 of Section 0.14 derives the signs $(+, +, +, -, -, -, -, +)$ at every point of the patch by school algebra, and the Wolfram verifier checks them (`eta_in_author_order`). (The metric itself is ASSUMED, as the author's input; given the metric, its signature is proved.) (b) COMPUTED: it is a number measured by comparing two numerical runs (`Revision/kohn_sham/reports/ks-rust-determinism.json`, check `refined_ground_energies`), reproducible but not exact. (c) ASSUMED: it is a prescribed background; the computed Kohn-Sham states cannot be its source (row 10 of the ledger). (d) HYPOTHESIS: T1 proves that every solution with mass $+m$ has an image with mass $-m$ and opposite charge, but not that such an image exists alongside our universe (row 17). (e) OPEN as a question of this book: the author proposed it, but no equation of the record describes the creation of anything, so it is not proved (row 19).
+*Answer.* (a) PROVED: Fact 1 of Section 0.14 derives the signs $(+, +, +, +, -, -, -, -)$ at every point of the patch by school algebra, and the Wolfram verifier checks them (`eta_in_author_order`). (The metric itself is ASSUMED, as the author's input; given the metric, its signature is proved.) (b) COMPUTED: it is a number measured by comparing two numerical runs (`Revision/kohn_sham/reports/ks-rust-determinism.json`, check `refined_ground_energies`), reproducible but not exact. (c) ASSUMED: it is a prescribed background; the computed Kohn-Sham states cannot be its source (row 10 of the ledger). (d) HYPOTHESIS: T1 proves that every solution with mass $+m$ has an image with mass $-m$ and opposite charge, but not that such an image exists alongside our universe (row 17). (e) OPEN as a question of this book: the author proposed it, but no equation of the record describes the creation of anything, so it is not proved (row 19).
 
 **Exercise 2.** Notebook 00a checks that Python is version 3.12 or newer by comparing the pairs $(3, 12)$ and (major, minor). Would the pair $(4, 0)$ pass? Would $(3, 9)$?
 
 *Answer.* Pairs are compared like words in a dictionary: first the first numbers, and only when they are equal the second numbers. $(4, 0)$: the first numbers are 4 and 3, and 4 is larger, so $(4, 0) \ge (3, 12)$ and the check passes (the second numbers are not compared). $(3, 9)$: the first numbers are equal, so the second numbers decide; 9 is smaller than 12, so $(3, 9) < (3, 12)$ and the check fails. (Comparing the versions as decimal numbers would be wrong: 3.9 is larger than 3.12 as a decimal number, but version 9 comes before version 12.)
 
-**Exercise 3.** Compute the eight length factors of the author's metric at the hidden coordinate $z = \pi/6$ and at $a_4 = \ln 2$ (so that $e^{a_4} = 2$), and show that their product is $\cos(\pi/6) = \sqrt{3}/2$.
+**Exercise 3.** Compute the eight length factors of the author's metric at the hidden coordinate $z = \pi/6$, at $a_4 = \ln 2$ (so that $e^{a_4} = 2$) and $b_4 = 1$, and show that their product is $\cos(\pi/6) = \sqrt{3}/2$.
 
-*Answer.* $\sin(\pi/6) = 1/2$, so $\sin^{1/6}(\pi/6) = (1/2)^{1/6} = 2^{-1/6}$; $\cot(\pi/6) = \cos(\pi/6)/\sin(\pi/6) = (\sqrt{3}/2)/(1/2) = \sqrt{3}$. By Fact 2 of Section 0.14: $f_1 = f_2 = f_3 = 2 \cdot 2^{-1/6} = 2^{5/6} = 1.7818$; $f_4 = 1$; $f_5 = f_6 = f_7 = \frac{1}{2} \cdot 2^{-1/6} = 2^{-7/6} = 0.4454$; $f_8 = \sqrt{3} = 1.7321$. The product is $(2^{5/6})^3 \cdot (2^{-7/6})^3 \cdot 1 \cdot \sqrt{3} = 2^{5/2} \cdot 2^{-7/2} \cdot \sqrt{3} = 2^{-1} \sqrt{3} = \sqrt{3}/2$ (power rule, then the law of exponents $2^{5/2 - 7/2} = 2^{-1}$), which is $\cos(\pi/6)$, as Fact 4 says for every $a_4$.
+*Answer.* $\sin(\pi/6) = 1/2$, so $\sin^{1/6}(\pi/6) = (1/2)^{1/6} = 2^{-1/6}$; $\cot(\pi/6) = \cos(\pi/6)/\sin(\pi/6) = (\sqrt{3}/2)/(1/2) = \sqrt{3}$. By Fact 2 of Section 0.14 with $b_4 = 1$: $f_0 = \sqrt{3} = 1.7321$; $f_1 = f_2 = f_3 = 2 \cdot 2^{-1/6} = 2^{5/6} = 1.7818$; $f_4 = 1$; $f_5 = f_6 = f_7 = \frac{1}{2} \cdot 2^{-1/6} = 2^{-7/6} = 0.4454$. The product is $\sqrt{3} \cdot (2^{5/6})^3 \cdot 1 \cdot (2^{-7/6})^3 = 2^{5/2} \cdot 2^{-7/2} \cdot \sqrt{3} = 2^{-1} \sqrt{3} = \sqrt{3}/2$ (power rule, then the law of exponents $2^{5/2 - 7/2} = 2^{-1}$), which is $\cos(\pi/6)$, as Fact 4 says for every $a_4$.
 
-**Exercise 4.** Along the history $a_4 = A H x_4$ with $A = 1$ and $H = 1$, after how much time $x_4$ has the length factor of an extra time fallen to half its value at $x_4 = 0$? After how much time has it fallen to one thousandth? What has the factor of ordinary space done in the same time?
+**Exercise 4.** Along the history $a_4 = A H x_4$ with $A = 1$, $H = 1$ and $b_4 = 1$, after how much time $x_4$ has the length factor of an extra time fallen to half its value at $x_4 = 0$? After how much time has it fallen to one thousandth? What has the factor of ordinary space done in the same time?
 
 *Answer.* By Fact 3, $f_5(x_4) = e^{-x_4} \sin^{1/6} z$, so $f_5(x_4)/f_5(0) = e^{-x_4}$. Half: $e^{-x_4} = 1/2$, so $-x_4 = \ln(1/2) = -\ln 2$ (take the natural logarithm of both sides), and $x_4 = \ln 2 = 0.6931$. One thousandth: $x_4 = \ln 1000 = 6.9078$. In the same times the factor of ordinary space, $e^{x_4} \sin^{1/6} z$, has grown by the factors 2 and 1000, since $e^{x_4} = 1/e^{-x_4}$. Every interval of length $\ln 2$ halves the extra-time factor again: this is what exponential deflation means.
 

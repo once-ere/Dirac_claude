@@ -148,17 +148,19 @@ CELLS = [
     The author's metric of the primordial gravitational field is the diagonal
     matrix
 
-    $$g = \mathrm{diag}\big(e^{2a_4} s, e^{2a_4} s, e^{2a_4} s, -1,
-    -e^{-2a_4} s, -e^{-2a_4} s, -e^{-2a_4} s, \cot^2 z\big),\quad
-    s = \sin^{1/3} z,\ z = 6 H x_8,\ 0 < z < \pi/2.$$
+    $$g = \mathrm{diag}\big(\cot^2 z, e^{2a_4} s, e^{2a_4} s, e^{2a_4} s, -1,
+    -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),\quad
+    s = \sin^{1/3} z,\ z = 6 H x_0,\ 0 < z < \pi/2,$$
 
-    Its entries are built from powers ($\sin^{1/3} z$ is the cube root of
-    $\sin z$), exponentials ($e^{2a_4}$) and a trigonometric function. A length
-    along a coordinate is the square root of the size of its metric entry: along
-    $x_1, x_2, x_3$ (space) it is $e^{a_4}\sin^{1/6} z$, which grows as $a_4$
-    grows, and along the three extra times $x_5, x_6, x_7$ it is
-    $e^{-a_4}\sin^{1/6} z$, which shrinks: the extra times deflate exponentially.
-    The time $x_4$ has the factor 1 and the hidden direction $x_8$ the factor
+    with a function $a_4(x_4)$ and a positive function $b_4(x_4)$ of the time
+    ($b_4 = 1$ in the background of the Revision record). Its entries are built
+    from powers ($\sin^{1/3} z$ is the cube root of $\sin z$), exponentials
+    ($e^{2a_4}$) and a trigonometric function. A length along a coordinate is the
+    square root of the size of its metric entry: along $x_1, x_2, x_3$ (space) it is
+    $e^{a_4}\sin^{1/6} z$, which grows as $a_4$ grows, and along the three extra
+    times $x_5, x_6, x_7$ it is $b_4^{1/2} e^{-a_4}\sin^{1/6} z$, which shrinks: for
+    constant $b_4$ the extra times deflate exponentially.
+    The time $x_4$ has the factor 1 and the hidden direction $x_0$ the factor
     $\cot z$. To compute with these expressions correctly one needs the laws of
     powers, roots, exponentials and logarithms, and one needs to know when a
     computer computes exactly (whole numbers, fractions, sympy's symbols) and when
@@ -596,21 +598,23 @@ CELLS = [
     is $\sqrt{|g_{\mu\mu}|}\,dx$. For $0 < z < \pi/2$ both $\sin z$ and $\cos z$
     are positive, so the laws apply:
 
-    $$\sqrt{e^{2a_4}\sin^{1/3} z} = e^{a_4}\sin^{1/6} z,\quad
-    \sqrt{e^{-2a_4}\sin^{1/3} z} = e^{-a_4}\sin^{1/6} z,\quad \sqrt{1} = 1,\quad
-    \sqrt{\cot^2 z} = \cot z,$$
+    $$\sqrt{\cot^2 z} = \cot z,\quad \sqrt{e^{2a_4}\sin^{1/3} z} = e^{a_4}\sin^{1/6} z,
+    \quad \sqrt{1} = 1,\quad
+    \sqrt{b_4 e^{-2a_4}\sin^{1/3} z} = b_4^{1/2} e^{-a_4}\sin^{1/6} z,$$
 
     and their product over the eight directions is
 
-    $$(e^{a_4}\sin^{1/6} z)^3 \cdot 1 \cdot (e^{-a_4}\sin^{1/6} z)^3 \cdot \cot z
-    = e^{3a_4 - 3a_4}\,\sin^{6/6} z\,\cot z = \sin z \cot z = \cos z,$$
+    $$\cot z \cdot (e^{a_4}\sin^{1/6} z)^3 \cdot 1 \cdot (b_4^{1/2} e^{-a_4}\sin^{1/6} z)^3
+    = b_4^{3/2}\, e^{3a_4 - 3a_4}\,\sin^{6/6} z\,\cot z = b_4^{3/2} \sin z \cot z
+    = b_4^{3/2} \cos z,$$
 
-    the record's `sqrtAbsDetG` ($\sin z \cot z$). The next cell checks the laws and
-    the example with sympy (with symbols declared positive or real), then reads the
-    metric from the record with the symbols $S = \sin z$ and $C = \cos z$ (both
-    positive, $\cot z = C/S$), takes the square root of the size of every entry
-    (the sign of entry $\mu$ is $\eta_{\mu\mu}$ of the frame metric), and checks the
-    eight factors and their product.
+    the record's `sqrtAbsDetG` ($b_4^{3/2} \sin z \cot z$; $\cos z$ at $b_4 = 1$).
+    The next cell checks the laws and the example with sympy (with symbols declared
+    positive or real), then reads the metric from the record with the symbols
+    $S = \sin z$ and $C = \cos z$ (both positive, $\cot z = C/S$) and $b_4$
+    (positive), takes the square root of the size of every entry (the sign of entry
+    $\mu$ is $\eta_{\mu\mu}$ of the frame metric), and checks the eight factors and
+    their product.
     """),
     code(r'''
     a, b = sp.symbols("a b", positive=True)
@@ -639,31 +643,35 @@ CELLS = [
     code(r'''
     S, C = sp.symbols("S C", positive=True)  # S = sin z, C = cos z, both > 0
     a4 = sp.Symbol("a4", real=True)  # the value of a4(x4) at one time
+    b4 = sp.Symbol("b4", positive=True)  # the value of b4(x4) at one time
 
 
     def from_record(text):
         """The record's Mathematica text as sympy, with sin z = S and cot z = C/S."""
-        text = text.replace("a4[x4]", "a4").replace("Sin[6*H*x8]", "S")
-        text = text.replace("Cot[6*H*x8]", "(C/S)").replace("^", "**")
-        return sp.sympify(text, locals={"a4": a4, "S": S, "C": C, "E": sp.E})
+        text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
+        text = text.replace("Sin[6*H*x0]", "S")
+        text = text.replace("Cot[6*H*x0]", "(C/S)").replace("^", "**")
+        return sp.sympify(text, locals={"a4": a4, "b4": b4, "S": S, "C": C, "E": sp.E})
 
 
     curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
                            .read_text(encoding="utf-8"))
     eta = json.loads(repository_file("Revision/algebra/gammas.json")
-                     .read_text(encoding="utf-8"))["eta"]  # +1 or -1 for x1 ... x8
+                     .read_text(encoding="utf-8"))["eta"]  # +1 or -1 for x0 ... x7
     metric = [from_record(text) for text in curvature["metricDiagonal"]]
     sizes = [eta[mu] * metric[mu] for mu in range(8)]  # |g_mu mu| = eta_mu mu g_mu mu
     check(all(size.is_positive for size in sizes),
           "every entry of the metric has the sign of eta: eta_mu mu g_mu mu > 0")
     factors = [sp.sqrt(size) for size in sizes]  # the length factors
-    expected = ([sp.exp(a4) * S ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)]
-                + [sp.exp(-a4) * S ** sp.Rational(1, 6)] * 3 + [C / S])
+    # the author's order x0, x1, ..., x7
+    expected = ([C / S] + [sp.exp(a4) * S ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)]
+                + [sp.sqrt(b4) * sp.exp(-a4) * S ** sp.Rational(1, 6)] * 3)
     for mu in range(8):
-        say(f"x{mu + 1}: g = {metric[mu]}, length factor {factors[mu]}")
-    check(all(sp.simplify(f - e) == 0 for f, e in zip(factors, expected)),
-          "the length factors: e^a4 S^(1/6) for x1 to x3, 1 for x4, e^(-a4) S^(1/6) "
-          "for x5 to x7, cot z = C/S for x8")
+        say(f"x{mu}: g = {metric[mu]}, length factor {factors[mu]}")
+    check(len(factors) == 8 and
+          all(sp.simplify(f - e) == 0 for f, e in zip(factors, expected)),
+          "the length factors: cot z = C/S for x0, e^a4 S^(1/6) for x1 to x3, 1 for x4, "
+          "b4^(1/2) e^(-a4) S^(1/6) for x5 to x7")
     product = sp.simplify(sp.Mul(*factors))
     record_root = sp.simplify(from_record(curvature["sqrtAbsDetG"]))
     say(f"product of the eight factors = {product}; the record's sqrtAbsDetG = "
@@ -673,9 +681,11 @@ CELLS = [
         .read_text(encoding="utf-8"))
     root_verdict = {c["name"]: c["verdict"]
                     for c in lovelock_report["checks"]}["sqrt_abs_det_g"]
-    check(product == C and record_root == C and root_verdict == "PASS",
-          "the product of the length factors is cos z, the record's sqrt|det g| = "
-          "sin z cot z, for every a4",
+    check(sp.simplify(product - b4 ** sp.Rational(3, 2) * C) == 0
+          and sp.simplify(record_root - b4 ** sp.Rational(3, 2) * C) == 0
+          and root_verdict == "PASS",
+          "the product of the length factors is b4^(3/2) cos z, the record's "
+          "sqrt|det g| = b4^(3/2) sin z cot z, for every a4",
           record="Revision/gkd_lovelock/results/curvature.json, sqrtAbsDetG; "
                  "python-lovelock-report.json, check sqrt_abs_det_g")
     '''),
@@ -776,7 +786,7 @@ CELLS = [
                 "The factors $e^{a_4}$ (red), which multiply the lengths along the three "
                 "space directions, and $e^{-a_4}$ (blue), which multiply the lengths "
                 "along the three extra times, for $a_4$ from 0 to 4 (the factor "
-                "$\\sin^{1/6} z$, which depends on the hidden coordinate $x_8$, is "
+                "$\\sin^{1/6} z$, which depends on the hidden coordinate $x_0$, is "
                 "left out); horizontal axis $a_4$, vertical axis "
                 "the factor (a pure number), ordinary on the left and logarithmic on "
                 "the right. The dots mark $a_4 = 0, \\ln 2, 2\\ln 2, \\dots$, where "
@@ -814,9 +824,10 @@ CELLS = [
       digits (cancellation); rewriting $1 - \cos x$ as $2\sin^2(x/2)$ cures it.
     - The laws of powers hold for positive bases, and $\sqrt{y^2} = |y|$. Applied
       to the author's metric of the Revision record they give the length factors
-      $e^{a_4}\sin^{1/6} z$ (space), 1 (time), $e^{-a_4}\sin^{1/6} z$ (the
-      exponentially deflating extra times) and $\cot z$ (hidden direction), whose
-      product is $\cos z$, the record's $\sqrt{|\det g|}$, for every $a_4$.
+      $\cot z$ (hidden direction), $e^{a_4}\sin^{1/6} z$ (space), 1 (time) and
+      $b_4^{1/2} e^{-a_4}\sin^{1/6} z$ (the exponentially deflating extra times),
+      whose product is $b_4^{3/2} \cos z$, the record's $\sqrt{|\det g|}$, for every
+      $a_4$ ($\cos z$ at $b_4 = 1$).
     - $e$ is the limit of $(1 + 1/n)^n$, with the error $e/(2n)$; floating point
       breaks this limit for $n$ beyond about $10^8$. A growth of $a_4$ by $\ln 2$
       doubles $e^{a_4}$ and halves $e^{-a_4}$; on a logarithmic axis both are

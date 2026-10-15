@@ -6,7 +6,7 @@ This chapter teaches the second half of the mathematics that the book needs: dif
 
 The book's physics lives in equations that say how quantities change. Two places in the book need the tools of this chapter.
 
-First, the author's metric. The metric (introduced from zero in Chapter 3; here we only need its formulas) is a list of eight numbers $g_{11}, \dots, g_{88}$ that turn small coordinate steps along the eight directions $x_1, \dots, x_8$ into true lengths. Its entries depend on TWO variables: the time $x_4$ and the hidden coordinate $x_8$. Lengths along the three directions of ordinary space, $x_1, x_2, x_3$, carry the **scale factor** $e^{a_4}\sin^{1/6} z$, and lengths along the three **extra times** $x_5, x_6, x_7$ carry the scale factor $e^{-a_4}\sin^{1/6} z$, where $a_4(x_4)$ is a function of the time and $z = 6 H x_8$ (with the author's positive constant $H$) is the author's variable for the hidden direction. When $a_4$ grows, ordinary space inflates and the three extra times **deflate exponentially**. To say how fast each length changes with $x_4$ or with $x_8$ we need **partial derivatives**, the derivatives of a function of several variables (Sections 2.18 and 2.19).
+First, the author's metric. The metric (introduced from zero in Chapter 3; here we only need its formulas) is a list of eight numbers $g_{00}, \dots, g_{77}$ that turn small coordinate steps along the eight directions $x_0, \dots, x_7$ into true lengths. Its entries depend on TWO variables: the time $x_4$ and the hidden coordinate $x_0$. Lengths along the three directions of ordinary space, $x_1, x_2, x_3$, carry the **scale factor** $e^{a_4}\sin^{1/6} z$, and lengths along the three **extra times** $x_5, x_6, x_7$ carry the scale factor $b_4^{1/2} e^{-a_4}\sin^{1/6} z$, where $a_4(x_4)$ and $b_4(x_4) > 0$ are functions of the time ($b_4 = 1$ in the background of the Revision record) and $z = 6 H x_0$ (with the author's positive constant $H$) is the author's variable for the hidden direction. When $a_4$ grows and $b_4$ stays constant, ordinary space inflates and the three extra times **deflate exponentially**. To say how fast each length changes with $x_4$ or with $x_0$ we need **partial derivatives**, the derivatives of a function of several variables (Sections 2.18 and 2.19).
 
 Second, the Kohn-Sham equations of the book (Chapters 14 and 15). They are two coupled first-order differential equations for the two components of an **orbital** (the wave function of one particle of the model) along the hidden coordinate, with one condition at each end of an interval, and they have solutions only for special energies, the **energy levels**. The Rust program of the Revision record solves them by the **shooting method**: it guesses an energy, integrates the equations from one end to the other with the **classical fourth-order Runge-Kutta method (RK4)** in 900 steps, measures by how much the condition at the far end fails, and corrects the energy with Newton's method. Sections 2.2 to 2.7 teach RK4 and the measurement of its accuracy, Sections 2.12 and 2.13 the shooting method, and Section 2.24 the special form of shooting (with the **Prüfer angle**) that the program uses.
 
@@ -16,7 +16,7 @@ The four notebooks of the chapter are:
 | --- | --- | --- |
 | 02a | Euler, midpoint and RK4 on the deflating extra-time scale factor and on an oscillator; orders 1, 2, 4 on log-log plots; the rounding floor; the predicted error at the step of the Revision solver; Richardson's rule | `Revision/kohn_sham/results/parameters.json` (900 RK4 steps on an interval of length 3; the history constants $A = H = 1$) |
 | 02b | the shooting method for a vibrating string and for a quantum well; bisection against the secant rule; exact levels with 30 digits | none (exact formulas only) |
-| 02c | partial derivatives, finite differences, the chain rule for $z = 6 H x_8$, the growth and deflation rates of the author's metric, the volume factor, all 25 nonzero Christoffel entries | `Revision/gkd_lovelock/results/curvature.json` and `Revision/field_equations_a4/reports/wolfram-a4-report.json` |
+| 02c | partial derivatives, finite differences, the chain rule for $z = 6 H x_0$, the growth and deflation rates of the author's metric, the volume factor, all 25 nonzero Christoffel entries | `Revision/gkd_lovelock/results/curvature.json` and `Revision/field_equations_a4/reports/wolfram-a4-report.json` |
 | 02d | the Prüfer-angle shooting and the Newton root finder of the Revision Kohn-Sham solver, rewritten line by line; all 54 levels of its free spectrum | `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv` and two checks of `Revision/kohn_sham/reports/ks-rust-solver.json` |
 
 Every statement of the chapter carries one of the five labels of Chapter 0. Most are PROVED here by elementary algebra (and confirmed by a check of a notebook) or COMPUTED by a notebook (with the cell that computes the number and, where it reproduces a Revision record, the record file and its check). A few standard theorems of calculus are quoted without proof; we label them ASSUMED, as the book does for everything it does not derive. Two physical inputs are ASSUMED as well and are named where they enter: the linear history $a_4 = A H x_4$, which is a PRESCRIBED BACKGROUND, and the mirror (brane) conditions of the Kohn-Sham model. No HYPOTHESIS enters this chapter.
@@ -2354,7 +2354,7 @@ The 16 checks are: 1 in In [3], 1 in In [4], 3 in In [5], 1 in In [6], 1 in In [
 
 ### 2.18 Functions of several variables and partial derivatives
 
-**Functions of several variables.** A function of two variables is a rule $f(x, y)$ that gives a number for every pair of numbers $(x, y)$; a function of eight variables gives a number for every list $(x_1, \dots, x_8)$. The entries of the author's metric are functions of this kind (of $x_4$ and $x_8$ only).
+**Functions of several variables.** A function of two variables is a rule $f(x, y)$ that gives a number for every pair of numbers $(x, y)$; a function of eight variables gives a number for every list $(x_0, \dots, x_7)$. The entries of the author's metric are functions of this kind (of $x_4$ and $x_0$ only).
 
 **Partial derivatives.** The **partial derivative** of $f$ with respect to $x$ is the ordinary derivative with respect to $x$ while all the other variables are held fixed:
 
@@ -2362,7 +2362,7 @@ $$
 \frac{\partial f}{\partial x}(x, y) = \lim_{h \to 0} \frac{f(x + h, y) - f(x, y)}{h} .
 $$
 
-The curly $\partial$ reminds us that other variables exist and are held fixed. We also write $\partial_x f$, and for the author's coordinates $\partial_4 = \partial/\partial x_4$ and $\partial_8 = \partial/\partial x_8$. Holding $y$ fixed at a value $y_0$ turns $f$ into the function $x \mapsto f(x, y_0)$ of one variable, a **slice**; the partial derivative is the slope of the slice. Every rule of one-variable calculus (sums, products, quotients, the chain rule) therefore holds for each partial derivative.
+The curly $\partial$ reminds us that other variables exist and are held fixed. We also write $\partial_x f$, and for the author's coordinates $\partial_4 = \partial/\partial x_4$ and $\partial_0 = \partial/\partial x_0$. Holding $y$ fixed at a value $y_0$ turns $f$ into the function $x \mapsto f(x, y_0)$ of one variable, a **slice**; the partial derivative is the slope of the slice. Every rule of one-variable calculus (sums, products, quotients, the chain rule) therefore holds for each partial derivative.
 
 *Example.* $f(x, y) = x^2 \sin y$.
 
@@ -2496,33 +2496,33 @@ These are estimates of the scale only (rounding errors are not always of their l
 
 ### 2.19 The chain rule and the derivatives of the author's metric
 
-**The chain rule for $z = 6 H x_8$.** The author writes the hidden direction with the variable $z = 6 H x_8$, which runs over $0 < z < \pi/2$. A function of $z$, such as $g_{88} = \cot^2 z$, depends on $x_8$ through $z$, and the chain rule of one-variable calculus gives
+**The chain rule for $z = 6 H x_0$.** The author writes the hidden direction with the variable $z = 6 H x_0$, which runs over $0 < z < \pi/2$. A function of $z$, such as $g_{00} = \cot^2 z$, depends on $x_0$ through $z$, and the chain rule of one-variable calculus gives
 
 $$
-\frac{\partial}{\partial x_8}\, F(z) = \frac{dF}{dz}\, \frac{\partial z}{\partial x_8} = 6H\, \frac{dF}{dz}
+\frac{\partial}{\partial x_0}\, F(z) = \frac{dF}{dz}\, \frac{\partial z}{\partial x_0} = 6H\, \frac{dF}{dz}
 $$
 
-(the chain rule, and $\partial z/\partial x_8 = 6H$ because $z$ is $6H$ times $x_8$). In short, $\partial_8 = 6H\, d/dz$ on functions of $z$. *Example.*
+(the chain rule, and $\partial z/\partial x_0 = 6H$ because $z$ is $6H$ times $x_0$). In short, $\partial_0 = 6H\, d/dz$ on functions of $z$. *Example.*
 
 $$
 \frac{d}{dz}\cot^2 z = 2\cot z \cdot \Big(-\frac{1}{\sin^2 z}\Big) = -\frac{2\cot z}{\sin^2 z}
 $$
 
-(the chain rule for the square, and the derivative of $\cot z$ is $-1/\sin^2 z$), so $\partial_8 \cot^2(6Hx_8) = -12 H \cot z/\sin^2 z$ (multiply by $6H$); Notebook 02c, In [7], prints exactly this.
+(the chain rule for the square, and the derivative of $\cot z$ is $-1/\sin^2 z$), so $\partial_0 \cot^2(6Hx_0) = -12 H \cot z/\sin^2 z$ (multiply by $6H$); Notebook 02c, In [7], prints exactly this.
 
-**The metric and its scale factors.** The metric is an $8 \times 8$ table of numbers $g_{ab}$, a **matrix** (Chapter 1). In the author's coordinates it is **diagonal**: only the entries $g_{11}, \dots, g_{88}$ on its diagonal are nonzero, with
-
-$$
-g_{11} = g_{22} = g_{33} = e^{2 a_4}\sin^{1/3} z, \quad g_{44} = -1, \quad g_{55} = g_{66} = g_{77} = -e^{-2 a_4}\sin^{1/3} z, \quad g_{88} = \cot^2 z
-$$
-
-(the author's metric; COMPUTED: Notebook 02c, In [8], reads these eight entries from the Revision record `Revision/gkd_lovelock/results/curvature.json`, key `metricDiagonal`, and checks them against the formulas). The entries are positive for the space-like directions $x_1, x_2, x_3, x_8$ and negative for the time-like directions $x_4, x_5, x_6, x_7$; four positive and four negative entries are what the **signature** (4,4) means. The scale factor $s_a = \sqrt{|g_{aa}|}$ of each direction is
+**The metric and its scale factors.** The metric is an $8 \times 8$ table of numbers $g_{ab}$, a **matrix** (Chapter 1), with rows and columns numbered by the author's coordinates $x_0, \dots, x_7$, so that $a, b = 0, 1, \dots, 7$. In the author's coordinates it is **diagonal**: only the entries $g_{00}, \dots, g_{77}$ on its diagonal are nonzero, with
 
 $$
-s_{1,2,3} = e^{a_4}\sin^{1/6} z, \qquad s_4 = 1, \qquad s_{5,6,7} = e^{-a_4}\sin^{1/6} z, \qquad s_8 = \cot z
+g_{00} = \cot^2 z, \quad g_{11} = g_{22} = g_{33} = e^{2 a_4}\sin^{1/3} z, \quad g_{44} = -1, \quad g_{55} = g_{66} = g_{77} = -b_4\, e^{-2 a_4}\sin^{1/3} z
 $$
 
-(the square root of each absolute value, as in Section 2.2; for $s_8$ we use $\cot z > 0$ on $0 < z < \pi/2$).
+(the author's metric, with the two functions $a_4(x_4)$ and $b_4(x_4) > 0$ of the time; $b_4 = 1$ is the background of the Revision record; COMPUTED: Notebook 02c, In [8], reads these eight entries from the Revision record `Revision/gkd_lovelock/results/curvature.json`, key `metricDiagonal`, and checks them against the formulas). The entries are positive for the space-like directions $x_0, x_1, x_2, x_3$ and negative for the time-like directions $x_4, x_5, x_6, x_7$; four positive and four negative entries are what the **signature** (4,4) means. The scale factor $s_a = \sqrt{|g_{aa}|}$ of each direction is
+
+$$
+s_0 = \cot z, \qquad s_{1,2,3} = e^{a_4}\sin^{1/6} z, \qquad s_4 = 1, \qquad s_{5,6,7} = b_4^{1/2}\, e^{-a_4}\sin^{1/6} z
+$$
+
+(the square root of each absolute value, as in Section 2.2; for $s_0$ we use $\cot z > 0$ on $0 < z < \pi/2$).
 
 **The logarithmic rates.** The rate at which a scale factor grows, as a fraction of itself, is its **logarithmic derivative** $\partial_c \ln s_a = (\partial_c s_a)/s_a$ (the chain rule for the logarithm, whose derivative is $1/s$). Since $s_a^2 = |g_{aa}|$,
 
@@ -2539,33 +2539,33 @@ $$
 (the logarithm of a product is the sum of the logarithms, $\ln e^{a_4} = a_4$, and $\ln(\sin^{1/6} z) = \frac16 \ln \sin z$);
 
 $$
-\partial_4 \ln s_1 = a_4', \qquad \partial_8 \ln s_1 = \tfrac16 \cdot 6H \cdot \frac{\cos z}{\sin z} = H\cot z
+\partial_4 \ln s_1 = a_4', \qquad \partial_0 \ln s_1 = \tfrac16 \cdot 6H \cdot \frac{\cos z}{\sin z} = H\cot z
 $$
 
-($a_4$ depends on $x_4$ only, $z$ on $x_8$ only; the derivative of $\ln \sin z$ is $\cos z/\sin z$, and the chain rule supplies $6H$). For the extra times $\ln s_5 = -a_4 + \frac16\ln\sin z$, so
+($a_4$ depends on $x_4$ only, $z$ on $x_0$ only; the derivative of $\ln \sin z$ is $\cos z/\sin z$, and the chain rule supplies $6H$). For the extra times $\ln s_5 = \frac12 \ln b_4 - a_4 + \frac16\ln\sin z$, so
 
 $$
-\partial_4 \ln s_5 = -a_4', \qquad \partial_8 \ln s_5 = H\cot z
+\partial_4 \ln s_5 = -a_4' + \frac{b_4'}{2 b_4}, \qquad \partial_0 \ln s_5 = H\cot z
 $$
 
-(the same steps with $-a_4$). For the hidden direction $\ln s_8 = \ln \cot z$:
+(the same steps with $-a_4$; the new term $\frac12 \ln b_4$ has the derivative $\frac12 b_4'/b_4$ by the chain rule for the logarithm, and does not depend on $x_0$). For the hidden direction $\ln s_0 = \ln \cot z$:
 
 $$
-\partial_8 \ln s_8 = 6H\, \frac{-1/\sin^2 z}{\cot z} = -\frac{6H}{\sin z \cos z}
+\partial_0 \ln s_0 = 6H\, \frac{-1/\sin^2 z}{\cot z} = -\frac{6H}{\sin z \cos z}
 $$
 
-(the chain rule twice; then $\cot z \sin^2 z = \sin z \cos z$), and $\partial_4 \ln s_8 = 0$; the time direction has $s_4 = 1$ and both rates 0. Along the history $a_4 = A H x_4$ we have $a_4' = AH$; with $A = H = 1$ the three 3-space factors grow at the rate $+1$ and the three extra-time factors shrink at the rate $-1$: 3-space inflates and the extra times deflate exponentially (Notebook 02c, In [9]).
+(the chain rule twice; then $\cot z \sin^2 z = \sin z \cos z$), and $\partial_4 \ln s_0 = 0$; the time direction has $s_4 = 1$ and both rates 0. Along the history $a_4 = A H x_4$, $b_4 = 1$ we have $a_4' = AH$ and $b_4' = 0$; with $A = H = 1$ the three 3-space factors grow at the rate $+1$ and the three extra-time factors shrink at the rate $-1$: 3-space inflates and the extra times deflate exponentially (Notebook 02c, In [9]).
 
 **The rates add up to the rate of the volume.** Along $x_4$:
 
 $$
-\sum_{a=1}^{8} \partial_4 \ln s_a = 3a_4' + 0 - 3a_4' + 0 = 0
+\sum_{a=0}^{7} \partial_4 \ln s_a = 0 + 3a_4' + 0 + 3\Big(-a_4' + \frac{b_4'}{2b_4}\Big) = \frac32\, \frac{b_4'}{b_4}
 $$
 
-(three 3-space directions, the time, three extra times, the hidden direction). Along $x_8$:
+(the hidden direction, three 3-space directions, the time, three extra times); it is 0 when $b_4$ is constant. Along $x_0$:
 
 $$
-\sum_{a=1}^{8} \partial_8 \ln s_a = 6H\cot z - \frac{6H}{\sin z \cos z} = 6H\, \frac{\cos^2 z - 1}{\sin z \cos z} = -6H\, \frac{\sin^2 z}{\sin z\cos z} = -6H\tan z
+\sum_{a=0}^{7} \partial_0 \ln s_a = -\frac{6H}{\sin z \cos z} + 6H\cot z = 6H\, \frac{\cos^2 z - 1}{\sin z \cos z} = -6H\, \frac{\sin^2 z}{\sin z\cos z} = -6H\tan z
 $$
 
 (six directions with $H\cot z$; both terms written over the denominator $\sin z\cos z$; then $\cos^2 z - 1 = -\sin^2 z$). We now show that these sums are the rates of the **volume factor** $\sqrt{|\det g|}$.
@@ -2573,36 +2573,36 @@ $$
 **The determinant.** The **determinant** of a diagonal matrix is the product of its diagonal entries (Chapter 1). So
 
 $$
-\det g = \big(e^{2a_4}\sin^{1/3} z\big)^3 \cdot (-1) \cdot \big(-e^{-2a_4}\sin^{1/3} z\big)^3 \cdot \cot^2 z
+\det g = \cot^2 z \cdot \big(e^{2a_4}\sin^{1/3} z\big)^3 \cdot (-1) \cdot \big(-b_4\, e^{-2a_4}\sin^{1/3} z\big)^3
 $$
 
 (the product of the eight entries);
 
 $$
-\det g = (-1)(-1)^3\, e^{6a_4} e^{-6a_4} \sin^{6/3} z\, \cot^2 z = \sin^2 z \cot^2 z
+\det g = (-1)(-1)^3\, b_4^3\, e^{6a_4} e^{-6a_4} \sin^{6/3} z\, \cot^2 z = b_4^3 \sin^2 z \cot^2 z
 $$
 
-(the four minus signs multiply to $+1$; $(e^{2a_4})^3 = e^{6a_4}$ and $(e^{-2a_4})^3 = e^{-6a_4}$ multiply to $e^0 = 1$; the six factors $\sin^{1/3} z$ give $\sin^2 z$);
+(the four minus signs multiply to $+1$; $(e^{2a_4})^3 = e^{6a_4}$ and $(e^{-2a_4})^3 = e^{-6a_4}$ multiply to $e^0 = 1$; the three factors $b_4$ give $b_4^3$; the six factors $\sin^{1/3} z$ give $\sin^2 z$);
 
 $$
-\det g = \sin^2 z\, \frac{\cos^2 z}{\sin^2 z} = \cos^2 z, \qquad \sqrt{|\det g|} = \sin z \cot z = \cos z
+\det g = b_4^3 \sin^2 z\, \frac{\cos^2 z}{\sin^2 z} = b_4^3 \cos^2 z, \qquad \sqrt{|\det g|} = b_4^{3/2} \sin z \cot z = b_4^{3/2} \cos z
 $$
 
-($\cot z = \cos z/\sin z$; and $\cos z > 0$ on $0 < z < \pi/2$). The factors $e^{6a_4}$ of the inflating 3-space and $e^{-6a_4}$ of the deflating extra times cancel: the volume factor does not depend on $x_4$, for EVERY function $a_4(x_4)$ (PROVED here; COMPUTED in Notebook 02c, In [11], which reproduces the record's entry `sqrtAbsDetG` $= \sin z\cot z$ of `Revision/gkd_lovelock/results/curvature.json` and the Wolfram check `sqrt_abs_det_g_is_cos_z` of `Revision/field_equations_a4/reports/wolfram-a4-report.json`).
+($\cot z = \cos z/\sin z$; and $\cos z > 0$ on $0 < z < \pi/2$). The factors $e^{6a_4}$ of the inflating 3-space and $e^{-6a_4}$ of the deflating extra times cancel: the volume factor depends on $x_4$ only through $b_4$, and for constant $b_4$ (the background) it does not depend on $x_4$, for EVERY function $a_4(x_4)$ (PROVED here; COMPUTED in Notebook 02c, In [11], which reproduces the record's entry `sqrtAbsDetG` $= b_4^{3/2} \sin z\cot z$ of `Revision/gkd_lovelock/results/curvature.json` and the Wolfram check `sqrt_abs_det_g_is_cos_z` of `Revision/field_equations_a4/reports/wolfram-a4-report.json`, which states $\sqrt{|\det g|} = b_4^{3/2} \cos z$).
 
 **Jacobi's formula** for the derivative of the volume factor of a diagonal metric:
 
 $$
-\sqrt{|\det g|} = \prod_{a=1}^{8} s_a
+\sqrt{|\det g|} = \prod_{a=0}^{7} s_a
 $$
 
 ($|\det g|$ is the product of the $|g_{aa}| = s_a^2$, and the square root of a product is the product of the square roots);
 
 $$
-\partial_c \ln \sqrt{|\det g|} = \sum_{a=1}^{8} \partial_c \ln s_a = \sum_{a=1}^{8} \frac{\partial_c g_{aa}}{2 g_{aa}} = \frac12\, \mathrm{tr}\big(g^{-1}\, \partial_c g\big)
+\partial_c \ln \sqrt{|\det g|} = \sum_{a=0}^{7} \partial_c \ln s_a = \sum_{a=0}^{7} \frac{\partial_c g_{aa}}{2 g_{aa}} = \frac12\, \mathrm{tr}\big(g^{-1}\, \partial_c g\big)
 $$
 
-(the logarithm of a product is the sum of the logarithms; then the rates computed above; finally, for a diagonal $g$ the inverse $g^{-1}$ is diagonal with the entries $1/g_{aa}$, the matrix $g^{-1}\partial_c g$ is diagonal with the entries $\partial_c g_{aa}/g_{aa}$, and the **trace** tr is the sum of the diagonal entries). Multiplying by $\sqrt{|\det g|}$ gives Jacobi's formula $\partial_c \sqrt{|\det g|} = \frac12 \sqrt{|\det g|}\, \mathrm{tr}(g^{-1}\partial_c g)$. With the sums above: $\partial_4 \ln\cos z = 0$ and $\partial_8 \ln \cos z = 6H \cdot (-\sin z/\cos z) = -6H\tan z$, in agreement (Notebook 02c, In [10] and In [11]).
+(the logarithm of a product is the sum of the logarithms; then the rates computed above; finally, for a diagonal $g$ the inverse $g^{-1}$ is diagonal with the entries $1/g_{aa}$, the matrix $g^{-1}\partial_c g$ is diagonal with the entries $\partial_c g_{aa}/g_{aa}$, and the **trace** tr is the sum of the diagonal entries). Multiplying by $\sqrt{|\det g|}$ gives Jacobi's formula $\partial_c \sqrt{|\det g|} = \frac12 \sqrt{|\det g|}\, \mathrm{tr}(g^{-1}\partial_c g)$. With the sums above: $\partial_4 \ln(b_4^{3/2}\cos z) = \frac32 b_4'/b_4$ and $\partial_0 \ln(b_4^{3/2}\cos z) = 6H \cdot (-\sin z/\cos z) = -6H\tan z$, in agreement (Notebook 02c, In [10] and In [11]).
 
 **Christoffel symbols of a diagonal metric.** The geometry of Chapter 3 combines first partial derivatives of the metric into the **Christoffel symbols** $\Gamma^a{}_{bc}$. Here we take their formula for a diagonal metric as given (ASSUMED in this chapter; derived in Chapter 3) and use it only as an exercise in partial derivatives:
 
@@ -2622,36 +2622,36 @@ $$
 \Gamma^a{}_{bb} = \frac{1}{2g_{aa}}\big(\partial_b g_{ab} + \partial_b g_{ab} - \partial_a g_{bb}\big) = -\frac{\partial_a g_{bb}}{2 g_{aa}}
 $$
 
-($g_{ab} = 0$ for $b \ne a$). Since the metric depends only on $x_4$ and $x_8$, the nonzero entries are (listing $\Gamma^a{}_{bc}$ with $b$ not after $c$, because the symbol is symmetric in $b$ and $c$):
+($g_{ab} = 0$ for $b \ne a$). Since the metric depends only on $x_4$ and $x_0$, the nonzero entries are (listing $\Gamma^a{}_{bc}$ with $b$ not after $c$ in the order $x_0, \dots, x_7$, because the symbol is symmetric in $b$ and $c$):
 
 | entries | value | how many |
 | --- | --- | --- |
+| $\Gamma^0{}_{00}$ | $-6H/(\sin z\cos z)$ | 1 |
+| $\Gamma^a{}_{0a}$, $a = 1, 2, 3, 5, 6, 7$ | $H\cot z$ | 6 |
 | $\Gamma^a{}_{a4}$, $a = 1, 2, 3$ | $a_4'$ | 3 |
-| $\Gamma^a{}_{4a}$, $a = 5, 6, 7$ | $-a_4'$ | 3 |
-| $\Gamma^a{}_{a8}$, $a = 1, 2, 3, 5, 6, 7$ | $H\cot z$ | 6 |
-| $\Gamma^8{}_{88}$ | $-6H/(\sin z\cos z)$ | 1 |
+| $\Gamma^a{}_{4a}$, $a = 5, 6, 7$ | $-a_4' + b_4'/(2b_4)$ | 3 |
 | $\Gamma^4{}_{bb}$, $b = 1, 2, 3$ | $a_4'\, e^{2a_4}\sin^{1/3} z$ | 3 |
-| $\Gamma^4{}_{bb}$, $b = 5, 6, 7$ | $a_4'\, e^{-2a_4}\sin^{1/3} z$ | 3 |
-| $\Gamma^8{}_{bb}$, $b = 1, 2, 3$ | $-H e^{2a_4}\sin^{1/3} z\, \tan z$ | 3 |
-| $\Gamma^8{}_{bb}$, $b = 5, 6, 7$ | $+H e^{-2a_4}\sin^{1/3} z\, \tan z$ | 3 |
+| $\Gamma^4{}_{bb}$, $b = 5, 6, 7$ | $(a_4' b_4 - \tfrac12 b_4')\, e^{-2a_4}\sin^{1/3} z$ | 3 |
+| $\Gamma^0{}_{bb}$, $b = 1, 2, 3$ | $-H e^{2a_4}\sin^{1/3} z\, \tan z$ | 3 |
+| $\Gamma^0{}_{bb}$, $b = 5, 6, 7$ | $+H b_4 e^{-2a_4}\sin^{1/3} z\, \tan z$ | 3 |
 
-which makes $3 + 3 + 6 + 1 + 3 + 3 + 3 + 3 = 25$ entries. Two of them worked out: $\Gamma^4{}_{11} = -\partial_4 g_{11}/(2 g_{44}) = -2a_4' g_{11}/(2 \cdot (-1)) = a_4' g_{11}$ (the derivative of $e^{2a_4}$ is $2a_4' e^{2a_4}$); and
+which makes $1 + 6 + 3 + 3 + 3 + 3 + 3 + 3 = 25$ entries; at $b_4 = 1$ the terms with $b_4'$ drop out. Three of them worked out: $\Gamma^4{}_{11} = -\partial_4 g_{11}/(2 g_{44}) = -2a_4' g_{11}/(2 \cdot (-1)) = a_4' g_{11}$ (the derivative of $e^{2a_4}$ is $2a_4' e^{2a_4}$); $\Gamma^4{}_{55} = -\partial_4 g_{55}/(2 g_{44}) = \frac12 \partial_4 g_{55} = \frac12 \partial_4\big(-b_4 e^{-2a_4}\sin^{1/3} z\big) = -\frac12\big(b_4' - 2a_4' b_4\big) e^{-2a_4}\sin^{1/3} z$ (the product rule for $b_4 e^{-2a_4}$, and the derivative of $e^{-2a_4}$ is $-2a_4' e^{-2a_4}$), which is the table's $(a_4' b_4 - \frac12 b_4')\, e^{-2a_4}\sin^{1/3} z$; and
 
 $$
-\Gamma^8{}_{11} = -\frac{\partial_8 g_{11}}{2 g_{88}} = -\frac{e^{2a_4} \cdot \frac13 \sin^{-2/3} z \cos z \cdot 6H}{2\cot^2 z}
+\Gamma^0{}_{11} = -\frac{\partial_0 g_{11}}{2 g_{00}} = -\frac{e^{2a_4} \cdot \frac13 \sin^{-2/3} z \cos z \cdot 6H}{2\cot^2 z}
 $$
 
 (the case formula; the power rule and the chain rule for $\sin^{1/3} z$);
 
 $$
-\Gamma^8{}_{11} = -H e^{2a_4} \sin^{-2/3} z\, \cos z\, \frac{\sin^2 z}{\cos^2 z} = -H e^{2a_4}\sin^{1/3} z\, \tan z
+\Gamma^0{}_{11} = -H e^{2a_4} \sin^{-2/3} z\, \cos z\, \frac{\sin^2 z}{\cos^2 z} = -H e^{2a_4}\sin^{1/3} z\, \tan z
 $$
 
-($\frac13 \cdot 6H/2 = H$ and $1/\cot^2 z = \sin^2 z/\cos^2 z$; then $\sin^{-2/3} z \sin^2 z = \sin^{4/3} z = \sin^{1/3} z \cdot \sin z$ and $\sin z/\cos z = \tan z$). The extra-time entries $\Gamma^8{}_{55}$ have the opposite sign because $g_{55}$ carries the minus sign of a time-like direction. Notebook 02c, In [12], computes all $8 \times 36 = 288$ entries with $b$ not after $c$ from the formula, finds exactly 25 nonzero ones and compares each with the Revision record (COMPUTED: reproduces `Revision/gkd_lovelock/results/curvature.json`, key `christoffelNonzero_b_le_c`).
+($\frac13 \cdot 6H/2 = H$ and $1/\cot^2 z = \sin^2 z/\cos^2 z$; then $\sin^{-2/3} z \sin^2 z = \sin^{4/3} z = \sin^{1/3} z \cdot \sin z$ and $\sin z/\cos z = \tan z$). The extra-time entries $\Gamma^0{}_{55}$ have the opposite sign and the factor $b_4$ because $g_{55}$ carries the minus sign of a time-like direction and the factor $b_4$. Notebook 02c, In [12], computes all $8 \times 36 = 288$ entries with $b$ not after $c$ from the formula, finds exactly 25 nonzero ones and compares each with the Revision record (COMPUTED: reproduces `Revision/gkd_lovelock/results/curvature.json`, key `christoffelNonzero_b_le_c`).
 
 ### 2.20 Example: partial derivatives of a model function and of the author's metric
 
-Notebook 02c carries out Sections 2.18 and 2.19. It differentiates $f = x^2\sin y$ with sympy, checks Schwarz's theorem, draws the level curves with the gradient arrows and checks that the gradient is perpendicular to them and points uphill, draws two slices with their tangent lines, measures the orders and the rounding limits of three finite-difference formulas, checks the chain rule for $z = 6Hx_8$, and then reads the author's metric from the Revision record and computes its rates along $x_4$ and $x_8$, the volume factor $\cos z$, Jacobi's formula and all 25 Christoffel entries. It ends with ALL 17 CHECKS PASSED (notebook 02c).
+Notebook 02c carries out Sections 2.18 and 2.19. It differentiates $f = x^2\sin y$ with sympy, checks Schwarz's theorem, draws the level curves with the gradient arrows and checks that the gradient is perpendicular to them and points uphill, draws two slices with their tangent lines, measures the orders and the rounding limits of three finite-difference formulas, checks the chain rule for $z = 6Hx_0$, and then reads the author's metric from the Revision record and computes its rates along $x_4$ and $x_0$, the volume factor $b_4^{3/2}\cos z$, Jacobi's formula and all 25 Christoffel entries. It ends with ALL 17 CHECKS PASSED (notebook 02c).
 
 <!-- NOTEBOOK 02c -->
 
@@ -2899,28 +2899,28 @@ check(err["central"].min() < 1e-10 < err["forward"].min() < 1e-7,
 
 Two checks: the measured orders are 1, 2 and 2 within 0.05; the best central error is below $10^{-10}$, which is below the best forward error, which is below $10^{-7}$ (a higher order buys accuracy even at the best spacing).
 
-**In [7], the chain rule with $z = 6Hx_8$.**
+**In [7], the chain rule with $z = 6Hx_0$.**
 
 ```python
-x4, x8 = sp.symbols("x4 x8", real=True)  # the time and the hidden coordinate
+x4, x0 = sp.symbols("x4 x0", real=True)  # the time and the hidden coordinate
 H = sp.symbols("H", positive=True)  # the author's constant H > 0
-zs = sp.symbols("z", positive=True)  # z = 6 H x8 as a symbol of its own
+zs = sp.symbols("z", positive=True)  # z = 6 H x0 as a symbol of its own
 ```
 
-Symbols for the time $x_4$, the hidden coordinate $x_8$, the author's constant $H$ (positive) and $z$ as a variable of its own.
+Symbols for the time $x_4$, the hidden coordinate $x_0$, the author's constant $H$ (positive) and $z$ as a variable of its own.
 
 ```python
-through_x8 = sp.diff(sp.cot(6 * H * x8) ** 2, x8)  # differentiate in x8 directly
-through_z = 6 * H * sp.diff(sp.cot(zs) ** 2, zs).subs(zs, 6 * H * x8)  # chain rule
-say(f"d/dx8 cot(6 H x8)^2 = {sp.simplify(through_x8)}")
-check(sp.simplify(through_x8 - through_z) == 0,
-      "chain rule: d/dx8 of cot(6 H x8)^2 = 6 H times d/dz of cot(z)^2")
+through_x0 = sp.diff(sp.cot(6 * H * x0) ** 2, x0)  # differentiate in x0 directly
+through_z = 6 * H * sp.diff(sp.cot(zs) ** 2, zs).subs(zs, 6 * H * x0)  # chain rule
+say(f"d/dx0 cot(6 H x0)^2 = {sp.simplify(through_x0)}")
+check(sp.simplify(through_x0 - through_z) == 0,
+      "chain rule: d/dx0 of cot(6 H x0)^2 = 6 H times d/dz of cot(z)^2")
 ```
 
-`through_x8` differentiates $\cot^2(6Hx_8)$ directly with respect to $x_8$; `through_z` differentiates $\cot^2 z$ with respect to $z$, puts $z = 6Hx_8$ back in with `.subs`, and multiplies by $6H$, as the chain rule of Section 2.19 says. The printed derivative is `-12*H*cot(6*H*x8)/sin(6*H*x8)**2`, and the check confirms that both ways agree.
+`through_x0` differentiates $\cot^2(6Hx_0)$ directly with respect to $x_0$; `through_z` differentiates $\cot^2 z$ with respect to $z$, puts $z = 6Hx_0$ back in with `.subs`, and multiplies by $6H$, as the chain rule of Section 2.19 says. The printed derivative is `-12*H*cot(6*H*x0)/sin(6*H*x0)**2`, and the check confirms that both ways agree.
 
 ```python
-z0 = 0.6  # the point z0 and the matching x8 = z0/6 (H = 1)
+z0 = 0.6  # the point z0 and the matching x0 = z0/6 (H = 1)
 slope_z = -2.0 * math.cos(z0) / math.sin(z0) ** 3  # d/dz cot^2 z = -2 cot z / sin^2 z
 ```
 
@@ -2939,28 +2939,28 @@ left.set_xlabel("$z$")
 The left panel draws $\cot^2 z = 1/\tan^2 z$ for $z$ from 0.35 to 1.5 and its tangent line at $z_0$.
 
 ```python
-x8_line = z_line / 6.0
-right.plot(x8_line, 1 / np.tan(6 * x8_line) ** 2, color=BLUE, lw=1.6,
-           label="$\\cot^2(6 H x_8)$, $H = 1$")
-right.plot(x8_line, 1 / math.tan(z0) ** 2 + 6 * slope_z * (x8_line - z0 / 6), "--",
+x0_line = z_line / 6.0
+right.plot(x0_line, 1 / np.tan(6 * x0_line) ** 2, color=BLUE, lw=1.6,
+           label="$\\cot^2(6 H x_0)$, $H = 1$")
+right.plot(x0_line, 1 / math.tan(z0) ** 2 + 6 * slope_z * (x0_line - z0 / 6), "--",
            color=ORANGE, label=f"tangent, slope $6 \\times$ {slope_z:.3f}")
-right.set_xlabel("$x_8$ (units $1/H$)")
+right.set_xlabel("$x_0$ (units $1/H$)")
 ```
 
-The right panel draws the same function against $x_8 = z/6$ (with $H = 1$) and the tangent line with 6 times the slope, through the matching point $x_8 = 0.1$.
+The right panel draws the same function against $x_0 = z/6$ (with $H = 1$) and the tangent line with 6 times the slope, through the matching point $x_0 = 0.1$.
 
 ```python
 for ax, where in ((left, z0), (right, z0 / 6)):
     ax.plot([where], [1 / math.tan(z0) ** 2], "o", color=BLACK, ms=6)
     ax.set_ylim(0.0, 6.0)
-    ax.set_ylabel("$g_{88}$ (pure number)")
+    ax.set_ylabel("$g_{00}$ (pure number)")
     ax.legend(fontsize=8)
 save_figure(fig, "chain_rule",
             "The chain rule for the author's hidden coordinate. Left: "
             ...)
 ```
 
-A dot at the point in each panel, the vertical range, labels, and the saved figure `02c_4_chain_rule.png`. **What Figure 02c.4 shows:** the right curve is the left one squeezed sideways by the factor 6, and both dashed lines touch their curves; the right slope is 6 times the left one: $\partial_8 = 6H\, d/dz$.
+A dot at the point in each panel, the vertical range, labels, and the saved figure `02c_4_chain_rule.png`. **What Figure 02c.4 shows:** the right curve is the left one squeezed sideways by the factor 6, and both dashed lines touch their curves; the right slope is 6 times the left one: $\partial_0 = 6H\, d/dz$.
 
 **In [8], the author's metric from the Revision record.**
 
@@ -2968,21 +2968,25 @@ A dot at the point in each panel, the vertical range, labels, and the saved figu
 CURVATURE = "Revision/gkd_lovelock/results/curvature.json"
 record = json.loads(repository_file(CURVATURE).read_text(encoding="utf-8"))
 a4 = sp.Function("a4")  # the unknown function a4(x4) of the metric
-NAMES = {"a4": a4, "x4": x4, "x8": x8, "H": H, "Sin": sp.sin, "Cos": sp.cos,
-         "Cot": sp.cot}
+b4 = sp.Function("b4", positive=True)  # the unknown function b4(x4) > 0
+NAMES = {"a4": a4, "b4": b4, "x4": x4, "x0": x0, "H": H, "Sin": sp.sin,
+         "Cos": sp.cos, "Cot": sp.cot, "Tan": sp.tan}
 ```
 
-The cell reads the Revision record of the curvature program. `sp.Function("a4")` makes an unknown function $a_4$, so that $a_4(x_4)$ can be differentiated without knowing its form. `NAMES` tells the translator below which sympy object each name of the record stands for.
+The cell reads the Revision record of the curvature program. `sp.Function("a4")` makes an unknown function $a_4$, so that $a_4(x_4)$ can be differentiated without knowing its form, and `sp.Function("b4", positive=True)` the second metric function $b_4$, whose values are positive. `NAMES` tells the translator below which sympy object each name of the record stands for.
 
 ```python
 def from_record(text):
     """A Wolfram-Language text of the record as a sympy expression."""
-    text = text.replace("Derivative[1][a4][x4]", "Derivative(a4(x4), x4)")
+    for f in ("a4", "b4"):  # Derivative[n][f][x4] is the n-th derivative of f
+        for n in (1, 2):
+            text = text.replace(f"Derivative[{n}][{f}][x4]",
+                                f"Derivative({f}(x4), (x4, {n}))")
     text = text.replace("[", "(").replace("]", ")").replace("^", "**")
     return sp.parse_expr(text, local_dict=NAMES)
 ```
 
-The record writes its formulas in the notation of the Wolfram Language: `E^(...)` for $e^{\dots}$, `Sin[...]` for $\sin(\dots)$, `Derivative[1][a4][x4]` for $a_4'$. `from_record` translates such a text: first the derivative, then square brackets into round ones and `^` into Python's `**`; `sp.parse_expr` reads the result as a sympy expression with the names of `NAMES` (sympy knows `E` as $e$ by itself).
+The record writes its formulas in the notation of the Wolfram Language: `E^(...)` for $e^{\dots}$, `Sin[...]` for $\sin(\dots)$, `Derivative[1][a4][x4]` for $a_4'$ and `Derivative[1][b4][x4]` for $b_4'$. `from_record` translates such a text: first the first and second derivatives of $a_4$ and $b_4$ (the two loops write the four possible texts with `f` and `n` filled in; `(x4, 2)` asks sympy for the second derivative), then square brackets into round ones and `^` into Python's `**`; `sp.parse_expr` reads the result as a sympy expression with the names of `NAMES` (sympy knows `E` as $e$ by itself).
 
 ```python
 def tidy(expression):
@@ -2999,74 +3003,80 @@ def same(first, second):
 `tidy` replaces every $\cot u$ by $\cos u/\sin u$ and every $\tan u$ by $\sin u/\cos u$ (a `lambda` is a one-line function without a name); with only sines and cosines left, `sp.simplify` finds cancellations more reliably. `same` decides whether two expressions are equal by simplifying their difference to 0.
 
 ```python
-COORDS = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
+COORDS = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
 X = [sp.Symbol(name, real=True) for name in COORDS]
-X[3], X[7] = x4, x8  # the metric depends on these two only
-z = 6 * H * x8
+X[4], X[0] = x4, x0  # the metric depends on these two only
+z = 6 * H * x0
 third = sp.Rational(1, 3)
 ```
 
-The eight coordinate names and a list of eight symbols; positions 3 and 7 (counted from 0) are replaced by the symbols $x_4$ and $x_8$ already in use. `z` is now the expression $6Hx_8$, and `third` the exact fraction $1/3$.
+The eight coordinate names and a list of eight symbols; positions 4 and 0 (the position of $x_k$ is $k$) are replaced by the symbols $x_4$ and $x_0$ already in use. `z` is now the expression $6Hx_0$, and `third` the exact fraction $1/3$.
 
 ```python
-BY_HAND = ([sp.exp(2 * a4(x4)) * sp.sin(z) ** third] * 3 + [sp.Integer(-1)]
-           + [-sp.exp(-2 * a4(x4)) * sp.sin(z) ** third] * 3 + [sp.cot(z) ** 2])
+# the author's order x0, x1, ..., x7
+BY_HAND = ([sp.cot(z) ** 2] + [sp.exp(2 * a4(x4)) * sp.sin(z) ** third] * 3
+           + [sp.Integer(-1)]
+           + [-b4(x4) * sp.exp(-2 * a4(x4)) * sp.sin(z) ** third] * 3)
 G_RECORD = [from_record(text) for text in record["metricDiagonal"]]
 for name, entry in zip(COORDS, G_RECORD):
     say(f"g_{name[1]}{name[1]} = {entry}")
 ```
 
-`BY_HAND` is the diagonal of the author's metric typed in by hand: a list times 3 repeats it three times, and `+` joins lists, giving the eight entries of Section 2.19. `G_RECORD` translates the record's eight texts; the loop prints them (`name[1]` is the digit of the coordinate name), from `g_11 = exp(2*a4(x4))*sin(6*H*x8)**(1/3)` to `g_88 = cot(6*H*x8)**2`.
+`BY_HAND` is the diagonal of the author's metric typed in by hand: a list times 3 repeats it three times, and `+` joins lists, giving the eight entries of Section 2.19 in the author's order. `G_RECORD` translates the record's eight texts; the loop prints them (`name[1]` is the digit of the coordinate name), from `g_00 = cot(6*H*x0)**2` to `g_77 = -b4(x4)*exp(-2*a4(x4))*sin(6*H*x0)**(1/3)`.
 
 ```python
-check(record["coordinates"] == COORDS
+check(record["coordinates"] == COORDS and len(G_RECORD) == 8
       and all(same(a, b) for a, b in zip(G_RECORD, BY_HAND)),
       "the record's metric equals the author's metric typed in by hand",
       record=f"{CURVATURE}, key metricDiagonal")
 G = sp.diag(*G_RECORD)  # the metric as an 8 x 8 diagonal sympy matrix
 ```
 
-The check requires the record's coordinate list to be $x_1, \dots, x_8$ and every entry to equal the hand-typed one (COMPUTED: reproduces `Revision/gkd_lovelock/results/curvature.json`, key `metricDiagonal`). `sp.diag(*G_RECORD)` builds the $8 \times 8$ diagonal matrix with these entries (`*` unpacks the list into eight arguments).
+The check requires the record's coordinate list to be $x_0, \dots, x_7$, eight entries, and every entry to equal the hand-typed one (COMPUTED: reproduces `Revision/gkd_lovelock/results/curvature.json`, key `metricDiagonal`). `sp.diag(*G_RECORD)` builds the $8 \times 8$ diagonal matrix with these entries (`*` unpacks the list into eight arguments).
 
-**In [9], the rates along $x_4$ and $x_8$.**
+**In [9], the rates along $x_4$ and $x_0$.**
 
 ```python
 rate4 = [sp.simplify(sp.diff(G[a, a], x4) / (2 * G[a, a])) for a in range(8)]
-rate8 = [sp.simplify(tidy(sp.diff(G[a, a], x8) / (2 * G[a, a]))) for a in range(8)]
+rate0 = [sp.simplify(tidy(sp.diff(G[a, a], x0) / (2 * G[a, a]))) for a in range(8)]
 da4 = sp.diff(a4(x4), x4)  # a4', the derivative of a4
+db4 = sp.diff(b4(x4), x4)  # b4', the derivative of b4
 ```
 
-For each of the eight diagonal entries `G[a, a]` the logarithmic rates $\partial_4 g_{aa}/(2g_{aa})$ and $\partial_8 g_{aa}/(2g_{aa})$ of Section 2.19. `da4` is the symbol for $a_4'$.
+For each of the eight diagonal entries `G[a, a]` the logarithmic rates $\partial_4 g_{aa}/(2g_{aa})$ and $\partial_0 g_{aa}/(2g_{aa})$ of Section 2.19. `da4` and `db4` are the symbols for $a_4'$ and $b_4'$.
 
 ```python
-expected4 = [da4] * 3 + [0] + [-da4] * 3 + [0]
-expected8 = [H * sp.cot(z)] * 3 + [0] + [H * sp.cot(z)] * 3 + [-6 * H / (sp.sin(z)
-                                                                      * sp.cos(z))]
+# the author's order x0, x1, ..., x7
+expected4 = [0] + [da4] * 3 + [0] + [-da4 + db4 / (2 * b4(x4))] * 3
+expected0 = ([-6 * H / (sp.sin(z) * sp.cos(z))] + [H * sp.cot(z)] * 3 + [0]
+             + [H * sp.cot(z)] * 3)
 for a, name in enumerate(COORDS):
-    say(f"{name}: d4 ln s = {rate4[a]},  d8 ln s = {rate8[a]}")
+    say(f"{name}: d4 ln s = {rate4[a]},  d0 ln s = {rate0[a]}")
 ```
 
-The expected rates of Section 2.19, and a printout of the computed ones. sympy writes $H\cot z$ as `H/tan(6*H*x8)` and $-6H/(\sin z\cos z)$ as `-12*H/sin(12*H*x8)`; they are equal because $\sin 2z = 2\sin z\cos z$.
+The expected rates of Section 2.19 in the author's order, and a printout of the computed ones. sympy writes $H\cot z$ as `H/tan(6*H*x0)` and $-6H/(\sin z\cos z)$ as `-12*H/sin(12*H*x0)`; they are equal because $\sin 2z = 2\sin z\cos z$.
 
 ```python
 check(all(same(r, e) for r, e in zip(rate4, expected4))
-      and all(same(r, e) for r, e in zip(rate8, expected8)),
-      "the rates a4', -a4', H cot z and -6H/(sin z cos z) of section 4")
-check(sp.simplify(sum(rate4)) == 0, "the eight rates along x4 add up to zero")
+      and all(same(r, e) for r, e in zip(rate0, expected0)),
+      "the rates a4', -a4' + b4'/(2 b4), H cot z and -6H/(sin z cos z) of section 4")
+check(same(sum(rate4), sp.Rational(3, 2) * db4 / b4(x4))
+      and sp.simplify(sum(rate4).subs(db4, 0)) == 0,
+      "the eight rates along x4 add up to (3/2) b4'/b4, zero for constant b4")
 ```
 
-The first check compares all sixteen rates with the expected ones; the second confirms that the eight rates along $x_4$ add up to zero (Section 2.19). (The check's text says "section 4" because it refers to section 4 of the notebook.)
+The first check compares all sixteen rates with the expected ones; the second confirms that the eight rates along $x_4$ add up to $\frac32 b_4'/b_4$ and, with $b_4' = 0$ put in by `.subs(db4, 0)`, to zero (Section 2.19). (The check's text says "section 4" because it refers to section 4 of the notebook.)
 
 ```python
-rates_now = [float(r.subs(da4, 1)) for r in rate4]
+rates_now = [float(r.subs({da4: 1, db4: 0})) for r in rate4]  # a4' = 1, b4' = 0
 fig, ax = plt.subplots()
-colors = [BLUE] * 3 + [GREY] + [ORANGE] * 3 + [GREY]
+colors = [GREY] + [BLUE] * 3 + [GREY] + [ORANGE] * 3
 ax.bar(range(8), rates_now, color=colors, width=0.6)
 ax.axhline(0.0, color=BLACK, lw=0.8)
-ax.set_xticks(range(8), [f"$x_{k}$" for k in range(1, 9)])
+ax.set_xticks(range(8), [f"$x_{k}$" for k in range(8)])
 ```
 
-On the history $a_4 = AHx_4$ with $A = H = 1$ we have $a_4' = 1$; `.subs(da4, 1)` puts this in. `ax.bar` draws a bar for each direction (blue for 3-space, orange for the extra times, grey for $x_4$ and $x_8$), and `set_xticks` labels the positions 0 to 7 with $x_1$ to $x_8$.
+On the history $a_4 = AHx_4$, $b_4 = 1$ with $A = H = 1$ we have $a_4' = 1$ and $b_4' = 0$; `.subs({da4: 1, db4: 0})` puts this in (a dictionary of replacements). `ax.bar` draws a bar for each direction (grey for $x_0$ and $x_4$, blue for 3-space, orange for the extra times), and `set_xticks` labels the positions 0 to 7 with $x_0$ to $x_7$.
 
 ```python
 for k, value in enumerate(rates_now):
@@ -3075,23 +3085,24 @@ for k, value in enumerate(rates_now):
 ax.set_ylim(-1.4, 1.4)
 ax.set_xlabel("direction")
 ax.set_ylabel("$\\partial_4 \\ln s_a$ (units $H$)")
-ax.set_title("Growth rate of each scale factor along the time $x_4$ ($A = H = 1$)")
+ax.set_title("Growth rate of each scale factor along the time $x_4$ "
+             "($A = H = 1$, $b_4 = 1$)")
 save_figure(fig, "rates_along_x4",
             "The rate $\\partial_4 \\ln s_a$ at which the scale factor $s_a$ of "
             ...)
 ```
 
-Each bar gets its value written just above (positive) or below (negative) it, then the axis range, labels and the saved figure `02c_5_rates_along_x4.png`. **What Figure 02c.5 shows:** three bars at $+1$ (3-space inflates), three at $-1$ (the extra times deflate exponentially), two at 0; the bars cancel, so the 7-volume of space and extra times does not change with time.
+Each bar gets its value written just above (positive) or below (negative) it, then the axis range, labels and the saved figure `02c_5_rates_along_x4.png`. **What Figure 02c.5 shows:** two bars at 0 ($x_0$ and $x_4$), three at $+1$ (3-space inflates), three at $-1$ (the extra times deflate exponentially); the bars cancel, so at constant $b_4$ the 7-volume of space and extra times does not change with time.
 
 **In [10], the rates along the hidden coordinate.**
 
 ```python
-rate_sum8 = sp.simplify(tidy(sum(rate8)))
-check(same(rate_sum8, -6 * H * sp.tan(z)),
-      "the eight rates along x8 add up to d8 ln cos z = -6 H tan z")
+rate_sum0 = sp.simplify(tidy(sum(rate0)))
+check(same(rate_sum0, -6 * H * sp.tan(z)),
+      "the eight rates along x0 add up to d0 ln cos z = -6 H tan z")
 ```
 
-The sum of the eight rates along $x_8$ must be $-6H\tan z$, the rate of $\cos z$ (Section 2.19).
+The sum of the eight rates along $x_0$ must be $-6H\tan z$, the rate of $\cos z$ and of $b_4^{3/2}\cos z$ (Section 2.19).
 
 ```python
 z_line = np.linspace(0.05, np.pi / 2 - 0.05, 400)
@@ -3099,7 +3110,7 @@ fig, ax = plt.subplots()
 ax.plot(z_line, 1 / np.tan(z_line), color=BLUE, lw=1.6,
         label="$H \\cot z$: directions $x_1, x_2, x_3$ and $x_5, x_6, x_7$")
 ax.plot(z_line, -6 / (np.sin(z_line) * np.cos(z_line)), "--", color=VIOLET, lw=1.6,
-        label="$-6H/(\\sin z \\cos z)$: direction $x_8$")
+        label="$-6H/(\\sin z \\cos z)$: direction $x_0$")
 ax.plot(z_line, -6 * np.tan(z_line), "-.", color=ORANGE, lw=1.6,
         label="sum of all eight $= -6 H \\tan z$")
 ```
@@ -3109,16 +3120,16 @@ With $H = 1$, on $0.05 < z < \pi/2 - 0.05$ (the ends are left out because the ra
 ```python
 ax.axhline(0.0, color=BLACK, lw=0.8)
 ax.set_ylim(-60.0, 20.0)
-ax.set_xlabel("$z = 6 H x_8$")
-ax.set_ylabel("$\\partial_8 \\ln s_a$ (units $H$)")
+ax.set_xlabel("$z = 6 H x_0$")
+ax.set_ylabel("$\\partial_0 \\ln s_a$ (units $H$)")
 ax.set_title("Rates of the scale factors along the hidden coordinate ($H = 1$)")
 ax.legend(loc="lower left", fontsize=8)
-save_figure(fig, "rates_along_x8",
-            "The rates $\\partial_8 \\ln s_a$ at which the scale factors change "
+save_figure(fig, "rates_along_x0",
+            "The rates $\\partial_0 \\ln s_a$ at which the scale factors change "
             ...)
 ```
 
-Axis range, labels and the saved figure `02c_6_rates_along_x8.png`. **What Figure 02c.6 shows:** the 3-space and extra-time factors grow along $x_8$ near $z = 0$ and level off near $z = \pi/2$ (where $\cot z = 0$); the hidden factor $\cot z$ shrinks everywhere, fastest at both ends; the sum $-6H\tan z$ is the rate of the volume factor $\cos z$, which falls to zero at $z = \pi/2$.
+Axis range, labels and the saved figure `02c_6_rates_along_x0.png`. **What Figure 02c.6 shows:** the 3-space and extra-time factors grow along $x_0$ near $z = 0$ and level off near $z = \pi/2$ (where $\cot z = 0$); the hidden factor $\cot z$ shrinks everywhere, fastest at both ends; the sum $-6H\tan z$ is the rate of the volume factor $b_4^{3/2}\cos z$ along $x_0$, which falls to zero at $z = \pi/2$.
 
 **In [11], the volume factor and Jacobi's formula.**
 
@@ -3127,33 +3138,40 @@ det_g = sp.simplify(tidy(G.det()))  # the product of the eight entries
 say(f"det g = {det_g}")
 sqrt_record = from_record(record["sqrtAbsDetG"])
 say(f"sqrtAbsDetG of the record = {sqrt_record}")
-check(same(det_g, sp.cos(z) ** 2) and same(sqrt_record, sp.cos(z)),
-      "det g = cos(z)^2 and the record's sqrt|det g| = sin z cot z = cos z",
+check(same(det_g, b4(x4) ** 3 * sp.cos(z) ** 2)
+      and same(sqrt_record, b4(x4) ** sp.Rational(3, 2) * sp.cos(z)),
+      "det g = b4^3 cos(z)^2 and the record's sqrt|det g| = b4^(3/2) sin z cot z "
+      "= b4^(3/2) cos z",
       record=f"{CURVATURE}, key sqrtAbsDetG")
 ```
 
-`G.det()` is the determinant; sympy simplifies it to $\cos^2(6Hx_8)$, and the record's entry `sqrtAbsDetG` reads $\sin(6Hx_8)\cot(6Hx_8)$ (the printed lines show both as sympy writes them). The check confirms $\det g = \cos^2 z$ and $\sqrt{|\det g|} = \sin z\cot z = \cos z$ (COMPUTED: reproduces `Revision/gkd_lovelock/results/curvature.json`, key `sqrtAbsDetG`).
+`G.det()` is the determinant; sympy simplifies it to $b_4^3\cos^2(6Hx_0)$, and the record's entry `sqrtAbsDetG` reads $b_4^{3/2}\sin(6Hx_0)\cot(6Hx_0)$ (the printed lines show both as sympy writes them). The check confirms $\det g = b_4^3\cos^2 z$ and $\sqrt{|\det g|} = b_4^{3/2}\sin z\cot z = b_4^{3/2}\cos z$ (COMPUTED: reproduces `Revision/gkd_lovelock/results/curvature.json`, key `sqrtAbsDetG`).
 
 ```python
 A4REPORT = "Revision/field_equations_a4/reports/wolfram-a4-report.json"
 a4_report = json.loads(repository_file(A4REPORT).read_text(encoding="utf-8"))
 verdict = [c["verdict"] for c in a4_report["checks"]
            if c["name"] == "sqrt_abs_det_g_is_cos_z"]
-check(verdict == ["PASS"] and sp.diff(sqrt_record, x4) == 0,
-      "sqrt|det g| = cos z does not depend on x4 (inflation and deflation cancel)",
+db4 = sp.diff(b4(x4), x4)  # b4', the derivative of b4
+check(verdict == ["PASS"]
+      and same(sp.diff(sqrt_record, x4),
+               sp.Rational(3, 2) * db4 / b4(x4) * sqrt_record)
+      and sp.simplify(sp.diff(sqrt_record, x4).subs(db4, 0)) == 0,
+      "d4 sqrt|det g| = (3/2)(b4'/b4) sqrt|det g|: for constant b4 the volume "
+      "factor does not depend on x4 (inflation and deflation cancel)",
       record=f"{A4REPORT}, check sqrt_abs_det_g_is_cos_z")
 ```
 
-The cell reads the Wolfram report of the $a_4$ field equations and collects the verdict of its check `sqrt_abs_det_g_is_cos_z` (a list comprehension with an `if` keeps only the matching check). The check requires that verdict to be PASS and the derivative of $\sqrt{|\det g|}$ with respect to $x_4$ to be exactly 0 (COMPUTED: reproduces `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g_is_cos_z`).
+The cell reads the Wolfram report of the $a_4$ field equations and collects the verdict of its check `sqrt_abs_det_g_is_cos_z` (a list comprehension with an `if` keeps only the matching check). The check requires that verdict to be PASS, the derivative of $\sqrt{|\det g|}$ with respect to $x_4$ to be $\frac32 (b_4'/b_4)\sqrt{|\det g|}$, and, with $b_4' = 0$, to be exactly 0 (COMPUTED: reproduces `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g_is_cos_z`).
 
 ```python
 jacobi = [same(sp.diff(sqrt_record, c),
                sp.Rational(1, 2) * sqrt_record * (G.inv() * G.diff(c)).trace())
-          for c in (x4, x8)]
-check(all(jacobi), "Jacobi's formula for the derivative of sqrt|det g| (x4 and x8)")
+          for c in (x4, x0)]
+check(all(jacobi), "Jacobi's formula for the derivative of sqrt|det g| (x4 and x0)")
 ```
 
-Jacobi's formula of Section 2.19 for $c = x_4$ and $c = x_8$: `G.inv()` is the inverse matrix, `G.diff(c)` the matrix of the derivatives of the entries, `*` the matrix product and `.trace()` the sum of the diagonal entries.
+Jacobi's formula of Section 2.19 for $c = x_4$ and $c = x_0$: `G.inv()` is the inverse matrix, `G.diff(c)` the matrix of the derivatives of the entries, `*` the matrix product and `.trace()` the sum of the diagonal entries.
 
 **In [12], all 25 Christoffel entries.**
 
@@ -3174,12 +3192,12 @@ Three nested loops run over $a$ (8 values), $b$ (8 values) and $c$ from $b$ to 7
 ```python
 listed = {(e["a"], e["b"], e["c"]): from_record(e["value"])
           for e in record["christoffelNonzero_b_le_c"]}
-for key in [("x1", "x1", "x4"), ("x5", "x4", "x5"), ("x8", "x1", "x1"),
-            ("x8", "x8", "x8")]:
+for key in [("x1", "x1", "x4"), ("x5", "x4", "x5"), ("x0", "x1", "x1"),
+            ("x0", "x0", "x0")]:
     say(f"Gamma^{key[0]}_({key[1]} {key[2]}) = {computed[key]}")
 ```
 
-`listed` translates the record's list of nonzero entries into the same form. Four entries are printed: $\Gamma^1{}_{14} = a_4'$, $\Gamma^5{}_{45} = -a_4'$, $\Gamma^8{}_{11} = -H e^{2a_4}\sin^{4/3} z/\cos z$ (which is $-He^{2a_4}\sin^{1/3}z\tan z$ of Section 2.19) and $\Gamma^8{}_{88} = -12H/\sin(12Hx_8)$.
+`listed` translates the record's list of nonzero entries into the same form. Four entries are printed: $\Gamma^1{}_{14} = a_4'$, $\Gamma^5{}_{45} = -a_4' + b_4'/(2b_4)$, $\Gamma^0{}_{11} = -H e^{2a_4}\sin^{4/3} z/\cos z$ (which is $-He^{2a_4}\sin^{1/3}z\tan z$ of Section 2.19) and $\Gamma^0{}_{00} = -12H/\sin(12Hx_0)$.
 
 ```python
 report("nonzero entries computed / listed in the record",
@@ -3196,7 +3214,7 @@ check(sorted(computed) == sorted(listed)
 
 ```python
 names = ["level_curves_gradient", "slices_and_slopes", "finite_differences",
-         "chain_rule", "rates_along_x4", "rates_along_x8"]
+         "chain_rule", "rates_along_x4", "rates_along_x0"]
 present = [output_file(f"{FIGURE_FOLDER}/02c_{k}_{name}.png").is_file()
            for k, name in enumerate(names, 1)]
 check(all(present), f"all {len(names)} figure files of notebook 02c exist")
@@ -3209,7 +3227,7 @@ As in Notebook 02a: the six figure files must exist; the last line is ALL 17 CHE
 
 This section prepares the last notebook, which rewrites the shooting method of the Revision Kohn-Sham solver. We use the solver's equations only as mathematics here; where they come from, and what their levels mean physically, is the subject of Chapters 14 and 15.
 
-**The equations.** The Revision record `Revision/kohn_sham/ks-theory.json` gives the Kohn-Sham equation of one two-component block in a real form (key `blockEquation.realForm`): an orbital is described by two real functions $a(y)$ and $b(y)$ of the **hidden coordinate** $y$, which is the record's coordinate along $x_8$, $y = \ln(\sin z)/(6H)$ (key `geometry.hiddenCoordinate`; $y = 0$ is the end of the patch $z = \pi/2$, called the **brane**, and $y \to -\infty$ is $z \to 0$). The record's general block contains a mass $M$, a momentum $k$ in 3-space, potentials and a sign $j = \pm 1$ of the block type. We take the simplest case: constant mass $M$, no 3-space momentum ($k = 0$), no potential, and $j = +1$. Then the equations are
+**The equations.** The Revision record `Revision/kohn_sham/ks-theory.json` gives the Kohn-Sham equation of one two-component block in a real form (key `blockEquation.realForm`): an orbital is described by two real functions $a(y)$ and $b(y)$ of the **hidden coordinate** $y$, which is the record's coordinate along $x_0$, $y = \ln(\sin z)/(6H)$ (key `geometry.hiddenCoordinate`; $y = 0$ is the end of the patch $z = \pi/2$, called the **brane**, and $y \to -\infty$ is $z \to 0$). The record's general block contains a mass $M$, a momentum $k$ in 3-space, potentials and a sign $j = \pm 1$ of the block type. We take the simplest case: constant mass $M$, no 3-space momentum ($k = 0$), no potential, and $j = +1$. Then the equations are
 
 $$
 a' = M a - \varepsilon b, \qquad b' = \varepsilon a - M b, \qquad -L \le y \le 0,
@@ -4363,7 +4381,7 @@ As in Notebook 02a: the eight figure files must exist, and the last line is ALL 
 - the energy factors per step $1 + h^2$, $1 + h^4/4$, $1 - h^6/72 + h^8/576$ and the scale-factor product factors $1 - h^2$ (Euler) and $1 + h^6/72 + h^8/576$ (RK4) (Section 2.7);
 - the string's eigenvalues $n^2\pi^2$; the secant formula; the even and odd conditions of the finite well, $\tan z = \sqrt{z_0^2 - z^2}/z$ and $-\cot z = \sqrt{z_0^2 - z^2}/z$, and its four bound states for $z_0 = \sqrt{30}$; the tail integral $1/(2\kappa)$; the orthogonality of states of different parity; Simpson's weights (Sections 2.12 and 2.13);
 - the partial derivatives of $x^2\sin y$; the linear approximation; the gradient is perpendicular to the level curves and points uphill; the orders 1 and 2 of the forward and central differences and the scale of the best spacing (Section 2.18);
-- $\partial_8 = 6H\, d/dz$; the rates $\pm a_4'$, $H\cot z$ and $-6H/(\sin z\cos z)$ of the scale factors; $\det g = \cos^2 z$ and $\sqrt{|\det g|} = \sin z\cot z = \cos z$, independent of $x_4$ for every $a_4(x_4)$, because the inflation of 3-space and the deflation of the extra times cancel; Jacobi's formula for a diagonal metric; the 25 nonzero Christoffel entries, given their formula (Section 2.19);
+- $\partial_0 = 6H\, d/dz$; the rates $a_4'$, $-a_4' + b_4'/(2b_4)$, $H\cot z$ and $-6H/(\sin z\cos z)$ of the scale factors; $\det g = b_4^3\cos^2 z$ and $\sqrt{|\det g|} = b_4^{3/2}\sin z\cot z = b_4^{3/2}\cos z$, independent of $x_4$ for every $a_4(x_4)$ when $b_4$ is constant, because the inflation of 3-space and the deflation of the extra times cancel; Jacobi's formula for a diagonal metric; the 25 nonzero Christoffel entries, given their formula (Section 2.19);
 - the exact levels of the free Kohn-Sham block (the zero mode, $\pm\sqrt{M^2 + (n\pi/L)^2}$, $\pm\sqrt{M^2 + p^2}$ with $\tan(pL) = -p/M$) and the absence of any other level with $|\varepsilon| \le M$; the Prüfer equation $\theta' = \varepsilon - M\sin 2\theta$; $d\Phi/d\varepsilon = \int r^2 dy/r(0)^2 > 0$, so every level is found exactly once with its own label; the slope $(1 - e^{-2ML})/(2M)$ at $\varepsilon = 0$; the cubic Hermite midpoint formula; the RK4 phase lag $\omega^5/120$ per step and the level error $\delta\varepsilon \approx \varepsilon^5 h^4/120$ far from the mass, which has the sign of $\varepsilon$, so that every computed level lies farther from zero than the exact one (Section 2.24).
 
 **COMPUTED by the notebooks** (each number in the cell named; where a Revision record is reproduced, the record file and its key or check):
@@ -4421,6 +4439,6 @@ As in Notebook 02a: the eight figure files must exist, and the last line is ALL 
 
 *Answer.* With $\theta(-L) = 0$ and $\theta' = \varepsilon$ we get $\theta(y) = \varepsilon(y + L)$, so $\Phi = \varepsilon L$. Even: $\varepsilon L = l\pi$, $\varepsilon = l\pi/L$. Odd: $\varepsilon L = \pi/2 + l\pi$, $\varepsilon = (l + \frac12)\pi/L$. The general formulas give the same: $\pm\sqrt{0 + (n\pi/L)^2} = \pm n\pi/L$ for the even levels; and as $M \to 0$ the odd condition $\tan(pL) = -p/M$ demands an infinitely large tangent, $pL = (n + \frac12)\pi$, so $\pm p = \pm(n + \frac12)\pi/L$.
 
-**Exercise 10.** Compute $\partial_8 g_{11}$ for $g_{11} = e^{2a_4}\sin^{1/3}(6Hx_8)$, and use it to confirm the Christoffel entry $\Gamma^1{}_{18} = H\cot z$ of Section 2.19.
+**Exercise 10.** Compute $\partial_0 g_{11}$ for $g_{11} = e^{2a_4}\sin^{1/3}(6Hx_0)$, and use it to confirm the Christoffel entry $\Gamma^1{}_{01} = H\cot z$ of Section 2.19.
 
-*Answer.* With $z = 6Hx_8$: $\partial_8 \sin^{1/3} z = \frac13 \sin^{-2/3} z \cdot \cos z \cdot 6H = 2H\sin^{-2/3} z\cos z$ (the power rule, the derivative of the sine, and the chain rule with $\partial z/\partial x_8 = 6H$). So $\partial_8 g_{11} = 2H e^{2a_4}\sin^{-2/3} z\cos z$. Then $\Gamma^1{}_{18} = \partial_8 g_{11}/(2g_{11}) = 2H e^{2a_4}\sin^{-2/3}z\cos z/(2e^{2a_4}\sin^{1/3} z) = H\cos z/\sin z = H\cot z$ (the factors $e^{2a_4}$ cancel and $\sin^{-2/3} z/\sin^{1/3} z = 1/\sin z$), the value listed in the record and in the table of Section 2.19.
+*Answer.* With $z = 6Hx_0$: $\partial_0 \sin^{1/3} z = \frac13 \sin^{-2/3} z \cdot \cos z \cdot 6H = 2H\sin^{-2/3} z\cos z$ (the power rule, the derivative of the sine, and the chain rule with $\partial z/\partial x_0 = 6H$). So $\partial_0 g_{11} = 2H e^{2a_4}\sin^{-2/3} z\cos z$. Then $\Gamma^1{}_{01} = \partial_0 g_{11}/(2g_{11}) = 2H e^{2a_4}\sin^{-2/3}z\cos z/(2e^{2a_4}\sin^{1/3} z) = H\cos z/\sin z = H\cot z$ (the factors $e^{2a_4}$ cancel and $\sin^{-2/3} z/\sin^{1/3} z = 1/\sin z$), the value listed in the record and in the table of Section 2.19.

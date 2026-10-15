@@ -45,7 +45,7 @@ FACTS = {
         "determinant and as the fast rule of the Revision program GKD (zero for a "
         "repeated or missing index, otherwise the sign of a permutation), reproduces "
         "the examples and the exhaustive counts of the Revision record for index "
-        "lists of length 1 to 4 over the eight coordinates x1 to x8 (16,777,216 pairs "
+        "lists of length 1 to 4 over the eight coordinates x0 to x7 (16,777,216 pairs "
         "for length 4), proves and checks the counting formula for the nonzero "
         "values, the vanishing for nine indices in eight dimensions, the two-index "
         "formula, the contraction identity that gives the factors 6, 4 and 2 of the "
@@ -74,7 +74,7 @@ FACTS = {
         ["Revision/gkd_lovelock/results/lovelock-report.json",
          "gkdSelfCheck and check k4_tensor_vanishes (reproduced or explained)"],
         ["Revision/algebra/gammas.json",
-         "the diagonal of the frame metric eta in the order x1 to x8 (read)"],
+         "the diagonal of the frame metric eta in the order x0 to x7 (read)"],
     ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [],
@@ -112,7 +112,7 @@ CELLS = [
       literally (a Leibniz determinant), and again as the fast rule of GKD;
     - reproduces every example of the record and the record's counts of the values
       $+1$, $-1$ and $0$ for all pairs of index lists of length 1, 2 and 3 over the
-      eight coordinates $x_1, \dots, x_8$, and checks all 16,777,216 pairs of length
+      eight coordinates $x_0, \dots, x_7$, and checks all 16,777,216 pairs of length
       4, as the record's self-test did;
     - proves and checks a formula for the number of nonzero values, and that nine
       indices in eight dimensions always give 0;
@@ -125,7 +125,7 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Label**: a name of a coordinate, here $x_1, \dots, x_8$. The computer often
+    - **Label**: a name of a coordinate, here $x_0, \dots, x_7$. The computer often
       numbers them $0, \dots, 7$; only the question "are two labels equal?" matters
       below, so the names do not change any result.
     - **Index list**: an ordered list of labels, such as $(x_1, x_3, x_3)$; its
@@ -189,7 +189,7 @@ CELLS = [
       not zero).
 
     In the Lovelock tensors of the author's theory the generalized delta appears with
-    $2k + 1$ indices, $k = 1, 2, 3$, in the eight dimensions $x_1, \dots, x_8$:
+    $2k + 1$ indices, $k = 1, 2, 3$, in the eight dimensions $x_0, \dots, x_7$:
     $P_{(k)}{}^h{}_j = \delta^{h h_1 \dots h_{2k}}_{j j_1 \dots j_{2k}}
     R^{j_1 j_2}{}_{h_1 h_2} \cdots$ (summation convention). Two facts of this
     notebook matter there: with 9 indices ($k = 4$) the delta is always 0, so the
@@ -258,7 +258,7 @@ CELLS = [
       author's definition then stays unevaluated) and otherwise returns the
       determinant.
 
-    The labels may be any names: here the strings `"x1"`, ..., `"x8"`.
+    The labels may be any names: here the strings `"x0"`, ..., `"x7"`.
     """),
     code(r'''
     def kronecker(a, b):
@@ -372,7 +372,7 @@ CELLS = [
     $\sigma$, whose sign is the result (case d). It never builds a matrix.
 
     The cell checks that the rule gives the literal values for the five examples, and
-    that renaming the labels ($x_k$ to $x_{k+1}$, with $x_8$ to $x_1$) changes no value:
+    that renaming the labels ($x_k$ to $x_{k+1}$, with $x_7$ to $x_0$) changes no value:
     only equal or different matters.
     """),
     code(r'''
@@ -398,8 +398,8 @@ CELLS = [
     check(all(gkd_rule(lower, upper) == kdelta_literal(lower, upper)
               for lower, upper, _ in examples),
           "the fast rule gives the literal values for the five examples")
-    renamed = {f"x{k}": f"x{k % 8 + 1}" for k in range(1, 9)}  # x1->x2, ..., x8->x1
-    two_lists = list(itertools.product([f"x{k}" for k in range(1, 9)], repeat=2))
+    renamed = {f"x{k}": f"x{(k + 1) % 8}" for k in range(8)}  # x0->x1, ..., x7->x0
+    two_lists = list(itertools.product([f"x{k}" for k in range(8)], repeat=2))
     check(all(gkd_rule(lo, up) == gkd_rule(tuple(renamed[a] for a in lo),
                                            tuple(renamed[b] for b in up))
               for lo in two_lists for up in two_lists),
@@ -481,7 +481,7 @@ CELLS = [
     $+1$ and $-1$ (each must be 56: a list of two *different* labels, $8 \cdot 7 = 56$
     of them, gives $+1$ with itself and $-1$ with its reverse), and draws the table.
     From here on the labels are the numbers 0 to 7, the computer's names for
-    $x_1$ to $x_8$.
+    $x_0$ to $x_7$.
     """),
     code(r'''
     pairs = list(itertools.product(range(8), repeat=2))  # (0, 0), (0, 1), ..., (7, 7)
@@ -499,17 +499,17 @@ CELLS = [
     image = ax.imshow(table, cmap="RdBu_r", vmin=-1, vmax=1, interpolation="nearest")
     ax.grid(False)
     ticks = [8 * k for k in range(8)]  # the first pair of each block of 8
-    ax.set_xticks(ticks, [f"$(x_{k + 1}, x_1)$" for k in range(8)], rotation=90,
+    ax.set_xticks(ticks, [f"$(x_{k}, x_0)$" for k in range(8)], rotation=90,
                   fontsize=7)
-    ax.set_yticks(ticks, [f"$(x_{k + 1}, x_1)$" for k in range(8)], fontsize=7)
+    ax.set_yticks(ticks, [f"$(x_{k}, x_0)$" for k in range(8)], fontsize=7)
     ax.set_xlabel("upper list $(u_1, u_2)$")
     ax.set_ylabel("lower list $(l_1, l_2)$")
     ax.set_title("all 4096 values of the two-index delta")
     fig.colorbar(image, ax=ax, shrink=0.8, ticks=[-1, 0, 1])
     save_figure(fig, "two_index_table",
                 "All 4096 values of the generalized delta with two indices over the "
-                "eight labels $x_1$ to $x_8$: row $(l_1, l_2)$, column $(u_1, u_2)$, "
-                "both running through $(x_1, x_1), (x_1, x_2), \\dots, (x_8, x_8)$ "
+                "eight labels $x_0$ to $x_7$: row $(l_1, l_2)$, column $(u_1, u_2)$, "
+                "both running through $(x_0, x_0), (x_0, x_1), \\dots, (x_7, x_7)$ "
                 "(the tick marks the first pair of each block of 8); red $+1$, blue "
                 "$-1$, white 0. The 56 red dots lie on the diagonal (equal lists of two "
                 "different labels), the 56 blue dots where the upper list is the "
@@ -699,7 +699,7 @@ CELLS = [
     ax.legend(loc="upper left");
     save_figure(fig, "value_counts",
                 "The number of pairs of index lists of length $p = 1$ to 4 over the "
-                "eight labels $x_1$ to $x_8$ for which the generalized delta is $+1$ "
+                "eight labels $x_0$ to $x_7$ for which the generalized delta is $+1$ "
                 "(red), $-1$ (blue) and 0 (grey), counted over all $8^{2p}$ pairs; "
                 "horizontal axis $p$, vertical axis the number of pairs on a "
                 "logarithmic scale, with the exact counts written above the bars "
@@ -776,7 +776,7 @@ CELLS = [
     the literal determinant of the $9 \times 9$ matrix (which would have $9!$ =
     362,880 Leibniz terms) is computed with numpy's elimination. With 8 labels a
     nonzero value is still possible: the cell prints the value for the list
-    $(x_1, \dots, x_8)$ against its reverse, which has 28 inversions.
+    $(x_0, \dots, x_7)$ against its reverse, which has 28 inversions.
     """),
     code(r'''
     generator = np.random.default_rng(12345)
@@ -988,7 +988,7 @@ CELLS = [
 
     eta = json.loads(repository_file("Revision/algebra/gammas.json")
                      .read_text(encoding="utf-8"))["eta"]
-    say(f"diagonal of eta (x1 ... x8) from the record: {eta}; det eta = {math.prod(eta)}")
+    say(f"diagonal of eta (x0 ... x7) from the record: {eta}; det eta = {math.prod(eta)}")
     check(math.prod(eta) == 1, "det eta = +1: raising all 8 indices of epsilon gives no "
           "extra sign in the signature (4,4)")
     # (4, 4, 0): 4 positive, 4 negative, 0 zero eigenvalues; sign of det g = (-1)^4
@@ -1049,7 +1049,7 @@ CELLS = [
         ax.set_title(f"$\\varepsilon$ with first index $x_{first + 1}$", fontsize=9)
     image = axes[3].imshow(author_route, cmap="RdBu_r", vmin=-1, vmax=1)
     axes[3].grid(False)
-    eight_names = [f"$x_{k}$" for k in range(1, 9)]
+    eight_names = [f"$x_{k}$" for k in range(8)]
     axes[3].set_xticks(range(8), eight_names, fontsize=7)
     axes[3].set_yticks(range(8), eight_names, fontsize=7)
     axes[3].set_xlabel("$b$")
@@ -1087,7 +1087,7 @@ CELLS = [
       written literally in Python, equals the fast rule of the Revision program GKD
       (0 for a repeated or missing label, otherwise the sign of a permutation) for
       every pair of index lists of length 1 to 4 over the eight coordinates
-      $x_1, \dots, x_8$: 266,304 + 16,777,216 pairs, no disagreement, the same
+      $x_0, \dots, x_7$: 266,304 + 16,777,216 pairs, no disagreement, the same
       result as the record's self-test.
     - The counts of $+1$, $-1$ and $0$ (8, 0, 56; 56, 56, 3984; 1008, 1008, 260128;
       20160, 20160, 16736896 for the lengths 1 to 4) agree with the record and with

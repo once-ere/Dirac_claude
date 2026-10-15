@@ -11,7 +11,7 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/01e_index_notation.py
 
-Revision records read: Revision/algebra/gammas.json (the coordinate names x1..x8, the
+Revision records read: Revision/algebra/gammas.json (the coordinate names x0..x7, the
 frame metric eta and the eight real gamma matrices) and
 Revision/gkd_lovelock/results/curvature.json (the diagonal of the author's metric); the
 checks reproduce Revision/algebra/reports/python-algebra.json (checks coordinate_map,
@@ -40,7 +40,7 @@ FACTS = {
     "title": "Index notation, the summation convention and the metric",
     "purpose": (
         "It teaches free and dummy indices and the summation convention with numpy "
-        "einsum, reads the frame metric eta of the author's coordinates x1 to x8 from "
+        "einsum, reads the frame metric eta of the author's coordinates x0 to x7 from "
         "the Revision record, lowers and raises indices with it, sorts vectors into "
         "space-like, time-like and light-like ones in the signature (4,4) and compares "
         "random vectors with those of ordinary four-dimensional spacetime, proves that "
@@ -53,7 +53,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the coordinate names x1 to x8, the frame metric eta and the eight real 16 by "
+         "the coordinate names x0 to x7, the frame metric eta and the eight real 16 by "
          "16 gamma matrices (read)"],
         ["Revision/algebra/reports/python-algebra.json",
          "checks coordinate_map (the diagonal of eta), clifford_relation (all 64 "
@@ -86,7 +86,7 @@ CELLS = [
     ## 1. What this notebook computes
 
     Every formula of the course is written in *index notation*: a letter such as $a$
-    or $\mu$ stands for each of the eight coordinates $x_1, \dots, x_8$ of the
+    or $\mu$ stands for each of the eight coordinates $x_0, \dots, x_7$ of the
     author's spacetime, and a letter that appears twice is summed. This notebook
     teaches that notation from zero and uses it on the objects of the theory. It
 
@@ -116,9 +116,9 @@ CELLS = [
     ## 3. The words used in this notebook
 
     - **Index**: a letter ($a, b, c, d$ or $\mu, \nu, \lambda$) that stands for one
-      of the eight coordinates $x_1, \dots, x_8$; the component of a vector $v$
-      along $x_3$ is written $v^3$. Python numbers the same components 0 to 7, so
-      $v^3$ is `v[2]`.
+      of the eight coordinates $x_0, \dots, x_7$; the component of a vector $v$
+      along $x_3$ is written $v^3$. Python numbers the same components 0 to 7 in
+      the same order, so $v^3$ is `v[3]`.
     - **Upper and lower index**: $v^a$ and $v_a$ are two lists of eight numbers
       that belong to the same vector (section 6 says how one is made from the
       other). An upper index is a label, not a power: $v^3$ is a component, and its
@@ -137,8 +137,8 @@ CELLS = [
     - **Kronecker delta** $\delta^a_b$: 1 if $a = b$ and 0 otherwise; as a table it
       is the identity matrix $I$.
     - **Frame metric** $\eta_{ab}$: the diagonal table
-      $\mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order $x_1, \dots,
-      x_8$; $\eta^{ab}$ (upper indices) is its inverse.
+      $\mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \dots,
+      x_7$; $\eta^{ab}$ (upper indices) is its inverse.
     - **Lowering and raising**: $v_a = \eta_{ab} v^b$ and $v^a = \eta^{ab} v_b$.
     - **Squared length** $Q(v) = \eta_{ab} v^a v^b$. A vector $v \neq 0$ is
       **space-like** if $Q > 0$, **time-like** if $Q < 0$ and **light-like** (or
@@ -164,23 +164,24 @@ CELLS = [
     ## 4. The physical and mathematical situation
 
     The author's spacetime has eight coordinates: $x_1, x_2, x_3$ are ordinary
-    space, $x_4$ is the time, $x_5, x_6, x_7$ are three extra times, and $x_8$ is a
+    space, $x_4$ is the time, $x_5, x_6, x_7$ are three extra times, and $x_0$ is a
     hidden space direction. The *frame metric*
 
-    $$\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$$
+    $$\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$$
 
-    records only which directions are space-like ($+1$: $x_1, x_2, x_3, x_8$) and
+    records only which directions are space-like ($+1$: $x_0, x_1, x_2, x_3$) and
     which are time-like ($-1$: $x_4, \dots, x_7$). The full *metric* of the
     primordial gravitational field is
 
-    $$g = \mathrm{diag}\big(e^{2a_4} s, e^{2a_4} s, e^{2a_4} s, -1,
-    -e^{-2a_4} s, -e^{-2a_4} s, -e^{-2a_4} s, \cot^2 z\big),\quad
-    s = \sin^{1/3} z,\ z = 6 H x_8,$$
+    $$g = \mathrm{diag}\big(\cot^2 z, e^{2a_4} s, e^{2a_4} s, e^{2a_4} s, -1,
+    -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),\quad
+    s = \sin^{1/3} z,\ z = 6 H x_0,$$
 
-    with a positive constant $H$, $0 < z < \pi/2$, and a function $a_4(x_4)$ of the
-    time: as $a_4$ grows, the lengths along $x_1, x_2, x_3$ grow like $e^{a_4}$ and
-    the lengths along the three extra times shrink like $e^{-a_4}$, that is, they
-    deflate exponentially.
+    with a positive constant $H$, $0 < z < \pi/2$, a function $a_4(x_4)$ and a
+    positive function $b_4(x_4)$ of the time ($b_4 = 1$ in the background of the
+    Revision record): as $a_4$ grows, the lengths along $x_1, x_2, x_3$ grow like
+    $e^{a_4}$ and the lengths along the three extra times shrink like
+    $b_4^{1/2} e^{-a_4}$, that is, for constant $b_4$ they deflate exponentially.
 
     Each equation of the theory is an index formula. For example the field
     equation of the Revision record, $\gamma^\mu D_\mu \Psi = (m + U'(S))\Psi$, is a
@@ -248,7 +249,7 @@ CELLS = [
     The next cell reads the coordinate names and the diagonal of $\eta$ from the
     Revision record file Revision/algebra/gammas.json, and the record's report
     Revision/algebra/reports/python-algebra.json, whose check `coordinate_map`
-    states $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$. Then:
+    states $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$. Then:
 
     - $\eta_{ab}$ is the diagonal matrix with these entries. Its inverse
       $\eta^{ab}$ is the diagonal matrix of the inverses $1/(+1) = +1$ and
@@ -269,17 +270,17 @@ CELLS = [
     code(r'''
     algebra = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    names = algebra["coordinates"]  # ["x1", "x2", ..., "x8"]
-    eta_diagonal = algebra["eta"]  # the diagonal of eta in the order x1 ... x8
+    names = algebra["coordinates"]  # ["x0", "x1", ..., "x7"]
+    eta_diagonal = algebra["eta"]  # the diagonal of eta in the order x0 ... x7
     algebra_report = json.loads(repository_file(
         "Revision/algebra/reports/python-algebra.json").read_text(encoding="utf-8"))
     verdicts = {c["name"]: c["verdict"] for c in algebra_report["checks"]}
     map_verdict = verdicts["coordinate_map"]  # "pass" in the record
     say(f"coordinates {names}")
     say(f"diagonal of eta {eta_diagonal}; record check coordinate_map: {map_verdict}")
-    check(eta_diagonal == [1, 1, 1, -1, -1, -1, -1, 1]
+    check(eta_diagonal == [1, 1, 1, 1, -1, -1, -1, -1]
           and verdicts["coordinate_map"] == "pass",
-          "eta = diag(+1, +1, +1, -1, -1, -1, -1, +1) in the order x1 ... x8",
+          "eta = diag(+1, +1, +1, +1, -1, -1, -1, -1) in the order x0 ... x7",
           record="Revision/algebra/reports/python-algebra.json, check coordinate_map")
     eta_lower = np.diag(eta_diagonal)  # eta_ab as an 8 x 8 matrix
     eta_upper = np.diag([1 // e for e in eta_diagonal])  # eta^ab: 1/(+1) = 1, 1/(-1) = -1
@@ -300,7 +301,7 @@ CELLS = [
     $\delta^a_c$ and the two lists $v^a$ and $v_a$ side by side.
     """),
     code(r'''
-    labels = [f"$x_{k}$" for k in range(1, 9)]  # x with the subscripts 1 ... 8
+    labels = [f"$x_{k}$" for k in range(8)]  # x with the subscripts 0 ... 7
 
 
     def heat_map(ax, matrix, title, ticks=labels, annotate=True, size=7.0):
@@ -335,8 +336,8 @@ CELLS = [
     fig.tight_layout()
     save_figure(fig, "eta_and_delta",
                 "Left: the frame metric $\\eta_{ab}$ of the author's coordinates as a "
-                "heat map (rows $a$ and columns $b$ labelled $x_1$ to $x_8$; red $+1$, "
-                "blue $-1$, white 0): $+1$ for the space-like $x_1, x_2, x_3, x_8$ and "
+                "heat map (rows $a$ and columns $b$ labelled $x_0$ to $x_7$; red $+1$, "
+                "blue $-1$, white 0): $+1$ for the space-like $x_0, x_1, x_2, x_3$ and "
                 "$-1$ for the time-like $x_4$ to $x_7$. Middle: the contraction "
                 "$\\eta^{ab}\\eta_{bc}$, which is the identity matrix $\\delta^a_c$. "
                 "Right: the components $v^a = 1, 2, \\dots, 8$ of a vector (blue) and "
@@ -350,8 +351,8 @@ CELLS = [
 
     The squared length of a vector is
 
-    $$Q(v) = \eta_{ab} v^a v^b = v^a v_a = (v^1)^2 + (v^2)^2 + (v^3)^2 - (v^4)^2
-    - (v^5)^2 - (v^6)^2 - (v^7)^2 + (v^8)^2,$$
+    $$Q(v) = \eta_{ab} v^a v^b = v^a v_a = (v^0)^2 + (v^1)^2 + (v^2)^2 + (v^3)^2
+    - (v^4)^2 - (v^5)^2 - (v^6)^2 - (v^7)^2,$$
 
     where the second form uses $v_a = \eta_{ab} v^b$, and the third writes out the
     sum (only the terms $a = b$ survive because $\eta$ is diagonal). The next cell
@@ -363,7 +364,7 @@ CELLS = [
     - the unit vector along $x_5$: $Q = -1$, time-like;
     - their sum: $Q = 1 - 1 = 0$, light-like although it is not zero;
     - $(1, 1, \dots, 1)$: $Q = 4 - 4 = 0$, light-like as well;
-    - $v^a = (1, 2, \dots, 8)$: $Q = 1 + 4 + 9 + 64 - 16 - 25 - 36 - 49 = -48$,
+    - $v^a = (1, 2, \dots, 8)$: $Q = 1 + 4 + 9 + 16 - 25 - 36 - 49 - 64 = -144$,
       time-like.
 
     It checks the sorting and that $\eta_{ab} v^a v^b$ equals $v^a v_a$ for the last
@@ -377,8 +378,8 @@ CELLS = [
         return np.einsum("na,ab,nb->n", vectors, metric, vectors)
 
 
-    unit = np.eye(8, dtype=int)  # row k is the unit vector along x_(k+1)
-    examples = {"e(x1)": unit[0], "e(x5)": unit[4], "e(x1) + e(x5)": unit[0] + unit[4],
+    unit = np.eye(8, dtype=int)  # row k is the unit vector along x_k
+    examples = {"e(x1)": unit[1], "e(x5)": unit[5], "e(x1) + e(x5)": unit[1] + unit[5],
                 "(1, 1, 1, 1, 1, 1, 1, 1)": np.ones(8, dtype=int),
                 "(1, 2, 3, 4, 5, 6, 7, 8)": v_up}
     kinds = []
@@ -390,17 +391,17 @@ CELLS = [
         say(f"v = {name}: eta_ab v^a v^b = {q_text}, {kind}")
     check(kinds == ["space-like", "time-like", "light-like", "light-like", "time-like"]
           and int(squared_length(v_up[None, :], eta_diagonal)[0]) == int(v_up @ v_down)
-          == -48,
-          "the five examples are sorted correctly, and eta_ab v^a v^b = v^a v_a = -48")
+          == -144,
+          "the five examples are sorted correctly, and eta_ab v^a v^b = v^a v_a = -144")
     '''),
     md(r"""
     How many vectors are space-like? Draw the eight components of a vector as
     independent normal random numbers. Exchange its four space-like components
-    $(v^1, v^2, v^3, v^8)$ with its four time-like components
+    $(v^0, v^1, v^2, v^3)$ with its four time-like components
     $(v^4, v^5, v^6, v^7)$: the new vector $v'$ has
 
-    $$Q(v') = (v^4)^2 + (v^5)^2 + (v^6)^2 + (v^7)^2 - (v^1)^2 - (v^2)^2 - (v^3)^2
-    - (v^8)^2 = -Q(v),$$
+    $$Q(v') = (v^4)^2 + (v^5)^2 + (v^6)^2 + (v^7)^2 - (v^0)^2 - (v^1)^2 - (v^2)^2
+    - (v^3)^2 = -Q(v),$$
 
     because every square that was added is now subtracted and every square that
     was subtracted is now added. The exchanged vector is exactly as likely as the
@@ -421,7 +422,7 @@ CELLS = [
     generator = np.random.default_rng(12345)  # random numbers with a fixed seed
     samples = generator.normal(size=(200000, 8))  # 200,000 vectors of 8 components
     q44 = squared_length(samples, eta_diagonal)  # signature (4,4)
-    space_part, time_part = [0, 1, 2, 7], [3, 4, 5, 6]  # x1 x2 x3 x8, and x4 ... x7
+    space_part, time_part = [0, 1, 2, 3], [4, 5, 6, 7]  # x0 x1 x2 x3, and x4 ... x7
     exchanged = samples.copy()
     exchanged[:, space_part] = samples[:, time_part]  # time components -> space slots
     exchanged[:, time_part] = samples[:, space_part]  # space components -> time slots
@@ -562,7 +563,7 @@ CELLS = [
                 "symmetric part $S_{ab} = (M_{ab} + M_{ba})/2$, its antisymmetric part "
                 "$A_{ab} = (M_{ab} - M_{ba})/2$, and the 64 terms $S_{ab} A^{ab}$ of "
                 "their contraction (right), as heat maps with rows $a$ and columns $b$ "
-                "labelled $x_1$ to $x_8$ (red positive, white zero, blue negative). "
+                "labelled $x_0$ to $x_7$ (red positive, white zero, blue negative). "
                 "$S$ is mirror-symmetric across the diagonal, $A$ changes sign under "
                 "the mirror and has a white diagonal, and every term of the "
                 "contraction is cancelled by its mirror image, so the sum is 0.")
@@ -580,8 +581,8 @@ CELLS = [
 
     The eight gamma matrices obey the Clifford relation
 
-    $$\gamma^a \gamma^b + \gamma^b \gamma^a = 2\eta^{ab} I \qquad (a, b = x_1, \dots,
-    x_8).$$
+    $$\gamma^a \gamma^b + \gamma^b \gamma^a = 2\eta^{ab} I \qquad (a, b = x_0, \dots,
+    x_7).$$
 
     It has two free indices, so it stands for 64 matrix equations: for $a = b$ it
     says $(\gamma^a)^2 = \eta^{aa} I$ ($+I$ for a space-like and $-I$ for a time-like
@@ -637,7 +638,7 @@ CELLS = [
     check(orthogonal and transpose_sign == eta_diagonal
           and verdicts["symmetry_pattern"] == "pass",
           "each gamma^a is orthogonal and (gamma^a)^T = eta_aa gamma^a: symmetric "
-          "for x1, x2, x3, x8, antisymmetric for x4 ... x7",
+          "for x0, x1, x2, x3, antisymmetric for x4 ... x7",
           record="Revision/algebra/reports/python-algebra.json, check "
                  "symmetry_pattern")
     '''),
@@ -666,7 +667,7 @@ CELLS = [
                 "The Clifford relation of the eight real $16 \\times 16$ gamma matrices "
                 "of the Revision record. Left: the number $c_{ab}$ in "
                 "$\\gamma^a\\gamma^b + \\gamma^b\\gamma^a = c_{ab} I$ for all 64 pairs "
-                "(rows $a$, columns $b$, labelled $x_1$ to $x_8$): $c_{ab} = "
+                "(rows $a$, columns $b$, labelled $x_0$ to $x_7$): $c_{ab} = "
                 "2\\eta^{ab}$, that is $+2$ or $-2$ on the diagonal and 0 elsewhere. "
                 "Middle: the number of nonzero entries of the commutator "
                 "$\\gamma^a\\gamma^b - \\gamma^b\\gamma^a$: 0 on the diagonal and 16 "
@@ -730,7 +731,7 @@ CELLS = [
                 for b in range(8)]  # gamma^a gamma^b gamma_a for each b
     factors = [int(sandwich[b][np.nonzero(gamma[b])][0]
                    // gamma[b][np.nonzero(gamma[b])][0]) for b in range(8)]
-    say(f"gamma^a gamma^b gamma_a = c gamma^b with c = {factors} for b = x1 ... x8")
+    say(f"gamma^a gamma^b gamma_a = c gamma^b with c = {factors} for b = x0 ... x7")
     check(lowered_ok and all((sandwich[b] == -6 * gamma[b]).all() for b in range(8)),
           "gamma^b gamma_a + gamma_a gamma^b = 2 delta^b_a I, and gamma^a gamma^b "
           "gamma_a = -6 gamma^b for every b")
@@ -763,7 +764,7 @@ CELLS = [
     right.plot(positions, factors, "o", color="tab:red", ms=9,
                label="$c$ in $\\gamma^a\\gamma^b\\gamma_a = c\\,\\gamma^b$")
     right.axhline(2 - 8, color="black", ls=":", label="$2 - n$ for $n = 8$")
-    right.set_xticks(positions, [f"$b = x_{k}$" for k in range(1, 9)], fontsize=8)
+    right.set_xticks(positions, [f"$b = x_{k}$" for k in range(8)], fontsize=8)
     right.set_ylim(-8.0, 0.5)
     right.set_ylabel("factor $c$")
     right.set_title("$\\gamma^a\\gamma^b\\gamma_a = -6\\gamma^b$ for every $b$",
@@ -771,8 +772,8 @@ CELLS = [
     right.legend(fontsize=8, loc="upper right")
     fig.tight_layout()
     save_figure(fig, "gamma_contractions",
-                "Left: the contraction $\\gamma^a\\gamma_a$ term by term for $a = x_1$ "
-                "to $x_8$: the sign of $(\\gamma^a)^2 = \\pm I$ (blue), $\\eta_{aa}$ "
+                "Left: the contraction $\\gamma^a\\gamma_a$ term by term for $a = x_0$ "
+                "to $x_7$: the sign of $(\\gamma^a)^2 = \\pm I$ (blue), $\\eta_{aa}$ "
                 "(orange) and their product, the term $\\eta_{aa}(\\gamma^a)^2$ "
                 "(green), which is $+I$ for every $a$; the dashed line is the running "
                 "sum divided by 8, which reaches 1, so the sum is $8I$. Right: the "
@@ -786,9 +787,10 @@ CELLS = [
 
     The Revision record file Revision/gkd_lovelock/results/curvature.json stores
     the diagonal of the author's metric as text in the notation of the program
-    Mathematica, for example `E^(2*a4[x4])*Sin[6*H*x8]^(1/3)`. The next cell turns
-    the text into sympy expressions (with the symbols $a_4$ and $z = 6 H x_8$) and
-    checks them against the metric of section 4. Then:
+    Mathematica, for example `E^(2*a4[x4])*Sin[6*H*x0]^(1/3)` and
+    `-E^(-2*a4[x4])*Sin[6*H*x0]^(1/3)*b4[x4]`. The next cell turns the text into
+    sympy expressions (with the symbols $a_4$, $b_4$ and $z = 6 H x_0$) and checks
+    them against the metric of section 4. Then:
 
     - the inverse metric of a diagonal metric is diagonal with the inverse entries,
       $g^{\mu\mu} = 1/g_{\mu\mu}$, and $g^{\mu\nu} g_{\nu\lambda} =
@@ -800,8 +802,11 @@ CELLS = [
     - for the step with the same small size $\epsilon$ in all eight coordinates,
       $dx^\mu = \epsilon$, this is
 
-    $$ds^2 = \epsilon^2\big(3e^{2a_4}s - 1 - 3e^{-2a_4}s + \cot^2 z\big)
-    = \epsilon^2\big(6 s \sinh(2a_4) - 1 + \cot^2 z\big),$$
+    $$ds^2 = \epsilon^2\big(3e^{2a_4}s - 1 - 3b_4e^{-2a_4}s + \cot^2 z\big),$$
+
+    and at $b_4 = 1$, the background of the Revision record,
+
+    $$ds^2 = \epsilon^2\big(6 s \sinh(2a_4) - 1 + \cot^2 z\big),$$
 
     because $e^{x} - e^{-x} = 2\sinh x$ with $x = 2a_4$; and lowering the index,
     $dx_\mu = g_{\mu\nu} dx^\nu$, gives the same number as $dx^\mu dx_\mu$.
@@ -810,23 +815,26 @@ CELLS = [
     """),
     code(r'''
     a4 = sp.Symbol("a4", real=True)  # the value of a4(x4) at one time
-    z = sp.Symbol("z", positive=True)  # z = 6 H x8, between 0 and pi/2
+    b4 = sp.Symbol("b4", positive=True)  # the value of b4(x4) at one time
+    z = sp.Symbol("z", positive=True)  # z = 6 H x0, between 0 and pi/2
     s = sp.sin(z) ** sp.Rational(1, 3)
-    g_typed = ([sp.exp(2 * a4) * s] * 3 + [sp.Integer(-1)]
-               + [-sp.exp(-2 * a4) * s] * 3 + [sp.cot(z) ** 2])
+    g_typed = ([sp.cot(z) ** 2] + [sp.exp(2 * a4) * s] * 3 + [sp.Integer(-1)]
+               + [-b4 * sp.exp(-2 * a4) * s] * 3)  # the author's order x0, x1, ..., x7
     curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
                            .read_text(encoding="utf-8"))
 
 
     def from_record(text):
         """The record's Mathematica text as a sympy expression."""
-        text = text.replace("a4[x4]", "a4").replace("Sin[6*H*x8]", "sin(z)")
-        text = text.replace("Cot[6*H*x8]", "cot(z)").replace("^", "**")
-        return sp.sympify(text, locals={"a4": a4, "z": z, "E": sp.E})
+        text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
+        text = text.replace("Sin[6*H*x0]", "sin(z)")
+        text = text.replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
+        return sp.sympify(text, locals={"a4": a4, "b4": b4, "z": z, "E": sp.E})
 
 
     g_record = [from_record(text) for text in curvature["metricDiagonal"]]
-    check(all(sp.simplify(x - y) == 0 for x, y in zip(g_record, g_typed)),
+    check(len(g_record) == 8 and
+          all(sp.simplify(x - y) == 0 for x, y in zip(g_record, g_typed)),
           "the record's metric diagonal is the author's metric of section 4",
           record="Revision/gkd_lovelock/results/curvature.json, metricDiagonal")
     g_lower = sp.diag(*g_record)  # g_mu nu
@@ -844,18 +852,20 @@ CELLS = [
     ds2 = (step.T * g_lower * step)[0, 0]  # g_mu nu dx^mu dx^nu
     step_lower = g_lower * step  # dx_mu = g_mu nu dx^nu
     ds2_contracted = (step.T * step_lower)[0, 0]  # dx^mu dx_mu
-    closed_form = 6 * s * sp.sinh(2 * a4) - 1 + sp.cot(z) ** 2
+    general_form = 3 * sp.exp(2 * a4) * s - 1 - 3 * b4 * sp.exp(-2 * a4) * s + sp.cot(z) ** 2
+    closed_form = 6 * s * sp.sinh(2 * a4) - 1 + sp.cot(z) ** 2  # at b4 = 1
     say(f"ds^2 for dx^mu = 1: {ds2}")
-    check(sp.expand((ds2 - closed_form).rewrite(sp.exp)) == 0
+    check(sp.expand(ds2 - general_form) == 0
+          and sp.expand((ds2.subs(b4, 1) - closed_form).rewrite(sp.exp)) == 0
           and sp.expand(ds2_contracted - ds2) == 0,
-          "ds^2 = 6 s sinh(2 a4) - 1 + cot(z)^2 for the step dx^mu = 1, and dx^mu dx_mu "
-          "gives the same")
+          "ds^2 = 3 e^(2 a4) s - 1 - 3 b4 e^(-2 a4) s + cot(z)^2 for the step dx^mu = 1, "
+          "= 6 s sinh(2 a4) - 1 + cot(z)^2 at b4 = 1, and dx^mu dx_mu gives the same")
     '''),
     md(r"""
-    For each $z$, $ds^2$ grows when $a_4$ grows ($\sinh$ is an increasing function
-    and $6s > 0$), from very negative values (time-like steps) to very positive
-    ones (space-like steps). It is zero where $6 s \sinh(2a_4) = 1 - \cot^2 z$,
-    that is at
+    The rest of this section takes $b_4 = 1$. For each $z$, $ds^2$ grows when $a_4$
+    grows ($\sinh$ is an increasing function and $6s > 0$), from very negative values
+    (time-like steps) to very positive ones (space-like steps). It is zero where
+    $6 s \sinh(2a_4) = 1 - \cot^2 z$, that is at
 
     $$a_4^{\ast}(z) = \tfrac12\,\mathrm{arcsinh}\!\left(\frac{1 - \cot^2 z}{6 s}\right),$$
 
@@ -891,7 +901,7 @@ CELLS = [
     left.text(0.75, 0.4, "space-like\n$ds^2 > 0$", ha="center", color="white")
     left.text(-0.9, 1.2, "time-like\n$ds^2 < 0$", ha="center", color="white")
     left.set_xlabel("$a_4$")
-    left.set_ylabel("$z = 6 H x_8$")
+    left.set_ylabel("$z = 6 H x_0$")
     left.set_title("sign of $ds^2$ for the step $dx^\\mu = \\epsilon$", fontsize=10)
     left.legend(loc="upper right", fontsize=8)
     fig.colorbar(image, ax=left, label="$\\tanh(ds^2/\\epsilon^2)$")
@@ -899,13 +909,13 @@ CELLS = [
     s_fixed = np.sin(z_fixed) ** (1 / 3)
     space_term = 3 * np.exp(2 * a4_values) * s_fixed  # x1, x2, x3
     extra_term = -3 * np.exp(-2 * a4_values) * s_fixed  # x5, x6, x7 (deflating)
-    hidden_term = np.full_like(a4_values, 1 / np.tan(z_fixed) ** 2)  # x8
+    hidden_term = np.full_like(a4_values, 1 / np.tan(z_fixed) ** 2)  # x0
     right.plot(a4_values, space_term, color="tab:red", label="space $x_1, x_2, x_3$")
     right.plot(a4_values, np.full_like(a4_values, -1.0), color="tab:gray",
                label="time $x_4$")
     right.plot(a4_values, extra_term, color="tab:blue",
                label="extra times $x_5, x_6, x_7$")
-    right.plot(a4_values, hidden_term, color="tab:green", label="hidden $x_8$")
+    right.plot(a4_values, hidden_term, color="tab:green", label="hidden $x_0$")
     right.plot(a4_values, space_term - 1 + extra_term + hidden_term, "k", lw=2.5,
                label="sum $ds^2/\\epsilon^2$")
     right.axhline(0, color="black", lw=0.8)
@@ -919,9 +929,10 @@ CELLS = [
     save_figure(fig, "step_length",
                 "The squared length $ds^2 = g_{\\mu\\nu} dx^\\mu dx^\\nu$ of the "
                 "coordinate step with $dx^\\mu = \\epsilon$ in all eight coordinates, "
-                "in the author's metric. Left: $\\tanh(ds^2/\\epsilon^2)$ as colours "
+                "in the author's metric at $b_4 = 1$. Left: $\\tanh(ds^2/\\epsilon^2)$ "
+                "as colours "
                 "(red space-like, blue time-like) against $a_4$ (horizontal) and "
-                "$z = 6 H x_8$ (vertical), pure numbers, with the curve "
+                "$z = 6 H x_0$ (vertical), pure numbers, with the curve "
                 "$a_4^{\\ast}(z)$ where $ds^2 = 0$ (black). Right: at $z = 0.9$ the four "
                 "kinds of terms against $a_4$: the three space directions (red, growing "
                 "like $e^{2a_4}$), the time (grey, $-1$), the three extra times (blue, "
@@ -952,7 +963,7 @@ CELLS = [
       evaluates such sums from the list of indices; renaming a dummy changes
       nothing.
     - The frame metric of the Revision record is $\eta =
-      \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$; $\eta^{ab}$ has the same
+      \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$; $\eta^{ab}$ has the same
       entries, $\eta^{ab}\eta_{bc} = \delta^a_c$ and $\delta^a_a = 8$. Lowering an
       index flips the signs of the four time-like components $x_4, \dots, x_7$.
     - The squared length $\eta_{ab}v^a v^b = v^a v_a$ sorts vectors into
@@ -970,7 +981,8 @@ CELLS = [
       $\mathrm{tr}(\gamma^a\gamma^b) = 16\eta^{ab}$, derived line by line and
       checked.
     - In the author's metric the step $dx^\mu = \epsilon$ has
-      $ds^2 = \epsilon^2(6 s\sinh(2a_4) - 1 + \cot^2 z)$; as $a_4$ grows, the term
+      $ds^2 = \epsilon^2(3e^{2a_4}s - 1 - 3b_4e^{-2a_4}s + \cot^2 z)$, which is
+      $\epsilon^2(6 s\sinh(2a_4) - 1 + \cot^2 z)$ at $b_4 = 1$; as $a_4$ grows, the term
       of the three space directions grows like $e^{2a_4}$ and the term of the
       three exponentially deflating extra times shrinks like $e^{-2a_4}$, and the
       step turns from time-like to space-like at $a_4^{\ast}(z)$.
