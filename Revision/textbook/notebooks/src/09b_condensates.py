@@ -12,7 +12,7 @@ Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/09b_condensates.py
 
 The exact homogeneous solution, its energy density and pressure, the vanishing of its
-x4-x8 component and the unbounded energy of the commuting field are statements of the
+x4-x0 component and the unbounded energy of the commuting field are statements of the
 Revision record; the notebook computes them anew from the Revision gamma matrices and
 asserts the agreement, naming the record file and check.  The toy fluids of section 12
 are an ILLUSTRATION of the conservation identity, labelled as such.
@@ -65,7 +65,7 @@ FACTS = {
          "the solution matrix, the exact nonlinear homogeneous solution, the energy "
          "exchange"],
         ["Revision/theory/reports/python-field-theory.json",
-         "the same solution, the homogeneous energy density and pressure, the x4-x8 "
+         "the same solution, the homogeneous energy density and pressure, the x4-x0 "
          "component, the trace"],
         ["Revision/theory/reports/python-scope.json",
          "the energy of the commuting field is unbounded below"],
@@ -109,7 +109,7 @@ CELLS = [
       condensate that oscillates and one that grows;
     - computes from the solution the energy density $\rho$ and the pressure $p$ and
       checks the record's values $\rho = mS + U$ and $p = SU' - U$, the same in all
-      seven directions, and the vanishing of the $x_4$-$x_8$ component;
+      seven directions, and the vanishing of the $x_4$-$x_0$ component;
     - measures the equation of state $w = p/\rho$ of actual solutions and compares it
       with $w = \lambda S/(2m + \lambda S)$; finds where $w = -1$;
     - maps where condensates oscillate and where they grow;
@@ -123,7 +123,7 @@ CELLS = [
     ## 3. The words used in this notebook
 
     - **Condensate (homogeneous configuration)**: a field that depends only on the
-      time $x_4$, not on $x_1, x_2, x_3, x_5, x_6, x_7, x_8$.
+      time $x_4$, not on $x_1, x_2, x_3, x_5, x_6, x_7, x_0$.
     - **Effective mass** $V = m + U'(S) = m + \lambda S$: the number that multiplies
       $\Phi$ on the right side of the field equation.
     - **Matrix exponential**: for a square matrix $M$ the matrix
@@ -155,13 +155,13 @@ CELLS = [
 
     **The field equation of a condensate.** In the author's metric the field
     equation of dirac16complex00 is
-    $\sum_a\frac{1}{f_a}\gamma^{(a)}\partial_a\Phi + 3H\gamma^{(8)}\Phi = V\Phi$ with
+    $\sum_a\frac{1}{f_a}\gamma^{(a)}\partial_a\Phi + 3H\gamma^{(0)}\Phi = V\Phi$ with
     $V = m + \lambda S$. For a condensate every derivative except $\partial_4$ is
     zero, and $f_4 = 1$, so the equation is
-    $\gamma^{(4)}\partial_4\Phi + 3H\gamma^{(8)}\Phi = V\Phi$. Multiplying by
+    $\gamma^{(4)}\partial_4\Phi + 3H\gamma^{(0)}\Phi = V\Phi$. Multiplying by
     $-\gamma^{(4)}$ and using $(\gamma^{(4)})^2 = -1$ gives
-    $\partial_4\Phi = M\Phi$ with $M = -V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(8)}$.
-    Neither $a_4$ nor $x_8$ appears: the same condensate solves the equation on
+    $\partial_4\Phi = M\Phi$ with $M = -V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(0)}$.
+    Neither $a_4$ nor $x_0$ appears: the same condensate solves the equation on
     every history $a_4(x_4)$, the deflating one included.
 
     **The exact solution** (Revision record, `Revision/theory/field-theory.json`,
@@ -172,7 +172,7 @@ CELLS = [
 
     **Its energy-momentum tensor** (formula `EMT_homogeneous_on_shell`): only $K_4$
     is nonzero, $K_4 = VS$ on shell, so $\rho = mS + U$ and
-    $p_3 = p_t = p_8 = SU' - U$; for $U = \frac{\lambda}{2}S^2$:
+    $p_3 = p_t = p_0 = SU' - U$; for $U = \frac{\lambda}{2}S^2$:
     $\rho = mS + \frac{\lambda}{2}S^2$, $p = \frac{\lambda}{2}S^2$ and
     $w = \lambda S/(2m + \lambda S)$.
 
@@ -194,8 +194,8 @@ CELLS = [
     md(r"""
     ## 5. The matrices C and B, and the sign of S
 
-    The next cell reads the Revision fixture (the gammas $\gamma^{(x_1)}, \dots,
-    \gamma^{(x_8)}$, the matrix $C$ and the matrix $B = -iC\gamma^{(4)}$) and defines
+    The next cell reads the Revision fixture (the gammas $\gamma^{(x_0)}, \dots,
+    \gamma^{(x_7)}$, the matrix $C$ and the matrix $B = -iC\gamma^{(4)}$) and defines
     the helper `recorded(path, name)`, which returns the verdict of a check in a
     Revision report. The record says that $C = \mathrm{diag}(-\sigma, \sigma)$ with
     an $8 \times 8$ matrix $\sigma$ that squares to 1 and has trace 0; so $C$ has
@@ -208,12 +208,12 @@ CELLS = [
 
     fixture = json.loads(
         repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
-    gamma = [np.array(rows, dtype=float) for rows in fixture["gamma"]]  # x1, ..., x8
-    C = np.array(fixture["C"], dtype=float)  # gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3)
+    gamma = [np.array(rows, dtype=float) for rows in fixture["gamma"]]  # x0, ..., x7
+    C = np.array(fixture["C"], dtype=float)  # gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)
     B = (np.array(fixture["B"]["re"], dtype=float)  # B = -i C gamma^(x4), stored as its
          + 1j * np.array(fixture["B"]["im"], dtype=float))  # real and imaginary parts
     I16 = np.eye(16)  # the 16 x 16 unit matrix
-    g4, g8 = gamma[3], gamma[7]  # gamma^(x4) and gamma^(x8)
+    g4, g0 = gamma[4], gamma[0]  # gamma^(x4) and gamma^(x0)
 
 
     def recorded(path, name):
@@ -269,7 +269,7 @@ CELLS = [
     ## 6. The matrix M and its square
 
     The next cell defines the function `condensate_matrix(V, H)`, which returns
-    $M = -V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(8)}$ and $k^2 = 9H^2 - V^2$, and
+    $M = -V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(0)}$ and $k^2 = 9H^2 - V^2$, and
     checks for several values of $V$ and $H$ the two facts of the record:
     $M^2 = k^2 \cdot 1$ and $M^TC + CM = 0$. The second fact makes $S$ constant:
     $\frac{d}{dx_4}(\Phi^\dagger C\Phi) = \Phi^\dagger(M^TC + CM)\Phi = 0$ (here $M$ is
@@ -277,8 +277,8 @@ CELLS = [
     """),
     code(r'''
     def condensate_matrix(V, H):
-        """M = -V gamma^(x4) + 3 H gamma^(x4) gamma^(x8) and k^2 = 9 H^2 - V^2."""
-        return -V * g4 + 3 * H * g4 @ g8, 9 * H ** 2 - V ** 2
+        """M = -V gamma^(x4) + 3 H gamma^(x4) gamma^(x0) and k^2 = 9 H^2 - V^2."""
+        return -V * g4 + 3 * H * g4 @ g0, 9 * H ** 2 - V ** 2
 
 
     THEORY_WL = "Revision/theory/reports/wolfram-field-theory.json"
@@ -335,7 +335,7 @@ CELLS = [
     md(r"""
     The next cell builds the two condensates at 401 times $x_4$ from $0$ to $12$ and
     checks at every time the field equation
-    $\gamma^{(4)}\Phi' + 3H\gamma^{(8)}\Phi = (m + \lambda S)\Phi$ and that $S$ stays
+    $\gamma^{(4)}\Phi' + 3H\gamma^{(0)}\Phi = (m + \lambda S)\Phi$ and that $S$ stays
     equal to 1. It keeps the values of $\Phi$ and $S$ for the figure that follows.
     """),
     code(r'''
@@ -349,7 +349,7 @@ CELLS = [
         for x4 in times:
             phi, dphi = condensate(x4, chi, M, k2)
             S_now = (phi.conj() @ C @ phi).real
-            residual = g4 @ dphi + 3 * H * g8 @ phi - (m + lam * S_now) * phi
+            residual = g4 @ dphi + 3 * H * g0 @ phi - (m + lam * S_now) * phi
             # The residual relative to the size of the solution at this time.  Rounding
             # errors grow with the solution (S is a difference of large numbers when
             # Phi grows), so the tolerance below is 1e-9, not 1e-15.
@@ -420,20 +420,20 @@ CELLS = [
     all seven directions. It checks $K_4 = VS$, $\rho = mS + \frac{\lambda}{2}S^2$ and
     $p = \frac{\lambda}{2}S^2$, hence the kinetic and potential parts
     ($\rho_{\rm kin} = 0$, $p_{\rm kin} = K_4 = VS$, $p_{\rm pot} = -(mS + U)$), the trace
-    $-\rho + 7p = -mS + 3\lambda S^2$, and that the $x_4$-$x_8$ component vanishes:
-    $T^{x_4}{}_{x_8} = -\frac14(B_{48} - \cot z B_{84})$ with
-    $B_{48} = 0$ (no $x_8$ derivative) and
-    $B_{84} = \bar\Phi\gamma^{(8)}\Phi' - \bar\Phi'\gamma^{(8)}\Phi$, which must be 0.
+    $-\rho + 7p = -mS + 3\lambda S^2$, and that the $x_4$-$x_0$ component vanishes:
+    $T^{x_4}{}_{x_0} = -\frac14(B_{40} - \cot z B_{04})$ with
+    $B_{40} = 0$ (no $x_0$ derivative) and
+    $B_{04} = \bar\Phi\gamma^{(0)}\Phi' - \bar\Phi'\gamma^{(0)}\Phi$, which must be 0.
     """),
     code(r'''
     def homogeneous_tensor(phi, dphi, lam):
-        """K4, rho, p and B84 of a condensate at one time."""
+        """K4, rho, p and B04 of a condensate at one time."""
         S = (phi.conj() @ C @ phi).real
         U = lam / 2 * S ** 2
         K4 = 0.5 * (phi.conj() @ C @ g4 @ dphi - dphi.conj() @ C @ g4 @ phi)
         L0 = K4.real - m * S - U  # the other seven kinetic terms are zero
-        B84 = phi.conj() @ C @ g8 @ dphi - dphi.conj() @ C @ g8 @ phi
-        return S, U, K4, K4.real - L0, L0, B84  # rho = K4 - L0, p = L0
+        B04 = phi.conj() @ C @ g0 @ dphi - dphi.conj() @ C @ g0 @ phi
+        return S, U, K4, K4.real - L0, L0, B04  # rho = K4 - L0, p = L0
 
 
     values = {}  # name -> (rho, p) of the condensate
@@ -443,15 +443,15 @@ CELLS = [
         rhos, ps, worst = [], [], 0.0
         for x4 in times:
             phi, dphi = condensate(x4, chi, M, k2)
-            S, U, K4, rho, p, B84 = homogeneous_tensor(phi, dphi, lam)
+            S, U, K4, rho, p, B04 = homogeneous_tensor(phi, dphi, lam)
             size = max(1.0, (phi.conj() @ phi).real)  # for relative tolerances
             worst = max(worst, abs(K4.imag) / size, abs(K4.real - V * S) / size,
-                        abs(B84) / size)
+                        abs(B04) / size)
             rhos.append(rho)
             ps.append(p)
         rhos, ps = np.array(rhos), np.array(ps)
         values[name] = (rhos.mean(), ps.mean())
-        check(worst < 1e-12, f"{name}: K4 is real, K4 = V S, and B84 = 0 (T^x4_x8 = 0)")
+        check(worst < 1e-12, f"{name}: K4 is real, K4 = V S, and B04 = 0 (T^x4_x0 = 0)")
         check(np.abs(rhos - (m + lam / 2)).max() < 1e-9
               and np.abs(ps - lam / 2).max() < 1e-9,
               f"{name}: rho = m S + lambda S^2/2 and p = lambda S^2/2 at 401 times")
@@ -461,11 +461,11 @@ CELLS = [
         report(f"{name}: p (all seven directions)", f"{values[name][1]:.6f}")
         report(f"{name}: w = p/rho", f"{values[name][1] / values[name][0]:.6f}")
     check(recorded(THEORY_PY, "commuting_homogeneous_on_shell_rho_p") == "PASS"
-          and recorded(THEORY_PY, "commuting_T_x4x8_homogeneous") == "PASS"
+          and recorded(THEORY_PY, "commuting_T_x4x0_homogeneous") == "PASS"
           and recorded(THEORY_PY, "commuting_trace_on_shell") == "PASS",
-          "these are the record's homogeneous values and its vanishing x4-x8 component",
+          "these are the record's homogeneous values and its vanishing x4-x0 component",
           record=f"{THEORY_PY}, checks commuting_homogeneous_on_shell_rho_p, "
-                 "commuting_T_x4x8_homogeneous and commuting_trace_on_shell")
+                 "commuting_T_x4x0_homogeneous and commuting_trace_on_shell")
     '''),
     md(r"""
     ## 9. Energy density and pressure against S
@@ -531,7 +531,7 @@ CELLS = [
         V = m + x_value * 1.0  # lambda = x_value, S0 = 1
         M, k2 = condensate_matrix(V, H)
         phi, dphi = condensate(1.3, chi, M, k2)
-        S, U, K4, rho, p, B84 = homogeneous_tensor(phi, dphi, x_value)
+        S, U, K4, rho, p, B04 = homogeneous_tensor(phi, dphi, x_value)
         rho_measured.append(rho)
         p_measured.append(p)
     rho_measured, p_measured = np.array(rho_measured), np.array(p_measured)
@@ -637,7 +637,7 @@ CELLS = [
     code(r'''
     A = 1.0  # the deflating history a4 = A H x4
     M, k2 = condensate_matrix(m + 0.5 * 1.0, H)  # the oscillating condensate, S0 = 1
-    # rho at every time; homogeneous_tensor returns (S, U, K4, rho, p, B84): index 3.
+    # rho at every time; homogeneous_tensor returns (S, U, K4, rho, p, B04): index 3.
     # The condensate does not contain a4, so these are its values on this history too.
     rho_at_times = np.array([homogeneous_tensor(*condensate(x4, chi, M, k2), 0.5)[3]
                              for x4 in times])
@@ -752,8 +752,8 @@ CELLS = [
     The record proves that the classical energy of dirac16complex00 is unbounded
     below already for $U = 0$, with an exact example: in flat 4+4 space (all
     $f_a = 1$, no spin connection) with $m = 2$ and the momentum
-    $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$, the plane waves
-    $\Phi = u e^{i(k_1x_1 + k_2x_2 + k_8x_8 - Ex_4)}$ with $E = 5$ solve the field
+    $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, the plane waves
+    $\Phi = u e^{i(k_1x_1 + k_2x_2 + k_0x_0 - Ex_4)}$ with $E = 5$ solve the field
     equation when $u$ lies in the 8-dimensional eigenspace of the matrix
     $h = m\beta + \sum_a k_a\alpha^a$ ($\beta = -i\gamma^{(4)}$,
     $\alpha^a = -\gamma^{(4)}\gamma^{(a)}$) with eigenvalue 5, and the energy density
@@ -766,7 +766,7 @@ CELLS = [
     """),
     code(r'''
     m_flat, E_flat = 2.0, 5.0
-    momentum = {0: 1.0, 1: 2.0, 2: 0.0, 7: 4.0}  # k1, k2, k3, k8 (x5, x6, x7: zero)
+    momentum = {0: 4.0, 1: 1.0, 2: 2.0, 3: 0.0}  # k0, k1, k2, k3 (x5, x6, x7: zero)
     beta = -1j * g4
     h = m_flat * beta + sum(k_a * (-g4 @ gamma[a]) for a, k_a in momentum.items())
     check(np.abs(h - h.conj().T).max() < 1e-12 and np.abs(h @ h - 25 * I16).max() < 1e-12
@@ -852,7 +852,7 @@ CELLS = [
     save_figure(fig, "energy_sign",
                 "Histogram of the energy density $\\rho = -\\sum_{a \\neq x_4} K_a + mS$ "
                 "of 5000 plane waves $u\\,e^{i(k \\cdot x - Ex_4)}$ of dirac16complex00 "
-                "in flat 4+4 space with $m = 2$, $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$ "
+                "in flat 4+4 space with $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$ "
                 "and positive frequency $E = 5$, for random unit vectors $u$ of the "
                 "8-dimensional solution space; horizontal axis $\\rho$ in units of "
                 "energy per unit volume, vertical axis the count in each of 50 "
@@ -890,7 +890,7 @@ CELLS = [
     - Their energy density and pressure are $\rho = mS + \frac{\lambda}{2}S^2$ and
       $p = \frac{\lambda}{2}S^2$, the same in all seven directions; the kinetic
       energy density is zero, the kinetic pressure is $(m + \lambda S)S$; the
-      $x_4$-$x_8$ component vanishes (record values, computed here anew from the
+      $x_4$-$x_0$ component vanishes (record values, computed here anew from the
       solutions).
     - The equation of state is $w = x/(2 + x)$ with $x = \lambda S/m$, measured on
       twelve exact solutions; $w = -1$ exactly where the effective mass vanishes, and
@@ -904,7 +904,7 @@ CELLS = [
       random condensates with $\lambda = 0$ have $\rho < 0$, and positive-frequency
       plane waves have $\rho$ anywhere between $-E$ and $E$ (record:
       `commuting_field_energy_unbounded_below`).
-    - Status: the exact condensates, their $\rho$ and $p$, the vanishing $x_4$-$x_8$
+    - Status: the exact condensates, their $\rho$ and $p$, the vanishing $x_4$-$x_0$
       component, the energy-exchange identity and the unbounded energy are PROVED in
       the Revision record (exact, Wolfram and sympy); this notebook re-computes them
       numerically (COMPUTED). The toy fluids are an ILLUSTRATION, not solutions. The

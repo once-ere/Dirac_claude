@@ -16,7 +16,7 @@ It reads or reproduces these Revision records:
 - `Revision/algebra/reports/wolfram-algebra.json`: sigma squares to one and has trace zero
 - `Revision/theory/field-theory.json`: the formulas of the exact solutions and of the homogeneous energy density and pressure
 - `Revision/theory/reports/wolfram-field-theory.json`: the solution matrix, the exact nonlinear homogeneous solution, the energy exchange
-- `Revision/theory/reports/python-field-theory.json`: the same solution, the homogeneous energy density and pressure, the x4-x8 component, the trace
+- `Revision/theory/reports/python-field-theory.json`: the same solution, the homogeneous energy density and pressure, the x4-x0 component, the trace
 - `Revision/theory/reports/python-scope.json`: the energy of the commuting field is unbounded below
 - `Revision/theory/reports/wolfram-scope.json`: the same statement, verified with the Wolfram Language
 - `Revision/pairing/reports/python-pairing.json`: the Krein inertia (4,4) of every real-frequency eigenspace
@@ -270,15 +270,15 @@ In [6]  PASS both condensates are the record's exact nonlinear homogeneous solut
 In [6]       reproduces Revision/theory/reports/wolfram-field-theory.json, check
 In [6]      exact_solution_nonlinear_homogeneous_C; Revision/theory/reports/python-field-
 In [6]      theory.json, check exact_nonlinear_homogeneous_solution
-In [8]  PASS oscillating: K4 is real, K4 = V S, and B84 = 0 (T^x4_x8 = 0)
+In [8]  PASS oscillating: K4 is real, K4 = V S, and B04 = 0 (T^x4_x0 = 0)
 In [8]  PASS oscillating: rho = m S + lambda S^2/2 and p = lambda S^2/2 at 401 times
 In [8]  PASS oscillating: trace -rho + 7 p = -m S + 3 lambda S^2
-In [8]  PASS growing: K4 is real, K4 = V S, and B84 = 0 (T^x4_x8 = 0)
+In [8]  PASS growing: K4 is real, K4 = V S, and B04 = 0 (T^x4_x0 = 0)
 In [8]  PASS growing: rho = m S + lambda S^2/2 and p = lambda S^2/2 at 401 times
 In [8]  PASS growing: trace -rho + 7 p = -m S + 3 lambda S^2
-In [8]  PASS these are the record's homogeneous values and its vanishing x4-x8 component
+In [8]  PASS these are the record's homogeneous values and its vanishing x4-x0 component
 In [8]       reproduces Revision/theory/reports/python-field-theory.json, checks
-In [8]      commuting_homogeneous_on_shell_rho_p, commuting_T_x4x8_homogeneous and
+In [8]      commuting_homogeneous_on_shell_rho_p, commuting_T_x4x0_homogeneous and
 In [8]      commuting_trace_on_shell
 In [9]  PASS p = p_kin + p_pot = V S - (m S + U) at every drawn S
 In [10]  PASS w = p/rho of 12 exact condensates equals x/(2 + x), x = lambda S/m
@@ -347,7 +347,7 @@ The notebook shows 7 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/09b_4_equation_of_state.png` (918 x 611 pixels): Equation of state $w = p/\rho$ of a condensate of dirac16complex00 against $x = \lambda S/m$ (pure numbers): the curve is $w = x/(2 + x)$, the red points are $p/\rho$ computed from twelve exact solutions ($m = 1$, $H = 0.25$, $S_0 = 1$, $\lambda = x$) and lie on it. $w = 0$ at $x = 0$, $w = -1$ (dashed) at $x = -1$, where the effective mass $m + \lambda S$ vanishes, $w < -1$ (shaded) for $-2 < x < -1$, $w$ is undefined at $x = -2$ (dotted) where $\rho = 0$, $w > 1$ for $x < -2$, where $\rho$ and $p$ are both negative, and $w$ approaches $1$ for large $x$. This is the 8-dimensional ratio, not the equation of state a 3-space observer would infer.
 - `Revision/textbook/figures/09b_5_regime_map.png` (927 x 611 pixels): Map of the condensates of dirac16complex00 in the plane of $x = \lambda S/m$ (horizontal) and $3H/|m|$ (vertical), pure numbers. In the red wedge $|1 + x| < 3H/|m|$ the number $k^2 = 9H^2 - (m + \lambda S)^2$ is positive and the condensate grows; in the blue region it oscillates. The dashed vertical lines are the equations of state $w = -1$ ($x = -1$), $w = 0$ and $w = 1/3$ ($x = 1$); $w$ depends on $x$ only. The black dots are the two condensates of the second figure ($H = 0.25$, $m = 1$). Every condensate with $w = -1$ lies in the growing wedge.
 - `Revision/textbook/figures/09b_6_energy_exchange.png` (1238 x 576 pixels): Energy exchange along the deflating history $a_4 = AHx_4$, $A = 1$, $H = 0.25$, for $x_4$ from $0$ to $8$. Left, logarithmic axis: $\rho(x_4)/\rho(0)$ of five toy fluids with assumed pressures $p_3 = w_3\rho$, $p_t = w_t\rho$ and $\Delta w = w_3 - w_t$ from $-2/3$ to $2/3$ (an illustration, not solutions of the field equations), solved with RK4: $\rho$ falls when $p_3 > p_t$ and rises when $p_3 < p_t$; the exact condensate (dotted) has $p_3 = p_t$ and constant $\rho$. Right: for the toy fluid $(w_3, w_t) = (1/3, 2/3)$ the term of the inflating 3-space $-3a_4'p_3$ (negative: it takes energy out), the term of the deflating extra times $+3a_4'p_t$ (positive and twice as large: it puts energy in) and $d\rho/dx_4$ (dotted), which is their sum, so $\rho$ grows; vertical axis in units of energy per unit volume per unit time.
-- `Revision/textbook/figures/09b_7_energy_sign.png` (926 x 615 pixels): Histogram of the energy density $\rho = -\sum_{a \neq x_4} K_a + mS$ of 5000 plane waves $u\,e^{i(k \cdot x - Ex_4)}$ of dirac16complex00 in flat 4+4 space with $m = 2$, $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$ and positive frequency $E = 5$, for random unit vectors $u$ of the 8-dimensional solution space; horizontal axis $\rho$ in units of energy per unit volume, vertical axis the count in each of 50 intervals. Every value equals $E\,u^\dagger Bu$; about half are negative. The possible values fill the whole interval from $-5$ (reached for $Bu = -u$) to $5$ (for $Bu = u$), but random vectors seldom come near the two ends: positive frequency does not mean positive energy for this commuting field.
+- `Revision/textbook/figures/09b_7_energy_sign.png` (926 x 615 pixels): Histogram of the energy density $\rho = -\sum_{a \neq x_4} K_a + mS$ of 5000 plane waves $u\,e^{i(k \cdot x - Ex_4)}$ of dirac16complex00 in flat 4+4 space with $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$ and positive frequency $E = 5$, for random unit vectors $u$ of the 8-dimensional solution space; horizontal axis $\rho$ in units of energy per unit volume, vertical axis the count in each of 50 intervals. Every value equals $E\,u^\dagger Bu$; about half are negative. The possible values fill the whole interval from $-5$ (reached for $Bu = -u$) to $5$ (for $Bu = u$), but random vectors seldom come near the two ends: positive frequency does not mean positive energy for this commuting field.
 
 ## 4. Side effects
 
@@ -357,7 +357,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/09b.captions.json` | 4461 | `13bb4dd40d4ba06077b31a19ebce87ef60d44ce3949cb658fb9cebe15b0631fb` |
+| `Revision/textbook/figures/09b.captions.json` | 4461 | `4761e4aab8f39f3163cda243d5b88f89070d359285d26b1e2e98ce489834bda0` |
 | `Revision/textbook/figures/09b_1_sign_of_s.png` | 36807 | `6bd93f2d84fb3527bcf866884708251b4355ada719fb35ffddc0cd1246950f03` |
 | `Revision/textbook/figures/09b_2_condensate_solutions.png` | 99596 | `8e7a93c4b4b873191f024454b7b3221a854e10c30ac812d72dc998d670e47bb0` |
 | `Revision/textbook/figures/09b_3_energy_and_pressure.png` | 80816 | `7f71b20f456c1c9a26f9c063b66a2240fbf4c232c7c04eaff86d992e23c52d21` |
@@ -387,8 +387,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 10.9 s, peak memory of the kernel process 186 MiB;
-- the check run: 10.9 s, peak memory of the kernel process 184 MiB.
+- the build run: 3.7 s, peak memory of the kernel process 188 MiB;
+- the check run: 8.3 s, peak memory of the kernel process 188 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -400,9 +400,9 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/09b_condensates.ipynb`: `2fec3231edd6b71bb2b2f9520268cfa53c3d234d244919a5652e16010bfbf745`
-- `Revision/textbook/notebooks/src/09b_condensates.py`: `20705ae1c59c3e1ca4db2b2ec90cf461b4095183b44622cf248816a4bc86d9f7`
-- `Revision/textbook/figures/09b.captions.json`: `13bb4dd40d4ba06077b31a19ebce87ef60d44ce3949cb658fb9cebe15b0631fb`
+- `Revision/textbook/notebooks/09b_condensates.ipynb`: `b4c05f33b775e6ddba1cfee47957f3035d50621d626e90b957a9b29eb17e705e`
+- `Revision/textbook/notebooks/src/09b_condensates.py`: `caa0e0012f5f6ec4f475f1c1fc1b4bacb75f560b4b1eaaf19c4e0d939e43c050`
+- `Revision/textbook/figures/09b.captions.json`: `4761e4aab8f39f3163cda243d5b88f89070d359285d26b1e2e98ce489834bda0`
 - `Revision/textbook/figures/09b_1_sign_of_s.png`: `6bd93f2d84fb3527bcf866884708251b4355ada719fb35ffddc0cd1246950f03`
 - `Revision/textbook/figures/09b_2_condensate_solutions.png`: `8e7a93c4b4b873191f024454b7b3221a854e10c30ac812d72dc998d670e47bb0`
 - `Revision/textbook/figures/09b_3_energy_and_pressure.png`: `7f71b20f456c1c9a26f9c063b66a2240fbf4c232c7c04eaff86d992e23c52d21`
@@ -417,4 +417,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-14: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":186.0,"seconds":10.9},"check":{"date":"2026-10-14","files":8,"peak_mb":184.0,"result":"passed","seconds":10.9},"date":"2026-10-14","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":188.0,"seconds":3.7},"check":{"date":"2026-10-14","files":8,"peak_mb":188.0,"result":"passed","seconds":8.3},"date":"2026-10-14","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

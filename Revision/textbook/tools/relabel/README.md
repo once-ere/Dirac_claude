@@ -30,6 +30,8 @@ None of them takes more than a few seconds.
 | `wt_contiguous.py` | Reports the walk-through blocks whose lines are not one contiguous run of their notebook cell (a fuzzy re-mapping can misplace a line). Run it after `wt_remap.py`; it must report 0. | `wt_contiguous.py CHAPTER NB_ID` |
 | `wt_fill.py` | Lists, or appends, the cell lines that follow a block directly and that no block quotes. Use `--dry` and apply only genuine gaps: the walk-throughs leave plotting code out ON PURPOSE. | `wt_fill.py CHAPTER NB_ID [--dry]` |
 | `wrap_long.py` | Wraps the builder source lines longer than 93 characters (cell lines may have at most 89 after the 4-space dedent); a string literal is split into two. | `wrap_long.py BUILDER.py` |
+| `prose_indices.py` | Lists the prose lines (outside code blocks) that quote code with a literal index or range, such as `gamma[3]`, `T[3, 0]` or `range(4, 7)`. These descriptions must follow the new positions. | `prose_indices.py CHAPTER` |
+| `check_all.py` | Runs `nbkit.py check` (re-execution, byte-for-byte comparison; the repository is not changed) for every builder of the given chapters, 8 at a time, each with a hard limit of 423 s, and writes one line per notebook: status, seconds, first problem. Use it to see which notebooks still fail against the relabelled records. | `check_all.py OUT.tsv 10 11 12` |
 | `nb_outputs.py` | Prints every code cell's text output of a notebook (for RESULT lines and counts). | `nb_outputs.py NB.ipynb` |
 | `nb_out_diff.py` | Shows the output lines of rebuilt notebooks that changed against HEAD. | `nb_out_diff.py 06a 06b` |
 | `prov_hashes.py` | Checks the sha256 and size of every file in the "writes" tables of the notebook PROVENANCE files. | `prov_hashes.py 05 06` |
@@ -38,7 +40,11 @@ None of them takes more than a few seconds.
 
 `examples/` holds four of the chapter 06 fix scripts as models. Each is a list of (old, new) pairs applied with `strict_replace`. They have already been applied, so running them again stops at once ("not found").
 
-## The procedure per chapter (as done for chapters 03 to 06)
+**Warning.** On this machine a bash heredoc can turn `\\` into `\`, and Python then reads `\f` in `\frac` as a form feed. Write every edit script with an editor or a file-writing tool, never as a heredoc. After every edit, check that no source file contains a control character.
+
+**Random numbers.** Some builders draw numbers indexed by direction, such as `rng.normal(size=(8, 16))`. To keep every printed number of the first edition, draw them in the old way and reorder the rows (`np.roll(table, 1, axis=0)` moves the old last row, x8, to the front as x0), and say so in the walk-through (09a does this).
+
+## The procedure per chapter (as done for chapters 03 to 09)
 
 1. **Builders.** Run `tb_relabel.py` on `Revision/textbook/notebooks/src/NNx_*.py`, then fix every listed position by hand:
    * hidden direction at index 0, time at index 4;

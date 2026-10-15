@@ -43,7 +43,7 @@ FACTS = {
         "potential parts, and the trace and on-shell identities; it then derives with "
         "sympy the Christoffel symbols of the metric and the two conservation identities "
         "of a diagonal tensor (the energy exchange between 3-space and the extra times "
-        "along x4, and the balance along the hidden direction x8), reads the first one "
+        "along x4, and the balance along the hidden direction x0), reads the first one "
         "as a first law of thermodynamics, and draws five teaching plots."
     ),
     "records": [
@@ -104,7 +104,7 @@ CELLS = [
       $8 \times 8$ table of numbers) of a field configuration chosen at random;
     - checks that the tensor is real and symmetric, that its diagonal entries are
       $T^\mu{}_\mu = L_0 - K_\mu$, and computes from them the energy density $\rho$,
-      the pressures $p_3$ (3-space), $p_t$ (extra times) and $p_8$ (hidden direction)
+      the pressures $p_3$ (3-space), $p_t$ (extra times) and $p_0$ (hidden direction)
       with their kinetic and potential parts;
     - checks the trace identity and the kinetic-sum identity, and what they become
       when the configuration satisfies the field equation (on shell);
@@ -112,7 +112,7 @@ CELLS = [
     - derives exactly, with sympy, the 25 Christoffel symbols of the metric and the
       covariant divergence of a diagonal tensor: the two conservation identities
       $\partial_4\rho = -3a_4'(p_3 - p_t)$ and
-      $\partial_8 p_8 = -3H\cot z (2p_8 - p_3 - p_t)$;
+      $\partial_0 p_0 = -3H\cot z (2p_0 - p_3 - p_t)$;
     - reads the first identity as a first law of thermodynamics for the 7-volume and
       the second one as a balance of pressures along the hidden direction;
     - compares every result that the Revision record also contains with that record
@@ -122,8 +122,8 @@ CELLS = [
     ## 3. The words used in this notebook
 
     - **Coordinates**: $x_1, x_2, x_3$ are ordinary 3-space; $x_4$ is the time;
-      $x_5, x_6, x_7$ are the three extra times; $x_8$ is the hidden space direction.
-      In the code, index 0 means $x_1$, index 3 means $x_4$ and index 7 means $x_8$.
+      $x_5, x_6, x_7$ are the three extra times; $x_0$ is the hidden space direction.
+      In the code, index 0 means $x_1$, index 3 means $x_4$ and index 7 means $x_0$.
     - **Tensor** $T^\nu{}_\mu$: a table of $8 \times 8$ numbers at every point, one
       for each pair of directions $(\nu, \mu)$. The upper index $\nu$ is the row, the
       lower index $\mu$ the column. Lowering the upper index with the metric gives
@@ -157,13 +157,13 @@ CELLS = [
     ## 4. The physical and mathematical situation
 
     **The metric.** The author's primordial metric is diagonal,
-    $g = \mathrm{diag}(f_1^2, f_2^2, f_3^2, -f_4^2, -f_5^2, -f_6^2, -f_7^2, f_8^2)$,
+    $g = \mathrm{diag}(f_1^2, f_2^2, f_3^2, -f_4^2, -f_5^2, -f_6^2, -f_7^2, f_0^2)$,
     with the vielbein factors
     $f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z$ (3-space, inflating as $a_4$ grows),
     $f_4 = 1$ (the time), $f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z$ (the extra times,
-    deflating exponentially), $f_8 = \cot z$, where $z = 6Hx_8$ lies between $0$ and
+    deflating exponentially), $f_0 = \cot z$, where $z = 6Hx_0$ lies between $0$ and
     $\pi/2$, $H > 0$ is the author's constant and $a_4$ depends on $x_4$. The volume
-    factor is $\sqrt{|g|} = f_1 f_2 \cdots f_8 = \cos z$: it does not depend on $x_4$.
+    factor is $\sqrt{|g|} = f_0 f_1 \cdots f_7 = \cos z$: it does not depend on $x_4$.
     The Kohn-Sham part of the book uses the deflating history $a_4 = AHx_4$ with
     $A > 0$ as a prescribed background; this notebook takes its point on that
     history.
@@ -202,8 +202,8 @@ CELLS = [
 
     **Conservation.** On shell $\nabla_\mu T^\mu{}_\nu = 0$ (a theorem of the record,
     proved from the invariance of the action under changes of coordinates). For a
-    diagonal tensor $\mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ whose
-    entries depend on $x_4$ and $x_8$, this notebook derives the two conditions it
+    diagonal tensor $\mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_0)$ whose
+    entries depend on $x_4$ and $x_0$, this notebook derives the two conditions it
     becomes.
 
     **Both fields.** The same formulas hold for the anticommuting field
@@ -227,8 +227,8 @@ CELLS = [
 
     The next cell reads the Revision fixture `Revision/algebra/gammas.json`, which
     holds the author's real $16 \times 16$ gamma matrices in the order
-    $x_1, \dots, x_8$, the frame metric $\eta$ and the matrix
-    $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$. It also defines the
+    $x_0, \dots, x_7$, the frame metric $\eta$ and the matrix
+    $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$. It also defines the
     helper `recorded(path, name)`, which opens a Revision report and returns the
     verdict of one of its checks; every check of this notebook that reproduces a
     Revision check asks the report for that verdict too.
@@ -238,12 +238,12 @@ CELLS = [
 
     fixture = json.loads(
         repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
-    # gamma[a] is the frame matrix gamma^(x_(a+1)): gamma[0] = x1, ..., gamma[7] = x8.
+    # gamma[a] is the frame matrix gamma^(xa): gamma[0] = x0, ..., gamma[7] = x7.
     gamma = [np.array(rows, dtype=float) for rows in fixture["gamma"]]
-    eta = np.array(fixture["eta"], dtype=float)  # (+1, +1, +1, -1, -1, -1, -1, +1)
-    C = np.array(fixture["C"], dtype=float)  # gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3)
+    eta = np.array(fixture["eta"], dtype=float)  # (+1, +1, +1, +1, -1, -1, -1, -1)
+    C = np.array(fixture["C"], dtype=float)  # gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3)
     I16 = np.eye(16)  # the 16 x 16 unit matrix
-    NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]  # the author's coordinates
+    NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # the author's coordinates
 
 
     def recorded(path, name):
@@ -281,7 +281,7 @@ CELLS = [
     the deflating member $a_4 = AHx_4$ with $A = 1$, so $a_4' = AH = 0.25$; the point
     is $x_4 = 2$ (hence $a_4 = 0.5$) and $z = \pi/4$. The function `frame_factors`
     returns the eight factors $f_a$; the cell checks that $\eta_{aa}f_a^2$ is the
-    author's metric and that $f_1 f_2 \cdots f_8 = \cos z$.
+    author's metric and that $f_0 f_1 \cdots f_7 = \cos z$.
 
     In the energy-momentum tensor every derivative along $x_\mu$ carries the weight
     $1/f_\mu$: $e^{-a_4}\sin^{-1/6}z$ along 3-space, $1$ along the time,
@@ -296,23 +296,22 @@ CELLS = [
     X4 = 2.0  # the time x4 of the point
     a4 = A * H * X4  # a4 at the point: 0.5
     a4p = A * H  # its derivative da4/dx4 (written a4p, "a4 prime"): 0.25
-    z = np.pi / 4  # z = 6 H x8 at the point
+    z = np.pi / 4  # z = 6 H x0 at the point
 
 
     def frame_factors(a4_value, z_value):
-        """The eight factors f_a of the diagonal vielbein, in the order x1, ..., x8."""
+        """The eight factors f_a of the diagonal vielbein, in the order x0, ..., x7."""
         space = np.exp(a4_value) * np.sin(z_value) ** (1 / 6)  # e^a4 sin^(1/6) z
         extra = np.exp(-a4_value) * np.sin(z_value) ** (1 / 6)  # e^(-a4) sin^(1/6) z
-        return np.array([space] * 3 + [1.0] + [extra] * 3 + [1 / np.tan(z_value)])
+        return np.array([1 / np.tan(z_value)] + [space] * 3 + [1.0] + [extra] * 3)
 
 
     f = frame_factors(a4, z)
     g_diag = eta * f ** 2  # the diagonal entries g_mumu = eta_mumu f_mu^2
     # The author's metric written out: e^(2 a4) sin^(1/3) z, -1, -e^(-2 a4) sin^(1/3) z,
     # cot^2 z.
-    authors = np.array([np.exp(2 * a4) * np.sin(z) ** (1 / 3)] * 3 + [-1.0]
-                       + [-np.exp(-2 * a4) * np.sin(z) ** (1 / 3)] * 3
-                       + [1 / np.tan(z) ** 2])
+    authors = np.array([1 / np.tan(z) ** 2] + [np.exp(2 * a4) * np.sin(z) ** (1 / 3)] * 3
+                       + [-1.0] + [-np.exp(-2 * a4) * np.sin(z) ** (1 / 3)] * 3)
     THEORY_PY = "Revision/theory/reports/python-field-theory.json"
     check(np.allclose(g_diag, authors, rtol=1e-14, atol=0)
           and recorded(THEORY_PY, "metric_from_vielbein_equals_SPEC") == "PASS",
@@ -320,7 +319,7 @@ CELLS = [
           record=f"{THEORY_PY}, check metric_from_vielbein_equals_SPEC")
     check(abs(np.prod(f) - np.cos(z)) < 1e-14
           and recorded(THEORY_PY, "sqrt_det_g_equals_cos_z") == "PASS",
-          "the volume factor f1 f2 ... f8 equals cos z",
+          "the volume factor f0 f1 ... f7 equals cos z",
           record=f"{THEORY_PY}, check sqrt_det_g_equals_cos_z")
     for name, value in zip(NAMES, f):
         report(f"f_{name}", f"{value:.6f}")
@@ -342,10 +341,10 @@ CELLS = [
     weights_a4 = np.array([1 / frame_factors(value, z) for value in a4_axis])
     weights_z = np.array([1 / frame_factors(a4, value) for value in z_axis])
     for panel, axis, weights in ((left, a4_axis, weights_a4), (right, z_axis, weights_z)):
-        panel.plot(axis, weights[:, 0], label="3-space $x_1, x_2, x_3$")
-        panel.plot(axis, weights[:, 3], "--", label="time $x_4$")
-        panel.plot(axis, weights[:, 4], label="extra times $x_5, x_6, x_7$")
-        panel.plot(axis, weights[:, 7], ":", label="hidden direction $x_8$")
+        panel.plot(axis, weights[:, 1], label="3-space $x_1, x_2, x_3$")
+        panel.plot(axis, weights[:, 4], "--", label="time $x_4$")
+        panel.plot(axis, weights[:, 5], label="extra times $x_5, x_6, x_7$")
+        panel.plot(axis, weights[:, 0], ":", label="hidden direction $x_0$")
         panel.set_yscale("log")  # equal factors are equal distances on this axis
         panel.yaxis.set_minor_formatter(NullFormatter())  # no labels on minor ticks
         panel.set_ylabel("weight $1/f_\\mu$")
@@ -353,7 +352,7 @@ CELLS = [
     left.set_yticks(ticks[2:7], [str(t) for t in ticks[2:7]])
     right.set_yticks(ticks, [str(t) for t in ticks])
     left.set_xlabel("$a_4$ (at $z = \\pi/4$)")
-    right.set_xlabel("$z = 6 H x_8$ (at $a_4 = 0.5$)")
+    right.set_xlabel("$z = 6 H x_0$ (at $a_4 = 0.5$)")
     left.set_title("Weights against $a_4$")
     right.set_title("Weights against $z$")
     left.legend(fontsize=8)
@@ -375,28 +374,28 @@ CELLS = [
     The record gives the spin connection of the diagonal vielbein in closed form
     (`Revision/theory/field-theory.json`, formula `Omega_components`):
     $\Omega_{x_i} = \frac12 e^{a_4}\sin^{1/6}z (a_4'\gamma^{(i)}\gamma^{(4)}
-    + H\gamma^{(i)}\gamma^{(8)})$ for $i = 1, 2, 3$,
+    + H\gamma^{(i)}\gamma^{(0)})$ for $i = 1, 2, 3$,
     $\Omega_{x_t} = -\frac12 e^{-a_4}\sin^{1/6}z (a_4'\gamma^{(4)}\gamma^{(t)}
-    + H\gamma^{(t)}\gamma^{(8)})$ for $t = 5, 6, 7$, and
-    $\Omega_{x_4} = \Omega_{x_8} = 0$. The next cell builds these eight matrices and
+    + H\gamma^{(t)}\gamma^{(0)})$ for $t = 5, 6, 7$, and
+    $\Omega_{x_4} = \Omega_{x_0} = 0$. The next cell builds these eight matrices and
     the coordinate gammas $\gamma^\mu = \gamma^{(\mu)}/f_\mu$, and confirms two exact
     facts of the record at this point: for each direction separately
     $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu = 0$ (no sum), which is why no spin
     connection survives in the diagonal entries of the tensor; and summed over the
-    directions $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$, the term of the field
+    directions $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$, the term of the field
     equation.
     """),
     code(r'''
     def spin_connection(a4_value, a4p_value, z_value):
         """The eight 16 x 16 matrices Omega_mu of the record's formula Omega_components."""
         s = np.sin(z_value) ** (1 / 6)  # sin^(1/6) z
-        omega = [np.zeros((16, 16)) for _ in range(8)]  # Omega_x4 = Omega_x8 = 0
-        for i in range(3):  # the three 3-space directions x1, x2, x3
+        omega = [np.zeros((16, 16)) for _ in range(8)]  # Omega_x4 = Omega_x0 = 0
+        for i in range(1, 4):  # the three 3-space directions x1, x2, x3
             omega[i] = 0.5 * np.exp(a4_value) * s * (
-                a4p_value * gamma[i] @ gamma[3] + H * gamma[i] @ gamma[7])
-        for t in range(4, 7):  # the three extra times x5, x6, x7
+                a4p_value * gamma[i] @ gamma[4] + H * gamma[i] @ gamma[0])
+        for t in range(5, 8):  # the three extra times x5, x6, x7
             omega[t] = -0.5 * np.exp(-a4_value) * s * (
-                a4p_value * gamma[3] @ gamma[t] + H * gamma[t] @ gamma[7])
+                a4p_value * gamma[4] @ gamma[t] + H * gamma[t] @ gamma[0])
         return omega
 
 
@@ -413,12 +412,12 @@ CELLS = [
           record=f"{A4_REPORT}, check gamma_mu_anticommutes_with_Omega_mu_no_sum")
     total = sum(gamma_up[mu] @ Omega[mu] for mu in range(8))  # gamma^mu Omega_mu, summed
     LEAD = "Revision/lead_checks/reports/emt-divergence-and-spin-connection.json"
-    check(np.abs(total - 3 * H * gamma[7]).max() < 1e-14
-          and recorded(THEORY_PY, "gamma_mu_Omega_mu_equals_3H_gamma_x8") == "PASS"
-          and recorded(LEAD, "gamma_Omega_equals_3H_gamma8") == "PASS",
-          "gamma^mu Omega_mu = 3 H gamma^(x8) at the point",
-          record=f"{THEORY_PY}, check gamma_mu_Omega_mu_equals_3H_gamma_x8; {LEAD}, "
-                 "check gamma_Omega_equals_3H_gamma8")
+    check(np.abs(total - 3 * H * gamma[0]).max() < 1e-14
+          and recorded(THEORY_PY, "gamma_mu_Omega_mu_equals_3H_gamma_x0") == "PASS"
+          and recorded(LEAD, "gamma_Omega_equals_3H_gamma0") == "PASS",
+          "gamma^mu Omega_mu = 3 H gamma^(x0) at the point",
+          record=f"{THEORY_PY}, check gamma_mu_Omega_mu_equals_3H_gamma_x0; {LEAD}, "
+                 "check gamma_Omega_equals_3H_gamma0")
     '''),
     md(r"""
     ## 8. A field configuration at the point and its energy-momentum tensor
@@ -472,6 +471,9 @@ CELLS = [
     rng = np.random.default_rng(12345)  # a fixed seed: the same numbers in every run
     Phi = rng.normal(size=16) + 1j * rng.normal(size=16)  # the 16 values of Phi
     dPhi = rng.normal(size=(8, 16)) + 1j * rng.normal(size=(8, 16))  # d_mu Phi
+    # np.roll moves the last row to the front: the eight rows are the derivatives along
+    # x0, x1, ..., x7, and the numbers are those of the earlier edition of this notebook.
+    dPhi = np.roll(dPhi, 1, axis=0)
     S, U, L0, K, T = energy_momentum(Phi, dPhi, f, gamma_up, gamma_down, Omega)
     largest_imaginary = max(np.abs(T.imag).max(), np.abs(K.imag).max(), abs(L0.imag))
     check(largest_imaginary < 1e-12, "every entry of T, every K_mu and L0 are real")
@@ -513,7 +515,7 @@ CELLS = [
                 "configuration of dirac16complex00 at the point $a_4 = 0.5$, "
                 "$a_4' = 0.25$, $z = \\pi/4$ of the deflating history, with $H = 0.25$, "
                 "$m = 1$, $\\lambda = 0.5$; row $\\nu$ and column $\\mu$ run over "
-                "$x_1, \\dots, x_8$; colour and printed number give the value, in units "
+                "$x_0, \\dots, x_7$; colour and printed number give the value, in units "
                 "of energy per unit volume. The diagonal holds $-\\rho$ at $x_4$ and "
                 "the seven pressures; the off-diagonal squares are flows of energy and "
                 "momentum. The table is not symmetric as printed, because the upper "
@@ -547,15 +549,15 @@ CELLS = [
     potential = m * S + U  # the potential energy density m S + U(S)
     # kinetic part of T^mu_mu: the sum of the K_nu with nu different from mu
     kinetic_parts = np.array([K.sum() - K[mu] for mu in range(8)])
-    rho = -T[3, 3]  # the energy density
-    rho_kin = -(K.sum() - K[3])  # minus the sum of the K_mu with mu different from x4
+    rho = -T[4, 4]  # the energy density
+    rho_kin = -(K.sum() - K[4])  # minus the sum of the K_mu with mu different from x4
     check(abs(rho - (rho_kin + potential)) < 1e-12
           and np.abs(np.diag(T) - (kinetic_parts - potential)).max() < 1e-12,
           "rho = rho_kin + rho_pot and p_mu = (sum of the other K) - (m S + U)")
     report("rho = -T^x4_x4", f"{rho:.6f}")
     report("rho_kin", f"{rho_kin:.6f}")
     report("rho_pot = m S + U", f"{potential:.6f}")
-    for mu in (0, 1, 2, 4, 5, 6, 7):
+    for mu in (0, 1, 2, 3, 5, 6, 7):
         report(f"pressure T^{NAMES[mu]}_{NAMES[mu]}", f"{T[mu, mu]:.6f}")
     '''),
     md(r"""
@@ -583,7 +585,7 @@ CELLS = [
                 "(middle bar), in units of energy per unit volume. The potential part "
                 "is the same in every direction; the entry at $x_4$ is $-\\rho$, and "
                 "the others are the pressures $p_3$ (three of them), $p_t$ (three) "
-                "and $p_8$.")
+                "and $p_0$.")
     '''),
     md(r"""
     ## 10. The trace, the kinetic sum, and the configuration put on shell
@@ -599,7 +601,7 @@ CELLS = [
     Then it puts the configuration on shell at the point: the field equation can be
     solved for the time derivative (its evolution form),
     $\partial_4\Phi = -\gamma^{(4)}\big[V\Phi - \sum_{a \neq 4}\frac{1}{f_a}\gamma^{(a)}
-    \partial_a\Phi - 3H\gamma^{(8)}\Phi\big]$; the cell replaces the random
+    \partial_a\Phi - 3H\gamma^{(0)}\Phi\big]$; the cell replaces the random
     $\partial_4\Phi$ by this one, checks that $E = 0$, and checks the on-shell values
     $\sum_\mu K_\mu = VS$, $L_0 = SU' - U$ and
     $T^\mu{}_\mu = -mS + 7SU' - 8U = -mS + 3\lambda S^2$.
@@ -621,9 +623,9 @@ CELLS = [
     report("|E| of the random configuration (it is off shell)",
            f"{np.linalg.norm(E):.6f}")
     # The evolution form of the field equation gives d4 Phi from the other derivatives.
-    rest = sum(gamma[a] @ dPhi[a] / f[a] for a in range(8) if a != 3)
+    rest = sum(gamma[a] @ dPhi[a] / f[a] for a in range(8) if a != 4)
     dPhi_on = dPhi.copy()
-    dPhi_on[3] = -gamma[3] @ (V * Phi - rest - 3 * H * gamma[7] @ Phi)
+    dPhi_on[4] = -gamma[4] @ (V * Phi - rest - 3 * H * gamma[0] @ Phi)
     E_on = sum(gamma_up[mu] @ (dPhi_on[mu] + Omega[mu] @ Phi) for mu in range(8)) - V * Phi
     S_on, U_on, L0_on, K_on, T_on = energy_momentum(Phi, dPhi_on, f, gamma_up, gamma_down,
                                                     Omega)
@@ -647,17 +649,17 @@ CELLS = [
     vanishes and only the connection part
     $\frac12\bar\Phi\{\gamma^{x_4}, \Omega_{x_1}\}\Phi$ is left; the record states
     that it equals $\frac12 e^{a_4}\sin^{1/6}z H \bar\Phi\gamma^{(4)}\gamma^{(1)}
-    \gamma^{(8)}\Phi$ (the $a_4'$ part cancels). The next cell checks this at the
+    \gamma^{(0)}\Phi$ (the $a_4'$ part cancels). The next cell checks this at the
     point.
     """),
     code(r'''
     dPhi_hom = np.zeros((8, 16), dtype=complex)  # homogeneous: only d4 Phi is nonzero
-    dPhi_hom[3] = rng.normal(size=16) + 1j * rng.normal(size=16)
-    D_x1 = dPhi_hom[0] + Omega[0] @ Phi  # D_x1 Phi = Omega_x1 Phi here
-    Dbar_x1 = bar(dPhi_hom[0]) - bar(Phi) @ Omega[0]  # D_x1 Phibar = -Phibar Omega_x1
-    K_41 = 0.5 * (bar(Phi) @ gamma_up[3] @ D_x1 - Dbar_x1 @ gamma_up[3] @ Phi)
+    dPhi_hom[4] = rng.normal(size=16) + 1j * rng.normal(size=16)
+    D_x1 = dPhi_hom[1] + Omega[1] @ Phi  # D_x1 Phi = Omega_x1 Phi here
+    Dbar_x1 = bar(dPhi_hom[1]) - bar(Phi) @ Omega[1]  # D_x1 Phibar = -Phibar Omega_x1
+    K_41 = 0.5 * (bar(Phi) @ gamma_up[4] @ D_x1 - Dbar_x1 @ gamma_up[4] @ Phi)
     expected = 0.5 * np.exp(a4) * np.sin(z) ** (1 / 6) * H * (
-        bar(Phi) @ gamma[3] @ gamma[0] @ gamma[7] @ Phi)
+        bar(Phi) @ gamma[4] @ gamma[1] @ gamma[0] @ Phi)
     SCOPE_PY = "Revision/theory/reports/python-scope.json"
     SCOPE_WL = "Revision/theory/reports/wolfram-scope.json"
     check(abs(K_41 - expected) < 1e-12 and abs(K_41) > 0.01
@@ -683,13 +685,13 @@ CELLS = [
     code(r'''
     import sympy as sp  # exact algebra and calculus with symbols
 
-    x = sp.symbols("x1:9", real=True)  # the coordinates x1, ..., x8 (x[0] ... x[7])
+    x = sp.symbols("x0:8", real=True)  # the coordinates x0, ..., x7 (x[0] ... x[7])
     Hs = sp.symbols("H", positive=True)  # the author's constant, as a symbol
-    a4_function = sp.Function("a4")(x[3])  # a general function a4(x4)
-    zs = 6 * Hs * x[7]  # z = 6 H x8
+    a4_function = sp.Function("a4")(x[4])  # a general function a4(x4)
+    zs = 6 * Hs * x[0]  # z = 6 H x0
     space_entry = sp.exp(2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
     extra_entry = -sp.exp(-2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
-    g = sp.diag(*([space_entry] * 3 + [-1] + [extra_entry] * 3 + [sp.cot(zs) ** 2]))
+    g = sp.diag(*([sp.cot(zs) ** 2] + [space_entry] * 3 + [-1] + [extra_entry] * 3))
     christoffel = {}  # (lambda, mu, nu) -> Gamma^lambda_mu nu, only the nonzero ones
     for l in range(8):
         for i in range(8):
@@ -715,13 +717,13 @@ CELLS = [
 
     def plain(expression):
         """Replace da4/dx4 by the symbol a4p and a4(x4) by the symbol a4."""
-        return expression.subs(sp.Derivative(a4_function, x[3]), a4ps).subs(
+        return expression.subs(sp.Derivative(a4_function, x[4]), a4ps).subs(
             a4_function, a4s)
 
 
     WOLFRAM_TO_SYMPY = [  # (Wolfram text, sympy text), applied in this order
-        ("Derivative[1][a4][x4]", "a4p"), ("Derivative[1, 0][rho][x4, x8]", "rho_4"),
-        ("Derivative[0, 1][p8][x4, x8]", "p8_8"), ("[x4, x8]", ""), ("a4[x4]", "a4"),
+        ("Derivative[1][a4][x4]", "a4p"), ("Derivative[1, 0][rho][x4, x0]", "rho_4"),
+        ("Derivative[0, 1][p0][x4, x0]", "p0_0"), ("[x4, x0]", ""), ("a4[x4]", "a4"),
         ("Sin[", "sin("), ("Cos[", "cos("), ("Cot[", "cot("), ("Sec[", "sec("),
         ("Csc[", "csc("), ("E^", "E**"), ("^", "**"), ("[", "("), ("]", ")"),
         ("{", "["), ("}", "]")]
@@ -736,7 +738,7 @@ CELLS = [
 
     FORMULAS = {item["key"]: item["wl"] for item in json.loads(repository_file(
         "Revision/theory/field-theory.json").read_text(encoding="utf-8"))["formulas"]}
-    NAMES_SYMPY = {"a4": a4s, "a4p": a4ps, "H": Hs, "x8": x[7], "E": sp.E}
+    NAMES_SYMPY = {"a4": a4s, "a4p": a4ps, "H": Hs, "x0": x[0], "E": sp.E}
     record_list = sp.sympify(from_wolfram(FORMULAS["christoffel_nonzero"]),
                              locals=NAMES_SYMPY)
     # The record counts the coordinates 1 ... 8; Python counts 0 ... 7.
@@ -759,15 +761,15 @@ CELLS = [
     $\nabla_\mu T^\mu{}_\nu = \partial_\mu T^\mu{}_\nu + \Gamma^\mu{}_{\mu\lambda}
     T^\lambda{}_\nu - \Gamma^\lambda{}_{\mu\nu}T^\mu{}_\lambda$ (sums over $\mu$ and
     $\lambda$). The next cell takes the diagonal tensor
-    $\mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ whose four entries are
-    arbitrary functions of $x_4$ and $x_8$ and computes the eight components with the
+    $\mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_0)$ whose four entries are
+    arbitrary functions of $x_4$ and $x_0$ and computes the eight components with the
     Christoffel symbols of the previous section. It prints which components are not
     identically zero.
     """),
     code(r'''
-    rho_f, p3_f, pt_f, p8_f = [sp.Function(n)(x[3], x[7]) for n in ("rho", "p3", "pt",
-                                                                     "p8")]
-    T_diag = sp.diag(p3_f, p3_f, p3_f, -rho_f, pt_f, pt_f, pt_f, p8_f)  # T^mu_nu
+    rho_f, p3_f, pt_f, p0_f = [sp.Function(n)(x[4], x[0]) for n in ("rho", "p3", "pt",
+                                                                     "p0")]
+    T_diag = sp.diag(p0_f, p3_f, p3_f, p3_f, -rho_f, pt_f, pt_f, pt_f)  # T^mu_nu
 
 
     def gamma_symbol(l, i, j):
@@ -790,60 +792,60 @@ CELLS = [
     md(r"""
     The record (formula `energy_exchange`, and the lead's independent check) says:
     $\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t)$,
-    $\nabla_\mu T^\mu{}_{x_8} = \partial_8 p_8 + 3H\cot z (2p_8 - p_3 - p_t)$, and
+    $\nabla_\mu T^\mu{}_{x_0} = \partial_0 p_0 + 3H\cot z (2p_0 - p_3 - p_t)$, and
     the other six components vanish identically. The next cell writes our eight
-    components with the record's plain names (`rho_4` for $\partial_4\rho$, `p8_8`
-    for $\partial_8 p_8$), translates the record's formula, and checks all eight
+    components with the record's plain names (`rho_4` for $\partial_4\rho$, `p0_0`
+    for $\partial_0 p_0$), translates the record's formula, and checks all eight
     components against it and against these two lines.
     """),
     code(r'''
-    rho_4, p8_8, p3s, pts, p8s = sp.symbols("rho_4 p8_8 p3 pt p8", real=True)
+    rho_4, p0_0, p3s, pts, p0s = sp.symbols("rho_4 p0_0 p3 pt p0", real=True)
 
 
     def plain_t(expression):
         """Write the derivatives and functions as the plain symbols of the record."""
-        expression = expression.subs({sp.Derivative(rho_f, x[3]): rho_4,
-                                      sp.Derivative(p8_f, x[7]): p8_8})
-        expression = expression.subs({p3_f: p3s, pt_f: pts, p8_f: p8s,
+        expression = expression.subs({sp.Derivative(rho_f, x[4]): rho_4,
+                                      sp.Derivative(p0_f, x[0]): p0_0})
+        expression = expression.subs({p3_f: p3s, pt_f: pts, p0_f: p0s,
                                       rho_f: sp.Symbol("rho", real=True)})
         return plain(expression)
 
 
-    NAMES_T = dict(NAMES_SYMPY, rho_4=rho_4, p8_8=p8_8, p3=p3s, pt=pts, p8=p8s)
+    NAMES_T = dict(NAMES_SYMPY, rho_4=rho_4, p0_0=p0_0, p3=p3s, pt=pts, p0=p0s)
     record_divergence = sp.sympify(from_wolfram(FORMULAS["energy_exchange"][0]),
                                    locals=NAMES_T)
     agree = all(sp.simplify(plain_t(divergence[n]) - record_divergence[n]) == 0
                 for n in range(8))
     x4_line = -rho_4 - 3 * a4ps * (p3s - pts)
-    x8_line = p8_8 + 3 * Hs * sp.cot(zs) * (2 * p8s - p3s - pts)
+    x0_line = p0_0 + 3 * Hs * sp.cot(zs) * (2 * p0s - p3s - pts)
     check(agree and recorded(THEORY_WL, "energy_exchange_equation") == "PASS"
           and recorded(THEORY_PY, "energy_exchange_equation") == "PASS",
           "the eight components agree with the record formula energy_exchange",
           record=f"{THEORY_WL} and {THEORY_PY}, check energy_exchange_equation")
-    check(sp.simplify(plain_t(divergence[3]) - x4_line) == 0
+    check(sp.simplify(plain_t(divergence[4]) - x4_line) == 0
           and recorded(LEAD, "divergence_x4_component") == "PASS",
           "nabla_mu T^mu_x4 = -d4 rho - 3 a4p (p3 - p_t)",
           record=f"{LEAD}, check divergence_x4_component")
-    check(sp.simplify(plain_t(divergence[7]) - x8_line) == 0
-          and recorded(LEAD, "divergence_x8_component") == "PASS",
-          "nabla_mu T^mu_x8 = d8 p8 + 3 H cot z (2 p8 - p3 - p_t)",
-          record=f"{LEAD}, check divergence_x8_component")
-    check(all(divergence[n] == 0 for n in (0, 1, 2, 4, 5, 6))
+    check(sp.simplify(plain_t(divergence[0]) - x0_line) == 0
+          and recorded(LEAD, "divergence_x0_component") == "PASS",
+          "nabla_mu T^mu_x0 = d0 p0 + 3 H cot z (2 p0 - p3 - p_t)",
+          record=f"{LEAD}, check divergence_x0_component")
+    check(all(divergence[n] == 0 for n in (1, 2, 3, 5, 6, 7))
           and recorded(LEAD, "divergence_other_components_zero") == "PASS",
           "the components x1, x2, x3, x5, x6, x7 vanish identically",
           record=f"{LEAD}, check divergence_other_components_zero")
     print("nabla_mu T^mu_x4 =", x4_line)  # rho_4 = d rho/d x4
-    print("nabla_mu T^mu_x8 =", x8_line)  # p8_8 = d p8/d x8
+    print("nabla_mu T^mu_x0 =", x0_line)  # p0_0 = d p0/d x0
     '''),
     md(r"""
     ## 14. The x4 identity read as a first law
 
     Conservation, $\nabla_\mu T^\mu{}_{x_4} = 0$, says
-    $\partial_4\rho = -3a_4'(p_3 - p_t)$. Here is why. At fixed $x_8$ take a small
+    $\partial_4\rho = -3a_4'(p_3 - p_t)$. Here is why. At fixed $x_0$ take a small
     box of coordinate size 1 in each of the seven directions other than $x_4$. Its
     3-space volume is $V_3 = f_1 f_2 f_3 = e^{3a_4}\sin^{1/2}z$, its extra-time
     volume $V_t = f_5 f_6 f_7 = e^{-3a_4}\sin^{1/2}z$, and its 7-volume
-    $V_7 = V_3 V_t f_8 = \cos z$ does not change with $x_4$. The first law of
+    $V_7 = V_3 V_t f_0 = \cos z$ does not change with $x_4$. The first law of
     thermodynamics (energy changes by minus pressure times change of volume), applied
     to each family of directions, would say that the energy $\rho V_7$ in the box
     changes as
@@ -861,12 +863,12 @@ CELLS = [
     f_extra = sp.exp(-a4_function) * sp.sin(zs) ** sp.Rational(1, 6)  # f5 = f6 = f7
     V3 = f_space ** 3  # e^(3 a4) sin^(1/2) z
     Vt = f_extra ** 3  # e^(-3 a4) sin^(1/2) z
-    V7 = V3 * Vt * sp.cot(zs)  # times f8 = cot z (and f4 = 1)
-    check(sp.simplify(V7 - sp.cos(zs)) == 0, "V3 Vt f8 = cos z, independent of x4")
-    first_law = (sp.diff(rho_f * V7, x[3]) + p3_f * V7 / V3 * sp.diff(V3, x[3])
-                 + pt_f * V7 / Vt * sp.diff(Vt, x[3]))
+    V7 = V3 * Vt * sp.cot(zs)  # times f0 = cot z (and f4 = 1)
+    check(sp.simplify(V7 - sp.cos(zs)) == 0, "V3 Vt f0 = cos z, independent of x4")
+    first_law = (sp.diff(rho_f * V7, x[4]) + p3_f * V7 / V3 * sp.diff(V3, x[4])
+                 + pt_f * V7 / Vt * sp.diff(Vt, x[4]))
     # The first law says first_law = 0; it must be -V7 times the x4 divergence.
-    check(sp.simplify(first_law + V7 * divergence[3]) == 0,
+    check(sp.simplify(first_law + V7 * divergence[4]) == 0,
           "d(rho V7)/dx4 + p3 (V7/V3) dV3/dx4 + p_t (V7/Vt) dVt/dx4 = -V7 nabla_mu T^mu_x4")
     '''),
     md(r"""
@@ -891,7 +893,7 @@ CELLS = [
     save_figure(fig, "volumes_first_law",
                 "The 3-space volume $V_3 = e^{3a_4}\\sin^{1/2}z$ (solid), the "
                 "extra-time volume $V_t = e^{-3a_4}\\sin^{1/2}z$ (dashed) and the "
-                "7-volume $V_7 = \\cos z$ (dotted) of a coordinate box at fixed $x_8$, "
+                "7-volume $V_7 = \\cos z$ (dotted) of a coordinate box at fixed $x_0$, "
                 "along the deflating history $a_4 = AHx_4$ with $A = 1$, $H = 0.25$, "
                 "for $x_4$ from $0$ to $8$, each divided by its value at $x_4 = 0$; "
                 "logarithmic vertical axis. The growth of $V_3$ and the shrinking of "
@@ -902,75 +904,75 @@ CELLS = [
                 "when $p_3 = p_t$.")
     '''),
     md(r"""
-    ## 15. The x8 identity: the balance along the hidden direction
+    ## 15. The x0 identity: the balance along the hidden direction
 
-    Conservation along $x_8$ says
-    $\partial_8 p_8 = -3H\cot z (2p_8 - p_3 - p_t)$, a balance of pressures like
+    Conservation along $x_0$ says
+    $\partial_0 p_0 = -3H\cot z (2p_0 - p_3 - p_t)$, a balance of pressures like
     the balance of pressure and weight in a column of air. If the entries do not
-    depend on $x_8$, it forces $p_8 = (p_3 + p_t)/2$. If $p_3 + p_t = P$ is a
-    constant, every solution is $p_8 = P/2 + c/\sin z$ with a constant $c$; only
-    $c = 0$ is independent of $x_8$. The next cell checks this with sympy, then the
+    depend on $x_0$, it forces $p_0 = (p_3 + p_t)/2$. If $p_3 + p_t = P$ is a
+    constant, every solution is $p_0 = P/2 + c/\sin z$ with a constant $c$; only
+    $c = 0$ is independent of $x_0$. The next cell checks this with sympy, then the
     same identity in the hidden coordinate $y = \ln(\sin z)/(6H)$ used by the
-    Kohn-Sham solver of the book: $dy/dx_8 = \cot z$, and the $x_8$ component is
-    $\cot z [p_8'(y) + 6Hp_8 - 3H(p_3 + p_t)]$ (the lead's checks).
+    Kohn-Sham solver of the book: $dy/dx_0 = \cot z$, and the $x_0$ component is
+    $\cot z [p_0'(y) + 6Hp_0 - 3H(p_3 + p_t)]$ (the lead's checks).
     """),
     code(r'''
     P, c = sp.symbols("P c", real=True)  # P = p3 + p_t (a constant) and the constant c
-    profile = P / 2 + c / sp.sin(zs)  # p8 as a function of x8 (through z)
-    balance = sp.diff(profile, x[7]) + 3 * Hs * sp.cot(zs) * (2 * profile - P)
+    profile = P / 2 + c / sp.sin(zs)  # p0 as a function of x0 (through z)
+    balance = sp.diff(profile, x[0]) + 3 * Hs * sp.cot(zs) * (2 * profile - P)
     check(sp.simplify(balance) == 0,
-          "p8 = P/2 + c/sin z solves the x8 identity for every c")
+          "p0 = P/2 + c/sin z solves the x0 identity for every c")
     y = sp.symbols("y", real=True)
-    dy_dx8 = sp.diff(sp.log(sp.sin(zs)) / (6 * Hs), x[7])  # y = ln(sin z)/(6 H)
-    check(sp.simplify(dy_dx8 - sp.cot(zs)) == 0
+    dy_dx0 = sp.diff(sp.log(sp.sin(zs)) / (6 * Hs), x[0])  # y = ln(sin z)/(6 H)
+    check(sp.simplify(dy_dx0 - sp.cot(zs)) == 0
           and recorded(LEAD, "ks_coordinate_jacobian") == "PASS",
-          "y = ln(sin z)/(6 H) has dy/dx8 = cot z",
+          "y = ln(sin z)/(6 H) has dy/dx0 = cot z",
           record=f"{LEAD}, check ks_coordinate_jacobian")
     z_of_y = sp.asin(sp.exp(6 * Hs * y))  # sin z = e^(6 H y), z between 0 and pi/2
-    P8, P3, PT = [sp.Function(n)(y) for n in ("P8", "P3", "PT")]
-    in_x8 = sp.cot(z_of_y) * sp.diff(P8, y) + 3 * Hs * sp.cot(z_of_y) * (2 * P8 - P3 - PT)
-    in_y = sp.cot(z_of_y) * (sp.diff(P8, y) + 6 * Hs * P8 - 3 * Hs * (P3 + PT))
-    check(sp.simplify(in_x8 - in_y) == 0
+    P0, P3, PT = [sp.Function(n)(y) for n in ("P0", "P3", "PT")]
+    in_x0 = sp.cot(z_of_y) * sp.diff(P0, y) + 3 * Hs * sp.cot(z_of_y) * (2 * P0 - P3 - PT)
+    in_y = sp.cot(z_of_y) * (sp.diff(P0, y) + 6 * Hs * P0 - 3 * Hs * (P3 + PT))
+    check(sp.simplify(in_x0 - in_y) == 0
           and recorded(LEAD, "ks_coordinate_form") == "PASS",
-          "x8 component = cot z [p8'(y) + 6 H p8 - 3 H (p3 + p_t)]",
+          "x0 component = cot z [p0'(y) + 6 H p0 - 3 H (p3 + p_t)]",
           record=f"{LEAD}, check ks_coordinate_form")
     '''),
     md(r"""
-    The next cell draws the profiles $p_8 = P/2 + c/\sin z$ for $P = 1$ and five
+    The next cell draws the profiles $p_0 = P/2 + c/\sin z$ for $P = 1$ and five
     values of $c$, and checks numerically on the drawn grid (with numpy's
     `np.gradient`, a finite-difference derivative) that each profile satisfies the
     balance: the left side minus the right side is small compared with the terms.
     """),
     code(r'''
     z_grid = np.linspace(0.1, np.pi / 2 - 0.01, 2001)  # z from 0.1 to just below pi/2
-    x8_grid = z_grid / (6 * H)  # the matching x8 = z/(6 H)
+    x0_grid = z_grid / (6 * H)  # the matching x0 = z/(6 H)
     fig, ax = plt.subplots()
     worst = 0.0  # the largest relative residual of the balance on the grid
     for c_value in (-0.2, -0.1, 0.0, 0.1, 0.2):
-        p8_values = 0.5 + c_value / np.sin(z_grid)  # P = 1
-        slope = np.gradient(p8_values, x8_grid)  # d p8/d x8, by finite differences
-        rhs = -3 * H / np.tan(z_grid) * (2 * p8_values - 1.0)
+        p0_values = 0.5 + c_value / np.sin(z_grid)  # P = 1
+        slope = np.gradient(p0_values, x0_grid)  # d p0/d x0, by finite differences
+        rhs = -3 * H / np.tan(z_grid) * (2 * p0_values - 1.0)
         # The size of the terms; 1 (the size of P) is added, so that for the flat
         # profile c = 0, whose terms are zero, rounding noise is not divided by zero.
         scale = 1.0 + np.abs(slope).max() + np.abs(rhs).max()
         # [5:-5] leaves out five points at each end, where np.gradient is less exact.
         worst = max(worst, np.abs(slope - rhs)[5:-5].max() / scale)
         style = "-" if c_value == 0.0 else "--"
-        ax.plot(z_grid, p8_values, style, label=f"$c = {c_value:g}$")  # g: short form
-    check(worst < 1e-4, "the drawn profiles satisfy the x8 balance on the grid")
+        ax.plot(z_grid, p0_values, style, label=f"$c = {c_value:g}$")  # g: short form
+    check(worst < 1e-4, "the drawn profiles satisfy the x0 balance on the grid")
     ax.set_ylim(-2.0, 3.0)
-    ax.set_xlabel("$z = 6 H x_8$")
-    ax.set_ylabel("$p_8$ (with $p_3 + p_t = 1$)")
-    ax.set_title("Pressure profiles allowed by the balance along $x_8$")
+    ax.set_xlabel("$z = 6 H x_0$")
+    ax.set_ylabel("$p_0$ (with $p_3 + p_t = 1$)")
+    ax.set_title("Pressure profiles allowed by the balance along $x_0$")
     ax.legend()
     save_figure(fig, "hidden_balance",
-                "The hidden-direction pressure profiles $p_8 = P/2 + c/\\sin z$ that "
-                "satisfy the conservation identity along $x_8$, "
-                "$\\partial_8 p_8 = -3H\\cot z\\,(2p_8 - p_3 - p_t)$, when "
+                "The hidden-direction pressure profiles $p_0 = P/2 + c/\\sin z$ that "
+                "satisfy the conservation identity along $x_0$, "
+                "$\\partial_0 p_0 = -3H\\cot z\\,(2p_0 - p_3 - p_t)$, when "
                 "$p_3 + p_t = P = 1$ is constant, for $c = -0.2, -0.1, 0, 0.1, 0.2$; "
-                "horizontal axis $z = 6Hx_8$ from $0.1$ to just below $\\pi/2$, "
-                "vertical axis $p_8$ in units of energy per unit volume. Only $c = 0$ "
-                "(solid line) is independent of $x_8$, and it has $p_8 = P/2 = "
+                "horizontal axis $z = 6Hx_0$ from $0.1$ to just below $\\pi/2$, "
+                "vertical axis $p_0$ in units of energy per unit volume. Only $c = 0$ "
+                "(solid line) is independent of $x_0$, and it has $p_0 = P/2 = "
                 "(p_3 + p_t)/2$; every other profile grows in size like $1/\\sin z$ "
                 "towards the tip $z = 0$ (upwards for $c > 0$, downwards for $c < 0$).")
     report("largest relative residual of the balance on the grid", f"{worst:.1e}")
@@ -1005,13 +1007,13 @@ CELLS = [
       $-mS + 3\lambda S^2$.
     - The spin connection drops out of the diagonal entries, because
       $\{\gamma^\mu, \Omega_\mu\} = 0$ for each direction, but it enters off-diagonal
-      entries such as $T^{x_4}{}_{x_1}$; summed, $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$.
+      entries such as $T^{x_4}{}_{x_1}$; summed, $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$.
     - The author's metric has 25 nonzero Christoffel symbols, the record's list
       exactly, and conservation of a diagonal tensor is exactly two conditions:
       $\partial_4\rho = -3a_4'(p_3 - p_t)$ (energy exchange between 3-space and the
       extra times, a first law for the constant 7-volume) and
-      $\partial_8 p_8 = -3H\cot z (2p_8 - p_3 - p_t)$ (a balance along the hidden
-      direction, which forces $p_8 = (p_3 + p_t)/2$ for $x_8$-independent entries).
+      $\partial_0 p_0 = -3H\cot z (2p_0 - p_3 - p_t)$ (a balance along the hidden
+      direction, which forces $p_0 = (p_3 + p_t)/2$ for $x_0$-independent entries).
     - Status: the identities are PROVED in the record (exact, Wolfram and sympy);
       this notebook re-derives the two conservation identities exactly and confirms
       the tensor identities numerically at one point. The parameter values are
