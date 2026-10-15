@@ -409,7 +409,7 @@ CELLS = [
     ## 9. The condensate
 
     A homogeneous condensate is an exact solution of both fields, with
-    $\rho = mS + \lambda S^2/2$ and $p_3 = p_t = p_8 = \lambda S^2/2$, all constant.
+    $\rho = mS + \lambda S^2/2$ and $p_3 = p_t = p_0 = \lambda S^2/2$, all constant.
     So $X = 0$: $w_{\rm eff} = 0$ under A and B (dust-like), $-1$ under C. Its ratio is
     $p/\rho = u/(2 + u)$ with $u = \lambda S/m$. The next cell computes, with exact
     fractions, the value $u = -382/441$ that the record CHOSE so that the ratio equals

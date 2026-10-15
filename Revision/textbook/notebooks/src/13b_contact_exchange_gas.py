@@ -949,7 +949,7 @@ CELLS = [
       computed is a PRESCRIBED BACKGROUND (the parameter file says so);
     - the report on the source conditions of the $a_4$ field equations: the checks
       ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition
-      (the Kohn-Sham states violate the condition $p_3 + p_t = 2p_8$ that the $a_4$
+      (the Kohn-Sham states violate the condition $p_3 + p_t = 2p_0$ that the $a_4$
       equations put on their source) and ks_profiles_depend_on_x0 (their profiles
       depend on the hidden coordinate $x_0$) are PASS;
     - the pairing theorem T3 (the Kohn-Sham universes of mass $+M$ and $-M$ have equal

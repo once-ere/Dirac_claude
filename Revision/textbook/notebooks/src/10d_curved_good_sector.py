@@ -299,7 +299,7 @@ CELLS = [
 
 
     def apply_h(matrix_A, w):
-        """h w = A w + D dw/dx8 for a column w of functions of x0."""
+        """h w = A w + D dw/dx0 for a column w of functions of x0."""
         return matrix_A * w + D * w.diff(x0)
 
 

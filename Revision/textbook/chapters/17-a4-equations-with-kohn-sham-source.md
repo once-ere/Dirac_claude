@@ -129,7 +129,7 @@ $$
 e_{hh} = \sum_{k=1}^{3}\alpha_kE_{(k)}{}^{h}{}_{h}\ (\text{no sum over } h), \qquad \mathcal P = \sum_{k=1}^{3}\alpha_kP_k, \qquad \mathcal Q = \sum_{k=1}^{3}\alpha_kQ_k ,
 $$
 
-so that $e_{11} = \mathcal P + a''\mathcal Q$, $e_{55} = \mathcal P - a''\mathcal Q$ and $e_{88} = \mathcal P$.
+so that $e_{11} = \mathcal P + a''\mathcal Q$, $e_{55} = \mathcal P - a''\mathcal Q$ and $e_{00} = \mathcal P$.
 
 **The equations.** With these abbreviations the 64 field equations reduce to four diagonal equations and two mixed ones:
 
@@ -1714,7 +1714,7 @@ The Kohn-Sham source is conserved along the hidden direction at every point ($y$
 
 Sections 17.4 to 17.16 show that the field equations of the author's metric cannot hold, point by point, with any recorded Kohn-Sham ground state as the source. The Revision record `Revision/field_equations_a4/ks_source/` (script `ks_source_a4.py`, report `reports/ks-source-a4.json` with 23 checks, all PASS) asks the next questions. How far is the source from one that does not depend on $x_0$? Which weaker, averaged equations can it satisfy? And what do those averaged equations say about $a_4(x_4)$, in particular about the exponential deflation of the extra times? This section derives the answers; Notebook 17b, In [21] to In [23], reproduces the numbers it needs.
 
-**The $x_0$ identity once more.** The record proves for every Lovelock order $k$ that $E_{(k)}{}^{x_1}{}_{x_1} + E_{(k)}{}^{x_5}{}_{x_5} - 2E_{(k)}{}^{x_0}{}_{x_0} = 0$ (check `A1_lovelock_identity_x1_plus_x5_equals_2x8`; it is the identity behind C2 in Section 17.5), and that the $y$ law of Section 17.13 gives, for a source that obeys it, $p_3 + p_t - 2p_0 = p_0'(y)/(3H)$ exactly (check `A6_x0_conservation_in_y`; it is Section 17.14). The record then evaluates the $y$ law on all 70 nonzero profiles with fourth-order differences and finds it satisfied to $6.63404 \times 10^{-5}$ of the largest term (check `B2_x0_conservation_on_every_profile`). This refines the wording of the first record `ks-source-conditions.json` (check `B0_wave1_report_verified`): the recorded states do NOT violate the conservation identity of the hidden direction; what they violate is $p_3 + p_t = 2p_0$, which is that identity combined with the independence of $x_0$ (PROVED and COMPUTED, as stated).
+**The $x_0$ identity once more.** The record proves for every Lovelock order $k$ that $E_{(k)}{}^{x_1}{}_{x_1} + E_{(k)}{}^{x_5}{}_{x_5} - 2E_{(k)}{}^{x_0}{}_{x_0} = 0$ (check `A1_lovelock_identity_x1_plus_x5_equals_2x0`; it is the identity behind C2 in Section 17.5), and that the $y$ law of Section 17.13 gives, for a source that obeys it, $p_3 + p_t - 2p_0 = p_0'(y)/(3H)$ exactly (check `A6_x0_conservation_in_y`; it is Section 17.14). The record then evaluates the $y$ law on all 70 nonzero profiles with fourth-order differences and finds it satisfied to $6.63404 \times 10^{-5}$ of the largest term (check `B2_x0_conservation_on_every_profile`). This refines the wording of the first record `ks-source-conditions.json` (check `B0_wave1_report_verified`): the recorded states do NOT violate the conservation identity of the hidden direction; what they violate is $p_3 + p_t = 2p_0$, which is that identity combined with the independence of $x_0$ (PROVED and COMPUTED, as stated).
 
 **How far from an $x_0$-independent source? The projection mismatch.** Among all functions that do not depend on $y$, which one is closest to a profile $X(y)$? Measure the distance with the volume weight, $D(c) = \int_{-L}^{0}e^{6Hy}\,(X - c)^2\,dy$ for a constant $c$. Its derivative with respect to $c$ is
 
@@ -3068,7 +3068,7 @@ As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file 
 | the conservation law in the coordinates $x_0$ and $y$ | `python-a4-report.json`: `conservation_components`, `json_conservation`; `ks-theory-python.json`: `emt_y_conservation_selfconsistent`, `emt_x4_component` | 17b, In [7] to In [9] |
 | for a conserved source $p_3 + p_t - 2p_0 = p_0'(y)/(3H)$ | derived in Section 17.14 | 17b, In [10] |
 | $d\mathcal C/dx_4 = 3a_4'\,\mathcal E$ for all couplings; along the linear member $-3AH\kappa(p_3 - p_t)$ | `wolfram-a4-report.json`: `constraint_propagation_bianchi`; `python-a4-report.json`: `bianchi_x4` | 17b, In [17] |
-| the moment equations; $3F = 2\,dP/dX$; the constraint propagates with the averaged source; the Einstein first integral | `ks-source-a4.json`: `A1_lovelock_identity_x1_plus_x5_equals_2x8`, `A3_F_equals_two_thirds_dP_dX`, `A4_constraint_propagation_with_averaged_source`, `A6_x0_conservation_in_y`, `D2_einstein_first_integral` | (Section 17.17); 17b, In [22] |
+| the moment equations; $3F = 2\,dP/dX$; the constraint propagates with the averaged source; the Einstein first integral | `ks-source-a4.json`: `A1_lovelock_identity_x1_plus_x5_equals_2x0`, `A3_F_equals_two_thirds_dP_dX`, `A4_constraint_propagation_with_averaged_source`, `A6_x0_conservation_in_y`, `D2_einstein_first_integral` | (Section 17.17); 17b, In [22] |
 
 (The report files lie in `Revision/field_equations_a4/reports/`, `Revision/field_equations_a4/ks_source/reports/` and `Revision/kohn_sham/reports/`.)
 

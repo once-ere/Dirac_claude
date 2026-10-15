@@ -535,7 +535,7 @@ The field equations of gravity force the same condition, $p_3 + p_t = 2p_0$, for
 | --- | --- | --- |
 | the 3-space, extra-time and hidden equations | `Revision/field_equations_a4/a4-equations.json` | entry `generalSource`: `space_x1_eq_x2_eq_x3`, `extraTime_x5_eq_x6_eq_x7`, `hidden_x0` |
 | the condition $p_3 + p_t = 2p_0$ | `Revision/field_equations_a4/a4-equations.json` | `generalSource.algebraic_condition` |
-| the identity of the Lovelock tensors behind it | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `algebraic_identity_x1_plus_x5_minus_2x8` |
+| the identity of the Lovelock tensors behind it | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `algebraic_identity_x1_plus_x5_minus_2x0` |
 | the same, verified independently with sympy | `Revision/field_equations_a4/reports/python-a4-report.json` | `algebraic_identity` |
 
 **All solutions when $p_3 + p_t = P$ is a constant.** Write $q = p_0 - P/2$. Then $2p_0 - P = 2q$, and with $dz = 6H\,dx_0$ the identity becomes

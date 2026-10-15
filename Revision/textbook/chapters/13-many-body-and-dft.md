@@ -2329,7 +2329,7 @@ check(all(source[name] == "PASS" for name in
       "ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x0 are PASS")
 ```
 
-The report on the source conditions of the $a_4$ field equations must have the three checks named in Section 13.38 as PASS: the history is a prescribed background, the Kohn-Sham profiles violate the algebraic condition $p_3 + p_t = 2p_8$, and they depend on the hidden coordinate $x_0$.
+The report on the source conditions of the $a_4$ field equations must have the three checks named in Section 13.38 as PASS: the history is a prescribed background, the Kohn-Sham profiles violate the algebraic condition $p_3 + p_t = 2p_0$, and they depend on the hidden coordinate $x_0$.
 
 ```python
 T3_CHECKS = ("block_hamiltonian_map", "ode_map", "tip_condition_map",

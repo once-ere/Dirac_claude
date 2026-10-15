@@ -3552,7 +3552,7 @@ $$
 h_{\mathbf p} = M(-i\gamma^{(x_4)}) - \sum_a p_a\,\gamma^{(x_4)}\gamma^{(a)} \qquad (a = x_0, x_1, x_2, x_3) .
 $$
 
-Rule: the Hamiltonian $h$ of Section 14.4 with $v = 0$; its derivative term $i\gamma^{(x_4)}\gamma^{(x_0)}\partial_y$ acting on $e^{ip_8y}$ gives $i\gamma^{(x_4)}\gamma^{(x_0)}(ip_8) = -p_0\gamma^{(x_4)}\gamma^{(x_0)}$. Its square, line by line:
+Rule: the Hamiltonian $h$ of Section 14.4 with $v = 0$; its derivative term $i\gamma^{(x_4)}\gamma^{(x_0)}\partial_y$ acting on $e^{ip_0y}$ gives $i\gamma^{(x_4)}\gamma^{(x_0)}(ip_0) = -p_0\gamma^{(x_4)}\gamma^{(x_0)}$. Its square, line by line:
 
 $$
 \big(-i\gamma^{(x_4)}\big)^2 = -\big(\gamma^{(x_4)}\big)^2 = 1, \qquad \big(\gamma^{(x_4)}\gamma^{(a)}\big)^2 = -\big(\gamma^{(x_4)}\big)^2\big(\gamma^{(a)}\big)^2 = 1 .

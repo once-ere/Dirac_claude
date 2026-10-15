@@ -163,10 +163,12 @@ CELLS = [
 
     **The background.** In the author's metric the three space directions $x_1, x_2,
     x_3$ grow with the factor $e^{a_4}$ and the three extra times $x_5, x_6, x_7$ shrink
-    with $e^{-a_4}$ (both times $\sin^{1/6} z$); $x_4$ is the time and $x_8$ the hidden
+    with $e^{-a_4}$ (both times $\sin^{1/6} z$); $x_4$ is the time and $x_0$ the hidden
     direction, written with $y = \ln(\sin z)/(6H)$ from the tip $y = -L$ to the brane
     $y = 0$. The record's history is $a_4 = A H x_4$ with $A = 1$, labelled a PRESCRIBED
-    BACKGROUND (it is not a solution of the $a_4$ equations with the Kohn-Sham source).
+    BACKGROUND (it is not a solution of the $a_4$ equations with the Kohn-Sham source),
+    on the background $b_4 = 1$ of the second function $b_4(x_4)$ of the author's metric
+    of 2026-10-14, on which the Kohn-Sham record works.
     Here $H = m = 1$ as in the record, and $A$ is the only thing we change.
 
     **The exact evolution.** In each sector the Kohn-Sham orbital $\chi(y, x_4)$, with

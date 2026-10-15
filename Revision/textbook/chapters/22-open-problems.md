@@ -34,7 +34,7 @@ The problems are linked. The time-dependent problem (Problem 2) needs the histor
 
 **What this chapter does not do.** It does not solve any of the problems it lists. In particular, and in the words of the honesty rule: that the big bang creates universes in pairs is NOT proved, and no creation process, rate, amplitude or big-bang dynamics follows from the equations of the record (Section 22.4); the theory as built does NOT solve the matter-antimatter problem (Section 22.25); and the record's investigation of the dark-sector hypotheses establishes neither of them (Sections 22.16 to 22.24).
 
-**Notation and units.** The author's coordinates are $x_1, \dots, x_8$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which deflate exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$; $x_8$ is the hidden space direction, with $z = 6Hx_8$ between $0$ and $\pi/2$. The signature is (4,4): $\eta = \mathrm{diag}(+1,+1,+1,-1,-1,-1,-1,+1)$ in the order $x_1, \dots, x_8$. The hidden coordinate of the Kohn-Sham chapters is $y = \ln(\sin z)/(6H)$; it runs from the **tip** $y = -L$ (with $L = 3$) to the **brane** $y = 0$. A **slice** is one instant of the history, and $a_{4,0}$ is the value of $a_4$ there; the record's history is $a_4 = AHx_4$ with $A = 1$. In all numbers $H = 1$ and $m = 1$, so energies and momenta are in units of $m$, lengths and times in units of $1/H$. A state of the record is named like N688_lamm2_a00: $N = 688$ quanta, the coupling $-\lambda_2$ (the tags lam0, lamp1, lamm1, lamp2, lamm2 stand for $\lambda = 0, +\lambda_1, -\lambda_1, +\lambda_2, -\lambda_2$), the slice $a_{4,0} = 0.0$ (the two digits are ten times the slice).
+**Notation and units.** The author's coordinates are $x_0, \dots, x_7$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which deflate exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$; $x_0$ is the hidden space direction, with $z = 6Hx_0$ between $0$ and $\pi/2$. The signature is (4,4): $\eta = \mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ in the order $x_0, \dots, x_7$. The hidden coordinate of the Kohn-Sham chapters is $y = \ln(\sin z)/(6H)$; it runs from the **tip** $y = -L$ (with $L = 3$) to the **brane** $y = 0$. A **slice** is one instant of the history, and $a_{4,0}$ is the value of $a_4$ there; the record's history is $a_4 = AHx_4$ with $A = 1$, on the background $b_4 = 1$ of the second function $b_4(x_4)$ of the author's metric of 2026-10-14 (Chapter 3), on which the Kohn-Sham record works. In all numbers $H = 1$ and $m = 1$, so energies and momenta are in units of $m$, lengths and times in units of $1/H$. A state of the record is named like N688_lamm2_a00: $N = 688$ quanta, the coupling $-\lambda_2$ (the tags lam0, lamp1, lamm1, lamp2, lamm2 stand for $\lambda = 0, +\lambda_1, -\lambda_1, +\lambda_2, -\lambda_2$), the slice $a_{4,0} = 0.0$ (the two digits are ten times the slice).
 
 ### 22.2 The words of this chapter
 
@@ -99,19 +99,19 @@ The tools that already exist, and that the first steps below use, are these:
 - The record itself lists what these theorems do not establish: the report `Revision/pairing/reports/python-pairing.json` holds, under its key `not_established`, twelve items. Among them: no creation process (nothing in these equations produces a universe, a pair of universes or a change of the number of universes); no rate, probability or amplitude (no wave function of the universe, path integral or tunnelling computation is part of the theorems); no dynamical necessity (a single universe of mass $+m$ is an equally valid solution without its partner); the vanishing total energy-momentum of a T1 pair is not a cancellation between two independently quantised universes; and the gravitational back-reaction is not part of the theorems.
 - OPEN: whether any universe is CREATED, in pairs or otherwise. The equations of the record are field equations on a gravitational field that is given, and their canonical quantisation; no creation process, rate, amplitude or big-bang dynamics follows from them.
 
-**Corollary C1 in Einstein gravity, line by line.** The field equations for $a_4$ in Einstein gravity (Chapter 12; `Revision/field_equations_a4/a4-equations.json`, key `einstein`) contain the $x_4$ component and the $x_8$ component
+**Corollary C1 in Einstein gravity, line by line.** The field equations for $a_4$ in Einstein gravity (Chapter 12; `Revision/field_equations_a4/a4-equations.json`, key `einstein`) contain the $x_4$ component and the $x_0$ component
 
 $$
-3(a_4')^2 + 21H^2 + \Lambda = -\kappa\rho, \qquad -3(a_4')^2 + 15H^2 + \Lambda = \kappa p_8 ,
+3(a_4')^2 + 21H^2 + \Lambda = -\kappa\rho, \qquad -3(a_4')^2 + 15H^2 + \Lambda = \kappa p_0 ,
 $$
 
-where $a_4' = da_4/dx_4$, $\Lambda$ is the cosmological constant, $\kappa$ the gravitational coupling, $\rho$ the energy density and $p_8$ the pressure of the source along $x_8$. By T1 the two members of a pair have $T' = -T$, so the total source $T + T'$ vanishes: $\rho = 0$ and $p_8 = 0$.
+where $a_4' = da_4/dx_4$, $\Lambda$ is the cosmological constant, $\kappa$ the gravitational coupling, $\rho$ the energy density and $p_0$ the pressure of the source along $x_0$. By T1 the two members of a pair have $T' = -T$, so the total source $T + T'$ vanishes: $\rho = 0$ and $p_0 = 0$.
 
 $$
 3(a_4')^2 + 21H^2 + \Lambda = 0, \qquad -3(a_4')^2 + 15H^2 + \Lambda = 0 .
 $$
 
-Rule: insert $\rho = 0$ and $p_8 = 0$ into the two components.
+Rule: insert $\rho = 0$ and $p_0 = 0$ into the two components.
 
 $$
 36H^2 + 2\Lambda = 0 .
@@ -146,7 +146,7 @@ $$
 G^\mu{}_\mu = 3\big(-3(a_4')^2 + a_4'' + 15H^2\big) + \big(3(a_4')^2 + 21H^2\big) + 3\big(-3(a_4')^2 - a_4'' + 15H^2\big) + \big(-3(a_4')^2 + 15H^2\big) .
 $$
 
-Rule: the trace is the sum of the eight diagonal components $G^{x_1}{}_{x_1} + \dots + G^{x_8}{}_{x_8}$, and the record gives $G^{x_1}{}_{x_1} = G^{x_2}{}_{x_2} = G^{x_3}{}_{x_3}$ and $G^{x_5}{}_{x_5} = G^{x_6}{}_{x_6} = G^{x_7}{}_{x_7}$.
+Rule: the trace is the sum of the eight diagonal components $G^{x_0}{}_{x_0} + \dots + G^{x_7}{}_{x_7}$, and the record gives $G^{x_1}{}_{x_1} = G^{x_2}{}_{x_2} = G^{x_3}{}_{x_3}$ and $G^{x_5}{}_{x_5} = G^{x_6}{}_{x_6} = G^{x_7}{}_{x_7}$.
 
 $$
 G^\mu{}_\mu = -18(a_4')^2 + 126H^2 .
@@ -1777,17 +1777,18 @@ The rate $A_{1/2}$ comes from a straight-line interpolation in $\ln A$ between t
 
 **What is known.**
 
-- PROVED (Chapter 12; `Revision/field_equations_a4/a4-equations.json`, key `generalSource`; both reports in `Revision/field_equations_a4/reports`): for the author's metric the Einstein-Lovelock equations reduce to the constraint (the $x_4$ component), the evolution equation $a_4''F(a_4') = \kappa(p_3 - p_t)$, the hidden ($x_8$) equation and conditions on the source: every component of the source must be independent of $x_8$, the source must obey $p_3 + p_t = 2p_8$, and its mixed $x_4$-$x_8$ components must vanish. The left-hand sides of the equations are free of $x_8$ (key `generalSource.x8_dependence`; independently `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, check `einstein_x8_independent`), and that is why the source must be free of $x_8$ too.
-- PROVED: the linear member $a_4 = AHx_4 + a_0$ needs $p_3 = p_t = p_8$ and a constant $\rho$ (check `linear_member_equal_pressures` of both reports).
-- PROVED: in Einstein gravity every source obeys $\kappa(\rho + p_8) = -6\big((a_4')^2 + H^2\big)$ (check `einstein_null_energy_x8` of both reports; `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, check `einstein_null_energy`). The derivation is given below.
-- COMPUTED: no recorded Kohn-Sham state is an admissible source. The report is `ks-source-conditions.json` in the folder `Revision/field_equations_a4/reports`, and its checks say why. Check `ks_profiles_depend_on_x8`: for every state with a nonzero energy-momentum tensor the energy density varies along the hidden coordinate, by at least $0.0497$ of the largest component (smallest case N136_lamm2_a20). Check `ks_profiles_violate_algebraic_condition`: $\max_y|p_3 + p_t - 2p_8|/\max|T|$ lies between $2.09$ and $3.99$. Check `ks_integrals_violate_algebraic_condition`: even the source integrated over the hidden direction violates $p_3 + p_t = 2p_8$; the ratio $(\int p_3 + \int p_t)/(2\int p_8)$ is never 1 (closest $0.414$, N688_lamm2_a00). Check `ks_history_is_a_prescribed_background`: along the history the integrated energy changes, for example $\int\rho = 80.28$, $32.38$, $12.45$ for N136_lam0 at the slices 0, 1 and 2, and $p_3 \ne p_t$, while the linear member needs a constant $\rho$ and equal pressures.
+- PROVED (Chapter 12; `Revision/field_equations_a4/a4-equations.json`, key `generalSource`; both reports in `Revision/field_equations_a4/reports`): for the author's metric the Einstein-Lovelock equations reduce to the constraint (the $x_4$ component), the evolution equation $a_4''F(a_4') = \kappa(p_3 - p_t)$, the hidden ($x_0$) equation and conditions on the source: every component of the source must be independent of $x_0$, the source must obey $p_3 + p_t = 2p_0$, and its mixed $x_4$-$x_0$ components must vanish. The left-hand sides of the equations are free of $x_0$ (key `generalSource.x0_dependence`; independently `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, check `einstein_x0_independent`), and that is why the source must be free of $x_0$ too.
+- PROVED: the linear member $a_4 = AHx_4 + a_0$ needs $p_3 = p_t = p_0$ and a constant $\rho$ (check `linear_member_equal_pressures` of both reports).
+- PROVED (Chapter 12; key `b4` of `a4-equations.json`; `wolfram-a4-report.json`, checks `b4_offdiagonal_factorises`, `b4_einstein_offdiagonal_forces_b4_constant` and `b4_identity_x1_plus_x5_minus_2x0`): with the second function $b_4(x_4)$ of the author's metric the coupled problem has one more unknown. The mixed equation reads $\kappa q_{40} = \cot z\,(b_4'/b_4)\,Q$ with $Q = \frac32H$ in Einstein gravity, so there a source with $T^{x_4}{}_{x_0} = 0$ forces a constant $b_4$; and the algebraic condition becomes $\kappa(p_3 + p_t - 2p_0) = \frac14(b_4'/b_4)^2 + b_4''/(2b_4)$ in Einstein gravity. A coupled solution may therefore use $b_4$ to meet the source conditions; this too is OPEN for the gas.
+- PROVED: in Einstein gravity every source obeys $\kappa(\rho + p_0) = -6\big((a_4')^2 + H^2\big)$ (check `einstein_null_energy_x0` of both reports; `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, check `einstein_null_energy`). The derivation is given below.
+- COMPUTED: no recorded Kohn-Sham state is an admissible source. The report is `ks-source-conditions.json` in the folder `Revision/field_equations_a4/reports`, and its checks say why. Check `ks_profiles_depend_on_x0`: for every state with a nonzero energy-momentum tensor the energy density varies along the hidden coordinate, by at least $0.0497$ of the largest component (smallest case N136_lamm2_a20). Check `ks_profiles_violate_algebraic_condition`: $\max_y|p_3 + p_t - 2p_0|/\max|T|$ lies between $2.09$ and $3.99$. Check `ks_integrals_violate_algebraic_condition`: even the source integrated over the hidden direction violates $p_3 + p_t = 2p_0$; the ratio $(\int p_3 + \int p_t)/(2\int p_0)$ is never 1 (closest $0.414$, N688_lamm2_a00). Check `ks_history_is_a_prescribed_background`: along the history the integrated energy changes, for example $\int\rho = 80.28$, $32.38$, $12.45$ for N136_lam0 at the slices 0, 1 and 2, and $p_3 \ne p_t$, while the linear member needs a constant $\rho$ and equal pressures.
 - PROVED and COMPUTED, the energy exchange: along the history the energy of the gas changes as $dE/da_4 = -3\,(2\mathrm{Vol}_7)\int_{-L}^{0}e^{6Hy}(p_3 - p_t)\,dy$, where $\mathrm{Vol}_7$ is the coordinate volume of 3-space and the extra times. The identity is the key `emt.energyChange` of `Revision/kohn_sham/ks-theory.json`, verified by the check `adiabatic_hellmann_feynman` of the theory report `ks-theory-python.json`. The record computes both sides: for N688_lam0_a00 the finite difference of the energies gives $-597.9157012757526$ and the energy-momentum integral $-597.9157012806555$ (the columns `dE_da4_finite_difference` and `dE_da4_emt` of `adiabaticity.csv`). In a coupled solution this energy would have to be exchanged with the geometry.
 - Chapter 12 constructs three exact solutions of the coupled equations of Einstein gravity and a homogeneous condensate of the classical field dirac16complex00, two of them with the extra times deflating as $e^{-Hx_4}$ (Notebook 12d; a computation of this book under the assumptions stated there, not a Revision record). For that classical, homogeneous source the back-reaction is solved. For the quantised gas it is OPEN.
 
 **The null combination in Einstein gravity, line by line.** The constraint and the hidden equation of Einstein gravity (`Revision/field_equations_a4/a4-equations.json`, key `einstein`) are
 
 $$
-3(a_4')^2 + 21H^2 + \Lambda = -\kappa\rho, \qquad -3(a_4')^2 + 15H^2 + \Lambda = \kappa p_8 .
+3(a_4')^2 + 21H^2 + \Lambda = -\kappa\rho, \qquad -3(a_4')^2 + 15H^2 + \Lambda = \kappa p_0 .
 $$
 
 $$
@@ -1797,14 +1798,14 @@ $$
 Rule: multiply the constraint by $-1$.
 
 $$
-\kappa(\rho + p_8) = -3(a_4')^2 - 21H^2 - \Lambda - 3(a_4')^2 + 15H^2 + \Lambda = -6(a_4')^2 - 6H^2 .
+\kappa(\rho + p_0) = -3(a_4')^2 - 21H^2 - \Lambda - 3(a_4')^2 + 15H^2 + \Lambda = -6(a_4')^2 - 6H^2 .
 $$
 
 Rule: add the hidden equation; $\Lambda$ cancels, $-3 - 3 = -6$ and $-21 + 15 = -6$.
 
-The right-hand side is negative for every real history when $H > 0$. So in Einstein gravity, with a positive coupling $\kappa$, every source of the author's metric must have $\rho + p_8 < 0$ everywhere: it must violate the null energy condition along the hidden direction. This holds for every $a_4$ and every $\Lambda$; any candidate source, a time-dependent Kohn-Sham gas included, must meet it, or the gravity theory must contain more than the Einstein term.
+The right-hand side is negative for every real history when $H > 0$. So in Einstein gravity, with a positive coupling $\kappa$, every source of the author's metric must have $\rho + p_0 < 0$ everywhere: it must violate the null energy condition along the hidden direction. This holds for every $a_4$ and every $\Lambda$; any candidate source, a time-dependent Kohn-Sham gas included, must meet it, or the gravity theory must contain more than the Einstein term.
 
-**Why it is hard.** The metric of the record fixes the dependence on $x_8$ completely ($\sin^{1/3}z$ and $\cot^2z$), and leaves only one free function, $a_4(x_4)$. A gas bound to the brane, whose density falls off towards the tip, cannot be the source of such a metric: its energy-momentum depends on $y$. A coupled solution therefore needs a more general metric, whose factors depend on $y$ and on $x_4$; the field equations then become partial differential equations in two variables, and the Kohn-Sham reduction of Chapter 14, which used the exact warp $e^{Hy}$, must be redone for the new metric at every step. In addition, the brane enters (Problem 4), the couplings $\alpha_2$, $\alpha_3$, $\Lambda$ and $\kappa$ are unknown, and in Einstein gravity the source must violate the null energy condition along $x_8$, as just shown.
+**Why it is hard.** The metric of the record fixes the dependence on $x_0$ completely ($\sin^{1/3}z$ and $\cot^2z$), and leaves only one free function, $a_4(x_4)$. A gas bound to the brane, whose density falls off towards the tip, cannot be the source of such a metric: its energy-momentum depends on $y$. A coupled solution therefore needs a more general metric, whose factors depend on $y$ and on $x_4$; the field equations then become partial differential equations in two variables, and the Kohn-Sham reduction of Chapter 14, which used the exact warp $e^{Hy}$, must be redone for the new metric at every step. In addition, the brane enters (Problem 4), the couplings $\alpha_2$, $\alpha_3$, $\Lambda$ and $\kappa$ are unknown, and in Einstein gravity the source must violate the null energy condition along $x_0$, as just shown.
 
 **A first step.** (a) Redo the derivation above, and its Einstein-Gauss-Bonnet version from the general null combination of the record (`Revision/field_equations_a4/a4-equations.json`, key `generalSource.nullCombinations`). (b) Check the energy-exchange identity on the record's numbers (Exercise 7 of Section 22.28). (c) Write down a more general metric that keeps the symmetries of the author's metric (3-space isotropic, the three extra times isotropic) but lets the factors depend on $y$ and $x_4$, for example $ds^2 = e^{2\mathcal{A}(y, x_4)}(dx_1^2 + dx_2^2 + dx_3^2) - e^{2\mathcal{B}(y, x_4)}(dx_5^2 + dx_6^2 + dx_7^2) - e^{2\mathcal{C}(y, x_4)}dx_4^2 + dy^2$, which contains the author's metric as $\mathcal{A} = Hy + a_4$, $\mathcal{B} = Hy - a_4$, $\mathcal{C} = 0$ (this ansatz is a suggestion of this book, a HYPOTHESIS about a useful next step, not a result). Compute its Einstein tensor with two independent programs, as the record does for the author's metric, and find which conditions it puts on a source. (d) Only then ask whether a Kohn-Sham gas can satisfy them, starting with the free gas.
 
@@ -1816,19 +1817,19 @@ The right-hand side is negative for every real history when $H > 0$. So in Einst
 
 **What is known.**
 
-- PROVED: the map $z \to \pi - z$ (that is, $x_8 \to \pi/(6H) - x_8$) is an isometry of the author's metric: every component takes the same value at $z$ and at $\pi - z$ (`Revision/pairing/reports/python-pairing.json`, check `geometry.mirror_isometry`; `Revision/pairing/reports/wolfram-pairing.json`, check `T2_mirror_is_isometry`).
-- PROVED: in the coordinate $x_8$ the metric is degenerate at the brane: $g_{88} = \cot^2z$ and $\sqrt{|g|} = \cos z$ vanish at $z = \pi/2$ (`Revision/pairing/reports/python-pairing.json`, check `geometry.brane_degenerate`).
+- PROVED: the map $z \to \pi - z$ (that is, $x_0 \to \pi/(6H) - x_0$) is an isometry of the author's metric: every component takes the same value at $z$ and at $\pi - z$ (`Revision/pairing/reports/python-pairing.json`, check `geometry.mirror_isometry`; `Revision/pairing/reports/wolfram-pairing.json`, check `T2_mirror_is_isometry`).
+- PROVED: in the coordinate $x_0$ the metric is degenerate at the brane: $g_{00} = \cot^2z$ and $\sqrt{|g|} = \cos z$ vanish at $z = \pi/2$ (`Revision/pairing/reports/python-pairing.json`, check `geometry.brane_degenerate`).
 - ASSUMED (`Revision/kohn_sham/ks-theory.json`, key `boundaryConditions.brane`): the Z2 mirror (orbifold) at $y = 0$, with the mirror warp $e^{-H|y|}$; continuity of the mirrored field gives the two brane parities, $b(0) = 0$ (even) and $a(0) = 0$ (odd), which both stop the current along $y$ (checks `bc_brane_parity_conditions`, `bc_mirror_map_PA` and `bc_mirror_parities_of_densities` of `Revision/kohn_sham/reports/ks-theory-python.json`). PROVED under this assumption: the doubled problem is symmetric under the mirror exactly when the mirror copy carries $(-m, +\lambda)$ (`Revision/pairing/kohn_sham/reports/python-t3.json`, check `T3.z2_mirror_copy_carries_minus_m_plus_lambda`).
 - What rests on it: theorem T2 in the author's field (the mirror pairing), theorem T3, and every Kohn-Sham number of the record (the densities are those of the doubled system, each patch with the weight $1/2$; key `densities.total`).
 - NOT established, as the record says itself: "no junction condition, brane tension or matching of the field across it is derived" (`Revision/pairing/reports/python-pairing.json`, key `not_established`). OPEN.
 
-**The brane in the coordinate y, line by line.** The two derivations of this paragraph and the next are written out by the book from statements of the record. The first, the line element in the coordinate $y$, is verified by the record's checks `geometry_hidden_coordinate` and `geometry_warped_form` of `Revision/kohn_sham/reports/ks-theory-python.json`; the second, the kink of the mirror warp, is the book's own, and no Revision verifier checks it as such. The record's hidden coordinate is $y = \ln(\sin z)/(6H)$, with $dy = \cot z\,dx_8$ (`Revision/kohn_sham/ks-theory.json`, key `geometry.hiddenCoordinate`).
+**The brane in the coordinate y, line by line.** The two derivations of this paragraph and the next are written out by the book from statements of the record. The first, the line element in the coordinate $y$, is verified by the record's checks `geometry_hidden_coordinate` and `geometry_warped_form` of `Revision/kohn_sham/reports/ks-theory-python.json`; the second, the kink of the mirror warp, is the book's own, and no Revision verifier checks it as such. The record's hidden coordinate is $y = \ln(\sin z)/(6H)$, with $dy = \cot z\,dx_0$ (`Revision/kohn_sham/ks-theory.json`, key `geometry.hiddenCoordinate`).
 
 $$
-\cot^2z\,dx_8^2 = dy^2 .
+\cot^2z\,dx_0^2 = dy^2 .
 $$
 
-Rule: square both sides of $dy = \cot z\,dx_8$.
+Rule: square both sides of $dy = \cot z\,dx_0$.
 
 $$
 \sin z = e^{6Hy}, \qquad \sin^{1/3}z = e^{2Hy} .
@@ -1842,7 +1843,7 @@ $$
 
 Rule: insert both lines into the author's metric (the record's key `geometry.lineElement`; check `geometry_warped_form` of `Revision/kohn_sham/reports/ks-theory-python.json`).
 
-At the brane $y = 0$ every coefficient of this line element is finite and nonzero ($e^{0} = 1$). The zero of $g_{88}$ in the coordinate $x_8$ belongs to that coordinate: $dx_8 = \tan z\,dy$, and $\tan z$ grows without bound as $z \to \pi/2$, so near the brane one unit of $y$ corresponds to ever more units of $x_8$. In the same way $\sqrt{|g|}$ is $e^{6Hy} = \sin z$ in the coordinate $y$, and $\sin z \cdot \cot z = \cos z$ in the coordinate $x_8$ (rule: a volume element changes by the factor $|dy/dx_8| = \cot z$). What makes the brane special is therefore not a singularity of the geometry but the end of the coordinate range: $y$ cannot exceed 0, because $\sin z$ cannot exceed 1. To go on, a continuation must be chosen, and the Z2 mirror is one choice.
+At the brane $y = 0$ every coefficient of this line element is finite and nonzero ($e^{0} = 1$). The zero of $g_{00}$ in the coordinate $x_0$ belongs to that coordinate: $dx_0 = \tan z\,dy$, and $\tan z$ grows without bound as $z \to \pi/2$, so near the brane one unit of $y$ corresponds to ever more units of $x_0$. In the same way $\sqrt{|g|}$ is $e^{6Hy} = \sin z$ in the coordinate $y$, and $\sin z \cdot \cot z = \cos z$ in the coordinate $x_0$ (rule: a volume element changes by the factor $|dy/dx_0| = \cot z$). What makes the brane special is therefore not a singularity of the geometry but the end of the coordinate range: $y$ cannot exceed 0, because $\sin z$ cannot exceed 1. To go on, a continuation must be chosen, and the Z2 mirror is one choice.
 
 **The mirror has a kink, line by line.** On the patch the warp factor of the six directions $x_1, x_2, x_3, x_5, x_6, x_7$ is $W(y) = e^{Hy}$ (key `geometry.warp`). The mirror continues it to $W(y) = e^{-H|y|}$ on $-L \le y \le L$ (key `boundaryConditions.brane`).
 
@@ -1921,7 +1922,7 @@ A fluid of positive energy density with $w < -1$ (called **phantom**) violates t
 
 ### 22.17 The observer's density and the equation of state, line by line
 
-**Why an assumption is needed.** The observations are made in four dimensions, three of space and one of time; the theory lives in eight. An observer who sees only $x_1, x_2, x_3$ and the time $x_4$ must turn the energy of a state, which is spread over all seven other directions, into an energy per unit volume of 3-space. Over the hidden direction $x_8$ the record averages with the weight $\sqrt{|g|} = \cos z$, which does not depend on $x_4$ (check `observer_hidden_average_commutes` of `python-derive-eos.json`). Over the three extra times there is no unique choice, because they are time-like: an observer does not move through them as through a space direction. The record therefore states three definitions and decides between none of them.
+**Why an assumption is needed.** The observations are made in four dimensions, three of space and one of time; the theory lives in eight. An observer who sees only $x_1, x_2, x_3$ and the time $x_4$ must turn the energy of a state, which is spread over all seven other directions, into an energy per unit volume of 3-space. Over the hidden direction $x_0$ the record averages with the weight $\sqrt{|g|} = \cos z$, which does not depend on $x_4$ (check `observer_hidden_average_commutes` of `python-derive-eos.json`). Over the three extra times there is no unique choice, because they are time-like: an observer does not move through them as through a space direction. The record therefore states three definitions and decides between none of them.
 
 **The proper 7-volume does not change, line by line.** The proper length of a step $dx$ along a direction is $\sqrt{|g_{xx}|}\,dx$; the proper volume of a small box is the product of the proper lengths of its sides.
 
@@ -1941,9 +1942,9 @@ $$
 e^{3a_4}\sin^{1/2}z \cdot e^{-3a_4}\sin^{1/2}z \cdot \cot z = \sin z\cot z = \cos z .
 $$
 
-Rule: multiply by the factor $\sqrt{g_{88}} = \cot z$ of the hidden direction; $e^{3a_4}e^{-3a_4} = e^0 = 1$, $\sin^{1/2}z\sin^{1/2}z = \sin z$, and $\sin z \cdot \cos z/\sin z = \cos z$. The proper 7-volume element of a slice $x_4 = $ const is $\cos z$: the inflation of 3-space is compensated exactly by the deflation of the extra times (`Revision/dark_sector/dirac16complex/reports/derivation-checks.json`, checks `proper_3_and_extra_time_volume_scalings` and `proper_7_volume_element_independent_of_a4`).
+Rule: multiply by the factor $\sqrt{g_{00}} = \cot z$ of the hidden direction; $e^{3a_4}e^{-3a_4} = e^0 = 1$, $\sin^{1/2}z\sin^{1/2}z = \sin z$, and $\sin z \cdot \cos z/\sin z = \cos z$. The proper 7-volume element of a slice $x_4 = $ const is $\cos z$: the inflation of 3-space is compensated exactly by the deflation of the extra times (`Revision/dark_sector/dirac16complex/reports/derivation-checks.json`, checks `proper_3_and_extra_time_volume_scalings` and `proper_7_volume_element_independent_of_a4`).
 
-**The energy balance, line by line.** Let $E$ be the energy of a state, the proper 7-volume integral of the energy density $\rho$, and $P_3$, $P_t$, $P_8$ the integrals of the pressures of 3-space, of the extra times and of the hidden direction. The record re-derives the conservation law $\nabla_\mu T^\mu{}_\nu = 0$ from the author's metric for a diagonal energy-momentum tensor that depends on $x_4$ and $x_8$; its $x_4$ component reads (checks `conservation_x4_identity` and `conservation_x4_author_metric`)
+**The energy balance, line by line.** Let $E$ be the energy of a state, the proper 7-volume integral of the energy density $\rho$, and $P_3$, $P_t$, $P_0$ the integrals of the pressures of 3-space, of the extra times and of the hidden direction. The record re-derives the conservation law $\nabla_\mu T^\mu{}_\nu = 0$ from the author's metric for a diagonal energy-momentum tensor that depends on $x_4$ and $x_0$; its $x_4$ component reads (checks `conservation_x4_identity` and `conservation_x4_author_metric`)
 
 $$
 \frac{\partial\rho}{\partial x_4} = -3a_4'\,(p_3 - p_t) .
@@ -2034,7 +2035,7 @@ Rule: add 1 to both sides. With $E > 0$ this needs $X < 0$, that is $P_t > P_3$:
 
 **The Kohn-Sham history.** The record runs the Revision Rust Kohn-Sham solver of Chapter 15 at the 41 slices $a_{4,0} = 0, 0.05, \dots, 2$ for $N = 8$, 136 and 688 quanta and the five couplings $\lambda = 0, \pm\lambda_1, \pm\lambda_2$: 615 runs, with $H = m = 1$, $L = 3$, the tip angle $\theta = 0$ and temperature $T = 0$ (`Revision/dark_sector/dirac16complex/reports/ks-history-run.json`, 5 checks). It reproduces the 75 committed states of Chapter 15 with relative deviation 0 (check `committed_slices_reproduced`), and the occupied levels are the same at all 41 slices of every series (check `occupied_labels_fixed_along_history`), so the instantaneous ground states are the adiabatically continued states. The history is a PRESCRIBED BACKGROUND: the gas is a test field without back-reaction (Section 22.14). The record's script `compute_eos.py` evaluates $w_{\rm eff}$ for the three definitions, the tangents, the fits, the condensate and the mixtures (13 checks), and an independent second computation, `independent_free_gas.py` (Chebyshev collocation, no solver output used except for the final comparison), reproduces the solver's energies over 82 states to $1.897 \times 10^{-12}$ and $w_{\rm eff} = X/E$ to $1.492 \times 10^{-12}$ (9 checks).
 
-**The gas is radiation-like.** The occupied levels lie on the brane band, which is massless at zero 3-momentum (the brane zero mode, slope $c\,e^{-a_4}$ with $c = 1.9051482536$ at small $k$; check `brane_band_slope`). So the gas redshifts like radiation: $d\ln E/da_4$ goes from $-0.8787$ at $a_4 = 0$ to $-0.9549$ at $a_4 = 2$ for $N = 688$, $\lambda = 0$, toward the radiation value $-1$. Over all series with $N = 136$ and 688, $X/E$ lies between 0.292893 and 0.328105 and rises monotonically toward $1/3$ (checks `gas_radiation_like_band` and `gas_X_over_E_rises_toward_one_third` of `eos-checks.json`; Notebook 22b, In [3] and Figure 22b.1). For $N = 688$, $\lambda = 0$: $w_{\rm eff}(A) = w_{\rm eff}(B)$ goes from 0.2929 to 0.3183 and $w_{\rm eff}(C)$ from $-0.7071$ to $-0.6817$. The pressure of the hidden direction gives $P_8/E$ from 0.3535 to 0.6482: a pressure, but not one that the 3-space observer sees as pressure.
+**The gas is radiation-like.** The occupied levels lie on the brane band, which is massless at zero 3-momentum (the brane zero mode, slope $c\,e^{-a_4}$ with $c = 1.9051482536$ at small $k$; check `brane_band_slope`). So the gas redshifts like radiation: $d\ln E/da_4$ goes from $-0.8787$ at $a_4 = 0$ to $-0.9549$ at $a_4 = 2$ for $N = 688$, $\lambda = 0$, toward the radiation value $-1$. Over all series with $N = 136$ and 688, $X/E$ lies between 0.292893 and 0.328105 and rises monotonically toward $1/3$ (checks `gas_radiation_like_band` and `gas_X_over_E_rises_toward_one_third` of `eos-checks.json`; Notebook 22b, In [3] and Figure 22b.1). For $N = 688$, $\lambda = 0$: $w_{\rm eff}(A) = w_{\rm eff}(B)$ goes from 0.2929 to 0.3183 and $w_{\rm eff}(C)$ from $-0.7071$ to $-0.6817$. The pressure of the hidden direction gives $P_0/E$ from 0.3535 to 0.6482: a pressure, but not one that the 3-space observer sees as pressure.
 
 **The CPL tangents of the gas.** With $a = e^{a_4 - a_{4,\rm today}}$, $da = a\,da_4$, so at $a = 1$ the slope $dw/da$ equals $dw/da_4$ and the tangent is $w_0 = w_{\rm eff}$ at $a_{4,\rm today}$, $w_a = -dw_{\rm eff}/da_4$ there. For $N = 688$, $\lambda = 0$ (`Revision/dark_sector/dirac16complex/outputs/eos-summary.json`; Notebook 22b, Out [4]):
 
@@ -2068,7 +2069,7 @@ Rule: multiply by $-\frac13$. For $a \to 0$ the momentum term dominates and $w_{
 **The condensate, line by line.** A homogeneous condensate is an exact solution of both fields, with $S = \bar\Psi\Psi$ constant (Chapter 9), and
 
 $$
-\rho = mS + \tfrac{\lambda}{2}S^2, \qquad p_3 = p_t = p_8 = \tfrac{\lambda}{2}S^2
+\rho = mS + \tfrac{\lambda}{2}S^2, \qquad p_3 = p_t = p_0 = \tfrac{\lambda}{2}S^2
 $$
 
 (checks `condensate_rho_p` and `condensate_satisfies_both_identities` of `derivation-checks.json`).
@@ -2938,7 +2939,7 @@ The observed values are the ones `Revision/README.md` quotes, and their crossing
 1. a self-consistent history $a_4(x_4)$ with an admissible source (no recorded Kohn-Sham state is one; the condensate is an exact source only on the linear member);
 2. populated bulk-band or thermal states along the history; only $T = 0$ ground states and $0 \le a_4 \le 2$ are computed;
 3. modes of dirac16complex with extra-time momentum (outside the good sector), and the non-adiabatic Kohn-Sham problem;
-4. for dirac16complex00: sources that depend on $x_8$, the frozen warp of the adiabatic model, the growing modes, a quantum treatment;
+4. for dirac16complex00: sources that depend on $x_0$, the frozen warp of the adiabatic model, the growing modes, a quantum treatment;
 5. which normalisation of $\rho_4$, if any, describes a physical 3-space observer, and the value of $a_{4,\rm today}$;
 6. what would select the populations of M2 to M5, the mixture shares or the condensate's $u$;
 7. a supernova likelihood (distances, covariances): no fit to data is part of the record.
@@ -3002,7 +3003,7 @@ The table lists further open items that earlier chapters met, with their status 
 | the dressing amplitude $\vert \alpha_m\vert  = Q_{0m}$; $Q(A) = A\,Q(1)$ | derivations of this book, Section 22.7 ($Q(A) = A\,Q(1)$ read off the record's formula, `ks-theory.json`, key `adiabaticity.measure`); the dressing tested numerically in Notebook 22a, In [14] |
 | in the free field $Q/A = G(q)$ with $q = ke^{-a_{4,0}}$ | `ks-theory-python.json`, `rescaling_identity`; Section 22.7 |
 | the sudden limit $P_{sudden} = 1 - \vert \langle\varphi_0(s_2)\vert \varphi_0(s_1)\rangle\vert ^2$, the rate of the smooth passage, the first-order formula for $P^{(1)}$ | derivations of this book, Section 22.8; tested numerically in Notebook 22a, In [12] and In [14] |
-| in Einstein gravity every source has $\kappa(\rho + p_8) = -6((a_4')^2 + H^2)$ | both a4 reports, `einstein_null_energy_x8`; lead's report, `einstein_null_energy`; Section 22.14 |
+| in Einstein gravity every source has $\kappa(\rho + p_0) = -6((a_4')^2 + H^2)$ | both a4 reports, `einstein_null_energy_x0`; lead's report, `einstein_null_energy`; Section 22.14 |
 | the line element in the coordinate $y$ is regular at $y = 0$; the mirror warp $e^{-H\vert y\vert }$ has a kink, and $\int_{-\epsilon}^{\epsilon}W''\,dy \to -2H$ | derived in Section 22.15 from the record's statements (`ks-theory-python.json`, `geometry_warped_form`) |
 | $w(1) = w_0$, $w(0) = w_0 + w_a$; the CPL line crosses $-1$ at $a = 461/600$; $w < -1$ with $\rho > 0$ if and only if $\rho + p < 0$ | algebra, Section 22.16; `python-derive-eos.json`, `unite_crossing_point` |
 | the proper 7-volume element is $\cos z$, independent of $a_4$; $dE/da_4 = -3X$ | `derivation-checks.json`, `proper_7_volume_element_independent_of_a4`, `integrated_identity_dE_da4`; Section 22.17 |
@@ -3046,15 +3047,15 @@ The table lists further open items that earlier chapters met, with their status 
 
 **Exercise 6.** Show that $a_4' = iH$ with $\Lambda = -18H^2$ solves both vacuum equations of Einstein gravity of Section 22.4. Why is it not a history of the author's universe?
 
-*Answer.* $(iH)^2 = -H^2$. The $x_4$ equation: $3(-H^2) + 21H^2 - 18H^2 = 0$. The $x_8$ equation: $-3(-H^2) + 15H^2 - 18H^2 = 3H^2 + 15H^2 - 18H^2 = 0$. Both hold. But $a_4 = iHx_4 + a_0$ is complex, so the metric components $e^{2a_4}\sin^{1/3}z$ would be complex numbers, and a metric must be real. So there is no real history: this is corollary C1 again.
+*Answer.* $(iH)^2 = -H^2$. The $x_4$ equation: $3(-H^2) + 21H^2 - 18H^2 = 0$. The $x_0$ equation: $-3(-H^2) + 15H^2 - 18H^2 = 3H^2 + 15H^2 - 18H^2 = 0$. Both hold. But $a_4 = iHx_4 + a_0$ is complex, so the metric components $e^{2a_4}\sin^{1/3}z$ would be complex numbers, and a metric must be real. So there is no real history: this is corollary C1 again.
 
 **Exercise 7.** The source-condition report gives for N136_lam0_a00 the integrals $\int\rho = 80.2822$, $\int p_3 = 23.8133$, $\int p_t = 0$ (each $2\mathrm{Vol}_7\int e^{6Hy}(\ldots)\,dy$). Use the energy-exchange identity of Section 22.14 to compute $dE/da_4$, and compare with the record's columns `dE_da4_emt` ($-71.43975618$) and `dE_da4_finite_difference` ($-71.43975618$). Do the same for N688_lam0_a00 ($\int p_3 = 199.305$, $\int p_t = 0$). What does the sign mean?
 
 *Answer.* $dE/da_4 = -3(\int p_3 - \int p_t) = -3 \cdot 23.8133 = -71.4399$, in agreement with both columns to the six digits that the source-condition report prints. For $N = 688$: $-3 \cdot 199.305 = -597.915$, against $-597.9157$ in the record. The sign: as $a_4$ grows (the extra times deflate and 3-space inflates), the energy of the gas falls, because its 3-momenta redshift; $p_t = 0$ here because the gas has no kinetic pressure along the extra times. In a coupled solution this energy would have to go into the geometry, which is why the history cannot be the linear member with a constant $\rho$ (Section 22.14).
 
-**Exercise 8.** For the mirror warp $W(y) = e^{-H|y|}$ with $H = 1$: compute $W(0)$, the slopes $W'(0^-)$ and $W'(0^+)$, and $\int_{-0.01}^{0.01}W''\,dy$. Then show that $\sqrt{|g|} = e^{6Hy}$ in the coordinate $y$ becomes $\cos z$ in the coordinate $x_8$.
+**Exercise 8.** For the mirror warp $W(y) = e^{-H|y|}$ with $H = 1$: compute $W(0)$, the slopes $W'(0^-)$ and $W'(0^+)$, and $\int_{-0.01}^{0.01}W''\,dy$. Then show that $\sqrt{|g|} = e^{6Hy}$ in the coordinate $y$ becomes $\cos z$ in the coordinate $x_0$.
 
-*Answer.* $W(0) = 1$; $W'(0^-) = 1$, $W'(0^+) = -1$. $\int_{-0.01}^{0.01}W''\,dy = W'(0.01) - W'(-0.01) = -e^{-0.01} - e^{-0.01} = -2e^{-0.01} = -1.980100$, close to $-2H = -2$, and closer still for a shorter interval. For the volume: $\sqrt{|g|}\,dy$ must equal $\sqrt{|g|_{x_8}}\,dx_8$, and $dy = \cot z\,dx_8$, so $\sqrt{|g|_{x_8}} = e^{6Hy}\cot z = \sin z\cot z = \cos z$, using $\sin z = e^{6Hy}$.
+*Answer.* $W(0) = 1$; $W'(0^-) = 1$, $W'(0^+) = -1$. $\int_{-0.01}^{0.01}W''\,dy = W'(0.01) - W'(-0.01) = -e^{-0.01} - e^{-0.01} = -2e^{-0.01} = -1.980100$, close to $-2H = -2$, and closer still for a shorter interval. For the volume: $\sqrt{|g|}\,dy$ must equal $\sqrt{|g|_{x_0}}\,dx_0$, and $dy = \cot z\,dx_0$, so $\sqrt{|g|_{x_0}} = e^{6Hy}\cot z = \sin z\cot z = \cos z$, using $\sin z = e^{6Hy}$.
 
 **Exercise 9.** For the CPL values $(w_0, w_a) = (-0.861, -0.60)$ compute $w$ at $a = 1$, $a = 1/2$ and $a \to 0$, and the scale factor at which $w = -1$. Is this thawing or freezing in the convention of Section 22.16? What does $w < -1$ require of a fluid with $\rho > 0$?
 
