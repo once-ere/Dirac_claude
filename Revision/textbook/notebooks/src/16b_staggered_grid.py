@@ -150,7 +150,7 @@ CELLS = [
     ## 4. The physical and mathematical situation
 
     The Kohn-Sham orbitals of dirac16complex in the author's primordial field depend on
-    the hidden coordinate $y = \ln(\sin z)/(6H)$ (with $z = 6Hx_8$; $y = 0$ is the brane,
+    the hidden coordinate $y = \ln(\sin z)/(6H)$ (with $z = 6Hx_0$; $y = 0$ is the brane,
     $y = -L$ the tip). With $\chi = (a, i\,b)$ the block equation of `ks-theory.json`
     (entry `blockEquation.realForm`) reads, for the free problem ($v = 0$, constant
     $M$), units $H = m = 1$:

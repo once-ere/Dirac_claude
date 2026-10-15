@@ -35,7 +35,7 @@ Notebook 16a is placed first because it shows the whole check at work; 16b then 
 
 **What this chapter does not touch.** Nothing in this chapter concerns pairs of universes, their creation, or matter and antimatter. The cross-check compares two programs that solve the same Kohn-Sham equations; it says nothing about whether any universe is created, in pairs or otherwise. The pairing theorems and their exact scope are the subject of Chapters 18 to 21.
 
-**Notation and units.** The author's coordinates are $x_1, \dots, x_8$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which deflate exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$; $x_8$ is the hidden space direction, with $z = 6Hx_8$ between 0 and $\pi/2$. The hidden coordinate is $y = \ln(\sin z)/(6H)$; it runs from the **tip** $y = -L$ to the **brane** $y = 0$. A **slice** is one instant of the history, and $a_{4,0}$ is the value of $a_4$ there. In all numbers $H = 1$ and $m = 1$, so energies and temperatures are in units of $m$ and lengths in units of $1/H$. A state of the record is named like N136_lamp2_a20: $N = 136$ quanta, the coupling $+\lambda_2$ (the tags lam0, lamp1, lamm1, lamp2, lamm2 stand for $\lambda = 0, +\lambda_1, -\lambda_1, +\lambda_2, -\lambda_2$), the slice $a_{4,0} = 2.0$ (the two digits are ten times the slice); a thermal state ends in T10, T20 or T50 for the temperatures $T = 0.01$, $0.02$, $0.05$.
+**Notation and units.** The author's coordinates are $x_0, \dots, x_7$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which deflate exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$; $x_0$ is the hidden space direction, with $z = 6Hx_0$ between 0 and $\pi/2$. The hidden coordinate is $y = \ln(\sin z)/(6H)$; it runs from the **tip** $y = -L$ to the **brane** $y = 0$. A **slice** is one instant of the history, and $a_{4,0}$ is the value of $a_4$ there. In all numbers $H = 1$ and $m = 1$, so energies and temperatures are in units of $m$ and lengths in units of $1/H$. A state of the record is named like N136_lamp2_a20: $N = 136$ quanta, the coupling $+\lambda_2$ (the tags lam0, lamp1, lamm1, lamp2, lamm2 stand for $\lambda = 0, +\lambda_1, -\lambda_1, +\lambda_2, -\lambda_2$), the slice $a_{4,0} = 2.0$ (the two digits are ten times the slice); a thermal state ends in T10, T20 or T50 for the temperatures $T = 0.01$, $0.02$, $0.05$.
 
 ### 16.2 Why a second program, and what agreement can show
 
@@ -191,7 +191,7 @@ So the first term of $U$ is the size of the $h^4$ error of the finest one-step v
 
 **An example.** For N136_lamp2_a20 the one-step values are $r(h) = 12.448999480909$ and $r(h/2) = 12.448999481232$, the three-grid value is $R = 12.448999481253$, and $U = 4.6\times10^{-11}$ (Notebook 16a, In [6]; the record has $R = 12.44899948125322$ with $U = 4.6\times10^{-11}$, `Revision/kohn_sham/reference/README.md`). The single grid $G = 1200$ is $5.2\times10^{-6}$ away from $R$; two Richardson steps have gained five significant digits.
 
-**Testing the uncertainty on a fourth grid.** The argument above rests on the ASSUMED form of the error. The record tests it. One state, N136_lamp2_a20 (the strongest coupling, with the largest densities at the tip), is solved on a fourth grid as well, $G = 2400$. From $(300, 600, 1200)$ the three-grid value $R_{123}$ with its uncertainty $U_{123}$ is formed, and from $(600, 1200, 2400)$ the three-grid value $R_{234}$. The error of $R_{234}$ is of order $(h/2)^6 = h^6/64$, so it is about 64 times smaller than the error of $R_{123}$; hence $|R_{123} - R_{234}|$ is practically the error of $R_{123}$, and the test is whether it is at most $U_{123}$. For all 19 classes of quantities (energies, levels, integrals, values at the tip and at the brane, five profiles with 151 points each) it is: the largest ratio $|R_{123} - R_{234}|/U_{123}$ is $0.787$, for the value of the pressure $p_8$ at the tip (`Revision/kohn_sham/reports/ks-reference.json`, check `richardson_uncertainty_validated`). Notebook 16a repeats this test (In [7], Figure 16a.2). The uncertainty is therefore an honest estimate, and it is not hugely larger than the error either, which a useful estimate must also be.
+**Testing the uncertainty on a fourth grid.** The argument above rests on the ASSUMED form of the error. The record tests it. One state, N136_lamp2_a20 (the strongest coupling, with the largest densities at the tip), is solved on a fourth grid as well, $G = 2400$. From $(300, 600, 1200)$ the three-grid value $R_{123}$ with its uncertainty $U_{123}$ is formed, and from $(600, 1200, 2400)$ the three-grid value $R_{234}$. The error of $R_{234}$ is of order $(h/2)^6 = h^6/64$, so it is about 64 times smaller than the error of $R_{123}$; hence $|R_{123} - R_{234}|$ is practically the error of $R_{123}$, and the test is whether it is at most $U_{123}$. For all 19 classes of quantities (energies, levels, integrals, values at the tip and at the brane, five profiles with 151 points each) it is: the largest ratio $|R_{123} - R_{234}|/U_{123}$ is $0.787$, for the value of the pressure $p_0$ at the tip (`Revision/kohn_sham/reports/ks-reference.json`, check `richardson_uncertainty_validated`). Notebook 16a repeats this test (In [7], Figure 16a.2). The uncertainty is therefore an honest estimate, and it is not hugely larger than the error either, which a useful estimate must also be.
 
 ### 16.6 The uncertainty of the Rust solver: canonical and refined runs
 
@@ -284,7 +284,7 @@ The cross-check program `Revision/kohn_sham/checker/crosscheck_ks.py` compares t
 | `excited_delta_scf` | Delta-SCF energy, excited energy | 150 | 0.296 |
 | `excited_particle_hole_lists` | particle-hole excitations | 4842 | 0.001 |
 | `emt_integrals` | the five energy-momentum integrals | 375 | 0.225 |
-| `emt_brane_tip_values` | $\rho$, $p_3$, $p_t$, $p_8$ at the brane and the tip | 600 | 0.495 |
+| `emt_brane_tip_values` | $\rho$, $p_3$, $p_t$, $p_0$ at the brane and the tip | 600 | 0.495 |
 | `ground_profiles` | ten profiles at 151 points | 113250 | 0.495 |
 | `exchange_delta_E_x` | the exchange difference $\Delta E_x$ | 75 | 0.044 |
 | `adiabatic_dE_da4` | $dE/da_4$ in two forms | 150 | 0.122 |
@@ -755,19 +755,19 @@ For each ground state the list comprehension takes $E_{KS}$ from the three per-g
 **In [7], a fourth grid tests the uncertainty.**
 
 ```python
-FOUR_GRIDS = {}  # G -> (E_KS, levels, p8 at the tip) of N136_lamp2_a20 on grid G
+FOUR_GRIDS = {}  # G -> (E_KS, levels, p0 at the tip) of N136_lamp2_a20 on grid G
 original_observables = RR.K.observables  # the function of ks_fd (RR.K is ks_fd)
 
 
 def observables_recorded(state):
-    """Call ks_fd's own function and keep E_KS, the levels and p8 at the tip."""
+    """Call ks_fd's own function and keep E_KS, the levels and p0 at the tip."""
     scalars, profiles = original_observables(state)
     FOUR_GRIDS[state.grid.G] = (scalars["E_KS"], state.eps.copy(),
-                                scalars["p8_tip"])
+                                scalars["p0_tip"])
     return scalars, profiles
 ```
 
-A second wrapper, for the function `observables` of the module `ks_fd` (the reference program imported this module under the name `K`, so it is `RR.K` here). The validation job calls it once on each of the four grids; the wrapper keeps the grid's $E_{KS}$, a copy of its levels and the value of $p_8$ at the tip in `FOUR_GRIDS`, under the number of cells `state.grid.G`.
+A second wrapper, for the function `observables` of the module `ks_fd` (the reference program imported this module under the name `K`, so it is `RR.K` here). The validation job calls it once on each of the four grids; the wrapper keeps the grid's $E_{KS}$, a copy of its levels and the value of $p_0$ at the tip in `FOUR_GRIDS`, under the number of cells `state.grid.G`.
 
 ```python
 RR.K.observables = observables_recorded  # the job now calls our wrapper
@@ -795,13 +795,13 @@ stated = float(re.search(r"U123 = ([0-9.]+) \((\w+)\)", detail).group(1))
 say(f"largest ratio {classes[worst]['max_ratio_to_U123']:.3f} ({worst}); "
     f"the report states {stated}")
 check(all(c["all_within_U123"] for c in classes.values())
-      and len(classes) == 19 and worst == "p8_tip"
+      and len(classes) == 19 and worst == "p0_tip"
       and abs(classes[worst]["max_ratio_to_U123"] - stated) <= 5e-4,
       "on the fourth grid every three-grid value moves by less than its U",
       record=f"{KS}/reports/ks-reference.json, check richardson_uncertainty_validated")
 ```
 
-`classes` holds the 19 quantity classes of the validation, each with its number of elements and the largest ratio $|R_{123} - R_{234}|/U_{123}$; the loop prints them (Out [7]: from $0$ for the integral of $p_3$ to $0.787$ for $p_8$ at the tip). `max(classes, key=...)` finds the class with the largest ratio: the `key` is a **lambda**, a one-line function written in place, that gives each class name its ratio. `next(... for c in ... if ...)` takes the first check of the reference report whose name is `richardson_uncertainty_validated`, and `re.search` reads the number after the text `U123 = ` in its detail sentence: in the pattern, `[0-9.]+` means one or more digits or points, round brackets capture what they match (`.group(1)` returns it), `\(` and `\)` are literal brackets, and `\w+` is a word. The check requires every element of every class to lie within its $U_{123}$, 19 classes, the largest ratio at `p8_tip`, and our largest ratio equal to the one stated in the report within $5\times10^{-4}$.
+`classes` holds the 19 quantity classes of the validation, each with its number of elements and the largest ratio $|R_{123} - R_{234}|/U_{123}$; the loop prints them (Out [7]: from $0$ for the integral of $p_3$ to $0.787$ for $p_0$ at the tip). `max(classes, key=...)` finds the class with the largest ratio: the `key` is a **lambda**, a one-line function written in place, that gives each class name its ratio. `next(... for c in ... if ...)` takes the first check of the reference report whose name is `richardson_uncertainty_validated`, and `re.search` reads the number after the text `U123 = ` in its detail sentence: in the pattern, `[0-9.]+` means one or more digits or points, round brackets capture what they match (`.group(1)` returns it), `\(` and `\)` are literal brackets, and `\w+` is a word. The check requires every element of every class to lie within its $U_{123}$, 19 classes, the largest ratio at `p0_tip`, and our largest ratio equal to the one stated in the report within $5\times10^{-4}$.
 
 **In [8], convergence as a picture (Figure 16a.1).**
 
@@ -919,11 +919,11 @@ save_figure(fig, "uncertainty_validated",
             "stated uncertainty $U_{123}$, on a logarithmic axis; a class that agrees "
             f"exactly is drawn at $10^{{-8}}$ and marked. All bars end left of the "
             "line 1; the largest, "
-            f"{classes[worst]['max_ratio_to_U123']:.3f}, is the value of $p_8$ at the "
+            f"{classes[worst]['max_ratio_to_U123']:.3f}, is the value of $p_0$ at the "
             "tip, where the densities are largest.")
 ```
 
-The loop writes "exactly 0" next to every class whose ratio is exactly zero (here only the integral of $p_3$). After the axis label and the title, `save_figure` saves Figure 16a.2. The caption is an f-string that inserts the largest ratio, `{{-8}}` writing a literal pair of braces. What the student should see: every bar ends left of the line 1. The energies, the integrals and the levels end far to the left (ratios between about $10^{-4}$ and $3\times10^{-3}$, and exactly 0 for the integral of $p_3$), and the two values at the brane even further left (about $2\times10^{-6}$). Only the two values at the tip ($\rho$: $0.438$, $p_8$: $0.787$) and four of the five profiles, which include the tip as their first point ($n$: $0.661$, $\rho$: $0.438$, $p_3$: $0.437$, $p_8$: $0.787$; for $\rho$ and $p_8$ the largest ratio is the tip value itself), come within a factor of about 2 of the line; the profile of $S$ stays at $0.022$. The largest ratio ($p_8$ at the tip, $0.787$) is within a factor of 1.3 of the line. The tip, where the densities are largest, is where the grids work hardest. (All these ratios are printed in Out [7].)
+The loop writes "exactly 0" next to every class whose ratio is exactly zero (here only the integral of $p_3$). After the axis label and the title, `save_figure` saves Figure 16a.2. The caption is an f-string that inserts the largest ratio, `{{-8}}` writing a literal pair of braces. What the student should see: every bar ends left of the line 1. The energies, the integrals and the levels end far to the left (ratios between about $10^{-4}$ and $3\times10^{-3}$, and exactly 0 for the integral of $p_3$), and the two values at the brane even further left (about $2\times10^{-6}$). Only the two values at the tip ($\rho$: $0.438$, $p_0$: $0.787$) and four of the five profiles, which include the tip as their first point ($n$: $0.661$, $\rho$: $0.438$, $p_3$: $0.437$, $p_0$: $0.787$; for $\rho$ and $p_0$ the largest ratio is the tip value itself), come within a factor of about 2 of the line; the profile of $S$ stays at $0.022$. The largest ratio ($p_0$ at the tip, $0.787$) is within a factor of 1.3 of the line. The tip, where the densities are largest, is where the grids work hardest. (All these ratios are printed in Out [7].)
 
 **In [10], every level converges like $h^2$ (Figure 16a.3).**
 
@@ -1092,7 +1092,7 @@ for sid in SPECS:
     if sid in GROUND_IDS:
         worst = rel(canon["E_KS"], float(SUMMARY[sid]["E_KS"]))
         integrals = canon["emtIntegrals_2Vol7_int_e6Hy"]
-        for k in ("rho", "p3", "p_t", "p8", "n"):
+        for k in ("rho", "p3", "p_t", "p0", "n"):
             worst = max(worst, rel(integrals[k], float(EMT[sid]["int_" + k])))
         committed = {(int(x["n2"]), int(x["j"]), x["parity"], int(x["label"])):
                      float(x["eps"])
@@ -1101,7 +1101,7 @@ for sid in SPECS:
         worst = max([worst] + [abs(mine[k] - committed[k]) for k in mine
                                if k in committed])
         stored_prof = read_csv(f"{KS}/results/ground/profiles/{sid}.csv")
-        for name in ("n", "S", "rho", "p3", "p_t", "p8"):
+        for name in ("n", "S", "rho", "p3", "p_t", "p0"):
             top = max(abs(float(row[name])) for row in stored_prof)
             worst = max([worst] + [abs(a[name] - float(b[name])) / max(top, 1e-300)
                                    for a, b in zip(canon_prof, stored_prof)])
@@ -1165,7 +1165,7 @@ def compare(cls, case, x_rust, x_ref, u_ref, u_rust, scale=None):
 `RK4_FACTOR` is the factor $\tfrac{16}{15}$ of Section 16.6. `ROWS` will hold one tuple per comparison. `compare` is the tolerance rule of Section 16.7: the scale is $\max(1, |x_{ref}|)$ unless a scale is given (for profile points), the tolerance is $3(U_{ref} + U_{Rust}) + 10^{-12}\cdot$scale, the difference is $|x_{Rust} - x_{ref}|$, and the ratio is their quotient. The function stores all nine numbers of the comparison in `ROWS` and returns the ratio.
 
 ```python
-PROFILE_NAMES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p8")
+PROFILE_NAMES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 
 
 def rust_uncertainties(sid):
@@ -1176,9 +1176,9 @@ def rust_uncertainties(sid):
     U["mu"] = RK4_FACTOR * abs(canon["mu_or_fermi_level"]
                                - refined["mu_or_fermi_level"])
     ci, ri = canon["emtIntegrals_2Vol7_int_e6Hy"], refined["emtIntegrals_2Vol7_int_e6Hy"]
-    for k in ("rho", "p3", "p_t", "p8", "n"):
+    for k in ("rho", "p3", "p_t", "p0", "n"):
         U["int_" + k] = RK4_FACTOR * abs(ci[k] - ri[k])
-    for k in ("rho", "p3", "p_t", "p8"):  # profile end points: brane and tip
+    for k in ("rho", "p3", "p_t", "p0"):  # profile end points: brane and tip
         U[k + "_brane"] = RK4_FACTOR * abs(cp[-1][k] - rp[-1][k])
         U[k + "_tip"] = RK4_FACTOR * abs(cp[0][k] - rp[0][k])
     lc, lr = level_map(canon), level_map(refined)
@@ -1190,7 +1190,7 @@ def rust_uncertainties(sid):
     return U
 ```
 
-`PROFILE_NAMES` are the ten profiles of the record: $n$, $S$, $Q$, $M_{eff}$, $v_v$, $e_{int}$, $\rho$, $p_3$, $p_t$, $p_8$. `rust_uncertainties` computes $U_{Rust} = \tfrac{16}{15}|x_c - x_r|$ for every quantity that the single runs report: the three energies and the entropy (a dictionary comprehension), $\mu$, the five integrals, the values of $\rho$, $p_3$, $p_t$, $p_8$ at the brane (the last profile point, index `-1`) and at the tip (the first, index 0), the levels (one number: $\tfrac{16}{15}$ times the largest difference over all levels of the state), and for each profile a pair: $\tfrac{16}{15}$ times the largest difference over its points, and the largest value of the profile.
+`PROFILE_NAMES` are the ten profiles of the record: $n$, $S$, $Q$, $M_{eff}$, $v_v$, $e_{int}$, $\rho$, $p_3$, $p_t$, $p_0$. `rust_uncertainties` computes $U_{Rust} = \tfrac{16}{15}|x_c - x_r|$ for every quantity that the single runs report: the three energies and the entropy (a dictionary comprehension), $\mu$, the five integrals, the values of $\rho$, $p_3$, $p_t$, $p_0$ at the brane (the last profile point, index `-1`) and at the tip (the first, index 0), the levels (one number: $\tfrac{16}{15}$ times the largest difference over all levels of the state), and for each profile a pair: $\tfrac{16}{15}$ times the largest difference over its points, and the largest value of the profile.
 
 ```python
 U_RUST = {sid: rust_uncertainties(sid) for sid in SPECS}
@@ -1283,17 +1283,17 @@ The committed Rust levels of the state are read and filed under their keys, with
 U_ADIABATIC = RK4_FACTOR * WIDE["refined_adiabatic_derivatives"]  # relative
 for sid in GROUND_IDS:
     sc, U, e = NEW[sid]["scalars"], U_RUST[sid], EMT[sid]
-    for k in ("rho", "p3", "p_t", "p8", "n"):
+    for k in ("rho", "p3", "p_t", "p0", "n"):
         compare("emt_integrals", f"{sid} int_{k}", float(e["int_" + k]),
                 sc["int_" + k]["value"], sc["int_" + k]["U"], U["int_" + k])
-    for k in ("rho", "p3", "p_t", "p8"):
+    for k in ("rho", "p3", "p_t", "p0"):
         for end in ("brane", "tip"):
             name = f"{k}_{end}"
             compare("emt_brane_tip_values", f"{sid} {name}", float(e[name]),
                     sc[name]["value"], sc[name]["U"], U[name])
 ```
 
-`U_ADIABATIC` is the matrix-wide relative uncertainty of the derivatives along the history. For each ground state the five integrals are compared, each with its measured $U_{Rust}$, and the four quantities $\rho$, $p_3$, $p_t$, $p_8$ at the brane and at the tip (eight comparisons; `name` is for example `rho_tip`).
+`U_ADIABATIC` is the matrix-wide relative uncertainty of the derivatives along the history. For each ground state the five integrals are compared, each with its measured $U_{Rust}$, and the four quantities $\rho$, $p_3$, $p_t$, $p_0$ at the brane and at the tip (eight comparisons; `name` is for example `rho_tip`).
 
 ```python
     stored = read_csv(f"{KS}/results/ground/profiles/{sid}.csv")
@@ -1502,7 +1502,7 @@ The committed Rust profiles of N8_lamm2_a00 are read, `y` holds the 151 position
 
 ```python
 largest = 0.0
-for colour, name in ((PALETTE[0], "rho"), (PALETTE[2], "p8")):
+for colour, name in ((PALETTE[0], "rho"), (PALETTE[2], "p0")):
     ratios = [r[8] for r in ROWS if r[0] == "ground_profiles"
               and r[1].startswith(f"{sid} {name}(")]
     largest = max(largest, max(ratios))
@@ -1516,7 +1516,7 @@ bottom.legend(fontsize=8, loc="center right")
 fig.tight_layout()
 ```
 
-The lower panel draws, for $\rho$ and for $p_8$, the ratio of each of the 151 point comparisons against $y$ (`np.maximum` raises the small ratios to $10^{-6}$ point by point), and the line ratio 1; `largest` keeps the largest ratio of the two profiles.
+The lower panel draws, for $\rho$ and for $p_0$, the ratio of each of the 151 point comparisons against $y$ (`np.maximum` raises the small ratios to $10^{-6}$ point by point), and the line ratio 1; `largest` keeps the largest ratio of the two profiles.
 
 ```python
 save_figure(fig, "profile_agreement",
@@ -1525,7 +1525,7 @@ save_figure(fig, "profile_agreement",
             "($N = 8$, $\\lambda = -\\lambda_2$, $a_{4,0} = 0$) from the Rust solver "
             "(line) and the reference solver (circles), in units of $m$, against the "
             "hidden coordinate $y$. Bottom: the difference divided by the tolerance "
-            "at each of the 151 points for $\\rho$ and $p_8$ (logarithmic). The "
+            "at each of the 151 points for $\\rho$ and $p_0$ (logarithmic). The "
             f"largest ratio, {largest:.3f}, is at the tip $y = -3$, where the "
             "densities are largest and both solvers are least accurate.")
 ```
@@ -3853,7 +3853,7 @@ As In [23] of Notebook 16a, for the six figures; it prints ALL 26 CHECKS PASSED 
 The cross-check is a test of the **numerics**: of the discretisation, the rounding and the programming of the Rust solver, against a second program that differs in all three. Everything that both programs take from the same source is outside its reach, and the record says so (`Revision/kohn_sham/reference/README.md`, the section on what the reference does not establish). Precisely:
 
 - **The functional.** Both solvers read the same theory file `Revision/kohn_sham/ks-theory.json`: the contact interaction with Hartree and the exact local exchange of the uniform gas, and no correlation (Chapters 13 and 14). If that functional were a poor approximation for the field, both programs would agree on the wrong answer.
-- **The boundary conditions.** Both use the ASSUMED Z2 mirror brane at $y = 0$ and the CHOSEN regular tip at the cutoff $y = -L$ with $L = 3$. The cross-check compares the two solvers at this same cutoff, so it cannot show how the results depend on $L$. That dependence is measured separately, in `Revision/kohn_sham/tip_convergence/` (report `tip-convergence.json`, 7 of 7 checks PASS): a copy of the Rust solver that reads $L$ from the environment is run from $L = 3$ to $6$ for 29 of the recorded states, and the reference solver, run for two of these states (N8_lamp1_a00 and N136_lam0_a20) at $L = 3$ and at $L = 4$, agrees with it in all 28 comparisons, seven quantities for each state and each $L$ (the Kohn-Sham energy $E_{KS}$, the interaction energy, HOMO, LUMO and the integrals of $p_8$, $n$ and $\rho$; check `reference_solver_at_two_L`). Its worst ratio, $0.005$, is measured against that study's own tolerance $10\,(U_{ref} + U_{Rust}) + 10^{-9}\max(1, |x|)$, which is looser than the rule of Section 16.7, so it cannot be compared with the $0.495$ of the cross-check. The study finds that the recorded free results, except $N = 688$ at $a_{4,0} = 0$ (whose energy does not converge up to $L = 6$), lie within 1.4% ($E_{KS}$) and 12% (the energy-momentum integral of $p_8$) of their large-$L$ values, while the interaction effects depend strongly on $L$: the recorded Kohn-Sham energy $E_{KS}$ of the interacting states with $N = 8$ is about one third of its large-$L$ value. Agreement of the two programs at $L = 3$ says nothing about these differences.
+- **The boundary conditions.** Both use the ASSUMED Z2 mirror brane at $y = 0$ and the CHOSEN regular tip at the cutoff $y = -L$ with $L = 3$. The cross-check compares the two solvers at this same cutoff, so it cannot show how the results depend on $L$. That dependence is measured separately, in `Revision/kohn_sham/tip_convergence/` (report `tip-convergence.json`, 7 of 7 checks PASS): a copy of the Rust solver that reads $L$ from the environment is run from $L = 3$ to $6$ for 29 of the recorded states, and the reference solver, run for two of these states (N8_lamp1_a00 and N136_lam0_a20) at $L = 3$ and at $L = 4$, agrees with it in all 28 comparisons, seven quantities for each state and each $L$ (the Kohn-Sham energy $E_{KS}$, the interaction energy, HOMO, LUMO and the integrals of $p_0$, $n$ and $\rho$; check `reference_solver_at_two_L`). Its worst ratio, $0.005$, is measured against that study's own tolerance $10\,(U_{ref} + U_{Rust}) + 10^{-9}\max(1, |x|)$, which is looser than the rule of Section 16.7, so it cannot be compared with the $0.495$ of the cross-check. The study finds that the recorded free results, except $N = 688$ at $a_{4,0} = 0$ (whose energy does not converge up to $L = 6$), lie within 1.4% ($E_{KS}$) and 12% (the energy-momentum integral of $p_0$) of their large-$L$ values, while the interaction effects depend strongly on $L$: the recorded Kohn-Sham energy $E_{KS}$ of the interacting states with $N = 8$ is about one third of its large-$L$ value. Agreement of the two programs at $L = 3$ says nothing about these differences.
 - **The filling convention.** Both fill only the positive branch and the brane zero modes and never populate the sea, not even thermally (a CONVENTION whose justification is OPEN). The sea-hole diagnostic, which both programs compute and which agree with each other (worst ratio $0.048$), shows where this convention leaves its range of validity: in 15 of the 135 thermal states the excluded sea would carry more than 1% of $N$, at most $30.98N$ (`Revision/kohn_sham/reports/ks-crosscheck.json`, check `thermo_sea_hole_diagnostic`). Agreement of the two programs on this diagnostic says nothing about whether the convention is right.
 - **The history and the adiabatic states.** Both compute instantaneous (adiabatic) Kohn-Sham states along the PRESCRIBED BACKGROUND history $a_4 = AHx_4$ with $A = 1$. The history is not solved for: the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`, Chapter 17), and the time-dependent (non-adiabatic) problem is OPEN.
 - **The good sector.** Both assume that the quanta do not depend on the extra times $x_5, x_6, x_7$ (ASSUMED, Chapter 14).

@@ -204,7 +204,7 @@ CELLS = [
       **HOMO**, **LUMO**: the highest occupied and lowest unoccupied level; the
       **KS gap** is their difference. **Delta-SCF**: the energy of the first excited
       state minus $E_{KS}$.
-    - $\int\rho$, $\int p_3$, $\int p_t$, $\int p_8$, $\int n$: the energy density, the
+    - $\int\rho$, $\int p_3$, $\int p_t$, $\int p_0$, $\int n$: the energy density, the
       three pressures and the particle density integrated over the hidden coordinate
       with the volume factor, $2\,\mathrm{Vol}_7 \int_{-L}^{0} e^{6Hy}(\dots)\,dy$.
     - $dE/da_4$: how fast the energy changes along the history; $Q_{max}$: the
@@ -220,8 +220,8 @@ CELLS = [
     **The equations being solved.** The author's coordinates are $x_1, x_2, x_3$
     (3-space, scale factor $e^{a_4} \sin^{1/6} z$), $x_4$ (the time), $x_5, x_6, x_7$
     (the three extra times, which DEFLATE exponentially: scale factor
-    $e^{-a_4} \sin^{1/6} z$ with $a_4$ increasing) and $x_8$ (the hidden direction,
-    $z = 6Hx_8$, written through $y = \ln(\sin z)/(6H)$ in $-L \le y \le 0$). Along the
+    $e^{-a_4} \sin^{1/6} z$ with $a_4$ increasing) and $x_0$ (the hidden direction,
+    $z = 6Hx_0$, written through $y = \ln(\sin z)/(6H)$ in $-L \le y \le 0$). Along the
     PRESCRIBED BACKGROUND history $a_4 = A H x_4$ ($A = 1$) the Kohn-Sham states are
     computed at five instants, the **slices** $a_{4,0} = 0, 0.5, 1, 1.5, 2$. At a slice
     each orbital $\chi(y)$ solves the $2\times 2$ block equation
@@ -567,18 +567,18 @@ CELLS = [
     committed file `Revision/kohn_sham/reference/results/validation/N136_lamp2_a20.json`.
     To draw the four grids we again use a wrapper: the job calls the function
     `observables` of `ks_fd` once on each grid, and our wrapper keeps $E_{KS}$, the
-    levels and the tip value of $p_8$ of each grid.
+    levels and the tip value of $p_0$ of each grid.
     """),
     code(r'''
-    FOUR_GRIDS = {}  # G -> (E_KS, levels, p8 at the tip) of N136_lamp2_a20 on grid G
+    FOUR_GRIDS = {}  # G -> (E_KS, levels, p0 at the tip) of N136_lamp2_a20 on grid G
     original_observables = RR.K.observables  # the function of ks_fd (RR.K is ks_fd)
 
 
     def observables_recorded(state):
-        """Call ks_fd's own function and keep E_KS, the levels and p8 at the tip."""
+        """Call ks_fd's own function and keep E_KS, the levels and p0 at the tip."""
         scalars, profiles = original_observables(state)
         FOUR_GRIDS[state.grid.G] = (scalars["E_KS"], state.eps.copy(),
-                                    scalars["p8_tip"])
+                                    scalars["p0_tip"])
         return scalars, profiles
 
 
@@ -602,7 +602,7 @@ CELLS = [
     say(f"largest ratio {classes[worst]['max_ratio_to_U123']:.3f} ({worst}); "
         f"the report states {stated}")
     check(all(c["all_within_U123"] for c in classes.values())
-          and len(classes) == 19 and worst == "p8_tip"
+          and len(classes) == 19 and worst == "p0_tip"
           and abs(classes[worst]["max_ratio_to_U123"] - stated) <= 5e-4,
           "on the fourth grid every three-grid value moves by less than its U",
           record=f"{KS}/reports/ks-reference.json, check richardson_uncertainty_validated")
@@ -709,7 +709,7 @@ CELLS = [
                 "stated uncertainty $U_{123}$, on a logarithmic axis; a class that agrees "
                 f"exactly is drawn at $10^{{-8}}$ and marked. All bars end left of the "
                 "line 1; the largest, "
-                f"{classes[worst]['max_ratio_to_U123']:.3f}, is the value of $p_8$ at the "
+                f"{classes[worst]['max_ratio_to_U123']:.3f}, is the value of $p_0$ at the "
                 "tip, where the densities are largest.")
     '''),
     md(r"""
@@ -881,7 +881,7 @@ CELLS = [
         if sid in GROUND_IDS:
             worst = rel(canon["E_KS"], float(SUMMARY[sid]["E_KS"]))
             integrals = canon["emtIntegrals_2Vol7_int_e6Hy"]
-            for k in ("rho", "p3", "p_t", "p8", "n"):
+            for k in ("rho", "p3", "p_t", "p0", "n"):
                 worst = max(worst, rel(integrals[k], float(EMT[sid]["int_" + k])))
             committed = {(int(x["n2"]), int(x["j"]), x["parity"], int(x["label"])):
                          float(x["eps"])
@@ -890,7 +890,7 @@ CELLS = [
             worst = max([worst] + [abs(mine[k] - committed[k]) for k in mine
                                    if k in committed])
             stored_prof = read_csv(f"{KS}/results/ground/profiles/{sid}.csv")
-            for name in ("n", "S", "rho", "p3", "p_t", "p8"):
+            for name in ("n", "S", "rho", "p3", "p_t", "p0"):
                 top = max(abs(float(row[name])) for row in stored_prof)
                 worst = max([worst] + [abs(a[name] - float(b[name])) / max(top, 1e-300)
                                        for a, b in zip(canon_prof, stored_prof)])
@@ -951,7 +951,7 @@ CELLS = [
         return ratio
 
 
-    PROFILE_NAMES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p8")
+    PROFILE_NAMES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 
 
     def rust_uncertainties(sid):
@@ -962,9 +962,9 @@ CELLS = [
         U["mu"] = RK4_FACTOR * abs(canon["mu_or_fermi_level"]
                                    - refined["mu_or_fermi_level"])
         ci, ri = canon["emtIntegrals_2Vol7_int_e6Hy"], refined["emtIntegrals_2Vol7_int_e6Hy"]
-        for k in ("rho", "p3", "p_t", "p8", "n"):
+        for k in ("rho", "p3", "p_t", "p0", "n"):
             U["int_" + k] = RK4_FACTOR * abs(ci[k] - ri[k])
-        for k in ("rho", "p3", "p_t", "p8"):  # profile end points: brane and tip
+        for k in ("rho", "p3", "p_t", "p0"):  # profile end points: brane and tip
             U[k + "_brane"] = RK4_FACTOR * abs(cp[-1][k] - rp[-1][k])
             U[k + "_tip"] = RK4_FACTOR * abs(cp[0][k] - rp[0][k])
         lc, lr = level_map(canon), level_map(refined)
@@ -1057,9 +1057,9 @@ CELLS = [
     The next cell adds the comparisons of the energy-momentum tensor and of the
     adiabaticity, again in the classes of the cross-check program:
 
-    - `emt_integrals`: the five integrals $\int\rho$, $\int p_3$, $\int p_t$, $\int p_8$,
+    - `emt_integrals`: the five integrals $\int\rho$, $\int p_3$, $\int p_t$, $\int p_0$,
       $\int n$;
-    - `emt_brane_tip_values`: $\rho$, $p_3$, $p_t$, $p_8$ at the brane and at the tip;
+    - `emt_brane_tip_values`: $\rho$, $p_3$, $p_t$, $p_0$ at the brane and at the tip;
     - `ground_profiles`: the ten profiles at all 151 points, with the scale = the
       largest value of the profile;
     - `exchange_delta_E_x`: $\Delta E_x$, whose Rust uncertainty is derived from the
@@ -1078,10 +1078,10 @@ CELLS = [
     U_ADIABATIC = RK4_FACTOR * WIDE["refined_adiabatic_derivatives"]  # relative
     for sid in GROUND_IDS:
         sc, U, e = NEW[sid]["scalars"], U_RUST[sid], EMT[sid]
-        for k in ("rho", "p3", "p_t", "p8", "n"):
+        for k in ("rho", "p3", "p_t", "p0", "n"):
             compare("emt_integrals", f"{sid} int_{k}", float(e["int_" + k]),
                     sc["int_" + k]["value"], sc["int_" + k]["U"], U["int_" + k])
-        for k in ("rho", "p3", "p_t", "p8"):
+        for k in ("rho", "p3", "p_t", "p0"):
             for end in ("brane", "tip"):
                 name = f"{k}_{end}"
                 compare("emt_brane_tip_values", f"{sid} {name}", float(e[name]),
@@ -1256,7 +1256,7 @@ CELLS = [
     The next cell draws the profile in which the largest ratio of the whole cross-check
     occurred: the energy density $\rho(y)$ of N8_lamm2_a00. Top: $\rho$ from both
     solvers (the reference at every fifth point). Bottom: the ratio at each of the 151
-    points for $\rho$ and for $p_8$.
+    points for $\rho$ and for $p_0$.
     """),
     code(r'''
     sid = "N8_lamm2_a00"
@@ -1271,7 +1271,7 @@ CELLS = [
     top.set_title("Energy density of N8_lamm2_a00")
     top.legend(fontsize=8)
     largest = 0.0
-    for colour, name in ((PALETTE[0], "rho"), (PALETTE[2], "p8")):
+    for colour, name in ((PALETTE[0], "rho"), (PALETTE[2], "p0")):
         ratios = [r[8] for r in ROWS if r[0] == "ground_profiles"
                   and r[1].startswith(f"{sid} {name}(")]
         largest = max(largest, max(ratios))
@@ -1289,7 +1289,7 @@ CELLS = [
                 "($N = 8$, $\\lambda = -\\lambda_2$, $a_{4,0} = 0$) from the Rust solver "
                 "(line) and the reference solver (circles), in units of $m$, against the "
                 "hidden coordinate $y$. Bottom: the difference divided by the tolerance "
-                "at each of the 151 points for $\\rho$ and $p_8$ (logarithmic). The "
+                "at each of the 151 points for $\\rho$ and $p_0$ (logarithmic). The "
                 f"largest ratio, {largest:.3f}, is at the tip $y = -3$, where the "
                 "densities are largest and both solvers are least accurate.")
     '''),
