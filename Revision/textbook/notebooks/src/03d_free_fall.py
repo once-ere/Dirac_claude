@@ -12,7 +12,8 @@ Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/03d_free_fall.py
 
 What a freely falling test particle does in the author's metric (Revision/SPEC.md
-section 1) along the deflating history a4 = A H x4 of the Revision Kohn-Sham work: the
+section 1, with the functions a4 and b4, in the author's coordinates x0..x7) along the
+deflating history a4 = A H x4, b4 = 1 of the Revision Kohn-Sham work: the
 geodesic equations are integrated with exactly the Christoffel symbols of the Revision
 record Revision/gkd_lovelock/results/curvature.json; the conservation laws, the
 redshift of the 3-space motion and the blueshift of the extra-time motion, the push
@@ -42,13 +43,15 @@ FACTS = {
     "purpose": (
         "It integrates the geodesic equations of free fall in the author's metric with "
         "the Christoffel symbols of the Revision record, along the deflating history "
-        "a4 = A H x4 with A = 1 and H = 1, by the Runge-Kutta method RK4. With sympy it "
-        "proves exactly that the six momenta along x1, x2, x3, x5, x6, x7 and the squared "
-        "length of the velocity are conserved, that the frame velocity in 3-space falls "
-        "like e^(-a4) (redshift) while the frame velocity along an extra time grows like "
-        "e^(a4) (blueshift), that the hidden coordinate y is pushed with the acceleration "
+        "a4 = A H x4, b4 = 1 with A = 1 and H = 1, by the Runge-Kutta method RK4. With "
+        "sympy it proves exactly, for general a4(x4) and b4(x4), that the six momenta "
+        "along x1, x2, x3, x5, x6, x7 and the squared length of the velocity are "
+        "conserved, that the frame velocity in 3-space falls like e^(-a4) (redshift) "
+        "while the frame velocity along an extra time grows like e^(a4) b4^(-1/2) "
+        "(blueshift), that the hidden coordinate y is pushed with the acceleration "
         "H times the difference of the squared 3-space and extra-time frame velocities, "
-        "and that the x4 velocity can only decrease; it reproduces the momentum weight "
+        "and the law of the x4 velocity, which can only decrease along a deflating "
+        "history; it reproduces the momentum weight "
         "of the Revision Kohn-Sham record and the quadratic form of the plane-wave check "
         "of the Revision scope report. It checks all of this on the computed paths, finds "
         "the turning point in x4 of a particle that moves along an extra time, measures "
@@ -64,8 +67,8 @@ FACTS = {
               "sector without extra-time momenta (sectorAndAnsatz.sector) and the status "
               "of the history a4 = A H x4 (a prescribed background, not solved for)"],
         [SCOPE, "the check extra_time_growth_rates_unbounded: for plane waves in flat 4+4 "
-                "space the squared frequency is m^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - "
-                "k7^2 + k8^2, the same quadratic form as the squared x4 velocity of a free "
+                "space the squared frequency is m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - "
+                "k6^2 - k7^2, the same quadratic form as the squared x4 velocity of a free "
                 "particle"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
@@ -113,17 +116,19 @@ CELLS = [
     - proves that the velocity of a body moving in 3-space, measured with rulers and
       clocks at its place, falls like $e^{-a_4}$ at a fixed height in the hidden
       direction (**redshift**: 3-space inflates), while its velocity along an extra time
-      grows like $e^{a_4}$ (**blueshift**: the extra times deflate), and reproduces the
+      grows like $e^{a_4} b_4^{-1/2}$ (**blueshift**: the extra times deflate), and
+      reproduces the
       **momentum weight** $\kappa = e^{-Hy - a_4}$ of the Revision Kohn-Sham record;
     - proves that motion in 3-space pushes the body towards the patch end of the hidden
-      direction, motion along an extra time towards the tip, and that the velocity
-      along the time $x_4$ can only decrease;
+      direction, motion along an extra time towards the tip, and finds the law of the
+      velocity along the time $x_4$, which can only decrease along a deflating history;
     - shows that the squared $x_4$ velocity of the body is the same quadratic form as the
       squared frequency of a plane wave in the Revision record's check
       `extra_time_growth_rates_unbounded`;
     - integrates the geodesic equations numerically (RK4) for a body at rest, three
       bodies moving in 3-space and one body moving along an extra time, along the
-      deflating history $a_4 = AHx_4$ ($A = 1$, $H = 1$), checks every exact law on the
+      deflating history $a_4 = AHx_4$, $b_4 = 1$ ($A = 1$, $H = 1$), checks every exact
+      law on the
       computed paths, finds the instant at which the last body stops advancing in $x_4$,
       and measures the accuracy of RK4;
     - draws 5 figures and prints a PASS line for every check.
@@ -131,10 +136,10 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates** $x_1, \dots, x_8$ (the author's names): $x_1, x_2, x_3$ ordinary
-      3-space, $x_4$ the time, $x_5, x_6, x_7$ the three **extra times**, $x_8$ the
-      **hidden** direction; $z = 6Hx_8$ with $0 < z < \pi/2$. In Python lists they are
-      counted 0 to 7.
+    - **Coordinates** $x_0, \dots, x_7$ (the author's names): $x_0$ the **hidden**
+      direction, $x_1, x_2, x_3$ ordinary 3-space, $x_4$ the time, $x_5, x_6, x_7$ the
+      three **extra times**; $z = 6Hx_0$ with $0 < z < \pi/2$. In Python lists they are
+      counted 0 to 7 as well: $x_k$ is entry $k$, its velocity $u^k$ too.
     - **Hidden coordinate** $y = \ln(\sin z)/(6H)$: the proper distance along the
       hidden direction, $y = 0$ at the **patch end** $z = \pi/2$ and $y \to -\infty$ at
       the **tip** $z \to 0$.
@@ -157,9 +162,10 @@ CELLS = [
       same number at every point of the path.
     - **Redshift, blueshift**: the decrease, increase of a frame velocity (or momentum)
       caused by the expansion, contraction of the space it points along.
-    - **History** $a_4 = AHx_4$: the time dependence of the metric used for the numbers,
-      the one of the Revision Kohn-Sham work ($A = 1$, $H = 1$); with $A > 0$ the extra
-      times deflate. It is a **prescribed background**: assumed, not solved for.
+    - **History** $a_4 = AHx_4$, $b_4 = 1$: the time dependence of the metric used for
+      the numbers, the one of the Revision Kohn-Sham work ($A = 1$, $H = 1$); with $A > 0$
+      the extra times deflate. It is a **prescribed background**: assumed, not solved
+      for.
     - **RK4**: the classical Runge-Kutta method of order 4; halving its step makes its
       error about $2^4 = 16$ times smaller.
     - **Turning point**: the instant at which the $x_4$ velocity $u^4$ passes through
@@ -169,27 +175,28 @@ CELLS = [
     ## 4. The physical and mathematical situation
 
     The author's metric is diagonal,
-    $g = \mathrm{diag}(h_1^2, h_2^2, h_3^2, -1, -h_5^2, -h_6^2, -h_7^2, h_8^2)$ with
-    the scale factors $h_1 = h_2 = h_3 = e^{a_4}\sin^{1/6}z$ (3-space, inflating),
-    $h_5 = h_6 = h_7 = e^{-a_4}\sin^{1/6}z$ (the extra times, deflating) and
-    $h_8 = \cot z$. A test particle with mass falls freely along a solution of the
-    **geodesic equations**
+    $g = \mathrm{diag}(h_0^2, h_1^2, h_2^2, h_3^2, -1, -h_5^2, -h_6^2, -h_7^2)$ with
+    the scale factors $h_0 = \cot z$, $h_1 = h_2 = h_3 = e^{a_4}\sin^{1/6}z$ (3-space,
+    inflating) and $h_5 = h_6 = h_7 = b_4^{1/2} e^{-a_4}\sin^{1/6}z$ (the extra times,
+    deflating when $b_4$ is constant). A test particle with mass falls freely along a
+    solution of the **geodesic equations**
 
     $$\frac{dx^a}{d\tau} = u^a, \qquad \frac{du^a}{d\tau} = -\sum_{b,c}
-    \Gamma^a{}_{bc}\, u^b u^c \qquad (a = 1, \dots, 8),$$
+    \Gamma^a{}_{bc}\, u^b u^c \qquad (a = 0, \dots, 7),$$
 
     sixteen first-order equations. The Christoffel symbols are those of the Revision
     record (Notebook 03b checked them component by component). The metric depends only
-    on $x_4$ and $x_8$; for each of the other six directions this makes a momentum
+    on $x_4$ and $x_0$; for each of the other six directions this makes a momentum
     $p_a = g_{aa} u^a$ conserved (section 6). The squared length $g(u, u)$ of the
     velocity is conserved too, and we choose it equal to $-1$: then $\tau$ is the
     proper time of the particle and the path is time-like.
 
-    For the numbers the notebook uses the deflating history $a_4 = AHx_4$ of the
-    Revision Kohn-Sham work with $A = 1$ and $H = 1$ (so $a_4' = 1$). It is a
-    prescribed background, and the particles are test particles: they move in the given
-    metric and do not change it. Everything in sections 6 to 9 holds for a general
-    function $a_4(x_4)$; only the numerical paths of sections 10 to 12 use the history.
+    For the numbers the notebook uses the deflating history $a_4 = AHx_4$, $b_4 = 1$ of
+    the Revision Kohn-Sham work with $A = 1$ and $H = 1$ (so $a_4' = 1$, $b_4' = 0$). It
+    is a prescribed background, and the particles are test particles: they move in the
+    given metric and do not change it. Everything in sections 6 to 9 holds for general
+    functions $a_4(x_4)$ and $b_4(x_4)$; only the numerical paths of sections 10 to 12
+    use the history.
     """),
     md(r"""
     ## 5. The Christoffel symbols, read from the record
@@ -232,16 +239,17 @@ CELLS = [
     '''),
     md(r"""
     The next cell imports the packages, makes the symbols (the eight coordinates, the
-    constant $H > 0$, the function $a_4(x_4)$, and the printing names `a4p` for $a_4'$
-    and `a4v` for the value of $a_4$), and reads the list `christoffelNonzero_b_le_c` of
+    constant $H > 0$, the functions $a_4(x_4)$ and $b_4(x_4)$, and the printing names
+    `a4p` for $a_4'$, `a4v` for the value of $a_4$, `b4p` and `b4v` the same for $b_4$),
+    and reads the list `christoffelNonzero_b_le_c` of
     the record. Each entry gives the three indices `a`, `b`, `c` of
     $\Gamma^a{}_{bc}$ (with $b \le c$) and its value in Mathematica notation, which the
     function `from_mathematica` translates into sympy (the same translation as in
-    Notebook 03b: `Derivative[1][a4][x4]` becomes `a4p`, `a4[x4]` becomes `a4v`, square
-    brackets of functions become round ones, `^` becomes `**`). Because
-    $\Gamma^a{}_{bc} = \Gamma^a{}_{cb}$, every entry with $b < c$ is stored twice, once
-    for each order of the lower indices: the 25 entries give 37 symbols. The cell prints
-    four of them.
+    Notebook 03b: `Derivative[1][a4][x4]` becomes `a4p`, `a4[x4]` becomes `a4v`, the
+    same for $b_4$, square brackets of functions become round ones, `^` becomes `**`).
+    Because $\Gamma^a{}_{bc} = \Gamma^a{}_{cb}$, every entry with $b < c$ is stored
+    twice, once for each order of the lower indices: the 25 entries give 37 symbols. The
+    cell prints four of them.
     """),
     code(r'''
     import numpy as np  # arrays of numbers
@@ -250,32 +258,35 @@ CELLS = [
 
     CURVATURE_RECORD = "Revision/gkd_lovelock/results/curvature.json"
     record = json.loads(repository_file(CURVATURE_RECORD).read_text(encoding="utf-8"))
-    NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
-    X = sp.symbols("x1:9", real=True)  # the coordinates x1 ... x8 (X[0] ... X[7])
-    x4, x8 = X[3], X[7]
+    NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
+    X = sp.symbols("x0:8", real=True)  # the coordinates x0 ... x7 (X[0] ... X[7])
+    x4, x0 = X[4], X[0]
     H = sp.symbols("H", positive=True)  # the constant of the author
-    a4 = sp.Function("a4")(x4)  # the metric function, any function of x4
-    a4p, a4v = sp.symbols("a4p a4v", real=True)  # printing names: a4 prime, a4
-    record_names = {"a4p": a4p, "a4v": a4v, "H": H, "x8": x8, "E": sp.E,
-                    "sin": sp.sin, "cot": sp.cot}
+    a4 = sp.Function("a4")(x4)  # the metric function a4, any function of x4
+    b4 = sp.Function("b4", positive=True)(x4)  # the metric function b4 > 0
+    a4p, a4v, b4p = sp.symbols("a4p a4v b4p", real=True)  # printing names
+    b4v = sp.symbols("b4v", positive=True)  # printing name of the value of b4
+    record_names = {"a4p": a4p, "a4v": a4v, "b4p": b4p, "b4v": b4v, "H": H, "x0": x0,
+                    "E": sp.E, "sin": sp.sin, "cot": sp.cot}
 
 
     def from_mathematica(entry_text):
         """A value of the record (Mathematica notation) as a sympy expression."""
         t = entry_text.replace("Derivative[1][a4][x4]", "a4p").replace("a4[x4]", "a4v")
-        t = t.replace("Sin[6*H*x8]", "sin(6*H*x8)").replace("Cot[6*H*x8]", "cot(6*H*x8)")
+        t = t.replace("Derivative[1][b4][x4]", "b4p").replace("b4[x4]", "b4v")
+        t = t.replace("Sin[6*H*x0]", "sin(6*H*x0)").replace("Cot[6*H*x0]", "cot(6*H*x0)")
         t = t.replace("^", "**")
         if "[" in t or "]" in t:  # a piece of notation that was not translated
             raise ValueError(f"cannot translate {entry_text}")
         return parse_expr(t, local_dict=record_names)
 
 
-    Gamma = {}  # (a, b, c) -> the value of Gamma^a_bc, with a4p and a4v
+    Gamma = {}  # (a, b, c) -> the value of Gamma^a_bc, with a4p, a4v, b4p, b4v
     for entry in record["christoffelNonzero_b_le_c"]:
         a, b, c = (NAMES.index(entry[key]) for key in ("a", "b", "c"))
         Gamma[(a, b, c)] = from_mathematica(entry["value"])
         Gamma[(a, c, b)] = Gamma[(a, b, c)]  # the same symbol with b and c exchanged
-    for key in [(0, 0, 3), (3, 4, 4), (7, 0, 0), (7, 7, 7)]:
+    for key in [(1, 1, 4), (4, 5, 5), (0, 1, 1), (0, 0, 0)]:
         a, b, c = key
         say(f"  Gamma^{NAMES[a]}_({NAMES[b]} {NAMES[c]}) = {Gamma[key]}")
     report("entries of the record (b <= c)", len(record["christoffelNonzero_b_le_c"]))
@@ -294,29 +305,31 @@ CELLS = [
 
     and on a path of free fall $du^a/d\tau$ is given by the geodesic equation. The next
     cell defines this rate as the function `along_path(f)`, with the record's
-    Christoffel symbols for a general function $a_4(x_4)$ (`a4p` becomes the derivative
-    of $a_4$, `a4v` the value $a_4(x_4)$).
+    Christoffel symbols for general functions $a_4(x_4)$ and $b_4(x_4)$ (`a4p` becomes
+    the derivative of $a_4$, `a4v` the value $a_4(x_4)$, and the same for $b_4$).
 
     By hand, for the momentum $p_1 = g_{11} u^1$ of the direction $x_1$. Line 1, the
-    chain rule (only $x_4$ and $x_8$ appear in $g_{11}$):
-    $dp_1/d\tau = (\partial_4 g_{11}\, u^4 + \partial_8 g_{11}\, u^8)\, u^1
+    chain rule (only $x_4$ and $x_0$ appear in $g_{11}$):
+    $dp_1/d\tau = (\partial_4 g_{11}\, u^4 + \partial_0 g_{11}\, u^0)\, u^1
     + g_{11}\, du^1/d\tau$. Line 2, the geodesic equation for $u^1$ has the four terms
     with $\Gamma^{x_1}{}_{x_1x_4} = \Gamma^{x_1}{}_{x_4x_1} = a_4'$ and
-    $\Gamma^{x_1}{}_{x_1x_8} = \Gamma^{x_1}{}_{x_8x_1} = H\cot z$:
-    $du^1/d\tau = -2a_4' u^1 u^4 - 2H\cot z\, u^1 u^8$. Line 3, from
+    $\Gamma^{x_1}{}_{x_1x_0} = \Gamma^{x_1}{}_{x_0x_1} = H\cot z$:
+    $du^1/d\tau = -2a_4' u^1 u^4 - 2H\cot z\, u^1 u^0$. Line 3, from
     $g_{11} = e^{2a_4}\sin^{1/3}z$: $\partial_4 g_{11} = 2a_4' g_{11}$ and
-    $\partial_8 g_{11} = \tfrac13 \cdot 6H \cot z\, g_{11} = 2H\cot z\, g_{11}$
+    $\partial_0 g_{11} = \tfrac13 \cdot 6H \cot z\, g_{11} = 2H\cot z\, g_{11}$
     (the derivative of $\sin^{1/3} z$ is $\tfrac13 \sin^{-2/3}z \cos z$ times
-    $dz/dx_8 = 6H$). Line 4, inserting lines 2 and 3 into line 1:
-    $dp_1/d\tau = 2a_4' g_{11} u^4 u^1 + 2H\cot z\, g_{11} u^8 u^1 - 2a_4' g_{11} u^1 u^4
-    - 2H\cot z\, g_{11} u^1 u^8 = 0$. The momentum is conserved because the metric does
+    $dz/dx_0 = 6H$). Line 4, inserting lines 2 and 3 into line 1:
+    $dp_1/d\tau = 2a_4' g_{11} u^4 u^1 + 2H\cot z\, g_{11} u^0 u^1 - 2a_4' g_{11} u^1 u^4
+    - 2H\cot z\, g_{11} u^1 u^0 = 0$. The momentum is conserved because the metric does
     not depend on $x_1$. The cell lets sympy do the same for all six momenta of
     $x_1, x_2, x_3, x_5, x_6, x_7$, and for the squared length
     $g(u, u) = \sum_a g_{aa} (u^a)^2$.
     """),
     code(r'''
-    u = sp.symbols("u1:9", real=True)  # the velocity components u^1 ... u^8
-    to_function = {a4p: sp.Derivative(a4, x4), a4v: a4}  # back to the function a4(x4)
+    u = sp.symbols("u0:8", real=True)  # the velocity components u^0 ... u^7
+    # back to the functions a4(x4) and b4(x4)
+    to_function = {a4p: sp.Derivative(a4, x4), a4v: a4, b4p: sp.Derivative(b4, x4),
+                   b4v: b4}
     acceleration = [sp.S(0)] * 8  # du^a/dtau from the geodesic equation
     for (a, b, c), value in Gamma.items():
         acceleration[a] -= value.subs(to_function) * u[b] * u[c]
@@ -328,13 +341,14 @@ CELLS = [
                    for k in range(8))
 
 
-    warp = sp.sin(6 * H * x8) ** sp.Rational(1, 6)  # sin(z)^(1/6), z = 6 H x8
-    h = [sp.exp(a4) * warp] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * warp] * 3 \
-        + [sp.cot(6 * H * x8)]  # the eight scale factors h_a
-    ETA = [1, 1, 1, -1, -1, -1, -1, 1]  # the signs of the metric entries
+    warp = sp.sin(6 * H * x0) ** sp.Rational(1, 6)  # sin(z)^(1/6), z = 6 H x0
+    # the eight scale factors h_a in the author's order x0, x1, ..., x7
+    h = [sp.cot(6 * H * x0)] + [sp.exp(a4) * warp] * 3 + [sp.Integer(1)] \
+        + [sp.sqrt(b4) * sp.exp(-a4) * warp] * 3
+    ETA = [1, 1, 1, 1, -1, -1, -1, -1]  # the signs of the metric entries
     g = [ETA[k] * h[k] ** 2 for k in range(8)]  # the diagonal of the metric
-    say(f"du1/dtau = {sp.factor(acceleration[0]).subs(sp.Derivative(a4, x4), a4p)}")
-    momenta = {k: g[k] * u[k] for k in (0, 1, 2, 4, 5, 6)}  # p_a = g_aa u^a
+    say(f"du1/dtau = {sp.factor(acceleration[1]).subs(sp.Derivative(a4, x4), a4p)}")
+    momenta = {k: g[k] * u[k] for k in (1, 2, 3, 5, 6, 7)}  # p_a = g_aa u^a
     rates = [sp.simplify(along_path(p)) for p in momenta.values()]
     check(rates == [0] * 6,
           "the six momenta of x1, x2, x3, x5, x6, x7 are conserved in free fall")
@@ -349,76 +363,84 @@ CELLS = [
     (plus for 3-space, minus for the extra times),
 
     $$\hat u^1 = \frac{p_1}{h_1} = p_1\, e^{-a_4} \sin^{-1/6} z, \qquad
-    \hat u^5 = -\frac{p_5}{h_5} = -p_5\, e^{a_4} \sin^{-1/6} z .$$
+    \hat u^5 = -\frac{p_5}{h_5} = -p_5\, b_4^{-1/2} e^{a_4} \sin^{-1/6} z .$$
 
     With $p_1$ and $p_5$ constant, the frame velocity in 3-space falls like $e^{-a_4}$
     when $a_4$ grows (redshift), and the frame velocity along an extra time grows like
-    $e^{a_4}$ (blueshift). In the hidden coordinate, $\sin^{1/6} z = e^{Hy}$, so
+    $e^{a_4} b_4^{-1/2}$, like $e^{a_4}$ for a constant $b_4$ (blueshift). In the hidden
+    coordinate, $\sin^{1/6} z = e^{Hy}$, so
     $1/h_1 = e^{-Hy - a_4}$: exactly the **momentum weight**
     $\kappa(y, x_4) = e^{-Hy - a_4(x_4)}$ that the Revision Kohn-Sham record uses to turn
     a conserved 3-space momentum into the momentum seen at height $y$ and time $x_4$.
     The next cell reads that statement of the record and checks it, and checks
-    $1/h_5 = e^{a_4 - Hy}$ for the extra times.
+    $1/h_5 = b_4^{-1/2} e^{a_4 - Hy}$ for the extra times.
     """),
     code(r'''
     KS_THEORY = "Revision/kohn_sham/ks-theory.json"
     ks_theory = json.loads(repository_file(KS_THEORY).read_text(encoding="utf-8"))
     say("record, geometry.kappa: " + ks_theory["geometry"]["kappa"])
-    y_of_x8 = sp.log(sp.sin(6 * H * x8)) / (6 * H)  # the hidden coordinate y
-    kappa = sp.exp(-H * y_of_x8 - a4)  # the record's e^{-Hy - a4(x4)}
-    check(sp.simplify(1 / h[0] - kappa) == 0,
+    y_of_x0 = sp.log(sp.sin(6 * H * x0)) / (6 * H)  # the hidden coordinate y
+    kappa = sp.exp(-H * y_of_x0 - a4)  # the record's e^{-Hy - a4(x4)}
+    check(sp.simplify(1 / h[1] - kappa) == 0,
           "1/h1 = e^(-H y - a4): the frame velocity in 3-space is p1 times kappa",
           record=f"{KS_THEORY}, geometry.kappa")
-    check(sp.simplify(1 / h[4] - sp.exp(a4 - H * y_of_x8)) == 0,
-          "1/h5 = e^(a4 - H y): the frame velocity along an extra time grows with a4")
+    check(sp.simplify(1 / h[5] - sp.exp(a4 - H * y_of_x0) / sp.sqrt(b4)) == 0,
+          "1/h5 = b4^(-1/2) e^(a4 - H y): the frame velocity along an extra time grows "
+          "with a4")
     '''),
     md(r"""
     ## 8. The push along the hidden direction and the slowing of $x_4$ (exact)
 
     Two more exact laws follow from the record's symbols. First the hidden direction.
-    The geodesic equation for $u^8$ has the terms with
-    $\Gamma^{x_8}{}_{x_ix_i} = -H h_i^2 \tan z$ (3-space, $i = 1, 2, 3$),
-    $\Gamma^{x_8}{}_{x_jx_j} = +H h_j^2 \tan z$ (extra times, $j = 5, 6, 7$) and
-    $\Gamma^{x_8}{}_{x_8x_8} = -6H(\tan z + \cot z)$, so
-    $du^8/d\tau = H\tan z\,(\sum_i (\hat u^i)^2 - \sum_j (\hat u^j)^2)
-    + 6H(\tan z + \cot z)(u^8)^2$. The frame velocity along $x_8$ is
-    $\hat u^8 = \cot z\, u^8 = dy/d\tau$ (because $dy/dx_8 = \cot z$). Its rate is
-    $d\hat u^8/d\tau = -6H (u^8)^2/\sin^2 z + \cot z\, du^8/d\tau$ (the product rule,
-    with $d\cot z/d\tau = -6H u^8/\sin^2 z$); inserting $du^8/d\tau$ and using
-    $\cot z \tan z = 1$ and $1 + \cot^2 z = 1/\sin^2 z$, the $(u^8)^2$ terms cancel:
+    The geodesic equation for $u^0$ has the terms with
+    $\Gamma^{x_0}{}_{x_ix_i} = -H h_i^2 \tan z$ (3-space, $i = 1, 2, 3$),
+    $\Gamma^{x_0}{}_{x_jx_j} = +H h_j^2 \tan z$ (extra times, $j = 5, 6, 7$; with the
+    factor $b_4$ inside $h_j^2$) and $\Gamma^{x_0}{}_{x_0x_0} = -6H(\tan z + \cot z)$, so
+    $du^0/d\tau = H\tan z\,(\sum_i (\hat u^i)^2 - \sum_j (\hat u^j)^2)
+    + 6H(\tan z + \cot z)(u^0)^2$. The frame velocity along $x_0$ is
+    $\hat u^0 = \cot z\, u^0 = dy/d\tau$ (because $dy/dx_0 = \cot z$). Its rate is
+    $d\hat u^0/d\tau = -6H (u^0)^2/\sin^2 z + \cot z\, du^0/d\tau$ (the product rule,
+    with $d\cot z/d\tau = -6H u^0/\sin^2 z$); inserting $du^0/d\tau$ and using
+    $\cot z \tan z = 1$ and $1 + \cot^2 z = 1/\sin^2 z$, the $(u^0)^2$ terms cancel:
 
-    $$\frac{d^2 y}{d\tau^2} = \frac{d\hat u^8}{d\tau}
+    $$\frac{d^2 y}{d\tau^2} = \frac{d\hat u^0}{d\tau}
     = H\Bigl(\sum_{i=1}^{3} (\hat u^i)^2 - \sum_{j=5}^{7} (\hat u^j)^2\Bigr).$$
 
     Motion in 3-space pushes the particle towards the patch end ($y$ grows), motion
     along an extra time towards the tip ($y$ falls). Second, the time $x_4$: the only
     symbols with upper index $x_4$ are $\Gamma^{x_4}{}_{x_ix_i} = a_4' h_i^2$ and
-    $\Gamma^{x_4}{}_{x_jx_j} = a_4' h_j^2$, so
+    $\Gamma^{x_4}{}_{x_jx_j} = -\alpha_t h_j^2$, with the expansion rate
+    $\alpha_t = -a_4' + b_4'/(2b_4)$ of the extra times (Notebook 03a), so
 
-    $$\frac{du^4}{d\tau} = -a_4' \Bigl(\sum_{i=1}^{3} (\hat u^i)^2
-    + \sum_{j=5}^{7} (\hat u^j)^2\Bigr):$$
+    $$\frac{du^4}{d\tau} = -a_4' \sum_{i=1}^{3} (\hat u^i)^2
+    + \alpha_t \sum_{j=5}^{7} (\hat u^j)^2 :$$
 
-    for a deflating history ($a_4' > 0$) the $x_4$ velocity can only decrease. Third, in
-    frame velocities the squared length reads
-    $g(u, u) = \sum_i (\hat u^i)^2 - (u^4)^2 - \sum_j (\hat u^j)^2 + (\hat u^8)^2$, so
+    for a deflating history ($a_4' > 0$ and $\alpha_t < 0$; with a constant $b_4$,
+    $\alpha_t = -a_4'$ and $du^4/d\tau = -a_4'(\sum_i (\hat u^i)^2 + \sum_j
+    (\hat u^j)^2)$) the $x_4$ velocity can only decrease. Third, in frame velocities the
+    squared length reads
+    $g(u, u) = (\hat u^0)^2 + \sum_i (\hat u^i)^2 - (u^4)^2 - \sum_j (\hat u^j)^2$, so
     with $g(u, u) = -1$:
 
-    $$(u^4)^2 = 1 + \sum_{i=1}^{3} (\hat u^i)^2 - \sum_{j=5}^{7} (\hat u^j)^2
-    + (\hat u^8)^2 .$$
+    $$(u^4)^2 = 1 + (\hat u^0)^2 + \sum_{i=1}^{3} (\hat u^i)^2
+    - \sum_{j=5}^{7} (\hat u^j)^2 .$$
 
-    The next cell checks all three with sympy for a general $a_4(x_4)$.
+    The next cell checks all three with sympy for general $a_4(x_4)$ and $b_4(x_4)$.
     """),
     code(r'''
     frame = [h[k] * u[k] for k in range(8)]  # the frame velocities u-hat^a = h_a u^a
-    space_squared = sum(frame[k] ** 2 for k in (0, 1, 2))  # 3-space part
-    extra_squared = sum(frame[k] ** 2 for k in (4, 5, 6))  # extra-time part
-    push = along_path(frame[7]) - H * (space_squared - extra_squared)
+    space_squared = sum(frame[k] ** 2 for k in (1, 2, 3))  # 3-space part
+    extra_squared = sum(frame[k] ** 2 for k in (5, 6, 7))  # extra-time part
+    push = along_path(frame[0]) - H * (space_squared - extra_squared)
     check(sp.simplify(push) == 0,
           "d^2y/dtau^2 = H (3-space frame velocity squared - extra-time one squared)")
-    slowing = along_path(u[3]) + sp.diff(a4, x4) * (space_squared + extra_squared)
+    alpha_t = -sp.diff(a4, x4) + sp.diff(b4, x4) / (2 * b4)  # the extra-time rate
+    slowing = (along_path(u[4]) + sp.diff(a4, x4) * space_squared
+               - alpha_t * extra_squared)
     check(sp.simplify(slowing) == 0,
-          "du4/dtau = -a4' times the sum of the six transverse frame velocities squared")
-    in_frame = space_squared - u[3] ** 2 - extra_squared + frame[7] ** 2
+          "du4/dtau = -a4' (3-space frame velocities squared) + alpha_t (extra-time ones "
+          "squared)")
+    in_frame = frame[0] ** 2 + space_squared - u[4] ** 2 - extra_squared
     check(sp.simplify(squared_length - in_frame) == 0,
           "g(u, u) written with the frame velocities")
     '''),
@@ -427,7 +449,7 @@ CELLS = [
 
     Multiply the last formula by $m^2$, the squared mass of the particle, and call
     $k_a = m\,\hat u^a$ its frame momenta and $E = m\,u^4$ its energy: then
-    $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2 + k_8^2$. The Revision
+    $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$. The Revision
     scope report `Revision/theory/reports/python-scope.json` has, in its check
     `extra_time_growth_rates_unbounded`, exactly this expression for plane waves of the
     fields in flat 4+4 space (or with the coefficients of the equation frozen at one
@@ -447,13 +469,13 @@ CELLS = [
                   if entry["name"] == "extra_time_growth_rates_unbounded")
     form_text = growth["detail"].split("h_k^2 = (")[1].split(") I16")[0]  # the formula
     say(f"record ({growth['verdict']}): E^2 = {form_text}")
-    k = sp.symbols("k1:9", real=True)  # frame momenta k1 ... k8 (k4 is not used)
+    k = sp.symbols("k0:8", real=True)  # frame momenta k0 ... k7 (k4 is not used)
     m = sp.symbols("m", positive=True)  # the mass
-    form = parse_expr(form_text, local_dict={**{f"k{n}": k[n - 1] for n in range(1, 9)},
+    form = parse_expr(form_text, local_dict={**{f"k{n}": k[n] for n in range(8)},
                                              "m": m})
-    U = sp.symbols("U1:9", real=True)  # the frame velocities as plain symbols
-    particle = m ** 2 * (1 + U[0] ** 2 + U[1] ** 2 + U[2] ** 2 - U[4] ** 2 - U[5] ** 2
-                         - U[6] ** 2 + U[7] ** 2)  # m^2 (u^4)^2 from section 8
+    U = sp.symbols("U0:8", real=True)  # the frame velocities as plain symbols
+    particle = m ** 2 * (1 + U[0] ** 2 + U[1] ** 2 + U[2] ** 2 + U[3] ** 2 - U[5] ** 2
+                         - U[6] ** 2 - U[7] ** 2)  # m^2 (u^4)^2 from section 8
     same_form = sp.expand(form.subs({k[n]: m * U[n] for n in range(8)}) - particle)
     check(growth["verdict"] == "PASS" and same_form == 0,
           "m^2 (u4)^2 of the particle is the plane-wave E^2 of the record",
@@ -463,13 +485,15 @@ CELLS = [
     ## 10. Free fall computed step by step (RK4)
 
     Now the numbers. The next cell reads the history of the Revision Kohn-Sham record
-    ($H = 1$, slope $A = 1$, so $a_4 = x_4$ and $a_4' = 1$) and its statement that this
+    ($H = 1$, slope $A = 1$, so $a_4 = x_4$ and $a_4' = 1$; and $b_4 = 1$) and its
+    statement that this
     history is a prescribed background, and builds the tools of the computation:
 
     - `gamma_numbers`: the 37 symbols as fast numerical functions of $a_4$, $a_4'$,
-      $x_8$ and $H$ (`sp.lambdify` with the module `math`);
+      $x_0$, $H$, $b_4$ and $b_4'$ (`sp.lambdify` with the module `math`);
     - `free_fall(state)`: the right-hand side of the 16 equations for the state
-      $(x^1, \dots, x^8, u^1, \dots, u^8)$ on the history;
+      $(x^0, \dots, x^7, u^0, \dots, u^7)$ on the history, with $b_4 = 1$, $b_4' = 0$
+      (entry $k$ of the state is $x^k$ and entry $8 + k$ is $u^k$);
     - `rk4_path(state0, tau_end, steps)`: the RK4 method, the same as in chapter 2,
       from $\tau = 0$ to `tau_end` in `steps` equal steps;
     - `start(y0, frame_velocity)`: the state at $\tau = 0$ at the point
@@ -493,19 +517,20 @@ CELLS = [
           "the history of the record: a4 = A H x4 with A = 1, H = 1, prescribed",
           record=f"{PARAMETERS}, physics.H and physics.historyA; {KS_THEORY}, "
                  "adiabaticity.historyStatus")
-    ARGUMENTS = (a4v, a4p, x8, H)
+    ARGUMENTS = (a4v, a4p, x0, H, b4v, b4p)
     gamma_numbers = [(a, b, c, sp.lambdify(ARGUMENTS, value, "math"))
                      for (a, b, c), value in sorted(Gamma.items())]
     ETA_N = np.array(ETA, dtype=float)  # the signs as numbers
 
 
     def free_fall(state):
-        """d state/d tau for state = (x1..x8, u1..u8) on the history a4 = A H x4."""
+        """d state/d tau for state = (x0..x7, u0..u7) on the history a4 = A H x4,
+        b4 = 1."""
         x, v = state[:8], state[8:]
-        a4_now, rate = A_value * H_value * x[3], A_value * H_value  # a4 and a4'
+        a4_now, rate = A_value * H_value * x[4], A_value * H_value  # a4 and a4'
         change = np.zeros(8)
         for a, b, c, f in gamma_numbers:  # du^a/dtau = - sum Gamma^a_bc u^b u^c
-            change[a] -= f(a4_now, rate, x[7], H_value) * v[b] * v[c]
+            change[a] -= f(a4_now, rate, x[0], H_value, 1.0, 0.0) * v[b] * v[c]
         return np.concatenate([v, change])
 
 
@@ -526,20 +551,20 @@ CELLS = [
 
     def scale_numbers(x):
         """The eight scale factors h_a at the point x on the history (numbers)."""
-        a4_now, z_now = A_value * H_value * x[3], 6 * H_value * x[7]
+        a4_now, z_now = A_value * H_value * x[4], 6 * H_value * x[0]
         w = math.sin(z_now) ** (1 / 6)  # the warp factor sin(z)^(1/6)
-        return np.array([math.exp(a4_now) * w] * 3 + [1.0]
-                        + [math.exp(-a4_now) * w] * 3 + [1 / math.tan(z_now)])
+        return np.array([1 / math.tan(z_now)] + [math.exp(a4_now) * w] * 3 + [1.0]
+                        + [math.exp(-a4_now) * w] * 3)  # with b4 = 1
 
 
     def start(y0, frame_velocity):
         """The state at tau = 0: x4 = 0, y = y0, frame velocities as given (the entry
         for x4 is replaced by the value that makes g(u, u) = -1)."""
         x = np.zeros(8)
-        x[7] = math.asin(math.exp(6 * H_value * y0)) / (6 * H_value)  # sin z = e^(6Hy)
+        x[0] = math.asin(math.exp(6 * H_value * y0)) / (6 * H_value)  # sin z = e^(6Hy)
         w = np.array(frame_velocity, dtype=float)
-        w[3] = 0.0
-        w[3] = math.sqrt(1.0 + np.sum(ETA_N * w ** 2))  # (u^4)^2 = 1 + sum eta w^2
+        w[4] = 0.0
+        w[4] = math.sqrt(1.0 + np.sum(ETA_N * w ** 2))  # (u^4)^2 = 1 + sum eta w^2
         return np.concatenate([x, w / scale_numbers(x)])  # u^a = u-hat^a / h_a
 
 
@@ -547,7 +572,7 @@ CELLS = [
         """Frame velocities (rows), the coordinate y and g(u, u) along a path."""
         h_rows = np.array([scale_numbers(s[:8]) for s in states])
         frame_rows = h_rows * states[:, 8:]
-        y_values = np.log(np.sin(6 * H_value * states[:, 7])) / (6 * H_value)
+        y_values = np.log(np.sin(6 * H_value * states[:, 0])) / (6 * H_value)
         lengths = np.sum(ETA_N * frame_rows ** 2, axis=1)  # g(u, u)
         return frame_rows, y_values, lengths, h_rows
 
@@ -564,10 +589,10 @@ CELLS = [
     """),
     code(r'''
     tau, rest = rk4_path(start(Y0, [0.0] * 8), 3.0, 3000)
-    others = [0, 1, 2, 4, 5, 6, 7]  # every coordinate except x4
+    others = [0, 1, 2, 3, 5, 6, 7]  # every coordinate except x4
     moved = np.max(np.abs(rest[:, others] - rest[0, others]))
-    check(moved == 0.0 and np.max(np.abs(rest[:, 3] - tau)) < 1e-12
-          and np.max(np.abs(rest[:, 11] - 1.0)) < 1e-12,
+    check(moved == 0.0 and np.max(np.abs(rest[:, 4] - tau)) < 1e-12
+          and np.max(np.abs(rest[:, 12] - 1.0)) < 1e-12,
           "the particle at rest stays at rest and x4 equals its proper time")
     '''),
     md(r"""
@@ -587,22 +612,22 @@ CELLS = [
     SPEEDS = (0.25, 0.5, 1.0)  # starting frame velocities along x1
     space_paths = {}
     for speed in SPEEDS:
-        tau, states = rk4_path(start(Y0, [speed, 0, 0, 0, 0, 0, 0, 0]), 3.0, 3000)
+        tau, states = rk4_path(start(Y0, [0, speed, 0, 0, 0, 0, 0, 0]), 3.0, 3000)
         frame_rows, y_values, lengths, h_rows = describe(states)
-        p1 = h_rows[:, 0] ** 2 * states[:, 8]  # p_1 = g_11 u^1 = h_1^2 u^1
-        weight = np.exp(-H_value * y_values - A_value * H_value * states[:, 3])  # kappa
+        p1 = h_rows[:, 1] ** 2 * states[:, 9]  # p_1 = g_11 u^1 = h_1^2 u^1
+        weight = np.exp(-H_value * y_values - A_value * H_value * states[:, 4])  # kappa
         space_paths[speed] = (states, frame_rows, y_values, lengths, p1)
         check(np.max(np.abs(p1 / p1[0] - 1)) < 1e-9
               and np.max(np.abs(lengths + 1)) < 1e-9
-              and np.max(np.abs(frame_rows[:, 0] - p1[0] * weight)) < 1e-9
-              and np.all(np.diff(states[:, 11]) < 0) and np.all(y_values < 0),
+              and np.max(np.abs(frame_rows[:, 1] - p1[0] * weight)) < 1e-9
+              and np.all(np.diff(states[:, 12]) < 0) and np.all(y_values < 0),
               f"3-space speed {speed}: p1 and g(u, u) conserved, frame velocity "
               "p1 kappa, u4 falls")
     states, frame_rows, y_values, lengths, p1 = space_paths[1.0]
-    report("fastest particle at tau = 3: x4", f"{states[-1, 3]:.4f}")
+    report("fastest particle at tau = 3: x4", f"{states[-1, 4]:.4f}")
     report("fastest particle at tau = 3: frame velocity along x1",
-           f"{frame_rows[-1, 0]:.6f}")
-    report("fastest particle at tau = 3: u4", f"{states[-1, 11]:.6f}")
+           f"{frame_rows[-1, 1]:.6f}")
+    report("fastest particle at tau = 3: u4", f"{states[-1, 12]:.6f}")
     report("fastest particle at tau = 3: height y", f"{y_values[-1]:.4f}")
     '''),
     md(r"""
@@ -610,36 +635,36 @@ CELLS = [
 
     The last particle starts with the frame velocity $\hat u^5 = 0.2$ along the extra
     time $x_5$, so $u^4 = \sqrt{1 - 0.04} = 0.980$ (rounded). Along the deflating
-    history its frame velocity $-p_5\, e^{a_4 - Hy}$ grows, it is pushed towards the
-    tip, and by section 8 its $x_4$ velocity obeys
-    $(u^4)^2 = 1 - (\hat u^5)^2 + (\hat u^8)^2$. The
+    history ($b_4 = 1$) its frame velocity $-p_5\, e^{a_4 - Hy}$ grows, it is pushed
+    towards the tip, and by section 8 its $x_4$ velocity obeys
+    $(u^4)^2 = 1 + (\hat u^0)^2 - (\hat u^5)^2$. The
     next cell integrates its path from $\tau = 0$ to $2.5$ in 2500 steps, checks the
     conservation laws, finds the step at which $u^4$ changes sign (the turning point:
     $x_4$ is largest there and decreases afterwards), and checks that there
-    $(\hat u^5)^2 - (\hat u^8)^2 = 1$, as the formula demands for $u^4 = 0$.
+    $(\hat u^5)^2 - (\hat u^0)^2 = 1$, as the formula demands for $u^4 = 0$.
 
     The cell also prints the definition of the **good sector** of the Revision
     Kohn-Sham work: its states have no dependence on $x_5, x_6, x_7$, that is no
     extra-time momenta (the reason, from the quantum theory, comes in a later chapter).
-    For a classical particle without extra-time momentum, $(u^4)^2 = 1 +
-    \sum_i (\hat u^i)^2 + (\hat u^8)^2 \ge 1$: such a particle never has a turning point.
+    For a classical particle without extra-time momentum, $(u^4)^2 = 1 + (\hat u^0)^2 +
+    \sum_i (\hat u^i)^2 \ge 1$: such a particle never has a turning point.
     """),
     code(r'''
-    tau_t, extra = rk4_path(start(Y0, [0, 0, 0, 0, 0.2, 0, 0, 0]), 2.5, 2500)
+    tau_t, extra = rk4_path(start(Y0, [0, 0, 0, 0, 0, 0.2, 0, 0]), 2.5, 2500)
     frame_t, y_t, lengths_t, h_t = describe(extra)
-    p5 = -h_t[:, 4] ** 2 * extra[:, 12]  # p_5 = g_55 u^5 = -h_5^2 u^5
+    p5 = -h_t[:, 5] ** 2 * extra[:, 13]  # p_5 = g_55 u^5 = -h_5^2 u^5
     check(np.max(np.abs(p5 / p5[0] - 1)) < 1e-8 and np.max(np.abs(lengths_t + 1)) < 1e-7
-          and np.all(np.diff(extra[:, 11]) < 0),
+          and np.all(np.diff(extra[:, 12]) < 0),
           "extra-time particle: p5 and g(u, u) conserved, u4 decreases at every step")
-    n_turn = int(np.argmax(extra[:, 11] < 0))  # the first step with u4 < 0
-    x4_max = float(np.max(extra[:, 3]))  # the largest x4 of the path
+    n_turn = int(np.argmax(extra[:, 12] < 0))  # the first step with u4 < 0
+    x4_max = float(np.max(extra[:, 4]))  # the largest x4 of the path
     report("turning point: proper time tau", f"{tau_t[n_turn]:.3f}")
     report("turning point: largest x4 reached", f"{x4_max:.4f}")
-    report("turning point: frame velocity along x5", f"{frame_t[n_turn, 4]:.4f}")
-    report("turning point: frame velocity along y", f"{frame_t[n_turn, 7]:.4f}")
-    balance = frame_t[n_turn, 4] ** 2 - frame_t[n_turn, 7] ** 2 - 1  # 0 when u4 = 0
-    check(0 < n_turn and abs(balance) < 1e-4 and extra[-1, 3] < x4_max,
-          "at the turning point (u5 hat)^2 - (u8 hat)^2 = 1, and x4 decreases afterwards")
+    report("turning point: frame velocity along x5", f"{frame_t[n_turn, 5]:.4f}")
+    report("turning point: frame velocity along y", f"{frame_t[n_turn, 0]:.4f}")
+    balance = frame_t[n_turn, 5] ** 2 - frame_t[n_turn, 0] ** 2 - 1  # 0 when u4 = 0
+    check(0 < n_turn and abs(balance) < 1e-4 and extra[-1, 4] < x4_max,
+          "at the turning point (u5 hat)^2 - (u0 hat)^2 = 1, and x4 decreases afterwards")
     say("record, sectorAndAnsatz.sector: " + ks_theory["sectorAndAnsatz"]["sector"])
     check("extra-time momenta zero" in ks_theory["sectorAndAnsatz"]["sector"],
           "the good sector of the Kohn-Sham record has no extra-time momenta",
@@ -667,30 +692,31 @@ CELLS = [
     fig.subplots_adjust(wspace=0.3)  # room for the label of the right vertical axis
     for speed in SPEEDS:
         states, frame_rows = space_paths[speed][0], space_paths[speed][1]
-        axes[0].plot(states[:, 3], frame_rows[:, 0], color=COLOURS[speed], lw=1.8,
+        axes[0].plot(states[:, 4], frame_rows[:, 1], color=COLOURS[speed], lw=1.8,
                      label=f"RK4, start {speed:g}")
-        axes[0].plot(states[:, 3], speed * np.exp(-A_value * H_value * states[:, 3]),
+        axes[0].plot(states[:, 4], speed * np.exp(-A_value * H_value * states[:, 4]),
                      ":", color=COLOURS[speed], lw=1.4)
     axes[0].plot([], [], ":", color="grey", label="pure redshift $e^{-a_4}$")
     axes[0].set_yscale("log")
-    axes[0].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$")
+    axes[0].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, $b_4 = 1$")
     axes[0].set_ylabel("frame velocity $\\hat u^1$ along $x_1$")
     axes[0].set_title("3-space: redshift")
     axes[0].legend(fontsize=8)
     before = slice(0, n_turn)  # the states before the turning point
-    axes[1].plot(extra[before, 3], frame_t[before, 4], color=VIOLET, lw=1.8,
+    axes[1].plot(extra[before, 4], frame_t[before, 5], color=VIOLET, lw=1.8,
                  label="RK4, start 0.2")
-    axes[1].plot(extra[before, 3], 0.2 * np.exp(A_value * H_value * extra[before, 3]),
+    axes[1].plot(extra[before, 4], 0.2 * np.exp(A_value * H_value * extra[before, 4]),
                  ":", color=VIOLET, lw=1.4, label="pure blueshift $0.2\\,e^{a_4}$")
     axes[1].axvline(x4_max, color="grey", lw=1.0, ls="--", label="turning point")
     axes[1].set_yscale("log")
-    axes[1].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$")
+    axes[1].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, $b_4 = 1$")
     axes[1].set_ylabel("frame velocity $\\hat u^5$ along $x_5$")
     axes[1].set_title("Extra time: blueshift")
     axes[1].legend(fontsize=8, loc="upper left")
     save_figure(fig, "frame_velocities",
                 "Frame velocities of freely falling test particles in the author's metric "
-                "along the deflating history $a_4 = x_4$ ($A = 1$, $H = 1$), all started "
+                "along the deflating history $a_4 = x_4$, $b_4 = 1$ ($A = 1$, $H = 1$), "
+                "all started "
                 "at $x_4 = 0$, $y = -1$, computed with RK4 from the Christoffel symbols "
                 "of the Revision record; horizontal axes the time $x_4$ in units of "
                 "$1/H$, vertical axes the frame velocity (proper length per proper "
@@ -701,7 +727,7 @@ CELLS = [
                 "started along the extra time $x_5$ with $0.2$; its frame velocity "
                 "grows, faster than the pure blueshift $0.2\\,e^{a_4}$ (dotted), until "
                 f"its turning point at $x_4 = {x4_max:.3f}$ (dashed).")
-    check(frame_t[n_turn - 1, 4] > 0.2 * math.exp(extra[n_turn - 1, 3]),
+    check(frame_t[n_turn - 1, 5] > 0.2 * math.exp(extra[n_turn - 1, 4]),
           "the extra-time frame velocity grows faster than the pure blueshift")
     '''),
     md(r"""
@@ -716,17 +742,17 @@ CELLS = [
     code(r'''
     fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.3))
     fig.subplots_adjust(wspace=0.3)
-    axes[0].plot(tau, rest[:, 11], color="black", lw=1.4, ls="--", label="at rest")
-    axes[1].plot(tau, rest[:, 3], color="black", lw=1.4, ls="--", label="at rest")
+    axes[0].plot(tau, rest[:, 12], color="black", lw=1.4, ls="--", label="at rest")
+    axes[1].plot(tau, rest[:, 4], color="black", lw=1.4, ls="--", label="at rest")
     for speed in SPEEDS:
         states = space_paths[speed][0]
-        axes[0].plot(tau, states[:, 11], color=COLOURS[speed], lw=1.8,
+        axes[0].plot(tau, states[:, 12], color=COLOURS[speed], lw=1.8,
                      label=f"3-space, start {speed:g}")
-        axes[1].plot(tau, states[:, 3], color=COLOURS[speed], lw=1.8,
+        axes[1].plot(tau, states[:, 4], color=COLOURS[speed], lw=1.8,
                      label=f"3-space, start {speed:g}")
-    axes[0].plot(tau_t, extra[:, 11], color=VIOLET, lw=1.8, ls="-.",
+    axes[0].plot(tau_t, extra[:, 12], color=VIOLET, lw=1.8, ls="-.",
                  label="extra time, start 0.2")
-    axes[1].plot(tau_t, extra[:, 3], color=VIOLET, lw=1.8, ls="-.",
+    axes[1].plot(tau_t, extra[:, 4], color=VIOLET, lw=1.8, ls="-.",
                  label="extra time, start 0.2")
     axes[0].axhline(0.0, color="grey", lw=0.8)
     axes[0].plot([tau_t[n_turn]], [0.0], "o", color=VIOLET, ms=7)  # the turning point
@@ -742,6 +768,7 @@ CELLS = [
                 "The $x_4$ velocity $u^4 = dx_4/d\\tau$ (left) and the time $x_4$ "
                 "(right) of five freely falling test particles against their own proper "
                 "time $\\tau$ in units of $1/H$, along the deflating history $a_4 = x_4$, "
+                "$b_4 = 1$, "
                 "computed with RK4: a particle at rest (dashed, $u^4 = 1$ and "
                 "$x_4 = \\tau$), three particles moving in 3-space (solid, started with "
                 "frame velocities $0.25$, $0.5$, $1$), whose $u^4$ falls towards $1$ as "
@@ -749,7 +776,7 @@ CELLS = [
                 "(dash-dotted, started with $0.2$), whose $u^4$ falls through $0$ at its "
                 f"turning point (dot, $\\tau = {tau_t[n_turn]:.2f}$), after which its "
                 f"$x_4$, largest there ($x_4 = {x4_max:.3f}$), decreases.")
-    check(np.all(np.diff(space_paths[1.0][0][:, 3]) > 0),
+    check(np.all(np.diff(space_paths[1.0][0][:, 4]) > 0),
           "the particles in 3-space keep advancing in x4")
     '''),
     md(r"""
@@ -758,7 +785,7 @@ CELLS = [
     $y = 0$, the particle on the extra time sinks towards the tip; the dashed line
     marks the tip cut-off $y = -3$ of the Revision Kohn-Sham solver. Right: the
     acceleration $d^2y/d\tau^2$ computed from the RK4 states by a numerical derivative
-    of $\hat u^8$ (`np.gradient`, central differences) as dots, and the exact law
+    of $\hat u^0$ (`np.gradient`, central differences) as dots, and the exact law
     $H(\sum_i (\hat u^i)^2 - \sum_j (\hat u^j)^2)$ of section 8 as lines, for the
     fastest 3-space particle and the extra-time particle. The cell checks the agreement.
     """),
@@ -782,9 +809,9 @@ CELLS = [
     for (t_values, frame_rows), colour, label in (
             ((tau, space_paths[1.0][1]), RED, "3-space, start 1"),
             ((tau_t, frame_t), VIOLET, "extra time, start 0.2")):
-        law = H_value * (np.sum(frame_rows[:, 0:3] ** 2, axis=1)
-                         - np.sum(frame_rows[:, 4:7] ** 2, axis=1))
-        numeric = np.gradient(frame_rows[:, 7], t_values)  # d(u8 hat)/dtau
+        law = H_value * (np.sum(frame_rows[:, 1:4] ** 2, axis=1)
+                         - np.sum(frame_rows[:, 5:8] ** 2, axis=1))
+        numeric = np.gradient(frame_rows[:, 0], t_values)  # d(u0 hat)/dtau
         largest_gap = max(largest_gap, float(np.max(np.abs(numeric - law)[1:-1])))
         axes[1].plot(t_values, law, color=colour, lw=1.8, label=f"law, {label}")
         axes[1].plot(t_values[::100], numeric[::100], "o", color=colour, ms=5,
@@ -798,7 +825,8 @@ CELLS = [
            f"{largest_gap:.1e}")
     save_figure(fig, "hidden_push",
                 "The push along the hidden direction on freely falling test particles in "
-                "the author's metric along the deflating history $a_4 = x_4$, computed "
+                "the author's metric along the deflating history $a_4 = x_4$, $b_4 = 1$, "
+                "computed "
                 "with RK4; horizontal axes the proper time $\\tau$ in units of $1/H$. "
                 "Left: the height $y$ (unit $1/H$) of the particle at rest (dashed, it "
                 "stays at $y = -1$), of three particles moving in 3-space (solid), which "
@@ -815,48 +843,48 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws the quadratic form of section 9 as a map. For a particle that
-    moves only along $x_5$ and $y$, $(u^4)^2 = 1 - (\hat u^5)^2 + (\hat u^8)^2$. The map
-    shows this number over the plane of $\hat u^5$ (horizontal) and $\hat u^8$
+    moves only along $x_5$ and $y$, $(u^4)^2 = 1 + (\hat u^0)^2 - (\hat u^5)^2$. The map
+    shows this number over the plane of $\hat u^5$ (horizontal) and $\hat u^0$
     (vertical): white where it is positive, grey where it is negative. On the grey side a
     plane wave with these frame momenta (times $m$) would grow instead of oscillating,
     according to the record's check `extra_time_growth_rates_unbounded`; a particle can
-    never be there, because $(u^4)^2 \ge 0$. The curve $(\hat u^5)^2 = 1 + (\hat u^8)^2$
+    never be there, because $(u^4)^2 \ge 0$. The curve $(\hat u^5)^2 = 1 + (\hat u^0)^2$
     separates the two regions. The path of the extra-time particle (violet) starts at
     $(0.2, 0)$, moves right (blueshift) and down (it sinks), touches the curve at its
     turning point and returns into the white region.
     """),
     code(r'''
-    grid5, grid8 = np.meshgrid(np.linspace(0.0, 3.0, 301), np.linspace(-3.0, 0.5, 351))
-    squared_u4 = 1 - grid5 ** 2 + grid8 ** 2  # (u^4)^2 over the plane
+    grid5, grid0 = np.meshgrid(np.linspace(0.0, 3.0, 301), np.linspace(-3.0, 0.5, 351))
+    squared_u4 = 1 + grid0 ** 2 - grid5 ** 2  # (u^4)^2 over the plane
     fig, ax = plt.subplots(figsize=(6.4, 5.2))
-    ax.contourf(grid5, grid8, squared_u4, levels=[-100.0, 0.0], colors=["#d9d9d9"])
-    ax.contour(grid5, grid8, squared_u4, levels=[0.0], colors="black", linewidths=1.2)
-    ax.plot(frame_t[:, 4], frame_t[:, 7], color=VIOLET, lw=2.0,
+    ax.contourf(grid5, grid0, squared_u4, levels=[-100.0, 0.0], colors=["#d9d9d9"])
+    ax.contour(grid5, grid0, squared_u4, levels=[0.0], colors="black", linewidths=1.2)
+    ax.plot(frame_t[:, 5], frame_t[:, 0], color=VIOLET, lw=2.0,
             label="path of the extra-time particle")
-    ax.plot([frame_t[0, 4]], [frame_t[0, 7]], "s", color=VIOLET, ms=7, label="start")
-    ax.plot([frame_t[n_turn, 4]], [frame_t[n_turn, 7]], "o", color=VIOLET, ms=8,
+    ax.plot([frame_t[0, 5]], [frame_t[0, 0]], "s", color=VIOLET, ms=7, label="start")
+    ax.plot([frame_t[n_turn, 5]], [frame_t[n_turn, 0]], "o", color=VIOLET, ms=8,
             label="turning point, $u^4 = 0$")
     ax.text(2.05, 0.15, "$(u^4)^2 < 0$:\nno particle;\nplane waves grow", fontsize=8)
     ax.text(0.3, -1.2, "$(u^4)^2 > 0$", fontsize=9)
     ax.set_xlabel("frame velocity $\\hat u^5$ along the extra time $x_5$")
-    ax.set_ylabel("frame velocity $\\hat u^8 = dy/d\\tau$")
-    ax.set_title("The quadratic form $(u^4)^2 = 1 - (\\hat u^5)^2 + (\\hat u^8)^2$")
+    ax.set_ylabel("frame velocity $\\hat u^0 = dy/d\\tau$")
+    ax.set_title("The quadratic form $(u^4)^2 = 1 + (\\hat u^0)^2 - (\\hat u^5)^2$")
     ax.grid(False)
     ax.legend(fontsize=8, loc="lower left")
     save_figure(fig, "quadratic_form",
-                "The squared $x_4$ velocity $(u^4)^2 = 1 - (\\hat u^5)^2 + (\\hat u^8)^2$ "
+                "The squared $x_4$ velocity $(u^4)^2 = 1 + (\\hat u^0)^2 - (\\hat u^5)^2$ "
                 "of a free particle that moves along the extra time $x_5$ and the "
                 "hidden coordinate $y$, as a map over its frame velocities $\\hat u^5$ "
-                "(horizontal) and $\\hat u^8$ (vertical), both pure numbers: white where "
+                "(horizontal) and $\\hat u^0$ (vertical), both pure numbers: white where "
                 "it is positive, grey where it is negative, the black curve "
-                "$(\\hat u^5)^2 = 1 + (\\hat u^8)^2$ between them. Multiplied by $m^2$ it "
+                "$(\\hat u^5)^2 = 1 + (\\hat u^0)^2$ between them. Multiplied by $m^2$ it "
                 "is the squared frequency of a plane wave in the Revision record "
                 "(check extra_time_growth_rates_unbounded), which grows instead of "
                 "oscillating in the grey region. The violet path of the extra-time "
-                "particle of this notebook (RK4, history $a_4 = x_4$) starts at "
+                "particle of this notebook (RK4, history $a_4 = x_4$, $b_4 = 1$) starts at "
                 "$(0.2, 0)$ (square), touches the curve at its turning point (dot) and "
                 "returns into the white region.")
-    check(np.all(1 - frame_t[:, 4] ** 2 + frame_t[:, 7] ** 2 > -1e-6),
+    check(np.all(1 + frame_t[:, 0] ** 2 - frame_t[:, 5] ** 2 > -1e-6),
           "the path never enters the region where (u4)^2 < 0")
     '''),
     md(r"""
@@ -881,8 +909,8 @@ CELLS = [
              "$g(u,u) + 1$, extra-time particle": (tau_t, np.abs(lengths_t + 1))}
     STEPS = (50, 100, 200, 400, 800, 1600)
     differences = {}
-    for label, state0 in (("3-space, start 1", start(Y0, [1, 0, 0, 0, 0, 0, 0, 0])),
-                          ("extra time, start 0.2", start(Y0, [0, 0, 0, 0, 0.2, 0, 0, 0]))):
+    for label, state0 in (("3-space, start 1", start(Y0, [0, 1, 0, 0, 0, 0, 0, 0])),
+                          ("extra time, start 0.2", start(Y0, [0, 0, 0, 0, 0, 0.2, 0, 0]))):
         ends = [rk4_path(state0, 2.0, n)[1][-1] for n in STEPS]
         differences[label] = np.array([np.max(np.abs(ends[i] - ends[i + 1]))
                                        for i in range(len(STEPS) - 1)])
@@ -912,7 +940,8 @@ CELLS = [
     axes[1].legend(fontsize=8)
     save_figure(fig, "accuracy",
                 "The accuracy of the RK4 computation of free fall in the author's metric "
-                "along the deflating history $a_4 = x_4$. Left: the relative drift of "
+                "along the deflating history $a_4 = x_4$, $b_4 = 1$. Left: the relative "
+                "drift of "
                 "the conserved momentum $p_1$ and of $g(u, u) + 1$ for the 3-space "
                 "particle started with frame velocity $1$, and of $p_5$ and "
                 "$g(u, u) + 1$ for the extra-time particle started with $0.2$, against "
@@ -944,30 +973,35 @@ CELLS = [
     md(r"""
     ## 15. What this notebook showed
 
-    - PROVED (exact, sympy, for every function $a_4(x_4)$, with the Christoffel symbols
-      of the Revision record): in free fall the six momenta $p_a = g_{aa} u^a$ of
-      $x_1, x_2, x_3, x_5, x_6, x_7$ and the squared length $g(u, u)$ are conserved; the
-      frame velocity in 3-space is $p_1 e^{-Hy - a_4}$ (the momentum weight $\kappa$ of
-      the Revision Kohn-Sham record) and along an extra time $-p_5 e^{a_4 - Hy}$;
+    - PROVED (exact, sympy, for all functions $a_4(x_4)$ and $b_4(x_4)$, with the
+      Christoffel symbols of the Revision record): in free fall the six momenta
+      $p_a = g_{aa} u^a$ of $x_1, x_2, x_3, x_5, x_6, x_7$ and the squared length
+      $g(u, u)$ are conserved; the frame velocity in 3-space is $p_1 e^{-Hy - a_4}$ (the
+      momentum weight $\kappa$ of the Revision Kohn-Sham record) and along an extra time
+      $-p_5 b_4^{-1/2} e^{a_4 - Hy}$;
       $d^2y/d\tau^2 = H(\sum_i (\hat u^i)^2 - \sum_j (\hat u^j)^2)$;
-      $du^4/d\tau = -a_4'(\sum_i (\hat u^i)^2 + \sum_j (\hat u^j)^2)$; and
-      $(u^4)^2 = 1 + \sum_i (\hat u^i)^2 - \sum_j (\hat u^j)^2 + (\hat u^8)^2$, which,
+      $du^4/d\tau = -a_4'\sum_i (\hat u^i)^2 + \alpha_t \sum_j (\hat u^j)^2$ with
+      $\alpha_t = -a_4' + b_4'/(2b_4)$; and
+      $(u^4)^2 = 1 + (\hat u^0)^2 + \sum_i (\hat u^i)^2 - \sum_j (\hat u^j)^2$, which,
       times $m^2$, is the quadratic form of the plane-wave check of the Revision scope
       report.
-    - So along a deflating history ($a_4$ increasing) motion in 3-space is redshifted
-      like $e^{-a_4}$ and motion along an extra time is blueshifted like $e^{a_4}$;
+    - So along a deflating history ($a_4$ increasing, $b_4$ constant) motion in 3-space
+      is redshifted like $e^{-a_4}$ and motion along an extra time is blueshifted like
+      $e^{a_4}$;
       3-space motion pushes a particle towards the patch end, extra-time motion towards
       the tip; the $x_4$ velocity can only decrease.
     - COMPUTED (RK4 with the step $0.001$, along the prescribed history $a_4 = x_4$,
-      $H = 1$, from $y = -1$): a particle at rest stays at rest with $x_4 = \tau$; three
-      particles moving in 3-space slow down and rise towards the patch end; a particle
+      $b_4 = 1$, $H = 1$, from $y = -1$): a particle at rest stays at rest with
+      $x_4 = \tau$; three particles moving in 3-space slow down and rise towards the
+      patch end; a particle
       started along the extra time $x_5$ with frame velocity $0.2$ reaches a largest
       $x_4$ (the RESULT lines above) and then moves back in $x_4$; every exact law holds
       on the computed paths, and RK4 shows its order 4.
     - A particle without extra-time momentum has $(u^4)^2 \ge 1$ and never turns
       (PROVED); the Revision Kohn-Sham work keeps only states without extra-time
       momenta (its good sector).
-    - ASSUMED: the history $a_4 = AHx_4$ (a prescribed background); test particles
+    - ASSUMED: the history $a_4 = AHx_4$, $b_4 = 1$ (a prescribed background); test
+      particles
       that do not change the metric. NOT computed here: whether the waves of the fields
       follow these paths in the curved metric.
     """),

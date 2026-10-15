@@ -11,14 +11,16 @@ Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/03b_curvature.py
 
-Physics source: Revision/SPEC.md section 1 (the metric) and the curvature record of the
+Physics source: Revision/SPEC.md section 1 (the metric with the functions a4 and b4, in
+the author's coordinates x0..x7) and the curvature record of the
 Rust program lovelock_gkd (Revision/gkd_lovelock/results/curvature.json), its
 independent sympy verification (python-lovelock-report.json), its own checks
 (lovelock-report.json) and the lead's independent checks of the Einstein tensor
 (Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json), and the record of the
 field equations of a4 (Revision/field_equations_a4/a4-equations.json, linearMember, and
-its sympy verification reports/python-a4-report.json).  The notebook computes everything
-again with sympy and asserts agreement with every record component.
+its sympy verification reports/python-a4-report.json), and the verifier of the metric with
+b4 (Revision/metric_b4/results/wolfram-metric-b4-report.json).  The notebook computes
+everything again with sympy and asserts agreement with every record component.
 """
 
 import sys
@@ -34,6 +36,7 @@ RUSTREP = "Revision/gkd_lovelock/results/lovelock-report.json"
 LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"
 A4EQ = "Revision/field_equations_a4/a4-equations.json"
 A4REP = "Revision/field_equations_a4/reports/python-a4-report.json"
+B4REP = "Revision/metric_b4/results/wolfram-metric-b4-report.json"
 
 FACTS = {
     "id": "03b",
@@ -42,7 +45,8 @@ FACTS = {
              "Einstein, Kretschmann",
     "purpose": (
         "It computes with sympy, from the metric exactly as the author typed it and with "
-        "a general function a4(x4), all 512 Christoffel symbols, the Riemann tensor, the "
+        "general functions a4(x4) and b4(x4), all 512 Christoffel symbols, the Riemann "
+        "tensor, the "
         "Ricci tensor, the Ricci scalar, the Einstein tensor and the Kretschmann scalar; "
         "it compares every component with the Revision record of the Rust program "
         "lovelock_gkd (exactly, and numerically at the five test points of the "
@@ -52,8 +56,10 @@ FACTS = {
         "times; and it draws the Christoffel symbols, the curvature of every coordinate "
         "plane, the components and the curvature scalars versus z and versus the "
         "expansion rate, and the Einstein tensor; along the deflating history "
-        "a4 = A H x4 it reproduces the source that the Einstein equations require in "
-        "the Revision record of the field equations of a4. It shows that for the "
+        "a4 = A H x4, b4 = 1 it reproduces the source that the Einstein equations "
+        "require in the Revision record of the field equations of a4. It shows that the "
+        "Einstein tensor has the off-diagonal components G^x4_x0 and G^x0_x4, "
+        "proportional to b4', and that for the "
         "planes that contain the time x4 the plane curvature is the relative "
         "acceleration of neighbouring observers at rest. Every check of a Revision "
         "report that a PASS line names is opened and asserted to exist and to have "
@@ -72,8 +78,12 @@ FACTS = {
                   "entries), riemann_first_bianchi, mixed_riemann_free_of_sin_third, "
                   "k1_equals_minus_4_einstein, k1_divergence_free and the numerical test "
                   "point of k1_brute_force_numeric"],
-        [LEAD, "the lead checks einstein_x8_independent, einstein_off_diagonal_zero, "
-               "einstein_isotropy and no_vacuum_for_H_positive"],
+        [LEAD, "the lead checks einstein_x0_independent, einstein_off_diagonal_zero, "
+               "einstein_isotropy and no_vacuum_for_H_positive (for the metric at "
+               "b4 = 1)"],
+        [B4REP, "the checks off_diagonal_entries_x0_x4_only and "
+                "off_diagonal_proportional_to_b4prime of the verifier of the metric with "
+                "b4"],
         [A4EQ, "the record of the field equations of a4: for the linear history "
                "a4 = A H x4 the energy density and the pressure that the Einstein "
                "equations require (linearMember: rhoEinstein, pEinstein, "
@@ -112,8 +122,8 @@ CELLS = [
     ## 1. What this notebook computes
 
     This notebook computes the **curvature** of the author's metric of the primordial
-    gravitational field, exactly, with sympy, for a general metric function $a_4(x_4)$.
-    It
+    gravitational field, exactly, with sympy, for general metric functions $a_4(x_4)$
+    and $b_4(x_4)$. It
 
     - reads the metric exactly as the author typed it (from the Revision record
       `Revision/gkd_lovelock/results/curvature.json`);
@@ -130,12 +140,14 @@ CELLS = [
       shows that for the planes with the time $x_4$ it is the relative acceleration of
       two neighbouring observers at rest;
     - computes the **Ricci tensor**, the **Ricci scalar** and the **Einstein tensor**,
-      compares them with the record and the lead checks, and checks the contracted
-      Bianchi identity $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$;
+      compares them with the record and the lead checks, finds its two off-diagonal
+      components $G^{x_4}{}_{x_0}$ and $G^{x_0}{}_{x_4}$, proportional to $b_4'$, and
+      checks the contracted Bianchi identity $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$;
     - computes the **Kretschmann scalar** $K = R^{ab}{}_{cd} R^{cd}{}_{ab}$, shows that it
-      does not depend on $z$ although single components do, and that it is never zero
-      for $H > 0$;
-    - evaluates everything along the **deflating history** $a_4 = A H x_4$ ($A > 0$) and
+      does not depend on $z$ although single components do, and that for a constant
+      $b_4$ it is never zero for $H > 0$;
+    - evaluates everything along the **deflating history** $a_4 = A H x_4$ ($A > 0$),
+      $b_4 = 1$ and
       checks that minus the time component and the space component of the Einstein
       tensor are exactly the energy density and the pressure that the Revision record
       of the field equations of $a_4$ lists for this history;
@@ -152,7 +164,7 @@ CELLS = [
       $\sum_\lambda g^{\mu\lambda} g_{\lambda\nu} = \delta^\mu{}_\nu$, which is $1$ when
       $\mu = \nu$ and $0$ otherwise). For a diagonal metric $g^{\mu\mu} = 1/g_{\mu\mu}$.
     - **Index notation**: $a, b, c, \dots$ each run over the eight coordinates
-      $x_1, \dots, x_8$; an upper and a lower index are positions in a table of numbers;
+      $x_0, \dots, x_7$; an upper and a lower index are positions in a table of numbers;
       $\partial_c$ means the partial derivative $\partial/\partial x_c$.
     - **Christoffel symbols** $\Gamma^a{}_{bc} = \tfrac12 \sum_d g^{ad}(\partial_b g_{dc}
       + \partial_c g_{db} - \partial_d g_{bc})$: the correction terms that make
@@ -190,9 +202,10 @@ CELLS = [
       \kappa\, T^\mu{}_\nu$: the Einstein tensor plus a constant $\Lambda$ (the
       **cosmological constant**) times $\delta^\mu{}_\nu$ equals a positive constant
       $\kappa$ times the **energy-momentum tensor** $T^\mu{}_\nu$ of the matter. For the
-      sources of this book its diagonal is $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t,
-      p_t, p_t, p_8)$: the **energy density** $\rho$ (energy per unit volume) and the
-      **pressures** $p_3$ of 3-space, $p_t$ of the extra times and $p_8$ of the hidden
+      sources of this book its diagonal is $T = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho,
+      p_t, p_t, p_t)$ in the order $x_0, \dots, x_7$: the **energy density** $\rho$
+      (energy per unit volume) and the
+      **pressures** $p_3$ of 3-space, $p_t$ of the extra times and $p_0$ of the hidden
       direction. A later chapter derives these equations; this notebook only reads
       them in a Revision record.
     - **Bianchi identities**: $R^a{}_{bcd} + R^a{}_{cdb} + R^a{}_{dbc} = 0$ (first) and
@@ -205,26 +218,28 @@ CELLS = [
     - **Finite difference**: the numerical derivative $f'(x) \approx (f(x+h) -
       f(x-h))/(2h)$; its error shrinks like $h^2$.
     - `a4p`, `a4pp`, `a4v`: the names the notebook prints for $a_4'$, $a_4''$ and the
-      value of $a_4$; `z` stands for $6 H x_8$.
+      value of $a_4$; `b4p`, `b4pp`, `b4v` the same for $b_4$; `z` stands for $6 H x_0$.
     """),
     md(r"""
     ## 4. The physical and mathematical situation
 
     The metric of the author is diagonal,
 
-    $$g = \mathrm{diag}\bigl(e^{2a_4}\sin^{1/3}z\ (\times 3),\ -1,\
-    -e^{-2a_4}\sin^{1/3}z\ (\times 3),\ \cot^2 z\bigr), \qquad z = 6 H x_8,$$
+    $$g = \mathrm{diag}\bigl(\cot^2 z,\ e^{2a_4}\sin^{1/3}z\ (\times 3),\ -1,\
+    -b_4 e^{-2a_4}\sin^{1/3}z\ (\times 3)\bigr), \qquad z = 6 H x_0,$$
 
-    in the order $x_1, \dots, x_8$, with the constant $H > 0$ and the metric function
-    $a_4(x_4)$. It depends on two coordinates only, $x_4$ (through $a_4$) and $x_8$
-    (through $z$). Every derivative along $x_1, x_2, x_3, x_5, x_6, x_7$ is therefore
+    in the order $x_0, \dots, x_7$, with the constant $H > 0$ and the metric functions
+    $a_4(x_4)$ and $b_4(x_4) > 0$ ($b_4 = 1$ is the metric used before 2026-10-14). It
+    depends on two coordinates only, $x_4$ (through $a_4$ and $b_4$) and $x_0$ (through
+    $z$). Every derivative along $x_1, x_2, x_3, x_5, x_6, x_7$ is therefore
     zero, which is why most of the $512$ Christoffel symbols and most of the $4096$
     Riemann components vanish.
 
     Curvature is computed in three steps, each from the previous one: the Christoffel
     symbols need the first derivatives of the metric; the Riemann tensor needs the
     first derivatives of the Christoffel symbols and their products (so the second
-    derivatives of the metric, and $a_4''$ appears); the Ricci tensor, the Ricci scalar
+    derivatives of the metric, and $a_4''$ and $b_4''$ appear); the Ricci tensor, the
+    Ricci scalar
     and the Einstein tensor are sums of Riemann components. The Revision record
     computed all of this with an exact Rust program (`lovelock_gkd`); an independent
     sympy program checked every component, and the lead checks recomputed the Einstein
@@ -234,10 +249,11 @@ CELLS = [
     Nothing here involves the matter fields yet: these are exact properties of the given
     metric. The field equations, which connect the Einstein tensor to the energy and the
     pressures of the fields, are the subject of a later chapter. For the plots the
-    notebook uses $H = 1$ and the deflating history $a_4 = A H x_4$ of the Revision
-    Kohn-Sham work (so $a_4' = A H$ and $a_4'' = 0$, with $A = 1$ the canonical value):
-    a PRESCRIBED BACKGROUND, assumed here and not obtained by solving the field
-    equations.
+    notebook uses $H = 1$ and the deflating history $a_4 = A H x_4$, $b_4 = 1$ of the
+    Revision Kohn-Sham work (so $a_4' = A H$, $a_4'' = 0$ and $b_4' = b_4'' = 0$, with
+    $A = 1$ the canonical value): a PRESCRIBED BACKGROUND, assumed here and not obtained
+    by solving the field equations. Every formula with general $a_4(x_4)$ and
+    $b_4(x_4)$ is exact.
     """),
     md(r"""
     ## 5. The metric, read from the record
@@ -280,10 +296,11 @@ CELLS = [
     '''),
     md(r"""
     The next cell imports the packages, reads the record, and makes the symbols: the
-    eight coordinates, $H > 0$, the unknown function $a_4(x_4)$, and the printing names
-    `a4p`, `a4pp`, `a4v` and `z`. The function `plain` rewrites an expression with these
-    printing names; the function `symbolic` does the same but keeps $x_8$ (the record
-    writes its components with $x_8$). It also names the two reports of the Revision
+    eight coordinates, $H > 0$, the unknown functions $a_4(x_4)$ and $b_4(x_4)$ ($b_4$
+    positive), and the printing names `a4p`, `a4pp`, `a4v`, `b4p`, `b4pp`, `b4v` and
+    `z`. The function `plain` rewrites an expression with these
+    printing names; the function `symbolic` does the same but keeps $x_0$ (the record
+    writes its components with $x_0$). It also names the two reports of the Revision
     curvature computation and defines the function `record_check(report_file,
     check_name, detail_part)`, the same as in Notebook 03a: it opens a Revision report,
     finds the check with that name, and stops the notebook with an error unless the
@@ -323,41 +340,50 @@ CELLS = [
         return True
 
 
-    x1, x2, x3, x4, x5, x6, x7, x8 = sp.symbols("x1:9", real=True)
-    X = [x1, x2, x3, x4, x5, x6, x7, x8]  # the coordinates, counted 0 to 7 in Python
-    NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
+    x0, x1, x2, x3, x4, x5, x6, x7 = sp.symbols("x0:8", real=True)
+    X = [x0, x1, x2, x3, x4, x5, x6, x7]  # the coordinates, counted 0 to 7 in Python
+    NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
     H = sp.symbols("H", positive=True)  # the constant of the author
-    a4 = sp.Function("a4")(x4)  # the metric function, unknown
+    a4 = sp.Function("a4")(x4)  # the metric function a4, unknown
+    b4 = sp.Function("b4", positive=True)(x4)  # the metric function b4 > 0, unknown
     a4p, a4pp, a4v = sp.symbols("a4p a4pp a4v", real=True)  # a4 prime, a4 two primes, a4
-    z = sp.symbols("z", positive=True)  # z = 6 H x8, for printing
+    b4p, b4pp = sp.symbols("b4p b4pp", real=True)  # b4 prime, b4 two primes
+    b4v = sp.symbols("b4v", positive=True)  # the value of b4
+    z = sp.symbols("z", positive=True)  # z = 6 H x0, for printing
 
 
     def symbolic(expression):
-        """Write the derivatives of a4 as a4p and a4pp and the value a4(x4) as a4v."""
+        """Write the derivatives of a4 and b4 as a4p, a4pp, b4p, b4pp and the values
+        a4(x4), b4(x4) as a4v, b4v."""
         expression = expression.subs(sp.Derivative(a4, (x4, 2)), a4pp)  # second first
-        return expression.subs(sp.Derivative(a4, x4), a4p).subs(a4, a4v)
+        expression = expression.subs(sp.Derivative(b4, (x4, 2)), b4pp)
+        expression = expression.subs(sp.Derivative(a4, x4), a4p).subs(a4, a4v)
+        return expression.subs(sp.Derivative(b4, x4), b4p).subs(b4, b4v)
 
 
     def plain(expression):
-        """As symbolic, and 6 H x8 written as z."""
-        return symbolic(expression).subs(x8, z / (6 * H))
+        """As symbolic, and 6 H x0 written as z."""
+        return symbolic(expression).subs(x0, z / (6 * H))
 
 
-    say("Record read; symbols x1 ... x8, H, a4(x4), a4p, a4pp, a4v and z defined.")
+    say("Record read; symbols x0 ... x7, H, a4(x4), b4(x4), a4p, a4pp, a4v, b4p, b4pp, "
+        "b4v and z defined.")
     '''),
     md(r"""
     The next cell turns the author's text of the metric into a sympy matrix, with the
-    same translation rules as Notebook 03a (Mathematica's `exp^` becomes `E^`, square
-    brackets of functions become round brackets, curly brackets of lists become square
-    brackets, `^` becomes `**`, and a blank between factors means times), and prints
-    the diagonal.
+    same translation rules as Notebook 03a (the note in brackets after the matrix is cut
+    off; square brackets of functions become round brackets, `a4[x4]` and `b4[x4]`
+    become `a4` and `b4`, curly brackets of lists become square brackets, `^` becomes
+    `**`, and a blank between factors means times), and prints the diagonal.
     """),
     code(r'''
-    text = record["metricAsGiven"]  # the metric exactly as the author typed it
-    text = text.replace("exp^", "E^").replace("a4[x4]", "a4")
-    text = text.replace("Sin[6 H x8]", "sin(6 H x8)").replace("Cot[6 H x8]", "cot(6 H x8)")
+    # the metric exactly as the author typed it, without the note in brackets after it
+    text = record["metricAsGiven"].split("}} ", 1)[0] + "}}"
+    text = text.replace("exp^", "E^").replace("a4[x4]", "a4").replace("b4[x4]", "b4")
+    text = text.replace("Sin[6 H x0]", "sin(6 H x0)").replace("Cot[6 H x0]", "cot(6 H x0)")
     text = text.replace("{", "[").replace("}", "]").replace("^", "**")
-    metric_names = {"E": sp.E, "a4": a4, "H": H, "x8": x8, "sin": sp.sin, "cot": sp.cot}
+    metric_names = {"E": sp.E, "a4": a4, "b4": b4, "H": H, "x0": x0, "sin": sp.sin,
+                    "cot": sp.cot}
     g = sp.Matrix(parse_expr(text, local_dict=metric_names, transformations=(
         standard_transformations + (implicit_multiplication,))))
     for k in range(8):
@@ -367,15 +393,16 @@ CELLS = [
     '''),
     md(r"""
     The record writes its components in Mathematica notation, for example
-    `Derivative[1][a4][x4]*E^(2*a4[x4])*Sin[6*H*x8]^(1/3)`. The next cell defines the
+    `Derivative[1][a4][x4]*E^(2*a4[x4])*Sin[6*H*x0]^(1/3)`. The next cell defines the
     function `from_mathematica` that translates such a text into sympy:
     `Derivative[1][a4][x4]` ($a_4'$) becomes `a4p`, `Derivative[2][a4][x4]` becomes
-    `a4pp`, `a4[x4]` becomes `a4v`, the sine and the cotangent get round brackets, and
-    `^` becomes `**`. If any square bracket is left, the translation is incomplete and
-    the function stops with an error, so a silent mistranslation is impossible.
+    `a4pp`, `a4[x4]` becomes `a4v`, the same for $b_4$ (`b4p`, `b4pp`, `b4v`), the sine
+    and the cotangent get round brackets, and `^` becomes `**`. If any square bracket is
+    left, the translation is incomplete and the function stops with an error, so a
+    silent mistranslation is impossible.
 
     The cell also defines three helpers. `tidy(expression)` simplifies an expression:
-    it writes $6Hx_8$ as $z$, simplifies it once as it is and once after writing
+    it writes $6Hx_0$ as $z$, simplifies it once as it is and once after writing
     $\sin 2z$ as $2\sin z\cos z$ (`expand_trig`), and keeps the shorter of the two
     results (sympy sometimes reaches the simplest form only one way: it writes, for
     example, $-6H/(\sin z\cos z)$ as $-12H/\sin(2z)$, the same number because
@@ -385,15 +412,17 @@ CELLS = [
     expression and the record's vanishes.
     """),
     code(r'''
-    record_names = {"a4p": a4p, "a4pp": a4pp, "a4v": a4v, "H": H, "x8": x8, "E": sp.E,
-                    "sin": sp.sin, "cot": sp.cot}
+    record_names = {"a4p": a4p, "a4pp": a4pp, "a4v": a4v, "b4p": b4p, "b4pp": b4pp,
+                    "b4v": b4v, "H": H, "x0": x0, "E": sp.E, "sin": sp.sin, "cot": sp.cot}
 
 
     def from_mathematica(entry_text):
         """A component of the record (Mathematica notation) as a sympy expression."""
         t = entry_text.replace("Derivative[1][a4][x4]", "a4p")
         t = t.replace("Derivative[2][a4][x4]", "a4pp").replace("a4[x4]", "a4v")
-        t = t.replace("Sin[6*H*x8]", "sin(6*H*x8)").replace("Cot[6*H*x8]", "cot(6*H*x8)")
+        t = t.replace("Derivative[1][b4][x4]", "b4p")
+        t = t.replace("Derivative[2][b4][x4]", "b4pp").replace("b4[x4]", "b4v")
+        t = t.replace("Sin[6*H*x0]", "sin(6*H*x0)").replace("Cot[6*H*x0]", "cot(6*H*x0)")
         t = t.replace("^", "**")
         if "[" in t or "]" in t:
             raise ValueError(f"cannot translate {entry_text}")
@@ -401,15 +430,15 @@ CELLS = [
 
 
     def tidy(expression):
-        """Simplify an expression.  It writes 6 H x8 as z (so that 12 H x8 becomes 2z),
+        """Simplify an expression.  It writes 6 H x0 as z (so that 12 H x0 becomes 2z),
         simplifies it twice, once as it is and once after writing sin(2z) as
         2 sin(z) cos(z) (expand_trig), keeps the shorter result (count_ops counts the
-        operations), and writes z as 6 H x8 again."""
-        expression = sp.sympify(expression).subs(x8, z / (6 * H))
+        operations), and writes z as 6 H x0 again."""
+        expression = sp.sympify(expression).subs(x0, z / (6 * H))
         first = sp.simplify(expression)
         second = sp.simplify(sp.expand_trig(expression))
         best = second if sp.count_ops(second) < sp.count_ops(first) else first
-        return best.subs(z, 6 * H * x8)
+        return best.subs(z, 6 * H * x0)
 
 
     def vanishes(expression):
@@ -422,7 +451,8 @@ CELLS = [
         return vanishes(symbolic(mine) - theirs)
 
 
-    example = record["christoffelNonzero_b_le_c"][6]["value"]
+    example = next(e["value"] for e in record["christoffelNonzero_b_le_c"]
+                   if (e["a"], e["b"], e["c"]) == ("x4", "x5", "x5"))  # Gamma^x4_(x5 x5)
     say(f"example of a record entry: {example}")
     say(f"translated: {from_mathematica(example)}")
     '''),
@@ -431,7 +461,7 @@ CELLS = [
 
     The Christoffel symbols of the metric are
 
-    $$\Gamma^a{}_{bc} = \tfrac12 \sum_{d=1}^{8} g^{ad}\bigl(\partial_b g_{dc} +
+    $$\Gamma^a{}_{bc} = \tfrac12 \sum_{d} g^{ad}\bigl(\partial_b g_{dc} +
     \partial_c g_{db} - \partial_d g_{bc}\bigr).$$
 
     The next cell defines the function `christoffel(metric, coordinates)`, which applies
@@ -470,11 +500,12 @@ CELLS = [
     symmetry) and compares them with the list `christoffelNonzero_b_le_c` of the record:
     first that the two lists name the same 25 index combinations, then that each value
     agrees exactly. In the record the keys `a`, `b`, `c` are the indices of
-    $\Gamma^a{}_{bc}$. sympy chooses its own way of writing some symbols: $H\cot z$
-    appears as `H/tan(z)`, $-He^{2a_4}\sin^{1/3}z\,\tan z$ as
-    `-H*exp(2*a4v)*sin(z)**(4/3)/cos(z)` (because $\sin^{1/3}z\,\tan z =
-    \sin^{4/3}z/\cos z$), and $\Gamma^{x_8}{}_{x_8x_8} = -6H/(\sin z\cos z)$ as
-    `-12*H/sin(2*z)`.
+    $\Gamma^a{}_{bc}$, and the list runs in the author's order $x_0, \dots, x_7$.
+    sympy chooses its own way of writing some symbols: $H\cot z$ appears as
+    `H/tan(z)`, $-He^{2a_4}\sin^{1/3}z\,\tan z$ as `-H*exp(2*a4v)*sin(z)**(4/3)/cos(z)`
+    (because $\sin^{1/3}z\,\tan z = \sin^{4/3}z/\cos z$), and
+    $\Gamma^{x_0}{}_{x_0x_0} = -6H/(\sin z\cos z)$ as `-12*H/sin(2*z)`. The symbols of
+    the extra times contain $b_4$: $\Gamma^{x_5}{}_{x_4x_5} = -a_4' + b_4'/(2b_4)$.
     """),
     code(r'''
     for a, b, c in upper_half:
@@ -494,10 +525,11 @@ CELLS = [
     The next cell sets the colours of the figures (a palette whose colours can also be
     told apart with a colour-vision deficiency; the figures also use line styles and
     labels) and turns every Christoffel symbol into a fast numerical function of $z$,
-    $a_4$, $a_4'$ and $H$ (`sp.lambdify`). It then draws the eight $8 \times 8$ tables
-    $\Gamma^{x_k}{}_{bc}$ at the point $z = \pi/4$ with $H = 1$, $a_4 = 0.5$, $a_4' = 1$
-    as heat maps. The colour scale is **symmetric-logarithmic**: above $0.1$ in size,
-    equal steps of colour stand for equal factors of size (below $0.1$ the scale is
+    $a_4$, $a_4'$, $H$, $b_4$ and $b_4'$ (`sp.lambdify`). It then draws the eight
+    $8 \times 8$ tables $\Gamma^{x_k}{}_{bc}$ at the point $z = \pi/4$ with $H = 1$,
+    $a_4 = 0.5$, $a_4' = 1$, $b_4 = 1$, $b_4' = 0$ as heat maps. The colour scale is
+    **symmetric-logarithmic**: above $0.1$ in size, equal steps of colour stand for
+    equal factors of size (below $0.1$ the scale is
     ordinary), so that small and large symbols are both visible; grey is zero, red
     positive, blue negative.
     """),
@@ -507,17 +539,18 @@ CELLS = [
     BLUE, ORANGE, AQUA, YELLOW = "#2a78d6", "#eb6834", "#1baf7a", "#eda100"
     MAGENTA, GREEN, VIOLET, RED = "#e87ba4", "#008300", "#4a3aa7", "#e34948"
     DIVERGING = LinearSegmentedColormap.from_list("blue_grey_red", [BLUE, "#f0efec", RED])
-    LABELS = [f"$x_{k}$" for k in range(1, 9)]
-    ARGS = (z, a4v, a4p, H)  # the arguments of the numerical functions
+    LABELS = [f"$x_{k}$" for k in range(8)]
+    ARGS = (z, a4v, a4p, H, b4v, b4p)  # the arguments of the numerical functions
 
 
     def numeric(expression):
-        """A numerical function f(z, a4v, a4p, H) of an expression."""
+        """A numerical function f(z, a4v, a4p, H, b4v, b4p) of an expression."""
         return sp.lambdify(ARGS, plain(expression), "numpy")
 
 
     gamma_functions = {(a, b, c): numeric(Gamma[a][b][c]) for a, b, c in nonzero}
-    POINT = (np.pi / 4, 0.5, 1.0, 1.0)  # z, a4, a4p, H: the canonical slice a4 = 0.5
+    # z, a4, a4p, H, b4, b4p: the canonical slice a4 = 0.5 of the history, b4 = 1
+    POINT = (np.pi / 4, 0.5, 1.0, 1.0, 1.0, 0.0)
     tables = np.zeros((8, 8, 8))
     for (a, b, c), f in gamma_functions.items():
         tables[a, b, c] = f(*POINT)
@@ -529,81 +562,85 @@ CELLS = [
             if tables[a, b, c] != 0:
                 ax.text(c, b, f"{tables[a, b, c]:.2f}", ha="center", va="center",
                         fontsize=6.0)
-        ax.set_title(f"$\\Gamma^{{x_{a + 1}}}{{}}_{{bc}}$", fontsize=10)
-        ax.set_xticks(range(8), [str(k) for k in range(1, 9)], fontsize=7)
-        ax.set_yticks(range(8), [str(k) for k in range(1, 9)], fontsize=7)
+        ax.set_title(f"$\\Gamma^{{x_{a}}}{{}}_{{bc}}$", fontsize=10)
+        ax.set_xticks(range(8), [str(k) for k in range(8)], fontsize=7)
+        ax.set_yticks(range(8), [str(k) for k in range(8)], fontsize=7)
         ax.grid(False)
     fig.colorbar(image, ax=axes, shrink=0.8, label="value (unit $H$)")
     fig.suptitle("Christoffel symbols at $z = \\pi/4$, $a_4 = 0.5$, "
-                 "$a_4^{\\prime} = 1$, $H = 1$ (row $b$, column $c$)")
+                 "$a_4^{\\prime} = 1$, $b_4 = 1$, $H = 1$ (row $b$, column $c$)")
     save_figure(fig, "christoffel_heat_maps",
                 "The 512 Christoffel symbols $\\Gamma^{a}{}_{bc}$ of the author's metric "
                 "at the point $z = \\pi/4$ on the slice $a_4 = 0.5$ of the history "
-                "$a_4 = x_4$ ($a_4^{\\prime} = 1$, $H = 1$), as eight heat maps, one "
-                "for each upper index $a = x_1, \\dots, x_8$; in each map the row is $b$ "
-                "and the column is $c$ (numbers $1$ to $8$ for $x_1$ to $x_8$), the "
+                "$a_4 = x_4$, $b_4 = 1$ ($a_4^{\\prime} = 1$, $H = 1$), as eight heat "
+                "maps, one "
+                "for each upper index $a = x_0, \\dots, x_7$; in each map the row is $b$ "
+                "and the column is $c$ (numbers $0$ to $7$ for $x_0$ to $x_7$), the "
                 "colour is the value on a symmetric logarithmic scale (grey zero, red "
                 "positive, blue negative) and every non-zero value is printed. Only 37 "
                 "of the 512 squares are coloured, each map is symmetric about its "
                 "diagonal, and every non-zero symbol has at least one index equal to "
-                "$x_4$ or $x_8$, the two coordinates on which the metric depends.")
+                "$x_4$ or $x_0$, the two coordinates on which the metric depends.")
     check(np.allclose(tables, tables.transpose(0, 2, 1))
-          and all(3 in key or 7 in key for key in nonzero),
-          "the tables are symmetric in b, c; every non-zero symbol has an index x4 or x8")
+          and all(4 in key or 0 in key for key in nonzero),
+          "the tables are symmetric in b, c; every non-zero symbol has an index x4 or x0")
     '''),
     md(r"""
-    The symbols with an index $x_8$ depend on $z$. The next cell draws the size of five
+    The symbols with an index $x_0$ depend on $z$. The next cell draws the size of five
     typical symbols across the patch on a logarithmic axis (for $a_4 = 0.5$,
-    $a_4' = 1$, $H = 1$): $\Gamma^{x_1}{}_{x_1 x_8} = H\cot z$ and
-    $\Gamma^{x_8}{}_{x_8 x_8}$ grow without bound at the tip $z \to 0$;
-    $\Gamma^{x_8}{}_{x_1 x_1}$, $\Gamma^{x_8}{}_{x_8 x_8}$ and
-    $\Gamma^{x_8}{}_{x_5 x_5}$ grow without bound at the patch end $z \to \pi/2$;
+    $a_4' = 1$, $b_4 = 1$, $H = 1$): $\Gamma^{x_1}{}_{x_1 x_0} = H\cot z$ and
+    $\Gamma^{x_0}{}_{x_0 x_0}$ grow without bound at the tip $z \to 0$;
+    $\Gamma^{x_0}{}_{x_1 x_1}$, $\Gamma^{x_0}{}_{x_0 x_0}$ and
+    $\Gamma^{x_0}{}_{x_5 x_5}$ grow without bound at the patch end $z \to \pi/2$;
     $\Gamma^{x_1}{}_{x_1 x_4} = a_4'$ does not depend on $z$. Large Christoffel symbols
     are a property of the coordinates; whether the geometry itself is extreme is decided
     by invariants such as the Kretschmann scalar of section 12.
     """),
     code(r'''
     z_line = np.linspace(0.01, np.pi / 2 - 0.01, 500)
-    chosen = [((0, 0, 7), RED, "-", "$\\Gamma^{x_1}{}_{x_1 x_8}$"),
-              ((7, 7, 7), VIOLET, "--", "$\\Gamma^{x_8}{}_{x_8 x_8}$"),
-              ((7, 0, 0), ORANGE, "-.", "$\\Gamma^{x_8}{}_{x_1 x_1}$"),
-              ((7, 4, 4), BLUE, ":", "$\\Gamma^{x_8}{}_{x_5 x_5}$"),
-              ((0, 0, 3), AQUA, "-", "$\\Gamma^{x_1}{}_{x_1 x_4}$")]
+    chosen = [((1, 1, 0), RED, "-", "$\\Gamma^{x_1}{}_{x_1 x_0}$"),
+              ((0, 0, 0), VIOLET, "--", "$\\Gamma^{x_0}{}_{x_0 x_0}$"),
+              ((0, 1, 1), ORANGE, "-.", "$\\Gamma^{x_0}{}_{x_1 x_1}$"),
+              ((0, 5, 5), BLUE, ":", "$\\Gamma^{x_0}{}_{x_5 x_5}$"),
+              ((1, 1, 4), AQUA, "-", "$\\Gamma^{x_1}{}_{x_1 x_4}$")]
     fig, ax = plt.subplots()
     for index, colour, style, label in chosen:
-        values = np.broadcast_to(gamma_functions[index](z_line, 0.5, 1.0, 1.0),
-                                 z_line.shape)
+        values = np.broadcast_to(gamma_functions[index](z_line, 0.5, 1.0, 1.0, 1.0,
+                                                        0.0), z_line.shape)
         sign = "+" if values[len(values) // 2] > 0 else "minus"
         ax.plot(z_line, np.abs(values), color=colour, ls=style, lw=1.8,
                 label=f"{label} (sign {sign})")
     ax.set_yscale("log")
-    ax.set_xlabel("$z = 6 H x_8$ (radians)")
+    ax.set_xlabel("$z = 6 H x_0$ (radians)")
     ax.set_ylabel("absolute value of the symbol (unit $H$)")
     ax.set_title("Christoffel symbols across the patch "
-                 "($a_4 = 0.5$, $a_4^{\\prime} = 1$, $H = 1$)")
+                 "($a_4 = 0.5$, $a_4^{\\prime} = 1$, $b_4 = 1$, $H = 1$)")
     ax.set_ylim(1e-5, 3e3)  # room below the curves for the legend
     ax.legend(fontsize=8, loc="lower center", ncol=2)
     save_figure(fig, "christoffel_versus_z",
                 "The absolute values of five Christoffel symbols of the author's metric "
                 "across the patch $0 < z < \\pi/2$, for $a_4 = 0.5$, $a_4^{\\prime} = 1$, "
-                "$H = 1$, on a logarithmic vertical axis; horizontal axis "
-                "$z = 6Hx_8$ in radians, vertical axis the absolute value in units of "
-                "$H$; the legend gives each sign. $\\Gamma^{x_1}{}_{x_1x_8} = H\\cot z$ "
-                "falls from the tip to the patch end, $\\Gamma^{x_8}{}_{x_8x_8}$ is "
-                "large at both ends, $\\Gamma^{x_8}{}_{x_1x_1}$ and "
-                "$\\Gamma^{x_8}{}_{x_5x_5}$ grow towards the patch end, and "
+                "$b_4 = 1$, $H = 1$, on a logarithmic vertical axis; horizontal axis "
+                "$z = 6Hx_0$ in radians, vertical axis the absolute value in units of "
+                "$H$; the legend gives each sign. $\\Gamma^{x_1}{}_{x_1x_0} = H\\cot z$ "
+                "falls from the tip to the patch end, $\\Gamma^{x_0}{}_{x_0x_0}$ is "
+                "large at both ends, $\\Gamma^{x_0}{}_{x_1x_1}$ and "
+                "$\\Gamma^{x_0}{}_{x_5x_5}$ grow towards the patch end, and "
                 "$\\Gamma^{x_1}{}_{x_1x_4} = a_4^{\\prime} = 1$ is the same everywhere.")
-    check(abs(gamma_functions[(0, 0, 7)](np.pi / 4, 0.5, 1.0, 1.0) - 1.0) < 1e-14,
-          "Gamma^x1_(x1 x8) = H cot z equals 1 at z = pi/4, H = 1")
+    check(abs(gamma_functions[(1, 1, 0)](np.pi / 4, 0.5, 1.0, 1.0, 1.0, 0.0) - 1.0)
+          < 1e-14,
+          "Gamma^x1_(x1 x0) = H cot z equals 1 at z = pi/4, H = 1")
     '''),
     md(r"""
     ## 7. A second, independent check: finite differences
 
-    The exact symbols can be checked without any algebra. Take a concrete function
-    $a_4(x_4) = 0.17 + 0.61\,x_4 - 0.185\,x_4^2$ (so that at $x_4 = 0$:
-    $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$), $H = 0.23$ and the point
-    $x_8 = 0.41$: the test point at which the Rust program checked its Lovelock tensors
-    by brute force (record `lovelock-report.json`, check `k1_brute_force_numeric`).
+    The exact symbols can be checked without any algebra. Take concrete functions
+    $a_4(x_4) = 0.17 + 0.61\,x_4 - 0.185\,x_4^2$ and
+    $b_4(x_4) = 1.37 + 0.31\,x_4 - 0.115\,x_4^2$ (so that at $x_4 = 0$:
+    $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$, $b_4 = 1.37$, $b_4' = 0.31$,
+    $b_4'' = -0.23$), $H = 0.23$ and the point $x_0 = 0.41$: the test point at which the
+    Rust program checked its Lovelock tensors by brute force (record
+    `lovelock-report.json`, check `k1_brute_force_numeric`).
     The next cell first confirms these numbers in the record. Then it computes the
     metric as a plain table of numbers at points $x \pm h\,e_c$ (one coordinate moved by
     $\pm h$), the derivative of the metric by the central difference
@@ -614,19 +651,22 @@ CELLS = [
     code(r'''
     prime = chr(39)  # the apostrophe (character number 39): the record writes a4 prime so
     point_text = (f"H = 0.23, a4 = 0.17, a4{prime} = 0.61, a4{prime}{prime} = -0.37, "
-                  "x8 = 0.41")  # the test point as the record writes it
+                  f"b4 = 1.37, b4{prime} = 0.31, b4{prime}{prime} = -0.23, "
+                  "x0 = 0.41")  # the test point as the record writes it
     check(record_check(RUST_REPORT, "k1_brute_force_numeric", point_text),
           "the test point is the one of the brute-force check of the Rust program")
-    H_n, a0, a1, a2, x8_n = 0.23, 0.17, 0.61, -0.37, 0.41  # the test point
+    H_n, a0, a1, a2, x0_n = 0.23, 0.17, 0.61, -0.37, 0.41  # the test point
+    b0, b1, b2 = 1.37, 0.31, -0.23  # b4, b4' and b4'' at x4 = 0
 
 
     def metric_numbers(x):
         """The metric as an 8 x 8 numpy table at the point x (8 coordinates)."""
-        a = a0 + a1 * x[3] + 0.5 * a2 * x[3] ** 2  # a4(x4) with a4(0) = 0.17, ...
-        warp_n = np.sin(6 * H_n * x[7]) ** (1 / 3)
-        return np.diag([np.exp(2 * a) * warp_n] * 3 + [-1.0]
-                       + [-np.exp(-2 * a) * warp_n] * 3
-                       + [1 / np.tan(6 * H_n * x[7]) ** 2])
+        a = a0 + a1 * x[4] + 0.5 * a2 * x[4] ** 2  # a4(x4) with a4(0) = 0.17, ...
+        b = b0 + b1 * x[4] + 0.5 * b2 * x[4] ** 2  # b4(x4) with b4(0) = 1.37, ...
+        warp_n = np.sin(6 * H_n * x[0]) ** (1 / 3)
+        # the author's order x0, x1, ..., x7
+        return np.diag([1 / np.tan(6 * H_n * x[0]) ** 2] + [np.exp(2 * a) * warp_n] * 3
+                       + [-1.0] + [-b * np.exp(-2 * a) * warp_n] * 3)
 
 
     def christoffel_numbers(x, h):
@@ -645,10 +685,10 @@ CELLS = [
         return table
 
 
-    x_point = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, x8_n])
+    x_point = np.array([x0_n, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])  # x0 = 0.41, x4 = 0
     exact = np.zeros((8, 8, 8))
     for (a, b, c), f in gamma_functions.items():
-        exact[a, b, c] = f(6 * H_n * x8_n, a0, a1, H_n)
+        exact[a, b, c] = f(6 * H_n * x0_n, a0, a1, H_n, b0, b1)
     steps = 10.0 ** -np.arange(1, 9)  # h = 0.1, 0.01, ..., 1e-8
     errors = np.array([np.max(np.abs(christoffel_numbers(x_point, h) - exact))
                        for h in steps])
@@ -685,7 +725,8 @@ CELLS = [
                 "The largest difference between the 512 Christoffel symbols computed "
                 "numerically by central differences of the metric and the exact "
                 "symbols, at the test point $H = 0.23$, $a_4 = 0.17$, "
-                "$a_4^{\\prime} = 0.61$, $a_4^{\\prime\\prime} = -0.37$, $x_8 = 0.41$ of "
+                "$a_4^{\\prime} = 0.61$, $a_4^{\\prime\\prime} = -0.37$, $b_4 = 1.37$, "
+                "$b_4^{\\prime} = 0.31$, $b_4^{\\prime\\prime} = -0.23$, $x_0 = 0.41$ of "
                 "the Revision record, against the step $h$, on logarithmic axes; "
                 "horizontal axis $h$, vertical axis the error in units of $H$. For "
                 "large steps the error follows the dashed line of slope 2 (error "
@@ -699,23 +740,24 @@ CELLS = [
     md(r"""
     ## 8. Free fall along the time $x_4$
 
-    Consider an observer who stays at fixed $x_1, x_2, x_3, x_5, x_6, x_7, x_8$ while
+    Consider an observer who stays at fixed $x_1, x_2, x_3, x_5, x_6, x_7, x_0$ while
     $x_4 = \tau$ runs. Then $dx^a/d\tau$ is $1$ for $a = x_4$ and $0$ otherwise, and
     $d^2x^a/d\tau^2 = 0$, so the geodesic equation reduces to
     $\Gamma^a{}_{x_4 x_4} = 0$ for every $a$. Since $g_{44} = -1$, the proper time of
     the observer is $\sqrt{-g_{44}}\, d\tau = d\tau$: $x_4$ is the time shown by the
     observer's clock. The next cell checks that the eight symbols $\Gamma^a{}_{x_4x_4}$
     are zero. It also checks the useful identity $\sum_a \Gamma^a{}_{ab} =
-    \partial_b \ln\sqrt{|\det g|}$, with $\sqrt{|\det g|} = \cos z$.
+    \partial_b \ln\sqrt{|\det g|}$, with $\sqrt{|\det g|} = b_4^{3/2} \cos z$.
     """),
     code(r'''
-    check(all(Gamma[a][3][3] == 0 for a in range(8)),
+    check(all(Gamma[a][4][4] == 0 for a in range(8)),
           "Gamma^a_(x4 x4) = 0: observers at rest fall freely, x4 is their proper time")
+    volume = b4 ** sp.Rational(3, 2) * sp.cos(6 * H * x0)  # sqrt|det g|
     contracted = [vanishes(sum(Gamma[a][a][b] for a in range(8))
-                           - sp.diff(sp.log(sp.cos(6 * H * x8)), X[b]))
+                           - sp.diff(sp.log(volume), X[b]))
                   for b in range(8)]
     check(all(contracted),
-          "sum over a of Gamma^a_(a b) equals the derivative of ln cos z")
+          "sum over a of Gamma^a_(a b) equals the derivative of ln(b4^(3/2) cos z)")
     '''),
     md(r"""
     ## 9. The Riemann tensor
@@ -810,7 +852,7 @@ CELLS = [
           record="Revision/gkd_lovelock/results/lovelock-report.json, check "
                  "riemann_first_bianchi")
     warp_free = all(not symbolic(v).has(a4v) and not any(
-        isinstance(p, sp.Pow) and p.base == sp.sin(6 * H * x8) and not p.exp.is_integer
+        isinstance(p, sp.Pow) and p.base == sp.sin(6 * H * x0) and not p.exp.is_integer
         for p in sp.preorder_traversal(symbolic(v))) for v in R_mixed.values())
     record_check(RUST_REPORT, "mixed_riemann_free_of_sin_third")
     record_check(PYTHON_REPORT, "mixed_riemann_free_of_warp_and_exponential")
@@ -823,8 +865,10 @@ CELLS = [
     The next cell compares all 156 components with the list `riemannMixedNonzero` of the
     record, in which `up` holds $a, b$ and `down` holds $c, d$ of $R^{ab}{}_{cd}$: first
     that the same 156 index lists occur, then that each value agrees exactly. It then
-    groups the 156 components by their value and prints the 14 different values, how
-    often each occurs and one example of where.
+    groups the 156 components by their value and prints the different values (20 for
+    a general $b_4$), how often each occurs and one example of where. Each value is
+    first multiplied out (`sp.expand`), so that one value that sympy happens to write
+    in two ways is counted once.
     """),
     code(r'''
     record_riemann = {}
@@ -840,7 +884,8 @@ CELLS = [
                  "python-lovelock-report.json, check rust_riemann_agrees)")
     groups = {}
     for key in sorted(R_mixed):
-        groups.setdefault(sp.sstr(plain(R_mixed[key])), []).append(key)
+        # the value multiplied out: one value written in two ways counts once
+        groups.setdefault(sp.sstr(sp.expand(plain(R_mixed[key]))), []).append(key)
     for value_text in sorted(groups):
         a, b, c, d = groups[value_text][0]
         say(f"  {len(groups[value_text]):2d} x  {value_text:30s}  e.g. "
@@ -853,14 +898,18 @@ CELLS = [
     For two different coordinates $x_a$ and $x_b$ the number $\sigma(a, b) =
     R^{ab}{}_{ab}$ (no sum) is the curvature of the coordinate plane spanned by them.
     The next cell computes all 28 of them as formulas, prints one plane of each kind,
-    and checks the six formulas: 3-space with 3-space and extra time with extra time
-    $a_4'^2 - H^2$; 3-space with an extra time $-(a_4'^2 + H^2)$; 3-space with the time
-    $x_4$ $a_4'^2 + a_4''$; the time with an extra time $a_4'^2 - a_4''$; a 3-space or
-    extra-time direction with the hidden $x_8$ $-H^2$; the time with the hidden $x_8$
-    zero. None depends on $z$ or on the value of $a_4$.
+    and checks seven formulas. Write $\alpha = a_4'$ for the expansion rate of 3-space
+    and $\alpha_t = -a_4' + b_4'/(2b_4)$ for that of the extra times (Notebook 03a). Then:
+    3-space with 3-space $\alpha^2 - H^2$; extra time with extra time
+    $\alpha_t^2 - H^2$; 3-space with an extra time $\alpha\alpha_t - H^2$; 3-space with
+    the time $x_4$ $\alpha^2 + \alpha'$; the time with an extra time
+    $\alpha_t^2 + \alpha_t'$; a 3-space or extra-time direction with the hidden $x_0$
+    $-H^2$; the time with the hidden $x_0$ zero. For a constant $b_4$, $\alpha_t = -\alpha$
+    and these are the formulas $a_4'^2 - H^2$, $-(a_4'^2 + H^2)$, $a_4'^2 \pm a_4''$ of
+    the metric with $b_4 = 1$. None depends on $z$ or on the value of $a_4$.
 
     What does the sign mean? Only 6 of the 28 planes are spanned by two space-like
-    directions (two of $x_1, x_2, x_3$, or one of them with $x_8$); only for these does
+    directions (two of $x_1, x_2, x_3$, or one of them with $x_0$); only for these does
     a positive value mean curved like a sphere and a negative one like a saddle. The
     other 22 planes contain a time-like direction, and there the sign is read from
     free fall. The clearest case: two observers at rest (they fall freely, section 8),
@@ -868,9 +917,9 @@ CELLS = [
     are a proper distance $\xi = h_a\,\Delta x_a$ apart, where $h_a$ is the scale factor;
     the proper time of both is $\tau = x_4$. The cell computes $(d^2\xi/d\tau^2)/\xi =
     (\partial_4^2 h_a)/h_a$ for $x_a = x_1$ (with $h_1 = e^{a_4}\sin^{1/6}z$) and
-    $x_a = x_5$ (with $h_5 = e^{-a_4}\sin^{1/6}z$) and checks that it is exactly
+    $x_a = x_5$ (with $h_5 = b_4^{1/2} e^{-a_4}\sin^{1/6}z$) and checks that it is exactly
     $\sigma(a, x_4)$: $d^2\xi/d\tau^2 = +\sigma(a, x_4)\,\xi$. Along the history
-    $a_4 = AHx_4$ both are $A^2H^2 > 0$: a positive curvature, and yet the 3-space
+    $a_4 = AHx_4$, $b_4 = 1$ both are $A^2H^2 > 0$: a positive curvature, and yet the 3-space
     distance grows like $e^{AH\tau}$ (the extra-time distance shrinks like
     $e^{-AH\tau}$, also with a positive second derivative); on a sphere a positive
     curvature pulls neighbouring paths together, $d^2\xi/ds^2 = -\sigma\,\xi$. For the
@@ -881,7 +930,8 @@ CELLS = [
     and its shape is that of the curvature $-\sigma(a, b)$.
 
     Then the cell draws the 28 plane curvatures as $8 \times 8$ heat maps along the
-    deflating history $a_4 = AHx_4$ ($a_4' = AH$, $a_4'' = 0$, $H = 1$) for the three
+    deflating history $a_4 = AHx_4$, $b_4 = 1$ ($a_4' = AH$, $a_4'' = 0$, $H = 1$) for
+    the three
     slopes $A = 0.5$, $1$ (the canonical value of the Revision record) and $2$, all
     positive, so that in all three the extra times deflate; the diagonal is left empty.
     The planes inside 3-space and inside the extra times change sign at $A = 1$:
@@ -891,23 +941,27 @@ CELLS = [
     code(r'''
     plane = {(a, b): plain(sp.S(get(R_mixed, (a, b, a, b))))  # sp.S: 0 as a sympy 0
              for a, b in itertools.product(range(8), repeat=2) if a != b}
-    expected = {(0, 1): a4p ** 2 - H ** 2, (4, 5): a4p ** 2 - H ** 2,
-                (0, 4): -(a4p ** 2 + H ** 2), (0, 3): a4p ** 2 + a4pp,
-                (3, 4): a4p ** 2 - a4pp, (0, 7): -H ** 2, (4, 7): -H ** 2, (3, 7): 0}
+    alpha_t = -a4p + b4p / (2 * b4v)  # the expansion rate of the extra times
+    alpha_t_prime = -a4pp + b4pp / (2 * b4v) - b4p ** 2 / (2 * b4v ** 2)  # its derivative
+    # the planes (row, column) in the author's order x0, x1, ..., x7
+    expected = {(1, 2): a4p ** 2 - H ** 2, (5, 6): alpha_t ** 2 - H ** 2,
+                (1, 5): a4p * alpha_t - H ** 2, (1, 4): a4p ** 2 + a4pp,
+                (4, 5): alpha_t ** 2 + alpha_t_prime, (1, 0): -H ** 2, (5, 0): -H ** 2,
+                (4, 0): 0}
     for (a, b), formula in expected.items():
         say(f"  plane ({NAMES[a]}, {NAMES[b]}): R^ab_ab = {plane[(a, b)]}")
     check(all(sp.expand(plane[key] - formula) == 0 for key, formula in expected.items())
           and all(not v.has(z) and not v.has(a4v) for v in plane.values()),
-          "the plane curvatures have the six formulas and do not depend on z or a4")
-    sixth = sp.sin(6 * H * x8) ** sp.Rational(1, 6)  # sin(z)^(1/6)
-    apart = {0: sp.exp(a4) * sixth, 4: sp.exp(-a4) * sixth}  # the scale factors h1, h5
+          "the plane curvatures have the seven formulas and do not depend on z or a4")
+    sixth = sp.sin(6 * H * x0) ** sp.Rational(1, 6)  # sin(z)^(1/6)
+    apart = {1: sp.exp(a4) * sixth, 5: sp.sqrt(b4) * sp.exp(-a4) * sixth}  # h1, h5
     growth = {}  # (d^2 xi/d tau^2)/xi for observers at rest apart along x1 or x5
     for a, h_a in apart.items():  # xi = h_a times a fixed coordinate distance, tau = x4
         growth[a] = sp.expand(plain(sp.simplify(sp.diff(h_a, x4, 2) / h_a)))
         say(f"  at rest, apart along {NAMES[a]}: (d^2 xi/d tau^2)/xi = {growth[a]}")
-    check(sp.simplify(apart[0] ** 2 - g[0, 0]) == 0
-          and sp.simplify(apart[4] ** 2 + g[4, 4]) == 0
-          and all(sp.expand(growth[a] - plane[(a, 3)]) == 0 for a in apart),
+    check(sp.simplify(apart[1] ** 2 - g[1, 1]) == 0
+          and sp.simplify(apart[5] ** 2 + g[5, 5]) == 0
+          and all(sp.simplify(growth[a] - plane[(a, 4)]) == 0 for a in apart),
           "observers at rest: d^2 xi/d tau^2 = +R^ab_ab xi in the planes (x1, x4) and "
           "(x5, x4)")
     SLOPES = (0.5, 1.0, 2.0)  # three deflating histories, A > 0
@@ -915,7 +969,8 @@ CELLS = [
     for ax, slope in zip(axes, SLOPES):
         curv = np.full((8, 8), np.nan)  # NaN: an empty square on the diagonal
         for (a, b), value in plane.items():
-            curv[a, b] = float(value.subs({a4p: slope, a4pp: 0, H: 1}))
+            curv[a, b] = float(value.subs({a4p: slope, a4pp: 0, H: 1, b4v: 1, b4p: 0,
+                                           b4pp: 0}))
         image = ax.imshow(curv, cmap=DIVERGING, vmin=-5.0, vmax=5.0)
         for a, b in plane:
             ax.text(b, a, f"{curv[a, b]:g}", ha="center", va="center", fontsize=6.5)
@@ -927,19 +982,20 @@ CELLS = [
     save_figure(fig, "plane_curvatures",
                 "The curvature $\\sigma(a, b) = R^{ab}{}_{ab}$ (no sum) of the plane of "
                 "$x_a$ (row) and $x_b$ (column), unit $H^2$, along the history "
-                "$a_4 = AHx_4$ ($a_4^{\\prime\\prime} = 0$, $H = 1$) for $A = 0.5$, "
+                "$a_4 = AHx_4$, $b_4 = 1$ ($a_4^{\\prime\\prime} = 0$, $H = 1$) for "
+                "$A = 0.5$, "
                 "$1$ (canonical) and $2$ (left to right); red positive, blue negative, "
                 "grey zero. Only for two space-like directions (two of $x_1, x_2, x_3$, "
-                "or one of them with $x_8$) does red mean curved like a sphere and blue "
+                "or one of them with $x_0$) does red mean curved like a sphere and blue "
                 "like a saddle; with the time $x_4$ a positive value means that "
                 "observers at rest accelerate apart, $d^2\\xi/d\\tau^2 = +\\sigma\\xi$. "
                 "Inside 3-space and inside the extra times $a_4^{\\prime 2} - H^2$ "
                 "($-0.75$, $0$, $3$); 3-space with an extra time "
                 "$-(a_4^{\\prime 2} + H^2)$ ($-1.25$, $-2$, $-5$); with $x_4$ "
                 "$a_4^{\\prime 2} \\pm a_4^{\\prime\\prime}$ ($0.25$, $1$, $4$), but the "
-                "plane of $x_4$ and $x_8$ is flat; the other planes with $x_8$ have "
+                "plane of $x_4$ and $x_0$ is flat; the other planes with $x_0$ have "
                 "$-H^2 = -1$.")
-    check([float(plane[(0, 1)].subs({a4p: s, H: 1})) for s in SLOPES] == [-0.75, 0.0, 3.0],
+    check([float(plane[(1, 2)].subs({a4p: s, H: 1})) for s in SLOPES] == [-0.75, 0.0, 3.0],
           "the planes inside 3-space: -0.75, 0 and 3 for A = 0.5, 1 and 2")
     '''),
     md(r"""
@@ -991,10 +1047,11 @@ CELLS = [
     `Revision/gkd_lovelock/results/python-lovelock-report.json`). The sympy
     verification of the record of the field equations,
     `Revision/field_equations_a4/reports/python-a4-report.json`, prints $L_{(1)}$ in its
-    check `L1_equals_gkd_branch`, with the name `ad1` for $a_4'$. The next cell reads
-    this text, checks that the record marks the check as passed, turns the text after
-    the equals sign into a sympy expression, confirms with `record_check` that the
-    check `L1_equals_2R` passed, and checks $L_{(1)} = 2R$ with our $R$.
+    check `L1_equals_gkd_branch`, with the name `ad1` for $a_4'$, for the metric at
+    $b_4 = 1$. The next cell reads this text, checks that the record marks the check as
+    passed, turns the text after the equals sign into a sympy expression, confirms with
+    `record_check` that the check `L1_equals_2R` passed, and checks $L_{(1)} = 2R$ with
+    our $R$ at $b_4 = 1$.
     """),
     code(r'''
     A4_REPORT = "Revision/field_equations_a4/reports/python-a4-report.json"
@@ -1007,8 +1064,9 @@ CELLS = [
     L1_text = L1_detail.split("=")[1]  # the text after the equals sign
     L1_record = parse_expr(L1_text, local_dict={"H": H, "ad1": a4p})
     record_check(PYTHON_REPORT, "L1_equals_2R", "L_(1) = 2 R exactly")  # stops if not
-    check(L1_verdict == "PASS" and sp.expand(L1_record - 2 * plain(R_scalar)) == 0,
-          "the first Lovelock scalar of the record is twice our Ricci scalar",
+    R_at_b4_1 = plain(R_scalar).subs({b4pp: 0, b4p: 0, b4v: 1})  # R at b4 = 1
+    check(L1_verdict == "PASS" and sp.expand(L1_record - 2 * R_at_b4_1) == 0,
+          "at b4 = 1 the first Lovelock scalar of the record is twice our Ricci scalar",
           record=f"{A4_REPORT}, check L1_equals_gkd_branch (with "
                  "python-lovelock-report.json, check L1_equals_2R)")
     '''),
@@ -1016,10 +1074,11 @@ CELLS = [
     Exact agreement was decided by sympy's simplification. A second, independent test
     uses numbers only: the independent Revision verification
     (`Revision/gkd_lovelock/results/python-lovelock-report.json`, list `randomPoints`)
-    chose five test points, each a set of exact fractions for $H$, $x_8$, $a_4$, $a_4'$
-    and $a_4''$. The next cell evaluates every component of the record (25 Christoffel
-    symbols, 156 Riemann components, 64 Ricci and 64 Einstein components and the Ricci
-    scalar) and our component with the same indices at these five points, with
+    chose five test points, each a set of exact fractions for $H$, $x_0$, $a_4$, $a_4'$,
+    $a_4''$, $b_4$, $b_4'$ and $b_4''$. The next cell evaluates every component of the
+    record (25 Christoffel symbols, 156 Riemann components, 64 Ricci and 64 Einstein
+    components and the Ricci scalar) and our component with the same indices at these
+    five points, with
     **30 significant digits** (the package mpmath; `sp.lambdify(..., "mpmath")` turns an
     expression into an mpmath function), and reports the largest relative difference
     $|{\rm ours} - {\rm record}| / \max(1, |{\rm record}|)$. Before it reports, it
@@ -1039,8 +1098,9 @@ CELLS = [
         return mpmath.mpf(fraction.p) / fraction.q  # numerator / denominator
 
 
-    test_points = [[exact(p["H"]), exact(p["x8"]), exact(p["a4"]),
-                    exact(p["a4" + prime]), exact(p["a4" + prime + prime])]
+    test_points = [[exact(p["H"]), exact(p["x0"]), exact(p["a4"]),
+                    exact(p["a4" + prime]), exact(p["a4" + prime + prime]),
+                    exact(p["b4"]), exact(p["b4" + prime]), exact(p["b4" + prime + prime])]
                    for p in python_report["randomPoints"]]
     pairs = [(Gamma[a][b][c], v) for (a, b, c), v in record_gamma.items()]
     pairs += [(R_mixed[key], v) for key, v in record_riemann.items()]
@@ -1051,7 +1111,8 @@ CELLS = [
                                          ["mathematica"]))
               for i in range(8) for j in range(8)]
     pairs += [(R_scalar, from_mathematica(record["ricciScalar"]))]
-    ARGS30 = (H, x8, a4v, a4p, a4pp)  # the order of the five numbers of a test point
+    # the order of the eight numbers of a test point
+    ARGS30 = (H, x0, a4v, a4p, a4pp, b4v, b4p, b4pp)
     largest, evaluations = mpmath.mpf(0), 0
     for mine, theirs in pairs:
         f_mine = sp.lambdify(ARGS30, symbolic(sp.S(mine)), "mpmath")
@@ -1075,33 +1136,55 @@ CELLS = [
     md(r"""
     The lead's independent check of the field equations
     (`Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`) states four
-    properties of the Einstein tensor. The next cell first confirms with `record_check`
-    that the lead's report lists the four checks as passed, then checks the four
-    properties on our result: $G$ is diagonal (in particular $G^{x_4}{}_{x_8} = 0$), no
-    component depends on $x_8$, the three 3-space components are equal and the three
-    extra-time components are equal,
-    and $G^{x_4}{}_{x_4} - G^{x_8}{}_{x_8} = 6(a_4'^2 + H^2)$, which is positive for
-    $H > 0$ (a later chapter uses this to show that for $H > 0$ no empty spacetime, not
-    even one with a cosmological constant, has this metric: some matter is needed).
+    properties of the Einstein tensor of the metric at $b_4 = 1$. The next cell first
+    confirms with `record_check` that the lead's report lists the four checks as passed,
+    then checks the four properties on our result with $b_4$ set to 1: $G$ is diagonal
+    (in particular $G^{x_4}{}_{x_0} = 0$), no component depends on $x_0$, the three
+    3-space components are equal and the three extra-time components are equal, and
+    $G^{x_4}{}_{x_4} - G^{x_0}{}_{x_0} = 6(a_4'^2 + H^2)$, which is positive for $H > 0$
+    (a later chapter uses this to show that for $H > 0$ no empty spacetime, not even one
+    with a cosmological constant, has this metric: some matter is needed). For a
+    general $b_4$ the first check also confirms what the verifier of the metric with
+    $b_4$ recorded (`Revision/metric_b4/results/wolfram-metric-b4-report.json`, checks
+    `off_diagonal_entries_x0_x4_only` and `off_diagonal_proportional_to_b4prime`): the
+    only off-diagonal components are $G^{x_4}{}_{x_0} = \tfrac32 H\cot z\, b_4'/b_4$
+    and $G^{x_0}{}_{x_4} = -\tfrac32 H\tan z\, b_4'/b_4$, both zero when $b_4$ is
+    constant; and the isotropy holds for every $b_4$.
     """),
     code(r'''
     LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"
-    for name in ("einstein_off_diagonal_zero", "einstein_x8_independent",
+    for name in ("einstein_off_diagonal_zero", "einstein_x0_independent",
                  "einstein_isotropy", "no_vacuum_for_H_positive"):
         record_check(LEAD, name)  # stops unless the lead check passed
-    check(all(G[i, j] == 0 for i in range(8) for j in range(8) if i != j),
-          "the Einstein tensor is diagonal",
-          record=f"{LEAD}, check einstein_off_diagonal_zero")
-    check(all(sp.diff(G[i, i], x8) == 0 for i in range(8)),
-          "no component of the Einstein tensor depends on x8",
-          record=f"{LEAD}, check einstein_x8_independent")
-    check(G[0, 0] == G[1, 1] == G[2, 2] and G[4, 4] == G[5, 5] == G[6, 6],
+    METRIC_B4 = "Revision/metric_b4/results/wolfram-metric-b4-report.json"
+    for name in ("off_diagonal_entries_x0_x4_only", "off_diagonal_proportional_to_b4prime"):
+        record_check(METRIC_B4, name)  # stops unless the check passed
+    G_b4_1 = G.applyfunc(lambda e: symbolic(e).subs({b4pp: 0, b4p: 0, b4v: 1}))
+    off_diagonal = {(i, j): plain(G[i, j]) for i in range(8) for j in range(8)
+                    if i != j and G[i, j] != 0}
+    for (i, j), value in sorted(off_diagonal.items()):
+        say(f"  G^{NAMES[i]}_{NAMES[j]} = {value}")
+    check(sorted(off_diagonal) == [(0, 4), (4, 0)]
+          and vanishes(symbolic(G[4, 0]) - sp.Rational(3, 2) * H * sp.cot(6 * H * x0)
+                       * b4p / b4v)
+          and vanishes(symbolic(G[0, 4]) + sp.Rational(3, 2) * H * sp.tan(6 * H * x0)
+                       * b4p / b4v)
+          and all(G_b4_1[i, j] == 0 for i in range(8) for j in range(8) if i != j),
+          "the only off-diagonal components G^x4_x0, G^x0_x4 are proportional to b4p; "
+          "at b4 = 1 the Einstein tensor is diagonal",
+          record=f"{LEAD}, check einstein_off_diagonal_zero, and "
+                 "wolfram-metric-b4-report.json, checks off_diagonal_entries_x0_x4_only, "
+                 "off_diagonal_proportional_to_b4prime")
+    check(all(sp.diff(G_b4_1[i, j], x0) == 0 for i in range(8) for j in range(8)),
+          "at b4 = 1 no component of the Einstein tensor depends on x0",
+          record=f"{LEAD}, check einstein_x0_independent")
+    check(G[1, 1] == G[2, 2] == G[3, 3] and G[5, 5] == G[6, 6] == G[7, 7],
           "3-space components equal, extra-time components equal",
           record=f"{LEAD}, check einstein_isotropy")
-    gap = sp.simplify(symbolic(G[3, 3] - G[7, 7]))
-    say(f"G^x4_x4 - G^x8_x8 = {sp.factor(gap)}")
+    gap = sp.simplify(G_b4_1[4, 4] - G_b4_1[0, 0])
+    say(f"at b4 = 1: G^x4_x4 - G^x0_x0 = {sp.factor(gap)}")
     check(sp.simplify(gap - 6 * (a4p ** 2 + H ** 2)) == 0,
-          "G^x4_x4 - G^x8_x8 = 6 (a4p^2 + H^2) > 0",
+          "at b4 = 1: G^x4_x4 - G^x0_x0 = 6 (a4p^2 + H^2) > 0",
           record=f"{LEAD}, check no_vacuum_for_H_positive")
     '''),
     md(r"""
@@ -1137,15 +1220,18 @@ CELLS = [
     The next cell computes $K = \sum R^{ab}{}_{cd} R^{cd}{}_{ab}$ and
     $\sum_{a,b} R^a{}_b R^b{}_a$ from our components, and computes $K$ a second time
     from the 156 components of the record alone. Although some components depend on
-    $z$ (for example $R^{x_1x_4}{}_{x_1x_8} = H a_4' \cot z$), their products combine so
-    that $K$ depends only on $H$, $a_4'$ and $a_4''$. Completing the square,
+    $z$ (for example $R^{x_1x_4}{}_{x_1x_0} = H a_4' \cot z$), their products combine so
+    that $K$ depends only on $H$, $a_4'$, $a_4''$, $b_4$, $b_4'$ and $b_4''$. For a
+    constant $b_4$ (then $b_4$ drops out entirely), completing the square,
 
     $$\frac{K}{12} = 7H^4 - 2H^2 a_4'^2 + 7 a_4'^4 + 2 a_4''^2
     = 7\Bigl(a_4'^2 - \frac{H^2}{7}\Bigr)^2 + \frac{48}{7} H^4 + 2 a_4''^2 ,$$
 
     (expand the square: $7 a_4'^4 - 2 H^2 a_4'^2 + H^4/7$, and $H^4/7 + 48 H^4/7 =
-    7 H^4$), so $K \ge \frac{576}{7} H^4 > 0$ for every history: the metric is curved
-    for every $H > 0$. The cell checks all of this.
+    7 H^4$), so $K \ge \frac{576}{7} H^4 > 0$ for every history with a constant $b_4$:
+    the metric is curved for every $H > 0$. (For a changing $b_4$ there is no such
+    bound: section 14 shows a member of the family whose $K$ vanishes.) The cell checks
+    all of this.
     """),
     code(r'''
     K = sp.factor(sp.expand(symbolic(sum(v * get(R_mixed, (c, d, a, b))
@@ -1159,29 +1245,34 @@ CELLS = [
     say(f"sum of R^a_b R^b_a  = {ricci_square}")
     check(sp.simplify(K - K_record) == 0,
           "K from our components equals K from the 156 components of the record")
-    check(not K.has(x8) and not K.has(a4v),
-          "K depends only on H, a4p and a4pp, not on z and not on a4")
+    check(not K.has(x0) and not K.has(a4v),
+          "K depends only on H, a4p, a4pp, b4v, b4p and b4pp, not on z and not on a4")
     square_form = 7 * (a4p ** 2 - H ** 2 / 7) ** 2 + sp.Rational(48, 7) * H ** 4 \
         + 2 * a4pp ** 2
-    check(sp.expand(K / 12 - square_form) == 0,
-          "K/12 = 7 (a4p^2 - H^2/7)^2 + 48 H^4/7 + 2 a4pp^2, so K > 0 for H > 0")
-    report("smallest possible K (at a4p^2 = H^2/7, a4pp = 0)",
+    K_constant_b4 = sp.factor(K.subs({b4pp: 0, b4p: 0}))  # b4 constant: b4v drops out
+    say(f"for a constant b4: K = {K_constant_b4}")
+    check(sp.expand(K_constant_b4 / 12 - square_form) == 0,
+          "for constant b4: K/12 = 7 (a4p^2 - H^2/7)^2 + 48 H^4/7 + 2 a4pp^2, so K > 0 "
+          "for H > 0")
+    report("smallest possible K for constant b4 (at a4p^2 = H^2/7, a4pp = 0)",
            sp.sstr(sp.Rational(576, 7) * H ** 4))
     '''),
     md(r"""
-    The next cell shows the cancellation in pictures, for $a_4'' = 0$ and $H = 1$. Left:
-    the sizes of two $z$-dependent components, $R^{x_1x_4}{}_{x_1x_8} = H a_4' \cot z$
-    and $R^{x_1x_8}{}_{x_1x_4} = -H a_4' \tan z$, of their product $-H^2 a_4'^2$ and of
-    the constant component $R^{x_1x_8}{}_{x_1x_8} = -H^2$, for $a_4' = 1.5$ (so that the
+    The next cell shows the cancellation in pictures, for $a_4'' = 0$, $b_4 = 1$ and
+    $H = 1$. Left:
+    the sizes of two $z$-dependent components, $R^{x_1x_4}{}_{x_1x_0} = H a_4' \cot z$
+    and $R^{x_1x_0}{}_{x_1x_4} = -H a_4' \tan z$, of their product $-H^2 a_4'^2$ and of
+    the constant component $R^{x_1x_0}{}_{x_1x_0} = -H^2$, for $a_4' = 1.5$ (so that the
     product, $2.25$, and $H^2 = 1$ are different numbers). Right: $K$
     computed at 300 values of $z$ by summing all 156 products numerically, for four
     expansion rates $a_4' = A H$ of deflating histories, $A = 0.5, 1, 1.5, 2$: four
     flat lines.
     """),
     code(r'''
-    # numerical functions of the 156 components with a4pp = 0 (true on the history
-    # a4 = A H x4); the second derivative of a4 is replaced by 0 before lambdify
-    riemann_functions = {k: numeric(v.subs(sp.Derivative(a4, (x4, 2)), 0))
+    # numerical functions of the 156 components with a4pp = 0 and b4pp = 0 (true on
+    # the history a4 = A H x4, b4 = 1); the second derivatives are set to 0 first
+    riemann_functions = {k: numeric(v.subs({sp.Derivative(a4, (x4, 2)): 0,
+                                            sp.Derivative(b4, (x4, 2)): 0}))
                          for k, v in R_mixed.items()}
 
 
@@ -1191,26 +1282,27 @@ CELLS = [
         for (a, b, c, d), f in riemann_functions.items():
             partner = riemann_functions.get((c, d, a, b))
             if partner is not None:
-                total += f(z_values, 0.5, rate, 1.0) * partner(z_values, 0.5, rate, 1.0)
+                total += (f(z_values, 0.5, rate, 1.0, 1.0, 0.0)
+                          * partner(z_values, 0.5, rate, 1.0, 1.0, 0.0))
         return total
 
 
     z_line = np.linspace(0.02, np.pi / 2 - 0.02, 300)
-    cot_part = riemann_functions[(0, 3, 0, 7)](z_line, 0.5, 1.5, 1.0)  # a4p = 1.5
-    tan_part = riemann_functions[(0, 7, 0, 3)](z_line, 0.5, 1.5, 1.0)
+    cot_part = riemann_functions[(1, 4, 1, 0)](z_line, 0.5, 1.5, 1.0, 1.0, 0.0)
+    tan_part = riemann_functions[(1, 0, 1, 4)](z_line, 0.5, 1.5, 1.0, 1.0, 0.0)
     fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.2))
     fig.subplots_adjust(wspace=0.32)  # room for the label of the right vertical axis
     axes[0].plot(z_line, np.abs(cot_part), color=RED, lw=1.8,
-                 label="$R^{x_1x_4}{}_{x_1x_8} = Ha_4^{\\prime}\\cot z$")
+                 label="$R^{x_1x_4}{}_{x_1x_0} = Ha_4^{\\prime}\\cot z$")
     axes[0].plot(z_line, np.abs(tan_part), color=BLUE, lw=1.8, ls="--",
-                 label="minus $R^{x_1x_8}{}_{x_1x_4} = Ha_4^{\\prime}\\tan z$")
+                 label="minus $R^{x_1x_0}{}_{x_1x_4} = Ha_4^{\\prime}\\tan z$")
     axes[0].plot(z_line, np.abs(cot_part * tan_part), color="black", lw=1.2, ls=":",
                  label="minus their product $= H^2 a_4^{\\prime 2}$")
     axes[0].plot(z_line, np.abs(np.broadcast_to(
-        riemann_functions[(0, 7, 0, 7)](z_line, 0.5, 1.5, 1.0), z_line.shape)),
-        color=AQUA, lw=1.8, ls="-.", label="minus $R^{x_1x_8}{}_{x_1x_8} = H^2$")
+        riemann_functions[(1, 0, 1, 0)](z_line, 0.5, 1.5, 1.0, 1.0, 0.0), z_line.shape)),
+        color=AQUA, lw=1.8, ls="-.", label="minus $R^{x_1x_0}{}_{x_1x_0} = H^2$")
     axes[0].set_yscale("log")
-    axes[0].set_xlabel("$z = 6 H x_8$ (radians)")
+    axes[0].set_xlabel("$z = 6 H x_0$ (radians)")
     axes[0].set_ylabel("absolute value (unit $H^2$)")
     axes[0].set_title("Riemann components, $a_4^{\\prime} = 1.5$")
     axes[0].legend(fontsize=8)
@@ -1220,20 +1312,22 @@ CELLS = [
         axes[1].plot(z_line, kretschmann_numbers(z_line, rate), color=colour, ls=style,
                      lw=1.8, label=f"$a_4^{{\\prime}} = {rate:g}\\,H$")
     axes[1].set_yscale("log")
-    axes[1].set_xlabel("$z = 6 H x_8$ (radians)")
+    axes[1].set_xlabel("$z = 6 H x_0$ (radians)")
     axes[1].set_ylabel("$K$ (unit $H^4$)")
     axes[1].set_title("Kretschmann scalar summed from 156 components")
     axes[1].legend(fontsize=8)
     # the values of the formula for K at the four rates, for the caption and the check
-    K_values = [float(K.subs({a4p: r, a4pp: 0, H: 1})) for r in rates]
+    K_values = [float(K.subs({a4p: r, a4pp: 0, H: 1, b4v: 1, b4p: 0, b4pp: 0}))
+                for r in rates]
     K_text = ", ".join(f"${k:g}$" for k in K_values)
     save_figure(fig, "riemann_and_kretschmann_z",
                 "Left: the absolute values of the Riemann components "
-                "$R^{x_1x_4}{}_{x_1x_8} = Ha_4^{\\prime}\\cot z$ (solid) and "
-                "$R^{x_1x_8}{}_{x_1x_4} = -Ha_4^{\\prime}\\tan z$ (dashed), of their "
-                "product (dotted) and of $R^{x_1x_8}{}_{x_1x_8} = -H^2$ (dash-dotted) "
+                "$R^{x_1x_4}{}_{x_1x_0} = Ha_4^{\\prime}\\cot z$ (solid) and "
+                "$R^{x_1x_0}{}_{x_1x_4} = -Ha_4^{\\prime}\\tan z$ (dashed), of their "
+                "product (dotted) and of $R^{x_1x_0}{}_{x_1x_0} = -H^2$ (dash-dotted) "
                 "across the patch, for $a_4^{\\prime} = 1.5$, "
-                "$a_4^{\\prime\\prime} = 0$, $H = 1$; horizontal axis $z = 6Hx_8$ in "
+                "$a_4^{\\prime\\prime} = 0$, $b_4 = 1$, $H = 1$; horizontal axis "
+                "$z = 6Hx_0$ in "
                 "radians, vertical axis on a logarithmic scale in units of $H^2$. "
                 "Right: the Kretschmann scalar $K$ summed numerically from all 156 "
                 "components at 300 values of $z$ for $a_4^{\\prime} = 0.5, 1, 1.5, 2$ "
@@ -1248,20 +1342,20 @@ CELLS = [
     md(r"""
     ## 13. The curvature along the deflating history
 
-    Along the history $a_4 = A H x_4$ we have $a_4' = A H$ and $a_4'' = 0$, so every
-    curvature scalar is a polynomial in the slope $A$. The author's extra times deflate
-    when $a_4$ increases, that is for $A > 0$; the Revision record uses $A = 1$. The
-    next cell evaluates the Ricci scalar $R = 6H^2(A^2 - 7)$, the sum
-    $\sum R^a{}_b R^b{}_a$ and $K$ as formulas in $A$, checks that they are **even** in
-    $A$ (they do not change when $A$ is replaced by $-A$; so these three scalars cannot
-    tell which of the two families of directions deflates, the metric and the
-    components of the curvature tensors can), and draws them for $0.1 \le A \le 3$
+    Along the history $a_4 = A H x_4$, $b_4 = 1$ we have $a_4' = A H$, $a_4'' = 0$ and
+    $b_4' = b_4'' = 0$, so every curvature scalar is a polynomial in the slope $A$. The
+    author's extra times deflate when $a_4$ increases, that is for $A > 0$; the Revision
+    record uses $A = 1$. The next cell evaluates the Ricci scalar $R = 6H^2(A^2 - 7)$,
+    the sum $\sum R^a{}_b R^b{}_a$ and $K$ as formulas in $A$, checks that they are
+    **even** in $A$ (they do not change when $A$ is replaced by $-A$; so these three
+    scalars cannot tell which of the two families of directions deflates, the metric and
+    the components of the curvature tensors can), and draws them for $0.1 \le A \le 3$
     (every one of these histories deflates the extra times): $R$ on an ordinary axis
     (it vanishes at $A = \sqrt 7$), the two squares on a logarithmic axis.
     """),
     code(r'''
     A = sp.symbols("A", real=True)  # the slope of the history a4 = A H x4
-    on_history = {a4p: A * H, a4pp: 0}
+    on_history = {a4p: A * H, a4pp: 0, b4pp: 0, b4p: 0, b4v: 1}
     R_A = sp.factor(symbolic(R_scalar).subs(on_history))
     K_A = sp.factor(K.subs(on_history))
     RR_A = sp.factor(ricci_square.subs(on_history))
@@ -1291,7 +1385,7 @@ CELLS = [
     axes[0].text(1.05, -40, "$A = 1$", fontsize=9)
     save_figure(fig, "scalars_versus_a",
                 "The curvature scalars of the author's metric along the deflating "
-                "history $a_4 = AHx_4$ ($a_4^{\\prime} = AH$, "
+                "history $a_4 = AHx_4$, $b_4 = 1$ ($a_4^{\\prime} = AH$, "
                 "$a_4^{\\prime\\prime} = 0$) as functions of the slope $A$ from $0.1$ "
                 "to $3$, with $H = 1$; horizontal axes $A$ (a pure number), the dotted "
                 "vertical line marks the canonical $A = 1$ of the Revision record. "
@@ -1305,17 +1399,17 @@ CELLS = [
           "at A = 1: R = -36 H^2 and K = 144 H^4")
     '''),
     md(r"""
-    The next cell draws the Einstein tensor along the deflating history. Left: its
-    eight diagonal components as bars, for the canonical slope $A = 1$ of the Revision
-    record and for $A = 2$. Right: as functions of $A$; with $a_4'' = 0$ the 3-space,
-    extra-time and hidden components coincide,
-    $G^{x_1}{}_{x_1} = G^{x_5}{}_{x_5} = G^{x_8}{}_{x_8} = 3H^2(5 - A^2)$, and
+    The next cell draws the Einstein tensor along the deflating history (with $b_4 = 1$
+    it is diagonal). Left: its eight diagonal components as bars, for the canonical slope
+    $A = 1$ of the Revision record and for $A = 2$. Right: as functions of $A$; with
+    $a_4'' = 0$ the hidden, 3-space and extra-time components coincide,
+    $G^{x_1}{}_{x_1} = G^{x_5}{}_{x_5} = G^{x_0}{}_{x_0} = 3H^2(5 - A^2)$, and
     $G^{x_4}{}_{x_4} = 3H^2(7 + A^2)$; the gap between them, $6H^2(A^2 + 1)$, is never
     zero.
     """),
     code(r'''
     G_A = [sp.factor(symbolic(G[k, k]).subs(on_history)) for k in range(8)]
-    for k in (0, 3, 4, 7):
+    for k in (0, 1, 4, 5):
         say(f"  on the history: G^{NAMES[k]}_{NAMES[k]} = {G_A[k]}")
     bars = {value: [float(G_A[k].subs({A: value, H: 1})) for k in range(8)]
             for value in (1, 2)}
@@ -1324,15 +1418,15 @@ CELLS = [
     axes[0].bar(positions - 0.2, bars[1], width=0.38, color=RED, hatch="//",
                 label="$A = 1$")
     axes[0].bar(positions + 0.2, bars[2], width=0.38, color=BLUE, label="$A = 2$")
-    axes[0].set_xticks(positions, [f"$G^{{x_{k}}}{{}}_{{x_{k}}}$" for k in range(1, 9)],
+    axes[0].set_xticks(positions, [f"$G^{{x_{k}}}{{}}_{{x_{k}}}$" for k in range(8)],
                        fontsize=8)
     axes[0].set_ylabel("component (unit $H^2$)")
     axes[0].set_title("Diagonal of the Einstein tensor")
     axes[0].legend(fontsize=8)
-    space_numbers = sp.lambdify(A, G_A[0].subs(H, 1))(A_line)
-    time_numbers = sp.lambdify(A, G_A[3].subs(H, 1))(A_line)
+    space_numbers = sp.lambdify(A, G_A[1].subs(H, 1))(A_line)
+    time_numbers = sp.lambdify(A, G_A[4].subs(H, 1))(A_line)
     axes[1].plot(A_line, space_numbers, color=RED, lw=1.8,
-                 label="$G^{x_1}{}_{x_1} = G^{x_5}{}_{x_5} = G^{x_8}{}_{x_8}$")
+                 label="$G^{x_1}{}_{x_1} = G^{x_5}{}_{x_5} = G^{x_0}{}_{x_0}$")
     axes[1].plot(A_line, time_numbers, color=VIOLET, lw=1.8, ls="--",
                  label="$G^{x_4}{}_{x_4}$")
     axes[1].fill_between(A_line, space_numbers, time_numbers, color="grey", alpha=0.2,
@@ -1345,29 +1439,30 @@ CELLS = [
     axes[1].legend(fontsize=8, loc="lower left")
     save_figure(fig, "einstein_tensor",
                 "The Einstein tensor $G^{\\mu}{}_{\\nu}$ of the author's metric along "
-                "the deflating history $a_4 = AHx_4$ with $H = 1$, in units of $H^2$. "
+                "the deflating history $a_4 = AHx_4$, $b_4 = 1$ with $H = 1$, in units of "
+                "$H^2$. "
                 "Left: the eight diagonal components (the only non-zero ones) for the "
                 "canonical slope $A = 1$ of the Revision record (hatched bars: "
-                "$12, 12, 12, 24, 12, 12, 12, 12$) and for $A = 2$ (plain bars: "
-                "$3, 3, 3, 33, 3, 3, 3, 3$). Right: the 3-space, extra-time and hidden "
+                "$12, 12, 12, 12, 24, 12, 12, 12$) and for $A = 2$ (plain bars: "
+                "$3, 3, 3, 3, 33, 3, 3, 3$). Right: the hidden, 3-space and extra-time "
                 "components $3H^2(5 - A^2)$ (solid) and the time component "
                 "$3H^2(7 + A^2)$ (dashed) as functions of the slope $A$ from $0.1$ to "
                 "$3$; the shaded gap $6H^2(A^2 + 1)$ between them never closes.")
-    check(bars[1] == [12.0, 12.0, 12.0, 24.0, 12.0, 12.0, 12.0, 12.0]
-          and bars[2] == [3.0, 3.0, 3.0, 33.0, 3.0, 3.0, 3.0, 3.0],
+    check(bars[1] == [12.0, 12.0, 12.0, 12.0, 24.0, 12.0, 12.0, 12.0]
+          and bars[2] == [3.0, 3.0, 3.0, 3.0, 33.0, 3.0, 3.0, 3.0],
           "diagonal of G: 12 (24 for x4) at A = 1 and 3 (33 for x4) at A = 2, unit H^2")
     '''),
     md(r"""
     What do these numbers mean for matter? Einstein's field equations (section 3 of
     this notebook) set $G^\mu{}_\nu + \Lambda\,\delta^\mu{}_\nu = \kappa\, T^\mu{}_\nu$
-    with $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$. Their $x_4$
+    with $T = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)$. Their $x_4$
     component reads $G^{x_4}{}_{x_4} + \Lambda = -\kappa\rho$, so
-    $\kappa\rho = -G^{x_4}{}_{x_4} - \Lambda$; their $x_1$, $x_5$ and $x_8$ components
+    $\kappa\rho = -G^{x_4}{}_{x_4} - \Lambda$; their $x_1$, $x_5$ and $x_0$ components
     read $G^{x_1}{}_{x_1} + \Lambda = \kappa p_3$, $G^{x_5}{}_{x_5} + \Lambda = \kappa
-    p_t$ and $G^{x_8}{}_{x_8} + \Lambda = \kappa p_8$. Along the history the three
-    components on the left are equal (previous cell), so all three pressures must be
-    the same number $p$. The Revision record of the field equations of $a_4$
-    (`Revision/field_equations_a4/a4-equations.json`, entry `linearMember`) lists this
+    p_t$ and $G^{x_0}{}_{x_0} + \Lambda = \kappa p_0$. Along the history (with
+    $b_4 = 1$) the three components on the left are equal (previous cell), so all three
+    pressures must be the same number $p$. The Revision record of the field equations of
+    $a_4$ (`Revision/field_equations_a4/a4-equations.json`, entry `linearMember`) lists this
     required source in its texts `rhoEinstein` ($\rho$), `pEinstein` ($p$) and
     `rhoPlusPEinstein` ($\rho + p$), written with `AA` for $A$ and `Lam` for $\Lambda$.
     The next cell reads the three texts, turns them into sympy expressions, confirms
@@ -1401,14 +1496,14 @@ CELLS = [
     say(f"record: kappa p         = {sp.expand(kappa * p_record)}")
     say(f"record: kappa (rho + p) = {sp.factor(kappa * sum_record)}")
     record_check(A4_REPORT, "json_linear_member")  # stops if not passed
-    check(sp.expand(kappa * rho_record - (-G_A[3] - Lam)) == 0,
+    check(sp.expand(kappa * rho_record - (-G_A[4] - Lam)) == 0,
           "kappa rho of the record equals -G^x4_x4 - Lambda",
           record=f"{A4_EQUATIONS}, linearMember.rhoEinstein (and "
                  "python-a4-report.json, check json_linear_member)")
-    check(all(sp.expand(kappa * p_record - (G_A[k] + Lam)) == 0 for k in (0, 4, 7)),
-          "kappa p of the record equals G^x1_x1, G^x5_x5 and G^x8_x8 plus Lambda",
+    check(all(sp.expand(kappa * p_record - (G_A[k] + Lam)) == 0 for k in (1, 5, 0)),
+          "kappa p of the record equals G^x1_x1, G^x5_x5 and G^x0_x0 plus Lambda",
           record=f"{A4_EQUATIONS}, linearMember.pEinstein")
-    check(sp.expand(kappa * sum_record - (G_A[0] - G_A[3])) == 0,
+    check(sp.expand(kappa * sum_record - (G_A[1] - G_A[4])) == 0,
           "kappa (rho + p) of the record equals G^x1_x1 - G^x4_x4 = -6 (A^2 + 1) H^2",
           record=f"{A4_EQUATIONS}, linearMember.rhoPlusPEinstein")
     '''),
@@ -1417,16 +1512,22 @@ CELLS = [
 
     A check that cannot fail teaches nothing. So the next cell changes the metric on
     purpose: the extra times now **inflate** like 3-space, $g_{55} = g_{66} = g_{77} =
-    -e^{+2a_4}\sin^{1/3} z$ (this is NOT the author's metric), and computes the
-    curvature again with the same functions. In the author's metric the
-    $x_4$-$x_8$ components cancelled between the three inflating and the three deflating
+    -e^{+2a_4}\sin^{1/3} z$, and computes the curvature again with the same functions.
+    This is not a deflating metric; within the author's family it is the member
+    $b_4 = e^{4a_4}$, whose extra-time rate $\alpha_t = -a_4' + b_4'/(2b_4) = +a_4'$
+    equals that of 3-space. With a constant $b_4$ the $x_4$-$x_0$ components of the
+    Einstein tensor cancel between the three inflating and the three deflating
     directions; here they add up. The cell prints the off-diagonal Einstein components
-    that appear and checks that they are not zero and that they depend on $z$.
+    that appear and checks that they are not zero, that they depend on $z$, and that
+    they are the general components $\pm\tfrac32 H (\cot z, \tan z)\, b_4'/b_4$ of
+    section 11 with $b_4 = e^{4a_4}$. It also computes the Kretschmann scalar of the
+    control and checks that it vanishes for $a_4' = H$, $a_4'' = 0$: the bound
+    $K \ge 576H^4/7$ of section 12 needs a constant $b_4$.
     """),
     code(r'''
     g_control = g.copy()
-    for k in (4, 5, 6):  # the three extra times, now inflating
-        g_control[k, k] = -sp.exp(2 * a4) * sp.sin(6 * H * x8) ** sp.Rational(1, 3)
+    for k in (5, 6, 7):  # the three extra times, now inflating
+        g_control[k, k] = -sp.exp(2 * a4) * sp.sin(6 * H * x0) ** sp.Rational(1, 3)
     Gamma_control = christoffel(g_control, X)
     R_control = raise_second(riemann(Gamma_control, X), g_control)
     Ric_control = ricci(R_control, 8)
@@ -1435,9 +1536,17 @@ CELLS = [
            if i != j and G_control[i, j] != 0}
     for (i, j), value in sorted(off.items()):
         say(f"  control: G^{NAMES[i]}_{NAMES[j]} = {value}")
-    check(sorted(off) == [(3, 7), (7, 3)] and all(v.has(z) for v in off.values()),
-          "negative control: with inflating extra times G^x4_x8 and G^x8_x4 are not "
-          "zero and depend on z")
+    b4_control = {sp.Derivative(b4, x4): 4 * sp.Derivative(a4, x4) * sp.exp(4 * a4),
+                  b4: sp.exp(4 * a4)}  # b4 = e^(4 a4) and its derivative
+    general_off = [G[i, j].subs(b4_control) for i, j in ((0, 4), (4, 0))]
+    K_control = sp.expand(symbolic(sum(
+        v * get(R_control, (c, d, a, b)) for (a, b, c, d), v in R_control.items())))
+    check(sorted(off) == [(0, 4), (4, 0)] and all(v.has(z) for v in off.values())
+          and vanishes(G_control[0, 4] - general_off[0])
+          and vanishes(G_control[4, 0] - general_off[1])
+          and sp.simplify(K_control.subs({a4pp: 0, a4p: H})) == 0,
+          "negative control: with inflating extra times (b4 = e^(4 a4)) G^x4_x0 and "
+          "G^x0_x4 are not zero, depend on z, equal the general ones; K = 0 at a4p = H")
     '''),
     md(r"""
     ## 15. The last check
@@ -1457,43 +1566,48 @@ CELLS = [
     md(r"""
     ## 16. What this notebook showed
 
-    - From the metric exactly as the author typed it, sympy computed 37 non-zero
-      Christoffel symbols (25 with $b \le c$), 156 non-zero Riemann components
-      $R^{ab}{}_{cd}$ with 14 different values, the Ricci tensor, the Ricci scalar
-      $R = 6a_4'^2 - 42H^2$ and the Einstein tensor; every component agrees exactly
+    - From the metric exactly as the author typed it, with general $a_4(x_4)$ and
+      $b_4(x_4)$, sympy computed 37 non-zero Christoffel symbols (25 with $b \le c$),
+      156 non-zero Riemann components $R^{ab}{}_{cd}$ with 20 different values, the Ricci
+      tensor, the Ricci scalar ($R = 6a_4'^2 - 42H^2$ at $b_4 = 1$) and the Einstein
+      tensor; every component agrees exactly
       with the Revision record of the Rust program `lovelock_gkd` (PROVED by exact
       algebra, here and in the record); at the five test points of the independent
       Revision verification all 310 recorded components agree with ours to more than 25
-      significant digits. Twice our Ricci scalar equals the first Lovelock scalar
-      $L_{(1)}$ of the record of the field equations of $a_4$.
+      significant digits. At $b_4 = 1$ twice our Ricci scalar equals the first Lovelock
+      scalar $L_{(1)}$ of the record of the field equations of $a_4$.
     - The Christoffel symbols were confirmed a second way, by finite differences, with
       an error that falls like $h^2$.
     - The lines along $x_4$ are geodesics: observers at rest fall freely and $x_4$ is
       their proper time.
     - The Riemann tensor has all the symmetries of a Riemann tensor and satisfies the
       first Bianchi identity; the Einstein tensor satisfies the contracted Bianchi
-      identity, is diagonal, isotropic in 3-space and in the extra times, and does not
-      depend on $x_8$; $G^{x_4}{}_{x_4} - G^{x_8}{}_{x_8} = 6(a_4'^2 + H^2) > 0$.
-    - The Kretschmann scalar $K = 12(7H^4 - 2H^2a_4'^2 + 7a_4'^4 + 2a_4''^2)$ does not
-      depend on $z$ although single components do, and $K \ge 576H^4/7 > 0$: the metric
-      is curved for every $H > 0$.
-    - Along the deflating history $a_4 = AHx_4$ the curvature scalars are
+      identity and is isotropic in 3-space and in the extra times; its only off-diagonal
+      components are $G^{x_4}{}_{x_0} = \tfrac32 H\cot z\, b_4'/b_4$ and
+      $G^{x_0}{}_{x_4} = -\tfrac32 H\tan z\, b_4'/b_4$. At $b_4 = 1$ it is diagonal,
+      does not depend on $x_0$, and $G^{x_4}{}_{x_4} - G^{x_0}{}_{x_0} = 6(a_4'^2 + H^2)
+      > 0$.
+    - The Kretschmann scalar does not depend on $z$ although single components do; for
+      a constant $b_4$ it is $K = 12(7H^4 - 2H^2a_4'^2 + 7a_4'^4 + 2a_4''^2)
+      \ge 576H^4/7 > 0$: the metric is curved for every $H > 0$.
+    - Along the deflating history $a_4 = AHx_4$, $b_4 = 1$ the curvature scalars are
       $R = 6H^2(A^2 - 7)$, $K = 12H^4(7A^4 - 2A^2 + 7)$ and
       $\sum R^a{}_b R^b{}_a = 36H^4(A^4 + 7)$, all even in $A$. For the canonical
       history of the Revision record ($A = 1$, $H = 1$): $R = -36$, $K = 144$ and
-      $G = \mathrm{diag}(12, 12, 12, 24, 12, 12, 12, 12)$ (units $H^2$ and $H^4$); for
-      $A = 2$: $G = \mathrm{diag}(3, 3, 3, 33, 3, 3, 3, 3)$.
+      $G = \mathrm{diag}(12, 12, 12, 12, 24, 12, 12, 12)$ (units $H^2$ and $H^4$); for
+      $A = 2$: $G = \mathrm{diag}(3, 3, 3, 3, 33, 3, 3, 3)$.
     - Through Einstein's equations this Einstein tensor is exactly the source that the
       Revision record of the field equations of $a_4$ lists for the linear history:
       $\kappa\rho = -3(7 + A^2)H^2 - \Lambda$, $\kappa p = 3(5 - A^2)H^2 + \Lambda$ for
       all three pressures, and $\kappa(\rho + p) = -6(A^2 + 1)H^2 < 0$.
-    - Negative control: if the extra times inflated instead of deflating, the Einstein
-      tensor would acquire the off-diagonal components $G^{x_4}{}_{x_8}$ and
-      $G^{x_8}{}_{x_4}$: comparing the two metrics, it is the deflation of the extra
-      times that makes the Einstein tensor of the author's metric diagonal.
+    - Negative control: if the extra times inflated instead of deflating (the member
+      $b_4 = e^{4a_4}$ of the family), the Einstein tensor acquires the off-diagonal
+      components $G^{x_4}{}_{x_0}$ and $G^{x_0}{}_{x_4}$ of the general formula, and its
+      Kretschmann scalar can vanish; with a constant $b_4$ the deflation of the extra
+      times makes the Einstein tensor of the author's metric diagonal.
     - ASSUMED for the plots and the evaluation along the history only: the history
-      $a_4 = AHx_4$ with $A > 0$ (a prescribed background, not solved for); every
-      formula with a general $a_4(x_4)$ is exact.
+      $a_4 = AHx_4$ with $A > 0$ and $b_4 = 1$ (a prescribed background, not solved
+      for); every formula with general $a_4(x_4)$ and $b_4(x_4)$ is exact.
     """),
 ]
 

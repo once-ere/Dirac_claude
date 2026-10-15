@@ -10,7 +10,7 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/03a_authors_metric.py
 
-Physics source: Revision/SPEC.md section 1 (the metric of the author, coordinates x1..x8,
+Physics source: Revision/SPEC.md section 1 (the metric of the author, coordinates x0..x7,
 the three extra times x5, x6, x7 DEFLATE exponentially) and the Revision records named in
 FACTS["records"].  Every number the notebook compares with a record is checked by an
 assertion that names the record file and its check.
@@ -30,18 +30,19 @@ FACTS = {
     "title": "The author's metric: signature, scale factors, warp and proper volumes",
     "purpose": (
         "It reads the metric of the primordial gravitational field exactly as the author "
-        "typed it (from the Revision record of the curvature computation), turns the text "
-        "into an exact sympy matrix, and checks its diagonal entries, its determinant, its "
-        "signature (4,4) and its diagonal vielbein against the Revision records. It then "
-        "computes the expansion rate of every direction, the proper volumes and the hidden "
-        "coordinate y, and draws the metric as a heat map, its entries versus z, the scale "
-        "factors of 3-space (inflating) and of the three extra times (deflating "
-        "exponentially) along the deflating history a4 = A H x4 of the Revision Kohn-Sham "
-        "work, the warp factor and the proper volumes."
+        "typed it, with the two metric functions a4 and b4 (from the Revision record of the "
+        "curvature computation), turns the text into an exact sympy matrix, and checks its "
+        "diagonal entries, its determinant, its signature (4,4) and its diagonal vielbein "
+        "against the Revision records. It then computes the expansion rate of every "
+        "direction, the proper volumes and the hidden coordinate y, and draws the metric as "
+        "a heat map, its entries versus z, the scale factors of 3-space (inflating) and of "
+        "the three extra times (deflating exponentially) along the deflating history "
+        "a4 = A H x4, b4 = 1 of the Revision Kohn-Sham work, the warp factor and the proper "
+        "volumes."
     ),
     "records": [
         ["Revision/gkd_lovelock/results/curvature.json",
-         "the metric as the author wrote it (metricAsGiven), its diagonal entries "
+         "the metric with b4 as the author wrote it (metricAsGiven), its diagonal entries "
          "(metricDiagonal) and the square root of the absolute value of its determinant "
          "(sqrtAbsDetG), written by the Rust program lovelock_gkd"],
         ["Revision/gkd_lovelock/results/python-lovelock-report.json",
@@ -102,28 +103,30 @@ CELLS = [
     - reads the metric **exactly as the author typed it** (the text is stored in the
       Revision record `Revision/gkd_lovelock/results/curvature.json`) and turns the text
       into an exact sympy matrix, step by step;
-    - checks the eight diagonal entries, the determinant $\det g = \cos^2 z$ and
-      $\sqrt{|\det g|} = \cos z$ against the Revision records;
-    - checks the **signature** (4,4): four space-like directions $x_1, x_2, x_3, x_8$ and
+    - checks the eight diagonal entries, the determinant $\det g = b_4^3 \cos^2 z$ and
+      $\sqrt{|\det g|} = b_4^{3/2} \cos z$ against the Revision records;
+    - checks the **signature** (4,4): four space-like directions $x_0, x_1, x_2, x_3$ and
       four time-like directions $x_4, x_5, x_6, x_7$;
     - builds the diagonal **vielbein** (the scale factors) and checks that it reproduces
       the metric;
     - computes the **expansion rate** of every direction: 3-space expands with the rate
-      $a_4'$, the three extra times shrink (deflate) with the rate $-a_4'$;
-    - draws the scale factors along the **deflating history** $a_4 = A H x_4$ that the
-      Revision Kohn-Sham work uses as a prescribed background ($A = 1$, $H = 1$);
+      $a_4'$, the three extra times shrink (deflate) with the rate $-a_4' + b_4'/(2b_4)$;
+    - draws the scale factors along the **deflating history** $a_4 = A H x_4$, $b_4 = 1$
+      that the Revision Kohn-Sham work uses as a prescribed background ($A = 1$, $H = 1$);
     - computes the **proper volumes** (3-space grows like $e^{3 a_4}$, the extra times
-      shrink like $e^{-3 a_4}$, the 7-volume stays constant) and the **hidden coordinate**
-      $y = \ln(\sin z)/(6H)$ in which the metric takes its warped form;
+      shrink like $b_4^{3/2} e^{-3 a_4}$, the 7-volume stays constant when $b_4$ does) and
+      the **hidden coordinate** $y = \ln(\sin z)/(6H)$ in which the metric takes its
+      warped form;
     - draws 7 figures and prints a PASS line for every check.
     """),
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates** $x_1, \dots, x_8$: eight numbers that name a point of the
-      8-dimensional spacetime. The author's names and roles: $x_1, x_2, x_3$ ordinary
-      3-space; $x_4$ the time; $x_5, x_6, x_7$ the three **extra times**; $x_8$ the
-      **hidden** space direction. (In Python lists they are counted 0 to 7.)
+    - **Coordinates** $x_0, \dots, x_7$: eight numbers that name a point of the
+      8-dimensional spacetime. The author's names and roles: $x_0$ the **hidden** space
+      direction; $x_1, x_2, x_3$ ordinary 3-space; $x_4$ the time; $x_5, x_6, x_7$ the
+      three **extra times**. (In Python lists they are counted 0 to 7 as well: $x_k$ is
+      entry $k$.)
     - **Metric** $g_{\mu\nu}$: the table of numbers (a symmetric matrix) that turns a
       small coordinate step $dx^\mu$ into a squared length,
       $ds^2 = \sum_{\mu,\nu} g_{\mu\nu}\, dx^\mu dx^\nu$. The entries may depend on the
@@ -138,7 +141,7 @@ CELLS = [
       of the metric matrix. For a diagonal matrix the eigenvalues are the diagonal
       entries. The author's metric has signature (4,4).
     - $\eta$: the flat metric with the same signs, $\eta = \mathrm{diag}(+1, +1, +1,
-      -1, -1, -1, -1, +1)$ in the order $x_1, \dots, x_8$.
+      +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$.
     - **Determinant** $\det g$: for a diagonal matrix the product of its diagonal
       entries. $\sqrt{|\det g|}\, d^8x$ is the proper (true) volume of a small
       coordinate box.
@@ -152,7 +155,7 @@ CELLS = [
       fraction by which its lengths grow per unit of time $x_4$.
     - **Inflate, deflate**: grow, shrink exponentially. 3-space inflates; the extra
       times deflate.
-    - $z = 6 H x_8$: the hidden coordinate in angle form, between $0$ and $\pi/2$.
+    - $z = 6 H x_0$: the hidden coordinate in angle form, between $0$ and $\pi/2$.
     - **Patch**: the range $0 < z < \pi/2$ on which the metric is used. Its end
       $z = \pi/2$ is the **patch end**; the end $z \to 0$ is the **tip**.
     - **Warp factor** $W = \sin^{1/6} z$: the factor that the scale factors of the six
@@ -174,33 +177,37 @@ CELLS = [
     ## 4. The physical and mathematical situation
 
     The author's metric of the primordial gravitational field is diagonal. In the order
-    $x_1, \dots, x_8$ its diagonal entries are
+    $x_0, \dots, x_7$ its diagonal entries are
 
-    $$g = \mathrm{diag}\bigl(e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\
-    e^{2a_4}\sin^{1/3}z,\ -1,\ -e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\
-    -e^{-2a_4}\sin^{1/3}z,\ \cot^2 z\bigr),\qquad z = 6 H x_8 .$$
+    $$g = \mathrm{diag}\bigl(\cot^2 z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\
+    e^{2a_4}\sin^{1/3}z,\ -1,\ -b_4 e^{-2a_4}\sin^{1/3}z,\ -b_4 e^{-2a_4}\sin^{1/3}z,\
+    -b_4 e^{-2a_4}\sin^{1/3}z\bigr),\qquad z = 6 H x_0 .$$
 
-    Here $H > 0$ is a constant of the author (a number with the unit 1/length) and
-    $a_4 = a_4(x_4)$ is a function of the time $x_4$ only, the **metric function**. A
-    prime means the derivative with respect to $x_4$: $a_4' = d a_4 / d x_4$.
+    Here $H > 0$ is a constant of the author (a number with the unit 1/length), and
+    $a_4 = a_4(x_4)$ and $b_4 = b_4(x_4) > 0$ are functions of the time $x_4$ only, the
+    **metric functions**; $b_4$ is the author's change of 2026-10-14, and $b_4 = 1$ gives
+    the metric used before. A prime means the derivative with respect to $x_4$:
+    $a_4' = d a_4 / d x_4$, $b_4' = d b_4 / d x_4$.
 
     The line element is therefore
 
-    $$ds^2 = e^{2a_4}\sin^{1/3}z\,(dx_1^2 + dx_2^2 + dx_3^2) - dx_4^2
-    - e^{-2a_4}\sin^{1/3}z\,(dx_5^2 + dx_6^2 + dx_7^2) + \cot^2 z\, dx_8^2 .$$
+    $$ds^2 = \cot^2 z\, dx_0^2 + e^{2a_4}\sin^{1/3}z\,(dx_1^2 + dx_2^2 + dx_3^2) - dx_4^2
+    - b_4 e^{-2a_4}\sin^{1/3}z\,(dx_5^2 + dx_6^2 + dx_7^2) .$$
 
     Read it term by term. A step $dx_1$ in 3-space has the proper length
     $e^{a_4}\sin^{1/6} z\, dx_1$: when $a_4$ grows, 3-space **inflates**. A step $dx_5$
-    along an extra time has the proper duration $e^{-a_4}\sin^{1/6} z\, dx_5$: when $a_4$
-    grows, the extra times **deflate exponentially**. The time $x_4$ has the coefficient
+    along an extra time has the proper duration $b_4^{1/2} e^{-a_4}\sin^{1/6} z\, dx_5$:
+    when $a_4$ grows and $b_4$ stays constant, the extra times **deflate
+    exponentially**. The time $x_4$ has the coefficient
     $-1$, so a step $dx_4$ is a proper time interval of exactly $dx_4$: the clock of an
     observer at rest shows $x_4$. The hidden direction has the coefficient $\cot^2 z$,
-    which depends on $x_8$ only.
+    which depends on $x_0$ only.
 
-    The metric alone does not fix the function $a_4(x_4)$; the field equations of $a_4$,
-    derived later in the book, relate it to the energy and the pressures of the matter
-    that fills the spacetime. For the plots this notebook uses the simplest
-    member of the family, $a_4 = A H x_4$, with the values of the Revision Kohn-Sham
+    The metric alone does not fix the functions $a_4(x_4)$ and $b_4(x_4)$; the field
+    equations of $a_4$ and $b_4$, derived later in the book, relate them to the energy
+    and the pressures of the matter that fills the spacetime (in the vacuum they force
+    $b_4$ to be constant). For the plots this notebook uses the simplest member of the
+    family, $a_4 = A H x_4$ and $b_4 = 1$, with the values of the Revision Kohn-Sham
     work: $A = 1$ and the unit of length chosen so that $H = 1$. This history is a
     **prescribed background** (it is assumed, not solved for). With $A > 0$ the function
     $a_4$ increases, so the extra times deflate, as the author requires.
@@ -251,9 +258,11 @@ CELLS = [
     next cell reads that file and prints the text, one row of the matrix per line (it
     only starts a new line after each `},` and changes nothing else). It is written in
     the language of Mathematica: `{...}` is a list (the whole matrix is a list of eight
-    rows, each row a list of eight entries), `exp^(...)` means $e$ to the power
-    $(...)$, `Sin[...]` and `Cot[...]` are the sine and the cotangent, `a4[x4]` is the
-    value of the function $a_4$ at $x_4$, and a blank between two factors means times.
+    rows, each row a list of eight entries), `E^(...)` means $e$ to the power
+    $(...)$, `Sin[...]` and `Cot[...]` are the sine and the cotangent, `a4[x4]` and
+    `b4[x4]` are the values of the functions $a_4$ and $b_4$ at $x_4$, and a blank between
+    two factors means times. After the matrix the record adds, in brackets, where the
+    text comes from.
 
     The cell also defines the function `record_check(report_file, check_name,
     detail_part)`. Some PASS lines below say that a result reproduces a named check of
@@ -290,61 +299,74 @@ CELLS = [
 
     CURVATURE_RECORD = "Revision/gkd_lovelock/results/curvature.json"
     record = json.loads(repository_file(CURVATURE_RECORD).read_text(encoding="utf-8"))
-    author_text = record["metricAsGiven"]  # the metric exactly as the author typed it
+    # the metric exactly as the author typed it, then a note in brackets
+    author_text, note = record["metricAsGiven"].split("}} ", 1)
+    author_text += "}}"  # the two closing brackets that split removed
     say(f"The metric as the author wrote it ({len(author_text)} characters):")
     for line in author_text.replace("},", "},\n").split("\n"):  # one row per line
         print(line)
+    say("The note of the record: " + note)
     '''),
     md(r"""
     The next cell makes the **symbols** of the computation: the eight coordinates, the
-    constant $H$ (declared positive), the metric function $a_4(x_4)$ (an unknown
-    function of $x_4$, so that sympy can differentiate it), and three plain symbols that
-    we use for printing: `a4p` stands for $a_4'$, `a4v` for the value of $a_4$, and `z`
-    for $6 H x_8$.
+    constant $H$ (declared positive), the metric functions $a_4(x_4)$ and $b_4(x_4)$
+    (unknown functions of $x_4$, so that sympy can differentiate them; $b_4$ declared
+    positive), and five plain symbols that we use for printing: `a4p` and `b4p` stand for
+    $a_4'$ and $b_4'$, `a4v` and `b4v` for the values of $a_4$ and $b_4$, and `z` for
+    $6 H x_0$.
     """),
     code(r'''
-    x1, x2, x3, x4, x5, x6, x7, x8 = sp.symbols("x1:9", real=True)  # 8 coordinates
-    COORDS = [x1, x2, x3, x4, x5, x6, x7, x8]
+    x0, x1, x2, x3, x4, x5, x6, x7 = sp.symbols("x0:8", real=True)  # 8 coordinates
+    COORDS = [x0, x1, x2, x3, x4, x5, x6, x7]
     H = sp.symbols("H", positive=True)  # the constant of the author, H > 0
-    a4 = sp.Function("a4")(x4)  # the metric function: an unknown function of x4
+    a4 = sp.Function("a4")(x4)  # the metric function a4: an unknown function of x4
+    b4 = sp.Function("b4", positive=True)(x4)  # the metric function b4 > 0 of x4
     a4p, a4v = sp.symbols("a4p a4v", real=True)  # a4p = a4 prime, a4v = value of a4
-    z = sp.symbols("z", positive=True)  # z = 6 H x8, for printing
+    b4p = sp.symbols("b4p", real=True)  # b4p = b4 prime
+    b4v = sp.symbols("b4v", positive=True)  # b4v = value of b4
+    z = sp.symbols("z", positive=True)  # z = 6 H x0, for printing
 
 
     def plain(expression):
-        """Write the derivative of a4 as a4p, the value a4(x4) as a4v, 6 H x8 as z."""
+        """Write the derivatives of a4 and b4 as a4p and b4p, their values as a4v and
+        b4v, and 6 H x0 as z."""
         expression = expression.subs(sp.Derivative(a4, x4), a4p).subs(a4, a4v)
-        return expression.subs(x8, z / (6 * H))  # then 6*H*x8 becomes z
+        expression = expression.subs(sp.Derivative(b4, x4), b4p).subs(b4, b4v)
+        return expression.subs(x0, z / (6 * H))  # then 6*H*x0 becomes z
 
 
-    say("Symbols: x1 ... x8, H > 0, the function a4(x4), and a4p, a4v, z for printing.")
+    say("Symbols: x0 ... x7, H > 0, the functions a4(x4) and b4(x4), and a4p, a4v, b4p, "
+        "b4v, z for printing.")
     '''),
     md(r"""
     The next cell turns the author's text into Python, one rule at a time, and lets
     sympy read the result. Each `replace` changes one piece of Mathematica notation into
-    the Python notation that sympy understands: `exp^` becomes `E^` (sympy's `E` is the
-    number $e = 2.718\ldots$), the square brackets of `Sin[6 H x8]` and `Cot[6 H x8]`
-    become round brackets, `a4[x4]` becomes `a4` (which the dictionary `names` connects to
-    the function $a_4(x_4)$), the curly brackets of the lists become square brackets,
+    the Python notation that sympy understands: `exp^` (which an older text of the
+    author used) becomes `E^` (sympy's `E` is the number $e = 2.718\ldots$), the square
+    brackets of `Sin[6 H x0]` and `Cot[6 H x0]` become round brackets, `a4[x4]` and
+    `b4[x4]` become `a4` and `b4` (which the dictionary `names` connects to the functions
+    $a_4(x_4)$ and $b_4(x_4)$), the curly brackets of the lists become square brackets,
     and the power sign `^` becomes `**`. The option `implicit_multiplication` reads a
-    blank between two factors as a multiplication, as Mathematica does: `6 H x8` means
-    $6 \cdot H \cdot x_8$.
+    blank between two factors as a multiplication, as Mathematica does: `6 H x0` means
+    $6 \cdot H \cdot x_0$.
     """),
     code(r'''
     text = author_text
     text = text.replace("exp^", "E^")  # e to the power ...
-    text = text.replace("Sin[6 H x8]", "sin(6 H x8)")  # Mathematica [ ] -> Python ( )
-    text = text.replace("Cot[6 H x8]", "cot(6 H x8)")
+    text = text.replace("Sin[6 H x0]", "sin(6 H x0)")  # Mathematica [ ] -> Python ( )
+    text = text.replace("Cot[6 H x0]", "cot(6 H x0)")
     text = text.replace("a4[x4]", "a4")  # the value of the function a4 at x4
+    text = text.replace("b4[x4]", "b4")  # the value of the function b4 at x4
     text = text.replace("{", "[").replace("}", "]")  # Mathematica lists -> Python lists
     text = text.replace("^", "**")  # Mathematica power ^ -> Python power **
-    names = {"E": sp.E, "a4": a4, "H": H, "x8": x8, "sin": sp.sin, "cot": sp.cot}
+    names = {"E": sp.E, "a4": a4, "b4": b4, "H": H, "x0": x0, "sin": sp.sin,
+             "cot": sp.cot}
     rows = parse_expr(text, local_dict=names,
                       transformations=standard_transformations + (implicit_multiplication,))
     g = sp.Matrix(rows)  # the metric of the author as an exact 8 x 8 sympy matrix
     say(f"The matrix has {g.rows} rows and {g.cols} columns. Its diagonal entries:")
     for k in range(8):
-        say(f"  g[x{k + 1}, x{k + 1}] = {g[k, k]}")
+        say(f"  g[x{k}, x{k}] = {g[k, k]}")
     off_diagonal = [g[i, j] for i in range(8) for j in range(8) if i != j]
     check(all(entry == 0 for entry in off_diagonal),
           "the 56 entries off the diagonal are zero: the metric is diagonal")
@@ -360,12 +382,12 @@ CELLS = [
     square bracket is left proves that every piece of notation was translated.
     """),
     code(r'''
-    warp = sp.sin(6 * H * x8) ** sp.Rational(1, 3)  # sin(z)^(1/3), Rational: exact 1/3
-    typed = sp.diag(sp.exp(2 * a4) * warp, sp.exp(2 * a4) * warp, sp.exp(2 * a4) * warp,
+    warp = sp.sin(6 * H * x0) ** sp.Rational(1, 3)  # sin(z)^(1/3), Rational: exact 1/3
+    typed = sp.diag(sp.cot(6 * H * x0) ** 2,  # the author's order x0, x1, ..., x7
+                    sp.exp(2 * a4) * warp, sp.exp(2 * a4) * warp, sp.exp(2 * a4) * warp,
                     -1,
-                    -sp.exp(-2 * a4) * warp, -sp.exp(-2 * a4) * warp,
-                    -sp.exp(-2 * a4) * warp,
-                    sp.cot(6 * H * x8) ** 2)
+                    -b4 * sp.exp(-2 * a4) * warp, -b4 * sp.exp(-2 * a4) * warp,
+                    -b4 * sp.exp(-2 * a4) * warp)
     difference = (g - typed).applyfunc(sp.simplify)  # simplify every entry
     check(difference == sp.zeros(8, 8),
           "the text of the author equals the metric typed by hand from the formula")
@@ -373,9 +395,9 @@ CELLS = [
 
     def from_mathematica(entry_text):
         """A record entry in Mathematica notation, as a sympy expression."""
-        t = entry_text.replace("Sin[6*H*x8]", "sin(6*H*x8)")
-        t = t.replace("Cot[6*H*x8]", "cot(6*H*x8)")
-        t = t.replace("a4[x4]", "a4").replace("^", "**")
+        t = entry_text.replace("Sin[6*H*x0]", "sin(6*H*x0)")
+        t = t.replace("Cot[6*H*x0]", "cot(6*H*x0)")
+        t = t.replace("a4[x4]", "a4").replace("b4[x4]", "b4").replace("^", "**")
         if "[" in t or "]" in t:  # a piece of notation that was not translated
             raise ValueError(f"cannot translate {entry_text}")
         return parse_expr(t, local_dict=names)
@@ -392,73 +414,81 @@ CELLS = [
 
     The determinant of a diagonal matrix is the product of its diagonal entries:
 
-    $$\det g = \bigl(e^{2a_4}\sin^{1/3}z\bigr)^3 \cdot (-1) \cdot
-    \bigl(-e^{-2a_4}\sin^{1/3}z\bigr)^3 \cdot \cot^2 z .$$
+    $$\det g = \cot^2 z \cdot \bigl(e^{2a_4}\sin^{1/3}z\bigr)^3 \cdot (-1) \cdot
+    \bigl(-b_4 e^{-2a_4}\sin^{1/3}z\bigr)^3 .$$
 
     Line by line: $\bigl(e^{2a_4}\sin^{1/3}z\bigr)^3 = e^{6a_4}\sin z$ (a power of a
-    product is the product of the powers); $\bigl(-e^{-2a_4}\sin^{1/3}z\bigr)^3 =
-    -e^{-6a_4}\sin z$ (an odd power keeps the minus sign); the two minus signs multiply
-    to $+1$ and $e^{6a_4} e^{-6a_4} = 1$, so $\det g = \sin^2 z \cot^2 z$; and
-    $\cot z = \cos z / \sin z$ gives $\det g = \cos^2 z$. On the patch
-    $0 < z < \pi/2$ the cosine is positive, so $\sqrt{|\det g|} = \cos z$. The function
-    $a_4$ has dropped out: the volume factor does not change with time. The next cell
-    lets sympy do the same and compares with the record (`sqrtAbsDetG`, written there as
-    `Sin[6*H*x8]*Cot[6*H*x8]`).
+    product is the product of the powers); $\bigl(-b_4 e^{-2a_4}\sin^{1/3}z\bigr)^3 =
+    -b_4^3 e^{-6a_4}\sin z$ (an odd power keeps the minus sign); the two minus signs
+    multiply to $+1$ and $e^{6a_4} e^{-6a_4} = 1$, so $\det g = b_4^3 \sin^2 z \cot^2 z$;
+    and $\cot z = \cos z / \sin z$ gives $\det g = b_4^3 \cos^2 z$. On the patch
+    $0 < z < \pi/2$ the cosine is positive, so $\sqrt{|\det g|} = b_4^{3/2} \cos z$.
+    The function $a_4$ has dropped out: the volume factor changes with time only through
+    $b_4$, and not at all when $b_4$ is constant. The next cell lets sympy do the same and
+    compares with the record (`sqrtAbsDetG`, written there as
+    `Sin[6*H*x0]*Cot[6*H*x0]*b4[x4]^(3/2)`); then it compares numbers at seven points with
+    $b_4 = 1$.
     """),
     code(r'''
     det_g = g.det()  # the product of the diagonal entries; sympy cancels exp(6 a4)
     say(f"det g = {plain(det_g)}")
     record_check("Revision/gkd_lovelock/results/python-lovelock-report.json",
-                 "sqrt_abs_det_g", "det g = cos^2(6 H x8) exactly")  # stops if not
-    check(sp.simplify(det_g - sp.cos(6 * H * x8) ** 2) == 0,
-          "det g = cos(z)^2: the function a4 drops out",
+                 "sqrt_abs_det_g", "det g = b4^3 cos^2(6 H x0) exactly")  # stops if not
+    check(sp.simplify(det_g - b4 ** 3 * sp.cos(6 * H * x0) ** 2) == 0,
+          "det g = b4^3 cos(z)^2: the function a4 drops out",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, "
                  "check sqrt_abs_det_g")
-    volume_factor = sp.cos(6 * H * x8)  # sqrt|det g| on the patch, where cos z > 0
+    # sqrt|det g| on the patch, where cos z > 0 and b4 > 0
+    volume_factor = b4 ** sp.Rational(3, 2) * sp.cos(6 * H * x0)
     check(sp.simplify(from_mathematica(record["sqrtAbsDetG"]) - volume_factor) == 0,
-          "sqrt|det g| = sin(z) cot(z) = cos(z)",
+          "sqrt|det g| = b4^(3/2) sin(z) cot(z) = b4^(3/2) cos(z)",
           record=f"{CURVATURE_RECORD}, sqrtAbsDetG")
-    # numbers: sqrt(|det g|) at 7 points of the patch, compared with cos z
+    # numbers: sqrt(|det g|) at 7 points of the patch with b4 = 1, compared with cos z
     z_points = np.linspace(0.1, 1.5, 7)
-    det_numbers = np.array([float(det_g.subs({H: 1, x8: zp / 6})) for zp in z_points])
+    det_numbers = np.array([float(det_g.subs(b4, 1).subs({H: 1, x0: zp / 6}))
+                            for zp in z_points])
     check(np.max(np.abs(np.sqrt(np.abs(det_numbers)) - np.cos(z_points))) < 1e-14,
-          "sqrt|det g| equals cos z at 7 points of the patch")
+          "at b4 = 1, sqrt|det g| equals cos z at 7 points of the patch")
     '''),
     md(r"""
     ## 7. The signature (4,4)
 
     For a diagonal matrix the eigenvalues are the diagonal entries, so the signature is
     read off the signs of the eight entries. The next cell turns the eight entries into
-    fast numerical functions of $z$ and of the value $a_4$ (`sp.lambdify`), evaluates
-    them on a grid of 400 values of $z$ strictly inside the patch and 13 values of $a_4$
-    from $-3$ to $3$, and checks that the sign pattern is always that of
-    $\eta = (+,+,+,-,-,-,-,+)$: four positive and four negative entries. It also checks
-    two vectors: a step along $x_1$ has a positive squared length (space-like), a step
-    along $x_5$ a negative one (time-like).
+    fast numerical functions of $z$ and of the values of $a_4$ and $b_4$
+    (`sp.lambdify`), evaluates them on a grid of 400 values of $z$ strictly inside the
+    patch, 13 values of $a_4$ from $-3$ to $3$ and the three values $b_4 = 0.5$, 1 and 2,
+    and checks that the sign pattern is always that of $\eta = (+,+,+,+,-,-,-,-)$: four
+    positive and four negative entries. It also checks two vectors: a step along $x_1$ has
+    a positive squared length (space-like), a step along $x_5$ a negative one
+    (time-like).
     """),
     code(r'''
-    ETA = np.array([1, 1, 1, -1, -1, -1, -1, 1])  # the flat metric diag(+,+,+,-,-,-,-,+)
-    diagonal_z = [plain(g[k, k]) for k in range(8)]  # the entries as functions of z, a4v
-    functions = [sp.lambdify((z, a4v), entry, "numpy") for entry in diagonal_z]
+    ETA = np.array([1, 1, 1, 1, -1, -1, -1, -1])  # the flat metric diag(+,+,+,+,-,-,-,-)
+    # the entries as functions of z, a4v and b4v
+    diagonal_z = [plain(g[k, k]) for k in range(8)]
+    functions = [sp.lambdify((z, a4v, b4v), entry, "numpy") for entry in diagonal_z]
 
 
-    def diagonal_values(z_values, a4_value):
+    def diagonal_values(z_values, a4_value, b4_value=1.0):
         """The 8 diagonal entries at the points z_values (one row per entry)."""
-        return np.array([np.broadcast_to(f(z_values, a4_value), z_values.shape)
+        return np.array([np.broadcast_to(f(z_values, a4_value, b4_value), z_values.shape)
                          for f in functions], dtype=float)
 
 
     z_grid = np.linspace(0.0, np.pi / 2, 402)[1:-1]  # 400 points strictly inside
     patterns = set()
-    for a4_value in np.linspace(-3.0, 3.0, 13):
-        signs = np.sign(diagonal_values(z_grid, a4_value))  # +1 or -1 for each entry
-        patterns.update(tuple(int(s) for s in column) for column in signs.T)
+    for b4_value in (0.5, 1.0, 2.0):
+        for a4_value in np.linspace(-3.0, 3.0, 13):
+            # +1 or -1 for each entry
+            signs = np.sign(diagonal_values(z_grid, a4_value, b4_value))
+            patterns.update(tuple(int(s) for s in column) for column in signs.T)
     say(f"sign patterns found on the grid: {sorted(patterns)}")
     check(patterns == {tuple(int(s) for s in ETA)},
-          "on the whole grid the signs are (+,+,+,-,-,-,-,+): signature (4,4)")
-    step_x1 = diagonal_values(np.array([0.7]), 0.5)[0, 0]  # g11: step along x1
-    step_x5 = diagonal_values(np.array([0.7]), 0.5)[4, 0]  # g55: step along x5
-    say(f"at z = 0.7, a4 = 0.5: g11 = {step_x1:.6f} (space-like), "
+          "on the whole grid the signs are (+,+,+,+,-,-,-,-): signature (4,4)")
+    step_x1 = diagonal_values(np.array([0.7]), 0.5)[1, 0]  # g11: step along x1
+    step_x5 = diagonal_values(np.array([0.7]), 0.5)[5, 0]  # g55: step along x5
+    say(f"at z = 0.7, a4 = 0.5, b4 = 1: g11 = {step_x1:.6f} (space-like), "
         f"g55 = {step_x5:.6f} (time-like)")
     check(step_x1 > 0 > step_x5, "a step along x1 is space-like, along x5 time-like")
     '''),
@@ -466,9 +496,9 @@ CELLS = [
     The next cell sets the colours of all figures of this notebook (a palette chosen so
     that the curves can be told apart also by readers with a colour-vision deficiency;
     every figure also uses line styles and labels, so that it can be read in black and
-    white) and then draws the metric at one point, $z = \pi/4$ and $a_4 = 0.5$, as a
-    **heat map**: each of the $8 \times 8$ entries is a coloured square, red for
-    positive, blue for negative, grey for zero, and its value is written in it.
+    white) and then draws the metric at one point, $z = \pi/4$, $a_4 = 0.5$ and
+    $b_4 = 1$, as a **heat map**: each of the $8 \times 8$ entries is a coloured square,
+    red for positive, blue for negative, grey for zero, and its value is written in it.
     """),
     code(r'''
     from matplotlib.colors import LinearSegmentedColormap
@@ -477,7 +507,7 @@ CELLS = [
     MAGENTA, GREEN, VIOLET, RED = "#e87ba4", "#008300", "#4a3aa7", "#e34948"
     GREY = "#f0efec"  # the neutral middle of the two-sided colour scale
     DIVERGING = LinearSegmentedColormap.from_list("blue_grey_red", [BLUE, GREY, RED])
-    LABELS = [f"$x_{k}$" for k in range(1, 9)]
+    LABELS = [f"$x_{k}$" for k in range(8)]
 
     z_point, a4_point = np.pi / 4, 0.5
     values = np.zeros((8, 8))
@@ -491,38 +521,41 @@ CELLS = [
     ax.set_xticks(range(8), LABELS)
     ax.set_yticks(range(8), LABELS)
     ax.grid(False)  # no grid lines across the squares
-    ax.set_title("The metric $g_{\\mu\\nu}$ at $z = \\pi/4$, $a_4 = 0.5$")
+    ax.set_title("The metric $g_{\\mu\\nu}$ at $z = \\pi/4$, $a_4 = 0.5$, $b_4 = 1$")
     fig.colorbar(image, ax=ax, label="value of the entry (no unit)")
     save_figure(fig, "metric_heat_map",
-                "The author's metric $g_{\\mu\\nu}$ at the point $z = 6Hx_8 = \\pi/4$ "
-                "with $a_4 = 0.5$, drawn as a heat map: row $\\mu$ and column $\\nu$ run "
-                "over the coordinates $x_1$ to $x_8$, red squares are positive entries, "
+                "The author's metric $g_{\\mu\\nu}$ at the point $z = 6Hx_0 = \\pi/4$ "
+                "with $a_4 = 0.5$ and $b_4 = 1$, drawn as a heat map: row $\\mu$ and "
+                "column $\\nu$ run "
+                "over the coordinates $x_0$ to $x_7$, red squares are positive entries, "
                 "blue squares negative ones, grey squares zero; the number in each "
-                "square is the entry. Only the diagonal is non-zero; the three 3-space "
+                "square is the entry. Only the diagonal is non-zero; the hidden entry is "
+                "$\\cot^2(\\pi/4) = 1$, the three 3-space "
                 "entries are equal, $e^{1}\\,(\\sin \\pi/4)^{1/3} = 2.422$, the three "
                 "extra-time entries are equal, $-e^{-1}(\\sin \\pi/4)^{1/3} = -0.328$, "
-                "the time entry is $-1$ and the hidden entry is $\\cot^2(\\pi/4) = 1$: "
+                "and the time entry is $-1$: "
                 "four positive and four negative entries, the signature (4,4).")
-    check(abs(values[0, 0] - np.e * np.sin(np.pi / 4) ** (1 / 3)) < 1e-12,
+    check(abs(values[1, 1] - np.e * np.sin(np.pi / 4) ** (1 / 3)) < 1e-12,
           "g11 at z = pi/4, a4 = 0.5 equals e times (sin pi/4)^(1/3)")
     '''),
     md(r"""
     The next cell draws the eight diagonal entries as functions of $z$ across the whole
-    patch, for $a_4 = 0.5$, together with the determinant $\cos^2 z$. Entries that are
-    equal are drawn as one curve. The hidden entry $\cot^2 z$ grows without bound
-    towards the tip $z \to 0$ and vanishes at the patch end $z = \pi/2$, where the
-    determinant vanishes too: there the coordinate $x_8$ stops being a good coordinate.
+    patch, for $a_4 = 0.5$ and $b_4 = 1$, together with the determinant $\cos^2 z$.
+    Entries that are equal are drawn as one curve. The hidden entry $\cot^2 z$ grows
+    without bound towards the tip $z \to 0$ and vanishes at the patch end $z = \pi/2$,
+    where the determinant vanishes too: there the coordinate $x_0$ stops being a good
+    coordinate.
     """),
     code(r'''
     z_line = np.linspace(0.02, np.pi / 2, 600)
-    entries = diagonal_values(z_line, 0.5)
+    entries = diagonal_values(z_line, 0.5)  # at b4 = 1
     fig, ax = plt.subplots()
-    ax.plot(z_line, entries[0], color=RED, lw=1.8,
+    ax.plot(z_line, entries[0], color=AQUA, lw=1.8, label="$g_{00} = \\cot^2 z$")
+    ax.plot(z_line, entries[1], color=RED, lw=1.8,
             label="$g_{11} = g_{22} = g_{33} = e^{2a_4}\\sin^{1/3}z$")
-    ax.plot(z_line, entries[3], color=VIOLET, lw=1.8, ls="-.", label="$g_{44} = -1$")
-    ax.plot(z_line, entries[4], color=BLUE, lw=1.8, ls="--",
-            label="$g_{55} = g_{66} = g_{77} = -e^{-2a_4}\\sin^{1/3}z$")
-    ax.plot(z_line, entries[7], color=AQUA, lw=1.8, label="$g_{88} = \\cot^2 z$")
+    ax.plot(z_line, entries[4], color=VIOLET, lw=1.8, ls="-.", label="$g_{44} = -1$")
+    ax.plot(z_line, entries[5], color=BLUE, lw=1.8, ls="--",
+            label="$g_{55} = g_{66} = g_{77} = -b_4 e^{-2a_4}\\sin^{1/3}z$")
     ax.plot(z_line, np.cos(z_line) ** 2, color="black", lw=1.2, ls=":",
             label="$\\det g = \\cos^2 z$")
     ax.axhline(0.0, color="black", lw=0.8)
@@ -530,22 +563,23 @@ CELLS = [
     ax.text(np.pi / 2 - 0.02, 3.3, "patch end", ha="right", fontsize=9)
     ax.text(0.05, 3.3, "towards the tip", fontsize=9)
     ax.set_ylim(-3.4, 3.6)  # room below the curves for the legend
-    ax.set_xlabel("$z = 6 H x_8$ (radians)")
+    ax.set_xlabel("$z = 6 H x_0$ (radians)")
     ax.set_ylabel("entry of the metric (no unit)")
-    ax.set_title("The diagonal entries of the metric across the patch ($a_4 = 0.5$)")
+    ax.set_title("The diagonal entries across the patch ($a_4 = 0.5$, $b_4 = 1$)")
     ax.legend(fontsize=8, loc="lower center", ncol=2)
     save_figure(fig, "diagonal_entries",
                 "The diagonal entries of the author's metric as functions of "
-                "$z = 6Hx_8$ from the tip side to the patch end $z = \\pi/2$, for "
-                "$a_4 = 0.5$; horizontal axis $z$ in radians, vertical axis the value of "
+                "$z = 6Hx_0$ from the tip side to the patch end $z = \\pi/2$, for "
+                "$a_4 = 0.5$ and $b_4 = 1$; horizontal axis $z$ in radians, vertical "
+                "axis the value of "
                 "the entry (pure numbers). The three 3-space entries (solid red) stay "
                 "positive and the three extra-time entries (dashed blue) and the time "
                 "entry (dash-dotted) stay negative everywhere, so the signature is (4,4) "
                 "at every point; the hidden entry $\\cot^2 z$ (aqua) grows without bound "
                 "towards the tip and reaches $0$ at the patch end, where the determinant "
                 "$\\cos^2 z$ (dotted) also vanishes.")
-    check(np.all(entries[7] > 0) and np.cos(np.pi / 2) ** 2 < 1e-30,
-          "g88 > 0 inside the patch and det g = 0 at the patch end")
+    check(np.all(entries[0] > 0) and np.cos(np.pi / 2) ** 2 < 1e-30,
+          "g00 > 0 inside the patch and det g = 0 at the patch end")
     '''),
     md(r"""
     ## 8. The vielbein: the scale factor of each direction
@@ -554,8 +588,9 @@ CELLS = [
     h_\mu^2$ with a positive **scale factor** $h_\mu$. On the patch all the factors below
     are positive (and $\cot z > 0$), so
 
-    $$h = \bigl(e^{a_4}\sin^{1/6}z,\ e^{a_4}\sin^{1/6}z,\ e^{a_4}\sin^{1/6}z,\ 1,\
-    e^{-a_4}\sin^{1/6}z,\ e^{-a_4}\sin^{1/6}z,\ e^{-a_4}\sin^{1/6}z,\ \cot z\bigr).$$
+    $$h = \bigl(\cot z,\ e^{a_4}\sin^{1/6}z,\ e^{a_4}\sin^{1/6}z,\ e^{a_4}\sin^{1/6}z,\
+    1,\ b_4^{1/2}e^{-a_4}\sin^{1/6}z,\ b_4^{1/2}e^{-a_4}\sin^{1/6}z,\
+    b_4^{1/2}e^{-a_4}\sin^{1/6}z\bigr).$$
 
     The diagonal matrix of these numbers is the **vielbein** $e^a{}_\mu$ used for the
     spinors later in the book. The next cell checks $\eta_{\mu\mu} h_\mu^2 = g_{\mu\mu}$
@@ -563,11 +598,12 @@ CELLS = [
     the same.
     """),
     code(r'''
-    sixth = sp.sin(6 * H * x8) ** sp.Rational(1, 6)  # sin(z)^(1/6)
-    h = [sp.exp(a4) * sixth] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * sixth] * 3 \
-        + [sp.cot(6 * H * x8)]
+    sixth = sp.sin(6 * H * x0) ** sp.Rational(1, 6)  # sin(z)^(1/6)
+    # the author's order x0, x1, ..., x7
+    h = [sp.cot(6 * H * x0)] + [sp.exp(a4) * sixth] * 3 + [sp.Integer(1)] \
+        + [sp.sqrt(b4) * sp.exp(-a4) * sixth] * 3
     for k in range(8):
-        say(f"  h[x{k + 1}] = {plain(h[k])}")
+        say(f"  h[x{k}] = {plain(h[k])}")
     LEAD_EMT = "Revision/lead_checks/reports/emt-divergence-and-spin-connection.json"
     record_check(LEAD_EMT, "vielbein_reproduces_metric")  # stops if not passed
     check(all(sp.simplify(int(ETA[k]) * h[k] ** 2 - g[k, k]) == 0 for k in range(8)),
@@ -580,23 +616,26 @@ CELLS = [
     The proper length of a coordinate interval $\Delta x_\mu$ is $h_\mu \Delta x_\mu$.
     Its relative growth per unit time is $\partial_{x_4} \ln h_\mu$. For 3-space,
     $\ln h_1 = a_4 + \tfrac16 \ln \sin z$, and only $a_4$ depends on $x_4$, so the rate
-    is $a_4'$; for an extra time $\ln h_5 = -a_4 + \tfrac16 \ln \sin z$ and the rate is
-    $-a_4'$; $h_4$ and $h_8$ do not depend on $x_4$, so their rates are $0$. The next cell
-    lets sympy differentiate. It also checks that the six transverse scale factors
-    multiply to $\sin z$, without $a_4$: what 3-space gains, the extra times lose.
+    is $a_4'$; for an extra time $\ln h_5 = \tfrac12 \ln b_4 - a_4 + \tfrac16 \ln \sin z$
+    and the rate is $-a_4' + b_4'/(2b_4)$; $h_0$ and $h_4$ do not depend on $x_4$, so their
+    rates are $0$. The next cell lets sympy differentiate. It also checks that the six
+    transverse scale factors multiply to $b_4^{3/2} \sin z$, without $a_4$: what 3-space
+    gains, the extra times lose.
     """),
     code(r'''
     rates = [sp.simplify(sp.diff(sp.log(h[k]), x4)) for k in range(8)]
     for k in range(8):
-        say(f"  expansion rate of x{k + 1}: {plain(rates[k])}")
-    a4_prime = sp.Derivative(a4, x4)
-    check([sp.simplify(r - c * a4_prime) == 0 for r, c in
-           zip(rates, [1, 1, 1, 0, -1, -1, -1, 0])] == [True] * 8,
-          "3-space expands with rate a4p, the extra times shrink with rate -a4p")
-    transverse = sp.simplify(h[0] * h[1] * h[2] * h[4] * h[5] * h[6])
+        say(f"  expansion rate of x{k}: {plain(rates[k])}")
+    a4_prime, b4_prime = sp.Derivative(a4, x4), sp.Derivative(b4, x4)
+    expected = ([0] + [a4_prime] * 3 + [0]
+                + [-a4_prime + b4_prime / (2 * b4)] * 3)  # the order x0, x1, ..., x7
+    check([sp.simplify(r - e) == 0 for r, e in zip(rates, expected)] == [True] * 8,
+          "3-space expands with rate a4p, the extra times shrink with rate "
+          "-a4p + b4p/(2 b4)")
+    transverse = sp.simplify(h[1] * h[2] * h[3] * h[5] * h[6] * h[7])
     say(f"product of the six transverse scale factors = {plain(transverse)}")
-    check(sp.simplify(transverse - sp.sin(6 * H * x8)) == 0,
-          "the six transverse scale factors multiply to sin z, without a4")
+    check(sp.simplify(transverse - b4 ** sp.Rational(3, 2) * sp.sin(6 * H * x0)) == 0,
+          "the six transverse scale factors multiply to b4^(3/2) sin z, without a4")
     '''),
     md(r"""
     ## 10. The deflating history of the Revision Kohn-Sham work
@@ -635,7 +674,7 @@ CELLS = [
           record=f"{KS_THEORY}, adiabaticity.historyStatus")
     '''),
     md(r"""
-    Along this history $a_4 = A H x_4$, so $a_4 = 0, 0.5, \dots, 2$ at
+    Along this history $a_4 = A H x_4$ and $b_4 = 1$, so $a_4 = 0, 0.5, \dots, 2$ at
     $x_4 = 0, 0.5, \dots, 2$ (in units of $1/H$). The scale factor of 3-space is
     proportional to $e^{a_4}$ and that of the extra times to $e^{-a_4}$. The next cell
     draws both, and their product, against $x_4$ twice: on an ordinary vertical axis
@@ -664,7 +703,8 @@ CELLS = [
     axes[0].legend(fontsize=8)
     save_figure(fig, "history_scale_factors",
                 "The time dependence of the scale factors along the deflating history "
-                "$a_4 = A H x_4$ with $A = 1$, $H = 1$ of the Revision Kohn-Sham work: "
+                "$a_4 = A H x_4$, $b_4 = 1$ with $A = 1$, $H = 1$ of the Revision "
+                "Kohn-Sham work: "
                 "3-space $e^{a_4}$ (solid red), the three extra times $e^{-a_4}$ (dashed "
                 "blue) and their product (dotted black), on an ordinary (left) and a "
                 "logarithmic (right) vertical axis; horizontal axis the time $x_4$ in "
@@ -699,17 +739,17 @@ CELLS = [
     axes[0].set_ylim(0.0, 1.05)
     axes[0].set_title("The warp of the six transverse directions")
     axes[1].plot(z_line, 1 / np.tan(z_line), color=AQUA, lw=1.8,
-                 label="$\\cot z$ (scale factor of $x_8$)")
+                 label="$\\cot z$ (scale factor of $x_0$)")
     axes[1].plot(z_line, 1 / np.tan(z_line) ** 2, color=VIOLET, lw=1.8, ls="--",
-                 label="$\\cot^2 z$ (entry $g_{88}$)")
+                 label="$\\cot^2 z$ (entry $g_{00}$)")
     axes[1].set_yscale("log")
     axes[1].set_title("The hidden direction (logarithmic axis)")
     for ax in axes:
-        ax.set_xlabel("$z = 6 H x_8$ (radians)")
+        ax.set_xlabel("$z = 6 H x_0$ (radians)")
         ax.set_ylabel("value (no unit)")
         ax.legend(fontsize=8)
     save_figure(fig, "hidden_direction",
-                "The functions of the hidden coordinate $z = 6Hx_8$ in the author's "
+                "The functions of the hidden coordinate $z = 6Hx_0$ in the author's "
                 "metric, across the patch $0 < z < \\pi/2$; horizontal axes $z$ in "
                 "radians, vertical axes pure numbers. Left: the warp factor "
                 "$W = \\sin^{1/6} z$ shared by the six transverse scale factors (solid) "
@@ -717,14 +757,15 @@ CELLS = [
                 "transverse metric entries (dashed), rise from $0$ at the tip to $1$ at "
                 "the patch end. Right, on a logarithmic axis: the scale factor "
                 "$\\cot z$ of the hidden direction (solid) and its square "
-                "$g_{88} = \\cot^2 z$ (dashed) "
+                "$g_{00} = \\cot^2 z$ (dashed) "
                 "grow without bound towards the tip and fall to $0$ at the patch end.")
     check(abs(np.sin(np.pi / 2) ** (1 / 6) - 1.0) < 1e-15,
           "the warp factor equals 1 at the patch end z = pi/2")
     '''),
     md(r"""
     The next cell shows how the two effects combine. It draws, over the plane of the
-    time $x_4$ (along the history $a_4 = x_4$) and the hidden coordinate $z$, the
+    time $x_4$ (along the history $a_4 = x_4$, $b_4 = 1$) and the hidden coordinate $z$,
+    the
     logarithm to base 10 of the scale factor of 3-space, $\log_{10}(e^{a_4}\sin^{1/6}z)$
     (left), and of an extra time, $\log_{10}(e^{-a_4}\sin^{1/6}z)$ (right). The value $0$
     (grey) means the factor $1$; red means larger, blue smaller.
@@ -746,14 +787,15 @@ CELLS = [
         ax.set_title(title)
         ax.set_xlabel("time $x_4$ (unit $1/H$)")
         ax.grid(False)
-    axes[0].set_ylabel("$z = 6 H x_8$ (radians)")
+    axes[0].set_ylabel("$z = 6 H x_0$ (radians)")
     fig.colorbar(mesh, ax=axes, label="$\\log_{10}$ of the scale factor")
     save_figure(fig, "scale_factor_maps",
                 "Maps of the logarithm to base 10 of the scale factor of 3-space "
                 "$e^{a_4}\\sin^{1/6}z$ (left) and of an extra time "
-                "$e^{-a_4}\\sin^{1/6}z$ (right) along the deflating history $a_4 = x_4$; "
+                "$e^{-a_4}\\sin^{1/6}z$ (right) along the deflating history $a_4 = x_4$, "
+                "$b_4 = 1$; "
                 "horizontal axes the time $x_4$ in units of $1/H$, vertical axes "
-                "$z = 6Hx_8$ in radians, colour the value (red above $0$: lengths larger "
+                "$z = 6Hx_0$ in radians, colour the value (red above $0$: lengths larger "
                 "than the coordinate interval, blue below $0$: smaller, grey and the "
                 "black line: factor $1$). As time goes on, 3-space grows everywhere "
                 "(left, red spreads), the extra times shrink everywhere (right, blue "
@@ -767,24 +809,27 @@ CELLS = [
     Take a box with coordinate edges $\Delta x_1 = \Delta x_2 = \Delta x_3 = 1$. Its
     proper 3-volume is the product of the three scale factors,
     $V_3 = (e^{a_4}\sin^{1/6}z)^3 = e^{3a_4}\sin^{1/2}z$. The same box in the three extra
-    times has the proper 3-volume $V_t = e^{-3a_4}\sin^{1/2}z$, and $V_3 V_t = \sin z$.
-    The slice $x_4 = \mathrm{const}$ is 7-dimensional ($x_1, x_2, x_3, x_5, x_6, x_7,
-    x_8$); its volume factor is the product of the seven scale factors other than
-    $h_4 = 1$, which is $\sin z \cot z = \cos z$: it does not depend on $x_4$. The next
-    cell computes these products and, by an integral over the whole patch
-    $0 < x_8 < \pi/(12H)$, the proper 7-volume of the patch per unit coordinate volume of
-    the six transverse directions:
-    $\int_0^{\pi/(12H)} \cos(6Hx_8)\, dx_8 = \bigl[\sin(6Hx_8)/(6H)\bigr]_0^{\pi/(12H)}
-    = 1/(6H)$.
+    times has the proper 3-volume $V_t = b_4^{3/2} e^{-3a_4}\sin^{1/2}z$, and
+    $V_3 V_t = b_4^{3/2} \sin z$. The slice $x_4 = \mathrm{const}$ is 7-dimensional
+    ($x_0, x_1, x_2, x_3, x_5, x_6, x_7$); its volume factor is the product of the seven
+    scale factors other than $h_4 = 1$, which is $b_4^{3/2} \sin z \cot z =
+    b_4^{3/2} \cos z$: it changes with $x_4$ only through $b_4$, and not at all when $b_4$
+    is constant. The next cell computes these products and, at $b_4 = 1$, by an integral
+    over the whole patch $0 < x_0 < \pi/(12H)$, the proper 7-volume of the patch per unit
+    coordinate volume of the six transverse directions:
+    $\int_0^{\pi/(12H)} \cos(6Hx_0)\, dx_0 = \bigl[\sin(6Hx_0)/(6H)\bigr]_0^{\pi/(12H)}
+    = 1/(6H)$ (for a constant $b_4$ it is $b_4^{3/2}/(6H)$).
     """),
     code(r'''
-    V3 = sp.simplify(h[0] * h[1] * h[2])  # proper 3-volume of a unit coordinate box
-    Vt = sp.simplify(h[4] * h[5] * h[6])  # the same in the three extra times
-    V7 = sp.simplify(h[0] * h[1] * h[2] * h[4] * h[5] * h[6] * h[7])  # the 7-volume
+    V3 = sp.simplify(h[1] * h[2] * h[3])  # proper 3-volume of a unit coordinate box
+    Vt = sp.simplify(h[5] * h[6] * h[7])  # the same in the three extra times
+    # the 7-volume: every scale factor except h[4] = 1 of the time x4
+    V7 = sp.simplify(h[0] * h[1] * h[2] * h[3] * h[5] * h[6] * h[7])
     say(f"V3 = {plain(V3)},  Vt = {plain(Vt)},  V7 density = {plain(V7)}")
-    check(sp.simplify(V7 - sp.cos(6 * H * x8)) == 0 and sp.diff(V7, x4) == 0,
-          "the 7-volume density is cos z and does not change with the time x4")
-    patch_volume = sp.integrate(sp.cos(6 * H * x8), (x8, 0, sp.pi / (12 * H)))
+    check(sp.simplify(V7 - b4 ** sp.Rational(3, 2) * sp.cos(6 * H * x0)) == 0
+          and sp.simplify(sp.diff(V7 / b4 ** sp.Rational(3, 2), x4)) == 0,
+          "the 7-volume density is b4^(3/2) cos z and changes with x4 only through b4")
+    patch_volume = sp.integrate(sp.cos(6 * H * x0), (x0, 0, sp.pi / (12 * H)))
     say(f"proper 7-volume of the patch per unit transverse coordinate volume = "
         f"{patch_volume}")
     check(sp.simplify(patch_volume - 1 / (6 * H)) == 0,
@@ -792,7 +837,8 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws these volumes along the history at the fixed point
-    $z = \pi/3$ (where $\sin z = 0.866$ and $\cos z = 0.5$), on a logarithmic axis: $V_3$
+    $z = \pi/3$ (where $\sin z = 0.866$ and $\cos z = 0.5$) with $b_4 = 1$, on a
+    logarithmic axis: $V_3$
     grows like $e^{3x_4}$, $V_t$ shrinks like $e^{-3x_4}$, their product $\sin z$ and the
     7-volume density $\cos z$ are constant.
     """),
@@ -809,13 +855,14 @@ CELLS = [
     ax.plot(x4_line, np.full_like(x4_line, np.cos(z_fixed)), color="black", lw=1.2,
             ls=":", label="7-volume density $\\cos z$")
     ax.set_yscale("log")
-    ax.set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$")
+    ax.set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, $b_4 = 1$")
     ax.set_ylabel("proper volume per unit coordinate volume")
     ax.set_title("Proper volumes at $z = \\pi/3$")
     ax.legend(fontsize=8)
     save_figure(fig, "proper_volumes",
                 "Proper volumes per unit coordinate volume at the fixed hidden position "
-                "$z = \\pi/3$ along the history $a_4 = x_4$, on a logarithmic vertical "
+                "$z = \\pi/3$ along the history $a_4 = x_4$, $b_4 = 1$, on a "
+                "logarithmic vertical "
                 "axis; horizontal axis the time $x_4$ in units of $1/H$. The proper "
                 "3-volume of 3-space $V_3$ (solid red) grows like $e^{3x_4}$, the proper "
                 "3-volume of the three extra times $V_t$ (dashed blue) shrinks like "
@@ -831,20 +878,21 @@ CELLS = [
 
     The entry $\cot^2 z$ makes the hidden direction awkward. The Revision Kohn-Sham work
     uses the coordinate $y = \ln(\sin z)/(6H)$, which measures proper distance along
-    $x_8$. Line by line: the chain rule gives
-    $dy/dx_8 = \frac{1}{6H}\,\frac{\cos z}{\sin z}\, 6H = \cot z$, so
-    $dy^2 = \cot^2 z\, dx_8^2 = g_{88}\, dx_8^2$. Next, $6Hy = \ln \sin z$ gives
+    $x_0$. Line by line: the chain rule gives
+    $dy/dx_0 = \frac{1}{6H}\,\frac{\cos z}{\sin z}\, 6H = \cot z$, so
+    $dy^2 = \cot^2 z\, dx_0^2 = g_{00}\, dx_0^2$. Next, $6Hy = \ln \sin z$ gives
     $\sin z = e^{6Hy}$ ($e$ to the power of both sides), so the warp factor is
     $W = \sin^{1/6} z = e^{Hy}$ and its square is $W^2 = \sin^{1/3} z = e^{2Hy}$. Hence
     the **warped form**
 
     $$ds^2 = dy^2 - dx_4^2 + W^2\bigl[e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2)
-    - e^{-2a_4}(dx_5^2 + dx_6^2 + dx_7^2)\bigr], \qquad W = e^{Hy}.$$
+    - b_4 e^{-2a_4}(dx_5^2 + dx_6^2 + dx_7^2)\bigr], \qquad W = e^{Hy}.$$
 
     As $z$ runs from $0$ to $\pi/2$, $y$ runs from $-\infty$ (the tip) to $0$ (the patch
-    end). In the coordinates $(x_1, \dots, x_7, y)$ the scale factor of the hidden
+    end). In the coordinates $(y, x_1, \dots, x_7)$ the scale factor of the hidden
     direction is $1$, so the volume factor is the product of the six transverse scale
-    factors, $W^6 = e^{6Hy} = \sin z$.
+    factors, $b_4^{3/2} W^6 = b_4^{3/2} e^{6Hy} = b_4^{3/2} \sin z$. The Kohn-Sham record
+    works at $b_4 = 1$, where these are $W^6 = e^{6Hy} = \sin z$.
 
     The next cell prints four statements of the record
     `Revision/kohn_sham/ks-theory.json` (read in section 10): the definition of $y$, the
@@ -853,52 +901,57 @@ CELLS = [
     still writes them as `W(y) = e^{Hy}` and as a text that starts with
     `e^{6Hy} (= cos z`.
     To write the metric in the coordinate $y$ it uses the inverse relation
-    $x_8 = \arcsin(e^{6Hy})/(6H)$: the seven entries $g_{11}, \dots, g_{77}$ only need
-    $\sin z = e^{6Hy}$ put in, and the hidden entry becomes
-    $g_{88}\,(dx_8/dy)^2$ (because $dx_8 = (dx_8/dy)\,dy$).
+    $x_0 = \arcsin(e^{6Hy})/(6H)$: the hidden entry becomes $g_{00}\,(dx_0/dy)^2$
+    (because $dx_0 = (dx_0/dy)\,dy$), and the seven entries $g_{11}, \dots, g_{77}$ only
+    need $\sin z = e^{6Hy}$ put in. The record's line element is the case $b_4 = 1$; the
+    cell checks the warped form for every $b_4$ and compares with the record at $b_4 = 1$.
     """),
     code(r'''
     geometry = ks_theory["geometry"]  # the statements of the record about the geometry
     for key in ("hiddenCoordinate", "lineElement", "warp", "sqrtDetG"):
         say(f"record, {key}: {geometry[key]}")
-    y_of_x8 = sp.log(sp.sin(6 * H * x8)) / (6 * H)  # y = ln(sin z)/(6H)
-    dy_dx8 = sp.diff(y_of_x8, x8)  # the chain rule, done by sympy
-    say(f"dy/dx8 = {plain(dy_dx8)}")
+    y_of_x0 = sp.log(sp.sin(6 * H * x0)) / (6 * H)  # y = ln(sin z)/(6H)
+    dy_dx0 = sp.diff(y_of_x0, x0)  # the chain rule, done by sympy
+    say(f"dy/dx0 = {plain(dy_dx0)}")
     record_check(LEAD_EMT, "ks_coordinate_jacobian")  # stops if not passed
-    check(sp.simplify(dy_dx8 - sp.cot(6 * H * x8)) == 0,
-          "dy/dx8 = cot z",
+    check(sp.simplify(dy_dx0 - sp.cot(6 * H * x0)) == 0,
+          "dy/dx0 = cot z",
           record=f"{LEAD_EMT}, check ks_coordinate_jacobian")
-    check(sp.simplify(dy_dx8 ** 2 - g[7, 7]) == 0,
-          "dy^2 = g88 dx8^2: y measures proper distance along x8")
-    check(sp.simplify(sp.exp(H * y_of_x8) - sixth) == 0,
+    check(sp.simplify(dy_dx0 ** 2 - g[0, 0]) == 0,
+          "dy^2 = g00 dx0^2: y measures proper distance along x0")
+    check(sp.simplify(sp.exp(H * y_of_x0) - sixth) == 0,
           "the warp factor W = sin(z)^(1/6) equals e^(H y)")
     y = sp.symbols("y", real=True)  # the hidden coordinate as a symbol of its own
-    x8_of_y = sp.asin(sp.exp(6 * H * y)) / (6 * H)  # the inverse: sin z = e^(6 H y)
-    dx8_dy = sp.diff(x8_of_y, y)  # dx8/dy
-    g_y = sp.diag(*[g[k, k].subs(x8, x8_of_y) for k in range(7)],
-                  g[7, 7].subs(x8, x8_of_y) * dx8_dy ** 2)  # the metric in x1..x7, y
+    x0_of_y = sp.asin(sp.exp(6 * H * y)) / (6 * H)  # the inverse: sin z = e^(6 H y)
+    dx0_dy = sp.diff(x0_of_y, y)  # dx0/dy
+    # the metric in y, x1, ..., x7: the hidden entry first, as in the author's order
+    g_y = sp.diag(g[0, 0].subs(x0, x0_of_y) * dx0_dy ** 2,
+                  *[g[k, k].subs(x0, x0_of_y) for k in range(1, 8)])
     W = sp.exp(H * y)  # the warp factor in the coordinate y
-    warped = sp.diag(*([W ** 2 * sp.exp(2 * a4)] * 3 + [-1]
-                       + [-W ** 2 * sp.exp(-2 * a4)] * 3 + [1]))  # the warped form
-    for k in (0, 3, 4, 7):
-        say(f"  in the coordinate y: g[{k + 1}, {k + 1}] = {plain(g_y[k, k])}")
+    warped = sp.diag(*([1] + [W ** 2 * sp.exp(2 * a4)] * 3 + [-1]
+                       + [-W ** 2 * b4 * sp.exp(-2 * a4)] * 3))  # the warped form
+    for k in (0, 1, 4, 5):
+        say(f"  in the coordinate y: g[{k}, {k}] = {plain(g_y[k, k])}")
     check((g_y - warped).applyfunc(sp.simplify) == sp.zeros(8, 8)
           and geometry["warp"] == "W(y) = e^{Hy}",
           "in the coordinate y the metric is the warped form with W = e^(H y)",
           record="Revision/kohn_sham/ks-theory.json, geometry.lineElement and "
                  "geometry.warp")
-    check(sp.simplify(g_y.det() - sp.exp(12 * H * y)) == 0
+    check(sp.simplify(g_y.det() - b4 ** 3 * sp.exp(12 * H * y)) == 0
+          and sp.simplify(g_y.det().subs(b4, 1) - sp.exp(12 * H * y)) == 0
           and geometry["sqrtDetG"].startswith("e^{6Hy} (= cos z"),
-          "in the coordinate y the volume factor sqrt|det g| is e^(6 H y) = sin z",
+          "in the coordinate y, sqrt|det g| is b4^(3/2) e^(6 H y); at b4 = 1 it is "
+          "e^(6 H y) = sin z",
           record="Revision/kohn_sham/ks-theory.json, geometry.sqrtDetG")
-    distance_to_end = -y_of_x8  # proper distance from the point to the patch end
-    check(sp.limit(distance_to_end, x8, 0, "+") == sp.oo,
+    distance_to_end = -y_of_x0  # proper distance from the point to the patch end
+    check(sp.limit(distance_to_end, x0, 0, "+") == sp.oo,
           "the tip z -> 0 lies at an infinite proper distance (y -> minus infinity)")
     '''),
     md(r"""
     The Revision Kohn-Sham solver keeps only the part $-L \le y \le 0$ of the hidden
     direction, with the tip cut-off $L = 3/H$ read in section 10. How much of the
-    7-volume does the cut-off remove? In $y$ the 7-volume density is $e^{6Hy}$, so the
+    7-volume does the cut-off remove? In $y$ the 7-volume density is $b_4^{3/2} e^{6Hy}$,
+    and the constant factor $b_4^{3/2}$ cancels in a fraction, so the
     fraction of the 7-volume beyond the cut-off is
     $\int_{-\infty}^{-L} e^{6Hy} dy \big/ \int_{-\infty}^{0} e^{6Hy} dy = e^{-6HL}$,
     which is $e^{-18} \approx 1.5 \times 10^{-8}$ for $L = 3/H$. The cut-off lies at the
@@ -926,7 +979,7 @@ CELLS = [
                     label=f"tip cut-off $y = -L = -{L_tip:g}$")
     axes[0].plot([z_cut], [-L_tip], "o", color="black", ms=6)
     axes[0].set_xscale("log")
-    axes[0].set_xlabel("$z = 6 H x_8$ (radians, logarithmic axis)")
+    axes[0].set_xlabel("$z = 6 H x_0$ (radians, logarithmic axis)")
     axes[0].set_ylabel("$y = \\ln(\\sin z)/(6H)$ (unit $1/H$)")
     axes[0].set_title("The hidden coordinate $y$")
     axes[0].legend(fontsize=8)
@@ -945,7 +998,7 @@ CELLS = [
     axes[1].legend(fontsize=8, loc="upper left")
     save_figure(fig, "hidden_coordinate_y",
                 "The hidden coordinate $y = \\ln(\\sin z)/(6H)$ with $H = 1$. Left: $y$ "
-                "versus $z = 6Hx_8$ in radians on a logarithmic axis from $10^{-10}$ to "
+                "versus $z = 6Hx_0$ in radians on a logarithmic axis from $10^{-10}$ to "
                 "$\\pi/2$; $y$ is $0$ at the patch end $z = \\pi/2$ and falls without "
                 "bound towards the tip $z \\to 0$, along the straight line "
                 "$y \\approx \\ln(z)/6$; the dashed line and the dot mark the tip cut-off "
@@ -979,25 +1032,28 @@ CELLS = [
     - The metric was read **exactly as the author typed it**, and the text agrees with
       the formula and with the Revision record of the Rust program `lovelock_gkd`
       (all 8 diagonal entries; the 56 other entries are zero).
-    - $\det g = \cos^2 z$ and $\sqrt{|\det g|} = \cos z$, without $a_4$: PROVED here by
-      exact algebra (and in the Revision record).
-    - The signature is (4,4) at every point of the patch: $x_1, x_2, x_3, x_8$ are
+    - $\det g = b_4^3 \cos^2 z$ and $\sqrt{|\det g|} = b_4^{3/2} \cos z$, without $a_4$:
+      PROVED here by exact algebra (and in the Revision record).
+    - The signature is (4,4) at every point of the patch: $x_0, x_1, x_2, x_3$ are
       space-like, $x_4, x_5, x_6, x_7$ time-like.
-    - The diagonal vielbein $h = (e^{a_4}\sin^{1/6}z\ (\times 3), 1,
-      e^{-a_4}\sin^{1/6}z\ (\times 3), \cot z)$ reproduces the metric.
+    - The diagonal vielbein $h = (\cot z, e^{a_4}\sin^{1/6}z\ (\times 3), 1,
+      b_4^{1/2} e^{-a_4}\sin^{1/6}z\ (\times 3))$ reproduces the metric.
     - 3-space expands with the rate $a_4'$ and the three extra times **deflate** with the
-      rate $-a_4'$; along the prescribed history $a_4 = x_4$ ($A = 1$, $H = 1$) 3-space
+      rate $-a_4' + b_4'/(2b_4)$; along the prescribed history $a_4 = x_4$, $b_4 = 1$
+      ($A = 1$, $H = 1$) 3-space
       lengths grow by $e^2 = 7.39$ and extra-time durations shrink to $e^{-2} = 0.135$
       between the first and the last slice.
     - The proper 3-volume of 3-space grows like $e^{3a_4}$, that of the extra times
-      shrinks like $e^{-3a_4}$, and the 7-volume density $\cos z$ is constant in time;
-      the whole patch has the 7-volume $1/(6H)$ per unit transverse coordinate volume.
+      shrinks like $b_4^{3/2} e^{-3a_4}$, and the 7-volume density $b_4^{3/2} \cos z$ is
+      constant in time when $b_4$ is; at $b_4 = 1$ the whole patch has the 7-volume
+      $1/(6H)$ per unit transverse coordinate volume.
     - In the hidden coordinate $y = \ln(\sin z)/(6H)$ the metric has the warped form
       of the Revision record, with the warp factor $W = e^{Hy}$ and the volume factor
       $W^6 = e^{6Hy}$; the tip is at infinite proper distance, and the tip
       cut-off $y = -3/H$ of the Kohn-Sham solver removes only the fraction $e^{-18}$ of
       the 7-volume.
-    - ASSUMED: the history $a_4 = A H x_4$ is a prescribed background (the Revision
+    - ASSUMED: the history $a_4 = A H x_4$, $b_4 = 1$ is a prescribed background (the
+      Revision
       record says so in its own words), used here only to draw the time dependence; the
       field equations of $a_4$ come later.
     """),
