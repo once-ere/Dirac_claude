@@ -35,9 +35,14 @@
    "name": "u1_noether_matrix_identity_b4",
    "verdict": "PASS",
    "detail": "metric with b4 (general a4(x4), b4(x4)): sum_mu d_mu(sqrt|g| C gamma^mu) = sqrt|g| sum_mu (C gamma^mu Omega_mu - Omega_mu^T (gamma^mu)^T C) with sqrt|g| = b4^(3/2) cos z, verified exactly; with V real this is the Noether identity d_mu(sqrt|g| J^mu) = -i sqrt|g| (Psi^dagger C E - E^dagger C Psi), E = (gamma^mu D_mu - V) Psi (the reduction of Revision/lead_checks/charge_conjugation_and_u1.py, which checks the case b4 = 1); on shell the LOCAL law d_mu(b4^(3/2) cos z J^mu) = 0 holds; constancy of the total charge is NOT established by this check"
+  },
+  {
+   "name": "gravity_term_square_b4",
+   "verdict": "PASS",
+   "detail": "M = 3 H gamma^x0 + (3/4)(b4'/b4) gamma^x4 satisfies M M = (9 H^2 - (9/16)(b4'/b4)^2) 1 exactly, so M Psi = 0 only for Psi = 0 whenever |b4'/b4| != 4 H (in particular for constant b4, where M = 3 H gamma^x0); where |b4'/b4| = 4 H M = 3 H (gamma^x0 +- gamma^x4), whose square is 0 and whose rank is 8 (ranks of gamma^x0 + gamma^x4 and gamma^x0 - gamma^x4: [8, 8]): there M Psi = 0 for an 8-dimensional set of columns Psi"
   }
  ],
- "checkCount": 7,
+ "checkCount": 8,
  "failedCount": 0,
  "verdict": "PASS"
 }

@@ -7,7 +7,9 @@ matrices gamma^mu Omega_mu and their sum (with the author's gamma matrices of Re
 3 H gamma^x0 + (3/4)(b4'/b4) gamma^x4) and the text of the formula gammaOmega_total.  Two further checks are made
 here only (the Wolfram verifier of field-theory-b4.json does not make them): the spin connection is real for every
 b4 (spinor_connection_real_b4), and the U(1) Noether matrix identity with sqrt|g| = b4^(3/2) cos z
-(u1_noether_matrix_identity_b4; Revision/lead_checks/charge_conjugation_and_u1.py checks it at b4 = 1).  The Ricci
+(u1_noether_matrix_identity_b4; Revision/lead_checks/charge_conjugation_and_u1.py checks it at b4 = 1), and the
+square of the gravity term M = 3 H gamma^x0 + (3/4)(b4'/b4) gamma^x4, M M = (9 H^2 - (9/16)(b4'/b4)^2) 1, with the
+rank 8 of M where |b4'/b4| = 4 H (gravity_term_square_b4).  The Ricci
 scalar and the conservation identity of a diagonal source are checked by the Wolfram verifier
 (Revision/theory/reports/wolfram-field-theory-b4.json), not here.  Coordinates: the author's x0..x7 (index k = xk; x0 = the hidden direction).  Exact: functions -> symbols, zero test modulo c^2 = 1 - S^6 (S = sin^{1/3} z, c = cos z).
 Writes Revision/theory/reports/python-field-theory-b4.json; exit 0 iff every check passes.
@@ -203,7 +205,20 @@ check("u1_noether_matrix_identity_b4", all(zero(sym(v)) for v in (u1_lhs - u1_rh
       "d_mu(sqrt|g| J^mu) = -i sqrt|g| (Psi^dagger C E - E^dagger C Psi), E = (gamma^mu D_mu - V) Psi (the reduction of "
       "Revision/lead_checks/charge_conjugation_and_u1.py, which checks the case b4 = 1); on shell the LOCAL law "
       "d_mu(b4^(3/2) cos z J^mu) = 0 holds; constancy of the total charge is NOT established by this check")
-failed =sum(1 for x in checks if x["verdict"] != "PASS")
+# the gravity term M = gamma^mu Omega_mu = 3 H gamma^x0 + c gamma^x4, c = (3/4) b4'/b4: since (gamma^x0)^2 = 1,
+# (gamma^x4)^2 = -1 and the two anticommute, M M = (9 H^2 - c^2) 1; M is invertible unless c = +-3H (|b4'/b4| = 4 H),
+# where M = 3 H (gamma^x0 +- gamma^x4) squares to 0 and has rank 8 (exact ranks below)
+cM = sp.Rational(3, 4) * u
+Mg = 3 * H * gam[X0] + cM * gam[X4]
+square_ok = all(zero(sym(v) - w) for v, w in zip(Mg * Mg, (9 * H ** 2 - cM ** 2) * sp.eye(16)))
+ranks = [(gam[X0] + sgn * gam[X4]).rank() for sgn in (1, -1)]
+nil_ok = all(((gam[X0] + sgn * gam[X4]) ** 2).is_zero_matrix for sgn in (1, -1))
+check("gravity_term_square_b4", square_ok and ranks == [8, 8] and nil_ok,
+      "M = 3 H gamma^x0 + (3/4)(b4'/b4) gamma^x4 satisfies M M = (9 H^2 - (9/16)(b4'/b4)^2) 1 exactly, so M Psi = 0 only "
+      "for Psi = 0 whenever |b4'/b4| != 4 H (in particular for constant b4, where M = 3 H gamma^x0); where |b4'/b4| = 4 H "
+      "M = 3 H (gamma^x0 +- gamma^x4), whose square is 0 and whose rank is 8 (ranks of gamma^x0 + gamma^x4 and "
+      "gamma^x0 - gamma^x4: " + str(ranks) + "): there M Psi = 0 for an 8-dimensional set of columns Psi")
+failed = sum(1 for x in checks if x["verdict"] != "PASS")
 rep = {"producer": "Revision/theory/python/check_field_theory_b4.py", "checks": checks, "checkCount": len(checks),
        "failedCount": failed, "verdict": "PASS" if failed == 0 else "FAIL"}
 try:

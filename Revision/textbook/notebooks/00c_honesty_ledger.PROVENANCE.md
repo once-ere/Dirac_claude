@@ -315,7 +315,7 @@ In [3]  PASS the report proves the local law and does not establish a constant t
 In [3]       reproduces Revision/lead_checks/reports/charge-conjugation-and-u1.json, check
 In [3]      u1_noether_matrix_identity
 In [5]  PASS the search finds exactly the 51 reports of the list
-In [5]  PASS no check FAILS: 1351 PASS, 5 NOT-AVAILABLE, 1356 in all
+In [5]  PASS no check FAILS: 1352 PASS, 5 NOT-AVAILABLE, 1357 in all
 In [5]  PASS each report states the same totals that we counted
 In [6]  PASS the 49 counts quoted in the README equal ours
 In [6]       reproduces Revision/README.md, the table of the folders
@@ -346,16 +346,16 @@ The key numbers are printed as RESULT lines:
 In [2]  RESULT checks with the verdict PASS, counted = 12 of 12
 In [5]  RESULT verifier reports found in the folder Revision = 51
 In [5]  RESULT reports = 51
-In [5]  RESULT checks in all reports = 1356
-In [5]  RESULT checks with the verdict PASS = 1351
+In [5]  RESULT checks in all reports = 1357
+In [5]  RESULT checks with the verdict PASS = 1352
 In [5]  RESULT checks done with the engine Wolfram = 465
-In [5]  RESULT checks done with the engine Python = 784
+In [5]  RESULT checks done with the engine Python = 785
 In [5]  RESULT checks done with the engine Rust = 70
 In [5]  RESULT checks done with the engine lead = 37
 In [5]  RESULT checks with the verdict NOT-AVAILABLE = 5
 In [6]  RESULT counts quoted in the README table = 49
 In [8]  RESULT checks of the Wolfram verifiers of the eleven subjects = 443
-In [8]  RESULT checks of the Python verifiers of the eleven subjects = 403
+In [8]  RESULT checks of the Python verifiers of the eleven subjects = 404
 In [12]  RESULT characters of the sentence = 115
 In [12]  RESULT changed characters of the fingerprint: smallest, mean, largest = 54, 60.03, 64
 In [13]  RESULT recorded fingerprints compared = 24
@@ -374,8 +374,8 @@ ALL 18 CHECKS PASSED (notebook 00c)
 
 The notebook shows 4 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
-- `Revision/textbook/figures/00c_1_checks_by_report.png` (1257 x 1466 pixels): The number of checks in each of the 51 verifier reports of the Revision record (horizontal axis, a count; one bar per report, named on the vertical axis and grouped by folder: algebra, the metric with $b_4$, theory, field equations for $a_4$ and $b_4$, GKD and Lovelock with the comparison with the author's outputs, Kohn-Sham, dark sector, pairing, lead checks). The colour gives the engine: blue Wolfram Language, orange Python, aqua Rust, yellow the lead's independent Python checks. Of the 1356 checks (465 Wolfram Language, 784 Python, 70 Rust and 37 lead checks) 1351 have the verdict PASS and 5 the verdict NOT-AVAILABLE (comparisons with values that the author's notebook does not store); none FAILS. The largest report is wolfram-pairing.json with 101 checks.
-- `Revision/textbook/figures/00c_2_two_verifiers.png` (1250 x 888 pixels): For each of eleven subjects of the Revision record (vertical axis), the number of checks of its Wolfram Language verifier (blue, upper bar) and of its independent Python verifier (orange, lower bar); horizontal axis a count. The two verifiers share no code; each also checks statements that the other does not, so the numbers differ. Together they hold 443 Wolfram and 403 Python checks, all PASS.
+- `Revision/textbook/figures/00c_1_checks_by_report.png` (1257 x 1466 pixels): The number of checks in each of the 51 verifier reports of the Revision record (horizontal axis, a count; one bar per report, named on the vertical axis and grouped by folder: algebra, the metric with $b_4$, theory, field equations for $a_4$ and $b_4$, GKD and Lovelock with the comparison with the author's outputs, Kohn-Sham, dark sector, pairing, lead checks). The colour gives the engine: blue Wolfram Language, orange Python, aqua Rust, yellow the lead's independent Python checks. Of the 1357 checks (465 Wolfram Language, 785 Python, 70 Rust and 37 lead checks) 1352 have the verdict PASS and 5 the verdict NOT-AVAILABLE (comparisons with values that the author's notebook does not store); none FAILS. The largest report is wolfram-pairing.json with 101 checks.
+- `Revision/textbook/figures/00c_2_two_verifiers.png` (1250 x 888 pixels): For each of eleven subjects of the Revision record (vertical axis), the number of checks of its Wolfram Language verifier (blue, upper bar) and of its independent Python verifier (orange, lower bar); horizontal axis a count. The two verifiers share no code; each also checks statements that the other does not, so the numbers differ. Together they hold 443 Wolfram and 404 Python checks, all PASS.
 - `Revision/textbook/figures/00c_3_ledger.png` (1036 x 1165 pixels): The honesty ledger of the book at a glance: one row per main statement (written above its bar), the length of its bar the number of checks in the reports that verify it (horizontal axis, a count), the colour its label: blue PROVED, orange COMPUTED, aqua ASSUMED. Every check is PASS except five NOT-AVAILABLE comparisons of row 7. The ASSUMED row has 29 checks, which show why the Kohn-Sham history of $a_4$ must be assumed. The last five rows have no bar, because no check of the record establishes them: two hypotheses (a time-varying dark sector, investigated in row 15 but not established; a partner universe of opposite charge) and three open questions (a constant total charge of one universe, which needs an assumed condition at the brane; the creation of universes in pairs, not proved; what produces the excess of matter over antimatter, which the theory as built does not produce).
 - `Revision/textbook/figures/00c_4_fingerprints.png` (913 x 611 pixels): How much a sha256 fingerprint changes when one character of a text changes: for each of the 115 characters of one sentence, the character was replaced by the next one and the number of the 64 hexadecimal characters of the fingerprint that changed was counted; horizontal axis that number (0 to 64), vertical axis how many of the 115 altered sentences gave it. Every change altered between 54 and 64 of the 64 characters, on average 60.03, as for a random string (dotted line at 60): none of the 115 one-character changes left the fingerprint nearly the same.
 
@@ -387,10 +387,10 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/00c.captions.json` | 2740 | `cf2a6c927af73543ba5c6a15fb9935cb6b2787a2389b822ec80652985141ad83` |
-| `Revision/textbook/figures/00c_1_checks_by_report.png` | 189057 | `f787ab4fe4312bd97d0f9a668b51379080e5532a988ae1d56b720d5e17d33de8` |
-| `Revision/textbook/figures/00c_2_two_verifiers.png` | 81047 | `cc7d410d70224c7cfa582a47720e35cec19be5ae6a9cf2a9fcb2be58f2722a29` |
-| `Revision/textbook/figures/00c_3_ledger.png` | 220064 | `65d9e1b3abba2ae29489118747881500293a406e649b6bd9a1c9513b6fba9d7d` |
+| `Revision/textbook/figures/00c.captions.json` | 2740 | `448d9f578c43a9cf5f7236de2b1ee1e9655742d8c54e0a8e8c978d56b55631f7` |
+| `Revision/textbook/figures/00c_1_checks_by_report.png` | 189094 | `9865fed25b80cf89c59917f5fe04ca0e28f5c1554dc37ee2a245e52ca2c59c7f` |
+| `Revision/textbook/figures/00c_2_two_verifiers.png` | 81179 | `dbe0161843a0130b101636ad6de4282a6da0b04be26419cfb77a3d0ff1e4d263` |
+| `Revision/textbook/figures/00c_3_ledger.png` | 219559 | `44ff3d6fb43d44aebaec3d85c5f382a65ebef51ddd8ada871762b727327c84af` |
 | `Revision/textbook/figures/00c_4_fingerprints.png` | 48872 | `7baa35a0d8de0ec7bae6aac8259d8bcd35e1101eafc78adaa867c031dc58c564` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/00c_honesty_ledger.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -414,8 +414,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 3.7 s, peak memory of the kernel process 154 MiB;
-- the check run: 3.4 s, peak memory of the kernel process 154 MiB.
+- the build run: 3.7 s, peak memory of the kernel process 153 MiB;
+- the check run: 3.3 s, peak memory of the kernel process 155 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -427,12 +427,12 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `eb976905a551f7372e99a65fde07b99d90c988e00578f01a843478f293de0133`
+- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `ac423ce68cc1c497994bf3a1e3ef71b90f0a4eec5304d421e630fa61bed953cf`
 - `Revision/textbook/notebooks/src/00c_honesty_ledger.py`: `16ad82592824b4d06a2474c48b8ab561022f25aef41dd40780c9450d8cd14da5`
-- `Revision/textbook/figures/00c.captions.json`: `cf2a6c927af73543ba5c6a15fb9935cb6b2787a2389b822ec80652985141ad83`
-- `Revision/textbook/figures/00c_1_checks_by_report.png`: `f787ab4fe4312bd97d0f9a668b51379080e5532a988ae1d56b720d5e17d33de8`
-- `Revision/textbook/figures/00c_2_two_verifiers.png`: `cc7d410d70224c7cfa582a47720e35cec19be5ae6a9cf2a9fcb2be58f2722a29`
-- `Revision/textbook/figures/00c_3_ledger.png`: `65d9e1b3abba2ae29489118747881500293a406e649b6bd9a1c9513b6fba9d7d`
+- `Revision/textbook/figures/00c.captions.json`: `448d9f578c43a9cf5f7236de2b1ee1e9655742d8c54e0a8e8c978d56b55631f7`
+- `Revision/textbook/figures/00c_1_checks_by_report.png`: `9865fed25b80cf89c59917f5fe04ca0e28f5c1554dc37ee2a245e52ca2c59c7f`
+- `Revision/textbook/figures/00c_2_two_verifiers.png`: `dbe0161843a0130b101636ad6de4282a6da0b04be26419cfb77a3d0ff1e4d263`
+- `Revision/textbook/figures/00c_3_ledger.png`: `44ff3d6fb43d44aebaec3d85c5f382a65ebef51ddd8ada871762b727327c84af`
 - `Revision/textbook/figures/00c_4_fingerprints.png`: `7baa35a0d8de0ec7bae6aac8259d8bcd35e1101eafc78adaa867c031dc58c564`
 
 ## 7. Verification
@@ -441,4 +441,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 - `nbkit check`: PASSED on 2026-10-14: a second, independent execution reproduced the notebook and the 5 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":154.0,"seconds":3.7},"check":{"date":"2026-10-14","files":5,"peak_mb":154.0,"result":"passed","seconds":3.4},"date":"2026-10-14","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":153.0,"seconds":3.7},"check":{"date":"2026-10-14","files":5,"peak_mb":155.0,"result":"passed","seconds":3.3},"date":"2026-10-14","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

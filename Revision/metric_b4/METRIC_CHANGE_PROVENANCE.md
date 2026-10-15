@@ -62,7 +62,7 @@ and `Revision/README.md`, state the new metric.
 | `field_equations_a4/python/check_ks_source_conditions.py`, `ks_source/ks_source_a4.py` | the Kohn-Sham source verdict holds for every b4 | 6/6, 23/23 | 1 s, 2 s |
 | `theory/wolfram/verify_field_theory_b4.wls` | geometry, spin connection, gamma^mu Omega_mu, Dirac operator, evolution form, conservation, both statistics | 19/19 | 7 s |
 | `theory/wolfram/verify_field_theory_b4_emt.wls C`, `G` | EMT by vielbein variation, Belinfante part, diagonal components, T^x4_x0 | 4/4, 4/4 | 185 s, 107 s |
-| `theory/python/check_field_theory_b4.py` | sympy twin (Christoffel, spin connection, gamma^mu Omega_mu); the spin connection is real and the U(1) Noether matrix identity holds with sqrt(det g) = b4^(3/2) cos z for general b4 (added 2026-10-14; `lead_checks/charge_conjugation_and_u1.py` checks the case b4 = 1); negative control: with sqrt(det g) = cos z the identity fails | 7/7 | 2 s |
+| `theory/python/check_field_theory_b4.py` | sympy twin (Christoffel, spin connection, gamma^mu Omega_mu); the spin connection is real and the U(1) Noether matrix identity holds with sqrt(det g) = b4^(3/2) cos z for general b4 (added 2026-10-14; `lead_checks/charge_conjugation_and_u1.py` checks the case b4 = 1); negative control: with sqrt(det g) = cos z the identity fails; the gravity term M = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) has M M = (9 H^2 - (9/16)(b4'/b4)^2) 1 and rank 8 where |b4'/b4| = 4 H | 8/8 | 3 s |
 | `kohn_sham/theory/verify_ks_b4.wls` | b4 enters the Dirac operator only through b4^(-3/4) and the extra-time derivatives; the good-sector Kohn-Sham problem is independent of b4 | 4/4 | 4 s |
 
 ## 5. What the change does (the recomputed physics)
