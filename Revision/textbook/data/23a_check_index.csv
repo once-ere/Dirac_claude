@@ -83,10 +83,10 @@ Revision/dark_sector/dirac16complex/reports/derivation-checks.json,sqrt_det_g_eq
 Revision/dark_sector/dirac16complex/reports/derivation-checks.json,proper_7_volume_element_independent_of_a4,PASS,22
 Revision/dark_sector/dirac16complex/reports/derivation-checks.json,proper_3_and_extra_time_volume_scalings,PASS,22
 Revision/dark_sector/dirac16complex/reports/derivation-checks.json,conservation_x4_identity,PASS,
-Revision/dark_sector/dirac16complex/reports/derivation-checks.json,conservation_x8_identity,PASS,
+Revision/dark_sector/dirac16complex/reports/derivation-checks.json,conservation_x0_identity,PASS,
 Revision/dark_sector/dirac16complex/reports/derivation-checks.json,conservation_other_components_vanish,PASS,
-Revision/dark_sector/dirac16complex/reports/derivation-checks.json,hidden_coordinate_dy_dx8,PASS,
-Revision/dark_sector/dirac16complex/reports/derivation-checks.json,conservation_x8_in_y_form,PASS,
+Revision/dark_sector/dirac16complex/reports/derivation-checks.json,hidden_coordinate_dy_dx0,PASS,
+Revision/dark_sector/dirac16complex/reports/derivation-checks.json,conservation_x0_in_y_form,PASS,
 Revision/dark_sector/dirac16complex/reports/derivation-checks.json,integrated_identity_dE_da4,PASS,22
 Revision/dark_sector/dirac16complex/reports/derivation-checks.json,w_eff_A_equals_X_over_E,PASS,22
 Revision/dark_sector/dirac16complex/reports/derivation-checks.json,w_eff_B_equals_w_eff_A,PASS,22
@@ -139,7 +139,7 @@ Revision/dark_sector/dirac16complex/reports/ks-history-run.json,particle_number_
 Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,gammas_clifford_author_T16,PASS,
 Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,conservation_negative_control,PASS,
 Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,conservation_x4_author_metric,PASS,
-Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,conservation_x8_author_metric,PASS,
+Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,conservation_x0_author_metric,PASS,
 Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,conservation_other_components_vanish,PASS,
 Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,conservation_x4_local_model,PASS,
 Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,local_model_volume_constant,PASS,
@@ -213,20 +213,20 @@ Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json,B
 Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json,B_solve_M3_s,PASS,
 Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json,B_solve_M4,PASS,
 Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json,B_growth_rate,PASS,
-Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,A1_lovelock_identity_x1_plus_x5_equals_2x8,PASS,17
+Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,A1_lovelock_identity_x1_plus_x5_equals_2x0,PASS,17
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,A2_evolution_is_x1_minus_x5,PASS,
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,A3_F_equals_two_thirds_dP_dX,PASS,17
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,A4_constraint_propagation_with_averaged_source,PASS,17
-Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,A5_x8_residual_after_constraint,PASS,
-Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,A6_x8_conservation_in_y,PASS,17
+Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,A5_x0_residual_after_constraint,PASS,
+Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,A6_x0_conservation_in_y,PASS,17
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,B1_integrals_reproduced,PASS,
-Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,B2_x8_conservation_on_every_profile,PASS,
-Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,B3_integrated_x8_identity,PASS,
+Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,B2_x0_conservation_on_every_profile,PASS,
+Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,B3_integrated_x0_identity,PASS,
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,B4_hidden_direction_mismatch,PASS,
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,B0_wave1_report_verified,PASS,
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,C1_averaged_algebraic_condition_fails,PASS,17
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,C2_averaged_energy_relation,PASS,
-Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,C3_x8_moment_inconsistent_with_history,PASS,
+Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,C3_x0_moment_inconsistent_with_history,PASS,
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,C4_source_signs,PASS,
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,D0_gravity_branches,PASS,
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,D1_two_integration_methods_agree,PASS,
@@ -235,12 +235,13 @@ Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,D3_lambda_zero_c
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,D4_constant_source_gives_linear_member,PASS,
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,D5_einstein_sign_of_the_effect,PASS,
 Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,D6_branch_points_only_for_egb,PASS,
-Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,D7_dropped_x8_moment_residual_and_adiabaticity,PASS,
-Revision/field_equations_a4/reports/ks-source-conditions.json,ks_profiles_depend_on_x8,PASS,12 13 14 15 17 19 20 22
+Revision/field_equations_a4/ks_source/reports/ks-source-a4.json,D7_dropped_x0_moment_residual_and_adiabaticity,PASS,
+Revision/field_equations_a4/reports/ks-source-conditions.json,ks_profiles_depend_on_x0,PASS,12 13 14 15 17 19 20 22
 Revision/field_equations_a4/reports/ks-source-conditions.json,ks_profiles_violate_algebraic_condition,PASS,13 14 15 17 19 20 22
 Revision/field_equations_a4/reports/ks-source-conditions.json,ks_integrals_violate_algebraic_condition,PASS,12 15 17 22
 Revision/field_equations_a4/reports/ks-source-conditions.json,ks_history_is_a_prescribed_background,PASS,0 2 10 13 14 15 17 18 19 20 21 22
 Revision/field_equations_a4/reports/ks-source-conditions.json,ks_zero_source_states_listed,PASS,12 17
+Revision/field_equations_a4/reports/ks-source-conditions.json,ks_verdict_holds_for_every_b4,PASS,12 17
 Revision/field_equations_a4/reports/python-a4-report.json,mixed_riemann_free_of_warp_and_a4,PASS,12 20
 Revision/field_equations_a4/reports/python-a4-report.json,riemann_pair_antisymmetry,PASS,12
 Revision/field_equations_a4/reports/python-a4-report.json,riemann_entries_laurent,PASS,12 20
@@ -263,12 +264,12 @@ Revision/field_equations_a4/reports/python-a4-report.json,E3_divergence_free,PAS
 Revision/field_equations_a4/reports/python-a4-report.json,evolution_factorises,PASS,11 12
 Revision/field_equations_a4/reports/python-a4-report.json,evolution_F_not_identically_zero,PASS,9 12
 Revision/field_equations_a4/reports/python-a4-report.json,algebraic_identity,PASS,9 12 17
-Revision/field_equations_a4/reports/python-a4-report.json,constraint_and_x8_first_order,PASS,12
+Revision/field_equations_a4/reports/python-a4-report.json,constraint_and_x0_first_order,PASS,12
 Revision/field_equations_a4/reports/python-a4-report.json,bianchi_x4,PASS,11 12 17
 Revision/field_equations_a4/reports/python-a4-report.json,other_components_vanish,PASS,9 17
 Revision/field_equations_a4/reports/python-a4-report.json,conservation_components,PASS,12 17
 Revision/field_equations_a4/reports/python-a4-report.json,einstein_components,PASS,12 20
-Revision/field_equations_a4/reports/python-a4-report.json,einstein_null_energy_x8,PASS,12 20 22
+Revision/field_equations_a4/reports/python-a4-report.json,einstein_null_energy_x0,PASS,12 20 22
 Revision/field_equations_a4/reports/python-a4-report.json,einstein_no_vacuum,PASS,0 20 22
 Revision/field_equations_a4/reports/python-a4-report.json,linear_member_equal_pressures,PASS,12 17
 Revision/field_equations_a4/reports/python-a4-report.json,linear_member_vacuum_factor,PASS,11 12 20
@@ -282,7 +283,7 @@ Revision/field_equations_a4/reports/python-a4-report.json,json_einstein,PASS,12
 Revision/field_equations_a4/reports/python-a4-report.json,json_linear_member,PASS,3 12
 Revision/field_equations_a4/reports/python-a4-report.json,ownrep_clifford,PASS,
 Revision/field_equations_a4/reports/python-a4-report.json,ownrep_C_properties,PASS,
-Revision/field_equations_a4/reports/python-a4-report.json,ownrep_Omega_x4_x8_zero,PASS,
+Revision/field_equations_a4/reports/python-a4-report.json,ownrep_Omega_x0_x4_zero,PASS,
 Revision/field_equations_a4/reports/python-a4-report.json,ownrep_anticommutator_no_sum,PASS,
 Revision/field_equations_a4/reports/python-a4-report.json,ownrep_gravity_term,PASS,
 Revision/field_equations_a4/reports/python-a4-report.json,ownrep_condensate_S_constant,PASS,
@@ -293,7 +294,7 @@ Revision/field_equations_a4/reports/python-a4-report.json,ownrep_condensate_witn
 Revision/field_equations_a4/reports/python-a4-report.json,authorT16_fixture_read,PASS,
 Revision/field_equations_a4/reports/python-a4-report.json,authorT16_clifford,PASS,12
 Revision/field_equations_a4/reports/python-a4-report.json,authorT16_C_properties,PASS,12
-Revision/field_equations_a4/reports/python-a4-report.json,authorT16_Omega_x4_x8_zero,PASS,12
+Revision/field_equations_a4/reports/python-a4-report.json,authorT16_Omega_x0_x4_zero,PASS,12
 Revision/field_equations_a4/reports/python-a4-report.json,authorT16_anticommutator_no_sum,PASS,12
 Revision/field_equations_a4/reports/python-a4-report.json,authorT16_gravity_term,PASS,12 20
 Revision/field_equations_a4/reports/python-a4-report.json,authorT16_condensate_S_constant,PASS,12 20
@@ -304,6 +305,17 @@ Revision/field_equations_a4/reports/python-a4-report.json,authorT16_condensate_w
 Revision/field_equations_a4/reports/python-a4-report.json,representations_equivalent_authorT16_ownrep,PASS,
 Revision/field_equations_a4/reports/python-a4-report.json,json_offdiagonal_coefficients,PASS,9
 Revision/field_equations_a4/reports/python-a4-report.json,offdiagonal_coefficients_representation_independent,PASS,9
+Revision/field_equations_a4/reports/python-b4-block.json,b4_lovelock_components,PASS,
+Revision/field_equations_a4/reports/python-b4-block.json,b4_offdiagonal_factor_Q,PASS,
+Revision/field_equations_a4/reports/python-b4-block.json,b4_einstein_Q,PASS,
+Revision/field_equations_a4/reports/python-b4-block.json,b4_identity,PASS,
+Revision/field_equations_a4/reports/python-b4-block.json,b4_equation_constraint_x4,PASS,
+Revision/field_equations_a4/reports/python-b4-block.json,b4_equation_space_x1_eq_x2_eq_x3,PASS,
+Revision/field_equations_a4/reports/python-b4-block.json,b4_equation_extraTime_x5_eq_x6_eq_x7,PASS,
+Revision/field_equations_a4/reports/python-b4-block.json,b4_equation_hidden_x0,PASS,
+Revision/field_equations_a4/reports/python-b4-block.json,b4_conservation,PASS,
+Revision/field_equations_a4/reports/python-b4-block.json,b4_gravity_term,PASS,
+Revision/field_equations_a4/reports/python-b4-block.json,b4_condensate_matrix,PASS,
 Revision/field_equations_a4/reports/wolfram-a4-report.json,metric_is_SPEC_section_1,PASS,0 12
 Revision/field_equations_a4/reports/wolfram-a4-report.json,sqrt_abs_det_g_is_cos_z,PASS,0 2 12 21
 Revision/field_equations_a4/reports/wolfram-a4-report.json,mixed_riemann_free_of_warp_and_a4,PASS,12
@@ -328,14 +340,14 @@ Revision/field_equations_a4/reports/wolfram-a4-report.json,E3_divergence_free,PA
 Revision/field_equations_a4/reports/wolfram-a4-report.json,independent_components,PASS,9 12 17
 Revision/field_equations_a4/reports/wolfram-a4-report.json,evolution_factorises_a4pp_times_F,PASS,9
 Revision/field_equations_a4/reports/wolfram-a4-report.json,evolution_F_not_identically_zero,PASS,9
-Revision/field_equations_a4/reports/wolfram-a4-report.json,algebraic_identity_x1_plus_x5_minus_2x8,PASS,9 17
-Revision/field_equations_a4/reports/wolfram-a4-report.json,x8_component_contains_no_a4pp,PASS,
+Revision/field_equations_a4/reports/wolfram-a4-report.json,algebraic_identity_x1_plus_x5_minus_2x0,PASS,9 17
+Revision/field_equations_a4/reports/wolfram-a4-report.json,x0_component_contains_no_a4pp,PASS,
 Revision/field_equations_a4/reports/wolfram-a4-report.json,constraint_propagation_bianchi,PASS,12 17
 Revision/field_equations_a4/reports/wolfram-a4-report.json,conservation_components,PASS,17
 Revision/field_equations_a4/reports/wolfram-a4-report.json,einstein_components,PASS,
-Revision/field_equations_a4/reports/wolfram-a4-report.json,einstein_null_energy_x8,PASS,20 22
+Revision/field_equations_a4/reports/wolfram-a4-report.json,einstein_null_energy_x0,PASS,20 22
 Revision/field_equations_a4/reports/wolfram-a4-report.json,einstein_no_vacuum_solution,PASS,0 17 20 21 22
-Revision/field_equations_a4/reports/wolfram-a4-report.json,linear_member_equal_pressures,PASS,17
+Revision/field_equations_a4/reports/wolfram-a4-report.json,linear_member_equal_pressures,PASS,17 22
 Revision/field_equations_a4/reports/wolfram-a4-report.json,linear_member_vacuum_factor,PASS,20
 Revision/field_equations_a4/reports/wolfram-a4-report.json,einstein_gauss_bonnet_vacuum_linear,PASS,20
 Revision/field_equations_a4/reports/wolfram-a4-report.json,fixture_author_T16_read,PASS,
@@ -345,10 +357,10 @@ Revision/field_equations_a4/reports/wolfram-a4-report.json,clifford_relations_ow
 Revision/field_equations_a4/reports/wolfram-a4-report.json,C_properties_own_rep,PASS,
 Revision/field_equations_a4/reports/wolfram-a4-report.json,representations_equivalent_author_T16_own_rep,PASS,
 Revision/field_equations_a4/reports/wolfram-a4-report.json,spin_connection_antisymmetric,PASS,
-Revision/field_equations_a4/reports/wolfram-a4-report.json,Omega_x4_Omega_x8_vanish,PASS,
+Revision/field_equations_a4/reports/wolfram-a4-report.json,Omega_x0_Omega_x4_vanish,PASS,
 Revision/field_equations_a4/reports/wolfram-a4-report.json,gamma_mu_anticommutes_with_Omega_mu_no_sum,PASS,9
 Revision/field_equations_a4/reports/wolfram-a4-report.json,gravity_term_gamma_mu_Omega_mu,PASS,
-Revision/field_equations_a4/reports/wolfram-a4-report.json,condensate_equation_x8_consistent,PASS,12 20
+Revision/field_equations_a4/reports/wolfram-a4-report.json,condensate_equation_x0_consistent,PASS,12 20
 Revision/field_equations_a4/reports/wolfram-a4-report.json,condensate_S_constant,PASS,
 Revision/field_equations_a4/reports/wolfram-a4-report.json,condensate_adjoint_equation,PASS,
 Revision/field_equations_a4/reports/wolfram-a4-report.json,condensate_kinetic_tensor_diagonal,PASS,9
@@ -356,11 +368,32 @@ Revision/field_equations_a4/reports/wolfram-a4-report.json,condensate_offdiagona
 Revision/field_equations_a4/reports/wolfram-a4-report.json,offdiagonal_coefficients_representation_independent,PASS,
 Revision/field_equations_a4/reports/wolfram-a4-report.json,condensate_einstein_quadratic_U,PASS,20
 Revision/field_equations_a4/reports/wolfram-a4-report.json,condensate_diagonal_witness_exact,PASS,9 12 20
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_lovelock_equals_metric_b4_set,PASS,
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_constraint_first_order,PASS,
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_offdiagonal_factorises,PASS,22
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_einstein_offdiagonal_forces_b4_constant,PASS,20 22
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_identity_x1_plus_x5_minus_2x0,PASS,22
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_einstein_second_order_system,PASS,
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_conservation_components,PASS,
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_gravity_term,PASS,
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_condensate_equation,PASS,
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_condensate_kinetic_diagonal,PASS,
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_condensate_offdiagonal_bilinears,PASS,
+Revision/field_equations_a4/reports/wolfram-a4-report.json,b4_author_weights_vacuum,PASS,20
 Revision/gkd_lovelock/comparison/author-comparison-report.json,author-json-matches-notebook,PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,author-metric-outputs-agree,PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,revision-metric-spec-vs-curvature-json,PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,metric-mapping-author-Out235-vs-revision,PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,ricci-scalar-author-Out535-vs-curvature-json,PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x0,x0",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x0,x1",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x0,x2",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x0,x3",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x0,x4",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x0,x5",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x0,x6",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x0,x7",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x1,x0",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x1,x1",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x1,x2",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x1,x3",PASS,
@@ -368,7 +401,7 @@ Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x1,x5",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x1,x6",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x1,x7",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x1,x8",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x2,x0",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x2,x1",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x2,x2",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x2,x3",PASS,
@@ -376,7 +409,7 @@ Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x2,x5",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x2,x6",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x2,x7",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x2,x8",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x3,x0",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x3,x1",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x3,x2",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x3,x3",PASS,
@@ -384,7 +417,7 @@ Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x3,x5",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x3,x6",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x3,x7",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x3,x8",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x4,x0",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x4,x1",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x4,x2",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x4,x3",PASS,
@@ -392,7 +425,7 @@ Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x4,x5",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x4,x6",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x4,x7",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x4,x8",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x5,x0",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x5,x1",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x5,x2",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x5,x3",PASS,
@@ -400,7 +433,7 @@ Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x5,x5",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x5,x6",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x5,x7",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x5,x8",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x6,x0",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x6,x1",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x6,x2",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x6,x3",PASS,
@@ -408,7 +441,7 @@ Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x6,x5",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x6,x6",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x6,x7",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x6,x8",PASS,
+Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x7,x0",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x7,x1",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x7,x2",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x7,x3",PASS,
@@ -416,15 +449,6 @@ Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x7,x5",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x7,x6",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x7,x7",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x7,x8",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x8,x1",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x8,x2",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x8,x3",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x8,x4",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x8,x5",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x8,x6",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x8,x7",PASS,
-Revision/gkd_lovelock/comparison/author-comparison-report.json,"einstein-mixed-x8,x8",PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,lovelock-P1-vs-minus4-author-EinsteinG,PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,lovelock-L1-vs-2-author-RS,PASS,
 Revision/gkd_lovelock/comparison/author-comparison-report.json,control-mapping-without-chain-rule-is-detected,PASS,
@@ -540,6 +564,10 @@ Revision/gkd_lovelock/results/wolfram-gkd-report.json,k1_nonzero_kdelta_terms_eq
 Revision/gkd_lovelock/results/wolfram-gkd-report.json,k2_nonzero_kdelta_terms_equal_rust_counter,PASS,
 Revision/gkd_lovelock/results/wolfram-gkd-report.json,k3_nonzero_kdelta_terms_equal_rust_counter,PASS,
 Revision/gkd_lovelock/results/wolfram-gkd-report.json,rust_json_text_equals_its_monomials,PASS,
+Revision/kohn_sham/reports/ks-b4-wolfram.json,K1_dirac_operator_b4_factorisation,PASS,
+Revision/kohn_sham/reports/ks-b4-wolfram.json,K2_good_sector_independent_of_b4,PASS,
+Revision/kohn_sham/reports/ks-b4-wolfram.json,K3_norm_and_volume,PASS,
+Revision/kohn_sham/reports/ks-b4-wolfram.json,K4_background_b4_1,PASS,
 Revision/kohn_sham/reports/ks-crosscheck.json,inputs_all_pass,PASS,0
 Revision/kohn_sham/reports/ks-crosscheck.json,rust_refinement_applies_to_matrix,PASS,16
 Revision/kohn_sham/reports/ks-crosscheck.json,rust_refinement_applies_to_matrix_exx,PASS,
@@ -674,14 +702,14 @@ Revision/kohn_sham/reports/ks-theory-python.json,fixture_python_equals_wolfram,P
 Revision/kohn_sham/reports/ks-theory-python.json,clifford_relation,PASS,14 17
 Revision/kohn_sham/reports/ks-theory-python.json,C_B_Gamma,PASS,14
 Revision/kohn_sham/reports/ks-theory-python.json,BC_and_Cg4,PASS,14
-Revision/kohn_sham/reports/ks-theory-python.json,geometry_hidden_coordinate,PASS,14 17
+Revision/kohn_sham/reports/ks-theory-python.json,geometry_hidden_coordinate,PASS,14 17 22
 Revision/kohn_sham/reports/ks-theory-python.json,geometry_sqrt_det,PASS,14 17
 Revision/kohn_sham/reports/ks-theory-python.json,geometry_warped_form,PASS,14 17 22
 Revision/kohn_sham/reports/ks-theory-python.json,spin_connection_compatibility,PASS,14
 Revision/kohn_sham/reports/ks-theory-python.json,spin_connection_slash_3H,PASS,14
 Revision/kohn_sham/reports/ks-theory-python.json,spin_connection_time_terms_cancel,PASS,14
 Revision/kohn_sham/reports/ks-theory-python.json,spin_connection_time_term_value,PASS,14
-Revision/kohn_sham/reports/ks-theory-python.json,spin_connection_slash_3H_x8_chart,PASS,
+Revision/kohn_sham/reports/ks-theory-python.json,spin_connection_slash_3H_x0_chart,PASS,
 Revision/kohn_sham/reports/ks-theory-python.json,ansatz_removes_spin_connection,PASS,14
 Revision/kohn_sham/reports/ks-theory-python.json,ansatz_without_W3_term_survives,PASS,14
 Revision/kohn_sham/reports/ks-theory-python.json,hamiltonian_16_hermitian,PASS,14 22
@@ -735,7 +763,7 @@ Revision/kohn_sham/reports/ks-theory-wolfram.json,geometry_sqrt_det,PASS,14
 Revision/kohn_sham/reports/ks-theory-wolfram.json,spin_connection_compatibility,PASS,
 Revision/kohn_sham/reports/ks-theory-wolfram.json,spin_connection_slash_3H,PASS,
 Revision/kohn_sham/reports/ks-theory-wolfram.json,spin_connection_time_terms_cancel,PASS,
-Revision/kohn_sham/reports/ks-theory-wolfram.json,spin_connection_slash_3H_x8_chart,PASS,
+Revision/kohn_sham/reports/ks-theory-wolfram.json,spin_connection_slash_3H_x0_chart,PASS,
 Revision/kohn_sham/reports/ks-theory-wolfram.json,ansatz_removes_spin_connection,PASS,
 Revision/kohn_sham/reports/ks-theory-wolfram.json,ansatz_without_W3_term_survives,PASS,
 Revision/kohn_sham/reports/ks-theory-wolfram.json,hamiltonian_16_hermitian,PASS,22
@@ -773,6 +801,13 @@ Revision/kohn_sham/reports/ks-theory-wolfram.json,adiabatic_hellmann_feynman,PAS
 Revision/kohn_sham/reports/ks-theory-wolfram.json,adiabatic_offdiagonal_identity,PASS,22
 Revision/kohn_sham/reports/ks-theory-wolfram.json,brane_band_slope,PASS,
 Revision/kohn_sham/reports/ks-theory-wolfram.json,ks_theory_json_written,PASS,
+Revision/kohn_sham/tip_convergence/tip-convergence.json,control_full_matrix_byte_identical,PASS,
+Revision/kohn_sham/tip_convergence/tip-convergence.json,control_single_byte_identical,PASS,
+Revision/kohn_sham/tip_convergence/tip-convergence.json,control_single_vs_committed_matrix,PASS,
+Revision/kohn_sham/tip_convergence/tip-convergence.json,calibration_rule_reproduced_at_L3,PASS,
+Revision/kohn_sham/tip_convergence/tip-convergence.json,k0_spectrum_exact_L_dependence,PASS,
+Revision/kohn_sham/tip_convergence/tip-convergence.json,zero_mode_density_exact,PASS,
+Revision/kohn_sham/tip_convergence/tip-convergence.json,reference_solver_at_two_L,PASS,0 16
 Revision/lead_checks/reports/charge-conjugation-and-u1.json,representation_real,PASS,0 5 7 18 21
 Revision/lead_checks/reports/charge-conjugation-and-u1.json,B_imaginary_hermitian,PASS,0 5 7 21
 Revision/lead_checks/reports/charge-conjugation-and-u1.json,intertwiners_same_mass,PASS,0 5 7 18 21
@@ -785,13 +820,13 @@ Revision/lead_checks/reports/charge-conjugation-and-u1.json,quantum_charge_conju
 Revision/lead_checks/reports/charge-conjugation-and-u1.json,real_fields_charge_conjugation,PASS,0 5 7 18 20 21 22
 Revision/lead_checks/reports/charge-conjugation-and-u1.json,spinor_connection_real,PASS,0 5 7 21
 Revision/lead_checks/reports/charge-conjugation-and-u1.json,u1_noether_matrix_identity,PASS,0 5 10 18 20 21 22
-Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_x8_independent,PASS,3 12 22
+Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_x0_independent,PASS,3 12 22
 Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_off_diagonal_zero,PASS,3 12
 Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_isotropy,PASS,3 12
 Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_constraint_x4,PASS,
 Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_space_x1,PASS,
 Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_extraTime_x5,PASS,
-Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_hidden_x8,PASS,
+Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_hidden_x0,PASS,
 Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_evolution,PASS,
 Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_null_energy,PASS,20 22
 Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,no_vacuum_for_H_positive,PASS,3 12 20 22
@@ -801,15 +836,73 @@ Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,gauss_bonnet_rho_alph
 Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,gauss_bonnet_p_alpha2,PASS,12
 Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json,einstein_linear_rho_alpha1,PASS,12
 Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,divergence_x4_component,PASS,3 9 12 20
-Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,divergence_x8_component,PASS,9 12
+Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,divergence_x0_component,PASS,9 12
 Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,divergence_other_components_zero,PASS,9 12
 Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,ks_coordinate_jacobian,PASS,3 9
 Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,ks_coordinate_form,PASS,9
 Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,fixture_clifford,PASS,
 Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,vielbein_reproduces_metric,PASS,3
-Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,gamma_Omega_equals_3H_gamma8,PASS,6 9 12 20
-Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,gamma_Omega_divergence_formula,PASS,6
+Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,gamma_Omega_equals_3H_gamma0,PASS,6 9 12 20
+Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,gamma_Omega_divergence_formula,PASS,
 Revision/lead_checks/reports/emt-divergence-and-spin-connection.json,negative_control_inflating_extra_times,PASS,6 7 9
+Revision/metric_b4/results/consequences-b4.json,P1_T1_chirality_pairing_with_b4,PASS,
+Revision/metric_b4/results/consequences-b4.json,P2_T2_mirror_isometry_with_b4,PASS,
+Revision/metric_b4/results/consequences-b4.json,P3_T3_kohn_sham_level,PASS,
+Revision/metric_b4/results/consequences-b4.json,P4_dark_sector_volume_factor,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,ricci_scalar_equals_wolfram,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,einstein_equals_wolfram,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,lovelock1_equals_wolfram,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,lovelock2_equals_wolfram,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,lovelock3_equals_wolfram,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,riemann_nonzero_count_equals_wolfram,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,metric_equals_author_Out101,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,ricci_scalar_equals_author_Out119,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,einstein_equals_author_Out120,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,ricci_equals_author_Out124,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,lovelock1_equals_author_Out126,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,lovelock2_equals_author_Out127,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,lovelock3_equals_author_Out128,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,vacuum_equations_equal_author_Out129,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,author_solution_Out135,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,reference_b4_1_files_are_the_earlier_record,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,b4_one_ricci_scalar_equals_record,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,b4_one_einstein_equals_record,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,b4_one_lovelock1_equals_record,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,b4_one_lovelock2_equals_record,PASS,
+Revision/metric_b4/results/python-metric-b4-report.json,b4_one_lovelock3_equals_record,PASS,
+Revision/metric_b4/results/vacuum-b4.json,V1_time_time_is_constraint,PASS,
+Revision/metric_b4/results/vacuum-b4.json,V2_off_diagonal_is_beta_Q,PASS,
+Revision/metric_b4/results/vacuum-b4.json,V3a_constraint_and_Q_isolated_points,PASS,
+Revision/metric_b4/results/vacuum-b4.json,V3b_no_solution_with_beta_nonzero,PASS,
+Revision/metric_b4/results/vacuum-b4.json,V4_b4_constant_branch,PASS,
+Revision/metric_b4/results/vacuum-b4.json,V5_author_solution_and_time_reverse,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,metric_equals_author_Out101,PASS,0
+Revision/metric_b4/results/wolfram-metric-b4-report.json,ricci_scalar_equals_author_Out119,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,einstein_equals_author_Out120,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,ricci_mixed_equals_author_Out124,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,ricci_covariant_equals_author_Out123,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,lovelock1_equals_author_Out126,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,lovelock2_equals_author_Out127,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,lovelock3_equals_author_Out128,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,vacuum_equations_equal_author_Out129,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,distinct_equations_equal_author_Out132,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,author_solution_equations_Out134,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,author_solution_Out135,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,reference_b4_1_files_are_the_earlier_record,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,b4_one_ricci_scalar_equals_record,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,b4_one_einstein_equals_record,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,b4_one_ricci_equals_record,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,b4_one_lovelock1_equals_record,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,b4_one_lovelock2_equals_record,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,b4_one_lovelock3_equals_record,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,lovelock1_divergence_free,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,lovelock2_divergence_free,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,lovelock3_divergence_free,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,sqrt_det_g,PASS,0
+Revision/metric_b4/results/wolfram-metric-b4-report.json,constant_b4_drops_out,PASS,
+Revision/metric_b4/results/wolfram-metric-b4-report.json,off_diagonal_entries_x0_x4_only,PASS,3
+Revision/metric_b4/results/wolfram-metric-b4-report.json,off_diagonal_proportional_to_b4prime,PASS,3
+Revision/metric_b4/results/wolfram-metric-b4-report.json,e1_equals_einstein,PASS,
 Revision/pairing/kohn_sham/reports/python-t3-completion.json,T3C.mean_field_coefficients_from_ks_theory,PASS,19
 Revision/pairing/kohn_sham/reports/python-t3-completion.json,T3C.filling_convention_mapped,PASS,
 Revision/pairing/kohn_sham/reports/python-t3-completion.json,T3C.krein_rule_16_component,PASS,
@@ -988,6 +1081,8 @@ Revision/pairing/reports/wolfram-pairing.json,T1_Lagrangian_negative_controls_po
 Revision/pairing/reports/wolfram-pairing.json,T1_field_equation_covariance_pointwise_grassmann,PASS,
 Revision/pairing/reports/wolfram-pairing.json,T1_energy_momentum_pointwise_grassmann,PASS,
 Revision/pairing/reports/wolfram-pairing.json,T1_current_pointwise_grassmann,PASS,
+Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x0_commuting,PASS,
+Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x0_grassmann,PASS,
 Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x1_commuting,PASS,
 Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x1_grassmann,PASS,
 Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x2_commuting,PASS,
@@ -1002,8 +1097,6 @@ Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x6_c
 Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x6_grassmann,PASS,
 Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x7_commuting,PASS,
 Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x7_grassmann,PASS,
-Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x8_commuting,PASS,
-Revision/pairing/reports/wolfram-pairing.json,T2_frame_reflection_pointwise_x8_grassmann,PASS,
 Revision/pairing/reports/wolfram-pairing.json,T2_mirror_is_isometry,PASS,18 20 22
 Revision/pairing/reports/wolfram-pairing.json,T2_mirror_Lagrangian_commuting,PASS,18
 Revision/pairing/reports/wolfram-pairing.json,T2_mirror_energy_momentum_and_current_commuting,PASS,18 20
@@ -1024,6 +1117,35 @@ Revision/pairing/reports/wolfram-pairing.json,Q_one_particle_complex_and_zero_fr
 Revision/pairing/reports/wolfram-pairing.json,Q_one_particle_general_field,PASS,18
 Revision/pairing/reports/wolfram-pairing.json,Q_no_identification_of_independent_universes,PASS,10 18 20
 Revision/pairing/reports/wolfram-pairing.json,theory_file_deterministic,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,fixture_B_C_beta,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,car_engine_selftest,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,mode_set_M0,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,psibar_gamma4_is_i_chi_M0,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,mode_set_M1,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,psibar_gamma4_is_i_chi_M1,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,control_record_Fock_example,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,control_trace_identity_lam0,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,control_homogeneous_lam0,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,orderings_of_S2_M0,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,orderings_of_S2_M1,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,heisenberg_field_equation_ordering,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,kinetic_sum_operator_theorem,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,trace_identity_operator_identity_wick,PASS,9 10
+Revision/theory/fock_quartic/reports/fock-quartic.json,trace_identity_fails_for_every_other_combination,PASS,9 10
+Revision/theory/fock_quartic/reports/fock-quartic.json,expectation_classes_M0,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,expectation_values_M1,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,homogeneous_rho_p_operator_identities_wick,PASS,10
+Revision/theory/fock_quartic/reports/fock-quartic.json,homogeneous_expectation_values_are_not_U_of_expectation,PASS,9
+Revision/theory/fock_quartic/reports/fock-quartic.json,homogeneous_p_vacuum_subtraction_fails,PASS,
+Revision/theory/fock_quartic/reports/fock-quartic.json,negative_control_free_dynamics,PASS,
+Revision/theory/reports/python-field-theory-b4.json,christoffel_nonzero,PASS,6 7
+Revision/theory/reports/python-field-theory-b4.json,omega_nonzero,PASS,6 7
+Revision/theory/reports/python-field-theory-b4.json,gammaOmega_per_direction,PASS,6 7 18
+Revision/theory/reports/python-field-theory-b4.json,gammaOmega_total,PASS,6 7 8 18
+Revision/theory/reports/python-field-theory-b4.json,gammaOmega_formula_text,PASS,
+Revision/theory/reports/python-field-theory-b4.json,spinor_connection_real_b4,PASS,5 7 21
+Revision/theory/reports/python-field-theory-b4.json,u1_noether_matrix_identity_b4,PASS,5 7 10 21
+Revision/theory/reports/python-field-theory-b4.json,gravity_term_square_b4,PASS,6 7
 Revision/theory/reports/python-field-theory.json,superalgebra_axioms,PASS,7
 Revision/theory/reports/python-field-theory.json,gammas_coordinates_and_eta,PASS,
 Revision/theory/reports/python-field-theory.json,gammas_json_equals_python_construction,PASS,
@@ -1039,30 +1161,30 @@ Revision/theory/reports/python-field-theory.json,sqrt_det_g_equals_cos_z,PASS,0 
 Revision/theory/reports/python-field-theory.json,christoffel_symmetric_metric_compatible,PASS,6 7 8
 Revision/theory/reports/python-field-theory.json,spin_connection_antisymmetric,PASS,6 8
 Revision/theory/reports/python-field-theory.json,vielbein_postulate,PASS,6 7 8
-Revision/theory/reports/python-field-theory.json,Omega_x4_and_Omega_x8_vanish,PASS,6
+Revision/theory/reports/python-field-theory.json,Omega_x0_and_Omega_x4_vanish,PASS,6
 Revision/theory/reports/python-field-theory.json,covariant_constancy_D_mu_gamma_nu,PASS,6 8
-Revision/theory/reports/python-field-theory.json,gamma_mu_Omega_mu_equals_3H_gamma_x8,PASS,6 7 8 9 18
+Revision/theory/reports/python-field-theory.json,gamma_mu_Omega_mu_equals_3H_gamma_x0,PASS,6 7 8 9 18
 Revision/theory/reports/python-field-theory.json,time_terms_cancel_hidden_term_survives,PASS,6 7 8
 Revision/theory/reports/python-field-theory.json,anticommutator_gamma_Omega_vanishes,PASS,6 7 8
 Revision/theory/reports/python-field-theory.json,divergence_of_sqrtg_gamma,PASS,6 7 8 18
 Revision/theory/reports/python-field-theory.json,nontriviality_Omega_zero_iff_flat,PASS,6 7 8
-Revision/theory/reports/python-field-theory.json,curvature_nonzero_flat_only_formally,PASS,6 8
+Revision/theory/reports/python-field-theory.json,curvature_nonzero_flat_only_formally,PASS,6 8 22
 Revision/theory/reports/python-field-theory.json,spinor_curvature_equals_riemann,PASS,6 8
-Revision/theory/reports/python-field-theory.json,lichnerowicz_contraction,PASS,
-Revision/theory/reports/python-field-theory.json,lichnerowicz_identity_on_fields,PASS,
+Revision/theory/reports/python-field-theory.json,lichnerowicz_contraction,PASS,7
+Revision/theory/reports/python-field-theory.json,lichnerowicz_identity_on_fields,PASS,7
 Revision/theory/reports/python-field-theory.json,grassmann_lagrangian_real,PASS,7
 Revision/theory/reports/python-field-theory.json,grassmann_controls_not_vacuous,PASS,7
 Revision/theory/reports/python-field-theory.json,grassmann_total_divergence_relation,PASS,7
 Revision/theory/reports/python-field-theory.json,grassmann_euler_lagrange_psibar_variation,PASS,7 8
 Revision/theory/reports/python-field-theory.json,grassmann_euler_lagrange_psi_variation,PASS,7
 Revision/theory/reports/python-field-theory.json,grassmann_adjoint_equation_is_conjugate,PASS,7
-Revision/theory/reports/python-field-theory.json,grassmann_current_conservation,PASS,20 21
+Revision/theory/reports/python-field-theory.json,grassmann_current_conservation,PASS,7 20 21
 Revision/theory/reports/python-field-theory.json,grassmann_emt_symmetric,PASS,20
 Revision/theory/reports/python-field-theory.json,grassmann_emt_conservation_on_shell,PASS,20
 Revision/theory/reports/python-field-theory.json,grassmann_emt_conservation_negative_control,PASS,
 Revision/theory/reports/python-field-theory.json,grassmann_trace_on_shell,PASS,
-Revision/theory/reports/python-field-theory.json,grassmann_homogeneous_on_shell_rho_p,PASS,
-Revision/theory/reports/python-field-theory.json,grassmann_T_x4x8_homogeneous,PASS,
+Revision/theory/reports/python-field-theory.json,grassmann_homogeneous_on_shell_rho_p,PASS,9
+Revision/theory/reports/python-field-theory.json,grassmann_T_x4x0_homogeneous,PASS,
 Revision/theory/reports/python-field-theory.json,grassmann_emt_equals_general_vielbein_variation_on_shell,PASS,
 Revision/theory/reports/python-field-theory.json,grassmann_emt_equals_vielbein_variation_diagonal,PASS,
 Revision/theory/reports/python-field-theory.json,commuting_lagrangian_real,PASS,7
@@ -1077,7 +1199,7 @@ Revision/theory/reports/python-field-theory.json,commuting_emt_conservation_on_s
 Revision/theory/reports/python-field-theory.json,commuting_emt_conservation_negative_control,PASS,9
 Revision/theory/reports/python-field-theory.json,commuting_trace_on_shell,PASS,9
 Revision/theory/reports/python-field-theory.json,commuting_homogeneous_on_shell_rho_p,PASS,9 18
-Revision/theory/reports/python-field-theory.json,commuting_T_x4x8_homogeneous,PASS,9 18
+Revision/theory/reports/python-field-theory.json,commuting_T_x4x0_homogeneous,PASS,9 18
 Revision/theory/reports/python-field-theory.json,commuting_emt_equals_general_vielbein_variation_on_shell,PASS,9
 Revision/theory/reports/python-field-theory.json,commuting_emt_equals_vielbein_variation_diagonal,PASS,9
 Revision/theory/reports/python-field-theory.json,negative_control_majorana_grassmann_total_derivative,PASS,7
@@ -1087,12 +1209,12 @@ Revision/theory/reports/python-field-theory.json,canonical_anticommutator_B,PASS
 Revision/theory/reports/python-field-theory.json,no_positive_inner_product,PASS,10
 Revision/theory/reports/python-field-theory.json,mode_hamiltonian_B_selfadjoint_dispersion,PASS,4 8 10
 Revision/theory/reports/python-field-theory.json,good_sector_spectrum_and_B_sectors,PASS,4 8 10
-Revision/theory/reports/python-field-theory.json,good_sector_positive_fock_realisation,PASS,10
+Revision/theory/reports/python-field-theory.json,good_sector_positive_fock_realisation,PASS,9 10
 Revision/theory/reports/python-field-theory.json,extra_time_modes_grow,PASS,4 8 10
 Revision/theory/reports/python-field-theory.json,expectation_value_rule,PASS,10
-Revision/theory/reports/python-field-theory.json,hamiltonian_form_and_heisenberg_equation,PASS,10
+Revision/theory/reports/python-field-theory.json,hamiltonian_form_and_heisenberg_equation,PASS,7 10
 Revision/theory/reports/python-field-theory.json,energy_exchange_equation,PASS,9
-Revision/theory/reports/python-field-theory.json,exact_solution_family_x4_x8,PASS,7 8 10 21
+Revision/theory/reports/python-field-theory.json,exact_solution_family_x4_x0,PASS,7 8 10 21
 Revision/theory/reports/python-field-theory.json,exact_nonlinear_homogeneous_solution,PASS,9 18
 Revision/theory/reports/python-scope.json,boosted_frame_reproduces_metric,PASS,6 8
 Revision/theory/reports/python-scope.json,boosted_frame_canonical_connection,PASS,6 8
@@ -1104,10 +1226,37 @@ Revision/theory/reports/python-scope.json,rescaled_equation_quadratic_potential,
 Revision/theory/reports/python-scope.json,gammaOmega_blind_to_the_deflation,PASS,6 7 8
 Revision/theory/reports/python-scope.json,connection_free_lagrangian_same_equations,PASS,7 8
 Revision/theory/reports/python-scope.json,spin_connection_in_the_energy_momentum_tensor,PASS,8 9
-Revision/theory/reports/python-scope.json,good_sector_hermiticity_up_to_the_brane_flux,PASS,5 8 10 18
-Revision/theory/reports/python-scope.json,good_sector_x8_independent_modes_without_boundary_condition,PASS,7 8 10 18
+Revision/theory/reports/python-scope.json,good_sector_hermiticity_up_to_the_brane_flux,PASS,5 8 9 10 18
+Revision/theory/reports/python-scope.json,good_sector_x0_independent_modes_without_boundary_condition,PASS,7 8 9 10 18
 Revision/theory/reports/python-scope.json,extra_time_growth_rates_unbounded,PASS,3 4 7 8 10 22
 Revision/theory/reports/python-scope.json,commuting_field_energy_unbounded_below,PASS,9 10
+Revision/theory/reports/wolfram-field-theory-b4-emt-C.json,T_vielbein_variation_closed_form_C_b4,PASS,
+Revision/theory/reports/wolfram-field-theory-b4-emt-C.json,T_symmetric_part_Belinfante_C_b4,PASS,
+Revision/theory/reports/wolfram-field-theory-b4-emt-C.json,T_diagonal_components_C_b4,PASS,
+Revision/theory/reports/wolfram-field-theory-b4-emt-C.json,T_x4_x0_component_C_b4,PASS,
+Revision/theory/reports/wolfram-field-theory-b4-emt-G.json,T_vielbein_variation_closed_form_G_b4,PASS,
+Revision/theory/reports/wolfram-field-theory-b4-emt-G.json,T_symmetric_part_Belinfante_G_b4,PASS,
+Revision/theory/reports/wolfram-field-theory-b4-emt-G.json,T_diagonal_components_G_b4,PASS,
+Revision/theory/reports/wolfram-field-theory-b4-emt-G.json,T_x4_x0_component_G_b4,PASS,
+Revision/theory/reports/wolfram-field-theory-b4.json,metric_is_the_authors_b4,PASS,6 18
+Revision/theory/reports/wolfram-field-theory-b4.json,vielbein_inverse,PASS,
+Revision/theory/reports/wolfram-field-theory-b4.json,sqrt_det_g,PASS,0 6 7 8 18 21
+Revision/theory/reports/wolfram-field-theory-b4.json,christoffel_count,PASS,6 7
+Revision/theory/reports/wolfram-field-theory-b4.json,ricci_equals_metric_b4_set,PASS,6
+Revision/theory/reports/wolfram-field-theory-b4.json,ricci_reduces_at_b4_1,PASS,6
+Revision/theory/reports/wolfram-field-theory-b4.json,vielbein_postulate,PASS,6 7
+Revision/theory/reports/wolfram-field-theory-b4.json,omega_antisymmetric,PASS,
+Revision/theory/reports/wolfram-field-theory-b4.json,omega_components,PASS,6 7
+Revision/theory/reports/wolfram-field-theory-b4.json,gamma_covariantly_constant,PASS,6
+Revision/theory/reports/wolfram-field-theory-b4.json,spin_curvature_equals_Riemann,PASS,6
+Revision/theory/reports/wolfram-field-theory-b4.json,gammaOmega_total,PASS,6 7 18
+Revision/theory/reports/wolfram-field-theory-b4.json,gammaOmega_per_direction,PASS,6 7 18
+Revision/theory/reports/wolfram-field-theory-b4.json,gammaOmega_divergence_form,PASS,6 7
+Revision/theory/reports/wolfram-field-theory-b4.json,Dirac_operator_explicit_G,PASS,6 7 18
+Revision/theory/reports/wolfram-field-theory-b4.json,Dirac_operator_explicit_C,PASS,6 7 18
+Revision/theory/reports/wolfram-field-theory-b4.json,evolution_form_G,PASS,7
+Revision/theory/reports/wolfram-field-theory-b4.json,evolution_form_C,PASS,7 18
+Revision/theory/reports/wolfram-field-theory-b4.json,energy_exchange_equation_b4,PASS,9
 Revision/theory/reports/wolfram-field-theory.json,zero_test_sanity,PASS,
 Revision/theory/reports/wolfram-field-theory.json,fixture_Clifford_relation,PASS,
 Revision/theory/reports/wolfram-field-theory.json,fixture_C_B_S_consistent,PASS,
@@ -1115,8 +1264,8 @@ Revision/theory/reports/wolfram-field-theory.json,metric_is_the_authors,PASS,
 Revision/theory/reports/wolfram-field-theory.json,vielbein_inverse,PASS,
 Revision/theory/reports/wolfram-field-theory.json,sqrt_det_g_is_cos_z,PASS,0 6 7
 Revision/theory/reports/wolfram-field-theory.json,degenerate_at_H_0,PASS,7 8
-Revision/theory/reports/wolfram-field-theory.json,christoffel_count,PASS,6 9
-Revision/theory/reports/wolfram-field-theory.json,ricci_scalar,PASS,6
+Revision/theory/reports/wolfram-field-theory.json,christoffel_count,PASS,7 9
+Revision/theory/reports/wolfram-field-theory.json,ricci_scalar,PASS,6 7
 Revision/theory/reports/wolfram-field-theory.json,ricci_mixed_components,PASS,6 8
 Revision/theory/reports/wolfram-field-theory.json,never_flat_for_H_positive,PASS,6 7 8
 Revision/theory/reports/wolfram-field-theory.json,vielbein_postulate,PASS,6 7 8
@@ -1126,9 +1275,9 @@ Revision/theory/reports/wolfram-field-theory.json,Omega_components,PASS,6 8
 Revision/theory/reports/wolfram-field-theory.json,gamma_covariantly_constant,PASS,6
 Revision/theory/reports/wolfram-field-theory.json,S_rotates_gamma_with_omega,PASS,6
 Revision/theory/reports/wolfram-field-theory.json,spin_curvature_equals_Riemann,PASS,6 7 8
-Revision/theory/reports/wolfram-field-theory.json,gammaOmega_equals_3H_gamma_x8,PASS,6 7 8 18
+Revision/theory/reports/wolfram-field-theory.json,gammaOmega_equals_3H_gamma_x0,PASS,6 7 8 18
 Revision/theory/reports/wolfram-field-theory.json,gammaOmega_x4_terms_cancel,PASS,6 7 8
-Revision/theory/reports/wolfram-field-theory.json,gammaOmega_divergence_form,PASS,6 18
+Revision/theory/reports/wolfram-field-theory.json,gammaOmega_divergence_form,PASS,6 7 18
 Revision/theory/reports/wolfram-field-theory.json,grassmann_algebra_structure,PASS,7
 Revision/theory/reports/wolfram-field-theory.json,L_real_G,PASS,7
 Revision/theory/reports/wolfram-field-theory.json,L_real_C,PASS,7 9 21
@@ -1151,12 +1300,12 @@ Revision/theory/reports/wolfram-field-theory.json,nontriviality_1_dirac16complex
 Revision/theory/reports/wolfram-field-theory.json,nontriviality_2_dirac16complex00,PASS,6 7 8
 Revision/theory/reports/wolfram-field-theory.json,Omega_vanishes_iff_a4prime_and_H_vanish,PASS,6 7 8
 Revision/theory/reports/wolfram-field-theory.json,current_real_G,PASS,
-Revision/theory/reports/wolfram-field-theory.json,current_conservation_identity_G,PASS,20
+Revision/theory/reports/wolfram-field-theory.json,current_conservation_identity_G,PASS,7 20
 Revision/theory/reports/wolfram-field-theory.json,charge_density_is_Krein_form_G,PASS,10
 Revision/theory/reports/wolfram-field-theory.json,current_real_C,PASS,
 Revision/theory/reports/wolfram-field-theory.json,current_conservation_identity_C,PASS,20
-Revision/theory/reports/wolfram-field-theory.json,charge_density_is_Krein_form_C,PASS,
-Revision/theory/reports/wolfram-field-theory.json,Lichnerowicz_identity_G,PASS,
+Revision/theory/reports/wolfram-field-theory.json,charge_density_is_Krein_form_C,PASS,10
+Revision/theory/reports/wolfram-field-theory.json,Lichnerowicz_identity_G,PASS,7
 Revision/theory/reports/wolfram-field-theory.json,Lichnerowicz_identity_C,PASS,
 Revision/theory/reports/wolfram-field-theory.json,Majorana_Lg_total_derivative_grassmann,PASS,7
 Revision/theory/reports/wolfram-field-theory.json,Majorana_Lg_commuting_control,PASS,7
@@ -1164,34 +1313,34 @@ Revision/theory/reports/wolfram-field-theory.json,T_vielbein_variation_closed_fo
 Revision/theory/reports/wolfram-field-theory.json,T_symmetric_part_Belinfante_G,PASS,
 Revision/theory/reports/wolfram-field-theory.json,T_vielbein_variation_closed_form_C,PASS,9
 Revision/theory/reports/wolfram-field-theory.json,T_symmetric_part_Belinfante_C,PASS,
-Revision/theory/reports/wolfram-field-theory.json,Noether_identity_diffeomorphisms_G,PASS,
-Revision/theory/reports/wolfram-field-theory.json,Noether_identity_local_Lorentz_G,PASS,
+Revision/theory/reports/wolfram-field-theory.json,Noether_identity_diffeomorphisms_G,PASS,7
+Revision/theory/reports/wolfram-field-theory.json,Noether_identity_local_Lorentz_G,PASS,7
 Revision/theory/reports/wolfram-field-theory.json,Noether_identity_diffeomorphisms_C,PASS,9
 Revision/theory/reports/wolfram-field-theory.json,Noether_identity_local_Lorentz_C,PASS,
-Revision/theory/reports/wolfram-field-theory.json,conservation_on_shell_general,PASS,9
-Revision/theory/reports/wolfram-field-theory.json,T_diagonal_components_G,PASS,
-Revision/theory/reports/wolfram-field-theory.json,EMT_trace_G,PASS,
-Revision/theory/reports/wolfram-field-theory.json,kinetic_sum_on_shell_G,PASS,
+Revision/theory/reports/wolfram-field-theory.json,conservation_on_shell_general,PASS,7 9
+Revision/theory/reports/wolfram-field-theory.json,T_diagonal_components_G,PASS,9
+Revision/theory/reports/wolfram-field-theory.json,EMT_trace_G,PASS,9
+Revision/theory/reports/wolfram-field-theory.json,kinetic_sum_on_shell_G,PASS,9
 Revision/theory/reports/wolfram-field-theory.json,T_diagonal_components_C,PASS,9
 Revision/theory/reports/wolfram-field-theory.json,EMT_trace_C,PASS,9
 Revision/theory/reports/wolfram-field-theory.json,kinetic_sum_on_shell_C,PASS,9
-Revision/theory/reports/wolfram-field-theory.json,T_x4_x8_component_G,PASS,
-Revision/theory/reports/wolfram-field-theory.json,T_x4_x8_component_C,PASS,
+Revision/theory/reports/wolfram-field-theory.json,T_x4_x0_component_G,PASS,
+Revision/theory/reports/wolfram-field-theory.json,T_x4_x0_component_C,PASS,
 Revision/theory/reports/wolfram-field-theory.json,energy_exchange_equation,PASS,9
 Revision/theory/reports/wolfram-field-theory.json,solution_matrix_square,PASS,9
-Revision/theory/reports/wolfram-field-theory.json,exact_solution_x4_x8_G,PASS,
-Revision/theory/reports/wolfram-field-theory.json,exact_solution_x4_x8_C,PASS,
+Revision/theory/reports/wolfram-field-theory.json,exact_solution_x4_x0_G,PASS,7
+Revision/theory/reports/wolfram-field-theory.json,exact_solution_x4_x0_C,PASS,
 Revision/theory/reports/wolfram-field-theory.json,exact_solution_nonlinear_homogeneous_C,PASS,9 18
 Revision/theory/reports/wolfram-field-theory.json,exact_solution_nonlinear_homogeneous_G,PASS,
 Revision/theory/reports/wolfram-field-theory.json,canonical_momentum,PASS,10
 Revision/theory/reports/wolfram-field-theory.json,first_order_form_and_anticommutator,PASS,10
-Revision/theory/reports/wolfram-field-theory.json,Heisenberg_equation_reproduces_field_equation,PASS,10
+Revision/theory/reports/wolfram-field-theory.json,Heisenberg_equation_reproduces_field_equation,PASS,7 10
 Revision/theory/reports/wolfram-field-theory.json,no_positive_inner_product,PASS,5 10
-Revision/theory/reports/wolfram-field-theory.json,mode_hamiltonian_good_sector,PASS,10
+Revision/theory/reports/wolfram-field-theory.json,mode_hamiltonian_good_sector,PASS,9 10
 Revision/theory/reports/wolfram-field-theory.json,mode_hamiltonian_Krein_selfadjoint,PASS,5 10
 Revision/theory/reports/wolfram-field-theory.json,good_sector_hermiticity_curved,PASS,6 10
 Revision/theory/reports/wolfram-field-theory.json,Krein_form_conserved_curved,PASS,10
-Revision/theory/reports/wolfram-field-theory.json,Fock_space_good_sector_example,PASS,5 10
+Revision/theory/reports/wolfram-field-theory.json,Fock_space_good_sector_example,PASS,5 9 10
 Revision/theory/reports/wolfram-scope.json,fixture_gammas,PASS,
 Revision/theory/reports/wolfram-scope.json,boosted_frame_reproduces_metric,PASS,6 8
 Revision/theory/reports/wolfram-scope.json,boosted_frame_canonical_connection,PASS,6
@@ -1203,7 +1352,7 @@ Revision/theory/reports/wolfram-scope.json,rescaled_equation_quadratic_potential
 Revision/theory/reports/wolfram-scope.json,gammaOmega_blind_to_the_deflation,PASS,7
 Revision/theory/reports/wolfram-scope.json,connection_free_lagrangian_same_equations,PASS,7
 Revision/theory/reports/wolfram-scope.json,spin_connection_in_the_energy_momentum_tensor,PASS,9
-Revision/theory/reports/wolfram-scope.json,good_sector_hermiticity_up_to_the_brane_flux,PASS,
-Revision/theory/reports/wolfram-scope.json,good_sector_x8_independent_modes_without_boundary_condition,PASS,7
+Revision/theory/reports/wolfram-scope.json,good_sector_hermiticity_up_to_the_brane_flux,PASS,9 21
+Revision/theory/reports/wolfram-scope.json,good_sector_x0_independent_modes_without_boundary_condition,PASS,7 9 21
 Revision/theory/reports/wolfram-scope.json,extra_time_growth_rates_unbounded,PASS,8
 Revision/theory/reports/wolfram-scope.json,commuting_field_energy_unbounded_below,PASS,9

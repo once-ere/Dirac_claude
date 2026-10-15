@@ -111,7 +111,8 @@ FACTS = {
     "files_written": ["Revision/textbook/figures/23a.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES]
     + ["Revision/textbook/data/23a_notebooks.csv",
-       "Revision/textbook/data/23a_check_index.csv"],
+       "Revision/textbook/data/23a_check_index.csv",
+       "Revision/textbook/data/23a_gate_steps.csv"],
     "final_lines": [
         "PASS every file this notebook writes exists",
         "ALL 10 CHECKS PASSED (notebook 23a)",
@@ -433,8 +434,10 @@ CELLS = [
     seven fields separated by `|`: the step name, the expected wall time in seconds, the
     kind (`1` = long, skipped by the option `--fast`; `A` = an audit that always runs;
     `0` = any other step), a work folder, the output files, the reports and the command.
-    The next cell reads the table, prints every step with its time and a short form of
-    its command, and adds up the expected time of the full gate and of `--fast`.
+    The next cell reads the table, writes every step with its time and a short form of
+    its command to the data file `Revision/textbook/data/23a_gate_steps.csv`, prints the
+    long steps and the audits, and adds up the expected time of the full gate and of
+    `--fast`.
     """),
     code(r'''
     gate = repository_file("Revision/verify_revision.sh").read_text(encoding="utf-8")
@@ -452,10 +455,19 @@ CELLS = [
         return " ".join(words[:2])
 
 
+    GATE_TABLE = "Revision/textbook/data/23a_gate_steps.csv"
+    with output_file(GATE_TABLE).open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle, lineterminator="\n")
+        writer.writerow(["step", "expected_seconds", "kind", "program"])
+        for name, expected, kind, _, _, _, command in STEPS:
+            mark = {"1": "long", "A": "all"}.get(kind, "")
+            writer.writerow([name, int(expected), mark, short_command(command)])
+    say(f"all {len(STEPS)} steps: {GATE_TABLE}; the long steps and the audits:")
     print(f"{"step":33} {"sec":>5} {"kind":4} command")
     for name, expected, kind, _, _, _, command in STEPS:
-        mark = {"1": "long", "A": "all"}.get(kind, "")
-        print(f"{name:33} {int(expected):5d} {mark:4} {short_command(command)}")
+        if kind in ("1", "A"):  # the long steps and the audits that always run
+            mark = {"1": "long", "A": "all"}.get(kind, "")
+            print(f"{name:33} {int(expected):5d} {mark:4} {short_command(command)}")
     FULL = sum(int(step[1]) for step in STEPS)
     FAST = sum(int(step[1]) for step in STEPS if step[2] != "1")
     report("gate steps", len(STEPS))
@@ -701,7 +713,7 @@ CELLS = [
     code(r'''
     check(all(output_file(path).is_file() for path in
               [f"{FIGURE_FOLDER}/{name}" for name in CAPTIONS]
-              + [NOTEBOOK_TABLE, CHECK_INDEX, CAPTION_FILE]),
+              + [NOTEBOOK_TABLE, CHECK_INDEX, GATE_TABLE, CAPTION_FILE]),
           "every file this notebook writes exists")
     all_checks_passed()
     '''),

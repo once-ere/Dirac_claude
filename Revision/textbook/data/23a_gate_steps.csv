@@ -1,0 +1,86 @@
+step,expected_seconds,kind,program
+algebra-wolfram,10,,verify_algebra.wls
+algebra-sympy,5,,check_algebra.py
+gkd-rust-build,60,,cargo build
+gkd-rust-lovelock,15,,gkd_exe lovelock
+gkd-rust-selftest,900,long,gkd_exe gkd-selftest
+gkd-wolfram,110,,verify_lovelock_gkd.wls
+gkd-sympy,30,,check_lovelock_gkd.py
+gkd-notebook-extract,10,,lovelock_extract_nb_inputs.wls
+gkd-notebook-digest,5,,lovelock_digest_nb_inputs.py
+gkd-notebook-image,10,,lovelock_export_nb_image.wls
+gkd-author-extract,120,,extract_author_curvature_outputs.wls
+gkd-author-compare,60,,compare_with_author.py
+metric-b4-author-notebook,5,,audit git-blob
+metric-b4-author-extract,10,,extract_author_b4_outputs.wls
+metric-b4-wolfram,90,,verify_metric_b4.wls
+metric-b4-sympy,40,,check_metric_b4.py
+metric-b4-vacuum,10,,vacuum_b4.wls
+theory-wolfram,310,long,verify_field_theory.wls
+theory-wolfram-scope,60,,verify_scope.wls
+theory-sympy,240,,check_field_theory.py
+theory-sympy-scope,5,,check_scope.py
+theory-compare,2,,audit json-equals
+theory-fock-quartic,10,,check_fock_quartic.py
+theory-b4-wolfram,15,,verify_field_theory_b4.wls
+theory-b4-emt-c,190,,verify_field_theory_b4_emt.wls
+theory-b4-emt-g,110,,verify_field_theory_b4_emt.wls
+theory-b4-sympy,5,,check_field_theory_b4.py
+pairing-wolfram,280,,verify_pairing.wls
+pairing-sympy,240,,check_pairing.py
+a4-wolfram,70,,verify_field_equations_a4.wls
+a4-sympy,30,,check_field_equations_a4.py
+a4-b4-block-sympy,35,,check_b4_block.py
+a4-ks-source-conditions,5,,check_ks_source_conditions.py
+a4-ks-source,20,,ks_source_a4.py
+a4-ks-source-unittest,30,,test_ks_source_a4.py
+ks-theory-wolfram,60,,verify_ks_theory.wls
+ks-theory-sympy,60,,check_ks_theory.py
+ks-b4-wolfram,5,,verify_ks_b4.wls
+metric-b4-consequences,5,,consequences_b4.wls
+ks-rust-build,60,,cargo build
+ks-rust-test,60,,cargo test
+ks-rust-canonical,250,,ks_solver all
+ks-rust-mermin-roots,30,,mermin_roots_mp.py
+ks-rust-repeat,250,,ks_solver all
+ks-rust-repeat-identical,5,,audit same
+ks-rust-refined,330,long,ks_solver all
+ks-rust-determinism,30,long,compare_runs.py
+ks-reference-part1,240,,run_reference.py
+ks-reference-part2,235,,run_reference.py
+ks-reference-part3,265,,run_reference.py
+ks-reference-part4,270,,run_reference.py
+ks-reference,5,,run_reference.py
+ks-rust-refinement,90,,measure_rust_refinement.py
+ks-crosscheck-repeat-part1,240,,run_reference.py
+ks-crosscheck-repeat-part2,235,,run_reference.py
+ks-crosscheck-repeat-part3,265,,run_reference.py
+ks-crosscheck-repeat-part4,270,,run_reference.py
+ks-crosscheck,25,,crosscheck_ks.py
+ks-tip-convergence,200,,tip_convergence.py
+t3-wolfram,15,,verify_t3.wls
+t3-sympy,10,,check_t3.py
+t3-completion-wolfram,20,,verify_t3_completion.wls
+t3-rust-demo,285,,t3_rust_demo.py
+t3-reference-demo,170,,t3_reference_demo.py
+t3-completion-sympy,10,,check_t3_completion.py
+dark16-derive,10,,derive_effective.py
+dark16-ks-history,150,,run_ks_history.py
+dark16-eos,5,,compute_eos.py
+dark16-independent,180,,independent_free_gas.py
+dark00-derive,30,,derive_eos.py
+dark00-independent,30,,independent_numerics.py
+dark00-unittest,30,,test_dark_sector_dirac16complex00.py
+lead-emt-divergence,10,,emt_divergence_and_spin_connection.py
+lead-einstein-gauss-bonnet,20,,einstein_gauss_bonnet_a4.py
+lead-charge-conjugation,15,,charge_conjugation_and_u1.py
+notebooks-check,90,,audit notebooks
+pdf-dirac16complex-field-theory,30,,build_provenance_pdf.py
+pdf-dirac16complex00-field-theory,30,,build_provenance_pdf.py
+pdf-pair-creation-proofs,30,,build_provenance_pdf.py
+pdf-kohn-sham-deflating-field,30,,build_provenance_pdf.py
+pdf-dark-sector-hypotheses,30,,build_provenance_pdf.py
+pdf-lovelock-gkd,30,,build_provenance_pdf.py
+committed-unchanged,10,all,audit unchanged
+reports-pass,5,all,audit reports
+unit-tests,150,,audit unittest
