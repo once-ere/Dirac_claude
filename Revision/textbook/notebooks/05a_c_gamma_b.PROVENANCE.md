@@ -11,7 +11,7 @@ It reads the eight real 16 by 16 gamma matrices of the Revision record, checks t
 
 It reads or reproduces these Revision records:
 
-- `Revision/algebra/gammas.json`: the author's gamma matrices, C, Gamma and B in the coordinate order x1 to x8 (read)
+- `Revision/algebra/gammas.json`: the author's gamma matrices, C, Gamma and B in the coordinate order x0 to x7 (read)
 - `Revision/algebra/reports/python-algebra.json`: the exact Python checks of the algebra (reproduced: clifford_relation, symmetry_pattern, the C, chirality and B checks)
 - `Revision/algebra/reports/wolfram-algebra.json`: the exact WolframScript checks of the algebra (reproduced: eta_in_author_order, C_definition, B_definition and the B checks)
 
@@ -245,7 +245,7 @@ python Revision/textbook/tools/nbkit.py check Revision/textbook/notebooks/src/05
 Every check prints a PASS line (a check that fails stops the notebook with an AssertionError instead). The notebook prints these lines, in this order; the label In [k] is the number of the code cell that prints the line:
 
 ```text
-In [3]  PASS the coordinates are x1..x8 and eta = diag(+1,+1,+1,-1,-1,-1,-1,+1)
+In [3]  PASS the coordinates are x0..x7 and eta = diag(+1,+1,+1,+1,-1,-1,-1,-1)
 In [3]       reproduces Revision/algebra/reports/wolfram-algebra.json, check eta_in_author_order
 In [4]  PASS {gamma^a, gamma^b} = 2 eta^ab 1 for all 64 pairs
 In [4]       reproduces Revision/algebra/reports/python-algebra.json, check clifford_relation
@@ -254,7 +254,7 @@ In [5]       reproduces Revision/algebra/reports/python-algebra.json, check
 In [5]      reality_signed_permutations
 In [5]  PASS (gamma^a)^T = eta_aa gamma^a: space-like symmetric, time-like antisymmetric
 In [5]       reproduces Revision/algebra/reports/python-algebra.json, check symmetry_pattern
-In [7]  PASS C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) equals the recorded C
+In [7]  PASS C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) equals the recorded C
 In [7]       reproduces Revision/algebra/reports/wolfram-algebra.json, check C_definition
 In [7]  PASS C = diag(-sigma, sigma), called sigma16 by the author
 In [7]       reproduces Revision/algebra/reports/python-algebra.json, check
@@ -271,7 +271,7 @@ In [9]       reproduces Revision/algebra/reports/python-algebra.json, check C_co
 In [10]  PASS the squaring rule holds for all 255 products of different gammas
 In [11]  PASS u^T C u = -sin 2t and v^T C v = +sin 2t along the two paths
 In [11]  PASS C has eight eigenvalues +1 and eight -1: signature (8, 8)
-In [13]  PASS Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-1_8, 1_8), as recorded
+In [13]  PASS Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = diag(-1_8, 1_8), as recorded
 In [13]       reproduces Revision/algebra/reports/python-algebra.json, check chirality_diag
 In [13]  PASS Gamma Gamma = 1 and Gamma anticommutes with every gamma^a
 In [13]       reproduces Revision/algebra/reports/python-algebra.json, check
@@ -293,7 +293,7 @@ In [16]      B_hermitian_involution_signature
 In [17]  PASS det(lam 1 - B) = (lam - 1)^8 (lam + 1)^8: signature (8, 8)
 In [17]       reproduces Revision/algebra/reports/python-algebra.json, check
 In [17]      B_hermitian_involution_signature
-In [18]  PASS B commutes with gamma^a for a = x1, x2, x3, x4, x8 and anticommutes for x5, x6, x7
+In [18]  PASS B commutes with gamma^a for a = x0, x1, x2, x3, x4 and anticommutes for x5, x6, x7
 In [18]       reproduces Revision/algebra/reports/python-algebra.json, check B_gamma_relations
 In [20]  PASS eigenvalues: +1 and -1 eight times each for the space-like gammas, C, Gamma and B;
 In [20]      +i and -i eight times each for the time-like gammas
@@ -322,8 +322,8 @@ The notebook shows 6 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/05a_2_c_form_signs.png` (951 x 751 pixels): The quadratic form of the charge matrix along two paths of unit columns, $u^T C u = -\sin 2t$ (solid, components 1 and 5) and $v^T C v = +\sin 2t$ (dashed, components 9 and 13), and the ordinary squared length $u^T u = 1$ (dotted), for $t$ from $0$ to $\pi$; horizontal axis $t$ in radians, vertical axis the value (a pure number). The form of $C$ is negative for some unit columns and positive for others: $C$ has signature $(8, 8)$, an indefinite form.
 - `Revision/textbook/figures/05a_3_chirality.png` (1477 x 414 pixels): Heat maps of the chirality $\Gamma$, of the projectors $P_-$ and $P_+$ onto the two halves, and of the gamma matrix of the direction $x1$; horizontal axis the column, vertical axis the row (1 to 16); blue $-1$, grey $0$, red $+1$. $\Gamma = \mathrm{diag}(-1, 1)$ is blue on the first eight diagonal places and red on the last eight; $P_-$ keeps components 1 to 8 and $P_+$ components 9 to 16. The gamma has nonzero entries only in the two off-diagonal blocks: it carries one half into the other.
 - `Revision/textbook/figures/05a_4_b_matrix.png` (1280 x 437 pixels): Heat maps of the gamma matrix of the time $x4$ (left), of the product $C\gamma^{(x4)}$ (middle) and of the imaginary part of $B = -iC\gamma^{(x4)}$ (right); horizontal axis the column, vertical axis the row (1 to 16); blue $-1$, grey $0$, red $+1$. Each picture changes colour when it is mirrored about the diagonal: the three real matrices are antisymmetric. $B$ is $i$ times an antisymmetric real matrix, which makes it Hermitian.
-- `Revision/textbook/figures/05a_5_spectra.png` (799 x 865 pixels): The spectra of the eight gamma matrices and of $C$, $\Gamma$ and $B$: each row is one 16 by 16 matrix, each column one possible eigenvalue ($+1$, $-1$, $+i$, $-i$), and each square holds how many of its 16 eigenvalues equal that number. The space-like gammas ($x1, x2, x3, x8$), $C$, $\Gamma$ and $B$ square to $1$ and have eigenvalues $+1$ and $-1$ eight times each; the time-like gammas ($x4$ to $x7$) square to $-1$ and have $+i$ and $-i$ eight times each.
-- `Revision/textbook/figures/05a_6_commutation_signs.png` (989 x 472 pixels): The commutation signs: row $M$ ($C$, $\Gamma$ or $B$) and column $\gamma^a$ show the sign $s$ in $M\gamma^a = s\,\gamma^a M$; red $+1$ means the two commute, blue $-1$ that they anticommute. $C$ anticommutes with the space-like gammas $x1, x2, x3, x8$ and commutes with the time-like ones; $\Gamma$ anticommutes with every gamma; $B$ anticommutes only with the extra times $x5, x6, x7$.
+- `Revision/textbook/figures/05a_5_spectra.png` (799 x 865 pixels): The spectra of the eight gamma matrices and of $C$, $\Gamma$ and $B$: each row is one 16 by 16 matrix, each column one possible eigenvalue ($+1$, $-1$, $+i$, $-i$), and each square holds how many of its 16 eigenvalues equal that number. The space-like gammas ($x0, x1, x2, x3$), $C$, $\Gamma$ and $B$ square to $1$ and have eigenvalues $+1$ and $-1$ eight times each; the time-like gammas ($x4$ to $x7$) square to $-1$ and have $+i$ and $-i$ eight times each.
+- `Revision/textbook/figures/05a_6_commutation_signs.png` (989 x 472 pixels): The commutation signs: row $M$ ($C$, $\Gamma$ or $B$) and column $\gamma^a$ show the sign $s$ in $M\gamma^a = s\,\gamma^a M$; red $+1$ means the two commute, blue $-1$ that they anticommute. $C$ anticommutes with the space-like gammas $x0, x1, x2, x3$ and commutes with the time-like ones; $\Gamma$ anticommutes with every gamma; $B$ anticommutes only with the extra times $x5, x6, x7$.
 
 ## 4. Side effects
 
@@ -333,13 +333,13 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/05a.captions.json` | 2949 | `33d63ce7e4a66074a07c534d3fd72c87f7bc301a7993973ee5ab1e742aa0ddae` |
-| `Revision/textbook/figures/05a_1_c_matrix.png` | 28728 | `67356e100248bc1efb9dfc769dbadc77711c5422e93c83e62401587359c9943c` |
+| `Revision/textbook/figures/05a.captions.json` | 2949 | `e87058b87037586c7f2d3872d3ea285425e801710446d320d721780cdac77bb7` |
+| `Revision/textbook/figures/05a_1_c_matrix.png` | 28713 | `c185ba99b04665ca3105d8559eac3784699249af2f4be5f0a920cbc8b431397e` |
 | `Revision/textbook/figures/05a_2_c_form_signs.png` | 86784 | `3f453d483a1364f8279ed1bce06215ba38b863dafe285233c5e66a7e318a697a` |
 | `Revision/textbook/figures/05a_3_chirality.png` | 37541 | `d1ee63a66014497f672f2e21dd96c625e2443b082751a3e1919d25f74c9fe543` |
 | `Revision/textbook/figures/05a_4_b_matrix.png` | 39613 | `c177e9abddef1064fb2b108a7c44d8ecb0562c8ef03adbb84c2650edf2de2bde` |
-| `Revision/textbook/figures/05a_5_spectra.png` | 49101 | `98e32f29826019f02af01cfcb8cfd2141fc446fa8f2f36e2d7ab6df86f83c45c` |
-| `Revision/textbook/figures/05a_6_commutation_signs.png` | 25641 | `56ccf102dfbe8e4df5976d8b9d8887d0f9f3a6fd335ff7959ad41678afd0b5f9` |
+| `Revision/textbook/figures/05a_5_spectra.png` | 49089 | `07f8717a0f8b1889417b3bbceac456e9f8c527db32683fdcc49ecc3b13ec5296` |
+| `Revision/textbook/figures/05a_6_commutation_signs.png` | 25705 | `2bf105daf04122c97e1802a9796100bd604b9ac329fc38c247079c11b1c59337` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/05a_c_gamma_b.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -362,8 +362,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 19.6 s, peak memory of the kernel process 211 MiB;
-- the check run: 15.2 s, peak memory of the kernel process 210 MiB.
+- the build run: 3.8 s, peak memory of the kernel process 212 MiB;
+- the check run: 3.4 s, peak memory of the kernel process 213 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -375,15 +375,15 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/05a_c_gamma_b.ipynb`: `9d874b94eac94faab22d974881e28e0a6a213658e372b24b96d6a14c87eb3b8a`
-- `Revision/textbook/notebooks/src/05a_c_gamma_b.py`: `08bfee411642beb1aaf5b5991ce28bfe623075db167f0bf8b0e6fc3bf15ee4e7`
-- `Revision/textbook/figures/05a.captions.json`: `33d63ce7e4a66074a07c534d3fd72c87f7bc301a7993973ee5ab1e742aa0ddae`
-- `Revision/textbook/figures/05a_1_c_matrix.png`: `67356e100248bc1efb9dfc769dbadc77711c5422e93c83e62401587359c9943c`
+- `Revision/textbook/notebooks/05a_c_gamma_b.ipynb`: `494385586f69c860b63046ec3c3014b51bdfee38471272c2d828d43f85a75a61`
+- `Revision/textbook/notebooks/src/05a_c_gamma_b.py`: `8d37a33c509263bb564319238c81dd4c5fa4ecc4222cf92984806c9b59064b00`
+- `Revision/textbook/figures/05a.captions.json`: `e87058b87037586c7f2d3872d3ea285425e801710446d320d721780cdac77bb7`
+- `Revision/textbook/figures/05a_1_c_matrix.png`: `c185ba99b04665ca3105d8559eac3784699249af2f4be5f0a920cbc8b431397e`
 - `Revision/textbook/figures/05a_2_c_form_signs.png`: `3f453d483a1364f8279ed1bce06215ba38b863dafe285233c5e66a7e318a697a`
 - `Revision/textbook/figures/05a_3_chirality.png`: `d1ee63a66014497f672f2e21dd96c625e2443b082751a3e1919d25f74c9fe543`
 - `Revision/textbook/figures/05a_4_b_matrix.png`: `c177e9abddef1064fb2b108a7c44d8ecb0562c8ef03adbb84c2650edf2de2bde`
-- `Revision/textbook/figures/05a_5_spectra.png`: `98e32f29826019f02af01cfcb8cfd2141fc446fa8f2f36e2d7ab6df86f83c45c`
-- `Revision/textbook/figures/05a_6_commutation_signs.png`: `56ccf102dfbe8e4df5976d8b9d8887d0f9f3a6fd335ff7959ad41678afd0b5f9`
+- `Revision/textbook/figures/05a_5_spectra.png`: `07f8717a0f8b1889417b3bbceac456e9f8c527db32683fdcc49ecc3b13ec5296`
+- `Revision/textbook/figures/05a_6_commutation_signs.png`: `2bf105daf04122c97e1802a9796100bd604b9ac329fc38c247079c11b1c59337`
 
 ## 7. Verification
 
@@ -391,4 +391,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-14: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":211.0,"seconds":19.6},"check":{"date":"2026-10-14","files":7,"peak_mb":210.0,"result":"passed","seconds":15.2},"date":"2026-10-14","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":212.0,"seconds":3.8},"check":{"date":"2026-10-14","files":7,"peak_mb":213.0,"result":"passed","seconds":3.4},"date":"2026-10-14","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

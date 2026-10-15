@@ -44,7 +44,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's gamma matrices in the coordinate order x1 to x8 (read)"],
+         "the author's gamma matrices in the coordinate order x0 to x7 (read)"],
         ["Revision/algebra/reports/python-algebra.json",
          "the exact Python checks (reproduced: S_definition, S_lorentz_algebra, "
          "S_vector_action, S_preserves_C_and_commutes_with_Gamma)"],
@@ -113,7 +113,7 @@ CELLS = [
     - **Commutator** $[M, N] = MN - NM$.
     - **Generators** $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$; for $a \neq b$ the two
       gammas anticommute and $S^{ab} = \tfrac12\gamma^a\gamma^b$. There are 28 of them
-      ($a$ before $b$ in the order $x1, \dots, x8$).
+      ($a$ before $b$ in the order $x0, \dots, x7$).
     - **Lie algebra so(4,4)**: the commutation rules $[S^{ab}, S^{cd}] = \eta^{bc}S^{ad}
       - \eta^{ac}S^{bd} - \eta^{bd}S^{ac} + \eta^{ad}S^{bc}$ of the 28 generators.
     - **Exponential of a matrix**: $\exp(M) = 1 + M + \tfrac12 M^2 + \tfrac16 M^3 +
@@ -203,7 +203,7 @@ CELLS = [
     line and the line "reproduces ..." into a text buffer with
     `contextlib.redirect_stdout` and sends both with one `sys.stdout.write`, because
     Jupyter delivers printed text in pieces); the $8 \times 8$ metric `ETA_MATRIX`
-    $= \mathrm{diag}(+1,+1,+1,-1,-1,-1,-1,+1)$, $C$, $\Gamma$ and $B$. Then it checks
+    $= \mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$, $C$, $\Gamma$ and $B$. Then it checks
     the Clifford relation.
     """),
     code(r'''
@@ -215,14 +215,14 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+    COORDS = fixture["coordinates"]  # "x0", ..., "x7"
     ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
     ETA_MATRIX = np.diag([float(ETA[x]) for x in COORDS])  # the 8 x 8 metric eta
     gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
     I16 = np.eye(16, dtype=np.int64)
-    C = gamma["x8"] @ gamma["x1"] @ gamma["x2"] @ gamma["x3"]  # the charge matrix
+    C = gamma["x0"] @ gamma["x1"] @ gamma["x2"] @ gamma["x3"]  # the charge matrix
     Gamma = I16
-    for x in ["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]:
+    for x in ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]:
         Gamma = Gamma @ gamma[x]  # the chirality, the product of all eight gammas
     B = -1j * (C @ gamma["x4"])  # B = -i C gamma^(x4)
 
@@ -342,7 +342,7 @@ CELLS = [
     The next cell computes $JJ$ for $J = \gamma^a\gamma^b$ in each of the 28 planes and
     checks $JJ = -\eta_{aa}\eta_{bb}1$; it calls the plane a rotation when
     $\eta_{aa}\eta_{bb} = +1$ and a boost when $\eta_{aa}\eta_{bb} = -1$, counts them
-    and draws the table. Expected: the 6 planes inside $\{x1, x2, x3, x8\}$ and the 6
+    and draws the table. Expected: the 6 planes inside $\{x0, x1, x2, x3\}$ and the 6
     inside $\{x4, x5, x6, x7\}$ are rotations (12); the $4 \times 4 = 16$ mixed planes
     are boosts. Note that a plane of two times, such as $(x4, x5)$, is a rotation.
     """),
@@ -397,7 +397,7 @@ CELLS = [
     series summed up to 80 terms (each term is the previous one times $M/k$), and the
     closed formula of section 4. It compares them for two rotations, $(x1, x2)$ and
     $(x4, x5)$, at the angles $0.3$, $1$, $2.5$, $2\pi$ and $4\pi$, and for two boosts,
-    $(x1, x4)$ and $(x5, x8)$, at the rapidities $-1.5$, $0.3$, $1$ and $2.5$. The
+    $(x1, x4)$ and $(x5, x0)$, at the rapidities $-1.5$, $0.3$, $1$ and $2.5$. The
     largest difference of any entry must be below $10^{-10}$ (the series is summed in
     floating-point numbers).
     """),
@@ -423,7 +423,7 @@ CELLS = [
     tests = [(("x1", "x2"), [0.3, 1.0, 2.5, 2 * np.pi, 4 * np.pi]),
              (("x4", "x5"), [0.3, 1.0, 2.5, 2 * np.pi, 4 * np.pi]),
              (("x1", "x4"), [-1.5, 0.3, 1.0, 2.5]),
-             (("x5", "x8"), [-1.5, 0.3, 1.0, 2.5])]
+             (("x0", "x5"), [-1.5, 0.3, 1.0, 2.5])]
     largest_difference = 0.0
     for (a, b), angles in tests:
         for theta in angles:
@@ -474,8 +474,8 @@ CELLS = [
         R = spin_transformation("x1", "x2", theta)
         Lam = vector_matrix(R)
         expected = np.eye(8)  # the rotation by theta in the (x1, x2) block
-        expected[0, 0] = expected[1, 1] = np.cos(theta)
-        expected[0, 1], expected[1, 0] = np.sin(theta), -np.sin(theta)
+        expected[1, 1] = expected[2, 2] = np.cos(theta)  # rows and columns x1, x2
+        expected[1, 2], expected[2, 1] = np.sin(theta), -np.sin(theta)
         rotation_ok &= (rebuilds(R, Lam) and np.allclose(Lam, expected, atol=1e-12)
                         and np.allclose(Lam.T @ ETA_MATRIX @ Lam, ETA_MATRIX)
                         and abs(np.linalg.det(Lam) - 1.0) < 1e-12)
@@ -507,9 +507,9 @@ CELLS = [
     code(r'''
     angles = np.linspace(0.0, 4 * np.pi, 241)
     rapidities = np.linspace(-3.0, 3.0, 241)
-    vec_rot = [vector_matrix(spin_transformation("x1", "x2", th))[0, 0] for th in angles]
+    vec_rot = [vector_matrix(spin_transformation("x1", "x2", th))[1, 1] for th in angles]
     spin_rot = [np.trace(spin_transformation("x1", "x2", th)) / 16 for th in angles]
-    vec_boost = [vector_matrix(spin_transformation("x1", "x4", th))[0, 0]
+    vec_boost = [vector_matrix(spin_transformation("x1", "x4", th))[1, 1]
                  for th in rapidities]
     spin_boost = [np.trace(spin_transformation("x1", "x4", th)) / 16 for th in rapidities]
     check(np.allclose(vec_rot, np.cos(angles)) and np.allclose(spin_rot, np.cos(angles / 2))
@@ -591,26 +591,27 @@ CELLS = [
     from the spinor matrices.
     """),
     code(r'''
-    circle = np.array([vector_matrix(spin_transformation("x1", "x2", th))[:, 0]
+    # column k of a vector matrix is the image of e_xk; its entry 1 is v_1, entry 4 v_4
+    circle = np.array([vector_matrix(spin_transformation("x1", "x2", th))[:, 1]
                        for th in np.linspace(0.0, 2 * np.pi, 121)])  # images of e_x1
-    hyper_space = np.array([vector_matrix(spin_transformation("x1", "x4", th))[:, 0]
+    hyper_space = np.array([vector_matrix(spin_transformation("x1", "x4", th))[:, 1]
                             for th in np.linspace(-2.0, 2.0, 121)])  # images of e_x1
-    hyper_time = np.array([vector_matrix(spin_transformation("x1", "x4", th))[:, 3]
+    hyper_time = np.array([vector_matrix(spin_transformation("x1", "x4", th))[:, 4]
                            for th in np.linspace(-2.0, 2.0, 121)])  # images of e_x4
-    check(np.allclose(circle[:, 0] ** 2 + circle[:, 1] ** 2, 1.0)
-          and np.allclose(hyper_space[:, 0] ** 2 - hyper_space[:, 3] ** 2, 1.0)
-          and np.allclose(hyper_time[:, 0] ** 2 - hyper_time[:, 3] ** 2, -1.0),
+    check(np.allclose(circle[:, 1] ** 2 + circle[:, 2] ** 2, 1.0)
+          and np.allclose(hyper_space[:, 1] ** 2 - hyper_space[:, 4] ** 2, 1.0)
+          and np.allclose(hyper_time[:, 1] ** 2 - hyper_time[:, 4] ** 2, -1.0),
           "rotations keep v1^2 + v2^2, boosts keep v1^2 - v4^2")
     fig, axes = plt.subplots(1, 2, figsize=(11.0, 5.0))
-    axes[0].plot(circle[:, 0], circle[:, 1], color="#2a78d6", linewidth=2)
-    axes[0].plot(circle[::15, 0], circle[::15, 1], "o", color="#2a78d6", markersize=8)
+    axes[0].plot(circle[:, 1], circle[:, 2], color="#2a78d6", linewidth=2)
+    axes[0].plot(circle[::15, 1], circle[::15, 2], "o", color="#2a78d6", markersize=8)
     axes[0].set_aspect("equal")
     axes[0].set_xlabel("$v_1$ (component along $x1$)")
     axes[0].set_ylabel("$v_2$ (component along $x2$)")
     axes[0].set_title("rotation in $(x1, x2)$: a circle")
-    axes[1].plot(hyper_space[:, 0], hyper_space[:, 3], color="#2a78d6", linewidth=2,
+    axes[1].plot(hyper_space[:, 1], hyper_space[:, 4], color="#2a78d6", linewidth=2,
                  label=r"image of $e_{x1}$: $v_1^2 - v_4^2 = 1$")
-    axes[1].plot(hyper_time[:, 0], hyper_time[:, 3], color="#eb6834", linewidth=2,
+    axes[1].plot(hyper_time[:, 1], hyper_time[:, 4], color="#eb6834", linewidth=2,
                  label=r"image of $e_{x4}$: $v_1^2 - v_4^2 = -1$")
     axes[1].plot([-4, 4], [-4, 4], ":", color="black", linewidth=1,
                  label="null lines $v_4 = \\pm v_1$")
@@ -732,10 +733,10 @@ CELLS = [
 
 
     e = np.eye(8)  # e[i] is the unit vector along COORDS[i]
-    tilted = np.cosh(0.5) * e[0] + np.sinh(0.5) * e[3]
+    tilted = np.cosh(0.5) * e[1] + np.sinh(0.5) * e[4]  # in the plane (x1, x4)
     v = np.arange(1, 9) / 10.0
     reflections_ok = True
-    for u in (e[0], e[3], tilted):
+    for u in (e[1], e[4], tilted):  # e_x1, e_x4 and the tilted vector
         gu = gamma_of(u)
         left = -gu @ gamma_of(v) @ np.linalg.inv(gu)
         Ru = reflection(u)
@@ -758,10 +759,10 @@ CELLS = [
     -R(\theta)$ but both give the same $\Lambda$.
     """),
     code(r'''
-    elements = [("gamma^(x1)", [e[0]]), ("gamma^(x4)", [e[3]]),
-                ("gamma^(x1) gamma^(x4)", [e[0], e[3]]),
-                ("gamma(tilted) gamma^(x5)", [tilted, e[4]]),
-                ("Gamma", [e[7]] + [e[i] for i in range(7)])]
+    elements = [("gamma^(x1)", [e[1]]), ("gamma^(x4)", [e[4]]),
+                ("gamma^(x1) gamma^(x4)", [e[1], e[4]]),
+                ("gamma(tilted) gamma^(x5)", [tilted, e[5]]),
+                ("Gamma", [e[i] for i in range(8)])]
     norm_ok = True
     for name, factors in elements:
         g = np.eye(16)
@@ -814,7 +815,7 @@ CELLS = [
                  r"rotation, $\theta = \pi/3$, $(x1, x2)$"),
                 (vector_matrix(spin_transformation("x1", "x4", 1.0)),
                  r"boost, $\theta = 1$, $(x1, x4)$"),
-                (reflection(e[0]), r"reflection $R_u$, $u = e_{x1}$"),
+                (reflection(e[1]), r"reflection $R_u$, $u = e_{x1}$"),
                 (vector_matrix(Gamma.astype(float)), r"$\Lambda(\Gamma) = -1_8$")]
     fig, axes = plt.subplots(1, 4, figsize=(14.0, 4.0))
     for k, (ax, (matrix, title)) in enumerate(zip(axes, pictures)):
@@ -831,7 +832,7 @@ CELLS = [
     fig.colorbar(image, ax=axes, shrink=0.8, label="matrix entry")
     save_figure(fig, "vector_matrices",
                 "Four 8 by 8 matrices by which transformations move the eight "
-                "directions (rows and columns labelled $x1$ to $x8$; blue negative, "
+                "directions (rows and columns labelled $x0$ to $x7$; blue negative, "
                 "grey 0, red positive; nonzero entries written in the squares): the "
                 "rotation by $\\pi/3$ in the plane $(x1, x2)$ (entries $\\cos$ and "
                 "$\\pm\\sin$ of $\\pi/3$), the boost with rapidity 1 in the plane "

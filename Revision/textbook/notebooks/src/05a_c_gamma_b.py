@@ -11,7 +11,7 @@ Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/05a_c_gamma_b.py --scratch DIR
 
 It reads the Revision record Revision/algebra/gammas.json (the author's gammas in the
-coordinate order x1..x8) and repeats, with its own numpy and sympy code, the checks of
+coordinate order x0..x7) and repeats, with its own numpy and sympy code, the checks of
 Revision/algebra/reports/python-algebra.json and wolfram-algebra.json about C, Gamma and B.
 """
 
@@ -38,7 +38,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's gamma matrices, C, Gamma and B in the coordinate order x1 to x8 "
+         "the author's gamma matrices, C, Gamma and B in the coordinate order x0 to x7 "
          "(read)"],
         ["Revision/algebra/reports/python-algebra.json",
          "the exact Python checks of the algebra (reproduced: clifford_relation, "
@@ -77,12 +77,12 @@ CELLS = [
     ## 1. What this notebook computes
 
     The author's theory uses eight real $16 \times 16$ matrices, the *gamma matrices*
-    $\gamma^{(x1)}, \dots, \gamma^{(x8)}$, one for each coordinate direction. From them
+    $\gamma^{(x0)}, \dots, \gamma^{(x7)}$, one for each coordinate direction. From them
     the theory builds three further matrices that appear in every formula of the book:
 
-    - the **charge matrix** $C = \gamma^{(x8)} \gamma^{(x1)} \gamma^{(x2)} \gamma^{(x3)}$,
+    - the **charge matrix** $C = \gamma^{(x0)} \gamma^{(x1)} \gamma^{(x2)} \gamma^{(x3)}$,
       the product of the four space-like gammas (the author calls it sigma16);
-    - the **chirality** $\Gamma = \gamma^{(x8)} \gamma^{(x1)} \gamma^{(x2)} \cdots
+    - the **chirality** $\Gamma = \gamma^{(x0)} \gamma^{(x1)} \gamma^{(x2)} \cdots
       \gamma^{(x7)}$, the product of all eight gammas;
     - the matrix $B = -i\, C \gamma^{(x4)}$, where $i$ is the imaginary unit
       ($i^2 = -1$).
@@ -144,15 +144,15 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The author's spacetime has eight coordinates $x1, \dots, x8$: $x1, x2, x3$ are
+    The author's spacetime has eight coordinates $x0, \dots, x7$: $x1, x2, x3$ are
     ordinary 3-space, $x4$ is the time, $x5, x6, x7$ are three extra times (they deflate
-    exponentially in the author's metric) and $x8$ is a hidden space direction. The
+    exponentially in the author's metric) and $x0$ is a hidden space direction. The
     flat metric of the frame is
 
-    $$\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$$
+    $$\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$$
 
-    in the order $x1, \dots, x8$: the four directions with $\eta_{aa} = +1$ ($x1, x2,
-    x3, x8$) are *space-like*, the four with $\eta_{aa} = -1$ ($x4, x5, x6, x7$) are
+    in the order $x0, \dots, x7$: the four directions with $\eta_{aa} = +1$ ($x1, x2,
+    x3, x0$) are *space-like*, the four with $\eta_{aa} = -1$ ($x4, x5, x6, x7$) are
     *time-like*. The gamma matrices obey the **Clifford relation**
 
     $$\{\gamma^a, \gamma^b\} = 2 \eta^{ab}\, 1 ,$$
@@ -168,7 +168,7 @@ CELLS = [
     - if $\gamma^a$ is one of the $k$ factors: $\gamma^a P = (-1)^{k-1} P \gamma^a$;
     - if it is not: $\gamma^a P = (-1)^{k} P \gamma^a$.
 
-    For $C$ ($k = 4$, factors $x8, x1, x2, x3$): a space-like gamma is a factor and
+    For $C$ ($k = 4$, factors $x0, x1, x2, x3$): a space-like gamma is a factor and
     gives $(-1)^3 = -1$ (anticommutes); a time-like gamma is not a factor and gives
     $(-1)^4 = +1$ (commutes). In one formula: $C\gamma^a = -\eta_{aa}\, \gamma^a C$.
 
@@ -198,7 +198,7 @@ CELLS = [
     ## 5. The eight gamma matrices from the Revision record
 
     The next cell reads the record `Revision/algebra/gammas.json`. It holds the gammas in
-    the order $x1, \dots, x8$ as lists of rows of whole numbers. `np.array` turns each
+    the order $x0, \dots, x7$ as lists of rows of whole numbers. `np.array` turns each
     list into a numpy matrix of whole numbers (`int64`), so every product below is
     computed **exactly** (no rounding). The dictionary `gamma` gives each matrix by the
     name of its coordinate: `gamma["x4"]` is $\gamma^{(x4)}$.
@@ -208,9 +208,9 @@ CELLS = [
 
     FIXTURE = "Revision/algebra/gammas.json"  # the Revision record of the gammas
     fixture = json.loads(repository_file(FIXTURE).read_text(encoding="utf-8"))
-    COORDS = fixture["coordinates"]  # the coordinate names "x1", "x2", ..., "x8"
+    COORDS = fixture["coordinates"]  # the coordinate names "x0", "x1", ..., "x7"
     ETA = dict(zip(COORDS, fixture["eta"]))  # eta_aa: +1 space-like, -1 time-like
-    # gamma["x1"], ..., gamma["x8"]: the eight 16 x 16 matrices of whole numbers
+    # gamma["x0"], ..., gamma["x7"]: the eight 16 x 16 matrices of whole numbers
     gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
     I16 = np.eye(16, dtype=np.int64)  # the 16 x 16 identity matrix, written 1 in the text
     for x in COORDS:
@@ -264,10 +264,10 @@ CELLS = [
 
 
     say(f"{len(VERDICTS)} recorded checks were read from the two reports.")
-    check_reproduces(COORDS == ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
-                     and fixture["eta"] == [1, 1, 1, -1, -1, -1, -1, 1]
+    check_reproduces(COORDS == ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
+                     and fixture["eta"] == [1, 1, 1, 1, -1, -1, -1, -1]
                      and recorded("wolfram", "eta_in_author_order"),
-                     "the coordinates are x1..x8 and eta = diag(+1,+1,+1,-1,-1,-1,-1,+1)",
+                     "the coordinates are x0..x7 and eta = diag(+1,+1,+1,+1,-1,-1,-1,-1)",
                      record=record_of("wolfram", "eta_in_author_order"))
     '''),
     md(r"""
@@ -314,7 +314,7 @@ CELLS = [
     antisymmetric = [x for x in COORDS if np.array_equal(gamma[x].T, -gamma[x])]
     say("symmetric gammas: " + ", ".join(symmetric))
     say("antisymmetric gammas: " + ", ".join(antisymmetric))
-    check_reproduces(symmetric == ["x1", "x2", "x3", "x8"]
+    check_reproduces(symmetric == ["x0", "x1", "x2", "x3"]
                      and antisymmetric == ["x4", "x5", "x6", "x7"]
                      and recorded("python", "symmetry_pattern"),
                      "(gamma^a)^T = eta_aa gamma^a: space-like symmetric, time-like "
@@ -378,7 +378,7 @@ CELLS = [
     say("helpers heat_map, commutation_sign and product are defined")
     '''),
     md(r"""
-    The next cell builds $C = \gamma^{(x8)} \gamma^{(x1)} \gamma^{(x2)} \gamma^{(x3)}$
+    The next cell builds $C = \gamma^{(x0)} \gamma^{(x1)} \gamma^{(x2)} \gamma^{(x3)}$
     and checks three recorded facts: it equals the matrix $C$ stored in the record; it
     equals $\mathrm{diag}(-\sigma, \sigma)$ with the author's $8 \times 8$ matrix
     $\sigma = \begin{pmatrix} 0 & 1_4 \\ 1_4 & 0 \end{pmatrix}$ ($1_4$ the
@@ -386,10 +386,10 @@ CELLS = [
     matrix from blocks.
     """),
     code(r'''
-    C = product(["x8", "x1", "x2", "x3"])  # the four space-like gammas
+    C = product(["x0", "x1", "x2", "x3"])  # the four space-like gammas
     C_record = np.array(fixture["C"], dtype=np.int64)  # the C stored in the record
     check_reproduces(np.array_equal(C, C_record) and recorded("wolfram", "C_definition"),
-                     "C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) equals the recorded C",
+                     "C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) equals the recorded C",
                      record=record_of("wolfram", "C_definition"))
     I4, Z4 = np.eye(4, dtype=np.int64), np.zeros((4, 4), dtype=np.int64)
     I8, Z8 = np.eye(8, dtype=np.int64), np.zeros((8, 8), dtype=np.int64)
@@ -410,7 +410,7 @@ CELLS = [
     """),
     code(r'''
     fig, axes = plt.subplots(1, 2, figsize=(9.0, 4.4), width_ratios=[2, 1])
-    heat_map(axes[0], C, r"$C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$")
+    heat_map(axes[0], C, r"$C = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$")
     image = heat_map(axes[1], sigma, r"$\sigma$ (8 x 8)", halves=False,
                      row_label=False)
     fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.75, label="matrix entry")
@@ -453,7 +453,7 @@ CELLS = [
     md(r"""
     The next cell tests the squaring rule of section 4,
     $PP = (-1)^{k(k-1)/2}\, \eta_{a_1 a_1} \cdots \eta_{a_k a_k} 1$, on **every** product
-    of different gammas taken in the order $x1, \dots, x8$: there are $2^8 - 1 = 255$ of
+    of different gammas taken in the order $x0, \dots, x7$: there are $2^8 - 1 = 255$ of
     them (every non-empty subset of the eight directions). `itertools.combinations`
     lists the subsets of each size $k$.
     """),
@@ -478,9 +478,9 @@ CELLS = [
             if np.array_equal(p @ p, square_sign(subset) * I16):
                 agree += 1
     say(f"subsets tested: 255; subsets that obey the squaring rule: {agree}")
-    for label, dirs in [("C", ["x8", "x1", "x2", "x3"]),
-                        ("Gamma", ["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]),
-                        ("C gamma^(x4)", ["x8", "x1", "x2", "x3", "x4"])]:
+    for label, dirs in [("C", ["x0", "x1", "x2", "x3"]),
+                        ("Gamma", ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]),
+                        ("C gamma^(x4)", ["x0", "x1", "x2", "x3", "x4"])]:
         say(f"({label})^2 = {square_sign(dirs):+d} times 1 (k = {len(dirs)})")
     check(agree == 255, "the squaring rule holds for all 255 products of different gammas")
     '''),
@@ -551,7 +551,7 @@ CELLS = [
     md(r"""
     ## 8. The chirality Gamma and the two halves
 
-    The next cell builds $\Gamma = \gamma^{(x8)} \gamma^{(x1)} \cdots \gamma^{(x7)}$ (the
+    The next cell builds $\Gamma = \gamma^{(x0)} \gamma^{(x1)} \cdots \gamma^{(x7)}$ (the
     author's product order) and checks four recorded facts:
 
     1. $\Gamma$ equals the recorded matrix and is $\mathrm{diag}(-1_8, 1_8)$;
@@ -570,11 +570,11 @@ CELLS = [
     $E$ is a product of an even number of gammas ($\Gamma$ commutes with such an $E$).
     """),
     code(r'''
-    Gamma = product(["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # all eight
+    Gamma = product(["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # all eight
     check_reproduces(np.array_equal(Gamma, np.array(fixture["Gamma"], dtype=np.int64))
                      and np.array_equal(Gamma, np.block([[-I8, Z8], [Z8, I8]]))
                      and recorded("python", "chirality_diag"),
-                     "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-1_8, 1_8), as "
+                     "Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = diag(-1_8, 1_8), as "
                      "recorded",
                      record=record_of("python", "chirality_diag"))
     check_reproduces(np.array_equal(Gamma @ Gamma, I16)
@@ -701,7 +701,7 @@ CELLS = [
     '''),
     md(r"""
     The next cell finds with which gammas $B$ commutes. By the sign rule of section 4,
-    $C\gamma^{(x4)}$ is a product of the five different gammas $x8, x1, x2, x3, x4$: a
+    $C\gamma^{(x4)}$ is a product of the five different gammas $x0, x1, x2, x3, x4$: a
     gamma among them passes four others and commutes, $(-1)^4 = +1$; a gamma not among
     them ($x5, x6, x7$) passes five and anticommutes. The factor $-i$ does not change
     this. The recorded check states exactly this pattern.
@@ -712,10 +712,10 @@ CELLS = [
     anticommute = [x for x in COORDS if signs_B[x] == -1]
     say("B commutes with gamma^(x) for x = " + ", ".join(commute))
     say("B anticommutes with gamma^(x) for x = " + ", ".join(anticommute))
-    check_reproduces(commute == ["x1", "x2", "x3", "x4", "x8"]
+    check_reproduces(commute == ["x0", "x1", "x2", "x3", "x4"]
                      and anticommute == ["x5", "x6", "x7"]
                      and recorded("python", "B_gamma_relations"),
-                     "B commutes with gamma^a for a = x1, x2, x3, x4, x8 and anticommutes "
+                     "B commutes with gamma^a for a = x0, x1, x2, x3, x4 and anticommutes "
                      "for x5, x6, x7",
                      record=record_of("python", "B_gamma_relations"))
     '''),
@@ -799,8 +799,8 @@ CELLS = [
                 "The spectra of the eight gamma matrices and of $C$, $\\Gamma$ and $B$: "
                 "each row is one 16 by 16 matrix, each column one possible eigenvalue "
                 "($+1$, $-1$, $+i$, $-i$), and each square holds how many of its 16 "
-                "eigenvalues equal that number. The space-like gammas ($x1, x2, x3, "
-                "x8$), $C$, $\\Gamma$ and $B$ square to $1$ and have eigenvalues "
+                "eigenvalues equal that number. The space-like gammas ($x0, x1, x2, "
+                "x3$), $C$, $\\Gamma$ and $B$ square to $1$ and have eigenvalues "
                 "$+1$ and $-1$ eight times each; the time-like gammas ($x4$ to $x7$) "
                 "square to $-1$ and have $+i$ and $-i$ eight times each.")
     '''),
@@ -810,14 +810,14 @@ CELLS = [
     The next cell collects, for each of $C$, $\Gamma$ and $B$ and each gamma, the sign
     $s$ in $M\gamma^a = s\,\gamma^a M$ and draws the table. Section 4 predicts every
     entry: $C$ has $s = -\eta_{aa}$; $\Gamma$ has $s = -1$ for all $a$; $B$ has $s = +1$
-    for $x1, x2, x3, x4, x8$ and $s = -1$ for $x5, x6, x7$.
+    for $x0, x1, x2, x3, x4$ and $s = -1$ for $x5, x6, x7$.
     """),
     code(r'''
     rows = {"C": signs_C, "Gamma": {x: commutation_sign(Gamma, gamma[x]) for x in COORDS},
             "B": signs_B}
     sign_table = np.array([[rows[name][x] for x in COORDS] for name in rows])
     expected_table = np.array([[-ETA[x] for x in COORDS], [-1] * 8,
-                               [1, 1, 1, 1, -1, -1, -1, 1]])
+                               [1, 1, 1, 1, 1, -1, -1, -1]])
     check(np.array_equal(sign_table, expected_table),
           "the commutation signs of C, Gamma and B with the eight gammas are as predicted")
     fig, ax = plt.subplots(figsize=(8.0, 3.2))
@@ -839,7 +839,7 @@ CELLS = [
                 "The commutation signs: row $M$ ($C$, $\\Gamma$ or $B$) and column "
                 "$\\gamma^a$ show the sign $s$ in $M\\gamma^a = s\\,\\gamma^a M$; red "
                 "$+1$ means the two commute, blue $-1$ that they anticommute. $C$ "
-                "anticommutes with the space-like gammas $x1, x2, x3, x8$ and "
+                "anticommutes with the space-like gammas $x0, x1, x2, x3$ and "
                 "commutes with the time-like ones; $\\Gamma$ anticommutes with every "
                 "gamma; $B$ anticommutes only with the extra times $x5, x6, x7$.")
     '''),
@@ -861,14 +861,14 @@ CELLS = [
 
     - The eight gammas of the Revision record are real signed permutation matrices
       that obey the Clifford relation $\{\gamma^a, \gamma^b\} = 2\eta^{ab}1$; the
-      space-like ones ($x1, x2, x3, x8$) are symmetric, the time-like ones ($x4, x5,
+      space-like ones ($x0, x1, x2, x3$) are symmetric, the time-like ones ($x4, x5,
       x6, x7$) antisymmetric.
-    - $C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)} =
+    - $C = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)} =
       \mathrm{diag}(-\sigma, \sigma)$ is real and symmetric, $CC = 1$, it anticommutes
       with the space-like and commutes with the time-like gammas, every $C\gamma^a$ is
       antisymmetric and $C\gamma^a C^{-1} = -(\gamma^a)^T$. Its quadratic form has
       signature $(8, 8)$: it takes both signs.
-    - $\Gamma = \gamma^{(x8)}\gamma^{(x1)}\cdots\gamma^{(x7)} = \mathrm{diag}(-1_8,
+    - $\Gamma = \gamma^{(x0)}\gamma^{(x1)}\cdots\gamma^{(x7)} = \mathrm{diag}(-1_8,
       1_8)$ squares to 1, anticommutes with every gamma, commutes with $C$ and
       satisfies $\Gamma^T C\Gamma = C$ and $\Gamma^T C\gamma^a\Gamma = -C\gamma^a$. Its
       projectors split the 16 components into two halves of 8, and every gamma

@@ -24,17 +24,17 @@ The chapter has six worked examples, each a complete Jupyter notebook:
 
 They appear in this order, a, b, d, f, c, e: first the matrices, then the group theory, then charge conjugation. Every notebook is complete in itself, so you may run them in any order.
 
-**Notation.** The author's coordinates are written $x1, \dots, x8$ (Chapter 0 writes them $x_1, \dots, x_8$): $x1$, $x2$, $x3$ are ordinary 3-space, which inflates; $x4$ is the time; $x5$, $x6$, $x7$ are the three extra times, which deflate exponentially; $x8$ is the hidden space direction. The gamma matrix of the direction $x4$ is written $\gamma^{(x4)}$, and so on. Letters $a$, $b$, $c$, $d$, $e$ stand for any of the eight directions. The flat metric of the frame is
+**Notation.** The author's coordinates are written $x0, \dots, x7$ (Chapter 0 writes them $x_0, \dots, x_7$): $x0$ is the hidden space direction; $x1$, $x2$, $x3$ are ordinary 3-space, which inflates; $x4$ is the time; $x5$, $x6$, $x7$ are the three extra times, which deflate exponentially. The gamma matrix of the direction $x4$ is written $\gamma^{(x4)}$, and so on. Letters $a$, $b$, $c$, $d$, $e$ stand for any of the eight directions. The flat metric of the frame is
 
 $$
-\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)
+\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)
 $$
 
-in the order $x1, \dots, x8$; its entry for the direction $a$ is written $\eta_{aa}$ (or $\eta^{aa}$, which is the same number). The directions with $\eta_{aa} = +1$ ($x1$, $x2$, $x3$, $x8$) are called **space-like**, those with $\eta_{aa} = -1$ ($x4$, $x5$, $x6$, $x7$) **time-like**. The symbol $1$ also stands for the $16 \times 16$ identity matrix, and $1_8$ for the $8 \times 8$ one.
+in the order $x0, \dots, x7$; its entry for the direction $a$ is written $\eta_{aa}$ (or $\eta^{aa}$, which is the same number). The directions with $\eta_{aa} = +1$ ($x0$, $x1$, $x2$, $x3$) are called **space-like**, those with $\eta_{aa} = -1$ ($x4$, $x5$, $x6$, $x7$) **time-like**. The symbol $1$ also stands for the $16 \times 16$ identity matrix, and $1_8$ for the $8 \times 8$ one.
 
 ### 5.2 The eight real gamma matrices
 
-The gamma matrices are eight real $16 \times 16$ matrices $\gamma^{(x1)}, \dots, \gamma^{(x8)}$. Chapter 4 built them from the author's formulas (his matrices T16, with $\gamma^{(x8)} = \mathrm{T16}[0]$, $\gamma^{(x1)}, \dots, \gamma^{(x7)} = \mathrm{T16}[1], \dots, \mathrm{T16}[7]$) and proved the **Clifford relation**
+The gamma matrices are eight real $16 \times 16$ matrices $\gamma^{(x0)}, \dots, \gamma^{(x7)}$. Chapter 4 built them from the author's formulas (his matrices T16, with $\gamma^{(xk)} = \mathrm{T16}[k]$ for $k = 0, \dots, 7$) and proved the **Clifford relation**
 
 $$
 \gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}\, 1 \qquad \text{for all } a, b ,
@@ -42,26 +42,26 @@ $$
 
 where $\eta^{ab}$ is $\eta_{aa}$ when $a = b$ and 0 when $a \neq b$. Written out, the relation says two things. For $a = b$: $\gamma^a\gamma^a = \eta_{aa} 1$, so a space-like gamma squares to $+1$ and a time-like gamma to $-1$. For $a \neq b$: $\gamma^a\gamma^b = -\gamma^b\gamma^a$, so two different gammas **anticommute** (exchanging them costs a sign). The Revision record stores the eight matrices in the file `Revision/algebra/gammas.json`, and two independent programs have checked them: `Revision/algebra/reports/python-algebra.json` (35 of 35 checks passed) and `Revision/algebra/reports/wolfram-algebra.json` (45 of 45 checks passed).
 
-Every gamma is a **signed permutation matrix**: in each row exactly one entry is nonzero, and it is $+1$ or $-1$; the same holds in each column. Such a matrix is described completely by saying, for each row, in which column its nonzero entry stands and with which sign. The two following tables do this for all eight gammas, first the four space-like ones and then the four time-like ones. The entry $+9$ in row 1 of the column $\gamma^{(x8)}$ means: the matrix $\gamma^{(x8)}$ has the entry $+1$ in row 1 and column 9, and zeros in the other fifteen places of row 1. The tables are read off the record `Revision/algebra/gammas.json`.
+Every gamma is a **signed permutation matrix**: in each row exactly one entry is nonzero, and it is $+1$ or $-1$; the same holds in each column. Such a matrix is described completely by saying, for each row, in which column its nonzero entry stands and with which sign. The two following tables do this for all eight gammas, first the four space-like ones and then the four time-like ones. The entry $+9$ in row 1 of the column $\gamma^{(x0)}$ means: the matrix $\gamma^{(x0)}$ has the entry $+1$ in row 1 and column 9, and zeros in the other fifteen places of row 1. The tables are read off the record `Revision/algebra/gammas.json`.
 
-| row | $\gamma^{(x1)}$ | $\gamma^{(x2)}$ | $\gamma^{(x3)}$ | $\gamma^{(x8)}$ |
+| row | $\gamma^{(x0)}$ | $\gamma^{(x1)}$ | $\gamma^{(x2)}$ | $\gamma^{(x3)}$ |
 | --- | --- | --- | --- | --- |
-| 1 | $-16$ | $+15$ | $-14$ | $+9$ |
-| 2 | $-15$ | $-16$ | $+13$ | $+10$ |
-| 3 | $+14$ | $-13$ | $-16$ | $+11$ |
-| 4 | $+13$ | $+14$ | $+15$ | $+12$ |
-| 5 | $-12$ | $+11$ | $-10$ | $+13$ |
-| 6 | $-11$ | $-12$ | $+9$ | $+14$ |
-| 7 | $+10$ | $-9$ | $-12$ | $+15$ |
-| 8 | $+9$ | $+10$ | $+11$ | $+16$ |
-| 9 | $+8$ | $-7$ | $+6$ | $+1$ |
-| 10 | $+7$ | $+8$ | $-5$ | $+2$ |
-| 11 | $-6$ | $+5$ | $+8$ | $+3$ |
-| 12 | $-5$ | $-6$ | $-7$ | $+4$ |
-| 13 | $+4$ | $-3$ | $+2$ | $+5$ |
-| 14 | $+3$ | $+4$ | $-1$ | $+6$ |
-| 15 | $-2$ | $+1$ | $+4$ | $+7$ |
-| 16 | $-1$ | $-2$ | $-3$ | $+8$ |
+| 1 | $+9$ | $-16$ | $+15$ | $-14$ |
+| 2 | $+10$ | $-15$ | $-16$ | $+13$ |
+| 3 | $+11$ | $+14$ | $-13$ | $-16$ |
+| 4 | $+12$ | $+13$ | $+14$ | $+15$ |
+| 5 | $+13$ | $-12$ | $+11$ | $-10$ |
+| 6 | $+14$ | $-11$ | $-12$ | $+9$ |
+| 7 | $+15$ | $+10$ | $-9$ | $-12$ |
+| 8 | $+16$ | $+9$ | $+10$ | $+11$ |
+| 9 | $+1$ | $+8$ | $-7$ | $+6$ |
+| 10 | $+2$ | $+7$ | $+8$ | $-5$ |
+| 11 | $+3$ | $-6$ | $+5$ | $+8$ |
+| 12 | $+4$ | $-5$ | $-6$ | $-7$ |
+| 13 | $+5$ | $+4$ | $-3$ | $+2$ |
+| 14 | $+6$ | $+3$ | $+4$ | $-1$ |
+| 15 | $+7$ | $-2$ | $+1$ | $+4$ |
+| 16 | $+8$ | $-1$ | $-2$ | $-3$ |
 
 The four time-like gammas, read in the same way:
 
@@ -84,7 +84,7 @@ The four time-like gammas, read in the same way:
 | 15 | $+4$ | $-1$ | $+2$ | $+7$ |
 | 16 | $-3$ | $-2$ | $-1$ | $+8$ |
 
-**How to multiply two signed permutation matrices.** Let $M$ have in row $r$ the entry $s$ (a sign) in column $k$, and let $N$ have in row $k$ the entry $t$ in column $c$. The entry of $MN$ in row $r$ and column $q$ is $\sum_j M_{rj}N_{jq}$; only $j = k$ contributes, and $N_{kq}$ is nonzero only for $q = c$. So $MN$ has in row $r$ the single entry $st$ in column $c$: follow the row number through the two columns of the table and multiply the signs. For example, for $\gamma^{(x4)}\gamma^{(x4)}$: row 1 of $\gamma^{(x4)}$ points to column 14 with the sign $-$, and row 14 of $\gamma^{(x4)}$ points to column 1 with the sign $+$; so row 1 of $\gamma^{(x4)}\gamma^{(x4)}$ has the entry $(-1)(+1) = -1$ in column 1, as $\gamma^{(x4)}\gamma^{(x4)} = \eta_{x4\,x4} 1 = -1$ demands. For $\gamma^{(x8)}\gamma^{(x8)}$: row 1 points to column 9 with $+$, row 9 points back to column 1 with $+$; the product has $+1$ on the diagonal.
+**How to multiply two signed permutation matrices.** Let $M$ have in row $r$ the entry $s$ (a sign) in column $k$, and let $N$ have in row $k$ the entry $t$ in column $c$. The entry of $MN$ in row $r$ and column $q$ is $\sum_j M_{rj}N_{jq}$; only $j = k$ contributes, and $N_{kq}$ is nonzero only for $q = c$. So $MN$ has in row $r$ the single entry $st$ in column $c$: follow the row number through the two columns of the table and multiply the signs. For example, for $\gamma^{(x4)}\gamma^{(x4)}$: row 1 of $\gamma^{(x4)}$ points to column 14 with the sign $-$, and row 14 of $\gamma^{(x4)}$ points to column 1 with the sign $+$; so row 1 of $\gamma^{(x4)}\gamma^{(x4)}$ has the entry $(-1)(+1) = -1$ in column 1, as $\gamma^{(x4)}\gamma^{(x4)} = \eta_{x4\,x4} 1 = -1$ demands. For $\gamma^{(x0)}\gamma^{(x0)}$: row 1 points to column 9 with $+$, row 9 points back to column 1 with $+$; the product has $+1$ on the diagonal.
 
 **Symmetric and antisymmetric.** The transpose $M^T$ of a matrix exchanges rows and columns, $(M^T)_{rc} = M_{cr}$. The table shows that $\gamma^{(x1)}$ has $-1$ in row 1, column 16, and also $-1$ in row 16, column 1: the two entries mirror each other with the same sign. In fact the four space-like gammas are **symmetric** ($M^T = M$) and the four time-like ones are **antisymmetric** ($M^T = -M$; for example $\gamma^{(x4)}$ has $-1$ in row 1, column 14 and $+1$ in row 14, column 1). In one formula:
 
@@ -104,7 +104,7 @@ Notebook 05a checks all three facts again. Everything in Sections 5.3 to 5.6 fol
 
 ### 5.3 Six rules for products of gammas
 
-A **product of different gammas** is a product $P = \gamma^{a_1}\gamma^{a_2}\cdots\gamma^{a_k}$ of $k$ gammas of $k$ different directions $a_1, \dots, a_k$; $k$ is its **degree**. There are $2^8 = 256$ of them if we take the directions in the order $x1, \dots, x8$ and count the empty product $1$ (each direction is either in the product or not). The six rules below are used again and again in this chapter.
+A **product of different gammas** is a product $P = \gamma^{a_1}\gamma^{a_2}\cdots\gamma^{a_k}$ of $k$ gammas of $k$ different directions $a_1, \dots, a_k$; $k$ is its **degree**. There are $2^8 = 256$ of them if we take the directions in the order $x0, \dots, x7$ and count the empty product $1$ (each direction is either in the product or not). The six rules below are used again and again in this chapter.
 
 **Rule 1 (moving a gamma through a product).** Take a gamma $\gamma^e$ and the product $P$. Move $\gamma^e$ from the left of $P$ to its right, one factor at a time. Passing a factor $\gamma^{a_j}$ with $a_j \neq e$ costs a sign, because
 
@@ -163,7 +163,7 @@ Applied to the gammas themselves: a space-like gamma has $\gamma\gamma = +1$ and
 **Definition.** The **charge matrix** is the product of the four space-like gammas,
 
 $$
-C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)} .
+C = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)} .
 $$
 
 The author calls it sigma16. It is used to make numbers out of spinors: the **Dirac adjoint** of a column $\Psi$ is the row $\bar\Psi = \Psi^\dagger C$, where $\Psi^\dagger$ is the row of the complex conjugates of the components of $\Psi$, and the **scalar** of the field is
@@ -214,7 +214,7 @@ $$
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| $C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$, the author's sigma16, equal to $\mathrm{diag}(-\sigma, \sigma)$ | PROVED | `wolfram-algebra.json`, check `C_definition`; `python-algebra.json`, check `C_equals_notebook_sigma16` |
+| $C = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$, the author's sigma16, equal to $\mathrm{diag}(-\sigma, \sigma)$ | PROVED | `wolfram-algebra.json`, check `C_definition`; `python-algebra.json`, check `C_equals_notebook_sigma16` |
 | (C2), (C3): $C^T = C$ and $CC = 1$ | PROVED | `python-algebra.json`, check `C_real_symmetric_involution`; `wolfram-algebra.json`, checks `C_real_symmetric` and `C_squared_identity` |
 | (C4): every $C\gamma^a$ is antisymmetric | PROVED | `python-algebra.json`, check `C_gamma_antisymmetric`; `wolfram-algebra.json`, check `C_gamma_real_antisymmetric` |
 | (C5): $C\gamma^aC^{-1} = -(\gamma^a)^T$ | PROVED | `python-algebra.json`, check `C_conjugation`; `wolfram-algebra.json`, check `C_gamma_C_inverse` |
@@ -227,7 +227,7 @@ Notebook 05a re-checks every row of this table.
 **Definition.** The **chirality** is the product of all eight gammas in the author's order,
 
 $$
-\Gamma = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x4)}\gamma^{(x5)}\gamma^{(x6)}\gamma^{(x7)} .
+\Gamma = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x4)}\gamma^{(x5)}\gamma^{(x6)}\gamma^{(x7)} .
 $$
 
 (The author calls it T16[8]; the label 8 is a name, not a ninth direction.) Its properties:
@@ -300,7 +300,7 @@ Notebook 05a re-checks every row of this table.
 
 ### 5.6 The matrix B and the charge density
 
-**Definition.** $B = -i\,C\gamma^{(x4)} = -i\,\gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x4)}$, where $i$ is the imaginary unit ($i^2 = -1$).
+**Definition.** $B = -i\,C\gamma^{(x4)} = -i\,\gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x4)}$, where $i$ is the imaginary unit ($i^2 = -1$).
 
 **(B1) B is purely imaginary.** $C\gamma^{(x4)}$ is a product of real matrices, so it is real, and $B$ is $-i$ times it.
 
@@ -312,11 +312,11 @@ $$
 
 where the second step is (C4) for $a = x4$.
 
-**(B3) $BB = 1$.** First $BB = (-i)^2\,(C\gamma^{(x4)})(C\gamma^{(x4)}) = -(C\gamma^{(x4)})^2$. The matrix $C\gamma^{(x4)}$ is the product of the five different gammas of $x8, x1, x2, x3, x4$, four space-like and one time-like, so Rule 2 gives $(C\gamma^{(x4)})^2 = (-1)^{10}(+1)^4(-1)\,1 = -1$. Hence $BB = -(-1) = 1$.
+**(B3) $BB = 1$.** First $BB = (-i)^2\,(C\gamma^{(x4)})(C\gamma^{(x4)}) = -(C\gamma^{(x4)})^2$. The matrix $C\gamma^{(x4)}$ is the product of the five different gammas of $x0, x1, x2, x3, x4$, four space-like and one time-like, so Rule 2 gives $(C\gamma^{(x4)})^2 = (-1)^{10}(+1)^4(-1)\,1 = -1$. Hence $BB = -(-1) = 1$.
 
 **(B4) B has signature (8, 8).** By Rule 5 (with $k = 5$) $\mathrm{tr}\,B = 0$, and with $BB = 1$ Rule 6 gives eight eigenvalues $+1$ and eight $-1$; the characteristic polynomial is $\det(\lambda 1 - B) = (\lambda - 1)^8(\lambda + 1)^8$. As $B$ is Hermitian, the number $\Psi^\dagger B\Psi$ is real for every complex column, and it takes both signs.
 
-**(B5) B commutes with five gammas and anticommutes with three.** Rule 1 with the five factors $x8, x1, x2, x3, x4$: a gamma among them passes four others, sign $(-1)^4 = +1$; a gamma not among them ($x5$, $x6$, $x7$) passes five, sign $(-1)^5 = -1$. The number $-i$ commutes with every matrix. So $B$ commutes with $\gamma^{(x1)}, \gamma^{(x2)}, \gamma^{(x3)}, \gamma^{(x4)}, \gamma^{(x8)}$ and anticommutes with the gammas of the three extra times.
+**(B5) B commutes with five gammas and anticommutes with three.** Rule 1 with the five factors $x0, x1, x2, x3, x4$: a gamma among them passes four others, sign $(-1)^4 = +1$; a gamma not among them ($x5$, $x6$, $x7$) passes five, sign $(-1)^5 = -1$. The number $-i$ commutes with every matrix. So $B$ commutes with $\gamma^{(x0)}, \gamma^{(x1)}, \gamma^{(x2)}, \gamma^{(x3)}, \gamma^{(x4)}$ and anticommutes with the gammas of the three extra times.
 
 **What B is for.** The time component of the current of Section 5.4 is
 
@@ -327,16 +327,16 @@ $$
 the **charge density** of the field. The Revision record proves a **local conservation law**: for every solution of the field equation,
 
 $$
-\sum_{\mu} \partial_\mu\big(\cos z\; J^\mu\big) = 0 \qquad \text{at every point},
+\sum_{\mu} \partial_\mu\big(\sqrt{|g|}\; J^\mu\big) = 0 \qquad \text{at every point},
 $$
 
-where $\partial_\mu$ is the partial derivative along the coordinate $\mu$ (the sum runs over $x1, \dots, x8$), $z = 6Hx8$, $\cos z$ is the volume factor of the author's metric, and $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ is the current built with the gammas $\gamma^\mu$ of the curved space (Section 5.28 and Chapter 6; for the time $\gamma^{x4} = \gamma^{(x4)}$, because $g_{44} = -1$, so $J^{x4} = \Psi^\dagger B\Psi$). The **total charge** is the integral of the charge density over the seven directions other than the time,
+where $\partial_\mu$ is the partial derivative along the coordinate $\mu$ (the sum runs over $x0, \dots, x7$), $z = 6Hx0$, $\sqrt{|g|} = b_4^{3/2}\cos z$ is the volume factor of the author's metric (Chapter 3), and $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ is the current built with the gammas $\gamma^\mu$ of the curved space (Section 5.28 and Chapter 6; for the time $\gamma^{x4} = \gamma^{(x4)}$, because $g_{44} = -1$, so $J^{x4} = \Psi^\dagger B\Psi$). The record checks this law for a general $b_4(x4)$ (check `u1_noether_matrix_identity_b4` of `Revision/theory/reports/python-field-theory-b4.json`) and, independently, at $b_4 = 1$, where $\sqrt{|g|} = \cos z$ (the lead check `u1_noether_matrix_identity`). The backgrounds of this book have $b_4 = 1$ (Chapter 3, Section 3.8), and the rest of this section writes $\cos z$; for a general $b_4$, which depends on $x4$ only, the factor $b_4^{3/2}$ multiplies the total charge below at each time. The **total charge** is the integral of the charge density over the seven directions other than the time,
 
 $$
 Q = \int \cos z\; \Psi^\dagger B\Psi\; d^7x .
 $$
 
-Line by line: the derivative of $Q$ with respect to the time $x4$ is the integral of $\partial_{x4}(\cos z\,J^{x4})$; by the local law this equals minus the integral of the seven other terms $\partial_\mu(\cos z\,J^\mu)$, $\mu \neq x4$; and the integral of a derivative along one direction is the difference of the values at the two ends of that direction (the fundamental theorem of calculus). So $dQ/dx4$ equals minus the **flux** of the current through the boundary of the seven other directions. Hence $Q$ does not change in time **for every solution whose current flux through that boundary vanishes**. The condition is needed: the local law alone does not make the flux zero. The seven directions are the unbounded directions of 3-space and of the extra times and the hidden interval $0 < z < \pi/2$, which has two ends. At the end $z \to 0$, the **tip**, the metric is singular ($g_{88} = \cot^2 z$ grows without bound). The other end, $z = \pi/2$, is the **brane** (the edge of the hidden direction, at a finite distance, where $g_{88} = \cot^2 z = 0$). The part of the flux that leaves through these two ends is $\cos z\,J^{x8}$ at $z = \pi/2$ minus its value at $z \to 0$, added up over the six other directions. The Revision record states that this boundary term vanishes at the tip $z \to 0$ but not, in general, at the brane $z = \pi/2$ (`Revision/theory/reports/python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux`), and the record's check of the local law says the same: it proves the local law only, and the constancy of $Q$ is not established by it. Chapter 18 (Section 18.21) derives a family of exact solutions, the fields that depend only on the time. Some of them, for example the one of Notebook 18c, send charge through the brane: for these fields the flow $\cos z\,J^{x8}$ at the brane equals a number $q_8$ that changes in time, and Notebook 18c finds it between $-0.3454$ and $0.3454$, so that the charge of a region that spans the whole hidden interval changes in time. Chapter 10 (Sections 10.27 and 10.28) shows another exact solution whose charge grows. Not every member of the family of Section 18.21 sends charge through the brane. That section writes the field equation of these fields as $d\Psi/dx4 = M\Psi$ with a constant matrix $M$ whose square, in the oscillating case of that section, is $-w^2$ times the unit matrix ($w > 0$ a number), and its solution in that case as $\Psi(x4) = \cos(wx4)\,\Psi(0) + \frac{\sin(wx4)}{w}\,M\Psi(0)$. Take any column $v$ for which $\chi = \tfrac12\big(v - \tfrac{i}{w}Mv\big)$ is not zero, and start from $\Psi(0) = \chi$. Line by line: $M\chi = \tfrac12\big(Mv - \tfrac{i}{w}M^2v\big) = \tfrac12(Mv + iwv)$, because $M^2 = -w^2$ and $-\tfrac{i}{w}(-w^2) = iw$; and $iw\chi = \tfrac12\big(iwv - \tfrac{i\cdot i\,w}{w}Mv\big) = \tfrac12(iwv + Mv)$, because $i\cdot i = -1$; the two agree, so $M\chi = iw\chi$; inserting $M\chi = iw\chi$ into the solution gives $\Psi(x4) = \big(\cos(wx4) + i\sin(wx4)\big)\chi = e^{iwx4}\chi$, a **stationary** solution (a fixed column times a phase factor); its charge density is $\Psi^\dagger B\Psi = e^{-iwx4}e^{iwx4}\,\chi^\dagger B\chi = \chi^\dagger B\chi$, the same at every time; the field depends only on $x4$, so in the local law every derivative except those along $x4$ and $x8$ is zero, and the law reads $\partial_{x4}(\cos z\,J^{x4}) = -\partial_{x8}(\cos z\,J^{x8})$; the left side is zero, because $\cos z$ does not depend on $x4$ and $J^{x4}$ does not change in time; so $\cos z\,J^{x8}$ has the same value at every point of the hidden interval; it is zero at the tip (the record's boundary term vanishes there), hence it is zero at the brane. So a constant total charge needs a **no-flux condition** at the brane, $\cos z\,J^{x8} = 0$ at $z = \pi/2$, which holds for some solutions (the stationary ones above) and fails for others (the one of Notebook 18c). No equation of the Revision record or of this book derives it for every solution, and the field equations and the quantisation of the record impose no condition at the brane (OPEN). The Kohn-Sham model of Chapter 14 ASSUMES one: a **Z2 mirror** at the brane (the hidden interval is glued at the brane to a mirror copy of itself), whose two conditions make the current along the hidden direction zero there (`Revision/kohn_sham/ks-theory.json`, entry `boundaryConditions.brane`, status ASSUMED). Wherever a constant total charge is used, this condition is ASSUMED. The status table at the end of this section names the checks; Chapter 21 derives the identity and the boundary terms. Because $B$ has eight positive and eight negative eigenvalues, the charge density can be positive or negative: the field can carry charge of both signs. In the quantum theory $B$ is the matrix of the canonical anticommutator, and its indefinite signature forces an indefinite (Krein) inner product (Section 5.34 and Chapter 10).
+Line by line: the derivative of $Q$ with respect to the time $x4$ is the integral of $\partial_{x4}(\cos z\,J^{x4})$; by the local law this equals minus the integral of the seven other terms $\partial_\mu(\cos z\,J^\mu)$, $\mu \neq x4$; and the integral of a derivative along one direction is the difference of the values at the two ends of that direction (the fundamental theorem of calculus). So $dQ/dx4$ equals minus the **flux** of the current through the boundary of the seven other directions. Hence $Q$ does not change in time **for every solution whose current flux through that boundary vanishes**. The condition is needed: the local law alone does not make the flux zero. The seven directions are the unbounded directions of 3-space and of the extra times and the hidden interval $0 < z < \pi/2$, which has two ends. At the end $z \to 0$, the **tip**, the metric is singular ($g_{00} = \cot^2 z$ grows without bound). The other end, $z = \pi/2$, is the **brane** (the edge of the hidden direction, at a finite distance, where $g_{00} = \cot^2 z = 0$). The part of the flux that leaves through these two ends is $\cos z\,J^{x0}$ at $z = \pi/2$ minus its value at $z \to 0$, added up over the six other directions. The Revision record states that this boundary term vanishes at the tip $z \to 0$ but not, in general, at the brane $z = \pi/2$ (`Revision/theory/reports/python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux`), and the record's check of the local law says the same: it proves the local law only, and the constancy of $Q$ is not established by it. Chapter 18 (Section 18.21) derives a family of exact solutions, the fields that depend only on the time. Some of them, for example the one of Notebook 18c, send charge through the brane: for these fields the flow $\cos z\,J^{x0}$ at the brane equals a number $q_0$ that changes in time, and Notebook 18c finds it between $-0.3454$ and $0.3454$, so that the charge of a region that spans the whole hidden interval changes in time. Chapter 10 (Sections 10.27 and 10.28) shows another exact solution whose charge grows. Not every member of the family of Section 18.21 sends charge through the brane. That section writes the field equation of these fields as $d\Psi/dx4 = M\Psi$ with a constant matrix $M$ whose square, in the oscillating case of that section, is $-w^2$ times the unit matrix ($w > 0$ a number), and its solution in that case as $\Psi(x4) = \cos(wx4)\,\Psi(0) + \frac{\sin(wx4)}{w}\,M\Psi(0)$. Take any column $v$ for which $\chi = \tfrac12\big(v - \tfrac{i}{w}Mv\big)$ is not zero, and start from $\Psi(0) = \chi$. Line by line: $M\chi = \tfrac12\big(Mv - \tfrac{i}{w}M^2v\big) = \tfrac12(Mv + iwv)$, because $M^2 = -w^2$ and $-\tfrac{i}{w}(-w^2) = iw$; and $iw\chi = \tfrac12\big(iwv - \tfrac{i\cdot i\,w}{w}Mv\big) = \tfrac12(iwv + Mv)$, because $i\cdot i = -1$; the two agree, so $M\chi = iw\chi$; inserting $M\chi = iw\chi$ into the solution gives $\Psi(x4) = \big(\cos(wx4) + i\sin(wx4)\big)\chi = e^{iwx4}\chi$, a **stationary** solution (a fixed column times a phase factor); its charge density is $\Psi^\dagger B\Psi = e^{-iwx4}e^{iwx4}\,\chi^\dagger B\chi = \chi^\dagger B\chi$, the same at every time; the field depends only on $x4$, so in the local law every derivative except those along $x4$ and $x0$ is zero, and the law reads $\partial_{x4}(\cos z\,J^{x4}) = -\partial_{x0}(\cos z\,J^{x0})$; the left side is zero, because $\cos z$ does not depend on $x4$ and $J^{x4}$ does not change in time; so $\cos z\,J^{x0}$ has the same value at every point of the hidden interval; it is zero at the tip (the record's boundary term vanishes there), hence it is zero at the brane. So a constant total charge needs a **no-flux condition** at the brane, $\cos z\,J^{x0} = 0$ at $z = \pi/2$, which holds for some solutions (the stationary ones above) and fails for others (the one of Notebook 18c). No equation of the Revision record or of this book derives it for every solution, and the field equations and the quantisation of the record impose no condition at the brane (OPEN). The Kohn-Sham model of Chapter 14 ASSUMES one: a **Z2 mirror** at the brane (the hidden interval is glued at the brane to a mirror copy of itself), whose two conditions make the current along the hidden direction zero there (`Revision/kohn_sham/ks-theory.json`, entry `boundaryConditions.brane`, status ASSUMED). Wherever a constant total charge is used, this condition is ASSUMED. The status table at the end of this section names the checks; Chapter 21 derives the identity and the boundary terms. Because $B$ has eight positive and eight negative eigenvalues, the charge density can be positive or negative: the field can carry charge of both signs. In the quantum theory $B$ is the matrix of the canonical anticommutator, and its indefinite signature forces an indefinite (Krein) inner product (Section 5.34 and Chapter 10).
 
 **The matrices $C$, $\Gamma$, $B$ and $\Gamma C$ in one table.** Each is a signed permutation matrix (for $B$, after division by $i$); the table is read like the one of Section 5.2. $C$, $\Gamma$ and $B$ are stored in the record `Revision/algebra/gammas.json`; $\Gamma C$ (the charge-conjugation matrix $\mathcal{C}_-$ of Section 5.28) is $C$ with the signs of rows 1 to 8 reversed, as Notebook 05c computes.
 
@@ -366,7 +366,7 @@ Reading the table: $C$ maps row 1 to column 5 with the sign $-$, so $C_{1,5} = -
 | (B1): $B = -iC\gamma^{(x4)}$ is purely imaginary | PROVED | `wolfram-algebra.json`, checks `B_definition` and `B_purely_imaginary` |
 | (B2) to (B4): $B$ is Hermitian, $BB = 1$, $\mathrm{tr}\,B = 0$, characteristic polynomial $(\lambda - 1)^8(\lambda + 1)^8$ | PROVED | `python-algebra.json`, check `B_hermitian_involution_signature`; `wolfram-algebra.json`, checks `B_Hermitian`, `B_squared_identity` and `B_signature_8_8` |
 | (B5): the commutation signs of $B$ | PROVED | `python-algebra.json`, check `B_gamma_relations` |
-| the local law $\sum_\mu\partial_\mu(\cos z\,J^\mu) = 0$ for every solution | PROVED in the record (derived in Chapter 21) | `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity` |
+| the local law $\sum_\mu\partial_\mu(\sqrt{\lvert g\rvert}\,J^\mu) = 0$ for every solution, with $\sqrt{\lvert g\rvert} = b_4^{3/2}\cos z$ ($\cos z$ at $b_4 = 1$) | PROVED in the record (derived in Chapter 21) | `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity` ($b_4 = 1$); `Revision/theory/reports/python-field-theory-b4.json`, check `u1_noether_matrix_identity_b4` (general $b_4$) |
 | the total charge $Q$ is constant in time for every solution whose current flux through the boundary of the seven other directions vanishes | PROVED (a conditional statement, from the local law, above; the boundary terms in Chapter 21) | the same check, together with the fundamental theorem of calculus |
 | the flux through the brane $z = \pi/2$ vanishes (the no-flux condition), so that $Q$ is constant | OPEN: not derived for every solution; it fails for exact solutions of Section 18.21, for example the one of Notebook 18c, whose flow through the brane ranges from $-0.3454$ to $0.3454$, and it holds for the stationary members of that family (PROVED above); ASSUMED in the Kohn-Sham model of Chapter 14 (the Z2 mirror) and wherever a constant total charge is used | `Revision/theory/reports/python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux`; the detail text of the check `u1_noether_matrix_identity` (the constancy of $Q$ is not established); Notebook 18c; `Revision/kohn_sham/ks-theory.json`, entry `boundaryConditions.brane` (status ASSUMED) |
 
@@ -527,14 +527,14 @@ import numpy as np  # arrays of numbers, matrices and linear algebra
 
 FIXTURE = "Revision/algebra/gammas.json"  # the Revision record of the gammas
 fixture = json.loads(repository_file(FIXTURE).read_text(encoding="utf-8"))
-COORDS = fixture["coordinates"]  # the coordinate names "x1", "x2", ..., "x8"
+COORDS = fixture["coordinates"]  # the coordinate names "x0", "x1", ..., "x7"
 ETA = dict(zip(COORDS, fixture["eta"]))  # eta_aa: +1 space-like, -1 time-like
 ```
 
-numpy is loaded under the short name `np`. `read_text` reads the record file as text and `json.loads` turns the text into Python objects: `fixture` is a dictionary whose keys are the names stored in the record. `fixture["coordinates"]` is the list `["x1", ..., "x8"]`. `zip` pairs each coordinate name with its entry of the list `fixture["eta"]`, and `dict` makes a dictionary of the pairs, so `ETA["x4"]` is $-1$.
+numpy is loaded under the short name `np`. `read_text` reads the record file as text and `json.loads` turns the text into Python objects: `fixture` is a dictionary whose keys are the names stored in the record. `fixture["coordinates"]` is the list `["x0", ..., "x7"]`. `zip` pairs each coordinate name with its entry of the list `fixture["eta"]`, and `dict` makes a dictionary of the pairs, so `ETA["x4"]` is $-1$.
 
 ```python
-# gamma["x1"], ..., gamma["x8"]: the eight 16 x 16 matrices of whole numbers
+# gamma["x0"], ..., gamma["x7"]: the eight 16 x 16 matrices of whole numbers
 gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
 I16 = np.eye(16, dtype=np.int64)  # the 16 x 16 identity matrix, written 1 in the text
 ```
@@ -591,10 +591,10 @@ This is `check` for a check that reproduces a record. Inside the `with` block ev
 
 ```python
 say(f"{len(VERDICTS)} recorded checks were read from the two reports.")
-check_reproduces(COORDS == ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
-                 and fixture["eta"] == [1, 1, 1, -1, -1, -1, -1, 1]
+check_reproduces(COORDS == ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
+                 and fixture["eta"] == [1, 1, 1, 1, -1, -1, -1, -1]
                  and recorded("wolfram", "eta_in_author_order"),
-                 "the coordinates are x1..x8 and eta = diag(+1,+1,+1,-1,-1,-1,-1,+1)",
+                 "the coordinates are x0..x7 and eta = diag(+1,+1,+1,+1,-1,-1,-1,-1)",
                  record=record_of("wolfram", "eta_in_author_order"))
 ```
 
@@ -647,7 +647,7 @@ symmetric = [x for x in COORDS if np.array_equal(gamma[x].T, gamma[x])]
 antisymmetric = [x for x in COORDS if np.array_equal(gamma[x].T, -gamma[x])]
 say("symmetric gammas: " + ", ".join(symmetric))
 say("antisymmetric gammas: " + ", ".join(antisymmetric))
-check_reproduces(symmetric == ["x1", "x2", "x3", "x8"]
+check_reproduces(symmetric == ["x0", "x1", "x2", "x3"]
                  and antisymmetric == ["x4", "x5", "x6", "x7"]
                  and recorded("python", "symmetry_pattern"),
                  "(gamma^a)^T = eta_aa gamma^a: space-like symmetric, time-like "
@@ -655,7 +655,7 @@ check_reproduces(symmetric == ["x1", "x2", "x3", "x8"]
                  record=record_of("python", "symmetry_pattern"))
 ```
 
-The first check combines the three facts. Then two **list comprehensions** collect the directions whose matrix equals its transpose (`.T` is the transpose) and those whose matrix equals minus its transpose; `", ".join(...)` writes a list of names separated by commas. The printed lines are `x1, x2, x3, x8` and `x4, x5, x6, x7`, and the second check requires exactly these lists: the space-like gammas are symmetric and the time-like ones antisymmetric.
+The first check combines the three facts. Then two **list comprehensions** collect the directions whose matrix equals its transpose (`.T` is the transpose) and those whose matrix equals minus its transpose; `", ".join(...)` writes a list of names separated by commas. The printed lines are `x0, x1, x2, x3` and `x4, x5, x6, x7`, and the second check requires exactly these lists: the space-like gammas are symmetric and the time-like ones antisymmetric.
 
 **In [6], three helpers.**
 
@@ -707,19 +707,19 @@ def product(directions):
 say("helpers heat_map, commutation_sign and product are defined")
 ```
 
-`commutation_sign(m, n)` returns $+1$ when $mn = nm$, $-1$ when $mn = -nm$ and $0$ when neither holds. `product(["x8", "x1"])` multiplies the gammas of the listed directions in the order of the list, starting from the identity. The cell prints one line.
+`commutation_sign(m, n)` returns $+1$ when $mn = nm$, $-1$ when $mn = -nm$ and $0$ when neither holds. `product(["x0", "x1"])` multiplies the gammas of the listed directions in the order of the list, starting from the identity. The cell prints one line.
 
 **In [7], the charge matrix.**
 
 ```python
-C = product(["x8", "x1", "x2", "x3"])  # the four space-like gammas
+C = product(["x0", "x1", "x2", "x3"])  # the four space-like gammas
 C_record = np.array(fixture["C"], dtype=np.int64)  # the C stored in the record
 check_reproduces(np.array_equal(C, C_record) and recorded("wolfram", "C_definition"),
-                 "C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) equals the recorded C",
+                 "C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) equals the recorded C",
                  record=record_of("wolfram", "C_definition"))
 ```
 
-$C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$ is computed and compared with the matrix $C$ that the record stores.
+$C = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$ is computed and compared with the matrix $C$ that the record stores.
 
 ```python
 I4, Z4 = np.eye(4, dtype=np.int64), np.zeros((4, 4), dtype=np.int64)
@@ -741,7 +741,7 @@ The first two lines make identity and zero matrices of sizes 4 and 8 (a line `A,
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(9.0, 4.4), width_ratios=[2, 1])
-heat_map(axes[0], C, r"$C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$")
+heat_map(axes[0], C, r"$C = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$")
 image = heat_map(axes[1], sigma, r"$\sigma$ (8 x 8)", halves=False,
                  row_label=False)
 fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.75, label="matrix entry")
@@ -763,7 +763,7 @@ check(all(signs_C[x] == -ETA[x] for x in COORDS),
       "time-like gammas)")
 ```
 
-`signs_C` stores, for each direction, the sign $s$ in $C\gamma^a = s\,\gamma^aC$. The printed line lists them: $-1$ for $x1$, $x2$, $x3$, $x8$ and $+1$ for $x4$ to $x7$. The check is (C1): $s = -\eta_{aa}$ for every direction. It is this notebook's own check (no record holds it in this form), so it prints no reproduces line.
+`signs_C` stores, for each direction, the sign $s$ in $C\gamma^a = s\,\gamma^aC$. The printed line lists them: $-1$ for $x0$, $x1$, $x2$, $x3$ and $+1$ for $x4$ to $x7$. The check is (C1): $s = -\eta_{aa}$ for every direction. It is this notebook's own check (no record holds it in this form), so it prints no reproduces line.
 
 ```python
 check_reproduces(all(np.array_equal((C @ gamma[x]).T, -(C @ gamma[x])) for x in COORDS)
@@ -804,12 +804,12 @@ for k in range(1, 9):
 say(f"subsets tested: 255; subsets that obey the squaring rule: {agree}")
 ```
 
-`range(1, 9)` runs through $k = 1, \dots, 8$. `itertools.combinations(COORDS, k)` lists every subset of $k$ directions, each in the order $x1, \dots, x8$; there are $\binom{8}{k}$ of them, $2^8 - 1 = 255$ in all. For each subset the cell multiplies the gammas, squares the product and compares it with the predicted sign times the identity; `agree += 1` adds one to the counter. The printed line reports 255 of 255.
+`range(1, 9)` runs through $k = 1, \dots, 8$. `itertools.combinations(COORDS, k)` lists every subset of $k$ directions, each in the order $x0, \dots, x7$; there are $\binom{8}{k}$ of them, $2^8 - 1 = 255$ in all. For each subset the cell multiplies the gammas, squares the product and compares it with the predicted sign times the identity; `agree += 1` adds one to the counter. The printed line reports 255 of 255.
 
 ```python
-for label, dirs in [("C", ["x8", "x1", "x2", "x3"]),
-                    ("Gamma", ["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]),
-                    ("C gamma^(x4)", ["x8", "x1", "x2", "x3", "x4"])]:
+for label, dirs in [("C", ["x0", "x1", "x2", "x3"]),
+                    ("Gamma", ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]),
+                    ("C gamma^(x4)", ["x0", "x1", "x2", "x3", "x4"])]:
     say(f"({label})^2 = {square_sign(dirs):+d} times 1 (k = {len(dirs)})")
 check(agree == 255, "the squaring rule holds for all 255 products of different gammas")
 ```
@@ -882,11 +882,11 @@ The tick marks of the horizontal axis are placed at multiples of $\pi/4$ and lab
 **In [13], the chirality.**
 
 ```python
-Gamma = product(["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # all eight
+Gamma = product(["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # all eight
 check_reproduces(np.array_equal(Gamma, np.array(fixture["Gamma"], dtype=np.int64))
                  and np.array_equal(Gamma, np.block([[-I8, Z8], [Z8, I8]]))
                  and recorded("python", "chirality_diag"),
-                 "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-1_8, 1_8), as "
+                 "Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = diag(-1_8, 1_8), as "
                  "recorded",
                  record=record_of("python", "chirality_diag"))
 ```
@@ -1022,10 +1022,10 @@ commute = [x for x in COORDS if signs_B[x] == 1]
 anticommute = [x for x in COORDS if signs_B[x] == -1]
 say("B commutes with gamma^(x) for x = " + ", ".join(commute))
 say("B anticommutes with gamma^(x) for x = " + ", ".join(anticommute))
-check_reproduces(commute == ["x1", "x2", "x3", "x4", "x8"]
+check_reproduces(commute == ["x0", "x1", "x2", "x3", "x4"]
                  and anticommute == ["x5", "x6", "x7"]
                  and recorded("python", "B_gamma_relations"),
-                 "B commutes with gamma^a for a = x1, x2, x3, x4, x8 and anticommutes "
+                 "B commutes with gamma^a for a = x0, x1, x2, x3, x4 and anticommutes "
                  "for x5, x6, x7",
                  record=record_of("python", "B_gamma_relations"))
 ```
@@ -1117,7 +1117,7 @@ rows = {"C": signs_C, "Gamma": {x: commutation_sign(Gamma, gamma[x]) for x in CO
         "B": signs_B}
 sign_table = np.array([[rows[name][x] for x in COORDS] for name in rows])
 expected_table = np.array([[-ETA[x] for x in COORDS], [-1] * 8,
-                           [1, 1, 1, 1, -1, -1, -1, 1]])
+                           [1, 1, 1, 1, 1, -1, -1, -1]])
 check(np.array_equal(sign_table, expected_table),
       "the commutation signs of C, Gamma and B with the eight gammas are as predicted")
 ```
@@ -1144,7 +1144,7 @@ save_figure(fig, "commutation_signs",
             ...)
 ```
 
-The drawing works as in In [21], with the colour map of the heat maps: red squares $+1$ (commute), blue squares $-1$ (anticommute), each with its sign written in bold white. In `05a_6_commutation_signs.png` the row $C$ is blue for $x1$, $x2$, $x3$, $x8$ and red for $x4$ to $x7$; the row $\Gamma$ is blue everywhere; the row $B$ is blue only for the extra times $x5$, $x6$, $x7$.
+The drawing works as in In [21], with the colour map of the heat maps: red squares $+1$ (commute), blue squares $-1$ (anticommute), each with its sign written in bold white. In `05a_6_commutation_signs.png` the row $C$ is blue for $x0$, $x1$, $x2$, $x3$ and red for $x4$ to $x7$; the row $\Gamma$ is blue everywhere; the row $B$ is blue only for the extra times $x5$, $x6$, $x7$.
 
 **In [23], the last check.**
 
@@ -1190,7 +1190,7 @@ $Z$ commutes with all of them when $W$ commutes with every $X$ (so $W = w1_8$ by
 
 ### 5.12 Pin(4,4), Spin(4,4) and the generators $S^{ab}$
 
-**Vectors in the algebra.** A **vector** is a list of eight real numbers $v = (v_{x1}, \dots, v_{x8})$. To it belongs the matrix $\gamma(v) = \sum_a v_a\gamma^a$, and two vectors have the **metric product** $\eta(u, v) = \sum_a \eta_{aa}u_av_a$. From the Clifford relation, line by line:
+**Vectors in the algebra.** A **vector** is a list of eight real numbers $v = (v_{x0}, \dots, v_{x7})$. To it belongs the matrix $\gamma(v) = \sum_a v_a\gamma^a$, and two vectors have the **metric product** $\eta(u, v) = \sum_a \eta_{aa}u_av_a$. From the Clifford relation, line by line:
 
 $$
 \gamma(u)\gamma(v) + \gamma(v)\gamma(u) = \sum_{a,b} u_av_b\,(\gamma^a\gamma^b + \gamma^b\gamma^a) = \sum_{a,b} u_av_b\, 2\eta^{ab}1 = 2\eta(u, v)\,1 .
@@ -1230,7 +1230,7 @@ $$
 
 of finitely many unit vectors ($k = 0, 1, 2, \dots$; the empty product is $1$). It is a group: the product of two such products is again one, and the inverse $g^{-1} = \gamma(u_k)^{-1}\cdots\gamma(u_1)^{-1}$ is one too, because $\gamma(u)^{-1} = \gamma(\eta(u, u)u)$ and $\eta(u, u)u$ is a unit vector. **Spin(4,4)** is the subgroup of the products with an **even** number $k$ of factors. Examples: every $\gamma^a = \gamma(e_a)$ lies in Pin(4,4), where $e_a$ is the basic unit vector of the direction $a$; so does every product of different gammas, and it lies in Spin(4,4) when it is even. In particular $C$ (four factors), $\Gamma$ (eight), $1 = \gamma^{(x1)}\gamma^{(x1)}$ and $-1 = \gamma^{(x4)}\gamma^{(x4)}$ lie in Spin(4,4).
 
-**Even and odd are well defined.** Multiply out a product of $k$ vectors: each $\gamma(u_j)$ is a combination of single gammas, so the product is a combination of products of $k$ gammas. Each such product can be brought into the order $x1, \dots, x8$ by exchanging neighbours (a sign each time) and then shortened by $\gamma^a\gamma^a = \eta_{aa}1$, which removes two factors at a time. So the product is a combination of products of different gammas whose degrees have the same parity (evenness or oddness) as $k$. Section 5.13 shows that the 256 products of different gammas are linearly independent; so a nonzero matrix cannot be both a combination of even products and a combination of odd products. An element of Pin(4,4) is invertible, hence not zero, so it is either **even** or **odd**, never both.
+**Even and odd are well defined.** Multiply out a product of $k$ vectors: each $\gamma(u_j)$ is a combination of single gammas, so the product is a combination of products of $k$ gammas. Each such product can be brought into the order $x0, \dots, x7$ by exchanging neighbours (a sign each time) and then shortened by $\gamma^a\gamma^a = \eta_{aa}1$, which removes two factors at a time. So the product is a combination of products of different gammas whose degrees have the same parity (evenness or oddness) as $k$. Section 5.13 shows that the 256 products of different gammas are linearly independent; so a nonzero matrix cannot be both a combination of even products and a combination of odd products. An element of Pin(4,4) is invertible, hence not zero, so it is either **even** or **odd**, never both.
 
 **The vector matrix.** For $g$ in Pin(4,4) put $\alpha(g) = g$ if $g$ is even and $\alpha(g) = -g$ if it is odd (the **twisted** action). For a single unit vector the key identity reads $\alpha(\gamma(u))\,\gamma^c\,\gamma(u)^{-1} = \gamma(R_ue_c) = \sum_d (R_u)_{dc}\gamma^d$. For a product, $\alpha(gh) = \alpha(g)\alpha(h)$, and
 
@@ -1252,7 +1252,7 @@ $$
 S^{ab} = \tfrac14[\gamma^a, \gamma^b] = \tfrac14(\gamma^a\gamma^b - \gamma^b\gamma^a)
 $$
 
-is called a **generator**. $S^{aa} = 0$ and $S^{ba} = -S^{ab}$. For $a \neq b$ the two gammas anticommute, so $\gamma^a\gamma^b - \gamma^b\gamma^a = 2\gamma^a\gamma^b$ and $S^{ab} = \tfrac12\gamma^a\gamma^b$: its entries are $0$ and $\pm\tfrac12$. With $a$ before $b$ in the order $x1, \dots, x8$ there are $8 \cdot 7/2 = 28$ generators, one for each **coordinate plane** $(a, b)$. When $\eta_{aa}\eta_{bb} = +1$ (both directions space-like, or both time-like) the plane is called a **rotation** plane: $\binom{4}{2} + \binom{4}{2} = 6 + 6 = 12$ of them. When $\eta_{aa}\eta_{bb} = -1$ (one space-like and one time-like direction) it is a **boost** plane: $4 \cdot 4 = 16$ of them. Note that a plane of two times, such as $(x4, x5)$, is a rotation plane.
+is called a **generator**. $S^{aa} = 0$ and $S^{ba} = -S^{ab}$. For $a \neq b$ the two gammas anticommute, so $\gamma^a\gamma^b - \gamma^b\gamma^a = 2\gamma^a\gamma^b$ and $S^{ab} = \tfrac12\gamma^a\gamma^b$: its entries are $0$ and $\pm\tfrac12$. With $a$ before $b$ in the order $x0, \dots, x7$ there are $8 \cdot 7/2 = 28$ generators, one for each **coordinate plane** $(a, b)$. When $\eta_{aa}\eta_{bb} = +1$ (both directions space-like, or both time-like) the plane is called a **rotation** plane: $\binom{4}{2} + \binom{4}{2} = 6 + 6 = 12$ of them. When $\eta_{aa}\eta_{bb} = -1$ (one space-like and one time-like direction) it is a **boost** plane: $4 \cdot 4 = 16$ of them. Note that a plane of two times, such as $(x4, x5)$, is a rotation plane.
 
 **The vector rule.** For all $a$, $b$, $c$:
 
@@ -1302,7 +1302,7 @@ Proof, step by step.
 - Step 2: the 256 products of different gammas are linearly independent. This is an exact computation: the $256 \times 256$ matrix of their entries has rank 256 (Revision record and Notebook 05b). 256 independent $16 \times 16$ matrices span the space of all $16 \times 16$ matrices, which has dimension 256.
 - Step 3: by Lemma 3 of Section 5.11, the representation is irreducible and its commutant consists of the multiples of $1$.
 
-The second engine confirms the commutant directly: the $8 \times 256 = 2048$ equations $\gamma^aX - X\gamma^a = 0$ ($a = x1, \dots, x8$) have rank 255, so their solutions form a space of dimension $256 - 255 = 1$, the multiples of $1$. (A matrix that commutes with the eight gammas commutes with all their products and combinations, hence with all of Pin(4,4); the converse holds because every gamma is in Pin(4,4).)
+The second engine confirms the commutant directly: the $8 \times 256 = 2048$ equations $\gamma^aX - X\gamma^a = 0$ ($a = x0, \dots, x7$) have rank 255, so their solutions form a space of dimension $256 - 255 = 1$, the multiples of $1$. (A matrix that commutes with the eight gammas commutes with all their products and combinations, hence with all of Pin(4,4); the converse holds because every gamma is in Pin(4,4).)
 
 **Theorem S (two inequivalent halves under Spin(4,4)).** Under Spin(4,4) the 16 components split into the two chiral halves of 8 components (Section 5.5); each half carries an irreducible representation of Spin(4,4); the two are inequivalent; and the commutant of Spin(4,4) is spanned by $P_-$ and $P_+$.
 
@@ -1316,7 +1316,7 @@ Proof, step by step.
 
 **Why Pin(4,4) sees one block of 16.** Every gamma is an odd element of Pin(4,4), and every gamma exchanges the two halves (Section 5.5). So neither half is invariant under Pin(4,4): the two inequivalent halves of Spin(4,4) are joined by the reflections into one irreducible representation of Pin(4,4).
 
-**Imposing the gammas one at a time.** How large is the commutant of only the first $j$ gammas? With no condition all 256 entries are free. The matrices that commute with $\gamma^{(x1)}$ are those that map each of its two eigenspaces into itself: if $\gamma v = \lambda v$ and $X\gamma = \gamma X$, then $\gamma(Xv) = X\gamma v = \lambda Xv$, so $Xv$ has the same eigenvalue; conversely a matrix that acts separately on the two eigenspaces commutes with $\gamma$. A real symmetric matrix has a basis of eigenvectors, and $\gamma^{(x1)}$ has eight eigenvalues $+1$ and eight $-1$ (Section 5.3), so there are $8^2 + 8^2 = 128$ free entries. Notebook 05b computes, exactly, that every further gamma halves the dimension again: $256, 128, 64, 32, 16, 8, 4, 2, 1$. (Only the first step is proved here; the whole sequence is COMPUTED.)
+**Imposing the gammas one at a time.** How large is the commutant of only the first $j$ gammas? With no condition all 256 entries are free. The first gamma in the order $x0, \dots, x7$ is $\gamma^{(x0)}$. The matrices that commute with $\gamma^{(x0)}$ are those that map each of its two eigenspaces into itself: if $\gamma v = \lambda v$ and $X\gamma = \gamma X$, then $\gamma(Xv) = X\gamma v = \lambda Xv$, so $Xv$ has the same eigenvalue; conversely a matrix that acts separately on the two eigenspaces commutes with $\gamma$. A real symmetric matrix has a basis of eigenvectors, and $\gamma^{(x0)}$ (space-like, hence symmetric) has eight eigenvalues $+1$ and eight $-1$ (Section 5.3), so there are $8^2 + 8^2 = 128$ free entries. Notebook 05b computes, exactly, that every further gamma halves the dimension again: $256, 128, 64, 32, 16, 8, 4, 2, 1$. (Only the first step is proved here; the whole sequence is COMPUTED.)
 
 | statement | status | where it is verified |
 | --- | --- | --- |
@@ -1348,7 +1348,7 @@ import numpy as np  # arrays of numbers, matrices and linear algebra
 
 fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                      .read_text(encoding="utf-8"))
-COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+COORDS = fixture["coordinates"]  # "x0", ..., "x7"
 ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
 gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
 I16 = np.eye(16, dtype=np.int64)  # the identity matrix 1
@@ -1477,7 +1477,7 @@ for k in range(9):
         products[k].append(p)
 ```
 
-For each degree $k = 0, \dots, 8$ the cell lists every subset of $k$ directions in the order $x1, \dots, x8$ and multiplies their gammas; for $k = 0$ the only subset is empty and the product is the identity. `products[k]` is the list of the $\binom{8}{k}$ products of degree $k$; `comb(8, k)` from the module `math` computes this binomial number.
+For each degree $k = 0, \dots, 8$ the cell lists every subset of $k$ directions in the order $x0, \dots, x7$ and multiplies their gammas; for $k = 0$ the only subset is empty and the product is the identity. `products[k]` is the list of the $\binom{8}{k}$ products of degree $k$; `comb(8, k)` from the module `math` computes this binomial number.
 
 ```python
 rows_all = np.array([p.reshape(256) for k in range(9) for p in products[k]])
@@ -1746,7 +1746,7 @@ for j in range(9):
 ax.set_yscale("log", base=2)
 ax.set_yticks([1, 4, 16, 64, 256], ["1", "4", "16", "64", "256"])
 ax.set_xticks(range(9), ["none"] + COORDS)
-ax.set_xlabel("gammas imposed, in the order x1, x2, ..., x8 (the last one named)")
+ax.set_xlabel("gammas imposed, in the order x0, x1, ..., x7 (the last one named)")
 ax.set_ylabel("dimension of the commutant")
 ax.set_title("Each further gamma halves the commutant")
 save_figure(fig, "commutant_halving",
@@ -2069,7 +2069,7 @@ import numpy as np  # arrays of numbers, matrices and linear algebra
 
 fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                      .read_text(encoding="utf-8"))
-COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+COORDS = fixture["coordinates"]  # "x0", ..., "x7"
 ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
 ETA_MATRIX = np.diag([float(ETA[x]) for x in COORDS])  # the 8 x 8 metric eta
 gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
@@ -2079,9 +2079,9 @@ I16 = np.eye(16, dtype=np.int64)
 As in Notebook 05a, the record of the gammas is read. New is `ETA_MATRIX`, the $8 \times 8$ diagonal matrix $\eta$ with floating-point entries (`np.diag` of the list of the eight signs), used for the metric product of vectors below.
 
 ```python
-C = gamma["x8"] @ gamma["x1"] @ gamma["x2"] @ gamma["x3"]  # the charge matrix
+C = gamma["x0"] @ gamma["x1"] @ gamma["x2"] @ gamma["x3"]  # the charge matrix
 Gamma = I16
-for x in ["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]:
+for x in ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]:
     Gamma = Gamma @ gamma[x]  # the chirality, the product of all eight gammas
 B = -1j * (C @ gamma["x4"])  # B = -i C gamma^(x4)
 ```
@@ -2216,7 +2216,7 @@ check(squares_ok and len(rotations) == 12 and len(boosts) == 16,
       "(gamma^a gamma^b)^2 = -eta_aa eta_bb: 12 rotation planes and 16 boost planes")
 ```
 
-For each plane $J = \gamma^a\gamma^b$ is squared and compared with $-\eta_{aa}\eta_{bb}1$; the plane is a rotation when $\eta_{aa}\eta_{bb} = +1$ and a boost otherwise. The printed lines show 12 rotations and 16 boosts and list the rotation planes: the six inside $\{x1, x2, x3, x8\}$ and the six inside $\{x4, x5, x6, x7\}$.
+For each plane $J = \gamma^a\gamma^b$ is squared and compared with $-\eta_{aa}\eta_{bb}1$; the plane is a rotation when $\eta_{aa}\eta_{bb} = +1$ and a boost otherwise. The printed lines show 12 rotations and 16 boosts and list the rotation planes: the six inside $\{x0, x1, x2, x3\}$ and the six inside $\{x4, x5, x6, x7\}$.
 
 ```python
 from matplotlib.colors import LinearSegmentedColormap
@@ -2244,7 +2244,7 @@ save_figure(fig, "plane_types",
             ...)
 ```
 
-The kinds are written into an $8 \times 8$ table, each plane in both orders (`COORDS.index(a)` is the position of a name in the list; `x = y = value` sets both entries). The table is drawn with the colour map of the heat maps (red $+1$, blue $-1$, grey 0 on the diagonal), with the word rot or boost in each square and white gaps between the squares. `05d_1_plane_types.png` shows two red $4 \times 4$ squares of rotations, for $\{x1, x2, x3, x8\}$ and for the four times, and blue boosts wherever a space-like direction meets a time-like one.
+The kinds are written into an $8 \times 8$ table, each plane in both orders (`COORDS.index(a)` is the position of a name in the list; `x = y = value` sets both entries). The table is drawn with the colour map of the heat maps (red $+1$, blue $-1$, grey 0 on the diagonal), with the word rot or boost in each square and white gaps between the squares. `05d_1_plane_types.png` shows two red $4 \times 4$ squares of rotations, for $\{x0, x1, x2, x3\}$ and for the four times, and blue boosts wherever a space-like direction meets a time-like one.
 
 **In [6], the exponential two ways.**
 
@@ -2274,7 +2274,7 @@ def spin_transformation(a, b, theta):
 tests = [(("x1", "x2"), [0.3, 1.0, 2.5, 2 * np.pi, 4 * np.pi]),
          (("x4", "x5"), [0.3, 1.0, 2.5, 2 * np.pi, 4 * np.pi]),
          (("x1", "x4"), [-1.5, 0.3, 1.0, 2.5]),
-         (("x5", "x8"), [-1.5, 0.3, 1.0, 2.5])]
+         (("x0", "x5"), [-1.5, 0.3, 1.0, 2.5])]
 largest_difference = 0.0
 for (a, b), angles in tests:
     for theta in angles:
@@ -2322,8 +2322,8 @@ for theta in np.linspace(0.0, 2 * np.pi, 9):
     R = spin_transformation("x1", "x2", theta)
     Lam = vector_matrix(R)
     expected = np.eye(8)  # the rotation by theta in the (x1, x2) block
-    expected[0, 0] = expected[1, 1] = np.cos(theta)
-    expected[0, 1], expected[1, 0] = np.sin(theta), -np.sin(theta)
+    expected[1, 1] = expected[2, 2] = np.cos(theta)  # rows and columns x1, x2
+    expected[1, 2], expected[2, 1] = np.sin(theta), -np.sin(theta)
     rotation_ok &= (rebuilds(R, Lam) and np.allclose(Lam, expected, atol=1e-12)
                     and np.allclose(Lam.T @ ETA_MATRIX @ Lam, ETA_MATRIX)
                     and abs(np.linalg.det(Lam) - 1.0) < 1e-12)
@@ -2357,9 +2357,9 @@ $R(2\pi)$ and $R(4\pi)$ are computed; $\sin\pi$ is not exactly 0 in floating-poi
 ```python
 angles = np.linspace(0.0, 4 * np.pi, 241)
 rapidities = np.linspace(-3.0, 3.0, 241)
-vec_rot = [vector_matrix(spin_transformation("x1", "x2", th))[0, 0] for th in angles]
+vec_rot = [vector_matrix(spin_transformation("x1", "x2", th))[1, 1] for th in angles]
 spin_rot = [np.trace(spin_transformation("x1", "x2", th)) / 16 for th in angles]
-vec_boost = [vector_matrix(spin_transformation("x1", "x4", th))[0, 0]
+vec_boost = [vector_matrix(spin_transformation("x1", "x4", th))[1, 1]
              for th in rapidities]
 spin_boost = [np.trace(spin_transformation("x1", "x4", th)) / 16 for th in rapidities]
 check(np.allclose(vec_rot, np.cos(angles)) and np.allclose(spin_rot, np.cos(angles / 2))
@@ -2425,31 +2425,32 @@ The loop draws $R(\theta)$ at $\theta = 0$, $\pi$, $2\pi$ and $4\pi$ as heat map
 **In [10], circles and hyperbolas.**
 
 ```python
-circle = np.array([vector_matrix(spin_transformation("x1", "x2", th))[:, 0]
+# column k of a vector matrix is the image of e_xk; its entry 1 is v_1, entry 4 v_4
+circle = np.array([vector_matrix(spin_transformation("x1", "x2", th))[:, 1]
                    for th in np.linspace(0.0, 2 * np.pi, 121)])  # images of e_x1
-hyper_space = np.array([vector_matrix(spin_transformation("x1", "x4", th))[:, 0]
+hyper_space = np.array([vector_matrix(spin_transformation("x1", "x4", th))[:, 1]
                         for th in np.linspace(-2.0, 2.0, 121)])  # images of e_x1
-hyper_time = np.array([vector_matrix(spin_transformation("x1", "x4", th))[:, 3]
+hyper_time = np.array([vector_matrix(spin_transformation("x1", "x4", th))[:, 4]
                        for th in np.linspace(-2.0, 2.0, 121)])  # images of e_x4
-check(np.allclose(circle[:, 0] ** 2 + circle[:, 1] ** 2, 1.0)
-      and np.allclose(hyper_space[:, 0] ** 2 - hyper_space[:, 3] ** 2, 1.0)
-      and np.allclose(hyper_time[:, 0] ** 2 - hyper_time[:, 3] ** 2, -1.0),
+check(np.allclose(circle[:, 1] ** 2 + circle[:, 2] ** 2, 1.0)
+      and np.allclose(hyper_space[:, 1] ** 2 - hyper_space[:, 4] ** 2, 1.0)
+      and np.allclose(hyper_time[:, 1] ** 2 - hyper_time[:, 4] ** 2, -1.0),
       "rotations keep v1^2 + v2^2, boosts keep v1^2 - v4^2")
 ```
 
-Column $c$ of a vector matrix (`[:, 0]` is the first column, `[:, 3]` the fourth) is the image of the basic unit vector $e_c$. The cell collects the images of $e_{x1}$ under 121 rotations in $(x1, x2)$, and the images of $e_{x1}$ and of $e_{x4}$ under 121 boosts in $(x1, x4)$. The check confirms that the rotation keeps $v_1^2 + v_2^2 = 1$ and the boost keeps $v_1^2 - v_4^2$, equal to $+1$ for the image of $e_{x1}$ and $-1$ for that of $e_{x4}$.
+Column $c$ of a vector matrix is the image of the basic unit vector $e_c$; Python counts the positions from 0, so position $k$ is the direction $xk$, `[:, 1]` is the column of $x1$ and `[:, 4]` that of $x4$, and in a column the entries `[1]` and `[4]` are the components $v_1$ and $v_4$. The cell collects the images of $e_{x1}$ under 121 rotations in $(x1, x2)$, and the images of $e_{x1}$ and of $e_{x4}$ under 121 boosts in $(x1, x4)$. The check confirms that the rotation keeps $v_1^2 + v_2^2 = 1$ and the boost keeps $v_1^2 - v_4^2$, equal to $+1$ for the image of $e_{x1}$ and $-1$ for that of $e_{x4}$.
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(11.0, 5.0))
-axes[0].plot(circle[:, 0], circle[:, 1], color="#2a78d6", linewidth=2)
-axes[0].plot(circle[::15, 0], circle[::15, 1], "o", color="#2a78d6", markersize=8)
+axes[0].plot(circle[:, 1], circle[:, 2], color="#2a78d6", linewidth=2)
+axes[0].plot(circle[::15, 1], circle[::15, 2], "o", color="#2a78d6", markersize=8)
 axes[0].set_aspect("equal")
 axes[0].set_xlabel("$v_1$ (component along $x1$)")
 axes[0].set_ylabel("$v_2$ (component along $x2$)")
 axes[0].set_title("rotation in $(x1, x2)$: a circle")
-axes[1].plot(hyper_space[:, 0], hyper_space[:, 3], color="#2a78d6", linewidth=2,
+axes[1].plot(hyper_space[:, 1], hyper_space[:, 4], color="#2a78d6", linewidth=2,
              label=r"image of $e_{x1}$: $v_1^2 - v_4^2 = 1$")
-axes[1].plot(hyper_time[:, 0], hyper_time[:, 3], color="#eb6834", linewidth=2,
+axes[1].plot(hyper_time[:, 1], hyper_time[:, 4], color="#eb6834", linewidth=2,
              label=r"image of $e_{x4}$: $v_1^2 - v_4^2 = -1$")
 axes[1].plot([-4, 4], [-4, 4], ":", color="black", linewidth=1,
              label="null lines $v_4 = \\pm v_1$")
@@ -2553,10 +2554,10 @@ def reflection(u):
 
 ```python
 e = np.eye(8)  # e[i] is the unit vector along COORDS[i]
-tilted = np.cosh(0.5) * e[0] + np.sinh(0.5) * e[3]
+tilted = np.cosh(0.5) * e[1] + np.sinh(0.5) * e[4]  # in the plane (x1, x4)
 v = np.arange(1, 9) / 10.0
 reflections_ok = True
-for u in (e[0], e[3], tilted):
+for u in (e[1], e[4], tilted):  # e_x1, e_x4 and the tilted vector
     gu = gamma_of(u)
     left = -gu @ gamma_of(v) @ np.linalg.inv(gu)
     Ru = reflection(u)
@@ -2573,10 +2574,10 @@ Three unit vectors are tested: $e_{x1}$ (space-like), $e_{x4}$ (time-like) and t
 **In [14], the spinor norm, $\Lambda(\Gamma)$ and the double cover.**
 
 ```python
-elements = [("gamma^(x1)", [e[0]]), ("gamma^(x4)", [e[3]]),
-            ("gamma^(x1) gamma^(x4)", [e[0], e[3]]),
-            ("gamma(tilted) gamma^(x5)", [tilted, e[4]]),
-            ("Gamma", [e[7]] + [e[i] for i in range(7)])]
+elements = [("gamma^(x1)", [e[1]]), ("gamma^(x4)", [e[4]]),
+            ("gamma^(x1) gamma^(x4)", [e[1], e[4]]),
+            ("gamma(tilted) gamma^(x5)", [tilted, e[5]]),
+            ("Gamma", [e[i] for i in range(8)])]
 norm_ok = True
 for name, factors in elements:
     g = np.eye(16)
@@ -2590,7 +2591,7 @@ for name, factors in elements:
 check(norm_ok, "g^T C g = (-1)^k N(g) C for all five elements")
 ```
 
-Five elements of Pin(4,4) are given by their unit-vector factors (for $\Gamma$: $e_{x8}$ followed by $e_{x1}, \dots, e_{x7}$). For each, the product $g$, the number of factors $k$ and the spinor norm $N(g)$ (the product of the $\eta(u, u)$, rounded to a whole number) are computed, and $g^TCg$ is compared with $(-1)^kN(g)\,C$. The printed table shows in particular $g^TCg = -C$ for $\gamma^{(x1)}\gamma^{(x4)}$ and for $\gamma(\text{tilted})\gamma^{(x5)}$: two even elements that are not products of exponentials.
+Five elements of Pin(4,4) are given by their unit-vector factors (for $\Gamma$: $e_{x0}$ followed by $e_{x1}, \dots, e_{x7}$). For each, the product $g$, the number of factors $k$ and the spinor norm $N(g)$ (the product of the $\eta(u, u)$, rounded to a whole number) are computed, and $g^TCg$ is compared with $(-1)^kN(g)\,C$. The printed table shows in particular $g^TCg = -C$ for $\gamma^{(x1)}\gamma^{(x4)}$ and for $\gamma(\text{tilted})\gamma^{(x5)}$: two even elements that are not products of exponentials.
 
 ```python
 check(np.allclose(vector_matrix(Gamma.astype(float)), -np.eye(8), atol=1e-12),
@@ -2627,7 +2628,7 @@ pictures = [(vector_matrix(spin_transformation("x1", "x2", np.pi / 3)),
              r"rotation, $\theta = \pi/3$, $(x1, x2)$"),
             (vector_matrix(spin_transformation("x1", "x4", 1.0)),
              r"boost, $\theta = 1$, $(x1, x4)$"),
-            (reflection(e[0]), r"reflection $R_u$, $u = e_{x1}$"),
+            (reflection(e[1]), r"reflection $R_u$, $u = e_{x1}$"),
             (vector_matrix(Gamma.astype(float)), r"$\Lambda(\Gamma) = -1_8$")]
 fig, axes = plt.subplots(1, 4, figsize=(14.0, 4.0))
 for k, (ax, (matrix, title)) in enumerate(zip(axes, pictures)):
@@ -2663,7 +2664,7 @@ The six figure files must exist, and the last line reads ALL 20 CHECKS PASSED (n
 
 ### 5.23 What do the scaled commutators generate?
 
-The 28 scaled commutators $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$ are called the generators. It is tempting to say that they generate Pin(4,4). This section answers exactly what they generate, and the answer is: **not all of Pin(4,4), and not even all of Spin(4,4)**. The products of their exponentials form the piece of Pin(4,4) that is joined to $1$, written $\mathrm{Spin}_0(4,4)$; Pin(4,4) consists of four such pieces; and the exponentials together with the two gammas $\gamma^{(x8)}$ and $\gamma^{(x4)}$ generate all of Pin(4,4). The proof has ten steps, (A) to (J); Notebook 05f checks each of them on the matrices.
+The 28 scaled commutators $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$ are called the generators. It is tempting to say that they generate Pin(4,4). This section answers exactly what they generate, and the answer is: **not all of Pin(4,4), and not even all of Spin(4,4)**. The products of their exponentials form the piece of Pin(4,4) that is joined to $1$, written $\mathrm{Spin}_0(4,4)$; Pin(4,4) consists of four such pieces; and the exponentials together with the two gammas $\gamma^{(x0)}$ and $\gamma^{(x4)}$ generate all of Pin(4,4). The proof has ten steps, (A) to (J); Notebook 05f checks each of them on the matrices.
 
 **(A) The matrices by which the generators move the directions.** The vector rule of Section 5.12 can be written $[S^{ab}, \gamma^c] = \sum_d M^{ab}_{dc}\gamma^d$ with the $8 \times 8$ matrix
 
@@ -2703,7 +2704,7 @@ $$
 \Lambda e_a = \cos\theta\,e_a - \eta_{aa}\sin\theta\,e_b \ \ \text{(rotation)}, \qquad \Lambda e_a = \cosh\theta\,e_a - \eta_{aa}\sinh\theta\,e_b \ \ \text{(boost)} .
 $$
 
-**(F) The forbidden band.** Order the directions as $x1, x2, x3, x8$ (space-like) and then $x4, x5, x6, x7$ (time-like), and cut a vector matrix into four $4 \times 4$ blocks,
+**(F) The forbidden band.** Order the directions as $x0, x1, x2, x3$ (space-like) and then $x4, x5, x6, x7$ (time-like), and cut a vector matrix into four $4 \times 4$ blocks,
 
 $$
 \Lambda = \begin{pmatrix} A & B' \\ C' & D \end{pmatrix} .
@@ -2719,33 +2720,33 @@ For every column $w$ of four numbers the first equation gives $|Aw|^2 = w^TA^TAw
 
 **(G) Products of exponentials stay above the band.** Let $h = \exp(\theta_1S_1)\cdots\exp(\theta_nS_n)$ be a product of exponentials, and $h(t) = \exp(t\theta_1S_1)\cdots\exp(t\theta_nS_n)$ for $0 \le t \le 1$: a path from $h(0) = 1$ to $h(1) = h$. The entries of $\Lambda(h(t))$ are sums of products of $\cos$, $\sin$, $\cosh$ and $\sinh$ of multiples of $t$, so $\det A(t)$ is a continuous function of $t$. It starts at $\det 1_4 = 1$ and never enters the band $(-1, 1)$; by the intermediate value theorem (a continuous function that takes a value below $-1$ and one above $1$ also takes every value between) it can never become negative. So $\det A \geq 1$ along the whole path, and in the same way $\det D \geq 1$. **Every product of exponentials has the sign pattern $(+, +)$**, where the **sign pattern** of $g$ is the pair (sign of $\det A$, sign of $\det D$).
 
-**(H) Four pieces.** $\Lambda(\gamma^{(x8)}) = R_{e_{x8}}$ reverses only the direction $x8$: its space block has determinant $-1$ and its time block $+1$, pattern $(-, +)$. $\Lambda(\gamma^{(x4)})$ reverses only $x4$: pattern $(+, -)$. $\Lambda(\gamma^{(x8)}\gamma^{(x4)})$ reverses both: $(-, -)$. For a product of exponentials $h$ and $w$ one of these, $\Lambda(hw) = \Lambda(h)\Lambda(w)$ (Section 5.12), and $\Lambda(w)$ is a diagonal matrix of signs: multiplying by it from the right only changes the signs of some columns of $\Lambda(h)$, so the space block of $hw$ is $A$ times a diagonal matrix of signs and $hw$ has the pattern of $w$. Four different patterns: the four sets
+**(H) Four pieces.** $\Lambda(\gamma^{(x0)}) = R_{e_{x0}}$ reverses only the direction $x0$: its space block has determinant $-1$ and its time block $+1$, pattern $(-, +)$. $\Lambda(\gamma^{(x4)})$ reverses only $x4$: pattern $(+, -)$. $\Lambda(\gamma^{(x0)}\gamma^{(x4)})$ reverses both: $(-, -)$. For a product of exponentials $h$ and $w$ one of these, $\Lambda(hw) = \Lambda(h)\Lambda(w)$ (Section 5.12), and $\Lambda(w)$ is a diagonal matrix of signs: multiplying by it from the right only changes the signs of some columns of $\Lambda(h)$, so the space block of $hw$ is $A$ times a diagonal matrix of signs and $hw$ has the pattern of $w$. Four different patterns: the four sets
 
 $$
-\mathrm{Spin}_0, \quad \mathrm{Spin}_0\,\gamma^{(x8)}, \quad \mathrm{Spin}_0\,\gamma^{(x4)}, \quad \mathrm{Spin}_0\,\gamma^{(x8)}\gamma^{(x4)}
+\mathrm{Spin}_0, \quad \mathrm{Spin}_0\,\gamma^{(x0)}, \quad \mathrm{Spin}_0\,\gamma^{(x4)}, \quad \mathrm{Spin}_0\,\gamma^{(x0)}\gamma^{(x4)}
 $$
 
-have no element in common, where $\mathrm{Spin}_0 = \mathrm{Spin}_0(4,4)$ is the group of all products of exponentials and $\mathrm{Spin}_0\,w$ the set of the products $hw$. In particular **$\gamma^{(x8)}\gamma^{(x4)}$ lies in Spin(4,4) but is not a product of exponentials**, in agreement with its spinor norm (Section 5.18).
+have no element in common, where $\mathrm{Spin}_0 = \mathrm{Spin}_0(4,4)$ is the group of all products of exponentials and $\mathrm{Spin}_0\,w$ the set of the products $hw$. In particular **$\gamma^{(x0)}\gamma^{(x4)}$ lies in Spin(4,4) but is not a product of exponentials**, in agreement with its spinor norm (Section 5.18).
 
-**(I) Every unit vector is a turned $\gamma^{(x8)}$ or $\gamma^{(x4)}$.** Let $v$ be a space-like unit vector, with space part $\sigma$ (its components along $x1, x2, x3, x8$) and time part $\tau$ (along $x4, \dots, x7$), so that $|\sigma|^2 - |\tau|^2 = 1$. Three stages carry $e_{x8}$ to $v$:
+**(I) Every unit vector is a turned $\gamma^{(x0)}$ or $\gamma^{(x4)}$.** Let $v$ be a space-like unit vector, with space part $\sigma$ (its components along $x0, x1, x2, x3$) and time part $\tau$ (along $x4, \dots, x7$), so that $|\sigma|^2 - |\tau|^2 = 1$. Three stages carry $e_{x0}$ to $v$:
 
-- a boost in the plane $(x8, x4)$ carries $e_{x8}$ to $|\sigma|\,e_{x8} + |\tau|\,e_{x4}$ (by (E), choose $\sinh\theta = -|\tau|$; then $\cosh\theta = \sqrt{1 + |\tau|^2} = |\sigma|$);
-- three rotations in the planes $(x4, x5)$, $(x4, x6)$, $(x4, x7)$ turn $e_{x4}$ into $\tau/|\tau|$ and do not touch $x8$, giving $|\sigma|\,e_{x8} + \tau$;
-- three rotations in the planes $(x8, x1)$, $(x8, x2)$, $(x8, x3)$ turn $e_{x8}$ into $\sigma/|\sigma|$ and do not touch the time part, giving $\sigma + \tau = v$.
+- a boost in the plane $(x0, x4)$ carries $e_{x0}$ to $|\sigma|\,e_{x0} + |\tau|\,e_{x4}$ (by (E), choose $\sinh\theta = -|\tau|$; then $\cosh\theta = \sqrt{1 + |\tau|^2} = |\sigma|$);
+- three rotations in the planes $(x4, x5)$, $(x4, x6)$, $(x4, x7)$ turn $e_{x4}$ into $\tau/|\tau|$ and do not touch $x0$, giving $|\sigma|\,e_{x0} + \tau$;
+- three rotations in the planes $(x0, x1)$, $(x0, x2)$, $(x0, x3)$ turn $e_{x0}$ into $\sigma/|\sigma|$ and do not touch the time part, giving $\sigma + \tau = v$.
 
-Each rotation stage turns the axis vector step by step: the first rotation puts the right component on the first other direction and keeps the rest of the length on the axis, the second does the same for the next direction, and the last leaves exactly the axis component of the target. The angles follow from (E). With $h$ the product of these at most seven exponentials, $\Lambda(h)e_{x8} = v$, and since $h$ is even,
+Each rotation stage turns the axis vector step by step: the first rotation puts the right component on the first other direction and keeps the rest of the length on the axis, the second does the same for the next direction, and the last leaves exactly the axis component of the target. The angles follow from (E). With $h$ the product of these at most seven exponentials, $\Lambda(h)e_{x0} = v$, and since $h$ is even,
 
 $$
-h\gamma^{(x8)}h^{-1} = \sum_d\Lambda(h)_{d,x8}\,\gamma^d = \gamma(\Lambda(h)e_{x8}) = \gamma(v) .
+h\gamma^{(x0)}h^{-1} = \sum_d\Lambda(h)_{d,x0}\,\gamma^d = \gamma(\Lambda(h)e_{x0}) = \gamma(v) .
 $$
 
 A time-like unit vector $v$ has $|\tau|^2 - |\sigma|^2 = 1$. Three stages carry $e_{x4}$ to $v$; compared with the space-like case, the boost has $\cosh\theta = |\tau|$ instead of $|\sigma|$, and the two rotation stages exchange their places:
 
-- a boost in the plane $(x4, x8)$ carries $e_{x4}$ to $|\tau|\,e_{x4} + |\sigma|\,e_{x8}$ (by (E) with $a = x4$ and $\eta_{aa} = -1$, $\Lambda e_{x4} = \cosh\theta\,e_{x4} + \sinh\theta\,e_{x8}$; choose $\sinh\theta = |\sigma|$; then $\cosh\theta = \sqrt{1 + |\sigma|^2} = |\tau|$);
-- three rotations in the planes $(x8, x1)$, $(x8, x2)$, $(x8, x3)$ turn $e_{x8}$ into $\sigma/|\sigma|$ and do not touch $x4$, giving $|\tau|\,e_{x4} + \sigma$;
+- a boost in the plane $(x4, x0)$ carries $e_{x4}$ to $|\tau|\,e_{x4} + |\sigma|\,e_{x0}$ (by (E) with $a = x4$ and $\eta_{aa} = -1$, $\Lambda e_{x4} = \cosh\theta\,e_{x4} + \sinh\theta\,e_{x0}$; choose $\sinh\theta = |\sigma|$; then $\cosh\theta = \sqrt{1 + |\sigma|^2} = |\tau|$);
+- three rotations in the planes $(x0, x1)$, $(x0, x2)$, $(x0, x3)$ turn $e_{x0}$ into $\sigma/|\sigma|$ and do not touch $x4$, giving $|\tau|\,e_{x4} + \sigma$;
 - three rotations in the planes $(x4, x5)$, $(x4, x6)$, $(x4, x7)$ turn $e_{x4}$ into $\tau/|\tau|$ and do not touch the space part, giving $\sigma + \tau = v$.
 
-With $h$ the product of these at most seven exponentials, $\Lambda(h)e_{x4} = v$, and, since $h$ is again even, the same final step with $x4$ in place of $x8$ gives
+With $h$ the product of these at most seven exponentials, $\Lambda(h)e_{x4} = v$, and, since $h$ is again even, the same final step with $x4$ in place of $x0$ gives
 
 $$
 h\gamma^{(x4)}h^{-1} = \sum_d\Lambda(h)_{d,x4}\,\gamma^d = \gamma(\Lambda(h)e_{x4}) = \gamma(v) .
@@ -2759,15 +2760,15 @@ $$
 \gamma^e\exp(\theta S^{ab}) = \exp(s\theta S^{ab})\,\gamma^e .
 $$
 
-Now take any element $g = \gamma(v_1)\cdots\gamma(v_k)$ of Pin(4,4). Write each factor as in (I), $\gamma(v_j) = h_j\gamma^{e_j}h_j^{-1}$ with $e_j = x8$ or $x4$. Move every gamma to the right end with the rule just proved: what remains on the left is a product of exponentials, and on the right a product of gammas $\gamma^{(x8)}$ and $\gamma^{(x4)}$. With $\gamma^{(x8)}\gamma^{(x8)} = 1$, $\gamma^{(x4)}\gamma^{(x4)} = -1$ and $\gamma^{(x4)}\gamma^{(x8)} = -\gamma^{(x8)}\gamma^{(x4)}$, that product is $\pm$ one of $1$, $\gamma^{(x8)}$, $\gamma^{(x4)}$, $\gamma^{(x8)}\gamma^{(x4)}$, and a sign $-1$ is itself the product of exponentials $\exp(2\pi S^{(x1)(x2)}) = -1$ (Section 5.18).
+Now take any element $g = \gamma(v_1)\cdots\gamma(v_k)$ of Pin(4,4). Write each factor as in (I), $\gamma(v_j) = h_j\gamma^{e_j}h_j^{-1}$ with $e_j = x0$ or $x4$. Move every gamma to the right end with the rule just proved: what remains on the left is a product of exponentials, and on the right a product of gammas $\gamma^{(x0)}$ and $\gamma^{(x4)}$. With $\gamma^{(x0)}\gamma^{(x0)} = 1$, $\gamma^{(x4)}\gamma^{(x4)} = -1$ and $\gamma^{(x4)}\gamma^{(x0)} = -\gamma^{(x0)}\gamma^{(x4)}$, that product is $\pm$ one of $1$, $\gamma^{(x0)}$, $\gamma^{(x4)}$, $\gamma^{(x0)}\gamma^{(x4)}$, and a sign $-1$ is itself the product of exponentials $\exp(2\pi S^{(x1)(x2)}) = -1$ (Section 5.18).
 
-**The answer.** By (D) the exponentials lie in Pin(4,4), and $\gamma^{(x8)}$ and $\gamma^{(x4)}$ do by definition; by (I) and (J) every element of Pin(4,4) is a product of exponentials times one of the four words; by (G) and (H) the four pieces are different. So
+**The answer.** By (D) the exponentials lie in Pin(4,4), and $\gamma^{(x0)}$ and $\gamma^{(x4)}$ do by definition; by (I) and (J) every element of Pin(4,4) is a product of exponentials times one of the four words; by (G) and (H) the four pieces are different. So
 
 $$
-\mathrm{Pin}(4,4) = \mathrm{Spin}_0 \cup \mathrm{Spin}_0\,\gamma^{(x8)} \cup \mathrm{Spin}_0\,\gamma^{(x4)} \cup \mathrm{Spin}_0\,\gamma^{(x8)}\gamma^{(x4)} ,
+\mathrm{Pin}(4,4) = \mathrm{Spin}_0 \cup \mathrm{Spin}_0\,\gamma^{(x0)} \cup \mathrm{Spin}_0\,\gamma^{(x4)} \cup \mathrm{Spin}_0\,\gamma^{(x0)}\gamma^{(x4)} ,
 $$
 
-four pieces with no element in common, and Spin(4,4), the even elements, is the union of the first and the last piece. **The exponentials of the scaled commutators generate exactly $\mathrm{Spin}_0(4,4)$; together with $\gamma^{(x8)}$ and $\gamma^{(x4)}$ they generate all of Pin(4,4).** It is not correct to say that the scaled commutators alone generate Pin(4,4). Nothing in the representation statements of Section 5.13 changes: irreducibility under Pin(4,4) and the two inequivalent halves already hold for the smaller groups (Section 5.13).
+four pieces with no element in common, and Spin(4,4), the even elements, is the union of the first and the last piece. **The exponentials of the scaled commutators generate exactly $\mathrm{Spin}_0(4,4)$; together with $\gamma^{(x0)}$ and $\gamma^{(x4)}$ they generate all of Pin(4,4).** It is not correct to say that the scaled commutators alone generate Pin(4,4). Nothing in the representation statements of Section 5.13 changes: irreducibility under Pin(4,4) and the two inequivalent halves already hold for the smaller groups (Section 5.13).
 
 **What the group elements span.** For a rotation, $\exp(\pi S^{ab}) = \gamma^a\gamma^b$ ($\cos\tfrac\pi2 = 0$, $\sin\tfrac\pi2 = 1$); for a boost, $(\exp(\theta S^{ab}) - \exp(-\theta S^{ab}))/(2\sinh\tfrac\theta2) = \gamma^a\gamma^b$. So the span of $\mathrm{Spin}_0(4,4)$ contains every product of two different gammas, and, because the span of a group contains the products of its members, every even product of different gammas: all 128 of them. Every element is even, so the span is exactly these 128 dimensions, the block-diagonal matrices. Adding one gamma adds the odd products: the span of Pin(4,4) is all 256 dimensions.
 
@@ -2800,12 +2801,12 @@ import numpy as np  # arrays of numbers, matrices and linear algebra
 
 fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                      .read_text(encoding="utf-8"))
-COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+COORDS = fixture["coordinates"]  # "x0", ..., "x7"
 ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
 ETA_MATRIX = np.diag([float(ETA[x]) for x in COORDS])  # the 8 x 8 metric eta
 gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
 I16 = np.eye(16, dtype=np.int64)  # the 16 x 16 identity matrix 1
-SPACE = ["x1", "x2", "x3", "x8"]  # the four space-like directions
+SPACE = ["x0", "x1", "x2", "x3"]  # the four space-like directions
 TIME = ["x4", "x5", "x6", "x7"]  # the four time-like directions
 ```
 
@@ -2974,7 +2975,7 @@ Step (A) predicts two nonzero entries ($\eta_{bb}$ and $-\eta_{aa}$ in mirrored 
 
 ```python
 fig, axes = plt.subplots(4, 7, figsize=(14.0, 8.8))
-numbers = [x[1] for x in COORDS]  # the tick labels 1, ..., 8
+numbers = [x[1] for x in COORDS]  # the tick labels 0, ..., 7
 for ax, (a, b) in zip(axes.flat, pairs):
     ax.imshow(M[(a, b)], cmap=SIGNS, vmin=-1, vmax=1)
     kind = "rotation" if ETA[a] * ETA[b] == 1 else "boost"
@@ -2983,12 +2984,12 @@ for ax, (a, b) in zip(axes.flat, pairs):
     ax.set_yticks(range(8), numbers, fontsize=6)
     ax.grid(False)
 fig.suptitle("The 28 matrices $M^{ab}$: how $S^{ab}$ moves the directions "
-             "$x1$ to $x8$ (rows and columns numbered 1 to 8)")
+             "$x0$ to $x7$ (rows and columns numbered 0 to 7)")
 save_figure(fig, "generator_matrices",
             ...)
 ```
 
-A grid of 4 rows and 7 columns of small pictures, one per plane (`axes.flat` runs through the 28 picture areas). `x[1]` is the second character of a name such as `x5`, so the tick labels are the numbers 1 to 8. In the f-string of the title, three braces `{{{a}` give one literal brace followed by the value of `a`, and `\\,` a small space. `fig.suptitle` is a title over the whole figure. In `05f_1_generator_matrices.png` every small picture has exactly two coloured squares, mirrored about the diagonal: of opposite colours for the 12 rotations, of the same colour for the 16 boosts.
+A grid of 4 rows and 7 columns of small pictures, one per plane (`axes.flat` runs through the 28 picture areas). `x[1]` is the second character of a name such as `x5`, so the tick labels are the numbers 0 to 7. In the f-string of the title, three braces `{{{a}` give one literal brace followed by the value of `a`, and `\\,` a small space. `fig.suptitle` is a title over the whole figure. In `05f_1_generator_matrices.png` every small picture has exactly two coloured squares, mirrored about the diagonal: of opposite colours for the 12 rotations, of the same colour for the 16 boosts.
 
 **In [6], the exponential and its two factors.**
 
@@ -3055,7 +3056,7 @@ The first check compares the closed formula with the series for all 28 planes at
 ```python
 cases = [("x1", "x2", np.linspace(0.0, 4 * np.pi, 241)),
          ("x1", "x4", np.linspace(-3.0, 3.0, 241)),
-         ("x4", "x8", np.linspace(-3.0, 3.0, 241))]
+         ("x4", "x0", np.linspace(-3.0, 3.0, 241))]
 fig, axes = plt.subplots(1, 3, figsize=(13.0, 4.6))
 norm_ok = True  # eta(u, u) = eta_aa along all three curves
 for ax, (a, b, thetas) in zip(axes, cases):
@@ -3078,7 +3079,7 @@ save_figure(fig, "two_unit_vectors",
             ...)
 ```
 
-For three planes (a rotation over $\theta$ from 0 to $4\pi$ and two boosts over $-3$ to 3) the cell computes the second factor $u$ at 241 values and plots its two nonzero components against each other, with an orange dot every 40th value. The check confirms $\eta(u, u) = \eta_{aa}$ along all three curves, and each title prints this value ($+1$ for the planes starting with $x1$, $-1$ for the plane $(x4, x8)$). In `05f_2_two_unit_vectors.png` the rotation's $u$ runs once around the unit circle, and the boosts' $u$ run along branches of hyperbolas.
+For three planes (a rotation over $\theta$ from 0 to $4\pi$ and two boosts over $-3$ to 3) the cell computes the second factor $u$ at 241 values and plots its two nonzero components against each other, with an orange dot every 40th value. The check confirms $\eta(u, u) = \eta_{aa}$ along all three curves, and each title prints this value ($+1$ for the planes starting with $x1$, $-1$ for the plane $(x4, x0)$). In `05f_2_two_unit_vectors.png` the rotation's $u$ runs once around the unit circle, and the boosts' $u$ run along branches of hyperbolas.
 
 **In [8], the vector matrix of an exponential.**
 
@@ -3120,18 +3121,18 @@ def turned_axis(a, b, theta):
 turn_ok = all(
     np.allclose(vector_matrix(exponential(a, b, th))[:, COORDS.index(a)],
                 turned_axis(a, b, th), rtol=0.0, atol=1e-12)
-    for a, b in [("x8", "x1"), ("x4", "x5"), ("x8", "x4"), ("x4", "x8")]
+    for a, b in [("x0", "x1"), ("x4", "x5"), ("x0", "x4"), ("x4", "x0")]
     for th in [-1.3, 0.4, 2.0])
 check(turn_ok, "Lambda e_a = cos(theta) e_a - eta_aa sin(theta) e_b for a rotation "
       "and cosh(theta) e_a - eta_aa sinh(theta) e_b for a boost")
 ```
 
-`turned_axis` is the formula of step (E) for $\Lambda e_a$. The check compares it with column $a$ of the computed vector matrix for the four planes used by the construction of step (I) ($(x8, x1)$, $(x4, x5)$, $(x8, x4)$, $(x4, x8)$; note that the order of $a$ and $b$ matters) at three values each.
+`turned_axis` is the formula of step (E) for $\Lambda e_a$. The check compares it with column $a$ of the computed vector matrix for the four planes used by the construction of step (I) ($(x0, x1)$, $(x4, x5)$, $(x0, x4)$, $(x4, x0)$; note that the order of $a$ and $b$ matters) at three values each.
 
 **In [9], the block equations on random products.**
 
 ```python
-SPACE_INDEX = [COORDS.index(x) for x in SPACE]  # the positions of x1, x2, x3, x8
+SPACE_INDEX = [COORDS.index(x) for x in SPACE]  # the positions of x0, x1, x2, x3
 TIME_INDEX = [COORDS.index(x) for x in TIME]  # the positions of x4, x5, x6, x7
 
 
@@ -3140,7 +3141,7 @@ def blocks(Lam):
             Lam[np.ix_(TIME_INDEX, SPACE_INDEX)], Lam[np.ix_(TIME_INDEX, TIME_INDEX)])
 ```
 
-`SPACE_INDEX` is the list of positions $[0, 1, 2, 7]$ of $x1, x2, x3, x8$ and `TIME_INDEX` the list $[3, 4, 5, 6]$. `np.ix_(rows, columns)` picks the entries in the listed rows and columns, so `blocks` returns the four $4 \times 4$ blocks $A$, $B'$, $C'$, $D$ of step (F).
+`SPACE_INDEX` is the list of positions $[0, 1, 2, 3]$ of $x0, x1, x2, x3$ and `TIME_INDEX` the list $[4, 5, 6, 7]$ of $x4, x5, x6, x7$. `np.ix_(rows, columns)` picks the entries in the listed rows and columns, so `blocks` returns the four $4 \times 4$ blocks $A$, $B'$, $C'$, $D$ of step (F).
 
 ```python
 rng = np.random.default_rng(12345)  # random numbers with a fixed seed
@@ -3184,14 +3185,14 @@ check(block_ok and smallest > 1.0 - 1e-9,
       "det A >= 1, det D >= 1")
 ```
 
-For 200 random products of six exponentials the cell checks the two block equations of step (F) (the blocks are named `B_` and `C_` so as not to overwrite other names) and keeps the smallest of all determinants of $A$ and $D$, starting from `np.inf` (infinity). The RESULT line prints it, $1.019$, and the check requires it to be at least 1: every product has the sign pattern $(+, +)$, step (G).
+For 200 random products of six exponentials the cell checks the two block equations of step (F) (the blocks are named `B_` and `C_` so as not to overwrite other names) and keeps the smallest of all determinants of $A$ and $D$, starting from `np.inf` (infinity). The RESULT line prints it, $1.000$, and the check requires it to be at least 1 (up to $10^{-9}$): every product has the sign pattern $(+, +)$, step (G). The smallest value is the bound itself: one of the 200 random products is made of six rotations only (in the planes $(x1, x2)$, $(x0, x1)$, $(x4, x7)$, $(x6, x7)$, $(x2, x3)$ and $(x1, x2)$), and a rotation does not mix space with time, so $C' = B' = 0$, the block equations give $A^TA = D^TD = 1_4$, and $\det A = \det D = 1$ exactly.
 
 **In [10], the four words and the four pieces.**
 
 ```python
-WORDS = {"1": (I16, False), "gamma^(x8)": (gamma["x8"], True),
+WORDS = {"1": (I16, False), "gamma^(x0)": (gamma["x0"], True),
          "gamma^(x4)": (gamma["x4"], True),
-         "gamma^(x8) gamma^(x4)": (gamma["x8"] @ gamma["x4"], False)}
+         "gamma^(x0) gamma^(x4)": (gamma["x0"] @ gamma["x4"], False)}
 
 
 def pattern(Lam):
@@ -3199,20 +3200,20 @@ def pattern(Lam):
     return (int(np.sign(np.linalg.det(A))), int(np.sign(np.linalg.det(D))))
 ```
 
-`WORDS` stores the four words $1$, $\gamma^{(x8)}$, $\gamma^{(x4)}$, $\gamma^{(x8)}\gamma^{(x4)}$, each with the flag that says whether it is odd. `pattern` returns the sign pattern of a vector matrix: the signs (`np.sign`) of $\det A$ and $\det D$; the two middle blocks are not needed and are given the throw-away name `_`.
+`WORDS` stores the four words $1$, $\gamma^{(x0)}$, $\gamma^{(x4)}$, $\gamma^{(x0)}\gamma^{(x4)}$, each with the flag that says whether it is odd. `pattern` returns the sign pattern of a vector matrix: the signs (`np.sign`) of $\det A$ and $\det D$; the two middle blocks are not needed and are given the throw-away name `_`.
 
 ```python
-flip8 = np.diag([1.0, 1, 1, 1, 1, 1, 1, -1])  # reverses x8 only
-flip4 = np.diag([1.0, 1, 1, -1, 1, 1, 1, 1])  # reverses x4 only
-expected = {"1": np.eye(8), "gamma^(x8)": flip8, "gamma^(x4)": flip4,
-            "gamma^(x8) gamma^(x4)": flip8 @ flip4}
+flip0 = np.diag([-1.0, 1, 1, 1, 1, 1, 1, 1])  # reverses x0 only (position 0)
+flip4 = np.diag([1.0, 1, 1, 1, -1, 1, 1, 1])  # reverses x4 only (position 4)
+expected = {"1": np.eye(8), "gamma^(x0)": flip0, "gamma^(x4)": flip4,
+            "gamma^(x0) gamma^(x4)": flip0 @ flip4}
 words_ok = all(np.allclose(vector_matrix(w.astype(float), odd), expected[name])
                for name, (w, odd) in WORDS.items())
 for name, (w, odd) in WORDS.items():
     say(f"{name:22} sign pattern (sign det A, sign det D) = "
         f"{pattern(vector_matrix(w.astype(float), odd))}")
-check(words_ok, "the vector matrices of 1, gamma^(x8), gamma^(x4), gamma^(x8) "
-      "gamma^(x4) are the identity and the reversals of x8, x4 and both")
+check(words_ok, "the vector matrices of 1, gamma^(x0), gamma^(x4), gamma^(x0) "
+      "gamma^(x4) are the identity and the reversals of x0, x4 and both")
 ```
 
 The predicted vector matrices of step (H) are diagonal matrices of signs. The check compares them with the computed ones (the twisted action for the two odd words), and the four printed lines show the patterns $(1, 1)$, $(-1, 1)$, $(1, -1)$, $(-1, -1)$.
@@ -3249,12 +3250,12 @@ An observation, checked but not used by the proof: for all 240 elements $|\det A
 **In [11], the picture of the four pieces.**
 
 ```python
-colors = {"1": "#2a78d6", "gamma^(x8)": "#eb6834", "gamma^(x4)": "#1baf7a",
-          "gamma^(x8) gamma^(x4)": "#4a3aa7"}
+colors = {"1": "#2a78d6", "gamma^(x0)": "#eb6834", "gamma^(x4)": "#1baf7a",
+          "gamma^(x0) gamma^(x4)": "#4a3aa7"}
 labels = {"1": r"$h$ (products of exponentials)",
-          "gamma^(x8)": r"$h\gamma^{(x8)}$",
+          "gamma^(x0)": r"$h\gamma^{(x0)}$",
           "gamma^(x4)": r"$h\gamma^{(x4)}$",
-          "gamma^(x8) gamma^(x4)": r"$h\gamma^{(x8)}\gamma^{(x4)}$"}
+          "gamma^(x0) gamma^(x4)": r"$h\gamma^{(x0)}\gamma^{(x4)}$"}
 fig, ax = plt.subplots(figsize=(7.4, 6.6))
 ax.axvspan(-1.0, 1.0, color="#d8d6d2", alpha=0.6, linewidth=0)
 ax.axhspan(-1.0, 1.0, color="#d8d6d2", alpha=0.6, linewidth=0)
@@ -3282,25 +3283,25 @@ save_figure(fig, "four_pieces",
 
 ```python
 path_t = np.linspace(0.0, 1.0, 101)  # t = 0, 0.01, ..., 1
-curves_h, curves_g8 = [], []  # det A(t) along h(t) and along gamma^(x8) h(t)
-g8 = gamma["x8"].astype(float)
+curves_h, curves_g0 = [], []  # det A(t) along h(t) and along gamma^(x0) h(t)
+g0 = gamma["x0"].astype(float)
 for _ in range(10):
     factors = random_factors(6)
-    along_h, along_g8 = [], []
+    along_h, along_g0 = [], []
     for t in path_t:
         h = compose(factors, t)
         along_h.append(np.linalg.det(blocks(vector_matrix(h))[0]))
-        along_g8.append(np.linalg.det(blocks(vector_matrix(g8 @ h, odd=True))[0]))
+        along_g0.append(np.linalg.det(blocks(vector_matrix(g0 @ h, odd=True))[0]))
     curves_h.append(along_h)
-    curves_g8.append(along_g8)
-curves_h, curves_g8 = np.array(curves_h), np.array(curves_g8)
-check(np.all(curves_h > 1.0 - 1e-9) and np.all(curves_g8 < -1.0 + 1e-9)
-      and np.allclose(curves_h[:, 0], 1.0) and np.allclose(curves_g8[:, 0], -1.0),
-      "along ten paths t -> h(t) det A stays >= 1, and along gamma^(x8) h(t) it "
+    curves_g0.append(along_g0)
+curves_h, curves_g0 = np.array(curves_h), np.array(curves_g0)
+check(np.all(curves_h > 1.0 - 1e-9) and np.all(curves_g0 < -1.0 + 1e-9)
+      and np.allclose(curves_h[:, 0], 1.0) and np.allclose(curves_g0[:, 0], -1.0),
+      "along ten paths t -> h(t) det A stays >= 1, and along gamma^(x0) h(t) it "
       "stays <= -1")
 ```
 
-For ten random products of six exponentials the cell follows the path $h(t)$ of step (G) at 101 values of $t$ and records $\det A(t)$ (`blocks(...)[0]` is the space block), and the same for the odd elements $\gamma^{(x8)}h(t)$. The check: the first family starts at 1 and stays at or above 1, the second starts at $-1$ and stays at or below $-1$.
+For ten random products of six exponentials the cell follows the path $h(t)$ of step (G) at 101 values of $t$ and records $\det A(t)$ (`blocks(...)[0]` is the space block), and the same for the odd elements $\gamma^{(x0)}h(t)$. The check: the first family starts at 1 and stays at or above 1, the second starts at $-1$ and stays at or below $-1$.
 
 ```python
 fig, ax = plt.subplots(figsize=(8.0, 4.6))
@@ -3308,21 +3309,21 @@ ax.axhspan(-1.0, 1.0, color="#d8d6d2", alpha=0.6, linewidth=0)
 for k in range(10):
     ax.plot(path_t, curves_h[k], color="#2a78d6", linewidth=1.5,
             label=r"$h(t)$" if k == 0 else None)
-    ax.plot(path_t, curves_g8[k], color="#eb6834", linewidth=1.5, linestyle="--",
-            label=r"$\gamma^{(x8)}h(t)$" if k == 0 else None)
+    ax.plot(path_t, curves_g0[k], color="#eb6834", linewidth=1.5, linestyle="--",
+            label=r"$\gamma^{(x0)}h(t)$" if k == 0 else None)
 ax.set_yscale("symlog", linthresh=1.0)
 ax.set_ylim(-60, 60)
 ax.text(0.5, 0.0, "forbidden band $|\\det A| < 1$", ha="center", va="center")
 ax.set_xlabel("path parameter $t$ (from 1 at $t = 0$ to $h$ at $t = 1$)")
 ax.set_ylabel("$\\det A$ (space block)")
 ax.set_title("Ten paths of products of exponentials, and the same times "
-             "$\\gamma^{(x8)}$")
+             "$\\gamma^{(x0)}$")
 ax.legend(loc="upper left")
 save_figure(fig, "paths_and_band",
             ...)
 ```
 
-The twenty curves are drawn over the grey band (only the first curve of each family gets a legend label; `None` means no label). In `05f_4_paths_and_band.png` the blue curves start at 1 and stay above the band, the orange ones start at $-1$ and stay below it: no curve crosses the band, which is why $\gamma^{(x8)}$ cannot be reached from 1 by exponentials.
+The twenty curves are drawn over the grey band (only the first curve of each family gets a legend label; `None` means no label). In `05f_4_paths_and_band.png` the blue curves start at 1 and stay above the band, the orange ones start at $-1$ and stay below it: no curve crosses the band, which is why $\gamma^{(x0)}$ cannot be reached from 1 by exponentials.
 
 **In [13], every unit vector is a turned basic one.**
 
@@ -3354,16 +3355,16 @@ def carry(v):
     part = {x: float(v[COORDS.index(x)]) for x in COORDS}
     sigma = np.sqrt(sum(part[x] ** 2 for x in SPACE))  # length of the space part
     tau = np.sqrt(sum(part[x] ** 2 for x in TIME))  # length of the time part
-    space_turn = block_rotation("x8", ["x1", "x2", "x3"],
+    space_turn = block_rotation("x0", ["x1", "x2", "x3"],
                                 {x: part[x] / sigma for x in SPACE}) if sigma else []
     time_turn = block_rotation("x4", ["x5", "x6", "x7"],
                                {x: part[x] / tau for x in TIME}) if tau else []
-    if metric_product(v, v) > 0:  # space-like: from e_x8
-        return [turn_factor("x8", "x4", sigma, tau)] + time_turn + space_turn, "x8"
-    return [turn_factor("x4", "x8", tau, sigma)] + space_turn + time_turn, "x4"
+    if metric_product(v, v) > 0:  # space-like: from e_x0
+        return [turn_factor("x0", "x4", sigma, tau)] + time_turn + space_turn, "x0"
+    return [turn_factor("x4", "x0", tau, sigma)] + space_turn + time_turn, "x4"
 ```
 
-`carry(v)` is the construction of step (I). `part` holds the eight components by name; `sigma` and `tau` are the lengths $|\sigma|$ and $|\tau|$ of the space part and the time part. `space_turn` turns $e_{x8}$ into $\sigma/|\sigma|$ and `time_turn` turns $e_{x4}$ into $\tau/|\tau|$ (an empty list when that part is zero; `if sigma else []` uses that the number 0 counts as false). For a space-like $v$ the factors are the boost in $(x8, x4)$, then the time rotations, then the space rotations, and the starting direction is $x8$; for a time-like $v$ the boost in $(x4, x8)$, then the space rotations, then the time rotations, starting from $x4$. The function returns the list of factors (the first acts first) together with the starting direction.
+`carry(v)` is the construction of step (I). `part` holds the eight components by name; `sigma` and `tau` are the lengths $|\sigma|$ and $|\tau|$ of the space part and the time part. `space_turn` turns $e_{x0}$ into $\sigma/|\sigma|$ and `time_turn` turns $e_{x4}$ into $\tau/|\tau|$ (an empty list when that part is zero; `if sigma else []` uses that the number 0 counts as false). For a space-like $v$ the factors are the boost in $(x0, x4)$, then the time rotations, then the space rotations, and the starting direction is $x0$; for a time-like $v$ the boost in $(x4, x0)$, then the space rotations, then the time rotations, starting from $x4$. The function returns the list of factors (the first acts first) together with the starting direction.
 
 ```python
 def random_unit_vector():
@@ -3377,7 +3378,7 @@ def random_unit_vector():
 A random unit vector: eight numbers are drawn from the normal distribution (the bell curve centred at 0), and the vector is kept only when $|\eta(w, w)| \geq 0.5$ (so that it is not nearly null); `while True` repeats until that happens. Dividing by $\sqrt{|\eta(w, w)|}$ makes $\eta = +1$ or $-1$.
 
 ```python
-starts = {"x8": 0, "x4": 0}  # how many space-like and time-like vectors
+starts = {"x0": 0, "x4": 0}  # how many space-like and time-like vectors
 carry_ok, most_factors = True, 0
 for _ in range(40):
     v = random_unit_vector()
@@ -3388,14 +3389,14 @@ for _ in range(40):
     carry_ok &= (np.allclose(vector_matrix(h)[:, COORDS.index(e)], v, atol=1e-12)
                  and np.allclose(h @ gamma[e] @ np.linalg.inv(h), gamma_of(v),
                                  atol=1e-12))
-say(f"space-like vectors: {starts['x8']}; time-like vectors: {starts['x4']}; "
+say(f"space-like vectors: {starts['x0']}; time-like vectors: {starts['x4']}; "
     f"at most {most_factors} exponentials per vector")
-check(carry_ok and starts["x8"] > 0 and starts["x4"] > 0 and most_factors <= 7,
+check(carry_ok and starts["x0"] > 0 and starts["x4"] > 0 and most_factors <= 7,
       "for 40 random unit vectors v: gamma(v) = h gamma^(e) h^-1 with h a product "
-      "of at most 7 exponentials and e = x8 or x4")
+      "of at most 7 exponentials and e = x0 or x4")
 ```
 
-For 40 random unit vectors the cell builds $h$, checks that column $e$ of its vector matrix is $v$ and that $h\gamma^eh^{-1} = \gamma(v)$ as $16 \times 16$ matrices, and counts the space-like and time-like vectors and the largest number of factors. The printed line shows 20 and 20 and at most 7.
+For 40 random unit vectors the cell builds $h$, checks that column $e$ of its vector matrix is $v$ and that $h\gamma^eh^{-1} = \gamma(v)$ as $16 \times 16$ matrices, and counts the space-like and time-like vectors and the largest number of factors. The printed line shows 24 space-like and 16 time-like vectors and at most 7 factors.
 
 **In [14], the construction at work.**
 
@@ -3420,12 +3421,12 @@ for ax, v in zip(axes, [space_example, time_example]):
     moving = np.array(moving)
     steps_ok &= np.allclose([metric_product(m, m) for m in moving], ETA[e])
     steps_ok &= np.allclose(moving[-1], v, atol=1e-12)
-    if e == "x8":
+    if e == "x0":
         for a, b, theta in factors:
             say(f"    factor exp(theta S^({a} {b})), theta = {theta:+.4f}")
 ```
 
-For each example the moving vector starts at $e_{x8}$ or $e_{x4}$, and each factor's vector matrix is applied to the latest vector (`moving[-1]` is the last element of the list). The cell checks that the metric product stays $\eta_{ee}$ at every step and that the last vector is $v$, and for the space-like example it prints the seven factors with their angles to four decimals.
+For each example the moving vector starts at $e_{x0}$ or $e_{x4}$, and each factor's vector matrix is applied to the latest vector (`moving[-1]` is the last element of the list). The cell checks that the metric product stays $\eta_{ee}$ at every step and that the last vector is $v$, and for the space-like example it prints the seven factors with their angles to four decimals.
 
 ```python
     for i, x in enumerate(COORDS):
@@ -3433,7 +3434,7 @@ For each example the moving vector starts at $e_{x8}$ or $e_{x4}$, and each fact
                 linewidth=1.5, markersize=4, label=x)
         ax.plot([len(moving) - 0.6], [v[i]], "D", color=line_colors[i],
                 markersize=6)
-    kind = "space-like" if e == "x8" else "time-like"
+    kind = "space-like" if e == "x0" else "time-like"
     ax.set_title(f"a {kind} unit vector, built from $e_{{{e}}}$")
     ax.set_xticks(range(len(moving)))
     ax.set_xlabel("number of exponentials applied")
@@ -3444,7 +3445,7 @@ save_figure(fig, "carrying_vectors",
             ...)
 ```
 
-Still inside the loop, each of the eight components is drawn against the number of steps, and the target component of $v$ as a diamond (`"D"`) just right of the last step. In `05f_5_carrying_vectors.png` the first step shares the length between $x8$ and $x4$ (a boost), the next three steps fill one block and the last three the other, and every curve ends at its diamond.
+Still inside the loop, each of the eight components is drawn against the number of steps, and the target component of $v$ as a diamond (`"D"`) just right of the last step. In `05f_5_carrying_vectors.png` the first step shares the length between $x0$ and $x4$ (a boost), the next three steps fill one block and the last three the other, and every curve ends at its diamond.
 
 **In [15], moving a gamma through an exponential.**
 
@@ -3456,18 +3457,18 @@ def conjugation_sign(e, a, b):
 conjugation_ok = all(
     np.allclose(gamma[e] @ exponential(a, b, 0.8) @ np.linalg.inv(gamma[e]),
                 exponential(a, b, conjugation_sign(e, a, b) * 0.8), atol=1e-12)
-    for e in ("x8", "x4") for a, b in pairs)
+    for e in ("x0", "x4") for a, b in pairs)
 check(conjugation_ok, "gamma^e exp(theta S^ab) (gamma^e)^-1 = exp(s theta S^ab), "
       "s = -1 if e is a or b, +1 otherwise")
 ```
 
-`conjugation_sign` is the sign $s$ of step (J). The check confirms $\gamma^e\exp(\theta S^{ab})(\gamma^e)^{-1} = \exp(s\theta S^{ab})$ for $e = x8$ and $x4$, all 28 planes and $\theta = 0.8$.
+`conjugation_sign` is the sign $s$ of step (J). The check confirms $\gamma^e\exp(\theta S^{ab})(\gamma^e)^{-1} = \exp(s\theta S^{ab})$ for $e = x0$ and $x4$, all 28 planes and $\theta = 0.8$.
 
 **In [16], twelve random elements of Pin(4,4).**
 
 ```python
-FOUR = {"1": I16, "gamma^(x8)": gamma["x8"], "gamma^(x4)": gamma["x4"],
-        "gamma^(x8) gamma^(x4)": gamma["x8"] @ gamma["x4"]}
+FOUR = {"1": I16, "gamma^(x0)": gamma["x0"], "gamma^(x4)": gamma["x4"],
+        "gamma^(x0) gamma^(x4)": gamma["x0"] @ gamma["x4"]}
 
 
 def evaluate(word):
@@ -3554,11 +3555,11 @@ Twelve elements are made from $k = 1, \dots, 6$ random unit vectors (twice each;
     say(f"element {number + 1:2d}: {k} unit vector{plural} = {len(exponentials):2d} "
         f"exponentials times {name}")
 check(decomposition_ok, "12 random elements of Pin(4,4): each is a product of "
-      "exponentials times one of 1, gamma^(x8), gamma^(x4), gamma^(x8) gamma^(x4), "
+      "exponentials times one of 1, gamma^(x0), gamma^(x4), gamma^(x0) gamma^(x4), "
       "with the matching sign pattern")
 ```
 
-The checks for each element: the word equals $g$, the decomposition equals $g$ (both to a relative accuracy of $10^{-9}$, measured against the largest entry `size` of $g$, because the entries of $g$ can be large), $g$ has the sign pattern of its word, and the word is odd exactly when $k$ is odd. The twelve printed lines show, for example, that one unit vector becomes 14 exponentials times $\gamma^{(x8)}$ (seven for $h$ and seven for $h^{-1}$), and that the elements made of four or six vectors can end with any of the even words.
+The checks for each element: the word equals $g$, the decomposition equals $g$ (both to a relative accuracy of $10^{-9}$, measured against the largest entry `size` of $g$, because the entries of $g$ can be large), $g$ has the sign pattern of its word, and the word is odd exactly when $k$ is odd. The twelve printed lines show, for example, that one unit vector becomes 14 exponentials times $\gamma^{(x4)}$ (seven for $h$ and seven for $h^{-1}$; both elements made of one vector happen to be time-like), that an odd number of vectors always ends with an odd word ($\gamma^{(x0)}$ or $\gamma^{(x4)}$) and an even number with an even word, and that the two elements made of two vectors end with the two different even words, $1$ and $\gamma^{(x0)}\gamma^{(x4)}$.
 
 **In [17], the spans.**
 
@@ -3681,7 +3682,7 @@ The first step is the definition of $\bar\Psi$; the second is the rule $(XY)^T =
 - Step 3 (a condition on $M$ that is enough). Suppose that, with one sign $s$ ($+1$ or $-1$) for all eight directions,
 
 $$
-M\gamma^a = s\,\gamma^aM \qquad \text{for } a = x1, \dots, x8 .
+M\gamma^a = s\,\gamma^aM \qquad \text{for } a = x0, \dots, x7 .
 $$
 
 Then $M\gamma^\mu = \sum_a e^\mu{}_aM\gamma^a = s\,\gamma^\mu M$, because the vielbein factors are numbers. $M$ commutes with every product of two gammas: $M\gamma^a\gamma^b = s\,\gamma^aM\gamma^b = s^2\,\gamma^a\gamma^bM = \gamma^a\gamma^bM$ (the condition used twice, then $s^2 = 1$). The spin connection is a combination of the $S^{ab} = \tfrac12\gamma^a\gamma^b$, so $M\Omega_\mu = \Omega_\mu M$; and a constant matrix commutes with a derivative, $M\partial_\mu = \partial_\mu M$. Hence $MD_\mu = D_\mu M$.
@@ -3696,7 +3697,7 @@ $$
 **Definition.** A **charge-conjugation matrix** is a constant $16 \times 16$ matrix $\mathcal{C}$ for which the matrix $M = \mathcal{C}C$ obeys the **intertwiner condition**
 
 $$
-M(\gamma^a)^\ast = s\,\gamma^aM \qquad \text{for } a = x1, \dots, x8 ,
+M(\gamma^a)^\ast = s\,\gamma^aM \qquad \text{for } a = x0, \dots, x7 ,
 $$
 
 with one sign $s$ ($+1$ or $-1$) for all eight directions. It is called **same mass** when $s = +1$ and **mass reversed** when $s = -1$. (The name: in the words of Section 5.11, $M$ is an intertwiner from the list of the conjugated gammas $(\gamma^a)^\ast$ to the list of the matrices $s\,\gamma^a$.) This is the definition of the Revision record: its checks `intertwiners_same_mass` and `intertwiners_reversed_mass` solve exactly this condition. Steps 1 to 4 prove that every charge-conjugation matrix does what we wanted: for every solution $\Psi$, the column $\Psi^c = M\Psi^\ast$ solves the field equation with $sV$.
@@ -3877,7 +3878,7 @@ The modules `contextlib`, `io` and `sys` serve the helper `check_reproduces` bel
 ```python
 fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                      .read_text(encoding="utf-8"))
-COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+COORDS = fixture["coordinates"]  # "x0", ..., "x7"
 ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
 gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
 I16 = np.eye(16, dtype=np.int64)  # the identity matrix 1
@@ -3893,11 +3894,11 @@ def product(directions):
     return result
 ```
 
-`product(["x8", "x1"])` multiplies the gammas of the listed directions in the order of the list, starting from the identity; `@` is the matrix product.
+`product(["x0", "x1"])` multiplies the gammas of the listed directions in the order of the list, starting from the identity; `@` is the matrix product.
 
 ```python
-C = product(["x8", "x1", "x2", "x3"])  # the charge matrix (sigma16)
-Gamma = product(["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # the chirality
+C = product(["x0", "x1", "x2", "x3"])  # the charge matrix (sigma16)
+Gamma = product(["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # the chirality
 B = -1j * (C @ gamma["x4"])  # B = -i C gamma^(x4)
 pairs = [(a, b) for i, a in enumerate(COORDS) for b in COORDS[i + 1:]]
 S_gen = {(a, b): (gamma[a] @ gamma[b] - gamma[b] @ gamma[a]) / 4 for a, b in pairs}
@@ -3968,7 +3969,7 @@ def conjugation_system(s):
     return np.vstack(blocks)
 ```
 
-`conjugation_system(s)` builds the coefficient matrix of the 2048 linear equations $M(\gamma^a)^\ast - s\,\gamma^aM = 0$, $a = x1, \dots, x8$, for the 256 entries of $M$ listed row by row. The rule of Section 5.13 for $LX - XR$ is used with the roles turned around: the entry $(r, c)$ of $MG$ is $\sum_kM_{rk}G_{kc}$, and the coefficient matrix of $M \to MG$ is $\mathrm{kron}(1, G^T)$; the entry $(r, c)$ of $GM$ is $\sum_kG_{rk}M_{kc}$, with the coefficient matrix $\mathrm{kron}(G, 1)$. `np.conj` writes out the complex conjugate although it equals the gamma (the gammas are real), so that the code says exactly what the equation says; `np.vstack` stacks the eight blocks of 256 rows.
+`conjugation_system(s)` builds the coefficient matrix of the 2048 linear equations $M(\gamma^a)^\ast - s\,\gamma^aM = 0$, $a = x0, \dots, x7$, for the 256 entries of $M$ listed row by row. The rule of Section 5.13 for $LX - XR$ is used with the roles turned around: the entry $(r, c)$ of $MG$ is $\sum_kM_{rk}G_{kc}$, and the coefficient matrix of $M \to MG$ is $\mathrm{kron}(1, G^T)$; the entry $(r, c)$ of $GM$ is $\sum_kG_{rk}M_{kc}$, with the coefficient matrix $\mathrm{kron}(G, 1)$. `np.conj` writes out the complex conjugate although it equals the gamma (the gammas are real), so that the code says exactly what the equation says; `np.vstack` stacks the eight blocks of 256 rows.
 
 ```python
 def exact_solutions(A, n=16):
@@ -4465,7 +4466,7 @@ save_figure(fig, "sign_table",
             ...)
 ```
 
-Each square gets its sign in bold white; white lines separate the squares, with a thicker line between the column $S$ and the currents; the columns are labelled $S$, $J^{(x1)}, \dots, J^{(x8)}$ (the doubled braces of the `rf`-string give single braces) and the rows by map and kind of component. **What figure 05c.6 shows**: the row $\mathcal{C}_+$, commuting is red for $S$ and blue for all currents; the row $\mathcal{C}_-$, commuting is red everywhere; each anticommuting row is the commuting row above it with every colour reversed. The student should see that the exchange of two anticommuting components flips every sign once more.
+Each square gets its sign in bold white; white lines separate the squares, with a thicker line between the column $S$ and the currents; the columns are labelled $S$, $J^{(x0)}, \dots, J^{(x7)}$ (the doubled braces of the `rf`-string give single braces) and the rows by map and kind of component. **What figure 05c.6 shows**: the row $\mathcal{C}_+$, commuting is red for $S$ and blue for all currents; the row $\mathcal{C}_-$, commuting is red everywhere; each anticommuting row is the commuting row above it with every colour reversed. The student should see that the exchange of two anticommuting components flips every sign once more.
 
 **In [16], the reality conditions.**
 
@@ -4562,7 +4563,7 @@ Tick marks, labels, the vertical range, and an **annotation**: a text in a white
 r = sp.Matrix(sp.symbols("r1:17", real=True))  # a general real column
 currents = [sp.expand((-sp.I * r.T * sp.Matrix((C @ gamma[x]).tolist()) * r)[0, 0])
             for x in COORDS]
-say("J^a of a general real column, a = x1..x8: " + ", ".join(map(str, currents)))
+say("J^a of a general real column, a = x0..x7: " + ", ".join(map(str, currents)))
 ```
 
 `sp.symbols("r1:17", real=True)` makes the 16 real symbols $r_1, \dots, r_{16}$, and `r` is the column of them: all real columns at once. For each direction the current $J^a = -i\,r^TC\gamma^ar$ is multiplied out (`[0, 0]` takes the single entry of the $1 \times 1$ result). The printed line shows eight zeros: fact (F1) of Section 5.29.
@@ -4684,7 +4685,7 @@ check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in FIGURES),
 all_checks_passed()
 ```
 
-The nine figure files must exist, and the last line reads ALL 20 CHECKS PASSED (notebook 05c): two checks in In [2], two in In [3], one in In [4], three in In [5], one in In [7], one in In [8], one in In [9], two in In [12], one in In [14], one in In [16], two in In [17], one in In [18], one in In [20] and one in In [21]. Ten of them reproduce checks of the lead report (the two of In [2], the two of In [3], the first two of In [5], and those of In [14], In [16], In [18] and In [20]); the other ten are the notebook's own computations. The two lead checks that the notebook does not repeat are `spinor_connection_real` and `u1_noether_matrix_identity`, which need the curved metric (Chapters 6 and 21).
+The nine figure files must exist, and the last line reads ALL 20 CHECKS PASSED (notebook 05c): two checks in In [2], two in In [3], one in In [4], three in In [5], one in In [7], one in In [8], one in In [9], two in In [12], one in In [14], one in In [16], two in In [17], one in In [18], one in In [20] and one in In [21]. Ten of them reproduce checks of the lead report (the two of In [2], the two of In [3], the first two of In [5], and those of In [14], In [16], In [18] and In [20]); the other ten are the notebook's own computations. The two lead checks that the notebook does not repeat are `spinor_connection_real` and `u1_noether_matrix_identity`, which need the curved metric (Chapters 6 and 21); they are made at $b_4 = 1$, and `Revision/theory/reports/python-field-theory-b4.json` makes both for a general $b_4$ (checks `spinor_connection_real_b4` and `u1_noether_matrix_identity_b4`).
 
 ### 5.34 The quantised field: operators, the indefinite form and normal ordering
 
@@ -4725,7 +4726,7 @@ $$
 \{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\frac{\delta^7(x - y)}{\cos z} ,
 $$
 
-where $\cos z$ is the volume factor and $\delta^7(x - y)$ is the **delta function** of the seven other coordinates: an idealised object that is zero whenever the point $x$ differs from the point $y$ and whose integral over the seven coordinates is 1 (think of ever narrower and ever taller bumps of area 1). So operators at two different points of the slice anticommute, and only operators at the same point have a nonzero anticommutator (formula `quantisation` of `Revision/theory/field-theory.json`; Chapter 10 derives it). For the operators of one single momentum, the record's exact Fock-space example, the delta function and the factor are absent and the rule reads $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$ for $A, C = 1, \dots, 16$.
+where $\cos z$ is the volume factor ($z = 6Hx0$; the record writes its formulas for the author's metric at $b_4 = 1$, where $\sqrt{|g|} = b_4^{3/2}\cos z$ of Chapter 3 is $\cos z$) and $\delta^7(x - y)$ is the **delta function** of the seven other coordinates: an idealised object that is zero whenever the point $x$ differs from the point $y$ and whose integral over the seven coordinates is 1 (think of ever narrower and ever taller bumps of area 1). So operators at two different points of the slice anticommute, and only operators at the same point have a nonzero anticommutator (formula `quantisation` of `Revision/theory/field-theory.json`; Chapter 10 derives it). For the operators of one single momentum, the record's exact Fock-space example, the delta function and the factor are absent and the rule reads $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$ for $A, C = 1, \dots, 16$.
 
 **Why $\Psi^\dagger$ cannot be the Hilbert adjoint.** Suppose $\Psi^\dagger_A$ were the Hilbert adjoint $\Psi_A^\ast$. Every diagonal entry of $B$ is zero (the table of Section 5.6: row $r$ of $B/i$ never points to column $r$). So the rule would give $\{\Psi_A, \Psi_A^\ast\} = B_{AA} = 0$, and by the inequality above $|\Psi_A^\ast\phi|^2 + |\Psi_A\phi|^2 = 0$ for every state $\phi$; a sum of two squared lengths is zero only when both are, so $\Psi_A\phi = 0$ for every $\phi$: $\Psi_A$ would be the zero operator. But row $A$ of $B$ contains a nonzero entry $B_{AC}$, and the anticommutator of the zero operator with anything is zero, not $B_{AC}$: a contradiction. The record makes the same argument with the column $u$ that has $u_7 = -i/\sqrt2$, $u_{16} = 1/\sqrt2$ and zeros elsewhere, which obeys $Bu = -u$: the operator $X = \sum_Au_A^\ast\Psi_A$ has $\{X, X^\dagger\} = u^\dagger Bu = -1 < 0$, impossible for a Hilbert adjoint (check `no_positive_inner_product` of `Revision/theory/reports/wolfram-field-theory.json`). So the canonical rule needs an **indefinite** inner product, one in which some states have negative squared length; a space with such a product is called a **Krein space** (Chapter 10).
 
@@ -4818,7 +4819,7 @@ import numpy as np  # arrays of numbers, matrices and linear algebra
 
 fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                      .read_text(encoding="utf-8"))
-COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+COORDS = fixture["coordinates"]  # "x0", ..., "x7"
 gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
 I16 = np.eye(16, dtype=np.int64)  # the identity matrix 1
 ```
@@ -4826,9 +4827,9 @@ I16 = np.eye(16, dtype=np.int64)  # the identity matrix 1
 The modules and the gammas, as in Notebook 05c, In [2] (Section 5.33).
 
 ```python
-C = gamma["x8"] @ gamma["x1"] @ gamma["x2"] @ gamma["x3"]  # the charge matrix
+C = gamma["x0"] @ gamma["x1"] @ gamma["x2"] @ gamma["x3"]  # the charge matrix
 Gamma = I16
-for x in ["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]:
+for x in ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]:
     Gamma = Gamma @ gamma[x]  # the chirality: the product of all eight gammas
 B = -1j * (C @ gamma["x4"])  # B = -i C gamma^(x4), entries 0, +i, -i
 ```
@@ -5439,7 +5440,7 @@ save_figure(fig, "conjugated_rules",
 K_MATRICES = {"S": C.astype(complex)}  # the scalar S = Psi^dagger C Psi
 for x in COORDS:
     K_MATRICES[f"J^({x})"] = -1j * (C @ gamma[x])  # the current J^a
-BILINEAR_NAMES = list(K_MATRICES)  # "S", "J^(x1)", ..., "J^(x8)"
+BILINEAR_NAMES = list(K_MATRICES)  # "S", "J^(x0)", ..., "J^(x7)"
 signs, constants = {}, {}  # (map, bilinear) -> s and c
 identity_ok = True
 ```
@@ -5467,7 +5468,7 @@ For each map and each of the nine bilinears: the predicted constant $c = \mathrm
 for map_name in MAPS:
     say(f"{map_name:9}: s = " + " ".join(f"{signs[(map_name, b)]:+d}"
                                         for b in BILINEAR_NAMES)
-        + "  (S, J^(x1), ..., J^(x8))")
+        + "  (S, J^(x0), ..., J^(x7))")
     say(f"{'':9}  c = " + " ".join(f"{constants[(map_name, b)].real:+.0f}"
                                    for b in BILINEAR_NAMES))
 ```
@@ -5699,14 +5700,14 @@ The request that this book answers asks for a theory that "solves matter anti-ma
 - For a real commuting field the currents vanish, $\mathcal{C}_+$ does nothing, and among the matrices that obey the intertwiner condition the only nontrivial one is $\Gamma$ (up to a factor), with $(m, \lambda) \to (-m, -\lambda)$ (Section 5.29).
 - For the quantised anticommuting field dirac16complex, among the matrices of Theorem CC only $\Psi \to \Gamma\Psi^{\dagger T}$, up to a phase factor, keeps the canonical anticommutator; after normal ordering it reverses the charge of every quantum and reverses the mass (Section 5.34).
 - The map $\Psi \to \Gamma\Psi$ keeps the scalar and reverses every current (Section 5.5, (X7) and (X8)); it carries a solution with the parameters $(m, \lambda)$ to one with $(-m, -\lambda)$ (Section 5.29, (F3); this is the input of the pairing theorem T1, which Chapter 18 proves). So a solution and its $\Gamma$ image carry opposite charges, and the two together have total charge zero.
-- The current obeys the local conservation law $\sum_\mu\partial_\mu(\cos z\,J^\mu) = 0$ for every solution (record check `u1_noether_matrix_identity`, derived in Chapter 21): no process described by these field equations creates or destroys charge at any point; charge can only flow from one place to another. Hence the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of one solution is constant in time **if** its current flux through the boundary of the seven other directions vanishes (Section 5.6); this is a conditional statement, and its condition is not established (next list).
+- The current obeys the local conservation law $\sum_\mu\partial_\mu(\sqrt{|g|}\,J^\mu) = 0$, $\sqrt{|g|} = b_4^{3/2}\cos z$, for every solution (record checks `u1_noether_matrix_identity` at $b_4 = 1$ and `u1_noether_matrix_identity_b4` for a general $b_4$, derived in Chapter 21): no process described by these field equations creates or destroys charge at any point; charge can only flow from one place to another. Hence the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of one solution (at $b_4 = 1$; for a general $b_4$ it carries the factor $b_4^{3/2}$) is constant in time **if** its current flux through the boundary of the seven other directions vanishes (Section 5.6); this is a conditional statement, and its condition is not established (next list).
 
 All of these are exact statements about **maps between sets of solutions** of the field equations.
 
 **What is not proved, and is not claimed.**
 
 - Nothing in this chapter shows that any universe is **created**, in pairs or otherwise. The maps relate solutions that are both allowed by the equations; they contain no creation process, no rate, no amplitude and no big-bang dynamics (Chapter 20).
-- It is not proved that the total charge of one universe is constant in time. That needs the **no-flux condition** at the brane, $\cos z\,J^{x8} = 0$ at $z = \pi/2$, and the flux there is not zero in general (Section 5.6): exact solutions of Section 18.21, for example the one of Notebook 18c, carry charge through the brane, while the stationary members of that family do not. The condition is not derived for every solution (OPEN); the Kohn-Sham model of Chapter 14 ASSUMES it, through the Z2 mirror at the brane; the statement that no net charge is made inside one universe holds only where it is ASSUMED.
+- It is not proved that the total charge of one universe is constant in time. That needs the **no-flux condition** at the brane, $\cos z\,J^{x0} = 0$ at $z = \pi/2$, and the flux there is not zero in general (Section 5.6): exact solutions of Section 18.21, for example the one of Notebook 18c, carry charge through the brane, while the stationary members of that family do not. The condition is not derived for every solution (OPEN); the Kohn-Sham model of Chapter 14 ASSUMES it, through the Z2 mirror at the brane; the statement that no net charge is made inside one universe holds only where it is ASSUMED.
 - The theory as built does **not** solve the matter–antimatter problem. The observed universe contains far more matter than antimatter (Chapter 21 explains the measurement from zero). In 1967 Sakharov showed that producing such an excess from a symmetric start needs three things: a process that changes the baryon number (roughly, the number of protons and neutrons minus the number of their antiparticles), a violation of the symmetries C and CP, and a departure from thermal equilibrium (Chapter 21 derives the three conditions). The theory as built has no baryons, no process that creates or destroys a charge at any point (the current obeys the local conservation law; the total $Q$ of one universe is constant only under the no-flux condition at the brane, which is ASSUMED, not derived), no violation of CP built in or computed, and no computation of a departure from equilibrium. Chapter 21 lists what would have to be added.
 - The idea that a universe and an anti-universe together carry zero charge belongs to a class of ideas in the published literature; one example is L. Boyle, K. Finn and N. Turok, "CPT-Symmetric Universe", Phys. Rev. Lett. 121, 251301 (2018). The pair-level statement above (a solution and its $\Gamma$ image have total charge zero) is a statement of this kind about solutions. Any scenario in which our universe is one member of such a pair, or in which the pairing explains the observed excess of matter, is a **HYPOTHESIS**: nothing in this chapter or in the Revision record derives it.
 
@@ -5714,19 +5715,19 @@ All of these are exact statements about **maps between sets of solutions** of th
 
 **PROVED** (exact; the proof is in this chapter, and where a Revision record holds the fact, the report and check named confirm it independently; the notebooks named confirm it again):
 
-- Six rules for products of different gammas (moving a gamma through a product, the square, the reverse, the transpose, the trace 0, the count of eigenvalues); the properties of $C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$ ((C1) to (C7): symmetric, $CC = 1$, $C\gamma^a$ antisymmetric, $C\gamma^aC^{-1} = -(\gamma^a)^T$, signature $(8, 8)$, $C = \mathrm{diag}(-\sigma, \sigma)$), of the chirality $\Gamma$ ((X1) to (X9), $\Gamma = \mathrm{diag}(-1_8, 1_8)$, $\Gamma^TC\Gamma = C$, $\Gamma^TC\gamma^a\Gamma = -C\gamma^a$) and of $B = -iC\gamma^{(x4)}$ ((B1) to (B5): Hermitian, $BB = 1$, signature $(8, 8)$, commuting with five gammas and anticommuting with the three of the extra times) (Sections 5.3 to 5.6; Notebook 05a; `Revision/algebra/reports/python-algebra.json` and `Revision/algebra/reports/wolfram-algebra.json`, the checks named in the tables of those sections).
+- Six rules for products of different gammas (moving a gamma through a product, the square, the reverse, the transpose, the trace 0, the count of eigenvalues); the properties of $C = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$ ((C1) to (C7): symmetric, $CC = 1$, $C\gamma^a$ antisymmetric, $C\gamma^aC^{-1} = -(\gamma^a)^T$, signature $(8, 8)$, $C = \mathrm{diag}(-\sigma, \sigma)$), of the chirality $\Gamma$ ((X1) to (X9), $\Gamma = \mathrm{diag}(-1_8, 1_8)$, $\Gamma^TC\Gamma = C$, $\Gamma^TC\gamma^a\Gamma = -C\gamma^a$) and of $B = -iC\gamma^{(x4)}$ ((B1) to (B5): Hermitian, $BB = 1$, signature $(8, 8)$, commuting with five gammas and anticommuting with the three of the extra times) (Sections 5.3 to 5.6; Notebook 05a; `Revision/algebra/reports/python-algebra.json` and `Revision/algebra/reports/wolfram-algebra.json`, the checks named in the tables of those sections).
 - Theorem P: the 16 components carry an irreducible representation of Pin(4,4), and only the multiples of 1 commute with it; Theorem S: under Spin(4,4) they split into two irreducible, inequivalent halves of 8, and the commutant is spanned by $P_-$ and $P_+$; the same holds for the 28 generators $S^{ab}$ (Section 5.13; Notebook 05b; checks `clifford_products_span_M16`, `pin_commutant_dimension_1`, `even_products_span_M8_plus_M8`, `spin_commutant_dimension_2`, `spin_halves_irreducible`, `spin_halves_inequivalent`, `reflections_exchange_halves`).
 - The so(4,4) rules, the vector rule, the key identity of reflections, the closed formulas of the exponentials, the half angle and $R(2\pi) = -1$, the invariance of the scalar under products of exponentials, the form of $B$ kept by exactly the 21 generators without $x4$, the spinor norm $g^TCg = (-1)^kN(g)\,C$, the double cover (the vector matrix fixes $g$ up to the sign), and determinant $+1$ for every element of Pin(4,4) (Sections 5.12 and 5.18; Notebook 05d; checks `S_lorentz_algebra`, `S_vector_action`, `S_preserves_C_and_commutes_with_Gamma`, `S_preserves_B_only_off_x4`).
-- What the scaled commutators generate: the products of their exponentials form exactly $\mathrm{Spin}_0(4,4)$, the piece of Pin(4,4) joined to 1; Pin(4,4) consists of four pieces, $\mathrm{Spin}_0$, $\mathrm{Spin}_0\gamma^{(x8)}$, $\mathrm{Spin}_0\gamma^{(x4)}$ and $\mathrm{Spin}_0\gamma^{(x8)}\gamma^{(x4)}$; together with $\gamma^{(x8)}$ and $\gamma^{(x4)}$ the exponentials generate all of Pin(4,4) (Section 5.23; Notebook 05f).
-- The local conservation law $\sum_\mu\partial_\mu(\cos z\,J^\mu) = 0$ of the record, and from it the conditional statement: the total charge $Q$ is constant in time for every solution whose current flux through the boundary of the seven other directions vanishes (Section 5.6; check `u1_noether_matrix_identity` of the lead report, whose detail text states that it proves the local law only). The flux through the brane $z = \pi/2$ is not zero in general, so the constancy of $Q$ itself is not proved (see OPEN); it is zero for the stationary members $e^{iwx4}\chi$ of the family of exact solutions of Section 18.21, whose charge density is the same at every time (Section 5.6).
+- What the scaled commutators generate: the products of their exponentials form exactly $\mathrm{Spin}_0(4,4)$, the piece of Pin(4,4) joined to 1; Pin(4,4) consists of four pieces, $\mathrm{Spin}_0$, $\mathrm{Spin}_0\gamma^{(x0)}$, $\mathrm{Spin}_0\gamma^{(x4)}$ and $\mathrm{Spin}_0\gamma^{(x0)}\gamma^{(x4)}$; together with $\gamma^{(x0)}$ and $\gamma^{(x4)}$ the exponentials generate all of Pin(4,4) (Section 5.23; Notebook 05f).
+- The local conservation law $\sum_\mu\partial_\mu(\sqrt{|g|}\,J^\mu) = 0$ of the record, $\sqrt{|g|} = b_4^{3/2}\cos z$, and from it the conditional statement: the total charge $Q$ is constant in time for every solution whose current flux through the boundary of the seven other directions vanishes (Section 5.6; check `u1_noether_matrix_identity` of the lead report at $b_4 = 1$, whose detail text states that it proves the local law only, and check `u1_noether_matrix_identity_b4` of `Revision/theory/reports/python-field-theory-b4.json` for a general $b_4$). The flux through the brane $z = \pi/2$ is not zero in general, so the constancy of $Q$ itself is not proved (see OPEN); it is zero for the stationary members $e^{iwx4}\chi$ of the family of exact solutions of Section 18.21, whose charge density is the same at every time (Section 5.6).
 - Steps 1 to 4 of Section 5.28: every matrix $M$ with $M(\gamma^a)^\ast = s\,\gamma^aM$ (one sign $s$ for all $a$) maps every solution $\Psi$ to the solution $M\Psi^\ast$ with $sV$; for $V = 0$ the matrix $P_-C$ maps every solution to a solution without obeying this condition. Theorem CC: with the condition as the definition, exactly two charge-conjugation matrices, up to a factor, $\mathcal{C}_+ = C$ (same mass, $\Psi^c = \Psi^\ast$) and $\mathcal{C}_- = \Gamma C$ (mass reversed, $\Psi^c = \Gamma\Psi^\ast$), with $\mathcal{C}_\pm^{-1}\gamma^a\mathcal{C}_\pm = \mp(\gamma^a)^T$; the sign table of the scalar and the currents for commuting and anticommuting components; both reality conditions consistent, the real one kept in time and the other only for $m = 0$; for real fields $J = 0$, $\mathcal{C}_+$ the identity and, among the matrices that obey the condition, $\Gamma$ the nontrivial map with $(m, \lambda) \to (-m, -\lambda)$ (Sections 5.28 and 5.29; Notebook 05c; the lead report of charge conjugation, with the checks named in the tables of those two sections).
 - For the quantised field: the canonical conjugate cannot be a Hilbert adjoint; among the matrices of Theorem CC only $\Psi \to \Gamma\Psi^{\dagger T}$, up to a phase factor, keeps the canonical anticommutator; every conjugated bilinear is $X' = sX + c$ with the sign of the classical anticommuting components and the constant $c = \mathrm{tr}(K'B^T)$; normal ordering removes $c$ and keeps $s$ (the detail text of the lead check `bilinears_under_charge_conjugation` states the same: normal ordering adds no sign); the allowed conjugation reverses the charge of every quantum and the mass (Section 5.34; Notebook 05e; checks `quantum_charge_conjugation_unitary_type` of the lead report and `no_positive_inner_product` of `Revision/theory/reports/wolfram-field-theory.json`).
 
-**COMPUTED** (floating-point numbers, with the measured accuracy, or exact computations of the notebooks): the quadratic form of $C$ along two paths, $\mp\sin 2t$ to $10^{-14}$ (05a); the exact ranks 256 and 128 of the products of different gammas, the commutant and intertwiner dimensions 1, 2, 1, 1, 0, 0 by exact ranks and again by the zero eigenvalues of $A^TA$, the halving sequence $256, 128, \dots, 1$ and the negative control 4 (05b); the vector matrices and the closed formulas to $10^{-10}$ or better (05d); the sign pattern $(+, +)$ on 200 random products of exponentials (smallest determinant 1.019), the four patterns on 240 random elements, ten paths that never cross the band, the construction of step (I) on 40 random unit vectors and the decomposition of 12 random elements of Pin(4,4), and the spans 128 and 256 by singular values (05f); the exact solution spaces of the 2048 equations for each sign and the residuals of the free solution, below $10^{-12}$ where it solves and 11.83 where it does not, the values $S = -2$ and $J^{(x4)} = -6$, $+6$, $-6$ of the free solution and its images (exact at $x4 = 0$), and the violation $2|\sin(m\,x4)|$ of the condition $\Psi = \Gamma\Psi^\ast$ (05c); on the Fock space of 65536 states, the canonical rule to $10^{-12}$, the vacuum energy $-40$, the energies $+5$ and the charges $\pm1$, the vacuum values $S = -4.80$, $J^{(x1)} = -6.40$, $J^{(x4)} = 8$, the constants $c = \mp16$, and the reversed charges of the 16 quanta (05e). One observation is COMPUTED only and not used: $|\det A| = |\det D|$ for the 240 elements of Notebook 05f.
+**COMPUTED** (floating-point numbers, with the measured accuracy, or exact computations of the notebooks): the quadratic form of $C$ along two paths, $\mp\sin 2t$ to $10^{-14}$ (05a); the exact ranks 256 and 128 of the products of different gammas, the commutant and intertwiner dimensions 1, 2, 1, 1, 0, 0 by exact ranks and again by the zero eigenvalues of $A^TA$, the halving sequence $256, 128, \dots, 1$ and the negative control 4 (05b); the vector matrices and the closed formulas to $10^{-10}$ or better (05d); the sign pattern $(+, +)$ on 200 random products of exponentials (smallest determinant 1.000, reached by a product of six rotations), the four patterns on 240 random elements, ten paths that never cross the band, the construction of step (I) on 40 random unit vectors and the decomposition of 12 random elements of Pin(4,4), and the spans 128 and 256 by singular values (05f); the exact solution spaces of the 2048 equations for each sign and the residuals of the free solution, below $10^{-12}$ where it solves and 11.83 where it does not, the values $S = -2$ and $J^{(x4)} = -6$, $+6$, $-6$ of the free solution and its images (exact at $x4 = 0$), and the violation $2|\sin(m\,x4)|$ of the condition $\Psi = \Gamma\Psi^\ast$ (05c); on the Fock space of 65536 states, the canonical rule to $10^{-12}$, the vacuum energy $-40$, the energies $+5$ and the charges $\pm1$, the vacuum values $S = -4.80$, $J^{(x1)} = -6.40$, $J^{(x4)} = 8$, the constants $c = \mp16$, and the reversed charges of the 16 quanta (05e). One observation is COMPUTED only and not used: $|\det A| = |\det D|$ for the 240 elements of Notebook 05f.
 
 **ASSUMED**: the author's gammas, built from his formulas for T16 (Chapter 4), his coordinates and his metric (the input of the whole theory); the field equation $\gamma^\mu D_\mu\Psi = V\Psi$ of the Revision record (Chapter 7) and its canonical quantisation (Chapter 10); the theorem of Cartan and Dieudonné (every matrix of O(4,4) is a product of reflections), quoted without proof; three facts of analysis quoted without proof (the power series of the exponential converges for every square matrix; a linear differential equation has only one solution with a given starting value; the intermediate value theorem); and, for Notebook 05e, the scope of the example: one momentum without extra-time part, at one point of space, with the metric treated as flat near that point (the record's frozen-coefficient plane waves: constant gammas, no spin-connection term), and with the Fock vacuum of that momentum.
 
-**HYPOTHESIS and OPEN**: this chapter derives no creation of universes and no explanation of the matter–antimatter asymmetry; every scenario built on the maps of this chapter is a HYPOTHESIS (Section 5.39). OPEN: the no-flux condition $\cos z\,J^{x8} = 0$ at the brane $z = \pi/2$, which a constant total charge of one universe needs; no equation of the Revision record or of this book derives it for every solution, and the field equations and the quantisation of the record impose no condition at the brane; the Kohn-Sham model of Chapter 14 ASSUMES the Z2 mirror at the brane, whose two conditions make the current along the hidden direction zero there (`Revision/kohn_sham/ks-theory.json`, entry `boundaryConditions.brane`); exact solutions of Section 18.21, for example the one of Notebook 18c, violate it, while the stationary members of that family obey it (Section 5.6); wherever a constant total charge is used, it is ASSUMED. RESOLVED on 2026-10-08: an earlier version of the detail text of the lead check `bilinears_under_charge_conjugation` said that normal ordering supplies one more sign for each bilinear; the derivation of Section 5.34 (PROVED) and the Fock-space computation of Notebook 05e (COMPUTED) contradicted it, and the record was corrected: it now states that normal ordering adds no sign, in agreement with this chapter. OPEN, not studied in this book: whether, for $V \neq 0$ in the author's metric, some matrix that does not obey the intertwiner condition maps every solution to a solution (Section 5.28; nothing in this chapter depends on it).
+**HYPOTHESIS and OPEN**: this chapter derives no creation of universes and no explanation of the matter–antimatter asymmetry; every scenario built on the maps of this chapter is a HYPOTHESIS (Section 5.39). OPEN: the no-flux condition $\cos z\,J^{x0} = 0$ at the brane $z = \pi/2$, which a constant total charge of one universe needs; no equation of the Revision record or of this book derives it for every solution, and the field equations and the quantisation of the record impose no condition at the brane; the Kohn-Sham model of Chapter 14 ASSUMES the Z2 mirror at the brane, whose two conditions make the current along the hidden direction zero there (`Revision/kohn_sham/ks-theory.json`, entry `boundaryConditions.brane`); exact solutions of Section 18.21, for example the one of Notebook 18c, violate it, while the stationary members of that family obey it (Section 5.6); wherever a constant total charge is used, it is ASSUMED. RESOLVED on 2026-10-08: an earlier version of the detail text of the lead check `bilinears_under_charge_conjugation` said that normal ordering supplies one more sign for each bilinear; the derivation of Section 5.34 (PROVED) and the Fock-space computation of Notebook 05e (COMPUTED) contradicted it, and the record was corrected: it now states that normal ordering adds no sign, in agreement with this chapter. OPEN, not studied in this book: whether, for $V \neq 0$ in the author's metric, some matrix that does not obey the intertwiner condition maps every solution to a solution (Section 5.28; nothing in this chapter depends on it).
 
 ### 5.41 Exercises
 
@@ -5760,4 +5761,4 @@ All of these are exact statements about **maps between sets of solutions** of th
 
 **Exercise 8.** (a) Show that $\exp(\pi S^{(x4)(x5)}) = \gamma^{(x4)}\gamma^{(x5)}$. (b) Compute the spinor norm of $g = \gamma^{(x4)}\gamma^{(x5)}$ and check $g^TCg = C$. (c) Do the same for $h = \gamma^{(x1)}\gamma^{(x4)}$ and explain, with Section 5.23, why $h$ is not a product of exponentials although it lies in Spin(4,4).
 
-*Answer.* (a) $x4$ and $x5$ are both time-like, so $\eta_{x4\,x4}\eta_{x5\,x5} = +1$ and the plane is a rotation plane; the closed formula of Section 5.18 gives $\exp(\theta S^{(x4)(x5)}) = \cos\tfrac\theta2\,1 + \sin\tfrac\theta2\,\gamma^{(x4)}\gamma^{(x5)}$, and at $\theta = \pi$, $\cos\tfrac\pi2 = 0$ and $\sin\tfrac\pi2 = 1$. (b) $g$ is a product of $k = 2$ unit vectors $e_{x4}$ and $e_{x5}$ with $\eta(e_{x4}, e_{x4}) = \eta(e_{x5}, e_{x5}) = -1$, so $N(g) = (-1)(-1) = +1$ and $g^TCg = (-1)^2N(g)\,C = C$, as for every product of exponentials. (c) For $h$, $N(h) = \eta(e_{x1}, e_{x1})\,\eta(e_{x4}, e_{x4}) = (+1)(-1) = -1$, so $h^TCh = -C$. Every product of exponentials keeps $C$ (Section 5.18), so $h$ is not one. In the language of Section 5.23: $\Lambda(h)$ reverses $x1$ and $x4$, so its space block has determinant $-1$ and its time block $-1$; the sign pattern is $(-, -)$, the piece $\mathrm{Spin}_0\,\gamma^{(x8)}\gamma^{(x4)}$, while the products of exponentials have the pattern $(+, +)$. Since $h$ has two factors, it is even and lies in Spin(4,4).
+*Answer.* (a) $x4$ and $x5$ are both time-like, so $\eta_{x4\,x4}\eta_{x5\,x5} = +1$ and the plane is a rotation plane; the closed formula of Section 5.18 gives $\exp(\theta S^{(x4)(x5)}) = \cos\tfrac\theta2\,1 + \sin\tfrac\theta2\,\gamma^{(x4)}\gamma^{(x5)}$, and at $\theta = \pi$, $\cos\tfrac\pi2 = 0$ and $\sin\tfrac\pi2 = 1$. (b) $g$ is a product of $k = 2$ unit vectors $e_{x4}$ and $e_{x5}$ with $\eta(e_{x4}, e_{x4}) = \eta(e_{x5}, e_{x5}) = -1$, so $N(g) = (-1)(-1) = +1$ and $g^TCg = (-1)^2N(g)\,C = C$, as for every product of exponentials. (c) For $h$, $N(h) = \eta(e_{x1}, e_{x1})\,\eta(e_{x4}, e_{x4}) = (+1)(-1) = -1$, so $h^TCh = -C$. Every product of exponentials keeps $C$ (Section 5.18), so $h$ is not one. In the language of Section 5.23: $\Lambda(h)$ reverses $x1$ and $x4$, so its space block has determinant $-1$ and its time block $-1$; the sign pattern is $(-, -)$, the piece $\mathrm{Spin}_0\,\gamma^{(x0)}\gamma^{(x4)}$, while the products of exponentials have the pattern $(+, +)$. Since $h$ has two factors, it is even and lies in Spin(4,4).

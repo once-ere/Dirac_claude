@@ -7,11 +7,11 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It answers exactly the question whether the 28 scaled commutators S^ab = (1/4)(gamma^a gamma^b - gamma^b gamma^a) generate Pin(4,4). It checks that they are 28 independent matrices whose action on the eight directions is a basis of so(4,4) with the same commutators, writes every exponential exp(theta S^ab) as a product of two unit vectors, proves with the space and time blocks of the vector matrices that the products of exponentials form only the part Spin_0(4,4) of Pin(4,4) that is joined to 1, constructs for every unit vector v a product h of exponentials with gamma(v) = h gamma^(x8) h^-1 or h gamma^(x4) h^-1, and so writes every element of Pin(4,4) as a product of exponentials times one of 1, gamma^(x8), gamma^(x4) and gamma^(x8) gamma^(x4). Six teaching plots.
+It answers exactly the question whether the 28 scaled commutators S^ab = (1/4)(gamma^a gamma^b - gamma^b gamma^a) generate Pin(4,4). It checks that they are 28 independent matrices whose action on the eight directions is a basis of so(4,4) with the same commutators, writes every exponential exp(theta S^ab) as a product of two unit vectors, proves with the space and time blocks of the vector matrices that the products of exponentials form only the part Spin_0(4,4) of Pin(4,4) that is joined to 1, constructs for every unit vector v a product h of exponentials with gamma(v) = h gamma^(x0) h^-1 or h gamma^(x4) h^-1, and so writes every element of Pin(4,4) as a product of exponentials times one of 1, gamma^(x0), gamma^(x4) and gamma^(x0) gamma^(x4). Six teaching plots.
 
 It reads or reproduces these Revision records:
 
-- `Revision/algebra/gammas.json`: the author's gamma matrices in the coordinate order x1 to x8 (read)
+- `Revision/algebra/gammas.json`: the author's gamma matrices in the coordinate order x0 to x7 (read)
 - `Revision/algebra/reports/python-algebra.json`: the exact Python checks (reproduced: clifford_relation, S_definition, S_vector_action, S_lorentz_algebra, even_products_span_M8_plus_M8, clifford_products_span_M16)
 - `Revision/algebra/reports/wolfram-algebra.json`: the exact WolframScript checks (reproduced: S_gamma_commutator, S_Lorentz_algebra)
 
@@ -28,7 +28,7 @@ The notebook has 42 cells (23 markdown cells and 19 code cells) in these section
 - 9. The vector matrix of an exponential is exp(theta M)
 - 10. The forbidden band and the four pieces
 - 11. Paths from 1 never cross the band
-- 12. Every unit vector is a turned gamma^(x8) or gamma^(x4)
+- 12. Every unit vector is a turned gamma^(x0) or gamma^(x4)
 - 13. Every element of Pin(4,4) is a product of exponentials times one of four
 - 14. What the group elements span
 - 15. The last check
@@ -42,7 +42,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 05f (What the scaled commutators generate: Spin_0(4,4), and with two gammas all of Pin(4,4)) is the file `Revision/textbook/notebooks/05f_pin_generation.ipynb` of the repository Dirac_claude. It answers exactly the question whether the 28 scaled commutators S^ab = (1/4)(gamma^a gamma^b - gamma^b gamma^a) generate Pin(4,4). It checks that they are 28 independent matrices whose action on the eight directions is a basis of so(4,4) with the same commutators, writes every exponential exp(theta S^ab) as a product of two unit vectors, proves with the space and time blocks of the vector matrices that the products of exponentials form only the part Spin_0(4,4) of Pin(4,4) that is joined to 1, constructs for every unit vector v a product h of exponentials with gamma(v) = h gamma^(x8) h^-1 or h gamma^(x4) h^-1, and so writes every element of Pin(4,4) as a product of exponentials times one of 1, gamma^(x8), gamma^(x4) and gamma^(x8) gamma^(x4). Six teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
+Notebook 05f (What the scaled commutators generate: Spin_0(4,4), and with two gammas all of Pin(4,4)) is the file `Revision/textbook/notebooks/05f_pin_generation.ipynb` of the repository Dirac_claude. It answers exactly the question whether the 28 scaled commutators S^ab = (1/4)(gamma^a gamma^b - gamma^b gamma^a) generate Pin(4,4). It checks that they are 28 independent matrices whose action on the eight directions is a basis of so(4,4) with the same commutators, writes every exponential exp(theta S^ab) as a product of two unit vectors, proves with the space and time blocks of the vector matrices that the products of exponentials form only the part Spin_0(4,4) of Pin(4,4) that is joined to 1, constructs for every unit vector v a product h of exponentials with gamma(v) = h gamma^(x0) h^-1 or h gamma^(x4) h^-1, and so writes every element of Pin(4,4) as a product of exponentials times one of 1, gamma^(x0), gamma^(x4) and gamma^(x0) gamma^(x4). Six teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -273,19 +273,19 @@ In [8]  PASS Lambda e_a = cos(theta) e_a - eta_aa sin(theta) e_b for a rotation 
 In [8]      e_a - eta_aa sinh(theta) e_b for a boost
 In [9]  PASS 200 products of exponentials: A^T A - C^T C = 1, D^T D - B^T B = 1, and det A >= 1,
 In [9]      det D >= 1
-In [10]  PASS the vector matrices of 1, gamma^(x8), gamma^(x4), gamma^(x8) gamma^(x4) are the
-In [10]      identity and the reversals of x8, x4 and both
+In [10]  PASS the vector matrices of 1, gamma^(x0), gamma^(x4), gamma^(x0) gamma^(x4) are the
+In [10]      identity and the reversals of x0, x4 and both
 In [10]  PASS for 4 x 60 elements h w: Lambda(h w) = Lambda(h) Lambda(w), and h w has the sign
 In [10]      pattern of w
 In [10]  PASS observed for all 240 elements: |det A| = |det D|
-In [12]  PASS along ten paths t -> h(t) det A stays >= 1, and along gamma^(x8) h(t) it stays <= -1
+In [12]  PASS along ten paths t -> h(t) det A stays >= 1, and along gamma^(x0) h(t) it stays <= -1
 In [13]  PASS for 40 random unit vectors v: gamma(v) = h gamma^(e) h^-1 with h a product of at
-In [13]      most 7 exponentials and e = x8 or x4
+In [13]      most 7 exponentials and e = x0 or x4
 In [14]  PASS in both examples the moving vector keeps eta(w, w) and ends at v
 In [15]  PASS gamma^e exp(theta S^ab) (gamma^e)^-1 = exp(s theta S^ab), s = -1 if e is a or b, +1
 In [15]      otherwise
 In [16]  PASS 12 random elements of Pin(4,4): each is a product of exponentials times one of 1,
-In [16]      gamma^(x8), gamma^(x4), gamma^(x8) gamma^(x4), with the matching sign pattern
+In [16]      gamma^(x0), gamma^(x4), gamma^(x0) gamma^(x4), with the matching sign pattern
 In [17]  PASS exp(pi S^ab) = gamma^a gamma^b for the rotations and (exp(theta S^ab) - exp(-theta
 In [17]      S^ab)) / (2 sinh(theta/2)) = gamma^a gamma^b for the boosts
 In [17]  PASS the products of exponentials are block diagonal and span 128 dimensions, as the 128
@@ -303,7 +303,7 @@ In [19]  PASS the six figure files of notebook 05f exist
 The key numbers are printed as RESULT lines:
 
 ```text
-In [9]  RESULT smallest det A or det D of 200 products of six exponentials = 1.019
+In [9]  RESULT smallest det A or det D of 200 products of six exponentials = 1.000
 In [17]  RESULT rank of 170 products of exponentials = 128
 In [17]  RESULT rank of 300 elements of Pin(4,4) = 256
 ```
@@ -321,11 +321,11 @@ ALL 24 CHECKS PASSED (notebook 05f)
 
 The notebook shows 6 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
-- `Revision/textbook/figures/05f_1_generator_matrices.png` (1680 x 1194 pixels): The 28 eight by eight matrices $M^{ab}$ by which the scaled commutators $S^{ab}$ move the eight directions, one picture per plane $(a, b)$; rows and columns are the directions $x1$ to $x8$, labelled by their number; red $+1$, blue $-1$, grey $0$. Each has exactly two nonzero entries, in row $a$ column $b$ and in row $b$ column $a$: of opposite colour (antisymmetric) for the 12 rotations, of the same colour (symmetric) for the 16 boosts that mix a space-like and a time-like direction. These 28 matrices are a basis of so(4,4).
-- `Revision/textbook/figures/05f_2_two_unit_vectors.png` (1616 x 570 pixels): The second factor $u$ in $\exp(\theta S^{ab}) = \gamma^a\gamma(u)$, drawn in the plane of its two nonzero components (axes: the components of $u$, pure numbers; orange dots every 40th value of $\theta$). Left: the rotation in the plane $(x1, x2)$, $\theta$ from $0$ to $4\pi$; $u$ runs once around the unit circle. Middle and right: the boosts in the planes $(x1, x4)$ and $(x4, x8)$, $\theta$ from $-3$ to $3$; $u$ runs along a branch of a hyperbola. In every case $\eta(u, u)$ stays $+1$ or $-1$: each exponential is a product of two unit vectors.
-- `Revision/textbook/figures/05f_3_four_pieces.png` (988 x 1002 pixels): The determinants of the space block $A$ (horizontal axis) and of the time block $D$ (vertical axis) of the vector matrices of 240 elements of Pin(4,4): 60 random products $h$ of six exponentials (blue) and $h$ times $\gamma^{(x8)}$ (orange), $\gamma^{(x4)}$ (green) and $\gamma^{(x8)}\gamma^{(x4)}$ (purple). Both axes are linear between $-1$ and $1$ and logarithmic outside; the grey bands $|\det| < 1$ are forbidden for every element. Each kind fills one of the four corners: the products of exponentials never leave the corner where both determinants are at least 1. The points lie on the diagonals because $|\det A| = |\det D|$ for every element computed here.
-- `Revision/textbook/figures/05f_4_paths_and_band.png` (1057 x 662 pixels): The determinant of the space block $A$ of the vector matrix along ten paths $h(t)$ from the identity ($t = 0$) to a random product $h$ of six exponentials ($t = 1$), solid blue, and along the odd elements $\gamma^{(x8)}h(t)$, dashed orange; horizontal axis $t$, vertical axis $\det A$ (linear between $-1$ and $1$, logarithmic outside). The blue curves start at $1$ and the orange at $-1$; the grey band $|\det A| < 1$ is forbidden for every element, so no curve can cross it: $\gamma^{(x8)}$ is not joined to $1$ and is not a product of exponentials.
-- `Revision/textbook/figures/05f_5_carrying_vectors.png` (1519 x 720 pixels): The construction that carries a basic unit vector to a given unit vector $v$ by a product of exponentials: the eight components (one colour each, legend $x1$ to $x8$) of the moving vector after $0, 1, \dots, 7$ exponentials (horizontal axis), for a random space-like $v$ built from $e_{x8}$ (left) and a random time-like $v$ built from $e_{x4}$ (right). The first step is a boost that shares the length between $x8$ and $x4$, the next three turn one block and the last three the other; the diamonds at the right are the components of $v$, which the last step reaches. Vertical axis: the components, pure numbers.
+- `Revision/textbook/figures/05f_1_generator_matrices.png` (1680 x 1194 pixels): The 28 eight by eight matrices $M^{ab}$ by which the scaled commutators $S^{ab}$ move the eight directions, one picture per plane $(a, b)$; rows and columns are the directions $x0$ to $x7$, labelled by their number; red $+1$, blue $-1$, grey $0$. Each has exactly two nonzero entries, in row $a$ column $b$ and in row $b$ column $a$: of opposite colour (antisymmetric) for the 12 rotations, of the same colour (symmetric) for the 16 boosts that mix a space-like and a time-like direction. These 28 matrices are a basis of so(4,4).
+- `Revision/textbook/figures/05f_2_two_unit_vectors.png` (1616 x 570 pixels): The second factor $u$ in $\exp(\theta S^{ab}) = \gamma^a\gamma(u)$, drawn in the plane of its two nonzero components (axes: the components of $u$, pure numbers; orange dots every 40th value of $\theta$). Left: the rotation in the plane $(x1, x2)$, $\theta$ from $0$ to $4\pi$; $u$ runs once around the unit circle. Middle and right: the boosts in the planes $(x1, x4)$ and $(x4, x0)$, $\theta$ from $-3$ to $3$; $u$ runs along a branch of a hyperbola. In every case $\eta(u, u)$ stays $+1$ or $-1$: each exponential is a product of two unit vectors.
+- `Revision/textbook/figures/05f_3_four_pieces.png` (988 x 1002 pixels): The determinants of the space block $A$ (horizontal axis) and of the time block $D$ (vertical axis) of the vector matrices of 240 elements of Pin(4,4): 60 random products $h$ of six exponentials (blue) and $h$ times $\gamma^{(x0)}$ (orange), $\gamma^{(x4)}$ (green) and $\gamma^{(x0)}\gamma^{(x4)}$ (purple). Both axes are linear between $-1$ and $1$ and logarithmic outside; the grey bands $|\det| < 1$ are forbidden for every element. Each kind fills one of the four corners: the products of exponentials never leave the corner where both determinants are at least 1. The points lie on the diagonals because $|\det A| = |\det D|$ for every element computed here.
+- `Revision/textbook/figures/05f_4_paths_and_band.png` (1057 x 662 pixels): The determinant of the space block $A$ of the vector matrix along ten paths $h(t)$ from the identity ($t = 0$) to a random product $h$ of six exponentials ($t = 1$), solid blue, and along the odd elements $\gamma^{(x0)}h(t)$, dashed orange; horizontal axis $t$, vertical axis $\det A$ (linear between $-1$ and $1$, logarithmic outside). The blue curves start at $1$ and the orange at $-1$; the grey band $|\det A| < 1$ is forbidden for every element, so no curve can cross it: $\gamma^{(x0)}$ is not joined to $1$ and is not a product of exponentials.
+- `Revision/textbook/figures/05f_5_carrying_vectors.png` (1519 x 720 pixels): The construction that carries a basic unit vector to a given unit vector $v$ by a product of exponentials: the eight components (one colour each, legend $x0$ to $x7$) of the moving vector after $0, 1, \dots, 7$ exponentials (horizontal axis), for a random space-like $v$ built from $e_{x0}$ (left) and a random time-like $v$ built from $e_{x4}$ (right). The first step is a boost that shares the length between $x0$ and $x4$, the next three turn one block and the last three the other; the diamonds at the right are the components of $v$, which the last step reaches. Vertical axis: the components, pure numbers.
 - `Revision/textbook/figures/05f_6_span_ranks.png` (1042 x 657 pixels): The rank of the first $n$ of a list of random group elements (vertical axis) against $n$ (horizontal axis): 170 random products of six exponentials (solid blue) and 300 random elements of all four pieces of Pin(4,4) (dashed orange). Each new element adds one dimension until the rank stops at 128 for the products of exponentials (they span exactly the block-diagonal matrices) and at 256 for Pin(4,4) (all 16 by 16 matrices), the two numbers recorded by the Revision record for the even and for all Clifford products.
 
 ## 4. Side effects
@@ -336,12 +336,12 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/05f.captions.json` | 3647 | `80c9798e920ba8b3e5f9b53ae695c082124762fb536fddb209f79cc8235474de` |
-| `Revision/textbook/figures/05f_1_generator_matrices.png` | 156096 | `4f52880265b6131c3d408a0403bbeafe90f850f8c98b1e7d43529b3c7d0b271f` |
-| `Revision/textbook/figures/05f_2_two_unit_vectors.png` | 56117 | `49ac18138acfa4a00446e6676100e410d3eec8704e61b017e8ff632912589231` |
-| `Revision/textbook/figures/05f_3_four_pieces.png` | 49541 | `0d6c29b5bf751c4547a1a8105dd719181948b92ff02beb3bc384ecab409dd785` |
-| `Revision/textbook/figures/05f_4_paths_and_band.png` | 65843 | `f6f40888a34dca8d8e8467659d7bdc000107d6d8bfa42bd90d1e8365883afbb8` |
-| `Revision/textbook/figures/05f_5_carrying_vectors.png` | 112979 | `36ebf369803dc1056e05df1ba30e9ff5f1f760f3cddf608245a3c0b4deb4d688` |
+| `Revision/textbook/figures/05f.captions.json` | 3647 | `1d954e5b0ec632f2995d8188b9be435b11d1ac950d35043e981a8e93e2d6a645` |
+| `Revision/textbook/figures/05f_1_generator_matrices.png` | 154198 | `649694a9cc01844eb138083ea753f3b7673582dd30de1eeb1e76a9911a9d62ce` |
+| `Revision/textbook/figures/05f_2_two_unit_vectors.png` | 56171 | `5f7ab85d5913935cfd4e3b1523ca1cdc1c8fa0ff96e1a1188e556d734f62872e` |
+| `Revision/textbook/figures/05f_3_four_pieces.png` | 48643 | `77f7234060d19ef4f981f43aeaeb3a56798904023e8889bb7670d00b1d789865` |
+| `Revision/textbook/figures/05f_4_paths_and_band.png` | 62488 | `c3454808f8218ae0f9b3dfda141e1cf817c70edc1bac8de50055941295729480` |
+| `Revision/textbook/figures/05f_5_carrying_vectors.png` | 107169 | `d194db443f0326fd88dbc833ba9a9e94af0111f6d478a0b94cfdacb60a0e9c8c` |
 | `Revision/textbook/figures/05f_6_span_ranks.png` | 59101 | `f6922deafb71655b87e155185b7e2c9e04edbf11f062d57541f90095d38d0263` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/05f_pin_generation.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -365,8 +365,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 22.0 s, peak memory of the kernel process 217 MiB;
-- the check run: 19.8 s, peak memory of the kernel process 217 MiB.
+- the build run: 6.8 s, peak memory of the kernel process 218 MiB;
+- the check run: 6.3 s, peak memory of the kernel process 218 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -378,14 +378,14 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/05f_pin_generation.ipynb`: `f6eff4452121154660dc64ffe60c21dc10d9065e9163777f84f06d53d1ba2d96`
-- `Revision/textbook/notebooks/src/05f_pin_generation.py`: `670c2b070592e6197422e8a7de80ff0fdb1fd058b45a52d2ff38f053ad9f8302`
-- `Revision/textbook/figures/05f.captions.json`: `80c9798e920ba8b3e5f9b53ae695c082124762fb536fddb209f79cc8235474de`
-- `Revision/textbook/figures/05f_1_generator_matrices.png`: `4f52880265b6131c3d408a0403bbeafe90f850f8c98b1e7d43529b3c7d0b271f`
-- `Revision/textbook/figures/05f_2_two_unit_vectors.png`: `49ac18138acfa4a00446e6676100e410d3eec8704e61b017e8ff632912589231`
-- `Revision/textbook/figures/05f_3_four_pieces.png`: `0d6c29b5bf751c4547a1a8105dd719181948b92ff02beb3bc384ecab409dd785`
-- `Revision/textbook/figures/05f_4_paths_and_band.png`: `f6f40888a34dca8d8e8467659d7bdc000107d6d8bfa42bd90d1e8365883afbb8`
-- `Revision/textbook/figures/05f_5_carrying_vectors.png`: `36ebf369803dc1056e05df1ba30e9ff5f1f760f3cddf608245a3c0b4deb4d688`
+- `Revision/textbook/notebooks/05f_pin_generation.ipynb`: `c8b23ee87d551905473ecbd4ff6e37f33c07847ff05d68e7d99f34d0fefa7788`
+- `Revision/textbook/notebooks/src/05f_pin_generation.py`: `c82f8ecbaf2181df06721d4188112219382f9ee568ce46da4e08a315aefb8b45`
+- `Revision/textbook/figures/05f.captions.json`: `1d954e5b0ec632f2995d8188b9be435b11d1ac950d35043e981a8e93e2d6a645`
+- `Revision/textbook/figures/05f_1_generator_matrices.png`: `649694a9cc01844eb138083ea753f3b7673582dd30de1eeb1e76a9911a9d62ce`
+- `Revision/textbook/figures/05f_2_two_unit_vectors.png`: `5f7ab85d5913935cfd4e3b1523ca1cdc1c8fa0ff96e1a1188e556d734f62872e`
+- `Revision/textbook/figures/05f_3_four_pieces.png`: `77f7234060d19ef4f981f43aeaeb3a56798904023e8889bb7670d00b1d789865`
+- `Revision/textbook/figures/05f_4_paths_and_band.png`: `c3454808f8218ae0f9b3dfda141e1cf817c70edc1bac8de50055941295729480`
+- `Revision/textbook/figures/05f_5_carrying_vectors.png`: `d194db443f0326fd88dbc833ba9a9e94af0111f6d478a0b94cfdacb60a0e9c8c`
 - `Revision/textbook/figures/05f_6_span_ranks.png`: `f6922deafb71655b87e155185b7e2c9e04edbf11f062d57541f90095d38d0263`
 
 ## 7. Verification
@@ -394,4 +394,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-14: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":217.0,"seconds":22.0},"check":{"date":"2026-10-14","files":7,"peak_mb":217.0,"result":"passed","seconds":19.8},"date":"2026-10-14","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":218.0,"seconds":6.8},"check":{"date":"2026-10-14","files":7,"peak_mb":218.0,"result":"passed","seconds":6.3},"date":"2026-10-14","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

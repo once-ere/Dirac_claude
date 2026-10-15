@@ -53,7 +53,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's gamma matrices in the coordinate order x1 to x8 (read)"],
+         "the author's gamma matrices in the coordinate order x0 to x7 (read)"],
         ["Revision/theory/field-theory.json",
          "the formula quantisation: the canonical rule and its positive realisation "
          "(read)"],
@@ -245,8 +245,8 @@ CELLS = [
     ## 5. The gammas, C, Gamma, B and the Revision records
 
     The next cell reads the gammas (exact whole numbers) from
-    `Revision/algebra/gammas.json` and builds $C = \gamma^{(x8)}\gamma^{(x1)}
-    \gamma^{(x2)}\gamma^{(x3)}$, $\Gamma = \gamma^{(x8)}\gamma^{(x1)}\cdots
+    `Revision/algebra/gammas.json` and builds $C = \gamma^{(x0)}\gamma^{(x1)}
+    \gamma^{(x2)}\gamma^{(x3)}$, $\Gamma = \gamma^{(x0)}\gamma^{(x1)}\cdots
     \gamma^{(x7)}$ and $B = -iC\gamma^{(x4)}$. It reads the two reports whose checks
     this notebook repeats and defines the helpers `recorded(key, name)` (true when
     the report `key`, "lead" or "wolfram", holds the check `name` with the verdict
@@ -268,12 +268,12 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+    COORDS = fixture["coordinates"]  # "x0", ..., "x7"
     gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
     I16 = np.eye(16, dtype=np.int64)  # the identity matrix 1
-    C = gamma["x8"] @ gamma["x1"] @ gamma["x2"] @ gamma["x3"]  # the charge matrix
+    C = gamma["x0"] @ gamma["x1"] @ gamma["x2"] @ gamma["x3"]  # the charge matrix
     Gamma = I16
-    for x in ["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]:
+    for x in ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]:
         Gamma = Gamma @ gamma[x]  # the chirality: the product of all eight gammas
     B = -1j * (C @ gamma["x4"])  # B = -i C gamma^(x4), entries 0, +i, -i
 
@@ -898,7 +898,7 @@ CELLS = [
     K_MATRICES = {"S": C.astype(complex)}  # the scalar S = Psi^dagger C Psi
     for x in COORDS:
         K_MATRICES[f"J^({x})"] = -1j * (C @ gamma[x])  # the current J^a
-    BILINEAR_NAMES = list(K_MATRICES)  # "S", "J^(x1)", ..., "J^(x8)"
+    BILINEAR_NAMES = list(K_MATRICES)  # "S", "J^(x0)", ..., "J^(x7)"
     signs, constants = {}, {}  # (map, bilinear) -> s and c
     identity_ok = True
     for map_name, M in MAPS.items():
@@ -916,7 +916,7 @@ CELLS = [
     for map_name in MAPS:
         say(f"{map_name:9}: s = " + " ".join(f"{signs[(map_name, b)]:+d}"
                                             for b in BILINEAR_NAMES)
-            + "  (S, J^(x1), ..., J^(x8))")
+            + "  (S, J^(x0), ..., J^(x7))")
         say(f"{'':9}  c = " + " ".join(f"{constants[(map_name, b)].real:+.0f}"
                                        for b in BILINEAR_NAMES))
     lead_detail = detail("lead", "bilinears_under_charge_conjugation")

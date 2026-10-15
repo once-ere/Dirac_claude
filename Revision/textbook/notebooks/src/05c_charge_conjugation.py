@@ -44,7 +44,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's gamma matrices in the coordinate order x1 to x8 (read)"],
+         "the author's gamma matrices in the coordinate order x0 to x7 (read)"],
         ["Revision/lead_checks/reports/charge-conjugation-and-u1.json",
          "the lead checks of the charge-conjugation matrices (reproduced: "
          "representation_real, B_imaginary_hermitian, intertwiners_same_mass, "
@@ -98,8 +98,8 @@ CELLS = [
     defined by a condition that $M = \mathcal{C}C$ must obey together with every gamma
     (section 4 derives it); this notebook finds every such matrix exactly. It
 
-    1. solves the linear equations $M(\gamma^a)^* = s\,\gamma^a M$ ($a = x1, \dots,
-       x8$) for all $16 \times 16$ matrices $M = \mathcal{C}C$: for $s = +1$ (same
+    1. solves the linear equations $M(\gamma^a)^* = s\,\gamma^a M$ ($a = x0, \dots,
+       x7$) for all $16 \times 16$ matrices $M = \mathcal{C}C$: for $s = +1$ (same
        mass) the solutions are the multiples of $1$, for $s = -1$ (mass reversed) the
        multiples of $\Gamma$;
     2. builds the two charge-conjugation matrices $\mathcal{C}_+ = C$ and
@@ -133,8 +133,8 @@ CELLS = [
       $(\gamma^\mu D_\mu - V)\Psi = 0$ with $V = m + U'(S)$ a real function, $m$ the
       mass, $D_\mu = \partial_\mu + \Omega_\mu$ the covariant derivative with the
       spin connection $\Omega_\mu$.
-    - **Intertwiner condition** $M(\gamma^a)^* = s\,\gamma^a M$ for $a = x1, \dots,
-      x8$, with one sign $s$ ($+1$ or $-1$) for all eight directions: the linear
+    - **Intertwiner condition** $M(\gamma^a)^* = s\,\gamma^a M$ for $a = x0, \dots,
+      x7$, with one sign $s$ ($+1$ or $-1$) for all eight directions: the linear
       equations for $M = \mathcal{C}C$ derived in section 4.
     - **Charge-conjugation matrix** $\mathcal{C}$: a constant matrix for which
       $M = \mathcal{C}C$ obeys the intertwiner condition (the definition of the
@@ -227,8 +227,8 @@ CELLS = [
     ## 5. The gammas, C, Gamma, B and the recorded checks
 
     The next cell reads the gammas (exact whole numbers) from
-    `Revision/algebra/gammas.json`, builds $C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}
-    \gamma^{(x3)}$, $\Gamma = \gamma^{(x8)}\gamma^{(x1)}\cdots\gamma^{(x7)}$ and $B =
+    `Revision/algebra/gammas.json`, builds $C = \gamma^{(x0)}\gamma^{(x1)}\gamma^{(x2)}
+    \gamma^{(x3)}$, $\Gamma = \gamma^{(x0)}\gamma^{(x1)}\cdots\gamma^{(x7)}$ and $B =
     -iC\gamma^{(x4)}$, and reads the lead report. The helpers: `recorded(name)` is true
     when the report holds the check `name` with the verdict pass, `detail(name)` is its
     detail text, `RECORD` the report file, and `check_reproduces(condition, name,
@@ -248,7 +248,7 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+    COORDS = fixture["coordinates"]  # "x0", ..., "x7"
     ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
     gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
     I16 = np.eye(16, dtype=np.int64)  # the identity matrix 1
@@ -262,8 +262,8 @@ CELLS = [
         return result
 
 
-    C = product(["x8", "x1", "x2", "x3"])  # the charge matrix (sigma16)
-    Gamma = product(["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # the chirality
+    C = product(["x0", "x1", "x2", "x3"])  # the charge matrix (sigma16)
+    Gamma = product(["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # the chirality
     B = -1j * (C @ gamma["x4"])  # B = -i C gamma^(x4)
     pairs = [(a, b) for i, a in enumerate(COORDS) for b in COORDS[i + 1:]]
     S_gen = {(a, b): (gamma[a] @ gamma[b] - gamma[b] @ gamma[a]) / 4 for a, b in pairs}
@@ -307,7 +307,7 @@ CELLS = [
     md(r"""
     ## 6. Solving for every conjugation matrix M
 
-    The next cell turns $M(\gamma^a)^* - s\,\gamma^a M = 0$ ($a = x1, \dots, x8$) into
+    The next cell turns $M(\gamma^a)^* - s\,\gamma^a M = 0$ ($a = x0, \dots, x7$) into
     $8 \times 256 = 2048$ linear equations for the 256 entries of $M$, read row by row.
     The entry $(r, c)$ of $M G$ is $\sum_k M_{rk}G_{kc}$ (the unknown $M_{rk}$ has the
     coefficient $G_{kc}$) and of $G M$ it is $\sum_k G_{rk}M_{kc}$ (the unknown $M_{kc}$
@@ -950,7 +950,7 @@ CELLS = [
     r = sp.Matrix(sp.symbols("r1:17", real=True))  # a general real column
     currents = [sp.expand((-sp.I * r.T * sp.Matrix((C @ gamma[x]).tolist()) * r)[0, 0])
                 for x in COORDS]
-    say("J^a of a general real column, a = x1..x8: " + ", ".join(map(str, currents)))
+    say("J^a of a general real column, a = x0..x7: " + ", ".join(map(str, currents)))
     S_change = sp.expand((GAMMA * r).T * sp.Matrix(C.tolist()) * (GAMMA * r)
                          - r.T * sp.Matrix(C.tolist()) * r)[0, 0]
     kinetic_reversed = all(np.array_equal(Gamma.T @ C @ gamma[x] @ Gamma,

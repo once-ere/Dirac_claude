@@ -43,7 +43,7 @@ FACTS = {
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's gamma matrices in the coordinate order x1 to x8 (read)"],
+         "the author's gamma matrices in the coordinate order x0 to x7 (read)"],
         ["Revision/algebra/reports/python-algebra.json",
          "the exact Python checks (reproduced: clifford_products_span_M16, "
          "even_products_span_M8_plus_M8, pin_commutant_dimension_1, "
@@ -131,7 +131,7 @@ CELLS = [
       are independent when these $N$ rows have rank $N$.
     - **Span**: all combinations of a list of matrices.
     - **Clifford product**: a product $\gamma^{a_1}\gamma^{a_2}\cdots\gamma^{a_k}$ of
-      $k$ *different* gammas, taken in the order $x1, \dots, x8$; $k$ is its
+      $k$ *different* gammas, taken in the order $x0, \dots, x7$; $k$ is its
       **degree**; it is **even** or **odd** with $k$. The degree-0 product is $1$.
     - **Group**: a set of invertible matrices that contains the products and the
       inverses of its members.
@@ -229,7 +229,7 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json")
                          .read_text(encoding="utf-8"))
-    COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+    COORDS = fixture["coordinates"]  # "x0", ..., "x7"
     ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
     gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
     I16 = np.eye(16, dtype=np.int64)  # the identity matrix 1
@@ -358,7 +358,7 @@ CELLS = [
 
     The next cell builds the Clifford products of every degree $k = 0, \dots, 8$ (for
     each $k$, `itertools.combinations` lists the $\binom{8}{k}$ subsets of $k$
-    directions in the order $x1, \dots, x8$). It writes each product as one row of 256
+    directions in the order $x0, \dots, x7$). It writes each product as one row of 256
     numbers and computes exactly the rank of all 256 rows (must be 256: independent),
     of the 128 even ones (must be 128), and the rank after adding the products degree
     by degree. It also checks that every even product is block diagonal (it maps each
@@ -455,7 +455,7 @@ CELLS = [
     ## 8. The commutant of the eight gammas: Pin(4,4) is irreducible
 
     The next cell builds the $2048 \times 256$ system $X\gamma^a - \gamma^a X = 0$
-    ($a = x1, \dots, x8$; with `commutation_system`, $L = R = \gamma^a$ gives
+    ($a = x0, \dots, x7$; with `commutation_system`, $L = R = \gamma^a$ gives
     $\gamma^a X - X\gamma^a$, the same equations with the opposite sign), computes its
     exact rank and a basis of its solutions, and checks that the only solutions are
     the multiples of the identity.
@@ -544,7 +544,7 @@ CELLS = [
     ## 10. The generators S^ab and the commutant of Spin(4,4)
 
     The next cell builds the 28 generators $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$
-    ($a$ before $b$ in the order $x1, \dots, x8$). For $a \neq b$ the two gammas
+    ($a$ before $b$ in the order $x0, \dots, x7$). For $a \neq b$ the two gammas
     anticommute, so $[\gamma^a, \gamma^b] = 2\gamma^a\gamma^b$ and $S^{ab} =
     \tfrac12\gamma^a\gamma^b$: its entries are $0$ and $\pm\tfrac12$. It checks these
     recorded facts and that every $S^{ab}$ is block diagonal. For the exact equation
@@ -642,13 +642,13 @@ CELLS = [
     ax.set_yscale("log", base=2)
     ax.set_yticks([1, 4, 16, 64, 256], ["1", "4", "16", "64", "256"])
     ax.set_xticks(range(9), ["none"] + COORDS)
-    ax.set_xlabel("gammas imposed, in the order x1, x2, ..., x8 (the last one named)")
+    ax.set_xlabel("gammas imposed, in the order x0, x1, ..., x7 (the last one named)")
     ax.set_ylabel("dimension of the commutant")
     ax.set_title("Each further gamma halves the commutant")
     save_figure(fig, "commutant_halving",
                 "The dimension of the space of 16 by 16 matrices that commute with the "
                 "gammas imposed so far (vertical axis, logarithmic with base 2), when the "
-                "gammas are imposed one at a time in the order $x1$ to $x8$ (horizontal "
+                "gammas are imposed one at a time in the order $x0$ to $x7$ (horizontal "
                 "axis: the last gamma added). Without a condition all 256 entries are free; "
                 "every further gamma halves the dimension, and with all eight only the "
                 "multiples of the identity remain (dimension 1), computed exactly.")
