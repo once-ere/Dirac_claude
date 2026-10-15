@@ -54,7 +54,7 @@ FACTS = {
         "the three exponentially deflating extra times, its diagonal vielbein and its "
         "canonical spin connection, and checks the connection (antisymmetry, the "
         "vielbein postulate, its nonzero components, gamma^mu Omega_mu = 3 H "
-        "gamma^(x8) with the deflation terms cancelling). It then writes the "
+        "gamma^(x0) with the deflation terms cancelling). It then writes the "
         "Lagrangian, the field equation, the energy-momentum tensor and the current "
         "of the two fields on the first jet, with commuting components "
         "(dirac16complex00) and with Grassmann components (dirac16complex), and proves "
@@ -137,7 +137,7 @@ CELLS = [
        energy-momentum and current; and it shows with *negative controls* that the
        coupling $\lambda$ must change sign too.
     4. **T2**: it proves that the reflection of the hidden direction across the
-       brane $z = \pi/2$, with $\Psi \to \gamma^{(x_8)}\Psi$, maps a solution with
+       brane $z = \pi/2$, with $\Psi \to \gamma^{(x_0)}\Psi$, maps a solution with
        $(-m, \lambda)$ to a solution with $(m, \lambda)$, reverses $S$ and keeps the
        energy-momentum tensor and the current (pulled back, not reversed).
 
@@ -150,7 +150,7 @@ CELLS = [
 
     - **Metric, vielbein**: the metric $g_{\mu\nu}$ measures lengths and times; a
       *vielbein* $e^a{}_\mu$ writes it as $g_{\mu\nu} = \sum_a\eta_{aa}e^a{}_\mu
-      e^a{}_\nu$ with $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$. For the
+      e^a{}_\nu$ with $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$. For the
       author's diagonal metric $e^a{}_\mu = f_\mu\delta^a_\mu$ with
       $f_\mu = \sqrt{|g_{\mu\mu}|}$.
     - **Christoffel symbols** $\Gamma^\nu{}_{\mu\lambda}$: the numbers (functions)
@@ -182,25 +182,25 @@ CELLS = [
     - **Negative control**: a computation that must FAIL; it shows that the test can
       detect a wrong statement.
     - **Isometry**: a change of coordinates that does not change the metric.
-    - **Patch, mirror patch, brane**: the author's coordinate $z = 6Hx_8$ runs over
+    - **Patch, mirror patch, brane**: the author's coordinate $z = 6Hx_0$ runs over
       the *patch* $0 < z < \pi/2$. The map $z \to \pi - z$ takes it to the *mirror
       patch* $\pi/2 < z < \pi$; the surface $z = \pi/2$ between them is the *brane*,
-      where $g_{88} = \cot^2 z = 0$. Gluing the mirror patch to the patch there is
+      where $g_{00} = \cot^2 z = 0$. Gluing the mirror patch to the patch there is
       the Z2 construction, an ASSUMPTION of the Revision record.
     """),
     md(r"""
     ## 4. The physical and mathematical situation
 
     **The metric.** In the author's coordinates ($x_1, x_2, x_3$ 3-space, $x_4$ the
-    time, $x_5, x_6, x_7$ the extra times, $x_8$ hidden, $z = 6Hx_8$)
+    time, $x_5, x_6, x_7$ the extra times, $x_0$ hidden, $z = 6Hx_0$)
 
     $$ds^2 = e^{2a_4}\sin^{1/3}z\,(dx_1^2 + dx_2^2 + dx_3^2) - dx_4^2
-    - e^{-2a_4}\sin^{1/3}z\,(dx_5^2 + dx_6^2 + dx_7^2) + \cot^2 z\,dx_8^2 ,$$
+    - e^{-2a_4}\sin^{1/3}z\,(dx_5^2 + dx_6^2 + dx_7^2) + \cot^2 z\,dx_0^2 ,$$
 
     with $a_4 = a_4(x_4)$. As $a_4$ grows, 3-space inflates ($e^{a_4}$) and the three
     extra times deflate exponentially ($e^{-a_4}$). The vielbein factors are
     $f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z$, $f_4 = 1$, $f_5 = f_6 = f_7 =
-    e^{-a_4}\sin^{1/6}z$, $f_8 = \cot z$, and $\sqrt{|g|} = f_1f_2\cdots f_8 =
+    e^{-a_4}\sin^{1/6}z$, $f_0 = \cot z$, and $\sqrt{|g|} = f_0f_2\cdots f_7 =
     \cos z$. The notebook keeps $a_4$ as an unknown function of $x_4$, so every result
     holds for every history, deflating or not.
 
@@ -278,15 +278,15 @@ CELLS = [
 
 
     fixture = read_json(GAMMAS)
-    G = {a: sp.Matrix(fixture["gamma"][a - 1]) for a in range(1, 9)}  # gamma^(x_a)
-    ETA = {a: int(fixture["eta"][a - 1]) for a in range(1, 9)}
+    G = {a: sp.Matrix(fixture["gamma"][a]) for a in range(8)}  # gamma^(x_a), a = 0..7
+    ETA = {a: int(fixture["eta"][a]) for a in range(8)}
     I16 = sp.eye(16)
-    C = G[8] * G[1] * G[2] * G[3]  # the four space-like gammas
-    GAM = G[8] * G[1] * G[2] * G[3] * G[4] * G[5] * G[6] * G[7]  # the chirality Gamma
+    C = G[0] * G[1] * G[2] * G[3]  # the four space-like gammas
+    GAM = G[0] * G[1] * G[2] * G[3] * G[4] * G[5] * G[6] * G[7]  # the chirality Gamma
     SAB = {(a, b): (G[a] * G[b] - G[b] * G[a]) / 4  # the generators S^ab
-           for a in range(1, 9) for b in range(1, 9)}
+           for a in range(8) for b in range(8)}
     check(all(G[a] * G[b] + G[b] * G[a] == (2 * ETA[a] if a == b else 0) * I16
-              for a in range(1, 9) for b in range(1, 9))
+              for a in range(8) for b in range(8))
           and GAM == sp.diag(*([-1] * 8 + [1] * 8)),
           "eight real 16 x 16 gammas with the Clifford relations; Gamma = diag(-I8, I8)")
     '''),
@@ -295,14 +295,14 @@ CELLS = [
 
     The next cell defines the symbols: the time $x_4$, the hidden angle $z$, the
     author's constant $H$, the mass $m$, the coupling $\lambda$ and the unknown
-    function $a_4(x_4)$. A derivative along $x_8$ is a derivative along $z$ times
-    $6H$ (because $z = 6Hx_8$); nothing depends on $x_1, x_2, x_3, x_5, x_6, x_7$.
+    function $a_4(x_4)$. A derivative along $x_0$ is a derivative along $z$ times
+    $6H$ (because $z = 6Hx_0$); nothing depends on $x_1, x_2, x_3, x_5, x_6, x_7$.
 
     The class `Geometry` then computes, for the diagonal vielbein with the factors
-    $f_\mu$ of section 4 (with $f_8 = s_8\cot z$, where the sign $s_8 = +1$ on the
-    patch and $s_8 = -1$ on the mirror patch keeps $f_8$ positive):
+    $f_\mu$ of section 4 (with $f_0 = s_0\cot z$, where the sign $s_0 = +1$ on the
+    patch and $s_0 = -1$ on the mirror patch keeps $f_0$ positive):
 
-    - the metric $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$ and $\sqrt{|g|} = f_1\cdots f_8$;
+    - the metric $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$ and $\sqrt{|g|} = f_0\cdots f_7$;
     - the Christoffel symbols of a diagonal metric,
       $\Gamma^\nu{}_{\mu\lambda} = \frac{1}{2g_{\nu\nu}}\big(\delta_{\nu\lambda}
       \partial_\mu g_{\nu\nu} + \delta_{\nu\mu}\partial_\lambda g_{\nu\nu} -
@@ -326,26 +326,26 @@ CELLS = [
         """The derivative of a coefficient along the coordinate x_mu."""
         if mu == 4:
             return sp.diff(expr, x4)
-        if mu == 8:
-            return 6 * H * sp.diff(expr, z)  # z = 6 H x8
+        if mu == 0:
+            return 6 * H * sp.diff(expr, z)  # z = 6 H x0
         return sp.Integer(0)  # nothing depends on x1, x2, x3, x5, x6, x7
 
 
     class Geometry:
-        """The author's metric with the diagonal vielbein; s8 = +1 on the patch,
-        s8 = -1 on the mirror patch (then f8 = -cot z > 0)."""
+        """The author's metric with the diagonal vielbein; s0 = +1 on the patch,
+        s0 = -1 on the mirror patch (then f0 = -cot z > 0)."""
 
-        def __init__(self, s8):
+        def __init__(self, s0):
             up, down = sp.exp(a4), sp.exp(-a4)  # inflating and deflating factors
             s6 = sp.sin(z) ** sp.Rational(1, 6)
-            f = {1: up * s6, 2: up * s6, 3: up * s6, 4: sp.Integer(1),
-                 5: down * s6, 6: down * s6, 7: down * s6, 8: s8 * sp.cot(z)}
+            f = {0: s0 * sp.cot(z), 1: up * s6, 2: up * s6, 3: up * s6,
+                 4: sp.Integer(1), 5: down * s6, 6: down * s6, 7: down * s6}
             self.f = f
             self.g = {mu: ETA[mu] * f[mu] ** 2 for mu in f}  # g_mu mu
             self.sqrtg = sp.simplify(sp.Mul(*f.values()))  # sqrt|g|
             g = self.g
             self.chr = {}  # Christoffel symbols Gamma^nu_(mu lambda)
-            for nu, mu, la in itertools.product(range(1, 9), repeat=3):
+            for nu, mu, la in itertools.product(range(8), repeat=3):
                 v = 0
                 if nu == la:
                     v += d(g[nu], mu)
@@ -355,15 +355,15 @@ CELLS = [
                     v -= d(g[mu], nu)
                 self.chr[nu, mu, la] = sp.simplify(v / (2 * g[nu]))
             self.om = {}  # omega_mu ab
-            for mu, a, b in itertools.product(range(1, 9), repeat=3):
+            for mu, a, b in itertools.product(range(8), repeat=3):
                 v = self.chr[a, mu, b] / f[b]  # e^a_nu Gamma^nu_mu lam e^lam_b ...
                 if a == b:
                     v += d(1 / f[b], mu)  # ... + e^a_nu d_mu e^nu_b
                 self.om[mu, a, b] = sp.simplify(ETA[a] * f[a] * v)
             self.Om = {}  # Omega_mu = (1/2) omega_mu ab S^ab
-            for mu in range(1, 9):
+            for mu in range(8):
                 M = sp.zeros(16)
-                for a, b in itertools.product(range(1, 9), repeat=2):
+                for a, b in itertools.product(range(8), repeat=2):
                     if self.om[mu, a, b] != 0:
                         M += self.om[mu, a, b] * SAB[a, b] / 2
                 self.Om[mu] = M.applyfunc(sp.simplify)
@@ -372,10 +372,10 @@ CELLS = [
 
 
     patch = Geometry(1)  # the author's patch 0 < z < pi/2
-    author = {1: sp.exp(2 * a4) * sp.sin(z) ** sp.Rational(1, 3), 4: -1,
-              5: -sp.exp(-2 * a4) * sp.sin(z) ** sp.Rational(1, 3), 8: sp.cot(z) ** 2}
+    author = {0: sp.cot(z) ** 2, 1: sp.exp(2 * a4) * sp.sin(z) ** sp.Rational(1, 3),
+              4: -1, 5: -sp.exp(-2 * a4) * sp.sin(z) ** sp.Rational(1, 3)}
     author.update({2: author[1], 3: author[1], 6: author[5], 7: author[5]})
-    metric_ok = all(sp.simplify(patch.g[mu] - author[mu]) == 0 for mu in range(1, 9))
+    metric_ok = all(sp.simplify(patch.g[mu] - author[mu]) == 0 for mu in range(8))
     say(f"sqrt|g| on the patch = {patch.sqrtg}")
     reproduces(metric_ok and sp.simplify(patch.sqrtg - sp.cos(z)) == 0,
                "the vielbein gives the author's metric and sqrt|g| = cos z",
@@ -391,13 +391,13 @@ CELLS = [
     list with the recorded one word for word.
     """),
     code(r'''
-    COORDS = {a: f"x{a}" for a in range(1, 9)}
+    COORDS = {a: f"x{a}" for a in range(8)}
     antisymmetric = all(sp.simplify(patch.om[mu, a, b] + patch.om[mu, b, a]) == 0
-                        for mu, a, b in itertools.product(range(1, 9), repeat=3))
+                        for mu, a, b in itertools.product(range(8), repeat=3))
     postulate = True
-    for mu, nu in itertools.product(range(1, 9), repeat=2):
+    for mu, nu in itertools.product(range(8), repeat=2):
         M = patch.gup[nu].applyfunc(lambda e: d(e, mu))  # d_mu gamma^nu
-        for la in range(1, 9):
+        for la in range(8):
             if patch.chr[nu, mu, la] != 0:
                 M = M + patch.chr[nu, mu, la] * patch.gup[la]
         M = M + patch.Om[mu] * patch.gup[nu] - patch.gup[nu] * patch.Om[mu]
@@ -411,8 +411,8 @@ CELLS = [
         return expr.subs(a4, sp.Symbol("a4"))
 
 
-    nonzero = [(mu, a, b) for mu in range(1, 9) for a in range(1, 9)
-               for b in range(a + 1, 9) if sp.simplify(patch.om[mu, a, b]) != 0]
+    nonzero = [(mu, a, b) for mu in range(8) for a in range(8)
+               for b in range(a + 1, 8) if sp.simplify(patch.om[mu, a, b]) != 0]
     listing = "; ".join(f"omega_{COORDS[mu]} {COORDS[a]}{COORDS[b]} = "
                         f"{short(patch.om[mu, a, b])}" for mu, a, b in nonzero)
     for mu, a, b in nonzero:
@@ -431,10 +431,10 @@ CELLS = [
     md(r"""
     The next cell computes $\gamma^\mu\Omega_\mu = \sum_\mu\gamma^\mu\Omega_\mu$,
     direction by direction. Each inflating direction $x_1, x_2, x_3$ contributes
-    $\frac{a_4'}{2}\gamma^{(x_4)} + \frac{H}{2}\gamma^{(x_8)}$ and each deflating extra
+    $\frac{a_4'}{2}\gamma^{(x_4)} + \frac{H}{2}\gamma^{(x_0)}$ and each deflating extra
     time $x_5, x_6, x_7$ contributes $-\frac{a_4'}{2}\gamma^{(x_4)} +
-    \frac{H}{2}\gamma^{(x_8)}$: the six $a_4'$ terms cancel, the six $H$ terms add up
-    to $3H\gamma^{(x_8)}$. The cell extracts the two coefficients of each contribution
+    \frac{H}{2}\gamma^{(x_0)}$: the six $a_4'$ terms cancel, the six $H$ terms add up
+    to $3H\gamma^{(x_0)}$. The cell extracts the two coefficients of each contribution
     with traces ($\mathrm{tr}(\gamma^{(a)}\gamma^{(b)}) = 16\eta_{aa}\delta_{ab}$, so
     the coefficient of $\gamma^{(a)}$ in $X$ is $\mathrm{tr}(\gamma^{(a)}X)/
     (16\eta_{aa})$) and checks the sum.
@@ -446,18 +446,18 @@ CELLS = [
 
 
     contributions = {mu: (patch.gup[mu] * patch.Om[mu]).applyfunc(sp.simplify)
-                     for mu in range(1, 9)}
-    for mu in range(1, 9):
-        c4, c8 = coefficient(contributions[mu], 4), coefficient(contributions[mu], 8)
-        rest = (contributions[mu] - c4 * G[4] - c8 * G[8]).applyfunc(sp.simplify)
-        assert rest == sp.zeros(16)  # nothing but gamma^(x4) and gamma^(x8)
+                     for mu in range(8)}
+    for mu in range(8):
+        c4, c0 = coefficient(contributions[mu], 4), coefficient(contributions[mu], 0)
+        rest = (contributions[mu] - c4 * G[4] - c0 * G[0]).applyfunc(sp.simplify)
+        assert rest == sp.zeros(16)  # nothing but gamma^(x4) and gamma^(x0)
         say(f"direction {COORDS[mu]}: coefficient of gamma^(x4) = {short(c4)}, "
-            f"of gamma^(x8) = {short(c8)}")
+            f"of gamma^(x0) = {short(c0)}")
     total = sp.zeros(16)
-    for mu in range(1, 9):
+    for mu in range(8):
         total += contributions[mu]
-    check(total.applyfunc(sp.simplify) == 3 * H * G[8],
-          "gamma^mu Omega_mu = 3 H gamma^(x8): the a4' terms of the deflation cancel")
+    check(total.applyfunc(sp.simplify) == 3 * H * G[0],
+          "gamma^mu Omega_mu = 3 H gamma^(x0): the a4' terms of the deflation cancel")
     '''),
     md(r"""
     The next cell draws the connection along the canonical deflating history of the
@@ -513,7 +513,7 @@ CELLS = [
                 "coefficient of $\\gamma^{(x_4)}$ in $\\gamma^\\mu\\Omega_\\mu$, "
                 "$+3AH/2$ from the three inflating and $-3AH/2$ from the three "
                 "deflating directions, constant in time; their sum, dashed, is zero, "
-                "so only $3H\\gamma^{(x_8)}$ survives.")
+                "so only $3H\\gamma^{(x_0)}$ survives.")
     '''),
     md(r"""
     ## 7. An algebra for the jets: commuting or Grassmann
@@ -613,15 +613,15 @@ CELLS = [
         return all(item.is_zero() for item in items)
     '''),
     md(r"""
-    The next cell defines the matrix operations on columns of 16 algebra elements
-    (matrix times column, row times matrix, row times column) and the first jet. The
-    288 generators are numbered: $\Psi^*_A$ is $A$ ($A = 0, \dots, 15$), $\Psi_A$ is
-    $16 + A$, $\partial_\mu\Psi^*_A$ is $32 + 16(\mu - 1) + A$ and
-    $\partial_\mu\Psi_A$ is $160 + 16(\mu - 1) + A$. The function `transform` returns
-    the jet of the new field $\Psi'(x) = P\Psi(Rx)$: the components are multiplied by
-    the matrix $P$ (their conjugates by $P^*$), and the derivative along $x_\mu$ gets
-    the sign `signs[mu]` of the coordinate reflection $R$ (all $+1$ for T1; $-1$ for
-    $x_8$ in the mirror map of T2).
+    The next cell defines the matrix operations on columns of 16 algebra elements (matrix
+    times column, row times matrix, row times column) and the first jet. The 288
+    generators are numbered: $\Psi^*_A$ is $A$ ($A = 0, \dots, 15$), $\Psi_A$ is $16 +
+    A$, $\partial_\mu\Psi^*_A$ is $32 + 16\mu + A$ and $\partial_\mu\Psi_A$ is $160 +
+    16\mu + A$ ($\mu = 0, \dots, 7$ for $x_0, \dots, x_7$). The function `transform`
+    returns the jet of the new field $\Psi'(x) = P\Psi(Rx)$: the components are
+    multiplied by the matrix $P$ (their conjugates by $P^*$), and the derivative along
+    $x_\mu$ gets the sign `signs[mu]` of the coordinate reflection $R$ (all $+1$ for T1;
+    $-1$ for $x_0$ in the mirror map of T2).
     """),
     code(r'''
     def mat_vec(M, v, odd):
@@ -666,11 +666,11 @@ CELLS = [
 
 
     def number_dpsi_star(mu, A):
-        return 32 + 16 * (mu - 1) + A
+        return 32 + 16 * mu + A
 
 
     def number_dpsi(mu, A):
-        return 160 + 16 * (mu - 1) + A
+        return 160 + 16 * mu + A
 
 
     def jets(odd):
@@ -678,13 +678,13 @@ CELLS = [
         return ([Jet.symbol(number_psi_star(A), odd) for A in range(16)],
                 [Jet.symbol(number_psi(A), odd) for A in range(16)],
                 {mu: [Jet.symbol(number_dpsi_star(mu, A), odd) for A in range(16)]
-                 for mu in range(1, 9)},
+                 for mu in range(8)},
                 {mu: [Jet.symbol(number_dpsi(mu, A), odd) for A in range(16)]
-                 for mu in range(1, 9)})
+                 for mu in range(8)})
 
 
-    NO_REFLECTION = {mu: 1 for mu in range(1, 9)}
-    MIRROR = {mu: (-1 if mu == 8 else 1) for mu in range(1, 9)}  # x8 -> const - x8
+    NO_REFLECTION = {mu: 1 for mu in range(8)}
+    MIRROR = {mu: (-1 if mu == 0 else 1) for mu in range(8)}  # x0 -> const - x0
 
 
     def transform(J, P, signs, odd):
@@ -693,9 +693,9 @@ CELLS = [
         Pc = P.conjugate()
         return (mat_vec(Pc, psi_star, odd), mat_vec(P, psi, odd),
                 {mu: [x.times(signs[mu]) for x in mat_vec(Pc, dpsi_star[mu], odd)]
-                 for mu in range(1, 9)},
+                 for mu in range(8)},
                 {mu: [x.times(signs[mu]) for x in mat_vec(P, dpsi[mu], odd)]
-                 for mu in range(1, 9)})
+                 for mu in range(8)})
     '''),
     md(r"""
     ## 8. The Lagrangian, the field equation, $T_{\mu\nu}$ and $J^\mu$ on the jet
@@ -717,10 +717,10 @@ CELLS = [
         """D_mu Psi and D_mu Psibar for mu = 1..8."""
         psi_star, psi, dpsi_star, dpsi = J
         Dpsi = {mu: [p + q for p, q in zip(dpsi[mu], mat_vec(geo.Om[mu], psi, odd))]
-                for mu in range(1, 9)}
+                for mu in range(8)}
         Dbar = {mu: [p - q for p, q in zip(row_mat(dpsi_star[mu], C, odd),
                                            row_mat(psi_star, C * geo.Om[mu], odd))]
-                for mu in range(1, 9)}
+                for mu in range(8)}
         return Dpsi, Dbar
 
 
@@ -733,7 +733,7 @@ CELLS = [
         """L = sqrt|g| [ K - m S - U(S) ] (density=False: without sqrt|g|)."""
         Dpsi, Dbar = covariant(geo, J, odd)
         kin = zero(odd)
-        for mu in range(1, 9):
+        for mu in range(8):
             kin = kin + dot(J[0], mat_vec(C * geo.gup[mu], Dpsi[mu], odd), odd)
             kin = kin - dot(Dbar[mu], mat_vec(geo.gup[mu], J[1], odd), odd)
         S = scalar(J, odd)
@@ -751,7 +751,7 @@ CELLS = [
         Dpsi, _ = covariant(geo, J, odd)
         S = scalar(J, odd)
         out = [zero(odd) for _ in range(16)]
-        for mu in range(1, 9):
+        for mu in range(8):
             out = [p + q for p, q in zip(out, mat_vec(geo.gup[mu], Dpsi[mu], odd))]
         return [out[A] - J[1][A].times(mass) - (S * J[1][A]).times(coup)
                 for A in range(16)]
@@ -762,8 +762,8 @@ CELLS = [
         Dpsi, Dbar = covariant(geo, J, odd)
         L = lagrangian(geo, J, odd, mass, coup, density=False)
         T = {}
-        for mu in range(1, 9):
-            for nu in range(mu, 9):
+        for mu in range(8):
+            for nu in range(mu, 8):
                 t = (dot(J[0], mat_vec(C * geo.glow[mu], Dpsi[nu], odd), odd)
                      + dot(J[0], mat_vec(C * geo.glow[nu], Dpsi[mu], odd), odd)
                      - dot(Dbar[mu], mat_vec(geo.glow[nu], J[1], odd), odd)
@@ -778,7 +778,7 @@ CELLS = [
     def current(geo, J, odd):
         """J^mu = i Psibar gamma^mu Psi (8 components)."""
         return {mu: dot(J[0], mat_vec(sp.I * C * geo.gup[mu], J[1], odd), odd)
-                for mu in range(1, 9)}
+                for mu in range(8)}
 
 
     def euler_lagrange(geo, J, odd, mass, coup):
@@ -787,7 +787,7 @@ CELLS = [
         out = []
         for A in range(16):
             e = L.derivative(number_psi_star(A))
-            for mu in range(1, 9):
+            for mu in range(8):
                 q = L.derivative(number_dpsi_star(mu, A))  # c Psi_B, linear in Psi
                 for key, c in q.terms.items():
                     B = key[0] - 16  # the component Psi_B of this term
@@ -897,7 +897,7 @@ CELLS = [
         COUNTS[stat]["T"] = {k: count_nonzero(T_plain[k]) for k in T_plain}
         COUNTS[stat]["T1 sign"] = {k: -1 for k in T_plain if emt_ok}
         J_image, J_plain = current(patch, JG, odd), current(patch, J, odd)
-        current_ok = all_zero([J_image[mu] + J_plain[mu] for mu in range(1, 9)])
+        current_ok = all_zero([J_image[mu] + J_plain[mu] for mu in range(8)])
         reproduces(emt_ok and pair_ok and current_ok and len(T_image) == 36,
                    f"T1 {field}: T -> -T (36), pair T sum 0, J -> -J (8)",
                    (PY, [f"T1.metric.{stat}.emt", f"T1.metric.{stat}.pair_total_emt_zero",
@@ -956,13 +956,13 @@ CELLS = [
 
     field = RandomField()
     E8 = [[fraction() for _ in range(8)] for _ in range(8)]  # e^mu_a, not diagonal
-    field.gup = {mu: sum((E8[mu - 1][a - 1] * G[a] for a in range(1, 9)), sp.zeros(16))
-                 for mu in range(1, 9)}
+    field.gup = {mu: sum((E8[mu][a] * G[a] for a in range(8)), sp.zeros(16))
+                 for mu in range(8)}
     field.Om = {}
-    for mu in range(1, 9):
+    for mu in range(8):
         M = sp.zeros(16)
-        for a in range(1, 9):
-            for b in range(a + 1, 9):
+        for a in range(8):
+            for b in range(a + 1, 8):
                 M += fraction() * SAB[a, b]  # an antisymmetric omega
         field.Om[mu] = M
     field.sqrtg = abs(fraction()) + 1
@@ -1033,9 +1033,9 @@ CELLS = [
     counts = np.zeros((8, 8))
     signs = np.zeros((8, 8))
     for (mu, nu), n in COUNTS["commuting"]["T"].items():
-        counts[mu - 1, nu - 1] = counts[nu - 1, mu - 1] = n
+        counts[mu, nu] = counts[nu, mu] = n
     for (mu, nu), s in COUNTS["commuting"]["T1 sign"].items():
-        signs[mu - 1, nu - 1] = signs[nu - 1, mu - 1] = s
+        signs[mu, nu] = signs[nu, mu] = s
     fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.6))
     image = axes[0].imshow(counts, cmap="Blues")
     fig.colorbar(image, ax=axes[0], shrink=0.85, label="monomials")
@@ -1048,14 +1048,14 @@ CELLS = [
                          fontsize=8, color="white")
     for ax, title in [(axes[0], "monomials of $T_{\\mu\\nu}[\\Psi; m, \\lambda]$"),
                       (axes[1], "sign of the T1 partner's $T_{\\mu\\nu}$")]:
-        ax.set_xticks(range(8), [f"$x_{a}$" for a in range(1, 9)])
-        ax.set_yticks(range(8), [f"$x_{a}$" for a in range(1, 9)])
+        ax.set_xticks(range(8), [f"$x_{a}$" for a in range(8)])
+        ax.set_yticks(range(8), [f"$x_{a}$" for a in range(8)])
         ax.grid(False)
         ax.set_title(title, fontsize=10)
     save_figure(fig, "emt_signs",
                 "The 36 independent components of the energy-momentum tensor in the "
-                "author's metric, row index $\\mu$ and column index $\\nu$ from $x_1$ "
-                "to $x_8$. Left: the number of jet monomials in each component for a "
+                "author's metric, row index $\\mu$ and column index $\\nu$ from $x_0$ "
+                "to $x_7$. Left: the number of jet monomials in each component for a "
                 "field with commuting components; the diagonal components carry the "
                 "whole Lagrangian, the off-diagonal ones only kinetic terms. Right: "
                 "the sign that relates the component of the T1 partner "
@@ -1068,16 +1068,16 @@ CELLS = [
     ## 10. Theorem T2: the mirror across the brane $z = \pi/2$
 
     The next cell builds the mirror patch $\pi/2 < z < \pi$ with its own positive
-    vielbein ($f_8 = -\cot z > 0$ there) and the patch geometry *evaluated at the
+    vielbein ($f_0 = -\cot z > 0$ there) and the patch geometry *evaluated at the
     mirror point*: every coefficient function of the patch with $z$ replaced by
-    $\pi - z$. It checks that $z \to \pi - z$ (that is, $x_8 \to \pi/(6H) - x_8$) is
+    $\pi - z$. It checks that $z \to \pi - z$ (that is, $x_0 \to \pi/(6H) - x_0$) is
     an isometry, $g_{\mu\mu}(\pi - z) = g_{\mu\mu}(z)$ for all eight components, and
-    that the brane is a degenerate surface: $g_{88} \to 0$ and $\sqrt{|g|} \to 0$ as
+    that the brane is a degenerate surface: $g_{00} \to 0$ and $\sqrt{|g|} \to 0$ as
     $z \to \pi/2$. Finally it checks the mirror patch's own connection (antisymmetry
     and the vielbein postulate).
     """),
     code(r'''
-    mirror = Geometry(-1)  # the mirror patch pi/2 < z < pi, f8 = -cot z > 0
+    mirror = Geometry(-1)  # the mirror patch pi/2 < z < pi, f0 = -cot z > 0
     to_mirror = {z: sp.pi - z}
 
 
@@ -1087,24 +1087,24 @@ CELLS = [
 
     reflected = Reflected()
     reflected.sqrtg = sp.expand(patch.sqrtg.subs(to_mirror))
-    reflected.g = {mu: sp.expand(patch.g[mu].subs(to_mirror)) for mu in range(1, 9)}
+    reflected.g = {mu: sp.expand(patch.g[mu].subs(to_mirror)) for mu in range(8)}
     for name in ("Om", "gup", "glow"):
         setattr(reflected, name, {mu: getattr(patch, name)[mu].subs(to_mirror)
-                                  .applyfunc(sp.expand) for mu in range(1, 9)})
+                                  .applyfunc(sp.expand) for mu in range(8)})
     isometry = all(sp.simplify(patch.g[mu].subs(to_mirror) - patch.g[mu]) == 0
-                   for mu in range(1, 9))
-    degenerate = (sp.limit(patch.g[8], z, sp.pi / 2) == 0
+                   for mu in range(8))
+    degenerate = (sp.limit(patch.g[0], z, sp.pi / 2) == 0
                   and sp.limit(patch.sqrtg, z, sp.pi / 2) == 0)
     reproduces(isometry and degenerate, "z -> pi - z is an isometry; the brane "
-               "z = pi/2 is degenerate (g88 = 0, sqrt|g| = 0)",
+               "z = pi/2 is degenerate (g00 = 0, sqrt|g| = 0)",
                (PY, ["geometry.mirror_isometry", "geometry.brane_degenerate"]),
                (WL, ["T2_mirror_is_isometry"]))
     mirror_postulate = all(
         sp.simplify(mirror.om[mu, a, b] + mirror.om[mu, b, a]) == 0
-        for mu, a, b in itertools.product(range(1, 9), repeat=3))
-    for mu, nu in itertools.product(range(1, 9), repeat=2):
+        for mu, a, b in itertools.product(range(8), repeat=3))
+    for mu, nu in itertools.product(range(8), repeat=2):
         M = mirror.gup[nu].applyfunc(lambda e: d(e, mu))
-        for la in range(1, 9):
+        for la in range(8):
             if mirror.chr[nu, mu, la] != 0:
                 M = M + mirror.chr[nu, mu, la] * mirror.gup[la]
         M = M + mirror.Om[mu] * mirror.gup[nu] - mirror.gup[nu] * mirror.Om[mu]
@@ -1115,7 +1115,7 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws the metric functions on both patches against $z$ from 0 to
-    $\pi$: they are mirror-symmetric about the brane $z = \pi/2$, where $g_{88}$ and
+    $\pi$: they are mirror-symmetric about the brane $z = \pi/2$, where $g_{00}$ and
     $\sqrt{|g|}$ vanish.
     """),
     code(r'''
@@ -1123,7 +1123,7 @@ CELLS = [
     fig, ax = plt.subplots(figsize=(8.0, 4.4))
     ax.plot(zs, np.sin(zs) ** (1.0 / 3.0), color="#2a78d6",
             label="$\\sin^{1/3}z$ (factor of $g_{11}$ and $-g_{55}$)")
-    ax.plot(zs, 1.0 / np.tan(zs) ** 2, color="#eb6834", label="$g_{88} = \\cot^2 z$")
+    ax.plot(zs, 1.0 / np.tan(zs) ** 2, color="#eb6834", label="$g_{00} = \\cot^2 z$")
     ax.plot(zs, np.abs(np.cos(zs)), color="#1baf7a", label="$\\sqrt{|g|} = |\\cos z|$")
     ax.axvline(np.pi / 2, color="#52514e", linestyle="--")
     ax.text(np.pi / 2 + 0.04, 2.6, "brane $z = \\pi/2$", fontsize=9)
@@ -1132,35 +1132,35 @@ CELLS = [
     ax.text(2.35, 2.6, "mirror patch", fontsize=9)
     ax.set_xlim(0.0, np.pi)
     ax.set_ylim(0.0, 3.0)
-    ax.set_xlabel("hidden angle $z = 6Hx_8$ (radians)")
+    ax.set_xlabel("hidden angle $z = 6Hx_0$ (radians)")
     ax.set_ylabel("metric function (no unit)")
     ax.legend(loc="center left", bbox_to_anchor=(0.02, 0.62), fontsize=8.5)
     save_figure(fig, "mirror_metric",
                 "The functions of the hidden angle that enter the author's metric, "
-                "against $z = 6Hx_8$ from 0 to $\\pi$ (horizontal axis, radians; "
+                "against $z = 6Hx_0$ from 0 to $\\pi$ (horizontal axis, radians; "
                 "vertical axis, pure numbers): $\\sin^{1/3}z$, the factor of the "
-                "3-space and extra-time components; $g_{88} = \\cot^2 z$; and "
+                "3-space and extra-time components; $g_{00} = \\cot^2 z$; and "
                 "$\\sqrt{|g|} = |\\cos z|$. The shaded half is the author's patch, the "
                 "other half its mirror patch. Every curve is mirror-symmetric about "
                 "the dashed brane $z = \\pi/2$, so $z \\to \\pi - z$ is an isometry. "
-                "At the brane $g_{88}$ and $\\sqrt{|g|}$ vanish: the metric is "
+                "At the brane $g_{00}$ and $\\sqrt{|g|}$ vanish: the metric is "
                 "degenerate there, and gluing the two patches is an assumption.")
     '''),
     md(r"""
     The next cell searches, as the sympy report does, for a relation between the
     Lagrangian on the mirror patch of the new field $\Psi'(x) = P\Psi(Rx)$ ($R$: the
-    mirror map, which reverses the derivative along $x_8$) and the Lagrangian on the
+    mirror map, which reverses the derivative along $x_0$) and the Lagrangian on the
     patch at the mirror point, $\mathcal{L}^{\rm mirror}_{m,\lambda}[\Psi'] =
     \sigma\,\mathcal{L}^{\rm patch}_{\pm m,\pm\lambda}[\Psi]$, with the eight sign
     choices of $(\sigma, \pm m, \pm\lambda)$, for the four candidates $P = 1$,
-    $\Gamma$, $\gamma^{(x_8)}$ and $\Gamma\gamma^{(x_8)}$. The expected answer: no
-    relation for $P = 1$ and $P = \Gamma$; $P = \gamma^{(x_8)}$ gives
-    $+\mathcal{L}_{-m,\lambda}$ (theorem T2); $P = \Gamma\gamma^{(x_8)}$ (the
-    reflection $P_8$ alone) gives $-\mathcal{L}_{m,-\lambda}$.
+    $\Gamma$, $\gamma^{(x_0)}$ and $\Gamma\gamma^{(x_0)}$. The expected answer: no
+    relation for $P = 1$ and $P = \Gamma$; $P = \gamma^{(x_0)}$ gives
+    $+\mathcal{L}_{-m,\lambda}$ (theorem T2); $P = \Gamma\gamma^{(x_0)}$ (the
+    reflection $P_0$ alone) gives $-\mathcal{L}_{m,-\lambda}$.
     """),
     code(r'''
-    CANDIDATES = [("1", I16), ("Gamma", GAM), ("gamma^(x8)", G[8]),
-                  ("Gamma gamma^(x8)", GAM * G[8])]
+    CANDIDATES = [("1", I16), ("Gamma", GAM), ("gamma^(x0)", G[0]),
+                  ("Gamma gamma^(x0)", GAM * G[0])]
     FOUND = {}
     for odd in (False, True):
         J = jets(odd)
@@ -1181,25 +1181,25 @@ CELLS = [
             f"{'' if hit[2] > 0 else '-'}lambda)")
         say(f"P = {name}: {text} (the same for Grassmann components: "
             f"{FOUND[True, name] == hit})")
-    expected = {"1": None, "Gamma": None, "gamma^(x8)": (1, -1, 1),
-                "Gamma gamma^(x8)": (-1, 1, -1)}
+    expected = {"1": None, "Gamma": None, "gamma^(x0)": (1, -1, 1),
+                "Gamma gamma^(x0)": (-1, 1, -1)}
     reproduces(all(FOUND[odd, name] == expected[name]
                    for odd in (False, True) for name, _ in CANDIDATES),
-               "T2: only gamma^(x8) maps (m, lambda) to (-m, lambda) with L -> +L",
+               "T2: only gamma^(x0) maps (m, lambda) to (-m, lambda) with L -> +L",
                (PY, ["T2.metric.commuting.reflection_table",
                      "T2.metric.grassmann.reflection_table"]),
                (WL, ["T2_mirror_Lagrangian_commuting", "T2_mirror_Lagrangian_grassmann"]))
     '''),
     md(r"""
-    The next cell completes T2 for $P = \gamma^{(x_8)}$, both statistics: the field
-    equations, $E^{\rm mirror}_{m,\lambda}[\Psi'] = -\gamma^{(x_8)}E^{\rm patch}
+    The next cell completes T2 for $P = \gamma^{(x_0)}$, both statistics: the field
+    equations, $E^{\rm mirror}_{m,\lambda}[\Psi'] = -\gamma^{(x_0)}E^{\rm patch}
     _{-m,\lambda}[\Psi]$ (so $\Psi$ solves the $(-m, \lambda)$ equations on the patch
     exactly when its mirror image solves the $(m, \lambda)$ equations on the mirror
     patch); the energy-momentum tensor, $T_{\mu\nu}[\Psi'] = \Lambda_\mu\Lambda_\nu
-    T_{\mu\nu}[\Psi; -m, \lambda]$ with $\Lambda = \mathrm{diag}(1, 1, 1, 1, 1, 1, 1,
-    -1)$ (the ordinary change of a tensor under the reflection of $x_8$; no other sign
+    T_{\mu\nu}[\Psi; -m, \lambda]$ with $\Lambda = \mathrm{diag}(-1, 1, 1, 1, 1, 1,
+    1, 1)$ (the ordinary change of a tensor under the reflection of $x_0$; no other sign
     change, so the energy density is EQUAL); the current, $J'^\mu = \Lambda_\mu
-    J^\mu$; and $S[\gamma^{(x_8)}\Psi] = -S[\Psi]$. The cell also records the sign of
+    J^\mu$; and $S[\gamma^{(x_0)}\Psi] = -S[\Psi]$. The cell also records the sign of
     every component of $T_{\mu\nu}$ for the figure.
     """),
     code(r'''
@@ -1207,9 +1207,9 @@ CELLS = [
     T2_SIGNS = {}
     for odd in (False, True):
         J = jets(odd)
-        JP = transform(J, G[8], MIRROR, odd)
+        JP = transform(J, G[0], MIRROR, odd)
         E1 = field_operator(mirror, JP, odd, m, lam)
-        E2 = mat_vec(G[8], field_operator(reflected, J, odd, -m, lam), odd)
+        E2 = mat_vec(G[0], field_operator(reflected, J, odd, -m, lam), odd)
         el_ok = all_zero([E1[A] + E2[A] for A in range(16)])
         T1_ = emt(mirror, JP, odd, m, lam)
         T2_ = emt(reflected, J, odd, -m, lam)
@@ -1218,7 +1218,7 @@ CELLS = [
         if not odd:
             T2_SIGNS = {k: MIRROR[k[0]] * MIRROR[k[1]] for k in T1_ if emt_ok}
         J1, J2 = current(mirror, JP, odd), current(reflected, J, odd)
-        current_ok = all_zero([J1[mu] - J2[mu].times(MIRROR[mu]) for mu in range(1, 9)])
+        current_ok = all_zero([J1[mu] - J2[mu].times(MIRROR[mu]) for mu in range(8)])
         s_odd = (scalar(JP, odd) + scalar(J, odd)).is_zero()
         stat = "grassmann" if odd else "commuting"
         say(f"{stat}: field equations mapped {el_ok}, T pulled back {emt_ok}, "
@@ -1238,7 +1238,7 @@ CELLS = [
     as a grid, one row per candidate matrix $P$ and one column per sign choice
     $(\sigma, \pm m, \pm\lambda)$; a filled square marks the relation that holds.
     Right: the sign $s$ in $T_{\mu\nu}[\text{mirror image}] = s\,T_{\mu\nu}[\Psi;
-    -m, \lambda]$, $+1$ except for the seven mixed components with one $x_8$ index.
+    -m, \lambda]$, $+1$ except for the seven mixed components with one $x_0$ index.
     """),
     code(r'''
     choices = list(itertools.product((1, -1), repeat=3))
@@ -1248,7 +1248,7 @@ CELLS = [
             grid[i, choices.index(FOUND[False, name])] = 1.0
     t2_signs = np.zeros((8, 8))
     for (mu, nu), s in T2_SIGNS.items():
-        t2_signs[mu - 1, nu - 1] = t2_signs[nu - 1, mu - 1] = s
+        t2_signs[mu, nu] = t2_signs[nu, mu] = s
     fig, axes = plt.subplots(1, 2, figsize=(12.0, 4.4),
                              gridspec_kw={"width_ratios": [1.4, 1.0]})
     axes[0].imshow(grid, cmap="Greens", vmin=0, vmax=1.4, aspect="auto")
@@ -1257,8 +1257,8 @@ CELLS = [
                         f"{'' if b > 0 else '-'}$\\lambda$" for s, a, b in choices],
                        fontsize=8)
     axes[0].set_yticks(range(len(CANDIDATES)),
-                       ["$P = 1$", "$P = \\Gamma$", "$P = \\gamma^{(x_8)}$",
-                        "$P = \\Gamma\\gamma^{(x_8)}$"])
+                       ["$P = 1$", "$P = \\Gamma$", "$P = \\gamma^{(x_0)}$",
+                        "$P = \\Gamma\\gamma^{(x_0)}$"])
     axes[0].set_title("relation $\\mathcal{L}^{mirror}_{m,\\lambda}[P\\Psi] = "
                       "\\sigma\\mathcal{L}_{\\pm m,\\pm\\lambda}[\\Psi]$", fontsize=10)
     axes[0].grid(False)
@@ -1267,8 +1267,8 @@ CELLS = [
         for j in range(8):
             axes[1].text(j, i, f"{int(t2_signs[i, j]):+d}", ha="center", va="center",
                          fontsize=8, color="white")
-    axes[1].set_xticks(range(8), [f"$x_{a}$" for a in range(1, 9)])
-    axes[1].set_yticks(range(8), [f"$x_{a}$" for a in range(1, 9)])
+    axes[1].set_xticks(range(8), [f"$x_{a}$" for a in range(8)])
+    axes[1].set_yticks(range(8), [f"$x_{a}$" for a in range(8)])
     axes[1].set_title("sign of the mirror image's $T_{\\mu\\nu}$", fontsize=10)
     axes[1].grid(False)
     save_figure(fig, "mirror_candidates",
@@ -1277,12 +1277,12 @@ CELLS = [
                 "the mirror image on the mirror patch and the Lagrangian of $\\Psi$ on "
                 "the patch (columns: overall sign $\\sigma$, sign of $m$, sign of "
                 "$\\lambda$); a green square marks the relation that holds exactly. "
-                "$P = 1$ and $P = \\Gamma$ give none; $P = \\gamma^{(x_8)}$ gives "
-                "$+\\mathcal{L}_{-m,\\lambda}$, theorem T2; $P = \\Gamma\\gamma^{(x_8)}$ "
+                "$P = 1$ and $P = \\Gamma$ give none; $P = \\gamma^{(x_0)}$ gives "
+                "$+\\mathcal{L}_{-m,\\lambda}$, theorem T2; $P = \\Gamma\\gamma^{(x_0)}$ "
                 "gives $-\\mathcal{L}_{m,-\\lambda}$. Right: the sign of each component "
                 "of the mirror image's $T_{\\mu\\nu}$ relative to that of the "
                 "$(-m, \\lambda)$ field, $+1$ except the mixed components with one "
-                "$x_8$ index: the energy density is equal, not opposite.")
+                "$x_0$ index: the energy density is equal, not opposite.")
     '''),
     md(r"""
     ## 11. The last check
@@ -1306,7 +1306,7 @@ CELLS = [
       $a_4(x_4)$ of the deflating extra times): the diagonal vielbein gives the
       author's metric with $\sqrt{|g|} = \cos z$; its canonical spin connection has
       exactly the 12 nonzero components of the Revision record and obeys the vielbein
-      postulate; $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$, because the $a_4'$ terms of
+      postulate; $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$, because the $a_4'$ terms of
       the three inflating directions and of the three deflating extra times cancel.
     - PROVED, theorem T1, for dirac16complex00 (commuting) and dirac16complex
       (Grassmann) in the author's metric: $S[\Gamma\Psi] = S[\Psi]$;
@@ -1319,7 +1319,7 @@ CELLS = [
       controls fail: both $m$ and $\lambda$ must change sign. The same holds for a
       general cubic potential and in a random general gravitational field.
     - PROVED, theorem T2: with the mirror $z \to \pi - z$ (an isometry; the brane
-      $z = \pi/2$ is degenerate) and $\Psi \to \gamma^{(x_8)}\Psi$, the Lagrangian of
+      $z = \pi/2$ is degenerate) and $\Psi \to \gamma^{(x_0)}\Psi$, the Lagrangian of
       the image with $(m, \lambda)$ on the mirror patch equals the Lagrangian of the
       field with $(-m, \lambda)$ on the patch; the field equations are mapped;
       $T_{\mu\nu}$ and $J^\mu$ are pulled back (equal energy density, not opposite)

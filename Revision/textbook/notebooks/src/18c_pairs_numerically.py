@@ -46,8 +46,8 @@ FACTS = {
         "Runge-Kutta method and compares it with the exact formula, and then solves its "
         "two partners independently: the T1 partner with mass and coupling reversed, "
         "starting from Gamma times the initial value, and the T2 partner on the mirror "
-        "patch beyond the brane, starting from gamma^(x8) times the initial value. It "
-        "checks that the partners are exactly Gamma Psi and gamma^(x8) Psi, that the T1 "
+        "patch beyond the brane, starting from gamma^(x0) times the initial value. It "
+        "checks that the partners are exactly Gamma Psi and gamma^(x0) Psi, that the T1 "
         "partner has the opposite charge density, current and energy-momentum tensor "
         "(all 36 components, along the canonical deflating history a4 = A H x4), that "
         "the T2 partner has the same ones and the opposite scalar S, that the charge "
@@ -63,14 +63,14 @@ FACTS = {
     "records": [
         ["Revision/algebra/gammas.json", "the author's gamma matrices (read)"],
         ["Revision/theory/reports/python-field-theory.json",
-         "checks exact_nonlinear_homogeneous_solution, gamma_mu_Omega_mu_equals_3H_gamma_x8, "
+         "checks exact_nonlinear_homogeneous_solution, gamma_mu_Omega_mu_equals_3H_gamma_x0, "
          "divergence_of_sqrtg_gamma, commuting_homogeneous_on_shell_rho_p, "
-         "commuting_T_x4x8_homogeneous and commuting_current_conservation (reproduced)"],
+         "commuting_T_x4x0_homogeneous and commuting_current_conservation (reproduced)"],
         ["Revision/theory/reports/wolfram-field-theory.json",
-         "checks exact_solution_nonlinear_homogeneous_C, gammaOmega_equals_3H_gamma_x8 "
+         "checks exact_solution_nonlinear_homogeneous_C, gammaOmega_equals_3H_gamma_x0 "
          "and gammaOmega_divergence_form (reproduced)"],
         ["Revision/theory/reports/python-scope.json",
-         "check good_sector_x8_independent_modes_without_boundary_condition (reproduced: "
+         "check good_sector_x0_independent_modes_without_boundary_condition (reproduced: "
          "the square of the generator of the x4-only family)"],
         ["Revision/pairing/reports/python-pairing.json",
          "checks geometry.spin_connection_components, T1.metric.commuting.emt, "
@@ -128,13 +128,13 @@ CELLS = [
        $a_4 = AHx_4$ of the Revision record: they are exactly opposite.
     3. **T2.** It solves, independently, the theory with $(-m, \lambda)$ on the
        mirror patch beyond the brane $z = \pi/2$, starting from
-       $\gamma^{(x_8)}\Psi(0)$, and finds exactly $\gamma^{(x_8)}\Psi(x_4)$; the charge
+       $\gamma^{(x_0)}\Psi(0)$, and finds exactly $\gamma^{(x_0)}\Psi(x_4)$; the charge
        density and the energy density are EQUAL, the scalar $S$ is opposite.
     4. **Spectra.** It shows that the evolution generators of a universe and of its
        partners have the same eigenvalues, and, for plane waves in flat 4+4 space (the
        quantum reading Q), it reproduces the one-particle samples of the Revision
        pairing record and shows how $\Gamma$ reverses every Krein norm while
-       $\gamma^{(x_8)}$ keeps it.
+       $\gamma^{(x_0)}$ keeps it.
 
     Seven figures show the solutions, the partners, their densities and spectra.
     """),
@@ -147,7 +147,7 @@ CELLS = [
       a step $h$ using four evaluations of the right-hand side; its error after a fixed
       time shrinks like $h^4$ (*fourth order*).
     - **Homogeneous field**: a field that does not depend on $x_1, x_2, x_3, x_5, x_6,
-      x_7, x_8$, only on the time $x_4$.
+      x_7, x_0$, only on the time $x_4$.
     - **Scalar** $S = \bar\Psi\Psi = \Psi^\dagger C\Psi$; **charge density**
       $J^{x_4} = \Psi^\dagger B\Psi$ with the Krein matrix $B = -iC\gamma^{(x_4)}$;
       **current** $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ (the convention of the theory
@@ -159,7 +159,7 @@ CELLS = [
     - **Deflating history**: $a_4 = AHx_4$ with $A = 1$ (the canonical choice of the
       Revision Kohn-Sham record): as $x_4$ grows, 3-space inflates by $e^{a_4}$ and
       the three extra times $x_5, x_6, x_7$ deflate by $e^{-a_4}$.
-    - **Patch, mirror patch, brane**: $z = 6Hx_8$ runs over the patch $0 < z <
+    - **Patch, mirror patch, brane**: $z = 6Hx_0$ runs over the patch $0 < z <
       \pi/2$; the mirror patch $\pi/2 < z < \pi$ is its image under $z \to \pi - z$;
       the brane $z = \pi/2$ joins them (an ASSUMED construction).
     - **Eigenvalue, eigenvector**: $Mu = wu$ with a number $w$ and a column $u \neq
@@ -177,16 +177,16 @@ CELLS = [
     is $\gamma^\mu D_\mu\Psi = (m + \lambda S)\Psi$. For a field that depends on $x_4$
     only, every derivative except $\partial_4$ vanishes, $\gamma^{x_4} =
     \gamma^{(x_4)}$ (the vielbein factor of $x_4$ is 1), and the spin connection
-    contributes $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ on the patch (the deflation
+    contributes $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ on the patch (the deflation
     terms cancel). So the 16 field equations are EXACTLY
 
-    $$\gamma^{(x_4)}\frac{d\Psi}{dx_4} + 3H\gamma^{(x_8)}\Psi = (m + \lambda S)\Psi .$$
+    $$\gamma^{(x_4)}\frac{d\Psi}{dx_4} + 3H\gamma^{(x_0)}\Psi = (m + \lambda S)\Psi .$$
 
     Multiply on the left by $-\gamma^{(x_4)}$ and use $(\gamma^{(x_4)})^2 = -1$:
 
     $$\frac{d\Psi}{dx_4} = M\Psi,\qquad M = -\gamma^{(x_4)}\big((m + \lambda S) -
-    3H\gamma^{(x_8)}\big) = -(m + \lambda S)\gamma^{(x_4)} +
-    3H\gamma^{(x_4)}\gamma^{(x_8)} .$$
+    3H\gamma^{(x_0)}\big) = -(m + \lambda S)\gamma^{(x_4)} +
+    3H\gamma^{(x_4)}\gamma^{(x_0)} .$$
 
     The Revision theory record proves that $S$ is constant along such a solution, so
     $M$ is a constant matrix with $M^2 = \big(9H^2 - (m + \lambda S)^2\big)I_{16}$,
@@ -199,26 +199,26 @@ CELLS = [
     become cosh and sinh, a growth). The history $a_4$ does not enter this
     equation, but it enters the energy-momentum tensor through the vielbein factors
     $e^{\pm a_4}$ and the spin connection, as the figures will show. (The value
-    $3H\gamma^{(x_8)}$ belongs to the diagonal vielbein; $S$, $J^\mu$ and
+    $3H\gamma^{(x_0)}$ belongs to the diagonal vielbein; $S$, $J^\mu$ and
     $T_{\mu\nu}$, the quantities plotted here, do not depend on that choice.)
 
     **The mirror patch.** On the mirror patch the hidden vielbein factor is
     $-\cot z > 0$ and the spin connection term changes sign: $\gamma^\mu\Omega_\mu =
-    -3H\gamma^{(x_8)}$. The equation there is $d\Psi/dx_4 = -\gamma^{(x_4)}\big((m +
-    \lambda S) + 3H\gamma^{(x_8)}\big)\Psi$.
+    -3H\gamma^{(x_0)}$. The equation there is $d\Psi/dx_4 = -\gamma^{(x_4)}\big((m +
+    \lambda S) + 3H\gamma^{(x_0)}\big)\Psi$.
 
     **What the theorems predict.** T1: if $\Psi$ solves the $(m, \lambda)$ equation,
     $\Gamma\Psi$ solves the $(-m, -\lambda)$ equation, with $T \to -T$ and
     $J \to -J$. T2: if $\Psi$ solves the $(m, \lambda)$ equation on the patch,
-    $\gamma^{(x_8)}\Psi$ (taken at the mirror point) solves the $(-m, \lambda)$
+    $\gamma^{(x_0)}\Psi$ (taken at the mirror point) solves the $(-m, \lambda)$
     equation on the mirror patch, with $S \to -S$ and $T$, $J$ pulled back (the
-    components with one $x_8$ index change sign, all others are equal).
+    components with one $x_0$ index change sign, all others are equal).
 
     **Plane waves in flat 4+4 space.** For the quantum reading Q the Revision record
     uses the one-particle matrix $h_m(k) = -im\gamma^{(x_4)} - \gamma^{(x_4)}
     \sum_{a\neq x_4}k_a\gamma^{(a)}$ of a plane wave $e^{-iwx_4 + ik\cdot x}$; its
-    eigenvalues are the frequencies $w$, with $h_m^2 = (m^2 + k_1^2 + k_2^2 + k_3^2 +
-    k_8^2 - k_5^2 - k_6^2 - k_7^2)I_{16}$.
+    eigenvalues are the frequencies $w$, with $h_m^2 = (m^2 + k_0^2 + k_1^2 + k_2^2 +
+    k_3^2 - k_5^2 - k_6^2 - k_7^2)I_{16}$.
     """),
     md(r"""
     ## 5. The matrices
@@ -269,16 +269,16 @@ CELLS = [
 
 
     fixture = read_json(GAMMAS)
-    gamma = {a: np.array(fixture["gamma"][a - 1], dtype=float) for a in range(1, 9)}
-    ETA = {a: int(fixture["eta"][a - 1]) for a in range(1, 9)}
+    gamma = {a: np.array(fixture["gamma"][a], dtype=float) for a in range(8)}
+    ETA = {a: int(fixture["eta"][a]) for a in range(8)}
     I16 = np.eye(16)
-    C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]
-    Gamma = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5] @ gamma[6] \
+    C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]
+    Gamma = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5] @ gamma[6] \
         @ gamma[7]
     B = -1j * C @ gamma[4]  # the Krein matrix
     check(all(np.array_equal(gamma[a] @ gamma[b] + gamma[b] @ gamma[a],
                              2.0 * (ETA[a] if a == b else 0) * I16)
-              for a in range(1, 9) for b in range(1, 9))
+              for a in range(8) for b in range(8))
           and np.array_equal(Gamma, np.diag([-1.0] * 8 + [1.0] * 8))
           and np.array_equal(B.conj().T, B),
           "eight real 16 x 16 gammas (Clifford relations), Gamma = diag(-I8, I8), "
@@ -288,7 +288,7 @@ CELLS = [
     ## 6. The spin connection on the patch and on the mirror patch
 
     For a diagonal vielbein $e^a{}_\mu = f_\mu\delta^a_\mu$ whose factors depend on
-    $x_4$ and $x_8$ only, the canonical spin connection has one simple formula: for
+    $x_4$ and $x_0$ only, the canonical spin connection has one simple formula: for
     two different directions $a$ and $b$,
 
     $$\omega_{a,ab} = \eta_{aa}\,\frac{\partial_bf_a}{f_b},\qquad
@@ -296,14 +296,14 @@ CELLS = [
 
     and every other component is zero (the first index is the direction of the
     derivative $D_a$). The next cell writes the author's factors $f_1 = f_2 = f_3 =
-    e^{a_4}\sin^{1/6}z$, $f_4 = 1$, $f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z$, $f_8 =
-    s_8\cot z$ ($s_8 = +1$ on the patch, $-1$ on the mirror patch) with sympy, lists
+    e^{a_4}\sin^{1/6}z$, $f_4 = 1$, $f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z$, $f_0 =
+    s_0\cot z$ ($s_0 = +1$ on the patch, $-1$ on the mirror patch) with sympy, lists
     the nonzero components on the patch in the format of the sympy pairing report
     ($a_4'$ written `a4p`) and compares the list with the recorded one word for word.
     It then computes $\gamma^\mu\Omega_\mu$ in the *divergence form* of the theory
     record, $\gamma^\mu\Omega_\mu = \frac{1}{2\sqrt{|g|}}\sum_\mu\partial_\mu
-    \big(\sqrt{|g|}\gamma^{(\mu)}/f_\mu\big)$, on both patches: $+3H\gamma^{(x_8)}$
-    and $-3H\gamma^{(x_8)}$.
+    \big(\sqrt{|g|}\gamma^{(\mu)}/f_\mu\big)$, on both patches: $+3H\gamma^{(x_0)}$
+    and $-3H\gamma^{(x_0)}$.
     """),
     code(r'''
     x4, z, H_sym = sp.symbols("x4 z H", real=True)
@@ -312,27 +312,27 @@ CELLS = [
 
 
     def d(expr, b):
-        """The derivative of a coefficient along the coordinate x_b (z = 6 H x8)."""
+        """The derivative of a coefficient along the coordinate x_b (z = 6 H x0)."""
         if b == 4:
             return sp.diff(expr, x4)
-        if b == 8:
+        if b == 0:
             return 6 * H_sym * sp.diff(expr, z)
         return sp.Integer(0)
 
 
-    def factors(s8):
+    def factors(s0):
         s6 = sp.sin(z) ** sp.Rational(1, 6)
         f = {a: sp.exp(a4) * s6 for a in (1, 2, 3)}
         f.update({a: sp.exp(-a4) * s6 for a in (5, 6, 7)})
-        f.update({4: sp.Integer(1), 8: s8 * sp.cot(z)})
+        f.update({4: sp.Integer(1), 0: s0 * sp.cot(z)})
         return f
 
 
-    def connection(s8):
+    def connection(s0):
         """{(mu, a, b) with a < b: omega_mu ab} for the diagonal vielbein."""
-        f, om = factors(s8), {}
-        for a in range(1, 9):
-            for b in range(1, 9):
+        f, om = factors(s0), {}
+        for a in range(8):
+            for b in range(8):
                 if a != b:
                     value = sp.simplify(ETA[a] * d(f[a], b) / f[b])
                     if value != 0:  # omega_a,ab (or -omega_a,ba when b < a)
@@ -355,23 +355,23 @@ CELLS = [
     reproduces(len(patch_om) == 12 and same,
                "the formula gives the 12 recorded spin connection components",
                (PY, ["geometry.spin_connection_components"]))
-    flips = all(sp.simplify(mirror_om[k] + patch_om[k]) == 0 if 8 in k[1:]
+    flips = all(sp.simplify(mirror_om[k] + patch_om[k]) == 0 if 0 in k[1:]
                 else sp.simplify(mirror_om[k] - patch_om[k]) == 0 for k in patch_om)
     divergence = {}
-    for s8 in (1, -1):
-        f = factors(s8)
+    for s0 in (1, -1):
+        f = factors(s0)
         sqrtg = sp.simplify(sp.Mul(*f.values()))
-        divergence[s8] = {mu: sp.simplify(d(sqrtg / f[mu], mu) / (2 * sqrtg))
-                          for mu in range(1, 9)}
-    say(f"divergence form, patch: coefficient of gamma^(x8) = {divergence[1][8]}, of "
-        f"gamma^(x4) = {divergence[1][4]}; mirror patch: {divergence[-1][8]}, "
+        divergence[s0] = {mu: sp.simplify(d(sqrtg / f[mu], mu) / (2 * sqrtg))
+                          for mu in range(8)}
+    say(f"divergence form, patch: coefficient of gamma^(x0) = {divergence[1][0]}, of "
+        f"gamma^(x4) = {divergence[1][4]}; mirror patch: {divergence[-1][0]}, "
         f"{divergence[-1][4]}")
-    reproduces(flips and divergence[1][8] == 3 * H_sym and divergence[-1][8] == -3 * H_sym
+    reproduces(flips and divergence[1][0] == 3 * H_sym and divergence[-1][0] == -3 * H_sym
                and all(divergence[s][mu] == 0 for s in (1, -1) for mu in range(1, 8)),
-               "gamma^mu Omega_mu = +3 H gamma^(x8) (patch), -3 H gamma^(x8) (mirror)",
-               (TH_PY, ["gamma_mu_Omega_mu_equals_3H_gamma_x8",
+               "gamma^mu Omega_mu = +3 H gamma^(x0) (patch), -3 H gamma^(x0) (mirror)",
+               (TH_PY, ["gamma_mu_Omega_mu_equals_3H_gamma_x0",
                         "divergence_of_sqrtg_gamma"]),
-               (TH_WL, ["gammaOmega_equals_3H_gamma_x8", "gammaOmega_divergence_form"]))
+               (TH_WL, ["gammaOmega_equals_3H_gamma_x0", "gammaOmega_divergence_form"]))
     '''),
     md(r"""
     The next cell fixes the numbers. The history is the canonical one of the Revision
@@ -404,7 +404,7 @@ CELLS = [
     report("m + lambda S", f"{m + lam * S0:.6f}")
     report("3 H", f"{3 * H:.6f}")
 
-    S_AB = {(a, b): 0.5 * gamma[a] @ gamma[b] for a in range(1, 9) for b in range(1, 9)}
+    S_AB = {(a, b): 0.5 * gamma[a] @ gamma[b] for a in range(8) for b in range(8)}
     history = {sp.Derivative(a4, x4): A_hist * H_sym}  # a4' = A H
 
 
@@ -418,16 +418,16 @@ CELLS = [
 
 
     OMEGA = {1: numeric(patch_om), -1: numeric(mirror_om)}
-    FACTOR = {s8: {mu: sp.lambdify((x4, z), e.subs(a4, A_hist * H_sym * x4)
+    FACTOR = {s0: {mu: sp.lambdify((x4, z), e.subs(a4, A_hist * H_sym * x4)
                                    .subs(H_sym, H), "numpy")
-                   for mu, e in factors(s8).items()} for s8 in (1, -1)}
+                   for mu, e in factors(s0).items()} for s0 in (1, -1)}
 
 
-    def geometry_at(t, zv, s8):
+    def geometry_at(t, zv, s0):
         """Numbers at the time t and angle zv: f, g, gamma^mu, gamma_mu, Omega_mu."""
-        f = {mu: float(FACTOR[s8][mu](t, zv)) for mu in range(1, 9)}
-        Om = {mu: np.zeros((16, 16)) for mu in range(1, 9)}
-        for (mu, a, b), fn in OMEGA[s8].items():
+        f = {mu: float(FACTOR[s0][mu](t, zv)) for mu in range(8)}
+        Om = {mu: np.zeros((16, 16)) for mu in range(8)}
+        for (mu, a, b), fn in OMEGA[s0].items():
             Om[mu] = Om[mu] + float(fn(t, zv)) * S_AB[a, b]
         return {"f": f, "g": {mu: ETA[mu] * f[mu] ** 2 for mu in f},
                 "sqrtg": abs(np.prod(list(f.values()))),
@@ -435,17 +435,17 @@ CELLS = [
                 "down": {mu: ETA[mu] * f[mu] * gamma[mu] for mu in f}, "Om": Om}
 
 
-    for s8, zv in ((1, Z0), (-1, np.pi - Z0)):
-        geo = geometry_at(1.3, zv, s8)
-        total = sum(geo["up"][mu] @ geo["Om"][mu] for mu in range(1, 9))
-        assert np.allclose(total, 3 * s8 * H * gamma[8], atol=1e-12)
+    for s0, zv in ((1, Z0), (-1, np.pi - Z0)):
+        geo = geometry_at(1.3, zv, s0)
+        total = sum(geo["up"][mu] @ geo["Om"][mu] for mu in range(8))
+        assert np.allclose(total, 3 * s0 * H * gamma[0], atol=1e-12)
     check(abs(m + lam * S0) > 3 * H,
           "|m + lambda S| > 3 H: the solution and both partners oscillate")
     '''),
     md(r"""
     ## 7. The solution: Runge-Kutta against the exact formula
 
-    The next cell defines the right-hand side $M\Psi$ of the ODE (with $s_8 = +1$ on
+    The next cell defines the right-hand side $M\Psi$ of the ODE (with $s_0 = +1$ on
     the patch and $-1$ on the mirror patch), one RK4 step and an integrator that
     returns the solution at every step, and the exact formula of section 4. It
     integrates $\Psi$ from $x_4 = 0$ to $x_4 = 20$ with 2000 steps of length 0.01 and
@@ -458,31 +458,31 @@ CELLS = [
     X_END = 20.0  # integrate from x4 = 0 to 20 (a4 from 0 to A H 20 = 4)
 
 
-    def generator(psi, mass, coup, s8):
-        """The matrix M of d psi/dx4 = M psi (s8 = +1 patch, -1 mirror patch)."""
+    def generator(psi, mass, coup, s0):
+        """The matrix M of d psi/dx4 = M psi (s0 = +1 patch, -1 mirror patch)."""
         S = (psi.conj() @ C @ psi).real
-        return -gamma[4] @ ((mass + coup * S) * I16 - 3 * s8 * H * gamma[8])
+        return -gamma[4] @ ((mass + coup * S) * I16 - 3 * s0 * H * gamma[0])
 
 
-    def rk4(psi_start, mass, coup, s8, steps):
+    def rk4(psi_start, mass, coup, s0, steps):
         """The RK4 solution at x4 = 0, h, 2h, ..., X_END (steps + 1 rows)."""
         h = X_END / steps
         out = np.empty((steps + 1, 16), dtype=complex)
         psi = psi_start.astype(complex)
         out[0] = psi
         for n in range(steps):
-            k1 = generator(psi, mass, coup, s8) @ psi
-            k2 = generator(psi + 0.5 * h * k1, mass, coup, s8) @ (psi + 0.5 * h * k1)
-            k3 = generator(psi + 0.5 * h * k2, mass, coup, s8) @ (psi + 0.5 * h * k2)
-            k4 = generator(psi + h * k3, mass, coup, s8) @ (psi + h * k3)
+            k1 = generator(psi, mass, coup, s0) @ psi
+            k2 = generator(psi + 0.5 * h * k1, mass, coup, s0) @ (psi + 0.5 * h * k1)
+            k3 = generator(psi + 0.5 * h * k2, mass, coup, s0) @ (psi + 0.5 * h * k2)
+            k4 = generator(psi + h * k3, mass, coup, s0) @ (psi + h * k3)
             psi = psi + h / 6.0 * (k1 + 2 * k2 + 2 * k3 + k4)
             out[n + 1] = psi
         return out
 
 
-    def exact(psi_start, mass, coup, s8, times):
+    def exact(psi_start, mass, coup, s0, times):
         """The exact solution cos(w x4) psi(0) + sin(w x4)/w M psi(0)."""
-        M = generator(psi_start, mass, coup, s8)
+        M = generator(psi_start, mass, coup, s0)
         S = (psi_start.conj() @ C @ psi_start).real
         w = np.sqrt((mass + coup * S) ** 2 - 9 * H ** 2)
         return (np.cos(w * times)[:, None] * psi_start[None, :]
@@ -511,7 +511,7 @@ CELLS = [
                "S is constant and RK4 equals the exact homogeneous solution (2000 steps)",
                (TH_PY, ["exact_nonlinear_homogeneous_solution"]),
                (TH_WL, ["exact_solution_nonlinear_homogeneous_C"]),
-               (SCOPE, ["good_sector_x8_independent_modes_without_boundary_condition"]))
+               (SCOPE, ["good_sector_x0_independent_modes_without_boundary_condition"]))
     check(all(3.8 < p < 4.2 for p in orders), "RK4 is of fourth order here")
     '''),
     md(r"""
@@ -617,26 +617,26 @@ CELLS = [
     -T_{\mu\nu}[\Psi; m, \lambda]$ for all 36 components.
     """),
     code(r'''
-    def bilinears(field, mass, coup, t, zv, s8):
+    def bilinears(field, mass, coup, t, zv, s0):
         """S, J^mu (8 numbers) and T_mu nu (8 x 8) of a homogeneous field at (t, zv)."""
-        geo = geometry_at(t, zv, s8)
-        D = {mu: geo["Om"][mu] @ field for mu in range(1, 9)}
-        D[4] = D[4] + generator(field, mass, coup, s8) @ field  # d field / dx4
+        geo = geometry_at(t, zv, s0)
+        D = {mu: geo["Om"][mu] @ field for mu in range(8)}
+        D[4] = D[4] + generator(field, mass, coup, s0) @ field  # d field / dx4
         bar = field.conj() @ C  # the adjoint row Psibar = Psi^dagger C
-        Dbar = {mu: D[mu].conj() @ C for mu in range(1, 9)}
+        Dbar = {mu: D[mu].conj() @ C for mu in range(8)}
         S = (bar @ field).real
         L = 0.5 * sum(bar @ geo["up"][mu] @ D[mu] - Dbar[mu] @ geo["up"][mu] @ field
-                      for mu in range(1, 9)) - mass * S - 0.5 * coup * S ** 2
+                      for mu in range(8)) - mass * S - 0.5 * coup * S ** 2
         T = np.zeros((8, 8), dtype=complex)
-        for mu in range(1, 9):
-            for nu in range(1, 9):
-                T[mu - 1, nu - 1] = 0.25 * (
+        for mu in range(8):
+            for nu in range(8):
+                T[mu, nu] = 0.25 * (
                     bar @ geo["down"][mu] @ D[nu] + bar @ geo["down"][nu] @ D[mu]
                     - Dbar[mu] @ geo["down"][nu] @ field
                     - Dbar[nu] @ geo["down"][mu] @ field)
                 if mu == nu:
-                    T[mu - 1, nu - 1] -= geo["g"][mu] * L
-        J = np.array([-1j * bar @ geo["up"][mu] @ field for mu in range(1, 9)])
+                    T[mu, nu] -= geo["g"][mu] * L
+        J = np.array([-1j * bar @ geo["up"][mu] @ field for mu in range(8)])
         assert np.abs(T.imag).max() < 1e-12 and np.abs(J.imag).max() < 1e-12
         return S, J.real, T.real
 
@@ -661,40 +661,40 @@ CELLS = [
     at all sampled times: the energy density is $\rho = -T_{x_4x_4} = mS +
     \frac{\lambda}{2}S^2$; the three kinds of pressure $p_\mu = -g^{\mu\mu}T_{\mu\mu}$
     (3-space, extra times, hidden direction) all equal $\frac{\lambda}{2}S^2$; and the
-    mixed component $T_{x_4x_8}$ vanishes. It also checks the LOCAL conservation law
+    mixed component $T_{x_4x_0}$ vanishes. It also checks the LOCAL conservation law
     of the charge: the charge density can change in time only by flowing along the
-    hidden direction, $\partial_4J^{x_4} + \frac{1}{\sqrt{|g|}}\partial_8(\sqrt{|g|}
-    J^{x_8}) = 0$; for a homogeneous field $J^{x_8} = \tan z\,q_8$ with the frame
-    current $q_8 = -i\bar\Psi\gamma^{(x_8)}\Psi$ (a number that does not depend on
-    $x_8$) and $\sqrt{|g|} = \cos z$, so the law reads $\partial_4J^{x_4} = -6Hq_8$,
+    hidden direction, $\partial_4J^{x_4} + \frac{1}{\sqrt{|g|}}\partial_0(\sqrt{|g|}
+    J^{x_0}) = 0$; for a homogeneous field $J^{x_0} = \tan z\,q_0$ with the frame
+    current $q_0 = -i\bar\Psi\gamma^{(x_0)}\Psi$ (a number that does not depend on
+    $x_0$) and $\sqrt{|g|} = \cos z$, so the law reads $\partial_4J^{x_4} = -6Hq_0$,
     where $\partial_4J^{x_4} = 2\,\mathrm{Re}(\Psi^\dagger BM\Psi)$ follows from the
-    field equation. The flow through the brane $z = \pi/2$ is $\sqrt{|g|}J^{x_8} =
-    \sin z\,q_8 = q_8$ there; the cell prints the range of $q_8$: it is not zero, so
+    field equation. The flow through the brane $z = \pi/2$ is $\sqrt{|g|}J^{x_0} =
+    \sin z\,q_0 = q_0$ there; the cell prints the range of $q_0$: it is not zero, so
     the total charge of the patch is NOT constant for this solution (charge flows
     through the brane), although the local law holds exactly.
     """),
     code(r'''
     rho_ok = p_ok = mixed_ok = flow_ok = True
-    q8_values = []  # the frame current q8 at the sampled times
+    q0_values = []  # the frame current q0 at the sampled times
     for n, (S, J, T) in zip(SAMPLE, data["psi"]):
         geo = geometry_at(times[n], Z0, 1)
-        rho_ok = rho_ok and abs(-T[3, 3] - (m * S + 0.5 * lam * S ** 2)) < 1e-12
-        p = [-T[mu - 1, mu - 1] / geo["g"][mu] for mu in (1, 2, 3, 5, 6, 7, 8)]
+        rho_ok = rho_ok and abs(-T[4, 4] - (m * S + 0.5 * lam * S ** 2)) < 1e-12
+        p = [-T[mu, mu] / geo["g"][mu] for mu in (0, 1, 2, 3, 5, 6, 7)]
         p_ok = p_ok and max(abs(x - 0.5 * lam * S ** 2) for x in p) < 1e-12
-        mixed_ok = mixed_ok and abs(T[3, 7]) < 1e-12 * scale_T
+        mixed_ok = mixed_ok and abs(T[4, 0]) < 1e-12 * scale_T
         field = psi[n]
         dJ4 = 2 * (field.conj() @ B @ generator(field, m, lam, 1) @ field).real
-        q8 = (-1j * field.conj() @ C @ gamma[8] @ field).real
-        q8_values.append(q8)
-        flow_ok = flow_ok and abs(dJ4 + 6 * H * q8) < 1e-12
+        q0 = (-1j * field.conj() @ C @ gamma[0] @ field).real
+        q0_values.append(q0)
+        flow_ok = flow_ok and abs(dJ4 + 6 * H * q0) < 1e-12
     reproduces(rho_ok and p_ok and mixed_ok,
-               "rho = m S + (l/2) S^2, all pressures (l/2) S^2, T_x4x8 = 0 (homogeneous)",
+               "rho = m S + (l/2) S^2, all pressures (l/2) S^2, T_x4x0 = 0 (homogeneous)",
                (TH_PY, ["commuting_homogeneous_on_shell_rho_p",
-                        "commuting_T_x4x8_homogeneous"]))
-    reproduces(flow_ok, "local charge conservation: d4 J^x4 = -6 H q8 (flow along x8)",
+                        "commuting_T_x4x0_homogeneous"]))
+    reproduces(flow_ok, "local charge conservation: d4 J^x4 = -6 H q0 (flow along x0)",
                (TH_PY, ["commuting_current_conservation"]))
-    say(f"q8 lies between {min(q8_values):.4f} and {max(q8_values):.4f}: the flow "
-        "sin z q8 through the brane z = pi/2 is not zero, so the charge of the "
+    say(f"q0 lies between {min(q0_values):.4f} and {max(q0_values):.4f}: the flow "
+        "sin z q0 through the brane z = pi/2 is not zero, so the charge of the "
         "patch changes in time")
     '''),
     md(r"""
@@ -709,9 +709,9 @@ CELLS = [
         return np.array([pick(S, J, T) for S, J, T in data[name]])
 
 
-    panels = [("charge density $J^{x_4}$", lambda S, J, T: J[3]),
-              ("energy density $\\rho = -T_{x_4x_4}$", lambda S, J, T: -T[3, 3]),
-              ("$T_{x_4x_1}$ (history-dependent)", lambda S, J, T: T[3, 0])]
+    panels = [("charge density $J^{x_4}$", lambda S, J, T: J[4]),
+              ("energy density $\\rho = -T_{x_4x_4}$", lambda S, J, T: -T[4, 4]),
+              ("$T_{x_4x_1}$ (history-dependent)", lambda S, J, T: T[4, 1])]
     fig, axes = plt.subplots(1, 3, figsize=(13.0, 4.0))
     for ax, (title, pick) in zip(axes, panels):
         a, b = series("psi", pick), series("phi", pick)
@@ -737,27 +737,27 @@ CELLS = [
     ## 9. Theorem T2 in numbers: the mirror partner
 
     The next cell solves, INDEPENDENTLY, the theory with $(-m, \lambda)$ on the mirror
-    patch (the spin connection term is $-3H\gamma^{(x_8)}$ there), starting from
-    $\gamma^{(x_8)}\Psi(0)$, and compares the result $X(x_4)$ with
-    $\gamma^{(x_8)}\Psi(x_4)$. Then it computes the bilinears of $X$ at the mirror
+    patch (the spin connection term is $-3H\gamma^{(x_0)}$ there), starting from
+    $\gamma^{(x_0)}\Psi(0)$, and compares the result $X(x_4)$ with
+    $\gamma^{(x_0)}\Psi(x_4)$. Then it computes the bilinears of $X$ at the mirror
     point $z = \pi - z_0$ and checks the T2 predictions at all sampled times:
     $S[X] = -S[\Psi]$; $J^\mu[X] = \Lambda_\mu J^\mu[\Psi]$ and $T_{\mu\nu}[X] =
-    \Lambda_\mu\Lambda_\nu T_{\mu\nu}[\Psi]$ with $\Lambda = \mathrm{diag}(1, 1, 1, 1,
-    1, 1, 1, -1)$ (only the components with an $x_8$ index change sign; the charge
+    \Lambda_\mu\Lambda_\nu T_{\mu\nu}[\Psi]$ with $\Lambda = \mathrm{diag}(-1, 1, 1, 1,
+    1, 1, 1, 1)$ (only the components with an $x_0$ index change sign; the charge
     density and the energy density are EQUAL).
     """),
     code(r'''
-    chi = rk4(gamma[8] @ psi0, -m, lam, -1, STEPS)  # the mirror partner, on its own
-    t2_gap = np.abs(chi - psi @ gamma[8].T).max()
+    chi = rk4(gamma[0] @ psi0, -m, lam, -1, STEPS)  # the mirror partner, on its own
+    t2_gap = np.abs(chi - psi @ gamma[0].T).max()
     data["chi"] = [bilinears(chi[n], -m, lam, times[n], np.pi - Z0, -1) for n in SAMPLE]
-    LAM = np.array([1, 1, 1, 1, 1, 1, 1, -1], dtype=float)
+    LAM = np.array([-1, 1, 1, 1, 1, 1, 1, 1], dtype=float)  # x0, ..., x7
     t2_S = max(abs(Sp + Sx) for (Sp, _, _), (Sx, _, _) in zip(data["psi"], data["chi"]))
     t2_J = max(np.abs(Jx - LAM * Jp).max() for (_, Jp, _), (_, Jx, _)
                in zip(data["psi"], data["chi"])) / scale_J
     t2_T = max(np.abs(Tx - np.outer(LAM, LAM) * Tp).max() for (_, _, Tp), (_, _, Tx)
                in zip(data["psi"], data["chi"])) / scale_T
-    check(t2_gap < 1e-12, "T2: the (-m, lambda) mirror solution from gamma^(x8) Psi(0) "
-          "is gamma^(x8) Psi(x4) at all 2001 times")
+    check(t2_gap < 1e-12, "T2: the (-m, lambda) mirror solution from gamma^(x0) Psi(0) "
+          "is gamma^(x0) Psi(x4) at all 2001 times")
     reproduces(t2_S < 1e-12 and t2_J < 1e-12 and t2_T < 1e-12,
                "T2: S -> -S, J and T pulled back (charge and energy density equal)",
                (PY, ["T2.metric.commuting.S_odd", "T2.metric.commuting.emt",
@@ -770,8 +770,8 @@ CELLS = [
     """),
     code(r'''
     panels = [("scalar $S$", lambda S, J, T: S),
-              ("charge density $J^{x_4}$", lambda S, J, T: J[3]),
-              ("$T_{x_4x_1}$ (history-dependent)", lambda S, J, T: T[3, 0])]
+              ("charge density $J^{x_4}$", lambda S, J, T: J[4]),
+              ("$T_{x_4x_1}$ (history-dependent)", lambda S, J, T: T[4, 1])]
     fig, axes = plt.subplots(1, 3, figsize=(13.0, 4.0))
     for ax, (title, pick) in zip(axes, panels):
         ax.plot(sampled, series("psi", pick), color="#2a78d6",
@@ -785,7 +785,7 @@ CELLS = [
     save_figure(fig, "t2_mirror_densities",
                 "The T2 pair in numbers, same values as in the previous figure. Blue "
                 "line: the solution $\\Psi$ with $(m, \\lambda)$ on the patch at "
-                "$z = \\pi/4$; green dots: its mirror partner $\\gamma^{(x_8)}\\Psi$, "
+                "$z = \\pi/4$; green dots: its mirror partner $\\gamma^{(x_0)}\\Psi$, "
                 "solved on its own with $(-m, \\lambda)$ on the mirror patch at "
                 "$z = 3\\pi/4$. Horizontal axes: the time $x_4$ in units of $1/m$. "
                 "Left: the scalar $S$, constant and exactly opposite for the partner. "
@@ -801,7 +801,7 @@ CELLS = [
     coupling $\lambda$, scalar $S$), for the T1 partner ($-m$, $-\lambda$, the same
     $S$) and for the T2 partner on the mirror patch ($-m$, $\lambda$, scalar $-S$),
     and checks that the three spectra are equal: $\Gamma M\Gamma$ and
-    $\gamma^{(x_8)}M\gamma^{(x_8)}$ are exactly the partners' generators (similar
+    $\gamma^{(x_0)}M\gamma^{(x_0)}$ are exactly the partners' generators (similar
     matrices). It then repeats the computation for masses from $-2$ to $2$ at the same
     $\lambda$ and $S$: the eigenvalues are $\pm iw$ (8 times each) with $w^2 = (m +
     \lambda S)^2 - 9H^2$, real (an oscillation) outside the window
@@ -817,9 +817,9 @@ CELLS = [
 
     M_psi = generator(psi0, m, lam, 1)
     M_t1 = generator(Gamma @ psi0, -m, -lam, 1)
-    M_t2 = generator(gamma[8] @ psi0, -m, lam, -1)
+    M_t2 = generator(gamma[0] @ psi0, -m, lam, -1)
     similar = (np.array_equal(Gamma @ M_psi @ Gamma, M_t1)
-               and np.allclose(gamma[8] @ M_psi @ gamma[8], M_t2, atol=1e-15))
+               and np.allclose(gamma[0] @ M_psi @ gamma[0], M_t2, atol=1e-15))
     sp_psi, sp_t1, sp_t2 = spectrum(M_psi), spectrum(M_t1), spectrum(M_t2)
     w_exact = np.sqrt((m + lam * S0) ** 2 - 9 * H ** 2)
     report("frequency w of the solution and of both partners", f"{w_exact:.6f}")
@@ -834,7 +834,7 @@ CELLS = [
         rows = []
         for mv in masses:
             V = sign_m * mv + sign_l * lam * S0
-            Mx = -V * gamma[4] + 3 * H * gamma[4] @ gamma[8]
+            Mx = -V * gamma[4] + 3 * H * gamma[4] @ gamma[0]
             rows.append(spectrum(Mx))
         family[label] = np.array(rows)
     check(np.abs(family["field"] - family["T1 partner"]).max() < 1e-9,
@@ -875,10 +875,10 @@ CELLS = [
     ## 11. Plane waves in flat 4+4 space: the quantum reading Q
 
     The next cell builds the one-particle matrix $h_m(k)$ of the Revision pairing
-    record and checks, numerically: $h_m^2 = w^2I_{16}$ with $w^2 = m^2 + k_1^2 + k_2^2
-    + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$ (for 50 random momenta); the maps
-    $\Gamma h_m(k)\Gamma = h_{-m}(k)$ and $\gamma^{(x_8)}h_m(k)\gamma^{(x_8)} =
-    h_{-m}(R_8k)$, where $R_8k$ reverses $k_8$; and it reproduces the eight samples
+    record and checks, numerically: $h_m^2 = w^2I_{16}$ with $w^2 = m^2 + k_0^2 + k_1^2
+    + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$ (for 50 random momenta); the maps
+    $\Gamma h_m(k)\Gamma = h_{-m}(k)$ and $\gamma^{(x_0)}h_m(k)\gamma^{(x_0)} =
+    h_{-m}(R_0k)$, where $R_0k$ reverses $k_0$; and it reproduces the eight samples
     of the data table `one_particle_flat` of the pairing record: the frequency $w$,
     the dimension of the eigenspaces of $+w$ and $-w$, and the *Krein inertia* of
     each (the numbers of positive and negative eigenvalues of the $8 \times 8$ matrix
@@ -888,14 +888,14 @@ CELLS = [
     def h_matrix(mass, k):
         """h_m(k) = -i m gamma^(x4) - gamma^(x4) sum_(a != 4) k_a gamma^(a)."""
         out = -1j * mass * gamma[4]
-        for a in (1, 2, 3, 5, 6, 7, 8):
-            out = out - k[a - 1] * gamma[4] @ gamma[a]
+        for a in (0, 1, 2, 3, 5, 6, 7):
+            out = out - k[a] * gamma[4] @ gamma[a]
         return out
 
 
     def w_squared(mass, k):
-        return mass ** 2 + sum(k[a - 1] ** 2 for a in (1, 2, 3, 8)) - sum(
-            k[a - 1] ** 2 for a in (5, 6, 7))
+        return mass ** 2 + sum(k[a] ** 2 for a in (0, 1, 2, 3)) - sum(
+            k[a] ** 2 for a in (5, 6, 7))
 
 
     def eigenspace(Mx, value, tol=1e-9):
@@ -910,7 +910,7 @@ CELLS = [
         return int((ev > 1e-9).sum()), int((ev < -1e-9).sum())
 
 
-    R8 = np.array([1, 1, 1, 1, 1, 1, 1, -1], dtype=float)
+    R0 = np.array([-1, 1, 1, 1, 1, 1, 1, 1], dtype=float)  # the reflection of x0
     rand = np.random.default_rng(7)
     square_ok = maps_ok = True
     for _ in range(50):
@@ -918,7 +918,7 @@ CELLS = [
         h = h_matrix(mv, k)
         square_ok = square_ok and np.allclose(h @ h, w_squared(mv, k) * I16, atol=1e-12)
         maps_ok = (maps_ok and np.allclose(Gamma @ h @ Gamma, h_matrix(-mv, k))
-                   and np.allclose(gamma[8] @ h @ gamma[8], h_matrix(-mv, R8 * k)))
+                   and np.allclose(gamma[0] @ h @ gamma[0], h_matrix(-mv, R0 * k)))
     samples = read_json(THEORY)["data"]["one_particle_flat"]["samples"]
     rows_ok = True
     for row in samples:
@@ -936,8 +936,8 @@ CELLS = [
             f"{Vp.shape[1]} and {Vn.shape[1]}, Krein inertia ({pp},{pn}) and "
             f"({qp},{qn})")
     reproduces(square_ok and maps_ok,
-               "h_m^2 = w^2 I16; Gamma h_m Gamma = h_-m; gamma^(x8) h_m gamma^(x8) = "
-               "h_-m(R8 k)", (WL, ["Q_one_particle_flat_dispersion", "Q_one_particle_maps"]),
+               "h_m^2 = w^2 I16; Gamma h_m Gamma = h_-m; gamma^(x0) h_m gamma^(x0) = "
+               "h_-m(R0 k)", (WL, ["Q_one_particle_flat_dispersion", "Q_one_particle_maps"]),
                (PY, ["Q.one_particle_maps"]))
     reproduces(rows_ok and len(samples) == 8,
                "the eight recorded samples: w, dimensions 8 and 8, Krein inertia (4,4)",
@@ -954,8 +954,8 @@ CELLS = [
     """),
     code(r'''
     neutral_ok = True
-    for k in ([0, 0, 0, 0, 2, 0, 0, 0], [1, 0, 0, 0, 2, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0]):
+    for k in ([0, 0, 0, 0, 0, 2, 0, 0], [0, 1, 0, 0, 0, 2, 0, 0],
+              [0, 0, 0, 0, 0, 1, 0, 0]):  # (k0, ..., k7)
         k = np.array(k, dtype=float)
         h, w2 = h_matrix(1.0, k), w_squared(1.0, k)
         if w2 == 0:
@@ -990,7 +990,7 @@ CELLS = [
             rows = []
             for kv in ks:
                 k = np.zeros(8)
-                k[axis - 1] = kv
+                k[axis] = kv
                 rows.append(spectrum(h_matrix(mass, k)))
             curves[label, axis] = np.array(rows)
     away = np.abs(ks - 1.0) > 0.05
@@ -1031,9 +1031,9 @@ CELLS = [
     8 columns $u$ with Krein norms $u^\dagger Bu = \pm1$ (the eigenvectors of
     $V^\dagger BV$, rescaled), 16 in all. Then: $\Gamma u$ is an eigenvector of
     $h_{-m}(k)$ with the same frequency and the OPPOSITE Krein norm (Lemma 4,
-    $\Gamma B\Gamma = -B$); $\gamma^{(x_8)}u$ is an eigenvector of $h_{-m}(R_8k)$
-    with the same frequency and the SAME Krein norm ($\gamma^{(x_8)}B
-    \gamma^{(x_8)} = B$).
+    $\Gamma B\Gamma = -B$); $\gamma^{(x_0)}u$ is an eigenvector of $h_{-m}(R_8k)$
+    with the same frequency and the SAME Krein norm ($\gamma^{(x_0)}B
+    \gamma^{(x_0)} = B$).
     """),
     code(r'''
     row = samples[0]
@@ -1050,16 +1050,16 @@ CELLS = [
             freqs.append(value)
     norms = np.array([(u.conj() @ B @ u).real for u in columns])
     norms_G = np.array([((Gamma @ u).conj() @ B @ (Gamma @ u)).real for u in columns])
-    norms_8 = np.array([((gamma[8] @ u).conj() @ B @ (gamma[8] @ u)).real
+    norms_0 = np.array([((gamma[0] @ u).conj() @ B @ (gamma[0] @ u)).real
                         for u in columns])
     eig_G = all(np.allclose(h_matrix(-row["m"], k) @ (Gamma @ u), f * (Gamma @ u))
                 for u, f in zip(columns, freqs))
-    eig_8 = all(np.allclose(h_matrix(-row["m"], R8 * k) @ (gamma[8] @ u),
-                            f * (gamma[8] @ u)) for u, f in zip(columns, freqs))
+    eig_0 = all(np.allclose(h_matrix(-row["m"], R0 * k) @ (gamma[0] @ u),
+                            f * (gamma[0] @ u)) for u, f in zip(columns, freqs))
     say("Krein norms of the 16 columns: " + " ".join(f"{x:+.0f}" for x in norms))
-    reproduces(eig_G and eig_8 and np.allclose(norms_G, -norms)
-               and np.allclose(norms_8, norms) and int((norms > 0).sum()) == 8,
-               "Gamma u: eigenvector of h_-m, Krein norm reversed; gamma^(x8) u: kept",
+    reproduces(eig_G and eig_0 and np.allclose(norms_G, -norms)
+               and np.allclose(norms_0, norms) and int((norms > 0).sum()) == 8,
+               "Gamma u: eigenvector of h_-m, Krein norm reversed; gamma^(x0) u: kept",
                (WL, ["Q_Krein_metric_of_images"]),
                (PY, ["Q.image_krein_metric", "Q.T2_image_keeps_B"]))
     '''),
@@ -1072,8 +1072,8 @@ CELLS = [
     ax.bar(idx - 0.27, norms, width=0.27, color="#2a78d6", label="$u^\\dagger Bu$")
     ax.bar(idx, norms_G, width=0.27, color="#eb6834",
            label="$(\\Gamma u)^\\dagger B(\\Gamma u)$: T1 image")
-    ax.bar(idx + 0.27, norms_8, width=0.27, color="#1baf7a",
-           label="$(\\gamma^{(x_8)}u)^\\dagger B(\\gamma^{(x_8)}u)$: T2 image")
+    ax.bar(idx + 0.27, norms_0, width=0.27, color="#1baf7a",
+           label="$(\\gamma^{(x_0)}u)^\\dagger B(\\gamma^{(x_0)}u)$: T2 image")
     ax.axvline(7.5, color="#52514e", linewidth=0.8)
     ax.text(3.5, 1.35, "frequency $+5$", ha="center", fontsize=9)
     ax.text(11.5, 1.35, "frequency $-5$", ha="center", fontsize=9)
@@ -1090,7 +1090,7 @@ CELLS = [
                 "$u^\\dagger Bu$, four $+1$ and four $-1$ in each eigenspace (Krein "
                 "inertia (4,4)). Orange: the chirality image $\\Gamma u$, an "
                 "eigenvector of the mass $-m$ with every norm reversed. Green: the "
-                "mirror image $\\gamma^{(x_8)}u$, an eigenvector of the mass $-m$ with "
+                "mirror image $\\gamma^{(x_0)}u$, an eigenvector of the mass $-m$ with "
                 "every norm kept. This is the quantum reading Q at the level of single "
                 "modes.")
     '''),
@@ -1128,14 +1128,14 @@ CELLS = [
       $a_4 = AHx_4$ are exactly opposite, so the pair sums to zero at every time (as
       classical bilinears).
     - COMPUTED, theorem T2: the theory with $(-m, \lambda)$ on the mirror patch, solved
-      on its own from $\gamma^{(x_8)}\Psi(0)$, gives $\gamma^{(x_8)}\Psi(x_4)$; $S$ is
+      on its own from $\gamma^{(x_0)}\Psi(0)$, gives $\gamma^{(x_0)}\Psi(x_4)$; $S$ is
       opposite, the charge density and the energy density are EQUAL, the other
-      components are pulled back by the reflection of $x_8$.
+      components are pulled back by the reflection of $x_0$.
     - COMPUTED and PROVED (similar matrices): the field and its partners have equal
       spectra; for plane waves in flat 4+4 space the masses $+m$ and $-m$ have the
       same frequencies, every real frequency has Krein inertia (4,4) in the eight
       recorded samples, the imaginary and zero frequencies are Krein-neutral, and
-      $\Gamma$ reverses every Krein norm while $\gamma^{(x_8)}$ keeps it (the quantum
+      $\Gamma$ reverses every Krein norm while $\gamma^{(x_0)}$ keeps it (the quantum
       reading Q).
     - ASSUMED: the mirror patch glued at the degenerate brane (Z2 construction); the
       gravitational field is a fixed background.
