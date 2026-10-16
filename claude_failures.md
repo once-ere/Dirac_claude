@@ -128,3 +128,17 @@ D3 and D4 were done on 2026-10-15 (section E; HANDOFF.md section 0.7).
 | E10 | The light b4 WolframScript re-run (06:30): I edited its bash runner while bash was executing it | ABORTED, re-run | The task was stopped and the `wolframscript` tree it had started killed (`taskkill /T`). That stray run had already finished two short scripts, out of order. No committed file changed (`git status` clean). Everything was re-run from a frozen copy of the runner (section 9 of `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). |
 
 No calculation of this continuation waited longer than 423 s, apart from E1 and E3, which were killed at 423 s.
+
+## F. The dark sector with b4 (2026-10-15)
+
+| # | Calculation or step | Status | What happened / what was done |
+|---|---|---|---|
+| F0 | The metric change of 2026-10-14 (b4(x4)) | NOT CARRIED INTO THE DARK SECTOR until the user's order of 2026-10-15 | The dark-sector record, its document, its notebook and the textbook chapter 22 still used b4 = 1. The user: "the Dark-sector hypotheses, which you never updated". Done on 2026-10-15 (HANDOFF.md 0.8; `Revision/dark_sector/B4_PROVENANCE.md`); the textbook is still open (HANDOFF.md 0.8, items 1 to 6). |
+| F1 | I first treated b4 = 1 as the background of the dark sector | CORRECTED by the user | "b4 is a function of x4; b4 is NEVER 1." Everything was recomputed with a non-constant b4 on the history beta = 4/3; b4 = 1 appears only as the withdrawn record. |
+| F2 | `python -m unittest Revision/tests/test_universes_in_pairs_textbook.py` (all classes), started under `timeout 423` | KILLED at 423 s (exit 124), not completed | The same mistake as D2. Its classes run separately in seconds (Files 0 s, the static notebook tests 1 to 2 s). |
+| F3 | Three edit scripts written through bash heredocs with backslashes (one earlier in this work, the fix of the notebook test with a regular expression, and the first insertion of this section) | the first and the third FAILED (the strict assertion stopped them, nothing written); the second wrote the intended text, with a Python warning | The rule of E4 again. The scripts were rewritten with the file-writing tool. |
+| F4 | The first build of the Revision notebook for b4 | figures with overlapping labels, and the condensate pole drawn as a vertical line | Found by looking at the four figures; fixed before the commit (legend of figure 1, the pole of figure 2 masked and marked, labels of figures 3 and 4). |
+| F5 | A run time I quoted for `run_ks_history.py` in a draft provenance (24 s, from memory) | CORRECTED before the commit | The README says about 25 s; the re-run measured 34.9 s; the provenance quotes the README and the measurement. |
+
+No other calculation of this work waited longer than 423 s; every producer, test and gate step was
+run under `timeout 423` (the longest: the independent free gas, 77.0 s).

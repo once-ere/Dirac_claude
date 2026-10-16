@@ -6,7 +6,49 @@ in this repository; nothing depends on the old session's scratch directory.
 
 ## 0. Exact restart procedure
 
-### 0.7 STATE 2026-10-15 07:00 PDT — START HERE
+### 0.8 STATE 2026-10-15 (dark sector with b4) — START HERE
+
+The user's order of 2026-10-15: update and push every dark-sector file and object for the author's
+metric with b4(x4) ("b4 is a function of x4; b4 is NEVER 1"), with a provenance that proves the
+change; no calculation longer than 423 s; push each piece at once. The conventions of 0.7 hold.
+
+**Done and pushed (origin/main equals HEAD).**
+- The dark-sector record, recomputed on the history a4 = H x4, b4 = b4(0) e^((4/3) H x4)
+  (beta = 4/3, the branch of the author's weights): commits e9d1751 (derive_effective, 39
+  checks), 0f73748 (run_ks_history at lambda_hat e^(-2 a4), 7), 3932af4 (compute_eos, 15),
+  0f969b1 (independent free gas, 10), 98cf574 (dirac16complex00 A 49 and B 32), 4cb9b7d (both
+  READMEs), 019337d and 3324b56 (Wolfram verification 8/8 and the non-evaluating reader of the
+  author's notebook), 65d954c (DARK_SECTOR_HYPOTHESES md/tex/pdf, 27 pages, registered).
+- e6113b0: the Revision notebook dark_sector_hypotheses for b4 (46 checks; two builds and a check
+  byte-identical).
+- c19fa18: `Revision/dark_sector/B4_PROVENANCE.md` (the provenance of the whole change: source,
+  chain with independent confirmations, commits, withdrawn-against-new table, the re-run of
+  2026-10-15 in which every producer reproduced the record byte for byte, sha256 of every file);
+  index row 31 (rev-dark-sector-b4, fast) with a FULL test; row 27 updated; the notebook test.
+- 35e80d9: the gate twins have the steps dark-b4-author-notebook, dark-b4-author-inputs and
+  dark-b4-wolfram; both twins pass the dark-sector steps.
+
+**NOT done yet (do in this order, each under `timeout 423`, push each):**
+1. The textbook "Universes in Pairs" still quotes the WITHDRAWN b4 = 1 dark-sector record:
+   notebook 22b (`Revision/textbook/notebooks/src/22b_dark_sector.py`) asserts old values and
+   old record keys (it would FAIL if re-executed) and chapter 22, sections 22.16 to 22.24
+   (text, tables, the walk-through of 22b, exercises) uses b4 = 1. Rewrite 22b for b4 (model:
+   the Revision notebook builder `Revision/notebooks/src/dark_sector_hypotheses.py`), rebuild with
+   `python Revision/textbook/tools/nbkit.py build ... --date 2026-10-15` and `check`, rewrite the
+   chapter sections and the walk-through to match.
+2. Notebook 00c (honesty ledger) counts every report: the dark-sector counts changed (39, 7, 15,
+   10, 49, 32) and the new report `Revision/dark_sector/reports/wolfram-dark-sector-b4.json` (8)
+   exists. Rebuild 00c and update the chapter 00 text that quotes its counts.
+3. Notebook 23a and `Revision/textbook/data/23a_*.csv`: the gate has 3 more steps (88); the check
+   index changed. Regenerate (`Revision/textbook/tools/chapter23/run_all.py`) and update chapter 23.
+4. Notebook 09b and chapter 09: check the dark-sector sentences (condensate constant under b4 = 1).
+5. Reassemble the book, build the PDF (about 290 s), register it, update the textbook tests' pins.
+6. A fresh-clone verification of the dark-sector record and the tests; then update this section.
+
+Never run `python -m unittest Revision.tests.test_universes_in_pairs_textbook` as a whole: it
+takes longer than 423 s (claude_failures D2 and F2). Run its classes one by one.
+
+### 0.7 STATE 2026-10-15 07:00 PDT (superseded by 0.8)
 
 The binding conventions of section 0.6 hold unchanged: X = {x0, ..., x7} with x0 the hidden
 direction first, never x8; the metric with b4(x4); no single calculation longer than 423 s;
