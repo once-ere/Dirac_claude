@@ -26,8 +26,8 @@
   },
   "metric-self-consistency": {
     "path": "Revision/docs/METRIC_SELF_CONSISTENCY.pdf",
-    "pages": 12,
-    "sha256": "b06a3ad10a3b4cf6277da20f8d74607b63615c727d30987d297ca1fa54e5aa46"
+    "pages": 15,
+    "sha256": "32d0532371001d38dbc06d388fcba8e0d3bce58adb3dc0db90f0c5cf9b5b2806"
   },
   "pair-creation-proofs": {
     "path": "Revision/docs/PAIR_CREATION_PROOFS.pdf",

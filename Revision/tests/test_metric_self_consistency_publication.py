@@ -3,8 +3,10 @@
 
 The document answers the user's order of 2026-10-16: the issue (a diagonal metric is self-consistent only if every
 off-diagonal component of the sources vanishes), why the metric of 2026-10-14 is not self-consistent with diagonal
-sources, the simplest remedy (the warped metric, g44 = -Sin[6 H x0]^(1/3)), its field equations, its exact solutions
-and what it changes for the fields.  It is built and registered with
+sources, the remedy (version 2 of 2026-10-16: the corrected metric
+diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1, -E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3)), z = 6 H x0 real; the time-warped
+metric of version 1, g44 = -Sin[z]^(1/3), is withdrawn because its lapse oscillates), its field equations and what it
+changes for the fields.  It is built and registered with
 
     python scripts/build_provenance_pdf.py Revision/docs/METRIC_SELF_CONSISTENCY.md \
         --developer-layout --specifications Revision/pdf-specifications.json [--register]
@@ -17,11 +19,14 @@ What is tested
     endings, and their sha256 are pinned;
   * the PDF is registered in Revision/pdf-specifications.json (edition metric-self-consistency) and is structurally
     sound;
-  * title, sections and the last section; the key statements; the author's notebook is described as read only;
+  * title, sections and the last section; the key statements (x0 space-like, x4 the time, z real, the positive
+    branch of (Sin^2)^(1/6), version 1 withdrawn); the wording of version 1 that the author flagged is absent; z is
+    defined before section 2 and y before its first use; the author's notebook is described as read only;
   * every check name the document cites exists in the two reports of Revision/metric_warped with the verdict PASS,
     every check of the two reports is listed, and the counts quoted are the reports' counts;
-  * the formulas quoted (the warped metric, the layer coefficients, the effective couplings, the Kasner exponents,
-    the history's source) equal the values of Revision/metric_warped/results/warped-metric.json;
+  * the formulas quoted (the corrected metric, the volume factor, the mixed curvature of the family, the Einstein
+    tensor, the history's source, the gravity term of the Dirac operator) equal the values of
+    Revision/metric_warped/results/warped-metric.json;
   * OPTIONAL (REVISION_PDF_REBUILD=1; needs pdflatex, about 10 s): the PDF is rebuilt in verify mode.
 After an intended edit: rebuild until warning-free, register (--register), update MARKDOWN_SHA256 and TEX_SHA256.
 """
@@ -54,8 +59,8 @@ EDITION = "metric-self-consistency"
 REGISTRY = REVISION / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "b405546bc209a2c796cc6e9c7d8127d45011ae358097e02e060eb937a270ef2c"
-TEX_SHA256 = "238aec69581e4ba97f5a596b8b22db44addac94dc3fb5aef1540b6f66af5a236"
+MARKDOWN_SHA256 = "f822b44cfc635700c272e02b008cf8110cbaa23f3310195a5018e4f238a9bcf3"
+TEX_SHA256 = "e77eddc5a4284b8d10a4fa3ab7e47315bed776c5e7c37aa43704be61dbca0029"
 
 MW = REVISION / "metric_warped"
 PY_REPORT = MW / "reports" / "python-warped-metric-report.json"
@@ -67,9 +72,9 @@ SECTIONS = (
     "## Abstract",
     "## 1. The issue",
     "## 2. Where off-diagonal terms come from",
-    "## 3. The simplest remedy: the warped metric",
-    "## 4. The field equations of the warped metric",
-    "## 5. What the warped metric changes for the fields",
+    "## 3. The remedy: the corrected metric",
+    "## 4. The field equations of the corrected metric",
+    "## 5. What the corrected metric changes for the fields",
     "## 6. Consequences for the Revision record",
     "## 7. What is proved, computed, assumed and open",
     "## 8. Reproduction",
@@ -77,10 +82,23 @@ SECTIONS = (
 )
 KEY_STATEMENTS = (
     "none of its definitions or conventions is used in the Revision record",
-    "It differs from the metric of 2026-10-14 in one entry, $g_{44} = -1 \\to -\\sin^{1/3}z$",
+    "- $x_0$ is the hidden direction, a hypothetical space-like coordinate;",
+    "- $x_4$ is the time;",
+    r"z = 6Hx_0,\qquad -\infty < z < \infty",
+    r"The author's factor $\sin^{1/3}z$ means $(\sin^2 z)^{1/6} \ge 0$, the positive branch",
+    r"No assumption on the sign of $\sin z$ or $\cos z$ is made.",
+    "Version 1 is withdrawn. Every metric below keeps $g_{44} = -1$.",
     "No diagonal metric removes them",
     "The history remains a PRESCRIBED background: no field of the record is shown to be its source.",
-    "At this commit that condition is OPEN for the warped metric.",
+    "At this commit that condition is OPEN for the corrected metric.",
+    "The choice between the corrected metric (the hidden direction shrinks with the extra times) and alternative K "
+    "(it expands with 3-space) is the author's.",
+)
+# the wording of version 1 that the author flagged on 2026-10-16 must not come back
+WITHDRAWN_WORDING = (
+    "the time direction, which may depend on $x_0$. The family",
+    r"z = 6Hx_0 \in (0, \pi/2)",
+    "This is the **warped metric** of 2026-10-16.",
 )
 
 
@@ -165,6 +183,21 @@ class Content(unittest.TestCase):
         for statement in KEY_STATEMENTS:
             self.assertIn(statement, self.text, statement)
 
+    def test_withdrawn_wording_absent(self):
+        for wording in WITHDRAWN_WORDING:
+            self.assertNotIn(wording, self.text, wording)
+
+    def test_z_and_y_defined_before_use(self):
+        # z is defined in section 1.2, before the formulas in z of sections 2 and 3; y is defined in section 3.4,
+        # before its first use after section 3.1 (which only names the fault of version 1)
+        z_def = self.text.index(r"z = 6Hx_0,\qquad -\infty < z < \infty")
+        self.assertLess(z_def, self.text.index("## 2. Where off-diagonal terms come from"))
+        y_def = self.text.index(r"y = \frac{\ln|\sin z|}{6H} \le 0")
+        start = self.text.index("### 3.2 ")
+        first_y = min(self.text.index(marker, start) for marker in ("$y$", "dy^2"))
+        self.assertLessEqual(y_def, first_y)
+        self.assertEqual(self.text[:start].count("$y$"), 1)
+
     def test_no_material_of_the_earlier_stages(self):
         for marker in ("artifacts/", "provenance/", "studies/", "dirac-main", "vendor/", "Gmail"):
             self.assertNotIn(marker, self.text, marker)
@@ -181,7 +214,7 @@ class Content(unittest.TestCase):
                 if name in verdicts:
                     self.assertEqual(verdicts[name], "PASS", name)
         # a name that looks like a check but is not one of the reports must be a known record key
-        allowed = {"history_source", "fiber_lovelock_tensors", "fiber_lovelock_scalars",
+        allowed = {"history_source", "einstein_diagonal", "ricci_scalar_mathematica",
                    "commuting_T_x4x0_homogeneous", "spin_connection_in_the_energy_momentum_tensor",
                    "condensate_cannot_source_branch"}
         for name in names - cited:
@@ -189,7 +222,7 @@ class Content(unittest.TestCase):
                 self.assertIn(name, allowed, name)
 
     def test_counts(self):
-        for path, label in ((PY_REPORT, "16 of 16 PASS"), (WL_REPORT, "11 of 11 PASS")):
+        for path, label in ((PY_REPORT, "14 of 14 PASS"), (WL_REPORT, "13 of 13 PASS")):
             checks = load_json(path)["checks"]
             n = len(checks)
             self.assertTrue(all(c["verdict"] == "PASS" for c in checks))
@@ -207,52 +240,55 @@ class Values(unittest.TestCase):
         self.res = load_json(RESULTS)
 
     def test_metric(self):
-        g = self.res["metric_warped"]
-        self.assertEqual(g[4], "-sin(6*H*x0)**(1/3)")
-        self.assertEqual(self.res["metric_of_2026_10_14"][4], "-1")
-        self.assertEqual(g[:4] + g[5:], self.res["metric_of_2026_10_14"][:4] + self.res["metric_of_2026_10_14"][5:])
-        self.assertEqual(self.res["sqrt_det_g"], "b4^(3/2) Cos[6 H x0] Sin[6 H x0]^(1/6)")
-        self.assertIn(r"$\sqrt{|g|} = b_4^{3/2}\cos z\,\sin^{1/6}z$", self.text)
+        self.assertEqual(
+            self.res["metric_corrected"],
+            "diag(E^(-2 a4[x4]) b4[x4] Cot[6 H x0]^2, E^(2 a4[x4]), E^(2 a4[x4]), E^(2 a4[x4]), -1, "
+            "-E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6), -E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6), "
+            "-E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6))")
+        self.assertIn("real (-Infinity < z < Infinity)", self.res["coordinates"])
+        self.assertIn("(Sin[6 H x0]^2)^(1/6) > 0", self.res["coordinates"])
+        self.assertIn(r"ds^2 = {} & e^{-2a_4}\,b_4\cot^2 z\,dx_0^2 + e^{2a_4}\big(dx_1^2 + dx_2^2 + dx_3^2\big) - dx_4^2",
+                      self.text)
+        self.assertIn(r"& - e^{-2a_4}\,b_4\,(\sin^2 z)^{1/6}\big(dx_5^2 + dx_6^2 + dx_7^2\big) .", self.text)
+        self.assertEqual(self.res["sqrt_det_g_corrected"], "E^(-a4) b4^2 |Cot[6 H x0]| (Sin[6 H x0]^2)^(1/4)")
+        self.assertIn(r"$\sqrt{|g|} = e^{-a_4}b_4^2\,|\cot z|\,(\sin^2 z)^{1/4}$", self.text)
 
-    def test_layer_coefficients(self):
-        c = self.res["layer_coefficients_c_kj"]
-        self.assertEqual(c, {"10": 21, "11": 1, "20": -420, "21": -40, "22": 1, "30": 2520, "31": 360, "32": -18,
-                             "33": 1})
-        self.assertIn("$c_{10} = 21$, $c_{11} = 1$; $c_{20} = -420$, $c_{21} = -40$, $c_{22} = 1$; $c_{30} = 2520$, "
-                      "$c_{31} = 360$, $c_{32} = -18$, $c_{33} = 1$", self.text)
+    def test_family(self):
+        fam = self.res["family_mixed_curvature"]
+        self.assertEqual(fam["space"], "alpha ((q - 1) a4' + p b4'/b4)")
+        self.assertEqual(fam["extra_times"], "beta ((q + 1) a4' + (p - 1/2) b4'/b4)")
+        self.assertIn(r"\alpha\big((q-1)a_4' + p\,u\big)", self.text)
+        self.assertIn(r"\beta\big((q+1)a_4' + (p - \tfrac12)\,u\big)", self.text)
 
-    def test_effective_couplings(self):
-        b = self.res["effective_couplings_author_weights"]
-        self.assertEqual(b, {"beta0": "Lam + 161/16", "beta1": "1/(16*H**2)", "beta2": "1/(64*H**4)",
-                             "beta3": "1/(1152*H**6)"})
-        self.assertIn("$\\beta_0 = 161/16 + \\Lambda$", self.text)
-        self.assertIn("$\\beta_1 = 1/(16H^2)$, $\\beta_2 = 1/(64H^4)$, $\\beta_3 = 1/(1152H^6)$", self.text)
-
-    def test_kasner(self):
-        k = self.res["einstein_vacuum_kasner"]
-        self.assertEqual(k["Lambda"], "-21 H^2")
-        self.assertEqual(k["solutions"][0]["b4"], "x4^(2/3)")
-        self.assertEqual(k["solutions"][0]["space_scale"], "x4^(1/6 + sqrt(5)/6)")
-        self.assertEqual(k["solutions"][0]["extra_time_scale"], "x4^(1/6 - sqrt(5)/6)")
-        self.assertIn("p_s = \\frac{1 + \\sqrt5}{6}", self.text)
+    def test_einstein_diagonal(self):
+        e = self.res["einstein_diagonal"]
+        self.assertEqual(e["x4"], "3*(4*EA**2*H**2*bb + 2*ad1**2*bb**2 - bd1**2)/(2*bb**2)")
+        self.assertEqual(e["x0"], e["x5"])
+        self.assertIn(r"E_{(1)}{}^{x_4}{}_{x_4} &= 6C + 3a_4'^2 - \tfrac32 u^2", self.text)
 
     def test_history_source(self):
         h = self.res["history_source"]
-        self.assertEqual(h["einstein_A1_beta43"], {"-rho": "-H**2*W/3 + 21*H**2", "p0": "-11*H**2*W/3 + 21*H**2",
-                                                    "p3": "-5*H**2*W/3 + 21*H**2", "p_t": "-13*H**2*W/3 + 21*H**2"})
-        self.assertEqual(h["author_weights_A1_beta43"]["-rho"], "5*W**3/432 + W**2/48 - W/48 + 161/16")
-        self.assertEqual(h["author_weights_A1_beta43"]["p3"], "W**3/432 + 17*W**2/432 - 5*W/48 + 161/16")
-        self.assertEqual(h["author_weights_A1_beta43"]["p_t"], "-7*W**3/432 + 11*W**2/144 - 13*W/48 + 161/16")
-        self.assertEqual(h["author_weights_A1_beta43"]["p0"], "-13*W**3/432 + 53*W**2/432 - 11*W/48 + 161/16")
-        for row in ("| $\\mu = x_4$: $-\\kappa\\rho - \\Lambda$ | $21H^2 - \\frac13 H^2 W$ | $\\frac{161}{16} - "
-                    "\\frac{W}{48} + \\frac{W^2}{48} + \\frac{5W^3}{432}$ |",
-                    "| $\\mu = x_0$: $\\kappa p_0 - \\Lambda$ | $21H^2 - \\frac{11}{3}H^2 W$ | $\\frac{161}{16} - "
-                    "\\frac{11W}{48} + \\frac{53W^2}{432} - \\frac{13W^3}{432}$ |"):
+        self.assertEqual(h["einstein_A1_beta43"], {"-rho": "H**2*(18*exp(2*H*x4/3) + 1)/3",
+                                                    "p0": "H**2*(9*exp(2*H*x4/3) - 11)/3",
+                                                    "p3": "H**2*(54*exp(2*H*x4/3) - 13)/9",
+                                                    "p_t": "H**2*(9*exp(2*H*x4/3) - 11)/3"})
+        self.assertEqual(h["author_weights_A1_beta43"], {
+            "-rho": "-9*exp(4*H*x4/3)/16 + 161*exp(2*H*x4/3)/24 + 121/432",
+            "p0": "79*exp(2*H*x4/3)/16 - 497/144",
+            "p3": "-9*exp(4*H*x4/3)/16 + 1601*exp(2*H*x4/3)/216 - 5359/3888",
+            "p_t": "79*exp(2*H*x4/3)/16 - 497/144"})
+        for row in (r"| $\mu = x_4$: $-\kappa\rho - \Lambda$ | $\frac13 H^2\big(18e^{2Hx_4/3} + 1\big)$ |",
+                    r"| $\mu = x_1, x_2, x_3$: $\kappa p_3 - \Lambda$ | $\frac19 H^2\big(54e^{2Hx_4/3} - 13\big)$ |",
+                    r"| $\mu = x_0$: $\kappa p_0 - \Lambda$ | $\frac13 H^2\big(9e^{2Hx_4/3} - 11\big)$ |",
+                    r"-\kappa\rho - \Lambda &= -\tfrac{9}{16}e^{4Hx_4/3} + \tfrac{161}{24}e^{2Hx_4/3} + \tfrac{121}{432}",
+                    r"\kappa p_3 - \Lambda &= -\tfrac{9}{16}e^{4Hx_4/3} + \tfrac{1601}{216}e^{2Hx_4/3} - \tfrac{5359}{3888}",
+                    r"\kappa p_0 - \Lambda = \kappa p_t - \Lambda &= \tfrac{79}{16}e^{2Hx_4/3} - \tfrac{497}{144}"):
             self.assertIn(row, self.text)
 
     def test_dirac_gravity_term(self):
         self.assertEqual(self.res["dirac_gravity_term"],
-                         "(7/2) H gamma^(x0) + (3/4) (b4'/b4) Sin[6 H x0]^(-1/6) gamma^(x4)")
+                         "(3/2) H E^a4 b4^(-1/2) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4)")
+        self.assertIn(r"\gamma^\mu\Omega_\mu = \frac32\,H\,e^{a_4}b_4^{-1/2}\,\gamma^{(x_0)}", self.text)
 
 
 if __name__ == "__main__":

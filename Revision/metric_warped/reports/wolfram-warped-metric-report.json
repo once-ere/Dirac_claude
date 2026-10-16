@@ -1,60 +1,71 @@
 {
 	"program":"Revision\/metric_warped\/wolfram\/verify_warped_metric.wls",
+	"version":2,
 	"checks":[
 		{
-			"name":"warped_mixed_riemann_vanish",
+			"name":"corrected_metric_entries",
 			"verdict":"PASS",
-			"detail":"warped metric: every nonzero R^{ab}_{cd} has {a, b} = {c, d} (112 nonzero entries with ordered pairs)"
+			"detail":"every real z: the vielbein f0 = E^(-a4) b4^(1\/2) Cot[z], f_i = E^a4, f4 = 1, f_t = E^(-a4) b4^(1\/2) (Sin[z]^2)^(1\/12) reproduces g; f0 ... f7 = E^(-a4) b4^2 Cot[z] (Sin[z]^2)^(1\/4), so sqrt|det g| = E^(-a4) b4^2 |Cot[z]| (Sin[z]^2)^(1\/4); g_tt = -E^(-2 a4) b4 w^2 < 0 with w = (Sin[z]^2)^(1\/12) > 0; g44 = -1"
 		},
 		{
-			"name":"warped_offdiagonal_all_orders",
+			"name":"corrected_mixed_riemann_vanish",
 			"verdict":"PASS",
-			"detail":"warped metric: the 56 off-diagonal components of E_(1), E_(2), E_(3) are identically 0 for all a4[x4], b4[x4] > 0"
+			"detail":"corrected metric, every real z: every nonzero R^{ab}_{cd} has {a, b} = {c, d} (112 nonzero entries with ordered pairs)"
 		},
 		{
-			"name":"record_metric_offdiagonal_reproduced",
+			"name":"corrected_offdiagonal_all_orders",
 			"verdict":"PASS",
-			"detail":"metric of 2026-10-14: E_(1) has exactly 2 nonzero off-diagonal components ((x4, x0), (x0, x4)); E_(k)^x4_x0 != 0 for k = 1, 2, 3; sum_k alpha_k E_(k)^x4_x0 = the record's generalSource.offDiagonal_x4x0 (cot z u Q); E_(1)^x4_x0 = (3*H*Cot[6*H*x0]*Derivative[1][b4][x4])\/(2*b4[x4])"
+			"detail":"corrected metric: the 56 off-diagonal components of E_(1), E_(2), E_(3) are identically 0 for all a4[x4], b4[x4] > 0 and every real z, and all diagonal components are independent of x0"
+		},
+		{
+			"name":"hidden_block_constant_curvature",
+			"verdict":"PASS",
+			"detail":"the block Cot[z]^2 dx0^2 - (Sin[z]^2)^(1\/6) (dx5^2 + dx6^2 + dx7^2): R^{ab}_{ab} = -H^2 for the six pairs a < b and no other independent component: constant curvature -H^2 for every real z (in the corrected metric the block carries the factor E^(-2 a4) b4)"
+		},
+		{
+			"name":"family_g44_fixed_conditions",
+			"verdict":"PASS",
+			"detail":"family g00 = b4^(2p) E^(2 q a4) Cot[z]^2, g_ii = E^(2 a4) (Sin[z]^2)^(3 al), g44 = -1, g_tt = -E^(-2 a4) b4 (Sin[z]^2)^(3 be): R^{x0 xi}_{x4 xi} = 18 H Tan[z] E^(-2 q a4) b4^(-2 p) al ((q - 1) a4' + p b4'\/b4) and R^{x0 xt}_{x4 xt} = 18 H Tan[z] E^(-2 q a4) b4^(-2 p) be ((q + 1) a4' + (p - 1\/2) b4'\/b4) for every real z: both vanish for all a4, b4 iff [al = 0 or (q, p) = (1, 0)] and [be = 0 or (q, p) = (-1, 1\/2)]"
 		},
 		{
 			"name":"family_einstein_condition",
 			"verdict":"PASS",
-			"detail":"g00 = b4^(2p) E^(2 q a4) Cot[z]^2, g44 = -Sin[z]^(2 gamma): E_(1)^x4_x0 = -(3 H Cot[z] Sin[z]^(-2 gamma)\/(2 b4)) (4 q a4' b4 + (6 gamma + 4 p - 1) b4'), the only off-diagonal pair; zero for all a4, b4 iff q = 0 and 6 gamma + 4 p = 1"
+			"detail":"with both of the author's warps (al = be = 1\/6) E_(1)^x4_x0 is (nonzero factor) (2 q a4' + (2 p - 1\/2) b4'\/b4): zero for all a4, b4 iff q = 0, p = 1\/4 (g00 = b4^(1\/2) Cot[z]^2)"
 		},
 		{
-			"name":"family_gauss_bonnet_condition",
+			"name":"record_metric_offdiagonal_reproduced",
 			"verdict":"PASS",
-			"detail":"on the line q = 0, p = (1 - 6 gamma)\/4: E_(2)^x4_x0 = (3\/2) H Cot[z] Sin[z]^(-4 gamma) (6 gamma - 1) b4' (4 a4' b4 - b4')^2\/b4^3: zero for all a4, b4 iff gamma = 1\/6 (the warped metric)"
+			"detail":"metric of 2026-10-14 (every real z): E_(1) has exactly 2 nonzero off-diagonal components ((x4, x0), (x0, x4)); E_(k)^x4_x0 != 0 for k = 1, 2, 3; sum_k alpha_k E_(k)^x4_x0 = the record's generalSource.offDiagonal_x4x0 (cot z u Q)"
 		},
 		{
-			"name":"alternative_hidden_breathing_einstein_only",
+			"name":"version_1_g44_oscillates",
 			"verdict":"PASS",
-			"detail":"g00 = b4^(1\/2) Cot[z]^2 (g44 = -1): E_(1) diagonal; E_(2)^x4_x0 = -(3\/2) H Cot[z] b4' (4 a4' b4 - b4')^2\/b4^3 != 0; E_(3)^x4_x0 != 0"
+			"detail":"version 1 (withdrawn): g44 = -(Sin[z]^2)^(1\/6) has period Pi in z, is -1 at z = Pi\/2 and 0 at z = 0: the lapse of the time x4 oscillates and vanishes for real z"
 		},
 		{
-			"name":"warped_layer_decomposition",
+			"name":"ricci_tensor",
 			"verdict":"PASS",
-			"detail":"E_(k)^mu_mu = sum_{j=0..k} c_kj H^(2(k-j)) Sin[z]^(-j\/3) Ehat_(j) (mu = x1..x7: the fiber tensor Ehat_(j)^mu_mu; mu = x0: the fiber scalar Ehat_(j)^(0)); c_10..c_33 = 21, 1; -420, -40, 1; 2520, 360, -18, 1"
-		},
-		{
-			"name":"einstein_vacuum_kasner",
-			"verdict":"PASS",
-			"detail":"Einstein gravity, Lambda = -21 H^2: a4 = ps Log[x4], b4 = x4^(2\/3), ps = (1 +- Sqrt[5])\/6 solve all 64 components at every x0 (the off-diagonal ones vanish identically)"
+			"detail":"the Ricci tensor R^a_a = sum_b R^{ab}_{ab} and the Ricci scalar of the corrected metric equal the sympy record (ricci_mixed_diagonal_mathematica, ricci_scalar_mathematica); both are independent of x0"
 		},
 		{
 			"name":"history_source_equals_sympy",
 			"verdict":"PASS",
-			"detail":"on a4 = H x4, b4 = E^(4 H x4\/3): E_(1)^mu_mu and the author-weight sum E_(1)\/H^2 + E_(2)\/(32 H^4) + E_(3)\/(1152 H^6) equal the sympy values of warped-metric.json (history_source) for rho, p3, p_t, p0"
+			"detail":"on the history a4 = H x4, b4 = E^(4 H x4\/3): E_(1)^mu_mu and the author-weight sum E_(1)\/H^2 + E_(2)\/(32 H^4) + E_(3)\/(1152 H^6) equal the sympy values (history_source) for -rho, p3, p_t, p0"
 		},
 		{
-			"name":"sqrt_det_g",
+			"name":"divergence_of_diagonal_tensor",
 			"verdict":"PASS",
-			"detail":"sqrt|det g| = b4^(3\/2) Cos[z] Sin[z]^(1\/6)"
+			"detail":"corrected metric, T = diag(p0, p3, p3, p3, -rho, p_t, p_t, p_t) depending on x0, x4: nabla_mu T^mu_x4 = -d4 rho - 3 a4' (rho + p3) - 3 h (rho + p_t) - h (rho + p0), h = b4'\/(2 b4) - a4'; nabla_mu T^mu_x0 = d0 p0 + 3 H Cot[z] (p0 - p_t); the six other components vanish (every real z)"
 		},
 		{
 			"name":"dirac_gravity_term",
 			"verdict":"PASS",
-			"detail":"gamma^mu Omega_mu = (1\/2) sum_a gamma^(a) (1\/sqrt g) d_a (sqrt g\/f_a) = (7\/2) H gamma^(x0) + (3\/4) (b4'\/b4) Sin[z]^(-1\/6) gamma^(x4)"
+			"detail":"gamma^mu Omega_mu = sum_a gamma^(a) (1\/(2 V)) d_a (V\/f_a), V = f0 ... f7: (3\/2) H E^a4 b4^(-1\/2) gamma^(x0) + (b4'\/b4 - a4'\/2) gamma^(x4) for every real z (= the sympy record: (3\/2) H E^a4 b4^(-1\/2) gamma^(x0) + (b4'\/b4 - a4'\/2) gamma^(x4))"
+		},
+		{
+			"name":"alternatives",
+			"verdict":"PASS",
+			"detail":"alternative K (g00 = E^(2 a4) Cot[z]^2, 3-space E^(2 a4) S, extra times without the warp S): no mixed Riemann component and no off-diagonal component at any order; g00 = b4^(1\/2) Cot[z]^2 (both warps): E_(1) diagonal, but E_(2)^x4_x0 = -(3\/2) H Cot[z] b4' (4 a4' b4 - b4')^2\/b4^3 != 0"
 		}
 	]
 }

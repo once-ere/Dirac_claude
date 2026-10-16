@@ -5,7 +5,7 @@ primordial gravitational field given below. Nothing in it is copied from, or mix
 stages of the repository (`artifacts/`, `provenance/`, `studies/`, ...): every result here is computed
 anew by code in this folder. The binding plan is [`SPEC.md`](SPEC.md).
 
-## The warped metric of 2026-10-16 (user's order, verbatim key sentences)
+## The corrected metric of 2026-10-16 (user's order, verbatim key sentences)
 
 > So the issue is, a diagonal form for the metric of the primordial gravitational field is only self-consistent if
 > all off-diagonal terms of all source terms in the Einstein field equations ARE ZERO. This is not the case here.
@@ -14,15 +14,21 @@ anew by code in this folder. The binding plan is [`SPEC.md`](SPEC.md).
 > primordial gravitational field to the repo, along with provenance and a pdf file explaination of the issues and
 > remedies. [3] Recompute all primordial objects and push to repo; revise all concomitant documention and push.
 
+The author's rules of the same day: x0 is a hypothetical space-like coordinate and x4 is the time; g44 cannot
+oscillate; z = 6 H x0 takes every real value; Sin[6 H x0]^(1/3) = (Sin[6 H x0]^2)^(1/6), the positive branch.
+
 The answer: the metric of 2026-10-14 below has the off-diagonal component E_(k)^x4_x0 ~ Cot[6 H x0] b4'/b4 at every
-Lovelock order; the simplest change that removes every off-diagonal component at every order, for all a4(x4) and
-b4(x4), is ONE entry, g44 = -1 -> -Sin[6 H x0]^(1/3) (the warped metric: all seven directions x1..x7 carry the
-factor Sin[6 H x0]^(1/3); with y = Log[Sin[6 H x0]]/(6 H), ds^2 = dy^2 + E^(2 H y) ghat7).  The proof and the checks:
-[`metric_warped/`](metric_warped/README.md) (sympy 16/16, Wolfram 11/11; provenance
+Lovelock order.  Version 1 of the remedy (g44 = -1 -> -Sin[6 H x0]^(1/3), "the warped metric", commit 7897829) is
+withdrawn: for real z its lapse oscillates.  Version 2, the corrected metric, keeps g44 = -1:
+g = diag(E^(-2 a4) b4 Cot[6 H x0]^2, E^(2 a4) (x1, x2, x3), -1, -E^(-2 a4) b4 (Sin[6 H x0]^2)^(1/6) (x5, x6, x7)).
+It has no mixed curvature and no off-diagonal component of the Einstein, Gauss-Bonnet or cubic Lovelock tensor, for
+all a4(x4), b4(x4) and every real z; the hidden direction shrinks with the deflating extra times.  The proof and the
+checks: [`metric_warped/`](metric_warped/README.md) (sympy 14/14, Wolfram 13/13; provenance
 [`metric_warped/WARPED_METRIC_PROVENANCE.md`](metric_warped/WARPED_METRIC_PROVENANCE.md)); the explanation of the
-issue and the remedy: [`docs/METRIC_SELF_CONSISTENCY.md`](docs/METRIC_SELF_CONSISTENCY.md) (PDF).  `SPEC.md`
-section 1 states the warped metric.  The other records below still describe the metric of 2026-10-14 until they are
-recomputed (`HANDOFF.md` section 0.10 gives the order and the status).
+issue and the remedy: [`docs/METRIC_SELF_CONSISTENCY.md`](docs/METRIC_SELF_CONSISTENCY.md) (PDF, version 2).
+`SPEC.md` section 1 states the corrected metric.  The other records below still describe the metric of 2026-10-14
+(the field-theory files of commit d02ff19 describe version 1) until they are recomputed (`HANDOFF.md` section 0.10
+gives the order and the status).
 
 ## The metric change of 2026-10-14 (user's order, verbatim key sentence)
 
@@ -166,7 +172,7 @@ State on 2026-10-14 (waves 1 and 2, the metric with b4 and the author's coordina
 | folder | content | state |
 | --- | --- | --- |
 | `gkd_lovelock/` | GKD (pure-Rust generalized Kronecker delta) and the three Lovelock tensors of this metric, for general b4[x4] | computed, 19/19 Rust checks; verified in `verification/`: sympy 49/49, Wolfram 29/29; compared with the author's stored outputs in `comparison/` (the earlier notebook, at b4 = 1): 78 checks, 73 PASS, 0 FAIL, 5 NOT-AVAILABLE - the author's metric, Ricci scalar and Einstein tensor agree exactly; the author's notebooks hold no output for k = 2, 3 |
-| `metric_warped/` | the self-consistency of the metric with diagonal sources (the user's order of 2026-10-16): the off-diagonal component of the metric of 2026-10-14 at every Lovelock order, the family of one-entry changes and its conditions, and the warped metric (g44 = -Sin[6 H x0]^(1/3)): no off-diagonal component at any order, the layers of the field equations, the Kasner vacuum of Einstein gravity, the source of the history, the gravity term of the Dirac operator | sympy 16/16, Wolfram 11/11 (two runs byte-identical); provenance `metric_warped/WARPED_METRIC_PROVENANCE.md`; document `docs/METRIC_SELF_CONSISTENCY` |
+| `metric_warped/` | the self-consistency of the metric with diagonal sources (the user's order of 2026-10-16): the off-diagonal component of the metric of 2026-10-14 at every Lovelock order, the withdrawn version 1 (g44 = -Sin[6 H x0]^(1/3), oscillating lapse), the family with g44 = -1 and its conditions, and the corrected metric (version 2: g00 = E^(-2 a4) b4 Cot^2 z, g_ii = E^(2 a4), g44 = -1, g_tt = -E^(-2 a4) b4 (Sin^2 z)^(1/6)): no off-diagonal component at any order for every real z, the block of constant curvature, the Ricci tensor, conservation, the source of the history, the gravity term of the Dirac operator, the alternatives | sympy 14/14, Wolfram 13/13 (two runs byte-identical); provenance `metric_warped/WARPED_METRIC_PROVENANCE.md`; document `docs/METRIC_SELF_CONSISTENCY` |
 | `metric_b4/` | the metric change of 2026-10-14: the metric with b4[x4], its curvature and Lovelock tensors compared with the outputs stored in the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb` (pinned blob 4f2d83b5 of commit b13373c), the vacuum equations and the consequences for T1, T2, T3 and the dark sector | Wolfram 27/27, sympy 21/21; vacuum 6/6 (with the author's weights every vacuum history has b4 = constant and a4 = +-H x4 + const); consequences 4/4; the proof of the change: `metric_b4/METRIC_CHANGE_PROVENANCE.md` |
 | `algebra/` | the author's gammas, C, Gamma, B, Pin(4,4) and Spin(4,4) facts | Wolfram 45/45, sympy 35/35 |
 | `theory/` | Lagrangians, field equations, non-triviality, EMT, exact solutions, quantisation (Wolfram + sympy); scope checks (frame dependence, boundary terms, growth, sign of the energy) | for the metric with b4(x4), general a4 and b4 (2026-10-15; nothing at b4 = 1): Wolfram 84/84 (six parts and a merge, each well below 7 min 3 s), sympy 72/72 (two runs; comparison with Wolfram: agree); scope Wolfram 15/15, sympy 14/14; EMT operator for lambda != 0 in a finite Fock model `theory/fock_quartic/` (sympy only, flat frozen-coefficient modes) 21/21 (2026-10-08); the supplements of 2026-10-14 for general b4 (Wolfram 19/19, sympy 8/8, EMT 4/4 (C) and 4/4 (G)) are superseded by these records and kept until the textbook no longer reads them (`HANDOFF.md` 0.9) |

@@ -22,38 +22,53 @@
 
 ## 1. The primordial gravitational field (the author's metric, exactly)
 
-**Changed on 2026-10-16 by the user's order: THE WARPED METRIC (current).**  The user's order of 2026-10-16: "a
-diagonal form for the metric of the primordial gravitational field is only self-consistent if all off-diagonal terms
-of all source terms in the Einstein field equations ARE ZERO.  This is not the case here.  I task you to: [1] find the
-simplest modification for the current metric of the primordial gravitational field that is probably self-consistent
-with the Einstein field equations; [2] push your new, improved, metric ... along with provenance and a pdf file
-explanation of the issues and remedies; [3] Recompute all primordial objects ...".  The metric of 2026-10-14 below has
-the off-diagonal component E_(k)^x4_x0 ~ Cot[6 H x0] b4'/b4 at every Lovelock order; in the family
-g00 = b4^(2p) E^(2 q a4) Cot[6 H x0]^2, g44 = -Sin[6 H x0]^(2 gamma) the only member without off-diagonal components
-(Einstein and Gauss-Bonnet, for all a4, b4) is gamma = 1/6, p = q = 0, and it has none at any order.  The current
-metric of the Revision record is therefore, in the author's coordinates x0..x7,
+**Changed on 2026-10-16 by the user's order: THE CORRECTED METRIC (current; version 2).**  The user's order of
+2026-10-16: "a diagonal form for the metric of the primordial gravitational field is only self-consistent if all
+off-diagonal terms of all source terms in the Einstein field equations ARE ZERO.  This is not the case here.  I task
+you to: [1] find the simplest modification for the current metric of the primordial gravitational field that is
+probably self-consistent with the Einstein field equations; [2] push your new, improved, metric ... along with
+provenance and a pdf file explanation of the issues and remedies; [3] Recompute all primordial objects ...".  The
+author's rules of the same day, which every metric of this section obeys: x0 is a hypothetical SPACE-LIKE coordinate
+and x4 is the time; g44 cannot oscillate; z = 6 H x0 takes EVERY REAL VALUE (-Infinity < z < Infinity; the earlier
+statement "z in (0, pi/2)" below is withdrawn); Sin[6 H x0]^(1/3) means (Sin[6 H x0]^2)^(1/6), the positive branch
+(likewise Sin^(1/6) = (Sin^2)^(1/12)).
+
+The metric of 2026-10-14 below has the off-diagonal component E_(k)^x4_x0 ~ Cot[6 H x0] b4'/b4 at every Lovelock
+order.  Version 1 of the remedy (commit 7897829, g44 = -Sin[6 H x0]^(1/3), "the warped metric") is WITHDRAWN: for real
+z its lapse oscillates in x0 and vanishes at z = n Pi.  With g44 = -1, in the family g00 = b4^(2p) E^(2 q a4) Cot[z]^2,
+g_ii = E^(2 a4) (Sin[z]^2)^(3 alpha), g_tt = -E^(-2 a4) b4 (Sin[z]^2)^(3 beta), the mixed curvature is proportional to
+alpha ((q - 1) a4' + p b4'/b4) (3-space) and beta ((q + 1) a4' + (p - 1/2) b4'/b4) (extra times); the author's two
+warps cannot both be kept.  Keeping the warp of the extra times (beta = 1/6, alpha = 0, q = -1, p = 1/2), the current
+metric of the Revision record is, in the author's coordinates x0..x7,
 
 ```text
-g = {{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},
-     {0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},
-     {0,0,0,0,-Sin[6 H x0]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},
-     {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}}
+g = {{E^(-2 a4[x4]) b4[x4] Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]),0,0,0,0,0,0},{0,0,E^(2 a4[x4]),0,0,0,0,0},
+     {0,0,0,E^(2 a4[x4]),0,0,0,0},{0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6),0,0},
+     {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6),0},
+     {0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6)}}
 ```
 
-It differs from the metric of 2026-10-14 (below) in ONE entry, g44 = -1 -> -Sin[6 H x0]^(1/3): all seven directions
-x1..x7 carry the factor Sin[6 H x0]^(1/3).  With y = Log[Sin[6 H x0]]/(6 H) it is the warped product
-ds^2 = dy^2 + E^(2 H y) ghat7, ghat7 = E^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - E^(-2 a4) b4 (dx5^2 + dx6^2 + dx7^2).
-sqrt|det g| = b4^{3/2} Cos[6 H x0] Sin[6 H x0]^{1/6}; the 3-space scale factor e^{a4} sin^{1/6} z, the extra-time scale
-factor e^{-a4} b4^{1/2} sin^{1/6} z (deflating), the time lapse sin^{1/6} z.  Every off-diagonal component of every
-Lovelock tensor vanishes identically, for all a4(x4) and b4(x4) > 0; the field equations split into layers
-Sin[z]^(-j/3) times the Lovelock tensors of ghat7.  The proof, the checks (sympy 16 of 16, Wolfram 11 of 11) and the
-provenance: `Revision/metric_warped/` (`WARPED_METRIC_PROVENANCE.md`); the explanation of the issue and the remedy:
-`Revision/docs/METRIC_SELF_CONSISTENCY.md` (PDF).  The history used by the record stays the prescribed background
-a4 = H x4, b4 = b4(0) e^{(4/3) H x4} (kept for continuity; in the warped metric every history has a diagonal left-hand
-side, and this one needs the diagonal source of `Revision/metric_warped/results/warped-metric.json`, key
-history_source, layered in Sin[6 H x0]^(-1/3)).  The text from here to the end of this section describes the metric of
-2026-10-14, which is WITHDRAWN on 2026-10-16 and quoted only for comparison; every file of the record that still uses
-it is recomputed for the warped metric (HANDOFF.md section 0.10 lists the order and the status).
+It differs from the metric of 2026-10-14 (below) in two entries: g00 = Cot^2 z -> E^(-2 a4) b4 Cot^2 z (the hidden
+direction gets the scale factor E^(-a4) b4^(1/2) of the extra times) and g_ii = E^(2 a4) Sin^(1/3) z -> E^(2 a4)
+(3-space loses the factor); g44 = -1 and the extra times are unchanged.  Signature (4,4) wherever Sin z Cos z != 0;
+sqrt|det g| = E^(-a4) b4^2 |Cot[6 H x0]| (Sin[6 H x0]^2)^(1/4); vielbein f0 = E^(-a4) b4^(1/2) Cot[6 H x0] (signed),
+f1..f3 = E^a4, f4 = 1, f5..f7 = E^(-a4) b4^(1/2) (Sin[6 H x0]^2)^(1/12).  With y = Log|Sin[6 H x0]|/(6 H) (wherever
+Sin z != 0) the block (x0, x5, x6, x7) is E^(-2 a4) b4 (dy^2 - E^(2 H y) (dx5^2 + dx6^2 + dx7^2)), a space of constant
+curvature -H^2 and signature (1,3): x0 shrinks with the deflating extra times.  It has no mixed Riemann component;
+every off-diagonal component of E_(1), E_(2), E_(3) vanishes identically, for all a4(x4), b4(x4) > 0 and every real z;
+every diagonal component is independent of x0.  Gravity term of the Dirac operator:
+(3/2) H E^a4 b4^(-1/2) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4).  The proof, the checks (sympy 14 of 14, Wolfram 13
+of 13, every real z) and the provenance: `Revision/metric_warped/` (`WARPED_METRIC_PROVENANCE.md`); the explanation
+of the issue and the remedy: `Revision/docs/METRIC_SELF_CONSISTENCY.md` (PDF, version 2).  The alternative K
+(g00 = E^(2 a4) Cot^2 z, g_ii = E^(2 a4) (Sin^2 z)^(1/6), g_tt = -E^(-2 a4) b4; x0 grows with 3-space) is also
+diagonal at every order; the choice between the two is the author's.  The history used by the record stays the
+prescribed background a4 = H x4, b4 = b4(0) e^{(4/3) H x4}, b4(0) = 1 (kept for continuity; in the corrected metric
+every history has a diagonal left-hand side, and this one needs the diagonal, conserved source of
+`Revision/metric_warped/results/warped-metric.json`, key history_source, with p0 = p_t, growing as
+H^2 E^(2 a4)/b4 = H^2 e^{(2/3) H x4}).  The text from here to the end of this section describes the metric of
+2026-10-14, which is WITHDRAWN on 2026-10-16 and quoted only for comparison; the files of the record that still use it
+(and the field-theory files of commit d02ff19, which use version 1) are recomputed for the corrected metric when the
+author says so (HANDOFF.md section 0.10 lists the order and the status).
 
 **The metric of 2026-10-14 (withdrawn on 2026-10-16).**
 
