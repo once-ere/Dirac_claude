@@ -16,17 +16,21 @@
    global coordinate symbols x0 ... x7, the author's coordinates in the author's order (x0 = the hidden direction,
    x1, x2, x3 = 3-space, x4 = time, x5, x6, x7 = the exponentially deflating extra times; Wolfram position
    k + 1 holds xk), the metric functions a4[x4] and b4[x4] > 0, the constant H > 0, the mass m, the
-   coupling lam and z = 6 H x0 in (0, Pi/2).  (Until 2026-10-14 the package used the withdrawn labels
-   x1 ... x8 with the hidden direction x8 listed last.)
+   coupling lam and z = 6 H x0, which takes EVERY real value (the user's rule of 2026-10-16:
+   -Infinity < z < Infinity; x0 is a hypothetical space-like coordinate, x4 the time).  (Until 2026-10-14 the
+   package used the withdrawn labels x1 ... x8 with the hidden direction x8 listed last.)
 
-   1. Geometry (SPEC section 1: THE WARPED METRIC of 2026-10-16, the user's order "find the simplest modification
-      for the current metric of the primordial gravitational field that is probably self-consistent with the
-      Einstein field equations"; Revision/metric_warped/).  g = diag(f0^2, f1^2, f2^2, f3^2, -f4^2, -f5^2, -f6^2, -f7^2) with
-        f0 = Cot[z],  f1 = f2 = f3 = E^a4 Sin[z]^(1/6),  f4 = Sin[z]^(1/6),  f5 = f6 = f7 = E^-a4 b4^(1/2) Sin[z]^(1/6);
+   1. Geometry (SPEC section 1: the corrected metric of 2026-10-16, version 2, which replaces the metric of
+      2026-10-14 because that one has off-diagonal Lovelock components no diagonal source can match; see
+      Revision/metric_warped/ and Revision/docs/METRIC_SELF_CONSISTENCY.md).  Sin[z]^(1/3) means
+      (Sin[z]^2)^(1/6) > 0 (the user's rule).  g = diag(f0^2, f1^2, f2^2, f3^2, -1, -f5^2, -f6^2, -f7^2) with
+        f0 = E^-a4 b4^(1/2) Cot[z] (signed),  f1 = f2 = f3 = E^a4,  f4 = 1,
+        f5 = f6 = f7 = E^-a4 b4^(1/2) (Sin[z]^2)^(1/12);
       diagonal vielbein e^a_mu = f_a delta^a_mu (row a = frame, column mu = coordinate), inverse
-      vielbein e_a^mu = delta / f_a; eta = diag(1,1,1,1,-1,-1,-1,-1); sqrt|g| = b4^(3/2) Cos[z] Sin[z]^(1/6).
-      (Until 2026-10-16 this package defined the metric of 2026-10-14 with f4 = 1, withdrawn; until 2026-10-15
-      the metric with b4 = 1.)
+      vielbein e_a^mu = delta / f_a; eta = diag(1,1,1,1,-1,-1,-1,-1);
+      sqrt|g| = rftSig E^-a4 b4^2 Cot[z] (Sin[z]^2)^(1/4), rftSig = sign(Cot z) = +-1 (constant between the
+      degenerate points z = n Pi/2).  (Until 2026-10-16 this package defined the metric of 2026-10-14,
+      withdrawn; until 2026-10-15 the earlier metric b4 = 1, withdrawn.)
       Christoffel Gamma^l_mn = (1/2) g^lr (d_m g_rn + d_n g_rm - d_r g_mn);
       Riemann R^r_smn = d_m Gamma^r_ns - d_n Gamma^r_ms + Gamma^r_ml Gamma^l_ns - Gamma^r_nl Gamma^l_ms,
       Ricci R_sn = R^r_srn, R = g^sn R_sn.
@@ -62,45 +66,54 @@ rftZ = 6 H x0;
 rftCoordNames = {"x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"};
 rftEta = DiagonalMatrix[{1, 1, 1, 1, -1, -1, -1, -1}];
 rftEtaD = {1, 1, 1, 1, -1, -1, -1, -1};
-rftF = {Cot[rftZ], E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), Sin[rftZ]^(1/6),
-        E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6)};
-(* the warped metric of 2026-10-16, typed as in SPEC section 1 *)
-rftMetricAuthor = {{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},
-  {0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},
-  {0,0,0,0,-Sin[6 H x0]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},
-  {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}};
-rftAssumptions = {H > 0, 0 < 6 H x0 < Pi/2, Element[a4[x4], Reals], Element[x4, Reals], b4[x4] > 0};
+rftF = {E^(-a4[x4]) Sqrt[b4[x4]] Cot[rftZ], E^a4[x4], E^a4[x4], E^a4[x4], 1,
+        E^(-a4[x4]) Sqrt[b4[x4]] (Sin[rftZ]^2)^(1/12), E^(-a4[x4]) Sqrt[b4[x4]] (Sin[rftZ]^2)^(1/12),
+        E^(-a4[x4]) Sqrt[b4[x4]] (Sin[rftZ]^2)^(1/12)};
+(* the corrected metric of 2026-10-16 (version 2), typed as in SPEC section 1; Sin^(1/3) = (Sin^2)^(1/6) > 0 *)
+rftMetricAuthor = {{E^(-2 a4[x4]) b4[x4] Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]),0,0,0,0,0,0},{0,0,E^(2 a4[x4]),0,0,0,0,0},
+  {0,0,0,E^(2 a4[x4]),0,0,0,0},{0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6),0,0},
+  {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6),0},
+  {0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6)}};
+(* z = 6 H x0 takes every real value (the user's rule of 2026-10-16); no sign of Sin z or Cos z is assumed *)
+rftAssumptions = {H > 0, Element[x0, Reals], Element[a4[x4], Reals], Element[x4, Reals], b4[x4] > 0};
 
 rftE0 = DiagonalMatrix[rftF];                (* e^a_mu: row a (frame), column mu (coordinate) *)
 rftEinv0 = DiagonalMatrix[1/rftF];           (* e_a^mu stored as [[mu, a]] *)
 rftG0 = Transpose[rftE0] . rftEta . rftE0;
 rftGinv0 = Inverse[rftG0];
-rftSqrtG0 = b4[x4]^(3/2) Cos[rftZ] Sin[rftZ]^(1/6);
+(* sqrt|det g| = |f0 f1 ... f7| = rftSig f0 ... f7 with rftSig = sign(Cot z) = +-1, constant on every interval
+   n Pi/2 < z < (n + 1) Pi/2 between the degenerate points of the metric (g00 = 0 at Cos z = 0, g_tt = 0 at Sin z = 0);
+   rftSig is a symbol with rftSig^2 = 1 and zero derivatives, so every statement holds on every such interval *)
+rftSqrtG0 = rftSig E^(-a4[x4]) b4[x4]^2 Cot[rftZ] (Sin[rftZ]^2)^(1/4);
 
 (* ------------------------------------------------------------------ exact zero test *)
-(* Sin z -> w^6 (w > 0), Cos z -> cw, cw^2 -> 1 - w^12 after clearing denominators. *)
-rftTrigRules = {Sin[6 H x0] -> rftw^6, Cos[6 H x0] -> rftcw, Cot[6 H x0] -> rftcw/rftw^6,
-  Tan[6 H x0] -> rftw^6/rftcw, Csc[6 H x0] -> 1/rftw^6, Sec[6 H x0] -> 1/rftcw};
-rftReduceCos[p_] := Expand[p /. rftcw^n_Integer /; n >= 2 :> (1 - rftw^12)^Quotient[n, 2] rftcw^Mod[n, 2]];
+(* Exact normal form for EVERY real z: Sin z -> rftsv, Cos z -> rftcv (signed), (Sin z^2)^k -> rftw^(12 k) with
+   rftw = (Sin z^2)^(1/12) > 0; polynomials are reduced modulo rftcv^2 + rftsv^2 - 1, rftw^12 - rftsv^2 and
+   rftSig^2 - 1 (the leading terms rftcv^2, rftw^12, rftSig^2 are coprime, so the remainder is canonical).  No
+   PowerExpand and no positivity of Sin or Cos is used (until 2026-10-16 the test assumed 0 < z < Pi/2). *)
+rftTrigRules = {(Sin[6 H x0]^2)^k_ :> rftw^(12 k), Sin[6 H x0] -> rftsv, Cos[6 H x0] -> rftcv,
+  Cot[6 H x0] -> rftcv/rftsv, Tan[6 H x0] -> rftsv/rftcv, Csc[6 H x0] -> 1/rftsv, Sec[6 H x0] -> 1/rftcv,
+  Sin[12 H x0] -> 2 rftsv rftcv, Cos[12 H x0] -> rftcv^2 - rftsv^2};
+rftReduceCos[p_] := Expand[Expand[Expand[p /. rftw^n_Integer /; n >= 12 :> rftsv^(2 Quotient[n, 12]) rftw^Mod[n, 12]] /.
+    rftcv^n_Integer /; n >= 2 :> (1 - rftsv^2)^Quotient[n, 2] rftcv^Mod[n, 2]] /. rftSig^n_Integer /; n >= 2 :> rftSig^Mod[n, 2]];
 rftNormal[e_] := Module[{t},
-  t = PowerExpand[e /. rftTrigRules];
+  t = e /. rftTrigRules;
   t = Together[t];
   rftReduceCos[Numerator[t]]/Denominator[t]];
 (* rftZeroQ: exact and sound.  The field functions (and every U[..], U'[..] of a field expression, each
    replaced by its own symbol) are treated as independent polynomial variables; the expression is zero if
-   every coefficient (a rational function of Sin z, Cos z, E^a4, a4', ... ) reduces to 0 with
-   Cos^2 = 1 - Sin^2.  Treating U-expressions as independent can only make the test stricter. *)
-rftFieldHeadPattern = ph | phc | qv | phr | rfth | pf | qf | pfc | qfc;
+   every coefficient (a rational function of Sin z, Cos z, w = (Sin z^2)^(1/12), E^a4, a4', ... ) reduces to 0
+   in the normal form above.  Treating U-expressions as independent can only make the test stricter. *)
+rftFieldHeadPattern = ph | phc | qv | phr | rfth | pf | qf;
 rftZeroQ[e_] := Module[{t, uexp, urules, vars, coefs},
-  t = Expand[PowerExpand[e /. rftTrigRules]];
+  t = Expand[e /. rftTrigRules];
   If[t === 0, Return[True]];
   uexp = Union[Cases[t, (U | Derivative[_][U])[_], {0, Infinity}]];
   urules = Thread[uexp -> Array[rftUsym, Length[uexp]]];
   t = Expand[t /. urules];
   (* field calls: compound heads such as ph[3][x0, ..., x7] or Derivative[..][phc[3, 1]][x0, ..., x7],
-     the scalar test functions pf[..], qf[..] (and the profiles pfc[..], qfc[..] of the conjugate field, treated as independent
-     functions, which only makes the test stricter) and their derivatives, and the constants cA[..], cAc[..] *)
-  vars = Union[Cases[t, (hh_[__] /; (!AtomQ[hh] && !FreeQ[hh, rftFieldHeadPattern])) | (pf | qf | pfc | qfc)[_] | (cA | cAc)[__], {0, Infinity}]];
+     the scalar test functions pf[x0], qf[x0] and their derivatives, and the constants cA[..], cAc[..] *)
+  vars = Union[Cases[t, (hh_[__] /; (!AtomQ[hh] && !FreeQ[hh, rftFieldHeadPattern])) | (pf | qf)[_] | (cA | cAc)[__], {0, Infinity}]];
   coefs = If[vars === {}, {t}, Last /@ CoefficientRules[t, vars]];
   And @@ (rftReduceCos[Expand[Numerator[Together[#]]]] === 0 & /@ coefs)];
 rftZeroQ[e_List] := And @@ (rftZeroQ /@ Flatten[e]);
