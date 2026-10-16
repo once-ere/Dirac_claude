@@ -6,43 +6,43 @@
       "verdict": "PASS"
     },
     {
-      "detail": "control: the x4 identity with the opposite sign of the exchange term is NOT satisfied (the comparison is not vacuous)",
+      "detail": "control: the x4 identity WITHOUT the b4 term (the withdrawn b4 = 1 form) is NOT satisfied for b4(x4) (the comparison is not vacuous)",
       "name": "conservation_negative_control",
       "verdict": "PASS"
     },
     {
-      "detail": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7) for a diagonal T(x4, x0), Christoffel symbols computed here from the author's metric",
-      "name": "conservation_x4_author_metric",
+      "detail": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7) - (b4'/(2 b4)) (3 rho + p5 + p6 + p7) for a diagonal T(x4, x0), Christoffel symbols computed here from the author's metric with b4(x4)",
+      "name": "conservation_x4_author_metric_b4",
       "verdict": "PASS"
     },
     {
-      "detail": "nabla_mu T^mu_x0 = d0 p0 + H cot z sum_{6 directions} (p0 - p_dir); isotropic: d0 p0 + 3 H cot z (2 p0 - p3 - p_t)",
+      "detail": "nabla_mu T^mu_x0 = d0 p0 + H cot z sum_{6 directions} (p0 - p_dir), free of b4; isotropic: d0 p0 + 3 H cot z (2 p0 - p3 - p_t)",
       "name": "conservation_x0_author_metric",
       "verdict": "PASS"
     },
     {
-      "detail": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7",
+      "detail": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (every b4)",
       "name": "conservation_other_components_vanish",
       "verdict": "PASS"
     },
     {
-      "detail": "local model (warp frozen at a fixed hidden position): the same x4 identity; nabla_mu T^mu_x0 = d0 p0",
-      "name": "conservation_x4_local_model",
+      "detail": "local model (warp frozen at a fixed hidden position): the same x4 identity with the b4 term; nabla_mu T^mu_x0 = d0 p0",
+      "name": "conservation_x4_local_model_b4",
       "verdict": "PASS"
     },
     {
-      "detail": "local model: sqrt|g| = 1, independent of x4 (3-space inflation e^{3 a4} compensated by the deflation e^{-3 a4})",
-      "name": "local_model_volume_constant",
+      "detail": "local model: sqrt|g| = b4^(3/2): the 3-space inflation e^{3 a4} is compensated by e^{-3 a4}, and the proper volume changes with x4 through b4(x4) (b4^(3/2) ~ a^2 on the history beta = 4/3)",
+      "name": "local_model_volume_b4",
       "verdict": "PASS"
     },
     {
-      "detail": "N1 (per unit extra-time coordinate volume, rho_4 = e^{-3 a4} <rho>): w_eff = (p1+p2+p3-p5-p6-p7)/(3 rho) = w3 - w_t (isotropic), using the exact conservation identity d rho/d x4 = -a4' (p1+p2+p3-p5-p6-p7)",
-      "name": "observer_N1_weff_identity",
+      "detail": "N1 (per unit extra-time coordinate volume, rho_4 = e^{-3 a4} b4^{3/2} <rho>): w_eff = (p1+p2+p3-p5-p6-p7 + (beta/2)(p5+p6+p7))/(3 rho) = w3 - w_t + (beta/2) w_t (isotropic), beta = d ln b4/d a4, using the exact identity with the b4 term",
+      "name": "observer_N1_weff_identity_b4",
       "verdict": "PASS"
     },
     {
-      "detail": "N2 (per unit proper 7-volume, rho_4 = <rho>): w_eff = -1 + (p1+p2+p3-p5-p6-p7)/(3 rho) = w_eff(N1) - 1",
-      "name": "observer_N2_weff_identity",
+      "detail": "N2 (per unit proper 7-volume, rho_4 = <rho>): w_eff = w_eff(N1) - 1 + beta/2 (= w_eff(N1) - 1/3 on the history beta = 4/3)",
+      "name": "observer_N2_weff_identity_b4",
       "verdict": "PASS"
     },
     {
@@ -51,23 +51,28 @@
       "verdict": "PASS"
     },
     {
-      "detail": "Phi(x4) on shell: d4 Phi = A Phi, A = -gamma^(x4) (M - 3 H gamma^(x0)), M = m + U'(S); C A + A^T C = 0 (author's T16), so S = Phibar Phi is constant",
-      "name": "condensate_S_constant_T16",
+      "detail": "Phi(x4) on shell in the metric with b4: d4 Phi = A Phi, A = -gamma^(x4) (M - 3 H gamma^(x0)) - (3/4)(b4'/b4) I16 (the gravity term gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4)), M = m + U'(S); C A + A^T C = -(3/2)(b4'/b4) C (author's T16), so d S/dx4 = -(3/2)(b4'/b4) S: b4^(3/2) S is constant, S = S0 b4^(-3/2)",
+      "name": "condensate_S_b4_T16",
       "verdict": "PASS"
     },
     {
-      "detail": "controls: K_x4 is not -M S, and C A - A^T C is not zero",
+      "detail": "controls: K_x4 is not -M S, and C A + A^T C is not zero for b4' != 0 (S is not constant)",
       "name": "condensate_negative_control",
       "verdict": "PASS"
     },
     {
-      "detail": "K_x4 = (1/2)(Phibar gamma^(x4) d4 Phi - d4 Phibar gamma^(x4) Phi) = M S exactly (matrix identity (C g4 A - A^T C g4)/2 = M C); all other K_mu = 0",
+      "detail": "K_x4 = (1/2)(Phibar gamma^(x4) d4 Phi - d4 Phibar gamma^(x4) Phi) = M S exactly also with the b4 term (matrix identity (C g4 A - A^T C g4)/2 = M C); all other K_mu = 0",
       "name": "condensate_K4_equals_MS_T16",
       "verdict": "PASS"
     },
     {
-      "detail": "rho = m S + lambda S^2/2, p3 = p_t = p0 = lambda S^2/2 (constant), w = p/rho = lambda S/(2 m + lambda S)",
+      "detail": "rho = m S + lambda S^2/2, p3 = p_t = p0 = lambda S^2/2 with S = S0 b4^(-3/2), w = p/rho = lambda S/(2 m + lambda S) at each instant",
       "name": "condensate_rho_p_w",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "with S = S0 b4^(-3/2) and b4 ~ e^{beta a4}: w_eff(N1) = (beta/2) w, w_eff(N2) = -1 + (beta/2)(1 + w), and the ratio drifts, d w/d a4 = -3 beta m lambda S/(2 m + lambda S)^2 (beta = 4/3: lambda S/m ~ e^(-2 a4)); the withdrawn b4 = 1 record had w_eff(N1) = 0, w_eff(N2) = -1 and a constant ratio",
+      "name": "condensate_observer_b4",
       "verdict": "PASS"
     },
     {
@@ -76,23 +81,28 @@
       "verdict": "PASS"
     },
     {
-      "detail": "w = -0.764 at x = -191/441, i.e. lambda S/m = -382/441 = -0.866213...; rho > 0 then needs m S > 0 and lambda < 0 (U = lambda S^2/2 < 0); constant in time (wa = 0)",
+      "detail": "w = -0.764 at x = -191/441, i.e. lambda S/m = -382/441 = -0.866213... at that instant; rho > 0 then needs m S > 0 and lambda < 0 (U = lambda S^2/2 < 0); with b4(x4) the ratio then drifts (condensate_observer_b4)",
       "name": "condensate_ratio_equals_unite_constant_w",
       "verdict": "PASS"
     },
     {
-      "detail": "from a4-equations.json (linearMember): kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)] at a4' = A H",
-      "name": "linear_member_rho_plus_p_factorises",
+      "detail": "beta = 4/3: lambda S/m = u ~ e^(-2 a4), so the ratio u/(2 + u) has wa = -dw/da4 = 4 u/(2 + u)^2 = -84231/31250 = -2.695392 at u = -382/441 (thawing sign); w_eff(N1) = (2/3) w and w_eff(N2) = -1/3 + (2/3) w then have wa = -1.796928",
+      "name": "condensate_ratio_drift_at_unite_value",
       "verdict": "PASS"
     },
     {
-      "detail": "Einstein: rho + p = -6 (1 + A^2) H^2/kappa < 0 (kappa > 0); a self-consistent condensate source with rho > 0 therefore has w = p/rho = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (phantom in the RATIO sense), constant in x4; with the x4 constraint 3 a4'^2 + 21 H^2 + Lambda = -kappa rho (expansion_inferred_w_einstein) these hypotheses need Lambda < -(21 + 3 A^2) H^2, and for Lambda = 0 the ratio is w = (A^2 - 5)/(A^2 + 7) > -1",
-      "name": "linear_member_einstein_phantom_ratio",
+      "detail": "the field equations of a4-equations.json (key b4, generalSource) with alpha_k = w_k/H^(2k) (w1 = 1, w2 = 1/32, w3 = 1/1152) and Lam = -10: on a4 = H x4 with b4' = 0 every required source component vanishes (the author's vacuum solution, Out[134]/Out[135]): the identification of the author's equations is right",
+      "name": "author_weights_vacuum_recovered",
       "verdict": "PASS"
     },
     {
-      "detail": "backreacted homogeneous source, Einstein gravity: a4'^2 = -(kappa rho + Lambda + 21 H^2)/3, so the observer's Hubble rate gives w_tot = -1 - (1/3) d ln a4'^2/d ln a = -1 - kappa (p3 - p_t)/(3 a4'^2); the linear member (a4'' = 0) gives w_tot = -1 exactly",
-      "name": "expansion_inferred_w_einstein",
+      "detail": "on a4 = H x4, b4 = b4(0) e^((4/3) H x4) (a4' = H, a4'' = 0, b4'/b4 = 4H/3, b4''/b4 = 16H^2/9) the author's equations need the source kappa T^x4_x0 = 0 and the CONSTANT diagonal source kappa rho = -2/27, kappa p3 = -2/9, kappa p_t = -22/27, kappa p0 = -14/27 (no b4(0), no x0, no x4); it satisfies both conservation identities with b4 (d rho/dx4 = 0 = -3H (p3 - p_t) - 2H (rho + p_t), p3 + p_t = 2 p0)",
+      "name": "branch_required_source",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "a condensate has S = S0 b4^(-3/2) ~ e^(-2 H x4) on this history, so its rho = m S + lambda S^2/2 and p = lambda S^2/2 decay; the required source is constant and nonzero (kappa rho = -2/27): no condensate (any m, lambda, S0) is the self-consistent source of the history with b4(x4); in Einstein gravity a b4(x4) needs T^x4_x0 = (3/2) H cot z b4'/(kappa b4) != 0, which a condensate does not have (K^x4_x0 = 0)",
+      "name": "condensate_cannot_source_branch",
       "verdict": "PASS"
     },
     {
@@ -181,18 +191,18 @@
       "verdict": "PASS"
     },
     {
-      "detail": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), omega^2 = m^2 + k^2/a^2 - q^2 a^2 (comoving k, q; Q the Krein charge per comoving volume, constant as an adiabatic invariant of the WKB model) satisfy d rho/dx4 = -3 a4' (p3 - p_t) exactly",
-      "name": "wkb_mode_gas_conservation",
+      "detail": "rho = omega Q b4^(-3/2), p3 = k^2 Q b4^(-3/2)/(3 a^2 omega), p_t = -q^2 a^2 Q b4^(-3/2)/(3 b4 omega), omega^2 = m^2 + k^2/a^2 - q^2 a^2/b4 (comoving k, q; Q the Krein charge per comoving coordinate volume, constant as an adiabatic invariant) satisfy d rho/dx4 = -3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) exactly",
+      "name": "wkb_mode_gas_conservation_b4",
       "verdict": "PASS"
     },
     {
-      "detail": "w_eff(N1) of one component = eps = (k^2/a^2 + q^2 a^2)/(3 omega^2): independent of the Krein charge Q, and eps >= 0 for real omega",
-      "name": "wkb_epsilon_sign_free",
+      "detail": "w_eff(N1) of one component = eps = (k_p^2 + (1 - beta/2) q_p^2)/(3 omega^2), k_p = k/a, q_p = q a b4^(-1/2): independent of the Krein charge Q, and eps >= 0 for real omega when beta < 2 (beta = 4/3 on the history: eps = (k_p^2 + q_p^2/3)/(3 omega^2))",
+      "name": "wkb_epsilon_sign_free_b4",
       "verdict": "PASS"
     },
     {
-      "detail": "mixture: w_eff(N2) = -1 + sum eps_i rho_i / sum rho_i, w_eff(N1) = sum eps_i rho_i / sum rho_i (condensates have eps = 0)",
-      "name": "mixture_weighted_average",
+      "detail": "mixture: w_eff(N1) = sum eps_i rho_i / sum rho_i, w_eff(N2) = -1 + beta/2 + sum eps_i rho_i / sum rho_i (condensates with lambda = 0 have eps = 0)",
+      "name": "mixture_weighted_average_b4",
       "verdict": "PASS"
     },
     {
@@ -206,43 +216,33 @@
       "verdict": "PASS"
     },
     {
-      "detail": "positive-energy good-sector gas (q = 0), k^2/(k^2+m^2) = 417/1000 at a = 1: N2 tangent (w0, wa) = (-0.861, 81037/500000) = (-0.861, (2/3) r (1 - r)): FREEZING (wa > 0)",
-      "name": "M2_tangent_exact",
+      "detail": "positive-energy good-sector gas (q = 0), k^2/(k^2+m^2) = 417/1000 at a = 1: N2 tangent (w0, wa) = (-583/3000, 81037/500000) = (-1/3 + r/3, (2/3) r (1 - r)): FREEZING (wa > 0); the withdrawn b4 = 1 record had w0 = -0.861",
+      "name": "M2_tangent_exact_b4",
       "verdict": "PASS"
     },
     {
-      "detail": "positive-energy extra-time-momentum mode (k = 0), s = q^2/m^2 = 417/1417 at a = 1: N2 tangent (w0, wa) = (-0.861, -196963/500000): THAWING (wa < 0), w -> -1 from above as a -> 0",
-      "name": "M3_tangent_exact",
+      "detail": "positive-energy extra-time-momentum mode (k = 0), s = q_p^2/m^2 = 417/1417 at a = 1, omega^2 = m^2 (1 - s a^(2/3)): N2 tangent (w0, wa) = (-287/1000, -196963/4500000) = (-0.287, -0.0437695555556): thawing sign, w_eff(N2) = -1/3 + (1/9) s a^(2/3)/(1 - s a^(2/3)) >= -1/3; turning point a_* = s^(-3/2) = 6.26398476691 (the withdrawn b4 = 1 record: (-0.861, -0.393926), a_* = 1.843)",
+      "name": "M3_tangent_exact_b4",
       "verdict": "PASS"
     },
     {
-      "detail": "condensate + positive q-mode with N2 tangent equal to Unite: s = 264037/403037, Omega_q = 57963/264037 (exact solution of the two tangent conditions)",
-      "name": "M4_parameters_exact",
+      "detail": "condensate + positive q-mode with the parameters that gave the Unite tangent on the withdrawn b4 = 1 record (s = 264037/403037, Omega_q = 57963/264037): on the history b4 ~ a^(4/3) its N2 tangent is (-0.287, -0.0666666666667), min of w_eff(N2) over a = 1/300 ... 1 is -0.33280216468 >= -1/3; turning point a_* = s^(-3/2) = 1.88590664955",
+      "name": "M4_withdrawn_tuning_on_b4_history",
       "verdict": "PASS"
     },
     {
-      "detail": "N2 tangent of M4 = (-0.861, -0.600) = the Unite CPL values; yet w_eff(N2) >= -1 before the turning point a_* = 1.2355 of its extra-time mode (theorem: positive components with real frequencies; checked on a in [1/300, 1], M4_never_phantom), no crossing there: the phantom past of the CPL line is not reproduced; past a_* the frequency is imaginary and w_eff(N2) >= -1 is not established",
-      "name": "M4_tangent_equals_unite",
+      "detail": "M2, M3, M4 (positive components, real frequencies on a in (0, 1]): min of w_eff(N2) over a = 1/300 ... 1 = -0.194333333333, -0.332598868774, -0.33280216468, all >= -1 + beta/2 = -1/3: on the history with b4(x4) no positive-energy model reaches the Unite w0 = -0.861 or crosses -1",
+      "name": "positive_models_bounded_by_minus_one_third",
       "verdict": "PASS"
     },
     {
-      "detail": "min of w_eff(N2) over a = 1/300 ... 1 is -0.999999214228 >= -1",
-      "name": "M4_never_phantom",
+      "detail": "a ghost component (massless good-sector modes of negative energy, rho_g = -G/a at a = 1, eps = 1/3) lowers w_eff(N2)(1) by G/3 at most and positive components raise it, so w_eff(N2)(1) = -0.861 needs G >= 1583/1000 (the ghost energy exceeds the total by more than half); for condensate + ghost (Omega_c = 1 + G) the total energy (1 + G) - G/a vanishes at a = G/(1 + G) = 1583/2583 inside [1/2, 1], where w_eff diverges: the Unite fit over [1/2, 1] is not reachable by such a model (the withdrawn b4 = 1 record reached it with G = 3/10)",
+      "name": "unite_w0_requires_dominant_ghost",
       "verdict": "PASS"
     },
     {
-      "detail": "condensate + positive q-mode + ghost radiation (|rho_ghost| = 0.3 of the total at a = 1): N2 least-squares CPL fit over a in [1/2, 1] (101 points) = (-0.861, -0.60); s = 0.567762680825, Omega_q = 0.594675195377",
-      "name": "M5_fit_equals_unite",
-      "verdict": "PASS"
-    },
-    {
-      "detail": "w_eff(N2) of M5 crosses -1 once in [1/3, 1], at a = 0.77909966367 (Unite line: 461/600 = 0.768333)",
-      "name": "M5_crosses_minus_1",
-      "verdict": "PASS"
-    },
-    {
-      "detail": "the same model with the ghost component removed (Omega_c = 1 - Omega_q) has no crossing in [1/3, 1]: the crossing is due to the negative-energy component",
-      "name": "M5_without_ghost_no_crossing",
+      "detail": "condensate + positive q-mode + ghost radiation with the parameters of the withdrawn record (G = 3/10, s = 0.567762680825, Omega_q = 0.594675195377): on the history b4 ~ a^(4/3) its N2 least-squares CPL fit over a in [1/2, 1] is (-0.332679483067, -0.32308292878) and w_eff(N2) does not cross -1 in [1/3, 1] (the withdrawn record: fit (-0.861, -0.60), crossing at a = 0.779)",
+      "name": "M5_withdrawn_composition_on_b4_history",
       "verdict": "PASS"
     }
   ],

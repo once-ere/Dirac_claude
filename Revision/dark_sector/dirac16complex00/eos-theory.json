@@ -1,50 +1,60 @@
 {
+  "beta": "d ln b4/d a4 = 4/3",
   "condensate": {
-    "CPL": "wa = 0 in all three definitions (no time dependence)",
-    "einstein": "rho + p = -6 (1 + A^2) H^2/kappa: kappa rho > 0 (kappa > 0 with rho > 0 needs Lambda < -(21 + 3 A^2) H^2, below) gives w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (constant), kappa rho < 0 gives w > -1; on the linear member the x4 constraint 3 a4'^2 + 21 H^2 + Lambda = -kappa rho gives kappa rho = -(3 A^2 + 21) H^2 - Lambda, so the ratio is phantom exactly when Lambda < -(21 + 3 A^2) H^2 (Lambda = 0: w = (A^2 - 5)/(A^2 + 7) > -1); with alpha2, alpha3 the bracket can change sign",
-    "expansion_inferred_w": "Einstein, backreacted homogeneous source: w_tot = -1 - kappa (p3 - p_t)/(3 a4'^2); for the condensate p3 = p_t: a4 linear, w_tot = -1 exactly (constant 3-space Hubble rate A H)",
-    "linear_member_rho_plus_p": "kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)], a4' = A H",
-    "p": "p3 = p_t = p0 = lambda S^2/2 (constant)",
-    "rho": "m S + lambda S^2/2 (constant)",
-    "solution": "Phi = exp(A x4) chi, A = -gamma^(x4) (M - 3 H gamma^(x0)), M = m + lambda S, S = chi^dagger C chi constant (Revision/field_equations_a4 record; re-verified here: C A + A^T C = 0, K_x4 = M S)",
-    "unite_constant_w_by_ratio": "lambda S/m = -382/441 (rho > 0: m S > 0, lambda < 0)",
-    "w_eff_N1": "0 (rho_4 ~ a^-3: dust-like dilution)",
-    "w_eff_N2": "-1 (rho_4 constant: Lambda-like)",
-    "w_ratio": "lambda S/(2 m + lambda S) (constant; any value; w < -1 iff lambda S/m in (-2, -1))"
+    "CPL": "the ratio has wa = 4 u/(2 + u)^2, u = lambda S/m (beta = 4/3); w_eff(N1), w_eff(N2): (2/3) of it",
+    "branchRequiredSource": {
+      "history": "a4 = H x4, b4 = b4(0) e^((4/3) H x4), the author's weights w1 = 1, w2 = 1/32, w3 = 1/1152, Lambda = 10",
+      "kappa_p0": "-14/27",
+      "kappa_p3": "-2/9",
+      "kappa_pt": "-22/27",
+      "kappa_q40": "0",
+      "kappa_rho": "-2/27"
+    },
+    "expansion_inferred_w": "the observer reads a = e^{a4}: w_exp = -1 - (2/3) a4''/a4'^2 = -1 exactly on a4 = H x4, for every b4(x4)",
+    "p": "p3 = p_t = p0 = lambda S^2/2",
+    "rho": "m S + lambda S^2/2, S = S0 b4^(-3/2)",
+    "selfConsistency": "no condensate is the source of the history with b4(x4) (its S decays, the required source is constant); in Einstein gravity b4' != 0 needs T^x4_x0 != 0",
+    "solution": "Phi = b4^(-3/4) exp(A0 x4) chi, A0 = -gamma^(x4) (M - 3 H gamma^(x0)), M = m + lambda S, S = S0 b4^(-3/2) (b4^(3/2) S constant; re-verified here: C A + A^T C = -(3/2)(b4'/b4) C, K_x4 = M S)",
+    "unite_constant_w_by_ratio": "lambda S/m = -382/441 at one instant (rho > 0: m S > 0, lambda < 0); then wa = -2.695392",
+    "w_eff_N1": "(beta/2) w = (2/3) w",
+    "w_eff_N2": "-1 + (beta/2)(1 + w) = -1/3 + (2/3) w",
+    "w_ratio": "lambda S/(2 m + lambda S) at each instant; w < -1 iff lambda S/m in (-2, -1); lambda S/m ~ e^(-2 a4) on the history",
+    "withdrawn": "the record before 2026-10-14 (b4 = 1) had S, rho, p constant and the linear-member Einstein statements; withdrawn"
   },
   "conservation": {
-    "homogeneous": "d rho / d x4 = -3 a4' (p3 - p_t) and p3 + p_t = 2 p0 (x0-independent source)",
+    "homogeneous": "d rho / d x4 = -3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) and p3 + p_t = 2 p0 (x0-independent source)",
+    "localModelVolume": "sqrt|g| = b4^(3/2)",
     "others": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (diagonal T depending on x4, x0)",
-    "x0": "nabla_mu T^mu_x0 = d0 p0 + H cot z sum_{dir in x1,x2,x3,x5,x6,x7} (p0 - p_dir)  (isotropic: d0 p0 + 3 H cot z (2 p0 - p3 - p_t))",
-    "x4": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7)  (isotropic: -d4 rho - 3 a4' (p3 - p_t))"
+    "x0": "nabla_mu T^mu_x0 = d0 p0 + H cot z sum_{dir in x1,x2,x3,x5,x6,x7} (p0 - p_dir)  (isotropic: d0 p0 + 3 H cot z (2 p0 - p3 - p_t)); no b4",
+    "x4": "nabla_mu T^mu_x4 = -d4 rho - a4' (p1 + p2 + p3 - p5 - p6 - p7) - (b4'/(2 b4)) (3 rho + p5 + p6 + p7)  (isotropic: -d4 rho - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t))"
   },
-  "ghost": "INTERPRETATION (with the exact basis above): dirac16complex00 is a commuting field with a first-order Lagrangian; at every real frequency half of its modes (Krein charge of the opposite sign) carry negative classical energy, and its energy is unbounded below. Components of negative classical energy are a ghost-like sector. With positive-energy components of real frequency only (for an extra-time mode: before its turning point a_*), no phantom w and no crossing of -1 occur (theorem of section wkb); every phantom or crossing found here needs the ghost-like sector, or (ratio definition only) a constant condensate with lambda < 0.",
+  "ghost": "INTERPRETATION (with the exact basis above): dirac16complex00 is a commuting field with a first-order Lagrangian; at every real frequency half of its modes (Krein charge of the opposite sign) carry negative classical energy, and its energy is unbounded below. Components of negative classical energy are a ghost-like sector. With positive-energy components of real frequency only (for an extra-time mode: before its turning point a_*), w_eff(N1) >= 0 and w_eff(N2) >= -1/3 on the history b4 ~ a^(4/3) (theorem of section wkb): no dark-energy value under either normalisation; reaching the Unite w0 needs a ghost-like sector larger than the positive energy, and a condensate with lambda < 0 gives a phantom ratio only at an instant (its ratio drifts with b4).",
   "labels": "EXACT = verified by exact symbolic computation in the named checks; APPROXIMATION = stated approximation; ASSUMPTION = observer or model assumption; INTERPRETATION = reading, not a computed statement",
-  "metric": "author's metric (SPEC section 1); a4 linear in x4 (a4 = A H x4 + a0, the exponentially deflating member, the only one a homogeneous dirac16complex00 condensate allows) is the reference background; test-field statements hold for every a4(x4)",
+  "metric": "the author's metric with b4(x4) (Dirac_Einstein-Lovelock_4+4_Nash.nb, In[97]-In[102]): g = diag(cot^2 z, e^{2 a4} sin^{1/3} z (x3), -1, -e^{-2 a4} b4 sin^{1/3} z (x3)); b4 is a function of x4 (never 1); the history of the numbers is a4 = H x4, b4 = b4(0) e^{(4/3) H x4} (beta = 4/3, the branch of the author's weights for a source without T^x4_x0); the formulas hold for every a4(x4), b4(x4)",
   "models": {
     "M1_condensate": {
       "N1": {
-        "CPL": {
+        "lambda_0": {
           "w0": "0",
           "wa": "0"
         },
-        "w": "0"
+        "w": "(2/3) u/(2 + u)"
       },
       "N2": {
-        "CPL": {
-          "w0": "-1",
+        "lambda_0": {
+          "w0": "-1/3",
           "wa": "0"
         },
-        "w": "-1"
+        "w": "-1/3 + (2/3) u/(2 + u)"
       },
-      "content": "homogeneous condensate (exact solution for every a4); lambda S/m free",
+      "content": "homogeneous condensate (exact solution for every a4, b4): S = S0 b4^(-3/2), u = lambda S/m ~ e^(-2 a4) on the history",
       "ratio": {
         "CPL": {
-          "w0": "lambda S/(2 m + lambda S)",
-          "wa": "0"
+          "w0": "u/(2 + u)",
+          "wa": "4 u/(2 + u)^2"
         },
-        "unite_constant_w": "lambda S/m = -382/441",
-        "w": "lambda S/(2 m + lambda S) (constant)"
+        "unite_constant_w": "u = -382/441 at one instant",
+        "w": "u/(2 + u)"
       }
     },
     "M2_positive_good_sector_gas": {
@@ -73,37 +83,37 @@
           "3/4": "0.186592834969"
         }
       },
-      "N1_range": "w_eff(N1) = (1/3) k^2/(k^2 + m^2 a^2): from 1/3 (a -> 0) to 0 (a -> infinity): a time-varying DARK-MATTER-like equation of state",
+      "N1_range": "w_eff(N1) = (1/3) k^2/(k^2 + m^2 a^2): from 1/3 (a -> 0) to 0 (a -> infinity): a time-varying DARK-MATTER-like equation of state, independent of b4",
       "N2": {
         "CPL_tangent": {
-          "w0": "-0.861",
-          "w0_plus_wa": "-0.698926",
+          "w0": "-0.194333333333",
+          "w0_plus_wa": "-0.0322593333333",
           "wa": "0.162074"
         },
         "crossings_of_minus_1_in_[1/3,1]": [],
         "fit_a_1/2_to_1": {
-          "constant_w": "-0.811157217612",
-          "w0": "-0.865472812404",
+          "constant_w": "-0.144490550946",
+          "w0": "-0.198806145738",
           "wa": "0.217262379167"
         },
         "fit_a_1/3_to_1": {
-          "constant_w": "-0.791329845831",
-          "w0": "-0.867730235145",
+          "constant_w": "-0.124663179164",
+          "w0": "-0.201063568478",
           "wa": "0.229201167941"
         },
-        "w(a=1)": "-0.861",
+        "w(a=1)": "-0.194333333333",
         "w_at": {
-          "1": "-0.861",
-          "1/2": "-0.752998667259",
-          "1/3": "-0.711485239852",
-          "3/4": "-0.813407165031"
+          "1": "-0.194333333333",
+          "1/2": "-0.0863320005923",
+          "1/3": "-0.0448185731857",
+          "3/4": "-0.146740498364"
         }
       },
       "N2_tangent_exact": {
-        "w0": "-861/1000",
+        "w0": "-583/3000",
         "wa": "81037/500000"
       },
-      "content": "one isotropic shell of good-sector modes (q = 0) of positive energy, k^2/(k^2+m^2) = 417/1000 at a = 1 (chosen so that w_eff(N2)(1) = -0.861)",
+      "content": "one isotropic shell of good-sector modes (q = 0) of positive energy, k^2/(k^2+m^2) = 417/1000 at a = 1",
       "ratio_p3_over_rho": {
         "CPL_tangent": {
           "w0": "0.139",
@@ -134,61 +144,61 @@
     "M3_positive_extra_time_mode": {
       "N1": {
         "CPL_tangent": {
-          "w0": "0.139",
-          "w0_plus_wa": "-0.254926",
-          "wa": "-0.393926"
+          "w0": "0.0463333333333",
+          "w0_plus_wa": "0.00256377777778",
+          "wa": "-0.0437695555556"
         },
         "crossings_of_minus_1_in_[1/3,1]": [],
         "fit_a_1/2_to_1": {
-          "constant_w": "0.0716611794264",
-          "w0": "0.126560224066",
-          "wa": "-0.21959617856"
+          "constant_w": "0.0357071912393",
+          "w0": "0.0462076682263",
+          "wa": "-0.0420019079483"
         },
         "fit_a_1/3_to_1": {
-          "constant_w": "0.0583947181736",
-          "w0": "0.119780691744",
-          "wa": "-0.184157920712"
+          "constant_w": "0.032234346697",
+          "w0": "0.0461740634766",
+          "wa": "-0.0418191503389"
         },
-        "w(a=1)": "0.139",
+        "w(a=1)": "0.0463333333333",
         "w_at": {
-          "1": "0.139",
-          "1/2": "0.0264711483527",
-          "1/3": "0.0112678339818",
-          "3/4": "0.0661240023257"
+          "1": "0.0463333333333",
+          "1/2": "0.0252863273082",
+          "1/3": "0.0183101054827",
+          "3/4": "0.0356527292428"
         }
       },
       "N2": {
         "CPL_tangent": {
-          "w0": "-0.861",
-          "w0_plus_wa": "-1.254926",
-          "wa": "-0.393926"
+          "w0": "-0.287",
+          "w0_plus_wa": "-0.330769555556",
+          "wa": "-0.0437695555556"
         },
         "crossings_of_minus_1_in_[1/3,1]": [],
         "fit_a_1/2_to_1": {
-          "constant_w": "-0.928338820574",
-          "w0": "-0.873439775934",
-          "wa": "-0.21959617856"
+          "constant_w": "-0.297626142094",
+          "w0": "-0.287125665107",
+          "wa": "-0.0420019079483"
         },
         "fit_a_1/3_to_1": {
-          "constant_w": "-0.941605281826",
-          "w0": "-0.880219308256",
-          "wa": "-0.184157920712"
+          "constant_w": "-0.301098986636",
+          "w0": "-0.287159269857",
+          "wa": "-0.0418191503389"
         },
-        "w(a=1)": "-0.861",
+        "w(a=1)": "-0.287",
         "w_at": {
-          "1": "-0.861",
-          "1/2": "-0.973528851647",
-          "1/3": "-0.988732166018",
-          "3/4": "-0.933875997674"
+          "1": "-0.287",
+          "1/2": "-0.308047006025",
+          "1/3": "-0.315023227851",
+          "3/4": "-0.297680604091"
         }
       },
-      "N2_formula": "w_eff(N2) = -1 + (1/3) s a^2/(1 - s a^2) >= -1 for a < a_* = 1/sqrt(s) (real frequency); past a_* the frequency is imaginary and the formula does not apply",
+      "N2_formula": "w_eff(N2) = -1/3 + (1/9) s a^(2/3)/(1 - s a^(2/3)) >= -1/3 for a < a_* = s^(-3/2) (real frequency); past a_* the frequency is imaginary and the formula does not apply",
       "N2_tangent_exact": {
-        "w0": "-861/1000",
-        "wa": "-196963/500000",
-        "wa_decimal": "-0.393926"
+        "w0": "-287/1000",
+        "wa": "-196963/4500000",
+        "wa_decimal": "-0.0437695555556"
       },
-      "content": "one positive-energy mode with extra-time momentum q and k = 0, s = q^2/m^2 = 417/1417 at a = 1 (w_eff(N2)(1) = -0.861)",
+      "content": "one positive-energy mode with extra-time momentum q and k = 0, s = q_p^2/m^2 = 417/1417 at a = 1",
       "ratio_p3_over_rho": {
         "CPL_tangent": {
           "w0": "0.0",
@@ -214,65 +224,65 @@
           "3/4": "0.0"
         }
       },
-      "rho_total_at_a_1/3": "1.17075474232",
+      "rho_total_at_a_1/3": "1.10296296843",
       "turning_point_a_star": {
-        "decimal": "1.84338860113",
-        "exact": "sqrt(1417/417)"
+        "decimal": "6.26398476691",
+        "exact": "(1417/417)^(3/2)"
       }
     },
     "M4_condensate_plus_extra_time_mode": {
       "N1": {
         "CPL_tangent": {
-          "w0": "0.139",
-          "w0_plus_wa": "-0.461",
-          "wa": "-0.6"
+          "w0": "0.0463333333333",
+          "w0_plus_wa": "-0.0203333333333",
+          "wa": "-0.0666666666667"
         },
         "crossings_of_minus_1_in_[1/3,1]": [],
         "fit_a_1/2_to_1": {
-          "constant_w": "0.0617104373289",
-          "w0": "0.116776258241",
-          "wa": "-0.220263283648"
+          "constant_w": "0.0325946956984",
+          "w0": "0.0451467432793",
+          "wa": "-0.0502081903238"
         },
         "fit_a_1/3_to_1": {
-          "constant_w": "0.049777965365",
-          "w0": "0.108237627363",
-          "wa": "-0.175378985993"
+          "constant_w": "0.0288768291025",
+          "w0": "0.0445213980053",
+          "wa": "-0.0469337067083"
         },
-        "w(a=1)": "0.139",
+        "w(a=1)": "0.0463333333333",
         "w_at": {
-          "1": "0.139",
-          "1/2": "0.0198846744543",
-          "1/3": "0.00825948127013",
-          "3/4": "0.0536238773254"
+          "1": "0.0463333333333",
+          "1/2": "0.0209637574164",
+          "1/3": "0.0145014613023",
+          "3/4": "0.0320625838657"
         }
       },
       "N2": {
         "CPL_tangent": {
-          "w0": "-0.861",
-          "w0_plus_wa": "-1.461",
-          "wa": "-0.6"
+          "w0": "-0.287",
+          "w0_plus_wa": "-0.353666666667",
+          "wa": "-0.0666666666667"
         },
         "crossings_of_minus_1_in_[1/3,1]": [],
         "fit_a_1/2_to_1": {
-          "constant_w": "-0.938289562671",
-          "w0": "-0.883223741759",
-          "wa": "-0.220263283648"
+          "constant_w": "-0.300738637635",
+          "w0": "-0.288186590054",
+          "wa": "-0.0502081903238"
         },
         "fit_a_1/3_to_1": {
-          "constant_w": "-0.950222034635",
-          "w0": "-0.891762372637",
-          "wa": "-0.175378985993"
+          "constant_w": "-0.304456504231",
+          "w0": "-0.288811935328",
+          "wa": "-0.0469337067083"
         },
-        "w(a=1)": "-0.861",
+        "w(a=1)": "-0.287",
         "w_at": {
-          "1": "-0.861",
-          "1/2": "-0.980115325546",
-          "1/3": "-0.99174051873",
-          "3/4": "-0.946376122675"
+          "1": "-0.287",
+          "1/2": "-0.312369575917",
+          "1/3": "-0.318831872031",
+          "3/4": "-0.301270749468"
         }
       },
-      "content": "positive condensate (lambda = 0, rho constant) + positive extra-time-momentum mode (k = 0); fractions at a = 1: Omega_c = 1 - Omega_q, Omega_q = 57963/264037; s = q^2/m^2 = 264037/403037; the two parameters solve N2 tangent = (-0.861, -0.60) exactly",
-      "min_w_N2_on_(0,1]": "-0.999999214228",
+      "content": "positive condensate (lambda = 0) + positive extra-time-momentum mode (k = 0); fractions at a = 1: Omega_c = 1 - Omega_q, Omega_q = 57963/264037; s = q_p^2/m^2 = 264037/403037 (the parameters of the withdrawn b4 = 1 tuning to the Unite tangent)",
+      "min_w_N2_on_(0,1]": "-0.33280216468",
       "parameters": {
         "Omega_q": "57963/264037",
         "Omega_q_decimal": "0.219526051273",
@@ -304,64 +314,61 @@
           "3/4": "0.0"
         }
       },
-      "rho_total_at_a_1/3": "1.1404221073",
-      "turning_point_a_star": "1.23549235933"
+      "rho_total_at_a_1/3": "1.08986863595",
+      "turning_point_a_star": "1.88590664955"
     },
     "M5_with_ghost_component": {
       "N1": {
         "CPL_tangent": {
-          "w0": "0.160377319101",
-          "w0_plus_wa": "-0.879557003842",
-          "wa": "-1.03993432294"
+          "w0": "-0.0132075602995",
+          "w0_plus_wa": "-0.20959439808",
+          "wa": "-0.19638683778"
         },
         "crossings_of_minus_1_in_[1/3,1]": [],
         "fit_a_1/2_to_1": {
-          "constant_w": "-0.011",
-          "w0": "0.139",
-          "wa": "-0.6"
+          "constant_w": "-0.0801168819289",
+          "w0": "0.000653850266115",
+          "wa": "-0.32308292878"
         },
         "fit_a_1/3_to_1": {
-          "constant_w": "-0.0738171180882",
-          "w0": "0.159290244122",
-          "wa": "-0.699322086631"
+          "constant_w": "-0.133699546192",
+          "w0": "0.0400040973977",
+          "wa": "-0.52111093077"
         },
-        "w(a=1)": "0.160377319101",
+        "w(a=1)": "-0.0132075602995",
         "w_at": {
-          "1": "0.160377319101",
-          "1/2": "-0.163062165397",
-          "1/3": "-0.411763858966",
-          "3/4": "-0.015802625967"
+          "1": "-0.0132075602995",
+          "1/2": "-0.186867689294",
+          "1/3": "-0.464507978242",
+          "3/4": "-0.0712308767984"
         }
       },
       "N2": {
         "CPL_tangent": {
-          "w0": "-0.839622680899",
-          "w0_plus_wa": "-1.87955700384",
-          "wa": "-1.03993432294"
+          "w0": "-0.346540893633",
+          "w0_plus_wa": "-0.542927731413",
+          "wa": "-0.19638683778"
         },
-        "crossings_of_minus_1_in_[1/3,1]": [
-          "0.77909966367"
-        ],
+        "crossings_of_minus_1_in_[1/3,1]": [],
         "fit_a_1/2_to_1": {
-          "constant_w": "-1.011",
-          "w0": "-0.861",
-          "wa": "-0.6"
+          "constant_w": "-0.413450215262",
+          "w0": "-0.332679483067",
+          "wa": "-0.32308292878"
         },
         "fit_a_1/3_to_1": {
-          "constant_w": "-1.07381711809",
-          "w0": "-0.840709755878",
-          "wa": "-0.699322086631"
+          "constant_w": "-0.467032879526",
+          "w0": "-0.293329235936",
+          "wa": "-0.52111093077"
         },
-        "w(a=1)": "-0.839622680899",
+        "w(a=1)": "-0.346540893633",
         "w_at": {
-          "1": "-0.839622680899",
-          "1/2": "-1.1630621654",
-          "1/3": "-1.41176385897",
-          "3/4": "-1.01580262597"
+          "1": "-0.346540893633",
+          "1/2": "-0.520201022627",
+          "1/3": "-0.797841311576",
+          "3/4": "-0.404564210132"
         }
       },
-      "content": "positive condensate + positive extra-time mode + a GHOST component (massless good-sector modes of NEGATIVE classical energy, rho_g = -G/a, eps = 1/3), G = 3/10 of the total at a = 1 (a stated choice); s and Omega_q solve: N2 least-squares CPL fit over a in [1/2, 1] = (-0.861, -0.60)",
-      "family": "smaller G moves the q-mode turning point towards a = 1 (G = 0.28: s = 0.726; G = 0.24: s = 0.921; exploration, not a check); for G = 0 no crossing is possible before the turning point of the q-mode (theorem)",
+      "content": "positive condensate + positive extra-time mode + a GHOST component (massless good-sector modes of NEGATIVE classical energy, rho_g = -G/a, eps = 1/3), G = 3/10 of the total at a = 1, s = 0.567762680825, Omega_q = 0.594675195377 (the composition and parameters of the withdrawn b4 = 1 record)",
       "parameters": {
         "G": "3/10",
         "Omega_c": "0.705324804623",
@@ -371,30 +378,31 @@
       "ratio_p3_over_rho": {
         "CPL_tangent": {
           "w0": "-0.1",
-          "w0_plus_wa": "-0.15188680427",
-          "wa": "-0.0518868042696"
+          "w0_plus_wa": "-0.20396226809",
+          "wa": "-0.10396226809"
         },
         "crossings_of_minus_1_in_[1/3,1]": [],
         "fit_a_1/2_to_1": {
-          "constant_w": "-0.135919654846",
-          "w0": "-0.0849009828099",
-          "wa": "-0.204074688144"
+          "constant_w": "-0.148222426057",
+          "w0": "-0.083974369723",
+          "wa": "-0.256992225334"
         },
         "fit_a_1/3_to_1": {
-          "constant_w": "-0.177120853123",
-          "w0": "-0.0494234935194",
-          "wa": "-0.383092078811"
+          "constant_w": "-0.19815113516",
+          "w0": "-0.0419735880334",
+          "wa": "-0.468532641379"
         },
         "w(a=1)": "-0.1",
         "w_at": {
           "1": "-0.1",
-          "1/2": "-0.212044964527",
-          "1/3": "-0.440625426607",
-          "3/4": "-0.126795822829"
+          "1/2": "-0.240888753968",
+          "1/3": "-0.520305909948",
+          "3/4": "-0.138219820292"
         }
       },
-      "rho_total_at_a_1/3": "0.68085040464",
-      "turning_point_a_star": "1.32713950975"
+      "rho_total_at_a_1/3": "0.576583879338",
+      "turning_point_a_star": "2.33748986076",
+      "unite": "on the history b4 ~ a^(4/3) the Unite w0 under N2 needs a ghost fraction G >= 1583/1000 (unite_w0_requires_dominant_ghost)"
     },
     "unite": {
       "constant_w": "-191/250",
@@ -492,27 +500,28 @@
       "q": 5,
       "result": "Krein-neutral 8-dimensional eigenspace; rho = 0, p5 = -m S (growing), p1 = p0 = 0"
     },
-    "rate": "frozen frame: growth rate sqrt(q_phys^2 - m^2 - k_phys^2) for q_phys^2 > m^2 + k_phys^2; in the deflating field q_phys = e^{a4} q grows, so every q != 0 mode reaches the turning point a_* = sqrt((m^2 + ...)/q^2) and then grows (rate proportional to a, double-exponential amplitude for a4 linear in x4)"
+    "rate": "frozen frame: growth rate sqrt(q_phys^2 - m^2 - k_phys^2) for q_phys^2 > m^2 + k_phys^2; in the deflating field q_phys = q e^{a4} b4^(-1/2) grows (as a^(1/3) on the history b4 ~ a^(4/3)), so every q != 0 mode reaches a turning point a_* and then grows"
   },
   "observer": {
-    "N1": "per unit extra-time COORDINATE volume: rho_4 = e^{-3 a4} <rho> (integrate over the proper extra-time volume e^{-3 a4} sin^{1/2} z d^3x_t per unit coordinate volume, divide by the 3-space volume); the SPEC section 11 choice rho_4 ~ rho_8 c^3",
-    "N1_result": "w_eff(N1) = (p1+p2+p3-p5-p6-p7)/(3 rho) = w3 - w_t (isotropic)",
+    "N1": "per unit extra-time COORDINATE volume: rho_4 = e^{-3 a4} b4^{3/2} <rho> (integrate over the proper extra-time volume e^{-3 a4} b4^{3/2} sin^{1/2} z d^3x_t per unit coordinate volume, divide by the 3-space volume); the SPEC section 11 choice rho_4 ~ rho_8 c^3",
+    "N1_result": "w_eff(N1) = (p1+p2+p3-p5-p6-p7 + (beta/2)(p5+p6+p7))/(3 rho) = w3 - w_t + (beta/2) w_t (isotropic)",
     "N2": "per unit PROPER 7-volume: rho_4 = <rho>/<1> (equivalently: integrate over a FIXED proper extra-time volume, whose coordinate extent grows as e^{a4})",
-    "N2_result": "w_eff(N2) = w_eff(N1) - 1 = -1 + w3 - w_t (isotropic)",
-    "a": "a = e^{a4}: the 3-space scale factor (up to the constant factor sin^{1/6} z at a fixed hidden position); c = e^{-a4} = 1/a the extra-time scale factor",
-    "average": "<f>(x4) = int_0^{pi/(12 H)} cos z f dx0 (the proper-volume weight sqrt|g| = cos z; constant in x4)",
+    "N2_result": "w_eff(N2) = w_eff(N1) - 1 + beta/2 (beta = d ln b4/d a4 = 4/3 on the history: w_eff(N1) - 1/3)",
+    "a": "a = e^{a4}: the 3-space scale factor (up to the constant factor sin^{1/6} z at a fixed hidden position); c = e^{-a4} b4^{1/2} the extra-time scale factor (b4 ~ a^(4/3) on the history: c ~ a^(-1/3))",
+    "average": "<f>(x4) = int_0^{pi/(12 H)} cos z f dx0 (the proper-volume weight is sqrt|g| = b4^{3/2} cos z; its b4 factor is written out in rho_4 below)",
     "compactness": "a compact coordinate range of the time-like x5, x6, x7 means closed time-like directions; a non-compact range needs a normalisation per unit extra-time volume (N1 or N2). Both are ASSUMPTIONS about the 3-space observer, not consequences of the field equations",
     "ratio": "w = p3/rho (the 3-space pressure over the energy density; independent of the normalisation, both being densities of the same volume)",
     "reading": "INTERPRETATION: a 3-space observer who uses the 4-dimensional Friedmann equations infers w_eff from the dilution of rho_4 (this is what supernova distances measure); w = p3/rho is the 3-space pressure ratio. They agree only if no energy is exchanged with the extra times (p_t = 0 under N1)",
-    "w_eff": "w_eff = -1 - (1/3) d ln rho_4 / d ln a, d/d ln a = (1/a4') d/dx4"
+    "w_eff": "w_eff = -1 - (1/3) d ln rho_4 / d ln a, d/d ln a = (1/a4') d/dx4",
+    "withdrawn": "the record before 2026-10-14 used b4 = 1: w_eff(N1) = w3 - w_t, w_eff(N2) = w_eff(N1) - 1 (withdrawn)"
   },
   "producer": "Revision/dark_sector/dirac16complex00/python/derive_eos.py (implementation A: sympy exact, mpmath 30 digits)",
   "title": "dirac16complex00 (classical commuting Pin(4,4) spinor): the 3-space observer's equation of state in the deflating primordial field (Hypothesis00; Revision/SPEC.md sections 8 and 11)",
   "wkb": {
-    "approximation": "ADIABATIC (WKB) local plane-wave modes at a fixed hidden position: the warp sin^{1/6} z and tan z frozen (wavelengths short compared with the warp scale 1/H; in the variables chi = sin^{1/2} z Phi the term 3 H gamma^(x0) is absent exactly), the Krein charge of each mode an adiabatic invariant (|d omega/dx4| << omega^2); incoherent superposition (cross terms between different momenta average to zero over 3-space and the extra times; cross terms between frequencies average to zero in time)",
-    "component": "rho = omega Q, p3 = k^2 Q/(3 a^2 omega), p_t = -q^2 a^2 Q/(3 omega), p0 = 0, omega^2 = m^2 + k^2/a^2 - q^2 a^2 (isotropic averages)",
-    "eps": "eps = w_eff(N1) = (k^2/a^2 + q^2 a^2)/(3 omega^2) >= 0 for real omega",
-    "mixture": "w_eff(N1) = sum eps_i rho_i / sum rho_i, w_eff(N2) = w_eff(N1) - 1, w = p3/rho = sum p3_i / sum rho_i",
-    "theorem": "if every component has rho_i >= 0 (Krein charge of the sign of omega), real frequencies, and total rho > 0, then w_eff(N1) >= 0 and w_eff(N2) >= -1 at every a at which these conditions hold (weighted averages of eps_i >= 0 with weights rho_i >= 0): no phantom and no crossing of -1 there. A mode with extra-time momentum q != 0 loses its real frequency past its turning point a_* (q_phys = q a grows), where the theorem does not apply. A crossing needs sum eps_i rho_i to change sign, i.e. a component with rho_i < 0 (negative classical energy: a ghost-like sector)"
+    "approximation": "ADIABATIC (WKB) local plane-wave modes at a fixed hidden position: the warp sin^{1/6} z and tan z frozen (wavelengths short compared with the warp scale 1/H; in the variables chi = sin^{1/2} z b4^{3/4} Phi the terms 3 H gamma^(x0) and (3/4)(b4'/b4) gamma^(x4) are absent exactly), the Krein charge of each mode an adiabatic invariant (|d omega/dx4| << omega^2); incoherent superposition (cross terms between different momenta average to zero over 3-space and the extra times; cross terms between frequencies average to zero in time)",
+    "component": "rho = omega Q b4^(-3/2), p3 = k^2 Q b4^(-3/2)/(3 a^2 omega), p_t = -q^2 a^2 Q b4^(-3/2)/(3 b4 omega), p0 = 0, omega^2 = m^2 + k^2/a^2 - q^2 a^2/b4 (isotropic averages)",
+    "eps": "eps = w_eff(N1) = (k_p^2 + (1 - beta/2) q_p^2)/(3 omega^2) >= 0 for real omega and beta < 2",
+    "mixture": "w_eff(N1) = sum eps_i rho_i / sum rho_i, w_eff(N2) = w_eff(N1) - 1 + beta/2, w = p3/rho = sum p3_i / sum rho_i",
+    "theorem": "if every component has rho_i >= 0 (Krein charge of the sign of omega), real frequencies, and total rho > 0, then w_eff(N1) >= 0 and w_eff(N2) >= -1 + beta/2 (= -1/3 on the history b4 ~ a^(4/3)) at every a at which these conditions hold (weighted averages of eps_i >= 0 with weights rho_i >= 0): no phantom, no crossing of -1, and no w_eff(N2) below -1/3 there. A mode with extra-time momentum q != 0 loses its real frequency past its turning point a_* (q_phys = q a b4^(-1/2) grows), where the theorem does not apply. Going below -1 + beta/2 needs a component with rho_i < 0 (negative classical energy: a ghost-like sector)"
   }
 }

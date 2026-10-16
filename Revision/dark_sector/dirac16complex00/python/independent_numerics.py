@@ -1,18 +1,23 @@
 """Revision dark sector, dirac16complex00: implementation B (independent of implementation A).
 
 numpy only (no sympy, no code shared with derive_eos.py).  It integrates the 16-component field
-equation of the local model (the author's metric with the warp frozen at a fixed hidden position,
-SPEC section 1, a4 = eps x4: the exponentially deflating member, eps = A H in units of the mass m)
+equation of the local model of the author's metric WITH b4(x4) (Dirac_Einstein-Lovelock_4+4_Nash.nb,
+In[97]-In[102]: g55 = g66 = g77 = -e^{-2 a4} b4 sin^{1/3} z; the warp frozen at a fixed hidden position),
+on the history a4 = eps x4 (eps = H in units of the mass m) and b4 = e^{beta a4}, beta = 4/3 (the branch
+of the author's weights for a source without T^x4_x0; b4 is a function of x4, never 1):
 
-    gamma^(x4) d4 phi + i e^{-a4} k gamma^(x1) phi + i e^{a4} q gamma^(x5) phi = m phi
+    gamma^(x4) d4 phi + (3/4)(b4'/b4) gamma^(x4) phi + i e^{-a4} k gamma^(x1) phi
+        + i e^{a4} b4^{-1/2} q gamma^(x5) phi = m phi
 
-for plane-wave modes exp(i (k x1 + q x5)) phi(x4) with the author's T16 read from
-Revision/algebra/gammas.json, computes the energy-momentum bilinears along the solutions
-(rho = -K1 - K5 + m S, p1 = L0 - K1, p5 = L0 - K5, L0 = K1 + K4 + K5 - m S), checks the conservation
-identity and the conserved Krein charge numerically, forms the models of implementation A from the
-numerical solutions, and computes w(a), the CPL tangents and fits, the crossings of -1 and the
-growth past the turning point.  Then it compares its key numbers with Revision/dark_sector/
-dirac16complex00/eos-theory.json (implementation A).
+(the gravity term gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4); its 3 H gamma^(x0) part is
+absorbed by the frozen warp) for plane-wave modes exp(i (k x1 + q x5)) phi(x4) with the author's T16 read
+from Revision/algebra/gammas.json.  The b4 term commutes with the generator and is integrated exactly.
+It computes the energy-momentum bilinears along the solutions (rho = -K1 - K5 + m S, p1 = L0 - K1,
+p5 = L0 - K5, L0 = K1 + K4 + K5 - m S), checks the conservation identity with the b4 term and the
+conserved Krein charge per coordinate volume b4^{3/2} Q numerically, forms the models of implementation A
+from the numerical solutions, and computes w(a) both from the formula and DIRECTLY from the dilution of
+the proper density, the CPL tangents and fits, the crossings of -1 and the growth past the turning point.
+Then it compares its key numbers with Revision/dark_sector/dirac16complex00/eos-theory.json (implementation A).
 
 Writes <out>/results/independent-numerics.json and <out>/reports/python-independent-numerics.json.
 Usage: python independent_numerics.py [--out DIR]   (deterministic: numbers rounded to 8 digits)
@@ -31,7 +36,9 @@ OWN = os.path.normpath(os.path.join(HERE, ".."))
 REV = os.path.normpath(os.path.join(OWN, "..", ".."))
 GAMMAS = os.path.join(REV, "algebra", "gammas.json")
 
-EPS = 1.0e-3        # a4' = A H in units of m (adiabatic regime)
+EPS = 1.0e-3        # a4' = H in units of m (adiabatic regime)
+BETA = 4.0 / 3.0    # d ln b4/d a4 on the history: b4 = e^{beta a4}
+U = BETA * EPS      # b4'/b4
 DX_OMEGA = 0.05     # step: omega dx <= 0.05
 CHECKS = []
 TOL_W = 2.0e-3      # tolerance for w values against implementation A
@@ -70,9 +77,14 @@ CG1, CG4, CG5 = C @ G1, C @ G4, C @ G5
 M41, M45 = G4 @ G1, G4 @ G5
 
 
+def qp(q, a4):
+    """physical extra-time momentum q e^{a4} b4^{-1/2} = q e^{(1 - beta/2) a4}"""
+    return q * math.exp((1.0 - 0.5 * BETA) * a4)
+
+
 def hmat(m, k, q, a4):
-    """omega phi = h phi for the frozen generator: d4 phi = -i h phi."""
-    return -1j * m * G4 - k * math.exp(-a4) * M41 - q * math.exp(a4) * M45
+    """omega phi = h phi for the frozen generator: d4 phi = -i h phi - (3/4)(b4'/b4) phi."""
+    return -1j * m * G4 - k * math.exp(-a4) * M41 - qp(q, a4) * M45
 
 
 def bil(M, u, v=None):
@@ -83,7 +95,7 @@ def bil(M, u, v=None):
 def initial_vector(m, k, q, a4, krein):
     """A vector of the positive-frequency eigenspace of h with Krein sign krein (+1 or -1), |Q| = 1."""
     h = hmat(m, k, q, a4)
-    om = math.sqrt(m * m + k * k * math.exp(-2 * a4) - q * q * math.exp(2 * a4))
+    om = math.sqrt(m * m + k * k * math.exp(-2 * a4) - qp(q, a4) ** 2)
     P = 0.5 * (I16 + h / om)
     U, s, _ = np.linalg.svd(P)
     U = U[:, :8]
@@ -98,7 +110,8 @@ def initial_vector(m, k, q, a4, krein):
 
 def run_mode(m, k, q, krein, a_start, a_end, eps=EPS, record_every=1, u0=None):
     """Exponential-midpoint integration (exact propagator of the frozen generator at the midpoint;
-    it preserves the Krein form exactly). Returns arrays over the steps."""
+    it preserves the Krein form exactly) times the exact factor exp(-(3/4) u dx) of the b4 term (it commutes
+    with everything). Returns arrays over the steps."""
     x = math.log(a_start) / eps
     xend = math.log(a_end) / eps
     if u0 is None:
@@ -106,13 +119,14 @@ def run_mode(m, k, q, krein, a_start, a_end, eps=EPS, record_every=1, u0=None):
     else:
         phi = u0
     rec = {"lna": [], "rho": [], "K1": [], "K5": [], "K4": [], "S": [], "Q": [], "norm": []}
+    u = BETA * eps
 
     def diag(phi, x):
         a4 = eps * x
         h = hmat(m, k, q, a4)
-        dphi = -1j * (h @ phi)
+        dphi = -1j * (h @ phi) - 0.75 * u * phi
         K1 = (1j * k * math.exp(-a4) * bil(CG1, phi)).real
-        K5 = (1j * q * math.exp(a4) * bil(CG5, phi)).real
+        K5 = (1j * qp(q, a4) * bil(CG5, phi)).real
         K4c = 0.5 * (bil(CG4, phi, dphi) - np.conj(dphi) @ (CG4 @ phi))
         S = bil(C, phi).real
         rec["lna"].append(a4)
@@ -128,14 +142,14 @@ def run_mode(m, k, q, krein, a_start, a_end, eps=EPS, record_every=1, u0=None):
     n = 0
     while x < xend - 1e-12:
         a4m = eps * x
-        om2 = m * m + k * k * math.exp(-2 * a4m) - q * q * math.exp(2 * a4m)
+        om2 = m * m + k * k * math.exp(-2 * a4m) - qp(q, a4m) ** 2
         dx = min(DX_OMEGA / max(math.sqrt(abs(om2)), 1e-3), 0.2, xend - x)
         hm = hmat(m, k, q, eps * (x + 0.5 * dx))
-        w2 = m * m + k * k * math.exp(-2 * eps * (x + 0.5 * dx)) - q * q * math.exp(2 * eps * (x + 0.5 * dx))
+        w2 = m * m + k * k * math.exp(-2 * eps * (x + 0.5 * dx)) - qp(q, eps * (x + 0.5 * dx)) ** 2
         w = np.sqrt(complex(w2))
         c = np.cos(w * dx)
         sc = dx if abs(w * dx) < 1e-12 else np.sin(w * dx) / w
-        phi = c * phi - 1j * sc * (hm @ phi)
+        phi = (c * phi - 1j * sc * (hm @ phi)) * math.exp(-0.75 * u * dx)
         x += dx
         n += 1
         if n % record_every == 0 or x >= xend - 1e-12:
@@ -143,15 +157,15 @@ def run_mode(m, k, q, krein, a_start, a_end, eps=EPS, record_every=1, u0=None):
     return {key: np.array(v) for key, v in rec.items()}
 
 
-def smooth_at(lna, f, a, half=0.01):
+def smooth_at(lna, f, a, half=0.01, slope=False):
     """Local linear regression in ln a over |ln a - ln a0| < half (averages the fast oscillation;
-    one oscillation period is 2 pi EPS/omega in ln a)."""
+    one oscillation period is 2 pi EPS/omega in ln a); slope=True returns d f/d ln a."""
     t = math.log(a)
     sel = np.abs(lna - t) < half
     X = lna[sel] - t
     A = np.vstack([np.ones_like(X), X]).T
     coef, *_ = np.linalg.lstsq(A, f[sel], rcond=None)
-    return coef[0]
+    return coef[1] if slope else coef[0]
 
 
 class Comp:
@@ -164,19 +178,26 @@ class Comp:
 
 
 def model_w(comps, masses, a):
-    R = E = P3 = 0.0
+    """w_eff from the formula (N1 = (X + (beta/2) Pt)/rho, X = (K5 - K1)/3, Pt = L0 - K5/3 isotropic;
+    N2 = N1 - 1 + beta/2) and DIRECTLY from the dilution of the proper density rho (N2_dilution =
+    -1 - (1/3) d ln rho/d ln a)."""
+    R = E = P3 = dR = 0.0
     for (c, m) in zip(comps, masses):
         run = c.run
         lna = run["lna"]
         L0 = run["K1"] + run["K4"] + run["K5"] - m * run["S"]
         p3 = L0 - run["K1"] / 3.0
+        pt = L0 - run["K5"] / 3.0
         r = smooth_at(lna, run["rho"], a) / c.r1
-        e = smooth_at(lna, (run["K5"] - run["K1"]) / 3.0, a) / c.r1
+        e = smooth_at(lna, (run["K5"] - run["K1"]) / 3.0 + 0.5 * BETA * pt, a) / c.r1
         p = smooth_at(lna, p3, a) / c.r1
+        dr = smooth_at(lna, run["rho"], a, slope=True) / c.r1
         R += c.weight * r
         E += c.weight * e
         P3 += c.weight * p
-    return {"N2": -1.0 + E / R, "N1": E / R, "ratio": P3 / R, "rho": R}
+        dR += c.weight * dr
+    return {"N2": -1.0 + 0.5 * BETA + E / R, "N1": E / R, "ratio": P3 / R, "rho": R,
+            "N2_dilution": -1.0 - dR / (3.0 * R)}
 
 
 def fits(fun, amin, n=101):
@@ -252,6 +273,7 @@ def main():
     s3 = 417 / 1417
     s4 = 264037 / 403037
     s5 = float(A_["M5_with_ghost_component"]["parameters"]["s"])
+    b4f = lambda lna: np.exp(1.5 * BETA * lna)          # b4^{3/2} along the run (b4 = e^{beta a4})
     rk = 417 / 1000
     kk = math.sqrt(rk / (1 - rk))
     runs["kmode"] = run_mode(1.0, kk, 0.0, 1, 0.3, 1.06)
@@ -262,21 +284,24 @@ def main():
     runs["ghost"] = run_mode(0.0, 1.0, 0.0, -1, 0.3, 1.06)
     # checks on every run: Krein charge conserved, on shell, conservation identity
     for name, rn in runs.items():
-        Qd = np.max(np.abs(rn["Q"] - rn["Q"][0]))
+        lna, rho = rn["lna"], rn["rho"]
+        Qc = rn["Q"] * b4f(lna)
+        Qd = np.max(np.abs(Qc - Qc[0]))
         m = 0.0 if name == "ghost" else 1.0
         L0 = rn["K1"] + rn["K4"] + rn["K5"] - m * rn["S"]
-        lna, rho = rn["lna"], rn["rho"]
         drho = np.gradient(rho, lna / EPS)
-        rhs = EPS * (rn["K1"] - rn["K5"])
+        rhs = EPS * (rn["K1"] - rn["K5"]) - 0.5 * U * (3 * rho + 3 * L0 - rn["K5"])
         scale = max(np.max(np.abs(rhs)), 1e-300)
         cons = np.max(np.abs(drho[2:-2] - rhs[2:-2])) / scale if np.max(np.abs(rhs)) > 0 else np.max(np.abs(drho[2:-2]))
         ok = Qd < 1e-9 and np.max(np.abs(L0)) < 1e-9 and cons < 2e-2
         check("B_run_%s_invariants" % name, ok,
-              "Krein charge drift %s, max |L0| (on shell) %s, conservation d rho/dx4 = a4' (K1 - K5) relative residual %s (finite differences)" % (r8(Qd), r8(np.max(np.abs(L0))), r8(cons)))
+              "Krein charge per coordinate volume b4^(3/2) Q: drift %s; max |L0| (on shell) %s; conservation with the b4 term d rho/dx4 = a4' (K1 - K5) - (b4'/(2 b4)) (3 rho + 3 L0 - K5): relative residual %s (finite differences)" % (r8(Qd), r8(np.max(np.abs(L0))), r8(cons)))
     check("B_ghost_negative_energy", runs["ghost"]["rho"][-1] < 0 and runs["ghost"]["Q"][0] < 0,
           "the ghost component (massless, positive frequency, Krein charge -1) has rho < 0 along the whole run: rho(1.06) = %s" % r8(runs["ghost"]["rho"][-1]))
-    rc = runs["cond"]["rho"]
-    check("B_condensate_rho_constant", np.ptp(rc) < 1e-9, "homogeneous solution (k = q = 0): rho = m S constant, range %s" % r8(np.ptp(rc)))
+    rc = runs["cond"]["rho"] * b4f(runs["cond"]["lna"])
+    rr = np.ptp(runs["cond"]["rho"]) / np.max(np.abs(runs["cond"]["rho"]))
+    check("B_condensate_dilutes_with_b4", np.ptp(rc) < 1e-9 and rr > 0.5,
+          "homogeneous solution (k = q = 0): rho = m S with b4^(3/2) rho constant (range %s), while rho itself changes by a factor (relative range %s over a in [0.3, 1.06]): the condensate dilutes with b4^(3/2) ~ a^2" % (r8(np.ptp(rc)), r8(rr)))
 
     def model(spec):
         comps, masses = [], []
@@ -316,30 +341,26 @@ def main():
                   "%s, %s: tangent (w0, wa) = (%s, %s) vs A (%s, %s); fit [1/2,1] (%s, %s, const %s) vs A (%s, %s, %s); max deviation %s"
                   % (mname, defn, r8(w0), r8(wa), Ar["CPL_tangent"]["w0"], Ar["CPL_tangent"]["wa"], r8(fw0), r8(fwa), r8(cw),
                      Ar["fit_a_1/2_to_1"]["w0"], Ar["fit_a_1/2_to_1"]["wa"], Ar["fit_a_1/2_to_1"]["constant_w"], r8(max(d_t + d_f + d_g))))
+        # w_eff(N2) directly from the dilution of the proper density versus the formula with the b4 term
+        dil = max(abs(model_w(comps, masses, a)["N2_dilution"] - model_w(comps, masses, a)["N2"]) for a in (0.5, 0.75, 1.0))
+        check("B_dilution_equals_formula_%s" % mname.split("_")[0], dil < TOL_W,
+              "%s: w_eff(N2) = -1 - (1/3) d ln rho/d ln a measured from the dilution of the proper density of the field-equation solutions equals the formula w_eff(N1) - 1 + beta/2 at a = 1/2, 3/4, 1 to within %s" % (mname, r8(dil)))
+        r["N2_dilution_vs_formula_max_deviation"] = r8(dil)
         if mname == "M5_with_ghost_component":
             f = lambda a: model_w(comps, masses, a)["N2"] + 1.0
             grid = np.linspace(0.34, 1.0, 67)
             vals = [f(a) for a in grid]
             cr = [a for a, b, va, vb in zip(grid, grid[1:], vals, vals[1:]) if va * vb < 0]
-            if cr:
-                lo, hi = cr[0], cr[0] + (grid[1] - grid[0])
-                for _ in range(40):
-                    mid = 0.5 * (lo + hi)
-                    if f(lo) * f(mid) <= 0:
-                        hi = mid
-                    else:
-                        lo = mid
-                ac = 0.5 * (lo + hi)
-            else:
-                ac = float("nan")
-            Aac = float(A_[mname]["N2"]["crossings_of_minus_1_in_[1/3,1]"][0])
-            check("B_vs_A_M5_crossing", len(cr) == 1 and abs(ac - Aac) < 2e-3,
-                  "w_eff(N2) of M5 from the field equation crosses -1 at a = %s (A: %s; Unite line 0.768333)" % (r8(ac), Aac))
-            r["crossing_N2"] = r8(ac)
+            Acr = A_[mname]["N2"]["crossings_of_minus_1_in_[1/3,1]"]
+            check("B_vs_A_M5_crossing", len(cr) == len(Acr) == 0,
+                  "w_eff(N2) of M5 (withdrawn composition) from the field equation on the history b4 ~ a^(4/3): %d crossings of -1 on a grid of 67 points in [0.34, 1] (A: %d; the withdrawn b4 = 1 record had one, at a = 0.779)" % (len(cr), len(Acr)))
+            r["crossings_N2"] = len(cr)
         res[mname] = r
     out["models"] = res
 
-    # 4. independent solves: M3 (s from w0 = -0.861) and M4 (s from wa = -0.60 with Omega_q from w0)
+    # 4. independent solve: M3 (s from w_eff(N2)(1) = A's value -0.287 on the history b4 ~ a^(4/3))
+    w0_target = float(A_["M3_positive_extra_time_mode"]["N2"]["CPL_tangent"]["w0"])
+
     def w0_q(s):
         rn = run_mode(1.0, 0.0, math.sqrt(s), 1, 0.9, 1.06)
         c = Comp(1.0, rn)
@@ -348,53 +369,36 @@ def main():
     lo, hi = 0.2, 0.4
     for _ in range(22):
         mid = 0.5 * (lo + hi)
-        if w0_q(mid)[0] > -0.861:
+        if w0_q(mid)[0] > w0_target:
             hi = mid
         else:
             lo = mid
     s3B = 0.5 * (lo + hi)
     check("B_solve_M3_s", abs(s3B - s3) < 2e-3 * s3,
-          "bisection on the field-equation solution: w_eff(N2)(1) = -0.861 at s = q^2/m^2 = %s (A: 417/1417 = %s)" % (r8(s3B), r8(s3)))
+          "bisection on the field-equation solution: w_eff(N2)(1) = %s (A's M3 value) at s = q_p^2/m^2 = %s (A: 417/1417 = %s)" % (w0_target, r8(s3B), r8(s3)))
+    # positive models from the field equation: w_eff(N2) >= -1/3 on a in [0.35, 1]
+    pos_min = min(model_w(*model(spec), a)["N2"] for spec in (defs["M2_positive_good_sector_gas"], defs["M3_positive_extra_time_mode"],
+                                                                  defs["M4_condensate_plus_extra_time_mode"]) for a in np.linspace(0.35, 1.0, 14))
+    check("B_positive_models_bounded", pos_min >= -1.0 / 3.0 - TOL_W,
+          "M2, M3, M4 from the field-equation solutions: min of w_eff(N2) over a in [0.35, 1] = %s >= -1/3 (within %s): no positive-energy model reaches the Unite w0 on the history b4 ~ a^(4/3)" % (r8(pos_min), TOL_W))
+    out["independent_solves"] = {"M3_s": r8(s3B), "positive_models_min_w_N2": r8(pos_min)}
 
-    def wa_M4(s):
-        rn = run_mode(1.0, 0.0, math.sqrt(s), 1, 0.9, 1.06)
-        cq = Comp(1.0, rn)
-        e1 = model_w([cq], [1.0], 1.0)["N1"]  # eps_q(1)
-        Oq = 0.139 / e1
-        cc = Comp(1 - Oq, runs["cond"])
-        cq.weight = Oq
-        f = lambda a: model_w([cc, cq], [1.0, 1.0], a)["N2"]
-        return tangent(f), Oq
-
-    lo, hi = 0.55, 0.75
-    for _ in range(18):
-        mid = 0.5 * (lo + hi)
-        (w0m, wam), _ = wa_M4(mid)
-        if wam > -0.60:
-            lo = mid
-        else:
-            hi = mid
-    s4B = 0.5 * (lo + hi)
-    (w0m, wam), Oq4B = wa_M4(s4B)
-    check("B_solve_M4", abs(s4B - s4) < 2e-3 * s4 and abs(Oq4B - 57963 / 264037) < 2e-3 * (57963 / 264037) and abs(w0m + 0.861) < TOL_W,
-          "bisection on the field-equation solution: tangent (w0, wa) = (-0.861, -0.60) at s = %s, Omega_q = %s (A: %s, %s)" % (r8(s4B), r8(Oq4B), r8(s4), r8(57963 / 264037)))
-    out["independent_solves"] = {"M3_s": r8(s3B), "M4_s": r8(s4B), "M4_Omega_q": r8(Oq4B)}
-
-    # 5. growth past the turning point (M3 mode continued): rate sqrt(q^2 a^2 - m^2)
-    a_star = 1 / math.sqrt(s3)
-    rn = run_mode(1.0, 0.0, math.sqrt(s3), 1, 1.5, 2.2, record_every=1)
+    # 5. growth past the turning point (M3 mode continued): a_* = s^(-1/(2 - beta)) = s^(-3/2); rate
+    # d ln|phi|/dx4 = sqrt(q_p^2 - m^2) - (3/4) b4'/b4, q_p^2 = s a^(2 - beta)
+    a_star = s3 ** (-1.0 / (2.0 - BETA))
+    rn = run_mode(1.0, 0.0, math.sqrt(s3), 1, 5.5, 7.4, record_every=1)
     lna = rn["lna"]
     lnn = np.log(rn["norm"])
-    sel = lna > math.log(2.0)
+    sel = lna > math.log(7.0)
     slope = np.polyfit(lna[sel] / EPS, lnn[sel], 1)[0]
-    gam = math.sqrt(s3 * math.exp(2 * np.mean(lna[sel])) - 1)
+    gam = math.sqrt(s3 * math.exp((2.0 - BETA) * np.mean(lna[sel])) - 1) - 0.75 * U
     pt_end = (rn["K1"][-1] + rn["K4"][-1] + rn["K5"][-1] - rn["S"][-1]) - rn["K5"][-1] / 3.0
     check("B_growth_rate", abs(slope - gam) < 0.03 * gam,
-          "q-mode of M3 past its turning point a_* = %s: d ln|phi|/dx4 over a in [2.0, 2.2] = %s, WKB rate sqrt(q^2 a^2 - m^2) at the mean a = %s" % (r8(a_star), r8(slope), r8(gam)))
+          "q-mode of M3 past its turning point a_* = s^(-3/2) = %s: d ln|phi|/dx4 over a in [7.0, 7.4] = %s, WKB rate sqrt(s a^(2/3) - 1) - (3/4) b4'/b4 at the mean a = %s" % (r8(a_star), r8(slope), r8(gam)))
     out["growth"] = {"a_star": r8(a_star), "numerical_rate": r8(slope), "wkb_rate": r8(gam),
-                     "log10_amplitude_growth_1.5_to_2.2": r8((lnn[-1] - lnn[0]) / math.log(10)),
-                     "rho_over_Q_at_2.2": r8(rn["rho"][-1] / rn["Q"][0]), "pt_iso_over_Q_at_2.2": r8(pt_end / rn["Q"][0]),
-                     "reading": "the extra-time-momentum mode becomes exponentially growing once q a > m (the deflation blueshifts q); its energy and extra-time pressure then grow without bound"}
+                     "log10_amplitude_growth_5.5_to_7.4": r8((lnn[-1] - lnn[0]) / math.log(10)),
+                     "rho_over_Q_at_7.4": r8(rn["rho"][-1] / rn["Q"][0]), "pt_iso_over_Q_at_7.4": r8(pt_end / rn["Q"][0]),
+                     "reading": "the extra-time-momentum mode becomes exponentially growing once q_p = q a^(1/3) > m (the deflation blueshifts q, more slowly than on the withdrawn b4 = 1 record); its energy and extra-time pressure then grow without bound"}
 
     os.makedirs(os.path.join(args.out, "results"), exist_ok=True)
     os.makedirs(os.path.join(args.out, "reports"), exist_ok=True)
