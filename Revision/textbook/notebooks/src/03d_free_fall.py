@@ -13,7 +13,8 @@ Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
 
 What a freely falling test particle does in the author's metric (Revision/SPEC.md
 section 1, with the functions a4 and b4, in the author's coordinates x0..x7) along the
-deflating history a4 = A H x4, b4 = 1 of the Revision Kohn-Sham work: the
+deflating history a4 = A H x4, b4 = b4(0) e^(beta A H x4) (beta = 4/3) of the Revision
+Kohn-Sham work: the
 geodesic equations are integrated with exactly the Christoffel symbols of the Revision
 record Revision/gkd_lovelock/results/curvature.json; the conservation laws, the
 redshift of the 3-space motion and the blueshift of the extra-time motion, the push
@@ -43,7 +44,8 @@ FACTS = {
     "purpose": (
         "It integrates the geodesic equations of free fall in the author's metric with "
         "the Christoffel symbols of the Revision record, along the deflating history "
-        "a4 = A H x4, b4 = 1 with A = 1 and H = 1, by the Runge-Kutta method RK4. With "
+        "a4 = A H x4, b4 = b4(0) e^(beta A H x4) with A = 1, H = 1 and beta = 4/3, by the "
+        "Runge-Kutta method RK4. With "
         "sympy it proves exactly, for general a4(x4) and b4(x4), that the six momenta "
         "along x1, x2, x3, x5, x6, x7 and the squared length of the velocity are "
         "conserved, that the frame velocity in 3-space falls like e^(-a4) (redshift) "
@@ -61,11 +63,12 @@ FACTS = {
         [CURV, "the 25 non-zero Christoffel symbols with b <= c "
                "(christoffelNonzero_b_le_c), written by the Rust program lovelock_gkd; "
                "the notebook integrates the geodesic equations with exactly these symbols"],
-        [PARS, "H = 1 and the slope A = 1 of the deflating history a4 = A H x4 of the "
-               "Revision Kohn-Sham work (physics.H, physics.historyA)"],
+        [PARS, "H = 1, the slope A = 1 and the exponent beta = 4/3 of the deflating "
+               "history a4 = A H x4, b4 = b4(0) e^(beta A H x4) of the Revision Kohn-Sham "
+               "work (physics.H, physics.historyA, physics.historyBeta)"],
         [KST, "the momentum weight kappa(y, x4) = e^(-H y - a4) (geometry.kappa), the good "
               "sector without extra-time momenta (sectorAndAnsatz.sector) and the status "
-              "of the history a4 = A H x4 (a prescribed background, not solved for)"],
+              "of the history (a prescribed background, not solved for)"],
         [SCOPE, "the check extra_time_growth_rates_unbounded: for plane waves in flat 4+4 "
                 "space the squared frequency is m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - "
                 "k6^2 - k7^2, the same quadratic form as the squared x4 velocity of a free "
@@ -127,8 +130,8 @@ CELLS = [
       `extra_time_growth_rates_unbounded`;
     - integrates the geodesic equations numerically (RK4) for a body at rest, three
       bodies moving in 3-space and one body moving along an extra time, along the
-      deflating history $a_4 = AHx_4$, $b_4 = 1$ ($A = 1$, $H = 1$), checks every exact
-      law on the
+      deflating history $a_4 = AHx_4$, $b_4 = b_4(0)\,e^{\beta AHx_4}$ ($A = 1$, $H = 1$,
+      $\beta = 4/3$), checks every exact law on the
       computed paths, finds the instant at which the last body stops advancing in $x_4$,
       and measures the accuracy of RK4;
     - draws 5 figures and prints a PASS line for every check.
@@ -162,9 +165,10 @@ CELLS = [
       same number at every point of the path.
     - **Redshift, blueshift**: the decrease, increase of a frame velocity (or momentum)
       caused by the expansion, contraction of the space it points along.
-    - **History** $a_4 = AHx_4$, $b_4 = 1$: the time dependence of the metric used for
-      the numbers, the one of the Revision Kohn-Sham work ($A = 1$, $H = 1$); with $A > 0$
-      the extra times deflate. It is a **prescribed background**: assumed, not solved
+    - **History** $a_4 = AHx_4$, $b_4 = b_4(0)\,e^{\beta AHx_4}$: the time dependence of
+      the metric used for the numbers, the one of the Revision Kohn-Sham work ($A = 1$,
+      $H = 1$, $\beta = 4/3$; $b_4(0)$ is the unit of $b_4$); with $A > 0$ the extra times
+      deflate, like $e^{-a_4/3}$. It is a **prescribed background**: assumed, not solved
       for.
     - **RK4**: the classical Runge-Kutta method of order 4; halving its step makes its
       error about $2^4 = 16$ times smaller.
@@ -178,7 +182,8 @@ CELLS = [
     $g = \mathrm{diag}(h_0^2, h_1^2, h_2^2, h_3^2, -1, -h_5^2, -h_6^2, -h_7^2)$ with
     the scale factors $h_0 = \cot z$, $h_1 = h_2 = h_3 = e^{a_4}\sin^{1/6}z$ (3-space,
     inflating) and $h_5 = h_6 = h_7 = b_4^{1/2} e^{-a_4}\sin^{1/6}z$ (the extra times,
-    deflating when $b_4$ is constant). A test particle with mass falls freely along a
+    deflating at the rate $a_4' - b_4'/(2b_4)$). A test particle with mass falls freely
+    along a
     solution of the **geodesic equations**
 
     $$\frac{dx^a}{d\tau} = u^a, \qquad \frac{du^a}{d\tau} = -\sum_{b,c}
@@ -191,8 +196,10 @@ CELLS = [
     velocity is conserved too, and we choose it equal to $-1$: then $\tau$ is the
     proper time of the particle and the path is time-like.
 
-    For the numbers the notebook uses the deflating history $a_4 = AHx_4$, $b_4 = 1$ of
-    the Revision Kohn-Sham work with $A = 1$ and $H = 1$ (so $a_4' = 1$, $b_4' = 0$). It
+    For the numbers the notebook uses the deflating history $a_4 = AHx_4$,
+    $b_4 = b_4(0)\,e^{\beta AHx_4}$ of the Revision Kohn-Sham work with $A = 1$, $H = 1$
+    and $\beta = 4/3$ (so $a_4' = 1$ and $b_4'/b_4 = 4/3$, and the extra times deflate at
+    the rate $a_4' - b_4'/(2b_4) = 1/3$). It
     is a prescribed background, and the particles are test particles: they move in the
     given metric and do not change it. Everything in sections 6 to 9 holds for general
     functions $a_4(x_4)$ and $b_4(x_4)$; only the numerical paths of sections 10 to 12
@@ -367,7 +374,8 @@ CELLS = [
 
     With $p_1$ and $p_5$ constant, the frame velocity in 3-space falls like $e^{-a_4}$
     when $a_4$ grows (redshift), and the frame velocity along an extra time grows like
-    $e^{a_4} b_4^{-1/2}$, like $e^{a_4}$ for a constant $b_4$ (blueshift). In the hidden
+    $e^{a_4} b_4^{-1/2}$, on the history of this notebook like $e^{a_4/3}$
+    (blueshift). In the hidden
     coordinate, $\sin^{1/6} z = e^{Hy}$, so
     $1/h_1 = e^{-Hy - a_4}$: exactly the **momentum weight**
     $\kappa(y, x_4) = e^{-Hy - a_4(x_4)}$ that the Revision Kohn-Sham record uses to turn
@@ -415,9 +423,10 @@ CELLS = [
     $$\frac{du^4}{d\tau} = -a_4' \sum_{i=1}^{3} (\hat u^i)^2
     + \alpha_t \sum_{j=5}^{7} (\hat u^j)^2 :$$
 
-    for a deflating history ($a_4' > 0$ and $\alpha_t < 0$; with a constant $b_4$,
-    $\alpha_t = -a_4'$ and $du^4/d\tau = -a_4'(\sum_i (\hat u^i)^2 + \sum_j
-    (\hat u^j)^2)$) the $x_4$ velocity can only decrease. Third, in frame velocities the
+    for a deflating history ($a_4' > 0$ and $\alpha_t < 0$; on the history of this
+    notebook $\alpha_t = -a_4'/3$ and $du^4/d\tau = -a_4'(\sum_i (\hat u^i)^2 + \tfrac13
+    \sum_j (\hat u^j)^2)$) the $x_4$ velocity can only decrease. Third, in frame
+    velocities the
     squared length reads
     $g(u, u) = (\hat u^0)^2 + \sum_i (\hat u^i)^2 - (u^4)^2 - \sum_j (\hat u^j)^2$, so
     with $g(u, u) = -1$:
@@ -485,14 +494,16 @@ CELLS = [
     ## 10. Free fall computed step by step (RK4)
 
     Now the numbers. The next cell reads the history of the Revision Kohn-Sham record
-    ($H = 1$, slope $A = 1$, so $a_4 = x_4$ and $a_4' = 1$; and $b_4 = 1$) and its
-    statement that this
-    history is a prescribed background, and builds the tools of the computation:
+    ($H = 1$, slope $A = 1$, so $a_4 = x_4$ and $a_4' = 1$; and $\beta = 4/3$, so
+    $b_4 = b_4(0)\,e^{4x_4/3}$ and $b_4' = \tfrac43 b_4$, with $b_4(0)$ as the unit) and
+    its statement that this history is a prescribed background, and builds the tools of
+    the computation:
 
     - `gamma_numbers`: the 37 symbols as fast numerical functions of $a_4$, $a_4'$,
       $x_0$, $H$, $b_4$ and $b_4'$ (`sp.lambdify` with the module `math`);
     - `free_fall(state)`: the right-hand side of the 16 equations for the state
-      $(x^0, \dots, x^7, u^0, \dots, u^7)$ on the history, with $b_4 = 1$, $b_4' = 0$
+      $(x^0, \dots, x^7, u^0, \dots, u^7)$ on the history, with
+      $b_4 = e^{\beta a_4}$ and $b_4' = \beta a_4' b_4$ in the unit $b_4(0)$
       (entry $k$ of the state is $x^k$ and entry $8 + k$ is $u^k$);
     - `rk4_path(state0, tau_end, steps)`: the RK4 method, the same as in chapter 2,
       from $\tau = 0$ to `tau_end` in `steps` equal steps;
@@ -511,12 +522,16 @@ CELLS = [
     PARAMETERS = "Revision/kohn_sham/results/parameters.json"
     physics = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))
     H_value, A_value = physics["physics"]["H"], physics["physics"]["historyA"]
+    beta = physics["physics"]["historyBeta"]  # b4 = b4(0) e^(beta A H x4)
     status = ks_theory["adiabaticity"]["historyStatus"]
-    say(f"H = {H_value}, A = {A_value}; record: " + status.split(". ")[0] + ".")
-    check(H_value == 1.0 and A_value == 1.0 and status.startswith("PRESCRIBED BACKGROUND"),
-          "the history of the record: a4 = A H x4 with A = 1, H = 1, prescribed",
-          record=f"{PARAMETERS}, physics.H and physics.historyA; {KS_THEORY}, "
-                 "adiabaticity.historyStatus")
+    say(f"H = {H_value}, A = {A_value}, beta = {beta:.6f}; record: "
+        + status.split(". ")[0] + ".")
+    check(H_value == 1.0 and A_value == 1.0 and abs(beta - 4.0 / 3.0) < 1e-15
+          and status.startswith("PRESCRIBED BACKGROUND"),
+          "the history of the record: a4 = A H x4, b4 = b4(0) e^(beta A H x4) with A = 1, "
+          "H = 1, beta = 4/3, prescribed",
+          record=f"{PARAMETERS}, physics.H, physics.historyA and physics.historyBeta; "
+                 f"{KS_THEORY}, adiabaticity.historyStatus")
     ARGUMENTS = (a4v, a4p, x0, H, b4v, b4p)
     gamma_numbers = [(a, b, c, sp.lambdify(ARGUMENTS, value, "math"))
                      for (a, b, c), value in sorted(Gamma.items())]
@@ -525,12 +540,14 @@ CELLS = [
 
     def free_fall(state):
         """d state/d tau for state = (x0..x7, u0..u7) on the history a4 = A H x4,
-        b4 = 1."""
+        b4 = b4(0) e^(beta a4) (unit b4(0))."""
         x, v = state[:8], state[8:]
         a4_now, rate = A_value * H_value * x[4], A_value * H_value  # a4 and a4'
+        b4_now = math.exp(beta * a4_now)  # b4 in the unit b4(0)
+        b4_rate = beta * rate * b4_now  # b4' = beta a4' b4
         change = np.zeros(8)
         for a, b, c, f in gamma_numbers:  # du^a/dtau = - sum Gamma^a_bc u^b u^c
-            change[a] -= f(a4_now, rate, x[0], H_value, 1.0, 0.0) * v[b] * v[c]
+            change[a] -= f(a4_now, rate, x[0], H_value, b4_now, b4_rate) * v[b] * v[c]
         return np.concatenate([v, change])
 
 
@@ -553,8 +570,9 @@ CELLS = [
         """The eight scale factors h_a at the point x on the history (numbers)."""
         a4_now, z_now = A_value * H_value * x[4], 6 * H_value * x[0]
         w = math.sin(z_now) ** (1 / 6)  # the warp factor sin(z)^(1/6)
+        b4_now = math.exp(beta * a4_now)  # b4 in the unit b4(0)
         return np.array([1 / math.tan(z_now)] + [math.exp(a4_now) * w] * 3 + [1.0]
-                        + [math.exp(-a4_now) * w] * 3)  # with b4 = 1
+                        + [math.sqrt(b4_now) * math.exp(-a4_now) * w] * 3)
 
 
     def start(y0, frame_velocity):
@@ -635,10 +653,10 @@ CELLS = [
 
     The last particle starts with the frame velocity $\hat u^5 = 0.2$ along the extra
     time $x_5$, so $u^4 = \sqrt{1 - 0.04} = 0.980$ (rounded). Along the deflating
-    history ($b_4 = 1$) its frame velocity $-p_5\, e^{a_4 - Hy}$ grows, it is pushed
-    towards the tip, and by section 8 its $x_4$ velocity obeys
-    $(u^4)^2 = 1 + (\hat u^0)^2 - (\hat u^5)^2$. The
-    next cell integrates its path from $\tau = 0$ to $2.5$ in 2500 steps, checks the
+    history its frame velocity $-p_5\, b_4^{-1/2} e^{a_4 - Hy}$ (on this history
+    proportional to $e^{a_4/3 - Hy}$) grows, it is pushed towards the tip, and by
+    section 8 its $x_4$ velocity obeys $(u^4)^2 = 1 + (\hat u^0)^2 - (\hat u^5)^2$. The
+    next cell integrates its path from $\tau = 0$ to $4.02$ in 4020 steps, checks the
     conservation laws, finds the step at which $u^4$ changes sign (the turning point:
     $x_4$ is largest there and decreases afterwards), and checks that there
     $(\hat u^5)^2 - (\hat u^0)^2 = 1$, as the formula demands for $u^4 = 0$.
@@ -650,7 +668,7 @@ CELLS = [
     \sum_i (\hat u^i)^2 \ge 1$: such a particle never has a turning point.
     """),
     code(r'''
-    tau_t, extra = rk4_path(start(Y0, [0, 0, 0, 0, 0, 0.2, 0, 0]), 2.5, 2500)
+    tau_t, extra = rk4_path(start(Y0, [0, 0, 0, 0, 0, 0.2, 0, 0]), 4.02, 4020)
     frame_t, y_t, lengths_t, h_t = describe(extra)
     p5 = -h_t[:, 5] ** 2 * extra[:, 13]  # p_5 = g_55 u^5 = -h_5^2 u^5
     check(np.max(np.abs(p5 / p5[0] - 1)) < 1e-8 and np.max(np.abs(lengths_t + 1)) < 1e-7
@@ -681,8 +699,9 @@ CELLS = [
     particles also rise in $y$, where the warp factor $e^{Hy}$ is larger. Right: the
     particle moving along the extra time $x_5$, its frame velocity $\hat u^5$ against
     $x_4$ up to its turning point, together with the pure blueshift
-    $0.2\, e^{a_4}$ (dotted); it grows faster than $e^{a_4}$ because the particle sinks
-    towards the tip, where $e^{-Hy}$ is larger.
+    $0.2\, b_4^{-1/2} e^{a_4} = 0.2\, e^{a_4/3}$ (dotted; $b_4$ in the unit $b_4(0)$); it
+    grows faster than $e^{a_4/3}$ because the particle sinks towards the tip, where
+    $e^{-Hy}$ is larger.
     """),
     code(r'''
     BLUE, ORANGE, AQUA, YELLOW = "#2a78d6", "#eb6834", "#1baf7a", "#eda100"
@@ -698,25 +717,28 @@ CELLS = [
                      ":", color=COLOURS[speed], lw=1.4)
     axes[0].plot([], [], ":", color="grey", label="pure redshift $e^{-a_4}$")
     axes[0].set_yscale("log")
-    axes[0].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, $b_4 = 1$")
+    axes[0].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, "
+                       "$b_4 \\propto e^{4x_4/3}$")
     axes[0].set_ylabel("frame velocity $\\hat u^1$ along $x_1$")
     axes[0].set_title("3-space: redshift")
     axes[0].legend(fontsize=8)
     before = slice(0, n_turn)  # the states before the turning point
     axes[1].plot(extra[before, 4], frame_t[before, 5], color=VIOLET, lw=1.8,
                  label="RK4, start 0.2")
-    axes[1].plot(extra[before, 4], 0.2 * np.exp(A_value * H_value * extra[before, 4]),
-                 ":", color=VIOLET, lw=1.4, label="pure blueshift $0.2\\,e^{a_4}$")
+    blue_rate = (1 - beta / 2) * A_value * H_value  # b4^(-1/2) e^(a4) = e^(a4/3)
+    axes[1].plot(extra[before, 4], 0.2 * np.exp(blue_rate * extra[before, 4]),
+                 ":", color=VIOLET, lw=1.4, label="pure blueshift $0.2\\,e^{a_4/3}$")
     axes[1].axvline(x4_max, color="grey", lw=1.0, ls="--", label="turning point")
     axes[1].set_yscale("log")
-    axes[1].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, $b_4 = 1$")
+    axes[1].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, "
+                       "$b_4 \\propto e^{4x_4/3}$")
     axes[1].set_ylabel("frame velocity $\\hat u^5$ along $x_5$")
     axes[1].set_title("Extra time: blueshift")
     axes[1].legend(fontsize=8, loc="upper left")
     save_figure(fig, "frame_velocities",
                 "Frame velocities of freely falling test particles in the author's metric "
-                "along the deflating history $a_4 = x_4$, $b_4 = 1$ ($A = 1$, $H = 1$), "
-                "all started "
+                "along the deflating history $a_4 = x_4$, $b_4 = b_4(0)\\,e^{4x_4/3}$ "
+                "($A = 1$, $H = 1$, $\\beta = 4/3$), all started "
                 "at $x_4 = 0$, $y = -1$, computed with RK4 from the Christoffel symbols "
                 "of the Revision record; horizontal axes the time $x_4$ in units of "
                 "$1/H$, vertical axes the frame velocity (proper length per proper "
@@ -725,9 +747,9 @@ CELLS = [
                 "falls, a little faster than the pure redshift $e^{-a_4}$ (dotted), "
                 "because they also rise towards the patch end. Right: a particle "
                 "started along the extra time $x_5$ with $0.2$; its frame velocity "
-                "grows, faster than the pure blueshift $0.2\\,e^{a_4}$ (dotted), until "
+                "grows, faster than the pure blueshift $0.2\\,e^{a_4/3}$ (dotted), until "
                 f"its turning point at $x_4 = {x4_max:.3f}$ (dashed).")
-    check(frame_t[n_turn - 1, 5] > 0.2 * math.exp(extra[n_turn - 1, 4]),
+    check(frame_t[n_turn - 1, 5] > 0.2 * math.exp(blue_rate * extra[n_turn - 1, 4]),
           "the extra-time frame velocity grows faster than the pure blueshift")
     '''),
     md(r"""
@@ -768,7 +790,7 @@ CELLS = [
                 "The $x_4$ velocity $u^4 = dx_4/d\\tau$ (left) and the time $x_4$ "
                 "(right) of five freely falling test particles against their own proper "
                 "time $\\tau$ in units of $1/H$, along the deflating history $a_4 = x_4$, "
-                "$b_4 = 1$, "
+                "$b_4 = b_4(0)\\,e^{4x_4/3}$, "
                 "computed with RK4: a particle at rest (dashed, $u^4 = 1$ and "
                 "$x_4 = \\tau$), three particles moving in 3-space (solid, started with "
                 "frame velocities $0.25$, $0.5$, $1$), whose $u^4$ falls towards $1$ as "
@@ -787,7 +809,10 @@ CELLS = [
     acceleration $d^2y/d\tau^2$ computed from the RK4 states by a numerical derivative
     of $\hat u^0$ (`np.gradient`, central differences) as dots, and the exact law
     $H(\sum_i (\hat u^i)^2 - \sum_j (\hat u^j)^2)$ of section 8 as lines, for the
-    fastest 3-space particle and the extra-time particle. The cell checks the agreement.
+    fastest 3-space particle and the extra-time particle. The cell checks the agreement
+    relative to the size of the law along each path (the extra-time particle speeds up
+    sharply near its turning point, and the error of the central differences, of order
+    $\Delta\tau^2$ times the third derivative, grows with it).
     """),
     code(r'''
     L_tip = physics["physics"]["L_tipCutoff"]  # the tip cut-off of the record, 3/H
@@ -812,7 +837,8 @@ CELLS = [
         law = H_value * (np.sum(frame_rows[:, 1:4] ** 2, axis=1)
                          - np.sum(frame_rows[:, 5:8] ** 2, axis=1))
         numeric = np.gradient(frame_rows[:, 0], t_values)  # d(u0 hat)/dtau
-        largest_gap = max(largest_gap, float(np.max(np.abs(numeric - law)[1:-1])))
+        gap = np.max(np.abs(numeric - law)[1:-1]) / np.max(np.abs(law))  # relative
+        largest_gap = max(largest_gap, float(gap))
         axes[1].plot(t_values, law, color=colour, lw=1.8, label=f"law, {label}")
         axes[1].plot(t_values[::100], numeric[::100], "o", color=colour, ms=5,
                      label=f"from RK4, {label}")
@@ -821,12 +847,12 @@ CELLS = [
     axes[1].set_ylabel("$d^2y/d\\tau^2$ (unit $H$)")
     axes[1].set_title("The push: $H$ times the difference of squares")
     axes[1].legend(fontsize=7, loc="lower left")
-    report("largest difference between the numerical acceleration and the law",
-           f"{largest_gap:.1e}")
+    report("largest difference between the numerical acceleration and the law, "
+           "relative to the largest value of the law", f"{largest_gap:.1e}")
     save_figure(fig, "hidden_push",
                 "The push along the hidden direction on freely falling test particles in "
-                "the author's metric along the deflating history $a_4 = x_4$, $b_4 = 1$, "
-                "computed "
+                "the author's metric along the deflating history $a_4 = x_4$, "
+                "$b_4 = b_4(0)\\,e^{4x_4/3}$, computed "
                 "with RK4; horizontal axes the proper time $\\tau$ in units of $1/H$. "
                 "Left: the height $y$ (unit $1/H$) of the particle at rest (dashed, it "
                 "stays at $y = -1$), of three particles moving in 3-space (solid), which "
@@ -854,7 +880,7 @@ CELLS = [
     turning point and returns into the white region.
     """),
     code(r'''
-    grid5, grid0 = np.meshgrid(np.linspace(0.0, 3.0, 301), np.linspace(-3.0, 0.5, 351))
+    grid5, grid0 = np.meshgrid(np.linspace(0.0, 4.5, 451), np.linspace(-4.5, 0.5, 501))
     squared_u4 = 1 + grid0 ** 2 - grid5 ** 2  # (u^4)^2 over the plane
     fig, ax = plt.subplots(figsize=(6.4, 5.2))
     ax.contourf(grid5, grid0, squared_u4, levels=[-100.0, 0.0], colors=["#d9d9d9"])
@@ -864,8 +890,8 @@ CELLS = [
     ax.plot([frame_t[0, 5]], [frame_t[0, 0]], "s", color=VIOLET, ms=7, label="start")
     ax.plot([frame_t[n_turn, 5]], [frame_t[n_turn, 0]], "o", color=VIOLET, ms=8,
             label="turning point, $u^4 = 0$")
-    ax.text(2.05, 0.15, "$(u^4)^2 < 0$:\nno particle;\nplane waves grow", fontsize=8)
-    ax.text(0.3, -1.2, "$(u^4)^2 > 0$", fontsize=9)
+    ax.text(2.8, -0.9, "$(u^4)^2 < 0$:\nno particle;\nplane waves grow", fontsize=8)
+    ax.text(0.3, -2.0, "$(u^4)^2 > 0$", fontsize=9)
     ax.set_xlabel("frame velocity $\\hat u^5$ along the extra time $x_5$")
     ax.set_ylabel("frame velocity $\\hat u^0 = dy/d\\tau$")
     ax.set_title("The quadratic form $(u^4)^2 = 1 + (\\hat u^0)^2 - (\\hat u^5)^2$")
@@ -881,7 +907,8 @@ CELLS = [
                 "is the squared frequency of a plane wave in the Revision record "
                 "(check extra_time_growth_rates_unbounded), which grows instead of "
                 "oscillating in the grey region. The violet path of the extra-time "
-                "particle of this notebook (RK4, history $a_4 = x_4$, $b_4 = 1$) starts at "
+                "particle of this notebook (RK4, history $a_4 = x_4$, "
+                "$b_4 = b_4(0)\\,e^{4x_4/3}$) starts at "
                 "$(0.2, 0)$ (square), touches the curve at its turning point (dot) and "
                 "returns into the white region.")
     check(np.all(1 + frame_t[:, 0] ** 2 - frame_t[:, 5] ** 2 > -1e-6),
@@ -940,13 +967,13 @@ CELLS = [
     axes[1].legend(fontsize=8)
     save_figure(fig, "accuracy",
                 "The accuracy of the RK4 computation of free fall in the author's metric "
-                "along the deflating history $a_4 = x_4$, $b_4 = 1$. Left: the relative "
-                "drift of "
+                "along the deflating history $a_4 = x_4$, $b_4 = b_4(0)\\,e^{4x_4/3}$. "
+                "Left: the relative drift of "
                 "the conserved momentum $p_1$ and of $g(u, u) + 1$ for the 3-space "
                 "particle started with frame velocity $1$, and of $p_5$ and "
                 "$g(u, u) + 1$ for the extra-time particle started with $0.2$, against "
                 "the proper time $\\tau$ in units of $1/H$, logarithmic vertical axis; "
-                "all stay far below $10^{-6}$ (the extra-time particle drifts more "
+                "all stay below $10^{-7}$ (the extra-time particle drifts more "
                 "because its velocities grow). Right: the largest difference between "
                 "the end states at $\\tau = 2$ computed with the step $\\Delta\\tau$ and "
                 "with half of it, against $\\Delta\\tau$ on logarithmic axes, for the "
@@ -985,13 +1012,14 @@ CELLS = [
       $(u^4)^2 = 1 + (\hat u^0)^2 + \sum_i (\hat u^i)^2 - \sum_j (\hat u^j)^2$, which,
       times $m^2$, is the quadratic form of the plane-wave check of the Revision scope
       report.
-    - So along a deflating history ($a_4$ increasing, $b_4$ constant) motion in 3-space
+    - So along a deflating history ($a_4' > 0$ and $\alpha_t < 0$) motion in 3-space
       is redshifted like $e^{-a_4}$ and motion along an extra time is blueshifted like
-      $e^{a_4}$;
+      $b_4^{-1/2} e^{a_4}$, on the history of this notebook like $e^{a_4/3}$;
       3-space motion pushes a particle towards the patch end, extra-time motion towards
       the tip; the $x_4$ velocity can only decrease.
     - COMPUTED (RK4 with the step $0.001$, along the prescribed history $a_4 = x_4$,
-      $b_4 = 1$, $H = 1$, from $y = -1$): a particle at rest stays at rest with
+      $b_4 = b_4(0)\,e^{4x_4/3}$, $H = 1$, from $y = -1$): a particle at rest stays at
+      rest with
       $x_4 = \tau$; three particles moving in 3-space slow down and rise towards the
       patch end; a particle
       started along the extra time $x_5$ with frame velocity $0.2$ reaches a largest
@@ -1000,8 +1028,8 @@ CELLS = [
     - A particle without extra-time momentum has $(u^4)^2 \ge 1$ and never turns
       (PROVED); the Revision Kohn-Sham work keeps only states without extra-time
       momenta (its good sector).
-    - ASSUMED: the history $a_4 = AHx_4$, $b_4 = 1$ (a prescribed background); test
-      particles
+    - ASSUMED: the history $a_4 = AHx_4$, $b_4 = b_4(0)\,e^{\beta AHx_4}$ with
+      $\beta = 4/3$ (a prescribed background); test particles
       that do not change the metric. NOT computed here: whether the waves of the fields
       follow these paths in the curved metric.
     """),

@@ -37,8 +37,8 @@ FACTS = {
         "direction, the proper volumes and the hidden coordinate y, and draws the metric as "
         "a heat map, its entries versus z, the scale factors of 3-space (inflating) and of "
         "the three extra times (deflating exponentially) along the deflating history "
-        "a4 = A H x4, b4 = 1 of the Revision Kohn-Sham work, the warp factor and the proper "
-        "volumes."
+        "a4 = A H x4, b4 = b4(0) e^(beta A H x4) with beta = 4/3 of the Revision Kohn-Sham "
+        "work, the warp factor and the proper volumes."
     ),
     "records": [
         ["Revision/gkd_lovelock/results/curvature.json",
@@ -50,13 +50,14 @@ FACTS = {
         ["Revision/lead_checks/reports/emt-divergence-and-spin-connection.json",
          "the checks vielbein_reproduces_metric and ks_coordinate_jacobian"],
         ["Revision/kohn_sham/results/parameters.json",
-         "the deflating history a4 = A H x4 with A = 1 and H = 1, its five slices of a4 "
-         "and the tip cut-off L of the Revision Kohn-Sham solver"],
+         "the deflating history a4 = A H x4, b4 = b4(0) e^(beta A H x4) with A = 1, H = 1 "
+         "and beta = 4/3, its five slices of a4 and the tip cut-off L of the Revision "
+         "Kohn-Sham solver"],
         ["Revision/kohn_sham/ks-theory.json",
          "the definition of the hidden coordinate y, the patch end and the tip, the line "
-         "element in y with the warp factor W = e^(H y) and the volume factor e^(6 H y), "
-         "and the status of the history a4 = A H x4 (a prescribed background, not solved "
-         "for)"],
+         "element in y with the warp factor W = e^(H y) and the volume factor "
+         "b4^(3/2) e^(6 H y), and the status of the history (a prescribed background, not "
+         "solved for)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -111,10 +112,12 @@ CELLS = [
       the metric;
     - computes the **expansion rate** of every direction: 3-space expands with the rate
       $a_4'$, the three extra times shrink (deflate) with the rate $-a_4' + b_4'/(2b_4)$;
-    - draws the scale factors along the **deflating history** $a_4 = A H x_4$, $b_4 = 1$
-      that the Revision Kohn-Sham work uses as a prescribed background ($A = 1$, $H = 1$);
+    - draws the scale factors along the **deflating history** $a_4 = A H x_4$,
+      $b_4 = b_4(0)\,e^{\beta A H x_4}$ that the Revision Kohn-Sham work uses as a
+      prescribed background ($A = 1$, $H = 1$, $\beta = 4/3$);
     - computes the **proper volumes** (3-space grows like $e^{3 a_4}$, the extra times
-      shrink like $b_4^{3/2} e^{-3 a_4}$, the 7-volume stays constant when $b_4$ does) and
+      shrink like $b_4^{3/2} e^{-3 a_4}$, the 7-volume density $b_4^{3/2}\cos z$ follows
+      $b_4$) and
       the **hidden coordinate** $y = \ln(\sin z)/(6H)$ in which the metric takes its
       warped form;
     - draws 7 figures and prints a PASS line for every check.
@@ -185,8 +188,9 @@ CELLS = [
 
     Here $H > 0$ is a constant of the author (a number with the unit 1/length), and
     $a_4 = a_4(x_4)$ and $b_4 = b_4(x_4) > 0$ are functions of the time $x_4$ only, the
-    **metric functions**; $b_4$ is the author's change of 2026-10-14, and $b_4 = 1$ gives
-    the metric used before. A prime means the derivative with respect to $x_4$:
+    **metric functions**; $b_4$ is the author's change of 2026-10-14 (the metric used
+    before, with $b_4 = 1$, is withdrawn: $b_4$ is never 1). A prime means the derivative
+    with respect to $x_4$:
     $a_4' = d a_4 / d x_4$, $b_4' = d b_4 / d x_4$.
 
     The line element is therefore
@@ -197,7 +201,8 @@ CELLS = [
     Read it term by term. A step $dx_1$ in 3-space has the proper length
     $e^{a_4}\sin^{1/6} z\, dx_1$: when $a_4$ grows, 3-space **inflates**. A step $dx_5$
     along an extra time has the proper duration $b_4^{1/2} e^{-a_4}\sin^{1/6} z\, dx_5$:
-    when $a_4$ grows and $b_4$ stays constant, the extra times **deflate
+    it shrinks at the rate $a_4' - b_4'/(2b_4)$, and along the history used below (where
+    $b_4'/b_4 = \tfrac43 a_4'$) at the rate $a_4'/3$: the extra times **deflate
     exponentially**. The time $x_4$ has the coefficient
     $-1$, so a step $dx_4$ is a proper time interval of exactly $dx_4$: the clock of an
     observer at rest shows $x_4$. The hidden direction has the coefficient $\cot^2 z$,
@@ -205,12 +210,14 @@ CELLS = [
 
     The metric alone does not fix the functions $a_4(x_4)$ and $b_4(x_4)$; the field
     equations of $a_4$ and $b_4$, derived later in the book, relate them to the energy
-    and the pressures of the matter that fills the spacetime (in the vacuum they force
-    $b_4$ to be constant). For the plots this notebook uses the simplest member of the
-    family, $a_4 = A H x_4$ and $b_4 = 1$, with the values of the Revision Kohn-Sham
-    work: $A = 1$ and the unit of length chosen so that $H = 1$. This history is a
-    **prescribed background** (it is assumed, not solved for). With $A > 0$ the function
-    $a_4$ increases, so the extra times deflate, as the author requires.
+    and the pressures of the matter that fills the spacetime (with the author's Lovelock
+    weights every vacuum solution has a constant $b_4$, which is excluded). For the plots
+    this notebook uses the history of the Revision Kohn-Sham work,
+    $a_4 = A H x_4$ and $b_4 = b_4(0)\,e^{\beta A H x_4}$ with $A = 1$, $\beta = 4/3$
+    and the unit of length chosen so that $H = 1$ (`Revision/SPEC.md`, section 1). This
+    history is a **prescribed background** (it is assumed, not solved for). With
+    $A > 0$ the function $a_4$ increases, so the extra times deflate, as the author
+    requires.
     """),
     md(r"""
     ## 5. Reading the metric exactly as the author wrote it
@@ -427,7 +434,7 @@ CELLS = [
     $b_4$, and not at all when $b_4$ is constant. The next cell lets sympy do the same and
     compares with the record (`sqrtAbsDetG`, written there as
     `Sin[6*H*x0]*Cot[6*H*x0]*b4[x4]^(3/2)`); then it compares numbers at seven points with
-    $b_4 = 1$.
+    $b_4 = 2$ (any positive value would do).
     """),
     code(r'''
     det_g = g.det()  # the product of the diagonal entries; sympy cancels exp(6 a4)
@@ -443,12 +450,12 @@ CELLS = [
     check(sp.simplify(from_mathematica(record["sqrtAbsDetG"]) - volume_factor) == 0,
           "sqrt|det g| = b4^(3/2) sin(z) cot(z) = b4^(3/2) cos(z)",
           record=f"{CURVATURE_RECORD}, sqrtAbsDetG")
-    # numbers: sqrt(|det g|) at 7 points of the patch with b4 = 1, compared with cos z
+    # numbers: sqrt(|det g|) at 7 points of the patch with b4 = 2, against 2^(3/2) cos z
     z_points = np.linspace(0.1, 1.5, 7)
-    det_numbers = np.array([float(det_g.subs(b4, 1).subs({H: 1, x0: zp / 6}))
+    det_numbers = np.array([float(det_g.subs(b4, 2).subs({H: 1, x0: zp / 6}))
                             for zp in z_points])
-    check(np.max(np.abs(np.sqrt(np.abs(det_numbers)) - np.cos(z_points))) < 1e-14,
-          "at b4 = 1, sqrt|det g| equals cos z at 7 points of the patch")
+    check(np.max(np.abs(np.sqrt(np.abs(det_numbers)) - 2 ** 1.5 * np.cos(z_points))) < 1e-13,
+          "at b4 = 2, sqrt|det g| equals 2^(3/2) cos z at 7 points of the patch")
     '''),
     md(r"""
     ## 7. The signature (4,4)
@@ -457,20 +464,24 @@ CELLS = [
     read off the signs of the eight entries. The next cell turns the eight entries into
     fast numerical functions of $z$ and of the values of $a_4$ and $b_4$
     (`sp.lambdify`), evaluates them on a grid of 400 values of $z$ strictly inside the
-    patch, 13 values of $a_4$ from $-3$ to $3$ and the three values $b_4 = 0.5$, 1 and 2,
+    patch, 13 values of $a_4$ from $-3$ to $3$ and the three values $b_4 = 0.5$, 2 and 4,
     and checks that the sign pattern is always that of $\eta = (+,+,+,+,-,-,-,-)$: four
     positive and four negative entries. It also checks two vectors: a step along $x_1$ has
     a positive squared length (space-like), a step along $x_5$ a negative one
-    (time-like).
+    (time-like). Where a single point is needed, this notebook takes the point of the
+    deflating history of section 10 at $a_4 = 0.5$: there $b_4 = b_4(0)\,e^{(4/3)a_4}
+    = e^{2/3}\,b_4(0) = 1.948\,b_4(0)$, with $b_4(0)$ as the unit of $b_4$ (a constant
+    factor of $b_4$ only rescales $x_5, x_6, x_7$).
     """),
     code(r'''
     ETA = np.array([1, 1, 1, 1, -1, -1, -1, -1])  # the flat metric diag(+,+,+,+,-,-,-,-)
+    B4_POINT = float(np.exp(2.0 / 3.0))  # b4 on the history at a4 = 0.5, unit b4(0)
     # the entries as functions of z, a4v and b4v
     diagonal_z = [plain(g[k, k]) for k in range(8)]
     functions = [sp.lambdify((z, a4v, b4v), entry, "numpy") for entry in diagonal_z]
 
 
-    def diagonal_values(z_values, a4_value, b4_value=1.0):
+    def diagonal_values(z_values, a4_value, b4_value=B4_POINT):
         """The 8 diagonal entries at the points z_values (one row per entry)."""
         return np.array([np.broadcast_to(f(z_values, a4_value, b4_value), z_values.shape)
                          for f in functions], dtype=float)
@@ -478,7 +489,7 @@ CELLS = [
 
     z_grid = np.linspace(0.0, np.pi / 2, 402)[1:-1]  # 400 points strictly inside
     patterns = set()
-    for b4_value in (0.5, 1.0, 2.0):
+    for b4_value in (0.5, 2.0, 4.0):
         for a4_value in np.linspace(-3.0, 3.0, 13):
             # +1 or -1 for each entry
             signs = np.sign(diagonal_values(z_grid, a4_value, b4_value))
@@ -488,7 +499,7 @@ CELLS = [
           "on the whole grid the signs are (+,+,+,+,-,-,-,-): signature (4,4)")
     step_x1 = diagonal_values(np.array([0.7]), 0.5)[1, 0]  # g11: step along x1
     step_x5 = diagonal_values(np.array([0.7]), 0.5)[5, 0]  # g55: step along x5
-    say(f"at z = 0.7, a4 = 0.5, b4 = 1: g11 = {step_x1:.6f} (space-like), "
+    say(f"at z = 0.7, a4 = 0.5, b4 = e^(2/3): g11 = {step_x1:.6f} (space-like), "
         f"g55 = {step_x5:.6f} (time-like)")
     check(step_x1 > 0 > step_x5, "a step along x1 is space-like, along x5 time-like")
     '''),
@@ -497,8 +508,9 @@ CELLS = [
     that the curves can be told apart also by readers with a colour-vision deficiency;
     every figure also uses line styles and labels, so that it can be read in black and
     white) and then draws the metric at one point, $z = \pi/4$, $a_4 = 0.5$ and
-    $b_4 = 1$, as a **heat map**: each of the $8 \times 8$ entries is a coloured square,
-    red for positive, blue for negative, grey for zero, and its value is written in it.
+    $b_4 = e^{2/3}$, as a **heat map**: each of the $8 \times 8$ entries is a coloured
+    square, red for positive, blue for negative, grey for zero, and its value is written
+    in it.
     """),
     code(r'''
     from matplotlib.colors import LinearSegmentedColormap
@@ -521,26 +533,30 @@ CELLS = [
     ax.set_xticks(range(8), LABELS)
     ax.set_yticks(range(8), LABELS)
     ax.grid(False)  # no grid lines across the squares
-    ax.set_title("The metric $g_{\\mu\\nu}$ at $z = \\pi/4$, $a_4 = 0.5$, $b_4 = 1$")
+    ax.set_title("The metric $g_{\\mu\\nu}$ at $z = \\pi/4$, $a_4 = 0.5$, $b_4 = e^{2/3}$")
     fig.colorbar(image, ax=ax, label="value of the entry (no unit)")
     save_figure(fig, "metric_heat_map",
                 "The author's metric $g_{\\mu\\nu}$ at the point $z = 6Hx_0 = \\pi/4$ "
-                "with $a_4 = 0.5$ and $b_4 = 1$, drawn as a heat map: row $\\mu$ and "
+                "with $a_4 = 0.5$ and $b_4 = e^{2/3}$ (the deflating history at "
+                "$a_4 = 0.5$, unit $b_4(0)$), drawn as a heat map: row $\\mu$ and "
                 "column $\\nu$ run "
                 "over the coordinates $x_0$ to $x_7$, red squares are positive entries, "
                 "blue squares negative ones, grey squares zero; the number in each "
                 "square is the entry. Only the diagonal is non-zero; the hidden entry is "
                 "$\\cot^2(\\pi/4) = 1$, the three 3-space "
                 "entries are equal, $e^{1}\\,(\\sin \\pi/4)^{1/3} = 2.422$, the three "
-                "extra-time entries are equal, $-e^{-1}(\\sin \\pi/4)^{1/3} = -0.328$, "
-                "and the time entry is $-1$: "
+                "extra-time entries are equal, $-e^{2/3}e^{-1}(\\sin \\pi/4)^{1/3} = "
+                "-0.638$, and the time entry is $-1$: "
                 "four positive and four negative entries, the signature (4,4).")
-    check(abs(values[1, 1] - np.e * np.sin(np.pi / 4) ** (1 / 3)) < 1e-12,
-          "g11 at z = pi/4, a4 = 0.5 equals e times (sin pi/4)^(1/3)")
+    check(abs(values[1, 1] - np.e * np.sin(np.pi / 4) ** (1 / 3)) < 1e-12
+          and abs(values[5, 5] + np.exp(-1.0 / 3.0) * np.sin(np.pi / 4) ** (1 / 3)) < 1e-12,
+          "at z = pi/4, a4 = 0.5, b4 = e^(2/3): g11 = e (sin pi/4)^(1/3) and "
+          "g55 = -e^(-1/3) (sin pi/4)^(1/3)")
     '''),
     md(r"""
     The next cell draws the eight diagonal entries as functions of $z$ across the whole
-    patch, for $a_4 = 0.5$ and $b_4 = 1$, together with the determinant $\cos^2 z$.
+    patch, for $a_4 = 0.5$ and $b_4 = e^{2/3}$, together with the determinant divided by
+    its constant factor $b_4^3$, $\det g/b_4^3 = \cos^2 z$.
     Entries that are equal are drawn as one curve. The hidden entry $\cot^2 z$ grows
     without bound towards the tip $z \to 0$ and vanishes at the patch end $z = \pi/2$,
     where the determinant vanishes too: there the coordinate $x_0$ stops being a good
@@ -548,7 +564,7 @@ CELLS = [
     """),
     code(r'''
     z_line = np.linspace(0.02, np.pi / 2, 600)
-    entries = diagonal_values(z_line, 0.5)  # at b4 = 1
+    entries = diagonal_values(z_line, 0.5)  # at b4 = e^(2/3), the history at a4 = 0.5
     fig, ax = plt.subplots()
     ax.plot(z_line, entries[0], color=AQUA, lw=1.8, label="$g_{00} = \\cot^2 z$")
     ax.plot(z_line, entries[1], color=RED, lw=1.8,
@@ -557,7 +573,7 @@ CELLS = [
     ax.plot(z_line, entries[5], color=BLUE, lw=1.8, ls="--",
             label="$g_{55} = g_{66} = g_{77} = -b_4 e^{-2a_4}\\sin^{1/3}z$")
     ax.plot(z_line, np.cos(z_line) ** 2, color="black", lw=1.2, ls=":",
-            label="$\\det g = \\cos^2 z$")
+            label="$\\det g / b_4^3 = \\cos^2 z$")
     ax.axhline(0.0, color="black", lw=0.8)
     ax.axvline(np.pi / 2, color="grey", lw=0.8, ls=":")
     ax.text(np.pi / 2 - 0.02, 3.3, "patch end", ha="right", fontsize=9)
@@ -565,19 +581,19 @@ CELLS = [
     ax.set_ylim(-3.4, 3.6)  # room below the curves for the legend
     ax.set_xlabel("$z = 6 H x_0$ (radians)")
     ax.set_ylabel("entry of the metric (no unit)")
-    ax.set_title("The diagonal entries across the patch ($a_4 = 0.5$, $b_4 = 1$)")
+    ax.set_title("The diagonal entries across the patch ($a_4 = 0.5$, $b_4 = e^{2/3}$)")
     ax.legend(fontsize=8, loc="lower center", ncol=2)
     save_figure(fig, "diagonal_entries",
                 "The diagonal entries of the author's metric as functions of "
                 "$z = 6Hx_0$ from the tip side to the patch end $z = \\pi/2$, for "
-                "$a_4 = 0.5$ and $b_4 = 1$; horizontal axis $z$ in radians, vertical "
-                "axis the value of "
+                "$a_4 = 0.5$ and $b_4 = e^{2/3}$ (the deflating history at $a_4 = 0.5$); "
+                "horizontal axis $z$ in radians, vertical axis the value of "
                 "the entry (pure numbers). The three 3-space entries (solid red) stay "
                 "positive and the three extra-time entries (dashed blue) and the time "
                 "entry (dash-dotted) stay negative everywhere, so the signature is (4,4) "
                 "at every point; the hidden entry $\\cot^2 z$ (aqua) grows without bound "
-                "towards the tip and reaches $0$ at the patch end, where the determinant "
-                "$\\cos^2 z$ (dotted) also vanishes.")
+                "towards the tip and reaches $0$ at the patch end, where the determinant, "
+                "drawn as $\\det g/b_4^3 = \\cos^2 z$ (dotted), also vanishes.")
     check(np.all(entries[0] > 0) and np.cos(np.pi / 2) ** 2 < 1e-30,
           "g00 > 0 inside the patch and det g = 0 at the patch end")
     '''),
@@ -642,27 +658,34 @@ CELLS = [
 
     The next cell reads the parameters of the Revision Kohn-Sham solver
     (`Revision/kohn_sham/results/parameters.json`): the constant $H$, the slope $A$ of
-    the history $a_4 = A H x_4$, the five values of $a_4$ (the **slices**) at which that
-    solver computes its states, and the tip cut-off $L$ (used in section 13 of this
+    the history $a_4 = A H x_4$, the exponent $\beta$ of the second metric function
+    $b_4 = b_4(0)\,e^{\beta A H x_4}$, the five values of $a_4$ (the **slices**) at which
+    that solver computes its states, and the tip cut-off $L$ (used in section 13 of this
     notebook). It also reads the theory record of that work
     (`Revision/kohn_sham/ks-theory.json`) and prints the first and the last sentence of
     its statement about the **status of the history** (key `historyStatus`). The
-    sentence in between, not printed, says why: the field equations of $a_4$ allow the
-    history $a_4 = A H x_4$ only for a source with equal pressures in all directions
-    and a constant energy density, and the Kohn-Sham states computed along it do not
-    have these properties. So the history is assumed, not derived; this notebook uses
-    it only to draw the time dependence of the metric.
+    sentence in between, not printed, says why: with the author's Lovelock weights the
+    field equations of $a_4$ and $b_4$ allow this history only with a constant source
+    of negative energy density, and the Kohn-Sham states computed along it do not supply
+    it. So the history is assumed, not derived; this notebook uses it only to draw the
+    time dependence of the metric. The exponent $\beta = 4/3$ is the one value that the
+    author's weights allow on $a_4 = H x_4$ for a source without an $x_4$-$x_0$
+    component, apart from the excluded constant $b_4$ (`Revision/SPEC.md`, section 1).
     """),
     code(r'''
     PARAMETERS = "Revision/kohn_sham/results/parameters.json"
     parameters = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))
     physics = parameters["physics"]
     H_value, A_value = physics["H"], physics["historyA"]
+    beta = physics["historyBeta"]  # b4 = b4(0) e^(beta A H x4)
     slices = physics["slicesA4"]  # the values of a4 at which the solver works
     L_tip = physics["L_tipCutoff"]  # the tip cut-off, in units of 1/H
-    say(f"H = {H_value}, A = {A_value}, slices a4 = {slices}, tip cut-off L = {L_tip}")
-    check(H_value == 1.0 and A_value == 1.0 and slices == [0.0, 0.5, 1.0, 1.5, 2.0],
-          "the history of the record is a4 = x4 (A = 1, H = 1) with slices 0 to 2")
+    say(f"H = {H_value}, A = {A_value}, beta = {beta:.6f}, slices a4 = {slices}, "
+        f"tip cut-off L = {L_tip}")
+    check(H_value == 1.0 and A_value == 1.0 and abs(beta - 4.0 / 3.0) < 1e-15
+          and slices == [0.0, 0.5, 1.0, 1.5, 2.0],
+          "the history of the record is a4 = x4, b4 = b4(0) e^(4 x4/3) (A = 1, H = 1, "
+          "beta = 4/3) with slices 0 to 2")
     KS_THEORY = "Revision/kohn_sham/ks-theory.json"
     ks_theory = json.loads(repository_file(KS_THEORY).read_text(encoding="utf-8"))
     status = ks_theory["adiabaticity"]["historyStatus"]  # the record's own statement
@@ -674,27 +697,32 @@ CELLS = [
           record=f"{KS_THEORY}, adiabaticity.historyStatus")
     '''),
     md(r"""
-    Along this history $a_4 = A H x_4$ and $b_4 = 1$, so $a_4 = 0, 0.5, \dots, 2$ at
-    $x_4 = 0, 0.5, \dots, 2$ (in units of $1/H$). The scale factor of 3-space is
-    proportional to $e^{a_4}$ and that of the extra times to $e^{-a_4}$. The next cell
-    draws both, and their product, against $x_4$ twice: on an ordinary vertical axis
-    (left) and on a logarithmic one (right), on which an exponential is a straight line
-    whose slope is its rate ($+AH$ and $-AH$). The dots mark the five slices.
+    Along this history $a_4 = A H x_4$ and $b_4 = b_4(0)\,e^{\beta A H x_4}$, so
+    $a_4 = 0, 0.5, \dots, 2$ at $x_4 = 0, 0.5, \dots, 2$ (in units of $1/H$). The scale
+    factor of 3-space is proportional to $e^{a_4}$ and that of the extra times to
+    $e^{-a_4}b_4^{1/2} = b_4(0)^{1/2}\,e^{-(1 - \beta/2)a_4} = b_4(0)^{1/2}\,e^{-a_4/3}$:
+    the extra times deflate exponentially, at one third of the rate at which 3-space
+    inflates, and the product of the two factors grows like $e^{(\beta/2)a_4} =
+    e^{2a_4/3}$. The next cell draws both, and their product, against $x_4$ twice: on an
+    ordinary vertical axis (left) and on a logarithmic one (right), on which an
+    exponential is a straight line whose slope is its rate ($+AH$ and $-AH/3$). The dots
+    mark the five slices.
     """),
     code(r'''
     x4_line = np.linspace(0.0, 2.5, 251)
     a4_line = A_value * H_value * x4_line  # the history a4 = A H x4
     slice_x4 = np.array(slices) / (A_value * H_value)  # the times of the slices
+    rate_t = 1.0 - beta / 2.0  # the extra times scale like e^(-(1 - beta/2) a4)
     fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.2))
     for ax, scale in zip(axes, ["linear", "log"]):
         ax.plot(x4_line, np.exp(a4_line), color=RED, lw=1.8,
                 label="3-space: $e^{a_4}$ (inflates)")
-        ax.plot(x4_line, np.exp(-a4_line), color=BLUE, lw=1.8, ls="--",
-                label="extra times: $e^{-a_4}$ (deflate)")
-        ax.plot(x4_line, np.exp(a4_line) * np.exp(-a4_line), color="black", lw=1.2,
-                ls=":", label="product $= 1$")
+        ax.plot(x4_line, np.exp(-rate_t * a4_line), color=BLUE, lw=1.8, ls="--",
+                label="extra times: $e^{-a_4}(b_4/b_4(0))^{1/2} = e^{-a_4/3}$ (deflate)")
+        ax.plot(x4_line, np.exp(a4_line) * np.exp(-rate_t * a4_line), color="black",
+                lw=1.2, ls=":", label="product $= e^{2a_4/3}$")
         ax.plot(slice_x4, np.exp(slices), "o", color=RED, ms=6)
-        ax.plot(slice_x4, np.exp(-np.array(slices)), "s", color=BLUE, ms=6)
+        ax.plot(slice_x4, np.exp(-rate_t * np.array(slices)), "s", color=BLUE, ms=6)
         ax.set_yscale(scale)
         ax.set_xlabel("time $x_4$ (unit $1/H$)")
         ax.set_ylabel("scale factor relative to $x_4 = 0$")
@@ -703,20 +731,23 @@ CELLS = [
     axes[0].legend(fontsize=8)
     save_figure(fig, "history_scale_factors",
                 "The time dependence of the scale factors along the deflating history "
-                "$a_4 = A H x_4$, $b_4 = 1$ with $A = 1$, $H = 1$ of the Revision "
-                "Kohn-Sham work: "
-                "3-space $e^{a_4}$ (solid red), the three extra times $e^{-a_4}$ (dashed "
-                "blue) and their product (dotted black), on an ordinary (left) and a "
+                "$a_4 = A H x_4$, $b_4 = b_4(0)\\,e^{\\beta A H x_4}$ with $A = 1$, "
+                "$H = 1$, $\\beta = 4/3$ of the Revision Kohn-Sham work: "
+                "3-space $e^{a_4}$ (solid red), the three extra times "
+                "$e^{-a_4}(b_4/b_4(0))^{1/2} = e^{-a_4/3}$ (dashed blue) and their "
+                "product $e^{2a_4/3}$ (dotted black), on an ordinary (left) and a "
                 "logarithmic (right) vertical axis; horizontal axis the time $x_4$ in "
                 "units of $1/H$, vertical axis the factor by which lengths have grown "
                 "since $x_4 = 0$ (a pure number). Dots and squares mark the five slices "
                 "$a_4 = 0, 0.5, 1, 1.5, 2$. 3-space grows by $e^2 = 7.39$ and the extra "
-                "times shrink to $e^{-2} = 0.135$; on the logarithmic axis both are "
-                "straight lines with slopes $+1$ and $-1$, the product stays $1$.")
+                "times shrink to $e^{-2/3} = 0.513$; on the logarithmic axis both are "
+                "straight lines with slopes $+1$ and $-1/3$, the product grows by "
+                "$e^{4/3} = 3.79$.")
     report("3-space growth factor at the last slice a4 = 2", f"{np.exp(2.0):.6f}")
-    report("extra-time shrink factor at the last slice a4 = 2", f"{np.exp(-2.0):.6f}")
-    check(abs(np.exp(slices[-1]) * np.exp(-slices[-1]) - 1.0) < 1e-15,
-          "at every slice the two factors multiply to 1")
+    report("extra-time shrink factor at the last slice a4 = 2", f"{np.exp(-2.0 / 3.0):.6f}")
+    product_last = np.exp(slices[-1]) * np.exp(-rate_t * slices[-1])
+    check(abs(product_last - np.exp(2.0 * slices[-1] / 3.0)) < 1e-14 and rate_t > 0,
+          "the extra times deflate (rate 1/3 of a4') and the product grows like e^(2 a4/3)")
     '''),
     md(r"""
     ## 11. The hidden direction: the functions of $z$
@@ -764,22 +795,22 @@ CELLS = [
     '''),
     md(r"""
     The next cell shows how the two effects combine. It draws, over the plane of the
-    time $x_4$ (along the history $a_4 = x_4$, $b_4 = 1$) and the hidden coordinate $z$,
-    the
-    logarithm to base 10 of the scale factor of 3-space, $\log_{10}(e^{a_4}\sin^{1/6}z)$
-    (left), and of an extra time, $\log_{10}(e^{-a_4}\sin^{1/6}z)$ (right). The value $0$
-    (grey) means the factor $1$; red means larger, blue smaller.
+    time $x_4$ (along the history $a_4 = x_4$, $b_4 = b_4(0)\,e^{4x_4/3}$, unit $b_4(0)$)
+    and the hidden coordinate $z$, the logarithm to base 10 of the scale factor of
+    3-space, $\log_{10}(e^{a_4}\sin^{1/6}z)$ (left), and of an extra time,
+    $\log_{10}(e^{-a_4}b_4^{1/2}\sin^{1/6}z) = \log_{10}(e^{-a_4/3}\sin^{1/6}z)$ (right).
+    The value $0$ (grey) means the factor $1$; red means larger, blue smaller.
     """),
     code(r'''
     x4_grid, z_grid2 = np.meshgrid(np.linspace(0.0, 2.5, 251),
                                    np.linspace(0.01, np.pi / 2, 200))
     a4_grid = A_value * H_value * x4_grid
     space_map = np.log10(np.exp(a4_grid) * np.sin(z_grid2) ** (1 / 6))
-    extra_map = np.log10(np.exp(-a4_grid) * np.sin(z_grid2) ** (1 / 6))
+    extra_map = np.log10(np.exp(-rate_t * a4_grid) * np.sin(z_grid2) ** (1 / 6))
     fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.2), sharey=True)
     for ax, data, title in zip(axes, [space_map, extra_map],
                                ["3-space: $e^{a_4}\\sin^{1/6}z$",
-                                "extra time: $e^{-a_4}\\sin^{1/6}z$"]):
+                                "extra time: $e^{-a_4}b_4^{1/2}\\sin^{1/6}z$"]):
         mesh = ax.pcolormesh(x4_grid, z_grid2, data, cmap=DIVERGING, vmin=-1.3,
                              vmax=1.3, shading="auto")
         ax.contour(x4_grid, z_grid2, data, levels=[0.0], colors="black",
@@ -792,8 +823,9 @@ CELLS = [
     save_figure(fig, "scale_factor_maps",
                 "Maps of the logarithm to base 10 of the scale factor of 3-space "
                 "$e^{a_4}\\sin^{1/6}z$ (left) and of an extra time "
-                "$e^{-a_4}\\sin^{1/6}z$ (right) along the deflating history $a_4 = x_4$, "
-                "$b_4 = 1$; "
+                "$e^{-a_4}b_4^{1/2}\\sin^{1/6}z = e^{-a_4/3}\\sin^{1/6}z$ (right, unit "
+                "$b_4(0)$) along the deflating history $a_4 = x_4$, "
+                "$b_4 = b_4(0)\\,e^{4x_4/3}$; "
                 "horizontal axes the time $x_4$ in units of $1/H$, vertical axes "
                 "$z = 6Hx_0$ in radians, colour the value (red above $0$: lengths larger "
                 "than the coordinate interval, blue below $0$: smaller, grey and the "
@@ -804,7 +836,7 @@ CELLS = [
           "along the history 3-space grows and the extra times shrink at every z")
     '''),
     md(r"""
-    ## 12. Proper volumes: 3-space inflates, the extra times deflate, the 7-volume stays
+    ## 12. Proper volumes: 3-space inflates, the extra times deflate, the 7-volume grows
 
     Take a box with coordinate edges $\Delta x_1 = \Delta x_2 = \Delta x_3 = 1$. Its
     proper 3-volume is the product of the three scale factors,
@@ -813,12 +845,12 @@ CELLS = [
     $V_3 V_t = b_4^{3/2} \sin z$. The slice $x_4 = \mathrm{const}$ is 7-dimensional
     ($x_0, x_1, x_2, x_3, x_5, x_6, x_7$); its volume factor is the product of the seven
     scale factors other than $h_4 = 1$, which is $b_4^{3/2} \sin z \cot z =
-    b_4^{3/2} \cos z$: it changes with $x_4$ only through $b_4$, and not at all when $b_4$
-    is constant. The next cell computes these products and, at $b_4 = 1$, by an integral
-    over the whole patch $0 < x_0 < \pi/(12H)$, the proper 7-volume of the patch per unit
+    b_4^{3/2} \cos z$: the factors $e^{\pm 3a_4}$ cancel, so it changes with $x_4$ only
+    through $b_4$. The next cell computes these products and, by an integral over the
+    whole patch $0 < x_0 < \pi/(12H)$, the proper 7-volume of the patch per unit
     coordinate volume of the six transverse directions:
-    $\int_0^{\pi/(12H)} \cos(6Hx_0)\, dx_0 = \bigl[\sin(6Hx_0)/(6H)\bigr]_0^{\pi/(12H)}
-    = 1/(6H)$ (for a constant $b_4$ it is $b_4^{3/2}/(6H)$).
+    $\int_0^{\pi/(12H)} b_4^{3/2}\cos(6Hx_0)\, dx_0
+    = b_4^{3/2}\bigl[\sin(6Hx_0)/(6H)\bigr]_0^{\pi/(12H)} = b_4^{3/2}/(6H)$.
     """),
     code(r'''
     V3 = sp.simplify(h[1] * h[2] * h[3])  # proper 3-volume of a unit coordinate box
@@ -829,49 +861,57 @@ CELLS = [
     check(sp.simplify(V7 - b4 ** sp.Rational(3, 2) * sp.cos(6 * H * x0)) == 0
           and sp.simplify(sp.diff(V7 / b4 ** sp.Rational(3, 2), x4)) == 0,
           "the 7-volume density is b4^(3/2) cos z and changes with x4 only through b4")
-    patch_volume = sp.integrate(sp.cos(6 * H * x0), (x0, 0, sp.pi / (12 * H)))
+    patch_volume = sp.integrate(b4 ** sp.Rational(3, 2) * sp.cos(6 * H * x0),
+                                (x0, 0, sp.pi / (12 * H)))
     say(f"proper 7-volume of the patch per unit transverse coordinate volume = "
         f"{patch_volume}")
-    check(sp.simplify(patch_volume - 1 / (6 * H)) == 0,
-          "the whole patch has the proper 7-volume 1/(6H) per unit coordinate volume")
+    check(sp.simplify(patch_volume - b4 ** sp.Rational(3, 2) / (6 * H)) == 0,
+          "the whole patch has the proper 7-volume b4^(3/2)/(6H) per unit coordinate "
+          "volume")
     '''),
     md(r"""
     The next cell draws these volumes along the history at the fixed point
-    $z = \pi/3$ (where $\sin z = 0.866$ and $\cos z = 0.5$) with $b_4 = 1$, on a
-    logarithmic axis: $V_3$
-    grows like $e^{3x_4}$, $V_t$ shrinks like $e^{-3x_4}$, their product $\sin z$ and the
-    7-volume density $\cos z$ are constant.
+    $z = \pi/3$ (where $\sin z = 0.866$ and $\cos z = 0.5$), in the unit $b_4(0)^{3/2}$,
+    on a logarithmic axis. On the history $b_4^{3/2} = b_4(0)^{3/2}\,e^{(3\beta/2)a_4}
+    = b_4(0)^{3/2}\,e^{2a_4}$, so $V_3$ grows like $e^{3x_4}$, $V_t$ shrinks like
+    $e^{-3x_4}e^{2x_4} = e^{-x_4}$, and their product $b_4^{3/2}\sin z$ and the 7-volume
+    density $b_4^{3/2}\cos z$ both grow like $e^{2x_4}$: the inflation of 3-space is
+    compensated by the factor $e^{-3a_4}$ of the extra times, but not the growth of
+    $b_4$.
     """),
     code(r'''
     z_fixed = np.pi / 3
+    b4_line = np.exp(beta * a4_line)  # b4 on the history, unit b4(0)
     v3 = np.exp(3 * a4_line) * np.sin(z_fixed) ** 0.5
-    vt = np.exp(-3 * a4_line) * np.sin(z_fixed) ** 0.5
+    vt = b4_line ** 1.5 * np.exp(-3 * a4_line) * np.sin(z_fixed) ** 0.5
     fig, ax = plt.subplots()
     ax.plot(x4_line, v3, color=RED, lw=1.8, label="$V_3 = e^{3a_4}\\sin^{1/2}z$")
     ax.plot(x4_line, vt, color=BLUE, lw=1.8, ls="--",
-            label="$V_t = e^{-3a_4}\\sin^{1/2}z$")
+            label="$V_t = b_4^{3/2}e^{-3a_4}\\sin^{1/2}z$")
     ax.plot(x4_line, v3 * vt, color=ORANGE, lw=1.8, ls="-.",
-            label="$V_3 V_t = \\sin z$")
-    ax.plot(x4_line, np.full_like(x4_line, np.cos(z_fixed)), color="black", lw=1.2,
-            ls=":", label="7-volume density $\\cos z$")
+            label="$V_3 V_t = b_4^{3/2}\\sin z$")
+    ax.plot(x4_line, b4_line ** 1.5 * np.cos(z_fixed), color="black", lw=1.2,
+            ls=":", label="7-volume density $b_4^{3/2}\\cos z$")
     ax.set_yscale("log")
-    ax.set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, $b_4 = 1$")
+    ax.set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, "
+                  "$b_4 = b_4(0)e^{4x_4/3}$")
     ax.set_ylabel("proper volume per unit coordinate volume")
-    ax.set_title("Proper volumes at $z = \\pi/3$")
+    ax.set_title("Proper volumes at $z = \\pi/3$ (unit $b_4(0)^{3/2}$)")
     ax.legend(fontsize=8)
     save_figure(fig, "proper_volumes",
                 "Proper volumes per unit coordinate volume at the fixed hidden position "
-                "$z = \\pi/3$ along the history $a_4 = x_4$, $b_4 = 1$, on a "
-                "logarithmic vertical "
+                "$z = \\pi/3$ along the history $a_4 = x_4$, $b_4 = b_4(0)\\,e^{4x_4/3}$ "
+                "(unit $b_4(0)^{3/2}$), on a logarithmic vertical "
                 "axis; horizontal axis the time $x_4$ in units of $1/H$. The proper "
                 "3-volume of 3-space $V_3$ (solid red) grows like $e^{3x_4}$, the proper "
                 "3-volume of the three extra times $V_t$ (dashed blue) shrinks like "
-                "$e^{-3x_4}$, and both their product $\\sin z = 0.866$ (dash-dotted) and "
-                "the density $\\cos z = 0.5$ of the proper 7-volume (dotted) stay "
-                "constant: the inflation of 3-space is exactly compensated by the "
-                "deflation of the extra times.")
-    check(np.max(np.abs(v3 * vt - np.sin(z_fixed))) < 1e-12,
-          "V3 times Vt stays equal to sin z along the history")
+                "$e^{-x_4}$, and both their product $b_4^{3/2}\\sin z$ (dash-dotted, "
+                "$0.866$ at $x_4 = 0$) and the density $b_4^{3/2}\\cos z$ of the proper "
+                "7-volume (dotted, $0.5$ at $x_4 = 0$) grow like $e^{2x_4}$: the "
+                "factors $e^{\\pm 3a_4}$ compensate, the growth of $b_4$ does not.")
+    check(np.max(np.abs(v3 * vt / (np.exp(2.0 * a4_line) * np.sin(z_fixed)) - 1.0)) < 1e-12,
+          "V3 times Vt equals b4^(3/2) sin z = e^(2 a4) sin z along the history "
+          "(unit b4(0)^(3/2))")
     '''),
     md(r"""
     ## 13. The hidden coordinate $y$ and the warped form of the metric
@@ -892,19 +932,19 @@ CELLS = [
     end). In the coordinates $(y, x_1, \dots, x_7)$ the scale factor of the hidden
     direction is $1$, so the volume factor is the product of the six transverse scale
     factors, $b_4^{3/2} W^6 = b_4^{3/2} e^{6Hy} = b_4^{3/2} \sin z$. The Kohn-Sham record
-    works at $b_4 = 1$, where these are $W^6 = e^{6Hy} = \sin z$.
+    writes its volume factor in exactly this form, $b_4^{3/2} e^{6Hy}$.
 
     The next cell prints four statements of the record
     `Revision/kohn_sham/ks-theory.json` (read in section 10): the definition of $y$, the
     line element, the warp factor and the volume factor. Then it checks them with sympy;
     the checks of the warp factor and of the volume factor also require that the record
     still writes them as `W(y) = e^{Hy}` and as a text that starts with
-    `e^{6Hy} (= cos z`.
+    `b4^{3/2} e^{6Hy} (= b4^{3/2} cos z`, and the line element of the record must carry
+    $b_4$ in its extra-time part.
     To write the metric in the coordinate $y$ it uses the inverse relation
     $x_0 = \arcsin(e^{6Hy})/(6H)$: the hidden entry becomes $g_{00}\,(dx_0/dy)^2$
     (because $dx_0 = (dx_0/dy)\,dy$), and the seven entries $g_{11}, \dots, g_{77}$ only
-    need $\sin z = e^{6Hy}$ put in. The record's line element is the case $b_4 = 1$; the
-    cell checks the warped form for every $b_4$ and compares with the record at $b_4 = 1$.
+    need $\sin z = e^{6Hy}$ put in. The cell checks the warped form for every $b_4$.
     """),
     code(r'''
     geometry = ks_theory["geometry"]  # the statements of the record about the geometry
@@ -933,15 +973,16 @@ CELLS = [
     for k in (0, 1, 4, 5):
         say(f"  in the coordinate y: g[{k}, {k}] = {plain(g_y[k, k])}")
     check((g_y - warped).applyfunc(sp.simplify) == sp.zeros(8, 8)
-          and geometry["warp"] == "W(y) = e^{Hy}",
-          "in the coordinate y the metric is the warped form with W = e^(H y)",
+          and geometry["warp"] == "W(y) = e^{Hy}"
+          and "b4(x4) (dx5^2+dx6^2+dx7^2)" in geometry["lineElement"],
+          "in the coordinate y the metric is the warped form with W = e^(H y), with b4 in "
+          "the extra-time part as in the record",
           record="Revision/kohn_sham/ks-theory.json, geometry.lineElement and "
                  "geometry.warp")
     check(sp.simplify(g_y.det() - b4 ** 3 * sp.exp(12 * H * y)) == 0
-          and sp.simplify(g_y.det().subs(b4, 1) - sp.exp(12 * H * y)) == 0
-          and geometry["sqrtDetG"].startswith("e^{6Hy} (= cos z"),
-          "in the coordinate y, sqrt|det g| is b4^(3/2) e^(6 H y); at b4 = 1 it is "
-          "e^(6 H y) = sin z",
+          and geometry["sqrtDetG"].startswith("b4^{3/2} e^{6Hy} (= b4^{3/2} cos z"),
+          "in the coordinate y, sqrt|det g| is b4^(3/2) e^(6 H y) = b4^(3/2) sin z, as the "
+          "record states",
           record="Revision/kohn_sham/ks-theory.json, geometry.sqrtDetG")
     distance_to_end = -y_of_x0  # proper distance from the point to the patch end
     check(sp.limit(distance_to_end, x0, 0, "+") == sp.oo,
@@ -959,8 +1000,8 @@ CELLS = [
     the fraction with sympy and draws $y$ as a function of $z$ (left; the $z$ axis is
     logarithmic, so that the region near the tip is visible: there
     $y \approx \ln(z)/(6H)$ is a straight line) and the warp factor $W = e^{Hy}$, its
-    square $W^2 = e^{2Hy}$ and the volume density $W^6 = e^{6Hy}$ as functions of $y$
-    (right).
+    square $W^2 = e^{2Hy}$ and the volume density $W^6 = e^{6Hy}$ (in the unit
+    $b_4^{3/2}$, which does not depend on $y$) as functions of $y$ (right).
     """),
     code(r'''
     L_exact = sp.nsimplify(L_tip)  # the number 3.0 of the record as the exact integer 3
@@ -989,7 +1030,7 @@ CELLS = [
     axes[1].plot(y_axis, np.exp(2 * y_axis), color=ORANGE, lw=1.8, ls="-.",
                  label="$W^2 = e^{2Hy} = \\sin^{1/3} z$")
     axes[1].plot(y_axis, np.exp(6 * y_axis), color=AQUA, lw=1.8, ls="--",
-                 label="7-volume density $W^6 = e^{6Hy} = \\sin z$")
+                 label="7-volume density per $b_4^{3/2}$: $W^6 = e^{6Hy} = \\sin z$")
     axes[1].axvspan(-4.0, -L_tip, color="grey", alpha=0.25,
                     label="removed by the tip cut-off")
     axes[1].set_xlabel("$y$ (unit $1/H$)")
@@ -1005,8 +1046,8 @@ CELLS = [
                 "$y = -3$ of the Revision Kohn-Sham solver, at $z = 1.5 \\times "
                 "10^{-8}$. Right: the warp factor $W = e^{Hy}$ (solid), its square "
                 "$W^2 = e^{2Hy}$ (dash-dotted) and the density $W^6 = e^{6Hy}$ of the "
-                "proper 7-volume (dashed) versus $y$ in units of $1/H$; the grey band "
-                "beyond "
+                "proper 7-volume in the unit $b_4^{3/2}$ (dashed) versus $y$ in units of "
+                "$1/H$; the grey band beyond "
                 "the cut-off holds only the fraction $e^{-18} = 1.5 \\times 10^{-8}$ of "
                 "the 7-volume of the patch.")
     check(fraction == sp.exp(-18), "the cut-off removes exactly the fraction e^(-18)")
@@ -1039,23 +1080,23 @@ CELLS = [
     - The diagonal vielbein $h = (\cot z, e^{a_4}\sin^{1/6}z\ (\times 3), 1,
       b_4^{1/2} e^{-a_4}\sin^{1/6}z\ (\times 3))$ reproduces the metric.
     - 3-space expands with the rate $a_4'$ and the three extra times **deflate** with the
-      rate $-a_4' + b_4'/(2b_4)$; along the prescribed history $a_4 = x_4$, $b_4 = 1$
-      ($A = 1$, $H = 1$) 3-space
-      lengths grow by $e^2 = 7.39$ and extra-time durations shrink to $e^{-2} = 0.135$
+      rate $-a_4' + b_4'/(2b_4)$; along the prescribed history $a_4 = x_4$,
+      $b_4 = b_4(0)\,e^{4x_4/3}$ ($A = 1$, $H = 1$, $\beta = 4/3$) 3-space
+      lengths grow by $e^2 = 7.39$ and extra-time durations shrink to $e^{-2/3} = 0.513$
       between the first and the last slice.
     - The proper 3-volume of 3-space grows like $e^{3a_4}$, that of the extra times
-      shrinks like $b_4^{3/2} e^{-3a_4}$, and the 7-volume density $b_4^{3/2} \cos z$ is
-      constant in time when $b_4$ is; at $b_4 = 1$ the whole patch has the 7-volume
-      $1/(6H)$ per unit transverse coordinate volume.
+      shrinks like $b_4^{3/2} e^{-3a_4}$, and the 7-volume density $b_4^{3/2} \cos z$
+      changes only through $b_4$ (on the history like $e^{2a_4}$); the whole patch has the
+      7-volume $b_4^{3/2}/(6H)$ per unit transverse coordinate volume.
     - In the hidden coordinate $y = \ln(\sin z)/(6H)$ the metric has the warped form
       of the Revision record, with the warp factor $W = e^{Hy}$ and the volume factor
-      $W^6 = e^{6Hy}$; the tip is at infinite proper distance, and the tip
-      cut-off $y = -3/H$ of the Kohn-Sham solver removes only the fraction $e^{-18}$ of
-      the 7-volume.
-    - ASSUMED: the history $a_4 = A H x_4$, $b_4 = 1$ is a prescribed background (the
-      Revision
-      record says so in its own words), used here only to draw the time dependence; the
-      field equations of $a_4$ come later.
+      $b_4^{3/2}W^6 = b_4^{3/2}e^{6Hy}$; the tip is at infinite proper distance, and the
+      tip cut-off $y = -3/H$ of the Kohn-Sham solver removes only the fraction $e^{-18}$
+      of the 7-volume.
+    - ASSUMED: the history $a_4 = A H x_4$, $b_4 = b_4(0)\,e^{\beta A H x_4}$ is a
+      prescribed background (the Revision record says so in its own words), used here
+      only to draw the time dependence; the field equations of $a_4$ and $b_4$ come
+      later.
     """),
 ]
 

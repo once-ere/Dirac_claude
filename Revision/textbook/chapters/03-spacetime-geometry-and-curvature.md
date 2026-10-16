@@ -15,7 +15,7 @@ g = \mathrm{diag}\bigl(&\cot^2 z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e
 \end{aligned}
 $$
 
-The coordinates have fixed roles. $x_0$ is the **hidden** space direction, with $z = 6Hx_0$ between $0$ and $\pi/2$ and $g_{00} = \cot^2 z$. $x_1, x_2, x_3$ are ordinary **3-space**; it inflates, with the scale factor $e^{a_4}\sin^{1/6}z$. $x_4$ is **the time**. $x_5, x_6, x_7$ are three **extra times**: they are time-like like $x_4$, and they **deflate exponentially**, with the scale factor $b_4^{1/2}e^{-a_4}\sin^{1/6}z$, while $a_4$ grows. $H > 0$ is a constant of the author, and $a_4(x_4)$ and $b_4(x_4)$ are functions of the time only, the **metric functions**, with $b_4 > 0$; a prime means a derivative with respect to $x_4$, $a_4' = da_4/dx_4$ and $b_4' = db_4/dx_4$. The function $b_4$ is the author's change of 2026-10-14: with $b_4 = 1$ the metric is the one used before that date (the record of the change: `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). Every formula of this chapter is derived for general $a_4(x_4)$ and $b_4(x_4)$; the pictures and numbers along a history take $b_4 = 1$, as the Revision record does, and say so (Section 3.8 gives the reason).
+The coordinates have fixed roles. $x_0$ is the **hidden** space direction, with $z = 6Hx_0$ between $0$ and $\pi/2$ and $g_{00} = \cot^2 z$. $x_1, x_2, x_3$ are ordinary **3-space**; it inflates, with the scale factor $e^{a_4}\sin^{1/6}z$. $x_4$ is **the time**. $x_5, x_6, x_7$ are three **extra times**: they are time-like like $x_4$, and they **deflate exponentially**, with the scale factor $b_4^{1/2}e^{-a_4}\sin^{1/6}z$, while $a_4$ grows faster than $\ln b_4^{1/2}$ (on the history of Section 3.8 like $e^{-a_4/3}$). $H > 0$ is a constant of the author, and $a_4(x_4)$ and $b_4(x_4)$ are functions of the time only, the **metric functions**, with $b_4 > 0$; a prime means a derivative with respect to $x_4$, $a_4' = da_4/dx_4$ and $b_4' = db_4/dx_4$. The function $b_4$ is the author's change of 2026-10-14: with $b_4 = 1$ the metric is the one used before that date, now withdrawn (the record of the change: `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`); in this book $b_4$ is never 1. Every formula of this chapter is derived for general $a_4(x_4)$ and $b_4(x_4)$; the pictures and numbers along a history take the history of the Revision record, $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $\beta = 4/3$, and say so (Section 3.8 gives the reason).
 
 The four notebooks of the chapter are:
 
@@ -23,10 +23,10 @@ The four notebooks of the chapter are:
 | --- | --- | --- |
 | 03a | reads the metric exactly as the author typed it; determinant, signature (4,4), vielbein, expansion rates, the deflating history, proper volumes, the hidden coordinate $y$ and the warped form; 7 figures, 29 checks | `Revision/gkd_lovelock/results/curvature.json`, `python-lovelock-report.json`, `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, `Revision/kohn_sham/results/parameters.json`, `Revision/kohn_sham/ks-theory.json` |
 | 03c | curvature where it can be pictured: the flat plane in polar coordinates and the sphere; parallel transport, geodesics, geodesic deviation, all with RK4; 5 figures, 16 checks | none (exact formulas only) |
-| 03b | all Christoffel symbols, Riemann, Ricci and Einstein components and the Kretschmann scalar of the author's metric, exactly; finite differences; the curvature along the deflating history; the source Einstein's equations would require; a negative control; 7 figures, 40 checks | `curvature.json`, `python-lovelock-report.json`, `lovelock-report.json` (all three in `Revision/gkd_lovelock/results/`), `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, `Revision/field_equations_a4/a4-equations.json`, `Revision/field_equations_a4/reports/python-a4-report.json` |
+| 03b | all Christoffel symbols, Riemann, Ricci and Einstein components and the Kretschmann scalar of the author's metric, exactly; finite differences; the curvature along the deflating history; the source Einstein's equations would require; a negative control; 7 figures, 41 checks | `curvature.json`, `python-lovelock-report.json`, `lovelock-report.json` (all three in `Revision/gkd_lovelock/results/`), `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, `Revision/field_equations_a4/a4-equations.json`, `Revision/field_equations_a4/reports/python-a4-report.json` |
 | 03d | free fall in the author's metric: conserved momenta, redshift in 3-space, blueshift along the extra times, the push along the hidden direction, the turning point in $x_4$; RK4 paths with the record's Christoffel symbols; 5 figures, 23 checks | `curvature.json`, `parameters.json`, `ks-theory.json`, `Revision/theory/reports/python-scope.json` |
 
-Every statement of the chapter carries one of the five labels of Chapter 0. **PROVED** means derived exactly here, line by line, and confirmed by an exact check of a notebook; where the Revision record proves the same, the record file and its check are named. **COMPUTED** means a number obtained numerically by a notebook, with its measured accuracy. **ASSUMED** marks two kinds of statements: standard theorems that we quote without proof (each is named where it is used), and the physical inputs: that the history of the metric functions is $a_4 = AHx_4$, $b_4 = 1$, which the Revision record itself calls a PRESCRIBED BACKGROUND (Section 3.8), and that the bodies of Section 3.31 are test particles, too small to change the metric. One question is **OPEN** (Section 3.31): whether wave packets of the fields follow the free-fall paths computed here. No HYPOTHESIS enters this chapter. Nothing in this chapter concerns pairs of universes, their creation, or matter and antimatter; those questions belong to Chapters 18 to 21, which also state precisely what is and what is not proved about them.
+Every statement of the chapter carries one of the five labels of Chapter 0. **PROVED** means derived exactly here, line by line, and confirmed by an exact check of a notebook; where the Revision record proves the same, the record file and its check are named. **COMPUTED** means a number obtained numerically by a notebook, with its measured accuracy. **ASSUMED** marks two kinds of statements: standard theorems that we quote without proof (each is named where it is used), and the physical inputs: that the history of the metric functions is $a_4 = AHx_4$, $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $\beta = 4/3$, which the Revision record itself calls a PRESCRIBED BACKGROUND (Section 3.8), and that the bodies of Section 3.31 are test particles, too small to change the metric. One question is **OPEN** (Section 3.31): whether wave packets of the fields follow the free-fall paths computed here. No HYPOTHESIS enters this chapter. Nothing in this chapter concerns pairs of universes, their creation, or matter and antimatter; those questions belong to Chapters 18 to 21, which also state precisely what is and what is not proved about them.
 
 ### 3.2 Coordinates, indices and sums
 
@@ -133,7 +133,7 @@ The Rust program `lovelock_gkd`, which computed the curvature of the metric for 
 {0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}}
 ```
 
-It is written in the notation of Mathematica: braces enclose a list (the matrix is a list of eight rows of eight entries, the rows and columns in the order $x_0, x_1, \dots, x_7$), `E^(...)` is $e$ to the power in brackets, `Sin` and `Cot` are the sine and the cotangent, `a4[x4]` and `b4[x4]` are the values of the functions $a_4$ and $b_4$ at $x_4$, and a blank between two factors means times. The note of the record says that this is the user's metric of 2026-10-14 in the author's coordinates $x_0, \dots, x_7$, as in the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb`, and that $b_4 = 1$ is the metric before 2026-10-14. Only the eight diagonal entries are non-zero; the line element is therefore
+It is written in the notation of Mathematica: braces enclose a list (the matrix is a list of eight rows of eight entries, the rows and columns in the order $x_0, x_1, \dots, x_7$), `E^(...)` is $e$ to the power in brackets, `Sin` and `Cot` are the sine and the cotangent, `a4[x4]` and `b4[x4]` are the values of the functions $a_4$ and $b_4$ at $x_4$, and a blank between two factors means times. The note of the record says that this is the user's metric of 2026-10-14 in the author's coordinates $x_0, \dots, x_7$, as in the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb`, and that $b_4 = 1$ is the metric before 2026-10-14 (withdrawn). Only the eight diagonal entries are non-zero; the line element is therefore
 
 $$
 \begin{aligned}
@@ -142,13 +142,13 @@ ds^2 = {} & \cot^2 z\, dx_0^2 + e^{2a_4}\sin^{1/3}z\,\bigl(dx_1^2 + dx_2^2 + dx_
 \end{aligned}
 $$
 
-**Reading it term by term.** A step $dx_1$ in 3-space has the true (proper) length $e^{a_4}\sin^{1/6}z\,dx_1$, the square root of its coefficient: when $a_4$ grows, 3-space **inflates**. A step $dx_5$ along an extra time has the proper duration $b_4^{1/2}e^{-a_4}\sin^{1/6}z\,dx_5$: when $a_4$ grows and $b_4$ stays constant, the three extra times **deflate exponentially** (in general their rate of change is $-a_4' + b_4'/(2b_4)$, Section 3.7). A step $dx_4$ has $ds^2 = -dx_4^2$, so a clock at rest shows exactly $x_4$: the coordinate $x_4$ is the proper time of an observer at rest (Section 3.23 shows that such an observer is in free fall). The hidden direction has the coefficient $\cot^2 z$, which depends on $x_0$ only.
+**Reading it term by term.** A step $dx_1$ in 3-space has the true (proper) length $e^{a_4}\sin^{1/6}z\,dx_1$, the square root of its coefficient: when $a_4$ grows, 3-space **inflates**. A step $dx_5$ along an extra time has the proper duration $b_4^{1/2}e^{-a_4}\sin^{1/6}z\,dx_5$: when $a_4$ grows faster than $\ln b_4^{1/2}$, the three extra times **deflate exponentially** (their rate of change is $-a_4' + b_4'/(2b_4)$, Section 3.7; on the history of Section 3.8 it is $-a_4'/3$). A step $dx_4$ has $ds^2 = -dx_4^2$, so a clock at rest shows exactly $x_4$: the coordinate $x_4$ is the proper time of an observer at rest (Section 3.23 shows that such an observer is in free fall). The hidden direction has the coefficient $\cot^2 z$, which depends on $x_0$ only.
 
 **Units.** $z = 6Hx_0$ is an angle (a pure number), so $H$ has the unit of an inverse length. In all numerical work of the chapter lengths and times are measured in units of $1/H$, which is the same as setting $H = 1$.
 
 **The patch.** The metric is used for $0 < z < \pi/2$, that is $0 < x_0 < \pi/(12H)$; we call this range the **patch**. Its end $z \to 0$ is the **tip** and its end $z = \pi/2$ the **patch end**. Inside the patch $\sin z > 0$, so the cube root $\sin^{1/3}z$ is a positive number, and $\cot z = \cos z/\sin z > 0$. At the patch end $\cot z = 0$, so $g_{00} = 0$ there and the matrix $g$ has no inverse: the coordinate $x_0$ stops being a good label there (Section 3.9 shows that another coordinate, $y$, has no such problem, just as polar coordinates fail at $r = 0$ while the plane is perfectly regular there).
 
-**The signature is (4,4) at every point of the patch, for every $a_4$ and every $b_4 > 0$** (PROVED). The proof is one line per sign: $\cot^2 z > 0$ because $\cot z > 0$ inside the patch; $e^{2a_4} > 0$ and $e^{-2a_4} > 0$ for every real $a_4$ (an exponential is positive), $b_4 > 0$, and $\sin^{1/3}z > 0$ inside the patch (shown above); hence the three 3-space entries are positive and the three extra-time entries, which carry a minus sign, are negative; and $g_{44} = -1 < 0$. So the signs are $(+,+,+,+,-,-,-,-)$, those of $\eta$. Notebook 03a confirms this on a grid of 400 values of $z$, 13 values of $a_4$ and three values of $b_4$ (In [8]); at $z = 0.7$, $a_4 = 0.5$ and $b_4 = 1$ it prints $g_{11} = 2.347679$ and $g_{55} = -0.317724$.
+**The signature is (4,4) at every point of the patch, for every $a_4$ and every $b_4 > 0$** (PROVED). The proof is one line per sign: $\cot^2 z > 0$ because $\cot z > 0$ inside the patch; $e^{2a_4} > 0$ and $e^{-2a_4} > 0$ for every real $a_4$ (an exponential is positive), $b_4 > 0$, and $\sin^{1/3}z > 0$ inside the patch (shown above); hence the three 3-space entries are positive and the three extra-time entries, which carry a minus sign, are negative; and $g_{44} = -1 < 0$. So the signs are $(+,+,+,+,-,-,-,-)$, those of $\eta$. Notebook 03a confirms this on a grid of 400 values of $z$, 13 values of $a_4$ and three values of $b_4$ (In [8]); at $z = 0.7$, $a_4 = 0.5$ and $b_4 = e^{2/3}$ (the value on the history of Section 3.8 at $a_4 = 0.5$, in the unit $b_4(0)$) it prints $g_{11} = 2.347679$ and $g_{55} = -0.618841$.
 
 ### 3.6 The determinant and proper volumes
 
@@ -196,9 +196,9 @@ $$
 \sqrt{|\det g|} = b_4^{3/2}\cos z .
 $$
 
-This is PROVED here and in the Revision record (`Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`; `curvature.json` stores $\sqrt{|\det g|}$ as `Sin[6*H*x0]*Cot[6*H*x0]*b4[x4]^(3/2)` under the name `sqrtAbsDetG`); Notebook 03a reproduces both (In [7]). The function $a_4$ has dropped out in the fourth line: the factor $e^{6a_4}$ of the three inflating 3-space directions and the factor $e^{-6a_4}$ of the three deflating extra times cancel. The factor $b_4^3$ of the three extra-time entries stays; at $b_4 = 1$ the volume factor is $\cos z$.
+This is PROVED here and in the Revision record (`Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`; `curvature.json` stores $\sqrt{|\det g|}$ as `Sin[6*H*x0]*Cot[6*H*x0]*b4[x4]^(3/2)` under the name `sqrtAbsDetG`); Notebook 03a reproduces both (In [7]). The function $a_4$ has dropped out in the fourth line: the factor $e^{6a_4}$ of the three inflating 3-space directions and the factor $e^{-6a_4}$ of the three deflating extra times cancel. The factor $b_4^3$ of the three extra-time entries stays: the volume factor is $b_4^{3/2}$ times $\cos z$.
 
-**The volume of a slice of constant time.** The time $x_4$ is the time in which everything in this book evolves (it is the time shown by the clocks of observers at rest, Section 3.23). The natural volume is therefore that of a slice $x_4 = \mathrm{const}$, the whole space at one instant of $x_4$: a seven-dimensional space with the coordinates $x_0, x_1, x_2, x_3, x_5, x_6, x_7$. This 7-volume still mixes kinds of steps: four of its edges are lengths (along $x_0, x_1, x_2, x_3$) and three are durations (along the extra times $x_5, x_6, x_7$, which are time-like, Section 3.4), and its volume factor multiplies all seven proper sizes. Its volume factor is the product of the seven scale factors other than that of $x_4$, which is $\sqrt{|g_{44}|} = 1$; so it equals $\sqrt{|\det g|} = b_4^{3/2}\cos z$. It does not depend on $a_4$: **the proper 7-volume of a region with fixed coordinate ranges changes in time only through the factor $b_4^{3/2}$; for a constant $b_4$, in particular on the backgrounds of this book with $b_4 = 1$, it does not change at all** (PROVED; Notebook 03a, In [17]).
+**The volume of a slice of constant time.** The time $x_4$ is the time in which everything in this book evolves (it is the time shown by the clocks of observers at rest, Section 3.23). The natural volume is therefore that of a slice $x_4 = \mathrm{const}$, the whole space at one instant of $x_4$: a seven-dimensional space with the coordinates $x_0, x_1, x_2, x_3, x_5, x_6, x_7$. This 7-volume still mixes kinds of steps: four of its edges are lengths (along $x_0, x_1, x_2, x_3$) and three are durations (along the extra times $x_5, x_6, x_7$, which are time-like, Section 3.4), and its volume factor multiplies all seven proper sizes. Its volume factor is the product of the seven scale factors other than that of $x_4$, which is $\sqrt{|g_{44}|} = 1$; so it equals $\sqrt{|\det g|} = b_4^{3/2}\cos z$. It does not depend on $a_4$: **the proper 7-volume of a region with fixed coordinate ranges changes in time only through the factor $b_4^{3/2}$**; on the history of Section 3.8 it grows like $b_4^{3/2} = b_4(0)^{3/2}e^{2a_4}$ (PROVED; Notebook 03a, In [17] and In [18]).
 
 **Three partial volumes.** Take a box with the coordinate edges $\Delta x_1 = \Delta x_2 = \Delta x_3 = 1$ (small enough that $z$ hardly changes along it, or at one value of $z$). Its proper 3-volume in 3-space is
 
@@ -220,7 +220,7 @@ $$
 = \frac{\sin(\pi/2) - \sin 0}{6H} = \frac{1}{6H}
 $$
 
-(insert the two limits; $6H\cdot\pi/(12H) = \pi/2$). So the 7-volume is $b_4^{3/2}/(6H)$, which is $1/(6H)$ at $b_4 = 1$. PROVED; Notebook 03a computes the integral of $\cos(6Hx_0)$ with sympy (In [17]).
+(insert the two limits; $6H\cdot\pi/(12H) = \pi/2$). So the 7-volume is $b_4^{3/2}/(6H)$. PROVED; Notebook 03a computes the integral of $b_4^{3/2}\cos(6Hx_0)$ with sympy (In [17]).
 
 ### 3.7 Scale factors, the vielbein and the rates of expansion
 
@@ -261,7 +261,7 @@ $$
 \ln h_5 = \tfrac12\ln b_4 - a_4 + \tfrac16 \ln\sin z \quad\Rightarrow\quad \partial_4 \ln h_5 = -a_4' + \frac{b_4'}{2b_4} \equiv \alpha_t
 $$
 
-(the same rules, with $\ln b_4^{1/2} = \frac12\ln b_4$ and the derivative $b_4'/b_4$ of $\ln b_4$). We call $\alpha_t$ the **expansion rate of the extra times**. $h_0 = \cot z$ and $h_4 = 1$ do not depend on $x_4$, so their rates are $0$. When $a_4' > 0$ and $b_4$ is constant, $\alpha_t = -a_4'$: **3-space expands at the rate $a_4'$ and the three extra times shrink at the same rate**. The six **transverse** scale factors (those of $x_1, x_2, x_3, x_5, x_6, x_7$) multiply to
+(the same rules, with $\ln b_4^{1/2} = \frac12\ln b_4$ and the derivative $b_4'/b_4$ of $\ln b_4$). We call $\alpha_t$ the **expansion rate of the extra times**. $h_0 = \cot z$ and $h_4 = 1$ do not depend on $x_4$, so their rates are $0$. On the history of Section 3.8, $b_4'/b_4 = \frac43 a_4'$ and so $\alpha_t = -a_4' + \frac23 a_4' = -\frac13 a_4'$: **3-space expands at the rate $a_4'$ and the three extra times shrink at one third of that rate**. The six **transverse** scale factors (those of $x_1, x_2, x_3, x_5, x_6, x_7$) multiply to
 
 $$
 h_1 h_2 h_3 h_5 h_6 h_7 = e^{3a_4}\sin^{1/2}z\cdot b_4^{3/2}e^{-3a_4}\sin^{1/2}z = b_4^{3/2}\sin z ,
@@ -271,15 +271,15 @@ without $a_4$. All of this is PROVED and is checked exactly by Notebook 03a (In 
 
 ### 3.8 The deflating history: a prescribed background
 
-The metric does not fix the functions $a_4(x_4)$ and $b_4(x_4)$. The field equations of gravity relate them to the energy and the pressures of the matter in the spacetime; Chapter 12 derives them. With the author's own weights of the field equations every vacuum solution has a constant $b_4$ (record `Revision/metric_b4/results/vacuum-b4.json`), and a constant $b_4$ is removed by the rescaling $x_5, x_6, x_7 \to b_4^{1/2}x_5, b_4^{1/2}x_6, b_4^{1/2}x_7$ of the extra times: it gives back the metric with $b_4 = 1$. Every Revision calculation that needs a background history therefore keeps $b_4 = 1$ and says so (`Revision/SPEC.md`, section 1). For pictures and numbers this chapter does the same and uses the simplest member of the family, the **linear history**
+The metric does not fix the functions $a_4(x_4)$ and $b_4(x_4)$. The field equations of gravity relate them to the energy and the pressures of the matter in the spacetime; Chapter 12 derives them. With the author's own weights of the field equations every vacuum solution has a constant $b_4$ (record `Revision/metric_b4/results/vacuum-b4.json`), and a constant $b_4$ is removed by the rescaling $x_5, x_6, x_7 \to b_4^{1/2}x_5, b_4^{1/2}x_6, b_4^{1/2}x_7$ of the extra times: it gives back the withdrawn metric with $b_4 = 1$. So the history of this book is not a vacuum solution, and its $b_4$ is not constant. For a source without an $x_4$-$x_0$ component the mixed $x_4$-$x_0$ field equation with the author's weights allows, on $a_4 = Hx_4$, exactly the two exponents $d\ln b_4/da_4 = 0$ and $4/3$ (record `Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyBetaSource`, citing `Revision/field_equations_a4/a4-equations.json`, `exponentialHistory.authorWeights.branch`); the exponent $0$ is a constant $b_4$. Every Revision calculation that needs a background history therefore uses the exponent $\beta = 4/3$ (`Revision/SPEC.md`, section 1). For pictures and numbers this chapter does the same, with the **exponential history**
 
 $$
-a_4 = AHx_4, \qquad a_4' = AH, \qquad a_4'' = 0, \qquad b_4 = 1,
+a_4 = AHx_4, \quad a_4' = AH, \quad a_4'' = 0, \qquad b_4 = b_4(0)\,e^{\beta AHx_4}, \quad \frac{b_4'}{b_4} = \beta AH, \qquad \beta = \frac43 ,
 $$
 
-with a constant **slope** $A$. With $A > 0$ the function $a_4$ increases, 3-space inflates like $e^{AHx_4}$ and the extra times deflate like $e^{-AHx_4}$: exponential deflation, as the author requires. The Revision Kohn-Sham work uses $A = 1$ and $H = 1$, and computes its states on five **slices** $a_4 = 0, 0.5, 1, 1.5, 2$ (record `Revision/kohn_sham/results/parameters.json`, keys `physics.H`, `physics.historyA`, `physics.slicesA4`; Notebook 03a, In [13]). Between the first and the last slice, 3-space lengths grow by the factor $e^2 = 7.389056$ and extra-time durations shrink by the factor $e^{-2} = 0.135335$ (Notebook 03a, In [14]); the product of the two factors stays $1$.
+with a constant **slope** $A$. The constant $b_4(0) > 0$ is the value of $b_4$ at $x_4 = 0$; the rescaling above removes it, so it serves as the **unit** of $b_4$ (the notebooks write $b_4 = e^{\beta a_4}$ in this unit). With $A > 0$ the function $a_4$ increases, 3-space inflates like $e^{AHx_4}$, and the extra times have the scale factor $b_4^{1/2}e^{-a_4}\sin^{1/6}z \propto e^{(\beta/2 - 1)AHx_4} = e^{-AHx_4/3}$: they deflate exponentially, as the author requires, at one third of the rate at which 3-space inflates (their rate is $\alpha_t = -a_4' + b_4'/(2b_4) = -AH/3$, Section 3.7). The Revision Kohn-Sham work uses $A = 1$ and $H = 1$, and computes its states on five **slices** $a_4 = 0, 0.5, 1, 1.5, 2$ (record `Revision/kohn_sham/results/parameters.json`, keys `physics.H`, `physics.historyA`, `physics.historyBeta`, `physics.slicesA4`; Notebook 03a, In [13]). Between the first and the last slice, 3-space lengths grow by the factor $e^2 = 7.389056$ and extra-time durations shrink by the factor $e^{-2/3} = 0.513417$ (Notebook 03a, In [14]); the product of the two factors grows like $e^{2a_4/3}$, to $e^{4/3}$ at the last slice.
 
-**Status: ASSUMED.** The history is not a solution of the coupled field equations. The Revision record says so in its own words (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyStatus`): "PRESCRIBED BACKGROUND: the history a4 = A H x4 is prescribed, not solved for." The reason, also stated there: the field equations of $a_4$ allow this linear member only for a source with equal pressures in all directions and a constant energy density, and the Kohn-Sham states computed along it do not have these properties (record `Revision/field_equations_a4/reports/ks-source-conditions.json`). Every formula of this chapter written with general $a_4(x_4)$ and $b_4(x_4)$ is exact; only the pictures and the numbers along the history use the assumption. The pictures and numbers of this chapter use only slopes $A > 0$, for which the extra times deflate, as the author requires; a slope $A = 0$ would freeze the extra times and a slope $A < 0$ would make them inflate and 3-space deflate.
+**Status: ASSUMED.** The history is not a solution of the coupled field equations. The Revision record says so in its own words (`Revision/kohn_sham/ks-theory.json`, key `adiabaticity.historyStatus`): "PRESCRIBED BACKGROUND: the history a4 = H x4, b4 = b4(0) e^{(4/3) H x4} is prescribed, not solved for." The reason, also stated there: with the author's weights the field equations of $a_4$ and $b_4$ allow this history only with the constant source $\kappa(\rho, p_3, p_t, p_0) = (-2/27, -2/9, -22/27, -14/27)$ at $H = 1$ (record `Revision/field_equations_a4/a4-equations.json`, key `exponentialHistory.authorWeights.historySource`), and the Kohn-Sham states computed along it do not supply this source: they depend on $x_0$ and change from slice to slice (record `Revision/field_equations_a4/reports/ks-source-conditions.json`). Every formula of this chapter written with general $a_4(x_4)$ and $b_4(x_4)$ is exact; only the pictures and the numbers along the history use the assumption. The pictures and numbers of this chapter use only slopes $A > 0$, for which the extra times deflate, as the author requires; a slope $A = 0$ would freeze both $a_4$ and $b_4$ (the withdrawn metric), and a slope $A < 0$ would make the extra times inflate and 3-space deflate.
 
 ### 3.9 The hidden coordinate y and the warped form of the metric
 
@@ -321,11 +321,11 @@ $$
 ds^2 = dy^2 - dx_4^2 + W^2\Bigl[e^{2a_4}\bigl(dx_1^2 + dx_2^2 + dx_3^2\bigr) - b_4e^{-2a_4}\bigl(dx_5^2 + dx_6^2 + dx_7^2\bigr)\Bigr], \qquad W = e^{Hy} .
 $$
 
-At $b_4 = 1$ this is exactly the line element of the record (`Revision/kohn_sham/ks-theory.json`, keys `geometry.lineElement` and `geometry.warp`), which is written for the Kohn-Sham background with $b_4 = 1$; Notebook 03a checks the form with $b_4$ entry by entry with sympy (In [19]). PROVED.
+This is exactly the line element of the record (`Revision/kohn_sham/ks-theory.json`, keys `geometry.lineElement` and `geometry.warp`), with the factor $b_4(x_4)$ in its extra-time part; Notebook 03a checks the form entry by entry with sympy (In [19]). PROVED.
 
 **The range of $y$.** As $z$ runs from $0$ to $\pi/2$, $\sin z$ runs from $0$ to $1$ and $\ln\sin z$ from $-\infty$ to $0$. So $y$ runs from $-\infty$ (the tip) to $0$ (the patch end). The tip lies at an infinite proper distance from every point of the patch (PROVED; Notebook 03a, In [19]). At the patch end $y = 0$ nothing goes wrong in the warped form: the coefficient of $dy^2$ is $1$. The failure of $g_{00}$ there was a failure of the coordinate $x_0$, not of the geometry.
 
-**The volume factor in $y$.** In the coordinates $(y, x_1, \dots, x_7)$ the scale factor of the hidden direction is $1$, so the volume factor is the product of the six transverse scale factors, $b_4^{3/2}W^6 = b_4^{3/2}e^{6Hy} = b_4^{3/2}\sin z$; at $b_4 = 1$ it is $e^{6Hy} = \sin z$ (record key `geometry.sqrtDetG`: "e^{6Hy} (= cos z in the author's chart x0..x7)"). The two volume factors $b_4^{3/2}\sin z$ (in $y$) and $b_4^{3/2}\cos z$ (in $x_0$) describe the same volume, because $\cos z\,dx_0 = \cos z\,\tan z\,dy = \sin z\,dy$ (from $dx_0 = dy/\cot z = \tan z\,dy$).
+**The volume factor in $y$.** In the coordinates $(y, x_1, \dots, x_7)$ the scale factor of the hidden direction is $1$, so the volume factor is the product of the six transverse scale factors, $b_4^{3/2}W^6 = b_4^{3/2}e^{6Hy} = b_4^{3/2}\sin z$ (record key `geometry.sqrtDetG`: "b4^{3/2} e^{6Hy} (= b4^{3/2} cos z in the author's chart x0..x7)"). The two volume factors $b_4^{3/2}\sin z$ (in $y$) and $b_4^{3/2}\cos z$ (in $x_0$) describe the same volume, because $\cos z\,dx_0 = \cos z\,\tan z\,dy = \sin z\,dy$ (from $dx_0 = dy/\cot z = \tan z\,dy$).
 
 **The tip cut-off.** The Revision Kohn-Sham solver keeps only $-L \le y \le 0$ with $L = 3/H$ (record key `physics.L_tipCutoff`). The fraction of the 7-volume that it leaves out is (the factor $b_4^{3/2}$ does not depend on $y$ and cancels in the ratio)
 
@@ -337,7 +337,7 @@ $$
 
 ### 3.10 Example: the author's metric, read and checked
 
-Notebook 03a puts Sections 3.2 to 3.9 to work. It reads the metric exactly as the author typed it from the record `curvature.json` and turns the text into an exact sympy matrix; checks it against a second, hand-typed copy and against the record's diagonal entries; computes the determinant and the volume factor; checks the signature on a grid; builds the vielbein and the expansion rates; reads the history of the Revision Kohn-Sham work ($b_4 = 1$) and draws the scale factors along it; computes the proper volumes; and checks the hidden coordinate $y$, the warped form and the volume factor in $y$ against the record `ks-theory.json`. It needs no Rust, runs in about 15 seconds and ends with the line ALL 29 CHECKS PASSED (notebook 03a).
+Notebook 03a puts Sections 3.2 to 3.9 to work. It reads the metric exactly as the author typed it from the record `curvature.json` and turns the text into an exact sympy matrix; checks it against a second, hand-typed copy and against the record's diagonal entries; computes the determinant and the volume factor; checks the signature on a grid; builds the vielbein and the expansion rates; reads the history of the Revision Kohn-Sham work ($a_4 = AHx_4$ with $b_4 = b_4(0)\,e^{4AHx_4/3}$) and draws the scale factors along it; computes the proper volumes; and checks the hidden coordinate $y$, the warped form and the volume factor in $y$ against the record `ks-theory.json`. It needs no Rust, runs in about 15 seconds and ends with the line ALL 29 CHECKS PASSED (notebook 03a).
 
 <!-- NOTEBOOK 03a -->
 
@@ -587,7 +587,7 @@ for line in author_text.replace("},", "},\n").split("\n"):  # one row per line
 say("The note of the record: " + note)
 ```
 
-The first line names the record file. The second reads the file as text (`read_text`) and turns the JSON text into a Python dictionary (`json.loads`). `record["metricAsGiven"]` is the author's text of the metric followed by a note in brackets. `split("}} ", 1)` cuts this text once, at the first `}}` followed by a blank: `author_text` gets the matrix (without its two closing braces, which the split removed and `+= "}}"` puts back) and `note` the note. The matrix is 359 characters long, as the output shows. The loop prints it with one row of the matrix per line: `replace("},", "},\n")` puts a line break (`\n`) after every row and `split("\n")` cuts the text at the breaks. The output is the matrix of Section 3.5, in the author's order $x_0, x_1, \dots, x_7$, with the two functions `a4[x4]` and `b4[x4]`; the last line prints the note, which says that $b_4 = 1$ gives the metric used before 2026-10-14.
+The first line names the record file. The second reads the file as text (`read_text`) and turns the JSON text into a Python dictionary (`json.loads`). `record["metricAsGiven"]` is the author's text of the metric followed by a note in brackets. `split("}} ", 1)` cuts this text once, at the first `}}` followed by a blank: `author_text` gets the matrix (without its two closing braces, which the split removed and `+= "}}"` puts back) and `note` the note. The matrix is 359 characters long, as the output shows. The loop prints it with one row of the matrix per line: `replace("},", "},\n")` puts a line break (`\n`) after every row and `split("\n")` cuts the text at the breaks. The output is the matrix of Section 3.5, in the author's order $x_0, x_1, \dots, x_7$, with the two functions `a4[x4]` and `b4[x4]`; the last line prints the note, which says that $b_4 = 1$ gives the metric used before 2026-10-14 (now withdrawn).
 
 **In [4], the symbols.**
 
@@ -721,40 +721,41 @@ check(sp.simplify(from_mathematica(record["sqrtAbsDetG"]) - volume_factor) == 0,
 The record writes the volume factor as `Sin[6*H*x0]*Cot[6*H*x0]*b4[x4]^(3/2)`; translated and simplified, it equals $b_4^{3/2}\cos z$ (`sp.Rational(3, 2)` is the exact power $3/2$; sympy may take the square root of $b_4^3$ because `b4` is declared positive).
 
 ```python
-# numbers: sqrt(|det g|) at 7 points of the patch with b4 = 1, compared with cos z
+# numbers: sqrt(|det g|) at 7 points of the patch with b4 = 2, against 2^(3/2) cos z
 z_points = np.linspace(0.1, 1.5, 7)
-det_numbers = np.array([float(det_g.subs(b4, 1).subs({H: 1, x0: zp / 6}))
+det_numbers = np.array([float(det_g.subs(b4, 2).subs({H: 1, x0: zp / 6}))
                         for zp in z_points])
-check(np.max(np.abs(np.sqrt(np.abs(det_numbers)) - np.cos(z_points))) < 1e-14,
-      "at b4 = 1, sqrt|det g| equals cos z at 7 points of the patch")
+check(np.max(np.abs(np.sqrt(np.abs(det_numbers)) - 2 ** 1.5 * np.cos(z_points))) < 1e-13,
+      "at b4 = 2, sqrt|det g| equals 2^(3/2) cos z at 7 points of the patch")
 ```
 
-A numerical check of the same fact for $b_4 = 1$. `np.linspace(0.1, 1.5, 7)` gives seven equally spaced values of $z$ from $0.1$ to $1.5$. For each, the exact determinant is evaluated with $b_4 = 1$ (`subs(b4, 1)`), $H = 1$ and $x_0 = z/6$ (a dictionary in `subs` replaces several symbols at once) and turned into a floating-point number with `float`. The check requires $\sqrt{|\det g|}$ to differ from $\cos z$ by less than $10^{-14}$ at all seven points.
+A numerical check of the same fact for $b_4 = 2$ (any positive value would do; the value $1$ of the withdrawn metric is avoided on purpose). `np.linspace(0.1, 1.5, 7)` gives seven equally spaced values of $z$ from $0.1$ to $1.5$. For each, the exact determinant is evaluated with $b_4 = 2$ (`subs(b4, 2)`), $H = 1$ and $x_0 = z/6$ (a dictionary in `subs` replaces several symbols at once) and turned into a floating-point number with `float`. The check requires $\sqrt{|\det g|}$ to differ from $2^{3/2}\cos z$ (`2 ** 1.5`, the power $1.5$) by less than $10^{-13}$ at all seven points.
 
 **In [8], the signature** (Section 3.5).
 
 ```python
 ETA = np.array([1, 1, 1, 1, -1, -1, -1, -1])  # the flat metric diag(+,+,+,+,-,-,-,-)
+B4_POINT = float(np.exp(2.0 / 3.0))  # b4 on the history at a4 = 0.5, unit b4(0)
 # the entries as functions of z, a4v and b4v
 diagonal_z = [plain(g[k, k]) for k in range(8)]
 functions = [sp.lambdify((z, a4v, b4v), entry, "numpy") for entry in diagonal_z]
 ```
 
-`ETA` holds the eight signs of $\eta$, in the author's order: $+$ for $x_0, x_1, x_2, x_3$ and $-$ for $x_4, \dots, x_7$. `diagonal_z` holds the eight entries written with `z`, `a4v` and `b4v`. `sp.lambdify((z, a4v, b4v), entry, "numpy")` turns an exact expression into a fast numerical Python function of the three arguments that works on whole numpy arrays.
+`ETA` holds the eight signs of $\eta$, in the author's order: $+$ for $x_0, x_1, x_2, x_3$ and $-$ for $x_4, \dots, x_7$. `B4_POINT` is $e^{2/3} = 1.947734$, the value of $b_4$ on the history of Section 3.8 at $a_4 = 0.5$ ($b_4 = e^{4a_4/3}$ with $A = 1$, in the unit $b_4(0)$); `float(...)` turns the numpy number into an ordinary Python number. `diagonal_z` holds the eight entries written with `z`, `a4v` and `b4v`. `sp.lambdify((z, a4v, b4v), entry, "numpy")` turns an exact expression into a fast numerical Python function of the three arguments that works on whole numpy arrays.
 
 ```python
-def diagonal_values(z_values, a4_value, b4_value=1.0):
+def diagonal_values(z_values, a4_value, b4_value=B4_POINT):
     """The 8 diagonal entries at the points z_values (one row per entry)."""
     return np.array([np.broadcast_to(f(z_values, a4_value, b4_value), z_values.shape)
                      for f in functions], dtype=float)
 ```
 
-`diagonal_values` evaluates the eight functions at an array of values of $z$ for one value of $a_4$ and one of $b_4$ (`b4_value=1.0` is a **default value**: a call that leaves out the third argument gets $b_4 = 1$) and returns a table with eight rows, row $k$ for $g_{kk}$. The entry $-1$ does not depend on $z$, so its function returns one number; `np.broadcast_to` repeats it so that every row has the same length as `z_values`.
+`diagonal_values` evaluates the eight functions at an array of values of $z$ for one value of $a_4$ and one of $b_4$ (`b4_value=B4_POINT` is a **default value**: a call that leaves out the third argument gets $b_4 = e^{2/3}$, the value at the slice $a_4 = 0.5$ that the pictures use) and returns a table with eight rows, row $k$ for $g_{kk}$. The entry $-1$ does not depend on $z$, so its function returns one number; `np.broadcast_to` repeats it so that every row has the same length as `z_values`.
 
 ```python
 z_grid = np.linspace(0.0, np.pi / 2, 402)[1:-1]  # 400 points strictly inside
 patterns = set()
-for b4_value in (0.5, 1.0, 2.0):
+for b4_value in (0.5, 2.0, 4.0):
     for a4_value in np.linspace(-3.0, 3.0, 13):
         # +1 or -1 for each entry
         signs = np.sign(diagonal_values(z_grid, a4_value, b4_value))
@@ -764,17 +765,17 @@ check(patterns == {tuple(int(s) for s in ETA)},
       "on the whole grid the signs are (+,+,+,+,-,-,-,-): signature (4,4)")
 ```
 
-`np.linspace(0.0, np.pi / 2, 402)` gives 402 points from $0$ to $\pi/2$; `[1:-1]` drops the first and the last, leaving 400 points strictly inside the patch. A `set` is a collection without repetitions. For three values of $b_4$ ($0.5$, $1$, $2$) and 13 values of $a_4$ from $-3$ to $3$, `np.sign` replaces each entry by its sign; `signs.T` is the table turned on its side, so that each `column` holds the eight signs at one point; `tuple(...)` turns them into a fixed sequence that a set can store. At the end the set holds every sign pattern met anywhere on the grid. It is printed (sorted) and must be the single pattern of $\eta$. (The grid includes negative values of $a_4$ only to test the sign argument of Section 3.5, which holds for every real $a_4$ and every $b_4 > 0$.)
+`np.linspace(0.0, np.pi / 2, 402)` gives 402 points from $0$ to $\pi/2$; `[1:-1]` drops the first and the last, leaving 400 points strictly inside the patch. A `set` is a collection without repetitions. For three values of $b_4$ ($0.5$, $2$, $4$) and 13 values of $a_4$ from $-3$ to $3$, `np.sign` replaces each entry by its sign; `signs.T` is the table turned on its side, so that each `column` holds the eight signs at one point; `tuple(...)` turns them into a fixed sequence that a set can store. At the end the set holds every sign pattern met anywhere on the grid. It is printed (sorted) and must be the single pattern of $\eta$. (The grid includes negative values of $a_4$ only to test the sign argument of Section 3.5, which holds for every real $a_4$ and every $b_4 > 0$.)
 
 ```python
 step_x1 = diagonal_values(np.array([0.7]), 0.5)[1, 0]  # g11: step along x1
 step_x5 = diagonal_values(np.array([0.7]), 0.5)[5, 0]  # g55: step along x5
-say(f"at z = 0.7, a4 = 0.5, b4 = 1: g11 = {step_x1:.6f} (space-like), "
+say(f"at z = 0.7, a4 = 0.5, b4 = e^(2/3): g11 = {step_x1:.6f} (space-like), "
     f"g55 = {step_x5:.6f} (time-like)")
 check(step_x1 > 0 > step_x5, "a step along x1 is space-like, along x5 time-like")
 ```
 
-At the single point $z = 0.7$, $a_4 = 0.5$, $b_4 = 1$ (the default): row 1 is $g_{11}$ and row 5 is $g_{55}$; the second index `0` picks the only column. The format `:.6f` prints six digits after the decimal point: $g_{11} = 2.347679$ and $g_{55} = -0.317724$. A unit step along $x_1$ has the squared length $g_{11} > 0$ (space-like), along $x_5$ the squared length $g_{55} < 0$ (time-like). Python reads `step_x1 > 0 > step_x5` as both comparisons at once.
+At the single point $z = 0.7$, $a_4 = 0.5$, $b_4 = e^{2/3}$ (the default): row 1 is $g_{11}$ and row 5 is $g_{55}$; the second index `0` picks the only column. The format `:.6f` prints six digits after the decimal point: $g_{11} = 2.347679$ and $g_{55} = -0.618841$ (the output breaks the long line after "time-"). A unit step along $x_1$ has the squared length $g_{11} > 0$ (space-like), along $x_5$ the squared length $g_{55} < 0$ (time-like). Python reads `step_x1 > 0 > step_x5` as both comparisons at once.
 
 **In [9], the colours and the heat map of the metric.**
 
@@ -808,7 +809,7 @@ for i in range(8):
 ax.set_xticks(range(8), LABELS)
 ax.set_yticks(range(8), LABELS)
 ax.grid(False)  # no grid lines across the squares
-ax.set_title("The metric $g_{\\mu\\nu}$ at $z = \\pi/4$, $a_4 = 0.5$, $b_4 = 1$")
+ax.set_title("The metric $g_{\\mu\\nu}$ at $z = \\pi/4$, $a_4 = 0.5$, $b_4 = e^{2/3}$")
 fig.colorbar(image, ax=ax, label="value of the entry (no unit)")
 ```
 
@@ -817,23 +818,26 @@ The double loop writes the value into each square: three decimals on the diagona
 ```python
 save_figure(fig, "metric_heat_map",
             "The author's metric $g_{\\mu\\nu}$ at the point $z = 6Hx_0 = \\pi/4$ "
-            "with $a_4 = 0.5$ and $b_4 = 1$, drawn as a heat map: row $\\mu$ and "
+            "with $a_4 = 0.5$ and $b_4 = e^{2/3}$ (the deflating history at "
+            "$a_4 = 0.5$, unit $b_4(0)$), drawn as a heat map: row $\\mu$ and "
             "column $\\nu$ run "
             "over the coordinates $x_0$ to $x_7$, red squares are positive entries, "
 ...
-check(abs(values[1, 1] - np.e * np.sin(np.pi / 4) ** (1 / 3)) < 1e-12,
-      "g11 at z = pi/4, a4 = 0.5 equals e times (sin pi/4)^(1/3)")
+check(abs(values[1, 1] - np.e * np.sin(np.pi / 4) ** (1 / 3)) < 1e-12
+      and abs(values[5, 5] + np.exp(-1.0 / 3.0) * np.sin(np.pi / 4) ** (1 / 3)) < 1e-12,
+      "at z = pi/4, a4 = 0.5, b4 = e^(2/3): g11 = e (sin pi/4)^(1/3) and "
+      "g55 = -e^(-1/3) (sin pi/4)^(1/3)")
 ```
 
-`save_figure` saves and shows the figure with its caption (printed in full under Figure 03a.1). The check compares the entry `values[1, 1]`, which is $g_{11}$, with $e^{2 \cdot 0.5}(\sin\pi/4)^{1/3} = e\,(\sin\pi/4)^{1/3}$.
+`save_figure` saves and shows the figure with its caption (printed in full under Figure 03a.1). The check compares the entry `values[1, 1]`, which is $g_{11}$, with $e^{2 \cdot 0.5}(\sin\pi/4)^{1/3} = e\,(\sin\pi/4)^{1/3}$, and the entry `values[5, 5]`, which is $g_{55}$, with $-e^{2/3}e^{-2 \cdot 0.5}(\sin\pi/4)^{1/3} = -e^{-1/3}(\sin\pi/4)^{1/3}$ (`np.exp(-1.0 / 3.0)` is $e^{-1/3}$; the check adds the expected value to the entry, so the sum must be $0$).
 
-**What Figure 03a.1 shows.** An $8 \times 8$ table of coloured squares at $b_4 = 1$: only the diagonal is coloured. In the author's order, the top-left square is the hidden one, $\cot^2(\pi/4) = 1$; then come the three red squares of 3-space with $2.422$, the time square $-1$, and the three pale blue squares of the extra times with $-0.328$. Four positive and four negative entries: the signature (4,4) at a glance. The 3-space entries are larger than the extra-time entries by the factor $e^{4a_4} = e^2$, because $a_4 = 0.5 > 0$ has already inflated 3-space and deflated the extra times.
+**What Figure 03a.1 shows.** An $8 \times 8$ table of coloured squares at $b_4 = e^{2/3}$: only the diagonal is coloured. In the author's order, the top-left square is the hidden one, $\cot^2(\pi/4) = 1$; then come the three red squares of 3-space with $2.422$, the time square $-1$, and the three pale blue squares of the extra times with $-0.638$. Four positive and four negative entries: the signature (4,4) at a glance. The 3-space entries are larger than the extra-time entries by the factor $e^{4a_4}/b_4 = e^{2 - 2/3} = e^{4/3} = 3.79$, because $a_4 = 0.5 > 0$ has already inflated 3-space and deflated the extra times (the factor $b_4 = e^{2/3}$ undoes one third of the deflation).
 
 **In [10], the diagonal entries across the patch.**
 
 ```python
 z_line = np.linspace(0.02, np.pi / 2, 600)
-entries = diagonal_values(z_line, 0.5)  # at b4 = 1
+entries = diagonal_values(z_line, 0.5)  # at b4 = e^(2/3), the history at a4 = 0.5
 fig, ax = plt.subplots()
 ax.plot(z_line, entries[0], color=AQUA, lw=1.8, label="$g_{00} = \\cot^2 z$")
 ax.plot(z_line, entries[1], color=RED, lw=1.8,
@@ -842,10 +846,10 @@ ax.plot(z_line, entries[4], color=VIOLET, lw=1.8, ls="-.", label="$g_{44} = -1$"
 ax.plot(z_line, entries[5], color=BLUE, lw=1.8, ls="--",
         label="$g_{55} = g_{66} = g_{77} = -b_4 e^{-2a_4}\\sin^{1/3}z$")
 ax.plot(z_line, np.cos(z_line) ** 2, color="black", lw=1.2, ls=":",
-        label="$\\det g = \\cos^2 z$")
+        label="$\\det g / b_4^3 = \\cos^2 z$")
 ```
 
-600 values of $z$ from $0.02$ to $\pi/2$ and the eight entries at $a_4 = 0.5$ and $b_4 = 1$ (the default of `diagonal_values`). `ax.plot(x, y, ...)` draws a curve; `lw` is the line width, `ls` the line style (a dash and a dot mean dash-dotted, two dashes mean dashed, a colon means dotted) and `label` its text in the legend. Equal entries are drawn once: row 0 for the hidden direction, row 1 for 3-space, row 4 for the time, row 5 for the extra times; the black dotted curve is $\det g = \cos^2 z$, the determinant at $b_4 = 1$.
+600 values of $z$ from $0.02$ to $\pi/2$ and the eight entries at $a_4 = 0.5$ and $b_4 = e^{2/3}$ (the default of `diagonal_values`). `ax.plot(x, y, ...)` draws a curve; `lw` is the line width, `ls` the line style (a dash and a dot mean dash-dotted, two dashes mean dashed, a colon means dotted) and `label` its text in the legend. Equal entries are drawn once: row 0 for the hidden direction, row 1 for 3-space, row 4 for the time, row 5 for the extra times; the black dotted curve is $\cos^2 z = \det g/b_4^3$, the determinant without its constant factor $b_4^3$ (Section 3.6).
 
 ```python
 ax.axhline(0.0, color="black", lw=0.8)
@@ -855,7 +859,7 @@ ax.text(0.05, 3.3, "towards the tip", fontsize=9)
 ax.set_ylim(-3.4, 3.6)  # room below the curves for the legend
 ax.set_xlabel("$z = 6 H x_0$ (radians)")
 ax.set_ylabel("entry of the metric (no unit)")
-ax.set_title("The diagonal entries across the patch ($a_4 = 0.5$, $b_4 = 1$)")
+ax.set_title("The diagonal entries across the patch ($a_4 = 0.5$, $b_4 = e^{2/3}$)")
 ax.legend(fontsize=8, loc="lower center", ncol=2)
 ```
 
@@ -871,7 +875,7 @@ check(np.all(entries[0] > 0) and np.cos(np.pi / 2) ** 2 < 1e-30,
 
 The figure is saved with its caption. The check: $g_{00} > 0$ at all 600 points, and $\cos^2(\pi/2)$ is zero up to rounding (the computer's $\cos(\pi/2)$ is about $6 \times 10^{-17}$, whose square is below $10^{-30}$).
 
-**What Figure 03a.2 shows.** The red 3-space curve stays above zero and the blue extra-time curve and the violet time line stay below it across the whole patch: the signature never changes. The aqua curve $\cot^2 z$ rises steeply towards the tip and reaches $0$ at the patch end, where the black dotted determinant $\cos^2 z$ also reaches $0$: there the coordinate $x_0$ fails (Section 3.9). The 3-space entry falls towards the tip because the warp $\sin^{1/3}z$ goes to $0$ there.
+**What Figure 03a.2 shows.** The red 3-space curve stays above zero and the blue extra-time curve and the violet time line stay below it across the whole patch: the signature never changes. The aqua curve $\cot^2 z$ rises steeply towards the tip and reaches $0$ at the patch end, where the black dotted $\det g/b_4^3 = \cos^2 z$ also reaches $0$: there the coordinate $x_0$ fails (Section 3.9). The 3-space entry falls towards the tip because the warp $\sin^{1/3}z$ goes to $0$ there.
 
 **In [11], the vielbein** (Section 3.7).
 
@@ -910,7 +914,7 @@ check([sp.simplify(r - e) == 0 for r, e in zip(rates, expected)] == [True] * 8,
       "-a4p + b4p/(2 b4)")
 ```
 
-`sp.diff(sp.log(h[k]), x4)` is $\partial_4 \ln h_k$, the rate of Section 3.7. The output prints `0` for $x_0$ and $x_4$, `a4p` for 3-space and `-a4p + b4p/(2*b4v)` for the extra times: the rate $\alpha_t = -a_4' + b_4'/(2b_4)$. `zip` pairs each rate with the expected one in the list `expected` (in the order $x_0, \dots, x_7$: $0$, three times $a_4'$, $0$, three times $\alpha_t$), and the check requires all eight differences to vanish. For a constant $b_4$ the extra-time rate is $-a_4'$.
+`sp.diff(sp.log(h[k]), x4)` is $\partial_4 \ln h_k$, the rate of Section 3.7. The output prints `0` for $x_0$ and $x_4$, `a4p` for 3-space and `-a4p + b4p/(2*b4v)` for the extra times: the rate $\alpha_t = -a_4' + b_4'/(2b_4)$. `zip` pairs each rate with the expected one in the list `expected` (in the order $x_0, \dots, x_7$: $0$, three times $a_4'$, $0$, three times $\alpha_t$), and the check requires all eight differences to vanish. On the history of Section 3.8 ($b_4' = \frac43 a_4' b_4$) the extra-time rate is $-a_4'/3$.
 
 ```python
 transverse = sp.simplify(h[1] * h[2] * h[3] * h[5] * h[6] * h[7])
@@ -928,14 +932,18 @@ PARAMETERS = "Revision/kohn_sham/results/parameters.json"
 parameters = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))
 physics = parameters["physics"]
 H_value, A_value = physics["H"], physics["historyA"]
+beta = physics["historyBeta"]  # b4 = b4(0) e^(beta A H x4)
 slices = physics["slicesA4"]  # the values of a4 at which the solver works
 L_tip = physics["L_tipCutoff"]  # the tip cut-off, in units of 1/H
-say(f"H = {H_value}, A = {A_value}, slices a4 = {slices}, tip cut-off L = {L_tip}")
-check(H_value == 1.0 and A_value == 1.0 and slices == [0.0, 0.5, 1.0, 1.5, 2.0],
-      "the history of the record is a4 = x4 (A = 1, H = 1) with slices 0 to 2")
+say(f"H = {H_value}, A = {A_value}, beta = {beta:.6f}, slices a4 = {slices}, "
+    f"tip cut-off L = {L_tip}")
+check(H_value == 1.0 and A_value == 1.0 and abs(beta - 4.0 / 3.0) < 1e-15
+      and slices == [0.0, 0.5, 1.0, 1.5, 2.0],
+      "the history of the record is a4 = x4, b4 = b4(0) e^(4 x4/3) (A = 1, H = 1, "
+      "beta = 4/3) with slices 0 to 2")
 ```
 
-The record of the Revision Kohn-Sham solver is read, and from its part `physics` the constant $H$, the slope $A$, the five slices and the tip cut-off $L$. A line `a, b = c, d` gives two names at once. The output prints $H = 1$, $A = 1$, the slices $0, 0.5, 1, 1.5, 2$ and $L = 3$, and the check confirms them.
+The record of the Revision Kohn-Sham solver is read, and from its part `physics` the constant $H$, the slope $A$, the exponent $\beta$ of $b_4$, the five slices and the tip cut-off $L$. A line `a, b = c, d` gives two names at once. The output prints $H = 1$, $A = 1$, $\beta = 1.333333$ (the format `:.6f` shows six digits of $4/3$), the slices $0, 0.5, 1, 1.5, 2$ and $L = 3$, and the check confirms them; `abs(beta - 4.0 / 3.0) < 1e-15` compares the stored number with $4/3$ up to the rounding of the last digit.
 
 ```python
 KS_THEORY = "Revision/kohn_sham/ks-theory.json"
@@ -957,27 +965,28 @@ The theory record of the Kohn-Sham work is read and its statement about the stat
 x4_line = np.linspace(0.0, 2.5, 251)
 a4_line = A_value * H_value * x4_line  # the history a4 = A H x4
 slice_x4 = np.array(slices) / (A_value * H_value)  # the times of the slices
+rate_t = 1.0 - beta / 2.0  # the extra times scale like e^(-(1 - beta/2) a4)
 fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.2))
 ```
 
-251 times from $0$ to $2.5$ (in units of $1/H$), the history $a_4 = AHx_4$ at those times (with $b_4 = 1$, so that the extra-time scale factor relative to $x_4 = 0$ is $e^{-a_4}$), and the times $x_4 = a_4/(AH)$ of the five slices. `plt.subplots(1, 2, ...)` makes a figure with two drawing areas side by side, `axes[0]` and `axes[1]`.
+251 times from $0$ to $2.5$ (in units of $1/H$), the history $a_4 = AHx_4$ at those times (with $b_4 = b_4(0)\,e^{\beta a_4}$, so that the extra-time scale factor relative to $x_4 = 0$ is $e^{-a_4}(b_4/b_4(0))^{1/2} = e^{-(1 - \beta/2)a_4}$), the times $x_4 = a_4/(AH)$ of the five slices, and `rate_t`, the number $1 - \beta/2 = 1/3$. `plt.subplots(1, 2, ...)` makes a figure with two drawing areas side by side, `axes[0]` and `axes[1]`.
 
 ```python
 for ax, scale in zip(axes, ["linear", "log"]):
     ax.plot(x4_line, np.exp(a4_line), color=RED, lw=1.8,
             label="3-space: $e^{a_4}$ (inflates)")
-    ax.plot(x4_line, np.exp(-a4_line), color=BLUE, lw=1.8, ls="--",
-            label="extra times: $e^{-a_4}$ (deflate)")
-    ax.plot(x4_line, np.exp(a4_line) * np.exp(-a4_line), color="black", lw=1.2,
-            ls=":", label="product $= 1$")
+    ax.plot(x4_line, np.exp(-rate_t * a4_line), color=BLUE, lw=1.8, ls="--",
+            label="extra times: $e^{-a_4}(b_4/b_4(0))^{1/2} = e^{-a_4/3}$ (deflate)")
+    ax.plot(x4_line, np.exp(a4_line) * np.exp(-rate_t * a4_line), color="black",
+            lw=1.2, ls=":", label="product $= e^{2a_4/3}$")
     ax.plot(slice_x4, np.exp(slices), "o", color=RED, ms=6)
-    ax.plot(slice_x4, np.exp(-np.array(slices)), "s", color=BLUE, ms=6)
+    ax.plot(slice_x4, np.exp(-rate_t * np.array(slices)), "s", color=BLUE, ms=6)
     ax.set_yscale(scale)
     ax.set_xlabel("time $x_4$ (unit $1/H$)")
     ax.set_ylabel("scale factor relative to $x_4 = 0$")
 ```
 
-The loop draws the same picture twice, once with an ordinary and once with a logarithmic vertical axis (`set_yscale`). In each: $e^{a_4}$ (red), $e^{-a_4}$ (blue dashed), their product (black dotted), and the five slices as dots (`"o"`) and squares (`"s"`) of size `ms=6`.
+The loop draws the same picture twice, once with an ordinary and once with a logarithmic vertical axis (`set_yscale`). In each: $e^{a_4}$ (red), $e^{-a_4/3}$ (blue dashed), their product $e^{2a_4/3}$ (black dotted), and the five slices as dots (`"o"`) and squares (`"s"`) of size `ms=6`.
 
 ```python
 axes[0].set_title("Ordinary vertical axis")
@@ -987,14 +996,15 @@ save_figure(fig, "history_scale_factors",
             "The time dependence of the scale factors along the deflating history "
 ...
 report("3-space growth factor at the last slice a4 = 2", f"{np.exp(2.0):.6f}")
-report("extra-time shrink factor at the last slice a4 = 2", f"{np.exp(-2.0):.6f}")
-check(abs(np.exp(slices[-1]) * np.exp(-slices[-1]) - 1.0) < 1e-15,
-      "at every slice the two factors multiply to 1")
+report("extra-time shrink factor at the last slice a4 = 2", f"{np.exp(-2.0 / 3.0):.6f}")
+product_last = np.exp(slices[-1]) * np.exp(-rate_t * slices[-1])
+check(abs(product_last - np.exp(2.0 * slices[-1] / 3.0)) < 1e-14 and rate_t > 0,
+      "the extra times deflate (rate 1/3 of a4') and the product grows like e^(2 a4/3)")
 ```
 
-Titles, legend, the saved figure, two RESULT lines ($e^2 = 7.389056$ and $e^{-2} = 0.135335$) and a check that the two factors multiply to $1$ at the last slice (and so, since $e^{a}e^{-a} = 1$ for every $a$, at every slice).
+Titles, legend, the saved figure, two RESULT lines ($e^2 = 7.389056$ and $e^{-2/3} = 0.513417$) and a check that at the last slice the two factors multiply to $e^{2a_4/3} = e^{4/3}$ and that `rate_t` is positive, so that the extra times deflate.
 
-**What Figure 03a.3 shows.** Along the history with $b_4 = 1$, on the ordinary axis (left) the red curve of 3-space bends upwards to $7.39$ at $x_4 = 2$ and the blue extra-time curve falls towards $0$; on the logarithmic axis (right) both are straight lines, rising and falling with slopes $+1$ and $-1$: that is what exponential growth and exponential deflation look like. The product stays exactly $1$. The dots and squares mark the five slices on which the Revision Kohn-Sham states are computed.
+**What Figure 03a.3 shows.** Along the history with $b_4 = b_4(0)\,e^{4x_4/3}$, on the ordinary axis (left) the red curve of 3-space bends upwards to $7.39$ at $x_4 = 2$ and the blue extra-time curve falls, more slowly, to $0.513$; on the logarithmic axis (right) both are straight lines, rising and falling with slopes $+1$ and $-1/3$: that is what exponential growth and exponential deflation look like. The product grows like $e^{2x_4/3}$, to $e^{4/3} = 3.79$ at the last slice. The dots and squares mark the five slices on which the Revision Kohn-Sham states are computed.
 
 **In [15], the functions of $z$.**
 
@@ -1045,16 +1055,16 @@ x4_grid, z_grid2 = np.meshgrid(np.linspace(0.0, 2.5, 251),
                                np.linspace(0.01, np.pi / 2, 200))
 a4_grid = A_value * H_value * x4_grid
 space_map = np.log10(np.exp(a4_grid) * np.sin(z_grid2) ** (1 / 6))
-extra_map = np.log10(np.exp(-a4_grid) * np.sin(z_grid2) ** (1 / 6))
+extra_map = np.log10(np.exp(-rate_t * a4_grid) * np.sin(z_grid2) ** (1 / 6))
 ```
 
-`np.meshgrid` makes two tables of the same shape (200 rows for $z$, 251 columns for $x_4$) that hold, at every grid point, its $x_4$ and its $z$. Along the history $a_4 = AHx_4$, $b_4 = 1$, the two maps hold the logarithm to base 10 of the scale factor of 3-space and of an extra time at every grid point.
+`np.meshgrid` makes two tables of the same shape (200 rows for $z$, 251 columns for $x_4$) that hold, at every grid point, its $x_4$ and its $z$. Along the history $a_4 = AHx_4$, $b_4 = b_4(0)\,e^{\beta a_4}$, the two maps hold the logarithm to base 10 of the scale factor of 3-space and of an extra time at every grid point; the extra-time factor $b_4^{1/2}e^{-a_4}\sin^{1/6}z$ is taken in the unit $b_4(0)^{1/2}$, where it is $e^{-a_4/3}\sin^{1/6}z$ (`rate_t` of In [14]).
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.2), sharey=True)
 for ax, data, title in zip(axes, [space_map, extra_map],
                            ["3-space: $e^{a_4}\\sin^{1/6}z$",
-                            "extra time: $e^{-a_4}\\sin^{1/6}z$"]):
+                            "extra time: $e^{-a_4}b_4^{1/2}\\sin^{1/6}z$"]):
     mesh = ax.pcolormesh(x4_grid, z_grid2, data, cmap=DIVERGING, vmin=-1.3,
                          vmax=1.3, shading="auto")
     ax.contour(x4_grid, z_grid2, data, levels=[0.0], colors="black",
@@ -1078,7 +1088,7 @@ check(np.all(np.diff(space_map, axis=1) > 0) and np.all(np.diff(extra_map, axis=
 
 `np.diff(..., axis=1)` is the difference between neighbouring columns, that is between successive times. The check: at every $z$, the 3-space map increases and the extra-time map decreases from each time to the next.
 
-**What Figure 03a.5 shows.** Left: from left to right the colour turns from grey to deeper and deeper red: 3-space grows at every height $z$. The black line is the factor $1$; left of it, near the tip, the small warp makes the factor smaller than $1$ although $a_4 > 0$. Right: the colour deepens to blue from left to right: the extra times shrink at every $z$ at the same rate, and their scale factor is smallest near the tip, where the small warp makes it smaller still.
+**What Figure 03a.5 shows.** Left: from left to right the colour turns from grey to deeper and deeper red: 3-space grows at every height $z$. The black line is the factor $1$; left of it, near the tip, the small warp makes the factor smaller than $1$ although $a_4 > 0$. Right: the colour deepens to blue from left to right: the extra times shrink at every $z$, at one third of the rate at which 3-space grows, and their scale factor is smallest near the tip, where the small warp makes it smaller still.
 
 **In [17], proper volumes** (Section 3.6).
 
@@ -1096,49 +1106,54 @@ check(sp.simplify(V7 - b4 ** sp.Rational(3, 2) * sp.cos(6 * H * x0)) == 0
 The three products of scale factors of Section 3.6. The output: `exp(3*a4v)*sqrt(sin(z))`, `b4v**(3/2)*exp(-3*a4v)*sqrt(sin(z))` and `b4v**(3/2)*cos(z)`. The check: the 7-volume density is $b_4^{3/2}\cos z$, and after division by $b_4^{3/2}$ its derivative with respect to $x_4$ is zero: the 7-volume changes with time only through $b_4$, never through $a_4$.
 
 ```python
-patch_volume = sp.integrate(sp.cos(6 * H * x0), (x0, 0, sp.pi / (12 * H)))
+patch_volume = sp.integrate(b4 ** sp.Rational(3, 2) * sp.cos(6 * H * x0),
+                            (x0, 0, sp.pi / (12 * H)))
 say(f"proper 7-volume of the patch per unit transverse coordinate volume = "
     f"{patch_volume}")
-check(sp.simplify(patch_volume - 1 / (6 * H)) == 0,
-      "the whole patch has the proper 7-volume 1/(6H) per unit coordinate volume")
+check(sp.simplify(patch_volume - b4 ** sp.Rational(3, 2) / (6 * H)) == 0,
+      "the whole patch has the proper 7-volume b4^(3/2)/(6H) per unit coordinate "
+      "volume")
 ```
 
-`sp.integrate(f, (x0, 0, upper))` is the exact definite integral of Section 3.6 of the density $\cos z$, the density at $b_4 = 1$; it prints `1/(6*H)`. For another value of $b_4$ the result is multiplied by $b_4^{3/2}$, which does not depend on $x_0$.
+`sp.integrate(f, (x0, 0, upper))` is the exact definite integral of Section 3.6 of the density $b_4^{3/2}\cos z$ over the patch. The factor $b_4^{3/2}$ does not depend on $x_0$; sympy takes it out of the integral and prints `b4(x4)**(3/2)/(6*H)`.
 
 **In [18], the volumes along the history.**
 
 ```python
 z_fixed = np.pi / 3
+b4_line = np.exp(beta * a4_line)  # b4 on the history, unit b4(0)
 v3 = np.exp(3 * a4_line) * np.sin(z_fixed) ** 0.5
-vt = np.exp(-3 * a4_line) * np.sin(z_fixed) ** 0.5
+vt = b4_line ** 1.5 * np.exp(-3 * a4_line) * np.sin(z_fixed) ** 0.5
 fig, ax = plt.subplots()
 ax.plot(x4_line, v3, color=RED, lw=1.8, label="$V_3 = e^{3a_4}\\sin^{1/2}z$")
 ax.plot(x4_line, vt, color=BLUE, lw=1.8, ls="--",
-        label="$V_t = e^{-3a_4}\\sin^{1/2}z$")
+        label="$V_t = b_4^{3/2}e^{-3a_4}\\sin^{1/2}z$")
 ax.plot(x4_line, v3 * vt, color=ORANGE, lw=1.8, ls="-.",
-        label="$V_3 V_t = \\sin z$")
-ax.plot(x4_line, np.full_like(x4_line, np.cos(z_fixed)), color="black", lw=1.2,
-        ls=":", label="7-volume density $\\cos z$")
+        label="$V_3 V_t = b_4^{3/2}\\sin z$")
+ax.plot(x4_line, b4_line ** 1.5 * np.cos(z_fixed), color="black", lw=1.2,
+        ls=":", label="7-volume density $b_4^{3/2}\\cos z$")
 ```
 
-At the fixed height $z = \pi/3$ ($\sin z = 0.866$, $\cos z = 0.5$) the numbers $V_3$ and $V_t$ along the history with $b_4 = 1$, their product, and the constant 7-volume density (`np.full_like` makes an array of the same length filled with one number).
+At the fixed height $z = \pi/3$ ($\sin z = 0.866$, $\cos z = 0.5$) the numbers $V_3$ and $V_t$ along the history with $b_4 = e^{\beta a_4}$ (`b4_line`, in the unit $b_4(0)$; `** 1.5` is the power $3/2$), their product, and the 7-volume density $b_4^{3/2}\cos z$.
 
 ```python
 ax.set_yscale("log")
-ax.set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, $b_4 = 1$")
+ax.set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, "
+              "$b_4 = b_4(0)e^{4x_4/3}$")
 ax.set_ylabel("proper volume per unit coordinate volume")
-ax.set_title("Proper volumes at $z = \\pi/3$")
+ax.set_title("Proper volumes at $z = \\pi/3$ (unit $b_4(0)^{3/2}$)")
 ax.legend(fontsize=8)
 save_figure(fig, "proper_volumes",
             "Proper volumes per unit coordinate volume at the fixed hidden position "
 ...
-check(np.max(np.abs(v3 * vt - np.sin(z_fixed))) < 1e-12,
-      "V3 times Vt stays equal to sin z along the history")
+check(np.max(np.abs(v3 * vt / (np.exp(2.0 * a4_line) * np.sin(z_fixed)) - 1.0)) < 1e-12,
+      "V3 times Vt equals b4^(3/2) sin z = e^(2 a4) sin z along the history "
+      "(unit b4(0)^(3/2))")
 ```
 
-A logarithmic vertical axis, labels, title, legend, the saved figure and the check that $V_3V_t = \sin z$ at all 251 times.
+A logarithmic vertical axis, labels, title, legend, the saved figure and the check that $V_3V_t = b_4^{3/2}\sin z$ at all 251 times; on the history $b_4^{3/2} = e^{\frac32\cdot\frac43 a_4} = e^{2a_4}$, and the check divides $V_3V_t$ by $e^{2a_4}\sin z$ and compares the ratio with $1$.
 
-**What Figure 03a.6 shows.** At $b_4 = 1$, on the logarithmic axis $V_3$ is a straight line rising with slope $3$ (it grows like $e^{3x_4}$) and $V_t$ a straight line falling with slope $-3$; their product and the 7-volume density are flat lines. The inflation of 3-space is exactly compensated by the deflation of the extra times.
+**What Figure 03a.6 shows.** Along the history with $b_4 = b_4(0)\,e^{4x_4/3}$, on the logarithmic axis $V_3$ is a straight line rising with slope $3$ (it grows like $e^{3x_4}$) and $V_t$ a straight line falling with slope $-1$ (it shrinks like $b_4^{3/2}e^{-3a_4} \propto e^{-x_4}$); their product and the 7-volume density are straight lines rising with slope $2$ (like $e^{2x_4}$). The factors $e^{\pm 3a_4}$ of 3-space and of the extra times compensate each other; what remains is the growth of $b_4^{3/2}$.
 
 **In [19], the hidden coordinate $y$ and the warped form** (Section 3.9).
 
@@ -1184,27 +1199,28 @@ warped = sp.diag(*([1] + [W ** 2 * sp.exp(2 * a4)] * 3 + [-1]
 for k in (0, 1, 4, 5):
     say(f"  in the coordinate y: g[{k}, {k}] = {plain(g_y[k, k])}")
 check((g_y - warped).applyfunc(sp.simplify) == sp.zeros(8, 8)
-      and geometry["warp"] == "W(y) = e^{Hy}",
-      "in the coordinate y the metric is the warped form with W = e^(H y)",
+      and geometry["warp"] == "W(y) = e^{Hy}"
+      and "b4(x4) (dx5^2+dx6^2+dx7^2)" in geometry["lineElement"],
+      "in the coordinate y the metric is the warped form with W = e^(H y), with b4 in "
+      "the extra-time part as in the record",
       record="Revision/kohn_sham/ks-theory.json, geometry.lineElement and "
              "geometry.warp")
 ```
 
-`warped` is the warped form of Section 3.9, with $W = e^{Hy}$: the record's line element, which is written for $b_4 = 1$, with the factor $b_4$ in the three extra-time entries. Four entries of the transformed metric are printed, $g_{00}$, $g_{11}$, $g_{44}$ and $g_{55}$: $1$, $e^{2a_4}e^{2Hy}$, $-1$ and $-b_4e^{-2a_4}e^{2Hy}$. The check requires the transformed metric to equal the warped form entry by entry, and (after `and`) the record's statement of the warp factor to be still exactly the text `W(y) = e^{Hy}`, so that a change of the record would be caught.
+`warped` is the warped form of Section 3.9, with $W = e^{Hy}$: the record's line element, with the factor $b_4$ in the three extra-time entries. Four entries of the transformed metric are printed, $g_{00}$, $g_{11}$, $g_{44}$ and $g_{55}$: $1$, $e^{2a_4}e^{2Hy}$, $-1$ and $-b_4e^{-2a_4}e^{2Hy}$. The check requires the transformed metric to equal the warped form entry by entry, and (after `and`) the record's statement of the warp factor to be still exactly the text `W(y) = e^{Hy}` and its line element to contain the text `b4(x4) (dx5^2+dx6^2+dx7^2)`, the factor $b_4$ of the extra times, so that a change of the record would be caught.
 
 ```python
 check(sp.simplify(g_y.det() - b4 ** 3 * sp.exp(12 * H * y)) == 0
-      and sp.simplify(g_y.det().subs(b4, 1) - sp.exp(12 * H * y)) == 0
-      and geometry["sqrtDetG"].startswith("e^{6Hy} (= cos z"),
-      "in the coordinate y, sqrt|det g| is b4^(3/2) e^(6 H y); at b4 = 1 it is "
-      "e^(6 H y) = sin z",
+      and geometry["sqrtDetG"].startswith("b4^{3/2} e^{6Hy} (= b4^{3/2} cos z"),
+      "in the coordinate y, sqrt|det g| is b4^(3/2) e^(6 H y) = b4^(3/2) sin z, as the "
+      "record states",
       record="Revision/kohn_sham/ks-theory.json, geometry.sqrtDetG")
 distance_to_end = -y_of_x0  # proper distance from the point to the patch end
 check(sp.limit(distance_to_end, x0, 0, "+") == sp.oo,
       "the tip z -> 0 lies at an infinite proper distance (y -> minus infinity)")
 ```
 
-The determinant in $y$ is $b_4^3e^{12Hy}$, so the volume factor is $b_4^{3/2}e^{6Hy}$; at $b_4 = 1$ (`subs(b4, 1)`) the determinant is $e^{12Hy}$, the case of the record, and the check also requires the record's statement of the volume factor to start with the text `e^{6Hy} (= cos z` (`startswith`). Since $y$ measures proper distance and the patch end is $y = 0$, the proper distance from a point to the patch end is $-y$; `sp.limit(f, x0, 0, "+")` is the limit as $x_0$ tends to $0$ from above, and `sp.oo` is infinity: the tip is infinitely far away.
+The determinant in $y$ is $b_4^3e^{12Hy}$, so the volume factor is $b_4^{3/2}e^{6Hy} = b_4^{3/2}\sin z$, and the check also requires the record's statement of the volume factor to start with the text `b4^{3/2} e^{6Hy} (= b4^{3/2} cos z` (`startswith`). Since $y$ measures proper distance and the patch end is $y = 0$, the proper distance from a point to the patch end is $-y$; `sp.limit(f, x0, 0, "+")` is the limit as $x_0$ tends to $0$ from above, and `sp.oo` is infinity: the tip is infinitely far away.
 
 **In [20], the tip cut-off and the coordinate $y$ in pictures.**
 
@@ -1245,7 +1261,7 @@ axes[1].plot(y_axis, np.exp(y_axis), color=RED, lw=1.8,
 axes[1].plot(y_axis, np.exp(2 * y_axis), color=ORANGE, lw=1.8, ls="-.",
              label="$W^2 = e^{2Hy} = \\sin^{1/3} z$")
 axes[1].plot(y_axis, np.exp(6 * y_axis), color=AQUA, lw=1.8, ls="--",
-             label="7-volume density $W^6 = e^{6Hy} = \\sin z$")
+             label="7-volume density per $b_4^{3/2}$: $W^6 = e^{6Hy} = \\sin z$")
 axes[1].axvspan(-4.0, -L_tip, color="grey", alpha=0.25,
                 label="removed by the tip cut-off")
 axes[1].set_xlabel("$y$ (unit $1/H$)")
@@ -1254,7 +1270,7 @@ axes[1].set_title("Warp and volume density in $y$")
 axes[1].legend(fontsize=8, loc="upper left")
 ```
 
-The right panel draws $W$, $W^2$ and $W^6$ as functions of $y$ from $-4$ to $0$, and shades (`axvspan`) the band beyond the cut-off.
+The right panel draws $W$, $W^2$ and $W^6$ as functions of $y$ from $-4$ to $0$ ($W^6$ is the 7-volume density $b_4^{3/2}W^6$ in the unit $b_4^{3/2}$, which does not depend on $y$), and shades (`axvspan`) the band beyond the cut-off.
 
 ```python
 save_figure(fig, "hidden_coordinate_y",
@@ -1265,7 +1281,7 @@ check(fraction == sp.exp(-18), "the cut-off removes exactly the fraction e^(-18)
 
 The figure is saved, and the check confirms that the fraction is exactly $e^{-18}$.
 
-**What Figure 03a.7 shows.** Left: on the logarithmic $z$ axis, $y$ is a straight line near the tip, because there $\sin z \approx z$ and $y \approx \ln(z)/6$; it bends over to $0$ at the patch end. The cut-off $y = -3$ sits at $z = 1.5 \times 10^{-8}$. Right: the warp factor and its powers fall towards $0$ as $y$ decreases; the volume density $e^{6y}$ is already tiny at $y = -1$, and the grey band beyond the cut-off holds only the fraction $e^{-18}$ of the 7-volume.
+**What Figure 03a.7 shows.** Left: on the logarithmic $z$ axis, $y$ is a straight line near the tip, because there $\sin z \approx z$ and $y \approx \ln(z)/6$; it bends over to $0$ at the patch end. The cut-off $y = -3$ sits at $z = 1.5 \times 10^{-8}$. Right: the warp factor and its powers fall towards $0$ as $y$ decreases; the volume density $e^{6y}$ (in the unit $b_4^{3/2}$) is already tiny at $y = -1$, and the grey band beyond the cut-off holds only the fraction $e^{-18}$ of the 7-volume.
 
 **In [21], the last check.**
 
@@ -2364,7 +2380,7 @@ $$
 \partial_4 \ln h_i = \partial_4\bigl(a_4 + \tfrac16\ln\sin z\bigr) = a_4' \equiv \alpha, \qquad \partial_4 \ln h_j = \partial_4\bigl(\tfrac12\ln b_4 - a_4 + \tfrac16\ln\sin z\bigr) = -a_4' + \frac{b_4'}{2b_4} \equiv \alpha_t
 $$
 
-(the logarithm of a product is the sum of the logarithms; $\ln e^{\pm a_4} = \pm a_4$; $\ln b_4^{1/2} = \frac12\ln b_4$, whose derivative is $b_4'/(2b_4)$; $z$ does not depend on $x_4$). These are the two expansion rates of Section 3.7: $\alpha$ of 3-space and $\alpha_t$ of the extra times. We write $\alpha_k$ for the rate of the transverse direction $k$ ($\alpha_i = \alpha$, $\alpha_j = \alpha_t$). For a constant $b_4$, $\alpha_t = -\alpha$.
+(the logarithm of a product is the sum of the logarithms; $\ln e^{\pm a_4} = \pm a_4$; $\ln b_4^{1/2} = \frac12\ln b_4$, whose derivative is $b_4'/(2b_4)$; $z$ does not depend on $x_4$). These are the two expansion rates of Section 3.7: $\alpha$ of 3-space and $\alpha_t$ of the extra times. We write $\alpha_k$ for the rate of the transverse direction $k$ ($\alpha_i = \alpha$, $\alpha_j = \alpha_t$). On the history of Section 3.8, $b_4'/b_4 = \frac43 a_4'$ and so $\alpha_t = -\frac13\alpha$.
 
 $$
 \partial_0 \ln h_k = \tfrac16\,\frac{\cos z}{\sin z}\cdot 6H = H\cot z
@@ -2402,7 +2418,7 @@ $$
 \Gamma^{x_4}{}_{x_ix_i} = (+1)\,h_i^2\,\alpha = a_4'\,e^{2a_4}\sin^{1/3}z, \qquad \Gamma^{x_4}{}_{x_jx_j} = (-1)\,h_j^2\,\alpha_t = \Bigl(a_4'b_4 - \frac{b_4'}{2}\Bigr)e^{-2a_4}\sin^{1/3}z
 $$
 
-(with $h_j^2 = b_4e^{-2a_4}\sin^{1/3}z$; for a constant $b_4$ the two minus signs of the extra times, from $\eta_{jj}$ and from the deflation $\alpha_t = -a_4'$, multiply to $+1$). For $a = x_0$ ($\eta_{00} = +1$, $h_0^2 = \cot^2 z$) it is $-\eta_{bb}\,(h_b^2/\cot^2 z)\,H\cot z = -\eta_{bb}\,H\tan z\,h_b^2$:
+(with $h_j^2 = b_4e^{-2a_4}\sin^{1/3}z$; while the extra times deflate, the two minus signs, from $\eta_{jj}$ and from $\alpha_t < 0$, multiply to $+1$: on the history of Section 3.8, $\alpha_t = -a_4'/3$ and $\Gamma^{x_4}{}_{x_jx_j} = \frac13 a_4'\,h_j^2$). For $a = x_0$ ($\eta_{00} = +1$, $h_0^2 = \cot^2 z$) it is $-\eta_{bb}\,(h_b^2/\cot^2 z)\,H\cot z = -\eta_{bb}\,H\tan z\,h_b^2$:
 
 $$
 \Gamma^{x_0}{}_{x_ix_i} = -H\tan z\; e^{2a_4}\sin^{1/3}z, \qquad \Gamma^{x_0}{}_{x_jx_j} = +H\tan z\; b_4e^{-2a_4}\sin^{1/3}z
@@ -2423,7 +2439,7 @@ $$
 | $\Gamma^{x_4}{}_{x_jx_j}$ | $\bigl(a_4'b_4 - \tfrac12 b_4'\bigr)e^{-2a_4}\sin^{1/3}z$ | 3 |
 | $\Gamma^{x_j}{}_{x_4x_j}$, $j = 5, 6, 7$ | $-a_4' + b_4'/(2b_4)$ | 3 |
 
-This is exactly the list `christoffelNonzero_b_le_c` of the record `Revision/gkd_lovelock/results/curvature.json` (PROVED here by hand; Notebook 03b reproduces it symbol by symbol, In [7]; the independent verification of the record agrees, `python-lovelock-report.json`, check `rust_christoffels_agree`). The record writes $\tan z$ as `Cot[6*H*x0]^(-1)` and $\Gamma^{x_4}{}_{x_jx_j}$ as the sum `-(1/2)*E^(-2*a4[x4])*Sin[6*H*x0]^(1/3)*Derivative[1][b4][x4] + Derivative[1][a4][x4]*E^(-2*a4[x4])*Sin[6*H*x0]^(1/3)*b4[x4]`. Every symbol has at least one index $x_4$ or $x_0$, the two coordinates on which the metric depends. The deflation is visible in the last row: for a constant $b_4$ the extra-time symbols $\Gamma^{x_j}{}_{x_4x_j} = -a_4'$ have the opposite sign of the 3-space ones.
+This is exactly the list `christoffelNonzero_b_le_c` of the record `Revision/gkd_lovelock/results/curvature.json` (PROVED here by hand; Notebook 03b reproduces it symbol by symbol, In [7]; the independent verification of the record agrees, `python-lovelock-report.json`, check `rust_christoffels_agree`). The record writes $\tan z$ as `Cot[6*H*x0]^(-1)` and $\Gamma^{x_4}{}_{x_jx_j}$ as the sum `-(1/2)*E^(-2*a4[x4])*Sin[6*H*x0]^(1/3)*Derivative[1][b4][x4] + Derivative[1][a4][x4]*E^(-2*a4[x4])*Sin[6*H*x0]^(1/3)*b4[x4]`. Every symbol has at least one index $x_4$ or $x_0$, the two coordinates on which the metric depends. The deflation is visible in the last row: on the history of Section 3.8 the extra-time symbols $\Gamma^{x_j}{}_{x_4x_j} = -a_4' + \frac23 a_4' = -\frac13 a_4'$ have the opposite sign of the 3-space ones (Notebook 03b checks the value $-1/3$ at $a_4' = 1$, In [9]).
 
 **Observers at rest fall freely.** No symbol has the lower pair $(x_4, x_4)$: case (a) with $a = x_4$ is $\partial_4\ln h_4 = 0$, and case (c) with $b = x_4$ contains $\partial_a\ln h_4 = 0$. So $\Gamma^a{}_{x_4x_4} = 0$ for every $a$, for all functions $a_4$ and $b_4$. An observer who keeps $x_0, x_1, x_2, x_3, x_5, x_6, x_7$ fixed while $x_4 = \tau$ runs has $u^a = dx^a/d\tau = 1$ for $a = x_4$ and $0$ otherwise, and $du^a/d\tau = 0$; the geodesic equation of Section 3.16 reads $0 + \Gamma^a{}_{x_4x_4}\cdot1\cdot1 = 0$, which holds. The squared speed is $g(u, u) = g_{44} = -1$, so $\tau = x_4$ is the observer's proper time. **Observers at rest are in free fall, and their clocks show $x_4$** (PROVED; Notebook 03b, In [12]).
 
@@ -2515,17 +2531,17 @@ $$
 
 **The table of the plane curvatures** (PROVED; Notebook 03b computes all 28 and finds these seven formulas, In [16]), with $\alpha = a_4'$ and $\alpha_t = -a_4' + b_4'/(2b_4)$:
 
-| plane | how many | curvature $\sigma(a, b) = R^{ab}{}_{ab}$ | for a constant $b_4$ |
+| plane | how many | curvature $\sigma(a, b) = R^{ab}{}_{ab}$ | for $b_4 \propto e^{4a_4/3}$ |
 | --- | --- | --- | --- |
 | two 3-space directions | 3 | $\alpha^2 - H^2$ | $a_4'^2 - H^2$ |
-| two extra times | 3 | $\alpha_t^2 - H^2$ | $a_4'^2 - H^2$ |
-| a 3-space direction and an extra time | 9 | $\alpha\alpha_t - H^2$ | $-(a_4'^2 + H^2)$ |
+| two extra times | 3 | $\alpha_t^2 - H^2$ | $\frac19 a_4'^2 - H^2$ |
+| a 3-space direction and an extra time | 9 | $\alpha\alpha_t - H^2$ | $-(\frac13 a_4'^2 + H^2)$ |
 | a 3-space direction and the time $x_4$ | 3 | $\alpha^2 + \alpha'$ | $a_4'^2 + a_4''$ |
-| an extra time and the time $x_4$ | 3 | $\alpha_t^2 + \alpha_t'$ | $a_4'^2 - a_4''$ |
+| an extra time and the time $x_4$ | 3 | $\alpha_t^2 + \alpha_t'$ | $\frac19 a_4'^2 - \frac13 a_4''$ |
 | a transverse direction and the hidden $x_0$ | 6 | $-H^2$ | $-H^2$ |
 | the time $x_4$ and the hidden $x_0$ | 1 | $0$ | $0$ |
 
-None depends on $z$ or on the value of $a_4$; only $H$, the rates $\alpha$, $\alpha_t$ and their derivatives appear (and so $a_4'$, $a_4''$, $b_4'/b_4$ and $b_4''/b_4$). Along the history $a_4 = AHx_4$, $b_4 = 1$ ($a_4' = AH$, $a_4'' = 0$) the planes inside 3-space and inside the extra times have $H^2(A^2 - 1)$: negative for $A < 1$, zero for the canonical $A = 1$, positive for $A > 1$. The planes that mix 3-space and the extra times have $-H^2(A^2 + 1)$, negative for every $A$.
+None depends on $z$ or on the value of $a_4$; only $H$, the rates $\alpha$, $\alpha_t$ and their derivatives appear (and so $a_4'$, $a_4''$, $b_4'/b_4$ and $b_4''/b_4$). The last column takes $b_4 = b_4(0)\,e^{\beta a_4}$ with $\beta = 4/3$, as on the history of Section 3.8, but with a general $a_4(x_4)$: then $b_4'/b_4 = \frac43 a_4'$, $\alpha_t = -a_4' + \frac23 a_4' = -\frac13 a_4'$ and $\alpha_t' = -\frac13 a_4''$. Along the history itself ($a_4' = AH$, $a_4'' = 0$) the planes inside 3-space have $H^2(A^2 - 1)$: negative for $A < 1$, zero for the canonical $A = 1$, positive for $A > 1$. The planes inside the extra times have $H^2(A^2/9 - 1)$, negative for $A < 3$ ($-\frac89 H^2$ at $A = 1$). The planes that mix 3-space and the extra times have $-H^2(A^2/3 + 1)$, negative for every $A$.
 
 **What the signs mean.** By Section 3.17 the sign of $\sigma(a, b)$ describes a shape only in the 6 planes of two space-like directions: the 3 planes inside 3-space ($\alpha^2 - H^2$; along the history saddle-like for $A < 1$, flat for $A = 1$, sphere-like for $A > 1$) and the 3 planes of a 3-space direction with $x_0$ ($-H^2$, saddle-like). In the 6 planes of two time-like directions (inside the extra times, and an extra time with $x_4$) the shape reading is reversed: there a positive $\sigma$ would mean saddle-like. The other 16 planes contain one space-like and one time-like direction; for them, and for every plane that contains $x_4$, the sign is read from free fall, $d^2\xi/d\tau^2 = +\sigma\,\xi$ (Section 3.18). We now verify this rule by hand where it can be seen most simply: for the observers at rest of Section 3.23, which fall freely along $x_4$ with the proper time $\tau = x_4$. Take two of them that differ only by a small coordinate distance $\Delta x_k$ along a transverse direction $x_k$. Their proper distance is
 
@@ -2539,7 +2555,7 @@ $$
 \frac{d\xi}{d\tau} = \alpha_k\,h_k\,\Delta x_k = \alpha_k\,\xi, \qquad \frac{d^2\xi}{d\tau^2} = \alpha_k'\,\xi + \alpha_k\,\frac{d\xi}{d\tau} = \bigl(\alpha_k^2 + \alpha_k'\bigr)\,\xi
 $$
 
-(the product rule). For $k = x_1$ the factor is exactly $\sigma(x_1, x_4) = \alpha^2 + \alpha'$ of case (4), and for $k = x_5$ exactly $\sigma(x_5, x_4) = \alpha_t^2 + \alpha_t'$ of case (5): $d^2\xi/d\tau^2 = +\sigma\,\xi$. For two observers a distance $\Delta x_0$ apart along $x_0$, $\xi = \cot z\,\Delta x_0$ does not change in time, $d^2\xi/d\tau^2 = 0$, in agreement with the flat plane of case (7). All three PROVED; Notebook 03b checks the first two exactly (In [16]). Along the history both $\sigma(x_1, x_4)$ and $\sigma(x_5, x_4)$ equal $A^2H^2 > 0$: a positive curvature, and yet the 3-space distance grows like $e^{AH\tau}$ and the extra-time distance $e^{-AH\tau}$ falls ever more slowly, both with a positive second derivative. On the sphere of Section 3.18 a positive curvature pulls neighbouring geodesics together; here it drives them apart.
+(the product rule). For $k = x_1$ the factor is exactly $\sigma(x_1, x_4) = \alpha^2 + \alpha'$ of case (4), and for $k = x_5$ exactly $\sigma(x_5, x_4) = \alpha_t^2 + \alpha_t'$ of case (5): $d^2\xi/d\tau^2 = +\sigma\,\xi$. For two observers a distance $\Delta x_0$ apart along $x_0$, $\xi = \cot z\,\Delta x_0$ does not change in time, $d^2\xi/d\tau^2 = 0$, in agreement with the flat plane of case (7). All three PROVED; Notebook 03b checks the first two exactly (In [16]). Along the history $\sigma(x_1, x_4) = A^2H^2$ and $\sigma(x_5, x_4) = A^2H^2/9$, both positive: a positive curvature, and yet the 3-space distance grows like $e^{AH\tau}$ and the extra-time distance $e^{-AH\tau/3}$ falls ever more slowly, both with a positive second derivative. On the sphere of Section 3.18 a positive curvature pulls neighbouring geodesics together; here it drives them apart.
 
 **The components that are not plane curvatures.** Each plane with $\sigma \ne 0$ gives four non-zero components, $R^{ab}{}_{ab} = R^{ba}{}_{ba} = \sigma(a, b)$ and $R^{ab}{}_{ba} = R^{ba}{}_{ab} = -\sigma(a, b)$ (Section 3.17): $27 \times 4 = 108$ components (for general functions every one of the 27 curved planes has $\sigma \ne 0$). The other non-zero components connect the planes $(x_4, x_k)$ and $(x_0, x_k)$. First
 
@@ -2573,7 +2589,7 @@ $$
 
 For each of the six transverse $k$, the antisymmetries give four components of each of these two kinds: $6 \times 8 = 48$ components, of size $H|\alpha_k|\cot z$ or $H|\alpha_k|\tan z$. Together $108 + 48 = 156$, exactly the number of non-zero components $R^{ab}{}_{cd}$ that the Rust program of the record and Notebook 03b find (`Revision/gkd_lovelock/results/lovelock-report.json`, check `riemann_antisymmetry`: "156 nonzero entries"); so the list is complete. They take 20 different values: $\pm$ the five plane curvatures that are not $\pm H^2$, $\pm H^2$, and $\pm H\alpha\cot z$, $\pm H\alpha\tan z$, $\pm H\alpha_t\cot z$, $\pm H\alpha_t\tan z$ (Notebook 03b, In [15]). These 48 components depend on $z$, and they grow without bound at one end of the patch or the other. This is an effect of the coordinate $x_0$, not of the geometry. Measured with the rulers and clocks of the frame of Section 3.7, an upper index $a$ is multiplied by its scale factor $h_a$ (a step $dx^a$ has the proper length $h_a\,dx^a$), and a lower index is divided by it (so that a contraction keeps its value, Section 3.14). The frame component of $R^{4k}{}_{0k}$ is therefore $\frac{h_4h_k}{h_0h_k}R^{4k}{}_{0k} = \tan z\cdot H\alpha_k\cot z = H\alpha_k$, and that of $R^{0k}{}_{4k}$ is $\cot z\cdot(-H\alpha_k\tan z) = -H\alpha_k$: they no longer depend on $z$. The plane curvatures keep their values, because there the factors cancel.
 
-**Where the deflation shows.** Every formula above holds for each transverse direction with its own rate $\alpha_k$; 3-space and the extra times differ only through $\alpha$ and $\alpha_t$. For a constant $b_4$, $\alpha_t = -\alpha$: then the 48 components of 3-space and of the extra times have opposite signs, and the next section shows that these opposite signs make the Ricci tensor diagonal. When $b_4$ changes, $\alpha + \alpha_t = b_4'/(2b_4) \ne 0$ and the cancellation is incomplete.
+**Where the deflation shows.** Every formula above holds for each transverse direction with its own rate $\alpha_k$; 3-space and the extra times differ only through $\alpha$ and $\alpha_t$. Only for a constant $b_4$ (the withdrawn metric) would $\alpha_t = -\alpha$ hold; then the 48 components of 3-space and of the extra times would have opposite signs, and the next section shows that these opposite signs would make the Ricci tensor diagonal. In this book $b_4$ changes: $\alpha + \alpha_t = b_4'/(2b_4) \ne 0$ (on the history of Section 3.8 it is $\frac23 a_4'$), the cancellation is incomplete, and the Ricci tensor has an off-diagonal pair (Section 3.25).
 
 ### 3.25 Ricci, Einstein and Kretschmann of the author's metric; the contracted Bianchi identity
 
@@ -2613,7 +2629,7 @@ $$
 R = 6a_4'^2 - 3a_4'\frac{b_4'}{b_4} + 3\frac{b_4''}{b_4} - 42H^2 .
 $$
 
-For a constant $b_4$ ($\alpha_t = -\alpha$, $\alpha_t' = -\alpha'$) the four diagonal entries are $R^i{}_i = a_4'' - 6H^2$, $R^4{}_4 = 6a_4'^2$, $R^j{}_j = -a_4'' - 6H^2$, $R^0{}_0 = -6H^2$, and $R = 6a_4'^2 - 42H^2$.
+On the history of Section 3.8 ($\alpha = AH$, $\alpha_t = -AH/3$, $\alpha' = \alpha_t' = 0$) the four diagonal entries are $R^i{}_i = (2A^2 - 6)H^2$, $R^4{}_4 = \frac{10}{3}A^2H^2$, $R^j{}_j = -(\frac23 A^2 + 6)H^2$, $R^0{}_0 = -6H^2$, and $R = \frac23 H^2(11A^2 - 63)$ (from the general formula: $6A^2 - 3A\cdot\frac43 A + 3\cdot\frac{16}{9}A^2 = \frac{22}{3}A^2$ times $H^2$, minus $42H^2$).
 
 **The entries off the diagonal.** An entry $R^a{}_b = \sum_c R^{ac}{}_{bc}$ with $a \ne b$ needs a non-zero component whose upper pair $(a, c)$ and lower pair $(b, c)$ differ in one index. The 108 plane components have the same two indices up and down, so they give nothing. The 48 others have the pairs $\{x_4, x_k\}$ and $\{x_0, x_k\}$, so the only candidates are $R^4{}_0$ and $R^0{}_4$:
 
@@ -2624,7 +2640,7 @@ R^0{}_4 &= \sum_i R^{0i}{}_{4i} + \sum_j R^{0j}{}_{4j} = -3H(\alpha + \alpha_t)\
 \end{aligned}
 $$
 
-(Section 3.24; the terms $c = x_4$ and $c = x_0$ vanish by the antisymmetries; $\alpha + \alpha_t = b_4'/(2b_4)$). **The Ricci tensor is diagonal exactly when $b_4$ is constant**: then the three inflating and the three deflating directions cancel exactly. A changing $b_4$ leaves the two entries above. If the extra times inflated like 3-space, $g_{jj} = -e^{2a_4}\sin^{1/3}z$ (the member $b_4 = e^{4a_4}$ of the family, with $\alpha_t = +a_4'$), the extra-time terms would have the same sign as the 3-space terms, and $R^4{}_0$ would be $6Ha_4'\cot z$: Notebook 03b computes exactly this negative control (In [27]) and finds $G^{x_4}{}_{x_0} = 6Ha_4'\cot z$ and $G^{x_0}{}_{x_4} = -6Ha_4'\tan z$, the two general entries with $b_4'/b_4 = 4a_4'$.
+(Section 3.24; the terms $c = x_4$ and $c = x_0$ vanish by the antisymmetries; $\alpha + \alpha_t = b_4'/(2b_4)$). **The Ricci tensor would be diagonal exactly for a constant $b_4$** (the withdrawn metric): then the three inflating and the three deflating directions would cancel exactly. The changing $b_4$ of this book leaves the two entries above; on the history of Section 3.8, $b_4'/b_4 = \frac43 AH$, and they are $R^4{}_0 = 2AH^2\cot z$ and $R^0{}_4 = -2AH^2\tan z$. If the extra times inflated like 3-space, $g_{jj} = -e^{2a_4}\sin^{1/3}z$ (the member $b_4 = e^{4a_4}$ of the family, with $\alpha_t = +a_4'$), the extra-time terms would have the same sign as the 3-space terms, and $R^4{}_0$ would be $6Ha_4'\cot z$: Notebook 03b computes exactly this negative control (In [27]) and finds $G^{x_4}{}_{x_0} = 6Ha_4'\cot z$ and $G^{x_0}{}_{x_4} = -6Ha_4'\tan z$, the two general entries with $b_4'/b_4 = 4a_4'$.
 
 **The Einstein tensor.** $G^a{}_b = R^a{}_b - \tfrac12\delta^a{}_bR$. Off the diagonal $\delta^a{}_b = 0$, so $G^4{}_0 = R^4{}_0$ and $G^0{}_4 = R^0{}_4$. On the diagonal, subtracting $\tfrac12 R = 3a_4'^2 - \tfrac32 a_4'b_4'/b_4 + \tfrac32 b_4''/b_4 - 21H^2$ from each entry of the Ricci tensor (written out with $a_4$ and $b_4$ as above):
 
@@ -2637,19 +2653,22 @@ G^j{}_j &= 15H^2 - 3a_4'^2 - a_4'' + \frac{b_4'^2}{4b_4^2} - \frac{b_4''}{b_4} .
 \end{aligned}
 $$
 
-$G^4{}_4$ contains no second derivative: in the rates, $G^4{}_4 = 21H^2 - 3(\alpha^2 + 3\alpha\alpha_t + \alpha_t^2)$. For a constant $b_4$,
+$G^4{}_4$ contains no second derivative: in the rates, $G^4{}_4 = 21H^2 - 3(\alpha^2 + 3\alpha\alpha_t + \alpha_t^2)$. On the history of Section 3.8 ($a_4' = AH$, $a_4'' = 0$, $b_4'/b_4 = \frac43 AH$, $b_4''/b_4 = \frac{16}{9}A^2H^2$),
 
 $$
-G^0{}_0 = 15H^2 - 3a_4'^2, \qquad G^i{}_i = a_4'' - 3a_4'^2 + 15H^2, \qquad G^4{}_4 = 3a_4'^2 + 21H^2, \qquad G^j{}_j = -a_4'' - 3a_4'^2 + 15H^2 ,
+\begin{aligned}
+G^0{}_0 &= \Bigl(15 - \frac{11}{3}A^2\Bigr)H^2, & G^i{}_i &= \Bigl(15 - \frac53 A^2\Bigr)H^2,\\
+G^4{}_4 &= \Bigl(21 - \frac13 A^2\Bigr)H^2, & G^j{}_j &= \Bigl(15 - \frac{13}{3}A^2\Bigr)H^2 ,
+\end{aligned}
 $$
 
-and every entry off the diagonal is zero. These are exactly the entries `ricciMixed`, `ricciScalar` and `einsteinMixed` of `Revision/gkd_lovelock/results/curvature.json` (PROVED here; Notebook 03b reproduces all 64 + 64 + 1 of them, In [17]; record check `rust_ricci_einstein_scalar_agree` of `python-lovelock-report.json`), and the components `b4.lovelockTensors.E1` of the record `Revision/field_equations_a4/a4-equations.json`. The verifier of the metric with $b_4$ states the off-diagonal pair (`Revision/metric_b4/results/wolfram-metric-b4-report.json`, checks `off_diagonal_entries_x0_x4_only` and `off_diagonal_proportional_to_b4prime`). The lead's independent check, made for $b_4 = 1$, states the same properties there (`Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, checks `einstein_off_diagonal_zero`, `einstein_x0_independent`, `einstein_isotropy`): at $b_4 = 1$, $G$ is diagonal and no entry depends on $x_0$; for every $b_4$ the three 3-space entries are equal, as are the three extra-time entries. Moreover, at $b_4 = 1$,
+and off the diagonal $G^4{}_0 = 2AH^2\cot z$ and $G^0{}_4 = -2AH^2\tan z$ (for example $G^0{}_0 = 15 - 3A^2 + \frac32 A\cdot\frac43 A - \frac32\cdot\frac{16}{9}A^2 = 15 - 3A^2 + 2A^2 - \frac83 A^2$ times $H^2$). These are exactly the entries `ricciMixed`, `ricciScalar` and `einsteinMixed` of `Revision/gkd_lovelock/results/curvature.json` (PROVED here; Notebook 03b reproduces all 64 + 64 + 1 of them, In [17]; record check `rust_ricci_einstein_scalar_agree` of `python-lovelock-report.json`), and the components `b4.lovelockTensors.E1` of the record `Revision/field_equations_a4/a4-equations.json`. The verifier of the metric with $b_4$ states the off-diagonal pair (`Revision/metric_b4/results/wolfram-metric-b4-report.json`, checks `off_diagonal_entries_x0_x4_only` and `off_diagonal_proportional_to_b4prime`). The lead's independent check states the same properties for every $b_4$ (`Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, checks `einstein_off_diagonal`, `einstein_diagonal_x0_independent`, `einstein_isotropy`): the only entries off the diagonal are the pair above, no diagonal entry depends on $x_0$ (only the off-diagonal pair does, through $\cot z$ and $\tan z$), the three 3-space entries are equal, and so are the three extra-time entries. Moreover, written with $u = b_4'/b_4$ and $v = u'$ (the quotient rule gives $b_4''/b_4 = v + u^2$),
 
 $$
-G^4{}_4 - G^0{}_0 = 3a_4'^2 + 21H^2 - 15H^2 + 3a_4'^2 = 6\bigl(a_4'^2 + H^2\bigr) > 0 \quad\text{for } H > 0
+G^4{}_4 - G^0{}_0 = 6H^2 + 6a_4'^2 - 3a_4'u + \frac34 u^2 + \frac32 v = 6H^2 + 3a_4'^2 + \frac34\bigl(u - 2a_4'\bigr)^2 + \frac32 v
 $$
 
-(record check `no_vacuum_for_H_positive`), a fact used in Section 3.26.
+(subtract the two entries; then $\frac34(u - 2a_4')^2 = \frac34 u^2 - 3a_4'u + 3a_4'^2$). It is positive wherever $v \ge 0$, in particular on the history of Section 3.8, where $v = 0$ and it is $(6 + \frac{10}{3}A^2)H^2$; for a constant $b_4$ ($u = v = 0$) it is $6(a_4'^2 + H^2) > 0$ (record check `no_vacuum_for_H_positive`). Section 3.26 uses both facts.
 
 **The Kretschmann scalar.** In $K = \sum_{a,b,c,d} R^{ab}{}_{cd}R^{cd}{}_{ab}$ each component is multiplied by its partner with the two pairs exchanged. The four components of a plane are their own partners or each other's, and each of the four products is $\sigma(a, b)^2$ (Section 3.17), so the planes contribute $4\sum_{\text{planes}}\sigma(a, b)^2$. Each of the 48 other components is paired with one of the other kind, $R^{4k}{}_{0k}R^{0k}{}_{4k} = (H\alpha_k\cot z)(-H\alpha_k\tan z) = -H^2\alpha_k^2$; the sign changes of the antisymmetries act on both factors, so the 24 products of 3-space equal $-H^2\alpha^2$ and the 24 of the extra times $-H^2\alpha_t^2$. Therefore
 
@@ -2661,29 +2680,29 @@ $$
 \sum_{\text{planes}}\sigma(a, b)^2 = 3(\alpha^2 - H^2)^2 + 3(\alpha_t^2 - H^2)^2 + 9(\alpha\alpha_t - H^2)^2 + 3(\alpha^2 + \alpha')^2 + 3(\alpha_t^2 + \alpha_t')^2 + 6H^4
 $$
 
-(the table of Section 3.24). In every product $\cot z$ meets $\tan z$, so although 48 components depend on $z$ and grow without bound at the ends of the patch, the invariant $K$ does not depend on $z$, and it does not depend on the value of $a_4$. For a constant $b_4$ ($\alpha_t = -\alpha = -a_4'$, $\alpha_t' = -a_4''$) the sum is
+(the table of Section 3.24). In every product $\cot z$ meets $\tan z$, so although 48 components depend on $z$ and grow without bound at the ends of the patch, the invariant $K$ does not depend on $z$, and it does not depend on the value of $a_4$. On the history of Section 3.8 ($\alpha = AH$, $\alpha_t = -AH/3$, $\alpha' = \alpha_t' = 0$) the sum is, in units of $H^4$,
 
 $$
-\sum_{\text{planes}}\sigma(a, b)^2 = 6(a_4'^2 - H^2)^2 + 9(a_4'^2 + H^2)^2 + 3(a_4'^2 + a_4'')^2 + 3(a_4'^2 - a_4'')^2 + 6H^4
+\sum_{\text{planes}}\sigma(a, b)^2 = 3(A^2 - 1)^2 + 3\Bigl(\frac{A^2}{9} - 1\Bigr)^2 + 9\Bigl(\frac{A^2}{3} + 1\Bigr)^2 + 3A^4 + 3\Bigl(\frac{A^2}{9}\Bigr)^2 + 6
 $$
 
 $$
-= \bigl(6a_4'^4 - 12a_4'^2H^2 + 6H^4\bigr) + \bigl(9a_4'^4 + 18a_4'^2H^2 + 9H^4\bigr) + \bigl(6a_4'^4 + 6a_4''^2\bigr) + 6H^4 = 21a_4'^4 + 6a_4'^2H^2 + 21H^4 + 6a_4''^2
+= \bigl(3A^4 - 6A^2 + 3\bigr) + \Bigl(\frac{A^4}{27} - \frac23 A^2 + 3\Bigr) + \bigl(A^4 + 6A^2 + 9\bigr) + 3A^4 + \frac{A^4}{27} + 6 = \frac{191}{27}A^4 - \frac23 A^2 + 21
 $$
 
-(the squares expanded; in $3(p + q)^2 + 3(p - q)^2 = 6p^2 + 6q^2$ the mixed terms cancel), and therefore
+(the squares expanded; $3 + \frac{1}{27} + 1 + 3 + \frac{1}{27} = \frac{191}{27}$), and with $24H^2(\alpha^2 + \alpha_t^2) = 24\cdot\frac{10}{9}A^2H^4 = \frac{80}{3}A^2H^4$,
 
 $$
-K = 4\bigl(21a_4'^4 + 6a_4'^2H^2 + 21H^4 + 6a_4''^2\bigr) - 48H^2a_4'^2 = 12\bigl(7H^4 - 2H^2a_4'^2 + 7a_4'^4 + 2a_4''^2\bigr)
+K = 4\Bigl(\frac{191}{27}A^4 - \frac23 A^2 + 21\Bigr)H^4 - \frac{80}{3}A^2H^4 = \frac{4}{27}H^4\bigl(191A^4 - 198A^2 + 567\bigr)
 $$
 
-($24 - 48 = -24$ times $a_4'^2H^2$; then $12$ taken out). Completing the square,
+($\frac83 + \frac{80}{3} = \frac{88}{3} = \frac{4}{27}\cdot 198$ and $4\cdot 21 = 84 = \frac{4}{27}\cdot 567$). Completing the square,
 
 $$
-\frac{K}{12} = 7\Bigl(a_4'^2 - \frac{H^2}{7}\Bigr)^2 + \frac{48}{7}H^4 + 2a_4''^2
+191A^4 - 198A^2 + 567 = 191\Bigl(A^2 - \frac{99}{191}\Bigr)^2 + \frac{98496}{191}
 $$
 
-(expand: $7a_4'^4 - 2H^2a_4'^2 + H^4/7$, and $H^4/7 + 48H^4/7 = 7H^4$), so $K \ge \frac{576}{7}H^4 > 0$ for every history with a constant $b_4$: **with a constant $b_4$ the author's metric is curved everywhere, for every function $a_4(x_4)$ and every $H > 0$** (PROVED; Notebook 03b checks the formula and computes $K$ a second time from the 156 components of the record, In [22]). For a changing $b_4$ there is no such bound: for the member $b_4 = e^{4a_4}$ of the negative control ($\alpha_t = \alpha$, $\alpha_t' = \alpha'$) the same two formulas give $K = 12\bigl(7(a_4'^2 - H^2)^2 + 4a_4'^2a_4'' + 2a_4''^2\bigr)$, which vanishes for $a_4' = H$, $a_4'' = 0$ (Notebook 03b, In [27]). Along the history $a_4 = AHx_4$, $b_4 = 1$: $R = 6H^2(A^2 - 7)$ and $K = 12H^4(7A^4 - 2A^2 + 7)$; for the canonical $A = 1$, $R = -36H^2$ and $K = 144H^4$.
+(expand: $191A^4 - 198A^2 + \frac{9801}{191}$, and $\frac{9801 + 98496}{191} = \frac{108297}{191} = 567$), so $K \ge \frac{4}{27}\cdot\frac{98496}{191}H^4 = \frac{14592}{191}H^4 = 76.40\,H^4 > 0$: **on the history of this book the author's metric is curved everywhere, for every slope $A$ and every $H > 0$** (PROVED; Notebook 03b computes $K$ a second time from the 156 components of the record, In [22], and evaluates it on the history, In [24]). For the withdrawn metric with a constant $b_4$ the same two formulas give $K = 12(7H^4 - 2H^2a_4'^2 + 7a_4'^4 + 2a_4''^2) \ge \frac{576}{7}H^4$, which Notebook 03b also checks (In [22]). For other members of the family there is no such bound: for the member $b_4 = e^{4a_4}$ of the negative control ($\alpha_t = \alpha$, $\alpha_t' = \alpha'$) the same two formulas give $K = 12\bigl(7(a_4'^2 - H^2)^2 + 4a_4'^2a_4'' + 2a_4''^2\bigr)$, which vanishes for $a_4' = H$, $a_4'' = 0$ (Notebook 03b, In [27]); that the author's metric is curved for every $b_4$ and every $H > 0$ follows anyway from $R^0{}_0 = -6H^2$. Along the history: $R = \frac23 H^2(11A^2 - 63)$ and $K = \frac{4}{27}H^4(191A^4 - 198A^2 + 567)$; for the canonical $A = 1$, $R = -\frac{104}{3}H^2$ and $K = \frac{2240}{27}H^4 = 82.96\,H^4$.
 
 **The contracted Bianchi identity.** For every metric the Einstein tensor has zero **divergence**, $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$ for each $\nu$ (the divergence is the covariant derivative with its index $\mu$ set equal to the upper index of $G$ and summed; a standard theorem, the **contracted Bianchi identity**; quoted, ASSUMED in general). For the author's metric we prove it directly. By the rule of Section 3.15 (one $+\Gamma$ for the upper index, one $-\Gamma$ for the lower one, then the upper index contracted with the derivative),
 
@@ -2699,16 +2718,17 @@ $$
 \partial_0 G^0{}_4 + \Gamma_0\,G^0{}_4 = -\frac32\,6H^2\frac{1}{\cos^2 z}\frac{b_4'}{b_4} + 6H\tan z\cdot\frac32 H\tan z\,\frac{b_4'}{b_4} = -9H^2\frac{b_4'}{b_4}\Bigl(\frac{1}{\cos^2 z} - \tan^2 z\Bigr) = -9H^2\frac{b_4'}{b_4}
 $$
 
-(the derivative of $\tan z$ is $1/\cos^2 z$, times $6H$; and $1/\cos^2 z - \tan^2 z = (1 - \sin^2 z)/\cos^2 z = 1$). For a constant $b_4$ this term is zero, $\partial_4 G^4{}_4 = \partial_4(3a_4'^2 + 21H^2) = 6a_4'a_4''$ (the chain rule), and with $\alpha_t = -a_4'$:
+(the derivative of $\tan z$ is $1/\cos^2 z$, times $6H$; and $1/\cos^2 z - \tan^2 z = (1 - \sin^2 z)/\cos^2 z = 1$). On the history of Section 3.8 this term is $-9H^2\cdot\frac43 AH = -12AH^3$, $G^4{}_4 = (21 - \frac13 A^2)H^2$ is constant, so $\partial_4 G^4{}_4 = 0$, and with $\alpha = AH$, $\alpha_t = -\frac13 AH$ and the entries of the Einstein tensor on the history:
 
 $$
 \begin{aligned}
-\sum_\mu \nabla_\mu G^\mu{}_4 &= 6a_4'a_4'' + 3a_4'\bigl(G^4{}_4 - G^i{}_i\bigr) - 3a_4'\bigl(G^4{}_4 - G^j{}_j\bigr)\\
-&= 6a_4'a_4'' + 3a_4'\bigl(G^j{}_j - G^i{}_i\bigr) = 6a_4'a_4'' + 3a_4'(-2a_4'') = 0 .
+\sum_\mu \nabla_\mu G^\mu{}_4 &= 3AH\bigl(G^4{}_4 - G^i{}_i\bigr) - AH\bigl(G^4{}_4 - G^j{}_j\bigr) - 12AH^3\\
+&= 3AH\Bigl(6 + \frac43 A^2\Bigr)H^2 - AH\bigl(6 + 4A^2\bigr)H^2 - 12AH^3\\
+&= \bigl(18 + 4A^2 - 6 - 4A^2 - 12\bigr)AH^3 = 0 .
 \end{aligned}
 $$
 
-For a changing $b_4$ the $H^2$ terms show how the off-diagonal entry is needed: in $G^4{}_4 - G^i{}_i$ and $G^4{}_4 - G^j{}_j$ the constants are $21H^2 - 15H^2 = 6H^2$, which contribute $3(\alpha + \alpha_t)\cdot 6H^2 = 9H^2\,b_4'/b_4$, and this is cancelled exactly by $-9H^2\,b_4'/b_4$ from $G^0{}_4$; the terms without $H$ cancel among themselves, as sympy confirms.
+For a general changing $b_4$ the $H^2$ terms show how the off-diagonal entry is needed: in $G^4{}_4 - G^i{}_i$ and $G^4{}_4 - G^j{}_j$ the constants are $21H^2 - 15H^2 = 6H^2$, which contribute $3(\alpha + \alpha_t)\cdot 6H^2 = 9H^2\,b_4'/b_4$, and this is cancelled exactly by $-9H^2\,b_4'/b_4$ from $G^0{}_4$; the terms without $H$ cancel among themselves, as sympy confirms.
 
 For $\nu = x_0$: the diagonal part has $\partial_0 G^0{}_0 = 0$ and $\Gamma^k{}_{k0} = H\cot z$ for the six transverse $k$ (the term $\mu = x_0$ has the factor $G^0{}_0 - G^0{}_0 = 0$), and $G^4{}_0$ adds $\partial_4 G^4{}_0 + \Gamma_4\,G^4{}_0$:
 
@@ -2716,9 +2736,9 @@ $$
 \sum_\mu \nabla_\mu G^\mu{}_0 = H\cot z\Bigl[3(G^0{}_0 - G^i{}_i) + 3(G^0{}_0 - G^j{}_j) + \frac32\Bigl(\frac{b_4'}{b_4}\Bigr)' + \frac94\Bigl(\frac{b_4'}{b_4}\Bigr)^2\Bigr]
 $$
 
-(with $\Gamma_4 = 3(\alpha + \alpha_t) = \tfrac32 b_4'/b_4$). From the entries above, $3(G^0{}_0 - G^i{}_i) + 3(G^0{}_0 - G^j{}_j) = -\tfrac32 b_4''/b_4 - \tfrac34 (b_4'/b_4)^2$, and $\tfrac32(b_4'/b_4)' = \tfrac32 b_4''/b_4 - \tfrac32(b_4'/b_4)^2$ (the quotient rule): the bracket is $-\tfrac32 + \tfrac32 = 0$ times $b_4''/b_4$ and $-\tfrac34 - \tfrac32 + \tfrac94 = 0$ times $(b_4'/b_4)^2$, so it vanishes. (For a constant $b_4$ the bracket is $3(-a_4'') + 3a_4''$.)
+(with $\Gamma_4 = 3(\alpha + \alpha_t) = \tfrac32 b_4'/b_4$). From the entries above, $3(G^0{}_0 - G^i{}_i) + 3(G^0{}_0 - G^j{}_j) = -\tfrac32 b_4''/b_4 - \tfrac34 (b_4'/b_4)^2$, and $\tfrac32(b_4'/b_4)' = \tfrac32 b_4''/b_4 - \tfrac32(b_4'/b_4)^2$ (the quotient rule): the bracket is $-\tfrac32 + \tfrac32 = 0$ times $b_4''/b_4$ and $-\tfrac34 - \tfrac32 + \tfrac94 = 0$ times $(b_4'/b_4)^2$, so it vanishes. (On the history of Section 3.8 every term of the bracket is a constant: $3(G^0{}_0 - G^i{}_i) + 3(G^0{}_0 - G^j{}_j) = 3(-2A^2) + 3\cdot\frac23 A^2 = -4A^2$, and $\frac94(\frac43 A)^2 = 4A^2$, in units of $H^2$.)
 
-For $\nu$ a transverse direction: $\partial_\nu G^\mu{}_\nu = 0$, every $\Gamma^\mu{}_{\mu\nu}$ is zero (case (b) of Section 3.15 gives $\partial_\nu\ln h_\mu = 0$), and every term $\Gamma^\lambda{}_{\mu\nu}G^\mu{}_\lambda$ needs an entry of $G$ with one transverse index and one other index, which is zero. So $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$ for all eight $\nu$ and all functions $a_4(x_4)$, $b_4(x_4)$ (PROVED; Notebook 03b, In [21]; record `Revision/gkd_lovelock/results/lovelock-report.json`, checks `k1_equals_minus_4_einstein` and `k1_divergence_free`). The same computation for a diagonal energy-momentum tensor $T = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)$ gives $\sum_\mu \nabla_\mu T^\mu{}_4 = -\partial_4\rho - 3\alpha(\rho + p_3) - 3\alpha_t(\rho + p_t)$, which for a constant $b_4$ is $-\partial_4\rho - 3a_4'(p_3 - p_t)$: energy flows between 3-space and the extra times when their pressures differ (record `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, check `divergence_x4_component`, made for $b_4 = 1$; Chapter 9 derives and uses it).
+For $\nu$ a transverse direction: $\partial_\nu G^\mu{}_\nu = 0$, every $\Gamma^\mu{}_{\mu\nu}$ is zero (case (b) of Section 3.15 gives $\partial_\nu\ln h_\mu = 0$), and every term $\Gamma^\lambda{}_{\mu\nu}G^\mu{}_\lambda$ needs an entry of $G$ with one transverse index and one other index, which is zero. So $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$ for all eight $\nu$ and all functions $a_4(x_4)$, $b_4(x_4)$ (PROVED; Notebook 03b, In [21]; record `Revision/gkd_lovelock/results/lovelock-report.json`, checks `k1_equals_minus_4_einstein` and `k1_divergence_free`). The same computation for a diagonal energy-momentum tensor $T = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)$ gives $\sum_\mu \nabla_\mu T^\mu{}_4 = -\partial_4\rho - 3\alpha(\rho + p_3) - 3\alpha_t(\rho + p_t) = -\partial_4\rho - 3a_4'(p_3 - p_t) - \frac32\frac{b_4'}{b_4}(\rho + p_t)$: energy flows between 3-space and the extra times when their pressures differ, and the growth of $b_4$ adds a term of its own (record `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, check `divergence_x4_component`; Chapter 9 derives and uses it). On the history of Section 3.8 it is $-\partial_4\rho - 3AH(p_3 - p_t) - 2AH(\rho + p_t)$.
 
 ### 3.26 What Einstein's equations would ask of the source
 
@@ -2728,37 +2748,47 @@ $$
 G^\mu{}_\nu + \Lambda\,\delta^\mu{}_\nu = \kappa\,T^\mu{}_\nu ,
 $$
 
-with a positive constant $\kappa$ (the strength of gravity), a constant $\Lambda$ (the **cosmological constant**) and the **energy-momentum tensor** $T^\mu{}_\nu$ of the matter, whose diagonal for the sources of this book is $T = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)$ in the order $x_0, \dots, x_7$: the **energy density** $\rho$ and the **pressures** $p_0$ of the hidden direction, $p_3$ of 3-space and $p_t$ of the extra times (record `Revision/field_equations_a4/a4-equations.json`, key `conventions.source`). We take this form of the equations as given here (ASSUMED in this chapter); Chapter 9 derives $T$ for the fields of the book, and Chapter 12 derives the equations, together with their higher-order Lovelock companions, and solves them. (The **Lovelock tensors** are curvature tensors built from products of one, two or three Riemann tensors with the generalized Kronecker delta of Chapter 1; the first of them is a multiple of the Einstein tensor, $P_{(1)} = -4G$, and the other two vanish identically in four dimensions; Chapters 11 and 12 treat them in full.) Why does the left side have this form? The conservation of energy and momentum demands that the right side has zero divergence, $\sum_\mu \nabla_\mu T^\mu{}_\nu = 0$, so the left side must have zero divergence for every metric. The contracted Bianchi identity of Section 3.25 shows that the Einstein tensor has this property, and $\Lambda\,\delta^\mu{}_\nu$ has it too (its covariant derivative is zero, by the rule of Section 3.15 with constant entries, because the $+\Gamma$ and the $-\Gamma$ term cancel). The Einstein tensor is the simplest curvature tensor with zero divergence, but not the only one: in eight dimensions the second and the third Lovelock tensors also have zero divergence for every metric (record `Revision/gkd_lovelock/results/lovelock-report.json`, checks `k2_divergence_free` and `k3_divergence_free`), and the field equations of the Revision record use all three, $\sum_{k=1}^{3}\alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu{}_\nu = \kappa\,T^\mu{}_\nu$ with $E_{(1)} = G$ (record `Revision/field_equations_a4/a4-equations.json`, key `conventions.fieldEquations`). This chapter uses only the simplest case, Einstein's equations ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$).
+with a positive constant $\kappa$ (the strength of gravity), a constant $\Lambda$ (the **cosmological constant**) and the **energy-momentum tensor** $T^\mu{}_\nu$ of the matter, whose diagonal for the sources of this book is $\mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)$ in the order $x_0, \dots, x_7$: the **energy density** $\rho$ and the **pressures** $p_0$ of the hidden direction, $p_3$ of 3-space and $p_t$ of the extra times; besides the diagonal it may have the pair $q_{40} = T^4{}_0$ and $q_{04} = T^0{}_4$, which the metric with a changing $b_4$ needs (record `Revision/field_equations_a4/a4-equations.json`, key `conventions.source`). We take this form of the equations as given here (ASSUMED in this chapter); Chapter 9 derives $T$ for the fields of the book, and Chapter 12 derives the equations, together with their higher-order Lovelock companions, and solves them. (The **Lovelock tensors** are curvature tensors built from products of one, two or three Riemann tensors with the generalized Kronecker delta of Chapter 1; the first of them is a multiple of the Einstein tensor, $P_{(1)} = -4G$, and the other two vanish identically in four dimensions; Chapters 11 and 12 treat them in full.) Why does the left side have this form? The conservation of energy and momentum demands that the right side has zero divergence, $\sum_\mu \nabla_\mu T^\mu{}_\nu = 0$, so the left side must have zero divergence for every metric. The contracted Bianchi identity of Section 3.25 shows that the Einstein tensor has this property, and $\Lambda\,\delta^\mu{}_\nu$ has it too (its covariant derivative is zero, by the rule of Section 3.15 with constant entries, because the $+\Gamma$ and the $-\Gamma$ term cancel). The Einstein tensor is the simplest curvature tensor with zero divergence, but not the only one: in eight dimensions the second and the third Lovelock tensors also have zero divergence for every metric (record `Revision/gkd_lovelock/results/lovelock-report.json`, checks `k2_divergence_free` and `k3_divergence_free`), and the field equations of the Revision record use all three, $\sum_{k=1}^{3}\alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu{}_\nu = \kappa\,T^\mu{}_\nu$ with $E_{(1)} = G$ (record `Revision/field_equations_a4/a4-equations.json`, key `conventions.fieldEquations`). This chapter uses only the simplest case, Einstein's equations ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$).
 
-**A diagonal source fixes $b_4$.** The $x_4$-$x_0$ component of the equations reads $G^4{}_0 = \kappa T^4{}_0$. For a source of the diagonal form above, $T^4{}_0 = 0$, and so $\tfrac32 H\cot z\,b_4'/b_4 = 0$: since $H > 0$ and $\cot z > 0$ inside the patch, $b_4' = 0$ (PROVED here, from Section 3.25). Within Einstein's equations a diagonal source therefore requires a constant $b_4$, and a constant $b_4$ is removed by the rescaling of the extra times of Section 3.8, which gives back $b_4 = 1$. (With the higher Lovelock terms the $x_4$-$x_0$ component carries a further factor, and the statement changes; `Revision/SPEC.md`, section 5, and Chapter 12.) The rest of this section therefore takes $b_4 = 1$.
+**A diagonal source would fix $b_4$.** The $x_4$-$x_0$ component of the equations reads $G^4{}_0 = \kappa T^4{}_0 = \kappa q_{40}$, that is $\tfrac32 H\cot z\,b_4'/b_4 = \kappa q_{40}$ (record `a4-equations.json`, key `einstein.offDiagonal_x4x0`). For a diagonal source, $q_{40} = 0$, and so $b_4' = 0$, since $H > 0$ and $\cot z > 0$ inside the patch (PROVED here, from Section 3.25): within Einstein's equations a diagonal source would require a constant $b_4$, the withdrawn metric (record key `einstein.offDiagonalStatement`). With the changing $b_4$ of this book, Einstein's equations therefore need a source with an $x_4$-$x_0$ component, $\kappa q_{40} = \tfrac32 H\cot z\,b_4'/b_4$, which depends on the hidden direction through $\cot z$; on the history of Section 3.8 it is $\kappa q_{40} = 2AH^2\cot z$. (With the author's Lovelock weights the $x_4$-$x_0$ component carries, instead of the factor $\tfrac32 H$ of Einstein's equations, a factor $Q$ that depends on the history; at the canonical slope $A = 1$ it is $Q = 3\beta(3\beta - 4)/(64H)$, which vanishes for $\beta = 4/3$: that is why the history of Section 3.8 has this exponent, record key `exponentialHistory.authorWeights.branch`; Chapter 12. Einstein's equations alone, the subject of this section, do not have this property.)
 
-**The equations for the author's metric.** With the Einstein tensor of Section 3.25 at $b_4 = 1$ the four independent diagonal components are
-
-$$
-3a_4'^2 + 21H^2 + \Lambda = -\kappa\rho, \qquad -3a_4'^2 + a_4'' + 15H^2 + \Lambda = \kappa p_3,
-$$
+**The equations for the author's metric.** With the Einstein tensor of Section 3.25, written with $u = b_4'/b_4$ and $v = u'$ (so $b_4''/b_4 = v + u^2$), the four independent diagonal components are
 
 $$
--3a_4'^2 - a_4'' + 15H^2 + \Lambda = \kappa p_t, \qquad -3a_4'^2 + 15H^2 + \Lambda = \kappa p_0
+3a_4'^2 - \frac32 a_4'u - \frac34 u^2 + 21H^2 + \Lambda = -\kappa\rho, \qquad -3a_4'^2 + 3a_4'u + a_4'' - \frac32 u^2 - \frac32 v + 15H^2 + \Lambda = \kappa p_3,
 $$
 
-(the $x_4$ component uses $T^4{}_4 = -\rho$; the others $T^\mu{}_\mu = p_\mu$). These are the four equations `einstein.constraint_x4`, `einstein.space_x1`, `einstein.extraTime_x5` and `einstein.hidden_x0` of the record `a4-equations.json`. Subtracting the third from the second gives $2a_4'' = \kappa(p_3 - p_t)$, the **evolution equation** of the record (`einstein.evolution`): the acceleration $a_4''$ of the metric function is driven by the difference between the pressure of 3-space and that of the extra times. The record also states that every twice-differentiable function $a_4(x_4)$ is allowed, with the source then fixed by these equations (`einstein.allowedA4`).
-
-**No empty spacetime has this metric.** Without matter, $T = 0$, the $x_4$-$x_0$ component gives a constant $b_4$, that is $b_4 = 1$ after the rescaling, and the $x_4$ and $x_0$ components would give $G^4{}_4 + \Lambda = 0$ and $G^0{}_0 + \Lambda = 0$, hence $G^4{}_4 = G^0{}_0$; but $G^4{}_4 - G^0{}_0 = 6(a_4'^2 + H^2) > 0$ (Section 3.25). So for $H > 0$ the author's metric is not a solution of Einstein's equations without matter, for any $\Lambda$ and any $b_4$ (PROVED; record `a4-equations.json`, key `einstein.noVacuum`; lead check `no_vacuum_for_H_positive`). Subtracting the $x_0$ equation from the $x_4$ equation also gives $\kappa(\rho + p_0) = -6(a_4'^2 + H^2) < 0$ for every history (record key `einstein.nullEnergy`; lead check `einstein_null_energy`). (With the author's own Lovelock weights the vacuum equations do have solutions, $b_4$ constant and $a_4 = \pm Hx_4 + \text{const}$: `Revision/metric_b4/results/vacuum-b4.json`; Chapter 12.)
-
-**The source along the deflating history.** For $a_4 = AHx_4$, $b_4 = 1$ ($a_4' = AH$, $a_4'' = 0$) the evolution equation forces $p_3 = p_t$, and the hidden, 3-space and extra-time equations have the same left side, so all three pressures are one number $p$:
-
 $$
-\kappa\rho = -3H^2(7 + A^2) - \Lambda, \qquad \kappa p = 3H^2(5 - A^2) + \Lambda, \qquad \kappa(\rho + p) = -6H^2(A^2 + 1)
+-3a_4'^2 - a_4'' - \frac34 u^2 - v + 15H^2 + \Lambda = \kappa p_t, \qquad -3a_4'^2 + \frac32 a_4'u - \frac32 u^2 - \frac32 v + 15H^2 + \Lambda = \kappa p_0
 $$
 
-(the $x_4$ equation solved for $\kappa\rho$; the $x_1$ equation with $a_4'' = 0$; the sum of the two, in which $\Lambda$ cancels). These are the entries `rhoEinstein`, `pEinstein` and `rhoPlusPEinstein` of the key `linearMember` of the record `Revision/field_equations_a4/a4-equations.json` (PROVED here; Notebook 03b reads the three texts of the record and checks them against its Einstein tensor, In [26]). For the canonical $A = 1$, $H = 1$: $G = \mathrm{diag}(12, 12, 12, 12, 24, 12, 12, 12)$ in the order $x_0, \dots, x_7$, $\kappa\rho = -24 - \Lambda$ and $\kappa p = 12 + \Lambda$.
+(the $x_4$ component uses $T^4{}_4 = -\rho$; the others $T^\mu{}_\mu = p_\mu$). These are the four equations `einstein.constraint_x4`, `einstein.space_x1`, `einstein.extraTime_x5` and `einstein.hidden_x0` of the record `a4-equations.json`. Subtracting the third from the second gives $2a_4'' + 3a_4'u - \frac34 u^2 - \frac12 v = \kappa(p_3 - p_t)$: the acceleration $a_4''$ of the metric function is driven by the difference between the pressure of 3-space and that of the extra times, together with the rate $u$ of $b_4$.
 
-**What this means, with its status.** Ordinary matter (dust, radiation, a gas) has $\rho + p \ge 0$; this is the **null energy condition** (a standard condition of physics, used here as the definition of "ordinary", ASSUMED). Within Einstein's equations, the deflating history needs $\kappa(\rho + p) = -6H^2(A^2 + 1) < 0$ for every slope $A$ and every $\Lambda$: whatever fills such a spacetime, it is not ordinary matter (PROVED). Three things are NOT shown here: whether a field of this book can supply such a source (Chapters 9, 12 and 17 answer this; the Kohn-Sham states computed along the history cannot, `Revision/field_equations_a4/reports/ks-source-conditions.json`, which is why the history is a PRESCRIBED BACKGROUND, Section 3.8); what the higher-order Lovelock terms change (Chapter 12); and anything about pairs of universes or about matter and antimatter, which this chapter does not touch.
+**No empty spacetime has this metric.** Without matter, $T = 0$, the $x_4$-$x_0$ component gives $u = 0$, a constant $b_4$, and the $x_4$ and $x_0$ components would give $G^4{}_4 + \Lambda = 0$ and $G^0{}_0 + \Lambda = 0$, hence $G^4{}_4 = G^0{}_0$; but at $u = v = 0$, $G^4{}_4 - G^0{}_0 = 6(a_4'^2 + H^2) > 0$ (Section 3.25). So for $H > 0$ the author's metric is not a solution of Einstein's equations without matter, for any $\Lambda$, any $a_4$ and any $b_4$ (PROVED; record `a4-equations.json`, key `einstein.noVacuum`; lead check `no_vacuum_for_H_positive`). Subtracting the $x_0$ equation from the $x_4$ equation also gives
+
+$$
+\kappa(\rho + p_0) = G^0{}_0 - G^4{}_4 = -6H^2 - 3a_4'^2 - \frac34\bigl(u - 2a_4'\bigr)^2 - \frac32 v ,
+$$
+
+negative wherever $v \ge 0$, in particular on every history with an exponential $b_4$ (record key `einstein.nullEnergy`; lead check `einstein_null_energy`). (With the author's own Lovelock weights the vacuum equations do have solutions, $b_4$ constant and $a_4 = \pm Hx_4 + \text{const}$, that is the withdrawn metric: `Revision/metric_b4/results/vacuum-b4.json`; Chapter 12.)
+
+**The source along the deflating history.** For $a_4 = AHx_4$, $b_4 = b_4(0)\,e^{4AHx_4/3}$ ($a_4' = AH$, $a_4'' = 0$, $u = \frac43 AH$, $v = 0$) the five equations give
+
+$$
+\kappa\rho = \Bigl(\frac{A^2}{3} - 21\Bigr)H^2 - \Lambda, \qquad \kappa p_3 = \Bigl(15 - \frac53 A^2\Bigr)H^2 + \Lambda, \qquad \kappa p_t = \Bigl(15 - \frac{13}{3}A^2\Bigr)H^2 + \Lambda,
+$$
+
+$$
+\kappa p_0 = \Bigl(15 - \frac{11}{3}A^2\Bigr)H^2 + \Lambda, \qquad \kappa q_{40} = 2AH^2\cot z
+$$
+
+(each equation with the history put in; for example the $x_4$ equation has $3A^2 - 2A^2 - \frac43 A^2 + 21 = 21 - \frac{A^2}{3}$ times $H^2$ on its left side). The three pressures differ, and the source has the $x_4$-$x_0$ component $q_{40}$, which depends on $z$. These are the entries `rho`, `p3`, `pt`, `p0` and `q40` of the key `exponentialHistory.requiredSource` of the record `Revision/field_equations_a4/a4-equations.json`, with the couplings of Einstein's equations ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$) and $\beta = 4/3$ put in (PROVED here; Notebook 03b reads the five texts of the record and checks them against its Einstein tensor, In [26]). For the canonical $A = 1$, $H = 1$: the diagonal of $G$ is $(\frac{34}{3}, \frac{40}{3}, \frac{40}{3}, \frac{40}{3}, \frac{62}{3}, \frac{32}{3}, \frac{32}{3}, \frac{32}{3})$ in the order $x_0, \dots, x_7$, $\kappa\rho = -\frac{62}{3} - \Lambda$, $\kappa(p_3, p_t, p_0) = (\frac{40}{3}, \frac{32}{3}, \frac{34}{3}) + \Lambda$ and $\kappa q_{40} = 2\cot z$.
+
+**What this means, with its status.** Ordinary matter (dust, radiation, a gas) has $\rho + p \ge 0$ for each of its pressures $p$; this is the **null energy condition** (a standard condition of physics, used here as the definition of "ordinary", ASSUMED). Within Einstein's equations, the deflating history needs $\kappa(\rho + p_0) = -(6 + \frac{10}{3}A^2)H^2$, $\kappa(\rho + p_3) = -(6 + \frac43 A^2)H^2$ and $\kappa(\rho + p_t) = -(6 + 4A^2)H^2$, all negative for every slope $A$ and every $\Lambda$: whatever fills such a spacetime, it is not ordinary matter (PROVED). It also needs an $x_4$-$x_0$ component of the source that changes across the hidden direction. Three things are NOT shown here: whether a field of this book can supply such a source (Chapters 9, 12 and 17 answer this; the Kohn-Sham states computed along the history cannot, `Revision/field_equations_a4/reports/ks-source-conditions.json`, which is why the history is a PRESCRIBED BACKGROUND, Section 3.8); what the higher-order Lovelock terms change (Chapter 12; with the author's weights the $x_4$-$x_0$ component vanishes on this history at $A = 1$, and the required source is the constant, diagonal one of Section 3.8); and anything about pairs of universes or about matter and antimatter, which this chapter does not touch.
 
 ### 3.27 Example: the curvature of the author's metric
 
-Notebook 03b does Sections 3.23 to 3.26 by computer algebra, for general functions $a_4(x_4)$ and $b_4(x_4)$. It reads the metric exactly as the author typed it; computes all 512 Christoffel symbols with the formula of Section 3.15 and compares the 25 non-zero ones with the record; draws them; checks them a second way by finite differences at the test point of the record's brute-force check; checks that observers at rest fall freely; computes the 156 non-zero Riemann components, checks their symmetries and the first Bianchi identity and compares every one with the record; computes the 28 plane curvatures, the Ricci tensor, the Ricci scalar and the Einstein tensor and compares them with the record, with the verifier of the metric with $b_4$ and, at $b_4 = 1$, with the lead's checks; compares 310 components with the record numerically with 30 digits at the record's five test points; checks the contracted Bianchi identity; computes the Kretschmann scalar; evaluates everything along the deflating history ($b_4 = 1$); reproduces the source of Section 3.26 from the record; and repeats the curvature for the negative control with inflating extra times ($b_4 = e^{4a_4}$). It needs no Rust, runs in about 1 minute (the cells with the Riemann tensor and the negative control take up to half a minute each) and ends with the line ALL 40 CHECKS PASSED (notebook 03b).
+Notebook 03b does Sections 3.23 to 3.26 by computer algebra, for general functions $a_4(x_4)$ and $b_4(x_4)$. It reads the metric exactly as the author typed it; computes all 512 Christoffel symbols with the formula of Section 3.15 and compares the 25 non-zero ones with the record; draws them; checks them a second way by finite differences at the test point of the record's brute-force check; checks that observers at rest fall freely; computes the 156 non-zero Riemann components, checks their symmetries and the first Bianchi identity and compares every one with the record; computes the 28 plane curvatures, the Ricci tensor, the Ricci scalar and the Einstein tensor and compares them with the record, with the verifier of the metric with $b_4$ and with the lead's checks; compares 310 components with the record numerically with 30 digits at the record's five test points; checks the contracted Bianchi identity; computes the Kretschmann scalar; evaluates everything along the deflating history ($a_4 = AHx_4$, $b_4 = b_4(0)\,e^{4AHx_4/3}$); reproduces the source of Section 3.26 from the record; and repeats the curvature for the negative control with inflating extra times ($b_4 = e^{4a_4}$). It needs no Rust, runs in about 1 minute (the cells with the Riemann tensor and the negative control take up to half a minute each) and ends with the line ALL 41 CHECKS PASSED (notebook 03b).
 
 <!-- NOTEBOOK 03b -->
 
@@ -3012,14 +3042,16 @@ def numeric(expression):
 
 
 gamma_functions = {(a, b, c): numeric(Gamma[a][b][c]) for a, b, c in nonzero}
-# z, a4, a4p, H, b4, b4p: the canonical slice a4 = 0.5 of the history, b4 = 1
-POINT = (np.pi / 4, 0.5, 1.0, 1.0, 1.0, 0.0)
+# z, a4, a4p, H, b4, b4p: the slice a4 = 0.5 of the history, b4 = e^(2/3) b4(0),
+# b4' = (4/3) b4 (beta = 4/3, A = 1, H = 1); unit b4(0)
+B4_SLICE = float(np.exp(2.0 / 3.0))
+POINT = (np.pi / 4, 0.5, 1.0, 1.0, B4_SLICE, 4.0 / 3.0 * B4_SLICE)
 tables = np.zeros((8, 8, 8))
 for (a, b, c), f in gamma_functions.items():
     tables[a, b, c] = f(*POINT)
 ```
 
-`numeric` turns an exact expression into a fast numerical function (`sp.lambdify`, Section 3.13, In [8]). `gamma_functions` holds one such function for each of the 37 non-zero symbols. `POINT` is the point $z = \pi/4$ on the slice $a_4 = 0.5$ of the history $a_4 = x_4$, $b_4 = 1$ (so $a_4' = 1$ and $b_4' = 0$), with $H = 1$; `f(*POINT)` calls a function with the six numbers. The $8 \times 8 \times 8$ array `tables` holds the 512 numbers (zero where the symbol is zero).
+`numeric` turns an exact expression into a fast numerical function (`sp.lambdify`, Section 3.13, In [8]). `gamma_functions` holds one such function for each of the 37 non-zero symbols. `POINT` is the point $z = \pi/4$ on the slice $a_4 = 0.5$ of the history $a_4 = x_4$, $b_4 = b_4(0)\,e^{4x_4/3}$, with $H = 1$: there $a_4' = 1$, $b_4 = e^{2/3}$ (`B4_SLICE`, in the unit $b_4(0)$) and $b_4' = \frac43 b_4$; `f(*POINT)` calls a function with the six numbers. The $8 \times 8 \times 8$ array `tables` holds the 512 numbers (zero where the symbol is zero).
 
 ```python
 fig, axes = plt.subplots(2, 4, figsize=(11.0, 5.4))
@@ -3041,7 +3073,8 @@ Eight panels in two rows of four, one for each upper index $a$ (`axes.flat` runs
     ax.grid(False)
 fig.colorbar(image, ax=axes, shrink=0.8, label="value (unit $H$)")
 fig.suptitle("Christoffel symbols at $z = \\pi/4$, $a_4 = 0.5$, "
-             "$a_4^{\\prime} = 1$, $b_4 = 1$, $H = 1$ (row $b$, column $c$)")
+             "$a_4^{\\prime} = 1$, $b_4 = e^{2/3}$, $b_4^{\\prime}/b_4 = 4/3$, "
+             "$H = 1$ (row $b$, column $c$)")
 ```
 
 Each panel gets the title $\Gamma^{x_a}{}_{bc}$ (in an f-string a doubled brace `{{` prints one brace, so that the braces of the math notation survive) and the tick labels 0 to 7, the indices of $x_0$ to $x_7$. One colour bar serves all panels; `suptitle` is the title of the whole figure.
@@ -3057,7 +3090,7 @@ check(np.allclose(tables, tables.transpose(0, 2, 1))
 
 The figure is saved. The check: `tables.transpose(0, 2, 1)` exchanges the second and the third index, so the first condition is $\Gamma^a{}_{bc} = \Gamma^a{}_{cb}$ as numbers; the second requires every non-zero index list to contain position 4 ($x_4$) or position 0 ($x_0$).
 
-**What Figure 03b.1 shows.** At $b_4 = 1$, only 37 of the 512 squares are coloured. In the panels of 3-space ($\Gamma^{x_1}$, $\Gamma^{x_2}$, $\Gamma^{x_3}$) the value $1.00$ appears four times, at the positions $(x_k, x_4)$, $(x_4, x_k)$, $(x_k, x_0)$, $(x_0, x_k)$: here both $a_4' = 1$ and $H\cot(\pi/4) = 1$. In the panels of the extra times the squares with $x_4$ are blue, $-1.00$: the deflation. The panel $\Gamma^{x_4}$ has $2.42$ on the 3-space diagonal and $0.33$ on the extra-time diagonal; the panel $\Gamma^{x_0}$ has $-2.42$, $0.33$ and the largest value, $\Gamma^{x_0}{}_{x_0x_0} = -12$. Each panel is symmetric about its diagonal.
+**What Figure 03b.1 shows.** On the history, at $b_4 = e^{2/3}$ and $b_4'/b_4 = 4/3$, only 37 of the 512 squares are coloured. In the panels of 3-space ($\Gamma^{x_1}$, $\Gamma^{x_2}$, $\Gamma^{x_3}$) the value $1.00$ appears four times, at the positions $(x_k, x_4)$, $(x_4, x_k)$, $(x_k, x_0)$, $(x_0, x_k)$: here both $a_4' = 1$ and $H\cot(\pi/4) = 1$. In the panels of the extra times the squares with $x_4$ are blue, $-0.33$: the deflation, $\alpha_t = -1 + \frac23 = -\frac13$; the squares with $x_0$ have $1.00$. The panel $\Gamma^{x_4}$ has $2.42$ on the 3-space diagonal and $0.21$ on the extra-time diagonal ($\frac13 e^{-1/3}(\sin\pi/4)^{1/3}$); the panel $\Gamma^{x_0}$ has $-2.42$, $0.64$ ($e^{-1/3}(\sin\pi/4)^{1/3}$) and the largest value, $\Gamma^{x_0}{}_{x_0x_0} = -12$. Each panel is symmetric about its diagonal.
 
 **In [9], Figure 03b.2: the symbols across the patch.**
 
@@ -3075,32 +3108,33 @@ fig, ax = plt.subplots()
 
 ```python
 for index, colour, style, label in chosen:
-    values = np.broadcast_to(gamma_functions[index](z_line, 0.5, 1.0, 1.0, 1.0,
-                                                    0.0), z_line.shape)
+    values = np.broadcast_to(gamma_functions[index](z_line, *POINT[1:]),
+                             z_line.shape)
     sign = "+" if values[len(values) // 2] > 0 else "minus"
     ax.plot(z_line, np.abs(values), color=colour, ls=style, lw=1.8,
             label=f"{label} (sign {sign})")
 ```
 
-For each symbol the values at the 500 points ($a_4 = 0.5$, $a_4' = 1$, $H = 1$, $b_4 = 1$, $b_4' = 0$); `np.broadcast_to` repeats a constant (the symbol $a_4'$ does not depend on $z$, and its function returns one number). The sign is read at the middle point (`//` divides and rounds down), and the absolute value is drawn, because a logarithmic axis can only show positive numbers.
+For each symbol the values at the 500 points, with the other five arguments of `POINT` ($a_4 = 0.5$, $a_4' = 1$, $H = 1$, $b_4 = e^{2/3}$, $b_4' = \frac43 e^{2/3}$; `POINT[1:]` drops the first entry, $z$); `np.broadcast_to` repeats a constant (the symbol $a_4'$ does not depend on $z$, and its function returns one number). The sign is read at the middle point (`//` divides and rounds down), and the absolute value is drawn, because a logarithmic axis can only show positive numbers.
 
 ```python
 ax.set_yscale("log")
 ax.set_xlabel("$z = 6 H x_0$ (radians)")
 ax.set_ylabel("absolute value of the symbol (unit $H$)")
 ax.set_title("Christoffel symbols across the patch "
-             "($a_4 = 0.5$, $a_4^{\\prime} = 1$, $b_4 = 1$, $H = 1$)")
+             "($a_4 = 0.5$, $a_4^{\\prime} = 1$, $b_4 = e^{2/3}$, $H = 1$)")
 ax.set_ylim(1e-5, 3e3)  # room below the curves for the legend
 ax.legend(fontsize=8, loc="lower center", ncol=2)
 save_figure(fig, "christoffel_versus_z",
             "The absolute values of five Christoffel symbols of the author's metric "
 ...
-check(abs(gamma_functions[(1, 1, 0)](np.pi / 4, 0.5, 1.0, 1.0, 1.0, 0.0) - 1.0)
-      < 1e-14,
-      "Gamma^x1_(x1 x0) = H cot z equals 1 at z = pi/4, H = 1")
+check(abs(gamma_functions[(1, 1, 0)](*POINT) - 1.0) < 1e-14
+      and abs(gamma_functions[(5, 4, 5)](*POINT) - (-1.0 / 3.0)) < 1e-14,
+      "at z = pi/4, H = 1: Gamma^x1_(x1 x0) = H cot z = 1, and on the history "
+      "Gamma^x5_(x4 x5) = -a4' + b4'/(2 b4) = -1/3")
 ```
 
-A logarithmic vertical axis, labels, title, the range of the axis and the legend; the figure is saved; the check confirms $H\cot(\pi/4) = 1$.
+A logarithmic vertical axis, labels, title, the range of the axis and the legend; the figure is saved; the check confirms $H\cot(\pi/4) = 1$ and, on the history, the extra-time rate $\Gamma^{x_5}{}_{x_4x_5} = -a_4' + b_4'/(2b_4) = -1 + \frac23 = -\frac13$ (the key `(5, 4, 5)`).
 
 **What Figure 03b.2 shows.** $\Gamma^{x_1}{}_{x_1x_0} = H\cot z$ (red) falls from about $100$ near the tip to almost $0$ at the patch end; $\Gamma^{x_0}{}_{x_0x_0}$ (violet dashed) is large at both ends and smallest, $12$, at $z = \pi/4$; $\Gamma^{x_0}{}_{x_1x_1}$ and $\Gamma^{x_0}{}_{x_5x_5}$ grow towards the patch end, where $\tan z$ grows without bound; $\Gamma^{x_1}{}_{x_1x_4} = a_4' = 1$ (aqua) is flat. Large Christoffel symbols belong to the coordinates; whether the geometry itself is extreme is decided by an invariant, the Kretschmann scalar of In [22].
 
@@ -3429,20 +3463,29 @@ The check has three parts: the two scale factors are the right ones ($h_1^2 = g_
 
 ```python
 SLOPES = (0.5, 1.0, 2.0)  # three deflating histories, A > 0
-fig, axes = plt.subplots(1, 3, figsize=(14.0, 4.8))  # wide: room for -1.25
+BETA = sp.Rational(4, 3)  # b4 = b4(0) e^(beta A H x4) on the history
+
+
+def history_values(slope):
+    """a4p, a4pp, b4p, b4pp on the history with the slope A (H = 1); b4v stays a
+    symbol and drops out of every curvature quantity."""
+    return {a4p: slope, a4pp: 0, H: 1, b4p: BETA * slope * b4v,
+            b4pp: (BETA * slope) ** 2 * b4v}
+
+
+fig, axes = plt.subplots(1, 3, figsize=(15.0, 4.8))  # wide: room for 0.0278
 for ax, slope in zip(axes, SLOPES):
     curv = np.full((8, 8), np.nan)  # NaN: an empty square on the diagonal
     for (a, b), value in plane.items():
-        curv[a, b] = float(value.subs({a4p: slope, a4pp: 0, H: 1, b4v: 1, b4p: 0,
-                                       b4pp: 0}))
+        curv[a, b] = float(sp.simplify(value.subs(history_values(slope))))
     image = ax.imshow(curv, cmap=DIVERGING, vmin=-5.0, vmax=5.0)
 ```
 
-Three panels for the slopes $A = 0.5$, $1$ and $2$ of the history $a_4 = AHx_4$, $b_4 = 1$, with $H = 1$, $a_4' = A$, $a_4'' = 0$ and $b_4' = b_4'' = 0$ (the dictionary in `subs` sets all six symbols). `np.full((8, 8), np.nan)` is an $8 \times 8$ table of NaN ("not a number"), which matplotlib leaves blank: the diagonal stays empty. The other squares receive the plane curvatures, and the table is drawn with the colour scale from $-5$ to $5$.
+`BETA` is the exact exponent $4/3$ of the history, and `history_values(slope)` returns the dictionary of the history $a_4 = AHx_4$, $b_4 = b_4(0)\,e^{\beta AHx_4}$ with this slope: $H = 1$, $a_4' = A$, $a_4'' = 0$, $b_4' = \frac43 A\,b_4$ and $b_4'' = (\frac43 A)^2 b_4$, where the value $b_4$ (`b4v`) stays a symbol. Every plane curvature contains $b_4$ only through $b_4'/b_4$ and $b_4''/b_4$, so the symbol drops out; `sp.simplify` removes it before `float` turns the result into a number. Three panels for the slopes $A = 0.5$, $1$ and $2$. `np.full((8, 8), np.nan)` is an $8 \times 8$ table of NaN ("not a number"), which matplotlib leaves blank: the diagonal stays empty. The other squares receive the plane curvatures, and the table is drawn with the colour scale from $-5$ to $5$.
 
 ```python
     for a, b in plane:
-        ax.text(b, a, f"{curv[a, b]:g}", ha="center", va="center", fontsize=6.5)
+        ax.text(b, a, f"{curv[a, b]:.3g}", ha="center", va="center", fontsize=6.0)
     ax.set_xticks(range(8), LABELS, fontsize=8)
     ax.set_yticks(range(8), LABELS, fontsize=8)
     ax.grid(False)
@@ -3450,19 +3493,22 @@ Three panels for the slopes $A = 0.5$, $1$ and $2$ of the history $a_4 = AHx_4$,
 fig.colorbar(image, ax=axes, shrink=0.85, label="curvature (unit $H^2$)")
 ```
 
-The value written into each square (`:g` writes a number without needless digits), the labels $x_0$ to $x_7$, the title with the slope, and one colour bar.
+The value written into each square (`:.3g` writes at most three significant digits and no needless zeros), the labels $x_0$ to $x_7$, the title with the slope, and one colour bar.
 
 ```python
 save_figure(fig, "plane_curvatures",
             "The curvature $\\sigma(a, b) = R^{ab}{}_{ab}$ (no sum) of the plane of "
 ...
-check([float(plane[(1, 2)].subs({a4p: s, H: 1})) for s in SLOPES] == [-0.75, 0.0, 3.0],
-      "the planes inside 3-space: -0.75, 0 and 3 for A = 0.5, 1 and 2")
+check([float(plane[(1, 2)].subs({a4p: s, H: 1})) for s in SLOPES] == [-0.75, 0.0, 3.0]
+      and [sp.simplify(plane[(5, 6)].subs(history_values(s))) for s in (1, 2)]
+      == [sp.Rational(-8, 9), sp.Rational(-5, 9)],
+      "on the history the planes inside 3-space are -0.75, 0, 3 and inside the extra "
+      "times -8/9, -5/9 (A = 1, 2)")
 ```
 
-The figure is saved; the check confirms $a_4'^2 - H^2 = -0.75$, $0$, $3$ for the three slopes.
+The figure is saved; the check confirms $a_4'^2 - H^2 = -0.75$, $0$, $3$ for the three slopes, and the exact values $\frac19 A^2 - 1 = -\frac89$ and $-\frac59$ of the planes inside the extra times for $A = 1$ and $A = 2$ (`sp.Rational(-8, 9)` is the exact fraction).
 
-**What Figure 03b.4 shows.** Three symmetric tables, with $x_0$ in the first row and column. The blocks inside 3-space and inside the extra times change from pale blue ($-0.75$ at $A = 0.5$) through grey ($0$ at $A = 1$) to red ($3$ at $A = 2$). The blocks that mix 3-space with the extra times are always blue and deepen: $-1.25$, $-2$, $-5$. The row and column of $x_4$ are red, $A^2$: $0.25$, $1$, $4$. The row and column of $x_0$ are $-1$ everywhere, except the flat plane of $x_4$ and $x_0$, which is $0$. The colours give signs, not shapes: only the squares of two of $x_1, x_2, x_3$ and those of one of them with $x_0$ belong to planes of two space-like directions, where red means curved like a sphere and blue like a saddle (so the 3-space planes are saddle-like at $A = 0.5$ and sphere-like at $A = 2$). In the planes of two extra times the shape reading is reversed, and the red row and column of $x_4$ mean, by In [16]'s check, that observers at rest drift apart ever faster along 3-space and that their extra-time separation shrinks ever more slowly (Section 3.24).
+**What Figure 03b.4 shows.** Three symmetric tables, with $x_0$ in the first row and column. The block inside 3-space changes from pale blue ($-0.75$ at $A = 0.5$) through grey ($0$ at $A = 1$) to red ($3$ at $A = 2$); the block inside the extra times stays blue and pales slowly: $-0.972$, $-0.889$, $-0.556$. The blocks that mix 3-space with the extra times are always blue and deepen: $-1.08$, $-1.33$, $-2.33$. The row and column of $x_4$ are red: $A^2$ with 3-space ($0.25$, $1$, $4$) and $A^2/9$ with the extra times ($0.0278$, $0.111$, $0.444$). The row and column of $x_0$ are $-1$ everywhere, except the flat plane of $x_4$ and $x_0$, which is $0$. The colours give signs, not shapes: only the squares of two of $x_1, x_2, x_3$ and those of one of them with $x_0$ belong to planes of two space-like directions, where red means curved like a sphere and blue like a saddle (so the 3-space planes are saddle-like at $A = 0.5$ and sphere-like at $A = 2$). In the planes of two extra times the shape reading is reversed, and the red row and column of $x_4$ mean, by In [16]'s check, that observers at rest drift apart ever faster along 3-space and that their extra-time separation shrinks ever more slowly (Section 3.24).
 
 **In [17], Ricci, Ricci scalar and Einstein tensor.**
 
@@ -3488,7 +3534,7 @@ for k in range(8):
 say(f"Ricci scalar R = {plain(R_scalar)}")
 ```
 
-The Ricci tensor, its trace (the Ricci scalar) and the Einstein tensor $G = \mathrm{Ric} - \frac{R}{2}\,\mathbb 1$ (`sp.eye(8)` is the $8 \times 8$ unit matrix). The loop prints the diagonal of both tensors (`:18s` pads the text to at least 18 characters, so that short entries line up), and the last line the scalar. The output is the result of Section 3.25, written out with $a_4$ and $b_4$: $R^a{}_a = -6H^2$ for $x_0$, $-6H^2 + \tfrac32 a_4'b_4'/b_4 + a_4''$ for 3-space, the long entry for $x_4$, and $-6H^2 - \tfrac32 a_4'b_4'/b_4 - a_4'' + \tfrac14 b_4'^2/b_4^2 + \tfrac12 b_4''/b_4$ for the extra times; $G^4{}_4 = 21H^2 + 3a_4'^2 - \tfrac32 a_4'b_4'/b_4 - \tfrac34 b_4'^2/b_4^2$; $R = -42H^2 + 6a_4'^2 - 3a_4'b_4'/b_4 + 3b_4''/b_4$. For a constant $b_4$ these are $a_4'' - 6H^2$, $6a_4'^2$, $-a_4'' - 6H^2$, $3a_4'^2 + 21H^2$ and $6a_4'^2 - 42H^2$.
+The Ricci tensor, its trace (the Ricci scalar) and the Einstein tensor $G = \mathrm{Ric} - \frac{R}{2}\,\mathbb 1$ (`sp.eye(8)` is the $8 \times 8$ unit matrix). The loop prints the diagonal of both tensors (`:18s` pads the text to at least 18 characters, so that short entries line up), and the last line the scalar. The output is the result of Section 3.25, written out with $a_4$ and $b_4$: $R^a{}_a = -6H^2$ for $x_0$, $-6H^2 + \tfrac32 a_4'b_4'/b_4 + a_4''$ for 3-space, the long entry for $x_4$, and $-6H^2 - \tfrac32 a_4'b_4'/b_4 - a_4'' + \tfrac14 b_4'^2/b_4^2 + \tfrac12 b_4''/b_4$ for the extra times; $G^4{}_4 = 21H^2 + 3a_4'^2 - \tfrac32 a_4'b_4'/b_4 - \tfrac34 b_4'^2/b_4^2$; $R = -42H^2 + 6a_4'^2 - 3a_4'b_4'/b_4 + 3b_4''/b_4$. On the history of Section 3.8 they take the values of Section 3.25 (In [24] and In [25] evaluate them there).
 
 ```python
 ricci_ok = all(same(Ric[i, j], from_mathematica(
@@ -3517,22 +3563,27 @@ L1_entry = next(entry for entry in a4_report["checks"]
                 if entry["name"] == "L1_equals_gkd_branch")
 L1_detail, L1_verdict = L1_entry["detail"], L1_entry["verdict"]
 say(f"record: {L1_detail} ({L1_verdict})")
+u_sym, v_sym = sp.symbols("u v", real=True)  # u = b4'/b4 and v = u'
 ```
 
-The sympy verification of the record of the field equations of $a_4$ is read. Its checks form a list; `next(...)` takes the first entry whose name is `L1_equals_gkd_branch`. The output prints its text and verdict: $L_{(1)} = -84H^2 + 12\,ad1^2$ (PASS), where `ad1` is the record's name for $a_4'$; this check is made for the metric at $b_4 = 1$. $L_{(1)}$ is the first **Lovelock scalar**: the Revision record builds the field equations from three curvature scalars $L_{(1)}, L_{(2)}, L_{(3)}$, made from products of one, two or three Riemann tensors with the generalized Kronecker delta of Chapter 1, and the first of them is exactly twice the Ricci scalar, $L_{(1)} = 2R$ (Chapter 11 treats all three).
+The sympy verification of the record of the field equations of $a_4$ is read. Its checks form a list; `next(...)` takes the first entry whose name is `L1_equals_gkd_branch`. The output prints its text and verdict: $L_{(1)} = -84H^2 + 12\,ad1^2 - 6\,ad1\,uu + 6\,uu^2 + 6\,vv$ (PASS), where `ad1` is the record's name for $a_4'$, `uu` for $u = b_4'/b_4$ and `vv` for $v = u'$; the check is made for a general $b_4$. The last line makes two plain symbols, `u_sym` and `v_sym` (printed as `u` and `v`), for these two quantities. $L_{(1)}$ is the first **Lovelock scalar**: the Revision record builds the field equations from three curvature scalars $L_{(1)}, L_{(2)}, L_{(3)}$, made from products of one, two or three Riemann tensors with the generalized Kronecker delta of Chapter 1, and the first of them is exactly twice the Ricci scalar, $L_{(1)} = 2R$ (Chapter 11 treats all three).
 
 ```python
 L1_text = L1_detail.split("=")[1]  # the text after the equals sign
-L1_record = parse_expr(L1_text, local_dict={"H": H, "ad1": a4p})
+L1_record = parse_expr(L1_text, local_dict={"H": H, "ad1": a4p, "uu": u_sym,
+                                            "vv": v_sym})
 record_check(PYTHON_REPORT, "L1_equals_2R", "L_(1) = 2 R exactly")  # stops if not
-R_at_b4_1 = plain(R_scalar).subs({b4pp: 0, b4p: 0, b4v: 1})  # R at b4 = 1
-check(L1_verdict == "PASS" and sp.expand(L1_record - 2 * R_at_b4_1) == 0,
-      "at b4 = 1 the first Lovelock scalar of the record is twice our Ricci scalar",
+R_in_uv = sp.expand(sp.simplify(plain(R_scalar).subs(
+    {b4p: u_sym * b4v, b4pp: (v_sym + u_sym ** 2) * b4v})))  # b4v drops out
+say(f"our R in u and v: {R_in_uv}")
+check(L1_verdict == "PASS" and not R_in_uv.has(b4v)
+      and sp.expand(L1_record - 2 * R_in_uv) == 0,
+      "the first Lovelock scalar of the record is twice our Ricci scalar (in u, v)",
       record=f"{A4_REPORT}, check L1_equals_gkd_branch (with "
              "python-lovelock-report.json, check L1_equals_2R)")
 ```
 
-The text after the equals sign is read as a sympy expression, with `ad1` meaning $a_4'$. `record_check` stops the notebook unless the independent verification of the curvature record lists its check `L1_equals_2R` as passed with the detail `L_(1) = 2 R exactly`. `R_at_b4_1` is our Ricci scalar at $b_4 = 1$: the dictionary in `subs` sets $b_4'' = 0$, $b_4' = 0$ and $b_4 = 1$, and $R$ becomes $6a_4'^2 - 42H^2$. The check: the record marks the check `L1_equals_gkd_branch` as passed, and $L_{(1)} = 2R$ with our $R$ at $b_4 = 1$ ($2(6a_4'^2 - 42H^2) = 12a_4'^2 - 84H^2$).
+The text after the equals sign is read as a sympy expression, with `ad1` meaning $a_4'$, `uu` meaning $u$ and `vv` meaning $v$. `record_check` stops the notebook unless the independent verification of the curvature record lists its check `L1_equals_2R` as passed with the detail `L_(1) = 2 R exactly`. `R_in_uv` is our Ricci scalar written in $u$ and $v$: the dictionary in `subs` puts in $b_4' = u\,b_4$ and $b_4'' = (v + u^2)\,b_4$ (by the quotient rule $v = (b_4'/b_4)' = b_4''/b_4 - u^2$), the value $b_4$ cancels, and the output prints `-42*H**2 + 6*a4p**2 - 3*a4p*u + 3*u**2 + 3*v`. The check: the record marks the check `L1_equals_gkd_branch` as passed, $b_4$ itself has dropped out (`not R_in_uv.has(b4v)`), and $L_{(1)} = 2R$ (twice our $R$ is $-84H^2 + 12a_4'^2 - 6a_4'u + 6u^2 + 6v$).
 
 **In [19], all 310 components at five test points with 30 digits.**
 
@@ -3608,13 +3659,12 @@ Three RESULT lines: 310 components, 1550 evaluations, and the largest relative d
 
 ```python
 LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"
-for name in ("einstein_off_diagonal_zero", "einstein_x0_independent",
+for name in ("einstein_off_diagonal", "einstein_diagonal_x0_independent",
              "einstein_isotropy", "no_vacuum_for_H_positive"):
     record_check(LEAD, name)  # stops unless the lead check passed
 METRIC_B4 = "Revision/metric_b4/results/wolfram-metric-b4-report.json"
 for name in ("off_diagonal_entries_x0_x4_only", "off_diagonal_proportional_to_b4prime"):
     record_check(METRIC_B4, name)  # stops unless the check passed
-G_b4_1 = G.applyfunc(lambda e: symbolic(e).subs({b4pp: 0, b4p: 0, b4v: 1}))
 off_diagonal = {(i, j): plain(G[i, j]) for i in range(8) for j in range(8)
                 if i != j and G[i, j] != 0}
 for (i, j), value in sorted(off_diagonal.items()):
@@ -3623,32 +3673,35 @@ check(sorted(off_diagonal) == [(0, 4), (4, 0)]
       and vanishes(symbolic(G[4, 0]) - sp.Rational(3, 2) * H * sp.cot(6 * H * x0)
                    * b4p / b4v)
       and vanishes(symbolic(G[0, 4]) + sp.Rational(3, 2) * H * sp.tan(6 * H * x0)
-                   * b4p / b4v)
-      and all(G_b4_1[i, j] == 0 for i in range(8) for j in range(8) if i != j),
-      "the only off-diagonal components G^x4_x0, G^x0_x4 are proportional to b4p; "
-      "at b4 = 1 the Einstein tensor is diagonal",
-      record=f"{LEAD}, check einstein_off_diagonal_zero, and "
+                   * b4p / b4v),
+      "the only off-diagonal components G^x4_x0, G^x0_x4 are proportional to b4p",
+      record=f"{LEAD}, check einstein_off_diagonal, and "
              "wolfram-metric-b4-report.json, checks off_diagonal_entries_x0_x4_only, "
              "off_diagonal_proportional_to_b4prime")
-check(all(sp.diff(G_b4_1[i, j], x0) == 0 for i in range(8) for j in range(8)),
-      "at b4 = 1 no component of the Einstein tensor depends on x0",
-      record=f"{LEAD}, check einstein_x0_independent")
+check(all(sp.diff(symbolic(G[k, k]), x0) == 0 for k in range(8)),
+      "no diagonal component of the Einstein tensor depends on x0",
+      record=f"{LEAD}, check einstein_diagonal_x0_independent")
 check(G[1, 1] == G[2, 2] == G[3, 3] and G[5, 5] == G[6, 6] == G[7, 7],
       "3-space components equal, extra-time components equal",
       record=f"{LEAD}, check einstein_isotropy")
 ```
 
-`LEAD` names the report of the lead check of the field equations (the lead checks are explained in Section 3.7), made for the metric at $b_4 = 1$, and `METRIC_B4` the report of the verifier of the metric with $b_4$. The two loops run `record_check` (In [3]) for the four checks of the first report and the two of the second that this cell's PASS lines name; the notebook stops unless each is listed as passed. `G_b4_1` is the Einstein tensor at $b_4 = 1$: `applyfunc` applies a function to every entry, and `lambda e: ...` is a function without a name that writes an entry with the printing symbols and sets $b_4'' = 0$, $b_4' = 0$, $b_4 = 1$. `off_diagonal` collects the non-zero entries off the diagonal; the output prints the two of them, `G^x0_x4 = -3*H*b4p*tan(z)/(2*b4v)` and `G^x4_x0 = 3*H*b4p/(2*b4v*tan(z))`. Then three checks of Section 3.25, each naming the check of the reports: the only entries off the diagonal are $G^{x_4}{}_{x_0} = \tfrac32 H\cot z\,b_4'/b_4$ and $G^{x_0}{}_{x_4} = -\tfrac32 H\tan z\,b_4'/b_4$, so that at $b_4 = 1$ there is none; at $b_4 = 1$ no entry depends on $x_0$; and, for every $b_4$, equal 3-space entries and equal extra-time entries.
+`LEAD` names the report of the lead check of the field equations (the lead checks are explained in Section 3.7), made for the metric with $b_4$, and `METRIC_B4` the report of the verifier of the metric with $b_4$. The two loops run `record_check` (In [3]) for the four checks of the first report and the two of the second that this cell's PASS lines name; the notebook stops unless each is listed as passed. `off_diagonal` collects the non-zero entries off the diagonal; the output prints the two of them, `G^x0_x4 = -3*H*b4p*tan(z)/(2*b4v)` and `G^x4_x0 = 3*H*b4p/(2*b4v*tan(z))`. Then three checks of Section 3.25, each naming the check of the reports: the only entries off the diagonal are $G^{x_4}{}_{x_0} = \tfrac32 H\cot z\,b_4'/b_4$ and $G^{x_0}{}_{x_4} = -\tfrac32 H\tan z\,b_4'/b_4$; no diagonal entry depends on $x_0$ (`symbolic` writes an entry with $x_0$ itself and the functions $a_4(x_4)$, $b_4(x_4)$, so that `sp.diff(..., x0)` can differentiate it); and equal 3-space entries and equal extra-time entries.
 
 ```python
-gap = sp.simplify(G_b4_1[4, 4] - G_b4_1[0, 0])
-say(f"at b4 = 1: G^x4_x4 - G^x0_x0 = {sp.factor(gap)}")
-check(sp.simplify(gap - 6 * (a4p ** 2 + H ** 2)) == 0,
-      "at b4 = 1: G^x4_x4 - G^x0_x0 = 6 (a4p^2 + H^2) > 0",
+gap = sp.simplify(symbolic(G[4, 4] - G[0, 0]).subs(
+    {b4p: u_sym * b4v, b4pp: (v_sym + u_sym ** 2) * b4v}))
+say(f"G^x4_x4 - G^x0_x0 = {sp.expand(gap)}")
+check(sp.expand(gap - (6 * H ** 2 + 3 * a4p ** 2
+                       + sp.Rational(3, 4) * (u_sym - 2 * a4p) ** 2
+                       + sp.Rational(3, 2) * v_sym)) == 0
+      and sp.expand(gap.subs({u_sym: 0, v_sym: 0}) - 6 * (a4p ** 2 + H ** 2)) == 0,
+      "G^x4_x4 - G^x0_x0 = 6 H^2 + 3 a4p^2 + (3/4)(u - 2 a4p)^2 + (3/2) v; where the "
+      "vacuum x4-x0 equation forces u = 0 it is 6 (a4p^2 + H^2) > 0",
       record=f"{LEAD}, check no_vacuum_for_H_positive")
 ```
 
-The difference $G^{x_4}{}_{x_4} - G^{x_0}{}_{x_0}$ at $b_4 = 1$, printed in factored form (`sp.factor`) as `6*(H**2 + a4p**2)`, and the check of Section 3.25 behind the statement that no empty spacetime has this metric (Section 3.26).
+The difference $G^{x_4}{}_{x_4} - G^{x_0}{}_{x_0}$, written in $u$ and $v$ as in In [18] and printed multiplied out (`sp.expand`) as `6*H**2 + 6*a4p**2 - 3*a4p*u + 3*u**2/4 + 3*v/2`. The check: it equals the completed square of Section 3.25, $6H^2 + 3a_4'^2 + \frac34(u - 2a_4')^2 + \frac32 v$, and at $u = v = 0$ (a constant $b_4$, which the vacuum $x_4$-$x_0$ equation forces) it is $6(a_4'^2 + H^2)$: the statement that no empty spacetime has this metric (Section 3.26).
 
 **In [21], the contracted Bianchi identity.**
 
@@ -3683,7 +3736,7 @@ say(f"Kretschmann scalar K = {K}")
 say(f"sum of R^a_b R^b_a  = {ricci_square}")
 ```
 
-$K = \sum R^{ab}{}_{cd}R^{cd}{}_{ab}$ from our 156 components, then a second time from the record's 156 components alone, and $\sum_{a,b}R^a{}_bR^b{}_a$; each is multiplied out (`sp.expand`) and factored (`sp.factor`). The output shows two long fractions in $H$, $a_4'$, $a_4''$, $b_4$, $b_4'$ and $b_4''$; $b_4$ appears in them only together with its derivatives, in the ratios $b_4'/b_4$ and $b_4''/b_4$. For a constant $b_4$ the first is $K = 12(7H^4 - 2H^2a_4'^2 + 7a_4'^4 + 2a_4''^2)$, the result of Section 3.25 (printed by the next block), and the second is $\sum R^a{}_bR^b{}_a = 6(42H^4 + 6a_4'^4 + a_4''^2)$ (the sum of the squares of the four kinds of diagonal entries, three, one, three and one of them, and the entries off the diagonal are then zero).
+$K = \sum R^{ab}{}_{cd}R^{cd}{}_{ab}$ from our 156 components, then a second time from the record's 156 components alone, and $\sum_{a,b}R^a{}_bR^b{}_a$; each is multiplied out (`sp.expand`) and factored (`sp.factor`). The output shows two long fractions in $H$, $a_4'$, $a_4''$, $b_4$, $b_4'$ and $b_4''$; $b_4$ appears in them only together with its derivatives, in the ratios $b_4'/b_4$ and $b_4''/b_4$. On the history of Section 3.8 the two become the scalars of Section 3.25, which In [24] computes; for a constant $b_4$ (the withdrawn metric) the first is $K = 12(7H^4 - 2H^2a_4'^2 + 7a_4'^4 + 2a_4''^2)$ (printed by the next block).
 
 ```python
 check(sp.simplify(K - K_record) == 0,
@@ -3701,19 +3754,29 @@ report("smallest possible K for constant b4 (at a4p^2 = H^2/7, a4pp = 0)",
        sp.sstr(sp.Rational(576, 7) * H ** 4))
 ```
 
-Three checks: our $K$ equals the record's; $K$ contains neither $x_0$ nor the value of $a_4$; and, for a constant $b_4$, the completed square of Section 3.25 is exactly $K/12$. `K_constant_b4` is $K$ with $b_4'' = 0$ and $b_4' = 0$, after which $b_4$ drops out; the printed line shows it, `12*(7*H**4 - 2*H**2*a4p**2 + 7*a4p**4 + 2*a4pp**2)`. The RESULT line prints the smallest possible value $576H^4/7$ for a constant $b_4$.
+Three checks: our $K$ equals the record's; $K$ contains neither $x_0$ nor the value of $a_4$; and, for a constant $b_4$ (the withdrawn metric, as a mathematical bound), the completed square $7(a_4'^2 - H^2/7)^2 + \frac{48}{7}H^4 + 2a_4''^2$ is exactly $K/12$ (expand the square: $7a_4'^4 - 2H^2a_4'^2 + H^4/7$, and $H^4/7 + 48H^4/7 = 7H^4$). `K_constant_b4` is $K$ with $b_4'' = 0$ and $b_4' = 0$, after which $b_4$ drops out; the printed line shows it, `12*(7*H**4 - 2*H**2*a4p**2 + 7*a4p**4 + 2*a4pp**2)`. The RESULT line prints the smallest possible value $576H^4/7$ for a constant $b_4$. On the history of this book the smallest value is $\frac{14592}{191}H^4$ instead (Section 3.25).
 
 **In [23], Figure 03b.5: components that see $z$ and an invariant that does not.**
 
 ```python
-# numerical functions of the 156 components with a4pp = 0 and b4pp = 0 (true on
-# the history a4 = A H x4, b4 = 1); the second derivatives are set to 0 first
+# numerical functions of the 156 components on the history: a4pp = 0 and
+# b4'' = b4'^2/b4 (v = (b4'/b4)' = 0); the second derivatives are replaced first
 riemann_functions = {k: numeric(v.subs({sp.Derivative(a4, (x4, 2)): 0,
-                                        sp.Derivative(b4, (x4, 2)): 0}))
+                                        sp.Derivative(b4, (x4, 2)):
+                                        sp.Derivative(b4, x4) ** 2 / b4}))
                      for k, v in R_mixed.items()}
 ```
 
-The 156 components as numerical functions of $(z, a_4, a_4', H, b_4, b_4')$, with $a_4'' = 0$ and $b_4'' = 0$, which hold on every linear history with $b_4 = 1$; the second derivatives are replaced by 0 before `numeric` (In [8]) is applied.
+The 156 components as numerical functions of $(z, a_4, a_4', H, b_4, b_4')$ on the history: there $a_4'' = 0$, and $u = b_4'/b_4$ is constant, so $v = b_4''/b_4 - u^2 = 0$ and $b_4'' = b_4'^2/b_4$. The second derivatives are replaced by $0$ and by $b_4'^2/b_4$ (written with the derivative of the function $b_4(x_4)$, `sp.Derivative(b4, x4)`) before `numeric` (In [8]) is applied.
+
+```python
+def on_history(rate):
+    """a4, a4p, H, b4, b4p at the slice a4 = 0.5 for the rate a4p = rate (H = 1):
+    b4 = e^(2/3) b4(0) and b4'/b4 = (4/3) a4p."""
+    return (0.5, rate, 1.0, B4_SLICE, 4.0 / 3.0 * rate * B4_SLICE)
+```
+
+`on_history(rate)` gives the five arguments after $z$ on the slice $a_4 = 0.5$ of the history with the rate $a_4' = $ `rate` and $H = 1$: $b_4 = e^{2/3}$ (`B4_SLICE` of In [8]; $b_4 = b_4(0)\,e^{4a_4/3}$ has this value at $a_4 = 0.5$ whatever the slope) and $b_4' = \frac43\,\mathrm{rate}\cdot b_4$.
 
 ```python
 def kretschmann_numbers(z_values, rate):
@@ -3722,22 +3785,22 @@ def kretschmann_numbers(z_values, rate):
     for (a, b, c, d), f in riemann_functions.items():
         partner = riemann_functions.get((c, d, a, b))
         if partner is not None:
-            total += (f(z_values, 0.5, rate, 1.0, 1.0, 0.0)
-                      * partner(z_values, 0.5, rate, 1.0, 1.0, 0.0))
+            total += (f(z_values, *on_history(rate))
+                      * partner(z_values, *on_history(rate)))
     return total
 ```
 
-$K$ summed numerically at many values of $z$ at once, for a given rate $a_4'$ (with $a_4 = 0.5$, $H = 1$, $b_4 = 1$, $b_4' = 0$): each component times its partner with the pairs exchanged (`None` means that no partner was found; every component has one).
+$K$ summed numerically at many values of $z$ at once, for a given rate $a_4'$ (with the arguments of `on_history`; the star unpacks the five numbers): each component times its partner with the pairs exchanged (`None` means that no partner was found; every component has one).
 
 ```python
 z_line = np.linspace(0.02, np.pi / 2 - 0.02, 300)
-cot_part = riemann_functions[(1, 4, 1, 0)](z_line, 0.5, 1.5, 1.0, 1.0, 0.0)
-tan_part = riemann_functions[(1, 0, 1, 4)](z_line, 0.5, 1.5, 1.0, 1.0, 0.0)
+cot_part = riemann_functions[(1, 4, 1, 0)](z_line, *on_history(1.5))
+tan_part = riemann_functions[(1, 0, 1, 4)](z_line, *on_history(1.5))
 fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.2))
 fig.subplots_adjust(wspace=0.32)  # room for the label of the right vertical axis
 ```
 
-300 values of $z$; the two components $R^{x_1x_4}{}_{x_1x_0} = Ha_4'\cot z$ (key `(1, 4, 1, 0)`) and $R^{x_1x_0}{}_{x_1x_4} = -Ha_4'\tan z$ (key `(1, 0, 1, 4)`) at $a_4' = 1.5$, $b_4 = 1$; a figure with two panels.
+300 values of $z$; the two components $R^{x_1x_4}{}_{x_1x_0} = Ha_4'\cot z$ (key `(1, 4, 1, 0)`) and $R^{x_1x_0}{}_{x_1x_4} = -Ha_4'\tan z$ (key `(1, 0, 1, 4)`) at $a_4' = 1.5$ on the history; a figure with two panels.
 
 ```python
 axes[0].plot(z_line, np.abs(cot_part), color=RED, lw=1.8,
@@ -3747,7 +3810,7 @@ axes[0].plot(z_line, np.abs(tan_part), color=BLUE, lw=1.8, ls="--",
 axes[0].plot(z_line, np.abs(cot_part * tan_part), color="black", lw=1.2, ls=":",
              label="minus their product $= H^2 a_4^{\\prime 2}$")
 axes[0].plot(z_line, np.abs(np.broadcast_to(
-    riemann_functions[(1, 0, 1, 0)](z_line, 0.5, 1.5, 1.0, 1.0, 0.0), z_line.shape)),
+    riemann_functions[(1, 0, 1, 0)](z_line, *on_history(1.5)), z_line.shape)),
     color=AQUA, lw=1.8, ls="-.", label="minus $R^{x_1x_0}{}_{x_1x_0} = H^2$")
 ```
 
@@ -3774,13 +3837,16 @@ axes[1].set_xlabel("$z = 6 H x_0$ (radians)")
 axes[1].set_ylabel("$K$ (unit $H^4$)")
 axes[1].set_title("Kretschmann scalar summed from 156 components")
 axes[1].legend(fontsize=8)
-# the values of the formula for K at the four rates, for the caption and the check
-K_values = [float(K.subs({a4p: r, a4pp: 0, H: 1, b4v: 1, b4p: 0, b4pp: 0}))
+# the values of the formula for K at the four rates on the history (b4v drops out),
+# for the caption and the check
+K_values = [float(sp.simplify(K.subs({a4p: r, a4pp: 0, H: 1,
+                                      b4p: sp.Rational(4, 3) * r * b4v,
+                                      b4pp: (sp.Rational(4, 3) * r) ** 2 * b4v})))
             for r in rates]
 K_text = ", ".join(f"${k:g}$" for k in K_values)
 ```
 
-The right panel's axis, labels, title and legend. `K_values` are the values of the formula for $K$ at the four rates, and `K_text` joins them with commas for the caption: $83.25$, $144$, $455.25$, $1332$ (from $12(7 - 2r^2 + 7r^4)$ with $H = 1$).
+The right panel's axis, labels, title and legend. `K_values` are the values of the formula for $K$ at the four rates on the history (with $b_4' = \frac43 r\,b_4$ and $b_4'' = (\frac43 r)^2 b_4$; the value $b_4$ drops out, and `sp.simplify` removes it before `float`), and `K_text` joins them with commas for the caption: $78.4352$, $82.963$, $161.25$, $419.407$ (from $\frac{4}{27}(191r^4 - 198r^2 + 567)$ with $H = 1$; `:g` prints six significant digits).
 
 ```python
 save_figure(fig, "riemann_and_kretschmann_z",
@@ -3794,22 +3860,24 @@ check(all(np.max(np.abs(n - k)) < 1e-9 * k for n, k in zip(numbers, K_values)),
 
 The figure is saved; the check requires the numerical sum to equal the formula at all 300 points within a relative $10^{-9}$, for all four rates.
 
-**What Figure 03b.5 shows.** At $b_4 = 1$. Left: the red curve $Ha_4'\cot z$ falls by more than three powers of ten across the patch, the blue dashed curve $Ha_4'\tan z$ rises by as much; their product (dotted) is the constant $H^2a_4'^2 = 2.25$, and the plane component $H^2 = 1$ (dash-dotted) is constant too. Right: the four values of $K$ are four flat lines, $83.25$, $144$, $455.25$ and $1332$: although single components blow up at the ends of the patch, the invariant is the same at every $z$. The Kretschmann scalar therefore gives no sign of a singularity anywhere in the patch: the large components are an effect of the coordinates.
+**What Figure 03b.5 shows.** On the history. Left: the red curve $Ha_4'\cot z$ falls by more than three powers of ten across the patch, the blue dashed curve $Ha_4'\tan z$ rises by as much; their product (dotted) is the constant $H^2a_4'^2 = 2.25$, and the plane component $H^2 = 1$ (dash-dotted) is constant too. Right: the four values of $K$ are four flat lines, $78.44$, $82.96$, $161.25$ and $419.41$: although single components blow up at the ends of the patch, the invariant is the same at every $z$. The Kretschmann scalar therefore gives no sign of a singularity anywhere in the patch: the large components are an effect of the coordinates.
 
 **In [24], Figure 03b.6: the curvature scalars along the history.**
 
 ```python
 A = sp.symbols("A", real=True)  # the slope of the history a4 = A H x4
-on_history = {a4p: A * H, a4pp: 0, b4pp: 0, b4p: 0, b4v: 1}
-R_A = sp.factor(symbolic(R_scalar).subs(on_history))
-K_A = sp.factor(K.subs(on_history))
-RR_A = sp.factor(ricci_square.subs(on_history))
+on_history = {a4p: A * H, a4pp: 0, b4p: BETA * A * H * b4v,
+              b4pp: (BETA * A * H) ** 2 * b4v}  # b4v drops out of every scalar
+R_A = sp.factor(sp.simplify(symbolic(R_scalar).subs(on_history)))
+K_A = sp.factor(sp.simplify(K.subs(on_history)))
+RR_A = sp.factor(sp.simplify(ricci_square.subs(on_history)))
 say(f"on the history: R = {R_A},  K = {K_A},  R^a_b R^b_a = {RR_A}")
-check(all(sp.expand(f.subs(A, -A) - f) == 0 for f in (R_A, K_A, RR_A)),
-      "the curvature scalars are even in A")
+check(all(sp.expand(f.subs(A, -A) - f) == 0 and not f.has(b4v)
+          for f in (R_A, K_A, RR_A)),
+      "on the history the curvature scalars are even in A and free of b4(0)")
 ```
 
-The slope $A$ as a symbol and the history $a_4' = AH$, $a_4'' = 0$, $b_4 = 1$, $b_4' = b_4'' = 0$ (the dictionary `on_history`) put into the three scalars. The output: $R = 6H^2(A^2 - 7)$, $K = 12H^4(7A^4 - 2A^2 + 7)$, $\sum R^a{}_bR^b{}_a = 36H^4(A^4 + 7)$. The check: all three are **even** in $A$ (replacing $A$ by $-A$ changes nothing), because they contain only $A^2$. These three numbers therefore cannot tell which of the two families of directions deflates; the metric and the components of the curvature can (Section 3.24).
+The slope $A$ as a symbol and the history $a_4' = AH$, $a_4'' = 0$, $b_4' = \frac43 AH\,b_4$, $b_4'' = (\frac43 AH)^2 b_4$ (the dictionary `on_history`, which takes over the name of the function of In [23], no longer needed) put into the three scalars; the value $b_4$ drops out, and `sp.simplify` removes it before `sp.factor`. The output: $R = \frac23 H^2(11A^2 - 63)$, $K = \frac{4}{27}H^4(191A^4 - 198A^2 + 567)$, $\sum R^a{}_bR^b{}_a = \frac49 H^4(55A^4 - 126A^2 + 567)$. The check: all three are **even** in $A$ (replacing $A$ by $-A$ changes nothing), because they contain only $A^2$, and none contains $b_4$ (`not f.has(b4v)`), so they do not depend on the unit $b_4(0)$. These three numbers therefore cannot tell which of the two families of directions deflates; the metric and the components of the curvature can (Section 3.24).
 
 ```python
 A_line = np.linspace(0.1, 3.0, 291)  # slopes 0.1, 0.11, ..., 3; A_line[90] = 1
@@ -3822,9 +3890,10 @@ fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.2))
 291 slopes from $0.1$ to $3$ in steps of $0.01$ (position 90 is $A = 1$), all positive, so every history drawn deflates the extra times; the three scalars at these slopes with $H = 1$; a figure with two panels.
 
 ```python
-axes[0].plot(A_line, R_numbers, color=VIOLET, lw=1.8, label="$R = 6H^2(A^2 - 7)$")
+axes[0].plot(A_line, R_numbers, color=VIOLET, lw=1.8,
+             label="$R = \\frac{2}{3}H^2(11A^2 - 63)$")
 axes[0].axhline(0.0, color="black", lw=0.8)
-axes[0].plot([np.sqrt(7)], [0.0], "o", color=VIOLET, ms=7)  # the zero of R
+axes[0].plot([np.sqrt(63 / 11)], [0.0], "o", color=VIOLET, ms=7)  # the zero of R
 axes[0].set_ylabel("Ricci scalar $R$ (unit $H^2$)")
 axes[0].set_title("Ricci scalar")
 axes[1].plot(A_line, K_numbers, color=RED, lw=1.8, label="Kretschmann $K$")
@@ -3835,7 +3904,7 @@ axes[1].set_ylabel("value (unit $H^4$)")
 axes[1].set_title("Squares of the curvature")
 ```
 
-Left: $R$ against $A$, the zero line, and a dot at the zero $A = \sqrt 7$. Right, on a logarithmic axis: $K$ and $\sum R^a{}_bR^b{}_a$.
+Left: $R$ against $A$, the zero line, and a dot at the zero $A = \sqrt{63/11}$. Right, on a logarithmic axis: $K$ and $\sum R^a{}_bR^b{}_a$.
 
 ```python
 for ax in axes:
@@ -3846,32 +3915,40 @@ axes[0].text(1.05, -40, "$A = 1$", fontsize=9)
 save_figure(fig, "scalars_versus_a",
             "The curvature scalars of the author's metric along the deflating "
 ...
-check(abs(R_numbers[90] - (-36.0)) < 1e-9 and abs(K_numbers[90] - 144.0) < 1e-9,
-      "at A = 1: R = -36 H^2 and K = 144 H^4")
+check(abs(R_numbers[90] - (-104.0 / 3.0)) < 1e-9
+      and abs(K_numbers[90] - 2240.0 / 27.0) < 1e-9
+      and sp.expand(R_A - sp.Rational(2, 3) * H ** 2 * (11 * A ** 2 - 63)) == 0,
+      "on the history at A = 1: R = -104/3 H^2 and K = 2240/27 H^4")
 ```
 
-A dotted vertical line at the canonical $A = 1$ in both panels, the axis label and legend, a label at the line; the figure is saved; the check confirms $R = -36$ and $K = 144$ at $A = 1$ (Section 3.25).
+A dotted vertical line at the canonical $A = 1$ in both panels, the axis label and legend, a label at the line; the figure is saved; the check confirms $R = -\frac{104}{3}$ and $K = \frac{2240}{27}$ at $A = 1$ (position 90) and the formula $R = \frac23 H^2(11A^2 - 63)$ (Section 3.25).
 
-**What Figure 03b.6 shows.** Left: the Ricci scalar rises from $-42$ near $A = 0$ through $-36$ at $A = 1$ and crosses zero at $A = \sqrt 7 = 2.65$ (the dot). Right: $K$ (red) is smallest, $576/7 = 82.3$, near $A = 1/\sqrt 7 = 0.38$ and grows like $84A^4$ for large slopes; $\sum R^a{}_bR^b{}_a$ (blue dashed) starts at $252$ and grows like $36A^4$. Both stay far above zero: every deflating history is curved.
+**What Figure 03b.6 shows.** Left: the Ricci scalar rises from $-42$ near $A = 0$ through $-104/3 = -34.7$ at $A = 1$ and crosses zero at $A = \sqrt{63/11} = 2.39$ (the dot). Right: $K$ (red) is smallest, $14592/191 = 76.4$, near $A = \sqrt{99/191} = 0.72$, and grows like $\frac{764}{27}A^4 = 28.3A^4$ for large slopes; $\sum R^a{}_bR^b{}_a$ (blue dashed) starts near $252$ and grows like $\frac{220}{9}A^4 = 24.4A^4$. Both stay far above zero: every deflating history of this family is curved.
 
 **In [25], Figure 03b.7: the Einstein tensor along the history.**
 
 ```python
-G_A = [sp.factor(symbolic(G[k, k]).subs(on_history)) for k in range(8)]
+G_A = [sp.factor(sp.simplify(symbolic(G[k, k]).subs(on_history))) for k in range(8)]
 for k in (0, 1, 4, 5):
     say(f"  on the history: G^{NAMES[k]}_{NAMES[k]} = {G_A[k]}")
-bars = {value: [float(G_A[k].subs({A: value, H: 1})) for k in range(8)]
+G_off_A = sp.simplify(symbolic(G[4, 0]).subs(on_history))  # G^x4_x0 on the history
+say(f"  on the history: G^x4_x0 = {plain(G_off_A)}")
+check(sp.simplify(G_off_A - 2 * A * H ** 2 * sp.cot(6 * H * x0)) == 0,
+      "on the history G^x4_x0 = (3/2) H cot z b4'/b4 = 2 A H^2 cot z")
+bars = {value: [G_A[k].subs({A: value, H: 1}) for k in range(8)]
         for value in (1, 2)}
 fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.2))
 positions = np.arange(8)
 ```
 
-The eight diagonal entries of $G$ on the history (with $b_4 = 1$), factored; four of them, those of $x_0$, $x_1$, $x_4$ and $x_5$, are printed: $G^{x_1}{}_{x_1} = G^{x_5}{}_{x_5} = G^{x_0}{}_{x_0} = -3H^2(A^2 - 5)$ and $G^{x_4}{}_{x_4} = 3H^2(A^2 + 7)$. `bars` holds their values for $A = 1$ and $A = 2$ with $H = 1$.
+The eight diagonal entries of $G$ on the history, factored; four of them, those of $x_0$, $x_1$, $x_4$ and $x_5$, are printed: $G^{x_0}{}_{x_0} = -H^2(11A^2 - 45)/3$, $G^{x_1}{}_{x_1} = -5H^2(A - 3)(A + 3)/3$, $G^{x_4}{}_{x_4} = -H^2(A^2 - 63)/3$ and $G^{x_5}{}_{x_5} = -H^2(13A^2 - 45)/3$: the four different values of Section 3.25. `G_off_A` is the entry $G^{x_4}{}_{x_0}$ on the history, printed as `2*A*H**2/tan(z)`, and the check confirms $\frac32 H\cot z\cdot\frac43 AH = 2AH^2\cot z$. `bars` holds the diagonal values for $A = 1$ and $A = 2$ with $H = 1$, as exact fractions (the check at the end compares them exactly).
 
 ```python
-axes[0].bar(positions - 0.2, bars[1], width=0.38, color=RED, hatch="//",
-            label="$A = 1$")
-axes[0].bar(positions + 0.2, bars[2], width=0.38, color=BLUE, label="$A = 2$")
+axes[0].bar(positions - 0.2, [float(v) for v in bars[1]], width=0.38, color=RED,
+            hatch="//", label="$A = 1$")
+axes[0].bar(positions + 0.2, [float(v) for v in bars[2]], width=0.38, color=BLUE,
+            label="$A = 2$")
+axes[0].axhline(0.0, color="black", lw=0.8)
 axes[0].set_xticks(positions, [f"$G^{{x_{k}}}{{}}_{{x_{k}}}$" for k in range(8)],
                    fontsize=8)
 axes[0].set_ylabel("component (unit $H^2$)")
@@ -3879,20 +3956,25 @@ axes[0].set_title("Diagonal of the Einstein tensor")
 axes[0].legend(fontsize=8)
 ```
 
-The left panel is a bar chart: `ax.bar(x, heights, width=...)` draws bars; the bars of $A = 1$ are shifted left by $0.2$ and hatched (`hatch="//"`), those of $A = 2$ shifted right, so that each pair stands side by side. The tick labels name the eight components, from $G^{x_0}{}_{x_0}$ to $G^{x_7}{}_{x_7}$.
+The left panel is a bar chart: `ax.bar(x, heights, width=...)` draws bars, and `[float(v) for v in bars[1]]` turns the exact fractions into numbers for drawing; the bars of $A = 1$ are shifted left by $0.2$ and hatched (`hatch="//"`), those of $A = 2$ shifted right, so that each pair stands side by side; `axhline` draws the zero line, because three bars of $A = 2$ are negative. The tick labels name the eight components, from $G^{x_0}{}_{x_0}$ to $G^{x_7}{}_{x_7}$.
 
 ```python
+hidden_numbers = sp.lambdify(A, G_A[0].subs(H, 1))(A_line)
 space_numbers = sp.lambdify(A, G_A[1].subs(H, 1))(A_line)
+extra_numbers = sp.lambdify(A, G_A[5].subs(H, 1))(A_line)
 time_numbers = sp.lambdify(A, G_A[4].subs(H, 1))(A_line)
-axes[1].plot(A_line, space_numbers, color=RED, lw=1.8,
-             label="$G^{x_1}{}_{x_1} = G^{x_5}{}_{x_5} = G^{x_0}{}_{x_0}$")
+axes[1].plot(A_line, space_numbers, color=RED, lw=1.8, label="$G^{x_1}{}_{x_1}$")
+axes[1].plot(A_line, extra_numbers, color=BLUE, lw=1.8, ls="-.",
+             label="$G^{x_5}{}_{x_5}$")
+axes[1].plot(A_line, hidden_numbers, color=AQUA, lw=1.8, ls=":",
+             label="$G^{x_0}{}_{x_0}$")
 axes[1].plot(A_line, time_numbers, color=VIOLET, lw=1.8, ls="--",
              label="$G^{x_4}{}_{x_4}$")
-axes[1].fill_between(A_line, space_numbers, time_numbers, color="grey", alpha=0.2,
-                     label="gap $6H^2(A^2 + 1) > 0$")
+axes[1].fill_between(A_line, hidden_numbers, time_numbers, color="grey", alpha=0.2,
+                     label="gap $(6 + 10A^2/3)H^2 > 0$")
 ```
 
-The right panel: the common 3-space, extra-time and hidden entry and the time entry against $A$; `fill_between` shades the gap between the two curves.
+The right panel: `hidden_numbers`, `space_numbers`, `extra_numbers` and `time_numbers` are the entries of $x_0$, $x_1$, $x_5$ and $x_4$ at the 291 slopes of In [24]; the four curves are drawn, and `fill_between` shades the gap between the hidden and the time entry, $(6 + \frac{10}{3}A^2)H^2$ (Section 3.25).
 
 ```python
 axes[1].axhline(0.0, color="black", lw=0.8)
@@ -3904,59 +3986,74 @@ axes[1].legend(fontsize=8, loc="lower left")
 save_figure(fig, "einstein_tensor",
             "The Einstein tensor $G^{\\mu}{}_{\\nu}$ of the author's metric along "
 ...
-check(bars[1] == [12.0, 12.0, 12.0, 12.0, 24.0, 12.0, 12.0, 12.0]
-      and bars[2] == [3.0, 3.0, 3.0, 3.0, 33.0, 3.0, 3.0, 3.0],
-      "diagonal of G: 12 (24 for x4) at A = 1 and 3 (33 for x4) at A = 2, unit H^2")
+check(bars[1] == [sp.Rational(34, 3)] + [sp.Rational(40, 3)] * 3 + [sp.Rational(62, 3)]
+      + [sp.Rational(32, 3)] * 3
+      and bars[2] == [sp.Rational(1, 3)] + [sp.Rational(25, 3)] * 3
+      + [sp.Rational(59, 3)] + [sp.Rational(-7, 3)] * 3,
+      "diagonal of G on the history: (34/3, 40/3 x3, 62/3, 32/3 x3) at A = 1 and "
+      "(1/3, 25/3 x3, 59/3, -7/3 x3) at A = 2, unit H^2")
 ```
 
-The zero line, the line at $A = 1$, labels, title, legend; the figure is saved; the check confirms the two rows of bar heights.
+The zero line, the line at $A = 1$, labels, title, legend; the figure is saved; the check confirms the two rows of bar heights exactly, as fractions.
 
-**What Figure 03b.7 shows.** At $b_4 = 1$. Left: for $A = 1$ seven bars of height $12$ and the time bar $24$ (the fifth bar, $x_4$); for $A = 2$ seven bars of height $3$ and the time bar $33$. Right: the common entry $3H^2(5 - A^2)$ falls and becomes negative beyond $A = \sqrt5 = 2.24$, the time entry $3H^2(7 + A^2)$ rises, and the shaded gap $6H^2(A^2 + 1)$ never closes: no cosmological constant, which adds the same number to every entry, can make all of them zero (Section 3.26).
+**What Figure 03b.7 shows.** On the history. Left: for $A = 1$ the bars $34/3 = 11.3$ ($x_0$), $40/3 = 13.3$ (3-space), $62/3 = 20.7$ (the time bar, the fifth) and $32/3 = 10.7$ (extra times); for $A = 2$ the bars $1/3$, $25/3$, $59/3$ and $-7/3$. Right: the extra-time entry $(15 - \frac{13}{3}A^2)H^2$ becomes negative beyond $A = 1.86$, the hidden entry $(15 - \frac{11}{3}A^2)H^2$ beyond $A = 2.02$, the 3-space entry $(15 - \frac53 A^2)H^2$ reaches zero at $A = 3$, the end of the range, and the time entry $(21 - \frac13 A^2)H^2$ falls only slowly; the shaded gap $(6 + \frac{10}{3}A^2)H^2$ between the time and the hidden entry never closes: no cosmological constant, which adds the same number to every diagonal entry and leaves the off-diagonal pair alone, can make all of them zero (Section 3.26).
 
 **In [26], the source required by Einstein's equations, from the record.**
 
 ```python
 A4_EQUATIONS = "Revision/field_equations_a4/a4-equations.json"
 a4_equations = json.loads(repository_file(A4_EQUATIONS).read_text(encoding="utf-8"))
-linear = a4_equations["linearMember"]  # the entry of the linear history
+required = a4_equations["exponentialHistory"]["requiredSource"]  # any couplings
 kappa = sp.symbols("kappa", positive=True)  # the constant of Einstein's equations
 Lam = sp.symbols("Lam", real=True)  # the cosmological constant Lambda
-source_names = {"AA": A, "H": H, "kappa": kappa, "Lam": Lam}
+cc = sp.symbols("cc", positive=True)  # cot z in the record's texts
+alpha1, alpha2, alpha3, be = sp.symbols("alpha1 alpha2 alpha3 be", real=True)
+source_names = {"AA": A, "H": H, "kappa": kappa, "Lam": Lam, "cc": cc, "be": be,
+                "alpha1": alpha1, "alpha2": alpha2, "alpha3": alpha3}
+EINSTEIN = {alpha1: 1, alpha2: 0, alpha3: 0, be: BETA}  # Einstein, beta = 4/3
 ```
 
-The record of the field equations of $a_4$ is read and its entry `linearMember` taken. $\kappa$ and $\Lambda$ become symbols; the dictionary says that the record's names `AA` and `Lam` mean $A$ and $\Lambda$.
+The record of the field equations of $a_4$ is read and its entry `exponentialHistory.requiredSource` taken: the source that the history $a_4 = AHx_4 + a_0$, $b_4 = b_4(0)\,e^{\beta AHx_4}$ requires, written for any couplings $\alpha_1, \alpha_2, \alpha_3$ of the three Lovelock tensors and any exponent $\beta$. $\kappa$, $\Lambda$, $\cot z$ (the record's name `cc`), the couplings and $\beta$ (the record's name `be`) become symbols; the dictionary `source_names` says which record name means which symbol (`AA` is $A$, `Lam` is $\Lambda$). `EINSTEIN` holds the values of Einstein's equations, $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$, and $\beta = 4/3$ (`BETA` of In [16]).
 
 ```python
 def source(key):
-    """The record's text linear[key] (Mathematica notation) as sympy."""
-    return parse_expr(linear[key]["input"].replace("^", "**"),
-                      local_dict=source_names)
+    """The record's text required[key] (Mathematica notation) as sympy, with the
+    Einstein couplings and beta = 4/3 put in."""
+    text = required[key]["input"].replace("^", "**")
+    return sp.expand(parse_expr(text, local_dict=source_names).subs(EINSTEIN))
 
 
-rho_record, p_record = source("rhoEinstein"), source("pEinstein")
-sum_record = source("rhoPlusPEinstein")  # rho + p
-say(f"record: kappa rho       = {sp.expand(kappa * rho_record)}")
-say(f"record: kappa p         = {sp.expand(kappa * p_record)}")
-say(f"record: kappa (rho + p) = {sp.factor(kappa * sum_record)}")
+rho_record, p0_record = source("rho"), source("p0")
+p3_record, pt_record = source("p3"), source("pt")
+q40_record = source("q40")
+say(f"record: kappa rho = {sp.expand(kappa * rho_record)}")
+say(f"record: kappa (p3, p_t, p0) = ({sp.expand(kappa * p3_record)}, "
+    f"{sp.expand(kappa * pt_record)}, {sp.expand(kappa * p0_record)})")
+say(f"record: kappa q40 = {sp.factor(kappa * q40_record)}")
+record_check(A4_REPORT, "json_exponential_history")  # stops if not passed
 ```
 
-`source` reads the Mathematica text (key `"input"`) of an entry as a sympy expression. The three texts are read and printed multiplied by $\kappa$: $\kappa\rho = -3A^2H^2 - 21H^2 - \Lambda$, $\kappa p = -3A^2H^2 + 15H^2 + \Lambda$, $\kappa(\rho + p) = -6H^2(A^2 + 1)$.
+`source` reads the Mathematica text (key `"input"`) of an entry as a sympy expression (`replace("^", "**")` turns Mathematica's power sign into Python's) and puts in the values of `EINSTEIN`. The five texts are read and printed multiplied by $\kappa$: $\kappa\rho = A^2H^2/3 - 21H^2 - \Lambda$; $\kappa(p_3, p_t, p_0) = (-\frac53 A^2H^2 + 15H^2 + \Lambda,\ -\frac{13}{3}A^2H^2 + 15H^2 + \Lambda,\ -\frac{11}{3}A^2H^2 + 15H^2 + \Lambda)$; and $\kappa q_{40} = 2AH^2\,\mathrm{cc}$. `record_check` (In [3]) stops the notebook unless the sympy verification of the record of the field equations (`A4_REPORT`, named in In [18]) lists its check `json_exponential_history` as passed: that check confirmed that the entries of `exponentialHistory` agree with its own computation.
 
 ```python
-record_check(A4_REPORT, "json_linear_member")  # stops if not passed
 check(sp.expand(kappa * rho_record - (-G_A[4] - Lam)) == 0,
       "kappa rho of the record equals -G^x4_x4 - Lambda",
-      record=f"{A4_EQUATIONS}, linearMember.rhoEinstein (and "
-             "python-a4-report.json, check json_linear_member)")
-check(all(sp.expand(kappa * p_record - (G_A[k] + Lam)) == 0 for k in (1, 5, 0)),
-      "kappa p of the record equals G^x1_x1, G^x5_x5 and G^x0_x0 plus Lambda",
-      record=f"{A4_EQUATIONS}, linearMember.pEinstein")
-check(sp.expand(kappa * sum_record - (G_A[1] - G_A[4])) == 0,
-      "kappa (rho + p) of the record equals G^x1_x1 - G^x4_x4 = -6 (A^2 + 1) H^2",
-      record=f"{A4_EQUATIONS}, linearMember.rhoPlusPEinstein")
+      record=f"{A4_EQUATIONS}, exponentialHistory.requiredSource.rho (and "
+             "python-a4-report.json, check json_exponential_history)")
+check(all(sp.expand(kappa * p - (G_A[k] + Lam)) == 0
+          for p, k in ((p3_record, 1), (pt_record, 5), (p0_record, 0))),
+      "kappa p3, kappa p_t, kappa p0 of the record equal G^x1_x1, G^x5_x5, G^x0_x0 "
+      "plus Lambda",
+      record=f"{A4_EQUATIONS}, exponentialHistory.requiredSource.p3, pt, p0")
+check(sp.simplify(kappa * q40_record.subs(cc, sp.cot(6 * H * x0)) - G_off_A) == 0
+      and sp.expand(kappa * (rho_record + p0_record)
+                    + (6 + sp.Rational(10, 3) * A ** 2) * H ** 2) == 0,
+      "kappa q40 of the record equals G^x4_x0 = 2 A H^2 cot z, and "
+      "kappa (rho + p0) = -(6 + 10 A^2/3) H^2 < 0",
+      record=f"{A4_EQUATIONS}, exponentialHistory.requiredSource.q40")
 ```
 
-`record_check` (In [3]) stops the notebook unless the sympy verification of the record of the field equations (`A4_REPORT`, named in In [18]) lists its check `json_linear_member` as passed: that check confirmed that the entries of `linearMember` agree with its own computation. Then three checks, the three lines of Section 3.26: $\kappa\rho = -G^{x_4}{}_{x_4} - \Lambda$; $\kappa p = G^{x_1}{}_{x_1} + \Lambda = G^{x_5}{}_{x_5} + \Lambda = G^{x_0}{}_{x_0} + \Lambda$; and $\kappa(\rho + p) = G^{x_1}{}_{x_1} - G^{x_4}{}_{x_4}$.
+Three checks, the source of Section 3.26: $\kappa\rho = -G^{x_4}{}_{x_4} - \Lambda$; $\kappa p_3 = G^{x_1}{}_{x_1} + \Lambda$, $\kappa p_t = G^{x_5}{}_{x_5} + \Lambda$ and $\kappa p_0 = G^{x_0}{}_{x_0} + \Lambda$ (the loop pairs each pressure with the position of its entry); and $\kappa q_{40}$, with the record's `cc` replaced by $\cot z$, equals the entry $G^{x_4}{}_{x_0} = 2AH^2\cot z$ of In [25], while $\kappa(\rho + p_0) = -(6 + \frac{10}{3}A^2)H^2$.
 
 **In [27], the negative control.**
 
@@ -3990,7 +4087,7 @@ check(sorted(off) == [(0, 4), (4, 0)] and all(v.has(z) for v in off.values())
       "G^x0_x4 are not zero, depend on z, equal the general ones; K = 0 at a4p = H")
 ```
 
-The entries off the diagonal that are not zero are collected and printed: $G^{x_0}{}_{x_4} = -6Ha_4'\tan z$ and $G^{x_4}{}_{x_0} = 6Ha_4'/\tan z$, exactly as derived by hand in Section 3.25. `b4_control` replaces $b_4$ by $e^{4a_4}$ and $b_4'$ by $4a_4'e^{4a_4}$, and `general_off` holds the two general off-diagonal entries of In [20] with this $b_4$ ($b_4'/b_4 = 4a_4'$). `K_control` is the Kretschmann scalar of the control. The check requires these two entries and only these two, that both depend on $z$ (`.has(z)`), that they equal the general entries with $b_4 = e^{4a_4}$, and that $K$ of the control vanishes at $a_4' = H$, $a_4'' = 0$ (Section 3.25). With the author's deflating extra times and a constant $b_4$ the two entries are zero (In [20]): the deflation of the extra times, at the same rate as the inflation of 3-space, is what makes the Einstein tensor of the author's metric diagonal; and the bound $K \ge 576H^4/7$ of In [22] needs a constant $b_4$.
+The entries off the diagonal that are not zero are collected and printed: $G^{x_0}{}_{x_4} = -6Ha_4'\tan z$ and $G^{x_4}{}_{x_0} = 6Ha_4'/\tan z$, exactly as derived by hand in Section 3.25. `b4_control` replaces $b_4$ by $e^{4a_4}$ and $b_4'$ by $4a_4'e^{4a_4}$, and `general_off` holds the two general off-diagonal entries of In [20] with this $b_4$ ($b_4'/b_4 = 4a_4'$). `K_control` is the Kretschmann scalar of the control. The check requires these two entries and only these two, that both depend on $z$ (`.has(z)`), that they equal the general entries with $b_4 = e^{4a_4}$, and that $K$ of the control vanishes at $a_4' = H$, $a_4'' = 0$ (Section 3.25). With the author's deflating extra times the two entries are $\pm\frac32 H\,(b_4'/b_4)$ times $\cot z$ or $\tan z$ (In [20]): they would vanish only if the extra times deflated at exactly the rate at which 3-space inflates (a constant $b_4$, the withdrawn metric). On the history of this book, where the extra times deflate at one third of that rate, they are $G^{x_4}{}_{x_0} = 2AH^2\cot z$ and $G^{x_0}{}_{x_4} = -2AH^2\tan z$ (In [25]); with inflating extra times they are three times larger, $\pm 6Ha_4'$ times $\cot z$ or $\tan z$. And the bound $K \ge 576H^4/7$ of In [22] needs a constant $b_4$; the history of this book has its own bound, $\frac{14592}{191}H^4$ (Section 3.25).
 
 **In [28], the last check.**
 
@@ -4004,7 +4101,7 @@ check(all(path.is_file() for path in files), "all seven figure files exist")
 all_checks_passed()
 ```
 
-The seven figure files must exist; the last line prints ALL 40 CHECKS PASSED (notebook 03b). The 40 checks are: 1 in In [4], 1 in In [6], 2 in In [7], 1 each in In [8] and In [9], 2 in In [10], 1 in In [11], 2 in In [12], 1 in In [13], 3 in In [14], 2 in In [15], 3 in In [16], 1 each in In [17], In [18] and In [19], 4 in In [20], 1 in In [21], 3 in In [22], 1 in In [23], 2 in In [24], 1 in In [25], 3 in In [26], and 1 each in In [27] and In [28].
+The seven figure files must exist; the last line prints ALL 41 CHECKS PASSED (notebook 03b). The 41 checks are: 1 in In [4], 1 in In [6], 2 in In [7], 1 each in In [8] and In [9], 2 in In [10], 1 in In [11], 2 in In [12], 1 in In [13], 3 in In [14], 2 in In [15], 3 in In [16], 1 each in In [17], In [18] and In [19], 4 in In [20], 1 in In [21], 3 in In [22], 1 in In [23], 2 each in In [24] and In [25], 3 in In [26], and 1 each in In [27] and In [28].
 
 ### 3.31 Free fall in the author's metric
 
@@ -4026,7 +4123,7 @@ $$
 \frac{du^4}{d\tau} = -\alpha\sum_i h_i^2(u^i)^2 + \alpha_t\sum_j h_j^2(u^j)^2
 $$
 
-(for $u^0$ the symbols $\Gamma^0{}_{ii} = -H\tan z\,h_i^2$, $\Gamma^0{}_{jj} = +H\tan z\,h_j^2$ and $\Gamma^0{}_{00} = -6H(\tan z + \cot z)$; for $u^i$ the symbols $\Gamma^i{}_{i4} = \alpha$ and $\Gamma^i{}_{i0} = H\cot z$; for $u^j$ the symbols $\Gamma^j{}_{j4} = \alpha_t$ and $\Gamma^j{}_{j0} = H\cot z$; for $u^4$ the symbols $\Gamma^4{}_{ii} = \alpha h_i^2$ and $\Gamma^4{}_{jj} = -\alpha_t h_j^2$; each moved to the right side with its minus sign). For a constant $b_4$, $\alpha_t = -a_4'$: then $du^j/d\tau = +2a_4'u^ju^4 - 2H\cot z\,u^ju^0$ and $du^4/d\tau = -a_4'\sum_k h_k^2(u^k)^2$. Together with $dx^a/d\tau = u^a$ these are 16 first-order equations for the 8 coordinates and the 8 velocities.
+(for $u^0$ the symbols $\Gamma^0{}_{ii} = -H\tan z\,h_i^2$, $\Gamma^0{}_{jj} = +H\tan z\,h_j^2$ and $\Gamma^0{}_{00} = -6H(\tan z + \cot z)$; for $u^i$ the symbols $\Gamma^i{}_{i4} = \alpha$ and $\Gamma^i{}_{i0} = H\cot z$; for $u^j$ the symbols $\Gamma^j{}_{j4} = \alpha_t$ and $\Gamma^j{}_{j0} = H\cot z$; for $u^4$ the symbols $\Gamma^4{}_{ii} = \alpha h_i^2$ and $\Gamma^4{}_{jj} = -\alpha_t h_j^2$; each moved to the right side with its minus sign). On the history of Section 3.8, $\alpha_t = -a_4'/3$: then $du^j/d\tau = +\frac23 a_4'u^ju^4 - 2H\cot z\,u^ju^0$ and $du^4/d\tau = -a_4'\bigl(\sum_i h_i^2(u^i)^2 + \frac13\sum_j h_j^2(u^j)^2\bigr)$. Together with $dx^a/d\tau = u^a$ these are 16 first-order equations for the 8 coordinates and the 8 velocities.
 
 **Six conserved momenta.** The metric does not depend on the six transverse coordinates, so by Section 3.16 the six **momenta** $p_k = g_{kk}u^k$ (no sum) do not change during free fall:
 
@@ -4048,7 +4145,7 @@ $$
 \hat u^i = p_i\,e^{-Hy - a_4}, \qquad \hat u^j = -p_j\,b_4^{-1/2}e^{a_4 - Hy} .
 $$
 
-At a fixed height $y$, along a deflating history ($a_4$ increasing, $b_4$ constant), the frame velocity in 3-space falls like $e^{-a_4}$: motion in 3-space is **redshifted**, because 3-space inflates and stretches it out. The frame velocity along an extra time grows like $e^{a_4}$: motion along the extra times is **blueshifted**, because they deflate (in general it grows like $1/h_j$, that is like $e^{-\int\alpha_t\,dx_4}$). The factor $e^{-Hy - a_4}$ is exactly the **momentum weight** $\kappa(y, x_4) = e^{-Hy - a_4(x_4)}$ (the Revision record's name for it; this $\kappa(y, x_4)$, always written in this chapter with its two arguments, is a function and has nothing to do with the constant $\kappa$ of Einstein's equations in Section 3.26) that the Revision Kohn-Sham record uses to turn a conserved 3-space momentum into the momentum seen at height $y$ and time $x_4$ (`Revision/kohn_sham/ks-theory.json`, key `geometry.kappa`; PROVED here; Notebook 03d, In [5]). It does not contain $b_4$: the 3-space scale factors do not.
+At a fixed height $y$, along a deflating history ($a_4' > 0$ and $\alpha_t < 0$), the frame velocity in 3-space falls like $e^{-a_4}$: motion in 3-space is **redshifted**, because 3-space inflates and stretches it out. The frame velocity along an extra time grows like $1/h_j \propto b_4^{-1/2}e^{a_4}$, that is like $e^{-\int\alpha_t\,dx_4}$, on the history of Section 3.8 like $e^{a_4/3}$: motion along the extra times is **blueshifted**, because they deflate. The factor $e^{-Hy - a_4}$ is exactly the **momentum weight** $\kappa(y, x_4) = e^{-Hy - a_4(x_4)}$ (the Revision record's name for it; this $\kappa(y, x_4)$, always written in this chapter with its two arguments, is a function and has nothing to do with the constant $\kappa$ of Einstein's equations in Section 3.26) that the Revision Kohn-Sham record uses to turn a conserved 3-space momentum into the momentum seen at height $y$ and time $x_4$ (`Revision/kohn_sham/ks-theory.json`, key `geometry.kappa`; PROVED here; Notebook 03d, In [5]). It does not contain $b_4$: the 3-space scale factors do not.
 
 **The push along the hidden direction.** Write $S = \sum_i(\hat u^i)^2$ and $E = \sum_j(\hat u^j)^2$ for the squared frame velocities in 3-space and along the extra times. The frame velocity along the hidden direction is $\hat u^0 = h_0u^0 = \cot z\,u^0$, and it equals $dy/d\tau$, because $dy/d\tau = (dy/dx_0)(dx_0/d\tau) = \cot z\,u^0$ (Section 3.9). Its rate of change, line by line:
 
@@ -4082,7 +4179,7 @@ $$
 \frac{du^4}{d\tau} = -a_4'\sum_i(\hat u^i)^2 + \alpha_t\sum_j(\hat u^j)^2 = -a_4'S + \alpha_tE
 $$
 
-(again $h_k^2(u^k)^2 = (\hat u^k)^2$). Along a deflating history, $a_4' > 0$ and $\alpha_t < 0$ (for a constant $b_4$, $\alpha_t = -a_4'$ and $du^4/d\tau = -a_4'(S + E)$), the $x_4$ velocity can never increase, and it decreases whenever the particle moves in a transverse direction (PROVED; Notebook 03d, In [6]).
+(again $h_k^2(u^k)^2 = (\hat u^k)^2$). Along a deflating history, $a_4' > 0$ and $\alpha_t < 0$ (on the history of Section 3.8, $\alpha_t = -a_4'/3$ and $du^4/d\tau = -a_4'(S + \frac13 E)$), the $x_4$ velocity can never increase, and it decreases whenever the particle moves in a transverse direction (PROVED; Notebook 03d, In [6]).
 
 **The $x_4$ velocity from the squared speed.** The squared speed, written with frame velocities, is
 
@@ -4110,11 +4207,11 @@ The Revision scope report finds exactly this expression for the squared frequenc
 
 **The good sector.** The Revision Kohn-Sham work keeps only states that do not depend on $x_5, x_6, x_7$: their extra-time momenta are zero (`Revision/kohn_sham/ks-theory.json`, key `sectorAndAnsatz.sector`: "good sector: no dependence on x5, x6, x7 (extra-time momenta zero)"). The particle with the same property, $p_j = 0$, is the one that never turns. The reason for this choice of the record comes from the quantum theory (Chapter 10).
 
-**Numbers along the history (COMPUTED by Notebook 03d).** With the history of the record ($A = 1$, $H = 1$, so $a_4 = x_4$, and $b_4 = 1$; ASSUMED, a prescribed background, Section 3.8), RK4 with the step $\Delta\tau = 0.001$, all particles starting at $x_4 = 0$ and $y = -1$ ($z = \arcsin e^{-6} = 0.002479$): a particle at rest stays at rest with $x_4 = \tau$ (In [9]). Three particles started along $x_1$ with the frame velocities $0.25$, $0.5$ and $1$ keep $p_1$ and $g(u, u)$ constant within a relative $10^{-9}$, their frame velocity equals $p_1\kappa(y, x_4)$ within $10^{-9}$, and $u^4$ falls at every step; the fastest has at $\tau = 3$ the values $x_4 = 3.3070$, $\hat u^1 = 0.014370$, $u^4 = 1.060733$ and $y = -0.0643$: it has slowed down by redshift and risen towards the patch end (In [10]). A particle started along $x_5$ with $\hat u^5 = 0.2$ reaches its turning point at $\tau = 1.987$, where $x_4$ is largest, $1.4864$, with $\hat u^5 = 1.4013$ and $\hat u^0 = -0.9817$ (it has sunk towards the tip), and $x_4$ decreases afterwards (In [11]). The numerical acceleration of $y$ agrees with the push law within $3.4 \times 10^{-6}$ (In [14]), and halving the RK4 step divides the error by 16.2 to 17.2, the order 4 of RK4 (In [16]).
+**Numbers along the history (COMPUTED by Notebook 03d).** With the history of the record ($A = 1$, $H = 1$ and $\beta = 4/3$, so $a_4 = x_4$ and $b_4 = b_4(0)\,e^{4x_4/3}$; ASSUMED, a prescribed background, Section 3.8), RK4 with the step $\Delta\tau = 0.001$, all particles starting at $x_4 = 0$ and $y = -1$ ($z = \arcsin e^{-6} = 0.002479$): a particle at rest stays at rest with $x_4 = \tau$ (In [9]). Three particles started along $x_1$ with the frame velocities $0.25$, $0.5$ and $1$ keep $p_1$ and $g(u, u)$ constant within a relative $10^{-9}$, their frame velocity equals $p_1\kappa(y, x_4)$ within $10^{-9}$, and $u^4$ falls at every step; the fastest has at $\tau = 3$ the values $x_4 = 3.3070$, $\hat u^1 = 0.014370$, $u^4 = 1.060733$ and $y = -0.0643$: it has slowed down by redshift and risen towards the patch end (In [10]). A particle started along $x_5$ with $\hat u^5 = 0.2$ reaches its turning point at $\tau = 3.958$, where $x_4$ is largest, $3.3335$, with $\hat u^5 = 3.1125$ and $\hat u^0 = -2.9475$ (it has sunk towards the tip), and $x_4$ decreases afterwards (In [11]); its blueshift grows only like $e^{a_4/3}$, so most of the way to the turning point is made by the sinking towards the tip, which speeds up near the end. The numerical acceleration of $y$ agrees with the push law within $1.3 \times 10^{-5}$ of the largest value of the law along each path (In [14]), and halving the RK4 step divides the error by 15.9 to 17.1, the order 4 of RK4 (In [16]).
 
 ### 3.32 Example: free fall in the author's metric
 
-Notebook 03d reads the 25 Christoffel symbols of the record, builds the geodesic equations, and proves with sympy, for general $a_4(x_4)$ and $b_4(x_4)$, the conservation of the six momenta and of $g(u, u)$, the momentum weight $\kappa(y, x_4)$ of the Kohn-Sham record, the push law, the law of the $x_4$ velocity, the formula for $(u^4)^2$, and its identity with the quadratic form of the record's plane-wave check. Then it integrates five paths with RK4 along the history of the record ($b_4 = 1$), checks every exact law on the computed paths, finds the turning point of the particle that moves along an extra time, measures the order of RK4, and draws five figures. It needs no Rust, runs in about 10 seconds and ends with the line ALL 23 CHECKS PASSED (notebook 03d).
+Notebook 03d reads the 25 Christoffel symbols of the record, builds the geodesic equations, and proves with sympy, for general $a_4(x_4)$ and $b_4(x_4)$, the conservation of the six momenta and of $g(u, u)$, the momentum weight $\kappa(y, x_4)$ of the Kohn-Sham record, the push law, the law of the $x_4$ velocity, the formula for $(u^4)^2$, and its identity with the quadratic form of the record's plane-wave check. Then it integrates five paths with RK4 along the history of the record ($a_4 = x_4$, $b_4 = b_4(0)\,e^{4x_4/3}$), checks every exact law on the computed paths, finds the turning point of the particle that moves along an extra time, measures the order of RK4, and draws five figures. It needs no Rust, runs in about 10 seconds and ends with the line ALL 23 CHECKS PASSED (notebook 03d).
 
 <!-- NOTEBOOK 03d -->
 
@@ -4257,7 +4354,7 @@ y_of_x0 = sp.log(sp.sin(6 * H * x0)) / (6 * H)  # the hidden coordinate y
 kappa = sp.exp(-H * y_of_x0 - a4)  # the record's e^{-Hy - a4(x4)}
 ```
 
-The Kohn-Sham theory record is read and its statement about the momentum weight printed: kappa(y, x4) = e^{-Hy - a4(x4)} (the momentum weight). Then $y$ as a function of $x_0$ (Section 3.9) and the weight $\kappa = e^{-Hy - a_4}$.
+The Kohn-Sham theory record is read and its statement about the momentum weight printed: kappa(y, x4) = e^{-Hy - a4(x4)} (the momentum weight; b4 does not enter). Then $y$ as a function of $x_0$ (Section 3.9) and the weight $\kappa = e^{-Hy - a_4}$.
 
 ```python
 check(sp.simplify(1 / h[1] - kappa) == 0,
@@ -4339,38 +4436,44 @@ import math  # sin, tan, exp, ... for single numbers (faster than numpy here)
 PARAMETERS = "Revision/kohn_sham/results/parameters.json"
 physics = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))
 H_value, A_value = physics["physics"]["H"], physics["physics"]["historyA"]
+beta = physics["physics"]["historyBeta"]  # b4 = b4(0) e^(beta A H x4)
 status = ks_theory["adiabaticity"]["historyStatus"]
-say(f"H = {H_value}, A = {A_value}; record: " + status.split(". ")[0] + ".")
+say(f"H = {H_value}, A = {A_value}, beta = {beta:.6f}; record: "
+    + status.split(". ")[0] + ".")
 ```
 
-The module `math` computes functions of single numbers, faster than numpy for one number at a time. The parameters of the Revision Kohn-Sham solver give $H = 1$ and the slope $A = 1$; the first sentence of the record's statement on the status of the history is printed: PRESCRIBED BACKGROUND: the history a4 = A H x4 is prescribed, not solved for.
+The module `math` computes functions of single numbers, faster than numpy for one number at a time. The parameters of the Revision Kohn-Sham solver give $H = 1$, the slope $A = 1$ and the exponent $\beta$ of $b_4$, printed with six digits as 1.333333; the first sentence of the record's statement on the status of the history is printed: PRESCRIBED BACKGROUND: the history a4 = H x4, b4 = b4(0) e^{(4/3) H x4} is prescribed, not solved for.
 
 ```python
-check(H_value == 1.0 and A_value == 1.0 and status.startswith("PRESCRIBED BACKGROUND"),
-      "the history of the record: a4 = A H x4 with A = 1, H = 1, prescribed",
-      record=f"{PARAMETERS}, physics.H and physics.historyA; {KS_THEORY}, "
-             "adiabaticity.historyStatus")
+check(H_value == 1.0 and A_value == 1.0 and abs(beta - 4.0 / 3.0) < 1e-15
+      and status.startswith("PRESCRIBED BACKGROUND"),
+      "the history of the record: a4 = A H x4, b4 = b4(0) e^(beta A H x4) with A = 1, "
+      "H = 1, beta = 4/3, prescribed",
+      record=f"{PARAMETERS}, physics.H, physics.historyA and physics.historyBeta; "
+             f"{KS_THEORY}, adiabaticity.historyStatus")
 ARGUMENTS = (a4v, a4p, x0, H, b4v, b4p)
 gamma_numbers = [(a, b, c, sp.lambdify(ARGUMENTS, value, "math"))
                  for (a, b, c), value in sorted(Gamma.items())]
 ETA_N = np.array(ETA, dtype=float)  # the signs as numbers
 ```
 
-The check confirms the history and its status. `gamma_numbers` is a list of the 37 symbols as fast numerical functions of $(a_4, a_4', x_0, H, b_4, b_4')$, each with its three indices (`"math"` makes functions of single numbers). `ETA_N` holds the signs as floating-point numbers.
+The check confirms the history ($\beta$ equal to $4/3$ up to the rounding of the last digit) and its status. `gamma_numbers` is a list of the 37 symbols as fast numerical functions of $(a_4, a_4', x_0, H, b_4, b_4')$, each with its three indices (`"math"` makes functions of single numbers). `ETA_N` holds the signs as floating-point numbers.
 
 ```python
 def free_fall(state):
     """d state/d tau for state = (x0..x7, u0..u7) on the history a4 = A H x4,
-    b4 = 1."""
+    b4 = b4(0) e^(beta a4) (unit b4(0))."""
     x, v = state[:8], state[8:]
     a4_now, rate = A_value * H_value * x[4], A_value * H_value  # a4 and a4'
+    b4_now = math.exp(beta * a4_now)  # b4 in the unit b4(0)
+    b4_rate = beta * rate * b4_now  # b4' = beta a4' b4
     change = np.zeros(8)
     for a, b, c, f in gamma_numbers:  # du^a/dtau = - sum Gamma^a_bc u^b u^c
-        change[a] -= f(a4_now, rate, x[0], H_value, 1.0, 0.0) * v[b] * v[c]
+        change[a] -= f(a4_now, rate, x[0], H_value, b4_now, b4_rate) * v[b] * v[c]
     return np.concatenate([v, change])
 ```
 
-The right side of the 16 equations: the state holds the 8 coordinates (`state[:8]`, entry $k$ is $x^k$) and the 8 velocities (`state[8:]`, entry $8 + k$ of the state is $u^k$). On the history, $a_4 = AHx_4$ with $x_4$ = `x[4]`, $a_4' = AH$, $b_4 = 1$ and $b_4' = 0$ (the numbers `1.0, 0.0` in the call), and $x_0$ = `x[0]`. The accelerations are summed over the 37 symbols, and the function returns the derivatives of the state: the velocities, then the accelerations (`np.concatenate` joins two arrays).
+The right side of the 16 equations: the state holds the 8 coordinates (`state[:8]`, entry $k$ is $x^k$) and the 8 velocities (`state[8:]`, entry $8 + k$ of the state is $u^k$). On the history, $a_4 = AHx_4$ with $x_4$ = `x[4]`, $a_4' = AH$, $b_4 = e^{\beta a_4}$ in the unit $b_4(0)$ (`b4_now`; `math.exp` is the exponential of one number), $b_4' = \beta a_4' b_4$ (`b4_rate`), and $x_0$ = `x[0]`. The accelerations are summed over the 37 symbols, and the function returns the derivatives of the state: the velocities, then the accelerations (`np.concatenate` joins two arrays).
 
 ```python
 def rk4_path(state0, tau_end, steps):
@@ -4395,11 +4498,12 @@ def scale_numbers(x):
     """The eight scale factors h_a at the point x on the history (numbers)."""
     a4_now, z_now = A_value * H_value * x[4], 6 * H_value * x[0]
     w = math.sin(z_now) ** (1 / 6)  # the warp factor sin(z)^(1/6)
+    b4_now = math.exp(beta * a4_now)  # b4 in the unit b4(0)
     return np.array([1 / math.tan(z_now)] + [math.exp(a4_now) * w] * 3 + [1.0]
-                    + [math.exp(-a4_now) * w] * 3)  # with b4 = 1
+                    + [math.sqrt(b4_now) * math.exp(-a4_now) * w] * 3)
 ```
 
-The eight scale factors as numbers at a point on the history, in the author's order and with $b_4 = 1$.
+The eight scale factors as numbers at a point on the history, in the author's order, with $b_4 = e^{\beta a_4}$ in the unit $b_4(0)$, so that the extra-time factor is $b_4^{1/2}e^{-a_4}\sin^{1/6}z$ (`math.sqrt` is the square root).
 
 ```python
 def start(y0, frame_velocity):
@@ -4487,7 +4591,7 @@ Four RESULT lines for the fastest particle at $\tau = 3$: $x_4 = 3.3070$ (its cl
 **In [11], the particle moving along an extra time.**
 
 ```python
-tau_t, extra = rk4_path(start(Y0, [0, 0, 0, 0, 0, 0.2, 0, 0]), 2.5, 2500)
+tau_t, extra = rk4_path(start(Y0, [0, 0, 0, 0, 0, 0.2, 0, 0]), 4.02, 4020)
 frame_t, y_t, lengths_t, h_t = describe(extra)
 p5 = -h_t[:, 5] ** 2 * extra[:, 13]  # p_5 = g_55 u^5 = -h_5^2 u^5
 check(np.max(np.abs(p5 / p5[0] - 1)) < 1e-8 and np.max(np.abs(lengths_t + 1)) < 1e-7
@@ -4495,7 +4599,7 @@ check(np.max(np.abs(p5 / p5[0] - 1)) < 1e-8 and np.max(np.abs(lengths_t + 1)) < 
       "extra-time particle: p5 and g(u, u) conserved, u4 decreases at every step")
 ```
 
-A particle started with $\hat u^5 = 0.2$ (entry 5 of the list), so $u^4 = \sqrt{1 - 0.04} = 0.980$, followed from $\tau = 0$ to $2.5$ in 2500 steps. Its momentum $p_5 = -h_5^2u^5$ (column 13 is $u^5$) stays constant within a relative $10^{-8}$, $g(u, u)$ stays $-1$ within $10^{-7}$, and $u^4$ decreases at every step.
+A particle started with $\hat u^5 = 0.2$ (entry 5 of the list), so $u^4 = \sqrt{1 - 0.04} = 0.980$, followed from $\tau = 0$ to $4.02$ in 4020 steps, a little beyond its turning point near $\tau = 3.96$ (after it the particle falls ever faster towards the tip, and its velocities grow without bound). Its momentum $p_5 = -h_5^2u^5$ (column 13 is $u^5$) stays constant within a relative $10^{-8}$, $g(u, u)$ stays $-1$ within $10^{-7}$, and $u^4$ decreases at every step.
 
 ```python
 n_turn = int(np.argmax(extra[:, 12] < 0))  # the first step with u4 < 0
@@ -4506,7 +4610,7 @@ report("turning point: frame velocity along x5", f"{frame_t[n_turn, 5]:.4f}")
 report("turning point: frame velocity along y", f"{frame_t[n_turn, 0]:.4f}")
 ```
 
-`extra[:, 12] < 0` is a list of `True` and `False`, one per step; `np.argmax` of it is the position of the first `True`, the first step with $u^4 < 0$: the turning point, to within one step. Four RESULT lines: $\tau = 1.987$, the largest $x_4 = 1.4864$, $\hat u^5 = 1.4013$ (column 5 of `frame_t`), $\hat u^0 = -0.9817$ (column 0).
+`extra[:, 12] < 0` is a list of `True` and `False`, one per step; `np.argmax` of it is the position of the first `True`, the first step with $u^4 < 0$: the turning point, to within one step. Four RESULT lines: $\tau = 3.958$, the largest $x_4 = 3.3335$, $\hat u^5 = 3.1125$ (column 5 of `frame_t`), $\hat u^0 = -2.9475$ (column 0).
 
 ```python
 balance = frame_t[n_turn, 5] ** 2 - frame_t[n_turn, 0] ** 2 - 1  # 0 when u4 = 0
@@ -4546,36 +4650,39 @@ For each 3-space particle its frame velocity $\hat u^1$ against $x_4$ (solid) an
 
 ```python
 axes[0].set_yscale("log")
-axes[0].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, $b_4 = 1$")
+axes[0].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, "
+                   "$b_4 \\propto e^{4x_4/3}$")
 axes[0].set_ylabel("frame velocity $\\hat u^1$ along $x_1$")
 axes[0].set_title("3-space: redshift")
 axes[0].legend(fontsize=8)
 before = slice(0, n_turn)  # the states before the turning point
 axes[1].plot(extra[before, 4], frame_t[before, 5], color=VIOLET, lw=1.8,
              label="RK4, start 0.2")
-axes[1].plot(extra[before, 4], 0.2 * np.exp(A_value * H_value * extra[before, 4]),
-             ":", color=VIOLET, lw=1.4, label="pure blueshift $0.2\\,e^{a_4}$")
+blue_rate = (1 - beta / 2) * A_value * H_value  # b4^(-1/2) e^(a4) = e^(a4/3)
+axes[1].plot(extra[before, 4], 0.2 * np.exp(blue_rate * extra[before, 4]),
+             ":", color=VIOLET, lw=1.4, label="pure blueshift $0.2\\,e^{a_4/3}$")
 ```
 
-A logarithmic axis and labels for the left panel. `slice(0, n_turn)` selects the rows before the turning point (after it $x_4$ runs backwards, and the curve would fold back). The right panel: $\hat u^5$ against $x_4$ and the pure blueshift $0.2e^{a_4}$.
+A logarithmic axis and labels for the left panel. `slice(0, n_turn)` selects the rows before the turning point (after it $x_4$ runs backwards, and the curve would fold back). `blue_rate` is $(1 - \beta/2)AH = AH/3$, the rate of the pure blueshift $b_4^{-1/2}e^{a_4} \propto e^{a_4/3}$ (Section 3.31). The right panel: $\hat u^5$ against $x_4$ and the pure blueshift $0.2e^{a_4/3}$ that it would have at a fixed height.
 
 ```python
 axes[1].axvline(x4_max, color="grey", lw=1.0, ls="--", label="turning point")
 axes[1].set_yscale("log")
-axes[1].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, $b_4 = 1$")
+axes[1].set_xlabel("time $x_4$ (unit $1/H$), history $a_4 = x_4$, "
+                   "$b_4 \\propto e^{4x_4/3}$")
 axes[1].set_ylabel("frame velocity $\\hat u^5$ along $x_5$")
 axes[1].set_title("Extra time: blueshift")
 axes[1].legend(fontsize=8, loc="upper left")
 save_figure(fig, "frame_velocities",
             "Frame velocities of freely falling test particles in the author's metric "
 ...
-check(frame_t[n_turn - 1, 5] > 0.2 * math.exp(extra[n_turn - 1, 4]),
+check(frame_t[n_turn - 1, 5] > 0.2 * math.exp(blue_rate * extra[n_turn - 1, 4]),
       "the extra-time frame velocity grows faster than the pure blueshift")
 ```
 
-A dashed line at the largest $x_4$, the logarithmic axis, labels and legend; the figure is saved (its caption contains the turning point $x_4 = 1.486$ through an f-string). The check: just before the turning point, $\hat u^5$ exceeds the pure blueshift.
+A dashed line at the largest $x_4$, the logarithmic axis, labels and legend; the figure is saved (its caption contains the turning point $x_4 = 3.333$ through an f-string). The check: just before the turning point, $\hat u^5$ exceeds the pure blueshift.
 
-**What Figure 03d.1 shows.** Along the history with $b_4 = 1$. Left: on the logarithmic axis the three frame velocities fall almost like straight lines of slope $-1$, the redshift $e^{-a_4}$; they fall a little faster than the dotted lines, most visibly for the fastest particle, because the particles rise towards the patch end where the warp factor $e^{Hy}$ is larger and $\kappa(y, x_4) = e^{-Hy - a_4}$ smaller. Right: the frame velocity along $x_5$ grows from $0.2$, first like the pure blueshift $0.2e^{a_4}$, then faster, because the particle sinks towards the tip where $e^{-Hy}$ is larger; at the dashed line it reaches its turning point.
+**What Figure 03d.1 shows.** Along the history with $b_4 = b_4(0)\,e^{4x_4/3}$. Left: on the logarithmic axis the three frame velocities fall almost like straight lines of slope $-1$, the redshift $e^{-a_4}$; they fall a little faster than the dotted lines, most visibly for the fastest particle, because the particles rise towards the patch end where the warp factor $e^{Hy}$ is larger and $\kappa(y, x_4) = e^{-Hy - a_4}$ smaller. Right: the frame velocity along $x_5$ grows from $0.2$, first like the pure blueshift $0.2e^{a_4/3}$, then much faster, because the particle sinks towards the tip where $e^{-Hy}$ is larger; at the dashed line, $x_4 = 3.333$, it reaches its turning point with $\hat u^5 = 3.11$, five times the pure blueshift $0.2e^{3.333/3} = 0.61$.
 
 **In [13], Figure 03d.2: the $x_4$ velocity and the time $x_4$.**
 
@@ -4623,7 +4730,7 @@ check(np.all(np.diff(space_paths[1.0][0][:, 4]) > 0),
 
 Labels and titles; the loop gives both panels their horizontal label and a legend placed where no curve runs. The figure is saved; the check confirms that the fastest 3-space particle advances in $x_4$ at every step.
 
-**What Figure 03d.2 shows.** Left: the particle at rest keeps $u^4 = 1$; the 3-space particles start above $1$ and settle down towards $1$ as their motion is redshifted away; the extra-time particle starts at $0.98$ and its $u^4$ falls ever faster, through zero at the dot ($\tau = 1.99$) and on to negative values. Right: $x_4$ grows steadily for the first four particles, while for the extra-time particle it reaches a largest value, $1.486$, and then decreases.
+**What Figure 03d.2 shows.** Left: the particle at rest keeps $u^4 = 1$; the 3-space particles start above $1$ and settle down towards $1$ as their motion is redshifted away; the extra-time particle starts at $0.98$ and its $u^4$ falls slowly at first and then ever faster, through zero at the dot ($\tau = 3.96$) and on to negative values. Right: $x_4$ grows steadily for the first four particles, while for the extra-time particle it reaches a largest value, $3.333$, and then decreases.
 
 **In [14], Figure 03d.3: the push along the hidden direction.**
 
@@ -4660,10 +4767,11 @@ for (t_values, frame_rows), colour, label in (
     law = H_value * (np.sum(frame_rows[:, 1:4] ** 2, axis=1)
                      - np.sum(frame_rows[:, 5:8] ** 2, axis=1))
     numeric = np.gradient(frame_rows[:, 0], t_values)  # d(u0 hat)/dtau
-    largest_gap = max(largest_gap, float(np.max(np.abs(numeric - law)[1:-1])))
+    gap = np.max(np.abs(numeric - law)[1:-1]) / np.max(np.abs(law))  # relative
+    largest_gap = max(largest_gap, float(gap))
 ```
 
-For the fastest 3-space particle and the extra-time particle: the push law $H(S - E)$ at every computed state (`frame_rows[:, 1:4]` are the three 3-space columns 1, 2, 3, `frame_rows[:, 5:8]` the three extra-time columns 5, 6, 7), and the acceleration $d\hat u^0/d\tau$ (column 0) obtained from the computed states by `np.gradient`, which takes central differences inside the path and one-sided differences at its two ends. The largest difference inside the path (`[1:-1]` leaves out the two ends, where the one-sided differences are less accurate) is kept.
+For the fastest 3-space particle and the extra-time particle: the push law $H(S - E)$ at every computed state (`frame_rows[:, 1:4]` are the three 3-space columns 1, 2, 3, `frame_rows[:, 5:8]` the three extra-time columns 5, 6, 7), and the acceleration $d\hat u^0/d\tau$ (column 0) obtained from the computed states by `np.gradient`, which takes central differences inside the path and one-sided differences at its two ends. The largest difference inside the path (`[1:-1]` leaves out the two ends, where the one-sided differences are less accurate), divided by the largest size of the law along the same path, is kept: near its turning point the extra-time particle speeds up sharply, and the error of the central differences, of order $\Delta\tau^2$ times the third derivative, grows with it, so the comparison is made relative to the size of the push.
 
 ```python
     axes[1].plot(t_values, law, color=colour, lw=1.8, label=f"law, {label}")
@@ -4679,8 +4787,8 @@ axes[1].legend(fontsize=7, loc="lower left")
 The law as a line and every hundredth numerical value as a dot (`[::100]` takes every hundredth element); the zero line, labels, title and legend.
 
 ```python
-report("largest difference between the numerical acceleration and the law",
-       f"{largest_gap:.1e}")
+report("largest difference between the numerical acceleration and the law, "
+       "relative to the largest value of the law", f"{largest_gap:.1e}")
 save_figure(fig, "hidden_push",
             "The push along the hidden direction on freely falling test particles in "
 ...
@@ -4688,21 +4796,21 @@ check(largest_gap < 1e-4,
       "the computed acceleration of y agrees with the exact push law")
 ```
 
-The RESULT line prints $3.4 \times 10^{-6}$, the error of the numerical derivative; the figure is saved, and the check requires agreement within $10^{-4}$.
+The RESULT line prints $1.3 \times 10^{-5}$, the relative error of the numerical derivative; the figure is saved, and the check requires agreement within a relative $10^{-4}$.
 
-**What Figure 03d.3 shows.** Left: the 3-space particles rise towards the patch end $y = 0$, the faster the higher (the fastest reaches $-0.06$); the particle at rest stays at $y = -1$; the extra-time particle sinks towards the tip, ever faster, to about $-2.3$ at $\tau = 2.5$, still above the cut-off $y = -3$. Right: the dots computed from the paths lie on the lines of the exact law; the push is positive and dies away for the 3-space particle (its frame velocity is redshifted), negative and growing for the extra-time particle (its frame velocity is blueshifted).
+**What Figure 03d.3 shows.** Left: the 3-space particles rise towards the patch end $y = 0$, the faster the higher (the fastest reaches $-0.06$); the particle at rest stays at $y = -1$; the extra-time particle sinks towards the tip, slowly at first and then ever faster, to about $-2.8$ at $\tau = 4.02$, still above the cut-off $y = -3$. Right: the dots computed from the paths lie on the lines of the exact law; the push is positive and dies away for the 3-space particle (its frame velocity is redshifted), negative and growing for the extra-time particle (its frame velocity is blueshifted).
 
 **In [15], Figure 03d.4: the quadratic form as a map.**
 
 ```python
-grid5, grid0 = np.meshgrid(np.linspace(0.0, 3.0, 301), np.linspace(-3.0, 0.5, 351))
+grid5, grid0 = np.meshgrid(np.linspace(0.0, 4.5, 451), np.linspace(-4.5, 0.5, 501))
 squared_u4 = 1 + grid0 ** 2 - grid5 ** 2  # (u^4)^2 over the plane
 fig, ax = plt.subplots(figsize=(6.4, 5.2))
 ax.contourf(grid5, grid0, squared_u4, levels=[-100.0, 0.0], colors=["#d9d9d9"])
 ax.contour(grid5, grid0, squared_u4, levels=[0.0], colors="black", linewidths=1.2)
 ```
 
-A grid of frame velocities, $\hat u^5$ from $0$ to $3$ (`grid5`) and $\hat u^0$ from $-3$ to $0.5$ (`grid0`), and on it $(u^4)^2 = 1 + (\hat u^0)^2 - (\hat u^5)^2$, the formula of Section 3.31 for a particle that moves only along $x_5$ and $y$. `contourf` with the levels $-100$ and $0$ fills in grey the region where the value is negative; `contour` at the level $0$ draws the black boundary curve $(\hat u^5)^2 = 1 + (\hat u^0)^2$.
+A grid of frame velocities, $\hat u^5$ from $0$ to $4.5$ (`grid5`) and $\hat u^0$ from $-4.5$ to $0.5$ (`grid0`), and on it $(u^4)^2 = 1 + (\hat u^0)^2 - (\hat u^5)^2$, the formula of Section 3.31 for a particle that moves only along $x_5$ and $y$. `contourf` with the levels $-100$ and $0$ fills in grey the region where the value is negative; `contour` at the level $0$ draws the black boundary curve $(\hat u^5)^2 = 1 + (\hat u^0)^2$.
 
 ```python
 ax.plot(frame_t[:, 5], frame_t[:, 0], color=VIOLET, lw=2.0,
@@ -4710,8 +4818,8 @@ ax.plot(frame_t[:, 5], frame_t[:, 0], color=VIOLET, lw=2.0,
 ax.plot([frame_t[0, 5]], [frame_t[0, 0]], "s", color=VIOLET, ms=7, label="start")
 ax.plot([frame_t[n_turn, 5]], [frame_t[n_turn, 0]], "o", color=VIOLET, ms=8,
         label="turning point, $u^4 = 0$")
-ax.text(2.05, 0.15, "$(u^4)^2 < 0$:\nno particle;\nplane waves grow", fontsize=8)
-ax.text(0.3, -1.2, "$(u^4)^2 > 0$", fontsize=9)
+ax.text(2.8, -0.9, "$(u^4)^2 < 0$:\nno particle;\nplane waves grow", fontsize=8)
+ax.text(0.3, -2.0, "$(u^4)^2 > 0$", fontsize=9)
 ```
 
 The path of the extra-time particle in this plane (columns 5 and 0 of `frame_t`), a square at its start, a dot at its turning point, and two labels written into the regions (`\n` starts a new line of the label).
@@ -4760,7 +4868,7 @@ for label, state0 in (("3-space, start 1", start(Y0, [0, 1, 0, 0, 0, 0, 0, 0])),
         + ", ".join(f"{r:.1f}" for r in ratios))
 ```
 
-The order of RK4: each of the two particles is integrated from $\tau = 0$ to $2$ with 50, 100, 200, 400, 800 and 1600 steps; `ends` holds the six end states (`[1][-1]` is the last row of the table of states). `differences` holds the five largest differences between the end states of successive step counts, and `ratios` the four ratios of successive differences, printed: 17.1, 16.6, 16.3, 16.2 and 17.2, 16.7, 16.3, 16.2. For a method of order 4 halving the step divides the error by about $2^4 = 16$ (Chapter 2).
+The order of RK4: each of the two particles is integrated from $\tau = 0$ to $2$ with 50, 100, 200, 400, 800 and 1600 steps; `ends` holds the six end states (`[1][-1]` is the last row of the table of states). `differences` holds the five largest differences between the end states of successive step counts, and `ratios` the four ratios of successive differences, printed: 17.1, 16.6, 16.3, 16.2 and 15.9, 15.9, 16.0, 15.9. For a method of order 4 halving the step divides the error by about $2^4 = 16$ (Chapter 2).
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.3))
@@ -4802,9 +4910,9 @@ check(np.all((all_ratios > 14) & (all_ratios < 18)),
       "halving the RK4 step divides the error by 14 to 18: order 4")
 ```
 
-Labels, title, legend; the figure is saved. For the check, the coarsest pair (where the error is not yet in its final form) is left out: `d[1:-1] / d[2:]` gives the last three ratios of each particle, $16.6, 16.3, 16.2$ and $16.7, 16.3, 16.2$, and all six must lie between 14 and 18 (`&` combines the two conditions element by element).
+Labels, title, legend; the figure is saved. For the check, the coarsest pair (where the error is not yet in its final form) is left out: `d[1:-1] / d[2:]` gives the last three ratios of each particle, $16.6, 16.3, 16.2$ and $15.9, 16.0, 15.9$, and all six must lie between 14 and 18 (`&` combines the two conditions element by element).
 
-**What Figure 03d.5 shows.** Left: the conserved quantities drift by at most about $10^{-8}$ (the squared speed of the extra-time particle at the end, when its velocities have grown large), the 3-space quantities by less than $10^{-11}$. Right: both sets of points lie on lines of slope 4: halving the step makes the error 16 times smaller. The computed paths are accurate far beyond the precision of any number quoted from them.
+**What Figure 03d.5 shows.** Left: the conserved quantities drift by at most about $10^{-7}$ (the squared speed of the extra-time particle at the end, after its turning point, when its velocities have grown large), the 3-space quantities by less than $10^{-11}$. Right: both sets of points lie on lines of slope 4: halving the step makes the error 16 times smaller. The computed paths are accurate far beyond the precision of any number quoted from them.
 
 **In [17], the last check.**
 
@@ -4825,30 +4933,30 @@ The five figure files must exist; the last line prints ALL 23 CHECKS PASSED (not
 
 - the line elements of the plane in polar coordinates and of the sphere; the inverse of a diagonal metric (Section 3.3);
 - for the author's metric, written in the author's coordinates $x_0, \dots, x_7$ with the two metric functions $a_4(x_4)$ and $b_4(x_4) > 0$: the signature (4,4) at every point of the patch, for every $a_4$ and every $b_4 > 0$; $\det g = b_4^3\cos^2 z$ and $\sqrt{|\det g|} = b_4^{3/2}\cos z$, without $a_4$ (record `python-lovelock-report.json`, check `sqrt_abs_det_g`; `curvature.json`, key `sqrtAbsDetG`); the 7-volume density, which changes in time only through $b_4^{3/2}$, and the 7-volume $b_4^{3/2}/(6H)$ of the patch per unit transverse coordinate volume; $V_3V_t = b_4^{3/2}\sin z$ (Sections 3.5 and 3.6);
-- the scale factors and the diagonal vielbein (lead check `vielbein_reproduces_metric`); the expansion rates $\alpha = a_4'$ of 3-space and $\alpha_t = -a_4' + b_4'/(2b_4)$ of the extra times ($-a_4'$ for a constant $b_4$); the transverse product $b_4^{3/2}\sin z$ (Section 3.7);
-- the hidden coordinate $y$: $dy = \cot z\,dx_0$ (lead check `ks_coordinate_jacobian`), $W = \sin^{1/6}z = e^{Hy}$, the warped form and the volume factor $b_4^{3/2}e^{6Hy}$, at $b_4 = 1$ those of the record `ks-theory.json`; the tip at infinite proper distance; the fraction $e^{-6HL}$ beyond the tip cut-off (Section 3.9);
+- the scale factors and the diagonal vielbein (lead check `vielbein_reproduces_metric`); the expansion rates $\alpha = a_4'$ of 3-space and $\alpha_t = -a_4' + b_4'/(2b_4)$ of the extra times ($-a_4'/3$ on the history of Section 3.8); the transverse product $b_4^{3/2}\sin z$ (Section 3.7);
+- the hidden coordinate $y$: $dy = \cot z\,dx_0$ (lead check `ks_coordinate_jacobian`), $W = \sin^{1/6}z = e^{Hy}$, the warped form and the volume factor $b_4^{3/2}e^{6Hy}$, those of the record `ks-theory.json`; the tip at infinite proper distance; the fraction $e^{-6HL}$ beyond the tip cut-off (Section 3.9);
 - the transformation rules of vectors, covectors and the metric; the invariance of contractions (Section 3.14); the covariant derivative of covectors and of tensors with two indices (one $+\Gamma$ term for every upper index, one $-\Gamma$ term for every lower index), in particular of the metric; the Christoffel formula as the only connection without torsion that is compatible with the metric; the four cases for a diagonal metric; the contracted symbol $\sum_a\Gamma^a{}_{ab} = \partial_b\ln\sqrt{|\det g|}$ (Section 3.15);
 - along a geodesic the squared speed is constant, and a coordinate absent from a diagonal metric has a conserved momentum; the geodesic equations of the sphere; the equator is a geodesic and other circles of latitude are not; parallel transport around a circle of latitude turns a vector by $2\pi(1 - \cos\theta_0)$, the enclosed area divided by $a^2$ (Section 3.16);
 - the commutator of covariant derivatives is the Riemann tensor (MTW convention); its antisymmetry in the last two indices and the first Bianchi identity; each diagonal entry of the Ricci tensor is the sum of the curvatures of the coordinate planes through that direction (Section 3.17);
 - the plane is flat; the sphere has the Gaussian curvature $1/a^2$, $R = 2/a^2$, $K = 4/a^4$; two meridians approach as $a\cos(s/a)\Delta\varphi$ (Section 3.18);
 - the 37 non-zero Christoffel symbols of the author's metric (25 with $b \le c$, record `curvature.json`, key `christoffelNonzero_b_le_c`); observers at rest fall freely with proper time $x_4$, for all $a_4$ and $b_4$ (Section 3.23);
 - the curvatures $\sigma(a, b)$ of the 28 coordinate planes in the rates $\alpha$ and $\alpha_t$, and what their signs mean (a shape only for two space-like directions, reversed for two time-like ones); for two observers at rest $d^2\xi/d\tau^2 = \sigma(x_1, x_4)\,\xi$ along 3-space and $\sigma(x_5, x_4)\,\xi$ along an extra time; the 156 non-zero components $R^{ab}{}_{cd}$ with 20 different values (record `lovelock-report.json`, check `riemann_antisymmetry`); their frame values do not depend on $z$ (Section 3.24);
-- $R^a{}_a$, $R = 6a_4'^2 - 3a_4'b_4'/b_4 + 3b_4''/b_4 - 42H^2$ and the Einstein tensor (record `curvature.json`, keys `ricciMixed`, `ricciScalar`, `einsteinMixed`); its only entries off the diagonal are $G^4{}_0 = \tfrac32 H\cot z\,b_4'/b_4$ and $G^0{}_4 = -\tfrac32 H\tan z\,b_4'/b_4$ (verifier of the metric with $b_4$, checks `off_diagonal_entries_x0_x4_only`, `off_diagonal_proportional_to_b4prime`), so the Ricci and Einstein tensors are diagonal exactly for a constant $b_4$, when the three inflating and the three deflating directions cancel (with inflating extra times, $b_4 = e^{4a_4}$, they would not); at $b_4 = 1$, $G^4{}_4 - G^0{}_0 = 6(a_4'^2 + H^2) > 0$; for a constant $b_4$, $K = 12(7H^4 - 2H^2a_4'^2 + 7a_4'^4 + 2a_4''^2) \ge 576H^4/7 > 0$, so the metric is curved for every such history; the contracted Bianchi identity for all $a_4(x_4)$ and $b_4(x_4)$ (record `lovelock-report.json`, checks `k1_equals_minus_4_einstein`, `k1_divergence_free`) (Section 3.25);
-- within Einstein's equations: a diagonal source requires a constant $b_4$, that is $b_4 = 1$; no empty spacetime has this metric; $\kappa(\rho + p_0) = -6(a_4'^2 + H^2) < 0$; along $a_4 = AHx_4$, $b_4 = 1$ the required source $\kappa\rho = -3H^2(7 + A^2) - \Lambda$, $\kappa p = 3H^2(5 - A^2) + \Lambda$, $\kappa(\rho + p) = -6H^2(A^2 + 1) < 0$ (record `a4-equations.json`, keys `einstein` and `linearMember`) (Section 3.26);
-- in free fall: the six momenta and $g(u, u)$ are conserved; $\hat u^i = p_ie^{-Hy - a_4}$ (the momentum weight $\kappa(y, x_4)$ of `ks-theory.json`) and $\hat u^j = -p_jb_4^{-1/2}e^{a_4 - Hy}$, so, for a constant $b_4$, 3-space motion is redshifted and extra-time motion blueshifted; $d^2y/d\tau^2 = H(S - E)$; $du^4/d\tau = -a_4'S + \alpha_tE$; $(u^4)^2 = 1 + (\hat u^0)^2 + S - E$, which times $m^2$ is the quadratic form of the record's check `extra_time_growth_rates_unbounded`; without extra-time motion a particle never turns in $x_4$ (Section 3.31).
+- $R^a{}_a$, $R = 6a_4'^2 - 3a_4'b_4'/b_4 + 3b_4''/b_4 - 42H^2$ and the Einstein tensor (record `curvature.json`, keys `ricciMixed`, `ricciScalar`, `einsteinMixed`); its only entries off the diagonal are $G^4{}_0 = \tfrac32 H\cot z\,b_4'/b_4$ and $G^0{}_4 = -\tfrac32 H\tan z\,b_4'/b_4$ (verifier of the metric with $b_4$, checks `off_diagonal_entries_x0_x4_only`, `off_diagonal_proportional_to_b4prime`), so the Ricci and Einstein tensors would be diagonal only for a constant $b_4$ (the withdrawn metric), when the three inflating and the three deflating directions cancel (with inflating extra times, $b_4 = e^{4a_4}$, they would not); $G^4{}_4 - G^0{}_0 = 6H^2 + 3a_4'^2 + \frac34(u - 2a_4')^2 + \frac32 v$ with $u = b_4'/b_4$ and $v = u'$; on the history of Section 3.8, $R = \frac23 H^2(11A^2 - 63)$, the diagonal of $G$ is $(15 - \frac{11}{3}A^2, 15 - \frac53 A^2, 21 - \frac13 A^2, 15 - \frac{13}{3}A^2)H^2$ for $x_0$, 3-space, $x_4$ and the extra times, $G^4{}_0 = 2AH^2\cot z$, and $K = \frac{4}{27}H^4(191A^4 - 198A^2 + 567) \ge \frac{14592}{191}H^4 > 0$, so the metric is curved for every slope; the contracted Bianchi identity for all $a_4(x_4)$ and $b_4(x_4)$ (record `lovelock-report.json`, checks `k1_equals_minus_4_einstein`, `k1_divergence_free`) (Section 3.25);
+- within Einstein's equations: a diagonal source would require a constant $b_4$ (the withdrawn metric), so the changing $b_4$ needs a source with $\kappa q_{40} = \frac32 H\cot z\,b_4'/b_4$; no empty spacetime has this metric; $\kappa(\rho + p_0) = -6H^2 - 3a_4'^2 - \frac34(u - 2a_4')^2 - \frac32 v$, negative wherever $v \ge 0$; along the history of Section 3.8 the required source $\kappa\rho = (\frac13 A^2 - 21)H^2 - \Lambda$, $\kappa p_3 = (15 - \frac53 A^2)H^2 + \Lambda$, $\kappa p_t = (15 - \frac{13}{3}A^2)H^2 + \Lambda$, $\kappa p_0 = (15 - \frac{11}{3}A^2)H^2 + \Lambda$ and $\kappa q_{40} = 2AH^2\cot z$, with $\kappa(\rho + p_0) = -(6 + \frac{10}{3}A^2)H^2 < 0$ (record `a4-equations.json`, keys `einstein` and `exponentialHistory.requiredSource`) (Section 3.26);
+- in free fall: the six momenta and $g(u, u)$ are conserved; $\hat u^i = p_ie^{-Hy - a_4}$ (the momentum weight $\kappa(y, x_4)$ of `ks-theory.json`) and $\hat u^j = -p_jb_4^{-1/2}e^{a_4 - Hy}$, so along a deflating history 3-space motion is redshifted and extra-time motion blueshifted (on the history of Section 3.8 like $e^{a_4/3}$); $d^2y/d\tau^2 = H(S - E)$; $du^4/d\tau = -a_4'S + \alpha_tE$; $(u^4)^2 = 1 + (\hat u^0)^2 + S - E$, which times $m^2$ is the quadratic form of the record's check `extra_time_growth_rates_unbounded`; without extra-time motion a particle never turns in $x_4$ (Section 3.31).
 
 **COMPUTED by the notebooks** (each number in the cell named; where a Revision record is reproduced, its file and key or check):
 
-- Notebook 03a: $g_{11} = 2.347679$ and $g_{55} = -0.317724$ at $z = 0.7$, $a_4 = 0.5$, $b_4 = 1$ (In [8]); the signs on a grid of 400 values of $z$, 13 of $a_4$ and 3 of $b_4$ (In [8]); the slices, $H = 1$, $A = 1$ and $L = 3$ (In [13]; `Revision/kohn_sham/results/parameters.json`); the growth and shrink factors $e^2 = 7.389056$ and $e^{-2} = 0.135335$ (In [14]); the cut-off fraction $e^{-18} = 1.5230 \times 10^{-8}$ and the cut-off angle $1.5230 \times 10^{-8}$ radians (In [20]).
+- Notebook 03a: $g_{11} = 2.347679$ and $g_{55} = -0.618841$ at $z = 0.7$, $a_4 = 0.5$, $b_4 = e^{2/3}$ (In [8]); the signs on a grid of 400 values of $z$, 13 of $a_4$ and 3 of $b_4$ (In [8]); the slices, $H = 1$, $A = 1$, $\beta = 4/3$ and $L = 3$ (In [13]; `Revision/kohn_sham/results/parameters.json`); the growth and shrink factors $e^2 = 7.389056$ and $e^{-2/3} = 0.513417$ (In [14]); the cut-off fraction $e^{-18} = 1.5230 \times 10^{-8}$ and the cut-off angle $1.5230 \times 10^{-8}$ radians (In [20]).
 - Notebook 03c: the turning angles of 15 circles within $5.0 \times 10^{-12}$ radians of the area formula (In [10]); three geodesics within $1.2 \times 10^{-13}$, $6.2 \times 10^{-13}$ and $7.1 \times 10^{-11}$ of their planes (In [11]); the deviation equation within $8.0 \times 10^{-14}$ of two meridians (In [13]).
-- Notebook 03b: the 512 Christoffel symbols by central differences, order $2.040$, best error $5.7 \times 10^{-11}$ at $h = 10^{-6}$ at the test point of the record's check `k1_brute_force_numeric` (with $b_4 = 1.37$, $b_4' = 0.31$; In [10], In [11]); all 310 recorded components equal to ours at the five test points of `python-lovelock-report.json` to the relative $2.96 \times 10^{-31}$ with 30 digits (In [19]); $K$ summed from the 156 components equal to the formula at 300 values of $z$, at $b_4 = 1$ (In [23]).
-- Notebook 03d: along the prescribed history ($b_4 = 1$) with RK4 and the step $0.001$, from $y = -1$: the particle at rest stays at rest (In [9]); the fastest 3-space particle at $\tau = 3$ has $x_4 = 3.3070$, $\hat u^1 = 0.014370$, $u^4 = 1.060733$, $y = -0.0643$ (In [10]); the extra-time particle turns at $\tau = 1.987$ with the largest $x_4 = 1.4864$, $\hat u^5 = 1.4013$, $\hat u^0 = -0.9817$ (In [11]); the push law within $3.4 \times 10^{-6}$ (In [14]); RK4 ratios 16.2 to 17.2 (In [16]).
+- Notebook 03b: the 512 Christoffel symbols by central differences, order $2.040$, best error $5.7 \times 10^{-11}$ at $h = 10^{-6}$ at the test point of the record's check `k1_brute_force_numeric` (with $b_4 = 1.37$, $b_4' = 0.31$; In [10], In [11]); all 310 recorded components equal to ours at the five test points of `python-lovelock-report.json` to the relative $2.96 \times 10^{-31}$ with 30 digits (In [19]); $K$ summed from the 156 components equal to the formula at 300 values of $z$, on the history (In [23]).
+- Notebook 03d: along the prescribed history ($a_4 = x_4$, $b_4 = b_4(0)\,e^{4x_4/3}$) with RK4 and the step $0.001$, from $y = -1$: the particle at rest stays at rest (In [9]); the fastest 3-space particle at $\tau = 3$ has $x_4 = 3.3070$, $\hat u^1 = 0.014370$, $u^4 = 1.060733$, $y = -0.0643$ (In [10]); the extra-time particle turns at $\tau = 3.958$ with the largest $x_4 = 3.3335$, $\hat u^5 = 3.1125$, $\hat u^0 = -2.9475$ (In [11]); the push law within a relative $1.3 \times 10^{-5}$ (In [14]); RK4 ratios 15.9 to 17.1 (In [16]).
 
 **ASSUMED** (used, not derived here):
 
 - standard theorems quoted without proof: Sylvester's law of inertia (Section 3.4); the volume factor of a metric that is not diagonal (not needed); that the Christoffel symbols of two systems of coordinates describe the same covariant derivative (Section 3.15); that a space with zero Riemann tensor has constant metrics locally (Section 3.17); the symmetries (S3) and (S4) and the contracted Bianchi identity for a general metric (Sections 3.17 and 3.25; for the author's metric all three are checked or proved); the uniqueness of solutions of ordinary differential equations (Section 3.16); the geodesic deviation equation of a general surface, and its form $d^2\xi/d\tau^2 = +\sigma\,\xi$ for free-fall paths along a time-like direction (Section 3.18; for the observers at rest in the author's metric it is proved in Section 3.24);
 - from physics: that a body in free fall moves on a time-like geodesic, and that the bodies of Section 3.31 are test particles; the form of Einstein's field equations and the null energy condition as the mark of ordinary matter (Section 3.26; derived and discussed in Chapters 9 and 12);
-- the history $a_4 = AHx_4$, $b_4 = 1$ with $A = 1$ and $H = 1$, used for every picture and every number along the history: a PRESCRIBED BACKGROUND, not a solution of the field equations with a source of this book (key `adiabaticity.historyStatus` of `Revision/kohn_sham/ks-theory.json`, and `Revision/field_equations_a4/reports/ks-source-conditions.json`); $b_4 = 1$ is the choice of the Revision record for every background (`Revision/SPEC.md`, section 1; Section 3.8). Every formula written with general $a_4(x_4)$ and $b_4(x_4)$ is exact without it.
+- the history $a_4 = AHx_4$, $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$, $H = 1$ and $\beta = 4/3$, used for every picture and every number along the history: a PRESCRIBED BACKGROUND, not a solution of the field equations with a source of this book (key `adiabaticity.historyStatus` of `Revision/kohn_sham/ks-theory.json`, and `Revision/field_equations_a4/reports/ks-source-conditions.json`); the exponent $\beta = 4/3$ is the choice of the Revision record for every background (`Revision/SPEC.md`, section 1; Section 3.8). Every formula written with general $a_4(x_4)$ and $b_4(x_4)$ is exact without it.
 
 **HYPOTHESIS.** None enters this chapter.
 
@@ -4868,9 +4976,9 @@ $$
 
 (the squares of a sum and of a difference; the mixed terms $\pm 2\,du\,dv$ cancel). The metric is $\mathrm{diag}(1/2, 1/2)$. It is constant, so all its derivatives vanish and every Christoffel symbol is zero (Section 3.15): in these coordinates straight lines are again $d^2u/d\lambda^2 = d^2v/d\lambda^2 = 0$.
 
-**Exercise 2.** Figure 03a.1 shows the author's metric at $z = \pi/4$, $a_4 = 0.5$, $b_4 = 1$ with the entries $1$, $2.422$ (three times), $-1$ and $-0.328$ (three times), in the order $x_0, \dots, x_7$. Multiply them and compare with $\det g = b_4^3\cos^2 z$. Then do the same exactly, and say how the product changes for $b_4 = 2$.
+**Exercise 2.** Figure 03a.1 shows the author's metric at $z = \pi/4$, $a_4 = 0.5$, $b_4 = e^{2/3}$ with the entries $1$, $2.422$ (three times), $-1$ and $-0.638$ (three times), in the order $x_0, \dots, x_7$. Multiply them and compare with $\det g = b_4^3\cos^2 z$. Then do the same exactly, and say how the product changes when $b_4$ doubles.
 
-*Answer.* With the rounded numbers: $2.422 \times 0.328 = 0.794416$, and $(0.794416)^3 = 0.5013$; the product of the eight entries is $1\cdot 2.422^3\cdot(-1)\cdot(-0.328)^3 = (2.422 \times 0.328)^3 = 0.5013$ (an odd power keeps the minus sign, and the two minus signs cancel). $b_4^3\cos^2(\pi/4) = 1/2$. Exactly: the entries are $e\,s$ and $-e^{-1}s$ with $s = (\sin\pi/4)^{1/3}$, so the product is $\cot^2(\pi/4)\cdot(e\,s)^3\cdot(-1)\cdot(-e^{-1}s)^3 = s^6 = \sin^2(\pi/4) = 1/2$ ($e^3e^{-3} = 1$; $\cot(\pi/4) = 1$). The difference $0.0013$ comes only from rounding the entries to three decimals. For $b_4 = 2$ each of the three extra-time entries doubles, so the product is multiplied by $2^3 = 8$: $\det g = 4$, as $b_4^3\cos^2 z$ says.
+*Answer.* With the rounded numbers: $2.422 \times 0.638 = 1.545236$, and $(1.545236)^3 = 3.6896$; the product of the eight entries is $1\cdot 2.422^3\cdot(-1)\cdot(-0.638)^3 = (2.422 \times 0.638)^3 = 3.6896$ (an odd power keeps the minus sign, and the two minus signs cancel). $b_4^3\cos^2(\pi/4) = e^2/2 = 3.6945$. Exactly: the entries are $e\,s$ and $-e^{2/3}e^{-1}s = -e^{-1/3}s$ with $s = (\sin\pi/4)^{1/3}$, so the product is $\cot^2(\pi/4)\cdot(e\,s)^3\cdot(-1)\cdot(-e^{-1/3}s)^3 = e^2s^6 = e^2\sin^2(\pi/4) = e^2/2$ ($e^3e^{-1} = e^2$; $\cot(\pi/4) = 1$). The difference $0.005$ comes only from rounding the entries to three decimals. When $b_4$ doubles, each of the three extra-time entries doubles, so the product is multiplied by $2^3 = 8$, as $b_4^3\cos^2 z$ says.
 
 **Exercise 3.** Compute $\Gamma^{x_4}{}_{x_5x_5}$ and $\Gamma^{x_0}{}_{x_5x_5}$ of the author's metric directly from the Christoffel formula, without the four cases.
 
@@ -4884,17 +4992,17 @@ $$
 
 *Answer.* By Section 3.17 a surface has $R^1{}_1 = R^2{}_2 = \sigma(1, 2)$ and $R = 2\sigma(1, 2)$. The off-diagonal entries vanish: $R^1{}_2 = \sum_c R^{1c}{}_{2c} = R^{11}{}_{21} + R^{12}{}_{22} = 0$ (antisymmetry in the upper pair and in the lower pair). So $G^1{}_1 = \sigma(1, 2) - \tfrac12\cdot 2\sigma(1, 2) = 0$, likewise $G^2{}_2 = 0$, and $G^1{}_2 = G^2{}_1 = 0$. For the sphere, $1/a^2 - \tfrac12\cdot 2/a^2 = 0$. In two dimensions the Einstein tensor says nothing about the curvature; this is why gravity needs more dimensions.
 
-**Exercise 6.** For the canonical history $A = 1$ and $\Lambda = 0$, find $\kappa\rho$, $\kappa p$ and the ratio $w = p/\rho$ that Einstein's equations require. Which $\Lambda$ would make $\rho = 0$, and what is then $\kappa p$?
+**Exercise 6.** For the canonical history of Section 3.8 ($A = 1$) and $\Lambda = 0$, find $\kappa\rho$, the three pressures $\kappa p_3$, $\kappa p_t$, $\kappa p_0$ and the ratios $w = p/\rho$ that Einstein's equations require. Which $\Lambda$ would make $\rho = 0$, and what are then the pressures?
 
-*Answer.* From Section 3.26: $\kappa\rho = -3H^2(7 + 1) - 0 = -24H^2$ and $\kappa p = 3H^2(5 - 1) + 0 = 12H^2$, so $w = p/\rho = 12/(-24) = -1/2$; the energy density is negative. $\rho = 0$ needs $\Lambda = -3H^2(7 + A^2) = -24H^2$, and then $\kappa p = 12H^2 - 24H^2 = -12H^2$. In both cases $\kappa(\rho + p) = -12H^2 < 0$, as Section 3.26 says for every $\Lambda$: the cosmological constant cancels from $\rho + p$.
+*Answer.* From Section 3.26: $\kappa\rho = (\frac13 - 21)H^2 = -\frac{62}{3}H^2$, $\kappa p_3 = (15 - \frac53)H^2 = \frac{40}{3}H^2$, $\kappa p_t = (15 - \frac{13}{3})H^2 = \frac{32}{3}H^2$ and $\kappa p_0 = (15 - \frac{11}{3})H^2 = \frac{34}{3}H^2$, so $w_3 = -\frac{40}{62} = -0.645$, $w_t = -\frac{32}{62} = -0.516$ and $w_0 = -\frac{34}{62} = -0.548$; the energy density is negative. $\rho = 0$ needs $\Lambda = (\frac13 A^2 - 21)H^2 = -\frac{62}{3}H^2$, and then $\kappa p_3 = -\frac{22}{3}H^2$, $\kappa p_t = -10H^2$ and $\kappa p_0 = -\frac{28}{3}H^2$. In both cases $\kappa(\rho + p_0) = -\frac{28}{3}H^2 < 0$ (and $\kappa(\rho + p_3) = -\frac{22}{3}H^2$, $\kappa(\rho + p_t) = -10H^2$), as Section 3.26 says for every $\Lambda$: the cosmological constant cancels from $\rho + p$. It does not touch the $x_4$-$x_0$ component either, $\kappa q_{40} = 2H^2\cot z$.
 
-**Exercise 7.** Find the smallest value of the Kretschmann scalar of the author's metric for histories with $a_4'' = 0$, and the slope $A$ at which it is reached.
+**Exercise 7.** Find the smallest value of the Kretschmann scalar of the author's metric along the histories of Section 3.8, $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{4AHx_4/3}$, and the slope $A$ at which it is reached.
 
-*Answer.* With $a_4'' = 0$ and $s = a_4'^2 \ge 0$, $K = 12(7s^2 - 2H^2s + 7H^4)$ (Section 3.25). Its derivative with respect to $s$ is $12(14s - 2H^2)$, zero at $s = H^2/7$; there $K = 12H^4(7/49 - 2/7 + 7) = 12H^4(1/7 - 2/7 + 49/7) = 12H^4\cdot 48/7 = 576H^4/7 = 82.29H^4$, a minimum because the parabola $7s^2 - \dots$ opens upwards. With $a_4' = AH$: $A^2 = 1/7$, $A = 1/\sqrt7 = 0.378$. This is the low point of the red curve of Figure 03b.6, and the value $576H^4/7$ printed by Notebook 03b, In [22].
+*Answer.* With $s = A^2 \ge 0$, $K = \frac{4}{27}H^4(191s^2 - 198s + 567)$ (Section 3.25). Its derivative with respect to $s$ is $\frac{4}{27}H^4(382s - 198)$, zero at $s = \frac{99}{191}$; there $K = \frac{4}{27}H^4\bigl(567 - \frac{99^2}{191}\bigr) = \frac{4}{27}\cdot\frac{98496}{191}H^4 = \frac{14592}{191}H^4 = 76.40H^4$ ($191s^2 - 198s = -\frac{99^2}{191}$ at this $s$), a minimum because the parabola $191s^2 - \dots$ opens upwards. The slope is $A = \sqrt{99/191} = 0.720$. This is the low point of the red curve of Figure 03b.6.
 
-**Exercise 8.** The extra-time particle of Notebook 03d starts at $y = -1$ with $\hat u^5 = 0.2$. (a) If it stayed at $y = -1$ and never moved along $y$, at which $x_4$ would it turn? (b) Use the printed turning-point values $x_4 = 1.4864$ and $\hat u^5 = 1.4013$ and the conserved momentum $p_5$ to find the height $y$ of the turning point.
+**Exercise 8.** The extra-time particle of Notebook 03d starts at $y = -1$ with $\hat u^5 = 0.2$. (a) If it stayed at $y = -1$ and never moved along $y$, at which $x_4$ would it turn? (b) Use the printed turning-point values $x_4 = 3.3335$ and $\hat u^5 = 3.1125$ and the conserved momentum $p_5$ to find the height $y$ of the turning point.
 
-*Answer.* (a) At fixed $y$, $\hat u^5 = 0.2\,e^{a_4}$ (pure blueshift, Section 3.31, with $b_4 = 1$) and $\hat u^0 = 0$; the turning condition $(\hat u^5)^2 = 1 + (\hat u^0)^2$ becomes $0.2\,e^{a_4} = 1$, so $a_4 = \ln 5 = 1.609$, that is $x_4 = 1.609$ on the history $a_4 = x_4$. (b) From $\hat u^5 = -p_5b_4^{-1/2}e^{a_4 - Hy}$ with $b_4 = 1$ and the start ($a_4 = 0$, $y = -1$, $H = 1$): $-p_5 = 0.2\,e^{-1}$, so $\hat u^5 = 0.2\,e^{a_4 - (y + 1)}$. At the turning point $1.4013 = 0.2\,e^{1.4864 - (y + 1)}$, so $1.4864 - (y + 1) = \ln 7.0065 = 1.9468$ and $y = -1.460$. The particle has sunk by $0.46$ towards the tip, which raised its frame velocity by the factor $e^{0.46} = 1.585$ beyond the pure blueshift, and it turned earlier ($x_4 = 1.486$) than the estimate (a), although its motion along $y$, $\hat u^0 = -0.98$, made the turning condition harder to reach ($(\hat u^5)^2 = 1.96$ instead of $1$). Figure 03d.3 shows the particle near $y = -1.46$ at $\tau \approx 2$.
+*Answer.* (a) At fixed $y$, $\hat u^5 = 0.2\,b_4^{-1/2}e^{a_4} = 0.2\,e^{a_4/3}$ (pure blueshift, Section 3.31, with $b_4 = e^{4a_4/3}$ in the unit $b_4(0)$) and $\hat u^0 = 0$; the turning condition $(\hat u^5)^2 = 1 + (\hat u^0)^2$ becomes $0.2\,e^{a_4/3} = 1$, so $a_4 = 3\ln 5 = 4.828$, that is $x_4 = 4.828$ on the history $a_4 = x_4$. (b) From $\hat u^5 = -p_5b_4^{-1/2}e^{a_4 - Hy}$ with $b_4 = e^{4a_4/3}$ and the start ($a_4 = 0$, $b_4 = 1$ in the unit $b_4(0)$, $y = -1$, $H = 1$): $-p_5 = 0.2\,e^{-1}$, so $\hat u^5 = 0.2\,e^{a_4/3 - (y + 1)}$. At the turning point $3.1125 = 0.2\,e^{3.3335/3 - (y + 1)}$, so $1.1112 - (y + 1) = \ln 15.5625 = 2.7449$ and $y = -2.634$. The particle has sunk by $1.63$ towards the tip, which raised its frame velocity by the factor $e^{1.634} = 5.12$ beyond the pure blueshift, and it turned much earlier ($x_4 = 3.33$) than the estimate (a), although its motion along $y$, $\hat u^0 = -2.95$, made the turning condition harder to reach ($(\hat u^5)^2 = 1 + 2.9475^2 = 9.69$ instead of $1$). Figure 03d.3 shows the particle near $y = -2.6$ at $\tau \approx 3.96$.
 
 **Exercise 9.** What fraction of the 7-volume of the patch, and at which angle $z$, would a tip cut-off $L = 2/H$ remove?
 
