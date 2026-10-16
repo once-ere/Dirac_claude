@@ -88,8 +88,6 @@
 #   a4-sympy                              15 s
 #   a4-b4-block-sympy                     35 s
 #   a4-ks-source-conditions                5 s
-#   a4-ks-source                          20 s
-#   a4-ks-source-unittest                 30 s
 #   ks-theory-wolfram                     60 s
 #   ks-theory-sympy                       60 s
 #   ks-b4-wolfram                          5 s
@@ -127,6 +125,8 @@
 #   dark16-derive                         10 s
 #   dark16-ks-history                    150 s
 #   dark16-eos                             5 s
+#   a4-ks-source                          10 s
+#   a4-ks-source-unittest                 30 s
 #   dark16-independent                   180 s
 #   dark00-derive                         30 s
 #   dark00-independent                    30 s
@@ -160,6 +160,7 @@
 # The dark sector with b4 (2026-10-15): dark-b4-author-notebook writes the author's notebook at commit b13373c
 # (sha256 pinned) into its work folder for dark-b4-author-inputs, which compares it with the notebook at the
 # root; dark-b4-wolfram reads metric-b4.json and eos-theory.json.
+# a4-ks-source (2026-10-16) reads the dense free-gas history of dark16-ks-history, so it follows dark16-eos.
 # The metric with b4 (2026-10-14): metric-b4-author-notebook writes the author's notebook at the version of the
 # user's order (commit b13373c, sha256 pinned; the working tree may hold a later version) into its work folder for
 # metric-b4-author-extract; the field theory with b4 reads metric-b4.json; metric-b4-consequences reads
@@ -306,8 +307,6 @@ a4-wolfram|50|0|-|Revision/field_equations_a4/a4-equations.json,Revision/field_e
 a4-sympy|15|0|-|Revision/field_equations_a4/reports/python-a4-report.json,Revision/field_equations_a4/reports/a4-equations-summary.md|Revision/field_equations_a4/reports/python-a4-report.json|{python} Revision/field_equations_a4/python/check_field_equations_a4.py
 a4-b4-block-sympy|35|0|-|Revision/field_equations_a4/reports/python-b4-block.json|Revision/field_equations_a4/reports/python-b4-block.json|{python} Revision/field_equations_a4/python/check_b4_block.py
 a4-ks-source-conditions|5|0|-|Revision/field_equations_a4/reports/ks-source-conditions.json|Revision/field_equations_a4/reports/ks-source-conditions.json|{python} Revision/field_equations_a4/python/check_ks_source_conditions.py
-a4-ks-source|20|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|Revision/field_equations_a4/ks_source/reports/ks-source-a4.json|{python} Revision/field_equations_a4/ks_source/ks_source_a4.py
-a4-ks-source-unittest|30|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|-|{python} -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
 ks-theory-wolfram|60|0|-|Revision/kohn_sham/ks-theory.json,Revision/kohn_sham/reports/ks-theory-wolfram.json|Revision/kohn_sham/reports/ks-theory-wolfram.json|{wolframscript} -file Revision/kohn_sham/theory/verify_ks_theory.wls
 ks-theory-sympy|60|0|-|Revision/kohn_sham/reports/ks-theory-python.json|Revision/kohn_sham/reports/ks-theory-python.json|{python} Revision/kohn_sham/theory/check_ks_theory.py
 ks-b4-wolfram|5|0|-|Revision/kohn_sham/reports/ks-b4-wolfram.json|Revision/kohn_sham/reports/ks-b4-wolfram.json|{wolframscript} -file Revision/kohn_sham/theory/verify_ks_b4.wls
@@ -345,6 +344,8 @@ t3-completion-sympy|10|0|-|Revision/pairing/kohn_sham/reports/python-t3-completi
 dark16-derive|10|0|-|Revision/dark_sector/dirac16complex/outputs/effective-formulas.json,Revision/dark_sector/dirac16complex/reports/derivation-checks.json|Revision/dark_sector/dirac16complex/reports/derivation-checks.json|{python} Revision/dark_sector/dirac16complex/derive/derive_effective.py
 dark16-ks-history|150|0|-|Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv,Revision/dark_sector/dirac16complex/reports/ks-history-run.json|Revision/dark_sector/dirac16complex/reports/ks-history-run.json|{python} Revision/dark_sector/dirac16complex/compute/run_ks_history.py --solver {ks_solver}
 dark16-eos|5|0|-|Revision/dark_sector/dirac16complex/outputs/eos-history.csv,Revision/dark_sector/dirac16complex/outputs/eos-summary.json,Revision/dark_sector/dirac16complex/reports/eos-checks.json|Revision/dark_sector/dirac16complex/reports/eos-checks.json|{python} Revision/dark_sector/dirac16complex/compute/compute_eos.py
+a4-ks-source|10|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|Revision/field_equations_a4/ks_source/reports/ks-source-a4.json|{python} Revision/field_equations_a4/ks_source/ks_source_a4.py
+a4-ks-source-unittest|30|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|-|{python} -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
 dark16-independent|180|0|-|Revision/dark_sector/dirac16complex/outputs/independent-free-gas.json,Revision/dark_sector/dirac16complex/reports/independent-checks.json|Revision/dark_sector/dirac16complex/reports/independent-checks.json|{python} Revision/dark_sector/dirac16complex/independent/independent_free_gas.py
 dark00-derive|30|0|-|Revision/dark_sector/dirac16complex00/eos-theory.json,Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json|Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json|{python} Revision/dark_sector/dirac16complex00/python/derive_eos.py
 dark00-independent|30|0|-|Revision/dark_sector/dirac16complex00/results/independent-numerics.json,Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json|Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json|{python} Revision/dark_sector/dirac16complex00/python/independent_numerics.py

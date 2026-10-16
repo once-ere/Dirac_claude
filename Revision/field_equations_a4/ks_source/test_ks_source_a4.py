@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Tests for Revision/field_equations_a4/ks_source (the a4 field equations with the Kohn-Sham source).
+"""Tests for Revision/field_equations_a4/ks_source (the field equations for a4 and b4 with the Kohn-Sham source; the
+author's metric with b4(x4), b4 a function of x4, never 1).
 
 Run from the repository root:
     python -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
 
 What is tested
-  * the numerical helpers of ks_source_a4.py (Hermite and spline interpolation, Simpson, Gauss-Legendre, the critical
-    points of P(X)) on cases with known exact answers;
+  * the numerical helpers of ks_source_a4.py (Hermite and spline interpolation, Simpson, Gauss-Legendre, the Newton
+    solve of the two algebraic equations) and the branches of the stated theories, on cases with known exact answers;
   * the committed report: every check has a name, a verdict and a detail, all PASS, the summary counts agree, the
     sha256 digests of the inputs recorded in it are those of the current input files (the report is in sync), and
     the result tables have the expected rows;
@@ -88,14 +89,28 @@ class Helpers(unittest.TestCase):
         self.assertAlmostEqual(sum(w * x ** 10 for x, w in zip(xs, ws)), 2 / 11, places=13)
         self.assertAlmostEqual(sum(ws), 2.0, places=13)
 
-    def test_critical_points(self):
-        from fractions import Fraction as Fr
-        egb = [Fr(-9, 20), Fr(3, 2), Fr(63, 4)]                 # P(X) of the stated EGB case (H = 1)
-        r = self.m.real_roots_deriv(egb)
-        self.assertEqual(len(r), 1)
-        self.assertAlmostEqual(r[0], 5 / 3, places=14)
-        self.assertEqual(self.m.real_roots_deriv([Fr(3), Fr(21)]), [])
-        self.assertEqual(self.m.real_roots_deriv([Fr(9, 100), Fr(-36, 125), Fr(177, 100), Fr(819, 50)]), [])
+    def test_newton_two_equations(self):
+        # Q = a^2 + u^2 - 2 (circle), S4 = a - u: the solution with S4 = 0 near (1.1, 0.9) is (1, 1), det J = -4
+        th = {"Q": lambda a, u: a * a + u * u - 2, "Qa": lambda a, u: 2 * a, "Qu": lambda a, u: 2 * u,
+              "S4": lambda a, u: a - u, "S4a": lambda a, u: 1.0, "S4u": lambda a, u: -1.0}
+        a, u, det = self.m.solve_rates(th, 1.1, 0.9, 0.0)
+        self.assertAlmostEqual(a, 1.0, places=14)
+        self.assertAlmostEqual(u, 1.0, places=14)
+        self.assertAlmostEqual(det, -4.0, places=12)
+        self.assertIsNone(self.m.solve_rates(th, 1.1, 0.9, 5.0))       # the line a - u = 5 misses the circle
+
+    def test_branches_of_the_theories(self):
+        th = self.m.part_a(json.loads((ROOT / "Revision" / "field_equations_a4" / "a4-equations.json").read_text(
+            encoding="utf-8")))
+        self.assertEqual(th["einstein"]["roots"], [])                    # Q = 3H/2: no history with b4 not constant
+        self.assertEqual(len(th["author"]["roots"]), 1)
+        self.assertAlmostEqual(th["author"]["roots"][0], 4 / 3, places=14)  # the record's history
+        self.assertTrue(th["author"]["root_zero"])
+        self.assertEqual(len(th["egb"]["roots"]), 2)
+        for r, exact in zip(th["egb"]["roots"], (-6 - 20 ** 0.5, -6 + 20 ** 0.5)):
+            self.assertAlmostEqual(r, exact, places=12)
+        self.assertEqual(th["lovelock3"]["roots"], [])
+        self.assertAlmostEqual(10.0 - th["author"]["S4"](1.0, 4 / 3), -2 / 27, places=14)   # -Lambda - S4, Lambda = -10
 
 
 class CommittedReport(unittest.TestCase):
@@ -125,18 +140,28 @@ class CommittedReport(unittest.TestCase):
         with CASES.open(encoding="utf-8", newline="") as fh:
             cas = list(csv.DictReader(fh))
         self.assertEqual(len(mom), 75)
-        self.assertEqual(len(cas), 3 * 5 * 7)
-        self.assertEqual({c["event"] for c in cas}, {"regular", "turning_point", "branch_point"})
+        self.assertEqual(len(cas), 2 * (1 + 2 * 7))                     # 2 series: author 1 case, EGB 2 branches x 7
+        self.assertEqual({c["event"] for c in cas}, {"regular", "fold", "adiabaticity_lost"})
         for b in (MOMENTS, CASES, REPORT, SUMMARY):
             self.assertNotIn(b"\r", b.read_bytes(), b.name)
-        # the Einstein first integral, recomputed here from the moments table
-        rb = {r["id"]: float(r["rho_bar"]) for r in mom if r["rho_bar"] not in ("0",)}
+        # every regular case satisfies the two algebraic equations at a4 = 2, recomputed here from the table, the
+        # Kohn-Sham integrals (free gas: E at a4 = 2 is the record's, independent of b4) and the theory functions
+        m = load_module()
+        th = m.part_a(json.loads((ROOT / "Revision" / "field_equations_a4" / "a4-equations.json").read_text(
+            encoding="utf-8")))
+        with (KS_RESULTS / "ground" / "emt-integrals.csv").open(encoding="utf-8", newline="") as fh:
+            E = {r["id"]: float(r["int_rho"]) for r in csv.DictReader(fh)}
+        n = 0
         for c in cas:
-            if c["gravity"] != "einstein" or c["series"] != "N136_lam0" or c["event"] != "regular":
+            if c["event"] != "regular":
                 continue
-            s0 = float(c["sigma0"])
-            pred = math.sqrt(1 + s0 / 3 * (1 - rb["N136_lam0_a20"] / rb["N136_lam0_a00"]))
-            self.assertAlmostEqual(float(c["rate_a20"]), pred, places=10)
+            a, u = float(c["rate_a20"]), float(c["u_a20"])
+            t = th[c["gravity"]]
+            sig = float(c["sigma0"]) * E[c["series"] + "_a20"] / E[c["series"] + "_a00"] * float(c["b4_ratio_end"]) ** -1.5
+            self.assertLess(abs(t["Q"](a, u)), 1e-9 * (1 + abs(a) + abs(u)) ** 4, c)
+            self.assertLess(abs(t["S4"](a, u) + float(c["Lambda"]) + sig), 1e-9 * (1 + abs(float(c["Lambda"]))), c)
+            n += 1
+        self.assertEqual(n, 8)
 
 
 @unittest.skipIf(FAST, "REVISION_FAST=1")

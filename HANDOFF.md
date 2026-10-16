@@ -86,7 +86,14 @@ Progress (newest last):
   verdict changed. README, B4_PROVENANCE section 10, the document DARK_SECTOR_HYPOTHESES (pdf rebuilt and registered,
   27 pages; publication test 30/30), the notebook dark_sector_hypotheses (46/46, check byte-identical; its provenance)
   updated. The textbook chapters 22/23 that quote the dark-sector numbers follow in phase 9.
-  NEXT: phase 5 (`Revision/field_equations_a4/ks_source/` and the source-condition check with b4).
+- Phase 5 DONE (2026-10-16): `check_ks_source_conditions.py` for b4 (6/6: C1 x0-independence for every a4, b4; C2 on
+  the history; C3 the constant source (-2/27, ...) the history needs; C4 the off-diagonal equation, which holds there);
+  `ks_source/ks_source_a4.py` rewritten for b4 (22/22): Einstein gravity admits no history with a changing b4 for any
+  source without T^x4_x0; the truncated system {x4 moment, off-diagonal equation} is algebraic in (a4', u) and is
+  integrated for the free gas on the dense record history (author's weights: fold at a4 = 0.024; Gauss-Bonnet: regular,
+  fold, adiabaticity_lost); unit tests 11/11; the gate runs a4-ks-source after dark16-eos (it reads the dense history).
+  claude_failures G12. NEXT: phase 6 (`Revision/pairing/`: T1, T2, Q, T3 with b4 and the T3 demonstrations on the new
+  Kohn-Sham record).
   KNOWN OPEN until phases 7 and 8 (they quote the record before b4): `Revision/tests/test_kohn_sham_deflating_field_publication.py`
   (test_cited_checks_exist_and_pass: the document cites the former check counts) and
   `Revision/tests/test_revision_notebooks.py` (test_kohn_sham_record_counts_printed); the pairing T3 demonstrations and
