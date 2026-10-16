@@ -133,6 +133,16 @@ class FastSetsReproduce(unittest.TestCase):
     def test_rev_ks_b4(self):
         self.run_and_compare([["wolframscript", "-file", "Revision/kohn_sham/theory/verify_ks_b4.wls"]])
 
+    def test_rev_dark_sector_b4(self):
+        # the reader compares the author's notebook at the root with the pinned version of commit b13373c
+        pinned = ROOT / SCRATCH / "pinned" / "Dirac_Einstein-Lovelock_4+4_Nash.nb"
+        pinned.parent.mkdir(parents=True, exist_ok=True)
+        pinned.write_bytes(subprocess.run(["git", "show", "b13373c:Dirac_Einstein-Lovelock_4+4_Nash.nb"], cwd=ROOT,
+                                          capture_output=True, check=True).stdout)
+        self.run_and_compare([["wolframscript", "-file", "Revision/dark_sector/wolfram/verify_dark_sector_b4.wls"],
+                              ["wolframscript", "-file", "Revision/dark_sector/wolfram/author_notebook_inputs.wls",
+                               "Dirac_Einstein-Lovelock_4+4_Nash.nb", str(pinned)]])
+
     @unittest.skipUnless((ROOT / "dirac-main").is_dir(), "the private folder dirac-main/ is not present")
     def test_old_algebra(self):
         self.run_and_compare([["wolframscript", "-file", "scripts/verify_dirac16complex_algebra.wls",
