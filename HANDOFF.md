@@ -8,6 +8,9 @@ in this repository; nothing depends on the old session's scratch directory.
 
 ### 0.8 STATE 2026-10-15 (dark sector with b4) — START HERE
 
+Never run `python -m unittest Revision.tests.test_universes_in_pairs_textbook` as a whole: it
+takes longer than 423 s (claude_failures D2 and F2). Run its classes one by one.
+
 The user's order of 2026-10-15: update and push every dark-sector file and object for the author's
 metric with b4(x4) ("b4 is a function of x4; b4 is NEVER 1"), with a provenance that proves the
 change; no calculation longer than 423 s; push each piece at once. The conventions of 0.7 hold.
@@ -28,25 +31,34 @@ change; no calculation longer than 423 s; push each piece at once. The conventio
 - 35e80d9: the gate twins have the steps dark-b4-author-notebook, dark-b4-author-inputs and
   dark-b4-wolfram; both twins pass the dark-sector steps.
 
-**NOT done yet (do in this order, each under `timeout 423`, push each):**
-1. The textbook "Universes in Pairs" still quotes the WITHDRAWN b4 = 1 dark-sector record:
-   notebook 22b (`Revision/textbook/notebooks/src/22b_dark_sector.py`) asserts old values and
-   old record keys (it would FAIL if re-executed) and chapter 22, sections 22.16 to 22.24
-   (text, tables, the walk-through of 22b, exercises) uses b4 = 1. Rewrite 22b for b4 (model:
-   the Revision notebook builder `Revision/notebooks/src/dark_sector_hypotheses.py`), rebuild with
-   `python Revision/textbook/tools/nbkit.py build ... --date 2026-10-15` and `check`, rewrite the
-   chapter sections and the walk-through to match.
-2. Notebook 00c (honesty ledger) counts every report: the dark-sector counts changed (39, 7, 15,
-   10, 49, 32) and the new report `Revision/dark_sector/reports/wolfram-dark-sector-b4.json` (8)
-   exists. Rebuild 00c and update the chapter 00 text that quotes its counts.
-3. Notebook 23a and `Revision/textbook/data/23a_*.csv`: the gate has 3 more steps (88); the check
-   index changed. Regenerate (`Revision/textbook/tools/chapter23/run_all.py`) and update chapter 23.
-4. Notebook 09b and chapter 09: check the dark-sector sentences (condensate constant under b4 = 1).
-5. Reassemble the book, build the PDF (about 290 s), register it, update the textbook tests' pins.
-6. A fresh-clone verification of the dark-sector record and the tests; then update this section.
+**Then done and pushed the same day (origin/main equals HEAD, 916cf7b and this commit):**
+- 1d77417: a correction of the record's TEXT (no number, no check count changed). With b4(x4) a condensate
+  reads w_eff(C) = -1/3 + (2/3) w_c, below -1 while its drifting ratio is in the phantom window; "phantom only
+  at an instant", "not the observer's w_eff" and "no crossing in M1 to M5" were b4 = 1 leftovers
+  (derive_eos.py text `ghost`, both READMEs, DARK_SECTOR_HYPOTHESES, the Revision notebook; B4_PROVENANCE
+  section 9).
+- 3d9d25c: compute_eos.py records the LARGEST w_a of the drifting-condensate mixtures near the Unite w0 too
+  (max_wa_with_w0_within_0p1_of_unite; C: [-2.639515126434, -1.41320438962]); the document had read the minimum
+  as a bound. The document (27 pages, registered), README, publication test and Revision notebook updated.
+- e78d882: textbook chapter 22 (22.16 to 22.24, 22.27, exercises 11 to 14) and Notebook 22b (35 checks) for
+  b4(x4); 69 quoted code blocks verbatim. 62b2513: Revision/README.md (dark_sector row, gate 88 steps), chapter
+  00 and Notebook 00c (52 reports, 1383 checks; the dark sector is a twelfth two-verifier subject). 4f53714:
+  chapter 09 section 9.19 and Notebook 09b. 7779c77: Notebook 23a (rebuilt last) and chapter 23 (regenerated,
+  --check identical). 916cf7b: the book assembled (13/13), PDF 6548 pages, 0 warnings, two builds identical,
+  registered.
+- Fresh clone of 916cf7b (26 s): clean, no private file tracked; every dark-sector producer (the 615-state
+  history and the free gas included), both Wolfram scripts, the dark-sector tests, test_revision_notebooks,
+  test_revision_gate, test_execution_provenance, the Revision notebook check, nbkit check of 22b, 00c, 09b and
+  23a, chapter23 --check and the textbook classes Book, Files and Validators: all pass, no tracked file
+  changed; both registered PDFs equal the registry.
 
-Never run `python -m unittest Revision.tests.test_universes_in_pairs_textbook` as a whole: it
-takes longer than 423 s (claude_failures D2 and F2). Run its classes one by one.
+**Open (for the user to decide; not part of the dark-sector order):**
+- The general Kohn-Sham record (`Revision/kohn_sham/`) and the textbook chapters on it (for example chapter 14,
+  line 150, and chapter 9's general framing) still state that they work on the background b4 = 1; the
+  dark-sector record now uses b4(x4) (the Kohn-Sham states there are Psi = b4^(-3/4) chi at the coupling
+  lambda_hat e^(-2 a4)). Whether every other part of the project must also drop b4 = 1 is the user's decision.
+- The items of 0.7b remain (old Stage-4 notebook report, matter-antimatter hash pins, gkd-rust-selftest,
+  the serial textbook rebuild test longer than 423 s).
 
 ### 0.7 STATE 2026-10-15 07:00 PDT (superseded by 0.8)
 

@@ -140,5 +140,11 @@ No calculation of this continuation waited longer than 423 s, apart from E1 and 
 | F4 | The first build of the Revision notebook for b4 | figures with overlapping labels, and the condensate pole drawn as a vertical line | Found by looking at the four figures; fixed before the commit (legend of figure 1, the pole of figure 2 masked and marked, labels of figures 3 and 4). |
 | F5 | A run time I quoted for `run_ks_history.py` in a draft provenance (24 s, from memory) | CORRECTED before the commit | The README says about 25 s; the re-run measured 34.9 s; the provenance quotes the README and the measurement. |
 
+| F6 | My own first statements of the b4 record: "phantom only at an instant", "not the observer's w_eff" and "no crossing in M1 to M5" (derive_eos.py text, both READMEs, the document, the notebook) | WRONG for a condensate with lambda < 0, found while writing chapter 22 | With b4(x4) the observer reads w_eff(C) = -1/3 + (2/3) w_c, below -1 while the drifting ratio lies in (-2, -1). Corrected in 1d77417 (text only; the checks condensate_phantom_interval and condensate_observer_b4 already proved it). |
+| F7 | "A drifting condensate reaches w0 = -0.861 only with w_a <= -2.64" (document, README) | WRONG reading: the record stored the MINIMUM of w_a near the Unite w0, not a bound | compute_eos.py now records the maximum too (C: -1.413); corrected in 3d9d25c. |
+| F8 | Notebook 22b (textbook) as first written: "crossing of -1: no computed state and no model" | WRONG, seen in its own Figure 22b.3 (the drifting condensate crosses -1 under C at a = 0.9307) | Fixed before the commit e78d882 (a check of the crossing added). |
+| F9 | A bash heredoc with backslashes for the 09b edit | FAILED (assertion; nothing written); the next command re-ran the unchanged builder, which rewrote only its provenance date | Redone with a script written by the file tool; the rule of E4 again. |
+| F10 | The README table cell with "(4/3)" | would have broken the ledger of Notebook 00c (its pattern counts every "digit/digit" as a check count) | Reworded before the commit; the table quotes 50 counts. |
+
 No other calculation of this work waited longer than 423 s; every producer, test and gate step was
 run under `timeout 423` (the longest: the independent free gas, 77.0 s).
