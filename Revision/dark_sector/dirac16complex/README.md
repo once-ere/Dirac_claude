@@ -70,14 +70,17 @@ The Rust solver binary is built with `cargo build --release --manifest-path Revi
   p3 = p_t = p0 = lambda S^2/2. X = 0, Pt/E = w_c = lambda S/(2 m + lambda S): w_eff(A) = w_eff(B) = (beta/2) w_c,
   w_eff(C) = -1 + (beta/2)(1 + w_c), and the ratio drifts, d w_c/d a4 = -3 beta m lambda S/(2 m + lambda S)^2 (on the
   history lambda S/m ~ e^{-2 a4}). The ratio equals the Unite constant-w value -0.764 at lambda S/m = -382/441 at one
-  instant (rho = m S (1 + u/2) > 0 iff m S > 0); it is the 8-dimensional ratio, not the observer's dilution-inferred w.
+  instant (rho = m S (1 + u/2) > 0 iff m S > 0); it is the 8-dimensional ratio, not the observer's dilution-inferred w,
+  which is -1/3 + (2/3) w_c under C: below -1 exactly while the drifting ratio is below -1 (u in (-2, -1)), for
+  u = -382/441 today from a = 0.9307 back to a = 0.6581, where E_c reaches 0.
 * Free mode in the flat (warp-free) limit (labelled; used for signs and limits only): omega^2 = M^2 + k^2 e^{-2a4}
   - q^2 e^{2a4}/b4 (k: 3-momentum, q: extra-time momentum; physical q_p = q e^{a4} b4^{-1/2} ~ a^{1 - beta/2}); the
   kinetic gas of such modes satisfies the b4 conservation identity exactly; per mode X = (k_p^2 + q_p^2)/(3 omega)
   >= 0. A q = 0 mode does not feel b4: w_eff(A) = k^2/(3 (M^2 a^2 + k^2)): 1/3 → 0 (CPL tangent w0 = x/(3(1+x)),
   wa = 2x/(3(1+x)^2) > 0, x = k^2/M^2); a massless one has X/E = 1/3.
 * Phantom: w_eff(C) + 1 = X/E + (beta/2)(1 + Pt/E); with beta > 0 and Pt/E >= -1 a value below -1 needs X/E < 0,
-  which needs P_t > P3 with E > 0 (no real-frequency mode supplies it) or E < 0 together with X > 0. Negative E is
+  which needs P_t > P3 with E > 0 (no real-frequency mode supplies it) or E < 0 together with X > 0. With Pt/E < -1 it
+  needs neither: a condensate (X = 0, Pt/E = w_c) reads w_eff(C) < -1 exactly while u lies in (-2, -1). Negative E is
   not specific to a negative-norm (Krein) sector in the canonical Kohn-Sham record: there the interacting N = 8,
   lambda > 0 good-sector states have E < 0, from the interaction energy of the canonical uniform-gas exchange
   functional. With the exact Fock exchange solved self-consistently (the exact-Fock variant,
@@ -154,7 +157,8 @@ occupied label set is the same at all 41 slices of every series; y-conservation 
   0 (-0.040 to -0.007), w_eff(A) near 1/3; only the drifting condensate gives negative values (w_eff(C) = -0.843 at
   the ratio -0.764) and then with a strongly thawing slope (wa = -1.80); nothing computed comes near the Unite pair
   (w0, wa) = (-0.861, -0.60) (closest distance 0.291) or its phantom past (w0 + wa = -1.461);
-  (iii) no computed state has w_eff(C) < -1;
+  (iii) no computed Kohn-Sham state has w_eff(C) < -1; a drifting lambda < 0 condensate has, while u lies in (-2, -1)
+  (Pt/E = w_c < -1 there; for u = -382/441 today from a = 0.9307 back to a = 0.6581);
   (iv) on the prescribed history the observer's expansion itself reads w_exp = -1 exactly.
 
 ## Status and limits (honesty rule)

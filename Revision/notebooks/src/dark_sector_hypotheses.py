@@ -83,7 +83,7 @@ This notebook
    three definitions;
 7. re-checks Hypothesis00 exactly with fractions: the CPL tangents of the models M2, M3 and M4 on the
    history with $b_4(x_4)$, the bound $-1/3$ of positive-energy models, the ghost fraction
-   $G \ge 1583/1000$ the Unite $w_0$ would need, the absence of any crossing of $w = -1$, and the source
+   $G \ge 1583/1000$ the Unite $w_0$ would need, the absence of any crossing of $w = -1$ by M2 to M5, and the source
    $\kappa(\rho, p_3, p_t, p_0) = (-2/27, -2/9, -22/27, -14/27)$ the author's equations require on the
    history, from `Revision/dark_sector/dirac16complex00/eos-theory.json`;
 8. quotes the check counts of the seven committed dark-sector reports (including the independent
@@ -1121,7 +1121,9 @@ grid = [Fraction(k, 64) for k in range(-256, 129) if k != -128]
 phantom = [v for v in grid if v / (2 + v) < -1]
 check("condensate_phantom_window", len(phantom) > 0 and phantom == [v for v in grid if -2 < v < -1],
       f"on the {len(grid)} exact fractions u = k/64 in [-4, 2] (u = -2 excluded): u/(2 + u) < -1 exactly for the "
-      f"{len(phantom)} values with -2 < u < -1 and for no other (an 8-dimensional phantom ratio at one instant)")
+      f"{len(phantom)} values with -2 < u < -1 and for no other; with b4(x4) the observer then reads w_eff(C) = "
+      "-1/3 + (2/3) w_c < -1 too, and the drift u ~ a^(-2) carries u = -382/441 into the window toward the past, "
+      f"from a = sqrt(382/441) = {math.sqrt(382 / 441):.4f} to a = sqrt(191/441) = {math.sqrt(191 / 441):.4f}")
 check("condensate_effective_formulas", FORMULAS["condensate"]["w_eff_A"] == "(beta/2) w_c"
       and FORMULAS["condensate"]["w_eff_C"] == "-1 + (beta/2)(1 + w_c)"
       and FORMULAS["condensate"]["S"] == "S0 b4^{-3/2} (b4^{3/2} S constant)",
@@ -1775,9 +1777,10 @@ md(r"""
 - The condensate ratio equals $-0.764$ exactly at the CHOSEN $\lambda S/m = -382/441$ at one instant (by
   construction); with $b_4(x_4)$ it drifts, with $w_a = -84231/31250$ exactly. Mixtures with a $\lambda = 0$
   condensate stay above $-1/3$ under C; the scans with a drifting condensate never come closer than 0.291 to
-  the Unite pair.
+  the Unite pair. Under C the drifting $\lambda < 0$ condensate crosses $-1$ toward the past, from
+  $a = \sqrt{382/441} = 0.9307$ on, where its ratio enters the phantom window $-2 < \lambda S/m < -1$.
 - For dirac16complex00 the tangents of M2 ($-583/3000$, $+81037/500000$, freezing) and M3 ($-287/1000$,
-  $-196963/4500000$) are exact fractions; positive-energy models stay above $-1/3$; no model crosses $-1$; the
+  $-196963/4500000$) are exact fractions; positive-energy models stay above $-1/3$; no model M2 to M5 crosses $-1$; the
   Unite $w_0$ would need a ghost fraction of at least $1583/1000$; the source of the history is the constant
   $\kappa(\rho, p_3, p_t, p_0) = (-2/27, -2/9, -22/27, -14/27)$.
 - The seven committed dark-sector reports record 39, 7, 15, 10, 49, 32 and 8 checks, all passed.

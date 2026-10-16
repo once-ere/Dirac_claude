@@ -127,11 +127,11 @@ dark_sector_hypotheses`, 13.1 s to 15.1 s each): byte-identical notebooks and 12
 (`Revision/notebooks/dark_sector_hypotheses.PROVENANCE.md`, section 7). Each script had been run twice when it
 was committed, with byte-identical outputs.
 
-## 6. The sha256 of every file of the record (2026-10-15)
+## 6. The sha256 of every file of the record (2026-10-15, after the correction of section 9)
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/dark_sector/dirac16complex/README.md` | 15562 | `f900a1c51d92a59d1b81a06f48ce2ced287383a93e7d72bf5dba29ab449bd479` |
+| `Revision/dark_sector/dirac16complex/README.md` | 16033 | `8d5098aba0b76871a29506048f9c2ad6528320ad15427a61bf6de27678bce424` |
 | `Revision/dark_sector/dirac16complex/derive/derive_effective.py` | 37898 | `156c4635cdd0ead748477a017940914293950fa360faf97a11935a98226fcc42` |
 | `Revision/dark_sector/dirac16complex/compute/run_ks_history.py` | 13002 | `469a21c70115ca9e6f5f78dfd03733612c2ecf03f6cc07b6c604e23428f99d0e` |
 | `Revision/dark_sector/dirac16complex/compute/compute_eos.py` | 26841 | `552505cdb01dcb40e0ee85eb32b84e2d3bf96745eb486ada522c5f157b2230db` |
@@ -145,10 +145,10 @@ was committed, with byte-identical outputs.
 | `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` | 2573 | `873aa221ea313cf1be4425e3b1558ffb44b7f7e71a1a1f931b0f7ea0b075c9f0` |
 | `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | 5120 | `beaa08a02751e464ee677f072b7abb9b10fe45f5682721edf34c46cc78d0c764` |
 | `Revision/dark_sector/dirac16complex/reports/independent-checks.json` | 2764 | `bb475ad3f21db751bc002a6589d2a87af6b21fe29c5c04cb116f2238eb728232` |
-| `Revision/dark_sector/dirac16complex00/README.md` | 15042 | `990be307bcc524d377d7f3ebc8dc3d6f1186d15d5dab7c249e56eaf65ed65c68` |
-| `Revision/dark_sector/dirac16complex00/python/derive_eos.py` | 49323 | `b098969a1c31d53bcabd2bad918c1207aab786258e3ba9a10a9ef9f94ec2e98c` |
+| `Revision/dark_sector/dirac16complex00/README.md` | 15631 | `91bc77a573546f8a581e12d6b7177f22ae8846d61c7288088b88165f8a8a3d56` |
+| `Revision/dark_sector/dirac16complex00/python/derive_eos.py` | 49903 | `56b2b83569c1d27f429af72a8624a713d502ef3713315f2f900ba11fb63dc17e` |
 | `Revision/dark_sector/dirac16complex00/python/independent_numerics.py` | 22089 | `d69b1e7957df4a31e5a21d1bf644038b9c9c788a784df61c985c98aa87825b66` |
-| `Revision/dark_sector/dirac16complex00/eos-theory.json` | 21515 | `9feb09c70fe229500357962c2a24639a9c3e5ee2a5af6020582321e86bfb4bec` |
+| `Revision/dark_sector/dirac16complex00/eos-theory.json` | 22095 | `7ab0fcbd8bd4fdc39be91b8fa39ff76c83715e7bdd08b8326eb9809249ecd2ac` |
 | `Revision/dark_sector/dirac16complex00/results/independent-numerics.json` | 6341 | `4ab3ea5d4f108d7c3dcd93c66327b0c73d3b8d0852ffeb3197db57a8444c00dd` |
 | `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | 15084 | `0ed88e5a872621e0054651a43a5d5588c0ea7b4d9e33920653839837ea73e784` |
 | `Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json` | 10052 | `e620b2c0bf97f06ef081078bee1b26a84798b0acdc8979f3f5838d6ccb22e40a` |
@@ -157,10 +157,10 @@ was committed, with byte-identical outputs.
 | `Revision/dark_sector/wolfram/author_notebook_inputs.wls` | 4103 | `b8240ab72dbceed0fcda4673a5b72b4e13c9e18968a8e1653e0bf95317284267` |
 | `Revision/dark_sector/reports/wolfram-dark-sector-b4.json` | 2392 | `273e91939ba39dd8baa8b6f687e1e0110d927a1ec6de2250e90217032e3734f1` |
 | `Revision/dark_sector/reports/author-notebook-inputs.json` | 40312 | `c43f70544c3b51dcce474b8181a75add8b5bb8ced088c3571b32e30f0128f782` |
-| `Revision/docs/DARK_SECTOR_HYPOTHESES.md` | | `85f18d1acb1a4372a419f9f7302f32250fc003679706a385b4f55cd591f44710` |
-| `Revision/docs/DARK_SECTOR_HYPOTHESES.tex` | | `3267c0f3ae437d22d2504b9c8a7687077d21d2449f7200ceccbcc88bed10ccca` |
-| `Revision/docs/DARK_SECTOR_HYPOTHESES.pdf` | | `005e5b02a0e03923eb55d17015d54b5ded18029bef09d9c68e10e50f4edc2443` |
-| `Revision/notebooks/dark_sector_hypotheses.ipynb` | 470855 | `15e0bf953b2662e1d83bc98d4abc0d961851f86a54e6ee1466b93d1e37cfe1ab` |
+| `Revision/docs/DARK_SECTOR_HYPOTHESES.md` | | `31a08d003af706c82444dcb41611da79180cb233d9a46c8a52c3294b0a3c6a67` |
+| `Revision/docs/DARK_SECTOR_HYPOTHESES.tex` | | `93c62a5d76e019b84db24cc97cc2787a23ddc24be847bd99c7bb2328bc00d5eb` |
+| `Revision/docs/DARK_SECTOR_HYPOTHESES.pdf` | | `2f1d574890ecee65eb72ef1585730adcf133788f4fb8f56ffe702fbc59d5409e` |
+| `Revision/notebooks/dark_sector_hypotheses.ipynb` | 471489 | `49194dbca88dd728aa791e93bf9bca93a453164b1c290dedad75e841b54c36eb` |
 
 The two Markdown/LaTeX sources are pinned by `Revision/tests/test_dark_sector_hypotheses_publication.py`
 (30 tests), which also checks that every number the document quotes is in a committed report.
@@ -186,9 +186,35 @@ The two Markdown/LaTeX sources are pinned by `Revision/tests/test_dark_sector_hy
 
 ## 8. What this provenance does not show
 
-* That either hypothesis is true: the record shows the opposite tendency (no dark-energy value from
-  positive-energy content on the history with b4(x4)).
+* That either hypothesis is true: on the history with b4(x4) no Kohn-Sham state and no positive-energy mode
+  population gives a dark-energy value; the only negative values without a ghost come from a condensate with
+  lambda < 0, through its CHOSEN value and while its ratio drifts (it reads w_eff(C) < -1 in the phantom window
+  toward the past, section 9), and no source of the history selects it.
 * That the history is a solution with the Kohn-Sham gas as its source: the history is PRESCRIBED, and the
   source it requires (section 2) is neither the gas nor the condensate (OPEN).
 * Byte identity on another computer or with other package versions (all runs here: Windows 11, the versions
   above).
+
+## 9. A correction made later on 2026-10-15
+
+Writing the textbook chapter on this record, I found statements that had been carried over from the withdrawn
+b4 = 1 reasoning. With b4 = 1 the observer read a condensate as w_eff(A) = 0 and w_eff(C) = -1, whatever its ratio,
+so a phantom ratio was "not the observer's w_eff". With b4(x4) the observer reads w_eff(C) = -1/3 + (2/3) w_c
+(`condensate_observer_b4`), which is below -1 exactly while the ratio is (`condensate_phantom_interval`:
+lambda S/m in (-2, -1)). The ratio drifts, lambda S/m ~ e^(-2 a4), so a condensate with lambda < 0 and m S > 0
+(positive energy, attractive self-interaction) moves into that window toward the past: for -382/441 today from
+a = sqrt(382/441) = 0.9307 back to a = sqrt(191/441) = 0.6581, where its energy vanishes. The record had said
+"phantom ... only at an instant", "it is not the observer's w_eff" and "no crossing in M1 to M5"; these were wrong
+for M1 (the condensate) and are corrected in:
+
+* `derive_eos.py` (the text `ghost` of `eos-theory.json`; re-run: 49/49, every other byte of `eos-theory.json`, the
+  report and implementation B's outputs unchanged; B re-run 32/32 byte-identical; the unittest OK);
+* both READMEs (the condensate items, the phantom item and the verdicts of dirac16complex and dirac16complex00);
+* `Revision/docs/DARK_SECTOR_HYPOTHESES.md` (sections 1, 5.5, 6.1, 7 and 9.2), its .tex and its PDF (rebuilt twice,
+  byte-identical, 27 pages, 0 warnings, registered), and its publication test (new pins; the crossing window
+  asserted from `eos-theory.json`);
+* the Revision notebook (the detail of `condensate_phantom_window` and two sentences; rebuilt and checked
+  byte-identical; its 129 output files unchanged).
+
+No number of the record changed and no check changed its count or verdict: the corrected statement follows from
+the two checks named above, which were already in the record.

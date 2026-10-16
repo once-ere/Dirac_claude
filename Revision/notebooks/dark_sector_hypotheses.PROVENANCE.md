@@ -3,10 +3,10 @@
 The dark-sector hypotheses of dirac16complex and dirac16complex00 against the Unite values, for the
 author's metric with b4(x4) (the user's metric of 2026-10-14; b4 is a function of x4, never 1).
 
-* Notebook: `Revision/notebooks/dark_sector_hypotheses.ipynb` (47 cells: 26 markdown, 21 code; 470855 bytes;
-  sha256 `15e0bf953b2662e1d83bc98d4abc0d961851f86a54e6ee1466b93d1e37cfe1ab`).
+* Notebook: `Revision/notebooks/dark_sector_hypotheses.ipynb` (47 cells: 26 markdown, 21 code; 471489 bytes;
+  sha256 `49194dbca88dd728aa791e93bf9bca93a453164b1c290dedad75e841b54c36eb`).
 * Builder: `Revision/notebooks/src/dark_sector_hypotheses.py`
-  (sha256 `9f0e2e9cbd4ff25f9d0b37b3e264561a813d7a14ce679d6ef8177bbf412909e4`).
+  (sha256 `b99175577cd7e3811be2b471bed7bc582417956fed0af2eaeba43be84d8b22ef`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
@@ -66,7 +66,8 @@ or frozen extra times are used.
 7. Condensate with exact fractions: u = lambda S/m = -382/441 gives u/(2 + u) = -191/250 = -0.764 at one
    instant (CHOSEN, by construction); with b4(x4), u ~ e^(-2 a4) and the ratio drifts with
    wa = 4u/(2 + u)^2 = -84231/31250; w_eff(C) = -1/3 + (2/3) w_c = -316/375 with wa = -28077/15625; the phantom
-   window -2 < u < -1 on 384 exact grid values. Closed formulas of `outputs/effective-formulas.json` with exact
+   window -2 < u < -1 on 384 exact grid values, in which the observer also reads w_eff(C) < -1 (the drift carries
+   u = -382/441 into it toward the past, from a = sqrt(382/441) = 0.9307 to a = sqrt(191/441) = 0.6581). Closed formulas of `outputs/effective-formulas.json` with exact
    dual numbers (Fraction parts): the flat massive mode tangent x/(3(x + 1)), 2x/(3(x + 1)^2); radiation +
    lambda = 0 condensate r0/(3(r0 + 1)), r0/(3(r0^2 + 2 r0 + 1)), whose C value w0 - 1/3 cannot reach -0.861
    (it would need r0/(3(1 + r0)) = -1583/3000); the observer formulas with beta.
@@ -130,7 +131,7 @@ Read (sha256 at the time of the verified builds of 2026-10-15):
 | `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` | `873aa221ea313cf1be4425e3b1558ffb44b7f7e71a1a1f931b0f7ea0b075c9f0` |
 | `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | `beaa08a02751e464ee677f072b7abb9b10fe45f5682721edf34c46cc78d0c764` |
 | `Revision/dark_sector/dirac16complex/reports/independent-checks.json` | `bb475ad3f21db751bc002a6589d2a87af6b21fe29c5c04cb116f2238eb728232` |
-| `Revision/dark_sector/dirac16complex00/eos-theory.json` | `9feb09c70fe229500357962c2a24639a9c3e5ee2a5af6020582321e86bfb4bec` |
+| `Revision/dark_sector/dirac16complex00/eos-theory.json` | `7ab0fcbd8bd4fdc39be91b8fa39ff76c83715e7bdd08b8326eb9809249ecd2ac` |
 | `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `0ed88e5a872621e0054651a43a5d5588c0ea7b4d9e33920653839837ea73e784` |
 | `Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json` | `e620b2c0bf97f06ef081078bee1b26a84798b0acdc8979f3f5838d6ccb22e40a` |
 | `Revision/dark_sector/reports/wolfram-dark-sector-b4.json` | `273e91939ba39dd8baa8b6f687e1e0110d927a1ec6de2250e90217032e3734f1` |
@@ -259,6 +260,14 @@ No run time and no path of the computer is printed (paths are shown relative to 
 
 ## 7. Verification record
 
+* 2026-10-15, later the same day: a text correction. With b4(x4) the observer's w_eff(C) = -1/3 + (2/3) w_c of a
+  condensate is below -1 while its drifting ratio lies in the phantom window, so the detail of the check
+  `condensate_phantom_window` no longer calls the phantom ratio an 8-dimensional ratio "at one instant", and
+  sections 1 and 15 say "no model M2 to M5" where they said "no model". The record's producer `derive_eos.py`
+  was corrected the same way (only the text `ghost` of `eos-theory.json` changed, new sha256 in section 2; every
+  number is unchanged). `build_notebooks.py build dark_sector_hypotheses --out <scratch>/buildC` (13.1 s) wrote
+  471489 bytes, sha256 `49194dbca88dd728aa791e93bf9bca93a453164b1c290dedad75e841b54c36eb`; `check --out
+  <scratch>/check2`: PASS, byte-identical; the 129 output files of both runs equal those of build A (section 2).
 * 2026-10-15, the reason for the current version: the user's metric with b4(x4) (b4 is a function of x4,
   never 1). The whole dark-sector record was recomputed on the history a4 = H x4, b4 = b4(0) e^((4/3) H x4)
   (commits e9d1751 to 65d954c), and this notebook was rewritten to reproduce it: the solver runs at

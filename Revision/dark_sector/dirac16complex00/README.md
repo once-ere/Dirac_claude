@@ -86,7 +86,11 @@ observer. It agrees with p3/rho only when no energy is exchanged with the extra 
 - Normalisation dependence: w_eff(N1) = (beta/2) w = (2/3) w and w_eff(N2) = -1 + (beta/2)(1 + w) = -1/3 + (2/3) w.
 - The ratio equals the Unite constant w = -0.764 at lambda S/m = **-382/441** at one instant. With rho > 0 this needs
   m S > 0 and lambda < 0. Then its wa is -2.695 (thawing sign).
-- The ratio is phantom exactly for lambda S/m in (-2, -1), at an instant.
+- The ratio is phantom exactly while lambda S/m lies in (-2, -1) (`condensate_phantom_interval`), and then the
+  observer reads w_eff(N2) = -1/3 + (2/3) w < -1 too. With lambda < 0 and m S > 0 (positive energy, attractive
+  self-interaction) lambda S/m drifts into that window toward the past: for -382/441 today from a = sqrt(382/441)
+  = 0.9307 back to a = sqrt(191/441) = 0.6581, where the energy vanishes. This condensate is the exception to the
+  bound -1/3 of positive-energy mode gases; its value is CHOSEN.
 - **The source the author's equations require on the history** (check `branch_required_source`; the field equations
   of `Revision/field_equations_a4/a4-equations.json`, key b4, with the author's weights, which first reproduce the
   author's vacuum, check `author_weights_vacuum_recovered`): kappa T^x4_x0 = 0 and the constant diagonal source
@@ -175,13 +179,14 @@ density becomes large and negative (rho/Q = -4.3e29 at a = 7.4, for H/m = 10^-3)
 1. **Dark matter.** A positive-energy gas of good-sector modes gives, under N1 and in the ratio p3/rho, a
    time-varying equation of state from 1/3 (relativistic) to 0 (dust) (M2), independent of b4. A lambda = 0
    condensate is dust-like under N1.
-2. **No dark energy without ghosts.** On the history b4 ~ a^{4/3} every positive-energy model has
+2. **No dark energy from positive-energy mode gases.** On the history b4 ~ a^{4/3} every positive-energy model has
    w_eff(N2) ≥ -1/3 (theorem of section 2; M2: -0.194, M3 and M4: -0.287 today). The thawing slope of the extra-time
    mode is small (M3: -0.0437696) because q_p grows only like a^{1/3}.
 3. **The Unite values.** Reaching w0 = -0.861 under N2 needs a ghost-like component with G ≥ 1583/1000 of the total
    energy at a = 1 (the total energy of condensate + ghost then vanishes inside the fit range). The only negative
-   values without a ghost come from a condensate with lambda < 0, whose ratio drifts strongly (wa = -2.695 at the
-   ratio -0.764).
+   values without a ghost come from a condensate with lambda < 0 (positive energy for m S > 0), whose ratio drifts
+   strongly (wa = -2.695 at the ratio -0.764) and which reads w_eff(N2) < -1 while lambda S/m lies in (-2, -1)
+   (section 2); its value is CHOSEN.
 4. **The source of the history.** The author's equations need the constant source kappa (rho, p3, p_t, p0) =
    (-2/27, -2/9, -22/27, -14/27) on this history (a negative energy density for kappa > 0); a condensate is not it.
 5. **Expansion-inferred w.** On a4 = H x4 the 3-space Hubble rate is constant, so w_exp = -1 exactly, for every b4.

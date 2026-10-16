@@ -71,8 +71,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "85f18d1acb1a4372a419f9f7302f32250fc003679706a385b4f55cd591f44710"
-TEX_SHA256 = "3267c0f3ae437d22d2504b9c8a7687077d21d2449f7200ceccbcc88bed10ccca"
+MARKDOWN_SHA256 = "31a08d003af706c82444dcb41611da79180cb233d9a46c8a52c3294b0a3c6a67"
+TEX_SHA256 = "93c62a5d76e019b84db24cc97cc2787a23ddc24be847bd99c7bb2328bc00d5eb"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"
@@ -586,6 +586,13 @@ class QuotedNumbers(unittest.TestCase):
         self.assertEqual(4 * u / (2 + u) ** 2, Fraction(-84231, 31250))
         self.assertAlmostEqual(cond["ratio_wa_at_that_u"], float(Fraction(-84231, 31250)), places=12)
         self.assertQuoted("$-84231/31250 = -2.695392$")
+        # with u ~ a^(-2) the ratio enters the phantom window (u = -1) at a^2 = -u and its energy vanishes (u = -2)
+        # at a^2 = -u/2; there w_eff(C) = -1/3 + (2/3) w_c < -1 (section 5.5; eos-theory.json, key ghost)
+        self.assertEqual((-u, -u / 2), (Fraction(382, 441), Fraction(191, 441)))
+        self.assertEqual((f"{float(-u) ** 0.5:.4f}", f"{float(-u / 2) ** 0.5:.4f}"), ("0.9307", "0.6581"))
+        self.assertQuoted("$a = \\sqrt{382/441} = 0.9307$ back to $a = \\sqrt{191/441} = 0.6581$")
+        ghost = load_json(D00 / "eos-theory.json")["ghost"]
+        self.assertIn("from a = sqrt(382/441) = 0.9307 back to a = sqrt(191/441) = 0.6581", ghost)
 
     def test_dirac16complex00_models(self):
         models = load_json(EOS_THEORY)["models"]
