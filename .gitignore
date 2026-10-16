@@ -292,3 +292,8 @@ target/
 # "Generalized _Kronecker_Delta_4+4.nb" IS tracked, at the author's request)
 Generalized_Kronecker_Delta.txt
 Generalized_Kronecker_Delta.*
+
+# The author's scratch notebook of 2026-10-16 and its four .mx files: read only, never committed
+# (committed by mistake by the automatic Stop-hook snapshot d02ff19; removed at the author's request)
+/WaveFunctionUniverse-4+4-Einstein-Lovelock.nb
+/WaveFunctionUniverse-4+4-Einstein-Lovelock-*.mx

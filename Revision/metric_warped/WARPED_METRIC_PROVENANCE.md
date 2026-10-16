@@ -44,8 +44,10 @@ z = 6 H x0 takes every real value and no sign of Sin[z] or Cos[z] is assumed; Si
 No definition, convention, formula, number or output of that notebook enters the Revision record: every computation
 below uses the Revision record's own conventions (`Revision/SPEC.md`, `Revision/field_equations_a4/a4-equations.json`).
 The four `.mx` files next to the notebook were not opened.  The notebook and the four `.mx` files were not meant to be
-committed; the automatic snapshot of the Stop hook (commit d02ff19) committed and pushed them by mistake.  Their
-removal is part of the repository repair that the author postponed ("Do not take time repairing the repo right now").
+committed; the automatic snapshot of the Stop hook (commit d02ff19) committed and pushed them by mistake.  At the
+author's request ("remove the notebook and .mx files in a new commit") a later commit removes them from the
+repository (they stay in the history of d02ff19) and lists them in `.gitignore`; the files themselves stay on the
+author's disk.
 
 ## 3. The result
 

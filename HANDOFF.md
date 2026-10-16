@@ -47,9 +47,12 @@ metric-warped-sympy, metric-warped-wolfram, pdf-metric-self-consistency.
 [3] Phases, ON HOLD until the author says so ("Do not take time repairing the repo right now. that will come later");
 each verified, committed and pushed; every calculation under `timeout -k 5 423`; no agent job longer than 423 s; the
 work is done sequentially:
-R0. Repository repair (the author's decision): the automatic Stop-hook snapshot d02ff19 committed and pushed the
-    author's `WaveFunctionUniverse-4+4-Einstein-Lovelock.nb` and its four `.mx` files, which were never to be
-    committed (remove them, or rewrite history: the author chooses), and the W1 files below for version 1.
+R0. Repository repair: the automatic Stop-hook snapshot d02ff19 committed and pushed the author's
+    `WaveFunctionUniverse-4+4-Einstein-Lovelock.nb` and its four `.mx` files, which were never to be committed.
+    DONE 2026-10-16 at the author's request ("remove the notebook and .mx files in a new commit"): removed from the
+    repository by a new commit (no history rewrite; they remain in d02ff19) and listed in `.gitignore`, so the
+    Stop hook's `git add -A` cannot add them again; the files stay on disk.  Still open in R0: the W1 files below,
+    committed in d02ff19 for version 1.
 W1. `Revision/theory/`: RevisionFieldTheory.wl / verify_field_theory.wls (six parts) / check_field_theory.py and the
     scope checks for the corrected metric (the files committed in d02ff19 use version 1, f4 = Sin^(1/6), and must be
     redone: f4 = 1, Omega_x4 = 0, f0 = E^(-a4) b4^(1/2) Cot z, f_i = E^a4, f_t = E^(-a4) b4^(1/2) (Sin^2)^(1/12); the
