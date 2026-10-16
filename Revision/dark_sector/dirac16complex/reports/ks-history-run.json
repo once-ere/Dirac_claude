@@ -44,7 +44,9 @@
   1.95,
   2.0
  ],
- "history": "PRESCRIBED BACKGROUND a4 = A H x4 (Revision/kohn_sham/results/parameters.json conventions.history): the Kohn-Sham gas is a test field without back-reaction",
+ "history": "PRESCRIBED BACKGROUND a4 = H x4 and b4(x4) = b4(0) e^((4/3) H x4) (the branch of the author's weights for a source without T^x4_x0, derive_effective.py author_weights_b4_branch): the Kohn-Sham gas is a test field without back-reaction",
+ "coupling": "the solver solves the b4-free good-sector equation at lambda_eff = lambda_hat e^(-2 a4) (Psi = b4^(-3/4) X, Revision/kohn_sham/reports/ks-b4-wolfram.json K1-K3); lambda_hat = lambda b4(0)^(-3/2) = the calibrated couplings of Revision/kohn_sham/results/parameters.json",
+ "beta": "d ln b4/d a4 = 4/3",
  "checks": [
   {
    "name": "all_runs_succeeded",
@@ -52,9 +54,19 @@
    "detail": "615 runs (15 series x 41 slices), failed: []"
   },
   {
-   "name": "committed_slices_reproduced",
+   "name": "a4_0_states_equal_committed_record",
    "verdict": "PASS",
-   "detail": "300 integrals of the 75 committed states compared with Revision/kohn_sham/results/ground/emt-integrals.csv: max relative deviation 0.000e+00"
+   "detail": "a4 = 0, lambda_eff = lambda_hat: 60 integrals of the 15 states compared with Revision/kohn_sham/results/ground/emt-integrals.csv: max relative deviation 0.000e+00"
+  },
+  {
+   "name": "lambda0_series_independent_of_b4",
+   "verdict": "PASS",
+   "detail": "lambda = 0 (no mean field, so no b4 in the b4-free equation): 60 integrals of the three series at the five committed slices equal the committed record: max relative deviation 0.000e+00"
+  },
+  {
+   "name": "coupling_follows_b4",
+   "verdict": "PASS",
+   "detail": "every state was solved at lambda_eff = lambda_hat (b4(0)/b4)^(3/2) = lambda_hat e^(-2 a4) (b4 = b4(0) e^((4/3) a4)), so the interacting series change along the history through b4(x4)"
   },
   {
    "name": "occupied_labels_fixed_along_history",
@@ -69,12 +81,12 @@
   {
    "name": "particle_number_every_state",
    "verdict": "PASS",
-   "detail": "max |int n - N|/N = 2.299e-15"
+   "detail": "max |int n - N|/N = 2.442e-15"
   }
  ],
  "summary": {
-  "total": 5,
-  "pass": 5,
+  "total": 7,
+  "pass": 7,
   "fail": 0
  }
 }
