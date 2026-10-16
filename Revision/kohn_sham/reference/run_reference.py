@@ -479,7 +479,7 @@ def _ground_on_grid(co, spec, G, ls0):
     g = K.Grid(ph, G)
     ls = K.relabel(g, ph, ls0)
     free = K.solve_state(g, ph.copy(lam=0.0), ls)
-    gs = free if ph.lam == 0.0 else K.solve_state(g, ph, ls, guess=free.eps)
+    gs = free if ph.lam == 0.0 else K.solve_state_robust(g, ph, ls, guess=free.eps)
     o, prof = K.observables(gs)
     homo, lumo, hg, lg = K.homo_lumo(gs)
     o["HOMO"], o["LUMO"], o["KS_gap"] = homo, lumo, lumo - homo
@@ -487,7 +487,8 @@ def _ground_on_grid(co, spec, G, ls0):
     o["max_abs_Meff_minus_m"] = float(np.max(np.abs(prof["M_eff"] - ph.m)))
     o["max_abs_v_v"] = float(np.max(np.abs(prof["v_v"])))
     o["n_max"] = float(np.max(np.abs(prof["n"])))
-    rec = {"G": G, "iterations": gs.iters, "residual": gs.res, "open_shell": gs.open_shell}
+    rec = {"G": G, "iterations": gs.iters, "residual": gs.res, "open_shell": gs.open_shell,
+           "path": getattr(gs, "path", "direct")}
     keys = ls.keys()
     rec["homo_group"] = sorted(key_str(keys[i]) for i in hg)
     rec["lumo_group"] = sorted(key_str(keys[i]) for i in lg)
@@ -636,7 +637,7 @@ def exx_job(co, spec):
         g = K.Grid(ph, G)
         ls = K.relabel(g, ph, ls0)
         free = K.solve_state(g, ph.copy(lam=0.0), ls)
-        gs = K.solve_state(g, ph, ls, guess=free.eps)
+        gs = K.solve_state_robust(g, ph, ls, guess=free.eps)
         olda, _ = K.observables(gs)
         px = ph.copy(exx=True)
         # started from the converged uniform-gas state (w_Q = 0), as in the Rust canonical matrix
@@ -676,7 +677,7 @@ def rescale_job(co, spec):
         g = K.Grid(pr, G)
         ls = K.relabel(g, pr, ls0)
         free = K.solve_state(g, pr.copy(lam=0.0), ls)
-        st = free if pr.lam == 0.0 else K.solve_state(g, pr, ls, guess=free.eps)
+        st = free if pr.lam == 0.0 else K.solve_state_robust(g, pr, ls, guess=free.eps)
         o, prof = K.observables(st)
         ri = g.report_indices()
         runs.append({"G": G, "iterations": st.iters, "residual": st.res, "E_KS": o["E_KS"], "eps": st.eps, "f": st.f,
@@ -784,7 +785,7 @@ def validation_job(co, spec):
         g = K.Grid(ph, G)
         ls = K.relabel(g, ph, ls0)
         free = K.solve_state(g, ph.copy(lam=0.0), ls)
-        st = K.solve_state(g, ph, ls, guess=free.eps)
+        st = K.solve_state_robust(g, ph, ls, guess=free.eps)
         o, prof = K.observables(st)
         h, l, _, _ = K.homo_lumo(st)
         o["HOMO"], o["LUMO"] = h, l
@@ -818,7 +819,7 @@ def _thermo_on_grid(co, spec, G, ls0, wcut, sea_shells):
     g = K.Grid(ph, G)
     ls = K.relabel(g, ph, ls0)
     free = K.solve_state(g, ph.copy(lam=0.0), ls, mode="mermin")
-    st = free if ph.lam == 0.0 else K.solve_state(g, ph, ls, mode="mermin", guess=free.eps)
+    st = free if ph.lam == 0.0 else K.solve_state_robust(g, ph, ls, mode="mermin", guess=free.eps)
     # sea-hole diagnostic of the filling CONVENTION: thermal holes the excluded sea brane band (j = -1, even, the highest
     # sea level, rank -1) of every shell n2 >= 1 would carry at the same mu and T, in the converged potentials
     es = K.sea_brane_levels(g, ph, sea_shells, st.dM, st.v)
@@ -847,7 +848,8 @@ def _thermo_on_grid(co, spec, G, ls0, wcut, sea_shells):
     th["lowest_excluded"] = excl
     th["f_at_window_cut"] = float(K.fermi(np.array([(wcut - st.mu) / T]))[0])
     th["f_at_lowest_excluded"] = float(K.fermi(np.array([(excl - st.mu) / T]))[0])
-    rec = {"G": G, "iterations": st.iters, "residual": st.res, "neighbour_iterations": [x[1] for x in nb],
+    rec = {"G": G, "iterations": st.iters, "residual": st.res, "path": getattr(st, "path", "direct"),
+           "neighbour_iterations": [x[1] for x in nb],
            "neighbour_residual_max": max(x[2] for x in nb)}
     return {"rec": rec, "th": th, "eps": st.eps, "f": st.f, "keys": ls.keys(), "sea_eps": es, "sea_holes": holes}
 
@@ -1210,6 +1212,13 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
         T["thermo_sea_holes_tail"].add(sid, abs(sh["extra_shells_contribution"]) / max(1.0, abs(sh["total_window"])) if fin else 1e9)
     for name, ag in T.items():
         ag.emit(rep, name)
+    # SCF paths (information): states whose direct SCF failed on some grid and that were solved by the coupling
+    # continuation of ks_fd.solve_state_robust
+    cont = sorted({f"{x['data']['id']} (G = {r['G']})" for x in list(grounds) + list(thermos)
+                   for r in x["data"]["per_grid"] if r.get("path", "direct") != "direct"})
+    rep.check("scf_paths", True,
+              f"INFORMATION (not a validation): ground and Mermin states solved by the coupling continuation lam x 1/4, 1/2, 3/4, 1 "
+              f"(half the mixing) after a failed direct SCF: {len(cont)} state-grid pairs: {', '.join(cont) if cont else 'none'}")
     # uncertainty validation
     v = valid["data"]
     bad = [k for k, c in v["classes"].items() if not c["all_within_U123"]]

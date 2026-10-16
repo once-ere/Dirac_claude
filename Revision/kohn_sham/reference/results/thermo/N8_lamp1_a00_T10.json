@@ -22,6 +22,7 @@
    "G": 300,
    "iterations": 13,
    "residual": 5.689893001203927e-16,
+   "path": "direct",
    "neighbour_iterations": [
     4,
     4,
@@ -51,6 +52,7 @@
    "G": 600,
    "iterations": 13,
    "residual": 1.1102230246251565e-15,
+   "path": "direct",
    "neighbour_iterations": [
     4,
     4,
@@ -80,6 +82,7 @@
    "G": 1200,
    "iterations": 13,
    "residual": 1.3877787807814457e-15,
+   "path": "direct",
    "neighbour_iterations": [
     4,
     4,

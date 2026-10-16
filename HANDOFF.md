@@ -73,10 +73,19 @@ Progress (newest last):
   `single --beta`. The calibration rule applied to the new history gives lambda_1 = 0.01946, 0.01206, 0.006645 (N = 8, 136,
   688; 13 and 36 times larger for N = 136, 688). Canonical 43/43 (78 s), Mermin roots 5/5, repeat byte-identical,
   refined 340.6 s, determinism 14/14. claude_failures G6 to G8. Solver README section "The metric with b4(x4)".
-  STILL OPEN in phase 4: the Python reference (4 parts) and the cross-check (with its reference repeat), the tip
-  convergence, `checker/measure_rust_refinement.py`, the KS provenance and index rows, the gate timings. THEN, before
-  phase 5: the dark sector (`Revision/dark_sector/dirac16complex/compute/run_ks_history.py` passes lambda_eff to `single`,
-  whose --lambda now means lambda_hat, and reads the recalibrated couplings) must be rerun with all its outputs.
+- Phase 4, part 2 DONE (2026-10-16): the Python reference with b4 (beta, Vol_7(a4,0), the history identity, its own
+  continuation fallback `solve_state_robust`): 6 parts of 120 to 232 s, 38/38; `measure_rust_refinement.py` 32.9 s;
+  the cross-check with its reference repeat (6 parts) 31/31 (beta compared as numbers; the exact N = 8 Q_max tie
+  accepted); the tip-cutoff study 7/7 (187 s; reads `Vol7AtA4Zero`); KS theory provenance 6.7, index rows 6 and 30;
+  gate: the reference and the cross-check repeat in six parts (99 steps, 8572 s expected; --fast 96 steps).
+  claude_failures G9 to G11. NEXT, before phase 5: the dark sector. `run_ks_history.py` is already changed (passes
+  lambda_hat; new checks committed_slices_equal_committed_record, cell_volume_follows_b4, lambda_eff_form_agrees) but
+  NOT yet rerun; rerun it, then compute_eos.py, and update every dark-sector output, README, B4_PROVENANCE, the document
+  DARK_SECTOR_HYPOTHESES (+pdf), the dark-sector notebook and the textbook chapters 22/23 that quote changed numbers.
+  KNOWN OPEN until phases 7 and 8 (they quote the record before b4): `Revision/tests/test_kohn_sham_deflating_field_publication.py`
+  (test_cited_checks_exist_and_pass: the document cites the former check counts) and
+  `Revision/tests/test_revision_notebooks.py` (test_kohn_sham_record_counts_printed); the pairing T3 demonstrations and
+  their results (phase 6) still hold the runs of the former couplings.
 
 ### 0.8 STATE 2026-10-15 (dark sector with b4; done, superseded as the start by 0.9)
 

@@ -671,7 +671,9 @@ def main():
           worst_k0 <= CRIT["k0_analytic_abs"], f"{len(k0)} levels, max |difference| {worst_k0:.2e} m")
     bulk_edge = {f16(L): analytic_k0(L, "odd", 0) for L in L_VALUES}
     # zero-mode density: exact brane and tip values of the free N = 8 state
-    vol7 = par["physics"]["Vol7"]
+    # Vol_7 at a4,0 = 0 (with b4 the cell volume is Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}; every use below is at
+    # a4,0 = 0)
+    vol7 = par["physics"]["Vol7AtA4Zero"]
     zm_rows, worst_zm = [], 0.0
     for s, x in zip(allspecs, res_fixed):
         if s["id"] == "N8_lam0_a00" and s["refine"] == 1:
@@ -827,9 +829,9 @@ def make_figures(rep, allspecs, res_fixed, recspecs, res_rec):
         rows = [r for r in fo if r["id"].startswith(f"N8_{tag}")]
         lam = rows[0]["lambda"]
         law = [abs(-(2.0 * lam / rep_vol7(rep)) * math.exp(2 * L) / (1 - math.exp(-2 * L))) for L in Lf]
-        axs[0].semilogy(Lf, law, color=cols[tag], lw=1, ls="--", label=f"|first-order law| {tag}")
+        axs[0].semilogy(Lf, law, color=cols[tag], lw=1, ls="--", label=f"|first-order law| {tag}, a4,0 = 0")
         tp = [abs(lam) / 16.0 * 8.0 / (rep_vol7(rep) * (1 - math.exp(-2 * L))) * math.exp(4 * L) for L in Lf]
-        axs[1].semilogy(Lf, tp, color=cols[tag], lw=1, ls="--", label=f"first-order |v_v(-L)| {tag}")
+        axs[1].semilogy(Lf, tp, color=cols[tag], lw=1, ls="--", label=f"first-order |v_v(-L)| {tag}, a4,0 = 0")
         for a4 in SLICES_RUN:
             sid = state_id(8, tag, a4)
             sel = [(s["L"], x_) for s, x_ in zip(allspecs, res_fixed) if s["id"] == sid and s["refine"] == 1]
@@ -895,7 +897,8 @@ def make_figures(rep, allspecs, res_fixed, recspecs, res_rec):
 
 
 def rep_vol7(rep):
-    return json.loads((RESULTS / "parameters.json").read_text(encoding="utf-8"))["physics"]["Vol7"]
+    # Vol_7 at a4,0 = 0 (the first-order laws of figure 2 are those of a4,0 = 0; at a4,0 they carry e^{-(3/2) beta a4,0})
+    return json.loads((RESULTS / "parameters.json").read_text(encoding="utf-8"))["physics"]["Vol7AtA4Zero"]
 
 
 if __name__ == "__main__":

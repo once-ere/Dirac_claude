@@ -9,8 +9,10 @@ against 40-digit roots. The reference uses staggered finite differences with Ric
 shooting with RK4 and a Pruefer count. Revision code only.
 
 The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H), z = 6 H x0; x1, x2, x3 =
-3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4
-increasing).  p0 = T^x0_x0 is the hidden-direction pressure (named p8 before the relabel of 2026-10-14).
+3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z, a4
+increasing).  p0 = T^x0_x0 is the hidden-direction pressure (named p8 before the relabel of 2026-10-14). Both records
+are those of the author's metric with b4(x4) (b4 a function of x4, never 1) on the history a4 = H x4,
+b4 = b4(0) e^{(4/3) H x4} (since 2026-10-16; solver README, "The metric with b4(x4)").
 
 ## Run (from the repository root; the Rust binary must be built: `cargo build --release` in `../solver`)
 
@@ -28,7 +30,7 @@ repeat are then computed beforehand in parts, each within a time limit, into tha
 the canonical run), and the checker's run of `run_reference.py` only assembles them:
 
 ```
-python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/repeat-cache --part 1/4 --jobs 12   # ... up to 4/4
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/repeat-cache --part 1/6 --jobs 12   # ... up to 6/6
 python Revision/kohn_sham/checker/crosscheck_ks.py --work <scratch>/cc --jobs 22 --repeat-cache <scratch>/repeat-cache
 ```
 
@@ -106,7 +108,10 @@ On the exact doubles of each canonical thermal run, the checker computes the roo
 takes mu_Rust - root in 40 digits. It requires |mu_Rust - root| <= `mu_rounding_bound` of `thermodynamics.csv`, and
 that the exact values round to the committed 16-digit mu and levels.
 
-## Results (`reports/ks-crosscheck.json`: 31 checks, all PASS; run of 2026-10-08)
+## Results (`reports/ks-crosscheck.json`: 31 checks, all PASS; run of 2026-10-16, the record with b4(x4))
+
+The list below is that of the run of 2026-10-08 (the record before b4); the run of 2026-10-16 is summarised in the
+section "The record with b4(x4) (2026-10-16)" after it.
 
 Preconditions all pass. The reference report has 37/37 PASS, the Rust solver report 42/42 PASS and the Rust
 determinism report 14/14 PASS. The 550 refinement runs cover every state. The canonical `single` runs
@@ -198,6 +203,38 @@ machine):
   the details differ only in the sha256 of `ks-theory.json` (rewritten in the author's coordinates), the renamed
   quantity `int_p0` and the note on the job cache; `ks-crosscheck-table.csv` has the same 5448 rows, equal after
   the renaming.
+
+## The record with b4(x4) (2026-10-16)
+
+Both solvers were moved to the metric with b4(x4) (lambda_hat, Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}, the history
+identity dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, the recalibrated couplings lambda_1 = 0.01946, 0.01206, 0.006645 and
+lambda_2 = 0.05838, 0.03617, 0.01993). The checker compares `historyBeta` in addition (as numbers to 1e-15 relative:
+Rust writes 16 significant digits, Python the shortest round-trip), and two of its texts now state the b4 forms
+(`adiabatic_dE_da4`, `rescaling_partners`); its tolerance rule is unchanged. One rule was added for a new situation:
+for N = 8 with lambda != 0 the self-consistent potentials now change along the history, Q_max > 0, and the maximising
+pair is an exact tie between the j = +1 and j = -1 partners at k = 0 (ks-theory.json blockEquation.typeRelation; the
+reference lists both with bit-equal Q). The check `adiabatic_Q_max` therefore accepts every reference pair whose Q equals
+the largest within 3 (U + U), and compares the matrix element and the level spacing with that pair.
+
+Run of 2026-10-16 (every run with `timeout -k 5 423`, the machine otherwise idle):
+* the reference repeat into its own job cache, `--part i/6 --jobs 12`: 198 s, 179 s, 214 s, 234 s, 117 s and 122 s
+  (`../reference/README.md` gives the canonical parts);
+* the first `crosscheck_ks.py` run (before `measure_rust_refinement.py` had been rerun, against the order of the gate)
+  failed 7 checks: the stale `rust-refinement.json` held the `single` runs of the former couplings (the thermal and
+  profile checks), the float text of beta differed (`problem_definition_identical`), and the tie of the N = 8 pairs
+  (`adiabatic_Q_max`);
+* `measure_rust_refinement.py` (22 threads): 550 single runs, 32.9 s;
+* `crosscheck_ks.py --jobs 22 --repeat-cache DIR`: 20.5 s; 31 checks, all PASS; the repeat is byte-identical to the
+  committed reference (340 files and the report). Worst ratios |diff| / tolerance: E_KS, E_band, E_int 0.196; HOMO,
+  LUMO, gap 0.001; levels 0.320; Delta-SCF 0.286; particle-hole lists 0.001; EMT integrals 0.235; brane and tip values
+  0.818; profiles 0.839 (N8_lamm1_a05 p0 at the tip); Delta E_x 0.134; dE/da4 0.271; Q_max 0.121; exact-Fock variant
+  0.160; rescaling partners 0.123; crossing demonstration 0.111; thermal state functions 0.284; thermal derivatives
+  0.226; sea holes 0.049 (15 of 135 states above 1% of N, largest N8_lamm1_a20_T50, 30.81 N); thermal levels 0.299;
+  40-digit mu 0.050. The Rust mu lies within its stated rounding bound in all 135 states (largest ratio 0.149, largest
+  |mu_Rust - root| 1.639e-16 m); the canonical `single` runs reproduce the committed matrix exactly (every difference 0
+  except the crossing energies, 1.1e-13 relative); the exact-Fock single runs agree with the matrix to 0.016 of
+  N x scfTolerance in E and 0.026 of 6 scfTolerance in the gap. A second run with the corrected texts wrote a
+  byte-identical `ks-crosscheck-table.csv`.
 
 ## History
 

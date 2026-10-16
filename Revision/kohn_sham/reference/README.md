@@ -6,9 +6,15 @@ different discretisation. Its only theory input is `Revision/kohn_sham/ks-theory
 coefficients are read from it and checked to be exactly 15/16, -1/16, 15/32 and -1/32 (and 1/32, 1/16 for the
 exact-Fock variant). Nothing from the old stages is used.
 
+The metric is the author's metric with b4(x4) in the three extra-time components (b4 a function of x4, never 1), on
+the history a4 = H x4, b4 = b4(0) e^{(4/3) H x4} (beta read from ks-theory.json `adiabaticity.historyBeta`). b4 does
+not enter the slice Hamiltonian; the densities are per Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (the proper
+densities times b4(0)^{3/2}) and the coupling is lambda_hat = lambda b4(0)^{-3/2} (ks-theory.json densities). The
+record was moved to this metric on 2026-10-16 (section "The metric with b4(x4)" below).
+
 The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H) in [-L, 0], z = 6 H x0 (brane
 y = 0, tip cutoff y = -L); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three
-EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} sin^{1/6} z, a4 increasing).  p0 = T^x0_x0 is the
+EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} b4^{1/2} sin^{1/6} z, a4 increasing).  p0 = T^x0_x0 is the
 hidden-direction pressure (named p8 in the outputs before the relabel of 2026-10-14).
 
 ## Run (from the repository root)
@@ -17,14 +23,16 @@ hidden-direction pressure (named p8 in the outputs before the relabel of 2026-10
 python Revision/kohn_sham/reference/run_reference.py --jobs 22 --timing <scratch>/timing.json   # canonical, one run
 ```
 
-In parts, each within a time limit (the way it was run on 2026-10-14, when no single calculation may take longer
-than 423 s):
+In parts, each within a time limit (the way it was run on 2026-10-16, when no single calculation may take longer
+than 423 s; six parts since the move to b4(x4), four before):
 
 ```
-python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 1/4 --jobs 12
-python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 2/4 --jobs 12
-python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 3/4 --jobs 12
-python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 4/4 --jobs 12
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 1/6 --jobs 12
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 2/6 --jobs 12
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 3/6 --jobs 12
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 4/6 --jobs 12
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 5/6 --jobs 12
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --part 6/6 --jobs 12
 python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --jobs 12          # writes the outputs
 ```
 
@@ -148,50 +156,54 @@ check `reference_repeat_byte_identical`), which also compares the reference with
 | `ground-summary.csv`, `thermo-summary.csv`, `exx-summary.csv`, `rescaling-summary.csv`, `crossing-demo.csv` | the main values with their U |
 | `manifest.json` | SHA-256 of every file (339 files) |
 
-## Results (`reports/ks-reference.json`: 37 checks, all PASS)
+## Results (`reports/ks-reference.json`: 38 checks, all PASS; the record of 2026-10-16)
 
 * **Discretisation.** The analytic k = 0 spectra are reproduced to 2.8e-14 by the three-grid values. Single
   grids give 9.3e-4 (G = 300) down to 1.5e-5 (G = 2400). The error ratio is 4.000 (between 3.99977 and
   4.00019): clean second order. The k = 0 j = +-1 spectra agree exactly. The zero mode is exact (|eps| <=
   1.3e-39, b = 0). The brane-band slope equals ks-theory.json c e^{-a4,0} to 2.6e-15.
 * **Re-derived inputs.** The closed shells below the bulk edge 1.292292828069 m are 8, 32, 80, 112, 136, 232,
-  328, 376, 496, 592, 688, so N_large = 688 and N_mid = 136. The strengths are 5.138803993 (N = 8, at the
-  tip), 107.5483018 (N = 136) and 541.7158538 (N = 688), which give lambda_1 = 0.01946, 0.0009298, 0.0001846
-  and lambda_2 = 0.05838, 0.002789, 0.0005538.
-* **Every ground state (75).** Every check passes. SCF converged on every grid (residual <= 1.0e-12 m).
-  Occupations and HOMO/LUMO groups are identical on all grids; shells are closed; label sets are complete; N
-  is conserved; the two energy forms agree. 2 Vol_7 int e^{6Hy} rho = E_KS holds to 4.1e-5 of the allowance;
-  y-conservation to 3.6e-4 of it. dE/da4 from finite differences equals the EMT form (worst 0.024 of the
-  allowance). The discrete Hellmann-Feynman identity holds to 5.8e-11 m. Delta-SCF equals the gap at
-  lambda = 0 to 8.9e-14 m. The asymptotic ratio is within 7.4e-5 of 4. The lowest particle-hole excitation
-  is HOMO group -> LUMO group at the KS gap in every state.
-* **Exact-Fock variant (60).** Converged on every grid (residual <= 6.1e-13 m), with the uniform-gas
+  328, 376, 496, 592, 688, so N_large = 688 and N_mid = 136. The strengths (per unit lambda_hat, densities per
+  Vol_7(a4,0), maximum over the slices) are 5.138803993 (N = 8, at a4,0 = 0), 8.295231534 (N = 136) and
+  15.04951581 (N = 688), which give lambda_1 = 0.01946, 0.01206, 0.006645 and lambda_2 = 0.05838, 0.03617, 0.01993,
+  the Rust values.
+* **Every ground state (75).** Every check passes. SCF converged on every grid (residual <= 9.9e-13 m; every
+  ground state by the direct SCF). Occupations and HOMO/LUMO groups are identical on all grids; shells are closed;
+  label sets are complete; N is conserved; the two energy forms agree. 2 Vol_7 int e^{6Hy} rho = E_KS holds to
+  4.6e-5 of the allowance; y-conservation to 3.5e-5 of it. dE/da4 from finite differences equals the history
+  identity -3 (P3 - P_t) - (3/2) beta P_t (worst 0.027 of the allowance). The discrete Hellmann-Feynman identity
+  holds to 8.9e-11 m. Delta-SCF equals the gap at lambda = 0 to 8.9e-14 m. The asymptotic ratio is within 7.3e-5
+  of 4. The lowest particle-hole excitation is HOMO group -> LUMO group at the KS gap in every state.
+* **Exact-Fock variant (60).** Converged on every grid (residual <= 8.3e-13 m), with the uniform-gas
   occupations. N is conserved, the two energy forms agree, and 2 Vol_7 int e^{6Hy} rho = E_KS holds. The
-  y-conservation with the derived -w_Q Q term in p0 holds to 3.1e-4 of the allowance. Examples: for N = 8 the
+  y-conservation with the derived -w_Q Q term in p0 holds to 3.2e-5 of the allowance. Examples: for N = 8 the
   exact Fock exchange cancels the uniform-gas interaction energy (E_EXX = 2.5e-17 against
-  E_uniform_gas = -0.002862652173735 for lambda_2, a4,0 = 0). For N688_lamp2_a20: E_EXX = 110.6531060797778
-  (U 4.8e-10), E_uniform_gas = 110.5777627893853, Delta E_x = 0.07682582877714, and
-  E_EXX - (E_uniform_gas + Delta E_x) = -0.001482538384567.
-* **Rescaling partners (60).** The independently solved partner reproduces the state at a4,0, with the same
-  label set and occupations, to 4.2e-14 (levels in m, E_KS and profiles relative). Example: N688_lamp2_a20,
-  partner dk = 0.03383382080915318, v_t = 0.002478752176666359, E_KS = 110.5777627893853.
+  E_uniform_gas = -0.002862652173735 for lambda_2, a4,0 = 0). For N688_lamp2_a20: E_EXX = 110.5536261682758
+  (U 4.2e-10), E_uniform_gas = 110.5076745747899, Delta E_x = 0.04648792668110, and
+  E_EXX - (E_uniform_gas + Delta E_x) = -0.0005363331952234.
+* **Rescaling partners (60).** The independently solved partner (slice 0 of the same history with dk e^{-a4,0} and
+  v_t e^{(3 beta/2 - 3) a4,0} = v_t e^{-a4,0}) reproduces the state at a4,0, with the same label set and
+  occupations, to 1.7e-13 (levels in m, E_KS and profiles relative). Example: N688_lamp2_a20, partner
+  dk = 0.03383382080915318, v_t = 0.1353352832366127, E_KS = 110.5076745747899.
 * **Crossing demonstration.** N_demo = 696 on every grid (the k = 0 odd bulk levels 0:+-1:odd:0 complete
   that shell). From a4,0 = 0.5 on, the aufbau empties them and fills the n2 = 12 brane-band shell; that state
   is an open shell. The adiabatically continued state lies 3.656690187, 6.052645255, 7.611826821 and
   8.623383504 m above the aufbau state at a4,0 = 0.5, 1, 1.5, 2.
 * **Every thermal state (135).** The thermal identities hold: Omega in two forms, and C_V = dE/dT and
-  -dF/dT = S (worst 8.1e-3 of the allowance). The window cut carries f <= 6.7e-16. Sea-hole diagnostic: the
-  five shells beyond the label set add at most 6.4e-13 of the total. The excluded sea would carry more than
-  1% of N in 15 of the 135 states. The largest are N8_lamm1_a20_T50 (30.98 N), N8_lam0_a20_T50 (30.80 N:
-  246.4351774641 holes, U 2.6e-9, at mu = -0.09766539473) and N8_lamp1_a20_T50 (30.62 N). There the
+  -dF/dT = S (worst 8.2e-3 of the allowance). The window cut carries f <= 6.7e-16. One state,
+  N688_lamm1_a00_T10, was solved on all three grids by the coupling continuation after the direct SCF failed (check
+  `scf_paths`; the Rust solver needed it for the same state). Sea-hole diagnostic: the five shells beyond the label
+  set add at most 6.4e-13 of the total. The excluded sea would carry more than 1% of N in 15 of the 135 states. The
+  largest are N8_lamm1_a20_T50 (30.81 N), N8_lam0_a20_T50 (30.80 N: 246.4351774641 holes, U 2.6e-9, at
+  mu = -0.09766539473) and N8_lamp1_a20_T50 (30.80 N). There the
   particle-only Mermin ensemble is outside its range of validity (a DIAGNOSTIC of the CONVENTION, not a
   validation).
-* **Uncertainty validated.** On G = 2400 the three-grid value moves by at most 0.79 of the stated U, in
-  every element of 19 quantity classes. The largest U are at the tip (p0 there: U = 1.0e-7, against
-  |p0| ~ 1e3). Energies and levels carry U of 1e-12 to 3e-9 absolute.
-* **Examples (Richardson value, U).** E_KS(N136_lamp2_a20) = 12.44899948125322 (4.6e-11);
-  E_KS(N688_lam0_a00) = 680.4412465815219 (3.3e-9); Delta-SCF(N8_lamp2_a00) = 0.4312928642917516 (2.6e-12);
-  Q_max(N688_lam0_a00) = 0.09345059173142507.
+* **Uncertainty validated.** On G = 2400 the three-grid value of N136_lamp2_a20 moves by at most 0.088 of the
+  stated U, in every element of 19 quantity classes. Energies and levels carry U of 1e-12 to 3e-9 absolute.
+* **Examples (Richardson value, U).** E_KS(N136_lamp2_a20) = 12.44653153416924 (4.1e-11);
+  E_KS(N688_lam0_a00) = 680.4412465815219 (3.3e-9); E_KS(N688_lamp2_a00) = 680.8279980558989 (3.3e-9);
+  Delta-SCF(N8_lamp2_a00) = 0.4312928642917516 (2.6e-12); Q_max(N688_lam0_a00) = 0.09345059173142507,
+  Q_max(N688_lamp2_a00) = 0.09353360326455221.
 
 ## Timings (this machine, 24 cores, `--jobs 22`)
 
@@ -215,6 +227,23 @@ checks pass. Every result file equals the one of 2026-10-08 after the renaming p
 `p0_brane`, `p0_tip`, `profile_p0`, CSV columns) except `parameters.json`, whose description now names the author's
 coordinates and whose `ksTheorySha256` is that of the relabelled `ks-theory.json`; the report differs only in that
 sha256.
+
+## The metric with b4(x4) (2026-10-16)
+
+`ks_fd.py`: `Phys.beta` and `Phys.vol7` = ell^3 v_t e^{(3/2) beta a4} (the proper cell volume in units of b4(0)^{3/2});
+`observables` gives dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t; `solve_state_robust` (a coupling continuation lam x 1/4,
+1/2, 3/4, 1 with half the mixing after a failed direct SCF, implemented independently of the Rust fallback).
+`run_reference.py`: beta from ks-theory.json, the rescaling partner v_t e^{(3 beta/2 - 3) a4,0}, the robust solve for
+the ground, exact-Fock, rescaling, validation and Mermin states, the path in the per-grid records and the information
+check `scf_paths`, `historyBeta` in `parameters.json`; the cross-checker compares beta too. What changed in the
+numbers is the same as for the Rust record (solver README, "The metric with b4(x4)"): the recalibrated couplings and
+every interacting state with N > 8 or a4,0 > 0; the lambda = 0 levels, energies and integrals are unchanged.
+
+The first run in parts stopped in part 2 of 6: the direct Mermin SCF of N688_lamm1_a00_T10 did not converge
+(residual 6.4e-2 after 400 iterations), the state for which the Rust solver also needed its fallback. After the
+fallback was added, the cache (tied to the sha256 of `ks_fd.py` and `run_reference.py`) was rebuilt: six parts of
+`--jobs 12` took 227 s, 190 s, 219 s, 232 s, 124 s and 120 s (the machine otherwise idle), the assembly from the
+cache 2.5 s; 38 of 38 checks PASS.
 
 ## History
 

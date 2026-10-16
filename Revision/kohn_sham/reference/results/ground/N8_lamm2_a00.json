@@ -23,6 +23,7 @@
    "iterations": 15,
    "residual": 7.703837567873961e-13,
    "open_shell": false,
+   "path": "direct",
    "homo_group": [
     "0:+1:even:0",
     "0:-1:even:0"
@@ -33,13 +34,13 @@
    "excited_iterations": 13,
    "excited_residual": 3.608224830031759e-13,
    "neighbour_iterations": [
-    1,
-    1,
-    1,
-    1
+    12,
+    12,
+    12,
+    12
    ],
-   "neighbour_residual_max": 7.703837567873961e-13,
-   "hellmann_feynman_maxdev": 5.10702591327572e-13,
+   "neighbour_residual_max": 6.961098364399732e-14,
+   "hellmann_feynman_maxdev": 5.944689185355401e-13,
    "scalars": {
     "E_band": 0.00552851526745597,
     "E_int": 0.002665976078931216,
@@ -50,7 +51,7 @@
     "int_p_t": 0.002665976078931216,
     "int_p0": 0.024872123273245374,
     "int_n": 7.999999991116964,
-    "dE_da4_emt": -0.0,
+    "dE_da4_emt": -0.005331952157862432,
     "deltaE_x_exact_fock": -0.0027607953256150466,
     "ycons_jump": 5.038200136011328e-07,
     "ycons_integral": 5.037997225062674e-07,
@@ -72,8 +73,8 @@
     "n_max": 74.90007364693193,
     "E_excited": 0.4329917128125842,
     "delta_SCF": 0.43012917362405945,
-    "dE_da4_fd": 0.0,
-    "max_abs_deps_da4": 1.0919154419936443
+    "dE_da4_fd": -0.005331953898119405,
+    "max_abs_deps_da4": 1.09194371974262
    }
   },
   {
@@ -81,6 +82,7 @@
    "iterations": 15,
    "residual": 7.938649737582182e-13,
    "open_shell": false,
+   "path": "direct",
    "homo_group": [
     "0:+1:even:0",
     "0:-1:even:0"
@@ -91,13 +93,13 @@
    "excited_iterations": 13,
    "excited_residual": 3.6290415117434804e-13,
    "neighbour_iterations": [
-    1,
-    1,
-    1,
-    1
+    12,
+    12,
+    12,
+    12
    ],
-   "neighbour_residual_max": 7.938649737582182e-13,
-   "hellmann_feynman_maxdev": 4.956035581926699e-13,
+   "neighbour_residual_max": 7.149836278586008e-14,
+   "hellmann_feynman_maxdev": 6.870060076380469e-13,
    "scalars": {
     "E_band": 0.005528643255554853,
     "E_int": 0.0026660193269763743,
@@ -108,7 +110,7 @@
     "int_p_t": 0.0026660193269763743,
     "int_p0": 0.02487254249045523,
     "int_n": 7.999999997779006,
-    "dE_da4_emt": -0.0,
+    "dE_da4_emt": -0.005332038653952749,
     "deltaE_x_exact_fock": -0.002760858254962489,
     "ycons_jump": 5.038129681061005e-07,
     "ycons_integral": 5.038078952551984e-07,
@@ -130,8 +132,8 @@
     "n_max": 74.8979973576186,
     "E_excited": 0.43298910823387776,
     "delta_SCF": 0.43012648430529926,
-    "dE_da4_fd": 0.0,
-    "max_abs_deps_da4": 1.0919051551646815
+    "dE_da4_fd": -0.005332039088345516,
+    "max_abs_deps_da4": 1.091933432674839
    }
   },
   {
@@ -139,6 +141,7 @@
    "iterations": 15,
    "residual": 8.045647481580431e-13,
    "open_shell": false,
+   "path": "direct",
    "homo_group": [
     "0:+1:even:0",
     "0:-1:even:0"
@@ -149,13 +152,13 @@
    "excited_iterations": 13,
    "excited_residual": 3.5868530368077245e-13,
    "neighbour_iterations": [
-    1,
-    1,
-    1,
-    1
+    12,
+    12,
+    12,
+    12
    ],
-   "neighbour_residual_max": 8.045647481580431e-13,
-   "hellmann_feynman_maxdev": 4.984901380566953e-13,
+   "neighbour_residual_max": 7.099876242477876e-14,
+   "hellmann_feynman_maxdev": 9.161560399206792e-13,
    "scalars": {
     "E_band": 0.0055286752485336765,
     "E_int": 0.0026660301360163343,
@@ -166,7 +169,7 @@
     "int_p_t": 0.0026660301360163343,
     "int_p0": 0.024872647272021955,
     "int_n": 7.999999999444733,
-    "dE_da4_emt": -0.0,
+    "dE_da4_emt": -0.0053320602720326685,
     "deltaE_x_exact_fock": -0.0027608739851837597,
     "ycons_jump": 5.038112060568695e-07,
     "ycons_integral": 5.038099378809277e-07,
@@ -188,8 +191,8 @@
     "n_max": 74.89747817709278,
     "E_excited": 0.43298845709587336,
     "delta_SCF": 0.43012581198335603,
-    "dE_da4_fd": 0.0,
-    "max_abs_deps_da4": 1.0919025835478362
+    "dE_da4_fd": -0.005332060379791951,
+    "max_abs_deps_da4": 1.0919308609981804
    }
   }
  ],
@@ -231,8 +234,8 @@
    "U": 1.6019539925233393e-11
   },
   "dE_da4_emt": {
-   "value": 0.0,
-   "U": 2e-12
+   "value": -0.005332067477531071,
+   "U": 2.5282363088610075e-12
   },
   "deltaE_x_exact_fock": {
    "value": -0.0027608792284027975,
@@ -319,12 +322,12 @@
    "U": 2.688560319872522e-12
   },
   "dE_da4_fd": {
-   "value": 0.0,
-   "U": 2e-12
+   "value": -0.005332067476397644,
+   "U": 2.5431193689231506e-12
   },
   "max_abs_deps_da4": {
-   "value": 1.0919017263502562,
-   "U": 1.0218931571122621e-11
+   "value": 1.091930003780653,
+   "U": 1.0209440207971638e-11
   }
  },
  "levels": {
@@ -3778,46 +3781,46 @@
  },
  "adiabatic": {
   "pairs_considered": 4,
-  "Q_max": 0.0,
-  "U_Q_max": 2e-12,
+  "Q_max": 0.0038650602810976764,
+  "U_Q_max": 2.508093567219703e-12,
   "top": [
    {
     "hole": "0:+1:even:0",
     "particle": "0:+1:even:1",
-    "Q": 0.0,
-    "U": 2e-12,
-    "matrix_element": 0.0,
-    "U_matrix_element": 2e-12,
+    "Q": 0.0038650602810976764,
+    "U": 2.508093567219703e-12,
+    "matrix_element": 0.008398777448686228,
+    "U_matrix_element": 3.0774714453987144e-12,
+    "delta_eps": 1.4741100288613829,
+    "U_delta_eps": 3.348344435797672e-12
+   },
+   {
+    "hole": "0:-1:even:0",
+    "particle": "0:-1:even:1",
+    "Q": 0.0038650602810976764,
+    "U": 2.508093567219703e-12,
+    "matrix_element": 0.008398777448686228,
+    "U_matrix_element": 3.0774714453987144e-12,
     "delta_eps": 1.4741100288613829,
     "U_delta_eps": 3.348344435797672e-12
    },
    {
     "hole": "0:+1:even:0",
     "particle": "0:+1:even:2",
-    "Q": 0.0,
-    "U": 2e-12,
-    "matrix_element": 0.0,
-    "U_matrix_element": 2e-12,
+    "Q": 0.0018434632817617806,
+    "U": 2.2479589884113453e-12,
+    "matrix_element": 0.010263653569081663,
+    "U_matrix_element": 3.0717884912914144e-12,
     "delta_eps": 2.359574784972229,
     "U_delta_eps": 1.6601644557902584e-11
    },
    {
     "hole": "0:-1:even:0",
-    "particle": "0:-1:even:1",
-    "Q": 0.0,
-    "U": 2e-12,
-    "matrix_element": 0.0,
-    "U_matrix_element": 2e-12,
-    "delta_eps": 1.4741100288613829,
-    "U_delta_eps": 3.348344435797672e-12
-   },
-   {
-    "hole": "0:-1:even:0",
     "particle": "0:-1:even:2",
-    "Q": 0.0,
-    "U": 2e-12,
-    "matrix_element": 0.0,
-    "U_matrix_element": 2e-12,
+    "Q": 0.0018434632817617806,
+    "U": 2.2479589884113453e-12,
+    "matrix_element": 0.010263653569081663,
+    "U_matrix_element": 3.0717884912914144e-12,
     "delta_eps": 2.359574784972229,
     "U_delta_eps": 1.6601644557902584e-11
    }

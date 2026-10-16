@@ -13,11 +13,12 @@ document.
 
 `Revision/kohn_sham/theory/verify_ks_theory.wls` (with its package `KohnShamTheory.wl`) derives, with
 exact computer algebra in the Wolfram Language, the Kohn-Sham equations of the author's 16-component
-field dirac16complex in the author's primordial 8-dimensional field, checks 46 statements about them,
+field dirac16complex in the author's primordial 8-dimensional field (the author's metric with b4(x4) since
+2026-10-16, section 6.7), checks 51 statements about them,
 and writes the result twice: as a check report (`Revision/kohn_sham/reports/ks-theory-wolfram.json`) and
 as the recipe of formulas that the numerical Kohn-Sham solvers read (`Revision/kohn_sham/ks-theory.json`).
 The same folder holds an independent second engine, the Python/sympy program `check_ks_theory.py`
-(58 checks since commit `3d22bc5` of 2026-10-07, 57 before; report
+(63 checks since 2026-10-16, section 6.7; 58 since commit `3d22bc5` of 2026-10-07, 57 before; report
 `Revision/kohn_sham/reports/ks-theory-python.json`); it is documented here as an optional companion
 (sections 3.6 and 4.5), because it reads the Wolfram output.
 
@@ -1197,3 +1198,39 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
   apart from the renamed check its details differ only in the sha256 of `gammas.json`, the eta order and the chart
   wording. The companion's report: the same 58 checks and verdicts; details differ only by the relabelling, the
   sha256 of `python-gammas.json` and the coordinate wording.
+
+### 6.7 The metric with b4(x4) (2026-10-16)
+
+* Why. On 2026-10-15 the user ordered "move everything to b4(x4); b4 is never 1" (`HANDOFF.md`, section 0.9, phase 4):
+  the author's metric has the second function b4(x4) in the three extra-time components (`Revision/SPEC.md`, section 1),
+  and the history of every numerical calculation is a4 = H x4, b4 = b4(0) e^{(4/3) H x4}. This set described the
+  earlier metric b4 = 1; the supplement `verify_ks_b4.wls` (report `ks-b4-wolfram.json`) had only shown that b4 drops
+  out of the slice Hamiltonian. That supplement is kept unchanged as a record until the textbook no longer cites it.
+* Changes. `KohnShamTheory.wl`: `KSGeometryY[a4, b4]` and `KSGeometryX0[a4, b4]` with the extra-time vielbein
+  e^{-a4} b4^{1/2} W. `verify_ks_theory.wls` (51 checks, 46 before): `geometry_sqrt_det` (|det g| = b4^3 cos^2 z);
+  `spin_connection_slash` (renamed from `spin_connection_slash_3H`: gamma^mu Omega_mu = 3H gamma^(x0) + (3/4)(b4'/b4)
+  gamma^(x4)); `spin_connection_time_terms` (renamed from `..._cancel`: the a4' pieces cancel, the b4' piece remains);
+  `spin_connection_slash_x0_chart` (renamed from `..._3H_x0_chart`, now with a4[x4] and b4[x4] in the author's chart);
+  `ansatz_removes_spin_connection` with the factor b4^{-3/4}; new `ansatz_without_b4_factor_term_survives`,
+  `ansatz_norm_b4`, `ks_coupling_volume_scaling`, `history_solver_units`, `emt_energy_change_history`;
+  `rescaling_identity` with b4 (the partner at slice 0 of the same history has v_t e^{-a4,0}); `emt_orbital_components`
+  with the factor b4^{-3/4} (b4 = E^(2 q[x4]) with real q, so that ComplexExpand sees real quantities);
+  `emt_x4_component` with the term -(3/2)(b4'/b4)(rho + p_t). `ks-theory.json`: geometry, ansatz, densities (the
+  solver's units b4(0)^{3/2}: lambda_hat = lambda b4(0)^{-3/2}, Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}; new key
+  `densities.couplingVolumeScaling`), rescalingIdentity, thermodynamics.energy, emt.energyChange,
+  adiabaticity.history and historyStatus (the required constant source of the history, from
+  `Revision/field_equations_a4/a4-equations.json`), new keys `adiabaticity.historyBeta` ("4/3", read by the solvers)
+  and `historyBetaSource`. `check_ks_theory.py` (63 checks, 58 before): the same statements for general a4(x4) and
+  b4(x4) (sympy `Function('b4', positive=True)`); new checks as above plus the realness of b4' in the EMT
+  (`real_b4`, `claude_failures.md` G6); `ks_theory_json_history_label` now also reads `a4-equations.json`. New sha256:
+  script `090005368a74b49165bd1230e0ecaa0815874c8315707d349bde6b8c8315b2ab` (503 lines, 49527 bytes), package
+  `d29891b805e7f3ee5907a765ac665d02442b9ed8e31afe8a64a2df114ea14f8e` (91 lines, 5057 bytes), companion
+  `68f2c8dd4bb32a8cf97fb5f1cb1a5aaf5d61e9727587a7be44a4132acc8cb195` (920 lines, 57478 bytes), export `ks-theory.json`
+  `e3e2869216e2744f83a2888067e5ed9599bf2ddff46cfd876da3fb7c729ba0f0`.
+* Runs (2026-10-16, Windows 11, Wolfram 15.0.1, run from the repository root, every run under `timeout -k 5 423`):
+  run 1 `51/51 checks passed; time 34.800000000000004 s` (exit code 0, wall 37 s); run 2 (while the Python reference
+  ran with 12 processes) `51/51 checks passed; time 48.400000000000006 s` (exit code 0, wall 52 s); both wrote byte-identical `ks-theory.json` and
+  `ks-theory-wolfram.json`. The companion: first run 62 of 63 (G6), after the fix
+  `{"passed": 63, "failed": 0, "other": 0, "total": 63}` twice (wall 49 s and 59 s), byte-identical reports.
+* Consequences. The Rust solver reads `historyBeta` and refuses a ks-theory.json without it; the record
+  `Revision/kohn_sham/results` was recomputed (solver README, section "The metric with b4(x4)").

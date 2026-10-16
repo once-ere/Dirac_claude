@@ -22,6 +22,7 @@
    "G": 300,
    "iterations": 1,
    "residual": 0.0,
+   "path": "direct",
    "neighbour_iterations": [
     1,
     1,
@@ -38,7 +39,7 @@
     "Omega_F_minus_muN": -0.5940727605416406,
     "E_int": 0.0,
     "N_sum": 8.0,
-    "int_n": 7.999999961570299,
+    "int_n": 7.999999961570296,
     "C_V": 7.758610297014442,
     "C_V_from_dEdT": 7.758610312895994,
     "minus_dFdT": 2.160267237900472,
@@ -51,6 +52,7 @@
    "G": 600,
    "iterations": 1,
    "residual": 0.0,
+   "path": "direct",
    "neighbour_iterations": [
     1,
     1,
@@ -67,7 +69,7 @@
     "Omega_F_minus_muN": -0.5940692187588772,
     "E_int": 0.0,
     "N_sum": 8.0,
-    "int_n": 7.999999990392224,
+    "int_n": 7.999999990392223,
     "C_V": 7.758715068010553,
     "C_V_from_dEdT": 7.7587150838898395,
     "minus_dFdT": 2.1603082099594473,
@@ -80,6 +82,7 @@
    "G": 1200,
    "iterations": 1,
    "residual": 0.0,
+   "path": "direct",
    "neighbour_iterations": [
     1,
     1,

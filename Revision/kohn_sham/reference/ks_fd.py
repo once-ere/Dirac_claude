@@ -507,7 +507,7 @@ class State:
 
 
 def solve_state(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", fixed=None, start=None, guess=None,
-                tol=1e-12, maxit=400):
+                tol=1e-12, maxit=400, mix_beta=0.5):
     """Self-consistent Kohn-Sham state on one grid.  mode: 'aufbau' (T = 0), 'fixed' (occupations given
     per level, e.g. Delta-SCF or a4 +- delta), 'mermin' (T > 0).  Potentials (dM, v) at the n interior
     positions are mixed (Anderson); converged when max |output - input| <= tol (units of m)."""
@@ -520,7 +520,7 @@ def solve_state(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", fixed=None,
         if phys.exx:
             parts.append(start[2] if len(start) > 2 else np.zeros(n))
         x = np.concatenate(parts)
-    mix = Anderson()
+    mix = Anderson(beta=mix_beta)
     lev_j, lev_odd, deg = ls.j, ls.odd, ls.deg
     kmag_l = ls.sec.kmag(phys.dk)[ls.lev_sec]
     okey = ls.order_key()
@@ -577,6 +577,26 @@ def solve_state(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", fixed=None,
             mix.reset()
         x = mix.step(x, r)
     raise RuntimeError(f"SCF not converged in {maxit} iterations (residual {hist[-1]:.3e})")
+
+
+def solve_state_robust(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", guess=None, tol=1e-12, maxit=400):
+    """solve_state from zero potentials; if that SCF fails, a coupling continuation: lam x 1/4, 1/2, 3/4, 1 with half
+    the Anderson mixing and twice the iterations, each step started from the potentials of the previous one (the
+    strategy of the Rust solver's fallback, implemented here independently).  st.path records the path taken."""
+    try:
+        st = solve_state(grid, phys, ls, mode=mode, guess=guess, tol=tol, maxit=maxit)
+        st.path = "direct"
+        return st
+    except RuntimeError as e1:
+        start, g = None, guess
+        st = None
+        for fr in (0.25, 0.5, 0.75, 1.0):
+            st = solve_state(grid, phys.copy(lam=phys.lam * fr), ls, mode=mode, start=start, guess=g, tol=tol,
+                             maxit=2 * maxit, mix_beta=0.25)
+            start, g = (st.dM, st.v), st.eps
+        st.phys = phys
+        st.path = f"continuation lam x 1/4, 1/2, 3/4, 1 (beta/2) after: {e1}"
+        return st
 
 
 def observables(st: State):

@@ -22,8 +22,9 @@ TOLERANCE RULE (fixed in this file before any comparison; never adjusted to a re
 Every comparison yields ratio = |x_Rust - x_ref| / tolerance; a check passes when every ratio <= 1.
 
 The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H) in [-L, 0], z = 6 H x0;
-x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z,
-a4 increasing).  p0 = T^x0_x0 is the hidden-direction pressure.
+x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z,
+a4 increasing; the author's metric with b4(x4), b4 a function of x4, never 1, on the history b4 = b4(0) e^{(4/3) H x4}).
+p0 = T^x0_x0 is the hidden-direction pressure.
 
 The reference repeat: the checker itself runs Revision/kohn_sham/reference/run_reference.py into a fresh
 directory <work>/reference-repeat and compares every result file and the report byte for byte with the committed
@@ -352,7 +353,16 @@ def main():
     phys_r, phys_f = rp["physics"], fp["physics"]
     pairs = [("H", "H"), ("m", "m"), ("L_tipCutoff", "L"), ("dk", "dk"), ("v_t", "vt"), ("tipTheta", "tipTheta"),
              ("historyA", "historyA"), ("historyBeta", "historyBeta"), ("slicesA4", "slicesA4"), ("temperatures", "temperatures")]
-    diffs = [f"{a}: Rust {phys_r[a]} vs reference {phys_f[b]}" for a, b in pairs if phys_r[a] != phys_f[b]]
+    def same_value(x, y):
+        # the Rust JSON writer prints 16 significant digits, Python the shortest round-trip repr: floats are equal when
+        # they agree to 1e-15 relative (beta = 4/3 is 1.333333333333333 and 1.3333333333333333)
+        if isinstance(x, float) or isinstance(y, float):
+            return isinstance(x, (int, float)) and isinstance(y, (int, float)) and abs(x - y) <= 1e-15 * max(1.0, abs(x), abs(y))
+        if isinstance(x, list) and isinstance(y, list):
+            return len(x) == len(y) and all(same_value(u, v) for u, v in zip(x, y))
+        return x == y
+
+    diffs = [f"{a}: Rust {phys_r[a]} vs reference {phys_f[b]}" for a, b in pairs if not same_value(phys_r[a], phys_f[b])]
     same_theory = rp["theoryInputs"]["ksTheorySha256"] == fp["theoryInputs"]["ksTheorySha256"]
     emit("problem_definition_identical", not diffs and same_theory,
          f"H, m, L, dk, v_t, tip angle, history A and beta (b4 = b4(0) e^(beta a4)), slices and temperatures identical: {not diffs} ({diffs if diffs else 'no differences'}); "
@@ -418,7 +428,7 @@ def main():
                                  "profile maximum; U_Rust = (16/15) x the largest |canonical - refined| of that profile of the state"),
         "exchange_delta_E_x": Check("Delta E_x = (lambda/32) 2 Vol_7 int e^{6Hy} Q^2 dy (exact-Fock minus uniform-gas exchange, first order); U_Rust = "
                                     "(16/15) x 2 x (largest |canonical - refined| of Q / max |Q|) x |Delta E_x| (derived from the measured Q profile)"),
-        "adiabatic_dE_da4": Check("dE/da4 = -6 Vol_7 int e^{6Hy}(p3 - p_t) dy (EMT form; U_Rust = 3 (U_Rust(int p3) + U_Rust(int p_t)) measured) and the "
+        "adiabatic_dE_da4": Check("dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7 int e^{6Hy} p dy (EMT form of the history with b4; U_Rust = 3 (U_Rust(int p3) + U_Rust(int p_t)) measured) and the "
                                   f"fixed-occupation finite difference (U_Rust = matrix-wide relative maximum (16/15) x {fe(G['refined_adiabatic_derivatives'])})"),
         "adiabatic_Q_max": Check(f"adiabaticity Q_max = A H |<n| d_a h |m>| / (eps_n - eps_m)^2 over the same pairs (n occupied, m empty, same sector, "
                                  f"rank <= 2) and the same maximising pair; U_Rust = matrix-wide relative maximum (16/15) x {fe(G['refined_adiabatic_derivatives'])}"),
@@ -569,9 +579,16 @@ def main():
         if qr > 0 and ad["top"]:
             hole, part = [x.strip() for x in r_a["Q_max_pair"].split("->")]
             pr = (key_from_label(hole, lmin), key_from_label(part, lmin))
-            pf = (ad["top"][0]["hole"], ad["top"][0]["particle"])
-            cqm.flag(f"{sid} Q_max pair", pr == pf, f"Rust {pr}, reference {pf}")
-            top = ad["top"][0]
+            # ties: pairs whose Q equals the largest within 3 (U + U); for N = 8 with lambda != 0 the k = 0 pairs of the
+            # block types j = +1 and j = -1 are exactly degenerate (ks-theory.json blockEquation.typeRelation), so the
+            # maximising pair is defined only up to that symmetry and either solver may report either of them
+            t0 = ad["top"][0]
+            ties = [t for t in ad["top"] if abs(t["Q"] - t0["Q"]) <= 3.0 * (t["U"] + t0["U"])]
+            pf = [(t["hole"], t["particle"]) for t in ties]
+            cqm.flag(f"{sid} Q_max pair", pr in pf, f"Rust {pr}, reference {pf}")
+            if len(ties) > 1:
+                cqm.extra.append(f"{sid}: {len(ties)} tied maximising pairs {pf} (Rust reports {pr})")
+            top = ties[pf.index(pr)] if pr in pf else t0
             cqm.cmp(f"{sid} Q_max matrix element", float(r_a["Q_max_matrix_element"]), top["matrix_element"], top["U_matrix_element"],
                     U_ADIAB_REL * abs(float(r_a["Q_max_matrix_element"])), table=table)
             cqm.cmp(f"{sid} Q_max delta eps", float(r_a["Q_max_delta_eps"]), top["delta_eps"], top["U_delta_eps"],
@@ -613,7 +630,7 @@ def main():
     emit_check("exx_variant_scf", cX)
 
     # ---------------------------------------------------------------- rescaling partners (all 60 a4,0 > 0 states)
-    cR = Check("rescaling partners KS(0; dk e^{-a4,0}, v_t e^{-3 a4,0}, lambda), solved independently by each solver: partner_E_KS (Rust "
+    cR = Check("rescaling partners KS(0; dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat) (the same proper cell), solved independently by each solver: partner_E_KS (Rust "
                "rescaling.csv) against the reference partner; partner dk and v_t identical (relative 1e-15); Rust same_label_set and "
                "same_occupations true; U_Rust = U_Rust(E_KS of the slice state, measured) + |partner_E_KS - E_KS(slice)| of Rust (the partner "
                "problem has the same coefficient functions up to rounding, so it carries the same discretisation error)")

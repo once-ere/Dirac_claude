@@ -5,7 +5,10 @@ coordinate $y = \ln(\sin z)/(6H)$ by a CHOSEN regular-tip condition $b(-L) = 0$ 
 $y = -L$, $L = 3$. This folder measures how the recorded results depend on $L$ and whether they converge as $L$
 grows ($L = 3, 3.5, \dots, 6$). The author's coordinates {x0, ..., x7}: x0 = the hidden direction
 ($z = 6Hx_0$), x1..x3 = 3-space, x4 = time, x5..x7 = the three extra times, which DEFLATE EXPONENTIALLY (scale factor
-$e^{-a_4}\sin^{1/6}z$); p0 = $T^{x_0}{}_{x_0}$ is the hidden-direction pressure (named p8 before the relabel of 2026-10-14).
+$e^{-a_4} b_4^{1/2}\sin^{1/6}z$); p0 = $T^{x_0}{}_{x_0}$ is the hidden-direction pressure (named p8 before the relabel of 2026-10-14).
+The record is that of the author's metric with $b_4(x_4)$ (b4 a function of x4, never 1) on the history $a_4 = Hx_4$,
+$b_4 = b_4(0)e^{(4/3)Hx_4}$ (since 2026-10-16; densities per $\mathrm{Vol}_7(a_{4,0}) = \ell^3 v_t e^{2a_{4,0}}$, coupling
+$\hat\lambda$; solver README, "The metric with b4(x4)"). This study was rerun on 2026-10-16 for that record (section 9).
 
 ## Answer in brief
 
@@ -21,18 +24,20 @@ $e^{-a_4}\sin^{1/6}z$); p0 = $T^{x_0}{}_{x_0}$ is the hidden-direction pressure 
 * **The interacting brane zero modes (every $N$ fills them) depend strongly on $L$.** Their density per proper
   volume grows toward the tip like $e^{(6H - 2m)|y|} = e^{4|y|}$ (exact, verified), so with the recorded couplings
   the first-order interaction energy grows like $e^{2L}$ and the first-order tip potential like $e^{4L}$. The
-  self-consistent solution saturates instead: for $N = 8$, $\lambda = \pm\lambda_1$, $E_{KS}$ goes from
-  $\mp 9.868\times10^{-4}$ ($L = 3$) to $\mp 3.0046\times10^{-3}$ (converged, ratio $e^{-3}$ per $\Delta L = 0.5$,
-  i.e. rate $6H$); the recorded value is one third of the large-$L$ value. The self-consistent iteration of the
-  solver FAILS at larger $L$ for 13 of the 19 interacting states studied (from $L = 5$ for five $N = 8$ states,
-  from $L = 5.5$ or $6$ for three $N = 136$ states and the thermal state, from $L = 3.5$, $4.5$ or $6$ for four
-  $N = 688$ states). For 6 of these 13 the converged $L$ values still give a
-  geometric tail (the $N = 8$ states and N136_lamp1_a10); for the other 7 the limit of $E_{KS}$ is not established
-  here (6 NOT CONVERGED, 1 with fewer than three converged $L$ values; `tip-convergence-extrapolation.csv`).
+  self-consistent solution saturates instead: for $N = 8$, $\lambda = \pm\lambda_1$, $a_{4,0} = 0$, $E_{KS}$ goes from
+  $\mp 9.868\times10^{-4}$ ($L = 3$) to $\mp 3.007\times10^{-3}$ (extrapolated, $U = 6\times10^{-6}$); the recorded
+  value is one third of the large-$L$ value. With $b_4$ the effective coupling falls like $e^{-2a_{4,0}}$, so the
+  $N = 8$ energies differ between the slices ($\mp 1.342\times10^{-4}$ at $a_{4,0} = 1$ and $\mp 1.816\times10^{-5}$ at
+  $a_{4,0} = 2$ for $L = 3$, against $\mp 1.105\times10^{-3}$ and $\mp 4.06\times10^{-4}$ at large $L$: the recorded late
+  values are 8 and 22 times smaller than the large-$L$ ones). The self-consistent iteration of the solver FAILS at
+  larger $L$ for 14 of the 19 interacting states studied (from $L = 5$ to $6$ for five $N = 8$ states, from $L = 5$
+  to $6$ for five $N = 136$ states and the thermal state, from $L = 3.5$, $4$ or $6$ for three $N = 688$ states). For
+  8 of these 14 the converged $L$ values still give a geometric tail (the five $N = 8$ states, N136_lamm1_a00,
+  N136_lamm1_a10, N688_lamp1_a10); for the other 6 the limit of $E_{KS}$ is not established here (4 NOT CONVERGED,
+  2 with fewer than three converged $L$ values; `tip-convergence-extrapolation.csv`).
 * **The recorded calibration rule has no non-trivial limit:** applied at each $L$ it gives $\lambda_1(L)$ falling like
-  $e^{-4L}$ for $N = 8$ (0.01946 at $L = 3$, $1.2\times10^{-7}$ at $L = 6$; $N = 136$ and $688$ in section 4.4),
-  so the interaction switches off as
-  $L \to \infty$.
+  $e^{-4L}$ for $N = 8$ and $N = 136$ (0.01946 and 0.01206 at $L = 3$, $1.2\times10^{-7}$ at $L = 6$; $N = 688$ in
+  section 4.4), so the interaction switches off as $L \to \infty$.
 
 ## 1. How the solver gets L (and how L is varied without changing it)
 
@@ -64,7 +69,7 @@ $e^{-a_4}\sin^{1/6}z$); p0 = $T^{x_0}{}_{x_0}$ is the hidden-direction pressure 
   thermal states N136_lam0_a20_T50 and N136_lamp1_a10_T20 (margin $0.2 + 2\sigma$), and a free $N = 8$,
   $a_{4,0} = 0$ run with margin 1.2 for the $k = 0$ spectrum. $L \in \{3, 3.5, 4, 4.5, 5, 5.5, 6\}$, each with
   $G = 300L$ and $600L$.
-* **Coupling protocols.** FIXED: the recorded constants $\lambda_1 = 0.01946, 0.0009298, 0.0001846$ ("lambda is a
+* **Coupling protocols.** FIXED: the recorded constants $\lambda_1 = 0.01946, 0.01206, 0.006645$ ("lambda is a
   constant of the theory"). RECALIBRATED: the record's calibration rule (0.1 m divided by the largest first-order
   mean-field potential per unit $\lambda$ of the free ground states over the five slices, 4 digits) applied at each
   $L$ (18 states $\pm\lambda_1(L)$).
@@ -104,7 +109,8 @@ $e^{-a_4}\sin^{1/6}z$); p0 = $T^{x_0}{}_{x_0}$ is the hidden-direction pressure 
 * First-order interaction energy of the 8 zero modes ($S = 0$ by the $j = \pm1$ cancellation):
   $E^{(1)}_{int} = -(2\lambda/\mathrm{Vol}_7)\,e^{2L}/(1 - e^{-2L})$ for $m = H = 1$ (in general $\propto
   e^{(6H - 4m)L}$, finite as $L \to \infty$ only for $m > 3H/2$); tip potential $|v_v(-L)| = (\lambda/16)\,n(-L)
-  \propto e^{4L}$ (0.1 m at $L = 3$ by the calibration, 5.4 m at $L = 4$, 297 m at $L = 5$, 1.6e4 m at $L = 6$).
+  \propto e^{4L}$ (0.1 m at $L = 3$ by the calibration, 5.4 m at $L = 4$, 297 m at $L = 5$, 1.6e4 m at $L = 6$),
+  all at $a_{4,0} = 0$ (at $a_{4,0}$ both carry the factor $e^{-2a_{4,0}}$ of the effective coupling).
   The solved $E_{KS}/E^{(1)}_{int}$ is 0.995, 0.851, 0.402, 0.151 at $L = 3, 3.5, 4, 4.5$: first order holds only at
   $L = 3$; the self-consistent $\max|v_v|$ saturates at about 0.91 m.
 
@@ -123,7 +129,7 @@ $x(3)$ is the recorded value, $x_\infty$ the extrapolated value with uncertainty
 | N136_lam0_a20 | E_KS | 12.44506958 | 12.62207048 | 2e-10 | 1.4e-2 | geometric tail |
 | N136_lam0_a20 | HOMO / LUMO | 0.1267657 / 0.1412225 | 0.1279669 / 0.1422925 | 1e-11 | 9.4e-3 / 7.5e-3 | converged from L = 5.5 / 5 |
 | N136_lam0_a20 | int_p0 | 8.47270252 | 9.638387084 | 4e-10 | 0.12 | geometric tail |
-| N136_lam0_a20 | rho / p0 at the brane | 7.907748e-4 / 3.708901e-4 | 8.012947e-4 / 3.817859e-4 | 1e-11 | 1.3e-2 / 2.9e-2 | converged from L = 5.5 |
+| N136_lam0_a20 | rho / p0 at the brane (per Vol_7(a4,0)) | 1.448355e-5 / 6.793090e-6 | 1.467622e-5 / 6.992652e-6 | 1e-11 | 1.3e-2 / 2.9e-2 | converged from L = 5 |
 | N688_lam0_a00 | E_KS | 680.4412466 | - | - | - | NOT CONVERGED (678.2997 at L = 6; ratios 0.77-0.79, algebraic) |
 | N688_lam0_a00 | KS gap | 0.04518028744 | 0 from L = 3.5 | - | - | occupied set changes: open shell |
 | N688_lam0_a10 | E_KS | 279.4248865 | 279.4766394 | 3e-9 | 1.9e-4 | converged from L = 5 |
@@ -141,32 +147,32 @@ so the large-$L$ ground state of $N = 688$ at $a_{4,0} = 0$ is a different state
 
 | state | quantity | x(3) | x_inf (U) or last value | status |
 | --- | --- | --- | --- | --- |
-| N8, $\mp\lambda_1$, every slice | E_KS | $\pm$9.868426191e-4 | $\pm$3.004585e-3 (4e-10, from N8_lamm1_a20, the only interacting N = 8 state converged to L = 6) | geometric tail, ratio 0.0498 = $e^{-3}$ per 0.5 |
-| N8, $\mp\lambda_1$ | HOMO (zero-mode level) | $\pm$2.455627e-4 | $\pm$5.635198e-4 (1e-11) | converged from L = 5 (N8_lamm1_a20) |
-| N8_lamm1_a20 | int_p0 / rho at the brane | 8.891377e-3 / 1.239022e-7 | 2.563318e-2 / 2.841360e-7 | geometric / from 4.5 |
-| N8, other 5 states | all | as above to L = 4.5 | - | SCF fails from L = 5 |
-| N136_lamm1_a00 | E_KS | 80.28074397 | 80.28165543 (1e-8) | geometric tail |
-| N136_lamp1_a00 | E_KS | 80.28370092 | 80.28339995 at L = 5 | NOT CONVERGED (non-monotone), SCF fails from 5.5 |
-| N136_lamp1_a10 | E_KS | 32.39294915 | 32.43858901 (2e-7) | geometric tail, SCF fails at 6 |
-| N136_lamm1_a10 / a20 | E_KS | 32.37558803 / 12.44277143 | 32.41664773 (1e-8) / 12.57291983 (2e-8) | geometric tail |
-| N136_lamp1_a20 | E_KS | 12.44705959 | 12.67784588 at L = 5.5 (last abs difference 3.3e-6) | NOT CONVERGED by the rule (sign change), SCF fails at 6 |
-| N688_lamp1_a00 / lamm1_a00 | all / E_KS | 680.4447576 / 680.4377369 | - | NOT ESTABLISHED (lamp1: fewer than 3 converged L values, SCF fails at L = 3.5) / NOT CONVERGED (lamm1: ratio 0.777, SCF fails at L = 4.5) |
-| N688_lamm1_a10 / a20 | E_KS | 279.4031322 / 110.3316612 | 279.4539972 (6e-8) / 110.8271605 (9e-8) | geometric tail |
-| N688_lamp1_a10 / a20 | E_KS | 279.4468466 / 110.445655 | 279.4994743 / 111.2234102 at L = 5.5 (last abs differences 1.5e-5 / 1.7e-5) | NOT CONVERGED by the rule (non-monotone), SCF fails at 6 |
-| N136_lamp1_a10_T20 | E / mu / S | 33.31968443 / 0.3246593 / 86.554007 | 33.36692481 / 0.3247489683 / 86.70277822 at L = 5 | NOT CONVERGED, SCF fails from 5.5 |
+| N8_lamp1_a00 / lamm1_a00 | E_KS | $\mp$9.868426191e-4 | $\mp$3.007259560e-3 (6.1e-6) | geometric tail, SCF fails from L = 5 |
+| N8_lamp1_a00 / lamm1_a00 | HOMO (zero-mode level) | $\mp$2.455627077e-4 | $\mp$5.635259024e-4 (1.0e-8) | geometric tail |
+| N8_lamp1_a10 / lamm1_a10 | E_KS | $\mp$1.341747940e-4 | $\mp$1.1057147e-3 (2.2e-6) / $\pm$1.1047351e-3 (6.8e-8) | geometric tail, SCF fails from L = 5.5 / 6 |
+| N8_lamp1_a20 / lamm1_a20 | E_KS | $\mp$1.816014714e-5 | $\mp$4.066894e-4 (8.2e-7) / $\pm$4.0632895e-4 (2.5e-8) | geometric tail; lamp1 fails at 6, lamm1 converges at every L |
+| N136_lamm1_a00 | E_KS | 80.26317502 | 80.26504198 (3.2e-7) | geometric tail, SCF fails from 5.5 |
+| N136_lamp1_a00 | E_KS | 80.30152249 | 80.29988865 at L = 4.5 | NOT CONVERGED (ratios 1.03, 0.118), SCF fails from 5 |
+| N136_lamp1_a10 | E_KS | 32.39983783 | 32.44747737 at L = 5 | NOT CONVERGED (sign change), SCF fails from 5.5 |
+| N136_lamm1_a10 / a20 | E_KS | 32.36933673 / 12.44454435 | 32.40853811 (1.3e-7) / 12.60426502 (6.4e-8) | geometric tail; a10 fails at 6 |
+| N136_lamp1_a20 | E_KS | 12.44557782 | 12.64785276 at L = 5.5 | NOT CONVERGED (sign change), SCF fails at 6 |
+| N688_lamp1_a00 / lamm1_a00 | E_KS | 680.5684588 / 680.3157256 | - | NOT ESTABLISHED (fewer than 3 converged L values: SCF fails at L = 3.5 / 4) |
+| N688_lamm1_a10 / a20 | E_KS | 279.3207651 / 110.3499850 | 279.3677497 (1.3e-8) / 110.8737488 (1.4e-7) | geometric tail |
+| N688_lamp1_a10 / a20 | E_KS | 279.5338971 / 110.4250785 | 279.5909364 (2.2e-7) / 111.1294009 (7.1e-8) | geometric tail; a10 fails at 6 |
+| N136_lamp1_a10_T20 | E / mu / S | 33.32682377 / 0.3247437533 / 86.58220634 | 33.37620936 / 0.3248452047 / 86.74522151 at L = 5 | NOT CONVERGED, SCF fails from 5.5 |
 
 * The interaction shift itself grows with $L$ at $a_{4,0} = 2$: $E_{KS}(\pm\lambda_1) - E_{KS}(0)$ of N136_a20 is
-  $+2.0\times10^{-3}$ / $-2.3\times10^{-3}$ at $L = 3$, and $+5.6\times10^{-2}$ ($L = 5.5$) / $-4.9\times10^{-2}$
-  ($L \to \infty$): the recorded $L = 3$ interaction effects at the late slice are 21-28 times smaller than at large $L$.
-* The $\pm\lambda$ partners of $N = 8$ are negatives of each other to $1.1\times10^{-12}$ relative in $E_{KS}$ and
-  $4.7\times10^{-13}$ in HOMO at every $L$ where both converge (fixed protocol, step $h = 1/300$: 12 pairs, 11 of
+  $+5.1\times10^{-4}$ / $-5.3\times10^{-4}$ at $L = 3$, and $+2.58\times10^{-2}$ ($L = 5.5$) / $-1.78\times10^{-2}$
+  ($L \to \infty$): the recorded $L = 3$ interaction effects at the late slice are 34-51 times smaller than at large $L$.
+* The $\pm\lambda$ partners of $N = 8$ are negatives of each other to $3.7\times10^{-14}$ relative in $E_{KS}$ and
+  $3.9\times10^{-13}$ in HOMO at every $L$ where both converge (fixed protocol, step $h = 1/300$: 15 pairs, 14 of
   them exact negatives; in the recalibrated protocol exact negatives in 21 of 21 pairs; `tip-convergence-table.csv`).
-* SCF failures (13 of 19 interacting states at some $L$; none in the recalibrated protocol): "potentials left the
+* SCF failures (14 of 19 interacting states at some $L$; none in the recalibrated protocol): "potentials left the
   physical range" in the direct iteration and in the coupling continuation (the free start has the first-order tip
   potential, $10^2$-$10^4$ m at $L \ge 5$), and for N688_lamp1_a00 at $L = 3.5$ "SCF not converged in 400
   iterations" (the open-shell level crossing of section 4.2). These are failures of the solver's iteration, not
-  proofs that no self-consistent state exists: N8_lamm1_a20, the same zero-mode problem with a different label
-  window, converges at every $L$.
+  proofs that no self-consistent state exists: N8_lamm1_a20, the same zero-mode problem at the weakest effective
+  coupling, converges at every $L$.
 * Per-state details, every quantity and every failure message: `tip-convergence.json` (`analysis.fixed`) and
   `tip-convergence-extrapolation.csv`.
 
@@ -178,18 +184,19 @@ zero-mode density at the tip):
 | L | 3 | 3.5 | 4 | 4.5 | 5 | 5.5 | 6 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | N = 8 | 0.01946 | 0.002638 | 0.0003572 | 4.835e-5 | 6.544e-6 | 8.857e-7 | 1.199e-7 |
-| N = 136 | 0.0009298 | 0.0001251 | 2.965e-5 | 1.491e-5 | 6.456e-6 | 8.856e-7 | 1.199e-7 |
-| N = 688 | 0.0001846 | 2.223e-5 | 1.511e-6 | 3.845e-8 | 2.512e-9 | 1.605e-10 | 1.007e-11 |
+| N = 136 | 0.01206 | 0.002638 | 0.0003572 | 4.835e-5 | 6.544e-6 | 8.857e-7 | 1.199e-7 |
+| N = 688 | 0.006645 | 2.223e-5 | 1.511e-6 | 3.845e-8 | 2.512e-9 | 1.605e-10 | 1.007e-11 |
 
-All 18 recalibrated states converge at every $L$ (no SCF failure). For 16 of them $E_{KS}(\lambda_1(L)) -
-E_{KS}(0)$ falls with $\lambda_1(L)$ (figure 4), so their large-$L$ values are the free values of section 4.2: the
-calibration rule does not define an interacting $L \to \infty$ limit. The exception is $N = 688$ at
-$a_{4,0} = 0$ (both signs): from $L = 3.5$ on its ground state occupies $k = 0$ bulk levels (section 4.2), which have
-no $\kappa|k|$ suppression, so their proper density grows toward the tip like $e^{6H|y|}$; the rule then drives
-$\lambda_1$ down faster (the $N = 688$ row), the first-order potential stays 0.1 m by construction, and the
-interaction shift stays near $10^{-2}$ m ($E_{int} = 0.0096$ at $L = 6$, $\lambda_1 = 10^{-11}$). The SCF failures
-of N688_lamp1_a00 and N688_lamm1_a00 with the recorded couplings (from $L = 3.5$ and $4.5$) coincide with this
-occupation of $k = 0$ bulk levels.
+With $b_4$ the strength of $N = 136$ is set from $L = 3.5$ on by the zero modes at $a_{4,0} = 0$, as for $N = 8$
+(at $L = 3$ by the brane band at $a_{4,0} = 1$). All 18 recalibrated states converge at every $L$ (no SCF failure),
+and for all 18 $|E_{KS}(\lambda_1(L)) - E_{KS}(0)|$ is smaller at $L = 6$ than at $L = 3$ (figure 4): their large-$L$
+values approach the free values of section 4.2, so the calibration rule does not define an interacting
+$L \to \infty$ limit. $N = 688$ at $a_{4,0} = 0$ (both signs): from $L = 3.5$ on its ground state occupies $k = 0$
+bulk levels (section 4.2), which have no $\kappa|k|$ suppression, so their proper density grows toward the tip like
+$e^{6H|y|}$; the rule then drives $\lambda_1$ down faster (the $N = 688$ row), the first-order potential stays 0.1 m by
+construction, and the interaction energy stays near $10^{-2}$ m ($E_{int} = 0.128$ at $L = 3$, $0.0096$ at $L = 6$,
+$\lambda_1 = 10^{-11}$). The SCF failures of N688_lamp1_a00 and N688_lamm1_a00 with the recorded couplings (from
+$L = 3.5$ and $4$) coincide with this occupation of $k = 0$ bulk levels.
 
 ### 4.5 Type of convergence (the exponential hypothesis tested)
 
@@ -197,16 +204,18 @@ occupation of $k = 0$ bulk levels.
   0.058, 0.015, 0.0014; N688_lam0_a20 LUMO: 0.049, 0.0066, 0.0002). The exponential fit is rejected (max log
   residual 1.0-2.6); $\ln|d|$ linear in $e^L$ fits (max residual 0.01-0.4). This is the double-exponential tip
   suppression $\exp(-|k|e^{L - a_{4,0}})$, slowest at $a_{4,0} = 2$ and for the smallest $|k|$.
-* Interacting zero modes ($N = 8$): after the saturation the ratio is constant, 0.0539, 0.0502, 0.0498 $\to e^{-3}$:
-  exponential with rate $6H$ per unit $L$ (the proper-volume factor $e^{6Hy}$).
+* Interacting zero modes ($N = 8$): after the saturation the successive differences fall geometrically (rate near
+  $6H$ per unit $L$, the proper-volume factor $e^{6Hy}$); with the record's range of converged $L$ values the
+  classification is "consistent with exponential convergence" for $a_{4,0} = 0$ and "faster than exponential" for the
+  later slices, where the saturation sets in at larger $L$ (weaker effective coupling).
 * $k = 0$ bulk levels and N688_lam0_a00: algebraic; not converged.
 
 ### 4.6 Independent reference
 
 Reference and Rust agree at $L = 3$ and $L = 4$ in all 28 comparisons ($E_{KS}$, $E_{int}$, HOMO, LUMO, int_p0,
 int_n, int_rho of N8_lamp1_a00 and N136_lam0_a20), worst |diff|/tolerance 0.005. The $L$ differences agree:
-$E_{KS}(4) - E_{KS}(3) = -1.954398469\times10^{-3}$ (both solvers, N8_lamp1_a00) and $0.1711236020$ (N136_lam0_a20);
-int_p0: $-0.0165948537$ and $1.10655006$.
+$E_{KS}(4) - E_{KS}(3) = -1.954398469\times10^{-3}$ (both solvers, N8_lamp1_a00, $a_{4,0} = 0$: unchanged by $b_4$) and
+$0.1711236020$ (N136_lam0_a20); int_p0: $-0.0165948537$ and $1.10655006$.
 
 ## 5. Checks (`tip-convergence.json`, 7 checks, all PASS)
 
@@ -217,7 +226,7 @@ Each check is `{name, criterion, verdict, detail}` with `verdict` PASS or FAIL; 
 | `control_full_matrix_byte_identical` | patched copy, L = 3, G = 900: `all` writes every committed result file byte for byte | 244/244 identical |
 | `control_single_byte_identical` | every `single` run at L = 3: committed binary = patched copy (JSON and profile) | 30/30 |
 | `control_single_vs_committed_matrix` | single values = committed CSVs within 1e-12 max(1, abs x) | 357 comparisons, worst 4.4e-16 |
-| `calibration_rule_reproduced_at_L3` | the rule as evaluated here gives the recorded lambda_1 (4 digits) at L = 3 | 0.01946, 0.0009298, 0.0001846 |
+| `calibration_rule_reproduced_at_L3` | the rule as evaluated here gives the recorded lambda_1 (4 digits) at L = 3 | 0.01946, 0.01206, 0.006645 (strengths to 5.5e-6 relative) |
 | `k0_spectrum_exact_L_dependence` | k = 0 levels = exact law within 5e-9 m | 84 levels, 1.42e-10 m |
 | `zero_mode_density_exact` | n(0), n(-L) of the free zero modes within 1e-8 relative | 1.1e-11 |
 | `reference_solver_at_two_L` | abs(Rust - ref) <= 10 (U_ref + U_Rust) + 1e-9 max(1, abs x) | 28 comparisons, worst 0.005 |
@@ -228,16 +237,17 @@ Established (numerically, two solvers at two $L$, controls byte for byte):
 * the exact $L$ laws of section 4.1 (k = 0 spectrum, zero-mode density, first-order zero-mode energy);
 * $L \to \infty$ values with uncertainties for the free states except N688_lam0_a00, and for the interacting
   states marked converged or geometric in 4.3; the size of the $L = 3$ error for each of them (largest: $E_{KS}$
-  1.4% and int_p0 12% for N136_lam0_a20; $E_{KS}$ of the interacting $N = 8$ states, a factor 3.04);
+  1.4% and int_p0 12% for N136_lam0_a20; $E_{KS}$ of the interacting $N = 8$ states, a factor 3.05 at $a_{4,0} = 0$,
+  8.2 at $a_{4,0} = 1$ and 22 at $a_{4,0} = 2$);
 * the double-exponential convergence of the free $k \neq 0$ sector and the exponential (rate $6H$) convergence of the
   saturated zero-mode interaction.
 
 NOT established:
-* any $L \to \infty$ value for N688_lam0_a00 (algebraic, the occupied set keeps changing), and for the 7
+* any $L \to \infty$ value for N688_lam0_a00 (algebraic, the occupied set keeps changing), and for the 6
   interacting states whose $E_{KS}$ differences do not meet the geometric-tail rule before the SCF fails
-  (N136_lamp1_a00, N136_lamp1_a20, N688_lamp1_a00 and N688_lamm1_a00 at $a_{4,0} = 0$, N688_lamp1_a10/a20, the
-  thermal N136_lamp1_a10_T20; `tip-convergence-extrapolation.csv`); the other 6 states whose SCF fails (the five
-  $N = 8$ states and N136_lamp1_a10) have a geometric tail before the failure;
+  (N136_lamp1_a00, N136_lamp1_a10, N136_lamp1_a20, N688_lamp1_a00 and N688_lamm1_a00 at $a_{4,0} = 0$, the thermal
+  N136_lamp1_a10_T20; `tip-convergence-extrapolation.csv`); the other 8 states whose SCF fails (the five $N = 8$
+  states, N136_lamm1_a00, N136_lamm1_a10 and N688_lamp1_a10) have a geometric tail before the failure;
 * whether self-consistent states exist where the solver's iteration fails;
 * $\lambda_2$ states, the slices 0.5 and 1.5, $T = 0.01$ and the other thermal states, the excited states and
   the adiabaticity measure at $L \ne 3$ (not computed); $L > 6$ (not computed; RK4 at fixed $h$ would leave its
@@ -280,6 +290,11 @@ recalibrated scans 13 s, reference 9 s, report and figures 2 s); 7 of 7 checks P
 byte-identical to those of 2026-10-08; `tip-convergence.json` and the two CSV files differ only by the renaming
 p8 -> p0 (`int_p0`, `p0_brane`) and, in `tip-convergence.json`, by the sha256 of the four changed solver sources
 (`analysis.rs`, `runs.rs`, `scf.rs`, `theory.rs`) and of the patched copy.
+
+Run of 2026-10-16 (the record of the metric with b4(x4); 22 workers, machine otherwise idle, `timeout -k 5 423`):
+187 s in total; 7 of 7 checks PASS. The first attempt stopped after the scans (177 s) with `KeyError: 'Vol7'`: the
+solver's `parameters.json` now names the cell volume at a4,0 = 0 `Vol7AtA4Zero` (the cell volume depends on a4,0); the
+study uses it only at a4,0 = 0 (zero-mode density and the first-order laws of figure 2, labelled "a4,0 = 0").
 
 ## 9. History
 

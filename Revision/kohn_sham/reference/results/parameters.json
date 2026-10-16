@@ -1,13 +1,14 @@
 {
- "description": "Revision Kohn-Sham REFERENCE solver (Revision/kohn_sham/reference): independent Python solver, staggered finite differences in y with Richardson extrapolation over G = 300, 600, 1200 (SPEC section 7, Revision/kohn_sham/ks-theory.json). The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln(sin z)/(6H), z = 6 H x0), x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z).",
+ "description": "Revision Kohn-Sham REFERENCE solver (Revision/kohn_sham/reference): independent Python solver, staggered finite differences in y with Richardson extrapolation over G = 300, 600, 1200 (SPEC section 7, Revision/kohn_sham/ks-theory.json). The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln(sin z)/(6H), z = 6 H x0), x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z). The author's metric with b4(x4) (b4 a function of x4, never 1) on the history a4 = H x4, b4 = b4(0) e^{beta a4}: lambda = lambda_hat = lambda b4(0)^{-3/2}, densities per Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (proper densities times b4(0)^{3/2}).",
  "theoryInputs": {
-  "ksTheorySha256": "a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2",
+  "ksTheorySha256": "e3e2869216e2744f83a2888067e5ed9599bf2ddff46cfd876da3fb7c729ba0f0",
   "MeffCoefficientOfLambdaS": "15/16",
   "vvCoefficientOfLambdaN": "-1/16",
   "eintCoefficientS2": "15/32",
   "eintCoefficientN2": "-1/32",
   "exactFockVariantEintCoefficientQ2": "1/32",
-  "exactFockVariantWQCoefficientOfLambdaQ": "1/16"
+  "exactFockVariantWQCoefficientOfLambdaQ": "1/16",
+  "historyBeta": "4/3"
  },
  "physics": {
   "H": 1.0,
@@ -17,6 +18,7 @@
   "vt": 1.0,
   "tipTheta": 0.0,
   "historyA": 1.0,
+  "historyBeta": 1.3333333333333333,
   "slicesA4": [
    0.0,
    0.5,
@@ -272,8 +274,8 @@
      },
      {
       "a4": 0.5,
-      "strength": 5.138803993085487,
-      "U": 2.0011155287664645e-11,
+      "strength": 1.8904603412658656,
+      "U": 7.361611981552786e-12,
       "argmax_y": [
        -3.0,
        -3.0,
@@ -284,8 +286,8 @@
      },
      {
       "a4": 1.0,
-      "strength": 5.138803993085487,
-      "U": 2.0011155287664645e-11,
+      "strength": 0.6954614939016607,
+      "U": 3.317279618717748e-12,
       "argmax_y": [
        -3.0,
        -3.0,
@@ -296,8 +298,8 @@
      },
      {
       "a4": 1.5,
-      "strength": 5.138803993085487,
-      "U": 2.0011155287664645e-11,
+      "strength": 0.2558459857327993,
+      "U": 2.4846123502488808e-12,
       "argmax_y": [
        -3.0,
        -3.0,
@@ -308,8 +310,8 @@
      },
      {
       "a4": 2.0,
-      "strength": 5.138803993085487,
-      "U": 2.0011155287664645e-11,
+      "strength": 0.09412047825733903,
+      "U": 2.1782740621791845e-12,
       "argmax_y": [
        -3.0,
        -3.0,
@@ -345,61 +347,61 @@
      },
      {
       "a4": 0.5,
-      "strength": 17.325669377422663,
-      "U": 1.6784848525084795e-09,
+      "strength": 6.373757568487419,
+      "U": 6.174806675797794e-10,
       "argmax_y": [
-       -2.6551104242163803,
-       -2.6551024410970343,
-       -2.6551004419164093
+       -2.6551104242163808,
+       -2.65510244109703,
+       -2.655100441916409
       ],
       "peak_interior": true,
-      "curvature_at_peak": -121.28735652019336
+      "curvature_at_peak": -44.61912493754031
      },
      {
       "a4": 1.0,
-      "strength": 61.293931160830915,
-      "U": 2.318974934539138e-09,
+      "strength": 8.295231534336489,
+      "U": 3.1383891114655327e-10,
       "argmax_y": [
-       -2.770737750702801,
-       -2.7707370510878273,
-       -2.770736921248311
+       -2.7707377507028,
+       -2.770737051087825,
+       -2.770736921248318
       ],
       "peak_interior": true,
-      "curvature_at_peak": -1020.1737079845033
+      "curvature_at_peak": -138.0654977208772
      },
      {
       "a4": 1.5,
-      "strength": 106.01489657403148,
-      "U": 2.3896607647658345e-08,
+      "strength": 5.278170903743332,
+      "U": 1.1897410916518397e-09,
       "argmax_y": [
-       -2.802352481215642,
-       -2.8023526118217323,
-       -2.8023526916519432
+       -2.802352481215641,
+       -2.8023526118217297,
+       -2.802352691651945
       ],
       "peak_interior": true,
-      "curvature_at_peak": -2568.430275355012
+      "curvature_at_peak": -127.874613717125
      },
      {
       "a4": 2.0,
-      "strength": 107.54830180889486,
-      "U": 5.395242052761467e-08,
+      "strength": 1.9698158590283166,
+      "U": 9.88172993196516e-10,
       "argmax_y": [
-       -2.8133782989772866,
-       -2.8133784877197963,
-       -2.813378558793259
+       -2.813378298977286,
+       -2.8133784877197985,
+       -2.8133785587932594
       ],
       "peak_interior": true,
-      "curvature_at_peak": -3022.484359777377
+      "curvature_at_peak": -55.358732080553885
      }
     ],
-    "strength": 107.54830180889486,
-    "U": 5.395242052761467e-08,
-    "lambda1_unrounded": 0.0009298147745530411,
-    "lambda2_unrounded": 0.0027894443236591232,
-    "lambda1": 0.0009298,
-    "lambda2": 0.002789,
-    "rounding_margin_rel": 1.99596530407565e-05,
-    "strength_rel_U": 5.01657577294749e-10
+    "strength": 8.295231534336489,
+    "U": 3.1383891114655327e-10,
+    "lambda1_unrounded": 0.012055118604715198,
+    "lambda2_unrounded": 0.03616535581414559,
+    "lambda1": 0.01206,
+    "lambda2": 0.03617,
+    "rounding_margin_rel": 9.838535735992945e-06,
+    "strength_rel_U": 3.783365296646374e-11
    },
    {
     "N": 688.0,
@@ -418,61 +420,61 @@
      },
      {
       "a4": 0.5,
-      "strength": 19.525481150232853,
-      "U": 5.935869349970783e-10,
+      "strength": 7.183023094151195,
+      "U": 2.1836819469554536e-10,
       "argmax_y": [
-       -2.554914396186425,
-       -2.554906234906705,
-       -2.554904192598512
+       -2.554914396186428,
+       -2.5549062349066882,
+       -2.5549041925985008
       ],
       "peak_interior": true,
-      "curvature_at_peak": -65.82032758511266
+      "curvature_at_peak": -24.21394532984887
      },
      {
       "a4": 1.0,
-      "strength": 94.38083908451621,
-      "U": 1.283708033975347e-09,
+      "strength": 12.773057589612156,
+      "U": 1.737298027219932e-10,
       "argmax_y": [
-       -2.702030096334589,
-       -2.7020258573620595,
-       -2.702024833721509
+       -2.702030096334587,
+       -2.702025857362071,
+       -2.702024833721507
       ],
       "peak_interior": true,
-      "curvature_at_peak": -786.8765596176809
+      "curvature_at_peak": -106.49216206815828
      },
      {
       "a4": 1.5,
-      "strength": 302.27760551447784,
-      "U": 2.292042880449927e-08,
+      "strength": 15.049515811823515,
+      "U": 1.141140956751767e-09,
       "argmax_y": [
        -2.769128876287578,
-       -2.7691279880602298,
-       -2.769127811893593
+       -2.7691279880602284,
+       -2.769127811893598
       ],
       "peak_interior": true,
-      "curvature_at_peak": -4918.561804253577
+      "curvature_at_peak": -244.88077281948821
      },
      {
       "a4": 2.0,
-      "strength": 541.7158538250736,
-      "U": 3.696834097396508e-08,
+      "strength": 9.921871958962354,
+      "U": 6.770975508528568e-10,
       "argmax_y": [
-       -2.8007170196765276,
+       -2.8007170196765268,
        -2.800717088930677,
-       -2.8007171518323988
+       -2.800717151832403
       ],
       "peak_interior": true,
-      "curvature_at_peak": -12847.657125723
+      "curvature_at_peak": -235.3130484805339
      }
     ],
-    "strength": 541.7158538250736,
-    "U": 3.696834097396508e-08,
-    "lambda1_unrounded": 0.00018459862175695374,
-    "lambda2_unrounded": 0.0005537958652708612,
-    "lambda1": 0.0001846,
-    "lambda2": 0.0005538,
-    "rounding_margin_rel": 8.281981455166847e-05,
-    "strength_rel_U": 6.824304792435074e-11
+    "strength": 15.049515811823515,
+    "U": 1.141140956751767e-09,
+    "lambda1_unrounded": 0.006644732046557665,
+    "lambda2_unrounded": 0.019934196139672993,
+    "lambda1": 0.006645,
+    "lambda2": 0.01993,
+    "rounding_margin_rel": 3.4921883386714785e-05,
+    "strength_rel_U": 7.58257588496794e-11
    }
   ]
  },

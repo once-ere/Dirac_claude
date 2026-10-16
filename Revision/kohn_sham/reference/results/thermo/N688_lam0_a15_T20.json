@@ -22,6 +22,7 @@
    "G": 300,
    "iterations": 1,
    "residual": 0.0,
+   "path": "direct",
    "neighbour_iterations": [
     1,
     1,
@@ -38,7 +39,7 @@
     "Omega_F_minus_muN": -57.220593005326236,
     "E_int": 0.0,
     "N_sum": 688.0000000000002,
-    "int_n": 687.999760988509,
+    "int_n": 687.9997609885089,
     "C_V": 431.70928514840716,
     "C_V_from_dEdT": 431.70928609600406,
     "minus_dFdT": 433.9485303606002,
@@ -51,6 +52,7 @@
    "G": 600,
    "iterations": 1,
    "residual": 0.0,
+   "path": "direct",
    "neighbour_iterations": [
     1,
     1,
@@ -80,6 +82,7 @@
    "G": 1200,
    "iterations": 1,
    "residual": 0.0,
+   "path": "direct",
    "neighbour_iterations": [
     1,
     1,
