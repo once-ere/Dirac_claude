@@ -898,9 +898,9 @@ CELLS = [
     deflate. A wave with a fixed *coordinate* momentum $k_{x_5}$ along $x_5$ has the
     *frame* momentum $b_4^{-1/2}e^{a_4}\sin^{-1/6}(z)\, k_{x_5}$: the derivative along
     the coordinate $x_5$ is divided by the frame factor $b_4^{1/2}e^{-a_4}\sin^{1/6} z$
-    of the direction $x_5$. As $a_4$ grows (with $b_4$ constant; the record states it at
-    $b_4 = 1$) this frame momentum grows like $e^{a_4}$, so,
-    in the local plane-wave reading that the same Revision check states, every wave
+    of the direction $x_5$. As $a_4 - \frac12\ln b_4$ grows (the record states it for
+    all functions $a_4$ and $b_4$) this frame momentum grows like $e^{a_4}b_4^{-1/2}$,
+    so, in the local plane-wave reading that the same Revision check states, every wave
     along an extra time eventually reaches the region where $E$ is imaginary. This
     notebook computes only the flat algebra behind that statement.
     """),
