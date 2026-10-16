@@ -4,8 +4,10 @@
 (* verify_scope.wls
 
    Exact WolframScript checks of the SCOPE of the statements of the field-theory record (Revision/SPEC.md
-   sections 1-6) in the author's primordial metric: which values depend on the choice of frame and of field
-   variables, what holds only up to boundary terms, and what the indefinite structures imply.  Written anew for
+   sections 1-6) in the author's primordial metric with b4(x4) (the change of 2026-10-14; the user's orders of
+   2026-10-15: "b4 is a function of x4; b4 is NEVER 1", "move everything to b4(x4)"; general a4 and b4 > 0): which
+   values depend on the choice of frame and of field variables, what holds only up to boundary terms, and what the
+   indefinite structures imply.  (Until 2026-10-15 this file treated the withdrawn metric b4 = 1.)  Written anew for
    Revision; it does not load Revision/theory/wolfram/RevisionFieldTheory.wl and shares no code with the sympy
    checker Revision/theory/python/check_scope.py.  Writes, deterministically (LF, no time stamps):
      Revision/theory/reports/wolfram-scope.json
@@ -14,7 +16,8 @@
 
    Coordinates as the author names them, in the author's order x0..x7 (Wolfram position k + 1 holds xk): x0 = the hidden
    direction, z = 6 H x0 in (0, Pi/2); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the three extra times, which
-   DEFLATE exponentially (scale factor e^-a4 sin^(1/6) z, a4 increasing).  (Until 2026-10-14 this file used the
+   DEFLATE exponentially (scale factor e^-a4 b4^(1/2) sin^(1/6) z; on the background history of SPEC section 1,
+   b4 = b4(0) e^((4/3) H x4), it is ~ e^(-a4/3)).  (Until 2026-10-14 this file used the
    withdrawn labels x1..x8 with the hidden direction x8 listed last.)
 *)
 
@@ -37,7 +40,8 @@ id16 = IdentityMatrix[16]; z16 = ConstantArray[0, {16, 16}];
 sAB = Table[(g[[a]] . g[[b]] - g[[b]] . g[[a]])/4, {a, 8}, {b, 8}];
 X = {x0, x1, x2, x3, x4, x5, x6, x7};   (* positions: x0 = 1, x4 = 5 *)
 z = 6 H x0;
-assum = H > 0 && 0 < x0 < Pi/(12 H) && Element[{beta, b0, m, lam, x4}, Reals];
+assum = H > 0 && 0 < x0 < Pi/(12 H) && Element[{beta, b0, m, lam, x4}, Reals] && b4[x4] > 0;
+bu = Derivative[1][b4][x4]/b4[x4];   (* b4'/b4 *)
 zq[e_] := TrueQ[Simplify[TrigExpand[Together[e]], assum] == 0] || TrueQ[FullSimplify[e, assum] == 0];
 mzq[M_] := AllTrue[Flatten[M], zq];
 addCheck["fixture_gammas",
@@ -47,7 +51,7 @@ addCheck["fixture_gammas",
 
 (* ------------------------------------------------------------------ geometry of a vielbein e^a_mu (rows a) *)
 fd = {Cot[z], E^a4[x4] Sin[z]^(1/6), E^a4[x4] Sin[z]^(1/6), E^a4[x4] Sin[z]^(1/6), 1,
-      E^-a4[x4] Sin[z]^(1/6), E^-a4[x4] Sin[z]^(1/6), E^-a4[x4] Sin[z]^(1/6)};
+      E^-a4[x4] Sqrt[b4[x4]] Sin[z]^(1/6), E^-a4[x4] Sqrt[b4[x4]] Sin[z]^(1/6), E^-a4[x4] Sqrt[b4[x4]] Sin[z]^(1/6)};
 gAuthor = DiagonalMatrix[Diagonal[eta] fd^2];
 gInv = Inverse[gAuthor];
 chr = Table[Simplify[Sum[gInv[[l, r]] (D[gAuthor[[r, n]], X[[mm]]] + D[gAuthor[[r, mm]], X[[n]]] - D[gAuthor[[mm, n]], X[[r]]])/2, {r, 8}], assum],
@@ -72,22 +76,29 @@ gammaOmega[fr_] := Map[Simplify[#, assum] &, Sum[fr["gam"][[mu]] . fr["Om"][[mu]
 frB = frame[beta x4 + b0];
 addCheck["boosted_frame_reproduces_metric",
   mzq[Transpose[frB["e"]] . eta . frB["e"] - gAuthor] && mzq[frB["e"] . frB["Ei"] - IdentityMatrix[8]],
-  "frame boosted in the (x4, x0) plane with rapidity b = beta x4 + b0: e'^(x4) = Cosh[b] e^(x4) + Sinh[b] e^(x0), e'^(x0) = Sinh[b] e^(x4) + Cosh[b] e^(x0), the other e'^(a) = e^(a) of the diagonal vielbein; e'^T eta e' equals the author's metric for all 64 entries"];
+  "frame boosted in the (x4, x0) plane with rapidity b = beta x4 + b0: e'^(x4) = Cosh[b] e^(x4) + Sinh[b] e^(x0), e'^(x0) = Sinh[b] e^(x4) + Cosh[b] e^(x0), the other e'^(a) = e^(a) of the diagonal vielbein (f(x5,x6,x7) = E^-a4 b4^(1/2) Sin[z]^(1/6)); e'^T eta e' equals the author's metric with b4 for all 64 entries"];
 nPost = postulateFailures[frB];
 addCheck["boosted_frame_canonical_connection",
   nPost == 0 && AllTrue[Flatten[Table[zq[frB["omL"][[mu, a, b]] + frB["omL"][[mu, b, a]]], {mu, 8}, {a, 8}, {b, 8}]], TrueQ],
   "canonical spin connection of the boosted frame (Christoffel symbols computed here from the author's metric): the vielbein postulate d_mu e'^a_nu - Gamma^lam_mu,nu e'^a_lam + omega_mu^a_b e'^b_nu = 0 holds for all 512 components (" <> ToString[nPost] <> " failures), omega_mu ab antisymmetric"];
 totB = gammaOmega[frB];
 addCheck["boosted_frame_gammaOmega_formula",
-  mzq[totB - (6 H - beta)/2 (Cosh[beta x4 + b0] g[[1]] - Sinh[beta x4 + b0] g[[5]])] &&
-  mzq[gammaOmega[frame[0]] - 3 H g[[1]]],
-  "gamma'^mu Omega'_mu = ((6 H - beta)/2) (Cosh[b] gamma^(x0) - Sinh[b] gamma^(x4)) exactly for symbolic a4[x4], H, beta, b0; control: the same code for the unboosted (diagonal) frame gives 3 H gamma^(x0)"];
+  mzq[totB - ((6 H - beta)/2 (Cosh[beta x4 + b0] g[[1]] - Sinh[beta x4 + b0] g[[5]]) + (3/4) bu (Cosh[beta x4 + b0] g[[5]] - Sinh[beta x4 + b0] g[[1]]))] &&
+  mzq[gammaOmega[frame[0]] - (3 H g[[1]] + (3/4) bu g[[5]])],
+  "gamma'^mu Omega'_mu = ((6 H - beta)/2) (Cosh[b] gamma^(x0) - Sinh[b] gamma^(x4)) + (3/4)(b4'/b4) (Cosh[b] gamma^(x4) - Sinh[b] gamma^(x0)) exactly for symbolic a4[x4], b4[x4], H, beta, b0; control: the same code for the unboosted (diagonal) frame gives 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4)"];
+(* a general rapidity function bf[x4]: gamma'^mu Omega'_mu = c0 gamma^(x0) + c4 gamma^(x4) with Cosh[b] c4 + Sinh[b] c0 = (3/4) b4'/b4 *)
+totF = gammaOmega[frame[bf[x4]]];
+cF0 = Simplify[Tr[g[[1]] . totF]/16, assum]; cF4 = Simplify[-Tr[g[[5]] . totF]/16, assum];
 frZ = frame[6 H x4 + b0];
 totZ = gammaOmega[frZ];
 nzOm = Select[Range[8], ! mzq[frZ["Om"][[#]]] &];
-addCheck["boosted_frame_gammaOmega_vanishes",
-  mzq[totZ] && nzOm == {2, 3, 4, 5, 6, 7, 8} && postulateFailures[frZ] == 0,
-  "rapidity b = 6 H x4 + b0: gamma'^mu Omega'_mu = 0 identically for every H > 0 and every a4[x4] (exact), in the author's curved metric; the value 3 H gamma^(x0) is a property of the diagonal vielbein, not of the field equation. Omega'_mu is nonzero for mu = " <>
+addCheck["boosted_frame_removes_only_the_H_term",
+  mzq[totF - cF0 g[[1]] - cF4 g[[5]]] && zq[Cosh[bf[x4]] cF4 + Sinh[bf[x4]] cF0 - (3/4) bu] &&
+  mzq[totZ - (3/4) bu (Cosh[6 H x4 + b0] g[[5]] - Sinh[6 H x4 + b0] g[[1]])] && nzOm == {2, 3, 4, 5, 6, 7, 8} && postulateFailures[frZ] == 0,
+  "for a frame boosted in the (x4, x0) plane with ANY rapidity function b(x4): gamma'^mu Omega'_mu = c0 gamma^(x0) + c4 gamma^(x4) with Cosh[b] c4 + Sinh[b] c0 = (3/4) b4'/b4 exactly, " <>
+  "so gamma'^mu Omega'_mu = 0 forces b4' = 0: for the metric with b4(x4) (b4 not constant) no boost in this plane removes the spin-connection term. " <>
+  "The rapidity b = 6 H x4 + b0 removes the H part: gamma'^mu Omega'_mu = (3/4)(b4'/b4) (Cosh[b] gamma^(x4) - Sinh[b] gamma^(x0)) for every H > 0, a4[x4], b4[x4] (exact), in the author's curved metric; " <>
+  "the value 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) is a property of the diagonal vielbein, its 3 H part is not a frame-independent part of the field equation. Omega'_mu is nonzero for mu = " <>
   StringRiffle[("x" <> ToString[# - 1]) & /@ nzOm, ", "] <> " and zero for x0"];
 (* F'_x1x0: positions x1 = 2, x0 = 1 *)
 F10 = Map[Simplify[#, assum] &, D[frZ["Om"][[1]], x1] - D[frZ["Om"][[2]], x0] + frZ["Om"][[2]] . frZ["Om"][[1]] - frZ["Om"][[1]] . frZ["Om"][[2]], {2}];
@@ -98,29 +109,29 @@ addCheck["boosted_frame_curvature_nonzero",
 (* ================================================================== 2. diagonal frame *)
 frD = frame[0];
 totD = gammaOmega[frD];
-w = Sin[z]^(-1/2);
+w = b4[x4]^(-3/4) Sin[z]^(-1/2);
 resc = Map[Simplify[#, assum] &, Sum[frD["gam"][[mu]] D[w, X[[mu]]], {mu, 8}] + w totD, {2}];
 chiF = Table[cf[A] @@ X, {A, 16}];
 lhsResc = Sum[frD["gam"][[mu]] . (D[w chiF, X[[mu]]] + frD["Om"][[mu]] . (w chiF)), {mu, 8}] - w Sum[frD["gam"][[mu]] . D[chiF, X[[mu]]], {mu, 8}];
 addCheck["rescaling_removes_the_connection_term",
-  mzq[totD - 3 H g[[1]]] && mzq[resc] && AllTrue[lhsResc, zq],
-  "diagonal frame: gamma^mu Omega_mu = 3 H gamma^(x0); for Psi = Sin[z]^(-1/2) chi with 16 arbitrary functions chi_A(x0, ..., x7), gamma^mu D_mu Psi - Sin[z]^(-1/2) gamma^mu d_mu chi = 0 component by component (computed on the functions themselves): in the variables chi the field equation has no spin-connection term"];
+  mzq[totD - (3 H g[[1]] + (3/4) bu g[[5]])] && mzq[resc] && AllTrue[lhsResc, zq],
+  "diagonal frame: gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4); for Psi = b4^(-3/4) Sin[z]^(-1/2) chi with 16 arbitrary functions chi_A(x0, ..., x7), gamma^mu D_mu Psi - b4^(-3/4) Sin[z]^(-1/2) gamma^mu d_mu chi = 0 component by component (computed on the functions themselves): in the variables chi the field equation has no spin-connection term"];
 St = Symbol["St"];
 addCheck["rescaled_equation_quadratic_potential",
-  zq[lam (w^2 St) - lam St/Sin[z]] && TrueQ[Simplify[w > 0, assum]],
-  "U = (lambda/2) S^2: S[Sin[z]^(-1/2) chi] = Sin[z]^(-1) S[chi] (the factor is real), so U'(S) Psi = Sin[z]^(-1/2) (lambda S[chi]/Sin[z]) chi and the rescaled equation is gamma^mu d_mu chi = (m + lambda S[chi]/Sin[z]) chi: the 3 H term is removed completely for U = 0 and becomes an x0-dependent coupling for U != 0"];
+  zq[lam (w^2 St) - lam St/(b4[x4]^(3/2) Sin[z])] && TrueQ[Simplify[w > 0, assum]],
+  "U = (lambda/2) S^2: S[b4^(-3/4) Sin[z]^(-1/2) chi] = b4^(-3/2) Sin[z]^(-1) S[chi] (the factor is real), so U'(S) Psi = b4^(-3/4) Sin[z]^(-1/2) (lambda S[chi]/(b4^(3/2) Sin[z])) chi and the rescaled equation is gamma^mu d_mu chi = (m + lambda S[chi]/(b4^(3/2) Sin[z])) chi: the spin-connection term is removed completely for U = 0 and becomes an x0- and x4-dependent coupling for U != 0"];
 riem[r_, s_, mu_, nu_] := D[chr[[r, nu, s]], X[[mu]]] - D[chr[[r, mu, s]], X[[nu]]] + Sum[chr[[r, mu, l]] chr[[l, nu, s]] - chr[[r, nu, l]] chr[[l, mu, s]], {l, 8}];
 ricMixed[a_] := Simplify[Sum[riem[r, a, r, a], {r, 8}] gInv[[a, a]], assum];
 {r44, r11, r00} = ricMixed /@ {5, 2, 1};   (* positions of x4, x1, x0 *)
 addCheck["gammaOmega_blind_to_the_deflation",
-  FreeQ[totD, a4] && zq[r44 - 6 a4'[x4]^2] && zq[r11 - (a4''[x4] - 6 H^2)] && zq[r00 + 6 H^2],
-  "diagonal frame: gamma^mu Omega_mu = 3 H gamma^(x0) does not contain a4 (nor a4', a4''), while R^x4_x4 = " <> ToString[r44, InputForm] <> ", R^x1_x1 = " <> ToString[r11, InputForm] <>
-  ", R^x0_x0 = " <> ToString[r00, InputForm] <> " (Riemann computed here from the metric): the deflation of the extra times is curvature that the term gamma^mu Omega_mu does not see; it enters the field equation through the frame factors E^(-+a4) Sin[z]^(-1/6)"];
+  FreeQ[totD, a4] && zq[r44 - (6 a4'[x4]^2 - (3/4) bu^2 - 3 a4'[x4] bu + (3/2) b4''[x4]/b4[x4])] && zq[r11 - (a4''[x4] - 6 H^2 + (3/2) a4'[x4] bu)] && zq[r00 + 6 H^2],
+  "diagonal frame: gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) does not contain a4 (nor a4', a4''), while R^x4_x4 = " <> ToString[r44, InputForm] <> ", R^x1_x1 = " <> ToString[r11, InputForm] <>
+  ", R^x0_x0 = " <> ToString[r00, InputForm] <> " (Riemann computed here from the metric): the a4 part of the deflation of the extra times is curvature that the term gamma^mu Omega_mu does not see; it enters the field equation through the frame factors E^(-+a4) Sin[z]^(-1/6); the b4 part enters through (3/4)(b4'/b4) gamma^(x4) and the factors b4^(-1/2)"];
 sqrtg = Times @@ fd;
 addCheck["connection_free_lagrangian_same_equations",
   AllTrue[Range[8], mzq[frD["gam"][[#]] . frD["Om"][[#]] + frD["Om"][[#]] . frD["gam"][[#]]] &] &&
   mzq[Sum[D[sqrtg frD["gam"][[mu]], X[[mu]]], {mu, 8}]/(2 sqrtg) - totD],
-  "diagonal frame: {gamma^mu, Omega_mu} = 0 for each mu, so the canonical spin connection drops out of the symmetrised Lagrangian (L(Omega) = L(Omega = 0)) and the Euler-Lagrange equations are those of the connection-free symmetric Lagrangian; (1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) = gamma^mu Omega_mu = 3 H gamma^(x0): the half-density term"];
+  "diagonal frame: {gamma^mu, Omega_mu} = 0 for each mu, so the canonical spin connection drops out of the symmetrised Lagrangian (L(Omega) = L(Omega = 0)) and the Euler-Lagrange equations are those of the connection-free symmetric Lagrangian; (1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) = gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) (sqrt|g| = b4^(3/2) Cos[z]): the half-density term"];
 (* positions: x4 = 5, x1 = 2, x0 = 1 *)
 dK = (frD["gam"][[5]] . frD["Om"][[2]] + frD["Om"][[2]] . frD["gam"][[5]])/2;
 addCheck["spin_connection_in_the_energy_momentum_tensor",
@@ -131,22 +142,28 @@ addCheck["spin_connection_in_the_energy_momentum_tensor",
 uF = Table[ur[A][x0] + I ui[A][x0], {A, 16}]; vF = Table[vr[A][x0] + I vi[A][x0], {A, 16}];
 cj[vec_] := ComplexExpand[Conjugate[vec]];
 (* positions: x4 = 5, x0 = 1 *)
-hOp[vec_] := -I m g[[5]] . vec + I g[[5]] . g[[1]] . (Tan[z] D[vec, x0] + 3 H vec);
+hOp[vec_] := -I m g[[5]] . vec + I g[[5]] . g[[1]] . (Tan[z] D[vec, x0] + 3 H vec) - I (3/4) bu vec;
 M0 = I g[[5]] . g[[1]];
-lhsH = Cos[z] (cj[uF] . hOp[vF] - cj[hOp[uF]] . vF) - D[Sin[z] cj[uF] . M0 . vF, x0];
+msr = b4[x4]^(3/2) Cos[z];   (* sqrt|g| *)
+lhsH = msr (cj[uF] . hOp[vF] - cj[hOp[uF]] . vF) - D[b4[x4]^(3/2) Sin[z] cj[uF] . M0 . vF, x0] + I D[msr, x4] cj[uF] . vF;
 u0 = First[NullSpace[g[[5]] . g[[1]] - id16]];
 flux = Simplify[Conjugate[u0] . M0 . u0];
 addCheck["good_sector_hermiticity_up_to_the_brane_flux",
   zq[ComplexExpand[lhsH]] && flux =!= 0,
-  "curved good-sector mode operator at k = 0, h = -i m gamma^(x4) + i gamma^(x4) gamma^(x0) (Tan[z] d_x0 + 3 H): for arbitrary complex u(x0), v(x0) (32 real functions) Cos[z] (u^dagger h v - (h u)^dagger v) = d_x0 (Sin[z] u^dagger M0 v), M0 = i gamma^(x4) gamma^(x0), exactly; the boundary term vanishes at the tip but not at z = Pi/2 (Sin[z] = 1): for gamma^(x4) gamma^(x0) u = u, u^dagger M0 u = " <> ToString[flux, InputForm] <> " (|u|^2 = " <> ToString[Conjugate[u0] . u0, InputForm] <> "). Symmetry of h for Integrate[Cos[z] u^dagger v] holds only with boundary conditions at the patch end"];
+  "curved good-sector mode operator at k = 0, h = -i m gamma^(x4) + i gamma^(x4) gamma^(x0) (Tan[z] d_x0 + 3 H) - i (3/4)(b4'/b4): for arbitrary complex u(x0), v(x0) (32 real functions) sqrt|g| (u^dagger h v - (h u)^dagger v) = d_x0 (b4^(3/2) Sin[z] u^dagger M0 v) - i (d_x4 sqrt|g|) u^dagger v, sqrt|g| = b4^(3/2) Cos[z], M0 = i gamma^(x4) gamma^(x0), exactly " <>
+  "(the anti-Hermitian term -i (3/4)(b4'/b4) compensates the x4 dependence of the measure, so d/dx4 Integrate[sqrt|g| u^dagger v] = the x0 boundary term for solutions); the boundary term vanishes at the tip but not at z = Pi/2 (Sin[z] = 1): for gamma^(x4) gamma^(x0) u = u, u^dagger M0 u = " <> ToString[flux, InputForm] <> " (|u|^2 = " <> ToString[Conjugate[u0] . u0, InputForm] <> "). The conservation (symmetry of h for Integrate[sqrt|g| u^dagger v]) holds only with boundary conditions at the patch end"];
 Aop = -I m g[[5]] + 3 I H g[[5]] . g[[1]];
+AopB = Aop - I (3/4) bu id16;   (* the mode operator of Psi on x0-independent functions *)
 evA = Sort[Eigenvalues[Aop /. {m -> 1, H -> 1}], (Im[#1] < Im[#2]) &];
 normInt = Integrate[Cos[6 H y], {y, 0, Pi/(12 H)}, Assumptions -> H > 0];
 addCheck["good_sector_x0_independent_modes_without_boundary_condition",
   Expand[Aop . Aop - (m^2 - 9 H^2) id16] == z16 && Aop =!= ConjugateTranspose[Aop] &&
-  evA == Join[ConstantArray[-2 Sqrt[2] I, 8], ConstantArray[2 Sqrt[2] I, 8]] && normInt == 1/(6 H),
+  evA == Join[ConstantArray[-2 Sqrt[2] I, 8], ConstantArray[2 Sqrt[2] I, 8]] && normInt == 1/(6 H) &&
+  AllTrue[Module[{cv = Table[chf[A][x4], {A, 16}]},
+    (I D[b4[x4]^(-3/4) cv, x4] - AopB . (b4[x4]^(-3/4) cv)) /. Table[Derivative[1][chf[A]][x4] -> (-I Aop . cv)[[A]], {A, 16}]], zq],
   "on x0-independent good-sector functions (finite norm: Integrate[Cos[6 H x0], {x0, 0, Pi/(12 H)}] = " <> ToString[normInt, InputForm] <>
-  ") the curved mode operator is the matrix A = -i m gamma^(x4) + 3 i H gamma^(x4) gamma^(x0): not Hermitian, A^2 = (m^2 - 9 H^2) I16; at m = H = 1 its eigenvalues are -2 Sqrt[2] i and 2 Sqrt[2] i, 8 each (modes growing like E^(2 Sqrt[2] x4)): without a boundary condition at z = Pi/2 the good sector contains complex frequencies whenever m^2 < 9 H^2"];
+  ") the curved mode operator of Psi is A - i (3/4)(b4'/b4) with the matrix A = -i m gamma^(x4) + 3 i H gamma^(x4) gamma^(x0), so Psi = b4^(-3/4) chi where chi evolves with A alone (i d4 chi = A chi): A is not Hermitian, A^2 = (m^2 - 9 H^2) I16; at m = H = 1 its eigenvalues are -2 Sqrt[2] i and 2 Sqrt[2] i, 8 each (chi growing like E^(2 Sqrt[2] x4)): " <>
+  "without a boundary condition at z = Pi/2 the good sector contains complex frequencies of chi = b4^(3/4) Psi whenever m^2 < 9 H^2 (Psi carries in addition the factor b4^(-3/4))"];
 
 (* ================================================================== 4. extra-time growth *)
 (* kk[[a]] = k_(a-1), the momentum along x(a-1): positions x0 = 1, x4 = 5, x5, x6, x7 = 6, 7, 8 *)
@@ -186,7 +203,7 @@ addCheck["commuting_field_energy_unbounded_below",
   Simplify[rN + 5 cc^2] === 0 && Simplify[rP - 5 cc^2] === 0 && Simplify[qN + cc^2] === 0 && Simplify[qP - cc^2] === 0,
   "dirac16complex00, flat frame, good sector, U = 0, m = 2, (k0, k1, k2, k3) = (4, 1, 2, 0), E = 5: [B, h_k] = 0; the E = 5 eigenspace has dimension 8 and the form u^dagger B u on it has inertia " <> ToString[inertia] <>
   "; the positive-frequency solutions Phi = c u E^(i (k.x - 5 x4)) (field equation verified) with B u = -u and B u = +u, |u| = 1, have energy density rho = -T^x4_x4 = " <> ToString[rN, InputForm] <> " and " <> ToString[rP, InputForm] <>
-  " and charge density Phi^dagger B Phi = " <> ToString[qN, InputForm] <> " and " <> ToString[qP, InputForm] <> " (cc = |c|): the classical energy is unbounded below already for U = 0, and the U(1) charge is indefinite (only its local law d_mu (Cos[z] J^mu) = 0 is proved; " <>
+  " and charge density Phi^dagger B Phi = " <> ToString[qN, InputForm] <> " and " <> ToString[qP, InputForm] <> " (cc = |c|): the classical energy is unbounded below already for U = 0, and the U(1) charge is indefinite (only its local law d_mu (b4^(3/2) Cos[z] J^mu) = 0 is proved; " <>
   "the total charge is constant in x4 only if no charge flows through the boundary of the slice x4 = const, which at the brane z = Pi/2 is an ASSUMED no-flux condition)"];
 
 (* ------------------------------------------------------------------ report *)

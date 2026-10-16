@@ -111,6 +111,15 @@ q48 -> q40, q84 -> q04, check names); the physics is unchanged.
 
 ## 7. Not recomputed within the time limit
 
+**Update 2026-10-15 (the user's order "move everything to b4(x4); b4 is never 1", `HANDOFF.md` 0.9).** The field theory
+is now proved for general b4 in full: `Revision/theory/wolfram/verify_field_theory.wls` (84 of 84, in six parts and a
+merge, each well below 7 min 3 s) and `Revision/theory/python/check_field_theory.py` (72 of 72, comparison agree),
+including the Noether identities, the exact solutions and the canonical quantisation listed as missing below
+(`Revision/theory/wolfram/WOLFRAMSCRIPT_PROVENANCE.md`, section 6.9).  The supplements of section 9 are superseded by
+that record; they are kept, unchanged, until the textbook no longer reads their outputs (phase 9 of `HANDOFF.md` 0.9).
+The other items below (Kohn-Sham, pairing) are being moved to b4(x4) in the later phases of `HANDOFF.md` 0.9.  The text
+below is the record of 2026-10-14.
+
 See `claude_failures.md`, section C.  Not computed for GENERAL b4: the sections Noether identities, exact solutions
 and conservation, and canonical quantisation of `Revision/theory/wolfram/verify_field_theory.wls` (at b4 = 1 they took
 910.8 s, 1005.4 s and part of 1783-2508 s serially on 2026-10-08; with the parallel zero tests of 2026-10-14 the whole

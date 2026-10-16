@@ -33,6 +33,28 @@ Phases (each verified, committed and pushed; every calculation under `timeout 42
 8. The documents (field theories, Kohn-Sham, pair creation, Lovelock GKD), READMEs, gate, provenance, index.
 9. The textbook: every chapter and notebook that uses b4 = 1; the book PDF.
 
+Progress (newest last):
+- Phase 1 DONE (2026-10-15, commit after 58d6d78). `RevisionFieldTheory.wl` defines the metric with b4;
+  `verify_field_theory.wls` runs in six parts and a merge (base 35 s, emt-G 156 s, emt-C 108 s, solutions 34 s,
+  solutions-G 51 s, quantisation 11 s, merge 5 s; part files in the git-ignored `build/theory-wolfram/`, the merge
+  refuses part files of another version of its inputs): 84 of 84 for general a4 and b4, 33 formula records.
+  `check_field_theory.py` runs twice (`--part nonlinear` 209 s, then the main run 128 s): 72 of 72, comparison with
+  Wolfram agree (33 of 33 records, 65 of 65 pairs). Scope: Wolfram 15 of 15, sympy 14 of 14. Renamed checks: Wolfram
+  `sqrt_det_g`, `gammaOmega_total`, `gammaOmega_per_direction`, `Omega_vanishes_iff_a4prime_b4prime_and_H_vanish`,
+  scope `boosted_frame_removes_only_the_H_term` (no boost in the (x4, x0) plane removes the b4' part of gamma^mu
+  Omega_mu); sympy `sqrt_det_g_equals_b4_cos_z`, `gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term`,
+  `a4_time_terms_cancel_b4_terms_add`, new `spinor_connection_real`, `gravity_term_square`; record
+  `ricci_mixed_nonzero` replaces `ricci_mixed_diagonal`, new record `evolution_form`. Gate: 95 steps (8292 s
+  expected), `--fast` skips 3. Provenance: `Revision/theory/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` 6.9; index row 2
+  and 29; dated note in `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md` part 7; failures G1 to G4.
+  KNOWN OPEN until phase 8: the publication tests of DIRAC16COMPLEX_FIELD_THEORY (29 failures, 3 errors),
+  DIRAC16COMPLEX00_FIELD_THEORY (4 failures, 3 errors) and PAIR_CREATION_PROOFS (2 failures) fail, because those
+  documents still describe b4 = 1 and quote the old check names and texts; the textbook (phase 9) still cites them
+  too. The supplements `verify_field_theory_b4*.wls`, `check_field_theory_b4.py` and their outputs are superseded
+  but kept unchanged (their sha256 are in METRIC_CHANGE_PROVENANCE.md) until the textbook no longer reads them.
+  NOT YET DONE for phase 1: a second run of every part for byte identity (to be made by the gate steps theory-* after
+  the commit).
+
 ### 0.8 STATE 2026-10-15 (dark sector with b4; done, superseded as the start by 0.9)
 
 Never run `python -m unittest Revision.tests.test_universes_in_pairs_textbook` as a whole: it

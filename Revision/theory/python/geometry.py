@@ -4,6 +4,11 @@ e^a_mu = f_a delta^a_mu given together with a coordinate-derivative operator on 
 
 The author's coordinates x0..x7 are indexed 0..7 (index k = xk; x0 = the hidden direction, first).  Frame metric
 eta = diag(+1,+1,+1,+1,-1,-1,-1,-1).  (Until 2026-10-14 the withdrawn labels x1..x8, hidden x8 last, were used.)
+
+The author's metric is the one with the second function b4(x4) (SPEC section 1; the change of 2026-10-14; the user's
+orders of 2026-10-15: "b4 is a function of x4; b4 is NEVER 1" and "move everything to b4(x4)"):
+g = diag(cot^2 z, e^{2 a4} sin^{1/3} z (x3), -1, -e^{-2 a4} b4 sin^{1/3} z (x3)), z = 6 H x0, for GENERAL functions
+a4(x4) and b4(x4) > 0.  (Until 2026-10-15 this ring described the withdrawn metric b4 = 1.)
 """
 
 import sympy as sp
@@ -12,18 +17,21 @@ ETA = [1, 1, 1, 1, -1, -1, -1, -1]
 X0, X4 = 0, 4  # array indices of the hidden direction x0 and the time x4
 
 # ---------------------------------------------------------------- the author's metric as a coefficient ring
-# E = e^{a4(x4)}, A1..A4 = a4', a4'', a4''', a4'''' ; s = sin(z)^(1/6), c = cos(z), z = 6 H x0 in (0, pi/2)
-E, s, c = sp.symbols("E s c", positive=True)
+# E = e^{a4(x4)}, A1..A5 = a4', a4'', ..., a4^(5); Q = b4(x4)^(1/2) > 0, B1..B5 = (ln b4)', (ln b4)'', ..., (ln b4)^(5)
+# (so b4'/b4 = B1 and b4''/b4 = B2 + B1^2); s = sin(z)^(1/6), c = cos(z), z = 6 H x0 in (0, pi/2)
+E, s, c, Q = sp.symbols("E s c Q", positive=True)
 A1, A2, A3, A4, A5 = sp.symbols("A1 A2 A3 A4 A5", real=True)
+B1, B2, B3, B4, B5, B6 = sp.symbols("B1 B2 B3 B4 B5 B6", real=True)
 H = sp.symbols("H", positive=True)
 m, lam = sp.symbols("m lambda", real=True)
-_ACHAIN = [(A1, A2), (A2, A3), (A3, A4), (A4, A5)]
+_ACHAIN = [(A1, A2), (A2, A3), (A3, A4), (A4, A5), (B1, B2), (B2, B3), (B3, B4), (B4, B5), (B5, B6)]
 
 
 def cd_author(expr, mu):
-    """Explicit coordinate derivative of a coefficient in the author's metric ring."""
+    """Explicit coordinate derivative of a coefficient in the author's metric ring (dE/dx4 = E A1,
+    dQ/dx4 = Q B1/2, dA_k/dx4 = A_(k+1), dB_k/dx4 = B_(k+1))."""
     if mu == X4:
-        r = sp.diff(expr, E) * E * A1
+        r = sp.diff(expr, E) * E * A1 + sp.diff(expr, Q) * Q * B1 / 2
         for a, b in _ACHAIN:
             r += sp.diff(expr, a) * b
         return r
@@ -33,8 +41,8 @@ def cd_author(expr, mu):
 
 
 def f_author():
-    """Diagonal vielbein f_a = sqrt|g_aa| of SPEC section 1."""
-    return [c / s**6, E * s, E * s, E * s, sp.Integer(1), s / E, s / E, s / E]
+    """Diagonal vielbein f_a = sqrt|g_aa| of SPEC section 1 (metric with b4: f_5..7 = e^{-a4} b4^(1/2) s)."""
+    return [c / s**6, E * s, E * s, E * s, sp.Integer(1), Q * s / E, Q * s / E, Q * s / E]
 
 
 def zero_author(expr):
@@ -61,12 +69,16 @@ def canon_author(expr):
 
 
 def to_physical(expr):
-    """Rewrite a ring expression in the author's functions: E = e^{a4}, s = sin(6 H x0)^(1/6), c = cos(6 H x0)."""
+    """Rewrite a ring expression in the author's functions: E = e^{a4}, Q = b4^(1/2), s = sin(6 H x0)^(1/6),
+    c = cos(6 H x0), A1 = a4', A2 = a4'', B1 = b4'/b4, B2 = b4''/b4 - (b4'/b4)^2."""
     x0, x4 = sp.symbols("x0 x4", real=True)
     a4 = sp.Function("a4")(x4)
+    b4 = sp.Function("b4")(x4)
     z = 6 * H * x0
-    return sp.sympify(expr).subs({E: sp.exp(a4), s: sp.sin(z) ** sp.Rational(1, 6), c: sp.cos(z),
-                                  A2: sp.Derivative(a4, (x4, 2)), A1: sp.Derivative(a4, x4)})
+    b1 = sp.Derivative(b4, x4) / b4
+    return sp.sympify(expr).subs({B2: sp.Derivative(b4, (x4, 2)) / b4 - b1 ** 2, B1: b1}).subs(
+        {E: sp.exp(a4), Q: sp.sqrt(b4), s: sp.sin(z) ** sp.Rational(1, 6), c: sp.cos(z),
+         A2: sp.Derivative(a4, (x4, 2)), A1: sp.Derivative(a4, x4)})
 
 
 # ---------------------------------------------------------------- a general diagonal vielbein (jet symbols)

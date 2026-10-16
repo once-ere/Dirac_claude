@@ -27,6 +27,16 @@ slow sections of `verify_field_theory.wls` evaluate their exact zero tests on pa
 about 5 minutes instead of 30 to 42 (section 6.8). The tables of section 2 give the files of 2026-10-14; the text
 below describes the earlier runs where it says so.
 
+**2026-10-15 (section 6.9): everything for the metric with b4(x4).** On the user's orders of 2026-10-15 ("b4 is
+a function of x4; b4 is NEVER 1"; "move everything to b4(x4); b4 is never 1") the set proves every statement for the
+author's metric with the second function b4(x4), g55 = g66 = g77 = -E^(-2 a4) b4 Sin[z]^(1/3), for GENERAL functions
+a4(x4) and b4(x4) > 0; nothing is evaluated at b4 = 1, which appears only as the withdrawn earlier metric. The package
+defines that metric; `verify_field_theory.wls` runs in six parts (`base`, `emt-G`, `emt-C`, `solutions`,
+`solutions-G`, `quantisation`) and a `merge`, each well below the limit of 7 min 3 s for one calculation (longest
+part 156 s); it again has 84 checks, all PASS, and writes 33 formula records. `verify_scope.wls` has 15 checks for
+general b4, all PASS. Where this file describes earlier runs (sections 3 to 6.8) it describes the metric b4 = 1 of
+those days; the instructions for the present version are in section 6.9.
+
 ## 1. What this set is and what it computes
 
 ### 1.1 The set in one sentence
@@ -151,11 +161,15 @@ All files are plain text, pure ASCII (hence also UTF-8), with LF line endings an
 
 | file | role | lines | bytes | sha256 |
 | --- | --- | --- | --- | --- |
-| `Revision/theory/wolfram/verify_field_theory.wls` | script: 84 checks; writes the field-theory report and the formula file | 769 | 77938 | `8165a797e117045d2b9f12761fe98a864242d9371c0ccabe697f4cd9cf70f9fd` |
-| `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (geometry, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 295 | 18614 | `313e617d6df3cad7f1d389d9d85681af176e655f0a103a015bdb5b99c4c4e88f` |
-| `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 212 | 18062 | `f47348cab9eb8e2fb77b1089ff003eaf29a8427ff8d923ddb67b37fc5b86dbcb` |
+| `Revision/theory/wolfram/verify_field_theory.wls` | script: 84 checks in six parts and a merge; writes the part files, then the field-theory report and the formula file | 964 | 98520 | `de089d562b1f91b4dd72c69e819f73014334636f0f86a6d7ebc00ca3d039bb67` |
+| `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (the metric with b4, geometry, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 298 | 18951 | `3c33d736dbe4362472409b7ff2f007699da55dabac24cc1dd3aa55102975ee14` |
+| `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 229 | 20900 | `7e8d11f58b958bfbec98a052304d8b6cbad291695d982080b06c1c10bfb6f3f3` |
 
-These are the files of 2026-10-14 (the author's coordinates x0..x7 and parallel subkernels, section 6.8). Before
+These are the files of 2026-10-15 (the metric with b4(x4), section 6.9). The files of 2026-10-14 (the author's
+coordinates x0..x7 and parallel subkernels, section 6.8; the metric b4 = 1): `verify_field_theory.wls` 769 lines,
+77938 bytes, sha256 `8165a797e117045d2b9f12761fe98a864242d9371c0ccabe697f4cd9cf70f9fd`; `RevisionFieldTheory.wl` 295
+lines, 18614 bytes, sha256 `313e617d6df3cad7f1d389d9d85681af176e655f0a103a015bdb5b99c4c4e88f`; `verify_scope.wls` 212
+lines, 18062 bytes, sha256 `f47348cab9eb8e2fb77b1089ff003eaf29a8427ff8d923ddb67b37fc5b86dbcb`. Before
 2026-10-14 the two scripts were the versions of 2026-10-08 (section 6.7: `verify_field_theory.wls` 735 lines, 74225
 bytes, sha256 `107f8803afaa7bb127ea7c6b7b470a7e58dd7199b6d072297a3267942a23cf46`; `verify_scope.wls` 206 lines, 17416
 bytes, sha256 `282c4602470812ba678a5b19eb40602febac5f4b73c85fedb78d8bc76549ef54`) and the package the file of commit
@@ -192,11 +206,17 @@ read, and nothing is downloaded.
 
 | file | written by | lines | bytes | sha256 of the committed (and reproduced) file |
 | --- | --- | --- | --- | --- |
-| `Revision/theory/reports/wolfram-field-theory.json` | `verify_field_theory.wls` | 95 | 35720 | `88cd9ee66846a567b07062120c02a73f17ca73593ab657c0ae3b586457a6064d` |
-| `Revision/theory/field-theory.json` | `verify_field_theory.wls` | 68 | 24674 | `536255e3a508bf59292f89dca6c949478e74564879039ea13c7c307c2cfc8e3b` |
-| `Revision/theory/reports/wolfram-scope.json` | `verify_scope.wls` | 25 | 7244 | `0224e5e5bbbdd7a5550f1a07865d841f5081d7d3ec3907b88150deb950afed52` |
+| `Revision/theory/reports/wolfram-field-theory.json` | `verify_field_theory.wls merge` | 96 | 41247 | `f72453ef97ea1831ba1c6ac44dd6054bee0c953398b00ed2afd3f588336340a3` |
+| `Revision/theory/field-theory.json` | `verify_field_theory.wls merge` | 69 | 29322 | `eda8dfa2d69dbd74a6e09be063c3e7d15c406ec0a0dfa7c416c42ea09b4e544d` |
+| `Revision/theory/reports/wolfram-scope.json` | `verify_scope.wls` | 25 | 8802 | `592920d595b366e1eef130a7b6dae4e9b1ed8a0f298e8436ae676e7119672c3c` |
 
-These are the outputs of 2026-10-14 (section 6.8; gammas.json of the author's coordinates as input). Before:
+These are the outputs of 2026-10-15 (section 6.9; the metric with b4(x4)). The parts write
+`build/theory-wolfram/<part>.json` (git-ignored, not committed; each records the sha256 of the script, the package,
+`Revision/algebra/gammas.json` and `Revision/metric_b4/results/metric-b4.json`, and the merge refuses a part file with
+other values). The outputs of 2026-10-14 (section 6.8; the metric b4 = 1): `wolfram-field-theory.json` 95 lines,
+35720 bytes, sha256 `88cd9ee66846a567b07062120c02a73f17ca73593ab657c0ae3b586457a6064d`; `field-theory.json` 68 lines,
+24674 bytes, sha256 `536255e3a508bf59292f89dca6c949478e74564879039ea13c7c307c2cfc8e3b`; `wolfram-scope.json` 25 lines,
+7244 bytes, sha256 `0224e5e5bbbdd7a5550f1a07865d841f5081d7d3ec3907b88150deb950afed52`. Before 2026-10-14:
 `wolfram-field-theory.json` 35518 bytes, sha256 `35f33fb39ded42f510d22703ccb19a4984e372c016b3345bf620b95d0a43e57d`;
 `field-theory.json` 24609 bytes, sha256 `2a3c83e5db5e0ad3572791334a4797b8af549a22295bb6800739340f2c107f54`;
 `wolfram-scope.json` 7211 bytes, sha256 `ce8a923f85eb1cc7ff2c0740c4653ad9db3a65e2aa8cee3aed076dfb8e21a8ab`; the
@@ -209,8 +229,10 @@ the two checks `charge_density_is_Krein_form_G` and `charge_density_is_Krein_for
 
 * `wolfram-field-theory.json`: every check with its name, verdict and a sentence stating exactly what was
   verified, and the summary `{"passed": 84, "failed": 0, "total": 84}`.
-* `field-theory.json`: 32 exact formula records (Wolfram `InputForm` text) for the documents, from
-  `christoffel_nonzero` to `eta`, each verified by a named check.
+* `field-theory.json`: 33 exact formula records (Wolfram `InputForm` text) for the documents, from
+  `christoffel_nonzero` to `quantisation`, each verified by a named check (32 until 2026-10-14; since 2026-10-15 the
+  record `ricci_mixed_nonzero` replaces `ricci_mixed_diagonal`, because R^x4_x0 and R^x0_x4 are proportional to b4',
+  and the record `evolution_form` is new).
 * `wolfram-scope.json`: the 15 scope checks and the summary `{"passed": 15, "failed": 0, "total": 15}`.
 
 ## 3. How to run it (complete instructions)
@@ -342,6 +364,24 @@ changed after this record was written. The instructions still apply, but the exp
 may differ.
 
 ### 3.5 Run the scripts
+
+**Since 2026-10-15 `verify_field_theory.wls` runs in parts** (section 6.9): instead of the single command below,
+run, from the repository root and in this order, the seven commands
+
+```text
+wolframscript -file Revision/theory/wolfram/verify_field_theory.wls base
+wolframscript -file Revision/theory/wolfram/verify_field_theory.wls emt-G
+wolframscript -file Revision/theory/wolfram/verify_field_theory.wls emt-C
+wolframscript -file Revision/theory/wolfram/verify_field_theory.wls solutions
+wolframscript -file Revision/theory/wolfram/verify_field_theory.wls solutions-G
+wolframscript -file Revision/theory/wolfram/verify_field_theory.wls quantisation
+wolframscript -file Revision/theory/wolfram/verify_field_theory.wls merge
+```
+
+Each part ends with the line `part <name>: N/N checks passed; total time ... s` and the merge with
+`merge: 84/84 checks passed`; judge a run by these lines (a syntax error can end wolframscript with exit code 0,
+`claude_failures.md` G1). The parts emt-G, emt-C, solutions and solutions-G start 16 parallel subkernels (environment
+variable `RFT_KERNELS`; 0 = serial). The text below describes the single command of the versions before 2026-10-15.
 
 Run the short script first (it shows within about a minute that everything works), then the long one.
 The order does not matter for the results: each script reads only `Revision/algebra/gammas.json` (and the
@@ -683,6 +723,11 @@ contains 32 records with the keys `christoffel_nonzero` ... `eta`.
 
 ### 4.4 Run time and memory on the verification machine
 
+Since 2026-10-15 (the metric with b4, section 6.9): wall times of the parts on 2026-10-15 (24 logical processors,
+16 subkernels): base 35 s, emt-G 156 s, emt-C 108 s, solutions 34 s, solutions-G 51 s, quantisation 11 s, merge
+5 s; `verify_scope.wls` 29 s. The table below records the versions of 2026-10-02 and 2026-10-07 (the metric b4 = 1,
+one run of the whole script).
+
 Windows 11 Pro for Workstations, Intel Core Ultra 9 275HX (24 logical processors), 191 GB RAM. During
 both verifications the machine was heavily loaded by other jobs: on 2026-10-07 the CPU load was 100
 percent, 16 Wolfram processes (`wolframscript` and kernels, those of this verification included) were
@@ -1020,6 +1065,48 @@ agents edited other folders, not in a fresh clone. The check program is
 
 The read-only experiments of section 6.4 were not repeated; their recorded `OpenWrite::noopen` messages
 show the paths of the versions of commit `a4c5eda`, with `..` components.
+
+### 6.9 Everything for the metric with b4(x4) (2026-10-15)
+
+* Why. The user's orders of 2026-10-15: "b4 is a function of x4; b4 is NEVER 1" and "yes, move everything to b4(x4);
+  b4 is never 1" (`HANDOFF.md` 0.9). Until then this set proved its statements for the withdrawn metric b4 = 1, and the
+  supplements `verify_field_theory_b4.wls` and `verify_field_theory_b4_emt.wls` of 2026-10-14
+  (`Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`) re-checked part of them for general b4.
+* Changes. `RevisionFieldTheory.wl`: the metric with b4 (`rftF` with E^-a4 Sqrt[b4[x4]] Sin^(1/6) for x5, x6, x7,
+  `rftMetricAuthor`, `rftAssumptions` with b4[x4] > 0, `rftSqrtG0 = b4^(3/2) Cos[z]`); every function is unchanged.
+  `verify_field_theory.wls`: rewritten in parts (argument base, emt-G, emt-C, solutions, solutions-G, quantisation,
+  merge); every statement for general a4 and b4. The changed statements: sqrt|g| = b4^(3/2) Cos z (check renamed
+  `sqrt_det_g`); the Ricci tensor with its off-diagonal components R^x4_x0 = (3/2) H Cot z b4'/b4 and
+  R^x0_x4 = -(3/2) H Tan z b4'/b4 and R = 6 (a4'^2 - 7 H^2) - 3 a4' b4'/b4 + 3 b4''/b4, compared also with
+  `Revision/metric_b4/results/metric-b4.json`; the spin connection of the extra times with a4' - b4'/(2 b4); gamma^mu
+  Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) (checks renamed `gammaOmega_total` and
+  `gammaOmega_per_direction`: the b4' terms of the three extra times add, they do not cancel); the Dirac operator,
+  the block form and the evolution form with the term -(3/4)(b4'/b4) Psi; non-triviality with the square
+  (9 H^2 - (9/16)(b4'/b4)^2) I16 of the gravity term; `Omega_vanishes_iff_a4prime_b4prime_and_H_vanish`; the charge
+  and the Lichnerowicz identity with the new measure and R; the energy exchange with -(3/2)(b4'/b4)(rho + p_t); the
+  exact solutions with the factor b4^(-3/4) (the linear family in closed form; the commuting nonlinear solutions for
+  EVERY solution of the reduced system, by substituting the system for the derivatives of 16 general functions; the
+  Grassmann nonlinear solution with the three integrals I0, Ic, Is of b4^(-3/2)); the quantisation with
+  sqrt|g| = b4^(3/2) Cos z and the anti-Hermitian term -i (3/4)(b4'/b4) of the mode operator, which compensates the x4
+  dependence of the measure (`good_sector_hermiticity_curved`, `Krein_form_conserved_curved`). `verify_scope.wls`: the
+  same metric; the boosted frame gives gamma'^mu Omega'_mu = ((6 H - beta)/2)(Cosh b gamma^(x0) - Sinh b gamma^(x4)) +
+  (3/4)(b4'/b4)(Cosh b gamma^(x4) - Sinh b gamma^(x0)), for any rapidity function Cosh b c4 + Sinh b c0 = (3/4) b4'/b4,
+  so no boost in the (x4, x0) plane removes the b4' part (check renamed `boosted_frame_removes_only_the_H_term`); the
+  rescaling Psi = b4^(-3/4) Sin^(-1/2) chi; the Ricci components; the brane flux with the measure b4^(3/2) Cos z.
+* The Grassmann nonlinear solution. Its first version evaluated the energy-momentum tensor in the explicit Grassmann
+  algebra with the integrals; the part `solutions` was stopped by the limit of 423 s (`claude_failures.md` G2).
+  The part `solutions-G` reduces every statement exactly to 16 x 16 matrix identities (header comment of the part);
+  the field equation, S = b4^(-3/2) S0 and the contraction of the kinetic tensor are also checked directly in the
+  explicit algebra with 16 generic complex constants per generator. It takes 51 s.
+* Runs (2026-10-15, working tree on top of commit `58d6d78`, Windows 11, Wolfram 15.0.1, 24 logical processors), each
+  under `timeout 423`: base 53 of 53 (35 s), emt-G 8 of 8 (156 s), emt-C 8 of 8 (108 s), solutions 4 of 4 (34 s),
+  solutions-G 1 of 1 (51 s), quantisation 9 of 9 (11 s), merge 84 of 84 (5 s), every exit code 0; `verify_scope.wls`
+  15 of 15 (29 s). The independent sympy twins (`Revision/theory/python`, also for general b4, in two runs since
+  2026-10-15): `check_field_theory.py --part nonlinear` 209 s, `check_field_theory.py` 72 of 72 (128 s) with the
+  comparison `agree` (33 of 33 formula records, 65 of 65 check pairs), `check_scope.py` 14 of 14.
+* The supplements of 2026-10-14 (`verify_field_theory_b4.wls`, `verify_field_theory_b4_emt.wls`,
+  `check_field_theory_b4.py`) are unchanged; their statements are now part of this set. They stay in the record, and
+  in the gate, until the textbook no longer reads their outputs (`HANDOFF.md` 0.9, phase 9).
 
 ### 6.8 The author's coordinates x0..x7 and parallel subkernels (2026-10-14)
 

@@ -64,9 +64,16 @@
 #   metric-b4-wolfram                     90 s
 #   metric-b4-sympy                       40 s
 #   metric-b4-vacuum                      10 s
-#   theory-wolfram                       310 s  long
+#   theory-wolfram-base                   40 s
+#   theory-wolfram-emt-g                 160 s
+#   theory-wolfram-emt-c                 110 s
+#   theory-wolfram-solutions              35 s
+#   theory-wolfram-solutions-g            55 s
+#   theory-wolfram-quantisation           15 s
+#   theory-wolfram                         5 s
 #   theory-wolfram-scope                  60 s
-#   theory-sympy                         240 s
+#   theory-sympy-nonlinear               210 s
+#   theory-sympy                         130 s
 #   theory-sympy-scope                     5 s
 #   theory-compare                         2 s
 #   theory-fock-quartic                   10 s
@@ -141,6 +148,10 @@
 # that runs it; ks-rust-mermin-roots follows the canonical matrix (its check compares with it);
 # ks-rust-determinism needs the repeat and the refined run; t3-reference-demo reads the Rust demonstration;
 # t3-completion-sympy reads both demonstrations; the dark sector reads the Kohn-Sham and a4 records.
+# The field theory for b4(x4) (2026-10-15) runs in parts: the six theory-wolfram-* steps write their results to the
+# git-ignored build/theory-wolfram/ and theory-wolfram (the merge) assembles the committed record, refusing a part
+# file of another version of its inputs; theory-sympy-nonlinear writes build/theory-python/nonlinear-solution.json,
+# which theory-sympy takes over under the same condition (each part stays well below 7 min 3 s).
 # The dark sector with b4 (2026-10-15): dark-b4-author-notebook writes the author's notebook at commit b13373c
 # (sha256 pinned) into its work folder for dark-b4-author-inputs, which compares it with the notebook at the
 # root; dark-b4-wolfram reads metric-b4.json and eos-theory.json.
@@ -250,9 +261,16 @@ metric-b4-author-extract|10|0|-|Revision/metric_b4/results/author-b4-outputs.jso
 metric-b4-wolfram|90|0|-|Revision/metric_b4/results/metric-b4.json,Revision/metric_b4/results/wolfram-metric-b4-report.json|Revision/metric_b4/results/wolfram-metric-b4-report.json|{wolframscript} -file Revision/metric_b4/wolfram/verify_metric_b4.wls
 metric-b4-sympy|40|0|-|Revision/metric_b4/results/python-metric-b4-report.json|Revision/metric_b4/results/python-metric-b4-report.json|{python} Revision/metric_b4/python/check_metric_b4.py
 metric-b4-vacuum|10|0|-|Revision/metric_b4/results/vacuum-b4.json|Revision/metric_b4/results/vacuum-b4.json|{wolframscript} -file Revision/metric_b4/wolfram/vacuum_b4.wls
-theory-wolfram|310|1|-|Revision/theory/field-theory.json,Revision/theory/reports/wolfram-field-theory.json|Revision/theory/reports/wolfram-field-theory.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls
+theory-wolfram-base|40|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls base
+theory-wolfram-emt-g|160|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls emt-G
+theory-wolfram-emt-c|110|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls emt-C
+theory-wolfram-solutions|35|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls solutions
+theory-wolfram-solutions-g|55|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls solutions-G
+theory-wolfram-quantisation|15|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls quantisation
+theory-wolfram|5|0|-|Revision/theory/field-theory.json,Revision/theory/reports/wolfram-field-theory.json|Revision/theory/reports/wolfram-field-theory.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls merge
 theory-wolfram-scope|60|0|-|Revision/theory/reports/wolfram-scope.json|Revision/theory/reports/wolfram-scope.json|{wolframscript} -file Revision/theory/wolfram/verify_scope.wls
-theory-sympy|240|0|-|Revision/theory/reports/python-field-theory.json|Revision/theory/reports/python-field-theory.json|{python} Revision/theory/python/check_field_theory.py
+theory-sympy-nonlinear|210|0|-|-|-|{python} Revision/theory/python/check_field_theory.py --part nonlinear
+theory-sympy|130|0|-|Revision/theory/reports/python-field-theory.json|Revision/theory/reports/python-field-theory.json|{python} Revision/theory/python/check_field_theory.py
 theory-sympy-scope|5|0|-|Revision/theory/reports/python-scope.json|Revision/theory/reports/python-scope.json|{python} Revision/theory/python/check_scope.py
 theory-compare|2|0|-|-|-|{audit} json-equals Revision/theory/reports/python-field-theory.json comparison_with_wolfram.status agree
 theory-fock-quartic|10|0|-|Revision/theory/fock_quartic/reports/fock-quartic.json|Revision/theory/fock_quartic/reports/fock-quartic.json|{python} Revision/theory/fock_quartic/check_fock_quartic.py

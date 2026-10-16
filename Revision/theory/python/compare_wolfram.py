@@ -16,34 +16,39 @@ import re
 
 import sympy as sp
 
-from geometry import ETA, X0, X4, E, s, c, A1, A2, H, m, lam, cd_author, zero_author, canon_author
+from geometry import ETA, X0, X4, E, s, c, Q, A1, A2, B1, B2, H, m, lam, cd_author, zero_author, canon_author
 from superalg import Alg, gen, CHI, PSI
 
 COORD = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # the author's coordinates; index k = xk
 x0s = sp.Symbol("x0", real=True)
 a4x = sp.Symbol("a4x", real=True)
+b4x = sp.Symbol("b4x", positive=True)       # b4[x4] of the Wolfram strings
+bd1, bd2 = sp.symbols("bd1 bd2", real=True)  # b4'[x4], b4''[x4]
 Z = 6 * H * x0s
 
 
 def to_wl_vars(expr):
-    """sympy ring expression -> the variables used for parsed Wolfram strings."""
-    return sp.sympify(expr).subs({E: sp.exp(a4x), s: sp.sin(Z) ** sp.Rational(1, 6), c: sp.cos(Z)})
+    """sympy ring expression -> the variables used for parsed Wolfram strings (Q = b4^(1/2), B1 = b4'/b4,
+    B2 = b4''/b4 - (b4'/b4)^2)."""
+    return sp.sympify(expr).subs({B2: bd2 / b4x - (bd1 / b4x) ** 2, B1: bd1 / b4x}).subs(
+        {E: sp.exp(a4x), Q: sp.sqrt(b4x), s: sp.sin(Z) ** sp.Rational(1, 6), c: sp.cos(Z)})
 
 
 def wl_parse(src):
     """Parse a (simple) Wolfram InputForm expression into sympy."""
     t = src
     t = t.replace("Derivative[1][a4][x4]", "A1").replace("Derivative[2][a4][x4]", "A2")
-    t = t.replace("a4[x4]", "a4x")
+    t = t.replace("Derivative[1][b4][x4]", "bd1").replace("Derivative[2][b4][x4]", "bd2")
+    t = t.replace("a4[x4]", "a4x").replace("b4[x4]", "b4x")
     t = re.sub(r'dd\["x(\d)",\s*Psi\[(\d+)\]\]', r"dd_\1_\2", t)
     t = re.sub(r"Psi\[(\d+)\]", r"P_\1", t)
     t = re.sub(r'gamma\["x(\d)"\]', r"G_\1", t)
-    for f in ("Sin", "Cos", "Tan", "Cot", "Sec", "Csc"):
+    for f in ("Sin", "Cos", "Tan", "Cot", "Sec", "Csc", "Sqrt"):
         t = t.replace(f + "[", f.lower() + "(")
     t = t.replace("[", "(").replace("]", ")").replace("{", "[").replace("}", "]").replace("^", "**")
     names = {"sin": sp.sin, "cos": sp.cos, "tan": sp.tan, "cot": sp.cot, "sec": sp.sec, "csc": sp.csc, "E": sp.E,
-             "H": H, "x0": x0s,
-             "a4x": a4x, "A1": A1, "A2": A2, "V": sp.Symbol("V"), "m": m}
+             "sqrt": sp.sqrt, "H": H, "x0": x0s,
+             "a4x": a4x, "A1": A1, "A2": A2, "b4x": b4x, "bd1": bd1, "bd2": bd2, "V": sp.Symbol("V"), "m": m}
     for k in set(re.findall(r"\b(dd_\d_\d+|P_\d+|G_\d)\b", t)):
         names[k] = sp.Symbol(k)
     expr = sp.sympify(t, locals=names)
@@ -141,9 +146,10 @@ def energy_exchange_compare(ew, geo):
               "with entries functions of x4 and x0, recomputed here from the sympy Christoffel symbols with the general "
               "mixed-tensor formula (f_4 = d f/d x4, f_0 = d f/d x0; ring c/s^6 = cot z): " + shown + ". Wolfram entry 1 "
               f"(the eight components) {'equals' if ok1 else 'DIFFERS from'} it component by component; entry 2 "
-              f"(d rho/d x4 = -3 a4' (p3 - p_t), d p0/d x0 = -3 H cot z (2 p0 - p3 - p_t)) "
+              f"(d rho/d x4 = -3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t), d p0/d x0 = -3 H cot z (2 p0 - p3 - p_t)) "
               f"{'is' if ok2 else 'is NOT'} equivalent to its vanishing; entry 3 (x0-independent entries: d rho/d x4 = "
-              f"-3 a4' (p3 - p_t), p0 = (p3 + p_t)/2) {'is' if ok3 else 'is NOT'} equivalent to its vanishing "
+              f"-3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t), p0 = (p3 + p_t)/2) {'is' if ok3 else 'is NOT'} "
+              "equivalent to its vanishing "
               "(coefficient of p0 in the x0 component 6 H cot z > 0). Same statement as the sympy check "
               "energy_exchange_equation")
     return ok1 and ok2 and ok3, detail
@@ -170,21 +176,25 @@ def rec(out, name, ok, detail):
 STATED = {
     'Omega_components': (
         "Omega_xi = (1/2) E^a4[x4] Sin[6 H x0]^(1/6) (a4'[x4] g[xi].g[x4] + H g[xi].g[x0]) (i = 1, 2, 3); "
-        "Omega_xt = -(1/2) E^-a4[x4] Sin[6 H x0]^(1/6) (a4'[x4] g[x4].g[xt] + H g[xt].g[x0]) (t = 5, 6, 7); "
-        'Omega_x0 = Omega_x4 = 0; g[xa] = gamma^(xa) (frame gammas of the fixture)'
+        "Omega_xt = -(1/2) E^-a4[x4] b4[x4]^(1/2) Sin[6 H x0]^(1/6) ((a4'[x4] - b4'[x4]/(2 b4[x4])) g[x4].g[xt] + "
+        "H g[xt].g[x0]) (t = 5, 6, 7); Omega_x0 = Omega_x4 = 0; g[xa] = gamma^(xa) (frame gammas of the fixture)"
     ),
     'Lagrangian': (
-        'L = Cos[z] [ (1/2) sum_mu (Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m S - U(S) ] = '
-        'Cos[z] [ (1/2) sum_a (1/f_a) (Psibar gamma^(a) d_a Psi - d_a Psibar gamma^(a) Psi) - m S - U(S) ]; f_0 = '
-        'Cot[z], f_(1,2,3) = E^a4 Sin[z]^(1/6), f_4 = 1, f_(5,6,7) = E^-a4 Sin[z]^(1/6)'
+        'L = b4[x4]^(3/2) Cos[z] [ (1/2) sum_mu (Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m S - U(S) '
+        '] = b4[x4]^(3/2) Cos[z] [ (1/2) sum_a (1/f_a) (Psibar gamma^(a) d_a Psi - d_a Psibar gamma^(a) Psi) - m S - '
+        'U(S) ]; f_0 = Cot[z], f_(1,2,3) = E^a4 Sin[z]^(1/6), f_4 = 1, f_(5,6,7) = E^-a4 b4^(1/2) Sin[z]^(1/6)'
     ),
     'current': (
-        'J^mu = -i Psibar gamma^mu Psi; d_mu (Cos[z] J^mu) = -i Cos[z] (Ebar Psi + Psibar E); J^x4 = Psi^dagger B '
-        'Psi; Q = Integral Cos[z] Psi^dagger B Psi dx0 dx1 dx2 dx3 dx5 dx6 dx7'
+        'J^mu = -i Psibar gamma^mu Psi; d_mu (b4[x4]^(3/2) Cos[z] J^mu) = -i b4[x4]^(3/2) Cos[z] (Ebar Psi + Psibar '
+        'E); J^x4 = Psi^dagger B Psi; Q = Integral b4[x4]^(3/2) Cos[z] Psi^dagger B Psi dx0 dx1 dx2 dx3 dx5 dx6 dx7'
     ),
     'Lichnerowicz': (
         "(gamma^mu D_mu)^2 Psi = g^mu,nu (D_mu D_nu - Gamma^l_mu,nu D_l) Psi - (R/4) Psi, R = 6 (a4'[x4]^2 - 7 "
-        'H^2)'
+        "H^2) - 3 a4'[x4] b4'[x4]/b4[x4] + 3 b4''[x4]/b4[x4]"
+    ),
+    'evolution_form': (
+        "d4 Psi = -g[x4] ((m + U'(S)) Psi - sum_(a != x4) (1/f_a) g[xa] d_a Psi - 3 H g[x0] Psi) - (3/4) "
+        "(b4'[x4]/b4[x4]) Psi"
     ),
     'T_variation': (
         'T^nu_mu = delta^nu_mu L0 - (1/2) (Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi) - (1/4) g_mu,rho '
@@ -212,20 +222,22 @@ STATED = {
     ),
     'EMT_homogeneous_on_shell': (
         "rho = m S + U(S); p3 = p_t = p0 = S U'(S) - U(S); w = (S U' - U)/(m S + U); for U = (lam/2) S^2: rho = m "
-        'S + lam S^2/2, p = lam S^2/2, w = lam S/(2 m + lam S)'
+        'S + lam S^2/2, p = lam S^2/2, w = lam S/(2 m + lam S); S = b4^(-3/2) S_chi with S_chi constant on shell '
+        '(check exact_solution_nonlinear_homogeneous_C)'
     ),
     'EMT_offdiagonal_x4_x0': (
         'T^x4_x0 = -(1/4) (B40 - Cot[z] B04), B40 = Psibar gamma^(x4) d0 Psi - d0 Psibar gamma^(x4) Psi, B04 = '
         'Psibar gamma^(x0) d4 Psi - d4 Psibar gamma^(x0) Psi; T^x0_x4 = -Tan[z]^2 T^x4_x0 (T_x4x0 = T_x0x4)'
     ),
     'nontriviality': (
-        'gamma^mu D_mu Psi - gamma^mu d_mu Psi = gamma^mu Omega_mu Psi = 3 H gamma^(x0) Psi (nonzero for every H '
-        "> 0, every a4, every Psi != 0); per direction gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) "
-        "gamma^(x0) (i = 1, 2, 3, inflating) and gamma^(xt) Omega_xt = -(a4'/2) gamma^(x4) + (H/2) gamma^(x0) (t "
-        "= 5, 6, 7, deflating): the time-direction terms cancel (3 a4'/2 - 3 a4'/2 = 0), the hidden-direction "
-        "terms add (6 H/2 = 3 H); Omega_mu = 0 for all mu iff a4' = 0 and H = 0 (H = 0 is a degenerate limit of "
-        'the metric); [D_mu, D_nu] = (1/2) R_ab,mu,nu S^ab, and R^x0_x0 = -6 H^2 != 0: no frame removes Omega, '
-        'the metric is never flat for H > 0'
+        "gamma^mu D_mu Psi - gamma^mu d_mu Psi = gamma^mu Omega_mu Psi = (3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4)) "
+        "Psi (nonzero for every H > 0, all a4 and b4; (3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4))^2 = 9 H^2 - "
+        "(9/16)(b4'/b4)^2); per direction gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) gamma^(x0) (i = 1, 2, 3, "
+        "inflating) and gamma^(xt) Omega_xt = (-a4'/2 + b4'/(4 b4)) gamma^(x4) + (H/2) gamma^(x0) (t = 5, 6, 7, "
+        "deflating): the a4' terms of the time direction cancel, the b4' terms add to (3/4) b4'/b4, the "
+        "hidden-direction terms add (6 H/2 = 3 H); Omega_mu = 0 for all mu iff a4' = 0, b4' = 0 and H = 0 (H = 0 is a "
+        "degenerate limit of the metric); [D_mu, D_nu] = (1/2) R_ab,mu,nu S^ab, and R^x0_x0 = -6 H^2 != 0: no frame "
+        "removes Omega, the metric is never flat for H > 0"
     ),
     'majorana_negative_control': (
         'anticommuting real Psi: sqrt g Psi^T C gamma^mu D_mu Psi = d_mu ((1/2) sqrt g Psi^T C gamma^mu Psi) (a '
@@ -233,12 +245,12 @@ STATED = {
         'sqrt g C gamma^mu D_mu Phi and Phi^T C gamma^mu Phi = 0'
     ),
     'exact_solutions': (
-        '(i) U = 0: Psi = Sin[z]^al (Cosh[k x4] + Sinh[k x4]/k M) chi, M = -m g[x4] + 3 H (2 al + 1) g[x4].g[x0], '
-        'k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4); (ii) U = (lam/2) S^2, homogeneous: Psi = (Cosh[k x4] + Sinh[k '
-        'x4]/k M) chi, M = -(m + lam S0) g[x4] + 3 H g[x4].g[x0], S0 = chi^dagger C chi, k^2 = 9 H^2 - (m + lam '
-        'S0)^2 (commuting); Grassmann: Psi = sum_k [exp(M_m x4) + lam S0 d/dm exp(M_m x4)] chi_k theta_k, S0 = '
-        'sum_kl thetabar_k theta_l chi_k^dagger C chi_l; at (ii): rho = m S0 + lam S0^2/2, p3 = p_t = p0 = lam '
-        'S0^2/2'
+        '(i) U = 0: Psi = b4^(-3/4) Sin[z]^al (Cosh[k x4] + Sinh[k x4]/k M) chi, M = -m g[x4] + 3 H (2 al + 1) '
+        'g[x4].g[x0], k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4, b4); (ii) U = (lam/2) S^2, homogeneous, commuting: Psi '
+        '= b4^(-3/4) chi for every solution of chi\' = (-(m + lam b4^(-3/2) S0) g[x4] + 3 H g[x4].g[x0]) chi, S0 = '
+        'chi^dagger C chi constant, S = b4^(-3/2) S0; Grassmann: Psi = b4^(-3/4) sum_k [P c_k + lam S0 eta_k] '
+        'theta_k, eta_k = -P (A0 I0 + Ac Ic + As Is) c_k, S0 = sum_kl thetabar_k theta_l c_k^dagger C c_l; at (ii): '
+        'rho = m S + lam S^2/2, p3 = p_t = p0 = lam S^2/2, S = b4^(-3/2) S0'
     ),
     'equation_of_state_definitions': (
         'rho = -T^x4_x4, p3 = T^x1_x1, p_t = T^x5_x5, p0 = T^x0_x0; w3 = p3/rho, w_t = p_t/rho, w0 = p0/rho; '
@@ -290,51 +302,60 @@ def _prose_expr(t, loc):
 
 def parse_dirac_prose(text, adjoint):
     """The prose field equation (adjoint=False) or adjoint equation (adjoint=True) of field-theory.json ->
-    (coefficients c_a of gamma^(a) d_a Psi (resp. d_a Psibar gamma^(a)), a = x0..x7, coefficient of the term
-    without derivative (gamma^(x0) Psi resp. Psibar gamma^(x0)), right-hand side text, problems found)."""
+    (coefficients c_a of gamma^(a) d_a Psi (resp. d_a Psibar gamma^(a)), a = x0..x7, coefficients of the terms
+    without derivative (gamma^(x0) Psi and gamma^(x4) Psi, resp. Psibar gamma^(x0) and Psibar gamma^(x4)),
+    right-hand side text, problems found)."""
     problems = []
     lhs, rhs = text.split(" = ")
     if adjoint:
         problems += [f"d{a} Psibar g[x{b}]" for a, b in re.findall(r"d(\d) Psibar g\[x(\d)\]", lhs) if a != b]
         t = re.sub(r"d(\d) Psibar g\[x\1\]", r"GD_\1", lhs).replace("Psibar g[x0]", "G_0")
+        t = t.replace("Psibar g[x4]", "G_4")
     else:
         problems += [f"g[x{a}] d{b}" for a, b in re.findall(r"g\[x(\d)\] d(\d)", lhs) if a != b]
-        t = re.sub(r"g\[x(\d)\] d\1", r"GD_\1", lhs).replace("g[x0] Psi", "G_0")
+        t = re.sub(r"g\[x(\d)\] d\1", r"GD_\1", lhs).replace("g[x0] Psi", "G_0").replace("g[x4] Psi", "G_4")
         t = re.sub(r"\bPsi\b", "", t)
     t = re.sub(r"\s+", " ", t).replace("( ", "(").replace(" )", ")").strip()
     t = re.sub(r"E\^-a4(\[x4\])?", "exp(-a4x)", t)
     t = re.sub(r"E\^a4(\[x4\])?", "exp(a4x)", t)
+    t = re.sub(r"b4'(\[x4\])?", "bd1", t)
+    t = re.sub(r"\bb4(\[x4\])?", "b4x", t)
     t = t.replace("Sin[z]", "sin(Z)").replace("Tan[z]", "tan(Z)").replace("Cot[z]", "cot(Z)").replace("^", "**")
     gd = [sp.Symbol(f"GD_{a}") for a in range(8)]  # GD_a: gamma^(xa) d_a, a = 0..7
-    g0 = sp.Symbol("G_0")
-    loc = {"Z": Z, "a4x": a4x, "H": H, "G_0": g0}
+    g0, g4 = sp.Symbol("G_0"), sp.Symbol("G_4")
+    loc = {"Z": Z, "a4x": a4x, "b4x": b4x, "bd1": bd1, "H": H, "G_0": g0, "G_4": g4}
     loc.update({str(x): x for x in gd})
     try:
         e = sp.expand(_prose_expr(t, loc))
     except (SyntaxError, TypeError, ValueError, sp.SympifyError) as exc:
-        return [sp.Integer(0)] * 8, sp.Integer(0), rhs.strip(), problems + [f"not parsed: {type(exc).__name__}"]
-    if not e.free_symbols <= set(gd) | {g0, H, x0s, a4x}:
+        return ([sp.Integer(0)] * 8, (sp.Integer(0), sp.Integer(0)), rhs.strip(),
+                problems + [f"not parsed: {type(exc).__name__}"])
+    if not e.free_symbols <= set(gd) | {g0, g4, H, x0s, a4x, b4x, bd1}:
         problems.append(f"unparsed symbols {sorted(map(str, e.free_symbols))}")
     coef = [e.coeff(x) for x in gd]
     rest = sp.expand(e - sum(cf * x for cf, x in zip(coef, gd)))
-    const = rest.coeff(g0)
-    if sp.expand(rest - const * g0) != 0 or any(cf.has(*gd, g0) for cf in coef) or const.has(*gd, g0):
+    const0, const4 = rest.coeff(g0), rest.coeff(g4)
+    if sp.expand(rest - const0 * g0 - const4 * g4) != 0 or any(cf.has(*gd, g0, g4) for cf in coef) or \
+            const0.has(*gd, g0, g4) or const4.has(*gd, g0, g4):
         problems.append("terms of another form")
-    return coef, const, rhs.strip(), problems
+    return coef, (const0, const4), rhs.strip(), problems
 
 
 # the statements of the Wolfram record quantisation (separated by '; ') and their passing sympy counterparts
 QUANTISATION_STATEMENTS = [
-    ("pi_A = (i/2) Cos[z] (Psi^dagger B)_A", ["canonical_momentum"]),
-    ("K = Cos[z] C gamma^(x4) = i Cos[z] B", ["canonical_momentum", "B_properties"]),
-    ("{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/Cos[z]", ["canonical_anticommutator_B"]),
+    ("pi_A = (i/2) b4^(3/2) Cos[z] (Psi^dagger B)_A", ["canonical_momentum", "sqrt_det_g_equals_b4_cos_z"]),
+    ("K = b4^(3/2) Cos[z] C gamma^(x4) = i b4^(3/2) Cos[z] B", ["canonical_momentum", "B_properties"]),
+    ("{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/(b4^(3/2) Cos[z])", ["canonical_anticommutator_B"]),
     ("B = -i C gamma^(x4), B^dagger = B, B^2 = 1, signature (8,8)", ["B_properties"]),
     ("no positive inner product with Psi^dagger the adjoint (Krein space, fundamental symmetry B)",
      ["no_positive_inner_product"]),
     ("positive representation chi = Psi^dagger B, {Psi_A, chi_C} = delta_AC", ["good_sector_positive_fock_realisation"]),
-    ("Heisenberg: d4 Psi = -i B (1/Cos[z]) dHd/dPsi^dagger = -gamma^(x4) [(m + U') Psi - sum_(a != x4) gamma^a D_a Psi]",
+    ("Heisenberg: d4 Psi = -i B (1/sqrt g) dHd/dPsi^dagger = -gamma^(x4) [(m + U') Psi - sum_(a != x4) gamma^a D_a Psi]",
      ["hamiltonian_form_and_heisenberg_equation"]),
-    ("good sector (no x5, x6, x7 dependence): h Hermitian for Cos[z] d^7x, positive Fock space, normal-ordered H = sum "
+    ("mode operator h = m (-i g[x4]) + sum_(a != x4) (1/f_a) i g[x4].g[xa] d_a + 3 i H g[x4].g[x0] - i (3/4)(b4'/b4)",
+     ["hamiltonian_form_and_heisenberg_equation", "a4_time_terms_cancel_b4_terms_add"]),
+    ("good sector (no x5, x6, x7 dependence): integral b4^(3/2) Cos[z] u^dagger v d^7x conserved up to boundary terms "
+     "(h formally Hermitian for chi = b4^(3/4) Psi and the measure Cos[z]), positive Fock space, normal-ordered H = sum "
      "E (b^* b + d^* d) >= 0 per momentum", ["good_sector_spectrum_and_B_sectors", "good_sector_positive_fock_realisation"]),
     ("expectation-value rule <Psi^dagger M Psi> = u^dagger B M u (u^dagger u = 1, positive-energy good-sector u)",
      ["good_sector_positive_fock_realisation", "expectation_value_rule"]),
@@ -378,18 +399,20 @@ CHECK_MAP = [
     ("chirality_Gamma", ["fixture_C_B_S_consistent", "block_form"]),
     ("B_properties", ["fixture_C_B_S_consistent"]),
     ("metric_from_vielbein_equals_SPEC", ["metric_is_the_authors", "vielbein_inverse"]),
-    ("sqrt_det_g_equals_cos_z", ["sqrt_det_g_is_cos_z"]),
+    ("sqrt_det_g_equals_b4_cos_z", ["sqrt_det_g"]),
     ("christoffel_symmetric_metric_compatible", ["christoffel_count"]),
     ("spin_connection_antisymmetric", ["omega_antisymmetric"]),
     ("vielbein_postulate", ["vielbein_postulate"]),
     ("Omega_x0_and_Omega_x4_vanish", ["Omega_components", "omega_components"]),
+    ("spinor_connection_real", ["Omega_components", "omega_components"]),
     ("covariant_constancy_D_mu_gamma_nu", ["gamma_covariantly_constant", "S_rotates_gamma_with_omega"]),
-    ("gamma_mu_Omega_mu_equals_3H_gamma_x0", ["gammaOmega_equals_3H_gamma_x0"]),
-    ("time_terms_cancel_hidden_term_survives", ["gammaOmega_x4_terms_cancel"]),
+    ("gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term", ["gammaOmega_total"]),
+    ("a4_time_terms_cancel_b4_terms_add", ["gammaOmega_per_direction"]),
+    ("gravity_term_square", ["nontriviality_1_dirac16complex", "nontriviality_2_dirac16complex00"]),
     ("anticommutator_gamma_Omega_vanishes", ["gammaOmega_divergence_form", "L_spin_connection_drops_out_G",
                                              "L_spin_connection_drops_out_C"]),
     ("divergence_of_sqrtg_gamma", ["gammaOmega_divergence_form"]),
-    ("nontriviality_Omega_zero_iff_flat", ["Omega_vanishes_iff_a4prime_and_H_vanish", "nontriviality_1_dirac16complex",
+    ("nontriviality_Omega_zero_iff_flat", ["Omega_vanishes_iff_a4prime_b4prime_and_H_vanish", "nontriviality_1_dirac16complex",
                                            "nontriviality_2_dirac16complex00", "degenerate_at_H_0"]),
     ("curvature_nonzero_flat_only_formally", ["ricci_scalar", "ricci_mixed_components", "never_flat_for_H_positive"]),
     ("spinor_curvature_equals_riemann", ["spin_curvature_equals_Riemann"]),
@@ -466,7 +489,7 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     rec(out, "metric", ok, "the 8x8 metric of field-theory.json equals g = eta f^2 of the sympy side entry by entry")
     fw = wl_parse(F["vielbein_diagonal"])
     rec(out, "vielbein_diagonal", all(same(fw[a], to_wl_vars(geo.f[a])) for a in range(8)), "f_a, a = x0..x7")
-    rec(out, "sqrt_det_g", same(wl_parse(F["sqrt_det_g"]), to_wl_vars(geo.sqrtg)), "sqrt|det g| = cos(6 H x0)")
+    rec(out, "sqrt_det_g", same(wl_parse(F["sqrt_det_g"]), to_wl_vars(geo.sqrtg)), "sqrt|det g| = b4^(3/2) cos(6 H x0)")
     rec(out, "eta", [int(x) for x in wl_parse(F["eta"])] == ETA, "eta = diag(1,1,1,1,-1,-1,-1,-1)")
     # ---- Christoffel symbols
     lst = wl_parse(F["christoffel_nonzero"])
@@ -477,14 +500,18 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     rec(out, "christoffel_nonzero", ok, f"{len(theirs)} Wolfram vs {len(mine)} sympy nonzero Gamma^l_mn (m <= n); "
         "same index set and equal values")
     # ---- Ricci
-    rw = wl_parse(F["ricci_mixed_diagonal"])
-    rm = [geo.ginv[a] * geo.ricci[a][a] for a in range(8)]
-    offd = all(geo.ricci[a][b] == 0 for a in range(8) for b in range(8) if a != b)
-    rec(out, "ricci_mixed_diagonal", offd and all(same(rw[a], to_wl_vars(rm[a])) for a in range(8)),
-        "R^mu_mu (no sum) for mu = x0..x7 equal; off-diagonal Ricci components vanish on both sides "
-        f"(sympy: {[sp.sstr(sp.expand(x)) for x in rm]})")
+    lst = wl_parse(F["ricci_mixed_nonzero"])
+    theirs = {(int(a) - 1, int(b) - 1): v for a, b, v in lst}
+    mine = {(a, b): sp.expand(geo.ginv[a] * geo.ricci[a][b]) for a in range(8) for b in range(8)
+            if not zero_author(geo.ginv[a] * geo.ricci[a][b])}
+    ok = set(theirs) == set(mine) and all(same(theirs[k], to_wl_vars(mine[k])) for k in mine)
+    rec(out, "ricci_mixed_nonzero", ok,
+        f"the nonzero R^mu_nu: {len(theirs)} Wolfram vs {len(mine)} sympy entries, same index set (the diagonal and "
+        "R^x4_x0, R^x0_x4, which are proportional to b4') and equal values (sympy, ring B1 = b4'/b4: "
+        + "; ".join(f"R^{COORD[a]}_{COORD[b]} = {sp.sstr(v)}" for (a, b), v in sorted(mine.items())) + ")")
     rec(out, "ricci_scalar", same(wl_parse(F["ricci_scalar"]), to_wl_vars(geo.Rscalar)),
-        f"R = 6 (a4'^2 - 7 H^2) on both sides (sympy: {sp.sstr(geo.Rscalar)})")
+        "R = 6 (a4'^2 - 7 H^2) - 3 a4' b4'/b4 + 3 b4''/b4 on both sides (sympy, ring B2 = b4''/b4 - (b4'/b4)^2: "
+        f"{sp.sstr(geo.Rscalar)})")
     # ---- spin connection
     lst = wl_parse(F["omega_nonzero"])
     theirs = {(int(mu) - 1, int(a) - 1, int(b) - 1): v for mu, a, b, v in lst}
@@ -497,27 +524,28 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         Mi = (E * s * (A1 * G[i] * G[X4] + H * G[i] * G[X0]) / 2)
         ok = ok and all(zero_author(x) for x in (Mi - geo.Om[i]))
     for t in range(5, 8):  # x5, x6, x7
-        Mt = -(s / E) * (A1 * G[X4] * G[t] + H * G[t] * G[X0]) / 2
+        Mt = -(Q * s / E) * ((A1 - B1 / 2) * G[X4] * G[t] + H * G[t] * G[X0]) / 2
         ok = ok and all(zero_author(x) for x in (Mt - geo.Om[t]))
     ok = ok and geo.Om[X4] == sp.zeros(16, 16) and geo.Om[X0] == sp.zeros(16, 16)
     ok = ok and F["Omega_components"] == STATED["Omega_components"]
     rec(out, "Omega_components", ok, "(statement verbatim) the stated Omega_xi = (1/2) E^a4 Sin^(1/6) (a4' g[xi].g[x4] + H g[xi].g[x0]), "
-        "Omega_xt = -(1/2) E^-a4 Sin^(1/6) (a4' g[x4].g[xt] + H g[xt].g[x0]), Omega_x0 = Omega_x4 = 0, rebuilt from "
-        "the gammas, equal the sympy Omega_mu exactly")
+        "Omega_xt = -(1/2) E^-a4 b4^(1/2) Sin^(1/6) ((a4' - b4'/(2 b4)) g[x4].g[xt] + H g[xt].g[x0]), Omega_x0 = "
+        "Omega_x4 = 0, rebuilt from the gammas, equal the sympy Omega_mu exactly")
     lst = wl_parse(F["gammaOmega_per_direction"])
     ok = True
     for mu, a, b in lst:
         mu = int(mu) - 1
-        M = (geo.gam[mu] * geo.Om[mu]).applyfunc(sp.expand)
-        ok = ok and all(zero_author(x) for x in (M - a * G[X4] - b * G[X0]))
+        M = (geo.gam[mu] * geo.Om[mu]).applyfunc(lambda v: to_wl_vars(sp.expand(v)))  # the variables of the parsed record
+        ok = ok and all(same(x, 0) for x in (M - a * G[X4] - b * G[X0]))
     rec(out, "gammaOmega_per_direction", ok, "gamma^mu Omega_mu (no sum) = (stated coefficient) gamma^(x4) + "
         "(stated coefficient) gamma^(x0) for all 8 mu, checked against the sympy matrices")
     tot = sp.zeros(16, 16)
     for mu in range(8):
         tot += geo.gam[mu] * geo.Om[mu]
     gt = wl_parse(F["gammaOmega_total"])
-    ok = sp.expand(gt - 3 * H * sp.Symbol("G_0")) == 0 and all(zero_author(x) for x in (tot - 3 * H * G[X0]))
-    rec(out, "gammaOmega_total", ok, "3 H gamma^(x0) on both sides")
+    ok = sp.simplify(gt - 3 * H * sp.Symbol("G_0") - sp.Rational(3, 4) * bd1 / b4x * sp.Symbol("G_4")) == 0
+    ok = ok and all(zero_author(x) for x in (tot - 3 * H * G[X0] - sp.Rational(3, 4) * B1 * G[X4]))
+    rec(out, "gammaOmega_total", ok, "3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) on both sides")
     # ---- Lagrangian, field equations
     res_L = True
     for stat in ("grassmann", "commuting"):
@@ -530,12 +558,13 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         Sx = sps.S()
         Lw = (K.scale(sp.Rational(1, 2)) - Sx.scale(m) - (Sx * Sx).scale(lam / 2)).scale(geo.sqrtg)
         res_L = res_L and (Lw - sps.lagrangian()).expand().is_zero(zero_author)[0]
-    # the stated f_a: f_0 = Cot[z], f_(1,2,3) = E^a4 Sin[z]^(1/6), f_4 = 1, f_(5,6,7) = E^-a4 Sin[z]^(1/6)
+    # the stated f_a: f_0 = Cot[z], f_(1,2,3) = E^a4 Sin[z]^(1/6), f_4 = 1, f_(5,6,7) = E^-a4 b4^(1/2) Sin[z]^(1/6)
     f_stated = [sp.cot(Z)] + [sp.exp(a4x) * sp.sin(Z) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)] + \
-        [sp.exp(-a4x) * sp.sin(Z) ** sp.Rational(1, 6)] * 3
+        [sp.exp(-a4x) * sp.sqrt(b4x) * sp.sin(Z) ** sp.Rational(1, 6)] * 3
     res_L = res_L and all(same(f_stated[a], to_wl_vars(geo.f[a])) for a in range(8))
+    res_L = res_L and same(b4x ** sp.Rational(3, 2) * sp.cos(Z), to_wl_vars(geo.sqrtg))
     res_L = res_L and F["Lagrangian"] == STATED["Lagrangian"]
-    rec(out, "Lagrangian", res_L, "(statement verbatim) the stated L = Cos[z][(1/2) sum_a (1/f_a)(Psibar gamma^(a) d_a "
+    rec(out, "Lagrangian", res_L, "(statement verbatim) the stated L = b4^(3/2) Cos[z][(1/2) sum_a (1/f_a)(Psibar gamma^(a) d_a "
         "Psi - d_a Psibar gamma^(a) Psi) - m S - U] (spin connection dropped) equals the sympy L (with Omega_mu) "
         "exactly, both statistics, U = (lambda/2) S^2; the stated f_a equal the sympy vielbein factors")
     comps = F["field_equation_components"]
@@ -564,12 +593,12 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     fe_coef, fe_const, fe_rhs, fe_prob = parse_dirac_prose(F["field_equation"], adjoint=False)
     ok = not fe_prob and fe_rhs == "(m + U'(S)) Psi" and ok_fec
     ok = ok and all(same(fe_coef[a], to_wl_vars(1 / geo.f[a])) for a in range(8))
-    ok = ok and all(same(to_wl_vars(x), y) for x, y in zip(tot, fe_const * G[X0]))
+    ok = ok and all(same(to_wl_vars(x), y) for x, y in zip(tot, fe_const[0] * G[X0] + fe_const[1] * G[X4]))
     rec(out, "field_equation", ok, "the prose equation parsed: the coefficient of gamma^(a) d_a Psi equals the sympy "
-        f"1/f_a for all eight a ({', '.join(sp.sstr(x) for x in fe_coef)}), the term without derivative "
-        f"{sp.sstr(fe_const)} gamma^(x0) Psi equals the sympy gamma^mu Omega_mu Psi, and the right-hand side is (m + "
-        "U'(S)) Psi; the 16 components of this operator are compared in field_equation_components"
-        + (f"; problems: {fe_prob}" if fe_prob else ""))
+        f"1/f_a for all eight a ({', '.join(sp.sstr(x) for x in fe_coef)}), the terms without derivative "
+        f"{sp.sstr(fe_const[0])} gamma^(x0) Psi + {sp.sstr(fe_const[1])} gamma^(x4) Psi equal the sympy gamma^mu "
+        "Omega_mu Psi, and the right-hand side is (m + U'(S)) Psi; the 16 components of this operator are compared in "
+        "field_equation_components" + (f"; problems: {fe_prob}" if fe_prob else ""))
     blocks = F["field_equation_blocks"]
     ok = True
     for entry in blocks:
@@ -588,21 +617,25 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     ad_coef, ad_const, ad_rhs, ad_prob = parse_dirac_prose(F["adjoint_equation"], adjoint=True)
     ok = not ad_prob and ad_rhs == "-(m + U'(S)) Psibar"
     ok = ok and all(same(ad_coef[a], to_wl_vars(1 / geo.f[a])) for a in range(8))
-    # the stated non-derivative term Psibar (ad_const gamma^(x0)) must be -Psibar Omega_mu gamma^mu
-    ok = ok and all(same(to_wl_vars(x), y) for x, y in zip(-OmG, ad_const * G[X0]))
-    ok = ok and not ad_const.free_symbols - {H}
+    # the stated non-derivative terms Psibar (ad_const[0] gamma^(x0) + ad_const[1] gamma^(x4)) must be
+    # -Psibar Omega_mu gamma^mu
+    ad_M = ad_const[0] * G[X0] + ad_const[1] * G[X4]
+    ok = ok and all(same(to_wl_vars(x), y) for x, y in zip(-OmG, ad_M))
+    ok = ok and not ad_const[0].free_symbols - {H} and not ad_const[1].free_symbols - {b4x, bd1}
+    ad_ring = ad_const[0] * G[X0] + ad_const[1].subs({bd1: B1 * b4x}) * G[X4]  # back in the ring: bd1/b4x = B1
     for stat in ("grassmann", "commuting"):
         sps = ctx["sps"][stat]
         pb = sps.psibar()
-        lhs = sps.vecmat(pb, ad_const * G[X0])
+        lhs = sps.vecmat(pb, ad_ring)
         for a in range(8):
             lhs = sps.vadd(lhs, sps.vecmat(sps.psibar((a,)), G[a] / geo.f[a]))
         Mp = Alg.scalar(stat, m) + sps.S().scale(lam)
         Eb = sps.dirac_Ebar()
         ok = ok and all((lhs[B] + Mp * pb[B] + Eb[B]).expand().is_zero(zero_author)[0] for B in range(16))
     rec(out, "adjoint_equation", ok, "the prose equation parsed: the coefficient of d_a Psibar gamma^(a) equals the "
-        "sympy 1/f_a for all eight a, the term without derivative " + sp.sstr(ad_const) + " Psibar gamma^(x0) equals "
-        "-Psibar Omega_mu gamma^mu (sympy: sum_mu Omega_mu gamma^mu = -3 H gamma^(x0)), and the stated equation "
+        "sympy 1/f_a for all eight a, the terms without derivative " + sp.sstr(ad_const[0]) + " Psibar gamma^(x0) + "
+        + sp.sstr(ad_const[1]) + " Psibar gamma^(x4) equal -Psibar Omega_mu gamma^mu (sympy: sum_mu Omega_mu gamma^mu = "
+        "-3 H gamma^(x0) - (3/4)(b4'/b4) gamma^(x4)), and the stated equation "
         "(... = -(m + U'(S)) Psibar), rebuilt in the jet algebra, equals the sympy D_mu Psibar gamma^mu = -(m + U') "
         "Psibar exactly, both statistics" + (f"; problems: {ad_prob}" if ad_prob else ""))
     # ---- current
@@ -625,16 +658,40 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
                     chiB = chiB + (Alg.g(stat, gen(CHI, A)) * Alg.g(stat, gen(PSI, Bb))).scale(gm["B"][A, Bb])
         ok = ok and (J[X4] - chiB).expand().is_zero(zero_author)[0]
     ok = ok and F["current"] == STATED["current"]
-    rec(out, "current", ok, "(statement verbatim) J^mu = -i Psibar gamma^mu Psi (the sympy current); d_mu(Cos z "
-        "J^mu) = -i Cos z (Ebar Psi + Psibar E) with the Wolfram sign of Ebar (= minus the sympy Ebar) holds exactly; "
-        "J^x4 = Psi^dagger B Psi; both statistics; Q is the integral of Cos z J^x4 over a slice x4 = const "
-        "(conserved for fields that vanish at the boundary of the slice)")
-    ok = F["Lichnerowicz"] == STATED["Lichnerowicz"] and sp.expand(geo.Rscalar - 6 * (A1**2 - 7 * H**2)) == 0
+    ok = ok and same(b4x ** sp.Rational(3, 2) * sp.cos(Z), to_wl_vars(geo.sqrtg))
+    rec(out, "current", ok, "(statement verbatim) J^mu = -i Psibar gamma^mu Psi (the sympy current); d_mu(b4^(3/2) "
+        "Cos z J^mu) = -i b4^(3/2) Cos z (Ebar Psi + Psibar E) with the Wolfram sign of Ebar (= minus the sympy Ebar) "
+        "holds exactly (sqrt|g| = b4^(3/2) cos z); J^x4 = Psi^dagger B Psi; both statistics; Q is the integral of "
+        "sqrt|g| J^x4 over a slice x4 = const (conserved for fields that vanish at the boundary of the slice)")
+    Rring = 6 * (A1**2 - 7 * H**2) - 3 * A1 * B1 + 3 * (B2 + B1**2)  # b4''/b4 = B2 + B1^2
+    ok = F["Lichnerowicz"] == STATED["Lichnerowicz"] and sp.expand(geo.Rscalar - Rring) == 0
     ok = ok and {"lichnerowicz_identity_on_fields", "lichnerowicz_contraction"} <= passed
     rec(out, "Lichnerowicz", ok, "(statement verbatim) (gamma^mu D_mu)^2 Psi = g^mu nu (D_mu D_nu - Gamma^l_mu nu "
         "D_l) Psi - (R/4) Psi is the identity proved on the jet space by the passing sympy check "
         "lichnerowicz_identity_on_fields (with gamma^mu gamma^nu F_mu nu = -(R/2) I16, lichnerowicz_contraction); "
-        f"R = 6 (a4'^2 - 7 H^2) recomputed here (sympy: {sp.sstr(geo.Rscalar)})")
+        f"R = 6 (a4'^2 - 7 H^2) - 3 a4' b4'/b4 + 3 b4''/b4 recomputed here (sympy: {sp.sstr(geo.Rscalar)})")
+    # ---- evolution form: d4 Psi = -g[x4] ((m + U') Psi - sum_(a != x4) (1/f_a) g[xa] d_a Psi - 3 H g[x0] Psi)
+    #      - (3/4)(b4'/b4) Psi, rebuilt in the jet algebra and compared with the field equation solved for d4 Psi
+    ok_ev = F["evolution_form"] == STATED["evolution_form"] and "hamiltonian_form_and_heisenberg_equation" in passed
+    for stat in ("grassmann", "commuting"):
+        sps = ctx["sps"][stat]
+        ps = sps.psi()
+        Mp = Alg.scalar(stat, m) + sps.S().scale(lam)
+        inner_s = [Mp * ps[A] for A in range(16)]
+        inner_w = [Mp * ps[A] for A in range(16)]
+        for mu in range(8):
+            if mu != X4:
+                inner_s = [a - b for a, b in zip(inner_s, sps.matvec(geo.gam[mu], sps.Dpsi(mu)))]
+                inner_w = [a - b for a, b in zip(inner_w, sps.matvec(G[mu] / geo.f[mu], sps.psi((mu,))))]
+        inner_w = [a - b for a, b in zip(inner_w, sps.matvec(3 * H * G[X0], ps))]
+        d4_s = sps.matvec(-G[X4], inner_s)
+        d4_w = [a - b.scale(sp.Rational(3, 4) * B1) for a, b in zip(sps.matvec(-G[X4], inner_w), ps)]
+        ok_ev = ok_ev and all((x - y).expand().is_zero(zero_author)[0] for x, y in zip(d4_s, d4_w))
+    rec(out, "evolution_form", ok_ev, "(statement verbatim) the stated d4 Psi = -g[x4]((m + U') Psi - sum_(a != x4) "
+        "(1/f_a) g[xa] d_a Psi - 3 H g[x0] Psi) - (3/4)(b4'/b4) Psi, rebuilt in the jet algebra (U = (lambda/2) S^2), "
+        "equals -gamma^(x4)[(m + U') Psi - sum_(mu != x4) gamma^mu D_mu Psi] (the sympy field equation solved for d4 "
+        "Psi, with the sympy spin connection) exactly, both statistics; the Heisenberg form of the same equation is "
+        "the passing sympy check hamiltonian_form_and_heisenberg_equation")
     # ---- energy-momentum tensor
     okv, oks, okd, okk, okx, okt = True, True, True, True, True, True
     for stat in ("grassmann", "commuting"):
@@ -758,19 +815,23 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         if mu in (1, 2, 3):
             want = A1 / 2 * G[X4] + H / 2 * G[X0]
         elif mu in (5, 6, 7):
-            want = -A1 / 2 * G[X4] + H / 2 * G[X0]
+            want = (-A1 / 2 + B1 / 4) * G[X4] + H / 2 * G[X0]
         else:
             want = sp.zeros(16, 16)
         ok_nt = ok_nt and all(zero_author(x) for x in (M - want))
     r00 = sp.expand(geo.ginv[X0] * geo.ricci[X0][X0])
-    ok_nt = ok_nt and all(zero_author(x) for x in (tot_nt - 3 * H * G[X0])) and zero_author(r00 + 6 * H**2)
-    ok_nt = ok_nt and G[X0] * G[X0] == sp.eye(16)
-    ok_nt = ok_nt and {"gamma_mu_Omega_mu_equals_3H_gamma_x0", "time_terms_cancel_hidden_term_survives",
-                       "nontriviality_Omega_zero_iff_flat", "spinor_curvature_equals_riemann"} <= passed
+    gOm = 3 * H * G[X0] + sp.Rational(3, 4) * B1 * G[X4]
+    ok_nt = ok_nt and all(zero_author(x) for x in (tot_nt - gOm)) and zero_author(r00 + 6 * H**2)
+    ok_nt = ok_nt and (gOm * gOm - (9 * H**2 - sp.Rational(9, 16) * B1**2) * sp.eye(16)).applyfunc(sp.expand) == \
+        sp.zeros(16, 16)
+    ok_nt = ok_nt and {"gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term", "a4_time_terms_cancel_b4_terms_add",
+                       "nontriviality_Omega_zero_iff_flat", "spinor_curvature_equals_riemann",
+                       "gravity_term_square"} <= passed
     rec(out, "nontriviality", ok_nt, "(statement verbatim) recomputed here from the sympy matrices and Ricci tensor: "
-        "gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) gamma^(x0) (i = 1, 2, 3), gamma^(xt) Omega_xt = -(a4'/2) "
-        "gamma^(x4) + (H/2) gamma^(x0) (t = 5, 6, 7), gamma^(x0) Omega_x0 = gamma^(x4) Omega_x4 = 0, the sum 3 H "
-        "gamma^(x0) (nonzero on every Psi != 0 since (gamma^(x0))^2 = 1), R^x0_x0 = -6 H^2; the iff statement and "
+        "gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) gamma^(x0) (i = 1, 2, 3), gamma^(xt) Omega_xt = (-a4'/2 + "
+        "b4'/(4 b4)) gamma^(x4) + (H/2) gamma^(x0) (t = 5, 6, 7), gamma^(x0) Omega_x0 = gamma^(x4) Omega_x4 = 0, the "
+        "sum 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) with square (9 H^2 - (9/16)(b4'/b4)^2) I16 (nonzero on every "
+        "Psi != 0 unless (b4'/b4)^2 = 16 H^2, sympy check gravity_term_square), R^x0_x0 = -6 H^2; the iff statement and "
         "[D_mu, D_nu] = curvature are the passing sympy checks nontriviality_Omega_zero_iff_flat and "
         "spinor_curvature_equals_riemann. Scope: the values belong to the diagonal vielbein (frame dependence: "
         "Revision/theory/reports/python-scope.json)")
@@ -788,20 +849,21 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         "components and Phi^T C gamma^(a) Phi = 0 for 16 real commuting components, all a")
     al, S0 = sp.symbols("alpha S0", real=True)
     M1 = -m * G[X4] + 3 * H * (2 * al + 1) * G[X4] * G[X0]
-    M2 = -(m + lam * S0) * G[X4] + 3 * H * G[X4] * G[X0]
+    M2 = -(m + lam * S0 / Q**3) * G[X4] + 3 * H * G[X4] * G[X0]
     I16 = sp.eye(16)
     ok_ex = (M1 * M1 - (9 * H**2 * (2 * al + 1)**2 - m**2) * I16).applyfunc(sp.expand) == sp.zeros(16, 16)
-    ok_ex = ok_ex and (M2 * M2 - (9 * H**2 - (m + lam * S0)**2) * I16).applyfunc(sp.expand) == sp.zeros(16, 16)
     ok_ex = ok_ex and (Cm * M1 + M1.T * Cm).applyfunc(sp.expand) == sp.zeros(16, 16)
     ok_ex = ok_ex and (Cm * M2 + M2.T * Cm).applyfunc(sp.expand) == sp.zeros(16, 16)
-    ok_ex = ok_ex and sp.expand((m * Sg + Uq).subs(Sg, S0) - (m * S0 + lam * S0**2 / 2)) == 0 and \
-        sp.expand((Sg * sp.diff(Uq, Sg) - Uq).subs(Sg, S0) - lam * S0**2 / 2) == 0
+    Sb = S0 / Q**3  # S = b4^(-3/2) S0
+    ok_ex = ok_ex and sp.expand((m * Sg + Uq).subs(Sg, Sb) - (m * Sb + lam * Sb**2 / 2)) == 0 and \
+        sp.expand((Sg * sp.diff(Uq, Sg) - Uq).subs(Sg, Sb) - lam * Sb**2 / 2) == 0
     ok_ex = ok_ex and F["exact_solutions"] == STATED["exact_solutions"]
     ok_ex = ok_ex and {"exact_solution_family_x4_x0", "exact_nonlinear_homogeneous_solution"} <= passed
     rec(out, "exact_solutions", ok_ex, "(statement verbatim) with the sympy gammas: M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) "
-        "I16 and M^2 = (9 H^2 - (m + lambda S0)^2) I16 for the two stated M, C M + M^T C = 0 for both (S constant), and "
-        "rho = m S0 + lambda S0^2/2, p = S U' - U = lambda S0^2/2 for U = lambda S^2/2; the solutions themselves - (i), "
-        "(ii) and the Grassmann solution in an explicit Grassmann algebra with N = 2 - are the passing sympy checks "
+        "I16 for the M of (i), C M + M^T C = 0 for it and for the x4-dependent M = -(m + lambda b4^(-3/2) S0) gamma^(x4) "
+        "+ 3 H gamma^(x4) gamma^(x0) of (ii) (so chi^dagger C chi is constant), and rho = m S + lambda S^2/2, p = S U' - "
+        "U = lambda S^2/2 for U = lambda S^2/2 with S = b4^(-3/2) S0; the solutions themselves - (i), (ii) and the "
+        "Grassmann solution in an explicit Grassmann algebra with N = 2 - are the passing sympy checks "
         "exact_solution_family_x4_x0 and exact_nonlinear_homogeneous_solution")
     wq = sp.simplify((Sg * sp.diff(Uq, Sg) - Uq) / (m * Sg + Uq) - lam * Sg / (2 * m + lam * Sg))
     ok_eo = F["equation_of_state_definitions"] == STATED["equation_of_state_definitions"] and wq == 0 and \
@@ -831,8 +893,9 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         + "; C gamma^(x4) = i B recomputed here. Convention note: the sympy side states the rule in two realisations - "
         "(i) Psi^dagger the adjoint in a Krein-Fock space: <:Psi^dagger M Psi:> = eps u^dagger M u (= u^dagger B M u "
         "for B-eigenvector modes); (ii) the positive Fock space with Psi^dagger = chi B: u^dagger B M u for particles, "
-        "-v^dagger B M v for antiparticles (the Wolfram form). Scope: 'h Hermitian for Cos[z] d^7x' holds up to the "
-        "boundary term at z = pi/2 (record hidden_direction_hermiticity; Revision/theory/reports/python-scope.json); "
+        "-v^dagger B M v for antiparticles (the Wolfram form). Scope: the conservation of integral b4^(3/2) Cos[z] "
+        "u^dagger v d^7x in the good sector holds up to the boundary term at z = pi/2 (record "
+        "hidden_direction_hermiticity; Revision/theory/reports/python-scope.json); "
         "the EMT operator is a definition (normal ordering of the classical tensor), the same as the sympy record "
         "quantisation.emt_operator")
     covered = [x["name"] for x in out]

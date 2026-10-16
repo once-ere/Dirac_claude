@@ -1,12 +1,26 @@
 #!/usr/bin/env python3
 """Revision/theory/python/check_field_theory.py - independent exact sympy verification of the field theory
-of dirac16complex (Grassmann) and dirac16complex00 (commuting) in the author's primordial metric
-(Revision/SPEC.md sections 1-6), written anew (no shared code with Revision/theory/wolfram, nothing from
-the old stages).  Writes Revision/theory/reports/python-field-theory.json (deterministic, LF).
+of dirac16complex (Grassmann) and dirac16complex00 (commuting) in the author's primordial metric with the second
+function b4(x4) (Revision/SPEC.md sections 1-6; the change of 2026-10-14; the user's orders of 2026-10-15: "b4 is a
+function of x4; b4 is NEVER 1", "move everything to b4(x4)"), for GENERAL functions a4(x4) and b4(x4) > 0, written
+anew (no shared code with Revision/theory/wolfram, nothing from the old stages).  Until 2026-10-15 this checker
+treated the withdrawn metric b4 = 1 and check_field_theory_b4.py re-checked the metric-dependent formulas for b4;
+that supplement is retired, its checks are part of this file.  Writes Revision/theory/reports/python-field-theory.json
+(deterministic, LF).
+
+Two runs (2026-10-15; each stays well below the limit of 7 min 3 s for one calculation):
+  python Revision/theory/python/check_field_theory.py --part nonlinear   (about 4 minutes)
+      the exact nonlinear homogeneous solutions of both statistics (check exact_nonlinear_homogeneous_solution);
+      writes the git-ignored build/theory-python/nonlinear-solution.json with the sha256 of its inputs
+  python Revision/theory/python/check_field_theory.py                    (about 2 to 3 minutes)
+      every other check, the comparison with the Wolfram record, and the report; it takes over the result of the
+      first run only if the sha256 of every input (the Python files of this folder and the two gamma fixtures) is
+      unchanged, otherwise the check fails.
 
 Usage:  python Revision/theory/python/check_field_theory.py [--out PATH]
 """
 
+import hashlib
 import json
 import os
 import sys
@@ -18,8 +32,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 from superalg import Alg, gen, CHI, PSI, THETA  # noqa: E402
-from geometry import (ETA, X0, X4, E, s, c, A1, A2, H, m, lam, cd_author, f_author, zero_author,  # noqa: E402
-                      canon_author, to_physical, generic_ring, zero_generic, Geometry)
+from geometry import (ETA, X0, X4, E, s, c, Q, A1, A2, B1, B2, H, m, lam, cd_author, f_author,  # noqa: E402
+                      zero_author, canon_author, to_physical, generic_ring, zero_generic, Geometry)
 from fields import Spinors  # noqa: E402
 import gammas_io  # noqa: E402
 from quantum import make_vev  # noqa: E402
@@ -29,6 +43,7 @@ import grassmann_solution  # noqa: E402
 
 REV = gammas_io.REV
 OUT = os.path.join(REV, "theory", "reports", "python-field-theory.json")
+PART_FILE = os.path.join(os.path.dirname(REV), "build", "theory-python", "nonlinear-solution.json")
 COORD = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # the author's coordinates; index k = xk
 STATS = {"grassmann": "dirac16complex (anticommuting, Grassmann)",
          "commuting": "dirac16complex00 (commuting)"}
@@ -129,7 +144,7 @@ def section_gammas():
 
 # ====================================================================================== B. geometry
 def section_geometry(gm):
-    sec = "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)"
+    sec = "B. vielbein, Christoffel symbols, canonical spin connection (author's metric with b4(x4))"
     G, S = gm["gamma"], gm["S"]
     f = f_author()
     geo = Geometry(f, cd_author)
@@ -137,19 +152,23 @@ def section_geometry(gm):
     geo.curved_gammas(G)
     x0, x4 = sp.symbols("x0 x4", real=True)
     a4 = sp.Function("a4")(x4)
+    b4 = sp.Function("b4")(x4)
     z = 6 * H * x0
     spec = [sp.cot(z) ** 2] + [sp.exp(2 * a4) * sp.sin(z) ** sp.Rational(1, 3)] * 3 + [-1] + \
-           [-sp.exp(-2 * a4) * sp.sin(z) ** sp.Rational(1, 3)] * 3
+           [-sp.exp(-2 * a4) * b4 * sp.sin(z) ** sp.Rational(1, 3)] * 3
     ok = all(sp.simplify(to_physical(geo.g[a]) - spec[a]) == 0 for a in range(8))
     check("metric_from_vielbein_equals_SPEC", ok,
-          "e^a_mu = sqrt|g_mumu| delta^a_mu reproduces g of SPEC section 1 exactly: "
-          + "; ".join(f"g_{COORD[a]}{COORD[a]} = {sp.sstr(spec[a])}" for a in range(8)), sec)
-    check("sqrt_det_g_equals_cos_z", sp.simplify(to_physical(geo.sqrtg) - sp.cos(z)) == 0,
-          f"sqrt|det g| = product of the f_a = {sp.sstr(geo.sqrtg)} (ring) = cos(6 H x0)", sec)
+          "e^a_mu = sqrt|g_mumu| delta^a_mu reproduces g of SPEC section 1 (the metric with b4(x4), general a4 and b4) "
+          "exactly: " + "; ".join(f"g_{COORD[a]}{COORD[a]} = {sp.sstr(spec[a])}" for a in range(8)), sec)
+    check("sqrt_det_g_equals_b4_cos_z", sp.simplify(to_physical(geo.sqrtg) - b4 ** sp.Rational(3, 2) * sp.cos(z)) == 0
+          and sp.expand(cd_author(geo.sqrtg, X4) - sp.Rational(3, 2) * B1 * geo.sqrtg) == 0,
+          f"sqrt|det g| = product of the f_a = {sp.sstr(geo.sqrtg)} (ring) = b4(x4)^(3/2) cos(6 H x0), and "
+          "d_x4 sqrt|g| = (3/2)(b4'/b4) sqrt|g|", sec)
     FORMULAS["vielbein_f"] = {COORD[a]: phys(f[a]) for a in range(8)}
-    FORMULAS["sqrt_abs_det_g"] = "cos(6*H*x0)"
-    FORMULAS["ring_notation"] = ("E = exp(a4(x4)), s = sin(6 H x0)^(1/6), c = cos(6 H x0), A1 = a4', A2 = a4''; "
-                                 "physical forms substitute these")
+    FORMULAS["sqrt_abs_det_g"] = "b4(x4)**(3/2)*cos(6*H*x0)"
+    FORMULAS["ring_notation"] = ("E = exp(a4(x4)), Q = b4(x4)^(1/2), s = sin(6 H x0)^(1/6), c = cos(6 H x0), A1 = a4', "
+                                 "A2 = a4'', B1 = b4'/b4, B2 = (b4'/b4)' = b4''/b4 - (b4'/b4)^2; physical forms "
+                                 "substitute these")
     # Christoffels
     chr_list = {}
     for l in range(8):
@@ -190,6 +209,12 @@ def section_geometry(gm):
         terms = mat_in_S(geo.Om[mu], S)
         omf[COORD[mu]] = " + ".join(f"({phys(k)})*S^({COORD[a]},{COORD[b]})" for a, b, k in terms) if terms else "0"
     FORMULAS["Omega_mu"] = omf
+    # the spin connection is real (from the retired supplement check_field_theory_b4.py, check spinor_connection_real_b4)
+    check("spinor_connection_real", all(not e.has(sp.I) for O in geo.Om for e in O) and any(O != sp.zeros(16, 16)
+                                                                                         for O in geo.Om),
+          "every entry of every Omega_mu = sum_(a<b) omega_mu,ab (1/2) gamma^a gamma^b is a real expression on the "
+          "patch 0 < z < pi/2 for all functions a4 and b4 > 0 (real gammas, E = e^a4, Q = b4^(1/2), s = sin(z)^(1/6), "
+          "c = cos z; no imaginary unit): gamma^mu D_mu is a REAL operator", sec)
     check("Omega_x0_and_Omega_x4_vanish", geo.Om[X0] == sp.zeros(16, 16) and geo.Om[X4] == sp.zeros(16, 16),
           "Omega_(x0) = Omega_(x4) = 0 identically (the diagonal vielbein makes omega_mu ab nonzero only for mu in "
           "{a, b} with the other index x0 or x4); Omega_(xi) = " + omf["x1"] + " for i = 1,2,3; Omega_(x5,x6,x7) "
@@ -216,21 +241,33 @@ def section_geometry(gm):
         be = sp.expand((Mm * G[X0]).trace() / 16)    # coefficient of gamma^(x0): tr(g0 g0) = +16
         okd = mzero(Mm - al * G[X4] - be * G[X0])
         decomp[COORD[mu]] = (al, be, okd)
-    okt = mzero(tot - 3 * H * G[X0])
-    check("gamma_mu_Omega_mu_equals_3H_gamma_x0", okt,
-          "gamma^mu Omega_mu = 3 H gamma^(x0) exactly (independent of a4 and of x4, x0)", sec)
+    gOm = 3 * H * G[X0] + sp.Rational(3, 4) * B1 * G[X4]
+    okt = mzero(tot - gOm)
+    check("gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term", okt,
+          "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) exactly (independent of a4 and of x0)", sec)
     infl = sp.expand(sum(decomp[COORD[i]][0] for i in range(1, 4)))
     defl = sp.expand(sum(decomp[COORD[i]][0] for i in range(5, 8)))
     hid = sp.expand(sum(decomp[COORD[i]][1] for i in range(8)))
     ok = all(d[2] for d in decomp.values()) and sp.expand(infl - sp.Rational(3, 2) * A1) == 0 \
-        and sp.expand(defl + sp.Rational(3, 2) * A1) == 0 and sp.expand(hid - 3 * H) == 0
+        and sp.expand(defl + sp.Rational(3, 2) * A1 - sp.Rational(3, 4) * B1) == 0 and sp.expand(hid - 3 * H) == 0
     ok = ok and all(sp.expand(decomp[COORD[i]][1] - H / 2) == 0 for i in (1, 2, 3, 5, 6, 7))
-    check("time_terms_cancel_hidden_term_survives", ok,
+    check("a4_time_terms_cancel_b4_terms_add", ok,
           "per direction gamma^(xi) Omega_(xi) = (1/2) a4' gamma^(x4) + (H/2) gamma^(x0) for the inflating i = 1,2,3 "
-          "and = -(1/2) a4' gamma^(x4) + (H/2) gamma^(x0) for the deflating extra times i = 5,6,7; the x4 terms "
-          f"cancel (inflating sum {infl}, deflating sum {defl}); the six hidden-direction terms add to {hid} gamma^(x0)",
-          sec)
-    FORMULAS["gamma_mu_Omega_mu"] = "3*H*gamma^(x0)"
+          "and = (-(1/2) a4' + (1/4) b4'/b4) gamma^(x4) + (H/2) gamma^(x0) for the deflating extra times i = 5,6,7; the "
+          f"a4' terms of the x4 direction cancel, the b4' terms add (inflating sum {infl}, deflating sum {defl}, "
+          f"B1 = b4'/b4); the six hidden-direction terms add to {hid} gamma^(x0)", sec)
+    FORMULAS["gamma_mu_Omega_mu"] = "3*H*gamma^(x0) + (3/4)*(b4'/b4)*gamma^(x4)"
+    # the square of the gravity term (from the retired supplement, check gravity_term_square_b4): since
+    # (gamma^x0)^2 = 1, (gamma^x4)^2 = -1 and the two anticommute, M M = (9 H^2 - (9/16)(b4'/b4)^2) 1; where
+    # |b4'/b4| = 4 H, M = 3 H (gamma^x0 +- gamma^x4) squares to 0 and has rank 8
+    sq_ok = mzero(gOm * gOm - (9 * H**2 - sp.Rational(9, 16) * B1**2) * sp.eye(16))
+    ranks = [(G[X0] + sgn * G[X4]).rank() for sgn in (1, -1)]
+    nil_ok = all(((G[X0] + sgn * G[X4]) ** 2).is_zero_matrix for sgn in (1, -1))
+    check("gravity_term_square", sq_ok and ranks == [8, 8] and nil_ok,
+          "M = gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) satisfies M M = (9 H^2 - (9/16)(b4'/b4)^2) "
+          "I16 exactly, so M Psi = 0 only for Psi = 0 wherever (b4'/b4)^2 != 16 H^2 (on the background history of SPEC "
+          "section 1, b4'/b4 = (4/3) H: M M = 8 H^2 I16); where |b4'/b4| = 4 H, M = 3 H (gamma^(x0) +- gamma^(x4)), whose "
+          f"square is 0 and whose rank is 8 (ranks {ranks}): there M Psi = 0 on an 8-dimensional subspace", sec)
     FORMULAS["gamma_xi_Omega_xi"] = {COORD[i]: f"({phys(decomp[COORD[i]][0])})*gamma^(x4) + "
                                      f"({phys(decomp[COORD[i]][1])})*gamma^(x0)" for i in range(8)}
     anti = sp.zeros(16, 16)
@@ -239,32 +276,36 @@ def section_geometry(gm):
     check("anticommutator_gamma_Omega_vanishes", mzero(anti),
           "sum_mu {gamma^mu, Omega_mu} = 0: only the totally antisymmetric part of omega enters the symmetric "
           "Lagrangian and it vanishes for this diagonal vielbein; gravity enters L through e^mu_a and sqrt|g|, and "
-          "the field equation through gamma^mu Omega_mu = 3 H gamma^(x0) = (1/2)(1/sqrt|g|) d_mu(sqrt|g| e^mu_a) gamma^a",
+          "the field equation through gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) = (1/2)(1/sqrt|g|) "
+          "d_mu(sqrt|g| e^mu_a) gamma^a",
           sec)
     # (1/2)(1/sqrtg) d_mu (sqrtg gamma^mu) = gamma^mu Omega_mu - (1/2){...} : check the identity directly
     M = sp.zeros(16, 16)
     for mu in range(8):
         M += (geo.gam[mu] * geo.sqrtg).applyfunc(lambda x: cd_author(x, mu))
-    check("divergence_of_sqrtg_gamma", mzero(M / geo.sqrtg / 2 - 3 * H * G[X0]),
-          "(1/2)(1/sqrt|g|) d_mu(sqrt|g| gamma^mu) = 3 H gamma^(x0) = gamma^mu Omega_mu", sec)
-    # Non-triviality: Omega vanishes iff a4' = 0 and H = 0
+    check("divergence_of_sqrtg_gamma", mzero(M / geo.sqrtg / 2 - gOm),
+          "(1/2)(1/sqrt|g|) d_mu(sqrt|g| gamma^mu) = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) = gamma^mu Omega_mu "
+          "(sqrt|g| = b4^(3/2) cos z)", sec)
+    # Non-triviality: Omega vanishes iff a4' = 0, b4' = 0 and H = 0
     ok = True
     lin = []
     for i in (1, 5):  # Omega_(x1) and Omega_(x5)
         terms = mat_in_S(geo.Om[i], S)
         cfs = {(a, b): k for a, b, k in terms}
         lin.append(cfs)
-    # coefficients (a < b in the order x0..x7): S^(x1 x4) carries a4' only, S^(x0 x1) carries H only
+    # coefficients (a < b in the order x0..x7): S^(x1 x4) carries a4' only, S^(x4 x5) carries a4' - b4'/(2 b4) only,
+    # S^(x0 x1) and S^(x0 x5) carry H only
     c14, c01 = lin[0][(1, 4)], lin[0][(0, 1)]
     c45, c05 = lin[1][(4, 5)], lin[1][(0, 5)]
-    ok = sp.expand(c14 / A1).free_symbols <= {E, s} and sp.expand(c01 / H).free_symbols <= {E, s}
-    ok = ok and sp.expand(c45 / A1).free_symbols <= {E, s} and sp.expand(c05 / H).free_symbols <= {E, s}
+    ok = sp.cancel(c14 / A1).free_symbols <= {E, s} and sp.cancel(c01 / H).free_symbols <= {E, s}
+    ok = ok and sp.cancel(c45 / (A1 - B1 / 2)).free_symbols <= {E, s, Q} and sp.cancel(c05 / H).free_symbols <= {E, s, Q}
     check("nontriviality_Omega_zero_iff_flat", ok,
           f"Omega_(x1) = ({ring(c14)}) S^(x1,x4) + ({ring(c01)}) S^(x0,x1), Omega_(x5) = ({ring(c45)}) S^(x4,x5) + "
-          f"({ring(c05)}) S^(x0,x5): the S^ab are linearly independent and E = e^a4 > 0, s > 0 on 0 < z < pi/2, so "
-          "every Omega_mu vanishes iff a4' = 0 AND H = 0 (formal flat limit with s, c frozen; at H = 0 the metric "
-          "itself degenerates since sin(6 H x0) = 0, so within the author's family the spin connection never "
-          "vanishes); the field-equation term gamma^mu Omega_mu = 3 H gamma^(x0) is nonzero for every H > 0", sec)
+          f"({ring(c05)}) S^(x0,x5): the S^ab are linearly independent and E = e^a4 > 0, Q = b4^(1/2) > 0, s > 0 on "
+          "0 < z < pi/2, so every Omega_mu vanishes iff a4' = 0, a4' - b4'/(2 b4) = 0 (i.e. b4' = 0) AND H = 0 (formal "
+          "flat limit with s, c frozen; at H = 0 the metric itself degenerates since sin(6 H x0) = 0, so within the "
+          "author's family the spin connection never vanishes); the field-equation term gamma^mu Omega_mu = 3 H "
+          "gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) is nonzero for every H > 0", sec)
     return geo
 
 
@@ -275,12 +316,13 @@ def section_curvature(gm, geo):
     geo.riemann()
     R = geo.Rscalar
     FORMULAS["ricci_scalar"] = phys(R)
-    R0 = canon_author(R.subs({A1: 0, A2: 0}))
-    flatR = all(sp.expand(v.subs({A1: 0, A2: 0, H: 0})) == 0 for v in geo.R.values())
-    check("curvature_nonzero_flat_only_formally", (not zero_author(R0)) and flatR,
-          f"Ricci scalar R = {ring(R)} (ring); for a4 = const R = {ring(R0)} which is nonzero for H > 0: the metric "
-          "is curved for every member of the family; every Riemann component vanishes only in the formal limit "
-          "a4' = a4'' = 0, H = 0 (flat 4+4)", sec)
+    R00 = sp.expand(geo.ginv[X0] * geo.ricci[X0][X0])
+    Rexp = 6 * (A1**2 - 7 * H**2) - 3 * A1 * B1 + 3 * (B2 + B1**2)
+    flatR = all(sp.expand(v.subs({A1: 0, A2: 0, B1: 0, B2: 0, H: 0})) == 0 for v in geo.R.values())
+    check("curvature_nonzero_flat_only_formally", sp.expand(R00 + 6 * H**2) == 0 and zero_author(R - Rexp) and flatR,
+          f"Ricci scalar R = {ring(R)} (ring; = 6 (a4'^2 - 7 H^2) - 3 a4' b4'/b4 + 3 b4''/b4); R^x0_x0 = {ring(R00)} "
+          "< 0 for every H > 0 and all a4, b4: the metric is curved for every member of the family; every Riemann "
+          "component vanishes only in the formal limit a4' = a4'' = 0, b4' = b4'' = 0, H = 0 (flat 4+4)", sec)
     # spinor curvature F_mu nu = (1/4) R_{rho sigma mu nu} gamma^rho gamma^sigma
     ok = True
     gg = sp.zeros(16, 16)
@@ -330,7 +372,7 @@ def section_curvature(gm, geo):
     check("lichnerowicz_identity_on_fields", ok,
           "(gamma^mu D_mu)^2 Psi = g^{mu nu} nabla_mu D_nu Psi - (R/4) Psi identically on the jet space: the "
           "first-order operator squares to the second-order one with the curvature term -R/4, R = 6(a4'^2 - 7 H^2) "
-          "(integrability of the Dirac-type equation in this metric)", sec)
+          "- 3 a4' b4'/b4 + 3 b4''/b4 (integrability of the Dirac-type equation in this metric)", sec)
 
 
 # ====================================================================================== D. Lagrangian, EL, current
@@ -673,7 +715,9 @@ def section_quantisation(gm, geo):
           "indefinite (Krein) inner product", sec)
     # mode Hamiltonian at frame level
     k = sp.symbols("k0:8", real=True)  # k[a] = k_a, the frame momentum along xa
-    hcur = -sp.I * G[X4] * (m * sp.eye(16) - 3 * H * G[X0])
+    # the curved terms of the mode operator (i d4 Psi = h Psi): 3 i H gamma^(4) gamma^(x0) from gamma^mu Omega_mu and the
+    # anti-Hermitian scalar -i (3/4)(b4'/b4) (it compensates the x4 dependence of the measure b4^(3/2) cos z)
+    hcur = -sp.I * G[X4] * (m * sp.eye(16) - 3 * H * G[X0]) - sp.I * sp.Rational(3, 4) * B1 * sp.eye(16)
     h = -sp.I * m * G[X4]
     for a in range(8):
         if a != X4:
@@ -702,13 +746,22 @@ def section_quantisation(gm, geo):
     hpn = (P * hg * P).subs(num)
     ev = hpn.eigenvals()
     ok_ev = ev == {5: 4, -5: 4, 0: 8}
-    check("good_sector_spectrum_and_B_sectors", comm and commc and anti and ok_herm and ok_ev
+    # the curved scalar term -i (3/4)(b4'/b4) of h is anti-Hermitian and compensates the x4 dependence of the measure:
+    # sqrt|g| (u^dagger h_s v - (h_s u)^dagger v) + i (d_x4 sqrt|g|) u^dagger v = 0 for h_s = -i (3/4) B1
+    hs = -sp.I * sp.Rational(3, 4) * B1
+    ok_meas = sp.expand(geo.sqrtg * (hs - sp.conjugate(hs)) + sp.I * cd_author(geo.sqrtg, X4)) == 0
+    check("good_sector_spectrum_and_B_sectors", comm and commc and anti and ok_herm and ok_ev and ok_meas
           and herm == sp.zeros(16, 16),
           "good sector (k5 = k6 = k7 = 0, no extra-time momentum, frame level): h is Hermitian on the full 16-dim "
           "space with energies +-sqrt(m^2 + k0^2 + k1^2 + k2^2 + k3^2) (8 each); [B, h] = 0 (also with the curved "
-          "term 3 i H gamma^(4) gamma^(x0) of gamma^mu Omega_mu), so the B = +1 and B = -1 eigenspaces (8-dim each) "
+          "terms 3 i H gamma^(4) gamma^(x0) and -i (3/4)(b4'/b4) of gamma^mu Omega_mu), so the B = +1 and B = -1 "
+          "eigenspaces (8-dim each) "
           "are invariant, each with energies +-E (exact example m = 2, k0 = 4, (k1, k2, k3) = (1, 2, 0) on B = +1: +5 (4 times), -5 (4 times)); "
-          "extra-time momenta mix the two sectors (B anticommutes with gamma^(4) gamma^(x5,x6,x7)). With Psi^dagger "
+          "extra-time momenta mix the two sectors (B anticommutes with gamma^(4) gamma^(x5,x6,x7)). The curved scalar "
+          "term -i (3/4)(b4'/b4) of the mode operator is anti-Hermitian and satisfies sqrt|g| (u^dagger h_s v - (h_s "
+          "u)^dagger v) = -i (d_x4 sqrt|g|) u^dagger v (sqrt|g| = b4^(3/2) cos z): it compensates the x4 dependence of "
+          "the measure, so integral sqrt|g| u^dagger v d^7x is conserved in the good sector up to boundary terms. With "
+          "Psi^dagger "
           "realised as the adjoint the B = -1 sector carries negative Krein norm; the positive realisation follows "
           "in the next check", sec)
     # positive Fock realisation of the good sector: chi = Psi^dagger B is the Hilbert adjoint
@@ -774,9 +827,10 @@ def section_quantisation(gm, geo):
     check("extra_time_modes_grow", set(evg) == {sp.sqrt(3) * sp.I, -sp.sqrt(3) * sp.I},
           "with extra-time momentum E^2 = m^2 + k_space^2 - k_t^2 < 0 when k_t^2 > m^2 + k_space^2: exact example "
           f"m = 1, k5 = 2: eigenvalues {sorted(map(sp.sstr, evg))}, i.e. modes ~ e^{{sqrt(3) x4}} grow; in the "
-          "metric the frame momentum k_(x5) = e^{a4} sin(z)^{-1/6} k_x5 (coordinate k_x5) grows as the extra times "
-          "deflate (a4 increasing), so every extra-time mode eventually enters the growing regime (local "
-          "frame / WKB statement)", sec)
+          "metric the frame momentum k_(x5) = e^{a4} b4^{-1/2} sin(z)^{-1/6} k_x5 (coordinate k_x5) grows as the extra "
+          "times deflate (e^{-a4} b4^{1/2} decreasing; on the background history of SPEC section 1, b4 ~ e^{(4/3) a4}, "
+          "it is ~ e^{-a4/3}), so every extra-time mode eventually enters the growing regime (local frame / WKB "
+          "statement)", sec)
     # expectation-value rule via the exact Krein Fock evaluator
     evecs = []
     for val in (1, -1):
@@ -832,7 +886,11 @@ def section_quantisation(gm, geo):
           "u^dagger B M u does NOT hold (verified), so the general rule is eps_n u_n^dagger M u_n", sec)
     FORMULAS["quantisation"] = {
         "momentum": "pi_A = i sqrt|g| (Psi^dagger B)_A (first-order form), B = -i C gamma^(x4)",
-        "anticommutator": "{Psi_A(x), Psi^dagger_B(y)} = B_AB delta^7(x - y)/sqrt|g| on x4 = const",
+        "anticommutator": "{Psi_A(x), Psi^dagger_B(y)} = B_AB delta^7(x - y)/sqrt|g| on x4 = const, sqrt|g| = "
+                          "b4^(3/2) cos z",
+        "mode_operator": "i d4 Psi = h Psi, h = -i m gamma^(4) + sum_(a != x4) (1/f_a) i gamma^(4) gamma^(a) d_a + 3 i H "
+                         "gamma^(4) gamma^(x0) - i (3/4)(b4'/b4); the anti-Hermitian scalar compensates d_x4 sqrt|g| = "
+                         "(3/2)(b4'/b4) sqrt|g| (equivalently h is Hermitian for b4^(3/4) Psi with the measure cos z)",
         "krein": "B Hermitian, B^2 = 1, signature (8,8): indefinite (Krein) state space",
         "good_sector": "k5 = k6 = k7 = 0: [B, h] = 0; B = +1 sector positive (Dirac-like Fock space), "
                        "B = -1 sector negative norm",
@@ -876,7 +934,8 @@ def section_further(gm, geo, ctx):
           "sqrt|g| Psibar gamma^(x4) d4 Psi - Hd exactly (Omega_x4 = 0), and d4 Psi_A = -i B_AC (1/sqrt|g|) "
           "dHd/dPsi^dagger_C (the Heisenberg equation for {Psi, Psi^dagger} = B/sqrt|g|) equals the field equation "
           "solved for d4 Psi, -gamma^(x4)[(m + lambda S) Psi - sum_(mu != x4) gamma^mu D_mu Psi], exactly (lambda "
-          "general; operator ordering of the classical expression)", sec)
+          "general; operator ordering of the classical expression; the extra-time spin connection contains the b4' "
+          "term, so this is d4 Psi = -gamma^(x4)[...] - (3/4)(b4'/b4) Psi)", sec)
     # energy exchange: ALL EIGHT components of nabla_mu T^mu_nu for a diagonal T whose entries are functions of x4
     # AND x0 (jet symbols: rho_4 = d rho/d x4, rho_0 = d rho/d x0, likewise p3, pt, p0; p0 = the pressure along the
     # hidden direction x0, called p8 in the withdrawn labels)
@@ -904,49 +963,56 @@ def section_further(gm, geo, ctx):
             if geo.Gam[mu][mu][nu] != 0:
                 v -= geo.Gam[mu][mu][nu] * Td[mu]
         div.append(sp.factor(canon_author(v)))
-    exp4 = -j4["rho"] - 3 * A1 * (p30 - pt0)
+    exp4 = -j4["rho"] - 3 * A1 * (p30 - pt0) - sp.Rational(3, 2) * B1 * (r0 + pt0)
     exp0 = j0["p0"] + 3 * H * cot * (2 * p00 - p30 - pt0)
     ok_div = sp.expand(div[X4] - exp4) == 0 and zero_author(div[X0] - exp0)
     ok_div = ok_div and all(div[i] == 0 for i in range(8) if i not in (X4, X0))
-    # the two components are independent: x4 has no x0 jet and no H, x0 has no x4 jet and no a4'
+    # the two components are independent: x4 has no x0 jet and no H, x0 has no x4 jet, no a4' and no b4'
     fs4, fs0 = div[X4].free_symbols, sp.sympify(div[X0]).free_symbols
-    ok_ind = not (fs4 & (set(j0.values()) | {H, s, c})) and not (fs0 & (set(j4.values()) | {A1, E}))
-    # conservation <=> rho_4 = -3 a4' (p3 - p_t) and p0_0 = -3 H cot z (2 p0 - p3 - p_t) (coefficients -1, +1)
+    ok_ind = not (fs4 & (set(j0.values()) | {H, s, c})) and not (fs0 & (set(j4.values()) | {A1, E, B1, Q}))
+    # conservation <=> rho_4 = -3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) and p0_0 = -3 H cot z (2 p0 - p3 - p_t)
     ok_cons = sp.expand(sp.diff(div[X4], j4["rho"]) + 1) == 0 and zero_author(sp.diff(div[X0], j0["p0"]) - 1)
-    ok_cons = ok_cons and sp.expand(div[X4].subs(j4["rho"], -3 * A1 * (p30 - pt0))) == 0
+    ok_cons = ok_cons and sp.expand(div[X4].subs(j4["rho"], -3 * A1 * (p30 - pt0)
+                                                 - sp.Rational(3, 2) * B1 * (r0 + pt0))) == 0
     ok_cons = ok_cons and zero_author(div[X0].subs(j0["p0"], -3 * H * cot * (2 * p00 - p30 - pt0)))
     # x0-independent entries: the x0 component is 3 H cot z (2 p0 - p3 - p_t) with cot z = c/s^6 > 0 (c, s > 0)
     free0 = {j0[n]: 0 for n in names}
     ok_free = zero_author(div[X0].subs(free0) - 3 * H * cot * (2 * p00 - p30 - pt0))
     ok_free = ok_free and zero_author(div[X0].subs(free0).subs(p00, (p30 + pt0) / 2))
-    # controls: a wrong sign of the a4' term and a wrong factor of the cot z term are detected
-    ctrl = sp.expand(div[X4] - (-j4["rho"] + 3 * A1 * (p30 - pt0))) != 0 and \
+    # controls: the formula without the b4' term, a wrong sign of the a4' term and a wrong factor of the cot z term
+    # are detected
+    ctrl = sp.expand(div[X4] - (-j4["rho"] - 3 * A1 * (p30 - pt0))) != 0 and \
+        sp.expand(div[X4] - (-j4["rho"] + 3 * A1 * (p30 - pt0) - sp.Rational(3, 2) * B1 * (r0 + pt0))) != 0 and \
         not zero_author(div[X0] - (j0["p0"] + 2 * H * cot * (2 * p00 - p30 - pt0)))
     ok = ok_div and ok_ind and ok_cons and ok_free and ctrl
     FORMULAS["energy_exchange"] = {
         "T": "diag(p0, p3, p3, p3, -rho, p_t, p_t, p_t) (order x0..x7), entries functions of x4 and x0",
-        "nabla_mu T^mu_nu": {COORD[nu]: ("-d4 rho - 3*a4'*(p3 - p_t)" if nu == X4 else
+        "nabla_mu T^mu_nu": {COORD[nu]: ("-d4 rho - 3*a4'*(p3 - p_t) - (3/2)*(b4'/b4)*(rho + p_t)" if nu == X4 else
                                          "d0 p0 + 3*H*cot(6*H*x0)*(2*p0 - p3 - p_t)" if nu == X0 else "0")
                              for nu in range(8)},
-        "conservation": ["d4 rho = -3*a4'*(p3 - p_t)", "d0 p0 = -3*H*cot(6*H*x0)*(2*p0 - p3 - p_t)"],
-        "x0_independent_entries": ["d rho/d x4 = -3*a4'*(p3 - p_t)", "p0 = (p3 + p_t)/2"]}
+        "conservation": ["d4 rho = -3*a4'*(p3 - p_t) - (3/2)*(b4'/b4)*(rho + p_t)",
+                         "d0 p0 = -3*H*cot(6*H*x0)*(2*p0 - p3 - p_t)"],
+        "x0_independent_entries": ["d rho/d x4 = -3*a4'*(p3 - p_t) - (3/2)*(b4'/b4)*(rho + p_t)", "p0 = (p3 + p_t)/2"]}
     check("energy_exchange_equation", ok,
           "for a diagonal T^mu_nu = diag(p0,p3,p3,p3,-rho,p_t,p_t,p_t) (order x0..x7) whose entries are functions of x4 and x0, all "
           f"eight components: nabla_mu T^mu_x4 = {sp.sstr(exp4)}, nabla_mu T^mu_x0 = {sp.sstr(exp0)} (each equal to the "
-          "component computed from the Christoffel symbols, exact zero test of the difference; ring: c/s^6 = cot z; "
-          "rho_4 = d rho/d x4, p0_0 = d p0/d x0), i.e. -d4 rho - 3 a4' (p3 - p_t) and d0 p0 + 3 H cot z (2 p0 - p3 - "
-          "p_t); the components nu = x1, x2, x3, x5, x6, x7 vanish identically. Conservation is "
-          "therefore exactly d rho/d x4 = -3 a4' (p3 - p_t) (energy flows between 3-space and the extra times unless "
-          "p3 = p_t) and d p0/d x0 = -3 H cot z (2 p0 - p3 - p_t); the two components are independent (the x4 one "
-          "contains no x0 derivative and no H, the x0 one no x4 derivative and no a4'). For x0-independent entries the "
-          "x0 component is 3 H cot z (2 p0 - p3 - p_t) with cot z > 0, so conservation needs p0 = (p3 + p_t)/2. "
-          "Controls: a wrong sign of the a4' term and a wrong factor of the cot z term are detected", sec)
+          "component computed from the Christoffel symbols, exact zero test of the difference; ring: c/s^6 = cot z, "
+          "B1 = b4'/b4; rho_4 = d rho/d x4, p0_0 = d p0/d x0), i.e. -d4 rho - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) "
+          "and d0 p0 + 3 H cot z (2 p0 - p3 - p_t); the components nu = x1, x2, x3, x5, x6, x7 vanish identically. "
+          "Conservation is therefore exactly d rho/d x4 = -3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) (energy flows "
+          "between 3-space and the extra times unless p3 = p_t; the extra-time volume factor b4^(3/2) dilutes rho + p_t) "
+          "and d p0/d x0 = -3 H cot z (2 p0 - p3 - p_t); the two components are independent (the x4 one contains no x0 "
+          "derivative and no H, the x0 one no x4 derivative, no a4' and no b4'). For x0-independent entries the x0 "
+          "component is 3 H cot z (2 p0 - p3 - p_t) with cot z > 0, so conservation needs p0 = (p3 + p_t)/2. "
+          "Controls: the formula without the b4' term, a wrong sign of the a4' term and a wrong factor of the cot z term "
+          "are detected", sec)
     # exact solutions (commuting form; linear in chi, so equally a check of the Grassmann field equation at U = 0)
     x4, x0, al, kk = sp.symbols("x4 x0 alpha k", real=True)
     a4 = sp.Function("a4")(x4)
+    b4 = sp.Function("b4")(x4)
     z = 6 * H * x0
     fphys = [sp.cot(z)] + [sp.exp(a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)] + \
-            [sp.exp(-a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3
+            [sp.exp(-a4) * sp.sqrt(b4) * sp.sin(z) ** sp.Rational(1, 6)] * 3
     chi = sp.Matrix(sp.symbols("q1:17"))
     Om_phys = [M.applyfunc(to_physical) for M in geo.Om]
     X = [sp.Symbol(f"x{i}", real=True) for i in range(8)]  # the author's x0..x7
@@ -967,32 +1033,113 @@ def section_further(gm, geo, ctx):
     ksq = 9 * H**2 * (2 * al + 1) ** 2 - m**2
     ok_sq = (M1 * M1 - ksq * sp.eye(16)).applyfunc(sp.expand) == sp.zeros(16, 16)
     ok_c = (M1.T * Cm + Cm * M1).applyfunc(sp.expand) == sp.zeros(16, 16)
-    psi1 = sp.sin(z) ** al * (sp.cosh(kk * x4) * sp.eye(16) + sp.sinh(kk * x4) / kk * M1) * chi
+    bfac = b4 ** sp.Rational(-3, 4)  # the factor b4^(-3/4) of every solution
+    psi1 = bfac * sp.sin(z) ** al * (sp.cosh(kk * x4) * sp.eye(16) + sp.sinh(kk * x4) / kk * M1) * chi
     res = dirac(psi1, m)
-    ok_sol = all(vanish(e / sp.sin(z) ** al, ksq) for e in res)
+    ok_sol = all(vanish(e / (bfac * sp.sin(z) ** al), ksq) for e in res)
     check("exact_solution_family_x4_x0", ok_sq and ok_c and ok_sol,
-          "Psi = sin(z)^alpha (cosh(k x4) + sinh(k x4)/k M) chi, M = -m gamma^(x4) + 3 H (2 alpha + 1) gamma^(x4) "
-          "gamma^(x0), k^2 = 9 H^2 (2 alpha + 1)^2 - m^2, constant chi (16 components), solves gamma^mu D_mu Psi = "
-          "m Psi exactly for every a4(x4) and every alpha (M^2 = k^2 I16, M^T C + C M = 0 so S is x4-independent); "
-          "a test of the Tan(z) gamma^(x0) d0 and 3 H gamma^(x0) terms (independent re-derivation of the Wolfram "
+          "Psi = b4^(-3/4) sin(z)^alpha (cosh(k x4) + sinh(k x4)/k M) chi, M = -m gamma^(x4) + 3 H (2 alpha + 1) "
+          "gamma^(x4) gamma^(x0), k^2 = 9 H^2 (2 alpha + 1)^2 - m^2, constant chi (16 components), solves gamma^mu D_mu "
+          "Psi = m Psi exactly for all functions a4(x4), b4(x4) and every alpha (M^2 = k^2 I16, M^T C + C M = 0 so "
+          "b4^(3/2) S is x4-independent); a test of the Tan(z) gamma^(x0) d0, 3 H gamma^(x0) and (3/4)(b4'/b4) "
+          "gamma^(x4) terms (the last compensated by the factor b4^(-3/4); independent re-derivation of the Wolfram "
           "side's exact solutions; linear in chi, so it holds for either statistics at U = 0)", sec)
+    # the nonlinear homogeneous solutions are verified by the separate run --part nonlinear (nonlinear_solutions below)
+    ok_nl, det_nl = load_nonlinear_part()
+    check("exact_nonlinear_homogeneous_solution", ok_nl, det_nl, sec)
+
+
+def input_hashes():
+    """sha256 of every input of the nonlinear part: the Python files of this folder and the two gamma fixtures."""
+    files = sorted(f for f in os.listdir(HERE) if f.endswith(".py"))
+    paths = [os.path.join(HERE, f) for f in files] + [os.path.join(REV, "algebra", "gammas.json"),
+                                                     os.path.join(REV, "algebra", "reports", "python-gammas.json")]
+    out = {}
+    for pth in paths:
+        with open(pth, "rb") as fh:
+            out[os.path.relpath(pth, os.path.dirname(REV)).replace(os.sep, "/")] = hashlib.sha256(fh.read()).hexdigest()
+    return out
+
+
+def nonlinear_solutions(gm, geo, sps_g):
+    """The exact nonlinear homogeneous solutions of both statistics (U = (lambda/2) S^2, general a4 and b4)."""
+    G, Cm = gm["gamma"], gm["C"]
+    x4, x0 = sp.symbols("x4 x0", real=True)
+    a4 = sp.Function("a4")(x4)
+    b4 = sp.Function("b4")(x4)
+    z = 6 * H * x0
+    fphys = [sp.cot(z)] + [sp.exp(a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)] + \
+            [sp.exp(-a4) * sp.sqrt(b4) * sp.sin(z) ** sp.Rational(1, 6)] * 3
+    Om_phys = [M.applyfunc(to_physical) for M in geo.Om]
+    X = [sp.Symbol(f"x{i}", real=True) for i in range(8)]  # the author's x0..x7
+    X[X4], X[X0] = x4, x0
+
+    def dirac(psi, mass):
+        out = -mass * psi
+        for mu in range(8):
+            out += G[mu] / fphys[mu] * (psi.diff(X[mu]) + Om_phys[mu] * psi)
+        return out
+
+    bfac = b4 ** sp.Rational(-3, 4)
+    # commuting: Phi = b4^(-3/4) chi(x4) with chi' = M chi, M = -(m + lambda b4^(-3/2) S0) gamma^(x4)
+    # + 3 H gamma^(x4) gamma^(x0); 16 general functions chi_A(x4) whose derivatives are replaced by the system
     S0 = sp.Symbol("S0", real=True)
-    M2 = -(m + lam * S0) * G[X4] + 3 * H * G[X4] * G[X0]
-    k2sq = 9 * H**2 - (m + lam * S0) ** 2
-    ok_sq2 = (M2 * M2 - k2sq * sp.eye(16)).applyfunc(sp.expand) == sp.zeros(16, 16)
+    M2 = -(m + lam * S0 * b4 ** sp.Rational(-3, 2)) * G[X4] + 3 * H * G[X4] * G[X0]
     ok_c2 = (M2.T * Cm + Cm * M2).applyfunc(sp.expand) == sp.zeros(16, 16)
-    E2 = sp.cosh(kk * x4) * sp.eye(16) + sp.sinh(kk * x4) / kk * M2
-    inv = (E2.T * Cm * E2 - Cm).applyfunc(lambda e: sp.simplify(sp.expand(e).subs(kk, sp.sqrt(k2sq))))
-    res2 = dirac(E2 * chi, m + lam * S0)
-    ok2 = ok_sq2 and ok_c2 and inv == sp.zeros(16, 16) and all(vanish(e, k2sq) for e in res2)
+    chif = sp.Matrix([sp.Function(f"chi{A + 1}")(x4) for A in range(16)])
+    flow = M2 * chif
+    sub = {sp.Derivative(chif[A], x4): flow[A] for A in range(16)}
+    res2 = dirac(bfac * chif, m + lam * S0 * b4 ** sp.Rational(-3, 2))
+    ok2 = ok_c2 and all(sp.simplify(sp.expand(e / bfac).subs(sub)) == 0 for e in res2)
+    # control: the field equation with the mass m (without the term lambda S) is NOT solved by the same flow
+    res_bad = dirac(bfac * chif, m)
+    ctrl2 = sp.simplify(sp.expand(res_bad[0] / bfac).subs(sub)) != 0
     Tk_g, Tp_g, _, V_g = EMT_PARTS["grassmann"]
-    okg, detg = grassmann_solution.verify(gm, geo, ctx["sps"]["grassmann"], Tk_g, Tp_g, V_g)
-    check("exact_nonlinear_homogeneous_solution", ok2 and okg,
-          "both statistics, U = (lambda/2) S^2, homogeneous. Commuting (dirac16complex00): Phi = (cosh(k x4) + "
-          "sinh(k x4)/k M) chi, M = -(m + lambda S0) gamma^(x4) + 3 H gamma^(x4) gamma^(x0), k^2 = 9 H^2 - (m + lambda "
-          "S0)^2: exp(M^T x4) C exp(M x4) = C so S = chi^dagger C chi = S0 is constant, and gamma^mu D_mu Phi = (m + "
-          f"lambda S0) Phi = (m + U'(S)) Phi exactly [{ok2}]; its EMT is the homogeneous on-shell form rho = m S0 + U, "
-          "p = S0 U' - U (check *_homogeneous_on_shell_rho_p). " + detg, sec)
+    okg, detg = grassmann_solution.verify(gm, geo, sps_g, Tk_g, Tp_g, V_g)
+    detail = ("both statistics, U = (lambda/2) S^2, homogeneous, general a4 and b4. Commuting (dirac16complex00): for "
+              "every solution chi(x4) of the LINEAR system chi' = M chi, M = -(m + lambda b4^(-3/2) S0) gamma^(x4) + 3 H "
+              "gamma^(x4) gamma^(x0) with S0 = chi(0)^dagger C chi(0): M^T C + C M = 0, so chi^dagger C chi = S0 for all "
+              "x4, and Phi = b4^(-3/4) chi has S = b4^(-3/2) S0 and solves gamma^mu D_mu Phi = (m + lambda S) Phi = (m + "
+              f"U'(S)) Phi exactly (16 general functions chi_A(x4), derivatives replaced by the system) [{ok2}] (control: "
+              f"the field equation with the mass m alone is not solved by the same flow [{ctrl2}]); for b4 not constant "
+              "the effective mass depends on x4 and there is no closed form in general; its EMT is the homogeneous "
+              "on-shell form rho = m S + U, p = S U' - U (check *_homogeneous_on_shell_rho_p). " + detg)
+    return ok2 and ctrl2 and okg, detail
+
+
+def load_nonlinear_part():
+    """The result of the separate run --part nonlinear, taken over only if every input is unchanged."""
+    rel = os.path.relpath(PART_FILE, os.path.dirname(REV)).replace(os.sep, "/")
+    if not os.path.exists(PART_FILE):
+        return False, (f"{rel} is missing: run python Revision/theory/python/check_field_theory.py --part nonlinear "
+                       "first")
+    with open(PART_FILE, encoding="utf-8") as fh:
+        part = json.load(fh)
+    if part.get("inputs") != input_hashes():
+        return False, (f"{rel} was written by a different version of the inputs (sha256 differ): run "
+                       "python Revision/theory/python/check_field_theory.py --part nonlinear again")
+    return part.get("verdict") == "pass", (part.get("detail", "") + " [computed by the separate run "
+                                          "check_field_theory.py --part nonlinear; its inputs (the Python files of "
+                                          "Revision/theory/python and the two gamma fixtures) have the same sha256 "
+                                          "as in this run]")
+
+
+def run_nonlinear_part():
+    inputs = input_hashes()  # taken before the computation, so an edit during the run cannot pass for the result
+    gm = section_gammas()
+    geo = section_geometry(gm)
+    sps = section_lagrangian(gm, geo, "grassmann")
+    section_emt(gm, geo, "grassmann", sps)
+    ok, detail = nonlinear_solutions(gm, geo, sps)
+    os.makedirs(os.path.dirname(PART_FILE), exist_ok=True)
+    with open(PART_FILE, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump({"part": "nonlinear", "producer": "Revision/theory/python/check_field_theory.py --part nonlinear",
+                   "inputs": inputs, "check": "exact_nonlinear_homogeneous_solution",
+                   "verdict": "pass" if ok else "fail", "detail": detail}, fh, indent=1, ensure_ascii=False)
+        fh.write("\n")
+    print(f"wrote {PART_FILE}: exact_nonlinear_homogeneous_solution {'PASS' if ok else 'FAIL'}; "
+          f"{time.time() - T0:.1f}s")
+    return 0 if ok else 1
 
 
 # ====================================================================================== formulas summary
@@ -1002,8 +1149,9 @@ def formulas_lagrangian_emt():
                               "D_mu Psi = d_mu Psi + Omega_mu Psi")
     FORMULAS["euler_lagrange"] = ("gamma^mu D_mu Psi = (m + lambda S) Psi;  D_mu Psibar gamma^mu = -(m + lambda S) "
                                   "Psibar; in this metric: tan(z) gamma^(x0) d_0 Psi + e^{-a4} sin(z)^(-1/6) "
-                                  "gamma^(xi) d_i Psi (i=1,2,3) + gamma^(x4) d_4 Psi + e^{a4} sin(z)^(-1/6) gamma^(xj) "
-                                  "d_j Psi (j=5,6,7) + 3 H gamma^(x0) Psi = (m + lambda S) Psi, z = 6 H x0")
+                                  "gamma^(xi) d_i Psi (i=1,2,3) + gamma^(x4) d_4 Psi + e^{a4} b4^(-1/2) sin(z)^(-1/6) "
+                                  "gamma^(xj) d_j Psi (j=5,6,7) + 3 H gamma^(x0) Psi + (3/4)(b4'/b4) gamma^(x4) Psi = "
+                                  "(m + lambda S) Psi, z = 6 H x0")
     FORMULAS["current"] = "J^mu = -i Psibar gamma^mu Psi (real); nabla_mu J^mu = 0 on shell"
     FORMULAS["emt"] = {
         "Theta": "Theta^mu_nu = (1/4)[Psibar gamma^mu D_nu Psi - D_nu Psibar gamma^mu Psi + g^{mu mu} g_{nu nu} "
@@ -1020,7 +1168,8 @@ def formulas_lagrangian_emt():
                                 "lambda S)",
         "Theta_diag_in_metric": "Theta^xi_xi = (1/2) f_i^{-1} (Psibar gamma^(xi) d_i Psi - d_i Psibar gamma^(xi) Psi) "
                                 "(no sum; the Omega terms cancel since {gamma^(xi), Omega_(xi)} = 0), f = (cot z, e^a4 s, "
-                                "e^a4 s, e^a4 s, 1, e^-a4 s, e^-a4 s, e^-a4 s) (order x0..x7), s = sin(z)^(1/6)"}
+                                "e^a4 s, e^a4 s, 1, e^-a4 b4^(1/2) s, e^-a4 b4^(1/2) s, e^-a4 b4^(1/2) s) (order "
+                                "x0..x7), s = sin(z)^(1/6)"}
 
 
 def section_superalgebra():
@@ -1046,6 +1195,12 @@ def section_superalgebra():
 
 
 def main():
+    if "--part" in sys.argv:
+        part = sys.argv[sys.argv.index("--part") + 1]
+        if part != "nonlinear":
+            print("usage: check_field_theory.py [--part nonlinear] [--out PATH]")
+            return 2
+        return run_nonlinear_part()
     out = OUT
     if "--out" in sys.argv:
         out = sys.argv[sys.argv.index("--out") + 1]
@@ -1074,7 +1229,8 @@ def main():
         "report": "Revision/theory/reports/python-field-theory.json",
         "producer": "Revision/theory/python/check_field_theory.py (sympy, exact; own jet super-algebra "
                     "superalg.py for both statistics)",
-        "spec": "Revision/SPEC.md sections 1-6 (metric, Clifford data, the two fields, EMT, quantisation)",
+        "spec": "Revision/SPEC.md sections 1-6 (metric with b4(x4), general a4 and b4; Clifford data, the two fields, "
+                "EMT, quantisation)",
         "inputs": ["Revision/algebra/gammas.json", "Revision/algebra/reports/python-gammas.json"],
         "independence": "no code shared with Revision/theory/wolfram; the Wolfram outputs (Revision/theory/"
                         "field-theory.json, Revision/theory/reports/wolfram-field-theory.json and, for the justification "

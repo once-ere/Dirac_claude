@@ -148,3 +148,12 @@ No calculation of this continuation waited longer than 423 s, apart from E1 and 
 
 No other calculation of this work waited longer than 423 s; every producer, test and gate step was
 run under `timeout 423` (the longest: the independent free gas, 77.0 s).
+
+## G. Moving everything to b4(x4) (2026-10-15, HANDOFF.md 0.9)
+
+| # | Calculation or step | Status | What happened / what was done |
+|---|---|---|---|
+| G1 | The first run of the rewritten `verify_field_theory.wls base` | FAILED at once (syntax), but wolframscript returned exit code 0 | A comment contained `emt-*)`, which closed the comment early. Fixed; the parts are judged by their summary line and the part file, never by the exit code alone. |
+| G2 | `verify_field_theory.wls solutions` (exact solutions with b4), started under `timeout 423` while a sympy run competed for the processors | KILLED at 423 s (exit 124), not completed | The explicit Grassmann solution with the three integrals of b4^(-3/2) was too large for one part. Restructured (section G3 below); not re-run as it was. |
+| G3 | A cProfile run of the sympy Grassmann solution check (`grassmann_solution.verify` with b4), started under `timeout 423` | KILLED at 423 s, not completed | The unprofiled run had taken about 230 s of the 364 s of the whole checker, too close to the limit. Restructured, not re-run as it was. |
+| G4 | The control of the commuting nonlinear solution in `check_field_theory.py` (S0 set to 0 everywhere) | WRONG control (it is self-consistent, so it cannot fail), the check reported FAIL | Replaced by a control that uses the field equation with the mass m while the flow keeps S0. |
