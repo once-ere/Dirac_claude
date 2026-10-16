@@ -16,8 +16,9 @@ equations"), example c: the Majorana-type negative control of the Revision recor
 following TEXTBOOK_SPEC rule R5, charge conjugation for REAL fields (a matrix, never plain
 complex conjugation).  Revision sources: Revision/algebra/gammas.json, the reports
 Revision/theory/reports/python-field-theory.json and wolfram-field-theory.json (the
-negative control), and Revision/lead_checks/reports/charge-conjugation-and-u1.json with
-its producer Revision/lead_checks/charge_conjugation_and_u1.py.
+negative control), Revision/lead_checks/reports/charge-conjugation-and-u1.json with
+its producer Revision/lead_checks/charge_conjugation_and_u1.py, and
+Revision/kohn_sham/results/parameters.json (the history of the metric with b4(x4)).
 """
 
 import sys
@@ -59,6 +60,9 @@ FACTS = {
          "the Wolfram negative-control checks, reproduced"],
         ["Revision/lead_checks/reports/charge-conjugation-and-u1.json",
          "the checks of the charge-conjugation matrices and of real fields, reproduced"],
+        ["Revision/kohn_sham/results/parameters.json",
+         "the history of the Revision record: the slope A and the exponent beta of b4 "
+         "(physics.historyA, physics.historyBeta)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -68,7 +72,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 4 figure files of this notebook exist",
-        "ALL 23 CHECKS PASSED (notebook 07c)",
+        "ALL 24 CHECKS PASSED (notebook 07c)",
     ],
     "troubleshooting": [
         ["\"ValueError: ... is not a passing check of Revision/...\"",
@@ -142,7 +146,8 @@ CELLS = [
     - **Jet**, **total derivative on jets**, **coefficient ring**: as in Notebook 07b:
       the field components and their derivatives at one point are symbols, and every
       coefficient is written with $E = e^{a_4}$, $s = \sin^{1/6}z$, $c = \cos z$,
-      $A_1 = a_4'$, $A_2$, $A_3$ (higher derivatives of $a_4$), $H$, $m$, $\lambda$.
+      $A_1 = a_4'$, $A_2$, $A_3$ (higher derivatives of $a_4$), $b_4$ and its first three
+      derivatives, $H$, $m$, $\lambda$.
     """),
     md(r"""
     ## 4. The physical and mathematical situation
@@ -194,8 +199,10 @@ CELLS = [
     them are real, that $C$ is symmetric with $C^2 = 1$, that $\Gamma = \gamma^{(x_0)}
     \gamma^{(x_1)}\cdots\gamma^{(x_7)}$ anticommutes with every gamma and $\Gamma^2 =
     1$, and that the charge matrix $B = -iC\gamma^{(x_4)}$ is purely imaginary and
-    Hermitian with $B^2 = 1$. Finally it takes a column of 16 real symbols and checks
-    that complex conjugation leaves it unchanged.
+    Hermitian with $B^2 = 1$. It takes a column of 16 real symbols and checks that
+    complex conjugation leaves it unchanged. Finally it reads the history of the
+    Revision record, $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$ and
+    $\beta = 4/3$ (the slope $A$ and the exponent $\beta$ as exact fractions).
     """),
     code(r'''
     import contextlib  # redirect printed text into a buffer
@@ -221,7 +228,7 @@ CELLS = [
     PYREP = "Revision/theory/reports/python-field-theory.json"
     WLREP = "Revision/theory/reports/wolfram-field-theory.json"
     LEAD = "Revision/lead_checks/reports/charge-conjugation-and-u1.json"
-    PYREP_B4 = "Revision/theory/reports/python-field-theory-b4.json"  # the metric with b4
+    PARAMETERS = "Revision/kohn_sham/results/parameters.json"  # the history
 
 
     def revision_check(report, name):
@@ -259,6 +266,12 @@ CELLS = [
     r = sp.Matrix(sp.symbols("r1:17", real=True))  # a real column of 16 numbers
     check(r.conjugate() == r, "complex conjugation leaves a real column unchanged: on "
           "a real field it is the identity")
+    physics = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))["physics"]
+    A_EXACT = sp.nsimplify(physics["historyA"])  # the slope A of the history, 1
+    BETA_B4 = sp.nsimplify(physics["historyBeta"])  # the exponent of b4, 4/3
+    check(A_EXACT == 1 and BETA_B4 == sp.Rational(4, 3),
+          "the history of the record: a4 = A H x4, b4 = b4(0) e^(4 A H x4/3) with A = 1",
+          record=f"{PARAMETERS}, physics.historyA and physics.historyBeta")
     '''),
     md(r"""
     ## 6. The author's metric and its spin connection, in brief
@@ -277,8 +290,9 @@ CELLS = [
     anywhere): the operator $\gamma^\mu D_\mu$ is REAL, so the complex conjugate of a
     solution is again a solution, and real fields are a consistent restriction. Second,
     as a consistency check, $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} +
-    \frac34(b_4'/b_4)\gamma^{(x_4)}$, the value of the Revision record with $b_4$, which
-    is $3H\gamma^{(x_0)}$ at $b_4 = 1$.
+    \frac34(b_4'/b_4)\gamma^{(x_4)}$, the value of the Revision record, which is
+    $3H\gamma^{(x_0)} + H\gamma^{(x_4)}$ on the history of the record, where
+    $b_4'/b_4 = \frac43H$.
     """),
     code(r'''
     E, s, c = sp.symbols("E s c", positive=True)  # e^a4, sin(z)^(1/6), cos z
@@ -340,16 +354,16 @@ CELLS = [
                        for M in Om + gam for v in M)
     check(real_entries, "every entry of every Omega_mu and gamma^mu is real, for every "
           "b4: gamma^mu D_mu is a real operator",
-          record=reproduces(PYREP_B4, "spinor_connection_real_b4") + "; at b4 = 1 "
+          record=reproduces(PYREP, "spinor_connection_real") + "; "
           + reproduces(LEAD, "spinor_connection_real"))
     total = sum((gam[mu] * Om[mu] for mu in range(8)), Z16)
-    at_b4_1 = {b4: 1, b4p: 0, b4pp: 0, b4ppp: 0}  # the background b4 = 1
+    on_history = {b4p: BETA_B4 * A_EXACT * H * b4}  # b4'/b4 = (4/3) H on the history
     check(all(is_zero(v) for v in (total - 3 * H * G[X0] - 3 * b4p / (4 * b4) * G[X4]))
-          and all(is_zero(v) for v in (total.subs(at_b4_1) - 3 * H * G[X0])),
+          and all(is_zero(v) for v in (total.subs(on_history) - 3 * H * G[X0]
+                                       - H * G[X4])),
           "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4), and "
-          "3 H gamma^(x0) at b4 = 1: the values of the Revision records",
-          record=reproduces(PYREP_B4, "gammaOmega_total") + "; at b4 = 1 "
-          + reproduces(PYREP, "gamma_mu_Omega_mu_equals_3H_gamma_x0"))
+          "3 H gamma^(x0) + H gamma^(x4) on the history: the values of the record",
+          record=reproduces(PYREP, "gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term"))
     '''),
     md(r"""
     In the cell above only the off-diagonal entries $a \ne b$ of the spin connection
@@ -853,25 +867,28 @@ CELLS = [
     '''),
     md(r"""
     **A real solution and its image.** Notebook 07b verified the exact family $\Psi =
-    \sin^\alpha z\,(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ with $M = -m\gamma^{(x_4)} +
-    3H(2\alpha + 1)\gamma^{(x_4)}\gamma^{(x_0)}$ on the background $b_4 = 1$ (for a
-    changing $b_4$ the extra term $\frac34(b_4'/b_4)\gamma^{(x_4)}$ of the field equation
-    changes the family; this cell stays at $b_4 = 1$). For a real $\chi_0$ and real $k$ it is
-    a real solution. Because $\Gamma$ anticommutes with $\gamma^{(x_4)}$ and commutes
-    with $\gamma^{(x_4)}\gamma^{(x_0)}$, $\Gamma M_m\Gamma = M_{-m}$: the image $\Gamma
+    b_4^{-3/4}\sin^\alpha z\,(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ with $M =
+    -m\gamma^{(x_4)} + 3H(2\alpha + 1)\gamma^{(x_4)}\gamma^{(x_0)}$, for all functions
+    $a_4$ and $b_4$ (the factor $b_4^{-3/4}$ takes care of the term
+    $\frac34(b_4'/b_4)\gamma^{(x_4)}$ of the field equation). For a real $\chi_0$ and
+    real $k$ it is a real solution. Because $\Gamma$ anticommutes with $\gamma^{(x_4)}$
+    and commutes with $\gamma^{(x_4)}\gamma^{(x_0)}$, $\Gamma M_m\Gamma = M_{-m}$: the
+    image $\Gamma
     \Psi$ is the member of the family with mass $-m$ and the column $\Gamma\chi_0$. The
     next cell checks $\Gamma M_m\Gamma = M_{-m}$ exactly, then evaluates, for the
     illustration values $H = 1$, $m = 2$, $\alpha = 0$ ($k = \sqrt5$), $\chi_0 = e_1 +
-    2e_{13}$, $z = \pi/4$ and $x_4$ from 0 to 2, the residuals
-    $\gamma^{(x_4)}\partial_4\Psi + 3H\gamma^{(x_0)}\Psi - \mu\Psi$ of $\Phi$ and of
-    $\Gamma\Phi$ in the equations with $\mu = +m$ and $\mu = -m$ (Figure 4).
+    2e_{13}$, $z = \pi/4$ and $x_4$ from 0 to 2 on the history of the record
+    ($b_4^{-3/4} = e^{-x_4}$ in the unit $b_4(0)$, and $\frac34b_4'/b_4 = H$), the
+    residuals $\gamma^{(x_4)}\partial_4\Psi + 3H\gamma^{(x_0)}\Psi + H\gamma^{(x_4)}\Psi -
+    \mu\Psi$ of $\Phi$ and of $\Gamma\Phi$ in the equations with $\mu = +m$ and
+    $\mu = -m$ (Figure 4).
     """),
     code(r'''
     mass_symbol = sp.Symbol("mu", real=True)
 
 
     def M_of(mass):
-        return -mass * G[X4] + 3 * H * G[X4] * G[X0]  # alpha = 0, b4 = 1
+        return -mass * G[X4] + 3 * H * G[X4] * G[X0]  # alpha = 0; M contains no b4
 
 
     check((GAMMA * M_of(mass_symbol) * GAMMA - M_of(-mass_symbol)).applyfunc(sp.expand)
@@ -882,17 +899,19 @@ CELLS = [
     chi0 = np.zeros(16)
     chi0[0], chi0[12] = 1.0, 2.0  # e_1 + 2 e_13: one component in each chiral half
     times = np.linspace(0.0, 2.0, 201)
-    Mf = -2.0 * Gf[X4] + 3.0 * Gf[X4] @ Gf[X0]  # m = 2, H = 1, b4 = 1
+    Mf = -2.0 * Gf[X4] + 3.0 * Gf[X4] @ Gf[X0]  # m = 2, H = 1
     kk = np.sqrt(5.0)
-    Phi = np.array([(np.cosh(kk * t) * np.eye(16) + np.sinh(kk * t) / kk * Mf) @ chi0
-                    for t in times])
-    dPhi = np.array([(kk * np.sinh(kk * t) * np.eye(16) + np.cosh(kk * t) * Mf) @ chi0
-                     for t in times])
+    P_t = [np.cosh(kk * t) * np.eye(16) + np.sinh(kk * t) / kk * Mf for t in times]
+    dP_t = [kk * np.sinh(kk * t) * np.eye(16) + np.cosh(kk * t) * Mf for t in times]
+    # b4^(-3/4) = e^(-x4) on the history with H = 1; the product rule for d4 Phi
+    Phi = np.array([np.exp(-t) * P @ chi0 for t, P in zip(times, P_t)])
+    dPhi = np.array([np.exp(-t) * (dP - P) @ chi0 for t, P, dP in zip(times, P_t, dP_t)])
+    grav = 3.0 * Gf[X0] + Gf[X4]  # 3 H gamma^(x0) + H gamma^(x4) on the history
 
 
     def residual_size(values, derivatives, mass):
-        """The largest component of gamma4 d4 Psi + 3 gamma0 Psi - mass Psi."""
-        return np.array([np.abs(Gf[X4] @ d + 3.0 * Gf[X0] @ v - mass * v).max()
+        """The largest component of gamma4 d4 Psi + (3 gamma0 + gamma4) Psi - mass Psi."""
+        return np.array([np.abs(Gf[X4] @ d + grav @ v - mass * v).max()
                          for v, d in zip(values, derivatives)])
 
 
@@ -932,7 +951,8 @@ CELLS = [
     save_figure(fig, "mass_reversal",
                 "The real matrix $\\Gamma$ reverses the mass. Left: components 1 and 13 "
                 "of the real exact solution $\\Phi$ (illustration values $H = 1$, "
-                "$m = 2$, $\\alpha = 0$, $\\chi_0 = e_1 + 2e_{13}$, at $z = \\pi/4$) and "
+                "$m = 2$, $\\alpha = 0$, $\\chi_0 = e_1 + 2e_{13}$, at $z = \\pi/4$, on "
+                "the history of the Revision record, $b_4^{-3/4} = e^{-x_4}$) and "
                 "of its image $\\Gamma\\Phi$ against the time $x_4$: $\\Gamma$ reverses "
                 "the sign of the components 1 to 8 and keeps 9 to 16. Right "
                 "(logarithmic axis): the largest component of the residual of "

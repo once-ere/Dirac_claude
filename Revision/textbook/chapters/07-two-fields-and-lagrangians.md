@@ -2302,13 +2302,13 @@ $$
 f_0 = \cot z,\qquad f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z,\qquad f_4 = 1,\qquad f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}\sin^{1/6}z .
 $$
 
-Here $b_4(x_4) > 0$ is the second function of the author's metric (Chapter 3); the backgrounds of the record have $b_4 = 1$. The **diagonal frame** (or **vielbein**, "many legs") $e^a{}_\mu = f_a\delta^a_\mu$ is a set of eight local unit directions, one along each coordinate; a column of numbers written in this frame, such as the 16 components of a spinor, is measured with these unit directions. For a diagonal metric $|\det g|$ is the product of the $|g_{aa}| = f_a^2$, so the **volume factor** is
+Here $b_4(x_4) > 0$ is the second function of the author's metric (Chapter 3); on the history of the Revision record $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$ and $\beta = \frac43$ (`Revision/kohn_sham/results/parameters.json`; $b_4(0)$ serves as the unit of $b_4$). The **diagonal frame** (or **vielbein**, "many legs") $e^a{}_\mu = f_a\delta^a_\mu$ is a set of eight local unit directions, one along each coordinate; a column of numbers written in this frame, such as the 16 components of a spinor, is measured with these unit directions. For a diagonal metric $|\det g|$ is the product of the $|g_{aa}| = f_a^2$, so the **volume factor** is
 
 $$
 \sqrt{|g|} = f_0\cdot f_1f_2f_3\cdot f_4\cdot f_5f_6f_7 = \frac{\cos z}{\sin z}\cdot e^{3a_4}\sin^{1/2}z\cdot1\cdot e^{-3a_4}b_4^{3/2}\sin^{1/2}z = b_4^{3/2}\cos z
 $$
 
-(insert the factors; $e^{3a_4}e^{-3a_4} = 1$; $\sin^{1/2}z\sin^{1/2}z = \sin z$ cancels against $1/\sin z$). It depends on the time only through $b_4^{3/2}$: the inflation $e^{3a_4}$ of 3-space and the deflation $e^{-3a_4}$ of the extra times compensate exactly, and on the backgrounds $b_4 = 1$ the volume factor $\cos z$ does not depend on the time at all (PROVED; Notebook 07b, In [4]; the table at the end of this section names the Revision checks of this and the following statements).
+(insert the factors; $e^{3a_4}e^{-3a_4} = 1$; $\sin^{1/2}z\sin^{1/2}z = \sin z$ cancels against $1/\sin z$). It depends on the time only through $b_4^{3/2}$: the inflation $e^{3a_4}$ of 3-space and the deflation $e^{-3a_4}$ of the extra times compensate exactly, and on the history of the record $b_4^{3/2} = b_4(0)^{3/2}e^{2Hx_4}$ grows (PROVED; Notebook 07b, In [4]; the table at the end of this section names the Revision checks of this and the following statements).
 
 **Exact bookkeeping with a few symbols.** Notebook 07b writes every coefficient with the symbols $E = e^{a_4}$, $s = \sin^{1/6}z$, $c = \cos z$, $A_1 = a_4'$, $A_2 = a_4''$, $A_3 = a_4'''$, $b_4$ and its derivatives $b_4'$, $b_4''$, $b_4'''$, and $H$, $m$, $\lambda$ (a prime is $d/dx_4$). Then $f_0 = c/s^6$ (because $\sin z = s^6$), $f_{1,2,3} = Es$ and $f_{5,6,7} = s\sqrt{b_4}/E$. Their derivatives follow from the chain rule: $\partial_4E = EA_1$, $\partial_4b_4 = b_4'$; $\partial_0s = \tfrac16\sin^{-5/6}z\cdot\cos z\cdot6H = Hc/s^5$ (the power rule, the derivative $\cos z$ of $\sin z$, then $dz/dx_0 = 6H$); $\partial_0c = -\sin z\cdot6H = -6Hs^6$; nothing depends on $x_1, x_2, x_3, x_5, x_6, x_7$. Because $\cos^2z + \sin^2z = 1$, the symbols obey $c^2 = 1 - s^{12}$; replacing $c^2$ by $1 - s^{12}$ decides exactly whether an expression is zero.
 
@@ -2320,7 +2320,7 @@ $$
 \Gamma^\lambda{}_{\mu\nu} = \frac{1}{2g_{\lambda\lambda}}\big(\delta_{\lambda\nu}\,\partial_\mu g_{\lambda\lambda} + \delta_{\lambda\mu}\,\partial_\nu g_{\lambda\lambda} - \delta_{\mu\nu}\,\partial_\lambda g_{\mu\mu}\big) .
 $$
 
-Four examples, each in one line. $\Gamma^{x_1}{}_{x_1x_4} = \partial_4g_{11}/(2g_{11}) = \partial_4(E^2s^2)/(2E^2s^2) = 2E^2A_1s^2/(2E^2s^2) = a_4'$: 3-space stretches at the rate $a_4'$. $\Gamma^{x_5}{}_{x_4x_5} = \partial_4g_{55}/(2g_{55})$ with $g_{55} = -b_4s^2/E^2$, and $\partial_4(-b_4s^2E^{-2}) = -s^2E^{-2}(b_4' - 2A_1b_4)$, so $\Gamma^{x_5}{}_{x_4x_5} = (b_4' - 2A_1b_4)/(2b_4) = -a_4' + b_4'/(2b_4)$: the extra times shrink at this rate, which is $-a_4'$, the rate of 3-space with the opposite sign, at $b_4 = 1$. We write $\alpha_t = -a_4' + b_4'/(2b_4)$ for it. $\Gamma^{x_1}{}_{x_0x_1} = \partial_0(E^2s^2)/(2E^2s^2) = \partial_0s/s = Hc/s^6 = H\cot z$. $\Gamma^{x_0}{}_{x_0x_0} = \tfrac12\partial_0\ln g_{00}$ with $g_{00} = c^2/s^{12}$, so $\tfrac12\big(2\partial_0c/c - 12\,\partial_0s/s\big) = -6Hs^6/c - 6Hc/s^6 = -6H(s^{12} + c^2)/(cs^6) = -6H/(\sin z\cos z)$. The metric has 25 independent nonzero Christoffel symbols (COMPUTED exactly by Notebook 07b, In [7], and compared there with the formula records `Revision/theory/field-theory-b4.json` and, at $b_4 = 1$, `Revision/theory/field-theory.json`).
+Four examples, each in one line. $\Gamma^{x_1}{}_{x_1x_4} = \partial_4g_{11}/(2g_{11}) = \partial_4(E^2s^2)/(2E^2s^2) = 2E^2A_1s^2/(2E^2s^2) = a_4'$: 3-space stretches at the rate $a_4'$. $\Gamma^{x_5}{}_{x_4x_5} = \partial_4g_{55}/(2g_{55})$ with $g_{55} = -b_4s^2/E^2$, and $\partial_4(-b_4s^2E^{-2}) = -s^2E^{-2}(b_4' - 2A_1b_4)$, so $\Gamma^{x_5}{}_{x_4x_5} = (b_4' - 2A_1b_4)/(2b_4) = -a_4' + b_4'/(2b_4)$: the extra times shrink at this rate, which on the history, where $b_4'/b_4 = \frac43a_4'$, is $-\frac13a_4'$: one third of the rate of 3-space, with the opposite sign. We write $\alpha_t = -a_4' + b_4'/(2b_4)$ for it. $\Gamma^{x_1}{}_{x_0x_1} = \partial_0(E^2s^2)/(2E^2s^2) = \partial_0s/s = Hc/s^6 = H\cot z$. $\Gamma^{x_0}{}_{x_0x_0} = \tfrac12\partial_0\ln g_{00}$ with $g_{00} = c^2/s^{12}$, so $\tfrac12\big(2\partial_0c/c - 12\,\partial_0s/s\big) = -6Hs^6/c - 6Hc/s^6 = -6H(s^{12} + c^2)/(cs^6) = -6H/(\sin z\cos z)$. The metric has 25 independent nonzero Christoffel symbols (COMPUTED exactly by Notebook 07b, In [7], and compared there with the formula record `Revision/theory/field-theory.json`).
 
 **Why a spinor needs a connection.** The 16 components of a spinor are measured in the local frame. Because the frame turns from point to point (that is what the Christoffel symbols describe), the plain derivative $\partial_\mu\Psi$ compares components measured in two different frames, and an equation built from it would depend on the arbitrary choice of frames. The **canonical spin connection** $\omega_\mu{}^a{}_b$ records how the frame turns; it is fixed by the **vielbein postulate** $\partial_\mu e^a{}_\nu - \Gamma^\lambda{}_{\mu\nu}e^a{}_\lambda + \omega_\mu{}^a{}_b\,e^b{}_\nu = 0$ (the frame is carried along consistently with the metric). For the diagonal frame its solution is
 
@@ -2387,7 +2387,7 @@ $$
 \gamma^\mu\Omega_\mu = 3\cdot\tfrac12a_4'\gamma^{(x_4)} - 3\cdot\tfrac12\Big(a_4' - \frac{b_4'}{2b_4}\Big)\gamma^{(x_4)} + 6\cdot\tfrac12H\gamma^{(x_0)} = 3H\gamma^{(x_0)} + \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)} .
 $$
 
-The $a_4'$ terms of the three inflating directions and the three deflating extra times cancel exactly, because 3-space inflates at the rate at which the extra times deflate; the extra times leave the term $\frac34(b_4'/b_4)\gamma^{(x_4)}$ of their factor $b_4^{1/2}$; the hidden-direction terms of all six directions add up. The result does not contain $a_4$ at all, for every function $a_4(x_4)$; on the backgrounds $b_4 = 1$ (and for every constant $b_4$) it is $3H\gamma^{(x_0)}$ (PROVED; Notebook 07b, In [9], Figure 07b.2). We call $M = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$ the **gravitational term**.
+The $a_4'$ terms of the three inflating directions and the three deflating extra times cancel exactly, because 3-space inflates at the rate at which the extra times deflate; the extra times leave the term $\frac34(b_4'/b_4)\gamma^{(x_4)}$ of their factor $b_4^{1/2}$; the hidden-direction terms of all six directions add up. Written with the two functions $a_4$ and $b_4$, the result does not contain $a_4$ at all; on the history of the record, where $b_4'/b_4 = \frac43H$, it is $3H\gamma^{(x_0)} + H\gamma^{(x_4)}$ (PROVED; Notebook 07b, In [9], Figure 07b.2). We call $M = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$ the **gravitational term**.
 
 **Two more facts about $\Omega_\mu$.** (i) For each direction separately, $\gamma^\mu$ and $\Omega_\mu$ anticommute: $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu = 0$ (no sum). The reason: $\Omega_\mu$ contains only products $\gamma^{(\mu)}\gamma^{(b)}$ that share the index $\mu$ with $\gamma^{(\mu)}$, and $\gamma^{(\mu)}\gamma^{(\mu)}\gamma^{(b)} = \eta_{\mu\mu}\gamma^{(b)}$ while $\gamma^{(\mu)}\gamma^{(b)}\gamma^{(\mu)} = -\gamma^{(\mu)}\gamma^{(\mu)}\gamma^{(b)} = -\eta_{\mu\mu}\gamma^{(b)}$; the two add to 0. (ii) The same matrix is a derivative of the volume factor and the coordinate gammas:
 
@@ -2400,15 +2400,15 @@ $$
 
 The first equality: $\sqrt{|g|}\gamma^\mu = b_4^{3/2}\cos z\,\gamma^{(\mu)}/f_\mu$ depends only on $x_4$ and $x_0$, so only $\mu = x_0$ (with $1/f_0 = \tan z = \sin z/\cos z$) and $\mu = x_4$ (with $f_4 = 1$) contribute. The second: $\cos z\cdot\sin z/\cos z = \sin z$, whose derivative along $x_0$ is $6H\cos z$, which gives $6Hb_4^{3/2}\cos z/(2b_4^{3/2}\cos z) = 3H$; and $\partial_4b_4^{3/2} = \frac32b_4^{1/2}b_4'$, which gives $\frac32b_4^{1/2}b_4'/(2b_4^{3/2}) = \frac34b_4'/b_4$. So $\partial_\mu(\sqrt{|g|}\gamma^\mu) = 2\sqrt{|g|}\,\gamma^\mu\Omega_\mu$ in this metric (PROVED; Notebook 07b, In [11]). Both facts are used in the next three sections.
 
-**Where the statements of this section are verified.** The reports are named by their file names; the theory reports lie in the folder `Revision/theory/reports`. The formula records are `Revision/theory/field-theory-b4.json` (the metric with $b_4$) and `Revision/theory/field-theory.json` (the metric at $b_4 = 1$); the reports without "b4" in their name check the metric at $b_4 = 1$.
+**Where the statements of this section are verified.** The reports are named by their file names; the theory reports lie in the folder `Revision/theory/reports`. The formula record `Revision/theory/field-theory.json` and the two reports `python-field-theory.json` (sympy) and `wolfram-field-theory.json` (WolframScript) are written for the metric with $b_4(x_4)$.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| $\sqrt{\lvert g\rvert} = b_4^{3/2}\cos z$ ($\cos z$ at $b_4 = 1$) | PROVED; Notebook 07b, In [4] | `wolfram-field-theory-b4.json`, check `sqrt_det_g`; at $b_4 = 1$ `python-field-theory.json`, check `sqrt_det_g_equals_cos_z`, and `wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z` |
-| 25 independent nonzero Christoffel symbols | COMPUTED exactly; In [7] | `python-field-theory-b4.json`, check `christoffel_nonzero`; `wolfram-field-theory-b4.json`, check `christoffel_count`; formula records, key `christoffel_nonzero`; at $b_4 = 1$ `python-field-theory.json`, check `christoffel_symmetric_metric_compatible` |
-| the vielbein postulate; the 12 nonzero components of $\omega_{\mu ab}$ | COMPUTED exactly; In [8] | `wolfram-field-theory-b4.json`, checks `vielbein_postulate` and `omega_components`; `python-field-theory-b4.json`, check `omega_nonzero`; formula records, key `omega_nonzero`; at $b_4 = 1$ `python-field-theory.json`, check `vielbein_postulate` |
-| $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$; the $a_4'$ terms cancel, the hidden terms add | PROVED; In [9] | `python-field-theory-b4.json`, checks `gammaOmega_per_direction` and `gammaOmega_total`; `wolfram-field-theory-b4.json`, checks `gammaOmega_per_direction` and `gammaOmega_total`; at $b_4 = 1$ `python-field-theory.json`, checks `gamma_mu_Omega_mu_equals_3H_gamma_x0` and `time_terms_cancel_hidden_term_survives`, and `wolfram-field-theory.json`, checks `gammaOmega_equals_3H_gamma_x0` and `gammaOmega_x4_terms_cancel` |
-| $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu = 0$ for each $\mu$; $\partial_\mu(\sqrt{\lvert g\rvert}\gamma^\mu) = 2\sqrt{\lvert g\rvert}\gamma^\mu\Omega_\mu$ | PROVED; In [11] | `wolfram-field-theory-b4.json`, check `gammaOmega_divergence_form`; at $b_4 = 1$ `python-field-theory.json`, checks `anticommutator_gamma_Omega_vanishes` and `divergence_of_sqrtg_gamma` |
+| $\sqrt{\lvert g\rvert} = b_4^{3/2}\cos z$ | PROVED; Notebook 07b, In [4] | `python-field-theory.json`, check `sqrt_det_g_equals_b4_cos_z`; `wolfram-field-theory.json`, check `sqrt_det_g`; formula record, key `sqrt_det_g` |
+| 25 independent nonzero Christoffel symbols | COMPUTED exactly; In [7] | `python-field-theory.json`, check `christoffel_symmetric_metric_compatible`; `wolfram-field-theory.json`, check `christoffel_count`; formula record, key `christoffel_nonzero` |
+| the vielbein postulate; the 12 nonzero components of $\omega_{\mu ab}$ | COMPUTED exactly; In [8] | `python-field-theory.json`, check `vielbein_postulate`; `wolfram-field-theory.json`, checks `vielbein_postulate` and `omega_components`; formula record, key `omega_nonzero` |
+| $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$; the $a_4'$ terms cancel, the hidden terms add; $3H\gamma^{(x_0)} + H\gamma^{(x_4)}$ on the history | PROVED; In [9] | `python-field-theory.json`, checks `gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term` and `a4_time_terms_cancel_b4_terms_add`; `wolfram-field-theory.json`, checks `gammaOmega_total` and `gammaOmega_per_direction`; formula record, keys `gammaOmega_total` and `gammaOmega_per_direction` |
+| $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu = 0$ for each $\mu$; $\partial_\mu(\sqrt{\lvert g\rvert}\gamma^\mu) = 2\sqrt{\lvert g\rvert}\gamma^\mu\Omega_\mu$ | PROVED; In [11] | `python-field-theory.json`, checks `anticommutator_gamma_Omega_vanishes` and `divergence_of_sqrtg_gamma`; `wolfram-field-theory.json`, check `gammaOmega_divergence_form` |
 
 ### 7.19 The two fields and their common Lagrangian
 
@@ -2574,7 +2574,7 @@ $$
 \end{aligned}
 $$
 
-(PROVED; Notebook 07b, In [17]; `wolfram-field-theory-b4.json`, checks `Dirac_operator_explicit_G` and `Dirac_operator_explicit_C`; formula records, key `field_equation`; at $b_4 = 1$ the same checks of `wolfram-field-theory.json`). The coefficient $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ of the extra-time derivatives GROWS as the extra times deflate, while that of the 3-space derivatives shrinks.
+(PROVED; Notebook 07b, In [17]; `wolfram-field-theory.json`, checks `Dirac_operator_explicit_G` and `Dirac_operator_explicit_C`; formula record, key `field_equation`). The coefficient $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ of the extra-time derivatives GROWS as the extra times deflate, while that of the 3-space derivatives shrinks.
 
 **One component equation, read off the gamma tables.** Every frame gamma is a signed permutation matrix: row 1 of $\gamma^{(x_0)}, \gamma^{(x_1)}, \dots, \gamma^{(x_7)}$ has its single entry in the columns $+9, -16, +15, -14, -14, +15, +16, +9$ (the sign of the entry and its column; the tables of Chapter 5, read from the record `Revision/algebra/gammas.json`). So the first of the 16 component equations is
 
@@ -2585,7 +2585,7 @@ $$
 \end{aligned}
 $$
 
-Notebook 07b prints this equation in its own symbols and the same equation read from the formula record (`Revision/theory/field-theory-b4.json`, key `field_equation_components`), and checks that all 16 equations agree term by term with it and, at $b_4 = 1$, with the record `Revision/theory/field-theory.json` (In [17]). Each equation contains four components, each with derivatives along two directions (here $\Psi_9$ along $x_0$ and $x_7$, $\Psi_{16}$ along $x_1$ and $x_6$, $\Psi_{15}$ along $x_2$ and $x_5$, $\Psi_{14}$ along $x_3$ and $x_4$), and the gravitational term $3H\Psi_B$ stands next to the hidden-direction derivative $\tan z\,\partial_0\Psi_B$ of the same component, the term $-\frac34(b_4'/b_4)\Psi_B$ next to the time derivative $-\partial_4\Psi_B$ (Figure 07b.4).
+Notebook 07b prints this equation in its own symbols and the same equation read from the formula record (`Revision/theory/field-theory.json`, key `field_equation_components`), and checks that all 16 equations agree term by term with it (In [17]). Each equation contains four components, each with derivatives along two directions (here $\Psi_9$ along $x_0$ and $x_7$, $\Psi_{16}$ along $x_1$ and $x_6$, $\Psi_{15}$ along $x_2$ and $x_5$, $\Psi_{14}$ along $x_3$ and $x_4$), and the gravitational term $3H\Psi_B$ stands next to the hidden-direction derivative $\tan z\,\partial_0\Psi_B$ of the same component, the term $-\frac34(b_4'/b_4)\Psi_B$ next to the time derivative $-\partial_4\Psi_B$ (Figure 07b.4).
 
 **The chiral block form.** Split $\Psi$ into its upper half $\psi_-$ (components 1 to 8, where the chirality matrix $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$ is $-1$; Chapter 5) and its lower half $\psi_+$ (components 9 to 16, $\Gamma = +1$). Every frame gamma anticommutes with $\Gamma$, and therefore has the block form
 
@@ -2619,13 +2619,13 @@ $$
 \partial_4\Psi = -\gamma^{(x_4)}\Big[V\Psi - \sum_{a\neq x_4}\frac{1}{f_a}\gamma^{(a)}\partial_a\Psi - M\Psi\Big]
 $$
 
-(multiplied from the left by $-\gamma^{(x_4)}$, using $-\gamma^{(x_4)}\gamma^{(x_4)} = 1$ because $(\gamma^{(x_4)})^2 = \eta_{44} = -1$). So the time derivative of every component is fixed by the field and its derivatives along the other seven directions at the same time $x_4$: the slices $x_4 = $ const are **non-characteristic** (PROVED; Notebook 07b, In [19]; `wolfram-field-theory-b4.json`, checks `evolution_form_G` and `evolution_form_C`; the part $\frac34(b_4'/b_4)\gamma^{(x_4)}$ of $M$ gives $-\frac34(b_4'/b_4)\Psi$ on the right, formula record key `evolution_form`). Scope, from the Revision scope record: this does NOT make the initial-value problem well posed. For data that depend on the extra times the growth rates of the modes have no upper bound (Section 7.5; `Revision/theory/reports/python-scope.json`, check `extra_time_growth_rates_unbounded`), so small changes of the data can grow without limit in any time; Chapter 8 treats this.
+(multiplied from the left by $-\gamma^{(x_4)}$, using $-\gamma^{(x_4)}\gamma^{(x_4)} = 1$ because $(\gamma^{(x_4)})^2 = \eta_{44} = -1$). So the time derivative of every component is fixed by the field and its derivatives along the other seven directions at the same time $x_4$: the slices $x_4 = $ const are **non-characteristic** (PROVED; Notebook 07b, In [19]; `wolfram-field-theory.json`, checks `evolution_form_G` and `evolution_form_C`; the part $\frac34(b_4'/b_4)\gamma^{(x_4)}$ of $M$ gives $-\frac34(b_4'/b_4)\Psi$ on the right, formula record key `evolution_form`). Scope, from the Revision scope record: this does NOT make the initial-value problem well posed. For data that depend on the extra times the growth rates of the modes have no upper bound (Section 7.5; `Revision/theory/reports/python-scope.json`, check `extra_time_growth_rates_unbounded`), so small changes of the data can grow without limit in any time; Chapter 8 treats this.
 
 ### 7.23 Non-triviality [1] and [2], their exact scope, and an exact family of solutions
 
 **The author's requirement.** The author asked that the Lagrangians of both fields be **non-trivial**: their Euler-Lagrange equations must always contain nonzero contributions from gravity through the canonical spin connection, unless space-time is flat 4+4 space ([1] for dirac16complex, [2] for dirac16complex00), and must be self-consistent.
 
-**What "self-consistent" means for field equations.** Here the word has a meaning of its own, different from its meaning for a Kohn-Sham state in Chapters 13 to 15 (there a state is self-consistent when the potential computed from the density of its orbitals is the potential that produced them, a fixed point). Field equations are **self-consistent** when they do not contradict one another or the geometry in which they live: the equations obtained by varying different fields form one system, and the further equations that follow from them (by differentiating them, or by combining them with identities of the metric) hold without any extra condition on the field or on the metric (this plain-word summary is the book's; the exact content is the list of senses below). The specification of the Revision record (`Revision/SPEC.md`, section 3) names three parts: the integrability of the field equations, the conserved current and the Bianchi-type identity of the energy-momentum tensor. The record itself (`Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md`, section 8, "Self-consistency") states six exact senses. This book treats them as follows. The record proves (iii), (v) and (vi) for the metric at $b_4 = 1$; for a general $b_4$ the record contains (i), (ii) and the local law of (iv), while the Noether identities of (v), the Lichnerowicz identity of (iii) and the exact solutions of (vi) were NOT recomputed for a general $b_4$ (`Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`; `claude_failures.md`, C1).
+**What "self-consistent" means for field equations.** Here the word has a meaning of its own, different from its meaning for a Kohn-Sham state in Chapters 13 to 15 (there a state is self-consistent when the potential computed from the density of its orbitals is the potential that produced them, a fixed point). Field equations are **self-consistent** when they do not contradict one another or the geometry in which they live: the equations obtained by varying different fields form one system, and the further equations that follow from them (by differentiating them, or by combining them with identities of the metric) hold without any extra condition on the field or on the metric (this plain-word summary is the book's; the exact content is the list of senses below). The specification of the Revision record (`Revision/SPEC.md`, section 3) names three parts: the integrability of the field equations, the conserved current and the Bianchi-type identity of the energy-momentum tensor. The record itself (`Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md`, section 8, "Self-consistency") states six exact senses. This book treats them as follows. The record proves all six for the metric with $b_4(x_4)$, for all functions $a_4$ and $b_4$ (the checks named below).
 
 **(i) One system.** The adjoint equation, obtained by varying $\Psi$, is the Dirac conjugate of the field equation, obtained by varying $\Psi^\dagger$ (PROVED in Section 7.21; Notebook 07b, In [16]; checks `adjoint_equation_is_Dirac_conjugate_G` and `grassmann_adjoint_equation_is_conjugate`).
 
@@ -2634,75 +2634,73 @@ $$
 **(iii) Integrability.** A first-order equation implies a second-order one. Take $U = 0$, so that the right side is $m\Psi$ with a constant number $m$. Line by line: $\gamma^\nu D_\nu(\gamma^\mu D_\mu\Psi) = \gamma^\nu D_\nu(m\Psi)$ (apply the operator $\gamma^\nu D_\nu$ to both sides of the field equation); $= m\,\gamma^\nu D_\nu\Psi$ (the number $m$ is constant, and $D_\nu$ is linear); $= m^2\Psi$ (the field equation once more). So every solution obeys $(\gamma^\mu D_\mu)^2\Psi = m^2\Psi$. The Revision record proves the **Lichnerowicz identity** for the square of the Dirac operator in the author's metric, for every $\Psi$, solution or not:
 
 $$
-(\gamma^\mu D_\mu)^2\Psi = g^{\mu\nu}\big(D_\mu D_\nu\Psi - \Gamma^\lambda{}_{\mu\nu}D_\lambda\Psi\big) - \frac{R}{4}\Psi,\qquad R = 6\big((a_4')^2 - 7H^2\big)\ \text{at}\ b_4 = 1.
+(\gamma^\mu D_\mu)^2\Psi = g^{\mu\nu}\big(D_\mu D_\nu\Psi - \Gamma^\lambda{}_{\mu\nu}D_\lambda\Psi\big) - \frac{R}{4}\Psi,\qquad R = 6a_4'^2 - 3a_4'\frac{b_4'}{b_4} + 3\frac{b_4''}{b_4} - 42H^2 .
 $$
 
-Here $D_\mu D_\nu\Psi$ is $D_\mu$ applied to the column $D_\nu\Psi$; the term with the Christoffel symbols $\Gamma^\lambda{}_{\mu\nu}$ (Section 3.15; not the matrix $\Gamma$) corrects for the index $\nu$, as for the covariant derivative of a vector; the sum with the inverse metric $g^{\mu\nu}$ makes the whole first term the curved-space form of the wave operator; and $R$ is the Ricci scalar of the author's metric (Section 3.17; its value is derived in Sections 3.25 and 8.7; with $b_4$ it is $R = 6a_4'^2 - 3a_4'b_4'/b_4 + 3b_4''/b_4 - 42H^2$, formula record key `ricci_scalar`). In flat 4+4 space with Cartesian coordinates ($D_\mu = \partial_\mu$, no Christoffel symbols, $R = 0$) the identity reads $(\gamma^{(a)}\partial_a)^2 = \sum_a\eta^{aa}\partial_a^2$, the operator form of the Clifford square of Section 7.5. Combined with the line above, every solution obeys the second-order equation $g^{\mu\nu}(D_\mu D_\nu\Psi - \Gamma^\lambda{}_{\mu\nu}D_\lambda\Psi) - \frac{R}{4}\Psi = m^2\Psi$, in which the curvature appears only as the term $-\frac{R}{4}\Psi$; in the record's words, the second-order consequence of the field equations is consistent with the curvature. Status: the identity is PROVED in the Revision record for the metric at $b_4 = 1$ (checks `Lichnerowicz_identity_G` of `wolfram-field-theory.json`, `lichnerowicz_identity_on_fields` and `lichnerowicz_contraction` of `python-field-theory.json`); it is quoted here and NOT derived in this book. It is a general identity of the square of the Dirac operator, but the record has not checked it for the metric with a changing $b_4$.
+Here $D_\mu D_\nu\Psi$ is $D_\mu$ applied to the column $D_\nu\Psi$; the term with the Christoffel symbols $\Gamma^\lambda{}_{\mu\nu}$ (Section 3.15; not the matrix $\Gamma$) corrects for the index $\nu$, as for the covariant derivative of a vector; the sum with the inverse metric $g^{\mu\nu}$ makes the whole first term the curved-space form of the wave operator; and $R$ is the Ricci scalar of the author's metric (Section 3.17; its value is derived in Sections 3.25 and 8.7; formula record key `ricci_scalar`; on the history of the record $R = \frac23H^2(11A^2 - 63)$, which is $-\frac{104}{3}H^2$ for $A = 1$). In flat 4+4 space with Cartesian coordinates ($D_\mu = \partial_\mu$, no Christoffel symbols, $R = 0$) the identity reads $(\gamma^{(a)}\partial_a)^2 = \sum_a\eta^{aa}\partial_a^2$, the operator form of the Clifford square of Section 7.5. Combined with the line above, every solution obeys the second-order equation $g^{\mu\nu}(D_\mu D_\nu\Psi - \Gamma^\lambda{}_{\mu\nu}D_\lambda\Psi) - \frac{R}{4}\Psi = m^2\Psi$, in which the curvature appears only as the term $-\frac{R}{4}\Psi$; in the record's words, the second-order consequence of the field equations is consistent with the curvature. Status: the identity is PROVED in the Revision record for the metric with $b_4(x_4)$ (checks `Lichnerowicz_identity_G` of `wolfram-field-theory.json`, `lichnerowicz_identity_on_fields` and `lichnerowicz_contraction` of `python-field-theory.json`); it is quoted here and NOT derived in this book.
 
-**(iv) A conserved current.** The phase change $\Psi \to e^{i\alpha}\Psi$ leaves the Lagrangian unchanged, and the quantity that belongs to this symmetry is the **current** $J^\mu = -i\bar\Psi\gamma^\mu\Psi$, whose time component is the charge density (Section 7.28). It is real and obeys the local law $\nabla_\mu J^\mu = 0$, that is $\sum_\mu\partial_\mu(\sqrt{|g|}\,J^\mu) = 0$ with $\sqrt{|g|} = b_4^{3/2}\cos z$, on every solution (PROVED; derived line by line in Section 21.17; checks `current_conservation_identity_G` and `grassmann_current_conservation` at $b_4 = 1$, and `u1_noether_matrix_identity_b4` of `python-field-theory-b4.json` for every $b_4$). The total charge of a slice of constant $x_4$ is constant only if no charge flows through the brane $z = \pi/2$; this no-flux condition is ASSUMED, not derived (Sections 21.17 and 21.18).
+**(iv) A conserved current.** The phase change $\Psi \to e^{i\alpha}\Psi$ leaves the Lagrangian unchanged, and the quantity that belongs to this symmetry is the **current** $J^\mu = -i\bar\Psi\gamma^\mu\Psi$, whose time component is the charge density (Section 7.28). It is real and obeys the local law $\nabla_\mu J^\mu = 0$, that is $\sum_\mu\partial_\mu(\sqrt{|g|}\,J^\mu) = 0$ with $\sqrt{|g|} = b_4^{3/2}\cos z$, on every solution (PROVED; derived line by line in Section 21.17; checks `current_conservation_identity_G` of `wolfram-field-theory.json` and `grassmann_current_conservation` of `python-field-theory.json`, for all functions $a_4$ and $b_4$). The total charge of a slice of constant $x_4$ is constant only if no charge flows through the brane $z = \pi/2$; this no-flux condition is ASSUMED, not derived (Sections 21.17 and 21.18).
 
-**(v) The Bianchi-type identity of the energy-momentum tensor.** The invariance of the action under changes of coordinates and under local frame rotations gives identities that hold for every field, solution or not (like the Bianchi identity of the curvature, Section 3.17); on every solution they make the energy-momentum tensor symmetric and conserved, $\nabla_\mu T^\mu{}_\nu = 0$ (PROVED in the Revision record for the metric at $b_4 = 1$, checks `Noether_identity_diffeomorphisms_G`, `Noether_identity_local_Lorentz_G` and `conservation_on_shell_general`; Chapter 9 uses it without its proof and derives what it says for a diagonal tensor, Sections 9.9 to 9.11).
+**(v) The Bianchi-type identity of the energy-momentum tensor.** The invariance of the action under changes of coordinates and under local frame rotations gives identities that hold for every field, solution or not (like the Bianchi identity of the curvature, Section 3.17); on every solution they make the energy-momentum tensor symmetric and conserved, $\nabla_\mu T^\mu{}_\nu = 0$ (PROVED in the Revision record for the metric with $b_4(x_4)$, checks `Noether_identity_diffeomorphisms_G`, `Noether_identity_local_Lorentz_G` and `conservation_on_shell_general`; Chapter 9 uses it without its proof and derives what it says for a diagonal tensor, Sections 9.9 to 9.11).
 
-**(vi) Exact solutions as test points.** The exact family derived at the end of this section solves the field equation for every $a_4$ and every constant $b_4$ (PROVED here; Notebook 07b, In [21]); the record also verifies that $T$ and $J$ are conserved exactly at these solutions, and states the scope of this test: there the pressures vanish, so the general proof is the pair of identities of (v) (checks `exact_solution_x4_x0_G` and `exact_solution_family_x4_x0`).
+**(vi) Exact solutions as test points.** The exact family derived at the end of this section solves the field equation for all functions $a_4$ and $b_4$ (PROVED here; Notebook 07b, In [21]); the record also verifies that $T$ and $J$ are conserved exactly at these solutions, and states the scope of this test: there the pressures vanish, so the general proof is the pair of identities of (v) (checks `exact_solution_x4_x0_G` and `exact_solution_family_x4_x0`).
 
 The non-triviality theorem below answers the first half of the author's requirement, (i) to (vi) the second half. Self-consistency in these senses is a property of the equations: it does not make the initial-value problem well posed (ii), and it imposes no boundary condition at $z = \pi/2$ (iv).
 
-**Theorem (non-triviality [1] and [2] in the diagonal frame).** Hypotheses: the author's metric with $H > 0$ and $0 < z < \pi/2$; any function $a_4(x_4)$, a constant one included; a constant $b_4 > 0$ (as on the backgrounds $b_4 = 1$; a changing $b_4$ is treated after the proof); real $m$ and $\lambda$; the diagonal frame and its canonical spin connection; a field $\Psi$ of either statistics that is not identically zero. Then the field-equation residual computed with the spin connection minus the one computed with $\Omega_\mu = 0$ is
+**Theorem (non-triviality [1] and [2] in the diagonal frame).** Hypotheses: the author's metric with $H > 0$ and $0 < z < \pi/2$; any functions $a_4(x_4)$ and $b_4(x_4) > 0$; real $m$ and $\lambda$; the diagonal frame and its canonical spin connection; a field $\Psi$ of either statistics that is not identically zero; a time $x_4$ at which $|b_4'/b_4| \neq 4H$ (on the history of the record $b_4'/b_4 = \frac43H$, so every time). Then the field-equation residual computed with the spin connection minus the one computed with $\Omega_\mu = 0$ is
 
 $$
-\gamma^\mu\Omega_\mu\Psi = 3H\gamma^{(x_0)}\Psi \neq 0 .
+\gamma^\mu\Omega_\mu\Psi = M\Psi = \Big(3H\gamma^{(x_0)} + \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)}\Big)\Psi \neq 0 .
 $$
 
-*Proof.* The difference is $\gamma^\mu(D_\mu - \partial_\mu)\Psi = \gamma^\mu\Omega_\mu\Psi$ by the definition of $D_\mu$, and $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ for a constant $b_4$ by Section 7.18. The matrix $\gamma^{(x_0)}$ is a signed permutation matrix with $(\gamma^{(x_0)})^2 = 1$, so every component of $\gamma^{(x_0)}\Psi$ is $\pm$ a component of $\Psi$, and $3H\gamma^{(x_0)}\Psi = 0$ forces $\Psi = 0$ when $H > 0$. $\square$ (PROVED; Notebook 07b, In [20], checks the difference in all 16 components for both statistics.) Moreover, $\Omega_\mu$ vanishes for all $\mu$ only if $H = 0$, because six of its 12 nonzero components are $H$ times a factor that never vanishes (and the other six are $a_4'$ or $a_4' - b_4'/(2b_4)$ times such a factor); $H = 0$ is not a member of the author's family (it is a degenerate limit in which $g_{11}$ and $g_{55}$ go to 0 and $g_{00}$ to infinity), and the metric is curved for every $H > 0$, since $R^{x_0}{}_{x_0} = -6H^2$ (the checks are listed in the table at the end of this section).
+*Proof.* The difference is $\gamma^\mu(D_\mu - \partial_\mu)\Psi = \gamma^\mu\Omega_\mu\Psi$ by the definition of $D_\mu$, and $\gamma^\mu\Omega_\mu = M$ by Section 7.18. Because $\gamma^{(x_0)}$ and $\gamma^{(x_4)}$ anticommute and $(\gamma^{(x_0)})^2 = 1$, $(\gamma^{(x_4)})^2 = -1$, the cross terms cancel and $MM = \big(9H^2 - \frac{9}{16}(b_4'/b_4)^2\big)1$, a nonzero number times 1 where $|b_4'/b_4| \neq 4H$. So $M\Psi = 0$ would give $MM\Psi = 0$ and hence $\Psi = 0$. $\square$ On the history of the record $M = 3H\gamma^{(x_0)} + H\gamma^{(x_4)}$ and $MM = 8H^2\,1$ (PROVED; Notebook 07b, In [20], checks $MM$ and the difference in all 16 components for both statistics). At a time where $|b_4'/b_4| = 4H$ the matrix $M$ has rank 8 and $M\Psi$ vanishes for the fields in its null space; this does not happen on the history of the record. Moreover, $\Omega_\mu$ vanishes for all $\mu$ only if $H = 0$, because six of its 12 nonzero components are $H$ times a factor that never vanishes (and the other six are $a_4'$ or $a_4' - b_4'/(2b_4)$ times such a factor); $H = 0$ is not a member of the author's family (it is a degenerate limit in which $g_{11}$ and $g_{55}$ go to 0 and $g_{00}$ to infinity), and the metric is curved for every $H > 0$, since $R^{x_0}{}_{x_0} = -6H^2$ (the checks are listed in the table at the end of this section).
 
-**A changing $b_4$.** Then the difference is $M\Psi$ with $M = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$. Because $\gamma^{(x_0)}$ and $\gamma^{(x_4)}$ anticommute and $(\gamma^{(x_0)})^2 = 1$, $(\gamma^{(x_4)})^2 = -1$, the cross terms cancel and $MM = \big(9H^2 - \frac{9}{16}(b_4'/b_4)^2\big)1$. So $M\Psi = 0$ forces $\Psi = 0$ at every time where $|b_4'/b_4| \neq 4H$; at a time where $|b_4'/b_4| = 4H$ the matrix $M$ has rank 8 and $M\Psi$ vanishes for the fields in its null space (PROVED; `python-field-theory-b4.json`, check `gravity_term_square_b4`; Notebook 07b, In [20], checks the difference $M\Psi$ in all 16 components). The theorem, as the record states it, is the case of a constant $b_4$.
+**The exact scope of the theorem.** The value $M$ belongs to the diagonal frame and to the field variables $\Psi$; read without these hypotheses the theorem would overstate [1] and [2]. The Revision record states, and its scope reports verify exactly:
 
-**The exact scope of the theorem.** The value $3H\gamma^{(x_0)}$ belongs to the diagonal frame and to the field variables $\Psi$; read without these hypotheses the theorem would overstate [1] and [2]. The Revision record states, and its scope reports verify exactly:
-
-- In another frame of the same metric, boosted in the $(x_4, x_0)$ plane with the rapidity $6Hx_4 + b_0$, the term $\gamma^\mu\Omega_\mu$ vanishes identically (for a constant $b_4$; Section 6.16).
-- Within the diagonal frame the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it (derived below for a constant $b_4$; for a changing $b_4$ the rescaling $\Psi = \sin^{-1/2}z\,b_4^{-3/4}\chi$ removes all of $M$, Section 6.18).
-- The deflation contributes nothing to $\gamma^\mu\Omega_\mu$: $a_4$ enters the field equation only through the frame factors $e^{-a_4}\sin^{-1/6}z$ and $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ of the derivative terms. And since the connection drops out of $\mathcal{L}$ (Section 7.20), the Euler-Lagrange equations are those of the connection-free symmetric Lagrangian; $M = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$ is its volume-and-frame term.
+- In another frame of the same metric, boosted in the $(x_4, x_0)$ plane with the rapidity $b = 6Hx_4 + b_0$, the part $3H\gamma^{(x_0)}$ of the term vanishes identically, and only the part of the growing $b_4$ remains, $H(\cosh b\,\gamma^{(x_4)} - \sinh b\,\gamma^{(x_0)})$ on the history (Section 6.16).
+- Within the diagonal frame the rescaling $\Psi = \sin^{-1/2}z\,b_4^{-3/4}\chi$ removes all of $M$ (derived below; Section 6.18).
+- Written with the two functions $a_4$ and $b_4$, the deflation contributes nothing to $\gamma^\mu\Omega_\mu$: $a_4$ enters the field equation only through the frame factors $e^{-a_4}\sin^{-1/6}z$ and $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ of the derivative terms. And since the connection drops out of $\mathcal{L}$ (Section 7.20), the Euler-Lagrange equations are those of the connection-free symmetric Lagrangian; $M = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$ is its volume-and-frame term.
 - What is frame-independent: $\Omega_\mu$ itself vanishes in no frame, because its curvature is the Riemann tensor of the metric, which is not zero; and the frame factors enter every derivative term. In this qualified sense [1] and [2] hold; Chapter 8 discusses the frame dependence further.
 
-**The rescaling, line by line.** Put $\Psi = \sin^{-1/2}z\,\chi$. Take $b_4$ constant. Only the $x_0$ term of the Dirac operator acts on the factor $\sin^{-1/2}z$, so by the product rule
+**The rescaling, line by line.** Put $\Psi = w\,\chi$ with $w = \sin^{-1/2}z\,b_4^{-3/4}$. Only the $x_0$ term and the $x_4$ term of the Dirac operator act on the factor $w$, so by the product rule
 
 $$
-\gamma^\mu D_\mu\Psi = \sin^{-1/2}z\,\gamma^\mu D_\mu\chi + \tan z\,\gamma^{(x_0)}\big(\partial_0\sin^{-1/2}z\big)\chi .
+\gamma^\mu D_\mu\Psi = w\,\gamma^\mu D_\mu\chi + \tan z\,\gamma^{(x_0)}\big(\partial_0w\big)\chi + \gamma^{(x_4)}\big(\partial_4w\big)\chi .
 $$
 
-The derivative is $\partial_0\sin^{-1/2}z = -\tfrac12\sin^{-3/2}z\cos z\cdot6H$ (the power rule and the chain rule with $dz/dx_0 = 6H$), so the last term is
+The derivatives are $\partial_0\sin^{-1/2}z = -\tfrac12\sin^{-3/2}z\cos z\cdot6H$ (the power rule and the chain rule with $dz/dx_0 = 6H$) and $\partial_4b_4^{-3/4} = -\frac34b_4^{-7/4}b_4'$ (the same rules), so the last two terms are
 
 $$
-\frac{\sin z}{\cos z}\cdot\big(-3H\sin^{-3/2}z\cos z\big)\gamma^{(x_0)}\chi = -3H\sin^{-1/2}z\,\gamma^{(x_0)}\chi .
+\frac{\sin z}{\cos z}\cdot\big(-3H\sin^{-3/2}z\cos z\big)b_4^{-3/4}\gamma^{(x_0)}\chi - \frac34\,\frac{b_4'}{b_4}\,w\,\gamma^{(x_4)}\chi = -w\Big(3H\gamma^{(x_0)} + \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)}\Big)\chi = -wM\chi .
 $$
 
-And $\gamma^\mu D_\mu\chi = \gamma^\mu\partial_\mu\chi + 3H\gamma^{(x_0)}\chi$. The two $3H$ terms cancel:
+And $\gamma^\mu D_\mu\chi = \gamma^\mu\partial_\mu\chi + M\chi$. The two terms with $M$ cancel:
 
 $$
-\gamma^\mu D_\mu\Psi = \sin^{-1/2}z\,\gamma^\mu\partial_\mu\chi .
+\gamma^\mu D_\mu\Psi = w\,\gamma^\mu\partial_\mu\chi .
 $$
 
-For $U = 0$ the equation for $\chi$ therefore has no spin-connection term. For $U = \frac{\lambda}{2}S^2$ the scalar density is $S[\Psi] = S[\chi]/\sin z$ (the factor is real), and the term becomes the $x_0$-dependent coupling $\lambda S[\chi]/\sin z$ in $\gamma^\mu\partial_\mu\chi = (m + \lambda S[\chi]/\sin z)\chi$.
+For $U = 0$ the equation for $\chi$ therefore has no spin-connection term. For $U = \frac{\lambda}{2}S^2$ the scalar density is $S[\Psi] = w^2S[\chi] = S[\chi]/(b_4^{3/2}\sin z)$ (the factor is real), and the term becomes the coupling $\lambda S[\chi]/(b_4^{3/2}\sin z)$, which depends on $x_0$ and, through $b_4$, on the time, in $\gamma^\mu\partial_\mu\chi = \big(m + \lambda S[\chi]/(b_4^{3/2}\sin z)\big)\chi$.
 
-**An exact family of solutions.** Look for solutions that depend only on the time $x_4$ and the hidden direction $x_0$, of the form $\Psi = \sin^\alpha z\,P(x_4)\,\chi_0$ with a constant column $\chi_0$, a number $\alpha$ and a $16\times16$ matrix function $P$. Take $\lambda = 0$. Line by line:
-
-$$
-\gamma^{(x_4)}\partial_4\Psi + \tan z\,\gamma^{(x_0)}\partial_0\Psi + 3H\gamma^{(x_0)}\Psi = m\Psi
-$$
-
-(the explicit equation for a constant $b_4$; the derivatives along the other six directions vanish, which is why the result holds for EVERY $a_4$);
+**An exact family of solutions.** Look for solutions that depend only on the time $x_4$ and the hidden direction $x_0$, of the form $\Psi = b_4^{-3/4}\sin^\alpha z\,P(x_4)\,\chi_0$ with a constant column $\chi_0$, a number $\alpha$ and a $16\times16$ matrix function $P$. Take $\lambda = 0$. Line by line:
 
 $$
-\sin^\alpha z\,\big[\gamma^{(x_4)}P' + (6H\alpha + 3H)\gamma^{(x_0)}P\big]\chi_0 = m\sin^\alpha z\,P\chi_0
+\gamma^{(x_4)}\partial_4\Psi + \tan z\,\gamma^{(x_0)}\partial_0\Psi + 3H\gamma^{(x_0)}\Psi + \frac34\,\frac{b_4'}{b_4}\,\gamma^{(x_4)}\Psi = m\Psi
 $$
 
-(because $\tan z\,\partial_0\sin^\alpha z = \frac{\sin z}{\cos z}\,\alpha\sin^{\alpha - 1}z\cos z\cdot6H = 6H\alpha\sin^\alpha z$);
+(the explicit equation; the derivatives along the other six directions vanish, which is why the result holds for EVERY $a_4$);
+
+$$
+b_4^{-3/4}\sin^\alpha z\,\big[\gamma^{(x_4)}P' + (6H\alpha + 3H)\gamma^{(x_0)}P\big]\chi_0 = m\,b_4^{-3/4}\sin^\alpha z\,P\chi_0
+$$
+
+(the derivative $\partial_4b_4^{-3/4} = -\frac34(b_4'/b_4)\,b_4^{-3/4}$ produces the term $-\frac34(b_4'/b_4)\gamma^{(x_4)}\Psi$, which cancels the term $\frac34(b_4'/b_4)\gamma^{(x_4)}\Psi$, so the result holds for every $b_4$ too; and $\tan z\,\partial_0\sin^\alpha z = \frac{\sin z}{\cos z}\,\alpha\sin^{\alpha - 1}z\cos z\cdot6H = 6H\alpha\sin^\alpha z$);
 
 $$
 P' = -\gamma^{(x_4)}\big(m - 3H(2\alpha + 1)\gamma^{(x_0)}\big)P = MP,\qquad M = -m\gamma^{(x_4)} + 3H(2\alpha + 1)\gamma^{(x_4)}\gamma^{(x_0)}
 $$
 
-(divide by $\sin^\alpha z$, require the bracket for every $\chi_0$, and multiply by $-\gamma^{(x_4)}$, using $(\gamma^{(x_4)})^2 = -1$). The matrix $M$ squares to a number: with $\beta = 3H(2\alpha + 1)$,
+(divide by $b_4^{-3/4}\sin^\alpha z$, require the bracket for every $\chi_0$, and multiply by $-\gamma^{(x_4)}$, using $(\gamma^{(x_4)})^2 = -1$). The matrix $M$ squares to a number: with $\beta = 3H(2\alpha + 1)$,
 
 $$
 M^2 = m^2(\gamma^{(x_4)})^2 - m\beta\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)} + \gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_4)}\big) + \beta^2\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_0)} = -m^2 + 0 + \beta^2 = k^2
@@ -2714,35 +2712,34 @@ $$
 P(x_4) = \cosh(kx_4) + \frac{\sinh(kx_4)}{k}M
 $$
 
-solves $P' = MP$ with $P(0) = 1$: $P' = k\sinh(kx_4) + \cosh(kx_4)M$ and $MP = \cosh(kx_4)M + \frac{\sinh(kx_4)}{k}k^2$, the same. Moreover $M^TC + CM = 0$ (from $(\gamma^{(x_4)})^TC = -C\gamma^{(x_4)}$ and $\gamma^{(x_4)}C = C\gamma^{(x_4)}$, $\gamma^{(x_0)}C = -C\gamma^{(x_0)}$), which gives $\frac{d}{dx_4}(P^TCP) = P^T(M^TC + CM)P = 0$, so $P^TCP = C$ and the scalar density $S = \sin^{2\alpha}z\,\chi_0^\dagger C\chi_0$ does not change with $x_4$ ($P$ is real) (PROVED; Notebook 07b, In [21]). Two members, with the illustration values $H = 1$, $m = 2$, $\chi_0 = e_1 + e_5$ (components 1 and 5 equal to 1):
+solves $P' = MP$ with $P(0) = 1$: $P' = k\sinh(kx_4) + \cosh(kx_4)M$ and $MP = \cosh(kx_4)M + \frac{\sinh(kx_4)}{k}k^2$, the same. Moreover $M^TC + CM = 0$ (from $(\gamma^{(x_4)})^TC = -C\gamma^{(x_4)}$ and $\gamma^{(x_4)}C = C\gamma^{(x_4)}$, $\gamma^{(x_0)}C = -C\gamma^{(x_0)}$), which gives $\frac{d}{dx_4}(P^TCP) = P^T(M^TC + CM)P = 0$, so $P^TCP = C$, the scalar density is $S = b_4^{-3/2}\sin^{2\alpha}z\,\chi_0^\dagger C\chi_0$, and $b_4^{3/2}S$ does not change with $x_4$ ($P$ is real) (PROVED; Notebook 07b, In [21]). Two members, on the history of the record ($b_4^{-3/4} = e^{-x_4}$ in the unit $b_4(0)$, with $H = 1$), with the illustration values $H = 1$, $m = 2$, $\chi_0 = e_1 + e_5$ (components 1 and 5 equal to 1):
 
-- $\alpha = 0$: $k^2 = 9 - 4 = 5$, and $P$ grows like $e^{\sqrt5x_4}$. This is an $x_0$-independent growing mode, which exists without a boundary condition at $z = \pi/2$ whenever $m^2 < 9H^2$ (the scope record, table below). Its scalar density is $\chi_0^TC\chi_0 = 2C_{1,5} = -2$.
-- $\alpha = -\tfrac12$: $2\alpha + 1 = 0$, $M = -m\gamma^{(x_4)}$, $k^2 = -m^2 = -4$, so $\cosh(kx_4) = \cos2x_4$ and $\sinh(kx_4)/k = \sin(2x_4)/2$: the solution oscillates. This is the rescaling $\Psi = \sin^{-1/2}z\,\chi$ above, in which the $3H$ term disappears. Its scalar density at $z = \pi/4$ is $-2/\sin z = -2\sqrt2 = -2.828427$.
+- $\alpha = 0$: $k^2 = 9 - 4 = 5$, and $P$ grows like $e^{\sqrt5x_4}$, $\Psi$ like $e^{(\sqrt5 - 1)x_4}$. This is an $x_0$-independent growing mode, which exists without a boundary condition at $z = \pi/2$ whenever $m^2 < 9H^2$ (the scope record, table below). Its $b_4^{3/2}S$ is $\chi_0^TC\chi_0 = 2C_{1,5} = -2$.
+- $\alpha = -\tfrac12$: $2\alpha + 1 = 0$, $M = -m\gamma^{(x_4)}$, $k^2 = -m^2 = -4$, so $\cosh(kx_4) = \cos2x_4$ and $\sinh(kx_4)/k = \sin(2x_4)/2$: $P$ oscillates, and $\Psi$ oscillates inside the factor $e^{-x_4}$. This is the rescaling $\Psi = \sin^{-1/2}z\,b_4^{-3/4}\chi$ above, in which the whole term $M$ disappears. Its $b_4^{3/2}S$ at $z = \pi/4$ is $-2/\sin z = -2\sqrt2 = -2.828427$.
 
-Notebook 07b evaluates both members at $z = \pi/4$ for $x_4$ from 0 to 2 and finds $S = -2.000000$ and $-2.828427$, constant along $x_4$ (In [22], Figure 07b.5; COMPUTED). Put into the equation WITHOUT the term $3H\gamma^{(x_0)}\Psi$, the growing solution leaves the residual $3H\gamma^{(x_0)}\Psi$, whose largest component is $3H$ times the largest component of $\Psi$ (In [24], Figure 07b.6): the gravitational term is needed for the solution. These solutions are test points; at them the pressures vanish, so they are a weak test of the energy-momentum tensor, whose conservation is proved in general in Chapter 9.
+Notebook 07b evaluates both members at $z = \pi/4$ for $x_4$ from 0 to 2 and finds $S = -2.000000$ and $-2.828427$ at $x_4 = 0$, and $b_4^{3/2}S$ constant along $x_4$ (In [22], Figure 07b.5; COMPUTED). Put into the equation WITHOUT the hidden part $3H\gamma^{(x_0)}\Psi$ of the gravitational term, the growing solution leaves the residual $3H\gamma^{(x_0)}\Psi$, whose largest component is $3H$ times the largest component of $\Psi$ (In [24], Figure 07b.6): the gravitational term is needed for the solution. These solutions are test points; at them the pressures vanish, so they are a weak test of the energy-momentum tensor, whose conservation is proved in general in Chapter 9.
 
 **Where the statements of this section are verified** (the reports in the folder `Revision/theory/reports`):
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| the gravitational term $3H\gamma^{(x_0)}\Psi$ of the field equation is nonzero for a constant $b_4$, both statistics | PROVED; Notebook 07b, In [20] | `wolfram-field-theory.json`, checks `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00` (at $b_4 = 1$) |
-| with a changing $b_4$: $MM = (9H^2 - \frac{9}{16}(b_4'/b_4)^2)1$, so $M\Psi \neq 0$ unless $\lvert b_4'/b_4\rvert = 4H$ | PROVED | `python-field-theory-b4.json`, check `gravity_term_square_b4` |
-| $\Omega_\mu = 0$ only for $a_4' = 0$ and $H = 0$ (at $b_4 = 1$); $H = 0$ degenerate; curved for every $H > 0$ | PROVED | `python-field-theory.json`, check `nontriviality_Omega_zero_iff_flat`; `wolfram-field-theory.json`, checks `Omega_vanishes_iff_a4prime_and_H_vanish`, `degenerate_at_H_0` and `never_flat_for_H_positive` |
-| the boosted frame removes $\gamma^\mu\Omega_\mu$ (constant $b_4$) | PROVED (quoted) | `wolfram-scope.json` and `python-scope.json`, check `boosted_frame_gammaOmega_vanishes` |
-| the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it; the coupling $\lambda S[\chi]/\sin z$ (constant $b_4$; with $b_4$ see Section 6.18) | PROVED here | scope reports, checks `rescaling_removes_the_connection_term` and `rescaled_equation_quadratic_potential` |
+| the gravitational term $M\Psi$ of the field equation is nonzero unless $\lvert b_4'/b_4\rvert = 4H$, both statistics: $MM = (9H^2 - \frac{9}{16}(b_4'/b_4)^2)1$, $8H^2\,1$ on the history | PROVED; Notebook 07b, In [20] | `wolfram-field-theory.json`, checks `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00`; `python-field-theory.json`, check `gravity_term_square` |
+| $\Omega_\mu = 0$ only for $a_4' = b_4' = 0$ and $H = 0$; $H = 0$ degenerate; curved for every $H > 0$ | PROVED | `python-field-theory.json`, check `nontriviality_Omega_zero_iff_flat`; `wolfram-field-theory.json`, checks `Omega_vanishes_iff_a4prime_b4prime_and_H_vanish`, `degenerate_at_H_0` and `never_flat_for_H_positive` |
+| the boosted frame removes the part $3H\gamma^{(x_0)}$ of $\gamma^\mu\Omega_\mu$, not the part of $b_4$ | PROVED (quoted) | `wolfram-scope.json` and `python-scope.json`, check `boosted_frame_removes_only_the_H_term` |
+| the rescaling $\Psi = \sin^{-1/2}z\,b_4^{-3/4}\chi$ removes $M$; the coupling $\lambda S[\chi]/(b_4^{3/2}\sin z)$ | PROVED here | scope reports, checks `rescaling_removes_the_connection_term` and `rescaled_equation_quadratic_potential` |
 | $\gamma^\mu\Omega_\mu$ does not see the deflation; the equations are those of the connection-free Lagrangian | PROVED (quoted) | scope reports, checks `gammaOmega_blind_to_the_deflation` and `connection_free_lagrangian_same_equations` |
 | $\Omega_\mu$ vanishes in no frame | PROVED (quoted) | `wolfram-scope.json`, check `boosted_frame_curvature_nonzero`; `wolfram-field-theory.json`, check `spin_curvature_equals_Riemann` |
 | the exact family of solutions, $M^2 = k^2$, $M^TC + CM = 0$ | PROVED; In [21] | `python-field-theory.json`, check `exact_solution_family_x4_x0` |
 | growing $x_0$-independent modes without a boundary condition at $z = \pi/2$ when $m^2 < 9H^2$ | PROVED (quoted); In [21] | `python-scope.json`, check `good_sector_x0_independent_modes_without_boundary_condition` |
 | self-consistency (ii): the Heisenberg equation reproduces the evolution form | PROVED (quoted; derived in Section 10.12) | `wolfram-field-theory.json`, check `Heisenberg_equation_reproduces_field_equation`; `python-field-theory.json`, check `hamiltonian_form_and_heisenberg_equation` |
-| self-consistency (iii): the Lichnerowicz identity, $R = 6((a_4')^2 - 7H^2)$ (at $b_4 = 1$) | PROVED in the record at $b_4 = 1$, quoted, NOT derived in this book ($R$ derived in Sections 3.25 and 8.7) | `wolfram-field-theory.json`, check `Lichnerowicz_identity_G`; `python-field-theory.json`, checks `lichnerowicz_identity_on_fields` and `lichnerowicz_contraction` |
+| self-consistency (iii): the Lichnerowicz identity, with $R = 6a_4'^2 - 3a_4'b_4'/b_4 + 3b_4''/b_4 - 42H^2$ | PROVED in the record, quoted, NOT derived in this book ($R$ derived in Sections 3.25 and 8.7) | `wolfram-field-theory.json`, check `Lichnerowicz_identity_G`; `python-field-theory.json`, checks `lichnerowicz_identity_on_fields` and `lichnerowicz_contraction` |
 | self-consistency (iv): the local law $\nabla_\mu J^\mu = 0$ | PROVED (derived in Section 21.17) | `wolfram-field-theory.json`, check `current_conservation_identity_G`; `python-field-theory.json`, check `grassmann_current_conservation` |
 | self-consistency (v): the Noether identities; $T$ symmetric and conserved on shell | PROVED in the record, quoted (used in Chapter 9) | `wolfram-field-theory.json`, checks `Noether_identity_diffeomorphisms_G`, `Noether_identity_local_Lorentz_G` and `conservation_on_shell_general` |
 | self-consistency (vi): $T$ and $J$ conserved at the exact solutions | PROVED (quoted) | `wolfram-field-theory.json`, check `exact_solution_x4_x0_G` |
 
 ### 7.24 Example: Notebook 07b derives the field equations in the author's metric
 
-Notebook 07b derives everything of Sections 7.18 to 7.23 exactly, with the computer doing every step of algebra that a person would do by hand. It reads the author's gammas and $C$ from the Revision record; builds the metric from its frame and checks $\sqrt{|g|} = \cos z$; computes the 25 Christoffel symbols, the 12 components of the spin connection and $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ direction by direction; writes the Lagrangian of both fields in an exact jet algebra (392 and 408 monomials); proves its reality, the total divergence and the absence of the connection; derives the 16 Euler-Lagrange equations of both statistics and compares them term by term with the formula record; checks the block and evolution forms, non-triviality, and the exact family of solutions. Every result that the Revision record also contains is checked against it. It draws six figures and ends with the line ALL 47 CHECKS PASSED (notebook 07b).
+Notebook 07b derives everything of Sections 7.18 to 7.23 exactly, with the computer doing every step of algebra that a person would do by hand. It reads the author's gammas and $C$ from the Revision record; builds the metric from its frame and checks $\sqrt{|g|} = b_4^{3/2}\cos z$; computes the 25 Christoffel symbols, the 12 components of the spin connection and $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$ direction by direction, also on the history of the record; writes the Lagrangian of both fields in an exact jet algebra (392 and 408 monomials); proves its reality, the total divergence and the absence of the connection; derives the 16 Euler-Lagrange equations of both statistics and compares them term by term with the formula record; checks the block and evolution forms, non-triviality, and the exact family of solutions. Every result that the Revision record also contains is checked against it. It draws six figures and ends with the line ALL 49 CHECKS PASSED (notebook 07b).
 
 <!-- NOTEBOOK 07b -->
 
@@ -2778,15 +2775,14 @@ The modules (as in Notebook 07d; `re` is used here to read formulas and numbers 
 
 ```python
 GAMMAS = "Revision/algebra/gammas.json"
-FORMULAS = "Revision/theory/field-theory.json"  # the formulas at b4 = 1
-FORMULAS_B4 = "Revision/theory/field-theory-b4.json"  # the formulas with b4(x4)
-PYREP_B4 = "Revision/theory/reports/python-field-theory-b4.json"
+FORMULAS = "Revision/theory/field-theory.json"  # the formula record, with b4(x4)
 PYREP = "Revision/theory/reports/python-field-theory.json"
 WLREP = "Revision/theory/reports/wolfram-field-theory.json"
 SCOPE = "Revision/theory/reports/python-scope.json"
+PARAMETERS = "Revision/kohn_sham/results/parameters.json"  # the history
 ```
 
-The repository paths of the five Revision files the notebook reads: the gammas, the formula record of the Wolfram verifier, the sympy and the Wolfram field-theory reports, and the sympy scope report.
+The repository paths of the six Revision files the notebook reads: the gammas, the formula record of the Wolfram verifier (for the metric with $b_4(x_4)$), the sympy and the Wolfram field-theory reports, the sympy scope report, and the parameters of the Kohn-Sham record, which hold the history of the record.
 
 ```python
 def revision_check(report, name):
@@ -2819,7 +2815,7 @@ X0, X4 = 0, 4  # list positions of the hidden direction x0 and of the time x4
 NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
 ```
 
-The gammas are read as exact sympy matrices: `G[0]` to `G[7]` are $\gamma^{(x_0)}$ to $\gamma^{(x_7)}$, `C` is $C$. `ETA` is $\eta$ in the order $x_0, \dots, x_7$; `I16` and `Z16` are the $16\times16$ identity and zero matrices. `SAB[a][b]` is the spin generator $S^{ab} = \tfrac14(\gamma^{(a)}\gamma^{(b)} - \gamma^{(b)}\gamma^{(a)})$, built for all 64 pairs with a nested list comprehension. `X0, X4 = 0, 4` are the list positions of $x_0$ and $x_4$ (positions count from 0, so position $k$ is the direction $x_k$), and `NAMES` the printed names of the eight coordinates. `FORMULAS_B4` and `PYREP_B4` name the formula record and the sympy report of the metric with $b_4$.
+The gammas are read as exact sympy matrices: `G[0]` to `G[7]` are $\gamma^{(x_0)}$ to $\gamma^{(x_7)}$, `C` is $C$. `ETA` is $\eta$ in the order $x_0, \dots, x_7$; `I16` and `Z16` are the $16\times16$ identity and zero matrices. `SAB[a][b]` is the spin generator $S^{ab} = \tfrac14(\gamma^{(a)}\gamma^{(b)} - \gamma^{(b)}\gamma^{(a)})$, built for all 64 pairs with a nested list comprehension. `X0, X4 = 0, 4` are the list positions of $x_0$ and $x_4$ (positions count from 0, so position $k$ is the direction $x_k$), and `NAMES` the printed names of the eight coordinates.
 
 ```python
 clifford = all(G[a] * G[b] + G[b] * G[a] == 2 * (ETA[a] if a == b else 0) * I16
@@ -2832,7 +2828,18 @@ check(c_ok, "C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3), symmetric, C^2 = 1
       "every C gamma^a antisymmetric", record=reproduces(PYREP, "C_properties"))
 ```
 
-`clifford` is true when $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}I_{16}$ for all 64 pairs (the expression `(ETA[a] if a == b else 0)` is $\eta^{ab}$). `c_ok` checks $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, $C^T = C$, $C^2 = 1$ and that every $C\gamma^{(a)}$ is antisymmetric. **Out [2]:** two PASS lines with their "reproduces" lines (`clifford_relations` and `C_properties` of the sympy report).
+`clifford` is true when $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}I_{16}$ for all 64 pairs (the expression `(ETA[a] if a == b else 0)` is $\eta^{ab}$). `c_ok` checks $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, $C^T = C$, $C^2 = 1$ and that every $C\gamma^{(a)}$ is antisymmetric.
+
+```python
+physics = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))["physics"]
+A_EXACT = sp.nsimplify(physics["historyA"])  # the slope A of the history, 1
+BETA_B4 = sp.nsimplify(physics["historyBeta"])  # the exponent of b4, 4/3
+check(A_EXACT == 1 and BETA_B4 == sp.Rational(4, 3),
+      "the history of the record: a4 = A H x4, b4 = b4(0) e^(4 A H x4/3) with A = 1",
+      record=f"{PARAMETERS}, physics.historyA and physics.historyBeta")
+```
+
+`physics` is the part of `parameters.json` that describes the history of the record, $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$; `A_EXACT` and `BETA_B4` are its slope $A$ and exponent $\beta$ as exact fractions (`sp.nsimplify` turns the stored decimal numbers into $1$ and $\frac43$), and the check requires these values. **Out [2]:** three PASS lines with their "reproduces" lines (`clifford_relations` and `C_properties` of the sympy report, and the history in `parameters.json`).
 
 **In [3]: the coefficient ring.**
 
@@ -2841,12 +2848,14 @@ E, s, c = sp.symbols("E s c", positive=True)  # e^a4, sin(z)^(1/6), cos z
 A1, A2, A3 = sp.symbols("A1 A2 A3", real=True)  # 1st, 2nd, 3rd derivative of a4
 b4 = sp.Symbol("b4", positive=True)  # the function b4(x4) > 0 of the metric
 b4p, b4pp, b4ppp = sp.symbols("b4p b4pp b4ppp", real=True)  # its 1st to 3rd derivative
-AT_B4_1 = {b4: 1, b4p: 0, b4pp: 0, b4ppp: 0}  # the background b4 = 1
 H = sp.Symbol("H", positive=True)  # the author's constant
 m, lam = sp.symbols("m lambda", real=True)  # the mass and the coupling
+RATE = BETA_B4 * A_EXACT * H  # b4'/b4 on the history, (4/3) H
+ON_HISTORY = {A1: A_EXACT * H, A2: 0, A3: 0, b4p: RATE * b4, b4pp: RATE**2 * b4,
+              b4ppp: RATE**3 * b4}  # the history of the record
 ```
 
-The symbols of Section 7.18: `E`, `s`, `c` (positive), `A1`, `A2`, `A3` (the first three derivatives of $a_4$), `b4` (positive) and `b4p`, `b4pp`, `b4ppp` (the first three derivatives of $b_4$), `H` (positive), and `m`, `lam` ($\lambda$; the name `lambda` is reserved in Python). `AT_B4_1` is the substitution that puts in the background $b_4 = 1$: with `.subs(AT_B4_1)` a result for a general $b_4$ becomes the result at $b_4 = 1$, which is compared with the record of $b_4 = 1$.
+The symbols of Section 7.18: `E`, `s`, `c` (positive), `A1`, `A2`, `A3` (the first three derivatives of $a_4$), `b4` (positive) and `b4p`, `b4pp`, `b4ppp` (the first three derivatives of $b_4$), `H` (positive), and `m`, `lam` ($\lambda$; the name `lambda` is reserved in Python). `RATE` is $b_4'/b_4 = \beta AH = \frac43H$ on the history of the record, and `ON_HISTORY` the substitution that puts in the history: $A_1 = AH$, $A_2 = A_3 = 0$, and $b_4' = \mathrm{RATE}\,b_4$, $b_4'' = \mathrm{RATE}^2\,b_4$, $b_4^{\prime\prime\prime} = \mathrm{RATE}^3\,b_4$ (each derivative of the exponential $b_4(0)\,e^{\beta AHx_4}$ brings one more factor $\beta AH$).
 
 ```python
 def cd(expression, mu):
@@ -2917,28 +2926,26 @@ author = ([sp.cot(z) ** 2] + [sp.exp(2 * a4) * third] * 3 + [-1]
           + [-sp.exp(-2 * a4) * b4f * third] * 3)  # the author's metric with b4
 check(all(sp.simplify(to_physical(g[a]) - author[a]) == 0 for a in range(8)),
       "the diagonal frame reproduces the author's metric with b4 entry by entry",
-      record=reproduces(PYREP, "metric_from_vielbein_equals_SPEC") + " (at b4 = 1)")
+      record=reproduces(PYREP, "metric_from_vielbein_equals_SPEC"))
 say(f"sqrt|g| = {sqrt_g} (ring) = {to_physical(sqrt_g)}")
-check(sqrt_g == b4 ** sp.Rational(3, 2) * c and sqrt_g.subs(AT_B4_1) == c,
-      "sqrt|g| = b4^(3/2) cos z; cos z, independent of x4, at b4 = 1",
-      record=reproduces(WLREP, "sqrt_det_g_is_cos_z") + " (at b4 = 1)")
+check(sqrt_g == b4 ** sp.Rational(3, 2) * c,
+      "sqrt|g| = b4^(3/2) cos z: the time enters only through b4",
+      record=reproduces(PYREP, "sqrt_det_g_equals_b4_cos_z"))
 ```
 
-`f` is the list of the eight frame factors in the order $x_0, \dots, x_7$ (`[E * s] * 3` repeats a one-entry list three times), `g` the diagonal metric entries $\eta_{aa}f_a^2$, and `sqrt_g` their product $\sqrt{|g|}$ (`sp.prod`). `author` is the author's metric with $b_4$, typed from the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb` (Chapter 3). The first check compares the eight entries; the `say` line prints the volume factor in the ring and as a function; the second check requires it to be $b_4^{3/2}c$, and $c$ at $b_4 = 1$. **Out [4]:** two PASS lines with "reproduces" lines and `sqrt|g| = b4**(3/2)*c (ring) = b4(x4)**(3/2)*cos(6*H*x0)`.
+`f` is the list of the eight frame factors in the order $x_0, \dots, x_7$ (`[E * s] * 3` repeats a one-entry list three times), `g` the diagonal metric entries $\eta_{aa}f_a^2$, and `sqrt_g` their product $\sqrt{|g|}$ (`sp.prod`). `author` is the author's metric with $b_4$, typed from the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb` (Chapter 3). The first check compares the eight entries; the `say` line prints the volume factor in the ring and as a function; the second check requires it to be $b_4^{3/2}c$. **Out [4]:** two PASS lines with "reproduces" lines and `sqrt|g| = b4**(3/2)*c (ring) = b4(x4)**(3/2)*cos(6*H*x0)`.
 
 **In [5]: reading the formula record.**
 
 ```python
 record = {item["key"]: item["wl"] for item in
           json.loads(repository_file(FORMULAS).read_text(encoding="utf-8"))["formulas"]}
-record_b4 = {item["key"]: item["wl"] for item in json.loads(
-    repository_file(FORMULAS_B4).read_text(encoding="utf-8"))["formulas"]}
 a4x, A1w = sp.symbols("a4x A1w", real=True)  # a4(x4) and a4'(x4) in the record
 b4x = sp.Symbol("b4x", positive=True)  # b4(x4) in the record
 B1w, B2w = sp.symbols("B1w B2w", real=True)  # b4'(x4) and b4''(x4) in the record
 ```
 
-`record` is a dictionary from the keys of the formula record `Revision/theory/field-theory.json` (the metric at $b_4 = 1$) to their Wolfram-language texts (the field `wl` of each entry), and `record_b4` the same for `Revision/theory/field-theory-b4.json` (the metric with $b_4$). `a4x` and `A1w` are symbols for $a_4(x_4)$ and $a_4'(x_4)$ as they appear in those texts, `b4x`, `B1w` and `B2w` for $b_4(x_4)$, $b_4'(x_4)$ and $b_4''(x_4)$.
+`record` is a dictionary from the keys of the formula record `Revision/theory/field-theory.json` (the metric with $b_4$) to their Wolfram-language texts (the field `wl` of each entry). `a4x` and `A1w` are symbols for $a_4(x_4)$ and $a_4'(x_4)$ as they appear in those texts, `b4x`, `B1w` and `B2w` for $b_4(x_4)$, $b_4'(x_4)$ and $b_4''(x_4)$.
 
 ```python
 def from_wolfram(text):
@@ -2977,32 +2984,33 @@ def to_ring(expression):
 ```python
 frame_record = from_wolfram(record["vielbein_diagonal"])
 say(f"record vielbein_diagonal in the ring: {[to_ring(v) for v in frame_record]}")
-check(all(is_zero(to_ring(v) - f[a].subs(AT_B4_1)) for a, v in enumerate(frame_record))
-      and is_zero(to_ring(from_wolfram(record["sqrt_det_g"])) - sqrt_g.subs(AT_B4_1)),
-      "at b4 = 1 the frame factors and sqrt|g| equal the formula record",
+check(all(is_zero(to_ring(v) - f[a]) for a, v in enumerate(frame_record))
+      and is_zero(to_ring(from_wolfram(record["sqrt_det_g"])) - sqrt_g),
+      "the frame factors and sqrt|g| equal the formula record",
       record=f"{FORMULAS}, formulas vielbein_diagonal and sqrt_det_g")
 ```
 
-The record's frame factors (key `vielbein_diagonal`, a record of $b_4 = 1$) are put into the ring and printed; the check compares each with our `f[a]` at $b_4 = 1$ and the record's volume factor with ours. The `record=` text names the record file and the two formula keys. **Out [5]:** `record vielbein_diagonal in the ring: [c/s**6, E*s, E*s, E*s, 1, s/E, s/E, s/E]` and the PASS line with its "reproduces" line.
+The record's frame factors (key `vielbein_diagonal`) are put into the ring and printed; the check compares each with our `f[a]` and the record's volume factor with ours. The `record=` text names the record file and the two formula keys. **Out [5]:** `record vielbein_diagonal in the ring: [c/s**6, E*s, E*s, E*s, 1, sqrt(b4)*s/E, sqrt(b4)*s/E, sqrt(b4)*s/E]` and the PASS line with its "reproduces" line.
 
 **In [6]: Figure 07b.1.**
 
 ```python
 times = np.linspace(0.0, 3.0, 301)  # x4 from 0 to 3 (H = 1, A = 1: a4 = x4)
+b4_history = np.exp(4 * times / 3)  # b4 = b4(0) e^(4 x4/3) in the unit b4(0)
 warp = np.sin(np.pi / 4) ** (1 / 6)  # sin^(1/6) z at z = pi/4
 angles = np.linspace(0.01, np.pi / 2 - 0.01, 300)  # z inside (0, pi/2)
 fig, (left, right) = plt.subplots(1, 2, figsize=(9.6, 3.9))
 left.semilogy(times, np.exp(times) * warp, label="3-space $e^{a_4}\\sin^{1/6}z$")
-left.semilogy(times, np.exp(-times) * warp, "--",
-              label="extra times $e^{-a_4}\\sin^{1/6}z$")
-left.semilogy(times, np.exp(times) * np.exp(-times) * warp**2, ":", color="black",
-              label="their product")
-left.set_xlabel("time $x_4$ (with $a_4 = x_4$)")
+left.semilogy(times, np.exp(-times) * np.sqrt(b4_history) * warp, "--",
+              label="extra times $e^{-a_4}b_4^{1/2}\\sin^{1/6}z$")
+left.semilogy(times, np.sqrt(b4_history) * warp**2, ":", color="black",
+              label="their product $b_4^{1/2}\\sin^{1/3}z$")
+left.set_xlabel("time $x_4$ (with $a_4 = x_4$, $b_4 = e^{4x_4/3}$)")
 left.set_ylabel("scale factor")
 left.set_title("Inflation and deflation at $z = \\pi/4$")
 left.legend(fontsize=8)
 right.plot(angles, np.sin(angles) ** (1 / 6), label="$\\sin^{1/6}z$")
-right.plot(angles, np.cos(angles), "--", label="$\\sqrt{|g|} = \\cos z$")
+right.plot(angles, np.cos(angles), "--", label="$\\sqrt{|g|} = b_4^{3/2}\\cos z$")
 right.plot(angles, 1 / np.tan(angles), ":", label="$f_0 = \\cot z$")
 right.set_ylim(0, 3)
 right.set_xlabel("$z = 6Hx_0$")
@@ -3014,7 +3022,7 @@ save_figure(fig, "scale_factors",
 ...)
 ```
 
-`times` is $x_4$ from 0 to 3 (with $H = 1$, $A = 1$ the history is $a_4 = x_4$); `warp` is $\sin^{1/6}z$ at $z = \pi/4$; `angles` is $z$ from just above 0 to just below $\pi/2$. The left panel draws, on a logarithmic axis, the scale factor of 3-space $e^{x_4}\sin^{1/6}z$, that of the extra times $e^{-x_4}\sin^{1/6}z$ and their product; the right panel draws $\sin^{1/6}z$, $\cos z$ and $\cot z$ against $z$, with the vertical range cut at 3 because $\cot z$ grows without bound near $z = 0$. **What Figure 07b.1 shows.** On the logarithmic axis the 3-space factor is a rising straight line and the extra-time factor a falling one: exponential inflation and exponential deflation, with a constant product. On the right, $\sin^{1/6}z$ rises steeply near the tip $z = 0$ and is almost 1 elsewhere; the volume factor $\cos z$ falls to 0 at $z = \pi/2$, where the frame factor $\cot z$ of the hidden direction also vanishes. The history $a_4 = x_4$ is an illustration chosen for the picture, not a result: every equation of the notebook holds for every $a_4(x_4)$.
+`times` is $x_4$ from 0 to 3 (with $H = 1$ and $A = 1$ the history of the record is $a_4 = x_4$); `b4_history` is $b_4 = e^{4x_4/3}$ on the history, in the unit $b_4(0)$; `warp` is $\sin^{1/6}z$ at $z = \pi/4$; `angles` is $z$ from just above 0 to just below $\pi/2$. The left panel draws, on a logarithmic axis, the scale factor of 3-space $e^{x_4}\sin^{1/6}z$, that of the extra times $e^{-x_4}b_4^{1/2}\sin^{1/6}z$ and their product $b_4^{1/2}\sin^{1/3}z$; the right panel draws $\sin^{1/6}z$, the volume factor at $x_4 = 0$ (where $b_4 = b_4(0)$, so it is $\cos z$) and $\cot z$ against $z$, with the vertical range cut at 3 because $\cot z$ grows without bound near $z = 0$. **What Figure 07b.1 shows.** On the logarithmic axis the 3-space factor is a straight line rising like $e^{x_4}$ and the extra-time factor one falling like $e^{-x_4/3}$: exponential inflation and exponential deflation, the deflation slowed to one third by the growth of $b_4$; their product rises like $e^{2x_4/3}$. On the right, $\sin^{1/6}z$ rises steeply near the tip $z = 0$ and is almost 1 elsewhere; the volume factor falls to 0 at $z = \pi/2$, where the frame factor $\cot z$ of the hidden direction also vanishes. The history is the prescribed background of the record, not a result: every equation of the notebook holds for all functions $a_4(x_4)$ and $b_4(x_4)$.
 
 **In [7]: the Christoffel symbols.**
 
@@ -3052,20 +3060,17 @@ recorded = int(re.search(r"(\d+) independent nonzero",
                                         "compatible")["detail"]).group(1))
 check(len(nonzero) == recorded == 25, "25 independent nonzero Christoffel symbols",
       record=reproduces(PYREP, "christoffel_symmetric_metric_compatible"))
-# the records number the directions from 1 in the order x0 .. x7: subtract 1
-listed = from_wolfram(record_b4["christoffel_nonzero"])
-listed_1 = from_wolfram(record["christoffel_nonzero"])
-check(len(listed) == len(listed_1) == 25
+# the record numbers the directions from 1 in the order x0 .. x7: subtract 1
+listed = from_wolfram(record["christoffel_nonzero"])
+check(len(listed) == 25
       and all(is_zero(to_ring(v) - Gam[l - 1][mu - 1][nu - 1])
-              for l, mu, nu, v in listed)
-      and all(is_zero(to_ring(v) - Gam[l - 1][mu - 1][nu - 1].subs(AT_B4_1))
-              for l, mu, nu, v in listed_1),
-      "every Christoffel symbol equals the formula record with b4, and at b4 = 1 "
-      "the record of b4 = 1",
-      record=f"{FORMULAS_B4} and {FORMULAS}, formula christoffel_nonzero")
+              for l, mu, nu, v in listed),
+      "every Christoffel symbol equals the formula record",
+      record=f"{FORMULAS}, formula christoffel_nonzero; "
+      + reproduces(WLREP, "christoffel_count"))
 ```
 
-`recorded` is the number that the detail text of the sympy check `christoffel_symmetric_metric_compatible` states ("25 independent nonzero"), read with a regular expression (`(\d+)` captures the digits) and turned into a whole number with `int`. The first check requires our count to equal it and 25. `listed` is the list of all nonzero symbols of the record with $b_4$ (key `christoffel_nonzero`), `listed_1` that of the record of $b_4 = 1$, each entry a list $\lambda, \mu, \nu$, value with the directions counted from 1 in the order $x_0, \dots, x_7$; the second check compares each value of the first with ours and each value of the second with ours at $b_4 = 1$ (`Gam[l - 1][mu - 1][nu - 1]` shifts to positions counted from 0). **Out [7]:** `RESULT independent nonzero Christoffel symbols = 25`, the four symbols `Gamma^x1_x1x4 = A1`, `Gamma^x5_x4x5 = -(2*A1*b4 - b4p)/(2*b4)`, `Gamma^x1_x0x1 = H*c/s**6`, `Gamma^x0_x0x0 = -6*H*(c**2 + s**12)/(c*s**6)` (the values derived in Section 7.18; with $c^2 + s^{12} = 1$ the last is $-6H/(\sin z\cos z)$), and two PASS lines with their "reproduces" lines.
+`recorded` is the number that the detail text of the sympy check `christoffel_symmetric_metric_compatible` states ("25 independent nonzero"), read with a regular expression (`(\d+)` captures the digits) and turned into a whole number with `int`. The first check requires our count to equal it and 25. `listed` is the list of all nonzero symbols of the record (key `christoffel_nonzero`), each entry a list $\lambda, \mu, \nu$, value with the directions counted from 1 in the order $x_0, \dots, x_7$; the second check requires 25 entries and compares each value with ours (`Gam[l - 1][mu - 1][nu - 1]` shifts to positions counted from 0), and names the WolframScript check `christoffel_count` as well. **Out [7]:** `RESULT independent nonzero Christoffel symbols = 25`, the four symbols `Gamma^x1_x1x4 = A1`, `Gamma^x5_x4x5 = -(2*A1*b4 - b4p)/(2*b4)`, `Gamma^x1_x0x1 = H*c/s**6`, `Gamma^x0_x0x0 = -6*H*(c**2 + s**12)/(c*s**6)` (the values derived in Section 7.18; with $c^2 + s^{12} = 1$ the last is $-6H/(\sin z\cos z)$), and two PASS lines with their "reproduces" lines.
 
 **In [8]: the canonical spin connection.**
 
@@ -3098,19 +3103,16 @@ pairs = [(mu, a, b) for mu in range(8) for a in range(8) for b in range(a + 1, 8
          if not is_zero(om[mu][a][b])]
 for mu, a, b in pairs:
     say(f"omega_{NAMES[mu]} ({NAMES[a]})({NAMES[b]}) = {sp.factor(om[mu][a][b])}")
-listed = from_wolfram(record_b4["omega_nonzero"])
-listed_1 = from_wolfram(record["omega_nonzero"])
-check(len(pairs) == 12 and len(listed) == len(listed_1) == 12
+listed = from_wolfram(record["omega_nonzero"])
+check(len(pairs) == 12 and len(listed) == 12
       and all(is_zero(to_ring(v) - om[mu - 1][a - 1][b - 1])
-              for mu, a, b, v in listed)
-      and all(is_zero(to_ring(v) - om[mu - 1][a - 1][b - 1].subs(AT_B4_1))
-              for mu, a, b, v in listed_1),
-      "exactly 12 nonzero components, equal to the formula record with b4, and at "
-      "b4 = 1 to the record of b4 = 1", record=f"{FORMULAS_B4}, formula "
-      "omega_nonzero; " + reproduces(WLREP, "omega_components") + " (at b4 = 1)")
+              for mu, a, b, v in listed),
+      "exactly 12 nonzero components, equal to the formula record",
+      record=f"{FORMULAS}, formula omega_nonzero; "
+      + reproduces(WLREP, "omega_components"))
 ```
 
-`pairs` lists the nonzero components with $a < b$, which are printed. `listed` and `listed_1` are the lists of the two records (key `omega_nonzero`); the check requires exactly 12 components, equal to those of the record with $b_4$, and at $b_4 = 1$ to those of the record of $b_4 = 1$. **Out [8]:** a PASS line with its "reproduces" line, the twelve components (for example `omega_x1 (x1)(x4) = A1*E*s` and `omega_x5 (x4)(x5) = -s*(2*A1*b4 - b4p)/(2*E*sqrt(b4))`), and a second PASS line with its "reproduces" line (the formula record with $b_4$ and the Wolfram check `omega_components`).
+`pairs` lists the nonzero components with $a < b$, which are printed. `listed` is the list of the record (key `omega_nonzero`); the check requires exactly 12 components, equal to those of the record. **Out [8]:** a PASS line with its "reproduces" line, the twelve components (for example `omega_x1 (x1)(x4) = A1*E*s` and `omega_x5 (x4)(x5) = -s*(2*A1*b4 - b4p)/(2*E*sqrt(b4))`), and a second PASS line with its "reproduces" line (the formula record and the Wolfram check `omega_components`).
 
 **In [9]: the spinor connection and $\gamma^\mu\Omega_\mu$.**
 
@@ -3145,48 +3147,45 @@ for mu in range(8):
     say(f"gamma^{NAMES[mu]} Omega_{NAMES[mu]} = ({alpha[mu]}) gamma^(x4) + "
         f"({beta[mu]}) gamma^(x0)")
 listed = from_wolfram(record["gammaOmega_per_direction"])
-check(rest_zero and all(is_zero(to_ring(al) - alpha[mu - 1].subs(AT_B4_1))
-                        and is_zero(to_ring(be) - beta[mu - 1].subs(AT_B4_1))
-                        for mu, al, be in listed),
-      "per direction gamma^mu Omega_mu = alpha gamma^(x4) + beta gamma^(x0); at "
-      "b4 = 1 equal to the formula record",
-      record=f"{FORMULAS}, formula gammaOmega_per_direction")
+check(rest_zero and len(listed) == 8
+      and all(is_zero(to_ring(al) - alpha[mu - 1])
+              and is_zero(to_ring(be) - beta[mu - 1]) for mu, al, be in listed),
+      "per direction gamma^mu Omega_mu = alpha gamma^(x4) + beta gamma^(x0), equal "
+      "to the formula record", record=f"{FORMULAS}, formula gammaOmega_per_direction")
 ```
 
-The eight decompositions are printed. The check compares each pair $(\alpha_\mu, \beta_\mu)$ at $b_4 = 1$ with the list of the record of $b_4 = 1$ (key `gammaOmega_per_direction`; the record with $b_4$ stores only the sum).
+The eight decompositions are printed. The check requires that nothing is left over and compares each pair $(\alpha_\mu, \beta_\mu)$ with the list of the record (key `gammaOmega_per_direction`, eight entries).
 
 ```python
 total = sum((gam[mu] * Om[mu] for mu in range(8)), Z16)
 GRAV = 3 * H * G[X0] + 3 * b4p / (4 * b4) * G[X4]  # the gravitational term
+history_rest = total.subs(ON_HISTORY) - 3 * H * G[X0] - H * G[X4]
 check(all(is_zero(v) for v in (total - GRAV))
-      and all(is_zero(v) for v in (total.subs(AT_B4_1) - 3 * H * G[X0])),
+      and all(is_zero(v) for v in history_rest),
       "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) (summed over "
-      "mu); 3 H gamma^(x0) at b4 = 1",
-      record=reproduces(PYREP_B4, "gammaOmega_total") + "; "
-      + reproduces(PYREP, "gamma_mu_Omega_mu_equals_3H_gamma_x0") + " (at b4 = 1)")
+      "mu); 3 H gamma^(x0) + H gamma^(x4) on the history",
+      record=reproduces(PYREP, "gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term"))
 check(sp.expand(sum(alpha[1:4])) == sp.Rational(3, 2) * A1
       and sp.expand(sum(alpha[5:8]) + sp.Rational(3, 2) * A1
                     - sp.Rational(3, 4) * b4p / b4) == 0
-      and sp.expand(sum(alpha[5:8]).subs(AT_B4_1)) == -sp.Rational(3, 2) * A1
       and sp.expand(sum(beta)) == 3 * H,
-      "the a4' terms cancel (+3 A1/2 inflating, -3 A1/2 deflating; the extra times "
-      "leave (3/4) b4'/b4, zero at b4 = 1), the six x0 terms add to 3 H",
-      record=reproduces(PYREP, "time_terms_cancel_hidden_term_survives")
-      + " (at b4 = 1)")
+      "the a4' terms cancel (+3 A1/2 inflating, -3 A1/2 deflating); the extra times "
+      "leave (3/4) b4'/b4; the six x0 terms add to 3 H",
+      record=reproduces(PYREP, "a4_time_terms_cancel_b4_terms_add"))
 ```
 
-`total` is the sum over $\mu$ and `GRAV` the gravitational term $M = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$; the first check requires `total` to be $M$, and $3H\gamma^{(x_0)}$ at $b_4 = 1$. The second checks the cancellation: the $\alpha$ of the three inflating directions (positions 1 to 3, `alpha[1:4]`) add to $\tfrac32A_1$, those of the three extra times (positions 5 to 7, `alpha[5:8]`) to $-\tfrac32A_1 + \tfrac34b_4'/b_4$, which is $-\tfrac32A_1$ at $b_4 = 1$, and all $\beta$ add to $3H$. **Out [9]:** the eight lines `gamma^x0 Omega_x0 = (0) gamma^(x4) + (0) gamma^(x0)`, `gamma^x1 Omega_x1 = (A1/2) gamma^(x4) + (H/2) gamma^(x0)` ... `gamma^x5 Omega_x5 = (-A1/2 + b4p/(4*b4)) gamma^(x4) + (H/2) gamma^(x0)` ..., with zeros for $x_0$ and $x_4$, and three PASS lines with their "reproduces" lines.
+`total` is the sum over $\mu$ and `GRAV` the gravitational term $M = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$; `history_rest` is `total` on the history of the record minus $3H\gamma^{(x_0)} + H\gamma^{(x_4)}$. The first check requires `total` to be $M$ and `history_rest` to vanish. The second checks the cancellation: the $\alpha$ of the three inflating directions (positions 1 to 3, `alpha[1:4]`) add to $\tfrac32A_1$, those of the three extra times (positions 5 to 7, `alpha[5:8]`) to $-\tfrac32A_1 + \tfrac34b_4'/b_4$, and all $\beta$ add to $3H$. **Out [9]:** the eight lines `gamma^x0 Omega_x0 = (0) gamma^(x4) + (0) gamma^(x0)`, `gamma^x1 Omega_x1 = (A1/2) gamma^(x4) + (H/2) gamma^(x0)` ... `gamma^x5 Omega_x5 = (-A1/2 + b4p/(4*b4)) gamma^(x4) + (H/2) gamma^(x0)` ..., with zeros for $x_0$ and $x_4$, and three PASS lines with their "reproduces" lines.
 
 **In [10]: Figure 07b.2.**
 
 ```python
-a_units = [float(sp.expand(v.subs(AT_B4_1) / A1)) if v != 0 else 0.0
-           for v in alpha]  # in units of a4', at b4 = 1
+a_units = [float(sp.expand(v.subs(b4p, 0) / A1)) if v != 0 else 0.0
+           for v in alpha]  # the part with a4' (b4' set to 0), in units of a4'
 b_units = [float(sp.expand(v / H)) if v != 0 else 0.0 for v in beta]  # H units
 positions = np.arange(8)
 fig, (left, right) = plt.subplots(1, 2, figsize=(9.6, 3.9), sharey=True)
 for ax, values, unit, title in [
-        (left, a_units, "$a_4'$", "coefficient of $\\gamma^{(x_4)}$"),
+        (left, a_units, "$a_4'$", "$a_4'$ part, coefficient of $\\gamma^{(x_4)}$"),
         (right, b_units, "$H$", "coefficient of $\\gamma^{(x_0)}$")]:
     ax.bar(positions, values, color=["grey"] + ["tab:blue"] * 3 + ["grey"]
            + ["tab:red"] * 3, label="one direction")
@@ -3202,7 +3201,7 @@ save_figure(fig, "gamma_omega_per_direction",
 ...)
 ```
 
-`a_units` and `b_units` are the coefficients in units of $a_4'$ (at $b_4 = 1$) and of $H$ (the zeros of $x_0$ and $x_4$ become 0.0). Two panels with a shared vertical axis (`sharey=True`); the loop draws in each a bar chart with grey bars for $x_0$ and $x_4$, blue for 3-space and red for the extra times, and the **running sum** (`np.cumsum`, the sum of the first one, two, three, ... values) as black dots joined by lines. **What Figure 07b.2 shows.** On the left the bars are $+\tfrac12$ (blue) and $-\tfrac12$ (red): the running sum climbs to $\tfrac32$ and falls back to 0, the time terms cancel. On the right all six bars are $+\tfrac12$ and the running sum ends at 3: $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$ at $b_4 = 1$.
+`a_units` holds the parts of the $\alpha_\mu$ proportional to $a_4'$, in units of $a_4'$ (`.subs(b4p, 0)` drops the parts with $b_4'$), and `b_units` the $\beta_\mu$ in units of $H$ (the zeros of $x_0$ and $x_4$ become 0.0). Two panels with a shared vertical axis (`sharey=True`); the loop draws in each a bar chart with grey bars for $x_0$ and $x_4$, blue for 3-space and red for the extra times, and the **running sum** (`np.cumsum`, the sum of the first one, two, three, ... values) as black dots joined by lines. **What Figure 07b.2 shows.** On the left the bars are $+\tfrac12$ (blue) and $-\tfrac12$ (red): the running sum climbs to $\tfrac32$ and falls back to 0, the $a_4'$ terms cancel. On the right all six bars are $+\tfrac12$ and the running sum ends at 3. With the parts $\frac14b_4'/b_4$ of the three extra times, which are not drawn, $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$, which is $3H\gamma^{(x_0)} + H\gamma^{(x_4)}$ on the history.
 
 **In [11]: why the connection drops out of $\mathcal{L}$ but not out of the equation.**
 
@@ -3215,8 +3214,7 @@ divergence = sum((((sqrt_g * gam[mu]).applyfunc(lambda v: cd(v, mu)))
                   for mu in range(8)), Z16) / (2 * sqrt_g)
 check(all(is_zero(v) for v in (divergence - GRAV)),
       "(1/(2 sqrt|g|)) d_mu (sqrt|g| gamma^mu) = 3 H gamma^(x0) + (3/4)(b4'/b4) "
-      "gamma^(x4)", record=reproduces(PYREP, "divergence_of_sqrtg_gamma")
-      + " (at b4 = 1)")
+      "gamma^(x4)", record=reproduces(PYREP, "divergence_of_sqrtg_gamma"))
 ```
 
 `anti` checks $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu = 0$ for each direction. `divergence` is $\frac{1}{2\sqrt{|g|}}\sum_\mu\partial_\mu(\sqrt{|g|}\gamma^\mu)$: `applyfunc(lambda v: cd(v, mu))` differentiates every entry of the matrix $\sqrt{|g|}\gamma^\mu$ along $x_\mu$. The second check requires $M = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$. **Out [11]:** two PASS lines with their "reproduces" lines.
@@ -3584,7 +3582,7 @@ for name, odd in STATS.items():
     check(all((data["dirac"][A] - explicit[A]).is_zero() for A in range(16)),
           f"{name}: gamma^mu D_mu Psi = sum_a (1/f_a) gamma^(a) d_a Psi + 3 H "
           "gamma^(x0) Psi + (3/4)(b4'/b4) gamma^(x4) Psi",
-          record=reproduces(WLREP, f"Dirac_operator_explicit_{tag}") + " (at b4 = 1)")
+          record=reproduces(WLREP, f"Dirac_operator_explicit_{tag}"))
 ```
 
 For each statistics `explicit` is the column $M\psi + \sum_a\frac{1}{f_a}\gamma^{(a)}\partial_a\psi$ (`GRAV` is $M$); the check requires it to equal $\gamma^\mu D_\mu\psi$ in all 16 components.
@@ -3604,20 +3602,15 @@ def as_sympy(element):
 ```python
 ours = [as_sympy(x) for x in fields["grassmann"]["dirac"]]
 theirs = [to_ring(from_wolfram(text.split("==")[0]))
-          for text in record_b4["field_equation_components"]]
-theirs_1 = [to_ring(from_wolfram(text.split("==")[0]))
-            for text in record["field_equation_components"]]
+          for text in record["field_equation_components"]]
 say(f"equation 1, this notebook: {ours[0]} = V P1")
 say(f"equation 1, formula record: {theirs[0]} = V P1")
-check(len(theirs) == len(theirs_1) == 16
-      and all(is_zero(x - y) for x, y in zip(ours, theirs))
-      and all(is_zero(x.subs(AT_B4_1) - y) for x, y in zip(ours, theirs_1)),
-      "all 16 component equations equal the formula record with b4 term by term, "
-      "and at b4 = 1 the record of b4 = 1",
-      record=f"{FORMULAS_B4} and {FORMULAS}, formula field_equation_components")
+check(len(theirs) == 16 and all(is_zero(x - y) for x, y in zip(ours, theirs)),
+      "all 16 component equations equal the formula record term by term",
+      record=f"{FORMULAS}, formula field_equation_components")
 ```
 
-`as_sympy` names the derivative of component $B$ along the direction at position $a$ `d<a>_<B>` (so `d0_9` is $\partial_0\Psi_9$, as in the records). `ours` are our 16 Dirac-operator components, `theirs` and `theirs_1` the left sides of the 16 component equations of the record with $b_4$ and of the record of $b_4 = 1$ (each text is split at `==` and its first part translated and put into the ring). The first equation is printed in both forms, and the check compares all 16 with the exact zero test: ours with the first record, and ours at $b_4 = 1$ with the second. **Out [17]:** two PASS lines with their "reproduces" lines, the first equation twice (identical, the equation of Section 7.22 in ring symbols), and the third PASS line. The first equation is printed as
+`as_sympy` names the derivative of component $B$ along the direction at position $a$ `d<a>_<B>` (so `d0_9` is $\partial_0\Psi_9$, as in the records). `ours` are our 16 Dirac-operator components, `theirs` the left sides of the 16 component equations of the record (each text is split at `==` and its first part translated and put into the ring). The first equation is printed in both forms, and the check compares all 16 with the exact zero test. **Out [17]:** two PASS lines with their "reproduces" lines, the first equation twice (identical, the equation of Section 7.22 in ring symbols), and the third PASS line. The first equation is printed as
 
 ```text
 equation 1, this notebook: E*d5_15/(sqrt(b4)*s) + E*d6_16/(sqrt(b4)*s) +
@@ -3711,7 +3704,7 @@ for name, odd in STATS.items():
     check(all((left[A] - data["E"][A]).is_zero() for A in range(16)),
           f"{name}: the evolution form d4 Psi = R is the field equation "
           "(gamma^(x4) (d4 Psi - R) = E in all 16 components)",
-          record=reproduces(WLREP, f"evolution_form_{tag}") + " (at b4 = 1)")
+          record=reproduces(WLREP, f"evolution_form_{tag}"))
 ```
 
 For each statistics: `others` is $M\psi + \sum_{a\neq x_4}\frac{1}{f_a}\gamma^{(a)}\partial_a\psi$, `bracket` is $V\psi - $ others, `right` is $R = -\gamma^{(x_4)}[\dots]$, `difference` is $\partial_4\psi - R$ and `left` is $\gamma^{(x_4)}(\partial_4\psi - R)$. The check requires `left` to equal the residual $\mathcal{E}$ in all 16 components: the evolution form is the field equation. **Out [19]:** three PASS lines with their "reproduces" lines.
@@ -3719,22 +3712,32 @@ For each statistics: `others` is $M\psi + \sum_{a\neq x_4}\frac{1}{f_a}\gamma^{(
 **In [20]: non-triviality.**
 
 ```python
+square = (GRAV * GRAV - (9 * H**2 - sp.Rational(9, 16) * b4p**2 / b4**2) * I16)
+M_history = GRAV.subs(ON_HISTORY)  # 3 H gamma^(x0) + H gamma^(x4)
+check(all(is_zero(v) for v in square)
+      and (M_history * M_history).applyfunc(sp.expand) == 8 * H**2 * I16,
+      "M M = (9 H^2 - (9/16)(b4'/b4)^2) I16; on the history M M = 8 H^2 I16",
+      record=reproduces(PYREP, "gravity_term_square"))
+```
+
+`square` is $MM - \big(9H^2 - \frac{9}{16}(b_4'/b_4)^2\big)1$, which must vanish in every entry, and `M_history` is $M$ on the history of the record, $3H\gamma^{(x_0)} + H\gamma^{(x_4)}$, whose square must be $8H^2\,1$ exactly (Section 7.23).
+
+```python
 for name, odd in STATS.items():
     data = fields[name]
     without = build(odd, no_connection)["E"]  # residual with Omega = 0
     gravity = matvec(GRAV, data["psi"], odd)  # M Psi
     ok = all((data["E"][A] - without[A] - gravity[A]).is_zero() for A in range(16))
-    hidden = matvec(3 * H * G[X0], data["psi"], odd)  # M Psi at b4 = 1
-    nonzero = all(len(hidden[A].terms) == 1 for A in range(16))
+    on_history = matvec(M_history, data["psi"], odd)  # M Psi on the history
+    nonzero = all(len(on_history[A].terms) == 2 for A in range(16))
     number = "1_dirac16complex" if odd else "2_dirac16complex00"
     check(ok and nonzero, f"{name}: residual(Omega) - residual(Omega = 0) = M Psi "
-          "with M = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4); at b4 = 1 it is "
-          "3 H gamma^(x0) Psi, nonzero in all 16 components",
-          record=reproduces(WLREP, f"nontriviality_{number}") + " (at b4 = 1); "
-          + reproduces(PYREP_B4, "gravity_term_square_b4"))
+          "with M = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4); on the history every "
+          "component of M Psi has two terms",
+          record=reproduces(WLREP, f"nontriviality_{number}"))
 ```
 
-For each statistics, `without` is the residual computed with $\Omega_\mu = 0$, `gravity` the column $M\psi$ and `hidden` the column $3H\gamma^{(x_0)}\psi$, which is $M\psi$ at $b_4 = 1$. The check requires residual(with $\Omega$) minus residual(without) to equal `gravity` in all 16 components, and every component of `hidden` to be one nonzero monomial. **Out [20]:** two PASS lines with their "reproduces" lines (Wolfram checks `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00` at $b_4 = 1$, and the sympy check `gravity_term_square_b4` for a changing $b_4$).
+For each statistics, `without` is the residual computed with $\Omega_\mu = 0$, `gravity` the column $M\psi$ and `on_history` the column $M\psi$ on the history. The check requires residual(with $\Omega$) minus residual(without) to equal `gravity` in all 16 components, and every component of `on_history` to have two terms (one from $3H\gamma^{(x_0)}$, one from $H\gamma^{(x_4)}$: the two gammas have their nonzero entries in different places). **Out [20]:** three PASS lines with their "reproduces" lines (the sympy check `gravity_term_square` and the Wolfram checks `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00`).
 
 **In [21]: the exact family of solutions.**
 
@@ -3751,39 +3754,39 @@ check((M * M - k_squared * I16).applyfunc(sp.expand) == Z16
 Symbols for $\alpha$, $k$ and the two functions $\cosh(kx_4)$, $\sinh(kx_4)$ (written `ch`, `sh`); `chi0` is a column of 16 arbitrary symbols. `M` and `k_squared` are those of Section 7.23. The check: $M^2 = k^2$ and $M^TC + CM = 0$.
 
 ```python
-def d4(v):  # derivative along x4 with ch' = k sh, sh' = k ch
-    return v.diff(ch) * k * sh + v.diff(sh) * k * ch
+def d4(v):  # derivative along x4 with ch' = k sh, sh' = k ch, b4' = b4p
+    return v.diff(ch) * k * sh + v.diff(sh) * k * ch + v.diff(b4) * b4p
 
 
 def d0(v):  # derivative along x0 in the ring (s^(6 alpha) included)
     return v.diff(s) * H * c / s**5 + v.diff(c) * (-6 * H * s**6)
 
 
-Psi = s ** (6 * al) * (ch * I16 + sh / k * M) * chi0  # sin^alpha z P(x4) chi0
+weight = b4 ** sp.Rational(-3, 4) * s ** (6 * al)  # b4^(-3/4) sin^alpha z
+Psi = weight * (ch * I16 + sh / k * M) * chi0  # b4^(-3/4) sin^alpha z P(x4) chi0
 residual = (G[X4] * Psi.applyfunc(d4) + (s**6 / c) * G[X0] * Psi.applyfunc(d0)
-            + 3 * H * G[X0] * Psi - m * Psi)
+            + GRAV * Psi - m * Psi)
 ```
 
-`d4` differentiates along $x_4$ with $\partial_4\,\mathrm{ch} = k\,\mathrm{sh}$ and $\partial_4\,\mathrm{sh} = k\,\mathrm{ch}$; `d0` along $x_0$ in the ring (the factor $\sin^\alpha z$ is written $s^{6\alpha}$, whose derivative sympy handles). `Psi` is the family $\sin^\alpha z\,(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ and `residual` the left side minus the right side of the explicit equation (the other six derivative terms vanish for a field of $x_4$ and $x_0$ only).
+`d4` differentiates along $x_4$ with $\partial_4\,\mathrm{ch} = k\,\mathrm{sh}$, $\partial_4\,\mathrm{sh} = k\,\mathrm{ch}$ and $\partial_4b_4 = b_4'$; `d0` along $x_0$ in the ring (the factor $\sin^\alpha z$ is written $s^{6\alpha}$, whose derivative sympy handles). `weight` is $b_4^{-3/4}\sin^\alpha z$, `Psi` the family $b_4^{-3/4}\sin^\alpha z\,(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$, and `residual` the left side minus the right side of the explicit equation, with the whole gravitational term `GRAV` (the other six derivative terms vanish for a field of $x_4$ and $x_0$ only).
 
 ```python
 def vanishes(v):
-    """Multiply by k and divide by sin^alpha z = s^(6 alpha), multiply out, use
+    """Multiply by k and divide by b4^(-3/4) sin^alpha z, multiply out, use
     k^2 = 9 H^2 (2 alpha + 1)^2 - m^2: is the result zero?"""
-    v = sp.expand(v * k / s ** (6 * al))
+    v = sp.expand(v * k / weight)
     return sp.expand(v.subs(k**2, k_squared)) == 0
 
 
 without_term = residual - 3 * H * G[X0] * Psi  # the same without 3 H gamma^(x0)
 check(all(vanishes(v) for v in residual)
       and not all(vanishes(v) for v in without_term),
-      "Psi = sin^alpha z (cosh k x4 + sinh k x4 / k M) chi0 solves the field "
-      "equation for every alpha, every a4 and constant b4 (and fails without "
-      "3 H gamma^(x0))",
+      "Psi = b4^(-3/4) sin^alpha z (cosh k x4 + sinh k x4 / k M) chi0 solves the "
+      "field equation for every alpha, a4 and b4 (and fails without 3 H gamma^(x0))",
       record=reproduces(PYREP, "exact_solution_family_x4_x0"))
 ```
 
-`vanishes(v)` multiplies a residual entry by $k$, divides by $s^{6\alpha}$, multiplies out, replaces $k^2$ by its value, and tests for zero. The check requires all 16 entries of the residual to vanish, and at least one entry of the residual without the term $3H\gamma^{(x_0)}\Psi$ not to vanish.
+`vanishes(v)` multiplies a residual entry by $k$, divides by the weight $b_4^{-3/4}s^{6\alpha}$, multiplies out, replaces $k^2$ by its value, and tests for zero. The check requires all 16 entries of the residual to vanish, and at least one entry of the residual without the term $3H\gamma^{(x_0)}\Psi$ not to vanish.
 
 ```python
 A_matrix = -sp.I * m * G[X4] + 3 * sp.I * H * G[X4] * G[X0]
@@ -3814,25 +3817,27 @@ def member(alpha_value, mass=2.0, h=1.0):
     Mn = -mass * Gn[X4] + 3 * h * (2 * alpha_value + 1) * Gn[X4] @ Gn[X0]
     ksq = 9 * h**2 * (2 * alpha_value + 1) ** 2 - mass**2
     kk = np.sqrt(complex(ksq))  # real for ksq > 0, imaginary for ksq < 0
-    values = [(np.cosh(kk * t) * np.eye(16) + np.sinh(kk * t) / kk * Mn) @ chi_n
+    values = [np.exp(-t)  # b4^(-3/4) = e^(-x4) on the history with H = 1
+              * (np.cosh(kk * t) * np.eye(16) + np.sinh(kk * t) / kk * Mn) @ chi_n
               for t in xs4]
     return np.sin(zeta) ** alpha_value * np.real(np.array(values).T)
 ```
 
-`member(alpha_value)` evaluates the family at $z = \pi/4$ with $m = 2$, $H = 1$. `np.sqrt(complex(ksq))` is real for $k^2 > 0$ and imaginary for $k^2 < 0$; `np.cosh` and `np.sinh` of an imaginary argument give $\cos$ and $i\sin$, so the formula works in both cases; `np.real` drops the zero imaginary parts. The result is a table with one column per time (`.T` transposes).
+`member(alpha_value)` evaluates the family at $z = \pi/4$ with $m = 2$, $H = 1$, on the history of the record, where $b_4^{-3/4} = e^{-x_4}$ in the unit $b_4(0)$ (the factor `np.exp(-t)`). `np.sqrt(complex(ksq))` is real for $k^2 > 0$ and imaginary for $k^2 < 0$; `np.cosh` and `np.sinh` of an imaginary argument give $\cos$ and $i\sin$, so the formula works in both cases; `np.real` drops the zero imaginary parts. The result is a table with one column per time (`.T` transposes).
 
 ```python
 growing, oscillating = member(0.0), member(-0.5)
 S_growing = np.einsum("it,ij,jt->t", growing, Cn, growing)  # Psi^T C Psi
 S_oscillating = np.einsum("it,ij,jt->t", oscillating, Cn, oscillating)
-report("S of the alpha = 0 member", f"{S_growing[0]:.6f}")
-report("S of the alpha = -1/2 member", f"{S_oscillating[0]:.6f}")
-check(np.allclose(S_growing, -2.0, atol=1e-9 * np.abs(growing).max() ** 2)
-      and np.allclose(S_oscillating, -2.0 / np.sin(zeta), atol=1e-9),
-      "S is constant along x4 for both members (-2 and -2/sin z)")
+falling = np.exp(-2.0 * xs4)  # b4^(-3/2) on the history
+report("S of the alpha = 0 member at x4 = 0", f"{S_growing[0]:.6f}")
+report("S of the alpha = -1/2 member at x4 = 0", f"{S_oscillating[0]:.6f}")
+check(np.allclose(S_growing, -2.0 * falling, atol=1e-9 * np.abs(growing).max() ** 2)
+      and np.allclose(S_oscillating, -2.0 / np.sin(zeta) * falling, atol=1e-9),
+      "b4^(3/2) S is constant along x4 for both members (-2 and -2/sin z)")
 ```
 
-The growing member ($\alpha = 0$) and the oscillating member ($\alpha = -\tfrac12$). `np.einsum("it,ij,jt->t", ...)` computes $\Psi^TC\Psi$ at every time $t$ (a sum over the repeated indices $i$ and $j$). The check requires the constant values $-2$ and $-2/\sin z$ (for the growing member the tolerance grows with the size of $\Psi$, because rounding errors grow with it). **Out [22]:** `RESULT S of the alpha = 0 member = -2.000000`, `RESULT S of the alpha = -1/2 member = -2.828427` and the PASS line.
+The growing member ($\alpha = 0$) and the oscillating member ($\alpha = -\tfrac12$). `np.einsum("it,ij,jt->t", ...)` computes $\Psi^TC\Psi$ at every time $t$ (a sum over the repeated indices $i$ and $j$). `falling` is $b_4^{-3/2} = e^{-2x_4}$ on the history; the check requires $S = -2\,b_4^{-3/2}$ and $S = -2b_4^{-3/2}/\sin z$, that is constant values $-2$ and $-2/\sin z$ of $b_4^{3/2}S$ (for the growing member the tolerance grows with the size of $\Psi$, because rounding errors grow with it). **Out [22]:** `RESULT S of the alpha = 0 member at x4 = 0 = -2.000000`, `RESULT S of the alpha = -1/2 member at x4 = 0 = -2.828427` and the PASS line.
 
 **In [23]: Figure 07b.5.**
 
@@ -3843,12 +3848,12 @@ for A in range(16):
         axes[0].semilogy(xs4, np.abs(growing[A]), label=f"$|\\Psi_{{{A + 1}}}|$")
     if np.abs(oscillating[A]).max() > 1e-12:
         axes[1].plot(xs4, oscillating[A], label=f"$\\Psi_{{{A + 1}}}$")
-axes[0].set_title("$\\alpha = 0$: growth like $e^{\\sqrt{5}x_4}$")
-axes[1].set_title("$\\alpha = -1/2$: oscillation")
-axes[2].plot(xs4, S_growing, label="$\\alpha = 0$")
-axes[2].plot(xs4, S_oscillating, "--", label="$\\alpha = -1/2$")
+axes[0].set_title("$\\alpha = 0$: growth like $e^{(\\sqrt{5} - 1)x_4}$")
+axes[1].set_title("$\\alpha = -1/2$: oscillation times $e^{-x_4}$")
+axes[2].plot(xs4, S_growing / falling, label="$\\alpha = 0$")
+axes[2].plot(xs4, S_oscillating / falling, "--", label="$\\alpha = -1/2$")
 axes[2].set_ylim(-3.5, 0.5)
-axes[2].set_title("scalar density $S = \\Psi^T C\\Psi$")
+axes[2].set_title("$b_4^{3/2}S = b_4^{3/2}\\Psi^T C\\Psi$")
 for ax in axes:
     ax.set_xlabel("time $x_4$")
     ax.legend(fontsize=7)
@@ -3858,21 +3863,24 @@ save_figure(fig, "exact_solutions",
 ...)
 ```
 
-Three panels: the size of the nonzero components of the growing member on a logarithmic axis, the nonzero components of the oscillating member, and the two scalar densities. `f"$|\\Psi_{{{A + 1}}}|$"` writes the component number as a LaTeX subscript (three braces: two give one literal brace, the third encloses the value). **What Figure 07b.5 shows.** Left: straight rising lines on the logarithmic axis, growth like $e^{\sqrt5x_4}$. Middle: oscillations of period $\pi$ (angular frequency 2). Right: both scalar densities are flat lines, at $-2$ and at $-2.83$.
+Three panels: the size of the nonzero components of the growing member on a logarithmic axis, the nonzero components of the oscillating member, and $b_4^{3/2}S$ of both (the scalar density divided by `falling`). `f"$|\\Psi_{{{A + 1}}}|$"` writes the component number as a LaTeX subscript (three braces: two give one literal brace, the third encloses the value). **What Figure 07b.5 shows.** Left: after a short start, nearly straight rising lines on the logarithmic axis, growth like $e^{(\sqrt5 - 1)x_4}$. Middle: oscillations of period $\pi$ (angular frequency 2) inside the falling factor $e^{-x_4}$. Right: $b_4^{3/2}S$ of both members is a flat line, at $-2$ and at $-2.83$.
 
 **In [24]: the exact solution fails the wrong equations, Figure 07b.6.**
 
 ```python
 Mn = -2.0 * Gn[X4] + 3.0 * Gn[X4] @ Gn[X0]  # alpha = 0, m = 2, H = 1
 kk = np.sqrt(5.0)
-psi_t = np.array([(np.cosh(kk * t) * np.eye(16) + np.sinh(kk * t) / kk * Mn) @ chi_n
-                  for t in xs4])
-dpsi_t = np.array([(kk * np.sinh(kk * t) * np.eye(16) + np.cosh(kk * t) * Mn) @ chi_n
-                   for t in xs4])
-full = np.array([Gn[X4] @ dp + 3.0 * Gn[X0] @ p - 2.0 * p
+P_t = [np.cosh(kk * t) * np.eye(16) + np.sinh(kk * t) / kk * Mn for t in xs4]
+dP_t = [kk * np.sinh(kk * t) * np.eye(16) + np.cosh(kk * t) * Mn for t in xs4]
+psi_t = np.array([np.exp(-t) * P @ chi_n for t, P in zip(xs4, P_t)])
+dpsi_t = np.array([np.exp(-t) * (dP - P) @ chi_n  # the product rule
+                   for t, P, dP in zip(xs4, P_t, dP_t)])
+grav_n = 3.0 * Gn[X0] + Gn[X4]  # M on the history with H = 1
+full = np.array([Gn[X4] @ dp + grav_n @ p - 2.0 * p
                  for p, dp in zip(psi_t, dpsi_t)])
-no_gravity = np.array([Gn[X4] @ dp - 2.0 * p for p, dp in zip(psi_t, dpsi_t)])
-wrong_mass = np.array([Gn[X4] @ dp + 3.0 * Gn[X0] @ p + 2.0 * p
+no_gravity = np.array([Gn[X4] @ dp + Gn[X4] @ p - 2.0 * p  # without 3 H gamma^(x0)
+                       for p, dp in zip(psi_t, dpsi_t)])
+wrong_mass = np.array([Gn[X4] @ dp + grav_n @ p + 2.0 * p
                        for p, dp in zip(psi_t, dpsi_t)])
 size = np.abs(psi_t).max(axis=1)  # the size of Psi at each time
 relative_full = np.abs(full).max(axis=1) / size
@@ -3882,7 +3890,7 @@ check(np.allclose(np.abs(no_gravity).max(axis=1), 3.0 * size),
       "without the term 3 H gamma^(x0) Psi the residual is 3 H |Psi|")
 ```
 
-For the growing member, `psi_t` and `dpsi_t` are $\Psi$ and its exact derivative $\partial_4\Psi = (k\sinh(kx_4) + \cosh(kx_4)M)\chi_0$ at the 201 times ($\partial_0\Psi = 0$ for $\alpha = 0$). `full` is the residual $\gamma^{(x_4)}\partial_4\Psi + 3H\gamma^{(x_0)}\Psi - m\Psi$, `no_gravity` the residual without the gravitational term, `wrong_mass` the residual of the equation with the mass $m$ replaced by $-m$ (the term $-m\Psi$ becomes $+m\Psi$). `size` is the largest component of $\Psi$ at each time. The first check: the full residual is below $10^{-12}$ of the size at every time; the second: without the gravitational term the residual is $3H$ times the size.
+For the growing member on the history, `P_t` and `dP_t` are $P = \cosh(kx_4) + \sinh(kx_4)M/k$ and $P' = k\sinh(kx_4) + \cosh(kx_4)M$ at the 201 times, and `psi_t` and `dpsi_t` are $\Psi = e^{-x_4}P\chi_0$ and its exact derivative $\partial_4\Psi = e^{-x_4}(P' - P)\chi_0$ (the product rule; $\partial_0\Psi = 0$ for $\alpha = 0$). `grav_n` is $M = 3H\gamma^{(x_0)} + H\gamma^{(x_4)}$ on the history with $H = 1$. `full` is the residual $\gamma^{(x_4)}\partial_4\Psi + M\Psi - m\Psi$, `no_gravity` the residual without the hidden part $3H\gamma^{(x_0)}\Psi$ of the gravitational term, `wrong_mass` the residual of the equation with the mass $m$ replaced by $-m$ (the term $-m\Psi$ becomes $+m\Psi$). `size` is the largest component of $\Psi$ at each time. The first check: the full residual is below $10^{-12}$ of the size at every time; the second: without the term $3H\gamma^{(x_0)}\Psi$ the residual is $-3H\gamma^{(x_0)}\Psi$, whose largest component is $3H$ times the size (a signed permutation matrix only moves and signs the components).
 
 ```python
 fig, ax = plt.subplots()
@@ -3898,7 +3906,7 @@ save_figure(fig, "residuals",
 ...)
 ```
 
-One panel with the two wrong residuals and the size of $\Psi$ on a logarithmic axis. **Out [24]:** two PASS lines and the figure. **What Figure 07b.6 shows.** Both wrong residuals grow as fast as the solution itself (parallel lines on the logarithmic axis); the residual without the gravitational term lies a factor 3 above the size of $\Psi$. The correct residual, below $10^{-12}$ of the size, is too small to be drawn.
+One panel with the two wrong residuals and the size of $\Psi$ on a logarithmic axis. **Out [24]:** two PASS lines and the figure. **What Figure 07b.6 shows.** Both wrong residuals grow as fast as the solution itself (parallel lines on the logarithmic axis); the residual without the term $3H\gamma^{(x_0)}\Psi$ lies a factor 3 above the size of $\Psi$. The correct residual, below $10^{-12}$ of the size, is too small to be drawn.
 
 **In [25]: the last check.**
 
@@ -3911,7 +3919,7 @@ check(all(output_file(path).is_file() for path in files),
 all_checks_passed()
 ```
 
-The six figure files are checked and the last line printed. **Out [25]:** `PASS all 6 figure files of this notebook exist` and `ALL 47 CHECKS PASSED (notebook 07b)`.
+The six figure files are checked and the last line printed. **Out [25]:** `PASS all 6 figure files of this notebook exist` and `ALL 49 CHECKS PASSED (notebook 07b)`.
 
 ### 7.28 Real fields and the Majorana-type negative control
 
@@ -4064,7 +4072,7 @@ $$
 
 ### 7.30 Example: Notebook 07c: real fields and the charge-conjugation matrices
 
-Notebook 07c computes Sections 7.28 and 7.29 exactly. It reads the gammas, $C$ and $\Gamma$ from the Revision record and checks that they are real and that $B$ is imaginary and Hermitian; rebuilds the spin connection of the author's metric and checks that it is real; builds a jet algebra for a real field; computes the Majorana-type Lagrangian for real Grassmann and real commuting components (no field equation in the first case, 16 equations in the second); finds all matrices that turn solutions into solutions from the 256 products of gammas; checks the two charge-conjugation matrices and the two reality conditions; shows that $\mathcal{C}_+$ is the identity on a real field and that $J = 0$; and checks the mass reversal by $\Gamma$ in the author's metric and on an exact solution. Every result that the Revision record also contains is checked against it. It draws four figures and ends with the line ALL 23 CHECKS PASSED (notebook 07c).
+Notebook 07c computes Sections 7.28 and 7.29 exactly. It reads the gammas, $C$ and $\Gamma$ from the Revision record and checks that they are real and that $B$ is imaginary and Hermitian; reads the history of the record; rebuilds the spin connection of the author's metric and checks that it is real; builds a jet algebra for a real field; computes the Majorana-type Lagrangian for real Grassmann and real commuting components (no field equation in the first case, 16 equations in the second); finds all matrices that turn solutions into solutions from the 256 products of gammas; checks the two charge-conjugation matrices and the two reality conditions; shows that $\mathcal{C}_+$ is the identity on a real field and that $J = 0$; and checks the mass reversal by $\Gamma$ in the author's metric and on an exact solution. Every result that the Revision record also contains is checked against it. It draws four figures and ends with the line ALL 24 CHECKS PASSED (notebook 07c).
 
 <!-- NOTEBOOK 07c -->
 
@@ -4103,7 +4111,7 @@ The modules (as in Notebook 07d, plus `combinations` from `itertools`, which lis
 PYREP = "Revision/theory/reports/python-field-theory.json"
 WLREP = "Revision/theory/reports/wolfram-field-theory.json"
 LEAD = "Revision/lead_checks/reports/charge-conjugation-and-u1.json"
-PYREP_B4 = "Revision/theory/reports/python-field-theory-b4.json"  # the metric with b4
+PARAMETERS = "Revision/kohn_sham/results/parameters.json"  # the history
 
 
 def revision_check(report, name):
@@ -4122,7 +4130,7 @@ def reproduces(report, name):
     return f"{report}, check {name}"
 ```
 
-The paths of the three Revision reports used (the sympy and Wolfram field-theory reports and the lead's charge-conjugation report), and the helpers `revision_check` and `reproduces` of Section 7.9.
+The paths of the three Revision reports used (the sympy and Wolfram field-theory reports and the lead's charge-conjugation report) and of the parameters of the Kohn-Sham record, which hold the history of the record, and the helpers `revision_check` and `reproduces` of Section 7.9.
 
 ```python
 fixture = json.loads(repository_file("Revision/algebra/gammas.json")
@@ -4156,7 +4164,18 @@ check(r.conjugate() == r, "complex conjugation leaves a real column unchanged: o
       "a real field it is the identity")
 ```
 
-`r` is a column of 16 real symbols; its complex conjugate (`r.conjugate()`) equals itself: on a real field, complex conjugation is the identity. **Out [2]:** three PASS lines, the first two with "reproduces" lines naming `charge-conjugation-and-u1.json`, checks `representation_real` and `B_imaginary_hermitian`.
+`r` is a column of 16 real symbols; its complex conjugate (`r.conjugate()`) equals itself: on a real field, complex conjugation is the identity.
+
+```python
+physics = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))["physics"]
+A_EXACT = sp.nsimplify(physics["historyA"])  # the slope A of the history, 1
+BETA_B4 = sp.nsimplify(physics["historyBeta"])  # the exponent of b4, 4/3
+check(A_EXACT == 1 and BETA_B4 == sp.Rational(4, 3),
+      "the history of the record: a4 = A H x4, b4 = b4(0) e^(4 A H x4/3) with A = 1",
+      record=f"{PARAMETERS}, physics.historyA and physics.historyBeta")
+```
+
+The history of the record, $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$, read as in Notebook 07b, In [2]: the slope $A = 1$ and the exponent $\beta = \frac43$ as exact fractions. **Out [2]:** four PASS lines, the first two with "reproduces" lines naming `charge-conjugation-and-u1.json`, checks `representation_real` and `B_imaginary_hermitian`, the last with the history in `parameters.json`.
 
 **In [3]: the metric and its spin connection, in brief.**
 
@@ -4236,19 +4255,19 @@ real_entries = all(not v.has(sp.I) and v.is_real is not False
                    for M in Om + gam for v in M)
 check(real_entries, "every entry of every Omega_mu and gamma^mu is real, for every "
       "b4: gamma^mu D_mu is a real operator",
-      record=reproduces(PYREP_B4, "spinor_connection_real_b4") + "; at b4 = 1 "
+      record=reproduces(PYREP, "spinor_connection_real") + "; "
       + reproduces(LEAD, "spinor_connection_real"))
 total = sum((gam[mu] * Om[mu] for mu in range(8)), Z16)
-at_b4_1 = {b4: 1, b4p: 0, b4pp: 0, b4ppp: 0}  # the background b4 = 1
+on_history = {b4p: BETA_B4 * A_EXACT * H * b4}  # b4'/b4 = (4/3) H on the history
 check(all(is_zero(v) for v in (total - 3 * H * G[X0] - 3 * b4p / (4 * b4) * G[X4]))
-      and all(is_zero(v) for v in (total.subs(at_b4_1) - 3 * H * G[X0])),
+      and all(is_zero(v) for v in (total.subs(on_history) - 3 * H * G[X0]
+                                   - H * G[X4])),
       "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4), and "
-      "3 H gamma^(x0) at b4 = 1: the values of the Revision records",
-      record=reproduces(PYREP_B4, "gammaOmega_total") + "; at b4 = 1 "
-      + reproduces(PYREP, "gamma_mu_Omega_mu_equals_3H_gamma_x0"))
+      "3 H gamma^(x0) + H gamma^(x4) on the history: the values of the record",
+      record=reproduces(PYREP, "gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term"))
 ```
 
-`real_entries` is true when no entry of any $\Omega_\mu$ or $\gamma^\mu$ contains the imaginary unit and sympy does not find any entry non-real (`v.is_real is not False`: sympy answers true, false, or "unknown", and only an explicit false would fail). So $\gamma^\mu D_\mu$ is a real operator, for every $b_4$. The second check is the consistency check $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$, and $3H\gamma^{(x_0)}$ at $b_4 = 1$ (`at_b4_1` puts in $b_4 = 1$). **Out [3]:** two PASS lines with their "reproduces" lines (`spinor_connection_real_b4` and `gammaOmega_total` of the sympy report with $b_4$; at $b_4 = 1$ `spinor_connection_real` of the lead's report and `gamma_mu_Omega_mu_equals_3H_gamma_x0` of the sympy report).
+`real_entries` is true when no entry of any $\Omega_\mu$ or $\gamma^\mu$ contains the imaginary unit and sympy does not find any entry non-real (`v.is_real is not False`: sympy answers true, false, or "unknown", and only an explicit false would fail). So $\gamma^\mu D_\mu$ is a real operator, for every $b_4$. The second check is the consistency check $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$, and $3H\gamma^{(x_0)} + H\gamma^{(x_4)}$ on the history of the record (`on_history` puts in $b_4' = \frac43H\,b_4$). **Out [3]:** two PASS lines with their "reproduces" lines (`spinor_connection_real` of the sympy report and of the lead's report; `gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term` of the sympy report).
 
 **In [4]: a jet algebra for a real field.**
 
@@ -4480,7 +4499,7 @@ save_figure(fig, "majorana_control",
 ...)
 ```
 
-Two bar charts: the number of monomials of $L_g$, and the number of nonzero Euler-Lagrange expressions with the text "0 of 16" and "16 of 16" written above the bars. **Out [7]:** two PASS lines with their "reproduces" lines and the figure. **What Figure 07c.1 shows.** The left panel shows that $L_g$ is not zero for either kind of numbers (144 and 128 monomials for a general $b_4$). The right panel shows the decisive difference: for anticommuting components no Euler-Lagrange expression survives, $L_g$ gives no field equation; for commuting components all 16 do.
+Two bar charts: the number of monomials of $L_g$, and the number of nonzero Euler-Lagrange expressions with the text "0 of 16" and "16 of 16" written above the bars. **Out [7]:** two PASS lines with their "reproduces" lines and the figure. **What Figure 07c.1 shows.** The left panel shows that $L_g$ is not zero for either kind of numbers (144 and 128 monomials). The right panel shows the decisive difference: for anticommuting components no Euler-Lagrange expression survives, $L_g$ gives no field equation; for commuting components all 16 do.
 
 **In [8]: all matrices that turn solutions into solutions.**
 
@@ -4681,7 +4700,7 @@ mass_symbol = sp.Symbol("mu", real=True)
 
 
 def M_of(mass):
-    return -mass * G[X4] + 3 * H * G[X4] * G[X0]  # alpha = 0, b4 = 1
+    return -mass * G[X4] + 3 * H * G[X4] * G[X0]  # alpha = 0; M contains no b4
 
 
 check((GAMMA * M_of(mass_symbol) * GAMMA - M_of(-mass_symbol)).applyfunc(sp.expand)
@@ -4696,24 +4715,26 @@ GAMMAf = np.array(GAMMA.tolist(), dtype=float)
 chi0 = np.zeros(16)
 chi0[0], chi0[12] = 1.0, 2.0  # e_1 + 2 e_13: one component in each chiral half
 times = np.linspace(0.0, 2.0, 201)
-Mf = -2.0 * Gf[X4] + 3.0 * Gf[X4] @ Gf[X0]  # m = 2, H = 1, b4 = 1
+Mf = -2.0 * Gf[X4] + 3.0 * Gf[X4] @ Gf[X0]  # m = 2, H = 1
 kk = np.sqrt(5.0)
-Phi = np.array([(np.cosh(kk * t) * np.eye(16) + np.sinh(kk * t) / kk * Mf) @ chi0
-                for t in times])
-dPhi = np.array([(kk * np.sinh(kk * t) * np.eye(16) + np.cosh(kk * t) * Mf) @ chi0
-                 for t in times])
+P_t = [np.cosh(kk * t) * np.eye(16) + np.sinh(kk * t) / kk * Mf for t in times]
+dP_t = [kk * np.sinh(kk * t) * np.eye(16) + np.cosh(kk * t) * Mf for t in times]
+# b4^(-3/4) = e^(-x4) on the history with H = 1; the product rule for d4 Phi
+Phi = np.array([np.exp(-t) * P @ chi0 for t, P in zip(times, P_t)])
+dPhi = np.array([np.exp(-t) * (dP - P) @ chi0 for t, P, dP in zip(times, P_t, dP_t)])
+grav = 3.0 * Gf[X0] + Gf[X4]  # 3 H gamma^(x0) + H gamma^(x4) on the history
 ```
 
-The gammas and $\Gamma$ as floating-point arrays; `chi0` is $e_1 + 2e_{13}$ (one component in each chiral half); 201 times from 0 to 2; `Mf` is $M$ for $m = 2$, $H = 1$, and $k = \sqrt5$. `Phi` and `dPhi` are the real solution $\Phi = (\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ and its exact time derivative, one row per time.
+The gammas and $\Gamma$ as floating-point arrays; `chi0` is $e_1 + 2e_{13}$ (one component in each chiral half); 201 times from 0 to 2; `Mf` is $M$ for $m = 2$, $H = 1$, and $k = \sqrt5$. `P_t` and `dP_t` are $P = \cosh kx_4 + \sinh(kx_4)/k\,M$ and $P'$ at every time; `Phi` and `dPhi` are the real solution $\Phi = e^{-x_4}P\chi_0$ on the history of the record ($b_4^{-3/4} = e^{-x_4}$ in the unit $b_4(0)$, $H = 1$) and its exact time derivative $e^{-x_4}(P' - P)\chi_0$ (the product rule), one row per time. `grav` is the gravitational term on the history, $3H\gamma^{(x_0)} + H\gamma^{(x_4)}$ with $H = 1$.
 
 ```python
 def residual_size(values, derivatives, mass):
-    """The largest component of gamma4 d4 Psi + 3 gamma0 Psi - mass Psi."""
-    return np.array([np.abs(Gf[X4] @ d + 3.0 * Gf[X0] @ v - mass * v).max()
+    """The largest component of gamma4 d4 Psi + (3 gamma0 + gamma4) Psi - mass Psi."""
+    return np.array([np.abs(Gf[X4] @ d + grav @ v - mass * v).max()
                      for v, d in zip(values, derivatives)])
 ```
 
-`residual_size(values, derivatives, mass)` returns, at every time, the largest component of $\gamma^{(x_4)}\partial_4\Psi + 3\gamma^{(x_0)}\Psi - \mathrm{mass}\,\Psi$, the residual of the field equation for a field of $x_4$ alone ($H = 1$).
+`residual_size(values, derivatives, mass)` returns, at every time, the largest component of $\gamma^{(x_4)}\partial_4\Psi + (3\gamma^{(x_0)} + \gamma^{(x_4)})\Psi - \mathrm{mass}\,\Psi$, the residual of the field equation for a field of $x_4$ alone on the history ($H = 1$).
 
 ```python
 image_values, image_derivatives = Phi @ GAMMAf.T, dPhi @ GAMMAf.T  # Gamma Phi
@@ -4765,7 +4786,7 @@ check(all(output_file(path).is_file() for path in files),
 all_checks_passed()
 ```
 
-The four figure files are checked and the last line printed. **Out [15]:** `PASS all 4 figure files of this notebook exist` and `ALL 23 CHECKS PASSED (notebook 07c)`.
+The four figure files are checked and the last line printed. **Out [15]:** `PASS all 4 figure files of this notebook exist` and `ALL 24 CHECKS PASSED (notebook 07c)`.
 
 ### 7.34 What we proved, what we computed, what we assumed
 
@@ -4774,11 +4795,11 @@ The four figure files are checked and the last line printed. **Out [15]:** `PASS
 - the principle of stationary action gives the Euler-Lagrange equation $\partial L/\partial q - \frac{d}{dt}\partial L/\partial\dot q = 0$ (Line 1 by the chain rule, Line 2 by integration by parts, Line 3 because the shapes vanish at the ends, and the fundamental lemma); for the oscillator the action of a varied path is $S_0 + S_1\epsilon + S_2\epsilon^2$ with $S_2$ independent of the path, $S_2 = \frac{T}{4}(\frac{\pi^2}{T^2} - \omega^2)$ for the slowest shape, so the true path is a minimum for $T < \pi/\omega$ and a saddle beyond; the error of a bump average of the parabola path's $E = -2 - t^2$ (with $E'' = -2$) is $-(\tfrac13 - \tfrac{2}{\pi^2})w^2$, and for any quadratic $E$ it is $\tfrac12E''(\tfrac13 - \tfrac{2}{\pi^2})w^2$; the derivative of the grid action is $h$ times the grid Euler-Lagrange expression; $dH/dt = -\dot q E$; a total derivative changes no equation; a complex variable and its conjugate may be varied as if independent, $E_{\psi^*} = (E_{q_0} + iE_{q_1})/\sqrt2$ (Sections 7.2 to 7.4);
 - the Euler-Lagrange expression of a field has one derivative term per coordinate; along a space direction a plane wave oscillates with $\omega^2 = m^2 + k^2$, along an extra time it grows with the rate $\kappa = \sqrt{k^2 - m^2}$ for $k > m$; $(\sum_ak_a\gamma^{(a)})^2 = \sum_a\eta^{aa}k_a^2\,I_{16}$, so the 16-component field has the same growth rate as the record (Section 7.5);
 - the rules of Grassmann numbers: $\theta_i^2 = 0$; the sign of a reordering; $2^n$ monomials, $\binom{n}{k}$ of degree $k$; $YX = (-1)^{kl}XY$; the conjugation reverses products; $\partial_R F = -\partial_L F$ for even $F$; $(\Psi^\dagger M\Psi)^* = \Psi^\dagger M^\dagger\Psi$ for both statistics; a real Grassmann column keeps only the antisymmetric part of a matrix and a real commuting column only the symmetric part; $S^k$ has $\binom{16}{k}$ monomials with coefficients $\pm k!$ and $S^{17} = 0$; in the two-generator test algebra $S^3 = 0$; a first-order kinetic term of real Grassmann fields with an antisymmetric matrix is a total derivative (Sections 7.10 to 7.13);
-- $\sqrt{|g|} = b_4^{3/2}\cos z$, independent of the time at $b_4 = 1$; $\gamma^{x_i}\Omega_{x_i} = \tfrac12(a_4'\gamma^{(x_4)} + H\gamma^{(x_0)})$ for 3-space and $\gamma^{x_t}\Omega_{x_t} = \tfrac12(-(a_4' - \frac{b_4'}{2b_4})\gamma^{(x_4)} + H\gamma^{(x_0)})$ for the extra times, so $\gamma^\mu\Omega_\mu = M = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)} = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$, which is $3H\gamma^{(x_0)}$ at $b_4 = 1$: the $a_4'$ terms cancel because the extra times deflate; $\{\gamma^\mu, \Omega_\mu\} = 0$ for each $\mu$ (Section 7.18);
+- $\sqrt{|g|} = b_4^{3/2}\cos z$, which depends on the time only through $b_4$; $\gamma^{x_i}\Omega_{x_i} = \tfrac12(a_4'\gamma^{(x_4)} + H\gamma^{(x_0)})$ for 3-space and $\gamma^{x_t}\Omega_{x_t} = \tfrac12(-(a_4' - \frac{b_4'}{2b_4})\gamma^{(x_4)} + H\gamma^{(x_0)})$ for the extra times, so $\gamma^\mu\Omega_\mu = M = 3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)} = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$, which is $3H\gamma^{(x_0)} + H\gamma^{(x_4)}$ on the history of the record: the $a_4'$ terms cancel because the extra times deflate; $\{\gamma^\mu, \Omega_\mu\} = 0$ for each $\mu$ (Section 7.18);
 - the Lagrangian of both fields is real; it differs from the unsymmetrised form by the total divergence $\tfrac12\partial_\mu(\sqrt{|g|}\bar\Psi\gamma^\mu\Psi)$; in the author's metric the spin connection drops out of it (Section 7.20);
 - its Euler-Lagrange equations are, for both statistics, $\gamma^\mu D_\mu\Psi = (m + \lambda S)\Psi$ and the Dirac-conjugate equation $(D_\mu\bar\Psi)\gamma^\mu = -(m + \lambda S)\bar\Psi$; written out in the author's metric they have the frame factors $\tan z$, $e^{-a_4}\sin^{-1/6}z$, $1$, $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ and the term $M\Psi$; they have a chiral block form and an evolution form with non-characteristic slices $x_4 = $ const (Sections 7.21 and 7.22);
-- non-triviality [1] and [2] in the diagonal frame: for a constant $b_4$ (as on the backgrounds $b_4 = 1$) the gravitational term $3H\gamma^{(x_0)}\Psi$ is nonzero for every $\Psi \neq 0$ and every $H > 0$; for a changing $b_4$, $MM = (9H^2 - \frac{9}{16}(b_4'/b_4)^2)1$ and $M\Psi \neq 0$ except at times where $|b_4'/b_4| = 4H$; $\Omega_\mu$ vanishes only for $H = 0$; with the exact scope that the value of the term depends on the frame and on the variables (the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it for a constant $b_4$, derived here), while $\Omega_\mu$ vanishes in no frame (Section 7.23);
-- the exact family $\Psi = \sin^\alpha z\,(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ with $M^2 = k^2 = 9H^2(2\alpha + 1)^2 - m^2$ and constant $S$ solves the field equation for every $a_4$ and every constant $b_4$ when $\lambda = 0$ (Section 7.23);
+- non-triviality [1] and [2] in the diagonal frame: $MM = (9H^2 - \frac{9}{16}(b_4'/b_4)^2)1$, so the gravitational term $M\Psi$ is nonzero for every $\Psi \neq 0$ except at times where $|b_4'/b_4| = 4H$; on the history of the record $MM = 8H^2\,1$ and $M\Psi \neq 0$ at every time; $\Omega_\mu$ vanishes only for $H = 0$; with the exact scope that the value of the term depends on the frame and on the variables (the rescaling $\Psi = \sin^{-1/2}z\,b_4^{-3/4}\chi$ removes it, derived here), while $\Omega_\mu$ vanishes in no frame (Section 7.23);
+- the exact family $\Psi = b_4^{-3/4}\sin^\alpha z\,(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ with $M^2 = k^2 = 9H^2(2\alpha + 1)^2 - m^2$ and constant $b_4^{3/2}S$ solves the field equation for all functions $a_4$ and $b_4$ when $\lambda = 0$ (Section 7.23);
 - the author's Majorana-type Lagrangian is a total derivative for real Grassmann fields (no field equation) and gives $2\sqrt{|g|}C\gamma^\mu D_\mu\Phi$ for real commuting fields; the Revision Lagrangian of a real commuting field gives the same field equation as the complex one, and its current vanishes (Section 7.28);
 - charge conjugation is a MATRIX: every matrix $M$ with $M\gamma^{(a)} = s\gamma^{(a)}M$ for all $a$ is a multiple of $1$ ($s = +1$) or of $\Gamma$ ($s = -1$), because the 256 products of gammas are an orthogonal basis and only $1$ and $\Gamma$ commute or anticommute with all eight; hence $\mathcal{C}_+ = C$ with $\mathcal{C}_+^{-1}\gamma^{(a)}\mathcal{C}_+ = -(\gamma^{(a)})^T$ and $\mathcal{C}_- = \Gamma C$ with $\mathcal{C}_-^{-1}\gamma^{(a)}\mathcal{C}_- = +(\gamma^{(a)})^T$; both reality conditions are consistent; for a real field $\mathcal{C}_+$ is the identity and the nontrivial real map is $\Gamma$, with $\mathcal{L}_{m,\lambda}[\Gamma\Phi] = -\mathcal{L}_{-m,-\lambda}[\Phi]$; the signs of $S$ and $J$ under the two conjugations for both statistics (Section 7.29).
 
@@ -4800,16 +4821,16 @@ The checks of the Revision record that state the same results (the theory report
 
 - Notebook 07d: the first variations of the nine varied paths, for example $S_1 = -1/\pi = -0.318310$ for the line (In [2]); $S_2 = 2.217401$, $9.619604$, $21.956610$ (In [3]); the bump errors $-5.228\times10^{-3}$ to $-8.168\times10^{-5}$ with ratios 4.0000 (In [7], trapezoidal rule on 200001 points); the grid errors $4.089\times10^{-4}$ ($N = 4$) to $1.008\times10^{-7}$ ($N = 256$) with orders 2.007, 1.978, 2.001, 2.000, 2.000, 2.000 (In [9]); the energy $1/(2\sin^21) = 0.706141$ of the true path (In [10]); the grid derivative of the field action equal to $h_1h_4$ times the grid Euler-Lagrange expression to better than $10^{-9}$ at 20 inner points (In [14]); the record's growth rate for a momentum along $x_5$ (In [15]).
 - Notebook 07a: 2000 of 2000 random sign comparisons (In [3]); 4096 monomials for $n = 12$ (In [6]); 27 nonzero products of the 64 (In [7]); the surviving monomials $[0, 8, \dots, 8]$ and $[8, 0, \dots, 0]$ (In [12]); the counts 16, 120, 560, 1820, 4368, 8008, 11440, 12870, 11440, 8008, 4368, 1820, 560, 120, 16, 1, 0 of $S^1$ to $S^{17}$ (In [14]).
-- Notebook 07b: 25 Christoffel symbols and 12 connection components, equal to the formula record (In [7], In [8]); 392 and 408 monomials of $\mathcal{L}$, equal to the counts written in the record (In [13], In [14]); all 16 component equations equal to the formula record term by term (In [17]); $S = -2.000000$ and $-2.828427$ for the two exact solutions, constant along $x_4$, and the full residual below $10^{-12}$ of the size of $\Psi$ at 201 times (In [22], In [24]).
-- Notebook 07c: 136 and 128 monomials of $L_g$, with 0 and 16 nonzero Euler-Lagrange expressions (In [5]); the 256 products orthogonal with the trace table $16\cdot1$, one product commuting with all gammas (degree 0) and one anticommuting with all (degree 8) (In [8]); the real solution of mass $+2$ and its image of mass $-2$ with relative residuals below $10^{-12}$ (In [13]).
+- Notebook 07b: 25 Christoffel symbols and 12 connection components, equal to the formula record (In [7], In [8]); 392 and 408 monomials of $\mathcal{L}$, equal to the counts written in the record (In [13], In [14]); all 16 component equations equal to the formula record term by term (In [17]); $S = -2.000000$ and $-2.828427$ at $x_4 = 0$ for the two exact solutions on the history, with $b_4^{3/2}S$ constant along $x_4$, and the full residual below $10^{-12}$ of the size of $\Psi$ at 201 times (In [22], In [24]).
+- Notebook 07c: 144 and 128 monomials of $L_g$, with 0 and 16 nonzero Euler-Lagrange expressions (In [5]); the 256 products orthogonal with the trace table $16\cdot1$, one product commuting with all gammas (degree 0) and one anticommuting with all (degree 8) (In [8]); the real solution of mass $+2$ and its image of mass $-2$ with relative residuals below $10^{-12}$ (In [13]).
 
 **ASSUMED** (used, not derived here):
 
 - the principle of stationary action, the starting principle of classical mechanics and field theory; standard theorems of calculus (differentiation under the integral sign, the fundamental theorem, Taylor's formula, the equality of mixed partial derivatives);
 - the definition of the two fields by the Revision record (Revision/SPEC.md, section 3): dirac16complex has complex Grassmann components, dirac16complex00 ordinary complex components; the form of their common Lagrangian (the symmetrised kinetic term, the Dirac adjoint with $C$, the mass term $-mS$ and the potential $U = \frac{\lambda}{2}S^2$) is a choice of the theory, not a derivation; the method of varying jets (the field and its derivatives at a point treated as independent symbols);
 - the author's gammas, $C$, $\Gamma$, $B$ and $S^{ab}$ with their properties (Chapters 4 and 5; read from `Revision/algebra/gammas.json` and checked again in the notebooks), the spin transformations and $R^TCR = C$ (Chapter 5), and the vielbein postulate as the definition of the canonical spin connection (Chapter 6);
-- the illustration values ($H = 1$, $m = 2$, $\chi_0$, $z = \pi/4$) and, in Figure 07b.1 only, the linear history $a_4 = AHx_4$ with $A = 1$ and $b_4 = 1$: a prescribed history chosen for the picture, not a result (every equation of the chapter holds for every $a_4(x_4)$; those that hold only for a constant $b_4$ say so);
-- the second function $b_4(x_4) > 0$ of the author's metric of 2026-10-14; the backgrounds of the Revision record have $b_4 = 1$ (`Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`);
+- the illustration values ($H = 1$, $m = 2$, $\chi_0$, $z = \pi/4$) and the history of the record, $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$ and $\beta = \frac43$ (`Revision/kohn_sham/results/parameters.json`; the prescribed background of Chapter 3), used in the checks on the history and in the figures of Notebooks 07b and 07c; every general equation of the chapter holds for all functions $a_4(x_4)$ and $b_4(x_4)$;
+- the second function $b_4(x_4) > 0$ of the author's metric of 2026-10-14 (`Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`);
 - quoted from the record and derived in later chapters: the general covariant constancy of the gammas (`gamma_covariantly_constant`), the frame and scope statements of the scope reports, the boundary behaviour at $z = \pi/2$ and the growing modes without a boundary condition there (`good_sector_x0_independent_modes_without_boundary_condition`), the quantum statements about conjugation (normal ordering adds no sign, from the detail text of `bilinears_under_charge_conjugation`, and `quantum_charge_conjugation_unitary_type`; Chapters 5, 8, 10 and 21), and the parts (ii) and (iv) of self-consistency (the Heisenberg equation, Chapter 10; the local law of the current, Chapter 21);
 - quoted from the record and NOT derived in this book: the Lichnerowicz identity of self-consistency (iii) (`Lichnerowicz_identity_G`), and the Noether identities of self-consistency (v) (`Noether_identity_diffeomorphisms_G`, `Noether_identity_local_Lorentz_G`), which Chapter 9 uses without their proof; the total charge is constant only under the ASSUMED no-flux condition at $z = \pi/2$ (Chapter 21).
 
@@ -4843,24 +4864,24 @@ The checks of the Revision record that state the same results (the theory report
 
 *Answer.* $\Theta^TM\Theta = \theta_0\theta_0 + 2\theta_0\theta_1 + 3\theta_1\theta_0 + 4\theta_1\theta_1 = 2\theta_0\theta_1 - 3\theta_0\theta_1 = -\theta_0\theta_1$. The antisymmetric part of $M$ is $\tfrac12(M - M^T) = \begin{pmatrix}0 & -\frac12\\ \frac12 & 0\end{pmatrix}$, which gives $-\tfrac12\theta_0\theta_1 + \tfrac12\theta_1\theta_0 = -\theta_0\theta_1$, the same: only the antisymmetric part survives. For ordinary numbers $q^TMq = q_0^2 + 2q_0q_1 + 3q_1q_0 + 4q_1^2 = q_0^2 + 5q_0q_1 + 4q_1^2$, which is the form of the symmetric part $\begin{pmatrix}1 & \frac52\\ \frac52 & 4\end{pmatrix}$: only the symmetric part survives.
 
-**Exercise 7.** Take $b_4 = 1$ and suppose the extra times INFLATED like 3-space, with the scale factor $e^{a_4}\sin^{1/6}z$ (that is $g_{55} = -e^{2a_4}\sin^{1/3}z$). Compute $\gamma^{x_5}\Omega_{x_5}$ and $\gamma^\mu\Omega_\mu$. What does this show about the author's metric?
+**Exercise 7.** Suppose the extra times INFLATED like 3-space, with the scale factor $e^{a_4}b_4^{1/2}\sin^{1/6}z$ (that is $g_{55} = -e^{2a_4}b_4\sin^{1/3}z$). Compute the part of $\gamma^{x_5}\Omega_{x_5}$ with $a_4'$, and $\gamma^\mu\Omega_\mu$. What does this show about the author's metric?
 
-*Answer.* Now $f_5 = Es$ and $g_{55} = -E^2s^2$, so $\partial_4g_{55} = -2E^2s^2A_1$. The Christoffel symbol and the connection component are
+*Answer.* Now $f_5 = Esb_4^{1/2}$ and $g_{55} = -E^2s^2b_4$, so $\partial_4g_{55} = -E^2s^2(2A_1b_4 + b_4')$. The Christoffel symbol and the connection component are
 
 $$
 \begin{aligned}
-\Gamma^{x_4}{}_{x_5x_5} &= -\frac{\partial_4g_{55}}{2g_{44}} = -\frac{-2E^2s^2A_1}{-2} = -E^2s^2A_1, \\
-\omega_{x_5(x_4)(x_5)} &= \frac{\eta_{44}f_4\,\Gamma^{x_4}{}_{x_5x_5}}{f_5} = \frac{E^2s^2A_1}{Es} = EsA_1 ,
+\Gamma^{x_4}{}_{x_5x_5} &= -\frac{\partial_4g_{55}}{2g_{44}} = -\frac{-E^2s^2(2A_1b_4 + b_4')}{-2} = -E^2s^2b_4\Big(A_1 + \frac{b_4'}{2b_4}\Big), \\
+\omega_{x_5(x_4)(x_5)} &= \frac{\eta_{44}f_4\,\Gamma^{x_4}{}_{x_5x_5}}{f_5} = \frac{E^2s^2b_4(A_1 + \frac{b_4'}{2b_4})}{Esb_4^{1/2}} = f_5\Big(A_1 + \frac{b_4'}{2b_4}\Big) ,
 \end{aligned}
 $$
 
-so the $a_4'$ part of $\Omega_{x_5}$ is $EsA_1S^{(x_4)(x_5)} = \tfrac12EsA_1\gamma^{(x_4)}\gamma^{(x_5)}$, and the $a_4'$ part of $\gamma^{x_5}\Omega_{x_5}$ is
+so the $a_4'$ part of $\Omega_{x_5}$ is $f_5A_1S^{(x_4)(x_5)} = \tfrac12f_5A_1\gamma^{(x_4)}\gamma^{(x_5)}$, and the $a_4'$ part of $\gamma^{x_5}\Omega_{x_5}$ is
 
 $$
-\frac{\gamma^{(x_5)}}{Es}\cdot\tfrac12EsA_1\gamma^{(x_4)}\gamma^{(x_5)} = \tfrac12A_1\gamma^{(x_5)}\gamma^{(x_4)}\gamma^{(x_5)} = \tfrac12A_1\gamma^{(x_4)}
+\frac{\gamma^{(x_5)}}{f_5}\cdot\tfrac12f_5A_1\gamma^{(x_4)}\gamma^{(x_5)} = \tfrac12A_1\gamma^{(x_5)}\gamma^{(x_4)}\gamma^{(x_5)} = \tfrac12A_1\gamma^{(x_4)}
 $$
 
-(as in Section 7.18, $\gamma^{(x_5)}\gamma^{(x_4)}\gamma^{(x_5)} = \gamma^{(x_4)}$). The $H$ part is unchanged, $\tfrac12H\gamma^{(x_0)}$, because the warp $\sin^{1/6}z$ is the same. So each of the six directions now contributes $+\tfrac12a_4'\gamma^{(x_4)}$, and $\gamma^\mu\Omega_\mu = 3a_4'\gamma^{(x_4)} + 3H\gamma^{(x_0)}$. The cancellation of the time terms in the author's metric is due to the DEFLATION of the extra times. This is the negative control of the lead's independent check `negative_control_inflating_extra_times` in the report `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`.
+(as in Section 7.18, $\gamma^{(x_5)}\gamma^{(x_4)}\gamma^{(x_5)} = \gamma^{(x_4)}$); its part with $b_4'$ is $\frac14(b_4'/b_4)\gamma^{(x_4)}$, as in the author's metric. The $H$ part is unchanged, $\tfrac12H\gamma^{(x_0)}$, because the warp $\sin^{1/6}z$ is the same. So each of the six directions now contributes $+\tfrac12a_4'\gamma^{(x_4)}$, and $\gamma^\mu\Omega_\mu = \big(3a_4' + \frac34b_4'/b_4\big)\gamma^{(x_4)} + 3H\gamma^{(x_0)}$. The cancellation of the $a_4'$ terms in the author's metric is due to the DEFLATION of the extra times. This is the negative control of the lead's independent check `negative_control_inflating_extra_times` in the report `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`.
 
 **Exercise 8.** In flat space with $m = 2$, a plane wave of the 16-component field has the frame momenta $k_0 = 1$ along the hidden direction and $k_7 = 3$ along an extra time, all others zero. Does it oscillate or grow, and at what rate?
 
