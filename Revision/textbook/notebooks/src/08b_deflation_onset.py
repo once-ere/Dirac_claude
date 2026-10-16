@@ -12,9 +12,10 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/08b_deflation_onset.py
 
 It uses the canonical deflating history of the Kohn-Sham record
-(Revision/kohn_sham/results/parameters.json: a4 = A H x4 with A = 1, H = m = 1, a
-PRESCRIBED BACKGROUND) and the local-frame (frozen hidden position) model of the Revision
-statement extra_time_modes_grow (Revision/theory/reports/python-field-theory.json).
+(Revision/kohn_sham/results/parameters.json: a4 = A H x4, b4 = b4(0) e^(beta A H x4) with
+A = 1, beta = 4/3, H = m = 1, a PRESCRIBED BACKGROUND) and the local-frame (frozen hidden
+position) model of the Revision statement extra_time_modes_grow
+(Revision/theory/reports/python-field-theory.json).
 """
 
 import sys
@@ -36,8 +37,9 @@ FACTS = {
     "name": "08b_deflation_onset",
     "title": "The deflating extra times drive every extra-time wave into growth",
     "purpose": (
-        "Along the deflating history a4 = A H x4 of the Kohn-Sham record (A = 1, "
-        "H = m = 1, a prescribed background) it computes the scale factors and the "
+        "Along the deflating history a4 = A H x4, b4 = b4(0) e^(4 A H x4/3) of the "
+        "Kohn-Sham record (A = 1, H = m = 1, a prescribed background) on which the extra "
+        "times shrink like e^(-A H x4/3), it computes the scale factors and the "
         "frame momenta of a wave with fixed wave numbers along x1 and x5, the exact time "
         "at which such a wave turns from oscillation to growth, and shows that every "
         "wave along an extra time reaches this onset; it then follows one wave through "
@@ -47,25 +49,25 @@ FACTS = {
     ),
     "records": [
         ["Revision/kohn_sham/results/parameters.json",
-         "the canonical deflating history a4 = A H x4 (A = 1, H = 1, m = 1, prescribed "
-         "background) and the tip cutoff L (read)"],
+         "the canonical deflating history a4 = A H x4, b4 = b4(0) e^(beta A H x4) (A = 1, "
+         "beta = 4/3, H = 1, m = 1, prescribed background) and the tip cutoff L (read)"],
         ["Revision/algebra/gammas.json",
          "the author's 16 x 16 gamma matrices, C and B (read)"],
         ["Revision/theory/reports/python-field-theory.json",
-         "checks sqrt_det_g_equals_cos_z and extra_time_modes_grow (reproduced)"],
+         "checks sqrt_det_g_equals_b4_cos_z and extra_time_modes_grow (reproduced)"],
         ["Revision/theory/reports/python-scope.json",
          "check extra_time_growth_rates_unbounded (its frozen-coefficient formula for "
          "E^2, reproduced at every instant of the history)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 10,
+    "expected_seconds": 30,
     "timeout_seconds": 300,
     "files_written": ["Revision/textbook/figures/08b.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS the figure file 08b_5_rate_and_krein.png exists",
-        "ALL 25 CHECKS PASSED (notebook 08b)",
+        "ALL 26 CHECKS PASSED (notebook 08b)",
     ],
     "troubleshooting": [
         ["FileNotFoundError naming Revision/kohn_sham/results/parameters.json",
@@ -81,18 +83,19 @@ CELLS = [
     ## 1. What this notebook computes
 
     In the author's metric the three extra times $x_5, x_6, x_7$ DEFLATE: their lengths
-    carry the factor $e^{-a_4}b_4^{1/2}\sin^{1/6}z$, and $a_4$ increases with the time
-    $x_4$ ($b_4(x_4) > 0$ is the second function of the metric; this notebook works on
-    the background $b_4 = 1$ of the record, where the factor is $e^{-a_4}\sin^{1/6}z$).
-    A wave that wiggles a fixed number of times per unit of the coordinate $x_5$
-    therefore wiggles more and more often per unit of PROPER length (length measured
-    with the metric): its frame momentum grows like $e^{a_4}$. This notebook uses the
-    deflating history of the Kohn-Sham record, $a_4 = A H x_4$ with $A = 1$ and
-    $H = m = 1$ (a PRESCRIBED background, not a solution of the $a_4$ equations), and
+    carry the factor $e^{-a_4}b_4^{1/2}\sin^{1/6}z$ ($b_4(x_4) > 0$ is the second
+    function of the metric). This notebook uses the deflating history of the
+    Kohn-Sham record, $a_4 = A H x_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$,
+    $\beta = 4/3$ and $H = m = 1$ (a PRESCRIBED background, not a solution of the
+    $a_4$ equations); on it $e^{-a_4}b_4^{1/2} = b_4(0)^{1/2}e^{-\delta x_4}$ with the
+    deflation rate $\delta = (1 - \beta/2)AH = AH/3$. A wave that wiggles a fixed number
+    of times per unit of the coordinate $x_5$ therefore wiggles more and more often per
+    unit of PROPER length (length measured with the metric): its frame momentum grows
+    like $e^{\delta x_4}$. The notebook
 
     - draws the scale factors of 3-space (inflating) and of the extra times (deflating)
-      and checks exactly that the volume factor $\sqrt{|g|} = b_4^{3/2}\cos z$ is
-      $\cos z$ at $b_4 = 1$ and does not change in time;
+      and checks exactly that the volume factor is $\sqrt{|g|} = b_4^{3/2}\cos z$, which
+      changes in time only through $b_4$;
     - computes the frame momenta of a wave with fixed wave numbers $q_1$ along $x_1$
       and $q_5$ along $x_5$, and the exact time $x_4^\ast$ at which $E^2 = m^2 +
       k_{(1)}^2 - k_{(5)}^2$ turns negative (the *onset*), checked against a numerical
@@ -103,8 +106,8 @@ CELLS = [
     - follows one wave through the onset with the local-frame model (explained in
       section 4), solved with RK4 (fourth-order convergence checked), and compares its
       growth with the WKB formulas; the growth is faster than any exponential;
-    - checks that the Krein form stays constant while the ordinary size grows by a
-      factor of about $10^{16}$.
+    - checks that the Krein form stays constant while the ordinary size grows by more
+      than 40 powers of ten.
 
     It draws five teaching plots.
     """),
@@ -121,13 +124,15 @@ CELLS = [
       $\sin^{1/6}z = e^{Hy}$.
     - **Scale factor**: the factor by which a coordinate length must be multiplied to
       give the proper length; $e^{a_4}\sin^{1/6}z$ for $x_1, x_2, x_3$ and
-      $e^{-a_4}b_4^{1/2}\sin^{1/6}z$ for $x_5, x_6, x_7$ ($e^{-a_4}\sin^{1/6}z$ at
-      $b_4 = 1$). **Inflating** means growing,
+      $e^{-a_4}b_4^{1/2}\sin^{1/6}z$ for $x_5, x_6, x_7$. **Inflating** means growing,
       **deflating** shrinking.
-    - **History** $a_4(x_4)$: how $a_4$ changes with time. Here $a_4 = A H x_4$ with
-      $A = 1$ (the canonical history of the Kohn-Sham record). It is PRESCRIBED: chosen,
-      not solved for (the record shows that the Kohn-Sham states do not satisfy the
-      source conditions of the $a_4$ equations).
+    - **History** $a_4(x_4)$, $b_4(x_4)$: how the two functions change with time. Here
+      $a_4 = A H x_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$ and
+      $\beta = 4/3$ (the canonical history of the Kohn-Sham record; $b_4(0)$ is the unit
+      of $b_4$). It is PRESCRIBED: chosen, not solved for (the record shows that the
+      Kohn-Sham states do not supply the source that the $a_4$ equations need for it).
+    - **Deflation rate** $\delta = (1 - \beta/2)AH = AH/3$: on the history the extra
+      times shrink like $e^{-\delta x_4}$.
     - **Coordinate wave number** $q_a$ and **frame momentum** $k_{(a)} = q_a/f_a$, where
       $f_a$ is the scale factor: the wave $e^{iq_a x_a}$ has $q_a$ radians of phase per
       unit of coordinate length and $k_{(a)}$ radians per unit of proper length.
@@ -149,25 +154,31 @@ CELLS = [
     ## 4. The physical and mathematical situation
 
     In the hidden coordinate $y$ the author's metric reads
-    $ds^2 = e^{2Hy}\big(e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2) - e^{-2a_4}(dx_5^2 + dx_6^2
+    $ds^2 = e^{2Hy}\big(e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2) - e^{-2a_4}b_4(dx_5^2 + dx_6^2
     + dx_7^2)\big) - dx_4^2 + dy^2$, because $\sin^{1/3}z = e^{2Hy}$ and $dy = \cot z\,
     dx_0$. Its coefficients do not depend on $x_1, x_2, x_3, x_5, x_6, x_7$, so a wave
     $e^{i(q_1x_1 + q_5x_5)}$ keeps its coordinate wave numbers $q_1, q_5$ exactly for
-    all times. Its frame momenta are, line by line:
+    all times. Its frame momenta are, line by line (on the history, $b_4$ in its unit
+    $b_4(0)$):
 
-    1. $k_{(1)} = q_1/f_1 = q_1\,e^{-a_4}e^{-Hy}$ (the factor of $x_1$ is
-       $f_1 = e^{a_4}e^{Hy}$);
-    2. $k_{(5)} = q_5/f_5 = q_5\,e^{a_4}e^{-Hy}$ (the factor of $x_5$ is
-       $f_5 = e^{-a_4}e^{Hy}$);
+    1. $k_{(1)} = q_1/f_1 = q_1\,e^{-a_4}e^{-Hy} = q_1\,e^{-AHx_4}e^{-Hy}$ (the factor
+       of $x_1$ is $f_1 = e^{a_4}e^{Hy}$);
+    2. $k_{(5)} = q_5/f_5 = q_5\,e^{a_4}b_4^{-1/2}e^{-Hy} = q_5\,e^{\delta x_4}e^{-Hy}$
+       (the factor of $x_5$ is $f_5 = e^{-a_4}b_4^{1/2}e^{Hy}$, and $a_4 -
+       \frac12\ln b_4 = AHx_4 - \frac12\beta AHx_4 = \delta x_4$);
     3. with frozen coefficients $E^2 = m^2 + k_{(1)}^2 - k_{(5)}^2
-       = m^2 + q_1^2e^{-2Hy}e^{-2a_4} - q_5^2e^{-2Hy}e^{2a_4}$.
+       = m^2 + q_1^2e^{-2Hy}e^{-2AHx_4} - q_5^2e^{-2Hy}e^{2\delta x_4}$.
 
-    As $a_4$ grows, the last term grows like $e^{2a_4}$ and the middle one decays like
-    $e^{-2a_4}$: $E^2$ must turn negative. With $X = e^{2a_4}$ and $w = e^{-Hy}$ the
-    onset $E^2 = 0$ is the quadratic equation $q_5^2w^2X^2 - m^2X - q_1^2w^2 = 0$, whose
-    positive root is $X^\ast = \big(m^2 + \sqrt{m^4 + 4q_1^2q_5^2w^4}\big)/(2q_5^2w^2)$;
-    the onset time is $x_4^\ast = \ln(X^\ast)/(2AH)$. For $q_1 = 0$ this is
-    $x_4^\ast = \big(Hy + \ln(m/q_5)\big)/(AH)$.
+    As the time goes on, the last term grows like $e^{2\delta x_4}$ and the middle one
+    decays like $e^{-2AHx_4}$: $E^2$ must turn negative. With $X = e^{2\delta x_4}$ and
+    $w = e^{-Hy}$, and $e^{-2AHx_4} = X^{-3}$ (because $AH = 3\delta$), the onset
+    $E^2 = 0$ is, after multiplication by $X^3$, the equation of fourth degree
+    $q_5^2w^2X^4 - m^2X^3 - q_1^2w^2 = 0$. Its coefficients change sign once, so it has
+    exactly one positive root $X^\ast$ (Descartes' rule of signs), and the onset time
+    is $x_4^\ast = \ln(X^\ast)/(2\delta)$. For $q_1 = 0$ it is $X^\ast =
+    m^2/(q_5^2w^2)$ and $x_4^\ast = \big(Hy + \ln(m/q_5)\big)/\delta = 3\big(Hy +
+    \ln(m/q_5)\big)/(AH)$: three times later than it would be without the growth of
+    $b_4$.
 
     THE MODEL (labelled). The field also depends on $y$, and the factor $e^{-Hy}$ in
     the frame momenta makes the exact equation couple neighbouring values of $y$. The
@@ -195,8 +206,10 @@ CELLS = [
     the helper `check` for such a result: it passes only if the notebook's own
     computation (`condition`) is right AND the record says the same. Then the cell
     reads the parameters of the Kohn-Sham record, takes from it $H$, $m$, the history
-    constant $A$ and the tip cutoff $L$, prints how the record describes the history
-    and its status, and checks the values $A = H = m = 1$, $L = 3$.
+    constants $A$ and $\beta$ and the tip cutoff $L$, prints how the record describes
+    the history and its status, and checks the values $A = H = m = 1$, $\beta = 4/3$,
+    $L = 3$. It defines the history $a_4(x_4)$, $b_4(x_4)$ (in the unit $b_4(0)$) and
+    the deflation rate $\delta = (1 - \beta/2)AH$, and checks $\delta = 1/3$.
     """),
     code(r'''
     import numpy as np  # arrays of numbers, matrices, linear algebra
@@ -231,29 +244,42 @@ CELLS = [
     H = parameters["physics"]["H"]  # the author's constant H
     mass = parameters["physics"]["m"]  # the mass m
     A = parameters["physics"]["historyA"]  # the history a4 = A H x4
+    beta = parameters["physics"]["historyBeta"]  # and b4 = b4(0) e^(beta A H x4)
     L_tip = parameters["physics"]["L_tipCutoff"]  # the record cuts the tip at y = -L
     say("history: " + parameters["theoryInputs"]["adiabaticityHistory"])
     say("status: " + parameters["conventions"]["history"].split(". ")[0] + ".")
-    check(H == 1.0 and mass == 1.0 and A == 1.0 and L_tip == 3.0,
-          "the canonical history: A = 1, H = 1, m = 1, tip cutoff L = 3",
+    check(H == 1.0 and mass == 1.0 and A == 1.0 and sp.nsimplify(beta) == sp.Rational(4, 3)
+          and L_tip == 3.0,
+          "the canonical history: A = 1, beta = 4/3, H = 1, m = 1, tip cutoff L = 3",
           record="Revision/kohn_sham/results/parameters.json, physics.historyA, "
-                 "physics.H, physics.m, physics.L_tipCutoff")
+                 "physics.historyBeta, physics.H, physics.m, physics.L_tipCutoff")
 
 
     def a4_of(x4):
         """The prescribed deflating history a4 = A H x4."""
         return A * H * x4
+
+
+    def b4_of(x4):
+        """The prescribed history b4 = b4(0) e^(beta A H x4), in the unit b4(0)."""
+        return np.exp(beta * A * H * x4)
+
+
+    delta = (1 - beta / 2) * A * H  # the deflation rate: e^(-a4) b4^(1/2) = e^(-delta x4)
+    report("deflation rate delta = (1 - beta/2) A H", f"{delta:.12f}")
+    check(abs(delta - 1 / 3) < 1e-15 and abs(A * H / delta - 3) < 1e-14,
+          "the extra times shrink like e^(-x4/3) on the history: delta = A H/3")
     '''),
     md(r"""
-    ## 6. The scale factors and the constant volume
+    ## 6. The scale factors and the volume
 
     The next cell first checks three exact statements with sympy: $dy/dx_0 = \cot z$
     for $y = \ln(\sin z)/(6H)$; $e^{Hy} = \sin^{1/6}z$; and the product of the eight
     scale factors, $\cot z \cdot (e^{a_4}\sin^{1/6}z)^3 \cdot 1 \cdot
-    (e^{-a_4}b_4^{1/2}\sin^{1/6}z)^3$, equals $b_4^{3/2}\cos z$ for every $a_4$, and
-    $\cos z$ at $b_4 = 1$: the inflation of 3-space and the deflation of the extra
-    times compensate exactly. Then it draws the scale factors along the
-    history at two hidden positions.
+    (e^{-a_4}b_4^{1/2}\sin^{1/6}z)^3$, equals $b_4^{3/2}\cos z$ for every $a_4$: the
+    factors $e^{\pm3a_4}$ of the inflation of 3-space and of the deflation of the extra
+    times compensate exactly, and the volume changes in time only through $b_4$. Then
+    it draws the scale factors along the history at two hidden positions.
     """),
     code(r'''
     x0, H_symbol = sp.symbols("x0 H", positive=True)
@@ -268,12 +294,10 @@ CELLS = [
     extra_factor = (sp.exp(-a4_symbol) * sp.sqrt(b4_symbol)
                     * sp.sin(z) ** sp.Rational(1, 6))  # x5, x6, x7
     volume = sp.cot(z) * space_factor**3 * 1 * extra_factor**3  # x4 has the factor 1
-    check_record(sp.simplify(volume - b4_symbol ** sp.Rational(3, 2) * sp.cos(z)) == 0
-                 and sp.simplify(volume.subs(b4_symbol, 1) - sp.cos(z)) == 0,
-                 "sqrt|g| = product of the scale factors = b4^(3/2) cos z, for every a4; "
-                 "cos z at b4 = 1",
+    check_record(sp.simplify(volume - b4_symbol ** sp.Rational(3, 2) * sp.cos(z)) == 0,
+                 "sqrt|g| = product of the scale factors = b4^(3/2) cos z, for every a4",
                  "Revision/theory/reports/python-field-theory.json",
-                 "sqrt_det_g_equals_cos_z", "cos(6 H x0)")
+                 "sqrt_det_g_equals_b4_cos_z", "b4(x4)^(3/2) cos(6 H x0)")
 
     times = np.linspace(0.0, 6.0, 601)
     fig, ax = plt.subplots()
@@ -281,39 +305,47 @@ CELLS = [
         warp = np.exp(H * y)  # sin^(1/6) z = e^(H y)
         ax.plot(times, np.exp(a4_of(times)) * warp, style, color="tab:blue",
                 label=f"3-space $e^{{a_4}}e^{{Hy}}$, $y = {y}$")
-        ax.plot(times, np.exp(-a4_of(times)) * warp, style, color="tab:red",
-                label=f"extra times $e^{{-a_4}}e^{{Hy}}$, $y = {y}$")
-        ax.plot(times, np.full_like(times, warp**6), style, color="black",
-                linewidth=0.8, label=f"product of the six, $e^{{6Hy}}$, $y = {y}$")
+        ax.plot(times, np.exp(-a4_of(times)) * np.sqrt(b4_of(times)) * warp, style,
+                color="tab:red", label=f"extra times $e^{{-a_4}}b_4^{{1/2}}e^{{Hy}}$, "
+                f"$y = {y}$")
+        ax.plot(times, b4_of(times) ** 1.5 * warp**6, style, color="black",
+                linewidth=0.8, label=f"product of the six, $b_4^{{3/2}}e^{{6Hy}}$, "
+                f"$y = {y}$")
     ax.set_yscale("log")
     ax.set_xlabel("time $x_4$ (units of $1/m$)")
     ax.set_ylabel("scale factor")
-    ax.set_title("Scale factors along the history $a_4 = x_4$")
+    ax.set_title("Scale factors along the history $a_4 = x_4$, $b_4 = e^{4x_4/3}$")
     ax.legend(fontsize=7, loc="upper left");
     save_figure(fig, "scale_factors",
                 "The scale factors of the author's metric along the prescribed "
-                "deflating history $a_4 = A H x_4$ ($A = H = 1$) against the time $x_4$ "
-                "in units of $1/m$, on a logarithmic vertical axis, at the patch end "
+                "deflating history $a_4 = A H x_4$, $b_4 = b_4(0)\\,e^{4AHx_4/3}$ "
+                "($A = H = 1$, $b_4$ in the unit $b_4(0)$) against the time $x_4$ in "
+                "units of $1/m$, on a logarithmic vertical axis, at the patch end "
                 "$y = 0$ (solid) and at $y = -1$ (dashed). Blue: 3-space, "
-                "$e^{a_4}e^{Hy}$, a rising straight line (exponential inflation). Red: "
-                "the extra times, $e^{-a_4}e^{Hy}$, a falling straight line "
-                "(exponential deflation). Black: the product of the three spatial and "
-                "the three extra-time factors, $e^{6Hy} = \\sin z$, which does not "
-                "change in time.")
+                "$e^{a_4}e^{Hy}$, a rising straight line (exponential inflation, "
+                "$e^{x_4}$). Red: the extra times, $e^{-a_4}b_4^{1/2}e^{Hy}$, a "
+                "falling straight line (exponential deflation, $e^{-x_4/3}$). Black: "
+                "the product of the three spatial and the three extra-time factors, "
+                "$b_4^{3/2}e^{6Hy} = b_4^{3/2}\\sin z$, which grows only through "
+                "$b_4^{3/2} = e^{2x_4}$.")
     '''),
     md(r"""
     ## 7. Frame momenta and the onset of growth
 
     The next cell defines the frame momenta of section 4, the local $E^2$, and the
-    exact onset time; it checks the onset time against a numerical root search
-    (bisection: halve an interval in which $E^2$ changes sign 200 times) for several
-    waves, and checks the simple form $x_4^\ast = \ln(m/q_5)$ for $q_1 = 0$, $y = 0$.
+    onset time, the positive root of the equation of fourth degree of section 4
+    (computed with numpy's root finder for polynomials and polished by two steps of
+    Newton's method); it checks the onset time against a numerical root search of
+    $E^2$ itself (bisection: halve an interval in which $E^2$ changes sign 200 times)
+    for several waves, and checks the simple form $x_4^\ast = 3\ln(m/q_5)$ for
+    $q_1 = 0$, $y = 0$.
     """),
     code(r'''
     def frame_momenta(x4, q1, q5, y):
         """(k_(1), k_(5)) of the wave exp(i (q1 x1 + q5 x5)) at time x4 and position y."""
         w = np.exp(-H * y)  # e^(-H y) = sin^(-1/6) z
-        return q1 * np.exp(-a4_of(x4)) * w, q5 * np.exp(a4_of(x4)) * w
+        return (q1 * np.exp(-a4_of(x4)) * w,
+                q5 * np.exp(a4_of(x4)) / np.sqrt(b4_of(x4)) * w)  # q5 e^(delta x4) w
 
 
     def local_E2(x4, q1, q5, y):
@@ -323,10 +355,17 @@ CELLS = [
 
 
     def onset_time(q1, q5, y):
-        """The exact time at which E^2 = 0 (positive root of the quadratic in X)."""
+        """The time at which E^2 = 0: X = e^(2 delta x4) is the positive root of
+        q5^2 w^2 X^4 - m^2 X^3 - q1^2 w^2 = 0 (w = e^(-H y))."""
         w = np.exp(-H * y)
-        X = (mass**2 + np.sqrt(mass**4 + 4 * q1**2 * q5**2 * w**4)) / (2 * q5**2 * w**2)
-        return np.log(X) / (2 * A * H)
+        coefficients = [q5**2 * w**2, -mass**2, 0.0, 0.0, -q1**2 * w**2]
+        roots = np.roots(coefficients)  # the four roots (complex numbers)
+        X = max(r.real for r in roots if abs(r.imag) < 1e-9 * abs(r) and r.real > 0)
+        for _ in range(2):  # two Newton steps polish the root
+            value = np.polyval(coefficients, X)
+            slope = np.polyval(np.polyder(coefficients), X)
+            X -= value / slope
+        return np.log(X) / (2 * delta)
 
 
     def bisection(q1, q5, y, low=-30.0, high=30.0):
@@ -343,21 +382,24 @@ CELLS = [
     worst = max(abs(onset_time(q1, q5, y) - bisection(q1, q5, y))
                 for q1 in (0.0, 0.5, 1.0, 3.0) for q5 in (0.01, 0.05, 0.1, 0.4)
                 for y in (0.0, -1.0, -3.0))
-    check(worst < 1e-12, "the exact onset time equals the bisection result (48 waves)")
-    check(abs(onset_time(0.0, 0.05, 0.0) - np.log(1 / 0.05)) < 1e-14,
-          "q1 = 0, y = 0: onset time = ln(m/q5)")
+    check(worst < 1e-10, "the onset time from the polynomial equals the bisection "
+          "result (48 waves)")
+    check(abs(onset_time(0.0, 0.05, 0.0) - 3 * np.log(1 / 0.05)) < 1e-12,
+          "q1 = 0, y = 0: onset time = 3 ln(m/q5)")
     for q5 in (0.05, 0.1):
         report(f"onset time for q1 = 0, q5 = {q5}, y = 0", f"{onset_time(0.0, q5, 0.0):.6f}")
     '''),
     md(r"""
     The next cell draws the two frame momenta of a wave with $q_1 = q_5 = 0.1$ (left)
-    and the local $E^2$ of several waves (right) along the history; the dots mark the
-    onset times computed above.
+    and the local $E^2$ of several waves (right) along the history, over the times 0 to
+    15 (long enough for the onsets); the dots mark the onset times computed above.
     """),
     code(r'''
+    times = np.linspace(0.0, 15.0, 1501)  # long enough for the onsets
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
     k1_path, k5_path = frame_momenta(times, 0.1, 0.1, 0.0)
-    left.plot(times, k5_path, color="tab:red", label="extra time: $k_{(5)} = q_5e^{a_4}$")
+    left.plot(times, k5_path, color="tab:red",
+              label="extra time: $k_{(5)} = q_5e^{a_4}b_4^{-1/2}$")
     left.plot(times, k1_path, color="tab:blue", label="3-space: $k_{(1)} = q_1e^{-a_4}$")
     left.axhline(mass, color="black", linewidth=0.8, linestyle=":", label="$m$")
     left.set_yscale("log")
@@ -380,23 +422,25 @@ CELLS = [
     save_figure(fig, "frame_momenta",
                 "Left: the frame momenta of one wave with coordinate wave numbers "
                 "$q_1 = q_5 = 0.1$ at $y = 0$ against the time $x_4$, on a logarithmic "
-                "axis in units of $m$: the extra-time momentum $k_{(5)} = q_5e^{a_4}$ "
-                "grows exponentially because the extra times deflate, the space "
-                "momentum $k_{(1)} = q_1e^{-a_4}$ shrinks because 3-space inflates; the "
-                "dotted line is the mass $m = 1$. Right: the local $E^2$ of five waves "
-                "along the history; each curve crosses zero once, at its onset time "
-                "(black dot), and stays negative afterwards: the wave stops oscillating "
-                "and starts to grow. The dashed wave has also $q_1 = 1$: its $E^2$ "
-                "starts higher, but the space term dies away like $e^{-2a_4}$ and its "
-                "onset is almost that of the same wave with $q_1 = 0$.")
+                "axis in units of $m$, along the history $a_4 = x_4$, $b_4 = "
+                "e^{4x_4/3}$: the extra-time momentum $k_{(5)} = q_5e^{a_4}b_4^{-1/2} "
+                "= q_5e^{x_4/3}$ grows exponentially because the extra times deflate, "
+                "the space momentum $k_{(1)} = q_1e^{-a_4}$ shrinks because 3-space "
+                "inflates; the dotted line is the mass $m = 1$. Right: the local $E^2$ "
+                "of five waves along the history; each curve crosses zero once, at its "
+                "onset time (black dot), and stays negative afterwards: the wave stops "
+                "oscillating and starts to grow. The dashed wave has also $q_1 = 1$: "
+                "its $E^2$ starts higher, but the space term dies away like $e^{-2a_4}$ "
+                "and its onset is almost that of the same wave with $q_1 = 0$.")
     '''),
     md(r"""
     ## 8. Every wave along an extra time reaches the onset
 
-    The onset time $x_4^\ast$ is finite for EVERY $q_5 > 0$: the formula of section 4
-    has $q_5$ only in a denominator inside a logarithm, so a smaller $q_5$ only delays
-    the onset logarithmically, and a deeper position (more negative $y$) or a nonzero
-    $q_1$ changes it by a bounded amount. The next cell evaluates the onset time on a
+    The onset time $x_4^\ast$ is finite for EVERY $q_5 > 0$: the equation of section 4
+    always has its one positive root, for $q_1 = 0$ the formula has $q_5$ only in a
+    denominator inside a logarithm, so a smaller $q_5$ only delays the onset
+    logarithmically, and a deeper position (more negative $y$) or a nonzero $q_1$
+    changes it by a bounded amount. The next cell evaluates the onset time on a
     grid of $q_5$ from $10^{-4}$ to $1$, checks that it is finite and decreasing in
     $q_5$, and draws it for three hidden positions and for $q_1 = 1$.
     """),
@@ -406,7 +450,7 @@ CELLS = [
     all_finite_and_decreasing = True
     for q1, y, style in ((0.0, 0.0, "-"), (0.0, -1.0, "--"), (0.0, -L_tip, ":"),
                          (1.0, 0.0, "-.")):
-        onsets = onset_time(q1, q5_grid, y)
+        onsets = np.array([onset_time(q1, q5, y) for q5 in q5_grid])
         all_finite_and_decreasing &= bool(np.all(np.isfinite(onsets))
                                           and np.all(np.diff(onsets) < 0))
         ax.plot(q5_grid, onsets, style, label=f"$q_1 = {q1}$, $y = {y}$")
@@ -419,10 +463,11 @@ CELLS = [
                 "The onset time $x_4^\\ast$ at which a wave with coordinate wave number "
                 "$q_5$ along the extra time $x_5$ stops oscillating and starts to grow, "
                 "against $q_5$ from $10^{-4}$ to $1$ on a logarithmic axis, along the "
-                "history $a_4 = x_4$ with $m = H = 1$, at the hidden positions $y = 0$ "
-                "(the patch end), $y = -1$ and $y = -3$ (the tip cutoff of the "
-                "Kohn-Sham record), and for a wave that also has $q_1 = 1$. Every curve "
-                "is finite and rises only like $\\ln(1/q_5)$: however small $q_5$ is, "
+                "history $a_4 = x_4$, $b_4 = e^{4x_4/3}$ with $m = H = 1$, at the hidden "
+                "positions $y = 0$ (the patch end), $y = -1$ and $y = -3$ (the tip "
+                "cutoff of the Kohn-Sham record), and for a wave that also has "
+                "$q_1 = 1$. Every curve is finite and rises only like $3\\ln(1/q_5)$: "
+                "however small $q_5$ is, "
                 "the deflation of the extra times eventually drives the wave into "
                 "growth; a negative onset time means that the wave grows already at "
                 "$x_4 = 0$.")
@@ -430,7 +475,8 @@ CELLS = [
                  "the onset time is finite for every q5 > 0 on the grid and decreases "
                  "with q5", "Revision/theory/reports/python-field-theory.json",
                  "extra_time_modes_grow",
-                 "every extra-time mode eventually enters the growing regime")
+                 "every extra-time mode eventually enters the growing regime",
+                 "e^{-a4/3}")
     '''),
     md(r"""
     ## 9. Following one wave through the onset: the local-frame model
@@ -519,13 +565,14 @@ CELLS = [
               f"Krein form = {sign_text}E0/m")
     '''),
     md(r"""
-    The next cell solves $du/dx_4 = -i\,h(x_4)u$ with RK4 from $x_4 = 0$ to three
-    time units after the onset, for $q_5 = 0.05$ and $q_5 = 0.1$, with 12000 steps,
-    and records $u^\dagger u$ and $u^\dagger B u$ after every step. It prints the size
+    The next cell solves $du/dx_4 = -i\,h(x_4)u$ with RK4 from $x_4 = 0$ to $3/\delta
+    = 9$ time units after the onset (in which the frame momentum grows by the factor
+    $e^3$), for $q_5 = 0.05$ and $q_5 = 0.1$, with 36000 steps, and records $u^\dagger u$
+    and $u^\dagger B u$ after every step. It prints the size
     $u^\dagger u$ at the onset (at the first step after it) and $\ln(u^\dagger u)$ at
     the end. Before the onset the size does not stay exactly 1: with extra-time
     momentum the mode matrix is not Hermitian, so the Hilbert norm is not conserved.
-    For $q_5 = 0.05$ it repeats the run with 6000 and 24000 steps: the differences of
+    For $q_5 = 0.05$ it repeats the run with 18000 and 72000 steps: the differences of
     the end values must shrink by a factor close to 16 (fourth order).
     """),
     code(r'''
@@ -556,35 +603,35 @@ CELLS = [
 
     runs = {}
     for q5 in (0.05, 0.1):
-        x4_end = onset_time(0.0, q5, 0.0) + 3.0
-        runs[q5] = rk4_history(starts[q5], q5, x4_end, 12000)
+        x4_end = onset_time(0.0, q5, 0.0) + 3.0 / delta  # 9 time units after the onset
+        runs[q5] = rk4_history(starts[q5], q5, x4_end, 36000)
         at_onset = np.searchsorted(runs[q5][0], onset_time(0.0, q5, 0.0))  # its index
         report(f"q5 = {q5}: u^dagger u at the onset", f"{runs[q5][1][at_onset]:.2f}")
         final_size = runs[q5][1][-1]  # u^dagger u at the end of the run
-        report(f"q5 = {q5}: ln(u^dagger u) at the onset + 3", f"{np.log(final_size):.6f}")
-    x4_end = onset_time(0.0, 0.05, 0.0) + 3.0
-    end_6000 = rk4_history(starts[0.05], 0.05, x4_end, 6000)[3]
-    end_24000 = rk4_history(starts[0.05], 0.05, x4_end, 24000)[3]
-    end_12000 = runs[0.05][3]
-    ratio = np.linalg.norm(end_6000 - end_12000) / np.linalg.norm(end_12000 - end_24000)
-    relative_error = np.linalg.norm(end_12000 - end_24000) / np.linalg.norm(end_24000)
-    report("RK4 error ratio (6000 vs 12000) / (12000 vs 24000) steps", f"{ratio:.2f}")
+        report(f"q5 = {q5}: ln(u^dagger u) at the onset + 9", f"{np.log(final_size):.6f}")
+    x4_end = onset_time(0.0, 0.05, 0.0) + 3.0 / delta
+    end_18000 = rk4_history(starts[0.05], 0.05, x4_end, 18000)[3]
+    end_72000 = rk4_history(starts[0.05], 0.05, x4_end, 72000)[3]
+    end_36000 = runs[0.05][3]
+    ratio = np.linalg.norm(end_18000 - end_36000) / np.linalg.norm(end_36000 - end_72000)
+    relative_error = np.linalg.norm(end_36000 - end_72000) / np.linalg.norm(end_72000)
+    report("RK4 error ratio (18000 vs 36000) / (36000 vs 72000) steps", f"{ratio:.2f}")
     check(14.0 < ratio < 18.0, "RK4 converges with order 4 (error ratio near 16)")
-    check(relative_error < 1e-8, "the 12000-step run is accurate to 1e-8 (relative)")
+    check(relative_error < 1e-8, "the 36000-step run is accurate to 1e-8 (relative)")
     '''),
     md(r"""
     ## 10. The WKB formulas and the comparison
 
-    After the onset, write $Q = k_{(5)} = q_5e^{AHx_4}$ and
+    After the onset, write $Q = k_{(5)} = q_5e^{\delta x_4}$ and
     $\kappa = \sqrt{Q^2 - m^2}$. Line by line:
 
     1. Leading order: at each instant the growing eigenvalue of $-ih$ is $+\kappa$, so
        $\frac{d}{dx_4}\ln(u^\dagger u) \approx 2\kappa$ and $\ln(u^\dagger u) \approx
        2W + $ const with $W(x_4) = \int\kappa\,dx_4$.
-    2. Because $dQ/dx_4 = AH\,Q$, the substitution $dx_4 = dQ/(AHQ)$ gives
-       $W = \frac{1}{AH}\int\frac{\sqrt{Q^2 - m^2}}{Q}dQ = \frac{1}{AH}\Big(\sqrt{Q^2 -
-       m^2} - m\arccos\frac{m}{Q}\Big)$ (differentiate the bracket: $\frac{Q}{\kappa} -
-       \frac{m^2}{Q\kappa} = \frac{\kappa}{Q}$).
+    2. Because $dQ/dx_4 = \delta\,Q$, the substitution $dx_4 = dQ/(\delta Q)$ gives
+       $W = \frac{1}{\delta}\int\frac{\sqrt{Q^2 - m^2}}{Q}dQ = \frac{1}{\delta}\Big(
+       \sqrt{Q^2 - m^2} - m\arccos\frac{m}{Q}\Big)$ (differentiate the bracket:
+       $\frac{Q}{\kappa} - \frac{m^2}{Q\kappa} = \frac{\kappa}{Q}$).
     3. First order: the matrices $A_4 = -i\gamma^{(4)}$ and $M = -i\gamma^{(4)}
        \gamma^{(5)}$ are Hermitian, square to 1 and anticommute, and $h = mA_4 - iQM$.
        In each of 8 planes spanned by a column $w$ with $A_4w = w$ and by $Mw$ the
@@ -595,15 +642,16 @@ CELLS = [
     5. Hence $|c|^2 \propto e^{2W}/|n| = e^{2W}/(2\kappa Q)$, and $u^\dagger u \approx
        |c|^2\,r^\dagger r = |c|^2\,2Q^2 \propto e^{2W}Q/\kappa$: $\ln(u^\dagger u)
        \approx 2W + \ln(Q/\kappa) + $ const, and the rate is $2\kappa + \frac{d}{dx_4}
-       \ln\frac{Q}{\kappa} = 2\kappa - AH\,m^2/\kappa^2$.
+       \ln\frac{Q}{\kappa} = 2\kappa - \delta\,m^2/\kappa^2$.
 
     Both approximations fail at the onset itself ($\kappa \to 0$), so the comparison
-    uses increases over a window from 1.5 to 3 time units after the onset (the
-    unknown constants drop out of increases). The next cell computes them.
+    uses increases over a window from $1.5/\delta = 4.5$ to $3/\delta = 9$ time units
+    after the onset (the unknown constants drop out of increases). The next cell
+    computes them.
     """),
     code(r'''
     def Q_of(x4, q5):
-        return q5 * np.exp(a4_of(x4))  # the frame momentum k_(5) at y = 0
+        return q5 * np.exp(delta * x4)  # the frame momentum k_(5) at y = 0
 
 
     def kappa_of(x4, q5):
@@ -612,13 +660,13 @@ CELLS = [
 
     def W_of(x4, q5):
         Q = Q_of(x4, q5)
-        return (np.sqrt(Q**2 - mass**2) - mass * np.arccos(mass / Q)) / (A * H)
+        return (np.sqrt(Q**2 - mass**2) - mass * np.arccos(mass / Q)) / delta
 
 
     comparison = {}
     for q5 in (0.05, 0.1):
         x4s, hilbert, krein, _ = runs[q5]
-        start = np.searchsorted(x4s, onset_time(0.0, q5, 0.0) + 1.5)  # window start
+        start = np.searchsorted(x4s, onset_time(0.0, q5, 0.0) + 1.5 / delta)  # window
         xa, xb = x4s[start], x4s[-1]
         increase = np.log(hilbert[-1]) - np.log(hilbert[start])
         leading = 2 * (W_of(xb, q5) - W_of(xa, q5))
@@ -638,11 +686,11 @@ CELLS = [
     step = x4s[1] - x4s[0]
     late_rate = (np.log(hilbert[-1]) - np.log(hilbert[-3])) / (2 * step)  # centred
     kappa_late = kappa_of(x4s[-2], 0.05)  # kappa at the middle of the centred difference
-    predicted = 2 * kappa_late - A * H * mass**2 / kappa_late**2
-    report("q5 = 0.05: computed late rate, predicted 2 kappa - m^2/kappa^2",
+    predicted = 2 * kappa_late - delta * mass**2 / kappa_late**2
+    report("q5 = 0.05: computed late rate, predicted 2 kappa - delta m^2/kappa^2",
            f"{late_rate:.5f}, {predicted:.5f}")
     check(abs(late_rate - predicted) / predicted < 1e-5,
-          "the late growth rate equals 2 kappa - A H m^2/kappa^2 to 1e-5")
+          "the late growth rate equals 2 kappa - delta m^2/kappa^2 to 1e-5")
     '''),
     md(r"""
     The next cell draws $\ln(u^\dagger u)$ of both runs with the leading WKB curve $2W$
@@ -662,24 +710,25 @@ CELLS = [
     ax.plot([], [], "--", color="black", linewidth=0.9, label="WKB $2W$ + const")
     ax.set_xlabel("time $x_4$ (units of $1/m$)")
     ax.set_ylabel("$\\ln(u^\\dagger u)$")
-    ax.set_title("A wave along an extra time, $a_4 = x_4$, $y = 0$")
+    ax.set_title("A wave along an extra time, $a_4 = x_4$, $b_4 = e^{4x_4/3}$, $y = 0$")
     ax.legend();
     save_figure(fig, "growth_along_history",
                 "The natural logarithm of the size $u^\\dagger u$ of a wave with "
                 "coordinate wave number $q_5 = 0.05$ (blue) and $q_5 = 0.1$ (orange) "
                 "along the extra time $x_5$, solved with RK4 in the local-frame model "
-                "along the prescribed deflating history $a_4 = x_4$ ($m = H = 1$, "
-                "$y = 0$), against the time $x_4$ in units of $1/m$. Before the onset "
-                "(dotted vertical lines, $x_4^\\ast = \\ln 20$ and $\\ln 10$) the wave "
-                "oscillates and its size grows only slowly, to about 1.5 at the onset "
-                "(the mode matrix is not Hermitian); after the onset it grows faster "
-                "and faster, by about 16 powers of ten in three time units, following "
-                "the WKB curve $2W$ (black dashed, matched 1.5 units after the onset).")
+                "along the prescribed deflating history $a_4 = x_4$, $b_4 = e^{4x_4/3}$ "
+                "($m = H = 1$, $y = 0$), against the time $x_4$ in units of $1/m$. "
+                "Before the onset (dotted vertical lines, $x_4^\\ast = 3\\ln 20$ and "
+                "$3\\ln 10$) the wave oscillates and its size grows only slowly, to "
+                "about 2 at the onset (the mode matrix is not Hermitian); after the "
+                "onset it grows faster and faster, by about 48 powers of ten in nine "
+                "time units, following the WKB curve $2W$ (black dashed, matched 4.5 "
+                "units after the onset).")
     '''),
     md(r"""
     The last figure shows, for $q_5 = 0.05$, the growth RATE $\frac{d}{dx_4}
     \ln(u^\dagger u)$ (computed from the RK4 values by centred differences) together
-    with the WKB rates $2\kappa$ and $2\kappa - m^2/\kappa^2$, and the change of the
+    with the WKB rates $2\kappa$ and $2\kappa - \delta m^2/\kappa^2$, and the change of the
     Krein form divided by $\max(u^\dagger u, 1)$. The cell checks that this change
     stays below $10^{-9}$.
     """),
@@ -691,7 +740,7 @@ CELLS = [
     after = middle > onset_time(0.0, 0.05, 0.0) + 0.02
     drift = np.abs(krein - krein[0]) / np.maximum(hilbert, 1.0)
     check(drift.max() < 1e-9, "the Krein form is conserved (drift below 1e-9)")
-    check(hilbert[-1] > 1e15, "the Hilbert norm grows by more than 10^15")
+    check(hilbert[-1] > 1e40, "the Hilbert norm grows by more than 10^40")
 
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
     fig.subplots_adjust(wspace=0.35)  # room for the label of the right panel
@@ -699,8 +748,8 @@ CELLS = [
     left.plot(middle[after], 2 * kappa_of(middle[after], 0.05), "--", color="black",
               label="$2\\kappa$")
     left.plot(middle[after], 2 * kappa_of(middle[after], 0.05)
-              - mass**2 / kappa_of(middle[after], 0.05) ** 2, ":", color="tab:red",
-              label="$2\\kappa - m^2/\\kappa^2$")
+              - delta * mass**2 / kappa_of(middle[after], 0.05) ** 2, ":", color="tab:red",
+              label="$2\\kappa - \\delta m^2/\\kappa^2$")
     left.set_ylim(-5.0, 45.0)
     left.set_xlabel("time $x_4$")
     left.set_ylabel("growth rate $d\\ln(u^\\dagger u)/dx_4$")
@@ -714,7 +763,8 @@ CELLS = [
                 "Left: the growth rate $d\\ln(u^\\dagger u)/dx_4$ of the wave with "
                 "$q_5 = 0.05$ against the time $x_4$ (units of $1/m$ and $m$), computed "
                 "from the RK4 solution (blue), with the leading WKB rate $2\\kappa$ "
-                "(black dashed) and the first-order rate $2\\kappa - m^2/\\kappa^2$ "
+                "(black dashed) and the first-order rate $2\\kappa - \\delta m^2/"
+                "\\kappa^2$ with $\\delta = 1/3$ "
                 "(red dotted); before the onset the rate stays below 1, after it the "
                 "rate itself grows exponentially, so the growth is faster than any "
                 "exponential, and far from the onset the first-order rate is accurate. "
@@ -740,26 +790,28 @@ CELLS = [
     md(r"""
     ## 12. What this notebook showed
 
-    - Along the prescribed deflating history $a_4 = AHx_4$ of the Kohn-Sham record
-      ($A = H = m = 1$) 3-space inflates like $e^{a_4}$ and the extra times deflate like
-      $e^{-a_4}$, while the volume factor $\sqrt{|g|} = \cos z$ (at $b_4 = 1$; $b_4^{3/2}
-      \cos z$ in general) stays constant (PROVED,
-      exact sympy; Revision check `sqrt_det_g_equals_cos_z`).
+    - Along the prescribed deflating history $a_4 = AHx_4$, $b_4 = b_4(0)\,
+      e^{\beta AHx_4}$ of the Kohn-Sham record ($A = H = m = 1$, $\beta = 4/3$) 3-space
+      inflates like $e^{a_4}$ and the extra times deflate like $e^{-a_4}b_4^{1/2} =
+      e^{-\delta x_4}$ with $\delta = AH/3$, while the volume factor $\sqrt{|g|} =
+      b_4^{3/2}\cos z$ changes in time only through $b_4$ (PROVED, exact sympy;
+      Revision check `sqrt_det_g_equals_b4_cos_z`).
     - A wave $e^{i(q_1x_1 + q_5x_5)}$ keeps its coordinate wave numbers; its frame
-      momentum along the extra time grows like $q_5e^{a_4}e^{-Hy}$ and along 3-space it
-      shrinks like $q_1e^{-a_4}e^{-Hy}$ (PROVED).
+      momentum along the extra time grows like $q_5e^{a_4}b_4^{-1/2}e^{-Hy} =
+      q_5e^{\delta x_4}e^{-Hy}$ and along 3-space it shrinks like $q_1e^{-a_4}e^{-Hy}$
+      (PROVED).
     - With frozen coefficients its $E^2$ turns negative at the onset time
-      $x_4^\ast = \ln(X^\ast)/(2AH)$, finite for every $q_5 > 0$: every wave along an
+      $x_4^\ast = \ln(X^\ast)/(2\delta)$, finite for every $q_5 > 0$: every wave along an
       extra time eventually enters the growing regime (PROVED for the frozen
       coefficients; the Revision statement `extra_time_modes_grow` is this local-frame
       statement).
     - In the local-frame model (MODEL: hidden position frozen; not an exact solution of
       the field equation) a wave started with positive frequency oscillates until the
-      onset, while its size grows only slowly (to about 1.5 at the onset, because with
+      onset, while its size grows only slowly (to about 2 at the onset, because with
       extra-time momentum the mode matrix is not Hermitian), and then grows faster than
-      any exponential, by about $10^{16}$ in three time units; the growth follows the
-      WKB formulas (COMPUTED: leading order to about $10^{-3}$, first order to about
-      $2.5 \times 10^{-4}$ over the window, late rate to $10^{-5}$), and the Krein form
+      any exponential, by about $10^{48}$ in nine time units; the growth follows the
+      WKB formulas (COMPUTED: leading order to $2.8 \times 10^{-4}$, first order to
+      $2 \times 10^{-5}$ over the window, late rate to $10^{-5}$), and the Krein form
       is conserved to rounding.
     - Consequence (with Notebook 08a): in flat 4 + 4 space and with frozen
       coefficients the initial-value problem is not well posed for data that depend on

@@ -180,18 +180,18 @@ CELLS = [
     + M\Psi = m\Psi$$
 
     (sums over $i = 1, 2, 3$ and $t = 5, 6, 7$; $b_4(x_4) > 0$ is the second function
-    of the author's metric, and the backgrounds of the record have $b_4 = 1$). $M =
-    3H\gamma^{(0)} + \frac34(b_4'/b_4)\gamma^{(4)}$ is the gravitational term (Chapter
-    6); it has no derivative, so it does not change the growth of short waves. It
-    disappears exactly in the variables $\chi = \sin^{1/2}z\,b_4^{3/4}\Psi$ (Revision
-    check `rescaling_removes_the_connection_term`, at $b_4 = 1$). With frozen
-    coefficients the factors $e^{-a_4}\sin^{-1/6}z$, $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ and
-    $\tan z$ become constants and are absorbed into the frame momenta $k_a$; in flat
-    4 + 4 space they are exactly 1. (Freezing them is a local MODEL: along the history
-    $a_4(x_4)$ the extra-time factor $e^{a_4}$ keeps growing, so the frame momentum of
-    a given wave along an extra time keeps growing too; Notebook 08b computes that on
-    the background $b_4 = 1$.) So for a plane wave the equation reads, line by
-    line:
+    of the author's metric). $M = 3H\gamma^{(0)} + \frac34(b_4'/b_4)\gamma^{(4)}$ is
+    the gravitational term (Chapter 6); it has no derivative, so it does not change
+    the growth of short waves. It disappears exactly in the variables $\chi =
+    \sin^{1/2}z\,b_4^{3/4}\Psi$ (Revision check `rescaling_removes_the_connection_term`,
+    for all functions $a_4$ and $b_4$). With frozen coefficients the factors
+    $e^{-a_4}\sin^{-1/6}z$, $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ and $\tan z$ become
+    constants and are absorbed into the frame momenta $k_a$; in flat 4 + 4 space they
+    are exactly 1. (Freezing them is a local MODEL: along the history of the record,
+    $a_4 = AHx_4$ and $b_4 = b_4(0)e^{(4/3)AHx_4}$, the extra-time factor
+    $e^{a_4}b_4^{-1/2}$ keeps growing like $e^{AHx_4/3}$, so the frame momentum of a
+    given wave along an extra time keeps growing too; Notebook 08b computes that.) So
+    for a plane wave the equation reads, line by line:
 
     1. $\gamma^{(4)}(-iE)u + \sum_{a \neq 4} i k_a \gamma^{(a)} u = m u$, because
        $\partial_4$ gives the factor $-iE$ and $\partial_a$ the factor $i k_a$.
