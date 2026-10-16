@@ -71,6 +71,9 @@ dark16-independent,180,,independent_free_gas.py
 dark00-derive,30,,derive_eos.py
 dark00-independent,30,,independent_numerics.py
 dark00-unittest,30,,test_dark_sector_dirac16complex00.py
+dark-b4-author-notebook,5,,audit git-blob
+dark-b4-author-inputs,10,,author_notebook_inputs.wls
+dark-b4-wolfram,10,,verify_dark_sector_b4.wls
 lead-emt-divergence,10,,emt_divergence_and_spin_connection.py
 lead-einstein-gauss-bonnet,20,,einstein_gauss_bonnet_a4.py
 lead-charge-conjugation,15,,charge_conjugation_and_u1.py

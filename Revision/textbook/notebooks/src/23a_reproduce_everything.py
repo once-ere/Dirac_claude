@@ -48,6 +48,7 @@ REPORT_FILES = [
     "Revision/dark_sector/dirac16complex/reports/ks-history-run.json",
     "Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json",
     "Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json",
+    "Revision/dark_sector/reports/wolfram-dark-sector-b4.json",
     "Revision/field_equations_a4/ks_source/reports/ks-source-a4.json",
     "Revision/field_equations_a4/reports/ks-source-conditions.json",
     "Revision/field_equations_a4/reports/python-a4-report.json",

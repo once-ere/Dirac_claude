@@ -2174,7 +2174,7 @@ $$
 \frac{dw}{da} = \frac13\,\frac{1}{(1 + r)^2}\,\frac{dr}{da} = -\frac13\,\frac{r_0}{a^2(1 + r)^2} \quad\Longrightarrow\quad w_0 = \frac{r_0}{3(1 + r_0)}, \qquad w_a = \frac{r_0}{3(1 + r_0)^2} > 0 .
 $$
 
-Rule: the quotient rule gives $d(r/(1+r))/dr = 1/(1+r)^2$, and $dr/da = -r_0/a^2$; at $a = 1$, $r = r_0$, and $w_a = -dw/da$. The mixture is **freezing** (check `mixture_radiation_condensate_cpl_b4`). Under C, $w_0$ is lowered by $1 - \beta/2 = 1/3$:
+Rule: the quotient rule gives $d(r/(1+r))/dr = 1/(1+r)^2$, and $dr/da = -r_0/a^2$; at $a = 1$, $r = r_0$, and $w_a = -dw/da$. The mixture is **freezing**: as the gas redshifts, $w$ moves toward the condensate's value (check `mixture_radiation_condensate_cpl_b4`). Under C, $w_0$ is lowered by $1 - \beta/2 = 1/3$:
 
 $$
 w_0(C) = \frac{r_0}{3(1 + r_0)} - \frac13 \ \ge\ -\frac13, \qquad w_0(C) = -0.861 \ \Longleftrightarrow\ \frac{r_0}{3(1 + r_0)} = 0.139 - \frac23 = -\frac{1583}{3000} .

@@ -20,6 +20,7 @@ It reads or reproduces these Revision records:
 - `Revision/dark_sector/dirac16complex/reports/ks-history-run.json`: a report of the Revision record: the name and verdict of each of its checks are indexed
 - `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json`: a report of the Revision record: the name and verdict of each of its checks are indexed
 - `Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json`: a report of the Revision record: the name and verdict of each of its checks are indexed
+- `Revision/dark_sector/reports/wolfram-dark-sector-b4.json`: a report of the Revision record: the name and verdict of each of its checks are indexed
 - `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json`: a report of the Revision record: the name and verdict of each of its checks are indexed
 - `Revision/field_equations_a4/reports/ks-source-conditions.json`: a report of the Revision record: the name and verdict of each of its checks are indexed
 - `Revision/field_equations_a4/reports/python-a4-report.json`: a report of the Revision record: the name and verdict of each of its checks are indexed
@@ -313,17 +314,17 @@ The key numbers are printed as RESULT lines:
 
 ```text
 In [6]  RESULT notebooks (without 23a) = 90
-In [6]  RESULT checks in these notebooks = 2244
+In [6]  RESULT checks in these notebooks = 2251
 In [6]  RESULT figures of these notebooks = 563
-In [6]  RESULT recorded check time, one after the other = 1097.9 s
-In [7]  RESULT share of the three slowest notebooks = 22.2 %
-In [9]  RESULT gate steps = 85
+In [6]  RESULT recorded check time, one after the other = 1093.2 s
+In [7]  RESULT share of the three slowest notebooks = 22.3 %
+In [9]  RESULT gate steps = 88
 In [9]  RESULT long steps (skipped by --fast) = 4
-In [9]  RESULT expected wall time of the full gate = 8057 s = 2.24 h
-In [9]  RESULT expected wall time with --fast = 6487 s = 108.1 min
-In [13]  RESULT reports = 51
-In [13]  RESULT checks in the index = 1357
-In [13]  RESULT checks cited by at least one chapter = 760
+In [9]  RESULT expected wall time of the full gate = 8082 s = 2.25 h
+In [9]  RESULT expected wall time with --fast = 6512 s = 108.5 min
+In [13]  RESULT reports = 52
+In [13]  RESULT checks in the index = 1383
+In [13]  RESULT checks cited by at least one chapter = 770
 ```
 
 ### 3.3 The last lines
@@ -355,15 +356,15 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | file | bytes | sha256 |
 | --- | --- | --- |
 | `Revision/textbook/figures/23a.captions.json` | 1598 | `9df544c29df2b8f8416d75a48ec5dc9740800f900d30ff82ccff0407e8bc269c` |
-| `Revision/textbook/figures/23a_1_check_time_per_notebook.png` | 50093 | `c31b8921fb67d3cefc82e362c2d0622d03485a666798f83d0ba12f0b17402781` |
-| `Revision/textbook/figures/23a_2_cumulative_check_time.png` | 31959 | `1f18dfe9498d90c9df0920bf7095a9fa3496a906af403ed9d419dea73a68f075` |
-| `Revision/textbook/figures/23a_3_checks_per_chapter.png` | 23551 | `bf94686a86f41fd8c219adbf7db42116339fb811b252114e5f700b12e346c6c5` |
+| `Revision/textbook/figures/23a_1_check_time_per_notebook.png` | 50025 | `d80d3e220692b73fb6d7ddc57b3bc6b5e44d110687d5ac2bc57d5ef8b86340c9` |
+| `Revision/textbook/figures/23a_2_cumulative_check_time.png` | 32097 | `1805937961508fa2a60549f035c0b4cb777085d795e2c7453693c9eacaf22b78` |
+| `Revision/textbook/figures/23a_3_checks_per_chapter.png` | 23529 | `c29e69d4c5f2d29e8378ea597af6305a867359023cfadd2936c7e2809ed86559` |
 | `Revision/textbook/figures/23a_4_figures_per_chapter.png` | 19560 | `2c9f81b4bdd2b8e8ec8ff2cefe0c418e95e199bcb799b5fd67b26caa078c97c6` |
-| `Revision/textbook/figures/23a_5_check_time_per_chapter.png` | 24343 | `17e77715087f55febda6a031819e079db9f007f248e92fd8c3ffd51d6221a167` |
-| `Revision/textbook/figures/23a_6_gate_step_times.png` | 156635 | `81338525086258c00aa016805337fe18ae9e7f30970d0d9df1d7f2f534674141` |
-| `Revision/textbook/data/23a_notebooks.csv` | 14454 | `fc89470ba28a2659616740889576454033a352de34507b620d82aa657ddcbfcd` |
-| `Revision/textbook/data/23a_check_index.csv` | 121136 | `41412474e87a7d9debacab94c3b7bcc6112ecf186509e680f525e07c16806e27` |
-| `Revision/textbook/data/23a_gate_steps.csv` | 3729 | `c2bc11ae1983822f22bae0033d21be5c7f14d70b92b76f3b2a512e0046826660` |
+| `Revision/textbook/figures/23a_5_check_time_per_chapter.png` | 24338 | `1045176732e53c4bf3a53f5f9197946bb59a60751e2667720ef4f2a3fb4c56de` |
+| `Revision/textbook/figures/23a_6_gate_step_times.png` | 159669 | `3e169fac066db163039d8fd5f92e11a96d989db3098b756e6fd912043a04dd12` |
+| `Revision/textbook/data/23a_notebooks.csv` | 14454 | `12922c33ba363f5a7c48c74523ae9e162a3138b58ab922e54c0fad84e90f2fa5` |
+| `Revision/textbook/data/23a_check_index.csv` | 123769 | `2f4af3ae2497400a3f89866164407f0e831a4b45dc9b2bced885633032cd34e3` |
+| `Revision/textbook/data/23a_gate_steps.csv` | 3870 | `b4fcde135aafa1aec198075a205b08a578daba80a4f882ecc046f19333c05db9` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/23a_reproduce_everything.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -386,8 +387,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.7 s, peak memory of the kernel process 173 MiB;
-- the check run: 5.2 s, peak memory of the kernel process 173 MiB.
+- the build run: 5.8 s, peak memory of the kernel process 172 MiB;
+- the check run: 5.2 s, peak memory of the kernel process 172 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -399,18 +400,18 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/23a_reproduce_everything.ipynb`: `d208c811b51f191f2a81f1853b0efbf17dd77d85102468abaa8fcb0487a08382`
-- `Revision/textbook/notebooks/src/23a_reproduce_everything.py`: `aecf30b2f2da635b23723c356b8322b39ca2a08d6667dd4ede33fe680a3219d7`
+- `Revision/textbook/notebooks/23a_reproduce_everything.ipynb`: `924b8fd99a4f7408f5c84103f7b558438274b5195744beb28e4dfaf41557f2f6`
+- `Revision/textbook/notebooks/src/23a_reproduce_everything.py`: `24c947450768479aea09d82db93a4ffe80bcc30223016d55d581ac57dd3b61dd`
 - `Revision/textbook/figures/23a.captions.json`: `9df544c29df2b8f8416d75a48ec5dc9740800f900d30ff82ccff0407e8bc269c`
-- `Revision/textbook/figures/23a_1_check_time_per_notebook.png`: `c31b8921fb67d3cefc82e362c2d0622d03485a666798f83d0ba12f0b17402781`
-- `Revision/textbook/figures/23a_2_cumulative_check_time.png`: `1f18dfe9498d90c9df0920bf7095a9fa3496a906af403ed9d419dea73a68f075`
-- `Revision/textbook/figures/23a_3_checks_per_chapter.png`: `bf94686a86f41fd8c219adbf7db42116339fb811b252114e5f700b12e346c6c5`
+- `Revision/textbook/figures/23a_1_check_time_per_notebook.png`: `d80d3e220692b73fb6d7ddc57b3bc6b5e44d110687d5ac2bc57d5ef8b86340c9`
+- `Revision/textbook/figures/23a_2_cumulative_check_time.png`: `1805937961508fa2a60549f035c0b4cb777085d795e2c7453693c9eacaf22b78`
+- `Revision/textbook/figures/23a_3_checks_per_chapter.png`: `c29e69d4c5f2d29e8378ea597af6305a867359023cfadd2936c7e2809ed86559`
 - `Revision/textbook/figures/23a_4_figures_per_chapter.png`: `2c9f81b4bdd2b8e8ec8ff2cefe0c418e95e199bcb799b5fd67b26caa078c97c6`
-- `Revision/textbook/figures/23a_5_check_time_per_chapter.png`: `17e77715087f55febda6a031819e079db9f007f248e92fd8c3ffd51d6221a167`
-- `Revision/textbook/figures/23a_6_gate_step_times.png`: `81338525086258c00aa016805337fe18ae9e7f30970d0d9df1d7f2f534674141`
-- `Revision/textbook/data/23a_notebooks.csv`: `fc89470ba28a2659616740889576454033a352de34507b620d82aa657ddcbfcd`
-- `Revision/textbook/data/23a_check_index.csv`: `41412474e87a7d9debacab94c3b7bcc6112ecf186509e680f525e07c16806e27`
-- `Revision/textbook/data/23a_gate_steps.csv`: `c2bc11ae1983822f22bae0033d21be5c7f14d70b92b76f3b2a512e0046826660`
+- `Revision/textbook/figures/23a_5_check_time_per_chapter.png`: `1045176732e53c4bf3a53f5f9197946bb59a60751e2667720ef4f2a3fb4c56de`
+- `Revision/textbook/figures/23a_6_gate_step_times.png`: `3e169fac066db163039d8fd5f92e11a96d989db3098b756e6fd912043a04dd12`
+- `Revision/textbook/data/23a_notebooks.csv`: `12922c33ba363f5a7c48c74523ae9e162a3138b58ab922e54c0fad84e90f2fa5`
+- `Revision/textbook/data/23a_check_index.csv`: `2f4af3ae2497400a3f89866164407f0e831a4b45dc9b2bced885633032cd34e3`
+- `Revision/textbook/data/23a_gate_steps.csv`: `b4fcde135aafa1aec198075a205b08a578daba80a4f882ecc046f19333c05db9`
 
 ## 7. Verification
 
@@ -418,4 +419,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-15: a second, independent execution reproduced the notebook and the 10 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":173.0,"seconds":5.7},"check":{"date":"2026-10-15","files":10,"peak_mb":173.0,"result":"passed","seconds":5.2},"date":"2026-10-15","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":172.0,"seconds":5.8},"check":{"date":"2026-10-15","files":10,"peak_mb":172.0,"result":"passed","seconds":5.2},"date":"2026-10-15","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

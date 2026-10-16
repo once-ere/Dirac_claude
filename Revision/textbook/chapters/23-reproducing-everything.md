@@ -114,7 +114,7 @@ pwsh -NoProfile -File Revision/verify_revision.ps1 --fast
 pwsh -NoProfile -File Revision/verify_revision.ps1 --steps algebra-wolfram,algebra-sympy
 ```
 
-**What it runs.** Notebook 23a writes the gate's complete step table to the data file `Revision/textbook/data/23a_gate_steps.csv`, one line per step with its expected wall time and the program it runs, prints its long steps and audits in Out [9] of Section 23.11, and draws the whole table as Figure 23a.6. In order, the 85 steps are these groups.
+**What it runs.** Notebook 23a writes the gate's complete step table to the data file `Revision/textbook/data/23a_gate_steps.csv`, one line per step with its expected wall time and the program it runs, prints its long steps and audits in Out [9] of Section 23.11, and draws the whole table as Figure 23a.6. In order, the 88 steps are these groups.
 
 - **The algebra** (2 steps, expected 10 s and 5 s): the author's gamma matrices, C, Gamma and B, exactly with Wolfram (`verify_algebra.wls`) and with sympy (`check_algebra.py`); Chapters 4 and 5.
 - **GKD and the Lovelock tensors** (10 steps): the Rust program `lovelock_gkd` is built (60 s), computes the curvature and the three Lovelock tensors of the metric with $b_4$ (15 s) and runs its exhaustive self-test (900 s, long, the longest step); Wolfram (110 s) and sympy (30 s) verify the result; four steps read the author's notebook and one compares it with the record (10 s, 5 s, 10 s, 120 s, 60 s); Chapter 11.
@@ -124,15 +124,15 @@ pwsh -NoProfile -File Revision/verify_revision.ps1 --steps algebra-wolfram,algeb
 - **The a4 equations** (6 steps): Wolfram (70 s) and sympy (30 s), the block of the equations with $b_4$ (35 s), the Kohn-Sham source conditions (5 s), the a4 equations with the Kohn-Sham source (20 s) and its unit tests (30 s); Chapters 12 and 17.
 - **The Kohn-Sham record** (24 steps): the theory with Wolfram and sympy (60 s each), its statements for the metric with $b_4$ (5 s) and the consequences of $b_4$ (5 s); the Rust solver built and tested (60 s each); the canonical matrix (250 s), the Mermin roots (30 s), a repeat run (250 s) and its byte comparison (5 s), a refined run (330 s, long) and the determinism report (30 s, long because it needs the refined run); the Python reference solver in four parts (240 s, 235 s, 265 s, 270 s) and the step that joins them (5 s), the refinement measurement (90 s), the repeat run of the reference solver for the cross-check, again in four parts (240 s, 235 s, 265 s, 270 s), the cross-check (25 s) and the study of the tip cutoff $L$ (200 s); Chapters 14 to 16.
 - **T3 and its completion** (6 steps): Wolfram (15 s, 20 s) and sympy (10 s, 10 s), and the two numerical demonstrations with the Rust solver (285 s) and the reference solver (170 s); Chapter 19.
-- **The dark sector** (7 steps): four for dirac16complex (10 s, 150 s, 5 s, 180 s) and three for dirac16complex00 (30 s each); Chapter 22.
+- **The dark sector with $b_4$** (10 steps): four for dirac16complex (10 s, 150 s, 5 s, 180 s), three for dirac16complex00 (30 s each), and three for the record of the change to $b_4(x_4)$: the author's notebook written at its pinned version (5 s), its cells read without evaluation (10 s), and the independent Wolfram verification of the dark sector (10 s); Chapter 22.
 - **The lead's checks** (3 steps): the energy-momentum divergence (10 s), Einstein-Gauss-Bonnet (20 s) and the charge-conjugation matrices with the local U(1) law (15 s); Chapters 9, 12 and 21.
 - **The Revision notebooks** (1 step, 90 s): every notebook of `Revision/notebooks` is audited and checked.
 - **The six documents** (6 steps, 30 s each): each PDF is rebuilt in verify mode.
 - **The audits** (3 steps): `committed-unchanged` (10 s) demands that no committed output changed; `reports-pass` (5 s) reads every report of the step table and demands that every check passes; `unit-tests` (150 s) runs the Revision unit tests, except the textbook test, which has its own build.
 
-**How long it takes.** Out [9] adds up the step table: the expected wall time of the full gate is 8057 s, that is 2.24 hours, of which the 4 long steps take the difference to the time of the fast option, which skips them (Figure 23a.6); with the fast option the expected times add up to 6487 s (108.1 minutes). The README of the Revision record states the MEASURED time of the fast option on 2026-10-08, when it had 55 steps, as about 20 minutes (most steps ran faster than the expected times of the table) and expects about 3.1 hours for the full gate.
+**How long it takes.** Out [9] adds up the step table: the expected wall time of the full gate is 8082 s, that is 2.25 hours, of which the 4 long steps take the difference to the time of the fast option, which skips them (Figure 23a.6); with the fast option the expected times add up to 6512 s (108.5 minutes). The README of the Revision record states the MEASURED time of the fast option on 2026-10-08, when it had 55 steps, as about 20 minutes (most steps ran faster than the expected times of the table) and expects about 3.1 hours for the full gate.
 
-**What it prints when it works.** First the tools it found (`revision_tool_python=...` and, when needed, cargo, wolframscript, git and pdflatex), then `revision_selected_steps=85 expected_seconds=8057 skipped_steps=0` (with the fast option: 81 steps, 6487 s, 4 skipped, each skipped step named on a line `revision_skipped_step=...`), then the precheck line `revision_output_paths=... preexisting_changes=0`. For every step it prints `revision_step=NAME expected_seconds=N`, the step's own output, `revision_step_seconds=NAME n (expected N)` and `revision_step_ok=NAME`. The step `reports-pass` prints one line `revision_report=PATH checks=k/k passed` per report. The last two lines are `revision_gate_seconds=...` and
+**What it prints when it works.** First the tools it found (`revision_tool_python=...` and, when needed, cargo, wolframscript, git and pdflatex), then `revision_selected_steps=88 expected_seconds=8082 skipped_steps=0` (with the fast option: 84 steps, 6512 s, 4 skipped, each skipped step named on a line `revision_skipped_step=...`), then the precheck line `revision_output_paths=... preexisting_changes=0`. For every step it prints `revision_step=NAME expected_seconds=N`, the step's own output, `revision_step_seconds=NAME n (expected N)` and `revision_step_ok=NAME`. The step `reports-pass` prints one line `revision_report=PATH checks=k/k passed` per report. The last two lines are `revision_gate_seconds=...` and
 
 ```text
 revision_verification=OK
@@ -192,7 +192,7 @@ check_00a=PASSED
 
 (the seconds and megabytes differ from run to run), and at the end `nbkit_seconds=...` and `nbkit=OK`. The number of compared files counts the notebook itself together with the files it writes: Notebook 00a writes three files, so nbkit compares 3 + 1 = 4 files with the stored ones. A check changes no file of the repository.
 
-**How long it takes.** The recorded check times of the notebooks of each chapter, added up, are printed by Notebook 23a in Out [6] of Section 23.11 and drawn in Figure 23a.5. On the development machine the Kohn-Sham chapters 14, 15 and 16 take the most, 88.1 s, 240.4 s and 121.2 s; chapter 11 takes 48.0 s (Notebook 11a only 7.6 s: it reads the record of the Rust GKD self-test, whose run takes 7 to 13 minutes, instead of running it); every other chapter takes between 9.8 s (chapter 17) and 87.2 s (chapter 6). All 90 notebooks of chapters 0 to 22 take 1097.9 s, about 18 minutes, one after the other (Out [6]); Notebook 23a adds about 6.5 s (its recorded check). The seven notebooks that run a Rust program (11a, 11b, 15a, 15b, 15d, 16a and 19a) build it with cargo the first time, which takes a few minutes more.
+**How long it takes.** The recorded check times of the notebooks of each chapter, added up, are printed by Notebook 23a in Out [6] of Section 23.11 and drawn in Figure 23a.5. On the development machine the Kohn-Sham chapters 14, 15 and 16 take the most, 88.1 s, 240.4 s and 121.2 s; chapter 11 takes 48.0 s (Notebook 11a only 7.6 s: it reads the record of the Rust GKD self-test, whose run takes 7 to 13 minutes, instead of running it); every other chapter takes between 9.8 s (chapter 17) and 87.2 s (chapter 6). All 90 notebooks of chapters 0 to 22 take 1093.2 s, about 18 minutes, one after the other (Out [6]); Notebook 23a adds about 6.5 s (its recorded check). The seven notebooks that run a Rust program (11a, 11b, 15a, 15b, 15d, 16a and 19a) build it with cargo the first time, which takes a few minutes more.
 
 **When it fails.** A failed check prints `check_NNx=FAILED` and, before it, lines that start with `problem=`. The most likely causes:
 
@@ -262,7 +262,7 @@ It prints `chapter_check=OK` when the chapter builds without any problem and war
 
 ### 23.9 Example: the bookkeeping of the whole book (Notebook 23a)
 
-Notebook 23a collects in one place what the other notebooks and the Revision record have recorded. By default it re-runs nothing: every table and figure it shows is read from files. It reads the provenance file of every other notebook and prints a table of all 90 with their checks, figures, last recorded check and section of the book; it adds them up per chapter and draws five figures of the counts and times; it reads the step table of the gate and draws its expected times; and it builds the index of the 1357 checks of the 51 reports of the Revision record, with the chapters that cite each, and writes it to a data file. With `BOOK_RERUN_ALL=1` its thirteenth part, "Re-running every notebook", re-runs the nbkit check of every other notebook, at most 8 at a time and the slowest first, into a scratch folder in the system's temporary folder, and prints the fresh results per chapter. On the development machine (24 threads, so 8 notebooks at a time) that re-run took 406 s of wall time on 2026-10-08 (the whole notebook, run headless, 414 s), and all 90 notebooks passed. To run it, set the variable in the terminal and run the notebook headless, writing the executed copy into the folder `book-rerun` of your home folder (so that the stored notebook is not overwritten); afterwards remove the variable again:
+Notebook 23a collects in one place what the other notebooks and the Revision record have recorded. By default it re-runs nothing: every table and figure it shows is read from files. It reads the provenance file of every other notebook and prints a table of all 90 with their checks, figures, last recorded check and section of the book; it adds them up per chapter and draws five figures of the counts and times; it reads the step table of the gate and draws its expected times; and it builds the index of the 1383 checks of the 52 reports of the Revision record, with the chapters that cite each, and writes it to a data file. With `BOOK_RERUN_ALL=1` its thirteenth part, "Re-running every notebook", re-runs the nbkit check of every other notebook, at most 8 at a time and the slowest first, into a scratch folder in the system's temporary folder, and prints the fresh results per chapter. On the development machine (24 threads, so 8 notebooks at a time) that re-run took 406 s of wall time on 2026-10-08 (the whole notebook, run headless, 414 s), and all 90 notebooks passed. To run it, set the variable in the terminal and run the notebook headless, writing the executed copy into the folder `book-rerun` of your home folder (so that the stored notebook is not overwritten); afterwards remove the variable again:
 
 Windows (PowerShell):
 
@@ -482,7 +482,7 @@ check(sorted(PER_CHAPTER) == list(range(23)),
       "every chapter 0 to 22 has at least one notebook")
 ```
 
-`ALL_SECONDS` is the sum of all recorded check times. The four RESULT lines of Out [6]: 90 notebooks, 2244 checks, 563 figures and 1097.9 s, the time of all checks one after the other. The check demands that the chapter numbers are exactly 0 to 22 (`list(range(23))` is the list 0, 1, ..., 22).
+`ALL_SECONDS` is the sum of all recorded check times. The four RESULT lines of Out [6]: 90 notebooks, 2251 checks, 563 figures and 1093.2 s, the time of all checks one after the other. The check demands that the chapter numbers are exactly 0 to 22 (`list(range(23))` is the list 0, 1, ..., 22).
 
 **In [7], two figures of the run times.**
 
@@ -529,7 +529,7 @@ save_figure(fig, "cumulative_check_time",
 report("share of the three slowest notebooks", f"{shares[3]:.1f}", "%")
 ```
 
-The figure is saved as Figure 23a.2, and the RESULT line of Out [7] gives `shares[3]`: the three slowest notebooks take 22.2 % of the whole time.
+The figure is saved as Figure 23a.2, and the RESULT line of Out [7] gives `shares[3]`: the three slowest notebooks take 22.3 % of the whole time.
 
 **In [8], checks, figures and time per chapter.**
 
@@ -598,7 +598,7 @@ for name, expected, kind, _, _, _, command in STEPS:
         print(f"{name:33} {int(expected):5d} {mark:4} {short_command(command)}")
 ```
 
-One printed line names the data file. Then the header and one line for each long step and each audit: printing all 85 steps would make the output of the cell longer than the 80 lines a cell of this book may print. This is the table of Out [9].
+One printed line names the data file. Then the header and one line for each long step and each audit: printing all 88 steps would make the output of the cell longer than the 80 lines a cell of this book may print. This is the table of Out [9].
 
 ```python
 FULL = sum(int(step[1]) for step in STEPS)
@@ -609,7 +609,7 @@ report("expected wall time of the full gate", f"{FULL} s = {FULL / 3600:.2f} h")
 report("expected wall time with --fast", f"{FAST} s = {FAST / 60:.1f} min")
 ```
 
-`FULL` adds up the expected seconds of all steps, `FAST` those of the steps that are not long. The RESULT lines of Out [9]: 85 steps, 4 of them long, 8057 s (2.24 h) for the full gate and 6487 s (108.1 min) with the fast option.
+`FULL` adds up the expected seconds of all steps, `FAST` those of the steps that are not long. The RESULT lines of Out [9]: 88 steps, 4 of them long, 8082 s (2.25 h) for the full gate and 6512 s (108.5 min) with the fast option.
 
 **In [10], the figure of the gate.**
 
@@ -694,7 +694,7 @@ check(all(verdict in ("PASS", "NOT-AVAILABLE")
       "every check of every report is PASS or NOT-AVAILABLE")
 ```
 
-`gate_reports` is the set of the report paths named in the sixth field of the gate's steps (`"-"` means none). The printed line of Out [11]: 51 reports with 1357 checks, and the gate names 51 reports. The first check demands that every report of the gate is in the index (`<=` between two sets means "is contained in"); the second, that every verdict is PASS or NOT-AVAILABLE. NOT-AVAILABLE occurs only in the comparison with the author's notebook, for 5 outputs that the author's notebook does not store; this is the same rule as the gate's step `reports-pass`.
+`gate_reports` is the set of the report paths named in the sixth field of the gate's steps (`"-"` means none). The printed line of Out [11]: 52 reports with 1383 checks, and the gate names 52 reports. The first check demands that every report of the gate is in the index (`<=` between two sets means "is contained in"); the second, that every verdict is PASS or NOT-AVAILABLE. NOT-AVAILABLE occurs only in the comparison with the author's notebook, for 5 outputs that the author's notebook does not store; this is the same rule as the gate's step `reports-pass`.
 
 **In [12], the chapters that cite each check.**
 
@@ -735,7 +735,7 @@ for number, blocks in BLOCKS.items():
 say(f"{len(CITED)} (report, check) pairs are cited by at least one chapter.")
 ```
 
-For every block, every report whose file name (the part of its path after the last `/`) occurs in the block is examined, and each of its check names is searched for as a whole word: `re.escape` makes any special character of the name an ordinary character, and the two conditions `(?<![\w.-])` and `(?![\w-])` demand that the name is not part of a longer word (no letter, digit, `_`, `.` or `-` just before it, no letter, digit, `_` or `-` just after it). Each hit adds the chapter number to the set of the pair (report, check) in `CITED`. Out [12]: 760 pairs are cited at least once.
+For every block, every report whose file name (the part of its path after the last `/`) occurs in the block is examined, and each of its check names is searched for as a whole word: `re.escape` makes any special character of the name an ordinary character, and the two conditions `(?<![\w.-])` and `(?![\w-])` demand that the name is not part of a longer word (no letter, digit, `_`, `.` or `-` just before it, no letter, digit, `_` or `-` just after it). Each hit adds the chapter number to the set of the pair (report, check) in `CITED`. Out [12]: 770 pairs are cited at least once.
 
 **In [13], the index of the checks.**
 
@@ -771,7 +771,7 @@ report("checks cited by at least one chapter", sum(bool(row[3]) for row in INDEX
 check(read_back[1:] == INDEX, "the index file holds exactly one row per check")
 ```
 
-The index is written to the data file `Revision/textbook/data/23a_check_index.csv` with the header `report, check, verdict, cited_by_chapters`, then read back with `csv.reader`. The RESULT lines of Out [13]: 51 reports, 1357 checks, 760 of them cited by at least one chapter. The check demands that the rows read back, after the header (`read_back[1:]`), are exactly the rows written.
+The index is written to the data file `Revision/textbook/data/23a_check_index.csv` with the header `report, check, verdict, cited_by_chapters`, then read back with `csv.reader`. The RESULT lines of Out [13]: 52 reports, 1383 checks, 770 of them cited by at least one chapter. The check demands that the rows read back, after the header (`read_back[1:]`), are exactly the rows written.
 
 **In [14], one report as an example.**
 
@@ -888,7 +888,7 @@ The check demands that every file this notebook writes exists: the six figures (
 
 ### 23.13 The index of the checks of the Revision record
 
-The index of the checks is the file `Revision/textbook/data/23a_check_index.csv`, written by In [13] of Notebook 23a: one row for each of the 1357 checks of the 51 reports of the Revision record, with the report's path, the check's name, its verdict and the chapters (of 0 to 22) that cite it. Out [13] in Section 23.11 is its summary, one line per report, and Out [14] shows the rows of one report in full. To find a check by name, open the file in any spreadsheet program, or search it in the terminal:
+The index of the checks is the file `Revision/textbook/data/23a_check_index.csv`, written by In [13] of Notebook 23a: one row for each of the 1383 checks of the 52 reports of the Revision record, with the report's path, the check's name, its verdict and the chapters (of 0 to 22) that cite it. Out [13] in Section 23.11 is its summary, one line per report, and Out [14] shows the rows of one report in full. To find a check by name, open the file in any spreadsheet program, or search it in the terminal:
 
 Windows (PowerShell):
 
@@ -902,7 +902,7 @@ macOS (zsh) and Linux (bash):
 grep u1_noether Revision/textbook/data/23a_check_index.csv
 ```
 
-Both find the row `Revision/lead_checks/reports/charge-conjugation-and-u1.json,u1_noether_matrix_identity,PASS,0 5 10 18 20 21 22`. grep prints the row alone; Select-String prints in front of it the path of the file and the number of the line in the file, each followed by a colon. A check that no chapter cites (597 of the 1357) is still part of the record and still verified by the gate; the book teaches the results it needs and cites the checks that establish them, and the other checks guard the computations from which those results come (inputs read correctly, intermediate identities, the Rust programs' own tests).
+Both find the row `Revision/lead_checks/reports/charge-conjugation-and-u1.json,u1_noether_matrix_identity,PASS,0 5 10 18 20 21 22`. grep prints the row alone; Select-String prints in front of it the path of the file and the number of the line in the file, each followed by a colon. A check that no chapter cites (613 of the 1383) is still part of the record and still verified by the gate; the book teaches the results it needs and cites the checks that establish them, and the other checks guard the computations from which those results come (inputs read correctly, intermediate identities, the Rust programs' own tests).
 
 ### 23.14 The index of the notebooks
 
@@ -910,8 +910,8 @@ The index of the notebooks is the table of Out [4] and Out [5] in Section 23.11,
 
 ### 23.15 What we proved, what we computed, what we assumed
 
-- PROVED: nothing new about physics; this chapter is bookkeeping. Notebook 23a checks facts about files: every builder has a provenance file, every notebook is placed exactly once in its own chapter, every recorded nbkit check passed, every report named by the gate is in the index, and every one of the 1357 checks of the 51 reports is PASS or NOT-AVAILABLE (the 5 NOT-AVAILABLE checks are outputs that the author's notebook does not store).
-- COMPUTED (counted from files on 2026-10-15): 90 notebooks in chapters 0 to 22 with 2244 checks and 563 figures; their recorded checks take 1097.9 s one after the other, and the three slowest take 22.2 % of it; the gate has 85 steps, 4 of them long, with expected wall times of 8057 s in full and 6487 s with the fast option; 760 checks of the record are cited by at least one chapter. MEASURED once with `BOOK_RERUN_ALL=1` on 2026-10-08: all 90 other notebooks passed a fresh nbkit check, 8 at a time, in 406 s of wall time; the fresh time of each chapter was between 0.89 and 1.50 times its recorded time (chapter 8: 129.9 s against 86.5 s), because 8 notebooks shared the processor.
+- PROVED: nothing new about physics; this chapter is bookkeeping. Notebook 23a checks facts about files: every builder has a provenance file, every notebook is placed exactly once in its own chapter, every recorded nbkit check passed, every report named by the gate is in the index, and every one of the 1383 checks of the 52 reports is PASS or NOT-AVAILABLE (the 5 NOT-AVAILABLE checks are outputs that the author's notebook does not store).
+- COMPUTED (counted from files on 2026-10-15): 90 notebooks in chapters 0 to 22 with 2251 checks and 563 figures; their recorded checks take 1093.2 s one after the other, and the three slowest take 22.3 % of it; the gate has 88 steps, 4 of them long, with expected wall times of 8082 s in full and 6512 s with the fast option; 770 checks of the record are cited by at least one chapter. MEASURED once with `BOOK_RERUN_ALL=1` on 2026-10-08: all 90 other notebooks passed a fresh nbkit check, 8 at a time, in 406 s of wall time; the fresh time of each chapter was between 0.89 and 1.50 times its recorded time (chapter 8: 129.9 s against 86.5 s), because 8 notebooks shared the processor.
 - MEASURED elsewhere and quoted: the recorded check times (provenance files), the gate's expected times (its step table, from the folder READMEs and provenance files), the fast option's measured 20 minutes (Revision README), the assembler's 4 seconds and the 287 s of the first pass of the whole-book test build, a pass that ended FAILED on LaTeX warnings in the text of other chapters as it stood then (runs made for this chapter on 2026-10-08).
 - ASSUMED: that the files read are the committed ones. The notebook reads whatever is in the working folder; after any other notebook is rebuilt or any chapter changes a citation, Notebook 23a must be rebuilt, or its nbkit check fails because its outputs changed.
 - What "cited" means is a DEFINITION of this chapter (one paragraph, or one cell's output, names both the report's file name and the check), not a reading of the author's intention; a chapter may discuss a check in other words without being counted.
@@ -927,11 +927,11 @@ bash Revision/verify_revision.sh --dry-run
 bash Revision/verify_revision.sh --dry-run --fast
 ```
 
-(or the PowerShell twin with the same options). The first prints every step with its expected wall time and the line `revision_selected_steps=85 expected_seconds=8057 skipped_steps=0`; the second prints `revision_selected_steps=81 expected_seconds=6487 skipped_steps=4`. These are the sums of the step table that Notebook 23a prints in Out [9]: 8057 s = 2.24 h and 6487 s = 108.1 min. The measured time of the fast option was about 20 minutes, less than the expected sum, because the table's times are generous upper estimates.
+(or the PowerShell twin with the same options). The first prints every step with its expected wall time and the line `revision_selected_steps=88 expected_seconds=8082 skipped_steps=0`; the second prints `revision_selected_steps=84 expected_seconds=6512 skipped_steps=4`. These are the sums of the step table that Notebook 23a prints in Out [9]: 8082 s = 2.25 h and 6512 s = 108.5 min. The measured time of the fast option was about 20 minutes, less than the expected sum, because the table's times are generous upper estimates.
 
 **Exercise 2.** Using Out [6], how long does the nbkit check of all notebooks of chapters 14, 15 and 16 take, one after the other, and what fraction of the whole book's check time is that?
 
-*Answer.* The three chapter totals are 88.1 s, 240.4 s and 121.2 s; their sum is $88.1 + 240.4 + 121.2 = 449.7$ s. The whole book takes 1097.9 s, so the fraction is $449.7 / 1097.9 = 0.4096$, about 41 %: three chapters of the Kohn-Sham part take almost a third of the time, because their notebooks run the Rust solver and the reference solver.
+*Answer.* The three chapter totals are 88.1 s, 240.4 s and 121.2 s; their sum is $88.1 + 240.4 + 121.2 = 449.7$ s. The whole book takes 1093.2 s, so the fraction is $449.7 / 1093.2 = 0.4114$, about 41 %: three chapters of the Kohn-Sham part take almost a third of the time, because their notebooks run the Rust solver and the reference solver.
 
 **Exercise 3.** Why does Notebook 23a leave itself out of its table, and why does it leave chapter 23 out of the citation search? What would go wrong otherwise?
 
@@ -943,7 +943,7 @@ bash Revision/verify_revision.sh --dry-run --fast
 
 **Exercise 5.** You run Notebook 23a with `BOOK_RERUN_ALL=1` on a computer with 4 processor threads. How many notebooks run at the same time, and can the re-run take less time than the slowest notebook, 11a, alone?
 
-*Answer.* `workers = max(1, min(8, 4 // 2)) = max(1, min(8, 2)) = 2`: two at a time (`//` divides and drops the remainder). No: every notebook runs on one worker from start to end, so the re-run lasts at least as long as the slowest notebook, 7.6 s on the development machine. That is why the slowest are started first: with two workers, 11a runs on one while the other works through the rest, and the total is close to the larger of 7.6 s and half of the total time, $1097.9 / 2 \approx 549$ s, plus the time the two workers slow each other down.
+*Answer.* `workers = max(1, min(8, 4 // 2)) = max(1, min(8, 2)) = 2`: two at a time (`//` divides and drops the remainder). No: every notebook runs on one worker from start to end, so the re-run lasts at least as long as the slowest notebook, 7.6 s on the development machine. That is why the slowest are started first: with two workers, 11a runs on one while the other works through the rest, and the total is close to the larger of 7.6 s and half of the total time, $1093.2 / 2 \approx 547$ s, plus the time the two workers slow each other down.
 
 **Exercise 6.** The gate prints `revision_failed_step=precheck`. What happened, what must you NOT do, and what are two correct ways forward?
 
@@ -1032,7 +1032,7 @@ This glossary lists, in alphabetical order, the technical words that the book de
 - **Binary digits**: The computer stores a pattern of occupations as a whole number $n$ whose binary digits are the occupations: digit $q$ (counted from 0, from the right) is the occupation of mode $q$. (Section 5.38.)
 - **Binomial coefficient** $\binom{n}{k}$ ("n choose k"): the number of subsets with $k$ elements of a set with $n$ elements; $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ with $n! = 1 \cdot 2 \cdots n$ and $0! = 1$. For example $\binom{8}{2} = 28$. (Sections 4.13, 4.15, 7.10 and 10.20.)
 - **Birthday problem**: This is the birthday problem: the chance that $p$ people have $p$ different birthdays, with 8 "days" instead of 365. (Sections 1.50 and 11.4.)
-- **Bisection**: halving an interval that contains the number again and again, keeping the half that still contains it. (Sections 1.3, 1.8, 2.16, 10.43, 13.14, 13.24, 13.26, 13.30, 14.14, 14.17, 14.18, 15.3, 15.8, 15.9, 16.3, 16.18, 16.23, 17.21, 19.16, 22.11, 22.12 and 22.23.)
+- **Bisection**: halving an interval that contains the number again and again, keeping the half that still contains it. (Sections 1.3, 1.8, 2.16, 10.43, 13.14, 13.24, 13.26, 13.30, 14.14, 14.17, 14.18, 15.3, 15.8, 15.9, 16.3, 16.18, 16.23, 17.21, 19.16, 22.11 and 22.12.)
 - **Bisection method**: `bisection` finds the same time independently, by the bisection method: start with an interval $[-30, 30]$ in which $E^2$ changes sign; look at the middle; if $E^2$ is still positive there, the onset is later and the middle becomes the new left end, otherwise the new right end; after 200 halvings the interval is far smaller than the rounding of the numbers, and its middle is returned. (Section 8.29.)
 - **Bit mask**: To test this quickly it stores a set of labels as a bit mask, the whole number $\sum 2^{\text{label}}$: the set $\{x_1, x_3\}$ (numbers 0 and 2) is $2^0 + 2^2 = 5$. (Section 11.12.)
 - **Bits**: the 16 components are numbered $j = 8b_1 + 4b_2 + 2b_3 + b_4$ with four binary digits (bits) $b_1, b_2, b_3, b_4$, each 0 or 1, one per slot; for example $j = 5$ has the bits 0101. (Sections 0.22, 0.24, 1.4, 1.49, 1.53, 4.17, 4.19 and 21.30.)
@@ -1423,7 +1423,7 @@ This glossary lists, in alphabetical order, the technical words that the book de
 
 **F**
 
-- **F-string**: A string that starts with `f` is an f-string: every name in braces is replaced by its value, so `CAPTION_FILE` is `"Revision/textbook/figures/00a.captions.json"`. (Sections 0.13, 1.9, 2.11, 3.13, 4.8, 5.10, 6.14, 7.9, 8.15, 9.17, 10.10, 11.9, 12.16, 13.14, 14.11, 15.9, 16.12, 17.11, 18.9, 19.16, 20.11, 21.15, 22.12, 22.23 and 23.12.)
+- **F-string**: A string that starts with `f` is an f-string: every name in braces is replaced by its value, so `CAPTION_FILE` is `"Revision/textbook/figures/00a.captions.json"`. (Sections 0.13, 1.9, 2.11, 3.13, 4.8, 5.10, 6.14, 7.9, 8.15, 9.17, 10.10, 11.9, 12.16, 13.14, 14.11, 15.9, 16.12, 17.11, 18.9, 19.16, 20.11, 21.15, 22.12 and 23.12.)
 - **Factorial**: Here $n! = 1 \cdot 2 \cdot 3 \cdots n$ (with $0! = 1$) is the factorial. (Sections 1.16, 2.3, 4.13 and 7.10.)
 - **Falling factorial** $n!/(n-p)! = n (n-1) \cdots (n-p+1)$: the number of ways to choose $p$ different labels from $n$ in order (`math.perm(n, p)`). (Sections 1.43 and 1.47.)
 - **False vacuum**: a state that has the lowest energy only among its neighbouring states; vacuum decay is its quantum transition into a state of still lower energy. (Section 20.2.)
@@ -1488,7 +1488,7 @@ This glossary lists, in alphabetical order, the technical words that the book de
 - **Free energy**: Free energy $F = E - TS$; heat capacity $C_V = dE/dT$ at a fixed particle number. (Sections 13.30, 15.26 and 15.29.)
 - **Free fall**: motion under no force other than the geometry. (Sections 3.16 and 3.34.)
 - **Free index**: an index that appears once in every term of a formula; the formula holds for each of its values, so a formula with $k$ free indices over 8 coordinates stands for $8^k$ equations. (Section 1.32.)
-- **Freezing**: The mixture is freezing: as the gas redshifts, $w$ moves toward the condensate's value (check `mixture_radiation_condensate_cpl`). (Sections 22.18 and 22.22.)
+- **Freezing**: The mixture is freezing: as the gas redshifts, $w$ moves toward the condensate's value (check `mixture_radiation_condensate_cpl_b4`). (Sections 22.18 and 22.22.)
 - **Frequency**: the number $\varepsilon$ in $e^{-i\varepsilon t}$; for real $\varepsilon$ the real and imaginary parts oscillate like $\cos$ and $\sin$. (Sections 1.13, 1.16, 8.17, 9.29, 10.3, 10.9, 12.29, 20.12, 20.15 and 21.29.)
 - **Frozen coefficients**: in a curved space the factors in front of the derivatives change from point to point and in time; near one point and for a short time one replaces them by their values at that point. The momenta measured with these factors are the *frame momenta* $k_a$. This is a device of the analysis near one point (labelled MODEL); it does NOT say that the extra times stop deflating: in the author's metric they always deflate exponentially, and Notebook 08b follows a wave along the deflating history. (Sections 8.17 and 8.22.)
 - **Frozen-coefficient model**: The end of this section defines the frozen-coefficient model of the author's universe, which has the same equation with the derivatives divided by scale factors; it is an ASSUMPTION, because it also leaves out two terms of the author's field equation. (Section 10.3.)
@@ -1934,7 +1934,7 @@ This glossary lists, in alphabetical order, the technical words that the book de
 - **One-body matrix**: The $16 \times 16$ matrix $\rho$ is the one-body matrix of the state. (Section 14.26.)
 - **One-particle Hamiltonian** $h_m(k)$: the $16 \times 16$ matrix that gives the time evolution $i\,\partial_4 u = h_m(k)u$ of a plane wave $u\,e^{ik\cdot x}$ in flat 4+4 space; its eigenvalues are the frequencies $\pm w$. (Sections 21.26 and 21.29.)
 - **One-particle matrix**: The frequencies $w$ are the eigenvalues of the one-particle matrix $h_m(k)$. (Section 18.22.)
-- **One-sided fourth-order difference**: At the last slice there are no neighbours on the right, so the derivative uses the one-sided fourth-order difference $f'(x) \approx [3f(x - 4h) - 16f(x - 3h) + 36f(x - 2h) - 48f(x - h) + 25f(x)]/(12h)$, the same stencil as the record; `w_mix[-5]` is the fifth entry from the end. (Section 22.23.)
+- **One-sided fourth-order difference**: At the last slice there are no neighbours on the right, so the derivative uses the one-sided fourth-order difference $f'(x) \approx [3f(x - 4h) - 16f(x - 3h) + 36f(x - 2h) - 48f(x - h) + 25f(x)]/(12h)$, the same stencil as the record; `w_half[-5]` is the fifth entry from the end, and the minus sign makes it $w_a$. (Section 22.23.)
 - **One-step value**: The one-step value $r(h)$ has no $h^2$ error left; its error starts with $h^4$. (Section 16.5.)
 - **Onset**: So along the history (where $X$ grows with the time) $E^2$ crosses zero exactly once and stays negative afterwards; the moment of the crossing is the onset. (Sections 8.24 and 8.28.)
 - **Onset time** $x_4^\ast$: the time at which $w^2$ changes from positive (the wave oscillates) to negative (the wave grows). (Sections 10.39 and 10.42.)

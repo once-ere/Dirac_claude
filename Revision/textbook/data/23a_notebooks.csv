@@ -1,7 +1,7 @@
 id,chapter,title,checks,figures,date,result,seconds,section,builder
 00a,0,Checking the installation,9,2,2026-10-14,passed,5.5,0.11,Revision/textbook/notebooks/src/00a_check_installation.py
 00b,0,The eight directions and the author's metric: a first look,17,4,2026-10-14,passed,3.4,0.15,Revision/textbook/notebooks/src/00b_eight_directions.py
-00c,0,The honesty ledger: reading and checking the Revision record,18,4,2026-10-14,passed,3.3,0.19,Revision/textbook/notebooks/src/00c_honesty_ledger.py
+00c,0,The honesty ledger: reading and checking the Revision record,18,4,2026-10-15,passed,3.5,0.19,Revision/textbook/notebooks/src/00c_honesty_ledger.py
 00d,0,"Why every run gives the same bytes: rounding, order, seeds and line ends",22,6,2026-10-14,passed,3.6,0.23,Revision/textbook/notebooks/src/00d_reproducible_runs.py
 01a,1,"Matrices, permutations and determinants",30,6,2026-10-14,passed,4.1,1.23,Revision/textbook/notebooks/src/01a_matrices_determinants.py
 01b,1,"Complex numbers, rotations and boosts",34,6,2026-10-14,passed,4.0,1.15,Revision/textbook/notebooks/src/01b_complex_rotations.py
@@ -40,7 +40,7 @@ id,chapter,title,checks,figures,date,result,seconds,section,builder
 08c,8,The spin-connection term depends on the frame,32,5,2026-10-14,passed,43.6,8.13,Revision/textbook/notebooks/src/08c_frame_dependence.py
 08d,8,"The rescaling that removes the term, and the growing modes at the patch end",23,5,2026-10-14,passed,27.0,8.34,Revision/textbook/notebooks/src/08d_rescaling_modes.py
 09a,9,The energy-momentum tensor and its conservation identities,27,5,2026-10-14,passed,7.5,9.15,Revision/textbook/notebooks/src/09a_emt_and_identities.py
-09b,9,"Homogeneous condensates: energy, pressure, equation of state and energy exchange",33,7,2026-10-14,passed,8.3,9.23,Revision/textbook/notebooks/src/09b_condensates.py
+09b,9,"Homogeneous condensates: energy, pressure, equation of state and energy exchange",33,7,2026-10-15,passed,3.3,9.23,Revision/textbook/notebooks/src/09b_condensates.py
 09c,9,The full energy-momentum tensor of a condensate,25,5,2026-10-14,passed,7.8,9.28,Revision/textbook/notebooks/src/09c_condensate_tensor.py
 10a,10,One-particle spectra and Krein signatures,28,6,2026-10-14,passed,3.8,10.8,Revision/textbook/notebooks/src/10a_krein_spectra.py
 10b,10,The canonical anticommutator forces a Krein space,25,5,2026-10-14,passed,4.0,10.17,Revision/textbook/notebooks/src/10b_canonical_krein.py
@@ -88,4 +88,4 @@ id,chapter,title,checks,figures,date,result,seconds,section,builder
 21c,21,The conjugation of the quantised field: M B^T M^dagger = B,17,6,2026-10-15,passed,9.1,21.28,Revision/textbook/notebooks/src/21c_quantum_conjugation.py
 21d,21,Sakharov's three conditions and the scorecard of this theory,19,8,2026-10-15,passed,5.4,21.34,Revision/textbook/notebooks/src/21d_sakharov_scorecard.py
 22a,22,When does the instantaneous Kohn-Sham picture break down,20,8,2026-10-15,passed,14.6,22.10,Revision/textbook/notebooks/src/22a_adiabatic_breakdown.py
-22b,22,The dark-sector hypotheses: what the Revision record finds,28,5,2026-10-15,passed,2.6,22.21,Revision/textbook/notebooks/src/22b_dark_sector.py
+22b,22,The dark-sector hypotheses: what the Revision record finds,35,5,2026-10-15,passed,2.7,22.21,Revision/textbook/notebooks/src/22b_dark_sector.py
