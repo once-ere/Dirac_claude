@@ -122,6 +122,13 @@ Progress (newest last):
   expectation of mine, caught by the check). NEXT: phase 8 (the documents KOHN_SHAM_DEFLATING_FIELD, LOVELOCK_GKD,
   PAIR_CREATION_PROOFS, DIRAC16COMPLEX_FIELD_THEORY, DIRAC16COMPLEX00_FIELD_THEORY and their pdfs and publication
   tests; READMEs, gate, provenance, index).
+- Phase 8, parts 1-3 DONE (2026-10-16): KOHN_SHAM_DEFLATING_FIELD (53868b6; every table regenerated from the record
+  with b4, re-run of the canonical matrix 43/43 in 95.6 s byte-identical, test 36 passed), LOVELOCK_GKD (179fdcb; every
+  formula for general b4 in a4', a4'', u, v; author-comparison report regenerated for the SPEC hash), PAIR_CREATION_PROOFS
+  (f52902a; section 2 for general b4, C1 for the a4 and b4 equations, T3 numbers). NEXT: DIRAC16COMPLEX_FIELD_THEORY
+  and DIRAC16COMPLEX00_FIELD_THEORY (both still say "sections 2 to 13 are the record of the case b4 = 1"; the theory
+  record field-theory.json is general b4 since phase 1: port every formula; their tests re-derive many blocks), then
+  READMEs, gate, provenance, index; then phase 9 (textbook).
   KNOWN OPEN until phase 8: the publication tests of PAIR_CREATION_PROOFS, DIRAC16COMPLEX_FIELD_THEORY and
   DIRAC16COMPLEX00_FIELD_THEORY (the documents cite the former counts and texts).
 
